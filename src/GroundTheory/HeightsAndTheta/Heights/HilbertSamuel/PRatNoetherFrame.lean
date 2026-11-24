@@ -1,5 +1,6 @@
 module
 
+import Lemmata.GeneralBFactBis.Imports
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsRatNoetherFrame
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.InterGoodB
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.InterGoodE
@@ -121,24 +122,7 @@ theorem ker_coneMap_rat (x : J → Ω) :
 
 theorem withBot_eq_of_add_one {a : WithBot ℕ∞} {n : ℕ} (h : a + 1 = ((n + 1 : ℕ) : WithBot ℕ∞)) :
     a = (n : WithBot ℕ∞) := by
-  cases a with
-  | bot =>
-    rw [WithBot.bot_add] at h
-    exact absurd h.symm (WithBot.natCast_ne_bot (n + 1))
-  | coe b =>
-    cases b with
-    | top =>
-      exfalso
-      have h2 : ((⊤ + 1 : ℕ∞) : WithBot ℕ∞) = (((n + 1 : ℕ) : ℕ∞) : WithBot ℕ∞) := by exact_mod_cast h
-      have h3 : (⊤ + 1 : ℕ∞) = ((n + 1 : ℕ) : ℕ∞) := WithBot.coe_injective h2
-      have h4 : ((n : ℕ∞) + 1) ≠ ⊤ := by exact_mod_cast ENat.natCast_ne_top (n + 1)
-      exact h4 h3.symm
-    | coe b =>
-      have h1 : ((b + 1 : ℕ) : WithBot ℕ∞) = ((n + 1 : ℕ) : WithBot ℕ∞) := by exact_mod_cast h
-      have h2 : b + 1 = n + 1 := by exact_mod_cast h1
-      have h3 : b = n := by omega
-      subst h3
-      rfl
+  apply _root_.Bl.general_b_fact_bis.goal1 <;> assumption
 
 theorem ringKrullDim_coneRing_rat {κ : Type} [Fintype κ] (x : Ix κ → Ω) (D : ℕ)
     (h : IsArithVar (ι := GlobalTheory κ) (coordIdeal ℤ x) (D + 1)) :

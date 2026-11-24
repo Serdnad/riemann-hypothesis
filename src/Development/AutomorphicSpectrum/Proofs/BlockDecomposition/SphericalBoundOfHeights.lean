@@ -91,6 +91,7 @@ import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.AdelicLocalCompactness.
 import GroundTheory.AutomorphicForms.QuotientMeasure
 import Mathlib.Tactic.Basify
 import Mathlib.Tactic.ENatToNat
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ContinuousSymmUnitaryChart
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.DoubledSpaceMaximalLevelLatticeStatement, Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.IsSelfDualAtSumLattice, Development.AbelianVarietyTheory.Proofs.DivisorProofs.MulLintegralRpowLeOfShellBound, Development.AbelianVarietyTheory.Proofs.DivisorProofs.SetLIntegralTsumUnfoldOfCosetRepresentatives, Development.AbelianVarietyTheory.Counterexamples.AnisotropicRankZero.WittSphericalSectionLeftInvariantRationalParabol, Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.AnisotropicCoreWittFrame, Development.AbelianVarietyTheory.Proofs.DivisorProofs.WittDecompositionIsotropicFrameEisensteinDiction, Development.AbelianVarietyTheory.Proofs.DivisorProofs.WittDecompositionIsotropicFrameEisensteinDictionStatement, Development.AbelianVarietyTheory.Proofs.DivisorProofs.TwoLeAndExistsRatPtsSwap, Development.AbelianVarietyTheory.Proofs.DivisorProofs.WittFrameRankLeAndExistsRationalSwap, Development.AbelianVarietyTheory.PublishedTheorems.SiegelWeil₂.SiegelSectionLeviMulEqAbsDetPow, Development.AutomorphicSpectrum.Proofs.BlockDecomposition.SphericalBoundOfHeights
@@ -976,25 +977,7 @@ theorem frame_bound : ∀ (F E : Type) [Field F] [NumberField F] [Field E] [Numb
 
 theorem continuous_chart_symm (D : D7) (A : HSp D) (μ : D.host.E) (hμ : IsSkew μ) (κ : GA D (dblSp A) ≃* G D A.rank)
     (hκ : IsChart A μ κ) : Continuous κ.symm := by
-  haveI := isTopologicalRing_tens (F := D.host.F) (E := D.host.E) (R := AF D.host.F)
-  obtain ⟨-, hdet, -⟩ := GlobalTheory.T.doubledBasisSkewColumnMatrix_gram_inverse D A μ hμ
-  have hTi' : rat (Tm A μ) * rat (Tm A μ)⁻¹ = 1 := by
-    rw [← rat_mul, Matrix.mul_nonsing_inv _ hdet, rat_one]
-  have e : ∀ g : G D A.rank, mt (dblSp A) (κ.symm g) = rat (Tm A μ) * (mat g * rat (Tm A μ)⁻¹) := by
-    intro g
-    have h := hκ (κ.symm g)
-    rw [MulEquiv.apply_symm_apply] at h
-    rw [← Matrix.mul_assoc, h, Matrix.mul_assoc, hTi', Matrix.mul_one]
-  have hm : Continuous fun g : G D A.rank => rat (Tm A μ) * (mat g * rat (Tm A μ)⁻¹) :=
-    continuous_const.matrix_mul (HeightExists.continuous_mat.matrix_mul continuous_const)
-  refine (isEmbedding_matHom (AF D.host.F) D.sp.cm.sig (dblSp A).gram).continuous_iff.2 (Units.continuous_iff.2 ⟨?_, ?_⟩)
-  · exact hm.congr fun g => (e g).symm
-  · refine (hm.comp continuous_inv).congr fun g => ?_
-    have := e g⁻¹
-    rw [map_inv] at this
-    rw [Function.comp_apply, ← this]
-    simp only [Function.comp_apply]
-    rfl
+  apply _root_.GlobalTheory.CompanionTheory.ChartSymm.continuous_symm <;> assumption
 
 theorem height_bound : ∀ (D : D7) (r : ℕ), ∃ H' : G D (r + 1) → ℝ≥0, PositivityTheory.Rg.Rsw.IsHt H' ∧ ∃ B : ℝ, ∀ ε : ℝ, 0 < ε → ε ≤ 1 →
     Summable (fun q : GlobalTheory.Eis.Cosets (P D (r + 1)) (GF D (r + 1)) => (H' (q.out : GF D (r + 1)) : ℝ) ^ (((r + 1 : ℕ) : ℝ) + ε)) ∧

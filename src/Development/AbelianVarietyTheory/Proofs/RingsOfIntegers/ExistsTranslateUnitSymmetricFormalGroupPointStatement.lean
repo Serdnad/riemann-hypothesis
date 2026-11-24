@@ -210,16 +210,7 @@ theorem evA_three (x y z : Sm B n) (hx : GP x.1) (hy : GP y.1) (hz : GP z.1) (f 
     exacts [hx i, hy i, hz i]
 
 theorem mul_val_of (x y : Sm B n) (hx : GP x.1) (hy : GP y.1) : (x * y).1 = addOf B.G.F x.1 y.1 := by
-  rw [Sm.mul_val]
-  funext i
-  show evV ![x.1, y.1] (B.G.F i) = ev ![x.1, y.1] (B.G.F i)
-  rw [← smallPointsSubstitutionAlgHom_two_points, evA_eq_ev]
-  · congr 1
-    funext j
-    fin_cases j <;> rfl
-  · intro j k
-    fin_cases j
-    exacts [hx k, hy k]
+  apply _root_.GlobalTheory.TransUnit.ThetaLaw.smallFormalGroupPoints_mul_coe_eq_formalAdd <;> assumption
 
 theorem compV_of (φ : Pt V 1 d) (x : Sm B n) (hx : GP x.1) : compV φ x.1 = comp1 φ x.1 := by
   funext i

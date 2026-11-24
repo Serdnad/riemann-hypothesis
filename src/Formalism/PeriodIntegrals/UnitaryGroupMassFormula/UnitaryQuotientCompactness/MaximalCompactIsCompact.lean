@@ -1,5 +1,6 @@
 module
 
+import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.UnitaryQuotientCompactness.SBasic
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.UnitaryQuotientCompactness.SsetGroup
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -160,17 +161,7 @@ lemma uh_det {k r : ℕ} {a : Matrix (Fin (2 * r + k + 1)) (Fin (2 * r + k + 1))
 
 lemma uh_inv {k r : ℕ} {a : Matrix (Fin (2 * r + k + 1)) (Fin (2 * r + k + 1)) ℂ}
     (ha : a ∈ UH (Hpk k r)) : a⁻¹ ∈ UH (Hpk k r) := by
-  have ha' : aᴴ * Hpk k r * a = Hpk k r := ha
-  have hd : IsUnit a.det := uh_det ha
-  have hd' : IsUnit aᴴ.det := by
-    rw [Matrix.det_conjTranspose]
-    exact hd.star
-  show (a⁻¹)ᴴ * Hpk k r * a⁻¹ = Hpk k r
-  rw [Matrix.conjTranspose_nonsing_inv]
-  calc (aᴴ)⁻¹ * Hpk k r * a⁻¹ = (aᴴ)⁻¹ * (aᴴ * Hpk k r * a) * a⁻¹ := by rw [ha']
-    _ = ((aᴴ)⁻¹ * aᴴ) * Hpk k r * (a * a⁻¹) := by simp only [Matrix.mul_assoc]
-    _ = Hpk k r := by
-        rw [Matrix.nonsing_inv_mul _ hd', Matrix.mul_nonsing_inv _ hd, Matrix.one_mul, Matrix.mul_one]
+  apply _root_.PI.QuotSetU.UnitaryGroupMassFormula.SW.inv_mem_UH <;> assumption
 
 lemma hpk_mem (k r : ℕ) : Hpk k r ∈ UH (Hpk k r) := by
   show (Hpk k r)ᴴ * Hpk k r * Hpk k r = Hpk k r

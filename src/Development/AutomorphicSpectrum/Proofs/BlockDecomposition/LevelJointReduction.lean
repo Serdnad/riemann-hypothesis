@@ -1,5 +1,6 @@
 module
 
+import CompanionTheory.SpectralGeometry.LocalGlobalProofs.AdelicAnalysis.AdelicTupleProjections
 public import Development.WeilBound.CoreStatements.AutomorphicKernels.SiegelWeilFormula.UnramifiedWhittaker.CProps
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.AdicIntegersCompact.IsCompactAdicCompletionIntegers
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ResAlgSplitTwo
@@ -225,26 +226,8 @@ theorem isClopen_lat (n M : ℕ) : IsClopen (latV (M := M) (n := n) bs v) := by
     isOpen_iInter_of_finite fun i => isOpen_iInter_of_finite fun k => hop.preimage (hc x i k)⟩
 
 theorem isCompact_lat (n M : ℕ) : IsCompact (latV (M := M) (n := n) bs v) := by
-  let L : (Fin n → Fin M → Fin d → Fv F v) → (Fin n → Fin M → Fv F v ⊗[F] E) :=
-    fun c x i => ∑ k, c x i k • ((1 : Fv F v) ⊗ₜ[F] bs k)
-  have hL : Continuous L := by
-    refine continuous_pi fun x => continuous_pi fun i => continuous_finsetSum _ fun k _ => ?_
-    exact continuous_smul.comp
-      (((continuous_apply k).comp ((continuous_apply i).comp (continuous_apply x))).prodMk
-        continuous_const)
-  let K : Set (Fin n → Fin M → Fin d → Fv F v) :=
-    Set.pi Set.univ fun _ => Set.pi Set.univ fun _ => Set.pi Set.univ fun _ =>
-      (v.adicCompletionIntegers F : Set (v.adicCompletion F))
-  have hK : IsCompact K := isCompact_univ_pi fun _ => isCompact_univ_pi fun _ =>
-    isCompact_univ_pi fun _ => PI.IntAdCpctOpenWork.isCompact_adicCompletionIntegers v
-  refine (hK.image hL).of_isClosed_subset (isClopen_lat bs v n M).isClosed ?_
-  intro Y hY
-  refine ⟨fun x i k => (Algebra.TensorProduct.basis (Fv F v) bs).repr (Y x i) k, ?_, ?_⟩
-  · simp only [K, Set.mem_pi, Set.mem_univ, true_implies]
-    intro x i k
-    exact hY x i k
-  · funext x i
-    exact (eq_sum_crd bs v (Y x i)).symm
+  intros
+  apply _root_.GlobalTheory.CompanionTheory.SW.MeasProj.isCompact_latV <;> assumption
 
 theorem continuous_sig (σ : E →ₐ[F] E) :
     Continuous (sigR (Fv F v) σ : Fv F v ⊗[F] E → Fv F v ⊗[F] E) := by

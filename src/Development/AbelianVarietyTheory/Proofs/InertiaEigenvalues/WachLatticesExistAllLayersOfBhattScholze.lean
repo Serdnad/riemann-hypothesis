@@ -1111,11 +1111,7 @@ variable {G : Type} [Group G] [TopologicalSpace G] {Qp K₀ K : Type} [Field Qp]
 
 theorem res_eq_one (hO : Function.Injective (algebraMap O LL)) (g : G) (hg : (PD.χ g : Qp) = 1) :
     Γ.resΓ g = 1 := by
-  apply Γ.χΓ_inj
-  rw [map_one Γ.χΓ]
-  apply Units.ext
-  apply hO
-  rw [Γ.χΓ_res g, hg, Units.val_one, map_one, map_one]
+  apply _root_.GlobalTheory.WachLattice.resΓ_eq_one <;> assumption
 
 theorem mem_range (E : WEt I) (T : LocLat G Qp LL O) (H : G → Prop) (hH : ∀ g, H g → Γ.resΓ g = 1)
     (hu : ∀ x : R.EE, IsUnit (I.ioE x) → IsUnit x) (q : ℕ) (x : Fin q → TW RW T)

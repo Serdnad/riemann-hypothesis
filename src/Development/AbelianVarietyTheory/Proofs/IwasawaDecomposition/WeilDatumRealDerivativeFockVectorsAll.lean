@@ -628,30 +628,7 @@ theorem exists_lift_on {ι X : Type} [DecidableEq ι] (M : Submodule ℂ (X → 
     (hf : ∀ i ∈ S, b i f = 0) :
     ∃ E : MvPolynomial ι ℂ →ₗ[ℂ] M, (∀ Q, pureTensorL A (f : X → ℂ) Q = E Q) ∧
       (∀ v Q, E (MvPolynomial.X v * Q) = a v (E Q)) ∧ ∀ v ∈ S, ∀ Q, E (MvPolynomial.pderiv v Q) = b v (E Q) := by
-  have h1 : ∀ i g, g ∈ M → A i g ∈ M := fun i g hg => by rw [hA i ⟨g, hg⟩]; exact Subtype.prop _
-  have hm := GlobalTheory.FockIndep.pure_mem (P := (· ∈ M)) (fun _ _ => add_mem) (fun c _ => M.smul_mem c) h1 f.2
-  have hX := GlobalTheory.FockIndep.pure_X_mul (P := (· ∈ M)) (fun _ _ => add_mem) (fun c _ => M.smul_mem c) h1
-    (fun i j g hg => by
-      rw [hA j ⟨g, hg⟩, hA i ⟨g, hg⟩, hA, hA]
-      exact congrArg Subtype.val (LinearMap.congr_fun (haa i j) ⟨g, hg⟩))
-    (fun i g g' hg hg' => by
-      rw [hA i ⟨g, hg⟩, hA i ⟨g', hg'⟩, ← Submodule.coe_add, ← map_add (f := _), ← hA]; rfl)
-    (fun i c g hg => by rw [hA i ⟨g, hg⟩, ← Submodule.coe_smul, ← map_smul, ← hA]; rfl) f.2
-  let E : MvPolynomial ι ℂ →ₗ[ℂ] M := (pureTensorL A (f : X → ℂ)).codRestrict M hm
-  have hE : ∀ v Q, E (MvPolynomial.X v * Q) = a v (E Q) := fun v Q => Subtype.ext ((hX Q v).trans (hA v (E Q)))
-  have h0 : E 1 = f := Subtype.ext (GlobalTheory.FockIndep.pure_one _)
-  refine ⟨E, fun _ => rfl, hE, fun i hi Q => Eq.symm ?_⟩
-  clear_value E
-  induction Q using MvPolynomial.induction_on with
-  | C r => rw [MvPolynomial.pderiv_C, map_zero, MvPolynomial.C_eq_smul_one, map_smul, map_smul, h0, hf i hi, smul_zero]
-  | add p q hp hq => simp only [map_add (f := _), hp, hq]
-  | mul_X p j hp =>
-    rw [mul_comm, hE, ← Module.End.mul_apply, hba, LinearMap.add_apply, Module.End.mul_apply, hp,
-      MvPolynomial.pderiv_mul, map_add, hE, add_comm]
-    congr 1
-    split_ifs with h
-    · rw [h, MvPolynomial.pderiv_X_self, one_mul, one_smul, Module.End.one_apply]
-    · rw [MvPolynomial.pderiv_X_of_ne (Ne.symm h), zero_mul, map_zero, zero_smul, LinearMap.zero_apply]
+  exact _root_.GlobalTheory.LieFock.exists_lift_for M A a b hA haa hba f S hf
 
 end Abstract
 
@@ -673,117 +650,7 @@ theorem exists_raise_lower_at (h : GlobalTheory.FockCompare.Chart θ σ) (hψ : 
       (∀ i j l k, w ((i, j), τ) ((l, k), τ) = (sgn (A.ε τ j) * sgn (A.ε τ k)) • (R i j * L l k)) ∧
       ∀ X X' : Matrix (Ix V W) (Ix V W) ℂ, X * uM A B = uM A B * X' → ∀ g : thetaSub ψ V W,
         ((nOp (rhoV hψ σ V W) (HM V W) X (toB hψ g.1 g.2)).1 : WO V W → ℂ) = ((∑ k, ∑ l, X' k l • w k l) g).1 := by
-  let J : thetaSub ψ V W →ₗ[ℂ] BB ψ V W :=
-    { toFun := fun f => toB hψ f.1 f.2
-      map_add' := fun f g => QB_ext fun x => rfl
-      map_smul' := fun a f => QB_ext fun x => rfl }
-  have hc : ∀ f, ((J f).1 : WO V W → ℂ) = f.1 := fun f => coe_toB hψ f.1 f.2
-  have hJ : Function.Injective J := fun f g e => Subtype.ext (by rw [← hc, ← hc, e])
-  have ht : ∀ f, IsThetaFunO ψ V W (J f).1 := fun f => (hc f).symm ▸ f.2
-  obtain ⟨d, x, y, hd, hn, hx, hy, c1, c2, c3, hN⟩ := exists_der (HM V W) HM_herm (rhoV hψ σ V W) (isHeis_rhoB h hψ)
-    J hJ (fun f => sm_of_theta h hψ _ (ht f))
-    fun v f => ⟨⟨_, GlobalTheory.DefLift.Gen.theta_dH h hψ (J f) (ht f) v⟩, QB_ext fun w => congrFun (hc _) w⟩
-  have hD : ∀ τ z (g : thetaSub ψ V W), Datum.dRho (heisO ψ V W) θ τ z g =
-      d (vecL (Pi.single τ z : D.what₂.Tau → Matrix (Fin W.rank) (Fin V.rank) ℂ)) g := fun τ z g => by
-    rw [← hc (d _ g), hd, GlobalTheory.DefLift.Gen.coe_dH h hψ _ (ht g), hc]
-  let u : FVar D W.rank V.rank → Ix V W → ℂ := fun k => uM A B *ᵥ Pi.single (k.2, k.1) 1
-  let p : FVar D W.rank V.rank → Prop := fun k => B.ε k.1 k.2.1 = A.ε k.1 k.2.2
-  have s2 : ∀ τ, (fockScale D τ : ℂ) * fockScale D τ = 4 * π * cc D τ := fun τ => by
-    rw [GlobalTheory.VacuumFockLaws.fockScale_sq, cc]
-    push_cast
-    ring
-  have sn := GlobalTheory.VacuumFockLaws.fockScale_ne (D := D)
-  have cs : ∀ τ, starRingEnd ℂ (cc D τ) = cc D τ := fun τ => conj_ofReal _
-  let a : FVar D W.rank V.rank → Module.End ℂ (thetaSub ψ V W) := fun k =>
-    (fockScale D k.1 : ℂ)⁻¹ • if p k then x (u k) else y (u k)
-  let b : FVar D W.rank V.rank → Module.End ℂ (thetaSub ψ V W) := fun k =>
-    -(fockScale D k.1 : ℂ)⁻¹ • if p k then y (u k) else x (u k)
-  obtain ⟨haa, hba⟩ := ccr_of_sign (fun k => x (u k)) (fun k => y (u k)) p (fun k => (fockScale D k.1 : ℂ))
-    (fun k => sn _) (fun _ _ => c1 _ _) (fun _ _ => c2 _ _) (fun k l => by
-      rw [c3]
-      congr 2
-      have e : star (u l) ⬝ᵥ HM V W *ᵥ u k = ((uM A B)ᴴ * HM V W * uM A B) (l.2, l.1) (k.2, k.1) := by
-        simp only [u]
-        rw [star_mulVec, ← dotProduct_mulVec, mulVec_mulVec, mulVec_mulVec]
-        simp [← Pi.single_star]
-      rw [e, uM_gram, diagonal_apply]
-      by_cases hkl : k = l
-      · subst hkl
-        rw [if_pos rfl, if_pos rfl, s2, map_mul, map_mul, cs, conj_sgn, conj_sgn, mul_assoc (cc D _), sgn_mul]
-        ring
-      · rw [if_neg hkl, if_neg fun e : (l.2, l.1) = (k.2, k.1) => hkl (Prod.swap_injective e).symm, map_zero, mul_zero])
-    (a := a) (b := b) (fun _ => rfl) fun _ => rfl
-  have hdJ : ∀ (k : FVar D W.rank V.rank) (g : thetaSub ψ V W),
-      Datum.dRho (heisO ψ V W) θ k.1 (unitMap (A.onb k.1) (B.onb k.1) k.2.1 k.2.2) g = d (u k) g ∧
-      Datum.dRho (heisO ψ V W) θ k.1 (cplxO (A.cart k.1) (B.cart k.1) (unitMap (A.onb k.1) (B.onb k.1) k.2.1 k.2.2)) g =
-        (if p k then (1 : ℂ) else -1) • (d (I • u k) g).1 := fun k g => by
-    have e := uM_single A B k.1 k.2.1 k.2.2
-    rw [hD, hD, cplxO_unit, vecL_smul, vecL_smul, ← e]
-    refine ⟨rfl, ?_⟩
-    simp only [p]
-    split_ifs
-    · rw [one_smul, one_smul]
-    · rw [neg_one_smul, neg_one_smul, hn]
-      rfl
-  refine ⟨fun i j => (sgn (A.ε τ j) * (fockScale D τ : ℂ)⁻¹) • x (u (τ, i, j)),
-    fun i j => (-sgn (B.ε τ i) * (fockScale D τ : ℂ)⁻¹) • y (u (τ, i, j)),
-    fun k l => x (uM A B *ᵥ Pi.single k 1) * (-(1 / (4 * π)) : ℂ) • y ((uM A B * diagonal fun k =>
-      (cc D k.2)⁻¹ * sgn (B.ε k.2 k.1.1) * sgn (A.ε k.2 k.1.2)) *ᵥ Pi.single l 1),
-    fun f hf hv => ?_, fun i j l k => ?_, fun X X' hX g => ?_⟩
-  · obtain ⟨E, h1, h2, h3'⟩ := exists_lift_on (thetaSub ψ V W)
-      (aPlusAll (heisO ψ V W) θ (fun τ => cplxO (A.cart τ) (B.cart τ)) A.onb B.onb) a b (fun k g => by
-        rw [aPlusAll, aPlus, crea, (hdJ k g).1, (hdJ k g).2]
-        simp only [a]
-        split_ifs
-        · rw [hx, one_smul]
-          rfl
-        · rw [hy, neg_one_smul, smul_neg, sub_neg_eq_add]
-          rfl) haa hba ⟨f, hf⟩ {k | k.1 = τ} (fun k hk => by
-        have e := (show IsFockVacAt (heisO ψ V W) θ k.1 (cplxO (A.cart k.1) (B.cart k.1)) f from
-          (show k.1 = τ from hk) ▸ hv) (unitMap (A.onb k.1) (B.onb k.1) k.2.1 k.2.2)
-        rw [annih, (hdJ k ⟨f, hf⟩).1, (hdJ k ⟨f, hf⟩).2] at e
-        simp only [b, LinearMap.smul_apply]
-        rw [smul_eq_zero]
-        refine Or.inr (Subtype.ext ?_)
-        split_ifs at e ⊢
-        · rw [one_smul] at e
-          rw [hy]
-          exact e
-        · rw [neg_one_smul, smul_neg, ← sub_eq_add_neg] at e
-          rw [hx]
-          exact e)
-    have h3 : ∀ i j P, E (MvPolynomial.pderiv ((τ, i, j) : FVar D W.rank V.rank) P) = b (τ, i, j) (E P) :=
-      fun i j P => h3' (τ, i, j) rfl P
-    refine ⟨E, h1, fun i j P => ?_, fun i j P => ?_⟩
-    · unfold raiO
-      by_cases hp : B.ε τ i = A.ε τ j
-      · simp only [if_pos hp, LinearMap.smul_apply, map_smul, LinearMap.mulLeft_apply, h2, a, p, smul_smul]
-      · simp only [if_neg hp, LinearMap.smul_apply, map_smul, LinearMap.neg_apply, map_neg, Derivation.coeFn_coe, h3,
-          b, p, smul_smul, neg_smul, neg_neg]
-    · unfold lowO
-      by_cases hp : B.ε τ i = A.ε τ j
-      · simp only [if_pos hp, LinearMap.smul_apply, map_smul, Derivation.coeFn_coe, h3, b, p, smul_smul]
-        rw [hp, neg_mul, mul_neg]
-      · have e : sgn (A.ε τ j) = -sgn (B.ε τ i) := by
-          revert hp
-          cases B.ε τ i <;> cases A.ε τ j <;> simp [sgn]
-        simp only [if_neg hp, LinearMap.smul_apply, map_smul, LinearMap.mulLeft_apply, h2, a, p, smul_smul, e]
-  · beta_reduce
-    rw [← mulVec_mulVec, diagonal_mulVec_single, ← smul_eq_mul _ (1 : ℂ), Pi.single_smul',
-      mulVec_smul, map_smulₛₗ, map_mul, map_mul, map_inv₀, cs, conj_sgn, conj_sgn]
-    simp only [u, smul_mul_assoc, mul_smul_comm, smul_smul]
-    congr 1
-    have h1 := sn τ
-    have h2 : cc D τ = fockScale D τ * fockScale D τ / (4 * π) := by
-      rw [s2]
-      field_simp
-    have h3 : (π : ℂ) ≠ 0 := ofReal_ne_zero.2 Real.pi_ne_zero
-    rw [h2]
-    field_simp
-    linear_combination (sgn (B.ε τ l) * sgn (A.ε τ k)) * sgn_mul_self (A.ε τ j)
-  · beta_reduce
-    rw [← quad_basis x y _ hX, ← HM_inv]
-    exact (congrArg (fun F : BB ψ V W => (F.1 : WO V W → ℂ)) (hN X g)).trans (hc _)
+  exact _root_.GlobalTheory.LieFock.exists_raise_lower_at_place A B h hψ τ
 
 theorem lieFockUpTo_at : ∀ (D : D7) (V W : HSp D) (A : GlobalTheory.ChainFr.Fr V) (B : GlobalTheory.ChainFr.Fr W) (θ : InfFam D)
     (ψ : AddChar (AF D.host.F) ℂ) (χS χT : (AE D)ˣ →* Circle) (ω : GA D V × GA D W →* Module.End ℂ (WO V W → ℂ))

@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.InducesWAndExistsEmb
 public import Development.AbelianVarietyTheory.BlockTheory.NonGaloisCusps.SplitPlaceTypes
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.ExistsLetterOfLocalEmbedding
 import Mathlib.Algebra.Order.Floor.Extended
@@ -124,15 +125,7 @@ theorem not_both_columns : ¬ (PlIn (N := D.nd) D.nbr i true w hw ∧ PlIn (N :=
 
 theorem bridge_place (x : 𝓞 D.host.E) :
     x ∈ w.asIdeal ↔ ‖(D.nbr i w hw).j (algebraMap D.host.E D.nd.Om (x : D.host.E))‖ < 1 := by
-  rw [← D.nd.plOm.2 w x]
-  set y := algebraMap D.host.E D.nd.Om (x : D.host.E)
-  by_cases hy : y = 0
-  · simp [hy]
-  have hj : 0 < ‖(D.nbr i w hw).j y‖ := norm_pos_iff.2 ((map_ne_zero _).2 hy)
-  have h := D.nbr_ind i w hw y⁻¹
-  rw [← ValuationSubring.valuation_le_one_iff, map_inv₀, map_inv₀, norm_inv, inv_le_one₀ hj,
-    inv_le_one₀ (zero_lt_iff.2 ((map_ne_zero _).2 hy))] at h
-  rw [← not_le, ← not_le, h]
+  apply _root_.GlobalTheory.LocalEmbedding.mem_place_iff <;> assumption
 
 end Loc
 

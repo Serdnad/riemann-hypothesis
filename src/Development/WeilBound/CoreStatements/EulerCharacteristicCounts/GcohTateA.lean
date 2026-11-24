@@ -1,5 +1,6 @@
 module
 
+import CompanionTheory.AutomorphicTheory.PadicCyclotomicFields.GcohTateA
 public import GroundTheory.ProfiniteCohomology.PoincareDuality.NsmulEqZeroOfNonemptyAddEquiv
 public import GroundTheory.ProfiniteCohomology.CartierDual
 public import GroundTheory.ProfiniteCohomology.PoincareDuality.Torsion
@@ -108,28 +109,7 @@ include hbe hA hD in
 theorem exists_dualEquiv (hb : Function.Bijective b.flip) :
     ∃ eB : M' ≃+ (dualRep D A).V, (∀ g y, eB (rho' g y) = (dualRep D A).ρ g (eB y)) ∧
       ∀ x y, (eB y : A →ₗ[ULift.{0} ℤ] D) (eA x) = eD (b x y) := by
-  let F : M' →+ (A.V →+ D.V) :=
-    { toFun := fun y => eD.toAddMonoidHom.comp
-        ((b.flip y).toAddMonoidHom.comp eA.symm.toAddMonoidHom)
-      map_zero' := by ext; simp
-      map_add' := fun _ _ => by ext; simp }
-  have hF : Function.Bijective F := by
-    refine ⟨fun y₁ y₂ hy => hb.1 (LinearMap.ext fun x => eD.injective ?_), fun χ => ?_⟩
-    · simpa [F] using DFunLike.congr_fun hy (eA x)
-    · obtain ⟨y, hy⟩ := hb.2
-        ((eD.symm.toAddMonoidHom.comp (χ.comp eA.toAddMonoidHom)).toZModLinearMap n)
-      refine ⟨y, AddMonoidHom.ext fun a => ?_⟩
-      change eD (b.flip y (eA.symm a)) = χ a
-      rw [hy]
-      simp
-  let eB : M' ≃+ (A →ₗ[ULift.{0} ℤ] D) :=
-    (AddEquiv.ofBijective F hF).trans (uliftIntLinearEquivAddHom A.V D.V).symm
-  have h2 : ∀ x y, eB y (eA x) = eD (b x y) := fun x y => by
-    simp [eB, uliftIntLinearEquivAddHom_symm_apply, F]
-  refine ⟨eB, fun g y => LinearMap.ext fun a => ?_, h2⟩
-  obtain ⟨x, rfl⟩ := eA.surjective a
-  change eB (rho' g y) (eA x) = D.ρ g (eB y (A.ρ g⁻¹ (eA x)))
-  rw [← hA, h2, h2, ← hD, ← hbe, Representation.self_inv_apply]
+  apply _root_.CompanionTheory.LocalTateOrthogonality.Gcoh.exists_dualEquiv <;> assumption
 
 end Core
 

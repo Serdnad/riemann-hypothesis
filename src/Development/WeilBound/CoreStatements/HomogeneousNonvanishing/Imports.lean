@@ -1,5 +1,6 @@
 module
 
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.NormMapThirdProperty
 public import Mathlib.NumberTheory.NumberField.Basic
 public import Development.AutomorphicSpectrum.Definitions.CommutativeAlgebra.ProIsoAt
 public import Mathlib.LinearAlgebra.BilinearForm.TensorProduct
@@ -713,21 +714,8 @@ open IsLocalRing Polynomial
 theorem semi_complete {A : Type} [CommRing A] [IsNoetherianRing A] [IsLocalRing A]
     [IsAdicComplete (maximalIdeal A) A] (M : Type) [AddCommGroup M] [Module A M] [Module.Finite A M] :
     IsAdicComplete (maximalIdeal A) M := by
-  refine
-    { toIsHausdorff := inferInstance
-      toIsPrecomplete := AdicCompletion.of_surjective_iff.mp ?_ }
-  intro y
-  obtain ⟨t, rfl⟩ := AdicCompletion.ofTensorProduct_surjective_of_finite (maximalIdeal A) M y
-  induction t using TensorProduct.inductionOn with
-  | tmul r x =>
-    obtain ⟨r, rfl⟩ := AdicCompletion.of_surjective (maximalIdeal A) A r
-    refine ⟨r • x, ?_⟩
-    rw [AdicCompletion.ofTensorProduct_tmul, map_smul]
-    exact (algebraMap_smul (AdicCompletion (maximalIdeal A) A) r _).symm
-  | add x y hx hy =>
-    obtain ⟨a, ha⟩ := hx
-    obtain ⟨b, hb⟩ := hy
-    exact ⟨a + b, by rw [map_add (f := _), map_add (f := _), ha, hb]⟩
+  intros
+  apply _root_.GlobalTheory.CompanionTheory.FiniteComplete.isAdicComplete_of_finite <;> assumption
 
 theorem semi_unit_or_nil {Q : Type} [CommRing Q] [Finite Q] (h : ∀ e : Q, e * e = e → e = 0 ∨ e = 1) (x : Q) :
     IsUnit x ∨ IsNilpotent x := by

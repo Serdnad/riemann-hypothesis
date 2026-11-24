@@ -1,5 +1,7 @@
 module
 
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.SegmentRepJacquetWordMultiplicity
+import Development.AutomorphicSpectrum.Proofs.GlobalProofs.IsIrreducibleOfClsGLEqSingle
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsSmoothCharCompNormU
 public import Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms₂.HasExponentZeroIff
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.LocalArtinExistsHolds
@@ -244,15 +246,8 @@ variable (k) in
 abbrev uc (a : ℂˣ) : IrrGL (k := k) := IrrGL.ofChar (unrChar k a) (isSmoothChar_of_isUnram (isUnram_unrChar k a))
 
 theorem eq_first_of_isLSeg {Δ : Segment k} {y : IrrGL (k := k)} (h : IsLSeg Δ y.rep) (h1 : Δ.len = 1) : y = Δ.first := by
-  have h2 := h.hasSupport
-  obtain ⟨z, hz⟩ := Multiset.card_eq_one.1 ((Segment.card_ms Δ).trans h1)
-  have h3 : z = Δ.first := by
-    have hm : z ∈ Δ.ms := by rw [hz]; exact Multiset.mem_singleton_self z
-    obtain ⟨a, ha, rfl⟩ := Segment.mem_carrier.1 (Segment.mem_ms.1 hm)
-    obtain rfl : a = 0 := by omega
-    simp
-  rw [hz, h3] at h2
-  exact GlobalTheory.CompanionTheory.CuspPairSub.eq_of_hasSupport_singleton h2
+  intros
+  apply _root_.GlobalTheory.CompanionTheory.FineL.eq_first_of_len_one <;> assumption
 
 theorem isSpherical_prodIrr_uc {c N : ℕ} (β : Fin c → ℂˣ) (hd : ∑ i, (uc k (β i)).1 = N) :
     IsSpherical (prodIrr (fun i => uc k (β i)) hd) := by
@@ -341,14 +336,8 @@ theorem sum_singleton_eq_map {α : Type*} {h : ℕ} (f : Fin h → α) :
   rw [Finset.sum_eq_multiset_sum, ← Multiset.sum_map_singleton (Finset.univ.val.map f), Multiset.map_map]
   rfl
 
-theorem ms_eq_singleton {Δ : Segment k} (h1 : Δ.len = 1) : Δ.ms = {Δ.first} := by
-  obtain ⟨z, hz⟩ := Multiset.card_eq_one.1 ((Segment.card_ms Δ).trans h1)
-  have h3 : z = Δ.first := by
-    have hm : z ∈ Δ.ms := by rw [hz]; exact Multiset.mem_singleton_self z
-    obtain ⟨a, ha, rfl⟩ := Segment.mem_carrier.1 (Segment.mem_ms.1 hm)
-    obtain rfl : a = 0 := by omega
-    simp
-  rw [hz, h3]
+theorem ms_eq_singleton {Δ : Segment k} (h1 : Δ.len = 1) : Δ.ms = {Δ.first} :=
+  _root_.GlobalTheory.CompanionTheory.Hypotheses₂.RankOne.ms_of_len h1
 
 theorem equiv_prodIrr_chars (hGU : GlobalTheory.Published.GenericUnitaryDualGL) [CharZero k] {N : ℕ} {V : Type}
     [AddCommGroup V] [Module ℂ V] (ρ : Representation ℂ (GL (Fin N) k) V) (hs : IsSmooth ρ)

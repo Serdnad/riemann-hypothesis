@@ -1,5 +1,7 @@
 module
 
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.IsSatakeParameterOfIsSubquotientOfInjective
+import all Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.RegularSemisimpleFibres.FrobeniusLocalPairs.NormDiag
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.LocalDoubleCosets.TracePow
 public import GroundTheory.AutomorphicForms.GeometricLemmaFiltration
 public import Mathlib.Basic.Complex.Basic
@@ -16,6 +18,7 @@ public import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.IsG
 public import GroundTheory.AutomorphicForms.Iwasawa
 public import Mathlib.LinearAlgebra.Eigenspace.Zero
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.LocalDoubleCosets.JacSemi
+import all Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.LocalDoubleCosets.JacSemi
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.LocalDoubleCosets.LocDescOf
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -602,17 +605,8 @@ variable {V : Type} [AddCommGroup V] [Module ℂ V]
 
 private theorem exists_stab {π : Representation ℂ G V} (hπ : IsSmooth π) (v : V) :
     ∃ K : Subgroup G, IsOpen (K : Set G) ∧ ∀ k ∈ K, π k v = v := by
-  refine ⟨{ carrier := {g | π g v = v}, mul_mem' := ?_, one_mem' := ?_, inv_mem' := ?_ }, hπ v, fun k hk => hk⟩
-  · intro a b (ha : π a v = v) (hb : π b v = v)
-    show π (a * b) v = v
-    rw [map_mul, Module.End.mul_apply, hb, ha]
-  · show π 1 v = v
-    simp
-  · intro a (ha : π a v = v)
-    show π a⁻¹ v = v
-    conv_lhs => rw [← ha]
-    rw [← Module.End.mul_apply, ← map_mul]
-    simp
+  intros
+  apply _root_.GlobalTheory.CompanionTheory.SphSupp.PsBridge.exists_open_fix <;> assumption
 
 private theorem ker_isOpen {B : Subgroup G} {χ : B →* ℂˣ} {π : Representation ℂ G V} (hπ : IsSmooth π)
     {l : V →ₗ[ℂ] ℂ} (hl : l ≠ 0) (hb : ∀ (b : B) (v : V), l (π b v) = (χ b : ℂ) * l v) :
@@ -978,15 +972,7 @@ namespace UpperTheory.Gal.LocD
 variable {E : Type} [Field E] [ValuativeRel E] [TopologicalSpace E] [IsNonarchimedeanLocalField E] {n : ℕ}
 
 private theorem continuous_of_isom (σ : E ≃+* E) (h : Isom σ) : Continuous σ := by
-  have h0 : ContinuousAt ((σ : E →+* E) : E →+ E) 0 := by
-    rw [ContinuousAt, map_zero]
-    intro s hs
-    obtain ⟨γ, hγ⟩ := (IsValuativeTopology.mem_nhds_zero_iff _).1 hs
-    refine Filter.mem_map.2 ((IsValuativeTopology.mem_nhds_zero_iff _).2 ⟨γ, fun x hx => hγ ?_⟩)
-    change valuation E (σ x) < γ
-    rw [h x]
-    exact hx
-  exact continuous_of_continuousAt_zero ((σ : E →+* E) : E →+ E) h0
+  apply _root_.UpperTheory.Gal.InertialTypesAlt.L.cont_sg <;> assumption
 
 private theorem continuous_sg (σ : E ≃+* E) (h : Continuous σ) : Continuous (sg (n := n) σ) := by
   refine Units.continuous_iff.2 ⟨?_, ?_⟩
@@ -1492,14 +1478,7 @@ private theorem dg_val (b : borel E (Fin n)) (i : Fin n) :
 
 private theorem absPow_map (σ : E ≃+* E) (hσ : Isom σ) (s : ℂ) (x : Eˣ) :
     absPow E s (Units.map (σ : E →* E) x) = absPow E s x := by
-  have hv : valuation E ((Units.map (σ : E →* E) x * x⁻¹ : Eˣ) : E) = 1 := by
-    have hx : valuation E (x : E) ≠ 0 := by simp
-    simp only [Units.val_mul, Units.coe_map, MonoidHom.coe_coe, Units.val_inv_eq_inv_val, map_mul, map_inv₀]
-    rw [hσ]
-    exact mul_inv_cancel₀ hx
-  have h1 := isUnram_absPow E s _ hv
-  have h2 : Units.map (σ : E →* E) x = (Units.map (σ : E →* E) x * x⁻¹) * x := by group
-  rw [h2, map_mul, h1, one_mul]
+  apply _root_.UpperTheory.Gal.LocD.absPow_map <;> assumption
 
 private def dl (E : Type) [Field E] [ValuativeRel E] [TopologicalSpace E] [IsNonarchimedeanLocalField E] (n : ℕ) :
     borel E (Fin n) →* ℂˣ :=

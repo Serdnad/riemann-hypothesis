@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.SatakeParameters.ExistsCompletedLatticeBasisAtPrime
 public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.IsSumFrame
 public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.AddCharTrivialIntegralFiniteAdeleMul
 public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.OneEqSumPlaceIdempotentsOverTwoAddTwoMul
@@ -178,20 +179,7 @@ theorem tmul_mem {α : Af D.host.F} (hα : α ∈ intAf D.host.F) (o : 𝓞 D.ho
 
 theorem mul_mem_int {x y : Af D.host.F ⊗[D.host.F] D.host.E} (hx : x ∈ intAE D) (hy : y ∈ intAE D) :
     x * y ∈ intAE D := by
-  induction hx using AddSubgroup.closure_induction with
-  | mem w hw =>
-    obtain ⟨α, hα, o, rfl⟩ := hw
-    induction hy using AddSubgroup.closure_induction with
-    | mem w hw =>
-      obtain ⟨β, hβ, o', rfl⟩ := hw
-      rw [Algebra.TensorProduct.tmul_mul_tmul]
-      exact tmul_mem (GlobalTheory.LatVac.mul_mem_intAf hα hβ) (o * o')
-    | zero => rw [mul_zero]; exact zero_mem _
-    | add x y _ _ hx hy => rw [mul_add]; exact add_mem hx hy
-    | neg x _ hx => rw [mul_neg]; exact neg_mem hx
-  | zero => rw [zero_mul]; exact zero_mem _
-  | add x y _ _ hx hy => rw [add_mul]; exact add_mem hx hy
-  | neg x _ hx => rw [neg_mul]; exact neg_mem hx
+  first | exact _root_.GlobalTheory.LatLocBasis.mul_mem_int | exact @_root_.GlobalTheory.LatLocBasis.mul_mem_int | apply _root_.GlobalTheory.LatLocBasis.mul_mem_int <;> assumption
 
 theorem approx (z : Af D.host.F ⊗[D.host.F] D.host.E) :
     ∃ x : D.host.E, ∃ u ∈ intAE D, z = 1 ⊗ₜ[D.host.F] x + u := by

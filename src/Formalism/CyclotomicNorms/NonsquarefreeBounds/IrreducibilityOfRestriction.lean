@@ -398,21 +398,8 @@ lemma sum_blocks (hLi : Function.Injective L) :
 
 lemma exists_le_map {β γ : Type*} (m : Multiset β) (f : β → γ) (s : Multiset γ)
     (h : s ≤ m.map f) : ∃ t ≤ m, t.map f = s := by
-  classical
-  induction m using Multiset.induction_on generalizing s with
-  | empty =>
-    simp only [Multiset.map_zero, Multiset.le_zero] at h
-    exact ⟨0, le_rfl, by simp [h]⟩
-  | cons b m ih =>
-    rw [Multiset.map_cons] at h
-    by_cases hb : f b ∈ s
-    · have hs := Multiset.cons_erase hb
-      rw [← hs, Multiset.cons_le_cons_iff] at h
-      obtain ⟨t, ht, htm⟩ := ih _ h
-      exact ⟨b ::ₘ t, Multiset.cons_le_cons _ ht, by rw [Multiset.map_cons, htm, hs]⟩
-    · rw [Multiset.le_cons_of_notMem hb] at h
-      obtain ⟨t, ht, htm⟩ := ih _ h
-      exact ⟨t, ht.trans (Multiset.le_cons_self _ _), htm⟩
+  intros
+  apply _root_.Formalism.GaloisIrreducibility.SubsetSumInvariance.exists_le_map <;> assumption
 
 lemma stable_of_subSum (hLi : Function.Injective L) {a : ℕ}
     (h : Formalism.GaloisIrreducibility.IsSubSum ((blocks σ L).val.map Finset.card) a) :

@@ -621,13 +621,8 @@ namespace GlobalTheory.CuspGL.ConvCancel
 
 theorem finite_pairs {F : Type} [Field F] (P : F[X]) (hP : P ≠ 0) :
     {x : F[X] × F[X] | x.1.Monic ∧ x.2.Monic ∧ x.1 * x.2 = P}.Finite := by
-  classical
-  have hfin : {g : F[X] | g.Monic ∧ g ∣ P}.Finite := by
-    have h := Polynomial.fintypeSubtypeMonicDvd P hP
-    exact @Finite.of_fintype _ h
-  refine (hfin.prod hfin).subset ?_
-  rintro ⟨D, E⟩ ⟨hD, hE, h⟩
-  exact ⟨⟨hD, Dvd.intro _ h⟩, ⟨hE, Dvd.intro_left _ h⟩⟩
+  intros
+  apply _root_.GlobalTheory.CuspGL.finite_monic_factorisations <;> assumption
 
 theorem conv_cancel : ∀ (F : Type) [Field F] (a b m : F[X] → ℂ), m 1 = 1 →
     (∀ P : F[X], P.Monic → conv a m P = conv b m P) → ∀ P : F[X], P.Monic → a P = b P := by

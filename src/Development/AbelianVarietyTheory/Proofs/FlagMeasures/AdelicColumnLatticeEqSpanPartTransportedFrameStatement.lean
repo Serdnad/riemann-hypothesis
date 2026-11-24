@@ -1,5 +1,6 @@
 module
 
+import Formalism.HermitianCurvature.HermitianCurvatureProofs.IsAdmissibleSplittingCharPairMulTwist
 public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.LevelMatchIff
 public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.SelfDualAt
 public import Formalism.LocalToGlobal.SiegelLatticeTheory.HaarTransversals.HidaSetting
@@ -279,15 +280,7 @@ variable {D : D7}
 theorem sum_swap4 {α β γ δ R : Type} [Fintype α] [Fintype β] [Fintype γ] [Fintype δ] [AddCommMonoid R]
     (f : α → β → γ → δ → R) :
     ∑ a, ∑ b, ∑ c, ∑ d, f a b c d = ∑ c, ∑ d, ∑ a, ∑ b, f a b c d := by
-  calc ∑ a, ∑ b, ∑ c, ∑ d, f a b c d = ∑ a, ∑ c, ∑ d, ∑ b, f a b c d := by
-        refine Finset.sum_congr rfl fun a _ => ?_
-        rw [Finset.sum_comm]
-        refine Finset.sum_congr rfl fun c _ => ?_
-        rw [Finset.sum_comm]
-    _ = ∑ c, ∑ a, ∑ d, ∑ b, f a b c d := Finset.sum_comm
-    _ = _ := by
-        refine Finset.sum_congr rfl fun c _ => ?_
-        exact Finset.sum_comm
+  apply _root_.Formalism.FourierDecayAlt.P.MAx3.G.sum4 <;> assumption
 
 theorem sigR_inclE (I : Formalism.MainNotions.S.AutInst) (e : I.E) :
     Formalism.UG.sigR I.cm.sig (Af I.F) (Formalism.UG.inclE (F := I.F) (Af I.F) e) =

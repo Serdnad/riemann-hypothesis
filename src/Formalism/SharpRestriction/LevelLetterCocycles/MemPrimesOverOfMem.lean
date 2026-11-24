@@ -1,5 +1,6 @@
 module
 
+import Development.AutomorphicArithmetic.ResidueCharacters.NumRow
 public import Development.AutomorphicArithmetic.CyclotomicBounds.CyclotomicOrders.NuHost
 public import Development.AutomorphicArithmetic.ResidueCharacters.SumLogDivSqModPmOneLe
 import Mathlib.Algebra.AffineMonoid.Basic
@@ -180,27 +181,11 @@ variable {D : D7}
 theorem mem_primesOver_of_mem {E : Type} [Field E] [NumberField E] {l : ℕ} (hl : l.Prime)
     {v : HeightOneSpectrum (𝓞 E)} (hv : v ∈ placesOver E l) :
     v.asIdeal ∈ (Ideal.span {(l : ℤ)}).primesOver (𝓞 E) := by
-  have : Fact l.Prime := ⟨hl⟩
-  have hmax := Int.ideal_span_isMaximal_of_prime l
-  have := v.isPrime
-  refine ⟨v.isPrime, ⟨?_⟩⟩
-  apply hmax.eq_of_le (Ideal.IsPrime.under ℤ v.asIdeal).ne_top
-  rw [Ideal.span_singleton_le_iff_mem, Ideal.under_def, Ideal.mem_comap]
-  have hv' : ((l : ℕ) : 𝓞 E) ∈ v.asIdeal := hv
-  simpa using hv'
+  apply _root_.UpperTheory.N.Num.mem_primesOver_of_mem <;> assumption
 
 theorem placesOver_finite (E : Type) [Field E] [NumberField E] {l : ℕ} (hl : l.Prime) :
     (placesOver E l).Finite := by
-  classical
-  have : Fact l.Prime := ⟨hl⟩
-  haveI := Int.ideal_span_isMaximal_of_prime l
-  have hfin : ((Ideal.span {(l : ℤ)}).primesOver (𝓞 E)).Finite :=
-    Set.toFinite _
-  have hinj : Set.InjOn (fun v : HeightOneSpectrum (𝓞 E) => v.asIdeal)
-      ((fun v : HeightOneSpectrum (𝓞 E) => v.asIdeal) ⁻¹' ((Ideal.span {(l : ℤ)}).primesOver (𝓞 E))) := by
-    intro a _ b _ hab
-    exact HeightOneSpectrum.ext hab
-  exact (hfin.preimage hinj).subset (fun v hv => mem_primesOver_of_mem hl hv)
+  apply _root_.UpperTheory.N.Num.placesOver_finite <;> assumption
 
 theorem nLam_pos (D : D7) (lam : HeightOneSpectrum (𝓞 D.host.E)) : 1 ≤ nLam D lam := by
   unfold nLam Formalism.MainNotions.N.locDeg
@@ -211,37 +196,7 @@ theorem nLam_pos (D : D7) (lam : HeightOneSpectrum (𝓞 D.host.E)) : 1 ≤ nLam
 
 theorem sum_nLam_le (D : D7) {l : ℕ} (hl : l.Prime) :
     ∑ lam ∈ (placesOver_finite D.host.E hl).toFinset, (nLam D lam : ℝ) ≤ 2 * D.R.f := by
-  classical
-  have : Fact l.Prime := ⟨hl⟩
-  have hsum := Ideal.sum_ramification_inertia_eq_finrank (Ideal.span {(l : ℤ)}) (𝓞 D.host.E)
-  rw [RingOfIntegers.rank, finrank_E_host] at hsum
-  have hsum' : ∑ q ∈ ((Ideal.span {(l : ℤ)}).primesOver (𝓞 D.host.E)).toFinset,
-      q.ramificationIdx ℤ * q.inertiaDeg ℤ = 2 * D.R.f := by
-    rw [← hsum]
-    exact (Finset.sum_set_coe (f := fun q : Ideal (𝓞 D.host.E) => q.ramificationIdx ℤ * q.inertiaDeg ℤ) _).symm
-  set G : Ideal (𝓞 D.host.E) → ℝ := fun q => ((q.ramificationIdx ℤ * q.inertiaDeg ℤ : ℕ) : ℝ) with hG
-  set S := (placesOver_finite D.host.E hl).toFinset with hS
-  have hinj : Set.InjOn (fun v : HeightOneSpectrum (𝓞 D.host.E) => v.asIdeal) (S : Set _) := by
-    intro a _ b _ hab
-    exact HeightOneSpectrum.ext hab
-  calc ∑ lam ∈ S, (nLam D lam : ℝ) = ∑ lam ∈ S, G lam.asIdeal := by
-        refine Finset.sum_congr rfl (fun lam _ => ?_)
-        simp [hG, nLam, Formalism.MainNotions.N.locDeg]
-    _ = ∑ q ∈ S.image (fun v => v.asIdeal), G q := (Finset.sum_image hinj).symm
-    _ ≤ ∑ q ∈ ((Ideal.span {(l : ℤ)}).primesOver (𝓞 D.host.E)).toFinset, G q := by
-        apply Finset.sum_le_sum_of_subset_of_nonneg
-        · intro q hq
-          obtain ⟨v, hv, rfl⟩ := Finset.mem_image.1 hq
-          rw [Set.mem_toFinset]
-          exact mem_primesOver_of_mem hl ((Set.Finite.mem_toFinset _).1 hv)
-        · intro q _ _
-          simp only [hG]
-          positivity
-    _ = 2 * D.R.f := by
-        simp only [hG]
-        rw [← Nat.cast_sum, hsum']
-        push_cast
-        ring
+  apply _root_.UpperTheory.N.Num.sum_nLam_le <;> assumption
 
 theorem sum_nLam_succ_le (D : D7) {l : ℕ} (hl : l.Prime) :
     ∑ lam ∈ (placesOver_finite D.host.E hl).toFinset, ((nLam D lam : ℝ) + 1) ≤ 4 * D.R.f := by

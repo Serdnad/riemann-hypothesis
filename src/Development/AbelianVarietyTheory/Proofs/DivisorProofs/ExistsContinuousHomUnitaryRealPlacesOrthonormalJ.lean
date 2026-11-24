@@ -51,26 +51,26 @@ namespace GlobalTheory.RealLiftComp
 
 open Matrix GlobalTheory.RealLiftGen
 
-theorem exists_comp : ∀ (F E : Type) [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] (σ : E →ₐ[F] E) (β : Type) [Fintype β]
-    [DecidableEq β] (R S : ℕ) (τ : ∀ w : InfinitePlace F, EmbOver E w) (J : Matrix β β (AE F E)) (b : ℂ)
-    (C : InfinitePlace F → Matrix β (Ix R S) ℂ), IsCMExt F E σ → (∀ w, IsFrame (b • J.map (piInf (τ w))) (C w)) →
-    ∃ k : UG (cA σ) J →* (InfinitePlace F → Mat R S), Continuous k ∧
+theorem exists_compD : ∀ (F E : Type) [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] (σ : E →ₐ[F] E) (β : Type) [Fintype β]
+    [DecidableEq β] (R S : InfinitePlace F → ℕ) (τ : ∀ w : InfinitePlace F, EmbOver E w) (J : Matrix β β (AE F E)) (b : ℂ)
+    (C : ∀ w : InfinitePlace F, Matrix β (Ix (R w) (S w)) ℂ), IsCMExt F E σ → (∀ w, IsFrame (b • J.map (piInf (τ w))) (C w)) →
+    ∃ k : UG (cA σ) J →* (∀ w : InfinitePlace F, Mat (R w) (S w)), Continuous k ∧
       (∀ g w, (g.1 : Matrix β β (AE F E)).map (piInf (τ w)) * C w = C w * k g w) ∧
-      (∀ g w, (k g w)ᴴ * Jm R S * k g w = Jm R S) ∧ ∀ w (M M' : Mat R S), C w * M = C w * M' → M = M' := by
+      (∀ g w, (k g w)ᴴ * Jm (R w) (S w) * k g w = Jm (R w) (S w)) ∧ ∀ w (M M' : Mat (R w) (S w)), C w * M = C w * M' → M = M' := by
   intro F E _ _ _ _ _ σ β _ _ R S τ J b C hcm hC
   choose A' hA' using fun w => (hC w).2
   set K : InfinitePlace F → Matrix β β ℂ := fun w => b • J.map (piInf (τ w)) with hK
-  have hF : ∀ w, (C w)ᵀ * K w * (C w).map star = Jm R S := fun w => (hC w).1
+  have hF : ∀ w, (C w)ᵀ * K w * (C w).map star = Jm (R w) (S w) := fun w => (hC w).1
   have hAC : ∀ w, A' w * C w = 1 := by
     intro w
-    have h1 : (Jm R S * (C w)ᵀ * K w) * (C w).map star = 1 := by
-      rw [Matrix.mul_assoc (Jm R S), Matrix.mul_assoc (Jm R S), hF, Jm_mul_Jm]
-    have h2 : (Jm R S * (C w)ᵀ * K w).map star * C w = 1 := by
+    have h1 : (Jm (R w) (S w) * (C w)ᵀ * K w) * (C w).map star = 1 := by
+      rw [Matrix.mul_assoc (Jm (R w) (S w)), Matrix.mul_assoc (Jm (R w) (S w)), hF, Jm_mul_Jm]
+    have h2 : (Jm (R w) (S w) * (C w)ᵀ * K w).map star * C w = 1 := by
       have := congrArg (fun X => X.map star) h1
       rw [map_star_mul, map_star_star] at this
       rw [this]; ext i j; simp [Matrix.one_apply]
-    calc A' w * C w = ((Jm R S * (C w)ᵀ * K w).map star * C w) * A' w * C w := by rw [h2, Matrix.one_mul]
-      _ = (Jm R S * (C w)ᵀ * K w).map star * C w := by rw [Matrix.mul_assoc _ (C w), hA', Matrix.mul_one]
+    calc A' w * C w = ((Jm (R w) (S w) * (C w)ᵀ * K w).map star * C w) * A' w * C w := by rw [h2, Matrix.one_mul]
+      _ = (Jm (R w) (S w) * (C w)ᵀ * K w).map star * C w := by rw [Matrix.mul_assoc _ (C w), hA', Matrix.mul_one]
       _ = 1 := h2
   set M : UG (cA σ) J → InfinitePlace F → Matrix β β ℂ :=
     fun g w => (g.1 : Matrix β β (AE F E)).map (piInf (τ w)) with hM
@@ -94,7 +94,7 @@ theorem exists_comp : ∀ (F E : Type) [Field F] [NumberField F] [Field E] [Numb
       simp only [hM]; rw [← Matrix.transpose_map]; exact h2
     simp only [hK, Matrix.mul_smul, Matrix.smul_mul]
     rw [h4]
-  let k : UG (cA σ) J →* (InfinitePlace F → Mat R S) :=
+  let k : UG (cA σ) J →* (∀ w : InfinitePlace F, Mat (R w) (S w)) :=
     { toFun := fun g w => A' w * M g w * C w
       map_one' := by funext w; simp only [hM1, Matrix.mul_one, hAC, Pi.one_apply]
       map_mul' := by
@@ -112,7 +112,7 @@ theorem exists_comp : ∀ (F E : Type) [Field F] [NumberField F] [Field E] [Numb
     refine continuous_pi fun w => ?_
     exact (continuous_const.matrix_mul (h1.matrix_map (GlobalTheory.ContMapReal.continuous_piInf (τ w)))).matrix_mul
       continuous_const
-  · have hT : (k g w)ᵀ * Jm R S * (k g w).map star = Jm R S := by
+  · have hT : (k g w)ᵀ * Jm (R w) (S w) * (k g w).map star = Jm (R w) (S w) := by
       rw [← hF w]
       calc (k g w)ᵀ * ((C w)ᵀ * K w * (C w).map star) * (k g w).map star
           = (C w * k g w)ᵀ * K w * (C w * k g w).map star := by
@@ -125,5 +125,14 @@ theorem exists_comp : ∀ (F E : Type) [Field F] [NumberField F] [Field E] [Numb
     exact h2
   · have := congrArg (fun Y => A' w * Y) h
     simpa only [← Matrix.mul_assoc, hAC, Matrix.one_mul] using this
+
+theorem exists_comp : ∀ (F E : Type) [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] (σ : E →ₐ[F] E) (β : Type) [Fintype β]
+    [DecidableEq β] (R S : ℕ) (τ : ∀ w : InfinitePlace F, EmbOver E w) (J : Matrix β β (AE F E)) (b : ℂ)
+    (C : InfinitePlace F → Matrix β (Ix R S) ℂ), IsCMExt F E σ → (∀ w, IsFrame (b • J.map (piInf (τ w))) (C w)) →
+    ∃ k : UG (cA σ) J →* (InfinitePlace F → Mat R S), Continuous k ∧
+      (∀ g w, (g.1 : Matrix β β (AE F E)).map (piInf (τ w)) * C w = C w * k g w) ∧
+      (∀ g w, (k g w)ᴴ * Jm R S * k g w = Jm R S) ∧ ∀ w (M M' : Mat R S), C w * M = C w * M' → M = M' := by
+  intro F E _ _ _ _ _ σ β _ _ R S τ J b C hcm hC
+  exact exists_compD F E σ β (fun _ => R) (fun _ => S) τ J b C hcm hC
 
 end GlobalTheory.RealLiftComp

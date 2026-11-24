@@ -52,6 +52,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
+import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.RegularLocalRegularSequence.RingKrullDimQuotientSpanSingletonAddOne
 
 @[expose] public section
 
@@ -86,44 +87,11 @@ private theorem span_insert_image_erase_eq_top {K V : Type*} [Field K] [AddCommG
     [Module K V] {N : ℕ} (b : Module.Basis (Fin N) K V) (v : V) {j : Fin N}
     (hj : b.repr v j ≠ 0) :
     Submodule.span K (insert v (⇑b '' ↑(Finset.univ.erase j))) = ⊤ := by
-  rw [eq_top_iff, ← b.span_eq, Submodule.span_le]
-  rintro _ ⟨i, rfl⟩
-  simp only [SetLike.mem_coe]
-  by_cases hij : i = j
-  · rw [hij]
-    have hmem1 : v ∈ Submodule.span K (insert v (⇑b '' ↑(Finset.univ.erase j))) :=
-      Submodule.subset_span (Set.mem_insert _ _)
-    have hmem2 : ∑ l ∈ Finset.univ.erase j, b.repr v l • b l ∈
-        Submodule.span K (insert v (⇑b '' ↑(Finset.univ.erase j))) := by
-      refine Submodule.sum_mem _ fun l hl => Submodule.smul_mem _ _ ?_
-      exact Submodule.subset_span (Set.mem_insert_of_mem _ ⟨l, Finset.mem_coe.mpr hl, rfl⟩)
-    have hsub : v - ∑ l ∈ Finset.univ.erase j, b.repr v l • b l = b.repr v j • b j := by
-      rw [Finset.sum_erase_eq_sub (Finset.mem_univ j), b.sum_repr v]
-      abel
-    have hkey : b.repr v j • b j ∈
-        Submodule.span K (insert v (⇑b '' ↑(Finset.univ.erase j))) := by
-      rw [← hsub]
-      exact Submodule.sub_mem _ hmem1 hmem2
-    have h2 := Submodule.smul_mem _ (b.repr v j)⁻¹ hkey
-    rwa [smul_smul, inv_mul_cancel₀ hj, one_smul] at h2
-  · exact Submodule.subset_span (Set.mem_insert_of_mem _ ⟨i, by simp [hij], rfl⟩)
+  apply _root_.PI.UnitaryGroupMassFormula.RLRS.IsRegularLocalRing.span_insert_image_erase_eq_top <;> assumption
 
 private theorem isLocalRing_quotient_span_singleton {R : Type*} [CommRing R] [IsLocalRing R]
     {x : R} (hx : x ∈ maximalIdeal R) : IsLocalRing (R ⧸ Ideal.span ({x} : Set R)) := by
-  have hIle : Ideal.span ({x} : Set R) ≤ maximalIdeal R := by
-    rw [Ideal.span_le, Set.singleton_subset_iff]
-    exact hx
-  have hIne : Ideal.span ({x} : Set R) ≠ ⊤ := by
-    intro h
-    rw [h, top_le_iff] at hIle
-    exact (IsLocalRing.maximalIdeal.isMaximal R).ne_top hIle
-  have hone : (1 : R ⧸ Ideal.span ({x} : Set R)) ≠ 0 := by
-    intro h
-    have h1 : (1 : R) ∈ Ideal.span ({x} : Set R) := by
-      rwa [← Ideal.Quotient.eq_zero_iff_mem, map_one]
-    exact hIne ((Ideal.eq_top_iff_one _).mpr h1)
-  have : Nontrivial (R ⧸ Ideal.span ({x} : Set R)) := ⟨⟨1, 0, hone⟩⟩
-  exact IsLocalRing.of_surjective' (Ideal.Quotient.mk _) Ideal.Quotient.mk_surjective
+  apply _root_.PI.UnitaryGroupMassFormula.RLRS.IsRegularLocalRing.isLocalRing_quotient_span_singleton <;> assumption
 
 private theorem spanFinrank_maximalIdeal_quotient_add_one_le_finrank (R : Type*) [CommRing R] [IsLocalRing R]
     [IsNoetherianRing R] {x : R} (hx : x ∈ maximalIdeal R) (hx2 : x ∉ maximalIdeal R ^ 2)
@@ -210,27 +178,7 @@ private theorem spanFinrank_maximalIdeal_quotient_add_one_le_finrank (R : Type*)
 private theorem eq_natCast_and_add_one_eq_of_le {a : WithBot ℕ∞} {d n : ℕ}
     (h1 : ((n : ℕ) : WithBot ℕ∞) ≤ a + 1) (h2 : a ≤ ((d : ℕ) : WithBot ℕ∞)) (h3 : d + 1 ≤ n) :
     a = ((d : ℕ) : WithBot ℕ∞) ∧ a + 1 = ((n : ℕ) : WithBot ℕ∞) := by
-  obtain ⟨m, rfl⟩ : ∃ m : ℕ, a = ((m : ℕ) : WithBot ℕ∞) := by
-    induction a using WithBot.recBotCoe with
-    | bot =>
-      exfalso
-      rw [WithBot.bot_add, le_bot_iff] at h1
-      exact WithBot.natCast_ne_bot n h1
-    | coe e =>
-      induction e using ENat.recTopCoe with
-      | top =>
-        exfalso
-        have h2' : (⊤ : ℕ∞) ≤ (d : ℕ∞) := by exact_mod_cast h2
-        simp at h2'
-      | coe m => exact ⟨m, by norm_cast⟩
-  have hmd : m ≤ d := by exact_mod_cast h2
-  have hnm : n ≤ m + 1 := by exact_mod_cast h1
-  have hm : m = d := by omega
-  have hn : n = m + 1 := by omega
-  refine ⟨?_, ?_⟩
-  · rw [hm]
-  · rw [hn]
-    norm_cast
+  apply _root_.PI.UnitaryGroupMassFormula.RLRS.IsRegularLocalRing.eq_natCast_and_add_one_eq_of_le <;> assumption
 
 private theorem spanFinrank_quotient_eq_ringKrullDim_and_add_one_eq (R : Type*) [CommRing R]
     [IsRegularLocalRing R] {x : R} (hx : x ∈ maximalIdeal R)
@@ -293,38 +241,7 @@ private theorem exists_mem_maximalIdeal_notMem_sq_notMem_minimalPrimes (R : Type
     [IsLocalRing R] [IsNoetherianRing R] (hsq : ¬ maximalIdeal R ≤ maximalIdeal R ^ 2)
     (hmin : ¬ ∃ p ∈ minimalPrimes R, maximalIdeal R ≤ p) :
     ∃ x, x ∈ maximalIdeal R ∧ x ∉ maximalIdeal R ^ 2 ∧ ∀ p ∈ minimalPrimes R, x ∉ p := by
-  classical
-  obtain ⟨t, ht⟩ := (minimalPrimes.finite_of_isNoetherianRing R).exists_finset_coe
-  by_contra hcon
-  push Not at hcon
-  have hsub : (maximalIdeal R : Set R) ⊆
-      ⋃ i ∈ ((insert (maximalIdeal R ^ 2) t : Finset (Ideal R)) : Set (Ideal R)), (i : Set R) := by
-    intro y hy
-    rcases em (y ∈ maximalIdeal R ^ 2) with hm2 | hm2
-    · exact Set.mem_biUnion (Finset.mem_coe.mpr (Finset.mem_insert_self _ _)) hm2
-    · obtain ⟨p, hp, hyp⟩ := hcon y hy hm2
-      have hpt : p ∈ insert (maximalIdeal R ^ 2) t := by
-        apply Finset.mem_insert_of_mem
-        rw [← Finset.mem_coe, ht]
-        exact hp
-      exact Set.mem_biUnion (Finset.mem_coe.mpr hpt) hyp
-  have hp : ∀ i ∈ (insert (maximalIdeal R ^ 2) t : Finset (Ideal R)),
-      i ≠ maximalIdeal R ^ 2 → i ≠ maximalIdeal R ^ 2 → i.IsPrime := by
-    intro i hi h1 _
-    have hit : i ∈ t := by
-      rcases Finset.mem_insert.mp hi with hh | hh
-      · exact absurd hh h1
-      · exact hh
-    refine isPrime_of_mem_minimalPrimes ?_
-    rw [← ht]
-    exact Finset.mem_coe.mpr hit
-  obtain ⟨i, hi, hle⟩ := (Ideal.subset_union_prime _ _ hp).mp hsub
-  rcases Finset.mem_insert.mp hi with hh | hh
-  · subst hh
-    exact hsq hle
-  · refine hmin ⟨i, ?_, hle⟩
-    rw [← ht]
-    exact Finset.mem_coe.mpr hh
+  apply _root_.PI.UnitaryGroupMassFormula.RLRS.IsRegularLocalRing.exists_mem_maximalIdeal_notMem_sq_notMem_minimalPrimes <;> assumption
 
 theorem isRegularLocalRing_quotient_span_singleton {R : Type*} [CommRing R]
     [IsRegularLocalRing R] {x : R} (hx : x ∈ IsLocalRing.maximalIdeal R)
@@ -347,86 +264,12 @@ private theorem isDomain_of_forall_spanFinrank_lt (R : Type u) [CommRing R]
       Submodule.spanFinrank (maximalIdeal S) < Submodule.spanFinrank (maximalIdeal R) →
         IsDomain S) :
     IsDomain R := by
-  classical
-  by_cases hsq : maximalIdeal R ≤ maximalIdeal R ^ 2
-  · exact isDomain_of_maximalIdeal_eq_bot R (maximalIdeal_eq_bot_of_le_sq R hsq)
-  by_cases hmin : ∃ p ∈ minimalPrimes R, maximalIdeal R ≤ p
-  · exfalso
-    obtain ⟨p, hp, hple⟩ := hmin
-    have hpp : p.IsPrime := isPrime_of_mem_minimalPrimes hp
-    have hpm : p = maximalIdeal R := le_antisymm (IsLocalRing.le_maximalIdeal hpp.ne_top) hple
-    have hallideal : ∀ q : Ideal R, q.IsPrime → q = maximalIdeal R := by
-      intro q hq
-      refine le_antisymm (IsLocalRing.le_maximalIdeal hq.ne_top) ?_
-      rw [← hpm]
-      exact le_of_le_of_mem_minimalPrimes hp hq
-        (by rw [hpm]; exact IsLocalRing.le_maximalIdeal hq.ne_top)
-    have h2 : ringKrullDim R ≤ 0 := by
-      have hPQ : ∀ P Q : PrimeSpectrum R, P = Q := by
-        intro P Q
-        apply PrimeSpectrum.ext
-        rw [hallideal P.asIdeal P.isPrime, hallideal Q.asIdeal Q.isPrime]
-      have : Subsingleton (PrimeSpectrum R) := ⟨hPQ⟩
-      exact Order.krullDim_nonpos_of_subsingleton
-    obtain ⟨x, hx, hx2⟩ : ∃ x, x ∈ maximalIdeal R ∧ x ∉ maximalIdeal R ^ 2 := by
-      by_contra hc
-      push Not at hc
-      exact hsq fun y hy => hc y hy
-    have := isLocalRing_quotient_span_singleton hx
-    have hpos := spanFinrank_maximalIdeal_quotient_add_one_le_finrank R hx hx2
-    have hdim : ringKrullDim R =
-        (Module.finrank (ResidueField R) (CotangentSpace R) : WithBot ℕ∞) :=
-      ((IsRegularLocalRing.iff_finrank_cotangentSpace R).mp inferInstance).symm
-    rw [hdim] at h2
-    have hle0 : Module.finrank (ResidueField R) (CotangentSpace R) ≤ 0 := by exact_mod_cast h2
-    omega
-  · obtain ⟨x, hx, hx2, hxp⟩ :=
-      exists_mem_maximalIdeal_notMem_sq_notMem_minimalPrimes R hsq hmin
-    have := isLocalRing_quotient_span_singleton hx
-    have hrq : IsRegularLocalRing (R ⧸ Ideal.span ({x} : Set R)) :=
-      isRegularLocalRing_quotient_span_singleton hx hx2
-    have hlt : Submodule.spanFinrank (maximalIdeal (R ⧸ Ideal.span ({x} : Set R))) <
-        Submodule.spanFinrank (maximalIdeal R) := by
-      have h1 := spanFinrank_maximalIdeal_quotient_add_one_le_finrank R hx hx2
-      have h2 : Submodule.spanFinrank (maximalIdeal R)
-          = Module.finrank (ResidueField R) (CotangentSpace R) := by
-        rw [IsLocalRing.spanFinrank_maximalIdeal_eq_finrank_cotangentSpace]
-      omega
-    have hdom := IH (R ⧸ Ideal.span ({x} : Set R)) hlt
-    have hprime : (Ideal.span ({x} : Set R)).IsPrime :=
-      (Ideal.Quotient.isDomain_iff_prime _).mp hdom
-    obtain ⟨p, hp, hple⟩ :=
-      Ideal.exists_minimalPrimes_le (bot_le : (⊥ : Ideal R) ≤ Ideal.span ({x} : Set R))
-    have hpp : p.IsPrime := isPrime_of_mem_minimalPrimes hp
-    have hpbot : p = ⊥ := by
-      refine Submodule.eq_bot_of_le_smul_of_le_jacobson_bot (maximalIdeal R) p
-        (IsNoetherian.noetherian p) ?_ (IsLocalRing.maximalIdeal_le_jacobson ⊥)
-      intro y hy
-      obtain ⟨a, rfl⟩ := Ideal.mem_span_singleton.mp (hple hy)
-      have ha : a ∈ p := by
-        rcases hpp.mem_or_mem hy with hh | hh
-        · exact absurd hh (hxp p hp)
-        · exact hh
-      exact Ideal.mul_mem_mul hx ha
-    rw [hpbot] at hpp
-    have := hpp
-    exact IsDomain.of_bot_isPrime R
+  apply _root_.PI.UnitaryGroupMassFormula.RLRS.IsRegularLocalRing.isDomain_of_forall_spanFinrank_lt <;> assumption
 
 private theorem isDomain_of_spanFinrank_le :
     ∀ (n : ℕ) (R : Type u) [CommRing R] [IsRegularLocalRing R],
-      Submodule.spanFinrank (maximalIdeal R) ≤ n → IsDomain R := by
-  intro n
-  induction n with
-  | zero =>
-    intro R _ _ h
-    refine isDomain_of_forall_spanFinrank_lt R ?_
-    intro S _ _ hS
-    exact absurd (lt_of_lt_of_le hS h) (Nat.not_lt_zero _)
-  | succ n IH =>
-    intro R _ _ h
-    refine isDomain_of_forall_spanFinrank_lt R ?_
-    intro S _ _ hS
-    exact IH S (by omega)
+      Submodule.spanFinrank (maximalIdeal R) ≤ n → IsDomain R :=
+  _root_.PI.UnitaryGroupMassFormula.RLRS.IsRegularLocalRing.isDomain_of_spanFinrank_le
 
 theorem isDomain (R : Type*) [CommRing R]
     [IsRegularLocalRing R] : IsDomain R :=

@@ -1,5 +1,6 @@
 module
 
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.LieOneLMemZalg
 public import Development.AutomorphicArithmetic.Foundations.Convolution.BlockHeckeSlices.SliceShift
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.CapCommuteRtInfGL
 public import Development.AutomorphicArithmetic.Foundations.Convolution.BlockHeckeSlices.CapPoly
@@ -112,15 +113,7 @@ private theorem sum_Eop (i : Fin n) : ∑ τ : E →+* ℂ, Eop τ i i = lie E n
   simp
 
 private theorem lie_one : lie E n (oneL E n) = ∑ τ : E →+* ℂ, ∑ i, Eop τ i i := by
-  rw [lie_eq_sum]
-  refine Finset.sum_congr rfl fun τ _ => Finset.sum_congr rfl fun k _ => ?_
-  have e : ∀ l, coord τ (oneL E n k l) = if k = l then 1 else 0 := by
-    intro l
-    change coord τ ((1 : Matrix (Fin n) (Fin n) (Cinf E)) k l) = _
-    rw [Matrix.one_apply]
-    split_ifs <;> simp
-  simp only [e]
-  simp
+  apply _root_.GlobalTheory.CompanionTheory.CapelliTrace.lie_oneL_eq <;> assumption
 
 private theorem lie_one_eq_zero (hn : 0 < n) (f : Sm E n) (h : ∀ t g, f.1 (zt E n t * g) = f.1 g) :
     lie E n (oneL E n) f = 0 := by

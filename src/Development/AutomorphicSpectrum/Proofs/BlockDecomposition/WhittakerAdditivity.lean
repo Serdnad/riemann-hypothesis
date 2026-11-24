@@ -59,6 +59,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.RankOneThetaTotal
 
 @[expose] public section
 
@@ -99,31 +100,7 @@ theorem par_ne_zero {V : HSp D} {ψ : AddChar (AF D.host.F) ℂ} {χ : (AE D)ˣ 
 theorem temperate_poly {m : ℕ} (p : MvPolynomial (D.what₂.Tau × Fin m × Fin n × Bool) ℂ) :
     Function.HasTemperateGrowth
       (fun z : D.what₂.Tau → Fin m → Fin n → ℂ => evalPoly p (fun τ => Matrix.of (z τ))) := by
-  induction p using MvPolynomial.induction_on with
-  | C a =>
-    have : (fun z : D.what₂.Tau → Fin m → Fin n → ℂ => evalPoly (MvPolynomial.C a) (fun τ => Matrix.of (z τ))) =
-        fun _ => a := by
-      funext z; simp [evalPoly]
-    rw [this]; exact Function.HasTemperateGrowth.const a
-  | add p q hp hq =>
-    have : (fun z : D.what₂.Tau → Fin m → Fin n → ℂ => evalPoly (p + q) (fun τ => Matrix.of (z τ))) =
-        fun z => evalPoly p (fun τ => Matrix.of (z τ)) + evalPoly q (fun τ => Matrix.of (z τ)) := by
-      funext z; simp [evalPoly]
-    rw [this]; exact hp.add hq
-  | mul_X p k hp =>
-    obtain ⟨τ, i, j, e⟩ := k
-    let L0 : (D.what₂.Tau → Fin m → Fin n → ℂ) →L[ℝ] ℂ :=
-      (ContinuousLinearMap.proj (R := ℝ) (φ := fun _ : Fin n => ℂ) j).comp
-        ((ContinuousLinearMap.proj (R := ℝ) (φ := fun _ : Fin m => Fin n → ℂ) i).comp
-          (ContinuousLinearMap.proj (R := ℝ) (φ := fun _ : D.what₂.Tau => Fin m → Fin n → ℂ) τ))
-    let L : (D.what₂.Tau → Fin m → Fin n → ℂ) →L[ℝ] ℂ :=
-      if e then (Complex.conjCLE : ℂ →L[ℝ] ℂ).comp L0 else L0
-    have : (fun z : D.what₂.Tau → Fin m → Fin n → ℂ =>
-          evalPoly (p * MvPolynomial.X (τ, i, j, e)) (fun τ => Matrix.of (z τ))) =
-        fun z => evalPoly p (fun τ => Matrix.of (z τ)) * L z := by
-      funext z
-      cases e <;> simp [evalPoly, L, L0]
-    rw [this]; exact hp.mul L.hasTemperateGrowth
+  apply _root_.GlobalTheory.CompanionTheory.ThTot.OneRow.evalPoly_temperate <;> assumption
 
 theorem exists_schwartz_polyGauss (V : HSp D) (l : D.what₂.Tau → ℝ) (hl : ∀ τ, l τ ≠ 0)
     (s : D.what₂.Tau → Matrix (Fin V.rank) (Fin V.rank) ℂ) (hs : ∀ τ, IsCartanInv (gramAt D V τ) (s τ))

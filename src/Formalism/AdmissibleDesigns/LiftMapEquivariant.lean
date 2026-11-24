@@ -1,5 +1,6 @@
 module
 
+import Lemmata.GeneralBFactLeftBisForm.Imports
 public import Formalism.AdmissibleDesigns.FinDimOfLat
 public import Formalism.AdmissibleDesigns.LenComapSurj
 import Mathlib.Algebra.Order.Floor.Extended
@@ -60,27 +61,7 @@ variable {O : Type} [CommRing O] [IsDomain O] {H : Type} [AddCommGroup H] [Modul
 
 theorem mem_spanK (S : Submodule O H) {x : H} (hx : x ∈ Submodule.span (FractionRing O) (S : Set H)) :
     ∃ t : O, t ≠ 0 ∧ t • x ∈ S := by
-  induction hx using Submodule.span_induction with
-  | mem y hy => exact ⟨1, one_ne_zero, by rw [one_smul]; exact hy⟩
-  | zero => exact ⟨1, one_ne_zero, by rw [smul_zero]; exact S.zero_mem⟩
-  | add y z _ _ hy hz =>
-    obtain ⟨t, ht, hty⟩ := hy
-    obtain ⟨s, hs, hsz⟩ := hz
-    refine ⟨s * t, mul_ne_zero hs ht, ?_⟩
-    rw [smul_add, mul_smul, mul_comm s t, mul_smul]
-    exact S.add_mem (S.smul_mem s hty) (S.smul_mem t hsz)
-  | smul a y _ hy =>
-    obtain ⟨t, ht, hty⟩ := hy
-    obtain ⟨⟨n, d⟩, hnd⟩ := IsLocalization.mk'_surjective (nonZeroDivisors O) a
-    dsimp only at hnd
-    have key : (d : O) • a = algebraMap O (FractionRing O) n := by
-      rw [← hnd, Algebra.smul_def, mul_comm]
-      exact IsLocalization.mk'_spec (FractionRing O) n d
-    refine ⟨(d : O) * t, mul_ne_zero (nonZeroDivisors.coe_ne_zero d) ht, ?_⟩
-    have e : ((d : O) * t) • (a • y) = n • (t • y) := by
-      rw [mul_comm, ← smul_smul, ← smul_assoc (d : O) a y, key, algebraMap_smul, smul_comm]
-    rw [e]
-    exact S.smul_mem n hty
+  apply _root_.Bl.general_b_fact_left_bis_form.goal1 <;> assumption
 
 end SpanK
 

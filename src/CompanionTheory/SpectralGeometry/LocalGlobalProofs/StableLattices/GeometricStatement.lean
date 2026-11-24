@@ -1,5 +1,6 @@
 module
 
+import ReciprocityTheory.SemistableReduction.ShareBallA
 public import Mathlib.Basic.Real.Basic
 public import Mathlib.Data.Fintype.Card
 public import CompanionTheory.SpectralGeometry.LocalGlobalProofs.StableLattices.HsConjTranspose
@@ -471,16 +472,7 @@ theorem nsq_add_le (u v : Fin n → ℂ) : nsq (u + v) ≤ 2 * nsq u + 2 * nsq v
 
 theorem nsq_mulVec_le (M : Matrix (Fin n) (Fin n) ℂ) (y : Fin n → ℂ) :
     nsq (M *ᵥ y) ≤ Formalism.REAL.hs M * nsq y := by
-  have e1 : nsq (M *ᵥ y) = ∑ i, ‖(M *ᵥ y) i‖ ^ 2 := rfl
-  have e2 : Formalism.REAL.hs M = ∑ i, ∑ j, ‖M i j‖ ^ 2 := rfl
-  rw [e1, e2, Finset.sum_mul]
-  refine Finset.sum_le_sum fun i _ => ?_
-  have h1 : ‖(M *ᵥ y) i‖ ≤ ∑ j, ‖M i j‖ * ‖y j‖ := by
-    simp only [Matrix.mulVec, dotProduct]
-    refine (norm_sum_le _ _).trans (le_of_eq ?_)
-    simp
-  have h2 := Finset.sum_mul_sq_le_sq_mul_sq Finset.univ (fun j => ‖M i j‖) (fun j => ‖y j‖)
-  exact (pow_le_pow_left₀ (norm_nonneg _) h1 2).trans h2
+  apply _root_.ReciprocityTheory.MultiplicativeHeights.sb_normSq_mulVec_le <;> assumption
 
 theorem nsq_eq_re (y : Fin n → ℂ) : nsq y = (star y ⬝ᵥ y).re := by
   simp only [nsq, dotProduct, Pi.star_apply, Complex.re_sum]

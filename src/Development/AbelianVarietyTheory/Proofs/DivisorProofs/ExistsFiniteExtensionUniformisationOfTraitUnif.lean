@@ -1,5 +1,6 @@
 module
 
+import all Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsRigidifiedTwist
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.UnifTrait
 public import Development.AbelianVarietyTheory.Definitions.Divisors.ExistsToricRankOne
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.EvenOnTorusDescendsAlongLocalHomStatement
@@ -885,25 +886,7 @@ private theorem mem_U_of_mem_pull_U {X X' Y : Scheme.{0}} {L : LB X} {F : X' ⟶
 
 private theorem pgen_of_isGen {X X' : Scheme.{0}} {L : LB X} {L' : LB X'} {F : X' ⟶ X}
     (w : LB.Iso L' (L.pull F)) (hw : LB.Gen.IsGen w) : PGen w := by
-  intro Y f y j j' k k' h1 h2 h3 h4
-  have m1 := mem_pull_lemma f y j h1
-  have m2 := mem_pull_lemma f y j' h2
-  have hy : f y ∈ ((L.pull F).div L').U (fun _ => j, k) ⊓ ((L.pull F).div L').U (fun _ => j', k') :=
-    ⟨⟨m1, h3⟩, ⟨m2, h4⟩⟩
-  have e := congrArg (gm f y _) (hw (fun _ => j, k) (fun _ => j', k'))
-  rw [map_mul, gm_res _ _ _ hy, gm_res _ _ _ hy] at e
-  unfold gw
-  refine e.trans ?_
-  congr 1
-  refine (map_mul (gm f y _) _ _).trans ?_
-  congr 1
-  · refine (gm_res f y _ hy _).trans ?_
-    simp only [LB.pull, LB.LinComb, Finset.univ_unique, Finset.prod_singleton, zpow_one]
-    refine (gm_res f y _ (show f y ∈ (L.pull F).U (fun _ => j) ⊓ (L.pull F).U (fun _ => j') from ⟨m1, m2⟩) _).trans ?_
-    exact gm_pull f F y (L.U j ⊓ L.U j') ⟨h1, h2⟩ _
-  · refine (map_inv (gm f y _) _).trans ?_
-    congr 1
-    exact gm_res f y _ hy _
+  apply _root_.GlobalTheory.RigidifyTwist.pGen_of_isGen <;> assumption
 
 
 private theorem isGen_of_pgen {X X' : Scheme.{0}} {L : LB X} {L' : LB X'} {F : X' ⟶ X}

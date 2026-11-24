@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Definitions.ThetaMetrics.HasSumLocallyUniformlyWeierstrassZetaExcept
 public import Formalism.LocalToGlobal.TorsionIntegrality.EisensteinTranslationProducts.Legendre
 import Mathlib.Algebra.Order.Star.Real
 public import Mathlib.Analysis.Complex.ExponentialBounds
@@ -99,18 +100,7 @@ lemma summable_majorant (L : PeriodPair) (r : ℝ) :
 
 lemma eventually_large (L : PeriodPair) (R : ℝ) :
     ∀ᶠ l : L.lattice in cofinite, R ≤ ‖(l : ℂ)‖ := by
-  rcases le_or_gt R 0 with hR | hR
-  · exact Eventually.of_forall fun l => hR.trans (norm_nonneg _)
-  have ht := (summable_norm_lattice_rpow_neg_three L).tendsto_cofinite_zero
-  have hε : (0 : ℝ) < R ^ (-3 : ℝ) := Real.rpow_pos_of_pos hR _
-  filter_upwards [ht.eventually (gt_mem_nhds hε), eventually_cofinite_ne 0] with l hl hl0
-  have hpos : 0 < ‖(l : ℂ)‖ := by
-    rw [norm_pos_iff]
-    exact fun h => hl0 (Subtype.ext h)
-  by_contra hlt
-  push_neg at hlt
-  have := Real.rpow_le_rpow_of_nonpos hpos hlt.le (by norm_num : (-3 : ℝ) ≤ 0)
-  linarith
+  apply _root_.GlobalTheory.eventually_cofinite_le_norm <;> assumption
 
 lemma continuous_wFactor (l : ℂ) : Continuous (wFactor l) := by
   unfold wFactor

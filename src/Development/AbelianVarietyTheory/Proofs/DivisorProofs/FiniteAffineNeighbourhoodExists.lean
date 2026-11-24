@@ -58,6 +58,7 @@ public import Mathlib.AlgebraicGeometry.FunctionField
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.IsCompletedStrictHens
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.QuadTie
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.SemiabelianSchemes.CubicalStructures.CubeSymmetricSwapFirst
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.EqZeroOfForallPowDvdGerm
 
 @[expose] public section
 
@@ -203,19 +204,7 @@ theorem affine_pair {V : X.Opens} {W : Y.Opens} (hV : IsAffineOpen V) (hW : IsAf
 omit hη hd in
 theorem genericPoint_mem_basicOpen {V : X.Opens} {h : Γ(X, V)} (hh : h ≠ 0) :
     genericPoint X ∈ X.basicOpen h := by
-  rcases (V : Set X).eq_empty_or_nonempty with hV | hV
-  · exfalso
-    have hV' : V = ⊥ := SetLike.ext' hV
-    subst hV'
-    exact hh (Subsingleton.elim _ _)
-  · have hx : genericPoint X ∈ V :=
-      ((genericPoint_spec X).mem_open_set_iff V.isOpen).mpr (by simpa using hV)
-    rw [Scheme.mem_basicOpen X h (genericPoint X) hx]
-    have hinj := germ_injective_of_isIntegral X (genericPoint X) hx
-    have h0 : X.presheaf.germ V (genericPoint X) hx h ≠ 0 := by
-      intro h0
-      exact hh (hinj (by rw [h0, map_zero]))
-    exact (isUnit_iff_ne_zero (G₀ := X.functionField)).mpr h0
+  apply _root_.GlobalTheory.PrimeSection.genericPoint_mem_basicOpen <;> assumption
 
 theorem eq_genericPoint {y : Y} (hy : π y = genericPoint X) : y = genericPoint Y := by
   obtain ⟨_, ⟨V, hV, rfl⟩, hxV, -⟩ :=

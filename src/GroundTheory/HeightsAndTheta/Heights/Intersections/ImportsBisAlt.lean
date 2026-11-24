@@ -1,5 +1,6 @@
 module
 
+import GroundTheory.HeightsAndTheta.Heights.MultihomogeneousPolynomials
 public import GroundTheory.HeightsAndTheta.Heights.Intersections.ImportsTerTer
 public import GroundTheory.HeightsAndTheta.Heights.Intersections.ImportsTerMore
 public import GroundTheory.HeightsAndTheta.Heights.Intersections.StLocRingPow
@@ -23,10 +24,7 @@ noncomputable section
 
 theorem RegularityDenominator.isMultiHomog_C {K : Type*} [Fintype K] {ι : K → Type*} [∀ k, Fintype (ι k)] (n : ℤ) :
     IsMultiHomog (C n : MRing ι) 0 := by
-  intro m hm k
-  rw [C_apply] at hm
-  have : m = 0 := by simpa using support_monomial_subset hm
-  simp [this]
+  apply _root_.GroundTheory.Heights₂.Heights.MultiHomogeneous.constant <;> assumption
 
 theorem RegularityDenominator.proof (hD : RegularityDivisorSupportClosed.Statement) (hPow : LocRingPow.Statement) :
     RegularityDenominator.Statement := by

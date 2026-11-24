@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.SplitPlaceHeckeOperatorScalarOnSpherical
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.UnitLemmaGroup
 public import Development.AbelianVarietyTheory.Definitions.Divisors.SimpleTwistedTraceFormulaStable
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.MulMat
@@ -929,28 +930,8 @@ namespace Unimod
 
 theorem mem_GLint_iff' {L : Type} [Field L] (O : Subring L) {m : ℕ} (M : GL (Fin m) L) :
     M ∈ GLint (Fin m) O ↔ (∀ i j, M.val i j ∈ O) ∧ (∀ i j, (M⁻¹).val i j ∈ O) := by
-  constructor
-  · rintro ⟨k, rfl⟩
-    refine ⟨fun i j => ?_, fun i j => ?_⟩
-    · simp [bc]
-    · rw [← map_inv]
-      simp [bc]
-  · rintro ⟨h1, h2⟩
-    let A : Matrix (Fin m) (Fin m) O := Matrix.of fun i j => ⟨M.val i j, h1 i j⟩
-    let B : Matrix (Fin m) (Fin m) O := Matrix.of fun i j => ⟨(M⁻¹).val i j, h2 i j⟩
-    have hA : A.map O.subtype = M.val := by ext i j; rfl
-    have hB : B.map O.subtype = (M⁻¹).val := by ext i j; rfl
-    have inj : Function.Injective (fun X : Matrix (Fin m) (Fin m) O => X.map O.subtype) :=
-      Matrix.map_injective Subtype.val_injective
-    have hAB : A * B = 1 := inj (by
-      simp only
-      rw [Matrix.map_mul, hA, hB, Units.mul_inv, Matrix.map_one _ (map_zero _) (map_one _)])
-    have hBA : B * A = 1 := inj (by
-      simp only
-      rw [Matrix.map_mul, hA, hB, Units.inv_mul, Matrix.map_one _ (map_zero _) (map_one _)])
-    refine ⟨⟨A, B, hAB, hBA⟩, Units.ext ?_⟩
-    change A.map O.subtype = M.val
-    exact hA
+  intros
+  apply _root_.GlobalTheory.HeckeScalarSph.mem_GLint_iff <;> assumption
 
 section HermLemmas
 variable {K : GlobalTheory.UnitLemma.UQ} (B : GlobalTheory.UnitLemma.InvAlg K)

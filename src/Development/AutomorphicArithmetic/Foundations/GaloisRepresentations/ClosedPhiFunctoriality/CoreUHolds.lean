@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.FrobeniusEquationOfTwistedCocycleDefectStatement
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.ClosedPhiFunctoriality.IntBasisAlt
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -48,15 +49,7 @@ open GlobalTheory.CrisSec Matrix
 
 private theorem eq_zero_of_pow_mul_eq_zero_of_nonzerodivisor {R : Type} [CommRing R] (L : R) (hL : ∀ x : R, L * x = 0 → x = 0) :
     ∀ (m : ℕ) (x : R), L ^ m * x = 0 → x = 0 := by
-  intro m
-  induction m with
-  | zero => intro x hx; simpa using hx
-  | succ k ih =>
-    intro x hx
-    apply ih
-    apply hL
-    rw [pow_succ] at hx
-    linear_combination hx
+  apply _root_.GlobalTheory.FrobeniusDefect.nzd_pow <;> assumption
 
 private theorem matrix_eq_of_smul_eq_nonzerodivisor {R : Type} [CommRing R] {d : ℕ} (s : R) (hs : ∀ x : R, s * x = 0 → x = 0)
     (X Y : Matrix (Fin d) (Fin d) R) (h : s • X = s • Y) : X = Y := by
@@ -110,18 +103,7 @@ private theorem exists_matrix_limit_adic_series {R : Type} [CommRing R] {d : ℕ
 
 private theorem matrix_mul_comm_of_mul_eq_smul_one {R : Type} [CommRing R] {d : ℕ} (c : R) (hc : ∀ x : R, c * x = 0 → x = 0)
     (X Y : Matrix (Fin d) (Fin d) R) (h : X * Y = c • 1) : Y * X = c • 1 := by
-  have hdet : X.det * Y.det = c ^ d := by
-    rw [← Matrix.det_mul, h, Matrix.det_smul, Matrix.det_one, mul_one, Fintype.card_fin]
-  have hX : ∀ x : R, X.det * x = 0 → x = 0 := by
-    intro x hx
-    apply eq_zero_of_pow_mul_eq_zero_of_nonzerodivisor c hc d
-    rw [← hdet, mul_comm X.det, mul_assoc, hx, mul_zero]
-  apply matrix_eq_of_smul_eq_nonzerodivisor X.det hX
-  calc X.det • (Y * X) = (X.adjugate * X) * Y * X := by
-        rw [Matrix.adjugate_mul, Matrix.smul_mul, Matrix.smul_mul, one_mul]
-    _ = X.adjugate * (X * Y) * X := by simp only [Matrix.mul_assoc]
-    _ = X.det • (c • (1 : Matrix (Fin d) (Fin d) R)) := by
-        rw [h, Matrix.mul_smul, mul_one, Matrix.smul_mul, Matrix.adjugate_mul, smul_comm]
+  apply _root_.GlobalTheory.FrobeniusDefect.mul_comm_of_nzd <;> assumption
 
 private theorem exists_matrix_seq_diff_congruence {R : Type} [CommRing R] {d N q : ℕ} (L u : R) (φ : R →+* R)
     (hφL : φ L = L) (hu : φ u = u ^ q) (a b b' Γ : Matrix (Fin d) (Fin d) R)

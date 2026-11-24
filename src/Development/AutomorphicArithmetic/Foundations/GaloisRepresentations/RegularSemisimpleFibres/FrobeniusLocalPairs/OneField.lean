@@ -1,5 +1,6 @@
 module
 
+import all Development.AutomorphicArithmetic.Foundations.Convolution.SphericalHeckeOperators.DeepHecke
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.RegularSemisimpleFibres.FrobeniusLocalPairs.MatchSmulAlt
 public import Development.AutomorphicArithmetic.Foundations.Convolution.TwistedLocalOrbits.BallSub
 public import Development.AutomorphicArithmetic.Foundations.Convolution.TwistedLocalOrbits.StrictNormal
@@ -269,17 +270,7 @@ section
 variable {E : Type} [Field E] [ValuativeRel E] [TopologicalSpace E] [IsNonarchimedeanLocalField E] {n : ℕ}
 
 private theorem sg_cont {σ : E ≃+* E} (hσ : Isom σ) : Continuous (sg σ : GL (Fin n) E → GL (Fin n) E) := by
-  have hc : Continuous (σ : E → E) := by
-    rw [continuous_iff_continuousAt]
-    intro x
-    rw [ContinuousAt, (IsValuativeTopology.hasBasis_nhds x).tendsto_iff
-      (IsValuativeTopology.hasBasis_nhds (σ x))]
-    intro γ _
-    refine ⟨γ, trivial, fun z hz => ?_⟩
-    simp only [Set.mem_setOf_eq] at hz ⊢
-    rw [← map_sub, hσ]
-    exact hz
-  exact Continuous.units_map _ (continuous_id.matrix_map hc)
+  apply _root_.sg_cont <;> assumption
 
 omit [ValuativeRel E] [TopologicalSpace E] [IsNonarchimedeanLocalField E] in
 private theorem map_diag {F : Type} [Field F] (f : E →+* F) (u : Fin n → Eˣ) :
@@ -307,15 +298,7 @@ private theorem sg_diag (σ : E ≃+* E) (p : Fin n → Eˣ) :
 
 private theorem cent_diag {σ : E ≃+* E} {q : ℕ} (hσ : Cyc σ q) {d : Fin n → Eˣ} (hd : Strict d) {δ y c : GL (Fin n) E}
     (hy : y⁻¹ * δ * sg σ y = diagT E (Fin n) d) (hc : c⁻¹ * δ * sg σ c = δ) : ∃ u, y⁻¹ * c * y = diagT E (Fin n) u := by
-  have hc2 : δ * sg σ c = c * δ := by
-    calc δ * sg σ c = c * (c⁻¹ * δ * sg σ c) := by group
-      _ = c * δ := by rw [hc]
-  have key : (y⁻¹ * c * y)⁻¹ * diagT E (Fin n) d * sg σ (y⁻¹ * c * y) = diagT E (Fin n) d := by
-    rw [← hy]
-    simp only [map_mul, map_inv, _root_.mul_inv_rev, inv_inv, mul_assoc, mul_inv_cancel_left]
-    rw [← mul_assoc δ, hc2]
-    simp only [mul_assoc, inv_mul_cancel_left]
-  exact strictNormal E n σ q hσ d d hd hd _ key
+  apply _root_.cent_diag <;> assumption
 
 private theorem diag_ball {r : ValueGroupWithZero E} {s : Fin n → Eˣ} (h : Near r s) : diagT E (Fin n) s ∈ ball n r := by
   intro i j

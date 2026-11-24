@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.SatakeParameters.LiftSplitHeckePolysEqTransferResidualPolys
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.TensTInner
 public import Formalism.LocalToGlobal.IndefiniteReal.LinksLemmas
 public import Formalism.SharpRestriction.CuspSpanNormBounds.GlobAut
@@ -396,16 +397,8 @@ theorem mult_lev {D : D7} {V : HSp D} {S : D.what₂.Tau → SPar} {M : DSModel 
     {θ : D.what₂.Tau → TensorProduct (↥D.host.F) (Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes.Ainf ↥D.host.F) D.host.E →+* ℂ}
     {J : Set (GA D V)} {χ : GA D V → ℂ} {T : MMap M} (hT : T ∈ Mult θ M J χ) :
     ∀ v, ∀ k ∈ J, ∀ g, T v (g * k) = χ k * T v g := by
-  induction hT using Submodule.span_induction with
-  | mem x hx => exact hx.lev
-  | zero => intro v k _ g; simp
-  | add x y _ _ hx hy =>
-    intro v k hk g
-    simp only [MultilinearMap.add_apply, Pi.add_apply, hx v k hk g, hy v k hk g, mul_add]
-  | smul a x _ hx =>
-    intro v k hk g
-    simp only [MultilinearMap.smul_apply, Pi.smul_apply, smul_eq_mul, hx v k hk g]
-    ring
+  intros
+  apply _root_.GlobalTheory.Hk3.Link.mult_lev <;> assumption
 
 end GlobalTheory.RowEvalHH.LevelFix
 

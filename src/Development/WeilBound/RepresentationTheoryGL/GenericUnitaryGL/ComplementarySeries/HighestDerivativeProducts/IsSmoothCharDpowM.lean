@@ -75,7 +75,7 @@ import Mathlib.Tactic.Linter.HaveILetI
 import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Algebra.Group.Units
 import Std.Tactic.BVDecide.Normalize.Prop
-import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.SmoothPsiMinus
+import all Development.AutomorphicSpectrum.Proofs.BlockDecomposition.SmoothPsiMinus
 import Mathlib.Tactic.Basify
 import Mathlib.Tactic.ENatToNat
 
@@ -1041,15 +1041,7 @@ theorem fibInt_levi (τ : Representation ℂ (Mir k i) V) (σ : Representation �
 theorem isOpen_stab_of {G Z : Type} [Group G] [TopologicalSpace G] [IsTopologicalGroup G] [AddCommGroup Z] [Module ℂ Z]
     (ρ : Representation ℂ G Z) (z : Z) (S : Set G) (hS : IsOpen S) (h1 : (1 : G) ∈ S) (h : ∀ s ∈ S, ρ s z = z) :
     IsOpen {g : G | ρ g z = z} := by
-  rw [isOpen_iff_mem_nhds]
-  intro g hg
-  have ho : IsOpen ((fun y => g⁻¹ * y) ⁻¹' S) := hS.preimage (by fun_prop)
-  refine Filter.mem_of_superset (ho.mem_nhds (by simpa using h1)) fun y hy => ?_
-  have e := h _ hy
-  show ρ y z = z
-  have : y = g * (g⁻¹ * y) := by group
-  rw [this, map_mul, Module.End.mul_apply, e]
-  exact hg
+  apply _root_.isOpen_fixed <;> assumption
 
 theorem isOpen_cInd_stab {τ : Representation ℂ (Mir k i) V} {σ : Representation ℂ (GL (Fin t) k) W}
     (f : cIndSpace (HPG k i t) (hRep τ σ)) : IsOpen {p | prodPG τ σ p f = f} := by

@@ -1,5 +1,7 @@
 module
 
+import Development.WeilBound.ThetaLifts.LeviDeterminants.NormIteratedFDerivIdLeOneAdd
+import Development.AutomorphicSpectrum.Proofs.MembershipProofs.BoundMulTranslate
 public import Development.WeilBound.ThetaLifts.LatticeBasics.ExistsRealStructure
 import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.LcscAdelicUnitaryGroup
 import Development.WeilBound.ThetaLifts.LatticeBasics.IsCompactIntV
@@ -91,26 +93,8 @@ theorem dop_subsingleton [Subsingleton V] (a : V) (L : V →L[ℝ] ℝ) (f : �
   simp [dop_apply, ha, hx]
 
 theorem hasDerivAt_hl (a : V) (L : V →L[ℝ] ℝ) (f : 𝓢(V, ℂ)) (x : V) :
-    HasDerivAt (fun t : ℝ => hl a L t f x) (dop a L f x) 0 := by
-  have h1 : HasDerivAt (fun t : ℝ => t * L x + t ^ 2 * (L a / 2)) (L x) 0 := by
-    have a1 : HasDerivAt (fun t : ℝ => t * L x) (L x) 0 := by simpa using (hasDerivAt_id (0 : ℝ)).mul_const (L x)
-    have a2 : HasDerivAt (fun t : ℝ => t ^ 2 * (L a / 2)) 0 0 := by
-      simpa using ((hasDerivAt_id (0 : ℝ)).pow 2).mul_const (L a / 2)
-    simpa using a1.fun_add a2
-  have h2 : HasDerivAt (fun t : ℝ => Complex.exp (-(2 * Real.pi * Complex.I) * ((t * L x + t ^ 2 * (L a / 2) : ℝ) : ℂ)))
-      (-(2 * Real.pi * Complex.I) * (L x : ℂ)) 0 := by
-    have := ((h1.ofReal_comp).const_mul (-(2 * Real.pi * Complex.I))).cexp
-    simpa using this
-  have h3 : HasDerivAt (fun t : ℝ => x + t • a) a 0 := by
-    simpa using ((hasDerivAt_id (0 : ℝ)).smul_const a).const_add x
-  have h4 : HasDerivAt (fun t : ℝ => f (x + t • a)) (fderiv ℝ f x a) 0 := by
-    have hf : HasFDerivAt f (fderiv ℝ f x) (x + (0 : ℝ) • a) := by
-      simpa using f.hasFDerivAt x
-    exact hf.comp_hasDerivAt (0 : ℝ) h3
-  refine (h2.fun_mul h4).congr_deriv ?_
-  rw [dop_apply]
-  simp
-  ring
+    HasDerivAt (fun t : ℝ => hl a L t f x) (dop a L f x) 0 :=
+  _root_.PositivityTheory.ThKF0.Lib.hasDerivAt_hl a L f x
 end Line
 
 
@@ -261,25 +245,8 @@ open scoped Classical in
 theorem heisLine_tens (M : Model σ X W) {ψ : AddChar (AF F) ℂ} (hψ : IsStd ψ)
     {u : Matrix (Fin n) (Fin d) (AE F E)} (hu : At (evI F) u) (f : SInf F (Fin n × Fin d))
     {r : (Fin n × Fin d → AF F) → ℂ} (hr : ∀ x z, At (evI F) z → r (x + z) = r x) (t : ℝ) :
-    M.heisLine ψ u t (tens (evI F) f r) = tens (evI F) (hl (aOf M u) (lOf M u) t f) r := by
-  have hab : ∀ s, evI F s = 0 → s • M.co.e u = 0 := fun s hs => by
-    rw [← map_smul, hu s hs, map_zero]
-  have ha : At (evI F) (M.co.e u).1 := fun s hs => congrArg Prod.fst (hab s hs)
-  have hb : At (evI F) (M.co.e u).2 := fun s hs => congrArg Prod.snd (hab s hs)
-  have hat : At (evI F) (realAd F t • (M.co.e u).1) := fun s hs => by
-    rw [smul_comm, ha s hs, smul_zero]
-  funext x
-  show schr ψ (M.co.e (realAd F t • u)) _ x = _
-  rw [map_smul]
-  show schr ψ (realAd F t • (M.co.e u).1, realAd F t • (M.co.e u).2) _ x = _
-  have e : (fun i => evI F ((x + realAd F t • (M.co.e u).1) i)) =
-      (fun i => evI F (x i)) + t • fun i => evI F ((M.co.e u).1 i) := by
-    funext i
-    simp [evI_add, evI_mul, evI_realAd, Algebra.smul_def]
-  simp only [schr, tens]
-  rw [phase_line ψ hψ _ _ x hb t, e, hr x _ hat, evI_half_trace]
-  simp only [hl, aOf, lOf, linForm_apply, mul_assoc]
-  rfl
+    M.heisLine ψ u t (tens (evI F) f r) = tens (evI F) (hl (aOf M u) (lOf M u) t f) r :=
+  _root_.PositivityTheory.ThKF0.Lib.heisLine_tens M hψ hu f hr t
 
 open scoped Classical in
 theorem actsD_dop (M : Model σ X W) {ψ : AddChar (AF F) ℂ} (hψ : IsStd ψ)

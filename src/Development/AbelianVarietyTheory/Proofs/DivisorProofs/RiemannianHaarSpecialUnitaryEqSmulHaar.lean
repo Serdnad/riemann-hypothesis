@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.HaarMapMulRightOfMemCompactSubgroup
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovVolumes.UpperBounds.PoinStatementPfD
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.PhaseFrame
 public import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.EmbGLMemRealSU
@@ -334,17 +335,7 @@ open scoped ComplexConjugate
 variable {E : Type} [Field E] [NumberField E] [IsCMField E] {r : ℕ}
 
 theorem torusDer_sum_angles (φ : Fin (r - 1) → ℝ) : ∑ a : Fin r, angles φ a = 0 := by
-  cases r with
-  | zero => simp
-  | succ n =>
-    rw [Fin.sum_univ_castSucc]
-    have h1 : ∀ i : Fin n, angles φ i.castSucc = φ ⟨i, by simp⟩ := by
-      intro i; unfold angles; rw [dite_eq_left (by simp)]; rfl
-    have h2 : angles φ (Fin.last n) = -∑ k, φ k := by
-      unfold angles; rw [dite_eq_right (by simp)]
-    rw [h2, Finset.sum_congr rfl fun i _ => h1 i]
-    rw [add_neg_eq_zero]
-    exact Fintype.sum_equiv (finCongr (by simp)) _ _ (fun i => rfl)
+  apply _root_.GlobalTheory.TorusFrame.sum_angles <;> assumption
 
 theorem torusDer_hermC_dot (τ : E →+* ℂ) (G : Matrix (Fin r) (Fin r) E) (u w : Fin r → ℂ) :
     hermC τ G u w = u ⬝ᵥ (G.map τ *ᵥ fun b => conj (w b)) := by
@@ -649,36 +640,7 @@ theorem haar_map_mul_right_of_compact {G : Type} [Group G] [TopologicalSpace G] 
     [T2Space G] [LocallyCompactSpace G] [SecondCountableTopology G] [MeasurableSpace G] [BorelSpace G]
     (ν : Measure G) [ν.IsHaarMeasure] (T : Subgroup G) (hT : IsCompact (T : Set G)) (g : G) (hg : g ∈ T) :
     ν.map (fun h => h * g) = ν := by
-  have hm : ν.map (fun h => h * g) = Measure.modularCharacterFun g • ν := by
-    rw [Measure.modularCharacterFun_eq_haarScalarFactor ν g]
-    exact Measure.isMulLeftInvariant_eq_smul _ ν
-  obtain ⟨K, hK, hK1⟩ := exists_compact_mem_nhds (1 : G)
-  set C : Set G := K * (T : Set G) with hC
-  have hCc : IsCompact C := hK.mul hT
-  have hCm : MeasurableSet C := hCc.isClosed.measurableSet
-  have hC1 : C ∈ 𝓝 (1 : G) := by
-    refine Filter.mem_of_superset hK1 fun k hk => ?_
-    exact ⟨k, hk, 1, T.one_mem, mul_one k⟩
-  have hpos : ν C ≠ 0 := (ν.measure_pos_of_mem_nhds hC1).ne'
-  have hfin : ν C ≠ ⊤ := hCc.measure_lt_top.ne
-  have hpre : (fun h => h * g) ⁻¹' C = C := by
-    ext h
-    simp only [Set.mem_preimage, hC, Set.mem_mul]
-    constructor
-    · rintro ⟨k, hk, u, hu, e⟩
-      exact ⟨k, hk, u * g⁻¹, T.mul_mem hu (T.inv_mem hg), by rw [← mul_assoc, e, mul_inv_cancel_right]⟩
-    · rintro ⟨k, hk, u, hu, e⟩
-      exact ⟨k, hk, u * g, T.mul_mem hu hg, by rw [← mul_assoc, e]⟩
-  have h1 := congrArg (fun μ : Measure G => μ C) hm
-  rw [Measure.map_apply (measurable_mul_const g) hCm, hpre, Measure.smul_apply, ENNReal.smul_def,
-    smul_eq_mul] at h1
-  have hΔ : ((Measure.modularCharacterFun g : NNReal) : ℝ≥0∞) = 1 := by
-    have h2 : (1 : ℝ≥0∞) * ν C = ((Measure.modularCharacterFun g : NNReal) : ℝ≥0∞) * ν C := by
-      rw [one_mul]; exact h1
-    first
-    | exact ((ENNReal.mul_left_inj hpos hfin).1 h2).symm
-  have hΔ' : Measure.modularCharacterFun g = 1 := by exact_mod_cast hΔ
-  rw [hm, hΔ', one_smul]
+  apply _root_.GlobalTheory.haar_map_mul_right_of_mem_compact_subgroup <;> assumption
 
 theorem lintegral_box_translate (ι κ : Type) [Fintype ι] [Fintype κ] (f : (ι → κ → ℝ) → ℝ≥0∞)
     (hf : Measurable f)

@@ -1,5 +1,6 @@
 module
 
+import Formalism.LocalToGlobal.PairingIndexBounds.SplitPairEquations.IntegralSquareRoots.ZeroInjectionMemFourthPower
 public import Formalism.LocalToGlobal.KernelLattices.ColumnData.ColumnDataEquations.JNoEig
 import Formalism.LocalToGlobal.KernelLattices.ColumnData.IsAdmissibleFlagPairOfUnitriangularLeftAutomorph
 import Formalism.LocalToGlobal.TorsionIntegrality.QuadraticSemicharacters.CayleyGaussianIntegrals.FinitelyGeneratedModPow
@@ -87,18 +88,7 @@ def putL (n : Type) (N N' : ℕ) (k : Fin N' × Fin N) : (n → ℂ) →ₗ[ℂ]
 
 theorem putL_mem (ΛM : AddSubgroup (n → ℂ)) (N N' : ℕ) (k : Fin N' × Fin N) {x : n → ℂ} (hx : x ∈ ΛM) :
     putL n N N' k x ∈ Ker.powLat ΛM N N' := by
-  intro i j
-  by_cases h : (i, j) = k
-  · have e : (fun τ => putL n N N' k x τ i j) = x := by
-      funext τ
-      simp [putL, h]
-    rw [e]
-    exact hx
-  · have e : (fun τ => putL n N N' k x τ i j) = 0 := by
-      funext τ
-      simp [putL, h]
-    rw [e]
-    exact ΛM.zero_mem
+  apply _root_.Formalism.L2.PairingIndexBounds.Eq.J.putL_mem <;> assumption
 
 theorem sum_putL (N N' : ℕ) (z : n → Fin N' → Fin N → ℂ) :
     z = ∑ k : Fin N' × Fin N, putL n N N' k (fun τ => z τ k.1 k.2) := by

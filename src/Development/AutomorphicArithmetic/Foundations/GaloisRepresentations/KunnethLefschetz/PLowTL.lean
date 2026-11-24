@@ -628,27 +628,7 @@ theorem twF_loc (hZ : ZarPow) (q : ℕ) [NeZero q] (i : ℤ) (V : Scheme.{0}) (�
   apply LateralTheory.E.H2CurveOrder.TwLocGenPfSec.twF_loc <;> assumption
 
 theorem TwSecLoc_of (hZ : ZarPow) : LateralTheory.EtaleFoundations.TwLocPf.TwSecLoc := by
-  intro q _ i U ζ y
-  refine LateralTheory.E.H2CurveOrder.TwLocGenPfSec.loc_bind (loc_surj (twF q i) U y) fun V g ⟨x, hx⟩ => ?_
-  refine LateralTheory.E.H2CurveOrder.TwLocGenPfSec.loc_mono (twF_loc hZ q i V (ζ.map g.appTop.hom) x) fun W h ⟨c, hc⟩ => ⟨c, ?_⟩
-  have e : Sec.res (h ≫ g) y = Sec.res h (Sec.res g y) := by
-    simp only [Sec.res, op_comp, Functor.map_comp, ModuleCat.hom_comp, LinearMap.comp_apply]
-  have hp : (ζ.map g.appTop.hom).map h.appTop.hom = ζ.map (h ≫ g).appTop.hom := by
-    apply Subtype.ext
-    simp [Prim.map]
-    rfl
-  rw [e]
-  refine (congrArg (fun z => ((tw q i).obj.map h.op).hom z) hx).trans ?_
-  have hres : Sec.res h (ofRings.sec (twF q i) V x) =
-      ofRings.sec (twF q i) W (((twF q i).map h.appTop).hom x) := by
-    have hn := congrArg (fun f => f.hom x)
-      ((toSheafify Scheme.etaleTopology (Scheme.Γ ⋙ twF q i)).naturality h.op)
-    simp only [ModuleCat.hom_comp] at hn
-    exact hn.symm
-  refine hres.trans ?_
-  rw [hc, ← hp]
-  unfold twGen ofRings.sec
-  exact map_nsmul _ _ _
+  apply _root_.LateralTheory.E.H2CurveOrder.TwLocGenPfSec.TwSecLoc_of <;> assumption
 
 end LateralTheory.EtaleFoundations.TwSecLocPf
 end -- clump:auto

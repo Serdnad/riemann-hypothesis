@@ -1,5 +1,6 @@
 module
 
+import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.PriceLinearCombinationLe
 public import Formalism.SharpRestriction.GlobalSchurBounds.JointsF
 public import Formalism.SharpRestriction.GlobalSchurBounds.QuadraticLogDerivCongr
 public import Formalism.SharpRestriction.ParamsHeightRankConstant
@@ -894,33 +895,7 @@ theorem db_xeta {D : D7} (L : SizeData₂ D) (S : SizesAt L) (hx : 3 ≤ L.sc.x)
 
 theorem db_bT {D : D7} (L : SizeData₂ D) (S : SizesAt L) (hx : 3 ≤ L.sc.x) :
     ∀ t, (L.bT t : ℝ) ≤ 5 / 4 * L.sc.b' := by
-  obtain ⟨hk3, hm2, hkt, hkr, hn1, hf, hmk⟩ := db_rk D
-  obtain ⟨hL1, hLx, hb2, hkb, hvb, hlx⟩ := db_basic L S hx
-  have hx0 : 0 < L.sc.x := by linarith
-  have hx1 : 1 ≤ L.sc.x := by linarith
-  have hE1 : 1 ≤ L.sc.x ^ L.sc.eps := hL1
-  have hb0 : 0 < L.sc.b := by linarith
-  have hη := L.etaSz_pos
-  have hSc := L.Sc_pos
-  have hb'0 := db_b'pos L
-  obtain ⟨-, -, -, -, -, -, -, -, hLa, hRho, hBot, -⟩ := S
-  intro t
-  have h1 : (L.bT t : ℝ) ≤ L.sc.b' + szNst L * L.sc.x ^ L.sc.eps * L.LaG * L.sc.b' / D.R.k := hBot t
-  have h2 : 4 * szNst L * L.sc.x ^ L.sc.eps * L.LaG / D.R.k +
-      L.sc.x ^ szTh L * Real.log L.sc.x * L.LaG / D.R.k ≤ L.sc.x ^ (-2 : ℝ) := hRho
-  have hLaG : 0 < L.LaG := lt_of_lt_of_le (by linarith) hLa.1
-  have h3 : 0 ≤ L.sc.x ^ szTh L * Real.log L.sc.x * L.LaG / D.R.k :=
-    div_nonneg (mul_nonneg (mul_nonneg (Real.rpow_nonneg hx0.le _) (by linarith)) hLaG.le) (by linarith)
-  have h4 : L.sc.x ^ (-2 : ℝ) ≤ 1 := Real.rpow_le_one_of_one_le_of_nonpos hx1 (by norm_num)
-  have e1 : 4 * szNst L * L.sc.x ^ L.sc.eps * L.LaG / D.R.k =
-      4 * (szNst L * L.sc.x ^ L.sc.eps * L.LaG / D.R.k) := by ring
-  have e2 : szNst L * L.sc.x ^ L.sc.eps * L.LaG * L.sc.b' / D.R.k =
-      szNst L * L.sc.x ^ L.sc.eps * L.LaG / D.R.k * L.sc.b' := by ring
-  rw [e1] at h2
-  rw [e2] at h1
-  have h5 : szNst L * L.sc.x ^ L.sc.eps * L.LaG / D.R.k ≤ 1 / 4 := by linarith
-  have h6 := mul_le_mul_of_nonneg_right h5 hb'0.le
-  linarith
+  apply _root_.Formalism.MainNotions.FormalGroupSystem.Pf.ne_bT_le <;> assumption
 
 theorem db_xS {D : D7} (L : SizeData₂ D) (S : SizesAt L) (hx : 3 ≤ L.sc.x) :
     L.sc.x * L.Sc ≤ 3 / 4 * L.sc.w'' D.R.n := by

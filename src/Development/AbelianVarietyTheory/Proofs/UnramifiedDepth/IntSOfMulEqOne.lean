@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.JetHarmonics.MvExpLinearPartIntegralCharMemIntegralGerm
 public import Development.AbelianVarietyTheory.Definitions.TeichmullerDepth.HasTeich
 public import Mathlib.RingTheory.PowerSeries.Exp
 public import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.CocycleIntegral
@@ -65,24 +66,7 @@ variable {C : Type} [Field C]
 
 theorem mvExp_eq_subst [CharZero C] {σ : Type} {F : MvPowerSeries σ C} (hF : constantCoeff F = 0) :
     mvExp F = PowerSeries.subst F (PowerSeries.exp C) := by
-  classical
-  ext m
-  have hS : PowerSeries.HasSubst F := PowerSeries.HasSubst.of_constantCoeff_zero hF
-  rw [PowerSeries.coeff_subst hS, finsum_eq_sum_of_support_subset (s := Finset.range (m.degree + 1))]
-  · show (∑ k ∈ Finset.range (m.degree + 1), coeff m (F ^ k) / (k.factorial : C)) = _
-    refine Finset.sum_congr rfl fun k _ => ?_
-    rw [PowerSeries.coeff_exp, smul_eq_mul]
-    simp [div_eq_mul_inv, mul_comm]
-  · intro k hk
-    rw [Function.mem_support] at hk
-    by_contra hk'
-    apply hk
-    have h1 : m.degree < k := by simpa using hk'
-    have h0 : coeff m (F ^ k) = 0 := by
-      apply MvPowerSeries.coeff_of_lt_order
-      refine lt_of_lt_of_le ?_ (MvPowerSeries.le_order_pow_of_constantCoeff_eq_zero k hF)
-      exact_mod_cast h1
-    rw [h0, smul_zero]
+  first | exact _root_.GlobalTheory.mvExp_eq_subst_exp | exact @_root_.GlobalTheory.mvExp_eq_subst_exp | apply _root_.GlobalTheory.mvExp_eq_subst_exp <;> assumption
 
 theorem mvExp_add [CharZero C] {σ : Type} {F G : MvPowerSeries σ C} (hF : constantCoeff F = 0)
     (hG : constantCoeff G = 0) : mvExp (F + G) = mvExp F * mvExp G := by

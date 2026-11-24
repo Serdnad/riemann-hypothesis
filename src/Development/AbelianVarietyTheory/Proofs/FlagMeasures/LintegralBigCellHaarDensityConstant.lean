@@ -1243,12 +1243,8 @@ def umL (m : ℕ) : EuclideanSpace ℝ (Fin m × Fin m × Bool) ≃ₗ[ℝ] Matr
 
 theorem norm_sq_um {m : ℕ} (x : EuclideanSpace ℝ (Fin m × Fin m × Bool)) :
     ‖x‖ ^ 2 = ∑ i, ∑ j, ‖unrealify x i j‖ ^ 2 := by
-  rw [EuclideanSpace.real_norm_sq_eq, Fintype.sum_prod_type]
-  refine Finset.sum_congr rfl fun i _ => ?_
-  rw [Fintype.sum_prod_type]
-  refine Finset.sum_congr rfl fun j _ => ?_
-  rw [Fintype.sum_bool, Complex.sq_norm, Complex.normSq_apply]
-  simp only [unrealify]; ring
+  intros
+  refine (@_root_.GlobalTheory.CellDens.DNorm.norm_unrealify ?_ ?_).symm <;> first | assumption | infer_instance
 
 theorem torD_add (x y : Fin r → ℂ) : torD k r (x + y) = torD k r x + torD k r y := by
   unfold torD

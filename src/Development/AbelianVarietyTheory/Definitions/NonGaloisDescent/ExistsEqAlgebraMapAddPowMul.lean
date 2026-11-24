@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.AdicCompletionPrincipalPerfect
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.ConnPhiExtensionGeneratorEqZeta
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.InstTameDescentExponentDataPadicThree
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.AlgebraMapMemNonZeroDivisorsAdicCompletion
@@ -129,18 +130,8 @@ theorem exists_eq_algebraMap_add_pow_mul {B : Type} [CommRing B] (s : B) (n : �
     (x : AdicCompletion (Ideal.span {s}) B) :
     ∃ (g : B) (x' : AdicCompletion (Ideal.span {s}) B),
       x = algebraMap B _ g + algebraMap B _ s ^ n * x' := by
-  obtain ⟨g, hg⟩ := Submodule.Quotient.mk_surjective _ (AdicCompletion.eval (Ideal.span {s}) B n x)
-  have h : x - AdicCompletion.of (Ideal.span {s}) B g ∈
-      Ideal.span {s} ^ n • (⊤ : Submodule B (AdicCompletion (Ideal.span {s}) B)) := by
-    rw [AdicCompletion.pow_smul_top_eq_ker_eval (Submodule.fg_span_singleton _), LinearMap.mem_ker,
-      map_sub, ← hg, sub_eq_zero]
-    rfl
-  rw [Ideal.span_singleton_pow, Submodule.ideal_span_singleton_smul,
-    Submodule.mem_smul_pointwise_iff_exists] at h
-  obtain ⟨x', -, hx'⟩ := h
-  refine ⟨g, x', ?_⟩
-  rw [Algebra.smul_def, map_pow, eq_sub_iff_add_eq'] at hx'
-  exact hx'.symm
+  intros
+  apply _root_.GlobalTheory.PerfectCompletion.dense <;> assumption
 
 theorem toHat_derivative (f : Rpi O K l e) :
     toHat O K l e ⟨_, derivative_mem_R l f.2⟩ = dHat O K l e (toHat O K l e f) := by

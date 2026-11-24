@@ -1,5 +1,6 @@
 module
 
+import Formalism.LocalToGlobal.AlgebraicTheory.AlgebraicTheoryProofs.NormInter
 public import Formalism.LocalToGlobal.TorsionIntegrality.CMGoodModels.Statement
 public import Formalism.LocalToGlobal.TorsionIntegrality.QuadraticSemicharacters.QuadraticSemicharactersFactAltForm
 
@@ -12,14 +13,7 @@ open Formalism.L2.Th1.H (CmOK)
 namespace HAux
 
 theorem odd_b {a₀ : ℕ} {b₀ c₀ : ℤ} {dK : ℕ} (hOK : CmOK a₀ b₀ c₀ dK) : Odd b₀ := by
-  obtain ⟨h1, -, h3, -⟩ := hOK
-  rcases Int.even_or_odd b₀ with ⟨k, hk⟩ | h
-  · exfalso
-    subst hk
-    have h4 : (dK : ℤ) = 4 * ((a₀ : ℤ) * c₀ - k * k) := by linear_combination -h1
-    obtain ⟨m, hm⟩ : ∃ m : ℤ, (dK : ℤ) = 4 * m := ⟨_, h4⟩
-    omega
-  · exact h
+  apply _root_.Formalism.L2.AlgTh.ImageLatticeRepresentatives.odd_b <;> assumption
 
 theorem data {a₀ : ℕ} {b₀ c₀ : ℤ} {dK : ℕ} (ha : 0 < a₀) (hdK : 0 < dK) (hOK : CmOK a₀ b₀ c₀ dK) :
     Squarefree dK ∧ dK % 4 = 3 ∧ Formalism.L2.Th1.CM.HasCMBy dK (Formalism.L2.Th1.F.cmPair a₀ b₀ dK ha hdK) := by

@@ -1,5 +1,7 @@
 module
 
+import Lemmata.PowMulVecEigen.PowMulVecEig
+import Development.EtaleCohomology.DivisorCycles.FinKey
 public import Development.EtaleCohomology.DivisorCycles.CycleCount
 public import Development.EtaleCohomology.DivisorCycles.OpenCoset
 public import Development.EtaleCohomology.DivisorCycles.CycleCountPf
@@ -359,11 +361,7 @@ variable {C : Type} [Field C] {N n : ℕ}
 
 lemma iter {p : Fin n → Mat C N} {y : Mat C N} {π : Equiv.Perm (Fin n)}
     (h : ∀ j, y * p j = p (π j) * y) (m : ℕ) (r : Fin n) : y ^ m * p r = p ((π ^ m) r) * y ^ m := by
-  induction m with
-  | zero => simp
-  | succ m ih =>
-    have e1 : (π ^ (m + 1)) r = π ((π ^ m) r) := by rw [pow_succ', Equiv.Perm.mul_apply]
-    rw [e1, pow_succ' y, mul_assoc, ih, ← mul_assoc, h, mul_assoc]
+  apply @LateralTheory.DivDb.CycleCount₂.intertw <;> assumption
 
 lemma eig [IsAlgClosed C] (A P : Mat C N) (hP : P * P = P) (hP0 : P ≠ 0) (hA : A * P = P * A) :
     ∃ (β : C) (v : Fin N → C), v ≠ 0 ∧ P *ᵥ v = v ∧ A *ᵥ v = β • v := by
@@ -663,19 +661,8 @@ theorem UpperTheory.Reformulated.B.Qp10.aeval_eig :
       Matrix.mulVec y v = μ • v →
         ∀ (Q : Polynomial C),
           Matrix.mulVec ((Polynomial.aeval y : Polynomial C → UpperTheory.Reformulated.B.Qp10.Mat C N) Q) v = Polynomial.eval μ Q • v := by
-  intro C _ N y μ v h Q
-  have hpow : ∀ n : ℕ, Matrix.mulVec (y ^ n) v = μ ^ n • v := by
-    intro n
-    induction n with
-    | zero => rw [pow_zero, pow_zero, Matrix.one_mulVec, one_smul]
-    | succ n ih =>
-      rw [pow_succ, ← Matrix.mulVec_mulVec, h, Matrix.mulVec_smul, ih, smul_smul, pow_succ']
-  induction Q using Polynomial.induction_on' with
-  | add p q hp hq =>
-    rw [map_add (f := _), Matrix.add_mulVec, hp, hq, Polynomial.eval_add, add_smul]
-  | monomial n a =>
-    rw [Polynomial.aeval_monomial, Polynomial.eval_monomial, ← Algebra.smul_def,
-      Matrix.smul_mulVec, hpow, smul_smul]
+  intros
+  apply _root_.Bl.PowMulVecEigen.goal1 <;> assumption
 end -- clump:auto
 end -- clump:auto
 -- ===== end clump member: Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.AevalEig =====

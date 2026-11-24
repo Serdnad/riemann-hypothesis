@@ -1,5 +1,7 @@
 module
 
+import CompanionTheory.SpectralGeometry.LocalGlobalProofs.AdelicAnalysis.FibreFamilySmul
+import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.ProductLocalDensitiesAdeleCharacter
 public import Formalism.SharpRestriction.GlobalSchurBounds.GeneralLinearActions.GenusMassVolumes
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.T2SpaceNumberFieldInfiniteAdeles
 public import Mathlib.RingTheory.Henselian
@@ -99,15 +101,8 @@ theorem isFibreFamily_smul {V X Y : Type} [TopologicalSpace V] [MeasurableSpace 
     {ν : Measure X} {B : Set X} {fib : X → Measure V} (h : IsFibreFamily μ f ι U ν B fib)
     (c d : ℝ≥0) (hd : d ≠ 0) :
     IsFibreFamily (c • μ) f ι U (d • ν) B (fun b => (c / d) • fib b) := by
-  obtain ⟨h1, h2, h3⟩ := h
-  refine ⟨fun b => ?_, fun φ hφ => ?_, fun φ hφ hc hU => ⟨fun b hb => ?_, ?_⟩⟩
-  · rw [Measure.smul_apply, h1 b, smul_zero]
-  · simp only [Measure.restrict_smul, lintegral_smul_measure, ENNReal.smul_def, smul_eq_mul]
-    rw [lintegral_const_mul' _ _ ENNReal.coe_ne_top, ← mul_assoc, ← ENNReal.coe_mul,
-      mul_div_cancel₀ _ hd, h2 φ hφ]
-  · exact ((h3 φ hφ hc hU).1 b hb).smul_measure_nnreal
-  · simp only [integral_smul_nnreal_measure]
-    exact (h3 φ hφ hc hU).2.const_smul (c / d)
+  intros
+  apply _root_.GlobalTheory.CompanionTheory.SW.Rescale.isFibreFamily_rescale <;> assumption
 
 end GlobalTheory.GramFibreRescale
 end -- clump:auto
@@ -727,19 +722,7 @@ theorem psiInf_mul (F : Type) [Field F] [NumberField F] (ψ0 ψ : AddChar (AF F)
 theorem psiV_mul (F : Type) [Field F] [NumberField F] (ψ0 ψ : AddChar (AF F) ℂ) (a : F)
     (h : ∀ x, ψ x = ψ0 (algebraMap F (AF F) a * x)) (v : HeightOneSpectrum (𝓞 F)) (x : Fv F v) :
     psiV F ψ v x = psiV F ψ0 v (algebraMap F (Fv F v) a * x) := by
-  classical
-  unfold psiV
-  rw [h]
-  congr 1
-  refine Prod.ext (mul_zero (algebraMap F (Ainf F) a)) ?_
-  show algebraMap F (Af F) a * singleV F v x = singleV F v (algebraMap F (Fv F v) a * x)
-  apply Subtype.ext
-  funext w
-  show algebraMap F (Fv F w) a * Pi.single (M := fun w : HeightOneSpectrum (𝓞 F) => Fv F w) v x w =
-    Pi.single (M := fun w : HeightOneSpectrum (𝓞 F) => Fv F w) v (algebraMap F (Fv F v) a * x) w
-  by_cases hw : w = v
-  · subst hw; simp
-  · simp [Pi.single_eq_of_ne hw]
+  first | exact _root_.GlobalTheory.LocalDensityProduct.psiV_of_eq | exact @_root_.GlobalTheory.LocalDensityProduct.psiV_of_eq | apply _root_.GlobalTheory.LocalDensityProduct.psiV_of_eq <;> assumption
 
 theorem exists_smul_haar {V : Type} [AddCommGroup V] [TopologicalSpace V] [IsTopologicalAddGroup V]
     [LocallyCompactSpace V] [SecondCountableTopology V] [MeasurableSpace V] [BorelSpace V]

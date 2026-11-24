@@ -1134,10 +1134,7 @@ theorem heis_mem_GU_iff (σ : L →+* L) {n : ℕ} {i j k : Fin n} (hij : i ≠ 
 theorem monomial_mul_apply {n : ℕ} {t : Equiv.Perm (Fin n)} {Y : GL (Fin n) L} (hY : IsWeylRep t Y)
     (M : Matrix (Fin n) (Fin n) L) (i j : Fin n) :
     ((Y : Matrix (Fin n) (Fin n) L) * M) i j = (Y : Matrix (Fin n) (Fin n) L) i (t⁻¹ i) * M (t⁻¹ i) j := by
-  rw [Matrix.mul_apply, Finset.sum_eq_single (t⁻¹ i)]
-  · intro l _ hl
-    rw [hY i l (fun h => hl (by rw [h]; simp)), zero_mul]
-  · simp
+  apply _root_.GlobalTheory.GKUnitaryRankOne.monomial_mul_apply <;> assumption
 
 theorem heisM_mul_opp {n : ℕ} {i j k : Fin n} (hij : i ≠ j) (hjk : j ≠ k) (hik : i ≠ k) (b d c y x z : L)
     (h1 : 1 + b * x + c * z = 0) (h2 : b + c * y = 0) (h3 : x + d * z = 0) (s t : Fin n) :
@@ -1196,11 +1193,7 @@ theorem isBorelU_one (σ : L →+* L) (n : ℕ) : IsBorelU (1 : GU σ n) := by
   simp [ne_of_gt h]
 
 theorem chiDeltaU_one (σ : L →+* L) (n m q : ℕ) (α : Fin m → ℂ) : chiDeltaU q α (1 : GU σ n) = 1 := by
-  unfold chiDeltaU
-  refine Finset.prod_eq_one fun i _ => ?_
-  split_ifs
-  · simp [_root_.Formalism.UG.P.fSatake_ord_one]
-  · rfl
+  apply _root_.GlobalTheory.GKUnitaryRankOne.chiDeltaU_one <;> assumption
 
 theorem v_sq_le {σ : L →+* L} (hσ : ∀ x, Valued.v (σ x) = Valued.v x) {b d c : L} (hb : σ b = -d)
     (hc : σ c = b * d - c) : Valued.v d = Valued.v b ∧ Valued.v b * Valued.v b ≤ Valued.v c := by

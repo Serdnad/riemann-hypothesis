@@ -1,5 +1,6 @@
 module
 
+import Formalism.SharpRestriction.CuspSpanNormBounds.BruhatCellsKronecker.StandardHypothesesOfScaleHyp
 import Formalism.SharpRestriction.CuspSpanNormBounds.BruhatCellsKronecker.FamilyFormalDegreeLowerBound
 public import Formalism.SharpRestriction.CuspSpanNormBounds.LocalBesselAndTopKernel
 public import Formalism.SharpRestriction.CuspSpanNormBounds.NonGenericAndKTwoTheorems
@@ -70,17 +71,12 @@ theorem two_le_absNorm (D : D7) (p : HeightOneSpectrum (𝓞 D.host.F)) : 2 ≤ 
 theorem sc_one_lt_L {D : D7} (large₂ : SizeData₂ D) : 1 < large₂.sc.L :=
   Real.one_lt_rpow large₂.sc.one_lt_alt large₂.sc.eps_pos
 
-private theorem ranks_k_lemma (R : Formalism.BasicNotions.Ranks) : 5 ≤ R.k := by
-  obtain ⟨_, k, m, t, _, _, _, h2, h3, _, _, _, _, _⟩ := R
-  dsimp only
-  omega
-
 private theorem ranks_all_lemma (R : Formalism.BasicNotions.Ranks) : (∃ j, R.m = j + j) ∧ 2 ≤ R.m ∧ R.m + 3 ≤ R.k := by
   obtain ⟨_, k, m, t, _, hm, _, h2, h3, _, _, _, _, _⟩ := R
   exact ⟨hm, h2, h3⟩
 
 theorem five_le_k (D : D7) : (5 : ℝ) ≤ D.R.k := by
-  exact_mod_cast ranks_k_lemma D.R
+  exact_mod_cast (show 5 ≤ D.R.k by have := D.R.two_le_m; have := D.R.m_add_three_le_k; omega)
 
 theorem one_le_log_k (D : D7) : 1 ≤ Real.log D.R.k := by
   have hk := five_le_k D
@@ -89,21 +85,11 @@ theorem one_le_log_k (D : D7) : 1 ≤ Real.log D.R.k := by
   calc (1 : ℝ) = Real.log (Real.exp 1) := (Real.log_exp 1).symm
     _ ≤ Real.log (D.R.k : ℝ) := Real.log_le_log (Real.exp_pos 1) he
 
-private theorem ranks_m_lemma (R : Formalism.BasicNotions.Ranks) : 2 ≤ R.m := by
-  obtain ⟨_, k, m, t, _, _, _, h2, _, _, _, _, _, _⟩ := R
-  dsimp only
-  exact h2
-
 theorem two_le_mR (D : D7) : (2 : ℝ) ≤ D.R.m := by
-  exact_mod_cast ranks_m_lemma D.R
-
-private theorem ranks_f_lemma (R : Formalism.BasicNotions.Ranks) : 2 ≤ R.f := by
-  obtain ⟨fr, k, m, t, _, _, _, h2, _, _, _, h6, _, _⟩ := R
-  show 2 ≤ 2 * fr.ord
-  omega
+  exact_mod_cast D.R.two_le_m
 
 theorem two_le_fR (D : D7) : (2 : ℝ) ≤ D.R.f := by
-  exact_mod_cast ranks_f_lemma D.R
+  exact_mod_cast D.R.two_le_m.trans D.R.m_le_f
 
 theorem sqrt_le_sq_nat (r : ℕ) : Real.sqrt (r : ℝ) ≤ (r : ℝ) ^ 2 := by
   rcases Nat.eq_zero_or_pos r with h0 | hr
@@ -592,11 +578,7 @@ theorem lamSH_hc (D : D7) (large₂ : SizeData₂ D) (C' Cl Cg cb Cu cT CT : ℝ
   apply Formalism.MainNotions.BridgeLemma.szh_hc <;> assumption
 
 theorem nS_cast (D : D7) : ((2 * D.R.rS + D.R.k + 1 : ℕ) : ℝ) = (D.R.r : ℝ) := by
-  obtain ⟨⟨j, hj⟩, h2, h3⟩ := ranks_all_lemma D.R
-  have e : 2 * D.R.rS + D.R.k + 1 = D.R.r := by
-    show 2 * (D.R.m / 2 - 1) + D.R.k + 1 = D.R.k + D.R.m - 1
-    omega
-  rw [e]
+  apply _root_.Formalism.MainNotions.BridgeLemma.std_castN <;> assumption
 
 theorem six_le_n (D : D7) : (6 : ℝ) ≤ (D.R.r : ℝ) := by
   obtain ⟨⟨j, hj⟩, h2, h3⟩ := ranks_all_lemma D.R

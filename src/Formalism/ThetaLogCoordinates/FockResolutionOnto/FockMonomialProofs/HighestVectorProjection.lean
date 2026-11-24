@@ -177,341 +177,298 @@ theorem cartan_comm_erase' (LL : Letters N) (j : ℕ) (ρ : Fin r) (a : Fin r) (
 
 end EC
 
-private lemma mem_of_mem_support_restrictSupport {p : ℕ} [Fact p.Prime] {σ : Type} {Q : Set (σ →₀ ℕ)}
-    {x : MvPolynomial σ ℚ_[p]} (hx : x ∈ MvPolynomial.restrictSupport ℚ_[p] Q) {m : σ →₀ ℕ}
-    (hm : m ∈ x.support) : m ∈ Q := by
-  have h' := hx
-  simp only [MvPolynomial.restrictSupport, AddMonoidAlgebra.supported, Finsupp.mem_supported,
-    Submodule.mem_comap, LinearEquiv.coe_coe, AddMonoidAlgebra.coeffLinearEquiv_apply] at h'
-  exact h' hm
-
-private lemma idempotent_apply_eq_self_of_mem_range {k V : Type*} [Field k] [AddCommGroup V] [Module k V] (Q : V →ₗ[k] V)
-    (hQ : Q ∘ₗ Q = Q) : ∀ x ∈ LinearMap.range Q, Q x = x := by
-  rintro x ⟨y, rfl⟩
-  rw [← LinearMap.comp_apply, hQ]
-
-private lemma idempotent_apply_eq_self_of_ker_eq_bot {k V : Type*} [Field k] [AddCommGroup V] [Module k V] (Q : V →ₗ[k] V)
-    (hQ : Q ∘ₗ Q = Q) (hk : LinearMap.ker Q = ⊥) : ∀ x, Q x = x := by
-  intro x
-  have h : x - Q x ∈ LinearMap.ker Q := by
-    rw [LinearMap.mem_ker, map_sub, ← LinearMap.comp_apply, hQ, sub_self]
-  rw [hk, Submodule.mem_bot, sub_eq_zero] at h
-  exact h.symm
-
-theorem highest_vector_projection : ProjX := by
+theorem highest_vector_projection_of_type_projections (tight : Bool) (p : ℕ) [Fact p.Prime]
+    (K r : ℕ) [NeZero r] (LL : Letters (K + 1)) {q : ℕ} (J : Fin q → ℕ)
+    (M : Fin q → WithTop ℤ) (ρ : Fin r) (w : Fin r → ℤ) (e1 : ℕ)
+    (hTight : tight = true → 1 ≤ K ∧
+      ∀ (j : ℕ) (T : Set (Fin r → ℤ))
+        (P : MvPolynomial (Fin (K + 1) × Fin r) ℚ_[p] →ₗ[ℚ_[p]]
+          MvPolynomial (Fin (K + 1) × Fin r) ℚ_[p]),
+        j ≤ 1 → 1 ≤ r → IsTypeProj p LL j univ T P →
+        (∀ F ∈ Pol p r LL, P F = F) ∨ (∀ F ∈ Pol p r LL, P F = 0))
+    (hr : 2 ≤ r) (hρ : (ρ : ℕ) = r - 1) (hv : LL.vec (Fin.last K) = true)
+    (hHP : HypP p LL ρ e1) (hHE : HypE p LL ρ e1) :
+    ∃ Pr : MvPolynomial (Fin (K + 1) × Fin r) ℚ_[p] →ₗ[ℚ_[p]]
+        MvPolynomial (Fin (K + 1) × Fin r) ℚ_[p],
+      ∀ m : Fin (K + 1) × Fin r →₀ ℕ, MultiDeg LL m → m (Fin.last K, ρ) = 0 →
+        Pr (monomial m 1) ∈ XH p LL J M ρ w ∧
+        ((p : ℚ_[p]) ^ (((if tight then K else K + 2) + 1) * e1)) • Pr (monomial m 1) ∈
+          IntPol p (Fin (K + 1) × Fin r) ∧
+        ∀ g ∈ XH p LL J M ρ w, fock p g (Pr (monomial m 1)) = fock p g (monomial m 1) := by
   classical
-  intro p _ K r _ LL q J M ρ w e1 hr hρ hv hP hE
+  obtain ⟨hP1, hP2⟩ := hHP
+  obtain ⟨PE, hE1, hE2, hE3, hE4, hE5⟩ := hHE (K + 1) le_rfl w
+  set v : Fin (K + 1) × Fin r := (Fin.last K, ρ) with hvdef
+  set Wt := WtSpC p LL (K + 1) univ w with hWtdef
+
+  let Cs : Fin (K + 2) → Finset (Fin r) := fun i => if (i : ℕ) = K + 1 then univ.erase ρ else univ
+  let s : Fin (K + 2) → Finset (Fin q) := fun i =>
+    univ.filter fun k => J k = (i : ℕ) ∨ (K ≤ (i : ℕ) ∧ K + 1 ≤ J k)
+  let thr : Fin (K + 2) → WithTop ℤ := fun i => (s i).inf M
+  let T : Fin (K + 2) → Set (Fin r → ℤ) := fun i => {la | ((la 0 : ℤ) : WithTop ℤ) ≤ thr i}
   have h0ρ : (0 : Fin r) ≠ ρ := by
     intro h
     have h' := congrArg Fin.val h
-    rw [Fin.val_zero] at h'
+    have h0 : ((0 : Fin r) : ℕ) = 0 := by simp
+    rw [hρ, h0] at h'
     omega
-  have h0e : (0 : Fin r) ∈ univ.erase ρ := Finset.mem_erase.mpr ⟨h0ρ, Finset.mem_univ _⟩
-  obtain ⟨Tu, hTu⟩ : ∃ Tu : ℕ → Set (Fin r → ℤ),
-      Tu = fun j => {la | ∀ k, min (J k) K = j → ((la 0 : ℤ) : WithTop ℤ) ≤ M k} := ⟨_, rfl⟩
-  obtain ⟨Te, hTe⟩ : ∃ Te : Set (Fin r → ℤ),
-      Te = {la | ∀ k, K + 1 ≤ J k → ((la 0 : ℤ) : WithTop ℤ) ≤ M k} := ⟨_, rfl⟩
-  have hTu' : ∀ j la, la ∈ Tu j ↔ ∀ k, min (J k) K = j → ((la 0 : ℤ) : WithTop ℤ) ≤ M k := by
-    intro j la; rw [hTu]; rfl
-  have hTe' : ∀ la, la ∈ Te ↔ ∀ k, K + 1 ≤ J k → ((la 0 : ℤ) : WithTop ℤ) ≤ M k := by
-    intro la; rw [hTe]; rfl
-  have hsatU : ∀ T : Set (Fin r → ℤ), CsSaturated (univ : Finset (Fin r)) T := by
-    intro T la la' h
-    have : la = la' := funext fun c => h c (Finset.mem_univ c)
-    rw [this]
-  have hsatE : CsSaturated (univ.erase ρ) Te := by
-    intro la la' h
-    have h0 : la 0 = la' 0 := h 0 h0e
-    rw [hTe', hTe', h0]
-  obtain ⟨hPex, hPcomm⟩ := hP
-  choose Pu hPu using fun (j : ℕ) (hj : j ≤ K) => hPex j (by omega) univ (Or.inl rfl) (Tu j) (hsatU _)
-  obtain ⟨Pe, hPe1, hPe2, hPe3⟩ := hPex (K + 1) le_rfl (univ.erase ρ) (Or.inr rfl) Te hsatE
-  obtain ⟨P, hPdef⟩ : ∃ P : ℕ → (MvPolynomial (Fin (K + 1) × Fin r) ℚ_[p] →ₗ[ℚ_[p]]
-      MvPolynomial (Fin (K + 1) × Fin r) ℚ_[p]), P = fun j => if h : j ≤ K then Pu j h else Pe := ⟨_, rfl⟩
-  have hPu_eq : ∀ j (hj : j ≤ K), P j = Pu j hj := by intro j hj; rw [hPdef]; simp [hj]
-  have hPe_eq : ∀ j, ¬ j ≤ K → P j = Pe := by intro j hj; rw [hPdef]; simp [hj]
-  have hTPu : ∀ j (hj : j ≤ K), IsTypeProj p LL j univ (Tu j) (P j) := by
-    intro j hj; rw [hPu_eq j hj]; exact (hPu j hj).1
-  have hTPe : ∀ j, ¬ j ≤ K → IsTypeProj p LL (K + 1) (univ.erase ρ) Te (P j) := by
-    intro j hj; rw [hPe_eq j hj]; exact hPe1
-  have hPP : ∀ j x, P j (P j x) = P j x := by
-    intro j x
-    by_cases hj : j ≤ K
-    · exact LinearMap.congr_fun (hTPu j hj).1 x
-    · exact LinearMap.congr_fun (hTPe j hj).1 x
-  have hcomm : ∀ j j' x, P j (P j' x) = P j' (P j x) := by
-    intro j j' x
-    by_cases hj : j ≤ K <;> by_cases hj' : j' ≤ K
-    · rcases le_total j j' with h | h
-      · exact LinearMap.congr_fun (hPcomm j j' univ univ (Tu j) (Tu j') (P j) (P j') h subset_rfl
-          (Or.inl rfl) (Or.inl rfl) (hTPu j hj) (hTPu j' hj')) x
-      · exact (LinearMap.congr_fun (hPcomm j' j univ univ (Tu j') (Tu j) (P j') (P j) h subset_rfl
-          (Or.inl rfl) (Or.inl rfl) (hTPu j' hj') (hTPu j hj)) x).symm
-    · exact LinearMap.congr_fun (hPcomm j (K + 1) univ (univ.erase ρ) (Tu j) Te (P j) (P j') (by omega)
-          (Finset.erase_subset _ _) (Or.inl rfl) (Or.inr rfl) (hTPu j hj) (hTPe j' hj')) x
-    · exact (LinearMap.congr_fun (hPcomm j' (K + 1) univ (univ.erase ρ) (Tu j') Te (P j') (P j) (by omega)
-          (Finset.erase_subset _ _) (Or.inl rfl) (Or.inr rfl) (hTPu j' hj') (hTPe j hj)) x).symm
-    · rw [hPe_eq j hj, hPe_eq j' hj']
-  have hPsa : ∀ j F G, fock p (P j F) G = fock p F (P j G) := by
-    intro j F G
-    by_cases hj : j ≤ K
-    · rw [hPu_eq j hj]; exact (hPu j hj).2.1 F G
-    · rw [hPe_eq j hj]; exact hPe2 F G
-  have hPint : ∀ j, ∀ F ∈ PolZ p r LL, ((p : ℚ_[p]) ^ e1) • P j F ∈ IntPol p (Fin (K + 1) × Fin r) := by
-    intro j F hF
-    by_cases hj : j ≤ K
-    · rw [hPu_eq j hj]; exact (hPu j hj).2.2 F hF
-    · rw [hPe_eq j hj]; exact hPe3 F hF
-  have hPpol : ∀ j, ∀ x ∈ Pol p r LL, P j x ∈ Pol p r LL := by
-    intro j x hx
-    by_cases hj : j ≤ K
-    · exact typeProj_polC LL j univ (Tu j) (P j) (hTPu j hj) x hx
-    · exact typeProj_polC LL (K + 1) (univ.erase ρ) Te (P j) (hTPe j hj) x hx
-  have hPgl : ∀ j, ∀ c ∈ univ.erase ρ, ∀ d ∈ univ.erase ρ, ∀ x,
-      P j (glAct p LL (K + 1) c d x) = glAct p LL (K + 1) c d (P j x) := by
-    intro j c hc d hd x
-    by_cases hj : j ≤ K
-    · exact typeProj_comm_later LL j (K + 1) (by omega) (Tu j) (P j) (hTPu j hj) c d x
-    · exact typeProj_glActC LL (K + 1) (univ.erase ρ) Te (P j) (hTPe j hj) c hc d hd x
-  have hPdiag : ∀ j c x, P j (glAct p LL (K + 1) c c x) = glAct p LL (K + 1) c c (P j x) := by
-    intro j c x
-    by_cases hj : j ≤ K
-    · exact typeProj_comm_later LL j (K + 1) (by omega) (Tu j) (P j) (hTPu j hj) c c x
-    · by_cases hc : c = ρ
-      · rw [hc]
-        exact typeProj_commC LL (K + 1) (univ.erase ρ) Te (P j) (hTPe j hj) (glAct p LL (K + 1) ρ ρ)
-          (fun a ha b hb y => cartan_comm_erase' LL (K + 1) ρ a ha b hb y) x
-      · have hc' : c ∈ univ.erase ρ := Finset.mem_erase.mpr ⟨hc, Finset.mem_univ _⟩
-        exact typeProj_glActC LL (K + 1) (univ.erase ρ) Te (P j) (hTPe j hj) c hc' c hc' x
-  have hPws : ∀ j, ∀ x ∈ WtSpC p LL (K + 1) univ w, P j x ∈ WtSpC p LL (K + 1) univ w :=
-    fun j => comm_wtsp LL (K + 1) (P j) (hPdiag j) w
-  have hPres : ∀ j x, P j (resL p (Fin.last K, ρ) 0 x) = resL p (Fin.last K, ρ) 0 (P j x) := by
-    intro j x
-    by_cases hj : j ≤ K
-    · refine typeProj_commC LL j univ (Tu j) (P j) (hTPu j hj) (resL p (Fin.last K, ρ) 0)
-        (fun c _ d _ y => resL_glAct LL j c d (Fin.last K, ρ) 0 ?_ y) x
-      intro i hi
-      have hne : i ≠ Fin.last K := by
-        intro h
-        rw [h, Fin.val_last] at hi
-        omega
-      exact ⟨fun h => hne (Prod.ext_iff.mp h).1, fun h => hne (Prod.ext_iff.mp h).1⟩
-    · refine typeProj_commC LL (K + 1) (univ.erase ρ) Te (P j) (hTPe j hj) (resL p (Fin.last K, ρ) 0)
-        (fun c hc d hd y => resL_glAct LL (K + 1) c d (Fin.last K, ρ) 0 ?_ y) x
-      intro i _
-      exact ⟨fun h => (Finset.mem_erase.mp hc).1 (Prod.ext_iff.mp h).2,
-        fun h => (Finset.mem_erase.mp hd).1 (Prod.ext_iff.mp h).2⟩
-  obtain ⟨PE, hE1, hE2, hE3, hE4, hE5⟩ := hE (K + 1) le_rfl w
-  have hPEc : ∀ A : MvPolynomial (Fin (K + 1) × Fin r) ℚ_[p] →ₗ[ℚ_[p]] MvPolynomial (Fin (K + 1) × Fin r) ℚ_[p],
-      (∀ c ∈ univ.erase ρ, ∀ d ∈ univ.erase ρ, ∀ x,
-        A (glAct p LL (K + 1) c d x) = glAct p LL (K + 1) c d (A x)) →
-      (∀ x ∈ WtSpC p LL (K + 1) univ w, A x ∈ WtSpC p LL (K + 1) univ w) →
-      ∀ x ∈ WtSpC p LL (K + 1) univ w, PE (A x) = A (PE x) :=
-    fun A hA hW => hwProj_comm' LL (K + 1) ρ w PE A hE1 hE2 hE3 hA hW
-  have hPEfix : ∀ g ∈ HWC p LL (K + 1) (univ.erase ρ) w ⊓ WtSpC p LL (K + 1) univ w, PE g = g := by
-    intro g hg
-    exact idempotent_apply_eq_self_of_mem_range PE hE1 g (by rw [hE2]; exact hg)
-  have hPEpol : ∀ y ∈ Pol p r LL ⊓ WtSpC p LL (K + 1) univ w, PE y ∈ Pol p r LL := by
-    intro y hy
-    obtain ⟨hy1, hy2⟩ := Submodule.mem_inf.mp hy
-    rw [pol_iff_eul] at hy1 ⊢
+  have hCsT : ∀ i : Fin (K + 2), (i : ℕ) = K + 1 → Cs i = univ.erase ρ := fun i h => if_pos h
+  have hCsL : ∀ i : Fin (K + 2), (i : ℕ) ≠ K + 1 → Cs i = univ := fun i h => if_neg h
+  have hCs : ∀ i, Cs i = univ ∨ Cs i = univ.erase ρ := by
     intro i
-    have hc := hPEc (ProjS.eulL (fun c : Fin r => (i, c)))
-      (fun c _ d _ x => eul_glAct LL (K + 1) i c d x)
-      (comm_wtsp LL (K + 1) _ (fun c x => eul_glAct LL (K + 1) i c c x) w) y hy2
-    rw [← hc, hy1 i, map_smul]
+    by_cases h : (i : ℕ) = K + 1
+    · exact Or.inr (hCsT i h)
+    · exact Or.inl (hCsL i h)
+  have h0Cs : ∀ i, (0 : Fin r) ∈ Cs i := by
+    intro i
+    rcases hCs i with h | h <;> rw [h]
+    · exact mem_univ _
+    · exact mem_erase.mpr ⟨h0ρ, mem_univ _⟩
+  have hsat : ∀ i, CsSaturated (Cs i) (T i) := fun i la la' h => by
+    show ((la 0 : ℤ) : WithTop ℤ) ≤ thr i ↔ ((la' 0 : ℤ) : WithTop ℤ) ≤ thr i
+    rw [h 0 (h0Cs i)]
+  have hthrle : ∀ (i : Fin (K + 2)) (k : Fin q), (J k = (i : ℕ) ∨ (K ≤ (i : ℕ) ∧ K + 1 ≤ J k)) → thr i ≤ M k :=
+    fun i k hk => Finset.inf_le (mem_filter.mpr ⟨mem_univ k, hk⟩)
+  have hthrc : ∀ i : Fin (K + 2), thr i = ⊤ ∨
+      ∃ k, (J k = (i : ℕ) ∨ (K ≤ (i : ℕ) ∧ K + 1 ≤ J k)) ∧ thr i = M k := by
+    intro i
+    rcases (s i).eq_empty_or_nonempty with he | hne
+    · left
+      show (s i).inf M = ⊤
+      rw [he, Finset.inf_empty]
+    · right
+      obtain ⟨k, hk, hke⟩ := Finset.exists_mem_eq_inf (s i) hne M
+      exact ⟨k, (mem_filter.mp hk).2, hke⟩
+  have hex : ∀ i : Fin (K + 2), ∃ P, IsTypeProj p LL i (Cs i) (T i) P ∧
+      (∀ F G, fock p (P F) G = fock p F (P G)) ∧
+      ∀ F ∈ PolZ p r LL, ((p : ℚ_[p]) ^ e1) • P F ∈ IntPol p (Fin (K + 1) × Fin r) :=
+    fun i => hP1 i (Nat.lt_succ_iff.mp i.isLt) (Cs i) (hCs i) (T i) (hsat i)
+  choose P hPt hPsa hPint using hex
+  have hPlow : ∀ i : Fin (K + 2), (i : ℕ) ≠ K + 1 → IsTypeProj p LL i univ (T i) (P i) := by
+    intro i h
+    have := hPt i
+    rwa [hCsL i h] at this
+  have hPtop : ∀ i : Fin (K + 2), (i : ℕ) = K + 1 → IsTypeProj p LL (K + 1) (univ.erase ρ) (T i) (P i) := by
+    intro i h
+    have := hPt i
+    rwa [hCsT i h, h] at this
+  have hPP : ∀ i x, P i (P i x) = P i x := fun i x => LinearMap.congr_fun (hPt i).1 x
+  have hsub : ∀ i i' : Fin (K + 2), (i : ℕ) ≤ (i' : ℕ) → Cs i' ⊆ Cs i := by
+    intro i i' h
+    by_cases hi : (i : ℕ) = K + 1
+    · rw [hCsT i hi, hCsT i' (by have := i'.isLt; omega)]
+    · rw [hCsL i hi]; exact subset_univ _
+  have hcomm : ∀ i i' x, P i (P i' x) = P i' (P i x) := by
+    intro i i' x
+    rcases le_total (i : ℕ) (i' : ℕ) with h | h
+    · exact LinearMap.congr_fun (hP2 i i' (Cs i) (Cs i') (T i) (T i') (P i) (P i') h (hsub i i' h) (hCs i)
+        (hCs i') (hPt i) (hPt i')) x
+    · exact (LinearMap.congr_fun (hP2 i' i (Cs i') (Cs i) (T i') (T i) (P i') (P i) h (hsub i' i h) (hCs i')
+        (hCs i) (hPt i') (hPt i)) x).symm
+  have hPpol : ∀ i, ∀ x ∈ Pol p r LL, P i x ∈ Pol p r LL := fun i => typeProj_polC LL i (Cs i) (T i) (P i) (hPt i)
 
-  have hXH : ∀ g ∈ XH p LL J M ρ w, g ∈ Pol p r LL ∧ g ∈ FreeOf p (Fin.last K, ρ) ∧
-      (∀ k, K + 1 ≤ J k → g ∈ YCond p LL K (M k) ∧ g ∈ TypesLE p LL (K + 1) (univ.erase ρ) (M k)) ∧
-      (∀ k, ¬ K + 1 ≤ J k → g ∈ YCond p LL (J k) (M k)) ∧
-      g ∈ HWC p LL (K + 1) (univ.erase ρ) w ∧ g ∈ WtSpC p LL (K + 1) univ w := by
+  have hPgl : ∀ i, ∀ c ∈ univ.erase ρ, ∀ d ∈ univ.erase ρ, ∀ x,
+      P i (glAct p LL (K + 1) c d x) = glAct p LL (K + 1) c d (P i x) := by
+    intro i c hc d hd x
+    by_cases hi : (i : ℕ) = K + 1
+    · exact typeProj_glActC LL (K + 1) _ (T i) (P i) (hPtop i hi) c hc d hd x
+    · exact typeProj_comm_later LL i (K + 1) (Nat.lt_succ_iff.mp i.isLt) (T i) (P i) (hPlow i hi) c d x
+  have hPcar : ∀ i c x, P i (glAct p LL (K + 1) c c x) = glAct p LL (K + 1) c c (P i x) := by
+    intro i c x
+    by_cases hi : (i : ℕ) = K + 1
+    · by_cases hc : c = ρ
+      · subst hc
+        exact typeProj_commC LL (K + 1) _ (T i) (P i) (hPtop i hi) (glAct p LL (K + 1) c c)
+          (fun a ha b hb x => cartan_comm_erase' LL (K + 1) c a ha b hb x) x
+      · exact hPgl i c (mem_erase.mpr ⟨hc, mem_univ _⟩) c (mem_erase.mpr ⟨hc, mem_univ _⟩) x
+    · exact typeProj_comm_later LL i (K + 1) (Nat.lt_succ_iff.mp i.isLt) (T i) (P i) (hPlow i hi) c c x
+  have hPWt : ∀ i, ∀ x ∈ Wt, P i x ∈ Wt := fun i => comm_wtsp LL (K + 1) (P i) (hPcar i) w
+  have hPres : ∀ i x, P i (resL p v 0 x) = resL p v 0 (P i x) := by
+    intro i
+    refine typeProj_commC LL i (Cs i) (T i) (P i) (hPt i) (resL p v 0) (fun c hc d hd x => ?_)
+    refine resL_glAct LL i c d v 0 (fun i' hi' => ?_) x
+    by_cases hi : (i : ℕ) = K + 1
+    · rw [hCsT i hi] at hc hd
+      exact ⟨fun h => Finset.ne_of_mem_erase hc (Prod.mk.inj h).2, fun h => Finset.ne_of_mem_erase hd (Prod.mk.inj h).2⟩
+    · have hne : i' ≠ Fin.last K := by
+        intro h
+        rw [h, Fin.val_last] at hi'
+        have := i.isLt
+        omega
+      exact ⟨fun h => hne (Prod.mk.inj h).1, fun h => hne (Prod.mk.inj h).1⟩
+  have hPfree : ∀ i, ∀ x ∈ FreeOf p v, P i x ∈ FreeOf p v := by
+    intro i x hx
+    rw [← resL_fix' v x hx, hPres i x]
+    exact resL_free v _
+
+  have hEcomm := hwProj_comm' LL (K + 1) ρ w PE
+  have hEP : ∀ i, ∀ x ∈ Wt, PE (P i x) = P i (PE x) := fun i => hEcomm (P i) hE1 hE2 hE3 (hPgl i) (hPWt i)
+  have hEres : ∀ x ∈ Wt, PE (resL p v 0 x) = resL p v 0 (PE x) :=
+    hEcomm (resL p v 0) hE1 hE2 hE3
+      (fun c hc d hd x => resL_glAct LL (K + 1) c d v 0 (fun i' _ =>
+        ⟨fun h => Finset.ne_of_mem_erase hc (Prod.mk.inj h).2, fun h => Finset.ne_of_mem_erase hd (Prod.mk.inj h).2⟩) x)
+      (resL_keep_supp v 0 _)
+  have hEeul : ∀ i0 : Fin (K + 1), ∀ x ∈ Wt, PE (ProjS.eulL (fun c : Fin r => (i0, c)) x) =
+      ProjS.eulL (fun c : Fin r => (i0, c)) (PE x) := fun i0 =>
+    hEcomm (ProjS.eulL (fun c : Fin r => (i0, c))) hE1 hE2 hE3
+      (fun c _ d _ x => eul_glAct LL (K + 1) i0 c d x)
+      (comm_wtsp LL (K + 1) _ (fun c x => eul_glAct LL (K + 1) i0 c c x) w)
+  have hEfix : ∀ g ∈ HWC p LL (K + 1) (univ.erase ρ) w ⊓ Wt, PE g = g := by
     intro g hg
-    have hg' : g ∈ ((Pol p r LL ⊓ FreeOf p (Fin.last K, ρ) ⊓
-        ⨅ k, (if K + 1 ≤ J k then YCond p LL K (M k) ⊓ TypesLE p LL (K + 1) (univ.erase ρ) (M k)
-          else YCond p LL (J k) (M k))) ⊓ HWC p LL (K + 1) (univ.erase ρ) w) ⊓ WtSpC p LL (K + 1) univ w := hg
-    simp only [Submodule.mem_inf, Submodule.mem_iInf] at hg'
-    obtain ⟨⟨⟨⟨h1, h2⟩, h3⟩, h4⟩, h5⟩ := hg'
-    refine ⟨h1, h2, fun k hk => ?_, fun k hk => ?_, h4, h5⟩
-    · have := h3 k
-      rw [if_pos hk] at this
-      exact Submodule.mem_inf.mp this
-    · have := h3 k
-      rw [if_neg hk] at this
-      exact this
-  have hYmin : ∀ g ∈ XH p LL J M ρ w, ∀ k, g ∈ YCond p LL (min (J k) K) (M k) := by
-    intro g hg k
-    obtain ⟨-, -, h3, h4, -⟩ := hXH g hg
-    by_cases hk : K + 1 ≤ J k
-    · rw [show min (J k) K = K by omega]; exact (h3 k hk).1
-    · rw [show min (J k) K = J k by omega]; exact h4 k hk
+    rw [← hE2] at hg
+    obtain ⟨z, rfl⟩ := hg
+    exact LinearMap.congr_fun hE1 z
 
-  have hPg : ∀ g ∈ XH p LL J M ρ w, ∀ j, P j g = g := by
-    intro g hg j
-    obtain ⟨hgP, -, hgT, -, -, -⟩ := hXH g hg
-    by_cases hj : j ≤ K
-    · by_cases hex : ∃ k, min (J k) K = j
-      · obtain ⟨k, hk⟩ := hex
-        obtain ⟨k0, hk0, hmin⟩ := Finset.exists_min_image (univ.filter fun k => min (J k) K = j) M
-          ⟨k, Finset.mem_filter.mpr ⟨Finset.mem_univ _, hk⟩⟩
-        have hk0' : min (J k0) K = j := (Finset.mem_filter.mp hk0).2
-        refine ycond_fix LL j (Tu j) (M k0) (P j) (hTPu j hj) (fun la hla => ?_) g ⟨?_, hgP⟩
-        · rw [hTu']
-          intro k' hk'
-          exact hla.trans (hmin k' (Finset.mem_filter.mpr ⟨Finset.mem_univ _, hk'⟩))
-        · have := hYmin g hg k0
-          rwa [hk0'] at this
-      · refine idempotent_apply_eq_self_of_ker_eq_bot (P j) (hTPu j hj).1 ?_ g
-        rw [(hTPu j hj).2.2]
-        refine le_antisymm (iSup_le fun la => iSup_le fun hla => absurd ?_ hla) bot_le
-        rw [hTu']
-        intro k hk
-        exact absurd ⟨k, hk⟩ hex
-    · by_cases hex : ∃ k, K + 1 ≤ J k
-      · obtain ⟨k, hk⟩ := hex
-        obtain ⟨k0, hk0, hmin⟩ := Finset.exists_min_image (univ.filter fun k => K + 1 ≤ J k) M
-          ⟨k, Finset.mem_filter.mpr ⟨Finset.mem_univ _, hk⟩⟩
-        have hk0' : K + 1 ≤ J k0 := (Finset.mem_filter.mp hk0).2
-        refine idempotent_apply_eq_self_of_mem_range (P j) (hTPe j hj).1 g ?_
-        rw [(hTPe j hj).2.1]
-        have hgt := (hgT k0 hk0').2
-        unfold TypesLE at hgt
-        refine SetLike.le_def.mp (iSup_le fun la => iSup_le fun hla => ?_) hgt
-        refine le_iSup₂_of_le (f := fun la (_ : la ∈ Te) => IsoC p LL (K + 1) (univ.erase ρ) la) la ?_ le_rfl
-        rw [hTe']
-        intro k' hk'
-        exact hla.trans (hmin k' (Finset.mem_filter.mpr ⟨Finset.mem_univ _, hk'⟩))
-      · refine idempotent_apply_eq_self_of_ker_eq_bot (P j) (hTPe j hj).1 ?_ g
-        rw [(hTPe j hj).2.2]
-        refine le_antisymm (iSup_le fun la => iSup_le fun hla => absurd ?_ hla) bot_le
-        rw [hTe']
-        intro k hk
-        exact absurd ⟨k, hk⟩ hex
+  have hgfix : ∀ g ∈ XSp p LL J M ρ, ∀ i, P i g = g := by
+    intro g hg i
+    obtain ⟨hg1, hgI⟩ := Submodule.mem_inf.mp hg
+    have hgP := (Submodule.mem_inf.mp hg1).1
+    rw [Submodule.mem_iInf] at hgI
+    by_cases hi : (i : ℕ) = K + 1
+    · rcases hthrc i with ht | ⟨k, hk, ht⟩
+      · refine ycondC_fix LL (K + 1) (univ.erase ρ) (mem_erase.mpr ⟨h0ρ, mem_univ _⟩) ⊤ (T i) (P i) (hPtop i hi)
+          (fun la _ => ?_) g (Submodule.mem_inf.mpr ⟨?_, hgP⟩)
+        · show ((la 0 : ℤ) : WithTop ℤ) ≤ thr i
+          rw [ht]; exact le_top
+        · refine le_ycondC LL (K + 1) (univ.erase ρ) ⊤ ⊤ (fun x _ => ?_) (fun _ _ _ _ _ _ => trivial) trivial
+          rw [mem_restrictSupport_iff]
+          intro m _
+          exact (le_top : ((wt LL (K + 1) 0 m : ℤ) : WithTop ℤ) ≤ ⊤)
+      · have hk' : K + 1 ≤ J k := by omega
+        have h1 := hgI k
+        rw [if_pos hk'] at h1
+        have h2 := (Submodule.mem_inf.mp h1).2
+        have hT : T i = {la | ((la 0 : ℤ) : WithTop ℤ) ≤ M k} := by
+          show {la : Fin r → ℤ | ((la 0 : ℤ) : WithTop ℤ) ≤ thr i} = _
+          rw [ht]
+        have h3 : g ∈ LinearMap.range (P i) := by
+          rw [(hPtop i hi).2.1, hT]
+          exact h2
+        obtain ⟨z, rfl⟩ := h3
+        exact hPP i z
+    · refine ycond_fix LL i (T i) (thr i) (P i) (hPlow i hi) (fun la h => h) g (Submodule.mem_inf.mpr ⟨?_, hgP⟩)
+      rcases hthrc i with ht | ⟨k, hk, ht⟩
+      · rw [ht]
+        refine le_ycond LL i ⊤ ⊤ (fun x _ => ?_) (fun _ _ _ _ => trivial) trivial
+        rw [mem_restrictSupport_iff]
+        intro m _
+        exact (le_top : ((wt LL i 0 m : ℤ) : WithTop ℤ) ≤ ⊤)
+      · rw [ht]
+        have h1 := hgI k
+        have := i.isLt
+        rcases hk with hk | ⟨hk1, hk2⟩
+        · rw [if_neg (by omega), hk] at h1
+          exact h1
+        · rw [if_pos hk2] at h1
+          rw [show (i : ℕ) = K by omega]
+          exact (Submodule.mem_inf.mp h1).1
 
-  obtain ⟨G, hG⟩ : ∃ G : MvPolynomial (Fin (K + 1) × Fin r) ℚ_[p] → MvPolynomial (Fin (K + 1) × Fin r) ℚ_[p],
-      G = fun u => resL p (Fin.last K, ρ) 0 (PE (lcomp P (List.range (K + 2)) u)) := ⟨_, rfl⟩
-  obtain ⟨f, hf⟩ : ∃ f : (Fin (K + 1) × Fin r →₀ ℕ) → MvPolynomial (Fin (K + 1) × Fin r) ℚ_[p],
-      f = fun m => if (∀ c ∈ (univ : Finset (Fin r)), wt LL (K + 1) c m = w c) then G (monomial m 1) else 0 :=
-    ⟨_, rfl⟩
-  refine ⟨(MvPolynomial.basisMonomials (Fin (K + 1) × Fin r) ℚ_[p]).constr ℚ_[p] f, ?_⟩
-  intro m hm hm0
-  have hPr : (MvPolynomial.basisMonomials (Fin (K + 1) × Fin r) ℚ_[p]).constr ℚ_[p] f (monomial m 1) = f m := by
-    have h := (MvPolynomial.basisMonomials (Fin (K + 1) × Fin r) ℚ_[p]).constr_basis ℚ_[p] f m
-    rwa [MvPolynomial.coe_basisMonomials] at h
+  let Q := lcomp P (List.finRange (K + 2))
+  let f : (Fin (K + 1) × Fin r →₀ ℕ) → MvPolynomial (Fin (K + 1) × Fin r) ℚ_[p] := fun m =>
+    if (∀ c ∈ (univ : Finset (Fin r)), wt LL (K + 1) c m = w c) then PE (Q (monomial m 1)) else 0
+  refine ⟨(basisMonomials (Fin (K + 1) × Fin r) ℚ_[p]).constr ℚ_[p] f, fun m hm hmv => ?_⟩
+  have hPr : (basisMonomials (Fin (K + 1) × Fin r) ℚ_[p]).constr ℚ_[p] f (monomial m 1) = f m := by
+    have := (basisMonomials (Fin (K + 1) × Fin r) ℚ_[p]).constr_basis ℚ_[p] f m
+    rwa [coe_basisMonomials] at this
   rw [hPr]
   by_cases hw : ∀ c ∈ (univ : Finset (Fin r)), wt LL (K + 1) c m = w c
-  swap
-  · have h0 : f m = 0 := by rw [hf]; exact if_neg hw
-    rw [h0, smul_zero]
-    refine ⟨zero_mem _, zero_mem _, fun g hg => ?_⟩
+  · rw [show f m = PE (Q (monomial m 1)) from if_pos hw]
+    set u : MvPolynomial (Fin (K + 1) × Fin r) ℚ_[p] := monomial m 1 with hu
+    have huP : u ∈ Pol p r LL := monomial_mem_supp' _ m hm
+    have huZ : u ∈ PolZ p r LL := by
+      refine Submodule.mem_inf.mpr ⟨huP, (intPol_iff_norm _).mpr fun m' => ?_⟩
+      rw [hu, coeff_monomial]; split_ifs <;> simp
+    have huW : u ∈ Wt := monomial_mem_supp' _ m hw
+    have huF : u ∈ FreeOf p v := monomial_mem_supp' _ m hmv
+    set y := Q u with hy
+    have hyW : y ∈ Wt := lcomp_keep P (Wt : Set _) _ (fun j _ => hPWt j) u huW
+    have hyF : y ∈ FreeOf p v := lcomp_keep P (FreeOf p v : Set _) _ (fun j _ => hPfree j) u huF
+    have hyP : y ∈ Pol p r LL := lcomp_keep P (Pol p r LL : Set _) _ (fun j _ => hPpol j) u huP
+    have hyfix : ∀ i, P i y = y := fun i => lcomp_fix P hPP hcomm _ i (List.mem_finRange i) _
+
+    have hint : ((p : ℚ_[p]) ^ (e1 * (if tight then K else K + 2))) • y ∈ PolZ p r LL := by
+      by_cases ht : tight
+      · obtain ⟨hK, hTriv⟩ := hTight ht
+        simp only [ht, if_true]
+        have hl : List.finRange (K + 2) = 0 :: 1 :: ((List.finRange K).map Fin.succ).map Fin.succ := by
+          rw [List.finRange_succ, List.finRange_succ]
+          simp
+        have hint0 := lcomp_int LL e1 P hPpol hPint (((List.finRange K).map Fin.succ).map Fin.succ) u huZ
+        rw [List.length_map, List.length_map, List.length_finRange] at hint0
+        have hy'P : lcomp P (((List.finRange K).map Fin.succ).map Fin.succ) u ∈ Pol p r LL :=
+          lcomp_keep P (Pol p r LL : Set _) _ (fun j _ => hPpol j) u huP
+        have hyy : y = lcomp P (((List.finRange K).map Fin.succ).map Fin.succ) u ∨ y = 0 := by
+          have hy2 : y = P 0 (P 1 (lcomp P (((List.finRange K).map Fin.succ).map Fin.succ) u)) := by
+            rw [hy]
+            show lcomp P (List.finRange (K + 2)) u = _
+            rw [hl, lcomp_cons, lcomp_cons, LinearMap.comp_apply, LinearMap.comp_apply]
+          rw [hy2]
+          rcases hTriv _ (T 1) (P 1) (by simp) (by omega) (hPlow 1 (by simp; omega)) with h1 | h1
+          · rw [h1 _ hy'P]
+            rcases hTriv _ (T 0) (P 0) (by simp) (by omega) (hPlow 0 (by simp)) with h0 | h0
+            · exact Or.inl (h0 _ hy'P)
+            · exact Or.inr (h0 _ hy'P)
+          · rw [h1 _ hy'P, map_zero]
+            exact Or.inr rfl
+        rcases hyy with h | h
+        · rw [h]
+          exact hint0
+        · rw [h, smul_zero]
+          exact Submodule.zero_mem _
+      · simp only [ht, if_false]
+        simpa [List.length_finRange] using
+          lcomp_int LL e1 P hPpol hPint (List.finRange (K + 2)) u huZ
+    set z := PE y with hz
+    have hzfix : ∀ i, P i z = z := fun i => by rw [hz, ← hEP i y hyW, hyfix i]
+    have hzR : z ∈ HWC p LL (K + 1) (univ.erase ρ) w ⊓ Wt := hE2 ▸ LinearMap.mem_range_self PE y
+    have hzP : z ∈ Pol p r LL := by
+      rw [pol_iff_eul] at hyP ⊢
+      intro i
+      rw [hz, ← hEeul i y hyW, hyP i, map_smul]
+    have hzF : z ∈ FreeOf p v := by
+      have h1 : resL p v 0 z = z := by rw [hz, ← hEres y hyW, resL_fix' v y hyF]
+      rw [← h1]
+      exact resL_free v z
+    have hzX : z ∈ XSp p LL J M ρ := by
+      refine Submodule.mem_inf.mpr ⟨Submodule.mem_inf.mpr ⟨hzP, hzF⟩, (Submodule.mem_iInf _).mpr fun k => ?_⟩
+      split_ifs with hk
+      · refine Submodule.mem_inf.mpr ⟨?_, ?_⟩
+        · have h1 := typeProj_range_le_ycond LL K (T ⟨K, by omega⟩) (M k) (P ⟨K, by omega⟩)
+            (hPlow ⟨K, by omega⟩ (by simp))
+            (fun la hla => le_trans hla (hthrle ⟨K, by omega⟩ k (Or.inr ⟨le_rfl, hk⟩))) z
+          rwa [hzfix] at h1
+        · have h1 : z ∈ LinearMap.range (P ⟨K + 1, by omega⟩) := ⟨z, hzfix _⟩
+          rw [(hPtop ⟨K + 1, by omega⟩ rfl).2.1] at h1
+          exact (iSup₂_le fun la hla => le_iSup₂_of_le (f := fun (la : Fin r → ℤ)
+            (_ : ((la 0 : ℤ) : WithTop ℤ) ≤ M k) => IsoC p LL (K + 1) (univ.erase ρ) la) la
+            (le_trans hla (hthrle ⟨K + 1, by omega⟩ k (Or.inr ⟨Nat.le_succ K, hk⟩))) le_rfl) h1
+      · have h1 := typeProj_range_le_ycond LL (J k) (T ⟨J k, by omega⟩) (M k) (P ⟨J k, by omega⟩)
+          (hPlow ⟨J k, by omega⟩ (by simp; omega))
+          (fun la hla => le_trans hla (hthrle ⟨J k, by omega⟩ k (Or.inl rfl))) z
+        rwa [hzfix] at h1
+    refine ⟨Submodule.mem_inf.mpr ⟨Submodule.mem_inf.mpr ⟨hzX, (Submodule.mem_inf.mp hzR).1⟩,
+      (Submodule.mem_inf.mp hzR).2⟩, ?_, ?_⟩
+    · have h5 := hE5 _ hint (Wt.smul_mem _ hyW)
+      rw [map_smul, smul_smul, ← pow_add] at h5
+      rw [show ((if tight then K else K + 2) + 1) * e1 =
+          e1 + e1 * (if tight then K else K + 2) by ring]
+      exact h5
+    · intro g hg
+      obtain ⟨hg1, hgW⟩ := Submodule.mem_inf.mp hg
+      obtain ⟨hgX, hgH⟩ := Submodule.mem_inf.mp hg1
+      rw [hz, ← hE4 g y hgW hyW, hEfix g (Submodule.mem_inf.mpr ⟨hgH, hgW⟩)]
+      exact lcomp_fock P hPsa g (hgfix g hgX) _ u
+  · rw [show f m = 0 from if_neg hw]
+    refine ⟨Submodule.zero_mem _, by rw [smul_zero]; exact Submodule.zero_mem _, fun g hg => ?_⟩
     rw [fock_right_zero', fock_monomial_zero']
     intro hmg
-    obtain ⟨-, -, -, -, -, hgw⟩ := hXH g hg
-    exact hw (mem_of_mem_support_restrictSupport hgw hmg)
-  have hfm : f m = resL p (Fin.last K, ρ) 0 (PE (lcomp P (List.range (K + 2)) (monomial m 1))) := by
-    rw [hf, hG]; exact if_pos hw
-  rw [hfm]
+    have hgW := (Submodule.mem_inf.mp hg).2
+    rw [WtSpC, mem_restrictSupport_iff] at hgW
+    exact hw (hgW (Finset.mem_coe.mpr hmg))
 
-  have hu_pol : (monomial m 1 : MvPolynomial (Fin (K + 1) × Fin r) ℚ_[p]) ∈ Pol p r LL :=
-    monomial_mem_supp' {m | MultiDeg LL m} m hm
-  have hu_ws : (monomial m 1 : MvPolynomial (Fin (K + 1) × Fin r) ℚ_[p]) ∈ WtSpC p LL (K + 1) univ w :=
-    monomial_mem_supp' _ m hw
-  have hu_int : (monomial m 1 : MvPolynomial (Fin (K + 1) × Fin r) ℚ_[p]) ∈ IntPol p (Fin (K + 1) × Fin r) := by
-    rw [intPol_iff_norm]
-    intro n
-    rw [MvPolynomial.coeff_monomial]
-    split_ifs <;> simp
-  set y := lcomp P (List.range (K + 2)) (monomial m 1) with hy
-  have hy_ws : y ∈ WtSpC p LL (K + 1) univ w :=
-    lcomp_keep P (WtSpC p LL (K + 1) univ w : Set _) _ (fun j _ u hu => hPws j u hu) _ hu_ws
-  have hy_pol : y ∈ Pol p r LL :=
-    lcomp_keep P (Pol p r LL : Set _) _ (fun j _ u hu => hPpol j u hu) _ hu_pol
-  have hy_fix : ∀ j, j ≤ K + 1 → P j y = y := fun j hj =>
-    lcomp_fix P hPP hcomm _ j (List.mem_range.mpr (by omega)) _
-  set z := PE y with hz
-  have hz_rng : z ∈ HWC p LL (K + 1) (univ.erase ρ) w ⊓ WtSpC p LL (K + 1) univ w := by
-    rw [← hE2]; exact LinearMap.mem_range_self PE y
-  have hz_pol : z ∈ Pol p r LL := hPEpol y ⟨hy_pol, hy_ws⟩
-  have hz_fix : ∀ j, j ≤ K + 1 → P j z = z := by
-    intro j hj
-    rw [hz, ← hPEc (P j) (hPgl j) (hPws j) y hy_ws, hy_fix j hj]
-  set x := resL p (Fin.last K, ρ) 0 z with hx
-  have hx_fix : ∀ j, j ≤ K + 1 → P j x = x := by
-    intro j hj
-    rw [hx, hPres, hz_fix j hj]
-
-  have hx_pol : x ∈ Pol p r LL := resL_keep_supp (Fin.last K, ρ) 0 {m | MultiDeg LL m} z hz_pol
-  have hx_free : x ∈ FreeOf p (Fin.last K, ρ) := resL_free _ z
-  have hx_ws : x ∈ WtSpC p LL (K + 1) univ w := resL_keep_supp _ 0 _ z hz_rng.2
-  have hres : ∀ c ∈ univ.erase ρ, ∀ d ∈ univ.erase ρ, ∀ u,
-      resL p (Fin.last K, ρ) 0 (glAct p LL (K + 1) c d u) = glAct p LL (K + 1) c d (resL p (Fin.last K, ρ) 0 u) := by
-    intro c hc d hd u
-    refine resL_glAct LL (K + 1) c d (Fin.last K, ρ) 0 (fun i _ => ?_) u
-    exact ⟨fun h => (Finset.mem_erase.mp hc).1 (Prod.ext_iff.mp h).2,
-      fun h => (Finset.mem_erase.mp hd).1 (Prod.ext_iff.mp h).2⟩
-  have hx_hwc : x ∈ HWC p LL (K + 1) (univ.erase ρ) w := by
-    have hzh : z ∈ WtSpC p LL (K + 1) (univ.erase ρ) w ⊓
-        ⨅ (c : Fin r) (d : Fin r) (_ : c ∈ univ.erase ρ ∧ d ∈ univ.erase ρ ∧ c < d),
-          LinearMap.ker (glAct p LL (K + 1) c d) := hz_rng.1
-    show x ∈ WtSpC p LL (K + 1) (univ.erase ρ) w ⊓
-        ⨅ (c : Fin r) (d : Fin r) (_ : c ∈ univ.erase ρ ∧ d ∈ univ.erase ρ ∧ c < d),
-          LinearMap.ker (glAct p LL (K + 1) c d)
-    rw [Submodule.mem_inf] at hzh ⊢
-    refine ⟨resL_keep_supp _ 0 _ z hzh.1, ?_⟩
-    have h2 := hzh.2
-    simp only [Submodule.mem_iInf, LinearMap.mem_ker] at h2 ⊢
-    intro c d hcd
-    rw [hx, ← hres c hcd.1 d hcd.2.1 z, h2 c d hcd, map_zero]
-  have hxY : ∀ k, x ∈ YCond p LL (min (J k) K) (M k) := by
-    intro k
-    rw [← hx_fix (min (J k) K) (by omega)]
-    exact typeProj_range_le_ycond LL _ (Tu _) (M k) (P _) (hTPu _ (by omega))
-      (fun la hla => (hTu' _ la).mp hla k rfl) x
-  have hxT : ∀ k, K + 1 ≤ J k → x ∈ TypesLE p LL (K + 1) (univ.erase ρ) (M k) := by
-    intro k hk
-    have h1 : x ∈ ⨆ (la : Fin r → ℤ) (_ : la ∈ Te), IsoC p LL (K + 1) (univ.erase ρ) la := by
-      rw [← (hTPe (K + 1) (by omega)).2.1, ← hx_fix (K + 1) le_rfl]
-      exact LinearMap.mem_range_self _ x
-    have hle : (⨆ (la : Fin r → ℤ) (_ : la ∈ Te), IsoC p LL (K + 1) (univ.erase ρ) la)
-        ≤ TypesLE p LL (K + 1) (univ.erase ρ) (M k) := by
-      unfold TypesLE
-      exact iSup₂_le fun la hla => le_iSup₂_of_le la ((hTe' la).mp hla k hk) le_rfl
-    exact hle h1
-  refine ⟨?_, ?_, ?_⟩
-  · show x ∈ ((Pol p r LL ⊓ FreeOf p (Fin.last K, ρ) ⊓
-        ⨅ k, (if K + 1 ≤ J k then YCond p LL K (M k) ⊓ TypesLE p LL (K + 1) (univ.erase ρ) (M k)
-          else YCond p LL (J k) (M k))) ⊓ HWC p LL (K + 1) (univ.erase ρ) w) ⊓ WtSpC p LL (K + 1) univ w
-    refine ⟨⟨⟨⟨hx_pol, hx_free⟩, ?_⟩, hx_hwc⟩, hx_ws⟩
-    apply (Submodule.mem_iInf _).mpr
-    intro k
-    split_ifs with hk
-    · have h1 := hxY k
-      rw [show min (J k) K = K by omega] at h1
-      exact ⟨h1, hxT k hk⟩
-    · have h1 := hxY k
-      rwa [show min (J k) K = J k by omega] at h1
-  · have hyZ := lcomp_int LL e1 P hPpol hPint (List.range (K + 2)) (monomial m 1) ⟨hu_pol, hu_int⟩
-    rw [List.length_range] at hyZ
-    have hzI := hE5 _ hyZ (Submodule.smul_mem _ _ hy_ws)
-    rw [map_smul, smul_smul, ← pow_add] at hzI
-    have hxI := initPart_int (Fin.last K, ρ) 0 _ hzI
-    have he : ((p : ℚ_[p]) ^ ((K + 3) * e1)) • x
-        = resL p (Fin.last K, ρ) 0 (((p : ℚ_[p]) ^ (e1 + e1 * (K + 2))) • z) := by
-      rw [map_smul, hx, show (K + 3) * e1 = e1 + e1 * (K + 2) by ring]
-    rw [he]
-    exact hxI
-  · intro g hg
-    obtain ⟨-, hgF, -, -, hgH, hgW⟩ := hXH g hg
-    have f1 : fock p g x = fock p g z := by
-      rw [hx]
-      unfold fock
-      refine Finset.sum_congr rfl (fun n hn => ?_)
-      have h1 : (resL p (Fin.last K, ρ) 0 z).coeff n = z.coeff n := by
-        show (initPart (Fin.last K, ρ) 0 z).coeff n = _
-        rw [coeff_initPart, if_pos (show n (Fin.last K, ρ) = 0 from mem_of_mem_support_restrictSupport hgF hn)]
-      rw [h1]
-    have f2 : fock p g z = fock p g y := by
-      rw [hz, ← hE4 g y hgW hy_ws, hPEfix g ⟨hgH, hgW⟩]
-    have f3 : fock p g y = fock p g (monomial m 1) := lcomp_fock P hPsa g (hPg g hg) _ _
-    rw [f1, f2, f3]
+theorem highest_vector_projection : ProjX := by
+  intro p _ K r _ LL q J M ρ w e1 hr hρ hv hP hE
+  exact highest_vector_projection_of_type_projections false p K r LL J M ρ w e1
+    (fun h => Bool.noConfusion h) hr hρ hv hP hE
 
 end Formalism.InvariantFactorPaths.L4

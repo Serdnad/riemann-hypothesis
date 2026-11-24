@@ -1,5 +1,6 @@
 module
 
+import all Formalism.PeriodIntegrals.UnitaryGroupMassFormula.TorusConjugationRule.WColOther
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.RightSingleRule.PatEntryZero
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -129,14 +130,7 @@ private lemma hpk_eq_lemma (i j : Fin (2 * r + k + 1)) :
 
 private lemma hpk_col_lemma (x y : Fin (2 * r + k + 1)) :
     Hpk k r x y = if x = WeylGroupFacts.tau k r y then WeylGroupFacts.sgn k r y else 0 := by
-  rw [hpk_eq_lemma]
-  by_cases h : x = WeylGroupFacts.tau k r y
-  · subst h
-    simp [tau_tau_lemma, sgn_tau_lemma]
-  · rw [if_neg h, if_neg]
-    intro h'
-    apply h
-    rw [h', tau_tau_lemma]
+  apply _root_.PI.QnRT.hpk_col_lemma <;> assumption
 
 private lemma sgn_sq_lemma (i : Fin (2 * r + k + 1)) : WeylGroupFacts.sgn k r i * WeylGroupFacts.sgn k r i = 1 := by
   unfold WeylGroupFacts.sgn
@@ -210,17 +204,7 @@ lemma tau_eI (l : Fin r) : WeylGroupFacts.tau k r (eI k r l) = esI k r l := by
   · exact absurd (Or.inl hl) h
 
 lemma tau_esI (l : Fin r) : WeylGroupFacts.tau k r (esI k r l) = eI k r l := by
-  have hl := l.isLt
-  apply Fin.ext
-  rw [tau_val_lemma]
-  split_ifs with h
-  · show 2 * r + k - (2 * r + k - l.val) = l.val
-    omega
-  · exfalso
-    apply h
-    right
-    show r + k < 2 * r + k - l.val
-    omega
+  apply _root_.PI.QnRT.tau_es <;> assumption
 
 lemma sgn_eI (l : Fin r) : WeylGroupFacts.sgn k r (eI k r l) = 1 := by
   have hl := l.isLt

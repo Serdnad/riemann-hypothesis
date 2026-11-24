@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.DefNodeIsV
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.RowBesZeroE
 public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.WeilRepRankZeroWittEmbeddingValueAtZero
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.MeasureToRealEqMass
@@ -142,21 +143,7 @@ theorem hatL_mulVec_rect {F E : Type} [Field F] [NumberField F] [Field E] [Numbe
     (Λ' : Submodule (𝓞 E) (Fin m → E)) (h : ∀ y ∈ Λ, M *ᵥ y ∈ Λ')
     (x : Fin n → TensorProduct F E (Formalism.L2.Herm.Af F)) (hx : x ∈ Formalism.L2.Herm.hatL (F := F) Λ) :
     M.map (Formalism.UG.inclE (F := F) (Formalism.L2.Herm.Af F)) *ᵥ x ∈ Formalism.L2.Herm.hatL (F := F) Λ' := by
-  unfold Formalism.L2.Herm.hatL Formalism.UG.latS at *
-  induction hx using Submodule.span_induction with
-  | mem y hy =>
-    obtain ⟨z, hz, rfl⟩ := hy
-    apply Submodule.subset_span
-    refine ⟨M *ᵥ z, h z hz, ?_⟩
-    funext i
-
-    simp [Matrix.mulVec, dotProduct, map_sum]
-  | zero => simp
-  | add y z _ _ hy hz =>
-    rw [Matrix.mulVec_add]; exact Submodule.add_mem _ hy hz
-  | smul c y _ hy =>
-    rw [Subring.smul_def, Matrix.mulVec_smul]
-    exact Submodule.smul_mem _ c hy
+  first | exact _root_.GlobalTheory.TopExt.hat_mulVec | exact @_root_.GlobalTheory.TopExt.hat_mulVec | apply _root_.GlobalTheory.TopExt.hat_mulVec <;> assumption
 
 theorem inclusion_mulVec_projection_mulVec {D : D7} {S S₀ : HSp D} (d : HypDec S S₀ 0) (y : Fin S.rank → Lev.EAf D) :
     d.i₀.map (Formalism.UG.inclE (F := D.host.F) (Formalism.L2.Herm.Af D.host.F)) *ᵥ

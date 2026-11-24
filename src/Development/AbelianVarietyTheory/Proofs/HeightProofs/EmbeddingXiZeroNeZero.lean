@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.FlagMeasures.AdelicTransportMeasureFirst
 import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsUniqueInfEmb
 public import Development.AbelianVarietyTheory.BlockTheory.HeightDefect.WeilIdempotents
 public import Development.AbelianVarietyTheory.Counterexamples.HeightSurvey.StarPurelyImaginaryEqNeg
@@ -77,18 +78,8 @@ theorem gen_coord (R : Type) [CommRing R] [Algebra F R] (α β : E →ₗ[F] F) 
 theorem gen_parts (R S : Type) [CommRing R] [Algebra F R] [CommRing S] [Algebra F S] (z : (R × S) ⊗[F] E)
     (h1 : Algebra.TensorProduct.map (AlgHom.fst F R S) (AlgHom.id F E) z = 0)
     (h2 : Algebra.TensorProduct.map (AlgHom.snd F R S) (AlgHom.id F E) z = 0) : z = 0 := by
-  have : ∀ z : (R × S) ⊗[F] E, z =
-      LinearMap.rTensor E (LinearMap.inl F R S) (Algebra.TensorProduct.map (AlgHom.fst F R S) (AlgHom.id F E) z) +
-      LinearMap.rTensor E (LinearMap.inr F R S) (Algebra.TensorProduct.map (AlgHom.snd F R S) (AlgHom.id F E) z) := by
-    intro z
-    induction z using TensorProduct.induction_on with
-    | zero => simp
-    | tmul a e => simp [← TensorProduct.add_tmul]
-    | add x y hx hy =>
-      simp only [map_add (f := _)]
-      conv_lhs => rw [hx, hy]
-      abel
-  rw [this z, h1, h2, map_zero, map_zero, add_zero]
+  intros
+  apply _root_.GlobalTheory.CuspCompare.adele_tens_eq_zero <;> assumption
 
 end Gen
 

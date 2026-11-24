@@ -1,5 +1,6 @@
 module
 
+import Development.WeilBound.CoreStatements.TemperedRepresentationTheory.SquareIntegrableTempered.CentredSegments.Development
 public import Development.AutomorphicArithmetic.ThetaCorrespondence.GeneralLinearGroups.CasselmanSuffTemp
 public import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.IrreducibleAdmissibleGL
 public import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.StandardFunctorsFiniteLength
@@ -828,14 +829,8 @@ private theorem deltaHalf_scalar (d : Fin 2 → ℕ) (t : kˣ) :
 private theorem piTensor_apply_of_smul {h : ℕ} (x : Fin h → IrrGL (k := k)) (g : ∀ a, GL (Fin (x a).1) k)
     (c : Fin h → ℂ) (hc : ∀ a v, (x a).rep (g a) v = c a • v)
     (w : PiTensorProduct ℂ (fun a => (x a).2.rep.V)) :
-    piTensor (fun a => (x a).rep) g w = (∏ a, c a) • w := by
-  induction w using PiTensorProduct.induction_on with
-  | add y z hy hz => rw [map_add (f := _), hy, hz, smul_add]
-  | smul_tprod r y =>
-    rw [map_smul, piTensor_tprod, smul_comm]
-    congr 1
-    simp only [hc]
-    exact MultilinearMap.map_smul_univ _ _ _
+    piTensor (fun a => (x a).rep) g w = (∏ a, c a) • w :=
+  _root_.GlobalTheory.CompanionTheory.JacCentral.piTensor_apply_of_smul x g c hc w
 
 private theorem smul_eq_of_equiv {G V W : Type} [Group G] [AddCommGroup V] [Module ℂ V] [AddCommGroup W]
     [Module ℂ W] [Nontrivial W] {ρ : Representation ℂ G V} {σ : Representation ℂ G W}

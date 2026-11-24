@@ -1,5 +1,6 @@
 module
 
+import CompanionTheory.AutomorphicTheory.PieriRules.ThetaBesselIsometries.FrechetContinuousContinuousOnOrbitHasDerivAt
 public import Formalism.FormalDegreeBessel.StatementIO
 public import Mathlib.Analysis.Calculus.ContDiff.Basic
 public import Mathlib.Analysis.Calculus.ContDiff.Operations
@@ -133,20 +134,7 @@ theorem left_hasDerivAt {H : Matrix (Fin n) (Fin n) ℂ} (hH : AAInvW.HInvol H)
     (hU : IsOpen U) (hg : g ∈ U) (hgH : inUH H g) (hF : ContDiffOn ℝ ∞ F U)
     (hfF : ∀ x ∈ U, inUH H x → f x = F x) (hX : AAInvW.inLH H X) :
     HasDerivAt (fun t : ℝ => f (NormedSpace.exp ((t : ℂ) • X) * g)) (fderiv ℝ F g (X * g)) 0 := by
-  have hc : HasDerivAt (fun t : ℝ => NormedSpace.exp ((t : ℂ) • X) * g) (X * g) 0 := by
-    refine hasDerivAt_iff_tendsto_slope.2 ?_
-    have h := (Formalism.REAL.tendsto_slope_exp_smul X).mul_const g
-    refine h.congr' (Filter.Eventually.of_forall fun t => ?_)
-    simp only [slope_def_module, sub_mul, smul_mul_assoc]
-  have hFd : HasFDerivAt F (fderiv ℝ F g) g :=
-    ((hF.differentiableOn (by simp)) g hg).differentiableAt (hU.mem_nhds hg) |>.hasFDerivAt
-  have hcomp := hFd.comp_hasDerivAt_of_eq (0 : ℝ) hc (by simp)
-  have h0 : (fun t : ℝ => NormedSpace.exp ((t : ℂ) • X) * g) 0 = g := by simp
-  have hcU : (fun t : ℝ => NormedSpace.exp ((t : ℂ) • X) * g) ⁻¹' U ∈ 𝓝 (0 : ℝ) :=
-    hc.continuousAt.preimage_mem_nhds (by rw [show NormedSpace.exp (((0 : ℝ) : ℂ) • X) * g = g by simp]; exact hU.mem_nhds hg)
-  refine hcomp.congr_of_eventuallyEq ?_
-  filter_upwards [hcU] with t ht
-  exact hfF _ ht (AAInvW.ana_mul (AAInvW.ana_expt hH hX t) hgH)
+  first | exact _root_.Gp91.GlobalTheory.CWDeriv.left_hasDerivAt | exact @_root_.Gp91.GlobalTheory.CWDeriv.left_hasDerivAt | apply _root_.Gp91.GlobalTheory.CWDeriv.left_hasDerivAt <;> assumption
 
 theorem left_smooth {H : Matrix (Fin n) (Fin n) ℂ} (hH : AAInvW.HInvol H)
     {f f' : Matrix (Fin n) (Fin n) ℂ → E} {X : Matrix (Fin n) (Fin n) ℂ}

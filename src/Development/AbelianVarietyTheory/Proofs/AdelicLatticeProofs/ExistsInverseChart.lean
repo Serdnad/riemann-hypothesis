@@ -44,6 +44,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
+import Formalism.LocalToGlobal.IndefiniteReal.LevelTypeEquivalence.ContinuousSplitInv
 
 @[expose] public section
 
@@ -81,29 +82,7 @@ theorem continuous_ray {ι : Type} (τ : ι) (c : ℂ) : Continuous (ray τ c) :
     exact continuous_const
 
 theorem lineAt_exists (D : D7) : LineAtExists D := by
-  intro θ hθ m n τ z
-  obtain ⟨σ, hσ⟩ := exists_inverse_chart hθ
-  let L : ℝ →+ Mx D m n :=
-    { toFun := fun t => Matrix.of fun i j => σ (ray τ (z i j) t)
-      map_zero' := by
-        funext i j
-        show σ (ray τ (z i j) 0) = 0
-        rw [(ray τ (z i j)).map_zero, σ.map_zero]
-      map_add' := fun s t => by
-        funext i j
-        show σ (ray τ (z i j) (s + t)) = σ (ray τ (z i j) s) + σ (ray τ (z i j) t)
-        rw [map_add, map_add] }
-  refine ⟨L, ?_, fun t => ?_, fun t τ' => ?_⟩
-  · exact continuous_pi fun i => continuous_pi fun j => hσ.cont.comp (continuous_ray τ (z i j))
-  · funext i j
-    exact hσ.fin _
-  · funext i j
-    refine (hσ.comp (ray τ (z i j) t) τ').trans ?_
-    by_cases h : τ' = τ
-    · rw [if_pos h]
-      exact if_pos h
-    · rw [if_neg h]
-      exact if_neg h
+  apply _root_.Formalism.IndefR.Eqv.lineAtExists_holds <;> assumption
 
 theorem lineAt_unique (D : D7) : LineAtUnique D := by
   intro θ hθ m n τ z L L' hL hL'

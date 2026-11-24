@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.JKAppTopInjective
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.IsLinearHomPull
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsFlatEpiLiftRaynaudExtensionFractionPoint
 public import Development.AbelianVarietyTheory.Definitions.Divisors.IsProperToroidalModelStructureMap
@@ -392,15 +393,7 @@ namespace GlobalTheory.UnitPartPt
 variable {R : Type} [CommRing R] [IsDomain R]
 
 theorem appTop_jK_injective : Function.Injective (jK R).appTop.hom := by
-  intro a b h
-  have e := Scheme.ΓSpecIso_naturality (CommRingCat.ofHom (algebraMap R (FractionRing R)))
-  have h2 := congrArg (Scheme.ΓSpecIso (CommRingCat.of (FractionRing R))).hom.hom h
-  have ea := congrArg (fun f => f.hom a) e
-  have eb := congrArg (fun f => f.hom b) e
-  simp only [CommRingCat.hom_comp, RingHom.comp_apply, CommRingCat.hom_ofHom] at ea eb
-  rw [ea, eb] at h2
-  exact (ConcreteCategory.bijective_of_isIso (Scheme.ΓSpecIso (CommRingCat.of R)).hom).1
-    (IsFractionRing.injective R (FractionRing R) h2)
+  apply _root_.GlobalTheory.PsiInt.jK_appTop_injective <;> assumption
 
 theorem eq_one_of_jK (a : Γ(Sp R, ⊤)) (z : (TK R).left) (h : gs (jK R) z ⊤ a = 1) : a = 1 := by
   rw [gs_eq _ z ⊤ trivial] at h

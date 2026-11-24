@@ -1,5 +1,7 @@
 module
 
+
+import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.UniversalChartPointsOverFieldPointStatement
 public import Formalism.LocalToGlobal.ProjectiveLattices.SubConstMemOrig
 public import Mathlib.RingTheory.MvPolynomial.Ideal
 public import Development.AbelianVarietyTheory.Definitions.Jets.JetsOnCopiesCompatibleFrames
@@ -49,7 +51,6 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
 import Development.AbelianVarietyTheory.Definitions.Jets.TwoPlaces
 import Mathlib.Tactic.Linter.Style
-
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.Counterexamples.LevelGroupExamples.JetTruncNotInjective, Development.AbelianVarietyTheory.Proofs.JetHarmonics.ExistsUniversalJetCoordinatesPullbackStatement, Development.AbelianVarietyTheory.Proofs.JetHarmonics.ExistsFormalGroupJetsChart
 
@@ -179,17 +180,7 @@ theorem aug_jetZero (κ : Type) (m : ℕ) :
   exact aug_X (m := 0) i
 
 theorem ker_aug_pow (κ : Type) (m : ℕ) : RingHom.ker (jetAug : Jet V κ m →ₐ[V] V) ^ (m + 1) = ⊥ := by
-  have hle : RingHom.ker (jetAug : Jet V κ m →ₐ[V] V) ≤
-      (orig V κ).map (Ideal.Quotient.mk (orig V κ ^ (m + 1))) := by
-    intro w hw
-    obtain ⟨p, rfl⟩ := Ideal.Quotient.mk_surjective w
-    rw [RingHom.mem_ker, GlobalTheory.JetTest.jetAug_mk] at hw
-    have h := sub_const_mem_orig p
-    rw [hw, map_zero, sub_zero] at h
-    exact Ideal.mem_map_of_mem _ h
-  apply le_bot_iff.1
-  refine (Ideal.pow_right_mono hle _).trans ?_
-  rw [← Ideal.map_pow, Ideal.map_quotient_self]
+  first | exact _root_.GlobalTheory.AlphaPair.JetUniv.ker_aug_pow | exact @_root_.GlobalTheory.AlphaPair.JetUniv.ker_aug_pow | apply _root_.GlobalTheory.AlphaPair.JetUniv.ker_aug_pow <;> assumption
 
 theorem zero_iff {κ κ' : Type} {m : ℕ} (ψ : Jet V κ m →ₐ[V] Jet V κ' m) :
     (∀ j, jetZeroR V κ' m (ψ (zR m j)) = 0) ↔ (jetAug : Jet V κ' m →ₐ[V] V).comp ψ = jetAug := by

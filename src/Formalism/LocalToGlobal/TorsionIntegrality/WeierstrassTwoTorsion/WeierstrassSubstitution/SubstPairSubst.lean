@@ -1,5 +1,6 @@
 module
 
+import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.JetIntegrality.CoeffSubstOfDegreeEqOne
 public import Formalism.LocalToGlobal.TorsionIntegrality.WeierstrassTwoTorsion.WeierstrassSubstitution.FormalGroupEqWSeries
 public import Formalism.LocalToGlobal.TorsionIntegrality.WeierstrassTwoTorsion.StatementC
 public import Formalism.LocalToGlobal.TorsionIntegrality.WeierstrassTwoTorsion.WeierstrassSubstitution.CompInv
@@ -117,17 +118,7 @@ theorem cc_subst {g s : R⟦X⟧} (hs : constantCoeff s = 0) :
 
 theorem coeff_one_subst {f s : R⟦X⟧} (hs : constantCoeff s = 0) :
     coeff 1 (f.subst s) = coeff 1 f * coeff 1 s := by
-  have hs' := HasSubst.of_constantCoeff_zero hs
-  obtain ⟨t, rfl⟩ : X ∣ s := X_dvd_iff.mpr hs
-  erw [PowerSeries.coeff_subst hs', finsum_eq_single _ 1]
-  · simp
-  · intro d hd
-    rcases d with _ | _ | d
-    · simp
-    · exact absurd rfl hd
-    · rw [mul_pow]
-      show coeff (d + 1 + 1) f • coeff 1 (X ^ (d + 1 + 1) * t ^ (d + 1 + 1)) = 0
-      rw [coeff_X_pow_mul', if_neg (show ¬ (d + 1 + 1 ≤ 1) by omega), smul_zero]
+  apply _root_.PI.JetsPhW.Low.pcoeff1_subst <;> assumption
 
 end Tools
 

@@ -1,5 +1,6 @@
 module
 
+import Formalism.LocalToGlobal.SiegelLatticeTheory.CokernelGLCounts.RankPointCounts.IsLoOfIntLow
 public import Formalism.SharpRestriction.CuspSpanNormBounds.FractionFieldToGenericStalkAlgebraMapEq
 import Mathlib.RingTheory.Henselian
 import Mathlib.RingTheory.RegularLocalRing.Defs
@@ -36,17 +37,7 @@ theorem comp_mem_O (g : SplitG M.L) {x : E} (hx : x ∈ M.L.O) :
 
 theorem mem_R_of {g : SplitG M.L} (hs : M.split = some g) {x : E} (h1 : (g.e x).1 ∈ 𝒪[F])
     (h2 : (g.e x).2 ∈ 𝒪[F]) (h3 : ∃ c ∈ 𝒪[F], (g.e x).1 - (g.e x).2 = (g.q : F) * c) : x ∈ M.R := by
-  obtain ⟨c, hc, hce⟩ := h3
-  unfold Model.R
-  rw [hs]
-  dsimp only
-  rw [Subring.mem_comap, Subring.mem_map]
-  refine ⟨(⟨(g.e x).1, h1⟩, ⟨(g.e x).2, h2⟩), ?_, rfl⟩
-  rw [RingHom.mem_eqLocus, RingHom.comp_apply, RingHom.comp_apply, Ideal.Quotient.eq,
-    Ideal.mem_span_singleton']
-  refine ⟨⟨c, hc⟩, Subtype.ext ?_⟩
-  show c * (g.q : F) = (g.e x).1 - (g.e x).2
-  rw [hce, mul_comm]
+  apply _root_.Formalism.L2.SG.Pf.TupGlobApprox.mem_R_of <;> assumption
 
 theorem alg_mem_R {g : SplitG M.L} (hs : M.split = some g) (a : 𝒪[F]) : algebraMap F E a ∈ M.R := by
   have he := e_alg g (a : F)

@@ -775,11 +775,7 @@ theorem powv (y : Mat C N) (l : C) (v : Fin N → C) (h : y *ᵥ v = l • v) (m
 
 theorem root_of (M : Mat C N) (β : C) (v : Fin N → C) (hv : v ≠ 0) (h : M *ᵥ v = β • v) :
     M.charpoly.IsRoot β := by
-  rw [Polynomial.IsRoot.def, eval_charpoly, ← exists_mulVec_eq_zero_iff]
-  refine ⟨v, hv, ?_⟩
-  rw [sub_mulVec, h]
-  ext a
-  simp [Matrix.scalar_apply]
+  apply _root_.LateralTheory.DivDb.CycleCount₂.eig_root <;> assumption
 
 theorem eig {p : Fin n → Mat C N} {x : Mat C N} {π : Equiv.Perm (Fin n)} (hp : Sys p)
     (hxu : IsUnit x) (hx : ∀ j, x * p j = p (π j) * x) (τ : Fin n → C) (hτ : ∀ j, τ j ≠ 0)
@@ -865,10 +861,7 @@ variable {C : Type} [Field C] {N n : ℕ}
 
 theorem sum_mul_p {p : Fin n → Mat C N} (hS : Sys p) (d : Fin n → C) (k : Fin n) :
     (∑ j, d j • p j) * p k = d k • p k := by
-  rw [Finset.sum_mul, Finset.sum_eq_single k]
-  · rw [smul_mul_assoc, (hS.1.idem k).eq]
-  · intro j _ hj; rw [smul_mul_assoc, hS.1.ortho hj, smul_zero]
-  · simp
+  apply _root_.LateralTheory.DivDb.GenSpecProof.tp <;> assumption
 
 theorem p_mul_sum {p : Fin n → Mat C N} (hS : Sys p) (d : Fin n → C) (k : Fin n) :
     p k * (∑ j, d j • p j) = d k • p k := by

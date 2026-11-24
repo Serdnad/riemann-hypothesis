@@ -61,28 +61,10 @@ open NumberField Formalism.FrobeniusOrbits Formalism.BasicNotions Formalism.Main
 namespace Formalism.MainNotions.AuxBlock8.Pf.St
 
 theorem ev_log (c α : ℝ) (hα : 0 < α) : ∀ᶠ x : ℝ in atTop, c * Real.log x ≤ x ^ α := by
-  have hε : (0 : ℝ) < 1 / (|c| + 1) := by positivity
-  have h := (isLittleO_log_rpow_atTop hα).def hε
-  filter_upwards [h, eventually_gt_atTop 0] with x hx hx0
-  have hxa : 0 < x ^ α := Real.rpow_pos_of_pos hx0 α
-  rw [Real.norm_eq_abs, Real.norm_eq_abs, abs_of_pos hxa] at hx
-  have hc : |c| * (1 / (|c| + 1)) ≤ 1 := by
-    rw [mul_one_div, div_le_one (by positivity)]
-    linarith
-  calc c * Real.log x ≤ |c| * |Real.log x| := by rw [← abs_mul]; exact le_abs_self _
-    _ ≤ |c| * (1 / (|c| + 1) * x ^ α) := by gcongr
-    _ = (|c| * (1 / (|c| + 1))) * x ^ α := by ring
-    _ ≤ 1 * x ^ α := by gcongr
-    _ = x ^ α := one_mul _
+  apply _root_.Formalism.MainNotions.AuxBlock8.Pf.ev_log <;> assumption
 
 theorem ev_pow (c α β : ℝ) (h : α < β) : ∀ᶠ x : ℝ in atTop, c * x ^ α ≤ x ^ β := by
-  have ht := tendsto_rpow_atTop (sub_pos.2 h)
-  filter_upwards [ht.eventually_ge_atTop c, eventually_gt_atTop 0] with x hx hx0
-  have hsplit : x ^ β = x ^ α * x ^ (β - α) := by
-    rw [← Real.rpow_add hx0]
-    ring_nf
-  rw [hsplit, mul_comm c]
-  exact mul_le_mul_of_nonneg_left hx (Real.rpow_pos_of_pos hx0 α).le
+  apply _root_.Formalism.MainNotions.AuxBlock8.Pf.ev_pow <;> assumption
 
 def rE (eps : ℝ) : ℕ := ⌈8 * (2 + 8 * eps + 2) / eps⌉₊ + 1
 
@@ -187,12 +169,7 @@ theorem first_count_le_log (s : Scale) (hx : Real.exp 1 ≤ s.x) : (N1 s : ℝ) 
   nlinarith
 
 theorem k_le_x_pow_six {D : D7} (L : SizeData₂ D) (hS : Formalism.MainNotions.SizesAt L) : (D.R.k : ℝ) ≤ L.sc.x ^ (6 : ℝ) := by
-  have hk := hS.2.2.1.2
-  have he := L.sc.eps_lt
-  have he0 := L.sc.eps_pos
-  refine hk.trans (Real.rpow_le_rpow_of_exponent_le L.sc.one_lt_alt.le ?_)
-  unfold Formalism.MainNotions.szTh
-  linarith
+  apply _root_.Formalism.MainNotions.AuxBlock8.Pf.k_le_x_pow_six <;> assumption
 
 theorem one_le_k (D : D7) : (1 : ℝ) ≤ (D.R.k : ℝ) := by
   have h := D.R.m_add_three_le_k
@@ -356,78 +333,10 @@ theorem one_le_xpow (s : Scale) (y : ℝ) (hy : 0 ≤ y) : 1 ≤ s.x ^ y := Real
 
 theorem Gp_le (s : Scale) (hx : Real.exp 1 ≤ s.x) :
     (Gp s : ℝ) ≤ cGE s.eps * Real.log s.x * s.x ^ (s.eps / 8) := by
-  have he := s.eps_pos
-  have hx0 := sc_x_pos s
-  have lx1 : 1 ≤ Real.log s.x := (Real.le_log_iff_exp_le hx0).2 hx
-  have hy1 : 1 ≤ s.x ^ (s.eps / 8) := one_le_xpow s _ (by positivity)
-  have hU : ((goodU s.delta1 : ℕ) : ℝ) ≤ 2 * s.x ^ (s.eps / 8) := by
-    unfold goodU
-    rw [inv_delta1]
-    have := Nat.ceil_lt_add_one (le_trans zero_le_one hy1)
-    linarith
-  have hM : ((orbitSmallMultiplicity (rG s) (hG s) s.x : ℕ) : ℝ) ≤ ((2 + 8 * s.eps + 3) * 10 ^ (6 * rE s.eps + 1) + 1) * Real.log s.x := by
-    unfold orbitSmallMultiplicity hG
-    rw [rG_rE, zpow_neg, div_inv_eq_mul, zpow_natCast]
-    have h0 : 0 ≤ (2 + 8 * s.eps + 3) * Real.log s.x * 10 ^ (6 * rE s.eps + 1) := by positivity
-    have := Nat.ceil_lt_add_one h0
-    nlinarith
-  unfold Gp goodG' goodEll
-  push_cast
-  rw [rG_rE] at hM ⊢
-  unfold cGE
-  have h5 : ((orbitSmallMultiplicity (rE s.eps) (hG s) s.x : ℕ) : ℝ) + 5 ≤
-      (((2 + 8 * s.eps + 3) * 10 ^ (6 * rE s.eps + 1) + 1) + 5) * Real.log s.x := by nlinarith
-  have h6 : (6 * (rE s.eps : ℝ) + 1) * ((goodU s.delta1 : ℕ) : ℝ) ≤ (6 * (rE s.eps : ℝ) + 1) * (2 * s.x ^ (s.eps / 8)) :=
-    mul_le_mul_of_nonneg_left hU (by positivity)
-  calc (((orbitSmallMultiplicity (rE s.eps) (hG s) s.x : ℕ) : ℝ) + 5) * ((6 * (rE s.eps : ℝ) + 1) * ((goodU s.delta1 : ℕ) : ℝ))
-      ≤ ((((2 + 8 * s.eps + 3) * 10 ^ (6 * rE s.eps + 1) + 1) + 5) * Real.log s.x) *
-          ((6 * (rE s.eps : ℝ) + 1) * (2 * s.x ^ (s.eps / 8))) :=
-        mul_le_mul h5 h6 (by positivity) (by positivity)
-    _ = _ := by ring
+  apply _root_.Formalism.MainNotions.AuxBlock8.Pf.St.Gp_le <;> assumption
 
 theorem first_count_le_log (s : Scale) (hx : Real.exp 1 ≤ s.x) : (N1 s : ℝ) ≤ cNE s.eps * Real.log s.x := by
-  have he := s.eps_pos
-  have hx0 := sc_x_pos s
-  have lx1 : 1 ≤ Real.log s.x := (Real.le_log_iff_exp_le hx0).2 hx
-  have hGp := Gp_le s hx
-  have hc := cGE_nonneg s.eps he
-  have hd : s.x ^ (s.eps / 8) * s.delta1 = 1 := by
-    unfold Scale.delta1
-    rw [← Real.rpow_add hx0]; simp
-  have hd0 := sc_delta1_pos s
-  have h1 : (Gp s : ℝ) * s.delta1 ≤ cGE s.eps * Real.log s.x := by
-    calc (Gp s : ℝ) * s.delta1 ≤ cGE s.eps * Real.log s.x * s.x ^ (s.eps / 8) * s.delta1 :=
-          mul_le_mul_of_nonneg_right hGp hd0.le
-      _ = cGE s.eps * Real.log s.x := by rw [mul_assoc, hd, mul_one]
-  have he3 : Real.exp 1 ≤ 3 := by have := Real.exp_one_lt_d9; linarith
-  have h0 : 0 ≤ (Gp s : ℝ) * s.delta1 := by positivity
-  have h2 : 6 * Real.exp 1 * (Gp s : ℝ) * s.delta1 ≤ 18 * cGE s.eps * Real.log s.x := by
-    have : 6 * Real.exp 1 * ((Gp s : ℝ) * s.delta1) ≤ 18 * ((Gp s : ℝ) * s.delta1) :=
-      mul_le_mul_of_nonneg_right (by linarith) h0
-    nlinarith
-  have h3 : (hG s + 3) * Real.logb 2 s.x ≤ 2 * (2 + 8 * s.eps + 3) * Real.log s.x := by
-    unfold Formalism.MainNotions.G.hG Real.logb
-    have hl2 : (1 / 2 : ℝ) ≤ Real.log 2 := by have := Real.log_two_gt_d9; linarith
-    have : Real.log s.x / Real.log 2 ≤ 2 * Real.log s.x := by
-      rw [div_le_iff₀ (by linarith)]
-      nlinarith
-    have h4 : 0 ≤ 2 + 8 * s.eps + 3 := by positivity
-    nlinarith
-  have hmax : max (6 * Real.exp 1 * (Gp s : ℝ) * s.delta1) ((hG s + 3) * Real.logb 2 s.x) ≤
-      (18 * cGE s.eps + 2 * (2 + 8 * s.eps + 3)) * Real.log s.x := by
-    have a1 : 0 ≤ 18 * cGE s.eps * Real.log s.x := by positivity
-    have a2 : 0 ≤ 2 * (2 + 8 * s.eps + 3) * Real.log s.x := by positivity
-    apply max_le <;> nlinarith
-  have hpos : 0 ≤ max (6 * Real.exp 1 * (Gp s : ℝ) * s.delta1) ((hG s + 3) * Real.logb 2 s.x) :=
-    le_max_of_le_left (by positivity)
-  have hceil := Nat.ceil_lt_add_one hpos
-  have hN : (N1 s : ℝ) = (⌈max (6 * Real.exp 1 * (Gp s : ℝ) * s.delta1) ((hG s + 3) * Real.logb 2 s.x)⌉₊ : ℝ) + 1 := by
-    unfold N1 orbitWindowCount Gp
-    push_cast
-    rfl
-  rw [hN]
-  unfold cNE
-  nlinarith
+  apply _root_.Formalism.MainNotions.AuxBlock8.Pf.St.first_count_le_log <;> assumption
 
 theorem hboB_arith (Y Pr1 G η c Nm kappaThresholdTwo Q DIf N k lb n' C31 lx DI v N1 Np : ℝ) (hY : 130 ≤ Y)
     (a1 : 0 ≤ Pr1) (b1 : Pr1 ≤ Y) (a2 : 0 ≤ G) (b2 : G ≤ Y) (a3 : 0 ≤ η) (b3 : η ≤ Y) (a4 : 0 ≤ c) (b4 : c ≤ Y)

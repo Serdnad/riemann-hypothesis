@@ -66,6 +66,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
+import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.GreenLabelCharpoly.RootPowCard
 
 @[expose] public section
 
@@ -78,25 +79,7 @@ namespace GlobalTheory.CompanionTheory.TyFin.CuspLabel
 theorem root_pow_eq_one {K : Type} [Field K] [Fintype K] {P : K[X]} (hmon : P.Monic) (hirr : Irreducible P)
     (hX : P ≠ X) {x : AlgebraicClosure K} (hx : aeval x P = 0) :
     x ^ (Fintype.card K ^ P.natDegree - 1) = 1 := by
-  have hmin : P = minpoly K x := minpoly.eq_of_irreducible_of_monic hirr hx hmon
-  have hint : IsIntegral K x := Algebra.IsIntegral.isIntegral x
-  have hfr : Module.finrank K (IntermediateField.adjoin K {x}) = P.natDegree := by
-    rw [hmin, IntermediateField.adjoin.finrank hint]
-  have hx0 : x ≠ 0 := by
-    rintro rfl
-    exact hX (hmin.trans (minpoly.zero K _))
-  have : FiniteDimensional K (IntermediateField.adjoin K {x}) :=
-    IntermediateField.adjoin.finiteDimensional hint
-  have : Finite (IntermediateField.adjoin K {x}) := Module.finite_of_finite K
-  let := Fintype.ofFinite (IntermediateField.adjoin K {x})
-  have hcard : Fintype.card (IntermediateField.adjoin K {x}) = Fintype.card K ^ P.natDegree := by
-    rw [← hfr]; exact Module.card_eq_pow_finrank
-  have hy : IntermediateField.AdjoinSimple.gen K x ≠ 0 := by
-    intro h
-    exact hx0 (by simpa using congrArg (algebraMap (IntermediateField.adjoin K {x}) (AlgebraicClosure K)) h)
-  have h := FiniteField.pow_card_sub_one_eq_one _ hy
-  rw [hcard] at h
-  simpa using congrArg (algebraMap (IntermediateField.adjoin K {x}) (AlgebraicClosure K)) h
+  apply _root_.PI.GreenLabelMapW.root_pow_card <;> assumption
 
 theorem rootSum_minpoly {K : Type} [Field K] [Fintype K] (θ : AlgebraicClosure K →* ℂ) {d : ℕ} (hd : 0 < d)
     {w : AlgebraicClosure K} (hw : w ^ (Fintype.card K ^ d - 1) = 1) (hdeg : (minpoly K w).natDegree = d)

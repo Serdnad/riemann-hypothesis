@@ -1,5 +1,6 @@
 module
 
+import Development.ResolutionOfSingularities.EmbeddedResolution.EtaleCoordinates.StrictNormalCrossingsOpenImmersion
 public import Development.ResolutionOfSingularities.EmbeddedResolution.StrictTransformIsolation.VanishingIdealAssignment
 public import Development.ResolutionOfSingularities.EmbeddedResolution.DerivativeIdeal.CoordinateIdealOrderOne
 public import Development.ResolutionOfSingularities.EmbeddedResolution.DerivativeIdeal.OrderPullback
@@ -234,19 +235,7 @@ theorem comap_vanishingIdeal_of_isOpenImmersion {X Y : Scheme.{u}} (f : X ⟶ Y)
     (hS : (S : Set ↥X) = f.base ⁻¹' (T : Set ↥Y)) :
     (Scheme.IdealSheafData.vanishingIdeal T).comap f =
       Scheme.IdealSheafData.vanishingIdeal S := by
-  have hrad := radical_comap_eq_of_isOpenImmersion f
-    (Scheme.IdealSheafData.vanishingIdeal T) (radical_vanishingIdeal_eq_self T)
-  have hsupp : ((Scheme.IdealSheafData.vanishingIdeal T).comap f).support = S := by
-    apply SetLike.coe_injective
-    rw [Scheme.IdealSheafData.support_comap]
-    show ⇑f ⁻¹' ((Scheme.IdealSheafData.vanishingIdeal T).support : Set ↥Y) = (S : Set ↥X)
-    rw [support_vanishingIdeal_eq_self, hS]
-  calc (Scheme.IdealSheafData.vanishingIdeal T).comap f
-      = ((Scheme.IdealSheafData.vanishingIdeal T).comap f).radical := hrad.symm
-    _ = Scheme.IdealSheafData.vanishingIdeal
-          (((Scheme.IdealSheafData.vanishingIdeal T).comap f).support) :=
-        Scheme.IdealSheafData.vanishingIdeal_support.symm
-    _ = Scheme.IdealSheafData.vanishingIdeal S := by rw [hsupp]
+  apply _root_.FunctorialResolution.EmbeddedResolution.comap_vanishingIdeal_of_isOpenImmersion_of_coe_eq <;> assumption
 
 theorem agreeNearVanishingComapSubscheme : AgreeNearVanishingComapSubscheme.{u} := by
   intro W N U H T S x hS hTsubH hN

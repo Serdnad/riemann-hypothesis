@@ -1,5 +1,6 @@
 module
 
+import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.SymmetricPowerTransfer.TraceFormulaEigenvalues.TraceBlocks
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.SphericalCoordinates.LevelChange
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -51,31 +52,7 @@ open UpperTheory.Gal.W2
 
 private theorem finsum_sigma {I : Type} {κ : I → Type} (f : (Σ i, κ i) → ℂ)
     (hf : (Function.support f).Finite) : ∑ᶠ s, f s = ∑ᶠ i, ∑ᶠ k, f ⟨i, k⟩ := by
-  classical
-  have hfi : ∀ i, (Function.support (fun k : κ i => f ⟨i, k⟩)).Finite := fun i =>
-    hf.preimage (fun a _ b _ h => sigma_mk_injective h)
-  rw [finsum_eq_sum_of_support_subset f (s := hf.toFinset) (by simp)]
-  have hg : Function.support (fun i => ∑ᶠ k, f ⟨i, k⟩) ⊆ ↑(hf.toFinset.image Sigma.fst) := by
-    intro i hi
-    obtain ⟨k, hk⟩ : ∃ k, f ⟨i, k⟩ ≠ 0 := by
-      by_contra h
-      push Not at h
-      exact hi (finsum_eq_zero_of_forall_eq_zero h)
-    simp only [Finset.coe_image, Set.mem_image, Finset.mem_coe]
-    exact ⟨⟨i, k⟩, by simpa using hk, rfl⟩
-  rw [finsum_eq_sum_of_support_subset _ hg]
-  have hk : ∀ i, ∑ᶠ k, f ⟨i, k⟩ = ∑ k ∈ (hfi i).toFinset, f ⟨i, k⟩ := fun i =>
-    finsum_eq_sum_of_support_subset _ (by simp)
-  simp_rw [hk]
-  rw [← Finset.sum_sigma]
-  apply Finset.sum_congr ?_ (fun _ _ => rfl)
-  ext ⟨i, k⟩
-  simp only [Set.Finite.mem_toFinset, Function.mem_support, Finset.mem_sigma, Finset.mem_image]
-  constructor
-  · intro h
-    exact ⟨⟨⟨i, k⟩, h, rfl⟩, h⟩
-  · rintro ⟨-, h⟩
-    exact h
+  apply _root_.UpperTheory.V.Z.Sym.Tf.finsum_sig <;> assumption
 
 private noncomputable def tm {p : ℕ} [Fact p.Prime] {G : HTGroup p} (v : InfinitePlace G.F) (c : G.F[X] → ℂ → ℂ)
     (K : Subgroup G.GAf) (S : Set G.GAf) (B : GlobalTheory.LKCx.Form G) (b : GlobalTheory.LKCx.Dat G v B.β) : ℂ :=

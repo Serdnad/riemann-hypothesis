@@ -1,5 +1,6 @@
 module
 
+import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.ScalarPairOrthogonal.XLeOrthXplus
 import Formalism.SharpRestriction.CuspSpanNormBounds.CayleyDegreeNondegeneracy.ExtendByIdentitySymmFixOrth
 public import Formalism.SharpRestriction.CuspSpanNormBounds.GlobalAssemblyOfStatements
 public import Formalism.SharpRestriction.CuspSpanNormBounds.GluingLemmasAndTheorems
@@ -391,7 +392,6 @@ theorem p_rankV (D : D7) : finrank D.host.E (hS D).V = D.R.k + 2 * D.R.rS + 1 :=
   rw [(hS D).rank_eq, D.sp.Y_rank 0 (Nat.zero_le _)]
   have h1 := D.R.m_even
   have h2 := D.R.two_le_m
-  have h3 := D.R.m_add_three_le_k
   obtain ⟨c, hc⟩ := h1
   simp only [Ranks.rankY, Ranks.r, Ranks.rS, zero_mul, add_zero]
   omega
@@ -1123,8 +1123,6 @@ theorem lemma_two_norm_scaling (hc : StarConj E) {T T' : ℕ} (hT : 0 < T) (hT' 
   have hn := lemma_two_norm_difference hc F F' hz hz' τ hy (_root_.Formalism.MainNotions.LatticeGluingRadicals.a_X_le_orth_Xplus F' hy') h
   rw [b_nrm_X F' τ hy', sub_zero] at hn
   have hcr := b_cramer F F' hz hz' hy hy' h
-  have hTr : (0 : ℝ) < T := Nat.cast_pos.2 hT
-  have hTr' : (0 : ℝ) < T' := Nat.cast_pos.2 hT'
   by_cases hD : Dr F F' = 0
   · have hD1 : Dr1 F F' ≠ 0 := by
       intro h1
@@ -2724,7 +2722,6 @@ theorem c_rad_le {V : Type} [AddCommGroup V] [Module E V] [FiniteDimensional E V
       exact congrFun (LinearMap.mem_ker.1 hyk) i
     have hCk : C ≤ (LinearMap.ker (q y)).comap A.subtype := by
       intro c hc
-      have hc' : (⟨c, hc⟩ : C) = ∑ i, b.repr ⟨c, hc⟩ i • b i := (b.sum_repr _).symm
       have hc'' : (c : V) = ∑ i, b.repr ⟨c, hc⟩ i • ((b i : A) : V) := by
         calc (c : V) = (((⟨c, hc⟩ : C) : A) : V) := rfl
           _ = (((∑ i, b.repr ⟨c, hc⟩ i • b i : C) : A) : V) := by rw [b.sum_repr]
@@ -3225,27 +3222,8 @@ section Gen2
 variable {E : Type} [Field E] [NumberField E] [StarRing E] {S : HSpace E} {r : ℕ}
 
 theorem d_orth_orth (U : Submodule E S.V) (hc : IsCompl U (orth S U)) : orth S (orth S U) = U := by
-  have hle : U ≤ orth S (orth S U) := by
-    intro u hu
-    rw [a_mem_orth]
-    intro x hx
-    exact _root_.Formalism.MainNotions.LatticeGluingRadicals.c_symm0 ((a_mem_orth U x).1 hx u hu)
-  refine le_antisymm ?_ hle
-  intro y hy
-  have hy' : y ∈ U ⊔ orth S U := by rw [hc.sup_eq_top]; exact Submodule.mem_top
-  obtain ⟨u, hu, h, hh, rfl⟩ := Submodule.mem_sup.1 hy'
-  have hh2 : h ∈ orth S (orth S U) := by
-    have := Submodule.sub_mem _ hy (hle hu)
-    simpa using this
-  have h0 : h = 0 := by
-    apply S.nondeg.2 h
-    intro v
-    have hv : v ∈ U ⊔ orth S U := by rw [hc.sup_eq_top]; exact Submodule.mem_top
-    obtain ⟨u', hu', h', hh', rfl⟩ := Submodule.mem_sup.1 hv
-    rw [map_add (f := _), LinearMap.add_apply, (a_mem_orth U h).1 hh u' hu',
-      (a_mem_orth (orth S U) h).1 hh2 h' hh', add_zero]
-  rw [h0, add_zero]
-  exact hu
+  intros
+  apply _root_.PI.ScalarPairDr.W.orth_orth <;> assumption
 
 variable {Λ : Submodule (𝓞 E) S.V} {T T' : E} {F : LFlag S r T} {F' F'' : LFlag S r T'}
   {β : S.V ≃ₗ[E] S.V} {g : ℕ}
@@ -5889,7 +5867,6 @@ theorem g_detIndexG (hst : g_StarInt E) : g_DetIndexG S := by
   have hn : 0 < g_idx M₁ M₂ := g_idx_pos hfg cM
   have hb : 0 < g_idx M₂ (M₂ ⊓ dualIn S M₁) := g_idx_pos hfg2 (g_Comm_mono c2 hle le_rfl)
   have hn' : (0 : ℝ) < (g_idx M₁ M₂ : ℝ) := by exact_mod_cast hn
-  have hb' : (0 : ℝ) < (g_idx M₂ (M₂ ⊓ dualIn S M₁) : ℝ) := by exact_mod_cast hb
   have key : genIdx S (dualIn S M₂) M₂ = genIdx S (dualIn S M₁) M₁ * (g_idx M₁ M₂ : ℝ) ^ 2 := by
     rw [g2, g1, ← m1, ← m2, heq]
     push_cast
@@ -6904,7 +6881,6 @@ theorem j_chain {L₁ L₂ D₁ D₂ : Submodule (𝓞 E) (Fin e → E)} (hL₁ 
   have p2 := j_del_pos hD₂
   have q1 := j_del_pos hL₁
   have q2 := j_del_pos hL₂
-  have hG : (0 : ℚ) ≤ (g : ℚ) ^ (e * finrank ℚ E) := by positivity
   have hm := mul_le_mul s1 s2 (by positivity) (le_trans (by positivity) s1)
   have e1 : |Algebra.norm ℚ (LinearMap.det (A : (Fin e → E) →ₗ[E] (Fin e → E)))| *
         |Algebra.norm ℚ (LinearMap.det (A' : (Fin e → E) →ₗ[E] (Fin e → E)))| *
@@ -7076,12 +7052,6 @@ theorem j_arch (τ : E →+* ℂ) (hτ : ∀ x : E, τ (star x) = starRingEnd �
 
   have hcol : ∀ j, ∑ i, ‖τ (B i j)‖ ^ 2 / ra i ≤ 4 * rc j := by
     intro j
-    have ha0 : ∀ i, a i ≠ 0 := by
-      intro i h0
-      have := ha i
-      rw [h0, map_zero] at this
-      have h1 : (ra i : ℂ) ≠ 0 := by exact_mod_cast (pa i).ne'
-      exact h1 this.symm
     have h := hb (fun i => B i j / a i) j
     set σ : ℝ := ∑ i, ‖τ (B i j)‖ ^ 2 / ra i with hσ
     have hσ0 : 0 ≤ σ := Finset.sum_nonneg fun i _ => div_nonneg (by positivity) (pa i).le
@@ -8947,7 +8917,6 @@ theorem k_qbound (hc : StarConj E) (hΛ : Submodule.IsFullLattice E Λ) (hUni : 
   obtain ⟨f1, s1, d1⟩ := k_Q_lat (F'' := F'') (β := β) hΛ hg hz hz' hz'' hG' hPos
   obtain ⟨f2, s2, d2⟩ := k_Q_lat (F' := F'') (F'' := F') (β := β.symm) hΛ hg hz hz'' hz' hG'' hPos
   have hRs := k_radL_swap hP
-  have hTs := k_Th_swap hP
   rw [hRs] at d2
   have e1 : finrank E ↥(k_Sp Λ F F' F'' β ⊓ orth S (k_ln Λ F F' F'' β)) = s0 Λ F F' F'' β k - 2 := by
     unfold s0; omega

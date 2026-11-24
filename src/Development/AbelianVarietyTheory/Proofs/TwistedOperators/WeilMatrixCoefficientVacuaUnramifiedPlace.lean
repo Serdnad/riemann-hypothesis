@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SatakeParametersOfTwist
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.MemIntMat
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.InertPlaceHomLatticeComponentsScaledIntegral
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.InnerProductFormula
@@ -1007,25 +1008,7 @@ open Formalism.L2.Host (IsUnitAt IsUnifAt)
 theorem isUnitAt_det_of_mem_KGL {E : Type} [Field E] [NumberField E] (w : HeightOneSpectrum (𝓞 E)) {n : ℕ}
     {k : GL (Fin n) (w.adicCompletion E)} (hk : k ∈ GlobalTheory.LFun.KGL w (n := n)) :
     IsUnitAt w (Matrix.GeneralLinearGroup.det k) := by
-  unfold GlobalTheory.LFun.KGL at hk
-  obtain ⟨k', rfl⟩ := hk
-  set c := Matrix.GeneralLinearGroup.det k' with hc
-  have hdc : ((Matrix.GeneralLinearGroup.det (Formalism.UG.bc (Formalism.UG.Ov E w).subtype k') :
-      (w.adicCompletion E)ˣ) : w.adicCompletion E) = ((c : Formalism.UG.Ov E w) : w.adicCompletion E) := by
-    rw [Matrix.GeneralLinearGroup.val_det_apply, hc, Matrix.GeneralLinearGroup.val_det_apply]
-    unfold Formalism.UG.bc
-    rw [Units.coe_map]
-    exact (RingHom.map_det _ _).symm
-  have hle : ∀ y : Formalism.UG.Ov E w, Valued.v (y : w.adicCompletion E) ≤ 1 := fun y =>
-    (IsDedekindDomain.HeightOneSpectrum.mem_adicCompletionIntegers ..).1 y.2
-  have h3 : Valued.v ((c : Formalism.UG.Ov E w) : w.adicCompletion E) *
-      Valued.v ((↑c⁻¹ : Formalism.UG.Ov E w) : w.adicCompletion E) = 1 := by
-    rw [← map_mul, ← Subring.coe_mul, Units.mul_inv, Subring.coe_one, map_one]
-  unfold Formalism.L2.Host.IsUnitAt
-  rw [hdc]
-  refine le_antisymm (hle _) ?_
-  rw [← h3]
-  exact mul_le_of_le_one_right' (hle _)
+  first | exact _root_.GlobalTheory.SphGal.isUnitAt_det_of_mem | exact @_root_.GlobalTheory.SphGal.isUnitAt_det_of_mem | apply _root_.GlobalTheory.SphGal.isUnitAt_det_of_mem <;> assumption
 
 theorem locChar_det_doubleCoset : ∀ (D : D7) (T : HSp D) (χ : (AE D)ˣ →* Circle) (v : HeightOneSpectrum (𝓞 D.host.F)) (w : HeightOneSpectrum (𝓞 D.host.E)) (h : w.under (𝓞 D.host.F) = v), UnrAt χ w → ∀ e, IsSplitChart D.sp.cm.sig T.gram (frameLat T) h e → ∀ ϖ, IsUnifV D.host.E w ϖ → ∀ (d : Fin T.rank → ℤ) (t : GL (Fin T.rank) (w.adicCompletion D.host.E)), t.1 = Matrix.diagonal (fun i => ϖ ^ d i) → ∀ k₁ ∈ KGL w (n := T.rank), ∀ k₂ ∈ KGL w (n := T.rank), ((locChar χ w (Matrix.GeneralLinearGroup.det (locMat D.sp.cm.sig T.gram h (e.symm (k₁ * t * k₂)))) : ℂˣ) : ℂ) = ((val χ w : ℂˣ) : ℂ) ^ (∑ i, d i) := by
   intro D T χ v w h hχ e he ϖ hϖ d t ht k₁ hk₁ k₂ hk₂

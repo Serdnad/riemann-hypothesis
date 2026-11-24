@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.JetHarmonics.FreeAlgebraActionCapelliDeterminantEqOperator
 public import Mathlib.Basic.Complex.Basic
 public import Mathlib.RingTheory.IntegralClosure.IsIntegral.Defs
 public import Mathlib.RingTheory.Polynomial.IsIntegral
@@ -28,6 +29,7 @@ public import GroundTheory.AutomorphicForms.CuspidalDiscreteness.CuspFormsDiff
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.BuildingsResidueChars.AlgModBotOfMemAdjoinCommuting
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.BuildingsResidueChars.GenGlRelationsAndCommuteOfIsLie
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.BuildingsResidueChars.QdetGeneratesUniversalEnvelopingCentre
+import all Development.AutomorphicArithmetic.AutomorphicVarieties.BuildingsResidueChars.QdetGeneratesUniversalEnvelopingCentre
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -156,14 +158,7 @@ open Formalism.REAL Polynomial
 
 private theorem qdet_mem {A : Type} [Ring A] [Algebra ℂ A] {n : ℕ} (S : Subalgebra ℂ A)
     (E : Fin n → Fin n → A) (h : ∀ a b, E a b ∈ S) (u : ℂ) : qdet E u ∈ S := by
-  unfold qdet qminor
-  refine Subalgebra.sum_mem _ fun σ _ => S.mul_mem (S.intCast_mem _) (S.list_prod_mem fun x hx => ?_)
-  obtain ⟨k, rfl⟩ := List.mem_ofFn.1 hx
-  unfold Tm
-  refine S.add_mem ?_ (h _ _)
-  split_ifs
-  · exact S.algebraMap_mem _
-  · exact S.zero_mem
+  apply _root_.qdet_mem' <;> assumption
 
 private theorem map_qdet {A B : Type} [Ring A] [Algebra ℂ A] [Ring B] [Algebra ℂ B] {n : ℕ}
     (φ : A →ₐ[ℂ] B) (E : Fin n → Fin n → A) (u : ℂ) :
@@ -431,16 +426,8 @@ namespace UpperTheory.V.QuantumDetLeviBlocks
 
 private theorem map_qdet {A B : Type} [Ring A] [Algebra ℂ A] [Ring B] [Algebra ℂ B] {n : ℕ}
     (φ : A →ₐ[ℂ] B) (E : Fin n → Fin n → A) (u : ℂ) :
-    φ (Formalism.REAL.qdet E u) = Formalism.REAL.qdet (fun a b => φ (E a b)) u := by
-  unfold Formalism.REAL.qdet Formalism.REAL.qminor
-
-  rw [map_sum]
-  refine Finset.sum_congr rfl fun s _ => ?_
-  rw [map_mul, map_intCast, map_list_prod, List.map_ofFn]
-  congr 3
-  funext k
-  simp only [Function.comp_apply, Formalism.REAL.Tm]
-  split_ifs <;> simp
+    φ (Formalism.REAL.qdet E u) = Formalism.REAL.qdet (fun a b => φ (E a b)) u :=
+  _root_.GlobalTheory.CapelliFreeAction.map_qdet φ E u
 
 private def pw (ι V : Type) [AddCommGroup V] [Module ℂ V] :
     Module.End ℂ V →ₐ[ℂ] Module.End ℂ (ι → V) where

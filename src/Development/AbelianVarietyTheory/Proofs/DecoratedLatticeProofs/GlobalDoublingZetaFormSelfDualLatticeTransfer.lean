@@ -194,9 +194,9 @@ theorem cuspFormsArchimedeanKFinite_left_invariant {θ : InfFam D} {A : HSp D} {
     AutomorphicL2Unitary.LeftInv (GQ A) u :=
   AutomorphicL2Unitary.leftInv_of_isAutFun (Submodule.mem_inf.1 hu).1.1.toIsAutFun
 
-theorem globalFormAt_move : ∀ (D : D7) (A : HSp D) (L L' : Lat A), IsSelfDualC A L → IsSelfDualC A L' →
-    GlobalFormAt A L → GlobalFormAt A L' := by
-  intro D A L L' hL hL' hG
+theorem globalFormAt_move_when : ∀ (D : D7) {eligible : HSp D → ℕ → Prop} (A : HSp D) (L L' : Lat A), IsSelfDualC A L → IsSelfDualC A L' →
+    GlobalFormAtWhen eligible A L → GlobalFormAtWhen eligible A L' := by
+  intro D eligible A L L' hL hL' hG
   obtain ⟨k, hk, hh⟩ := GlobalTheory.T.doubledLatticeHeight_selfDual_lattices_eq_conj D A L L' hL hL'
   intro ψ θ B χA χB sA sB t cA a om ν 𝓕 hP hw m mH hm hmH Φ₁ Φ₂ hΦ₁ hΦ₂ u₁ hu₁ u₂ hu₂
   haveI := hm
@@ -264,5 +264,10 @@ theorem globalFormAt_move : ∀ (D : D7) (A : HSp D) (L L' : Lat A), IsSelfDualC
     exact hz
   · rw [← up₁, ← up₂]
     exact hpet
+
+theorem globalFormAt_move : ∀ (D : D7) (A : HSp D) (L L' : Lat A), IsSelfDualC A L → IsSelfDualC A L' →
+    GlobalFormAt A L → GlobalFormAt A L' := by
+  intro D
+  exact globalFormAt_move_when D (eligible := fun B t => wittIndex B = 0 ∨ wittIndex B < t)
 
 end GlobalTheory.Core.Rk.GlobMove

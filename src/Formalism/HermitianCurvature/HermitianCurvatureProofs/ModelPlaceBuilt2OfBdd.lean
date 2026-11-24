@@ -119,6 +119,7 @@ import Mathlib.Analysis.Calculus.BumpFunction.FiniteDimension
 import Mathlib.Topology.UniformSpace.Uniformizable
 import Mathlib.Tactic.TypeStar
 import Std.Tactic.BVDecide.Normalize.Prop
+import Formalism.HermitianCurvature.HermitianCurvatureProofs.CutJASAPairLQOf
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Formalism.HermitianCurvature.HermitianCurvatureProofs.CutJDHatJDCapAAll, Formalism.HermitianCurvature.HermitianCurvatureProofs.CutJDHatJDGaugeQQHatQQ, Formalism.HermitianCurvature.HermitianCurvatureProofs.CutJDHatOpRFinal, Formalism.HermitianCurvature.HermitianCurvatureProofs.CutJASAPairLZero, Formalism.HermitianCurvature.HermitianCurvatureProofs.CutJASAPairLAsm, Formalism.HermitianCurvature.HermitianCurvatureProofs.CutJASAPairLLocal, Formalism.HermitianCurvature.HermitianCurvatureProofs.CutJASASecAsm, Formalism.HermitianCurvature.HermitianCurvatureProofs.CutJASASecRad, Formalism.HermitianCurvature.HermitianCurvatureProofs.CutJASASecFinal, Formalism.HermitianCurvature.HermitianCurvatureProofs.CutJAStarOpFundQ, Formalism.HermitianCurvature.HermitianCurvatureProofs.CutJAStarOpModelAdj, Formalism.HermitianCurvature.HermitianCurvatureProofs.CutJAStarOpOfPair, Formalism.HermitianCurvature.HermitianCurvatureProofs.CutJAStarOp, Formalism.HermitianCurvature.HermitianCurvatureProofs.CutJDQQAsm, Formalism.HermitianCurvature.HermitianCurvatureProofs.CutERAsm, Formalism.HermitianCurvature.HermitianCurvatureProofs.CutEnergyReal, Formalism.HermitianCurvature.HermitianCurvatureProofs.CutEnAdmLen, Formalism.HermitianCurvature.HermitianCurvatureProofs.L2BoundAtBuiltPlaceHolds, Formalism.HermitianCurvature.HermitianCurvatureProofs.CutEnergyTr, Formalism.HermitianCurvature.HermitianCurvatureProofs.CutTop, Formalism.HermitianCurvature.HermitianCurvatureProofs.ModelPlaceBuilt2OfHat, Formalism.HermitianCurvature.HermitianCurvatureProofs.ModelPlaceBuilt2OfBdd
@@ -397,14 +398,7 @@ def qOf (k r : ℕ) (z z' : Fin (2 * r + k + 1) → ℂ) (g : B.Mat k r) : (Fin 
 
 theorem qOf_contOn (k r : ℕ) (z z' : Fin (2 * r + k + 1) → ℂ) :
     ContinuousOn (qOf k r z z') (Q.OmPlus k r z z') := by
-  refine ContinuousOn.prodMk ?_ ?_
-  · refine continuousOn_pi.2 fun a => ?_
-    unfold Formalism.QuantumDeterminants.cmin
-    exact (Formalism.FourierDecayAlt.P.PositiveOrbitOpen.dmin_cont z z' _).continuousOn.div (Formalism.FourierDecayAlt.P.PositiveOrbitOpen.dmin_cont z z' _).continuousOn
-      (fun g hg => hg.1 _ (Nat.le_of_lt a.isLt))
-  · unfold Formalism.QuantumDeterminants.zeta
-    exact (Formalism.FourierDecayAlt.P.PositiveOrbitOpen.dmin_cont z z' _).continuousOn.div (Formalism.FourierDecayAlt.P.PositiveOrbitOpen.dmin_cont z z' _).continuousOn
-      (fun g hg => hg.1 _ le_rfl)
+  apply _root_.Formalism.FourierDecayAlt.P.CutMP.JA.SA.QO.qOf_contOn <;> assumption
 
 theorem qOf_sgs {k r : ℕ} {Wp Wq : Type} [NormedAddCommGroup Wp] [InnerProductSpace ℂ Wp]
     [NormedAddCommGroup Wq] [InnerProductSpace ℂ Wq] (D : B.RealPlaceData k r Wp Wq) {p : B.SS k r} (hp : D.inSS p)

@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.ModuliProofs.LiftOfUniqueOfSimilitude
 public import Formalism.LocalToGlobal.ProjectiveLattices.LiftLaSpec
 public import Formalism.LocalToGlobal.ProjectiveLattices.IsLevMove
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.HeckeKer
@@ -65,27 +66,8 @@ attribute [local instance] Over.cartesianMonoidalCategory CategoryTheory.Hom.gro
 
 theorem exists_levAut (hpq : 1 ≤ D.p + D.q) (Xo : Moduli D l) (g : Sim D)
     (hν : (l.A : ℤ) ∣ g.ν l.A - 1) : ∃ ρ : Xo.X ≅ Xo.X, Xo.LevAut g ρ := by
-  have hsim := exists_obj_twist_by_similitude SimAlg.sim_group
-  have hred : IsReduced Xo.X := by
-    haveI := Xo.smooth
-    exact (isReduced_isNormalScheme_isLocallyNoetherian_of_smooth_over_field _ _ Xo.s
-      (SmoothOfRelativeDimension.smooth D.dim _)).1
-  have hM : 0 < l.M := lt_of_lt_of_le (by norm_num) l.three_le
-  obtain ⟨i, hi⟩ := (ObjMaps.id_comp_cancel E H D l _ _ _ _ _ _ _ _ _ _ _ _ Xo.univ Xo.univ Xo.univ).1
-  obtain ⟨g', hg'⟩ := (SimAlg.sim_group E H D hpq).2.2.2 g
-  have hν' : (l.A : ℤ) ∣ g'.ν l.A - 1 := by
-    have h₁ := (hg' l.A l.A_pos).2
-    have : g'.ν l.A - 1 = (g.ν l.A * g'.ν l.A - 1) - (g.ν l.A - 1) * g'.ν l.A := by ring
-    rw [this]
-    exact dvd_sub h₁ (hν.mul_right _)
-  obtain ⟨o₁, m₁, a₁, b₁⟩ := hsim E H D l _ _ _ _ Xo.univ g hpq hν
-  obtain ⟨o₂, m₂, a₂, b₂⟩ := hsim E H D l _ _ _ _ Xo.univ g' hpq hν'
-  obtain ⟨f, hf⟩ := Moduli.LevelAction.exists_twists Xo g hred i.toSABMap hi o₁ m₁ a₁ b₁
-  obtain ⟨f', hf'⟩ := Moduli.LevelAction.exists_twists Xo g' hred i.toSABMap hi o₂ m₂ a₂ b₂
-  exact ⟨⟨f, f', Moduli.LevelAction.comp_eq_id_of_twists Xo hred i hf hf' (fun a => ((hg' _ hM).1 a).2)
-      (fun a => ((hg' _ l.A_pos).1 a).2),
-    Moduli.LevelAction.comp_eq_id_of_twists Xo hred i hf' hf (fun a => ((hg' _ hM).1 a).1)
-      (fun a => ((hg' _ l.A_pos).1 a).1)⟩, hf⟩
+  intros
+  apply _root_.GlobalTheory.LiftAut.exists_levAut <;> assumption
 
 theorem eta_congr (Xo : Moduli D l) {a b : D.La} (h : a - b ∈ l.Mb • (⊤ : Submodule (𝓞 E) D.La)) :
     Xo.univ.eta a = Xo.univ.eta b := by

@@ -1,5 +1,7 @@
 module
 
+import all Formalism.PeriodIntegrals.UnitaryGroupMassFormula.AdelicClassFiniteness.DictTop
+import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.CharacterNormMatrixInverse.FmatMulInv
 public import Formalism.LocalToGlobal.SiegelLatticeTheory.HaarTransversals.HidaSetting
 public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Bridge
 import Mathlib.Algebra.Order.Floor.Extended
@@ -122,18 +124,7 @@ theorem star_int (a : 𝓞 I.E) : star (algebraMap (𝓞 I.E) I.E a) ∈ (algebr
 
 theorem sigR_int {r : I.E ⊗[I.F] Af I.F} (hr : r ∈ IntAf I.F I.E) :
     Formalism.UG.sigR I.cm.sig (Af I.F) r ∈ IntAf I.F I.E := by
-  have key : IntAf I.F I.E ≤ (IntAf I.F I.E).comap (Formalism.UG.sigR I.cm.sig (Af I.F)) := by
-    show Subring.closure _ ≤ _
-    refine Subring.closure_le.2 ?_
-    rintro _ (⟨⟨_, a, rfl⟩, rfl⟩ | ⟨⟨y, hy⟩, rfl⟩)
-    · show Formalism.UG.sigR I.cm.sig (Af I.F) (Formalism.UG.inclE (F := I.F) (Af I.F) (algebraMap (𝓞 I.E) I.E a)) ∈
-        IntAf I.F I.E
-      rw [sigR_inclE]
-      exact inclE_int I (star_int I a)
-    · show Formalism.UG.sigR I.cm.sig (Af I.F) ((1 : I.E) ⊗ₜ[I.F] y) ∈ IntAf I.F I.E
-      rw [sigR_one_tmul]
-      exact Subring.subset_closure (Or.inr ⟨⟨y, hy⟩, rfl⟩)
-  exact key hr
+  apply _root_.PIW.AdelClassFin.sigR_mem_intAf <;> assumption
 
 theorem natCast_int (c : ℕ) : (c : I.E ⊗[I.F] Af I.F) ∈ IntAf I.F I.E := natCast_mem _ c
 
@@ -179,11 +170,7 @@ theorem hA_int : ∀ y ∈ I.Lf, ∀ z ∈ I.Lf, hA I y z ∈ IntAf I.F I.E := b
         rw [hA_smul_left]; exact mul_mem (sigR_int I r.2) hy } (fun l hl => gen l hl z hz) hy
 
 theorem hA_fmat (s : I.Gf) (x y : VA I) : hA I (I.fmat s *ᵥ x) (I.fmat s *ᵥ y) = hA I x y := by
-  have hs : Formalism.UG.cT (Formalism.UG.sigR I.cm.sig (Af I.F)) (I.fmat s) *
-      (I.J.map (Formalism.UG.inclE (F := I.F) (Af I.F))) * I.fmat s =
-      I.J.map (Formalism.UG.inclE (F := I.F) (Af I.F)) := s.2
-  unfold hA
-  rw [Formalism.UG.P.hform_mulVec, hs]
+  apply _root_.PIW.NormChiNBi.hA_fmat' <;> assumption
 
 theorem smul_mem_mL (m : ℕ) {x : VA I} (hx : x ∈ I.Lf) : (m : I.E ⊗[I.F] Af I.F) • x ∈ mL I m :=
   Submodule.subset_span ⟨x, hx, rfl⟩

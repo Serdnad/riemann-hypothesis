@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Counterexamples.JetSurvey.LatticeAndConstantUnique
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.IsIntOv
 public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.SmulMemLatO
 public import Development.AbelianVarietyTheory.Counterexamples.HeightSurvey.StarPurelyImaginaryEqNeg
@@ -65,15 +66,7 @@ open GlobalTheory.LatticeStable GlobalTheory.SplitScalar
 variable {D : D7}
 
 theorem ideal_ne_zero (D : D7) : D.host.AA ≠ 0 := by
-  refine mul_ne_zero ?_ (inv_ne_zero ?_)
-  · rw [FractionalIdeal.coeIdeal_ne_zero]
-    intro h
-    exact D.host.ccK_ne_bot ((Ideal.map_eq_bot_iff_of_injective (RingOfIntegers.algebraMap.injective _ _)).1 h)
-  · rw [FractionalIdeal.coeIdeal_ne_zero]
-    intro h
-    have h1 := D.host.𝔟_spec.1
-    rw [h, Ideal.bot_mul] at h1
-    exact differentIdeal_ne_bot h1
+  apply _root_.GlobalTheory.ModelLatticeCheck.AA_ne_zero <;> assumption
 
 theorem finPart_mul_incA (w : AE D) (x : D.host.E) :
     finPart D (w * incA D x) = finPart D w * ((1 : Af D.host.F) ⊗ₜ[D.host.F] x) := by

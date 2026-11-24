@@ -2,6 +2,7 @@ module
 
 public import Development.ResolutionOfSingularities.EmbeddedResolution.MaximalContactHypersurfaces.MaxContactHypersurface
 public import Development.ResolutionOfSingularities.EmbeddedResolution.IdealPrincipalization.OrderReduction.MaxContactCover
+import all Development.ResolutionOfSingularities.EmbeddedResolution.IdealPrincipalization.OrderReduction.MaxContactCover
 public import Development.ResolutionOfSingularities.EmbeddedResolution.IteratedBlowups.StrictTransform
 public import Development.ResolutionOfSingularities.EmbeddedResolution.IdealPrincipalization.MarkedBlowupSequence.MarkedSequenceOfBlowups
 public import Development.ResolutionOfSingularities.EmbeddedResolution.DerivativeIdeal.ControlledTransformOrderBound
@@ -94,18 +95,7 @@ private theorem local_chart_comp (T : MarkedIdealWithBoundary.{u}) (hv : T.IsAdm
     (c : EtaleChart T.structMap ((MaxContactCoverData.chosenCoverData T hv).opens i) n) :
     ((MaxContactOpenCover.coverPieceIso T hv i).inv ≫ c.map) ≫ affineSpaceFinToSpec T.base n =
       (MaxContactOpenCover.coverTripleOpen T hv i).ι ≫ (MaxContactCoverData.coverMap T hv ≫ T.structMap) := by
-  have h1 : c.map ≫ affineSpaceFinToSpec T.base n =
-      ((MaxContactCoverData.chosenCoverData T hv).opens i).ι ≫ T.structMap := c.comp_struct
-  have h2 := MaxContactOpenCover.coverTripleOpen_ι_comp_coverMap T hv i
-  calc ((MaxContactOpenCover.coverPieceIso T hv i).inv ≫ c.map) ≫ affineSpaceFinToSpec T.base n
-      = (MaxContactOpenCover.coverPieceIso T hv i).inv ≫ (c.map ≫ affineSpaceFinToSpec T.base n) := Category.assoc _ _ _
-    _ = (MaxContactOpenCover.coverPieceIso T hv i).inv ≫ (((MaxContactCoverData.chosenCoverData T hv).opens i).ι ≫ T.structMap) := by
-        rw [h1]
-    _ = ((MaxContactOpenCover.coverPieceIso T hv i).inv ≫ ((MaxContactCoverData.chosenCoverData T hv).opens i).ι) ≫ T.structMap :=
-        (Category.assoc _ _ _).symm
-    _ = ((MaxContactOpenCover.coverTripleOpen T hv i).ι ≫ MaxContactCoverData.coverMap T hv) ≫ T.structMap := by rw [h2]
-    _ = (MaxContactOpenCover.coverTripleOpen T hv i).ι ≫ (MaxContactCoverData.coverMap T hv ≫ T.structMap) :=
-        Category.assoc _ _ _
+  apply _root_.FunctorialResolution.EmbeddedResolution.MaxContactOpenCover.coverPieceIso_inv_comp_map_comp_affineSpaceFinToSpec <;> assumption
 
 private theorem local_chart_etale (T : MarkedIdealWithBoundary.{u}) (hv : T.IsAdmissible)
     (i : (MaxContactCoverData.chosenCoverData T hv).idx) {n : ℕ}

@@ -1,5 +1,6 @@
 module
 
+import Formalism.HermitianCurvature.HermitianCurvatureProofs.CoordinateSizesOfHypotheses
 public import Formalism.HermitianCurvature.StatementU
 public import Mathlib.LinearAlgebra.Matrix.Permutation
 public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.DetNormLe
@@ -661,16 +662,7 @@ lemma det_Rn (x : RC k j ρ) : (Rn k j ρ x).det = 1 := by
 end three
 
 lemma entry_le_gN {k r : ℕ} (M : B.Mat k r) (i j : Fin (2 * r + k + 1)) : ‖M i j‖ ≤ B.gN M := by
-  unfold B.gN
-  rw [← Real.sqrt_sq (norm_nonneg (M i j))]
-  apply Real.sqrt_le_sqrt
-  rw [← Complex.normSq_eq_norm_sq]
-  calc Complex.normSq (M i j) ≤ ∑ j', Complex.normSq (M i j') :=
-        Finset.single_le_sum (f := fun j' => Complex.normSq (M i j')) (fun _ _ => Complex.normSq_nonneg _)
-          (Finset.mem_univ j)
-    _ ≤ ∑ i', ∑ j', Complex.normSq (M i' j') :=
-        Finset.single_le_sum (f := fun i' => ∑ j', Complex.normSq (M i' j'))
-          (fun _ _ => Finset.sum_nonneg fun _ _ => Complex.normSq_nonneg _) (Finset.mem_univ i)
+  apply _root_.Formalism.FourierDecayAlt.P.Ux6.entry_le_gN <;> assumption
 
 lemma gN_le_of_EB {k r : ℕ} (M : B.Mat k r) {c : ℝ} (h : EB M c) (hc : 0 ≤ c) :
     B.gN M ≤ ((2 * r + k + 1 : ℕ) : ℝ) * c := by
@@ -713,18 +705,7 @@ lemma mul_w_w {j : ℕ} {ι : Type*} (M : Matrix (Fin j) ι ℂ) : G.wMat j * (G
   rw [← Matrix.mul_assoc, wMat_mul_self, Matrix.one_mul]
 
 lemma skew_ct {j : ℕ} (q : (G.UT j → ℂ) × (Fin j → ℝ)) : (skewOf q)ᴴ = -skewOf q := by
-  unfold skewOf
-  rw [conjTranspose_add, conjTranspose_sub, conjTranspose_conjTranspose, diagonal_conjTranspose]
-  have : (star fun i => Complex.I * ((q.2 i : ℝ) : ℂ)) = -(fun i => Complex.I * ((q.2 i : ℝ) : ℂ)) := by
-    funext i
-    simp [Complex.conj_ofReal]
-  have hd : diagonal (-(fun i => Complex.I * ((q.2 i : ℝ) : ℂ))) =
-      -diagonal (fun i => Complex.I * ((q.2 i : ℝ) : ℂ)) := by
-    ext a b
-    simp only [diagonal_apply, Matrix.neg_apply]
-    split_ifs <;> simp
-  rw [this, hd]
-  abel
+  apply _root_.Formalism.FourierDecayAlt.P.Ux6.skewOf_conjTranspose <;> assumption
 
 lemma beta_id {N j : ℕ} (H : Matrix (Fin N) (Fin N) ℂ) (c : Matrix (Fin N) (Fin j) ℂ)
     (S : Matrix (Fin j) (Fin j) ℂ) (hH : Hᴴ = H) (hS : Sᴴ = -S) :

@@ -1,5 +1,6 @@
 module
 
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.PullbackSections.HolomorphicFamilies.HolJetC
 public import Development.AbelianVarietyTheory.Definitions.ThetaValues.ThConst
 public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.AppellHumbertFrameSemicharacter
 public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.ExistsHolomorphicGeneratorReadingAutomorphy
@@ -277,23 +278,8 @@ namespace GlobalTheory.AnVal
 
 theorem exists_wchart_complexPt {X Z : Scheme.{0}} (L : LB X) (hL : L.IsLB) {K : Type} [Fintype K]
     (φ : K → (Z ⟶ X)) (q : Sp ℂ ⟶ Z) : ∃ j : K → L.ι, ⊤ ≤ q ⁻¹ᵁ LB.wchart L φ j := by
-  obtain ⟨hcov, -, -⟩ := hL
-  have hmem : ∀ y : X, ∃ i, y ∈ L.U i := by
-    intro y
-    have hy : y ∈ (⨆ i, L.U i) := by rw [hcov]; trivial
-    exact (TopologicalSpace.Opens.mem_iSup).1 hy
-  have hsub : Subsingleton (Sp ℂ) := by
-    change Subsingleton (PrimeSpectrum ℂ)
-    infer_instance
-  have p0 : Sp ℂ := by
-    change PrimeSpectrum ℂ
-    exact default
-  choose j hj using fun k => hmem (φ k (q p0))
-  refine ⟨j, fun y _ => ?_⟩
-  rw [Subsingleton.elim y p0]
-  show q p0 ∈ L.wchart φ j
-  unfold LB.wchart
-  exact Set.mem_iInter.2 fun k => hj k
+  intros
+  apply _root_.GlobalTheory.AnValGenRd.exists_chart <;> assumption
 
 theorem AnFr.rd_of_isActOf : ∀ (S : Scheme.{0}) (A : Over S) [GrpObj A] [IsCommMonObj A] (L : RigLB A) (x0 : Sp ℂ ⟶ S) (g : ℕ) (Φ : AnFr A L x0 g), ∀ (k : ℤ) (U : ThetaGrp A L.L k (Over.mk x0)) (x : Fin g → ℂ) (c : ℂ) (s s' : LB.Sec (LPow A L.L k (Over.mk x0))) (θ : (Fin g → ℂ) → ℂ), Φ.ThConst k U x c → IsActOf A L.L k U s s' → Φ.Rd k s θ → Φ.Rd k s' (fun z => c * fock Φ.Hm k x θ z) := by
   intro S A _ _ L x0 g Φ k U x c s s' θ hc ha hr
@@ -419,19 +405,8 @@ theorem e_neg (z : Fin g → ℂ) : Φ.e (-z) = (Φ.e z)⁻¹ := by
 
 private theorem isHolFam_comp' {Y Y' : Scheme.{0}} {n : ℕ} {e : (Fin n → ℂ) → (Sp ℂ ⟶ Y)} (he : IsHolFam e)
     (h : Y ⟶ Y') : IsHolFam (fun z => e z ≫ h) := by
-  intro U f
-  obtain ⟨ho, hd⟩ := he (h ⁻¹ᵁ U) (h.app U f)
-  have hv : ∀ z, valAt' (e z ≫ h) U f = valAt' (e z) (h ⁻¹ᵁ U) (h.app U f) := by
-    intro z
-    unfold valAt'
-    by_cases hz : ⊤ ≤ e z ⁻¹ᵁ (h ⁻¹ᵁ U)
-    · rw [dite_eq_left hz, dite_eq_left (by exact hz)]
-      unfold valAt
-      rfl
-    · rw [dite_eq_right hz, dite_eq_right (by exact hz)]
-  refine ⟨ho, ?_⟩
-  simp only [hv]
-  exact hd
+  intros
+  apply _root_.ReciprocityTheory.ChartRestriction.G.PullbackSections.isHolFam_comp <;> assumption
 
 theorem hol_ptSecT : IsHolFam (fun z => ((ptSecT A (Φ.e z)).left : Sp ℂ ⟶ (Over.mk x0 ⊗ A).left)) := by
   have hA : ∀ z, (Φ.e z).left ≫ A.hom = x0 := fun z => Over.w (Φ.e z)

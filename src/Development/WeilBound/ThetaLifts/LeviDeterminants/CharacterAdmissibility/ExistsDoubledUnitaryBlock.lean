@@ -67,19 +67,20 @@ variable {R : Type} [CommRing R] [Invertible (2 : R)] {E : Type} [CommRing E] [A
 
 
 omit [DecidableEq α] in
-theorem lev_scalar (h : Ax C ψ) (hS : IsSp S) (hj : Function.Injective j) (he : IsE C ψ S j e)
+theorem lev_scalar2 (h : Ax C ψ) (hS : IsSp S) (hj : Function.Injective j) (he : IsE C ψ S j e)
     {d : Darboux (symp c ξ JA J) κ} {d₁ : Darboux (symp c ξ JA J₁) κ₁}
     (hrel : ∀ u z, Rel S j (d.e u) (d₁.e z) ↔ ∃ a : Matrix α ν E, u = z * ιᵀ + a * Xᵀ)
     {om : UG c J →* Module.End ℂ ((κ → R) → ℂ)} {om₁ : UG c J₁ →* Module.End ℂ ((κ₁ → R) → ℂ)}
     (hs : IsSplitting C ψ d (actB c) om) (hs₁ : IsSplitting C ψ d₁ (actB c) om₁)
-    (m : UG c J) (g : UG c J₁) (t : Matrix ν ν E) (h1 : m.1.1 * ι = ι * g.1.1) (h2 : m.1.1 * X = X * t) :
+    (m : UG c J) (g : UG c J₁) (t : Matrix ν ν E) (n : Matrix ν β₁ E)
+    (h1 : m.1.1 * ι = ι * g.1.1 + X * n) (h2 : m.1.1 * X = X * t) :
     ∃ a : ℂ, ∀ φ ∈ C.sp κ, e (om m φ) = a • om₁ g (e φ) := by
   obtain ⟨a, ha⟩ := h.uniq hS hj he (e' := om₁ g⁻¹ ∘ₗ e ∘ₗ om m) (fun w w₁ hw φ hφ => by
     obtain ⟨u, rfl⟩ := d.e.surjective w
     obtain ⟨z, rfl⟩ := d₁.e.surjective w₁
     obtain ⟨b, rfl⟩ := (hrel u z).1 hw
-    have r := (hrel (actB c m (z * ιᵀ + b * Xᵀ)) (actB c g z)).2 ⟨b * tᵀ, by
-      simp only [actB, Matrix.add_mul, Matrix.mul_assoc, ← transpose_mul, h1, h2]⟩
+    have r := (hrel (actB c m (z * ιᵀ + b * Xᵀ)) (actB c g z)).2 ⟨z * nᵀ + b * tᵀ, by
+      simp only [actB, Matrix.add_mul, Matrix.mul_assoc, ← transpose_mul, h1, h2, transpose_add, Matrix.mul_add, add_assoc]⟩
     show om₁ g⁻¹ (e (om m (d.rho ψ _ φ))) = d₁.rho ψ z (om₁ g⁻¹ (e (om m φ)))
     rw [hs.impl _ _ _ hφ, Darboux.rho, he.law _ _ r _ (hs.pres _ _ hφ)]
     refine (hs₁.impl g⁻¹ _ _ (he.maps _ (hs.pres _ _ hφ))).trans ?_
@@ -90,6 +91,17 @@ theorem lev_scalar (h : Ax C ψ) (hS : IsSp S) (hj : Function.Injective j) (he :
   show _ = (om₁ g * om₁ g⁻¹) _
   rw [← map_mul, mul_inv_cancel, map_one]
   rfl
+
+omit [DecidableEq α] in
+theorem lev_scalar (h : Ax C ψ) (hS : IsSp S) (hj : Function.Injective j) (he : IsE C ψ S j e)
+    {d : Darboux (symp c ξ JA J) κ} {d₁ : Darboux (symp c ξ JA J₁) κ₁}
+    (hrel : ∀ u z, Rel S j (d.e u) (d₁.e z) ↔ ∃ a : Matrix α ν E, u = z * ιᵀ + a * Xᵀ)
+    {om : UG c J →* Module.End ℂ ((κ → R) → ℂ)} {om₁ : UG c J₁ →* Module.End ℂ ((κ₁ → R) → ℂ)}
+    (hs : IsSplitting C ψ d (actB c) om) (hs₁ : IsSplitting C ψ d₁ (actB c) om₁)
+    (m : UG c J) (g : UG c J₁) (t : Matrix ν ν E) (h1 : m.1.1 * ι = ι * g.1.1) (h2 : m.1.1 * X = X * t) :
+    ∃ a : ℂ, ∀ φ ∈ C.sp κ, e (om m φ) = a • om₁ g (e φ) :=
+  lev_scalar2 h hS hj he hrel hs hs₁ m g t 0 (by simpa using h1) h2
+
 
 omit [DecidableEq α] [Invertible (2 : R)] [DecidableEq ν] in
 theorem rel_dbl (hj : Function.Injective j) {d : Darboux (symp c ξ JA J) κ} {d₁ : Darboux (symp c ξ JA J₁) κ₁}
@@ -139,7 +151,18 @@ theorem det_blk {a b : Type} [Fintype a] [DecidableEq a] [Fintype b] [DecidableE
     GeneralLinearGroup.det (blk s t) = GeneralLinearGroup.det s * GeneralLinearGroup.det t :=
   Units.ext (det_fromBlocks_zero₂₁ s.1 0 t.1)
 
-theorem TB [TopologicalSpace R] [TopologicalSpace E] [IsModuleTopology R E] [IsTopologicalRing E]
+def low {a b : Type} [Fintype a] [DecidableEq a] [Fintype b] [DecidableEq b] (n : Matrix b a E) (t : GL b E) : GL (a ⊕ b) E :=
+  ⟨fromBlocks 1 0 n t.1, fromBlocks 1 0 (-((t⁻¹).1 * n)) (t⁻¹).1, by rw [fromBlocks_multiply]; simp [← Matrix.mul_assoc],
+    by rw [fromBlocks_multiply]; simp⟩
+
+theorem low_val {a b : Type} [Fintype a] [DecidableEq a] [Fintype b] [DecidableEq b] (n : Matrix b a E) (t : GL b E) :
+    (low n t).1 = fromBlocks 1 0 n t.1 := rfl
+
+theorem det_low {a b : Type} [Fintype a] [DecidableEq a] [Fintype b] [DecidableEq b] (n : Matrix b a E) (t : GL b E) :
+    GeneralLinearGroup.det (low n t) = GeneralLinearGroup.det t :=
+  Units.ext ((det_fromBlocks_zero₁₂ 1 n t.1).trans (by rw [det_one, one_mul]; rfl))
+
+theorem TU [TopologicalSpace R] [TopologicalSpace E] [IsModuleTopology R E] [IsTopologicalRing E]
     (h : Ax C ψ) (hS : IsSp S) (hj : Function.Injective j) (he : IsE C ψ S j e)
     {η : ℤˣ} {Y : Matrix β ν E} {π : Matrix β₁ β E} {ρ : Matrix (ν ⊕ ν) β E} (hF : Fr c J J₁ (hyp ν η) ι (fromCols X Y) π ρ)
     {d : Darboux (symp c ξ JA J) κ} {d₁ : Darboux (symp c ξ JA J₁) κ₁}
@@ -148,7 +171,8 @@ theorem TB [TopologicalSpace R] [TopologicalSpace E] [IsModuleTopology R E] [IsT
     (hW : IsUWeilB c C ψ ξ JA J d χ om) (hW₁ : IsUWeilB c C ψ ξ JA J₁ d₁ χ om₁)
     (hch : ∀ a : UG c (dbl J₁) →* ℂˣ, Continuous a → (∀ (p : UG c (dbl J₁)) (t : GL β₁ E),
       p.1.1 * diagCols (E := E) β₁ = diagCols (E := E) β₁ * t.1 → a p = 1) → a = 1)
-    (m : UG c J) (g : UG c J₁) (t : GL ν E) (h1 : m.1.1 * ι = ι * g.1.1) (h2 : m.1.1 * X = X * t.1) :
+    (m : UG c J) (g : UG c J₁) (t : GL ν E) (n : Matrix ν β₁ E) (h1 : m.1.1 * ι = ι * g.1.1 + X * n)
+    (h2 : m.1.1 * X = X * t.1) :
     ∀ φ ∈ C.sp κ, e (om m φ) = fac C χ (Fintype.card α) (GeneralLinearGroup.det t) • om₁ g (e φ) := by
   obtain ⟨hs₀, dd, omd, hd, ⟨-, hs, hr⟩, hb⟩ := hW
   obtain ⟨hs₁₀, dd₁, omd₁, hd₁, ⟨-, hs₁, hr₁⟩, hb₁⟩ := hW₁
@@ -224,21 +248,23 @@ theorem TB [TopologicalSpace R] [TopologicalSpace E] [IsModuleTopology R E] [IsT
     rw [ha p Ψ hΨ, this, one_smul]
   obtain ⟨md, hmd⟩ := exists_doubled_unitary_block m
   obtain ⟨gd, hgd⟩ := exists_doubled_unitary_block g
-  have k1 : md.1.1 * dd2 ι = dd2 ι * gd.1.1 := by
-    rw [hmd, hgd, fromBlocks_multiply, fromBlocks_multiply]; simp [h1]
+  let nd : Matrix (ν ⊕ ν) (β₁ ⊕ β₁) E := fromBlocks n 0 0 0
+  have k1 : md.1.1 * dd2 ι = dd2 ι * gd.1.1 + dd2 X * nd := by
+    rw [hmd, hgd, fromBlocks_multiply, fromBlocks_multiply, fromBlocks_multiply, fromBlocks_add]; simp [h1]
   have k2 : md.1.1 * dd2 X = dd2 X * (blk t (1 : GL ν E)).1 := by
     rw [blk_val, hmd, fromBlocks_multiply, fromBlocks_multiply]; simp [h2]
-  have k3 : (md * em gd⁻¹).1.1 * dd2 ι = dd2 ι * (1 : UG c (dbl J₁)).1.1 := by
-    rw [Subgroup.coe_mul, Units.val_mul, Matrix.mul_assoc, emi, ← Matrix.mul_assoc, k1, Matrix.mul_assoc]
+  have k3 : (md * em gd⁻¹).1.1 * dd2 ι = dd2 ι * (1 : UG c (dbl J₁)).1.1 + dd2 X * (nd * (gd⁻¹).1.1) := by
+    rw [Subgroup.coe_mul, Units.val_mul, Matrix.mul_assoc, emi, ← Matrix.mul_assoc, k1, Matrix.add_mul, Matrix.mul_assoc,
+      Matrix.mul_assoc]
     simp
   have k4 : (md * em gd⁻¹).1.1 * dd2 X = dd2 X * (blk t (1 : GL ν E)).1 := by
     rw [Subgroup.coe_mul, Units.val_mul, Matrix.mul_assoc, emx, Matrix.mul_one, k2]
-  obtain ⟨b, hb'⟩ := lev_scalar h hS.dbS hj2 hE hrel2 hs.toIsSplitting hs₁.toIsSplitting _ 1 _ k3 k4
+  obtain ⟨b, hb'⟩ := lev_scalar2 h hS.dbS hj2 hE hrel2 hs.toIsSplitting hs₁.toIsSplitting _ 1 _ _ k3 k4
   have hbv : b = fac C χ (Fintype.card α) (GeneralLinearGroup.det t) := by
-    have e3 := hL (md * em gd⁻¹) (blk (1 : GL β₁ E) (blk t (1 : GL ν E))) (by
-      rw [blk_val 1, mul_fromCols, fromCols_mul_fromBlocks, ← Matrix.mul_assoc, k3, k4]
-      simp) Ψ₀ hΨ₀
-    rw [det_blk, det_blk, map_one, map_one, mul_one, one_mul, LinearMap.comp_apply, LinearMap.comp_apply, hb' _ hΨ₀, map_one,
+    have e3 := hL (md * em gd⁻¹) (low (nd * (gd⁻¹).1.1 * diagCols (E := E) β₁) (blk t (1 : GL ν E))) (by
+      rw [low_val, mul_fromCols, fromCols_mul_fromBlocks, ← Matrix.mul_assoc, k3, k4]
+      simp [Matrix.add_mul, Matrix.mul_assoc]) Ψ₀ hΨ₀
+    rw [det_low, det_blk, map_one, mul_one, LinearMap.comp_apply, LinearMap.comp_apply, hb' _ hΨ₀, map_one,
       Module.End.one_apply, map_smul, smul_eq_mul] at e3
     exact mul_right_cancel₀ hne e3
   obtain ⟨φ₁, h₁, φ₂, h₂, hne₂⟩ := h.box_ne hS hj hE hcyc
@@ -253,5 +279,18 @@ theorem TB [TopologicalSpace R] [TopologicalSpace E] [IsModuleTopology R E] [IsT
   rw [hb' _ (hs.pres _ _ hx), map_one, Module.End.one_apply, ha1 _ _ hx, hb m md hmd _ hφ _ h₂, hBe _ (hs₀.pres _ _ hφ),
     hBe _ hφ, hb₁ g gd hgd _ (he.maps _ hφ) _ hB, hbv] at e6
   exact box_cancel hB0 (e6.trans (funext fun x => (mul_assoc _ _ _).symm))
+
+theorem TB [TopologicalSpace R] [TopologicalSpace E] [IsModuleTopology R E] [IsTopologicalRing E]
+    (h : Ax C ψ) (hS : IsSp S) (hj : Function.Injective j) (he : IsE C ψ S j e)
+    {η : ℤˣ} {Y : Matrix β ν E} {π : Matrix β₁ β E} {ρ : Matrix (ν ⊕ ν) β E} (hF : Fr c J J₁ (hyp ν η) ι (fromCols X Y) π ρ)
+    {d : Darboux (symp c ξ JA J) κ} {d₁ : Darboux (symp c ξ JA J₁) κ₁}
+    (hrel : ∀ u z, Rel S j (d.e u) (d₁.e z) ↔ ∃ a : Matrix α ν E, u = z * ιᵀ + a * Xᵀ) {χ : Eˣ →* Circle}
+    {om : UG c J →* Module.End ℂ ((κ → R) → ℂ)} {om₁ : UG c J₁ →* Module.End ℂ ((κ₁ → R) → ℂ)}
+    (hW : IsUWeilB c C ψ ξ JA J d χ om) (hW₁ : IsUWeilB c C ψ ξ JA J₁ d₁ χ om₁)
+    (hch : ∀ a : UG c (dbl J₁) →* ℂˣ, Continuous a → (∀ (p : UG c (dbl J₁)) (t : GL β₁ E),
+      p.1.1 * diagCols (E := E) β₁ = diagCols (E := E) β₁ * t.1 → a p = 1) → a = 1)
+    (m : UG c J) (g : UG c J₁) (t : GL ν E) (h1 : m.1.1 * ι = ι * g.1.1) (h2 : m.1.1 * X = X * t.1) :
+    ∀ φ ∈ C.sp κ, e (om m φ) = fac C χ (Fintype.card α) (GeneralLinearGroup.det t) • om₁ g (e φ) :=
+  TU h hS hj he hF hrel hW hW₁ hch m g t 0 (by simpa using h1) h2
 
 end PositivityTheory.ThKF0.Chr

@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.StandardCharacterConductorAlmostAll
 public import Development.WeilBound.RepresentationTheoryGL.RegularisedSiegelWeil.SingularNullSets.WeakApproximationFinitePlace
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.CharacterConductorCondition
 public import Development.WeilBound.RepresentationTheoryGL.RegularisedSiegelWeil.SingularNullSets.LFixWB
@@ -64,17 +65,7 @@ theorem trace_map {R R' : Type} [CommRing R] [Algebra F R] [CommRing R'] [Algebr
     (z : R ⊗[F] E) :
     Algebra.trace R' (R' ⊗[F] E) (Algebra.TensorProduct.map φ (AlgHom.id F E) z) =
       φ (Algebra.trace R (R ⊗[F] E) z) := by
-  classical
-
-  rw [Algebra.trace_eq_matrix_trace (Algebra.TensorProduct.basis R' (bE F E)),
-  Algebra.trace_eq_matrix_trace (Algebra.TensorProduct.basis R (bE F E)), Matrix.trace, Matrix.trace, map_sum]
-  refine Finset.sum_congr rfl fun i _ => ?_
-  rw [Matrix.diag_apply, Matrix.diag_apply, Algebra.leftMulMatrix_eq_repr_mul, Algebra.leftMulMatrix_eq_repr_mul,
-    Algebra.TensorProduct.basis_apply, Algebra.TensorProduct.basis_apply]
-  have e : Algebra.TensorProduct.map φ (AlgHom.id F E) (z * (1 ⊗ₜ[F] bE F E i)) =
-      Algebra.TensorProduct.map φ (AlgHom.id F E) z * (1 ⊗ₜ[F] bE F E i) := by
-    rw [map_mul]; simp
-  rw [← e, LIdemEx.repr_map']
+  apply _root_.GlobalTheory.FinPl.Conductor.trace_map <;> assumption
 
 theorem sgl_self (v : HeightOneSpectrum (𝓞 F)) (y : Fv F v) : (singleV F v y) v = y :=
   GlobalTheory.CompanionTheory.PsiCondLoc.single_self v y

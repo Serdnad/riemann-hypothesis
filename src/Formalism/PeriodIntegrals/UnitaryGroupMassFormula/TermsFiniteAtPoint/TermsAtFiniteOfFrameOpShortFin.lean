@@ -1,5 +1,6 @@
 module
 
+import Formalism.LocalToGlobal.SiegelLatticeTheory.ClosedLocalOrbits.GaugeLatticeShifts.StabilizerIndexVolumes.DiagMulOfBt
 public import Formalism.SharpRestriction.CuspSpanNormBounds.RelevantZeroGramTerms
 public import Mathlib.LinearAlgebra.FreeModule.IdealQuotient
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.TermsFiniteAtPoint.CarrierRow
@@ -180,11 +181,7 @@ theorem lo_diag_mul {A B : Matrix (Fin k) (Fin k) K} (hA : A.BlockTriangular Ord
   · intro h; exact absurd (Finset.mem_univ i) h
 
 theorem lo_mul {A B : Matrix (Fin k) (Fin k) K} (hA : IsLoUni A) (hB : IsLoUni B) : IsLoUni (A * B) := by
-  have ht := (lo_bt hA).mul (lo_bt hB)
-  intro i j
-  refine ⟨fun h => ht (by simpa using h), fun h => ?_⟩
-  subst h
-  rw [lo_diag_mul (lo_bt hA) (lo_bt hB), (hA i i).2 rfl, (hB i i).2 rfl, one_mul]
+  apply _root_.Formalism.L2.SG.Pf.StabilizerIndexVolumes.lo_mul <;> assumption
 
 theorem lo_det {A : Matrix (Fin k) (Fin k) K} (hA : IsLoUni A) : A.det = 1 := by
   rw [Matrix.det_of_isLowerTriangular A (lo_bt hA)]

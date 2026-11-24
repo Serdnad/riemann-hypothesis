@@ -1,5 +1,7 @@
 module
 
+
+import Development.WeilBound.CoreStatements.GaussianSeminormBounds.RealSeminormFiltration.KRealAsm
 public import Formalism.LocalRingCardinality.DataTheta
 public import Development.WeilBound.ThetaLifts.EigenvalueEndgame.EigenKilling.ConeIntegralFactorisation
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsFockMap
@@ -54,7 +56,6 @@ import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Bool
 import Std.Tactic.BVDecide.Normalize.Prop
 import Development.AbelianVarietyTheory.Definitions.Divisors.MatchingOfParts
-
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.WeilBound.ThetaLifts.EigenvalueEndgame.EigenKilling.FockActionFirstEq, Development.WeilBound.ThetaLifts.EigenvalueEndgame.EigenKilling.RealVanishOf
 
@@ -299,25 +300,8 @@ theorem map_piInf {n m : Type} (J : Matrix n m E) {w : InfinitePlace F} (τ : Em
   ext i j
   simp [incM, piInf, compInf, inclR, infEmb_tmul]
 
-theorem upq_span {P Q : ℕ} (Y : Mat P Q) : ∃ Y₁ ∈ upq P Q, ∃ Y₂ ∈ upq P Q, Y = Y₁ + Complex.I • Y₂ := by
-  have h1 : Jm P Q * Jm P Q = 1 := by
-    simp [Jm, Formalism.UG.Jpq, Matrix.fromBlocks_multiply]
-  have h2 : (Jm P Q)ᴴ = Jm P Q := by
-    simp [Jm, Formalism.UG.Jpq, Matrix.fromBlocks_conjTranspose]
-  have h3 : ∀ A : Mat P Q, Jm P Q * (Jm P Q * A) = A := fun A => by rw [← Matrix.mul_assoc, h1, Matrix.one_mul]
-  refine ⟨(1 / 2 : ℂ) • (Y - Jm P Q * Yᴴ * Jm P Q), ?_, (-Complex.I / 2) • (Y + Jm P Q * Yᴴ * Jm P Q), ?_, ?_⟩
-  · simp only [upq, Set.mem_ofPred_eq, Matrix.conjTranspose_smul, Matrix.conjTranspose_sub, Matrix.conjTranspose_mul,
-      Matrix.conjTranspose_conjTranspose, h2, Matrix.smul_mul, Matrix.mul_smul, Matrix.sub_mul, Matrix.mul_sub, Matrix.mul_assoc, h1, h3,
-      Matrix.mul_one]
-    rw [show star (1 / 2 : ℂ) = 1 / 2 by simp]
-    module
-  · simp only [upq, Set.mem_ofPred_eq, Matrix.conjTranspose_smul, Matrix.conjTranspose_add, Matrix.conjTranspose_mul,
-      Matrix.conjTranspose_conjTranspose, h2, Matrix.smul_mul, Matrix.mul_smul, Matrix.add_mul, Matrix.mul_add, Matrix.mul_assoc, h1, h3,
-      Matrix.mul_one]
-    rw [show star (-Complex.I / 2 : ℂ) = Complex.I / 2 by simp]
-    module
-  · rw [smul_smul, show Complex.I * (-Complex.I / 2) = 1 / 2 by linear_combination (-1 / 2 : ℂ) * Complex.I_mul_I]
-    module
+theorem upq_span {P Q : ℕ} (Y : Mat P Q) : ∃ Y₁ ∈ upq P Q, ∃ Y₂ ∈ upq P Q, Y = Y₁ + Complex.I • Y₂ :=
+  _root_.GlobalTheory.TensIrr.upq_decomp Y
 
 theorem sumPl_single {ι V : Type} [Fintype ι] [DecidableEq ι] [AddCommGroup V] [Module ℂ V] (L : ι → Module.End ℂ V) (w : ι)
     (h : ∀ i ≠ w, L i = 0) (g : ι → V) :

@@ -1,5 +1,6 @@
 module
 
+import Development.AutomorphicSpectrum.Proofs.MetricProofs.SumFundCoMulSumIic
 public import Development.AutomorphicSpectrum.Definitions.MetricPeriods.MetricsProjectionFormulaNef
 public import Development.AutomorphicSpectrum.Definitions.MetricPeriods.IsTwiceDifferentiableAt
 public import Development.AutomorphicSpectrum.Proofs.MetricProofs.MongeAmpereIntegralCongrPotentials
@@ -85,19 +86,7 @@ variable {K : Type} [Fintype K] {ι : K → Type} [∀ k, Fintype (ι k)]
 
 theorem isSmoothHerm_combLine {σ : Type} [Fintype σ] {A : σ → HermLine ι} (hA : ∀ a, IsSmoothHerm (A a))
     (n : σ → ℤ) : IsSmoothHerm (GlobalTheory.CompanionTheory.Ar.PB.combLine A n) := by
-  refine contDiffOn_prod fun a _ => ?_
-  intro z hz
-  have h0 : (A a).h z ≠ 0 := ((A a).pos z hz).ne'
-  have hf := hA a z hz
-  have key : ∀ m : ℤ, ContDiffWithinAt ℝ ((⊤ : ℕ∞) : WithTop ℕ∞) (fun z => (A a).h z ^ m)
-      {z | ∀ k, ∃ i, z ⟨k, i⟩ ≠ 0} z := by
-    intro m
-    cases m with
-    | ofNat k => simpa only [Int.ofNat_eq_natCast, zpow_natCast] using hf.pow k
-    | negSucc k =>
-      simp only [zpow_negSucc]
-      exact (hf.pow (k + 1)).inv (pow_ne_zero _ h0)
-  exact key _
+  apply _root_.GlobalTheory.CompanionTheory.Ar.Small.Fund.isSmoothHerm_comb <;> assumption
 
 theorem isC2At_of_isPotential {e : ℕ} {X : Type} [TopologicalSpace X] (A : FinHolAtlas e X) {P : LocPot X}
     (hP : IsPotential A P) (x : X) : IsTwiceDifferentiableAt A P x := by
@@ -418,60 +407,18 @@ variable {K : Type} [Fintype K] {ι : K → Type} [∀ k, Fintype (ι k)]
 private theorem local_mInt_potOf_eq_of_deg {P J : Ideal (MRing ι)} {e : ℕ} (R : AnLogRes P J e) {L L' : Fin e → HermLine ι}
     (hL : ∀ j, IsSmoothHerm (L j)) (hL' : ∀ j, IsSmoothHerm (L' j)) (ha : ∀ j, (L j).a = (L' j).a) :
     mInt R.A (fun j => potOf R (L j)) (fun _ => 1) = mInt R.A (fun j => potOf R (L' j)) (fun _ => 1) := by
-  let B : Fin e → HermLine ι := fun j => GlobalTheory.CompanionTheory.Ar.PB.combLine ![L j, L' j] ![1, -1]
-  have hB0 : ∀ j, (B j).a = 0 := fun j => by
-    rw [(combLine_div (L j) (L' j)).1, ha j, sub_self]
-  have hBs : ∀ j, IsSmoothHerm (B j) := fun j =>
-    Cmp.isSmoothHerm_combLine (fun a => by
-      fin_cases a
-      · exact hL j
-      · exact hL' j) _
-  let u : Fin e → R.X → ℝ := fun j x => Real.log ((B j).h (R.lift x x))
-  have hu : ∀ j, R.A.Smooth (u j) := fun j => smooth_diag R (hBs j) (hB0 j)
-  have h1 : mInt R.A (fun j => potOf R (L j)) (fun _ => 1) =
-      mInt R.A (fun j => potOf R (L' j) + LocPot.ofFun (u j)) (fun _ => 1) := by
-    refine mInt_congr _ (locDens_congr_of_eqOn R fun i x y hy => ?_) fun _ => rfl
-    show Real.log ((L i).h (R.lift x y)) = Real.log ((L' i).h (R.lift x y)) + Real.log ((B i).h (R.lift y y))
-    have hm := (R.mem x y hy).1
-    rw [← h_eq_of_sameOrbit (hB0 i) (R.compat x y y ⟨hy, R.mem_U y⟩), (combLine_div (L i) (L' i)).2,
-      Real.log_div ((L i).pos _ hm).ne' ((L' i).pos _ hm).ne']
-    ring
-  rw [h1]
-  exact massIndep R.A _ u (fun i => isPotential_potOf R (hL' i)) hu
+  apply _root_.GlobalTheory.CompanionTheory.Ar.Cmp.mInt_potOf_eq_of_deg <;> assumption
 
 
 private theorem local_mInt_ref_eq {D : ℕ} {σ : Type} {S : AnSys D σ} {P : Ideal (MRing ι)} (Re : Realis S P) (w : Fin D → σ) :
     mInt Re.R.A (fun j => potOf Re.R (Re.ref (w j))) (fun _ => 1) = Re.deg * S.degNum w := by
-  have hth : ∀ a, IsPotential S.A (S.th a) := fun a => (S.sing a).1
-  have hpb : ∀ a, IsPotential Re.R.A ((S.th a).pullback Re.π Re.holo.1) := fun a =>
-    isPotentialPullback S.A Re.R.A Re.π Re.holo (S.th a) (hth a)
-  have h1 := (_root_.GlobalTheory.CompanionTheory.Ar.PB.mInt_congr_samePot D Re.R.X Re.R.A Set.univ (fun j => potOf Re.R (Re.ref (w j)))
-    (fun j => (S.th (w j)).pullback Re.π Re.holo.1) (fun _ => 1) (fun _ => 1)
-    (fun j => by simp) (fun i => Re.ref_pot (w i)) (fun i x _ => Cmp.isC2At_of_isPotential _ (hpb _) x)
-    (fun _ _ => rfl)).1
-  rw [h1]
-  exact (degreeFormulaInt S.A Re.R.A Re.π Re.holo Re.deg Re.br Re.degree (fun j => S.th (w j)) (fun i => hth _)
-    (fun _ => 1) (mIntegrableCont S.A _ (fun i => hth _) _ continuous_const)).2
+  apply _root_.GlobalTheory.CompanionTheory.Ar.Cmp.mInt_ref_eq <;> assumption
 
 private theorem local_mInt_combLine_eq {D : ℕ} {σ : Type} [Fintype σ] {S : AnSys D σ} {P : Ideal (MRing ι)} (Re : Realis S P)
     (n : Fin D → σ → ℤ) :
     mInt Re.R.A (fun j => potOf Re.R (GlobalTheory.CompanionTheory.Ar.PB.combLine Re.ref (n j))) (fun _ => 1) =
       ∑ w : Fin D → σ, (∏ i, (n i (w i) : ℝ)) * (Re.deg * S.degNum w) := by
-  have hP : ∀ a, IsPotential Re.R.A (potOf Re.R (Re.ref a)) := fun a => isPotential_potOf Re.R (Re.ref_smooth a)
-  have h1 : mInt Re.R.A (fun j => potOf Re.R (GlobalTheory.CompanionTheory.Ar.PB.combLine Re.ref (n j))) (fun _ => 1) =
-      mInt Re.R.A (fun j => sumPot (fun a => (n j a : ℝ)) fun a => potOf Re.R (Re.ref a)) (fun _ => 1) := by
-    refine mInt_congr _ (fun j y hy => ?_) fun _ => rfl
-    refine ReciprocityTheory.ChartRestriction.G.Geo.maDens_congr fun i => ?_
-    filter_upwards [((Re.R.A.chart j).isOpen_inter_preimage_symm (Re.R.isOpen_U ((Re.R.A.chart j).symm y))).mem_nhds
-      ⟨hy, Re.R.mem_U _⟩] with y' hy'
-    have hm := (Re.R.mem _ _ hy'.2).1
-    show Real.log (∏ a, (Re.ref a).h _ ^ n i a) = ∑ a, (n i a : ℝ) * Real.log ((Re.ref a).h _)
-    rw [Real.log_prod fun a _ => (zpow_pos ((Re.ref a).pos _ hm) _).ne']
-    exact Finset.sum_congr rfl fun a _ => Real.log_zpow _ _
-  rw [h1, (_root_.GlobalTheory.CompanionTheory.Ar.PB.mInt_sumPot_expand D Re.R.X Re.R.A σ Set.univ (fun a => potOf Re.R (Re.ref a)) (fun j a => (n j a : ℝ))
-    (fun _ => 1) (fun j => by simp) (fun a x _ => Cmp.isC2At_of_isPotential _ (hP a) x)
-    (fun w => mIntegrableCont _ _ (fun i => hP _) _ continuous_const)).2]
-  exact Finset.sum_congr rfl fun w _ => by rw [local_mInt_ref_eq Re w]
+  apply _root_.GlobalTheory.CompanionTheory.Ar.Cmp.mInt_combLine_eq <;> assumption
 
 
 end RealGeo

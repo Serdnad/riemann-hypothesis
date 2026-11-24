@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsAffineLeOrDisjoint
 public import Mathlib.AlgebraicGeometry.Morphisms.SchemeTheoreticallyDominant
 public import Mathlib.RingTheory.DiscreteValuationRing.Basic
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.IsCompletedStrictHens
@@ -71,18 +72,7 @@ theorem ringHom_flat_of_injective_of_isUnit {T A B : Type*} [CommRing T] [IsDoma
 
 theorem isSchemeTheoreticallyDominant_toImage {X Y : Scheme.{0}} (f : X ⟶ Y) [QuasiCompact f] :
     IsSchemeTheoreticallyDominant f.toImage := by
-  rw [isSchemeTheoreticallyDominant_iff]
-  have : QuasiCompact (f.toImage ≫ f.imageι) := by rw [f.toImage_imageι]; infer_instance
-  have : QuasiCompact f.toImage := QuasiCompact.of_comp f.toImage f.imageι
-  refine Scheme.IdealSheafData.ext_of_iSup_eq_top
-    (fun U : Y.affineOpens ↦ ⟨f.imageι ⁻¹ᵁ U.1, U.2.preimage f.imageι⟩) ?_ ?_
-  · have := f.imageι.preimage_iSup (fun U : Y.affineOpens ↦ U.1)
-    rw [← this, iSup_affineOpens_eq_top]
-    simp
-  · intro U
-    rw [Scheme.Hom.ker_apply, Scheme.IdealSheafData.ideal_bot, Pi.bot_apply,
-      ← RingHom.injective_iff_ker_eq_bot]
-    exact f.toImage_app_injective U
+  first | exact _root_.GlobalTheory.DenseClosedAffineSubsets.dominant_toImage | exact @_root_.GlobalTheory.DenseClosedAffineSubsets.dominant_toImage | apply _root_.GlobalTheory.DenseClosedAffineSubsets.dominant_toImage <;> assumption
 
 theorem flat_of_isSchemeTheoreticallyDominant_of_fractionRing (T K : Type) [CommRing T]
     [IsDomain T] [IsBezout T] [Field K] [Algebra T K] [IsFractionRing T K] {Z G : Scheme.{0}}

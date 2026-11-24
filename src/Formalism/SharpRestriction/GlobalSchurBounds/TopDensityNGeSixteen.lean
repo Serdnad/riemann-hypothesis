@@ -806,7 +806,6 @@ theorem matRealF_of {eps : ℝ} (Fm : FamP eps) (CH : ℝ) (hCH : 0 ≤ CH) (h :
       _ = 1 := h2
   have hEx : E * x ^ CH ≤ 1 / 18 := by
     have h3 : E * x ^ CH * 18 ≤ E * x ^ CH * x := mul_le_mul_of_nonneg_left hx18 (by positivity)
-    have h4 : E * x ^ CH * x = E * (x ^ CH * x) := by ring
     linarith
   have hE18 : E ≤ 1 / 18 := by
     have : E * 1 ≤ E * x ^ CH := mul_le_mul_of_nonneg_left hxC1 hE0.le
@@ -816,7 +815,6 @@ theorem matRealF_of {eps : ℝ} (Fm : FamP eps) (CH : ℝ) (hCH : 0 ≤ CH) (h :
     have h5 : E = (E * x ^ CH) * (x ^ CH)⁻¹ := by rw [mul_assoc, mul_inv_cancel₀ hxC.ne', mul_one]
     have h6 : (E * x ^ CH) * (x ^ CH)⁻¹ ≤ (1 / 18) * (x ^ CH)⁻¹ :=
       mul_le_mul_of_nonneg_right hEx (inv_nonneg.mpr hxC.le)
-    have h7 : 0 ≤ (x ^ CH)⁻¹ := inv_nonneg.mpr hxC.le
     rw [h5]
     linarith
   have hs1 : Real.sqrt (E ^ 2) = E := Real.sqrt_sq hE0.le
@@ -934,7 +932,6 @@ theorem ramShare_at_of {D : D7} (L : SizeData₂ D) (hT : L.TuGe) (hR : RamRank_
     calc L.sc.b = L.sc.b ^ (1 : ℝ) := (Real.rpow_one _).symm
       _ ≤ L.sc.b ^ ((D.R.m : ℝ) / 2) := Real.rpow_le_rpow_of_exponent_le (by linarith) hm
       _ ≤ _ := hT u
-  have hT0 : (0 : ℝ) < ((D.mem u).A.T : ℝ) := by linarith
   have hf0 : (0 : ℝ) ≤ 2 * (D.R.f : ℝ) := by positivity
   by_cases h0 : D.duS u = 0
   · have h1 := hR u
@@ -978,7 +975,6 @@ theorem ramShareF_of {eps : ℝ} (Fm : FamP eps) (hTu : TuSize Fm) (hR : RamRank
   have hb : (Fm.L x i).sc.b = Real.exp (x ^ eps) := by
     show Real.exp ((Fm.L x i).sc.x ^ (Fm.L x i).sc.eps) = _
     rw [hsx, hse]
-  have hxe : 1 ≤ x ^ eps := Real.one_le_rpow (by linarith) heps.le
 
   have h4 : (4 : ℝ) ≤ x ^ (7 * eps / 8) := by
     calc (4 : ℝ) = ((4 : ℝ) ^ (1 / (7 * eps / 8))) ^ (7 * eps / 8) := by
@@ -1459,7 +1455,6 @@ theorem dall_pos {D : D7} (u : D.what₂.Word) (e0 : ℝ) (he : e0 < 1) (hd : 0 
 
 theorem rrRankF_of {eps : ℝ} (Fm : FamP eps) (Cabs CH C0 : ℝ) (hC0 : 0 < C0) (lS : LinkS Fm C0)
     (cPr : ChosenProviso Fm C0) (lI : LinkIRR Fm) (lD : LinkDIV Fm Cabs CH) : RRRankF Fm := by
-  have heps := fam_eps_pos Fm
   obtain ⟨a0, lS⟩ := lS
   obtain ⟨a1, cPr⟩ := cPr
   obtain ⟨a2, lI⟩ := lI

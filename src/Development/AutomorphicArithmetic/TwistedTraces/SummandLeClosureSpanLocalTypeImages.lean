@@ -1,5 +1,6 @@
 module
 
+import all Development.AutomorphicArithmetic.TwistedTraces.ExistsUniqueEigenlineOfRankOneOccurs
 public import Development.AutomorphicArithmetic.Foundations.Convolution.PowerSumTraces.LocUApply
 import Development.AutomorphicArithmetic.Foundations.Convolution.ConvolutionKernels.KernelTransforms.LocEmb
 import Mathlib.Algebra.Order.Floor.Extended
@@ -77,12 +78,7 @@ private theorem exists_factor {K : Type} [Field K] [NumberField K] {n : ℕ} (w 
     ∃ (c : normOneGL (K := K) (n := n)) (a : Gw n w), x = c * MultiplicityOne.finProj K n (AdelicGLn.localEmbedding w a) ∧
       ∀ g : Gw n w, c * MultiplicityOne.finProj K n (AdelicGLn.localEmbedding w g) =
         MultiplicityOne.finProj K n (AdelicGLn.localEmbedding w g) * c := by
-  obtain ⟨A, u, rfl⟩ := MultiplicityOne.exists_archProj_mul_finProj x
-  obtain ⟨a, h, rfl, hc⟩ := adelicSplit w u
-  refine ⟨archProj K n A * MultiplicityOne.finProj K n h, a, ?_, fun g => ?_⟩
-  · rw [hc a, map_mul, mul_assoc]
-  · rw [mul_assoc, ← map_mul, ← hc g, map_mul, ← mul_assoc, ← mul_assoc,
-      MultiplicityOne.finProj_mul_archProj_comm]
+  apply _root_.UpperTheory.TypeLine.exists_split <;> assumption
 
 private theorem dense_of_invariant {G H S L : Type} [Group G] [TopologicalSpace G] [Group L] [TopologicalSpace L]
     [NormedAddCommGroup H] [InnerProductSpace ℂ H] [CompleteSpace H] [AddCommGroup S] [Module ℂ S]

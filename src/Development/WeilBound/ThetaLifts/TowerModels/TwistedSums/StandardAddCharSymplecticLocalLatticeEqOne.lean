@@ -1,5 +1,6 @@
 module
 
+import Development.WeilBound.ThetaLifts.LatticeBasics.IsCompactIntV
 public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.WeilTensorModels
 public import Mathlib.Analysis.CStarAlgebra.Classes
 public import Mathlib.NumberTheory.NumberField.CanonicalEmbedding.Basic
@@ -119,15 +120,7 @@ theorem UpperTheory.Reformulated.B.TraceMixedEmbedding.trace_mixedEmbedding :
     ∀ {F : Type} [inst : Field F] [inst_1 : NumberField F] (y : F),
     (Algebra.trace ℝ (NumberField.mixedEmbedding.mixedSpace F) : NumberField.mixedEmbedding.mixedSpace F → ℝ)
         ((NumberField.mixedEmbedding F : F → NumberField.mixedEmbedding.mixedSpace F) y) =
-      (↑((Algebra.trace ℚ F : F → ℚ) y) : ℝ) := by
-  intro F _ _ y
-  classical
-  rw [Algebra.trace_eq_matrix_trace (NumberField.mixedEmbedding.latticeBasis F),
-    Algebra.trace_eq_matrix_trace (NumberField.integralBasis F)]
-  simp only [Matrix.trace, Matrix.diag_apply, Algebra.leftMulMatrix_eq_repr_mul, Rat.cast_sum]
-  refine Finset.sum_congr rfl fun i _ => ?_
-  rw [NumberField.mixedEmbedding.latticeBasis_apply, ← map_mul,
-    NumberField.mixedEmbedding.latticeBasis_repr_apply]
+      (↑((Algebra.trace ℚ F : F → ℚ) y) : ℝ) := @_root_.GlobalTheory.ThK.Dbl.Dense.trace_emb
 end -- clump:auto
 end -- clump:auto
 -- ===== end clump member: Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.TraceMixedEmbedding =====

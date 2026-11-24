@@ -7,6 +7,7 @@ public import Mathlib.Analysis.Normed.Algebra.MatrixExponential
 public import Formalism.RealPlaceAnalysis.FinalF
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.MeasureDecomposition.InstDecomp
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.MeasureDecomposition.AdaptedBasisInstance
+import all Formalism.PeriodIntegrals.UnitaryGroupMassFormula.MeasureDecomposition.AdaptedBasisInstance
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -189,18 +190,7 @@ theorem inst_exp_real_entry (l : ℝ) (y : ℂ) :
 private theorem exists_unitary_diagonal_of_isHermitian {n : ℕ} (X : Matrix (Fin n) (Fin n) ℂ) (hX : X.IsHermitian) :
     ∃ (U : Matrix (Fin n) (Fin n) ℂ) (d : Fin n → ℝ), star U * U = 1 ∧ U * star U = 1 ∧
       X = U * diagonal (fun i => (d i : ℂ)) * star U := by
-  have h1 : star (hX.eigenvectorUnitary : Matrix (Fin n) (Fin n) ℂ) *
-      (hX.eigenvectorUnitary : Matrix (Fin n) (Fin n) ℂ) = 1 := by
-    first
-      | exact hX.eigenvectorUnitary.2.1
-  have h2 : (hX.eigenvectorUnitary : Matrix (Fin n) (Fin n) ℂ) *
-      star (hX.eigenvectorUnitary : Matrix (Fin n) (Fin n) ℂ) = 1 := by
-    first
-      | exact hX.eigenvectorUnitary.2.2
-  refine ⟨hX.eigenvectorUnitary, hX.eigenvalues, h1, h2, ?_⟩
-  first
-    | (conv_lhs => rw [hX.spectral_theorem]); simp [Function.comp_def]
-    | (conv_lhs => rw [hX.spectral_theorem]); simp [Function.comp_def, Unitary.conjStarAlgAut_apply]
+  apply _root_.PI.ScMuExists.UnitaryGroupMassFormula.exists_unitary_diagonal_of_isHermitian <;> assumption
 
 theorem exponent_fixed_instance : InstExpFix := by
   intro n X hX w

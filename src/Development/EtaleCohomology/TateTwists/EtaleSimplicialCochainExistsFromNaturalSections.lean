@@ -120,11 +120,6 @@ theorem LateralTheory.EtaleFoundations.etaleSimplicialCochain_scheme_class_of_ev
     (hb : EtaleSimplicialCochainEvaluationProperties) (hcob : EtaleSimplicialSchemeCocycleVanishingAtIdIsCoboundary) : EtaleSchemeGlobalSectionCohomologyClass := by
   intro R _ X I m n k hmn hnk
 
-  have v0 : ∀ {q : ℤ} (β : Cochain ((chains R).obj (sch.obj X)) I q) (U : Scheme.{0}) (x : Sx (sch.obj X) 0 U),
-      ev β 0 q (by simp) U x = Sec.res (x : U ⟶ X) (ev β 0 q (by simp) X (𝟙 X)) := by
-    intro q β U x
-    rw [(hb R).2.1 β 0 q (by simp) U X x (𝟙 X)]
-    rfl
   refine ⟨?_, ?_⟩
   · intro z hz
     obtain ⟨α, hα⟩ := hmk R (a0 X I n z) (etaleSimplicialCochain_scheme_section_extension_naturality X I n z)

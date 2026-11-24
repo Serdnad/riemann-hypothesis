@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.IndexZeroLevelGeneratedByLocalUnipotentsStatement
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsFinPt
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.FiniteRealPointsCommute
 public import Development.AbelianVarietyTheory.BlockTheory.TwistedDiscreteSeries.ClassFunctionSumIntegral
@@ -690,15 +691,7 @@ open GlobalTheory.BotClassDict GlobalTheory.NormRatio GlobalTheory.NormRatio.Std
 
 theorem idem_mul_idem {D : D7} {v w : HeightOneSpectrum (𝓞 D.host.F)} {ε η : AF D.host.F}
     (hε : IsPlaceIdem D v ε) (hη : IsPlaceIdem D w η) (hne : w ≠ v) : η * ε = 0 := by
-  obtain ⟨α, rfl, -, h0⟩ := hε
-  obtain ⟨β, rfl, -, k0⟩ := hη
-  refine Prod.ext (zero_mul (0 : Ainf D.host.F)) (FiniteAdeleRing.ext _ fun u => ?_)
-  change β u * α u = 0
-  by_cases hu : u = v
-  · have : β u = 0 := k0 u (hu ▸ hne.symm)
-    rw [this, zero_mul]
-  · have : α u = 0 := h0 u hu
-    rw [this, mul_zero]
+  apply _root_.GlobalTheory.SingleDatum.BasePair.placeIdem_mul_eq_zero <;> assumption
 
 theorem suppInert_finStd {D : D7} (V : HSp D) (hG : V.gram = 1) {v : HeightOneSpectrum (𝓞 D.host.F)}
     {ε : AF D.host.F} (hv : GlobalTheory.WeilParts.NonSplitAt D v ε) {g : GA D V} (hg : GlobalTheory.WeilParts.SuppPl ε V g) :

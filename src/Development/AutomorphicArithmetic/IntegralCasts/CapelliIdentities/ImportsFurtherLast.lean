@@ -1,5 +1,6 @@
 module
 
+import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.ExistsNatSmulMem
 public import Formalism.LocalRingCardinality.RhoDetPrimeEqMuTildeMulChiPow
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -48,14 +49,4 @@ theorem UpperTheory.Reformulated.B.Rd4.exists_nat_smul_mem :
         ∃ (N : ℕ),
           (0 : ℕ) < N ∧
             (↑N : D.host.E) • x ∈
-              Λ := by
-  intro D n Λ h x
-  obtain ⟨⟨_, m, hm, rfl⟩, ht⟩ := multiple_mem_span_of_mem_localization_span
-    (Algebra.algebraMapSubmonoid (NumberField.RingOfIntegers D.host.E) (nonZeroDivisors ℤ))
-    D.host.E (Λ : Set (Fin n → D.host.E)) x (by rw [h.span_eq_top]; trivial)
-  change algebraMap ℤ (NumberField.RingOfIntegers D.host.E) m • x ∈ _ at ht
-  rw [Submodule.span_eq, algebraMap_smul] at ht
-  have hm0 : m ≠ 0 := nonZeroDivisors.ne_zero hm
-  refine ⟨m.natAbs * m.natAbs, by positivity, ?_⟩
-  rw [Nat.cast_smul_eq_nsmul, ← natCast_zsmul, Int.natAbs_mul_self, mul_smul]
-  exact zsmul_mem ht m
+              Λ := @_root_.UpperTheory.Reformulated.B.ExistsNatSmulMem.exists_nat_smul_mem

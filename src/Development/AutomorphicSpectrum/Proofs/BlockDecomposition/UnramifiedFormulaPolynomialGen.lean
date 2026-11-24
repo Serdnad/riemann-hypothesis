@@ -582,10 +582,7 @@ theorem red_neg (ϖ : R) (k : ℕ) {a b : ℕ} (x : Matrix (Fin a) (Fin b) R) :
 
 theorem red_surj (ϖ : R) (k : ℕ) {a b : ℕ} :
     Function.Surjective (red ϖ k : Matrix (Fin a) (Fin b) R → _) := by
-  intro y
-  refine ⟨Matrix.of fun i j => (Ideal.Quotient.mk_surjective (y i j)).choose, ?_⟩
-  ext i j
-  exact (Ideal.Quotient.mk_surjective (y i j)).choose_spec
+  apply _root_.GlobalTheory.CompanionTheory.LocalDens.red_surj <;> assumption
 
 theorem red_gram (σ : R →+* R) (ϖ : R) (h : σ ϖ = ϖ) (k : ℕ) {m n : ℕ}
     (S : Matrix (Fin m) (Fin m) R) (x : Matrix (Fin m) (Fin n) R) :
@@ -623,15 +620,7 @@ theorem gram_sub_mem (σ : R →+* R) (ϖ : R) (hinv : ∀ a, σ (σ a) = a) (h 
 
 theorem neg_mem_herm (σ : R →+* R) (ϖ : R) (n k : ℕ) {B : Matrix (Fin n) (Fin n) (R ⧸ lev ϖ k)}
     (hB : B ∈ hermMod σ ϖ n k) : -B ∈ hermMod σ ϖ n k := by
-  unfold hermMod at hB ⊢
-  obtain ⟨h0, hh, rfl⟩ := hB
-  refine ⟨-h0, ?_, red_neg ϖ k h0⟩
-  show cT σ (-h0) = -h0
-  have hh' : cT σ h0 = h0 := hh
-  ext i j
-  have e : σ (h0 j i) = h0 i j := congrFun (congrFun hh' i) j
-  show σ (-(h0 j i)) = -(h0 i j)
-  rw [map_neg, e]
+  apply _root_.GlobalTheory.CompanionTheory.SiegLoc.HermOrth.hermMod_neg <;> assumption
 
 theorem nuAt_neg (ϖ : R) {n k : ℕ} (B : Matrix (Fin n) (Fin n) (R ⧸ lev ϖ k)) :
     nuAt ϖ (-B) = nuAt ϖ B := by

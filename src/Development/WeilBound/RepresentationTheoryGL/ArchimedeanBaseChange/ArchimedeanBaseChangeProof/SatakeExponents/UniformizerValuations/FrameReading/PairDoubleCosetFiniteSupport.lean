@@ -1,5 +1,6 @@
 module
 
+import Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange.ArchimedeanBaseChangeProof.SatakeExponents.UniformizerValuations.FrameReading.LeOfAddNegOne
 public import Mathlib.Basic.Complex.Basic
 public import Mathlib.LinearAlgebra.Eigenspace.Basic
 public import Mathlib.LinearAlgebra.Eigenspace.Triangularizable
@@ -657,19 +658,7 @@ variable {E : Type} [Field E] [NumberField E] [IsCMField E]
 theorem val_unif {w : Pl E} {ϖ : (w.adicCompletion E)ˣ} (hϖ : ordL (ϖ : w.adicCompletion E) = 1) :
     ValuativeRel.valuation (w.adicCompletion E) (ϖ : w.adicCompletion E) =
       ValuativeRel.uniformizer (w.adicCompletion E) := by
-  haveI : (Valued.v : Valuation (w.adicCompletion E) (WithZero (Multiplicative ℤ))).Compatible :=
-    Valuation.Compatible.ofValuation _
-  have e := ValuativeRel.isEquiv (ValuativeRel.valuation (w.adicCompletion E))
-    (Valued.v : Valuation (w.adicCompletion E) (WithZero (Multiplicative ℤ)))
-  have h1 : Valued.v (ϖ : w.adicCompletion E) < 1 :=
-    GlobalTheory.CompanionTheory.IwahoriContraction.v_lt_one_of_ordL_eq_one w ϖ.ne_zero hϖ
-  obtain ⟨y, hy⟩ := ValuativeRel.valuation_surjective (ValuativeRel.uniformizer (w.adicCompletion E))
-  apply le_antisymm
-  · rw [ValuativeRel.le_uniformizer_iff]
-    exact e.lt_one_iff_lt_one.2 h1
-  · rw [← hy]
-    have h2 : Valued.v y < 1 := e.lt_one_iff_lt_one.1 (hy ▸ ValuativeRel.uniformizer_lt_one)
-    exact (e _ _).2 (GlobalTheory.CompanionTheory.IwahoriContraction.v_le_of_ordL_eq_one w ϖ.ne_zero hϖ h2)
+  apply _root_.PositivityTheory.Rg.BcB.F.Tail.PExp.DlB.unif_of_ordL <;> assumption
 
 theorem iw_fact {w : Pl E} {ϖ : (w.adicCompletion E)ˣ} (hϖ : ordL (ϖ : w.adicCompletion E) = 1) {n : ℕ}
     {x x' : Fin n → ℤ} (hx : Antitone x) (hx' : Antitone x') :

@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.GoodTypesExcludeLevelCharacter
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.LabelDatum
 public import Mathlib.GroupTheory.Nilpotent
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.CentralIdempotentOfIrrCharacterOrthogonalCentral
@@ -67,22 +68,7 @@ namespace GlobalTheory.GLq.Opp
 
 theorem eq_zero_of_idem {G : Type} [Group G] [Fintype G] (E : MonoidAlgebra ℂ G) (h : E * E = E)
     (h1 : E.coeff 1 = 0) : E = 0 := by
-  haveI : Module.Finite ℂ (MonoidAlgebra ℂ G) := Module.Finite.of_basis (MonoidAlgebra.basis G ℂ)
-  haveI : Module.Free ℂ (MonoidAlgebra ℂ G) := Module.Free.of_basis (MonoidAlgebra.basis G ℂ)
-  have hi : IsIdempotentElem (LinearMap.mulLeft ℂ E) := by
-    refine LinearMap.ext fun x => ?_
-    simp [← mul_assoc, h]
-  have ht : LinearMap.trace ℂ _ (LinearMap.mulLeft ℂ E) = 0 := by
-    rw [LinearMap.trace_eq_matrix_trace ℂ (MonoidAlgebra.basis G ℂ), Matrix.trace]
-    refine Finset.sum_eq_zero fun x _ => ?_
-    rw [Matrix.diag_apply, LinearMap.toMatrix_apply]
-    have : (MonoidAlgebra.basis G ℂ) x = MonoidAlgebra.single x 1 := by simp
-    rw [this]
-    show (E * MonoidAlgebra.single x 1).coeff x = 0
-    rw [MonoidAlgebra.coeff_mul_single_apply]
-    simp [h1]
-  have h0 := LinearMap.IsIdempotentElem.eq_zero_of_trace_eq_zero hi ht
-  simpa using LinearMap.congr_fun h0 1
+  apply _root_.GlobalTheory.MirAvg.Kill.idem_eq_zero <;> assumption
 
 theorem tr_single {G : Type} [Group G] [Fintype G] (x : G) (c : ℂ) (χ : G → ℂ) :
     tr (MonoidAlgebra.single x c) χ = c * χ x := by

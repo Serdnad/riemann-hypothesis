@@ -1,5 +1,7 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.FlagMeasures.IntegralExtensionFiniteAdelesBasicProperties
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsNsmulIntMemLatO
 public import Formalism.LocalToGlobal.IndefiniteReal.DatumVec
 public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.IsSelfDualCLatFrame
 public import Development.AbelianVarietyTheory.Definitions.ExistenceOfLattices.Hat1
@@ -196,17 +198,7 @@ theorem mem_waveSpan {G : Type} [AddCommGroup G] {χ : G → G → ℂ} {X Y L L
     (hfin : ∀ k : ℕ, 0 < k → ∃ R : Set G, R.Finite ∧ ∀ t ∈ L, ∃ r ∈ R, ∃ u ∈ L, t = r + k • u)
     (Φ : G → ℂ) (h1 : ∀ t, Φ t ≠ 0 → t ∈ X) (k : ℕ) (hk : 0 < k) (h2 : ∀ u ∈ L, ∀ t, Φ (t + k • u) = Φ t)
     (h3 : ∀ t, Φ t ≠ 0 → k • t ∈ L) : Φ ∈ waveSpan χ X Y L := by
-  obtain ⟨R, hR, hR'⟩ := hfin k hk
-  obtain ⟨R2, hR2, hR2'⟩ := hfin (k * k) (Nat.mul_pos hk hk)
-  have hP : ((fun t : G => k • t) ⁻¹' R2).Finite := hR2.preimage (tf k hk).injOn
-  refine mem_of_finite_cosets (K := L.map (nsmulAddMonoidHom k))
-    (ind_nsmul_mem h hL hL' hLL' hX (dX k hk) (dY k hk) R hR hR') hP.toFinset Φ h1 ?_ fun t ht => ?_
-  · rintro _ ⟨u, hu, rfl⟩
-    exact h2 u hu
-  · obtain ⟨r, hr, u, hu, e⟩ := hR2' _ (h3 t ht)
-    refine ⟨t - k • u, hP.mem_toFinset.2 ?_, k • u, ⟨u, hu, rfl⟩, by abel⟩
-    change k • (t - k • u) ∈ R2
-    rwa [smul_sub, e, smul_smul, add_sub_cancel_right]
+  first | exact _root_.GlobalTheory.PlaceVec.mem_waveSpan | exact @_root_.GlobalTheory.PlaceVec.mem_waveSpan | apply _root_.GlobalTheory.PlaceVec.mem_waveSpan <;> assumption
 
 variable {S T : HSp D}
 
@@ -314,25 +306,7 @@ theorem natCast_mul_tmul (N : ℕ) (b : E) (α : Af F) :
   rw [← nsmul_eq_mul, ← nsmul_eq_mul, TensorProduct.smul_tmul']
 
 theorem exists_den_adele (z : E ⊗[F] Af F) : ∃ N : ℕ, 0 < N ∧ (N : E ⊗[F] Af F) * z ∈ Formalism.L2.Herm.intAf F E := by
-  have hadd : ∀ x y : E ⊗[F] Af F, (∃ N : ℕ, 0 < N ∧ (N : E ⊗[F] Af F) * x ∈ Formalism.L2.Herm.intAf F E) →
-      (∃ N : ℕ, 0 < N ∧ (N : E ⊗[F] Af F) * y ∈ Formalism.L2.Herm.intAf F E) →
-      ∃ N : ℕ, 0 < N ∧ (N : E ⊗[F] Af F) * (x + y) ∈ Formalism.L2.Herm.intAf F E := by
-    rintro x y ⟨N, hN, hx⟩ ⟨M, hM, hy⟩
-    refine ⟨N * M, Nat.mul_pos hN hM, ?_⟩
-    convert add_mem (mul_mem (natCast_mem _ M) hx) (mul_mem (natCast_mem _ N) hy) using 1
-    push_cast
-    ring
-  have hp : ∀ (b : E) (α : Af F), α ∈ Formalism.UG.intAd F →
-      ∃ N : ℕ, 0 < N ∧ (N : E ⊗[F] Af F) * (b ⊗ₜ[F] α) ∈ Formalism.L2.Herm.intAf F E := fun b α hα => by
-    obtain ⟨d, hd, h⟩ := GlobalTheory.AdIdem.exists_nat_mul_integral E b
-    exact ⟨d, hd, by rw [natCast_mul_tmul]; exact tmul_mem_int h hα⟩
-  induction z using TensorProduct.induction_on with
-  | zero => exact ⟨1, one_pos, by simp⟩
-  | add x y hx hy => exact hadd _ _ hx hy
-  | tmul b α =>
-    obtain ⟨x, β, hβ, rfl⟩ := GlobalTheory.AdLat.exists_eq_algebraMap_add_nsmul F 1 one_pos α
-    rw [one_smul, TensorProduct.tmul_add, Algebra.algebraMap_eq_smul_one, ← TensorProduct.smul_tmul]
-    exact hadd _ _ (hp _ _ (one_mem _)) (hp _ _ hβ)
+  apply _root_.GlobalTheory.St.G.IntAd.exists_nat_denom <;> assumption
 
 theorem comm_symm_mem {r : E ⊗[F] Af F} (hr : r ∈ Formalism.L2.Herm.intAf F E) :
     (Algebra.TensorProduct.comm F (Af F) E).symm r ∈ GlobalTheory.AdLat.hat1 F (Set.range (algebraMap (𝓞 E) E)) := by
@@ -388,17 +362,7 @@ end General
 
 theorem finPart_mem_of_toEAf {w : AE D} (hw : toEAf D w ∈ Formalism.L2.Herm.intAf D.host.F D.host.E) :
     finPart D w ∈ intAE D := by
-  have h : intAE D = GlobalTheory.AdLat.hat1 D.host.F (Set.range (algebraMap (𝓞 D.host.E) D.host.E)) := by
-    unfold intAE GlobalTheory.AdLat.hat1
-    congr 1
-    ext z
-    constructor
-    · rintro ⟨a, ha, x, rfl⟩
-      exact ⟨a, ha, _, ⟨x, rfl⟩, rfl⟩
-    · rintro ⟨a, ha, _, ⟨x, rfl⟩, rfl⟩
-      exact ⟨a, ha, x, rfl⟩
-  rw [h, ← (Algebra.TensorProduct.comm D.host.F (Af D.host.F) D.host.E).symm_apply_apply (finPart D w)]
-  exact comm_symm_mem hw
+  first | exact _root_.GlobalTheory.PlaceVec.finPart_mem_intAE | exact @_root_.GlobalTheory.PlaceVec.finPart_mem_intAE | apply _root_.GlobalTheory.PlaceVec.finPart_mem_intAE <;> assumption
 
 variable {ΛS : Submodule (𝓞 D.host.E) (Fin S.rank → D.host.E)} {ΛT : Submodule (𝓞 D.host.E) (Fin T.rank → D.host.E)}
 

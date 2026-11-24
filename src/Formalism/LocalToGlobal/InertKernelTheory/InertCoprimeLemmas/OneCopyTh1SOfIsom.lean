@@ -1,5 +1,6 @@
 module
 
+import Formalism.LocalToGlobal.TorsionIntegrality.TorsionTranslationPowers.NonsingularJetNorms.CmIntegralityOfTorsionPoints
 public import Formalism.LocalToGlobal.InertKernelTheory.OneCopyTh1
 public import Formalism.LocalToGlobal.AlgebraicTheory.StatementKer
 public import Formalism.LocalToGlobal.InertKernelTheory.InertCoprimeLemmas.IntTens
@@ -237,12 +238,7 @@ theorem scaleVC_smul (e : ℂ_[p]ˣ) (g2 g3 : ℂ_[p]) :
       WeierstrassCurve.variableChange_a₆, scaleVC, shortW, inv_inv] <;> ring
 
 theorem norm_four (h5 : 5 ≤ p) : ‖(4 : ℂ_[p])‖ = 1 := by
-  have hp : p.Prime := Fact.out
-  rw [show (4 : ℂ_[p]) = algebraMap ℚ_[p] ℂ_[p] ((4 : ℕ) : ℚ_[p]) by rw [map_natCast]; norm_num,
-    norm_algebraMap', Padic.norm_natCast_eq_one_iff]
-  refine (Nat.Prime.coprime_iff_not_dvd hp).mpr fun hd => ?_
-  have := Nat.le_of_dvd (by norm_num) hd
-  omega
+  apply _root_.Formalism.L2.Th1.E.ScaledModelNorms.norm_four <;> assumption
 
 theorem coeffIn_short (h5 : 5 ≤ p) {g2 g3 : ℂ_[p]} (n2 : ‖g2‖ ≤ 1) (n3 : ‖g3‖ ≤ 1) :
     Formalism.L2.Th1.C.CoeffIn (Formalism.L2.KerInert.ModelP.RB p) (shortW g2 g3) := by

@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsLinearEquivOfPeriod
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.IsHolPeriods
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.GlobalSectionsRankAlgClosed
 public import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.ExistsUniqueLinearLiftOfHolomorphicAbelianVariet
@@ -191,20 +192,7 @@ theorem surjective_of_countable {V W : Type} [AddCommGroup V] [Module ℂ V] [Ad
 theorem int_eq_of_exp_eq {m n : ℤ} (h : ∀ k : ℕ, 0 < k →
     Complex.exp (-(2 * Real.pi * Complex.I) * (m : ℂ) / k) = Complex.exp (-(2 * Real.pi * Complex.I) * (n : ℂ) / k)) :
     m = n := by
-  have hd : ∀ k : ℕ, 0 < k → (k : ℤ) ∣ n - m := fun k hk => by
-    obtain ⟨j, hj⟩ := Complex.exp_eq_exp_iff_exists_int.1 (h k hk)
-    refine ⟨j, ?_⟩
-    have hk' : (k : ℂ) ≠ 0 := by exact_mod_cast hk.ne'
-    have h2 : (2 * Real.pi * Complex.I : ℂ) ≠ 0 := Complex.two_pi_I_ne_zero
-    have : ((n - m : ℤ) : ℂ) = ((k * j : ℤ) : ℂ) := by
-      push_cast
-      refine mul_left_cancel₀ h2 ?_
-      field_simp at hj
-      linear_combination (2 * Real.pi * Complex.I) * hj
-    exact_mod_cast this
-  have := Int.eq_zero_of_dvd_of_natAbs_lt_natAbs (hd ((n - m).natAbs + 1) (Nat.succ_pos _))
-    (by rw [Int.natAbs_natCast]; exact Nat.lt_succ_self _)
-  omega
+  first | exact _root_.GlobalTheory.UnifPoint.int_eq_of_exp_eq | exact @_root_.GlobalTheory.UnifPoint.int_eq_of_exp_eq | apply _root_.GlobalTheory.UnifPoint.int_eq_of_exp_eq <;> assumption
 
 theorem unitOn_injective {R : Type} [CommRing R] : Function.Injective (unitOn (R := R)) := fun a b h => by
   have := congrArg (fun u : Γ(Sp R, ⊤)ˣ => (Scheme.ΓSpecIso (CommRingCat.of R)).hom.hom u.val) h

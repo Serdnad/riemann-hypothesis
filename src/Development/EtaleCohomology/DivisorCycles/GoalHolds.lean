@@ -938,12 +938,8 @@ theorem pow_tw (X : Matrix (Fin N) (Fin N) K) (Y : Matrix (Fin n) (Fin n) K) (T 
 
 theorem aeval_tw (X : Matrix (Fin N) (Fin N) K) (Y : Matrix (Fin n) (Fin n) K) (T : Matrix (Fin N) (Fin n) K)
     (h : X * T = T * Y) (q : Polynomial K) : Polynomial.aeval X q * T = T * Polynomial.aeval Y q := by
-  induction q using Polynomial.induction_on' with
-  | add p q hp hq => rw [map_add (f := _), map_add (f := _), Matrix.add_mul, Matrix.mul_add, hp, hq]
-  | monomial k c =>
-    rw [Polynomial.aeval_monomial, Polynomial.aeval_monomial, Algebra.algebraMap_eq_smul_one,
-      Algebra.algebraMap_eq_smul_one, smul_mul_assoc, smul_mul_assoc, one_mul, one_mul, Matrix.smul_mul,
-      Matrix.mul_smul, pow_tw X Y T h]
+  intros
+  apply _root_.LateralTheory.DivDb.DenseAlg₂.aeval_intertwine <;> assumption
 
 end LateralTheory.DivDb.FiniteSubrepresentation
 
@@ -1074,14 +1070,7 @@ lemma E_right {R : Subalgebra C (Mat C N)} (hp : Sys p) (hM : MUnits R p E) (i j
 
 lemma expand (hp : Sys p) (a b : Mat C N) (i k : Fin n) :
     p i * (a * b) * p k = ∑ j, (p i * a * p j) * (p j * b * p k) := by
-  have h : ∀ j, (p i * a * p j) * (p j * b * p k) = p i * a * p j * b * p k := by
-    intro j
-    calc (p i * a * p j) * (p j * b * p k) = p i * a * (p j * p j) * b * p k := by
-          simp only [mul_assoc]
-      _ = _ := by rw [(hp.1.idem j).eq]
-  simp only [h]
-  rw [← Finset.sum_mul, ← Finset.sum_mul, ← Finset.mul_sum, hp.1.complete, mul_one]
-  simp only [mul_assoc]
+  apply @LateralTheory.DivDb.AlgStruct₂.decomp <;> assumption
 
 lemma coef_mul {R : Subalgebra C (Mat C N)} (hp : Sys p) (hM : MUnits R p E) {a b : Mat C N}
     (ha : a ∈ R) (hb : b ∈ R) (i k : Fin n) :

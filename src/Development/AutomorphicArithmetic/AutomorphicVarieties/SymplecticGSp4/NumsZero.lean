@@ -1,5 +1,6 @@
 module
 
+import Development.AutomorphicArithmetic.AutomorphicVarieties.UnitaryThreeDeformations.HostOk
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.LevelCohomology.HcDefs
 public import Mathlib.RingTheory.AdicCompletion.Noetherian
 public import Mathlib.RingTheory.Coalgebra.IsFrobenius
@@ -237,18 +238,8 @@ section -- clump:auto
 
 theorem UpperTheory.Reformulated.B.DerivativeLocallyConstant.dz_locConst :
     ∀ {Γ A : Type} [inst : Group Γ] [inst_1 : TopologicalSpace Γ]
-    [IsTopologicalGroup Γ] [inst_3 : Group A] (ψ : Γ →* A), IsOpen (↑ψ.ker : Set Γ) → IsLocallyConstant (⇑ψ : Γ → A) := by
-  intro Γ A _ _ _ _ ψ h
-  rw [IsLocallyConstant.iff_exists_open]
-  intro x
-  refine ⟨(fun y => x⁻¹ * y) ⁻¹' (ψ.ker : Set Γ),
-    h.preimage (continuous_const.mul continuous_id), ?_, ?_⟩
-  · change x⁻¹ * x ∈ ψ.ker
-    simp
-  · intro y hy
-    have hy' : ψ (x⁻¹ * y) = 1 := MonoidHom.mem_ker.mp hy
-    rw [map_mul, map_inv, inv_mul_eq_one] at hy'
-    exact hy'.symm
+    [IsTopologicalGroup Γ] [inst_3 : Group A] (ψ : Γ →* A), IsOpen (↑ψ.ker : Set Γ) → IsLocallyConstant (⇑ψ : Γ → A) :=
+  _root_.UpperTheory.Reformulated.B.LocallyConstantOfKernel.lc_of_ker
 end -- clump:auto
 end -- clump:auto
 -- ===== end clump member: Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.DerivativeLocallyConstant =====
@@ -264,21 +255,7 @@ theorem UpperTheory.Reformulated.B.Qk11.dz_exists_prime :
     n ≠ (0 : ℕ) →
       (↑n : NumberField.RingOfIntegers ℚ) ∈ v.asIdeal →
         ∃ (p : ℕ), Nat.Prime p ∧ p ∣ n ∧ (↑p : NumberField.RingOfIntegers ℚ) ∈ v.asIdeal := by
-  intro v n
-  induction n using Nat.recOnMul with
-  | zero => intro h; exact absurd rfl h
-  | one =>
-    intro _ h
-    exact absurd ((Ideal.eq_top_iff_one _).2 (by simpa using h)) v.isPrime.ne_top
-  | prime p hp => intro _ h; exact ⟨p, hp, dvd_rfl, h⟩
-  | mul a b iha ihb =>
-    intro hab h
-    rw [Nat.cast_mul] at h
-    rcases v.isPrime.mem_or_mem h with h | h
-    · obtain ⟨p, hp, hd, hm⟩ := iha (left_ne_zero_of_mul hab) h
-      exact ⟨p, hp, hd.mul_right _, hm⟩
-    · obtain ⟨p, hp, hd, hm⟩ := ihb (right_ne_zero_of_mul hab) h
-      exact ⟨p, hp, hd.mul_left _, hm⟩
+  apply _root_.UpperTheory.Reformulated.B.Qj17.ho_exists_prime <;> assumption
 end -- clump:auto
 end -- clump:auto
 -- ===== end clump member: Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.DzExistsPrime =====

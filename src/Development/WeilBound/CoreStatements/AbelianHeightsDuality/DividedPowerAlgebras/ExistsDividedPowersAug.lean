@@ -1,5 +1,7 @@
 module
 
+
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsCoproductThickeningAffineLiftPoincare
 public import Development.AbelianVarietyTheory.Definitions.Divisors.RatBasisLinearIndependentInt
 public import Development.WeilBound.CoreStatements.AbelianHeightsDuality.DividedPowerAlgebras.PreOfGens
 public import Development.WeilBound.LevelCriteria.IsLevOneIff
@@ -55,7 +57,6 @@ import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsLiftAndAugmen
 import Mathlib.Tactic.Linter.HaveILetI
 import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsIsDPMorphismOfFlatAlgebra
 import Mathlib.Tactic.Linter.Style
-
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.WeilBound.CoreStatements.AbelianHeightsDuality.DividedPowerAlgebras.ChooseFac, Development.WeilBound.CoreStatements.AbelianHeightsDuality.DividedPowerAlgebras.DpOfPre, Development.WeilBound.CoreStatements.AbelianHeightsDuality.DividedPowerAlgebras.ExistsLiftAndAug, Development.WeilBound.CoreStatements.AbelianHeightsDuality.DividedPowerAlgebras.ExistsDividedPowersAug
 
@@ -352,41 +353,12 @@ namespace FubiniStudyChowHeightFormula₂.Adr
 open PowerSeries
 
 theorem uniformBell_comp_coeff (m : ℕ) {n N : ℕ} (hn : n ≠ 0) (hN : N ≠ 0) :
-    n.uniformBell N ^ m * m.uniformBell (n * N) = m.uniformBell n * (m * n).uniformBell N := by
-  have h1 := Nat.uniformBell_mul_eq n hN
-  have h2 := Nat.uniformBell_mul_eq m (Nat.mul_ne_zero hn hN)
-  have h3 := Nat.uniformBell_mul_eq m hn
-  have h4 := Nat.uniformBell_mul_eq (m * n) hN
-  have hpos : 0 < N.factorial ^ (m * n) * n.factorial ^ m * m.factorial := by positivity
-  apply Nat.eq_of_mul_eq_mul_right hpos
-  have e1 : n.uniformBell N ^ m * m.uniformBell (n * N)
-      * (N.factorial ^ (m * n) * n.factorial ^ m * m.factorial) = (m * (n * N)).factorial := by
-    rw [← h2, ← h1]
-    ring
-  have e2 : m.uniformBell n * (m * n).uniformBell N
-      * (N.factorial ^ (m * n) * n.factorial ^ m * m.factorial) = (m * n * N).factorial := by
-    rw [← h4, ← h3]
-    ring
-  rw [e1, e2, mul_assoc]
+    n.uniformBell N ^ m * m.uniformBell (n * N) = m.uniformBell n * (m * n).uniformBell N :=
+  _root_.GlobalTheory.PDA.uniformBell_comp_coeff m hn hN
 
 theorem exists_dividedPowers_aug : ∀ (B : Type) [CommRing B] (Q : PDPoly B),
-    ∃ η : DividedPowers Q.aug, ∀ n : ℕ, η.dpow n (Q.e 1) = Q.e n := by
-  intro B _ Q
-  obtain ⟨η, hpre, hη⟩ := pre_aug B Q
-  obtain ⟨δ, hδ⟩ := dp_of_pre Q.P Q.aug η (Set.range fun n : ℕ => Q.e (n + 1)) hpre rfl (by
-    rintro x ⟨k, rfl⟩ m n hn
-    show η m (η n (Q.e (k + 1))) = _ * η (m * n) (Q.e (k + 1))
-    obtain ⟨j, hj⟩ : ∃ j, n * (k + 1) = j + 1 :=
-      ⟨n * (k + 1) - 1, by
-        have : 0 < n * (k + 1) := Nat.mul_pos (Nat.pos_of_ne_zero hn) k.succ_pos
-        omega⟩
-    have hc := congrArg (Nat.cast : ℕ → Q.P) (uniformBell_comp_coeff m hn (N := k + 1) (by omega))
-    push_cast at hc
-    rw [hη n k, hj, hpre.mul m _ _ (Q.e_succ_mem_aug j), hη m j, hη (m * n) k, ← hj,
-      show m * (n * (k + 1)) = m * n * (k + 1) by ring, ← mul_assoc, ← mul_assoc, hc])
-  refine ⟨δ, fun n => ?_⟩
-  rw [hδ]
-  simpa [Nat.uniformBell_one_right] using hη n 0
+    ∃ η : DividedPowers Q.aug, ∀ n : ℕ, η.dpow n (Q.e 1) = Q.e n :=
+  _root_.GlobalTheory.PDA.exists_dividedPowers_aug
 
 private theorem dpowSeries_add_base_eq_mul {R A : Type} [CommRing R] [CommRing A] [Algebra R A] {I : Ideal R}
     (κ : DividedPowers I) {r : R} (hr : r ∈ I) (a b : A) :

@@ -1,5 +1,7 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.BigThetaKernelIntegrable
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.RouteBigVertexKernelProductEqConstMulThetaKernel
 public import Development.AbelianVarietyTheory.Statements.HeckeThetaIntegrals.FormulaAt
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.LocalFlipStageIsTensorPlaceDepth
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.RangeSndRel
@@ -976,16 +978,7 @@ theorem theta_of_matched_big : ∀ {D : D7} {T : Type} {L : LevCh D T} {sc : Con
     {d : PureT G (routeBig t i j)} (_ : d ∈ Θ.support),
     IsThetaFunO W.ψ (G.pS (.chi i (j + 1))) (G.pT (.chi i (j + 1))) d.1.2 ∧
       IsThetaFunO W.ψ (G.pS (.mu t (i + 1) j)) (G.pT (.mu t (i + 1) j)) d.2 := by
-  intro D T L sc G W B ρ t i j Θ Θ' hΘ d hd
-  obtain ⟨a, b, τ, τ', n, Φ, -, -, ⟨e, -, -, ⟨φ₁, φ₂, hloc, -⟩⟩, rfl, -⟩ := hΘ
-  obtain ⟨d₀, hd₀, P, rfl⟩ := GlobalTheory.SmallRoute.mem_support_tensT W hd
-  obtain ⟨h1, h2⟩ := hloc d₀ hd₀
-  have v1 := ρ.vX_is i (j + 1) i.2 j.2
-  have v2 := ρ.vT_is t (i + 1) j i.2 j.2
-  have t1 := GlobalTheory.VecTheta.isThetaFunO_of_thetaAt W.ψ_std W.θ_is h1.2 v1.2.theta
-  have t2 := GlobalTheory.VecTheta.isThetaFunO_of_thetaAt W.ψ_std W.θ_is h2.2 v2.2.theta
-  exact ⟨GlobalTheory.GalLift.Vec.theta_pureTensorO W.ψ_std W.θ_is _ _ _ _ t1 _,
-    GlobalTheory.GalLift.Vec.theta_pureTensorO W.ψ_std W.θ_is _ _ _ _ t2 _⟩
+  apply _root_.GlobalTheory.RouteSeesaw.data_theta <;> assumption
 
 theorem continuous_kerBig : ∀ {D : D7} {T : Type} {L : LevCh D T} {sc : Consts} {G : GridData L sc}
     (W : G.Weil) (B : Frames G) (ρ : RealMatch W) (t : T) (i j : Fin D.R.m) (Θ : TotT G (routeBig t i j))
@@ -1065,12 +1058,8 @@ theorem theta_first_of_matched {W : G.Weil} {B : Frames G} {ρ : RealMatch W} {t
     {Θ : TotT G (routeBig t i j)} {Θ' : TotT G (routeSmall t i j)} (hΘ : IsMatched B t ρ i j Θ Θ')
     {d : PureT G (routeBig t i j)} (hd : d ∈ Θ.support) :
     IsThetaFunO W.ψ (G.pS (.chi (i : ℕ) ((j : ℕ) + 1))) (G.pT (.chi (i : ℕ) ((j : ℕ) + 1))) d.1.2 := by
-  obtain ⟨a, b, τ, τ', n, Φ, -, -, ⟨e, -, -, ⟨φ₁, φ₂, hloc, -⟩⟩, rfl, -⟩ := hΘ
-  obtain ⟨d₀, hd₀, P, rfl⟩ := GlobalTheory.SmallRoute.mem_support_tensT W hd
-  obtain ⟨h1, -⟩ := hloc d₀ hd₀
-  have v1 := ρ.vX_is i (j + 1) i.2 j.2
-  have t1 := GlobalTheory.VecTheta.isThetaFunO_of_thetaAt W.ψ_std W.θ_is h1.2 v1.2.theta
-  exact GlobalTheory.GalLift.Vec.theta_pureTensorO W.ψ_std W.θ_is _ _ _ _ t1 _
+  intros
+  refine (@_root_.GlobalTheory.BigRoute.theta_of_matched_big ?_ ?_ ?_ ?_ ?_ ?_ ?_ ?_ ?_ ?_ ?_ ?_ ?_ ?_ ?_ ?_).1 <;> first | assumption | infer_instance
 
 theorem kerBig_rat_mul : ∀ {D : D7} {T : Type} {L : LevCh D T} {sc : Consts} {G : GridData L sc} {μ₀ : T} (hL : L.Is μ₀)
     (W : G.Weil) (B : Frames G) (ρ : RealMatch W) (t : T) (i j : Fin D.R.m) (Θ : TotT G (routeBig t i j)) (Θ' : TotT G (routeSmall t i j)) (hΘ : IsMatched B t ρ i j Θ Θ') (g₁ : GA D (G.V (.grid (i + 1) j))),
@@ -1748,36 +1737,8 @@ theorem squareStanding_of_setting {D : D7} {Γ : Type} [Group Γ] [Fintype Γ] {
     {A : FamIn D.what₂.LL Γ Pl0 T D.R.m} {Ks : Type} [Field Ks] [NumberField Ks] [Algebra Ks D.what₂.LL] {large₂ : SizeData₂ D}
     {R : RealDat D A Ks} {F : Face D A} (s : HidaSetting large₂ R F) (h11 : 11 ≤ D.host.splitBound) {sc : Consts}
     (G : GridData R.toLevCh sc) (t : T) : SquareStanding G t := by
-  classical
-  refine ⟨h11, fun w hw => ?_⟩
-  obtain ⟨⟨Pm, -, -⟩, -⟩ := s.size
-  have hq := D.host.hyp.1
-  have hd := D.host.hyp.2.1
-  have cop : ∀ p ∈ D.host.levelPrimes, p.Prime →
-      Nat.Coprime (D.host.QS * D.host.q * D.host.d * Ideal.absNorm D.host.ccK) p := by
-    intro p hpl hp
-    exact Nat.Coprime.mul_left (UpperTheory.Ram.Fun.coprime_condN_of_splitK D.host hp (Pm.level_split p hpl)).symm
-      (D.host.ccK_coprime p (by simp [hpl]))
-  have cop0 : Nat.Coprime (D.host.QS * D.host.q * D.host.d * Ideal.absNorm D.host.ccK) (q0 D) := by
-    obtain ⟨hp0, hm, hn⟩ := leastSplitAuxiliaryPrimeThetaChain_spec D
-    have c1 : Nat.Coprime (Formalism.MainNotions.rPrAv D * LevelStarExponents.condE D) (q0 D) := by
-      rw [Nat.Coprime, Nat.gcd_rec, hm]
-      simp
-    refine Nat.Coprime.mul_left (Nat.Coprime.coprime_dvd_left ⟨Formalism.MainNotions.rPrAv D, by unfold LevelStarExponents.condE; ring⟩ c1) ?_
-    exact ((Nat.Prime.coprime_iff_not_dvd hp0).2 hn).symm
-  rcases Finset.mem_union.1 hw with hw | hw
-  · obtain ⟨v, hv, rfl⟩ := Finset.mem_image.1 hw
-    rcases G.pl.mem_S0_of_sum_eq.1 hv with rfl | hv1
-    · exact _root_.GlobalTheory.HalfCompare.not_mem_of_coprime _ cop0 (natCast_mem_w G.pl hv G.pl.basePlace_over_qZero)
-    · rcases (S1_mem_OmF D).1 hv1 with h | h | h | h
-      · exact _root_.GlobalTheory.HalfCompare.not_mem_of_coprime _ (cop _ (D.host.g_level 0) (D.host.g_prime 0)) (natCast_mem_w G.pl hv h)
-      · exact _root_.GlobalTheory.HalfCompare.not_mem_of_coprime _ (cop _ (D.host.g_level 1) (D.host.g_prime 1)) (natCast_mem_w G.pl hv h)
-      · exact _root_.GlobalTheory.HalfCompare.not_mem_of_coprime _ (cop _ D.host.pde_level.1 D.host.pde_prime) (natCast_mem_w G.pl hv h)
-      · exact _root_.GlobalTheory.HalfCompare.not_mem_of_coprime _ (cop _ D.host.pde_level.2 D.host.pde'_prime) (natCast_mem_w G.pl hv h)
-  · have h1 := (s.core.lev.Q_off t w hw).1
-    have h2 := s.guard.2 t w hw
-    simp only [Nat.cast_mul, w.isPrime.mul_mem_iff_mem_or_mem, not_or] at h1 h2 ⊢
-    tauto
+  intros
+  apply _root_.GlobalTheory.SquareConv.standing <;> assumption
 
 end GlobalTheory.SquareComm
 end -- clump:auto

@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.OmegaFormScalarExtension
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.GenMapTranspose
 public import Development.AbelianVarietyTheory.Definitions.SpanningFamilies.IsWeakOfDatum
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.OrthonormalFrameReadingEqConjugateDatumThetaStatement
@@ -73,19 +74,7 @@ theorem hostHalfRoot_add_conj_eq_one {E : Type} [Field E] [NumberField E] [IsCMF
 
 theorem isRelTraceOneIdempotentModTwo_hostElement {E : Type} [Field E] [NumberField E] [IsCMField E] (H : Geo.Tor.Host E) :
     GlobalTheory.Ker.IdemTwo (H.w0 : E) := by
-  obtain ⟨k, hk⟩ : ∃ k, H.d = 16 * k + 7 := ⟨H.d / 16, by have := H.d_mod; omega⟩
-  have h1 := hostHalfRoot_add_conj_eq_one H
-  have h2 : 2 * (H.w0 : E) = 1 + (H.rt : E) := by
-    have := congrArg (algebraMap (𝓞 E) E) H.two_weight_eq_one_add_root
-    rwa [map_mul, map_add, map_one, map_ofNat] at this
-  have h3 : (H.rt : E) ^ 2 = -(16 * k + 7) := by
-    have := congrArg (algebraMap (𝓞 E) E) H.rt_sq
-    rw [map_pow, map_neg, map_natCast, hk] at this
-    exact this.trans (by push_cast; rfl)
-  refine ⟨((2 * k + 1 : ℕ) : E), isIntegral_natCast _, ?_⟩
-  rw [eq_sub_of_add_eq' h1]
-  push_cast
-  linear_combination (-(1 / 4 : E)) * h3 - (1 / 4 : E) * (2 * (H.w0 : E) - 1 + (H.rt : E)) * h2
+  apply _root_.GlobalTheory.OneMapRef.FrameConst.isRelTraceOneIdempotentModTwo_hostElement <;> assumption
 
 theorem isAA_aMul {D : D7} {n : ℕ} (Λ : Submodule (𝓞 D.host.E) (Fin n → D.host.E)) :
     GlobalTheory.Ker.IsAA (LatOf.aMul Λ) Λ := by

@@ -491,9 +491,31 @@ private theorem rp_par {A : Type} [CommGroup A] (t x y z : A) (a b : ℤ) (k : �
       one_mul]
   rw [h, div_pow, hx, hy, div_one]
 
-theorem UpperTheory.V.Th.rigPtOf :
-    GlobalTheory.Published.GlobalArtinReciprocity → AdL → RigPtOf := by
-  intro hG hAd Ω _ _ _ l _ ι c _ N _ e ψ η σ g₁ B M H L _ _ _ _ _ Φ k c₁ _ f n ka R hL hka A _ _ _ ρ hρ hψ r hr hirr haut hfree
+theorem UpperTheory.V.Th.rigPtOf_of_automorphy
+    (Aut : ∀ (l : ℕ) [Fact l.Prime] (L Ω : Type) [Field L] [NumberField L] [IsCMField L]
+      [Field Ω] [Algebra L Ω] {n : ℕ}, (Qbar l ≃+* ℂ) → (G L Ω →* GL (Fin n) (Qbar l)) → Prop)
+    (toAutCsd : ∀ {l : ℕ} [Fact l.Prime] {L Ω : Type} [Field L] [NumberField L] [IsCMField L]
+      [Field Ω] [Algebra L Ω] {n : ℕ} (ι : Qbar l ≃+* ℂ) (r : G L Ω →* GL (Fin n) (Qbar l)),
+      Aut l L Ω ι r → UpperTheory.V.Af.IsAutCsd ι r)
+    (hG : GlobalTheory.Published.GlobalArtinReciprocity)
+    (hAd :
+  ∀ (l : ℕ) [Fact l.Prime] (L Ω : Type) [Field L] [NumberField L] [IsCMField L] [Field Ω] [Algebra L Ω] [IsAlgClosure L Ω]
+    (s : W.HidaSetting l L Ω) (V : s.Lev), V.S' = s.S → (¬ ∃ ζ : L, IsPrimitiveRoot ζ l) →
+    ∀ (c : Coef l), W.Large L c → ∀ (n : ℕ), 2 ≤ n → n ≤ 4 → ∀ (r : W.Resid V.frame c.O n), r.V0ok → ∀ (B : W.UniversalOrdinaryDeterminantRing r) (ι : Qbar l ≃+* ℂ)
+      (x : B.Pt) (ρ : V.frame.G₀ →* GL (Fin n) (Qbar l)), NiceAPt ι x ρ → Aut l L Ω ι (ρ.comp V.pr) → Par x → AdZero V ρ) :
+  ∀ (Ω : Type) [Field Ω] [CharZero Ω] [IsAlgClosure ℚ Ω] (l : ℕ) [Fact l.Prime] (ι : Qbar l ≃+* ℂ) (c : Coef l)
+    [CharP (ResidueField c.O) l] (N : ℕ) [NeZero N] (e : ℕ) (ψ : DirichletCharacter c.O N)
+    (η : G ℚ Ω →* ℤˣ) (σ g₁ : G ℚ Ω) (B : ValuationSubring Ω) (M : ℕ), LinkHyp c N e η σ B M →
+    ∀ (L : Type) [Field L] [NumberField L] [IsCMField L] [Algebra L Ω] [IsAlgClosure L Ω] (Φ : Fr.Frame l (ResidueField c.O))
+    (k : GalLink η (Chr.Psi l e (Chr.dirG ℚ Ω ψ)) σ g₁ B M L Φ)
+    (c₁ : Coef l) [Fr.IsCoef l c₁.O] (f : ResidueField c.O →+* ResidueField c₁.O) (n : ℕ)
+    (ka : G L Ω →* (Qbar l)ˣ) (_ : CReal k c₁ f n ka), W.Large L c₁ → IsKa σ M ι n ka →
+  ∀ (A : Subalgebra c.O (PadicAlgCl l)) [IsDiscreteValuationRing A] [Module.Finite c.O A] [IsLocalHom (algebraMap c.O A)]
+    (ρ : Fr.NRep Φ n A), IsLiftA c.O ρ →
+    (∀ v i, ∀ g ∈ Φ.Iv v, (ρ.ψ v i g).val = algebraMap c.O A ((Chr.Psi l e (Chr.dirG ℚ Ω ψ)) (k.j v g) ^ Fr.w n i).val) →
+    ∀ r : G L Ω →* GL (Fin n) (Qbar l), (∀ s, (r s).val = (ρ.r (k.p0 s)).map A.val) → IsIrr r → Aut l L Ω ι (tw r ka) →
+      FreeAt l r → RigOver r ka := by
+  intro Ω _ _ _ l _ ι c _ N _ e ψ η σ g₁ B M H L _ _ _ _ _ Φ k c₁ _ f n ka R hL hka A _ _ _ ρ hρ hψ r hr hirr haut hfree
   obtain ⟨c₂, h₁, h₂⟩ := ap_coef c c₁ A
   letI : Algebra c₁.O c₂.O := (Subalgebra.inclusion h₁).toRingHom.toAlgebra
   let φ : A →+* c₂.O := A.val.toRingHom.codRestrict c₂.O fun x => h₂ x.1 x.2
@@ -558,10 +580,11 @@ theorem UpperTheory.V.Th.rigPtOf :
     have h : _ < Φ.d := R.big.1
     simp [Fr.Frame.d] at h
   obtain ⟨v'⟩ := hV
+  have hAut : Aut l L Ω ι (ρ0.comp R.V.pr) := htw ▸ haut
   have hA : APt ι x ρ0 := by
     refine ⟨rp_cont R.K ρ₂ hlift.cont _ fun _ => rfl, ?_,
       ⟨fun v i τ => wt v τ - (e : ℤ) * Fr.w n i, fun v τ a b hab => sub_lt_sub_left (hanti hab) _,
-        fun v i => hwt v _ (χ i) (hχ i) _ (hin v i)⟩, htw ▸ haut, ?_, fun v => ?_⟩
+        fun v i => hwt v _ (χ i) (hχ i) _ (hin v i)⟩, toAutCsd _ _ hAut, ?_, fun v => ?_⟩
     · have h1 : W.UniversalOrdinaryDeterminantRing.Pt.D x = (W.GDet.ofRep (R.K.tw ρ₂)).map (j : c₂.O →+* Qbar l) :=
         congrArg (fun D => D.map (j : c₂.O →+* Qbar l)) hD
       refine (congrArg (fun D => D.comap R.V.pr) h1).trans (ap_det _ _ _ _ fun g => ?_)
@@ -589,10 +612,19 @@ theorem UpperTheory.V.Th.rigPtOf :
       rw [R.K.psib, R.K.psib, R.K.chib, R.K.chib, ← R.K.lam_loc] at h
       exact mul_right_cancel h
   refine ⟨R.s, R.V, ρ0, hpr, rp_conj R.V c₁ R.K.κ _ R.K.κ_conj ka R.κ_pr, hAd l L Ω R.s R.V R.hV (degEq Ω l ι c N e ψ η σ g₁ B M H L Φ k v').2 c₁ hL n
-    (by have := R.n23; omega) (by have := R.n23; omega) R.r R.v0 R.B₀ ι x ρ0 hN
+    (by have := R.n23; omega) (by have := R.n23; omega) R.r R.v0 R.B₀ ι x ρ0 hN hAut
     fun v => ⟨_, Nat.card (ZMod N)ˣ, hanti, Nat.card_pos, fun a b g hg => ?_⟩⟩
   rw [hin v a g hg, hin v b g hg]
   exact rp_par _ _ _ _ _ _ _ (hχN a g) (hχN b g)
+
+theorem UpperTheory.V.Th.rigPtOf :
+    GlobalTheory.Published.GlobalArtinReciprocity → AdL → RigPtOf := by
+  intro hG hAd
+  refine _root_.UpperTheory.V.Th.rigPtOf_of_automorphy
+    (fun _ _ _ _ _ _ _ _ _ _ => UpperTheory.V.Af.IsAutCsd)
+    (fun _ _ h => h) hG ?_
+  intro l _ L Ω _ _ _ _ _ _ s V hV hζ c hL n hn1 hn2 r hr B ι x ρ hN _ hPar
+  exact hAd l L Ω s V hV hζ c hL n hn1 hn2 r hr B ι x ρ hN hPar
 end -- clump:auto
 end -- clump:auto
 -- ===== end clump member: Development.AutomorphicArithmetic.AutomorphicVarieties.TheoremsMuLinked.GaloisRepresentationTypes.RigPtOf =====

@@ -1,5 +1,6 @@
 module
 
+import Development.EtaleCohomology.CohomologicalPurity.LeafChartFactPf
 public import Development.EtaleCohomology.CohomologicalPurity.LeafTubeCutHoc
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -171,11 +172,7 @@ def LeafRefine : Prop := ∀ (hC : LeafChart) (H : Hens) (d : ℕ) (P' P : SP d)
 
 theorem hs_pull_comp (q : ℕ) {P'' P' P : Arrow Spc} (φ : P'' ⟶ P') (ψ : P' ⟶ P) (n i : ℤ) (x : Hs q P n i) :
     Hs.pull q (φ ≫ ψ) n i x = Hs.pull q φ n i (Hs.pull q ψ n i x) := by
-  have e : dbl.map (φ ≫ ψ) = dbl.map φ ≫ dbl.map ψ := by
-    exact (pushout.map_comp φ.left ψ.left _ _ _ _ (Arrow.w φ).symm (Arrow.w φ).symm (Arrow.w ψ).symm (Arrow.w ψ).symm).symm
-  apply Subtype.ext
-  change pull _ (dbl.map (φ ≫ ψ)) _ _ x.1 = pull _ (dbl.map φ) _ _ (pull _ (dbl.map ψ) _ _ x.1)
-  rw [e, pull_comp]
+  apply @LateralTheory.CohomologicalPurity.Thom.ExcP.pull_comp_apply <;> assumption
 
 theorem exc_comp (q : ℕ) {P'' P' P : Arrow Spc} {φ : P'' ⟶ P'} {ψ : P' ⟶ P} (h : Exc q φ) (h' : Exc q ψ) : Exc q (φ ≫ ψ) :=
   fun n i => by

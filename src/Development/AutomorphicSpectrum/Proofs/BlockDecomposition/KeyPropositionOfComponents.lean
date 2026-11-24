@@ -47,6 +47,7 @@ public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.CasimirCoefficien
 public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.DiscreteSeriesExistence.InfChar
 import ReciprocityTheory.ReductiveGroups.DiscreteSeries.DiscreteSeriesExistence.RregRep
 import Development.WeilBound.RepresentationTheoryGL.DiscreteSeries.DiscreteSeriesCovers.ExplicitFunctionSquareIntegrable
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.BetaWeightOfTorusFacts
 
 @[expose] public section
 
@@ -117,16 +118,7 @@ theorem differentiableAt_of_mem_OmF {F : Matrix (Fin n) (Fin n) ℂ → ℂ} (hF
 
 theorem lop_add (Y : Matrix (Fin n) (Fin n) ℂ) {F G : Matrix (Fin n) (Fin n) ℂ → ℂ} (hF : F ∈ OmF n)
     (hG : G ∈ OmF n) : lop Y (F + G) = lop Y F + lop Y G := by
-  funext z
-  by_cases hz : z ∈ OmegaSet n
-  · simp only [lop, if_pos hz, Pi.add_apply]
-    have e : fderiv ℂ (F + G) z = fderiv ℂ F z + fderiv ℂ G z :=
-      ((differentiableAt_of_mem_OmF hF hz).hasFDerivAt.add
-        (differentiableAt_of_mem_OmF hG hz).hasFDerivAt).fderiv
-    rw [e]
-    simp only [_root_.add_apply]
-    ring
-  · simp [lop, if_neg hz]
+  apply _root_.GlobalTheory.CompanionTheory.TorusSymbol.lop_add <;> assumption
 
 theorem lop_smul (Y : Matrix (Fin n) (Fin n) ℂ) (c : ℂ) {F : Matrix (Fin n) (Fin n) ℂ → ℂ} (hF : F ∈ OmF n) :
     lop Y (c • F) = c • lop Y F := by

@@ -45,6 +45,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ValuationLtOneOfDiv
 
 @[expose] public section
 
@@ -66,16 +67,7 @@ theorem unif_ne_zero : (uniformizer F : F) ≠ 0 := fun h =>
 theorem unif_pow_ne_zero (M : ℕ) : (uniformizer F : F) ^ M ≠ 0 := pow_ne_zero _ unif_ne_zero
 
 theorem exists_unif_pow_mul_mem (x : F) : ∃ m : ℕ, (uniformizer F : F) ^ m * x ∈ 𝒪[F] := by
-  by_cases hx : x = 0
-  · exact ⟨0, by simp [hx]⟩
-  have hvx : ValuativeRel.valuation F x ≠ 0 := (Valuation.ne_zero_iff _).mpr hx
-  obtain ⟨m, hm⟩ := exists_pow_lt₀ (valuation_uniformizer_lt_one F) (Units.mk0 _ hvx)⁻¹
-  refine ⟨m, ?_⟩
-  have h1 : ValuativeRel.valuation F (uniformizer F : F) ^ m * ValuativeRel.valuation F x < 1 := by
-    have := mul_lt_mul_of_pos_right hm (zero_lt_iff.mpr hvx)
-    simpa [hvx] using this
-  rw [Valuation.mem_integer_iff, map_mul, map_pow]
-  exact h1.le
+  apply _root_.GlobalTheory.CompanionTheory.SatakeBound.LargeLattice.exists_pow_mul_mem <;> assumption
 
 theorem unif_pow_mul_mem_of_le {m m' : ℕ} (h : m ≤ m') {y : F}
     (hy : (uniformizer F : F) ^ m * y ∈ 𝒪[F]) : (uniformizer F : F) ^ m' * y ∈ 𝒪[F] := by

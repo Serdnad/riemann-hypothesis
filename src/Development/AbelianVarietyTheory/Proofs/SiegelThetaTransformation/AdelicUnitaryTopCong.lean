@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.IsCompactKinfAndConj
 public import Development.AbelianVarietyTheory.Definitions.SpanningFamilies.IsWeakOfDatum
 public import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.ExistsCompactLatticeStabilizerBoundedReal
 public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.ArchimedeanMatrixUnitaryContinuousMultiplicative
@@ -133,15 +134,7 @@ theorem isOpen_congSub (V : HSp D) (L : Lt D.host.E V.rank) (M : ℕ) (hfg : L.F
     exact add_mem (nsmul_mem hw M) hy
 
 theorem isClosed_GinfC (V : HSp D) : IsClosed (GinfC V : Set (GA D V)) := by
-  haveI : Module.Finite D.host.F D.host.E := Module.Finite.of_restrictScalars_finite ℚ _ _
-  haveI := GlobalTheory.AdelicUnitaryTop.t2Space_finiteAdeleRing_of_numberField D.host.F
-  obtain ⟨e⟩ := GlobalTheory.AdelicUnitaryTop.nonempty_homeomorph (F := D.host.F) (E := D.host.E) (Af D.host.F)
-  haveI : T2Space (Af D.host.F ⊗[D.host.F] D.host.E) := e.isEmbedding.t2Space
-  have h : (GinfC V : Set (GA D V)) = {g | (finHom V g).1 = 1} := by
-    ext g
-    exact Units.ext_iff
-  rw [h]
-  exact isClosed_eq (GlobalTheory.Member.continuous_finHom_val D V) continuous_const
+  apply _root_.GlobalTheory.Cusp.KinfCompact.isClosed_realPts <;> assumption
 
 theorem isClosed_GfC (V : HSp D) : IsClosed (GfC V : Set (GA D V)) := by
   haveI : Module.Finite D.host.F D.host.E := Module.Finite.of_restrictScalars_finite ℚ _ _

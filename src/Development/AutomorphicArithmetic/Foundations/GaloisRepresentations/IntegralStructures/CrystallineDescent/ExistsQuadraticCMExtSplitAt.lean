@@ -1,5 +1,7 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.EqOfPowEqOneOfValLt
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.FiniteDimensionalAdjoinRange
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.InertiaQuadraticRamification.InertSplitAlt
 public import Development.AbelianVarietyTheory.PublishedTheorems.GaloisCohomology₂.ExistsCoprimePowOfMemIneKer
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.ExistsSolvableCmExtensionSplitPlace
@@ -341,44 +343,7 @@ private theorem pw_normV (v : HeightOneSpectrum (𝓞 ℚ)) : normV v = Ideal.ab
 private theorem eq_of_pow_eq_one_of_valuation_sub_lt_one' {Ω : Type} [Field Ω] (A : ValuationSubring Ω) (M : ℕ) (hM0 : 0 < M)
     (hMv : ¬ A.valuation (M : Ω) < 1) (a b : Ω) (ha : a ^ M = 1) (hb : b ^ M = 1)
     (hab : A.valuation (a - b) < 1) : a = b := by
-  by_contra hne
-  have hb0 : b ≠ 0 := by
-    rintro rfl
-    simp [zero_pow hM0.ne'] at hb
-  set u := a / b with hudef
-  have hu : u ^ M = 1 := by rw [hudef, div_pow, ha, hb, div_one]
-  have hu1 : u ≠ 1 := fun h => hne ((div_eq_one_iff_eq hb0).1 h)
-  have hvb : A.valuation b = 1 := by
-    have h1 : A.valuation b ^ M = 1 := by rw [← map_pow, hb, map_one]
-    exact (pow_eq_one_iff.1 h1).resolve_right hM0.ne'
-  have hsub : A.valuation (u - 1) < 1 := by
-    have he : u - 1 = (a - b) / b := by
-      rw [hudef]
-      field_simp
-    rw [he, map_div₀, hvb, div_one]
-    exact hab
-  have hvu : A.valuation u = 1 := by
-    have := Valuation.map_eq_of_sub_lt A.valuation (x := 1) (y := u) (by rwa [map_one])
-    rwa [map_one] at this
-  have hsum : ∑ i ∈ Finset.range M, u ^ i = 0 := by
-    have h := geom_sum_mul u M
-    rw [hu, sub_self] at h
-    exact (mul_eq_zero.1 h).resolve_right (sub_ne_zero.2 hu1)
-  have hMeq : (M : Ω) = ∑ i ∈ Finset.range M, (1 - u ^ i) := by
-    rw [Finset.sum_sub_distrib, hsum, sub_zero]
-    simp
-  apply hMv
-  rw [hMeq]
-  refine Valuation.map_sum_lt _ one_ne_zero ?_
-  intro i _
-  have he : 1 - u ^ i = -((∑ j ∈ Finset.range i, u ^ j) * (u - 1)) := by
-    rw [geom_sum_mul]
-    ring
-  rw [he, Valuation.map_neg, map_mul]
-  have hle : A.valuation (∑ j ∈ Finset.range i, u ^ j) ≤ 1 :=
-    Valuation.map_sum_le _ (fun j _ => by rw [map_pow, hvu, one_pow])
-  rw [mul_comm]
-  exact mul_lt_one_of_lt_of_le hsub hle
+  apply _root_.GlobalTheory.RootValuationOne.main <;> assumption
 
 private theorem valuation_intCast_le_one' {Ω : Type} [Field Ω] (A : ValuationSubring Ω) (z : ℤ) :
     A.valuation (z : Ω) ≤ 1 := by
@@ -387,41 +352,11 @@ private theorem valuation_intCast_le_one' {Ω : Type} [Field Ω] (A : ValuationS
 
 private theorem not_valuation_natCast_lt_one_of_not_dvd {Ω : Type} [Field Ω] (A : ValuationSubring Ω) (p m : ℕ) (hp : p.Prime)
     (hpA : A.valuation (p : Ω) < 1) (hm : ¬ p ∣ m) : ¬ A.valuation (m : Ω) < 1 := by
-  intro hm1
-  have hcop : Nat.gcd p m = 1 := (Nat.Prime.coprime_iff_not_dvd hp).2 hm
-  have h := Nat.gcd_eq_gcd_ab p m
-  rw [hcop, Nat.cast_one] at h
-  have h' : (1 : Ω) = (p : Ω) * ((Nat.gcdA p m : ℤ) : Ω) + (m : Ω) * ((Nat.gcdB p m : ℤ) : Ω) := by
-    have := congrArg (fun z : ℤ => (z : Ω)) h
-    push_cast at this
-    exact this
-  have : A.valuation (1 : Ω) < 1 := by
-    rw [h']
-    apply Valuation.map_add_lt
-    · rw [map_mul]
-      exact mul_lt_one_of_lt_of_le hpA (valuation_intCast_le_one' A _)
-    · rw [map_mul]
-      exact mul_lt_one_of_lt_of_le hm1 (valuation_intCast_le_one' A _)
-  simp at this
+  apply _root_.GlobalTheory.TameCoupledEx.val_nat_not_lt <;> assumption
 
 private theorem valuation_intCast_lt_one_iff_dvd {Ω : Type} [Field Ω] (A : ValuationSubring Ω) (p : ℕ) (hp : p.Prime)
     (hpA : A.valuation (p : Ω) < 1) (n : ℤ) : A.valuation (n : Ω) < 1 ↔ (p : ℤ) ∣ n := by
-  constructor
-  · intro hn
-    by_contra hnd
-    have hnd' : ¬ p ∣ n.natAbs := by
-      intro h
-      exact hnd (Int.natCast_dvd.2 h)
-    apply not_valuation_natCast_lt_one_of_not_dvd A p n.natAbs hp hpA hnd'
-    rcases Int.natAbs_eq n with h | h
-    · rw [h] at hn
-      simpa using hn
-    · rw [h] at hn
-      simpa [Valuation.map_neg] using hn
-  · rintro ⟨c, rfl⟩
-    push_cast
-    rw [map_mul]
-    exact mul_lt_one_of_lt_of_le hpA (valuation_intCast_le_one' A _)
+  apply _root_.GlobalTheory.PlaceBridge.val_int_lt_one_iff <;> assumption
 
 private theorem algebraMap_ratInt_eq_intCast_ringOfIntegersEquiv {Ω : Type} [Field Ω] [CharZero Ω] (x : 𝓞 ℚ) :
     algebraMap ℚ Ω (x : ℚ) = ((Rat.ringOfIntegersEquiv x : ℤ) : Ω) := by

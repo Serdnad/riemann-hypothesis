@@ -1,5 +1,6 @@
 module
 
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ExistsDiagUnit
 public import Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange.ArchimedeanBaseChangeProof.SatakeExponents.UniformizerValuations.FrameInert
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsIntegralElementCharPolyNonsplit
 public import Development.AbelianVarietyTheory.Definitions.Divisors.SimpleTwistedTraceFormulaStable
@@ -88,15 +89,7 @@ theorem antiJ_eq_rev {L : Type} [Field L] {n : ℕ} (i j : Fin n) :
   exact if_congr key rfl rfl
 
 theorem antiJ_mul_self {L : Type} [Field L] (n : ℕ) : antiJ L n * antiJ L n = 1 := by
-  ext i k
-  rw [Matrix.mul_apply, Matrix.one_apply]
-  simp only [antiJ_eq_rev]
-  rw [Finset.sum_eq_single (Fin.rev k)]
-  · simp [Fin.rev_rev]
-  · intro b _ hb
-    simp [hb]
-  · intro h
-    exact absurd (Finset.mem_univ _) h
+  apply _root_.GlobalTheory.CompanionTheory.UnitaryCorrection.antiJ_mul_self <;> assumption
 
 def bM {n : ℕ} (d₁ d₂ : Fin n → R) : Matrix (Fin n) (Fin n) R :=
   fun i j => (if i = j then d₁ i else 0) + (if i = Fin.rev j then d₂ i else 0)

@@ -53,6 +53,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.ConjugateHermitianLineIsometries
+import GroundTheory.HeightsAndTheta.Heights.HeightKernels.PCoordConeArithVar
 
 @[expose] public section
 
@@ -183,16 +184,7 @@ theorem blockFnField_eq [CharZero Ω'] (i : Ω →+* Ω') (y : (Σ k, ι k) → 
 
 theorem mCoordIdeal_map (i : Ω →+* Ω') (y : (Σ k, ι k) → Ω) :
     mCoordIdeal (fun p => i (y p)) = mCoordIdeal y := by
-  have key : ∀ s : MRing ι, mConeMap (fun p => i (y p)) s = MvPolynomial.map i (mConeMap y s) := by
-    intro s
-    unfold mConeMap
-    induction s using MvPolynomial.induction_on with
-    | C n => simp
-    | add p q hp hq => simp only [map_add (f := _), hp, hq]
-    | mul_X p j hp => simp only [map_mul, hp, aeval_X, map_C, map_X]
-  ext s
-  simp only [mCoordIdeal, RingHom.mem_ker, key]
-  exact map_eq_zero_iff _ (MvPolynomial.map_injective i i.injective)
+  apply _root_.GroundTheory.Heights₂.Heights.CoordinateConeArithVar.mCoordIdeal_comp <;> assumption
 
 theorem finite_of (i : Ω →+* Ω') (h : FiniteDimensional i.fieldRange Ω') :
     (letI := i.toAlgebra; Module.Finite Ω Ω') := by

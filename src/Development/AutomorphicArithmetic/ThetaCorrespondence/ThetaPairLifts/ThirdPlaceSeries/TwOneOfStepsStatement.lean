@@ -1,5 +1,8 @@
 module
 
+import Development.AutomorphicArithmetic.ThetaCorrespondence.ThetaPairLifts.ThirdPlaceSeries.LocalFixedPointAtPlace
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsIsResOfTameAt
+import Formalism.LocalToGlobal.IndefiniteReal.FWCentral
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsAlgebraicOfRoot
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.DefiniteSideRealisationsCoefMapDifferRootOfUnityStatement
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsCoefficientPolynomialGLFunctionNeZeroStatement
@@ -405,22 +408,7 @@ namespace GlobalTheory.ConjExpandRational
 theorem evaluates_of_unif' {D : D7} {G : Type} [Group G] [Fintype G] {Pl0 T0 : Type} {A : FamIn D.what₂.LL G Pl0 T0 D.R.m}
     {T : CoreJ D} [Algebra T.Q.c.F D.what₂.LL] {R : RealDat D A T.Q.c.F} {κ : ∀ i : Fin D.R.m, WeightFamilies.Wt D ((i : ℕ) + 1)}
     {v₀ : ∀ (i : Fin D.R.m) (σ : D.what₂.LL →+* ℂ), (R.MW i σ).Vec} (fw : FWTie T R κ v₀) (hu : R.LUnif) : fw.Evaluates := by
-  intro i σ hσ hV
-  refine fw.ev i σ hσ hV ?_
-  by_contra hne
-  have h0 := fw.ev0 i σ hσ hV hne
-  have hx : ∀ x : Fin (R.nW i) → D.what₂.LL, x = 0 := fun x => by
-    by_contra hx
-    have h1 : LinearIndependent D.what₂.LL (fun _ : Fin 1 => x) := linearIndependent_unique_iff.2 hx
-    have h2 := ((hu i σ).1 1 _ h1).ne_zero 0
-    rw [h0] at h2
-    exact h2 rfl
-  refine hne ⟨0, fun f => ?_⟩
-  have hf : f = 0 := (fw.e i).injective (Subtype.ext ((hx _).trans (hx _).symm))
-  subst hf
-  refine Eq.trans ?_ (GlobalTheory.phiC_zero_rule T hV (wtA (κ i))).symm
-  rw [LinearMap.zero_apply, map_zero]
-  rfl
+  apply _root_.Formalism.IndefR.FWT.FWTie.evaluates_of_lUnif <;> assumption
 
 end GlobalTheory.ConjExpandRational
 end -- clump:auto
@@ -521,19 +509,7 @@ open GlobalTheory.ConjTwist
 theorem de_chi_eq {D : D7} {ρ : Setup D.ntw} (hρ : ρ.Good) (i : D.ntw.Tw) (j : Fin D.R.m) (b : Bool) (x : (AE D)ˣ) :
     ∃ σ, (((ρ.B i j b).de.chi x : Circle) : ℂ) = ρ.eO i b (algebraMap (D.ntw.O0 i) (D.ntw.O i)
         ((Formalism.MainNotions.BlochKatoReduction.Gen.psiAt b (D.ntw.delta i) σ : (D.ntw.O0 i)ˣ) : D.ntw.O0 i)) := by
-  set ψ := Formalism.MainNotions.BlochKatoReduction.Gen.psiAt b (D.ntw.delta i) with hψ
-  have hopen : IsOpen (ψ.ker : Set (Formalism.ConjugateSelfDual.G D.host.E D.nd.Om)) := by
-    have : ψ.ker = (D.ntw.delta i).ker := by
-      ext σ
-      cases b <;> simp [hψ, Formalism.MainNotions.BlochKatoReduction.Gen.psiAt, MonoidHom.mem_ker]
-    rw [this]; exact D.ntw.delta_open i
-  haveI : ψ.ker.FiniteIndex := @Subgroup.finiteIndex_of_finite_quotient _ _ _ (Subgroup.quotient_finite_of_isOpen _ hopen)
-  have hpow : ∀ σ, ψ σ ^ ψ.ker.index = 1 := fun σ => by
-    rw [← map_pow]; exact ψ.ker.pow_index_mem σ
-  obtain ⟨σ, hσ⟩ := ρ.rc.exists_sym x
-  refine ⟨σ, ?_⟩
-  rw [hρ.delta i j b]
-  exact charOf_eq _ _ hopen hσ Subgroup.FiniteIndex.index_ne_zero (hpow σ)
+  apply _root_.GlobalTheory.PlaceFix.de_chi_eq <;> assumption
 
 end GlobalTheory.BigOn.Exp.TwConj
 end -- clump:auto
@@ -767,24 +743,7 @@ theorem splitOff_iff {P : Pl D.host.E} {S : Set (Pl D.host.E)} : Bridge.SplitOff
   exact ⟨fun h hm => h _ hm rfl, fun h Q hQ e => h ((HeightOneSpectrum.ext e : Q = cP P) ▸ hQ)⟩
 
 theorem exists_isRes {χ : HChar D.host.E} {P : Pl D.host.E} (ht : χ.TameAt P) : ∃ c, IsRes χ P c := by
-  choose r hr using fun a : (kP P)ˣ => Ideal.Quotient.mk_surjective (a : kP P)
-  haveI : P.asIdeal.IsPrime := P.isPrime
-  have hn : ∀ {b : 𝓞 D.host.E} {a : (kP P)ˣ}, Ideal.Quotient.mk P.asIdeal b = a → b ∉ P.asIdeal := fun {b a} e hb =>
-    a.ne_zero (e ▸ Ideal.Quotient.eq_zero_iff_mem.2 hb)
-  have h0 : ∀ {b : 𝓞 D.host.E}, b ∉ P.asIdeal → (b : D.host.E) ≠ 0 := fun {b} hb e =>
-    hb ((RingOfIntegers.coe_eq_zero_iff.1 e) ▸ zero_mem _)
-  have h1 : ∀ {b : 𝓞 D.host.E}, b ∉ P.asIdeal → P.valuation D.host.E (b : D.host.E) = 1 := fun {b} hb =>
-    le_antisymm (HeightOneSpectrum.valuation_le_one _ _)
-      (not_lt.1 fun h => hb ((HeightOneSpectrum.valuation_lt_one_iff_mem _ _).1 h))
-  let f : (kP P)ˣ → ℂˣ := fun a => χ.locK P (Units.mk0 _ (h0 (hn (hr a))))
-  have hf : ∀ (a : (kP P)ˣ) (b : 𝓞 D.host.E) (x : D.host.Eˣ), (x : D.host.E) = b → Ideal.Quotient.mk P.asIdeal b = a →
-      f a = χ.locK P x := fun a b x hx hb => by
-    rw [GlobalTheory.NormOneUnit.locK_tame ht (y := Units.mk0 _ (h0 (hn (hr a)))) (h1 (hn (hr a)))]
-    rw [hx]
-    exact (HeightOneSpectrum.valuation_lt_one_iff_mem P (b - r a)).2 (Ideal.Quotient.eq.1 (hb.trans (hr a).symm))
-  refine ⟨MonoidHom.mk' f fun a a' => ?_, fun b k u hk hu => hf u b k hk hu.symm⟩
-  rw [hf _ (r a * r a') (Units.mk0 _ (h0 (hn (hr a))) * Units.mk0 _ (h0 (hn (hr a')))) rfl
-    (by rw [map_mul, hr, hr, Units.val_mul]), map_mul]
+  apply _root_.GlobalTheory.exists_isRes_of_tameAt <;> assumption
 
 end Places
 

@@ -86,51 +86,7 @@ theorem degree_eq_sum (n : τ →₀ ℕ) : n.degree = ∑ w, n w := by
 
 theorem pderiv_prim (ω : τ → MvPowerSeries τ k)
     (hω : ∀ a c, pderiv (R := k) c (ω a) = pderiv (R := k) a (ω c)) (v : τ) : pderiv (R := k) v (prim ω) = ω v := by
-  ext m
-  rw [coeff_pderiv, coeff_prim]
-  set n := m + Finsupp.single v 1 with hn
-  have key : ∀ w, (if n w = 0 then 0 else coeff (n - Finsupp.single w 1) (ω w)) * ((m v : k) + 1)
-      = (n w : k) * coeff m (ω v) := by
-    intro w
-    by_cases hw : w = v
-    · subst hw
-      have h1 : n w = m w + 1 := by simp [hn]
-      have h2 : n - Finsupp.single w 1 = m := by rw [hn]; exact add_tsub_cancel_right _ _
-      rw [if_neg (by omega), h2, h1]
-      push_cast
-      ring
-    · have h1 : n w = m w := by simp [hn, hw]
-      by_cases hm : m w = 0
-      · rw [if_pos (by rw [h1, hm]), h1, hm]
-        simp
-      · rw [if_neg (by rw [h1]; exact hm), h1]
-        have hle : Finsupp.single w 1 ≤ m := Finsupp.single_le_iff.mpr (Nat.one_le_iff_ne_zero.mpr hm)
-        have hc := congrArg (coeff (m - Finsupp.single w 1)) (hω w v)
-        rw [coeff_pderiv, coeff_pderiv] at hc
-        have e1 : m - Finsupp.single w 1 + Finsupp.single v 1 = n - Finsupp.single w 1 := by
-          rw [hn]; exact tsub_add_eq_add_tsub hle
-        have e2 : m - Finsupp.single w 1 + Finsupp.single w 1 = m := tsub_add_cancel_of_le hle
-        have e3 : (m - Finsupp.single w 1 : τ →₀ ℕ) v = m v := by
-          simp [Ne.symm hw]
-        have e4' : (m - Finsupp.single w 1 : τ →₀ ℕ) w + 1 = m w := by
-          rw [Finsupp.tsub_apply, Finsupp.single_eq_same]; omega
-        have e4 : ((m - Finsupp.single w 1 : τ →₀ ℕ) w : k) + 1 = (m w : k) := by
-          rw [← e4', Nat.cast_add, Nat.cast_one]
-        rw [e1, e2, e3, e4] at hc
-        rw [hc]
-        ring
-  have hsum : (∑ w, if n w = 0 then 0 else coeff (n - Finsupp.single w 1) (ω w)) * ((m v : k) + 1)
-      = (n.degree : k) * coeff m (ω v) := by
-    rw [Finset.sum_mul, Finset.sum_congr rfl (fun w _ => key w), ← Finset.sum_mul, degree_eq_sum,
-      Nat.cast_sum]
-  have hnv : n v = m v + 1 := by simp [hn]
-  have hD : (n.degree : ℚ) ≠ 0 := by
-    have : n v ≤ n.degree := by
-      rw [degree_eq_sum]
-      exact Finset.single_le_sum (fun _ _ => Nat.zero_le _) (Finset.mem_univ v)
-    exact_mod_cast (show n.degree ≠ 0 by omega)
-  rw [mul_assoc, hsum, ← mul_assoc, ← map_natCast (algebraMap ℚ k) n.degree, ← map_mul,
-    inv_mul_cancel₀ hD, map_one, one_mul]
+  apply _root_.GlobalTheory.FormalLog.pderiv_prim <;> assumption
 
 end ReciprocityTheory.ChartRestriction.G.TB.LogPf
 end -- clump:auto
@@ -291,25 +247,7 @@ theorem pderiv_logOf (i a : Fin d) : pderiv (R := k) ((0 : Fin 1), a) (logOf G i
 
 theorem logOf_add (i : Fin d) :
     ev (n := 2) ![G.F] (logOf G i) = ev (n := 2) ![pt k d 0] (logOf G i) + ev (n := 2) ![pt k d 1] (logOf G i) := by
-  rw [← sub_eq_zero]
-  set g := ev (n := 2) ![G.F] (logOf G i) - (ev (n := 2) ![pt k d 0] (logOf G i) + ev (n := 2) ![pt k d 1] (logOf G i))
-  have hd : ∀ v, pderiv (R := k) v g = 0 := by
-    rintro ⟨j, c⟩
-    fin_cases j
-    · simp only [Fin.zero_eta]
-      simp only [g, map_sub, map_add (f := _), d_evF, pderiv_logOf, pderiv_first_ev_second_point_eq_zero, d_evX]
-      rw [om_P G i c]; ring
-    · simp only [Fin.mk_one]
-      simp only [g, map_sub, map_add (f := _), pderiv_second_ev_first_point_eq_zero, d_evY]
-      rw [d_evF G]
-      simp only [pderiv_logOf G]
-      have := om_Q G i c
-      simp only [Ar] at this
-      rw [this]; ring
-  have hc : constantCoeff g = 0 := by
-    simp only [g, map_sub, map_add (f := _), cc_ev (czFF G), cc_ev czX, cc_ev czY, logOf, constantCoeff_prim]
-    ring
-  rw [eq_C_of_pderiv_zero hd, hc, map_zero]
+  apply _root_.GlobalTheory.FormalLog.logOf_add <;> assumption
 
 theorem addPt : (![G.add (pt k (n := 2) d 0) (pt k d 1)] : Fin 1 → Pt k 2 d) = ![G.F] := by
   have hid : ∀ f : PS k 2 d, ev (n := 2) ![pt k d 0, pt k d 1] f = f := by

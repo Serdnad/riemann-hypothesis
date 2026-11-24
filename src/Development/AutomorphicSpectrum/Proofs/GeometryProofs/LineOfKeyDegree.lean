@@ -1,5 +1,6 @@
 module
 
+import Formalism.LocalToGlobal.ProjectiveLattices.RosatiLatticeNorms.LinkNum
 public import Mathlib.NumberTheory.NumberField.InfinitePlace.Embeddings
 public import Mathlib.RingTheory.DedekindDomain.AdicValuation.Valuation
 public import GroundTheory.PAdicHodge.SlopeCauchyBinet
@@ -1469,15 +1470,7 @@ theorem slope_sum {K : Type} [Field K] [NumberField K] (n' : ℕ) (hn' : 1 ≤ n
 
 theorem mean_comp {K K' : Type} [Field K] [NumberField K] [Field K'] [NumberField K'] [Algebra K K']
     (f : (K →+* ℂ) → ℝ) : mean K' (fun σ => f (σ.comp (algebraMap K K'))) = mean K f := by
-  have hd : (Module.finrank ℚ K : ℝ) ≠ 0 := by
-    exact_mod_cast (Module.finrank_pos (R := ℚ) (M := K)).ne'
-  have hd' : (Module.finrank K K' : ℝ) ≠ 0 := by
-    exact_mod_cast (Module.finrank_pos (R := K) (M := K')).ne'
-  have hm : (Module.finrank ℚ K' : ℝ) = Module.finrank ℚ K * Module.finrank K K' := by
-    exact_mod_cast (Module.finrank_mul_finrank ℚ K K').symm
-  simp only [mean]
-  rw [GroundTheory.Heights₂.Heights.LatticeLemmas.sum_comp_algebraMap, hm]
-  field_simp
+  apply _root_.Formalism.L2.Pj.abelian₂.mean_restrict <;> assumption
 
 section Frame
 

@@ -1,5 +1,6 @@
 module
 
+import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.PBadSetSmaller
 public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.StLinearNoetherNormalization
 public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.StNormalLocallyIrreducible
 public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.StHolomorphicIsolatedFibreOpen
@@ -29,15 +30,7 @@ open MvPolynomial Topology Metric Matrix
 
 theorem eval_pullback_eq {n k : ℕ} (A : Matrix (Fin k) (Fin n) ℂ) (P : MvPolynomial (Fin k) ℂ)
     (z : Fin n → ℂ) : eval z (GroundTheory.Heights₂.Heights.ComplexSets.pullback A P) = eval (A *ᵥ z) P := by
-  unfold GroundTheory.Heights₂.Heights.ComplexSets.pullback
-  change (aeval z : MvPolynomial (Fin n) ℂ →ₐ[ℂ] ℂ) (aeval (GroundTheory.Heights₂.Heights.ComplexSets.linPoly A) P) = _
-  rw [← AlgHom.comp_apply, MvPolynomial.comp_aeval]
-  have hlin : (fun i => (aeval z : MvPolynomial (Fin n) ℂ →ₐ[ℂ] ℂ) (GroundTheory.Heights₂.Heights.ComplexSets.linPoly A i))
-      = A *ᵥ z := by
-    funext i
-    simp [GroundTheory.Heights₂.Heights.ComplexSets.linPoly, Matrix.mulVec, dotProduct]
-  rw [hlin]
-  rfl
+  apply _root_.GroundTheory.Heights₂.Heights.ComplexSets.eval_pullback <;> assumption
 
 theorem exists_eval_ne_zero_of_mem_nhds {k : ℕ} {P : MvPolynomial (Fin k) ℂ} (hP : P ≠ 0)
     {a : Fin k → ℂ} {N : Set (Fin k → ℂ)} (hN : N ∈ 𝓝 a) : ∃ y ∈ N, eval y P ≠ 0 := by

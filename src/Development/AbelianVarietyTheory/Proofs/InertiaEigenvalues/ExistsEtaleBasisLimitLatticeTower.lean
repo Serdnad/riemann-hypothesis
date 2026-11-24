@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.BreuilKisinOEStabilityProperties
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.TrivIsCr
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsIntegralWittLatticeBasis
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IsUnitOfSaturated
@@ -976,15 +977,7 @@ namespace GlobalTheory.BKLim.EtaleLimit
 variable {l : ℕ} [Fact l.Prime] {K : FinExt l}
 
 theorem inv_mem (bk : BK K) {x : WCb l} (hx : x ∈ bk.OE) (hu : IsUnit x) : ∃ v ∈ bk.OE, x * v = 1 := by
-  obtain ⟨-, -, -, hval, -⟩ := _root_.GlobalTheory.OEDvr.main l K bk
-  obtain ⟨k, v, v', hv, hv', hvv, rfl⟩ := hval x hx hu.ne_zero
-  cases k with
-  | zero => exact ⟨v', hv', by rw [pow_zero, one_mul, hvv]⟩
-  | succ k =>
-    exfalso
-    apply not_isUnit_l (l := l)
-    rw [pow_succ', mul_assoc] at hu
-    exact isUnit_of_mul_isUnit_left hu
+  apply _root_.GlobalTheory.OEStable.inv <;> assumption
 
 theorem exists_inv (bk : BK K) {d : ℕ} {M : Matrix (Fin d) (Fin d) (WCb l)} (hM : ∀ i j, M i j ∈ bk.OE)
     (hu : IsUnit M) : ∃ M' : Matrix (Fin d) (Fin d) (WCb l), (∀ i j, M' i j ∈ bk.OE) ∧ M * M' = 1 := by

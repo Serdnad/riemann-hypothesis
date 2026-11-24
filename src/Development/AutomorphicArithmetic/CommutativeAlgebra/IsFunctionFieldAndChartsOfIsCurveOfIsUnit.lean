@@ -1,5 +1,7 @@
 module
 
+import all Development.AutomorphicArithmetic.CommutativeAlgebra.LeafH0Holds
+import Development.EtaleCohomology.CohomologicalPurity.LeafFreeCovPf
 public import Development.AbelianVarietyTheory.Definitions.Divisors.GalMapMul
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.EtaleSpaceChainsMayerVietorisShortExactStatement
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.HypercohomologyLongExactFirstOfInjectiveStatement
@@ -163,23 +165,6 @@ private theorem mvS_exact {U V E : Spc} (f : U ⟶ E) (g : V ⟶ E) (h : Cover2 
   obtain ⟨w, hw⟩ := _root_.GlobalTheory.EtC.mv_shortExact R f g h
   exact hw
 
-private noncomputable def mvMap {U V E U' V' E' : Spc} (f : U ⟶ E) (g : V ⟶ E) (f' : U' ⟶ E') (g' : V' ⟶ E')
-    (p : E ⟶ E') (u : U ⟶ U') (v : V ⟶ V') (hu : f ≫ p = u ≫ f') (hv : g ≫ p = v ≫ g') :
-    mvS (R := R) f g ⟶ mvS f' g' where
-  τ₁ := (chains R).map (pullback.map f g f' g' u v p hu hv)
-  τ₂ := biprod.map ((chains R).map u) ((chains R).map v)
-  τ₃ := (chains R).map p
-  comm₁₂ := by
-    apply biprod.hom_ext
-    · simp only [mvS, Category.assoc, biprod.map_fst, biprod.lift_fst, biprod.lift_fst_assoc,
-        ← Functor.map_comp, pullback.lift_fst, pullback.map]
-    · simp only [mvS, Category.assoc, biprod.map_snd, biprod.lift_snd, biprod.lift_snd_assoc,
-        Preadditive.neg_comp, Preadditive.comp_neg, ← Functor.map_comp, pullback.lift_snd, pullback.map]
-  comm₂₃ := by
-    apply biprod.hom_ext'
-    · simp only [mvS, biprod.inl_map_assoc, biprod.inl_desc, biprod.inl_desc_assoc, ← Functor.map_comp, hu]
-    · simp only [mvS, biprod.inr_map_assoc, biprod.inr_desc, biprod.inr_desc_assoc, ← Functor.map_comp, hv]
-
 private theorem cpull_inl_desc {K L M I : Cx R} (a : K ⟶ M) (b : L ⟶ M) (n : ℤ) (x : CohomologyClass M I n) :
     cpull (biprod.inl : K ⟶ K ⊞ L) I n (cpull (biprod.desc a b) I n x) = cpull a I n x := by
   rw [← cpull_comp', biprod.inl_desc]
@@ -196,65 +181,8 @@ private theorem cpull_lift {K L P I : Cx R} (a : P ⟶ K) (b : P ⟶ L) (n : ℤ
 end UpperTheory.Cb.MV
 
 theorem UpperTheory.Cb.exists_mayerVietoris_connecting_exact :
-    ∀ (R : Type) [CommRing R] (F : Shv R), ∃ d : ∀ {U V E : Spc} (f : U ⟶ E) (g : V ⟶ E), Cover2 R f g → ∀ n : ℤ, H R (pullback f g) F n →+ H R E F (n + 1), (∀ {U V E : Spc} (f : U ⟶ E) (g : V ⟶ E) (h : Cover2 R f g) (n : ℤ), (∀ a b, pull R (pullback.fst f g) F n a = pull R (pullback.snd f g) F n b ↔ ∃ x, pull R f F n x = a ∧ pull R g F n x = b) ∧ (∀ c, d f g h n c = 0 ↔ ∃ a b, c = pull R (pullback.fst f g) F n a - pull R (pullback.snd f g) F n b) ∧ ∀ x, (pull R f F (n + 1) x = 0 ∧ pull R g F (n + 1) x = 0) ↔ ∃ c, d f g h n c = x) ∧ ∀ {U V E U' V' E' : Spc} (f : U ⟶ E) (g : V ⟶ E) (f' : U' ⟶ E') (g' : V' ⟶ E') (p : E ⟶ E') (u : U ⟶ U') (v : V ⟶ V') (hu : f ≫ p = u ≫ f') (hv : g ≫ p = v ≫ g') (h : Cover2 R f g) (h' : Cover2 R f' g') (n : ℤ) c, pull R p F (n + 1) (d f' g' h' n c) = d f g h n (pull R (pullback.map f g f' g' u v p hu hv) F n c) := by
-  intro R _ F
-  obtain ⟨D, hex, hnat⟩ := GlobalTheory.T.hypercohomology_longExact_first_of_injective R (res R F) (fun n => by dsimp only [res]; infer_instance)
-  have hbij := fun (K L : Cx R) (n : ℤ) => _root_.GlobalTheory.EtC.cpull_biprod_bijective R K L (res R F) n
-
-  have hf : ∀ {U V E : Spc} (f : U ⟶ E) (g : V ⟶ E) (n : ℤ) (y : CohomologyClass (((chains R).obj U) ⊞ ((chains R).obj V)) (res R F) n),
-      cpull (UpperTheory.Cb.MV.mvS (R := R) f g).f (res R F) n y =
-        pull R (pullback.fst f g) F n (cpull biprod.inl (res R F) n y) -
-          pull R (pullback.snd f g) F n (cpull biprod.inr (res R F) n y) := by
-    intro U V E f g n y
-    refine (UpperTheory.Cb.MV.cpull_lift (I := res R F) ((chains R).map (pullback.fst f g)) (-(chains R).map (pullback.snd f g)) n y).trans ?_
-    rw [UpperTheory.Cb.MV.cpull_neg', sub_eq_add_neg]
-    rfl
-  refine ⟨fun {U V E} f g h n => D (UpperTheory.Cb.MV.mvS f g) (UpperTheory.Cb.MV.mvS_exact f g h) n, ?_, ?_⟩
-  · intro U V E f g h n
-    obtain ⟨e₁, e₂, e₃⟩ := hex (UpperTheory.Cb.MV.mvS f g) (UpperTheory.Cb.MV.mvS_exact f g h) n
-    have hi := fun (m : ℤ) (x : H R E F m) => UpperTheory.Cb.MV.cpull_inl_desc (I := res R F) ((chains R).map f) ((chains R).map g) m x
-    have hr := fun (m : ℤ) (x : H R E F m) => UpperTheory.Cb.MV.cpull_inr_desc (I := res R F) ((chains R).map f) ((chains R).map g) m x
-    refine ⟨?_, ?_, ?_⟩
-    · intro a b
-      obtain ⟨y, hy⟩ := (hbij ((chains R).obj U) ((chains R).obj V) n).2 (a, b)
-      have hya : cpull biprod.inl (res R F) n y = a := congrArg Prod.fst hy
-      have hyb : cpull biprod.inr (res R F) n y = b := congrArg Prod.snd hy
-      have key := e₁ y
-      rw [hf, hya, hyb] at key
-      refine (sub_eq_zero.symm.trans key).trans ?_
-      constructor
-      · rintro ⟨x, rfl⟩
-        exact ⟨x, (hi n x).symm.trans hya, (hr n x).symm.trans hyb⟩
-      · rintro ⟨x, hxa, hxb⟩
-        refine ⟨x, (hbij ((chains R).obj U) ((chains R).obj V) n).1 ?_⟩
-        exact Prod.ext ((hi n x).trans (hxa.trans hya.symm)) ((hr n x).trans (hxb.trans hyb.symm))
-    · intro c
-      refine (e₂ c).trans ?_
-      constructor
-      · rintro ⟨y, rfl⟩
-        exact ⟨_, _, hf f g n y⟩
-      · rintro ⟨a, b, rfl⟩
-        obtain ⟨y, hy⟩ := (hbij ((chains R).obj U) ((chains R).obj V) n).2 (a, b)
-        have hya : cpull biprod.inl (res R F) n y = a := congrArg Prod.fst hy
-        have hyb : cpull biprod.inr (res R F) n y = b := congrArg Prod.snd hy
-        refine ⟨y, ?_⟩
-        rw [hf, hya, hyb]
-    · intro x
-      constructor
-      · rintro ⟨h1, h2⟩
-        refine (e₃ x).1 ((hbij ((chains R).obj U) ((chains R).obj V) (n + 1)).1 ?_)
-        have z1 : cpull (biprod.inl : (chains R).obj U ⟶ (chains R).obj U ⊞ (chains R).obj V) (res R F) (n + 1) 0 = 0 := map_zero _
-        have z2 : cpull (biprod.inr : (chains R).obj V ⟶ (chains R).obj U ⊞ (chains R).obj V) (res R F) (n + 1) 0 = 0 := map_zero _
-        exact Prod.ext ((hi (n + 1) x).trans (h1.trans z1.symm)) ((hr (n + 1) x).trans (h2.trans z2.symm))
-      · intro hc
-        have h0 : cpull (biprod.desc ((chains R).map f) ((chains R).map g)) (res R F) (n + 1) x = 0 := (e₃ x).2 hc
-        have h1 := hi (n + 1) x
-        have h2 := hr (n + 1) x
-        rw [h0, map_zero] at h1 h2
-        exact ⟨h1.symm, h2.symm⟩
-  · intro U V E U' V' E' f g f' g' p u v hu hv h h' n c
-    exact hnat _ _ (UpperTheory.Cb.MV.mvS_exact f g h) (UpperTheory.Cb.MV.mvS_exact f' g' h')
-      (UpperTheory.Cb.MV.mvMap f g f' g' p u v hu hv) n c
+    ∀ (R : Type) [CommRing R] (F : Shv R), ∃ d : ∀ {U V E : Spc} (f : U ⟶ E) (g : V ⟶ E), Cover2 R f g → ∀ n : ℤ, H R (pullback f g) F n →+ H R E F (n + 1), (∀ {U V E : Spc} (f : U ⟶ E) (g : V ⟶ E) (h : Cover2 R f g) (n : ℤ), (∀ a b, pull R (pullback.fst f g) F n a = pull R (pullback.snd f g) F n b ↔ ∃ x, pull R f F n x = a ∧ pull R g F n x = b) ∧ (∀ c, d f g h n c = 0 ↔ ∃ a b, c = pull R (pullback.fst f g) F n a - pull R (pullback.snd f g) F n b) ∧ ∀ x, (pull R f F (n + 1) x = 0 ∧ pull R g F (n + 1) x = 0) ↔ ∃ c, d f g h n c = x) ∧ ∀ {U V E U' V' E' : Spc} (f : U ⟶ E) (g : V ⟶ E) (f' : U' ⟶ E') (g' : V' ⟶ E') (p : E ⟶ E') (u : U ⟶ U') (v : V ⟶ V') (hu : f ≫ p = u ≫ f') (hv : g ≫ p = v ≫ g') (h : Cover2 R f g) (h' : Cover2 R f' g') (n : ℤ) c, pull R p F (n + 1) (d f' g' h' n c) = d f g h n (pull R (pullback.map f g f' g' u v p hu hv) F n c) :=
+  _root_.GlobalTheory.EtC.mayerVietoris
 end -- clump:auto
 end -- clump:auto
 -- ===== end clump member: Development.AutomorphicArithmetic.Foundations.EtaleClopenDescent.ExistsMayerVietorisConnectingExact =====
@@ -369,77 +297,9 @@ private lemma sec_map_comp {R : Type} [CommRing R] {F G H : Shv R} (a : F ⟶ G)
 private lemma sec_map_zero {R : Type} [CommRing R] {F G : Shv R} {U : Scheme.{0}} (x : Sec F U) :
     Sec.map (0 : F ⟶ G) x = 0 := rfl
 
-private lemma res_univ_eq_zero {R : Type} [CommRing R] {A W : Scheme.{0}} (i : A ⟶ W) {Z : Shv R}
-    (h : (free R).obj (yoneda.obj W) ⟶ Z) (h0 : (free R).map (yoneda.map i) ≫ h = 0) :
-    Sec.res i (Sec.map h (freeGen R (yoneda.obj W) W (𝟙 W))) = 0 := by
-  rw [_root_.GlobalTheory.EtC.CupSpec.map_res, CupSpec.freeGen_res]
-  have e : (ConcreteCategory.hom ((yoneda.obj W).map i.op)) (𝟙 W) =
-      (ConcreteCategory.hom ((yoneda.map i).app (op A))) (𝟙 A) := by simp
-  rw [e, ← CupSpec.freeGen_map, ← sec_map_comp, h0, sec_map_zero]
-
 theorem UpperTheory.etale_purity_free_cover :
-    LateralTheory.CohomologicalPurity.Thom.LeafFreeCov := by
-  intro R _ X U V
-  apply Preadditive.epi_of_cancel_zero
-  intro Z g hg
-  let ι := {O : X.Opens // O = U ∨ O = V}
-  have hle : ∀ i : ι, i.1 ≤ U ⊔ V := by
-    rintro ⟨O, rfl | rfl⟩
-    · exact le_sup_left
-    · exact le_sup_right
-  have gz : ∀ i : ι, (free R).map (yoneda.map (X.homOfLE (hle i))) ≫ g = 0 := by
-    rintro ⟨O, rfl | rfl⟩
-    · have := congrArg (biprod.inl ≫ ·) hg
-      simpa using this
-    · have := congrArg (biprod.inr ≫ ·) hg
-      simpa using this
-  have cover : ∀ (O : X.Opens) (hO : O ≤ U ⊔ V) (y : (U ⊔ V : X.Opens).toScheme),
-      (U ⊔ V).ι y ∈ O → ∃ z, X.homOfLE hO z = y := by
-    intro O hO y hy
-    have hy' : (U ⊔ V).ι y ∈ Set.range O.ι := by
-      rw [Scheme.Opens.range_ι]
-      exact hy
-    obtain ⟨z, hz⟩ := hy'
-    refine ⟨z, (U ⊔ V).ι.isOpenEmbedding.injective ?_⟩
-    change (X.homOfLE hO ≫ (U ⊔ V).ι) z = _
-    rw [Scheme.homOfLE_ι, hz]
-  refine CupSpec.free_ext g 0 (fun T x => ?_)
-  change Sec.map g (freeGen R _ T x) = 0
-  let xx : T ⟶ (U ⊔ V : X.Opens).toScheme := x
-  obtain ⟨hsep, -⟩ := sec_sep_glue_of_points R Z T ι (fun i => pullback x (X.homOfLE (hle i)))
-    (fun i => pullback.fst x (X.homOfLE (hle i))) (fun i => inferInstance) (by
-      intro t
-      have hy : (U ⊔ V).ι (xx t) ∈ ((U ⊔ V : X.Opens) : Set X) := by
-        rw [← Scheme.Opens.range_ι]
-        exact ⟨xx t, rfl⟩
-      rw [TopologicalSpace.Opens.coe_sup] at hy
-      rcases hy with hU | hV
-      · obtain ⟨z, hz⟩ := cover U le_sup_left (xx t) hU
-        have ht : t ∈ Set.range (pullback.fst x (X.homOfLE (hle ⟨U, Or.inl rfl⟩))) := by
-          rw [Scheme.Pullback.range_fst]
-          exact ⟨z, hz⟩
-        obtain ⟨v, hv⟩ := ht
-        exact ⟨⟨U, Or.inl rfl⟩, v, hv⟩
-      · obtain ⟨z, hz⟩ := cover V le_sup_right (xx t) hV
-        have ht : t ∈ Set.range (pullback.fst x (X.homOfLE (hle ⟨V, Or.inr rfl⟩))) := by
-          rw [Scheme.Pullback.range_fst]
-          exact ⟨z, hz⟩
-        obtain ⟨v, hv⟩ := ht
-        exact ⟨⟨V, Or.inr rfl⟩, v, hv⟩)
-  apply hsep
-  intro i
-  have z : Sec.map g (freeGen R (yoneda.obj (U ⊔ V : X.Opens).toScheme) i.1.toScheme (X.homOfLE (hle i))) = 0 := by
-    have := res_univ_eq_zero (X.homOfLE (hle i)) g (gz i)
-    rwa [_root_.GlobalTheory.EtC.CupSpec.map_res, CupSpec.freeGen_res, show (ConcreteCategory.hom ((yoneda.obj (U ⊔ V : X.Opens).toScheme).map
-      (X.homOfLE (hle i)).op)) (𝟙 _) = X.homOfLE (hle i) by simp] at this
-  rw [_root_.GlobalTheory.EtC.CupSpec.map_res, CupSpec.freeGen_res]
-  have e : (ConcreteCategory.hom ((yoneda.obj (U ⊔ V : X.Opens).toScheme).map
-      (pullback.fst x (X.homOfLE (hle i))).op)) x =
-      (ConcreteCategory.hom ((yoneda.obj (U ⊔ V : X.Opens).toScheme).map
-      (pullback.snd x (X.homOfLE (hle i))).op)) (X.homOfLE (hle i)) := by
-    simp [pullback.condition]
-  rw [e, ← CupSpec.freeGen_res, ← _root_.GlobalTheory.EtC.CupSpec.map_res, z]
-  exact map_zero _
+    LateralTheory.CohomologicalPurity.Thom.LeafFreeCov :=
+  _root_.LateralTheory.CohomologicalPurity.FreeCovPf.LeafFreeCov_of
 end -- clump:auto
 end -- clump:auto
 -- ===== end clump member: Development.AutomorphicArithmetic.CommutativeAlgebra.EtalePurityFreeCover =====
@@ -1151,14 +1011,7 @@ namespace UpperTheory.PicRigid
 
 private lemma exists_prim (q : ℕ) [NeZero q] (L : Type) [Field L] [IsAlgClosed L] (hq : IsUnit (q : L)) :
     Nonempty (Prim q L) := by
-  have hdeg : (Polynomial.cyclotomic q L).degree ≠ 0 := by
-    rw [Polynomial.degree_cyclotomic]
-    have := Nat.totient_pos.mpr (NeZero.pos q)
-    exact_mod_cast this.ne'
-  obtain ⟨z, hz⟩ := IsAlgClosed.exists_root _ hdeg
-  refine ⟨⟨z, hq, ?_⟩⟩
-  rw [Polynomial.aeval_def, Polynomial.eval₂_eq_eval_map, Polynomial.map_cyclotomic]
-  exact hz
+  apply _root_.exists_prim <;> assumption
 
 private lemma pl_id (q : ℕ) (i : ℤ) {X : Scheme.{0}} (m : ℤ) (y : Ht q (sch.obj X) m i) :
     pl q i (𝟙 X) m y = y := by

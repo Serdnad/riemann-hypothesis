@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.MemLocalSubringGenericPoint
 public import Development.EtaleCohomology.EtaleSheaves.LeafSmoothOfNormalPf
 public import Development.AbelianVarietyTheory.Proofs.HomogeneousIdeals.ExistsNeZeroIsStandardSmoothOfRelativeDimension
 import Mathlib.Algebra.Order.Floor.Extended
@@ -56,13 +57,7 @@ namespace LateralTheory.E.LeafRelDimOnePf
 
 theorem exists_ne_generic {C : Scheme.{0}} [IsIntegral C] (hd : topologicalKrullDim C = 1) :
     ∃ x : C, x ≠ genericPoint C := by
-  by_contra h
-  push Not at h
-  have : Subsingleton C := ⟨fun a b => (h a).trans (h b).symm⟩
-  have : DiscreteTopology C := inferInstance
-  have := topologicalKrullDim_zero_of_discreteTopology C
-  rw [hd] at this
-  exact absurd this (by decide)
+  apply @GlobalTheory.ProperCurve.exists_ne_genericPoint <;> assumption
 
 theorem isField_top (Ω : Type) [Field Ω] : IsField Γ(Sp Ω, ⊤) :=
   MulEquiv.isField (Field.toIsField Ω)

@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.HeckeUOperatorPreservesModularFormGamma1InterGamma0
 public import Development.AbelianVarietyTheory.Definitions.Foundations.PetEqRelIndexMulPetProd
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.HeckeTSlashInvariant
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.HeckeUOperatorExplicitEqSumSlash
@@ -65,16 +66,8 @@ namespace GlobalTheory.Hk
 
 lemma isBoundedAt_finsetSum_heckeT {c : OnePoint ℝ} {k : ℤ} {ι : Type*} (s : Finset ι) (F : ι → ℍ → ℂ)
     (h : ∀ i ∈ s, c.IsBoundedAt (F i) k) : c.IsBoundedAt (∑ i ∈ s, F i) k := by
-  classical
-  induction s using Finset.induction_on with
-  | empty =>
-    intro g _
-    simp only [Finset.sum_empty]
-    rw [SlashAction.zero_slash]
-    exact zero_form_isBoundedAtImInfty
-  | insert a s ha ih =>
-    rw [Finset.sum_insert ha]
-    exact (h a (Finset.mem_insert_self a s)).add (ih fun i hi => h i (Finset.mem_insert_of_mem hi))
+  intros
+  apply _root_.GlobalTheory.Hk.isBoundedAt_finsetSum <;> assumption
 
 theorem heckeT_modularForm : ∀ (N l q : ℕ) (k : ℤ) (σ : SL(2, ℤ)), 0 < N → q.Prime → ¬ q ∣ N * l →
     GlobalTheory.Hk.IsDia N l q σ → ∀ f : ModularForm (GlobalTheory.Hk.lev N l) k,

@@ -140,7 +140,6 @@ theorem n1'_arith (C f Nm la X' xn Y b : ℝ) (hC0 : 0 ≤ C) (hf0 : 0 ≤ f) (h
     add_nonneg (mul_nonneg (sq_nonneg _) hl0) (div_nonneg (sq_nonneg _) hlpos.le)
   have mid : Nm ^ 2 * la + la ^ 2 / Real.log 2 ≤ 2 * Y ^ 3 := by
     have h2Y : 2 * Y ^ 2 ≤ Y * Y ^ 2 := mul_le_mul_of_nonneg_right (by linarith) (sq_nonneg Y)
-    have heq : Y ^ 2 * Y + Y * Y ^ 2 = 2 * Y ^ 3 := by ring
     linarith
   have h2 : X' * xn + 2 ≤ X' * (2 * Y) := by
     have h2a : X' * xn ≤ X' * Y := mul_le_mul_of_nonneg_left hxn hX0
@@ -151,7 +150,6 @@ theorem n1'_arith (C f Nm la X' xn Y b : ℝ) (hC0 : 0 ≤ C) (hf0 : 0 ≤ f) (h
     mul_le_mul a1 mid mid0 (mul_nonneg hY0 hY0)
   have a3 := mul_le_mul a2 h2 (by positivity)
     (mul_nonneg (mul_nonneg hY0 hY0) (mul_nonneg (by norm_num) (pow_nonneg hY0 3)))
-  have h10 : (10 : ℝ) ≤ Y := hY
   have h4 : 4 * Y ^ 6 ≤ Y ^ 7 := by
     calc 4 * Y ^ 6 ≤ Y * Y ^ 6 := mul_le_mul_of_nonneg_right (by linarith) (pow_nonneg hY0 6)
       _ = Y ^ 7 := by ring
@@ -173,8 +171,6 @@ theorem second_bound_arith_a (g k W x b' X' b : ℝ) (hg : g ≤ x / 2) (hx : 0 
 
 theorem second_bound_arith_b (g k W x b : ℝ) (hg : g ≤ x / 2) (hx : 0 < x) (hk : 1 ≤ k) (hW : x ^ 2 ≤ W) (hW1 : 1 ≤ W)
     (hb : 0 ≤ b) : g * (k ^ 2 * W) * (x * b * ((k * W) ^ 4)⁻¹) ≤ b / 2 := by
-  have hk0 : 0 < k := by linarith
-  have hW0 : 0 < W := by linarith
   have hP : 0 < (k * W) ^ 4 := by positivity
   have hq : 0 ≤ k ^ 2 * W * (x * b * ((k * W) ^ 4)⁻¹) :=
     mul_nonneg (by positivity) (mul_nonneg (mul_nonneg hx.le hb) (inv_nonneg.2 hP.le))
@@ -213,7 +209,6 @@ theorem fourth_bound_arith (z C lx La a k p0 x : ℝ) (hC : 0 ≤ C) (hlx : 0 �
     calc La * a * x ^ 3 = a * (La * x ^ 3) := by ring
       _ ≤ a * k := mul_le_mul_of_nonneg_left h1 ha
   have b2 : a / p0 ≤ a / x ^ 3 := div_le_div_of_nonneg_left ha hx3 h2
-  have hax : 0 ≤ a / x ^ 3 := div_nonneg ha hx3.le
   have b3 : C * lx * (La * a / k + a / p0) ≤ x / 4 * (2 * (a / x ^ 3)) :=
     mul_le_mul (by linarith) (by linarith) hbr0 (by positivity)
   calc z * (1 + z) * (C * lx * (La * a / k + a / p0))

@@ -1,5 +1,7 @@
 module
 
+
+import Formalism.EllipticTorsion.EllipticTorsionProofs.CubeThree
 public import Mathlib.RingTheory.MvPowerSeries.Derivative
 public import Mathlib.RingTheory.MvPowerSeries.Substitution
 public import Formalism.FormalGroupLog.FormalGroupLogProofs.ChainRule
@@ -56,7 +58,6 @@ import Formalism.EllipticTorsion.EllipticTorsionProofs.WSubst
 import Mathlib.Tactic.Basify
 import Mathlib.Tactic.ENatToNat
 import Std.Tactic.BVDecide.Normalize.Prop
-
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Formalism.EllipticTorsion.EllipticTorsionProofs.JetsTwo, Formalism.EllipticTorsion.EllipticTorsionProofs.CubeTwo
 
@@ -254,12 +255,7 @@ theorem div_diag {W : WeierstrassCurve K} (H : MvPowerSeries (Fin 2) K) (hT : H 
 variable {W : WeierstrassCurve K} {w : PowerSeries K}
 
 theorem w_eq_X_cube_mul_unit (hw : WFixed W w) : w = X ^ 3 * wU w := by
-  obtain ⟨l0, l1, l2, _⟩ := w_low hw
-  ext n
-  rw [PowerSeries.coeff_X_pow_mul']
-  split_ifs with h
-  · rw [wU, PowerSeries.coeff_mk, Nat.sub_add_cancel h]
-  · interval_cases n <;> assumption
+  apply _root_.Formalism.ELL.CubeThreeAlt.w_eq <;> assumption
 
 theorem wU_cc (hw : WFixed W w) : PowerSeries.constantCoeff (wU w) = 1 := by
   rw [← PowerSeries.coeff_zero_eq_constantCoeff_apply, wU, PowerSeries.coeff_mk]

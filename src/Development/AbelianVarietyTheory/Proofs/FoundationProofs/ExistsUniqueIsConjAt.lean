@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsIsSplitChartOne
 public import Development.AbelianVarietyTheory.Definitions.Foundations.NotIsSplitOfIsInertAt
 import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.ExistsUniqueIdeleOfLinearEquivQuotientLocal
 public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.FiniteResidueFieldAdicCompletionIntegers
@@ -157,20 +158,7 @@ theorem exists_conj_sub_unit (h : IsCMExt F E σ) (hw : IsInertAt F E v w) :
   exact conj_ne h fun x => congrArg (fun t : E ≃ₐ[F] E => t x) hs
 
 theorem continuous_complMap (h : w.under (𝓞 F) = v) : Continuous (complMap h) := by
-  subst h
-  refine continuous_of_continuousAt_zero _ (Metric.tendsto_nhds.2 fun ε hε => ?_)
-  obtain ⟨ϖ, hϖ⟩ := exists_isUnifV w
-  have h1 : ‖ϖ‖ < 1 := Valued.toNormedField.norm_lt_one_iff.2 (by rw [hϖ]; decide)
-  obtain ⟨m, hm⟩ := exists_pow_lt_of_lt_one hε h1
-  filter_upwards [(GlobalTheory.Idele.isOpen_valued_le (K := F) (w.under (𝓞 F)) (-(m : ℤ))).mem_nhds (x := 0) (by simp)]
-    with a ha
-  rw [map_zero, dist_zero_right]
-  refine (Valued.toNormedField.norm_le_iff.2 ?_).trans_lt ((norm_pow ϖ m).trans_lt hm)
-  refine (GlobalTheory.AdeleBaseChange.locMap_valued w m a ha).trans_eq ?_
-  rw [map_pow, hϖ]
-  change _ = WithZero.exp (-1 : ℤ) ^ m
-  rw [← WithZero.exp_nsmul]
-  simp
+  first | exact _root_.GlobalTheory.LFun.SplitChart.continuous_complMap | exact @_root_.GlobalTheory.LFun.SplitChart.continuous_complMap | apply _root_.GlobalTheory.LFun.SplitChart.continuous_complMap <;> assumption
 
 theorem toCompl_surjective (h : w.under (𝓞 F) = v) : Function.Surjective (toCompl h) := fun y => by
   obtain ⟨Y, hY⟩ := (finAdEquiv F E).surjective (singleFin w y)

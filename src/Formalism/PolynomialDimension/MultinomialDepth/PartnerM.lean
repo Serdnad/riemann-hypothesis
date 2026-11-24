@@ -1,5 +1,7 @@
 module
 
+import Formalism.MahlerMeasure.MahlerMeasureProofs.RemoveS
+import Formalism.MahlerMeasure.MahlerMeasureProofs.WeightSpaceDimensionMonotone
 public import Formalism.MahlerMeasure.MahlerMeasureProofs.FockBlocks
 public import Formalism.MahlerMeasure.StatementTM
 public import Mathlib.LinearAlgebra.FiniteDimensional.Defs
@@ -165,35 +167,7 @@ theorem finrank_lattice {N r : ℕ} (LL : Letters N) (S : Submodule ℚ_[p] (MvP
   rw [this, Submodule.span_image, b.span_eq, Submodule.map_subtype_top]
 
 theorem pol_finiteDimensional {N r : ℕ} (LL : Letters N) : FiniteDimensional ℚ_[p] (Pol p r LL) := by
-  classical
-  let bnd : Fin N × Fin r →₀ ℕ := Finsupp.equivFunOnFinite.symm (fun _ => LL.total)
-  have hfin : ({m | MultiDeg LL m} : Set (Fin N × Fin r →₀ ℕ)).Finite := by
-    refine (Set.finite_Iic bnd).subset ?_
-    intro m hm
-    rw [Set.mem_Iic, Finsupp.le_def]
-    intro a
-    have h1 : m a ≤ ∑ c, m (a.1, c) :=
-      Finset.single_le_sum (f := fun c => m (a.1, c)) (fun _ _ => Nat.zero_le _) (mem_univ a.2)
-    have h2 : LL.deg a.1 ≤ LL.total :=
-      Finset.single_le_sum (f := fun i => LL.deg i) (fun _ _ => Nat.zero_le _) (mem_univ a.1)
-    have h3 : bnd a = LL.total := by simp [bnd]
-    rw [h3]
-    rw [hm a.1] at h1
-    omega
-  have hle : Pol p r LL ≤ Submodule.span ℚ_[p] ((fun m => (monomial m (1 : ℚ_[p]) : MvPolynomial (Fin N × Fin r) ℚ_[p])) ''
-      {m | MultiDeg LL m}) := by
-    intro x hx
-    rw [Pol, mem_restrictSupport_iff] at hx
-    rw [x.as_sum]
-    refine Submodule.sum_mem _ fun m hm => ?_
-    have : monomial m (x.coeff m) = x.coeff m • (monomial m (1 : ℚ_[p])) := by
-      rw [MvPolynomial.smul_monomial, smul_eq_mul, mul_one]
-    rw [this]
-    exact Submodule.smul_mem _ _ (Submodule.subset_span ⟨m, hx (Finset.mem_coe.mpr hm), rfl⟩)
-  have : FiniteDimensional ℚ_[p] (Submodule.span ℚ_[p] ((fun m => (monomial m (1 : ℚ_[p]) :
-      MvPolynomial (Fin N × Fin r) ℚ_[p])) '' {m | MultiDeg LL m})) :=
-    FiniteDimensional.span_of_finite ℚ_[p] (hfin.image _)
-  exact Submodule.finiteDimensional_of_le hle
+  apply +allowSynthFailures _root_.Formalism.GM.DimensionMonotonicity.pol_fd <;> assumption
 
 end Lat
 
@@ -775,17 +749,7 @@ variable {k σ : Type} [Field k]
 
 private theorem pderiv_pderiv_lemma [DecidableEq σ] (i j : σ) (g : MvPolynomial σ k) :
     pderiv i (pderiv j g) = pderiv j (pderiv i g) := by
-  have hX : ∀ (l i : σ) (n : σ), pderiv l (pderiv i (X n : MvPolynomial σ k)) = 0 := by
-    intro l i n
-    by_cases h : n = i
-    · subst h; simp
-    · rw [pderiv_X_of_ne h, map_zero]
-  apply MvPolynomial.induction_on g
-  · intro a; simp
-  · intro p q hp hq; simp only [map_add (f := _), hp, hq]
-  · intro p n hp
-    simp only [Derivation.leibniz, smul_eq_mul, map_add (f := _), hp, hX, mul_zero, zero_add]
-    ring
+  apply _root_.Formalism.GM.ProjS.pderiv_comm <;> assumption
 
 theorem comm_XD [DecidableEq σ] (u v u' v' : σ) (g : MvPolynomial σ k) :
     X u * pderiv v (X u' * pderiv v' g) - X u' * pderiv v' (X u * pderiv v g) =
@@ -897,21 +861,7 @@ theorem tm_comm_eq (LL : Letters N) (j : ℕ) (i : Fin N) (c d a b : Fin r)
 theorem glAct_comm (LL : Letters N) (j : ℕ) (c d a b : Fin r) (x : MvPolynomial (Fin N × Fin r) ℚ_[p]) :
     glAct p LL j c d (glAct p LL j a b x) - glAct p LL j a b (glAct p LL j c d x) =
       (if d = a then glAct p LL j c b x else 0) - (if b = c then glAct p LL j a d x else 0) := by
-
-  simp only [glAct_eq_sum, LinearMap.sum_apply, map_sum]
-  rw [Finset.sum_comm (s := Finset.univ) (t := Finset.univ)
-      (f := fun o n => tm (p := p) LL j n c d (tm (p := p) LL j o a b x)), ← Finset.sum_sub_distrib]
-  have hrow : ∀ i : Fin N, (∑ i', tm (p := p) LL j i c d (tm (p := p) LL j i' a b x)) -
-      ∑ i', tm (p := p) LL j i' a b (tm (p := p) LL j i c d x) =
-      (if d = a then tm (p := p) LL j i c b x else 0) - (if b = c then tm (p := p) LL j i a d x else 0) := by
-    intro i
-    rw [← Finset.sum_sub_distrib, Finset.sum_eq_single i, tm_comm_eq]
-    · intro i' _ hi'
-      rw [tm_comm_ne LL j i i' (Ne.symm hi') c d a b x, sub_self]
-    · intro h
-      exact absurd (Finset.mem_univ i) h
-  rw [Finset.sum_congr rfl (fun i _ => hrow i)]
-  split_ifs <;> simp [Finset.sum_sub_distrib]
+  apply +allowSynthFailures _root_.Formalism.GM.DimensionMonotonicity.glAct_comm <;> assumption
 
 end Terms
 
@@ -1321,20 +1271,7 @@ theorem wcomp_mem (LL : Letters N) (j : ℕ) (S : Submodule ℚ_[p] (MvPolynomia
   exact key Finset.univ x hx
 
 theorem multiDeg_finite (LL : Letters N) : ({m | MultiDeg (r := r) LL m} : Set (Fin N × Fin r →₀ ℕ)).Finite := by
-  classical
-  let bnd : Fin N × Fin r →₀ ℕ := Finsupp.equivFunOnFinite.symm (fun _ => LL.total)
-  refine (Set.finite_Iic bnd).subset ?_
-  intro m hm
-  rw [Set.mem_Iic, Finsupp.le_def]
-  intro a
-  have h1 : m a ≤ ∑ c, m (a.1, c) :=
-    Finset.single_le_sum (f := fun c => m (a.1, c)) (fun _ _ => Nat.zero_le _) (mem_univ a.2)
-  have h2 : LL.deg a.1 ≤ LL.total :=
-    Finset.single_le_sum (f := fun i => LL.deg i) (fun _ _ => Nat.zero_le _) (mem_univ a.1)
-  have h3 : bnd a = LL.total := by simp [bnd]
-  rw [h3]
-  rw [hm a.1] at h1
-  omega
+  apply +allowSynthFailures _root_.Formalism.GM.DimensionMonotonicity.pol_finite <;> assumption
 
 theorem exists_hw (LL : Letters N) (j : ℕ) (S : Submodule ℚ_[p] (MvPolynomial (Fin N × Fin r) ℚ_[p]))
     (hSP : S ≤ Pol p r LL) (hS : ∀ c d, ∀ x ∈ S, glAct p LL j c d x ∈ S) (x : MvPolynomial (Fin N × Fin r) ℚ_[p])

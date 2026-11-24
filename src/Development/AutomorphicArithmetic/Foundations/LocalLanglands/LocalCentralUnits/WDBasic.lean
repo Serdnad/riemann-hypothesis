@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.CharacterTheory.ImportsAlt
 public import Development.AutomorphicArithmetic.Foundations.LocalLanglands.RecTTransport
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.CharpolyDualTamePart
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.RootsCharpolySmulMatrix
@@ -61,23 +62,8 @@ variable {G V V' : Type*} [Group G] [AddCommGroup V] [Module ℂ V] [AddCommGrou
 private theorem irr_iff (ρ : Representation ℂ G V) :
     ρ.IsIrreducible ↔ Nontrivial V ∧
       ∀ S : Submodule ℂ V, (∀ g, ∀ v ∈ S, ρ g v ∈ S) → S = ⊥ ∨ S = ⊤ := by
-  constructor
-  · intro hρ
-    refine ⟨?_, fun S hS => ?_⟩
-    · obtain ⟨x, y, hxy⟩ := hρ.toNontrivial.exists_pair_ne
-      by_contra hV
-      rw [not_nontrivial_iff_subsingleton] at hV
-      exact hxy (Subrepresentation.toSubmodule_injective (Subsingleton.elim _ _))
-    · rcases hρ.eq_bot_or_eq_top ⟨S, fun g v hv => hS g v hv⟩ with h | h
-      · exact Or.inl (congrArg Subrepresentation.toSubmodule h)
-      · exact Or.inr (congrArg Subrepresentation.toSubmodule h)
-  · rintro ⟨hV, H⟩
-    have hne : (⊥ : Subrepresentation ρ) ≠ ⊤ := fun h =>
-      bot_ne_top (α := Submodule ℂ V) (congrArg Subrepresentation.toSubmodule h)
-    refine { exists_pair_ne := ⟨⊥, ⊤, hne⟩, eq_bot_or_eq_top := fun S => ?_ }
-    rcases H S.toSubmodule (fun g v hv => S.apply_mem_toSubmodule g hv) with h | h
-    · exact Or.inl (Subrepresentation.toSubmodule_injective h)
-    · exact Or.inr (Subrepresentation.toSubmodule_injective h)
+  intros
+  apply _root_.GlobalTheory.UnimodularLatticeExistence.main <;> assumption
 
 private theorem irr_of_equiv {ρ : Representation ℂ G V} {ρ' : Representation ℂ G V'} (e : V ≃ₗ[ℂ] V')
     (he : ∀ g v, e (ρ g v) = ρ' g (e v)) (hρ : ρ.IsIrreducible) : ρ'.IsIrreducible := by

@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.HostEtaTildeCharacterExists
 public import Formalism.SharpRestriction.LevelLetterCocycles.IntegralHeckeForms
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsEquivMapLattice
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.UnivChar
@@ -1146,25 +1147,7 @@ variable {E : Type} [Field E] [NumberField E]
 
 theorem exists_order_nat (T : Finset (HeightOneSpectrum (𝓞 E))) (n : HeightOneSpectrum (𝓞 E) → ℕ) :
     ∃ α : Eˣ, ∀ v ∈ T, v.valuation E (α : E) = exp (-(n v : ℤ)) := by
-  choose π hπ using fun v : HeightOneSpectrum (𝓞 E) => v.intValuation_exists_uniformizer
-  obtain ⟨y, hy⟩ := IsDedekindDomain.exists_forall_sub_mem_ideal (s := T) (fun v => v.asIdeal) (fun v => n v + 1)
-    (fun v _ => v.prime) (fun v _ w _ h e => h (HeightOneSpectrum.ext e)) (fun v => π v.1 ^ n v.1)
-  have key : ∀ v ∈ T, v.intValuation y = exp (-(n v : ℤ)) := fun v hv => by
-    have h1 := (v.intValuation_le_pow_iff_mem _ _).2 (hy v hv)
-    have h2 : v.intValuation (π v ^ n v) = exp (-(n v : ℤ)) := by
-      rw [map_pow, hπ, ← exp_nsmul]; simp
-    rw [← h2]
-    refine Valuation.map_eq_of_sub_lt _ (h1.trans_lt ?_)
-    rw [h2, exp_lt_exp]
-    push_cast
-    omega
-  by_cases h0 : y = 0
-  · refine ⟨1, fun v hv => ?_⟩
-    have := key v hv
-    rw [h0, map_zero] at this
-    exact absurd this.symm exp_ne_zero
-  · exact ⟨Units.mk0 (y : E) (by exact_mod_cast h0), fun v hv => by
-      rw [← key v hv]; exact v.valuation_of_algebraMap y⟩
+  first | exact _root_.GlobalTheory.EtaProduct.exists_val_eq | exact @_root_.GlobalTheory.EtaProduct.exists_val_eq | apply _root_.GlobalTheory.EtaProduct.exists_val_eq <;> assumption
 
 theorem exists_order (T : Finset (HeightOneSpectrum (𝓞 E))) (n : HeightOneSpectrum (𝓞 E) → ℤ) :
     ∃ α : Eˣ, ∀ v ∈ T, v.valuation E (α : E) = exp (-n v) := by
@@ -1629,15 +1612,7 @@ theorem dec_le_of_frob_mem {F Ω : Type} [Field F] [NumberField F] [Field Ω] [A
     {A : ValuationSubring Ω} {v : HeightOneSpectrum (𝓞 F)} (hA : IsPlaceOver A v) {σ : G F Ω}
     (hσ : IsFrob A (normV v) σ) {L : Subgroup (G F Ω)} (hL : IsOpen (L : Set (G F Ω))) (hI : Ine (F := F) A ≤ L)
     (hm : σ ∈ L) : Dec (F := F) A ≤ L := by
-  have h := GlobalTheory.TameQuot.closure_frob_sup_Ine F Ω A v hA ⟨σ, hσ.1⟩ hσ
-  have hc : IsClosed ((L.subgroupOf (Dec (F := F) A) : Subgroup (Dec (F := F) A)) : Set (Dec (F := F) A)) :=
-    (L.isClosed_of_isOpen hL).preimage continuous_subtype_val
-  have h2 := Subgroup.topologicalClosure_minimal
-    (Subgroup.zpowers (⟨σ, hσ.1⟩ : Dec (F := F) A) ⊔ (Ine (F := F) A).subgroupOf (Dec (F := F) A))
-    (sup_le ((Subgroup.zpowers_le).2 (Subgroup.mem_subgroupOf.2 hm)) (fun x hx => hI hx)) hc
-  rw [h] at h2
-  intro g hg
-  exact h2 (Subgroup.mem_top (⟨g, hg⟩ : Dec (F := F) A))
+  apply _root_.GlobalTheory.StepTwo.TwoBound.dec_le_of_frob_mem <;> assumption
 
 theorem residual_bound_of_parts : ∀ (D : Formalism.BasicNotions.D7) (N : NData D.R D.host D.what₂) (X : NTw D.R D.host D.what₂ D.LL0 N) (bkP : BKPh X), (∀ i, StepAB X i) → (∀ i, ChooseH bkP i) → (∀ i s, GalHyp bkP i s → ResBound bkP i s) → ResidualBoundOddPrimes bkP := by
   intro D N X bkP hAB hCh hRB i hl T hT

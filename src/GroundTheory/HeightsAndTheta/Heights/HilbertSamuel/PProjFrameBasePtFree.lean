@@ -1,5 +1,6 @@
 module
 
+import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.ProjFrameGraphChart
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsProjFrameBasePtFree
 public import Mathlib.RingTheory.MvPolynomial.Ideal
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.LemCone
@@ -18,15 +19,8 @@ namespace ProjFrameBasePtFree
 
 theorem linForm_projMat {κ : Type} [Fintype κ] {D : ℕ} (e : Fin (D + 1) → Ix κ) (k : Fin (D + 1)) :
     linForm (ι := GlobalTheory κ) (ι₂ := GlobalTheory (Fin (D + 1))) (projMat e) ⟨(), k⟩ = X (e k) := by
-  classical
-  simp only [linForm, projMat]
-  generalize e k = q
-  obtain ⟨⟨⟩, j⟩ := q
-  rw [Finset.sum_eq_single j]
-  · simp
-  · intro i _ hi
-    simp [Ne.symm hi]
-  · simp
+  intros
+  apply _root_.GroundTheory.Heights₂.Heights.HilbertSamuel.ProjFrameGraph.linForm_projMat <;> assumption
 
 theorem rename_mem_span {κ : Type} {D : ℕ} (e : Fin (D + 1) → Ix κ) {h : MvPolynomial (Fin (D + 1)) ℤ} {n : ℕ}
     (hh : h.IsHomogeneous n) (hn : 0 < n) :

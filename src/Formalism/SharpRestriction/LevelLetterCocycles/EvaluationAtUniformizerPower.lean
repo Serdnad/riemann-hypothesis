@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsPowMulIntegralBis
 public import Formalism.SharpRestriction.LevelLetterCocycles.ExpRules
 public import Formalism.SharpRestriction.LevelLetterCocycles.CardBasisEq
 public import Formalism.SharpRestriction.LevelLetterCocycles.CoordHomMapTrace
@@ -176,36 +177,8 @@ theorem invariant_letter_eq_evaluation (hR : Ring9 W) {a : LetA O n} (ha : a ∈
 
 theorem EE_p_nzd (hO : ∀ c : O, ((PD.p : ℕ) : O) * c = 0 → c = 0) (y : W.EE)
     (hy : ((PD.p : ℕ) : W.EE) * y = 0) : y = 0 := by
-  have hk : ∀ k : ℕ, ((PD.p : ℕ) : W.EE) ^ k ∣ y := by
-    intro k
-    obtain ⟨a, m, hm⟩ := W.EE_dense y k
-    obtain ⟨z, hz⟩ := Ideal.mem_span_singleton'.1 hm
-    have h1 : algebraMap (LetA O n) W.EE (((PD.p : ℕ) : LetA O n) * a) ∈
-        Ideal.span {((PD.p : ℕ) : W.EE) ^ (k + 1)} := by
-      rw [Ideal.mem_span_singleton']
-      refine ⟨-z, ?_⟩
-      rw [map_mul, map_natCast]
-      linear_combination (-((PD.p : ℕ) : W.EE)) * hz +
-        (-(algebraMap (LetA O n) W.EE (letπ ^ m))) * hy
-    obtain ⟨b, hb⟩ := W.EE_sat _ (k + 1) h1
-    have hab : a = ((PD.p : ℕ) : LetA O n) ^ k * b :=
-      Formalism.MainNotions.UnusedSlot80.SatW.p_cancel hO (by rw [hb]; ring)
-    obtain ⟨u, hu⟩ := W.EE_π
-    have e1 : y * (u : W.EE) ^ m = ((PD.p : ℕ) : W.EE) ^ k * (z + algebraMap (LetA O n) W.EE b) := by
-      rw [hu]
-      rw [hab] at hz
-      simp only [map_mul, map_pow, map_natCast] at hz
-      linear_combination (-1 : W.EE) * hz
-    refine ⟨(z + algebraMap (LetA O n) W.EE b) * ((u⁻¹ : W.EEˣ) : W.EE) ^ m, ?_⟩
-    calc y = y * (u : W.EE) ^ m * ((u⁻¹ : W.EEˣ) : W.EE) ^ m := by
-          rw [mul_assoc, ← mul_pow, Units.mul_inv, one_pow, mul_one]
-      _ = _ := by rw [e1, mul_assoc]
-  apply W.EE_complete.toIsHausdorff.haus y
-  intro k
-  rw [SModEq.sub_mem, sub_zero]
-  obtain ⟨c, hc⟩ := hk k
-  rw [hc, ← smul_eq_mul]
-  exact Submodule.smul_mem_smul (Ideal.pow_mem_pow (Ideal.mem_span_singleton_self _) k) trivial
+  intros
+  apply _root_.GlobalTheory.WachSat.ee_torsionFree <;> assumption
 
 theorem EE_p_pow_nzd (hO : ∀ c : O, ((PD.p : ℕ) : O) * c = 0 → c = 0) (s : ℕ) (y : W.EE)
     (hy : ((PD.p : ℕ) : W.EE) ^ s * y = 0) : y = 0 := by
@@ -256,58 +229,7 @@ theorem span_phi_top (T : LocLat G Qp LL O) (hT : IsCrys PD T.ρ) (hs : W.s = 1)
     (huniq : ∀ x ∈ W.N T, ∃! a : Fin r → LetA O n, x = ∑ j, a j • b j)
     (hq : IsUnit (algebraMap (LetA O n) W.EE W.q)) (e : ℕ) :
     Submodule.span W.EE (Set.range fun j => ((W.φD T) ^ e) (b j)) = ⊤ := by
-  have hli : LinearIndependent (LetA O n) (fun j => (⟨b j, (hb j).1⟩ : W.N T)) := by
-    refine Fintype.linearIndependent_iff.2 fun g hg => ?_
-    have h1 : (∑ j, g j • b j) = 0 := by
-      have := congrArg Subtype.val hg
-      simpa using this
-    obtain ⟨a0, _, hu⟩ := huniq 0 (W.N T).zero_mem
-    have e1 := hu g h1.symm
-    have e2 := hu 0 (by simp)
-    intro i
-    rw [e1, ← e2]
-    rfl
-  have hsp : ⊤ ≤ Submodule.span (LetA O n) (Set.range fun j => (⟨b j, (hb j).1⟩ : W.N T)) := by
-    rintro ⟨x, hx⟩ _
-    obtain ⟨a, ha, _⟩ := huniq x hx
-    have : (⟨x, hx⟩ : W.N T) = ∑ j, a j • (⟨b j, (hb j).1⟩ : W.N T) := by
-      apply Subtype.ext
-      simp [ha]
-    rw [this]
-    exact Submodule.sum_mem _ fun j _ => Submodule.smul_mem _ _ (Submodule.subset_span ⟨j, rfl⟩)
-  let bN : Module.Basis (Fin r) (LetA O n) (W.N T) := Module.Basis.mk hli hsp
-  let bD : Module.Basis (Fin r) W.EE (W.DD T) := IsBaseChange.basis bN (W.N_base T hT)
-  have hbD : ∀ j, bD j = b j := fun j => by
-    simp [bD, IsBaseChange.basis_apply, bN]
-  have hspan : Submodule.span W.EE (Set.range b) = ⊤ := by
-    rw [← bD.span_eq]
-    congr 1
-    ext x
-    simp [hbD]
-  have hφ : ∀ j, b j ∈ Submodule.span W.EE (Set.range fun i => W.φD T (b i)) := by
-    intro j
-    obtain ⟨k, hk⟩ := W.N_φinv T (b j) (hb j).1
-    have hQ : ((letφ (n := n) W.φ₀ ^ (W.s - 1)) (fun _ => W.q₀)) = W.q := by
-      rw [hs]; rfl
-    rw [hQ] at hk
-    have hA : Submodule.span (LetA O n) (W.φD T '' (W.N T : Set (W.DD T))) ≤
-        (Submodule.span W.EE (Set.range fun i => W.φD T (b i))).restrictScalars (LetA O n) := by
-      rw [Submodule.span_le]
-      rintro _ ⟨y, hy, rfl⟩
-      obtain ⟨a, ha, _⟩ := huniq y hy
-
-      rw [ha, map_sum]
-      refine Submodule.sum_mem _ fun i _ => ?_
-      rw [φD_smulA, ← algebraMap_smul W.EE]
-      rw [Submodule.restrictScalars_mem]
-      exact Submodule.smul_mem _ _ (Submodule.subset_span (Set.mem_range_self i))
-    have h1 := hA hk
-    obtain ⟨u, hu⟩ := hq.pow k
-    have h2 : b j = ((u⁻¹ : W.EEˣ) : W.EE) • (W.q ^ k • b j) := by
-      rw [← algebraMap_smul W.EE (W.q ^ k), smul_smul, map_pow, ← hu, Units.inv_mul, one_smul]
-    rw [h2]
-    exact Submodule.smul_mem _ _ h1
-  exact span_φ_pow W T b hspan hφ e
+  exact (span_and_linInd_φ_pow W T hT hs b hb huniq hq e).1
 
 end SpanCopy
 

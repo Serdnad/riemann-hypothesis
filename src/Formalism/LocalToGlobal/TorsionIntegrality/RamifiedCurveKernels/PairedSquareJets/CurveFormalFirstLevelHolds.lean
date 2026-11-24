@@ -1,5 +1,6 @@
 module
 
+import Formalism.LocalToGlobal.TorsionIntegrality.FrobeniusFibreCurves.LogarithmicSubstitution.LatticePointInKernelSubgroup
 public import Formalism.LocalToGlobal.TorsionIntegrality.RamifiedCurveKernels.StatementR
 public import Formalism.LocalToGlobal.TorsionIntegrality.FrobeniusFibreCurves.FinalB
 public import Formalism.LocalToGlobal.TorsionIntegrality.SecondCoefficientNorms.CurveSecondLogDerivative
@@ -84,15 +85,7 @@ theorem inv_mem_unitBall {K : Type} [NormedField K] [IsUltrametricDist K] {x : K
 
 theorem endInt_int {K : Type} [Field K] (R : Subring K) (l linv : PowerSeries K)
     (hl : IsLogPair l linv) (hF : FGInt R l linv) (n : ℤ) : EndInt R l linv (n : K) := by
-  obtain ⟨-, -, h0, h1, hm, hadd, -⟩ := ptClosure K R l linv hl hF
-  induction n using Int.induction_on with
-  | zero => simpa using h0
-  | succ i ih =>
-    have := hadd _ _ ih h1
-    simpa using this
-  | pred i ih =>
-    have := hadd _ _ ih hm
-    simpa [sub_eq_add_neg] using this
+  apply _root_.Formalism.L2.Th1.B.Van.endInt_int <;> assumption
 
 end WeierstrassCurveSeries
 

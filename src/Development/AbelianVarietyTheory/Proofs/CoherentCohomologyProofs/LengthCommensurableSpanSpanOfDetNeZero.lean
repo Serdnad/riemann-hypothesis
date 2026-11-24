@@ -156,10 +156,7 @@ variable {R : Type*} [CommRing R] [IsDomain R] [IsDiscreteValuationRing R]
 
 theorem addVal_prod {ι : Type*} (s : Finset ι) (f : ι → R) :
     addVal R (∏ i ∈ s, f i) = ∑ i ∈ s, addVal R (f i) := by
-  classical
-  induction s using Finset.induction_on with
-  | empty => simp
-  | insert j s hj ih => rw [Finset.prod_insert hj, Finset.sum_insert hj, AddValuation.map_mul, ih]
+  apply _root_.GlobalTheory.AdditiveValuationProduct.addVal_prod <;> assumption
 
 theorem length_quotient_span_singleton {x : R} (hx : x ≠ 0) :
     Module.length R (R ⧸ Ideal.span ({x} : Set R)) = addVal R x := by
@@ -233,11 +230,7 @@ lemma length_self_eq_top : Module.length R R = ⊤ := by
 lemma addVal_prod {ι : Type*} (s : Finset ι) (a : ι → R) :
     IsDiscreteValuationRing.addVal R (∏ i ∈ s, a i) =
       ∑ i ∈ s, IsDiscreteValuationRing.addVal R (a i) := by
-  classical
-  induction s using Finset.induction_on with
-  | empty => simp
-  | insert j s hj ih =>
-    rw [Finset.prod_insert hj, Finset.sum_insert hj, IsDiscreteValuationRing.addVal_mul, ih]
+  apply _root_.GlobalTheory.AdditiveValuationProduct.addVal_prod <;> assumption
 
 end
 

@@ -86,6 +86,7 @@ import Mathlib.Algebra.Order.Star.Int
 import Mathlib.Tactic.Linter.Style
 import Mathlib.Tactic.TypeStar
 import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsMonHomOfClassifying
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsIntMatrixTransposeMulEqSmulOne
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.WeilBound.CoreStatements.AbelianHeightsDuality.ZarhinTrick.ExistsQuat, Development.WeilBound.CoreStatements.AbelianHeightsDuality.ZarhinTrick.IsFiniteMapG4map, Development.WeilBound.CoreStatements.AbelianHeightsDuality.ZarhinTrick.FibAmpleB, Development.WeilBound.CoreStatements.AbelianHeightsDuality.ZarhinTrick.FinSurjOfQuasiInverse, Development.WeilBound.CoreStatements.AbelianHeightsDuality.ZarhinTrick.RelAmpleOfLbPow, Development.WeilBound.CoreStatements.AbelianHeightsDuality.ZarhinTrick.RelAmpleOfTwoSmulAlt, Development.WeilBound.CoreStatements.AbelianHeightsDuality.ZarhinTrick.RelAmpleOfTwoSmul, Development.WeilBound.CoreStatements.AbelianHeightsDuality.ZarhinTrick.CeLiftSqToBase, Development.WeilBound.CoreStatements.AbelianHeightsDuality.ZarhinTrick.TwoClsEMap, Development.WeilBound.CoreStatements.AbelianHeightsDuality.ZarhinTrick.FibAmple, Development.WeilBound.CoreStatements.AbelianHeightsDuality.ZarhinTrick.EightfoldProjection, Development.WeilBound.CoreStatements.AbelianHeightsDuality.ZarhinTrick.KLiftSqToBase, Development.WeilBound.CoreStatements.AbelianHeightsDuality.ZarhinTrick.OneCompPrj, Development.WeilBound.CoreStatements.AbelianHeightsDuality.ZarhinTrick.ZarhinStatementOfDualCubeQiR, Development.WeilBound.CoreStatements.HodgeTatePoints.ZarTop
@@ -100,16 +101,7 @@ namespace PositivityTheory.PrwZar
 theorem exists_quat (n : ℕ) : ∃ α : Matrix (Fin 4) (Fin 4) ℤ,
     α.transpose * α = (n : ℤ) • (1 : Matrix (Fin 4) (Fin 4) ℤ) ∧
     α * α.transpose = (n : ℤ) • (1 : Matrix (Fin 4) (Fin 4) ℤ) := by
-  obtain ⟨a, b, c, d, h⟩ := Nat.sum_four_squares n
-  have hn : (n : ℤ) = (a : ℤ) ^ 2 + (b : ℤ) ^ 2 + (c : ℤ) ^ 2 + (d : ℤ) ^ 2 := by
-    rw [← h]
-    push_cast
-    ring
-  refine ⟨!![(a : ℤ), -b, -c, -d; b, a, -d, c; c, d, a, -b; d, -c, b, a], ?_, ?_⟩ <;>
-  · rw [hn]
-    ext i j
-    fin_cases i <;> fin_cases j <;>
-      simp [Matrix.mul_apply, Fin.sum_univ_four] <;> ring
+  apply _root_.GlobalTheory.exists_int_matrix_transpose_mul_eq_smul_one <;> assumption
 
 end PositivityTheory.PrwZar
 end -- clump:auto
@@ -1397,15 +1389,7 @@ theorem kToBase_comp (G : Over S) {Y Y' : Over (Sp Ω)} (h : Y' ⟶ Y) (a : Y �
 
 theorem kLift_sqToBase (G : Over S) {Y : Over (Sp Ω)} (a u : Y ⟶ (Over.pullback s).obj G) :
     (lift a u).left ≫ sqToBase G s = (lift (toBase G s a) (toBase G s u)).left := by
-  have key : (Over.homMk (lift a u).left (by simp only [Over.mk_hom]; rw [← Category.assoc, Over.w (lift a u)]) :
-      Over.mk (Y.hom ≫ s) ⟶ Over.mk (((Over.pullback s).obj G ⊗ (Over.pullback s).obj G).hom ≫ s)) ≫
-        lift (toBase G s (fst _ _)) (toBase G s (snd _ _)) = lift (toBase G s a) (toBase G s u) := by
-    apply CartesianMonoidalCategory.hom_ext
-    · rw [Category.assoc, lift_fst, ← kToBase_comp, lift_fst, lift_fst]
-    · rw [Category.assoc, lift_snd, ← kToBase_comp, lift_snd, lift_snd]
-  unfold sqToBase
-  rw [← key]
-  rfl
+  apply _root_.PositivityTheory.PrwZar.Z2.ceLift_sqToBase <;> assumption
 
 end Points
 
@@ -1418,27 +1402,14 @@ theorem kLam_zb_pt (hA : IsAbelianScheme A) (hB : IsAbelianScheme B) {P : LB (A 
     {Y : Over (Sp Ω)} (a u : Y ⟶ (Over.pullback s).obj (G4 (A ⊗ B))) :
     lam (cls (zb mu α s P L) (isLB_zb mu α s hD.isLB hL)) a u =
       zcPair hD.isLB l mu α (toBase _ s a) (toBase _ s u) := by
-  have k := lam_zb hA hB hD hD' l mu α Ω s L hL e
-  have k2 := congrArg (pull (lift a u).left) k
-  rw [pull_lam, lift_fst, lift_snd] at k2
-  rw [← k2, ← pull_comp, kLift_sqToBase]
-  unfold zc
-  rw [_root_.PositivityTheory.PrwZar.pull_zcPair, lift_fst, lift_snd]
+  apply _root_.PositivityTheory.PrwZar.Z2.ceLam_zb_pt <;> assumption
 
 theorem kEvc_sym (hA : IsAbelianScheme A) {P : LB (A ⊗ B).left} (hP : P.IsLB) (l : A ⟶ B) (s : Sp Ω ⟶ S)
     (L : LB ((Over.pullback s).obj A).left) (hL : L.IsLB)
     (e : LBIso ((ev P (fst A A) (snd A A ≫ l)).pull (sqToBase A s)) (abelian₂ ((Over.pullback s).obj A) L))
     {Y : Over (Sp Ω)} (x y : Over.mk (Y.hom ≫ s) ⟶ A) :
     evc hP x (y ≫ l) = evc hP y (x ≫ l) := by
-  haveI := hA.comm
-  haveI : IsCommMonObj ((Over.pullback s).obj A) := inferInstance
-  have h1 := lam_cL_pt s hP l L hL e (kLiftPt s A x) (kLiftPt s A y)
-  have h2 := lam_cL_pt s hP l L hL e (kLiftPt s A y) (kLiftPt s A x)
-  rw [kToBase_liftPt, kToBase_liftPt] at h1 h2
-  rw [← h1, ← h2]
-  unfold lam
-  rw [mul_comm (kLiftPt s A x) (kLiftPt s A y)]
-  abel
+  apply _root_.PositivityTheory.PrwZar.Z2.ceEvc_sym <;> assumption
 
 private theorem evc_comp_left_eq_pull {S' : Scheme} {G H Y0 Y1 : Over S'} {P : LB (G ⊗ H).left} (hP : P.IsLB)
     (h : Y1 ⟶ Y0) (a : Y0 ⟶ G) (b : Y0 ⟶ H) : evc hP (h ≫ a) (h ≫ b) = pull h.left (evc hP a b) := by

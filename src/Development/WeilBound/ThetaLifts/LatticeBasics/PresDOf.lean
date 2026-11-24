@@ -71,8 +71,21 @@ theorem presD_of {X : Spc F E n} {g : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n)
     pres_of_hat fun z hz => by simpa using (h z 0 hz (zero_mem _)).2, _,
     pres_of_hat fun z hz => by simpa using (h 0 z (zero_mem _) hz).2, rfl⟩
 
-theorem _root_.GlobalTheory.ThK.Dbl.vacFix2 : VacFix2 := by
-  intro F E _ _ _ _ _ σ B n d X W M r s r' s' hB hX hW hM χ _ dd omd ⟨d', hd', hdd⟩ ⟨_, hsp, hrule⟩ K hK v hv g hk hg
+theorem vacFix2_of_local_eigen_and_beta :
+  ∀ (F E : Type) [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] (σ : E →ₐ[F] E) (B : Base F E) (n d : ℕ) (X : Spc F E n) (W : Spc F E d) (M : Model σ X W) r s,  X.IsHerm σ B r s →
+    M.IsGood B.ψ → ∀ χ : Chr F E, IsHecke F E χ → ∀ dd om, IsDblCoordX M dd →
+    IsUWeilSplit (cA σ) (adeleClass F) B.ψ (-1) (incM F W.J) (dbl (incM F X.J)) dd χ (diagCols (Fin n)) om →
+    ∀ K, IsStab2 (σ := σ) (Y := X) B K → ∀ v, (∀ w : HeightOneSpectrum (𝓞 E), w.under (𝓞 F) = v → UnrAt χ w) →
+    (∀ g : UG (cA σ) (dbl (incM F X.J)), At (evFin F v) (g.1.1 - 1) → PresD v X (g⁻¹).1.1 →
+      ∃ c : ℂ, Acts (evFin F v) (om g) (boxFun (M.vac v) (star (M.vac v)))
+        (c • boxFun (M.vac v) (star (M.vac v)))) →
+    (∀ (g : UG (cA σ) (dbl (incM F X.J))) {x y a₁ a₂ : Matrix (Fin n) (Fin n) (AE F E)}
+      (_ : g.1.1 * (diagCols (Fin n) : Matrix _ _ (AE F E)) = Matrix.fromRows x y) (hx : x ∈ Pres v X) (hy : y ∈ Pres v X)
+      (h1 : a₁ ∈ Pres v X) (h2 : a₂ ∈ Pres v X) (h : a₁ * x + a₂ * y = 1) (ax : At (evFin F v) (x - 1)) (ay : At (evFin F v) (y - 1)),
+        ∃ b b' t', Adj (cA σ) (incM F X.J) b b' ∧ b + b' = -1 ∧ b ∈ Pres v X ∧ t' ∈ Pres v X ∧ (y + b * (y - x)) * t' = 1) →
+    ∀ k ∈ K, At (evFin F v) (mat2 k - 1) →
+      Acts (evFin F v) (om k) (boxFun (M.vac v) (star (M.vac v))) (boxFun (M.vac v) (star (M.vac v))) := by
+  intro F E _ _ _ _ _ σ B n d X W M r s hX hM χ _ dd omd ⟨d', hd', hdd⟩ ⟨_, hsp, hrule⟩ K hK v hv hEigen hBeta g hk hg
   have hL := hX.lat
   have vd := hM.vac v
   obtain ⟨hsb, h0, -⟩ := hM.vac v
@@ -86,7 +99,7 @@ theorem _root_.GlobalTheory.ThK.Dbl.vacFix2 : VacFix2 := by
   have hΦ0 : Φ ≠ 0 := fun e => hy (by rw [← hΦy, e]; rfl)
   have q1 : PresD v X g.1.1 := presD_of fun z z' a b => ((hK g).1 hk).2 z z' a b g (.inl rfl)
   have q2 : PresD v X (g⁻¹).1.1 := presD_of fun z z' a b => ((hK g).1 hk).2 z z' a b g⁻¹ (.inr rfl)
-  obtain ⟨c, hc⟩ := dbl_eigen hB hX hW vd hd' hdd hsp.toIsSplitting g hg q2
+  obtain ⟨c, hc⟩ := hEigen g hg q2
   suffices h : c = 1 by rwa [h, one_smul] at hc
   obtain ⟨g₁, m₁, g₂, m₂, g₃, m₃, g₄, m₄, eg⟩ := q1
   obtain ⟨a₁, n₁, a₂, n₂, a₃, -, a₄, -, ea⟩ := q2
@@ -105,7 +118,7 @@ theorem _root_.GlobalTheory.ThK.Dbl.vacFix2 : VacFix2 := by
   have py := add_mem m₃ m₄
   generalize g₁ + g₂ = x at *
   generalize g₃ + g₄ = y at *
-  obtain ⟨b, b', t', b1, hb, pb, pt, ht⟩ := exists_beta hB hX g hD px py n₁ n₂ hI ax ay
+  obtain ⟨b, b', t', b1, hb, pb, pt, ht⟩ := hBeta g hD px py n₁ n₂ hI ax ay
   have hm : At (evFin F v) (y - x) := by simpa using at_sub ay ax
   have pm := sub_mem py px
   obtain ⟨s₀, n₀, p, t, ss, eg', es, en, en', hn, hp, et, et'⟩ :=
@@ -132,7 +145,7 @@ theorem _root_.GlobalTheory.ThK.Dbl.vacFix2 : VacFix2 := by
     rw [i1, i2]; rfl
   have ev : ∀ g : UG (cA σ) (dbl (incM F X.J)), At (evFin F v) (g.1.1 - 1) → PresD v X (g⁻¹).1.1 →
       ∃ a : ℂ, omd g (boxFun Φ (star Φ)) = a • boxFun Φ (star Φ) := fun g h1 h2 => by
-    obtain ⟨a, ha⟩ := dbl_eigen hB hX hW vd hd' hdd hsp.toIsSplitting g h1 h2
+    obtain ⟨a, ha⟩ := hEigen g h1 h2
     exact ⟨a, by rw [bt, ha _ rd, tens_smul]⟩
   obtain ⟨a, ha⟩ := ev s₀ (by
       rw [es]
@@ -172,6 +185,15 @@ theorem _root_.GlobalTheory.ThK.Dbl.vacFix2 : VacFix2 := by
   rw [hpos] at n4 ⊢
   rw [Complex.norm_real, Real.norm_of_nonneg (Real.rpow_nonneg (NNReal.coe_nonneg _) _)] at n4
   rw [n4, Complex.ofReal_one]
+
+theorem _root_.GlobalTheory.ThK.Dbl.vacFix2 : VacFix2 := by
+  intro F E _ _ _ _ _ σ B n d X W M r s r' s' hB hX hW hM χ hχ dd omd hd hsplit K hK v hv
+  obtain ⟨d', hd', hdd⟩ := hd
+  obtain ⟨hact, hsp, hrule⟩ := hsplit
+  exact _root_.GlobalTheory.ThK.Dbl.Vf2.vacFix2_of_local_eigen_and_beta
+    F E σ B n d X W M r s hX hM χ hχ dd omd ⟨d', hd', hdd⟩ ⟨hact, hsp, hrule⟩ K hK v hv
+    (dbl_eigen hB hX hW (hM.vac v) hd' hdd hsp.toIsSplitting)
+    (exists_beta hB hX)
 
 end GlobalTheory.ThK.Dbl.Vf2
 

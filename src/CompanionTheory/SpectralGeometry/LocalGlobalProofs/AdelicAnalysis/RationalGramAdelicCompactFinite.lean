@@ -8,6 +8,7 @@ import CompanionTheory.SpectralGeometry.LocalGlobalProofs.AdelicAnalysis.TensorL
 import Mathlib.RingTheory.Henselian
 import Mathlib.RingTheory.RegularLocalRing.Defs
 import Mathlib.RingTheory.SimpleRing.Principal
+import CompanionTheory.SpectralGeometry.LocalGlobalProofs.AdelicAnalysis.CoordinateBijectionTraceForm
 
 @[expose] public section
 
@@ -29,17 +30,7 @@ theorem sigma_sigma (σ : E →ₐ[F] E) (h : IsCMExt F E σ) (x : E) : σ (σ x
   rw [hτ, hτ, star_star]
 
 theorem exists_moved (σ : E →ₐ[F] E) (h : IsCMExt F E σ) : ∃ x : E, σ x ≠ x := by
-  by_contra hc
-  push_neg at hc
-  obtain ⟨-, htc, -, hτ⟩ := h
-  let w : InfinitePlace E := Classical.arbitrary _
-  have hcx : w.IsComplex := htc.isComplex w
-  apply InfinitePlace.not_isReal_iff_isComplex.mpr hcx
-  rw [InfinitePlace.isReal_iff, ComplexEmbedding.isReal_iff]
-  ext x
-  have := hτ w.embedding x
-  rw [hc x] at this
-  simpa using this.symm
+  apply _root_.GlobalTheory.CompanionTheory.SW.HermOne.exists_ne <;> assumption
 
 theorem fixed_mem (σ : E →ₐ[F] E) (h : IsCMExt F E σ) (e : E) (he : σ e = e) :
     ∃ t : F, e = algebraMap F E t := by
@@ -48,15 +39,7 @@ theorem fixed_mem (σ : E →ₐ[F] E) (h : IsCMExt F E σ) (e : E) (he : σ e =
 theorem hE_self_fixed (σ : E →ₐ[F] E) (h : IsCMExt F E σ) {M : ℕ}
     (J : Matrix (Fin M) (Fin M) E) (hJ : IsHermND σ J) (x : Fin M → E) :
     σ (hE σ J x x) = hE σ J x x := by
-
-  simp only [hE, hform, map_sum, map_mul]
-  rw [Finset.sum_comm]
-  refine Finset.sum_congr rfl fun i _ => Finset.sum_congr rfl fun j _ => ?_
-  have h1 : σ ((σ : E →+* E) (x j)) = x j := sigma_sigma σ h (x j)
-  have h2 : σ (J j i) = J i j := hJ.1 i j
-  have h3 : (σ : E →+* E) (x i) = σ (x i) := rfl
-  rw [h1, h2, h3]
-  ring
+  apply _root_.GlobalTheory.CompanionTheory.SW.BB.RatCoord.sigma_hE_self <;> assumption
 
 end Field
 

@@ -97,9 +97,11 @@ theorem cas_dn {μ : Fin (2 * r + k + 1) → ℝ} {U : URep k r} (hU : U.R.IsDS 
   simp only [← Finset.sum_smul, e2]
   simp
 
-theorem dec_U (hk : 1 ≤ k) (lam : Fin (2 * r + k + 1) → ℝ) (U : URep k r) (π : Mx k r → (U.R.H →L[ℂ] U.R.H)) {P : Mx k r}
+theorem dec_U_with_shift (hk : 1 ≤ k) (lam : Fin (2 * r + k + 1) → ℝ) (U : URep k r) (π : Mx k r → (U.R.H →L[ℂ] U.R.H)) {P : Mx k r}
     (hP : IsCayleyU k r ε P) (hπe : (fun g => U.R.σ (P⁻¹ * g * P)) = π) (hU : U.R.IsDS ε lam)
-    (hg : Formalism.QuantumDeterminants.GapAtLeast ε lam (200 * ((2 * r + k + 1 : ℕ) : ℝ) ^ 3)) : Nonempty (Dec ε lam π) := by
+    (hg : Formalism.QuantumDeterminants.GapAtLeast ε lam (200 * ((2 * r + k + 1 : ℕ) : ℝ) ^ 3)) :
+    ∃ X : Dec ε lam π, X.S = univ.filter (fun s => IsHCParam (shift true lam s)) ∧
+      ∀ s, X.κ s = (lam s : ℂ) + (((2 * r + k + 1 : ℕ) : ℂ) - 1) / 2 := by
   have S := zuckerman_ingredients
   have hl : IsHCParam lam := hU.1
   have hPu : IsUnit P.det := (Matrix.isUnit_iff_isUnit_det _).1 hP.1.1
@@ -197,7 +199,7 @@ theorem dec_U (hk : 1 ≤ k) (lam : Fin (2 * r + k + 1) → ℝ) (U : URep k r) 
             pr_act := fun s hs g x hx => ?_
             form := fun s hs x hx y hy => ?_
             cas := fun s hs x hx => ?_
-            κ_inj := fun s _ s' _ h => hl.1.injective (by exact_mod_cast add_right_cancel h) }⟩
+            κ_inj := fun s _ s' _ h => hl.1.injective (by exact_mod_cast add_right_cancel h) }, rfl, fun _ => rfl⟩
   · have h := (mem_filter.1 hs).2
     simp only [dif_pos h]
     rw [up_act g x hx, ← dn_act]
@@ -231,6 +233,12 @@ theorem dec_U (hk : 1 ≤ k) (lam : Fin (2 * r + k + 1) → ℝ) (U : URep k r) 
     have e := cas_dn hU hP (io ⟨s, h⟩ (pr ⟨s, h⟩ (up x)))
     rw [show (fun g => U.R.σ (P⁻¹ * g * P)) = π from hπe] at e
     rw [e, kOp_io hk hU s (hT ⟨s, h⟩) _ (hD.io_hom ⟨s, h⟩), map_smul]
+
+theorem dec_U (hk : 1 ≤ k) (lam : Fin (2 * r + k + 1) → ℝ) (U : URep k r) (π : Mx k r → (U.R.H →L[ℂ] U.R.H)) {P : Mx k r}
+    (hP : IsCayleyU k r ε P) (hπe : (fun g => U.R.σ (P⁻¹ * g * P)) = π) (hU : U.R.IsDS ε lam)
+    (hg : Formalism.QuantumDeterminants.GapAtLeast ε lam (200 * ((2 * r + k + 1 : ℕ) : ℝ) ^ 3)) : Nonempty (Dec ε lam π) := by
+  obtain ⟨X, _, _⟩ := dec_U_with_shift hk lam U π hP hπe hU hg
+  exact ⟨X⟩
 
 theorem dec_hpk (hk : 1 ≤ k) (lam : Fin (2 * r + k + 1) → ℝ) (H : Type) [NormedAddCommGroup H] [InnerProductSpace ℂ H]
     (π : Mx k r → (H →L[ℂ] H)) {P : Mx k r} (hP : IsCayleyU k r ε P) (hl : IsHCParam lam) (hπ : Formalism.MainNotions.S.IsDS ε lam π)

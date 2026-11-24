@@ -8,6 +8,7 @@ public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PHyperplaneSect
 import Mathlib.RingTheory.Henselian
 import Mathlib.RingTheory.RegularLocalRing.Defs
 import Mathlib.RingTheory.SimpleRing.Principal
+import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PHyperplaneQuotientBound
 
 @[expose] public section
 
@@ -50,31 +51,7 @@ theorem pow_mul_mem_chartLatQ (c : ∀ k, ι k) (b : K → ℤ) {s : Ω} (hs : s
 
 theorem finiteDimensional_chartLatQ (hfin : SectionLatticeFinite.Statement) (hy : ∀ k, ∃ i, y ⟨k, i⟩ ≠ 0)
     (b : K → ℤ) : FiniteDimensional ℚ (chartLatQ y b 1) := by
-  classical
-  obtain ⟨S, hS⟩ := hfin K ι Ω y b 1 hy
-  let T : Finset Ω := S.image Subtype.val
-  refine Submodule.finiteDimensional_of_le (S₂ := Submodule.span ℚ (T : Set Ω)) fun s hs => ?_
-  obtain ⟨N, hN, hNs⟩ := ChartDenominator.proof K ι Ω y b 1 s hs
-  have ht : (⟨(N : Ω) * s, hNs⟩ : chartLat y b 1) ∈ AddSubsemigroup.closure (S : Set (chartLat y b 1)) := by
-    rw [hS]
-    trivial
-  have hQ : (N : Ω) * s ∈ Submodule.span ℚ (T : Set Ω) := by
-    have hall : ∀ x : chartLat y b 1, x ∈ AddSubsemigroup.closure (S : Set (chartLat y b 1)) → (x : Ω) ∈ Submodule.span ℚ (T : Set Ω) := by
-      intro x hx
-      induction hx using AddSubsemigroup.closure_induction with
-      | mem x hx =>
-        apply Submodule.subset_span
-        exact Finset.mem_coe.mpr (Finset.mem_image.mpr ⟨x, hx, rfl⟩)
-      | add x z hx hz ihx ihz =>
-        exact Submodule.add_mem _ ihx ihz
-    exact hall _ ht
-  have hN0 : (N : Ω) ≠ 0 := by exact_mod_cast (show N ≠ 0 by omega)
-  have hs' : s = ((N : ℚ)⁻¹) • ((N : Ω) * s) := by
-    rw [Rat.smul_def]
-    push_cast
-    field_simp
-  rw [hs']
-  exact Submodule.smul_mem _ _ hQ
+  apply _root_.GroundTheory.Heights₂.Heights.HilbertSamuel.HyperplaneQuotientBound.finiteDimensional <;> assumption
 
 theorem finrank_shift_le (c : ∀ k, ι k) (hc : ∀ k, y ⟨k, c k⟩ ≠ 0) (b : K → ℤ) (j : ℕ) :
     Module.finrank ℚ (chartLatQ y (b + fun _ => (j : ℤ)) 1) ≤ Module.finrank ℚ (chartLatQ y b 1) +

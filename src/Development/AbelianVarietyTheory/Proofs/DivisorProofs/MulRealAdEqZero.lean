@@ -1,5 +1,6 @@
 module
 
+import Development.AutomorphicSpectrum.Proofs.MembershipProofs.LagrangianStabilizerCharacterTrivial
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsPairingStdP
 public import Development.AbelianVarietyTheory.Definitions.Divisors.CTSmallCone
 import Mathlib.Algebra.Order.Floor.Extended
@@ -168,15 +169,8 @@ variable {α β p q : Type} [Fintype α] [Fintype β] [Fintype p] [Fintype q]
 
 theorem hTens_eq (JA : Matrix α α E) (JB : Matrix β β E) (x y : Matrix α β E) :
     hTens c JA JB x y = ∑ i, ∑ k, JA i k * (x * JB * (y.map c)ᵀ) i k := by
-  unfold hTens
-  simp only [Matrix.mul_apply, Matrix.transpose_apply, Matrix.map_apply, Finset.mul_sum, Finset.sum_mul]
-  refine Finset.sum_congr rfl fun i _ => ?_
-  rw [Finset.sum_comm]
-  refine Finset.sum_congr rfl fun k _ => ?_
-  rw [Finset.sum_comm]
-  refine Finset.sum_congr rfl fun l _ => ?_
-  refine Finset.sum_congr rfl fun j _ => ?_
-  ring
+  intros
+  apply _root_.GlobalTheory.CompanionTheory.SplitUnique.hTens_eq <;> assumption
 
 theorem hTens_mul (JA : Matrix α α E) (JB : Matrix β β E) (P : Matrix β p E) (Q : Matrix β q E)
     (a : Matrix α p E) (b : Matrix α q E) :

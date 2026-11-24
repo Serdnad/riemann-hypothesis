@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.CompanionMatrixOfCoeffsPowMulVecFirstBasisVector
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.FourierMatch
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -56,17 +57,8 @@ variable {r : ℕ} {k : Type} [CommRing k]
 
 theorem companionMatrixOfCoeffs_pow_mulVec_first_basis (p : Fin r → k) (n : ℕ) (hn : n < r) :
     (companion p ^ n) *ᵥ (fun i : Fin r => if (i : ℕ) = 0 then (1 : k) else 0) = Pi.single (⟨n, hn⟩ : Fin r) 1 := by
-  induction n with
-  | zero =>
-    rw [pow_zero, one_mulVec]
-    funext i
-    simp [Pi.single_apply, Fin.ext_iff]
-  | succ n ih =>
-    rw [pow_succ', ← mulVec_mulVec, ih (by omega), mulVec_single_one]
-    funext i
-    simp only [companion, Pi.single_apply, Fin.ext_iff]
-    have : ¬ (n + 1 = r) := by omega
-    simp [this]
+  intros
+  apply _root_.GlobalTheory.JR.ImgSec.companionMatrixOfCoeffs_pow_mulVec_firstBasisVector <;> assumption
 
 theorem conj_pow_GL (g : GL (Fin r) k) (A : Matrix (Fin r) (Fin r) k) (j : ℕ) :
     ((g : Matrix (Fin r) (Fin r) k) * A * ((g⁻¹ : GL (Fin r) k) : Matrix (Fin r) (Fin r) k)) ^ j =

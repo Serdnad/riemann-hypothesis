@@ -297,14 +297,7 @@ theorem ev_ratSmul [Algebra ℚ k] {m n : ℕ} (a : Fin m → Pt k n d) (ha : �
   map_rat_smul (evAdd a ha) q f
 
 theorem ev_pt_two (f : PS k 2 d) : ev ![pt k (n := 2) d 0, pt k (n := 2) d 1] f = f := by
-  change MvPowerSeries.subst
-    (fun p : Fin 2 × Fin d => (![pt k (n := 2) d 0, pt k (n := 2) d 1] p.1) p.2) f = f
-  have e : (fun p : Fin 2 × Fin d => (![pt k (n := 2) d 0, pt k (n := 2) d 1] p.1) p.2) = X := by
-    funext p
-    obtain ⟨j, i⟩ := p
-    fin_cases j <;> rfl
-  rw [e, MvPowerSeries.subst_self]
-  rfl
+  apply _root_.GlobalTheory.Regauge.ev_pt_two <;> assumption
 
 theorem ev_ev_two {m n : ℕ} (V : Fin m → Pt k n d) (hV : ∀ j, GP (V j)) (a b : Pt k m d)
     (ha : GP a) (hb : GP b) (f : PS k 2 d) :
@@ -335,15 +328,7 @@ variable {k : Type} [CommRing k] {d : ℕ} {O : Type} [CommRing O] {G : FGLaw k 
 
 theorem act_addOf (c : O) {n : ℕ} (x y : Pt k n d) (hx : GP x) (hy : GP y) :
     comp1 (A.act c) (addOf G.F x y) = addOf G.F (comp1 (A.act c) x) (comp1 (A.act c) y) := by
-  have hV := pair_points_zero_constant hx hy
-  have hc : GP (A.act c) := A.const c
-  have h := congrArg (evP ![x, y]) (A.hom c)
-  rw [evP_comp1 _ hV _ _ (gp_addOf _ G.const _ _ (gp_pt 0) (gp_pt 1)),
-    evP_addOf _ hV _ _ _ (gp_pt 0) (gp_pt 1),
-    evP_addOf _ hV _ _ _ (gp_comp1 _ _ hc (gp_pt 0)) (gp_comp1 _ _ hc (gp_pt 1)),
-    evP_comp1 _ hV _ _ (gp_pt 0), evP_comp1 _ hV _ _ (gp_pt 1),
-    evP_pt _ hV, evP_pt _ hV] at h
-  exact h
+  apply _root_.GlobalTheory.Regauge.act_addOf <;> assumption
 
 theorem add_act_apply (a b : O) {n : ℕ} (x : Pt k n d) (hx : GP x) :
     comp1 (A.act (a + b)) x = addOf G.F (comp1 (A.act a) x) (comp1 (A.act b) x) := by

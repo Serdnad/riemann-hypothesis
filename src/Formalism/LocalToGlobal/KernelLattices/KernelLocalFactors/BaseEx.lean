@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsNumerator
 public import Formalism.LocalToGlobal.KernelLattices.LateralTheory
 public import Formalism.PeriodIntegrals.KerIso
 public import Mathlib.NumberTheory.NumberField.Basic
@@ -480,25 +481,12 @@ variable {K : Type} [Field K] [NumberField K]
 theorem val_natCast_eq_one (𝔭 : HeightOneSpectrum (𝓞 K)) {p s : ℕ}
     (hp : ((p : ℕ) : 𝓞 K) ∈ 𝔭.asIdeal) (hs : Nat.Coprime s p) :
     𝔭.valuation K (s : K) = 1 := by
-  have hcast : ((s : ℕ) : K) = algebraMap (𝓞 K) K (s : 𝓞 K) := by simp
-  rw [hcast, IsDedekindDomain.HeightOneSpectrum.valuation_of_algebraMap,
-    IsDedekindDomain.HeightOneSpectrum.intValuation_eq_one_iff]
-  intro hs𝔭
-  obtain ⟨a, b, hab⟩ := Nat.isCoprime_iff_coprime.2 hs
-  have h1 : (1 : 𝓞 K) ∈ 𝔭.asIdeal := by
-    have e := congrArg (Int.cast : ℤ → 𝓞 K) hab
-    push_cast at e
-    rw [← e]
-    exact Ideal.add_mem _ (Ideal.mul_mem_left _ _ hs𝔭) (Ideal.mul_mem_left _ _ hp)
-  exact 𝔭.isPrime.ne_top ((Ideal.eq_top_iff_one _).2 h1)
+  apply _root_.GlobalTheory.ScalarUnit.val_natCast <;> assumption
 
 theorem val_le_one_of_den (𝔭 : HeightOneSpectrum (𝓞 K)) {p s : ℕ}
     (hp : ((p : ℕ) : 𝓞 K) ∈ 𝔭.asIdeal) (hs : Nat.Coprime s p) {x : K}
     (hx : (s : K) * x ∈ (algebraMap (𝓞 K) K).range) : 𝔭.valuation K x ≤ 1 := by
-  obtain ⟨r, hr⟩ := hx
-  have h : 𝔭.valuation K (algebraMap (𝓞 K) K r) ≤ 1 := 𝔭.valuation_le_one (K := K) r
-  rw [hr, map_mul, val_natCast_eq_one 𝔭 hp hs, one_mul] at h
-  exact h
+  apply _root_.PI.KerDetFinW.valuation_le_one_of_denom <;> assumption
 
 theorem val_det_le_one (𝔭 : HeightOneSpectrum (𝓞 K)) {p : ℕ}
     (hp : ((p : ℕ) : 𝓞 K) ∈ 𝔭.asIdeal) {ι : Type} [Fintype ι] [DecidableEq ι]

@@ -67,6 +67,7 @@ import Formalism.SharpRestriction.GenusPolyhedralBounds.RelativeIndexClassSets.Q
 import Formalism.SharpRestriction.LevelLetterCocycles.DataNLoc
 import Formalism.LocalToGlobal.ProjectiveLattices.HalfOneAddSqrtNegIsIntegral
 import Mathlib.Tactic.Linter.Style
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.SquareIntegrability.SplitOA
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.ExistsTorusWithSignUniformisationFrameStatement, Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.FirstMinimumSqGeAndPhiEqZeroDefinite, Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.PhiFDEqZeroAtLastIndex
@@ -177,45 +178,10 @@ theorem sum_norm_eq_two_mul (X : FD.Data E r) (y : E) :
       rw [ComplexEmbedding.conjugate_coe_eq, Complex.norm_conj]
   rw [hc, ← two_mul, Finset.mul_sum, ← Finset.sum_coe_sort X.Ψ]
 
-private theorem one_le_abs_norm_mul_abs_discr_of_trace_int {β : E}
-    (hβ : ∀ a : 𝓞 E, ∃ k : ℤ, Algebra.trace ℚ E (β * a) = k) (h0 : β ≠ 0) :
-    (1 : ℚ) ≤ |Algebra.norm ℚ β| * |(NumberField.discr E : ℚ)| := by
-  classical
-  set D : FractionalIdeal (𝓞 E)⁰ E := FractionalIdeal.dual ℤ ℚ 1 with hDdef
-  have h1ne : (1 : FractionalIdeal (𝓞 E)⁰ E) ≠ 0 := one_ne_zero
-  have hD : D ≠ 0 := FractionalIdeal.dual_ne_zero ℤ ℚ h1ne
-  have hmem : β ∈ D := by
-    rw [hDdef, FractionalIdeal.mem_dual h1ne]
-    intro a ha
-    obtain ⟨a', rfl⟩ := (FractionalIdeal.mem_one_iff (𝓞 E)⁰).mp ha
-    obtain ⟨k, hk⟩ := hβ a'
-    exact ⟨k, by rw [Algebra.traceForm_apply]; exact hk.symm⟩
-  have hle : FractionalIdeal.spanSingleton (𝓞 E)⁰ β * D⁻¹ ≤ 1 := by
-    calc _ ≤ D * D⁻¹ := mul_le_mul_left (FractionalIdeal.spanSingleton_le_iff_mem.mpr hmem) _
-      _ = 1 := mul_inv_cancel₀ hD
-  obtain ⟨I, hI⟩ := FractionalIdeal.le_one_iff_exists_coeIdeal.mp hle
-  have hI0 : I ≠ ⊥ := by
-    rintro rfl
-    rw [FractionalIdeal.coeIdeal_bot, eq_comm, mul_eq_zero,
-      FractionalIdeal.spanSingleton_eq_zero_iff, inv_eq_zero] at hI
-    rcases hI with h | h
-    · exact h0 h
-    · exact hD h
-  have hdiff : ((differentIdeal ℤ (𝓞 E) : Ideal (𝓞 E)) : FractionalIdeal (𝓞 E)⁰ E) = D⁻¹ :=
-    coeIdeal_differentIdeal (A := ℤ) (K := ℚ) (L := E) (B := 𝓞 E)
-  have key := congrArg FractionalIdeal.absNorm hI
-  rw [FractionalIdeal.coeIdeal_absNorm, map_mul, FractionalIdeal.absNorm_span_singleton, ← hdiff,
-    FractionalIdeal.coeIdeal_absNorm, NumberField.absNorm_differentIdeal E (𝓞 E)] at key
-  have h1 : (1 : ℚ) ≤ Ideal.absNorm I := by
-    have : Ideal.absNorm I ≠ 0 := by rwa [Ne, Ideal.absNorm_eq_zero_iff]
-    exact_mod_cast Nat.one_le_iff_ne_zero.mpr this
-  rw [key] at h1
-  simpa [Nat.cast_natAbs] using h1
-
 theorem finrank_div_rd_le {β : E} (hβ : ∀ a : 𝓞 E, ∃ k : ℤ, Algebra.trace ℚ E (β * a) = k)
     (h0 : β ≠ 0) : (Module.finrank ℚ E : ℝ) / I2.PT.rd E ≤ ∑ σ : E →+* ℂ, ‖σ β‖ := by
   classical
-  have hNq := one_le_abs_norm_mul_abs_discr_of_trace_int hβ h0
+  have hNq := _root_.ReciprocityTheory.ChartRestriction.G.I2.so_norm_ge β h0 hβ
   have hN : (1 : ℝ) ≤ |(Algebra.norm ℚ β : ℝ)| * |(NumberField.discr E : ℝ)| := by
     have := (Rat.cast_le (K := ℝ)).mpr hNq
     simpa using this

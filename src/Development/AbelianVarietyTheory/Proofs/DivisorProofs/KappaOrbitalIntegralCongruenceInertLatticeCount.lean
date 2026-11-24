@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.UnitLemmaSelfAdjointLieOfCountLimitDescent
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ConjRelEquiv
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.LeftMulMatrixTransfer
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ReducedFreeAlgebraTraceFormPerfect
@@ -1002,15 +1003,7 @@ theorem exists_orthonormal_of_selfDual (K : GlobalTheory.UnitLemma.UQ) (V : Type
 
 theorem X_nonempty_of_N_ne_zero {K : GlobalTheory.UnitLemma.UQ} (B : GlobalTheory.UnitLemma.InvAlg K) (x : B.A) (hN : B.N x ≠ 0) :
     (B.X x).Nonempty := by
-  by_contra hX
-  rw [Set.not_nonempty_iff_eq_empty] at hX
-  apply hN
-  haveI : IsEmpty (GlobalTheory.UnitLemma.Orb K.O B.T (B.X x)) :=
-    ⟨fun o => by
-      induction o using Quot.ind with
-      | mk L => exact Set.eq_empty_iff_forall_notMem.1 hX L.1 L.2⟩
-  unfold GlobalTheory.UnitLemma.InvAlg.N GlobalTheory.UnitLemma.orbSum
-  exact finsum_of_isEmpty _
+  apply _root_.GlobalTheory.UnitLemma.LieEnd.nonempty_of_N_ne_zero <;> assumption
 
 theorem exists_model_of_N_ne_zero : ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (w : Pl E), ¬ IsSplitAt w → ∀ (K : GlobalTheory.UnitLemma.UQ) (e : K.E ≃+* w.adicCompletion E), Bridge w K e → ∀ (n : ℕ) (Q : (w.adicCompletion E)[X]) (B : GlobalTheory.UnitLemma.InvAlg K) (u x : B.A), Fits w e B Q u → Q.natDegree = n → B.σ x = x → IsUnit x → B.N x ≠ 0 → ∃ γ : GLw n w, γ ∈ UL n w ∧ IsModel w e B u x γ := by
   intro E _ _ _ w hw K e hB n Q B u x hF hn hσx _ hN

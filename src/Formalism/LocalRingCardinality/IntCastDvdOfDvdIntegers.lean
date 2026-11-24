@@ -1,5 +1,6 @@
 module
 
+import Formalism.SharpRestriction.CuspSpanNormBounds.StandingHypothesesHoldFamily
 public import Formalism.LocalRingCardinality.RhoDetPrimeEqMuTildeMulChiPow
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -49,13 +50,7 @@ open NumberField
 
 theorem intCast_dvd_of_dvd_integers (E : Type) [Field E] [NumberField E] (a b : ℤ)
     (h : (b : 𝓞 E) ∣ (a : 𝓞 E)) : b ∣ a := by
-  have h1 := map_dvd (Algebra.norm ℤ) h
-  have ea : (a : 𝓞 E) = algebraMap ℤ (𝓞 E) a := by simp
-  have eb : (b : 𝓞 E) = algebraMap ℤ (𝓞 E) b := by simp
-  rw [ea, eb, Algebra.norm_algebraMap, Algebra.norm_algebraMap] at h1
-  have hn : Module.finrank ℤ (𝓞 E) ≠ 0 := by
-    rw [RingOfIntegers.rank]; exact (Module.finrank_pos).ne'
-  exact (Int.pow_dvd_pow_iff hn).1 h1
+  apply +allowSynthFailures _root_.Formalism.MainNotions.S.int_dvd_of_dvd_ringOfIntegers <;> assumption
 
 theorem dvd_norm_sub_one (E : Type) [Field E] [NumberField E] (σ : E ≃ₐ[ℚ] E) (π : 𝓞 E) (T M : ℕ)
     (hT : (π : E) * σ (π : E) = (T : E)) (hπ : (π - 1) ∈ Ideal.span {((M : ℕ) : 𝓞 E)}) :

@@ -1,5 +1,6 @@
 module
 
+import all Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.IndexUnitsLocalSquaresFiniteRealPlacesLe
 public import Formalism.LocalToGlobal.HermitianForms.PrkSmul
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.LevelPrimeUnramifiedUniformizer
 import Mathlib.Algebra.Order.Floor.Extended
@@ -55,12 +56,7 @@ open GlobalTheory.LevelHecke
 
 theorem le_exp_sub_one {x : WithZero (Multiplicative ℤ)} {n : ℤ} (h : x < WithZero.exp n) :
     x ≤ WithZero.exp (n - 1) := by
-  rcases eq_or_ne x 0 with rfl | hx
-  · exact zero_le'
-  rw [← WithZero.exp_log hx] at h ⊢
-  rw [WithZero.exp_lt_exp] at h
-  rw [WithZero.exp_le_exp]
-  omega
+  apply _root_.GlobalTheory.QNorm.le_exp_sub_one_of_lt_exp <;> assumption
 
 theorem T_notMem_sq (D : D7) (u : D.what₂.Word) (A : Formalism.L2.Forms.AtTTied u)
     (v : HeightOneSpectrum (𝓞 D.host.F)) (hv : (((D.mem u).A.T : ℕ) : 𝓞 D.host.F) ∈ v.asIdeal) :

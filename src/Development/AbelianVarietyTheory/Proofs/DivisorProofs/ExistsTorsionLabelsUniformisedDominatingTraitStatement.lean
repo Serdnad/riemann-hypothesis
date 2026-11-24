@@ -1,5 +1,6 @@
 module
 
+import all Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsThetaLevelAbelianSchemeGlueAffineCover
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.UniformisationConclusion
 public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.IsNsmulIffEq
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.UniTrait
@@ -133,21 +134,7 @@ namespace GlobalTheory.Mum
 theorem grpPullback_pow_left {S' S : Scheme.{0}} {G' : Over S'} [GrpObj G'] {G : Over S} [GrpObj G] {f : S' ⟶ S}
     {a : G'.left ⟶ G.left} (h : IsGrpPullback G' G f a) {T : Over S'} (x : T ⟶ G') (x₀ : Over.mk (T.hom ≫ f) ⟶ G)
     (hx : x₀.left = x.left ≫ a) : ∀ n : ℕ, (x₀ ^ n).left = (x ^ n).left ≫ a := by
-  intro n
-  induction n with
-  | zero =>
-    let u : Over.mk (T.hom ≫ f) ⟶ G := Over.homMk ((1 : T ⟶ G').left ≫ a) (by
-      show ((1 : T ⟶ G').left ≫ a) ≫ G.hom = T.hom ≫ f
-      rw [Category.assoc, h.1.w, ← Category.assoc, Over.w])
-    have hm := h.2 T 1 1 u u rfl rfl
-    rw [_root_.mul_one] at hm
-    have hu : u * u = u := Over.OverMorphism.ext hm
-    have hu1 : u = 1 := mul_eq_left.1 hu
-    rw [pow_zero, pow_zero, ← hu1]
-    rfl
-  | succ n ih =>
-    rw [pow_succ, pow_succ]
-    exact h.2 T (x ^ n) x (x₀ ^ n) x₀ ih hx
+  apply _root_.GlobalTheory.CoverGlue.pow_left_eq_pow_left_comp_of_isGrpPullback <;> assumption
 
 end GlobalTheory.Mum
 

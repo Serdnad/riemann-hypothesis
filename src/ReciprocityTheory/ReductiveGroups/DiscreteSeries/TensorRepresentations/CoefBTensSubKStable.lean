@@ -53,12 +53,13 @@ theorem coefB_khw_le (hE : IsGlRep E) (hU : IsInfUnitary ε E)
   have := hj.trans (Nat.le_ceil _)
   exact_mod_cast this
 
-theorem coefB_adm (hE : IsGlRep E) (hU : IsInfUnitary ε E)
-    (hV : IsKIrrHW ε E (lowK ε lam) V) (hc : ∀ v ∈ V, casimir E v = (casVal lam : ℂ) • v)
-    (hgap : StdGap ε lam) (C : ℝ) :
+theorem coefB_adm_of_highest_weight_bound (hE : IsGlRep E) (hU : IsInfUnitary ε E)
+    (hV : IsKIrrHW ε E (lowK ε lam) V)
+    (C : ℝ) (hbound : ∃ k : ℕ, ∀ w ∈ genSub E V, ∀ μ : Fin n → ℝ, IsKHWVec ε E μ w →
+      casValK ε μ ≤ C → w ∈ layer ε E V k) :
     ∃ k : ℕ, ∀ y ∈ genSub E V, ∀ θ : ℝ, θ ≤ C → casimirK ε E y = (θ : ℂ) • y →
       y ∈ layer ε E V k := by
-  obtain ⟨K, hK⟩ := coefB_khw_le hE hU hV hc hgap C
+  obtain ⟨K, hK⟩ := hbound
   refine ⟨K, fun y hy θ hθ hyθ => ?_⟩
   have hUk := isKUnitary_of_isInfUnitary hU
   obtain ⟨m, hm⟩ := exists_layer_of_mem_genSub hE hV.2.1 hy
@@ -110,6 +111,13 @@ theorem coefB_adm (hE : IsGlRep E) (hU : IsInfUnitary ε E)
   have hwT0 : w ∈ T₀ := ⟨hwS.1, hwK⟩
   have := Submodule.inner_right_of_mem_orthogonal hwT0 hwS.2
   exact hw0 (inner_self_eq_zero.1 this)
+
+theorem coefB_adm (hE : IsGlRep E) (hU : IsInfUnitary ε E)
+    (hV : IsKIrrHW ε E (lowK ε lam) V) (hc : ∀ v ∈ V, casimir E v = (casVal lam : ℂ) • v)
+    (hgap : StdGap ε lam) (C : ℝ) :
+    ∃ k : ℕ, ∀ y ∈ genSub E V, ∀ θ : ℝ, θ ≤ C → casimirK ε E y = (θ : ℂ) • y →
+      y ∈ layer ε E V k :=
+  coefB_adm_of_highest_weight_bound hE hU hV C (coefB_khw_le hE hU hV hc hgap C)
 
 end admitted
 
@@ -207,10 +215,11 @@ theorem coefB_ι_casimirK (dual : Bool) {S' : Submodule ℂ D} {ι : D →ₗ[�
   refine Finset.sum_congr rfl fun a _ => Finset.sum_congr rfl fun b _ => ?_
   rw [hι a b _ (hS' b a y hy), hι b a y hy]
 
-theorem coefB_toSum_exists (dual : Bool) (hσ : IsURepOn (UJset ε) σ) (hD : IsDerivedOn ε σ D E)
+theorem coefB_toSum_of_casimir_bound (dual : Bool) (hσ : IsURepOn (UJset ε) σ) (hD : IsDerivedOn ε σ D E)
     {lam' : Fin n → ℝ} {V V' : Submodule ℂ D} (hVf : FiniteDimensional ℂ V)
-    (hVk : IsKStableSub ε E V) (hgap' : StdGap ε lam') (hV' : IsKIrrHW ε E (lowK ε lam') V')
-    (hc' : ∀ v ∈ V', casimir E v = (casVal lam' : ℂ) • v) {ι : D →ₗ[ℂ] (Fin n → D)}
+    (hVk : IsKStableSub ε E V) (hV' : IsKIrrHW ε E (lowK ε lam') V')
+    (hbound : ∀ C : ℝ, ∃ k : ℕ, ∀ y ∈ genSub E V', ∀ θ : ℝ, θ ≤ C →
+      casimirK ε E y = (θ : ℂ) • y → y ∈ layer ε E V' k) {ι : D →ₗ[ℂ] (Fin n → D)}
     (hι : IsGKEmb dual ε σ E (genSub E V) (genSub E V') ι) :
     ∀ f ∈ tensSub (genSub E V), ∃ z ∈ genSub E V', ∀ y ∈ genSub E V',
       inner ℂ z y = ∑ c, inner ℂ (f c) (ι y c) := by
@@ -252,7 +261,7 @@ theorem coefB_toSum_exists (dual : Bool) (hσ : IsURepOn (UJset ε) σ) (hD : Is
     rw [this]
     exact h2
   obtain ⟨C, hC⟩ := coefA_high hTY hLd hLs
-  obtain ⟨K, hK⟩ := coefB_adm hE hU hV' hc' hgap' C
+  obtain ⟨K, hK⟩ := hbound C
   set ℓ : D →ₗ[ℂ] ℂ := (innerₛₗ ℂ (WithLp.toLp 2 f)).comp (e.symm.toLinearMap ∘ₗ ι)
   have hℓ : ∀ y, ℓ y = ∑ c, inner ℂ (f c) (ι y c) := by
     intro y
@@ -270,10 +279,21 @@ theorem coefB_toSum_exists (dual : Bool) (hσ : IsURepOn (UJset ε) σ) (hD : Is
       rfl)
   exact ⟨z, hzM, fun y hy => by rw [hz y hy, hℓ]⟩
 
-theorem coefB_ofSum_exists (dual : Bool) (hσ : IsURepOn (UJset ε) σ) (hD : IsDerivedOn ε σ D E)
-    {lam' : Fin n → ℝ} {V V' : Submodule ℂ D} (hgap' : StdGap ε lam')
-    (hV' : IsKIrrHW ε E (lowK ε lam') V')
+theorem coefB_toSum_exists (dual : Bool) (hσ : IsURepOn (UJset ε) σ) (hD : IsDerivedOn ε σ D E)
+    {lam' : Fin n → ℝ} {V V' : Submodule ℂ D} (hVf : FiniteDimensional ℂ V)
+    (hVk : IsKStableSub ε E V) (hgap' : StdGap ε lam') (hV' : IsKIrrHW ε E (lowK ε lam') V')
     (hc' : ∀ v ∈ V', casimir E v = (casVal lam' : ℂ) • v) {ι : D →ₗ[ℂ] (Fin n → D)}
+    (hι : IsGKEmb dual ε σ E (genSub E V) (genSub E V') ι) :
+    ∀ f ∈ tensSub (genSub E V), ∃ z ∈ genSub E V', ∀ y ∈ genSub E V',
+      inner ℂ z y = ∑ c, inner ℂ (f c) (ι y c) :=
+  coefB_toSum_of_casimir_bound dual hσ hD hVf hVk hV'
+    (coefB_adm hD.glRep (isInfUnitary_of_isDerivedOn hσ hD) hV' hc' hgap') hι
+
+theorem coefB_ofSum_of_casimir_bound (dual : Bool) (hσ : IsURepOn (UJset ε) σ) (hD : IsDerivedOn ε σ D E)
+    {lam' : Fin n → ℝ} {V V' : Submodule ℂ D}
+    (hV' : IsKIrrHW ε E (lowK ε lam') V')
+    (hbound : ∀ C : ℝ, ∃ k : ℕ, ∀ y ∈ genSub E V', ∀ θ : ℝ, θ ≤ C →
+      casimirK ε E y = (θ : ℂ) • y → y ∈ layer ε E V' k) {ι : D →ₗ[ℂ] (Fin n → D)}
     (hι : IsGKEmb dual ε σ E (genSub E V) (genSub E V') ι) :
     ∀ z ∈ genSub E V', ∃ f ∈ tensSub (genSub E V), ∀ y ∈ genSub E V',
       inner ℂ z y = ∑ c, inner ℂ (f c) (ι y c) := by
@@ -303,13 +323,23 @@ theorem coefB_ofSum_exists (dual : Bool) (hσ : IsURepOn (UJset ε) σ) (hD : Is
   have hfin : ∀ θ : ℝ, ∃ Z : Submodule ℂ D, FiniteDimensional ℂ Z ∧
       ∀ y ∈ genSub E V', casimirK ε E y = (θ : ℂ) • y → y ∈ Z := by
     intro θ
-    obtain ⟨K, hK⟩ := coefB_adm hE hU hV' hc' hgap' θ
+    obtain ⟨K, hK⟩ := hbound θ
     exact ⟨layer ε E V' K, finiteDimensional_layer hV'.1 K, fun y hy hyθ => hK y hy θ le_rfl hyθ⟩
   obtain ⟨f, hfM, hf⟩ := coefA_ofSum hTsym hTY (coefB_locFin hE hV'.1 hV'.2.1) ιY hιT hinj hfin z hz
   obtain ⟨y₀, hy₀, rfl⟩ := hfM
   refine ⟨ι y₀, hι.1 y₀ hy₀, fun y hy => ?_⟩
   rw [← hf y hy, PiLp.inner_apply]
   rfl
+
+theorem coefB_ofSum_exists (dual : Bool) (hσ : IsURepOn (UJset ε) σ) (hD : IsDerivedOn ε σ D E)
+    {lam' : Fin n → ℝ} {V V' : Submodule ℂ D} (hgap' : StdGap ε lam')
+    (hV' : IsKIrrHW ε E (lowK ε lam') V')
+    (hc' : ∀ v ∈ V', casimir E v = (casVal lam' : ℂ) • v) {ι : D →ₗ[ℂ] (Fin n → D)}
+    (hι : IsGKEmb dual ε σ E (genSub E V) (genSub E V') ι) :
+    ∀ z ∈ genSub E V', ∃ f ∈ tensSub (genSub E V), ∀ y ∈ genSub E V',
+      inner ℂ z y = ∑ c, inner ℂ (f c) (ι y c) :=
+  coefB_ofSum_of_casimir_bound dual hσ hD hV'
+    (coefB_adm hD.glRep (isInfUnitary_of_isDerivedOn hσ hD) hV' hc' hgap') hι
 
 end Exist
 

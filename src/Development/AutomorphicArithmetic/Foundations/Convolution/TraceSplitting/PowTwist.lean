@@ -1,5 +1,6 @@
 module
 
+import all Development.AutomorphicArithmetic.Foundations.Convolution.ConvolutionKernels.GalEquiv
 public import Development.AutomorphicArithmetic.Foundations.Convolution.TraceSplitting.NormCharSplit
 public import Formalism.LocalToGlobal.UnitaryNorms.CharTransport
 public import CompanionTheory.AutomorphicTheory.UnitriangularMeasure.AdeleCoordinateMeasure.EllipticTorusNorm
@@ -314,51 +315,10 @@ private theorem norm_infEquiv (j : K ≃+* K) (u : InfinitePlace K)
   rw [CT.infEquiv_algebraMap, _root_.GlobalTheory.FrobDense.norm_inf, _root_.GlobalTheory.FrobDense.norm_inf]
   rfl
 
-private theorem mult_comap_equiv (j : K ≃+* K) (u : InfinitePlace K) :
-    (u.comap j.toRingHom).mult = u.mult := by
-  have h : (u.comap j.toRingHom).IsReal ↔ u.IsReal := InfinitePlace.isReal_comap_iff (f := j)
-  unfold InfinitePlace.mult
-  by_cases hu : u.IsReal
-  · rw [if_pos (h.2 hu), if_pos hu]
-  · rw [if_neg (mt h.1 hu), if_neg hu]
-
-private def infPerm (j : K ≃+* K) : InfinitePlace K ≃ InfinitePlace K where
-  toFun u := u.comap j.toRingHom
-  invFun u := u.comap j.symm.toRingHom
-  left_inv u := by
-    ext x
-    show u (j (j.symm x)) = u x
-    rw [RingEquiv.apply_symm_apply]
-  right_inv u := by
-    ext x
-    show u (j.symm (j x)) = u x
-    rw [RingEquiv.symm_apply_apply]
-
-private def finPerm (j : K ≃+* K) :
-    HeightOneSpectrum (𝓞 K) ≃ HeightOneSpectrum (𝓞 K) where
-  toFun v := CT.plMap j.symm v
-  invFun v := CT.plMap j v
-  left_inv v := CT.plMap_plMap_symm j v
-  right_inv v := CT.plMap_symm_plMap j v
-
 private theorem module_map (σ : K ≃+* K) (x : (𝔸[K])ˣ) :
     (GroundTheory.Global.IdeleGroup.ideleModule K (Units.map (CT.adMap σ).toMonoidHom x) : ℝ) =
       GroundTheory.Global.IdeleGroup.ideleModule K x := by
-  rw [GroundTheory.Global.IdeleGroup.ideleModule_eq, GroundTheory.Global.IdeleGroup.ideleModule_eq]
-  congr 1
-  · refine Fintype.prod_equiv (infPerm σ) _ _ fun u => ?_
-    show ‖CT.infEquiv σ u ((x : 𝔸[K]).1 (u.comap σ.toRingHom))‖ ^ u.mult =
-      ‖(x : 𝔸[K]).1 (u.comap σ.toRingHom)‖ ^ (u.comap σ.toRingHom).mult
-    rw [norm_infEquiv, mult_comap_equiv]
-  · have h : ∀ v : HeightOneSpectrum (𝓞 K),
-        ‖((Units.map (CT.adMap σ).toMonoidHom x : (𝔸[K])ˣ) : 𝔸[K]).2 v‖ =
-          ‖(x : 𝔸[K]).2 (finPerm σ v)‖ := fun v => by
-      show ‖(CT.compEquiv σ.symm v).symm ((x : 𝔸[K]).2 (CT.plMap σ.symm v))‖ = _
-      have e := CT.norm_compEquiv σ.symm v ((CT.compEquiv σ.symm v).symm ((x : 𝔸[K]).2 (CT.plMap σ.symm v)))
-      rw [RingEquiv.apply_symm_apply] at e
-      exact e.symm
-    exact (finprod_congr h).trans
-      (finprod_comp_equiv (finPerm σ) (f := fun w => ‖(x : 𝔸[K]).2 w‖))
+  apply _root_.module_map <;> assumption
 
 variable [_root_.NumberField.IsTotallyComplex K] {n : ℕ}
 

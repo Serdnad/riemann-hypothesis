@@ -1,5 +1,6 @@
 module
 
+import Formalism.LocalToGlobal.Columns.ReferenceActionRationalLevels
 import Development.AbelianVarietyTheory.Proofs.JetHarmonics.BesselGapDimensionFormula
 public import Development.AbelianVarietyTheory.Definitions.Foundations.CdScaleTieIff
 import Mathlib.Algebra.Order.Floor.Extended
@@ -98,21 +99,7 @@ theorem lamS_int (R : Ranks) (P : HCParam R) (i : Fin R.r) : ∃ z : ℤ, lamS R
   · exact ⟨0, by simp⟩
 
 theorem lamSH_isHCParam (R : Ranks) (P : HCParam R) : Formalism.QuantumDeterminants.IsHCParam (lamSH R P) := by
-  refine ⟨?_, ?_⟩
-  · rw [Fin.strictAnti_iff_succ_lt]
-    intro i
-    exact lamS_succ_lt R P (Fin.cast (Formalism.MainNotions.S.dimS_eq R) (Fin.castSucc i))
-      (Fin.cast (Formalism.MainNotions.S.dimS_eq R) i.succ) (by simp)
-  · intro a
-    obtain ⟨z, hz⟩ := lamS_int R P (Fin.cast (Formalism.MainNotions.S.dimS_eq R) a)
-    obtain ⟨w, hw⟩ := R.k_even
-    have hk : (R.k : ℝ) = 2 * w := by rw [hw]; push_cast; ring
-    refine ⟨z - R.rS - w, ?_⟩
-    show lamS R P (Fin.cast (Formalism.MainNotions.S.dimS_eq R) a) - _ = _
-    rw [hz]
-    push_cast
-    rw [hk]
-    ring
+  first | exact _root_.Formalism.L2.Col.lamSH_isHCParam | exact @_root_.Formalism.L2.Col.lamSH_isHCParam | apply _root_.Formalism.L2.Col.lamSH_isHCParam <;> assumption
 
 theorem fdegHC_pos_of_injective {n : ℕ} (lam : Fin n → ℝ) (hlam : Function.Injective lam) :
     0 < Formalism.QuantumDeterminants.fdegHC lam := by

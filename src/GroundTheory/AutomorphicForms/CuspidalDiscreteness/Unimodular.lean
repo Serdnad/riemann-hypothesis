@@ -1,5 +1,6 @@
 module
 
+import GroundTheory.AutomorphicForms.TraceFormulaWeil
 public import GroundTheory.AutomorphicForms.QuotientMeasure
 public import GroundTheory.AutomorphicForms.ReductionMahler
 public import GroundTheory.AutomorphicForms.ReductionMeasure
@@ -27,15 +28,8 @@ variable {G : Type*} [Group G] [TopologicalSpace G] [IsTopologicalGroup G] [Loca
 
 theorem isFundamentalDomain_preimage_mulRight (μ : Measure G) (g : G) :
     IsFundamentalDomain Γ ((· * g) ⁻¹' fundamentalDomain Γ) μ := by
-  refine IsFundamentalDomain.mk'
-    ((measurableSet_fundamentalDomain Γ).preimage (measurable_mul_const g)).nullMeasurableSet
-    fun x => ?_
-  obtain ⟨γ, hγ, huniq⟩ := existsUnique_smul_mem_fundamentalDomain Γ (x * g)
-  refine ⟨γ, ?_, fun δ hδ => huniq δ ?_⟩
-  · change γ • x * g ∈ fundamentalDomain Γ
-    rwa [Subgroup.smul_def, smul_eq_mul, mul_assoc]
-  · change δ • x * g ∈ fundamentalDomain Γ at hδ
-    rwa [Subgroup.smul_def, smul_eq_mul, mul_assoc] at hδ
+  intros
+  apply _root_.GroundTheory.Automorphic.RightCosetSpace.isFundamentalDomain_preimage_mul_right <;> assumption
 
 theorem measure_fundamentalDomain_pos_lt_top (μ : Measure G) [μ.IsHaarMeasure]
     [IsFiniteMeasure (quotientMeasure Γ μ)] :

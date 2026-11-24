@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.ExistsProjectiveAlgebraisationFormalEmbedding
 public import Development.AbelianVarietyTheory.Definitions.AbelianSchemeLaws.FirstCohomologyVanishesSpecOfIsLocalRing
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.ValCalc
 public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.ExistsSectionsBasisBaseChangeH1VanishingStatement
@@ -744,23 +745,7 @@ theorem mem_vanIdeal (p : X ⟶ Spec (CommRingCat.of R)) {H : LB X} (s : σ → 
 theorem mem_vanIdeal_of_sat (p : X ⟶ Spec (CommRingCat.of R)) {H : LB X} (s : σ → LB.Sec H)
     (hs : ⨆ i, nonzeroLocus (s i) = ⊤) {F : MvPolynomial σ R}
     (h : ∀ i, ∃ m : ℕ, MvPolynomial.X i ^ m * F ∈ vanIdeal p s) : F ∈ vanIdeal p s := by
-  rw [mem_vanIdeal]
-  intro k
-  refine fn_ext fun y hy => ?_
-  obtain ⟨i, hi⟩ := TopologicalSpace.Opens.mem_iSup.1 (show y ∈ ⨆ i, nonzeroLocus (s i) by rw [hs]; trivial)
-  obtain ⟨k', hk'⟩ := TopologicalSpace.Opens.mem_iSup.1 hi
-  have hy' : y ∈ H.U k' := X.basicOpen_le _ hk'
-  have u' : IsUnit (gs (𝟙 X) y _ ((s i).f k')) := by
-    rw [gs_eq (𝟙 X) y _ hy']
-    exact (X.mem_basicOpen _ y hy').1 hk'
-  have u : IsUnit (gs (𝟙 X) y _ ((s i).f k)) := by
-    rw [gs_sec_chart (s i) (𝟙 X) y hy hy']
-    exact (Units.isUnit _).mul u'
-  obtain ⟨m, hm⟩ := h i
-  have e := congrArg (gsHom (𝟙 X) y _ hy) ((mem_vanIdeal p s _).1 hm k)
-  rw [map_mul, map_pow, eval₂Hom_X', map_mul, map_pow, map_zero, gsHom_apply (𝟙 X) y _ hy,
-    gsHom_apply (𝟙 X) y _ hy] at e
-  rw [(u.pow m).mul_right_eq_zero.1 e, ← gsHom_apply (𝟙 X) y _ hy, map_zero]
+  first | exact _root_.GlobalTheory.Unif.FormalEmb.mem_vanIdeal_of_sat | exact @_root_.GlobalTheory.Unif.FormalEmb.mem_vanIdeal_of_sat | apply _root_.GlobalTheory.Unif.FormalEmb.mem_vanIdeal_of_sat <;> assumption
 
 theorem mem_vanIdeal_pull {H : LB X} {H' : LB X'} (hH : H.IsLB) {β : X' ⟶ X} {w : LB.Iso H' (H.pull β)}
     {s : σ → LB.Sec H} {s' : σ → LB.Sec H'} (h : ∀ j, Rel β w (s j) (s' j)) (p : X ⟶ Spec (CommRingCat.of R))
@@ -779,15 +764,7 @@ end GlobalTheory.Degen.FormalEmb
 
 theorem GlobalTheory.Degen.isNilpotent_ker_factor_pow {R : Type} [CommRing R] (I : Ideal R) {n : ℕ}
     (h : I ^ n ≤ I ^ (0 + 1)) : IsNilpotent (RingHom.ker (Ideal.Quotient.factor h)) := by
-  have h₁ : RingHom.ker (Ideal.Quotient.factor h) ≤ I.map (Ideal.Quotient.mk (I ^ n)) := by
-    intro x hx
-    obtain ⟨x, rfl⟩ := Ideal.Quotient.mk_surjective x
-    rw [RingHom.mem_ker, Ideal.Quotient.factor_mk, Ideal.Quotient.eq_zero_iff_mem, zero_add, pow_one] at hx
-    exact Ideal.mem_map_of_mem _ hx
-  refine ⟨n, ?_⟩
-  rw [Ideal.zero_eq_bot, eq_bot_iff]
-  refine (Ideal.pow_right_mono h₁ n).trans ?_
-  rw [← Ideal.map_pow, Ideal.map_quotient_self]
+  apply _root_.GlobalTheory.Degen.PolyStepLocal.nilpotent_ker <;> assumption
 
 
 open GlobalTheory.Degen.FormalEmb in

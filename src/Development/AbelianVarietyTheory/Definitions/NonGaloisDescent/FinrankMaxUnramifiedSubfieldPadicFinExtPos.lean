@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsIndependentAdmissibleCocyclesResidue
 public import Formalism.SharpRestriction.LevelLetterCocycles.LocalSituation
 public import Development.AutomorphicArithmetic.PrimeDiscriminants.CycImage
 import Formalism.SharpRestriction.RamificationFrobenius.TotientGaloisClasses.HostFacts
@@ -278,16 +279,8 @@ theorem mu_mem (c : K) (a : ℤ) (x : V ⊗[Qp] BdR) (hx : x ∈ DdR PD ρ ⊓ F
 
 theorem aeval_mem {W : Type} [AddCommGroup W] [Module LL W] (M : Module.End LL W) (U : Submodule LL W)
     (h : ∀ x ∈ U, M x ∈ U) (q : LL[X]) (x : W) (hx : x ∈ U) : aeval M q x ∈ U := by
-  have hp : ∀ n : ℕ, (M ^ n) x ∈ U := by
-    intro n
-    induction n with
-    | zero => simpa using hx
-    | succ n ih => rw [pow_succ', Module.End.mul_apply]; exact h _ ih
-  induction q using Polynomial.induction_on' with
-  | add p q hp hq => rw [map_add (f := _), LinearMap.add_apply]; exact U.add_mem hp hq
-  | monomial n a =>
-    rw [aeval_monomial, Module.End.mul_apply, Module.algebraMap_end_apply]
-    exact U.smul_mem _ (hp n)
+  intros
+  apply _root_.GlobalTheory.PowerMembershipInertiaEigenvalues.main <;> assumption
 
 theorem jump_of_total [CharZero Qp] [FiniteDimensional Qp K] (hs : Nat.card (K →ₐ[Qp] LL) = finrank Qp K) (a : ℤ)
     (h : DdR PD ρ ⊓ FilV PD (LL := LL) (V := V) (a + 1) ≠ DdR PD ρ ⊓ FilV PD (LL := LL) (V := V) a) :

@@ -1,5 +1,7 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ContinuousIsotropicSandwichMeanTranslation
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.FinitePartMemCompactOfIsotropicAnnihilator
 public import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.CovolOneIntegralAdd
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.CoefIntegralEq
 public import Mathlib.LinearAlgebra.Matrix.Rank
@@ -98,15 +100,7 @@ open GlobalTheory.MixModel
 
 theorem exists_left_inv {K : Type} [Field K] {n a : ℕ} (M : Matrix (Fin n) (Fin a) K) (h : M.rank = a) :
     ∃ L : Matrix (Fin a) (Fin n) K, L * M = 1 := by
-  have hk : LinearMap.ker M.mulVecLin = ⊥ := by
-    have e := LinearMap.finrank_range_add_finrank_ker M.mulVecLin
-    have e2 : Module.finrank K (LinearMap.range M.mulVecLin) = a := by simpa only [Matrix.finrank_range_mulVecLin] using h
-    rw [e2, Module.finrank_fin_fun] at e
-    exact Submodule.finrank_eq_zero.1 (by omega)
-  obtain ⟨g, hg⟩ := LinearMap.exists_leftInverse_of_injective _ hk
-  refine ⟨LinearMap.toMatrix' g, ?_⟩
-  have := congrArg LinearMap.toMatrix' hg
-  rwa [LinearMap.toMatrix'_comp, LinearMap.toMatrix'_id, ← Matrix.toLin'_apply', LinearMap.toMatrix'_toLin'] at this
+  apply _root_.GlobalTheory.EntryTest.exists_left_inv <;> assumption
 
 variable {D : D7} (V W : HSp D)
 
@@ -462,15 +456,8 @@ namespace GlobalTheory.IsoMeanSmear
 
 theorem exists_bound {D : D7} {ψ : AddChar (AF D.host.F) ℂ} (hψ : IsStdChar D ψ (-1)) {V W : HSp D}
     {G : WO V W → ℂ} (hG : IsThetaFunO ψ V W G) : ∃ C, ∀ u, ‖G u‖ ≤ C := by
-  obtain ⟨-, -, -, -, -, K, hK, hcov⟩ := GlobalTheory.MixModel.lattice_Mx D W.rank V.rank
-  obtain ⟨C, hC⟩ := hK.exists_bound_of_continuousOn hG.cont.continuousOn
-  refine ⟨C, fun u => ?_⟩
-  obtain ⟨γ, hγm, hγ⟩ := hcov u
-  obtain ⟨γ0, rfl⟩ := hγm
-  have e : ((incA D).toAddMonoidHom.mapMatrix (m := Fin W.rank) (n := Fin V.rank)) γ0 = ratW W V γ0 := rfl
-  have h1 := hC _ hγ
-  rw [e, hG.quasi, norm_mul, hψ.1.2.1, one_mul] at h1
-  exact h1
+  intros
+  apply _root_.GlobalTheory.IsoMean.isThetaFunO_bounded <;> assumption
 
 theorem continuous_emb {D : D7} (V W : HSp D) {a b : ℕ} (P : Matrix (Fin W.rank) (Fin a) D.host.E)
     (Q : Matrix (Fin b) (Fin V.rank) D.host.E) : Continuous (GlobalTheory.IsoMean.emb V W P Q) := by

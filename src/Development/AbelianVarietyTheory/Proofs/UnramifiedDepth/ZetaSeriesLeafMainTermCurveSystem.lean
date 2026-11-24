@@ -122,24 +122,8 @@ theorem zetaSeries_ordGe_pure {C : Type} [Field C] (v : AddValuation C (WithTop 
     (N : ℕ) (r w : ℝ) (a : Fin M → C) (ha : ∀ j, ((w - r * N : ℝ) : WithTop ℝ) ≤ v (a j)) :
     OrdGe v (fun _ => r)
       (∑ j, MvPowerSeries.C (R := C) (a j) * (MvPowerSeries.X j : MvPowerSeries (Fin M) C) ^ N) w := by
-  classical
-  intro α
-
-  rw [map_sum]
-  apply v.map_le_sum
-  intro j _
-  rw [MvPowerSeries.coeff_C_mul, MvPowerSeries.coeff_X_pow]
-  split_ifs with h
-  · subst h
-    have : ∑ m, r * ((Finsupp.single j N : Fin M →₀ ℕ) m : ℝ) = r * N := by
-      rw [Finset.sum_eq_single j]
-      · simp
-      · intro m _ hm
-        simp [Ne.symm hm]
-      · simp
-    rw [this, mul_one]
-    exact ha j
-  · simp
+  intros
+  apply _root_.GlobalTheory.ChainCoord.ord_pure <;> assumption
 
 theorem zetaSeries_geom (q : ℝ) (n s : ℕ) (hq : (n : ℝ) = q) :
     (q - 1) * ((∑ u ∈ Finset.range s, n ^ u : ℕ) : ℝ) = q ^ s - 1 := by

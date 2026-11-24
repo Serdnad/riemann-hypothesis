@@ -1,5 +1,6 @@
 module
 
+import Formalism.HermitianCurvature.HermitianCurvatureProofs.LUFactorOrbitBounds
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.AdjointInverseTranslate.CoefLeftAAv
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.AdjointInverseTranslate.CauchyBinet
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.AdjointInverseTranslate.OfFnProdSmul
@@ -59,20 +60,10 @@ namespace AAInvW
 open Formalism.REAL Formalism.QuantumDeterminants Formalism.FourierDecayAlt.C3
 
 theorem eI_inj (k r : ℕ) : Function.Injective (eI k r) := by
-  unfold eI
-  intro a b h
-  have h1 := congrArg Fin.val h
-  simp only at h1
-  exact Fin.ext h1
+  apply _root_.Formalism.FourierDecayAlt.P.WeakDominationMajorants.Orb.eI_inj <;> assumption
 
 theorem esI_inj (k r : ℕ) : Function.Injective (esI k r) := by
-  unfold esI
-  intro a b h
-  have h1 := congrArg Fin.val h
-  simp only at h1
-  have ha := a.isLt
-  have hb := b.isLt
-  exact Fin.ext (by omega)
+  apply _root_.Formalism.FourierDecayAlt.P.WeakDominationMajorants.Orb.esI_inj <;> assumption
 
 theorem keyS_inj (k r : ℕ) : Function.Injective (keyS k r) := by
   unfold keyS

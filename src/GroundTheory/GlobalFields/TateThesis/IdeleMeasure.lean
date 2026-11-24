@@ -129,20 +129,8 @@ section Borel
 theorem isSigmaCompact_of_isOpen {X : Type*} [TopologicalSpace X]
     [SecondCountableTopology X] [LocallyCompactSpace X] {U : Set X} (hU : IsOpen U) :
     IsSigmaCompact U := by
-  have h : ∀ x ∈ U, ∃ t ∈ 𝓝 x, t ⊆ U ∧ IsCompact t := fun x hx ↦
-    local_compact_nhds (hU.mem_nhds hx)
-  choose! t ht using h
-  obtain ⟨T, hTU, hTc, hT⟩ := isOpen_biUnion_countable U (fun x ↦ interior (t x))
-    fun _ _ ↦ isOpen_interior
-  have hcov : ⋃ x ∈ T, t x = U := by
-    refine subset_antisymm (Set.iUnion₂_subset fun x hx ↦ (ht x (hTU hx)).2.1) fun y hy ↦ ?_
-    have hy' : y ∈ ⋃ x ∈ U, interior (t x) :=
-      Set.mem_biUnion hy (mem_interior_iff_mem_nhds.2 (ht y hy).1)
-    rw [← hT] at hy'
-    obtain ⟨x, hx, hyx⟩ := Set.mem_iUnion₂.1 hy'
-    exact Set.mem_biUnion hx (interior_subset hyx)
-  rw [← hcov]
-  exact isSigmaCompact_biUnion hTc fun x hx ↦ (ht x (hTU hx)).2.2.isSigmaCompact
+  have : LocallyCompactSpace U := hU.locallyCompactSpace
+  exact isSigmaCompact_iff_sigmaCompactSpace.mpr inferInstance
 
 theorem comap_eq_borel_of_continuous_injective {X Y : Type*}
     [TopologicalSpace X] [SecondCountableTopology X] [LocallyCompactSpace X]
@@ -154,12 +142,10 @@ theorem comap_eq_borel_of_continuous_injective {X Y : Type*}
     rw [← BorelSpace.measurable_eq (α := Y)] at h
     exact h.comap_le
   · refine MeasurableSpace.generateFrom_le fun U hU ↦ ?_
-    obtain ⟨k, hk, hkU⟩ := isSigmaCompact_of_isOpen hU
-    have : U = f ⁻¹' ⋃ n, f '' k n := by
-      rw [Set.preimage_iUnion, ← hkU]
-      exact Set.iUnion_congr fun n ↦ (hinj.preimage_image _).symm
-    rw [this]
-    exact ⟨_, MeasurableSet.iUnion fun n ↦ ((hk n).image hf).isClosed.measurableSet, rfl⟩
+    refine ⟨f '' U, ?_, hinj.preimage_image U⟩
+    obtain ⟨k, hk, hkU⟩ := (isSigmaCompact_of_isOpen hU).image hf
+    rw [← hkU]
+    exact MeasurableSet.iUnion fun n ↦ (hk n).isClosed.measurableSet
 
 theorem borelSpace_units {M : Type*} [Monoid M] [TopologicalSpace M]
     [T2Space M] [MeasurableSpace M] [BorelSpace M] [SecondCountableTopology Mˣ]

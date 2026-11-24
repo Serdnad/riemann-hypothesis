@@ -1,5 +1,6 @@
 module
 
+import Formalism.LocalToGlobal.PairingIndexBounds.RowActionCoefficients.AdmissibleInterpolation.ShapeEvenHolds
 public import Formalism.HarderNarasimhan.DegSupermodZ
 public import Formalism.HarderNarasimhan.HarderNarasimhanProofs.DegSupermod
 public import Formalism.HarderNarasimhan.HarderNarasimhanProofs.ExistsSmulMemOfFinrankEq
@@ -62,17 +63,7 @@ namespace Formalism.HN
 
 theorem card_filter_val_lt_alt (n m : ℕ) (hm : m ≤ n) :
     (Finset.univ.filter (fun j : Fin n => (j : ℕ) < m)).card = m := by
-  have h : (Finset.univ.filter (fun j : Fin n => (j : ℕ) < m)).map Fin.valEmbedding =
-      Finset.range m := by
-    ext k
-    simp only [Finset.mem_map, Finset.mem_filter, Finset.mem_univ, true_and,
-      Fin.valEmbedding_apply, Finset.mem_range]
-    constructor
-    · rintro ⟨j, hj, rfl⟩
-      exact hj
-    · intro hk
-      exact ⟨⟨k, lt_of_lt_of_le hk hm⟩, hk, rfl⟩
-  rw [← Finset.card_map, h, Finset.card_range]
+  apply _root_.Formalism.L2.PairingIndexBounds.Ent.ConjugatePartitionShape.card_fin_lt <;> assumption
 
 theorem sum_ite_val_lt_one (n m : ℕ) (hm : m ≤ n) :
     (∑ j : Fin n, if (j : ℕ) < m then (1 : ℝ) else 0) = m := by

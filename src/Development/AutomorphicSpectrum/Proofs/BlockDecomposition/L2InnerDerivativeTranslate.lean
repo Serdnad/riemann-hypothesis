@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IntegrableConjMulTranslatePath
 public import Development.AbelianVarietyTheory.Definitions.Foundations.AestronglyMeasurableQuotMeasureIffLift
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -97,41 +98,8 @@ theorem integrable_pair [μ.IsMulRightInvariant] [LocallyCompactSpace G] [IsFini
     (hψ : MemL2Quotient Γ μ ψ) (hψc : Continuous ψ) {c : ℝ → G} (hc : Continuous c) (u : GlobalTheory.AutomorphicL2Unitary.L2 Γ μ) (t : ℝ) :
     Integrable (Function.uncurry fun (s : ℝ) (q : GlobalTheory.AutomorphicL2Unitary.Quot Γ) => conj (u q) * ψ (sec Γ q * c s))
       ((volume.restrict (Set.uIoc 0 t)).prod (GlobalTheory.AutomorphicL2Unitary.quotMeasure Γ μ)) := by
-  have hsec := (measurableEmbedding_sec (Γ := Γ)).measurable
-  have hm : Measurable (fun p : ℝ × GlobalTheory.AutomorphicL2Unitary.Quot Γ => ψ (sec Γ p.2 * c p.1)) :=
-    hψc.measurable.comp ((hsec.comp measurable_snd).mul (hc.measurable.comp measurable_fst))
-  have hu : Measurable (fun p : ℝ × GlobalTheory.AutomorphicL2Unitary.Quot Γ => conj (u p.2)) :=
-    Complex.continuous_conj.measurable.comp ((Lp.stronglyMeasurable u).measurable.comp measurable_snd)
-  have hF : Measurable (Function.uncurry fun (s : ℝ) (q : GlobalTheory.AutomorphicL2Unitary.Quot Γ) => conj (u q) * ψ (sec Γ q * c s)) :=
-    hu.mul hm
-  refine ⟨hF.aestronglyMeasurable, ?_⟩
-  rw [hasFiniteIntegral_iff_enorm, lintegral_prod _ hF.enorm.aemeasurable]
-  set C : ENNReal := eLpNorm u 2 (GlobalTheory.AutomorphicL2Unitary.quotMeasure Γ μ) * eLpNorm (descend Γ ψ) 2 (GlobalTheory.AutomorphicL2Unitary.quotMeasure Γ μ) with hC
-  have hb : ∀ s, ∫⁻ q, ‖Function.uncurry (fun (s : ℝ) (q : GlobalTheory.AutomorphicL2Unitary.Quot Γ) => conj (u q) * ψ (sec Γ q * c s)) (s, q)‖ₑ
-      ∂GlobalTheory.AutomorphicL2Unitary.quotMeasure Γ μ ≤ C := fun s => by
-    have h1 := eLpNorm_le_eLpNorm_mul_eLpNorm (μ := GlobalTheory.AutomorphicL2Unitary.quotMeasure Γ μ) (p := 2) (q := 2) (r := 1)
-      (fun a b : ℂ => conj a * b) 1 (by fun_prop)
-      (Lp.aestronglyMeasurable u) ((hψ.mul_right (c s)).2.aestronglyMeasurable)
-      (Filter.Eventually.of_forall fun q => by simp)
-    have h2 : eLpNorm (descend Γ fun x => ψ (x * c s)) 2 (GlobalTheory.AutomorphicL2Unitary.quotMeasure Γ μ) = eLpNorm (descend Γ ψ) 2 (GlobalTheory.AutomorphicL2Unitary.quotMeasure Γ μ) := by
-      have e : descend Γ (fun x => ψ (x * c s)) = descend Γ ψ ∘ rmul Γ (c s) := by
-        funext q
-        rw [descend_eq_sec (hψ.1.mul_right (c s)), ← sec_mul_eq hψ.1]
-      rw [e]
-      exact eLpNorm_comp_measurePreserving hψ.2.aestronglyMeasurable (measurePreserving_rmul (c s))
-    have hm₁ : AEStronglyMeasurable (fun q => conj (u q) * descend Γ (fun x => ψ (x * c s)) q)
-        (GlobalTheory.AutomorphicL2Unitary.quotMeasure Γ μ) :=
-      (Complex.continuous_conj.comp_aestronglyMeasurable (Lp.aestronglyMeasurable u)).mul
-        (hψ.mul_right (c s)).2.aestronglyMeasurable
-    rw [eLpNorm_one_eq_lintegral_eNorm hm₁, h2] at h1
-    simp only [ENNReal.coe_one, one_mul] at h1
-    refine le_trans (le_of_eq ?_) h1
-    refine lintegral_congr fun q => ?_
-    simp only [Function.uncurry, descend_eq_sec (hψ.1.mul_right (c s))]
-  refine lt_of_le_of_lt (lintegral_mono hb) ?_
-  rw [lintegral_const, Measure.restrict_apply_univ]
-  refine ENNReal.mul_lt_top (ENNReal.mul_lt_top (Lp.memLp u) hψ.2) ?_
-  simp [Set.uIoc, Real.volume_Ioc]
+  intros
+  apply _root_.GlobalTheory.integrable_conj_mul_translate_path <;> assumption
 
 variable [μ.IsMulRightInvariant] [LocallyCompactSpace G] [IsFiniteMeasureOnCompacts μ]
 

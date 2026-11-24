@@ -119,23 +119,6 @@ private lemma card_kind_le_rank (D : D7) (p : ℕ) : ((kindBC D p).card : ℝ) �
   rw [← this]
   exact_mod_cast Finset.card_le_univ _
 
-private lemma eta_size_le_bound {D : D7} (L : SizeData₂ D) (hSz : Formalism.MainNotions.SizesAt L) : L.etaSz ≤ L.sc.b := by
-  obtain ⟨-, -, -, -, hT, -, -, -, -, -, -, -, -, hEta, -⟩ := hSz
-  have ht : (1 : ℝ) ≤ D.R.t := hT.1
-  have hk : (1 : ℝ) ≤ D.R.k := by
-    have := D.R.m_add_three_le_k
-    have : 1 ≤ D.R.k := by omega
-    exact_mod_cast this
-  have hf : (1 : ℝ) ≤ D.R.f := by
-    have : 1 ≤ D.R.f := by
-      unfold Ranks.f Ranks.n
-      have := D.R.ord_pos
-      omega
-    exact_mod_cast this
-  have hden : (1 : ℝ) ≤ (D.R.t : ℝ) ^ 3 * D.R.f * (D.R.k : ℝ) ^ 3 :=
-    one_le_mul_of_one_le_of_one_le (one_le_mul_of_one_le_of_one_le (one_le_pow₀ ht) hf) (one_le_pow₀ hk)
-  exact le_trans hEta.2.1 (div_le_self (PI.SzEatI.W.b_pos L).le hden)
-
 private lemma log_prime_weighted_cost_bound (lp p k s c f N la b : ℝ) (hlp : 0 < lp) (hp : 0 < p) (hk : 0 ≤ k) (hs0 : 0 ≤ s)
     (hs : s ≤ f * (5 * b)) (hf : 0 ≤ f) (hla : 0 ≤ la) :
     lp * max 0 ((k - 1) * s / p ^ 3 + c * f * N ^ 2 * (la / lp)) ≤
@@ -169,7 +152,7 @@ theorem UpperTheory.sum_log_mul_max_zero_le_of_odd_addOrderOf :
   have hf : (0 : ℝ) ≤ (D.R.f : ℝ) := Nat.cast_nonneg _
   have hk : (0 : ℝ) ≤ (D.R.k : ℝ) := Nat.cast_nonneg _
   have hb1 := PI.SzEatI.W.one_le_b L
-  have hη := eta_size_le_bound L hSz
+  have hη := _root_.PI.SzEatI.W.eta_le_b L hSz
   have ha1 : 1 ≤ L.sc.a := one_le_mul_of_one_le_of_one_le (PI.SzEatI.W.x_one_le L) hb1
   have hla : 0 ≤ Real.log L.sc.a := Real.log_nonneg ha1
   have hn1 : (1 : ℝ) ≤ (D.R.n : ℝ) := PI.SzEatI.W.n_one_le

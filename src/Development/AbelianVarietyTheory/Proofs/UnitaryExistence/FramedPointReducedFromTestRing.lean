@@ -368,10 +368,7 @@ theorem dual_ext {S : Type} [CommRing S] {Y : Scheme.{0}} {n : ℕ} {h : Fin n �
     (hh : Ideal.span (Set.range h) = ⊤) (f g : Sp (DualNumber S) ⟶ Y)
     (e : ∀ i, spMap (dualMap (algebraMap S (Localization.Away (h i)))) ≫ f =
       spMap (dualMap (algebraMap S (Localization.Away (h i)))) ≫ g) : f = g := by
-  have := _root_.GlobalTheory.Frames.existsUnique_glue_dual S Y n h hh (fun i => spMap (dualMap (algebraMap S (Localization.Away (h i)))) ≫ g) (by
-    intro i j α β hα hβ
-    rw [← Category.assoc, ← Category.assoc, sp_comp, sp_comp, dual_comp, dual_comp, hα, hβ])
-  exact this.unique e fun _ => rfl
+  apply _root_.GlobalTheory.TanBasisLocal.dual_ext <;> assumption
 
 theorem exists_lift {S : Type} [CommRing S] {n : ℕ} {h : Fin n → S}
     (hh : Ideal.span (Set.range h) = ⊤) (p : Sp S) :

@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ConjLevelConjCharacterSymmetricLevelStatement
 public import Development.AbelianVarietyTheory.BlockTheory.TorsionBlocks.SplitColumnClasses
 public import Development.AbelianVarietyTheory.BlockTheory.TwistedDiscreteSeries.FramePositiveSum
 public import Development.AbelianVarietyTheory.Definitions.Foundations.NotIsSplitOfIsInertAt
@@ -187,20 +188,7 @@ theorem unifT_of (p : GlobalTheory.FinPl.SplitPt D k) (ϖ : Unif k) (h : (((D.me
   simp
 
 theorem g_notMem_sq (P : HeightOneSpectrum (𝓞 D.host.E)) : ((D.host.g 0 * D.host.g 1 : ℕ) : 𝓞 D.host.E) ∉ P.asIdeal ^ 2 := by
-  have key : ∀ i j : Fin 2, D.host.g i ≠ D.host.g j → ((D.host.g i : ℕ) : 𝓞 D.host.E) ∈ P.asIdeal →
-      ((D.host.g i : ℕ) : 𝓞 D.host.E) * (D.host.g j : ℕ) ∉ P.asIdeal ^ 2 := fun i j hij hi h => by
-    have hc := (Nat.coprime_primes (D.host.g_prime i) (D.host.g_prime j)).2 hij
-    obtain ⟨x, y, hxy⟩ := (Nat.Coprime.cast (R := 𝓞 D.host.E) hc)
-    refine notMem_sq (GlobalTheory.IndefiniteRowSideFullHecke.SplitColumnClasses.splitsCompletely_g D i) P hi ?_
-    have e : ((D.host.g i : ℕ) : 𝓞 D.host.E) = x * (((D.host.g i : ℕ) : 𝓞 D.host.E) * (D.host.g i : ℕ)) +
-        y * (((D.host.g i : ℕ) : 𝓞 D.host.E) * (D.host.g j : ℕ)) := by linear_combination (-((D.host.g i : ℕ) : 𝓞 D.host.E)) * hxy
-    rw [e]
-    exact add_mem (Ideal.mul_mem_left _ _ (by rw [pow_two]; exact Ideal.mul_mem_mul hi hi)) (Ideal.mul_mem_left _ _ h)
-  intro h
-  rw [Nat.cast_mul] at h
-  rcases P.isPrime.mem_or_mem (Ideal.pow_le_self two_ne_zero h) with h0 | h1
-  · exact key 0 1 D.host.g_ne h0 h
-  · exact key 1 0 D.host.g_ne.symm h1 (by rwa [mul_comm])
+  first | exact _root_.GlobalTheory.Mem.GroupLoc.Crt.g_not_mem_sq | exact @_root_.GlobalTheory.Mem.GroupLoc.Crt.g_not_mem_sq | apply _root_.GlobalTheory.Mem.GroupLoc.Crt.g_not_mem_sq <;> assumption
 
 theorem comp_map {F E : Type} [Field F] [Field E] [Algebra F E] {R R' R'' : Type} [CommRing R] [Algebra F R] [CommRing R'] [Algebra F R']
     [CommRing R''] [Algebra F R''] (φ : R →ₐ[F] R') (ψ : R' →ₐ[F] R'') (z : R ⊗[F] E) :

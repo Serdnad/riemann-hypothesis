@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.CanonicalAcrisToBdRPlusUniqueEquivariantApprox
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.IsCrisP
 public import Development.AbelianVarietyTheory.CrystallinePeriods.AdicMaps
 public import Development.AbelianVarietyTheory.CrystallinePeriods.RingBasics
@@ -149,15 +150,7 @@ theorem exists_lift (p : ℕ) {D P : Type} [CommRing D] [CommRing P] (I : Ideal 
 variable (l : ℕ) [Fact l.Prime]
 
 theorem exists_isEps : ∃ e : Per.Fl l, IsEps e := by
-  obtain ⟨ζ, ε, h0, -, h1, h⟩ := GlobalTheory.MemLoc.exists_zeta_eps l
-  refine ⟨ε, Subtype.ext ?_, fun h2 => h1 ?_⟩
-  · have := h 0
-    rw [h0, map_one] at this
-    exact this
-  · have h3 := h 1
-    have h4 : rootT ε 1 = 1 := h2
-    rw [h4] at h3
-    exact (algebraMap (Om l) ℂ_[l]).injective (by rw [← h3, map_one]; rfl)
+  apply _root_.GlobalTheory.MemLoc.CrisUnique.exists_isEps <;> assumption
 
 theorem bound (n : ℕ) (s : Per.AinfP l) (hs : s ∈ Per.Acris0 l) : ∃ a : Per.Ainf l,
     (l : Per.AinfP l) ^ n * s - algebraMap (Per.Ainf l) (Per.AinfP l) a ∈ Per.kerP l ^ n := by

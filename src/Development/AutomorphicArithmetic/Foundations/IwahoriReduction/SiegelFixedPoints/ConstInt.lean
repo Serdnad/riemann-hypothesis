@@ -28,6 +28,7 @@ public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.FiniteDim
 public import Development.AbelianVarietyTheory.Definitions.Foundations.IsFirstChernClassOfLineBundle
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.KummerCupProductCoboundaryTheorem
 public import Development.AutomorphicArithmetic.Foundations.IwahoriReduction.SiegelFixedPoints.IsAdmissibleSmoothingFactorAddIntVector
+import all Development.AutomorphicArithmetic.Foundations.IwahoriReduction.SiegelFixedPoints.IsAdmissibleSmoothingFactorAddIntVector
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -410,18 +411,7 @@ private theorem int_of_hol [IsAlgClosure ℚ Ω] (X : Tower Ω ε) (f : X.K)
 
 private theorem admissible_index_siegel {c D : ℕ} (hc : 1 < c) (h6 : Nat.Coprime c 6) (hcD : Nat.Coprime c D) (hD : 0 < D) {a b : ℤ}
     (hab : ¬ ((D : ℤ) ∣ a ∧ (D : ℤ) ∣ b)) : GlobalTheory.Sieg.admitted c ![(a : ℚ) / D, (b : ℚ) / D] := by
-  refine ⟨hc, h6, ?_⟩
-  rintro ⟨⟨n0, hn0⟩, ⟨n1, hn1⟩⟩
-  apply hab
-  have hDq : (D : ℚ) ≠ 0 := by exact_mod_cast hD.ne'
-  have hcop : IsCoprime (D : ℤ) (c : ℤ) := Nat.isCoprime_iff_coprime.mpr hcD.symm
-  have key : ∀ (a n : ℤ), (n : ℚ) = c * ((a : ℚ) / D) → (D : ℤ) ∣ a := by
-    intro a n hn
-    have h1 : (n : ℚ) * D = c * a := by rw [hn]; field_simp
-    have h2 : n * (D : ℤ) = c * a := by exact_mod_cast h1
-    have h3 : (D : ℤ) ∣ c * a := ⟨n, by rw [← h2]; ring⟩
-    exact hcop.dvd_of_dvd_mul_left h3
-  exact ⟨key a n0 (by simpa using hn0), key b n1 (by simpa using hn1)⟩
+  apply _root_.UpperTheory.Kd.L.AdmissibleUnits.admissible_of_integral_conj_le <;> assumption
 
 private theorem val_sl [IsAlgClosure ℚ Ω] (X : Tower Ω ε) {c : ℕ} {x : Fin 2 → ℚ} (hx : GlobalTheory.Sieg.admitted c x) (g : GQ)
     (W : ValuationSubring X.K) (hW : X.OverY W) : W.valuation (X.sl g (siegel X c x)) = 1 := by

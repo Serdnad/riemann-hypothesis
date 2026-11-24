@@ -1,5 +1,7 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.EtaleHomotopyInvarianceCechDescentIntegralStatement
+import Development.EtaleCohomology.CohomologicalPurity.WeightedVectorLaurentEvalHomTOne
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LaurentMapIsIntegral
 public import Mathlib.RingTheory.PiTensorProduct
 public import Development.AbelianVarietyTheory.Definitions.ShimuraVarieties.PiTensorLiftCompSingle
@@ -68,20 +70,7 @@ theorem T_eq_unit_zpow (B : Type) [CommRing B] (m : ℤ) :
 theorem laurent_ringHom_ext {B R : Type} [CommRing B] [CommRing R] {φ ψ : LaurentPolynomial B →+* R}
     (hC : φ.comp LaurentPolynomial.C = ψ.comp LaurentPolynomial.C)
     (hT : φ (LaurentPolynomial.T 1) = ψ (LaurentPolynomial.T 1)) : φ = ψ := by
-  have hu : Units.map φ.toMonoidHom (laurentVarUnit B) = Units.map ψ.toMonoidHom (laurentVarUnit B) :=
-    Units.ext hT
-  have e : ∀ (χ : LaurentPolynomial B →+* R) (m : ℤ),
-      χ ((laurentVarUnit B ^ m : (LaurentPolynomial B)ˣ) : LaurentPolynomial B) =
-        ((Units.map χ.toMonoidHom (laurentVarUnit B) ^ m : Rˣ) : R) := by
-    intro χ m
-    rw [← map_zpow]
-    rfl
-  have hTm : ∀ m : ℤ, φ (LaurentPolynomial.T m) = ψ (LaurentPolynomial.T m) := fun m => by
-    rw [T_eq_unit_zpow, e φ, e ψ, hu]
-  refine RingHom.ext fun p => ?_
-  induction p using LaurentPolynomial.induction_on' with
-  | add p r hp hr => rw [map_add (f := _), map_add (f := _), hp, hr]
-  | C_mul_T n b => rw [map_mul, map_mul, hTm n, ← RingHom.comp_apply, hC, RingHom.comp_apply]
+  apply _root_.LateralTheory.CohomologicalPurity.Thom.ExcP.Chart.ExcisionChartRatio.laurent_ext <;> assumption
 
 theorem laurentMap_comp {A B C : Type} [CommRing A] [CommRing B] [CommRing C] (f : A →+* B) (g : B →+* C) :
     (laurentMap g).comp (laurentMap f) = laurentMap (g.comp f) :=
@@ -92,26 +81,7 @@ theorem tensorPow_univ (A B : Type) [CommRing A] [CommRing B] [Algebra A B] (k :
     (g : Fin (k + 1) → (B →+* R)) (hg : ∀ j, (g j).comp (algebraMap A B) = (g 0).comp (algebraMap A B)) :
     ∃! φ : PiTensorProduct A (fun _ : Fin (k + 1) => B) →+* R,
       ∀ j, φ.comp (PiTensorProduct.singleAlgHom (R := A) (A := fun _ : Fin (k + 1) => B) j).toRingHom = g j := by
-  classical
-  letI : Algebra A R := ((g 0).comp (algebraMap A B)).toAlgebra
-  let g' : Fin (k + 1) → (B →ₐ[A] R) := fun j => ⟨g j, fun r => RingHom.congr_fun (hg j) r⟩
-  refine ⟨(GlobalTheory.piTensorLift g').toRingHom, fun j => ?_, fun ψ hψ => ?_⟩
-  · ext x
-    exact GlobalTheory.piTensorLift_single g' j x
-  · have hc : ∀ r : A, ψ (algebraMap A (PiTensorProduct A fun _ : Fin (k + 1) => B) r) = algebraMap A R r := by
-      intro r
-      have h1 : algebraMap A (PiTensorProduct A fun _ : Fin (k + 1) => B) r =
-          PiTensorProduct.singleAlgHom (R := A) (A := fun _ : Fin (k + 1) => B) 0 (algebraMap A B r) :=
-        ((PiTensorProduct.singleAlgHom (R := A) (A := fun _ : Fin (k + 1) => B) 0).commutes r).symm
-      rw [h1]
-      exact RingHom.congr_fun (hψ 0) (algebraMap A B r)
-    let ψ' : PiTensorProduct A (fun _ : Fin (k + 1) => B) →ₐ[A] R := ⟨ψ, hc⟩
-    have : ψ' = GlobalTheory.piTensorLift g' := PiTensorProduct.algHom_ext fun j => by
-      ext x
-      change ψ _ = _
-      rw [AlgHom.comp_apply, GlobalTheory.piTensorLift_single]
-      exact RingHom.congr_fun (hψ j) x
-    exact congrArg AlgHom.toRingHom this
+  apply _root_.GlobalTheory.EtC.CechDescHInv.tensor_univ <;> assumption
 
 theorem laurent_univ (A B T : Type) [CommRing A] [CommRing B] [CommRing T] (a : A →+* B) (k : ℕ)
     (ι : Fin (k + 1) → (B →+* T))

@@ -9,6 +9,7 @@ public import Formalism.LocalToGlobal.PairingIndexBounds.RowActionCoefficients.A
 public import Formalism.LocalToGlobal.PairingIndexBounds.RowActionCoefficients.AdmissibleInterpolation.ShapeEvenHolds
 public import Formalism.LocalToGlobal.PairingIndexBounds.RowActionCoefficients.AdmissibleInterpolation.YVMapRowAct
 import Mathlib.Tactic.TypeStar
+import Formalism.GradedWeylDivisibility.FockSpaceTableaux.NablaLTwist
 
 @[expose] public section
 
@@ -36,19 +37,7 @@ theorem prod_sign {ι K : Type*} [CommRing K] (s : Finset ι) (ε : ι → K) (h
 
 theorem map_rowAct {R S : Type*} [CommRing R] [CommRing S] (f : R →+* S) {r n : ℕ} (g : Matrix (Fin r) (Fin r) R)
     (P : MvPolynomial (Fin r × Fin n) R) : map f (rowAct R g P) = rowAct S (g.map f) (map f P) := by
-  induction P using MvPolynomial.induction_on with
-  | C a =>
-    rw [map_C, show (C a : MvPolynomial (Fin r × Fin n) R) = algebraMap R _ a from rfl, AlgHom.commutes,
-      show (C (f a) : MvPolynomial (Fin r × Fin n) S) = algebraMap S _ (f a) from rfl, AlgHom.commutes]
-    exact map_C f a
-  | add p q hp hq => simp only [map_add (f := _), hp, hq]
-  | mul_X p v hp =>
-    simp only [map_mul, hp, map_X]
-    congr 1
-    unfold rowAct
-    rw [aeval_X, aeval_X]
-
-    simp [map_sum, map_mul, map_C, map_X]
+  apply _root_.Formalism.GradedWeylDivisibility.ldtwist_map_rowAct <;> assumption
 
 theorem sum_C_mul {σ K : Type*} [CommRing K] (κ : K) (R0 : MvPolynomial σ K) (d : (σ →₀ ℕ) → K) :
     ∑ n ∈ (C κ * R0).support, d n * AddMonoidAlgebra.coeff (C κ * R0) n = κ * ∑ n ∈ R0.support, d n * AddMonoidAlgebra.coeff R0 n := by

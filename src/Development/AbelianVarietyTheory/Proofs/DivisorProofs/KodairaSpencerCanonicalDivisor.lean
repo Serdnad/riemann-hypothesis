@@ -212,7 +212,7 @@ theorem map_diagUnit {R K : Type} [CommRing R] [Field K] (φ : R →+* K)
 
 
 
-theorem exists_pole (hP : GlobalTheory.CovTop.Hypotheses₂) (TF : TorFlag Xo c) (Z : Comp Xo c) (hF : FnAlgClosed (Xo := Xo) (c := c))
+theorem exists_pole_of_ksCompare (TF : TorFlag Xo c) (hcmp : ∃ s : ℚ, s ≠ 0 ∧ KSCompare TF s) (Z : Comp Xo c) (hF : FnAlgClosed (Xo := Xo) (c := c))
     (hKS : ∀ (K : Type) [Field K] [Algebra c.F K] (y : FrPt Xo c K), KSIso (psiSet H) y)
     (hV : IsVariety₀ TF.X Z) (ω₀ : CanId (Modif.refl hV.1 hV.2.1 (dense_U₀ TF.X Z))) (y : Y₀ TF.X Z)
     (V : (Y₀ TF.X Z).Opens) (hy : y ∈ V) :
@@ -233,7 +233,7 @@ theorem exists_pole (hP : GlobalTheory.CovTop.Hypotheses₂) (TF : TorFlag Xo c)
   obtain ⟨ε, b, hb⟩ := _root_.GlobalTheory.LogKSDiv.exists_logKS_symPair_basis E H Dw l Xo c TF U n e v _ hv.1 hv.2.1 hv.2.2
   obtain ⟨x, U', hU', hyU', hx, hbd⟩ := _root_.GlobalTheory.LogPole.exists_coord_logDet E H Dw l Xo c TF U b _ hyU
   have het := _root_.GlobalTheory.CellEtale.etale_cellCoord E H Dw l Xo c TF Z hF U n e v hv W k L N hc
-  obtain ⟨s, hs, hcmp⟩ := _root_.GlobalTheory.LogPole.exists_ksCompare hP E H Dw l Xo c TF
+  obtain ⟨s, hs, hcmp⟩ := hcmp
   let o : Fin Dw.dim ≃ HIx Dw (psiSet H) :=
     (Fintype.equivFinOfCardEq (FlagTan.card_HIx (FlagTan.isHalf_psiSet H))).symm
   obtain ⟨a, ha, hhor⟩ := _root_.GlobalTheory.LogPole.logDet_eq_hor E H Dw l Xo c TF s hs hcmp hKS U n e v hv ε b hb o
@@ -317,6 +317,23 @@ theorem exists_pole (hP : GlobalTheory.CovTop.Hypotheses₂) (TF : TorFlag Xo c)
   rw [FlagMod.ev_res _ hW'W hz hzW, FlagMod.ev_appLE _ _ hc.2.1 _ (eP ▸ hU), FlagMod.ev_congr eP _ _ hU, hh,
     map_mul, map_mul, hca, FlagMod.ev_res _ hW'W hz hzW, mul_assoc, mul_assoc]
   exact congrArg _ ((mul_comm _ _).trans key)
+
+theorem exists_pole (hP : GlobalTheory.CovTop.Hypotheses₂) (TF : TorFlag Xo c) (Z : Comp Xo c) (hF : FnAlgClosed (Xo := Xo) (c := c))
+    (hKS : ∀ (K : Type) [Field K] [Algebra c.F K] (y : FrPt Xo c K), KSIso (psiSet H) y)
+    (hV : IsVariety₀ TF.X Z) (ω₀ : CanId (Modif.refl hV.1 hV.2.1 (dense_U₀ TF.X Z))) (y : Y₀ TF.X Z)
+    (V : (Y₀ TF.X Z).Opens) (hy : y ∈ V) :
+    ∃ (W : (Y₀ TF.X Z).Opens) (_ : y ∈ W) (_ : W ≤ V) (i : (Modif.refl hV.1 hV.2.1 (dense_U₀ TF.X Z)).K.bundle.ι)
+      (k : TF.X.F.J) (δ u : Γ(Y₀ TF.X Z, W)),
+      W ≤ (Modif.refl hV.1 hV.2.1 (dense_U₀ TF.X Z)).K.bundle.U i ∧ W ≤ inc₀ TF.X Z ⁻¹ᵁ TF.X.F.U k ∧ IsUnit u ∧
+      (∀ z (hz : z ∈ W), IsUnit (ger z hz δ) ↔ z ∈ U₀ TF.X Z) ∧
+      (∀ (W' : (Y₀ TF.X Z).Opens) (hW' : W' ≤ W) (f : Γ(Y₀ TF.X Z, W')), (∀ z (hz : z ∈ W'), z ∉ U₀ TF.X Z →
+        ger z hz f ∈ IsLocalRing.maximalIdeal ((Y₀ TF.X Z).presheaf.stalk z)) →
+        ∀ z (hz : z ∈ W'), ger z (hW' hz) δ ∣ ger z hz f) ∧
+      ∀ (K : Type) [Field K] (z : Sp K ⟶ Y₀ TF.X Z) (hz : ⊤ ≤ z ⁻¹ᵁ W) ho hi,
+        ev z W hz δ * H0.val (B := LB.div (Modif.refl hV.1 hV.2.1 (dense_U₀ TF.X Z)).K.bundle
+          ((L₀ TF.X Z (FlagTan.kap Dw)).pull (Modif.refl hV.1 hV.2.1 (dense_U₀ TF.X Z)).σ)) z
+          (i, flagIdx (Modif.refl hV.1 hV.2.1 (dense_U₀ TF.X Z)) _ k) ho hi ω₀.ω = ev z W hz u := by
+  exact exists_pole_of_ksCompare TF (exists_ksCompare hP E H Dw l Xo c TF) Z hF hKS hV ω₀ y V hy
 
 section Main
 

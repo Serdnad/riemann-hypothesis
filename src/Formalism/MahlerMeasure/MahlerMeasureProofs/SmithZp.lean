@@ -80,58 +80,32 @@ theorem nonempty_smith_normal_form {R M : Type} [CommRing R] [IsDomain R] [IsPri
   have hys : y ∘ₗ s = (LinearMap.range y).subtype := by
     refine snf.bN.ext fun i => ?_
     simp [s, hx]
-  have hyS : ∀ z : LinearMap.range y, y (s z) = z := fun z => by
-    simpa using LinearMap.congr_fun hys z
-  have hrr : ∀ m : M, (y.rangeRestrict m : M) = y m := fun m => rfl
-  let pK : M →ₗ[R] M := LinearMap.id - s ∘ₗ y.rangeRestrict
-  have hpK : ∀ m : M, pK m = m - s (y.rangeRestrict m) := fun m => rfl
-  have hker : ∀ m : M, pK m ∈ LinearMap.ker y := by
-    intro m
-    rw [LinearMap.mem_ker, hpK, map_sub, hyS, hrr, sub_self]
-  have hrz : ∀ (c : LinearMap.ker y) (z : LinearMap.range y),
-      y.rangeRestrict ((c : M) + s z) = z := by
-    intro c z
-    apply Subtype.ext
-    rw [hrr, map_add (f := _), LinearMap.mem_ker.mp c.2, zero_add, hyS]
-
-  let fwd : (LinearMap.ker y × LinearMap.range y) →ₗ[R] M := (LinearMap.ker y).subtype.coprod s
-  let bwd : M →ₗ[R] (LinearMap.ker y × LinearMap.range y) :=
-    LinearMap.prod (LinearMap.codRestrict (LinearMap.ker y) pK hker)
-      y.rangeRestrict
-  have hf : ∀ (c : LinearMap.ker y) (z : LinearMap.range y), fwd (c, z) = (c : M) + s z := by
-    intro c z
-    simp [fwd]
-  have h1 : fwd ∘ₗ bwd = LinearMap.id := by
-    refine LinearMap.ext fun m => ?_
-    show fwd (bwd m) = m
-    have hb : bwd m = (⟨m - s (y.rangeRestrict m), hker m⟩, y.rangeRestrict m) := rfl
-    rw [hb, hf]
-    exact sub_add_cancel m _
-  have h2 : bwd ∘ₗ fwd = LinearMap.id := by
-    refine LinearMap.ext fun p => ?_
-    obtain ⟨c, z⟩ := p
-    show bwd (fwd (c, z)) = (c, z)
-    rw [hf]
-    refine Prod.ext ?_ ?_
-    · apply Subtype.ext
-      show (c : M) + s z - s (y.rangeRestrict ((c : M) + s z)) = c
-      rw [hrz]
-      exact add_sub_cancel_right _ _
-    · exact hrz c z
-  let e : (LinearMap.ker y × LinearMap.range y) ≃ₗ[R] M := LinearEquiv.ofLinear fwd bwd h1 h2
-
+  have hyS (z : LinearMap.range y) : y (s z) = z := LinearMap.congr_fun hys z
+  let lift : (LinearMap.ker y × LinearMap.range y) →ₗ[R] M := (LinearMap.ker y).subtype.coprod s
+  have hlift (p : LinearMap.ker y × LinearMap.range y) : lift p = (p.1 : M) + s p.2 := rfl
+  have hlift_apply (p : LinearMap.ker y × LinearMap.range y) : y (lift p) = p.2 := by
+    rw [hlift, map_add, LinearMap.mem_ker.mp p.1.2, zero_add, hyS]
+  have hbij : Function.Bijective lift := by
+    constructor
+    · intro p q hpq
+      have hright : p.2 = q.2 := Subtype.ext (by simpa only [hlift_apply] using congrArg y hpq)
+      have hleft : p.1 = q.1 := by
+        apply Subtype.ext
+        rw [hlift, hlift, hright] at hpq
+        exact add_right_cancel hpq
+      exact Prod.ext hleft hright
+    · intro m
+      let z := y.rangeRestrict m
+      have hm : m - s z ∈ LinearMap.ker y := by
+        rw [LinearMap.mem_ker, map_sub, hyS]
+        exact sub_self _
+      exact ⟨(⟨m - s z, hm⟩, z), sub_add_cancel _ _⟩
+  let e := LinearEquiv.ofBijective lift hbij
   let B : Module.Basis (Fin k ⊕ Fin n) R M := (bK.prod snf.bN).map e
-  have hB1 : ∀ l, y (B (Sum.inl l)) = 0 := by
-    intro l
-    have : B (Sum.inl l) = bK l := by
-      simp [B, e, hf]
-    rw [this]
-    exact LinearMap.mem_ker.mp (bK l).2
-  have hB2 : ∀ i, y (B (Sum.inr i)) = snf.a i • snf.bM (snf.f i) := by
-    intro i
-    have : B (Sum.inr i) = s (snf.bN i) := by
-      simp [B, e, hf]
-    rw [this, hyS, snf.snf i]
+  have hB1 (l : Fin k) : y (B (Sum.inl l)) = 0 := by
+    simp [B, e, hlift_apply]
+  have hB2 (i : Fin n) : y (B (Sum.inr i)) = snf.a i • snf.bM (snf.f i) := by
+    simpa [B, e, hlift_apply] using snf.snf i
 
   have hcard : k + n = Module.finrank R M := by
     simpa using (Module.finrank_eq_card_basis B).symm

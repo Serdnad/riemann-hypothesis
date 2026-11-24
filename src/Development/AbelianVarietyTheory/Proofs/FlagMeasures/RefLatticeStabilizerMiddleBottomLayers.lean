@@ -1,5 +1,6 @@
 module
 
+import all Development.AbelianVarietyTheory.Proofs.FlagMeasures.EmbeddedDatumOfTermDefiniteSpace
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.MemIpowSmulOfSmulMem
 public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.NormalFormDualOrthogonalLast
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.HermFramePairNormalFormGeometrySummary
@@ -312,19 +313,7 @@ theorem e'_mem_X (a : Fin r) : N.F'.e a.castSucc ∈ N.F'.X :=
   Submodule.subset_span ⟨a, a.isLt, rfl⟩
 
 theorem iso_X (F : FlagD H r) : ∀ x ∈ F.X, ∀ y ∈ F.X, H.B x y = 0 := by
-  have h1 : ∀ a : Fin r, ∀ y ∈ F.X, H.B (F.e a.castSucc) y = 0 := by
-    intro a y hy
-    have : F.X ≤ LinearMap.ker (H.B (F.e a.castSucc)) := by
-      refine Submodule.span_le.mpr ?_
-      rintro _ ⟨b, -, rfl⟩
-      exact F.iso a b
-    exact this hy
-  intro x hx y hy
-  have : F.X ≤ LinearMap.ker (H.B.flip y) := by
-    refine Submodule.span_le.mpr ?_
-    rintro _ ⟨b, -, rfl⟩
-    exact h1 b y hy
-  exact this hx
+  apply _root_.GlobalTheory.DegCnt.ToLift.flag_X_isotropic <;> assumption
 
 theorem c_ne : N.c ≠ 0 := by
   intro h; have := N.c_norm; simp [h] at this

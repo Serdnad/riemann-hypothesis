@@ -1,5 +1,7 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.GeometricallyReducedOfPerfectField
+import Development.WeilBound.CoreStatements.PadicHodgeComparison.EtaleCohomologyComparison.BocksteinBaseChange.SmoothGaloisGeometry.IsOpenConnectedComponentOfNoetherianSpace
 import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.GeometricallyConnectedOfRatPoint
 public import Mathlib.AlgebraicGeometry.Geometrically.Connected
 public import Mathlib.AlgebraicGeometry.Morphisms.Smooth
@@ -70,22 +72,7 @@ universe u v
 
 theorem isOpen_connectedComponent_of_noetherianSpace {X : Type u} [TopologicalSpace X]
     [NoetherianSpace X] (x : X) : IsOpen (connectedComponent x) := by
-  have h : (connectedComponent x)ᶜ =
-      ⋃ Z ∈ {Z ∈ irreducibleComponents X | ¬ Z ⊆ connectedComponent x}, Z := by
-    ext y
-    simp only [Set.mem_compl_iff, Set.mem_iUnion, Set.mem_setOf_eq, exists_prop]
-    constructor
-    · intro hy
-      exact ⟨irreducibleComponent y, ⟨irreducibleComponent_mem_irreducibleComponents y,
-        fun h => hy (h mem_irreducibleComponent)⟩, mem_irreducibleComponent⟩
-    · rintro ⟨Z, ⟨hZ, hZ'⟩, hy⟩ hyx
-      apply hZ'
-      rw [connectedComponent_eq hyx]
-      exact hZ.1.isConnected.subset_connectedComponent hy
-  rw [← isClosed_compl_iff, h]
-  refine Set.Finite.isClosed_biUnion
-    (NoetherianSpace.finite_irreducibleComponents.subset (by exact fun Z hZ => hZ.1)) fun Z hZ => ?_
-  exact isClosed_of_mem_irreducibleComponents Z hZ.1
+  first | exact _root_.CrystallineSemistableComparison.isOpen_connectedComponent_of_noetherianSpace | exact @_root_.CrystallineSemistableComparison.isOpen_connectedComponent_of_noetherianSpace | apply _root_.CrystallineSemistableComparison.isOpen_connectedComponent_of_noetherianSpace <;> assumption
 
 theorem geometricallyConnected_of_isAlgClosed {k : Type u} [Field k] [IsAlgClosed k]
     {X : Scheme.{u}} (f : X ⟶ Spec (.of k)) [LocallyOfFiniteType f] [ConnectedSpace X] :
@@ -99,37 +86,7 @@ variable {C : Type u} [Category.{v} C] [CartesianMonoidalCategory C] {A N : C} [
 theorem exists_grpObj_of_mono_of_fac (n : A ⟶ N) [Mono n] (e : 𝟙_ C ⟶ A) (m : A ⊗ A ⟶ A) (i : A ⟶ A)
     (he : e ≫ n = η[N]) (hm : m ≫ n = (n ⊗ₘ n) ≫ μ[N]) (hi : i ≫ n = n ≫ ι[N]) :
     ∃ _ : GrpObj A, IsMonHom n := by
-  have he' : ∀ {T : C} (t : T ⟶ 𝟙_ C), t ≫ e ≫ n = 1 := fun t => by
-    rw [he, Hom.one_def, toUnit_unique t (toUnit _)]
-  have hm' : ∀ {T : C} (t : T ⟶ A ⊗ A), t ≫ m ≫ n = (t ≫ fst _ _ ≫ n) * (t ≫ snd _ _ ≫ n) :=
-    fun t => by
-      rw [hm, Hom.mul_def, ← Category.assoc]
-      congr 1
-      ext <;> simp
-  have hm'' : m ≫ n = (fst _ _ ≫ n) * (snd _ _ ≫ n) := by simpa using hm' (𝟙 _)
-  have hi' : i ≫ n = n⁻¹ := by rw [hi, Hom.inv_def]
-  letI : GrpObj A :=
-    { one := e
-      mul := m
-      inv := i
-      one_mul := by
-        rw [← cancel_mono n, Category.assoc, hm', whiskerRight_fst_assoc, whiskerRight_snd_assoc,
-          he', _root_.one_mul, leftUnitor_hom]
-      mul_one := by
-        rw [← cancel_mono n, Category.assoc, hm', whiskerLeft_fst_assoc, whiskerLeft_snd_assoc,
-          he', _root_.mul_one, rightUnitor_hom]
-      mul_assoc := by
-        rw [← cancel_mono n, Category.assoc, hm', Category.assoc, Category.assoc,
-          hm' (A ◁ m), whiskerRight_fst_assoc, whiskerRight_snd_assoc, whiskerLeft_fst_assoc,
-          whiskerLeft_snd_assoc, hm', hm', MonObj.comp_mul, MonObj.comp_mul, _root_.mul_assoc]
-        simp
-      left_inv := by
-        rw [← cancel_mono n, Category.assoc, Category.assoc, hm', he', lift_fst_assoc,
-          lift_snd_assoc, hi', Category.id_comp, inv_mul_cancel]
-      right_inv := by
-        rw [← cancel_mono n, Category.assoc, Category.assoc, hm', he', lift_fst_assoc,
-          lift_snd_assoc, hi', Category.id_comp, mul_inv_cancel] }
-  exact ⟨this, ⟨he, hm⟩⟩
+  first | exact _root_.GlobalTheory.ReducedSubgroup.exists_grpObj_of_mono | exact @_root_.GlobalTheory.ReducedSubgroup.exists_grpObj_of_mono | apply _root_.GlobalTheory.ReducedSubgroup.exists_grpObj_of_mono <;> assumption
 
 end Sub
 

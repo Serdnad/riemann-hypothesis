@@ -1,5 +1,7 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.NablaUnipotentMemIntegralDoubledUnipotent
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.InertPlaceDoubledFirstFactorMemSiegelClosure
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.OneMemKAt
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.XmApply
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.TensorLatticeInertPlaceSelfDual
@@ -173,17 +175,7 @@ theorem mul_incl_mem {v : Pl (F := F)} {s : AE F E} (hs : s ∈ AddSubgroup.clos
 theorem smul_latAt_mem {n : ℕ} (X : Spc F E n) {v : Pl (F := F)} {a : AF F} (ha : At (evFin F v) a)
     (hev : evFin F v a ∈ v.adicCompletionIntegers F) {z : Fin n → AE F E} (hz : z ∈ GlobalTheory.InertSph.latAt X v) :
     a • z ∈ GlobalTheory.InertSph.latAt X v := by
-  unfold GlobalTheory.InertSph.latAt at hz ⊢
-  induction hz using AddSubgroup.closure_induction with
-  | mem x hx =>
-    obtain ⟨a', ha', hev', y, hy, rfl⟩ := hx
-    refine AddSubgroup.subset_closure ⟨a * a', fun u hu => ?_, ?_, y, hy, by rw [smul_smul]⟩
-    · have h0 : u * a = 0 := ha u hu
-      rw [smul_eq_mul, ← mul_assoc, h0, zero_mul]
-    · rw [map_mul]; exact mul_mem hev hev'
-  | zero => simp
-  | add x y _ _ hx hy => rw [smul_add]; exact add_mem hx hy
-  | neg x _ hx => rw [smul_neg]; exact neg_mem hx
+  apply _root_.GlobalTheory.SplitDblNab.smul_mem_latAt_of_int <;> assumption
 
 theorem mul_incl_latAt {n : ℕ} (X : Spc F E n) {v : Pl (F := F)} {s : AE F E}
     (hs : s ∈ AddSubgroup.closure (genAt F E v)) {y : Fin n → E} (hy : y ∈ X.L) :
@@ -1422,17 +1414,7 @@ variable {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algeb
 
 theorem latAt_entry_at {n : ℕ} (X : Spc F E n) (v : Pl (F := F)) {z : Fin n → _root_.GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.AE (F := F) (E := E)}
     (hz : z ∈ GlobalTheory.InertSph.latAt X v) (i : Fin n) : At (evFin F v) (z i) := by
-  induction hz using AddSubgroup.closure_induction with
-  | mem x hx =>
-    obtain ⟨a, ha, -, y, -, rfl⟩ := hx
-    intro u hu
-    have h0 := ha u hu
-    rw [smul_eq_mul] at h0
-    simp only [Pi.smul_apply]
-    rw [smul_smul, h0, zero_smul]
-  | zero => intro u _; simp
-  | add x y _ _ hx hy => intro u hu; simp [smul_add, hx u hu, hy u hu]
-  | neg x _ hx => intro u hu; simp [smul_neg, hx u hu]
+  apply _root_.GlobalTheory.InertSph.Invert.at_of_mem <;> assumption
 
 theorem mulVec_mem_latAt {n : ℕ} (X : Spc F E n) (v : Pl (F := F)) {L : Type} [Field L]
     [Valued L (WithZero (Multiplicative ℤ))] (ι : L →+ _root_.GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.AE (F := F) (E := E))

@@ -1,5 +1,7 @@
 module
 
+
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.OrthonormalProductThetaMemThetaSpace
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.DifferentiableSqTh
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.OddThetaFunctionExistenceUniqueness
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ThetaTranslationCompEqCocycleMul
@@ -100,7 +102,6 @@ import Mathlib.RingTheory.PiTensorProduct
 import Mathlib.RingTheory.TotallySplit
 import Mathlib.RingTheory.Valuation.Integral
 import Std.Tactic.BVDecide.Normalize.Prop
-
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.Proofs.FoundationProofs.ThetaTranslateProductSigmaStarPowLatticeLaw, Development.AbelianVarietyTheory.Proofs.FoundationProofs.DuplicationFormulaMaxNormEqCpUnitDiscriminant, Development.AbelianVarietyTheory.Proofs.FoundationProofs.LatticeTranslateHalfPeriodSigmaStarPowEightMulEq, Development.AbelianVarietyTheory.Proofs.FoundationProofs.TorsionPointLocalHeightEqOne, Development.AbelianVarietyTheory.Proofs.FoundationProofs.NormPadicWeierstrassModelAbscissaTwoTorsionLeOne, Development.AbelianVarietyTheory.Proofs.FoundationProofs.TorsionTranslateThetaJetsDenominatorBound, Development.AbelianVarietyTheory.Proofs.FoundationProofs.JetsTorsionTranslatesCmThetaProduct
 
@@ -1296,38 +1297,12 @@ theorem coordL_sum (h : TraceMapNormalisation D) (cc : Ideal (𝓞 D.host.K)) (�
 theorem exists_coord_of_mem_LaB (T : Tor D) {a d r : ℕ}
     {b : Fin r → Matrix (Fin d) (Fin a) D.host.E} {x : VC D a d} (hx : x ∈ LaB D T b) :
     ∃ w : Fin r → ℂ, (∀ j, w j ∈ T.abelian₂) ∧ x = ∑ j, w j • embV D T (b j) := by
-  induction hx using AddSubgroup.closure_induction with
-  | mem x hx =>
-    obtain ⟨w, hw, j, rfl⟩ := hx
-    refine ⟨Pi.single j w, fun i => ?_, ?_⟩
-    · by_cases h : i = j
-      · subst h; simpa using hw
-      · simp [h]
-    · rw [Finset.sum_eq_single j] <;> simp +contextual
-  | zero => exact ⟨0, fun _ => zero_mem _, by simp⟩
-  | add x y _ _ hx hy =>
-    obtain ⟨w, hw, rfl⟩ := hx
-    obtain ⟨w', hw', rfl⟩ := hy
-    exact ⟨w + w', fun j => add_mem (hw j) (hw' j), by simp [add_smul, Finset.sum_add_distrib]⟩
-  | neg x _ hx =>
-    obtain ⟨w, hw, rfl⟩ := hx
-    exact ⟨-w, fun j => neg_mem (hw j), by simp⟩
+  first | exact _root_.GlobalTheory.OrthoProdTheta.exists_coord | exact @_root_.GlobalTheory.OrthoProdTheta.exists_coord | apply _root_.GlobalTheory.OrthoProdTheta.exists_coord <;> assumption
 
 theorem Hf_sum (T : Tor D) {a d r : ℕ} (b : Fin r → Matrix (Fin d) (Fin a) D.host.E) (c : Fin r → ℂ)
     (z : VC D a d) :
     Hf D T z (∑ k, c k • embV D T (b k)) = (∑ k, coordB D T b k z * (starRingEnd ℂ) (c k)) / (area T.abelian₂ : ℂ) := by
-  unfold Hf coordB
-  congr 1
-
-  simp only [Finset.sum_apply, Pi.smul_apply, smul_eq_mul, map_sum, map_mul, Finset.mul_sum, Finset.sum_mul, embV]
-  symm
-  rw [Finset.sum_comm]
-  refine Finset.sum_congr rfl fun τ _ => ?_
-  rw [Finset.sum_comm]
-  refine Finset.sum_congr rfl fun i _ => ?_
-  rw [Finset.sum_comm]
-  refine Finset.sum_congr rfl fun i' _ => Finset.sum_congr rfl fun k _ => ?_
-  ring
+  first | exact _root_.GlobalTheory.OrthoProdTheta.hf_sum | exact @_root_.GlobalTheory.OrthoProdTheta.hf_sum | apply _root_.GlobalTheory.OrthoProdTheta.hf_sum <;> assumption
 
 theorem U_pullB (h : TraceMapNormalisation D) (cc : Ideal (𝓞 D.host.K)) (δ : ℂ) {a d r : ℕ}
     {b : Fin r → Matrix (Fin d) (Fin a) D.host.E} (hb : Orthonormal D b) (c : Fin r → ℂ) (g : ℂ → ℂ) :

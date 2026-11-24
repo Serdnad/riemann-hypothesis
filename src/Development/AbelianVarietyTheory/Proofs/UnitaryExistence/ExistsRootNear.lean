@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.MemRangeOfOneTmulMem
 public import Development.AbelianVarietyTheory.Definitions.ExistenceOfLattices.Hat1
 public import Mathlib.NumberTheory.NumberField.AdeleRing
 public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.ExistsAdeleRingTensorEquivInfiniteProdFinite
@@ -156,18 +157,7 @@ theorem tmul_mem (a : FiniteAdeleRing (𝓞 F) F) (ha : ∀ v, a v ∈ v.adicCom
 omit [NumberField E] in
 theorem mul_mem_hat {a b : RA F E} (ha : a ∈ hat1 F (Set.range (algebraMap (𝓞 E) E)))
     (hb : b ∈ hat1 F (Set.range (algebraMap (𝓞 E) E))) : a * b ∈ hat1 F (Set.range (algebraMap (𝓞 E) E)) := by
-  induction ha, hb using AddSubgroup.closure_induction₂ with
-  | mem x y hx hy =>
-    obtain ⟨a, ha, _, ⟨s, rfl⟩, rfl⟩ := hx
-    obtain ⟨b, hb, _, ⟨t, rfl⟩, rfl⟩ := hy
-    rw [Algebra.TensorProduct.tmul_mul_tmul, ← map_mul]
-    exact tmul_mem F E (a * b) (fun v => (v.adicCompletionIntegers F).mul_mem _ _ (ha v) (hb v)) (s * t)
-  | zero_left x hx => rw [zero_mul]; exact AddSubgroup.zero_mem _
-  | zero_right x hx => rw [mul_zero]; exact AddSubgroup.zero_mem _
-  | add_left x y z _ _ _ h1 h2 => rw [add_mul]; exact AddSubgroup.add_mem _ h1 h2
-  | add_right x y z _ _ _ h1 h2 => rw [mul_add]; exact AddSubgroup.add_mem _ h1 h2
-  | neg_left x y _ _ h => rw [neg_mul]; exact AddSubgroup.neg_mem _ h
-  | neg_right x y _ _ h => rw [mul_neg]; exact AddSubgroup.neg_mem _ h
+  apply _root_.GlobalTheory.AdIdem.mul_mem_hat <;> assumption
 
 def intHat : Subring (RA F E) where
   carrier := hat1 F (Set.range (algebraMap (𝓞 E) E))

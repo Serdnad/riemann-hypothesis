@@ -1,5 +1,7 @@
 module
 
+
+import Formalism.LocalRingCardinality.ColumnWeightSpreadOffTop
 public import Formalism.SharpRestriction.GrowthBounds.FormalGroupSystem
 public import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.StmtNumEOf
 public import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.NcCGNonneg
@@ -49,7 +51,6 @@ import Mathlib.Topology.Sheaves.Init
 import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.NcTsumOdd
 import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.NdLszLe
 import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.NumericalClosedOfNeed
-
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Formalism.SharpRestriction.GrowthBounds.MultisetValuation.NcSummableMin, Formalism.SharpRestriction.GrowthBounds.ProofLW
 
@@ -354,15 +355,7 @@ theorem lw_eta_le (hS : Formalism.MainNotions.SizesAt L) : 2 * L.etaSz ≤ L.sc.
   linarith
 
 theorem lw_aT_le (t : D.host.TT) : (L.aT t : ℝ) ≤ 6 / 5 * L.sc.a := by
-  have h := (L.aT_win t).2
-  have ha := nc_a_ge (L := L)
-  have hk := nd_k_ge (D := D)
-  have hx : (1 : ℝ) ≤ L.sc.x ^ (Scale.A / 2) :=
-    Real.one_le_rpow (nd_x_ge (L := L)) (by unfold Scale.A; norm_num)
-  have h5 : (5 : ℝ) ≤ (D.R.k : ℝ) * L.sc.x ^ (Scale.A / 2) := by nlinarith
-  have h1 : L.sc.a / ((D.R.k : ℝ) * L.sc.x ^ (Scale.A / 2)) ≤ L.sc.a / 5 :=
-    div_le_div_of_nonneg_left (by linarith) (by norm_num) h5
-  linarith
+  apply _root_.Formalism.BasicNotions.SizeData₂.aT_le' <;> assumption
 
 theorem lw_size (X : Formalism.MainNotions.G.Inst D L) (Y : Formalism.MainNotions.G.LatInst D) (hS : Formalism.MainNotions.SizesAt L) (hT : GatTies D)
     (hL : Formalism.MainNotions.G.LatTied hT X Y) (u : D.what₂.Word) (w : D.what₂.places.Pl)

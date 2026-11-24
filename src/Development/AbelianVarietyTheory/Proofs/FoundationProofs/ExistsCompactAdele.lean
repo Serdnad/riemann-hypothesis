@@ -53,6 +53,7 @@ import Mathlib.Topology.Baire.LocallyCompactRegular
 import Mathlib.Topology.UniformSpace.Uniformizable
 import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.LeftInvOfUnitary
 import Formalism.HermitianLattices.HermitianLatticesProofs.UnimodularSpan
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsArchAdeleTensorEquivComplexCmType
 
 @[expose] public section
 
@@ -99,38 +100,7 @@ theorem infEmb_sigR (h : IsCMExt F E σ) {τ : E →+* ℂ} {θ : Ainf F ⊗[F] 
 theorem infEmb_bijective (h : IsCMExt F E σ) {I : Type} {τ : I → (E →+* ℂ)} (hτ : IsCMFam τ)
     {θ : I → (Ainf F ⊗[F] E →+* ℂ)} (hθ : ∀ ρ, IsInfEmb (τ ρ) (θ ρ)) :
     Function.Bijective fun (z : Ainf F ⊗[F] E) (ρ : I) => θ ρ z := by
-  have := h.1
-  have := h.2.1
-  have : Module.Finite F E := Module.Finite.of_restrictScalars_finite ℚ F E
-  let c : E ≃ₐ[F] E := AlgEquiv.ofBijective σ (Algebra.IsAlgebraic.algHom_bijective σ)
-  have hc : ∀ (φ : E →+* ℂ) x, φ (c x) = starRingEnd ℂ (φ x) := h.2.2.2
-  have hnr : ∀ φ : E →+* ℂ, ComplexEmbedding.conjugate φ ≠ φ := fun φ hφ =>
-    IsTotallyComplex.complexEmbedding_not_isReal φ (ComplexEmbedding.isReal_iff.2 hφ)
-  have hc1 : c ≠ 1 := fun e => by
-    obtain ⟨φ⟩ : Nonempty (E →+* ℂ) := inferInstance
-    refine hnr φ (RingHom.ext fun x => ?_)
-    rw [ComplexEmbedding.conjugate_coe_eq, ← hc, e, AlgEquiv.one_apply]
-  choose θ₀ h1 h2 using fun φ : E →+* ℂ => GlobalTheory.InfAdeleCM.exists_hom (F := F) φ
-  have hΨ : ∀ φ, φ ∈ Set.range τ ↔ ComplexEmbedding.conjugate φ ∉ Set.range τ := fun φ => by
-    constructor
-    · rintro ⟨i, rfl⟩ ⟨j, hj⟩
-      have : j = i := hτ.1 (by simp only [hj, InfinitePlace.mk_conjugate_eq])
-      subst this
-      exact hnr _ hj.symm
-    · intro hn
-      obtain ⟨i, hi⟩ := hτ.2 (InfinitePlace.mk φ)
-      rcases InfinitePlace.mk_eq_iff.1 hi with e | e
-      · exact ⟨i, e⟩
-      · exact absurd ⟨i, by rw [← e]; ext x; simp⟩ hn
-  have hb := GlobalTheory.InfAdeleCM.bijective c h.2.2.1 hc1 hc θ₀
-    (fun φ => GlobalTheory.InfAdeleCM.hom_tmul φ (θ₀ φ) (h1 φ) (h2 φ)) _ hΨ
-  have hinj : Function.Injective τ := fun i j e => hτ.1 (by simp only [e])
-  have e0 : ∀ ρ, θ ρ = θ₀ (τ ρ) := fun ρ => infEmb_unique h (hθ ρ) ⟨h1 _, h2 _⟩
-  have := ((Equiv.ofInjective τ hinj).symm.arrowCongr (Equiv.refl ℂ)).bijective.comp hb
-  convert this using 1
-  funext z ρ
-  rw [e0]
-  rfl
+  apply _root_.GlobalTheory.Mem.VolInfIso.bijective_fam <;> assumption
 
 theorem exists_compact_adele (h : IsCMExt F E σ) {I : Type} [Fintype I] {τ : I → (E →+* ℂ)} (hτ : IsCMFam τ)
     {θ : I → (Ainf F ⊗[F] E →+* ℂ)} (hθ : ∀ ρ, IsInfEmb (τ ρ) (θ ρ)) (R : ℝ) (C : Set (Af F ⊗[F] E))

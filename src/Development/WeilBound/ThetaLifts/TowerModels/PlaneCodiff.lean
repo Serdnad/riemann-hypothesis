@@ -122,19 +122,7 @@ theorem UpperTheory.Reformulated.B.DYhb7.main :
     ∀ {F : Type} [inst : Field F] [inst_1 : NumberField F] (y : F),
       (Algebra.trace ℝ (NumberField.mixedEmbedding.mixedSpace F) : NumberField.mixedEmbedding.mixedSpace F → ℝ)
           ((NumberField.mixedEmbedding F : F → NumberField.mixedEmbedding.mixedSpace F) y) =
-        (↑((Algebra.trace ℚ F : F → ℚ) y) : ℝ) := by
-  intro F _ _ y
-  classical
-  apply Complex.ofReal_injective
-  have h1 : ((Algebra.trace ℚ F y : ℚ) : ℂ) = ∑ φ : F →+* ℂ, φ y := by
-    have := _root_.trace_eq_sum_embeddings (K := ℚ) (L := F) ℂ (x := y)
-    rw [eq_ratCast] at this
-    rw [this]
-    exact (Fintype.sum_equiv (RingHom.equivRatAlgHom F ℂ) (fun f => f y) _ fun _ => by
-      simp [RingHom.equivRatAlgHom_apply]).symm
-  rw [Complex.ofReal_ratCast, h1, UpperTheory.Reformulated.B.DYhb7.sum_embeddings_eq_real_add_complex, Algebra.trace_prod_apply,
-    UpperTheory.Reformulated.B.DYhb7.algebra_trace_pi_eq_sum_trace, UpperTheory.Reformulated.B.DYhb7.algebra_trace_pi_eq_sum_trace]
-  simp [Algebra.trace_complex_apply]
+        (↑((Algebra.trace ℚ F : F → ℚ) y) : ℝ) := @_root_.UpperTheory.Reformulated.B.TraceMixedEmbedding.trace_mixedEmbedding
 end -- clump:auto
 end -- clump:auto
 -- ===== end clump member: Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.SumEmbeddingsEqRealAddComplex =====

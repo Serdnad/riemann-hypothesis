@@ -128,18 +128,8 @@ namespace GlobalTheory.HoweRealSmall
 
 open GlobalTheory.WeilM GlobalTheory.AdelicU GlobalTheory.LFun GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels
 
-private theorem det_ne_hasSig {n r s : ℕ} {M : Matrix (Fin n) (Fin n) ℂ} (h : HasSig M r s) : M.det ≠ 0 := by
-  obtain ⟨hrs, A, hA⟩ := h
-  let e : Fin r ⊕ Fin s ≃ Fin n := finSumFinEquiv.trans (finCongr hrs)
-  let A' : Matrix (Fin n) (Fin n) ℂ := A.submatrix id e.symm
-  have h1 : A'ᵀ * M * A'.map star = (Matrix.fromBlocks (1 : Matrix (Fin r) (Fin r) ℂ) 0 0 (-1)).submatrix e.symm e.symm := by
-    rw [← hA]; ext i j; simp [A', Matrix.mul_apply, Matrix.submatrix_apply, Matrix.transpose_apply, Matrix.map_apply]
-  have h2 : (A'ᵀ * M * A'.map star).det ≠ 0 := by
-    rw [h1, Matrix.det_submatrix_equiv_self, Matrix.det_fromBlocks_zero₂₁]
-    simp [Matrix.det_neg]
-  intro h0
-  apply h2
-  rw [Matrix.det_mul, Matrix.det_mul, h0]; simp
+private theorem det_ne_hasSig {n r s : ℕ} {M : Matrix (Fin n) (Fin n) ℂ} (h : HasSig M r s) : M.det ≠ 0 :=
+  _root_.GlobalTheory.ThK.RealUniq.det_ne_zero_of_sig h
 
 private theorem det_ne_sig_map {E : Type} [Field E] {n r s : ℕ} {J : Matrix (Fin n) (Fin n) E} (τ : E →+* ℂ) (c : ℂ)
     (h : HasSig (c • J.map τ) r s) : J.det ≠ 0 := by
@@ -156,16 +146,8 @@ private theorem hecke_div {F E : Type} [Field F] [NumberField F] [Field E] [Numb
 
 private theorem resEta_div {R A : Type} [CommRing R] [CommRing A] [Algebra R A] {K : Subgroup Rˣ}
     {χ χ' : Aˣ →* Circle} {n m k : ℕ} (h : ResEtaPow K χ n) (h' : ResEtaPow K χ' m) (hk : k = n + m) :
-    ResEtaPow K (χ / χ') k := by
-  subst hk
-  intro a
-  have e := h a
-  have e' := h' a
-  rw [MonoidHom.div_apply, Circle.coe_div, e, e']
-  split_ifs
-  · simp
-  · rw [pow_add]
-    rcases neg_one_pow_eq_or ℂ m with hm | hm <;> rw [hm] <;> ring
+    ResEtaPow K (χ / χ') k :=
+  _root_.GlobalTheory.ThK.RealUniq.resEtaPow_div' h h' hk
 
 private theorem acts_zero {F : Type} [Field F] [NumberField F] {κ : Type} [Fintype κ]
     (T : Module.End ℂ ((κ → AF F) → ℂ)) :
@@ -286,20 +268,8 @@ open scoped Matrix
 
 namespace GlobalTheory.HoweRealKer
 
-theorem det_ne_zero_of_hasSig {n r s : ℕ} {M : Matrix (Fin n) (Fin n) ℂ} (h : HasSig M r s) : M.det ≠ 0 := by
-  obtain ⟨hrs, A, hA⟩ := h
-  let e : Fin r ⊕ Fin s ≃ Fin n := finSumFinEquiv.trans (finCongr hrs)
-  let A' : Matrix (Fin n) (Fin n) ℂ := A.submatrix id e.symm
-  have hA' : A'ᵀ * M * A'.map star = (Matrix.fromBlocks (1 : Matrix (Fin r) (Fin r) ℂ) 0 0 (-1)).submatrix e.symm e.symm := by
-    rw [← hA]
-    ext i j
-    simp [A', Matrix.mul_apply, Matrix.transpose_apply, Matrix.submatrix_apply, Matrix.map_apply]
-  have hD : (Matrix.fromBlocks (1 : Matrix (Fin r) (Fin r) ℂ) 0 0 (-1 : Matrix (Fin s) (Fin s) ℂ)).det ≠ 0 := by
-    rw [Matrix.det_fromBlocks_zero₂₁, Matrix.det_one, one_mul, Matrix.det_neg, Matrix.det_one, mul_one]
-    simp
-  intro hM
-  apply hD
-  rw [← Matrix.det_submatrix_equiv_self e.symm, ← hA', Matrix.det_mul, Matrix.det_mul, hM, mul_zero, zero_mul]
+theorem det_ne_zero_of_hasSig {n r s : ℕ} {M : Matrix (Fin n) (Fin n) ℂ} (h : HasSig M r s) : M.det ≠ 0 :=
+  _root_.GlobalTheory.ThK.RealUniq.det_ne_zero_of_sig h
 
 theorem det_ne_zero_of_sig {E : Type} [Field E] {n : ℕ}
     (J : Matrix (Fin n) (Fin n) E) (f : E →+* ℂ) {r s : ℕ} (h : HasSig (J.map f) r s) : J.det ≠ 0 := by

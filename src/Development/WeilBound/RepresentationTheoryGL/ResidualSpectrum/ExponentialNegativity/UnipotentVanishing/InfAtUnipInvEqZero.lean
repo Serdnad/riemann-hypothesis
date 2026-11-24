@@ -1,5 +1,6 @@
 module
 
+import Formalism.HarderNarasimhan.HarderNarasimhanProofs.HNSlopes
 public import Mathlib.NumberTheory.NumberField.InfinitePlace.Basic
 public import Mathlib.RingTheory.DedekindDomain.FiniteAdeleRing
 public import GroundTheory.AutomorphicForms.CuspidalDiscreteness.Counting
@@ -147,16 +148,7 @@ namespace GlobalTheory.CompanionTheory.EntrywiseCount
 
 theorem card_lt (n r : ℕ) (hr : r ≤ n) :
     (univ.filter (fun i : Fin n => (i : ℕ) < r)).card = r := by
-  have h : (univ.filter (fun i : Fin n => (i : ℕ) < r)).card
-      = ((range n).filter (fun i => i < r)).card := by
-    rw [Finset.card_filter, Finset.card_filter]
-    exact Fin.sum_univ_eq_sum_range (fun i => if i < r then 1 else 0) n
-  rw [h]
-  have : (range n).filter (fun i => i < r) = range r := by
-    ext x
-    simp only [mem_filter, mem_range]
-    omega
-  rw [this, card_range]
+  apply _root_.Formalism.HN.card_filter_val_lt_alt <;> assumption
 
 theorem card_ge (n r : ℕ) (hr : r ≤ n) :
     (univ.filter (fun j : Fin n => r ≤ (j : ℕ))).card = n - r := by

@@ -1,5 +1,6 @@
 module
 
+import all Development.AbelianVarietyTheory.Proofs.FlagMeasures.MassGenusCyclicDiscriminantSplitPrime
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.HbApply
 public import Formalism.SharpRestriction.CuspSpanNormBounds.KappaEndpoints
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.CountingFormula.ZMemPerp
@@ -298,19 +299,7 @@ variable {D : D7}
 
 theorem eq_zero_of_mem_span_eX (X : HidaSetting D) (w : (VS D).V)
     (hw : w ∈ Submodule.span D.host.E (Set.range X.eX)) (hf : ∀ b, (VS D).hT (X.fY b) w = 0) : w = 0 := by
-  obtain ⟨c, rfl⟩ := (Submodule.mem_span_range_iff_exists_fun D.host.E).1 hw
-  have hc : ∀ b, c b = 0 := by
-    intro b
-    have h := hf b
-
-    simp only [map_sum, map_smul, smul_eq_mul] at h
-    have hfe : ∀ a, (VS D).hT (X.fY b) (X.eX a) = if a = b then 1 else 0 := by
-      intro a
-      rw [a_herm, X.ef a b]
-      split_ifs <;> simp
-    simp only [hfe, mul_ite, mul_one, mul_zero, Finset.sum_ite_eq', Finset.mem_univ, if_true] at h
-    exact h
-  simp [hc]
+  first | exact _root_.GlobalTheory.RowsOrb.ModelIso.span_eq_zero | exact @_root_.GlobalTheory.RowsOrb.ModelIso.span_eq_zero | apply _root_.GlobalTheory.RowsOrb.ModelIso.span_eq_zero <;> assumption
 
 theorem pd_hU : ∀ (D : D7) (X : HidaSetting D) (u : D.what₂.Word), GlobalTheory.Mass.PD (GlobalTheory.RowsOrb.hU X u) := by
   intro D X u τ x hx
@@ -891,37 +880,7 @@ private theorem full_of_unimodular {K V : Type} [Field K] [NumberField K] [StarR
     [IsScalarTower (𝓞 K) K V] (h : V →ₗ⋆[K] V →ₗ[K] K) (hs : h.IsSymm)
     {L : Submodule (𝓞 K) V} (hL : Submodule.IsLattice K L) (hu : IsUnimodular h L) :
     Submodule.IsFullLattice K L := by
-  letI := hL
-  refine { span_eq_top := ?_ }
-  let W := Submodule.span K (L : Set V)
-  change W = ⊤
-  by_contra hw
-  let b := Module.finBasis K V
-  let e : V ≃ₗ⋆[K] V := (b.equivFun.trans (starLinearEquiv K)).trans b.equivFun.symm
-  let g : V →ₗ[K] Module.Dual K W :=
-    (LinearMap.domRestrict' W).comp (h.comp e.toLinearMap)
-  have hd : Module.finrank K (Module.Dual K W) < Module.finrank K V := by
-    rw [Subspace.dual_finrank_eq]
-    exact Submodule.finrank_lt hw
-  obtain ⟨x, hx, hx0⟩ :=
-    Submodule.exists_mem_ne_zero_of_ne_bot (LinearMap.ker_ne_bot_of_finrank_lt (f := g) hd)
-  have hm (a : K) : a • e x ∈ L := by
-    rw [← hu, dualBasic_mem_dual]
-    intro y hy
-    have hz : h (e x) y = 0 :=
-      congrArg (fun f : Module.Dual K W => f ⟨y, Submodule.subset_span hy⟩)
-        (LinearMap.mem_ker.mp hx)
-    have hz' : h y (e x) = 0 := by
-      exact hs.eq_iff.mp hz
-    simp [hz']
-  let i : K →ₗ[𝓞 K] L :=
-    ((LinearMap.toSpanSingleton K _ (e x)).restrictScalars (𝓞 K)).codRestrict L hm
-  letI : Module.Finite (𝓞 K) L := Module.Finite.iff_fg.mpr hL.fg
-  letI : Module.Finite (𝓞 K) K := Module.Finite.of_injective i fun a b hab =>
-    smul_left_injective K (fun hzero => hx0 (e.map_eq_zero_iff.mp hzero))
-      (congrArg Subtype.val hab)
-  exact RingOfIntegers.not_isField K
-    (isField_of_isIntegral_of_isField (IsFractionRing.injective (𝓞 K) K) (Field.toIsField K))
+  apply _root_.full_of_unimodular <;> assumption
 
 
 theorem mem_genus_of_isUnimodular : ∀ (D : D7) (large₂ : SizeData₂ D), GlobalTheory.TypeAsm.Std D large₂ → ∀ (X : HidaSetting D) (u : D.what₂.Word) (Λ : Submodule (𝓞 D.host.E) (VS D).V), Submodule.IsLattice D.host.E Λ → Formalism.HermitianLatticesTheory.IsUnimodular (VS D).hT Λ → Λ ∈ Formalism.HermitianLatticesTheory.genus (VS D).hT (VS D).L0 := by

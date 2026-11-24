@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IsHermNDInvTranspose
 public import Development.WeilBound.ThetaLifts.Reductions.WeilPairs.ContinuousDualG
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -54,19 +55,8 @@ theorem invT_mul {σ : E →ₐ[F] E} {n : ℕ} {J : Matrix (Fin n) (Fin n) E} (
   rw [Matrix.transpose_transpose, Matrix.nonsing_inv_mul _ (Ne.isUnit h.2)]
 
 omit [NumberField F] [NumberField E] in
-theorem isHermND_invT {σ : E →ₐ[F] E} {n : ℕ} {J : Matrix (Fin n) (Fin n) E} (h : IsHermND σ J) : IsHermND σ J⁻¹ᵀ := by
-  have hu : IsUnit J.det := Ne.isUnit h.2
-  have e1 : J.map (σ : E →+* E) = Jᵀ := by
-    ext i j
-    exact h.1 j i
-  have e2 : (Jᵀ)⁻¹ = J⁻¹.map (σ : E →+* E) := Matrix.inv_eq_left_inv (by
-    rw [← e1, ← Matrix.map_mul, Matrix.nonsing_inv_mul _ hu, Matrix.map_one _ (map_zero _) (map_one _)])
-  refine ⟨fun i j => ?_, ?_⟩
-  · have := congrFun (congrFun e2 i) j
-    rw [← Matrix.transpose_nonsing_inv] at this
-    exact this.symm
-  · rw [Matrix.det_transpose]
-    exact (Matrix.isUnit_nonsing_inv_det _ hu).ne_zero
+theorem isHermND_invT {σ : E →ₐ[F] E} {n : ℕ} {J : Matrix (Fin n) (Fin n) E} (h : IsHermND σ J) : IsHermND σ J⁻¹ᵀ :=
+  _root_.GlobalTheory.AdelicModulus.Row.isHermND_inv_transpose h
 
 theorem LatH.swap {σ : E →ₐ[F] E} {nS nT : ℕ} {JS : Matrix (Fin nS) (Fin nS) E} {JT : Matrix (Fin nT) (Fin nT) E} {ξ₀ : E}
     (hS : IsHermND σ JS) (hT : IsHermND σ JT) (h : LatH σ JS JT ξ₀) : LatH σ JT⁻¹ᵀ JS⁻¹ᵀ ξ₀ :=

@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.FlagMeasures.DerivedModuleCoefficientsAndStableFlows
 public import CompanionTheory.HarishChandraModules.KFiniteAnalyticVectors.AnalyticIntertwiners.Clause1
 public import CompanionTheory.HarishChandraModules.KFiniteAnalyticVectors.AnalyticIntertwiners.SubquotientNontrivial
 public import Mathlib.Analysis.InnerProductSpace.JointEigenspace
@@ -25,18 +26,7 @@ variable {n : ℕ} {ε : Fin n → Bool} {H : Type} [NormedAddCommGroup H] [Inne
 
 theorem cpart_inK_A {Z : Matrix (Fin n) (Fin n) ℂ} (hZ : Z * Jm ε = Jm ε * Z) :
     inK ε (S7.cpart1 ε Z) ∧ inK ε (S7.cpart2 ε Z) := by
-  have hJh : (Jm ε)ᴴ = Jm ε := Jm_conjTranspose_self
-  have hZh : Zᴴ * Jm ε = Jm ε * Zᴴ := by
-    have h := congrArg Matrix.conjTranspose hZ
-    simp only [Matrix.conjTranspose_mul, hJh] at h
-    exact h.symm
-  have hc : (Jm ε * Zᴴ * Jm ε) * Jm ε = Jm ε * (Jm ε * Zᴴ * Jm ε) := by
-    simp only [Matrix.mul_assoc, hZh]
-  refine ⟨⟨SmDerA.inG_cpart1 ε Z, ?_⟩, ⟨SmDerA.inG_cpart2 ε Z, ?_⟩⟩
-  · unfold S7.cpart1
-    rw [Matrix.smul_mul, Matrix.mul_smul, Matrix.sub_mul, Matrix.mul_sub, hZ, hc]
-  · unfold S7.cpart2
-    rw [Matrix.smul_mul, Matrix.mul_smul, Matrix.add_mul, Matrix.mul_add, hZ, hc]
+  apply _root_.GlobalTheory.Jet.Coef.cpart_inK <;> assumption
 
 theorem single_comm_A {a b : Fin n} (hab : ε a = ε b) :
     Matrix.single a b (1 : ℂ) * Jm ε = Jm ε * Matrix.single a b (1 : ℂ) := by

@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.ExistsPowEqTorus
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.IsCompletedStrictHens
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.SemiabelianSchemes.AbelianSchemeQuotients.IsAbelianScheme
 public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.ExistsSplitTorusPointsMulEquiv
@@ -80,16 +81,8 @@ theorem pow_surj_of_extension {T G B : Type*} [Group T] [CommGroup G] [Group B]
 theorem pow_surj_chars (X : Type) [AddCommGroup X] [Module.Free ℤ X] (U : Type) [CommGroup U]
     (n : ℕ) (hU : ∀ u : U, ∃ v, v ^ n = u) (t : Multiplicative X →* U) :
     ∃ s : Multiplicative X →* U, s ^ n = t := by
-  choose r hr using hU
-  let b := Module.Free.chooseBasis ℤ X
-  let φ : X →ₗ[ℤ] Additive U :=
-    b.constr ℤ fun j => Additive.ofMul (r (t (Multiplicative.ofAdd (b j))))
-  let ψ : X →ₗ[ℤ] Additive U := (MonoidHom.toAdditiveRight t).toIntLinearMap
-  have h : n • φ = ψ := b.ext fun j => by
-    rw [LinearMap.smul_apply, b.constr_basis]
-    exact congrArg Additive.ofMul (hr _)
-  refine ⟨AddMonoidHom.toMultiplicativeLeft φ.toAddMonoidHom, MonoidHom.ext fun x => ?_⟩
-  exact congrArg Additive.toMul (LinearMap.congr_fun h x.toAdd)
+  intros
+  apply _root_.GlobalTheory.TorsLift.exists_pow_eq_hom <;> assumption
 
 theorem pow_surj_units (k : Type) [Field k] [IsAlgClosed k] {n : ℕ} (hn : 1 ≤ n)
     (u : Γ(Sp k, ⊤)ˣ) : ∃ v : Γ(Sp k, ⊤)ˣ, v ^ n = u := by

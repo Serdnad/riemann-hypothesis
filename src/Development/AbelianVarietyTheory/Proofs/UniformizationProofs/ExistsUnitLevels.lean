@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.ExistsUniqueTorusExtensionPointOfGroupPoint
 public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.ExistsUniqueIsPointOfDualNumber
 public import Development.AbelianVarietyTheory.Definitions.Uniformization.PointEqOfSubsingleton
 import Mathlib.Algebra.Order.Floor.Extended
@@ -167,20 +168,7 @@ theorem formEq_mult {T : Over (Spec (CommRingCat.of R))} (b : T ⟶ D.P.A) (χ �
         (fun k => (lift (DegPre.cT D T χ) (lift (DegPre.cT D T χ') b)).left ≫ thφ D.P.A (x3 D.P.A) k))
       (Sum.elim DegPre.gtε thε)
       (Sum.elim (DegPre.gtφT D T b χ) (DegPre.gtφT D T b χ')) (Sum.elim DegPre.gtε DegPre.gtε) := by
-  intro U _ f
-  have p : ∀ α, ∏ k, f (DegPre.gtφT D T b α k) ^ DegPre.gtε k =
-      (f (DVR.cP D T α * b).left)⁻¹ * f (DVR.cP D T α).left * f b.left * (f (1 : T ⟶ D.P.A).left)⁻¹ := fun α => by
-    have := FormalPoint.prod_gtφT (𝟙 T) b α f
-    simpa only [Over.id_left, Category.id_comp] using this
-  have q := prod_cub (DVR.cP D T χ) (DVR.cP D T χ') b f
-  rw [Fintype.prod_sum_type, Fintype.prod_sum_type]
-  simp only [Sum.elim_inl, Sum.elim_inr]
-  rw [p, p, p]
-  refine (congrArg (_ * ·) q).trans ?_
-  rw [DVR.cPoint_add]
-  apply Additive.ofMul.injective
-  simp only [ofMul_mul, ofMul_inv]
-  abel
+  first | exact _root_.GlobalTheory.CompletePoint.formEq_mult | exact @_root_.GlobalTheory.CompletePoint.formEq_mult | apply _root_.GlobalTheory.CompletePoint.formEq_mult <;> assumption
 
 variable {A : PolAV (Spec (CommRingCat.of (FractionRing R)))} {G : Over (Spec (CommRingCat.of R))} [GrpObj G]
   [IsCommMonObj G] (U : PreU I D A G) {S : Type} [CommRing S] {φ : R →+* S}

@@ -1,5 +1,6 @@
 module
 
+import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.FinPartDetAtInvInt
 public import Formalism.LocalToGlobal.IndefiniteReal.OneMapT
 public import Development.AbelianVarietyTheory.BlockTheory.NonGaloisCusps.RationalRayLevels
 public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.NormalFam
@@ -79,20 +80,7 @@ theorem q_base_empty {G : Type} [Group G] [Fintype G] {Pl0 T0 : Type} {A : FamIn
 open Classical in
 theorem isIdemSum_conjPl {e : AE D} {P : Finset (Formalism.L2.DIV.Pl D.host.E)} (h : IsIdemSum e P) :
     IsIdemSum (cA D e) (P.image Formalism.L2.DIV.conjPl) := by
-  classical
-  obtain ⟨⟨es, hes, he⟩, hc⟩ := h
-  refine ⟨⟨fun Q => cA D (es (Formalism.L2.DIV.conjPl Q)), ?_, ?_⟩, ?_⟩
-  · intro Q hQ
-    obtain ⟨PP, hPP, rfl⟩ := Finset.mem_image.1 hQ
-    show Formalism.L2.NTheta.IsIdemAt (cA D (es (Formalism.L2.DIV.conjPl (Formalism.L2.DIV.conjPl PP)))) (Formalism.L2.DIV.conjPl PP)
-    rw [Formalism.L2.DIV.conjPl_conjPl]
-    exact GlobalTheory.MovedIdem.isIdemAt_conj (hes PP hPP) fun x => Iff.rfl
-  · rw [Finset.sum_image (fun a _ b _ (hab : Formalism.L2.DIV.conjPl a = Formalism.L2.DIV.conjPl b) => by
-      rw [← Formalism.L2.DIV.conjPl_conjPl a, hab, Formalism.L2.DIV.conjPl_conjPl b])]
-    simp only [Formalism.L2.DIV.conjPl_conjPl]
-
-    rw [he, map_sum]
-  · rw [GlobalTheory.MovedIdem.cA_cA, mul_comm]; exact hc
+  first | exact _root_.Formalism.IndefR.Fin.LevelGroupLemmas.isIdemSum_conj | exact @_root_.Formalism.IndefR.Fin.LevelGroupLemmas.isIdemSum_conj | apply _root_.Formalism.IndefR.Fin.LevelGroupLemmas.isIdemSum_conj <;> assumption
 
 theorem frMapAdj_nsmul' (S T : HSp D) (βS : GL (Fin S.rank) (EAf D)) (βT : GL (Fin T.rank) (EAf D)) (k : ℕ) (x : WO S T) :
     frMapAdj S T βS βT (k • x) = k • frMapAdj S T βS βT x := by
@@ -121,19 +109,8 @@ theorem isIntM_add_nsmul_iff {b a : ℕ} {N N' : Matrix (Fin b) (Fin a) (EAf D)}
 
 theorem redM_add_nsmul (PP : Formalism.L2.DIV.Pl D.host.E) {b a : ℕ} {N N' : Matrix (Fin b) (Fin a) (EAf D)} (hN : IsIntM N)
     (hN' : IsIntM N') (k : ℕ) (hk : ((k : ℕ) : 𝓞 D.host.E) ∈ PP.asIdeal) : redM PP (N + k • N') = redM PP N := by
-  have hk0 : ((k : ℕ) : Formalism.L2.DIV.kP PP) = 0 := by
-    rw [← map_natCast (Ideal.Quotient.mk PP.asIdeal)]
-    exact Ideal.Quotient.eq_zero_iff_mem.2 hk
-  ext i j
-  have h1 : (N + k • N') i j ∈ Formalism.L2.Herm.intAf D.host.F D.host.E := (isIntM_add_nsmul_iff hN' _).2 hN i j
-  unfold redM
-  rw [dite_eq_left h1, dite_eq_left (hN i j)]
-  have h2 : (⟨(N + k • N') i j, h1⟩ : Formalism.L2.Herm.intAf D.host.F D.host.E) =
-      ⟨N i j, hN i j⟩ + ((k : ℕ) : Formalism.L2.Herm.intAf D.host.F D.host.E) * ⟨N' i j, hN' i j⟩ := by
-    apply Subtype.ext
-    simp [Matrix.add_apply, Matrix.smul_apply, nsmul_eq_mul]
-  set_option synthInstance.maxHeartbeats 100000 in
-    rw [h2, map_add (f := _), map_mul, map_natCast, hk0, zero_mul, add_zero]
+  intros
+  apply _root_.GlobalTheory.PlaceVec.redM_add_nsmul <;> assumption
 
 theorem omegaK_mem {a b : ℕ} (Pg : Finset (Formalism.L2.DIV.Pl D.host.E))
     (y : ∀ PP : Formalism.L2.DIV.Pl D.host.E, Matrix (Fin b) (Fin a) (Formalism.L2.DIV.kP PP)) (k : Subfield ℂ) :

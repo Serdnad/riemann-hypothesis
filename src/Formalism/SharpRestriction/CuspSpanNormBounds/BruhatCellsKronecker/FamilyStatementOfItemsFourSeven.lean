@@ -89,7 +89,6 @@ theorem triangular_number_top (k r : ℕ) :
   rw [show k + 2 * r + 1 = k + (2 * r + 1) by ring, h]; ring
 
 theorem exp_mul_pow_le_succ_pow (k : ℕ) : Real.exp 1 * (k : ℝ) ^ (k + 1) ≤ ((k : ℝ) + 1) ^ (k + 1) := by
-  have hk : (0 : ℝ) < (k : ℝ) + 1 := by positivity
   have h1 : (k : ℝ) / ((k : ℝ) + 1) ≤ Real.exp (-(1 / ((k : ℝ) + 1))) := by
     have := Real.add_one_le_exp (-(1 / ((k : ℝ) + 1)))
     have e : -(1 / ((k : ℝ) + 1)) + 1 = (k : ℝ) / ((k : ℝ) + 1) := by field_simp; ring
@@ -100,7 +99,6 @@ theorem exp_mul_pow_le_succ_pow (k : ℕ) : Real.exp 1 * (k : ℝ) ^ (k + 1) ≤
     have e : ((k + 1 : ℕ) : ℝ) * -(1 / ((k : ℝ) + 1)) = -1 := by push_cast; field_simp
     rwa [e] at this
   rw [div_pow, div_le_iff₀ (by positivity), Real.exp_neg] at h2
-  have he : 0 < Real.exp 1 := Real.exp_pos 1
   calc Real.exp 1 * (k : ℝ) ^ (k + 1) ≤ Real.exp 1 * ((Real.exp 1)⁻¹ * ((k : ℝ) + 1) ^ (k + 1)) := by gcongr
     _ = ((k : ℝ) + 1) ^ (k + 1) := by field_simp
 
@@ -109,7 +107,6 @@ theorem factorial_exp_pow_le (j : ℕ) :
   induction j with
   | zero => simp
   | succ j ih =>
-    have he : 0 < Real.exp 1 := Real.exp_pos 1
     have h := exp_mul_pow_le_succ_pow (j + 1)
     push_cast at h ⊢
     rw [Nat.factorial_succ]
@@ -151,12 +148,8 @@ theorem volume_constant_main_estimate (k r m n : ℕ) (hm : m = 2 * r + 2) (hn :
   set Fj : ℝ := superfactorial j with hFj
   have hFn0 : 0 < Fn := superfactorial_pos _
   have hFj0 : 0 < Fj := superfactorial_pos _
-  have hjf : (0 : ℝ) < (j.factorial : ℝ) := by positivity
-  have hpi : 0 < Real.pi := Real.pi_pos
-  have hj1 : (0 : ℝ) < ((j + 1 : ℕ) : ℝ) := by positivity
   set Z : ℝ := dp * Vu * (2 * Real.pi) ^ ((2 * r + 1) * (j + 1) + q) * T' ^ (j + 1) /
     ((2 * v) ^ ((2 * r + 1) * (j + 1) + q) * g ^ ((j + 1) * (2 * r + 2) + q) * ds * Fn) with hZ
-  have hZ0 : 0 ≤ Z := by positivity
   have hL : (Real.exp 1 * Real.pi * (g ^ (2 * r + 2))⁻¹ / (T * ((j + 1 : ℕ) : ℝ) * v)) ^ (j + 1) *
       ((T * T') ^ j * (dp * (Vu / (Fj * (j.factorial : ℝ))) *
           ((2 * Real.pi) ^ (triangularNumber j + (j + 1) + ((2 * r + 1) * (j + 1) + q)) / Fn) *
@@ -233,7 +226,6 @@ theorem numerical_constant_clause_bound (r m : ℕ) (hm : m = 2 * r + 2) (b L V 
     apply Real.rpow_le_rpow_of_exponent_le hb1.le
     have : (CS + 1 + E / 2) * (m : ℝ) ^ 2 ≤ C * (m : ℝ) ^ 2 := mul_le_mul_of_nonneg_right hC (by positivity)
     linarith
-  have hB : 0 < b ^ (C * (m : ℝ) ^ 2) := by positivity
   calc Real.exp 1 * (V * g) ^ ((r + 1) * (2 * r + 1)) * b ^ (CS * (m : ℝ) ^ 2)
       ≤ b ^ ((m : ℝ) ^ 2) * b ^ (E * ((m : ℝ) ^ 2 / 2)) * b ^ (CS * (m : ℝ) ^ 2) := by gcongr
     _ ≤ b ^ (C * (m : ℝ) ^ 2) := h4
@@ -496,7 +488,6 @@ theorem power_change_of_scale_bound (d d' τ F' : ℝ) (E E' e0 s K : ℕ) (hd :
       F' * (d' ^ (2 * e0) * (max d' d'⁻¹) ^ K) * (d ^ (2 * s + 4) * (max d d⁻¹) ^ K) := by
     rw [h1, pow_add, hd', mul_pow]; ring
   rw [e2]
-  have n1 : 0 ≤ F' * (d' ^ (2 * e0) * (max d' d'⁻¹) ^ K) := by positivity
   calc F' * d' ^ E' ≤ F' * (d' ^ (2 * e0) * (max d' d'⁻¹) ^ K) := by gcongr
     _ = F' * (d' ^ (2 * e0) * (max d' d'⁻¹) ^ K) * 1 := by ring
     _ ≤ _ := by gcongr
@@ -522,7 +513,6 @@ theorem cell_weight_induction (k r : ℕ) (T T' : ℝ) (δ : ℕ → ℝ) (K : �
       rw [pow_mul]; exact pow_le_pow_left₀ hG.le h1 k
     have h3 : 1 ≤ (max (δ (r + 1)) (δ (r + 1))⁻¹) ^ K := one_le_pow₀ (_root_.Formalism.MainNotions.BridgeLemma.one_le_max_inv hda)
     simp only [ptWeightFrom, blockEndsFrom, List.map_nil, List.prod_nil, Nat.sub_self, mul_zero, zero_add, one_mul, mul_one]
-    have n0 : 0 ≤ δ (r + 1) ^ (2 * k) := by positivity
     calc G ^ k ≤ δ (r + 1) ^ (2 * k) := h2
       _ = δ (r + 1) ^ (2 * k) * 1 * 1 := by ring
       _ ≤ δ (r + 1) ^ (2 * k) * max G G⁻¹ * (max (δ (r + 1)) (δ (r + 1))⁻¹) ^ K := by gcongr
@@ -541,7 +531,6 @@ theorem cell_weight_induction (k r : ℕ) (T T' : ℝ) (δ : ℕ → ℝ) (K : �
     have hP0 : 0 ≤ ((blockEndsFrom (a + s) bs).map fun l => (max (δ l) (δ l)⁻¹) ^ (2 * K)).prod :=
       (list_map_prod_le _ _ (fun l => ⟨(even_two_mul K).pow_nonneg _, le_rfl⟩) _).1
     have hmu' := _root_.Formalism.MainNotions.BridgeLemma.one_le_max_inv hd'
-    have hmu := _root_.Formalism.MainNotions.BridgeLemma.one_le_max_inv hda
     by_cases hsp : s = 1 ∧ a + 1 = r + 1
     · obtain ⟨hs1, ha⟩ := hsp
       have har : a = r := by omega
@@ -572,7 +561,6 @@ theorem cell_weight_induction (k r : ℕ) (T T' : ℝ) (δ : ℕ → ℝ) (K : �
       have h7 : 1 ≤ (max (δ (a + 1)) (δ (a + 1))⁻¹) ^ (2 * K) := one_le_pow₀ hmu'
       simp only [blockEndsFrom, List.map_cons, List.map_nil, List.prod_cons, List.prod_nil, mul_one]
       rw [e, pow_add, e4]
-      have n1 : 0 ≤ G ^ (k - 1) := by positivity
       calc G ^ (k - 1) * G ≤ G ^ (k - 1) * max G G⁻¹ := by gcongr; exact le_max_left _ _
         _ = G ^ (k - 1) * max G G⁻¹ * 1 * 1 := by ring
         _ ≤ G ^ (k - 1) * max G G⁻¹ * (δ a ^ 6 * (max (δ a) (δ a)⁻¹) ^ K) *
@@ -586,7 +574,6 @@ theorem cell_weight_induction (k r : ℕ) (T T' : ℝ) (δ : ℕ → ℝ) (K : �
       have hstep := power_change_of_scale_bound (δ a) (δ (a + s)) (‖t‖ ^ s) (ptWeightFrom k r T T' (a + s) bs)
         (2 * (2 * (r + 1 - a) + k)) (2 * (2 * (r + 1 - (a + s)) + k)) (Ml k r (a + s) + s - 3) s K hda hτ hc1 ihp.le
         (by unfold Ml; omega) (by unfold Ml; omega) (by omega)
-      have ny : 0 ≤ max G G⁻¹ := by linarith
       calc G ^ k ≤ ptWeightFrom k r T T' (a + s) bs * δ (a + s) ^ (2 * (2 * (r + 1 - (a + s)) + k)) * max G G⁻¹ *
             (max (δ (a + s)) (δ (a + s))⁻¹) ^ K *
             ((blockEndsFrom (a + s) bs).map fun l => (max (δ l) (δ l)⁻¹) ^ (2 * K)).prod := ihl
@@ -780,7 +767,6 @@ theorem loss_abs_product_bound (P : Finset ι) (E : List ℕ) (G : ι → ℝ) (
     (hDX : ∀ l ∈ E, ∏ v, max 1 (Dn v l) ≤ X) :
     ∏ v ∈ P, (B * (max (G v) (G v)⁻¹) ^ c1 * (E.map (fun l => (max (Dn v l) (Dn v l)⁻¹) ^ c2)).prod) ≤
       B ^ Fintype.card ι * (X ^ 4) ^ c1 * ((X ^ 2) ^ c2) ^ E.length := by
-  have hX0 : 0 ≤ X := le_trans zero_le_one hX
   rw [Finset.prod_mul_distrib, Finset.prod_mul_distrib, Finset.prod_const]
   have hMG0 : ∀ v, 0 ≤ max (G v) (G v)⁻¹ := fun v => le_trans (hG v).le (le_max_left _ _)
   have e1 : B ^ P.card ≤ B ^ Fintype.card ι := pow_le_pow_right₀ hB (Finset.card_le_univ P)
@@ -978,8 +964,6 @@ theorem heightStatement_of_bounds (C' Cl Cg cb Cu cT CT C0 A C C2 Ch : ℝ) (hC 
   intro w w' zs zs' γs ps hT _ P
   have hL := log_scale_nonneg D large₂
   obtain ⟨hr1, hr2, hm1⟩ := rank_parameters_le D
-  have hm0 : (0 : ℝ) ≤ D.R.m := le_trans zero_le_one hm1
-  have hf0 : (0 : ℝ) ≤ D.R.f := Nat.cast_nonneg _
   have hH : 1 ≤ scalePowQuadraticExponent D large₂ Ch := by
     unfold scalePowQuadraticExponent
     rw [scale_base_rpow_eq_exp]
@@ -1022,7 +1006,6 @@ theorem heightStatement_of_bounds (C' Cl Cg cb Cu cT CT C0 A C C2 Ch : ℝ) (hC 
   set len : ℕ := (ptBlockEnds (ps τ₀)).length with hlen
   have hlen' : (len : ℝ) ≤ D.R.m := le_trans (by exact_mod_cast block_ends_length_le (ps τ₀)) hr2
   set ξ : ℝ := (D.R.f : ℝ) * (large₂.sc.L * (Ch * (D.R.m : ℝ) ^ 2)) + Real.log S with hξ
-  have hξ0 : 0 ≤ ξ := by positivity
   have hXe : scalePowQuadraticExponent D large₂ Ch ^ D.R.f * S = Real.exp ξ := by
     unfold scalePowQuadraticExponent
     rw [scale_base_rpow_eq_exp, ← Real.exp_nat_mul, hξ, Real.exp_add, ← hSe]
@@ -1042,8 +1025,6 @@ theorem heightStatement_of_bounds (C' Cl Cg cb Cu cT CT C0 A C C2 Ch : ℝ) (hC 
       (D.R.m : ℝ) * (2 * ξ * (C * (D.R.m : ℝ))) =
       (D.R.m : ℝ) ^ 4 * D.R.f * large₂.sc.L * (C + 6 * C * Ch) + (D.R.m : ℝ) ^ 2 * Real.log S * (6 * C) := by
     rw [hξ]; ring
-  have a5 : large₂.CGam * (D.R.m : ℝ) ^ 5 * D.R.f * large₂.sc.L + Real.log S * (C2 * (D.R.m : ℝ) ^ 2) =
-      (D.R.m : ℝ) ^ 4 * D.R.f * large₂.sc.L * (large₂.CGam * D.R.m) + (D.R.m : ℝ) ^ 2 * Real.log S * C2 := by ring
   linarith
 
 theorem product_clause_at_record (C' Cl Cg cb Cu cT CT C0 A C C2 Ch : ℝ) (hC : 0 ≤ C) (hCh : 0 ≤ Ch) (h12 : C ≤ C2)
@@ -1051,8 +1032,6 @@ theorem product_clause_at_record (C' Cl Cg cb Cu cT CT C0 A C C2 Ch : ℝ) (hC :
   intro w w' zs zs' γs ps hT _ P
   have hL := log_scale_nonneg D large₂
   obtain ⟨hr1, hr2, hm1⟩ := rank_parameters_le D
-  have hm0 : (0 : ℝ) ≤ D.R.m := le_trans zero_le_one hm1
-  have hf0 : (0 : ℝ) ≤ D.R.f := Nat.cast_nonneg _
   have hr0 : (0 : ℝ) ≤ D.R.rS := Nat.cast_nonneg _
   have hC2 : 0 ≤ C2 := le_trans hC h12
   have hH : 1 ≤ scalePowQuadraticExponent D large₂ Ch := by
@@ -1112,10 +1091,6 @@ theorem product_clause_at_record (C' Cl Cg cb Cu cT CT C0 A C C2 Ch : ℝ) (hC :
       C ^ 2 * (D.R.f * large₂.sc.L) * (D.R.m : ℝ) ^ 4 + (D.R.m : ℝ) ^ 6 * (D.R.f * large₂.sc.L) * (C * Ch) +
         (D.R.m : ℝ) ^ 4 * Real.log S * C := by
     rw [hξ]; ring
-  have b9 : C2 * (D.R.m : ℝ) ^ 6 * D.R.f * large₂.sc.L + Real.log S * (C2 * (D.R.m : ℝ) ^ 4) =
-      (D.R.m : ℝ) ^ 6 * (D.R.f * large₂.sc.L) * C2 + (D.R.m : ℝ) ^ 4 * Real.log S * C2 := by ring
-  have b10 : (D.R.m : ℝ) ^ 6 * (D.R.f * large₂.sc.L) * (C ^ 2 + C * Ch) =
-      C ^ 2 * (D.R.f * large₂.sc.L) * (D.R.m : ℝ) ^ 6 + (D.R.m : ℝ) ^ 6 * (D.R.f * large₂.sc.L) * (C * Ch) := by ring
   linarith
 
 end Main
@@ -1227,7 +1202,6 @@ theorem loss_volume_nonneg (hb : 1 ≤ b) (C : ℝ) (hG : 0 < Gf k r z z' γ) : 
 theorem loss_volume_mono_constant (hb : 1 ≤ b) (hm : 0 < m) {Ca C : ℝ} (hCa : 0 < Ca) (h : Ca ≤ C) (hG : 0 < Gf k r z z' γ) :
     lossV b Ca m z z' γ p ≤ lossV b C m z z' γ p := by
   unfold lossV
-  have hm' : (0 : ℝ) < m := by exact_mod_cast hm
   refine mul_le_mul (mul_le_mul (Real.rpow_le_rpow_of_exponent_le hb (by gcongr))
     (Real.rpow_le_rpow_of_exponent_le (_root_.Formalism.MainNotions.BridgeLemma.one_le_max_inv hG) (by gcongr))
     (Real.rpow_nonneg (max_self_inv_nonneg hG.le) _) (Real.rpow_nonneg (by linarith) _)) ?_ ?_ ?_
@@ -1281,7 +1255,6 @@ theorem exp_one_mul_pi_lt_nine : Real.exp 1 * Real.pi < 9 := by
   have h1 := Real.exp_one_lt_d9
   have h2 := Real.pi_lt_d2
   have h3 := Real.pi_pos
-  have h4 := Real.exp_pos 1
   nlinarith
 
 theorem local_error_term_le (k r : ℕ) (Ca C δ ν t g : ℝ) (hk : r + 2 ≤ k) (hCa : 0 < Ca) (hCaC : Ca ≤ C) (hCk : C ≤ k)
@@ -1330,9 +1303,7 @@ theorem numerical_bound_first_case (k r : ℕ) (Ca C δ G T g v t Dr la lc pa pc
   have hmin : min 1 (Formalism.HermitianLatticeCounting.LatticeSumBounds.xv k r Ca (G / (T * Dr ^ 2)) t g) ≤
       min 1 (G / (T * Dr ^ 2) * t * g⁻¹ ^ (2 * r + 2) * (C / k) ^ (2 * (r : ℝ) * (1 - δ))) :=
     min_le_min le_rfl hx
-  have hmin0 : 0 ≤ min 1 (Formalism.HermitianLatticeCounting.LatticeSumBounds.xv k r Ca (G / (T * Dr ^ 2)) t g) := le_min zero_le_one hx0
   have hlc : 0 ≤ lc := hla.trans hlac
-  have hpc : 0 ≤ pc := le_trans zero_le_one (hpa.trans hpac)
   gcongr
 
 theorem product_le_enlarged_losses (la lc pa pc X : ℝ) (hla : 0 ≤ la) (hlac : la ≤ lc) (hpa : 1 ≤ pa) (hpac : pa ≤ pc) (hX : 0 ≤ X) :
@@ -1353,7 +1324,6 @@ theorem numerical_bound_second_case (k r : ℕ) (Ca C A G T T' g v t Dr sh ch la
     nv k r G T g v * hs * ((1 + ch) / sh) ^ (2 * k) * T⁻¹ ^ k / dim ≤ lc * pc ^ 2 * (C / k) ^ k := by
   have hk0 : (0 : ℝ) < k := by exact_mod_cast (by omega : 0 < k)
   have hv0 : 0 < v := by linarith
-  have hg0 : 0 < g := by linarith
   have hA0 : 0 < A := lt_of_lt_of_le (by positivity) hTA
   have hcond : v⁻¹ ^ k * (Ca / (k * v)) ^ (2 * r * (k - 2 - r)) ≤ 1 := by
     refine mul_le_one₀ (pow_le_one₀ (by positivity) (inv_le_one_of_one_le₀ hv)) (by positivity)
@@ -1372,9 +1342,7 @@ theorem numerical_bound_second_case (k r : ℕ) (Ca C A G T T' g v t Dr sh ch la
     have hC0 : 0 ≤ C := le_trans hCa.le hCaC
     have : 6 * Real.exp 1 * Real.pi * A ≤ C * g ^ (2 * r + 2) := by nlinarith only [hA, hC0, hgp]
     nlinarith only [this, hk0]
-  have hb0 : 0 ≤ 6 * Real.exp 1 * Real.pi * A / (k * g ^ (2 * r + 2)) := by positivity
   have hlc : 0 ≤ lc := hla.trans hlac
-  have hpc : 0 ≤ pc := le_trans zero_le_one (hpa.trans hpac)
   gcongr
 
 theorem numericVolume_bound_ii (k r : ℕ) (C A G T T' g v t la lc pa pc hs dim : ℝ)
@@ -1384,7 +1352,6 @@ theorem numericVolume_bound_ii (k r : ℕ) (C A G T T' g v t la lc pa pc hs dim 
     (hL2 : nv k r G T g v * hs / dim ≤ la * t⁻¹ ^ k) :
     nv k r G T g v * hs * T⁻¹ ^ k / dim ≤ lc * pc ^ 2 * (C / k) ^ k := by
   have hk0 : (0 : ℝ) < k := by exact_mod_cast (by omega : 0 < k)
-  have hg0 : 0 < g := by linarith
   have hA0 : 0 < A := lt_of_lt_of_le (by positivity) hTA
   have h := Formalism.HermitianLatticeCounting.P.minBoundSecondZero k r A G T T' g v t la (Real.sqrt hs) dim hr hk hG hT hT' hg hv ht hla hdim hTA hlow
     (by rw [Real.sq_sqrt hhs]; exact hL2)
@@ -1429,7 +1396,6 @@ theorem hyperbolic_parameters_of_minor {k r : ℕ} (T T' : ℝ) (z z' : Fin (2 *
       Gf k r z z' γ = T * T' * ‖DminN z z' γ r‖ ^ 2 * shV T T' z z' γ ^ 2 := by
   have hDe : DminN z z' γ r = Dmin k r z z' γ ⟨r, by omega⟩ := by
     unfold DminN; rw [dif_pos (by omega)]
-  have hd : 0 < ‖DminN z z' γ r‖ := norm_pos_iff.2 hD
   have hTT : 0 < T * T' := mul_pos hT hT'
   have hch2 : chV T T' z z' γ ^ 2 =
       ‖Dmin k r z z' γ (Fin.last (r + 1))‖ ^ 2 / (‖DminN z z' γ r‖ ^ 2 * (T * T')) := by
@@ -1575,7 +1541,6 @@ theorem family_side_conditions_large (C δ : ℝ) (hδ : 0 < δ) : ∃ x0 : ℝ,
     rw [sc_L Fm hx1]
     exact Real.one_le_rpow (one_lt_of Fm hx1).le (eps_pos Fm).le
   have hmr : ((Fm.D x i).R.m : ℝ) = 2 * ((Fm.D x i).R.rS : ℝ) + 2 := by exact_mod_cast rank_eq_two_mul_add_two (Fm.D x i)
-  have hr0 : (0 : ℝ) ≤ (Fm.D x i).R.rS := Nat.cast_nonneg _
   have hm0 : (0 : ℝ) < (Fm.D x i).R.m := by rw [hmr]; positivity
   have h1 : 1 ≤ δ * (Fm.D x i).R.m := by
     rw [div_le_iff₀ hδ] at hm; linarith
@@ -1677,7 +1642,6 @@ theorem degree_ratio_iteration (D : D7) (large₂ : SizeData₂ D) {C' Cl Cg cb 
     simpa using hK lam' A₀ (by simpa using hr) hG
   | succ j ih =>
     intro lam' A₀ hG hr
-    have hl0 : (0 : ℝ) ≤ l := Nat.cast_nonneg _
     have hr0 : l1dist lam' (lamD D τ) ≤ Cn * D.R.k * (D.R.m : ℝ) ^ 3 := by
       have : (0 : ℝ) ≤ ((j + 1 : ℕ) : ℝ) * l := by positivity
       linarith
@@ -1689,7 +1653,6 @@ theorem degree_ratio_iteration (D : D7) (large₂ : SizeData₂ D) {C' Cl Cg cb 
     have heq := congrArg hsVec (haeq μsec hμ γ p hRel θ' hθ' νR hν)
     rw [hs_vector_smul, hs_vector_finset_sum] at heq
     have hb0 : 0 < large₂.sc.b := lt_of_lt_of_le one_pos (one_le_b large₂)
-    have hB0 : 0 ≤ large₂.sc.b ^ (CDl * (D.R.m : ℝ) ^ 2) := Real.rpow_nonneg hb0.le _
     calc ‖DminN W.z W.z' γ l‖ ^ (j + 1) * ‖hsVec (jhUnit D w w' A₀ μsec νR γ)‖
         = ‖DminN W.z W.z' γ l‖ ^ j * ‖DminN W.z W.z' γ l • hsVec (jhUnit D w w' A₀ μsec νR γ)‖ := by
           rw [norm_smul]; ring
@@ -1805,7 +1768,6 @@ theorem L2_decay_pointwise_estimate (D : D7) (large₂ : SizeData₂ D) (C' Cl C
     (Real.rpow_nonneg (le_trans zero_le_one (le_max_left _ _)) _)
   have hbc0 : 0 ≤ large₂.sc.b ^ (Cc * (D.R.m : ℝ) ^ 2) := Real.rpow_nonneg (by linarith) _
   have hR0 : 0 ≤ R := mul_nonneg (mul_nonneg hdim0 hti0) hbc0
-  have hB0 : 0 ≤ B := Real.rpow_nonneg (by linarith) _
   have hP0 : 0 ≤ P := by positivity
   have hMx0 : 0 ≤ Mx := by
     apply mul_nonneg (le_trans hG.le (le_max_left _ _))
@@ -1864,7 +1826,6 @@ theorem L2_decay_pointwise_estimate (D : D7) (large₂ : SizeData₂ D) (C' Cl C
             mul_le_mul h7 hjh (mul_nonneg (mul_nonneg hw0.le (hsNormSq_nonneg _)) hP0) hR0
         _ = B1 * R * B ^ (2 * q) := by ring
   have hloss := loss_factor_le_rpow large₂.sc.b CPT Cc C D.R.m W.z W.z' γ p hb hm1 hPT hCc hC hG
-  have hBq : 0 ≤ B ^ (2 * q) := by positivity
   calc n0 * G ^ D.R.k * X * P ≤ n0 * (wt * Mx) * X * P := by gcongr
     _ = n0 * (wt * X) * P * Mx := by ring
     _ ≤ B1 * R * B ^ (2 * q) * Mx := by gcongr
@@ -1898,8 +1859,6 @@ theorem L2_decay_of_admissible (D : D7) (large₂ : SizeData₂ D) (C' Cl Cg cb 
     le_trans zero_le_one (one_le_lossV large₂.sc.b D.R.m W.z W.z' γ p hb hC0 hG (fun l hl => cell_ne_of_mem D hRel l hl))
   have hti0 : 0 ≤ (tvPr D τ w' ^ D.R.k)⁻¹ := inv_nonneg.2 (D.R.k_even.pow_nonneg _)
   have hZ : 0 ≤ lossV large₂.sc.b C D.R.m W.z W.z' γ p * (tvPr D τ w' ^ D.R.k)⁻¹ := mul_nonneg hloss0 hti0
-  have hm0 : (0 : ℝ) ≤ D.R.m := Nat.cast_nonneg _
-  have hk0 : (0 : ℝ) ≤ D.R.k := Nat.cast_nonneg _
   have hH1 : 1 ≤ scalePowQuadraticExponent D large₂ Ch := by
     unfold scalePowQuadraticExponent; exact Real.one_le_rpow hb (by positivity)
   have hBH : large₂.sc.b ^ (CDl * (D.R.m : ℝ) ^ 2) ≤ scalePowQuadraticExponent D large₂ Ch := by
@@ -2145,8 +2104,6 @@ theorem abs_decay_mono_constants (D : D7) (large₂ : SizeData₂ D) {C' Cl Cg c
   intro τ w w' hTT θ hθ W hW S hS hdeg γ p hRel θ' hθ' νR hνR hH q hq hD
   refine (H τ w w' hTT θ hθ W hW S hS hdeg γ p hRel θ' hθ' νR hνR hH q hq hD).trans ?_
   obtain ⟨_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, hv, -⟩ := hH.1.1
-  have hv0 : 0 < D.host.v := lt_of_lt_of_le one_pos hv
-  have hk0 : (0 : ℝ) ≤ D.R.k := Nat.cast_nonneg _
   have hb := one_le_scale_base_local large₂
   have hpa := _root_.Formalism.MainNotions.BridgeLemma.one_le_lossP large₂.sc.b D.R.m W.z W.z' γ p hb hCa
   have hpac := local_loss_mono_constant large₂.sc.b D.R.m W.z W.z' γ p hb hCa hC
@@ -2205,7 +2162,6 @@ theorem degree_ratio_iteration_alt (D : D7) (large₂ : SizeData₂ D) {C' Cl Cg
     simpa using hK lam' A₀ (by simpa using hr) hG
   | succ j ih =>
     intro lam' A₀ hG hr
-    have hl0 : (0 : ℝ) ≤ l := Nat.cast_nonneg _
     have hr0 : l1dist lam' (lamD D τ) ≤ Cn * D.R.k * (D.R.m : ℝ) ^ 3 := by
       have : (0 : ℝ) ≤ ((j + 1 : ℕ) : ℝ) * l := by positivity
       linarith
@@ -2216,7 +2172,6 @@ theorem degree_ratio_iteration_alt (D : D7) (large₂ : SizeData₂ D) {C' Cl Cg
       (fun I _ h => by simp only [dif_pos h]; exact h.choose_spec)
     have heq := haeq μsec hμ γ p hRel θ' hθ' νR hν
     have hb0 : 0 < large₂.sc.b := lt_of_lt_of_le one_pos (one_le_b large₂)
-    have hB0 : 0 ≤ large₂.sc.b ^ (CDl * (D.R.m : ℝ) ^ 2) := Real.rpow_nonneg hb0.le _
     have hc0 := hcf A₀
     calc ‖DminN W.z W.z' γ l‖ ^ (j + 1) * ‖jhUnit D w w' A₀ μsec νR γ‖
         = ‖DminN W.z W.z' γ l‖ ^ j * ‖DminN W.z W.z' γ l • jhUnit D w w' A₀ μsec νR γ‖ := by
@@ -2308,7 +2263,6 @@ theorem abs_decay_of_all_parameters (D : D7) (large₂ : SizeData₂ D) (C' Cl C
   obtain ⟨μsec, hμ⟩ := Formalism.FourierDecayAlt.P.SettingConstruction.sectionExists D.R.k D.R.rS W.z W.z' hk1 hz hz' (by rw [hTz]; exact hT)
     (by rw [hTz']; exact hT')
   obtain ⟨K, hK0, hKe⟩ := hA9 hH0 τ w w' hTT θ hθ W hGW μsec hμ
-  have hm0 : (0 : ℝ) ≤ D.R.m := Nat.cast_nonneg _
   have hk0 : (0 : ℝ) ≤ D.R.k := Nat.cast_nonneg _
   obtain ⟨_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, hv, -⟩ := hH0.1
   have hv0 : 0 < D.host.v := lt_of_lt_of_le one_pos hv
@@ -2450,7 +2404,6 @@ theorem rank_power_le_scale_power (hilbertNinetyConstant : ℝ) (hC : 0 ≤ hilb
       _ ≤ 6 * (x ^ ((1 : ℝ) / 8) / (1 / 8)) :=
           mul_le_mul_of_nonneg_left (Real.log_le_rpow_div hx0.le (by norm_num)) (by norm_num)
       _ = 48 * x ^ ((1 : ℝ) / 8) := by ring
-  have hlog0 : 0 ≤ Real.log (Fm.D x i).R.r := Real.log_nonneg hr1
   have hx8 : 0 ≤ x ^ ((1 : ℝ) / 8) := Real.rpow_nonneg hx0.le _
   have hm2 : hilbertNinetyConstant * Real.log (Fm.D x i).R.r ≤ 2 * (Fm.D x i).R.m := by
     have h4 : x ^ ((1 : ℝ) / 4) = x ^ ((1 : ℝ) / 8) * x ^ ((1 : ℝ) / 8) := by

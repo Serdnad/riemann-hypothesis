@@ -1,5 +1,6 @@
 module
 
+import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.ScalRelRepFree
 public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.RowMinor
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.EncardBiUnionLe
 import Mathlib.Algebra.Order.Floor.Extended
@@ -129,15 +130,8 @@ theorem ngx_iff {n : S.V ≃ₗ[E] S.V} (hn : IsAutLam S Λ n) {F G : LFlag S r 
 
 theorem nlam_map {n : S.V ≃ₗ[E] S.V} {F : LFlag S r T} (hn : n ∈ NLam Λ F) :
     (Xsp F).map (n : S.V →ₗ[E] S.V) = Xsp F := by
-  have key : ∀ m ∈ NLam Λ F, ∀ x ∈ Xsp F, m x ∈ Xsp F := by
-    intro m hm x hx
-    rw [← sub_add_cancel (m x) x]
-    exact add_mem (hm.2.2 x (X_le_orth hx)) hx
-  apply le_antisymm
-  · rintro _ ⟨x, hx, rfl⟩
-    exact key n hn x hx
-  · intro x hx
-    exact ⟨n.symm x, key _ (symm_mem_NLam hn) x hx, by simp⟩
+  intros
+  apply _root_.PI.UnitaryGroupMassFormula.ScalRelRepFree.nl_map_X <;> assumption
 
 theorem xflag_top (F : LFlag S r T) : Xflag F r = Xsp F := by
   show Submodule.span E (F.fl.e '' {i | i.1 < r}) = Submodule.span E (Set.range F.fl.e)

@@ -81,16 +81,7 @@ lemma exists_nat_denom {n : ℕ} (v : Fin n → D.host.E) :
 
 theorem lattice_projective {n : ℕ} {Λ : Submodule (𝓞 D.host.E) (Fin n → D.host.E)}
     (hΛ : Submodule.IsLattice D.host.E Λ) : Module.Projective (𝓞 D.host.E) Λ := by
-  have : Module.Finite (𝓞 D.host.E) Λ := Module.Finite.iff_fg.2 hΛ.fg
-  have : Module.Flat (𝓞 D.host.E) Λ := by
-    rw [IsDedekindDomain.flat_iff_torsion_eq_bot, eq_bot_iff]
-    intro x hx
-    obtain ⟨a, ha⟩ := (Submodule.mem_torsion_iff x).1 hx
-    rw [Submodule.mem_bot]
-    rw [Submonoid.smul_def] at ha
-    exact (smul_eq_zero.1 ha).resolve_left (nonZeroDivisors.coe_ne_zero a)
-  have : Module.FinitePresentation (𝓞 D.host.E) Λ := Module.finitePresentation_of_finite _ _
-  exact Module.Flat.projective_of_finitePresentation
+  apply _root_.GlobalTheory.HalfAdjLattice.lattice_projective <;> assumption
 
 theorem hF_eq_dot (S : HSp D) (x y : Fin S.rank → D.host.E) :
     hF S x y = (fun a => star (x a)) ⬝ᵥ (S.gram *ᵥ y) := by

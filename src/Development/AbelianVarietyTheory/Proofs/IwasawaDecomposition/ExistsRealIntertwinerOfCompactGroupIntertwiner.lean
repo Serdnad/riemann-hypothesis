@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.DiscreteSeriesPureInnerProductsTensorProduct
 public import Formalism.LocalToGlobal.IndefiniteReal.LinksChar
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ContDiffSetIntegralNat
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ContinuousOnAtTau
@@ -118,20 +119,7 @@ theorem finite_tensor (M : DSModel V S) (h : ∀ τ, FiniteDimensional ℂ (M.H 
 
 theorem ellT_sep (M : DSModel V S) (h : ∀ τ, FiniteDimensional ℂ (M.H τ)) (x : ⨂[ℂ] τ, M.H τ)
     (hx : ∀ w, ellT M w x = 0) : x = 0 := by
-  classical
-  let o := fun τ => stdOrthonormalBasis ℂ (M.H τ)
-  let b := Basis.piTensorProduct fun τ => (o τ).toBasis
-  have key : ∀ i, b.coord i = ellT M fun τ => o τ (i τ) := by
-    intro i
-    refine PiTensorProduct.ext (MultilinearMap.ext fun v => ?_)
-    simp only [LinearMap.compMultilinearMap_apply, ellT_tprod, Module.Basis.coord_apply, b]
-    rw [Basis.piTensorProduct_repr_tprod_apply]
-    refine Finset.prod_congr rfl fun τ _ => ?_
-    simp [OrthonormalBasis.repr_apply_apply]
-  refine b.ext_elem fun i => ?_
-  have := hx fun τ => o τ (i τ)
-  rw [← key] at this
-  simpa using this
+  apply _root_.GlobalTheory.Chain.RealIt.ellT_separates <;> assumption
 
 theorem inclT_bij (M : DSModel V S) (h : ∀ τ, M.sm τ = ⊤) : Function.Bijective (inclT M) := by
   have : inclT M = (PiTensorProduct.congr fun τ => LinearEquiv.ofTop (M.sm τ) (h τ)).toLinearMap := by

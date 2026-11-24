@@ -488,24 +488,7 @@ private theorem cochain_of_natural_values {A : Spc} {J : Cx R} {n : ℤ}
     (ha : ∀ p s h (V U : Scheme.{0}) (g : V ⟶ U) (x : Sx A p U),
       Sec.res g (a p s h U x) = a p s h V (x.res g)) :
     ∃ α : Cochain ((chains R).obj A) J n, ∀ p s h U x, ev α p s h U x = a p s h U x := by
-  have components : ∀ (i j : ℤ) (hij : i + n = j), ∃ φ : ((chains R).obj A).X i ⟶ J.X j,
-      ∀ (p : ℕ) (hp : i = -(p : ℤ)) U x,
-        Sec.map ((chainsXIso R A p).inv ≫ eqToHom (congrArg ((chains R).obj A).X hp.symm) ≫ φ)
-          (freeGen R _ U x) = a p j (hp ▸ hij) U x := by
-    intro i j hij
-    by_cases hi : i ≤ 0
-    · obtain ⟨k, rfl⟩ : ∃ k : ℕ, i = -(k : ℤ) := ⟨(-i).toNat, by omega⟩
-      obtain ⟨φ, hφ⟩ := CupSpec.free_exists (R := R) _ _ (a k j hij) (ha k j hij)
-      refine ⟨(chainsXIso R A k).hom ≫ φ, fun p hp U x => ?_⟩
-      obtain rfl : k = p := by omega
-      rw [eqToHom_refl, Category.id_comp, Iso.inv_hom_id_assoc]
-      exact hφ U x
-    · exact ⟨0, fun p hp => by omega⟩
-  choose φ hφ using components
-  refine ⟨Cochain.mk φ, fun p s h U x => ?_⟩
-  have hEval := hφ _ _ h p rfl U x
-  rw [eqToHom_refl, Category.id_comp] at hEval
-  exact hEval
+  apply _root_.GlobalTheory.EtC.CupSpec.ev_exists <;> assumption
 
 private theorem up_ex {I : Cx R} {n : ℤ} (γ : Cochain ((chains R).obj E) (Bc W I) n) :
     ∃ β : Cochain ((chains R).obj (sch.obj W ⨯ E)) I n,
@@ -1001,12 +984,7 @@ private theorem map_map_eq_zero {F G H : Shv ℤ} (φ : F ⟶ G) (ψ : G ⟶ H) 
 
 private theorem local_bind {U : Scheme.{0}} {P R : ∀ V : Scheme.{0}, (V ⟶ U) → Prop} (hP : Loc U P)
     (h : ∀ (V : Scheme.{0}) (g : V ⟶ U), P V g → Loc V fun W k => R W (k ≫ g)) : Loc U R := by
-  obtain ⟨S, hS, hSP⟩ := hP
-  choose T hT hTR using fun (V : Scheme.{0}) (g : V ⟶ U) (H : S.arrows g) => h V g (hSP V g H)
-  refine ⟨Sieve.bind S.arrows fun Y f H => T Y f H, ?_, ?_⟩
-  · exact Scheme.etaleTopology.bind_covering hS fun Y f H => hT Y f H
-  · rintro W _ ⟨Y, k, g, H, hk, rfl⟩
-    exact hTR Y g H W k hk
+  apply _root_.UpperTheory.ConeLoc.loc_bind <;> assumption
 
 theorem UpperTheory.acy_and_lift_of_locally_surjective_exact :
     ∀ (Q : Scheme.{0} → Prop), (∀ {V U : Scheme.{0}}, (V ⟶ U) → Q U → Q V) → ∀ (A C₁ Z : Shv ℤ) (i : A ⟶ C₁) (d : C₁ ⟶ Z) (w : i ≫ d = 0), Mono i → (ShortComplex.mk i d w).Exact → (∀ U : Scheme.{0}, Q U → ∀ b : Sec Z U, Loc U fun V g => ∃ a : Sec C₁ V, Sec.map d a = Sec.res g b) → Acy Q A → Acy Q C₁ → Acy Q Z ∧ ∀ P : PSh, Supp Q P → ∀ f : (free ℤ).obj P ⟶ Z, ∃ h : (free ℤ).obj P ⟶ C₁, h ≫ d = f := by

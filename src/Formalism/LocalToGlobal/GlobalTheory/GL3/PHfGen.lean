@@ -1,5 +1,6 @@
 module
 
+import Formalism.LocalToGlobal.KernelLattices.ColumnData.HfTrace
 public import Formalism.LocalToGlobal.GlobalTheory.GL3.PIopNorm
 
 @[expose] public section
@@ -83,18 +84,7 @@ def genLa (D : D7) (cc : Ideal (𝓞 D.host.K)) (δ : ℂ) (L : Submodule (𝓞 
 theorem La_le_gen (cc : Ideal (𝓞 D.host.K)) (δ : ℂ) (L : Submodule (𝓞 D.host.E) (Fin N → D.host.E))
     (L' : Submodule (𝓞 D.host.E) (Fin N' → D.host.E)) :
     La D (tor0 D cc δ) L L' ≤ AddSubgroup.closure (genLa D cc δ L L') := by
-  unfold La
-  rw [AddSubgroup.closure_le]
-  rintro z ⟨w, hw, A, hA, rfl⟩
-  change w ∈ lamOf D cc δ at hw
-  unfold lamOf at hw
-  induction hw using AddSubgroup.closure_induction with
-  | mem w hw =>
-    obtain ⟨c, hc, rfl⟩ := hw
-    exact AddSubgroup.subset_closure ⟨c, hc, A, hA, rfl⟩
-  | zero => rw [zero_smul]; exact AddSubgroup.zero_mem _
-  | add w w' _ _ h1 h2 => rw [add_smul]; exact AddSubgroup.add_mem _ h1 h2
-  | neg w _ h1 => rw [neg_smul]; exact AddSubgroup.neg_mem _ h1
+  apply (_root_.Formalism.L2.Ker.Cd.IntegralLatticeDensity.IO.La_le_gen (D := (_root_.Formalism.L2.Ker.Car.ofRec D))) <;> assumption
 
 end Formalism.L2.GlobalTheoryTheory.IntegralLatticeDensity.IO
 

@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.FormalGroupCharts.AxisPderivComp
 public import Development.WeilBound.CoreStatements.HodgeTatePoints.CbBase
 public import Development.WeilBound.CoreStatements.HodgeTatePoints.CoeffEvPowOne
 public import Development.WeilBound.CoreStatements.HodgeTatePoints.FirstPowerEqProdAt
@@ -127,20 +128,8 @@ private theorem constantCoeff_partial (f : PS R n d) (v : Fin n × Fin d) :
   rw [← coeff_zero_eq_constantCoeff_apply, coeff_pderiv, zero_add]
   simp
 
-theorem ev_at_zero (f : PS R 1 d) : ev ![(0 : Pt R n d)] f = C (constantCoeff f) := by
-  ext e
-  have ha : HasSubst (fun q : Fin 1 × Fin d => (![(0 : Pt R n d)] q.1 q.2)) :=
-    hasSubst_ev _ (by intro j i; simp)
-  rw [ev, coeff_subst ha, finsum_eq_single _ 0]
-  · simp [coeff_C, coeff_one]
-  · intro d' hd'
-    obtain ⟨s, hs⟩ : ∃ s, d' s ≠ 0 := by
-      by_contra hcon
-      push Not at hcon
-      exact hd' (Finsupp.ext hcon)
-    have hz : (![(0 : Pt R n d)] s.1 s.2) ^ d' s = 0 := by simp [zero_pow hs]
-    rw [Finsupp.prod, Finset.prod_eq_zero (Finsupp.mem_support_iff.2 hs) hz]
-    simp
+theorem ev_at_zero (f : PS R 1 d) : ev ![(0 : Pt R n d)] f = C (constantCoeff f) :=
+  _root_.GlobalTheory.ChartTrans.ev_at_zero f
 
 theorem dcomp_ne {s t : Fin n} (h : t ≠ s) (φ : Pt R 1 d) (j c : Fin d) :
     pderiv (s, j) (comp1 φ (pt R d t) c) = 0 := by

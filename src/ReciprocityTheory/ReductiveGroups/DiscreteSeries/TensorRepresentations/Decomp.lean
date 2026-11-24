@@ -64,12 +64,10 @@ theorem mat_decomp2 (Y Z : Matrix (Fin n) (Fin n) ℂ) :
 
 end SlopeTestRemainingChoices
 
-theorem tens_unitarize (dual : Bool) {lam : Fin n → ℝ} {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℂ H] [CompleteSpace H] {ε : Fin n → Bool}
+theorem tens_unitarize_of_memLp (dual : Bool) {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℂ H] [CompleteSpace H] {ε : Fin n → Bool}
     {σ : Matrix (Fin n) (Fin n) ℂ → (H →L[ℂ] H)} {D : Submodule ℂ H} {E : Fin n → Fin n → Module.End ℂ D}
     (hσ : IsURepOn (UJset ε) σ) (hD : IsDerivedOn ε σ D E)
-    {V : Submodule ℂ D} (hgap : StdGap ε lam) (hV : IsKIrrHW ε E (lowK ε lam) V)
-    (hc : ∀ v ∈ V, casimir E v = (casVal lam : ℂ) • v)
-    (hVK : ∀ k ∈ Kset ε, ∀ v ∈ V, ∃ w ∈ V, (w : H) = σ k v) (hW : ∀ v ∈ genSub E V, ∀ w ∈ genSub E V, MemLp (fun g : Formalism.REAL.UJ ε =>
+    {V : Submodule ℂ D} (hfin : FiniteDimensional ℂ V) (hW : ∀ v ∈ genSub E V, ∀ w ∈ genSub E V, MemLp (fun g : Formalism.REAL.UJ ε =>
       ((Real.sqrt (S7.hs (Formalism.MainNotions.S.umat g)) : ℝ) : ℂ) * inner ℂ ((w : D) : H) (σ (Formalism.MainNotions.S.umat g) ((v : D) : H)))
       2 (Formalism.REAL.muG ε)) :
     ∃ Q : (Fin n → D) →ₗ⋆[ℂ] (Fin n → D) →ₗ[ℂ] ℂ,
@@ -83,7 +81,7 @@ theorem tens_unitarize (dual : Bool) {lam : Fin n → ℝ} {H : Type*} [NormedAd
           (fun c => ((g' c : D) : H)) = kDiag dual σ k (fun c => ((g c : D) : H)) → Q f' g' = Q f g := by
   classical
   haveI : (Formalism.REAL.muG ε).IsMulRightInvariant := ⟨fun g => Formalism.REAL.indefinite_unitary_unimodular n ε g⟩
-  haveI : FiniteDimensional ℂ V := hV.1
+  haveI : FiniteDimensional ℂ V := hfin
   let bV := Module.finBasis ℂ V
   let ys : Fin (Module.finrank ℂ V) → H := fun j => (((bV j : V) : D) : H)
   have hVM : V ≤ genSub E V := le_sInf fun T hT => hT.1
@@ -222,6 +220,25 @@ theorem tens_unitarize (dual : Bool) {lam : Fin n → ℝ} {H : Type*} [NormedAd
       rw [show hvec h' = kDiag dual σ (Formalism.MainNotions.S.umat (toG k hkU)) (hvec h) from hh]
       exact cf_kDiag hσ dual _ ξ _ (toG k hkU) hk.2 x
     rw [e f f' hff, e g g' hgg, pr_rt]
+
+theorem tens_unitarize (dual : Bool) {lam : Fin n → ℝ} {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℂ H] [CompleteSpace H] {ε : Fin n → Bool}
+    {σ : Matrix (Fin n) (Fin n) ℂ → (H →L[ℂ] H)} {D : Submodule ℂ H} {E : Fin n → Fin n → Module.End ℂ D}
+    (hσ : IsURepOn (UJset ε) σ) (hD : IsDerivedOn ε σ D E)
+    {V : Submodule ℂ D} (hgap : StdGap ε lam) (hV : IsKIrrHW ε E (lowK ε lam) V)
+    (hc : ∀ v ∈ V, casimir E v = (casVal lam : ℂ) • v)
+    (hVK : ∀ k ∈ Kset ε, ∀ v ∈ V, ∃ w ∈ V, (w : H) = σ k v) (hW : ∀ v ∈ genSub E V, ∀ w ∈ genSub E V, MemLp (fun g : Formalism.REAL.UJ ε =>
+      ((Real.sqrt (S7.hs (Formalism.MainNotions.S.umat g)) : ℝ) : ℂ) * inner ℂ ((w : D) : H) (σ (Formalism.MainNotions.S.umat g) ((v : D) : H)))
+      2 (Formalism.REAL.muG ε)) :
+    ∃ Q : (Fin n → D) →ₗ⋆[ℂ] (Fin n → D) →ₗ[ℂ] ℂ,
+      (∀ f ∈ tensSub (genSub E V), ∀ g ∈ tensSub (genSub E V), Q g f = star (Q f g)) ∧
+      (∀ f ∈ tensSub (genSub E V), f ≠ 0 → 0 < (Q f f).re) ∧
+      (∀ a b, ∀ f ∈ tensSub (genSub E V), ∀ g ∈ tensSub (genSub E V),
+        Q (tensF dual E a b f) g = adjSign ε a b * Q f (tensF dual E b a g)) ∧
+      ∀ k ∈ Kset ε, ∀ f ∈ tensSub (genSub E V), ∀ g ∈ tensSub (genSub E V),
+        ∀ f' ∈ tensSub (genSub E V), ∀ g' ∈ tensSub (genSub E V),
+          (fun c => ((f' c : D) : H)) = kDiag dual σ k (fun c => ((f c : D) : H)) →
+          (fun c => ((g' c : D) : H)) = kDiag dual σ k (fun c => ((g c : D) : H)) → Q f' g' = Q f g :=
+  tens_unitarize_of_memLp dual hσ hD hV.1 hW
 
 end ReciprocityTheory.ChartRestriction.DS
 end -- clump:auto

@@ -1,5 +1,6 @@
 module
 
+import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.ThetaParseval.ThetaKernels.SiegelWeilKsingGrp
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.ThetaParseval.ThetaKernels.SiegelWeilDatumProperties
 public import Development.WeilBound.CoreStatements.AutomorphicKernels.SiegelWeilFormula.CayleyTransform.DZTranspose
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.ThetaParseval.ThetaKernels.SiegelWeilKrdDenseW
@@ -64,26 +65,8 @@ theorem cw_iota_k (d : _root_.PositivityTheory.SiegelWeilFormula.SD_k σ) (R : _
   exact e
 theorem law_w_k (d : _root_.PositivityTheory.SiegelWeilFormula.SD_k σ) (R : _root_.PositivityTheory.SiegelWeilFormula.RD_k d) (w : InfinitePlace F) (x : d.G) :
     (d.cw w (inFrame d.b x))ᵀ * Krd.Qc d.n R.ε * (d.cw w (inFrame d.b x)).map star = Krd.Qc d.n R.ε := by
-  have hx : (mat2 x)ᵀ * dbl (incM F d.Y.J) * (mat2 x).map (cA σ) = dbl (incM F d.Y.J) := x.2
-  have hw := congrArg (d.cw w) hx
-  rw [_root_.PositivityTheory.SiegelWeilFormula.Krd.cw_mul_k, _root_.PositivityTheory.SiegelWeilFormula.Krd.cw_mul_k, _root_.PositivityTheory.SiegelWeilFormula.Place.cw_cA_k, _root_.PositivityTheory.SiegelWeilFormula.Krd.cw_transpose_k, _root_.PositivityTheory.SiegelWeilFormula.Krd.dbl_incM_k, _root_.PositivityTheory.SiegelWeilFormula.Krd.cw_incM_k] at hw
-  have hQ := _root_.PositivityTheory.SiegelWeilFormula.Krd.hQ_w_k d R.hε w
-  set b := d.b.1.map (d.B.emb w).1 with hb
-  set bi := (d.b⁻¹).1.map (d.B.emb w).1 with hbi
-  set D := (dbl d.Y.J).map (d.B.emb w).1 with hD
-  have hbbi : b * bi = 1 := by
-    rw [hb, hbi, ← Matrix.map_mul, Units.mul_inv, Matrix.map_one _ (map_zero _) (map_one _)]
-  have hbib : bi * b = 1 := by
-    rw [hb, hbi, ← Matrix.map_mul, Units.inv_mul, Matrix.map_one _ (map_zero _) (map_one _)]
-  have hQ' : biᵀ * Krd.Qc d.n R.ε * bi.map star = D := by
-    rw [← hQ]
-    calc biᵀ * (bᵀ * D * b.map star) * bi.map star = (b * bi)ᵀ * D * (b * bi).map star := by
-          rw [Matrix.transpose_mul, Krd.mapStar_mul]; simp only [Matrix.mul_assoc]
-      _ = D := by rw [hbbi, Matrix.transpose_one, Krd.mapStar_one, Matrix.one_mul, Matrix.mul_one]
-  have hZ : d.cw w (inFrame d.b x) = bi * d.cw w (mat2 x) * b := by
-    simp only [inFrame, _root_.PositivityTheory.SiegelWeilFormula.Krd.cw_mul_k, _root_.PositivityTheory.SiegelWeilFormula.Krd.cw_incM_k, hb, hbi]
-  rw [hZ]
-  exact Krd.conj_unit bi b (d.cw w (mat2 x)) _ _ hbib hQ' hw
+ intros
+ apply @_root_.PositivityTheory.SiegelWeilFormula.KSing.UnitaryGroupBasics.form_w_k <;> assumption
 theorem cw_inFrame_one_k (d : _root_.PositivityTheory.SiegelWeilFormula.SD_k σ) (w : InfinitePlace F) : d.cw w (inFrame d.b (1 : d.G)) = 1 := by
   rw [SiegelEisensteinSeries.Grp.inFrame_one, _root_.PositivityTheory.SiegelWeilFormula.Krd.cw_one_k]
 theorem decompW_k (d : _root_.PositivityTheory.SiegelWeilFormula.SD_k σ) (R : _root_.PositivityTheory.SiegelWeilFormula.RD_k d) (w : InfinitePlace F) (g : d.G) :

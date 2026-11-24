@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.ExistsIdemSumLeft
 public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.IsCombAt
 public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.IsRatDatum
 public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.ExistsIntegralMatrixUpImageCompletedHomLattice
@@ -56,29 +57,7 @@ theorem latO_mono (S T : HSp D) (LS LT) {P Q : Pl D → Prop} (h : ∀ v, P v �
 
 theorem mem_latO_at (q : SplitPt D k) {S T : HSp D} {LS LT} {u : WO S T} (hu : u ∈ latO S T LS LT fun _ => True)
     (hh : IsHalf q.e u) : u ∈ latO S T LS LT (· = q.v) := by
-  obtain ⟨ε, ⟨β, rfl, h1, h0⟩, hsum⟩ := q.above
-  have hβ : β ∈ intAf D.host.F := fun u => by
-    by_cases hu : u = q.v
-    · subst hu; rw [h1]; exact one_mem _
-    · rw [h0 u hu]; exact zero_mem _
-  have main : (latO S T LS LT fun _ => True) ≤ (latO S T LS LT (· = q.v)).comap
-      (DistribSMul.toAddMonoidHom (WO S T) (algebraMap (AF D.host.F) (AE D) (pairA D.host.F 0 β))) := by
-    refine (AddSubgroup.closure_le _).2 ?_
-    rintro _ ⟨α, hα, -, a, ha, s, hs, t, ht, rfl⟩
-    refine AddSubgroup.subset_closure ⟨β * α, fun v => by rw [map_mul]; exact mul_mem (hβ v) (hα v), fun v hv => ?_,
-      a, ha, s, hs, t, ht, ?_⟩
-    · rw [map_mul, h0 v hv, zero_mul]
-    · ext i j
-      change (pairA D.host.F 0 β ⊗ₜ[D.host.F] (1 : D.host.E)) * (pairA D.host.F 0 α ⊗ₜ[D.host.F] _) = _
-      rw [Algebra.TensorProduct.tmul_mul_tmul, one_mul, Matrix.of_apply]
-      congr 1
-      exact Prod.ext (mul_zero _) rfl
-  have h := main hu
-  rw [AddSubgroup.mem_comap] at h
-  convert h using 1
-  ext i j
-  change _ = algebraMap (AF D.host.F) (AE D) (pairA D.host.F 0 β) * u i j
-  rw [← hsum, ← hh i j, ← mul_assoc, add_mul, q.split.1, mul_comm (cA D q.e), q.split.2.1, add_zero]
+  first | exact _root_.GlobalTheory.SeeSaw.StdMatch.mem_latO_at | exact @_root_.GlobalTheory.SeeSaw.StdMatch.mem_latO_at | apply _root_.GlobalTheory.SeeSaw.StdMatch.mem_latO_at <;> assumption
 
 theorem int_iff_up_mem_stdHom : ∀ (D : D7) (k : Type) [Field k] [ValuativeRel k] [TopologicalSpace k] [IsNonarchimedeanLocalField k] (q : GlobalTheory.FinPl.SplitPt D k), q.UnitAA → ∀ (Y Y' : Type) [Fintype Y] [DecidableEq Y] [Fintype Y'] [DecidableEq Y'] (S T : HSp D) (FS : GlobalTheory.LocMod.Frame k S.rank Y') (FT : GlobalTheory.LocMod.Frame k T.rank Y) (LS : GlobalTheory.FinPl.Lat S) (LT : GlobalTheory.FinPl.Lat T), IsSelfDualC S LS → IsSelfDualC T LT → (∀ z, z ∈ LS ↔ z ∈ intVec D S.rank) → (∀ z, z ∈ LT ↔ z ∈ intVec D T.rank) → (∀ y : Y' → k, (∀ i, y i ∈ 𝒪[k]) ↔ (fun i => q.sec ((FS.β *ᵥ y) i)) ∈ GlobalTheory.FinPl.latV S LS (· = q.v)) → (∀ y : Y → k, (∀ i, y i ∈ 𝒪[k]) ↔ (fun i => q.sec ((FT.β *ᵥ y) i)) ∈ GlobalTheory.FinPl.latV T LT (· = q.v)) → ∀ x : Matrix Y Y' k, (∀ r s, x r s ∈ 𝒪[k]) ↔ (GlobalTheory.LocMod.ofSplit q).up FS FT x ∈ stdHom S T := by
   intro D k _ _ _ _ q hq Y Y' _ _ _ _ S T FS FT LS LT hS hT eS eT hFS hFT x

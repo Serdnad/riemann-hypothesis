@@ -1,5 +1,7 @@
 module
 
+import all Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.LocalMaximality.PLCupRel
+import all Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.LocalMaximality.SmRangeCongr
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.LocalMaximality.DualForm
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.LocalMaximality.LiftFactorization
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.TwistedDualRegularFormsFiniteCoverStatement
@@ -73,17 +75,7 @@ private lemma card_uni' {ι κ : Type} [LinearOrder ι] [LinearOrder κ] (I : Fi
 
 private lemma card_split {ι : Type} [LinearOrder ι] (I : Finset ι) (i : ι) (hi : i ∈ I) :
     (I.filter (· ≤ i)).card + (I.filter (i ≤ ·)).card = I.card + 1 := by
-  rw [← Finset.card_union_add_card_inter, Finset.filter_union_right]
-  have h1 : I.filter (fun x => x ≤ i ∨ i ≤ x) = I := Finset.filter_true_of_mem (fun x _ => le_total x i)
-  have h2 : I.filter (· ≤ i) ∩ I.filter (i ≤ ·) = {i} := by
-    ext x
-    simp only [Finset.mem_inter, Finset.mem_filter, Finset.mem_singleton]
-    constructor
-    · rintro ⟨⟨_, a⟩, _, b⟩
-      exact le_antisymm a b
-    · rintro rfl
-      exact ⟨⟨hi, le_rfl⟩, hi, le_rfl⟩
-  rw [h1, h2, Finset.card_singleton]
+  apply _root_.card_split <;> assumption
 
 private lemma mem_acx_C {ι E : Type} [LinearOrder ι] [AddCommGroup E] [Module ℂ E] (A : Finset ι → Submodule ℂ E)
     (w : ι → Module.End ℂ E) (n : ℤ) (c : Finset ι → E) :
@@ -92,14 +84,7 @@ private lemma mem_acx_C {ι E : Type} [LinearOrder ι] [AddCommGroup E] [Module 
 
 private lemma omB_le_fixed {K : Type} [Field K] [Algebra ℂ K] (B : Subalgebra ℂ K) (q : ℕ) (y : DR ℂ K)
     (hy : y ∈ omB ℂ K B q) : y ∈ ⋀[K]^q Ω[K⁄ℂ] := by
-  refine Submodule.span_induction (p := fun y _ => y ∈ ⋀[K]^q Ω[K⁄ℂ]) ?_ ?_ ?_ ?_ hy
-  · rintro _ ⟨b, -, v, -, rfl⟩
-    exact Submodule.smul_mem _ _ (ExteriorAlgebra.ιMulti_range K q ⟨_, rfl⟩)
-  · exact Submodule.zero_mem _
-  · intro a b _ _ ha hb
-    exact Submodule.add_mem _ ha hb
-  · intro c a _ ha
-    exact Submodule.smul_of_tower_mem _ c ha
+  apply _root_.UpperTheory.Gal.productCup_of_system.omB_le_fixed <;> assumption
 
 private lemma pk_filter {d : ℕ} (I : Finset (Fin (d + 1))) (i : Fin (d + 1)) (hi : i ∈ I) :
     pk (I.filter (· ≤ i)) = pk I := by

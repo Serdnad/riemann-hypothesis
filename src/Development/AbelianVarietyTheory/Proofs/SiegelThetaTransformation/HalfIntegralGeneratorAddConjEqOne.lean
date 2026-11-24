@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.VacuumMultiplierEqOneOnStabiliserStatement
 public import Development.AbelianVarietyTheory.Definitions.SpanningFamilies.IsBaseClassLevelAdapted
 public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.ThExprUniqOfChartIndep2
 public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.AdmissibleColumnsLeAndHarmonicMapCover
@@ -79,26 +80,7 @@ variable {E : Type} [Field E] [NumberField E] [IsCMField E] {r g q0 n : ℕ} {X 
   {bas : (Fin g ⊕ Fin g → ℤ) ≃ₗ[ℤ] X.Λ}
 
 theorem halfIntegralGenerator_add_conj_eq_one (H : Host E) : (H.w0 : E) + cc (H.w0 : E) = 1 := by
-  have h1 : (H.rt : E) ^ 2 = -(H.d : E) := by simpa using congrArg (algebraMap (𝓞 E) E) H.rt_sq
-  have h2 : 2 * (H.w0 : E) = 1 + (H.rt : E) := by
-    simpa [map_ofNat] using congrArg (algebraMap (𝓞 E) E) H.two_weight_eq_one_add_root
-  obtain ⟨τ⟩ : Nonempty (E →+* ℂ) := inferInstance
-  have h3 : τ H.rt ^ 2 = -(H.d : ℂ) := by simpa using congrArg τ h1
-  have h4 : 2 * τ H.w0 = 1 + τ H.rt := by simpa [map_ofNat] using congrArg τ h2
-  have h5 : (τ H.rt).re = 0 := by
-    have a := congrArg Complex.re h3
-    have b := congrArg Complex.im h3
-    have c : (0 : ℝ) < H.d := by exact_mod_cast H.d_prime.pos
-    simp only [pow_two, mul_re, mul_im, neg_re, neg_im, natCast_re, natCast_im, neg_zero] at a b
-    by_contra h
-    have : (τ H.rt).im = 0 := mul_left_cancel₀ h (by linarith)
-    rw [this] at a
-    nlinarith [mul_self_nonneg (τ H.rt).re]
-  apply τ.injective
-  rw [map_add (f := _), cc, IsCMField.complexEmbedding_complexConj, map_one, Complex.add_conj]
-  have h6 := congrArg Complex.re h4
-  simp only [add_re, one_re, h5, add_zero, mul_re, re_ofNat, im_ofNat, zero_mul, sub_zero] at h6
-  exact_mod_cast h6
+  first | exact _root_.GlobalTheory.VacMult.hostHalfRoot_add_conj_eq_one | exact @_root_.GlobalTheory.VacMult.hostHalfRoot_add_conj_eq_one | apply _root_.GlobalTheory.VacMult.hostHalfRoot_add_conj_eq_one <;> assumption
 
 alias sb_smul := _root_.GlobalTheory.Dict.ShortVal.isSB_smul
 

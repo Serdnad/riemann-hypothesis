@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.ToEAfMulIncAMemOfIsIdemSum
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.RestrictedTensorBasePointNormSq
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.IsIntOv
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.IdempotentMulEqZeroOfOrthogonal
@@ -95,17 +96,7 @@ def mulHomeo {K : Type} [CommRing K] [TopologicalSpace K] [IsTopologicalRing K] 
 variable {D : D7}
 
 theorem toEAf_mem {w : AE D} (hw : finPart D w ∈ intAE D) : toEAf D w ∈ Formalism.L2.Herm.intAf D.host.F D.host.E := by
-  have key : ∀ z ∈ intAE D, Algebra.TensorProduct.comm D.host.F (Formalism.L2.Herm.Af D.host.F) D.host.E z ∈
-      Formalism.L2.Herm.intAf D.host.F D.host.E := by
-    intro z hz
-    induction hz using AddSubgroup.closure_induction with
-    | mem z hz =>
-      obtain ⟨a, ha, x, rfl⟩ := hz
-      exact GlobalTheory.PlaceDatum.tmul_mem_int ⟨x, rfl⟩ ha
-    | zero => rw [map_zero]; exact zero_mem _
-    | add x y _ _ hx hy => rw [map_add]; exact add_mem hx hy
-    | neg x _ hx => rw [map_neg]; exact neg_mem hx
-  exact key _ hw
+  first | exact _root_.GlobalTheory.IdemIntegral.toEAf_mem_of_finPart_mem | exact @_root_.GlobalTheory.IdemIntegral.toEAf_mem_of_finPart_mem | apply _root_.GlobalTheory.IdemIntegral.toEAf_mem_of_finPart_mem <;> assumption
 
 variable {v : FinPl D} {S T : HSp D} {e : AE D} {π : AE D →+* Fv D.host.F v}
 

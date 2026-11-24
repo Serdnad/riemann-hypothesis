@@ -1,5 +1,8 @@
 module
 
+
+import Formalism.SharpRestriction.LevelLetterCocycles.DvrLatticeRank.FramePfHyp
+import Development.WeilBound.RepresentationTheoryGL.CasimirAlgebra.TensorRelationsGL.PWallAlgA
 public import Mathlib.LinearAlgebra.Matrix.Block
 public import Formalism.PieriBlockIdeals.Statement
 public import Mathlib.Algebra.Polynomial.Roots
@@ -64,7 +67,6 @@ import Mathlib.RingTheory.LocalProperties.Reduced
 import Mathlib.RingTheory.WittVector.IsPoly
 import Mathlib.Tactic.ENatToNat
 import Mathlib.Tactic.Polynomial.Basic
-
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Formalism.PieriBlockIdeals.PieriColumnMinors.MinorValuationBoundHolds, Formalism.PieriBlockIdeals.WEChain, Formalism.PieriBlockIdeals.PieriColumnMinors.ContentLinkageHolds, Formalism.PieriBlockIdeals.PieriColumnMinors.WeightExchangeBoundHolds, Formalism.PieriBlockIdeals.PieriColumnMinors.WeightExchangeChainHolds, Formalism.PieriBlockIdeals.PieriColumnMinors.RegularCuspidalTrace, Formalism.PieriBlockIdeals.PieriColumnMinors.HeckeLFunctionIdealEulerProduct
 
@@ -690,16 +692,8 @@ theorem subst_C_eq_C {a : R⟦X⟧} (r : R) : (C r : R⟦X⟧).subst a = C r := 
 
 theorem constantCoeff_subst_of_constantCoeff_zero_alt {a : R⟦X⟧} (ha : constantCoeff a = 0) (f : R⟦X⟧) :
     constantCoeff (f.subst a) = constantCoeff f := by
-  have hs : HasSubst a := by
-    first
-    | exact HasSubst.of_constantCoeff_zero ha
-  obtain ⟨g, hg⟩ : X ∣ f - C (constantCoeff f) := by
-    rw [X_dvd_iff, map_sub, constantCoeff_C, sub_self]
-  have e : f = C (constantCoeff f) + X * g := by
-    rw [← hg]; ring
-  conv_lhs => rw [e]
-  rw [subst_add hs, subst_mul hs, subst_X hs, subst_C_eq_C]
-  simp [ha]
+  intros
+  apply _root_.Formalism.MainNotions.N.Ln34.framepf_hyp_cc_subst <;> assumption
 
 theorem constantCoeff_gammaSeries (lam : R) (un : R⟦X⟧) : constantCoeff (gamSer lam un) = 0 := by
   simp [gamSer]
@@ -1399,17 +1393,7 @@ theorem sum_tail_le_sum_of_antitone {N : ℕ} (f : Fin N → ℤ) (hf : Antitone
 
 theorem card_filter_le_val_eq_sub (N m : ℕ) (hm : m ≤ N) :
     (Finset.univ.filter fun a : Fin N => m ≤ (a : ℕ)).card = N - m := by
-  have hm2 : (Finset.univ.filter fun a : Fin N => m ≤ (a : ℕ)).map Fin.valEmbedding =
-      Finset.Ico m N := by
-    ext x
-    simp only [Finset.mem_map, Finset.mem_filter, Finset.mem_univ, true_and, Fin.valEmbedding_apply,
-      Finset.mem_Ico]
-    constructor
-    · rintro ⟨a, h1, rfl⟩
-      exact ⟨h1, a.2⟩
-    · rintro ⟨h1, h2⟩
-      exact ⟨⟨x, h2⟩, h1, rfl⟩
-  rw [← Finset.card_map Fin.valEmbedding, hm2, Nat.card_Ico]
+  apply _root_.PositivityTheory.Rg.Cz.WallAlgP.card_highS <;> assumption
 
 theorem weight_exponents_from_inputs : WEFromInputs := by
   intro ι _ σ k j t q l h _ O F _ _ _ _ _ W u c U U' bot cst kap τ hl2 hsmall hW hU hU' hblock hlink

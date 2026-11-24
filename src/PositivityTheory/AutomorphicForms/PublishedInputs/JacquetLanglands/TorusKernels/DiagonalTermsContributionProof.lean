@@ -1,6 +1,7 @@
 module
 
 public import PositivityTheory.AutomorphicForms.PublishedInputs.JacquetLanglands.TorusKernels.MultivariableReproducingFormula
+public import PositivityTheory.AutomorphicForms.PublishedInputs.JacquetLanglands.TorusKernels.UpperHalfPlaneCoordinatesProof
 public import Mathlib.CategoryTheory.Category.Basic
 import Mathlib.RingTheory.SimpleRing.Principal
 public import Mathlib.MeasureTheory.Integral.Prod
@@ -79,24 +80,8 @@ def fpr (g0 : GL (Fin 2) ℝ) (w : P) : P := g0 • pt 0 (yco g0 w).1 (yco g0 w)
 
 def proj {I : Type} [DecidableEq I] (g0 : GL (Fin 2) ℝ) (v : I) (z : X I) : X I := Function.update z v (fpr g0 (z v))
 
-def ptE (hc : Continuous fun p : ℝ × {y : ℝ // y ≠ 0} => pt p.1 p.2.1 p.2.2) : ℝ × {y : ℝ // y ≠ 0} ≃ᵐ P where
-  toFun p := pt p.1 p.2.1 p.2.2
-  invFun z := (z.1.re / z.1.im, ⟨z.1.im, z.2⟩)
-  left_inv p := by
-    rcases p with ⟨x, y, hy⟩
-    refine Prod.ext ?_ (Subtype.ext ?_)
-    · simp [pt]; field_simp
-    · simp [pt]
-  right_inv z := by
-    apply Subtype.ext
-    apply Complex.ext
-    · simp [pt]; field_simp [z.2]
-    · simp [pt]
-  measurable_toFun := hc.measurable
-  measurable_invFun := by
-    refine Measurable.prodMk ?_ ?_
-    · exact (Complex.measurable_re.comp measurable_subtype_coe).div (Complex.measurable_im.comp measurable_subtype_coe)
-    · exact (Complex.measurable_im.comp measurable_subtype_coe).subtype_mk
+def ptE (hc : Continuous fun p : ℝ × {y : ℝ // y ≠ 0} => pt p.1 p.2.1 p.2.2) : ℝ × {y : ℝ // y ≠ 0} ≃ᵐ P :=
+  UpperTheory.Esk.UpperHalfPlaneCoordinates.ptE hc
 
 def smulE (g : GL (Fin 2) ℝ) (h1 : Measurable fun w : P => g • w) (h2 : Measurable fun w : P => g⁻¹ • w) : P ≃ᵐ P where
   toFun w := g • w

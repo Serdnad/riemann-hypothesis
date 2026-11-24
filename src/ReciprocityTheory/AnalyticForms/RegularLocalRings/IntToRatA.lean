@@ -1,5 +1,6 @@
 module
 
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.InterGoodA
 public import Mathlib.Order.CompletePartialOrder
 public import Mathlib.RingTheory.Jacobson.Ring
 public import Mathlib.RingTheory.KrullDimension.Basic
@@ -78,19 +79,7 @@ lemma comap_strictMono :
   exact (IsLocalization.orderEmbedding (intS σ) (MvPolynomial σ ℚ)).strictMono
 
 theorem isJacobsonRing_int : IsJacobsonRing ℤ := by
-  rw [isJacobsonRing_iff_prime_eq]
-  intro P hP
-  by_cases h : P = ⊥
-  · subst h
-    refine le_antisymm (fun x hx => ?_) Ideal.le_jacobson
-    rw [Ideal.mem_jacobson_bot] at hx
-    rw [Ideal.mem_bot]
-    rcases Int.isUnit_iff.mp (hx x) with hu | hu
-    · exact mul_self_eq_zero.mp (by linarith)
-    · nlinarith [mul_self_nonneg x]
-  · have := hP
-    have : P.IsMaximal := IsPrime.to_maximal_ideal h
-    exact Ideal.jacobson_eq_self_of_isMaximal
+  apply ReciprocityTheory.ChartRestriction.G.Geo.int_isJacobsonRing <;> assumption
 
 lemma ringKrullDim_quotient_eq_coheight {A : Type*} [CommRing A] (I : Ideal A) [hI : I.IsPrime] :
     ringKrullDim (A ⧸ I) = (Order.coheight (⟨I, hI⟩ : PrimeSpectrum A) : WithBot ℕ∞) := by

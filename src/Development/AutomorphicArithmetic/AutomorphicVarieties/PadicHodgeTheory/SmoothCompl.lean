@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.CohenStructureFiniteOverNormalCompleteSubring
 public import Mathlib.RingTheory.Henselian
 public import Mathlib.RingTheory.MvPolynomial.Homogeneous
 public import Mathlib.RingTheory.MvPowerSeries.Inverse
@@ -731,33 +732,8 @@ open IsLocalRing UpperTheory.V.Alg
 
 private theorem finite_quotient_of_pow_le {A S : Type} [CommRing A] [CommRing S] [Algebra A S]
     [IsNoetherianRing S] {I J : Ideal S} (h : ∀ s : S, ∃ a : A, s - algebraMap A S a ∈ I) {N : ℕ}
-    (hN : I ^ N ≤ J) : Module.Finite A (S ⧸ J) := by
-  have key : ∀ N : ℕ, ∃ F : Submodule A S, F.FG ∧ F ⊔ (I ^ N).restrictScalars A = ⊤ := by
-    intro N
-    induction N with
-    | zero => exact ⟨⊥, Submodule.fg_bot, by simp⟩
-    | succ N ih =>
-      obtain ⟨F, hF, hF'⟩ := ih
-      obtain ⟨G, hG⟩ : (I ^ N).FG := IsNoetherian.noetherian _
-      refine ⟨F ⊔ Submodule.span A (G : Set S), hF.sup (Submodule.fg_span G.finite_toSet), ?_⟩
-      rw [eq_top_iff, ← hF', sup_assoc]
-      refine sup_le_sup_left (fun x hx => ?_) _
-      have hx' : x ∈ Submodule.span S (G : Set S) := hG.ge hx
-      obtain ⟨c, -, rfl⟩ := Submodule.mem_span_finset.1 hx'
-      refine sum_mem fun y hy => ?_
-      obtain ⟨a, ha⟩ := h (c y)
-      have : c y • y = a • y + y * (c y - algebraMap A S a) := by
-        rw [Algebra.smul_def a, smul_eq_mul]; ring
-      rw [this]
-      refine Submodule.add_mem_sup (Submodule.smul_mem _ _ (Submodule.subset_span hy)) ?_
-      rw [pow_succ]
-      exact Ideal.mul_mem_mul (hG.le (Ideal.subset_span hy)) ha
-  obtain ⟨F, hF, hF'⟩ := key N
-  have : Module.Finite A F := Module.Finite.iff_fg.2 hF
-  refine Module.Finite.of_surjective ((Ideal.Quotient.mkₐ A J).toLinearMap ∘ₗ F.subtype) fun s => ?_
-  obtain ⟨s, rfl⟩ := Ideal.Quotient.mk_surjective s
-  obtain ⟨y, hy, z, hz, rfl⟩ := Submodule.mem_sup.1 (hF'.ge (Submodule.mem_top (x := s)))
-  exact ⟨⟨y, hy⟩, Ideal.Quotient.eq.2 (by simpa using hN hz)⟩
+    (hN : I ^ N ≤ J) : Module.Finite A (S ⧸ J) :=
+  _root_.GlobalTheory.CohenStructure.finite_quotient_of_pow_le h hN
 
 private theorem injective_of_ringKrullDim_eq {A S : Type} [CommRing A] [IsDomain A] [CommRing S]
     [Algebra A S] [Module.Finite A S] {n : ℕ} (hA : ringKrullDim A = n) (hS : ringKrullDim S = n) :

@@ -40,6 +40,7 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
+import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.LatticeIndices.Block31OfBlocks
 
 @[expose] public section
 
@@ -50,14 +51,7 @@ namespace GlobalTheory.FlagDim
 
 open NumberField in
 theorem _root_.GlobalTheory.FlagDim.card_pairs_lt (n : ℕ) : Nat.card {p : Fin n × Fin n // p.1 < p.2} = n * (n - 1) / 2 := by
-  have e : {p : Fin n × Fin n // p.1 < p.2} ≃ (j : Fin n) × Fin j :=
-    { toFun := fun p => ⟨p.1.2, ⟨p.1.1, p.2⟩⟩
-      invFun := fun q => ⟨(⟨q.2, q.2.2.trans q.1.2⟩, q.1), q.2.2⟩
-      left_inv := fun p => rfl
-      right_inv := fun q => rfl }
-  rw [Nat.card_congr e, Nat.card_eq_fintype_card, Fintype.card_sigma]
-  simp only [Fintype.card_fin]
-  rw [Fin.sum_univ_eq_sum_range (fun i => i) n, Finset.sum_range_id]
+  apply _root_.MassDataIdxStIm.card_lt_pairs <;> assumption
 
 
 open NumberField in

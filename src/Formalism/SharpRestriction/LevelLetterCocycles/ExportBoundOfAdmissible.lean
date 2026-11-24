@@ -1,5 +1,6 @@
 module
 
+import Formalism.SharpRestriction.AdmissibleParameterJoins
 public import Formalism.SharpRestriction.LevelLetterCocycles.NEqRZeroMulXPow
 public import Formalism.SharpRestriction.LevelLetterCocycles.StatementFamilies.ExportFamilies
 public import Development.AutomorphicArithmetic.CyclotomicBounds.SmallSum
@@ -985,12 +986,7 @@ theorem point_bound (tb : Tab L) (hA : AdmT L tb C P) (S : Finset ℕ) (hS : ∀
 end Point
 
 theorem Nc_nonneg : 0 ≤ L.Nc := by
-  have hx0 : (0:ℝ) < L.sc.x := lt_trans one_pos L.sc.one_lt_alt
-  show 0 ≤ (D.host.T2.card : ℝ) * D.R.k * Real.exp (L.sc.x ^ L.sc.eps) * L.sc.x ^ L.sc.eps /
-    ((D.R.n : ℝ) * ((D.R.n : ℝ) * L.sc.x ^ (-L.sc.eps)))
-  apply div_nonneg
-  · exact mul_nonneg (mul_nonneg (by positivity) (Real.exp_pos _).le) (Real.rpow_nonneg hx0.le _)
-  · exact mul_nonneg (by positivity) (mul_nonneg (by positivity) (Real.rpow_nonneg hx0.le _))
+  apply _root_.Formalism.MainNotions.Nc_nonneg <;> assumption
 
 theorem gset_ne_two (P : ParameterChoice' D L) : ∀ l ∈ gset D, l ≠ 2 := by
   obtain ⟨Y, hY1, -, -, hY4⟩ := P.g_Y

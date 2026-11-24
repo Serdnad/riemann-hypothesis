@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.TwoStepMeasureOrthogonalBasisSwapLocal
 public import Formalism.SharpRestriction.GlobalSchurBounds.GeneralLinearActions.GenusMassVolumes
 public import Development.AbelianVarietyTheory.Definitions.Foundations.OfInfProjInfMulOfFinProjFin
 public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.AdditiveCharConductorExists
@@ -308,16 +309,7 @@ variable {σ J}
 
 theorem sigR_hR (h : IsCMExt F E σ) (hJ : IsHermND σ J) (x y : Fin M → R ⊗[F] E) :
     sigR R σ (hR R σ J x y) = hR R σ J y x := by
-  have hJ' : ∀ i j, sigR R σ (JR R J j i) = JR R J i j := by
-    intro i j
-    show (1 : R) ⊗ₜ[F] σ (J j i) = (1 : R) ⊗ₜ[F] J i j
-    rw [hJ.1]
-
-  simp only [hR, Formalism.UG.hform, map_sum, map_mul, sigR_sigR R h]
-  rw [Finset.sum_comm]
-  refine Finset.sum_congr rfl fun i _ => Finset.sum_congr rfl fun j _ => ?_
-  rw [hJ']
-  ring
+  apply _root_.GlobalTheory.GaugeEx.HermMod.hR_symm <;> assumption
 
 theorem BR_symm (h : IsCMExt F E σ) (hJ : IsHermND σ J) {n : ℕ} (x y : Fin n → Fin M → R ⊗[F] E) :
     BR R σ J x y = BR R σ J y x := by

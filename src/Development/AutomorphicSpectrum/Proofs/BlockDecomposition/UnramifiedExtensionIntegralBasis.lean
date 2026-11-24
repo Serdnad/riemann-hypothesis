@@ -1,5 +1,6 @@
 module
 
+import GroundTheory.LocalFields.Interface
 public import Development.WeilBound.RepresentationTheoryGL.TwistedFactors.IntegralUnitBaseChange.Development
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -161,23 +162,8 @@ theorem tendsto_pow_zero {x : E} (hx : valuation E x < 1) :
 theorem continuous_algebraMap_of_lt_one [ValuativeExtension k E] {π : k}
     (h0 : valuation E (algebraMap k E π) ≠ 0) (h1 : valuation E (algebraMap k E π) < 1) :
     Continuous (algebraMap k E) := by
-  refine continuous_of_continuousAt_zero (algebraMap k E) ?_
-  rw [ContinuousAt, map_zero, (IsValuativeTopology.hasBasis_nhds_zero' E).tendsto_right_iff]
-  intro γ hγ
-  obtain ⟨m, hm⟩ := exists_pow_lt_value E h1 hγ
-  have hπ0 : π ≠ 0 := by
-    rintro rfl
-    simp at h0
-  have hmem : {a : k | valuation k a < valuation k (π ^ m)} ∈ 𝓝 (0 : k) :=
-    (IsValuativeTopology.hasBasis_nhds_zero' k).mem_of_mem (by simpa using pow_ne_zero m hπ0)
-  filter_upwards [hmem] with a ha
-  have h2 : valuation E (algebraMap k E a) < valuation E (algebraMap k E (π ^ m)) := by
-    rw [← not_le, value_algebraMap_le_iff, not_le]
-    exact ha
-  show valuation E (algebraMap k E a) < γ
-  refine h2.trans_le ?_
-  rw [map_pow, map_pow]
-  exact hm.le
+  intros
+  apply _root_.GroundTheory.LocalField.continuous_algebraMap <;> assumption
 
 theorem continuous_linearMap [FiniteDimensional k E] [ContinuousSMul k E] (f : E →ₗ[k] E) :
     Continuous f := by

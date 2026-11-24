@@ -56,6 +56,7 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
+import Development.AbelianVarietyTheory.Statements.PrincipalLattices.FiniteDimensionalBase
 
 @[expose] public section
 
@@ -101,14 +102,7 @@ theorem finite_etale_onto_spMap {K L : Type} [Field K] [Field L] [CharZero K] [C
 variable {E : Type} [Field E] [NumberField E] [IsCMField E] {H : Host E} {D : Datum H} {l l₂ : Level H}
 
 theorem finiteDimensional_KA (l : Level H) : FiniteDimensional ℚ (KA l) := by
-  refine IntermediateField.finiteDimensional_adjoin fun x hx => ?_
-  rcases hx with rfl | rfl
-  · refine IsIntegral.of_pow two_pos ?_
-    rw [H.sqrt_neg_disc_sq]
-    exact (isIntegral_algebraMap (x := (H.d : ℚ))).neg
-  · refine IsIntegral.of_pow l.A_pos ?_
-    rw [show zeta l.A ^ l.A = 1 from (Complex.isPrimitiveRoot_exp l.A l.A_pos.ne').pow_eq_one]
-    exact isIntegral_one
+  apply _root_.GlobalTheory.PureType.finiteDimensional_base <;> assumption
 
 section Obj
 

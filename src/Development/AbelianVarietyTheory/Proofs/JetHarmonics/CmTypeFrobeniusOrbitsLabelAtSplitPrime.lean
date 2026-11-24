@@ -53,6 +53,7 @@ import Development.AbelianVarietyTheory.Proofs.JetHarmonics.RealPlaceLabellingIn
 import Formalism.LocalToGlobal.CharacterGerms.RowTieLab
 import Mathlib.Algebra.Order.Star.Real
 import Std.Tactic.BVDecide.Normalize.Prop
+import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.VVAlgebraMapNonnegDvr
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.Counterexamples.HeightSurvey.ImaginaryRootConj, Development.AbelianVarietyTheory.Proofs.JetHarmonics.ExistsFrobAllEmbeddings, Development.AbelianVarietyTheory.Proofs.JetHarmonics.CmTypeFrobeniusOrbitsLabelAtSplitPrime
@@ -80,14 +81,7 @@ theorem embOK_vl_ne {T : CDVR} {V : VF C} {ι : T.Fr →+* C} (h : EmbOK T V ι)
   simp at this
 
 theorem vV_nonneg (T : CDVR) (a : T.V) : 0 ≤ vV T.V (algebraMap T.V T.Fr a) := by
-  unfold vV
-  by_cases ha : valV T.V (algebraMap T.V T.Fr a) = 0
-  · simp [ha]
-  have h1 : valV T.V (algebraMap T.V T.Fr a) ≤ 1 :=
-    IsDedekindDomain.HeightOneSpectrum.valuation_le_one _ a
-  have := (WithZero.log_le_log ha one_ne_zero).2 h1
-  simp at this
-  omega
+  apply _root_.GlobalTheory.vV_algebraMap_nonneg_dvr <;> assumption
 
 theorem embOK_eOf {T : CDVR} {V : VF C} {ι : T.Fr →+* C} (h : EmbOK T V ι) :
     0 < eOf T V ∧ ((eOf T V : ℕ) : ℤ) = vV T.V ((V.l : ℕ) : T.Fr) := by

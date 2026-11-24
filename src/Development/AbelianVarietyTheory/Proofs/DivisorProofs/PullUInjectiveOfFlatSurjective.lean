@@ -46,6 +46,7 @@ import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ClsLinCombSingle
 import Development.AbelianVarietyTheory.PublishedTheorems.AbelianLaws.PrincipalPolarisationOneSection
 import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.IsAdditiveOfUniversal
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.CocycleRightZeroThd
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.ThetaGenFlat
 
 @[expose] public section
 
@@ -58,21 +59,7 @@ namespace GlobalTheory.EigenDescent
 
 theorem app_injective_of_flat_surjective {X Y : Scheme.{0}} (π : X ⟶ Y) [Flat π] [Surjective π]
     (V : Y.Opens) : Function.Injective (π.app V) := by
-  intro s t h
-  apply TopCat.Presheaf.section_ext Y.sheaf V s t
-  intro y hy
-  obtain ⟨x, rfl⟩ := π.surjective y
-  have hinj : Function.Injective (π.stalkMap x) := by
-    have hf := Flat.stalkMap π x
-    algebraize [(π.stalkMap x).hom]
-    have : IsLocalHom (algebraMap (Y.presheaf.stalk (π x)) (X.presheaf.stalk x)) :=
-      inferInstanceAs (IsLocalHom (π.stalkMap x).hom)
-    have := Module.FaithfullyFlat.of_flat_of_isLocalHom (A := Y.presheaf.stalk (π x))
-      (B := X.presheaf.stalk x)
-    exact FaithfulSMul.algebraMap_injective (Y.presheaf.stalk (π x)) (X.presheaf.stalk x)
-  apply hinj
-  change π.stalkMap x (Y.presheaf.germ V (π x) hy s) = π.stalkMap x (Y.presheaf.germ V (π x) hy t)
-  rw [Scheme.Hom.germ_stalkMap_apply, Scheme.Hom.germ_stalkMap_apply, h]
+  apply _root_.ReciprocityTheory.ChartRestriction.G.DVR.TG.app_injective_of_flat_surj <;> assumption
 
 theorem pullU_injective_of_flat_surjective : ∀ {X Y : Scheme.{0}} (π : X ⟶ Y), Flat π → Surjective π →
     ∀ V : Y.Opens, Function.Injective (pullU π V) := by

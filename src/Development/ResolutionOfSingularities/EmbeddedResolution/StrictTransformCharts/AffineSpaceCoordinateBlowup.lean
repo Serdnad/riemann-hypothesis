@@ -1,5 +1,6 @@
 module
 
+import all Development.ResolutionOfSingularities.EmbeddedResolution.EtaleCoordinates.ChartAlgebra
 public import Development.ResolutionOfSingularities.EmbeddedResolution.StrictTransformCharts.CoordinateSubstitution
 public import Development.ResolutionOfSingularities.EmbeddedResolution.StrictTransformCharts.CoordinateBlowupChart
 public import Development.ResolutionOfSingularities.Foundations.Blowup.AffineBlowupUniversal
@@ -92,12 +93,7 @@ private theorem appTop_comp_apply_eq_appTop_appTop {X Y Z : Scheme.{u}} (f : X �
 private theorem appTop_specMap_ΓSpecIso_inv_apply {R S : CommRingCat.{u}} (f : R ⟶ S) (x : R) :
     (Spec.map f).appTop.hom ((Scheme.ΓSpecIso R).inv.hom x)
       = (Scheme.ΓSpecIso S).inv.hom (f.hom x) := by
-  have h : (Scheme.ΓSpecIso R).inv ≫ (Spec.map f).appTop = f ≫ (Scheme.ΓSpecIso S).inv := by
-    rw [← cancel_mono (Scheme.ΓSpecIso S).hom]
-    simp [Scheme.ΓSpecIso_naturality]
-  have h2 : ((Scheme.ΓSpecIso R).inv ≫ (Spec.map f).appTop).hom x
-      = (f ≫ (Scheme.ΓSpecIso S).inv).hom x := by rw [h]
-  exact h2
+  apply _root_.FunctorialResolution.EmbeddedResolution.specMap_appTop_apply <;> assumption
 
 private theorem affineSpaceSpecIso_inv_appTop_coord (k : Type u) [Field k] (m : ℕ)
     (j : ULift.{u} (Fin m)) :

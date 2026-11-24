@@ -40,6 +40,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
+import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.ComplexEmbeddingHermitianQuadrupleSum
 
 @[expose] public section
 
@@ -118,16 +119,7 @@ theorem finPart_hO (S T : HSp D) {x y : WO S T} (h : x.map (finPart D) = 0 ∨ y
 
 theorem sndA_symplO (S T : HSp D) {x y : WO S T} (h : x.map (finPart D) = 0 ∨ y.map (finPart D) = 0) :
     sndA D.host.F (symplO S T x y) = 0 := by
-  have h0 : finPart D (incA D D.host.xi0 * hO S T x y) = 0 := by
-    rw [RingHom.map_mul, finPart_hO S T h, mul_zero]
-  have h1 : finPart D (algebraMap (AF D.host.F) (AE D) (symplO S T x y)) = 0 := by
-    unfold symplO
-    rw [SymplVal.trace_AE, RingHom.map_add (f := _), h0, finPart_cA_eq_zero h0, add_zero]
-  have hinj := Algebra.TensorProduct.includeLeft_injective (R := D.host.F) (S := D.host.F) (A := Af D.host.F)
-    (B := D.host.E) (algebraMap D.host.F D.host.E).injective
-  apply hinj
-  rw [map_zero]
-  exact h1
+  apply _root_.GlobalTheory.OrientedHeis.snd_symplO <;> assumption
 
 theorem char_symplOH : ∀ (D : D7) (θ : InfFam D) (ψ : AddChar (AF D.host.F) ℂ), IsInfFam θ → IsStdChar D ψ (-1) →
     ∀ (S T : HSp D) (x y : WO S T), (x.map (finPart D) = 0 ∨ y.map (finPart D) = 0) →

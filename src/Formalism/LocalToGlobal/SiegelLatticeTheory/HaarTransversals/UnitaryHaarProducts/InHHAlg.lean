@@ -1,5 +1,6 @@
 module
 
+import Formalism.LocalToGlobal.SiegelLatticeTheory.FlagStabilizerTensors.RootLatticeThresholds.Rescale
 public import Formalism.LocalToGlobal.SiegelLatticeTheory.HaarTransversals.UnitaryHaarProducts.InHHCut
 public import Formalism.LocalRingCardinality.RankBoundMonotoneInDimension
 import Mathlib.RingTheory.PiTensorProduct
@@ -176,15 +177,7 @@ theorem hA_incl (x y : Fin X.B.I.n → X.B.I.E) :
 
 theorem hform_crd (v w : (VS D).V) :
     X.ιE (Formalism.UG.hform (starRingEnd X.B.I.E) X.B.I.J (X.crd v) (X.crd w)) = (VS D).hT v w := by
-  conv_rhs => rw [← X.bas.sum_repr v, ← X.bas.sum_repr w]
-
-  simp only [map_sum, LinearMap.map_smulₛₗ, LinearMap.sum_apply, LinearMap.smul_apply, smul_eq_mul,
-  Formalism.UG.hform, map_mul, HidaSetting.crd, crdOf, starRingEnd_apply, X.ιE_conj, RingEquiv.apply_symm_apply,
-  X.J_eq, Finset.mul_sum]
-  rw [Finset.sum_comm]
-  refine Finset.sum_congr rfl fun i _ => Finset.sum_congr rfl fun j _ => ?_
-  simp only [← Formalism.BasicNotions.bridge_star_holds D.R D.host, RingHom.id_apply]
-  ring
+  apply _root_.Formalism.L2.SG.Pf.Rescale.hform_crdX <;> assumption
 
 theorem hA_crd (v w : (VS D).V) :
     hA X.B.I (incl X.B.I (X.crd v)) (incl X.B.I (X.crd w)) =

@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.ThetaPtEqUnitMulTh
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.GlobalSectionsRankAlgClosed
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.ValCalc
 public import Mathlib.AlgebraicGeometry.ValuativeCriterion
@@ -449,15 +450,8 @@ theorem value_sval {a : ℤ} {T : Over S} {s : LB.Sec (LPow A L a T)} {x : T ⟶
     (h : IsValueAt A L a s x τ v) (z : T.left) {J} (hJ : Good L z J) :
     sval (φ := fun _ : Fin 1 => (snd T A).left) (ε := fun _ => a) s (ptSecT A x).left z J =
       gs (𝟙 _) z ⊤ v * (val τ (𝟙 _) z J).val := by
-  have e : (ptSecT A x).left ≫ (snd T A).left = x.left := by rw [← Over.comp_left, ptSecT, lift_snd]
-  refine (sval_of _ _ z J (fun _ => J x.left) (fun _ => by rw [e])).trans ?_
-  rw [val_of τ _ z J (fun _ => J x.left) (fun _ => by rw [Category.id_comp])]
-  have hm : (𝟙 T.left : T.left ⟶ T.left) z ∈ LB.wchart L (fun _ : Fin 1 => x.left) (fun _ => J x.left) :=
-    Set.mem_iInter.2 fun _ => hJ x.left
-  have := congrArg (gs (𝟙 _) z _) (h fun _ => J x.left)
-  rw [gs_res _ z _ hm, gs_mul _ z _ hm, gs_res _ z _ hm] at this
-  refine Eq.trans ?_ (this.trans (congrArg _ (gs_unit _ z _ hm _)))
-  exact ((gs_pull (𝟙 _) (ptSecT A x).left z _ (val_le A L x _ hm) _).trans (by rw [Category.id_comp])).symm
+  intros
+  apply _root_.GlobalTheory.ThetaCompare.sval_valueAt <;> assumption
 
 theorem span_sval {a : ℤ} {T : Over S} {I : Type} [Fintype I] (b : I → LB.Sec (LPow A L a T))
     (hb : Submodule.span Γ(T.left, ⊤) (Set.range fun i => (SecM.ofSec A (b i) : SecM A L a T)) = ⊤)

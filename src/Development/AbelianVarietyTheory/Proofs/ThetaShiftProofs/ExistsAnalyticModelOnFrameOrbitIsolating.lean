@@ -81,6 +81,7 @@ import Mathlib.RingTheory.Henselian
 import Mathlib.Tactic.Lemma
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.FundamentalDomains.HermitianTraceFormVanishing
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.FundamentalDomains.MajPos
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.FinrankEqOfInjectiveOfSpan
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.IntEqOfWeightedSumEqWithSmallErrors, Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.ExistsSplitOfCoisotropicKer, Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.ExpPiIInt, Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.Imports, Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.PeriodMapIntegerVector, Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.ExistsAnalyticModelOnFrameOrbitIsolating
@@ -108,14 +109,7 @@ theorem trace_re (z : E) : ((Algebra.trace ℚ E z : ℚ) : ℝ) = ∑ τ : E �
   simpa [Complex.re_sum] using this
 
 theorem eq_zero_of_trace (z : E) (h : ∀ a : 𝓞 E, Algebra.trace ℚ E (z * a) = 0) : z = 0 := by
-  apply (traceForm_nondegenerate ℚ E).1
-  intro y
-  rw [← (integralBasis E).sum_repr y]
-
-  simp only [map_sum, map_smul, Algebra.traceForm_apply, integralBasis_apply]
-  refine Finset.sum_eq_zero fun i _ => ?_
-  have := h (RingOfIntegers.basis E i)
-  rw [show (algebraMap (𝓞 E) E) (RingOfIntegers.basis E i) = (RingOfIntegers.basis E i : E) from rfl, this, smul_zero]
+  apply _root_.GlobalTheory.HermModel.eq_zero_of_trace_mul_integer <;> assumption
 
 theorem exists_den : ∃ D : ℕ, 0 < D ∧ ∀ z : E, (∀ a : 𝓞 E, ∃ m : ℤ, Algebra.trace ℚ E (z * a) = m) →
     IsIntegral ℤ ((D : E) * z) := by

@@ -41,6 +41,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
+import Development.AbelianVarietyTheory.Definitions.GlobalTwisting.RedPEqZeroOfDiv
 
 @[expose] public section
 
@@ -83,14 +84,7 @@ theorem intAt_sum {ι : Type} (s : Finset ι) (f : ι → E) (h : ∀ i ∈ s, I
 
 theorem reduction_sum₂ {ι : Type} (s : Finset ι) (f : ι → E) (h : ∀ i ∈ s, IntAt P (f i)) :
     redP P (∑ i ∈ s, f i) = ∑ i ∈ s, redP P (f i) := by
-  classical
-  induction s using Finset.induction_on with
-  | empty => simpa using redP_zero' P
-  | insert a s ha ih =>
-    rw [Finset.sum_insert ha, Finset.sum_insert ha,
-      reduction_add (h a (Finset.mem_insert_self _ _))
-        (intAt_sum P s f fun i hi => h i (Finset.mem_insert_of_mem hi)),
-      ih fun i hi => h i (Finset.mem_insert_of_mem hi)]
+  apply _root_.GlobalTheory.TopStep.reduction_sum₂ <;> assumption
 
 theorem reduction_det {t : ℕ} (A : Matrix (Fin t) (Fin t) E) (h : ∀ i j, IntAt P (A i j)) :
     redP P A.det = (Matrix.of fun i j => redP P (A i j)).det := by

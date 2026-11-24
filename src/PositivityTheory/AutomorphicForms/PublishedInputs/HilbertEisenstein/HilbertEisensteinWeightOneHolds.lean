@@ -32,6 +32,8 @@ import Mathlib.Tactic.TypeStar
 import Formalism.SharpRestriction.GrowthBounds.MonomialOrderSegments.BrData
 import Mathlib.RingTheory.Etale.Weakly
 import Mathlib.RingTheory.Finiteness.ModuleFinitePresentation
+import PositivityTheory.AutomorphicForms.PublishedInputs.JacquetLanglands.TorusKernels.HyperbolicTailEstimateProof
+import PositivityTheory.AutomorphicForms.PublishedInputs.JacquetLanglands.TorusKernels.PfHFinC
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: PositivityTheory.AutomorphicForms.PublishedInputs.HilbertEisenstein.CenterFinitenessHolds, PositivityTheory.AutomorphicForms.PublishedInputs.HilbertEisenstein.ImportsAlt, PositivityTheory.AutomorphicForms.PublishedInputs.HilbertEisenstein.KFinitenessHolds, PositivityTheory.AutomorphicForms.PublishedInputs.HilbertEisenstein.LeftInvarianceHolds, PositivityTheory.AutomorphicForms.PublishedInputs.HilbertEisenstein.LibOpenLevel, PositivityTheory.AutomorphicForms.PublishedInputs.HilbertEisenstein.OpenKernelHolds, PositivityTheory.AutomorphicForms.PublishedInputs.HilbertEisenstein.IsProbabilityMeasureComplexPart, PositivityTheory.AutomorphicForms.PublishedInputs.HilbertEisenstein.ToRHomeomorphMixedSpace, PositivityTheory.AutomorphicForms.PublishedInputs.HilbertEisenstein.PoissonSummationHolds, PositivityTheory.AutomorphicForms.PublishedInputs.HilbertEisenstein.SLevel, PositivityTheory.AutomorphicForms.PublishedInputs.HilbertEisenstein.ScalarActionHolds, PositivityTheory.AutomorphicForms.PublishedInputs.HilbertEisenstein.WeightHolds, PositivityTheory.AutomorphicForms.PublishedInputs.HilbertEisenstein.HilbertEisensteinWeightOneHolds
@@ -43,88 +45,11 @@ section -- clump:auto
 
 open NumberField Neutral.B1 Formalism.L2.Host GlobalTheory.CuspRep UpperTheory.V UpperTheory.V.TR Matrix
 
-private theorem infGL_scalar {F : Type} [Field F] [NumberField F] [IsTotallyReal F] (u : (Rinf F)ˣ) :
-    infGL F 2 (GeneralLinearGroup.scalar (Fin 2) u) = GeneralLinearGroup.scalar (Fin 2) (infId F u) := by
-  have h : ∀ x, pInf F (sInf F x) = x := fun x => (infEq F).symm_apply_apply x
-  have h1 : pInf F (infId F u : Ideles F) = u := by
-    change pInf F (1 - sInf F 1 + sInf F _) = _
-    simp [h]
-  have h2 : pFin F (infId F u : Ideles F) = 1 := by
-    change (1 : Af F) - 0 + 0 = 1
-    simp
-  refine ga_ext ?_ ?_
-  · rw [TR.pInf_infGL]
-    ext i j
-    by_cases e : i = j <;> simp [e, h1]
-  · rw [TR.pFin_infGL]
-    ext i j
-    by_cases e : i = j <;> simp [e, h2]
-
-private theorem fin_expU {F : Type} [Field F] [NumberField F] [IsTotallyReal F] {ω : HChar F} (h : IsOfFinOrder ω)
-    (z : Rinf F) : ω.1 (infId F (expU z)) = 1 := by
-  obtain ⟨n, hn, e⟩ := isOfFinOrder_iff_pow_eq_one.1 h
-  have e1 : expU z = expU ((n : ℝ)⁻¹ • z) ^ n := by
-    refine Units.ext (funext fun i => ?_)
-    have : (n : ℝ) ≠ 0 := by positivity
-    simp only [Units.val_pow_eq_pow_val, Pi.pow_apply, expU_val, ← Real.exp_nat_mul, Pi.smul_apply, smul_eq_mul]
-    congr 1
-    field_simp
-  rw [e1, map_pow, map_pow]
-  have e2 : ω.1 ^ n = 1 := congrArg Subtype.val e
-  exact DFunLike.congr_fun e2 _
-
-private theorem lie_scalar {F : Type} [Field F] [NumberField F] [IsTotallyReal F] {ω : HChar F} (h : IsOfFinOrder ω)
-    {φ : Sm F 2} (hφ : ∀ (z : Ideles F) (g : GA F 2), φ.1 (GeneralLinearGroup.scalar (Fin 2) z * g) = ((ω.1 z : ℂˣ) : ℂ) * φ.1 g) (z : Rinf F) : lie F 2 (toL (Matrix.scalar (Fin 2) z)) φ = 0 := by
-  refine Subtype.ext (funext fun g => ?_)
-  have h1 := hasDerivAt_curve φ g (fun t => GeneralLinearGroup.scalar (Fin 2) (expU (t • z)))
-    (toL (Matrix.scalar (Fin 2) z)) (by simp [TR.expU_zero]) (by
-      refine hasDerivAt_pi.2 fun i => hasDerivAt_pi.2 fun j => hasDerivAt_pi.2 fun v => ?_
-      by_cases e : i = j
-      · subst e
-        have := ((hasDerivAt_id (0 : ℝ)).mul_const (z v)).exp
-        simpa using this
-      · simpa [Matrix.diagonal_apply, e] using hasDerivAt_const (0 : ℝ) (0 : ℝ))
-  have h2 : (fun t : ℝ => φ.1 (g * infGL F 2 (GeneralLinearGroup.scalar (Fin 2) (expU (t • z))))) = fun _ => φ.1 g := by
-    funext t
-    rw [infGL_scalar, ← GeneralLinearGroup.scalar_commute, hφ, fin_expU h]
-    simp
-  rw [h2] at h1
-  exact h1.unique (hasDerivAt_const _ _)
-
-private theorem casimir {V : Type} [AddCommGroup V] [Module ℂ V] (E : Fin 2 → Fin 2 → Module.End ℂ V)
-    (hE : Formalism.REAL.GlRel E) (k : ℂ) (φ : V) (h0 : E 0 0 φ + E 1 1 φ = 0)
-    (h1 : E 0 1 φ - E 1 0 φ = (Complex.I * k) • φ) (h2 : E 0 0 φ - E 1 1 φ = Complex.I • (E 0 1 φ + E 1 0 φ)) (u : ℂ) :
-    Formalism.REAL.qdet E (u + 1 / 2) φ = ((u + (k - 1) / 2) * (u - (k - 1) / 2)) • φ :=
-  _root_.UpperTheory.Reformulated.B.Qf10.casimir E hE k φ h0 h1 h2 u
-
 theorem UpperTheory.HilbertEisensteinWeightOne.center_finiteness_holds : SPois → SInt → SSmooth → SZfin := by
   intro _ _ _ F _ _ _ ω c hω φ hc hw hl
-  have hcap : ∀ v u, ∃ c : ℂ, TR.cap v u φ = c • φ := fun v u => by
-    have h0 : Eop v 0 0 φ + Eop v 1 1 φ = 0 := by
-      classical
-      rw [← lie_scalar hω hc (Pi.single v 1), TR.Eop, TR.Eop, ← LinearMap.add_apply, ← map_add (f := _)]
-      congr 2
-      ext i j
-      fin_cases i <;> fin_cases j <;> simp
-    have := casimir _ (TR.glRel_Eop v) ((1 : ℕ) : ℂ) φ h0 (hw v) (hl v) u
-    refine ⟨_, Eq.trans ?_ this⟩
-    rw [TR.cap]
-    norm_num
-  refine Submodule.finiteDimensional_of_le (S₂ := Submodule.span ℂ {φ}) (Submodule.span_le.2 ?_)
-  rintro _ ⟨z, hz, rfl⟩
-  induction hz using Algebra.adjoin_induction with
-  | mem x hx =>
-    obtain ⟨v, u, rfl⟩ := hx
-    obtain ⟨c, e⟩ := hcap v u
-    exact Submodule.mem_span_singleton.2 ⟨c, e.symm⟩
-  | algebraMap c => exact Submodule.mem_span_singleton.2 ⟨c, rfl⟩
-  | add x y _ _ hx hy => exact add_mem hx hy
-  | mul x y _ _ hx hy =>
-    obtain ⟨c, e⟩ := Submodule.mem_span_singleton.1 hy
-    have e' : c • φ = y φ := e
-    change x (y φ) ∈ Submodule.span ℂ {φ}
-    rw [← e', map_smul]
-    exact Submodule.smul_mem _ _ hx
+  exact UpperTheory.Esk.FixedPointOrthogonalCases.zfinV (fun _ => 1) ω hω φ hc
+    (fun v => by simpa using hw v) hl
+
 end -- clump:auto
 end -- clump:auto
 -- ===== end clump member: PositivityTheory.AutomorphicForms.PublishedInputs.HilbertEisenstein.CenterFinitenessHolds =====
@@ -470,52 +395,16 @@ variable {F : Type} [Field F] [NumberField F] [IsTotallyReal F]
 private theorem local_mem_principal_congruence {M : ℕ} (w : HeightOneSpectrum (𝓞 F)) (c : ℕ)
     (hM : (M : w.adicCompletionIntegers F) ∈ IsLocalRing.maximalIdeal (w.adicCompletionIntegers F) ^ c)
     {k : GL (Fin 2) (Af F)} (hk : k ∈ KLev F 2 M) : GeneralLinearGroup.map (pLoc F w) k ∈ K1 w c := by
-  obtain ⟨g, hg, rfl⟩ := hk
-  let p : Ohat F →+* w.adicCompletionIntegers F :=
-    ((pLoc F w).comp (Ohat F).subtype).codRestrict (w.adicCompletionIntegers F) fun x => GlobalFixedVectors.mem_Ohat.1 x.2 w
-  refine ⟨GeneralLinearGroup.map p g, ?_, Units.ext rfl⟩
-  have key : GeneralLinearGroup.map (n := Fin 2)
-      (Ideal.Quotient.mk (IsLocalRing.maximalIdeal (w.adicCompletionIntegers F) ^ c)) (GeneralLinearGroup.map p g) = 1 := by
-    let q := Ideal.quotientMap (I := Ideal.span {(M : ↥(Ohat F))}) (IsLocalRing.maximalIdeal (w.adicCompletionIntegers F) ^ c) p
-      ((Ideal.span_singleton_le_iff_mem _).2 (by simpa using hM))
-    have := congrArg (GeneralLinearGroup.map q) (MonoidHom.mem_ker.1 hg)
-    rw [map_one] at this
-    rw [← this]
-    rfl
-  exact Subgroup.mem_comap.2 (key ▸ one_mem _)
+  apply _root_.UpperTheory.Esk.HFinCAux.local_mem_principal_congruence <;> assumption
 
 private theorem exists_level (c : HeightOneSpectrum (𝓞 F) → ℕ) (hc : {w | c w ≠ 0}.Finite) :
     ∃ M : ℕ, 1 ≤ M ∧ ∀ w : HeightOneSpectrum (𝓞 F),
       (M : w.adicCompletionIntegers F) ∈ IsLocalRing.maximalIdeal (w.adicCompletionIntegers F) ^ c w := by
-  refine ⟨∏ w ∈ hc.toFinset, Ideal.absNorm w.asIdeal ^ c w, ?_, fun w => ?_⟩
-  · refine Nat.pos_of_ne_zero (Finset.prod_ne_zero_iff.2 fun w _ => pow_ne_zero _ ?_)
-    exact fun h => w.ne_bot (Ideal.absNorm_eq_zero_iff.1 h)
-  · by_cases h : c w = 0
-    · simp [h]
-    obtain ⟨m, hm⟩ := Finset.dvd_prod_of_mem (fun w : HeightOneSpectrum (𝓞 F) => Ideal.absNorm w.asIdeal ^ c w)
-      (hc.mem_toFinset.2 h)
-    rw [hm, Nat.cast_mul, Nat.cast_pow]
-    refine Ideal.mul_mem_right _ _ (Ideal.pow_mem_pow ?_ _)
-    have h1 := Ideal.absNorm_mem w.asIdeal
-    rw [← map_natCast (algebraMap (𝓞 F) (w.adicCompletionIntegers F))]
-    generalize (Ideal.absNorm w.asIdeal : 𝓞 F) = x at h1
-    refine (Valuation.mem_maximalIdeal_iff _ (Valued.v : Valuation (w.adicCompletion F) _)).2 ?_
-    have h2 : Valued.v (algebraMap (𝓞 F) (w.adicCompletion F) x) < 1 := by
-      rw [IsScalarTower.algebraMap_apply (𝓞 F) F (w.adicCompletion F)]
-      exact (HeightOneSpectrum.valuedAdicCompletion_eq_valuation' w _).trans_lt ((w.valuation_lt_one_iff_mem x).2 h1)
-    exact h2
+  exact UpperTheory.Esk.HFinCAux.exists_level c hc
 
 theorem finite_support {ω : HChar F} {c : HeightOneSpectrum (𝓞 F) → ℕ} (hH : Hyp ω c) :
     {w | c w ≠ 0}.Finite := by
-  obtain ⟨m, hm, hω⟩ := isOfFinOrder_iff_pow_eq_one.1 hH.fin
-  have ho := GlobalTheory.HeckeGal.isOpen_ker_of_pow ω.1 ω.2.1 hm fun x => by
-    have := congrArg (fun ξ : HChar F => ξ.1 x) hω
-    simpa using this
-  obtain ⟨S, M, hS, key⟩ := GlobalTheory.OpenIdeleCongr.localIdele_mem_of_isOpen ω.1.ker ho
-  refine hS.subset fun w hw => ?_
-  by_contra hwS
-  exact hw (Nat.le_zero.1 ((hH.cond w).2 fun x hu _ => MonoidHom.mem_ker.1 (key w x hu fun h => absurd h hwS)))
-
+  exact UpperTheory.HilbertEisensteinWeightOne.EisensteinIntegrability.finite_c hH
 
 variable (F) in
 def Kc (c : HeightOneSpectrum (𝓞 F) → ℕ) : Subgroup (GL (Fin 2) (Af F)) :=
@@ -960,15 +849,7 @@ theorem lin_apply (v : InfinitePlace F) (u : Fin 2 → mixedSpace F) :
 theorem hasTemperateGrowth_prod {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E] {ι : Type*}
     (s : Finset ι) (f : ι → E → ℂ) (hf : ∀ i, (f i).HasTemperateGrowth) :
     (fun x => ∏ i ∈ s, f i x).HasTemperateGrowth := by
-  induction s using Finset.induction_on with
-  | empty => simp
-  | insert a s ha ih =>
-    have h := (hf a).mul ih
-    have e : (fun x => ∏ i ∈ insert a s, f i x) = (f a * fun x => ∏ i ∈ s, f i x) := by
-      funext x
-      simp [Finset.prod_insert ha]
-    rw [e]
-    exact h
+  exact GroundTheory.Global.hasTemperateGrowth_finsetProd s (fun i _ => hf i)
 
 def poly (u : Fin 2 → mixedSpace F) : ℂ := ∏ v, lin F v u
 

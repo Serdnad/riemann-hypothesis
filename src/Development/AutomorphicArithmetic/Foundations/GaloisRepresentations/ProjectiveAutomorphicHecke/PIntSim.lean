@@ -1,5 +1,6 @@
 module
 
+import all Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.ProjectiveAutomorphicHecke.PIntConj
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.ProjectiveAutomorphicHecke.CentralEig2
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ProductOfLocalLevelsUnitaryIsOpenIsCompactIsLeve
 import Mathlib.Algebra.Order.Floor.Extended
@@ -50,16 +51,7 @@ open GroundTheory.Global.AdeleBaseChange in
 private theorem rel {E : Type} [Field E] [NumberField E] [IsCMField E] {n : ℕ} (k : GUf E n) (u : Plc E) :
     ((comp (cj u) k).val.map (conjLoc (GlobalTheory.SplitPts.conjE E) u))ᵀ * (comp u k).val =
       pLoc E u (finiteAdeleMap ℚ E (sim k : AfQˣ)) • (1 : Matrix (Fin n) (Fin n) (u.adicCompletion E)) := by
-  have h := mem_Sim.1 k.2
-  have h2 := congrArg (RingHom.mapMatrix (pLoc E u)) h
-  rw [map_mul] at h2
-  refine Eq.trans ?_ (h2.trans ?_)
-  · congr 1
-  · ext i j
-    by_cases hij : i = j
-    · subst hij
-      simp [RingHom.mapMatrix_apply, sim]
-    · simp [RingHom.mapMatrix_apply, sim, hij]
+  apply _root_.comp_rel <;> assumption
 
 open GroundTheory.Global.AdeleBaseChange in
 private theorem val_le {E : Type} [Field E] [NumberField E] [IsCMField E] {n : ℕ} (hn : 0 < n) (k : GUf E n)

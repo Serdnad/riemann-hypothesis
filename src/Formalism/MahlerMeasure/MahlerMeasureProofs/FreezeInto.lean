@@ -46,6 +46,7 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
+import Formalism.MahlerMeasure.MahlerMeasureProofs.FreezeBij
 
 @[expose] public section
 
@@ -212,35 +213,7 @@ theorem snoc_vec_last {N : ℕ} (LL : M.Letters N) (n : ℕ) :
 
 theorem freeze_inv (p : ℕ) [Fact p.Prime] {N r : ℕ} (LL : M.Letters N) (ρ : Fin r) (n : ℕ)
     (f : MvPolynomial (Fin N × Fin r) ℚ_[p]) : M.IsFrozenInv p LL ρ n (M.freeze p LL ρ n f) := by
-  intro c hc
-  have hX := glAct_full_X p (LL.snoc n) c ρ
-  have hlast : M.glAct p (LL.snoc n) (N + 1) c ρ (X (Fin.last N, ρ)) = 0 := by
-    rw [hX, snoc_vec_last]
-    simp [Ne.symm hc]
-  have hsub : ∀ x, M.glAct p (LL.snoc n) (N + 1) c ρ (M.freezeSub p LL ρ x) = 0 := by
-    rintro ⟨i, c'⟩
-    simp only [M.freezeSub]
-    by_cases hv : LL.vec i
-    · by_cases hc' : c' = ρ
-      · set_option synthInstance.maxHeartbeats 100000 in
-          rw [if_pos hv, if_pos hc', _root_.map_sum]
-        simp only [glAct_full_mul, hX, snoc_vec_castSucc, snoc_vec_last, hv, if_true, Bool.false_eq_true,
-          if_false, mul_ite, mul_zero, mul_neg, Finset.sum_add_distrib, Finset.sum_ite_eq', Finset.mem_univ]
-        ring
-      · rw [if_pos hv, if_neg hc']
-        simp only [glAct_full_mul, hX, snoc_vec_castSucc, snoc_vec_last, hv, hc', Ne.symm hc, if_true, if_false, Bool.false_eq_true, mul_zero, add_zero]
-    · by_cases hc' : c' = ρ
-      · rw [if_neg hv, if_pos hc']
-        simp only [glAct_full_mul, hX, snoc_vec_castSucc, snoc_vec_last, hv, Ne.symm hc, if_true, if_false, Bool.false_eq_true, mul_zero, add_zero]
-      · rw [if_neg hv, if_neg hc', _root_.map_sub]
-        simp only [glAct_full_mul, hX, snoc_vec_castSucc, snoc_vec_last, hv, hc', Ne.symm hc, if_true, if_false, Bool.false_eq_true, mul_zero, add_zero]
-        by_cases hcc : c' = c
-        · simp only [hcc, if_true]
-          ring
-        · simp only [hcc, if_false, mul_zero, sub_zero]
-  unfold M.freeze
-  rw [glAct_full_mul, glAct_full_pow _ _ _ _ _ hlast, glAct_full_aeval _ _ _ _ _ hsub, mul_zero, mul_zero,
-    add_zero]
+  apply _root_.Formalism.GM.M.FB.freeze_inv <;> assumption
 
 end Formalism.GM.FrozenVariableLemmas
 

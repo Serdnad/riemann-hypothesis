@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.AddSubgroupRepsExistenceCardSum
 public import Formalism.LocalToGlobal.AlgebraicTheory.StatementNorm
 public import Formalism.LocalToGlobal.TorsionIntegrality.QuadraticSemicharacters.QuadraticSemicharacterIdentityReformulated2
 public import Formalism.LocalToGlobal.TorsionIntegrality.QuadraticSemicharacters.QuadraticSemicharactersFactTer
@@ -62,30 +63,7 @@ end Reps
 
 private theorem exists_isReps_of_relIdx_ne_zero {V : Type} [AddCommGroup V] {A B : AddSubgroup V}
     (hAB : relIdx A B ≠ 0) : ∃ S : Finset V, IsReps A B S := by
-  classical
-  have hfin : Finite (B ⧸ A.addSubgroupOf B) := Nat.finite_of_card_ne_zero hAB
-  have := Fintype.ofFinite (B ⧸ A.addSubgroupOf B)
-  choose r hr using (QuotientAddGroup.mk_surjective :
-    Function.Surjective (QuotientAddGroup.mk : B → B ⧸ A.addSubgroupOf B))
-  refine ⟨Finset.univ.image fun q => ((r q : B) : V), ?_, ?_, ?_⟩
-  · intro x hx
-    obtain ⟨q, -, rfl⟩ := Finset.mem_image.1 hx
-    exact (r q).2
-  · intro x hx y hy hxy
-    obtain ⟨q, -, rfl⟩ := Finset.mem_image.1 hx
-    obtain ⟨q', -, rfl⟩ := Finset.mem_image.1 hy
-    have hqq : q = q' := by
-      rw [← hr q, ← hr q', QuotientAddGroup.eq, AddSubgroup.mem_addSubgroupOf, AddSubgroup.coe_add,
-        AddSubgroup.coe_neg]
-      have h' := A.neg_mem hxy
-      rwa [neg_sub, sub_eq_neg_add] at h'
-    rw [hqq]
-  · intro y hy
-    refine ⟨(r (QuotientAddGroup.mk ⟨y, hy⟩) : V), Finset.mem_image.2 ⟨_, Finset.mem_univ _, rfl⟩, ?_⟩
-    have h' := hr (QuotientAddGroup.mk ⟨y, hy⟩)
-    rw [QuotientAddGroup.eq, AddSubgroup.mem_addSubgroupOf, AddSubgroup.coe_add,
-      AddSubgroup.coe_neg] at h'
-    rwa [neg_add_eq_sub] at h'
+  apply _root_.GlobalTheory.RepsMod.exists_reps <;> assumption
 
 private theorem mul_opU_add_eq_of_mem_fixedBy {V : Type} [AddCommGroup V] [Module ℂ V] {H : Sesq V}
     {A B : AddSubgroup V} {α : V → ℂ} {F : V → ℂ} (hH : IsHerm H) (hα : IsSemiChar H B α)

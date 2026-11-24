@@ -1,5 +1,6 @@
 module
 
+import Development.EtaleCohomology.EtaleSheaves.DescEqvPf
 public import Development.EtaleCohomology.CohomologicalPurity.LeafHtpyPf
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -74,14 +75,7 @@ theorem eqv_of_sq (R : Type) [CommRing R] (F : Shv R) {A B A' B' : Spc} (f : A �
   exact (Function.Bijective.of_comp_iff' (bij_pull_iso R F α n) _).1 h2
 
 theorem mono_sch {Y Z : Scheme.{0}} (f : Y ⟶ Z) [Mono f] : Mono (sch.map f) := by
-  have hy : Mono (yoneda.map f) := by
-    have : ∀ T, Mono ((yoneda.map f).app T) := fun T => by
-      rw [mono_iff_injective]
-      intro a b h
-      exact (cancel_mono f).1 h
-    exact NatTrans.mono_of_mono_app _
-  have : ∀ n, Mono ((sch.map f).app n) := fun _ => hy
-  exact NatTrans.mono_of_mono_app _
+  apply @LateralTheory.E.DescEqvPf.mono_sch <;> assumption
 
 theorem sch_pres : PreservesLimitsOfShape WalkingCospan sch := by
   unfold sch; infer_instance

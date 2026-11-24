@@ -1,5 +1,6 @@
 module
 
+import all Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.CrystallineTowers.NiceBc
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.PAdicWittLattices.SplitsBasic
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.PAdicWittLattices.IsAdmissibleIntegralBasisChangeOne
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.TranscendenceTraces.PChart
@@ -56,16 +57,7 @@ private theorem fib_finite {V U : Scheme.{0}} (r : V ⟶ U) [IsFinite r] (K : Ty
 
 private theorem fEt_of_pullback {P Y Z' Z : Scheme.{0}} (v : P ⟶ Y) (s' : P ⟶ Z') (s : Y ⟶ Z) (g : Z' ⟶ Z)
     (d : ℕ) (h : IsPullback v s' s g) (hs : FEt s d) : FEt s' d := by
-  refine ⟨MorphismProperty.of_isPullback (P := @IsFinite) h hs.1,
-    MorphismProperty.of_isPullback (P := @Etale) h hs.2.1, fun K _ _ x => ?_⟩
-  let eqv : {y' : Spec (CommRingCat.of K) ⟶ P // y' ≫ s' = x} ≃
-      {y : Spec (CommRingCat.of K) ⟶ Y // y ≫ s = x ≫ g} :=
-    { toFun := fun y' => ⟨y'.1 ≫ v, by rw [Category.assoc, h.w, ← Category.assoc, y'.2]⟩
-      invFun := fun y => ⟨h.lift y.1 x y.2, h.lift_snd _ _ _⟩
-      left_inv := fun y' => Subtype.ext (h.hom_ext (by rw [h.lift_fst]) (by rw [h.lift_snd, y'.2]))
-      right_inv := fun y => Subtype.ext (h.lift_fst _ _ _) }
-  rw [Nat.card_congr eqv]
-  exact hs.2.2 K (x ≫ g)
+  apply _root_.UpperTheory.Gal.Seam.fEt_of_isPullback <;> assumption
 
 private theorem fEt_comp {W Y Z : Scheme.{0}} (r : W ⟶ Y) (s : Y ⟶ Z) (d e : ℕ) (hr : FEt r e) (hs : FEt s d) :
     FEt (r ≫ s) (d * e) := by

@@ -1,5 +1,6 @@
 module
 
+import Development.WeilBound.CoreStatements.AutomorphicKernels.LanglandsExhaustion.IrreducibleAdmissibleGL
 public import CompanionTheory.AutomorphicTheory.ProductFormulaTheory.CuspidalExhaustion.CuspEmbP
 public import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.IrreducibleAdmissibleGL
 public import Development.AbelianVarietyTheory.PublishedTheorems.GaloisCohomology₂.ExhUnipRadOne
@@ -46,57 +47,13 @@ theorem embL_nil (x : IrrGL (k := k)) (h0 : x.1 = 0) : EmbL x [] := by
 
 variable (k) in
 theorem cuspEmbP (hA : GlobalTheory.Published.IrreducibleAdmissibleGL) (hR : RefineP k) : CuspEmbP k := by
-  have hJ : JacquetSubLeft k := _root_.GlobalTheory.CompanionTheory.JacquetLeft.jacquetSubLeft hA
-  suffices H : ∀ n : ℕ, ∀ x : IrrGL (k := k), x.1 = n → ∃ l : List (IrrGL (k := k)), (∀ ρ ∈ l, ρ.IsCusp) ∧ EmbL x l from
-    fun x => H _ x rfl
-  intro n
-  induction n using Nat.strong_induction_on with
-  | _ n ih =>
-    intro x hn
-    rcases Nat.eq_zero_or_pos x.1 with h0 | hpos
-    · exact ⟨[], by simp, embL_nil x h0⟩
-    obtain ⟨y, hd, hc, f, hf⟩ := hJ x hpos
-    have h2 : (y 1).1 < n := by
-      have := hc.1
-      rw [Fin.sum_univ_two] at hd
-      omega
-    obtain ⟨l, hl, hy⟩ := ih _ h2 (y 1) rfl
-    refine ⟨y 0 :: l, fun ρ hρ => ?_, ?_⟩
-    · rcases List.mem_cons.1 hρ with rfl | hρ
-      exacts [hc, hl ρ hρ]
-    · simpa using hR x (y 1) [y 0] l [] hy (by simpa using embL_pair hf)
+  apply _root_.PositivityTheory.Exh.cuspEmbP_of_refine <;> assumption
 
 
 variable (k) in
 theorem suppP : SuppP k := by
-  intro x a y l 𝔫 hl hx hxy hy Δ hΔ
-  obtain ⟨hd, f, hf⟩ := hx
-  obtain ⟨hd2, g, hg⟩ := hxy
-  have hG := geometricLemmaGL
-  have hBZ := GlobalTheory.CompanionTheory.Published.bernsteinZelevinskyFiniteness
-  have h1 : HasSupport x.rep (Finset.univ.val.map l.get) :=
-    hasSupport_of_isSubquotient x.2.rep.irr (fun i => hl _ (List.get_mem l i)) (.of_injective f hf)
-  obtain ⟨h, z, hdz, ⟨D, ⟨hD, -⟩, hz⟩, hcos⟩ := hy
-  have hsy : HasSupport y.rep (∑ i, (D i).ms) :=
-    GlobalTheory.CompanionTheory.Hypotheses₂.TD.hasSupport_of_isSubquotient_prodIrr (fun i => (hz i).hasSupport) y.2.rep.irr
-      hcos.isSubquotient
-  obtain ⟨sa, hsa⟩ := GlobalTheory.CompanionTheory.Hypotheses₂.TD.exists_hasSupport hBZ hG a
-  have ht : ∀ i, HasSupport (([a, y] : List (IrrGL (k := k))).get i).rep (![sa, ∑ i, (D i).ms] i) := by
-    intro i
-    fin_cases i
-    exacts [hsa, hsy]
-  have h2 := GlobalTheory.CompanionTheory.Hypotheses₂.TD.hasSupport_of_isSubquotient_prodIrr ht x.2.rep.irr (.of_injective g hg)
-  have heq := GlobalTheory.CompanionTheory.Hypotheses₂.TD.hasSupport_unique hG hBZ h1 h2
-  rw [← hD] at hΔ
-  obtain ⟨j, -, rfl⟩ := Multiset.mem_map.1 hΔ
-  have heq' : Finset.univ.val.map l.get = sa + ∑ i, (D i).ms := heq.trans (Fin.sum_univ_two _)
-  have hm : (D j).first ∈ sa + ∑ i, (D i).ms := by
-    refine Multiset.mem_add.2 (Or.inr (Multiset.mem_sum.2 ⟨j, Finset.mem_univ _, ?_⟩))
-    exact Segment.mem_ms.2 (Segment.mem_carrier.2 ⟨0, (D j).len_pos, by simp⟩)
-  rw [← heq'] at hm
-  obtain ⟨i, -, hi⟩ := Multiset.mem_map.1 hm
-  rw [← hi]
-  exact List.get_mem l i
+  intros
+  apply _root_.PositivityTheory.Exh.suppP <;> assumption
 
 theorem irreducibleAdmissibleGL : GlobalTheory.Published.IrreducibleAdmissibleGL :=
   fun k _ _ _ _ n => GlobalTheory.T.irreducible_smooth_admissible_GL k (Fin n)

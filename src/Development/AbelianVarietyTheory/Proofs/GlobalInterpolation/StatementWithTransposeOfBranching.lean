@@ -1,5 +1,7 @@
 module
 
+
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.BranchingAdmissibleFacts
 public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.SplitLastBlockActX
 public import Development.AbelianVarietyTheory.BlockTheory.GlobalSignature.InterlacingEquivariance
 public import Formalism.LocalToGlobal.Columns.CoefColLemmas
@@ -53,7 +55,6 @@ import Formalism.LocalToGlobal.Columns.CoefficientsModP.FkPderivBlockEmbNe
 import Formalism.LocalToGlobal.Columns.PolyFnLemmas
 import Mathlib.Tactic.Basify
 import Std.Tactic.BVDecide.Normalize.Prop
-
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.IsBasisAtBlock, Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.StatementWithTransposeOfBranching
 
@@ -406,66 +407,14 @@ theorem coeff_prod_rename {A ι : Type} [CommRing A] [Fintype ι] {n : ℕ} (b :
     (P : ι → MvPolynomial (Unit × Fin n) A) :
     AddMonoidAlgebra.coeff (∏ τ, rename (fun p : Unit × Fin n => (τ, p.2)) (P τ)) (expOf b) =
       ∏ τ, AddMonoidAlgebra.coeff (P τ) (expOf fun _ : Unit => b τ) := by
-  classical
-  have hinj : ∀ τ : ι, Function.Injective (fun p : Unit × Fin n => (τ, p.2)) :=
-    fun τ p q h => Prod.ext rfl (Prod.mk.inj h).2
-  have h1 : ∀ τ, rename (fun p : Unit × Fin n => (τ, p.2)) (P τ) =
-      ∑ m ∈ (P τ).support, monomial (m.mapDomain fun p : Unit × Fin n => (τ, p.2)) (AddMonoidAlgebra.coeff (P τ) m) := by
-    intro τ
-    conv_lhs => rw [(P τ).as_sum]
-
-    simp only [map_sum, rename_monomial]
-  have h2 : ∀ τ, AddMonoidAlgebra.coeff (P τ) (expOf fun _ : Unit => b τ) =
-      ∑ m ∈ (P τ).support, if m = expOf (fun _ : Unit => b τ) then AddMonoidAlgebra.coeff (P τ) m else 0 := by
-    intro τ
-    conv_lhs => rw [(P τ).as_sum]
-    simp only [coeff_sum, coeff_monomial]
-  simp only [h1]
-  rw [Finset.prod_congr rfl fun τ _ => h2 τ, Finset.prod_univ_sum, Finset.prod_univ_sum, coeff_sum]
-  refine Finset.sum_congr rfl fun p _ => ?_
-  rw [← monomial_sum_prod, coeff_monomial, Finset.prod_ite_zero]
-  have h3 : ∀ τ s, (∑ τ', (p τ').mapDomain fun q : Unit × Fin n => (τ', q.2)) (τ, s) = p τ ((), s) := by
-    intro τ s
-    rw [Finsupp.finsetSum_apply, Finset.sum_eq_single τ]
-    · exact Finsupp.mapDomain_apply_of_injective (hinj τ) (p τ) ((), s)
-    · intro τ' _ h
-      refine Finsupp.mapDomain_of_notMem_range _ _ ?_
-      rintro ⟨q, hq⟩
-      exact h (Prod.mk.inj hq).1
-    · simp
-  congr 1
-  apply propext
-  constructor
-  · intro h τ _
-    ext q
-    rw [← h3 τ q.2, h]
-    rfl
-  · intro h
-    ext q
-    rw [h3 q.1 q.2, h q.1 (Finset.mem_univ _)]
-    rfl
+  first | exact _root_.GlobalTheory.BrCompare.coeff_prod_rename | exact @_root_.GlobalTheory.BrCompare.coeff_prod_rename | apply _root_.GlobalTheory.BrCompare.coeff_prod_rename <;> assumption
 
 theorem splitLast_blockEmb {K ι : Type} [Field K] {N n : ℕ} (hN : N = n + 1) (τ : ι) (f : MvPolynomial (Fin N × Fin N) K) :
     splitLast K ι hN (Formalism.GradedWeylDivisibility.blockEmb K τ f) =
       rename (fun p : Unit × Fin n => (τ, p.2))
         (map (rename (R := K) (fun v : Unit × Fin n × Fin n => (τ, v.2))).toRingHom
           (splitLast K Unit hN (rename (fun v : Fin N × Fin N => (((), v) : Unit × Fin N × Fin N)) f))) := by
-  induction f using MvPolynomial.induction_on with
-  | C a => simp only [Formalism.GradedWeylDivisibility.blockEmb, rename_C, splitLast_C, map_C, AlgHom.toRingHom_eq_coe, RingHom.coe_coe]
-  | add p q hp hq => simp only [map_add (f := _), hp, hq]
-  | mul_X p v hp =>
-    have : splitLast K ι hN (Formalism.GradedWeylDivisibility.blockEmb K τ (X v)) =
-      rename (fun p : Unit × Fin n => (τ, p.2))
-        (map (rename (R := K) (fun v : Unit × Fin n × Fin n => (τ, v.2))).toRingHom
-          (splitLast K Unit hN (rename (fun v : Fin N × Fin N => (((), v) : Unit × Fin N × Fin N)) (X v)))) := by
-      obtain ⟨a, s⟩ := v
-      rw [fk_blockEmb_X, rename_X]
-      rcases cases_idx hN s with rfl | ⟨s, rfl⟩
-      · simp only [splitLast_X_lastCol, map_zero]
-      · rcases cases_idx hN a with rfl | ⟨a, rfl⟩
-        · simp only [splitLast_X_lastRow, map_X, rename_X]
-        · simp only [splitLast_X_up, map_C, rename_C, AlgHom.toRingHom_eq_coe, RingHom.coe_coe, rename_X]
-    rw [map_mul, map_mul, hp, this, map_mul, map_mul, map_mul, map_mul]
+  first | exact _root_.GlobalTheory.BrCompare.splitLast_blockEmb | exact @_root_.GlobalTheory.BrCompare.splitLast_blockEmb | apply _root_.GlobalTheory.BrCompare.splitLast_blockEmb <;> assumption
 
 theorem coefLast_ten {K ι : Type} [Field K] [Fintype ι] {N n : ℕ} (hN : N = n + 1) (b : ι → Fin n → ℕ)
     (f : ι → MvPolynomial (Fin N × Fin N) K) :

@@ -1,5 +1,6 @@
 module
 
+import Development.EtaleCohomology.CohomologicalPurity.LeafPBPf
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsEtaleCocycleFirstChernClassTateTwist
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FirstChernClassTateTwistCocycleUniqueNaturalAddi
 public import Development.AbelianVarietyTheory.Definitions.Divisors.PullHlComp
@@ -304,16 +305,7 @@ private theorem pull_castHt {q : ℕ} {E E' : Spc} (f : E ⟶ E') {n i n' i' : �
 
 private theorem pull_cpow (hA : DivisorNaturality) (q : ℕ) [NeZero q] {E E' : Spc} (f : E ⟶ E') (hE : Inv q E')
     (y : Ht q E' 2 1) (j : ℕ) : pull _ f _ _ (cpow q y j) = cpow q (pull _ f _ _ y) j := by
-  obtain ⟨hcup, hone, -, -⟩ := hA q
-  induction j with
-  | zero =>
-    rw [cpow_zero, cpow_zero, pull_castHt]
-    congr 1
-    exact hone f hE
-  | succ k ih =>
-    rw [cpow_succ, cpow_succ, pull_castHt]
-    congr 1
-    rw [hcup, ih]
+  apply _root_.LateralTheory.CohomologicalPurity.Thom.pull_cpow' <;> assumption
 
 private theorem inv_sch_of_is_unit (q : ℕ) (W : Scheme.{0}) (hq : IsUnit (q : Γ(W, ⊤))) : Inv q (sch.obj W) := by
   intro U hU

@@ -76,20 +76,8 @@ theorem Gj_fix (K : FinExt l) {j : ℕ} {g : GQ l} (hg : g ∈ Gj K j) {x : Om l
 
 theorem Ks_stable (K : FinExt l) (m : ℕ) {g : GQ l} (hg : g ∈ (K0 K).fixingSubgroup) {x : Om l}
     (hx : x ∈ Ks K m) : g x ∈ Ks K m := by
-  have : Ks K m ≤ (Ks K m).comap (g : Om l →ₐ[ℚ_[l]] Om l) := by
-    refine sup_le ?_ ?_
-    · intro y hy
-      have h1 : g y = y := hg ⟨y, hy⟩
-      change g y ∈ Ks K m
-      rw [h1]
-      exact (le_sup_left : _ ≤ Ks K m) hy
-    · rw [IntermediateField.adjoin_le_iff]
-      intro y hy
-      change g y ∈ Ks K m
-      apply _root_.GlobalTheory.TateDecomp.root_mem_Ks
-      have hy' : y ^ (l ^ m) = 1 := hy
-      rw [← map_pow, hy', map_one]
-  exact this hx
+  intros
+  apply _root_.GlobalTheory.TateDecomp.gal_Ks <;> assumption
 
 theorem exists_prim (n : ℕ) (hn : n ≠ 0) : ∃ z : Om l, IsPrimitiveRoot z n := by
   haveI : NeZero (n : Om l) := ⟨Nat.cast_ne_zero.mpr hn⟩

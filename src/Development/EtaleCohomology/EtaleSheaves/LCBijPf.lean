@@ -1,5 +1,6 @@
 module
 
+import Development.EtaleCohomology.TateTwists.TwLocPfR
 public import Development.EtaleCohomology.EtaleSheaves.LocallyConstantH0
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -59,12 +60,7 @@ def LCSurj : Prop := ∀ (q : ℕ) [NeZero q] (i : ℤ) m, IsLCMap q i m →
 
 theorem twGen_res (q : ℕ) (i : ℤ) {V U : Scheme.{0}} (g : V ⟶ U) (ζ : Prim q Γ(U, ⊤)) :
     Sec.res g (twGen i ζ) = twGen i (ζ.map g.appTop.hom) := by
-  unfold Sec.res twGen ofRings.sec tw ofRings
-  erw [← ModuleCat.comp_apply, ← NatTrans.naturality, ConcreteCategory.comp_apply]
-  congr 1
-  change Submodule.Quotient.mk (Finsupp.mapDomain (Prim.map (Scheme.Γ.map g.op).hom) (Finsupp.single ζ 1)) = _
-  erw [Finsupp.mapDomain_single]
-  rfl
+  apply @LateralTheory.EtaleFoundations.TwLocPf.twGen_res <;> assumption
 
 theorem gam_map {q : ℕ} {B C : Type} [CommRing B] [CommRing C] (f : B →+* C) (ζ : Prim q B) :
     gam (ζ.map f) = (gam ζ).map (Spec.map (CommRingCat.ofHom f)).appTop.hom := by

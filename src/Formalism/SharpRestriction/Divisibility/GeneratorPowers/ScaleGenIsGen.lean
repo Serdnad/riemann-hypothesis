@@ -49,6 +49,7 @@ import Mathlib.Tactic.ReduceModChar
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.TaylorDiscriminants.WickVanishing.HarmonicValueIntegral
 public import Formalism.LocalToGlobal.ProjectiveLattices.IsChartIff
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.AppCompatGeneric
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.LBPull
 
 @[expose] public section
 
@@ -79,59 +80,13 @@ private lemma pullU_res_lemma_2 {X Y : Scheme.{0}} (f : Y ⟶ X) {U V : X.Opens}
 private lemma pullGen_isGen_lemma_4 {X Y Z : Scheme.{0}} {L : LB X} {K : Type} [Fintype K] {φ : K → (Y ⟶ X)}
     {ε : K → ℤ} {c : LB.Gen (LB.LinComb L φ ε)} (hc : c.IsGen) {h : Z ⟶ Y} :
     (LB.pullGen L φ ε c h).IsGen := by
-  intro i j
-  have Pi : ∀ i', LB.wchart L (fun k => h ≫ φ k) i' ≤ h ⁻¹ᵁ LB.wchart L φ i' :=
-    fun i' _ hy => Set.mem_iInter.2 fun k => Set.mem_iInter.1 hy k
-  have T : LB.wchart L (fun k => h ≫ φ k) i ⊓ LB.wchart L (fun k => h ≫ φ k) j ≤ h ⁻¹ᵁ (LB.wchart L φ i ⊓ LB.wchart L φ j) :=
-    le_inf (inf_le_left.trans (Pi i)) (inf_le_right.trans (Pi j))
-  have H0 : ReciprocityTheory.ChartRestriction.G.Semi.res (@id (LB.wchart L φ i ⊓ LB.wchart L φ j ≤ LB.wchart L φ i) inf_le_left) (@id (Γ(Y, LB.wchart L φ i)ˣ) (c.s i)) =
-      (∏ k, (ReciprocityTheory.ChartRestriction.G.Semi.res (@id (LB.wchart L φ i ⊓ LB.wchart L φ j ≤ φ k ⁻¹ᵁ (L.U (i k) ⊓ L.U (j k)))
-          (le_inf (inf_le_left.trans (LB.wchart_le L _ i k)) (inf_le_right.trans (LB.wchart_le L _ j k))))
-        (ReciprocityTheory.ChartRestriction.G.Semi.pullU (φ k) (L.U (i k) ⊓ L.U (j k)) (L.g (i k) (j k)))) ^ ε k) *
-      ReciprocityTheory.ChartRestriction.G.Semi.res (@id (LB.wchart L φ i ⊓ LB.wchart L φ j ≤ LB.wchart L φ j) inf_le_right) (@id (Γ(Y, LB.wchart L φ j)ˣ) (c.s j)) := hc i j
-  have H := congrArg (fun z => ReciprocityTheory.ChartRestriction.G.Semi.res T (ReciprocityTheory.ChartRestriction.G.Semi.pullU h (LB.wchart L φ i ⊓ LB.wchart L φ j) z)) H0
-  show ReciprocityTheory.ChartRestriction.G.Semi.res (@id (LB.wchart L (fun k => h ≫ φ k) i ⊓ LB.wchart L (fun k => h ≫ φ k) j ≤ LB.wchart L (fun k => h ≫ φ k) i) inf_le_left) (ReciprocityTheory.ChartRestriction.G.Semi.res (Pi i) (ReciprocityTheory.ChartRestriction.G.Semi.pullU h (LB.wchart L φ i) (@id (Γ(Y, LB.wchart L φ i)ˣ) (c.s i)))) =
-      (∏ k, (ReciprocityTheory.ChartRestriction.G.Semi.res (@id (LB.wchart L (fun k => h ≫ φ k) i ⊓ LB.wchart L (fun k => h ≫ φ k) j ≤ (h ≫ φ k) ⁻¹ᵁ (L.U (i k) ⊓ L.U (j k)))
-          (le_inf (inf_le_left.trans (LB.wchart_le L _ i k)) (inf_le_right.trans (LB.wchart_le L _ j k))))
-        (ReciprocityTheory.ChartRestriction.G.Semi.pullU (h ≫ φ k) (L.U (i k) ⊓ L.U (j k)) (L.g (i k) (j k)))) ^ ε k) *
-      ReciprocityTheory.ChartRestriction.G.Semi.res (@id (LB.wchart L (fun k => h ≫ φ k) i ⊓ LB.wchart L (fun k => h ≫ φ k) j ≤ LB.wchart L (fun k => h ≫ φ k) j) inf_le_right) (ReciprocityTheory.ChartRestriction.G.Semi.res (Pi j) (ReciprocityTheory.ChartRestriction.G.Semi.pullU h (LB.wchart L φ j) (@id (Γ(Y, LB.wchart L φ j)ˣ) (c.s j))))
-  simp only [map_mul, map_prod, map_zpow, _root_.ReciprocityTheory.ChartRestriction.G.DVR.res_res', pullU_res_lemma_2, _root_.ReciprocityTheory.ChartRestriction.G.DVR.pullU_comp_eq_pullU_pullU] at H ⊢
-  exact H
+  apply _root_.ReciprocityTheory.ChartRestriction.G.DVR.pullGen_isGen <;> assumption
 
 private lemma mulGen_isGen_lemma_5 {X Y : Scheme.{0}} {L : LB X} {K K' : Type} [Fintype K] [Fintype K']
     {φ : K → (Y ⟶ X)} {ε : K → ℤ} {φ' : K' → (Y ⟶ X)} {ε' : K' → ℤ} {t : LB.Gen (LB.LinComb L φ ε)}
     {t' : LB.Gen (LB.LinComb L φ' ε')} (ht : t.IsGen) (ht' : t'.IsGen) :
     (LB.mulGen L φ ε φ' ε' t t').IsGen := by
-  intro i j
-  have Pi : ∀ i', LB.wchart L (Sum.elim φ φ') i' ≤ LB.wchart L φ (i' ∘ Sum.inl) :=
-    fun i' _ hy => Set.mem_iInter.2 fun k => Set.mem_iInter.1 hy (Sum.inl k)
-  have Qi : ∀ i', LB.wchart L (Sum.elim φ φ') i' ≤ LB.wchart L φ' (i' ∘ Sum.inr) :=
-    fun i' _ hy => Set.mem_iInter.2 fun k => Set.mem_iInter.1 hy (Sum.inr k)
-  have H1 : ReciprocityTheory.ChartRestriction.G.Semi.res (@id (LB.wchart L φ (i ∘ Sum.inl) ⊓ LB.wchart L φ (j ∘ Sum.inl) ≤ LB.wchart L φ (i ∘ Sum.inl)) inf_le_left) (@id (Γ(Y, LB.wchart L φ (i ∘ Sum.inl))ˣ) (t.s (i ∘ Sum.inl))) =
-      (∏ k, (ReciprocityTheory.ChartRestriction.G.Semi.res (@id (LB.wchart L φ (i ∘ Sum.inl) ⊓ LB.wchart L φ (j ∘ Sum.inl) ≤ φ k ⁻¹ᵁ (L.U (i (Sum.inl k)) ⊓ L.U (j (Sum.inl k))))
-          (le_inf (inf_le_left.trans (LB.wchart_le L _ (i ∘ Sum.inl) k)) (inf_le_right.trans (LB.wchart_le L _ (j ∘ Sum.inl) k))))
-        (ReciprocityTheory.ChartRestriction.G.Semi.pullU (φ k) (L.U (i (Sum.inl k)) ⊓ L.U (j (Sum.inl k))) (L.g (i (Sum.inl k)) (j (Sum.inl k))))) ^ ε k) *
-      ReciprocityTheory.ChartRestriction.G.Semi.res (@id (LB.wchart L φ (i ∘ Sum.inl) ⊓ LB.wchart L φ (j ∘ Sum.inl) ≤ LB.wchart L φ (j ∘ Sum.inl)) inf_le_right) (@id (Γ(Y, LB.wchart L φ (j ∘ Sum.inl))ˣ) (t.s (j ∘ Sum.inl))) := ht _ _
-  have H2 : ReciprocityTheory.ChartRestriction.G.Semi.res (@id (LB.wchart L φ' (i ∘ Sum.inr) ⊓ LB.wchart L φ' (j ∘ Sum.inr) ≤ LB.wchart L φ' (i ∘ Sum.inr)) inf_le_left) (@id (Γ(Y, LB.wchart L φ' (i ∘ Sum.inr))ˣ) (t'.s (i ∘ Sum.inr))) =
-      (∏ k, (ReciprocityTheory.ChartRestriction.G.Semi.res (@id (LB.wchart L φ' (i ∘ Sum.inr) ⊓ LB.wchart L φ' (j ∘ Sum.inr) ≤ φ' k ⁻¹ᵁ (L.U (i (Sum.inr k)) ⊓ L.U (j (Sum.inr k))))
-          (le_inf (inf_le_left.trans (LB.wchart_le L _ (i ∘ Sum.inr) k)) (inf_le_right.trans (LB.wchart_le L _ (j ∘ Sum.inr) k))))
-        (ReciprocityTheory.ChartRestriction.G.Semi.pullU (φ' k) (L.U (i (Sum.inr k)) ⊓ L.U (j (Sum.inr k))) (L.g (i (Sum.inr k)) (j (Sum.inr k))))) ^ ε' k) *
-      ReciprocityTheory.ChartRestriction.G.Semi.res (@id (LB.wchart L φ' (i ∘ Sum.inr) ⊓ LB.wchart L φ' (j ∘ Sum.inr) ≤ LB.wchart L φ' (j ∘ Sum.inr)) inf_le_right) (@id (Γ(Y, LB.wchart L φ' (j ∘ Sum.inr))ˣ) (t'.s (j ∘ Sum.inr))) := ht' _ _
-  have T1 : LB.wchart L (Sum.elim φ φ') i ⊓ LB.wchart L (Sum.elim φ φ') j ≤ LB.wchart L φ (i ∘ Sum.inl) ⊓ LB.wchart L φ (j ∘ Sum.inl) :=
-    inf_le_inf (Pi i) (Pi j)
-  have T2 : LB.wchart L (Sum.elim φ φ') i ⊓ LB.wchart L (Sum.elim φ φ') j ≤ LB.wchart L φ' (i ∘ Sum.inr) ⊓ LB.wchart L φ' (j ∘ Sum.inr) :=
-    inf_le_inf (Qi i) (Qi j)
-  have G1 := congrArg (ReciprocityTheory.ChartRestriction.G.Semi.res T1) H1
-  have G2 := congrArg (ReciprocityTheory.ChartRestriction.G.Semi.res T2) H2
-  show ReciprocityTheory.ChartRestriction.G.Semi.res (@id (LB.wchart L (Sum.elim φ φ') i ⊓ LB.wchart L (Sum.elim φ φ') j ≤ LB.wchart L (Sum.elim φ φ') i) inf_le_left)
-        (ReciprocityTheory.ChartRestriction.G.Semi.res (Pi i) (@id (Γ(Y, LB.wchart L φ (i ∘ Sum.inl))ˣ) (t.s (i ∘ Sum.inl))) * ReciprocityTheory.ChartRestriction.G.Semi.res (Qi i) (@id (Γ(Y, LB.wchart L φ' (i ∘ Sum.inr))ˣ) (t'.s (i ∘ Sum.inr)))) =
-      (∏ k, (ReciprocityTheory.ChartRestriction.G.Semi.res (@id (LB.wchart L (Sum.elim φ φ') i ⊓ LB.wchart L (Sum.elim φ φ') j ≤ (Sum.elim φ φ' k) ⁻¹ᵁ (L.U (i k) ⊓ L.U (j k)))
-          (le_inf (inf_le_left.trans (LB.wchart_le L _ i k)) (inf_le_right.trans (LB.wchart_le L _ j k))))
-        (ReciprocityTheory.ChartRestriction.G.Semi.pullU (Sum.elim φ φ' k) (L.U (i k) ⊓ L.U (j k)) (L.g (i k) (j k)))) ^ (Sum.elim ε ε' k)) *
-      ReciprocityTheory.ChartRestriction.G.Semi.res (@id (LB.wchart L (Sum.elim φ φ') i ⊓ LB.wchart L (Sum.elim φ φ') j ≤ LB.wchart L (Sum.elim φ φ') j) inf_le_right)
-        (ReciprocityTheory.ChartRestriction.G.Semi.res (Pi j) (@id (Γ(Y, LB.wchart L φ (j ∘ Sum.inl))ˣ) (t.s (j ∘ Sum.inl))) * ReciprocityTheory.ChartRestriction.G.Semi.res (Qi j) (@id (Γ(Y, LB.wchart L φ' (j ∘ Sum.inr))ˣ) (t'.s (j ∘ Sum.inr))))
-  simp only [map_mul, map_prod, map_zpow, _root_.ReciprocityTheory.ChartRestriction.G.DVR.res_res', Fintype.prod_sum_type] at G1 G2 ⊢
-  exact (congrArg₂ (· * ·) G1 G2).trans (mul_mul_mul_comm _ _ _ _)
+  apply _root_.ReciprocityTheory.ChartRestriction.G.DVR.mulGen_isGen <;> assumption
 
 private lemma corr_pull_lemma_6 {X Y Z : Scheme.{0}} {L : LB X} {K K' : Type} [Fintype K] [Fintype K']
     {φ : K → (Y ⟶ X)} {ε : K → ℤ} {φ' : K' → (Y ⟶ X)} {ε' : K' → ℤ} {a : LB.Gen (LB.LinComb L φ ε)}

@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.SplitIdempotentBaseFunctionIdentity
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsMixModelB
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsAddEquivSymplecticCoordsOrientedModel
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.AtWAtPlSelf
@@ -103,24 +104,7 @@ theorem sb_smul {m n : ℕ} {a : AE D} {Λ : AddSubgroup (Mx D m n)} {Φ : Mx D 
 
 theorem sb_add {m n : ℕ} {a : AE D} {Λ : AddSubgroup (Mx D m n)} {Φ Ψ : Mx D m n → ℂ}
     (h : IsSBHalf a Λ Φ) (h' : IsSBHalf a Λ Ψ) : IsSBHalf a Λ (Φ + Ψ) := by
-  obtain ⟨h1, k, hk, h2, h3⟩ := h
-  obtain ⟨h1', k', hk', h2', h3'⟩ := h'
-  have hne : ∀ t, (Φ + Ψ) t ≠ 0 → Φ t ≠ 0 ∨ Ψ t ≠ 0 := fun t ht => by
-    by_contra hc
-    rw [not_or, not_not, not_not] at hc
-    exact ht (by rw [Pi.add_apply, hc.1, hc.2, add_zero])
-  have hh : ∀ (j : ℕ) (u : Mx D m n), IsHalf a u → IsHalf a (j • u) := fun j u hu p q => by
-    rw [Matrix.smul_apply, nsmul_eq_mul, mul_left_comm, hu p q]
-  refine ⟨fun t ht => (hne t ht).elim (h1 t) (h1' t), k * k', Nat.mul_pos hk hk', fun u hu hu' t => ?_,
-    fun t ht => ?_⟩
-  · have e1 : Φ (t + (k * k') • u) = Φ t := by
-      rw [mul_smul]; exact h2 _ (Λ.nsmul_mem hu k') (hh _ _ hu') t
-    have e2 : Ψ (t + (k * k') • u) = Ψ t := by
-      rw [mul_comm, mul_smul]; exact h2' _ (Λ.nsmul_mem hu k) (hh _ _ hu') t
-    rw [Pi.add_apply, Pi.add_apply, e1, e2]
-  · rcases hne t ht with h | h
-    · rw [mul_comm, mul_smul]; exact Λ.nsmul_mem (h3 t h) k'
-    · rw [mul_smul]; exact Λ.nsmul_mem (h3' t h) k
+  apply _root_.GlobalTheory.SymmetricBilinearHalf.sb_add <;> assumption
 
 theorem exists_nat_conj {w : Pl D.host.E}
     (hw : ((D.host.QS * D.host.q * D.host.d * Ideal.absNorm D.host.ccK : ℕ) : 𝓞 D.host.E) ∉ w.asIdeal) :

@@ -1,5 +1,6 @@
 module
 
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.PlaceDivisors.FiniteLocalLifts.IsLocalHomAlgebraMap
 public import Mathlib.FieldTheory.IsSepClosed
 public import Mathlib.RingTheory.Henselian
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.FiniteAlgebrasOverHenselianAndComplete
@@ -57,16 +58,8 @@ open IsLocalRing
 theorem isLocalHom_algebraMap_of_moduleFinite (R T : Type) [CommRing R] [IsLocalRing R]
     [CommRing T] [IsLocalRing T] [Algebra R T] [Module.Finite R T] :
     IsLocalHom (algebraMap R T) := by
-  constructor
-  intro a ha
-  by_contra hna
-  haveI : Algebra.IsIntegral R T := Algebra.IsIntegral.of_finite R T
-  haveI hmax : (Ideal.comap (algebraMap R T) (maximalIdeal T)).IsMaximal :=
-    Ideal.isMaximal_comap_of_isIntegral_of_isMaximal (algebraMap _ _) (RingHom.Finite.to_isIntegral (RingHom.finite_algebraMap.mpr inferInstance)) (maximalIdeal T)
-  have heq := IsLocalRing.eq_maximalIdeal hmax
-  have hm : a ∈ Ideal.comap (algebraMap R T) (maximalIdeal T) := by
-    rw [heq]; exact (mem_maximalIdeal a).2 hna
-  exact (mem_maximalIdeal _).1 hm ha
+  intros
+  apply _root_.ReciprocityTheory.ChartRestriction.G.Pdiv.FiniteLocalHoms.isLocalHom_algebraMap <;> assumption
 
 theorem isSepClosed_residueField_of_moduleFinite (R T : Type) [CommRing R] [IsLocalRing R]
     [IsSepClosed (ResidueField R)] [CommRing T] [IsLocalRing T] [Algebra R T]

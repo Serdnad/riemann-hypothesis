@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.FlagDomainModelsExponentsLevelM
 public import Development.AbelianVarietyTheory.Definitions.SpanningFamilies.IsSystem
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.SymplecticGenerators.SymplecticCharacters.InversionStatement
 public import Development.AbelianVarietyTheory.Proofs.CovolumeBounds.EqZeroOfSemicharacterMultiplier
@@ -171,26 +172,7 @@ open GlobalTheory.Dict
 
 theorem hostHalfRoot_add_conj_eq_one {E : Type} [Field E] [NumberField E] [IsCMField E] (H : Host E) :
     (H.w0 : E) + cc (H.w0 : E) = 1 := by
-  have h1 : (H.rt : E) ^ 2 = -(H.d : E) := by simpa using congrArg (algebraMap (𝓞 E) E) H.rt_sq
-  have h2 : 2 * (H.w0 : E) = 1 + (H.rt : E) := by
-    simpa [map_ofNat] using congrArg (algebraMap (𝓞 E) E) H.two_weight_eq_one_add_root
-  obtain ⟨τ⟩ : Nonempty (E →+* ℂ) := inferInstance
-  have h3 : τ H.rt ^ 2 = -(H.d : ℂ) := by simpa using congrArg τ h1
-  have h4 : 2 * τ H.w0 = 1 + τ H.rt := by simpa [map_ofNat] using congrArg τ h2
-  have h5 : (τ H.rt).re = 0 := by
-    have a := congrArg Complex.re h3
-    have b := congrArg Complex.im h3
-    have c : (0 : ℝ) < H.d := by exact_mod_cast H.d_prime.pos
-    simp only [pow_two, mul_re, mul_im, neg_re, neg_im, natCast_re, natCast_im, neg_zero] at a b
-    by_contra h
-    have : (τ H.rt).im = 0 := mul_left_cancel₀ h (by linarith)
-    rw [this] at a
-    nlinarith [mul_self_nonneg (τ H.rt).re]
-  apply τ.injective
-  rw [map_add (f := _), cc, IsCMField.complexEmbedding_complexConj, map_one, Complex.add_conj]
-  have h6 := congrArg Complex.re h4
-  simp only [add_re, one_re, h5, add_zero, mul_re, re_ofNat, im_ofNat, zero_mul, sub_zero] at h6
-  exact_mod_cast h6
+  first | exact _root_.GlobalTheory.DiagDifferent.cmField_host_element_add_conj_eq_one | exact @_root_.GlobalTheory.DiagDifferent.cmField_host_element_add_conj_eq_one | apply _root_.GlobalTheory.DiagDifferent.cmField_host_element_add_conj_eq_one <;> assumption
 
 theorem wG_vac_eq : ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (r : ℕ) (X : Data E r) (g : ℕ) (bas : (Fin g ⊕ Fin g → ℤ) ≃ₗ[ℤ] X.Λ) (idx : Fin g ≃ X.Ψ × Fin r) (n : ℕ), IsSympl X bas → Even n → ∀ (H : Host E) (Dw : Datum H) (φ : Dw.La →ₗ[𝓞 E] (Fin r → E)), r = Dw.p + Dw.q → Function.Injective φ → Submodule.span E (Set.range φ) = ⊤ → (∀ a b, ((Dw.EF a b : ℤ) : ℚ) = EF X (φ a) (φ b)) → ∀ L : Lt E r, SelfD X L → ∀ (M : ℕ), 3 ≤ M → ∀ ga : GL (Fin r) E, IsUn X ga → mapL ga L = L → (∀ u ∈ L, ∃ u' ∈ L, (ga : Matrix (Fin r) (Fin r) E) *ᵥ u = u + M • u') → ∀ v : TF n g, IsVac X bas (H.w0 : E) (tens (stdL E n) L) v → wG X bas idx ga v = v := by
   intro E _ _ _ r X g bas idx n hs hn H Dw φ hr hφi hφs hφE L hL M hM ga hga hgL hgM v hv

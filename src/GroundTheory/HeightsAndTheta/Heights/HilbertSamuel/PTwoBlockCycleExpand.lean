@@ -1,5 +1,6 @@
 module
 
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.SncChartLocalNormalForm
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsTwoBlockCycleExpand
 public import GroundTheory.HeightsAndTheta.Heights.HeightComparison.GeoNum
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PCoordArithOfFnField
@@ -29,25 +30,7 @@ namespace TwoBlockCycleExpand
 
 theorem exists_perm_mem_iff {D : ℕ} (s : Finset (Fin D)) :
     ∃ σ : Equiv.Perm (Fin D), ∀ j, ((σ j : ℕ) < s.card ↔ j ∈ s) := by
-  classical
-  have hk : s.card ≤ D := by simpa using Finset.card_le_univ s
-  have h1 : Fintype.card {j : Fin D // j ∈ s} = Fintype.card {j : Fin D // (j : ℕ) < s.card} := by
-    rw [Fintype.card_coe]
-    refine (Fintype.card_fin _).symm.trans (Fintype.card_congr ?_)
-    exact { toFun := fun i => ⟨⟨i, lt_of_lt_of_le i.2 hk⟩, i.2⟩
-            invFun := fun j => ⟨j.1, j.2⟩
-            left_inv := fun _ => rfl
-            right_inv := fun _ => rfl }
-  have h2 : Fintype.card {j : Fin D // ¬ j ∈ s} = Fintype.card {j : Fin D // ¬ (j : ℕ) < s.card} := by
-    rw [Fintype.card_subtype_compl, Fintype.card_subtype_compl, h1]
-  refine ⟨Equiv.subtypeCongr (Fintype.equivOfCardEq h1) (Fintype.equivOfCardEq h2), fun j => ?_⟩
-  by_cases hj : j ∈ s
-  · simp only [Equiv.subtypeCongr, Equiv.trans_apply, Equiv.sumCompl_symm_apply_of_pos hj,
-      Equiv.sumCongr_apply, Sum.map_inl, Equiv.sumCompl_apply_inl]
-    exact iff_of_true (Fintype.equivOfCardEq h1 ⟨j, hj⟩).2 hj
-  · simp only [Equiv.subtypeCongr, Equiv.trans_apply, Equiv.sumCompl_symm_apply_of_neg hj,
-      Equiv.sumCongr_apply, Sum.map_inr, Equiv.sumCompl_apply_inr]
-    exact iff_of_false (Fintype.equivOfCardEq h2 ⟨j, hj⟩).2 hj
+  apply _root_.GlobalTheory.CompanionTheory.Ar.ChartGeo.exists_perm_prefix <;> assumption
 
 theorem expand {D : ℕ} (M : (Fin D → Fin 2 → ℤ) →ₘₗ[ℤ] ℤ)
     (hsym : ∀ (v : Fin D → Fin 2 → ℤ) (σ : Equiv.Perm (Fin D)), M (v ∘ σ) = M v) (a b : ℤ) :

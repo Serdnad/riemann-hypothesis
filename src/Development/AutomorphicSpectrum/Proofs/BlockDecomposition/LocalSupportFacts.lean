@@ -43,6 +43,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.FiniteTwistedDoubleCosets
 
 @[expose] public section
 
@@ -58,17 +59,7 @@ theorem finite_of_subset_mul' {G : Type} [Group G] [TopologicalSpace G] [IsTopol
     (hK' : IsOpen (K' : Set G)) (D : Set G) (hD : IsCompact D)
     (P : G → Prop) (hP : ∀ x, P x → ∃ t ∈ T, ∃ d ∈ D, x = t * d) :
     {q : DoubleCoset.Quotient (T : Set G) (K' : Set G) | P (Quotient.out q)}.Finite := by
-  obtain ⟨s, hs⟩ := compact_covered_by_mul_left_translates hD
-    (show (interior (K' : Set G)).Nonempty from ⟨1, hK'.interior_eq.symm ▸ K'.one_mem⟩)
-  refine (s.finite_toSet.image fun g => DoubleCoset.mk T K' g⁻¹).subset ?_
-  intro q hq
-  obtain ⟨t, ht, d, hd, hx⟩ := hP _ hq
-  have := hs hd
-  simp only [Set.mem_iUnion, Set.mem_preimage, SetLike.mem_coe] at this
-  obtain ⟨g, hg, hgd⟩ := this
-  refine ⟨g, hg, ?_⟩
-  rw [← DoubleCoset.out_eq' q, DoubleCoset.eq]
-  exact ⟨t, ht, g * d, hgd, by simp [hx, mul_assoc]⟩
+  apply _root_.GlobalTheory.CompanionTheory.LocHypSplit.finite_of_subset_mul <;> assumption
 
 variable {E : Type} [Field E] [NumberField E] [IsCMField E]
 

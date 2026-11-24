@@ -1,5 +1,6 @@
 module
 
+import Development.WeilBound.CoreStatements.PadicHodgeComparison.EtaleCohomologyComparison.KummerCupProducts.EtaleChernClassEqKummerClass
 public import Development.AbelianVarietyTheory.Definitions.Divisors.SecClass
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.EtaleCochainEvalOnSimplexBasicPropertiesStatement
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.EtaleCochainEvalOnSimplexDifferentialValuesStatement
@@ -279,16 +280,7 @@ variable {q : ℕ} {t : ∀ U : Scheme.{0}, (Γ(U, ⊤))ˣ → Sec ((res _ (tw q
 
 theorem kum_pow (ht : IsKum q t) {U : Scheme.{0}} (ζ : Prim q Γ(U, ⊤)) (v : (Γ(U, ⊤))ˣ) (k : ℕ) :
     ∀ w : (Γ(U, ⊤))ˣ, (w : Γ(U, ⊤)) = ζ.1 ^ k * v → t U w = t U v + k • resGen 1 ζ := by
-  induction k with
-  | zero =>
-    intro w hw
-    rw [pow_zero, one_mul] at hw
-    rw [Units.ext hw, zero_smul, add_zero]
-  | succ k ih =>
-    intro w hw
-    have hw' : (w : Γ(U, ⊤)) = ζ.1 * (ζ.1 ^ k * v) := by rw [hw]; ring
-    obtain ⟨z, hz⟩ : IsUnit (ζ.1 ^ k * v) := isUnit_of_mul_isUnit_right (hw' ▸ w.isUnit)
-    rw [ht.2 U ζ z w (by rw [hw', hz]), ih z hz, succ_nsmul, add_assoc]
+  apply _root_.GlobalTheory.CompanionTheory.KumPowProof.isKum_pow <;> assumption
 
 theorem kum_loc [NeZero q] (ht : IsKum q t) {U : Scheme.{0}} (hU : IsUnit (q : Γ(U, ⊤))) {v w : (Γ(U, ⊤))ˣ} (h : v ^ q = w ^ q) :
     Loc U fun V g => ∃ r : Sec ((res _ (tw q 1)).X 0) V, Sec.map ((res _ (tw q 1)).d 0 1) r = 0 ∧

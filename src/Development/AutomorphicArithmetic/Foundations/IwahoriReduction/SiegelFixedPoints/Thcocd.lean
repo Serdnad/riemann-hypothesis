@@ -1,5 +1,6 @@
 module
 
+import Formalism.LocalToGlobal.NormalizedHeckeFactors.TypesDefs
 public import Development.AutomorphicArithmetic.Foundations.IwahoriReduction.SiegelFixedPoints.IsThBIff
 public import Development.AbelianVarietyTheory.Definitions.Foundations.ActWBOfInvariant
 public import Development.AbelianVarietyTheory.Definitions.Foundations.LiftSLMapMulInvMem
@@ -1473,19 +1474,8 @@ private theorem inv_nat_mem {A : ValuationSubring Ω} {l D : ℕ} (hp : l.Prime)
     exact le_of_eq (by simpa using congrArg (·⁻¹) h)
 
 private theorem root_mem (A : ValuationSubring Ω) {ζ : Ω} {M : ℕ} (hM : 0 < M) (h : ζ ^ M = 1) : ζ ∈ A := by
-  rcases A.mem_or_inv_mem ζ with h1 | h1
-  · exact h1
-  · have h0 : ζ ≠ 0 := by
-      rintro rfl
-      rw [zero_pow hM.ne'] at h
-      exact zero_ne_one h
-    have e : ζ = (ζ⁻¹) ^ (M - 1) := by
-      obtain ⟨k, rfl⟩ : ∃ k, M = k + 1 := ⟨M - 1, by omega⟩
-      rw [Nat.add_sub_cancel, inv_pow]
-      rw [pow_succ] at h
-      exact eq_inv_of_mul_eq_one_right h
-    rw [e]
-    exact pow_mem h1 _
+  intros
+  apply _root_.Formalism.L2.NT.mem_of_pow_eq_one <;> assumption
 
 private theorem inZl_mem [IsAlgClosure ℚ Ω] (ε : Ω →+* ℂ) {A : ValuationSubring Ω} {l k : ℕ} (hp : l.Prime) [NeZero l]
     (hl : (l : Ω) ∈ A.nonunits) {F : Ω} (h : InZl ε l k F) : F ∈ A := by

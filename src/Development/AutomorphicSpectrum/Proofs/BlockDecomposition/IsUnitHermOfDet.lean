@@ -37,6 +37,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
 import Development.AbelianVarietyTheory.PublishedTheorems.GlobalTheta.IsSchwartzBruhatOfProd
+import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.StabilizerVolume.DensInfCo
 
 @[expose] public section
 
@@ -85,20 +86,7 @@ theorem hermMap_hermOf {R R' : Type} [CommRing R] [Algebra F R] [CommRing R'] [A
 theorem sigR_hR (R : Type) [CommRing R] [Algebra F R] (σ : E →ₐ[F] E) (hσ : ∀ e, σ (σ e) = e) {M : ℕ}
     {J : Matrix (Fin M) (Fin M) E} (hJ : ∀ i j, σ (J j i) = J i j) (x y : Fin M → R ⊗[F] E) :
     sigR R σ (hR R σ J y x) = hR R σ J x y := by
-  have h2 : ∀ z : R ⊗[F] E, sigR R σ (sigR R σ z) = z := by
-    intro z
-    induction z using TensorProduct.induction_on with
-    | zero => simp
-    | tmul a e => simp [sigR, hσ]
-    | add x y hx hy => simp only [map_add (f := _), hx, hy]
-  have h3 : ∀ i j, sigR R σ (JR R J i j) = JR R J j i := by
-    intro i j
-    simp [sigR, JR, inclR, hJ j i]
-
-  simp only [hR, Formalism.UG.hform, map_sum, map_mul, h2, h3]
-  rw [Finset.sum_comm]
-  refine Finset.sum_congr rfl fun i _ => Finset.sum_congr rfl fun j _ => ?_
-  ring
+  apply _root_.PI.VolStabS.hR_herm <;> assumption
 
 theorem hermMap_hR {R R' : Type} [CommRing R] [Algebra F R] [CommRing R'] [Algebra F R'] (f : R →ₐ[F] R')
     (σ : E →ₐ[F] E) {M : ℕ} (J : Matrix (Fin M) (Fin M) E) (x y : Fin M → R ⊗[F] E) :

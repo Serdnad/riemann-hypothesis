@@ -1,5 +1,6 @@
 module
 
+import Formalism.SharpRestriction.ValuationFrobeniusEpsilon.LeastPrimeTwists.QuotientShiftIrreducible.NoetherianQuotientCalc.EulerAdditivityInSection
 public import Formalism.SharpRestriction.ValuationFrobeniusEpsilon.LeastPrimeTwists.QuotientShiftIrreducible.NoetherianQuotientCalc.EulerVanishingBelowDimension
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -422,15 +423,7 @@ theorem secs_perm {ts ts' : List (Deg k × R)} (hp : ts.Perm ts') : secs ts = se
 theorem admissible_tail_of_cons_mem [IsLocalRing B] (𝒜 : Deg k → Submodule B R) {d : Deg k} {s : R}
     {l : List (Deg k × R)} {J J' : Ideal R} (h : admitted 𝒜 ((d, s) :: l) J) (hJ : J ≤ J')
     (hs : s ∈ J') : admitted 𝒜 l J' := by
-  obtain ⟨N, hN⟩ := h
-  refine ⟨N, hN.trans (sup_le (hJ.trans le_sup_left) ?_)⟩
-  rw [secs, Ideal.span_le]
-  rintro x ⟨d0, hx⟩
-  rcases List.mem_cons.1 hx with h | h
-  · have hxs : x = s := (Prod.mk.inj h).2
-    rw [hxs]
-    exact Ideal.mem_sup_left hs
-  · exact Ideal.mem_sup_right (Ideal.subset_span ⟨d0, h⟩)
+  apply _root_.Formalism.MainNotions.V.Pf.V2.Calc.E7.admissible_tail_of_cons_mem_ideal <;> assumption
 
 theorem ann_le_quot (F : GMod B R k) (s : R) : F.Ann ≤ (F.quot s).Ann := by
   intro r hr

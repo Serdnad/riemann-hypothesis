@@ -1,5 +1,6 @@
 module
 
+import all Development.AutomorphicArithmetic.Foundations.Convolution.SphericalHeckeOperators.DeepHecke
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.RegularSemisimpleFibres.FrobeniusLocalPairs.MatchSmulAlt
 public import Development.AutomorphicArithmetic.Foundations.Convolution.TwistedLocalOrbits.Bridge
 public import Development.AutomorphicArithmetic.Foundations.Convolution.TwistedLocalOrbits.SgIterateEqSelf
@@ -93,21 +94,7 @@ private theorem map_diag {F : Type} [Field F] (f : E →+* F) (u : Fin n → Eˣ
 
 private theorem nrm_diag (σ : E ≃+* E) (q : ℕ) (u : Fin n → Eˣ) :
     (UpperTheory.ConvolutionTheory.Loc.nrm σ q (diagT E (Fin n) u)).val = Matrix.diagonal fun i => ∏ j ∈ Finset.range q, σ^[j] (u i) := by
-  induction q with
-  | zero =>
-    ext i j
-    simp [UpperTheory.ConvolutionTheory.Loc.nrm, Matrix.one_apply, Matrix.diagonal_apply]
-  | succ q ih =>
-    rw [UpperTheory.ConvolutionTheory.Loc.nrm_succ, Units.val_mul, ih]
-    have h2 : (((⇑(sg σ))^[q] (diagT E (Fin n) u)) : Matrix (Fin n) (Fin n) E)
-        = Matrix.diagonal fun i => σ^[q] (u i) := by
-      ext i j
-      rw [sg_iterate_apply, GlobalTheory.SmGL.val_diagT, Matrix.diagonal_apply, Matrix.diagonal_apply]
-      split_ifs <;> simp [iterate_map_zero]
-    rw [h2, Matrix.diagonal_mul_diagonal]
-    congr 1
-    ext i
-    rw [Finset.prod_range_succ]
+  apply _root_.nrm_diag <;> assumption
 
 private theorem nrmT_mul (a b : Fin n → Eˣ) : nrmT k (a * b) = nrmT k a * nrmT k b := by
   funext i

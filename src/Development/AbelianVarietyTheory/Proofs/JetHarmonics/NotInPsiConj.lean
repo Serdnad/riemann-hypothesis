@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.InPsiOrInPsiConjugate
 import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.ExistsLastEntryPosNotLastPos
 public import Development.AbelianVarietyTheory.Definitions.Jets.IsSelfOf
 public import Development.AbelianVarietyTheory.Definitions.Jets.DepthNumbersThresholdEq
@@ -66,18 +67,7 @@ theorem rt_conj (H : ReciprocityTheory.ChartRestriction.G.Geo.Tor.Host E) : (sta
 
 theorem inPsi_or_conj (H : ReciprocityTheory.ChartRestriction.G.Geo.Tor.Host E) (τ : E →+* ℂ) :
     InPsi H τ ∨ InPsi H (ComplexEmbedding.conjugate τ) := by
-  have hE : (H.rt : E) ^ 2 = -(H.d : E) := by
-    have := congrArg (fun a : 𝓞 E => (a : E)) H.rt_sq
-    simpa using this
-  have h : (τ (H.rt : E)) ^ 2 = H.rt0 ^ 2 := by
-    rw [H.sqrt_neg_disc_sq, ← map_pow, hE]
-    simp
-  unfold InPsi
-  rw [ComplexEmbedding.conjugate_coe_eq]
-  rcases sq_eq_sq_iff_eq_or_eq_neg.1 h with h | h
-  · exact Or.inl h
-  · right
-    rw [h, map_neg, (rt_conj H).1, neg_neg]
+  first | exact _root_.GlobalTheory.CMTypeOrConjugate.inPsi_or_inPsi_conjugate | exact @_root_.GlobalTheory.CMTypeOrConjugate.inPsi_or_inPsi_conjugate | apply _root_.GlobalTheory.CMTypeOrConjugate.inPsi_or_inPsi_conjugate <;> assumption
 
 theorem not_inPsi_conj (H : ReciprocityTheory.ChartRestriction.G.Geo.Tor.Host E) {τ : E →+* ℂ} (h1 : InPsi H τ) :
     ¬ InPsi H (ComplexEmbedding.conjugate τ) := by

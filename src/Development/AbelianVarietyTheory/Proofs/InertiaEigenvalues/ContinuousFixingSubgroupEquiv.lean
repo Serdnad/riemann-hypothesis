@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.PublishedTheorems.GaloisCohomology₂.PoitouTateNineTermTransgressionZeroApply
 import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.TateDecompositionCompletedCyclotomicIntegers
 public import Formalism.SharpRestriction.LevelLetterCocycles.LocalSituation
 public import Development.AbelianVarietyTheory.Definitions.Foundations.HTBasis
@@ -222,15 +223,7 @@ theorem redChar_apply (χ : G →* ℤ_[l]ˣ) (r : ℕ) (g : G) :
 
 theorem continuous_toZModPow (r : ℕ) :
     Continuous (PadicInt.toZModPow r : ℤ_[l] → ZMod (l ^ r)) := by
-  have hl : l.Prime := Fact.out
-  rw [continuous_iff_continuousAt]
-  intro x
-  refine (continuousAt_const (y := PadicInt.toZModPow r x)).congr ?_
-  have hpos : (0 : ℝ) < (l : ℝ) ^ (-(r : ℤ)) := zpow_pos (by exact_mod_cast hl.pos) _
-  filter_upwards [Metric.closedBall_mem_nhds x hpos] with y hy
-  rw [Metric.mem_closedBall, dist_eq_norm, PadicInt.norm_le_pow_iff_mem_span_pow,
-    ← PadicInt.ker_toZModPow, RingHom.mem_ker, map_sub, sub_eq_zero] at hy
-  exact hy.symm
+  apply _root_.GlobalTheory.Published.PoitouTate.continuous_toZModPow <;> assumption
 
 theorem step_of_duality (χ ψ : G →* ℤ_[l]ˣ) (N : ℕ)
     (hinj : Function.Injective

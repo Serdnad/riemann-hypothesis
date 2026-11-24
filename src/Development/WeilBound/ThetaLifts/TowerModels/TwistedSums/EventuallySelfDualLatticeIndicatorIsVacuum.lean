@@ -1,5 +1,7 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.EventuallyIntegralPointsIndicatorIsVacuum
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LocalAddCharComponentTrivialIntegersEventually
 import Lemmata.MiscLemmasM.Imports
 public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.WeilTensorModels
 import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.LcscAdelicUnitaryGroup
@@ -165,21 +167,7 @@ variable {F : Type} [Field F] [NumberField F]
 
 theorem indicator_int_mem_SB {κ : Type} [Fintype κ] (v : HeightOneSpectrum (𝓞 F)) :
     Set.indicator {x : κ → Fv F v | ∀ k, x k ∈ v.adicCompletionIntegers F} 1 ∈ GlobalTheory.WeilM.SB (κ → Fv F v) := by
-  set S : Set (κ → Fv F v) := {x | ∀ k, x k ∈ v.adicCompletionIntegers F} with hS
-  have hS' : S = Set.univ.pi fun _ => (v.adicCompletionIntegers F : Set (Fv F v)) := by
-    ext x; simp [hS]
-  have hcl : IsClopen S := by
-    rw [hS']
-    exact ⟨isClosed_set_pi fun _ _ => Valued.isClosed_valuationSubring (v.adicCompletion F),
-      isOpen_set_pi Set.finite_univ fun _ _ => Valued.isOpen_valuationSubring (v.adicCompletion F)⟩
-  have hcp : IsCompact S := by
-    rw [hS']
-    haveI := GlobalTheory.AdelicUnitaryTop.compactSpace_adicCompletionIntegers F v
-    exact isCompact_univ_pi fun _ => isCompact_iff_compactSpace.2 this
-  refine ⟨(IsLocallyConstant.iff_exists_open _).2 fun x => ?_, HasCompactSupport.intro hcp fun x hx => Set.indicator_of_notMem hx _⟩
-  by_cases hx : x ∈ S
-  · exact ⟨S, hcl.isOpen, hx, fun y hy => by rw [Set.indicator_of_mem hy, Set.indicator_of_mem hx]; rfl⟩
-  · exact ⟨Sᶜ, hcl.compl.isOpen, hx, fun y hy => by rw [Set.indicator_of_notMem hy, Set.indicator_of_notMem hx]⟩
+  apply _root_.GlobalTheory.StdVacuum.indicator_mem_SB <;> assumption
 
 theorem indicator_int_ne_zero {κ : Type} (v : HeightOneSpectrum (𝓞 F)) :
     Set.indicator {x : κ → Fv F v | ∀ k, x k ∈ v.adicCompletionIntegers F} (1 : (κ → Fv F v) → ℂ) ≠ 0 := by
@@ -406,7 +394,7 @@ open _root_.GlobalTheory
 
 variable {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E]
 
-theorem isVac_indicator_of_theta {σ : E →ₐ[F] E} (B : Base F E) (hB : B.IsGood σ) {n d : ℕ} (X : Spc F E n)
+theorem isVac_indicator_of_standard_character {σ : E →ₐ[F] E} (B : Base F E) (hStd : IsStd B.ψ) {n d : ℕ} (X : Spc F E n)
     (Y : Spc F E d) (r s r' s' : ℕ) (hX : X.IsHerm σ B r s) (hY : Y.IsSkew σ B r' s')
     (co : GlobalTheory.WeilM.Darboux (GlobalTheory.WeilM.symp (R := AF F) (GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.cA σ) (-1) (GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.incM F X.J)
       (GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.incM F Y.J)) (Fin n × Fin d))
@@ -419,7 +407,7 @@ theorem isVac_indicator_of_theta {σ : E →ₐ[F] E} (B : Base F E) (hB : B.IsG
   obtain ⟨θ, hθ⟩ := hθ
   obtain ⟨G, hG⟩ := exists_gen X.L Y.L hX.lat.toIsLattice hY.lat.toIsLattice
   choose yc zc hc using hrat
-  have e1 := eventually_psiLoc_eq_one B.ψ hB.std.1
+  have e1 := eventually_psiLoc_eq_one B.ψ hStd.1
   have e2 := eventually_int (F := F) (1 / 2)
   have e3 : ∀ᶠ v in cofinite, ∀ g ∈ G, ∀ k, algebraMap F (Fv F v) (yc g k) ∈ v.adicCompletionIntegers F ∧
       algebraMap F (Fv F v) (zc g k) ∈ v.adicCompletionIntegers F := by
@@ -489,6 +477,17 @@ theorem isVac_indicator_of_theta {σ : E →ₐ[F] E} (B : Base F E) (hB : B.IsG
   rw [← hS, hval, one_smul]
   exact acts_indicator co B.ψ v γ h1 h2 (fun k => (hA γ hγ' k).1) (fun k => (hA γ hγ' k).2.1)
     (fun k => (hA γ hγ' k).2.2.1) (fun k => (hA γ hγ' k).2.2.2)
+
+theorem isVac_indicator_of_theta {σ : E →ₐ[F] E} (B : Base F E) (hB : B.IsGood σ) {n d : ℕ} (X : Spc F E n)
+    (Y : Spc F E d) (r s r' s' : ℕ) (hX : X.IsHerm σ B r s) (hY : Y.IsSkew σ B r' s')
+    (co : GlobalTheory.WeilM.Darboux (GlobalTheory.WeilM.symp (R := AF F) (GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.cA σ) (-1) (GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.incM F X.J)
+      (GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.incM F Y.J)) (Fin n × Fin d))
+    (hrat : ∀ x : Matrix (Fin n) (Fin d) E, ∃ y z : Fin n × Fin d → F,
+      co.e (GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.incM F x) = (fun k => algebraMap F (AF F) (y k), fun k => algebraMap F (AF F) (z k)))
+    (hθ : ∃ θ : 𝓞 E, (θ : E) + σ θ = 1) :
+    ∀ᶠ v in Filter.cofinite, Model.IsVac (Model.mk (σ := σ) (X := X) (W := Y) co (fun _ => 0) 0 ∅) B.ψ v
+      (Set.indicator {x | ∀ k, x k ∈ v.adicCompletionIntegers F} 1) := by
+  exact _root_.Tw.VacIndic.isVac_indicator_of_standard_character B hB.std X Y r s r' s' hX hY co hrat hθ
 
 end Tw.VacIndic
 

@@ -1,5 +1,6 @@
 module
 
+import Development.AutomorphicArithmetic.AutomorphicVarieties.BuildingsResidueChars.ConstantTermUnipotentLeftInvariant
 public import Development.AutomorphicArithmetic.Foundations.Convolution.BlockHeckeSlices.SliceShift
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ConstantTermAutomorphicFormIntegral
 import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ContinuousOfIsOpenStab
@@ -116,15 +117,7 @@ omit [_root_.NumberField.IsTotallyComplex E] in
 private theorem ct_unip {r : ℕ} {φ : AdelicGLn.AdelicGL E n → ℂ} (hφ : IsLeftInvariant φ)
     (Y : UPos n r → AdeleRing (𝓞 E) E) (g : AdelicGLn.AdelicGL E n) :
     constantTerm r φ (unipGL Y * g) = constantTerm r φ g := by
-  have hD : IsAddFundamentalDomain (unipLattice E n r) ((fun X => X + -Y) ⁻¹' unipFundamentalDomain E n r)
-      (unipMeasure E n r) :=
-    isAddFundamentalDomain_unipFundamentalDomain.preimage_of_equiv
-      (measurePreserving_add_right _ (-Y)).quasiMeasurePreserving Function.bijective_id fun ξ X => by
-        change ((ξ : UPos n r → AdeleRing (𝓞 E) E) + X) + -Y = ξ + (X + -Y)
-        rw [add_assoc]
-  rw [constantTerm_eq_setIntegral hφ hD g, constantTerm,
-    ← (measurePreserving_add_right (unipMeasure E n r) (-Y)).setIntegral_preimage_emb (measurableEmbedding_addRight _)]
-  simp only [← mul_assoc, ← unipGL_add, neg_add_cancel_right]
+  apply _root_.UpperTheory.constantTerm_unipotent_left_invariant <;> assumption
 
 end UpperTheory.ConvolutionTheory.BW
 

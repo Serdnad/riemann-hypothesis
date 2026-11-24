@@ -1,5 +1,6 @@
 module
 
+import Formalism.SizeWindowBrackets.ChainSlopeWindows.ExistsNsmulMem
 public import Formalism.MeanHeightDescent.CombinedAverageDegreeBound
 public import Formalism.MeanHeightDescent.BadRowsNumeric
 public import Formalism.MeanHeightDescent.MuMaxMinkowski
@@ -343,16 +344,7 @@ theorem den_smul_idealSmul (I : FractionalIdeal (nonZeroDivisors (𝓞 K)) K)
 
 omit [StarRing K] [_root_.NumberField.IsTotallyComplex K] in
 theorem rkK_pos' (M : Submodule (𝓞 K) V) (hM0 : M ≠ ⊥) [FiniteDimensional K V] : 0 < rkK (K := K) M := by
-  unfold rkK
-  apply Nat.pos_of_ne_zero
-  intro h
-  apply hM0
-  rw [Submodule.finrank_eq_zero] at h
-  rw [eq_bot_iff]
-  intro x hx
-  have hx' : x ∈ Submodule.span K (M : Set V) := Submodule.subset_span hx
-  rw [h] at hx'
-  exact (Submodule.mem_bot _).mpr ((Submodule.mem_bot K).mp hx')
+  apply _root_.Formalism.LFunctionChainParameters.slopeLatticeData.rkK_pos <;> assumption
 
 theorem muDef_eq_covol (b : Basis ι K V) (X : InfinitePlace K → Matrix ι ι ℂ)
     (hX : ∀ v, IsUnit (X v).det) (M : Submodule (𝓞 K) V) (hM : M.FG) :

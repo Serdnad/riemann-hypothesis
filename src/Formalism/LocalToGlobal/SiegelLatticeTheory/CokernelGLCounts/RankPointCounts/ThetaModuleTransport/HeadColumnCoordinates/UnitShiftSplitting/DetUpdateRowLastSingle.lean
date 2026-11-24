@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.FlagMeasures.DetUpdateRowLastSingle
 public import Formalism.LocalToGlobal.SiegelLatticeTheory.CokernelGLCounts.RankPointCounts.ThetaModuleTransport.HeadColumnCoordinates.SharpSpanCounting.Common
 
 @[expose] public section
@@ -34,17 +35,7 @@ theorem head_add_cornerM (A : Matrix (Fin (r + 1)) (Fin (r + 1)) R) (c : R) :
 theorem det_updateRow_last_single (A : Matrix (Fin (r + 1)) (Fin (r + 1)) R) :
     (A.updateRow (Fin.last r) (Pi.single (Fin.last r) 1)).det =
       (A.submatrix Fin.castSucc Fin.castSucc).det := by
-  have hsub : (A.updateRow (Fin.last r) (Pi.single (Fin.last r) 1)).submatrix Fin.castSucc
-      Fin.castSucc = A.submatrix Fin.castSucc Fin.castSucc := by
-    ext a b
-    simp
-  rw [Matrix.det_succ_row _ (Fin.last r), Finset.sum_eq_single (Fin.last r)]
-  · rw [Fin.succAbove_last, hsub, Matrix.updateRow_self, Pi.single_eq_same, mul_one,
-      Fin.val_last, ← two_mul, pow_mul, neg_one_sq, one_pow, one_mul]
-  · intro j _ hj
-    rw [Matrix.updateRow_self, Pi.single_eq_of_ne hj, mul_zero, zero_mul]
-  · intro h
-    exact absurd (Finset.mem_univ _) h
+  apply _root_.GlobalTheory.det_updateRow_last_single <;> assumption
 
 theorem det_add_cornerM (A : Matrix (Fin (r + 1)) (Fin (r + 1)) R) (c : R) :
     (A + cornerM r c).det = A.det + c * (A.submatrix Fin.castSucc Fin.castSucc).det := by

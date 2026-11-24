@@ -43,6 +43,7 @@ public import Development.AbelianVarietyTheory.Definitions.SpanningFamilies.IMem
 import Development.AbelianVarietyTheory.Definitions.SpanningFamilies.IsStabForm
 public import Development.AbelianVarietyTheory.Definitions.SpanningFamilies.IsSystem
 import Development.AbelianVarietyTheory.Definitions.ThetaValues.PolyDerivSmulLetter
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.FockNormMinorProductDeltaAtEmbeddingPos
 
 @[expose] public section
 
@@ -103,20 +104,7 @@ variable {D : D7} {m n : ℕ}
 
 theorem minor_ne (τ : D.what₂.Tau) (a b k : ℕ) (ha : a + k ≤ m) (hb : b + k ≤ n) :
     (Matrix.of fun α β : Fin k => (varF τ (a + β) (b + α) : MvPolynomial (FVar D m n) ℂ)).det ≠ 0 := by
-  intro h
-  have h1 := congrArg (MvPolynomial.eval fun x : FVar D m n => if (x.2.1 : ℕ) + b = x.2.2 + a then (1 : ℂ) else 0) h
-  rw [RingHom.map_det, map_zero] at h1
-  have h2 : (MvPolynomial.eval fun x : FVar D m n => if (x.2.1 : ℕ) + b = x.2.2 + a then (1 : ℂ) else 0).mapMatrix
-      (Matrix.of fun α β : Fin k => (varF τ (a + β) (b + α) : MvPolynomial (FVar D m n) ℂ)) = 1 := by
-    ext α β
-    have hα := α.2
-    have hβ := β.2
-    have hr : a + β < m ∧ b + α < n := ⟨by omega, by omega⟩
-    simp only [RingHom.mapMatrix_apply, Matrix.map_apply, Matrix.of_apply, varF, dif_pos hr, MvPolynomial.eval_X,
-      Matrix.one_apply, Fin.ext_iff]
-    exact if_congr ⟨fun h => by omega, fun h => by omega⟩ rfl rfl
-  rw [h2, Matrix.det_one] at h1
-  exact one_ne_zero h1
+  apply _root_.GlobalTheory.FockDelta.minor_ne_zero <;> assumption
 
 theorem delta_ne (p q : D.what₂.Tau → ℕ) (ap am : D.what₂.Tau → ℕ → ℕ) (hpq : ∀ τ, p τ + q τ ≤ m) (hmn : m ≤ n) :
     (delta p q ap am : MvPolynomial (FVar D m n) ℂ) ≠ 0 := by

@@ -1,5 +1,7 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.ExtensionByZeroAtSplitPlacesProof
+import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.MemIntegralVectorsComponentIffIntegralFrameCoordStatement
 public import Development.AutomorphicArithmetic.ThetaCorrespondence.ThetaPairLifts.ThirdPlaceSeries.FamilyConstants
 public import Development.AutomorphicArithmetic.ThetaCorrespondence.ThetaPairLifts.ThirdPlaceSeries.ImportsMore
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.ReferenceCharactersFactorTame
@@ -454,25 +456,8 @@ theorem latV_int {S : HSp D} {L : Lat S} (hL : ∀ z ∈ L, z ∈ intVec D S.ran
 theorem lat_iff : ∀ {D : D7} {k : Type} [Field k] [ValuativeRel k] [TopologicalSpace k] [IsNonarchimedeanLocalField k] {p : SplitPt D k}
     {S : HSp D} {n : Type} [Fintype n] [DecidableEq n] (β : Frame p S n) (L : Lat S) (Λ : Submodule 𝒪[k] (n → k)),
     β.IsLat L Λ → (∀ z, z ∈ L ↔ z ∈ intVec D _) → ∀ x : n → k, x ∈ Λ ↔ ∀ r, (β.b *ᵥ x) r ∈ 𝒪[k] := by
-  intro D k _ _ _ _ p S n _ _ β L Λ hΛ hL x
-  rw [hΛ x]
-  constructor
-  · intro h r
-    exact (p.int_iff _).2 (latV_int (fun z hz => (hL z).1 hz) h r)
-  · intro h
-    have h1 : (fun i => p.sec ((β.b *ᵥ x) i)) =
-        ∑ r, fun i => p.sec ((β.b *ᵥ x) r) * incA D ((Pi.single r 1 : Fin S.rank → D.host.E) i) := by
-      funext i
-      rw [Finset.sum_apply, Finset.sum_eq_single i]
-      · rw [Pi.single_eq_same, RingHom.map_one, mul_one]
-      · intro r _ hr
-        rw [Pi.single_eq_of_ne hr.symm, RingHom.map_zero, mul_zero]
-      · intro hi; exact absurd (Finset.mem_univ i) hi
-    rw [h1]
-    refine sum_mem fun r _ => GlobalTheory.FinPl.FrameLat.int_mul_mem (GlobalTheory.FinPl.FrameLat.sec_mem_intAt p _ (h r)) ((hL _).2 fun i => ?_)
-    by_cases hi : i = r
-    · subst hi; rw [Pi.single_eq_same]; exact isIntegral_one
-    · rw [Pi.single_eq_of_ne hi]; exact isIntegral_zero
+  intros
+  apply _root_.GlobalTheory.FinPl.Frame.isLat_intVec_iff <;> assumption
 
 end GlobalTheory.PhiOneVal.LatChar
 end -- clump:auto
@@ -1012,15 +997,8 @@ theorem overAll_cons_iff (ψ : AddChar (AF D.host.F) ℂ) {p : ι → SplitPt D 
 theorem sb_of_overAll (ψ : AddChar (AF D.host.F) ℂ) {p : ι → SplitPt D k} {S T : HSp D} (α : ∀ i, Frame (p i) S n')
     (β : ∀ i, Frame (p i) T n) (LS : Lat S) (LT : Lat T) (Ψ : ι → Matrix n n' k → ℂ) (f : WO S T → ℂ) :
     ∀ (J : List ι) (f' : WO S T → ℂ), OverAll ψ α β LS LT Ψ J f f' → ∀ i ∈ J, Ψ i ∈ SB (Matrix n n' k) := by
-  intro J
-  induction J with
-  | nil => intro _ _ i hi; simp at hi
-  | cons j J ih =>
-    intro f' h i hi
-    obtain ⟨g, hg, hO⟩ := (overAll_cons_iff ψ α β LS LT Ψ j J f f').1 h
-    rcases List.mem_cons.1 hi with rfl | hi
-    · exact hO.2.2.2.1
-    · exact ih g hg i hi
+  intros
+  apply _root_.GlobalTheory.FinPl.ExtAllPf.overAll_sb <;> assumption
 
 theorem mem_latO_at_iff (p : SplitPt D k) {S T : HSp D} (LS : Set (Fin S.rank → D.host.E)) (LT : Set (Fin T.rank → D.host.E))
     (t : WO S T) (ht : IsHalf p.e t) : t ∈ latO S T LS LT (· = p.v) ↔ t ∈ latO S T LS LT fun _ => True := by

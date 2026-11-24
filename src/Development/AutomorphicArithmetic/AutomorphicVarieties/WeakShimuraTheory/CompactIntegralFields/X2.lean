@@ -1,5 +1,7 @@
 module
 
+import Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange.ArchimedeanBaseChangeProof.ThetaNormCommutation.LocalComparisonSplitting.GlobalCharacterOfFiniteInputs
+import Development.AutomorphicArithmetic.AutomorphicVarieties.GaloisLibrary.SelmerTransport.ContTw
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.WeakShimuraTheory.RbUVal
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.QuadraticExtensions.ModulusAdjoinISqrtNegPrimes
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.CommutativeAlgebra.ResMapBijective
@@ -129,15 +131,8 @@ open scoped Classical
 private theorem continuous_of_right_invariant_open_subgroup {Γ X : Type*} [Group Γ] [TopologicalSpace Γ] [IsTopologicalGroup Γ]
     [TopologicalSpace X] (H : Subgroup Γ) (hH : IsOpen (H : Set Γ)) (f : Γ → X)
     (hf : ∀ g, ∀ h ∈ H, f (g * h) = f g) : Continuous f := by
-  refine continuous_iff_continuousAt.2 fun g => ?_
-  have ht : Filter.Tendsto (fun x => g⁻¹ * x) (nhds g) (nhds 1) := by
-    have := (continuous_const_mul g⁻¹).tendsto g
-    simpa using this
-  have hev : ∀ᶠ x in nhds g, f x = f g := by
-    filter_upwards [ht (hH.mem_nhds H.one_mem)] with x hx
-    have := hf g _ hx
-    simpa using this
-  exact tendsto_const_nhds.congr' (hev.mono fun x hx => hx.symm)
+  intros
+  apply _root_.GlobalTheory.CompanionTheory.AdelCont.continuous_of_right_invariant <;> assumption
 
 theorem UpperTheory.V.Ws.exists_descent_to_galoisGroupUnramifiedOutside :
     ∀ (F Ω : Type) [Field F] [NumberField F] [Field Ω] [Algebra F Ω] [IsAlgClosure F Ω] (R M : Type) [CommRing R] [AddCommGroup M] [Module R M] [Finite M] [TopologicalSpace M] [DiscreteTopology M] (S : Finset (HeightOneSpectrum (𝓞 F))) (ρ : Representation R (G F Ω) M) (K : Subgroup (G F Ω)) (N : ℕ), (∀ v, v ∈ plDvd F N → v ∈ S) → (∀ σ ∈ ineOff F Ω N, ∀ m, ρ σ m = m) → IsOpen (K : Set (G F Ω)) → (∀ σ ∈ K, ∀ m, ρ σ m = m) → ∃ ρS : Representation R (GS Ω (S : Set (HeightOneSpectrum (𝓞 F)))) M, (∀ g m, ρS (toGS Ω _ g) m = ρ g m) ∧ ContAction ρS ∧ ∀ z ∈ cocOff ρ (ineOff F Ω N), ∃ y ∈ Z1 ρS, ∀ g, y (toGS Ω _ g) = z g := by
@@ -1645,16 +1640,7 @@ section -- clump:auto
 theorem UpperTheory.Reformulated.B.LocallyConstantOpenPreimage.lc_of_open :
     ∀ {Γ A : Type} [inst : Group Γ] [inst_1 : TopologicalSpace Γ]
     [IsTopologicalGroup Γ] [inst_3 : Group A] (ψ : Γ →* A), IsOpen (↑ψ.ker : Set Γ) → IsLocallyConstant (⇑ψ : Γ → A) := by
-  intro Γ A _ _ _ _ ψ h
-  rw [IsLocallyConstant.iff_exists_open]
-  intro x
-  refine ⟨(fun y => x⁻¹ * y) ⁻¹' (ψ.ker : Set Γ),
-    h.preimage (continuous_const.mul continuous_id), ?_, ?_⟩
-  · simp
-  · intro y hy
-    have hk : ψ (x⁻¹ * y) = 1 := MonoidHom.mem_ker.mp hy
-    rw [map_mul, map_inv] at hk
-    exact (inv_mul_eq_one.mp hk).symm
+  apply _root_.UpperTheory.Reformulated.B.LocallyConstantFunctions.locConst <;> assumption
 end -- clump:auto
 end -- clump:auto
 -- ===== end clump member: Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.LocallyConstantOpenPreimage =====

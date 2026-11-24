@@ -1,5 +1,6 @@
 module
 
+import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.LatticeReferenceFrame.StarMemAp
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.LatticeReferenceFrame.GlobWIff
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.LatticeReferenceFrame.HANegRight
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.LatticeReferenceFrame.Development
@@ -84,13 +85,7 @@ section Lemmas
 variable (I : Formalism.MainNotions.S.AutInst)
 
 theorem hG_add_left (x y z : Fin I.n → I.E) : hG I (x + y) z = hG I x z + hG I y z := by
-  unfold hG Formalism.UG.hform
-  rw [← Finset.sum_add_distrib]
-  refine Finset.sum_congr rfl (fun i _ => ?_)
-  rw [← Finset.sum_add_distrib]
-  refine Finset.sum_congr rfl (fun j _ => ?_)
-  simp only [Pi.add_apply, map_add (f := _)]
-  ring
+  apply _root_.PI.ScRefExists.WF.hG_add_left <;> assumption
 
 theorem hG_add_right (x y z : Fin I.n → I.E) : hG I x (y + z) = hG I x y + hG I x z := by
   unfold hG Formalism.UG.hform

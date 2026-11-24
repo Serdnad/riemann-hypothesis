@@ -19,6 +19,7 @@ public import Development.AutomorphicArithmetic.Foundations.Convolution.Spherica
 public import Development.AutomorphicArithmetic.Foundations.Convolution.TraceSplitting.CoreDesc
 public import Development.AutomorphicArithmetic.Foundations.Convolution.TraceSplitting.DescStep
 public import Development.AutomorphicArithmetic.Foundations.Convolution.TraceSplitting.SplitStrong
+import all Development.AutomorphicArithmetic.Foundations.Convolution.TraceSplitting.SplitStrong
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.MixedUnlinkedExponents.LpPowOf
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.SphericalGaloisCompatibility.Chl
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.LocalArtinExistsHolds
@@ -648,15 +649,7 @@ open UpperTheory.Gal.GamX
 
 private theorem loc_one_of' {L : Type} [Field L] [NumberField L] (ψ : HChar L) (w : HeightOneSpectrum (𝓞 L))
     (hu : ψ.UnrAt w) (hv : ψ.val w = 1) (x : (w.adicCompletion L)ˣ) : ψ.loc w x = 1 := by
-  refine GlobalTheory.FrobDense.eq_one_of_unif (ψ.loc w) (fun y hy => ?_) x
-  have h2 := unif_spec w
-  have h3 := hu (y * (atFin w (unif w))⁻¹) (by
-    unfold IsUnitAt
-    unfold IsUnifAt at hy h2
-    rw [Units.val_mul, Units.val_inv_eq_inv_val, map_mul, map_inv₀, hy, h2]
-    exact mul_inv_cancel₀ WithZero.exp_ne_zero)
-  rw [map_mul, map_inv, mul_inv_eq_one] at h3
-  exact h3.trans hv
+  apply _root_.UpperTheory.ConvolutionTheory.T.Ncs.loc_one_of <;> assumption
 
 private theorem eq_of_ae {L : Type} [Field L] [NumberField L] (a b : HChar L)
     (h : ∀ᶠ u : HeightOneSpectrum (𝓞 L) in Filter.cofinite, a.UnrAt u ∧ b.UnrAt u ∧ a.val u = b.val u) : a = b := by

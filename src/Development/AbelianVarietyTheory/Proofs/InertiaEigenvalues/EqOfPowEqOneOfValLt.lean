@@ -47,6 +47,7 @@ import Mathlib.Topology.Sheaves.Init
 import Mathlib.Algebra.Order.Star.Int
 import Mathlib.Tactic.Linter.HaveILetI
 import Mathlib.Tactic.ReduceModChar
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.FrobeniusPowApplySubPowLtOne
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ValRootEqOne, Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.EqOfPowEqOneOfValLt
@@ -63,14 +64,7 @@ open Finset
 theorem sub_pow_lt_one {Ω : Type} [Field Ω] (A : ValuationSubring Ω) {x y : Ω}
     (hx : A.valuation x ≤ 1) (hy : A.valuation y ≤ 1) (hd : A.valuation (x - y) < 1) (i : ℕ) :
     A.valuation (x ^ i - y ^ i) < 1 := by
-  rw [← geom_sum₂_mul, map_mul]
-  have hs : A.valuation (∑ j ∈ range i, x ^ j * y ^ (i - 1 - j)) ≤ 1 := by
-    apply Valuation.map_sum_le
-    intro j _
-    rw [map_mul, map_pow, map_pow]
-    exact mul_le_one' (pow_le_one' hx _) (pow_le_one' hy _)
-  calc _ ≤ 1 * A.valuation (x - y) := by gcongr
-    _ < 1 := by rw [one_mul]; exact hd
+  apply _root_.GlobalTheory.valuation_pow_sub_pow_lt_one <;> assumption
 
 theorem val_root_eq_one {Ω : Type} [Field Ω] (A : ValuationSubring Ω) {n : ℕ} (hn0 : n ≠ 0)
     {x : Ω} (hx : x ^ n = 1) : A.valuation x = 1 := by

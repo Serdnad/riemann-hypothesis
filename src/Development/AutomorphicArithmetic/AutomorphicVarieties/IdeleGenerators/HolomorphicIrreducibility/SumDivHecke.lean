@@ -5,9 +5,11 @@ public import Development.AutomorphicArithmetic.AutomorphicVarieties.IdeleGenera
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.IdeleGenerators.HolomorphicIrreducibility.FinDim
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.IdeleGenerators.HolomorphicIrreducibility.HeckeEx
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.IdeleGenerators.HolomorphicIrreducibility.ConstSmall
+import all Development.AutomorphicArithmetic.AutomorphicVarieties.IdeleGenerators.HolomorphicIrreducibility.ConstSmall
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.IdeleGenerators.HolomorphicIrreducibility.CuspOf
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.IdeleGenerators.HolomorphicIrreducibility.EisChi
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.IdeleGenerators.HolomorphicIrreducibility.UnitForm
+import all Development.AutomorphicArithmetic.AutomorphicVarieties.IdeleGenerators.HolomorphicIrreducibility.UnitForm
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -70,13 +72,7 @@ namespace UpperTheory.V.Sd
 
 private theorem one_mem_per (N : ℕ) :
     (1 : ℝ) ∈ (Subgroup.map (Matrix.SpecialLinearGroup.mapGL ℝ) (Gamma1 N)).strictPeriods := by
-  rw [Subgroup.mem_strictPeriods_iff]
-  refine ⟨ModularGroup.T, ?_, ?_⟩
-  · rw [SetLike.mem_coe, Gamma1_mem]
-    simp [ModularGroup.T]
-  · ext i j
-    change ((ModularGroup.T : SL(2, ℤ)) : Matrix (Fin 2) (Fin 2) ℤ).map (fun x : ℤ => (x : ℝ)) i j = _
-    fin_cases i <;> fin_cases j <;> simp [ModularGroup.T, Matrix.GeneralLinearGroup.upperRightHom]
+  apply _root_.UpperTheory.V.Sd.one_mem_per <;> assumption
 
 private theorem coef_smul {N : ℕ} {k : ℤ} (c : ℂ) (f : CuspForm (Gamma1 N) k) (n : ℕ) :
     coef (c • f : CuspForm (Gamma1 N) k) n = c * coef f n := by
@@ -90,17 +86,7 @@ private theorem coef_add {N : ℕ} {k : ℤ} (f g : CuspForm (Gamma1 N) k) (n : 
 
 private theorem norm_chi {l : ℕ} [Fact l.Prime] (ι : Qbar l ≃+* ℂ) {N : ℕ} [NeZero N] (χ : DirichletCharacter ℂ N)
     (a : ZMod N) : ‖ι.symm (χ a)‖ ≤ 1 := by
-  by_cases ha : IsUnit a
-  · obtain ⟨u, rfl⟩ := ha
-    have hn : 0 < Fintype.card (ZMod N)ˣ := Fintype.card_pos
-    have h1 : (χ (u : ZMod N)) ^ Fintype.card (ZMod N)ˣ = 1 := by
-      rw [← map_pow, ← Units.val_pow_eq_pow_val, pow_card_eq_one, Units.val_one, map_one]
-    have h2 : ‖ι.symm (χ (u : ZMod N))‖ ^ Fintype.card (ZMod N)ˣ = 1 := by
-      rw [← norm_pow, ← map_pow, h1, map_one, norm_one]
-    rw [pow_eq_one_iff_of_nonneg (norm_nonneg _) hn.ne'] at h2
-    exact h2.le
-  · rw [MulChar.map_nonunit χ ha, map_zero, norm_zero]
-    exact zero_le_one
+  apply _root_.char_le <;> assumption
 
 private def fT {K : Type} [Field K] (p : ℕ) (e : K) : Module.End K (ℕ → K) where
   toFun c n := c (p * n) + e * (if p ∣ n then c (n / p) else 0)
@@ -431,14 +417,7 @@ private theorem small_mul {x y : ℂ} (hx : ‖ι.symm x‖ < 1) (hy : ‖ι.sym
   exact (mul_le_of_le_one_right (norm_nonneg _) hy).trans_lt hx
 
 private theorem int_chi {N : ℕ} [NeZero N] (χ : DirichletCharacter ℂ N) (a : ZMod N) : ‖ι.symm (χ a)‖ ≤ 1 := by
-  by_cases ha : IsUnit a
-  · have hm : χ a ^ Fintype.card (ZMod N)ˣ = 1 := by
-      rw [← ha.unit_spec, ← map_pow, ← Units.val_pow_eq_pow_val, pow_card_eq_one, Units.val_one, map_one]
-    have h1 : ‖ι.symm (χ a)‖ ^ Fintype.card (ZMod N)ˣ = 1 := by
-      rw [← norm_pow, ← map_pow, hm, map_one, norm_one]
-    exact ((pow_eq_one_iff_of_nonneg (norm_nonneg _) Fintype.card_ne_zero).1 h1).le
-  · rw [MulChar.map_nonunit χ ha, map_zero, norm_zero]
-    exact zero_le_one
+  apply _root_.UpperTheory.V.Sd.norm_chi <;> assumption
 
 private theorem int_term (k : ℕ) {N : ℕ} [NeZero N] (χ : DirichletCharacter ℂ N) (j : ℕ) :
     ‖ι.symm (χ (j : ZMod N) * (j : ℂ) ^ (k - 1))‖ ≤ 1 := by

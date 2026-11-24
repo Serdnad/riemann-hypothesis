@@ -243,15 +243,7 @@ theorem isIrreducible_of_isIrrRep {G V : Type} [Group G] [AddCommGroup V] [Modul
 
 theorem isIrrRep_of_isIrreducible {G V : Type} [Group G] [AddCommGroup V] [Module ℂ V]
     {ρ : Representation ℂ G V} (h : ρ.IsIrreducible) : IsIrrRep ρ := by
-  haveI := h
-  refine ⟨?_, fun W hW => ?_⟩
-  · by_contra hn
-    rw [not_nontrivial_iff_subsingleton] at hn
-    have : (⊥ : Subrepresentation ρ) = ⊤ := Subrepresentation.ext (Subsingleton.elim (α := Submodule ℂ V) _ _)
-    exact bot_ne_top this
-  · rcases eq_bot_or_eq_top (⟨W, fun g v hv => hW g v hv⟩ : Subrepresentation ρ) with h0 | h1
-    · exact Or.inl (congrArg Subrepresentation.toSubmodule h0)
-    · exact Or.inr (congrArg Subrepresentation.toSubmodule h1)
+  apply _root_.Ysupp.IrreducibleSupport.isIrrRep_of_isIrreducible <;> assumption
 
 theorem hasSupport_zero (hZ : GlobalTheory.Published.ZelevinskyPolynomialRing) {g : ℕ} [Fact g.Prime] {V : Type}
     [AddCommGroup V] [Module ℂ V] (π : Representation ℂ (GL (Fin 0) ℚ_[g]) V) (hs : GlobalTheory.PRep.IsSmooth π)

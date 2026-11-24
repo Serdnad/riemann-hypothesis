@@ -1,5 +1,7 @@
 module
 
+
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.LocalArtinExistsHolds
 public import Development.AbelianVarietyTheory.PublishedTheorems.GaloisCohomology₂.LanglandsExhaustionGL
 public import Development.AbelianVarietyTheory.PublishedTheorems.GaloisCohomology₂.LanglandsMultisegments
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.CuspLaws
@@ -90,7 +92,6 @@ import Mathlib.GroupTheory.Nilpotent
 import Mathlib.NumberTheory.Padics.LocalField
 import GroundTheory.AutomorphicForms.LocallyProfinite
 import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.NonemptyEquivOfRangeEq
-
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.LanglandsExtensionUniqueOnCuspidal, Development.AutomorphicArithmetic.Foundations.LocalLanglands.LocalCentralUnits.ExtDepth, Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.WeilDeligneParamDualListSumAbsTwistSpecial, Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.WeilDeligneParamDualListSumAbsTwistSpecialStatement, Development.AutomorphicArithmetic.Foundations.LocalLanglands.LocalCentralUnits.ExtDual, Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.LocalLanglandsExtensionInjective, Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.PermOfWeilDeligneSpecialDecompositionEq, Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.PermOfWeilDeligneSpecialDecompositionEqStatement, Development.AutomorphicArithmetic.Foundations.LocalLanglands.LocalCentralUnits.ExtInj, Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IsLanglandsClassificationTwistMultisegment, Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IsLanglandsClassificationTwistMultisegmentStatement, Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.WeilDeligneSumTwistCompat, Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.WeilDeligneSumTwistCompatStatement, Development.AutomorphicArithmetic.Foundations.LocalLanglands.LocalCentralUnits.RcTwOfSegments, Development.DiscreteGroups.GlobalIrreducibility.DzLcIso, Development.DiscreteGroups.GlobalIrreducibility.DzLCusp, Development.AutomorphicArithmetic.Foundations.LocalLanglands.LocalCentralUnits.RecTExists
 
@@ -365,16 +366,7 @@ open NumberField IsDedekindDomain ValuativeRel Matrix Polynomial Formalism.Conju
 attribute [local instance] GlobalTheory.LocalData.complRel GlobalTheory.LocalData.isLocalField
 
 theorem _root_.GlobalTheory.T.weilDeligneParam_dual_listSum_absTwist_special : ∀ (E Ω : Type) [Field E] [NumberField E] [Field Ω] [Algebra E Ω] [IsAlgClosure E Ω] (A : ValuationSubring Ω) (w : HeightOneSpectrum (𝓞 E)) (h : IsPlaceOver A w), (∀ l : List (WD h), (sumList l).lpDual = sumList (l.map WD.lpDual)) ∧ (∀ (y : WD h) (s : ℝ), (y.lpTw s).lpDual = y.lpDual.lpTw (-s)) ∧ ∀ (y : WD h) (n : ℕ), (y.lpChar (WD.lpSp (h := h) n)).lpDual = y.lpDual.lpChar (WD.lpSp (h := h) n) := by
-  intro E Ω _ _ _ _ _ A w h
-  have dual_sp (y : WD h) (n : ℕ) :
-      (y.lpChar (WD.lpSp (h := h) n)).lpDual = y.lpDual.lpChar (WD.lpSp (h := h) n) := by
-    induction y using WD.ind with
-    | hP m a =>
-      rw [WD.lpSp, WD.lpChar_mk, WD.lpDual_mk, WD.lpDual_mk, WD.lpChar_mk]
-      exact WD.sound ((GlobalTheory.WDDual.iso_tensor_dual a (WDRep.sp (h := h) n)).symm.trans
-        ((WDRep.Iso.refl a.dual).tensor (GlobalTheory.WDDual.iso_sp_dual (h := h) n)))
-  exact ⟨GlobalTheory.WDDual.WDClass.lpDual_sumList, GlobalTheory.WDDual.WDClass.lpDual_lpTw,
-    dual_sp⟩
+  apply _root_.GlobalTheory.WDDual.lpDual_sum_tw_sp <;> assumption
 end -- clump:auto
 end -- clump:auto
 -- ===== end clump member: Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.WeilDeligneParamDualListSumAbsTwistSpecialStatement =====
@@ -629,15 +621,7 @@ theorem powZeroW_sumList {α : Type} (F : α → WD h) (l : List α) (H : ∀ p 
 end Rep
 
 theorem sumList_perm {l l' : List (WD h)} (hp : l.Perm l') : sumList l = sumList l' := by
-  induction hp with
-  | nil => rfl
-  | cons x _ ih =>
-    show WD.lpSum x (sumList _) = WD.lpSum x (sumList _)
-    rw [ih]
-  | swap x y l =>
-    show WD.lpSum y (WD.lpSum x (sumList l)) = WD.lpSum x (WD.lpSum y (sumList l))
-    rw [← WD.lpSum_assoc, ← WD.lpSum_assoc, WD.lpSum_comm x y]
-  | trans _ _ ih1 ih2 => exact ih1.trans ih2
+  apply _root_.GlobalTheory.LocLanglands.LangExt.sumList_perm <;> assumption
 
 theorem lpDim_pos (p : WD h × ℕ) (hp : IsIrrWD p.1) :
     0 < WD.lpDim (p.1.lpChar (WD.lpSp h (p.2 + 1))) := by
@@ -749,84 +733,7 @@ theorem _root_.GlobalTheory.T.perm_of_weilDeligne_special_decomposition_eq :
       sumList (l.map (fun p : WD h × ℕ => p.1.lpChar (WD.lpSp (h := h) (p.2 + 1)))) =
         sumList (l'.map (fun p : WD h × ℕ => p.1.lpChar (WD.lpSp (h := h) (p.2 + 1)))) →
       l.Perm l' := by
-  intro E Ω _ _ _ _ _ A w h l l'
-  classical
-  let F : WD h × ℕ → WD h := fun p => p.1.lpChar (WD.lpSp (h := h) (p.2 + 1))
-  suffices H : ∀ n (l l' : List (WD h × ℕ)), l.length = n → (∀ p ∈ l, IsIrrWD p.1) →
-      (∀ p ∈ l', IsIrrWD p.1) → sumList (l.map F) = sumList (l'.map F) → l.Perm l' from
-    H _ l l' rfl
-  intro n
-  induction n with
-  | zero =>
-    intro l l' hn hl hl' heq
-    obtain rfl := List.length_eq_zero_iff.1 hn
-    cases l' with
-    | nil => exact List.Perm.nil
-    | cons q l'' =>
-      exfalso
-      have hd := congrArg WD.lpDim heq
-      change WD.lpDim (WD.lpZero (h := h)) = WD.lpDim (WD.lpSum _ (sumList _)) at hd
-      rw [WD.lpDim_zero, WD.lpDim_sum] at hd
-      have hpos : 0 < WD.lpDim (F q) := by
-        obtain ⟨m, a, ha, hirr⟩ := hl' q List.mem_cons_self
-        dsimp only [F]
-        rw [WD.lpDim_tensor, WD.lpDim_lpSp, ← ha, WD.lpDim_mk, Module.finrank_fin_fun]
-        obtain ⟨v, hv⟩ := SpSummand.exists_ne_zero hirr
-        have hm : m ≠ 0 := by
-          rintro rfl
-          exact hv (Subsingleton.elim _ _)
-        exact Nat.mul_pos (Nat.pos_of_ne_zero hm) (Nat.succ_pos _)
-      omega
-  | succ n ih =>
-    intro l l' hn hl hl' heq
-    have hne : l ≠ [] := by
-      rintro rfl
-      simp at hn
-    obtain ⟨⟨y, k⟩, hp, hmax⟩ : ∃ p ∈ l, ∀ q ∈ l, q.2 ≤ p.2 := by
-      obtain ⟨p, hp, hmax⟩ := l.toFinset.exists_max_image Prod.snd
-        (by obtain ⟨x, hx⟩ := List.exists_mem_of_ne_nil l hne; exact ⟨x, List.mem_toFinset.2 hx⟩)
-      exact ⟨p, List.mem_toFinset.1 hp, fun q hq => hmax q (List.mem_toFinset.2 hq)⟩
-    obtain ⟨m, a, rfl, ha⟩ := hl _ hp
-
-    have hQ : HasCopyW a.ρ k (lastEig h k) (sumList (l.map F)) := by
-      refine hasCopyW_sumList F l _ hp ?_
-      show HasCopyW a.ρ k (lastEig h k) ((WD.mk a).lpChar (WD.lpSp (h := h) (k + 1)))
-      rw [WD.lpSp, WD.lpChar_mk, hasCopyW_mk]
-      exact hasCopy_self a ha k
-    have hZ : PowZeroW k (sumList (l.map F)) := by
-      refine powZeroW_sumList F l fun q hq => ?_
-      rcases q with ⟨y', k'⟩
-      obtain ⟨m', a', rfl, ha'⟩ := hl _ hq
-      show PowZeroW k ((WD.mk a').lpChar (WD.lpSp (h := h) (k' + 1)))
-      rw [WD.lpSp, WD.lpChar_mk, powZeroW_mk]
-      exact powZero_of_le a' ha' (hmax _ hq)
-    rw [heq] at hQ hZ
-    obtain ⟨⟨y', k'⟩, hq', hqQ, hqZ⟩ := exists_mem_of_sumList F l' hQ hZ
-    obtain ⟨n', a', rfl, ha'⟩ := hl' _ hq'
-    dsimp only [F] at hqQ hqZ
-    rw [WD.lpSp, WD.lpChar_mk, hasCopyW_mk] at hqQ
-    rw [WD.lpSp, WD.lpChar_mk, powZeroW_mk] at hqZ
-    obtain ⟨hm, hiso⟩ := eq_of_hasCopy a ha a' ha' k' k hqQ hqZ
-    have hp' : (WD.mk a, k) ∈ l' := by
-      have : ((WD.mk a', k') : WD h × ℕ) = (WD.mk a, k) := Prod.ext (WD.sound hiso).symm hm
-      rw [← this]
-      exact hq'
-
-    let p : WD h × ℕ := (WD.mk a, k)
-    have e1 : sumList (l.map F) = (F p).lpSum (sumList ((l.erase p).map F)) :=
-      sumList_perm ((List.perm_cons_erase hp).map F)
-    have e2 : sumList (l'.map F) = (F p).lpSum (sumList ((l'.erase p).map F)) :=
-      sumList_perm ((List.perm_cons_erase hp').map F)
-    have hc : sumList ((l.erase p).map F) = sumList ((l'.erase p).map F) := by
-      refine WD.lpSum_cancel_right E Ω A w h _ _ (F p) ?_
-      rw [WD.lpSum_comm, ← e1, WD.lpSum_comm, ← e2]
-      exact heq
-    have hlen : (l.erase p).length = n := by
-      rw [List.length_erase_of_mem hp, hn]
-      rfl
-    have := ih (l.erase p) (l'.erase p) hlen (fun q hq => hl q (List.mem_of_mem_erase hq))
-      (fun q hq => hl' q (List.mem_of_mem_erase hq)) hc
-    exact ((List.perm_cons_erase hp).trans (this.cons p)).trans (List.perm_cons_erase hp').symm
+  first | exact _root_.GlobalTheory.WeilDeligne.SpUnique.perm_of_sumList_lpChar_lpSp_eq | exact @_root_.GlobalTheory.WeilDeligne.SpUnique.perm_of_sumList_lpChar_lpSp_eq | apply _root_.GlobalTheory.WeilDeligne.SpUnique.perm_of_sumList_lpChar_lpSp_eq <;> assumption
 end -- clump:auto
 end -- clump:auto
 -- ===== end clump member: Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.PermOfWeilDeligneSpecialDecompositionEqStatement =====
@@ -1398,7 +1305,7 @@ attribute [local instance] GlobalTheory.LocalData.complRel GlobalTheory.LocalDat
 theorem UpperTheory.Zero.LLC.recTExists :
     UpperTheory.Zero.LLC.RecTExists := by
   intro E Ω _ _ _ _ _ A w h
-  obtain ⟨a, ha, -⟩ := UpperTheory.Zero.LLC.artEx E Ω A w h
+  obtain ⟨a, ha⟩ := GlobalTheory.localArtinExists_holds E Ω A w h
   obtain ⟨r, hr⟩ := UpperTheory.Zero.LLC.cuspEx E Ω A w h a ha
   obtain ⟨⟨rc, hrc⟩, hcu⟩ :=
     GlobalTheory.LocLanglands.exists_isLExt UpperTheory.Zero.LLC.Pr.exh UpperTheory.Zero.LLC.Pr.multi E Ω A w h r

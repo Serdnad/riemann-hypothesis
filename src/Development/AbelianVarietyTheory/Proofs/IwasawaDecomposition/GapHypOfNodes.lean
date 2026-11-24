@@ -37,6 +37,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
 import Mathlib.Algebra.Order.Star.Rat
 import Mathlib.Tactic.Linter.Style
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.FcLargeOfSup
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.EventuallyNodeGapGeRankPow, Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.GapHypOfNodes
@@ -150,21 +151,8 @@ theorem gapHyp_of_nodes (D : D7) (hm : 1801 ≤ D.R.m) (h : ℕ) (hh : 16 * (D.R
     push_cast
     linarith
 
-private theorem ev_mono_of_forall_imp {p q : Ctx → Prop} (h : ∀ K, p K → q K) (hp : Ev p) : Ev q := by
-  unfold Ev at hp ⊢
-  obtain ⟨w, hw, H⟩ := hp
-  refine ⟨w, hw, fun eps C8 a b c d => ?_⟩
-  obtain ⟨K0, H1⟩ := H eps C8 a b c d
-  refine ⟨K0, fun C e f g => ?_⟩
-  obtain ⟨c1, H2⟩ := H1 C e f g
-  refine ⟨c1, fun cD hc => ?_⟩
-  obtain ⟨c2, H3⟩ := H2 cD hc
-  refine ⟨c2, fun ch hch => ?_⟩
-  obtain ⟨x0, H4⟩ := H3 ch hch
-  exact ⟨x0, fun K k1 k2 k3 k4 k5 => h K (H4 K k1 k2 k3 k4 k5)⟩
-
 theorem ev_gapHyp : Ev fun K => ∀ X : Stages, K.Over X.B.toPre → Formalism.L2.SG.ConcreteSettingExists.GapHyp X.toD7 := by
-  refine ev_mono_of_forall_imp ?_ (ev_nodes 16 19 1801)
+  refine _root_.GlobalTheory.Mem.Top.Ev.mono ?_ (ev_nodes 16 19 1801)
   intro K hK X hX
   obtain ⟨hm, h, hh, hb⟩ := hK X hX
   exact gapHyp_of_nodes X.toD7 hm h hh fun τ => (hb τ).imp fun b1 hb1 j => (hb1 j).1

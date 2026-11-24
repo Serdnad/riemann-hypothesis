@@ -105,32 +105,14 @@ theorem dim_closure_le_suppDim {F : X.Modules} [IsFiniteQC F] {w : X} (h : w ∈
 theorem eq_of_mem_closure {F : X.Modules} [IsFiniteQC F] {n : ℕ} (hd : suppDim F ≤ n) {w : X}
     (hw : topologicalKrullDim (closure {w} : Set X) = n) :
     ∀ y ∈ support F, w ∈ closure {y} → y = w := by
-  intro y hy hwy
-  have hsub : closure {w} ⊆ closure {y} :=
-    isClosed_closure.closure_subset_iff.2 (Set.singleton_subset_iff.2 hwy)
-  by_cases he : closure ({w} : Set X) = closure {y}
-  · exact (inseparable_iff_closure_eq.2 he.symm).eq
-  · have h1 := dim_add_one_le isClosed_closure isIrreducible_singleton.closure
-      isIrreducible_singleton.closure (ssubset_of_subset_of_ne hsub he)
-    have h2 := (dim_closure_le_suppDim hy).trans hd
-    rw [hw] at h1
-    have h3 : ((n + 1 : ℕ) : WithBot ℕ∞) ≤ n := by push_cast; exact h1.trans h2
-    exact absurd (by exact_mod_cast h3 : n + 1 ≤ n) (by omega)
+  apply _root_.GlobalTheory.CompanionTheory.Ar.IntersectionNumberLength.eq_of_mem_closure <;> assumption
 
 
 variable (κ) in
 theorem interNumRed_eq_zero (hp : IsProjOver (strHom κ (X := X))) {ι : Type} [Fintype ι]
     {P : ι → LB X} (hP : ∀ i, (P i).IsLB) (C : Closeds X)
     (hC : topologicalKrullDim (C : Set X) < (Fintype.card ι : ℕ)) : interNumRed κ C P = 0 := by
-  obtain ⟨_, A, hA⟩ := isProper_and_exists_isAmpleLB_of_isProjOver hp
-  have : IsLocallyNoetherian X := (isNoetherian_of_isProjOver hp).toIsLocallyNoetherian
-  have hAV : IsAmpleLB (A.pull (redι C)) := hA.pull_of_isClosedImmersion _
-  haveI : IsFiniteQC ((Scheme.Modules.pushforward (redι C)).obj (structureModule _)) :=
-    ProperFinite.isFiniteQC_pushforward (redι C) hAV _
-  refine interNum_eq_zero_of_isProjOver (algebraMap_eq_strHom κ X) _ hp ?_ hP
-  refine lt_of_le_of_lt (topologicalKrullDim_mono ?_) hC
-  exact (support_pushforward_subset_image_of_isClosedImmersion (redι C) _).trans
-    ((Set.image_subset_range _ _).trans (range_redι C).le)
+  apply _root_.GlobalTheory.CompanionTheory.Ar.IntersectionNumberLength.interNumRed_eq_zero <;> assumption
 
 theorem interNum_eq_sum_length_mul_interNumRed : ∀ (κ : Type) [Field κ] (X : Scheme.{0}) [Algebra κ Γ(X, ⊤)], IsProjOver (strHom κ (X := X)) → ∀ (ι : Type) [Fintype ι] (P : ι → LB X), (∀ i, (P i).IsLB) → ∀ (F : X.Modules) [GlobalTheory.QCoh.IsFiniteQC F], GlobalTheory.QCoh.suppDim F ≤ (Fintype.card ι : ℕ) → ∀ S : Finset X, (∀ w ∈ GlobalTheory.QCoh.support F, topologicalKrullDim (closure ({w} : Set X)) = (Fintype.card ι : ℕ) → w ∈ S) → interNum κ F P = ∑ w ∈ S, ((Module.length (X.presheaf.stalk w) (F.presheaf.stalk w :)).toNat : ℤ) * interNumRed κ (⟨closure {w}, isClosed_closure⟩ : Closeds _) P := by
   apply _root_.GlobalTheory.CompanionTheory.Ar.IntersectionNumberLength.interNum_eq_sum_length_mul_interNumRed

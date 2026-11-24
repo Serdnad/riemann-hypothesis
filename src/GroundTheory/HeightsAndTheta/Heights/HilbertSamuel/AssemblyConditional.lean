@@ -1,5 +1,8 @@
 module
 
+import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.PStokesTelescope
+import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PVeroneseGraphDeg
+import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PResolutionSupBound
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsBlockRealGramComparison
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsBlockComplexGramMetricChange
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsBlockResolutionMixedIntegral
@@ -245,22 +248,7 @@ def blockTeleFam (A A' : HermLine ι) (N i : ℕ) : Fin N → HermLine ι :=
 
 theorem blockTeleFam_succAbove (A A' : HermLine ι) (D i : ℕ) (hi : i < D + 1) (k : ℕ) (hk : k = i ∨ k = i + 1) :
     blockTeleFam A A' (D + 1) k ∘ (⟨i, hi⟩ : Fin (D + 1)).succAbove = blockTeleFam A A' D i := by
-  funext j
-  simp only [Function.comp_apply, blockTeleFam]
-  by_cases h : j.val < i
-  · have h' : Fin.castSucc j < (⟨i, hi⟩ : Fin (D + 1)) := by
-      rw [Fin.lt_def]
-      exact h
-    rw [Fin.succAbove_of_castSucc_lt _ _ h', if_pos (show (Fin.castSucc j).val < k by
-      show j.val < k
-      omega), if_pos h]
-  · have h' : (⟨i, hi⟩ : Fin (D + 1)) ≤ Fin.castSucc j := by
-      rw [Fin.le_def]
-      show i ≤ j.val
-      omega
-    rw [Fin.succAbove_of_le_castSucc _ _ h', if_neg (show ¬ (Fin.succ j).val < k by
-      show ¬ j.val + 1 < k
-      omega), if_neg h]
+  apply _root_.GroundTheory.Heights₂.Heights.LowerBoundFree.StokesTelescope.fam_succAbove <;> assumption
 
 theorem blockTeleFam_smooth {A A' : HermLine ι} (hA : IsSmoothHerm A) (hA' : IsSmoothHerm A') (N i : ℕ)
     (j : Fin N) : IsSmoothHerm (blockTeleFam A A' N i j) := by
@@ -517,16 +505,7 @@ variable {D : ℕ} {Ω : Type} [Field Ω] [CharZero Ω] {κ : Type} [Fintype κ]
 
 theorem eval_smul_of_homog {ι : Type*} {F : MvPolynomial ι ℂ} {n : ℕ} (hF : F.IsHomogeneous n) (c : ℂ)
     (z : ι → ℂ) : eval (c • z) F = c ^ n * eval z F := by
-  classical
-  rw [eval_eq, eval_eq, Finset.mul_sum]
-  refine Finset.sum_congr rfl fun s hs => ?_
-  have hdeg : s.degree = n := by
-    by_contra h
-    exact (mem_support_iff.mp hs) (hF.coeff_eq_zero h)
-  simp only [Pi.smul_apply, smul_eq_mul, mul_pow, Finset.prod_mul_distrib, Finset.prod_pow_eq_pow_sum]
-  have h : s.degree = ∑ i ∈ s.support, s i := rfl
-  rw [← hdeg, h]
-  ring
+  apply _root_.GroundTheory.Heights₂.Heights.HilbertSamuel.ResolutionSupBound.eval_smul_homog <;> assumption
 
 theorem resPt_ne_zero (d : HSMDatum D Ω κ) (y : d.R.X) : resPt d y ≠ 0 := by
   obtain ⟨i, hi⟩ := (d.R.mem y y (d.R.mem_U y)).1 ()
@@ -1654,15 +1633,7 @@ theorem metric_forms (D : ℕ) (w : Ix (Fin (D + 1)) → ℂ) :
 
 theorem isMultiHomog_forms (D : ℕ) (q : Ix (Veronese.Idx D)) :
     IsMultiHomog (Veronese.forms D q) ((fun _ _ => 2 : Unit → Unit → ℕ) q.1) := by
-  have h := Inter.AvoidRing.isMultiHomog_mul
-    (Inter.AvoidRing.isMultiHomog_X (R := ℤ) (ι := GlobalTheory (Fin (D + 1))) () q.2.1.1)
-    (Inter.AvoidRing.isMultiHomog_X (R := ℤ) (ι := GlobalTheory (Fin (D + 1))) () q.2.1.2)
-  have e : ((fun _ _ => 2 : Unit → Unit → ℕ) q.1) = Pi.single () 1 + Pi.single () 1 := by
-    funext k
-    cases k
-    simp
-  rw [e]
-  exact h
+  apply _root_.GroundTheory.Heights₂.Heights.HilbertSamuel.VeroneseGraphDeg.isMultiHomog_forms <;> assumption
 
 theorem isBasePtFree_forms (D : ℕ) : IsBasePtFree (⊥ : Ideal (MRing (GlobalTheory (Fin (D + 1))))) (Veronese.forms D) := by
   intro k₂ i

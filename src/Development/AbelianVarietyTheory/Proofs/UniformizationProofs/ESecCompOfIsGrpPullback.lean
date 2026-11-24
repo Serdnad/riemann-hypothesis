@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.PolBaseChangeOfRelAmpleLocal
 import Development.AbelianVarietyTheory.Proofs.ModuliProofs.IsMonHomLift
 public import Development.AbelianVarietyTheory.Definitions.Uniformization.PointEqOfSubsingleton
 public import Development.AbelianVarietyTheory.Definitions.Uniformization.ExistsUniqueTorusCompat
@@ -64,22 +65,7 @@ theorem isMonHom_of_over_isMonHom {G H : Over S} {G' H' : Over S'} [GrpObj G] [G
 
 theorem eSec_comp_of_isGrpPullback {G : Over S} {G' : Over S'} [GrpObj G] [GrpObj G'] {φ : G'.left ⟶ G.left}
     (hφ : IsGrpPullback G' G f φ) : (η[G']).left ≫ φ = f ≫ (η[G]).left := by
-  have h1 : (1 : 𝟙_ (Over S') ⟶ G') = η[G'] := by
-    rw [Hom.one_def, toUnit_unique (toUnit _) (𝟙 _), Category.id_comp]
-  let P : Over.mk ((𝟙_ (Over S')).hom ≫ f) ⟶ G := Over.homMk ((η[G']).left ≫ φ) (by
-    show ((η[G']).left ≫ φ) ≫ G.hom = (𝟙_ (Over S')).hom ≫ f
-    rw [Category.assoc, hφ.1.w, ← Category.assoc, Over.w])
-  have e := hφ.2 (𝟙_ (Over S')) η[G'] η[G'] P P rfl rfl
-  have hP : P * P = P := by
-    apply Over.OverMorphism.ext
-    rw [e, ← h1, _root_.mul_one, h1]
-    rfl
-  have hP1 : P = 1 := mul_eq_left.mp hP
-  have hl := congrArg Over.Hom.left hP1
-  rw [Hom.one_def, Over.comp_left] at hl
-  change (η[G']).left ≫ φ = _ at hl
-  rw [hl]
-  congr 1
+  apply _root_.GlobalTheory.PolBaseChange.eSec_comm <;> assumption
 
 theorem IsWt.pull {X : Type} [AddCommGroup X] {G : Over S} {G' : Over S'} [GrpObj G] [GrpObj G']
     {F : G'.left ⟶ G.left} (hF : IsGrpPullback G' G f F) {i : splitTorus S X ⟶ G} {i' : splitTorus S' X ⟶ G'}

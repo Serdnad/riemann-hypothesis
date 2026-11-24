@@ -1,5 +1,6 @@
 module
 
+import Development.EtaleCohomology.EtaleSheaves.DiscLvlPf
 public import Development.EtaleCohomology.EtaleSheaves.LeafGhostCut
 public import Development.EtaleCohomology.EtaleSheaves.LeafConsPf
 import Mathlib.Algebra.Order.Floor.Extended
@@ -62,19 +63,11 @@ theorem HK_pull_mk (R : Type) [CommRing R] {K L : Cx R} (f : K ⟶ L) (F : Shv R
 
 theorem HK_pull_comp (R : Type) [CommRing R] {K L M : Cx R} (f : K ⟶ L) (g : L ⟶ M) (F : Shv R) (n : ℤ)
     (y : HK R M F n) : HK.pull R (f ≫ g) F n y = HK.pull R f F n (HK.pull R g F n y) := by
-  obtain ⟨z, rfl⟩ := CohomologyClass.mk_surjective y
-  rw [HK_pull_mk, HK_pull_mk, HK_pull_mk]
-  congr 1
-  apply Cocycle.ext
-  simp [zcomp, Cochain.ofHom_comp, Cochain.comp_assoc_of_first_is_zero_cochain]
+  apply @LateralTheory.E.DiscLvlPf.pull_comp' <;> assumption
 
 theorem HK_pull_id (R : Type) [CommRing R] {K : Cx R} (F : Shv R) (n : ℤ)
     (y : HK R K F n) : HK.pull R (𝟙 K) F n y = y := by
-  obtain ⟨z, rfl⟩ := CohomologyClass.mk_surjective y
-  rw [HK_pull_mk]
-  congr 1
-  apply Cocycle.ext
-  simp [zcomp]
+  apply @LateralTheory.E.DiscLvlPf.pull_id' <;> assumption
 
 theorem map_congr {C : Type*} [Category C] [Preadditive C] [HasBinaryBiproducts C] {K₁ L₁ K₂ L₂ : CochainComplex C ℤ}
     (φ₁ : K₁ ⟶ L₁) (φ₂ : K₂ ⟶ L₂) {a a' : K₁ ⟶ K₂} {b b' : L₁ ⟶ L₂} (ha : a = a') (hb : b = b')

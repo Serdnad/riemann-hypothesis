@@ -1,5 +1,6 @@
 module
 
+import Formalism.SharpRestriction.GrowthBounds.BinomialRatio.OtherStart
 public import Formalism.SharpRestriction.GrowthBounds.ColumnSpanDensity.FactorizationBoundMonoLattices
 public import Formalism.SharpRestriction.GrowthBounds.ColumnSpanDensity.DensityNumericalFacts
 public import Formalism.SharpRestriction.GrowthBounds.ColumnSpanDensity.LocalHypothesisOfGlobal
@@ -683,18 +684,7 @@ theorem segNext_spec (TT : Finset (Fin n')) (j : Fin (numSeg TT)) :
 
 theorem other_even (TT : Finset (Fin n')) (h2 : 2 ≤ numSeg TT) (j : Fin (numSeg TT)) :
     ∃ e ∈ TT, Even e.val ∧ e ≠ segStart TT j := by
-  have hj := j.isLt
-  let j' : Fin (numSeg TT) := if j.val = 0 then ⟨1, by omega⟩ else ⟨0, by omega⟩
-  have hne : j' ≠ j := by
-    intro h
-    have hv : j'.val = j.val := congrArg Fin.val h
-    by_cases h0 : j.val = 0
-    · have e : j'.val = 1 := by simp [j', h0]
-      omega
-    · have e : j'.val = 0 := by simp [j', h0]
-      omega
-  refine ⟨segStart TT j', (segStart_spec TT j').1, (segStart_spec TT j').2, fun h => hne ?_⟩
-  exact (evenTops_mono TT).injective h
+  apply _root_.Formalism.MainNotions.ColumnSystems.Pf.other_start <;> assumption
 
 theorem segG_eq (TT : Finset (Fin n')) (h2 : 2 ≤ numSeg TT) (j : Fin (numSeg TT)) :
     segG TT j = cdist (segStart TT j) (segNext TT j) ∧ 0 < segG TT j ∧ segG TT j < n' := by

@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.ExistsSplitPlace
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.IsComp
 public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.ExistsRingEquivPadicOfResidueCardUniformizer
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.CompletelySplitPrimeHostPlaceProperties
@@ -94,18 +95,7 @@ theorem irreducible_natCast_compl {E : Type} [Field E] [NumberField E] (w : Heig
     omega
 
 theorem nonempty_ident : ∀ D : D7, Nonempty (GlobalTheory.TypeRec.Ident D) := by
-  intro D
-  haveI : IsGalois ℚ D.host.E := D.host.hostE_isGalois
-  have key : ∀ k v, ∃ φ : ℚ_[D.host.g k] ≃+* (D.naut.plGw k v).adicCompletion D.host.E, Continuous φ := by
-    intro k v
-    obtain ⟨h1, h2, -⟩ := GlobalTheory.Mem.Chr.splitsC_place (D.host.g_prime k) (D.nd.g_split k) _ (D.naut.plGw_over k v)
-    haveI : CharZero ((D.naut.plGw k v).adicCompletion D.host.E) :=
-      charZero_of_injective_ringHom (algebraMap D.host.E _).injective
-    obtain ⟨φ, h, -⟩ := GlobalTheory.QpChar.exists_ringEquiv_padic ((D.naut.plGw k v).adicCompletion D.host.E) (D.host.g k)
-      ((GlobalTheory.LocLanglands.resCard_eq_normV _).trans (by
-        simpa [normV, Ideal.absNorm_apply, Submodule.cardQuot_apply] using h1)) (irreducible_natCast_compl _ (D.naut.plGw_over k v) h2)
-    exact ⟨φ, h⟩
-  exact ⟨⟨fun k v => (key k v).choose, fun k v => (key k v).choose_spec⟩⟩
+  first | exact _root_.GlobalTheory.TypeRec.Model.nonempty_ident | exact @_root_.GlobalTheory.TypeRec.Model.nonempty_ident | apply _root_.GlobalTheory.TypeRec.Model.nonempty_ident <;> assumption
 
 end GlobalTheory.TypeIdent
 

@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Counterexamples.HeightSurvey.ConjAtFixedIff
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SmoothReal
 public import Development.AbelianVarietyTheory.Proofs.HeightProofs.ExistsSigmaList
 public import Formalism.LocalToGlobal.IndefiniteReal.LocalNewformFunction
@@ -96,16 +97,7 @@ theorem diag_unitary (s : Fin n → ℂ) (t : Fin n → ℝ) :
 
 theorem half_mem_lie (hG : Gᴴ = G) (hd : IsUnit G.det) (W : Matrix (Fin n) (Fin n) ℂ) :
     ((1 / 2 : ℂ) • (W + -(G⁻¹ * Wᴴ * G)))ᴴ * G + G * ((1 / 2 : ℂ) • (W + -(G⁻¹ * Wᴴ * G))) = 0 := by
-  have e1 : (G⁻¹ * Wᴴ * G)ᴴ * G = G * W := by
-    rw [conjTranspose_mul, conjTranspose_mul, conjTranspose_conjTranspose, conjTranspose_nonsing_inv, hG]
-    simp only [Matrix.mul_assoc]
-    rw [nonsing_inv_mul _ hd, Matrix.mul_one]
-  have e2 : G * (G⁻¹ * Wᴴ * G) = Wᴴ * G := by
-    rw [Matrix.mul_assoc, mul_nonsing_inv_cancel_left _ _ hd]
-  have e3 : star (1 / 2 : ℂ) = 1 / 2 := by simp
-  rw [conjTranspose_smul, e3, smul_mul_assoc, mul_smul_comm, ← smul_add, conjTranspose_add, conjTranspose_neg,
-    Matrix.add_mul, Matrix.mul_add, Matrix.neg_mul, Matrix.mul_neg, e1, e2]
-  simp
+  apply _root_.GlobalTheory.SmoothAutCheck.re_mem <;> assumption
 
 theorem conj_eq_of_mem_lie (hd : IsUnit G.det) {W : Matrix (Fin n) (Fin n) ℂ} (hW : Wᴴ * G + G * W = 0) :
     -(G⁻¹ * Wᴴ * G) = W := by

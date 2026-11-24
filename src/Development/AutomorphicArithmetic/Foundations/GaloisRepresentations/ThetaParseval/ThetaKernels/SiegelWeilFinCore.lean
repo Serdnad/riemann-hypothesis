@@ -1,5 +1,7 @@
 module
 
+import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.ThetaParseval.ThetaKernels.SiegelWeilKfockAlg
+import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.ThetaParseval.ThetaKernels.SiegelWeilKwhitMeasND
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.ThetaParseval.ThetaKernels.SiegelWeilDatumProperties
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.AdelicWeilRepSchrodingerModelUnique
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.ThetaParseval.ThetaKernels.SiegelWeilTweylBase
@@ -630,16 +632,7 @@ variable {d : _root_.PositivityTheory.SiegelWeilFormula.SD_k σ}
 theorem crd_add_k (X Z : Mx F E d.m d.n) (k : Fin d.m × Fin d.n × Fin 2) : d.crd (X + Z) k = d.crd X k + d.crd Z k := by
   simp only [_root_.PositivityTheory.SiegelWeilFormula.SD_k.crd, Matrix.add_apply, map_add (f := _), Finsupp.coe_add, Pi.add_apply]
 theorem crd_fin_k {Z : Mx F E d.m d.n} (hZ : finOne F • Z = 0) (k : Fin d.m × Fin d.n × Fin 2) : (d.crd Z k).2 = 0 := by
-  have h := congrArg (fun M => d.crd M k) hZ
-  simp only [_root_.PositivityTheory.SiegelWeilFormula.SD_k.crd, Matrix.smul_apply, map_smul, Finsupp.smul_apply, Matrix.zero_apply, map_zero, Finsupp.coe_zero,
-    Pi.zero_apply, smul_eq_mul] at h
-  have h2 := congrArg Prod.snd h
-  have e : ∀ c : AF F, (finOne F * c).2 = c.2 := fun c => by
-    show (1 : Af F) * c.2 = c.2
-    exact one_mul _
-  simp only [_root_.PositivityTheory.SiegelWeilFormula.SD_k.crd]
-  rw [← e]
-  exact h2
+  apply _root_.PositivityTheory.SiegelWeilFormula.KFock.crd_fin_k <;> assumption
 theorem loc_add_of_k (R : _root_.PositivityTheory.SiegelWeilFormula.RD_k d) (w : InfinitePlace F) {Z : Mx F E d.m d.n} (hZ : d.cw w Z = 0) (X : Mx F E d.m d.n) :
     R.loc w (X + Z) = R.loc w X := by
   have : d.cw w (X + Z) = d.cw w X := by
@@ -970,17 +963,8 @@ theorem A_sym_k (d : _root_.PositivityTheory.SiegelWeilFormula.SD_k σ) : ∃ ε
   rcases d.ok.sign with ⟨h, -⟩ | ⟨h, -⟩
   · exact ⟨1, fun i j => by rw [h.herm]; simp⟩
   · exact ⟨-1, fun i j => by rw [h.skew]; simp⟩
-theorem A_det_k (d : _root_.PositivityTheory.SiegelWeilFormula.SD_k σ) : d.A.J.det ≠ 0 := by
-  obtain ⟨w⟩ : Nonempty (InfinitePlace F) := inferInstance
-  have key : (d.A.J.map (d.B.emb w).1).det ≠ 0 := by
-    rcases d.ok.sign with ⟨h, -⟩ | ⟨h, -⟩
-    · exact det_ne_of_hasSig (h.sig w)
-    · have := det_ne_of_hasSig (h.sig w)
-      rw [Matrix.det_smul] at this
-      exact right_ne_zero_of_mul this
-  intro h0
-  apply key
-  rw [show d.A.J.map (d.B.emb w).1 = ((d.B.emb w).1 : E →+* ℂ).mapMatrix d.A.J from rfl, ← RingHom.map_det, h0, map_zero]
+theorem A_det_k (d : _root_.PositivityTheory.SiegelWeilFormula.SD_k σ) : d.A.J.det ≠ 0 :=
+  _root_.PositivityTheory.SiegelWeilFormula.KWhit.meas_detA_k d
 theorem mu_right_k (d : _root_.PositivityTheory.SiegelWeilFormula.SD_k σ) : d.μ.IsMulRightInvariant := by
   obtain ⟨ε, hε⟩ := _root_.PositivityTheory.SiegelWeilFormula.KSplitA.A_sym_k d
   exact (PositivityTheory.ThKF.unimodularity_holds F E σ d.cm d.m d.A.J ε hε (_root_.PositivityTheory.SiegelWeilFormula.KSplitA.A_det_k d)).2.2 d.μ d.ok.haar

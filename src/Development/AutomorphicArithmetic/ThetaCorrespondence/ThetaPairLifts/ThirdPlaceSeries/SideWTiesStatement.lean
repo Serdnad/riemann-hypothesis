@@ -366,17 +366,7 @@ variable {K F : Type} [Field K] [Field F] (φ : K →+* F)
 
 theorem span_image_span (S : Set K) :
     Submodule.span (𝓞 F) (φ '' (Submodule.span (𝓞 K) S : Set K)) = Submodule.span (𝓞 F) (φ '' S) := by
-  refine le_antisymm (Submodule.span_le.2 ?_) (Submodule.span_mono (Set.image_mono Submodule.subset_span))
-  rintro _ ⟨x, hx, rfl⟩
-  induction hx using Submodule.span_induction with
-  | mem x hx => exact Submodule.subset_span ⟨x, hx, rfl⟩
-  | zero => simp
-  | add x y _ _ hx hy => rw [map_add (f := _)]; exact Submodule.add_mem _ hx hy
-  | smul b x _ hx =>
-    have : φ (b • x) = RingOfIntegers.mapRingHom φ b • φ x := by
-      change φ ((b : K) * x) = _
-      rw [map_mul]; rfl
-    rw [this]; exact Submodule.smul_mem _ _ hx
+  first | exact _root_.GlobalTheory.Mem.BaseExt.span_image_span | exact @_root_.GlobalTheory.Mem.BaseExt.span_image_span | apply _root_.GlobalTheory.Mem.BaseExt.span_image_span <;> assumption
 
 def extend : Submodule (𝓞 K) K →* Submodule (𝓞 F) F where
   toFun M := Submodule.span (𝓞 F) (φ '' M)

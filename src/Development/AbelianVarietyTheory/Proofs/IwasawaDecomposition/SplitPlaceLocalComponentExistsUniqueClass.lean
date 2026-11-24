@@ -79,6 +79,8 @@ import Mathlib.Algebra.Order.Star.Real
 import Mathlib.Tactic.Linter.HaveILetI
 import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsIsLocCompAndIsLocLoc
 import Mathlib.Tactic.Linter.Style
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.MemMaxCompactOfTrivOutsideLocalIntegral
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ValuedPowSubOneLtOne
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.EqZeroOfCompAtEqZero, Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.CommuteOfLocEqOne, Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.CongOfLoc, Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsCompactOpenCongr, Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsNatCongruenceLeOpenSubgroupGL, Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.FiniteDimensionalOfLevel, Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.PrincipalCongInvMul, Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ValuedNatCastAdicCompletionLeOne, Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.SplitPlaceLocalComponentExistsUniqueClass
@@ -120,17 +122,7 @@ theorem eq_sum_coord {K V M : Type} [Field K] [AddCommGroup V] [Module K V] [Add
 
 theorem eq_zero_of_compAt_eq_zero :
     ∀ (L : Type) [Field L] [NumberField L] [IsCMField L] (z : AL L), (∀ w, compAt L w z = 0) → z = 0 := by
-  intro L _ _ _ z hz
-  classical
-  let b := Module.finBasis (maximalRealSubfield L) L
-  rw [eq_sum_coord b z]
-  refine Finset.sum_eq_zero fun i _ => ?_
-  have : TensorProduct.lid (maximalRealSubfield L) _ ((b.coord i).rTensor _ z) = 0 := by
-    refine Subtype.ext (funext fun w => ?_)
-    have h := coord_compAt L b w i z
-    rw [hz w, map_zero, map_zero] at h
-    exact h.symm
-  rw [this, TensorProduct.tmul_zero]
+  apply _root_.GlobalTheory.InertUmax.eq_zero_of_compAt <;> assumption
 
 end GlobalTheory.AdelicComp
 end -- clump:auto
@@ -457,14 +449,7 @@ namespace GlobalTheory
 theorem valued_absNorm_lt_one_adicCompletion (F : Type) [Field F] [NumberField F]
     (v : HeightOneSpectrum (𝓞 F)) :
     Valued.v ((Ideal.absNorm v.asIdeal : ℕ) : v.adicCompletion F) < 1 := by
-  have h := (HeightOneSpectrum.valuation_lt_one_iff_mem (K := F) v
-    ((Ideal.absNorm v.asIdeal : ℕ) : 𝓞 F)).2 (Ideal.absNorm_mem _)
-  rw [← HeightOneSpectrum.valuedAdicCompletion_eq_valuation'] at h
-  convert h using 2
-  have : ((Ideal.absNorm v.asIdeal : ℕ) : v.adicCompletion F) =
-      algebraMap F (v.adicCompletion F) (((Ideal.absNorm v.asIdeal : ℕ) : 𝓞 F) : F) := by simp
-  rw [this]
-  rfl
+  apply _root_.GlobalTheory.Mem.WildChar.valued_absNorm_lt_one <;> assumption
 
 theorem exists_nat_congruence_le_open_subgroup_GL :
     ∀ (F : Type) [Field F] [NumberField F] (v : HeightOneSpectrum (𝓞 F)) (n : ℕ)

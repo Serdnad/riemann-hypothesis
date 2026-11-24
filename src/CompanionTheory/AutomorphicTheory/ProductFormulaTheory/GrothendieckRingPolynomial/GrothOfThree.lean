@@ -1024,11 +1024,7 @@ theorem class_irreducible_basis (π : Representation ℂ (GL (Fin N) k) V) (hs :
 
 theorem class_congr_equiv {π : Representation ℂ (GL (Fin N) k) V} {τ : Representation ℂ (GL (Fin N) k) W}
     (φ : π.Equiv τ) : cl0 π = cl0 τ := by
-  by_cases h : HasFiniteLength π
-  · rw [class_eq_finite_length_class π h, class_eq_finite_length_class τ (h.of_equiv φ), clsGL_congr φ]
-  · have h' : ¬ HasFiniteLength τ := fun h' => h (h'.of_equiv φ.symm)
-    unfold cl0
-    rw [dite_eq_right h, dite_eq_right h']
+  apply _root_.CompanionTheory.Groth.GrothendieckCommutativity.class_congr_equiv <;> assumption
 
 theorem class_subsingleton [Subsingleton V] (π : Representation ℂ (GL (Fin N) k) V) : cl0 π = 0 := by
   rw [class_eq_finite_length_class π (GlobalTheory.ProdLength.hasFiniteLength_of_subsingleton π), clsGL]
@@ -1822,31 +1818,7 @@ theorem tri_supported_le {σ : Type*} (w : σ → ℕ) (ψ : MvPolynomial σ ℤ
     (h : ∀ s, ∃ (ε : ℤˣ) (p : MvPolynomial σ ℤ), (∀ t ∈ p.vars, w t < w s) ∧
       ψ (X s) = (ε : ℤ) • X s + p) (N : ℕ) :
     supported ℤ {t | w t < N} ≤ (supported ℤ {t | w t < N}).map (toZAlg ψ) := by
-  induction N with
-  | zero =>
-    rw [supported_eq_adjoin_X, Algebra.adjoin_le_iff]
-    rintro _ ⟨t, ht, rfl⟩
-    exact absurd ht (by simp)
-  | succ N ih =>
-    rw [supported_eq_adjoin_X, Algebra.adjoin_le_iff]
-    rintro _ ⟨t, ht, rfl⟩
-    simp only [Set.mem_ofPred_eq] at ht
-    have hmono : (supported ℤ {t | w t < N}).map (toZAlg ψ) ≤
-        (supported ℤ {t | w t < N + 1}).map (toZAlg ψ) :=
-      Subalgebra.map_mono (supported_mono fun t (ht : w t < N) => (Nat.lt_succ_of_lt ht : w t < N + 1))
-    obtain ⟨ε, p, hp, hψ⟩ := h t
-    have hpmem : p ∈ (supported ℤ {t | w t < N + 1}).map (toZAlg ψ) := by
-      apply hmono; apply ih
-      rw [mem_supported]
-      intro u hu
-      have := hp u hu
-      simp only [Set.mem_ofPred_eq]; omega
-    have hXmem : ψ (X t) ∈ (supported ℤ {t | w t < N + 1}).map (toZAlg ψ) :=
-      Subalgebra.mem_map.2 ⟨X t, (X_mem_supported).2 (by simpa using ht), rfl⟩
-    have heq : (X t : MvPolynomial σ ℤ) = (ε : ℤ) • ψ (X t) - (ε : ℤ) • p := by
-      rw [hψ, smul_add, smul_smul, ← Units.val_mul, Int.units_mul_self, Units.val_one, one_smul, add_sub_cancel_right]
-    rw [SetLike.mem_coe, heq]
-    exact Subalgebra.sub_mem _ (Subalgebra.smul_mem _ hXmem _) (Subalgebra.smul_mem _ hpmem _)
+  apply _root_.PositivityTheory.Groth.ChartWirtingerDerivatives.tri_supported_le <;> assumption
 
 theorem tri_surj {σ : Type*} (w : σ → ℕ) (ψ : MvPolynomial σ ℤ →+* MvPolynomial σ ℤ)
     (h : ∀ s, ∃ (ε : ℤˣ) (p : MvPolynomial σ ℤ), (∀ t ∈ p.vars, w t < w s) ∧
@@ -1881,15 +1853,7 @@ theorem uni_bij {M I C : Type*} (L : M ≃ I) (c : M → C) (w : M → ℕ) (b :
     (hb : ∀ m, w m ≤ b (c m)) (h1 : ∀ m, f m (L m) = 1)
     (hlt : ∀ m n, f m (L n) ≠ 0 → c m = c n ∧ (m = n ∨ w m < w n)) :
     Function.Bijective (Finsupp.linearCombination ℤ f) := by
-  refine ⟨uni_inj L w f h1 fun m n h => (hlt m n h).2, ?_⟩
-  intro y
-  refine Finsupp.induction_linear y ?_ ?_ ?_
-  · exact ⟨0, map_zero _⟩
-  · rintro y z ⟨a, ha⟩ ⟨a', ha'⟩
-    exact ⟨a + a', by rw [map_add (f := _), ha, ha']⟩
-  · intro i r
-    obtain ⟨a, -, ha⟩ := uni_exists L c w b f hb h1 hlt (L.symm i)
-    exact ⟨r • a, by rw [map_smul, ha, L.apply_symm_apply, Finsupp.smul_single_one]⟩
+  apply _root_.PositivityTheory.Groth.ChartWirtingerDerivatives.uni_bij <;> assumption
 
 end CompanionTheory.Groth.ChartWirtingerDerivatives
 

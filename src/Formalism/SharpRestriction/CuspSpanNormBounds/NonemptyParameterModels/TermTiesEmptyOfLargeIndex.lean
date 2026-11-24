@@ -1,5 +1,6 @@
 module
 
+import Formalism.LocalToGlobal.GlobalTheory.GL3.PLinkThIndep
 import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.ExistsLevelSubgroup
 public import Formalism.SharpRestriction.CuspSpanNormBounds.LocalGroupInFamilyNontrivial
 import Formalism.LocalRingCardinality.SpanPowerMembership.ExampleLayerExistsGenerators
@@ -61,14 +62,7 @@ open NumberField Formalism.BasicNotions Formalism.MainNotions.S Formalism.MainNo
 attribute [local instance] Formalism.BasicNotions.Host.cmStar
 
 theorem tie_star (D : D7) (x : D.host.E) : star x = D.host.conj x := by
-  haveI : IsCMField D.host.E := D.host.der.cm
-  have hc : D.host.conj = (IsCMField.complexConj D.host.E).restrictScalars ℚ := by
-    have hg := (D.host.der.conj_iff D.host.φ₀ ((IsCMField.complexConj D.host.E).restrictScalars ℚ)).1
-      (fun y => IsCMField.complexEmbedding_complexConj _ D.host.φ₀ y)
-    show D.host.gal.symm _ = _
-    rw [← hg, MulEquiv.symm_apply_apply]
-  rw [hc]
-  rfl
+  apply _root_.Formalism.L2.GlobalTheoryTheory.IntegralLatticeDensity.CU.star_conj <;> assumption
 
 theorem tie_hypFE (D : D7) (i j : Fin D.R.rS) :
     (VS D).hT (D.sp.hypF j) (D.sp.hypE i) = if i = j then 1 else 0 := by

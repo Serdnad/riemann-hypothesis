@@ -1,5 +1,6 @@
 module
 
+import Formalism.SharpRestriction.GrowthBounds.ColumnSpanDensity.TheoremIOfLatticeFunctorComparison
 public import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.NcIotaInj
 public import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.StmtNumEOf
 public import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.NcTsumOdd
@@ -163,17 +164,7 @@ variable {D : Formalism.BasicNotions.D7} {L : SizeData₂ D}
 
 theorem nc_modsub (a b e' n : ℕ) (ha : a < n) (hb : b < n) (he : e' < n) (h : (a + e') % n = b) :
     (b + n - a) % n = e' := by
-  rcases Nat.lt_or_ge (a + e') n with h1 | h1
-  · rw [Nat.mod_eq_of_lt h1] at h
-    subst h
-    have : a + e' + n - a = e' + n := by omega
-    rw [this, Nat.add_mod_right, Nat.mod_eq_of_lt he]
-  · have h2 : (a + e') % n = a + e' - n := by
-      rw [Nat.mod_eq_sub_mod h1, Nat.mod_eq_of_lt (by omega)]
-    rw [h2] at h
-    subst h
-    have : a + e' - n + n - a = e' := by omega
-    rw [this, Nat.mod_eq_of_lt he]
+  apply _root_.Formalism.MainNotions.flipOneThree.Pf.ar1 <;> assumption
 
 section Orbit
 

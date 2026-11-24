@@ -1,6 +1,7 @@
 module
 
 public import CompanionTheory.RealGroups.DiscreteSeries.DiscreteSeriesClassification.DiscreteSeriesExhaustion.FarRegularity.LKTExists
+import CompanionTheory.SpectralGeometry.LocalGlobalProofs.StableLattices.InjUOfInjR
 
 @[expose] public section
 
@@ -50,20 +51,7 @@ theorem lF_ne (E : Fin n → Fin n → Module.End ℂ V) (p q : Fin n) (x : Cn n
 
 theorem inU_of_adC {lev : Fin n → ℕ} {p q : Fin n} (hpq : lev p = lev q) {i k : Pos n}
     (h : adC p q i k ≠ 0) (hi : inU lev i) : inU lev k := by
-  unfold adC at h
-  unfold inU at hi ⊢
-  by_cases h1 : q = (i : Fin n × Fin n).1 ∧ (k : Fin n × Fin n) = (p, (i : Fin n × Fin n).2)
-  · rw [h1.2]
-    show lev p < lev (i : Fin n × Fin n).2
-    rw [hpq, h1.1]
-    exact hi
-  · by_cases h2 : (i : Fin n × Fin n).2 = p ∧ (k : Fin n × Fin n) = ((i : Fin n × Fin n).1, q)
-    · rw [h2.2]
-      show lev (i : Fin n × Fin n).1 < lev q
-      rw [← hpq, ← h2.1]
-      exact hi
-    · rw [if_neg h1, if_neg h2, sub_zero] at h
-      exact absurd rfl h
+  apply _root_.GlobalTheory.CompanionTheory.RgExhStableChains.inU_of_adC <;> assumption
 
 theorem lF_suppIn_deg (n : ℕ) (lev : Fin n → ℕ) (V : Type) [AddCommGroup V] [Module ℂ V]
     (E : Fin n → Fin n → Module.End ℂ V) (_hlev : Monotone lev) (x : Cn n V)

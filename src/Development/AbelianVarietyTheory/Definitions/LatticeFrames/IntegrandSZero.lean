@@ -126,10 +126,10 @@ structure Unram (ψ : AddChar (AF D.host.F) ℂ) (A B : HSp D) (χB : (AE D)ˣ �
 
   sph₂ : IsSphOff ψ A B LA LB Sf Φ₂
 
-def GlobalFormAt (A : HSp D) (L : Lat A) : Prop :=
+def GlobalFormAtWhen (eligible : HSp D → ℕ → Prop) (A : HSp D) (L : Lat A) : Prop :=
   ∀ (ψ : AddChar (AF D.host.F) ℂ) (θ : InfFam D) (B : HSp D) (χA χB : (AE D)ˣ →* Circle) (sA : RealMat A)
     (sB : RealMat B) (t : ℕ) (cA : CptF A) (a : GL (Fin A.rank) (AE D)) (om : WRep A B) (ν : Measure (WO A B))
-    (𝓕 : Set (WO A B)), Pair ψ θ A B χA χB sA sB t cA a om ν 𝓕 → (wittIndex B = 0 ∨ wittIndex B < t) →
+    (𝓕 : Set (WO A B)), Pair ψ θ A B χA χB sA sB t cA a om ν 𝓕 → eligible B t →
   ∀ (m : Measure (GA D A)) (mH : Measure (GA D B)), m.IsHaarMeasure → mH.IsHaarMeasure →
   ∀ Φ₁ Φ₂, IsFockVec ψ θ A B sA sB Φ₁ → IsFockVec ψ θ A B sA sB Φ₂ →
   ∀ u₁ ∈ A0 θ A cA, ∀ u₂ ∈ A0 θ A cA,
@@ -137,6 +137,9 @@ def GlobalFormAt (A : HSp D) (L : Lat A) : Prop :=
     (∀ s : ℂ, (A.rank : ℝ) / 2 < s.re → Integrable (integrand om m ν 𝓕 L a Φ₁ Φ₂ u₁ u₂ s) m) ∧
     ∃ z, HolValueAt (fun s => ∫ g, integrand om m ν 𝓕 L a Φ₁ Φ₂ u₁ u₂ s g ∂m) (sZero A B) z ∧
       petersson B mH (up om m Φ₁ u₁) (up om m Φ₂ u₂) = volQ B mH * z
+
+def GlobalFormAt (A : HSp D) (L : Lat A) : Prop :=
+  GlobalFormAtWhen (fun B t => wittIndex B = 0 ∨ wittIndex B < t) A L
 
 def GlobalForm (D : D7) : Prop := ∀ (A : HSp D) (L : Lat A), IsSelfDualC A L → GlobalFormAt A L
 

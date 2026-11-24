@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.LatticePairCharacterIndicatorTransformEqCosetInd
 public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.LatIndLastKerRow
 public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.JointSmooth
 public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.HasDerivAtZeroAndIsTheta
@@ -113,22 +114,7 @@ theorem exists_nsmul_rat_mul (S : HSp D) {T T' : HSp D} (M : Matrix (Fin T'.rank
 
 theorem isLattice_span {L : HSp D} {ζ : Fin L.rank → D.host.E} (h : IsLineVec L ζ) :
     Submodule.IsFullLattice D.host.E (Submodule.span (NumberField.RingOfIntegers D.host.E) {ζ} : Lat L) := by
-  haveI : Submodule.IsLattice D.host.E (Submodule.span (NumberField.RingOfIntegers D.host.E) {ζ} : Lat L) :=
-    Submodule.IsLattice.of_fg D.host.E (Submodule.fg_span_singleton ζ)
-  refine ⟨?_⟩
-  rw [Submodule.span_span_of_tower]
-  apply eq_top_iff.mpr
-  intro v _
-  let j : Fin L.rank := ⟨0, by have := h.1; omega⟩
-  have hs : Subsingleton (Fin L.rank) := by rw [h.1]; infer_instance
-  have hj : ζ j ≠ 0 := fun hz => h.2 (by
-    have : ζ = 0 := funext fun i => by rw [Subsingleton.elim i j, hz]; rfl
-    rw [this, Matrix.mulVec_zero, dotProduct_zero])
-  apply Submodule.mem_span_singleton.mpr
-  refine ⟨v j / ζ j, ?_⟩
-  funext i
-  rw [Subsingleton.elim i j]
-  simp [Pi.smul_apply, smul_eq_mul, div_mul_cancel₀ _ hj]
+  first | exact _root_.GlobalTheory.ModelExtend.isFullLattice_span | exact @_root_.GlobalTheory.ModelExtend.isFullLattice_span | apply _root_.GlobalTheory.ModelExtend.isFullLattice_span <;> assumption
 
 theorem isHalf_mul {l m n : ℕ} {e : AE D} (M : Mx D l m) {u : Mx D m n} (hu : IsHalf e u) : IsHalf e (M * u : Mx D l n) :=
   fun i j => by

@@ -1,5 +1,7 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.TwistedOrbitalIntegralLevelFunctionInertEqLattic
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IsLocalRingOfIdem
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.MulMat
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.MulHomInjective
 public import Development.AbelianVarietyTheory.Definitions.Foundations.GLintEqKOAndPrincEqKOne
@@ -767,17 +769,8 @@ variable {L : Type} [Field L] {a : ℕ}
 
 theorem mem_GLint_iff' {S : Subring L} {x : GL (Fin a) L} :
     x ∈ GLint (Fin a) S ↔ (∀ i j, x.1 i j ∈ S) ∧ ∀ i j, (x⁻¹).1 i j ∈ S := by
-  refine ⟨?_, fun h => ⟨⟨Matrix.of fun i j => ⟨_, h.1 i j⟩, Matrix.of fun i j => ⟨_, h.2 i j⟩, ?_, ?_⟩, rfl⟩⟩
-  · rintro ⟨y, rfl⟩
-    exact ⟨fun i j => (y.1 i j).2, fun i j => ((y⁻¹).1 i j).2⟩
-  · refine Matrix.map_injective S.subtype_injective ?_
-    simp only
-    rw [Matrix.map_mul, Matrix.map_one _ (map_zero _) (map_one _)]
-    exact x.mul_inv
-  · refine Matrix.map_injective S.subtype_injective ?_
-    simp only
-    rw [Matrix.map_mul, Matrix.map_one _ (map_zero _) (map_one _)]
-    exact x.inv_mul
+  intros
+  apply _root_.GlobalTheory.TwLat.Unimod.mem_GLint_iff' <;> assumption
 
 theorem mulVec_mem {S : Subring L} {M : Matrix (Fin a) (Fin a) L} {v : Fin a → L}
     (hM : ∀ i j, M i j ∈ S) (hv : ∀ j, v j ∈ S) (i : Fin a) : (M *ᵥ v) i ∈ S := by
@@ -832,15 +825,8 @@ theorem invT_mem_iff {S : Subring L} (x : GL (Fin a) L) :
   exact ⟨fun h => ⟨fun i j => h.2 j i, fun i j => h.1 j i⟩, fun h => ⟨fun i j => h.2 j i, fun i j => h.1 j i⟩⟩
 
 theorem PhiU_mem (S : Subring L) : PhiU a L ∈ GLint (Fin a) S := by
-  rw [mem_GLint_iff']
-  have h2 : ((PhiU a L)⁻¹).1 = (GlobalTheory.Tw.Phi a L)ᵀ := rfl
-  have h1 : (PhiU a L).1 = GlobalTheory.Tw.Phi a L := rfl
-  rw [h1, h2]
-  refine ⟨fun i j => ?_, fun i j => ?_⟩ <;>
-  · simp only [Matrix.transpose_apply, GlobalTheory.Tw.Phi, Matrix.of_apply]
-    split_ifs
-    · exact S.pow_mem (S.neg_mem S.one_mem) _
-    · exact S.zero_mem
+  intros
+  apply _root_.GlobalTheory.TwLat.Unimod.PhiU_mem <;> assumption
 
 end Mat
 
@@ -1069,17 +1055,7 @@ theorem mem_stabLat_iff (t : B.Aˣ) (L : Submodule K.O B.A) :
 
 theorem stabLat_mulLat (t : B.Aˣ) (L : Submodule K.O B.A) :
     stabLat K.O (mulLat K.O (t : B.A) L) = stabLat K.O L := by
-  ext s
-  change (∀ y, y ∈ mulLat K.O (t : B.A) L ↔ (s : B.A) * y ∈ mulLat K.O (t : B.A) L) ↔ ∀ y, y ∈ L ↔ (s : B.A) * y ∈ L
-  simp only [mulLat_mem_iff]
-  constructor
-  · intro h y
-    have := h ((t : B.A) * y)
-    have e1 : ((t⁻¹ : B.Aˣ) : B.A) * ((t : B.A) * y) = y := by rw [← mul_assoc, Units.inv_mul, one_mul]
-    have e2 : ((t⁻¹ : B.Aˣ) : B.A) * ((s : B.A) * ((t : B.A) * y)) = s * y := by rw [mul_left_comm, e1]
-    rwa [e1, e2] at this
-  · intro h y
-    rw [h (((t⁻¹ : B.Aˣ) : B.A) * y), mul_left_comm]
+  apply _root_.GlobalTheory.UnitLemma.Orbit.stabLat_mulLat <;> assumption
 
 theorem avg_const {H : Type} [Group H] (c : ℂ) : avg (fun _ : H => c) = c := by
   have hR : rStab (fun _ : H => c) = ⊤ := by

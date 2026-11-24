@@ -1,5 +1,6 @@
 module
 
+import Formalism.SharpRestriction.LevelLetterCocycles.DvrLatticeRank.ExistsInfFilVEqBot
 public import Formalism.SharpRestriction.LevelLetterCocycles.LocalSituation
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsTmulOneOfFrobFixedOfMemFilZero
 import Mathlib.Algebra.Order.Floor.Extended
@@ -118,16 +119,7 @@ theorem filV_antitone : Antitone (FilV PD (LL := LL) (V := V)) :=
   antitone_int_of_succ_le (filV_succ_le PD)
 
 theorem exists_mem_filV (z : V ⊗[Qp] BdR) : ∃ a, z ∈ FilV PD (LL := LL) (V := V) a := by
-  induction z using TensorProduct.induction_on with
-  | zero => exact ⟨0, Submodule.zero_mem _⟩
-  | tmul v b =>
-    obtain ⟨a, ha⟩ := PD.Fil_exh b
-    exact ⟨a, tmul_mem_filV PD v a b ha⟩
-  | add y z hy hz =>
-    obtain ⟨a, ha⟩ := hy
-    obtain ⟨b, hb⟩ := hz
-    exact ⟨min a b, Submodule.add_mem _ (filV_antitone PD (min_le_left a b) ha)
-      (filV_antitone PD (min_le_right a b) hb)⟩
+  apply _root_.Formalism.MainNotions.N.Ln34.CrystallineExponents.filV_exh <;> assumption
 
 theorem mem_dcris_iff (x : V ⊗[Qp] B) : x ∈ Dcris PD ρ ↔ ∀ g, actVB PD ρ g x = x := by
   simp [Dcris, Submodule.mem_iInf, sub_eq_zero]

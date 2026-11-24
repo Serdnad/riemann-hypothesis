@@ -1,5 +1,6 @@
 module
 
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovVolumes.UpperBounds.KaUnfoldPfA
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovVolumes.UpperBounds.FundSetMeasStatement
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -139,17 +140,8 @@ theorem isOrth_lact (X : Data E r) {x0 : Frame X.Ψ r} (ho : IsOrth X x0) {γ : 
 
 theorem muF_lact (X : Data E r) (x0 : Frame X.Ψ r) {γ : GL (Fin r) E} (hγ : γ ∈ X.Γ) :
     muF X (lact γ x0) = muF X x0 := by
-  have h1 : OmF X (lact γ x0) = OmF X x0 := by
-    ext z
-    show cpt X (lact γ x0) z ∈ X.dom ↔ cpt X x0 z ∈ X.dom
-    rw [cpt_lact]
-    refine ⟨fun h => ?_, OntoS.dom_lact X hγ⟩
-    have := OntoS.dom_lact X (X.Γ.inv_mem hγ) h
-    rwa [FundSetPf.lact_inv] at this
-  have h2 : densF X (lact γ x0) = densF X x0 := by
-    funext z
-    simp only [densF, dmin, cpt_lact, OntoS.gram_lact X hγ]
-  simp only [muF, h1, h2]
+  intros
+  apply _root_.ReciprocityTheory.ChartRestriction.G.AR.Up.KU.muF_lact <;> assumption
 
 theorem unique_translate (X : Data E r) {x0 : Frame X.Ψ r} {FF : Set (V (nd X))}
     (hF : IsFundSet X x0 FF) {x : Frame X.Ψ r} {γ γ' : GL (Fin r) E} (hγ : γ ∈ X.Γ) (hγ' : γ' ∈ X.Γ)

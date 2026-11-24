@@ -950,11 +950,7 @@ section
 variable {p : ℕ} [Fact p.Prime]
 
 theorem lamC_ne_zero (lam : Qbar →+* ℂ_[p]) {x : ℂ} (hx : x ∈ Qbar) (h0 : x ≠ 0) : lamC lam x ≠ 0 := by
-  rw [_root_.GlobalTheory.TranslLin.lamC_of lam hx]
-  intro h
-  apply h0
-  have := (map_eq_zero_iff lam lam.injective).1 h
-  exact congrArg Subtype.val this
+  apply _root_.GlobalTheory.ThetaPar.lamC_ne_zero' <;> assumption
 
 theorem intSer_one : IntSer (1 : PowerSeries ℂ_[p]) := by
   have := ((GlobalTheory.EvenTheta.SerRing.series_ring_laws p).2.2.1 1).2 norm_one.le

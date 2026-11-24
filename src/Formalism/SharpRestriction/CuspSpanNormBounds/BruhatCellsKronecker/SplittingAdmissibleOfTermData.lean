@@ -1,5 +1,6 @@
 module
 
+import Formalism.SharpRestriction.CuspSpanNormBounds.AbsoluteAmplitudeSecondOfSource
 public import Formalism.SharpRestriction.CuspSpanNormBounds.PExtra
 public import Formalism.SharpRestriction.CuspSpanNormBounds.LatticeGluingRadicals
 import Mathlib.Algebra.Order.Floor.Extended
@@ -99,15 +100,7 @@ variable {D : D7} (X : TermTie D)
 
 theorem tie_X_le_ker {E : Type} [Field E] [NumberField E] [StarRing E] {S : HSpace E} {r : ℕ} {T : E}
     (F : FlagG S r T) (y : S.V) (h : ∀ a, S.hT (F.e a) y = 0) : ∀ x ∈ F.X, S.hT x y = 0 := by
-  intro x hx
-  unfold Formalism.MainNotions.S.FlagG.X at hx
-  induction hx using Submodule.span_induction with
-  | mem x hx =>
-    obtain ⟨a, rfl⟩ := hx
-    exact h a
-  | zero => simp
-  | add x z _ _ hx hz => simp [hx, hz]
-  | smul c x _ hx => simp [hx]
+  apply _root_.Formalism.MainNotions.hT_zero_of_mem_X <;> assumption
 
 end Packets
 

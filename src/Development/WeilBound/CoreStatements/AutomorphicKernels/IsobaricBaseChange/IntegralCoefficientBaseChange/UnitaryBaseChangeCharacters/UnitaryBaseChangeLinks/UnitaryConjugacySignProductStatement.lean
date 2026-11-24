@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.KappaSignMultiplicative
 public import Mathlib.FieldTheory.Separable
 public import Mathlib.LinearAlgebra.Matrix.GeneralLinearGroup.Defs
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsConjGLOfCharpolyEqOfSeparable
@@ -562,15 +563,8 @@ theorem sign_basis [Valued K (WithZero (Multiplicative ℤ))] (σ : K →+* K)
 
 theorem aeval_conj {n : ℕ} (Q : K[X]) (a k : GL (Fin n) K) :
     aeval (k⁻¹ * a * k).val Q = (k⁻¹).val * aeval a.val Q * k.val := by
-  have hp : ∀ i : ℕ, ((k⁻¹ * a * k : GL (Fin n) K).val) ^ i = (k⁻¹).val * a.val ^ i * k.val := by
-    intro i
-    induction i with
-    | zero => simp
-    | succ i ih =>
-      rw [pow_succ, ih, pow_succ]
-      simp only [Units.val_mul, Matrix.mul_assoc, Units.mul_inv_cancel_left]
-  rw [aeval_eq_sum_range, aeval_eq_sum_range]
-  simp only [hp, Finset.mul_sum, Finset.sum_mul, Matrix.mul_smul, Matrix.smul_mul]
+  intros
+  apply _root_.GlobalTheory.ConjugateAlgebraLemmas.aeval_conj <;> assumption
 
 end GlobalTheory.UnitaryClasses.SgnConj
 
@@ -966,14 +960,7 @@ namespace GlobalTheory.NormHasseFixed
 
 theorem cT_aeval {K : Type} [Field K] (σ : K →+* K) {n : ℕ} (A : Matrix (Fin n) (Fin n) K) (p : K[X]) :
     cT σ (aeval A p) = aeval (cT σ A) (p.map σ) := by
-  induction p using Polynomial.induction_on' with
-  | add p q hp hq =>
-    rw [map_add (f := _), Polynomial.map_add (f := _), map_add (f := _), ← hp, ← hq]
-    ext i j; simp [cT]
-  | monomial k a =>
-    rw [Polynomial.map_monomial, aeval_monomial, aeval_monomial, ← Algebra.smul_def, ← Algebra.smul_def]
-    unfold cT
-    rw [Matrix.map_smul' _ _ _ (fun x y => map_mul σ x y), Matrix.map_pow, Matrix.transpose_smul, Matrix.transpose_pow]
+  apply _root_.GlobalTheory.NormAssemble.cT_aeval <;> assumption
 
 theorem aeval_mulVec {K L : Type} [Field K] [Field L] [Algebra K L] {n : ℕ} (N : Matrix (Fin n) (Fin n) L)
     (μ : L) (v : Fin n → L) (hv : N *ᵥ v = μ • v) (p : K[X]) : (aeval N p) *ᵥ v = aeval μ p • v := by

@@ -1362,31 +1362,7 @@ namespace GlobalTheory.CompanionTheory.SatPow
 theorem aOp_rightInv {G : Type} [Group G] (I : Subgroup G) (t : G) (R : Finset G) (hRI : ∀ r ∈ R, r ∈ I)
     (hR : ∀ i ∈ I, ∃! r, r ∈ R ∧ t⁻¹ * (r⁻¹ * i) * t ∈ I) (φ : G → ℂ) (hφ : ∀ g, ∀ i ∈ I, φ (g * i) = φ g) :
     ∀ g, ∀ i ∈ I, aOp R t φ (g * i) = aOp R t φ g := by
-  classical
-  intro g i hi
-  have key : ∀ r, r ∈ R → ∃ r', r' ∈ R ∧ t⁻¹ * (r'⁻¹ * (i * r)) * t ∈ I := fun r hr => by
-    obtain ⟨r', h, -⟩ := hR (i * r) (I.mul_mem hi (hRI r hr))
-    exact ⟨r', h⟩
-  choose! f hfR hf using key
-  have he : ∀ r ∈ R, φ (g * i * r * t) = φ (g * f r * t) := fun r hr => by
-    have e : g * i * r * t = (g * f r * t) * (t⁻¹ * ((f r)⁻¹ * (i * r)) * t) := by group
-    rw [e, hφ _ _ (hf r hr)]
-  have hinj : Set.InjOn f (R : Set G) := fun r₁ h₁ r₂ h₂ e => by
-    have h3 : t⁻¹ * (r₁⁻¹ * r₂) * t ∈ I := by
-      have := I.mul_mem (I.inv_mem (hf r₁ h₁)) (hf r₂ h₂)
-      rw [← e] at this
-      have e2 : (t⁻¹ * ((f r₁)⁻¹ * (i * r₁)) * t)⁻¹ * (t⁻¹ * ((f r₁)⁻¹ * (i * r₂)) * t) = t⁻¹ * (r₁⁻¹ * r₂) * t := by
-        group
-      rwa [e2] at this
-    exact (hR r₂ (hRI r₂ h₂)).unique ⟨h₁, h3⟩ ⟨h₂, by simp [I.one_mem]⟩
-  have himg : R.image f = R :=
-    Finset.eq_of_subset_of_card_le (fun x hx => by
-      obtain ⟨r, hr, rfl⟩ := Finset.mem_image.1 hx
-      exact hfR r hr) (by rw [Finset.card_image_of_injOn hinj])
-  unfold aOp
-  rw [Finset.sum_congr rfl he]
-  conv_rhs => rw [← himg]
-  rw [Finset.sum_image hinj]
+  apply _root_.GlobalTheory.CompanionTheory.SatPow.HeckeTrace.aOp_rightInvariant <;> assumption
 
 theorem abs_main {G : Type} [Group G] (K I : Subgroup G) (hIK : I ≤ K) (hfin : Finite (K ⧸ I.subgroupOf K)) (t : G)
     (R : Finset G) (h1R : (1 : G) ∈ R) (hRI : ∀ r ∈ R, r ∈ I) (hRt : ∀ r ∈ R, ∀ k : ℕ, t ^ k * r * (t ^ k)⁻¹ ∈ K)

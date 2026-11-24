@@ -3,6 +3,7 @@ module
 public import Development.ResolutionOfSingularities.Foundations.Blowup.StrictTransform
 public import Development.ResolutionOfSingularities.EmbeddedResolution.StrictTransformCharts.BlowupChart
 public import Development.ResolutionOfSingularities.EmbeddedResolution.EtaleCoordinates.ChartRing
+import all Development.ResolutionOfSingularities.EmbeddedResolution.EtaleCoordinates.ChartRing
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -362,12 +363,7 @@ private theorem specIso_hom_comp_map_C (k : Type u) [Field k] (m : ℕ) :
         Spec.map (CommRingCat.ofHom
           (MvPolynomial.C : k →+* MvPolynomial (ULift.{u} (Fin m)) k)) =
       affineSpaceFinToSpec k m := by
-  have h : (AffineSpace.SpecIso (ULift.{u} (Fin m)) (CommRingCat.of k)).inv ≫
-      affineSpaceFinToSpec k m =
-      Spec.map (CommRingCat.ofHom
-        (MvPolynomial.C : k →+* MvPolynomial (ULift.{u} (Fin m)) k)) := by
-    simp
-  rw [← h, Iso.hom_inv_id_assoc]
+  apply _root_.FunctorialResolution.EmbeddedResolution.affineSpace_specIso_hom_comp_specMap_C <;> assumption
 
 private theorem mvPolynomialIsoGlobalSectionsAffineSpace_hom_C (k : Type u) [Field k] (m : ℕ) (a : k) :
     (mvPolynomialIsoGlobalSectionsAffineSpace k m).hom.hom (MvPolynomial.C a)

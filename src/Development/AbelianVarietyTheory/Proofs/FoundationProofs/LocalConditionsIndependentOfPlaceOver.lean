@@ -40,6 +40,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 public import ReciprocityTheory.GaloisValuations.ArithOfA
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.GaloisCocycleIntegralAfterScaling
 
 @[expose] public section
 
@@ -67,18 +68,7 @@ theorem mat_one' (W : R2 Ω l) : mat W 1 = 1 := by
 theorem cob_conj {W : R2 Ω l} {z : G ℚ Ω → Fin 2 → Qbar l} (hz : z ∈ Z1 (Loc.colRep W)) (γ t : G ℚ Ω)
     (x : Fin 2 → Qbar l) (ht : z t = mat W t *ᵥ x - x) :
     z (γ * t * γ⁻¹) = mat W (γ * t * γ⁻¹) *ᵥ (mat W γ *ᵥ x - z γ) - (mat W γ *ᵥ x - z γ) := by
-  have h0 : z 1 = 0 := by
-    have := cocycle_mulVec hz 1 1
-    rw [mul_one, mat_one', Matrix.one_mulVec] at this
-    simpa using this
-  have h2 : z γ⁻¹ = -(mat W γ⁻¹ *ᵥ z γ) := by
-    have := cocycle_mulVec hz γ⁻¹ γ
-    rw [inv_mul_cancel, h0] at this
-    exact eq_neg_of_add_eq_zero_left this.symm
-  have hinv : mat W γ⁻¹ * mat W γ = 1 := by rw [← mat_mul', inv_mul_cancel, mat_one']
-  rw [cocycle_mulVec hz, cocycle_mulVec hz, ht, h2, mat_mul', mat_mul', mat_mul']
-  simp only [Matrix.mulVec_sub, Matrix.mulVec_neg, Matrix.mulVec_mulVec, Matrix.mul_assoc, hinv, Matrix.mul_one]
-  abel
+  apply _root_.GlobalTheory.CocInt.coc_conj <;> assumption
 
 theorem cob_of_conj_le {W : R2 Ω l} {z : G ℚ Ω → Fin 2 → Qbar l} (hz : z ∈ Z1 (Loc.colRep W)) (γ : G ℚ Ω)
     (H H' : Subgroup (G ℚ Ω)) (hH : ∀ s ∈ H', γ⁻¹ * s * γ ∈ H)

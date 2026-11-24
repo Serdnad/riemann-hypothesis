@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.IntegralTmulOneMulMemAdelicCompletion
 public import Development.AbelianVarietyTheory.Definitions.ExistenceOfLattices.Hat1
 public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.AdelicCompletionFractionalIdealProperties
 public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.AdelicCompletionSelfDualOfSelfDualLattice
@@ -77,23 +78,8 @@ theorem hermA_fv_fv (x y : Fin n → E) :
 theorem adelicHermitianFormGalois_mem_of_mem_completion {S : Set (Fin n → E)} {J : Set E} {z : Fin n → RA F E}
     (hz : ∀ y ∈ S, hermA c G z (fv F y) ∈ hat1 F J) {w : Fin n → RA F E} (hw : w ∈ hat F S) :
     hermA c G z w ∈ hat1 F J := by
-  induction hw using AddSubgroup.closure_induction with
-  | mem w hw =>
-    obtain ⟨t, ht, x, hx, rfl⟩ := hw
-    rw [hermA_tmul_right]
-    exact mul_mem_adelicCompletionOfElementSet_of_mul_mem F (I := {1}) (fun a ha b hb => by
-      rw [Set.mem_singleton_iff.1 ha, one_mul]; exact hb) (tmul_mem_adelicCompletion_of_integral F ht rfl) (hz x hx)
-  | zero =>
-    have : hermA c G z 0 = 0 := by simp [hermA]
-    rw [this]; exact zero_mem _
-  | add w w' _ _ h h' =>
-    have : hermA c G z (w + w') = hermA c G z w + hermA c G z w' := by
-      simp only [hermA, Pi.add_apply, map_add (f := _), mul_add, Finset.sum_add_distrib]
-    rw [this]; exact add_mem h h'
-  | neg w _ h =>
-    have : hermA c G z (-w) = - hermA c G z w := by
-      simp only [hermA, Pi.neg_apply, map_neg, mul_neg, Finset.sum_neg_distrib]
-    rw [this]; exact neg_mem h
+  intros
+  apply _root_.GlobalTheory.AdLat.Half.herm_mem_of_fv <;> assumption
 
 end
 

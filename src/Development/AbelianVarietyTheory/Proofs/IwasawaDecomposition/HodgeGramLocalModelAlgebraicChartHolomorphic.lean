@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.HolArcEqFlowOrbit
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsIsLieBase
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.IsHolToOfOpenImmersion
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.MultOfNotMem
@@ -268,15 +269,7 @@ variable {E : Type} [Field E] [NumberField E] [IsCMField E] {r : ℕ}
 
 theorem perFr_smul_int (X : Data E r) (x : Frame X.Ψ r) (a : E) (v : Fin r → E) (τ : E →+* ℂ) (i : ℕ) :
     Formalism.L2.PjFree.perFr X x (a • v) τ i = τ a * Formalism.L2.PjFree.perFr X x v τ i := by
-  have hemb : ∀ ρ : E →+* ℂ, Data.emb ρ (a • v) = ρ a • Data.emb ρ v := fun ρ => by
-    funext k; simp [Data.emb]
-  unfold Formalism.L2.PjFree.perFr
-  split_ifs
-  · rw [hemb, Matrix.mulVec_smul]; rfl
-  · simp
-  · rw [hemb, hermC_smul_right]; simp [conjEmb]
-  · simp
-  · simp
+  apply _root_.GlobalTheory.ArcFlow.perFr_smul <;> assumption
 
 theorem hermC_mulVec_left (τ : E →+* ℂ) (G : Matrix (Fin r) (Fin r) E) (M : Matrix (Fin r) (Fin r) ℂ)
     (w e : Fin r → ℂ) : hermC τ G (M *ᵥ w) e = ∑ k, w k * hermC τ G (col M k) e := by

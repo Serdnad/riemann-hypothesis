@@ -1262,12 +1262,7 @@ variable [Fintype R]
 
 theorem mixedCasimir_apply (EM : R → R → Module.End k M) (j : Fin n) (z : Tens R P M n) (g) :
     Om k EM j z g = ∑ b', EM b' (g j).1 (z (Function.update g j (b', (g j).2))) := by
-  unfold Om
-  simp only [LinearMap.sum_apply, Finset.sum_apply, Module.End.mul_apply, unitSecond_apply, onFactor_apply]
-  rw [Finset.sum_comm]
-  refine Finset.sum_congr rfl fun b' _ => ?_
-  rw [Finset.sum_ite_eq]
-  simp
+  apply _root_.Formalism.CohomologicalDescent.Symmetrization.mixedCasimir_apply_sum <;> assumption
 
 theorem jucysMurphy_apply (EM : R → R → Module.End k M) (j : Fin n) (z : Tens R P M n) (g) :
     xJM k EM j z g = ∑ b', EM b' (g j).1 (z (Function.update g j (b', (g j).2))) +

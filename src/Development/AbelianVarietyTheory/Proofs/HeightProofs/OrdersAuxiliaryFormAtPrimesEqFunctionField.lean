@@ -79,6 +79,7 @@ import Formalism.LocalToGlobal.ProjectiveLattices.ErealAddIInf
 import Formalism.LocalToGlobal.ProjectiveLattices.CurveInj
 import Formalism.LocalToGlobal.ProjectiveLattices.LocalUnitReduction.IsUnitMkOfForallPrime
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.HeightTheory.OpIsDVR
+import Development.AbelianVarietyTheory.Proofs.GenericRegularity.FiniteReducedSection
 
 attribute [-instance]
   NormedAlgebra.toAlgebra NormedSpace.toModule
@@ -543,16 +544,7 @@ theorem componentRing_map_sectionIdeal : Ideal.map (phiZ X la N Ω gF w) (Jid X 
     Ideal.span (Set.range fun i : Fin (WeightFamilies.dimY D j) =>
       algebraMap (RZ X la N Ω) (RZs X la N Ω gF w) (rzMap X la N Ω gF (Formalism.MainNotions.Gaps.EtaleWeightGaps.sec X la w i.succ)) *
         IsLocalization.Away.invSelf (rzMap X la N Ω gF (Formalism.MainNotions.Gaps.EtaleWeightGaps.sec X la w 0))) := by
-  have key : ∀ {R : Type} [CommRing R] {a b c : R}, a * b = 1 → a * c = 1 → b = c :=
-    fun {_} _ {_} {b} {c} h1 h2 => by linear_combination c * h1 - b * h2
-  rw [Jid, Ideal.map_span, ← Set.range_comp]
-  refine congrArg Ideal.span (congrArg Set.range (funext fun i => ?_))
-  show phiZ X la N Ω gF w (sfr X la w i.succ) = _
-  rw [phiZ_apply, coe_sfr, frac_apply, pow_one, map_mul, lwZ_alg]
-  congr 1
-  have h1 := congrArg (lwZ X la N Ω gF w) (section_mul_inverse_eq_one X la w)
-  rw [map_mul, lwZ_alg, map_one] at h1
-  exact key h1 (IsLocalization.Away.mul_invSelf _)
+  apply _root_.GlobalTheory.CurveRecord.map_Jid_eq <;> assumption
 
 end Rec
 

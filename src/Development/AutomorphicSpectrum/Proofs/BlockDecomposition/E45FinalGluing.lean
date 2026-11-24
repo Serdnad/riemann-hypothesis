@@ -573,16 +573,7 @@ theorem eval_prod_neg (m : Multiset ℂ) (u : ℂ) :
 theorem multiset_eq_of_prod_add_eq {m m' : Multiset ℂ}
     (h : ∀ (u : ℂ), Multiset.prod (Multiset.map (fun (x : ℂ) ↦ u + x) m)
       = Multiset.prod (Multiset.map (fun (x : ℂ) ↦ u + x) m')) : m = m' := by
-
-  have hp : ((m.map (fun x : ℂ => -x)).map (fun a : ℂ => X - C a)).prod =
-      ((m'.map (fun x : ℂ => -x)).map (fun a : ℂ => X - C a)).prod := by
-    apply Polynomial.funext
-    intro u
-    rw [eval_prod_neg, eval_prod_neg]
-    exact h u
-  have hr := congrArg Polynomial.roots hp
-  rw [Polynomial.roots_multiset_prod_X_sub_C, Polynomial.roots_multiset_prod_X_sub_C] at hr
-  exact Multiset.map_injective neg_injective hr
+  apply _root_.GlobalTheory.CompanionTheory.EGlue.FactorLimProof.multiset_eq_of_prod_shift <;> assumption
 
 end GlobalTheory.MultisetOfProduct
 end -- clump:auto
@@ -789,10 +780,7 @@ theorem limL_allLeaves_shift (P : ∀ M : ℕ, Submodule ℂ (Sm E M) → Prop) 
 
 theorem limL_allLeaves_mono {P Q : ∀ M : ℕ, Submodule ℂ (Sm E M) → Prop} (h : ∀ M V, P M V → Q M V) :
     ∀ {N : ℕ} {t : Tr E N}, t.AllLeaves P → t.AllLeaves Q := by
-  intro N t
-  induction t with
-  | leaf V z => exact h _ _
-  | node t₁ t₂ i₁ i₂ => exact fun a => ⟨i₁ a.1, i₂ a.2⟩
+  apply _root_.GlobalTheory.CompanionTheory.EGlue.allLeaves_mono <;> assumption
 
 theorem limL_disc_shift (z : ℂ) : ∀ {N : ℕ} {t : Tr E N}, t.AllLeaves (fun M _ => 0 < M) → t.Disc → (t.shift z).Disc := by
   intro N t

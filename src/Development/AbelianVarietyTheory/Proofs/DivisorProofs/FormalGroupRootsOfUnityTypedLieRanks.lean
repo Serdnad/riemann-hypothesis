@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FactorDepthUpperBoundOddUnramifiedPrime
 public import ReciprocityTheory.DualLattices.VEqZeroOfPowEqOne
 public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.TypedPartSplitPrimes
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ResidueEqZeroIffV
@@ -511,21 +512,7 @@ theorem label_rt_sq (H : Host E) (σ : E →+* ℂ) : σ (H.rt : E) ^ 2 = -(H.d 
 
 theorem conj_label_rt (H : Host E) (σ : E →+* ℂ) :
     ComplexEmbedding.conjugate σ (H.rt : E) = -σ (H.rt : E) := by
-  rw [ComplexEmbedding.conjugate_coe_eq]
-  have h := label_rt_sq H σ
-  generalize σ (H.rt : E) = z at h
-  have hd : (0 : ℝ) < H.d := by exact_mod_cast H.d_prime.pos
-  have h1 := congrArg Complex.re h
-  have h2 := congrArg Complex.im h
-  simp [sq] at h1 h2
-  have h3 : z.re = 0 := by
-    by_contra h0
-    have h4 : z.im = 0 := by
-      have : z.re * z.im = 0 := by linarith
-      exact (mul_eq_zero.1 this).resolve_left h0
-    rw [h4] at h1
-    nlinarith [mul_self_nonneg z.re]
-  apply Complex.ext <;> simp [h3]
+  apply _root_.GlobalTheory.ConjugateNegativeSquare.conjugate_rt <;> assumption
 
 theorem exists_w0_sq_even_constant (H : Host E) : ∃ n : ℕ, H.w0 ^ 2 = H.w0 - 2 * n := by
   refine ⟨(H.d + 1) / 8, ?_⟩

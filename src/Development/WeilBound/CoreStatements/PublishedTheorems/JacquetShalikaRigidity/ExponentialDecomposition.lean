@@ -1,5 +1,6 @@
 module
 
+import Development.WeilBound.CoreStatements.PublishedTheorems.JacquetShalikaRigidity.UnipotentZeroOfLevel
 public import Development.WeilBound.CoreStatements.PublishedTheorems.JacquetShalikaRigidity.ColumnConjugationMeasure
 import GroundTheory.GlobalFields.LocalAtPlace
 import Mathlib.Algebra.Order.Floor.Extended
@@ -112,21 +113,8 @@ theorem uu_one : UU 0 (1 : GA E k) :=
   ⟨fun i c h => by rw [Units.val_one, Matrix.one_apply_ne h.ne'], fun i => by rw [Units.val_one, Matrix.one_apply_eq],
     fun i c h => absurd h (Nat.not_lt_zero _)⟩
 
-theorem uu_mul {g h : GA E k} (hg : UU 0 g) (hh : UU 0 h) : UU 0 (g * h) := by
-  refine ⟨fun i c hci => ?_, fun i => ?_, fun i c h => absurd h (Nat.not_lt_zero _)⟩
-  · rw [Units.val_mul, Matrix.mul_apply]
-    refine Finset.sum_eq_zero fun j _ => ?_
-    rcases lt_or_ge j i with hj | hj
-    · rw [hg.1 i j hj, zero_mul]
-    · rw [hh.1 j c (lt_of_lt_of_le hci hj), mul_zero]
-  · rw [Units.val_mul, Matrix.mul_apply, Finset.sum_eq_single i]
-    · rw [hg.2.1, hh.2.1, one_mul]
-    · intro j _ hj
-      rcases lt_or_gt_of_ne hj with hj | hj
-      · rw [hg.1 i j hj, zero_mul]
-      · rw [hh.1 j i hj, mul_zero]
-    · intro h
-      exact absurd (Finset.mem_univ i) h
+theorem uu_mul {g h : GA E k} (hg : UU 0 g) (hh : UU 0 h) : UU 0 (g * h) :=
+  _root_.PositivityTheory.AdelicQuotientData.PKLt1.unipotent_zero_mul hg hh
 
 theorem uu_fl (w : Pl E) {n : GL (Fin k) (w.adicCompletion E)} (hn : n ∈ Iwasawa.unipotent (w.adicCompletion E) k) :
     UU 0 (fl k w n) := by

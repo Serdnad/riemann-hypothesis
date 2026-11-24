@@ -1,5 +1,6 @@
 module
 
+import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.PolynomialDifferentialWords.PolarizationBihomogeneous
 public import Formalism.MahlerMeasure.LevelSum
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -68,29 +69,7 @@ theorem tieF_apply' (g : MvPolynomial σ k) :
 
 theorem coeff_X_mul_pderiv' (i : σ) (p : MvPolynomial σ k) (m : σ →₀ ℕ) :
     AddMonoidAlgebra.coeff (X i * pderiv i p) m = AddMonoidAlgebra.coeff p m * (m i : k) := by
-  classical
-  refine MvPolynomial.induction_on' p ?_ ?_
-  · intro s a
-    have key : X i * pderiv i (monomial s a : MvPolynomial σ k) = monomial s (a * (s i : k)) := by
-      rw [pderiv_monomial]
-      by_cases hs : s i = 0
-      · simp [hs]
-      · rw [show (X i : MvPolynomial σ k) = monomial (Finsupp.single i 1) 1 from rfl,
-          monomial_mul, one_mul]
-        have hsum : Finsupp.single i 1 + (s - Finsupp.single i 1) = s := by
-          ext j
-          by_cases hij : i = j
-          · subst hij
-            simp only [Finsupp.add_apply, Finsupp.tsub_apply, Finsupp.single_eq_same]
-            omega
-          · simp [hij]
-        rw [hsum]
-    rw [key, coeff_monomial, coeff_monomial]
-    split_ifs with h
-    · subst h; rfl
-    · simp
-  · intro p q hp hq
-    simp only [map_add (f := _), mul_add, MvPolynomial.coeff_add, hp, hq, add_mul]
+  apply _root_.PI.OpWords.coeff_X_pderiv_self <;> assumption
 
 theorem euler_w_of_biHom {a b : ℕ} {g : MvPolynomial σ k} (h : BiHom w e a b g) :
     (∑ c, X (w c) * pderiv (w c) g) = (a : k) • g := by

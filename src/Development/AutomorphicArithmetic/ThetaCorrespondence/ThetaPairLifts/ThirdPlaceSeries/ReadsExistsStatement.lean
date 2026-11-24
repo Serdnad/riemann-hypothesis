@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.TrueGeometryCommutationValue
 public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.XiEqXiOffMul
 public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.MemCosetInOfRes
 public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.EntryAgree
@@ -112,18 +113,7 @@ theorem corner_one : (1 : GL (n ⊕ Fin 0) k).val.toBlocks₁₁ = 1 := by
   ext i j; simp [Matrix.toBlocks₁₁, Matrix.one_apply]
 
 theorem sameOrb_equiv {J : Subgroup (GL (n ⊕ Fin 0) k)} (hJ : J ≤ KO k _) (c : kˣ) : Equivalence (SameOrb J (box n c)) := by
-  refine ⟨fun yb => ?_, fun {yb yb'} H => ?_, fun {yb yb' yb''} H H' => ?_⟩
-  · obtain ⟨y, rfl⟩ := Submodule.Quotient.mk_surjective _ yb
-    exact ⟨1, one_mem _, y, rfl, by rw [corner_one, one_mulVec]⟩
-  · obtain ⟨g, hg, y, rfl, e⟩ := H
-    refine ⟨g⁻¹, inv_mem hg, g.val.toBlocks₁₁ *ᵥ y, e, ?_⟩
-    rw [mulVec_mulVec, ← corner_mul, inv_mul_cancel, corner_one, one_mulVec]
-  · obtain ⟨g, hg, y, rfl, e1⟩ := H
-    obtain ⟨h, hh, y', e2, e3⟩ := H'
-    refine ⟨h * g, mul_mem hh hg, y, rfl, ?_⟩
-    rw [← e3, corner_mul, ← mulVec_mulVec, Submodule.Quotient.eq, ← mulVec_sub]
-    rw [← e1] at e2
-    exact _root_.GlobalTheory.TwBridge.LevOrb.mulVec_mem_box (hJ hh) _ ((Submodule.Quotient.eq _).1 e2.symm)
+  apply _root_.GlobalTheory.QExtEx.sameOrb_equivalence <;> assumption
 
 theorem box_le {ϖ : kˣ} (hϖ : GlobalTheory.IndefiniteRowSideFullHecke.FramePositiveSum.IsUnif ϖ) (M : ℕ) {y : n → k} (hy : y ∈ box n (ϖ ^ M)) : y ∈ box n (ϖ ^ M)⁻¹ := fun i => by
   have h1 : valuation k ((ϖ ^ M : kˣ) : k) ≤ 1 := by

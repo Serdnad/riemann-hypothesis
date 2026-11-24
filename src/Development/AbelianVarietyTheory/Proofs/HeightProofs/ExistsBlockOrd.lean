@@ -43,6 +43,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
+import Formalism.SharpRestriction.Divisibility.LocalNonemptiness.THProvA
 
 @[expose] public section
 
@@ -174,14 +175,7 @@ theorem BlockOrd.inUJ_iff {e : Ix p q ≃ Fin n} {ε : Fin n → Bool} (h : Bloc
   exact (Matrix.reindex e e).injective.eq_iff
 
 theorem mem_Upq (g : GL (Ix p q) ℂ) : g ∈ Formalism.UG.Upq p q ↔ (g : Mat p q)ᴴ * Jm p q * g = Jm p q := by
-  unfold Formalism.UG.Upq Formalism.UG.UJ
-  rw [Subgroup.mem_mk]
-  show Formalism.UG.cT (starRingEnd ℂ) (g : Mat p q) * Formalism.UG.Jpq p q * (g : Mat p q) = Formalism.UG.Jpq p q ↔ _
-  have hc : Formalism.UG.cT (starRingEnd ℂ) (g : Mat p q) = (g : Mat p q)ᴴ := by
-    ext i j
-    simp [Formalism.UG.cT, Matrix.conjTranspose_apply]
-  rw [hc]
-  rfl
+  apply _root_.Formalism.MainNotions.DIV.Inh.mem_Upq_iff <;> assumption
 
 theorem BlockOrd.cov_mem {e : Ix p q ≃ Fin n} {ε : Fin n → Bool} (h : BlockOrd e ε) (T : GrpData p q) (x : T.G) :
     Matrix.reindex e e ((T.cov x : GL (Ix p q) ℂ) : Mat p q) ∈ UJset ε := by

@@ -49,6 +49,7 @@ import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
 import Formalism.WachLatticeTwists.SplitClassesAll.Statement
 import Formalism.WachLatticeTwists.SplitLocalLifts.Statement
+import Formalism.AdmissibleDesigns.H1MapMemLcH1
 
 @[expose] public section
 
@@ -218,15 +219,7 @@ variable {D : D7} {i : D.nd.Loc} {r : D.nd.X i → (GE D.nd →* GL (Fin D.R.nV)
 
 theorem blk_eq {c' : Fin D.R.t} (a : Fin D.R.nV) (h : RepresentationBoundsCohomology.blk D.R a = c'.succ) :
     a = (Fin.natAdd D.R.r c' : Fin (D.R.r + D.R.t)) := by
-  have h' := h
-  simp only [RepresentationBoundsCohomology.blk, RepresentationBoundsCohomology.blkG] at h'
-  split_ifs at h' with h1
-  · exact absurd h'.symm (Fin.succ_ne_zero c')
-  · apply Fin.ext
-    have h2 := congrArg Fin.val h'
-    simp only [Fin.val_succ] at h2
-    simp only [Fin.val_natAdd]
-    omega
+  apply _root_.Formalism.MainNotions.N.K.ShaT.blkS_eq <;> assumption
 
 theorem blk_act (c' : Fin D.R.t) (a : Dd.R') (m : blockRestrictedRepresentationType (RepresentationBoundsCohomology.blk D.R) Dd.ρk c'.succ) (hE : Ev r π Dd) :
     a • m = (Dd.ρπ a (Fin.natAdd D.R.r c') (Fin.natAdd D.R.r c')) • m := by

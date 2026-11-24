@@ -1,5 +1,6 @@
 module
 
+import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.GelfandTsetlinLowering.ConstructionLift
 public import Formalism.GradedWeylDivisibility.FockSpaceTableaux.LGradedLemmas
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.HighestWeightIrreducible.ClosedEqNablaC
 public import Formalism.GradedWeylDivisibility.DualWeylDominanceOf
@@ -93,18 +94,7 @@ theorem bC_rowGen_C {r n : ℕ} (a : Fin r) (c : ℂ) :
 theorem bC_rowGen_monomial {r n : ℕ} (a : Fin r) (m : Fin r × Fin n →₀ ℕ) (c : ℂ) :
     rowGen ℂ a a (monomial m c) =
       Polynomial.C (monomial m c) * (1 + Polynomial.X) ^ (Finsupp.weight (lgraded_wa a) m) := by
-  induction m using Finsupp.induction
-  next =>
-    rw [MvPolynomial.monomial_zero', bC_rowGen_C]
-    simp
-  next v e m _ _ ih =>
-    rw [MvPolynomial.monomial_single_add, map_mul, map_pow, bC_rowGen_X, ih]
-    have hw : Finsupp.weight (lgraded_wa a) (Finsupp.single v e + m) =
-        e * lgraded_wa a v + Finsupp.weight (lgraded_wa a) m := by
-      simp [map_add (f := _), Finsupp.weight_apply, Finsupp.sum_single_index]
-    rw [hw]
-    simp only [map_mul, map_pow]
-    ring
+  apply _root_.PI.WGL.Fock6.rowGen_diag_monomial <;> assumption
 
 theorem bC_euler_monomial {r n : ℕ} (a : Fin r) (m : Fin r × Fin n →₀ ℕ) (c : ℂ) :
     rowDiv ℂ a a 1 (monomial m c) = ((Finsupp.weight (lgraded_wa a) m : ℕ) : ℂ) • monomial m c := by
@@ -343,21 +333,6 @@ private theorem isWeightedHomogeneous_coeff_rowGen_monomial {r n : ℕ} (a b : F
           (j : ℤ) * ((v.1 : ℕ) : ℤ) + ((v.1 : ℕ) : ℤ) + (k : ℤ) * (((a : ℕ) : ℤ) - ((b : ℕ) : ℤ)) by push_cast; ring]
         exact h
     exact isWeightedHomogeneous_coeff_mul_fst_weight (((a : ℕ) : ℤ) - ((b : ℕ) : ℤ)) _ _ _ _ (hpow e) ih k
-
-private theorem isWeightedHomogeneous_rowDiv {r n : ℕ} (a b : Fin r) (p : MvPolynomial (Fin r × Fin n) ℂ) (d : ℤ)
-    (hp : IsWeightedHomogeneous (fun v : Fin r × Fin n => ((v.1 : ℕ) : ℤ)) p d) (k : ℕ) :
-    IsWeightedHomogeneous (fun v : Fin r × Fin n => ((v.1 : ℕ) : ℤ)) (rowDiv ℂ a b k p) (d + (k : ℤ) * (((a : ℕ) : ℤ) - ((b : ℕ) : ℤ))) := by
-  classical
-  rw [MvPolynomial.as_sum p]
-  unfold rowDiv
-
-  rw [map_sum, Polynomial.finsetSum_coeff]
-  first
-    | (apply MvPolynomial.IsWeightedHomogeneous.sum
-       intro x hx
-       have hmd : Finsupp.weight (fun v : Fin r × Fin n => ((v.1 : ℕ) : ℤ)) x = d := hp (MvPolynomial.mem_support_iff.mp hx)
-       rw [← hmd]
-       exact isWeightedHomogeneous_coeff_rowGen_monomial a b x _ k)
 
 theorem bC_exists_killed {r n : ℕ}
     (M : Submodule ℂ (MvPolynomial (Fin r × Fin n) ℂ)) (hM : RowDivClosed M) (hne : M ≠ ⊥) :

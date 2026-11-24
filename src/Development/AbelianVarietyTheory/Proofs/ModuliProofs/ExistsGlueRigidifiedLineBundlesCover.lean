@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.InKIffTrivialTwist
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.PullCub
 public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsGenOfRigid
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.Splits
@@ -261,18 +262,6 @@ theorem gm_iso {M M' : LB X} {w : LB.Iso M' M} (hw : w.IsGen) (f : Y ⟶ X) (y :
   refine (map_mul (gm f y (M.U a ⊓ M'.U b ⊓ (M.U a' ⊓ M'.U b'))) _ _).trans ?_
   exact congrArg₂ (· * ·) (gm_div f y a a' b b' hm) (_root_.ReciprocityTheory.ChartRestriction.G.Geo.Tor.gm_res f y hr hm (w.s (a', b')))
 
-private theorem units_ext_of_gm_id_eq {Z : Scheme.{0}} {W : Z.Opens} (u v : Γ(Z, W)ˣ)
-    (h : ∀ x ∈ W, gm (𝟙 Z) x W u = gm (𝟙 Z) x W v) : u = v := by
-  have key : (Scheme.Hom.app (𝟙 Z) W).hom u.val = (Scheme.Hom.app (𝟙 Z) W).hom v.val := by
-    apply TopCat.Presheaf.section_ext Z.sheaf
-    intro x hx
-    have hx' : (𝟙 Z) x ∈ W := hx
-    have e := congrArg Units.val (h x hx)
-    simp only [gm, pullU, dif_pos hx', MonoidHom.comp_apply, Units.coe_map, MonoidHom.coe_coe] at e
-    exact e
-  ext1
-  exact (ConcreteCategory.bijective_of_isIso (Scheme.Hom.app (𝟙 Z) W)).1 key
-
 private theorem mem_pull_U_of_mem {X S : Scheme.{0}} (M : LB X) (e : S ⟶ X) (x : S) (a : M.ι) (h : e x ∈ M.U a) :
     x ∈ (M.pull e).U (fun _ => a) :=
   Set.mem_iInter.2 fun _ => h
@@ -310,7 +299,7 @@ theorem exists_iso_normalised : ∀ (X S : Scheme.{0}) (p : X ⟶ S) (e : S ⟶ 
 
   have hcomp : ∀ k l, res (inf_le_left : O k ⊓ O l ≤ O k) (c k) = res (inf_le_right : O k ⊓ O l ≤ O l) (c l) := by
     rintro ⟨a, b⟩ ⟨a', b'⟩
-    apply units_ext_of_gm_id_eq
+    apply _root_.ReciprocityTheory.ChartRestriction.G.Geo.Tor.unit_ext
     intro x hx
     have hk := hx.1
     have hl := hx.2
@@ -546,14 +535,7 @@ private theorem gm_id_pull_g_eq_gm_g {X Y : Scheme.{0}} (N : LB X) (c : Y ⟶ X)
     (hb : c y ∈ N.U b) :
     gm (𝟙 Y) y ((N.pull c).U (fun _ => a) ⊓ (N.pull c).U (fun _ => b)) ((N.pull c).g (fun _ => a) (fun _ => b)) =
       gm c y (N.U a ⊓ N.U b) (N.g a b) := by
-  have hm : (𝟙 Y) y ∈ (N.pull c).U (fun _ => a) ⊓ (N.pull c).U (fun _ => b) :=
-    ⟨mem_pull_U_of_mem N c (by simpa using ha), mem_pull_U_of_mem N c (by simpa using hb)⟩
-  revert hm
-  unfold LB.pull LB.LinComb
-  dsimp only
-  intro hm
-  simp only [Finset.univ_unique, Finset.prod_singleton, zpow_one]
-  exact (gm_res_eq_gm (𝟙 Y) y hm _).trans (gm_id_pullU_eq_gm c y (show c y ∈ N.U a ⊓ N.U b from ⟨ha, hb⟩) _)
+  apply _root_.GlobalTheory.UU.TrivTwist.gm_pull_g <;> assumption
 
 private theorem gm_div_g_eq_mul_inv {X Y : Scheme.{0}} (A B : LB X) (f : Y ⟶ X) (y : Y) (p q : (A.div B).ι)
     (hp : f y ∈ A.U p.1 ⊓ B.U p.2) (hq : f y ∈ A.U q.1 ⊓ B.U q.2) :

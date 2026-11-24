@@ -1,5 +1,6 @@
 module
 
+import ReciprocityTheory.L2DbarEstimates.Localization.Choice
 public import ReciprocityTheory.L2DbarEstimates.IsLocalHomeomorph
 import Mathlib.Algebra.Order.Star.Real
 import Mathlib.Tactic.TypeStar
@@ -17,17 +18,8 @@ noncomputable section
 
 theorem continuous_of_smoothR (n : ℕ) {M : Type*} [TopologicalSpace M] (z : M → V n)
     (hz : IsLocalHomeomorph z) (ψ : M → ℝ) (hψ : SmoothR n z ψ) : Continuous ψ := by
-  rw [continuous_iff_continuousAt]
-  intro x
-  obtain ⟨e, hxe, he⟩ := hz x
-  have hc : IsChart n z e := fun y _ => by rw [he]
-  have hf := (hψ e hc).continuousOn.continuousAt (e.open_target.mem_nhds (e.map_source hxe))
-  have h2 := hf.comp (e.continuousAt hxe)
-  have h3 : ContinuousAt (fun y => (ψ y : ℂ)) x := by
-    refine h2.congr (Filter.eventually_of_mem (e.open_source.mem_nhds hxe) (fun y hy => ?_))
-    simp [Function.comp, e.left_inv hy]
-  have h4 : ContinuousAt (fun y => ((ψ y : ℂ)).re) x := Complex.continuous_re.continuousAt.comp h3
-  simpa using h4
+  intros
+  apply _root_.ReciprocityTheory.L2DbarEstimates.F.smoothReal_continuous <;> assumption
 
 theorem exists_lintegral_compact_le (n : ℕ) {M : Type*} [TopologicalSpace M] [T2Space M]
     [MeasurableSpace M] [BorelSpace M] (z : M → V n) (ψ : M → ℝ) (hψ : Continuous ψ)
@@ -63,33 +55,16 @@ theorem exists_lintegral_compact_le (n : ℕ) {M : Type*} [TopologicalSpace M] [
 private theorem chart_symm_eventuallyEq_of_mem_sources (n : ℕ) {M : Type*} [TopologicalSpace M] (z : M → V n)
     {e e' : OpenPartialHomeomorph M (V n)} (he : IsChart n z e) (he' : IsChart n z e') {x : M}
     (hx : x ∈ e.source) (hx' : x ∈ e'.source) : e.symm =ᶠ[𝓝 (z x)] e'.symm := by
-  have h1 : e'.target ∈ 𝓝 (z x) := by
-    rw [he' hx']
-    exact e'.open_target.mem_nhds (e'.map_source hx')
-  have h2 : ∀ᶠ w in 𝓝 (z x), e'.symm w ∈ e.source := by
-    have hc := e'.continuousAt_symm (e'.map_source hx')
-    rw [← he' hx'] at hc
-    have hs : e.source ∈ 𝓝 (e'.symm (z x)) := by
-      rw [he' hx', e'.left_inv hx']
-      exact e.open_source.mem_nhds hx
-    exact hc hs
-  filter_upwards [h1, h2] with w hw1 hw2
-  have h3 : e (e'.symm w) = w := by
-    rw [← he hw2, he' (e'.map_target hw1), e'.right_inv hw1]
-  calc e.symm w = e.symm (e (e'.symm w)) := by rw [h3]
-    _ = e'.symm w := e.left_inv hw2
+  first
+    | exact _root_.ReciprocityTheory.L2DbarEstimates.chart_symm_eventuallyEq
+    | apply _root_.ReciprocityTheory.L2DbarEstimates.chart_symm_eventuallyEq <;> first | assumption | rfl | infer_instance
 
 private theorem db_eq_wdb_of_mem_chart_source (n : ℕ) {M : Type*} [TopologicalSpace M] (z : M → V n)
     {e : OpenPartialHomeomorph M (V n)} (he : IsChart n z e) (j : Fin n) (f : M → ℂ) {x : M}
     (hx : x ∈ e.source) : db n z j f x = wdb n j (f ∘ e.symm) (z x) := by
-  have hex : ∃ e : OpenPartialHomeomorph M (V n), IsChart n z e ∧ x ∈ e.source := ⟨e, he, hx⟩
-  unfold db
-  rw [dite_eq_left hex]
-  have hspec := Classical.choose_spec hex
-  have heq : (f ∘ (Classical.choose hex).symm) =ᶠ[𝓝 (z x)] (f ∘ e.symm) :=
-    (chart_symm_eventuallyEq_of_mem_sources n z hspec.1 he hspec.2 hx).fun_comp f
-  unfold wdb
-  rw [heq.fderiv_eq]
+  first
+    | exact _root_.ReciprocityTheory.L2DbarEstimates.db_eq_wdb
+    | apply _root_.ReciprocityTheory.L2DbarEstimates.db_eq_wdb <;> first | assumption | rfl | infer_instance
 
 private theorem continuous_db_of_smooth (n : ℕ) {M : Type*} [TopologicalSpace M] (z : M → V n)
     (hz : IsLocalHomeomorph z) (j : Fin n) (φ : M → ℂ) (hφ : Smooth n z φ) :

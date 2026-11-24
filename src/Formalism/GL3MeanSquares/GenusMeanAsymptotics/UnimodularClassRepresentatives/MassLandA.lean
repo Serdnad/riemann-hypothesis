@@ -1,5 +1,6 @@
 module
 
+import Formalism.GL3MeanSquares.GenusMeanAsymptotics.UnimodularClassRepresentatives.StarAlgebraMap
 public import Formalism.GL3MeanSquares.GenusMeanAsymptotics.UnimodularClassRepresentatives.MassLandSt
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -77,16 +78,7 @@ theorem star_coe_cmF (x : cmF K) : star (x : K) = x := (mem_cmF_iff K x).1 x.2
 variable {K}
 
 theorem exists_star_ne (hK : Formalism.HermitianLatticesTheory.IsCMUnram K) : ∃ a : K, star a ≠ a := by
-  by_contra h
-  push_neg at h
-  let φ : K →+* ℂ := (IsAlgClosed.lift : K →ₐ[ℚ] ℂ).toRingHom
-  have hφ : ComplexEmbedding.IsReal φ := by
-    rw [ComplexEmbedding.isReal_iff]
-    ext a
-    rw [ComplexEmbedding.conjugate_coe_eq, ← hK.2.1 φ a, h a]
-  have hc := hK.1.isComplex (InfinitePlace.mk φ)
-  rw [InfinitePlace.isComplex_mk_iff] at hc
-  exact hc hφ
+  apply _root_.Formalism.HermitianLattices.Ext.L3.MeanB.exists_star_ne <;> assumption
 
 theorem exists_skew (hK : Formalism.HermitianLatticesTheory.IsCMUnram K) : ∃ w : K, w ≠ 0 ∧ star w = -w := by
   obtain ⟨a, ha⟩ := exists_star_ne hK

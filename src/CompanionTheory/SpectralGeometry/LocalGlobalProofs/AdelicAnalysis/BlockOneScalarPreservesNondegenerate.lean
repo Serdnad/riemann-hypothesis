@@ -5,6 +5,7 @@ import Mathlib.RingTheory.Henselian
 import Mathlib.RingTheory.RegularLocalRing.Defs
 import Mathlib.RingTheory.SimpleRing.Principal
 import CompanionTheory.SpectralGeometry.LocalGlobalProofs.AdelicAnalysis.StageData
+import CompanionTheory.SpectralGeometry.LocalGlobalProofs.AdelicAnalysis.HyperbolicAndBlockOneNondegenerate
 
 @[expose] public section
 
@@ -23,14 +24,6 @@ theorem det_blockOne_eq_mul {K : Type} [CommRing K] {M : ℕ} (t : K) (A : Matri
   simp [blockOne, hsub]
 
 theorem isHermND_blockOne_algebraMap : ∀ (F E : Type) [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] (σ : E →ₐ[F] E) (M : ℕ) (J : Matrix (Fin M) (Fin M) E), IsHermND σ J → ∀ t : F, t ≠ 0 → IsHermND σ (blockOne (algebraMap F E t) J) := by
-  intro F E _ _ _ _ _ σ M J hJ t ht
-  refine ⟨fun i j => ?_, ?_⟩
-  · refine Fin.cases ?_ (fun i => ?_) i <;> refine Fin.cases ?_ (fun j => ?_) j
-    · simp [blockOne]
-    · simp [blockOne]
-    · simp [blockOne]
-    · simpa [blockOne] using hJ.1 i j
-  · rw [det_blockOne_eq_mul]
-    exact mul_ne_zero ((map_ne_zero _).2 ht) hJ.2
+  intros; apply _root_.GlobalTheory.CompanionTheory.SW.BlockForm.isHermND_blockOne <;> assumption
 
 end GlobalTheory.CompanionTheory.SW.PiLocalization₂

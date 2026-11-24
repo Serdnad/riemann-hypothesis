@@ -1452,10 +1452,7 @@ variable {T : Over S} {T' : Over S'} (U : Over.mk (T'.hom ≫ f) ⟶ T)
 
 theorem push_comp {x' : T' ⟶ G'} {x : T ⟶ G} (hx : pushPt h.1.w x' = U ≫ x) {a' : G' ⟶ G'} {a : G ⟶ G}
     (ha : a'.left ≫ φ = φ ≫ a.left) : pushPt h.1.w (x' ≫ a') = U ≫ x ≫ a := by
-  rw [← Category.assoc, ← hx]
-  refine Over.OverMorphism.ext ?_
-  show (x'.left ≫ _) ≫ _ = (x'.left ≫ _) ≫ _
-  rw [Category.assoc, ha, Category.assoc]
+  apply _root_.GlobalTheory.SharpFamRel.push_comp <;> assumption
 
 theorem iso_cubeLB_pull [IsCommMonObj G] [IsCommMonObj G'] {L : LB G.left} {L' : LB G'.left}
     (H : LBIso L' (L.pull φ)) {a' b' : T' ⟶ G'} {a b : T ⟶ G} (ha : pushPt h.1.w a' = U ≫ a)

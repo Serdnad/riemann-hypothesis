@@ -1,5 +1,7 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.VacuumFockOfThetaSquareIntegrable
+import CompanionTheory.HarishChandraModules.LowKTypeMultiplicity.EigenspaceCyclicDensity.CreationOperators.GeneralizedVermaModulePolynomial
 public import Development.AbelianVarietyTheory.BlockTheory.TwistedDiscreteSeries.RaisingLoweringOperators
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsJointHarmonicOfLoweringStableSubmodule
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.FockTargetGlActionCompactPreservesJointHarmonics
@@ -1108,25 +1110,7 @@ def fct (α : σ →₀ ℕ) : ℕ := α.prod fun _ k => k.factorial
 theorem fct_pos (α : σ →₀ ℕ) : 0 < fct α := Finset.prod_pos fun _ _ => Nat.factorial_pos _
 
 theorem fct_add_single (α : σ →₀ ℕ) (v : σ) : fct (α + Finsupp.single v 1) = (α v + 1) * fct α := by
-  classical
-  have hs : (α + Finsupp.single v 1).support ⊆ insert v α.support := by
-    intro u hu
-    rw [Finsupp.mem_support_iff, Finsupp.add_apply, Finsupp.single_apply] at hu
-    rw [Finset.mem_insert, Finsupp.mem_support_iff]
-    by_cases h : v = u
-    · exact Or.inl h.symm
-    · right; simpa [h] using hu
-  unfold fct
-  rw [Finsupp.prod_of_support_subset _ hs _ (fun _ _ => Nat.factorial_zero),
-    Finsupp.prod_of_support_subset α (Finset.subset_insert v α.support) _ (fun _ _ => Nat.factorial_zero),
-    ← Finset.mul_prod_erase _ _ (Finset.mem_insert_self v α.support),
-    ← Finset.mul_prod_erase _ _ (Finset.mem_insert_self v α.support)]
-  have : ∀ u ∈ (insert v α.support).erase v,
-      ((α + Finsupp.single v 1 : σ →₀ ℕ) u).factorial = (α u).factorial := by
-    intro u hu
-    rw [Finsupp.add_apply, Finsupp.single_apply, if_neg (Finset.ne_of_mem_erase hu).symm, add_zero]
-  rw [Finset.prod_congr rfl this, Finsupp.add_apply, Finsupp.single_eq_same, Nat.factorial_succ]
-  ring
+  apply _root_.GlobalTheory.VacuumFockLaws.multiFact_add_single <;> assumption
 
 def form0 (P Q : MvPolynomial σ ℂ) : ℂ :=
   ∑ α ∈ Q.support, (fct α : ℂ) * (star (AddMonoidAlgebra.coeff P α) * AddMonoidAlgebra.coeff Q α)
@@ -1375,22 +1359,7 @@ namespace GlobalTheory.LowestKType.DegBound
 
 theorem deg_X_mul_pderiv {σ : Type} (a b : σ) (P : MvPolynomial σ ℂ) :
     (MvPolynomial.X a * MvPolynomial.pderiv b P).totalDegree ≤ P.totalDegree := by
-  classical
-  set_option synthInstance.maxHeartbeats 100000 in
-    conv_lhs => rw [P.as_sum, map_sum, Finset.mul_sum]
-  refine (MvPolynomial.totalDegree_finsetSum _ _).trans (Finset.sup_le fun s hs => ?_)
-  rw [MvPolynomial.pderiv_monomial]
-  by_cases h : s b = 0
-  · simp [h]
-  · refine le_trans ?_ (MvPolynomial.le_totalDegree hs)
-    rw [MvPolynomial.X, MvPolynomial.monomial_mul]
-    refine (MvPolynomial.totalDegree_monomial_le _ _).trans (le_of_eq ?_)
-    have h1 : s = Finsupp.single b 1 + (s - Finsupp.single b 1) := by
-      rw [add_tsub_cancel_of_le]
-      exact Finsupp.single_le_iff.2 (Nat.one_le_iff_ne_zero.2 h)
-    conv_rhs => rw [h1]
-    rw [Finsupp.sum_add_index' (by simp) (by simp), Finsupp.sum_add_index' (by simp) (by simp)]
-    simp [Function.id_def]
+  first | exact _root_.CompanionTheory.D.LK.deg_X_pderiv | exact @_root_.CompanionTheory.D.LK.deg_X_pderiv | apply _root_.CompanionTheory.D.LK.deg_X_pderiv <;> assumption
 
 theorem deg_pderiv_X_mul {σ : Type} (a b : σ) (P : MvPolynomial σ ℂ) :
     (MvPolynomial.pderiv b (MvPolynomial.X a * P)).totalDegree ≤ P.totalDegree := by

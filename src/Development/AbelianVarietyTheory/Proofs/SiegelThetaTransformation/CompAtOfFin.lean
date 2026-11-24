@@ -39,6 +39,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.EqZeroOfAeFundamentalDomain
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.OmPureTensorOOfFinite
 
 @[expose] public section
 
@@ -74,16 +75,7 @@ theorem stdL_fg (n : ℕ) : (stdL D.host.E n).FG := by
 
 theorem compAt_of_fin (θ : InfFam D) (τ : D.what₂.Tau) (V : HSp D) (h : GA D V) (hh : h ∈ GfC V) :
     compAt θ τ (mt V h) = 1 := by
-  unfold GfC infHom at hh
-  unfold compAt
-  rw [MonoidHom.mem_ker] at hh
-  have h1 : (Formalism.L2.Theta.mt V h).map (infPart D) = 1 := by
-    have := congrArg Units.val hh
-    exact this
-  have h2 : ((Formalism.L2.Theta.mt V h).map fun a => θ τ (infPart D a)) =
-      ((Formalism.L2.Theta.mt V h).map (infPart D)).map (θ τ) := by
-    rw [Matrix.map_map]; rfl
-  rw [h2, h1, Matrix.map_one _ (map_zero _) (map_one _)]
+  apply _root_.GlobalTheory.FiniteFock.compAt_mt_of_finite <;> assumption
 
 variable {S T : HSp D}
 

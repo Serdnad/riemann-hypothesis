@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.SatakeParameters.HomLatticeVolumeCompletionSplitPlace
 public import Mathlib.RingTheory.DiscreteValuationRing.Basic
 public import Mathlib.LinearAlgebra.FreeModule.PID
 public import Formalism.DistinguishedUnitIdeals.BridgeLevelOf
@@ -167,17 +168,8 @@ lemma alg_ne (hϖ : Irreducible ϖ) (N : ℕ) : algebraMap O LL (ϖ ^ N) ≠ 0 :
 
 lemma den_one (hϖ : Irreducible ϖ) (x : LL) :
     ∃ (N : ℕ) (a : O), algebraMap O LL (ϖ ^ N) * x = algebraMap O LL a := by
-  obtain ⟨a, s, hs, rfl⟩ := IsFractionRing.div_surjective (A := O) x
-  have hs0 : s ≠ 0 := nonZeroDivisors.ne_zero hs
-  obtain ⟨N, u, rfl⟩ := IsDiscreteValuationRing.eq_unit_mul_pow_irreducible hs0 hϖ
-  refine ⟨N, ((u⁻¹ : Oˣ) : O) * a, ?_⟩
-  have h1 : algebraMap O LL ((u : O) * ϖ ^ N) ≠ 0 := by
-    rw [Ne, map_eq_zero_iff _ (IsFractionRing.injective O LL)]
-    exact hs0
-  rw [mul_div_assoc', div_eq_iff h1, ← map_mul, ← map_mul]
-  congr 1
-  calc ϖ ^ N * a = ((u⁻¹ : Oˣ) : O) * (u : O) * (ϖ ^ N * a) := by rw [Units.inv_mul, one_mul]
-    _ = _ := by ring
+  intros
+  apply _root_.GlobalTheory.VolAt.ClosureLat.exists_pow_mul_eq <;> assumption
 
 lemma den_fam (hϖ : Irreducible ϖ) {r : ℕ} (x : Fin r → LL) :
     ∃ (N : ℕ) (a : Fin r → O), ∀ k, algebraMap O LL (ϖ ^ N) * x k = algebraMap O LL (a k) := by

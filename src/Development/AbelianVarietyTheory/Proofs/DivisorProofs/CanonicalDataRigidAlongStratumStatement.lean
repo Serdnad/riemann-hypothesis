@@ -1,5 +1,7 @@
 module
 
+import all Development.AbelianVarietyTheory.Proofs.ModuliProofs.MinimalAndDimLe
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsLevelPointLiftZeroFirstCoordinate
 public import Development.AbelianVarietyTheory.Definitions.Divisors.HasRigidCoords
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.EqOfNsmulEqOfEqClosedPointDualNumbers
 public import Mathlib.Algebra.DualNumber
@@ -144,15 +146,7 @@ theorem pow_left {G : Over S} {G₀ A : Over S₀} [GrpObj G] [GrpObj G₀] [Grp
 
 theorem c_nsmul {R : Type} [CommRing R] [IsDomain R] (D : DegPre R) (y : D.X) (n : ℕ) :
     D.c (n • y) = D.c y ^ n := by
-  have hpadd : ∀ a b, D.c (a + b) = D.c a * D.c b := fun a b => by
-    rw [D.c_add, Hom.mul_def]; rfl
-  induction n with
-  | zero =>
-    have h := hpadd 0 0
-    rw [add_zero] at h
-    rw [zero_smul, pow_zero]
-    exact (mul_eq_left.1 h.symm)
-  | succ n ih => rw [succ_nsmul, hpadd, ih, pow_succ]
+  apply _root_.GlobalTheory.UCanon.LevLift.degPre_cocharPoint_nsmul_eq_pow_levelLift <;> assumption
 
 end GlobalTheory.UCanon.EpsPts
 
@@ -769,14 +763,7 @@ namespace GlobalTheory.RigHom
 
 theorem isNilpotent_ker_fst (k : Type) [Field k] :
     IsNilpotent (RingHom.ker (TrivSqZeroExt.fstHom k k k).toRingHom) := by
-  refine ⟨2, ?_⟩
-  rw [pow_two, Ideal.zero_eq_bot, eq_bot_iff]
-  refine Submodule.mul_le.2 fun a ha b hb => ?_
-  rw [RingHom.mem_ker] at ha hb
-  change a.fst = 0 at ha
-  change b.fst = 0 at hb
-  rw [Submodule.mem_bot]
-  ext <;> simp [ha, hb]
+  apply _root_.GlobalTheory.ZM.FullLevel.isNilpotent_ker_fstHom_dualNumber <;> assumption
 
 theorem mk_ker_fst_eq (k : Type) [Field k] :
     Ideal.Quotient.mk (RingHom.ker (TrivSqZeroExt.fstHom k k k).toRingHom) =

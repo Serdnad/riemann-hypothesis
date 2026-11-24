@@ -48,6 +48,7 @@ import Mathlib.Tactic.Polynomial.Basic
 import Std.Tactic.BVDecide.Normalize.Prop
 import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.CoeEqAlgebraMapZeroEquiv
 import Mathlib.Tactic.Linter.HaveILetI
+import Development.AbelianVarietyTheory.Proofs.SatakeParameters.FlatHermRootLineDegree
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AutomorphicSpectrum.Proofs.BlockDecomposition.CoverRestrictionBaseChange, Development.WeilBound.CoreStatements.PadicHodgeComparison.GoodCoverEigenspaces.CubeCechEquivalences.CechCubeBaseChange.CechHEquivCohOnCechCubeMapOver
@@ -124,27 +125,7 @@ theorem sign_erase (τ : κ → ι) {t : Finset κ} {i : κ} (hi : i ∈ t) (ht 
 theorem injOn_erase_swap (τ : κ → ι) {t : Finset κ} {a b : κ} (hab : a ≠ b)
     (hτ : τ a = τ b) (hb : b ∈ t) (hi : Set.InjOn τ (t.erase a : Finset κ)) :
     Set.InjOn τ (t.erase b : Finset κ) := by
-  intro u hu w hw e
-  simp only [Finset.coe_erase, Set.mem_diff, Finset.mem_coe, Set.mem_singleton_iff] at hu hw hi
-  have mem : ∀ c, c ∈ t → c ≠ b → (if c = a then b else c) ∈ (t : Set κ) \ {a} := by
-    intro c hc hcb
-    by_cases h : c = a
-    · simp [h, hb, hab.symm]
-    · simp [h, hc]
-  have val : ∀ c, τ (if c = a then b else c) = τ c := by
-    intro c
-    by_cases h : c = a
-    · simp [h, hτ]
-    · simp [h]
-  have := hi (by simpa using mem u hu.1 hu.2) (by simpa using mem w hw.1 hw.2)
-    (by rw [val, val, e])
-  by_cases h1 : u = a <;> by_cases h2 : w = a
-  · rw [h1, h2]
-  · simp only [h1, h2, if_true, if_false] at this
-    exact absurd this.symm hw.2
-  · simp only [h1, h2, if_true, if_false] at this
-    exact absurd this hu.2
-  · simpa [h1, h2] using this
+  apply _root_.GlobalTheory.PD.PullMap.injOn_erase_swap <;> assumption
 
 theorem sign_collision (τ : κ → ι) {t : Finset κ} {a b : κ} (ha : a ∈ t) (hb : b ∈ t) (hab : a ≠ b)
     (hτ : τ a = τ b) (hi : Set.InjOn τ (t.erase a : Finset κ)) :

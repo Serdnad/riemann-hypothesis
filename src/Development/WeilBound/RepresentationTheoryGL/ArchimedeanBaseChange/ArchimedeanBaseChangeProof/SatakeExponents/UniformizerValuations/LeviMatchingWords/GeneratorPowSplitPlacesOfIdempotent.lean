@@ -1,5 +1,7 @@
 module
 
+import Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange.ArchimedeanBaseChangeProof.IwahoriFactorisation.TwistedConjugationNorms.Development
+import Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange.ArchimedeanBaseChangeProof.IwahoriFactorisation.TwistedConjugationNorms.HilbertNinetyNorms.BlockEmbeddingSecondVal
 public import Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange.ArchimedeanBaseChangeProof.SatakeExponents.UniformizerValuations.LeviMatchingWords.SplitPlaceGeneratorPowers
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.AbsHalfBlockDetIntegralGLInvariant
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.HasCompactSupportTwistedConstantTermSplitPlace
@@ -535,27 +537,7 @@ theorem thetaGL_diagT (c : L →+* L) {n : ℕ} (u : Fin n → Lˣ) :
 
 theorem exists_diagT {n : ℕ} (g : GL (Fin n) L) (h : ∀ i j : Fin n, i ≠ j → g.val i j = 0) :
     ∃ s : Fin n → Lˣ, g = GlobalTheory.SmGL.diagT L (Fin n) s := by
-  have hne : ∀ i, g.val i i ≠ 0 := by
-    intro i h0
-    have h1 : (g.val * (g⁻¹).val) i i = 1 := by
-      rw [← Units.val_mul, mul_inv_cancel]
-      simp
-    rw [Matrix.mul_apply, Finset.sum_eq_zero] at h1
-    · exact zero_ne_one h1
-    · intro k _
-      by_cases hk : i = k
-      · subst hk
-        rw [h0, zero_mul]
-      · rw [h i k hk, zero_mul]
-  refine ⟨fun i => Units.mk0 _ (hne i), ?_⟩
-  apply Units.ext
-  rw [GlobalTheory.SmGL.val_diagT]
-  ext i j
-  by_cases hij : i = j
-  · subst hij
-    rw [Matrix.diagonal_apply_eq]
-    rfl
-  · rw [Matrix.diagonal_apply_ne _ hij, h i j hij]
+  apply _root_.PositivityTheory.Rg.Bc.ArchbcB.B.M4.Rig.exists_diagT <;> assumption
 
 end Diag
 
@@ -651,23 +633,7 @@ theorem mem_symIdx {n : ℕ} {mid : Prop} [Decidable mid] {s : Finset (Fin (n / 
 
 theorem symIdx_rev (n : ℕ) (mid : Prop) [Decidable mid] (s : Finset (Fin (n / 2))) :
     ∀ i ∈ symIdx n mid s, i.rev ∈ symIdx n mid s := by
-  intro i hi
-  have hv : i.rev.val = n - 1 - i.val := by
-    have := i.isLt
-    rw [Fin.val_rev]; omega
-  have hv' : n - 1 - i.rev.val = i.val := by
-    have := i.isLt
-    omega
-  rw [mem_symIdx] at hi ⊢
-  rcases hi with ⟨h, hs⟩ | ⟨h, hs⟩ | ⟨hm, ho, he⟩
-  · right; left
-    refine ⟨by omega, ?_⟩
-    simpa only [hv'] using hs
-  · left
-    refine ⟨by omega, ?_⟩
-    simpa only [hv] using hs
-  · right; right
-    exact ⟨hm, ho, by omega⟩
+  apply _root_.PositivityTheory.Rg.Bc.ArchbcB.B.M4.SymmetricIndexCases.symIdx_rev <;> assumption
 
 theorem symIdx_disj (n : ℕ) (m₁ m₂ : Prop) [Decidable m₁] [Decidable m₂] (s : Finset (Fin (n / 2)))
     (hm : n % 2 = 1 → ¬ (m₁ ∧ m₂)) (i : Fin n) (h₁ : i ∈ symIdx n m₁ s) (h₂ : i ∈ symIdx n m₂ sᶜ) : False := by

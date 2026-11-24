@@ -360,13 +360,7 @@ theorem hom_phiIt (i : ZMod n) (k : ℕ) (v : V) : h.f (L.phiIt i k v) = L'.phiI
   | succ k ih => rw [Formalism.ExponentWindows.E.S1.phiIt_succ, Formalism.ExponentWindows.E.S1.phiIt_succ, h.φ_comm, ih]
 
 theorem hom_pull {i : ZMod n} {k : ℕ} {v : V} (hv : v ∈ L.pull i k) : h.f v ∈ L'.pull i k := by
-  have hle : L.pull i k ≤ (L'.pull i k).comap h.f := by
-    refine Submodule.span_le.2 ?_
-    rintro _ ⟨u, hu, rfl⟩
-    show h.f (L.phiIt i k u) ∈ L'.pull i k
-    rw [hom_phiIt]
-    exact phiIt_mem_pull L' k (h.map_N i u hu)
-  exact hle hv
+  apply _root_.Formalism.ExponentWindows.E.S1.hom_pull <;> assumption
 
 theorem hom_sm {a : PowerSeries O} {S : Submodule (PowerSeries O) V}
     {S' : Submodule (PowerSeries O) V'} (hS : ∀ v ∈ S, h.f v ∈ S') {v : V} (hv : v ∈ sm a S) :

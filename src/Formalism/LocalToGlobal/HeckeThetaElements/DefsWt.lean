@@ -1,5 +1,6 @@
 module
 
+import Development.AutomorphicArithmetic.CyclotomicBounds.CyclotomicOrders.ExistsCycZPowNeOne
 public import Formalism.LocalToGlobal.HeckeThetaElements.IsHeckeElt
 import Mathlib.Algebra.Order.Star.Rat
 
@@ -150,12 +151,7 @@ theorem holEnt_kapW {R : Ranks} (h : HCParam R) (p q : ℕ) (hpq : Odd (p + q)) 
     ring
 
 theorem odd_r (R : Ranks) : Odd R.r := by
-  obtain ⟨a, ha⟩ := R.k_even
-  obtain ⟨c, hc⟩ := R.m_even
-  have hk5 := R.m_add_three_le_k
-  refine ⟨a + c - 1, ?_⟩
-  show R.k + R.m - 1 = 2 * (a + c - 1) + 1
-  omega
+  apply _root_.UpperTheory.KStar.r_odd <;> assumption
 
 theorem holOK_kapW {R : Ranks} (h : HCParam R) (p q : ℕ) (hpq : p + q = R.r) : HolOK p q (kapW h p q) := by
   have hodd : Odd (p + q) := by

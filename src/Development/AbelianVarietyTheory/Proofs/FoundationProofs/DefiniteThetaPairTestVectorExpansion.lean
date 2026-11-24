@@ -426,15 +426,7 @@ theorem Om_sum {cc : Ideal (𝓞 D.host.K)} {δ : ℂ} {N N' : ℕ} {e0 : VC D N
     (hF : ∀ i, F i ∈ TT D (tor0 D cc δ) N N') :
     (∑ i ∈ s, r i • F i) ∈ TT D (tor0 D cc δ) N N' ∧
       W.Om g g' (∑ i ∈ s, r i • F i) = ∑ i ∈ s, r i • W.Om g g' (F i) := by
-  induction s using Finset.induction_on with
-  | empty =>
-    refine ⟨by simpa using TT_zero, ?_⟩
-    have := W.smul g g' 0 0 TT_zero
-    simpa using this
-  | insert a s ha ih =>
-    rw [Finset.sum_insert ha, Finset.sum_insert ha]
-    refine ⟨TT_add (TT_smul _ (hF a)) ih.1, ?_⟩
-    rw [W.add g g' _ (TT_smul _ (hF a)) _ ih.1, W.smul g g' _ _ (hF a), ih.2]
+  apply _root_.GlobalTheory.NormSum.RatExtend.Om_sum <;> assumption
 
 theorem root_unity {ζ : ℂ} {n : ℕ} (hn : 0 < n) (h : ζ ^ n = 1) :
     ∃ u : Qbar, (u : ℂ) = ζ ∧ IsIntegral ℤ u ∧ ∀ ρ : Qbar →+* ℂ, ‖ρ u‖ = 1 := by

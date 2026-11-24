@@ -58,6 +58,7 @@ import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
 import Mathlib.RingTheory.RegularLocalRing.Defs
 import Mathlib.RingTheory.SimpleRing.Principal
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.HeckeOperatorsCommuteOnFixed
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AutomorphicSpectrum.Proofs.BlockDecomposition.SolveUnitriangular, Development.AutomorphicSpectrum.Proofs.BlockDecomposition.DoubleCosetVolumeFormula
@@ -525,46 +526,7 @@ theorem entries_of_mem_ker {N m : ℕ} {A : GL (Fin N) 𝒪[k]}
 theorem exists_mem_Km {N m : ℕ} (hm : 1 ≤ m) (B : Matrix (Fin N) (Fin N) 𝒪[k])
     (hB : ∀ i j, B i j - (1 : Matrix (Fin N) (Fin N) 𝒪[k]) i j ∈ Ideal.span {Zls.unif k ^ m}) :
     ∃ b ∈ Zls.Km k N m, (b : Matrix (Fin N) (Fin N) k) = B.map (algebraMap 𝒪[k] k) := by
-  set J : Ideal 𝒪[k] := Ideal.span {Zls.unif k ^ m} with hJ
-  have hmap : B.map (Ideal.Quotient.mk J) = 1 := by
-    ext i j
-    have := Ideal.Quotient.eq.2 (hB i j)
-    simp only [Matrix.map_apply]
-    rw [this]
-    by_cases e : i = j
-    · subst e
-      simp
-    · simp [Matrix.one_apply_ne e]
-  have hdet : Ideal.Quotient.mk J B.det = 1 := by
-    have := RingHom.map_det (Ideal.Quotient.mk J) B
-    rw [this]
-    show (B.map (Ideal.Quotient.mk J)).det = 1
-    rw [hmap, Matrix.det_one]
-  have hmem : B.det - 1 ∈ J := by
-    rw [← Ideal.Quotient.eq, hdet, map_one]
-  have hJm : J ≤ IsLocalRing.maximalIdeal 𝒪[k] := by
-    rw [hJ, Ideal.span_singleton_le_iff_mem]
-    have : Zls.unif k ∈ IsLocalRing.maximalIdeal 𝒪[k] := by
-      rw [Zls.irreducible_unif.maximalIdeal_eq]
-      exact Ideal.mem_span_singleton_self _
-    exact Ideal.pow_mem_of_mem _ this m (by omega)
-  have hunit : IsUnit B.det := by
-    by_contra hn
-    have h1 : B.det ∈ IsLocalRing.maximalIdeal 𝒪[k] := (IsLocalRing.mem_maximalIdeal _).2 hn
-    have h2 := hJm hmem
-    have h3 : (1 : 𝒪[k]) ∈ IsLocalRing.maximalIdeal 𝒪[k] := by
-      have := Ideal.sub_mem _ h1 h2
-      rwa [sub_sub_cancel] at this
-    exact (Ideal.ne_top_iff_one _).1 (IsLocalRing.maximalIdeal.isMaximal _).ne_top h3
-  let G : GL (Fin N) 𝒪[k] := Matrix.GeneralLinearGroup.mk'' B hunit
-  refine ⟨Matrix.GeneralLinearGroup.map (n := Fin N) (algebraMap 𝒪[k] k) G, ?_, ?_⟩
-  · refine ⟨G, ?_, rfl⟩
-    rw [SetLike.mem_coe, MonoidHom.mem_ker]
-    apply Units.ext
-    ext i j
-    have h := congrFun (congrFun hmap i) j
-    simpa [G, Matrix.GeneralLinearGroup.map_apply] using h
-  · rfl
+  apply _root_.GlobalTheory.CompanionTheory.HeckeOpMul.exists_mem_Km <;> assumption
 
 theorem conj_mem_Km {N m : ℕ} {p b : GL (Fin N) k} (hp : p ∈ KO k (Fin N)) (hb : b ∈ Zls.Km k N m) :
     p * b * p⁻¹ ∈ Zls.Km k N m := by

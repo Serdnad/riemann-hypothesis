@@ -1,5 +1,6 @@
 module
 
+import Formalism.SharpRestriction.AdmissibleParameterJoins.SfromGLp
 import Development.AbelianVarietyTheory.Proofs.FlagMeasures.BlockParabolicUnitriangularSubgroupsGLnPrimeFiel
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.LabelDatum
 import Mathlib.Algebra.Order.Floor.Extended
@@ -234,18 +235,7 @@ theorem card_uni {N : ℕ} (Q : Fin N × Fin N → Prop) (P : Mt g N → Prop)
 
 theorem card_lt (N : ℕ) :
     (Finset.univ.filter fun p : Fin N × Fin N => p.1 < p.2).card = N * (N - 1) / 2 := by
-  have h1 : ∀ j : Fin N, (Finset.univ.filter fun i : Fin N => i < j).card = (j : ℕ) := fun j => by
-    rw [← Fin.card_Iio j]
-    congr 1
-    ext i
-    simp
-  calc (Finset.univ.filter fun p : Fin N × Fin N => p.1 < p.2).card
-      = ∑ j : Fin N, (Finset.univ.filter fun i : Fin N => i < j).card := by
-        rw [Finset.card_filter, Fintype.sum_prod_type_right]
-        simp only [Finset.card_filter]
-    _ = ∑ j : Fin N, (j : ℕ) := Finset.sum_congr rfl fun j _ => h1 j
-    _ = ∑ i ∈ Finset.range N, i := Fin.sum_univ_eq_sum_range (fun i => i) N
-    _ = N * (N - 1) / 2 := Finset.sum_range_id N
+  apply _root_.Formalism.MainNotions.J.card_upS <;> assumption
 
 theorem card_col {N : ℕ} (s k : ℕ) (hc : s + k < N) (P : Mt g N → Prop)
     (hP : ∀ M, P M ↔ IsUniUp M ∧ ∀ a, s ≤ a → a < s + k → entN M a (s + k) = 0) :

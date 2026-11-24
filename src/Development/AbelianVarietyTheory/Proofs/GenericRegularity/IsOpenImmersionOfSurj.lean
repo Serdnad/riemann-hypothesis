@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.IsRegularRingOfIsDiscreteValuationRing
 public import Development.AbelianVarietyTheory.Definitions.RegularCharts.MatrixTwoByTwoCongr
 public import Development.AbelianVarietyTheory.Proofs.GenericRegularity.ExistsChartFiniteType
 import Mathlib.Algebra.Order.Floor.Extended
@@ -60,17 +61,8 @@ open ReciprocityTheory.ChartRestriction.G ReciprocityTheory.ChartRestriction.G.S
 
 theorem away_irreducible {O K : Type} [CommRing O] [IsDomain O] [IsDiscreteValuationRing O] [Field K] [Algebra O K]
     [IsFractionRing O K] {ϖ : O} (hϖ : Irreducible ϖ) : IsLocalization.Away ϖ K := by
-  have hi := IsFractionRing.injective O K
-  refine IsLocalization.Away.mk _ (IsUnit.mk0 _ (by simpa using hϖ.ne_zero)) (fun z => ?_)
-    (fun a b h => ⟨0, by rw [hi h]⟩)
-  obtain ⟨a, b, hb, rfl⟩ := IsFractionRing.div_surjective (A := O) z
-  obtain ⟨n, u, rfl⟩ := IsDiscreteValuationRing.eq_unit_mul_pow_irreducible (nonZeroDivisors.ne_zero hb) hϖ
-  refine ⟨n, a * ↑u⁻¹, ?_⟩
-  have h1 : algebraMap O K ϖ ≠ 0 := by simpa using hϖ.ne_zero
-  have h2 : algebraMap O K u * algebraMap O K ↑u⁻¹ = 1 := by rw [← map_mul]; simp
-  have h3 : algebraMap O K u ≠ 0 := left_ne_zero_of_mul_eq_one h2
-  rw [map_mul, map_mul, map_pow, eq_inv_of_mul_eq_one_right h2]
-  field_simp
+  intros
+  apply _root_.GlobalTheory.ExtendRig.isLocalization_away_of_irreducible <;> assumption
 
 theorem exists_finset_basicOpen {A : Type} [CommRing A] [IsNoetherianRing A] (V : Set (PrimeSpectrum A))
     (hV : IsOpen V) (hne : V.Nonempty) :

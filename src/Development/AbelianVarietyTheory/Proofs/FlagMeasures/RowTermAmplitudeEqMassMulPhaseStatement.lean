@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.FlagMeasures.MovedTermLatticeIsLocalTermAtPlaceStatement
 public import Formalism.LocalToGlobal.SiegelLatticeTheory.CokernelGLCounts.RowsConc
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.RatLinkPoints
 public import Formalism.LocalToGlobal.SiegelLatticeTheory.ClosedLocalOrbits.GaugeLatticeShifts.CharacterFixedPoints
@@ -278,28 +279,7 @@ theorem gval_of_movesTo {D : D7} {T T' : D.host.E} {F00 F : LFlag (D.sp.Y 0) D.R
     {F'0 F' : LFlag (D.sp.Y 0) D.R.rS T'} {ρ : (VS D).V ≃ₗ[D.host.E] (VS D).V}
     {U U' : Matrix (Fin (D.R.rS + 1)) (Fin (D.R.rS + 1)) D.host.E}
     (h : MovesTo F00 F'0 F F' ρ U U') : Gval F F' = Gval F00 F'0 := by
-  obtain ⟨hρ, hU, hU', hF, hF'⟩ := h
-  have hZ : ZhatL F F' = U.conjTranspose * ZhatL F00 F'0 * U' := by
-    ext a b
-    have e1 : ZhatL F F' a b = (VS D).hT (ρ (frame F a)) (ρ (frame F' b)) := by
-      rw [hρ]; rfl
-    have hz : ∀ c d, ZhatL F00 F'0 c d = (VS D).hT (frame F00 c) (frame F'0 d) := fun _ _ => rfl
-    rw [e1, hF a, hF' b]
-
-    simp only [Matrix.mul_apply, hz, map_sum, map_smulₛₗ, LinearMap.sum_apply, LinearMap.smul_apply,
-    smul_eq_mul, Matrix.conjTranspose_apply, starRingEnd_apply, Finset.sum_mul, Finset.mul_sum]
-    simp only [RingHom.id_apply]
-    refine Finset.sum_congr rfl (fun _ _ => Finset.sum_congr rfl (fun _ _ => ?_))
-    ring
-  have hD : ∀ l, Dl F.fl F'.fl l = Dl F00.fl F'0.fl l := by
-    intro l
-    have := Formalism.L2.SG.Pf.leadMinor_uni U.conjTranspose (ZhatL F00 F'0) U'
-      (fun a c hac => by simp [Matrix.conjTranspose_apply, (hU c a).1 hac])
-      (fun a => by simp [Matrix.conjTranspose_apply, (hU a a).2 rfl])
-      (fun d b hbd => (hU' d b).1 hbd) (fun b => (hU' b b).2 rfl) l
-    rw [← hZ] at this
-    exact this
-  simp only [Gval, Gflag, hD]
+  first | exact _root_.GlobalTheory.HL.gval_eq_of_movesTo | exact @_root_.GlobalTheory.HL.gval_eq_of_movesTo | apply _root_.GlobalTheory.HL.gval_eq_of_movesTo <;> assumption
 
 theorem G_eq_gval {D : D7} {X : HidaSetting D} {Y : Full X} {u u' : D.what₂.Word} (t : TauC Y u u') :
     t.G = Gval (lf D (X.Fu u)) t.frame :=

@@ -1,5 +1,6 @@
 module
 
+import GroundTheory.TateCohomology.HerbrandAbstract
 public import Mathlib.Algebra.Exact.Basic
 public import Mathlib.SetTheory.Cardinal.Finite
 import Mathlib.Algebra.Order.Star.Rat
@@ -258,28 +259,6 @@ theorem isFin_of_finite [Finite M] (D N : M →+ M) : IsFin D N := ⟨inferInsta
 
 theorem q_of_finite [Finite M] (D N : M →+ M) (hDN : ∀ x, D (N x) = 0) (hND : ∀ x, N (D x) = 0) :
     q D N = 1 := by
-  have h1 : Nat.card D.ker = Nat.card (T D N) * Nat.card N.range := by
-    rw [AddSubgroup.card_eq_card_quotient_mul_card_addSubgroup (N.range.addSubgroupOf D.ker)]
-    congr 1
-    exact Nat.card_congr (AddSubgroup.addSubgroupOfEquivOfLe (by
-      rintro _ ⟨x, rfl⟩; exact hDN x)).toEquiv
-  have h2 : Nat.card N.ker = Nat.card (T N D) * Nat.card D.range := by
-    rw [AddSubgroup.card_eq_card_quotient_mul_card_addSubgroup (D.range.addSubgroupOf N.ker)]
-    congr 1
-    exact Nat.card_congr (AddSubgroup.addSubgroupOfEquivOfLe (by
-      rintro _ ⟨x, rfl⟩; exact hND x)).toEquiv
-  have h3 := card_eq_ker_mul_range D
-  have h4 := card_eq_ker_mul_range N
-  rw [h1] at h3
-  rw [h2] at h4
-  have h5 : Nat.card (T D N) * (Nat.card N.range * Nat.card D.range) =
-      Nat.card (T N D) * (Nat.card N.range * Nat.card D.range) := by
-    calc _ = Nat.card M := by rw [h3]; ring
-      _ = _ := by rw [h4]; ring
-  have h6 : Nat.card (T D N) = Nat.card (T N D) :=
-    Nat.eq_of_mul_eq_mul_right (Nat.mul_pos Nat.card_pos Nat.card_pos) h5
-  unfold q
-  rw [h6]
-  exact div_self (Nat.cast_ne_zero.2 Nat.card_pos.ne')
+  apply _root_.GroundTheory.GroupCoh.herbrandQuotient_eq_one_of_finite <;> assumption
 
 end ReciprocityTheory.DiscreteGroups.LocalClassField.Herbrand

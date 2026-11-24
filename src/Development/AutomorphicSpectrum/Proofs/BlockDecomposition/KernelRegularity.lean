@@ -1,5 +1,7 @@
 module
 
+
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.KernelAdjointRegularStatement
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.FactorRapid
 public import Mathlib.Analysis.SpecialFunctions.SmoothTransition
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.FunctionalCalculusFirstAssumption
@@ -54,7 +56,6 @@ import Mathlib.Topology.Algebra.Group.Units
 import Mathlib.Topology.Compactness.Paracompact
 import Mathlib.Topology.UniformSpace.Uniformizable
 import Std.Tactic.BVDecide.Normalize.Prop
-
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AutomorphicSpectrum.Proofs.BlockDecomposition.EigenvalueAdjointFacts, Development.AutomorphicSpectrum.Proofs.BlockDecomposition.KernelActionFormula, Development.AutomorphicSpectrum.Proofs.BlockDecomposition.KernelAdjointSmooth, Development.AutomorphicSpectrum.Proofs.BlockDecomposition.KernelRowExists, Development.AutomorphicSpectrum.Proofs.BlockDecomposition.KernelRowLeftInvariant, Development.AutomorphicSpectrum.Proofs.BlockDecomposition.KernelRowMatrix, Development.AutomorphicSpectrum.Proofs.BlockDecomposition.KernelRowSupport, Development.AutomorphicSpectrum.Proofs.BlockDecomposition.LeftTranslateCommutes, Development.AutomorphicSpectrum.Proofs.BlockDecomposition.LeftTranslateSobolev, Development.AutomorphicSpectrum.Proofs.BlockDecomposition.PhiResolventIdentity, Development.AutomorphicSpectrum.Proofs.BlockDecomposition.RapidFactorization, Development.AutomorphicSpectrum.Proofs.BlockDecomposition.WaveIntegralIdentity, Development.AutomorphicSpectrum.Proofs.BlockDecomposition.WaveRepresentation, Development.AutomorphicSpectrum.Proofs.BlockDecomposition.WaveUniqueness, Development.AutomorphicSpectrum.Proofs.BlockDecomposition.KernelRegularity
 
@@ -403,11 +404,7 @@ theorem inner_cls {n : ℕ} [MeasurableSpace (G n)] (μ : Measure (G n)) {V : Ty
     [InnerProductSpace ℂ V] (f g : Mat n → V) (hf : MemLp (fun y : G n => f y.val) 2 μ)
     (hg : MemLp (fun y : G n => g y.val) 2 μ) :
     ⟪cls μ f, cls μ g⟫_ℂ = ∫ y : G n, ⟪f y.val, g y.val⟫_ℂ ∂μ := by
-  unfold cls
-  rw [dite_eq_left hf, dite_eq_left hg, L2.inner_def]
-  refine integral_congr_ae ?_
-  filter_upwards [hf.coeFn_toLp, hg.coeFn_toLp] with y h1 h2
-  rw [h1, h2]
+  apply _root_.GlobalTheory.CompanionTheory.KerFc.inner_cls_eq <;> assumption
 
 theorem inner_cls_lTr {n : ℕ} [MeasurableSpace (G n)] [BorelSpace (G n)] (μ : Measure (G n)) [μ.IsHaarMeasure]
     {V : Type} [NormedAddCommGroup V] [InnerProductSpace ℂ V] (x : G n) (f g : Mat n → V)
@@ -1118,14 +1115,7 @@ theorem cls_inner {n : ℕ} [MeasurableSpace (G n)] (μ : Measure (G n)) {V : Ty
     [InnerProductSpace ℂ V] {f f' : Mat n → V} (hf : MemLp (fun y : G n => f y.val) 2 μ)
     (hf' : MemLp (fun y : G n => f' y.val) 2 μ) :
     ⟪cls μ f, cls μ f'⟫_ℂ = ∫ y : G n, ⟪f y.val, f' y.val⟫_ℂ ∂μ := by
-  have e1 : cls μ f = hf.toLp _ := by
-    unfold cls; exact dif_pos hf
-  have e2 : cls μ f' = hf'.toLp _ := by
-    unfold cls; exact dif_pos hf'
-  rw [e1, e2, L2.inner_def]
-  apply integral_congr_ae
-  filter_upwards [hf.coeFn_toLp, hf'.coeFn_toLp] with y h1 h2
-  rw [h1, h2]
+  apply _root_.GlobalTheory.CompanionTheory.KerFc.inner_cls_eq <;> assumption
 
 theorem bump_complex {g : ℝ → ℝ} {T₀ : ℝ} (hg : IsBump g T₀) :
     Continuous (fun t => (g t : ℂ)) ∧ HasCompactSupport (fun t => (g t : ℂ)) := by
@@ -1571,20 +1561,7 @@ theorem coe_toC0 {f : ℝ → ℂ} (h₁ : Continuous f) (h₂ : Tendsto f (coco
 
 theorem adj_rho {n : ℕ} (E : KMod n) [CompleteSpace E.V] (k : Matrix.unitaryGroup (Fin n) ℂ) :
     ContinuousLinearMap.adjoint (E.ρ k⁻¹) = E.ρ k := by
-  have hmul : ∀ v, E.ρ k (E.ρ k⁻¹ v) = v := fun v => by
-    have := congrArg (fun L : E.V →L[ℂ] E.V => L v) (E.ρ.map_mul k k⁻¹)
-    simpa using this.symm
-  have hmul' : ∀ v, E.ρ k⁻¹ (E.ρ k v) = v := fun v => by
-    have := congrArg (fun L : E.V →L[ℂ] E.V => L v) (E.ρ.map_mul k⁻¹ k)
-    simpa using this.symm
-  let I : E.V →ₗᵢ[ℂ] E.V := ⟨(E.ρ k).toLinearMap, fun v => E.iso k v⟩
-  ext v
-  refine ext_inner_right ℂ fun w => ?_
-  rw [ContinuousLinearMap.adjoint_inner_left]
-  have := I.inner_map_map v (E.ρ k⁻¹ w)
-  have e : ∀ z, I z = E.ρ k z := fun _ => rfl
-  rw [e, e, hmul] at this
-  exact this.symm
+  apply _root_.GlobalTheory.CompanionTheory.WaveMult.adjoint_rho_inv <;> assumption
 
 theorem kerCore_of (hFR : RowExists) (hRM : RowMatrix) (hAS : AdjSmooth) (hRL : RowLeft) (hAF : ActFormula)
     (hWR : WaveRep) (hWU : WaveUniq) (hPR : PhiRes) (hWI : WaveInt) (hSR : SupportRow) : KerCore := by

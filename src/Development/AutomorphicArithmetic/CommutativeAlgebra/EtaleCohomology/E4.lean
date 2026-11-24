@@ -1,5 +1,7 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.RingKrullDimLeOfQuasiFinite
+import GroundTheory.HeightsAndTheta.Heights.IntegralModels.PDominatingDVRScheme
 public import Development.EtaleCohomology.EtaleSheaves.LeafPairRelPf
 public import Development.EtaleCohomology.EtaleSheaves.LeafDescendMapPf
 public import Mathlib.AlgebraicGeometry.AffineTransitionLimit
@@ -340,15 +342,7 @@ namespace LateralTheory.E.LeafDimBoundPf
 
 theorem dim_le_of_quasiFinite (A S : Type) [CommRing A] [CommRing S] [Algebra A S]
     [Algebra.QuasiFinite A S] : ringKrullDim S ≤ ringKrullDim A := by
-  refine Order.krullDim_le_of_strictMono (PrimeSpectrum.comap (algebraMap A S)) ?_
-  intro P Q hPQ
-  have hle : P.asIdeal ≤ Q.asIdeal := hPQ.le
-  refine lt_of_le_of_ne (fun x hx => hle hx) ?_
-  intro h
-  apply hPQ.ne
-  have := Algebra.QuasiFinite.eq_of_le_of_under_eq (R := A) P.asIdeal Q.asIdeal hle
-    (congrArg PrimeSpectrum.asIdeal h)
-  exact PrimeSpectrum.ext this
+  apply @GlobalTheory.AffineCover.ringKrullDim_le_of_quasiFinite <;> assumption
 
 theorem dim_le_of_stdSmooth1 (R S : Type) [CommRing R] [CommRing S] [Algebra R S] [IsNoetherianRing R]
     [Algebra.IsStandardSmoothOfRelativeDimension 1 R S] : ringKrullDim S ≤ ringKrullDim R + 1 := by
@@ -1359,15 +1353,7 @@ theorem coheight_le_topDim {X : Scheme.{0}} (x : X) :
 
 theorem stalk_not_isField {X : Scheme.{0}} [IsIntegral X] (y : X) (hy : y ≠ genericPoint X) :
     ¬ IsField (X.presheaf.stalk y) := by
-  intro hF
-  let := hF.toField
-  have h0 : ringKrullDim (X.presheaf.stalk y) = 0 := ringKrullDim_eq_zero_of_field _
-  rw [ringKrullDim_stalk_eq_coheight] at h0
-  have hc : coheight y = 0 := by exact_mod_cast h0
-  rw [coheight_eq_zero] at hc
-  have h1 : y ≤ genericPoint X := genericPoint_specializes y
-  have h2 : genericPoint X ≤ y := hc h1
-  exact hy (Specializes.antisymm (h2 : y ⤳ genericPoint X) (h1 : genericPoint X ⤳ y)).eq
+  apply @GroundTheory.Heights₂.Heights.Model.not_isField_stalk_of_ne_genericPoint <;> assumption
 
 theorem stalk_dvr {X : Scheme.{0}} [IsIntegral X] [IsLocallyNoetherian X] (y : X)
     (hn : IsIntegrallyClosed (X.presheaf.stalk y)) (hd : topologicalKrullDim X = 1)

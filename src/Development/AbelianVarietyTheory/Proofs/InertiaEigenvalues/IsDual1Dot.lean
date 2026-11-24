@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ContinuousLoc
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.CentralIdemCoeff
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.LocChiEpsU
 public import Formalism.SharpRestriction.LevelLetterCocycles.DataNLoc
@@ -73,17 +74,7 @@ theorem isDual1_dot {G : Type} [Group G] {Qp K₀ K : Type} [Field Qp] [Field K�
     {LL : Type} [Field LL] [Algebra Qp LL] {k : ℕ} (T U : G →* Matrix (Fin k) (Fin k) LL)
     (hU : ∀ g, U g = ((cycLL PD LL g : LLˣ) : LL) • (T g⁻¹).transpose) :
     IsDual1 PD (matRep T) (matRep U) (dotProductBilin LL LL) := by
-  refine ⟨fun g x y => ?_, fun x hx => ?_, fun y hy => ?_, rfl⟩
-  · change (T g).mulVec x ⬝ᵥ ((U g).mulVec y) = ((cycLL PD LL g : LLˣ) : LL) * (x ⬝ᵥ y)
-    rw [hU, Matrix.smul_mulVec, dotProduct_smul, smul_eq_mul, Matrix.mulVec_transpose,
-      dotProduct_comm, ← Matrix.dotProduct_mulVec, Matrix.mulVec_mulVec, ← map_mul,
-      inv_mul_cancel, map_one, Matrix.one_mulVec, dotProduct_comm]
-  · funext i
-    have := hx (Pi.single i 1)
-    simpa using this
-  · funext i
-    have := hy (Pi.single i 1)
-    simpa using this
+  apply _root_.GlobalTheory.PotDual.isDual1_of_eq <;> assumption
 
 theorem loc_cont (D : D7) (i : D.nd.Loc) (w : HeightOneSpectrum (𝓞 D.host.E))
     (hw : w ∈ placesOver D.host.E (D.nd.l i)) {k : ℕ} (M : GE D.nd →* Matrix (Fin k) (Fin k) (D.nd.O i))

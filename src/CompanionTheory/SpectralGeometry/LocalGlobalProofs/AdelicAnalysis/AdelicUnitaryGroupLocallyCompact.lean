@@ -3,6 +3,7 @@ module
 public import CompanionTheory.SpectralGeometry.CountingDefinitions.AdelicEulerProducts.IsEulerProd
 public import CompanionTheory.SpectralGeometry.LocalGlobalProofs.AdelicAnalysis.TensorLocallyCompactRing
 public import Mathlib.Topology.Algebra.Group.Units
+import CompanionTheory.SpectralGeometry.LocalGlobalProofs.AdelicAnalysis.ExistsTraceFormGramMatrixInBasis
 
 @[expose] public section
 
@@ -16,18 +17,7 @@ open scoped TensorProduct ENNReal NNReal Matrix
 theorem hform_mulVec {A : Type} [CommRing A] {m : ℕ} (σ : A →+* A) (J g : Matrix (Fin m) (Fin m) A)
     (hg : cT σ g * J * g = J) (x y : Fin m → A) :
     hform σ J (g *ᵥ x) (g *ᵥ y) = hform σ J x y := by
-  have key : ∀ x y : Fin m → A, hform σ J x y = (fun i => σ (x i)) ⬝ᵥ (J *ᵥ y) := by
-    intro x y
-    simp [hform, dotProduct, Matrix.mulVec, Finset.mul_sum, mul_assoc]
-  have hs : (fun i => σ ((g *ᵥ x) i)) = (g.map σ) *ᵥ (fun i => σ (x i)) := by
-    funext i
-
-    simp [Matrix.mulVec, dotProduct, map_sum, map_mul]
-  rw [key, key, hs]
-  conv_lhs => rw [dotProduct_comm, Matrix.dotProduct_mulVec, ← Matrix.mulVec_transpose, dotProduct_comm]
-  congr 1
-  change cT σ g *ᵥ (J *ᵥ (g *ᵥ y)) = J *ᵥ y
-  rw [Matrix.mulVec_mulVec, Matrix.mulVec_mulVec, hg]
+  apply _root_.GlobalTheory.CompanionTheory.SW.TraceCoord.hform_mulVec <;> assumption
 
 section
 

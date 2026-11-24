@@ -1,5 +1,6 @@
 module
 
+import Formalism.LocalRingCardinality.IntCastDvdOfDvdIntegers
 public import Formalism.SharpRestriction.GlobalSchurBounds.StandardLattice
 public import Development.AbelianVarietyTheory.BlockTheory.TorsionBlocks.SplitColumnClasses
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsIrreducible
@@ -139,50 +140,7 @@ theorem splitsF_of_splitsCompletely (D : D7) {p : ℕ} (h : SplitsCompletely D.h
 
 theorem levelPrime_mod (D : D7) (u : D.what₂.Word) :
     (D.mem u).A.T % (D.host.QS * D.host.q * D.host.d) = 1 := by
-  obtain ⟨π, -, hn, hm⟩ := D.T_norm u
-  obtain ⟨a, ha⟩ := Ideal.mem_span_singleton'.1 hm
-  have hq8 : D.host.q % 8 = 3 := D.host.hyp.2.2.1
-  have hd16 : D.host.d % 16 = 7 := D.host.hyp.2.2.2.1
-  have hn0 : 1 ≤ D.host.QS := D.host.QS_pos
-  obtain ⟨M, hM⟩ : ∃ M : ℕ, M = D.host.QS * D.host.q * D.host.d := ⟨_, rfl⟩
-  have hM1 : 1 < M := by
-    have h1 : 1 * 3 * 7 ≤ D.host.QS * D.host.q * D.host.d :=
-      Nat.mul_le_mul (Nat.mul_le_mul hn0 (by omega)) (by omega)
-    omega
-  rw [← hM] at ha ⊢
-  obtain ⟨G, hG⟩ : ∃ G : ℕ, G = (D.host.g 0 * D.host.g 1) ^ 2 := ⟨_, rfl⟩
-  rw [← hG] at ha
-  set y : D.host.E := (a : D.host.E) * G with hy
-  have hyi : IsIntegral ℤ y := (RingOfIntegers.isIntegral_coe a).mul (isIntegral_natCast G)
-  have hπ : (π : D.host.E) = 1 + M * y := by
-    have := congrArg (fun z : 𝓞 D.host.E => (z : D.host.E)) ha
-    simp only [map_mul, map_sub, map_one, map_natCast] at this
-    rw [hy]
-    push_cast at this ⊢
-    linear_combination -this
-  have hci : IsIntegral ℤ (D.conjF y) := hyi.map (D.conjF.toRingHom.toIntAlgHom)
-  rw [← D.conjF_eq, hπ, map_add (f := _), map_mul, map_one, map_natCast] at hn
-  set z : D.host.E := y + D.conjF y + M * (y * D.conjF y) with hz
-  have hzi : IsIntegral ℤ z :=
-    (hyi.add hci).add ((isIntegral_natCast (R := ℤ) (B := D.host.E) M).mul (hyi.mul hci))
-  have hM0 : (M : ℚ) ≠ 0 := by exact_mod_cast (by omega : M ≠ 0)
-  have h4 : z = algebraMap ℚ D.host.E ((((D.mem u).A.T : ℚ) - 1) / M) := by
-    have hM0' : (M : D.host.E) ≠ 0 := by exact_mod_cast (by omega : M ≠ 0)
-    rw [map_div₀, map_sub, map_one, map_natCast, map_natCast, eq_div_iff hM0', hz]
-    linear_combination hn
-  rw [h4, isIntegral_algebraMap_iff ] at hzi
-  obtain ⟨n, hn'⟩ := IsIntegrallyClosed.isIntegral_iff.1 hzi
-  have h5 : (((D.mem u).A.T : ℤ) : ℚ) = ((1 + M * n : ℤ) : ℚ) := by
-    have : (n : ℚ) = (((D.mem u).A.T : ℚ) - 1) / M := by simpa using hn'
-    push_cast
-    rw [this]
-    field_simp
-    ring
-  have h6 : ((D.mem u).A.T : ℤ) = 1 + M * n := by exact_mod_cast h5
-  have h7 : (((D.mem u).A.T % M : ℕ) : ℤ) = 1 := by
-    rw [Int.natCast_mod, h6, Int.add_mul_emod_self_left]
-    exact Int.emod_eq_of_lt (by norm_num) (by exact_mod_cast hM1)
-  exact_mod_cast h7
+  first | exact _root_.Formalism.BasicNotions.D7.T_mod_cond | exact @_root_.Formalism.BasicNotions.D7.T_mod_cond | apply _root_.Formalism.BasicNotions.D7.T_mod_cond <;> assumption
 
 theorem levelPrime_splitsCompletely_in_cmField (D : D7) (u : D.what₂.Word) : SplitsCompletely D.host.E (D.mem u).A.T :=
   ⟨(D.mem u).A.T_prime,

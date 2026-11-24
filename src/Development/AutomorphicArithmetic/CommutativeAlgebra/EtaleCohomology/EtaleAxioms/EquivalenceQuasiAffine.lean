@@ -1,5 +1,7 @@
 module
 
+import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.IsZeroFreeSchOfIsEmpty
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LocIndEtaleIsDomainIsIntegrallyClosed
 public import Development.AbelianVarietyTheory.Definitions.Divisors.GalMapMul
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsAlgClosedFractionRing
 public import Mathlib.RingTheory.Smooth.IntegralClosure
@@ -92,26 +94,7 @@ open TensorProduct Polynomial
 
 private theorem isIntegrallyClosed_of_AIC (T : Type) [CommRing T] [IsDomain T]
     (hT : GlobalTheory.EtC.AIC T) : IsIntegrallyClosed T := by
-  rw [isIntegrallyClosed_iff (FractionRing T)]
-  intro x hx
-  obtain ⟨p, hp, hpx⟩ := hx
-  induction h : p.natDegree using Nat.strong_induction_on generalizing p with
-  | _ d ih =>
-    rcases Nat.eq_zero_or_pos d with h0 | hpos
-    · subst h0
-      have h1 : p = 1 := hp.natDegree_eq_zero.1 h
-      simp [h1] at hpx
-    · obtain ⟨a, ha⟩ := hT p hp (h ▸ hpos)
-      obtain ⟨q, hq⟩ := dvd_iff_isRoot.2 ha
-      have hqm : q.Monic := (monic_X_sub_C a).of_mul_monic_left (hq ▸ hp)
-      have hdeg : p.natDegree = 1 + q.natDegree := by
-        rw [hq, (monic_X_sub_C a).natDegree_mul hqm, natDegree_X_sub_C]
-      rw [hq, eval₂_mul] at hpx
-      rcases mul_eq_zero.1 hpx with h1 | h1
-      · refine ⟨a, ?_⟩
-        simp only [eval₂_sub, eval₂_X, eval₂_C] at h1
-        exact (sub_eq_zero.1 h1).symm
-      · exact ih q.natDegree (by omega) q hqm h1 rfl
+  apply _root_.GlobalTheory.LocIndEtale.isIntegrallyClosed_of_forall_monic_root <;> assumption
 
 private theorem exists_of_idem (T C : Type) [CommRing T] [IsDomain T] [IsIntegrallyClosed T]
     [CommRing C] [Algebra T C] [Algebra.Etale T C] (z : C ⊗[T] FractionRing T) (hz : z * z = z) :
@@ -348,15 +331,7 @@ theorem sec_subsingleton {R : Type} [CommRing R] (G : Shv R) (X : Scheme.{0}) [I
 
 theorem free_isZero {R : Type} [CommRing R] (X : Scheme.{0}) [IsEmpty X] :
     IsZero ((free R).obj (yoneda.obj X)) := by
-  rw [IsZero.iff_id_eq_zero]
-  apply ((sheafificationAdjunction Scheme.etaleTopology _).homEquiv _ _).injective
-  ext U x
-  rcases isEmpty_or_nonempty U.unop with hU | hU
-  · have := sec_subsingleton (R := R) ((free R).obj (yoneda.obj X)) U.unop
-    exact @Subsingleton.elim _ this _ _
-  · have : IsEmpty ((yoneda.obj X).obj U) := ⟨fun (f : U.unop ⟶ X) => IsEmpty.false (f.base (Classical.arbitrary U.unop))⟩
-    have hx : x = 0 := Subsingleton.elim (α := ULift.{1} ((yoneda.obj X).obj U) →₀ ULift.{1} R) x 0
-    rw [hx, map_zero, map_zero]
+  apply _root_.GlobalTheory.EtC.Tr.isZero_freeSch_of_isEmpty <;> assumption
 
 theorem chains_X_isZero {R : Type} [CommRing R] (X : Scheme.{0}) [IsEmpty X] (m : ℤ) :
     IsZero (((chains R).obj (sch.obj X)).X m) := by
@@ -1351,16 +1326,8 @@ open CategoryTheory Limits AlgebraicGeometry Opposite GlobalTheory.EtC LateralTh
 namespace LateralTheory.E.Deg0Pf
 
 theorem exists_prim (q : ℕ) [NeZero q] (S : Type) [CommRing S] (hA : AIC S) (hq : IsUnit (q : S)) :
-    Nonempty (Prim q S) := by
-  obtain ⟨z, hz⟩ : ∃ z : S, (Polynomial.cyclotomic q S).eval z = 0 := by
-    rcases subsingleton_or_nontrivial S with hs | hs
-    · exact ⟨0, Subsingleton.elim _ _⟩
-    · exact hA _ (Polynomial.cyclotomic.monic q S) (by
-        rw [Polynomial.natDegree_cyclotomic]
-        exact Nat.totient_pos.2 (Nat.pos_of_ne_zero (NeZero.ne q)))
-  refine ⟨⟨z, hq, ?_⟩⟩
-  rw [Polynomial.aeval_def, Polynomial.eval₂_eq_eval_map, Polynomial.map_cyclotomic]
-  exact hz
+    Nonempty (Prim q S) :=
+  _root_.LateralTheory.E.EqvQAPf.prim_of_aic q S hA hq
 
 theorem prim_map_comp {q : ℕ} {A B C : Type} [CommRing A] [CommRing B] [CommRing C] (f : A →+* B) (g : B →+* C)
     (ζ : Prim q A) : (ζ.map f).map g = ζ.map (g.comp f) := rfl

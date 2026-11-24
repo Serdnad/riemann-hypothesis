@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsUniqueSelfDualHaarMeasureInfiniteAdeles
 public import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.CovolOneIntegralAdd
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.HeisOApplyZero
 public import Development.AbelianVarietyTheory.Proofs.HeightProofs.EmbeddingXiZeroNeZero
@@ -178,30 +179,8 @@ end Ring
 theorem eq_zero_of_trace_mul {F E R : Type} [Field F] [Field E] [Algebra F E] [FiniteDimensional F E]
     [Algebra.IsSeparable F E] [CommRing R] [Algebra F R] (z : R ⊗[F] E)
     (h : ∀ w, Algebra.trace R (R ⊗[F] E) (z * w) = 0) : z = 0 := by
-  classical
-  let b := Module.finBasis F E
-  let b' := (Algebra.traceForm F E).dualBasis (traceForm_nondegenerate F E) b
-  have tr : ∀ (a : R) (e : E), Algebra.trace R (R ⊗[F] E) (a ⊗ₜ[F] e) = a * algebraMap F R (Algebra.trace F E e) := by
-    intro a e
-    have h1 : (a ⊗ₜ[F] e : R ⊗[F] E) = a • ((1 : R) ⊗ₜ[F] e) := by
-      rw [TensorProduct.smul_tmul', smul_eq_mul, mul_one]
-    rw [h1, map_smul, smul_eq_mul]
-    congr 1
-    rw [Algebra.trace_apply, Algebra.trace_apply, ← LinearMap.trace_baseChange]
-    congr 1
-    ext x
-    simp
-  have key : ∀ (k) (z : R ⊗[F] E), (Algebra.TensorProduct.basis R b').repr z k =
-      Algebra.trace R (R ⊗[F] E) (z * (1 : R) ⊗ₜ[F] b k) := by
-    intro k z
-    induction z using TensorProduct.induction_on with
-    | zero => simp
-    | add x y hx hy => simp only [map_add (f := _), Finsupp.add_apply, hx, hy, add_mul]
-    | tmul a e =>
-      rw [Algebra.TensorProduct.tmul_mul_tmul, tr, Algebra.TensorProduct.basis_repr_tmul]
-      simp [b', LinearMap.BilinForm.dualBasis_repr_apply, Algebra.traceForm_apply]
-  refine (Algebra.TensorProduct.basis R b').ext_elem fun k => ?_
-  rw [key, h]; simp
+  intros
+  apply _root_.GlobalTheory.GaugeEx.SdInf.trace_nondeg <;> assumption
 
 theorem trace_single_mul' {R : Type} [CommRing R] {a b : ℕ} (i : Fin a) (j : Fin b) (w : R)
     (u : Matrix (Fin a) (Fin b) R) : (Matrix.single j i w * u).trace = u i j * w := by

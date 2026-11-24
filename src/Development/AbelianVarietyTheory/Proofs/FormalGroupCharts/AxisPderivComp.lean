@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.ConstantCoeffEv
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.TaylorDiscriminants.WickVanishing.GaugeTrans
 public import Development.AbelianVarietyTheory.Proofs.CovolumeBounds.NatCastMulCoeffOfPderivEq
 import Mathlib.Algebra.Order.Floor.Extended
@@ -80,17 +81,7 @@ theorem vec1 {m n : ℕ} (V : Fin m → Pt k n d) (a : Pt k m d) :
   funext j; fin_cases j; rfl
 
 theorem ev_at_zero {n : ℕ} (f : PS k 1 d) : ev ![(0 : Pt k n d)] f = C (constantCoeff f) := by
-  have e : f = C (constantCoeff f) + (f - C (constantCoeff f)) := by ring
-  have h0 : constantCoeff (f - C (constantCoeff f)) = 0 := by simp
-  conv_lhs => rw [e]
-  rw [gt_ev_add _ (single_point_zero_constant gp_zero₂), ev_C]
-  have h2 : ev ![(0 : Pt k n d)] (f - C (constantCoeff f)) = 0 := by
-    change MvPowerSeries.subst (fun p : Fin 1 × Fin d => (![(0 : Pt k n d)] p.1) p.2) _ = 0
-    have e : (fun p : Fin 1 × Fin d => (![(0 : Pt k n d)] p.1) p.2) = 0 := by
-      funext p; simp
-    rw [e]
-    exact MvPowerSeries.subst_zero_of_constantCoeff_zero h0
-  rw [h2, add_zero]
+  first | exact _root_.GlobalTheory.GaugeAdjoint.ev_origin | exact @_root_.GlobalTheory.GaugeAdjoint.ev_origin | apply _root_.GlobalTheory.GaugeAdjoint.ev_origin <;> assumption
 
 theorem axis_GP : ∀ j, GP ((![pt k (n := 1) d 0, 0] : Fin 2 → Pt k 1 d) j) :=
   pair_points_zero_constant (gp_pt 0) gp_zero₂

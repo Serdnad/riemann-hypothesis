@@ -41,6 +41,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Sheaves.Init
+import Formalism.SharpRestriction.CuspSpanNormBounds.BruhatCellsKronecker.FamilyPacketOfEquivalentStatement
 
 @[expose] public section
 
@@ -244,17 +245,7 @@ variable {D : D7} {X : HidaSetting D}
 
 theorem frameExp_cast (r l : ℕ) (hl : l ≤ r + 1) :
     (frameExp r l : ℝ) = ∑ i : Fin l, ((r : ℝ) - (i : ℕ)) := by
-  induction l with
-  | zero => simp [frameExp]
-  | succ l ih =>
-    rw [Fin.sum_univ_castSucc]
-    simp only [Fin.coe_castSucc, Fin.val_last]
-    rw [← ih (by omega)]
-    unfold frameExp
-    rw [show Finset.Icc 1 (l + 1) = Finset.Ioc 0 (l + 1) from Finset.val_inj.mp rfl,
-      show Finset.Icc 1 l = Finset.Ioc 0 l from Finset.val_inj.mp rfl, Finset.sum_Ioc_succ_top (Nat.zero_le l)]
-    push_cast
-    rw [Nat.cast_sub (by omega)]
+  apply _root_.Formalism.MainNotions.BridgeLemma.d_frameExp_cast <;> assumption
 
 theorem prod_rho (l : ℕ) (hl : l ≤ D.R.rS + 1) :
     ∏ i : Fin l, rhoF D (Fin.castLE hl i) = D.host.rdE ^ (-(frameExp D.R.rS l : ℝ)) := by

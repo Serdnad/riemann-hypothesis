@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.PowEqOneOfChrEq
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.NegIdxOfIsStd
 public import Development.AbelianVarietyTheory.Definitions.Divisors.IsUnitaryOnTheta
 public import Mathlib.Algebra.AffineMonoid.Basic
@@ -86,15 +87,7 @@ private theorem unrAt_pow {E : Type} [Field E] [NumberField E] {χ : HChar E} {v
 
 private theorem chrEq_pow {D : D7} {c : (AE D)ˣ →* Circle} {χ : HChar D.host.E} (h : ChrEq c χ) (a : ℕ) :
     ChrEq (c ^ a) (χ ^ a) := by
-  refine ⟨⟨?_, fun x => ?_⟩, fun P e he k x hx => ?_⟩
-  · have : ((c ^ a : (AE D)ˣ →* Circle) : (AE D)ˣ → Circle) = fun x => c x ^ a := by
-      funext x; simp
-    rw [this]
-    exact h.1.1.pow a
-  · have h1 := h.1.2 x
-    simp only [MonoidHom.pow_apply, h1, one_pow]
-  · rw [MonoidHom.pow_apply, locK_pow, Units.val_pow_eq_pow_val, ← h.2 P e he k x hx]
-    exact map_pow Circle.coeHom _ _
+  apply _root_.GlobalTheory.ConjExt.chrEq_pow <;> assumption
 
 private theorem not_nonSplitAt_of_emb {D : D7} {v : HeightOneSpectrum (𝓞 D.host.F)} {ε : AF D.host.F}
     (hε : IsPlaceIdem D v ε) (τ : D.host.E →ₐ[D.host.F] Fv D.host.F v) : ¬ GlobalTheory.WeilParts.NonSplitAt D v ε := by

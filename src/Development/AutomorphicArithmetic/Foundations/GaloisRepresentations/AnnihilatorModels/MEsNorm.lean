@@ -424,10 +424,7 @@ theorem exists_generization_mem {Y : Scheme.{0}} [IsLocallyNoetherian Y] {O : Se
 
 theorem spMap_algebraMap_apply (V K : Type) [CommRing V] [IsDomain V] [Field K] [Algebra V K]
     [IsFractionRing V K] (p : Sp K) : spMap (algebraMap V K) p = (⊥ : PrimeSpectrum V) := by
-  refine PrimeSpectrum.ext ?_
-  show Ideal.comap (algebraMap V K) p.asIdeal = ⊥
-  rw [(Ideal.eq_bot_or_top p.asIdeal).resolve_right p.isPrime.ne_top, ← RingHom.ker_eq_comap_bot]
-  exact (RingHom.injective_iff_ker_eq_bot _).1 (IsFractionRing.injective V K)
+  apply _root_.GlobalTheory.ExtendNormal.spMap_apply_eq_bot <;> assumption
 
 end GlobalTheory.FibreCrit
 

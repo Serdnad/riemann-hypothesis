@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.WeilActionUnitaryCompact
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsPairingStdP
 public import Development.AbelianVarietyTheory.PublishedTheorems.TwistedTraceFormula.RealMetaplecticRepresentation
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsPairingCoordinatesSchrodingerFolland
@@ -386,12 +387,7 @@ theorem intInd_mem (κ : Type) [Fintype κ] :
     fun x hx => Set.indicator_of_notMem hx _
 
 theorem snd_eq_zero_of_at {κ : Type} {z : κ → AF F} (hz : At (evI F) z) (i : κ) : (z i).2 = 0 := by
-  let u : AF F := ((0 : InfiniteAdeleRing F), (1 : FiniteAdeleRing (𝓞 F) F))
-  have hu : evI F u = 0 := map_zero (InfiniteAdeleRing.ringEquiv_mixedSpace F)
-  have h0 : u * z i = 0 := congrFun (hz u hu) i
-  have h1 : (u * z i).2 = (1 : FiniteAdeleRing (𝓞 F) F) * (z i).2 := rfl
-  rw [h0, one_mul] at h1
-  exact h1.symm
+  apply _root_.GlobalTheory.ArchHeis.snd_eq_zero_of_at <;> assumption
 
 def refFun (κ : Type) : (κ → AF F) → ℂ := fun x => intInd κ (fun i => (x i).2)
 
@@ -516,28 +512,14 @@ theorem evI_fin {F : Type} [Field F] [NumberField F] : evI F ((0, 1) : AF F) = 0
 
 theorem snd_eq_zero_of_at {F : Type} [Field F] [NumberField F] {κ : Type} {z : κ → AF F} (hz : At (evI F) z) (i : κ) :
     (z i).2 = 0 := by
-  have := congrArg Prod.snd (congrFun (hz (0, 1) evI_fin) i)
-  change (((0, 1) : InfiniteAdeleRing F × FiniteAdeleRing (𝓞 F) F).2 * (z i).2) = (0 : AF F).2 at this
-  rw [one_mul] at this
-  exact this
+  apply _root_.GlobalTheory.ArchHeis.snd_eq_zero_of_at <;> assumption
 
 def intInd {F : Type} [Field F] [NumberField F] (κ : Type) : (κ → FiniteAdeleRing (𝓞 F) F) → ℂ :=
   (Set.pi Set.univ fun _ : κ => (GroundTheory.Global.integralFiniteAdeles (𝓞 F) F : Set (FiniteAdeleRing (𝓞 F) F))).indicator 1
 
 theorem intInd_mem {F : Type} [Field F] [NumberField F] (κ : Type) [Fintype κ] :
-    intInd (F := F) κ ∈ SB (κ → FiniteAdeleRing (𝓞 F) F) := by
-  set B := Set.pi Set.univ fun _ : κ => (GroundTheory.Global.integralFiniteAdeles (𝓞 F) F : Set (FiniteAdeleRing (𝓞 F) F)) with hB
-  have hO : IsOpen B := isOpen_set_pi Set.finite_univ fun _ _ => GroundTheory.Global.isOpen_integralFiniteAdeles
-  have hK : IsCompact B := isCompact_univ_pi fun _ => GroundTheory.Global.isCompact_integralFiniteAdeles F
-  have hC : IsClosed B := hK.isClosed
-  refine ⟨?_, HasCompactSupport.intro hK fun x hx => Set.indicator_of_notMem hx _⟩
-  rw [IsLocallyConstant.iff_exists_open]
-  intro x
-  by_cases hx : x ∈ B
-  · refine ⟨_, hO, hx, fun y hy => ?_⟩
-    simp only [intInd, ← hB, Set.indicator_of_mem hy, Set.indicator_of_mem hx, Pi.one_apply]
-  · refine ⟨_, hC.isOpen_compl, hx, fun y hy => ?_⟩
-    simp only [intInd, ← hB, Set.indicator_of_notMem hy, Set.indicator_of_notMem hx]
+    intInd (F := F) κ ∈ SB (κ → FiniteAdeleRing (𝓞 F) F) :=
+  _root_.GlobalTheory.ArchLocality.intInd_mem κ
 
 end GlobalTheory.ArchLine.OpCont
 

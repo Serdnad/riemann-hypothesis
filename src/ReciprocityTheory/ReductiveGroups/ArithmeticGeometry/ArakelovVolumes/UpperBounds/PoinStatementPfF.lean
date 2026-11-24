@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.TorusHaarMeasure.OneLeMinorOfIsOrth
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovVolumes.UpperBounds.KaUnfoldPfB
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovVolumes.UpperBounds.PoinStatementPfD
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovVolumes.UpperBounds.SumBoundStatement
@@ -120,29 +121,7 @@ theorem lminor_mul_upper {n : ℕ} (A N : Matrix (Fin n) (Fin n) ℂ) (hN : N.Bl
     (i : Fin (n + 1)) :
     lminor (A * N) i = lminor A i * ∏ j : Fin i,
       N (Fin.castLE (Nat.le_of_lt_succ i.isLt) j) (Fin.castLE (Nat.le_of_lt_succ i.isLt) j) := by
-  unfold lminor
-  set e := Fin.castLE (Nat.le_of_lt_succ i.isLt) with he
-  have hsub : (A * N).submatrix e e = A.submatrix e e * N.submatrix e e := by
-    ext a c
-    simp only [Matrix.submatrix_apply, Matrix.mul_apply]
-    refine (Fintype.sum_of_injective e (Fin.castLE_injective _) _ _ (fun k hk => ?_) (fun k => rfl)).symm
-    have hk' : (i : ℕ) ≤ k := by
-      by_contra h
-      push_neg at h
-      exact hk ⟨⟨k, h⟩, Fin.ext rfl⟩
-    apply mul_eq_zero_of_right
-    apply hN
-    show e c < k
-    rw [Fin.lt_iff_val_lt_val, he, Fin.coe_castLE]
-    omega
-  have hT : (N.submatrix e e).BlockTriangular id := by
-    intro a c hac
-    apply hN
-    show e c < e a
-    rw [Fin.lt_iff_val_lt_val, he, Fin.coe_castLE, Fin.coe_castLE]
-    exact hac
-  rw [hsub, Matrix.det_mul, Matrix.det_of_upperTriangular hT]
-  rfl
+  apply GlobalTheory.FramePotential.lminor_mul_upper <;> assumption
 
 theorem lminor_nmat (X : Data E r) (z : V (nd X)) (τ : X.Ψ) (i : Fin (r + 1)) :
     lminor (mat (nmat X z) τ) i = 1 := by

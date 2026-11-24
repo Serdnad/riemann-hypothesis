@@ -1,5 +1,7 @@
 module
 
+import Formalism.LocalToGlobal.SiegelLatticeTheory.CasimirReductionTheory.OneParameterDerivatives.TauReduction.BlockGramReduction.MemIntegersOfMemIntAd
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.SplitPlaceColumnMemCompletedLatticeIffFrameInteg
 public import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.PlaceS
 public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.ImportsFurtherLast
 public import Formalism.LocalToGlobal.BesselHermitianTheta.LemmasWeil
@@ -96,38 +98,7 @@ theorem exists_nat_mul_mem {K : Type} [Field K] [NumberField K] (e : K) :
 
 theorem exists_nat_mul_intAf {F : Type} [Field F] [NumberField F] (t : Af F) :
     ∃ m : ℕ, 1 ≤ m ∧ (m : Af F) * t ∈ intAf F := by
-  classical
-  have hfin : {v : HeightOneSpectrum (𝓞 F) | t v ∉ v.adicCompletionIntegers F}.Finite :=
-    Filter.eventually_cofinite.1 t.2
-  have hloc : ∀ v : HeightOneSpectrum (𝓞 F), ∃ m : ℕ, 1 ≤ m ∧
-      (m : v.adicCompletion F) * t v ∈ v.adicCompletionIntegers F := by
-    intro v
-    obtain ⟨b, hb, hbt⟩ := HeightOneSpectrum.adicCompletion.mul_nonZeroDivisor_mem_adicCompletionIntegers v (t v)
-    obtain ⟨m, hm, c, hc⟩ := exists_nat_eq_mul b (nonZeroDivisors.ne_zero hb)
-    refine ⟨m, hm, ?_⟩
-    have h1 : (m : v.adicCompletion F) = algebraMap (𝓞 F) (v.adicCompletion F) b *
-        algebraMap (𝓞 F) (v.adicCompletion F) c := by
-      rw [← map_mul, ← hc, map_natCast]
-    rw [h1, show algebraMap (𝓞 F) (v.adicCompletion F) b * algebraMap (𝓞 F) (v.adicCompletion F) c * t v
-      = t v * algebraMap (𝓞 F) (v.adicCompletion F) b * algebraMap (𝓞 F) (v.adicCompletion F) c by ring]
-    exact mul_mem hbt ((HeightOneSpectrum.coe_mem_adicCompletionIntegers (v := v) c))
-  choose mv hmv hmt using hloc
-  refine ⟨∏ v ∈ hfin.toFinset, mv v, Finset.one_le_prod' fun v _ => hmv v, fun v => ?_⟩
-  have hev : evalV F v (((∏ w ∈ hfin.toFinset, mv w : ℕ) : Af F) * t) =
-      ((∏ w ∈ hfin.toFinset, mv w : ℕ) : v.adicCompletion F) * t v := by
-    rw [map_mul, map_natCast]
-    rfl
-  rw [hev]
-  by_cases hv : v ∈ hfin.toFinset
-  · rw [← Finset.mul_prod_erase _ _ hv]
-    push_cast
-    have e1 : ((mv v : v.adicCompletion F) * ∏ i ∈ hfin.toFinset.erase v, (mv i : v.adicCompletion F)) *
-        t v = (∏ i ∈ hfin.toFinset.erase v, (mv i : v.adicCompletion F)) *
-          ((mv v : v.adicCompletion F) * t v) := by ring
-    rw [e1]
-    exact mul_mem (prod_mem fun w _ => natCast_mem _ _) (hmt v)
-  · have ht : t v ∈ v.adicCompletionIntegers F := by simpa using hv
-    exact mul_mem (natCast_mem _ _) ht
+  apply _root_.Formalism.L2.SG.Pf.Tau.TraceIntegralityAlt.exists_nat_mul_intAd <;> assumption
 
 lemma exists_nat_mem_AA : ∃ N : ℕ, 0 < N ∧ ((N : D.host.E)) ∈ (D.host.AA : Submodule (𝓞 D.host.E) D.host.E) := by
   have hne : D.host.ccK ≠ ⊥ := D.host.ccK_ne_bot
@@ -319,20 +290,7 @@ lemma intAf_mul' {a a' : Af D.host.F} (ha : a ∈ intAf D.host.F) (ha' : a' ∈ 
 
 lemma intAE_mul' {z z' : Af D.host.F ⊗[D.host.F] D.host.E} (hz : z ∈ intAE D) (hz' : z' ∈ intAE D) :
     z * z' ∈ intAE D := by
-  induction hz using AddSubgroup.closure_induction with
-  | mem x hx =>
-    obtain ⟨a, ha, o, rfl⟩ := hx
-    induction hz' using AddSubgroup.closure_induction with
-    | mem y hy =>
-      obtain ⟨a', ha', o', rfl⟩ := hy
-      rw [Algebra.TensorProduct.tmul_mul_tmul]
-      exact AddSubgroup.subset_closure ⟨a * a', intAf_mul' ha ha', o * o', by push_cast; rfl⟩
-    | zero => rw [mul_zero]; exact zero_mem _
-    | add y y' _ _ hy hy' => rw [mul_add]; exact add_mem hy hy'
-    | neg y _ hy => rw [mul_neg]; exact neg_mem hy
-  | zero => rw [zero_mul]; exact zero_mem _
-  | add x x' _ _ hx hx' => rw [add_mul]; exact add_mem hx hx'
-  | neg x _ hx => rw [neg_mul]; exact neg_mem hx
+  apply _root_.GlobalTheory.SplitFrameColumn.intAE_mul <;> assumption
 
 def IntF (y : AE D) : Prop := y * fI D = y ∧ finPart D y ∈ intAE D
 

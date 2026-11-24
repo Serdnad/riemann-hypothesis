@@ -1,5 +1,6 @@
 module
 
+import Formalism.SharpRestriction.CuspSpanNormBounds.StandingHypothesesHoldFamily
 public import Formalism.SharpRestriction.LevelLetterCocycles.MemPrimesOverOfMem
 import Development.AutomorphicArithmetic.ResidueCharacters.SumLogDivSqModPmOneLe
 public import Formalism.SharpRestriction.RamificationFrobenius.TotientGaloisClasses.FrameFacts
@@ -96,17 +97,9 @@ theorem f_eq : (D.R.f : ℝ) = 2 * D.R.n := by
   push_cast
   ring
 theorem k_le_r : (D.R.k : ℝ) ≤ D.R.r := by
-  have h2 := D.R.two_le_m
-  have h' : D.R.k ≤ D.R.r := by
-    unfold Formalism.BasicNotions.Ranks.r
-    omega
-  exact_mod_cast h'
+  apply _root_.Formalism.MainNotions.S.k_le_r <;> assumption
 theorem r_le_two_k : (D.R.r : ℝ) ≤ 2 * D.R.k := by
-  have h2 := D.R.m_add_three_le_k
-  have h' : D.R.r ≤ 2 * D.R.k := by
-    unfold Formalism.BasicNotions.Ranks.r
-    omega
-  exact_mod_cast h'
+  apply _root_.Formalism.MainNotions.S.r_le_two_k <;> assumption
 theorem t_ge : (D.R.r : ℝ) + 5 ≤ D.R.t := by
   have h2 := D.R.rank_add_five_le
   have h' : D.R.r + 5 ≤ D.R.t := by

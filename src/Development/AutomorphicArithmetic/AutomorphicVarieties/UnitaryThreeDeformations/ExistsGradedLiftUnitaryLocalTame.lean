@@ -1,11 +1,15 @@
 module
 
+import all Development.AutomorphicArithmetic.AutomorphicVarieties.UnitaryThreeGroups.DefCoc
+import all Development.AutomorphicArithmetic.AutomorphicVarieties.UnitaryThreeDeformations.CondConj
+import all Development.AutomorphicArithmetic.AutomorphicVarieties.UnitaryThreeGroups.ConjTor
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.CommutativeAlgebra.ResMapBijective
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.UnitaryThreeDeformations.AdjointDiagonalRepPreservesWeightPiece
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.UnitaryThreeDeformations.CanonEx
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.UnitaryThreeDeformations.CanonGr
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.UnitaryThreeDeformations.CanonMap
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.UnitaryThreeDeformations.TriCanon
+import all Development.AutomorphicArithmetic.AutomorphicVarieties.UnitaryThreeDeformations.TriCanon
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.UnitaryThreeGroups.AdRepBaseLiftApply
 public import Mathlib.Algebra.Module.Torsion.Basic
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.UnitaryThreeGroups.UnitaryThreeReflectionRight
@@ -83,27 +87,7 @@ open Matrix IsLocalRing ReciprocityTheory.Gal UpperTheory.V.U3 UpperTheory.V.Alg
 
 private theorem lb_unit {O : Type} [CommRing O] (t : Oˣ) (ht : IsUnit ((t : O) ^ 2 - 1)) (a b : Fin 3)
     (hab : a ≠ b) : IsUnit (((t ^ wt1 a : Oˣ) : O) - ((t ^ wt1 b : Oˣ) : O)) := by
-  have h1 : IsUnit ((t : O) - 1) := by
-    have : (t : O) ^ 2 - 1 = ((t : O) - 1) * ((t : O) + 1) := by ring
-    rw [this] at ht
-    exact isUnit_of_mul_isUnit_left ht
-  have hi : ((t⁻¹ : Oˣ) : O) * (t : O) = 1 := by simp
-  have h2 : IsUnit ((t : O) - ((t⁻¹ : Oˣ) : O)) := by
-    have : (t : O) - ((t⁻¹ : Oˣ) : O) = ((t⁻¹ : Oˣ) : O) * ((t : O) ^ 2 - 1) := by
-      linear_combination (-(t : O)) * hi
-    rw [this]
-    exact (Units.isUnit _).mul ht
-  have h3 : IsUnit (1 - ((t⁻¹ : Oˣ) : O)) := by
-    have : 1 - ((t⁻¹ : Oˣ) : O) = ((t⁻¹ : Oˣ) : O) * ((t : O) - 1) := by
-      linear_combination (-1 : O) * hi
-    rw [this]
-    exact (Units.isUnit _).mul h1
-  fin_cases a <;> fin_cases b <;> simp [wt1] at hab ⊢
-  all_goals first
-    | exact h1 | exact h2 | exact h3
-    | exact (by simpa [neg_sub] using h1.neg)
-    | exact (by simpa [neg_sub] using h2.neg)
-    | exact (by simpa [neg_sub] using h3.neg)
+  apply _root_.UpperTheory.V.UnitaryThreeInertia.tc_unit <;> assumption
 
 theorem UpperTheory.V.UnitaryThreeInertia.lt_basis :
     ∀ {O R R' D : Type} [CommRing O] [IsLocalRing O] [CommRing R] [Algebra O R] [IsCO O R] [Finite R] [CommRing R'] [Algebra O R'] [IsCO O R'] [Group D]
@@ -399,17 +383,7 @@ private theorem sgnAct_one_add (hI : I * I = ⊥) (q : GL (Fin m) C)
     (s : ℤˣ) :
     ((sgnAct m C s q : GL (Fin m) C) : Matrix (Fin m) (Fin m) C) =
       1 + (if s = 1 then X else thetaLie X) := by
-  have h : ((-1 : ℤˣ) = 1) = False := by decide
-  rcases Int.units_eq_one_or s with rfl | rfl
-  · simp [hq]
-  · have hinv : ((q⁻¹ : GL (Fin m) C) : Matrix (Fin m) (Fin m) C) = 1 - X := by
-      apply Units.inv_eq_of_mul_eq_one_right
-      rw [hq, Matrix.add_mul, Matrix.mul_sub, Matrix.mul_sub, entIn_mul_zero hI hX hX]
-      simp
-    rw [sgnAct_neg_one, theta_val, hinv]
-    simp only [h, if_false, thetaLie, Matrix.transpose_sub, Matrix.transpose_one, Matrix.mul_sub,
-      Matrix.sub_mul, Matrix.mul_one, Jmat_mul_Jmat]
-    rw [sub_eq_add_neg]
+  apply _root_.sgnAct_one_add <;> assumption
 
 private structure Near (I : Ideal C) (y : GG (m := m) (R := C)) (X : Matrix (Fin m) (Fin m) C) : Prop where
   right : y.right = 1
@@ -763,15 +737,7 @@ open Matrix IsLocalRing ReciprocityTheory.Gal UpperTheory.V.U3 UpperTheory.V.Alg
 
 private theorem entIn_sub_iff {C : Type} [CommRing C] (I : Ideal C) (X Y : Matrix (Fin 3) (Fin 3) C) :
     EntIn I (X - Y) ↔ X.map (Ideal.Quotient.mk I) = Y.map (Ideal.Quotient.mk I) := by
-  constructor
-  · intro h
-    ext a b
-    simp only [Matrix.map_apply]
-    exact Ideal.Quotient.eq.mpr (by simpa [Matrix.sub_apply] using h a b)
-  · intro h a b
-    have hab := congrFun (congrFun h a) b
-    simp only [Matrix.map_apply] at hab
-    simpa [Matrix.sub_apply] using Ideal.Quotient.eq.mp hab
+  apply _root_.entIn_sub_iff <;> assumption
 
 private theorem congOne_iff {C : Type} [CommRing C] (I : Ideal C) (h : GL (Fin 3) C) :
     CongOne I h ↔ GeneralLinearGroup.map (Ideal.Quotient.mk I) h = 1 := by
@@ -893,16 +859,7 @@ namespace UpperTheory.V.UnitaryThreeInertia.LtTorus
 variable {R : Type} [CommRing R] {D : Type} [Group D]
 
 private theorem sgn_tor (s : ℤˣ) (t : Rˣ) : sgnAct 3 R s (tor R t) = tor R t := by
-  rcases Int.units_eq_one_or s with rfl | rfl
-  · simp
-  · rw [sgnAct_neg_one]
-    apply Units.ext
-    have hval (u : Rˣ) : (tor R u : Matrix (Fin 3) (Fin 3) R) =
-        diagonal (fun i => ((u ^ wt1 i : Rˣ) : R)) := rfl
-    rw [theta_val, ← map_inv, hval, hval]
-    ext i j
-    fin_cases i <;> fin_cases j <;>
-      simp [Matrix.mul_apply, Fin.sum_univ_three, Jmat, wt1, Matrix.diagonal, Fin.rev]
+  apply _root_.sgnAct_tor <;> assumption
 
 private theorem comm_tor (t : Rˣ) (x : GG (m := 3) (R := R)) (hx : x.mat.IsDiag) :
     GG.ofGL (tor R t) * x = x * GG.ofGL (tor R t) := by
@@ -1179,31 +1136,6 @@ open Matrix IsLocalRing ReciprocityTheory.Gal UpperTheory.V.U3 UpperTheory.V.Alg
 
 namespace UpperTheory.V.UnitaryThreeInertia
 
-private theorem lu_unit {O : Type} [CommRing O] (t : Oˣ) (ht : IsUnit ((t : O) ^ 2 - 1)) (a b : Fin 3)
-    (hab : a ≠ b) : IsUnit (((t ^ wt1 a : Oˣ) : O) - ((t ^ wt1 b : Oˣ) : O)) := by
-  have e : (t : O) * ((t⁻¹ : Oˣ) : O) = 1 := Units.mul_inv t
-  have h1 : IsUnit ((t : O) - 1) := by
-    rw [show (t : O) ^ 2 - 1 = ((t : O) - 1) * (t + 1) by ring] at ht
-    exact isUnit_of_mul_isUnit_left ht
-  have h2 : IsUnit ((t : O) - ((t⁻¹ : Oˣ) : O)) := by
-    have := ht.mul (t⁻¹).isUnit
-    convert this using 1
-    linear_combination (-(t : O)) * e
-  have h3 : IsUnit (1 - ((t⁻¹ : Oˣ) : O)) := by
-    have := h1.mul (t⁻¹).isUnit
-    convert this using 1
-    linear_combination (-1 : O) * e
-  have h1' := h1.neg
-  have h2' := h2.neg
-  have h3' := h3.neg
-  rw [neg_sub] at h1' h2' h3'
-  have w0 : wt1 0 = 1 := rfl
-  have w1 : wt1 1 = 0 := rfl
-  have w2 : wt1 2 = -1 := rfl
-  fin_cases a <;> fin_cases b <;>
-    simp only [Fin.zero_eta, Fin.mk_one, Fin.reduceFinMk, w0, w1, w2, zpow_one, zpow_zero, _root_.zpow_neg,
-      Units.val_one, ne_eq, not_true_eq_false] at hab ⊢ <;> assumption
-
 private theorem lu_up {R : Type} [CommRing R] (U k T : Matrix (Fin 3) (Fin 3) R) (e : U * k = k * T)
     (hU : ∀ a b, wt a b < 0 → U a b = 0) (hT : ∀ a b, wt a b < 0 → T a b = 0)
     (hu : ∀ a b, a ≠ b → IsUnit (U a a - T b b)) :
@@ -1267,7 +1199,7 @@ theorem UpperTheory.V.UnitaryThreeInertia.lt_upper :
   · have w : wt1 b.rev = -wt1 b := by fin_cases b <;> rfl
     rw [lu_J, ← residue_ne_zero_iff_isUnit, map_sub, hX, hX, ← map_sub,
       ← map_sub, residue_ne_zero_iff_isUnit, hΨy, w, _root_.inv_zpow', neg_neg]
-    exact (lu_unit (Ψ x) hΨ a b hab).map _
+    exact (_root_.lb_unit (Ψ x) hΨ a b hab).map _
 end -- clump:auto
 end -- clump:auto
 -- ===== end clump member: Development.AutomorphicArithmetic.AutomorphicVarieties.UnitaryThreeDeformations.LtUpper =====

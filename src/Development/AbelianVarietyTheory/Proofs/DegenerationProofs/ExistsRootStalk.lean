@@ -60,6 +60,7 @@ import Mathlib.Tactic.Polynomial.Basic
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.ExistsRosatiGen
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.TWMain
 public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.IsNsmulIffEq
+import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.ExistsAddValuation
 
 @[expose] public section
 
@@ -82,14 +83,7 @@ theorem hyps (h : Laws) (h₂ : Laws2) :
 
 theorem exists_rat_log (p : ℕ) [Fact p.Prime] {x : PadicAlgCl p} (hx : x ≠ 0) :
     ∃ r : ℚ, Real.log ‖x‖ = r * Real.log p := by
-  have hi : IsIntegral ℚ_[p] x := Algebra.IsIntegral.isIntegral x
-  have h0 : (minpoly ℚ_[p] x).coeff 0 ≠ 0 := minpoly.coeff_zero_ne_zero hi hx
-  have e : ‖x‖ = ‖(minpoly ℚ_[p] x).coeff 0‖ ^ (1 / (minpoly ℚ_[p] x).natDegree : ℝ) :=
-    spectralNorm.spectralNorm_eq_norm_coeff_zero_rpow ℚ_[p] (PadicAlgCl p) x
-  refine ⟨1 / (minpoly ℚ_[p] x).natDegree * (-((minpoly ℚ_[p] x).coeff 0).valuation : ℤ), ?_⟩
-  rw [e, Real.log_rpow (norm_pos_iff.2 h0), Padic.norm_eq_zpow_neg_valuation h0, Real.log_zpow]
-  push_cast
-  ring
+  apply _root_.GlobalTheory.PadicVal.exists_rat_log <;> assumption
 
 theorem exists_addVal (p : ℕ) [Fact p.Prime] {π : PadicAlgCl p} (h0 : 0 < ‖π‖) (h1 : ‖π‖ < 1) :
     ∃ v : AddValuation (PadicAlgCl p) (WithTop ℚ), ∀ (x : PadicAlgCl p) (r : ℚ),

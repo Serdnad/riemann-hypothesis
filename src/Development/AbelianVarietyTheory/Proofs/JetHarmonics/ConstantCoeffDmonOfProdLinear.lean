@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SubstMemIntegralDifferentialSubmoduleStatement
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.CocycleRightZeroThd
 public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.DerivationMemPowOfMemPowSucc
 import Mathlib.Algebra.Order.Floor.Extended
@@ -99,16 +100,8 @@ theorem sum_update_pred (a : ι → ℕ) (j : ι) (h : a j ≠ 0) :
 omit [Fintype ι] in
 theorem deriv_prod (D : Derivation k A A) (f : ι → A) (s : Finset ι) :
     D (∏ l ∈ s, f l) = ∑ j ∈ s, (∏ l ∈ s.erase j, f l) * D (f j) := by
-  induction s using Finset.induction_on with
-  | empty => simp
-  | insert i s hi ih =>
-    rw [Finset.prod_insert hi, Finset.sum_insert hi, Derivation.leibniz, ih, Finset.erase_insert hi,
-      smul_eq_mul, smul_eq_mul, add_comm, Finset.mul_sum]
-    congr 1
-    refine Finset.sum_congr rfl fun j hj => ?_
-    have hij : i ≠ j := fun h => hi (h ▸ hj)
-    rw [Finset.erase_insert_of_ne hij, Finset.prod_insert (fun h => hi (Finset.mem_of_mem_erase h)),
-      mul_assoc]
+  intros
+  apply _root_.GlobalTheory.Katz.derivation_prod_erase <;> assumption
 
 theorem deriv_prod_pow (D : Derivation k A A) (lam : ι → A) (a : ι → ℕ) :
     D (∏ l, lam l ^ a l) =

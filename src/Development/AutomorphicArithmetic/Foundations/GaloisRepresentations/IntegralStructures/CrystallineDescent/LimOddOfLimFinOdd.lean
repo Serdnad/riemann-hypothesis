@@ -1,5 +1,6 @@
 module
 
+import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.IntegralStructures.GeometricFlagBases.PrimeLevelLocalization.PDatEx
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.IntegralStructures.CrystallineDescent.PatchOneAlt
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.EventuallyLocalIntegralPointsMemOpenSubgroupDefiStatement
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.AutomorphicFormsFiniteGL
@@ -908,21 +909,8 @@ private theorem exists_intCast_eq_of_card_prime (k : Type) [Ring k] (p : ℕ) (h
 
 private theorem complexConj_eq_neg_of_sq_eq_neg_natCast (E : Type) [Field E] [NumberField E] [IsCMField E] (d : ℕ) (hd0 : 0 < d)
     (x : E) (hx : x ^ 2 = -(d : E)) : IsCMField.complexConj E x = -x := by
-  obtain ⟨φ⟩ := (inferInstance : Nonempty (E →+* ℂ))
-  apply φ.injective
-  rw [IsCMField.complexEmbedding_complexConj, map_neg]
-  have h2 : (φ x) ^ 2 = -(d : ℂ) := by rw [← map_pow, hx]; simp
-  have hre : (φ x).re = 0 := by
-    have him := congrArg Complex.im h2
-    have hre2 := congrArg Complex.re h2
-    simp [pow_two] at him hre2
-    have hm : (φ x).re * (φ x).im = 0 := by linarith
-    rcases mul_eq_zero.mp hm with h | h
-    · exact h
-    · rw [h] at hre2
-      have : (0:ℝ) < d := by exact_mod_cast hd0
-      nlinarith [sq_nonneg (φ x).re]
-  apply Complex.ext <;> simp [hre]
+  intros
+  apply _root_.UpperTheory.Reformulated.B.ConjugateSqrtNeg.conj_sqrt_neg <;> assumption
 
 private theorem prime_dvd_of_intCast_mem_of_natCast_mem {R : Type} [CommRing R] (P : Ideal R) [P.IsPrime] (q : ℕ)
     (hq : Nat.Prime q) (hqP : (q : R) ∈ P) (m : ℤ) (hm : (m : R) ∈ P) : (q : ℤ) ∣ m := by

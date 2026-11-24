@@ -366,12 +366,7 @@ variable {E L : Type} [Field E] [NumberField E] [Field L] [NumberField L] [Algeb
 end SplitGen
 
 theorem cyclotomic_mono_of_dvd {M N : ℕ} (h : M ∣ N) : cycQ M ≤ cycQ N := by
-  unfold cycQ
-  apply adjoin.mono
-  intro z hz
-  obtain ⟨c, rfl⟩ := h
-  show z ^ (M * c) = 1
-  rw [pow_mul, show z ^ M = 1 from hz, one_pow]
+  apply _root_.Formalism.L2.Host.cycQ_mono <;> assumption
 
 section Split
 

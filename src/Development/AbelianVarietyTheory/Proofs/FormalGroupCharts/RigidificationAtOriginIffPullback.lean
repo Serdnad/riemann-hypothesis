@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.FormalGroupCharts.FrameSymmetryIffPullback
 public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.GermCut
 public import Formalism.LocalToGlobal.ProjectiveLattices.ChartDirectionsIntegral
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.ValCalc
@@ -60,20 +61,8 @@ theorem val_tie {X₁ X₂ Y Z : Scheme.{0}} {K : Type} [Fintype K] {L : LB X₁
     (h : LB.Gen.Maps (LB.linCombIso w φ' ε) a (flatGen L F φ' ε c)) (r : Z ⟶ Y) (z : Z)
     {J : (Z ⟶ X₁) → L.ι} {J' : (Z ⟶ X₂) → L'.ι} (hJ : Good L z J) (hJ' : Good L' z J') :
     val c r z J = (∏ k, Geo.Tor.gw w (r ≫ φ' k) z (J ((r ≫ φ' k) ≫ F)) (J' (r ≫ φ' k)) ^ ε k) * val a r z J' := by
-  have H := (maps_iff w φ' (fun k => φ' k ≫ F) ε a c (𝟙 Y) (flatGen L F φ' ε c)
-    (fun j x hx => wchart_pull_le L F φ' j hx) (fun j => ?_)).1 h Z r z (fun k => J ((r ≫ φ' k) ≫ F))
-    (fun k => J' (r ≫ φ' k)) (fun k => hJ ((r ≫ φ' k) ≫ F)) (fun k => hJ' (r ≫ φ' k))
-  · rw [Category.comp_id] at H
-    exact (val_of c r z J _ (fun k => by rw [Category.assoc])).trans H
-  · refine unit_ext fun y hy => ?_
-    have hyV : (𝟙 Y : Y ⟶ Y) y ∈ ((L.pull F).LinComb φ' ε).U j := hy
-    have hyU : (𝟙 Y : Y ⟶ Y) ((𝟙 Y : Y ⟶ Y) y) ∈ LB.wchart L (fun k => φ' k ≫ F) (fun k => j k ⟨⟩) :=
-      wchart_pull_le L F φ' j hy
-    refine (gm_res (𝟙 Y) y _ hyV _).trans ?_
-    refine Eq.trans ?_ (gm_res (𝟙 Y) y _ hyV _).symm
-    have e := gm_pull (𝟙 Y) (𝟙 Y) y _ hyU (c.s fun k => j k ⟨⟩)
-    rw [Category.comp_id] at e
-    exact e.symm
+  intros
+  apply _root_.GlobalTheory.FrameSym.val_tie <;> assumption
 
 variable {E : Type} [Field E] [NumberField E] [IsCMField E] {H : Host E} {X0 : Scheme.{0}}
 

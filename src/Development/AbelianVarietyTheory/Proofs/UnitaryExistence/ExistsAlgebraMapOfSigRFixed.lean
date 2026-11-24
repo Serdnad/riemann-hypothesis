@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Counterexamples.LevelGroupExamples.ExistsBaseRingOfConjugationFixedTensor
 public import Formalism.LocalToGlobal.BesselHermitianTheta.TiedWeil
 public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.ExistsIsDetRoot
 import Formalism.LocalToGlobal.BesselHermitianTheta.LemmasWeil
@@ -57,24 +58,8 @@ theorem exists_algebraMap_of_sigR_fixed {F E : Type} [Field F] [CharZero F] [Fie
     (R : Type) [CommRing R] [Algebra F R] (σ : E →ₐ[F] E)
     (htr : ∀ x : E, ∃ t : F, algebraMap F E t = x + σ x) (z : R ⊗[F] E) (hz : sigR R σ z = z) :
     ∃ a : R, algebraMap R (R ⊗[F] E) a = z := by
-  have hT : ∀ z : R ⊗[F] E, ∃ t : R, z + sigR R σ z = t ⊗ₜ 1 := by
-    intro z
-    induction z using TensorProduct.induction_on with
-    | zero => exact ⟨0, by simp⟩
-    | tmul a x =>
-      obtain ⟨t, ht⟩ := htr x
-      refine ⟨t • a, ?_⟩
-      have h : sigR R σ (a ⊗ₜ x) = a ⊗ₜ σ x := by simp [sigR]
-      rw [h, ← TensorProduct.tmul_add, ← ht, Algebra.algebraMap_eq_smul_one, TensorProduct.smul_tmul]
-    | add x y hx hy =>
-      obtain ⟨t, ht⟩ := hx
-      obtain ⟨t', ht'⟩ := hy
-      refine ⟨t + t', ?_⟩
-      rw [map_add (f := _), TensorProduct.add_tmul, ← ht, ← ht']; ring
-  obtain ⟨t, ht⟩ := hT z
-  refine ⟨(2 : F)⁻¹ • t, ?_⟩
-  rw [Algebra.TensorProduct.algebraMap_apply, Algebra.algebraMap_self, RingHom.id_apply,
-    ← TensorProduct.smul_tmul', ← ht, hz, ← two_smul F z, smul_smul, inv_mul_cancel₀ two_ne_zero, one_smul]
+  intros
+  apply _root_.GlobalTheory.DetRootRows.exists_baseRing_of_conjugation_fixed_tensor <;> assumption
 
 theorem exists_unit_of_sigR_fixed {F E : Type} [Field F] [CharZero F] [Field E] [Algebra F E]
     (R : Type) [CommRing R] [Algebra F R] (σ : E →ₐ[F] E)

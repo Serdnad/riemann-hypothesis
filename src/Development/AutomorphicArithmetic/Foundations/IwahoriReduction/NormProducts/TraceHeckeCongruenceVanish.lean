@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.KummerCharactersInvariantCompatibleFamily
 public import Development.AutomorphicArithmetic.Foundations.IwahoriReduction.NormProducts.LUnH
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.CommutativeAlgebra.ResMapBijective
 public import Mathlib.RingTheory.AdicCompletion.Noetherian
@@ -739,17 +740,8 @@ private theorem eventually_eq_of_mero_coe_eq {τ : ℂ} (hτ : τ ∈ Hs) {f g :
 
 private theorem analyticOrderAt_finite_of_mero_ne_zero {τ : ℂ} (hτ : τ ∈ Hs) {b : ℂ → ℂ} (hd : DifferentiableOn ℂ b Hs)
     (hb : (b : Mero) ≠ 0) : analyticOrderAt b τ ≠ ⊤ := by
-  intro htop
-  apply hb
-  have hE := (hd.analyticOnNhd H3.isOpen_Hs_place).eqOn_zero_of_preconnected_of_eventuallyEq_zero
-    H3.isConnected_Hs_place.isPreconnected hτ (analyticOrderAt_eq_top.1 htop)
-  rw [← Filter.Germ.coe_zero, Filter.Germ.coe_eq]
-  have hmem : Hs ∈ Filter.codiscreteWithin Hs := by
-    rw [mem_codiscreteWithin]
-    intro x _
-    simp
-  filter_upwards [hmem] with y hy
-  exact hE hy
+  intros
+  apply _root_.GlobalTheory.KZ.H3.UnRoot.order_ne_top <;> assumption
 
 private theorem mero_coe_ne_zero_of_analyticOrderAt_finite {τ : ℂ} (hτ : τ ∈ Hs) {b : ℂ → ℂ} (hd : DifferentiableOn ℂ b Hs)
     (hb : analyticOrderAt b τ ≠ ⊤) : (b : Mero) ≠ 0 := by

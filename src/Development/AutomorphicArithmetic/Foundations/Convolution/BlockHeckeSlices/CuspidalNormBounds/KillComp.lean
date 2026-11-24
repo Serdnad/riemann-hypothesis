@@ -1,5 +1,6 @@
 module
 
+import all Development.AutomorphicArithmetic.Foundations.Convolution.BlockHeckeSlices.CuspidalNormBounds.CompHecke
 public import Development.AutomorphicArithmetic.Foundations.Convolution.BlockHeckeSlices.SliceShift
 public import Development.AutomorphicArithmetic.Foundations.Convolution.PolynomialCoefficientBounds.AbsGrow
 public import Development.WeilBound.RepresentationTheoryGL.TwistedFactors.AffineCharacterGenerators.Generators
@@ -15,6 +16,7 @@ public import Mathlib.Algebra.Polynomial.Basic
 public import Mathlib.Algebra.Polynomial.Coeff
 public import Development.AutomorphicArithmetic.Foundations.Convolution.BlockHeckeSlices.CommuteCenterRtInfGL
 public import Development.AutomorphicArithmetic.Foundations.Convolution.PolynomialCoefficientBounds.ExistsFinMap
+import all Development.AutomorphicArithmetic.Foundations.Convolution.PolynomialCoefficientBounds.ExistsFinMap
 public import Development.AutomorphicArithmetic.Foundations.Convolution.BlockHeckeSlices.CuspidalNormBounds.BandOps
 public import Development.AutomorphicArithmetic.Foundations.Convolution.BlockHeckeSlices.CuspidalNormBounds.CompBound
 public import Development.AutomorphicArithmetic.Foundations.Convolution.BlockHeckeSlices.CuspidalNormBounds.HkApply
@@ -572,25 +574,7 @@ open GlobalTheory.CuspRep PositivityTheory.Rg.Fx UpperTheory.V.Cm
 private theorem sum_pi {m j : ℕ} (F : (Fin (m + 1) → ℕ) → ℂ) :
     ∑ A ∈ Finset.piAntidiag Finset.univ j, F A =
       ∑ a ∈ Finset.range (j + 1), ∑ A ∈ Finset.piAntidiag Finset.univ (j - a), F (Fin.cons a A) := by
-  rw [Finset.sum_sigma']
-  refine Finset.sum_bij' (fun A _ => ⟨A 0, Fin.tail A⟩) (fun p _ => Fin.cons p.1 p.2) ?_ ?_ ?_ ?_ ?_
-  · intro A hA
-    simp only [Finset.mem_piAntidiag, Finset.mem_univ, implies_true, and_true, Fin.sum_univ_succ, Finset.mem_sigma,
-      Finset.mem_range] at hA ⊢
-    refine ⟨by omega, ?_⟩
-    change ∑ i : Fin m, A i.succ = _
-    omega
-  · intro p hp
-    simp only [Finset.mem_piAntidiag, Finset.mem_univ, implies_true, and_true, Fin.sum_univ_succ, Finset.mem_sigma,
-      Finset.mem_range, Fin.cons_zero, Fin.cons_succ] at hp ⊢
-    have h2 : ∑ i, p.2 i = j - p.1 := hp.2
-    omega
-  · intro A _
-    exact Fin.cons_self_tail A
-  · intro p _
-    simp
-  · intro A _
-    simp
+  apply _root_.UpperTheory.ConvolutionTheory.BW.sum_pi <;> assumption
 
 private theorem esymm_zero' (s : Multiset ℂ) : s.esymm 0 = 1 := by simp [Multiset.esymm]
 
@@ -698,55 +682,10 @@ open NumberField IsDedekindDomain GlobalTheory.CuspRep GroundTheory.Automorphic 
 
 namespace UpperTheory.ConvolutionTheory.BW
 
-private theorem exists_esymm (n : ℕ) (c : Fin n → ℂ) :
-    ∃ y : Fin n → ℂ, ∀ i : Fin n, MvPolynomial.aeval y (MvPolynomial.esymm (Fin n) ℂ ((i : ℕ) + 1)) = c i := by
-  classical
-  let a : Fin n → ℂ := fun k => (-1) ^ (n - (k : ℕ)) * c (Fin.rev k)
-  let q : Polynomial ℂ := ∑ k : Fin n, Polynomial.C (a k) * Polynomial.X ^ (k : ℕ)
-  have hq : q.degree < n := Polynomial.degree_sum_fin_lt a
-  let p : Polynomial ℂ := Polynomial.X ^ n + q
-  have hm : p.Monic := Polynomial.monic_X_pow_add hq
-  have hd : p.natDegree = n := by
-    have h0 : q.degree < (Polynomial.X ^ n : Polynomial ℂ).degree := by rwa [Polynomial.degree_X_pow]
-    simp only [p]
-    rw [Polynomial.natDegree_add_eq_left_of_degree_lt h0, Polynomial.natDegree_X_pow]
-  have hs : Multiset.card p.roots = p.natDegree := (IsAlgClosed.splits p).natDegree_eq_card_roots.symm
-  have hl : p.roots.toList.length = n := by rw [Multiset.length_toList, hs, hd]
-  refine ⟨fun j => p.roots.toList.get (j.cast hl.symm), fun i => ?_⟩
-  have hy : (Finset.univ : Finset (Fin n)).val.map (fun j => p.roots.toList.get (j.cast hl.symm)) = p.roots := by
-    rw [Fin.univ_val_map]
-    conv_rhs => rw [← Multiset.coe_toList p.roots]
-    congr 1
-    refine List.ext_get (by simpa using hl.symm) fun k h1 h2 => ?_
-    simp
-  rw [MvPolynomial.aeval_esymm_eq_multiset_esymm, hy]
-  have hi : ((Fin.rev i : Fin n) : ℕ) + ((i : ℕ) + 1) = n := by
-    have := i.2
-    rw [Fin.val_rev]; omega
-  have hcoef := Polynomial.coeff_eq_esymm_roots_of_card hs (k := ((Fin.rev i : Fin n) : ℕ)) (by omega)
-  have e1 : p.natDegree - ((Fin.rev i : Fin n) : ℕ) = (i : ℕ) + 1 := by omega
-  rw [e1, hm.leadingCoeff, one_mul] at hcoef
-  have e2 : p.coeff ((Fin.rev i : Fin n) : ℕ) = (-1) ^ ((i : ℕ) + 1) * c i := by
-    have h3 : (Polynomial.X ^ n : Polynomial ℂ).coeff ((Fin.rev i : Fin n) : ℕ) = 0 := by
-      rw [Polynomial.coeff_X_pow, if_neg (by omega)]
-    have h4 : q.coeff ((Fin.rev i : Fin n) : ℕ) = a (Fin.rev i) := by
-      simp only [q, Polynomial.finsetSum_coeff, Polynomial.coeff_C_mul, Polynomial.coeff_X_pow]
-      rw [Finset.sum_eq_single (Fin.rev i)]
-      · simp
-      · intro b _ hb
-        rw [if_neg (fun h => hb (Fin.ext h.symm)), mul_zero]
-      · simp
-    simp only [p, Polynomial.coeff_add, h3, zero_add, h4, a, Fin.rev_rev]
-    congr 2
-    omega
-  rw [e2] at hcoef
-  have h5 : ((-1 : ℂ) ^ ((i : ℕ) + 1)) ≠ 0 := pow_ne_zero _ (by norm_num)
-  exact (mul_left_cancel₀ h5 hcoef).symm
-
 private theorem aeval_blockE_injective (τ : Type) (n : ℕ) :
     Function.Injective (MvPolynomial.aeval blockE : MvPolynomial (τ × Fin n) ℂ →ₐ[ℂ] MvPolynomial (τ × Fin n) ℂ) := by
   refine (injective_iff_map_eq_zero _).2 fun P hP => MvPolynomial.funext fun c => ?_
-  choose y hy using fun t : τ => exists_esymm n fun i => c (t, i)
+  choose y hy using fun t : τ => _root_.esymm_surj n fun i => c (t, i)
   let x : τ × Fin n → ℂ := fun p => y p.1 p.2
   have h : (MvPolynomial.aeval x : MvPolynomial (τ × Fin n) ℂ →ₐ[ℂ] ℂ).comp (MvPolynomial.aeval blockE) = MvPolynomial.aeval c := by
     refine MvPolynomial.algHom_ext fun p => ?_

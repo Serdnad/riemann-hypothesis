@@ -1,5 +1,6 @@
 module
 
+import all Development.ResolutionOfSingularities.EmbeddedResolution.IdealPrincipalization.OrderReduction.BoundarySeparation
 public import Development.ResolutionOfSingularities.EmbeddedResolution.IdealPrincipalization.MarkedOrderReduction.GeometryHypotheses
 public import Development.ResolutionOfSingularities.EmbeddedResolution.IdealPrincipalization.MarkedOrderReduction.OrderReductionAlgorithm
 public import Development.ResolutionOfSingularities.EmbeddedResolution.DerivativeIdeal.OrderAtMultiplicativity
@@ -123,13 +124,7 @@ private theorem support_mul_subset {Y : Scheme.{u}} (P Q : Y.IdealSheafData) :
 
 private theorem support_pow_subset {Y : Scheme.{u}} (P : Y.IdealSheafData) (n : ℕ) :
     (↑(P ^ n).support : Set ↥Y) ⊆ (↑P.support : Set ↥Y) := by
-  rcases eq_or_ne n 0 with rfl | hn
-  · intro x hx
-    have h1 : stalkIdeal (P ^ 0) x = ⊤ := by
-      rw [stalkIdeal_pow, pow_zero, ← Ideal.one_eq_top]
-    exact absurd h1 ((mem_support_iff_stalkIdeal_ne_top (P ^ 0) x).1 hx)
-  · rw [Scheme.IdealSheafData.support_pow]
-    exact hn
+  apply _root_.FunctorialResolution.EmbeddedResolution.BoundarySeparationByMaxContact.support_pow_subset_support <;> assumption
 
 private theorem support_subset_support_mul_right {Y : Scheme.{u}} (P Q : Y.IdealSheafData) :
     (↑Q.support : Set ↥Y) ⊆ (↑(P * Q).support : Set ↥Y) := by

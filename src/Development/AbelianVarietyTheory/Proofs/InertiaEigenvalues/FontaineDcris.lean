@@ -211,12 +211,7 @@ theorem ιV_mapVB (f : V →ₗ[LL] W) (x : V ⊗[Qp] B) :
 theorem map_mem_FilV (f : V →ₗ[LL] W) (a : ℤ) {y : V ⊗[Qp] BdR}
     (hy : y ∈ FilV PD (LL := LL) (V := V) a) :
     AlgebraTensorModule.map f (LinearMap.id : BdR →ₗ[Qp] BdR) y ∈ FilV PD (LL := LL) (V := W) a := by
-  obtain ⟨z, rfl⟩ := hy
-  refine ⟨AlgebraTensorModule.map f (LinearMap.id : ↥((PD.Fil a).restrictScalars Qp) →ₗ[Qp] ↥((PD.Fil a).restrictScalars Qp)) z, ?_⟩
-  induction z using TensorProduct.induction_on with
-  | zero => simp
-  | tmul v b => simp
-  | add x y hx hy => simp only [map_add (f := _), hx, hy]
+  apply _root_.GlobalTheory.Per.CrisStrict.map_mem_FilV <;> assumption
 
 theorem mapVB_mem_FilCris (ρ : Representation LL G V) (σ : Representation LL G W) (f : V →ₗ[LL] W)
     (hf : ∀ g v, f (ρ g v) = σ g (f v)) (a : ℤ) {x : V ⊗[Qp] B} (hx : x ∈ FilCris PD ρ a) :

@@ -1333,16 +1333,7 @@ theorem map_inclA_mem_SU {F E : Type} [Field F] [NumberField F] [Field E] [Algeb
     (c : E ≃ₐ[F] E) {N : ℕ} (J : Matrix (Fin N) (Fin N) E) {γ : Matrix (Fin N) (Fin N) E}
     (hγ : γ ∈ SU c.toRingHom J) :
     γ.map (inclA F E) ∈ SU (sigA c) (J.map (inclA F E)) := by
-  obtain ⟨hdet, hform⟩ := hγ
-  have hsig : ∀ y : E, sigA c (inclA F E y) = inclA F E (c y) := by
-    intro y
-    simp [sigA, inclA, Algebra.TensorProduct.map_tmul]
-  have hmap : (γ.map (inclA F E)).map (sigA c) = (γ.map c.toRingHom).map (inclA F E) := by
-    ext i j
-    simp [hsig]
-  refine ⟨?_, ?_⟩
-  · rw [show (γ.map (inclA F E)).det = inclA F E γ.det from (RingHom.map_det _ _).symm, hdet, map_one]
-  · rw [hmap, ← transpose_map, ← Matrix.map_mul, ← Matrix.map_mul, hform]
+  apply _root_.GroundTheory.Heights₂.Heights.StrongApprox.map_mem_SU_AE <;> assumption
 
 theorem SAOpenHolds.proof (hSA : SAHolds.Statement) (hTop : AETopologicalRing.Statement) :
     SAOpenHolds.Statement := by
@@ -1432,10 +1423,7 @@ theorem singleV_mul_of_ne {v w : HeightOneSpectrum (𝓞 F)} (h : v ≠ w) (x : 
 
 theorem compAt_singleV_same (v : HeightOneSpectrum (𝓞 F)) (x : Kv E v) :
     compAt E v (singleV E v x) = x := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
-  | tmul a b => simp [compAt, singleV, evalAt_singleF_same]
-  | add x x' hx hx' => rw [map_add (f := _), map_add (f := _), hx, hx']
+  apply _root_.GroundTheory.Heights₂.Heights.StrongApprox.PlaceMaps.compAt_singleV_self <;> assumption
 
 theorem compAt_singleV_ne {u v : HeightOneSpectrum (𝓞 F)} (h : u ≠ v) (x : Kv E v) :
     compAt E u (singleV E v x) = 0 := by
@@ -1459,10 +1447,7 @@ theorem compAt_inclA (v : HeightOneSpectrum (𝓞 F)) (y : E) :
 
 theorem compAt_sigA (c : E ≃ₐ[F] E) (v : HeightOneSpectrum (𝓞 F)) (a : AE F E) :
     compAt E v (sigA c a) = sigV c v (compAt E v a) := by
-  induction a using TensorProduct.induction_on with
-  | zero => simp
-  | tmul a b => simp [compAt, sigA, sigV]
-  | add x x' hx hx' => rw [map_add (f := _), map_add (f := _), hx, hx', map_add (f := _), map_add (f := _)]
+  apply _root_.GroundTheory.Heights₂.Heights.StrongApprox.PlaceMaps.compAt_sigA <;> assumption
 
 theorem map_compAt_mem_SU (c : E ≃ₐ[F] E) (v : HeightOneSpectrum (𝓞 F)) {N : ℕ}
     (J : Matrix (Fin N) (Fin N) E) {x : Matrix (Fin N) (Fin N) (AE F E)}

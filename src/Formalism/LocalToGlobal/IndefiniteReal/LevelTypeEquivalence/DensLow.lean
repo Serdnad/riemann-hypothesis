@@ -7,6 +7,7 @@ public import Mathlib.MeasureTheory.Integral.Bochner.ContinuousLinearMap
 public import Formalism.LocalToGlobal.IndefiniteReal.LevelTypeEquivalence.VanishTranslates
 public import Formalism.LocalToGlobal.IndefiniteReal.SchurOrthogonality
 public import Formalism.LocalToGlobal.IndefiniteReal.GvPairOfOrbitDerivCont
+import all Formalism.LocalToGlobal.IndefiniteReal.GvPairOfOrbitDerivCont
 public import Formalism.LocalToGlobal.IndefiniteReal.DKerHasCompactSupport
 import Mathlib.Algebra.Order.Star.Real
 import Mathlib.RingTheory.SimpleRing.Principal
@@ -181,12 +182,7 @@ variable {D : D7} {V : HSp D} {S : D.what₂.Tau → SPar} (M : DSModel V S) (τ
 
 theorem uh_mul {a b : Matrix (Fin V.rank) (Fin V.rank) ℂ} (ha : a ∈ Formalism.QuantumDeterminants.UH (gramAt D V τ))
     (hb : b ∈ Formalism.QuantumDeterminants.UH (gramAt D V τ)) : a * b ∈ Formalism.QuantumDeterminants.UH (gramAt D V τ) := by
-  have ha' : aᴴ * gramAt D V τ * a = gramAt D V τ := ha
-  have hb' : bᴴ * gramAt D V τ * b = gramAt D V τ := hb
-  show (a * b)ᴴ * gramAt D V τ * (a * b) = gramAt D V τ
-  calc (a * b)ᴴ * gramAt D V τ * (a * b) = bᴴ * (aᴴ * gramAt D V τ * a) * b := by
-        simp only [conjTranspose_mul, Matrix.mul_assoc]
-    _ = gramAt D V τ := by rw [ha', hb']
+  apply _root_.Formalism.IndefR.SchurOrthogonalityAlt.mul_mem_UH_indefinite_real <;> assumption
 
 theorem one_uh : (1 : Matrix (Fin V.rank) (Fin V.rank) ℂ) ∈ Formalism.QuantumDeterminants.UH (gramAt D V τ) := by
   show (1 : Matrix (Fin V.rank) (Fin V.rank) ℂ)ᴴ * gramAt D V τ * 1 = gramAt D V τ

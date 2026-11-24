@@ -46,6 +46,8 @@ import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
 import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.IsPotential
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsCrystalCoordinatesOverBreuilKisin
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.FiniteProjectiveModuleElementDescentEqualizer
 
 @[expose] public section
 
@@ -59,15 +61,7 @@ namespace GlobalTheory.CrysFrobCoord
 theorem span_range_eq_top {A B M N : Type} [CommRing A] [CommRing B] [AddCommGroup M] [Module A M]
     [AddCommGroup N] [Module B N] {f : A →+* B} {u : M →ₛₗ[f] N} (h : SemiBC u) :
     Submodule.span B (Set.range u) = ⊤ := by
-  set S := Submodule.span B (Set.range u)
-  obtain ⟨w, -, hu⟩ := h (N ⧸ S) 0
-  have h1 := hu S.mkQ (fun x => by
-    simpa using (Submodule.Quotient.mk_eq_zero S).2 (Submodule.subset_span ⟨x, rfl⟩))
-  have h2 := hu 0 (fun x => by simp)
-  rw [eq_top_iff]
-  intro y _
-  have : S.mkQ y = 0 := by rw [h1, ← h2]; rfl
-  exact (Submodule.Quotient.mk_eq_zero S).1 this
+  apply _root_.GlobalTheory.BSP.ProjDescent.span_top <;> assumption
 
 theorem frac_indep {A M B : Type} [CommRing A] [AddCommGroup M] [Module A M] [CommRing B] [IsDomain B]
     (d : A) (J : A →+* B) (hd : J d ≠ 0) (lam : M →+ B) (hlam : ∀ r y, lam (r • y) = J r * lam y)
@@ -120,14 +114,7 @@ variable {l : ℕ} [hl : Fact l.Prime] {a : ℕ} [NeZero a] {O K : Type} [CommRi
 
 theorem frob_toAc (x : (Wq l a)⟦X⟧) (τ : ZMod a) :
     frob K l (toAc t K x (τ - 1) : K⟦X⟧) = (toAc t K (frobS l a x) τ : K⟦X⟧) := by
-  ext n
-  have : coeff n (frobS l a x) = if l ∣ n then sigma l a (coeff (n / l) x) else 0 := by
-    simp only [frobS, RingHom.comp_apply, coeff_map, AlgHom.toRingHom_eq_coe, RingHom.coe_coe, coeff_expand]
-    split_ifs <;> simp
-  rw [coeff_frob, coeff_toAc, coeff_toAc, this]
-  split_ifs
-  · rw [emb_sigma]
-  · simp
+  apply _root_.GlobalTheory.CrysExt.frob_toAc <;> assumption
 
 theorem coe_toAc_eis (τ : ZMod a) : (toAc t K (eis l a e) τ : K⟦X⟧) = E K l e := by
   have hX : toAc t K X = fun _ => uIn (A O K) :=

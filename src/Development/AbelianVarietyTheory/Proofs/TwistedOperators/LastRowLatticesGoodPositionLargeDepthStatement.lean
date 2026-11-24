@@ -539,24 +539,7 @@ theorem monoAt_of_proj (d : HypDec S S₀ ρ) (L : Lat S) (L₀ : Lat S₀)
     (hX : ∀ i : Fin ρ, ∀ x ∈ L, colProj d.qX d.e i *ᵥ x ∈ L)
     (hY : ∀ i : Fin ρ, ∀ x ∈ L, colProj d.qY d.e' i *ᵥ x ∈ L)
     (h0 : ∀ x ∈ L, d.q0 *ᵥ x ∈ L₀) (hi : ∀ x ∈ L₀, d.i₀ *ᵥ x ∈ L) (v : Pl D) : MonoAt d L L₀ v := by
-  intro y
-  constructor
-  · intro hy
-    refine ⟨fun i => ?_, fun i => ?_, ?_⟩
-    · change colMul (rat d.e) i ((rat d.qX *ᵥ y) i) ∈ _
-      rw [colMul_rat]
-      exact rat_mulVec_mem_latV _ (hX i) _ hy
-    · change colMul (rat d.e') i ((rat d.qY *ᵥ y) i) ∈ _
-      rw [colMul_rat]
-      exact rat_mulVec_mem_latV _ (hY i) _ hy
-    · exact rat_mulVec_mem_latV d.q0 h0 _ hy
-  · rintro ⟨h1, h3, h2⟩
-    have e : y = d.jX *ᵥ (d.pX *ᵥ y) + d.j0 *ᵥ (d.p0 *ᵥ y) + d.jY *ᵥ (d.pY *ᵥ y) := by
-      rw [Matrix.mulVec_mulVec, Matrix.mulVec_mulVec, Matrix.mulVec_mulVec, ← Matrix.add_mulVec, ← Matrix.add_mulVec,
-        d.sum_eq_one, Matrix.one_mulVec]
-    rw [e, mulVec_eq_sum_colMul d.jX, mulVec_eq_sum_colMul d.jY]
-    refine add_mem (add_mem (sum_mem fun i _ => h1 i) ?_) (sum_mem fun i _ => h3 i)
-    exact rat_mulVec_mem_latV d.i₀ hi _ h2
+  first | exact _root_.GlobalTheory.AscFin.MonoJac.monoAt_of_proj | exact @_root_.GlobalTheory.AscFin.MonoJac.monoAt_of_proj | apply _root_.GlobalTheory.AscFin.MonoJac.monoAt_of_proj <;> assumption
 
 end Generic
 
@@ -1070,10 +1053,7 @@ variable {D : D7} {A B : HSp D} {c : ℕ}
 
 theorem coreMat_iB' {σ : ℕ} (d : HermitianOrthogonalExtensionData A B c (-1)) (h : c = 2 * σ + 1) :
     coreMat d h * (GlobalTheory.OrthSumExists.orthDecHsum D A (GlobalTheory.SeeSaw.Model.nLine D)).iB = midCol d h := by
-  refine (Matrix.submatrix_mul_equiv _ _ _ _ _).trans ?_
-  show Matrix.fromCols (frameMat B A d.ι) (midCol d h) *
-      Matrix.fromRows (0 : Matrix (Fin A.rank) (Fin 1) D.host.E) (1 : Matrix (Fin 1) (Fin 1) D.host.E) = _
-  rw [Matrix.fromCols_mul_fromRows, Matrix.mul_one, Matrix.mul_zero, zero_add]
+  apply _root_.GlobalTheory.RowShape.coreMat_iB <;> assumption
 
 theorem coreMat_vecB {σ : ℕ} (d : HermitianOrthogonalExtensionData A B c (-1)) (h : c = 2 * σ + 1) (x : D.host.E) :
     coreMat d h *ᵥ vecB (GlobalTheory.OrthSumExists.orthDecHsum D A (GlobalTheory.SeeSaw.Model.nLine D)) (fun _ => x) =

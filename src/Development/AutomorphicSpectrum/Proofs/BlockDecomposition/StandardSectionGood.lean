@@ -42,6 +42,7 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Sheaves.Init
+import GroundTheory.AutomorphicForms.ReductionLocalVolume
 
 @[expose] public section
 
@@ -60,20 +61,7 @@ variable {𝕜 : Type*} [RCLike 𝕜] {n : ℕ}
 
 theorem mem_unitary_of_euclid (U : Matrix (Fin n) (Fin n) 𝕜)
     (h : ∀ z : Fin n → 𝕜, euclidNorm (z ᵥ* U) = euclidNorm z) : U ∈ unitaryGroup (Fin n) 𝕜 := by
-  classical
-  let f : EuclideanSpace 𝕜 (Fin n) →ₗ[𝕜] EuclideanSpace 𝕜 (Fin n) := Matrix.toEuclideanLin Uᵀ
-  have hf : ∀ x : EuclideanSpace 𝕜 (Fin n), (f x).ofLp = x.ofLp ᵥ* U := fun x => by
-    simp [f, Matrix.toLpLin_apply, Matrix.mulVec_transpose]
-  have hn : ∀ x, ‖f x‖ = ‖x‖ := fun x => by
-    have := h x.ofLp
-    rw [EuclideanSpace.norm_eq, EuclideanSpace.norm_eq, hf]
-    simpa [euclidNorm] using this
-  have hi := (LinearMap.norm_map_iff_inner_map_map f).1 hn
-  rw [mem_unitaryGroup_iff]
-  ext j i
-  have := hi (EuclideanSpace.single i 1) (EuclideanSpace.single j 1)
-  rw [EuclideanSpace.inner_eq_star_dotProduct, EuclideanSpace.inner_eq_star_dotProduct, hf, hf] at this
-  simpa [Matrix.mul_apply, dotProduct, Matrix.one_apply, Pi.single_apply, eq_comm] using this
+  apply _root_.GroundTheory.Automorphic.Reduction.mem_unitaryGroup_of_euclidNorm <;> assumption
 
 end Unitary
 

@@ -638,12 +638,8 @@ private theorem hT_eq_hT_vPr_left_add_sum (x z : (VS D).V) : (VS D).hT x z =
 
 private theorem mem_perpS_X_of_hT_e_eq_zero (z : (VS D).V) (hz : ∀ b, (VS D).hT (F0.e b) z = 0) :
     z ∈ perpS (VS D) F0.X := by
-  have hK : F0.X ≤ LinearMap.ker ((VS D).hT z) := by
-    rw [FlagG.X, Submodule.span_le]
-    rintro _ ⟨b, rfl⟩
-    rw [SetLike.mem_coe, LinearMap.mem_ker, ← hs_lemma_2, hz b, star_zero]
-  intro x hx
-  rw [← hs_lemma_2, LinearMap.mem_ker.1 (hK hx), star_zero]
+  intros
+  refine (@_root_.PI.UnitaryGroupMassFormula.CntFormula.RowsMassW.rs_mem_perp_iff' ?_ ?_ ?_ ?_).mpr ?_ <;> first | assumption | infer_instance
 
 private theorem hT_e_vPr_eq_zero_of_partnerOK (hf : PartnerOK D F0 f) (z : (VS D).V) (b : Fin D.R.rS) :
     (VS D).hT (F0.e b) (vPr D F0 f z) = 0 := by

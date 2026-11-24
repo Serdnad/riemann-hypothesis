@@ -1020,51 +1020,22 @@ theorem I_eq_of_sL (hS : SecZero) (hLC : LC) (hL : LocData ε c t p q e sL ρ) (
 theorem hz_comb (hD : GlobData ε c sL ρ G Pp Γ ι s₀ Ht sec I Λ) {N : ℕ} {P : PX m n} {QQ : Fin N → PX m n} {cc : Fin N → ℂ}
     (hP : ∀ y, sL P y = ∑ j, cc j * sL (QQ j) y) (z : ℂ) (x : G) :
     hz Ht sec s₀ z P x = ∑ j, cc j * hz Ht sec s₀ z (QQ j) x := by
-  obtain ⟨x', y, S, r, hr, hg, hx⟩ := hD.split x
-  have hs : ∀ Q : PX m n, sec Q x = S * sL Q y := fun Q => by
-    rw [hg]
-    exact (hx y).2 Q
-  simp only [hz]
-  rw [hs P, hP y, Finset.mul_sum, Finset.mul_sum]
-  refine Finset.sum_congr rfl fun j _ => ?_
-  rw [hs (QQ j)]
-  ring
+  exact hz_comb' hD.toCore hP z x
 
 end
 
 theorem mulVec_sum {N : ℕ} (A B : Matrix (Fin N) (Fin N) ℂ) (v : Fin N → ℂ) (j : Fin N) :
     ∑ i, A j i * ∑ l, B i l * v l = ∑ l, (A * B) j l * v l := by
-  simp only [Matrix.mul_apply, Finset.mul_sum, Finset.sum_mul]
-  rw [Finset.sum_comm]
-  refine Finset.sum_congr rfl fun l _ => Finset.sum_congr rfl fun i _ => ?_
-  ring
+  apply _root_.PositivityTheory.Rg.Sw.AbsSt.mulVec_sum' <;> assumption
 
 private theorem det_diff_lemma {N : ℕ} {A : ℂ → Matrix (Fin N) (Fin N) ℂ}
     (h : ∀ i j, Differentiable ℂ fun w => A w i j) : Differentiable ℂ fun w => (A w).det := by
-  simp only [Matrix.det_apply']
-  refine Differentiable.fun_sum fun σ _ => ?_
-  refine Differentiable.fun_mul (differentiable_const _) ?_
-  classical
-  have hp : ∀ s : Finset (Fin N), Differentiable ℂ (fun w => ∏ i ∈ s, A w (σ i) i) := by
-    intro s
-    induction s using Finset.induction_on with
-    | empty => simpa using (differentiable_const (1 : ℂ))
-    | insert a s ha ih =>
-      simp only [Finset.prod_insert ha]
-      exact (h (σ a) a).fun_mul ih
-  exact hp Finset.univ
+  apply _root_.PositivityTheory.Rg.Sw.AbsSt.diffDet_lemma_3 <;> assumption
 
 private theorem adj_diff_lemma_2 {N : ℕ} {A : ℂ → Matrix (Fin N) (Fin N) ℂ}
     (h : ∀ i j, Differentiable ℂ fun w => A w i j) (a b : Fin N) :
     Differentiable ℂ fun w => (A w).adjugate a b := by
-  simp only [Matrix.adjugate_apply]
-  refine det_diff_lemma (A := fun w => (A w).updateRow b (Pi.single a 1)) fun i j => ?_
-  by_cases hib : i = b
-  · subst hib
-    simp only [Matrix.updateRow_self]
-    exact differentiable_const _
-  · simp only [Matrix.updateRow_ne hib]
-    exact h i j
+  apply _root_.PositivityTheory.Rg.Sw.AbsSt.diffAdj_lemma_4 <;> assumption
 
 private theorem ev_ne_lemma_3 {f : ℂ → ℂ} (hf : Differentiable ℂ f) (ha : ∃ a, f a ≠ 0) (z : ℂ) :
     ∀ᶠ w in 𝓝[≠] z, f w ≠ 0 := by

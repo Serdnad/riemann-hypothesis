@@ -80,22 +80,19 @@ theorem gtf_res_hom {Z : Scheme.{0}} [IsIntegral Z] {U W : Z.Opens} (i : U ⟶ W
     (Z.germToFunctionField U).hom.comp (Z.presheaf.map i.op).hom = (Z.germToFunctionField W).hom := by
   ext s; exact gtf_res i s
 
-theorem AICOpen_of : AICOpen := by
-  intro Z hZ W hW p hm hd
-  have : IsIntegral Z := hZ.1
+theorem aic_of_local_cover {Z : Scheme.{0}} [IsIntegral Z]
+    (hloc : ∀ (W : Z.Opens) (y : Z), y ∈ W → ∃ U : Z.Opens, y ∈ U ∧ U ≤ W ∧ AIC Γ(Z, U))
+    (W : Z.Opens) (hW : (W : Set Z).Nonempty) : AIC Γ(Z, W) := by
+  intro p hm hd
   have : Nonempty W := ⟨⟨_, hW.some_mem⟩⟩
-  have hcov : ∀ x : W, ∃ U : Z.Opens, IsAffineOpen U ∧ (x : Z) ∈ U ∧ U ≤ W := by
-    intro x
-    obtain ⟨_, ⟨U, hU, rfl⟩, hxU, hUW⟩ := Z.isBasis_affineOpens.exists_subset_of_mem_open x.2 W.isOpen
-    exact ⟨U, hU, hxU, hUW⟩
-  choose U hUa hxU hUW using hcov
+  have hcov : ∀ x : W, ∃ U : Z.Opens, (x : Z) ∈ U ∧ U ≤ W ∧ AIC Γ(Z, U) := fun x => hloc W x x.2
+  choose U hxU hUW hUa using hcov
   have hne : ∀ x : W, Nonempty (U x) := fun x => ⟨⟨_, hxU x⟩⟩
   let ψ := Z.germToFunctionField W
-
   have hroot : ∀ x : W, ∃ β : Z.functionField, (p.map ψ.hom).eval β = 0 := by
     intro x
     have := hne x
-    have hA : AIC Γ(Z, U x) := hZ.2 _ (hUa x) ⟨_, hxU x⟩
+    have hA : AIC Γ(Z, U x) := hUa x
     let ρ := (Z.presheaf.map (homOfLE (hUW x)).op).hom
     obtain ⟨r, hr⟩ := hA (p.map ρ) (hm.map ρ) (by rw [hm.natDegree_map]; exact hd)
     refine ⟨Z.germToFunctionField (U x) r, ?_⟩
@@ -104,7 +101,7 @@ theorem AICOpen_of : AICOpen := by
   have hsec : ∀ x : W, ∃ t : Γ(Z, U x), Z.germToFunctionField (U x) t = β := by
     intro x
     have := hne x
-    have hA : AIC Γ(Z, U x) := hZ.2 _ (hUa x) ⟨_, hxU x⟩
+    have hA : AIC Γ(Z, U x) := hUa x
     let ρ := (Z.presheaf.map (homOfLE (hUW x)).op).hom
     exact roots_in (Z.germToFunctionField (U x)).hom hA _ (p.map ρ) rfl (hm.map ρ) β
       (by rw [Polynomial.map_map, gtf_res_hom]; exact hβ)
@@ -133,5 +130,14 @@ theorem AICOpen_of : AICOpen := by
   change ψ.hom (p.eval t) = 0
   rw [key]; change (p.map ψ.hom).eval (ψ t) = 0
   rw [ht]; exact hβ
+
+theorem AICOpen_of : AICOpen := by
+  intro Z hZ W hW
+  have : IsIntegral Z := hZ.1
+  apply aic_of_local_cover _ W hW
+  intro V y hy
+  obtain ⟨_, ⟨U, hU, rfl⟩, hyU, hUV⟩ :=
+    Z.isBasis_affineOpens.exists_subset_of_mem_open hy V.isOpen
+  exact ⟨U, hyU, hUV, hZ.2 U hU ⟨y, hyU⟩⟩
 
 end LateralTheory.E.AICOpenPf

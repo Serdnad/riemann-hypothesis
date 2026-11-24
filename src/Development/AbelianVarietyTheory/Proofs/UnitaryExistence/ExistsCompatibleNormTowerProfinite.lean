@@ -1,5 +1,6 @@
 module
 
+import Mathlib.RingTheory.Unramified.Finite
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.TwoWeightEqOneAddRoot
 public import Development.AbelianVarietyTheory.Definitions.ArchimedeanThetaValues.IsCoprimeTwoSubRtTwoAddRt
 public import Mathlib.LinearAlgebra.FreeModule.IdealQuotient
@@ -217,36 +218,27 @@ open scoped TensorProduct
 
 variable {E : Type} [Field E] [NumberField E] [IsCMField E] (H : Host E)
 
+open Algebra.FormallyUnramified in
 theorem span_sub_bar : Ideal.span (Set.range fun b : 𝓞 E => b - H.bar b) = ⊤ := by
   haveI := H.unram
   let σ := IsCMField.ringOfIntegersComplexConj E
   have hσ : ∀ a, σ a = H.bar a := fun a => by
     apply RingOfIntegers.ext
     exact (IsCMField.coe_ringOfIntegersComplexConj E a).trans (H.bar_eq a).symm
-  let L : 𝓞 E ⊗[𝓞 (maximalRealSubfield E)] 𝓞 E →ₐ[𝓞 (maximalRealSubfield E)] 𝓞 E :=
-    Algebra.TensorProduct.lift (AlgHom.id _ _) (σ : 𝓞 E →ₐ[_] 𝓞 E) fun _ _ => Commute.all _ _
-  have hL : ∀ x y, L (x ⊗ₜ y) = x * H.bar y := fun x y => by simp [L, hσ]
-  have h1 : ∀ z, Algebra.TensorProduct.lmul' (𝓞 (maximalRealSubfield E)) (S := 𝓞 E) z - L z ∈
-      Ideal.span (Set.range fun b : 𝓞 E => b - H.bar b) := by
-    intro z
-    induction z using TensorProduct.induction_on with
-    | zero => simp
-    | tmul x y =>
-      rw [hL, Algebra.TensorProduct.lmul'_apply_tmul, ← mul_sub]
-      exact Ideal.mul_mem_left _ _ (Ideal.subset_span ⟨y, rfl⟩)
-    | add x y hx hy =>
-      rw [map_add (f := _), map_add (f := _)]
-      convert Ideal.add_mem _ hx hy using 1
-      ring
-  have h2 := congrArg L
-    (Algebra.FormallyUnramified.one_tmul_mul_elem (R := 𝓞 (maximalRealSubfield E)) H.rt)
-  rw [map_mul, map_mul, hL, hL, bar_rt, map_one] at h2
-  have h3 : L (Algebra.FormallyUnramified.elem (𝓞 (maximalRealSubfield E)) (𝓞 E)) = 0 := by
-    apply mul_left_cancel₀ (mul_ne_zero (two_ne_zero : (2 : 𝓞 E) ≠ 0) (rt_ne_zero H))
-    linear_combination -h2
-  have h4 := h1 (Algebra.FormallyUnramified.elem (𝓞 (maximalRealSubfield E)) (𝓞 E))
-  rw [h3, Algebra.FormallyUnramified.lmul_elem, sub_zero] at h4
-  exact (Ideal.eq_top_iff_one _).2 h4
+  let f : 𝓞 E →ₐ[𝓞 (maximalRealSubfield E)] 𝓞 E := σ
+  have hne : AlgHom.id _ _ ≠ f := by
+    intro he
+    have h := congrArg (fun g : 𝓞 E →ₐ[𝓞 (maximalRealSubfield E)] 𝓞 E => g H.rt) he
+    change H.rt = σ H.rt at h
+    rw [hσ, bar_rt] at h
+    exact rt_ne_zero H (neg_eq_self.mp h.symm)
+  have hε : equalizerIdempotent (AlgHom.id _ _) f = 0 :=
+    (isIdempotentElem_equalizerIdempotent (AlgHom.id _ _) f).eq_zero_or_one.resolve_right
+      (fun h => hne (equalizerIdempotent_eq_one_iff.mp h))
+  have hspan := span_equalizerIdempotent_one_sub_eq (AlgHom.id _ _) f
+  rw [hε, sub_zero, Ideal.span_singleton_one] at hspan
+  change ⊤ = Ideal.span (Set.range fun b : 𝓞 E => b - σ b) at hspan
+  simpa only [hσ] using hspan.symm
 
 theorem exists_norm_mod_prime {p : ℕ} (hp : p.Prime) {ν : ℤ} (hν : IsCoprime ν (p : ℤ)) :
     ∃ t : 𝓞 E, (p : 𝓞 E) ∣ t * H.bar t - (ν : 𝓞 E) := by

@@ -1,5 +1,8 @@
 module
 
+import Formalism.SharpRestriction.Divisibility.GeneratorPowers.GermDJet
+import all Formalism.SharpRestriction.Divisibility.GeneratorPowers.ExpTiePf
+import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.HarmonicValuesInvariantUniversalEndomorphism
 public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.ScaleGenIsGen
 public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.FBIdLB
 public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.GermBSer
@@ -90,23 +93,7 @@ theorem aug_comp_eq (f : Jet S κ 0 →ₐ[S] Jet S κ' 0) :
 
 private theorem mem_degLE_lemma (n : ℕ) (e : κ →₀ ℕ) :
     e ∈ degLE n ↔ (e.sum fun _ k => k) ≤ n := by
-  constructor
-  · intro h
-    simp only [degLE, Finset.mem_filter] at h
-    exact h.2
-  · intro h
-    have hb : ∀ i, e i < n + 1 := by
-      intro i
-      rcases Nat.eq_zero_or_pos (e i) with h0 | hpos
-      · omega
-      · have hi : i ∈ e.support := Finsupp.mem_support_iff.2 (by omega)
-        have h1 := Finset.single_le_sum (f := (⇑e)) (fun _ _ => Nat.zero_le _) hi
-        have h2 : (e.sum fun _ k => k) = ∑ j ∈ e.support, e j := rfl
-        omega
-    simp only [degLE, Finset.mem_filter, Finset.mem_image, Finset.mem_univ, true_and]
-    refine ⟨⟨fun i => ⟨e i, hb i⟩, ?_⟩, h⟩
-    ext i
-    simp
+  apply _root_.Formalism.MainNotions.ModuliIntegralCharts.H1.ExpTiePf.mem_degLE_lemma <;> assumption
 
 private theorem monomial_mem_orig_pow_lemma (n : ℕ) (e : κ →₀ ℕ) (c : S)
     (h : n ≤ e.sum fun _ k => k) : MvPolynomial.monomial e c ∈ orig S κ ^ n := by
@@ -122,17 +109,8 @@ private theorem monomial_mem_orig_pow_lemma (n : ℕ) (e : κ →₀ ℕ) (c : S
 
 private theorem psTrunc_succ_sub_lemma (n : ℕ) (f : MvPowerSeries κ S) :
     psTrunc (n + 1) f - psTrunc n f ∈ orig S κ ^ (n + 1) := by
-  have hsub : (degLE n : Finset (κ →₀ ℕ)) = (degLE (n + 1)).filter (fun e => (e.sum fun _ k => k) ≤ n) := by
-    ext e
-    simp only [Finset.mem_filter, mem_degLE_lemma]
-    exact ⟨fun h => ⟨by omega, h⟩, fun h => h.2⟩
-  unfold psTrunc
-  rw [hsub, ← Finset.sum_filter_add_sum_filter_not (degLE (n + 1))
-    (fun e => (e.sum fun _ k => k) ≤ n), add_sub_cancel_left]
-  refine Ideal.sum_mem _ fun e he => ?_
-  rw [Finset.mem_filter, mem_degLE_lemma] at he
-  have he2 := he.2
-  exact monomial_mem_orig_pow_lemma _ _ _ (by omega)
+  intros
+  apply _root_.Formalism.MainNotions.ModuliIntegralCharts.H1.GermD.psTrunc_succ_sub <;> assumption
 
 private theorem cc_psTrunc_lemma (n : ℕ) (f : MvPowerSeries κ S) :
     MvPolynomial.constantCoeff (psTrunc n f) = MvPowerSeries.constantCoeff f := by
@@ -181,12 +159,7 @@ theorem cc_psTrunc' (m : ℕ) (f : MvPowerSeries κ S) :
   exact cc_psTrunc_lemma m f
 
 theorem psJet_zero_of (f : MvPowerSeries κ S) (hf : MvPowerSeries.constantCoeff f = 1) : psJet 0 f = 1 := by
-  show Ideal.Quotient.mk (orig S κ ^ (0 + 1)) (psTrunc 0 f) = 1
-  rw [← map_one (Ideal.Quotient.mk (orig S κ ^ (0 + 1))), Ideal.Quotient.eq]
-  have h : psTrunc 0 f - 1 ∈ orig S κ := by
-    apply mem_orig_of_cc'
-    rw [map_sub, map_one, cc_psTrunc', hf, sub_self]
-  simpa using h
+  apply _root_.GlobalTheory.ChartPush.psJet_zero_of <;> assumption
 
 end Jet
 

@@ -3,7 +3,7 @@ module
 public import Development.ResolutionOfSingularities.EmbeddedResolution.EtaleCoordinates.StrictNormalCrossingsAddHypersurface
 import Development.ResolutionOfSingularities.EmbeddedResolution.EtaleCoordinates.CoordinateDivisorSmoothness
 import Development.ResolutionOfSingularities.EmbeddedResolution.EtaleCoordinates.CoordinateSubscheme
-import Development.ResolutionOfSingularities.EmbeddedResolution.EtaleCoordinates.FormallyEtaleCoordinates
+import all Development.ResolutionOfSingularities.EmbeddedResolution.EtaleCoordinates.FormallyEtaleCoordinates
 import Development.ResolutionOfSingularities.EmbeddedResolution.EtaleCoordinates.SmoothCenterChart
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -125,29 +125,7 @@ private theorem basisKaehler_repr_kaehlerMap (k₀ : Type*) [CommRing k₀] (ι�
     (ω : KaehlerDifferential k₀ S) (i : ι₀) :
     (EtaleCoordinates.basisKaehler k₀ ι₀ S').repr (KaehlerDifferential.map k₀ k₀ S S' ω) i
       = algebraMap S S' ((EtaleCoordinates.basisKaehler k₀ ι₀ S).repr ω i) := by
-  have hb : ∀ j : ι₀,
-      KaehlerDifferential.map k₀ k₀ S S' (EtaleCoordinates.basisKaehler k₀ ι₀ S j)
-        = EtaleCoordinates.basisKaehler k₀ ι₀ S' j := by
-    intro j
-    simp only [EtaleCoordinates.basisKaehler_apply, KaehlerDifferential.map_D,
-      EtaleCoordinates.algebraMap_coord]
-  have hω : ω = ∑ j : ι₀, (EtaleCoordinates.basisKaehler k₀ ι₀ S).repr ω j •
-      EtaleCoordinates.basisKaehler k₀ ι₀ S j :=
-    ((EtaleCoordinates.basisKaehler k₀ ι₀ S).sum_repr ω).symm
-  have key : KaehlerDifferential.map k₀ k₀ S S' ω
-      = ∑ j : ι₀, algebraMap S S' ((EtaleCoordinates.basisKaehler k₀ ι₀ S).repr ω j) •
-        EtaleCoordinates.basisKaehler k₀ ι₀ S' j := by
-    conv_lhs => rw [hω]
-
-    rw [map_sum]
-    refine Finset.sum_congr rfl ?_
-    intro j _
-    rw [map_smul, hb j]
-    exact algebra_compatible_smul S' ((EtaleCoordinates.basisKaehler k₀ ι₀ S).repr ω j)
-      (EtaleCoordinates.basisKaehler k₀ ι₀ S' j)
-  rw [key]
-  exact repr_sum_smul_apply (EtaleCoordinates.basisKaehler k₀ ι₀ S')
-    (fun j => algebraMap S S' ((EtaleCoordinates.basisKaehler k₀ ι₀ S).repr ω j)) i
+  apply _root_.FunctorialResolution.EmbeddedResolution.EtaleCoordinates.repr_map_basisKaehler <;> assumption
 
 variable {X : Scheme.{u}} {k : Type u} [Field k] {p : X ⟶ Spec (CommRingCat.of k)}
   [AlgebraicGeometry.Smooth p] {V : X.Opens} {n : ℕ}

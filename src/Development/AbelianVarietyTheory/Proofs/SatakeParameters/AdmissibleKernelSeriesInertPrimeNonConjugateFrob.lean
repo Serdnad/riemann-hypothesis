@@ -1110,23 +1110,7 @@ theorem hypZ_term (D : D7) (p : ℕ) [Fact p.Prime] {N0 N1 : ℕ} (σ : MaximalU
 
 theorem bijective_orbMap (D : D7) (p : ℕ) (R : Finset (OrbitPlaces.Pl D)) (hR : OrbitPlaces.IsReps D p R) :
     Function.Bijective (fun y : R × ZMod (nP D p) => OrbitPlaces.orbMap D p y.1 y.2) := by
-  constructor
-  · rintro ⟨r₁, s₁⟩ ⟨r₂, s₂⟩ h
-    simp only at h
-    have hr : (r₁ : OrbitPlaces.Pl D) = r₂ := by
-      obtain ⟨r0, _, hu⟩ := hR (OrbitPlaces.orbMap D p r₁ s₁)
-      have e1 := hu r₁ ⟨r₁.2, s₁.val, rfl⟩
-      have e2 := hu r₂ ⟨r₂.2, s₂.val, h.symm⟩
-      rw [e1, e2]
-    have hr' : r₁ = r₂ := Subtype.ext hr
-    subst hr'
-    have hs : s₁ = s₂ := ZMod.val_injective _ (posPl_inj D p r₁ _ _ (ZMod.val_lt s₁) (ZMod.val_lt s₂) h)
-    rw [hs]
-  · intro z
-    obtain ⟨r0, ⟨hr0, e, he⟩, _⟩ := hR z
-    refine ⟨(⟨r0, hr0⟩, (e : ZMod (nP D p))), ?_⟩
-    show posPl D p r0 (e : ZMod (nP D p)).val = z
-    rw [ZMod.val_natCast, posPl_mod, he]
+  apply _root_.GlobalTheory.KerStd.IntegralSeriesSubstitution.orb_bijective <;> assumption
 
 end GlobalTheory.KerStd.HypCoord
 

@@ -1,5 +1,6 @@
 module
 
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovVolumes.UpperBounds.DivStartPf
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.FlagComponentFramedPointFrame
 public import Development.AbelianVarietyTheory.Definitions.Divisors.SecondCountableTopologyOfIsProjOver
 public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.OffZero
@@ -165,21 +166,7 @@ def Tw (V : Unf Xo c σ r) (e : Ix D → ℤ) (k : V.Comp) (la : ReciprocityTheo
 
 theorem isSec_mul {X : Data E r} {la la' : ReciprocityTheory.ChartRestriction.G.FD.Wt X.Ψ r} {P Q : Frame X.Ψ r → ℂ} (hP : X.IsSec la P)
     (hQ : X.IsSec la' Q) : X.IsSec (la + la') (fun x => P x * Q x) := by
-  refine ⟨hP.1.mul hQ.1, fun x hx b hb => ?_, fun γ hγ x hx => ?_⟩
-  · have hdiag : ∀ τ i, b τ i i ≠ 0 := fun τ i => by
-      have hdet := (hb τ).1
-      rw [Matrix.det_of_isUpperTriangular (M := mat b τ) (fun a c hac => (hb τ).2 a c hac)] at hdet
-      exact Finset.prod_ne_zero_iff.1 hdet i (Finset.mem_univ _)
-    have hadd : bchar (la + la') b = bchar la b * bchar la' b := by
-      simp only [bchar, ← Finset.prod_mul_distrib]
-      refine Finset.prod_congr rfl fun τ _ => Finset.prod_congr rfl fun i _ => ?_
-      rw [Pi.add_apply, Pi.add_apply, zpow_add₀ (hdiag τ i)]
-    show P _ * Q _ = _ * (P x * Q x)
-    rw [hP.2.1 x hx b hb, hQ.2.1 x hx b hb, hadd]
-    ring
-  · show P _ * Q _ = _ * (P x * Q x)
-    rw [hP.2.2 γ hγ x hx, hQ.2.2 γ hγ x hx, X.χ_add la la' γ hγ]
-    ring
+  apply _root_.ReciprocityTheory.ChartRestriction.G.AR.Up.DivSt.sec_mul' <;> assumption
 
 theorem sec_frBorZ {V : Unf Xo c σ r} (hU : IsUnf V) {e : Ix D → ℤ} {k : V.Comp}
     {la : ReciprocityTheory.ChartRestriction.G.FD.Wt (V.X k).Ψ r} (hT : Tw V e k la) {P : Frame (V.X k).Ψ r → ℂ} (hP : (V.X k).IsSec la P)
@@ -886,20 +873,7 @@ section -- clump:auto
 open CategoryTheory AlgebraicGeometry NumberField ReciprocityTheory.ChartRestriction.G.Geo.Tor ReciprocityTheory.ChartRestriction.G.FD Formalism.L2.Pj GlobalTheory.CompHS
 
 theorem _root_.GlobalTheory.T.toroidal_flag_smooth_projective : ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (H : Host E) (D : Datum H) (l : Level H) (Xo : Moduli D l) (c : Coeff l) (T : GlobalTheory.CompHS.TorFlag Xo c), ∃ d : ℕ, SmoothOfRelativeDimension d (GlobalTheory.CompHS.flagStr T.X) ∧ IsProjOver (GlobalTheory.CompHS.flagStr T.X) := by
-  intro E _ _ _ H D l Xo c T
-  obtain ⟨p⟩ := GlobalTheory.FlagMod.LowRank.nonempty_proj_id (E := E) (c := c)
-  obtain ⟨A⟩ := GlobalTheory.CompanionTheory.FlagSmooth.nonempty_atlas_of_cover T.Y p
-    (GlobalTheory.CompanionTheory.FlagSmooth.exists_gChart_of_flagCover T.X)
-  obtain ⟨M, g, κ, hκ, hZ⟩ := GlobalTheory.CompanionTheory.FlagSmooth.exists_cellModel T.Y p A
-  obtain ⟨d, hsm, hpr⟩ := _root_.GlobalTheory.CompanionTheory.FlagMod.cells_smooth_proj E H D l Xo c T.Y p A M.YY M.π g κ hκ hZ T.smooth
-  obtain ⟨h, hh, hπ⟩ := _root_.DifferentiableLines.flag_model_projective_embedding_alt E H D l Xo c T.Y p A M g κ hκ hZ T.smooth T.flag
-  have e : flagStr T.X = h ≫ M.π ≫ T.Y.s := by
-    rw [← Category.assoc, hπ]
-  refine ⟨d, ?_, ?_⟩
-  · rw [e]; exact GlobalTheory.VarFlag.smooth_iso h _ hsm
-  · rw [e]
-    obtain ⟨N, i, hi, hs⟩ := hpr
-    exact ⟨N, h ≫ i, inferInstance, by rw [Category.assoc, hs]⟩
+  apply _root_.GlobalTheory.CompanionTheory.FlagSmooth.smooth_proj_flagStr <;> assumption
 end -- clump:auto
 end -- clump:auto
 -- ===== end clump member: Development.AutomorphicSpectrum.Proofs.GeometryProofs.ToroidalFlagSmoothProjectiveStatement =====

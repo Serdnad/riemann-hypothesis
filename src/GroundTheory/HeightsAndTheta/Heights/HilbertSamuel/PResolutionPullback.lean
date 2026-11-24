@@ -1,5 +1,7 @@
 module
 
+import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.GenericGradient
+import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PSupBoundBlock
 import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PResolutionMetricPair
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsResolutionPullback
 import Mathlib.Algebra.Ring.IsFormallyReal
@@ -67,16 +69,7 @@ theorem eval_torus {f : MRing ι} {k₀ : K} {n : ℕ} (hf : IsMultiHomog f (blo
     (c : K → ℂ) (z : (Σ k, ι k) → ℂ) :
     eval (fun p => c p.1 * z p) (map (Int.castRingHom ℂ) f) =
       c k₀ ^ n * eval z (map (Int.castRingHom ℂ) f) := by
-  rw [eval_eq', eval_eq', Finset.mul_sum]
-  refine Finset.sum_congr rfl fun m hm => ?_
-  have hdeg := hf m (support_map_subset _ _ hm)
-  have hc : ∏ p : (Σ k, ι k), c p.1 ^ m p = c k₀ ^ n := by
-    rw [Fintype.prod_sigma]
-    simp_rw [Finset.prod_pow_eq_pow_sum, hdeg]
-    rw [Fintype.prod_eq_single k₀ fun k hk => by simp [blockDeg, hk]]
-    simp [blockDeg]
-  simp_rw [mul_pow, Finset.prod_mul_distrib, hc]
-  ring
+  apply _root_.GroundTheory.Heights₂.Heights.HilbertSamuel.SupBoundBlock.eval_torus_blockDeg <;> assumption
 
 theorem prod_norm_unitDeg (c : K → ℂ) (k₀ : K) : ∏ k, ‖c k‖ ^ unitDeg k₀ k = ‖c k₀‖ := by
   rw [Fintype.prod_eq_single k₀ fun k hk => by simp [unitDeg, hk]]

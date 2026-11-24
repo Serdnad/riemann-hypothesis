@@ -1,5 +1,6 @@
 module
 
+import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.LatticeSizeContinuity.DetMono
 public import Formalism.LocalToGlobal.HermitianForms.TiedSym
 public import Formalism.LocalToGlobal.GlobalTheory.BlockActions.HformSmulRightB
 public import Formalism.LocalToGlobal.HermitianForms.TiedBrUnit
@@ -16,37 +17,7 @@ open scoped ComplexOrder
 
 theorem exists_on_of_posDef {k : ℕ} (H : Matrix (Fin k) (Fin k) ℂ) (hH : H.PosDef) :
     ∃ o : Matrix (Fin k) (Fin k) ℂ, IsUnit o.det ∧ oᴴ * H * o = 1 := by
-  classical
-  set U : Matrix (Fin k) (Fin k) ℂ := (hH.1.eigenvectorUnitary : Matrix (Fin k) (Fin k) ℂ) with hUdef
-  have hUU : star U * U = 1 := Unitary.star_mul_self_of_mem (hH.1.eigenvectorUnitary).2
-  have hd : star U * H * U = diagonal (RCLike.ofReal ∘ hH.1.eigenvalues) := by
-    have h := hH.1.conjStarAlgAut_star_eigenvectorUnitary
-    rw [Unitary.conjStarAlgAut_star_apply] at h
-    simpa [hUdef] using h
-  let d : Fin k → ℂ := fun i => (((Real.sqrt (hH.1.eigenvalues i))⁻¹ : ℝ) : ℂ)
-  have hpos : ∀ i, 0 < hH.1.eigenvalues i := fun i => hH.eigenvalues_pos i
-  refine ⟨U * diagonal d, ?_, ?_⟩
-  · rw [Matrix.det_mul, Matrix.det_diagonal]
-    refine IsUnit.mul ?_ (IsUnit.mk0 _ (Finset.prod_ne_zero_iff.mpr fun i _ => ?_))
-    · have h1 : U.det * (star U).det = 1 := by
-        rw [← Matrix.det_mul, Unitary.mul_star_self_of_mem (hH.1.eigenvectorUnitary).2, Matrix.det_one]
-      exact ⟨Units.mkOfMulEqOne _ _ h1, rfl⟩
-    · simp only [d, ne_eq, Complex.ofReal_eq_zero, inv_eq_zero]
-      exact (Real.sqrt_pos.mpr (hpos i)).ne'
-  · rw [Matrix.conjTranspose_mul, Matrix.diagonal_conjTranspose, ← Matrix.star_eq_conjTranspose]
-    have e : diagonal (star d) * star U * H * (U * diagonal d) = diagonal (star d) * (star U * H * U) * diagonal d := by
-      simp only [Matrix.mul_assoc]
-    rw [e, hd, Matrix.diagonal_mul_diagonal, Matrix.diagonal_mul_diagonal, ← Matrix.diagonal_one]
-    congr 1
-    funext i
-    have hs : Real.sqrt (hH.1.eigenvalues i) ≠ 0 := (Real.sqrt_pos.mpr (hpos i)).ne'
-    have hr : (Real.sqrt (hH.1.eigenvalues i))⁻¹ * hH.1.eigenvalues i * (Real.sqrt (hH.1.eigenvalues i))⁻¹ = 1 := by
-      rw [mul_comm ((Real.sqrt (hH.1.eigenvalues i))⁻¹) (hH.1.eigenvalues i), mul_assoc, ← mul_inv,
-        Real.mul_self_sqrt (hpos i).le, mul_inv_cancel₀ (hpos i).ne']
-    have h2 : (((Real.sqrt (hH.1.eigenvalues i))⁻¹ : ℝ) : ℂ) * ((hH.1.eigenvalues i : ℝ) : ℂ) *
-        (((Real.sqrt (hH.1.eigenvalues i))⁻¹ : ℝ) : ℂ) = 1 := by exact_mod_cast hr
-    simp only [d, Pi.star_apply, Function.comp_apply, Complex.star_def, Complex.conj_ofReal]
-    exact h2
+  apply +allowSynthFailures _root_.PI.UnitaryGroupMassFormula.HermDefON.exists_congr_one <;> assumption
 
 variable {D : D7}
 

@@ -47,6 +47,7 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import Development.AbelianVarietyTheory.Definitions.Divisors.MatchingOfParts
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.DetNeZeroOfHasSig
 
 @[expose] public section
 
@@ -62,16 +63,7 @@ namespace PositivityTheory.Mix
 variable {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] {σ : E →ₐ[F] E} {n k : ℕ}
 
 theorem det_ne_of_sig {M : Matrix (Fin n) (Fin n) ℂ} {r s : ℕ} (h : HasSig M r s) : M.det ≠ 0 := by
-  obtain ⟨hr, A, hA⟩ := h
-  let e : Fin n ≃ Fin r ⊕ Fin s := (finCongr hr.symm).trans finSumFinEquiv.symm
-  have h1 : (A.submatrix id e)ᵀ * M * (A.submatrix id e).map star = (Aᵀ * M * A.map star).submatrix e e := by
-    ext i j
-    simp [Matrix.mul_apply]
-  intro h0
-  have h2 := congrArg Matrix.det h1
-  rw [hA, Matrix.det_submatrix_equiv_self, Matrix.det_fromBlocks_zero₂₁, Matrix.det_mul, Matrix.det_mul, h0, Matrix.det_neg] at h2
-  simp at h2
-  exact pow_ne_zero s (neg_ne_zero.2 one_ne_zero) h2.symm
+  apply _root_.GlobalTheory.SigDet.det_ne_zero_of_hasSig <;> assumption
 
 theorem conj_conj {B : Base F E} (h : B.IsGood σ) (x : E) : σ (σ x) = x := by
   obtain ⟨φ⟩ : Nonempty (E →+* ℂ) := inferInstance
@@ -151,11 +143,12 @@ theorem planeOK {B : Base F E} (hB : B.IsGood σ) {Y : Spc F E n} {Y₁ : Spc F 
     have := congrArg (· ᵥ* (incM F Y.J)⁻¹) h0
     simpa [Matrix.vecMul_vecMul, Matrix.mul_nonsing_inv _ hu] using this
 
-theorem full_of_dual_zero {B : Base F E} (hB : B.IsGood σ) {Y : Spc F E n}
+theorem full_of_dual_zero_of_involutive (hσ : Function.Involutive σ) {Y : Spc F E n}
     (ε : ℤˣ) (hJ : ∀ i j, σ (Y.J j i) = ((ε : ℤ) : E) * Y.J i j)
     (hL : Y.L.IsLattice E)
     (hdual : ∀ y, (∀ x ∈ Y.L, form σ Y.J y x = 0) → y ∈ Y.L) :
     Y.L.IsFullLattice E := by
+  have hσσ (x : E) : σ (σ x) = x := hσ x
   let := hL
   refine { span_eq_top := ?_ }
   let W := Submodule.span E (Y.L : Set (Fin n → E))
@@ -179,9 +172,9 @@ theorem full_of_dual_zero {B : Base F E} (hB : B.IsGood σ) {Y : Spc F E n}
         (LinearMap.mem_ker.mp hz)
     have hzero : form σ Y.J x y = 0 := by
       rw [Matrix.dotProduct_transpose_mulVec] at hz'
-      simpa only [form, y, conj_conj hB] using hz'
+      simpa only [form, y, hσσ] using hz'
     have hs : σ (form σ Y.J y x) = ((ε : ℤ) : E) * form σ Y.J x y := by
-      simp only [form, dotProduct, Matrix.mulVec, map_sum, map_mul, conj_conj hB, hJ, Finset.mul_sum]
+      simp only [form, dotProduct, Matrix.mulVec, map_sum, map_mul, hσσ, hJ, Finset.mul_sum]
       rw [Finset.sum_comm]
       exact Finset.sum_congr rfl fun i _ => Finset.sum_congr rfl fun j _ => by ring
     rw [hzero, mul_zero] at hs
@@ -196,6 +189,13 @@ theorem full_of_dual_zero {B : Base F E} (hB : B.IsGood σ) {Y : Spc F E n}
     smul_left_injective E hy₀ (congrArg Subtype.val hab)
   exact RingOfIntegers.not_isField E
     (isField_of_isIntegral_of_isField (IsFractionRing.injective (𝓞 E) E) (Field.toIsField E))
+
+theorem full_of_dual_zero {B : Base F E} (hB : B.IsGood σ) {Y : Spc F E n}
+    (ε : ℤˣ) (hJ : ∀ i j, σ (Y.J j i) = ((ε : ℤ) : E) * Y.J i j)
+    (hL : Y.L.IsLattice E)
+    (hdual : ∀ y, (∀ x ∈ Y.L, form σ Y.J y x = 0) → y ∈ Y.L) :
+    Y.L.IsFullLattice E := by
+  exact full_of_dual_zero_of_involutive (conj_conj hB) ε hJ hL hdual
 
 theorem planeOK_herm {B : Base F E} (hB : B.IsGood σ) {Y : Spc F E n} {Y₁ : Spc F E k} {H : Plane E n k} {i₀ i₁ r s : ℕ}
     (hH : H.IsAdapted σ B Y Y₁ i₀ i₁) (hY : Y.IsHerm σ B r s) :

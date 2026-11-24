@@ -1,5 +1,6 @@
 module
 
+import all Development.AbelianVarietyTheory.Proofs.JetHarmonics.ForcedContentBoundsProgrammeValueGoodPrime
 public import Formalism.LocalToGlobal.CharacterGerms.ValuationChoiceHypothesis
 public import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.DropLevelsBasic
 public import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.LevelsUsedBalancedValueOrbitSums
@@ -270,25 +271,7 @@ variable {l d : ℕ} [NeZero d]
 
 lemma succ_mul_flowVal_le (hl : 1 ≤ l) {D : ZMod d → ℝ} {x : ZMod d → ℕ → ℝ}
     (hx : IsFlow l d D x) : ((l : ℝ) + 1) * flowVal d x ≤ ∑ a, D a := by
-  have hl1 : (1 : ℝ) ≤ l := by exact_mod_cast hl
-  have h1 : (l : ℝ) * flowVal d x ≤ ∑ a, ∑ i ∈ oddLevels d, (l : ℝ) ^ i * x a i := by
-    unfold flowVal
-    rw [Finset.mul_sum]
-    refine Finset.sum_le_sum fun a _ => ?_
-    rw [Finset.mul_sum]
-    refine Finset.sum_le_sum fun i hi => ?_
-    have hi0 : i ≠ 0 := by
-      rintro rfl
-      exact absurd (Finset.mem_filter.1 hi).2 (by decide)
-    exact mul_le_mul_of_nonneg_right (le_self_pow₀ hl1 hi0) (hx.1 a i)
-  have h2 : ∑ a : ZMod d, ∑ i ∈ oddLevels d, x (a - (i : ZMod d)) i = flowVal d x := by
-    unfold flowVal
-    rw [Finset.sum_comm, Finset.sum_comm (s := Finset.univ)]
-    refine Finset.sum_congr rfl fun i _ => ?_
-    exact Equiv.sum_comp (Equiv.subRight (i : ZMod d)) (fun a => x a i)
-  have h3 := Finset.sum_le_sum fun a (_ : a ∈ Finset.univ) => hx.2 a
-  rw [Finset.sum_add_distrib, h2] at h3
-  linarith
+  apply _root_.UpperTheory.AlternatingNumberFlow.flowVal_mul_le <;> assumption
 
 lemma rho_mul_le_Fnum (hl : 2 ≤ l) {D : ZMod d → ℝ} (hD : ∀ a, 0 ≤ D a) :
     Formalism.IncomingBounds.rho l * ∑ a, D a ≤ Fnum l d D := by

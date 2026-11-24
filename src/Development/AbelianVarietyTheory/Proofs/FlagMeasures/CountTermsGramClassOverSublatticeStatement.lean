@@ -1,5 +1,7 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.FlagMeasures.EncardBiUnionLe
+import Development.AbelianVarietyTheory.Proofs.FlagMeasures.CovolumeIntegralUnipotentStabilizerOfTerm
 public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.RowMinor
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.DefiniteLatticeDiscriminantModuleCardDetSq
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.ExistsUniquePlace
@@ -132,15 +134,8 @@ theorem det_lo_mul {L : Matrix (Fin N) (Fin N) K} (h : IsLoUni L) (W : Matrix (F
 
 theorem lead_inv {L U : Matrix (Fin N) (Fin N) K} (hL : IsLoUni L) (hU : IsUpUni U)
     (W : Matrix (Fin N) (Fin N) K) (l : ℕ) : leadMinorE (L * W * U) l = leadMinorE W l := by
-  unfold leadMinorE
-  by_cases hl : l ≤ N
-  · rw [dif_pos hl, dif_pos hl, Matrix.mul_assoc, det_lo_mul hL (W * U) hl]
-    have hUt : IsLoUni Uᵀ := fun i j => ⟨(hU j i).1, fun e => (hU j i).2 e.symm⟩
-    have key := det_lo_mul hUt Wᵀ hl (Fin.castLE hl)
-    rw [← Matrix.transpose_mul, ← Matrix.transpose_submatrix, ← Matrix.transpose_submatrix,
-      Matrix.det_transpose, Matrix.det_transpose] at key
-    exact key
-  · rw [dite_eq_right hl, dite_eq_right hl]
+  intros
+  apply _root_.GlobalTheory.LoopC.CovTerm.leadMinor_cell <;> assumption
 
 theorem det_mono_sq {w : Matrix (Fin N) (Fin N) K} {σ : Equiv.Perm (Fin N)} {d : Fin N → K}
     (hw : ∀ i j, w i j = if j = σ i then d i else 0) (I J : Fin n → Fin N) (hI : Function.Injective I)
@@ -642,21 +637,8 @@ private theorem upperTriangular_mul_and_diag {R : Type} [CommRing R] {n : ℕ} (
 theorem upper_inv {R : Type} [CommRing R] {n : ℕ} (B : Matrix (Fin n) (Fin n) R)
     (h0 : ∀ a b, b < a → B a b = 0) (h1 : ∀ a, B a a = 1) :
     ∃ B' : Matrix (Fin n) (Fin n) R, (∀ a b, b < a → B' a b = 0) ∧ (∀ a, B' a a = 1) ∧ B * B' = 1 := by
-  have hBT : B.BlockTriangular id := fun a b hab => h0 a b hab
-  have hdet : B.det = 1 := by
-    rw [Matrix.det_of_isUpperTriangular hBT]
-    simp [h1]
-  have hu : IsUnit B.det := by
-    rw [hdet]
-    exact isUnit_one
-  have := Matrix.invertibleOfIsUnitDet B hu
-  have hinv : B * B⁻¹ = 1 := Matrix.mul_nonsing_inv B hu
-  have hT' : (B⁻¹).BlockTriangular id := Matrix.blockTriangular_inv_of_blockTriangular hBT
-  have h0' : ∀ a b, b < a → B⁻¹ a b = 0 := fun a b hab => hT' hab
-  refine ⟨B⁻¹, h0', fun a => ?_, hinv⟩
-  have := (upperTriangular_mul_and_diag B B⁻¹ h0 h0').2 a
-  rw [hinv, h1, one_mul, Matrix.one_apply_eq] at this
-  exact this.symm
+  intros
+  apply _root_.GlobalTheory.LoopC.FrEqv.uni_inv <;> assumption
 
 theorem upper_mul {R : Type} [CommRing R] {n : ℕ} (B B' : Matrix (Fin n) (Fin n) R)
     (h0 : ∀ a b, b < a → B a b = 0) (h1 : ∀ a, B a a = 1)

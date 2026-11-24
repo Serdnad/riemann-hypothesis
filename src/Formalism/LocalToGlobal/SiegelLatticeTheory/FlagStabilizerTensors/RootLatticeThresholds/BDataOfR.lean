@@ -6,6 +6,7 @@ public import Formalism.LocalToGlobal.SiegelLatticeTheory.FlagStabilizerTensors.
 public import Formalism.LocalToGlobal.SiegelLatticeTheory.FlagStabilizerTensors.RootLatticeThresholds.LoopTermLem
 import Mathlib.Tactic.Lemma
 import Mathlib.Tactic.TypeStar
+import Formalism.LocalToGlobal.SiegelLatticeTheory.CokernelGLCounts.RankPointCounts.ToPtsInj
 
 @[expose] public section
 
@@ -96,22 +97,6 @@ def RelPtExPR (u u' : D.what₂.Word) {θ : ℝ} (C : Choice X θ) : Prop :=
     (∃ g, Formalism.L2.SG.RealObj.IsPtRep X u u' w g) → ∀ τ,
       RelPt D (zB X (C.Qi τ) u τ) (zB X (C.Qi τ) u' τ) (gamP C u u' w τ) (ptLoc D τ w)
 
-private lemma toPts_inj_lemma {K : Type} [Zero K] {i : ℕ} (p q : Formalism.MainNotions.S.Point K (i + 1))
-    (h : Formalism.L2.SG.RowsConc.toPts p = Formalism.L2.SG.RowsConc.toPts q) : p = q := by
-  have h1 : p.1.map Prod.snd = q.1.map Prod.snd := congrArg (fun s => s.1.blocks) h
-  have key : ∀ r : Formalism.MainNotions.S.Point K (i + 1), List.ofFn (Formalism.L2.SG.RowsConc.toPts r).2 = r.1.map Prod.fst := by
-    intro r
-    apply List.ext_get
-    · simp [Formalism.L2.SG.RowsConc.toPts, Composition.length]
-    · intro n h1 h2
-      simp [Formalism.L2.SG.RowsConc.toPts]
-  have h2 : p.1.map Prod.fst = q.1.map Prod.fst := by
-    rw [← key p, ← key q]
-    exact congrArg (fun s : (Σ c : Composition (i + 1), (Fin c.length → K)) => List.ofFn s.2) h
-  apply Subtype.ext
-  rw [← List.zip_unzip p.1, ← List.zip_unzip q.1, List.unzip_fst, List.unzip_snd, List.unzip_fst,
-    List.unzip_snd, h1, h2]
-
 theorem jointAmplitudeFactorizationRotated_of (Y : Full X) (u u' : D.what₂.Word) (large₂ : SizeData₂ D) (C1 : ℝ) {θ : ℝ} (C : Choice X θ)
     (hB : WuBessel C) (ν νL : X.B.I.Ginf → Measure X.B.I.Ginf) (ng : Formalism.FourierDecayAlt.PN.Pts D.host.E D.R.rS → ℝ)
     (hR : RelPtExPR u u' C) (hM : RMeasExP u u' C) (hP : LocalAmplitudesPositive Y u u' ν C hB) (hT : ThetaWinP Y u u' ν C hB large₂ C1) :
@@ -121,7 +106,7 @@ theorem jointAmplitudeFactorizationRotated_of (Y : Full X) (u u' : D.what₂.Wor
   rw [hJB] at hpos ⊢
   subst hw
   obtain ⟨w', hw', hrep⟩ := isPtRep_of_J2of hpos
-  have hww : w' = w := toPts_inj_lemma w' w hw'
+  have hww : w' = w := _root_.Formalism.L2.SG.NGCut.NormalVectorPairings.toPts_inj w' w hw'
   subst hww
   have hP1 : 0 < localAmplitudeProduct u u' hB w' := hP w' hrow hpos
   haveI := Formalism.L2.SG.Pf.LTL.tau_nonempty D

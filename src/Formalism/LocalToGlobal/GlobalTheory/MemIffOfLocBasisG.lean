@@ -1,5 +1,6 @@
 module
 
+import Formalism.GradedWeylDivisibility.FockSpaceTableaux.TensorBasis
 public import Formalism.SharpRestriction.GlobalSchurBounds.TotallyPositiveTraceGeOfNormDiscr
 public import Formalism.GradedWeylDivisibility.FockSpaceTableaux.LClosedeqLemmas
 import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Wlocal
@@ -135,15 +136,7 @@ end WO
 
 theorem prod_mem_prod' {R A ι : Type*} [CommSemiring R] [CommSemiring A] [Algebra R A] (s : Finset ι)
     (N : ι → Submodule R A) (x : ι → A) (hx : ∀ i ∈ s, x i ∈ N i) : ∏ i ∈ s, x i ∈ ∏ i ∈ s, N i := by
-  classical
-  induction s using Finset.induction_on with
-  | empty =>
-    simp only [Finset.prod_empty]
-    exact Submodule.mem_one.2 ⟨1, map_one _⟩
-  | @insert a s ha ih =>
-    rw [Finset.prod_insert ha, Finset.prod_insert ha]
-    exact Submodule.mul_mem_mul (hx a (Finset.mem_insert_self a s))
-      (ih (fun i hi => hx i (Finset.mem_insert_of_mem hi)))
+  apply _root_.Formalism.GradedWeylDivisibility.ldtensor_prod_mem_prod <;> assumption
 
 def subAll {K : Type} [Field K] {ι : Type} {n : ℕ} (g : ι → Matrix (Fin n) (Fin n) K) :
     MvPolynomial (ι × Fin n × Fin n) K →ₐ[K] MvPolynomial (ι × Fin n × Fin n) K :=

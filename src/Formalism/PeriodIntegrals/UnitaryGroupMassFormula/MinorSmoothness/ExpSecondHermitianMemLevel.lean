@@ -1,5 +1,6 @@
 module
 
+import Formalism.HermitianCurvature.HermitianCurvatureProofs.RestrictionIrrelevantDoubleLevelOperator
 public import Formalism.HermitianCurvature.StatementQ
 public import Mathlib.Analysis.LocallyConvex.AbsConvexOpen
 public import Formalism.FormalDegreeBessel.FormalDegreeRatio.GBasic
@@ -84,21 +85,11 @@ lemma hpk_hh (A : Mx k r) : Hpk k r * (Hpk k r * A) = A := by rw [← mul_assoc,
 
 lemma hpart1_skew (Z : Mx k r) :
     (hpart1 (Hpk k r) Z)ᴴ = -(Hpk k r * hpart1 (Hpk k r) Z * Hpk k r) := by
-  unfold hpart1
-  rw [hpk_inv]
-  have hs : star (1 / 2 : ℂ) = 1 / 2 := by simp
-  simp only [conjTranspose_smul, conjTranspose_sub, conjTranspose_mul, conjTranspose_conjTranspose, Hpk_herm, hs,
-    mul_smul_comm, smul_mul_assoc, mul_sub, sub_mul, mul_assoc, hpk_hh, Hpk_sq, mul_one]
-  rw [← smul_neg, neg_sub]
+  apply _root_.Formalism.FourierDecayAlt.Q.EabLie.hpart1_skew <;> assumption
 
 lemma hpart2_skew (Z : Mx k r) :
     (hpart2 (Hpk k r) Z)ᴴ = -(Hpk k r * hpart2 (Hpk k r) Z * Hpk k r) := by
-  unfold hpart2
-  rw [hpk_inv]
-  have hs : star (1 / (2 * Complex.I) : ℂ) = -(1 / (2 * Complex.I)) := by simp
-  simp only [conjTranspose_smul, conjTranspose_add, conjTranspose_mul, conjTranspose_conjTranspose, Hpk_herm, hs,
-    mul_smul_comm, smul_mul_assoc, mul_add, add_mul, mul_assoc, hpk_hh, Hpk_sq, mul_one]
-  rw [neg_smul, add_comm Zᴴ]
+  apply _root_.Formalism.FourierDecayAlt.Q.EabLie.hpart2_skew <;> assumption
 
 lemma skew_real (X : Mx k r) (hX : Xᴴ = -(Hpk k r * X * Hpk k r)) (t : ℝ) :
     ((t : ℂ) • X)ᴴ = -(Hpk k r * ((t : ℂ) • X) * Hpk k r) := by
@@ -107,12 +98,7 @@ lemma skew_real (X : Mx k r) (hX : Xᴴ = -(Hpk k r * X * Hpk k r)) (t : ℝ) :
 
 lemma exp_mem_UH (Y : Mx k r) (hY : Yᴴ = -(Hpk k r * Y * Hpk k r)) :
     NormedSpace.exp Y ∈ UH (Hpk k r) := by
-  show (NormedSpace.exp Y)ᴴ * Hpk k r * NormedSpace.exp Y = Hpk k r
-  have e1 : Yᴴ = Hpk k r * (-Y) * (Hpk k r)⁻¹ := by
-    rw [hY, hpk_inv, mul_neg, neg_mul]
-  rw [← Matrix.exp_conjTranspose, e1, Matrix.exp_conj _ _ hpk_unit, hpk_inv]
-  simp only [mul_assoc, hpk_hh]
-  rw [← Matrix.exp_add_of_commute _ _ (Commute.refl Y).neg_left, neg_add_cancel, NormedSpace.exp_zero, mul_one]
+  apply _root_.Formalism.FourierDecayAlt.Q.EabLie.exp_mem_UH <;> assumption
 
 lemma exp_fix (Y : Mx k r) (c : Fin (2 * r + k + 1)) (hY : ∀ x, Y x c = 0) :
     NormedSpace.exp Y *ᵥ bvec c = bvec c := by
@@ -120,14 +106,7 @@ lemma exp_fix (Y : Mx k r) (c : Fin (2 * r + k + 1)) (hY : ∀ x, Y x c = 0) :
 
 lemma glev_mul {i : Fin (r + 1)} {g h : Mx k r} (hg : g ∈ Glev k r i) (hh : h ∈ Glev k r i) :
     g * h ∈ Glev k r i := by
-  simp only [Glev, UH, Set.mem_setOf_eq] at hg hh ⊢
-  obtain ⟨hgU, hgF⟩ := hg
-  obtain ⟨hhU, hhF⟩ := hh
-  refine ⟨?_, fun a ha => ⟨?_, ?_⟩⟩
-  · rw [conjTranspose_mul, show hᴴ * gᴴ * Hpk k r * (g * h) = hᴴ * (gᴴ * Hpk k r * g) * h by
-      simp only [mul_assoc], hgU, hhU]
-  · rw [← Matrix.mulVec_mulVec, (hhF a ha).1, (hgF a ha).1]
-  · rw [← Matrix.mulVec_mulVec, (hhF a ha).2, (hgF a ha).2]
+  apply _root_.Formalism.FourierDecayAlt.Q.EabLie.glev_mul <;> assumption
 
 lemma exp_mem_glev (i : Fin (r + 1)) (X : Mx k r) (hX : Xᴴ = -(Hpk k r * X * Hpk k r))
     (hc : ∀ a : Fin r, a.val < i.val → ∀ x, X x (eI k r a) = 0 ∧ X x (esI k r a) = 0) (t : ℝ) :
@@ -139,12 +118,7 @@ lemma exp_mem_glev (i : Fin (r + 1)) (X : Mx k r) (hX : Xᴴ = -(Hpk k r * X * H
 
 lemma hpk_zero (i : Fin (r + 1)) (p : Fin (mdim k r i)) (a : Fin r) (ha : a.val < i.val) :
     Hpk k r (posL k r i p) (eI k r a) = 0 ∧ Hpk k r (posL k r i p) (esI k r a) = 0 := by
-  have hp := p.isLt
-  have ha' := a.isLt
-  have hi := i.isLt
-  unfold mdim at hp
-  simp only [Hpk, posL, eI, esI, Fin.mk.injEq]
-  constructor <;> split_ifs <;> first | rfl | (exfalso; omega)
+  apply _root_.Formalism.FourierDecayAlt.Q.EabLie.hpk_zero <;> assumption
 
 lemma unit_col (i : Fin (r + 1)) (p q : Fin (mdim k r i)) (c : Fin (2 * r + k + 1))
     (hcq : c ≠ posL k r i q) (hHc : Hpk k r (posL k r i p) c = 0) (x : Fin (2 * r + k + 1)) :
@@ -164,13 +138,7 @@ lemma unit_col (i : Fin (r + 1)) (p q : Fin (mdim k r i)) (c : Fin (2 * r + k + 
 
 lemma posL_ne (i : Fin (r + 1)) (q : Fin (mdim k r i)) (a : Fin r) (ha : a.val < i.val) :
     eI k r a ≠ posL k r i q ∧ esI k r a ≠ posL k r i q := by
-  have hq := q.isLt
-  have ha' := a.isLt
-  unfold mdim at hq
-  refine ⟨fun h => ?_, fun h => ?_⟩ <;>
-  · have h2 := congrArg Fin.val h
-    simp only [eI, esI, posL] at h2
-    omega
+  apply _root_.Formalism.FourierDecayAlt.Q.EabLie.posL_ne <;> assumption
 
 lemma hpart_cols (i : Fin (r + 1)) (p q : Fin (mdim k r i)) :
     (∀ a : Fin r, a.val < i.val → ∀ x,
@@ -234,12 +202,7 @@ variable {E : Type*} [NormedAddCommGroup E] [NormedSpace ℂ E]
 
 lemma sl_add {f f' : Mx k r → E} (hf : SmoothLev k r i D f) (hf' : SmoothLev k r i D f') :
     SmoothLev k r i D (f + f') := by
-  intro g₀ hg₀
-  obtain ⟨U, F, hU, hgU, hF, hfF⟩ := hf g₀ hg₀
-  obtain ⟨U', F', hU', hgU', hF', hfF'⟩ := hf' g₀ hg₀
-  refine ⟨U ∩ U', fun x => F x + F' x, hU.inter hU', ⟨hgU, hgU'⟩,
-    (hF.mono Set.inter_subset_left).add (hF'.mono Set.inter_subset_right), fun g hg hgG => ?_⟩
-  simp only [Pi.add_apply, hfF g hg.1 hgG, hfF' g hg.2 hgG]
+  apply _root_.Formalism.FourierDecayAlt.P.Qx8.smooth_add <;> assumption
 
 lemma sl_zero : SmoothLev k r i D (0 : Mx k r → E) := by
   intro g₀ _
@@ -309,28 +272,15 @@ variable {E E' : Type*} [NormedAddCommGroup E] [NormedSpace ℂ E] [NormedAddCom
 
 private lemma Glev_mul_mem {g h : Mx k r} (hg : g ∈ Glev k r i) (hh : h ∈ Glev k r i) :
     g * h ∈ Glev k r i := by
-  simp only [Glev, UH, Set.mem_setOf_eq] at hg hh ⊢
-  refine ⟨?_, fun a ha => ?_⟩
-  · rw [Matrix.conjTranspose_mul]
-    calc hᴴ * gᴴ * Hpk k r * (g * h) = hᴴ * (gᴴ * Hpk k r * g) * h := by
-          simp only [Matrix.mul_assoc]
-      _ = Hpk k r := by rw [hg.1, hh.1]
-  · obtain ⟨e1, e2⟩ := hg.2 a ha
-    obtain ⟨f1, f2⟩ := hh.2 a ha
-    exact ⟨by rw [← Matrix.mulVec_mulVec, f1, e1], by rw [← Matrix.mulVec_mulVec, f2, e2]⟩
-
-private lemma continuousAt_mul_exp_smul_of_mem_Glev (X : Mx k r) (hX : ∀ t : ℝ, NormedSpace.exp ((t : ℂ) • X) ∈ Glev k r i)
-    {g : Mx k r} (hg : g ∈ Glev k r i) :
-    ContinuousAt (fun t : ℝ => g * NormedSpace.exp ((t : ℂ) • X)) 0 :=
-  (Formalism.FourierDecayAlt.Q.TPresLie.hasDerivAt_ext i X hX (fun x => x) (fun x => x) Set.univ g isOpen_univ
-    (Set.mem_univ _) hg contDiffOn_id (fun _ _ _ => rfl)).continuousAt
+  apply _root_.Formalism.FourierDecayAlt.Q.TPresLie.glev_mul <;> assumption
 
 lemma rdV_local (X : Mx k r) (hX : ∀ t : ℝ, NormedSpace.exp ((t : ℂ) • X) ∈ Glev k r i)
     (hD : IsOpen D) (f f' : Mx k r → E) (h : ∀ x ∈ Glev k r i ∩ D, f x = f' x)
     (g : Mx k r) (hg : g ∈ Glev k r i ∩ D) : RdV X f g = RdV X f' g := by
   simp only [RdV]
   apply Filter.EventuallyEq.deriv_eq
-  have hc := continuousAt_mul_exp_smul_of_mem_Glev X hX hg.1
+  have hc := (Formalism.FourierDecayAlt.Q.TPresLie.hasDerivAt_ext i X hX (fun x => x) (fun x => x)
+    Set.univ g isOpen_univ (Set.mem_univ _) hg.1 contDiffOn_id (fun _ _ _ => rfl)).continuousAt
   have hD' : (fun t : ℝ => g * NormedSpace.exp ((t : ℂ) • X)) ⁻¹' D ∈ 𝓝 (0 : ℝ) := by
     apply hc.preimage_mem_nhds
     simp only [Complex.ofReal_zero, zero_smul, NormedSpace.exp_zero, mul_one]

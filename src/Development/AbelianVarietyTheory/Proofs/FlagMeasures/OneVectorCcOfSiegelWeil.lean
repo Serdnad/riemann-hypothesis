@@ -1,5 +1,7 @@
 module
 
+import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.StabilizerVolume.SWeqOm
+import CompanionTheory.SpectralGeometry.LocalGlobalProofs.AdelicAnalysis.HermitianRankOneHomeomorphBase
 public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.SiegelMeanCc
 public import Formalism.UnipotentAdelicQuotients.SiegelWeilUnitaryConvergent
 import Mathlib.Algebra.Module.StablyFree.Basic
@@ -190,17 +192,7 @@ variable (R : Type) [CommRing R] [Algebra F R]
 
 theorem trace_tmul (r : R) (x : E) :
     Algebra.trace R (R ⊗[F] E) (r ⊗ₜ[F] x) = r * algebraMap F R (Algebra.trace F E x) := by
-  have e : r ⊗ₜ[F] x = r • ((1 : R) ⊗ₜ[F] x) := by rw [TensorProduct.smul_tmul', smul_eq_mul, mul_one]
-  rw [e, map_smul, smul_eq_mul]
-  congr 1
-  rw [Algebra.trace_apply, Algebra.trace_apply]
-  have hl : Algebra.lmul R (R ⊗[F] E) ((1 : R) ⊗ₜ[F] x) = (Algebra.lmul F E x).baseChange R := by
-    refine LinearMap.ext fun z => ?_
-    induction z using TensorProduct.induction_on with
-    | zero => simp
-    | tmul a y => simp [Algebra.TensorProduct.tmul_mul_tmul]
-    | add p q hp hq => rw [map_add (f := _), map_add (f := _), hp, hq]
-  rw [hl, LinearMap.trace_baseChange]
+  first | exact _root_.GlobalTheory.CompanionTheory.SW.BB.HermOne.trace_tmul | exact @_root_.GlobalTheory.CompanionTheory.SW.BB.HermOne.trace_tmul | apply _root_.GlobalTheory.CompanionTheory.SW.BB.HermOne.trace_tmul <;> assumption
 
 theorem add_sigR (h : IsCMExt F E σ) (z : R ⊗[F] E) :
     z + sigR R σ z = algebraMap R (R ⊗[F] E) (Algebra.trace R (R ⊗[F] E) z) := by
@@ -314,20 +306,7 @@ end Field
 theorem rapid_of_compact {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E]
     {d M n : ℕ} (b : Module.Basis (Fin d) F E) {Φ : (Fin n → Fin M → Ainf F ⊗[F] E) → ℂ}
     (hc : Continuous Φ) (hs : HasCompactSupport Φ) : RapidDecay b Φ := by
-  intro N
-  have : IsModuleTopology (Ainf F) (Ainf F ⊗[F] E) := ⟨rfl⟩
-  have hsize : Continuous (sizeTup b : (Fin n → Fin M → Ainf F ⊗[F] E) → ℝ) := by
-    unfold sizeTup sizeInf
-    refine continuous_finsetSum _ fun a _ => continuous_finsetSum _ fun i _ =>
-      continuous_finsetSum _ fun k _ => continuous_finsetSum _ fun v _ => ?_
-    have hk : Continuous fun y : Ainf F ⊗[F] E => (Algebra.TensorProduct.basis (Ainf F) b).repr y k :=
-      (IsModuleTopology.continuous_of_linearMap (R := Ainf F)
-        ((Algebra.TensorProduct.basis (Ainf F) b).coord k)).congr fun y => Module.Basis.coord_apply _ _ _
-    exact (((continuous_apply v).comp hk).comp ((continuous_apply i).comp (continuous_apply a))).norm
-  have hg : Continuous fun X => ‖Φ X‖ * (1 + sizeTup b X) ^ N :=
-    hc.norm.mul ((continuous_const.add hsize).pow N)
-  obtain ⟨C, hC⟩ := hg.bounded_above_of_compact_support hs.norm.mul_right
-  exact ⟨C, fun X => (Real.le_norm_self _).trans (hC X)⟩
+  apply _root_.PI.VolStabS.rapidDecay_of_compact <;> assumption
 
 theorem hermGroup {F E : Type} [Field F] [Field E] [Algebra F E] (σ : E →ₐ[F] E) (R : Type) [CommRing R]
     [Algebra F R] [TopologicalSpace R] (n : ℕ) : IsTopologicalAddGroup (HermR R σ n) := by

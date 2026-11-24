@@ -1,5 +1,6 @@
 module
 
+import Formalism.LocalToGlobal.PairingIndexBounds.SplitPairEquations.IntegralSquareRoots.NormOne
 public import Formalism.LocalToGlobal.IndefiniteReal.LevelTypeEquivalence.BaseSt
 public import Formalism.LocalToGlobal.UnitaryNorms.RealPl
 public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.InfEmbUnique
@@ -147,18 +148,7 @@ theorem eq_thetaC {θ : Datum.InfFam D} (hθ : IsInfFam θ) : θ = thetaC D :=
   infFamUnique_holds D θ _ hθ (isInfFam_thetaC D)
 
 theorem exists_alpha : ∃ α : D.host.E, star α = -α ∧ α ≠ 0 := by
-  have h2 : Module.finrank D.host.F D.host.E = 2 := D.sp.cm.deg2
-  have hb : ∃ b : D.host.E, b ∉ (algebraMap D.host.F D.host.E).range := by
-    by_contra hc
-    push Not at hc
-    have : Module.finrank D.host.F D.host.E ≤ 1 := finrank_le_one (1 : D.host.E) fun w => by
-      obtain ⟨c, hc⟩ := hc w
-      exact ⟨c, by rw [Algebra.smul_def, mul_one, hc]⟩
-    omega
-  obtain ⟨b, hb⟩ := hb
-  refine ⟨b - star b, by simp [star_sub, star_star], fun h0 => hb ?_⟩
-  have : star b = b := (sub_eq_zero.mp h0).symm
-  exact (D.sp.cm.fixed b).mp this
+  apply +allowSynthFailures _root_.Formalism.L2.PairingIndexBounds.Eq.J.exists_skew <;> assumption
 
 def alphaE : D.host.E := (exists_alpha D).choose
 

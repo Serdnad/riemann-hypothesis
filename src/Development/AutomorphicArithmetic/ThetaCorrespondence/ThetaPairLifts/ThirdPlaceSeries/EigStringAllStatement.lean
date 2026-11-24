@@ -618,28 +618,7 @@ namespace GlobalTheory.StrInert
 
 theorem not_isSplitPl_of_inert (D : D7) (w : HeightOneSpectrum (𝓞 D.host.E))
     (hin : Formalism.UG.IsInertAt D.host.F D.host.E (w.under (𝓞 D.host.F)) w) : ¬ IsSplitPl D.host w := by
-  rw [GlobalTheory.ConjPlaceOff.isSplitPl_iff]
-  rintro ⟨x, hx, hcx⟩
-  apply hcx
-  unfold Formalism.UG.IsInertAt at hin
-  rw [← hin] at hx ⊢
-  have key : Ideal.map (algebraMap (𝓞 D.host.F) (𝓞 D.host.E)) (w.under (𝓞 D.host.F)).asIdeal ≤
-      (Ideal.map (algebraMap (𝓞 D.host.F) (𝓞 D.host.E)) (w.under (𝓞 D.host.F)).asIdeal).comap
-        (Formalism.HermitianLattices.Ext.L3.conjO D.host.E) := by
-    rw [Ideal.map_le_iff_le_comap]
-    intro a ha
-    rw [Ideal.mem_comap, Ideal.mem_comap]
-    have e : Formalism.HermitianLattices.Ext.L3.conjO D.host.E (algebraMap (𝓞 D.host.F) (𝓞 D.host.E) a) =
-        algebraMap (𝓞 D.host.F) (𝓞 D.host.E) a := by
-      apply RingOfIntegers.ext
-      rw [Formalism.HermitianLattices.Ext.L3.conjO_coe]
-      have : ((algebraMap (𝓞 D.host.F) (𝓞 D.host.E) a : 𝓞 D.host.E) : D.host.E) =
-          algebraMap D.host.F D.host.E (a : D.host.F) := rfl
-      rw [this]
-      exact Formalism.IndefR.Eqv.star_algebraMapF D _
-    rw [e]
-    exact Ideal.mem_map_of_mem _ ha
-  exact key hx
+  first | exact _root_.GlobalTheory.not_isSplitPl_of_isInertAt | exact @_root_.GlobalTheory.not_isSplitPl_of_isInertAt | apply _root_.GlobalTheory.not_isSplitPl_of_isInertAt <;> assumption
 
 theorem not_mem_badPl {D : D7} {G : Type} [Group G] [Fintype G] {Pl0 T : Type} {A : DIV.FamIn D.what₂.LL G Pl0 T D.R.m}
     {Ks : Type} [Field Ks] [NumberField Ks] [Algebra Ks D.what₂.LL] (R : Formalism.IndefR.Links.RealDat D A Ks) (t : T)

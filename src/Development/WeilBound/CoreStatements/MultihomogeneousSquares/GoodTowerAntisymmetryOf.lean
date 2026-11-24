@@ -1,5 +1,6 @@
 module
 
+import Development.WeilBound.CoreStatements.FlagImmersions.IsPotentialSumPot
 public import Development.AutomorphicSpectrum.Definitions.MetricPeriods.PairRelationOfScaledRatio
 public import Mathlib.CategoryTheory.Category.Basic
 public import Mathlib.Tactic.Continuity
@@ -801,28 +802,8 @@ section Analytic
 theorem isPotential_sumPot {e : ℕ} {X : Type} [TopologicalSpace X] {σ : Type} [Fintype σ]
     (A : FinHolAtlas e X) (c : σ → ℝ) (Pp : σ → LocPot X) (h : ∀ a, IsPotential A (Pp a)) :
     IsPotential A (sumPot c Pp) := by
-  constructor
-  · intro x j
-    show ContDiffOn ℝ _ (fun y => ∑ a, c a * (Pp a).φ x ((A.chart j).symm y)) _
-    refine ContDiffOn.sum fun a _ => contDiffOn_const.mul ?_
-    exact ((h a).1 x j).mono fun y hy => ⟨hy.1, Set.mem_iInter.1 hy.2 a⟩
-  · intro x x' y hy
-    have hya : ∀ a, y ∈ (Pp a).U x ∩ (Pp a).U x' := fun a =>
-      ⟨Set.mem_iInter.1 hy.1 a, Set.mem_iInter.1 hy.2 a⟩
-    choose W hW hyW G hG hE using fun a => (h a).2 x x' y (hya a)
-    refine ⟨⋂ a, W a, isOpen_iInter_of_finite hW, Set.mem_iInter.2 hyW,
-      fun z => ∑ a, (c a : ℂ) * G a z, ?_, ?_⟩
-    · intro j z hz
-      show AnalyticAt ℂ (fun w => ∑ a, (c a : ℂ) * G a ((A.chart j).symm w)) z
-      exact Finset.analyticAt_fun_sum _ fun a _ =>
-        analyticAt_const.mul (hG a j z ⟨hz.1, Set.mem_iInter.1 hz.2 a⟩)
-    · intro z hz
-      show ∑ a, c a * (Pp a).φ x z - ∑ a, c a * (Pp a).φ x' z = (∑ a, (c a : ℂ) * G a z).re
-      rw [← Finset.sum_sub_distrib, Complex.re_sum]
-      refine Finset.sum_congr rfl fun a _ => ?_
-      have := hE a z ⟨⟨Set.mem_iInter.1 hz.1.1 a, Set.mem_iInter.1 hz.1.2 a⟩, Set.mem_iInter.1 hz.2 a⟩
-      rw [Complex.re_ofReal_mul, ← this]
-      ring
+  intros
+  apply _root_.RootFieldNumerics.A1.isPotential_sumPot <;> assumption
 
 variable {K : Type} [Fintype K] {ι : K → Type} [∀ k, Fintype (ι k)] {σ : Type} [Fintype σ]
 

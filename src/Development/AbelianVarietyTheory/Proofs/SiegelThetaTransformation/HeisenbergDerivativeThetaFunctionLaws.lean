@@ -44,6 +44,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.EqZeroOfPderivStable
 
 @[expose] public section
 
@@ -93,14 +94,7 @@ theorem EFR_conj (C : Ctx S T) (x y : RW T S) :
 
 theorem pi_lineAt {θ : InfFam D} (hθ : IsInfFam θ) (τ : D.what₂.Tau) (z : Matrix (Fin T.rank) (Fin S.rank) ℂ) :
     piW θ T S (lineAt θ τ z 1) = (Pi.single τ z : D.what₂.Tau → Matrix (Fin T.rank) (Fin S.rank) ℂ) := by
-  obtain ⟨-, -, h⟩ := isLineAt_lineAt hθ τ z
-  funext τ' i j
-  have h1 := congrFun (congrFun (h 1 τ') i) j
-  rw [Pi.single_apply]
-  split_ifs at h1 ⊢ with hτ
-  · rw [Complex.ofReal_one, one_smul] at h1
-    exact h1
-  · exact h1
+  apply _root_.GlobalTheory.FockIndep.piW_lineAt <;> assumption
 
 theorem single_conj (C : Ctx S T) (τ : D.what₂.Tau) (z : Matrix (Fin T.rank) (Fin S.rank) ℂ) :
     (Pi.single (C.m.e τ) (fun k a => conj (z a k)) : WR C.X S.rank) =

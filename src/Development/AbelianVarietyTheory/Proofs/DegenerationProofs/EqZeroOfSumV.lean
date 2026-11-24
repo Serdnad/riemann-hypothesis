@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.ExistsUnitValue
 public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.NormVal
 public import Development.AbelianVarietyTheory.Definitions.Uniformization.AllDV
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.PeriodicValuation
@@ -65,16 +66,8 @@ open GlobalTheory.TorusExt
 theorem eq_zero_of_sumV {F : Type} [Field F] {v : AddValuation F (WithTop ℚ)} {Ix : Type} {x : Ix → F} {s : F}
     (h : SumV v x s) {q : ℚ} (q0 : 0 < q) (i₀ : Ix) (h₀ : v (x i₀) = 0)
     (hq : ∀ i, i ≠ i₀ → (q : WithTop ℚ) ≤ v (x i)) : v s = 0 := by
-  classical
-  obtain ⟨S, hS⟩ := h q
-  have a := v.map_le_add (hS (insert i₀ S) (Finset.subset_insert _ _))
-    (v.map_le_sum (s := (insert i₀ S).erase i₀) (f := x) fun i hi => hq i (Finset.ne_of_mem_erase hi))
-  have e : s = x i₀ + (s - ∑ i ∈ insert i₀ S, x i + ∑ i ∈ (insert i₀ S).erase i₀, x i) := by
-    rw [← Finset.add_sum_erase _ x (Finset.mem_insert_self i₀ S)]; ring
-  have lt : v (x i₀) < v (s - ∑ i ∈ insert i₀ S, x i + ∑ i ∈ (insert i₀ S).erase i₀, x i) := by
-    rw [h₀]
-    exact lt_of_lt_of_le (by exact_mod_cast q0) a
-  rw [e, v.map_add_eq_of_lt_left lt, h₀]
+  intros
+  apply _root_.GlobalTheory.ZH.SecValue.val_sum_eq_zero <;> assumption
 
 attribute [local instance] gtGroup
 

@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.ConstantCoeffSubstSame
 public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.ExpTie
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.TaylorDiscriminants.WickVanishing.MonoVal
 import Mathlib.Algebra.Order.Floor.Extended
@@ -123,18 +124,7 @@ theorem hasSubst0 {σ τ : Type} [Finite σ] {a : σ → MvPowerSeries τ S} (ha
 
 theorem const_subst0 {σ τ : Type} [Finite σ] {a : σ → MvPowerSeries τ S} (ha : ∀ s, constantCoeff (a s) = 0)
     (g : MvPowerSeries σ S) : constantCoeff (subst a g) = constantCoeff g := by
-  classical
-  rw [constantCoeff_subst (hasSubst0 ha), finsum_eq_single _ 0]
-  · simp
-  · intro e he
-    obtain ⟨s, hs⟩ : ∃ s, e s ≠ 0 := by
-      by_contra h
-      push_neg at h
-      exact he (Finsupp.ext h)
-    have hp : constantCoeff (e.prod fun s n => a s ^ n) = 0 := by
-      rw [Finsupp.prod, map_prod]
-      exact Finset.prod_eq_zero (Finsupp.mem_support_iff.mpr hs) (by simp [ha s, hs])
-    simp [hp]
+  apply _root_.GlobalTheory.MinorShiftJet.constantCoeff_subst_same <;> assumption
 
 theorem subst_sum' {σ τ : Type} {a : σ → MvPowerSeries τ S} (ha : HasSubst a) {ι : Type} (s : Finset ι)
     (g : ι → MvPowerSeries σ S) : subst a (∑ i ∈ s, g i) = ∑ i ∈ s, subst a (g i) := by
@@ -148,11 +138,6 @@ private theorem subst_C_lemma {σ τ : Type} {a : σ → MvPowerSeries τ S} (ha
   have hc : (C c : MvPowerSeries σ S) = c • (1 : MvPowerSeries σ S) := by
     rw [smul_eq_C_mul, mul_one]
   rw [hc, ← coe_substAlgHom ha, map_smul, map_one, smul_eq_C_mul, mul_one]
-
-private theorem subst_X_lemma_2 {σ : Type} (g : MvPowerSeries σ S) :
-    subst (X : σ → MvPowerSeries σ S) g = g := by
-  first
-  | (rw [subst_self]; rfl)
 
 private theorem subst_zero_lemma_3 {σ τ : Type} [Finite σ] (g : MvPowerSeries σ S) :
     subst (fun _ : σ => (0 : MvPowerSeries τ S)) g = C (constantCoeff g) := by
@@ -226,7 +211,8 @@ theorem subst_sz_cpy (b : Fin 2) (g : MvPowerSeries (Fin 1 × Fin N) S) :
   · have hX : (fun r : Fin 1 × Fin N => if b = 0 then (X r : MvPowerSeries (Fin 1 × Fin N) S) else 0) = X := by
       funext r
       simp [hb]
-    rw [hX, if_pos hb, subst_X_lemma_2]
+    rw [hX, if_pos hb, subst_self]
+    rfl
   · have hZ : (fun r : Fin 1 × Fin N => if b = 0 then (X r : MvPowerSeries (Fin 1 × Fin N) S) else 0) =
         fun _ => 0 := by
       funext r

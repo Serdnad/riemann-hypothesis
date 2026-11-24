@@ -511,15 +511,8 @@ attribute [local instance] Formalism.BasicNotions.Host.cmStar
 namespace GlobalTheory.FrameRead.ExPhi
 
 theorem res_eq {ι : Type} {n : ℕ} {lam : ι → DomWeight n} {lamW : ι → ℕ → ℕ} {c : ι → ℤ} (h : Shift lam lamW c) (τ : ι) :
-    res n (lamW τ) = fun a => (lam τ).natW a + lamW τ (n - 1) := by
-  funext a
-  have hn : 0 < n := Nat.lt_of_le_of_lt (Nat.zero_le _) a.2
-  have h1 := h τ a
-  have h2 := h τ ⟨n - 1, by omega⟩
-  have h3 : (lam τ).w ⟨n - 1, by omega⟩ ≤ (lam τ).w a := (lam τ).anti (by
-    rw [Fin.le_def]; have := a.2; simp only; omega)
-  simp only [res, DomWeight.natW, DomWeight.detShift, dif_pos hn] at h2 ⊢
-  omega
+    res n (lamW τ) = fun a => (lam τ).natW a + lamW τ (n - 1) :=
+  _root_.GlobalTheory.FrameRead.DelStd.res_eq h τ
 
 theorem liftPol_mem {K C : Type} [Field K] [Field C] (e0 : K →+* C) {ι : Type} {n : ℕ} {lam : ι → DomWeight n}
     {lamW : ι → ℕ → ℕ} {c : ι → ℤ} (h : Shift lam lamW c) (τ : ι) (x : MvPolynomial (Fin n × Fin n) K)

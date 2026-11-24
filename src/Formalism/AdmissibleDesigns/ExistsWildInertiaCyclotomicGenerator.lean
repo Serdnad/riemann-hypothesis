@@ -1,5 +1,8 @@
 module
 
+
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IntegralLocalDualityOfLocalTateDuality
+import Formalism.SharpRestriction.LevelLetterCocycles.JointConditionsZpowers.GaloisConditionFiveExtraOf
 public import Mathlib.RingTheory.DiscreteValuationRing.Basic
 public import Mathlib.Topology.Algebra.Nonarchimedean.Bases
 public import Mathlib.LinearAlgebra.Matrix.Defs
@@ -58,7 +61,6 @@ import Mathlib.Tactic.Basify
 import Mathlib.Tactic.ENatToNat
 import Mathlib.Tactic.Linter.HaveILetI
 import Mathlib.Tactic.Polynomial.Basic
-
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Formalism.PeriodIntegrals.UnitaryGroupMassFormula.FiniteExtensionTopology.AddPreservesExpCongruence, Formalism.PeriodIntegrals.UnitaryGroupMassFormula.FiniteExtensionTopology.ExpCongruenceExtendsToSum, Formalism.AdmissibleDesigns.ExistsWildInertiaCyclotomicGenerator
 
@@ -107,19 +109,7 @@ theorem fracB_anti (ϖ : O') {i j : ℕ} (h : i ≤ j) : fracB ϖ j ≤ fracB ϖ
 theorem exists_pow_mul_mem {ϖ : O'} (hϖ : Irreducible ϖ) (a : FractionRing O') :
     ∃ n : ℕ, ∃ c : O', algebraMap O' (FractionRing O') (ϖ ^ n) * a =
       algebraMap O' (FractionRing O') c := by
-  obtain ⟨⟨x, y⟩, hxy⟩ := IsLocalization.surj (nonZeroDivisors O') a
-  have hy : (y : O') ≠ 0 := nonZeroDivisors.ne_zero y.2
-  obtain ⟨n, u, hu⟩ := IsDiscreteValuationRing.eq_unit_mul_pow_irreducible hy hϖ
-  refine ⟨n, x * ↑u⁻¹, ?_⟩
-  have hy' : algebraMap O' (FractionRing O') (y : O') =
-      algebraMap O' (FractionRing O') (↑u) * algebraMap O' (FractionRing O') (ϖ ^ n) := by
-    rw [hu, map_mul]
-  have hu1 : algebraMap O' (FractionRing O') (↑u) * algebraMap O' (FractionRing O') (↑u⁻¹) = 1 := by
-    rw [← map_mul, Units.mul_inv, map_one]
-  have hxy' : a * algebraMap O' (FractionRing O') (y : O') = algebraMap O' (FractionRing O') x := hxy
-  rw [map_mul, ← hxy']
-  linear_combination (-(a * algebraMap O' (FractionRing O') (↑u⁻¹))) * hy' +
-    (-(algebraMap O' (FractionRing O') (ϖ ^ n) * a)) * hu1
+  apply _root_.GlobalTheory.IntegralPowerMultiple.exists_pow_mul_integral <;> assumption
 
 theorem fracB_basis {ϖ : O'} (hϖ : Irreducible ϖ) : SubmodulesRingBasis (fracB ϖ) := by
   constructor
@@ -514,26 +504,7 @@ theorem compact_O : CompactSpace (D.nd.O i) := by
   exact hf.compactSpace hc
 
 theorem t2Space_nd_O : T2Space (D.nd.O i) := by
-  have hopen : ∀ n : ℕ, IsOpen ((IsLocalRing.maximalIdeal (D.nd.O i) ^ n : Ideal (D.nd.O i)) : Set (D.nd.O i)) :=
-    (isAdic_iff.1 (D.nd.O_adic i)).1
-  have hclosed : ∀ n : ℕ, IsClosed ((IsLocalRing.maximalIdeal (D.nd.O i) ^ n : Ideal (D.nd.O i)) : Set (D.nd.O i)) :=
-    fun n => AddSubgroup.isClosed_of_isOpen (Submodule.toAddSubgroup (IsLocalRing.maximalIdeal (D.nd.O i) ^ n)) (hopen n)
-  have h0 : ({0} : Set (D.nd.O i)) =
-      ⋂ n : ℕ, ((IsLocalRing.maximalIdeal (D.nd.O i) ^ n : Ideal (D.nd.O i)) : Set (D.nd.O i)) := by
-    ext x
-    simp only [Set.mem_singleton_iff, Set.mem_iInter, SetLike.mem_coe]
-    constructor
-    · rintro rfl n
-      exact Ideal.zero_mem _
-    · intro h
-      have h1 : x ∈ (⨅ n : ℕ, IsLocalRing.maximalIdeal (D.nd.O i) ^ n : Ideal (D.nd.O i)) := by
-        rw [Ideal.mem_iInf]; exact h
-      rw [Ideal.iInf_pow_eq_bot_of_isLocalRing _ (IsLocalRing.maximalIdeal.isMaximal _).ne_top] at h1
-      exact h1
-  have : IsClosed ({0} : Set (D.nd.O i)) := by
-    rw [h0]; exact isClosed_iInter hclosed
-  haveI : T1Space (D.nd.O i) := IsTopologicalAddGroup.t1Space _ this
-  infer_instance
+  apply _root_.Formalism.MainNotions.N.integers_t2Space <;> assumption
 
 theorem padicCoeff_O : PadicCoeff (D.nd.l i) (D.nd.O i) :=
   ⟨D.nd.trO i, compact_O i, t2Space_nd_O i, D.nd.O_adic i, l_mem_max i, l_ne_zero i⟩

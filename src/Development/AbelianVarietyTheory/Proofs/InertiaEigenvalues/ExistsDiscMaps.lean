@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.NormBaseRingToClosedDiscJPowSmall
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.IsStratHom
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.InvertibleSpanSingleton
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.PrismHomMapIdealEq
@@ -85,26 +86,7 @@ theorem inv_le_rho {K : FinExt l} (bk : BK K) {ρ : ℝ≥0} (h : bk.ρ₀ ≤ �
   exact (pow_le_of_le_one (by positivity) (breuilKisinDatum_radius_le_one bk) bk.deg_pos.ne').trans h
 
 theorem E_eq {K : FinExt l} (bk : BK K) : ∃ q : bk.S, bk.E = X ^ bk.Ep.natDegree + (l : bk.S) * q := by
-  have hm : bk.Ep - Polynomial.X ^ bk.Ep.natDegree ∈ (Ideal.span {(l : Wq l bk.a)}).map Polynomial.C := by
-    rw [Ideal.mem_map_C_iff]
-    intro n
-    rw [Polynomial.coeff_sub, Polynomial.coeff_X_pow]
-    rcases lt_trichotomy n bk.Ep.natDegree with hn | hn | hn
-    · rw [if_neg hn.ne, sub_zero]
-      exact Ideal.mem_span_singleton.2 (bk.dvd_coeff n hn)
-    · subst hn
-      rw [if_pos rfl, bk.monic.coeff_natDegree, sub_self]; exact zero_mem _
-    · rw [if_neg hn.ne', Polynomial.coeff_eq_zero_of_natDegree_lt hn, sub_zero]; exact zero_mem _
-  rw [Ideal.map_span, Set.image_singleton, Ideal.mem_span_singleton] at hm
-  obtain ⟨q, hq⟩ := hm
-  refine ⟨(q : bk.S), ?_⟩
-  have h1 : bk.Ep = Polynomial.X ^ bk.Ep.natDegree + Polynomial.C (l : Wq l bk.a) * q := by
-    rw [← hq]; ring
-  have h2 : (bk.Ep : bk.S) =
-      ((Polynomial.X ^ bk.Ep.natDegree + Polynomial.C (l : Wq l bk.a) * q : Polynomial (Wq l bk.a)) : bk.S) :=
-    congrArg _ h1
-  show (bk.Ep : bk.S) = _
-  rw [h2, Polynomial.coe_add, Polynomial.coe_pow, Polynomial.coe_X, Polynomial.coe_mul, Polynomial.coe_C, map_natCast]
+  apply _root_.GlobalTheory.BSP.DiscSmall.exists_E_eq <;> assumption
 
 theorem gauge_mono_le {A : Type} [CommRing A] (u : A) (ρ : ℝ≥0) (a b : ℕ) {r : ℝ} (hr : 0 < r)
     (h : (ρ : ℝ) ^ b ≤ r * (l : ℝ) ^ a) :

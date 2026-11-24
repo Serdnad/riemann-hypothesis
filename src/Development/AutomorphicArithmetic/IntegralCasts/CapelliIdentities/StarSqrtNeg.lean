@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.HermitianFormsSameSignatureSameSpace
 public import Formalism.LocalToGlobal.KernelLattices.ColumnData
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -44,16 +45,7 @@ attribute [local instance] Formalism.BasicNotions.Host.cmStar
 
 private lemma conj_eq_neg_of_sq {z : ℂ} {n : ℕ} (hn : 0 < n) (h : z ^ 2 = -(n : ℂ)) :
     (starRingEnd ℂ) z = -z := by
-  have hre := congrArg Complex.re h
-  have him := congrArg Complex.im h
-  simp [pow_two] at hre him
-  have hn' : (0 : ℝ) < n := by exact_mod_cast hn
-  have hz : z.re = 0 := by
-    have h2 : z.re * z.im = 0 := by linarith
-    rcases mul_eq_zero.mp h2 with h1 | h1
-    · exact h1
-    · exfalso; rw [h1] at hre; nlinarith [mul_self_nonneg z.re]
-  apply Complex.ext <;> simp [hz]
+  apply _root_.GlobalTheory.ConjNegSquareNat.conj_eq_neg_of_sq_eq_neg_nat <;> assumption
 
 theorem UpperTheory.Reformulated.B.StarSqrtNeg.star_sqrt_neg :
     ∀ {D : Formalism.L2.Ker.Car} (x : D.host.E) (n : ℕ),

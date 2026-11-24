@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.ExistsIndexIdeal
 public import Formalism.LocalToGlobal.IndefiniteReal.LinksChar
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.GlDetEqOneOfMemUnip
 public import Development.AbelianVarietyTheory.Definitions.Foundations.ThetaSeriesTies
@@ -204,17 +205,7 @@ variable {E F : Type} [Field E] [Field F] (φ : E →+* F)
 
 theorem span_image_span (S : Set E) :
     Submodule.span (𝓞 F) (φ '' (Submodule.span (𝓞 E) S : Set E)) = Submodule.span (𝓞 F) (φ '' S) := by
-  refine le_antisymm (Submodule.span_le.2 ?_) (Submodule.span_mono (Set.image_mono Submodule.subset_span))
-  rintro _ ⟨x, hx, rfl⟩
-  induction hx using Submodule.span_induction with
-  | mem x hx => exact Submodule.subset_span ⟨x, hx, rfl⟩
-  | zero => simp
-  | add x y _ _ hx hy => rw [map_add (f := _)]; exact Submodule.add_mem _ hx hy
-  | smul b x _ hx =>
-    have : φ (b • x) = RingOfIntegers.mapRingHom φ b • φ x := by
-      change φ ((b : E) * x) = _
-      rw [map_mul]; rfl
-    rw [this]; exact Submodule.smul_mem _ _ hx
+  first | exact _root_.GlobalTheory.BetaEx.span_image_span | exact @_root_.GlobalTheory.BetaEx.span_image_span | apply _root_.GlobalTheory.BetaEx.span_image_span <;> assumption
 
 def extend : Submodule (𝓞 E) E →* Submodule (𝓞 F) F where
   toFun M := Submodule.span (𝓞 F) (φ '' M)
@@ -1179,19 +1170,8 @@ end Lower
 
 theorem rowInv_map [Infinite k] {K : Type} [Field K] (φ : k →+* K) {P : MvPolynomial (Letter T r n) k}
     (hP : RowInv r n k P) : RowInv r n K (map φ P) := by
-  classical
-  intro σ i i' hi t
-  have := GlobalTheory.RowTriangular.eval₂_shift ((C : K →+* MvPolynomial (Letter T r n) K).comp φ) hP σ i i' hi (C t) X
-    (fun ℓ => rowShift r n K σ i i' t (X ℓ)) (fun b => by simp [rowShift]) (fun ℓ hℓ => by
-      rw [rowShift, aeval_X, if_neg hℓ])
-  have e : ∀ Q : MvPolynomial (Letter T r n) k, rowShift r n K σ i i' t (map φ Q) =
-      eval₂Hom ((C : K →+* MvPolynomial (Letter T r n) K).comp φ) (fun ℓ => rowShift r n K σ i i' t (X ℓ)) Q := by
-    intro Q
-    induction Q using MvPolynomial.induction_on with
-    | C c => simp [rowShift]
-    | add p q hp hq => simp only [map_add (f := _), hp, hq]
-    | mul_X p s hp => simp only [map_mul, hp, map_X, eval₂Hom_X']
-  rw [e, this, map_eq_eval₂Hom_C_comp]
+  intros
+  apply _root_.ReciprocityTheory.ChartRestriction.G.PullbackSections.rowInv_map <;> assumption
 
 end GlobalTheory.RowSpan
 end -- clump:auto

@@ -1,5 +1,6 @@
 module
 
+import GroundTheory.HeightsAndTheta.Heights.SemipositiveHeights.FibreDimB
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArithmeticIntersection.MixedFieldContraction.ContractMixedFieldStatement
 public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.PCoordConeArithVar
 public import GroundTheory.HeightsAndTheta.Heights.Intersections.PEvalKerKrullDim
@@ -61,19 +62,7 @@ theorem trdeg_quot_ker {σ : Type} {M : Type} [CommRing M] [IsDomain M] (y : σ 
 theorem trdeg_of_isArithVar {K : Type} [Fintype K] {ι : K → Type} [∀ k, Fintype (ι k)] {J : Ideal (MRing ι)}
     {n : ℕ} (h : IsArithVar J n) :
     ∃ t : ℕ, Algebra.trdeg ℤ (MRing ι ⧸ J) = t ∧ t + 1 = n + Fintype.card K := by
-  obtain ⟨-, ⟨hprime, -, -⟩, hhor, hdim⟩ := h
-  have := hprime
-  have hA := IntDomainDim.proof (MRing ι ⧸ J) (CoordinateConeArithVar.algebraMap_injective J hhor)
-  rw [hdim] at hA
-  have hA' : ((n + Fintype.card K : ℕ) : ℕ∞) = Cardinal.toENat (Algebra.trdeg ℤ (MRing ι ⧸ J)) + 1 := by
-    exact_mod_cast hA
-  obtain ⟨t, ht⟩ : ∃ t : ℕ, Cardinal.toENat (Algebra.trdeg ℤ (MRing ι ⧸ J)) = t := by
-    refine ENat.ne_top_iff_exists.mp (fun htop => ?_) |>.imp fun _ h => h.symm
-    rw [htop] at hA'
-    simp at hA'
-  rw [ht] at hA'
-  refine ⟨t, Cardinal.toENat_eq_natCast.mp ht, ?_⟩
-  exact_mod_cast hA'.symm
+  apply _root_.GroundTheory.Heights₂.Heights.ForSecondHalf.FibreDimB.trdeg_of_isArithVar <;> assumption
 
 theorem aeval_mem_closure {σ : Type} {L : Type} [Field L] (y : σ → L) (f : MvPolynomial σ ℤ) :
     aeval y f ∈ Subfield.closure (Set.range y) := by

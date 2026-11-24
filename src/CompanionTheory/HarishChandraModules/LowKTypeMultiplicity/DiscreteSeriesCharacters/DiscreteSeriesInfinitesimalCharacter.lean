@@ -34,6 +34,7 @@ import CompanionTheory.SpectralGeometry.LocalGlobalProofs.StableLattices.MemFilt
 import CompanionTheory.SpectralGeometry.LocalGlobalProofs.StableLattices.MemUJsetOfMemKset
 import CompanionTheory.SpectralGeometry.LocalGlobalProofs.StableLattices.NotCdomAddRoot
 import CompanionTheory.SpectralGeometry.LocalGlobalProofs.StableLattices.WordMonomial
+import Formalism.HermitianCurvature.HermitianCurvatureProofs.CutGCoreKLExistsOfAlg
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: CompanionTheory.HarishChandraModules.LowKTypeMultiplicity.DiscreteSeriesCharacters.CobApplyOfDeg, CompanionTheory.HarishChandraModules.LowKTypeMultiplicity.DiscreteSeriesCharacters.Spread, CompanionTheory.SpectralGeometry.LocalGlobalProofs.StableLattices.AlgCoreSubOfAlgCore, CompanionTheory.SpectralGeometry.LocalGlobalProofs.StableLattices.BlkBijective, CompanionTheory.SpectralGeometry.LocalGlobalProofs.StableLattices.BlkStrictMono, CompanionTheory.SpectralGeometry.LocalGlobalProofs.StableLattices.CarImpFrel, CompanionTheory.SpectralGeometry.LocalGlobalProofs.StableLattices.CardOther, CompanionTheory.SpectralGeometry.LocalGlobalProofs.StableLattices.CreAnnApply, CompanionTheory.SpectralGeometry.LocalGlobalProofs.StableLattices.CreApply, CompanionTheory.SpectralGeometry.LocalGlobalProofs.StableLattices.ExistsCocycleOfMapToDegreeOneTerm, CompanionTheory.SpectralGeometry.LocalGlobalProofs.StableLattices.ImportsAlt, CompanionTheory.SpectralGeometry.LocalGlobalProofs.StableLattices.SumInsertErase, CompanionTheory.SpectralGeometry.LocalGlobalProofs.StableLattices.WlemOfGfacts, CompanionTheory.HarishChandraModules.LowKTypeMultiplicity.DiscreteSeriesCharacters.DiscreteSeriesInfinitesimalCharacter
@@ -378,14 +379,7 @@ theorem ofFn_prod_intertwine (φ : V' →ₗ[ℂ] V) :
 theorem qdet_intertwine (φ : V' →ₗ[ℂ] V) (E' : Fin n → Fin n → Module.End ℂ V')
     (E : Fin n → Fin n → Module.End ℂ V) (h : ∀ a b x, φ (E' a b x) = E a b (φ x)) (u : ℂ) (x : V') :
     φ (qdet E' u x) = qdet E u (φ x) := by
-  unfold qdet qminor
-
-  simp only [LinearMap.sum_apply, map_sum, Module.End.mul_apply, Module.End.intCast_apply, map_zsmul]
-  refine Finset.sum_congr rfl fun σ _ => ?_
-  congr 1
-  refine ofFn_prod_intertwine φ _ _ (fun k y => ?_) x
-  unfold Tm
-  split_ifs <;> simp [h, Module.algebraMap_end_apply]
+  apply _root_.Formalism.FourierDecayAlt.P.CutMP.Gauge.GC.KLExA.qdet_int <;> assumption
 
 theorem algCoreSub_of_algCore : AlgCore → AlgCoreSub := by
   intro hA n ε lam V _ _ E V₀ v S hlam hgl hun hst hS hv hfd hK hvS hmin Y
@@ -963,17 +957,7 @@ variable {ε : Fin n → Bool} {V : Type} [AddCommGroup V] [Module ℂ V]
 
 theorem lift_gop (T : Module.End ℂ V) (c d : Fin n) :
     Commute (lift ε T : Module.End ℂ (Ch ε V)) (Gop ε c d) := by
-  have ha : ∀ i : NC ε, Commute (lift ε T : Module.End ℂ (Ch ε V)) (ann i) := by
-    intro i
-    refine LinearMap.ext fun x => funext fun A => ?_
-    by_cases h : i ∈ A <;> simp [ann, h]
-  have hc : ∀ i : NC ε, Commute (lift ε T : Module.End ℂ (Ch ε V)) (cre i) := by
-    intro i
-    refine LinearMap.ext fun x => funext fun A => ?_
-    by_cases h : i ∈ A <;> simp [cre, h]
-  unfold Gop
-  exact Commute.sum_right _ _ _ fun i _ => Commute.sum_right _ _ _ fun j _ =>
-    ((hc i).mul_right (ha j)).smul_right _
+  apply _root_.CompanionTheory.D.DSIC.lift_Gop <;> assumption
 
 theorem lift_rel (E : Fin n → Fin n → Module.End ℂ V) (hE : KRel ε E) :
     KRel ε (fun c d => (lift ε (E c d) : Module.End ℂ (Ch ε V))) := by
@@ -1035,17 +1019,7 @@ variable {n : ℕ}
 theorem card_four (ε : Fin n → Bool) (a : Fin n) :
     ((univ.filter fun b => a < b ∧ ε b = ε a).card : ℝ) + (univ.filter fun b => b < a ∧ ε b = ε a).card
       + (univ.filter fun b => a < b ∧ ε b ≠ ε a).card + (univ.filter fun b => b < a ∧ ε b ≠ ε a).card + 1 = n := by
-  have h1 : (1 : ℝ) = ∑ b : Fin n, if b = a then (1 : ℝ) else 0 := by simp
-  have h2 : (n : ℝ) = ∑ _b : Fin n, (1 : ℝ) := by simp
-  simp only [card_filter, Nat.cast_sum, Nat.cast_ite, Nat.cast_one, Nat.cast_zero]
-  rw [h2]
-  nth_rewrite 5 [h1]
-  simp only [← sum_add_distrib]
-  refine sum_congr rfl fun b _ => ?_
-  rcases lt_trichotomy a b with h | h | h
-  · by_cases e : ε b = ε a <;> simp [h, h.not_gt, h.ne', e]
-  · simp [h]
-  · by_cases e : ε b = ε a <;> simp [h, h.not_gt, h.ne, e]
+  apply _root_.GlobalTheory.CompanionTheory.ZetaHighest.card_total <;> assumption
 
 theorem card_fst (ε : Fin n → Bool) (a : Fin n) :
     ((A1 ε).filter fun i => i.1.1 = a).card =

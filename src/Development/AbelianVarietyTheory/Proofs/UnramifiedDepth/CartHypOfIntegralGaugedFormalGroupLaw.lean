@@ -1,5 +1,6 @@
 module
 
+import Formalism.LocalToGlobal.CharacterGerms.RowTiePCartSelfSt
 public import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.ExistsPureTypicalCurveWithIntegralTangent
 public import Development.AbelianVarietyTheory.Definitions.TeichmullerDepth.HasTeich
 public import Formalism.LocalToGlobal.CharacterGerms.ConstMemTypeSetOfNonneg
@@ -482,15 +483,8 @@ variable {d : ℕ} {I : Fin 2 → Type} [∀ g, Fintype (I g)] {κ : Type} [Fint
 
 theorem vpow_mem (X : RawChart C d I κ) (V : VF C) (g : Fin 2) (x : ℕ → I g ⊕ JJ I g → C)
     (hx : x ∈ X.TySet V g) (s : ℕ) : Vpow s x ∈ X.TySet V g := by
-  induction s with
-  | zero =>
-    have : Vpow 0 x = x := by
-      funext i n
-      simp [Vpow]
-    rwa [this]
-  | succ s ih =>
-    rw [vpow_succ]
-    exact X.V_mem V g _ ih
+  intros
+  apply _root_.Formalism.L2.FormalSeriesBounds.RawChart.Vpow_mem' <;> assumption
 
 noncomputable def logOf (X : RawChart C d I κ) (V : VF C) (g : Fin 2) (x : ℕ → I g ⊕ JJ I g → C) :
     (κ → PowerSeries C) × (JJ I g → PowerSeries C) :=

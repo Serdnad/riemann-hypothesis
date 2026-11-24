@@ -47,6 +47,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Development.AbelianVarietyTheory.Definitions.ModuliSpaces.AuxiliaryInertOddPrime
+import Development.AbelianVarietyTheory.Proofs.ModuliProofs.CompEqIdOfTwists
 
 @[expose] public section
 
@@ -65,15 +66,7 @@ variable {E : Type} [Field E] [NumberField E] [IsCMField E] {H : _root_.Reciproc
   (l : _root_.ReciprocityTheory.ChartRestriction.G.Geo.Tor.Level H) in
 theorem _root_.GlobalTheory.SimMb.mem_of_modN {x : D.La} (hx : D.ModN l.M x) :
     x ∈ l.Mb • (⊤ : Submodule (𝓞 E) D.La) := by
-  obtain ⟨b, rfl⟩ := hx
-  have hM : ((l.M : ℕ) : 𝓞 E) ∈ l.Mb := by
-    have h1 : ((l.M : ℕ) : 𝓞 E) ∈ l.Mb * Ideal.map (H.bar : 𝓞 E →+* 𝓞 E) l.Mb := by
-      rw [l.prod]
-      exact Ideal.mem_span_singleton_self _
-    exact (Ideal.mul_le.2 fun r hr s _ => Ideal.mul_mem_right s _ hr) h1
-  have hb : l.M • b = ((l.M : ℕ) : 𝓞 E) • b := (Nat.cast_smul_eq_nsmul (𝓞 E) l.M b).symm
-  rw [hb]
-  exact Submodule.smul_mem_smul hM Submodule.mem_top
+  apply _root_.GlobalTheory.Moduli.LevelAction.mem_of_modN <;> assumption
 
 open AlgebraicGeometry CategoryTheory Limits MonoidalCategory CartesianMonoidalCategory MonObj NumberField in
 open scoped CategoryTheory.Obj TensorProduct Pointwise in

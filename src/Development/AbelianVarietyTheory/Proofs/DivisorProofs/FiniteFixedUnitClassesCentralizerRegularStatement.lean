@@ -1,5 +1,7 @@
 module
 
+import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.CountSys
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsTwistRingsCharactersClassGroups
 public import Development.AbelianVarietyTheory.Definitions.Divisors.IsCyclotomicExtensionQI
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.EqZeroOfNilpotentCommuteSeparableMinpoly
 public import Development.AbelianVarietyTheory.Definitions.Divisors.ExistsRootSelectionUnitaryRankOne
@@ -626,15 +628,7 @@ open NumberField IsDedekindDomain in
 open scoped TensorProduct Classical nonZeroDivisors in
 private theorem exists_nat_prime_mem_heightOneSpectrum (K : Type) [Field K] [NumberField K] (P : HeightOneSpectrum (𝓞 K)) :
     ∃ ℓ : ℕ, ℓ.Prime ∧ (ℓ : 𝓞 K) ∈ P.asIdeal := by
-  haveI : P.asIdeal.IsMaximal := P.isMaximal
-  letI : Field (𝓞 K ⧸ P.asIdeal) := Ideal.Quotient.field _
-  haveI : Finite (𝓞 K ⧸ P.asIdeal) := Ideal.finiteQuotientOfFreeOfNeBot _ P.ne_bot
-  obtain ⟨p, hp⟩ := CharP.exists (𝓞 K ⧸ P.asIdeal)
-  have hp0 : p ≠ 0 := CharP.char_ne_zero_of_finite (𝓞 K ⧸ P.asIdeal) p
-  haveI : NeZero p := ⟨hp0⟩
-  refine ⟨p, (CharP.char_is_prime_of_pos (𝓞 K ⧸ P.asIdeal) p).out, ?_⟩
-  rw [← Ideal.Quotient.eq_zero_iff_mem, map_natCast]
-  exact CharP.cast_eq_zero _ p
+  apply _root_.GlobalTheory.TwRing.exists_prime_mem <;> assumption
 
 open NumberField IsDedekindDomain in
 open scoped Classical nonZeroDivisors in
@@ -665,15 +659,8 @@ open scoped TensorProduct Classical nonZeroDivisors in
 private theorem natCast_not_mem_of_prime_mem_not_dvd {K : Type} [Field K] [NumberField K]
     (P : HeightOneSpectrum (𝓞 K)) {ℓ d : ℕ} (hℓ : ℓ.Prime) (hP : (ℓ : 𝓞 K) ∈ P.asIdeal)
     (hd : ¬ ℓ ∣ d) : (d : 𝓞 K) ∉ P.asIdeal := by
-  intro hdP
-  have hcop : IsCoprime (ℓ : ℤ) (d : ℤ) :=
-    Nat.isCoprime_iff_coprime.2 ((Nat.Prime.coprime_iff_not_dvd hℓ).2 hd)
-  obtain ⟨u, v, huv⟩ := hcop
-  have h1 : ((u : 𝓞 K) * (ℓ : 𝓞 K) + (v : 𝓞 K) * (d : 𝓞 K)) = 1 := by
-    exact_mod_cast congrArg (fun n : ℤ => (n : 𝓞 K)) huv
-  apply P.isPrime.ne_top
-  rw [Ideal.eq_top_iff_one, ← h1]
-  exact P.asIdeal.add_mem (P.asIdeal.mul_mem_left _ hP) (P.asIdeal.mul_mem_left _ hdP)
+  intros
+  apply _root_.UpperTheory.V.Af.natCast_notMem_of_not_dvd <;> assumption
 
 open NumberField IsDedekindDomain in
 open scoped Classical nonZeroDivisors in

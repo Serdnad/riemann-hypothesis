@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.FunEqZeroOfAffine
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.PeriodicValuation
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.DvrLem
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.UniformisationConclusion
@@ -115,21 +116,7 @@ theorem isActOf_of_sval {L : LB A.left} (hL : L.IsLB) {k : ℤ} {T : Over S} {θ
 
 theorem exists_isActOf {L : LB A.left} (hL : L.IsLB) {k : ℤ} {T : Over S} (θ : ThetaGrp A L k T)
     (s : LB.Sec (LPow A L k T)) : ∃ s', IsActOf A L k θ s s' := by
-  have hcomp : (translT A θ.pt).left ≫ (snd T A).left = (translPt A θ.pt).left := by
-    rw [← Over.comp_left]
-    unfold translT
-    simp
-  have hform : FormEq (Sum.elim (fun _ : Fin 1 => (translT A θ.pt).left ≫ (snd T A).left)
-      ![(snd T A).left, (translPt A θ.pt).left]) (Sum.elim (fun _ => k) ![k, -k])
-      (fun _ : Fin 1 => (snd T A).left) (fun _ => k) := by
-    intro U _ h
-    simp only [Fintype.prod_sum_type, Finset.univ_unique, Finset.prod_singleton, Sum.elim_inl, Sum.elim_inr,
-      Fin.prod_univ_two, Matrix.cons_val_zero, Matrix.cons_val_one, zpow_neg, hcomp]
-    rw [mul_left_comm, mul_inv_cancel, _root_.mul_one]
-  obtain ⟨s₁, hs₁⟩ := exists_sec hL hform (pullMulSec s (translT A θ.pt).left θ.φ θ.isGen)
-  refine ⟨s₁, isActOf_of_sval hL fun y J hJ => ?_⟩
-  rw [hs₁ _ _ y J hJ]
-  exact sval_pullMulSec _ _ _ _ _ _ hJ
+  first | exact _root_.GlobalTheory.VVCompare.exists_isActOf | exact @_root_.GlobalTheory.VVCompare.exists_isActOf | apply _root_.GlobalTheory.VVCompare.exists_isActOf <;> assumption
 
 end GlobalTheory.ThetaNu
 

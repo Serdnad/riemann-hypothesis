@@ -595,15 +595,9 @@ theorem restrOpen_source' (ψ : OpenPartialHomeomorph X (Fin e → ℂ)) {V : Se
 omit [T2Space X] [CompactSpace X] in
 theorem isCompatChart_restrOpen {A : FinHolAtlas e X} {ψ : OpenPartialHomeomorph X (Fin e → ℂ)}
     (hψ : IsCompatChart A ψ) {V : Set X} (hV : IsOpen V) : IsCompatChart A (ψ.restrOpen V hV) := by
-  intro j
-  obtain ⟨h1, h2⟩ := hψ j
-  refine ⟨h1.mono ?_, h2.mono ?_⟩
-  · rintro y ⟨hy1, hy2⟩
-    have h' : (A.chart j).symm y ∈ ψ.source ∩ V := hy2
-    exact ⟨hy1, h'.1⟩
-  · rintro y ⟨hy1, hy2⟩
-    have h' : y ∈ ψ.target ∩ ψ.symm ⁻¹' V := hy1
-    exact ⟨h'.1, hy2⟩
+  first
+    | exact _root_.ReciprocityTheory.AnForm.M.pa_compat_restr
+    | apply _root_.ReciprocityTheory.AnForm.M.pa_compat_restr <;> first | assumption | rfl | infer_instance
 
 theorem pl_exists_chart (A : FinHolAtlas (e + 1) X) (L : LocPot X) (s : X → X → ℂ) {r : ℕ}
     (m : Fin r → ℕ) (W : Fin r → Set X) (B : ∀ k, FinHolAtlas e (W k)) (hL : IsPotential A L)

@@ -1,5 +1,6 @@
 module
 
+import Formalism.HermitianCurvature.HermitianCurvatureProofs.CutAsm
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.CutGaugeCut
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.CutGaugeGRawSmooth
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.NFRadRedA
@@ -141,17 +142,7 @@ theorem rawR_zero (ρ : M.Ty P) : rawR P μ e 0 ρ = 0 := by
   simp [rawR, hsV_zero]
 
 theorem toSm_smul (a : ℂ) (u : MA.Qp P.r P.TT → ℂ) : MA.toSm P (a • u) = a • MA.toSm P u := by
-  by_cases hu : u ∈ MA.smSub P.r P.TT
-  · rw [toSm_of_mem P hu, toSm_of_mem P (Subalgebra.smul_mem _ hu a)]
-    rfl
-  · by_cases ha : a = 0
-    · subst ha
-      rw [zero_smul, zero_smul, toSm_of_mem P (zero_mem _)]
-      rfl
-    · have h : a • u ∉ MA.smSub P.r P.TT := fun h => hu (by
-        have := Subalgebra.smul_mem _ h a⁻¹
-        rwa [smul_smul, inv_mul_cancel₀ ha, one_smul] at this)
-      simp [MA.toSm, hu, h]
+  apply _root_.Formalism.FourierDecayAlt.P.CutMP.toSm_smul <;> assumption
 
 theorem toSm_zero : MA.toSm P (0 : MA.Qp P.r P.TT → ℂ) = 0 := by
   rw [toSm_of_mem P (zero_mem _)]

@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.NormZpowSubOneLe
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.HeightAndVanishing.DirichletPrimeToLPartMulLPowerPart
 import Development.AutomorphicArithmetic.AutomorphicVarieties.CommutativeAlgebra.ResMapBijective
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.GaloisLibrary.SelmerTransport.PrincZl
@@ -83,18 +84,6 @@ private theorem rc_root {κ : Type} [NormedField κ] [IsAlgClosed κ] (γ : κ) 
   rw [norm_sub_rev] at hγ
   linarith
 
-private theorem rc_pow {κ : Type} [NormedField κ] [IsUltrametricDist κ] (b : κ) (hb : ‖b - 1‖ < 1) (k : ℕ) :
-    ‖b ^ k - 1‖ ≤ ‖b - 1‖ := by
-  induction k with
-  | zero => simp
-  | succ k ih =>
-    have h : b ^ (k + 1) - 1 = (b ^ k - 1) * (b - 1) + ((b ^ k - 1) + (b - 1)) := by ring
-    rw [h]
-    refine (IsUltrametricDist.norm_add_le_max _ _).trans (max_le ?_
-      ((IsUltrametricDist.norm_add_le_max _ _).trans (max_le ih le_rfl)))
-    rw [norm_mul]
-    exact mul_le_of_le_one_left (norm_nonneg _) (ih.trans hb.le)
-
 private theorem rc_char {l : ℕ} [Fact l.Prime] (b : PadicAlgCl l) (hb : ‖b - 1‖ < 1) :
     ∃ (κ : AddChar ℤ_[l] (PadicAlgCl l)) (c : Coef l), Continuous κ ∧ κ 1 = b ∧ ∀ x, κ x ∈ c.O ∧ ‖κ x - 1‖ < 1 := by
   let K : IntermediateField ℚ_[l] (PadicAlgCl l) := IntermediateField.adjoin ℚ_[l] {b}
@@ -126,7 +115,7 @@ private theorem rc_char {l : ℕ} [Fact l.Prime] (b : PadicAlgCl l) (hb : ‖b -
     refine PadicInt.denseRange_natCast.induction_on x
       (isClosed_le (hcont.sub continuous_const).norm continuous_const) fun k => ?_
     rw [← nsmul_one, AddChar.map_nsmul_eq_pow, hone]
-    exact rc_pow b hb k
+    exact _root_.GlobalTheory.UnitNormPowerSubOne.norm_pow_sub_one_le b hb k
   refine ⟨κ, c, hcont, hone, fun x => ⟨hc _ (κ₀ x).2 ?_, (hle x).trans_lt hb⟩⟩
   have : κ x = (κ x - 1) + 1 := by ring
   rw [this]

@@ -49,6 +49,7 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.HodgeFiltrationViaTruncation
 
 @[expose] public section
 
@@ -163,17 +164,7 @@ def zeroSerre (R : Type) [CommRing R] : Serre.{1} R where
 
 theorem toSq_bijective (a b : IdF A) (ha : ∀ T, a.S T = ⊤) (hb : ∀ T, b.S T = ⊥) (n : ℕ) :
     Function.Bijective ((toSq a b ha).pull n) := by
-  refine CrystallineSemistableComparison.P.mapH_bij (toSq a b ha).hom (fun n => ⟨fun x y h => funext fun s => ?_, fun y => ?_⟩) n
-  · have h' := congrArg (fun z : sqM a b _ => z.1) (congrFun h s)
-    have := Ideal.Quotient.eq.1 h'
-    rw [hb] at this
-    have h2 : (show A.obj (s.obj (Fin.last _)) from x s) - (show A.obj (s.obj (Fin.last _)) from y s) = 0 := (Ideal.mem_bot).1 this
-    exact sub_eq_zero.1 h2
-  · have key : ∀ (T : C) (z : (sq a b).obj T), ∃ w : (CH.modF A).obj T, (toSq a b ha).τ T w = z := by
-      intro T z
-      obtain ⟨w, hw, rfl⟩ := sqM_rep a b T z
-      exact ⟨w, rfl⟩
-    exact ⟨fun s => (key _ (y s)).choose, funext fun s => (key _ (y s)).choose_spec⟩
+  apply _root_.GlobalTheory.CompanionTheory.KIso.toSq_bij_bot <;> assumption
 
 theorem toSq_comp (a b c : IdF A) (ha : ∀ T, a.S T = ⊤) (hcb : ∀ T, c.S T ≤ b.S T) (n : ℕ)
     (y : CH.H (CH.modF A) n) :
@@ -185,27 +176,7 @@ theorem toSq_comp (a b c : IdF A) (ha : ∀ T, a.S T = ⊤) (hcb : ∀ T, c.S T 
 end Gen
 
 theorem tfBase (K : Type) [Field K] [CharZero K] (s : ℕ) (hs : 0 < s) : TFBase (dividedPowersBot K) 1 s := by
-  refine ⟨?_, ?_, ?_⟩
-  · refine Ideal.span_eq_bot.2 ?_
-    rintro _ ⟨l, hl, hr, rfl⟩
-    have : ∃ q ∈ l, q.1 ≠ 0 := by
-      by_contra hc
-      push Not at hc
-      have : (l.map Prod.fst).sum = 0 := by
-        refine List.sum_eq_zero ?_
-        intro x hx
-        obtain ⟨q, hq, rfl⟩ := List.mem_map.1 hx
-        exact hc q hq
-      omega
-    obtain ⟨q, hq, h0⟩ := this
-    refine List.prod_eq_zero (List.mem_map.2 ⟨q, hq, ?_⟩)
-    have e : q.2 = 0 := (Ideal.mem_bot).1 (hl q hq)
-    rw [e]
-    exact DividedPowers.dpow_eval_zero _ h0
-  · intro r x h
-    simpa using h
-  · intro n hn
-    exact ⟨0, (n : K)⁻¹, by simp [Nat.cast_ne_zero.2 hn]⟩
+  apply _root_.GlobalTheory.CompanionTheory.KIso.tfBase <;> assumption
 
 end GlobalTheory.CompanionTheory.KFin
 

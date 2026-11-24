@@ -1,5 +1,7 @@
 module
 
+import Formalism.HermitianCurvature.HermitianCurvatureProofs.OrbitalIntegralAeConvergenceContinuity
+import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.RootSubgroupJacobian.ContinuousRootCoords
 import Development.AbelianVarietyTheory.Proofs.FlagMeasures.UnitaryGroupGaugeVolumeInHermitianUnitary
 public import Formalism.FormalDegreeBessel.FormalDegreeRatio.UnitaryWeylNormalHolds
 public import Formalism.SharpRestriction.CuspSpanNormBounds.RelevantZeroGramTerms
@@ -176,40 +178,10 @@ theorem splitPair_mulPair {z : Fin (2 * r + k + 1) → ℂ} {p : Mt k r × Mt k 
   rw [show Matrix.of (dag p.1) * Matrix.of p.1 = (1 : Matrix _ _ ℂ) from this, Matrix.one_mul]
 
 theorem isClosed_UH : IsClosed {x : Mt k r | Matrix.of x ∈ UH (Hpk k r)} := by
-  have : {x : Mt k r | Matrix.of x ∈ UH (Hpk k r)} = {x | mulP (dag x, x) = (1 : Matrix _ _ ℂ)} := by
-    ext x
-    constructor
-    · intro h; exact dag_mul_self h
-    · intro h
-      have h' : Hpk k r * (Matrix.of x)ᴴ * Hpk k r * Matrix.of x = 1 := h
-      show (Matrix.of x)ᴴ * Hpk k r * Matrix.of x = Hpk k r
-      have := congrArg (fun M => Hpk k r * M) h'
-      simp only [Matrix.mul_one] at this
-      rw [Matrix.mul_assoc, Matrix.mul_assoc, ← Matrix.mul_assoc (Hpk k r) (Hpk k r), hpk_sq, Matrix.one_mul,
-        ← Matrix.mul_assoc] at this
-      exact this
-  rw [this]
-  exact isClosed_eq (continuous_mulP.comp (continuous_dag.prodMk continuous_id)) continuous_const
+  apply _root_.Formalism.FourierDecayAlt.P.B7.isClosed_GV <;> assumption
 
 theorem isClosed_N : IsClosed {x : Mt k r | Matrix.of x ∈ Nset k r} := by
-  have : {x : Mt k r | Matrix.of x ∈ Nset k r} = {x : Mt k r | Matrix.of x ∈ UH (Hpk k r)} ∩
-      ⋂ (i : Fin (2 * r + k + 1)) (j : Fin (2 * r + k + 1)),
-        {x : Mt k r | j.val ≤ r + k → (j.val ≤ i.val ∨ r ≤ i.val) → x i j = if i = j then 1 else 0} := by
-    ext x
-    simp only [Set.mem_ofPred_eq, Set.mem_inter_iff, Set.mem_iInter, nset_iff]
-    rfl
-  rw [this]
-  refine isClosed_UH.inter (isClosed_iInter fun i => isClosed_iInter fun j => ?_)
-  by_cases hc : j.val ≤ r + k ∧ (j.val ≤ i.val ∨ r ≤ i.val)
-  · have : {x : Mt k r | j.val ≤ r + k → (j.val ≤ i.val ∨ r ≤ i.val) → x i j = if i = j then 1 else 0} =
-        {x | x i j = if i = j then 1 else 0} := by
-      ext x; exact ⟨fun h => h hc.1 hc.2, fun h _ _ => h⟩
-    rw [this]
-    exact isClosed_eq ((continuous_apply j).comp (continuous_apply i)) continuous_const
-  · have : {x : Mt k r | j.val ≤ r + k → (j.val ≤ i.val ∨ r ≤ i.val) → x i j = if i = j then 1 else 0} = Set.univ := by
-      ext x; simp only [Set.mem_ofPred_eq, Set.mem_univ, iff_true]
-      intro a b; exact absurd ⟨a, b⟩ hc
-    rw [this]; exact isClosed_univ
+  apply _root_.PI.AmpRootJacW.isClosed_N <;> assumption
 
 theorem continuous_mulVecM (v : Fin (2 * r + k + 1) → ℂ) : Continuous fun x : Mt k r => Matrix.of x *ᵥ v := by
   refine continuous_pi fun i => ?_

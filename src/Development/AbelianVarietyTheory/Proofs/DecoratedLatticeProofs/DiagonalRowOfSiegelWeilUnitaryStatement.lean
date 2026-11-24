@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.FlagMeasures.SameRowSameCosetScalarCorankOneStatement
 public import Formalism.LocalToGlobal.SiegelLatticeTheory.CokernelGLCounts.RankPointCounts.RelCOfOcc
 public import Formalism.LocalToGlobal.SiegelLatticeTheory.CokernelGLCounts.RankPointCounts.NmlIntHolds
 public import Formalism.LocalToGlobal.SiegelLatticeTheory.CokernelGLCounts.RankPointCounts.NmlPtDCHolds
@@ -432,19 +433,7 @@ end Gen
 theorem conj_mem_NRat {D : D7} {T : D.host.E} (γ : (VS D).V ≃ₗ[D.host.E] (VS D).V)
     (hγ : γ ∈ Formalism.HermitianLatticesTheory.isom (VS D).hT) (F : LFlag (D.sp.Y 0) D.R.rS T) (n : (VS D).V ≃ₗ[D.host.E] (VS D).V)
     (hn : n ∈ NRat F) : γ * n * γ⁻¹ ∈ NRat (mapLF γ F) := by
-  obtain ⟨hn0, hn1, hn2⟩ := hn
-  refine ⟨(Formalism.HermitianLatticesTheory.isom _).mul_mem ((Formalism.HermitianLatticesTheory.isom _).mul_mem hγ hn0) ((Formalism.HermitianLatticesTheory.isom _).inv_mem hγ), ?_, ?_⟩
-  · intro j x hx
-    rw [Xflag_mapLF γ hγ] at hx ⊢
-    obtain ⟨y, hy, rfl⟩ := hx
-    refine ⟨n y - y, hn1 j y hy, ?_⟩
-    show γ (n y - y) = γ (n (γ.symm (γ y))) - γ y
-    simp
-  · intro x hx
-    have h := hn2 _ (orth_mapLF γ hγ F x hx)
-    rw [Formalism.L2.SG.NGCut.CorankRelation.mem_Xsp_mapLF γ hγ]
-    show γ.symm (γ (n (γ.symm x)) - x) ∈ Xsp F
-    simpa using h
+  first | exact _root_.GlobalTheory.SnFamCoset.conj_mem_NRat | exact @_root_.GlobalTheory.SnFamCoset.conj_mem_NRat | apply _root_.GlobalTheory.SnFamCoset.conj_mem_NRat <;> assumption
 
 theorem corankOne_of_same_flagDoubleCoset : ∀ (D : D7) (X : HidaSetting D) (Y : Full X) (u u' : D.what₂.Word),
     ∀ t t' : TauC Y u u', t.G ≠ 0 → (Y.tO u u').rowOf t = (Y.tO u u').rowOf t' →

@@ -9,6 +9,7 @@ import Mathlib.Tactic.TypeStar
 public import Mathlib.Analysis.Analytic.ChangeOrigin
 public import Mathlib.Analysis.Analytic.Constructions
 public import Mathlib.Analysis.Analytic.Uniqueness
+import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.PFiniteGermProjectionOpenAt
 
 @[expose] public section
 
@@ -21,39 +22,12 @@ open Topology Filter
 private theorem germ_zero_of_mul_zero {E : Type*} [NormedAddCommGroup E] [NormedSpace ℂ E] {f g : E → ℂ} {y : E}
     (hf : AnalyticAt ℂ f y) (hg : AnalyticAt ℂ g y) (hfg : ∀ᶠ z in 𝓝 y, f z * g z = 0) :
     (∀ᶠ z in 𝓝 y, f z = 0) ∨ (∀ᶠ z in 𝓝 y, g z = 0) := by
-  obtain ⟨r, hr, hball⟩ := Metric.mem_nhds_iff.1
-    ((hf.eventually_analyticAt.and hg.eventually_analyticAt).and hfg)
-  by_cases hf0 : ∀ z ∈ Metric.ball y r, f z = 0
-  · exact Or.inl (Filter.mem_of_superset (Metric.ball_mem_nhds y hr) hf0)
-  · right
-    push Not at hf0
-    obtain ⟨p, hp, hfp⟩ := hf0
-    have hgp : g =ᶠ[𝓝 p] 0 := by
-      filter_upwards [(hball hp).1.1.continuousAt.eventually_ne hfp, Metric.isOpen_ball.mem_nhds hp]
-        with z hz1 hz2
-      exact (mul_eq_zero.1 (hball hz2).2).resolve_left hz1
-    have hgan : AnalyticOnNhd ℂ g (Metric.ball y r) := fun z hz => (hball hz).1.2
-    have hzero := hgan.eqOn_zero_of_preconnected_of_eventuallyEq_zero (convex_ball y r).isPreconnected hp hgp
-    exact Filter.mem_of_superset (Metric.ball_mem_nhds y hr) fun z hz => by simpa using hzero hz
+  apply _root_.GroundTheory.Heights₂.Heights.IndefiniteRowSideFullHecke.ComplexSets.germ_eventually_zero_of_mul <;> assumption
 
 private theorem germ_factor_zero_of_prod_zero {E : Type*} [NormedAddCommGroup E] [NormedSpace ℂ E] {ι : Type*}
     (h : ι → E → ℂ) {y : E} (s : Finset ι) (han : ∀ i ∈ s, AnalyticAt ℂ (h i) y)
     (hprod : ∀ᶠ z in 𝓝 y, ∏ i ∈ s, h i z = 0) : ∃ i ∈ s, ∀ᶠ z in 𝓝 y, h i z = 0 := by
-  classical
-  induction s using Finset.induction_on with
-  | empty =>
-    obtain ⟨z, hz⟩ := hprod.exists
-    simp at hz
-  | insert a s ha ih =>
-    have hg : AnalyticAt ℂ (fun z => ∏ i ∈ s, h i z) y :=
-      Finset.analyticAt_fun_prod s fun i hi => han i (Finset.mem_insert_of_mem hi)
-    have hprod' : ∀ᶠ z in 𝓝 y, h a z * ∏ i ∈ s, h i z = 0 := by
-      filter_upwards [hprod] with z hz
-      rwa [Finset.prod_insert ha] at hz
-    rcases germ_zero_of_mul_zero (han a (Finset.mem_insert_self a s)) hg hprod' with h1 | h1
-    · exact ⟨a, Finset.mem_insert_self a s, h1⟩
-    · obtain ⟨i, hi, h2⟩ := ih (fun i hi => han i (Finset.mem_insert_of_mem hi)) h1
-      exact ⟨i, Finset.mem_insert_of_mem hi, h2⟩
+  apply _root_.GroundTheory.Heights₂.Heights.IndefiniteRowSideFullHecke.ComplexSets.germ_prod_eventually_zero <;> assumption
 
 private theorem isOpen_diff_of_zeroSet {σ : Type} [Fintype σ] {Y N : Set (σ → ℂ)} {k : ℕ}
     {φ : Fin k → (σ → ℂ) → ℂ} (hN : IsOpen N) (hφ : ∀ m, AnalyticOnNhd ℂ (φ m) N)

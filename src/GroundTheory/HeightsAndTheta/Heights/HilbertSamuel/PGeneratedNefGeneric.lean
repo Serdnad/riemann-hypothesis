@@ -7,6 +7,7 @@ public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsGener
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsGeneratedProductNonneg
 public import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.AssemblyBridgeFull
 public import ReciprocityTheory.AnalyticForms.RegularLocalRings.IntToRat
+import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.ExistsLinearIndependentOfGenerates
 
 @[expose] public section
 
@@ -25,32 +26,7 @@ theorem GeneratedNefGeneric.eq_natCast_of_add_one_eq (d : ℕ) (x : WithBot ℕ�
 theorem GeneratedNefGeneric.isProjVarF_map {K : Type} [Fintype K] {ι : K → Type} [∀ k, Fintype (ι k)]
     {W : Ideal (MRing ι)} {d : ℕ} (hW : IsArithVar W (d + 1)) :
     IsProjVarF (W.map (MvPolynomial.map (Int.castRingHom ℚ))) d := by
-  obtain ⟨-, ⟨hWp, ⟨S, hS, hWS⟩, hrel⟩, hhor, hdim⟩ := hW
-  have : W.IsPrime := hWp
-  have hchar : ∀ m : ℤ, (C m : MvPolynomial (Σ k, ι k) ℤ) ∈ W → m = 0 := by
-    intro m hm
-    have h1 : m ∈ W.comap (C : ℤ →+* MRing ι) := hm
-    rw [show W.comap (C : ℤ →+* MRing ι) = ⊥ from hhor, Ideal.mem_bot] at h1
-    exact h1
-  obtain ⟨hqp, hcomap, hform⟩ := ReciprocityTheory.AnForm.R.extQ_spec W hchar
-  have hq : ReciprocityTheory.AnForm.R.extQ W = W.map (MvPolynomial.map (Int.castRingHom ℚ)) := rfl
-  rw [← hq]
-  refine ⟨⟨hqp, ?_, ?_⟩, ?_⟩
-  · refine ⟨MvPolynomial.map (Int.castRingHom ℚ) '' S, ?_, ?_⟩
-    · rintro _ ⟨f, hf, rfl⟩
-      obtain ⟨b, hb⟩ := hS f hf
-      exact ⟨b, fun m hm k => hb m (MvPolynomial.support_map_subset _ _ hm) k⟩
-    · show W.map (MvPolynomial.map (Int.castRingHom ℚ)) = _
-      rw [hWS, Ideal.map_span]
-  · intro k
-    obtain ⟨i, hi⟩ := hrel k
-    refine ⟨i, fun hX => hi ?_⟩
-    rw [← hcomap, Ideal.mem_comap, map_X]
-    exact hX
-  · refine GeneratedNefGeneric.eq_natCast_of_add_one_eq (d + Fintype.card K) _ ?_
-    rw [hform, hdim, show d + 1 + Fintype.card K = (d + Fintype.card K) + 1 by omega]
-    push_cast
-    rfl
+  apply _root_.GroundTheory.Heights₂.Heights.HilbertSamuel.isProjVarF_map_of_isArithVar <;> assumption
 
 theorem GeneratedNefGeneric.proof (hG : GenOnFibres.Statement) (hR : GeneratedRestrict.Statement)
     (hN : GeneratedProductNonneg.Statement) : GeneratedNefGeneric.Statement := by

@@ -1,5 +1,7 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.CyclotomicTowerTraceAlmostSurjective
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.TraceAlmostOntoOfLevels
 public import Development.AbelianVarietyTheory.Definitions.Foundations.HTBasis
 public import Formalism.SharpRestriction.LevelLetterCocycles.DataNLoc
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IntegersEqSumZetaPow
@@ -97,16 +99,7 @@ theorem root_mem_Ks (K : FinExt l) {i : ℕ} {x : Om l} (hx : x ^ (l ^ i) = 1) :
   (le_sup_right : _ ≤ Ks K i) (IntermediateField.subset_adjoin _ _ hx)
 
 theorem exists_level (K : FinExt l) {x : Om l} (hx : x ∈ Kinf K) : ∃ i, x ∈ Ks K i := by
-  have h : Kinf K ≤ ⨆ i, Ks K i := by
-    refine sup_le (le_trans (le_sup_left : _ ≤ Ks K 0) (le_iSup (Ks K) 0)) ?_
-    rw [IntermediateField.adjoin_le_iff]
-    rintro y ⟨i, hy⟩
-    exact le_iSup (Ks K) i (root_mem_Ks K hy)
-  have h2 := h hx
-  have hd : Directed (· ≤ ·) (Ks K) := Monotone.directed_le fun _ _ h => Ks_mono K h
-  have h3 : x ∈ ((⨆ i, Ks K i : IntermediateField ℚ_[l] (Om l)) : Set (Om l)) := h2
-  rw [IntermediateField.coe_iSup_of_directed hd] at h3
-  simpa using h3
+  first | exact _root_.GlobalTheory.Cyc.AlmostTrace.exists_mem_Ks | exact @_root_.GlobalTheory.Cyc.AlmostTrace.exists_mem_Ks | apply _root_.GlobalTheory.Cyc.AlmostTrace.exists_mem_Ks <;> assumption
 
 alias exists_prim := _root_.GlobalTheory.Cyc.exists_primRoot_pow
 
@@ -199,19 +192,7 @@ theorem act_Xj {act : GQ l →* (PadicComplex l ≃+* PadicComplex l)} (ha : IsA
   exact ⟨g v, gal_Ks hg _ hv, (ha.1 g v).symm⟩
 
 theorem finite_Ks (K : FinExt l) (j : ℕ) : FiniteDimensional ℚ_[l] (Ks K j) := by
-  haveI := K.2
-  haveI : FiniteDimensional ℚ_[l] (K0 K) :=
-    Module.Finite.of_injective
-      (IntermediateField.inclusion (inf_le_left : K0 K ≤ K.1)).toLinearMap
-      (IntermediateField.inclusion_injective (inf_le_left : K0 K ≤ K.1))
-  have hf : {x : Om l | x ^ (l ^ j) = 1}.Finite := by
-    refine (Polynomial.nthRootsFinset (l ^ j) (1 : Om l)).finite_toSet.subset fun x hx => ?_
-    exact Finset.mem_coe.2 ((Polynomial.mem_nthRootsFinset
-      (pow_pos (Fact.out : l.Prime).pos _) _).2 hx)
-  haveI := hf.to_subtype
-  haveI : FiniteDimensional ℚ_[l] (IntermediateField.adjoin ℚ_[l] {x : Om l | x ^ (l ^ j) = 1}) :=
-    IntermediateField.finiteDimensional_adjoin fun x _ => Algebra.IsIntegral.isIntegral x
-  exact IntermediateField.finiteDimensional_sup _ _
+  first | exact _root_.GlobalTheory.Cyc.DiffSmall.finite_Ks | exact @_root_.GlobalTheory.Cyc.DiffSmall.finite_Ks | apply _root_.GlobalTheory.Cyc.DiffSmall.finite_Ks <;> assumption
 
 theorem isCompact_intC (F : IntermediateField ℚ_[l] (Om l)) [FiniteDimensional ℚ_[l] F] :
     IsCompact (intC F) := by

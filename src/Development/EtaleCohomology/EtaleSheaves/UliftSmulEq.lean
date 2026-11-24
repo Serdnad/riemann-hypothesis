@@ -1,5 +1,8 @@
 module
 
+
+import Development.EtaleCohomology.TateTwists.TwLocPfR
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.EtaleCohomologyFieldEqGaloisCohomologyStatement
 public import Development.EtaleCohomology.EtaleSheaves.LCIsoPf
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -43,7 +46,6 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Algebra.Category.ModuleCat.FilteredColimits
 import Mathlib.Tactic.Linter.Style
 import Mathlib.Tactic.TypeStar
-
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.EtaleCohomology.EtaleSheaves.TwTrivPf, Development.EtaleCohomology.EtaleSheaves.UliftSmulEq
 
@@ -59,15 +61,7 @@ namespace LateralTheory.E.TwistTrivial
 
 theorem genRes {q : ℕ} (i : ℤ) {V U : Scheme.{0}} (g : V ⟶ U) (ζ : Prim q Γ(U, ⊤)) :
     Sec.res g (twGen i ζ) = twGen i (ζ.map g.appTop.hom) := by
-  unfold twGen ofRings.sec
-  have h := congrArg (fun φ => φ.hom (Submodule.Quotient.mk (Finsupp.single ζ 1) : (twF q i).obj Γ(U, ⊤)))
-    ((toSheafify Scheme.etaleTopology (Scheme.Γ ⋙ twF q i)).naturality g.op)
-  simp only [ModuleCat.hom_comp, LinearMap.coe_comp] at h
-  refine h.symm.trans ?_
-  change ((toSheafify Scheme.etaleTopology (Scheme.Γ ⋙ twF q i)).app (op V)).hom
-    (((Scheme.Γ ⋙ twF q i).map g.op).hom _) = _
-  congr 1
-  exact congrArg Submodule.Quotient.mk Finsupp.mapDomain_single
+  apply @LateralTheory.EtaleFoundations.TwLocPf.twGen_res <;> assumption
 
 theorem prim_map_comp {q : ℕ} {X Y S : Scheme.{0}} (ζ : Prim q Γ(S, ⊤)) (s : X ⟶ S) (f : Y ⟶ X) :
     (ζ.map s.appTop.hom).map f.appTop.hom = ζ.map (f ≫ s).appTop.hom := by
@@ -124,14 +118,7 @@ theorem sep {q : ℕ} {j : ℤ} {X : Scheme.{0}} (S : Sieve X) (hS : S ∈ Schem
 
 theorem twGen_pow {q : ℕ} (m : ℤ) {U : Scheme.{0}} (ζ ξ : Prim q Γ(U, ⊤)) (a : (ZMod q)ˣ) (h : ξ.1 = ζ.1 ^ (a : ZMod q).val) :
     twGen m ξ = (ULift.up.{1} ((a ^ m : (ZMod q)ˣ) : ZMod q)) • twGen m ζ := by
-  unfold twGen ofRings.sec
-  have hmem : Finsupp.single ξ (1 : ULift.{1} (ZMod q)) - Finsupp.single ζ (ULift.up ((a ^ m : (ZMod q)ˣ) : ZMod q)) ∈ twRel q m Γ(U, ⊤) :=
-    Submodule.subset_span ⟨ζ, ξ, a, h, rfl⟩
-  have key : (Submodule.Quotient.mk (Finsupp.single ξ 1) : (twF q m).obj Γ(U, ⊤)) =
-      (ULift.up.{1} ((a ^ m : (ZMod q)ˣ) : ZMod q)) • (Submodule.Quotient.mk (Finsupp.single ζ 1) : (twF q m).obj Γ(U, ⊤)) := by
-    refine ((Submodule.Quotient.eq (twRel q m Γ(U, ⊤))).2 hmem).trans ?_
-    rw [← Submodule.Quotient.mk_smul, Finsupp.smul_single, smul_eq_mul, mul_one]
-  exact (congrArg (fun v => ((toSheafify Scheme.etaleTopology (Scheme.Γ ⋙ twF q m)).app (op U)).hom v) key).trans (map_smul _ _ _)
+  apply @GlobalTheory.EtC.FieldTw.twGen_pow <;> assumption
 
 theorem locPres {q : ℕ} {j : ℤ} {X : Scheme.{0}} (x : Sec (tw q j) X) :
     ∃ S ∈ Scheme.etaleTopology X, ∀ ⦃Y : Scheme.{0}⦄ (f : Y ⟶ X), S f →

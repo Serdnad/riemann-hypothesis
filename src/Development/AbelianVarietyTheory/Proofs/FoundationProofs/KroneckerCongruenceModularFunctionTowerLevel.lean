@@ -79,6 +79,7 @@ import Mathlib.Algebra.Ring.IsFormallyReal
 import Mathlib.RingTheory.Valuation.LocalSubring
 import Mathlib.Tactic.Polynomial.Basic
 import Development.AbelianVarietyTheory.Proofs.FoundationProofs.GammaLeOfDvd
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.IsLogDerivQExpansionModPrimePowSlashTPow
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsNumberFieldExpansionCoeffs, Development.AbelianVarietyTheory.Proofs.FoundationProofs.MemClosureOfFixed, Development.AbelianVarietyTheory.Proofs.FoundationProofs.NatDegreeMinpolyLe, Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsPrimitiveQuotientLevelPrimeTo, Development.AbelianVarietyTheory.Proofs.FoundationProofs.HeckeTranslateNormProductEqOfDvd, Development.AbelianVarietyTheory.Proofs.FoundationProofs.KroneckerCongruenceFrobeniusDiag, Development.AbelianVarietyTheory.Proofs.FoundationProofs.NqSubGalSmall, Development.AbelianVarietyTheory.Proofs.FoundationProofs.KroneckerCongruenceModularFunctionTowerLevel
@@ -653,33 +654,7 @@ open Matrix in
 variable {Ω : Type} [Field Ω] [Algebra ℚ Ω] [IsAlgClosure ℚ Ω] {ε : Ω →+* ℂ} in
 private lemma eOm_mem_valuationSubring (ε : Ω →+* ℂ) (V : ValuationSubring Ω) (s : ℚ) :
     _root_.GlobalTheory.KZ.eOm ε s ∈ V := by
-  haveI := IsAlgClosure.isAlgClosed ℚ (K := Ω)
-  haveI : CharZero Ω := charZero_of_injective_algebraMap (algebraMap ℚ Ω).injective
-  set n := s.den with hn
-  haveI : NeZero n := ⟨s.den_nz⟩
-  set w : ℂ := Complex.exp (2 * Real.pi * Complex.I * s) with hw
-  have hwn : w ^ n = 1 := by
-    rw [hw, ← Complex.exp_nat_mul]
-    have e : (n : ℂ) * (2 * Real.pi * Complex.I * s) = (s.num : ℂ) * (2 * Real.pi * Complex.I) := by
-      have hs : (s : ℂ) * n = s.num := by exact_mod_cast Rat.mul_den_eq_num s
-      rw [← hs]
-      ring
-    rw [e, Complex.exp_int_mul_two_pi_mul_I]
-  obtain ⟨ζ, hζ⟩ := IsAlgClosed.exists_root (Polynomial.cyclotomic n Ω)
-    (Polynomial.degree_cyclotomic_pos n Ω (NeZero.pos n)).ne'
-  haveI : NeZero (n : Ω) := ⟨Nat.cast_ne_zero.2 (NeZero.ne n)⟩
-  have hζ' : IsPrimitiveRoot ζ n := Polynomial.isRoot_cyclotomic_iff.1 hζ
-  obtain ⟨i, -, hi⟩ := (hζ'.map_of_injective ε.injective).eq_pow_of_pow_eq_one hwn
-  have hrange : ∃ z, ε z = w := ⟨ζ ^ i, by rw [map_pow, hi]⟩
-  have hz : ε (_root_.GlobalTheory.KZ.eOm ε s) = w := Function.invFun_eq hrange
-  have hzn : _root_.GlobalTheory.KZ.eOm ε s ^ n = 1 := by
-    apply ε.injective
-    rw [map_pow, hz, hwn, map_one]
-  have hint : IsIntegral ℤ (_root_.GlobalTheory.KZ.eOm ε s) :=
-    ⟨Polynomial.X ^ n - 1, Polynomial.monic_X_pow_sub_C 1 (NeZero.ne n), by simp [hzn]⟩
-  obtain ⟨y, hy⟩ := IsIntegrallyClosed.isIntegral_iff.1 (hint.tower_top : IsIntegral V _)
-  rw [← hy]
-  exact y.2
+  apply _root_.GlobalTheory.Glue.NrmT.eOm_mem <;> assumption
 
 open scoped MatrixGroups TensorProduct in
 open Matrix in

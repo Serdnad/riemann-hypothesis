@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.ThetaSeriesAtPointIntegralOfPeriodValuationStatement
 public import Mathlib.Analysis.Normed.Field.Basic
 public import Mathlib.Topology.Algebra.InfiniteSum.Defs
 public import Mathlib.Topology.MetricSpace.Ultra.Basic
@@ -103,15 +104,8 @@ theorem hasSum_conv_of_ultrametric {C : Type} [NormedField C] [IsUltrametricDist
     {X : Type} [AddCommGroup X] {a a' a'' : X → C} {S S' : C}
     (h : HasSum a S) (h' : HasSum a' S')
     (hc : ∀ α, HasSum (fun χ => a χ * a' (α - χ)) (a'' α)) : HasSum a'' (S * S') := by
-  have : NonarchimedeanRing C := ⟨fun U hU => NonarchimedeanAddGroup.is_nonarchimedean U hU⟩
-  have hp : HasSum (fun i : X × X => a i.1 * a' i.2) (S * S') := h.mul_of_nonarchimedean h'
-  let e : X × X ≃ X × X :=
-    { toFun := fun p => (p.2, p.1 - p.2)
-      invFun := fun q => (q.1 + q.2, q.1)
-      left_inv := by rintro ⟨x, y⟩; simp
-      right_inv := by rintro ⟨x, y⟩; simp }
-  have hq : HasSum (fun p : X × X => a p.2 * a' (p.1 - p.2)) (S * S') := e.hasSum_iff.2 hp
-  exact hq.prod_fiberwise hc
+  intros
+  apply _root_.GlobalTheory.ZH.SeriesProd.hasSum_conv <;> assumption
 
 theorem hasSum_graded_of_mul_degree :
     ∀ (C : Type) [NormedField C] [IsUltrametricDist C] [CompleteSpace C] (X : Type) [AddCommGroup X] (Rel : ℕ → (X → C) → C → Prop) (n k : ℕ), 1 ≤ n → 1 ≤ k → (∀ (l l' : ℕ) (a a' : X → C) (c c' : C), 1 ≤ l → 1 ≤ l' → Rel l a c → Rel l' a' c' → ∃ a'', Rel (l + l') a'' (c * c') ∧ ∀ α, HasSum (fun χ => a χ * a' (α - χ)) (a'' α)) → (∃ κ : C, κ ≠ 0 ∧ ∀ a c, Rel (n * k) a c → HasSum a (κ * c)) → ∃ u : C, u ≠ 0 ∧ ∀ a c, Rel k a c → Summable a → HasSum a (u * c) := by

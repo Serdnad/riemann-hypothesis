@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.JetHarmonics.RunWeightsSum
 public import Formalism.SharpRestriction.Divisibility.AbelianOpenPart.OEOsInjective
 public import Development.AbelianVarietyTheory.Counterexamples.HeightSurvey.WindowsAllowOffCentre
 public import Mathlib.Data.Nat.Choose.Basic
@@ -121,42 +122,7 @@ variable {D : D7} {j : ℕ}
 
 theorem isF (ka : WeightFamilies.Wt D j) (T nW nP : ℕ) (hW : Even nW) (hP : Even nP) :
     WeightAlgebra.IsF' ka (lWt D ka T nW hW) (fWt D ka (lWt D ka T nW hW) T nP hP) T nP := by
-  refine ⟨rfl, fun τ => of_gaps _ _ _ _ fun i => ?_, fun τ => of_gaps _ _ _ _ fun i => ?_⟩
-  · show WeightAlgebra.gapZ (ofGaps _) i = _ - _ * WeightAlgebra.gapZ (ofGaps _) i
-    rw [gapZ_ofGaps, gapZ_ofGaps]
-    unfold fGapP
-    split_ifs with hi
-    · show (((WeightAlgebra.gapZ _ i - _ * WeightAlgebra.gapZ (ofGaps _) i).toNat : ℕ) : ℤ) = _
-      rw [gapZ_ofGaps]
-      apply Int.toNat_of_nonneg
-      unfold lGapP; rw [if_pos hi]
-      exact sub_nonneg.2 (floor_le T _ _ _ (gap_nonneg (ka.aPlus_antitone τ) i) le_rfl)
-    · show ((((ka.aP τ i : ℤ) - _ * ((ofGaps _ i : ℕ) : ℤ)).toNat : ℕ) : ℤ) = _
-      rw [ofGaps_last _ i hi]
-      have e : WeightAlgebra.gapZ (ka.aP τ) i = ka.aP τ i := by simp [WeightAlgebra.gapZ, hi]
-      rw [e]
-      apply Int.toNat_of_nonneg
-      unfold lGapP; rw [if_neg hi]
-      refine sub_nonneg.2 (floor_le T _ _ _ (by positivity) ?_)
-      have : (0 : ℤ) ≤ ((WeightFamilies.dimY D j : ℤ) + 2) * nW := by positivity
-      have : (0 : ℤ) ≤ D.R.r := by positivity
-      linarith
-  · show WeightAlgebra.gapZ (ofGaps _) i = _ - _ * WeightAlgebra.gapZ (ofGaps _) i
-    rw [gapZ_ofGaps, gapZ_ofGaps]
-    unfold fGapM
-    split_ifs with hi
-    · show (((WeightAlgebra.gapZ _ i - _ * WeightAlgebra.gapZ (ofGaps _) i).toNat : ℕ) : ℤ) = _
-      rw [gapZ_ofGaps]
-      apply Int.toNat_of_nonneg
-      unfold lGapM; rw [if_pos hi]
-      exact sub_nonneg.2 (floor_le T _ _ _ (gap_nonneg (ka.aM_anti τ) i) le_rfl)
-    · show ((((ka.aM τ i : ℤ) - _ * ((ofGaps _ i : ℕ) : ℤ)).toNat : ℕ) : ℤ) = _
-      rw [ofGaps_last _ i hi]
-      have e : WeightAlgebra.gapZ (ka.aM τ) i = ka.aM τ i := by simp [WeightAlgebra.gapZ, hi]
-      rw [e]
-      apply Int.toNat_of_nonneg
-      unfold lGapM; rw [if_neg hi]
-      exact sub_nonneg.2 (floor_le T _ _ _ (by positivity) (by linarith))
+  first | exact _root_.GlobalTheory.RunWeightTest.isF'_fWt | exact @_root_.GlobalTheory.RunWeightTest.isF'_fWt | apply _root_.GlobalTheory.RunWeightTest.isF'_fWt <;> assumption
 
 theorem fdiv_toNat (x : ℤ) (n : ℕ) (hx : 0 ≤ x) : (((Int.fdiv x n).toNat : ℕ) : ℤ) = Int.fdiv x n := by
   apply Int.toNat_of_nonneg
@@ -244,13 +210,7 @@ variable {D : D7}
 
 theorem choose_two_add (p q : ℕ) :
     p * q + p * (p - 1) / 2 + q * (q - 1) / 2 = (p + q).choose 2 := by
-  rw [← Nat.choose_two_right, ← Nat.choose_two_right]
-  induction q with
-  | zero => simp
-  | succ q ih =>
-    rw [← Nat.add_assoc, Nat.choose_succ_succ' (p + q) 1, Nat.choose_succ_succ' q 1, ← ih]
-    simp only [Nat.choose_one_right]
-    ring
+  apply _root_.GlobalTheory.RunNuTest.choose_two_add <;> assumption
 
 end GlobalTheory.ConstCompare
 

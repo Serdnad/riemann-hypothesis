@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.LocalHeckeSumPreservesPrincipalLevelForms
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.AdjFormula
 public import Formalism.LocalToGlobal.IndefiniteReal.LinksStage
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.CoeffSpaceLevelFixesFockVectors
@@ -1149,20 +1150,7 @@ namespace GlobalTheory.RawLift.GoodFactor
 
 theorem comm_of_supp_triv {D : D7} {V : HSp D} {f : AE D} {a b : GA D V} (ha : SuppF V f a) (hb : TrivAt V f b) :
     a * b = b * a := by
-  apply _root_.GlobalTheory.IdemSupport.mt_inj
-  have hAB : (mt V a - 1) * (mt V b - 1) = 0 := by
-    ext i j
-    rw [Matrix.mul_apply, Matrix.zero_apply]
-    refine Finset.sum_eq_zero fun l _ => ?_
-    rw [← ha i l, mul_assoc, mul_left_comm, hb l j, mul_zero]
-  have hBA : (mt V b - 1) * (mt V a - 1) = 0 := by
-    ext i j
-    rw [Matrix.mul_apply, Matrix.zero_apply]
-    refine Finset.sum_eq_zero fun l _ => ?_
-    rw [← ha l j, mul_left_comm, ← mul_assoc, hb i l, zero_mul]
-  have e1 : mt V a * mt V b = (mt V a - 1) * (mt V b - 1) + mt V a + mt V b - 1 := by noncomm_ring
-  have e2 : mt V b * mt V a = (mt V b - 1) * (mt V a - 1) + mt V b + mt V a - 1 := by noncomm_ring
-  rw [_root_.GlobalTheory.BesselCompare.mt_mul, _root_.GlobalTheory.BesselCompare.mt_mul, e1, e2, hAB, hBA, zero_add, zero_add, add_comm (mt V a)]
+  apply _root_.GlobalTheory.LocalHeckeLevel.comm_of_suppF_trivAt <;> assumption
 
 theorem actO_one_of_trivAt {D : D7} {S T : HSp D} {LS : Set (Fin S.rank → D.host.E)} {LT : Set (Fin T.rank → D.host.E)}
     {v : HeightOneSpectrum (𝓞 D.host.F)} {f : AE D} (hf : IsFinIdem D v f) {γ : GA D T} (hγ : TrivAt T f γ)

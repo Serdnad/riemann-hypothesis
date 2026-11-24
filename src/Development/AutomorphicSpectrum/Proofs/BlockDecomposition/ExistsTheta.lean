@@ -1040,25 +1040,7 @@ theorem neg_cS_mem {k : Fin d} {S : Finset (Fin d)} (hk : k ∈ S) :
 theorem exists_add_nsmul_mem {k : Fin d} {S : Finset (Fin d)} (hk : k ∈ S) (g : Gam n d)
     (hg : g ∈ (cone S : AddSubmonoid (Gam n d))) :
     ∃ N : ℕ, g + N • (cS k S : Gam n d) ∈ (cone {k} : AddSubmonoid (Gam n d)) := by
-  refine ⟨∑ j, (g (Sum.inr j)).natAbs, fun l => ?_, fun j hj => ?_, ?_⟩
-  · simpa [cS_inl] using hg.1 l
-  · have hne : j ≠ k := by simpa using hj
-    have hle : (g (Sum.inr j)).natAbs ≤ ∑ j, (g (Sum.inr j)).natAbs :=
-      Finset.single_le_sum (f := fun j => (g (Sum.inr j)).natAbs) (fun _ _ => Nat.zero_le _) (Finset.mem_univ j)
-    simp only [Pi.add_apply, Pi.smul_apply, cS_inr k S hne]
-    by_cases hS : j ∈ S
-    · simp only [hS, if_true, nsmul_eq_mul, mul_one]
-      omega
-    · simpa [hS] using hg.2.1 j hS
-  · rw [tdeg_add]
-    have h : tdeg ((∑ j, (g (Sum.inr j)).natAbs) • (cS k S : Gam n d)) = 0 := by
-      have hs : ∀ N : ℕ, tdeg (N • (cS k S : Gam n d)) = 0 := fun N => by
-        induction N with
-        | zero => simp [tdeg]
-        | succ N ih => rw [succ_nsmul, tdeg_add, ih, tdeg_cS, add_zero]
-      exact hs _
-    rw [h, add_zero]
-    exact hg.2.2
+  apply _root_.GlobalTheory.CompanionTheory.SurjectionOntoH4.ThetaLoc.exists_add_nsmul_mem <;> assumption
 
 theorem free_singleton (k : Fin d) : Module.Free (R0 K n d {k}) Ω[R0 K n d {k}⁄K] := by
   haveI : Module.Free (Bp K n d) Ω[Bp K n d⁄K] := free_Bp

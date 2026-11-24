@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.FourierJacobiToBesselLatticeSplitsStatement
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.TmulMemComplId
 public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.FinitePartTraceCharacterIdempotentInverseDiffere
 public import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.IsAuxiliaryVectorWittDec
@@ -374,97 +375,7 @@ theorem _root_.GlobalTheory.T.besselStep_diagonalCoordinates_mem_complementIdeal
       (u : WO (negSp (G.V (.grid (2 * ρ + 2) 0))) (G.V (.grid (2 * ρ + 1) 0))),
     u ∈ latO _ _ (G.Λ (.grid (2 * ρ + 2) 0) : Set _) (G.Λ (.grid (2 * ρ + 1) 0) : Set _) (fun _ => True) →
     ∀ p : Fin ρ, ((F.dJ ρ h).pY * u * (F.dB ρ h).jY) p p ∈ complId (D.host.AA * G.pl.stAbar sc) := by
-  intro D T L sc G F hF ρ h u hu p
-  have rat_tmul_entry {m n k l : ℕ} (q : Matrix (Fin k) (Fin m) D.host.E)
-      (C : Matrix (Fin m) (Fin n) D.host.E)
-      (e : Matrix (Fin n) (Fin l) D.host.E) (X : AF D.host.F) (p : Fin k) (p' : Fin l) :
-      (rat q * (Matrix.of fun i j => X ⊗ₜ[D.host.F] C i j : Mx D m n) * rat e) p p' = X ⊗ₜ[D.host.F] (q * C * e) p p' := by
-    have hinc : ∀ x, incA D x = (1 : AF D.host.F) ⊗ₜ[D.host.F] x := fun _ => rfl
-    simp only [Matrix.mul_apply, rat, Matrix.map_apply, Matrix.of_apply, hinc, Algebra.TensorProduct.tmul_mul_tmul, one_mul,
-      mul_one, ← TensorProduct.tmul_sum]
-  obtain ⟨hcJ, heJ, -⟩ := hF.hJ ρ h
-  obtain ⟨hcB, heB, sB, he'B⟩ := hF.hB ρ h
-  set aJ := G.colDec (2 * ρ + 1) (by omega) (by omega) with haJ
-  set aB := G.colDec (2 * ρ + 2) (by omega) h with haB
-  obtain ⟨hAA, -⟩ := (GlobalTheory.ChiGrid.StairConj.conj_AA_and_stA D).1
-  obtain ⟨hA, hconj⟩ := (GlobalTheory.ChiGrid.StairConj.conj_AA_and_stA D).2 T L G.pl sc
-  have hAb : G.pl.stAbar sc ≠ 0 := by
-    intro h0
-    apply hA
-    rw [FractionalIdeal.eq_zero_iff] at h0 ⊢
-    intro y hy
-    have h1 : star y ∈ G.pl.stAbar sc := (hconj _).2 (by rwa [star_star])
-    have h2 := h0 _ h1
-    rwa [star_eq_zero] at h2
-
-  have hJ : ∀ t ∈ G.Λ (.grid (2 * ρ + 1) 0), ((F.dJ ρ h).qY *ᵥ t) p =
-      star ((-D.host.xi0) ^ (p.1 + 1)) * ((aJ.aᴴ * (G.V (.grid (2 * ρ + 1) 0)).gram) *ᵥ t) (Fin.castLE (by omega) p) := by
-    intro t _
-    simp only [HypDec.qY, heJ, mulVec, dotProduct, Matrix.mul_apply, conjTranspose_apply, colsOf, star_mul', Finset.mul_sum,
-      Finset.sum_mul, mul_assoc]
-  have hJmem : ∀ t ∈ G.Λ (.grid (2 * ρ + 1) 0), ((aJ.aᴴ * (G.V (.grid (2 * ρ + 1) 0)).gram) *ᵥ t) (Fin.castLE (by omega) p) ∈
-      stairId (G.pl.stA sc) (G.pl.stAbar sc) (2 * ρ + 1 - 1) (Fin.castLE (by omega) p).rev := by
-    intro t ht
-    have ht' : t ∈ aJ.lat (G.sp.P (2 * ρ + 1)).lat (stairId (G.pl.stA sc) (G.pl.stAbar sc) (2 * ρ + 1 - 1)) := by
-      rw [haJ, ← G.sp.colLat (2 * ρ + 1) (by omega) (by omega)]; exact ht
-    exact auxiliaryCoordinate_mem_staircaseIdeal aJ _ _ ht' _ (by simp only [Fin.val_castLE]; omega)
-
-  have hBmem : ∀ s ∈ G.Λ (.grid (2 * ρ + 2) 0),
-      star (((aB.aᴴ * (G.V (.grid (2 * ρ + 2) 0)).gram) *ᵥ s) (Fin.castLE (by omega) p : Fin (2 * ρ + 2 - 1)).rev) ∈
-      (stairId (G.pl.stA sc) (G.pl.stAbar sc) (2 * ρ + 2 - 1) (Fin.castLE (by omega) p : Fin (2 * ρ + 2 - 1)).rev)⁻¹ := by
-    intro s hs
-    have hs' : s ∈ aB.lat (G.sp.P (2 * ρ + 2)).lat (stairId (G.pl.stA sc) (G.pl.stAbar sc) (2 * ρ + 2 - 1)) := by
-      rw [haB, ← G.sp.colLat (2 * ρ + 2) (by omega) h]; exact hs
-    have h1 := auxiliaryCoordinate_mem_staircaseIdeal aB _ _ hs' (Fin.castLE (by omega) p : Fin (2 * ρ + 2 - 1)).rev
-      (by simp only [Fin.val_rev, Fin.val_castLE]; omega)
-    exact ((GlobalTheory.ChiGrid.stairId_ne_zero_and_mem_rev_iff D _ _ hA hconj _ _).2 _).1 h1
-
-  have hsc : star ((-D.host.xi0) ^ (p.1 + 1)) * sB p = 1 := by
-    have h1 := congrFun (congrFun (F.dB ρ h).e'e p) p
-    rw [he'B, heB, colsOf_gram, Matrix.one_apply_eq] at h1
-    have h2 : (aB.aᴴ * (G.V (.grid (2 * ρ + 2) 0)).gram * aB.a) (Fin.castLE (by omega) p : Fin (2 * ρ + 2 - 1)).rev
-        (Fin.castLE (by omega) p) = 1 := by
-      rw [show aB.aᴴ * (G.V (.grid (2 * ρ + 2) 0)).gram * aB.a = antiDiagonalSignGramMatrix (2 * ρ + 2 - 1) (-1) from aB.gram]
-      simp only [antiDiagonalSignGramMatrix, Fin.val_rev, Fin.val_castLE]
-      rw [ite_eq_left (by omega), ite_eq_right (fun e => by rw [Fin.ext_iff, Fin.val_rev, Fin.val_castLE] at e; omega)]
-    rw [h2, mul_one] at h1
-    have h3 := congrArg star h1
-    rw [star_mul', star_star, star_one] at h3
-    rw [mul_comm]; exact h3
-  have hGB : ∀ i j, star ((G.V (.grid (2 * ρ + 2) 0)).gram j i) = (G.V (.grid (2 * ρ + 2) 0)).gram i j := fun i j =>
-    (G.V (.grid (2 * ρ + 2) 0)).herm.eq ((G.V (.grid (2 * ρ + 2) 0)).frame j) ((G.V (.grid (2 * ρ + 2) 0)).frame i)
-
-  have keyE : ∀ a ∈ D.host.AA, ∀ s ∈ G.Λ (.grid (2 * ρ + 2) 0), ∀ t ∈ G.Λ (.grid (2 * ρ + 1) 0),
-      ((F.dJ ρ h).qY * Matrix.of (fun i j => a * t i * ∑ k, star (s k) * (negSp (G.V (.grid (2 * ρ + 2) 0))).gram k j) *
-        (F.dB ρ h).e') p p ∈ D.host.AA * G.pl.stAbar sc := by
-    intro a ha s hs t ht
-    rw [entry_rankOne _ _ a t (fun j => ∑ k, star (s k) * (negSp (G.V (.grid (2 * ρ + 2) 0))).gram k j), hJ t ht, he'B,
-      negSp_gram, negPair_colsOf _ hGB]
-    have e : a * (star ((-D.host.xi0) ^ (p.1 + 1)) *
-          ((aJ.aᴴ * (G.V (.grid (2 * ρ + 1) 0)).gram) *ᵥ t) (Fin.castLE (by omega) p)) *
-        -(sB p * star (((aB.aᴴ * (G.V (.grid (2 * ρ + 2) 0)).gram) *ᵥ s) (Fin.castLE (by omega) p : Fin (2 * ρ + 2 - 1)).rev)) =
-        -(a * (((aJ.aᴴ * (G.V (.grid (2 * ρ + 1) 0)).gram) *ᵥ t) (Fin.castLE (by omega) p) *
-          star (((aB.aᴴ * (G.V (.grid (2 * ρ + 2) 0)).gram) *ᵥ s) (Fin.castLE (by omega) p : Fin (2 * ρ + 2 - 1)).rev))) := by
-      linear_combination (-(a * ((aJ.aᴴ * (G.V (.grid (2 * ρ + 1) 0)).gram) *ᵥ t) (Fin.castLE (by omega) p) *
-          star (((aB.aᴴ * (G.V (.grid (2 * ρ + 2) 0)).gram) *ᵥ s) (Fin.castLE (by omega) p : Fin (2 * ρ + 2 - 1)).rev))) * hsc
-    rw [e]
-    refine Submodule.neg_mem _ (FractionalIdeal.mul_mem_mul ha ?_)
-    rw [← stairId_mul_inv_succ (G.pl.stA sc) (G.pl.stAbar sc) hA hAb (Fin.castLE (by omega) p : Fin (2 * ρ + 1 - 1)).rev
-      (Fin.castLE (by omega) p : Fin (2 * ρ + 2 - 1)).rev (by omega) (by simp only [Fin.val_rev, Fin.val_castLE]; omega)]
-    exact FractionalIdeal.mul_mem_mul (hJmem t ht) (hBmem s hs)
-  induction hu using AddSubgroup.closure_induction with
-  | mem w hw =>
-    obtain ⟨α, hα, -, a, ha, s, hs, t, ht, rfl⟩ := hw
-    have key : ((F.dJ ρ h).pY * (Matrix.of fun i j => (pairA D.host.F 0 α) ⊗ₜ[D.host.F]
-        (a * t i * ∑ k, star (s k) * (negSp (G.V (.grid (2 * ρ + 2) 0))).gram k j)) * (F.dB ρ h).jY) p p =
-        (pairA D.host.F 0 α) ⊗ₜ[D.host.F] ((F.dJ ρ h).qY * Matrix.of (fun i j => a * t i * ∑ k, star (s k) *
-          (negSp (G.V (.grid (2 * ρ + 2) 0))).gram k j) * (F.dB ρ h).e') p p :=
-      rat_tmul_entry _ _ _ _ _ _
-    rw [key]
-    exact tmul_mem_complId hα (keyE a ha s hs t ht)
-  | zero => simp only [Matrix.mul_zero, Matrix.zero_mul, Matrix.zero_apply]; exact zero_mem _
-  | add x y _ _ hx hy => rw [Matrix.mul_add, Matrix.add_mul, Matrix.add_apply]; exact add_mem hx hy
-  | neg x _ hx => rw [Matrix.mul_neg, Matrix.neg_mul, Matrix.neg_apply]; exact neg_mem hx
+  first | exact _root_.GlobalTheory.XCharBF.DiagCoord.diag_mem_complId | exact @_root_.GlobalTheory.XCharBF.DiagCoord.diag_mem_complId | apply _root_.GlobalTheory.XCharBF.DiagCoord.diag_mem_complId <;> assumption
 end -- clump:auto
 end -- clump:auto
 -- ===== end clump member: Development.AbelianVarietyTheory.Proofs.TwistedOperators.BesselStepDiagonalCoordinatesMemComplementIdealStatement =====
@@ -1208,30 +1119,12 @@ theorem rat_mulVec_tmul {m n : ℕ} (M : Matrix (Fin m) (Fin n) D.host.E) (c : A
 theorem mul_rat_mem_hatMx {m n : ℕ} (M : Submodule (𝓞 D.host.E) (Matrix (Fin m) (Fin n) D.host.E))
     (π : Matrix (Fin n) (Fin n) D.host.E) (hM : ∀ x ∈ M, x * π ∈ M) {w : Mx D m n} (hw : w ∈ hatMx M) :
     w ⬝ rat π ∈ hatMx M := by
-  let g : Mx D m n →+ Mx D m n :=
-    { toFun := fun w => w ⬝ rat π, map_zero' := Matrix.zero_mul _, map_add' := fun a b => Matrix.add_mul a b _ }
-  have hle : hatMx M ≤ (hatMx M).comap g := by
-    refine (AddSubgroup.closure_le _).2 fun w hw => ?_
-    obtain ⟨α, hα, x, hx, rfl⟩ := hw
-    show (_ : Mx D m n) ⬝ rat π ∈ hatMx M
-    rw [tmul_mul_rat]
-    exact AddSubgroup.subset_closure ⟨α, hα, x * π, hM x hx, rfl⟩
-  exact hle hw
+  first | exact _root_.GlobalTheory.ProjLat.hatMx_mul_rat | exact @_root_.GlobalTheory.ProjLat.hatMx_mul_rat | apply _root_.GlobalTheory.ProjLat.hatMx_mul_rat <;> assumption
 
 theorem mul_mem_smul_homLat {m n : ℕ} (I : Ideal (𝓞 D.host.E)) (LS : Submodule (𝓞 D.host.E) (Fin n → D.host.E))
     (LT : Submodule (𝓞 D.host.E) (Fin m → D.host.E)) (π : Matrix (Fin n) (Fin n) D.host.E)
     (hπ : ∀ y ∈ LS, π *ᵥ y ∈ LS) : ∀ x ∈ I • homLat LS LT, x * π ∈ I • homLat LS LT := by
-  let f : Matrix (Fin m) (Fin n) D.host.E →ₗ[𝓞 D.host.E] Matrix (Fin m) (Fin n) D.host.E :=
-    { toFun := (· * π), map_add' := fun a b => Matrix.add_mul a b π, map_smul' := fun r a => Matrix.smul_mul r a π }
-  have hH : (homLat LS LT).map f ≤ homLat LS LT := by
-    rintro _ ⟨x, hx, rfl⟩ y hy
-    show (x * π) *ᵥ y ∈ LT
-    rw [← Matrix.mulVec_mulVec]
-    exact hx _ (hπ y hy)
-  intro x hx
-  have h1 : f x ∈ (I • homLat LS LT).map f := ⟨x, hx, rfl⟩
-  rw [Submodule.map_smul''] at h1
-  exact Submodule.smul_mono le_rfl hH h1
+  first | exact _root_.GlobalTheory.ProjLat.smul_homLat_mul | exact @_root_.GlobalTheory.ProjLat.smul_homLat_mul | apply _root_.GlobalTheory.ProjLat.smul_homLat_mul <;> assumption
 
 theorem mul_rat_mem_latO (S T : HSp D) (LS : Set (Fin S.rank → D.host.E)) (LT : Set (Fin T.rank → D.host.E))
     (P : GlobalTheory.FinPl.Pl D → Prop) (π π' : Matrix (Fin S.rank) (Fin S.rank) D.host.E) (hadj : S.gram * π = π'ᴴ * S.gram)

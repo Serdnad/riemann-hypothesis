@@ -1,5 +1,6 @@
 module
 
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.ExistsGenVal
 public import Development.AbelianVarietyTheory.Definitions.Degenerations.AdmissibleBaseOfCompleteDvr
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -79,23 +80,7 @@ theorem toStk_surj (y : Sp F) : Function.Surjective (toStk y) := fun s => by
 
 theorem exists_gen_val (hM : M.IsLB) (φ : K → (Sp F ⟶ X)) (ε : K → ℤ) {y : Sp F} {J} (hJ : Good M y J)
     (u : ((Sp F).presheaf.stalk y)ˣ) : ∃ t : LB.Gen (LB.LinComb M φ ε), t.IsGen ∧ val t (𝟙 _) y J = u := by
-  have all : ∀ w : Sp F, w ∈ LB.wchart M φ fun k => J (𝟙 _ ≫ φ k) := fun w =>
-    (top_le_iff_mem (𝟙 (Sp F)) _ y).2 (hJ.mem φ (𝟙 _)) trivial
-  have le : ∀ j, LB.wchart M φ j ≤ LB.wchart M φ j ⊓ LB.wchart M φ fun k => J (𝟙 _ ≫ φ k) := fun j w hw => ⟨hw, all w⟩
-  obtain ⟨f, hf⟩ := toStk_surj y u.val
-  have f0 : f ≠ 0 := fun h => Units.ne_zero _ (hf.symm.trans (by rw [h, map_zero]))
-  let c : Γ(Sp F, ⊤)ˣ := Units.map (Scheme.ΓSpecIso (CommRingCat.of F)).inv.hom.toMonoidHom (Units.mk0 f f0)
-  have hc : gm (𝟙 (Sp F)) y ⊤ c = u := Units.ext ((gm_val (𝟙 _) y ⊤ trivial c).trans hf)
-  let t : LB.Gen (LB.LinComb M φ ε) :=
-    ⟨fun j => res (le j) ((LB.LinComb M φ ε).g j fun k => J (𝟙 _ ≫ φ k)) * res le_top c⟩
-  have v : ∀ (w : Sp F) j, w ∈ LB.wchart M φ j → gm (𝟙 (Sp F)) w (LB.wchart M φ j) (t.s j) =
-      trF φ ε (𝟙 _) w j (fun k => J (𝟙 _ ≫ φ k)) * gm (𝟙 (Sp F)) w ⊤ c := fun w j h =>
-    (map_mul _ _ _).trans (congrArg₂ (· * ·) ((gm_res _ w (le j) h _).trans (gm_linComb M _ ε (𝟙 _) w j _ h (all w)))
-      (gm_res _ w le_top h c))
-  refine ⟨t, isGen_of_gm _ fun w j j' h h' => ?_, (v y _ (all y)).trans ?_⟩
-  · refine (v w j h).trans (Eq.trans ?_ (congrArg _ (v w j' h')).symm)
-    rw [← trF_trans hM _ ε (𝟙 _) w h h' (all w), _root_.mul_assoc]
-  · rw [mul_eq_left.1 (trF_trans hM φ ε (𝟙 _) y (all y) (all y) (all y)), _root_.one_mul, hc]
+  first | exact _root_.ReciprocityTheory.ChartRestriction.G.Geo.Tor.exists_gen_val | exact @_root_.ReciprocityTheory.ChartRestriction.G.Geo.Tor.exists_gen_val | apply _root_.ReciprocityTheory.ChartRestriction.G.Geo.Tor.exists_gen_val <;> assumption
 
 end Pt
 

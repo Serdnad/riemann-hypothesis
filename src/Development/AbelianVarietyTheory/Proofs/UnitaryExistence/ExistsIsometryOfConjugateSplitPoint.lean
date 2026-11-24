@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.ModuliProofs.PrincipalRootReZeroImSq
 public import Development.AbelianVarietyTheory.Definitions.ExistenceOfLattices.PermutesRefl
 public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.GlobalFnsHolds
 public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.WeilIsAlternatingSkewNatural
@@ -109,21 +110,8 @@ variable {g : ℕ} {ty : Fin g → (E →+* ℂ)}
 
 theorem form_lat_eq_zero {D : Datum H} {P : D.La →+ (Fin g → ℂ)} (hP : IsPeriod D ty P) {a b : D.La}
     (ha : a ∈ lat hP H.rt0) (hb : b ∈ lat hP (-H.rt0)) : D.EF a b = 0 := by
-  obtain ⟨Hm, -, -, hE⟩ := hP.2.2.2.2
-  have h1 := hE (H.rt • a) (H.rt • b)
-  rw [form_smul_smul D H.rt H.d (by rw [bar_rt]; push_cast; linear_combination -H.rt_sq),
-    period_rt_smul hP ha, period_rt_smul hP hb] at h1
-  have h2 : hermForm Hm (H.rt0 • P a) ((-H.rt0) • P b) = -(H.d : ℂ) * hermForm Hm (P a) (P b) := by
-    simp only [hermForm, star_smul, Matrix.mulVec_smul, smul_dotProduct, dotProduct_smul, smul_eq_mul]
-    rw [star_neg, ← starRingEnd_apply, conj_of_sq H.sqrt_neg_disc_sq, ← H.sqrt_neg_disc_sq]
-    ring
-  rw [h2] at h1
-  simp only [neg_mul, Complex.neg_im, Complex.mul_im, Complex.natCast_re, Complex.natCast_im, zero_mul, add_zero,
-    hE] at h1
-  push_cast at h1
-  have h6 : (0 : ℝ) < H.d := by exact_mod_cast H.d_prime.pos
-  have : (D.EF a b : ℝ) = 0 := by nlinarith
-  exact_mod_cast this
+  intros
+  apply _root_.GlobalTheory.CM.FamCompare.orth_of_pure <;> assumption
 
 theorem surjective_of_isometry {D D' : Datum H} (hr : D.p + D.q = D'.p + D'.q) (Φ : D.La →ₗ[𝓞 E] D'.La)
     (hi : Function.Injective Φ) (hΦ : ∀ a b, D'.EF (Φ a) (Φ b) = D.EF a b) : Function.Surjective Φ := by

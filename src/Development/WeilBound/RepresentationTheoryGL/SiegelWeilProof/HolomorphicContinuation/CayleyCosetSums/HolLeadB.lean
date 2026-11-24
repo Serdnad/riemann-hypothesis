@@ -104,16 +104,7 @@ theorem inG_mul {x y : M2 n} (hx : InG x) (hy : InG y) : InG (x * y) := by
     _ = JJ n := by rw [hx, hy]
 
 theorem det_ne_zero_of_inG {x : M2 n} (hx : InG x) : x.det ≠ 0 := by
-  intro h
-  have h1 := congrArg Matrix.det hx
-  rw [Matrix.det_mul, Matrix.det_mul, h, mul_zero] at h1
-  have h2 : (JJ n).det ≠ 0 := by
-    have := congrArg Matrix.det (JJ_mul_JJ (n := n))
-    rw [Matrix.det_mul, Matrix.det_neg] at this
-    intro h3
-    rw [h3, zero_mul] at this
-    simp at this
-  exact h2 h1.symm
+  apply _root_.PositivityTheory.Rg.Sw.HSt.L3.det_ne_of_inG <;> assumption
 
 def toGR (x : M2 n) (hx : InG x) : GR n := ⟨(Matrix.isUnit_iff_isUnit_det _ |>.2 (isUnit_iff_ne_zero.2
   (det_ne_zero_of_inG hx))).unit, hx⟩
@@ -496,15 +487,7 @@ theorem mul_cm₁₂ (x : M2 n) : (x * Cm n).toBlocks₁₂ = Nm' x := by
   simp [toBlocks₁₂_mul', Cm, Nm']
 
 theorem det_ne_of_inG {x : M2 n} (hx : InG x) : x.det ≠ 0 := by
-  intro h0
-  have h1 := congrArg Matrix.det hx
-  rw [Matrix.det_mul, Matrix.det_mul, h0, mul_zero] at h1
-  have h2 : (JJ n).det ≠ 0 := by
-    intro h3
-    have := congrArg Matrix.det (JJ_mul_JJ (n := n))
-    rw [Matrix.det_mul, h3, zero_mul, Matrix.det_neg] at this
-    simp at this
-  exact h2 h1.symm
+  apply _root_.PositivityTheory.Rg.Sw.HSt.L3.det_ne_of_inG <;> assumption
 
 theorem det_cm_ne : (Cm n).det ≠ 0 := by
   intro h
@@ -1001,19 +984,7 @@ private theorem conjTranspose_I_smul_add_sub_eq_two_I (a b c d : Matrix (Fin n) 
   module
 
 private theorem det_u1_ne_zero_of_inG (M : M2 n) (h : InG M) : (u1 M).det ≠ 0 := by
-  obtain ⟨h11, h12, h22⟩ := card_fromBlocks_cayley_eq_mul M h
-  intro hdet
-  obtain ⟨v, hv, hu⟩ := Matrix.exists_mulVec_eq_zero_iff.2 hdet
-  have W := conjTranspose_I_smul_add_sub_eq_two_I _ _ _ _ h11 h12 h22
-  have hu' : (Complex.I • M.toBlocks₂₁ + M.toBlocks₂₂) *ᵥ v = 0 := hu
-  have hz : star v ⬝ᵥ (((2 * Complex.I) • (1 : Matrix (Fin n) (Fin n) ℂ)) *ᵥ v) = 0 := by
-    rw [← W, Matrix.sub_mulVec, dotProduct_sub, ← Matrix.mulVec_mulVec, ← Matrix.mulVec_mulVec, hu',
-      Matrix.mulVec_zero, dotProduct_zero, sub_zero, dotProduct_mulVec, ← star_mulVec, hu', star_zero,
-      zero_dotProduct]
-  rw [Matrix.smul_mulVec, Matrix.one_mulVec, dotProduct_smul, smul_eq_mul, mul_eq_zero] at hz
-  rcases hz with h0 | h0
-  · simp [Complex.I_ne_zero] at h0
-  · exact hv (eq_zero_of_star_dotProduct_self_eq_zero v h0)
+  apply _root_.PositivityTheory.Rg.Sw.HSt.L3.det_first_cayley_block_ne_group <;> assumption
 
 private theorem det_u2_ne_zero_of_inG (M : M2 n) (h : InG M) : (u2 M).det ≠ 0 := by
   have e : u2 M = u1 (epsM n * M * epsM n) := by

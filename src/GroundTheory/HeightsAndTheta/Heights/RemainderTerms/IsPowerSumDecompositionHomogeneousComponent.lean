@@ -1,5 +1,6 @@
 module
 
+import GroundTheory.HeightsAndTheta.Heights.RemainderTerms.AltCoeff
 public import GroundTheory.HeightsAndTheta.Heights.RemainderTerms.Statements
 public import GroundTheory.HeightsAndTheta.Heights.RemainderTerms.IsFlagIntegralOne
 public import GroundTheory.HeightsAndTheta.Heights.RemainderTerms.PHomogeneousComponentMul
@@ -91,32 +92,8 @@ theorem map_vandermondeOf {R S : Type*} [CommRing R] [CommRing S] (φ : R →+* 
 
 theorem vandermondeOf_eq_vandermonde {R : Type*} [CommRing R] {m : ℕ} (v : Fin m → R) :
     vandermondeOf v = GroundTheory.Heights₂.Heights.vandermonde v := by
-  have hM : (Matrix.of fun a b : Fin m => v a ^ (m - 1 - (b : ℕ))) =
-      (Matrix.vandermonde v).submatrix id Fin.revPerm := by
-    ext a b
-    simp only [Matrix.of_apply, Matrix.submatrix_apply, id, Matrix.vandermonde_apply,
-      Fin.revPerm_apply, Fin.val_rev]
-    congr 1
-    omega
-  have hW : Matrix.vandermonde (fun i => v (Fin.revPerm i)) =
-      (Matrix.vandermonde v).submatrix Fin.revPerm id := by
-    ext a b
-    simp [Matrix.vandermonde_apply]
-  rw [GroundTheory.Heights₂.Heights.vandermonde, hM, Matrix.det_permute', ← Matrix.det_permute, ← hW,
-    Matrix.det_vandermonde]
-  have key : ∀ g : Fin m → Fin m → R,
-      ∏ i, ∏ l ∈ Ioi i, g i l = ∏ i, ∏ l, if i < l then g i l else 1 := by
-    intro g
-    refine prod_congr rfl fun i _ => ?_
-    rw [← Finset.prod_filter]
-    congr 1
-    ext l
-    simp
-  rw [vandermondeOf, key, key]
-  conv_rhs => rw [Finset.prod_comm]
-  refine Fintype.prod_equiv Fin.revPerm _ _ (fun i => ?_)
-  refine Fintype.prod_equiv Fin.revPerm _ _ (fun l => ?_)
-  simp [Fin.revPerm_apply, Fin.rev_lt_rev]
+  intros
+  apply _root_.GroundTheory.Heights₂.Heights.RestTerms.Comb.vandermondeOf_eq_det <;> assumption
 
 theorem rootRingToReal_blockPowerSum (f N j k : ℕ) (h : N = j + k) (m : ℕ) (τ : Fin f) :
     rootRingToReal f N j k h (blockPowerSum f N m τ) = IndefiniteRowSideFullHecke.RestTerms.psumAt f j k m τ := by

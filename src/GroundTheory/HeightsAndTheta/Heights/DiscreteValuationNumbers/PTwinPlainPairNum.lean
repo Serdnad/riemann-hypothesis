@@ -1,5 +1,6 @@
 module
 
+import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.PSubQuotient
 public import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.BundleObjects
 public import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.InstFintypeSumElim
 public import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.IsVerticalDivOfIsVerticalDivisor
@@ -27,15 +28,7 @@ variable {O : Type*} [CommRing O] [IsDomain O] [IsDiscreteValuationRing O]
 theorem classNum_rename {σ τ : Type*} (e : σ → τ) (he : Function.Injective e) (cls : τ → K → ℤ)
     (H : MvPolynomial σ ℤ) (Q : List (K → ℤ)) (W : Ideal (MRing ι O)) :
     classNum cls (rename e H) Q W = classNum (cls ∘ e) H Q W := by
-  classical
-  unfold classNum
-  rw [support_rename_of_injective he,
-    Finset.sum_image fun a _ b _ h => Finsupp.mapDomain_injective he h]
-  refine Finset.sum_congr rfl fun μ _ => ?_
-  rw [coeff_rename_mapDomain e he]
-  congr 2
-  unfold classList
-  rw [← Finsupp.toMultiset_map, Multiset.map_map]
+  apply _root_.GroundTheory.Heights₂.Heights.NumbersDVR.classNum_rename <;> assumption
 
 theorem classNum_eq_sum_of_subset {σ : Type*} (cls : σ → K → ℤ) (H : MvPolynomial σ ℤ)
     (Q : List (K → ℤ)) (W : Ideal (MRing ι O)) {S : Finset (σ →₀ ℕ)} (hS : H.support ⊆ S) :

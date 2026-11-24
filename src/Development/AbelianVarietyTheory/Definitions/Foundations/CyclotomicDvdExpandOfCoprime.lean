@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.PadicRingHomEqCanonical
 public import Formalism.PieriBlockIdeals.PieriColumnMinors.HeightDescentMinors
 public import Mathlib.RingTheory.WittVector.Compare
 public import Mathlib.RingTheory.WittVector.Frobenius
@@ -171,16 +172,8 @@ def padicToWitt (p : ℕ) [Fact p.Prime] (k : Type) [CommRing k] [CharP k p] : �
   (WittVector.map (ZMod.castHom (dvd_refl p) k)).comp (WittVector.equiv p).symm.toRingHom
 
 theorem padicHom_ext (p : ℕ) [Fact p.Prime] [IsHausdorff (Ideal.span {(p : R)}) R] (f g : ℤ_[p] →+* R) : f = g := by
-  ext x
-  rw [← sub_eq_zero]
-  refine IsHausdorff.haus (I := Ideal.span {(p : R)}) inferInstance _ fun n => ?_
-  obtain ⟨e, he⟩ := Ideal.mem_span_singleton'.1 (PadicInt.appr_spec n x)
-  have hx : x = (x.appr n : ℤ_[p]) + e * (p : ℤ_[p]) ^ n := by rw [he]; ring
-  rw [SModEq.zero, smul_eq_mul, Ideal.mul_top, Ideal.span_singleton_pow, Ideal.mem_span_singleton']
-  refine ⟨f e - g e, ?_⟩
-  rw [hx]
-  simp only [map_add (f := _), map_mul, map_pow, map_natCast]
-  ring
+  intros
+  apply _root_.GlobalTheory.padicInt_ringHom_ext <;> assumption
 
 def levZeta (R : Type) [CommRing R] (p m : ℕ) : lev R p m := ev R p m (1 + PowerSeries.X)
 

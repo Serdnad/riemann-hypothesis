@@ -1,5 +1,7 @@
 module
 
+
+import Formalism.SharpRestriction.CuspSpanNormBounds.BruhatCellsKronecker.GlobalConditionOfProductFormula
 public import Formalism.HarderNarasimhan.Statement
 public import Formalism.LatticeSlopes.LatticeSlopesProofs.CovolEqGram
 public import Formalism.LatticeSlopes.LatticeSlopesProofs.CovolPos
@@ -83,7 +85,6 @@ import Mathlib.Tactic.Basify
 import Mathlib.Tactic.ENatToNat
 import Mathlib.Tactic.Linter.HaveILetI
 import Std.Tactic.BVDecide.Normalize.Prop
-
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Formalism.HarderNarasimhan.HarderNarasimhanProofs.Duality, Formalism.HarderNarasimhan.HarderNarasimhanProofs.DualPl
 
@@ -729,16 +730,7 @@ open nonZeroDivisors
 theorem misc_mem_dual_one (t : K) :
     t ∈ FractionalIdeal.dual ℤ ℚ (1 : FractionalIdeal (𝓞 K)⁰ K) ↔
       ∀ s : 𝓞 K, ∃ z : ℤ, Algebra.trace ℚ K (t * (s : K)) = z := by
-  have h1 : (1 : FractionalIdeal (𝓞 K)⁰ K) ≠ 0 := one_ne_zero
-  rw [FractionalIdeal.mem_dual h1]
-  constructor
-  · intro h s
-    obtain ⟨z, hz⟩ := h (s : K) ((FractionalIdeal.mem_one_iff _).2 ⟨s, rfl⟩)
-    exact ⟨z, by simpa [Algebra.traceForm_apply] using hz.symm⟩
-  · intro h a ha
-    obtain ⟨s, rfl⟩ := (FractionalIdeal.mem_one_iff _).1 ha
-    obtain ⟨z, hz⟩ := h s
-    exact ⟨z, by simpa [Algebra.traceForm_apply] using hz.symm⟩
+  apply _root_.Formalism.MainNotions.BridgeLemma.mem_dual_iff <;> assumption
 
 theorem misc_diff_mul :
     ((differentIdeal ℤ (𝓞 K) : Ideal (𝓞 K)) : FractionalIdeal (𝓞 K)⁰ K) *

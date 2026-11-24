@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.ExistsFiniteExtGeomIntegralLocalization
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.SymplecticGenerators.SymplecticCharacters.InversionStatement
 public import Development.AbelianVarietyTheory.Proofs.HomogeneousIdeals.FromBlocksMapIntCastMemSymplecticGroup
 public import Development.AbelianVarietyTheory.Definitions.KeyFormula.IsSquareDeterminantComparison
@@ -1492,18 +1493,7 @@ open Polynomial TensorProduct AlgebraicGeometry CategoryTheory Limits
 
 theorem isDomain_tensor_of_isAlgClosed (K A : Type) [Field K] [IsAlgClosed K] [CommRing A] [IsDomain A]
     [Algebra K A] [Algebra.FiniteType K A] (F : Type) [Field F] [Algebra K F] : IsDomain (F ⊗[K] A) := by
-  let f : Spec (.of A) ⟶ Spec (.of K) := Spec.map (CommRingCat.ofHom (algebraMap K A))
-  have hf : LocallyOfFiniteType f := by
-    rw [HasRingHomProperty.Spec_iff (P := @LocallyOfFiniteType)]
-    exact RingHom.finiteType_algebraMap.2 inferInstance
-  have hi : IsIntegral (Over.mk f).left := inferInstanceAs (IsIntegral (Spec (.of A)))
-  have hg : GeometricallyIntegral f :=
-    GlobalTheory.geometricallyIntegral_of_isIntegral_of_isAlgClosed K (Over.mk f) hf
-  let y := Spec.map (CommRingCat.ofHom (algebraMap K F))
-  have : IsIntegral (pullback y f) :=
-    pullback_of_geometrically' GeometricallyIntegral.geometrically_isIntegral F y
-  have : IsIntegral (Spec (.of (F ⊗[K] A))) := IsIntegral.of_isIso (pullbackSpecIso K F A).hom
-  exact (affine_isIntegral_iff (.of (F ⊗[K] A))).mp this
+  first | exact _root_.GlobalTheory.GeomComp.isDomain_tensor_of_isAlgClosed | exact @_root_.GlobalTheory.GeomComp.isDomain_tensor_of_isAlgClosed | apply _root_.GlobalTheory.GeomComp.isDomain_tensor_of_isAlgClosed <;> assumption
 
 theorem exists_baseChange {K F : Type} [Field K] [Field F] (e : K →+* F) (A : Type) [CommRing A] [Algebra K A]
     [Algebra.Smooth K A] (h : ∀ (L : Type) [Field L] [Algebra K L], IsDomain (L ⊗[K] A)) :

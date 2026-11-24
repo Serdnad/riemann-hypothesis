@@ -1,5 +1,6 @@
 module
 
+import ReciprocityTheory.ReductiveGroups.DiscreteSeries.MultiplicityOne.BigCellCommuteFrameElement
 public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.MatrixOfBesselTwoSidedAction
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.BesselOrbitalIntegralEqInvDegSmul
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.BesselFormConvergesEquivariantHermitian
@@ -731,23 +732,7 @@ theorem Hpk_row {i p t : Fin (2 * r + k + 1)} (h : i.val < r ∨ r + k < i.val)
 theorem uw_col {z : Fin (2 * r + k + 1) → ℂ} {h : Mat k r} (hh : h ∈ UWset k r z)
     {p : Fin (2 * r + k + 1)} (hp : p.val < r ∨ r + k < p.val) (s : Fin (2 * r + k + 1)) :
     h s p = if s = p then 1 else 0 := by
-  have hcol : ∀ q : Fin (2 * r + k + 1), h *ᵥ bvec q = bvec q → h s q = if s = q then 1 else 0 := by
-    intro q hq
-    have e := congrFun hq s
-    simpa [bvec, Matrix.mulVec_single_one, Pi.single_apply] using e
-  have hpl := p.isLt
-  rcases hp with hp | hp
-  · have hq : eI k r ⟨p.val, hp⟩ = p := Fin.ext rfl
-    have := (hh.2.1 ⟨p.val, hp⟩).1
-    rw [hq] at this
-    exact hcol p this
-  · have hq : esI k r ⟨2 * r + k - p.val, by omega⟩ = p := by
-      apply Fin.ext
-      show 2 * r + k - (2 * r + k - p.val) = p.val
-      omega
-    have := (hh.2.1 ⟨2 * r + k - p.val, by omega⟩).2
-    rw [hq] at this
-    exact hcol p this
+  apply _root_.ReciprocityTheory.ChartRestriction.DS.Mult1.SymA.uw_fixed_col <;> assumption
 
 theorem uw_zero {z : Fin (2 * r + k + 1) → ℂ} {h : Mat k r} (hh : h ∈ UWset k r z)
     {i j : Fin (2 * r + k + 1)} (hi : i.val < r ∨ r + k < i.val) (hj1 : r ≤ j.val) (hj2 : j.val ≤ r + k) :

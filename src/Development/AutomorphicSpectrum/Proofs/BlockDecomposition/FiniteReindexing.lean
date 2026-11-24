@@ -35,6 +35,7 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.FiniteEulerProductOf
 
 @[expose] public section
 
@@ -51,19 +52,7 @@ open PositivityTheory.Rg.BcB.G8.Fin
 variable {E : Type} [Field E] [NumberField E] [IsCMField E]
 
 theorem exists_under (v : PlF E) : ∃ w : Pl E, w.under (𝓞 (maximalRealSubfield E)) = v := by
-  have hinj : Function.Injective (algebraMap (𝓞 (maximalRealSubfield E)) (𝓞 E)) := by
-    first
-    | exact FaithfulSMul.algebraMap_injective _ _
-  haveI : v.asIdeal.IsMaximal := v.isMaximal
-  obtain ⟨Q, hQmax, hQ⟩ := Ideal.exists_ideal_over_maximal_of_isIntegral v.asIdeal
-    (by rw [(RingHom.injective_iff_ker_eq_bot _).mp hinj]; exact bot_le)
-  refine ⟨⟨Q, hQmax.isPrime, ?_⟩, ?_⟩
-  · rintro rfl
-    apply v.ne_bot
-    rw [← hQ]
-    exact Ideal.comap_bot_of_injective _ hinj
-  · ext1
-    exact hQ
+  apply _root_.GlobalTheory.CompanionTheory.EulerAsm.exists_above <;> assumption
 
 def secEquiv {S : Set (Pl E)} (hS : IsSection S) : S ≃ PlF E :=
   Equiv.ofBijective (fun w => w.1.under (𝓞 (maximalRealSubfield E))) (by

@@ -1,5 +1,7 @@
 module
 
+
+import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.DeltaNeZero
 public import Mathlib.NumberTheory.NumberField.Basic
 public import Mathlib.Algebra.Polynomial.SpecificDegree
 public import Formalism.PeriodIntegrals.ClassNumImQ
@@ -57,7 +59,6 @@ import Mathlib.Tactic.Linter.Style
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.TypeStar
 import Std.Tactic.BVDecide.Normalize.Prop
-
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Formalism.PeriodIntegrals.UnitaryGroupMassFormula.QuadraticDifference.QuadDiffOf, Formalism.PeriodIntegrals.UnitaryGroupMassFormula.QuadraticDifference.QuadraticDifferenceForm, Formalism.PeriodIntegrals.UnitaryGroupMassFormula.ClassNumberIntegrality.HalfIntegral, Formalism.PeriodIntegrals.UnitaryGroupMassFormula.QuadraticDedekindZeta.LocOdd, Formalism.LocalToGlobal.InertKernelTheory.InertCoprimeLemmas.HalfTorsionNotMemCmLattice
 
@@ -656,19 +657,7 @@ open Formalism.MainNotions Formalism.FrobeniusOrbits
 open Formalism.L2.Th1.H (cmL CmOK)
 
 theorem delta_ne_of_base {D : D7} {cc : Ideal (𝓞 D.host.K)} {δ : ℂ} (B : Formalism.L2.Ker.Base D cc δ) : δ ≠ 0 := by
-  intro hδ
-  subst hδ
-  obtain ⟨h1, h2, -⟩ : _ ∧ _ ∧ _ := B.t0
-  have hle : TaylorLogMetric.lamOf D cc 0 ≤ ⊥ := by
-    show AddSubgroup.closure _ ≤ ⊥
-    rw [AddSubgroup.closure_le]
-    rintro w ⟨c, -, rfl⟩
-    simp
-  have h0 : 2 * (B.ω₀ / 2) = 0 := AddSubgroup.mem_bot.mp (hle h1)
-  have h00 : B.ω₀ / 2 = 0 := (mul_eq_zero.mp h0).resolve_left two_ne_zero
-  apply h2
-  rw [h00, mul_zero]
-  exact AddSubgroup.zero_mem _
+  apply +allowSynthFailures _root_.GlobalTheory.ThetaMove.SeamMoves.delta_ne_zero <;> assumption
 
 end Formalism.L2.KerInert
 end -- clump:auto

@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.SatakeParameters.ThetaVacuaMatchingConjugatePrime
 public import Development.AbelianVarietyTheory.Definitions.Divisors.InvVolConjLevelOne
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.PrimeDvdAbsNormHalfDifferent
 import Development.AbelianVarietyTheory.Counterexamples.HeightSurvey.EmbRelExistsUnique
@@ -319,18 +320,7 @@ theorem conjPrime_ne_of_isIdempotentAt {w : Pl D.host.E} {e : AE D} (he : Formal
   exact one_ne_zero h3
 
 theorem conjPl_eq_cP (w : Pl D.host.E) : Formalism.DivisionValues.conjPl w = GlobalTheory.IdemSupport.cP w := by
-  refine HeightOneSpectrum.ext (Ideal.ext fun x => ?_)
-  have hc : ∀ y : 𝓞 D.host.E, Formalism.DivisionValues.cO D.host.E (GlobalTheory.IdemSupport.cO D y) = y := fun y =>
-    RingOfIntegers.ext (by rw [Formalism.DivisionValues.ValuationRepresentative.cO_apply, GlobalTheory.IdemSupport.cO_coe, star_star])
-  have hc' : ∀ y : 𝓞 D.host.E, GlobalTheory.IdemSupport.cO D (Formalism.DivisionValues.cO D.host.E y) = y := fun y =>
-    RingOfIntegers.ext (by rw [GlobalTheory.IdemSupport.cO_coe, Formalism.DivisionValues.ValuationRepresentative.cO_apply, star_star])
-  change x ∈ Ideal.map (Formalism.DivisionValues.cO D.host.E) w.asIdeal ↔ x ∈ (GlobalTheory.IdemSupport.cP w).asIdeal
-  rw [Ideal.mem_map_of_equiv, GlobalTheory.IdemSupport.mem_cP]
-  constructor
-  · rintro ⟨y, hy, rfl⟩
-    rwa [hc']
-  · intro hx
-    exact ⟨_, hx, hc x⟩
+  apply _root_.GlobalTheory.Hk3.ConjMatch.conj_eq_cP <;> assumption
 
 variable {T : Type} {L : LevCh D T} {sc : Consts}
 

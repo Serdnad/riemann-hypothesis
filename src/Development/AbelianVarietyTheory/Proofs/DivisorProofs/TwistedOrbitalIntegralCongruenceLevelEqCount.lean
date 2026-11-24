@@ -1,5 +1,9 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IsLocalRingOfIdem
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.RelIndexNeZeroOfSubsetCpt
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.EventuallyIntegralConjugateMemCentralizerMulInte
+import Development.AbelianVarietyTheory.Proofs.SatakeParameters.DiagUniformiserConjTransposeInvMemUpperParahoric
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ConjRelEquiv
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.TorusOfSpec
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.UnitLemmaGroup
@@ -598,15 +602,8 @@ theorem continuous_cj (w : Pl E) : Continuous (cj w) := by
 
 theorem isClosed_UL (w : Pl E) (hw : ¬ IsSplitAt w) (n : ℕ) :
     IsClosed ((UL n w : Subgroup (GLw n w)) : Set (GLw n w)) := by
-  unfold UL; rw [if_neg hw]
-  have : ((UJ (cj w) (1 : Matrix (Fin n) (Fin n) (w.adicCompletion E)) : Subgroup _) : Set (GLw n w)) =
-      (fun g : GLw n w => cT (cj w) (g : Matrix (Fin n) (Fin n) (w.adicCompletion E)) * 1 *
-        (g : Matrix (Fin n) (Fin n) (w.adicCompletion E))) ⁻¹' {1} := rfl
-  rw [this]
-  refine IsClosed.preimage ?_ isClosed_singleton
-  unfold cT
-  exact ((((Units.continuous_val.matrix_map (continuous_cj w)).matrix_transpose).matrix_mul continuous_const).matrix_mul
-    Units.continuous_val)
+  intros
+  apply _root_.GlobalTheory.LocFinU.isClosed_UL <;> assumption
 
 def linModel (w : Pl E) {K : UQ} (e : K.E ≃+* w.adicCompletion E) (B : InvAlg K) {n : ℕ}
     (ψ : B.A ≃+ (Fin n → w.adicCompletion E)) (hψ : ∀ (c : K.E) (y : B.A), ψ (c • y) = e c • ψ y) :
@@ -765,18 +762,8 @@ theorem mem_mulLat_unit {O A : Type} [CommRing O] [CommRing A] [Algebra O A] (t 
 theorem stabLat_mulLat_unit {O A : Type} [CommRing O] [CommRing A] [Algebra O A] (t : Aˣ)
     (L : Submodule O A) :
     GlobalTheory.UnitLemma.stabLat O (GlobalTheory.UnitLemma.mulLat O (t : A) L) = GlobalTheory.UnitLemma.stabLat O L := by
-  ext s
-  change (∀ y, y ∈ GlobalTheory.UnitLemma.mulLat O (t : A) L ↔ (s : A) * y ∈ GlobalTheory.UnitLemma.mulLat O (t : A) L) ↔
-    (∀ y, y ∈ L ↔ (s : A) * y ∈ L)
-  simp only [mem_mulLat_unit]
-  constructor
-  · intro h y
-    have e : ((t⁻¹ : Aˣ) : A) * ((s : A) * ((t : A) * y)) = (s : A) * y := by
-      rw [mul_left_comm, Units.inv_mul_cancel_left]
-    have := h ((t : A) * y)
-    rwa [Units.inv_mul_cancel_left, e] at this
-  · intro h y
-    rw [h (((t⁻¹ : Aˣ) : A) * y), mul_left_comm]
+  intros
+  apply _root_.GlobalTheory.UnitLemma.Orbit.stabLat_mulLat <;> assumption
 
 end GlobalTheory.OrbReindex
 
@@ -889,16 +876,7 @@ variable {E : Type} [Field E] [NumberField E] [IsCMField E]
 theorem mem_KGL_of_int {n : ℕ} (w : Pl E) (g : GLw n w)
     (h1 : ∀ a b, g.val a b ∈ w.adicCompletionIntegers E)
     (h2 : ∀ a b, (g⁻¹).val a b ∈ w.adicCompletionIntegers E) : g ∈ GlobalTheory.LFun.KGL w (n := n) := by
-  let O : Subring (w.adicCompletion E) := Ov E w
-  have inj : Function.Injective (O.subtype.mapMatrix (m := Fin n)) :=
-    fun A B h => funext fun i => funext fun j => Subtype.ext (congrFun (congrFun h i) j)
-  let A : Matrix (Fin n) (Fin n) O := fun i j => ⟨g.val i j, h1 i j⟩
-  let B : Matrix (Fin n) (Fin n) O := fun i j => ⟨(g⁻¹).val i j, h2 i j⟩
-  have hA : O.subtype.mapMatrix A = g.val := rfl
-  have hB : O.subtype.mapMatrix B = (g⁻¹).val := rfl
-  refine ⟨⟨A, B, inj ?_, inj ?_⟩, Units.ext rfl⟩
-  · rw [map_mul, hA, hB, map_one, Units.mul_inv]
-  · rw [map_mul, hA, hB, map_one, Units.inv_mul]
+  apply _root_.GlobalTheory.BCT.GoodConj.mem_KGL_of_entries <;> assumption
 
 theorem mem_pullLat_iff (w : Pl E) {K : GlobalTheory.UnitLemma.UQ} {e : K.E ≃+* w.adicCompletion E} (hB : Bridge w K e)
     (B : GlobalTheory.UnitLemma.InvAlg K) {n : ℕ} (ψ : B.A ≃+ (Fin n → w.adicCompletion E))
@@ -1033,18 +1011,8 @@ theorem cj_cj {w : Pl E} {K : GlobalTheory.UnitLemma.UQ} {e : K.E ≃+* w.adicCo
 theorem stdH_unitary {w : Pl E} {K : GlobalTheory.UnitLemma.UQ} {e : K.E ≃+* w.adicCompletion E} (hB : Bridge w K e)
     {n : ℕ} (M : Matrix (Fin n) (Fin n) (w.adicCompletion E)) (hM : Formalism.UG.cT (cj w) M * 1 * M = 1)
     (v v' : Fin n → w.adicCompletion E) : stdH w (M *ᵥ v) (M *ᵥ v') = stdH w v v' := by
-  have hM' : Mᵀ * M.map (cj w) = 1 := by
-    have h := congrArg (fun X => X.map (cj w)) hM
-    simp only [Formalism.UG.cT, Matrix.mul_one] at h
-    rw [Matrix.map_mul, Matrix.transpose_map, Matrix.map_map] at h
-    have hid : (cj w) ∘ (cj w) = id := funext (cj_cj hB)
-    rw [hid, Matrix.map_id, Matrix.map_one _ (map_zero _) (map_one _)] at h
-    exact h
-  have hc : ∀ u : Fin n → w.adicCompletion E, (fun k => cj w ((M *ᵥ u) k)) = M.map (cj w) *ᵥ (fun k => cj w (u k)) := by
-    intro u; funext k
-    exact RingHom.map_mulVec (cj w) M u k
-  have hs : ∀ u u' : Fin n → w.adicCompletion E, stdH w u u' = u ⬝ᵥ (fun k => cj w (u' k)) := fun _ _ => rfl
-  rw [hs, hs, hc, Matrix.dotProduct_mulVec, ← Matrix.vecMul_transpose, Matrix.vecMul_vecMul, hM', Matrix.vecMul_one]
+  intros
+  apply _root_.GlobalTheory.KapTorus.stdH_unitary <;> assumption
 
 theorem pullLat_selfDual : ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (w : Pl E), ¬ IsSplitAt w → ∀ (K : GlobalTheory.UnitLemma.UQ) (e : K.E ≃+* w.adicCompletion E), Bridge w K e → ∀ (B : GlobalTheory.UnitLemma.InvAlg K) (x : B.A) (n : ℕ) (ψ : B.A ≃+ (Fin n → w.adicCompletion E)), (∀ (c : K.E) (y : B.A), ψ (c • y) = e c • ψ y) → (∀ y z, stdH w (ψ y) (ψ z) = e (B.herm x y z)) → ∀ g ∈ UL n w, GlobalTheory.UnitLemma.IsLat K.O K.E (pullLat w B ψ g) ∧ ∀ y, y ∈ pullLat w B ψ g ↔ ∀ z ∈ pullLat w B ψ g, B.herm x y z ∈ (algebraMap K.O K.E).range := by
   intro E _ _ _ w hw K e hB B x n ψ hlin hherm g hg
@@ -1168,15 +1136,7 @@ namespace GlobalTheory.KapCong
 
 theorem mem_GLint_of_entries {L : Type} [Field L] {n : ℕ} {O : Subring L} {x : GL (Fin n) L}
     (h1 : ∀ i j, x.1 i j ∈ O) (h2 : ∀ i j, (x⁻¹).1 i j ∈ O) : x ∈ GLint (Fin n) O := by
-  refine ⟨⟨Matrix.of fun i j => ⟨_, h1 i j⟩, Matrix.of fun i j => ⟨_, h2 i j⟩, ?_, ?_⟩, rfl⟩
-  · refine Matrix.map_injective O.subtype_injective ?_
-    simp only
-    rw [Matrix.map_mul, Matrix.map_one _ (map_zero _) (map_one _)]
-    exact x.mul_inv
-  · refine Matrix.map_injective O.subtype_injective ?_
-    simp only
-    rw [Matrix.map_mul, Matrix.map_one _ (map_zero _) (map_one _)]
-    exact x.inv_mul
+  apply _root_.GlobalTheory.BlockConj.mem_GLint_of <;> assumption
 
 theorem pullLat_stable_iff_cong : ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (w : Pl E), ¬ IsSplitAt w → ∀ (K : GlobalTheory.UnitLemma.UQ) (e : K.E ≃+* w.adicCompletion E), Bridge w K e → ∀ (k : ℕ) (t : K.O), K.Small t → GlobalTheory.UnitLemma.val K.O (algebraMap K.O K.E t) = k → ∀ (B : GlobalTheory.UnitLemma.InvAlg K) (u x : B.A) (n : ℕ) (γ : GLw n w) (ψ : B.A ≃+ (Fin n → w.adicCompletion E)), IsModelMap w e B u x γ ψ → u = 1 + algebraMap K.O B.A t * B.g → γ ∈ UL n w → ∀ g ∈ UL n w, ((∀ y ∈ pullLat w B ψ g, B.g * y ∈ pullLat w B ψ g) ↔ g⁻¹ * γ * g ∈ congSet w n k) := by
   intro E _ _ _ w hns K e hB k t ht hval B u x n γ ψ hψ hu hγ g hg

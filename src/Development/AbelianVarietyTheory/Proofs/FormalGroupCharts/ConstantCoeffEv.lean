@@ -1,5 +1,6 @@
 module
 
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.TaylorDiscriminants.WickVanishing.ConstantCoeffEv
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.CocycleRightZeroThd
 public import Development.AbelianVarietyTheory.Proofs.FormalGroupCharts.EqCOfPderivZero
 import Mathlib.Algebra.Order.Floor.Extended
@@ -115,15 +116,6 @@ theorem pderiv_ev {a : Fin m → Pt k n d} (ha : CZ a) (f : PS k m d) (v : Fin n
   exact pderiv_subst (a := fun p : Fin m × Fin d => a p.1 p.2) (fun p => ha p.1 p.2) f v
 
 theorem ev_zeroFam (f : PS k m d) : ev (fun _ _ => (0 : PS k n d)) f = C (constantCoeff f) := by
-  classical
-  have hz : CZ (fun (_ : Fin m) (_ : Fin d) => (0 : PS k n d)) := fun _ _ => map_zero _
-  ext e
-  unfold ev
-  rw [coeff_subst hz.hasSubst, finsum_eq_single _ 0]
-  · simp [coeff_C, coeff_one]
-  · intro x hx
-    obtain ⟨p, hp⟩ : ∃ p, x p ≠ 0 := by
-      by_contra hc; push Not at hc; exact hx (Finsupp.ext hc)
-    rw [Finsupp.prod, Finset.prod_eq_zero (Finsupp.mem_support_iff.2 hp) (zero_pow hp), map_zero, smul_zero]
+  apply _root_.ReciprocityTheory.ChartRestriction.G.TB.LogPf.ev_zeroFam <;> assumption
 
 end GlobalTheory.FormalLog

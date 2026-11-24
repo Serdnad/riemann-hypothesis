@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.KodairaSpencerRowDualEigenvectorMemSpanField
 public import Mathlib.Algebra.DualNumber
 public import Mathlib.RingTheory.Localization.Away.Basic
 public import Mathlib.RingTheory.Kaehler.Basic
@@ -626,67 +627,7 @@ attribute [local instance] Over.cartesianMonoidalCategory
 namespace GlobalTheory.KSRing
 
 theorem ksRow_exists_lieComb_ring : ∀ {R : Type} [CommRing R] {A : Over (Sp R)} [GrpObj A] [IsCommMonObj A] {A' : Over (Sp (DualNumber R))} [GrpObj A'] {i : A.left ⟶ A'.left} (h : IsGrpPullback A A' (GlobalTheory.DeRham.epsRed R) i) {O : Type} [CommRing O] (a : OAct O A) (cO : O → O) (ψ : LinearMap.BilinForm R (HdR A)), (∀ f ∈ Fil A, ∀ g ∈ Fil A, ψ f g = 0) → (∀ f, (∀ g ∈ Fil A, ψ f g = 0) → f ∈ Fil A) → LinearMap.IsPerfPair ψ → IsAdjointFor a cO ψ → KSRegular h → (∀ (z : O) (f : HdR A) (w : epsR R ⟶ A), IsKSValue h f w → IsKSValue h (act (dp0 R) (𝟙 _) a z f) (w ≫ a.act z)) → ∀ {ι : Type} {m : ι → ℕ} (χ : ι → O →+* R) (ub : ∀ σ, Fin (m σ) → (epsR R ⟶ A)) (hb : (Σ σ, Fin (m σ)) → HdR A), Submodule.span R (Set.range hb) ⊔ Fil A = ⊤ → LinearIndependent R (fun k => (Submodule.Quotient.mk (hb k) : HdR A ⧸ Fil A)) → (∀ k (z : O), act (dp0 R) (𝟙 _) a z (hb k) - χ k.1 z • hb k ∈ Fil A) → (∀ σ (w : epsR R ⟶ A), IsTangent w → (∀ z, w ≫ a.act z = GlobalTheory.GrpTangent.epsScale (χ σ z) ≫ w) → ∃ cf, IsLieComb cf (ub σ) w) → ∀ (τ τb : ι), (∀ z, χ τb (cO z) = χ τ z) → ∀ (j : Fin (m τb)), ∃ cf : Fin (m τ) → R, ∃ w, IsLieComb cf (ub τ) w ∧ GlobalTheory.FlagTan.IsKSRow h ψ hb ⟨τb, j⟩ w := by
-  intro R _ A _ _ A' _ i h O _ a cO ψ hiso hlag hperf hadj hK hEq ι m χ ub hb hspan hind heig hbasis τ τb hconj j
-  classical
-
-  have hsp : ⊤ ≤ Submodule.span R (Set.range fun k => (Submodule.Quotient.mk (hb k) : HdR A ⧸ Fil A)) := by
-    have e : (Fil A).mkQ '' Set.range hb =
-        Set.range fun k => (Submodule.Quotient.mk (hb k) : HdR A ⧸ Fil A) := by
-      rw [← Set.range_comp]; rfl
-    rw [← e, ← Submodule.map_span]
-    intro q _
-    obtain ⟨x, rfl⟩ := (Fil A).mkQ_surjective q
-    have hx : x ∈ Submodule.span R (Set.range hb) ⊔ Fil A := hspan ▸ Submodule.mem_top
-    obtain ⟨y, hy, g, hg, rfl⟩ := Submodule.mem_sup.1 hx
-    refine ⟨y, hy, ?_⟩
-    have hg0 : (Fil A).mkQ g = 0 := (Submodule.Quotient.mk_eq_zero _).2 hg
-    rw [map_add (f := _), hg0, add_zero]
-  let B := Module.Basis.mk hind hsp
-  let k₀ : (Σ σ, Fin (m σ)) := ⟨τb, j⟩
-  obtain ⟨f, hl⟩ := hperf.bijective_left.2 (B.coord k₀ ∘ₗ (Fil A).mkQ)
-  have hval : ∀ x, ψ f x = B.coord k₀ ((Fil A).mkQ x) := fun x => by rw [hl]; rfl
-  have hf : f ∈ Fil A := hlag f fun g hg => by
-    have hg0 : (Fil A).mkQ g = 0 := (Submodule.Quotient.mk_eq_zero _).2 hg
-    rw [hval, hg0, map_zero]
-  have hδ : ∀ k, ψ f (hb k) = if k = k₀ then 1 else 0 := fun k => by
-    have e : (Fil A).mkQ (hb k) = B k := by simp [B]
-    rw [hval, e, Module.Basis.coord_apply, Module.Basis.repr_self, Finsupp.single_apply]
-
-  have hact : ∀ z, act (dp0 R) (𝟙 _) a z f = χ τ z • f := fun z => by
-    haveI := a.hom z
-    have hz : act (dp0 R) (𝟙 _) a z f ∈ Fil A := by
-      rw [act_apply]; exact push_mem_Fil _ hf
-    have hf' : act (dp0 R) (𝟙 _) a z f - χ τ z • f ∈ Fil A :=
-      sub_mem hz (Submodule.smul_mem _ _ hf)
-    have hker : (Submodule.span R (Set.range hb) ⊔ Fil A) ≤
-        LinearMap.ker (ψ (act (dp0 R) (𝟙 _) a z f - χ τ z • f)) := by
-      refine sup_le ((Submodule.span_le).2 ?_) fun g hg => hiso _ hf' g hg
-      rintro _ ⟨k, rfl⟩
-      have e := hiso f hf _ (heig k (cO z))
-      rw [map_sub, map_smul, sub_eq_zero] at e
-      have e2 := hadj z f (hb k)
-      change ψ (act (dp0 R) (𝟙 _) a z f - χ τ z • f) (hb k) = 0
-      rw [map_sub, LinearMap.sub_apply, map_smul, LinearMap.smul_apply, e2, e, hδ]
-      by_cases hk : k = k₀
-      · subst hk
-        simp [k₀, hconj z]
-      · simp [hk]
-    have h0 : ψ (act (dp0 R) (𝟙 _) a z f - χ τ z • f) = 0 := by
-      refine LinearMap.ext fun x => ?_
-      have : x ∈ Submodule.span R (Set.range hb) ⊔ Fil A := hspan ▸ Submodule.mem_top
-      exact hker this
-    exact sub_eq_zero.1 (hperf.bijective_left.1 (h0.trans (map_zero ψ).symm))
-
-  obtain ⟨w, hw, hu⟩ := hK f hf
-  have htan : IsTangent w := by
-    obtain ⟨k, -, l⟩ := hw
-    exact l.1
-  have heq : ∀ z, w ≫ a.act z = GlobalTheory.GrpTangent.epsScale (χ τ z) ≫ w := fun z => by
-    have e1 := hEq z f w hw
-    rw [hact z] at e1
-    exact (hK _ (Submodule.smul_mem _ _ hf)).unique e1 (hw.smul _)
-  obtain ⟨cf, hcf⟩ := hbasis τ w htan heq
-  exact ⟨cf, w, hcf, f, hf, fun k => by convert hδ k, hw⟩
+  exact @_root_.GlobalTheory.KSExist.ksRow_exists_lieComb_of_commRing
 
 end GlobalTheory.KSRing
 end -- clump:auto
@@ -906,41 +847,7 @@ theorem IsKSR.baseChangeForKSFamily (P : AbelianDeRham) {Φ : Finset (E →+* �
     [CommRing S'] [Algebra c.F S'] {ψ : S →ₐ[c.F] S'} {y : FrPt Xo c S} {y' : FrPt Xo c S'} (h : FrMap ψ y y')
     {x : Sp (DualNumber S) ⟶ Xo.X} {M : HIx Dw Φ → S}
     (hM : IsKSR Φ y x M) : IsKSR Φ y' (spMap (dualMap ψ.toRingHom) ≫ x) (ψ ∘ M) := by
-  obtain ⟨A, _, A', _, π, π', i, hi, b, ub, hb, hπ, hπ', e, hpol, hu, hl, hM⟩ := hM
-  let : Algebra S S' := ψ.toRingHom.toAlgebra
-  obtain ⟨B, _, φ, hφ⟩ := exists_isGrpPullback A (spMap (algebraMap S S'))
-  obtain ⟨B', _, φ', hφ'⟩ := exists_isGrpPullback A' (spMap (dualMap (algebraMap S S')))
-  have e₀ : spMap (algebraMap S S') ≫ GlobalTheory.DeRham.epsRed S = GlobalTheory.DeRham.epsRed S' ≫ spMap (dualMap (algebraMap S S')) := by
-    rw [← Cris.spMap_comp, ← Cris.spMap_comp]
-    congr 1
-    ext a <;> simp [dualMap, TrivSqZeroExt.algebraMap_eq_inl]
-  have w : (φ ≫ i) ≫ A'.hom = (B.hom ≫ GlobalTheory.DeRham.epsRed S') ≫ spMap (dualMap (algebraMap S S')) := by
-    rw [(hφ.comp hi).1.w, e₀, Category.assoc]
-  have sq : hφ'.1.lift _ _ w ≫ φ' = φ ≫ i := hφ'.1.lift_fst _ _ _
-  have hj : IsGrpPullback B B' (GlobalTheory.DeRham.epsRed S') (hφ'.1.lift _ _ w) :=
-    hφ'.cancel ((hφ.comp hi).congr e₀ sq.symm) (hφ'.1.lift_snd _ _ _)
-  have hU := ObjDim.isAbelianScheme Xo.univ
-  have hg := ObjDim.smoothOfRelativeDimension Xo.univ
-  have hA := PolPull.isAbelianScheme_of_isGrpPullback hU hπ
-  have gA := (smoothOfRelativeDimension_isStableUnderBaseChange _).of_isPullback hπ.1 hg
-  have hA' := PolPull.isAbelianScheme_of_isGrpPullback hU hπ'
-  have gA' := (smoothOfRelativeDimension_isStableUnderBaseChange _).of_isPullback hπ'.1 hg
-  obtain ⟨bc, hF⟩ := P.2.2.1 S A _ hA gA S' B φ hφ
-  have hL := (P.2.1 S' B _ (PolPull.isAbelianScheme_of_isGrpPullback hA hφ)
-    ((smoothOfRelativeDimension_isStableUnderBaseChange _).of_isPullback hφ.1 gA)).1
-  obtain ⟨b', hpol', eb⟩ := hpol.pull_comp (AbelianDeRham.bcMor hφ) (UnivPol.pol Xo).isLB
-  choose tv htv using ArcQ.NormalForm.exists_baseChange hφ
-  choose th hth using bc.exists
-  refine ⟨B, _, B', _, φ ≫ π, φ' ≫ π', _, hj, b', fun σ k => tv (ub σ k), fun k => th (hb k),
-    (hφ.comp hπ).congr h.1.symm rfl, hφ'.comp hπ', by rw [← Category.assoc, sq, Category.assoc, e], hpol',
-    fun σ k => ?_, fun σ k => (hl σ k).baseChange (hφ := hφ) hF hL (hth _) (htv _), fun τ a => ?_⟩
-  · rw [← Category.assoc, htv, Category.assoc, hu, h.2.1]
-  · obtain ⟨w, hw, f, hf, hd, hv⟩ := hM τ a
-    refine ⟨tv w, ArcQ.NormalForm.isLieComb_baseChange hφ (fun _ => htv _) (htv w) hw, th f,
-      mem_Fil_of_corr (hφ := hφ) hF (hth f) hf, fun k => ?_,
-      hv.baseChange (hφ := hφ) P hA' gA' hj hφ' sq (hth f) (htv w)⟩
-    rw [eb _ _ _ _ (hth f) (hth _), hd]
-    split_ifs <;> simp
+  apply _root_.GlobalTheory.FlagTan.IsKSR.baseChange <;> assumption
 
 
 end GlobalTheory.FlagTan

@@ -751,11 +751,7 @@ section Rational
 variable {E : Type} [Field E] [NumberField E] [IsCMField E] {n : ℕ}
 
 theorem thetaA_ratGL_eq (t : GL (Fin n) E) : thetaA E n (ratGL E n t) = ratGL E n (thetaE E n t) := by
-  refine Units.ext ?_
-  ext i j
-  have hinv : ((ratGL E n t)⁻¹ : GA E n) = ratGL E n t⁻¹ := (map_inv _ _).symm
-  rw [thetaR_val, hinv]
-  exact conjAd_algebraMap _
+  apply _root_.GlobalTheory.CompanionTheory.TwUnfold.thetaA_ratGL <;> assumption
 
 theorem twConj_ratGL (γ d : GL (Fin n) E) :
     twConj (thetaA E n) (ratGL E n γ) (ratGL E n d) = ratGL E n (twConj (thetaE E n) γ d) := by

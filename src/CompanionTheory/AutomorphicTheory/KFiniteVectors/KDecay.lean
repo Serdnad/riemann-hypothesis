@@ -5,6 +5,7 @@ public import Formalism.HermitianCurvature.HermitianCurvatureProofs.BetaSesquili
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.ContinuousMulMt
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.NormDiagonalEntryDilationGeneratorLeOne
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.LowerSmoothStability.ExistsFinStableOfMemSSup
+import CompanionTheory.AutomorphicTheory.SchurLimitBounds.ZuckermanDuality.Letter
 
 @[expose] public section
 
@@ -94,21 +95,7 @@ theorem gN_le_sN {k r : ℕ} (g : B.Mat k r) : B.gN g ≤ sN g := by
 theorem conj_back {k r : ℕ} {ε : Fin (2 * r + k + 1) → Bool} {P g : B.Mat k r} (hP : IsCayleyU k r ε P)
     (hg : g ∈ Kset ε) :
     P⁻¹ * g * P ∈ UH (Hpk k r) ∩ (Matrix.unitaryGroup (Fin (2 * r + k + 1)) ℂ : Set _) := by
-  have hPu : P ∈ Matrix.unitaryGroup (Fin (2 * r + k + 1)) ℂ := hP.2
-  have hsP : star P * P = 1 := Matrix.mem_unitaryGroup_iff'.mp hPu
-  have hPs : P * star P = 1 := Matrix.mem_unitaryGroup_iff.mp hPu
-  have hinv : P⁻¹ = star P := Matrix.inv_eq_left_inv hsP
-  have hsg : star g * g = 1 := Matrix.mem_unitaryGroup_iff'.mp hg.1
-  rw [hinv]
-  refine ⟨?_, ?_⟩
-  · show (star P * g * P)ᴴ * Hpk k r * (star P * g * P) = Hpk k r
-    rw [← hP.1.2]
-    simp only [← Matrix.star_eq_conjTranspose, star_mul, star_star]
-    calc star P * (star g * P) * (star P * Jm ε * P) * (star P * g * P)
-        = star P * (star g * ((P * star P) * Jm ε * (P * star P) * g)) * P := by simp only [Matrix.mul_assoc]
-      _ = star P * (star g * (g * Jm ε)) * P := by rw [hPs, Matrix.one_mul, Matrix.mul_one, hg.2]
-      _ = star P * Jm ε * P := by rw [← Matrix.mul_assoc (star g), hsg, Matrix.one_mul]
-  · exact Submonoid.mul_mem _ (Submonoid.mul_mem _ (Unitary.star_mem hPu) hg.1) hPu
+  apply _root_.CompanionTheory.LimBd.Main.back_K <;> assumption
 
 theorem kDecay_of_zuckT {t : ∀ n : ℕ, (Fin n → Bool) → ℝ} (hZ : ZuckT t) (k r : ℕ) (ε : Fin (2 * r + k + 1) → Bool)
     (m : ℕ) (A h : ℝ) (hA : A ≤ m) (hlt : t _ ε + m < h) : KDecay k r ε A h := by

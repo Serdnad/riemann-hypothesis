@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.OrthonormalProductThetaMemThetaSpace
 public import Development.AbelianVarietyTheory.Definitions.Foundations.NormSumPairRankZeroOfCurveCoordNorm
 public import Mathlib.Analysis.SpecialFunctions.Elliptic.Weierstrass
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsIntegerMapEqHalfOneAddSqrt
@@ -284,22 +285,8 @@ lemma Hf_sum (T : Tor D) (c : Fin r → ℂ) (z : VC D N N') :
 
 lemma exists_coords (T : Tor D) {x : VC D N N'} (hx : x ∈ LaB D T b) :
     ∃ c : Fin r → ℂ, (∀ i, c i ∈ T.abelian₂) ∧ x = ∑ i, c i • embV D T (b i) := by
-  induction hx using AddSubgroup.closure_induction with
-  | mem z hz =>
-    obtain ⟨w, hw, j, rfl⟩ := hz
-    refine ⟨Pi.single j w, fun i => ?_, ?_⟩
-    · by_cases h : i = j
-      · subst h; simpa using hw
-      · simp [h]
-    · rw [Finset.sum_eq_single j] <;> simp +contextual
-  | zero => exact ⟨0, fun _ => zero_mem _, by simp⟩
-  | add x y _ _ hx hy =>
-    obtain ⟨c, hc, rfl⟩ := hx
-    obtain ⟨c', hc', rfl⟩ := hy
-    exact ⟨c + c', fun i => add_mem (hc i) (hc' i), by simp [add_smul, Finset.sum_add_distrib]⟩
-  | neg x _ hx =>
-    obtain ⟨c, hc, rfl⟩ := hx
-    exact ⟨-c, fun i => neg_mem (hc i), by simp⟩
+  intros
+  apply _root_.GlobalTheory.OrthoProdTheta.exists_coord <;> assumption
 
 lemma neg_one_zpow_sum {ι : Type*} (s : Finset ι) (n : ι → ℤ) :
     (-1 : ℂ) ^ (∑ i ∈ s, n i) = ∏ i ∈ s, (-1 : ℂ) ^ n i := by

@@ -1,5 +1,6 @@
 module
 
+import Development.AutomorphicArithmetic.LocalEmbeddings.OppLagr
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsHomSuppSplit
 public import Development.AbelianVarietyTheory.Definitions.Foundations.T2SpaceTensorProductFiniteExtension
 public import Development.AbelianVarietyTheory.Definitions.Divisors.IsCompactIsOpenUnitsAt
@@ -129,48 +130,7 @@ variable {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algeb
 theorem chrW_comp (h : IsCMExt F E σ) (χ : Chr F E) {m : ℕ}
     (hχ : ResEtaPow (Units.map (algebraMap F (AF F)).toMonoidHom).range χ m) {v : Pl (F := F)} (t : E →ₐ[F] Fv F v) :
     chrW χ (t.comp σ) = (chrW χ t)⁻¹ := by
-  obtain ⟨ξ, hξ⟩ := exists_isQuad h
-  ext x
-  let L := GlobalTheory.SplitGLLift.liftPair (v := v) h t
-  have key : ∀ p q : Fv F v × Fv F v, p + q + p * q = 0 → (1 + L p) * (1 + L q) = 1 := by
-    intro p q hpq
-    have := congrArg L hpq
-    rw [map_add (f := _), map_add (f := _), map_mul, map_zero] at this
-    linear_combination this
-  have hx1 : ((x : Fv F v) - 1, (0 : Fv F v)) + (((x⁻¹ : (Fv F v)ˣ) : Fv F v) - 1, 0) +
-      ((x : Fv F v) - 1, (0 : Fv F v)) * (((x⁻¹ : (Fv F v)ˣ) : Fv F v) - 1, 0) = 0 := by
-    refine Prod.ext ?_ ?_
-    · simp only [Prod.fst_add, Prod.fst_mul, Prod.fst_zero]; linear_combination Units.mul_inv x
-    · simp
-  have hx2 : (((x⁻¹ : (Fv F v)ˣ) : Fv F v) - 1, (0 : Fv F v)) + ((x : Fv F v) - 1, (0 : Fv F v)) +
-      (((x⁻¹ : (Fv F v)ˣ) : Fv F v) - 1, 0) * ((x : Fv F v) - 1, (0 : Fv F v)) = 0 := by
-    refine Prod.ext ?_ ?_
-    · simp only [Prod.fst_add, Prod.fst_mul, Prod.fst_zero]; linear_combination Units.mul_inv x
-    · simp
-  let z : (AE F E)ˣ := ⟨1 + L ((x : Fv F v) - 1, 0), 1 + L (((x⁻¹ : (Fv F v)ˣ) : Fv F v) - 1, 0), key _ _ hx1, key _ _ hx2⟩
-  have hzt : Units.map (piW t).toMonoidHom z = x := by
-    ext
-    simp [z, L, GlobalTheory.SplitGLLift.piW_liftPair]
-  have hzc : piW (t.comp σ) (z : AE F E) = 1 := by
-    simp [z, L, GlobalTheory.SplitGLLift.piW_comp_liftPair]
-  have hzA : At (evFin F v) ((z : AE F E) - 1) := by
-    simpa [z, L] using GlobalTheory.SplitGLLift.at_liftPair h t ((x : Fv F v) - 1, 0)
-  let z' : (AE F E)ˣ := Units.map (cA σ : AE F E →* AE F E) z
-  have hz'v : (z' : AE F E) = 1 + L (0, (x : Fv F v) - 1) := by
-    simp [z', z, L, GlobalTheory.SplitGLLift.cA_liftPair]
-  have hz't : Units.map (piW (t.comp σ)).toMonoidHom z' = x := by
-    ext
-    simp [hz'v, L, GlobalTheory.SplitGLLift.piW_comp_liftPair]
-  have hz'c : piW ((t.comp σ).comp σ) (z' : AE F E) = 1 := by
-    rw [comp_comp h, hz'v]
-    simp [L, GlobalTheory.SplitGLLift.piW_liftPair]
-  have hz'A : At (evFin F v) ((z' : AE F E) - 1) := by
-    simpa [hz'v, L] using GlobalTheory.SplitGLLift.at_liftPair h t (0, (x : Fv F v) - 1)
-  have e1 := GlobalTheory.ChrLocal.chrW_piW_eq F E σ h χ v t z hzA hzc
-  have e2 := GlobalTheory.ChrLocal.chrW_piW_eq F E σ h χ v (t.comp σ) z' hz'A hz'c
-  rw [hzt] at e1
-  rw [hz't] at e2
-  rw [MonoidHom.inv_apply, e1, e2, ResEtaPow.map_conj hξ hχ z, map_inv]
+  apply _root_.GlobalTheory.OppLagr.chrW_comp <;> assumption
 
 end GlobalTheory.SplitIdele
 

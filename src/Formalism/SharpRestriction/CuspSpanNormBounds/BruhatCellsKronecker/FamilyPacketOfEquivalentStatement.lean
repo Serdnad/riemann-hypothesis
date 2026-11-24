@@ -140,7 +140,6 @@ theorem d_two_le_b : 2 ≤ large₂.sc.b := by
 
 theorem d_m_eq : D.R.m = 2 * D.R.rS + 2 := by
   have h := dimS_eq D.R
-  have h2 := D.R.two_le_m
   unfold Ranks.r at h
   omega
 
@@ -158,8 +157,6 @@ theorem parameters_of_hypotheses {C' Cl Cg cb Cu cT CT C0 C K₀ : ℝ} (h : Cnt
   obtain ⟨_, _, _, h4, _, _, _, _, _, _, h11, h12, _, h14, _, _, _, _, h19, _, _, _, h23, _, _⟩ := h.1
   have h4' : D.R.f ≤ D.R.k := h4
   have h11' : Real.log D.host.rdE ≤ large₂.sc.L / Cl := h11
-  have h12' : ((D.R.k : ℝ) * large₂.sc.b) ^ 8 ≤ (D.host.g 0 : ℝ) := h12
-  have h14' : ((D.R.k : ℝ) * large₂.sc.b) ^ 8 ≤ (D.host.g 1 : ℝ) := h14
   have h19' : 1 ≤ D.host.v := h19
   have h23' : Tr D u ≤ large₂.sc.b ^ (CT * (D.R.m : ℝ)) := (h23 u).2
   have hL := d_one_le_L D large₂
@@ -220,9 +217,7 @@ theorem xiHyp_of_stX {u u' : D.what₂.Word} {C' Cl Cg cb Cu cT CT C0 A CX cX C 
   have hk1 : (1 : ℝ) ≤ D.R.k := by
     have := D.R.m_add_three_le_k
     exact_mod_cast (by omega : 1 ≤ D.R.k)
-  have hkv : 0 < (D.R.k : ℝ) * D.host.v := by positivity
   have hCX : 0 ≤ |CX| := abs_nonneg _
-  have hcX : 0 ≤ |cX| := abs_nonneg _
   have hCXC : |CX| ≤ C := le_trans (le_mul_of_one_le_right hCX (le_max_left _ _)) hC
   have ev1 : Even (D.R.k * D.R.f) := D.R.k_even.mul_right _
   constructor
@@ -438,7 +433,6 @@ variable {D : D7} {large₂ : SizeData₂ D} {X : TermTie D} {u u' : D.what₂.W
 
 theorem d_rdE_pos {C' Cl Cg cb Cu cT CT C0 : ℝ} (h : Cnt.Hyp0 D large₂ C' Cl Cg cb Cu cT CT C0) : 0 < D.host.rdE := by
   obtain ⟨_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, h19, _⟩ := h.1
-  have h19' : 1 ≤ D.host.v := h19
   have hrd : D.host.rdE = 2 * D.host.v := by unfold Host.v; ring
   rw [hrd]; linarith
 
@@ -491,7 +485,6 @@ theorem d_nProduct {C' Cl Cg cb Cu cT CT C0 : ℝ} (hH : Cnt.Hyp0 D large₂ C' 
     ∏ τ, nV D (Tu D u) (Tu D u') Z τ =
       LatticeSumBounds.nTot D.R.k D.R.f D.host.v ((∏ τ, Gz D (Tu D u) (Tu D u') Z τ) * ((gS D : ℝ)⁻¹) ^ (D.R.m * D.R.f)) (NT D u) := by
   obtain ⟨_, _, _, _, _, _, _, _, _, _, _, h12, _, h14, _, _, _, _, h19, _⟩ := hH.1
-  have h19' : 1 ≤ D.host.v := h19
   have hk1 : 1 ≤ D.R.k := by have := D.R.m_add_three_le_k; omega
   have hT : (0 : ℝ) < ((Tu D u : ℕ) : ℝ) := by exact_mod_cast (D.mem u).A.T_prime.pos
   have hg : (0 : ℝ) < (gS D : ℝ) := by

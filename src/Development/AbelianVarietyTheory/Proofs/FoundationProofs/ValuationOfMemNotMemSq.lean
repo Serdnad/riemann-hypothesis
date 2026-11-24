@@ -1,5 +1,6 @@
 module
 
+import Formalism.LocalToGlobal.KernelLattices.KernelLocalFactors.LocalProductMeasures
 public import Development.AbelianVarietyTheory.Definitions.Foundations.NotIsSplitOfIsInertAt
 public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.ExistsIsPrimeIdemOfComp
 import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.ExistsAdeleRingTensorEquivInfiniteProdFinite
@@ -168,17 +169,7 @@ theorem isDelta_of_isPrimeIdem {P : HeightOneSpectrum (𝓞 E)} {e f : AE F E} (
 
 theorem valuation_of_mem_notMem_sq (P : HeightOneSpectrum (𝓞 E)) {a : 𝓞 E} (h1 : a ∈ P.asIdeal)
     (h2 : a ∉ P.asIdeal ^ 2) : P.valuation E (a : E) = WithZero.exp (-1 : ℤ) := by
-  have ha : a ≠ 0 := by rintro rfl; exact h2 (zero_mem _)
-  have k1 : P.intValuation a ≤ WithZero.exp (-((1 : ℕ) : ℤ)) := by
-    rw [HeightOneSpectrum.intValuation_le_pow_iff_mem]; simpa using h1
-  have k2 : ¬ P.intValuation a ≤ WithZero.exp (-((2 : ℕ) : ℤ)) := by
-    rw [HeightOneSpectrum.intValuation_le_pow_iff_mem]; exact h2
-  have h0 : P.intValuation a ≠ 0 := HeightOneSpectrum.intValuation_ne_zero P a ha
-  refine (HeightOneSpectrum.valuation_of_algebraMap P a).trans ?_
-  rw [← WithZero.exp_log h0] at k1 k2 ⊢
-  rw [WithZero.exp_le_exp] at k1 k2
-  congr 1
-  omega
+  first | exact _root_.Formalism.L2.Ker.mh_val_unif | exact @_root_.Formalism.L2.Ker.mh_val_unif | apply _root_.Formalism.L2.Ker.mh_val_unif <;> assumption
 
 theorem exists_of_isUnifIdele {P : HeightOneSpectrum (𝓞 E)} {x : (AE F E)ˣ} (h : IsUnifIdele σ P x) :
     ∃ u, Formalism.L2.Host.IsUnifAt P u ∧ x = locIdele F P u := by

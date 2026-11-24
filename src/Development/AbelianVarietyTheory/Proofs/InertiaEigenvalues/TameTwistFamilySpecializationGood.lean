@@ -1,5 +1,6 @@
 module
 
+import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.FinPartDetAtInvInt
 public import Formalism.LocalToGlobal.IndefiniteReal.DatumVec
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.DetReducedBlockEqResidueDet
 public import Formalism.LocalToGlobal.Divisibility.DefGroup
@@ -195,18 +196,8 @@ namespace GlobalTheory.ExportSeries.SpecGood
 variable {D : D7}
 
 theorem infPart_eq_zero_of_isIdemAt : ∀ (D : D7) (P : Pl D.host.E) (e : AE D), Formalism.L2.NTheta.IsIdemAt e P → infPart D e = 0 := by
-  intro D P e h
-  obtain ⟨⟨h1, h2, v, ε, ⟨α, rfl, -⟩, h3⟩, -⟩ := h
-  have k1 := congrArg (infPart D) h1
-  have k2 := congrArg (infPart D) h2
-  have k3 := congrArg (infPart D) h3
-  simp only [RingHom.map_mul, RingHom.map_add (f := _), RingHom.map_zero] at k1 k2 k3
-  have k4 : infPart D (algebraMap (AF D.host.F) (AE D) (pairA D.host.F 0 α)) = 0 := by
-    simp [infPart, Algebra.TensorProduct.algebraMap_apply]
-    show (0 : Ainf D.host.F) ⊗ₜ[D.host.F] (1 : D.host.E) = 0
-    exact TensorProduct.zero_tmul _ _
-  rw [k4] at k3
-  linear_combination -k1 + infPart D e * k3 - k2
+  intros
+  apply _root_.Formalism.IndefR.Fin.LevelGroupLemmas.infPart_idemAt <;> assumption
 
 theorem finUnit_of_res (P : Pl D.host.E) (hP : Formalism.L2.NTheta.IsIdemAt (idemAt P) P) (x : (AE D)ˣ)
     (h1 : (1 - idemAt P) * (x : AE D) = 1 - idemAt P)

@@ -1,5 +1,6 @@
 module
 
+import all ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.FundamentalDomains.LowBlock
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.FundamentalDomains.FundamentalDomainExtension.UnipotentMoves.BotMulVecExt
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -144,24 +145,7 @@ variable {E : Type} [Field E] [NumberField E] [IsCMField E] {r : ℕ} (X : Data 
 
 lemma sum_splitC (f : Fin r → ℂ) :
     ∑ j, f j = ∑ a : Fin X.p0, f (Fin.castLE X.p0_le a) + ∑ m : Fin (r - X.p0), f (nI X m) := by
-  obtain ⟨g, hg⟩ : ∃ g : ℕ → ℂ, ∀ i, g i = if h : i < r then f ⟨i, h⟩ else 0 := ⟨_, fun _ => rfl⟩
-  have hr : X.p0 + (r - X.p0) = r := Nat.add_sub_cancel' X.p0_le
-  have e1 : ∑ j, f j = ∑ i ∈ Finset.range r, g i := by
-    rw [Finset.sum_range]
-    refine Finset.sum_congr rfl fun j _ => ?_
-    rw [hg, dif_pos j.isLt]
-  have e2 : ∑ a : Fin X.p0, f (Fin.castLE X.p0_le a) = ∑ i ∈ Finset.range X.p0, g i := by
-    rw [Finset.sum_range]
-    refine Finset.sum_congr rfl fun a _ => ?_
-    rw [hg, dif_pos (lt_of_lt_of_le a.isLt X.p0_le)]
-    rfl
-  have e3 : ∑ m : Fin (r - X.p0), f (nI X m) = ∑ i ∈ Finset.range (r - X.p0), g (X.p0 + i) := by
-    rw [Finset.sum_range]
-    refine Finset.sum_congr rfl fun m _ => ?_
-    have hm : X.p0 + (m : ℕ) < r := by have := m.isLt; omega
-    rw [hg, dif_pos hm]
-    rfl
-  rw [e1, e2, e3, ← Finset.sum_range_add, hr]
+  apply _root_.ReciprocityTheory.ChartRestriction.G.FD.OrthonormalChartBounds.sum_eq_sum_castLE_add_sum_nI <;> assumption
 
 private lemma sum_three_rotate {α β γ M : Type*} [Fintype α] [Fintype β] [Fintype γ]
     [AddCommMonoid M] (T : α → β → γ → M) :

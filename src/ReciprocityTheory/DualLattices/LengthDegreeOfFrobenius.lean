@@ -753,6 +753,11 @@ theorem smith_normal_form_statement : EigenQuotientSmithStatement := by
     rw [mulVec_mulVec, nonsing_inv_mul _ hPu, one_mulVec]
   have hM'D : ∀ t, P *ᵥ (M' *ᵥ t) = D *ᵥ (Q⁻¹ *ᵥ t) := fun t => by
     rw [hDdef, ← mulVec_mulVec, ← mulVec_mulVec, hQQ]
+  have hM_diag (t : Fin r → R) : M *ᵥ (Q *ᵥ t) = (P⁻¹ *ᵥ (D *ᵥ t)) ∘ e2 := by
+    have heq : M' *ᵥ (Q *ᵥ t) = P⁻¹ *ᵥ (D *ᵥ t) := by
+      rw [← hPP' (M' *ᵥ (Q *ᵥ t)), hM'D, hQQ']
+    funext x
+    simpa [hM'v, Function.comp_def] using congrFun heq (e2 x)
   have hMzero : ∀ t, M' *ᵥ t = 0 → t = 0 := by
     intro t ht
     apply hMinj
@@ -824,12 +829,8 @@ theorem smith_normal_form_statement : EigenQuotientSmithStatement := by
     set j : Fin (g + g) := ⟨k, hrle k⟩
     set u := P⁻¹ *ᵥ Pi.single j 1
     have hu : M *ᵥ (Q *ᵥ Pi.single k 1) = dj k • (u ∘ e2) := by
-      funext x
-      have h1 : M' *ᵥ (Q *ᵥ Pi.single k 1) = dj k • u := by
-        rw [← hPP' (M' *ᵥ _), hM'D, hQQ', hDsingle, mulVec_smul]
-      have h2 := congrFun h1 (e2 x)
-      rw [hM'v] at h2
-      simpa using h2
+      rw [hM_diag, hDsingle, mulVec_smul]
+      rfl
     have hsatu : Pw *ᵥ (u ∘ e2) = u ∘ e2 :=
       hsat (u ∘ e2) (dj k) (ha0 k) (by rw [← hu]; exact hMQ _)
     obtain ⟨t, ht⟩ := hkillQ _ hsatu
@@ -875,12 +876,9 @@ theorem smith_normal_form_statement : EigenQuotientSmithStatement := by
           · rw [← hs ⟨j, h⟩, mul_comm]
           · exact hhigh j h
         refine ⟨Q *ᵥ s, ?_⟩
-        funext x
-        have h1 : M' *ᵥ (Q *ᵥ s) = (q : Fin g ⊕ Fin g → R) ∘ e2.symm := by
-          rw [← hPP' (M' *ᵥ _), hM'D, hQQ', ← hPq, hPP']
-        have h2 := congrFun h1 (e2 x)
-        rw [hM'v] at h2
-        simpa using h2
+        change M *ᵥ (Q *ᵥ s) = (q : Fin g ⊕ Fin g → R)
+        rw [hM_diag, ← hPq, hPP']
+        simp [Function.comp_def]
       · rintro ⟨t, ht⟩
         funext k
         rw [hF]
@@ -909,12 +907,8 @@ theorem smith_normal_form_statement : EigenQuotientSmithStatement := by
           ring
         · simp [yt, dif_neg h]
       have hαu : M *ᵥ (Q *ᵥ s) = α • (u ∘ e2) := by
-        funext x
-        have h1 : M' *ᵥ (Q *ᵥ s) = α • u := by
-          rw [← hPP' (M' *ᵥ _), hM'D, hQQ', hDs, mulVec_smul]
-        have h2 := congrFun h1 (e2 x)
-        rw [hM'v] at h2
-        simpa using h2
+        rw [hM_diag, hDs, mulVec_smul]
+        rfl
       have hu : Pw *ᵥ (u ∘ e2) = u ∘ e2 := hsat _ α hα (by rw [← hαu]; exact hMQ _)
       refine ⟨⟨u ∘ e2, (hQw _).2 hu⟩, ?_⟩
       funext k

@@ -1,5 +1,7 @@
 module
 
+import Development.AutomorphicArithmetic.ThetaCorrespondence.ThetaPairLifts.ThirdPlaceSeries.LevelIffRelax
+import Development.AutomorphicArithmetic.ThetaCorrespondence.ThetaPairLifts.ThirdPlaceSeries.RelaxedLevelEqTupleFreeStatement
 public import Development.AutomorphicArithmetic.ThetaCorrespondence.ThetaPairLifts.ThirdPlaceSeries.FamilyConstants
 public import Development.AutomorphicArithmetic.ThetaCorrespondence.ThetaPairLifts.ThirdPlaceSeries.LevelSubgroupAtPlace
 public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.ChartLevelsRepsRepresentUnitaryDoubleCosetsStatement
@@ -1031,27 +1033,12 @@ variable {D : D7}
 
 theorem prV_comm (v : GlobalTheory.FinPl.Pl D) (z : Af ↥D.host.F ⊗[↥D.host.F] D.host.E) :
     Formalism.UG.prV (E := D.host.E) v ((Algebra.TensorProduct.comm (↥D.host.F) (Af ↥D.host.F) D.host.E) z) =
-      (Algebra.TensorProduct.comm _ _ _) (GlobalTheory.IndefiniteRowSideFullHecke.UnramifiedCharacter.compFin D v z) := by
-  induction z using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero, map_zero, map_zero]
-  | tmul a e =>
-    rw [Algebra.TensorProduct.comm_tmul]
-    simp only [Formalism.UG.prV, GlobalTheory.IndefiniteRowSideFullHecke.UnramifiedCharacter.compFin, AlgHom.toRingHom_eq_coe, RingHom.coe_coe,
-      Algebra.TensorProduct.map_tmul, AlgHom.id_apply, Algebra.TensorProduct.comm_tmul]
-    rfl
-  | add a b ha hb =>
-    simp only [map_add (f := _)]
-    exact congrArg₂ (· + ·) ha hb
+      (Algebra.TensorProduct.comm _ _ _) (GlobalTheory.IndefiniteRowSideFullHecke.UnramifiedCharacter.compFin D v z) :=
+  _root_.GlobalTheory.PenLoc.prV_comm v z
 
 theorem prV_toEAf_congr (v : GlobalTheory.FinPl.Pl D) {y y' : AE D} (h : GlobalTheory.FinPl.compAt D v y = GlobalTheory.FinPl.compAt D v y') :
-    Formalism.UG.prV (E := D.host.E) v (toEAf D y) = Formalism.UG.prV (E := D.host.E) v (toEAf D y') := by
-  unfold GlobalTheory.FinPl.compAt at h
-  unfold toEAf
-  simp only [RingHom.comp_apply] at h ⊢
-  generalize finPart D y = z at h ⊢
-  generalize finPart D y' = z' at h ⊢
-  refine (prV_comm v z).trans (Eq.trans ?_ (prV_comm v z').symm)
-  rw [h]
+    Formalism.UG.prV (E := D.host.E) v (toEAf D y) = Formalism.UG.prV (E := D.host.E) v (toEAf D y') :=
+  _root_.GlobalTheory.PenLevPrime.prV_toEAf_congr v h
 
 theorem bc_congr (V : HSp D) {n : ℕ} (hn : V.rank = n) (v : GlobalTheory.FinPl.Pl D) {g h : GA D V} {x y : GL (Fin n) (EF D)}
     (hx : x.1 = finM V hn g) (hy : y.1 = finM V hn h)
@@ -1066,15 +1053,8 @@ theorem bc_congr (V : HSp D) {n : ℕ} (hn : V.rank = n) (v : GlobalTheory.FinPl
 
 theorem bc_eq_one (V : HSp D) {n : ℕ} (hn : V.rank = n) {P : GlobalTheory.FinPl.Pl D → Prop} {v : GlobalTheory.FinPl.Pl D} (hv : ¬ P v) {g : GA D V}
     (hg : g ∈ grpAt V P) {x : GL (Fin n) (EF D)} (hx : x.1 = finM V hn g) :
-    Formalism.UG.bc (Formalism.UG.prV (E := D.host.E) v) x = 1 := by
-  have h1 : (1 : GL (Fin n) (EF D)).1 = finM V hn 1 := by
-    subst hn
-    rw [GlobalTheory.AdForm.CongAtIdem.finM_rfl, GlobalTheory.SplitCut.mt_one, Matrix.map_one _ (map_zero _) (map_one _)]
-    rfl
-  rw [bc_congr V hn v hx h1 fun i j => ?_, map_one]
-  have := ((mem_grpAt_iff_parts V P g).1 hg i j).2 v hv
-  rw [Matrix.sub_apply, RingHom.map_sub, sub_eq_zero] at this
-  rw [this, GlobalTheory.SplitCut.mt_one]
+    Formalism.UG.bc (Formalism.UG.prV (E := D.host.E) v) x = 1 :=
+  _root_.GlobalTheory.PenLevOff.bc_eq_one V hn hv hg hx
 
 abbrev cutAt (V : HSp D) (v : GlobalTheory.FinPl.Pl D) : GA D V →* GA D V := cutG V _ (idemQ_mul_self {v})
 
@@ -1132,27 +1112,8 @@ variable {B : GlobalTheory.Mem.Base} {X : PreX B.toPre} {I : TC B X} {l : I.Laws
 
 
 theorem mem_U_iff (hA : A.Is) (j : ℕ) (hj : j ≤ B.R.m) (β : Ch j) (g : GA (I.rec7 l Z) ((I.rec7 l Z).sp.X j)) :
-    g ∈ A.U j β ↔ g ∈ GfC _ ∧ ∀ v, cutAt _ v g ∈ A.U j β := by
-  have ex := GlobalTheory.AdForm.RdVal.finM_mem ((I.rec7 l Z).sp.X j) (rankN (I.rec7 l Z) j hj) (gramN (I.rec7 l Z) j hj) rfl
-  constructor
-  · intro hg
-    obtain ⟨hC, κ, hκ⟩ := (hA.U j hj β g).1 hg
-    refine ⟨hC, fun v => (hA.U j hj β _).2 ⟨GlobalTheory.FinPl.SetCut.grpAt_le_GfC _ _ (cutAt_mem _ v g), ?_⟩⟩
-    obtain ⟨x, hx⟩ := ex (cutAt _ v g)
-    refine ⟨⟨x.1, ((A.K j hj β).lev.U_eq _).2 ⟨x.2, fun w => ?_⟩⟩, hx⟩
-    by_cases hw : w = v
-    · subst hw
-      rw [bc_congr _ _ w hx hκ (compAt_cutAt _ w g)]
-      exact (((A.K j hj β).lev.U_eq _).1 κ.2).2 w
-    · rw [bc_eq_one _ _ (P := (· ∈ ({v} : Finset _))) (fun h => hw (Finset.mem_singleton.1 h)) (cutAt_mem _ v g) hx]
-      exact one_mem _
-  · rintro ⟨hC, h⟩
-    refine (hA.U j hj β _).2 ⟨hC, ?_⟩
-    obtain ⟨x, hx⟩ := ex g
-    refine ⟨⟨x.1, ((A.K j hj β).lev.U_eq _).2 ⟨x.2, fun w => ?_⟩⟩, hx⟩
-    obtain ⟨-, κ, hκ⟩ := (hA.U j hj β _).1 (h w)
-    rw [← bc_congr _ _ w hκ hx (compAt_cutAt _ w g)]
-    exact (((A.K j hj β).lev.U_eq _).1 κ.2).2 w
+    g ∈ A.U j β ↔ g ∈ GfC _ ∧ ∀ v, cutAt _ v g ∈ A.U j β :=
+  _root_.GlobalTheory.PenLevOff.mem_U_iff hA j hj β g
 
 end Level
 
@@ -1165,30 +1126,14 @@ variable {B : GlobalTheory.Mem.Base} {X : PreX B.toPre} (I : TC B X)
 theorem fr_eq {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [StarRing E] [Algebra F E]
     {hc : Formalism.BasicNotions.CMData F E} {n : ℕ} {ST SG Q : Finset (HeightOneSpectrum (𝓞 E))} {g g' : GL (Fin n) (AfE F E)}
     {p p' : DecoF E n ST SG Q} (h : IsPtOf hc g p) (h' : IsPtOf hc g' p') (P : Q)
-    (e0 : ∀ i j, adAt F P.1 (g.1 i j) = adAt F P.1 (g'.1 i j)) : p.fr P = p'.fr P := by
-  have e : ∀ i j, p.fr P (Pi.single j 1) i = p'.fr P (Pi.single j 1) i := fun i j =>
-    (algebraMap E (P.1.adicCompletion E)).injective ((h.fr P i j).symm.trans ((e0 i j).trans (h'.fr P i j)))
-  apply LinearEquiv.toLinearMap_injective
-  refine LinearMap.pi_ext fun j x => ?_
-  have hs : (Pi.single j x : Sp E n) = x • Pi.single j 1 := by
-    rw [← Pi.single_smul', smul_eq_mul, mul_one]
-  simp only [LinearEquiv.coe_coe]
-  rw [hs, map_smul, map_smul]
-  funext i
-  simp only [Pi.smul_apply, e]
+    (e0 : ∀ i j, adAt F P.1 (g.1 i j) = adAt F P.1 (g'.1 i j)) : p.fr P = p'.fr P :=
+  _root_.GlobalTheory.PenLevTyp.fr_eq h h' P e0
 
 theorem exists_pt {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [StarRing E] [Algebra F E]
     {hc : Formalism.BasicNotions.CMData F E} {n : ℕ} [NeZero n] {ST SG Q : Finset (HeightOneSpectrum (𝓞 E))} {g g' : GL (Fin n) (AfE F E)}
     {p : DecoF E n ST SG Q} (h : IsPtOf hc g p) (hg' : g' ∈ UAd hc n)
-    (e0 : ∀ P ∈ Q, ∀ i j, adAt F P (g'.1 i j) = adAt F P (g.1 i j)) : ∃ p' : DecoF E n ST SG Q, IsPtOf hc g' p' := by
-  refine GlobalTheory.Mem.Col2.RatFrPt.exists_isPtOf_of_rat hc ST SG Q g' hg' fun P hP => ?_
-  let f := p.fr ⟨P, hP⟩
-  refine ⟨⟨LinearMap.toMatrix' f.toLinearMap, LinearMap.toMatrix' f.symm.toLinearMap, ?_, ?_⟩, fun r s => ?_⟩
-  · rw [← LinearMap.toMatrix'_comp, LinearEquiv.comp_symm, LinearMap.toMatrix'_id]
-  · rw [← LinearMap.toMatrix'_comp, LinearEquiv.symm_comp, LinearMap.toMatrix'_id]
-  · rw [e0 P hP, h.fr ⟨P, hP⟩ r s]
-    simp only [LinearMap.toMatrix'_apply, LinearEquiv.coe_coe]
-    rfl
+    (e0 : ∀ P ∈ Q, ∀ i j, adAt F P (g'.1 i j) = adAt F P (g.1 i j)) : ∃ p' : DecoF E n ST SG Q, IsPtOf hc g' p' :=
+  _root_.GlobalTheory.PenLevTyp.exists_pt h hg' e0
 
 theorem levGAt_eq (hTw : I.IsTw) (a : I.ι) (j : ℕ) (hj : j < B.R.m) (b : Idx I.sel (I.tup a) (I.idx a) j) :
     levGAt I.sel (I.tup a) (I.idx a) (I.Tp a) j b = colLevSym I.Ch j := by

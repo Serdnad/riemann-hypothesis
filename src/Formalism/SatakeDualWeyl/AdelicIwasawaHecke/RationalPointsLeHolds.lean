@@ -1,5 +1,6 @@
 module
 
+import Formalism.SatakeDualWeyl.KpqSubgroupCompact
 public import Formalism.SatakeDualWeyl.Statement
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -60,12 +61,7 @@ theorem cT_map {A B : Type} [CommRing A] [CommRing B] (σ : A →+* A) (σ' : B 
   exact (RingHom.congr_fun h (M j i)).symm
 
 theorem base_change_mem_holds : Formalism.UG.BCMem := by
-  intro A B _ _ n _ _ σ σ' φ h J g hg
-  have hg' : cT σ (g : Matrix n n A) * J * (g : Matrix n n A) = J := hg
-  show cT σ' ((bc φ g : GL n B) : Matrix n n B) * J.map φ * ((bc φ g : GL n B) : Matrix n n B) =
-    J.map φ
-  have e : ((bc φ g : GL n B) : Matrix n n B) = (g : Matrix n n A).map φ := rfl
-  rw [e, cT_map σ σ' φ h, ← Matrix.map_mul, ← Matrix.map_mul, hg']
+  apply _root_.Formalism.UG.Final.BCMem <;> assumption
 
 theorem rational_points_le_holds : Formalism.UG.RatPtsLe := by
   intro F E _ _ _ n _ _ σ J R _ _ x hx

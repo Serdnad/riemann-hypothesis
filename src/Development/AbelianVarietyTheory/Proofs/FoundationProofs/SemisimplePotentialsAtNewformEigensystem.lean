@@ -655,18 +655,7 @@ namespace GlobalTheory.Hk
 
 lemma isDia_mul_of_isDia {N l : ℕ} {d e : ℤ} {σ τ : SL(2, ℤ)} (hσ : IsDia N l d σ)
     (hτ : IsDia N l e τ) : IsDia N l (d * e) (σ * τ) := by
-  obtain ⟨h1, h2⟩ := hσ
-  obtain ⟨h3, h4⟩ := hτ
-  have h1' : ((σ 1 0 : ℤ) : ZMod N) = 0 := by
-    have := congrArg (ZMod.castHom (dvd_mul_right N l) (ZMod N)) h1
-    simpa using this
-  refine ⟨?_, ?_⟩
-  · simp only [Matrix.SpecialLinearGroup.coe_mul, Matrix.mul_apply, Fin.sum_univ_two]
-    push_cast
-    rw [h1, h3]; ring
-  · simp only [Matrix.SpecialLinearGroup.coe_mul, Matrix.mul_apply, Fin.sum_univ_two]
-    push_cast
-    rw [h1', h2, h4]; ring
+  first | exact _root_.GlobalTheory.Hk.isDia_mul | exact @_root_.GlobalTheory.Hk.isDia_mul | apply _root_.GlobalTheory.Hk.isDia_mul <;> assumption
 
 lemma heckeT_congr_dia {N l q : ℕ} {k : ℤ} {σ τ : SL(2, ℤ)} (hN : 0 < N)
     (hσ : IsDia N l q σ) (hτ : IsDia N l q τ) (f : ModularForm (lev N l) k) :
@@ -949,19 +938,7 @@ theorem intCast_of_dvd {m n : ℕ} (h : m ∣ n) {x a : ℤ} (hx : ((x : ℤ) : 
   simpa using this
 
 theorem gamma_le_lev (N l : ℕ) : Gamma (N * l) ≤ Lev N l := by
-  intro γ hγ
-  rw [Gamma_mem] at hγ
-  obtain ⟨h00, h01, h10, h11⟩ := hγ
-  refine ⟨?_, ?_⟩
-  · change γ ∈ Gamma1 N
-    rw [Gamma1_mem]
-    refine ⟨?_, ?_, ?_⟩
-    · simpa using intCast_of_dvd (dvd_mul_right N l) (a := 1) (by simpa using h00)
-    · simpa using intCast_of_dvd (dvd_mul_right N l) (a := 1) (by simpa using h11)
-    · simpa using intCast_of_dvd (dvd_mul_right N l) (a := 0) (by simpa using h10)
-  · change γ ∈ Gamma0 l
-    rw [Gamma0_mem]
-    simpa using intCast_of_dvd (dvd_mul_left l N) (a := 0) (by simpa using h10)
+  first | exact _root_.GlobalTheory.HeckeFamilyMatrices.EisT.gamma_le_lev | exact @_root_.GlobalTheory.HeckeFamilyMatrices.EisT.gamma_le_lev | apply _root_.GlobalTheory.HeckeFamilyMatrices.EisT.gamma_le_lev <;> assumption
 
 theorem comm_of_decomp {Γ : Subgroup SL(2, ℤ)} {w : ℕ} (A B : Module.End ℂ (Γ → ℂ[X]))
     (hA : ∀ z ∈ B1 Γ w, A z ∈ B1 Γ w) (hB : ∀ z ∈ B1 Γ w, B z ∈ B1 Γ w)

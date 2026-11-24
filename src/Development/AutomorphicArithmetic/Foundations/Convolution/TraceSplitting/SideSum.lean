@@ -1,5 +1,6 @@
 module
 
+import all Development.AutomorphicArithmetic.Foundations.Convolution.TraceSplitting.PullBack
 public import Development.AutomorphicArithmetic.Foundations.Convolution.TraceSplitting.SplitStable
 public import Development.AutomorphicArithmetic.Foundations.Convolution.PowerSumTraces.ExistsPowerSums
 public import Development.AutomorphicArithmetic.Foundations.Convolution.PowerSumTraces.ListProdStable
@@ -60,18 +61,7 @@ open scoped Classical
 
 private theorem trace_range_smul {V : Type} [AddCommGroup V] [Module ℂ V] (A : V →ₗ[ℂ] V) {c s : ℂ} (hc : c ≠ 0)
     (h : HasFinTrace A s) : HasFinTrace (c • A) (c * s) := by
-  obtain ⟨hfd, rfl⟩ := h
-  have hr : LinearMap.range (c • A) = LinearMap.range A := LinearMap.range_smul _ _ hc
-  have key : ∀ W : Submodule ℂ V, W = LinearMap.range A → ∀ h' : ∀ v ∈ W, (c • A) v ∈ W,
-      LinearMap.trace ℂ W ((c • A).restrict h') = c * LinearMap.trace ℂ (LinearMap.range A)
-        (A.restrict (p := LinearMap.range A) (q := LinearMap.range A) fun v _ => LinearMap.mem_range_self A v) := by
-    rintro W rfl h'
-    have : (c • A).restrict h' = c • A.restrict (p := LinearMap.range A) (q := LinearMap.range A)
-        (fun v _ => LinearMap.mem_range_self A v) := by
-      ext v
-      rfl
-    rw [this, map_smul, smul_eq_mul]
-  exact ⟨hr ▸ hfd, key _ hr _⟩
+  apply _root_.UpperTheory.ConvolutionTheory.T.hasFinTrace_smul <;> assumption
 
 private theorem hasTrace_of_smul {G V : Type} [Group G] [MeasurableSpace G] [AddCommGroup V] [Module ℂ V]
     {m : Measure G} {ρ : Representation ℂ G V} {f : G → ℂ} {s : ℂ} {d : ENNReal} (h0 : d ≠ 0) (ht : d ≠ ⊤)

@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ModularFunctionTowerIntegrality
 public import Development.AbelianVarietyTheory.Definitions.Foundations.Letter
 public import Mathlib.RingTheory.Flat.FaithfullyFlat.Basic
 public import Mathlib.RingTheory.Flat.TorsionFree
@@ -58,16 +59,7 @@ namespace GlobalTheory.KZ
 
 theorem vs_valuation_eq_one_iff {K : Type} [Field K] (V : ValuationSubring K) {x : K} (hx : x ≠ 0) :
     V.valuation x = 1 ↔ x ∈ V ∧ x⁻¹ ∈ V := by
-  rw [← V.valuation_le_one_iff, ← V.valuation_le_one_iff, map_inv₀]
-  have h0 : V.valuation x ≠ 0 := (Valuation.ne_zero_iff _).2 hx
-  constructor
-  · intro h; simp [h]
-  · rintro ⟨h1, h2⟩
-    refine le_antisymm h1 ?_
-    by_contra hlt
-    push_neg at hlt
-    have := one_lt_inv₀ (pos_iff_ne_zero.2 h0) |>.2 hlt
-    exact absurd h2 (not_le.2 this)
+  apply _root_.GlobalTheory.KZ.KmapA.val_eq_one_iff <;> assumption
 
 theorem vs_comap_valuation_eq_one_iff {K : Type} [Field K] (φ : K →+* K) (V : ValuationSubring K) {x : K}
     (hx : x ≠ 0) : (V.comap φ).valuation x = 1 ↔ V.valuation (φ x) = 1 := by

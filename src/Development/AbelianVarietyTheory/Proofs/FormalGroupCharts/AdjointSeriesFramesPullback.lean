@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.FormalGroupCharts.FrameSecondPartialLawIffPullback
 public import Formalism.LocalToGlobal.ProjectiveLattices.ChartDirectionsIntegral
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.SabComp
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.ValCalc
@@ -73,17 +74,7 @@ theorem pmaps_of_flat (w : LB.Iso L' (L.pull F)) (φ' : K → (Y ⟶ X')) (ε : 
     (c : LB.Gen (LB.LinComb L (fun k => φ' k ≫ F) ε))
     (h : LB.Gen.Maps (LB.linCombIso w φ' ε) a (flatGen L F φ' ε c)) :
     PMaps w φ' (fun k => φ' k ≫ F) ε a c (𝟙 Y) := by
-  refine (maps_iff w φ' (fun k => φ' k ≫ F) ε a c (𝟙 Y) (flatGen L F φ' ε c)
-    (fun j x hx => wchart_pull_le L F φ' j hx) (fun j => ?_)).1 h
-  refine unit_ext fun y hy => ?_
-  have hyV : (𝟙 Y : Y ⟶ Y) y ∈ ((L.pull F).LinComb φ' ε).U j := hy
-  have hyU : (𝟙 Y : Y ⟶ Y) ((𝟙 Y : Y ⟶ Y) y) ∈ LB.wchart L (fun k => φ' k ≫ F) (fun k => j k ⟨⟩) :=
-    wchart_pull_le L F φ' j hy
-  refine (gm_res (𝟙 Y) y _ hyV _).trans ?_
-  refine Eq.trans ?_ (gm_res (𝟙 Y) y _ hyV _).symm
-  have e := gm_pull (𝟙 Y) (𝟙 Y) y _ hyU (c.s fun k => j k ⟨⟩)
-  rw [Category.comp_id] at e
-  exact e.symm
+  first | exact _root_.GlobalTheory.FramePartialLawTwo.pmaps_flat | exact @_root_.GlobalTheory.FramePartialLawTwo.pmaps_flat | apply _root_.GlobalTheory.FramePartialLawTwo.pmaps_flat <;> assumption
 
 theorem corr_down (hL : L.IsLB) (hL' : L'.IsLB) (w : LB.Iso L' (L.pull F))
     {ψ : K → (A ⟶ X0)} {ψ' : K → (A' ⟶ X')} {ε : K → ℤ} {U : A' ⟶ A} (hψ : ∀ k, ψ' k ≫ F = U ≫ ψ k)

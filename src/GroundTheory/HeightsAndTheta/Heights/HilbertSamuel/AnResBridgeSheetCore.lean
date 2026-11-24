@@ -31,6 +31,79 @@ private theorem prod_norm_update_zpow {K : Type} [Fintype K] [DecidableEq K] (k0
 private theorem maDensity_eq_maDens {D : ℕ} (φ : Fin D → (Fin D → ℂ) → ℝ)
     (z : Fin D → ℂ) : maDensity φ z = ReciprocityTheory.AnForm.maDens φ z := rfl
 
+/-- An analytic map with invertible derivative has an analytic local inverse
+whose derivative is the inverse linear equivalence. -/
+theorem exists_analytic_local_inverse {e : ℕ}
+    {Q : (Fin e → ℂ) → Fin e → ℂ} {u : Fin e → ℂ}
+    (Ce : (Fin e → ℂ) ≃L[ℂ] (Fin e → ℂ))
+    (hCe : (Ce : (Fin e → ℂ) →L[ℂ] (Fin e → ℂ)) = fderiv ℂ Q u)
+    (hQa : AnalyticAt ℂ Q u) :
+    ∃ F : OpenPartialHomeomorph (Fin e → ℂ) (Fin e → ℂ),
+      (F : (Fin e → ℂ) → Fin e → ℂ) = Q ∧ Q u ∈ F.target ∧ F.symm (Q u) = u ∧
+        AnalyticAt ℂ F.symm (Q u) ∧
+        HasFDerivAt F.symm (Ce.symm : (Fin e → ℂ) →L[ℂ] (Fin e → ℂ)) (Q u) := by
+  have hstrict : HasStrictFDerivAt Q (Ce : (Fin e → ℂ) →L[ℂ] (Fin e → ℂ)) u := by
+    rw [hCe]; exact hQa.hasStrictFDerivAt
+  set F := hstrict.toOpenPartialHomeomorph Q with hF
+  have hFc : (F : (Fin e → ℂ) → (Fin e → ℂ)) = Q := hstrict.toOpenPartialHomeomorph_coe
+  have hus : u ∈ F.source := hstrict.mem_toOpenPartialHomeomorph_source
+  have hyt : Q u ∈ F.target := hstrict.image_mem_toOpenPartialHomeomorph_target
+  have hσu : F.symm (Q u) = u := by
+    have := F.left_inv hus
+    rwa [hFc] at this
+  have hσa : AnalyticAt ℂ F.symm (Q u) := by
+    refine F.analyticAt_symm (i := Ce) hyt ?_ ?_
+    · rw [hσu, hFc]; exact hQa
+    · rw [hσu, hFc, hCe]
+  have hσd : HasFDerivAt F.symm (Ce.symm : (Fin e → ℂ) →L[ℂ] (Fin e → ℂ)) (Q u) := by
+    refine F.hasFDerivAt_symm hyt ?_
+    rw [hσu, hFc, hCe]
+    exact hQa.differentiableAt.hasFDerivAt
+  exact ⟨F, hFc, hyt, hσu, hσa, hσd⟩
+
+/-- Multiplying one block of an analytic lift by the reciprocal of a nonzero analytic
+function leaves the complex Hessian of each logarithmic potential unchanged. -/
+theorem cxHessian_log_potential_of_block_rescale
+    {K : Type} [Fintype K] [DecidableEq K] {ι : K → Type} [∀ k, Fintype (ι k)] {e : ℕ}
+    {γ₀ : (Fin e → ℂ) → (Σ k, ι k) → ℂ} {ψ : (Fin e → ℂ) → ℂ} {z : Fin e → ℂ}
+    (hγ₀a : AnalyticAt ℂ γ₀ z) (hψa : AnalyticAt ℂ ψ z) (hψz : ψ z ≠ 0)
+    (hblk : ∀ k, ∃ i, γ₀ z ⟨k, i⟩ ≠ 0) (k₀ : K) {L : HermLine ι} (hL : IsSmoothHerm L) (r : ℝ) :
+    cxHessian (fun y => r * Real.log (L.h
+      (bsmul (Function.update (fun _ => (1 : ℂ)) k₀ (ψ y)⁻¹) (γ₀ y)))) z =
+      cxHessian (fun y => r * Real.log (L.h (γ₀ y))) z := by
+  set c : (Fin e → ℂ) → K → ℂ := fun y' => Function.update (fun _ => (1 : ℂ)) k₀ (ψ y')⁻¹
+    with hcdef
+  have hc_ne : ∀ y', ψ y' ≠ 0 → ∀ k, c y' k ≠ 0 := by
+    intro y' h k
+    by_cases hk : k = k₀
+    · subst hk; simp [hcdef, h]
+    · simp [hcdef, Function.update_of_ne hk]
+  set γ : (Fin e → ℂ) → (Σ k, ι k) → ℂ := fun y => bsmul (c y) (γ₀ y) with hγdef
+  set G : (Fin e → ℂ) → ℂ :=
+    fun y' => ((-(r * (L.a k₀ : ℝ)) : ℝ) : ℂ) * Complex.log (ψ y' / ψ z) with hG
+  set C : ℝ := -(r * (L.a k₀ : ℝ) * Real.log ‖ψ z‖) with hC
+  have hGa : AnalyticAt ℂ G z := by
+    refine analyticAt_const.mul ((hψa.div analyticAt_const hψz).clog ?_)
+    show ψ z / ψ z ∈ Complex.slitPlane
+    rw [div_self hψz]
+    exact Complex.one_mem_slitPlane
+  have heq : (fun y' => r * Real.log (L.h (γ y'))) =ᶠ[𝓝 z]
+      fun y' => r * Real.log (L.h (γ₀ y')) + (G y').re + C := by
+    filter_upwards [hψa.continuousAt.eventually_ne hψz,
+      hγ₀a.continuousAt.eventually (isOpen_blockNonzero.mem_nhds hblk)] with y' h0 hb
+    have hpos : 0 < L.h (γ₀ y') := L.pos _ hb
+    have hn0 : ‖(ψ y')⁻¹‖ ^ L.a k₀ ≠ 0 :=
+      zpow_ne_zero _ (norm_ne_zero_iff.mpr (inv_ne_zero h0))
+    simp only [hγdef]
+    rw [show bsmul (c y') (γ₀ y') = fun p => c y' p.1 * γ₀ y' p from rfl, L.smul _ _ (hc_ne y' h0),
+      prod_norm_update_zpow, Real.log_mul hn0 hpos.ne',
+      hG, hC, Complex.re_ofReal_mul, Complex.log_re, norm_div,
+      Real.log_div (norm_ne_zero_iff.mpr h0) (norm_ne_zero_iff.mpr hψz), Real.log_zpow,
+      norm_inv, Real.log_inv]
+    ring
+  rw [cxHessian_congr heq, cxHessian_add_re (φ := fun y' => r * Real.log (L.h (γ₀ y'))) C
+    (contDiffAt_const.mul (pot_contDiffAt hL hγ₀a hblk)) hGa]
+
 variable {K : Type} [Fintype K] {ι : K → Type} [∀ k, Fintype (ι k)]
   {P J : Ideal (MRing ι)} {e : ℕ}
   (R : AnRes P J e) (Ψ : (((k : K) → ι k) → ℂ) →ₗ[ℂ] (Fin (e + 1) → ℂ))
@@ -57,24 +130,9 @@ theorem exists_sheet_of_resolution (L : Fin e → HermLine ι) (A : HermLine ι)
   set Ce := Df.toContinuousLinearEquivOfDetNeZero hdet with hCe
   have hCe' : (Ce : (Fin e → ℂ) →L[ℂ] (Fin e → ℂ)) = Df :=
     ContinuousLinearMap.coe_toContinuousLinearEquivOfDetNeZero Df hdet
-  have hstrict : HasStrictFDerivAt Q (Ce : (Fin e → ℂ) →L[ℂ] (Fin e → ℂ)) u := by
-    rw [hCe']; exact hQa.hasStrictFDerivAt
-  set F := hstrict.toOpenPartialHomeomorph Q with hF
-  have hFc : (F : (Fin e → ℂ) → (Fin e → ℂ)) = Q := hstrict.toOpenPartialHomeomorph_coe
-  have hus : u ∈ F.source := hstrict.mem_toOpenPartialHomeomorph_source
-  have hyt : Q u ∈ F.target := hstrict.image_mem_toOpenPartialHomeomorph_target
-  have hσu : F.symm (Q u) = u := by
-    have := F.left_inv hus
-    rwa [hFc] at this
+  obtain ⟨F, hFc, hyt, hσu, hσa, hσd⟩ :=
+    exists_analytic_local_inverse Ce hCe' hQa
   have hy0 : Q u = brQ R Ψ x := by simp only [hQdef, Function.comp_apply, hsu]
-  have hσa : AnalyticAt ℂ F.symm (Q u) := by
-    refine F.analyticAt_symm (i := Ce) hyt ?_ ?_
-    · rw [hσu, hFc]; exact hQa
-    · rw [hσu, hFc, hCe']
-  have hσd : HasFDerivAt F.symm (Ce.symm : (Fin e → ℂ) →L[ℂ] (Fin e → ℂ)) (Q u) := by
-    refine F.hasFDerivAt_symm hyt ?_
-    rw [hσu, hFc, hCe']
-    exact hQa.differentiableAt.hasFDerivAt
   set γ₀ : (Fin e → ℂ) → (Σ k, ι k) → ℂ :=
     fun y' => R.lift x ((R.A.chart j).symm (F.symm y')) with hγ₀
   have hγ₀a : AnalyticAt ℂ γ₀ (Q u) := (analyticAt_lift_chart R x j huU).comp_of_eq hσa hσu
@@ -138,29 +196,8 @@ theorem exists_sheet_of_resolution (L : Fin e → HermLine ι) (A : HermLine ι)
     have hH : ∀ i, cxHessian (fun y' => pot L i (γ y')) (Q u) =
         cxHessian (fun y' => pot L i (γ₀ y')) (Q u) := by
       intro i
-      set G : (Fin e → ℂ) → ℂ :=
-        fun y' => ((-((L i).a k0 : ℝ) : ℝ) : ℂ) * Complex.log (ψ0 y' / ψ0 (Q u)) with hG
-      set C : ℝ := -(((L i).a k0 : ℝ) * Real.log ‖ψ0 (Q u)‖) with hC
-      have hGa : AnalyticAt ℂ G (Q u) := by
-        refine analyticAt_const.mul ((hψ0a.div analyticAt_const hψ0u).clog ?_)
-        show ψ0 (Q u) / ψ0 (Q u) ∈ Complex.slitPlane
-        rw [div_self hψ0u]
-        exact Complex.one_mem_slitPlane
-      have heq : (fun y' => pot L i (γ y')) =ᶠ[𝓝 (Q u)]
-          fun y' => pot L i (γ₀ y') + (G y').re + C := by
-        filter_upwards [hψ0a.continuousAt.eventually_ne hψ0u,
-          hγ₀a.continuousAt.eventually (isOpen_blockNonzero.mem_nhds hblk)] with y' h0 hb
-        have hpos : 0 < (L i).h (γ₀ y') := (L i).pos _ hb
-        have hn0 : ‖(ψ0 y')⁻¹‖ ^ (L i).a k0 ≠ 0 :=
-          zpow_ne_zero _ (norm_ne_zero_iff.mpr (inv_ne_zero h0))
-        simp only [pot, hγdef]
-        rw [show bsmul (c y') (γ₀ y') = fun p => c y' p.1 * γ₀ y' p from rfl, (L i).smul _ _ (hc_ne y' h0), prod_norm_update_zpow, Real.log_mul hn0 hpos.ne',
-          hG, hC, Complex.re_ofReal_mul, Complex.log_re, norm_div,
-          Real.log_div (norm_ne_zero_iff.mpr h0) (norm_ne_zero_iff.mpr hψ0u), Real.log_zpow,
-          norm_inv, Real.log_inv]
-        ring
-      rw [cxHessian_congr heq, cxHessian_add_re (φ := fun y' => pot L i (γ₀ y')) C
-        (pot_contDiffAt (hL i) hγ₀a hblk) hGa]
+      simpa only [pot, one_mul, hγdef, hcdef] using
+        cxHessian_log_potential_of_block_rescale hγ₀a hψ0a hψ0u hblk k0 (hL i) 1
     have hmd : maDensity (fun i y' => pot L i (γ y')) (Q u) =
         maDensity (fun i y' => pot L i (γ₀ y')) (Q u) := by
       simp only [maDensity, hH]

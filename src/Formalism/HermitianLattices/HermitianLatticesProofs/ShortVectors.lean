@@ -1,5 +1,6 @@
 module
 
+import ReciprocityTheory.SemistableReduction.ApproxBasisA
 public import Formalism.SuccessiveMinima.DefsMink
 public import Mathlib.MeasureTheory.Function.Floor
 public import Mathlib.Analysis.Convex.Measure
@@ -530,13 +531,7 @@ lemma continuous_emb_left (y : {i : Fin n // ¬ (i : ℕ) < j} → ℝ) :
     exact continuous_const
 
 lemma measurableSet_boxJ : MeasurableSet (boxJ n j) := by
-  have : Formalism.FN.boxJ n j =
-      ⋂ i : Fin n, ⋂ (_ : (i : ℕ) < j), (fun u : Fin n → ℝ => u i) ⁻¹' Set.Ico 0 1 := by
-    ext u
-    simp [Formalism.FN.boxJ]
-  rw [this]
-  exact MeasurableSet.iInter fun i => MeasurableSet.iInter fun _ =>
-    measurable_pi_apply i measurableSet_Ico
+  apply _root_.Formalism.FN.measurableSet_boxJ <;> assumption
 
 lemma fib_set_eq (A : Set (Fin n → ℝ)) (y : {i : Fin n // ¬ (i : ℕ) < j} → ℝ) :
     {u | emb n j u y ∈ boxJ n j ∩ (A + latJ n j)} = Qv _ ∩ (fib n j A y + Zv _) := by
@@ -625,18 +620,7 @@ private theorem torusImageVolume_fib_le_smul {D : Set (Fin n → ℝ)} (hDo : Is
       ring
 
 lemma card_compl (hj : j ≤ n) : Fintype.card {i : Fin n // ¬ (i : ℕ) < j} = n - j := by
-  rw [← Fintype.card_fin (n - j)]
-  exact Fintype.card_congr
-    { toFun := fun i => ⟨(i.1 : ℕ) - j, by have := i.1.2; have := i.2; omega⟩
-      invFun := fun k => ⟨⟨(k : ℕ) + j, by have := k.2; omega⟩, by
-        show ¬ ((k : ℕ) + j < j); omega⟩
-      left_inv := fun i => Subtype.ext (Fin.ext (by
-        show (i.1 : ℕ) - j + j = i.1
-        have := i.2
-        omega))
-      right_inv := fun k => Fin.ext (by
-        show (k : ℕ) + j - j = k
-        omega) }
+  apply _root_.ReciprocityTheory.MultiplicativeHeights.approxB_card_neg <;> assumption
 
 end decomp
 end GjScaling

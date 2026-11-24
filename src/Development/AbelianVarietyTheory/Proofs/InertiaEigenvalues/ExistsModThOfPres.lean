@@ -60,6 +60,7 @@ import Mathlib.Tactic.Linter.HaveILetI
 import Mathlib.RingTheory.Coalgebra.IsFrobenius
 import Mathlib.RingTheory.HopfAlgebra.Basic
 import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.NonemptyEquivOfSemilinear
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.WachDeltaInvariantCoboundaries
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.AevalApplyComm, Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.EPolyBase, Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.PhiGammaReductionBaseLatticeBounds, Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.PhiGammaReductionBaseLatticeBoundsStatement, Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.RankOneReductionFrobeniusPullbackEqShift, Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.RankOneReductionFrobeniusPullbackEqShiftStatement, Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ReductionSum, Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.SenMultisetBaseLatticeEqJumpsMod, Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.SenMultisetBaseLatticeEqJumpsModStatement, Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsModThOfPres
@@ -162,14 +163,7 @@ theorem γD_smulA (T : LocLat G Qp LL O) (g : W.Gam) (a : LetA O n₀) (x : W.DD
 
 theorem sum_Del {M : Type} [AddCommMonoid M] (f : W.Gam → M) {δ : W.Gam} (hδ : δ ∈ W.DelF) :
     ∑ ε ∈ W.DelF, f (δ * ε) = ∑ ε ∈ W.DelF, f ε := by
-  have hm : ∀ g, g ∈ W.DelF ↔ IsOfFinOrder g := fun g => by
-    rw [W.DelF_def, isOfFinOrder_iff_pow_eq_one]
-  refine Finset.sum_bij' (fun ε _ => δ * ε) (fun ε _ => δ⁻¹ * ε) ?_ ?_ ?_ ?_ ?_
-  · intro a ha; exact (hm _).2 (((hm _).1 hδ).mul ((hm _).1 ha))
-  · intro a ha; exact (hm _).2 (((hm _).1 hδ).inv.mul ((hm _).1 ha))
-  · intro a _; simp
-  · intro a _; simp
-  · intro a _; rfl
+  apply _root_.GlobalTheory.WachTie.sum_DelF_mul <;> assumption
 
 theorem γA_q {δ : W.Gam} (hδ : δ ∈ W.DelF) :
     W.γA δ (W.π₀ + (PD.p : LetA O n₀)) = W.π₀ + (PD.p : LetA O n₀) := by
@@ -819,11 +813,7 @@ theorem φD_smulA (T : LocLat G Qp LL O) (a : LetA O n₀) (x : W.DD T) :
 theorem γA_apply (g : W.Gam) (a : LetA O n₀) (j : ZMod n₀) : W.γA g a j = W.γ₀ g (a j) := rfl
 
 theorem γA_letE (g : W.Gam) (j : ZMod n₀) : W.γA g (letE j) = letE j := by
-  funext i
-  rw [γA_apply]
-  by_cases h : i = j
-  · subst h; simp [letE]
-  · simp [letE, h]
+  apply _root_.GlobalTheory.BaseLatticeE.γA_e <;> assumption
 
 theorem red_Q {l : ℕ} [Fact l.Prime] [CharP k l] (hp : PD.p = l) (hs : W.s = 1) (j : ZMod n₀) :
     PowerSeries.map (algebraMap O k) (W.Q j) = PowerSeries.X ^ (l - 1) := by

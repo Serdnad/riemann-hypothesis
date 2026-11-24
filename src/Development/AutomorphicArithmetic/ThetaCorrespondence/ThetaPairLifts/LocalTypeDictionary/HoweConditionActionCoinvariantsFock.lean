@@ -1,5 +1,6 @@
 module
 
+import Development.AutomorphicArithmetic.ThetaCorrespondence.ThetaPairLifts.LocalTypeDictionary.WeilProjectionKInftyInvariant
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.IsPairReading
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.GramHspOf
 public import Formalism.LocalToGlobal.Columns.BrpStarLatLattice
@@ -885,18 +886,8 @@ namespace GlobalTheory.CompactStable
 
 theorem hasDerivAt_linear {X E : Type} [NormedAddCommGroup E] [NormedSpace ℂ E] (U : Submodule ℂ (X → ℂ))
     [FiniteDimensional ℂ U] (φ : (X → ℂ) →ₗ[ℂ] E) {u : ℝ → X → ℂ} {u' : X → ℂ} {t : ℝ} (hu : ∀ s, u s ∈ U) (hu' : u' ∈ U)
-    (hd : ∀ z, HasDerivAt (fun s => u s z) (u' z) t) : HasDerivAt (fun s => φ (u s)) (φ u') t := by
-  rw [hasDerivAt_iff_tendsto_slope]
-  have h1 : Filter.Tendsto (slope u t) (nhdsWithin t {t}ᶜ) (nhds u') := by
-    rw [tendsto_pi_nhds]
-    intro z
-    exact hasDerivAt_iff_tendsto_slope.1 (hd z)
-  have hm : ∀ s, slope u t s ∈ U := fun s => U.smul_of_tower_mem _ (U.sub_mem (hu s) (hu t))
-  have h2 : Filter.Tendsto (fun s => (⟨slope u t s, hm s⟩ : U)) (nhdsWithin t {t}ᶜ) (nhds ⟨u', hu'⟩) :=
-    tendsto_subtype_rng.2 h1
-  have h3 := ((φ ∘ₗ U.subtype).continuous_of_finiteDimensional.tendsto _).comp h2
-  refine h3.congr fun s => ?_
-  simp [slope, LinearMap.map_smul_of_tower]
+    (hd : ∀ z, HasDerivAt (fun s => u s z) (u' z) t) : HasDerivAt (fun s => φ (u s)) (φ u') t :=
+  _root_.GlobalTheory.KInvData.hasDerivAt_linear U φ hu hu' hd
 
 theorem oneParam_stable {X Q : Type} [AddCommGroup Q] [Module ℂ Q] (ι : Q →ₗ[ℂ] (X → ℂ)) (hι : Function.Injective ι)
     (V N : Submodule ℂ Q) [FiniteDimensional ℂ V] (ρ : ℝ → Module.End ℂ (X → ℂ)) (h0 : ρ 0 = 1)

@@ -1,6 +1,7 @@
 module
 
 public import Development.ResolutionOfSingularities.EmbeddedResolution.StrictTransformIsolation.StrictTransformAvoidance
+import all Development.ResolutionOfSingularities.EmbeddedResolution.StrictTransformIsolation.StrictTransformAvoidance
 public import Development.ResolutionOfSingularities.EmbeddedResolution.AlgebraicPreliminaries.KernelFlatBaseChange
 public import Development.ResolutionOfSingularities.EmbeddedResolution.IdealPrincipalization.MarkedBlowupSequence.IdealBlowupSequenceBoundary
 public import Development.ResolutionOfSingularities.EmbeddedResolution.IdealPrincipalization.MarkedBlowupSequence.IrreducibleComponentsAlongSequence
@@ -160,20 +161,7 @@ theorem smooth_comp_of_iso_hom_eq {A B V W Sc : Scheme.{u}} (e : A ≅ B)
 theorem radical_ker_eq_ker {W Z : Scheme.{u}} [AlgebraicGeometry.IsReduced W]
     (f : W ⟶ Z) :
     (AlgebraicGeometry.Scheme.Hom.ker f).radical = AlgebraicGeometry.Scheme.Hom.ker f := by
-  have hle : (AlgebraicGeometry.Scheme.Hom.ker f).radical
-      ≤ AlgebraicGeometry.Scheme.Hom.ker f := by
-    show (AlgebraicGeometry.Scheme.Hom.ker f).radical ≤
-      AlgebraicGeometry.Scheme.IdealSheafData.ofIdeals
-        (fun U : Z.affineOpens =>
-          RingHom.ker (CommRingCat.Hom.hom (AlgebraicGeometry.Scheme.Hom.app f U.1)))
-    rw [AlgebraicGeometry.Scheme.IdealSheafData.le_ofIdeals_iff]
-    intro U
-    have h1 : (AlgebraicGeometry.Scheme.Hom.ker f).ideal U ≤
-        RingHom.ker (CommRingCat.Hom.hom (AlgebraicGeometry.Scheme.Hom.app f U.1)) :=
-      AlgebraicGeometry.Scheme.IdealSheafData.ideal_ofIdeals_le _ U
-    refine le_trans (Ideal.radical_mono h1) ?_
-    exact Ideal.isRadical_bot.comap _
-  exact le_antisymm hle (AlgebraicGeometry.Scheme.IdealSheafData.le_radical _)
+  apply _root_.FunctorialResolution.EmbeddedResolution.OpenImmersionRestriction.radical_ker_eq_of_isReduced <;> assumption
 
 theorem nonzeroOnComponents_ideal {k : Type u} [Field k] {X : Scheme.{u}}
     {p : X ⟶ Spec (CommRingCat.of k)} {I : X.IdealSheafData} {E : List X.IdealSheafData}
@@ -227,7 +215,7 @@ theorem false_of_mem_support_center {k : Type u} [Field k] [CharZero k] {W : Sch
     rw [vanishingIdealAssignment_apply]
     exact hagree z hz
 
-private theorem smooth_strictTransformι_comp_schemeAtToSpec_zero {k : Type u} [Field k] [CharZero k] {Y : Scheme.{u}}
+theorem smooth_strictTransformι_comp_schemeAtToSpec_zero {k : Type u} [Field k] [CharZero k] {Y : Scheme.{u}}
     [AlgebraicGeometry.IsAffine Y] [AlgebraicGeometry.IsReduced Y]
     {pY : Y ⟶ Spec (CommRingCat.of k)} [AlgebraicGeometry.LocallyOfFiniteType pY]
     (S : EmbeddedBlowupSequence k Y pY) (hsm : AlgebraicGeometry.Smooth pY) :
@@ -249,7 +237,7 @@ private theorem smooth_strictTransformι_comp_schemeAtToSpec_zero {k : Type u} [
   rw [← key]
   infer_instance
 
-private theorem smooth_strictTransformι_comp_schemeAtToSpec_succ {k : Type u} [Field k] [CharZero k] {Y : Scheme.{u}}
+theorem smooth_strictTransformι_comp_schemeAtToSpec_succ {k : Type u} [Field k] [CharZero k] {Y : Scheme.{u}}
     [AlgebraicGeometry.IsAffine Y] [AlgebraicGeometry.IsReduced Y]
     {pY : Y ⟶ Spec (CommRingCat.of k)} [AlgebraicGeometry.LocallyOfFiniteType pY]
     (S : EmbeddedBlowupSequence k Y pY)
@@ -387,7 +375,7 @@ private theorem smooth_strictTransformι_comp_schemeAtToSpec_succ {k : Type u} [
   have := hsm2
   infer_instance
 
-private theorem agreeNear_vanishingIdeal_image_of_avoidsCenters_le_of_disjoint_zero
+theorem agreeNear_vanishingIdeal_image_of_avoidsCenters_le_of_disjoint_zero
     {k : Type u} [Field k] [CharZero k]
     {Y : Scheme.{u}} [AlgebraicGeometry.IsAffine Y] [AlgebraicGeometry.IsReduced Y]
     {pY : Y ⟶ Spec (CommRingCat.of k)} [AlgebraicGeometry.LocallyOfFiniteType pY]

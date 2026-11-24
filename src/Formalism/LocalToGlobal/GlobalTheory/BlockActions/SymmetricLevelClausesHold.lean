@@ -1,5 +1,6 @@
 module
 
+import all Formalism.LocalToGlobal.GlobalTheory.GL4.PColInf
 public import Formalism.LocalToGlobal.HermitianForms.TiedSym
 public import Formalism.LocalToGlobal.GlobalTheory.BlockActions.CTExtUnitary
 public import Formalism.LocalToGlobal.GlobalTheory.BlockActions.DefNOfFact
@@ -928,13 +929,7 @@ variable {σ : Type}
 
 theorem tf_add_left (f f' g : MvPolynomial σ ℂ) :
     Formalism.REAL.fockF (f + f') g = Formalism.REAL.fockF f g + Formalism.REAL.fockF f' g := by
-  classical
-  rw [_root_.Formalism.L2.Col.fockF_eq_sum (f + f') g (f.support ∪ f'.support) support_add,
-    _root_.Formalism.L2.Col.fockF_eq_sum f g (f.support ∪ f'.support) Finset.subset_union_left,
-    _root_.Formalism.L2.Col.fockF_eq_sum f' g (f.support ∪ f'.support) Finset.subset_union_right, ← Finset.sum_add_distrib]
-  refine Finset.sum_congr rfl fun m _ => ?_
-  rw [MvPolynomial.coeff_add]
-  ring
+  apply _root_.Formalism.L2.GlobalTheoryTheory.TraceIntegrality.fockF_add_left_eq_add <;> assumption
 
 theorem tf_smul_left (c : ℂ) (f g : MvPolynomial σ ℂ) :
     Formalism.REAL.fockF (c • f) g = c * Formalism.REAL.fockF f g := by

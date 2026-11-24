@@ -1,5 +1,6 @@
 module
 
+import GroundTheory.HeightsAndTheta.Heights.HeightKernels.PDualEnergyCharts
 public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.IsArithVarBotDualBlocksUnit
 public import GroundTheory.HeightsAndTheta.Heights.HeightsOfSets.PCoordCurveAlgebraic
 public import GroundTheory.HeightsAndTheta.Heights.Intersections.ProjLineRankTwoPushforwardHypotheses
@@ -108,6 +109,7 @@ import Mathlib.Algebra.Ring.IsFormallyReal
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.InterGood
 import Std.Tactic.BVDecide.Normalize.Prop
 import Mathlib.Algebra.Order.Star.Real
+import GroundTheory.HeightsAndTheta.Heights.HeightKernels.PVertPointSurj
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: GroundTheory.HeightsAndTheta.Heights.HeightKernels.PDualCurvePoint, GroundTheory.HeightsAndTheta.Heights.HeightKernels.PDualGeomDegPos, GroundTheory.HeightsAndTheta.Heights.HeightKernels.PDualGeomDegStandard, GroundTheory.HeightsAndTheta.Heights.HeightKernels.PDualLineConj, GroundTheory.HeightsAndTheta.Heights.HeightKernels.PDualPointLineDegree, GroundTheory.HeightsAndTheta.Heights.HeightKernels.PDualTopBound, GroundTheory.HeightsAndTheta.Heights.HeightKernels.ReMulOfPos, GroundTheory.HeightsAndTheta.Heights.HeightKernels.PDualTopMetricChange, GroundTheory.HeightsAndTheta.Heights.HeightKernels.PDualTopStandard, GroundTheory.HeightsAndTheta.Heights.HeightKernels.PDualTopSubLattice, GroundTheory.HeightsAndTheta.Heights.HeightKernels.PFsLineSemipositive, GroundTheory.HeightsAndTheta.Heights.HeightKernels.PGrassHeightBound, GroundTheory.HeightsAndTheta.Heights.HeightKernels.PLineOfLargeDegreeDual, GroundTheory.HeightsAndTheta.Heights.HeightKernels.PPointArInt, GroundTheory.HeightsAndTheta.Heights.HeightKernels.PPointDegCPos, GroundTheory.HeightsAndTheta.Heights.HeightKernels.PPointVertR, GroundTheory.HeightsAndTheta.Heights.HeightKernels.PRootArithVar, GroundTheory.HeightsAndTheta.Heights.HeightKernels.PRootDense, GroundTheory.HeightsAndTheta.Heights.HeightKernels.PRootLogNormBound, GroundTheory.HeightsAndTheta.Heights.HeightKernels.PRootPointConj, GroundTheory.HeightsAndTheta.Heights.HeightKernels.PRootPointsFinite, GroundTheory.HeightsAndTheta.Heights.HeightKernels.Assembly
@@ -472,22 +474,8 @@ theorem isGoodProj (hOn : DualPtsOnPlane.Statement) {D : ℕ} {F : HermLattice K
     (b : Module.Basis T ℤ (dualLattice F))
     (hb : Function.Bijective (Matrix.mulVecLin (dualEmbMatrix b))) :
     IsGoodProj (dualIdeal b) (dualProj b hb) := by
-  intro z hz h0
-  obtain ⟨σ, hσ⟩ := hOn K (D + 1) F T b hb z hz
-  have hne : dualRecover b hb (fun t => z ⟨(), t⟩) ≠ 0 := by
-    intro h
-    obtain ⟨t, ht⟩ := hz.1 ()
-    exact ht (congrFun ((dualRecover b hb).map_eq_zero_iff.mp h) t)
-  obtain ⟨⟨τ, j⟩, hτ⟩ := Function.ne_iff.mp hne
-  have hτσ : τ = σ := by
-    by_contra h
-    exact hτ (hσ τ h j)
-  subst hτσ
-  have h1 := congrFun h0 j
-  rw [dualProj_apply] at h1
-  simp only [segre_apply] at h1
-  rw [Finset.sum_eq_single τ (fun τ' _ h => hσ τ' h j) (fun h => absurd (Finset.mem_univ τ) h)] at h1
-  exact hτ h1
+  intros
+  apply _root_.GroundTheory.Heights₂.Heights.DualGeometricDegreeCharts.dualProj_good <;> assumption
 
 end DualGeometricDegreePositive
 
@@ -675,18 +663,7 @@ theorem sum_log_norm {L : Type*} [Field L] [NumberField L] {x : L} (hx : x ≠ 0
 
 theorem isMultiHomog_X {T : Type} [Fintype T] (t : T) :
     IsMultiHomog (X ⟨(), t⟩ : MRing (fun _ : Unit => T)) (fun _ => 1) := by
-  classical
-  intro m hm k
-  obtain ⟨⟩ := k
-  rw [support_X, Finset.mem_singleton] at hm
-  subst hm
-  rw [Finset.sum_eq_single t]
-  · simp
-  · intro c _ hc
-    rw [Finsupp.single_apply, if_neg]
-    intro h
-    exact hc (sigma_mk_injective h).symm
-  · simp
+  apply _root_.GroundTheory.Heights₂.Heights.VerticalPointSurjective.homogXt <;> assumption
 
 variable {K : Type} [Field K] [NumberField K] {i : ℕ} {F : HermLattice K i} {T : Type} {K' : Type} [Field K'] [NumberField K'] [Algebra K K']
 
@@ -1844,17 +1821,7 @@ theorem isIntegral_of_pow_eq_one {x : ℂ} {k : ℕ} (hk : 0 < k) (hx : x ^ k = 
 
 theorem rootCoord_isIntegral {f j m : ℕ} (ζ : Fin f → Matrix (Fin j) (Fin m) ℂ) (hζ : IsRootMatrix ζ)
     (p : Σ _ : Fin f, PlIdx j m) : IsIntegral ℤ (rootCoord ζ p) := by
-  refine IsIntegral.det fun a b => ?_
-  simp only [colsOf, Matrix.submatrix_apply, id, onePipe, Matrix.of_apply]
-  generalize (p.2.1.orderEmbOfFin p.2.2) b = c
-  refine Fin.addCases (fun c => ?_) (fun c => ?_) c
-  · rw [Fin.append_left, Matrix.one_apply]
-    split_ifs
-    · exact isIntegral_one
-    · exact isIntegral_zero
-  · rw [Fin.append_right]
-    obtain ⟨k, hk, hx⟩ := hζ p.1 a c
-    exact isIntegral_of_pow_eq_one hk hx
+  apply _root_.GroundTheory.Heights₂.Heights.RootArithmeticVariety.isIntegral_rootCoord <;> assumption
 
 end RootPointsFiniteAlt
 

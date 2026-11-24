@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.MemNonzeroLocusVia
 public import Mathlib.LinearAlgebra.Matrix.Determinant.Basic
 public import Mathlib.LinearAlgebra.Matrix.Kronecker
 public import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.ExistsBoxSec
@@ -399,15 +400,7 @@ theorem valT_res (w : Sp T ⟶ X) {U V : X.Opens} (hle : V ≤ U) (h : ⊤ ≤ w
 
 theorem valT_comp (φ : T →+* T') (w : Sp T ⟶ X) (U : X.Opens) (h : ⊤ ≤ w ⁻¹ᵁ U) (f : Γ(X, U)) :
     valT (spMap φ ≫ w) U f = φ (valT w U f) := by
-  have h' : ⊤ ≤ (spMap φ ≫ w) ⁻¹ᵁ U := fun p _ => h (Set.mem_univ _)
-  rw [valT_eq _ U h', valT_eq w U h]
-  have e : (spMap φ ≫ w).appLE U ⊤ h' = w.appLE U ⊤ h ≫ (spMap φ).appTop := by
-    rw [Scheme.Hom.appTop, Scheme.Hom.app_eq_appLE]
-    exact (Scheme.Hom.appLE_comp_appLE _ _ _ _ _ _ _).symm
-  unfold evalHom
-  rw [e, Category.assoc]
-  erw [Scheme.ΓSpecIso_naturality]
-  rfl
+  apply _root_.GlobalTheory.KeyKa.EtBaseChange.valT_spMap <;> assumption
 
 theorem valT_cst (w : Sp T ⟶ X) (π : X ⟶ Sp T) (hw : w ≫ π = 𝟙 _) (U : X.Opens) (h : ⊤ ≤ w ⁻¹ᵁ U) (a : T) :
     valT w U (cst π U a) = a := by

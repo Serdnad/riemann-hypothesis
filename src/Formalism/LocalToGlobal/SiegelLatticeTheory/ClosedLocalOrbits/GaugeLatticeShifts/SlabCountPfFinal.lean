@@ -713,23 +713,7 @@ open Formalism.L2.SG.PoincareInHH.Cut Formalism.MainNotions.S.Lat
 
 theorem trace_pos_of_totPos {F : Type} [Field F] [NumberField F] (hF : NumberField.IsTotallyReal F) (a : F)
     (ha : ∀ ι : F →+* ℝ, 0 < ι a) : 0 < Algebra.trace ℚ F a := by
-  have := hF
-  have h := trace_eq_sum_embeddings (K := ℚ) (L := F) (E := ℂ) (x := a)
-  have hre : ∀ σ : F →ₐ[ℚ] ℂ, 0 < (σ a).re ∧ (σ a).im = 0 := by
-    intro σ
-    have hr : NumberField.ComplexEmbedding.IsReal (σ : F →+* ℂ) := IsTotallyReal.complexEmbedding_isReal _
-    have e := NumberField.ComplexEmbedding.IsReal.coe_embedding_apply hr a
-    have e2 : σ a = ((hr.embedding a : ℝ) : ℂ) := e.symm
-    refine ⟨?_, ?_⟩
-    · simp only [e2, Complex.ofReal_re]; exact ha hr.embedding
-    · simp only [e2, Complex.ofReal_im]
-  have hsum : (0 : ℝ) < (∑ σ : F →ₐ[ℚ] ℂ, σ a).re := by
-    rw [Complex.re_sum]
-    obtain ⟨v⟩ : Nonempty (InfinitePlace F) := inferInstance
-    let σ0 : F →ₐ[ℚ] ℂ := v.embedding.toRatAlgHom
-    exact Finset.sum_pos (fun σ _ => (hre σ).1) ⟨σ0, Finset.mem_univ _⟩
-  rw [← h] at hsum
-  simpa using hsum
+  apply +allowSynthFailures _root_.Formalism.UG.P.csTrace_trace_pos <;> assumption
 
 theorem levi_totally_positive_definite : LeviPosC := by
   intro D X u' w hw hw0
@@ -800,13 +784,7 @@ theorem wsp_le_orth : Wsp X u' ≤ orth (VS D) (Xsp (lf D (X.Fu u'))) :=
   Formalism.L2.SG.Pf.orth_anti (xsp_le_usp X u')
 
 theorem piWL_of_mem {w : (VS D).V} (hw : w ∈ Wsp X u') : piWL X u' w = w := by
-  have h0 : ∀ x ∈ Usp X u', (VS D).hT x w = 0 := Formalism.L2.SG.Pf.mem_orth_iff_bl.1 hw
-  have he : ∀ a, (VS D).hT (X.eX a) w = 0 := fun a =>
-    h0 _ (Submodule.subset_span (Or.inl (Or.inl ⟨a, rfl⟩)))
-  have hf : ∀ a, (VS D).hT (X.fY a) w = 0 := fun a =>
-    h0 _ (Submodule.subset_span (Or.inl (Or.inr ⟨a, rfl⟩)))
-  have hz : (VS D).hT (X.zu u') w = 0 := h0 _ (Submodule.subset_span (Or.inr rfl))
-  simp [piWL, LinearMap.sub_apply, LinearMap.sum_apply, LinearMap.smulRight_apply, he, hf, hz]
+  apply _root_.Formalism.L2.SG.Pf.SlabCount.LeviAlg.levi_projection_of_mem <;> assumption
 
 theorem hW_symm : (hW X u').IsSymm :=
   ⟨fun x y => (VS D).herm.eq (x : (VS D).V) (y : (VS D).V)⟩

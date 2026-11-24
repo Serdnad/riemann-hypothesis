@@ -106,34 +106,7 @@ namespace GlobalTheory.CrysLift
 
 open GlobalTheory.SmoothLift
 
-theorem crystallineDeRham_of_smoothLift : GlobalTheory.Published.CrystallineSmoothLift → GlobalTheory.Published.CrystallineDeRham := by
-  rintro ⟨e₁, e₂, -, -, hnat⟩ R _ I κ hκ R₀ _ π hπ hI X X₀ s s₀ i hs hsep hqc hp m
-  have hid : spMap (RingHom.id R) = 𝟙 _ := Spec.map_id _
-  have : IsIso (spMap (RingHom.id R)) := by rw [hid]; infer_instance
-  let D : Data :=
-    { R := R, I := ⊥, κ := dp0 R, nil := isDPNilpotent_bot R, X := X, X₀ := X, s := s, t := s, i := 𝟙 X,
-      smooth := hs, sep := hsep, qc := hqc,
-      red := by
-        obtain ⟨s', h1, h2⟩ := red_of (π := RingHom.id R) Function.surjective_id
-          ((RingHom.injective_iff_ker_eq_bot _).1 Function.injective_id)
-          (IsPullback.of_horiz_isIso (fst := 𝟙 X) (g := spMap (RingHom.id R)) (snd := s) (f := s)
-            ⟨by rw [show spMap (RingHom.id R) = 𝟙 _ from Spec.map_id _, Category.id_comp, Category.comp_id]⟩)
-        refine ⟨s', h1, ?_⟩
-        rw [← h2, show spMap (RingHom.id R) = 𝟙 _ from Spec.map_id _, Category.comp_id] }
-  let D' : Data :=
-    { R := R, I := I, κ := κ, nil := hκ, X := X, X₀ := X₀, s := s, t := s₀ ≫ spMap π, i := i,
-      smooth := hs, sep := hsep, qc := hqc,
-      red := by
-        obtain ⟨s', h1, h2⟩ := red_of hπ hI hp
-        exact ⟨s', h1, h2⟩ }
-  have h : 𝟙 X ≫ s = s ≫ spMap (RingHom.id R) := by
-    rw [show spMap (RingHom.id R) = 𝟙 _ from Spec.map_id _, Category.id_comp, Category.comp_id]
-  obtain ⟨h1, h2⟩ := hnat D D' (RingHom.id R) (𝟙 X) i h m (by simp [D, D'])
-  have k1 : ∀ c, m.pull1 c = ((e₁ D).trans (e₁ D').symm) c := fun c ↦
-    ((e₁ D').symm_apply_apply _).symm.trans (congrArg (e₁ D').symm (eq_of_isPull1 h (h1 c)).symm)
-  have k2 : ∀ c, m.pull2 c = ((e₂ D).trans (e₂ D').symm) c := fun c ↦
-    ((e₂ D').symm_apply_apply _).symm.trans (congrArg (e₂ D').symm (eq_of_isPull2 h (h2 c)).symm)
-  exact ⟨(funext k1 : (⇑m.pull1 : _ → _) = _) ▸ ((e₁ D).trans (e₁ D').symm).bijective,
-    (funext k2 : (⇑m.pull2 : _ → _) = _) ▸ ((e₂ D).trans (e₂ D').symm).bijective⟩
+theorem crystallineDeRham_of_smoothLift : GlobalTheory.Published.CrystallineSmoothLift → GlobalTheory.Published.CrystallineDeRham :=
+  _root_.GlobalTheory.Published.CrystallineSmoothLift.toCrystallineDeRham
 
 end GlobalTheory.CrysLift

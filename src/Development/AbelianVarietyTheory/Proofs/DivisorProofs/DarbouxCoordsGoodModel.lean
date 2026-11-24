@@ -888,92 +888,10 @@ open scoped Classical in
 theorem hasOpB_levi : ∀ (F : Type) [Field F] [NumberField F] (ψ : AddChar (AF F) ℂ), (_root_.Continuous ψ ∧ (∀ x : F, ψ (algebraMap F (AF F) x) = 1) ∧ ∀ a : (AF F), _root_.GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.At (_root_.GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.evI (F := F)) a → ψ a = _root_.Complex.exp (-(2 * _root_.Real.pi * _root_.Complex.I) * (_root_.Algebra.trace ℝ (_root_.NumberField.mixedEmbedding.mixedSpace F) ((_root_.GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.evI (F := F)) a) : ℝ))) → (∀ᶠ v in cofinite, PsiUnr ψ v) →
     (∀ v : Pl (F := F), ∃ x, psiLoc ψ v x ≠ 1) → ∀ (κ : Type) [Fintype κ] [DecidableEq κ] (A : Matrix κ κ F), IsUnit A.det →
     HasOpB ψ (GlobalTheory.SympChange.leviM A) := by
-  intro F _ _ ψ _ _ _ κ _ _ A hA
-  classical
-  let gI : F →+* mixedEmbedding.mixedSpace F := (evIr (F := F)).comp (algebraMap F (AF F))
-  let gF : F →+* FiniteAdeleRing (𝓞 F) F := (RingHom.snd _ _).comp (algebraMap F (AF F))
-  let L := linEquiv (κ := κ) gI A hA
-  refine ⟨LinearMap.funLeft ℂ ℂ (fun x : κ → AF F => A⁻¹.map (algebraMap F (AF F)) *ᵥ x),
-    SchwartzMap.compCLMOfContinuousLinearEquiv ℂ L,
-    fun v => LinearMap.funLeft ℂ ℂ (fun x : κ → Fv F v => A⁻¹.map (algebraMap F (Fv F v)) *ᵥ x),
-    ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_⟩
-  · intro f
-    refine ⟨SchwartzMap.compCLMOfContinuousLinearEquiv ℂ L.symm f, ?_⟩
-    refine SchwartzMap.ext fun x => ?_
-    simp
-  · have key : ∀ (f : SchwartzMap (κ → mixedEmbedding.mixedSpace F) ℂ) (g : (κ → FiniteAdeleRing (𝓞 F) F) → ℂ),
-        LinearMap.funLeft ℂ ℂ (fun x : κ → AF F => A⁻¹.map (algebraMap F (AF F)) *ᵥ x) (pureA F f g) =
-          pureA F (SchwartzMap.compCLMOfContinuousLinearEquiv ℂ L f) (g ∘ homeo gF A hA) := by
-      intro f g
-      funext x
-      simp only [LinearMap.funLeft_apply, pureA, Function.comp_apply, homeo_apply,
-        SchwartzMap.compCLMOfContinuousLinearEquiv_apply]
-      congr 1
-      · congr 1
-        funext i
-        exact hom_mulVec evIr (algebraMap F (AF F)) gI rfl A⁻¹ x i
-      · congr 1
-        funext i
-        exact hom_mulVec (RingHom.snd _ _) (algebraMap F (AF F)) gF rfl A⁻¹ x i
-    have hle : schA F κ ≤ (schA F κ).comap
-        (LinearMap.funLeft ℂ ℂ (fun x : κ → AF F => A⁻¹.map (algebraMap F (AF F)) *ᵥ x)) := by
-      refine Submodule.span_le.2 ?_
-      rintro _ ⟨f, g, hg, rfl⟩
-      show _ ∈ schA F κ
-      rw [key]
-      exact Submodule.subset_span ⟨_, _, sb_comp (homeo gF A hA) hg, rfl⟩
-    exact fun Φ hΦ => hle hΦ
-  · intro w Φ _
-    exact schr_levi ψ A hA w Φ
-  · intro v
-    refine le_antisymm (Submodule.map_le_iff_le_comap.2 fun φ hφ => sb_comp (homeo _ A hA) hφ) ?_
-    intro φ hφ
-    refine ⟨φ ∘ (homeo (algebraMap F (Fv F v)) A hA).symm, sb_comp _ hφ, ?_⟩
-    funext x
-    simp only [LinearMap.funLeft_apply, Function.comp_apply]
-    exact congrArg φ ((homeo (algebraMap F (Fv F v)) A hA).symm_apply_apply x)
-  · intro v φ _ h
-    funext x
-    have := congrFun h ((homeo (algebraMap F (Fv F v)) A hA).symm x)
-    simp only [LinearMap.funLeft_apply, Pi.zero_apply] at this
-    have hx : A⁻¹.map (algebraMap F (Fv F v)) *ᵥ (homeo (algebraMap F (Fv F v)) A hA).symm x = x :=
-      (homeo (algebraMap F (Fv F v)) A hA).apply_symm_apply x
-    rw [hx] at this
-    exact this
-  · intro v w φ _
-    exact schr_levi (GlobalTheory.LatVac.psiAt ψ v) A hA w φ
-  · filter_upwards [eventually_int A, eventually_int A⁻¹] with v hA1 hA2
-    funext x
-    have hiff : (∀ i, (A⁻¹.map (algebraMap F (Fv F v)) *ᵥ x) i ∈ v.adicCompletionIntegers F) ↔
-        ∀ i, x i ∈ v.adicCompletionIntegers F := by
-      constructor
-      · intro h i
-        have e : x = A.map (algebraMap F (Fv F v)) *ᵥ (A⁻¹.map (algebraMap F (Fv F v)) *ᵥ x) :=
-          ((homeo (algebraMap F (Fv F v)) A hA).symm_apply_apply x).symm
-        rw [e]
-        exact mulVec_mem A hA1 _ h i
-      · intro h i
-        exact mulVec_mem A⁻¹ hA2 x h i
-    show Set.indicator _ _ _ = Set.indicator _ _ _
-    by_cases hx : ∀ i, x i ∈ v.adicCompletionIntegers F
-    · rw [Set.indicator_of_mem (show _ ∈ {x : κ → Fv F v | ∀ i, x i ∈ v.adicCompletionIntegers F} from hiff.2 hx),
-        Set.indicator_of_mem (show x ∈ {x : κ → Fv F v | ∀ i, x i ∈ v.adicCompletionIntegers F} from hx)]
-      rfl
-    · rw [Set.indicator_of_notMem (show _ ∉ {x : κ → Fv F v | ∀ i, x i ∈ v.adicCompletionIntegers F} from mt hiff.1 hx),
-        Set.indicator_of_notMem (show x ∉ {x : κ → Fv F v | ∀ i, x i ∈ v.adicCompletionIntegers F} from hx)]
-  · intro f φ _ _
-    funext x
-    simp only [LinearMap.funLeft_apply, GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.pure, SchwartzMap.compCLMOfContinuousLinearEquiv_apply,
-      Function.comp_apply]
-    congr 1
-    · congr 1
-      funext i
-      exact hom_mulVec evIr (algebraMap F (AF F)) gI rfl A⁻¹ x i
-    · refine finprod_congr fun v => congrArg (φ v) ?_
-      funext i
-      exact hom_mulVec (evFin F v).toRingHom (algebraMap F (AF F)) (algebraMap F (Fv F v))
-        (RingHom.ext fun c => (evFin F v).commutes c) A⁻¹ x i
-  · exact bijOn_levi A hA
+  intro F _ _ ψ hStd hUnr hNontrivial κ _ _ A hA
+  obtain ⟨e, ei, ev, rfl, hs, hm, hh, hSB, hi, hl, hind, hp⟩ :=
+    _root_.GlobalTheory.LeviOp.hasOp_levi_with_global_action F ψ hStd hUnr hNontrivial κ A hA
+  exact ⟨_, ei, ev, hs, hm, hh, hSB, hi, hl, hind, hp, bijOn_levi A hA⟩
 
 
 open scoped Classical in

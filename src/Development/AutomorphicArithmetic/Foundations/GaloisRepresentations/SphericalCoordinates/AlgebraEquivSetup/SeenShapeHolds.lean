@@ -1194,11 +1194,7 @@ open GlobalTheory.LFun (KGL)
 
 private lemma natCast_mem_cj {E : Type} [Field E] [NumberField E] [IsCMField E] (u : Plc E) (m : ℕ) (h : (m : 𝓞 E) ∈ u.asIdeal) :
     (m : 𝓞 E) ∈ (UpperTheory.Gal.CertificateRingHomMap.cj u).asIdeal := by
-  have e : HeightOneSpectrum.under (𝓞 ℚ) (UpperTheory.Gal.CertificateRingHomMap.cj u) = HeightOneSpectrum.under (𝓞 ℚ) u :=
-    GlobalTheory.DefU.ClassFin.under_conjSrc (F := ℚ) (E := E) _ (fun x => by simp) u
-  have h2 : ((m : 𝓞 ℚ) ∈ (HeightOneSpectrum.under (𝓞 ℚ) (UpperTheory.Gal.CertificateRingHomMap.cj u)).asIdeal) ↔
-      ((m : 𝓞 ℚ) ∈ (HeightOneSpectrum.under (𝓞 ℚ) u).asIdeal) := by rw [e]
-  simpa [HeightOneSpectrum.under, Ideal.under_def, Ideal.mem_comap] using h2.2 (by simpa [HeightOneSpectrum.under, Ideal.under_def, Ideal.mem_comap] using h)
+  apply _root_.seenShape_nat_mem_cj <;> assumption
 
 private lemma natCast_not_mem_of_coprime {E : Type} [Field E] [NumberField E] (u : Plc E) {q m : ℕ} (hm : m.Coprime q)
     (hq : (q : 𝓞 E) ∈ u.asIdeal) : (m : 𝓞 E) ∉ u.asIdeal := fun h => by

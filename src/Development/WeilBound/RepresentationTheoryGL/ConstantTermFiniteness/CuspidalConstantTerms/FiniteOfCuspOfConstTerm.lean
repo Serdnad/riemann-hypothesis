@@ -1,5 +1,6 @@
 module
 
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.FiniteDimCoefficientsFiniteDetermining
 public import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.IsConstAlongSingleton
 public import Development.AbelianVarietyTheory.Definitions.Foundations.ConstTermOnMulLeftOfNormalizer
 public import Development.AbelianVarietyTheory.Definitions.Divisors.LocallyCompactUnipFlag
@@ -1094,18 +1095,7 @@ open MeasureTheory GlobalTheory.Published GlobalTheory.Published.AutFin GlobalTh
 
 theorem finiteDimensional_coeffs {K W : Type} [Group K] [AddCommGroup W] [Module ℂ W] [FiniteDimensional ℂ W]
     (ρ : Representation ℂ K W) : FiniteDimensional ℂ (coeffSpan ρ) := by
-  let T : Module.Dual ℂ W →ₗ[ℂ] W →ₗ[ℂ] (K → ℂ) :=
-    LinearMap.mk₂ ℂ (fun ℓ w => fun k => ℓ (ρ k w))
-      (fun ℓ₁ ℓ₂ w => by funext k; simp)
-      (fun a ℓ w => by funext k; simp)
-      (fun ℓ w₁ w₂ => by funext k; simp)
-      (fun a ℓ w => by funext k; simp)
-  have hle : coeffSpan ρ ≤ LinearMap.range (TensorProduct.lift T) := by
-    unfold coeffSpan
-    rw [Submodule.span_le]
-    rintro f ⟨ℓ, w, rfl⟩
-    exact ⟨ℓ ⊗ₜ w, by simp [T]⟩
-  exact Submodule.finiteDimensional_of_le hle
+  apply _root_.GlobalTheory.CompanionTheory.CTFin.UniSol.finiteDimensional_coeffSpan <;> assumption
 
 theorem exists_interp {K : Type} (A : Submodule ℂ (K → ℂ)) [FiniteDimensional ℂ A] :
     ∃ (ι : Type) (_ : Fintype ι) (p : ι → K) (a : ι → K → ℂ), (∀ i, a i ∈ A) ∧

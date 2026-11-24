@@ -1,5 +1,6 @@
 module
 
+import Formalism.LocalToGlobal.SiegelLatticeTheory.ClosedLocalOrbits.GaugeLatticeShifts.SaturatedPf
 public import Formalism.SharpRestriction.CuspSpanNormBounds.IsPrimitiveSub
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -129,18 +130,7 @@ theorem mem_orth {U : Submodule E S.V} {v : S.V} : v ∈ orth S U ↔ ∀ x ∈ 
 
 theorem orth_map {γ : S.V ≃ₗ[E] S.V} (hγ : γ ∈ Formalism.HermitianLatticesTheory.isom S.hT) (U : Submodule E S.V) :
     orth S (U.map (γ : S.V →ₗ[E] S.V)) = (orth S U).map (γ : S.V →ₗ[E] S.V) := by
-  ext v
-  rw [Submodule.mem_map_equiv, mem_orth, mem_orth]
-  constructor
-  · intro h x hx
-    have := h (γ x) (Submodule.mem_map_of_mem hx)
-    rw [← iso_ap hγ x (γ.symm v), LinearEquiv.apply_symm_apply]
-    simpa using this
-  · intro h y hy
-    obtain ⟨x, hx, rfl⟩ := Submodule.mem_map.mp hy
-    have := h x hx
-    rw [← iso_ap hγ x (γ.symm v), LinearEquiv.apply_symm_apply] at this
-    simpa using this
+  apply _root_.Formalism.L2.SG.Pf.orth_map_sat <;> assumption
 
 variable {r : ℕ}
 

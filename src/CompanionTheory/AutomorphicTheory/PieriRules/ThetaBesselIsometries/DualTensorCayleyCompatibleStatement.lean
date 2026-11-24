@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.JetHarmonics.ExpMemUnipotentAndHasDerivAtCharacter
 public import CompanionTheory.AutomorphicTheory.PieriRules.ThetaBesselIsometries.IsDSOfIsDG
 public import Mathlib.Analysis.LocallyConvex.AbsConvexOpen
 public import CompanionTheory.AutomorphicTheory.PieriRules.ThetaBesselIsometries.DerivedActionDiscreteSeriesProperties
@@ -35,30 +36,9 @@ attribute [local instance] Matrix.normedAddCommGroup Matrix.normedSpace
 
 variable {k r : ℕ}
 
-private theorem hasDerivAt_exp_smul_apply_zero'
-    (Y : Matrix (Fin (2 * r + k + 1)) (Fin (2 * r + k + 1)) ℂ) (j c : Fin (2 * r + k + 1)) :
-    HasDerivAt (fun s : ℝ => NormedSpace.exp ((s : ℂ) • Y) j c) (Y j c) 0 := by
-  letI instNR : NormedRing (Matrix (Fin (2 * r + k + 1)) (Fin (2 * r + k + 1)) ℂ) := Matrix.linftyOpNormedRing
-  letI : NormedAlgebra ℂ (Matrix (Fin (2 * r + k + 1)) (Fin (2 * r + k + 1)) ℂ) :=
-    Matrix.linftyOpNormedAlgebra
-  haveI : @CompleteSpace (Matrix (Fin (2 * r + k + 1)) (Fin (2 * r + k + 1)) ℂ)
-      (@PseudoMetricSpace.toUniformSpace _ (@SeminormedRing.toPseudoMetricSpace _
-        (@NormedRing.toSeminormedRing _ instNR))) :=
-    (inferInstance : CompleteSpace (Fin (2 * r + k + 1) → Fin (2 * r + k + 1) → ℂ))
-  have h1 : HasDerivAt (fun u : ℂ => NormedSpace.exp (u • Y))
-      (NormedSpace.exp (((0 : ℝ) : ℂ) • Y) * Y) ((0 : ℝ) : ℂ) := hasDerivAt_exp_smul_const Y _
-  let f : Matrix (Fin (2 * r + k + 1)) (Fin (2 * r + k + 1)) ℂ →ₗ[ℂ] ℂ :=
-    { toFun := fun M => M j c, map_add' := fun _ _ => rfl, map_smul' := fun _ _ => rfl }
-  let e : Matrix (Fin (2 * r + k + 1)) (Fin (2 * r + k + 1)) ℂ →L[ℂ] ℂ :=
-    LinearMap.toContinuousLinearMap f
-  have he : ∀ M : Matrix (Fin (2 * r + k + 1)) (Fin (2 * r + k + 1)) ℂ, e M = M j c := fun M => rfl
-  have h2 := (e.hasFDerivAt.comp_hasDerivAt _ h1).comp_ofReal
-  simp only [Function.comp_def, he, Complex.ofReal_zero, zero_smul, NormedSpace.exp_zero, one_mul] at h2
-  exact h2
-
 theorem hasDerivAt_inv_exp_entry (X : Mx k r) (j c : Fin (2 * r + k + 1)) :
     HasDerivAt (fun t : ℝ => (NormedSpace.exp ((t : ℂ) • X))⁻¹ j c) (-X j c) 0 := by
-  have h := hasDerivAt_exp_smul_apply_zero' (-X) j c
+  have h := _root_.GlobalTheory.UnipotentExp.hasDerivAt_exp_apply (-X) j c
   have hfun : (fun t : ℝ => (NormedSpace.exp ((t : ℂ) • X))⁻¹ j c) =
       fun s : ℝ => NormedSpace.exp ((s : ℂ) • (-X)) j c := by
     funext t

@@ -9,6 +9,7 @@ import Mathlib.Order.CompletePartialOrder
 import Mathlib.Algebra.Order.Star.Int
 import Mathlib.RingTheory.Coalgebra.IsFrobenius
 import Mathlib.RingTheory.HopfAlgebra.Basic
+import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.MemMinimalPrimesOfDivCycleNeZero
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.ProjectiveSpaceIncrementHyp, GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.ColonSpanSingletonEqOfNotMem, GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PHilbertIncrement
@@ -106,22 +107,7 @@ theorem ringKrullDim_quot_add_one_le {K : Type*} {ι : K → Type*} {F : Type*} 
 
 theorem le_of_add_one_le_natCast_add_one {x : WithBot ℕ∞} {n : ℕ}
     (h : x + 1 ≤ ((n + 1 : ℕ) : WithBot ℕ∞)) : x ≤ (n : WithBot ℕ∞) := by
-  induction x using WithBot.recBotCoe with
-  | bot => exact bot_le
-  | coe y =>
-    induction y using ENat.recTopCoe with
-    | top =>
-      exfalso
-      have h' : (((⊤ : ℕ∞) + 1 : ℕ∞) : WithBot ℕ∞) ≤ (((n + 1 : ℕ) : ℕ∞) : WithBot ℕ∞) := by
-        exact_mod_cast h
-      rw [top_add, WithBot.coe_le_coe] at h'
-      exact absurd h' (by simp)
-    | coe m =>
-      have h' : (((m + 1 : ℕ) : ℕ∞) : WithBot ℕ∞) ≤ (((n + 1 : ℕ) : ℕ∞) : WithBot ℕ∞) := by
-        simpa using h
-      have h'' : m + 1 ≤ n + 1 := by exact_mod_cast WithBot.coe_le_coe.mp h'
-      have : m ≤ n := by omega
-      exact_mod_cast this
+  apply _root_.GroundTheory.Heights₂.Heights.NumbersDVR.withBot_le_of_add_one_le <;> assumption
 
 theorem colon_span_singleton_eq_of_not_mem {R : Type*} [CommRing R] {q : Ideal R} [q.IsPrime]
     {s : R} (hs : s ∉ q) : q.colon (Ideal.span {s}) = q := by

@@ -65,6 +65,7 @@ import Mathlib.RingTheory.PiTensorProduct
 import Development.AbelianVarietyTheory.Proofs.FoundationProofs.InducedTypeThetaGenusOnePermutes
 import Mathlib.RingTheory.Coalgebra.IsFrobenius
 import Mathlib.RingTheory.HopfAlgebra.Basic
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.IntegralDensEqZero
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.Proofs.FoundationProofs.AdaptedPointChangeOfRationalBasis, Development.AbelianVarietyTheory.Proofs.FoundationProofs.AdaptedTorsionLiftDeeperLevel, Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsComplexEndomorphismEqOnCountable, Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsNonzeroThetaOfFiniteLevelAverage, Development.AbelianVarietyTheory.Proofs.FoundationProofs.SignedTranslationAddSelfDualLattice, Development.AbelianVarietyTheory.Proofs.FoundationProofs.ThetaOddPrimePhaseConjInvariant, Development.AbelianVarietyTheory.Proofs.FoundationProofs.ThetaTranslationCombPeriodicTwiceLevel, Development.AbelianVarietyTheory.Proofs.FoundationProofs.TranslateLevelFour, Development.AbelianVarietyTheory.Proofs.FoundationProofs.ThetaTranslateGaloisRationalityCmPoints
@@ -266,22 +267,7 @@ namespace GlobalTheory.GalTheta
 theorem exists_top_embedding_eq_on_countable (M : IntermediateField ℚ ℂ) (ρ : M →ₐ[ℚ] ℂ) (S : Set ℂ)
     (hS : S.Countable) :
     ∃ σ : (⊤ : IntermediateField ℚ ℂ) →ₐ[ℚ] ℂ, ∀ x ∈ S, x ∈ M → cj ⊤ σ x = cj M ρ x := by
-  let A : Set M := {y | (y : ℂ) ∈ S}
-  have hA : A.Countable := hS.preimage Subtype.val_injective
-  let k : Subfield M := Subfield.closure A
-  haveI : Countable k := by
-    rw [← Cardinal.mk_le_aleph0_iff]
-    refine (Subfield.cardinalMk_closure_le_max A).trans (max_le ?_ le_rfl)
-    exact Cardinal.mk_le_aleph0_iff.2 hA.to_subtype
-  obtain ⟨τ, hτ⟩ := GlobalTheory.GaloisDescent.exists_complex_ringEquiv_comp_eq (K := k)
-    ((M.val : M →+* ℂ).comp k.subtype) ((ρ : M →+* ℂ).comp k.subtype)
-  refine ⟨(τ.toRingHom.toRatAlgHom).comp (⊤ : IntermediateField ℚ ℂ).val, fun x hx hxM => ?_⟩
-  have h := hτ ⟨⟨x, hxM⟩, Subfield.subset_closure hx⟩
-  have h1 : liftM ⊤ x = ⟨x, IntermediateField.mem_top⟩ := dif_pos IntermediateField.mem_top
-  have h2 : liftM M x = ⟨x, hxM⟩ := dif_pos hxM
-  unfold cj
-  rw [h1, h2]
-  exact h
+  apply _root_.GlobalTheory.QuadPhase.exists_top_extension <;> assumption
 
 end GlobalTheory.GalTheta
 end -- clump:auto
@@ -303,15 +289,7 @@ namespace GlobalTheory.GalTheta.Avg
 theorem sum_out_translate {A M : Type*} [AddCommGroup A] [AddCommMonoid M] (S : AddSubgroup A) [Fintype (A ⧸ S)]
     (f : A → M) (hf : ∀ a, ∀ s ∈ S, f (a + s) = f a) (x : A) :
     ∑ q : A ⧸ S, f (x + q.out) = ∑ q : A ⧸ S, f q.out := by
-  rw [← Equiv.sum_comp (Equiv.addLeft (x : A ⧸ S)) (fun q : A ⧸ S => f q.out)]
-  refine Finset.sum_congr rfl fun q _ => ?_
-  have h : ((x + q.out : A) : A ⧸ S) = (((x : A ⧸ S) + q).out : A) := by simp
-  rw [QuotientAddGroup.eq] at h
-  have := hf (x + q.out) _ h
-  simp only [Equiv.coe_addLeft]
-  rw [← this]
-  congr 1
-  abel
+  apply _root_.GlobalTheory.ThetaInter.sum_out_shift <;> assumption
 
 variable (D : D7) (T : Tor D) {N N' : ℕ}
 

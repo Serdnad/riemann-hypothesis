@@ -25,6 +25,7 @@ public import Development.AutomorphicArithmetic.AutomorphicVarieties.PatchingMod
 public import Mathlib.Order.Filter.Ultrafilter.Defs
 public import Mathlib.Order.Filter.Ultrafilter.Basic
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.HidaCompleteRings.FinCompl
+import all Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.HidaCompleteRings.FinCompl
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.Imports
 public import Mathlib.RingTheory.MvPowerSeries.Basic
 public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.MemSpanVariable
@@ -190,20 +191,7 @@ private theorem tf_mem_smul_top_pi {R : Type} [CommRing R] (J : Ideal R) {r : �
 
 private theorem tf_isPrecomplete_pi {R : Type} [CommRing R] (I : Ideal R) [IsPrecomplete I R]
     (r : ℕ) : IsPrecomplete I (Fin r → R) := by
-  refine ⟨fun f hf => ?_⟩
-  have hc : ∀ i, ∃ L : R, ∀ n, f n i ≡ L [SMOD (I ^ n • ⊤ : Submodule R R)] := by
-    intro i
-    refine IsPrecomplete.prec (I := I) inferInstance (f := fun n => f n i) (fun {m n} hmn => ?_)
-    have := (tf_mem_smul_top_pi (I ^ m) _).1 (SModEq.sub_mem.1 (hf hmn)) i
-    rw [SModEq.sub_mem, Ideal.smul_eq_mul, Ideal.mul_top]
-    simpa using this
-  choose L hL using hc
-  refine ⟨L, fun n => ?_⟩
-  rw [SModEq.sub_mem, tf_mem_smul_top_pi]
-  intro i
-  have := SModEq.sub_mem.1 (hL i n)
-  rw [Ideal.smul_eq_mul, Ideal.mul_top] at this
-  simpa using this
+  apply _root_.isPrecomplete_pi <;> assumption
 
 private theorem tf_key {R F : Type} [CommRing R] [AddCommGroup F] [Module R F] (a : Ideal R)
     [IsPrecomplete a F] (K : ℕ → Submodule R F) (hK : Antitone K)

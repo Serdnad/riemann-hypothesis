@@ -1,5 +1,6 @@
 module
 
+import Development.WeilBound.RepresentationTheoryGL.CasimirAlgebra.TensorRelationsGL.PKType
 public import Formalism.LocalToGlobal.CharacterGerms.BiadditiveInSingleVariables
 public import Formalism.LocalToGlobal.ProjectiveLattices.RowDeg
 public import Formalism.LocalToGlobal.CharacterGerms.BlockMembershipNormOne
@@ -63,16 +64,7 @@ theorem isWH_minorK_gen {N N' k : ℕ} {w : Fin N × Fin N' → ℕ} (v : Fin N'
   rw [MvPolynomial.coeff_smul, h0, smul_zero]
 
 theorem sum_fin_ite (k c0 : ℕ) : (∑ c : Fin k, if (c : ℕ) = c0 then 1 else 0) = if c0 < k then 1 else 0 := by
-  split_ifs with h
-  · rw [Finset.sum_eq_single ⟨c0, h⟩]
-    · simp
-    · intro b _ hb; rw [if_neg]; intro hc; exact hb (Fin.ext hc)
-    · simp
-  · apply Finset.sum_eq_zero
-    intro c _
-    rw [if_neg]
-    intro hc
-    exact h (by rw [← hc]; exact c.2)
+  apply _root_.PositivityTheory.Rg.Cz.KTy.sumFin <;> assumption
 
 theorem isWH_minorK_row {N N' k : ℕ} {w : Fin N × Fin N' → ℕ} (P : Prop) [Decidable P] (c0 : ℕ)
     (hw : ∀ x, w x = if P ∧ (x.2 : ℕ) = c0 then 1 else 0) :

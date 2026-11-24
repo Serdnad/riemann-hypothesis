@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.IsUnimodularBlockUpperTriangularSymmetricLevels
 public import Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange.ArchimedeanBaseChangeProof.ArchimedeanGelfandKernels.LeftEquivariantFunctions.SymZeroCommFrame
 public import Mathlib.MeasureTheory.Group.ModularCharacter
 public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.QuotientIntegrationFormulaDiscreteSubgroupLeft
@@ -73,28 +74,7 @@ theorem map_mul_right (μ : Measure H) [μ.IsHaarMeasure] (g : H) :
 
 theorem modular_comp (φ : H ≃* H) (h1 : Continuous φ) (h2 : Continuous φ.symm) (g : H) :
     Measure.modularCharacter (φ g) = Measure.modularCharacter g := by
-  let ν : Measure H := Measure.haar
-  have hm : Measurable φ := h1.measurable
-  haveI : (Measure.map φ ν).IsHaarMeasure := MulEquiv.isHaarMeasure_map ν φ h1 h2
-  have e : Measure.map (· * φ g) (Measure.map φ ν) =
-      Measure.modularCharacter g • Measure.map φ ν := by
-    rw [Measure.map_map (measurable_mul_const _) hm]
-    have : (fun x => x * φ g) ∘ φ = φ ∘ (fun x => x * g) := by
-      funext x
-      simp
-    rw [this, ← Measure.map_map hm (measurable_mul_const _), map_mul_right ν g,
-      Measure.map_smul]
-    exact hm.aemeasurable
-  show Measure.modularCharacterFun (φ g) = Measure.modularCharacter g
-  have hs : ∀ (m : Measure H) [IsFiniteMeasureOnCompacts m] [m.IsMulLeftInvariant],
-      m = Measure.modularCharacter g • Measure.map φ ν →
-        Measure.haarScalarFactor m (Measure.map φ ν) = Measure.modularCharacter g := by
-    intro m _ _ h
-    subst h
-    rw [Measure.haarScalarFactor_smul, Measure.haarScalarFactor_self]
-    simp
-  rw [Measure.modularCharacterFun_eq_haarScalarFactor (Measure.map φ ν) (φ g)]
-  exact hs _ e
+  apply _root_.GlobalTheory.LevelUnimod.modular_aut <;> assumption
 
 theorem modular_lower : ∃ c : ℝ≥0, 0 < c ∧ ∃ K ∈ 𝓝 (1 : H), ∀ g ∈ K,
     c ≤ Measure.modularCharacter g := by

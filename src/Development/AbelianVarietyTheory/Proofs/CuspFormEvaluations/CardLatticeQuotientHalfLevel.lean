@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.LawsAll
 public import Formalism.LocalToGlobal.ProjectiveLattices.ThShort
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.FundamentalDomains.FundamentalDomainPointBound
 import Mathlib.Algebra.Order.Floor.Extended
@@ -56,31 +57,7 @@ open scoped TensorProduct in
 theorem natCard_quot_smul_top_of_projective {R N : Type} [CommRing R] [IsDomain R] [AddCommGroup N] [Module R N]
     [Module.Finite R N] [Module.Projective R N] (I : Ideal R) [Finite (R ⧸ I)] :
     Nat.card (N ⧸ (I • ⊤ : Submodule R N)) = Nat.card (R ⧸ I) ^ Module.finrank R N := by
-  classical
-  open scoped TensorProduct in
-  have hA : Finite (Ideal (R ⧸ I)) :=
-    Finite.of_injective (fun J : Ideal (R ⧸ I) => (J : Set (R ⧸ I))) SetLike.coe_injective
-  have hMS : Finite (MaximalSpectrum (R ⧸ I)) :=
-    Finite.of_injective (fun m : MaximalSpectrum (R ⧸ I) => m.asIdeal) (fun a b h => MaximalSpectrum.ext h)
-  have rk : ∀ P : MaximalSpectrum (R ⧸ I), Module.finrank ((R ⧸ I) ⧸ P.1)
-      (((R ⧸ I) ⧸ P.1) ⊗[R ⧸ I] ((R ⧸ I) ⊗[R] N)) = Module.finrank R N := by
-    intro P
-    have hP := P.2
-    let _ : Field ((R ⧸ I) ⧸ P.1) := Ideal.Quotient.field P.1
-    rw [(TensorProduct.AlgebraTensorModule.cancelBaseChange R (R ⧸ I) ((R ⧸ I) ⧸ P.1) ((R ⧸ I) ⧸ P.1) N).finrank_eq]
-    have h1 := congrFun (Module.rankAtStalk_eq_finrank_of_free (R := (R ⧸ I) ⧸ P.1)
-      (M := ((R ⧸ I) ⧸ P.1) ⊗[R] N)) ⟨⊥, Ideal.isPrime_bot⟩
-    rw [Module.rankAtStalk_baseChange, Pi.natCast_apply, Nat.cast_id] at h1
-    rw [← h1]
-    generalize PrimeSpectrum.comap (algebraMap R ((R ⧸ I) ⧸ P.1)) ⟨⊥, Ideal.isPrime_bot⟩ = q
-    obtain ⟨p, hp⟩ := q
-    rw [← Ideal.finrank_fiber_eq_rankAtStalk, Ideal.finrank_fiber_eq_finrank]
-  obtain ⟨b⟩ := Module.nonempty_basis_of_flat_of_finrank_eq (R ⧸ I) ((R ⧸ I) ⊗[R] N)
-    (Module.finrank R N) rk
-  calc Nat.card (N ⧸ (I • ⊤ : Submodule R N)) = Nat.card ((R ⧸ I) ⊗[R] N) :=
-        Nat.card_congr (TensorProduct.quotTensorEquivQuotSMul N I).toEquiv.symm
-    _ = Nat.card (Fin (Module.finrank R N) → R ⧸ I) := Nat.card_congr b.equivFun.toEquiv
-    _ = Nat.card (R ⧸ I) ^ Module.finrank R N := by simp [Nat.card_fun]
+  first | exact _root_.GlobalTheory.Mem.Col2.LRank.natCard_quot | exact @_root_.GlobalTheory.Mem.Col2.LRank.natCard_quot | apply _root_.GlobalTheory.Mem.Col2.LRank.natCard_quot <;> assumption
 
 theorem absNorm_level_half {E : Type} [Field E] [NumberField E] [IsCMField E] {H : Host E} (l : Level H) :
     Ideal.absNorm l.Mb = l.M ^ FD.fdeg E := by

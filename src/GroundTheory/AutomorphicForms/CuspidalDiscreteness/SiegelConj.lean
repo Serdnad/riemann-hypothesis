@@ -1,5 +1,6 @@
 module
 
+import GroundTheory.AutomorphicForms.CuspidalDiscreteness.SiegelCount
 public import GroundTheory.AutomorphicForms.AutomorphicFormSpaces.ConstantTerm
 public import GroundTheory.AutomorphicForms.ReductionSiegel
 public import GroundTheory.AutomorphicForms.NormDetDiagUnitsPosRealToUnits
@@ -124,25 +125,8 @@ theorem norm_ringEquiv_posIdele_le {s : ℝ} (hs : 0 < s) :
 theorem le_pow_mul_of_siegel {ρ : Fin n → ℝ} {t : ℝ} (ht : 0 < t) (hρ : ∀ i, 0 < ρ i)
     (hsieg : ∀ i j : Fin n, (j : ℕ) = i + 1 → t * ρ j ≤ ρ i) :
     ∀ (d : ℕ) (l m : Fin n), (m : ℕ) = l + d → ρ m ≤ (max 1 t⁻¹) ^ d * ρ l := by
-  intro d
-  induction d with
-  | zero =>
-    intro l m hlm
-    rw [pow_zero, one_mul, Fin.ext (by omega : (m : ℕ) = l)]
-  | succ d ih =>
-    intro l m hlm
-    have hm1 : (m : ℕ) - 1 < n := by omega
-    set m' : Fin n := ⟨m - 1, hm1⟩
-    have h1 := ih l m' (by simp [m']; omega)
-    have h2 : t * ρ m ≤ ρ m' := hsieg m' m (by simp [m']; omega)
-    have h3 : ρ m ≤ max 1 t⁻¹ * ρ m' := by
-      calc ρ m = t⁻¹ * (t * ρ m) := by field_simp
-        _ ≤ t⁻¹ * ρ m' := mul_le_mul_of_nonneg_left h2 (inv_nonneg.2 ht.le)
-        _ ≤ max 1 t⁻¹ * ρ m' := mul_le_mul_of_nonneg_right (le_max_right _ _) (hρ m').le
-    calc ρ m ≤ max 1 t⁻¹ * ρ m' := h3
-      _ ≤ max 1 t⁻¹ * ((max 1 t⁻¹) ^ d * ρ l) :=
-        mul_le_mul_of_nonneg_left h1 (le_trans zero_le_one (le_max_left _ _))
-      _ = (max 1 t⁻¹) ^ (d + 1) * ρ l := by ring
+  intros
+  apply _root_.GroundTheory.Automorphic.CuspidalSpectrum.siegel_le_pow_mul <;> assumption
 
 theorem div_le_of_siegel {ρ : Fin n → ℝ} {t : ℝ} (ht : 0 < t) (hρ : ∀ i, 0 < ρ i)
     (hsieg : ∀ i j : Fin n, (j : ℕ) = i + 1 → t * ρ j ≤ ρ i) {r : ℕ} (hr : 0 < r) (hrn : r < n)

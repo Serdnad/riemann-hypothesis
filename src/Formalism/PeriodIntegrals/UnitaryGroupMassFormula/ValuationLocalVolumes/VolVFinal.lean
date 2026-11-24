@@ -119,21 +119,7 @@ theorem det_aL (hfin : Module.finrank F E = 2) (g : Fv F v) (θ Δ : Fv F v ⊗[
 
 private theorem int_of_alg_lemma (z : Fv F v ⊗[F] E) (hz : z ∈ OEv (E := E) v) :
     Algebra.trace (Fv F v) (Fv F v ⊗[F] E) z ∈ v.adicCompletionIntegers F := by
-  change z ∈ Submodule.span (v.adicCompletionIntegers F) _ at hz
-  induction hz using Submodule.span_induction with
-  | mem y hy =>
-    obtain ⟨a, -, rfl⟩ := hy
-    rw [PI.UnitaryGroupMassFormula.LocJacTyp.Sd.trace_inclR]
-    have hint : IsIntegral ℤ (Algebra.trace F E (a : E)) :=
-      Algebra.isIntegral_trace (RingOfIntegers.isIntegral_coe a)
-    have := HeightOneSpectrum.coe_mem_adicCompletionIntegers (K := F) (v := v) (⟨_, hint⟩ : 𝓞 F)
-    convert this using 1
-    exact (IsScalarTower.algebraMap_apply (𝓞 F) F (Fv F v) (⟨_, hint⟩ : 𝓞 F)).symm
-  | zero => rw [map_zero]; exact zero_mem _
-  | add y w _ _ hy hw => rw [map_add (f := _)]; exact add_mem hy hw
-  | smul c y _ hy =>
-    rw [show c • y = (c : Fv F v) • y from rfl, map_smul, smul_eq_mul]
-    exact mul_mem c.2 hy
+  apply _root_.Formalism.L2.SG.Pf.NcVal.TrW.trace_mem <;> assumption
 
 private theorem int_of_alg_lemma_2 (a : 𝓞 E) (z : Fv F v ⊗[F] E) (hz : z ∈ OEv (E := E) v) :
     inclR (Fv F v) (a : E) * z ∈ OEv (E := E) v := by
@@ -152,25 +138,10 @@ private theorem int_of_alg_lemma_2 (a : 𝓞 E) (z : Fv F v ⊗[F] E) (hz : z �
     rw [show c • y = (c : Fv F v) • y from rfl, mul_smul_comm]
     exact Submodule.smul_mem _ c hy
 
-private theorem int_of_alg_lemma_3 (x z : Fv F v ⊗[F] E) (hx : x ∈ OEv (E := E) v) (hz : z ∈ OEv (E := E) v) :
-    x * z ∈ OEv (E := E) v := by
-  change x ∈ Submodule.span (v.adicCompletionIntegers F) _ at hx
-  induction hx using Submodule.span_induction with
-  | mem y hy =>
-    obtain ⟨a, -, rfl⟩ := hy
-    exact int_of_alg_lemma_2 v a z hz
-  | zero => rw [zero_mul]; exact (Submodule.span _ _).zero_mem
-  | add y w _ _ hy hw =>
-    rw [add_mul]
-    exact (Submodule.span (v.adicCompletionIntegers F) _).add_mem hy hw
-  | smul c y _ hy =>
-    rw [show c • y = (c : Fv F v) • y from rfl, smul_mul_assoc]
-    exact (Submodule.span (v.adicCompletionIntegers F) _).smul_mem c hy
-
 theorem int_of_alg {θ : Fv F v ⊗[F] E} (hθO : θ ∈ OEv (E := E) v)
     (hθ : Algebra.trace (Fv F v) (Fv F v ⊗[F] E) θ = 1) {x : Fv F v}
     (hx : algebraMap (Fv F v) (Fv F v ⊗[F] E) x ∈ OEv (E := E) v) : x ∈ v.adicCompletionIntegers F := by
-  have h := int_of_alg_lemma v _ (int_of_alg_lemma_3 v _ _ hx hθO)
+  have h := int_of_alg_lemma v _ (_root_.Formalism.L2.SG.Pf.NcVal.TrW.mul_mem v hx hθO)
   rw [Algebra.algebraMap_eq_smul_one, smul_mul_assoc, one_mul, map_smul, hθ, smul_eq_mul, mul_one] at h
   exact h
 

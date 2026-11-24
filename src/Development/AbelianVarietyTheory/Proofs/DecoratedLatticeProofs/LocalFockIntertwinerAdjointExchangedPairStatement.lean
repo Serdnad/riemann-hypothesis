@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.IsotropicMeanChangesByScalarOfTrivialActionStatement
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ChosenSeries
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SmoothVectorsSubspaceStableSobolevFormDeriv
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.JacobianCommutation.PCkPartials
@@ -477,19 +478,8 @@ theorem conj_trace_of_lie {n : ℕ} {G X : Matrix (Fin n) (Fin n) ℂ} (hG : G.d
 
 theorem gram_det_ne {D : D7} {V : HSp D} {S : D.what₂.Tau → SPar} (M : DSModel V S) (τ : D.what₂.Tau) :
     (gramAt D V τ).det ≠ 0 := by
-  rw [← M.fr_gram τ, det_mul, det_mul, det_conjTranspose]
-  have h1 : (M.fr τ).det ≠ 0 := ((isUnit_iff_isUnit_det _).1 (M.fr_unit τ)).ne_zero
-  have hJ : Formalism.REAL.Jm (M.ε τ) * Formalism.REAL.Jm (M.ε τ) = 1 := by
-    rw [Formalism.REAL.Jm, Matrix.diagonal_mul_diagonal, ← Matrix.diagonal_one]
-    congr 1
-    funext a
-    cases M.ε τ a <;> simp
-  have h2 : (Formalism.REAL.Jm (M.ε τ)).det ≠ 0 := by
-    intro h
-    have := congrArg det hJ
-    rw [det_mul, h, zero_mul, det_one] at this
-    exact zero_ne_one this
-  exact mul_ne_zero (mul_ne_zero (star_ne_zero.2 h1) h2) h1
+  intros
+  apply _root_.GlobalTheory.DecayCoord.det_gramAt_ne <;> assumption
 
 variable {D : D7} {V : HSp D} {S : D.what₂.Tau → SPar}
 

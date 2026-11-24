@@ -1,5 +1,7 @@
 module
 
+
+import Formalism.SharpRestriction.LevelLetterCocycles.RingConditionOfDeltaInvariants
 public import Formalism.HyperbolicPlaceProducts.DetIndexProductHyperbolicInequality
 public import Mathlib.LinearAlgebra.Span.Basic
 public import Formalism.FlagUnipotentLattices.CardSubmodulesAndLinearEquivBounds
@@ -64,7 +66,6 @@ import Mathlib.Tactic.Linter.HaveILetI
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Std.Tactic.BVDecide.Normalize.Prop
-
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Formalism.HyperbolicPlaceProducts.SubgroupIndexCounts.DetIndexProductHyperbolicInequality, Formalism.HyperbolicPlaceProducts.ArithmeticCountRevised, Formalism.FlagUnipotentLattices.MinkowskiFactorialBounds.IdealsOfNormEqIndexSet
 
@@ -764,16 +765,7 @@ lemma index_ideal_smul_le_norm_pow {E : Type} [Field E] [NumberField E] (k : ℕ
 
 lemma mem_ideal_smul_top_pi_iff {R : Type} [CommRing R] (I : Ideal R) (n : ℕ) (x : Fin n → R) :
     x ∈ I • (⊤ : Submodule R (Fin n → R)) ↔ ∀ i, x i ∈ I := by
-  constructor
-  · intro hx
-    refine Submodule.smul_induction_on hx (fun r hr m _ i => ?_) (fun a b ha hb i => ?_)
-    · simpa [Pi.smul_apply, smul_eq_mul] using I.mul_mem_right (m i) hr
-    · simpa using I.add_mem (ha i) (hb i)
-  · intro hx
-    have : x = ∑ i, x i • Pi.single i (1 : R) := by
-      ext j; simp [Finset.sum_apply, Pi.single_apply]
-    rw [this]
-    exact Submodule.sum_mem _ fun i _ => Submodule.smul_mem_smul (hx i) trivial
+  apply _root_.Formalism.MainNotions.WachCoordinates.Br.mem_smul_top_pi <;> assumption
 
 lemma ideal_smul_top_prod {R M N : Type} [CommRing R] [AddCommGroup M] [Module R M] [AddCommGroup N]
     [Module R N] (I : Ideal R) :

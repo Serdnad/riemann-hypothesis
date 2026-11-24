@@ -66,6 +66,7 @@ import Development.ResolutionOfSingularities.Foundations.Schemes.IdealSheafData
 import Mathlib.AlgebraicGeometry.Modules.Sheaf
 import Development.ResolutionOfSingularities.EmbeddedResolution.IdealPrincipalization.MarkedBlowupSequence.IsoInvariance
 import Development.ResolutionOfSingularities.EmbeddedResolution.IdealPrincipalization.MarkedBlowupSequence.SupportsAlongSequence
+import Development.ResolutionOfSingularities.EmbeddedResolution.IdealPrincipalization.OrderReduction.IndependenceOfHypersurface
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.ResolutionOfSingularities.EmbeddedResolution.IdealPrincipalization.OrderReduction.WeakTransform, Development.ResolutionOfSingularities.EmbeddedResolution.IdealPrincipalization.OrderReduction.BlowupChartCongruence, Development.ResolutionOfSingularities.EmbeddedResolution.IdealPrincipalization.OrderReduction.BlowupLiftCongruence, Development.ResolutionOfSingularities.EmbeddedResolution.IdealPrincipalization.OrderReduction.MaxContactGeometry
@@ -1006,16 +1007,7 @@ private theorem exists_isoSpec_of_isAffineOpen {P : Scheme.{u}} {U : P.Opens}
 theorem comap_mul_of_isOpenImmersion {X U : Scheme.{u}} (f : U ⟶ X) [IsOpenImmersion f]
     (I J : X.IdealSheafData) :
     (I * J).comap f = I.comap f * J.comap f := by
-  refine Scheme.IdealSheafData.ext (funext fun V => ?_)
-  have hV : IsAffineOpen (f ''ᵁ (V : U.Opens)) := V.2.image_of_isOpenImmersion f
-  have he : (V : U.Opens) ≤ f ⁻¹ᵁ (f ''ᵁ (V : U.Opens)) := by
-    simp [Scheme.Hom.preimage_image_eq]
-  simp only [Scheme.IdealSheafData.ideal_mul, Pi.mul_apply]
-  rw [Scheme.IdealSheafData.comap_ideal_eq_map_appLE I f ⟨_, hV⟩ V he,
-    Scheme.IdealSheafData.comap_ideal_eq_map_appLE J f ⟨_, hV⟩ V he,
-    Scheme.IdealSheafData.comap_ideal_eq_map_appLE (I * J) f ⟨_, hV⟩ V he]
-  simp only [Scheme.IdealSheafData.ideal_mul, Pi.mul_apply]
-  rw [Ideal.map_mul]
+  apply _root_.AlgebraicGeometry.Scheme.IdealSheafData.comap_mul <;> assumption
 
 theorem exists_specIdealSheaf_eq (R : Type u) [CommRing R]
     (I : (Spec (CommRingCat.of R)).IdealSheafData) :
@@ -1033,15 +1025,7 @@ theorem exists_specIdealSheaf_eq (R : Type u) [CommRing R]
 theorem subschemeι_comap_comp_eq_of_subschemeι_comp_eq {X Y P : Scheme.{u}} (f : X ⟶ Y) (u v : Y ⟶ P)
     (𝔟 : Y.IdealSheafData) (hagree : 𝔟.subschemeι ≫ u = 𝔟.subschemeι ≫ v) :
     (𝔟.comap f).subschemeι ≫ f ≫ u = (𝔟.comap f).subschemeι ≫ f ≫ v := by
-  obtain ⟨t, ht⟩ : ∃ t : (𝔟.comap f).subscheme ⟶ 𝔟.subscheme,
-      (𝔟.comap f).subschemeι ≫ f = t ≫ 𝔟.subschemeι :=
-    ⟨(𝔟.comapIso f).hom ≫ Limits.pullback.snd f 𝔟.subschemeι, by
-      rw [Category.assoc, ← Limits.pullback.condition, ← Category.assoc,
-        Scheme.IdealSheafData.comapIso_hom_fst]⟩
-  calc (𝔟.comap f).subschemeι ≫ f ≫ u
-      = t ≫ 𝔟.subschemeι ≫ u := by rw [← Category.assoc, ht, Category.assoc]
-    _ = t ≫ 𝔟.subschemeι ≫ v := by rw [hagree]
-    _ = (𝔟.comap f).subschemeι ≫ f ≫ v := by rw [← Category.assoc, ← ht, Category.assoc]
+  apply _root_.FunctorialResolution.EmbeddedResolution.DivisorReductionIndependence.subschemeι_comap_comp_comp_eq <;> assumption
 
 theorem subschemeι_comp_eq_of_mul_comap {V V₁ P : Scheme.{u}} (f : V₁ ⟶ V) (u v : V ⟶ P)
     (𝔟 : V.IdealSheafData) (hagree : 𝔟.subschemeι ≫ u = 𝔟.subschemeι ≫ v)

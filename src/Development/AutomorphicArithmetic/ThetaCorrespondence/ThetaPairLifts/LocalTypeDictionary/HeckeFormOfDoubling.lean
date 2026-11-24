@@ -240,22 +240,30 @@ open GlobalTheory.Core.Rk.IP
 
 namespace GlobalTheory.Core.Rk.IP
 
-theorem normSq_theta_modGrowth_nc : GlobalTheory.Published.WeilRepresentationUnitaryPair → ResidueKilled.DM → ∀ D : D7, SiegelWeilFock D → ∀ (ψ : AddChar (AF D.host.F) ℂ) (θ : InfFam D) (A B : HSp D) (χA χB : (AE D)ˣ →* Circle) (sA : RealMat A) (sB : RealMat B) (t : ℕ) (cA : CptF A) (a : GL (Fin A.rank) (AE D)) (om : WRep A B) (ν : Measure (WO A B)) (𝓕 : Set (WO A B)), Pair ψ θ A B χA χB sA sB t cA a om ν 𝓕 → (wittIndex B = 0 ∨ wittIndex B < t) → ∀ mH : Measure (GA D B), mH.IsHaarMeasure → ∀ Φ, IsFockVec ψ θ A B sA sB Φ → (∀ g, MemL2Quotient (GQ B) mH fun h => thetaKO om g h Φ) ∧ GlobalTheory.Grow.ModGrowth A fun g => petersson B mH (fun h => thetaKO om g h Φ) fun h => thetaKO om g h Φ := by
-  intro hW hDM D hSW ψ θ A B χA χB sA sB t cA a om ν 𝓕 hP hwitt mH hmH Φ hΦ
+abbrev DoubledThetaIntegralFormula {D : D7} (ψ : AddChar (AF D.host.F) ℂ) (A B : HSp D) : Prop :=
+  ∀ (χB : (AE D)ˣ →* Circle) (omh : WRep (dblSp A) B), IsWeilDatumO ψ (dblSp A) B 1 χB omh →
+  ∀ a : GL (Fin A.rank) (AE D), IsMaj A a →
+  ∀ (θ : InfFam D) (sS : RealMat (dblSp A)) (sB : RealMat B), IsInfFam θ →
+    (∀ τ, IsCartanInv (gramAt D (dblSp A) τ) (sS τ)) → (∀ τ, IsCartanInv (gramAt D B τ) (sB τ)) →
+    (∀ k ∈ Khat A a, ∀ τ, compAt θ τ (Formalism.L2.Theta.mt (dblSp A) k) * sS τ =
+      sS τ * compAt θ τ (Formalism.L2.Theta.mt (dblSp A) k)) →
+  ∀ (ν : Measure (WO A B)) (𝓕 : Set (WO A B)), IsCovolOne (ratL B A) ν 𝓕 →
+  ∀ mH : Measure (GA D B), mH.IsHaarMeasure →
+  ∀ φ : WO (dblSp A) B → ℂ, IsFockVec ψ θ (dblSp A) B sS sB φ →
+    (∀ g, Integrable (AutomorphicL2Unitary.descend (GQ B) fun h => thetaKO omh g h φ) (autMeasure B mH)) ∧
+    Eis.EisValueAt A (flat A a (swSec A B omh ν 𝓕 φ) (sZero A B)) (sZero A B) (ThetaMean.thetaMean omh mH φ)
+
+theorem normSq_theta_modGrowth_of_integral_formula : GlobalTheory.Published.WeilRepresentationUnitaryPair → ResidueKilled.DM → ∀ D : D7, ∀ (ψ : AddChar (AF D.host.F) ℂ) (θ : InfFam D) (A B : HSp D), DoubledThetaIntegralFormula ψ A B → ∀ (χA χB : (AE D)ˣ →* Circle) (sA : RealMat A) (sB : RealMat B) (t : ℕ) (cA : CptF A) (a : GL (Fin A.rank) (AE D)) (om : WRep A B) (ν : Measure (WO A B)) (𝓕 : Set (WO A B)), Pair ψ θ A B χA χB sA sB t cA a om ν 𝓕 → ∀ mH : Measure (GA D B), mH.IsHaarMeasure → ∀ Φ, IsFockVec ψ θ A B sA sB Φ → (∀ g, MemL2Quotient (GQ B) mH fun h => thetaKO om g h Φ) ∧ GlobalTheory.Grow.ModGrowth A fun g => petersson B mH (fun h => thetaKO om g h Φ) fun h => thetaKO om g h Φ := by
+  intro hW hDM D ψ θ A B hSW χA χB sA sB t cA a om ν 𝓕 hP mH hmH Φ hΦ
   obtain ⟨ha, ht, hb, -⟩ := hP.setting
   obtain ⟨omh, homh⟩ := GlobalTheory.Core.Rk.exists_doubled_weilDatum hW D ψ A B χA χB om hP.weil
   have hTC := GlobalTheory.DoublingTheta.thetaClause D ψ A B χA χB om omh hP.weil homh
   obtain ⟨hφ, hid⟩ := hTC Φ Φ hΦ.1 hΦ.1
   have hK := GlobalTheory.Core.Rk.IP.delta_isKFinVec D ψ θ A B χA χB sA sB t cA a om ν 𝓕 hP omh homh Φ Φ hΦ hΦ
-  have hab : A.rank < B.rank := by omega
-  have hw : wittIndex B = 0 ∨ A.rank + wittIndex B < B.rank := by
-    rcases hwitt with h | h
-    · exact Or.inl h
-    · exact Or.inr (by omega)
   obtain ⟨-, -, -, hθ', -, -, hcA, hcB, -⟩ := hP.setting
   have hc := GlobalTheory.Core.Rk.IP.Cartan.cartan_dbl D θ A sA a hθ' hcA hP.maj_eq
   have hF := GlobalTheory.Core.Rk.FockBox.isFockVec_delta D ψ θ A B sA sB hP.weil.std hθ' Φ Φ hΦ hΦ
-  obtain ⟨hint, hEV⟩ := hSW ψ A B ha hab hw χB omh homh a hP.maj θ _ sB hθ' hc.1 hcB hc.2 ν 𝓕 hP.covol mH hmH _ hF
+  obtain ⟨hint, hEV⟩ := hSW χB omh homh a hP.maj θ _ sB hθ' hc.1 hcB hc.2 ν 𝓕 hP.covol mH hmH _ hF
 
   have key : ∀ g h, thetaKO om g h Φ * conj (thetaKO om g h Φ) =
       ((χB (detA A g) : Circle) : ℂ) * thetaKO omh (io A (g, g)) h (delta A B Φ Φ) := by
@@ -344,6 +352,17 @@ theorem normSq_theta_modGrowth_nc : GlobalTheory.Published.WeilRepresentationUni
     _ = (autMeasure B mH).real Set.univ * C₁ * C₂ ^ N * GlobalTheory.Grow.height A g ^ (2 * c * N) := by
         rw [mul_pow, ← pow_mul]; ring
 
+theorem normSq_theta_modGrowth_nc : GlobalTheory.Published.WeilRepresentationUnitaryPair → ResidueKilled.DM → ∀ D : D7, SiegelWeilFock D → ∀ (ψ : AddChar (AF D.host.F) ℂ) (θ : InfFam D) (A B : HSp D) (χA χB : (AE D)ˣ →* Circle) (sA : RealMat A) (sB : RealMat B) (t : ℕ) (cA : CptF A) (a : GL (Fin A.rank) (AE D)) (om : WRep A B) (ν : Measure (WO A B)) (𝓕 : Set (WO A B)), Pair ψ θ A B χA χB sA sB t cA a om ν 𝓕 → (wittIndex B = 0 ∨ wittIndex B < t) → ∀ mH : Measure (GA D B), mH.IsHaarMeasure → ∀ Φ, IsFockVec ψ θ A B sA sB Φ → (∀ g, MemL2Quotient (GQ B) mH fun h => thetaKO om g h Φ) ∧ GlobalTheory.Grow.ModGrowth A fun g => petersson B mH (fun h => thetaKO om g h Φ) fun h => thetaKO om g h Φ := by
+  intro hW hDM D hSW ψ θ A B χA χB sA sB t cA a om ν 𝓕 hP hwitt
+  obtain ⟨ha, ht, hb, -⟩ := hP.setting
+  have hab : A.rank < B.rank := by omega
+  have hw : wittIndex B = 0 ∨ A.rank + wittIndex B < B.rank := by
+    rcases hwitt with h | h
+    · exact Or.inl h
+    · exact Or.inr (by omega)
+  exact normSq_theta_modGrowth_of_integral_formula hW hDM D ψ θ A B
+    (hSW ψ A B ha hab hw) χA χB sA sB t cA a om ν 𝓕 hP
+
 end GlobalTheory.Core.Rk.IP
 end -- clump:auto
 end -- clump:auto
@@ -365,8 +384,11 @@ open GlobalTheory.Core.Rk.IP
 
 namespace GlobalTheory.Core.Rk.IP
 
-theorem globalFormAt_frameLat_nc : GlobalTheory.Published.WeilRepresentationUnitaryPair → GlobalTheory.Published.CuspRapidDecay → ResidueKilled.DM → ∀ D : D7, SiegelWeilFock D → ∀ A : HSp D, GlobalFormAt A (frameLat A) := by
-  intro hW hC hDM D hSW A ψ θ B χA χB sA sB t cA a om ν 𝓕 hP hwitt m mH hm hmH Φ₁ Φ₂ hΦ₁ hΦ₂ u₁ hu₁ u₂ hu₂
+theorem globalFormAt_frameLat_when : GlobalTheory.Published.WeilRepresentationUnitaryPair → GlobalTheory.Published.CuspRapidDecay → ResidueKilled.DM → ∀ (D : D7) {siegelEligible : HSp D → HSp D → Prop} {formEligible : HSp D → ℕ → Prop},
+      SiegelWeilFockWhen D siegelEligible →
+      (∀ (A B : HSp D) (t : ℕ), A.rank + t = B.rank → formEligible B t → siegelEligible A B) →
+      ∀ A : HSp D, GlobalFormAtWhen formEligible A (frameLat A) := by
+  intro hW hC hDM D siegelEligible formEligible hSW hEligible A ψ θ B χA χB sA sB t cA a om ν 𝓕 hP hwitt m mH hm hmH Φ₁ Φ₂ hΦ₁ hΦ₂ u₁ hu₁ u₂ hu₂
   obtain ⟨ha, ht, hb, hθ, hSig, hCart, -⟩ := hP.setting
   obtain ⟨omh, homh⟩ := GlobalTheory.T.exists_weilDatum_hermitianSpaceDoubled hW D ψ A B χA χB om hP.weil
   have hTC := GlobalTheory.T.doublingMap_thetaIdentity_any_weilData D ψ A B χA χB om omh hP.weil homh
@@ -374,10 +396,7 @@ theorem globalFormAt_frameLat_nc : GlobalTheory.Published.WeilRepresentationUnit
   obtain ⟨hφ, hid⟩ := hTC Φ₁ Φ₂ hΦ₁.1 hΦ₂.1
   have hK := GlobalTheory.T.doublingVector_fockPair_isCompactFinite D ψ θ A B χA χB sA sB t cA a om ν 𝓕 hP omh homh Φ₁ Φ₂ hΦ₁ hΦ₂
   have hab : A.rank < B.rank := by omega
-  have hw : wittIndex B = 0 ∨ A.rank + wittIndex B < B.rank := by
-    rcases hwitt with h | h
-    · exact Or.inl h
-    · exact Or.inr (by omega)
+  have hw := hEligible A B t (by omega) hwitt
   obtain ⟨-, -, -, hθ', -, -, hcA, hcB, -⟩ := hP.setting
   have hc := GlobalTheory.T.doubled_cartanInvolution_commute_maximalCompact D θ A sA a hθ' hcA hP.maj_eq
   have hF := GlobalTheory.T.doublingSeesawTensorMap_polynomial_fock_vector D ψ θ A B sA sB hP.weil.std hθ' Φ₁ Φ₂ hΦ₁ hΦ₂
@@ -445,7 +464,8 @@ theorem globalFormAt_frameLat_nc : GlobalTheory.Published.WeilRepresentationUnit
       (GlobalTheory.Grow.ModGrowth A fun g => petersson B mH (fun h => thetaKO om g h Φ) fun h => thetaKO om g h Φ) ∧
       ∀ h, GlobalTheory.Grow.ModGrowth A fun g => thetaKO om g h Φ := by
     intro Φ hΦ
-    obtain ⟨hL2, hMG⟩ := GlobalTheory.Core.Rk.IP.normSq_theta_modGrowth_nc hW hDM D hSW ψ θ A B χA χB sA sB t cA a om ν 𝓕 hP hwitt mH hmH Φ hΦ
+    obtain ⟨hL2, hMG⟩ := normSq_theta_modGrowth_of_integral_formula hW hDM D ψ θ A B
+      (hSW ψ A B ha hab hw) χA χB sA sB t cA a om ν 𝓕 hP mH hmH Φ hΦ
     refine ⟨hP.weil.om_cont Φ hΦ.1 0, fun γ hγ g h => ?_, hL2, hMG, fun h => ?_⟩
     · have e : ((γ * g, h) : GA D A × GA D B) = (γ, 1) * (g, h) := by simp
       unfold thetaKO
@@ -490,6 +510,13 @@ theorem globalFormAt_frameLat_nc : GlobalTheory.Published.WeilRepresentationUnit
   simp only [GlobalTheory.Eis.dblIntegrandQ, GlobalTheory.Eis.dblIntegrand, hpet, MonoidHom.inv_apply, Circle.coe_inv, inv_inv,
     RCLike.conj_conj]
   ring
+
+theorem globalFormAt_frameLat_nc : GlobalTheory.Published.WeilRepresentationUnitaryPair → GlobalTheory.Published.CuspRapidDecay → ResidueKilled.DM → ∀ D : D7, SiegelWeilFock D → ∀ A : HSp D, GlobalFormAt A (frameLat A) := by
+  intro hW hC hDM D hSW
+  exact globalFormAt_frameLat_when hW hC hDM D
+    (siegelEligible := fun A B => wittIndex B = 0 ∨ A.rank + wittIndex B < B.rank)
+    (formEligible := fun B t => wittIndex B = 0 ∨ wittIndex B < t) hSW
+    (fun A B t hEq h => h.imp_right fun hlt => by omega)
 
 end GlobalTheory.Core.Rk.IP
 end -- clump:auto

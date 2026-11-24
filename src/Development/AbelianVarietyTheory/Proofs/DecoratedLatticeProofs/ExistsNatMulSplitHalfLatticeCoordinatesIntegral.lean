@@ -1,5 +1,6 @@
 module
 
+import all Development.AbelianVarietyTheory.Proofs.FlagMeasures.QuadricCharacterLeakSharesFinite
 public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.IsSumFrame
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.IdempotentMulEqZeroOfOrthogonal
 import Mathlib.Algebra.Order.Floor.Extended
@@ -57,32 +58,7 @@ namespace GlobalTheory.FinPl.RdBound
 variable {k : Type} [Field k] [ValuativeRel k] [TopologicalSpace k] [IsNonarchimedeanLocalField k]
 
 theorem exists_nat_mul_mem (x : k) : ∃ N : ℕ, 0 < N ∧ (N : k) * x ∈ 𝒪[k] := by
-  classical
-  obtain ⟨ϖ, hϖ⟩ := IsDiscreteValuationRing.exists_irreducible 𝒪[k]
-  letI := Fintype.ofFinite (IsLocalRing.ResidueField 𝒪[k])
-  set Q := Fintype.card (IsLocalRing.ResidueField 𝒪[k])
-  have hQ : (Q : 𝒪[k]) ∈ IsLocalRing.maximalIdeal 𝒪[k] := by
-    rw [← IsLocalRing.residue_eq_zero_iff, map_natCast]
-    exact FiniteField.cast_card_eq_zero _
-  rw [hϖ.maximalIdeal_eq, Ideal.mem_span_singleton] at hQ
-  obtain ⟨a, b, hb, rfl⟩ := IsFractionRing.div_surjective (A := 𝒪[k]) x
-  have hb0 : b ≠ 0 := nonZeroDivisors.ne_zero hb
-  obtain ⟨m, u, hu⟩ := IsDiscreteValuationRing.eq_unit_mul_pow_irreducible hb0 hϖ
-  have h2 : b ∣ ((Q ^ m : ℕ) : 𝒪[k]) := by
-    rw [hu, Units.mul_left_dvd, Nat.cast_pow]
-    exact pow_dvd_pow_of_dvd hQ m
-  obtain ⟨d, hd⟩ := h2
-  refine ⟨Q ^ m, pow_pos Fintype.card_pos m, ?_⟩
-  have hb1 : (algebraMap 𝒪[k] k b) ≠ 0 := fun h => hb0 (Subtype.ext h)
-  have h3 : ((Q ^ m : ℕ) : k) = algebraMap 𝒪[k] k b * algebraMap 𝒪[k] k d := by
-    rw [← map_mul, ← hd, map_natCast]
-  have h4 : ((Q ^ m : ℕ) : k) * (algebraMap 𝒪[k] k a / algebraMap 𝒪[k] k b) = ((d * a : 𝒪[k]) : k) := by
-    rw [h3]
-    change _ = algebraMap 𝒪[k] k (d * a)
-    rw [map_mul]
-    field_simp
-  rw [h4]
-  exact (d * a).2
+  apply _root_.GlobalTheory.TraceChar.exists_nat_mul_mem_integer <;> assumption
 
 theorem exists_nat_mul_mem_family {ι : Type} [Fintype ι] (f : ι → k) : ∃ N : ℕ, 0 < N ∧ ∀ i, (N : k) * f i ∈ 𝒪[k] := by
   classical

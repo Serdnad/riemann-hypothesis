@@ -1,5 +1,6 @@
 module
 
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.ChartPullbacks.UniversalCharts.SpanXLeKerAevalZero
 public import Development.AbelianVarietyTheory.Definitions.Divisors.SameIdIff
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsAdditiveLineBundleFamilyOfGeometricFibresStatement
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.ExistsLiftPt
@@ -807,23 +808,8 @@ open MvPolynomial
 
 theorem ker_aeval_zero_eq_span (D κ : Type) [CommRing D] :
     RingHom.ker (aeval (R := D) (fun _ : κ ↦ (0 : D))) = Ideal.span (Set.range X) := by
-  apply le_antisymm
-  · intro p hp
-    rw [← Set.image_univ, MvPolynomial.mem_ideal_span_X_image]
-    intro m hm
-    by_contra h
-    push_neg at h
-    have hm0 : m = 0 := by ext i; simpa using h i (Set.mem_univ i)
-    subst hm0
-    rw [RingHom.mem_ker] at hp
-    have : aeval (R := D) (fun _ : κ ↦ (0 : D)) p = AddMonoidAlgebra.coeff p 0 := by
-      first
-        | (show MvPolynomial.eval (0 : κ → D) p = _
-           exact congrFun (congrArg DFunLike.coe (MvPolynomial.eval_zero (R := D) (σ := κ))) p)
-    exact (mem_support_iff.mp hm) (this ▸ hp)
-  · rw [Ideal.span_le]
-    rintro _ ⟨k, rfl⟩
-    simp
+  intros
+  apply _root_.ReciprocityTheory.ChartRestriction.G.Chart.ker_aeval_zero_eq_span_X <;> assumption
 
 noncomputable def zeroPre (D κ : Type) [CommRing D] :
     Algebra.PreSubmersivePresentation D D κ κ where

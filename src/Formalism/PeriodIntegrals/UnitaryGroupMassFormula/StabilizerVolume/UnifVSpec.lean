@@ -52,6 +52,7 @@ import Mathlib.Algebra.Order.Star.Int
 import Mathlib.Tactic.Basify
 import Mathlib.Tactic.ENatToNat
 import Mathlib.Tactic.Linter.Style
+import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.StabilizerOrbitVolume.UnifVSpec
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Formalism.PeriodIntegrals.UnitaryGroupMassFormula.StabilizerVolume.DensAAOf, Formalism.PeriodIntegrals.UnitaryGroupMassFormula.StabilizerVolume.UnifVSpec
@@ -172,17 +173,7 @@ theorem unifV_val {F : Type} [Field F] [NumberField F] (v : HeightOneSpectrum (�
 theorem unifV_spec {F : Type} [Field F] [NumberField F] (v : HeightOneSpectrum (𝓞 F)) :
     unifV v ≠ 0 ∧ Tendsto (fun k : ℕ => unifV v ^ k) atTop (𝓝 0) ∧
       unifV v ∈ v.adicCompletionIntegers F := by
-  have hv := unifV_val v
-  have h1 : Valued.v (unifV v) < 1 := by
-    rw [hv]
-    decide
-  refine ⟨fun h => ?_, ?_, ?_⟩
-  · rw [h, map_zero] at hv
-    exact WithZero.exp_ne_zero hv.symm
-  · have hlt : ‖unifV v‖ < 1 := Valued.toNormedField.norm_lt_one_iff.2 h1
-    exact tendsto_pow_atTop_nhds_zero_of_norm_lt_one hlt
-  · rw [IsDedekindDomain.HeightOneSpectrum.mem_adicCompletionIntegers]
-    exact h1.le
+  apply _root_.PI.VolStabSW.unifV_spec <;> assumption
 
 def lamF {F E : Type} [Field F] [NumberField F] [Field E] [Algebra F E] {d : ℕ}
     (b : Module.Basis (Fin d) F E) (v : HeightOneSpectrum (𝓞 F)) (a M : ℕ) (n : ℕ) :

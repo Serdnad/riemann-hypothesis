@@ -1,5 +1,6 @@
 module
 
+import Formalism.LocalToGlobal.SiegelLatticeTheory.CokernelGLCounts.RankPointCounts.MassClEqSum
 public import Mathlib.MeasureTheory.Group.Measure
 public import Mathlib.Order.CompletePartialOrder
 public import Mathlib.MeasureTheory.Measure.Haar.Unique
@@ -142,12 +143,7 @@ lemma pairwise_disjoint_cosets (A H : Subgroup G) :
 
 lemma mem_conj_map (K : Subgroup G) (g y : G) :
     y ∈ K.map (MulAut.conj g).toMonoidHom ↔ g⁻¹ * y * g ∈ K := by
-  rw [Subgroup.mem_map]
-  constructor
-  · rintro ⟨x, hx, rfl⟩
-    simpa [mul_assoc] using hx
-  · intro h
-    exact ⟨g⁻¹ * y * g, h, by simp [mul_assoc]⟩
+  apply _root_.Formalism.L2.SG.RhoPf.mem_map_conj <;> assumption
 
 end Cosets
 

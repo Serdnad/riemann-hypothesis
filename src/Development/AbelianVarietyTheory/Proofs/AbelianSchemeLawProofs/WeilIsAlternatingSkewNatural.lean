@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.SymmetricLiftOddOrderExistsUnique
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.ValCalc
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.GlobalSectionsRankAlgClosed
 import Mathlib.Algebra.Order.Floor.Extended
@@ -79,18 +80,7 @@ variable {S : Scheme.{0}} {A : Over S} [GrpObj A] {L : LB A.left} {k : ℤ}
 
 theorem surj_fst (hG : GlobalFnsSt) (hA : IsAbelianScheme A) (T : Over S) :
     Function.Surjective (fst T A).left.appTop.hom := by
-  have hB : IsAbelianScheme ((Over.pullback T.hom).obj A) :=
-    { comm := by have := hA.comm; infer_instance
-      smooth := by have := hA.smooth; show Smooth (pullback.snd _ _); infer_instance
-      proper := by have := hA.proper; show IsProper (pullback.snd _ _); infer_instance
-      geomConnected := by have := hA.geomConnected; show GeometricallyConnected (pullback.snd _ _); infer_instance }
-  have hb : Function.Surjective (pullback.snd A.hom T.hom).appTop.hom := (hG _ _ hB).2
-  have e : (fst T A).left = (pullbackSymmetry T.hom A.hom).hom ≫ pullback.snd A.hom T.hom :=
-    (pullbackSymmetry_hom_comp_snd _ _).symm
-  rw [e, Scheme.Hom.comp_appTop, CommRingCat.hom_comp, RingHom.coe_comp]
-  have : IsIso (pullbackSymmetry T.hom A.hom).hom.appTop :=
-    inferInstanceAs (IsIso ((pullbackSymmetry T.hom A.hom).hom.app ⊤))
-  exact (ConcreteCategory.bijective_of_isIso (pullbackSymmetry T.hom A.hom).hom.appTop).2.comp hb
+  first | exact _root_.GlobalTheory.SymLiftOdd.surj_fst | exact @_root_.GlobalTheory.SymLiftOdd.surj_fst | apply _root_.GlobalTheory.SymLiftOdd.surj_fst <;> assumption
 
 def tval {T : Over S} (θ : ThetaGrp A L k T) {Z : Scheme.{0}} (r : Z ⟶ (T ⊗ A).left) (z : Z)
     (J : (Z ⟶ A.left) → L.ι) : (Z.presheaf.stalk z)ˣ :=

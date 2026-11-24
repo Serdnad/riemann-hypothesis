@@ -1,5 +1,7 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsUnramifiedQuadraticDatumAtInertPlace
+import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.SatakeEsymmScaledMultisetAddSegment
 public import Development.AbelianVarietyTheory.Definitions.Divisors.IsUnifAt
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ExistsAdmissibleLinearFunctional
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.IsIntZero
@@ -327,27 +329,7 @@ theorem le_one_of_unif_mul {ϖ x : w.adicCompletion E} (h : IsUnifV E w ϖ)
 theorem mem_max_iff (x : w.adicCompletionIntegers E) :
     x ∈ IsLocalRing.maximalIdeal (w.adicCompletionIntegers E) ↔
       Valued.v (x : w.adicCompletion E) < 1 := by
-  rw [IsLocalRing.mem_maximalIdeal, mem_nonunits_iff]
-  constructor
-  · intro hx
-    refine lt_of_le_of_ne x.2 fun h1 => hx ?_
-    have hx0 : (x : w.adicCompletion E) ≠ 0 := by
-      intro h0
-      rw [h0, map_zero] at h1
-      exact zero_ne_one h1
-    have hinv : (x : w.adicCompletion E)⁻¹ ∈ w.adicCompletionIntegers E := by
-      show Valued.v (x : w.adicCompletion E)⁻¹ ≤ 1
-      rw [map_inv₀, h1, inv_one]
-    exact IsUnit.of_mul_eq_one ⟨_, hinv⟩ (Subtype.ext (mul_inv_cancel₀ hx0))
-  · intro hx hu
-    obtain ⟨y, hy⟩ := hu.exists_right_inv
-    have h1 : Valued.v (x : w.adicCompletion E) * Valued.v (y : w.adicCompletion E) = 1 := by
-      rw [← map_mul]
-      have : (x : w.adicCompletion E) * (y : w.adicCompletion E) = 1 := congrArg Subtype.val hy
-      rw [this, map_one]
-    have h2 : Valued.v (y : w.adicCompletion E) ≤ 1 := y.2
-    have h3 := lt_of_le_of_lt (mul_le_of_le_one_right' h2) hx
-    exact absurd h1 (ne_of_lt h3)
+  apply _root_.GlobalTheory.InertUQ.mem_max_iff <;> assumption
 
 def posR {a i : ℕ} (hi : i ≤ a) (r : Fin i) : Fin a := Fin.castLE hi r
 
@@ -1055,17 +1037,7 @@ theorem esymm_cons_succ' (a : ℂ) (s : Multiset ℂ) (n : ℕ) :
 
 theorem coeff_prod_one_add (s : Multiset ℂ) (n : ℕ) :
     ((s.map fun a => (1 + Polynomial.C a * Polynomial.X : Polynomial ℂ)).prod).coeff n = s.esymm n := by
-  induction s using Multiset.induction_on generalizing n with
-  | empty =>
-    cases n with
-    | zero => simp [Multiset.esymm]
-    | succ n => simp [Multiset.esymm, Polynomial.coeff_one, Multiset.powersetCard_zero_right]
-  | cons a s ih =>
-    rw [Multiset.map_cons, Multiset.prod_cons, add_mul, one_mul, mul_assoc, Polynomial.coeff_add,
-      Polynomial.coeff_C_mul]
-    cases n with
-    | zero => simp [ih, Multiset.esymm]
-    | succ n => rw [Polynomial.coeff_X_mul, ih, ih, esymm_cons_succ']
+  apply _root_.GlobalTheory.ChainOnto.coeff_prod_one_add_C <;> assumption
 
 theorem esymm_add_antidiagonal (s t : Multiset ℂ) (k : ℕ) :
     (s + t).esymm k = ∑ p ∈ Finset.HasAntidiagonal.antidiagonal k, s.esymm p.1 * t.esymm p.2 := by

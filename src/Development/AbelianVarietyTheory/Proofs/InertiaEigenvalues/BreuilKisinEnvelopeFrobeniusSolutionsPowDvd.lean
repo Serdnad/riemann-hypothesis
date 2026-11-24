@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.BreuilKisinEnvelopesAdicTopologicalBasis
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.IsStratHom
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.BreuilKisinEvWIsUnitInjectiveDvd
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.BreuilKisinTwoHomsERegularAssociated
@@ -95,17 +96,8 @@ namespace GlobalTheory.BSP.EnvPush
 
 theorem c_mem_of_mem_map {S A ι : Type} [CommRing S] [CommRing A] {s : S →+* A} {I : Ideal S}
     (TB : TopBasis s I ι) (L : Ideal S) (i : ι) {x : A} (hx : x ∈ L.map s) : TB.c i x ∈ L := by
-  have key : ∀ a : A, TB.c i (a * x) ∈ L := by
-    induction hx using Submodule.span_induction with
-    | mem y hy =>
-      obtain ⟨j, hj, rfl⟩ := hy
-      intro a
-      rw [mul_comm, TB.c_mul]
-      exact L.mul_mem_right _ hj
-    | zero => intro a; rw [mul_zero, map_zero]; exact L.zero_mem
-    | add y z _ _ hy hz => intro a; rw [mul_add, map_add (f := _)]; exact L.add_mem (hy a) (hz a)
-    | smul b y _ hy => intro a; rw [smul_eq_mul, ← mul_assoc]; exact hy (a * b)
-  simpa using key 1
+  intros
+  apply _root_.GlobalTheory.BSP.TopBasis.coeff_mem_of_mem_map <;> assumption
 
 theorem coeff_map {S A S' A' ι : Type} [CommRing S] [CommRing A] [CommRing S'] [CommRing A'] {s : S →+* A}
     {s' : S' →+* A'} {I : Ideal S} {I' : Ideal S'} (TB : TopBasis s I ι) (TB' : TopBasis s' I' ι) (g : S →+* S')

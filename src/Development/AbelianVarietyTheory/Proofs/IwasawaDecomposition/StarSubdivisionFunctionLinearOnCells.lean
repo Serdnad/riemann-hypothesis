@@ -61,14 +61,14 @@ theorem extend_nonneg_starLin {m m' : ℕ} (s : Fin m' ↪ Fin m) {d : Fin m' �
   · obtain ⟨j, rfl⟩ := hi; rw [s.injective.extend_apply]; exact hd j
   · rw [Function.extend_apply' _ _ _ hi]; rfl
 
-theorem starFun_linearOn : ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (H : Host E) (q : ℕ) (ψ w : InvFun (𝓞 E)) (K D : ℕ), IsCentreSet H.bar q ψ w → (∀ (X : Type) [AddCommGroup X] [Module (𝓞 E) X] [Module.Finite (𝓞 E) X] [Module.Projective (𝓞 E) X], Module.finrank (𝓞 E) X ≤ q → ∀ (m : ℕ) (γ : Fin m → LinearMap.BilinForm ℤ X), IsCell H.bar ψ γ → (∀ β ∈ balForms H.bar X, (∀ y, 0 ≤ β y y) → InRCone γ β → w.evalZ β = 0) → (starFun H.bar ψ w K D).LinearOn γ) ∧ (∀ (X : Type) [AddCommGroup X] [Module (𝓞 E) X] [Module.Finite (𝓞 E) X] [Module.Projective (𝓞 E) X], Module.finrank (𝓞 E) X ≤ q → ∀ (m : ℕ) (γ : Fin m → LinearMap.BilinForm ℤ X), IsCell H.bar ψ γ → ∀ β₀ ∈ balForms H.bar X, (∀ y, 0 ≤ β₀ y y) → w.evalZ β₀ = 1 → InRCone γ β₀ → ∀ (m' : ℕ) (s : Fin m' ↪ Fin m) (h : LinearMap.BilinForm ℤ X →ₗ[ℤ] ℤ), IsFaceCut γ s h → 0 < h β₀ → (starFun H.bar ψ w K D).LinearOn (Fin.cons β₀ fun j => γ (s j))) := by
-  intro E _ _ _ H q ψ w K D hcent
+theorem starFun_linearOn_over_order : ∀ (O : Type) [CommRing O] [IsDedekindDomain O] [CharZero O] [Module.Finite ℤ O] (bar : O → O), ∀ (q : ℕ) (ψ w : InvFun O) (K D : ℕ), IsCentreSet bar q ψ w → (∀ (X : Type) [AddCommGroup X] [Module O X] [Module.Finite O X] [Module.Projective O X], Module.finrank O X ≤ q → ∀ (m : ℕ) (γ : Fin m → LinearMap.BilinForm ℤ X), IsCell bar ψ γ → (∀ β ∈ balForms bar X, (∀ y, 0 ≤ β y y) → InRCone γ β → w.evalZ β = 0) → (starFun bar ψ w K D).LinearOn γ) ∧ (∀ (X : Type) [AddCommGroup X] [Module O X] [Module.Finite O X] [Module.Projective O X], Module.finrank O X ≤ q → ∀ (m : ℕ) (γ : Fin m → LinearMap.BilinForm ℤ X), IsCell bar ψ γ → ∀ β₀ ∈ balForms bar X, (∀ y, 0 ≤ β₀ y y) → w.evalZ β₀ = 1 → InRCone γ β₀ → ∀ (m' : ℕ) (s : Fin m' ↪ Fin m) (h : LinearMap.BilinForm ℤ X →ₗ[ℤ] ℤ), IsFaceCut γ s h → 0 < h β₀ → (starFun bar ψ w K D).LinearOn (Fin.cons β₀ fun j => γ (s j))) := by
+  intro O _ _ _ _ bar q ψ w K D hcent
   refine ⟨?_, ?_⟩
   · intro X _ _ _ _ hX m γ hγ hno
-    have ps0 : ∀ B ∈ rcone γ, evalR (starDepth H.bar ψ w) B = 0 := fun B hB =>
-      le_antisymm (_root_.GlobalTheory.PolFan.evalR_starDepth_le _ H.bar ψ w X m γ B 0 hγ hB le_rfl fun v hv hp hw hin _ _ _ =>
+    have ps0 : ∀ B ∈ rcone γ, evalR (starDepth bar ψ w) B = 0 := fun B hB =>
+      le_antisymm (_root_.GlobalTheory.PolFan.evalR_starDepth_le _ bar ψ w X m γ B 0 hγ hB le_rfl fun v hv hp hw hin _ _ _ =>
         absurd (hno v hv hp hin) (by rw [hw]; norm_num)) (starDepth_eval_nonneg _)
-    have psγ : ∀ i, (starDepth H.bar ψ w).evalZ (γ i) = 0 := fun i => by
+    have psγ : ∀ i, (starDepth bar ψ w).evalZ (γ i) = 0 := fun i => by
       rw [← evalR_toReal]; exact ps0 _ (inRCone_self γ i)
     rw [linearOn_iff]
     intro c hc
@@ -78,7 +78,7 @@ theorem starFun_linearOn : ∀ (E : Type) [Field E] [NumberField E] [IsCMField E
     rw [starFun_evalZ, psγ i]; ring
   · intro X _ _ _ _ hX m γ hγ β₀ hβ₀ hp₀ hw₀ hin₀ m' s h hcut hh
     obtain ⟨-, hC2, hC3⟩ := hcent X hX
-    have uniq : ∀ v ∈ balForms H.bar X, (∀ y, 0 ≤ v y y) → w.evalZ v = 1 → InRCone γ v → v = β₀ :=
+    have uniq : ∀ v ∈ balForms bar X, (∀ y, 0 ≤ v y y) → w.evalZ v = 1 → InRCone γ v → v = β₀ :=
       fun v hv hp hw hin => hC3 m γ hγ v hv hp β₀ hβ₀ hp₀ hw hw₀ hin hin₀
     have hne : β₀ ≠ 0 := by
       rintro rfl
@@ -91,13 +91,13 @@ theorem starFun_linearOn : ∀ (E : Type) [Field E] [NumberField E] [IsCMField E
       simp only [add_smul, mul_smul, Finset.sum_add_distrib]
     have hs0 : ∀ j, h (γ (s j)) = 0 := fun j => (hcut.2 (s j)).2 ⟨j, rfl⟩
     have psv : ∀ (a : ℝ) (d : Fin m' → ℝ), 0 ≤ a → (∀ j, 0 ≤ d j) →
-        evalR (starDepth H.bar ψ w) (a • toReal β₀ + ∑ j, d j • toReal (γ (s j))) = a := by
+        evalR (starDepth bar ψ w) (a • toReal β₀ + ∑ j, d j • toReal (γ (s j))) = a := by
       intro a d ha hd
       have hB : a • toReal β₀ + ∑ j, d j • toReal (γ (s j)) ∈ rcone γ :=
         ⟨fun i => a * e i + Function.extend s d 0 i,
           fun i => add_nonneg (mul_nonneg ha (he i)) (extend_nonneg_starLin s hd i), coords a d⟩
-      refine le_antisymm (_root_.GlobalTheory.PolFan.evalR_starDepth_le _ H.bar ψ w X m γ _ a hγ hB ha fun v hv hp hw hin t ht hBt => ?_)
-        (_root_.GlobalTheory.PolFan.depth_le_starDepth _ H.bar ψ w X m γ _ β₀ a hγ hB hβ₀ hp₀ hw₀ hin₀ hne uniq ha ?_)
+      refine le_antisymm (_root_.GlobalTheory.PolFan.evalR_starDepth_le _ bar ψ w X m γ _ a hγ hB ha fun v hv hp hw hin t ht hBt => ?_)
+        (_root_.GlobalTheory.PolFan.depth_le_starDepth _ bar ψ w X m γ _ β₀ a hγ hB hβ₀ hp₀ hw₀ hin₀ hne uniq ha ?_)
       · rw [uniq v hv hp hw hin] at hBt
         obtain ⟨g, hg, hBg⟩ := hBt
         have rel := sum_mul_eq_zero_of_sum_toReal (X := X) (j := LinearMap.id) (fun _ _ h => h) h
@@ -115,10 +115,10 @@ theorem starFun_linearOn : ∀ (E : Type) [Field E] [NumberField E] [IsCMField E
         nlinarith
       · exact ⟨Function.extend s d 0, extend_nonneg_starLin s hd, by
           rw [add_sub_cancel_left, sum_extend_smul_starLin]⟩
-    have psβ : (starDepth H.bar ψ w).evalZ β₀ = 1 := by
+    have psβ : (starDepth bar ψ w).evalZ β₀ = 1 := by
       have := psv 1 0 zero_le_one fun _ => le_rfl
       simpa using this
-    have psγs : ∀ j, (starDepth H.bar ψ w).evalZ (γ (s j)) = 0 := fun j => by
+    have psγs : ∀ j, (starDepth bar ψ w).evalZ (γ (s j)) = 0 := fun j => by
       have := psv 0 (Pi.single j 1) le_rfl fun i => by by_cases hi : i = j <;> simp [hi]
       simpa [Pi.single_apply] using this
     have ψv : ∀ (a : ℝ) (d : Fin m' → ℝ), 0 ≤ a → (∀ j, 0 ≤ d j) →
@@ -141,5 +141,9 @@ theorem starFun_linearOn : ∀ (E : Type) [Field E] [NumberField E] [IsCMField E
         D * K * ∑ j : Fin m', c j.succ * ψ.evalZ (γ (s j)) := by
       rw [Finset.mul_sum]; exact Finset.sum_congr rfl fun j _ => by ring
     rw [e1]; ring
+
+theorem starFun_linearOn : ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (H : Host E) (q : ℕ) (ψ w : InvFun (𝓞 E)) (K D : ℕ), IsCentreSet H.bar q ψ w → (∀ (X : Type) [AddCommGroup X] [Module (𝓞 E) X] [Module.Finite (𝓞 E) X] [Module.Projective (𝓞 E) X], Module.finrank (𝓞 E) X ≤ q → ∀ (m : ℕ) (γ : Fin m → LinearMap.BilinForm ℤ X), IsCell H.bar ψ γ → (∀ β ∈ balForms H.bar X, (∀ y, 0 ≤ β y y) → InRCone γ β → w.evalZ β = 0) → (starFun H.bar ψ w K D).LinearOn γ) ∧ (∀ (X : Type) [AddCommGroup X] [Module (𝓞 E) X] [Module.Finite (𝓞 E) X] [Module.Projective (𝓞 E) X], Module.finrank (𝓞 E) X ≤ q → ∀ (m : ℕ) (γ : Fin m → LinearMap.BilinForm ℤ X), IsCell H.bar ψ γ → ∀ β₀ ∈ balForms H.bar X, (∀ y, 0 ≤ β₀ y y) → w.evalZ β₀ = 1 → InRCone γ β₀ → ∀ (m' : ℕ) (s : Fin m' ↪ Fin m) (h : LinearMap.BilinForm ℤ X →ₗ[ℤ] ℤ), IsFaceCut γ s h → 0 < h β₀ → (starFun H.bar ψ w K D).LinearOn (Fin.cons β₀ fun j => γ (s j))) := by
+  intro E _ _ _ H
+  exact starFun_linearOn_over_order (𝓞 E) H.bar
 
 end GlobalTheory.PolFan

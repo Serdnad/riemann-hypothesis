@@ -3,6 +3,7 @@ module
 public import Formalism.LocalToGlobal.Columns.Adelic
 public import Formalism.LocalToGlobal.Columns.AdelicLemmas
 import Mathlib.Tactic.Lemma
+import Formalism.LocalToGlobal.Columns.StdLatUnimodular
 
 @[expose] public section
 
@@ -37,26 +38,7 @@ theorem til_tmv_int_of_iA {a : E} (h : iA F E a ∈ Formalism.L2.Herm.intAf F E)
 private lemma mk_mul_reduction_eq_mk (P : HeightOneSpectrum (𝓞 E)) {x : E} {r s : 𝓞 E} (hs : s ∉ P.asIdeal)
     (h : algebraMap (𝓞 E) E s * x = algebraMap (𝓞 E) E r) :
     Ideal.Quotient.mk P.asIdeal s * redP P x = Ideal.Quotient.mk P.asIdeal r := by
-  classical
-  haveI : P.asIdeal.IsMaximal := P.isMaximal
-  letI := Ideal.Quotient.field P.asIdeal
-  have hs0 : Ideal.Quotient.mk P.asIdeal s ≠ 0 := by
-    rwa [Ne, Ideal.Quotient.eq_zero_iff_mem]
-  have hex : ∃ c : 𝓞 E ⧸ P.asIdeal, ∃ r s : 𝓞 E, s ∉ P.asIdeal ∧ algebraMap (𝓞 E) E s * x = algebraMap (𝓞 E) E r ∧
-      Ideal.Quotient.mk P.asIdeal s * c = Ideal.Quotient.mk P.asIdeal r :=
-    ⟨Ideal.Quotient.mk P.asIdeal r * (Ideal.Quotient.mk P.asIdeal s)⁻¹, r, s, hs, h, by
-      rw [mul_comm, mul_assoc, inv_mul_cancel₀ hs0, mul_one]⟩
-  unfold redP
-  rw [dite_eq_left hex]
-  obtain ⟨r', s', hs', h', hc'⟩ := hex.choose_spec
-  have hs'0 : Ideal.Quotient.mk P.asIdeal s' ≠ 0 := by
-    rwa [Ne, Ideal.Quotient.eq_zero_iff_mem]
-  have key : s * r' = s' * r := by
-    apply IsFractionRing.injective (𝓞 E) E
-    rw [map_mul, map_mul, ← h', ← h]
-    ring
-  apply mul_left_cancel₀ hs'0
-  rw [mul_left_comm, hc', ← map_mul, ← map_mul, key]
+  apply _root_.Formalism.L2.Col.reduction_spec <;> assumption
 
 variable {n : ℕ} [NeZero n] (ST SG : Finset (Pl E))
 

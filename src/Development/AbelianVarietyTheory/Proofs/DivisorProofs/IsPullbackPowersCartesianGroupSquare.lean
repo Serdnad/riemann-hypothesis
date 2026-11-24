@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.ExistsSemiAbelianGroupSchemeCubicalBundleClosureStatement
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.SabPull
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -125,27 +126,8 @@ theorem isPullback_four (hp : IsPullback β G'.hom G.hom f) :
 
 theorem isPullback_three [GrpObj G] [IsCommMonObj G] [GrpObj G'] [IsCommMonObj G'] (gp : IsGrpPullback G' G f β) :
     IsPullback (cubeMapOf gp).F3 (G3 G').hom (G3 G).hom f := by
-  have hp := gp.1
-  have f3 : ∀ i, (cubeMapOf gp).F3 ≫ (x3 G i).left = (x3 G' i).left ≫ β := cubeMap_comp_proj_three (cubeMapOf gp)
-  have w : (cubeMapOf gp).F3 ≫ (G3 G).hom = (G3 G').hom ≫ f :=
-    Over.w (lift (pushPt hp.w (x3 G' 0)) (lift (pushPt hp.w (x3 G' 1)) (pushPt hp.w (x3 G' 2))))
-  have ex : ∀ s : PullbackCone (G3 G).hom f, ∃ l : s.pt ⟶ (G3 G').left,
-      l ≫ (cubeMapOf gp).F3 = s.fst ∧ l ≫ (G3 G').hom = s.snd := by
-    intro s
-    let P : Over S' := Over.mk s.snd
-    let x : Fin 3 → (P ⟶ G') := fun i => Over.homMk
-      (hp.lift (s.fst ≫ (x3 G i).left) P.hom (by
-        rw [Category.assoc, Over.w]; exact s.condition)) (hp.lift_snd _ _ _)
-    have hx : ∀ i, (x i).left ≫ β = s.fst ≫ (x3 G i).left := fun i => hp.lift_fst _ _ _
-    let l : P ⟶ G3 G' := lift (x 0) (lift (x 1) (x 2))
-    have lx : ∀ i, l ≫ x3 G' i = x i := fun i => by fin_cases i <;> simp [l, x3]
-    refine ⟨l.left, hom_ext_triple _ fun i => ?_, Over.w l⟩
-    rw [Category.assoc, f3, ← hx, ← lx]
-    exact (Category.assoc _ _ _).symm
-  choose l h₁ h₂ using ex
-  refine ⟨⟨w⟩, ⟨PullbackCone.IsLimit.mk w l h₁ h₂ fun s m m₁ m₂ => hom_ext_triple _ fun i => hp.hom_ext ?_ ?_⟩⟩
-  · rw [Category.assoc, Category.assoc, ← f3, ← Category.assoc, ← Category.assoc, m₁, h₁]
-  · rw [Category.assoc, Category.assoc, Over.w, m₂, h₂]
+  intros
+  apply _root_.GlobalTheory.ZJ.TestNorm.isPullback_cube <;> assumption
 
 theorem isPullback_pow {S S' : Scheme.{0}} {G : Over S} {G' : Over S'} [GrpObj G] [IsCommMonObj G] [GrpObj G']
     [IsCommMonObj G'] {f : S' ⟶ S} {β : G'.left ⟶ G.left} (h : IsGrpPullback G' G f β) :

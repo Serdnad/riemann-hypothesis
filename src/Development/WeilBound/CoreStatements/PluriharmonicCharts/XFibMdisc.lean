@@ -1,5 +1,6 @@
 module
 
+import ReciprocityTheory.ReductiveGroups.DiscreteSeries.LaplaceOperators.CapelliIdentity.BasicCycleRangeLastCastSucc
 public import ReciprocityTheory.AnalyticForms.MaIntEmpty
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -81,18 +82,7 @@ theorem phi_succ {d : ℕ} (x : Fin (d + 1) × Equiv.Perm (Fin d)) (j : Fin d) :
   simp [phi, Equiv.Perm.decomposeFin_symm_apply_succ, Fin.cycleRange_symm_succ]
 
 theorem phi_bijective (d : ℕ) : Function.Bijective (phi (d := d)) := by
-  refine (Fintype.bijective_iff_injective_and_card _).2 ⟨?_, ?_⟩
-  · rintro ⟨r, τ⟩ ⟨r', τ'⟩ h
-    have h0 : r = r' := by
-      have := congrArg (fun σ : Equiv.Perm (Fin (d + 1)) => σ 0) h
-      simpa [phi_zero] using this
-    subst h0
-    have h1 : Equiv.Perm.decomposeFin.symm ((0 : Fin (d + 1)), τ) =
-        Equiv.Perm.decomposeFin.symm ((0 : Fin (d + 1)), τ') := mul_left_cancel h
-    have := Equiv.Perm.decomposeFin.symm.injective h1
-    simp only [Prod.mk.injEq, true_and] at this
-    rw [this]
-  · simp [Fintype.card_prod, Fintype.card_perm, Fintype.card_fin, Nat.factorial_succ]
+  apply _root_.ReciprocityTheory.ChartRestriction.DS.Lap.Capelli.permIns_bijective <;> assumption
 
 theorem part1 (d : ℕ) (f : Fin (d + 1) → ℂ) (Bm : Fin (d + 1) → Matrix (Fin d) (Fin d) ℂ) :
     ((d + 1).factorial : ℂ) * mdisc (fun r => Matrix.of fun p q : Fin (d + 1) =>

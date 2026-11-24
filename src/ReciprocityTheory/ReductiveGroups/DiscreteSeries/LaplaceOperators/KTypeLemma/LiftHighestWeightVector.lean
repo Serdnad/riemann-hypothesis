@@ -1,5 +1,6 @@
 module
 
+import ReciprocityTheory.ReductiveGroups.DiscreteSeries.LaplaceOperators.KTypeLemma.IsKRelationCompactWordAction
 public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.LaplaceOperators.KTypeLemma.InnerCompactWordActionAdjoint
 import Mathlib.Algebra.Ring.IsFormallyReal
 import Mathlib.Data.Set.Finite.List
@@ -52,21 +53,7 @@ theorem lc_adLW (E : Fin n → Fin n → Module.End ℂ M) (hE : IsGlRep E) (a b
 theorem contraction_compactWordAction (ε : Fin n → Bool) (E : Fin n → Fin n → Module.End ℂ M) (V : Submodule ℂ M)
     (hV : IsKStableSub ε E V) (hE : IsGlRep E) (a b : Fin n) (hab : ε a = ε b)
     (x : KS (n := n) V) (d : Fin n) : sT E V (Cone.compactWordAction ε E V hV a b x) d = E a b (sT E V x d) := by
-  induction x using Finsupp.induction_linear with
-  | zero => simp
-  | add x y hx hy => simp only [map_add (f := _), Pi.add_apply, hx, hy]
-  | single p v =>
-    obtain ⟨w, c⟩ := p
-    have key := lc_adLW E hE a b (v : M) w
-    rw [Finsupp.linearCombination_apply, Finsupp.sum] at key
-
-    rw [Cone.compactWordAction_single, dite_eq_left hab, map_add (f := _), map_sum, sT_single, Pi.add_apply, Finset.sum_apply]
-    simp only [map_smul, sT_single, Pi.smul_apply]
-    by_cases hd : d = c
-    · subst hd
-      simp only [Pi.single_eq_same]
-      rw [key, sub_add_cancel]
-    · simp [hd]
+  apply ReciprocityTheory.ChartRestriction.DS.Lap.LemK.Cone.contraction_compactWordAction <;> assumption
 
 theorem sA_single' (ε : Fin n → Bool) (E : Fin n → Fin n → Module.End ℂ M) (V : Submodule ℂ M)
     (hV : IsKStableSub ε E V) (a b : Fin n) (p : List (Fin n × Fin n) × Fin n) (v : V) :

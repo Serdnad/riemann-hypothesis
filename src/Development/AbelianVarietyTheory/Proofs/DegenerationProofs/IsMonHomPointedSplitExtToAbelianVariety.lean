@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.QuotientIsAbelianSchemeOfQuotientScheme
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.IsCompletedStrictHens
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.SemiabelianSchemes.AbelianSchemeQuotients.QSurjective
 public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.GlobalFnsHolds
@@ -84,18 +85,7 @@ theorem exists_factor {S : Scheme.{0}} {X Y Z : Over S} (p : X ⟶ Y) [Flat p.le
     [Surjective p.left] [QuasiCompact p.left] (f : X ⟶ Z)
     (h : ∀ (W : Over S) (a b : W ⟶ X), a ≫ p = b ≫ p → a ≫ f = b ≫ f) :
     ∃ β : Y ⟶ Z, p ≫ β = f := by
-  have hc : ∀ {W : Scheme.{0}} (g g' : W ⟶ X.left), g ≫ p.left = g' ≫ p.left →
-      g ≫ f.left = g' ≫ f.left := by
-    intro W g g' hg
-    have hw : g' ≫ X.hom = g ≫ X.hom := by
-      rw [← Over.w p, ← Category.assoc, ← hg, Category.assoc]
-    have := h (Over.mk (g ≫ X.hom)) (Over.homMk g rfl) (Over.homMk g' hw)
-      (Over.OverMorphism.ext hg)
-    exact congrArg CommaMorphism.left this
-  have hfac := EffectiveEpi.fac p.left f.left hc
-  exact ⟨Over.homMk (EffectiveEpi.desc p.left f.left hc) (by
-    rw [← cancel_epi p.left, ← Category.assoc, hfac, Over.w, Over.w]),
-    Over.OverMorphism.ext hfac⟩
+  first | exact _root_.GlobalTheory.AbelianQuotient.exists_desc | exact @_root_.GlobalTheory.AbelianQuotient.exists_desc | apply _root_.GlobalTheory.AbelianQuotient.exists_desc <;> assumption
 
 theorem isMonHom_of_pointed :
     ∀ (K : Type) [Field K] [IsAlgClosed K] (E : SplitExt (Sp K)) (G : Over (Sp K)) [GrpObj G], E.IsGt G → ∀ (B : Over (Sp K)) [GrpObj B], IsAbelianScheme B → ∀ f : G ⟶ B, η[G] ≫ f = η[B] → IsMonHom f := by

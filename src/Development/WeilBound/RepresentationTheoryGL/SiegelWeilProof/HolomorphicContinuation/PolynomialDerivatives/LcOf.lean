@@ -1,5 +1,6 @@
 module
 
+import Development.WeilBound.RepresentationTheoryGL.SiegelWeilProof.HolomorphicContinuation.PolynomialDerivatives.ComapDomainInlAdd
 public import Development.WeilBound.RepresentationTheoryGL.SiegelWeilProof.HolomorphicContinuation.PolynomialDerivatives.FockMono
 public import Development.WeilBound.RepresentationTheoryGL.SiegelWeilProof.HolomorphicContinuation.PolynomialDerivatives.IntegrableMonomial
 public import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
@@ -572,13 +573,7 @@ variable {m n : ℕ}
 
 theorem hop_pderiv_comm' (i j : Fin m × Fin n × Bool) (p : PX m n) :
     pderiv (R := ℂ) i (pderiv (R := ℂ) j p) = pderiv (R := ℂ) j (pderiv (R := ℂ) i p) := by
-  have h : (⁅pderiv (R := ℂ) i, pderiv (R := ℂ) j⁆ : Derivation ℂ (PX m n) (PX m n)) = 0 := by
-    apply MvPolynomial.derivation_ext
-    intro k
-    rw [Derivation.commutator_apply, pderiv_X, pderiv_X]
-    by_cases h1 : j = k <;> by_cases h2 : i = k <;> simp [h1, h2]
-  have := congrArg (fun D : Derivation ℂ (PX m n) (PX m n) => D p) h
-  simpa [Derivation.commutator_apply, sub_eq_zero] using this
+  apply _root_.PositivityTheory.Rg.Sw.LC.pderiv_comm <;> assumption
 
 theorem cr_false (c : ℝ) (a : Fin m) (i : Fin n) (Q : PX m n) :
     cr c (a, i, false) Q = -pderiv (a, i, false) Q + (2 * c : ℂ) • (X (a, i, true) * Q) := by
@@ -589,11 +584,7 @@ theorem cr_true (c : ℝ) (a : Fin m) (i : Fin n) (Q : PX m n) :
   simp [cr]
 
 theorem hop_fock_C (c : ℝ) (r : ℂ) : fock c (C r : PX m n) = C r := by
-  classical
-  by_cases hr : r = 0
-  · subst hr; simp [fock]
-  · rw [fock, support_C, if_neg hr, Finset.sum_singleton, coeff_C, if_pos rfl]
-    simp [fockMono, smul_eq_C_mul]
+  apply _root_.PositivityTheory.Rg.Sw.LC.fock_C <;> assumption
 
 theorem hop_pderiv_cr (c : ℝ) (j k : Fin m × Fin n × Bool) (Q : PX m n) :
     pderiv k (cr c j Q) = cr c j (pderiv k Q) + C (2 * c : ℂ) * (if k = (j.1, j.2.1, !j.2.2) then Q else 0) := by
@@ -762,16 +753,7 @@ theorem cr_apply (c : ℝ) (k : Ix m n) (P : PX m n) :
 
 theorem pderiv_comm' (k l : Ix m n) (P : PX m n) :
     pderiv k (pderiv l P) = pderiv l (pderiv k P) := by
-  classical
-  have h : ⁅(pderiv k : Derivation ℂ (PX m n) (PX m n)), (pderiv l : Derivation ℂ (PX m n) (PX m n))⁆ = 0 := by
-    apply MvPolynomial.derivation_ext
-    intro i
-    rw [Derivation.commutator_apply, pderiv_X, pderiv_X]
-    simp only [Pi.single_apply]
-    split_ifs <;> simp
-  have h2 := congrArg (fun D : Derivation ℂ (PX m n) (PX m n) => D P) h
-  simp only [Derivation.commutator_apply] at h2
-  exact sub_eq_zero.mp (by simpa using h2)
+  apply _root_.PositivityTheory.Rg.Sw.LC.PolynomialDifferentialOperators.pderiv_comm <;> assumption
 
 theorem cr_comm (c : ℝ) (k l : Ix m n) (P : PX m n) :
     cr c k (cr c l P) = cr c l (cr c k P) := by
@@ -1586,14 +1568,7 @@ theorem sw_inj {k k' : Fin m × Fin n × Bool} : sw k = sw k' ↔ k = k' := by
 
 theorem pderiv_comm (i j : Fin m × Fin n × Bool) (P : PX m n) :
     pderiv i (pderiv j P) = pderiv j (pderiv i P) := by
-  classical
-  have h : ⁅(pderiv (R := ℂ) i : Derivation ℂ (PX m n) (PX m n)), pderiv (R := ℂ) j⁆ = 0 := by
-    apply MvPolynomial.derivation_ext
-    intro k
-    rw [Derivation.commutator_apply, pderiv_X, pderiv_X]
-    by_cases hi : i = k <;> by_cases hj : j = k <;> simp [hi, hj]
-  have := congrArg (fun D : Derivation ℂ (PX m n) (PX m n) => D P) h
-  simpa [Derivation.commutator_apply, sub_eq_zero] using this
+  apply _root_.PositivityTheory.Rg.Sw.LC.pderiv_comm <;> assumption
 
 theorem cr_apply (c : ℝ) (k : Fin m × Fin n × Bool) (Q : PX m n) :
     cr c k Q = -(pderiv k Q) + (2 * c : ℂ) • ((X (sw k) : PX m n) * Q) := by
@@ -1639,10 +1614,7 @@ theorem der_fock (hB : FockBasic) (c : ℝ) (hc : 0 < c) (k : Fin m × Fin n × 
 
 theorem qp_sum (ε : Fin m → Bool) (i j : Fin n) :
     Qp ε i j = ∑ a, C (sgn ε a) * ((X (a, i, true) : PX m n) * X (a, j, false)) := by
-  unfold Qp Qb
-  rw [Finset.sum_filter, Finset.sum_filter, ← Finset.sum_sub_distrib]
-  refine Finset.sum_congr rfl fun a _ => ?_
-  cases h : ε a <;> simp [sgn, h]
+  apply _root_.PositivityTheory.Rg.Sw.LC.NullS.Qp_eq <;> assumption
 
 theorem op_id (c : ℝ) (ε : Fin m → Bool) (i j : Fin n) (P : PX m n) :
     (∑ a ∈ Finset.univ.filter (fun a => ε a = true), cr c (a, i, false) (pderiv (a, j, true) P)) -

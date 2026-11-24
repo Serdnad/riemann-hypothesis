@@ -1,5 +1,6 @@
 module
 
+import Formalism.HermitianCurvature.HermitianCurvatureProofs.StandardCharacterExists
 public import Formalism.HermitianCurvature.StatementG
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -178,14 +179,7 @@ theorem gradSmall6 (m : ℕ) (D' : ℂ) (hD : D' ≠ 0) (x : Fin (m + 1) → ℂ
     nlinarith
 
 theorem card_UT (n : ℕ) : Fintype.card (UT n) = ∑ i ∈ range n, i := by
-  rw [Fintype.card_subtype, Finset.card_filter, Fintype.sum_prod_type_right]
-  simp_rw [← Finset.card_filter]
-  have : ∀ y : Fin n, (univ.filter (fun x : Fin n => x < y)).card = (y : ℕ) := by
-    intro y
-    rw [show univ.filter (fun x : Fin n => x < y) = Finset.Iio y by ext; simp]
-    exact Fin.card_Iio y
-  simp_rw [this]
-  exact Fin.sum_univ_eq_sum_range (fun i => i) n
+  apply _root_.Formalism.FourierDecayAlt.P.StandardCharacterExists.card_UT <;> assumption
 
 end Formalism.FourierDecayAlt.P.G1
 

@@ -261,9 +261,10 @@ noncomputable def volOf {D : D7} {V : HSp D} (μ : Measure (GA D V)) (h : μ.IsH
 
 @[simp] theorem volOf_μ {D : D7} {V : HSp D} (μ : Measure (GA D V)) (h : μ.IsHaarMeasure) : (volOf μ h).μ = μ := rfl
 
-theorem measures_common : ∀ {D : D7} {L : SizeData₂ D} {hT : GatTies D} {Gi : Formalism.MainNotions.G.Inst D L} {Gl : Formalism.MainNotions.G.LatInst D} {Kc : Formalism.MainNotions.G.Consts} {Yd : DivX D} {cX : ExtraC} {ex : Extra D L hT Gi Gl Kc Yd cX} (W : RealPack ex) (u : D.what₂.Word), PkHyp W → ∀ (a : XGeo D) (y : YRat a) (b : ∀ j, GA D (Yc D j)), (∀ j, j ≤ D.R.m → (a.x j).Is) → ∃ m : YMeas y, GeoMeas (pk W) (mkGeo m b) ∧ (commOf (pk W) u (mkGeo m b)).VolLast := by
-  intro D L hT Gi Gl Kc Yd cX ex W u hP a y b _
-  have hM : (pk W).IsModels := hP.bot.hyp.2.2.2.1.models
+theorem measures_common_of_models : ∀ {D : D7} {G : Type} [Group G] [Fintype G] {Pl0 T : Type}
+    {A : FamIn D.what₂.LL G Pl0 T D.R.m} {Ks : Type} [Field Ks] [NumberField Ks] [Algebra Ks D.what₂.LL]
+    (R : RealDat D A Ks) (u : D.what₂.Word), R.IsModels → ∀ (a : XGeo D) (y : YRat a) (b : ∀ j, GA D (Yc D j)), (∀ j, j ≤ D.R.m → (a.x j).Is) → ∃ m : YMeas y, GeoMeas R (mkGeo m b) ∧ (commOf R u (mkGeo m b)).VolLast := by
+  intro D G _ _ Pl0 T A Ks _ _ _ R u hM a y b _
   have hm2 := D.R.two_le_m
   haveI : ∀ V : HSp D, SecondCountableTopology (GA D V) := fun V =>
     (GlobalTheory.Mem.AdelicGroupTop.adelic_unitary_topology D V).2.1
@@ -274,15 +275,15 @@ theorem measures_common : ∀ {D : D7} {L : SizeData₂ D} {hT : GatTies D} {Gi 
   choose ρJ hρJ using fun j ρ h => ((GlobalTheory.T.exists_haar_finitePoints_fourierJacobi_bessel D (Yc D (j + 1))).2 _ _ (y.jac j ρ h).d).1
   choose ρB hρB using fun j ρ h => ((GlobalTheory.T.exists_haar_finitePoints_fourierJacobi_bessel D (Yc D j)).2 _ _ (y.bes j ρ h).d).2 _ _ (y.bes j ρ h).o
   have hc : ∀ k, ∃ ν₀ : Measure (GA D (Yc D k)), ν₀.IsHaarMeasure ∧ (k < D.R.m → ∀ t,
-      μf k {g | Lev.finE (Yc D k) g.1 ∈ Formalism.L2.DIV.lev D.sp.cm (Yc D k).gram ((pk W).βY k) ((pk W).datYt t k (pk W).triv)} ≠ 0 ∧
-      μf k {g | Lev.finE (Yc D k) g.1 ∈ Formalism.L2.DIV.lev D.sp.cm (Yc D k).gram ((pk W).βY k) ((pk W).datYt t k (pk W).triv)} ≠ ⊤ ∧
-      μf k {g | Lev.finE (Yc D k) g.1 ∈ Formalism.L2.DIV.lev D.sp.cm (Yc D k).gram ((pk W).βY k) ((pk W).datYt t k (pk W).triv)} •
-        (pk W).νY t k = ν₀) := by
+      μf k {g | Lev.finE (Yc D k) g.1 ∈ Formalism.L2.DIV.lev D.sp.cm (Yc D k).gram (R.βY k) (R.datYt t k R.triv)} ≠ 0 ∧
+      μf k {g | Lev.finE (Yc D k) g.1 ∈ Formalism.L2.DIV.lev D.sp.cm (Yc D k).gram (R.βY k) (R.datYt t k R.triv)} ≠ ⊤ ∧
+      μf k {g | Lev.finE (Yc D k) g.1 ∈ Formalism.L2.DIV.lev D.sp.cm (Yc D k).gram (R.βY k) (R.datYt t k R.triv)} •
+        R.νY t k = ν₀) := by
     intro k
     by_cases hk : k < D.R.m
     · have hw : ∃ good : ∀ ρ : D.what₂.Tau, Measure (UpqT ((Yc D k).sig (tauE D ρ)).1 ((Yc D k).sig (tauE D ρ)).2) → Prop,
           (∀ ρ m, good ρ m → m.IsHaarMeasure) ∧ ∀ t, Lev.IsMeasLevW (Yc D k)
-            (Formalism.L2.DIV.lev D.sp.cm (Yc D k).gram ((pk W).βY k) ((pk W).datYt t k (pk W).triv)) good ((pk W).νY t k) := by
+            (Formalism.L2.DIV.lev D.sp.cm (Yc D k).gram (R.βY k) (R.datYt t k R.triv)) good (R.νY t k) := by
         by_cases hk' : k + 1 < D.R.m
         · exact ⟨fun _ m => Lev.IsMinf m, fun _ _ h => h.1, fun t => (hM.νY t k hk').1⟩
         · obtain rfl : k = D.R.m - 1 := by omega
@@ -293,8 +294,8 @@ theorem measures_common : ∀ {D : D7} {L : SizeData₂ D} {hT : GatTies D} {Gi 
     · exact ⟨_, (Classical.choice (GlobalTheory.Unf.VolExist.nonempty_vol (Yc D k))).haar, fun h => absurd h hk⟩
   choose ν₀ hν₀H hν₀ using hc
   obtain ⟨ν₀T, hν₀TH, hν₀T⟩ := common_measure D D.sp.X' _
-    (fun t => Formalism.L2.DIV.lev D.sp.cm D.sp.X'.gram (pk W).βX ((pk W).datXt t))
-    (fun _ m => m.IsHaarMeasure ∧ IsProbabilityMeasure m) (fun _ _ h => h.1) μT hμT (fun t => (pk W).νX t)
+    (fun t => Formalism.L2.DIV.lev D.sp.cm D.sp.X'.gram R.βX (R.datXt t))
+    (fun _ m => m.IsHaarMeasure ∧ IsProbabilityMeasure m) (fun _ _ h => h.1) μT hμT (fun t => R.νX t)
     (fun t => (hM.νX t).1)
   have hLH : ∀ j (h : j + 2 * 0 + 2 = D.R.m), (Measure.map (y.jac j 0 h).d.emb0 (a.x (j + 1)).vol.μ).IsHaarMeasure :=
     fun j h => GlobalTheory.T.isHaarMeasure_map_emb0_of_rank_zero_decomposition D _ _ _ _ (a.x (j + 1)).vol.haar
@@ -334,12 +335,12 @@ theorem measures_common : ∀ {D : D7} {L : SizeData₂ D} {hT : GatTies D} {Gi 
     have hX := hν₀ (j + 1) hj t
     show (vS j).μ = _
     rw [GlobalTheory.Fam.volLev, if_pos hj]
-    change (vS j).μ = ENNReal.ofReal (κ (j + 1) * (μf (j + 1) {g | g.1 ∈ levS _ ((pk W).βY (j + 1))
-      ((pk W).datYt t (j + 1) (pk W).triv)}).toReal) • (pk W).νY t (j + 1)
+    change (vS j).μ = ENNReal.ofReal (κ (j + 1) * (μf (j + 1) {g | g.1 ∈ levS _ (R.βY (j + 1))
+      (R.datYt t (j + 1) R.triv)}).toReal) • R.νY t (j + 1)
     rw [hset]
     obtain ⟨hX0, hXT, hXe⟩ := hX
-    generalize μf (j + 1) {g | Lev.finE (Yc D (j + 1)) g.1 ∈ Formalism.L2.DIV.lev D.sp.cm (Yc D (j + 1)).gram ((pk W).βY (j + 1))
-      ((pk W).datYt t (j + 1) (pk W).triv)} = X at hX0 hXT hXe ⊢
+    generalize μf (j + 1) {g | Lev.finE (Yc D (j + 1)) g.1 ∈ Formalism.L2.DIV.lev D.sp.cm (Yc D (j + 1)).gram (R.βY (j + 1))
+      (R.datYt t (j + 1) R.triv)} = X at hX0 hXT hXe ⊢
     by_cases hL : j + 2 * 0 + 2 = D.R.m
     · rw [hvS1 j hL, hκ1 j hL]
       haveI := hLH j hL
@@ -354,14 +355,18 @@ theorem measures_common : ∀ {D : D7} {L : SizeData₂ D} {hT : GatTies D} {Gi 
     obtain ⟨hX0, hXT, hXe⟩ := hν₀T t
     show ν₀T = _
     rw [GlobalTheory.Fam.volLev, if_neg (by omega)]
-    change ν₀T = ENNReal.ofReal (κ D.R.m * (μT {k | k.1 ∈ levS _ (pk W).βX ((pk W).datXt t)}).toReal) • (pk W).νX t
+    change ν₀T = ENNReal.ofReal (κ D.R.m * (μT {k | k.1 ∈ levS _ R.βX (R.datXt t)}).toReal) • R.νX t
     rw [hκ2 D.R.m (by omega), one_mul]
-    have hs : {g : GfC D.sp.X' | g.1 ∈ levS _ (pk W).βX ((pk W).datXt t)} =
-        {g | Lev.finE D.sp.X' g.1 ∈ Formalism.L2.DIV.lev D.sp.cm D.sp.X'.gram (pk W).βX ((pk W).datXt t)} := by
+    have hs : {g : GfC D.sp.X' | g.1 ∈ levS _ R.βX (R.datXt t)} =
+        {g | Lev.finE D.sp.X' g.1 ∈ Formalism.L2.DIV.lev D.sp.cm D.sp.X'.gram R.βX (R.datXt t)} := by
       ext g; exact ⟨fun h => h.2, fun h => ⟨g.2, h⟩⟩
     rw [hs, ENNReal.ofReal_toReal hXT, hXe]
   · intro j h
     exact hvS1 j h
+
+theorem measures_common : ∀ {D : D7} {L : SizeData₂ D} {hT : GatTies D} {Gi : Formalism.MainNotions.G.Inst D L} {Gl : Formalism.MainNotions.G.LatInst D} {Kc : Formalism.MainNotions.G.Consts} {Yd : DivX D} {cX : ExtraC} {ex : Extra D L hT Gi Gl Kc Yd cX} (W : RealPack ex) (u : D.what₂.Word), PkHyp W → ∀ (a : XGeo D) (y : YRat a) (b : ∀ j, GA D (Yc D j)), (∀ j, j ≤ D.R.m → (a.x j).Is) → ∃ m : YMeas y, GeoMeas (pk W) (mkGeo m b) ∧ (commOf (pk W) u (mkGeo m b)).VolLast := by
+  intro D L hT Gi Gl Kc Yd cX ex W u hP
+  exact _root_.GlobalTheory.MeasCommon.measures_common_of_models (pk W) u hP.bot.hyp.2.2.2.1.models
 
 end GlobalTheory.MeasCommon
 end -- clump:auto

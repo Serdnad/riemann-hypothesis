@@ -16,6 +16,7 @@ public import GroundTheory.HeightsAndTheta.Heights.FieldsOfNumbers.Assembly
 import Mathlib.Order.CompletePartialOrder
 import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Sheaves.Presheaf
+import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.VerticalNumberZeroOfHorizontal
 
 @[expose] public section
 
@@ -92,21 +93,7 @@ theorem relDim_lt_of_dim_lt {K : Type*} [Fintype K] [DecidableEq K] {ι : K → 
 
 theorem lt_of_two_drops {x y : WithBot ℕ∞} {N : ℕ} (h1 : x + 1 ≤ y)
     (h2 : y + 1 ≤ ((N + 1 : ℕ) : WithBot ℕ∞)) : x < (N : WithBot ℕ∞) := by
-  have hy := withBot_lt_natCast_of_add_one_le y (N + 1) h2
-  have hx : x + 1 < ((N + 1 : ℕ) : WithBot ℕ∞) := lt_of_le_of_lt h1 hy
-  have hx' : x + 1 ≤ (N : WithBot ℕ∞) := by
-    induction x using WithBot.recBotCoe with
-    | bot => simp
-    | coe a =>
-      induction a using ENat.recTopCoe with
-      | top =>
-        exfalso
-        have h3 : ((⊤ : ℕ∞) + 1 : ℕ∞) < ((N + 1 : ℕ) : ℕ∞) := by exact_mod_cast hx
-        simp at h3
-      | coe a =>
-        have : a + 1 < N + 1 := by exact_mod_cast hx
-        exact_mod_cast (by omega : a + 1 ≤ N)
-  exact withBot_lt_natCast_of_add_one_le x N hx'
+  apply _root_.GlobalTheory.CompanionTheory.Ar.Num.dim_lt_of_two_drops <;> assumption
 
 end Helpers
 

@@ -1,5 +1,7 @@
 module
 
+
+import Formalism.HermitianCurvature.HermitianCurvatureProofs.TwistedIsRealOrderLattice
 public import Formalism.HermitianCurvature.StatementL
 public import Formalism.HermitianCurvature.PrimeToDifferent
 public import Mathlib.RingTheory.SimpleRing.Principal
@@ -52,7 +54,6 @@ import Mathlib.RingTheory.WittVector.IsPoly
 import Mathlib.Tactic.Linter.Style
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
-
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Formalism.HermitianCurvature.HermitianCurvatureProofs.DualIdealInclusion, Formalism.HermitianCurvature.HermitianCurvatureProofs.LocalisationScaledIdealMemIff
 
@@ -187,14 +188,7 @@ theorem powConjStable : PowConjStable := by
 
 theorem mem_twLat (A B : FI E) (s : ℕ) (t : E) :
     t ∈ twLat E A B s ↔ t ∈ A ∧ t - (-1) ^ s * complexConj E t ∈ B := by
-  unfold twLat
-  rw [Submodule.mem_inf, Submodule.mem_comap]
-  have : ((LinearMap.id : E →ₗ[ℤ] E) - ((-1 : ℤ) ^ s) • conjZ E) t
-      = t - (-1) ^ s * complexConj E t := by
-    rw [LinearMap.sub_apply, LinearMap.smul_apply, LinearMap.id_apply, zsmul_eq_mul]
-    push_cast
-    rfl
-  rw [this]; rfl
+  apply _root_.Formalism.FourierDecayAlt.P.S6x5.mem_twLat <;> assumption
 
 theorem conj_real (a : 𝓞 (maximalRealSubfield E)) :
     complexConj E (algebraMap (𝓞 (maximalRealSubfield E)) E a)

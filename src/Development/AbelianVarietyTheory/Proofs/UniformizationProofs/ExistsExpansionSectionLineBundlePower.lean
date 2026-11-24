@@ -1,5 +1,7 @@
 module
 
+
+import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.MatchingSectionsExist
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.ValCalc
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.DegExp
 public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.ExistsUniqueThickTorusLevelWeightExpansion
@@ -55,7 +57,6 @@ import Development.AbelianVarietyTheory.Definitions.Uniformization.PointEqOfSubs
 import Mathlib.RingTheory.Henselian
 import Mathlib.Tactic.Linter.Style
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.FirstCohomology.SectionArithmetic
-
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.Proofs.UniformizationProofs.ExistsUniqueThickTorusLevelWeightExpansionStatement, Development.AbelianVarietyTheory.Proofs.UniformizationProofs.ExistsUniqueLimit, Development.AbelianVarietyTheory.Proofs.UniformizationProofs.ExistsUniqueTwistedSectionOfCompatibleLevels, Development.AbelianVarietyTheory.Proofs.UniformizationProofs.ExistsUniqueTwistedSectionOfCompatibleLevelsStatement, Development.AbelianVarietyTheory.Proofs.UniformizationProofs.ExistsExpansionSectionLineBundlePower
 
@@ -768,18 +769,7 @@ theorem q_thickMap (U : PreU I D A G) (e : ℕ) :
 
 theorem famφT_eq (T : Over (Spec (CommRingCat.of R))) (α : D.X) (i : Fin 4) :
     famφT D T α i = (snd T D.P.A).left ≫ D.famφB α i := by
-  fin_cases i
-  · exact (Category.comp_id _).symm
-  · show (padd D.P.A (snd T D.P.A) (toUnit _ ≫ D.c α)).left =
-      (snd T D.P.A ≫ padd D.P.A (𝟙 D.P.A) (toUnit _ ≫ D.c α)).left
-    congr 1
-    rw [padd, padd, ← Category.assoc, comp_lift, Category.comp_id, ← Category.assoc, comp_toUnit]
-  · show (toUnit (T ⊗ D.P.A) ≫ D.c α).left = (snd T D.P.A ≫ toUnit D.P.A ≫ D.c α).left
-    congr 1
-    simp
-  · show (toUnit (T ⊗ D.P.A) ≫ η[D.P.A]).left = (snd T D.P.A ≫ toUnit D.P.A ≫ η[D.P.A]).left
-    congr 1
-    simp
+  first | exact _root_.GlobalTheory.UnitSec.famφT_eq | exact @_root_.GlobalTheory.UnitSec.famφT_eq | apply _root_.GlobalTheory.UnitSec.famφT_eq <;> assumption
 
 end Levels
 

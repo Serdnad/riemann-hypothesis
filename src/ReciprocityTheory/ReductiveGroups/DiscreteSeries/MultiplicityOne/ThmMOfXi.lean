@@ -1,5 +1,8 @@
 module
 
+import ReciprocityTheory.ReductiveGroups.DiscreteSeries.MultiplicityOne.HpkMulVecMulVec
+import ReciprocityTheory.ReductiveGroups.DiscreteSeries.MultiplicityOne.JBeConvA
+import Formalism.HermitianCurvature.HermitianCurvatureProofs.NormDiagonalEntryDilationGeneratorLeOne
 public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.MultiplicityOne.StDiagExists
 public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.MultiplicityOne.UnitaryGroupStructuralFacts
 public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.MultiplicityOne.JBeEquivB
@@ -102,19 +105,7 @@ theorem bh_ae_prod_and {α β : Type*} [MeasurableSpace α] [MeasurableSpace β]
   (Measure.quasiMeasurePreserving_fst.ae hP).and (Measure.quasiMeasurePreserving_snd.ae hQ)
 
 theorem bh_meas_inv : Measurable (invM (k := k) (r := r)) := by
-  have hc : Continuous (fun g : Mt k r => (Matrix.of g : Mat k r)) := continuous_id
-  have h1 : Measurable (fun g : Mt k r => ((Matrix.of g : Mat k r).det)⁻¹) :=
-    (hc.matrix_det).measurable.inv
-  have h2 : Continuous (fun g : Mt k r => Matrix.of.symm (Matrix.of g : Mat k r).adjugate) :=
-    hc.matrix_adjugate
-  have h3 : Measurable (fun g : Mt k r =>
-      ((Matrix.of g : Mat k r).det)⁻¹ • Matrix.of.symm (Matrix.of g : Mat k r).adjugate) :=
-    h1.smul h2.measurable
-  convert h3 using 1
-  funext g
-  change Matrix.of.symm ((Matrix.of g : Mat k r)⁻¹) = _
-  rw [Matrix.inv_def, Ring.inverse_eq_inv']
-  rfl
+  apply ReciprocityTheory.ChartRestriction.DS.Mult1.bc_measurable_invM <;> assumption
 
 theorem bh_cont_mul : Continuous (mulM (k := k) (r := r)) := by
   unfold mulM
@@ -179,17 +170,7 @@ variable {Wp : Type} [NormedAddCommGroup Wp] [InnerProductSpace ℂ Wp] [Complet
 
 theorem inner_move_sig (hCG : ClosedG) {g : Mat k r} (hg : g ∈ GV k r) (a b : X.Hs) :
     ⟪X.σ g a, b⟫_ℂ = ⟪a, X.σ g⁻¹ b⟫_ℂ := by
-  have hgi : g⁻¹ ∈ GV k r := (hCG k r).inv_mem _ hg
-  have hgg : g * g⁻¹ = 1 := Matrix.mul_nonsing_inv g ((hCG k r).unit _ hg)
-  let e : X.Hs →ₗᵢ[ℂ] X.Hs := ⟨(X.σ g).toLinearMap, fun v => X.rep.2.1 g hg v⟩
-  have hb : X.σ g (X.σ g⁻¹ b) = b := by
-    have := X.rep.1.2 g hg g⁻¹ hgi
-    rw [hgg, X.rep.1.1] at this
-    have h2 := congrArg (fun L : X.Hs →L[ℂ] X.Hs => L b) this
-    simpa using h2.symm
-  calc ⟪X.σ g a, b⟫_ℂ = ⟪e a, e (X.σ g⁻¹ b)⟫_ℂ := by
-        simp only [e]; exact congrArg _ hb.symm
-    _ = ⟪a, X.σ g⁻¹ b⟫_ℂ := e.inner_map_map a _
+  apply _root_.ReciprocityTheory.ChartRestriction.DS.Mult1.TopH.sig_inner <;> assumption
 
 theorem inner_move_pi (hCW : ClosedW) {h : Mat k r} (hh : h ∈ UWset k r D.z) (a b : Wp) :
     ⟪D.π h a, b⟫_ℂ = ⟪a, D.π h⁻¹ b⟫_ℂ := by
@@ -423,19 +404,7 @@ theorem integrable_test2 {w₁ w₂ : ℝ → ℝ} (h₁ : IsTest w₁) (h₂ : 
 theorem inner_om (w₁ w₂ : ℝ → ℝ) (a b : ℝ) :
     ∫ τ : ℝ × ℝ, ((w₁ τ.1 * w₂ τ.2 : ℝ) : ℂ) *
         Complex.exp (Complex.I * ((τ.1 * a - τ.2 * b : ℝ) : ℂ)) = om w₁ a * om w₂ (-b) := by
-  have e : ∀ τ : ℝ × ℝ, ((w₁ τ.1 * w₂ τ.2 : ℝ) : ℂ) *
-      Complex.exp (Complex.I * ((τ.1 * a - τ.2 * b : ℝ) : ℂ)) =
-      ((w₁ τ.1 : ℂ) * Complex.exp (Complex.I * ((τ.1 * a : ℝ) : ℂ))) *
-        ((w₂ τ.2 : ℂ) * Complex.exp (Complex.I * ((τ.2 * -b : ℝ) : ℂ))) := by
-    intro τ
-    push_cast
-    rw [show Complex.I * ((τ.1 : ℂ) * a - τ.2 * b) =
-      Complex.I * (τ.1 * a) + Complex.I * (τ.2 * -b) by ring, Complex.exp_add]
-    ring
-  rw [Measure.volume_eq_prod, integral_congr_ae (Filter.Eventually.of_forall e)]
-  exact MeasureTheory.integral_prod_mul
-    (fun x : ℝ => (w₁ x : ℂ) * Complex.exp (Complex.I * ((x * a : ℝ) : ℂ)))
-    (fun y : ℝ => (w₂ y : ℂ) * Complex.exp (Complex.I * ((y * -b : ℝ) : ℂ)))
+  apply Formalism.FourierDecayAlt.P.B6.test_product_tau_fourier_integral <;> assumption
 
 theorem sigmaFinite_haarOn {U : Set (Mat k r)} {μ : Measure (Mt k r)} (h : IsHaarOn U μ) :
     SigmaFinite μ := by
@@ -1515,25 +1484,7 @@ variable {k r : ℕ}
 
 theorem deriv_smul_const_any {E : Type*} [NormedAddCommGroup E] [NormedSpace ℂ E] (h : ℝ → ℂ) (T : E) :
     deriv (fun t => h t • T) 0 = deriv h 0 • T := by
-  by_cases hT : T = 0
-  · subst hT
-    simp
-  by_cases hd : DifferentiableAt ℝ h 0
-  · exact deriv_smul_const hd T
-  · have hnd : ¬ DifferentiableAt ℝ (fun t => h t • T) 0 := by
-      intro hd'
-      apply hd
-      obtain ⟨φ, -, hφ⟩ := exists_dual_vector ℂ T (norm_ne_zero_iff.mpr hT)
-      have hφT : φ T ≠ 0 := by
-        rw [hφ]
-        exact Complex.ofReal_ne_zero.mpr (norm_ne_zero_iff.mpr hT)
-      have he : h = fun t => (φ T)⁻¹ * φ (h t • T) := by
-        funext t
-        rw [map_smul, smul_eq_mul]
-        field_simp
-      rw [he]
-      exact DifferentiableAt.const_mul ((φ.restrictScalars ℝ).differentiableAt.comp (0 : ℝ) hd') _
-    rw [deriv_zero_of_not_differentiableAt hnd, deriv_zero_of_not_differentiableAt hd, zero_smul]
+  apply ReciprocityTheory.ChartRestriction.DS.Mult1.SmulConstantLinearity.deriv_smul_const_all <;> assumption
 
 variable {E : Type*} [NormedAddCommGroup E] [NormedSpace ℂ E]
 

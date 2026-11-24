@@ -1,5 +1,6 @@
 module
 
+import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.PChartChoiceAlgClosed
 public import GroundTheory.HeightsAndTheta.Heights.ChowForms.StatementsSectionOrder
 public import GroundTheory.HeightsAndTheta.Heights.ChowForms.PChowFormSection
 import Mathlib.Algebra.AffineMonoid.UniqueSums
@@ -99,41 +100,13 @@ theorem specFirst_rename_shiftVar (q : MvPolynomial (Fin e × Fin n) F) :
 
 theorem specFirst_zero_of_isMultiHomog {δ : ℕ} (hδ : 1 ≤ δ) {f : MvPolynomial (Fin (e + 1) × Fin n) F}
     (hf : Heights.IsMultiHomog δ f) : specFirst f 0 = 0 := by
-  classical
-  unfold specFirst
-  conv_lhs => rw [f.as_sum]
-
-  rw [map_sum]
-  refine Finset.sum_eq_zero fun s hs => ?_
-  rw [bind₁_monomial]
-  obtain ⟨i, hi, h0⟩ : ∃ i ∈ s.support, i.1 = 0 := by
-    by_contra hno
-    push Not at hno
-    have hw := congrFun (hf (mem_support_iff.mp hs)) 0
-    rw [Finsupp.weight_apply, Finsupp.sum, Finset.sum_apply] at hw
-    have : ∑ c ∈ s.support, (s c • groupWeight (e + 1) n c) 0 = 0 := by
-      refine Finset.sum_eq_zero fun c hc => ?_
-      simp [groupWeight, Ne.symm (hno c hc)]
-    omega
-  rw [Finset.prod_eq_zero hi, mul_zero]
-  obtain ⟨a, m⟩ := i
-  simp only at h0
-  subst h0
-  simp [specFirstVar, zero_pow (Finsupp.mem_support_iff.mp hi)]
+  apply _root_.GroundTheory.Heights₂.Heights.ChartChoiceAlgClosed.specFirst_zero_of_isMultiHomog <;> assumption
 
 theorem eval_map_splitFirst (J : Ideal (MvPolynomial (Fin e × Fin n) F)) (t : Fin n → F)
     (f : MvPolynomial (Fin (e + 1) × Fin n) F) :
     eval (fun m => Ideal.Quotient.mk J (C (t m))) (map (Ideal.Quotient.mk J) (splitFirst F e n f)) =
       Ideal.Quotient.mk J (specFirst f t) := by
-  rw [eval_map]
-  have h : (eval₂Hom (Ideal.Quotient.mk J) (fun m => Ideal.Quotient.mk J (C (t m)))).comp
-      (splitFirst F e n).toRingHom = (Ideal.Quotient.mk J).comp (bind₁ (specFirstVar t)).toRingHom := by
-    apply MvPolynomial.ringHom_ext
-    · intro a
-      simp [splitFirst, MvPolynomial.algebraMap_eq]
-    · rintro ⟨i, m⟩
-      induction i using Fin.cases <;> simp [splitFirst, specFirstVar, bind₁_X_right]
-  exact RingHom.congr_fun h f
+  apply _root_.GroundTheory.Heights₂.Heights.ChartChoiceAlgClosed.eval_map_splitFirst <;> assumption
 
 end ChartChoice
 

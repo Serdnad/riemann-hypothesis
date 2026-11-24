@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.FlagMeasures.GenusMatchHolds
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.StdLvPr
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.TrueColumnSpacesStandardInFrameCoordsStatement
 public import Formalism.SharpRestriction.GlobalSchurBounds.Joints
@@ -1139,28 +1140,8 @@ variable {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algeb
 private lemma sigR_mem_intV' (σ : E →ₐ[F] E) (w : HeightOneSpectrum (𝓞 F))
     {c : E ⊗[F] w.adicCompletion F} (hc : c ∈ _root_.Formalism.BasicNotions.intV (F := F) E w) :
     _root_.Formalism.UG.sigR σ (w.adicCompletion F) c ∈ _root_.Formalism.BasicNotions.intV (F := F) E w := by
-  unfold _root_.Formalism.BasicNotions.intV _root_.Formalism.UG.tensInt at *
-  have hle : Subring.closure ((Set.range fun x : _root_.Formalism.UG.intOE E => (x : E) ⊗ₜ[F]
-        (1 : w.adicCompletion F)) ∪
-      Set.range fun y : (w.adicCompletionIntegers F).toSubring => (1 : E) ⊗ₜ[F] (y : w.adicCompletion F)) ≤
-      (Subring.closure ((Set.range fun x : _root_.Formalism.UG.intOE E => (x : E) ⊗ₜ[F] (1 : w.adicCompletion F)) ∪
-      Set.range fun y : (w.adicCompletionIntegers F).toSubring =>
-        (1 : E) ⊗ₜ[F] (y : w.adicCompletion F))).comap (_root_.Formalism.UG.sigR σ (w.adicCompletion F)) := by
-    rw [Subring.closure_le]
-    rintro _ (⟨x, rfl⟩ | ⟨y, rfl⟩)
-    · obtain ⟨r, hr⟩ : (x : E) ∈ (algebraMap (𝓞 E) E).range := x.2
-      have hσ : σ (x : E) ∈ _root_.Formalism.UG.intOE E := by rw [← hr]; exact algHom_coe_mem_intOE σ r
-      apply Subring.subset_closure
-      left
-      refine ⟨⟨σ x, hσ⟩, ?_⟩
-      unfold _root_.Formalism.UG.sigR
-      simp
-    · apply Subring.subset_closure
-      right
-      refine ⟨y, ?_⟩
-      unfold _root_.Formalism.UG.sigR
-      simp
-  exact hle hc
+  intros
+  apply _root_.GlobalTheory.St.G.Unimod.sigR_mem <;> assumption
 
 open NumberField IsDedekindDomain Matrix in
 open scoped TensorProduct in

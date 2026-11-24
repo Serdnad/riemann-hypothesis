@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ThetaKernelGridRationalLeftInvariant
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.KerFockMovedReal
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.InfOfMulFinOf
 public import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.ExistsRealFnNeZero
@@ -207,15 +208,7 @@ private theorem ker_rat {D : D7} {T : Type} {L : LevCh D T} {sc : GlobalTheory.C
     (hf : IsThetaFunO W.ψ (G.pS p) (G.pT p) f) (γ : GA D (G.V p.small)) (hγ : γ ∈ GQ (G.V p.small))
     (γ' : GA D (G.V p.big)) (hγ' : γ' ∈ GQ (G.V p.big)) (g : GA D (G.V p.small)) (h : GA D (G.V p.big)) :
     W.ker p f (γ * g) (γ' * h) = W.ker p f g h := by
-  have hw := W.om_is p hp
-  have h12 : (G.toPair p γ γ').1 ∈ GQ (G.pS p) ∧ (G.toPair p γ γ').2 ∈ GQ (G.pT p) := by
-    cases p with
-    | chi i j => exact ⟨negGA_GQ _ hγ', hγ⟩
-    | mu t i j => exact ⟨hγ, hγ'⟩
-    | core i => exact ⟨negGA_GQ _ hγ', hγ⟩
-    | top t j => exact ⟨hγ, hγ'⟩
-  rw [GlobalTheory.FockReal.ker_mul]
-  exact hw.om_aut _ h12.1 _ h12.2 _ (hw.om_pres (G.toPair p g h) f hf)
+  apply _root_.GlobalTheory.RowReal.ker_rat_left <;> assumption
 
 theorem UpperTheory.WildA.moveRow :
     ∀ {D : D7} {T : Type} {L : LevCh D T} {sc : GlobalTheory.ChiGrid.Consts} {G : GlobalTheory.ChiGrid.GridData L sc} {W : G.Weil} {U₀ : Set T} {N : Std G U₀} (Z : Normal W N) {μ₀ : T}, L.Is μ₀ → ∀ (t : T) (i : ℕ), i + 1 ≤ D.R.m →

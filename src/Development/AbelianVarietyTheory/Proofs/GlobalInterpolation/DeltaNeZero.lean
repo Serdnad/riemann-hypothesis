@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.CosetIndicatorThetaTorsionTranslates
 public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.EmbHInjective
 public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.FieldIsoSelfDualAndPeriodLatticesAgree
 public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.InterTransport
@@ -106,29 +107,8 @@ theorem aa_ne_bot (hcc : cc ≠ ⊥) : (ambOf s B χ cD).AA ≠ ⊥ := by
   exact hcc h1
 
 theorem aa_fg : (ambOf s B χ cD).AA.FG := by
-  let j : 𝓞 D.host.E →+* 𝓞 X.E := RingOfIntegers.mapRingHom (s.iE.symm : D.host.E →+* X.E)
-  have hj : ∀ a : 𝓞 D.host.E, ((j a : 𝓞 X.E) : X.E) = s.iE.symm (a : D.host.E) := fun _ => rfl
-  obtain ⟨z, hz, hden⟩ := D.host.AA0.isFractional
-  have hz0 : j z ≠ 0 := fun h => nonZeroDivisors.ne_zero hz (by
-    have h1 := hj z
-    rw [h] at h1
-    have h2 : (z : D.host.E) = 0 := s.iE.symm.injective (by rw [← h1]; simp)
-    exact RingOfIntegers.coe_injective (by simpa using h2))
-  have hfr : IsFractional (nonZeroDivisors (𝓞 X.E)) (ambOf s B χ cD).AA := by
-    refine (FractionalIdeal.isFractional_span_iff).2 ⟨j z, mem_nonZeroDivisors_of_ne_zero hz0, ?_⟩
-    rintro r ⟨c, -, t, ht, rfl⟩
-    obtain ⟨w, hw⟩ := hden t ht
-    refine ⟨j (algebraMap (𝓞 D.host.K) (𝓞 D.host.E) c * w), ?_⟩
-    rw [Algebra.smul_def]
-    change ((j _ : 𝓞 X.E) : X.E) = ((j z : 𝓞 X.E) : X.E) * _
-    rw [hj, hj, ← map_mul]
-    congr 1
-    have e : ((algebraMap (𝓞 D.host.K) (𝓞 D.host.E) c * w : 𝓞 D.host.E) : D.host.E) =
-      ((c : D.host.K) : D.host.E) * (w : D.host.E) := rfl
-    have hw' : (w : D.host.E) = (z : D.host.E) * t := by rw [Algebra.smul_def] at hw; exact hw
-    rw [e, hw']
-    ring
-  exact FractionalIdeal.fg_of_isNoetherianRing le_rfl ⟨_, hfr⟩
+  intros
+  apply _root_.GlobalTheory.ColNorms.IndPres.AA_fg <;> assumption
 
 theorem vac_eq {a b : ℕ} (N : Submodule (𝓞 X.E) (Sp X.E a)) (N' : Submodule (𝓞 X.E) (Sp X.E b))
     (h : Base.chiFac χ a b (s.lat N) (s.lat N') ≠ 0) :

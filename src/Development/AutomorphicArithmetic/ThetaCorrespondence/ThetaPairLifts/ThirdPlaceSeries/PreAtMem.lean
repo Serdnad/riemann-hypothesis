@@ -1,6 +1,7 @@
 module
 
-public import Formalism.SharpRestriction.LevelLetterCocycles.JointConditionsZpowers.CommutingEndomorphismCondition
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.PartsPositiveScalarsWithoutCongruenceLengths
+import Formalism.SharpRestriction.LevelLetterCocycles.JointConditionsZpowers.CommutingEndomorphismCondition
 public import Formalism.LocalToGlobal.GaloisLevelStructure.TiedHecke
 public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.RankOneUnitary
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.CoeffMonicPolySum
@@ -227,14 +228,7 @@ theorem isoLoc_twist_of_laws (hC : GlobalTheory.RowTie.CharLaws N A) (S : List (
 
 theorem isoLoc_append_one (S : List (Part A.CG)) (q : Part A.CG) (w : PlE H) :
     isoLoc N A (S ++ [q]) w = A.lpSum (isoLoc N A S w) (spehLoc N A q w) := by
-  induction S with
-  | nil =>
-    change A.lpSum (spehLoc N A q w) (A.lpZero w) = A.lpSum (A.lpZero w) (spehLoc N A q w)
-    exact A.lpSum_comm _ _
-  | cons p S ih =>
-    change A.lpSum (spehLoc N A p w) (isoLoc N A (S ++ [q]) w) =
-      A.lpSum (A.lpSum (spehLoc N A p w) (isoLoc N A S w)) (spehLoc N A q w)
-    rw [ih, A.lpSum_assoc]
+  apply _root_.GlobalTheory.LocCongrRoad.isoLoc_append_singleton <;> assumption
 
 theorem heckePol_coeff (i : N.Loc) (x : N.X i) (w : PlE H) (k : ℕ) (hk1 : 1 ≤ k) (hk2 : k ≤ R.nV) :
     (heckePol N i x w).coeff (R.nV - k) =
@@ -738,17 +732,8 @@ namespace GlobalTheory.RowTriple.Lay.EigCopy
 theorem parIn_built_alt {hL : _root_.UpperTheory.Zero.LLC.RecTExists} {D' : D7} {cf' : CharFrame D'} {C' : NChoice D'}
     {tp' : TupTied D' cf' C'} (nt : _root_.GlobalTheory.HeightCounting.NormChoiceRealisation hL D' cf' C' tp') (rep' : D'.what₂.FT → NG.FinTyp D'.host.E D'.R.r)
     (hrep : HEq nt.rep rep') :
-    ∃ Rw : RowSide D', HEq Rw.locR nt.A.row.locR ∧ Nonempty (_root_.GlobalTheory.HeightCounting.Up.ParityConditions hL D' cf' rep' Rw) := by
-  obtain ⟨⟨D, cf, jE, A, cg, au, rep, row, low, Pq, S, hk, eig, θ, Bs, M, C, tp, ch, mt, big, L, Sp, Au, ss, eq⟩, pack⟩ := nt
-  subst eq
-  obtain ⟨-, h2⟩ := Sigma.mk.inj_iff.mp pack
-  obtain ⟨hcf, -⟩ := Sigma.mk.inj_iff.mp (eq_of_heq h2)
-  subst hcf
-  have hr : rep = rep' := eq_of_heq hrep
-  subst hr
-  let T : GlobalTheory.RowTie.WDTie (withLoc L).nd (withLoc L).naut := { A.wdT with }
-  let Rw : RowSide (withLoc L) := { A.row with }
-  exact ⟨Rw, HEq.rfl, ⟨{ T := T, lab := A.lab, chr := { A.chr with }, cg := { cg with }, A := { A.au with }, au := au, row := row }⟩⟩
+    ∃ Rw : RowSide D', HEq Rw.locR nt.A.row.locR ∧ Nonempty (_root_.GlobalTheory.HeightCounting.Up.ParityConditions hL D' cf' rep' Rw) :=
+  _root_.GlobalTheory.GalLoc.EigLoc.parIn_loc_alt nt rep' hrep
 end GlobalTheory.RowTriple.Lay.EigCopy
 end
 end
@@ -1347,104 +1332,8 @@ namespace GlobalTheory.IsotSum
 
 
 theorem span_all : GlobalTheory.Published.WeilRepresentationUnitaryPair → GlobalTheory.Published.DiscreteSeriesExists → GlobalTheory.Published.HarishChandraFinite → GlobalTheory.Published.CuspRapidDecay → ∀ (D : D7) (G : Type) [Group G] [Fintype G] (Pl0 I0 T : Type) (A3 : FamIn3 D.what₂.LL G Pl0 I0 (List ℕ) T D.R.m) (Ks : Type) [Field Ks] [NumberField Ks] [Algebra Ks D.what₂.LL] (R : RealDat3 D A3 Ks) (F : Face3 D A3) (cG : G0 R.Pg D.R.r ≃* G0g D.nd) (X0 : BaseLevelRowSide D) (Y : Read (A3 := A3) R.toRealDat F.lv2 X0) (Z : ReadL R F X0 Y), Pins R F cG → Holds R F → HostHyp D → ∀ (i : Fin D.R.m), (⨆ p, Submodule.span ℂ ((Z.jW i) '' ((s0Of R F).Wp i p : Set (Fin ((s0Of R F).dW i) → D.what₂.LL)))) = ⊤ := by
-  intro _ _ _ _ D G _ _ Pl0 I0 T A3 Ks _ _ _ R F cG X0 Y Z hP hH _ i
-  have hR := complex_data_conditions_base_level_of_primitive_links hH.ok hH.sep hP.char hH.prim
-  have hpt : ∀ y : Fin (((R.toCx3 F).data F.cr false).dW i) → D.what₂.LL,
-      (R.toCx3 F).w0C false i (cpt A3.A.v0.embedding y) =
-        Tw.mk (twAt D.what₂.embLL A3.A.v0) (Y.mj.eW i (Z.jW i y)) := by
-    intro y
-    rw [Z.jW_read]
-    have hn : (((Real.sqrt (RealDat.nP F.lv2 false) : ℝ) : ℂ)) *
-        (((Real.sqrt (RealDat.nP F.lv2 false))⁻¹ : ℝ) : ℂ) = 1 := by
-      rw [← Complex.ofReal_mul, mul_inv_cancel₀ (Real.sqrt_pos.2 (RealDat.nP_pos (F := F.lv2) false)).ne', Complex.ofReal_one]
-    have hs : sg0 D A3.A = D.what₂.embLL := sgAt_mk _ R.toRealDat.hv0
-    have h1 : (R.toCx3 F).w0C false i (cpt A3.A.v0.embedding y) =
-        ∑ k, A3.A.v0.embedding (y k) • (R.toCx3 F).eW false i ((R.toCx3 F).bW false i A3.A.v0 k) := by
-
-      simp only [CxData.w0C, CxData.wC, lin, LinearMap.comp_apply, Fintype.linearCombination_apply, map_sum, map_smul]
-      rfl
-    apply_fun (Tw.out (s := twAt D.what₂.embLL A3.A.v0))
-    case inj =>
-      intro a b h
-      exact congrArg (Tw.mk (twAt D.what₂.embLL A3.A.v0)) h
-    rw [h1]
-    change Tw.out (∑ k, A3.A.v0.embedding (y k) • (R.toCx3 F).eW false i ((R.toCx3 F).bW false i A3.A.v0 k)) = _
-    change (∑ k, Tw.out (s := twAt D.what₂.embLL A3.A.v0) (E := (R.HW i (sg0 D A3.A)).H) (A3.A.v0.embedding (y k) • (R.toCx3 F).eW false i ((R.toCx3 F).bW false i A3.A.v0 k))) =
-      (R.FW i).j (sg0 D A3.A) (∑ k, y k • R.toRealDat.bL F.lv2 false i k)
-    rw [map_sum]
-    refine Finset.sum_congr rfl fun k _ => ?_
-    rw [map_smulₛₗ]
-    show cj (twAt D.what₂.embLL A3.A.v0) (A3.A.v0.embedding (y k)) •
-      ((((Real.sqrt (RealDat.nP F.lv2 false) : ℝ) : ℂ)) • ((((Real.sqrt (RealDat.nP F.lv2 false))⁻¹ : ℝ) : ℂ) •
-        (R.FW i).j (sg0 D A3.A) (R.toRealDat.bL F.lv2 false i k))) = _
-    rw [smul_smul (((Real.sqrt (RealDat.nP F.lv2 false) : ℝ) : ℂ)), hn, one_smul, R.toRealDat.emb0, cj_cj]
-    congr 1
-    exact (DFunLike.congr_fun hs (y k)).symm
-  have hnP : 0 < RealDat.nP F.lv2 false := RealDat.nP_pos (F := F.lv2) false
-  have hinj : Function.Injective (Y.mj.eW i) := by
-    rw [← LinearMap.ker_eq_bot, LinearMap.ker_eq_bot']
-    intro d hd
-    have h1 : RealDat.nP F.lv2 false * ‖d‖ ^ 2 = 0 := by rw [← Y.mj.eW_norm i d, hd]; simp
-    have h2 : ‖d‖ ^ 2 = 0 := by
-      rcases mul_eq_zero.1 h1 with h | h
-      · exact absurd h hnP.ne'
-      · exact h
-    exact norm_eq_zero.1 (pow_eq_zero_iff (n := 2) (by norm_num) |>.1 h2)
-  have hw := (R.toCx3 F).principal_form_injective false hR.kForm hR.ewNorm (hR.h4pos.2.2 false) i
-
-  have hUT : ∀ p, Submodule.span ℂ
-      ((fun y => (R.toCx3 F).w0C false i (cpt A3.A.v0.embedding y)) '' ((R.toCx3 F).WpK false i p : Set _)) =
-      (R.toCx3 F).Wp i p ⊓ LinearMap.range ((R.toCx3 F).w0C false i) := by
-    intro p
-    apply Submodule.eq_of_le_of_finrank_le
-    · rw [Submodule.span_le]
-      rintro _ ⟨y, hy, rfl⟩
-      exact ⟨hy, LinearMap.mem_range_self _ _⟩
-    · rw [← (R.toCx3 F).finrank_WpK F.cr false hR.h4pos hR.kForm hR.ewNorm hR.types0 hR.lifts0.1 hR.ratTh
-        hR.liftHyp0.h3W hR.partsW i p]
-      exact (finrank_le_cpt A3.A.v0.embedding ((R.toCx3 F).w0C false i) hw (Submodule.span ℂ
-        ((fun y => (R.toCx3 F).w0C false i (cpt A3.A.v0.embedding y)) '' ((R.toCx3 F).WpK false i p : Set _))) ((R.toCx3 F).WpK false i p)
-        (fun y hy => Submodule.subset_span ⟨y, hy, rfl⟩)).trans (Submodule.finrank_mono inf_le_left)
-  let outL : (R.toCx3 F).W i →ₛₗ[cj (twAt D.what₂.embLL A3.A.v0)] (R.HW i (sg0 D A3.A)).H :=
-    { toFun := fun z => Tw.out (s := twAt D.what₂.embLL A3.A.v0) (E := (R.HW i (sg0 D A3.A)).H) z
-      map_add' := fun a b => Tw.out_add (s := twAt D.what₂.embLL A3.A.v0) (E := (R.HW i (sg0 D A3.A)).H) a b
-      map_smul' := fun c a => Tw.out_smul (s := twAt D.what₂.embLL A3.A.v0) (E := (R.HW i (sg0 D A3.A)).H) c a }
-  set S : Submodule ℂ (D.what₂.Mj ((i : ℕ) + 1)) :=
-    ⨆ p, Submodule.span ℂ ((Z.jW i) '' ((s0Of R F).Wp i p : Set (Fin ((s0Of R F).dW i) → D.what₂.LL))) with hS
-
-  have h5 : ∀ p, (Submodule.span ℂ
-      ((fun y => (R.toCx3 F).w0C false i (cpt A3.A.v0.embedding y)) '' ((R.toCx3 F).WpK false i p : Set _))).map outL ≤
-      S.map (Y.mj.eW i) := by
-    intro p
-    rw [Submodule.map_span, Submodule.span_le]
-    rintro _ ⟨_, ⟨y, hy, rfl⟩, rfl⟩
-    refine Submodule.mem_map.2 ⟨Z.jW i y, ?_, ?_⟩
-    · exact (le_iSup (fun p => Submodule.span ℂ ((Z.jW i) '' ((s0Of R F).Wp i p : Set (Fin ((s0Of R F).dW i) → D.what₂.LL)))) p)
-        (Submodule.subset_span ⟨y, hy, rfl⟩)
-    · show Y.mj.eW i (Z.jW i y) = Tw.out (s := twAt D.what₂.embLL A3.A.v0) (E := (R.HW i (sg0 D A3.A)).H)
-        ((R.toCx3 F).w0C false i (cpt A3.A.v0.embedding y))
-      exact (congrArg (Tw.out (s := twAt D.what₂.embLL A3.A.v0) (E := (R.HW i (sg0 D A3.A)).H)) (hpt y)).symm
-  rw [eq_top_iff]
-  intro x _
-  have hWS : Y.mj.eW i x ∈ R.toRealDat.WS F.lv2 false i (sg0 D A3.A) := by
-    rw [hH.aux.levelW false i (sg0 D A3.A), ← Y.mj.eW_range i]
-    exact LinearMap.mem_range_self _ _
-  have hle : R.toRealDat.WS F.lv2 false i (sg0 D A3.A) ≤
-      Submodule.comap (Tw.mkL (twAt D.what₂.embLL A3.A.v0) (R.HW i (sg0 D A3.A)).H)
-        (LinearMap.range ((R.toCx3 F).w0C false i)) := by
-    refine Submodule.span_le.2 ?_
-    rintro _ ⟨k, rfl⟩
-    exact GlobalTheory.TwParts.mk_bC_mem_range R F i k
-  have h1 : Tw.mk (twAt D.what₂.embLL A3.A.v0) (Y.mj.eW i x) ∈ LinearMap.range ((R.toCx3 F).w0C false i) := hle hWS
-  rw [← (hR.partsW i).2] at h1
-  have h4 : Y.mj.eW i x ∈ (⨆ p, (R.toCx3 F).Wp i p ⊓ LinearMap.range ((R.toCx3 F).w0C false i)).map outL :=
-    Submodule.mem_map_of_mem (f := outL) h1
-  rw [Submodule.map_iSup] at h4
-  have h6 : (⨆ p, ((R.toCx3 F).Wp i p ⊓ LinearMap.range ((R.toCx3 F).w0C false i)).map outL) ≤ S.map (Y.mj.eW i) :=
-    iSup_le fun p => (hUT p) ▸ h5 p
-  obtain ⟨x', hx', hxx⟩ := h6 h4
-  rw [← hinj hxx]
-  exact hx'
+  intro hW hD hH hC D G _ _ Pl0 I0 T A3 Ks _ _ _ R F cG X0 Y Z
+  exact _root_.GlobalTheory.IsotSum.L0.span_all_of_reading_map hW hD hH hC D G Pl0 I0 T A3 Ks R F cG X0 Y Z.jW Z.jW_read
 
 end GlobalTheory.IsotSum
 

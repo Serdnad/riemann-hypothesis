@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsTranslationInvariantDoubledFormConjProduct
 public import Development.WeilBound.ThetaLifts.LocalTheory.ConeShifts.MemIntLocOfIdem
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsDiagonalLagrangianInvariantForm
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ContinuousAtPlace
@@ -186,43 +187,7 @@ theorem star_mem_schA {κ : Type} [Fintype κ] {Φ : (κ → AF F) → ℂ} (h :
 open GlobalTheory.DiagForm in
 theorem lDiag_ne {κ : Type} [Fintype κ] {Φ : (κ → AF F) → ℂ} (h : Φ ∈ schA F κ) (h0 : Φ ≠ 0) :
     lDiag F κ (boxFun Φ (star Φ)) ≠ 0 := by
-  classical
-  letI := GlobalTheory.DiagForm.measAf (F := F)
-  haveI := GlobalTheory.DiagForm.borelAf (F := F)
-  haveI := GlobalTheory.AdelicUnitaryTop.locallyCompact_finiteAdele F
-  haveI := GlobalTheory.AdelicUnitaryTop.secondCountable_finiteAdele F
-  haveI := GlobalTheory.AdelicUnitaryTop.t2Space_finiteAdeleRing_of_numberField F
-  have hm := GlobalTheory.SchwartzBox.boxFun_mem_schA F κ κ Φ h _ (star_mem_schA h)
-  have hi := integrable_resD hm
-  have hc : ∀ Ψ ∈ schA F (κ ⊕ κ), Continuous (resD F κ Ψ) := fun Ψ hΨ => by
-    induction hΨ using Submodule.span_induction with
-    | mem x hx =>
-      obtain ⟨f, g, hg, rfl⟩ := hx
-      rw [show resD F κ (pureA F f g) = _ from funext (resD_pureA f g)]
-      exact ((compD F κ f).continuous.comp continuous_fst).mul (hg.1.continuous.comp
-        (continuous_pi fun i => by cases i <;> exact (continuous_apply _).comp continuous_snd))
-    | zero => rw [map_zero]; exact continuous_zero
-    | add x y _ _ hx hy => rw [map_add (f := _)]; exact hx.add hy
-    | smul c x _ hx => rw [map_smul]; exact hx.const_smul c
-  have e : resD F κ (boxFun Φ (star Φ)) = fun p => ((Complex.normSq (Φ (glue p)) : ℝ) : ℂ) := funext fun p =>
-    Complex.mul_conj _
-  rw [lDiag, LinearMap.comp_apply, Lext_apply _ hi]
-  have hc' := hc _ hm
-  rw [e] at hc' hi ⊢
-  rw [integral_complex_ofReal, Complex.ofReal_ne_zero]
-  obtain ⟨x, hx⟩ := Function.ne_iff.1 h0
-  have g0 : glue (0 + shiftOf x) = x := by
-    rw [glue_add_shiftOf]
-    funext i
-    refine Prod.ext ?_ (zero_add _)
-    change (InfiniteAdeleRing.ringEquiv_mixedSpace F).symm (eI F κ 0 i) + _ = _
-    simp only [map_zero, Pi.zero_apply, zero_add]
-  haveI : (mu F κ).IsOpenPosMeasure := by unfold mu; infer_instance
-  refine (integral_pos_of_integrable_nonneg_nonzero (x := 0 + shiftOf x) (Complex.continuous_re.comp hc') hi.re
-    (fun p => Complex.normSq_nonneg _) ?_).ne'
-  change Complex.normSq (Φ (glue _)) ≠ 0
-  rw [g0]
-  exact (map_ne_zero _).2 hx
+  apply _root_.GlobalTheory.DiagSq.lDiag_boxFun_star_ne <;> assumption
 
 theorem mul_latAtV {X : Spc F E n} {W : Spc F E d} {k : Matrix (Fin n) (Fin n) (AE F E)} (hk : k ∈ Pres v X) {γ}
     (hγ : γ ∈ latAtV X W v) : k * γ ∈ latAtV X W v := by
@@ -261,8 +226,9 @@ theorem PresD.mul {X : Spc F E n} {g g'} (h : PresD v X g) (h' : PresD v X g') :
   exact ⟨_, add_mem (mul_mem ha ha') (mul_mem hb hc'), _, add_mem (mul_mem ha hb') (mul_mem hb he'), _,
     add_mem (mul_mem hc ha') (mul_mem he hc'), _, add_mem (mul_mem hc hb') (mul_mem he he'), Matrix.fromBlocks_multiply ..⟩
 
-theorem dbl_eigen {B : Base F E} (hB : B.IsGood σ) {X : Spc F E n} {W : Spc F E d} {r s r' s' : ℕ} (hX : X.IsHerm σ B r s)
-    (hW : W.IsSkew σ B r' s') {M : Model σ X W} {φ} (hφ : M.IsVac B.ψ v φ)
+theorem dbl_eigen_of_standard_character {B : Base F E} (hstd : IsStd B.ψ) {X : Spc F E n} {W : Spc F E d}
+    (hLat : (∀ {z : Matrix (Fin n) (Fin d) (AE F E)} (_ : At (evFin F v) z)
+    (_ : ∀ γ ∈ latAtV X W v, B.ψ (symp (R := AF F) (cA σ) (-1) (incM F X.J) (incM F W.J) γ z) = 1), z ∈ latAtV X W v)) {M : Model σ X W} {φ} (hφ : M.IsVac B.ψ v φ)
     {d' : Darboux (symp (R := AF F) (cA σ) (-1) (incM F W.J) (incM F X.J)) (Fin n × Fin d)} (hd' : ∀ x, d'.e xᵀ = M.co.e x)
     {dd : Darboux (symp (R := AF F) (cA σ) (-1) (incM F W.J) (dbl (incM F X.J))) ((Fin n × Fin d) ⊕ (Fin n × Fin d))}
     (hdd : IsDblCoord (cA σ) (-1) (incM F W.J) (incM F X.J) d' dd) {omd}
@@ -276,7 +242,7 @@ theorem dbl_eigen {B : Base F E} (hB : B.IsGood σ) {X : Spc F E n} {W : Spc F E
     (eq_of_acts v h₁ (h₀ φ hs) (GlobalTheory.VacBridge.rho_acts_locCo M.co B.ψ v γ (hAt γ hγ) φ)).trans
       (eq_of_acts v h₁ (h₀ φ hs) (hθ γ hγ)).symm
   set θ' := inclR (F := F) (AF F) (θ : E)
-  refine eigen dd hB.std {z | ∃ γ₁ ∈ latAtV X W v, ∃ γ₂ ∈ latAtV X W v, z = Matrix.fromCols γ₁ᵀ γ₂ᵀ} ?_ ?_
+  refine eigen dd hstd {z | ∃ γ₁ ∈ latAtV X W v, ∃ γ₂ ∈ latAtV X W v, z = Matrix.fromCols γ₁ᵀ γ₂ᵀ} ?_ ?_
     (fun z => B.ψ (⅟(2 : AF F) * symp (cA σ) θ' (incM F W.J) (dbl (incM F X.J)) z z)) (sb_box_loc hs (sb_star hs)) ?_ ?_
     (omd g) (hsp.pres g) (hsp.adm g) (actB (cA σ) g) (hsp.impl g) ?_ ?_
   · rintro _ ⟨γ₁, h1, γ₂, h2, rfl⟩ u hu
@@ -284,7 +250,7 @@ theorem dbl_eigen {B : Base F E} (hB : B.IsGood σ) {X : Spc F E n} {W : Spc F E
     exacts [congrFun (congrFun (hAt _ h1 u hu) j) i, congrFun (congrFun (hAt _ h2 u hu) j) i]
   · intro z hz h
     have ez : z = Matrix.fromCols (z.toCols₁ᵀ)ᵀ (z.toCols₂ᵀ)ᵀ := (Matrix.fromCols_toCols z).symm
-    refine ⟨_, mem_latAtV hB hX hW v (fun u hu => ?_) fun γ hγ => ?_, _, mem_latAtV hB hX hW v (fun u hu => ?_) fun γ hγ => ?_, ez⟩
+    refine ⟨_, hLat (fun u hu => ?_) fun γ hγ => ?_, _, hLat (fun u hu => ?_) fun γ hγ => ?_, ez⟩
     · ext i j; exact congrFun (congrFun (hz u hu) j) (Sum.inl i)
     · have := h _ ⟨γ, hγ, 0, zero_mem _, rfl⟩
       rwa [ez, symp_dbl, symp_zero, sub_zero] at this
@@ -301,7 +267,7 @@ theorem dbl_eigen {B : Base F E} (hB : B.IsGood σ) {X : Spc F E n} {W : Spc F E
       ext (i | i) <;> simp [locCo, this]
     have a2 : At (evFin F v) (⅟(2 : AF F) * symp (cA σ) θ' (incM F X.J) (incM F W.J) γ₂ γ₂) := fun u hu => by
       rw [smul_eq_mul, mul_left_comm, ← symp_smul, hAt _ h2 u hu, symp_zero, mul_zero]
-    rw [e, schr_box hB.std, hv _ h1, hv _ h2, symp_dbl, mul_sub, sub_eq_add_neg, AddChar.map_add_eq_mul, ← star_psi hB.std a2]
+    rw [e, schr_box hstd, hv _ h1, hv _ h2, symp_dbl, mul_sub, sub_eq_add_neg, AddChar.map_add_eq_mul, ← star_psi hstd a2]
     funext x
     simp only [boxFun, Pi.star_apply, Pi.smul_apply, smul_eq_mul, star_mul']
     ring
@@ -320,6 +286,17 @@ theorem dbl_eigen {B : Base F E} (hB : B.IsGood σ) {X : Spc F E n} {W : Spc F E
     · have : g.1.1 * (g⁻¹).1.1 = 1 := g.1.mul_inv
       rw [actB, Matrix.mul_assoc, ← Matrix.transpose_mul, this, Matrix.transpose_one, Matrix.mul_one]
     · rw [symp, symp, hTens_mul (cA σ) _ (g⁻¹).2]
+
+theorem dbl_eigen {B : Base F E} (hB : B.IsGood σ) {X : Spc F E n} {W : Spc F E d} {r s r' s' : ℕ} (hX : X.IsHerm σ B r s)
+    (hW : W.IsSkew σ B r' s') {M : Model σ X W} {φ} (hφ : M.IsVac B.ψ v φ)
+    {d' : Darboux (symp (R := AF F) (cA σ) (-1) (incM F W.J) (incM F X.J)) (Fin n × Fin d)} (hd' : ∀ x, d'.e xᵀ = M.co.e x)
+    {dd : Darboux (symp (R := AF F) (cA σ) (-1) (incM F W.J) (dbl (incM F X.J))) ((Fin n × Fin d) ⊕ (Fin n × Fin d))}
+    (hdd : IsDblCoord (cA σ) (-1) (incM F W.J) (incM F X.J) d' dd) {omd}
+    (hsp : IsSplitting (adeleClass F) B.ψ dd (actB (cA σ)) omd) (g : UG (cA σ) (dbl (incM F X.J)))
+    (hg : At (evFin F v) (g.1.1 - 1)) (hg' : PresD v X (g⁻¹).1.1) :
+    ∃ c : ℂ, Acts (evFin F v) (omd g) (boxFun φ (star φ)) (c • boxFun φ (star φ)) := by
+  exact _root_.PositivityTheory.ThKG.Loc.Cone.Vf.dbl_eigen_of_standard_character hB.std
+    (_root_.PositivityTheory.ThK.Vac.mem_latAtV hB hX hW v) hφ hd' hdd hsp g hg hg'
 
 theorem rule_diag {ψ : AddChar (AF F) ℂ} {JX : Matrix (Fin n) (Fin n) (AE F E)} {JW : Matrix (Fin d) (Fin d) (AE F E)}
     {κ : Type} [Fintype κ] {d' : Darboux (symp (R := AF F) (cA σ) (-1) JW JX) κ}

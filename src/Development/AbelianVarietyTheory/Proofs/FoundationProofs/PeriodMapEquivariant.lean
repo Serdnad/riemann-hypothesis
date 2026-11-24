@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.HeckeTSlashInvariant
 public import Development.AbelianVarietyTheory.Definitions.Foundations.IsDCReps
 public import Mathlib.Analysis.CStarAlgebra.Classes
 public import Mathlib.Analysis.Complex.UpperHalfPlane.Manifold
@@ -440,26 +441,8 @@ theorem exists_rep {N l q : ℕ} (hq : q.Prime) (hqN : ¬ q ∣ N * l) {σ : SL(
 
 theorem tqFam_inj {q : ℕ} (hq : q.Prime) (σ h : SL(2, ℤ)) {i k : Fin (q + 1)}
     (e : tqFam q σ i = mat h * tqFam q σ k) : i = k := by
-  have hp : Prime (q : ℤ) := Nat.prime_iff_prime_int.1 hq
-  have hd := sl_det h
-  have e00 := congrFun (congrFun e 0) 0
-  have e01 := congrFun (congrFun e 0) 1
-  have e10 := congrFun (congrFun e 1) 0
-  have hi := i.2
-  have hk := k.2
-  by_cases a : (i : ℕ) < q <;> by_cases b : (k : ℕ) < q
-  · simp [tqFam, a, b, Matrix.mul_apply, Fin.sum_univ_two] at e00 e01
-    have hdv : (q : ℤ) ∣ ((i : ℕ) : ℤ) - ((k : ℕ) : ℤ) := ⟨mat h 0 1, by linear_combination e01 - ((k : ℕ) : ℤ) * e00⟩
-    have := Int.eq_zero_of_abs_lt_dvd hdv (by rw [abs_lt]; constructor <;> omega)
-    exact Fin.ext (by omega)
-  · exfalso
-    simp [tqFam, a, b, dg, Matrix.mul_apply, Fin.sum_univ_two] at e00
-    exact hp.not_dvd_one ⟨mat h 0 0 * mat σ 0 0 + mat h 0 1 * mat σ 1 0, by linear_combination e00⟩
-  · exfalso
-    simp [tqFam, a, b, dg, Matrix.mul_apply, Fin.sum_univ_two] at e00 e10
-    exact hp.not_dvd_one ⟨mat σ 0 0 * mat h 1 1 - mat h 0 1 * mat σ 1 0,
-      by linear_combination -hd - mat h 1 1 * e00 + mat h 0 1 * e10⟩
-  · exact Fin.ext (by omega)
+  intros
+  apply _root_.GlobalTheory.tqFam_cosets_distinct <;> assumption
 
 theorem tqFam_perm : ∀ (N l q : ℕ), 5 ≤ N → l.Prime → ¬ l ∣ N → q.Prime → ¬ q ∣ N * l → ∀ σ : SL(2, ℤ),
     IsDiam N l (q : ZMod N) σ → ∀ γ : Lev N l, ∃ π : Equiv.Perm (Fin (q + 1)), ∀ i, ∃ γ' : Lev N l,

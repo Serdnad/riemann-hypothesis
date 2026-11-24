@@ -1,5 +1,6 @@
 module
 
+import all Development.AutomorphicArithmetic.AutomorphicVarieties.CommutativeAlgebra.KerPow
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.CommutativeAlgebra.ResMapBijective
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.PadicHodgeTheory.LocalPublishedTheorems
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.CommutativeAlgebra.CoFinite
@@ -392,27 +393,6 @@ private theorem gc_lin {A σ : Type} [CommRing A] [Fintype σ] (f : MvPowerSerie
 
 variable {O R : Type} [CommRing O] [CommRing R] [Algebra O R] {Y : Type} [AddCommGroup Y]
 
-private lemma gc_exists_order (W : WPres O Y R) (h : W.HasOrigin) (n : ℕ) :
-    ∀ x ∈ RingHom.ker (W.origin h) ^ n, ∃ f, W.π f = x ∧ (n : ℕ∞) ≤ f.order := by
-  intro x hx
-  refine Submodule.pow_induction_on_left' (C := fun n x _ => ∃ f, W.π f = x ∧ (n : ℕ∞) ≤ f.order)
-    _ ?_ ?_ ?_ hx
-  · intro r
-    obtain ⟨f, hf⟩ := W.surj (algebraMap R R r)
-    exact ⟨f, hf, by simp⟩
-  · rintro a b i - - ⟨f, hf, hfo⟩ ⟨g, hg, hgo⟩
-    exact ⟨f + g, by rw [map_add (f := _), hf, hg], le_trans (le_min hfo hgo) min_order_le_add⟩
-  · rintro m hm i a - ⟨f, hf, hfo⟩
-    obtain ⟨g, rfl⟩ := W.surj m
-    have hg0 : constantCoeff g = 0 := by
-      rw [RingHom.mem_ker, W.origin_π] at hm
-      exact hm
-    refine ⟨g * f, by rw [map_mul, hf], ?_⟩
-    have h1 : (1 : ℕ∞) ≤ g.order := one_le_order_iff_constCoeff_eq_zero.mpr hg0
-    calc ((i.succ : ℕ) : ℕ∞) = 1 + (i : ℕ∞) := by push_cast; ring
-      _ ≤ g.order + f.order := add_le_add h1 hfo
-      _ ≤ (g * f).order := le_order_mul
-
 private lemma origin_at_generator_eq_zero (W : WPres O Y R) (h : W.HasOrigin) (i : W.σ) : W.origin h (W.z i) = 0 := by
   rw [WPres.z, W.origin_π]
   simp
@@ -473,7 +453,7 @@ private lemma gc_homog [IsDomain O] [FaithfulSMul O E] [Finite τ] (W : WPres O 
     refine Ideal.add_mem _ ?_ (gc_sat (W.origin h) (hyP p hp) N)
     rw [Algebra.smul_def]
     exact Ideal.mul_mem_left _ _ hk1
-  obtain ⟨g, hg, hgo⟩ := gc_exists_order W h N _ hmem
+  obtain ⟨g, hg, hgo⟩ := _root_.exists_order W h N _ hmem
   have hker : g - ((W.origin h y) ^ N * c) • f ∈ RingHom.ker W.π := by
     rw [RingHom.mem_ker, map_sub, hg, map_smul, sub_self]
   have hk := W.homog _ hker k

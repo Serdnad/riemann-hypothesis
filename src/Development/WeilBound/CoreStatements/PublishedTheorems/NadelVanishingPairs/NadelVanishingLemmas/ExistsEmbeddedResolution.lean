@@ -1,5 +1,6 @@
 module
 
+import all Development.WeilBound.CoreStatements.PublishedTheorems.NadelVanishingPairs.NadelVanishingLemmas.MultiplierVanishingNefTwistAmple
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.IsEqnIffGeneratesAtInv
 public import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.IsLogCanonicalMultipleCanonical
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsIdealSheafAwayFromP
@@ -688,19 +689,7 @@ theorem supp_neg_le {X : Scheme.{0}} [IsIntegral X] (D : GlobalTheory.Cartier.Ca
 open GlobalTheory.Cartier.CartierDiv in
 theorem supp_nsmul_le {X : Scheme.{0}} [IsIntegral X] (D : GlobalTheory.Cartier.CartierDiv X) (m : ℕ) :
     (m • D).supp ≤ D.supp := by
-  intro x hx
-  obtain ⟨g, hg⟩ := D.exists_isEqn x
-  rw [(hg.nsmul m).mem_supp_iff] at hx
-  rw [hg.mem_supp_iff]
-  intro hu
-  apply hx
-  rw [Units.val_pow_eq_pow_val]
-  have key : ∀ j : ℕ, UnitAt x ((g : X.functionField) ^ j) := by
-    intro j
-    induction j with
-    | zero => simpa using unitAt_one x
-    | succ j ih => rw [pow_succ]; exact ih.mul hu
-  exact key m
+  apply _root_.GlobalTheory.LogResVanish.supp_nsmul_le <;> assumption
 
 end GlobalTheory.AmpleUpstairs
 

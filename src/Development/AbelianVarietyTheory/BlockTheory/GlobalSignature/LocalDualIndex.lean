@@ -43,6 +43,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
+import Development.AbelianVarietyTheory.BlockTheory.GlobalSignature.LocalDensityEuler
 
 @[expose] public section
 
@@ -66,14 +67,7 @@ theorem psiV_zero (ψ : AddChar (AF F) ℂ) (v : HeightOneSpectrum (𝓞 F)) : p
 
 theorem psiV_add (ψ : AddChar (AF F) ℂ) (v : HeightOneSpectrum (𝓞 F)) (s t : Fv F v) :
     psiV F ψ v (s + t) = psiV F ψ v s * psiV F ψ v t := by
-  classical
-  have h : pairA F 0 (singleV F v (s + t)) =
-      pairA F 0 (singleV F v s) + pairA F 0 (singleV F v t) := by
-    have : singleV F v (s + t) = singleV F v s + singleV F v t :=
-      RestrictedProduct.single_add _ v s t
-    rw [this]
-    exact Prod.ext (add_zero (0 : Ainf F)).symm rfl
-  rw [psiV, h, AddChar.map_add_eq_mul]; rfl
+  apply _root_.GlobalTheory.IndefiniteRowSideFullHecke.LocalAdditiveCharacterDual.psiV_add
 
 def intV (v : HeightOneSpectrum (𝓞 F)) : AddSubgroup (Fv F v) :=
   (v.adicCompletionIntegers F).toSubring.toAddSubgroup

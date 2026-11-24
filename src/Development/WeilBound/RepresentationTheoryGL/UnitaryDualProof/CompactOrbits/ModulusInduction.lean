@@ -1,5 +1,6 @@
 module
 
+import GroundTheory.AutomorphicForms.TensorProductTheorem.CentralCuspSplit
 public import Development.WeilBound.RepresentationTheoryGL.UnitaryDualProof.CompactOrbits.CentralizerReps
 public import Development.WeilBound.RepresentationTheoryGL.UnitaryDualProof.CompactOrbits.Fourier
 public import Development.WeilBound.RepresentationTheoryGL.UnitaryDualProof.CompactOrbits.ModulusBounds
@@ -27,15 +28,8 @@ theorem pow_mem (K : Submodule ℂ M) (R : Module.End ℂ M) (hK : ∀ m ∈ K, 
 
 theorem aeval_mem (K : Submodule ℂ M) (R : Module.End ℂ M) (hK : ∀ m ∈ K, R m ∈ K) (p : ℂ[X]) :
     ∀ m ∈ K, (aeval R p) m ∈ K := by
-  induction p using Polynomial.induction_on' with
-  | add _ _ hp hq =>
-    intro m hm
-    rw [map_add (f := _), LinearMap.add_apply]
-    exact K.add_mem (hp m hm) (hq m hm)
-  | monomial j _ =>
-    intro m hm
-    rw [aeval_monomial, Algebra.algebraMap_eq_smul_one]
-    exact K.smul_mem _ (pow_mem K R hK j m hm)
+  intros
+  apply _root_.GroundTheory.Automorphic.PeterssonComplement.aeval_mem <;> assumption
 
 theorem isCoprime_list_prod_left {R : Type*} [CommRing R] {ι : Type*} (f : ι → R) (z : R) :
     ∀ l : List ι, (∀ x ∈ l, IsCoprime (f x) z) → IsCoprime (l.map f).prod z

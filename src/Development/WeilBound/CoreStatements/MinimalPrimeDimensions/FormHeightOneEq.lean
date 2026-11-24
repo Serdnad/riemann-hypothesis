@@ -1,5 +1,6 @@
 module
 
+import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.PLeadBlockGaussTail
 public import Development.AutomorphicSpectrum.Definitions.CommutativeAlgebra.OnbMat
 public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.Statements
 public import Mathlib.Topology.Algebra.MvPolynomial
@@ -362,15 +363,8 @@ open Real
 theorem lintegral_pi_fin {E : Type*} [MeasurableSpace E] (n : ℕ) (μ : Measure E) [SigmaFinite μ]
     (f : Fin n → E → ENNReal) (hf : ∀ i, Measurable (f i)) :
     ∫⁻ x : Fin n → E, ∏ i, f i (x i) ∂(Measure.pi fun _ => μ) = ∏ i, ∫⁻ t, f i t ∂μ := by
-  induction n with
-  | zero => simp
-  | succ n ih =>
-    have h := (measurePreserving_piFinSuccAbove (fun _ : Fin (n + 1) => μ) 0).symm
-    rw [← h.lintegral_comp_emb (MeasurableEquiv.measurableEmbedding _), Fin.prod_univ_succ,
-      ← ih (fun i => f i.succ) (fun i => hf _), ← lintegral_prod_mul (hf 0).aemeasurable
-        (Finset.measurable_prod _ fun i _ => (hf i.succ).comp (measurable_pi_apply i)).aemeasurable]
-    refine lintegral_congr fun q => ?_
-    simp [Fin.prod_univ_succ, MeasurableEquiv.piFinSuccAbove_symm_apply, Fin.insertNthEquiv]
+  intros
+  apply _root_.GroundTheory.Heights₂.Heights.LeadBlockGaussTail.lintegral_pi_prod <;> assumption
 
 theorem lintegral_pi_prod {ι E : Type*} [Fintype ι] [MeasurableSpace E] (μ : Measure E) [SigmaFinite μ]
     (f : ι → E → ENNReal) (hf : ∀ i, Measurable (f i)) :

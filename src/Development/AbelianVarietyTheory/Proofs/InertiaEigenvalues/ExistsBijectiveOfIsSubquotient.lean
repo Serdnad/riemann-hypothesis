@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.PlaceOverTransportRingIsoSymm
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ParabolicProductTwoRepsEquivTwoBlockInduction
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.IsComp
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.ParabolicInductionTensorProductHasFiniteLength
@@ -54,16 +55,7 @@ variable {k : Type} [Field k] [ValuativeRel k] [TopologicalSpace k] [IsNonarchim
 theorem isIrreducible_comp_surj {G H V : Type} [Group G] [Group H] [AddCommGroup V] [Module ℂ V]
     (ρ : Representation ℂ H V) (f : G →* H) (hf : Function.Surjective f) (h : ρ.IsIrreducible) :
     Representation.IsIrreducible (ρ.comp f : Representation ℂ G V) := by
-  let e : Subrepresentation (ρ.comp f : Representation ℂ G V) ≃o Subrepresentation ρ :=
-    { toFun := fun S => ⟨S.toSubmodule, fun g v hv => by
-        obtain ⟨x, rfl⟩ := hf g
-        exact S.apply_mem_toSubmodule x hv⟩
-      invFun := fun S => ⟨S.toSubmodule, fun g v hv => S.apply_mem_toSubmodule (f g) hv⟩
-      left_inv := fun _ => rfl
-      right_inv := fun _ => rfl
-      map_rel_iff' := Iff.rfl }
-  haveI : IsSimpleOrder (Subrepresentation ρ) := h
-  exact e.isSimpleOrder
+  first | exact _root_.GlobalTheory.WDTransport.isIrreducible_comp | exact @_root_.GlobalTheory.WDTransport.isIrreducible_comp | apply _root_.GlobalTheory.WDTransport.isIrreducible_comp <;> assumption
 
 def piTensorBoolEquiv {R a b : Type} [CommRing R] [Fintype a] [DecidableEq a] [Fintype b] [DecidableEq b]
     {X : Bool → Type} [∀ j, AddCommGroup (X j)] [∀ j, Module ℂ (X j)]

@@ -1,5 +1,6 @@
 module
 
+import GroundTheory.HeightsAndTheta.Heights.MultihomogeneousPolynomials
 public import GroundTheory.HeightsAndTheta.Heights.Intersections.LocRing
 import Mathlib.Tactic.TypeStar
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.InterDivSupp
@@ -25,26 +26,15 @@ theorem homog_zero (a : K → ℕ) : IsMultiHomog (0 : MRing ι) a := by
   simp at hm
 
 theorem homog_one : IsMultiHomog (1 : MRing ι) 0 := by
-  classical
-  intro m hm k
-  rw [support_one, Finset.mem_singleton] at hm
-  subst hm
-  simp
+  apply _root_.GroundTheory.Heights₂.Heights.MultiHomogeneous.one <;> assumption
 
 theorem homog_mul {f g : MRing ι} {a b : K → ℕ} (hf : IsMultiHomog f a) (hg : IsMultiHomog g b) :
     IsMultiHomog (f * g) (a + b) := by
-  classical
-  intro m hm k
-  obtain ⟨m1, hm1, m2, hm2, rfl⟩ := Finset.mem_add.mp (support_mul f g hm)
-  simp only [Finsupp.add_apply, Finset.sum_add_distrib, Pi.add_apply, hf m1 hm1 k, hg m2 hm2 k]
+  apply _root_.GroundTheory.Heights₂.Heights.MultiHomogeneous.mul <;> assumption
 
 theorem homog_add {f g : MRing ι} {a : K → ℕ} (hf : IsMultiHomog f a) (hg : IsMultiHomog g a) :
     IsMultiHomog (f + g) a := by
-  classical
-  intro m hm k
-  rcases Finset.mem_union.mp (support_add hm) with h | h
-  · exact hf m h k
-  · exact hg m h k
+  apply _root_.GroundTheory.Heights₂.Heights.MultiHomogeneous.add <;> assumption
 
 theorem homog_neg {f : MRing ι} {a : K → ℕ} (hf : IsMultiHomog f a) : IsMultiHomog (-f) a := by
   intro m hm k
@@ -71,11 +61,7 @@ theorem homog_X [DecidableEq K] (k : K) (i : ι k) :
 
 theorem homog_pow {f : MRing ι} {a : K → ℕ} (hf : IsMultiHomog f a) (n : ℕ) :
     IsMultiHomog (f ^ n) (n • a) := by
-  induction n with
-  | zero => simpa using (homog_one (ι := ι))
-  | succ n ih =>
-    rw [pow_succ, succ_nsmul]
-    exact homog_mul ih hf
+  apply _root_.GroundTheory.Heights₂.Heights.MultiHomogeneous.pow <;> assumption
 
 theorem mem_of_sum_mem {I : Ideal (MRing ι)} (hI : IsMultiHomogIdeal I) {β : Type*} (s : Finset β)
     (h : β → MRing ι) (d : β → K → ℕ) (hd : Set.InjOn d s) (hh : ∀ b ∈ s, IsMultiHomog (h b) (d b))

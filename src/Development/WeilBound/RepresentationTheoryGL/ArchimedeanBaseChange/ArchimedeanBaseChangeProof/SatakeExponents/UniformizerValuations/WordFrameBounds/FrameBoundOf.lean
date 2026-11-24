@@ -1,5 +1,6 @@
 module
 
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.NontrivialInfinitePlaceOfUnramified
 public import Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange.ArchimedeanBaseChangeProof.SatakeExponents.UniformizerValuations.AdelRep
 public import Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange.ArchimedeanBaseChangeProof.SatakeExponents.UniformizerValuations.AdelicHeckeBlocks.ConvTest
 public import Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange.ArchimedeanBaseChangeProof.SatakeExponents.UniformizerValuations.AdelicHeckeBlocks.Imports
@@ -118,32 +119,8 @@ lemma fu_of_finrank_one (F : Type) [Field F] [NumberField F] (h : Module.finrank
 
 theorem main (E : Type) [Field E] [NumberField E] [IsCMField E]
     (hU : ∀ w : HeightOneSpectrum (𝓞 E), Algebra.IsUnramifiedAt (𝓞 (maximalRealSubfield E)) w.asIdeal) :
-    Nontrivial (InfinitePlace E) := by
-  by_contra hnt
-  rw [not_nontrivial_iff_subsingleton] at hnt
-  have hF := finrank_real_eq_one E hnt
-  have : Algebra.FormallyUnramified ℤ (𝓞 (maximalRealSubfield E)) := fu_of_finrank_one _ hF
-  have hunr : ∀ w : HeightOneSpectrum (𝓞 E), Algebra.IsUnramifiedAt ℤ w.asIdeal := fun w => by
-    have := hU w
-    exact Algebra.FormallyUnramified.comp ℤ (𝓞 (maximalRealSubfield E)) (Localization.AtPrime w.asIdeal)
-  have htop : differentIdeal ℤ (𝓞 E) = ⊤ := by
-    by_contra hne
-    obtain ⟨P, hPmax, hle⟩ := Ideal.exists_le_maximal _ hne
-    have hPne : P ≠ ⊥ := fun h => differentIdeal_ne_bot (A := ℤ) (B := 𝓞 E) (eq_bot_iff.2 (h ▸ hle))
-    let w : HeightOneSpectrum (𝓞 E) := ⟨P, hPmax.isPrime, hPne⟩
-    have := (not_dvd_differentIdeal_iff (A := ℤ) (P := w.asIdeal)).2 (hunr w)
-    exact this (Ideal.dvd_iff_le.2 hle)
-  have hd := absNorm_differentIdeal E (𝓞 E)
-  rw [htop, Ideal.absNorm_top] at hd
-  have hrank : 1 < Module.finrank ℚ E := by
-    have h1 := InfinitePlace.card_add_two_mul_card_eq_rank E
-    have h2 := IsTotallyComplex.nrRealPlaces_eq_zero E
-    have h3 := InfinitePlace.card_eq_nrRealPlaces_add_nrComplexPlaces E
-    have h4 : 0 < Fintype.card (InfinitePlace E) := Fintype.card_pos
-    omega
-  have h2 := abs_discr_gt_two hrank
-  have h1 : |discr E| = 1 := by rw [Int.abs_eq_natAbs, ← hd]; rfl
-  omega
+    Nontrivial (InfinitePlace E) :=
+  _root_.GlobalTheory.CompanionTheory.UnrCM.nontrivial_infinitePlace_of_forall_isUnramifiedAt E hU
 
 end PositivityTheory.Rg.BcB.F.FBL.NontrivInfPf
 

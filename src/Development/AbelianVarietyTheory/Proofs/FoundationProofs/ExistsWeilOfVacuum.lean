@@ -71,17 +71,7 @@ open GlobalTheory.NormSum.VacMove
 
 theorem mem_of_local {G : Type} [AddCommGroup G] (T : AddSubgroup G) (x : G)
     (h : ∀ q : ℕ, q.Prime → ∃ m : ℕ, Nat.Coprime m q ∧ m • x ∈ T) : x ∈ T := by
-  by_contra hx
-  have h1 : addOrderOf (QuotientAddGroup.mk x : G ⧸ T) ≠ 1 := by
-    intro h1
-    rw [AddMonoid.addOrderOf_eq_one_iff, QuotientAddGroup.eq_zero_iff] at h1
-    exact hx h1
-  obtain ⟨q, hq, hd⟩ := Nat.exists_prime_and_dvd h1
-  obtain ⟨m, hm, hT⟩ := h q hq
-  have : addOrderOf (QuotientAddGroup.mk x : G ⧸ T) ∣ m := by
-    rw [addOrderOf_dvd_iff_nsmul_eq_zero, ← QuotientAddGroup.mk_nsmul, QuotientAddGroup.eq_zero_iff]
-    exact hT
-  exact (Nat.Prime.coprime_iff_not_dvd hq).1 hm.symm (hd.trans this)
+  first | exact _root_.GlobalTheory.VacuumScalar.mem_of_local | exact @_root_.GlobalTheory.VacuumScalar.mem_of_local | apply _root_.GlobalTheory.VacuumScalar.mem_of_local <;> assumption
 
 variable {D : D7}
 

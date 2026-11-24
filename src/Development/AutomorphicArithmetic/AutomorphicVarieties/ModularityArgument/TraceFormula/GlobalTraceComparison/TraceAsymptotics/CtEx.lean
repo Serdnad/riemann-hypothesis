@@ -1,5 +1,9 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.TwistedOrbitalIntegralParabolicUnfoldLeviStatement
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.LevelFamInf
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.TwistedOrbitalIntegralUnitGLEqHermitianLatticeCoStatement
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.MemKGLIffVal
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.TraceFormula.GlobalTraceComparison.TraceAsymptotics.FinprodSplitAlt
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.TraceFormula.GlobalTraceComparison.TraceAsymptotics.BlkOneMem
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SumSatEqOfIsCT
@@ -83,27 +87,7 @@ variable {E : Type} [Field E] [NumberField E] [IsCMField E]
 
 private lemma mem_K {n : ℕ} {w : Pl E} (g : GLw n w) :
     g ∈ KGL w (n := n) ↔ (∀ i j, Valued.v (g.val i j) ≤ 1) ∧ (∀ i j, Valued.v ((g⁻¹).val i j) ≤ 1) := by
-  constructor
-  · rintro ⟨a, rfl⟩
-    refine ⟨fun i j => (a.val i j).2, fun i j => ?_⟩
-    rw [← map_inv]
-    exact ((a⁻¹).val i j).2
-  · rintro ⟨h1, h2⟩
-    let A : Matrix (Fin n) (Fin n) (Ov E w) := fun i j => ⟨g.val i j, h1 i j⟩
-    let B : Matrix (Fin n) (Fin n) (Ov E w) := fun i j => ⟨(g⁻¹).val i j, h2 i j⟩
-    have hA : A.map (Ov E w).subtype = g.val := by ext i j; rfl
-    have hB : B.map (Ov E w).subtype = (g⁻¹).val := by ext i j; rfl
-    have inj : Function.Injective (fun M : Matrix (Fin n) (Fin n) (Ov E w) => M.map (Ov E w).subtype) :=
-      Matrix.map_injective Subtype.val_injective
-    have hAB : A * B = 1 := inj (by
-      change (A * B).map (Ov E w).subtype = (1 : Matrix (Fin n) (Fin n) (Ov E w)).map (Ov E w).subtype
-      rw [Matrix.map_mul, hA, hB, Matrix.map_one _ (map_zero _) (map_one _)]
-      exact congrArg Units.val (mul_inv_cancel g))
-    have hBA : B * A = 1 := inj (by
-      change (B * A).map (Ov E w).subtype = (1 : Matrix (Fin n) (Fin n) (Ov E w)).map (Ov E w).subtype
-      rw [Matrix.map_mul, hA, hB, Matrix.map_one _ (map_zero _) (map_one _)]
-      exact congrArg Units.val (inv_mul_cancel g))
-    exact ⟨⟨A, B, hAB, hBA⟩, Units.ext hA⟩
+  apply _root_.GlobalTheory.EulerTwKU.mem_KGL_iff_val <;> assumption
 
 private lemma int_mul {w : Pl E} {α β γ : Type} [Fintype β] (A : Matrix α β (w.adicCompletion E))
     (B : Matrix β γ (w.adicCompletion E)) (hA : ∀ i j, Valued.v (A i j) ≤ 1) (hB : ∀ i j, Valued.v (B i j) ≤ 1) (i : α) (j : γ) :
@@ -115,54 +99,16 @@ private lemma int_mul {w : Pl E} {α β γ : Type} [Fintype β] (A : Matrix α �
 
 private lemma mem_intMat {a b : ℕ} {w : Pl E} (X : Multiplicative (Matrix (Fin a) (Fin b) (w.adicCompletion E))) :
     X ∈ intMat a b w ↔ ∀ i j, Valued.v (Multiplicative.toAdd X i j) ≤ 1 := by
-  constructor
-  · intro h
-    induction h using Subgroup.closure_induction with
-    | mem x hx => exact hx
-    | one => intro i j; simp
-    | mul x y _ _ hx hy =>
-      intro i j
-      simpa using Valuation.map_add_le _ (hx i j) (hy i j)
-    | inv x _ hx =>
-      intro i j
-      simpa using hx i j
-  · exact fun h => Subgroup.subset_closure h
+  apply _root_.GlobalTheory.LeviDesc.LeviHoms.mem_intMat_iff <;> assumption
 
 private lemma avg_const {H : Type} [Group H] (c : ℂ) : avg (fun _ : H => c) = c := by
-  have h : rStab (fun _ : H => c) = ⊤ := by
-    ext k
-    simp [rStab]
-  unfold avg
-  rw [h, Subgroup.index_top]
-  haveI : Subsingleton (H ⧸ (⊤ : Subgroup H)) := QuotientGroup.subsingleton_quotient_top
-  haveI : Unique (H ⧸ (⊤ : Subgroup H)) := ⟨⟨QuotientGroup.mk 1⟩, fun _ => Subsingleton.elim _ _⟩
-  rw [finsum_unique]
-  simp
+  apply _root_.GlobalTheory.TwOrbLat.avg_const <;> assumption
 
 private lemma hint_zero {H : Type} [Group H] (K : Subgroup H) : hint K (fun _ : H => (0 : ℂ)) = 0 := by
   simp [hint]
 
 private lemma hint_ind {H : Type} [Group H] (K : Subgroup H) : hint K ((K : Set H).indicator 1) = 1 := by
-  have hs : rStab ((K : Set H).indicator (1 : H → ℂ)) ⊓ K = K := by
-    refine inf_eq_right.2 fun k hk x => ?_
-    by_cases hx : x ∈ K
-    · rw [Set.indicator_of_mem (show x * k ∈ (K : Set H) from K.mul_mem hx hk),
-        Set.indicator_of_mem (show x ∈ (K : Set H) from hx)]
-      rfl
-    · rw [Set.indicator_of_notMem (show x * k ∉ (K : Set H) from fun h => hx (by simpa using K.mul_mem h (K.inv_mem hk))),
-        Set.indicator_of_notMem (show x ∉ (K : Set H) from hx)]
-  unfold hint
-  rw [hs, Subgroup.relIndex_self]
-  rw [finsum_eq_single _ (QuotientGroup.mk 1 : H ⧸ K)]
-  · have : Quotient.out (QuotientGroup.mk 1 : H ⧸ K) ∈ K := by
-      have h := QuotientGroup.eq.1 (QuotientGroup.out_eq' (QuotientGroup.mk 1 : H ⧸ K))
-      simpa using h
-    rw [Set.indicator_of_mem (show _ ∈ (K : Set H) from this)]
-    simp
-  · intro q hq
-    refine Set.indicator_of_notMem (fun h => hq ?_) _
-    rw [← QuotientGroup.out_eq' q]
-    exact QuotientGroup.eq.2 (by simpa using h)
+  apply _root_.GlobalTheory.CompanionTheory.FamClP.hint_ind <;> assumption
 
 private lemma blk_eq {a b n : ℕ} (h : a + b = n) (w : Pl E) (m : GLw a w × GLw b w)
     (X : Matrix (Fin a) (Fin b) (w.adicCompletion E)) :

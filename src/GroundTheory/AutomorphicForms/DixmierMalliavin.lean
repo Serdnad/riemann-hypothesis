@@ -25,18 +25,21 @@ namespace IsExpLieAlgebra
 
 variable (h : IsExpLieAlgebra G 𝔤)
 
-theorem exists_decomp_direction {f : G → ℂ}
+theorem exists_decomp_direction_with_tsupport {f : G → ℂ}
     (hf : letI := h.chartedSpace; ContMDiff 𝓘(ℝ, 𝔤) 𝓘(ℝ, ℂ) ∞ f)
     (hfc : HasCompactSupport f) (X : 𝔤) {ε : ℝ} (hε : 0 < ε) :
     ∃ f₁ : G → ℂ, (letI := h.chartedSpace; ContMDiff 𝓘(ℝ, 𝔤) 𝓘(ℝ, ℂ) ∞ f₁) ∧
-      HasCompactSupport f₁ ∧
+      HasCompactSupport f₁ ∧ tsupport f₁ ⊆ tsupport f ∧
       ∃ g k : ℝ → ℂ, ContDiff ℝ ∞ g ∧ ContDiff ℝ ∞ k ∧ tsupport g ⊆ Icc (-ε) ε ∧
         tsupport k ⊆ Icc (-ε) ε ∧
         ∀ x, f x = (∫ t, g t * f₁ (h.expG (t • X) * x)) + ∫ t, k t * f (h.expG (t • X) * x) := by
   obtain ⟨M, hM, hser⟩ := h.exists_bound_dirDeriv hf hfc X
   obtain ⟨c, g, k, hg, hk, hgs, hks, hc, hid⟩ := exists_dixmierMalliavin_line M hε
   obtain ⟨hf₁, hf₁c⟩ := hser c hc
-  refine ⟨_, hf₁, hf₁c, g, k, hg, hk, hgs, hks, fun x => ?_⟩
+  refine ⟨_, hf₁, hf₁c, closure_minimal (fun x hx => by
+    by_contra hx'
+    exact hx (by simp [h.dirDeriv_eq_zero_of_notMem X _ hx'])) (isClosed_tsupport f),
+    g, k, hg, hk, hgs, hks, fun x => ?_⟩
   set F : ℝ → ℂ := fun t => f (h.expG (t • X) * x) with hFdef
   have hF : ContDiff ℝ ∞ F := h.contDiff_comp_expG_smul_mul hf X x
   have hD : ∀ p t, iteratedDeriv p F t = h.dirDeriv X p f (h.expG (t • X) * x) :=
@@ -80,29 +83,41 @@ theorem exists_decomp_direction {f : G → ℂ}
     ring
   · congr 1; funext t; rw [mul_comm]
 
-theorem exists_decomp_iter {ε : ℝ} (hε : 0 < ε) : ∀ {d : ℕ} (X : Fin d → 𝔤) (f : G → ℂ),
+theorem exists_decomp_direction {f : G → ℂ}
+    (hf : letI := h.chartedSpace; ContMDiff 𝓘(ℝ, 𝔤) 𝓘(ℝ, ℂ) ∞ f)
+    (hfc : HasCompactSupport f) (X : 𝔤) {ε : ℝ} (hε : 0 < ε) :
+    ∃ f₁ : G → ℂ, (letI := h.chartedSpace; ContMDiff 𝓘(ℝ, 𝔤) 𝓘(ℝ, ℂ) ∞ f₁) ∧
+      HasCompactSupport f₁ ∧
+      ∃ g k : ℝ → ℂ, ContDiff ℝ ∞ g ∧ ContDiff ℝ ∞ k ∧ tsupport g ⊆ Icc (-ε) ε ∧
+        tsupport k ⊆ Icc (-ε) ε ∧
+        ∀ x, f x = (∫ t, g t * f₁ (h.expG (t • X) * x)) + ∫ t, k t * f (h.expG (t • X) * x) := by
+  obtain ⟨f₁, hf₁, hf₁c, -, g, k, hg, hk, hgs, hks, hstep⟩ :=
+    h.exists_decomp_direction_with_tsupport hf hfc X hε
+  exact ⟨f₁, hf₁, hf₁c, g, k, hg, hk, hgs, hks, hstep⟩
+
+theorem exists_decomp_iter_with_tsupport {ε : ℝ} (hε : 0 < ε) : ∀ {d : ℕ} (X : Fin d → 𝔤) (f : G → ℂ),
     (letI := h.chartedSpace; ContMDiff 𝓘(ℝ, 𝔤) 𝓘(ℝ, ℂ) ∞ f) → HasCompactSupport f →
     ∃ (m : ℕ) (F : Fin m → G → ℂ) (K : Fin m → (Fin d → ℝ) → ℂ),
       (∀ i, (letI := h.chartedSpace; ContMDiff 𝓘(ℝ, 𝔤) 𝓘(ℝ, ℂ) ∞ (F i)) ∧
-        HasCompactSupport (F i)) ∧
+        tsupport (F i) ⊆ tsupport f) ∧
       (∀ i, ContDiff ℝ ∞ (K i) ∧ tsupport (K i) ⊆ Metric.closedBall 0 ε) ∧
       ∀ x, f x = ∑ i, ∫ t, K i t * F i (h.revProdExp X t * x) := by
   intro d
   induction d with
   | zero =>
     intro X f hf hfc
-    refine ⟨1, fun _ => f, fun _ _ => 1, fun _ => ⟨hf, hfc⟩, fun _ => ⟨contDiff_const, ?_⟩,
+    refine ⟨1, fun _ => f, fun _ _ => 1, fun _ => ⟨hf, subset_rfl⟩, fun _ => ⟨contDiff_const, ?_⟩,
       fun x => ?_⟩
     · intro t _
       rw [Subsingleton.elim t 0]; exact Metric.mem_closedBall_self hε.le
     · have hv : (volume : Measure (Fin 0 → ℝ)).real univ = 1 := by
         simp [Measure.real, MeasureTheory.volume_pi]
-      simp only [h.revProdExp_zero, one_mul, integral_const, hv, one_smul, Fin.sum_univ_one]
+      simp [h.revProdExp_zero, hv]
   | succ d ih =>
     intro X f hf hfc
     let := h.chartedSpace
-    obtain ⟨f₁, hf₁, hf₁c, g, k, hg, hk, hgs, hks, hdec⟩ :=
-      h.exists_decomp_direction hf hfc (X 0) hε
+    obtain ⟨f₁, hf₁, hf₁c, hf₁s, g, k, hg, hk, hgs, hks, hdec⟩ :=
+      h.exists_decomp_direction_with_tsupport hf hfc (X 0) hε
     obtain ⟨m₁, F₁, K₁, hF₁, hK₁, hd₁⟩ := ih (Fin.tail X) f₁ hf₁ hf₁c
     obtain ⟨m₂, F₂, K₂, hF₂, hK₂, hd₂⟩ := ih (Fin.tail X) f hf hfc
     refine ⟨m₁ + m₂, Fin.append F₁ F₂,
@@ -110,7 +125,7 @@ theorem exists_decomp_iter {ε : ℝ} (hε : 0 < ε) : ∀ {d : ℕ} (X : Fin d 
       ?_, ?_, ?_⟩
     · intro i
       refine Fin.addCases (fun i => ?_) (fun i => ?_) i
-      · simpa only [Fin.append_left] using hF₁ i
+      · simpa only [Fin.append_left] using And.intro (hF₁ i).1 ((hF₁ i).2.trans hf₁s)
       · simpa only [Fin.append_right] using hF₂ i
     · intro i
       refine Fin.addCases (fun i => ?_) (fun i => ?_) i
@@ -128,20 +143,35 @@ theorem exists_decomp_iter {ε : ℝ} (hε : 0 < ε) : ∀ {d : ℕ} (X : Fin d 
       · exact (h.sum_integral_cons_kernel X hε.le hk.continuous hks (fun i => (hK₂ i).1.continuous)
           (fun i => (hK₂ i).2) (fun i => (hF₂ i).1.continuous) hd₂ x).symm
 
+theorem exists_decomp_iter {ε : ℝ} (hε : 0 < ε) : ∀ {d : ℕ} (X : Fin d → 𝔤) (f : G → ℂ),
+    (letI := h.chartedSpace; ContMDiff 𝓘(ℝ, 𝔤) 𝓘(ℝ, ℂ) ∞ f) → HasCompactSupport f →
+    ∃ (m : ℕ) (F : Fin m → G → ℂ) (K : Fin m → (Fin d → ℝ) → ℂ),
+      (∀ i, (letI := h.chartedSpace; ContMDiff 𝓘(ℝ, 𝔤) 𝓘(ℝ, ℂ) ∞ (F i)) ∧
+        HasCompactSupport (F i)) ∧
+      (∀ i, ContDiff ℝ ∞ (K i) ∧ tsupport (K i) ⊆ Metric.closedBall 0 ε) ∧
+      ∀ x, f x = ∑ i, ∫ t, K i t * F i (h.revProdExp X t * x) := by
+  intro d X f hf hfc
+  obtain ⟨m, F, K, hF, hK, hd⟩ := h.exists_decomp_iter_with_tsupport hε X f hf hfc
+  exact ⟨m, F, K, fun i => ⟨(hF i).1, hfc.of_isClosed_subset (isClosed_tsupport _) (hF i).2⟩, hK, hd⟩
+
 end IsExpLieAlgebra
 
-theorem dixmierMalliavin (h : IsExpLieAlgebra G 𝔤) [MeasurableSpace G] [BorelSpace G]
-    (μ : Measure G) [μ.IsHaarMeasure] (f : G → ℂ)
+theorem dixmierMalliavin_with_tsupport (h : IsExpLieAlgebra G 𝔤) [MeasurableSpace G] [BorelSpace G]
+    (μ : Measure G) [μ.IsHaarMeasure] {V : Set G} (hV : V ∈ 𝓝 1) (f : G → ℂ)
     (hf : letI := h.chartedSpace; ContMDiff 𝓘(ℝ, 𝔤) 𝓘(ℝ, ℂ) ∞ f) (hfc : HasCompactSupport f) :
     ∃ (n : ℕ) (φ ψ : Fin n → G → ℂ),
       (∀ i, (letI := h.chartedSpace; ContMDiff 𝓘(ℝ, 𝔤) 𝓘(ℝ, ℂ) ∞ (φ i)) ∧
         HasCompactSupport (φ i) ∧
-        (letI := h.chartedSpace; ContMDiff 𝓘(ℝ, 𝔤) 𝓘(ℝ, ℂ) ∞ (ψ i)) ∧ HasCompactSupport (ψ i)) ∧
+        (letI := h.chartedSpace; ContMDiff 𝓘(ℝ, 𝔤) 𝓘(ℝ, ℂ) ∞ (ψ i)) ∧ tsupport (φ i) ⊆ V ∧ tsupport (ψ i) ⊆ tsupport f) ∧
       f = ∑ i, groupConv μ (φ i) (ψ i) := by
   let := h.chartedSpace
   let b := Module.finBasis ℝ 𝔤
-  obtain ⟨ε, hε, hdens⟩ := h.exists_smooth_density_prodExp μ b
-  obtain ⟨m, F, K, hF, hK, hd⟩ := h.exists_decomp_iter hε (⇑b) f hf hfc
+  obtain ⟨ε₀, hε₀, hdens⟩ := h.exists_smooth_density_prodExp_with_tsupport μ b
+  have hP0 : h.prodExp (⇑b) 0 = 1 := Subtype.ext (Units.ext (by rw [h.val_prodExp, prodExpVal_zero]; rfl))
+  obtain ⟨ε₁, hε₁, hball⟩ := Metric.nhds_basis_closedBall.mem_iff.1
+    ((h.continuous_prodExp (⇑b)).continuousAt.preimage_mem_nhds (t := V) (x := 0) (by rwa [hP0]))
+  obtain ⟨ε, hε, he₀, he₁⟩ : ∃ ε : ℝ, 0 < ε ∧ ε ≤ ε₀ ∧ ε ≤ ε₁ := ⟨min ε₀ ε₁, lt_min hε₀ hε₁, min_le_left _ _, min_le_right _ _⟩
+  obtain ⟨m, F, K, hF, hK, hd⟩ := h.exists_decomp_iter_with_tsupport hε (⇑b) f hf hfc
   have hK' : ∀ i, ContDiff ℝ ∞ (fun t => K i (-t)) ∧
       tsupport (fun t => K i (-t)) ⊆ Metric.closedBall 0 ε := by
     intro i
@@ -152,8 +182,11 @@ theorem dixmierMalliavin (h : IsExpLieAlgebra G 𝔤) [MeasurableSpace G] [Borel
       simpa using this
     have := (hK i).2 this
     simpa [mem_closedBall_zero_iff, norm_neg] using this
-  choose κ hκs hκc hκ using fun i => hdens (fun t => K i (-t)) (hK' i).1 (hK' i).2
-  refine ⟨m, κ, F, fun i => ⟨hκs i, hκc i, (hF i).1, (hF i).2⟩, ?_⟩
+  choose κ hκs hκc hκV hκ using fun i =>
+    hdens (fun t => K i (-t)) (hK' i).1 ((hK' i).2.trans (Metric.closedBall_subset_closedBall he₀))
+  refine ⟨m, κ, F, fun i => ⟨hκs i, hκc i, (hF i).1,
+    (hκV i).trans (image_subset_iff.2 ((hK' i).2.trans
+      ((Metric.closedBall_subset_closedBall he₁).trans hball))), (hF i).2⟩, ?_⟩
   funext x
   rw [hd x, Finset.sum_apply]
   refine Finset.sum_congr rfl fun i _ => ?_
@@ -167,5 +200,19 @@ theorem dixmierMalliavin (h : IsExpLieAlgebra G 𝔤) [MeasurableSpace G] [Borel
     simp only [← this, inv_inv]
   simp_rw [e]
   exact (integral_neg_eq_self (fun s => K i s * F i (h.revProdExp (⇑b) s * x)) volume).symm
+
+theorem dixmierMalliavin (h : IsExpLieAlgebra G 𝔤) [MeasurableSpace G] [BorelSpace G]
+    (μ : Measure G) [μ.IsHaarMeasure] (f : G → ℂ)
+    (hf : letI := h.chartedSpace; ContMDiff 𝓘(ℝ, 𝔤) 𝓘(ℝ, ℂ) ∞ f) (hfc : HasCompactSupport f) :
+    ∃ (n : ℕ) (φ ψ : Fin n → G → ℂ),
+      (∀ i, (letI := h.chartedSpace; ContMDiff 𝓘(ℝ, 𝔤) 𝓘(ℝ, ℂ) ∞ (φ i)) ∧
+        HasCompactSupport (φ i) ∧
+        (letI := h.chartedSpace; ContMDiff 𝓘(ℝ, 𝔤) 𝓘(ℝ, ℂ) ∞ (ψ i)) ∧ HasCompactSupport (ψ i)) ∧
+      f = ∑ i, groupConv μ (φ i) (ψ i) := by
+  obtain ⟨n, φ, ψ, hsmooth, hfact⟩ :=
+    dixmierMalliavin_with_tsupport h μ (V := Set.univ) Filter.univ_mem f hf hfc
+  refine ⟨n, φ, ψ, fun i => ?_, hfact⟩
+  obtain ⟨hφ, hcφ, hψ, -, hsψ⟩ := hsmooth i
+  exact ⟨hφ, hcφ, hψ, hfc.of_isClosed_subset (isClosed_tsupport _) hsψ⟩
 
 end GroundTheory.Automorphic

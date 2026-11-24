@@ -1,5 +1,6 @@
 module
 
+import Formalism.LocalToGlobal.InertKernelTheory.InertCoprimeLemmas.IntEasy
 public import Formalism.LocalToGlobal.InertKernelTheory.DefsInt
 public import Formalism.LocalToGlobal.GlobalTheory.GL3.PIopIso
 public import Formalism.LocalToGlobal.GlobalTheory.GL3.LinkThetaStatementFamily
@@ -228,38 +229,14 @@ theorem homL_smul {L L₁ : Submodule (𝓞 D.host.E) (Fin N → D.host.E)}
     (ha : ∀ x ∈ L₁, (a : D.host.E) • x ∈ L) (hb : ∀ y ∈ L', (b : D.host.E) • y ∈ L₁')
     {A : Matrix (Fin N') (Fin N) D.host.E} (hA : A ∈ homL D L L') :
     ((a * b : ℕ) : D.host.E) • A ∈ homL D L₁ L₁' := by
-  induction hA using Submodule.span_induction with
-  | mem A hA =>
-    apply Submodule.subset_span
-    intro x hx
-    have e : (((a * b : ℕ) : D.host.E) • A).mulVec x = (b : D.host.E) • A.mulVec ((a : D.host.E) • x) := by
-      rw [Matrix.smul_mulVec, Matrix.mulVec_smul, smul_smul]
-      push_cast
-      rw [mul_comm]
-    rw [e]
-    exact hb _ (hA _ (ha x hx))
-  | zero => rw [smul_zero]; exact zero_mem _
-  | add A B _ _ hA hB => rw [smul_add]; exact add_mem hA hB
-  | smul o A _ hA =>
-    rw [smul_comm]
-    exact Submodule.smul_mem _ o hA
+  apply _root_.Formalism.L2.KerInert.ie_homL_scale <;> assumption
 
 theorem YYl_smul {L L₁ : Submodule (𝓞 D.host.E) (Fin N → D.host.E)}
     {L' L₁' : Submodule (𝓞 D.host.E) (Fin N' → D.host.E)} (a b : ℕ)
     (ha : ∀ x ∈ L₁, (a : D.host.E) • x ∈ L) (hb : ∀ y ∈ L', (b : D.host.E) • y ∈ L₁')
     {A : Matrix (Fin N') (Fin N) D.host.E} (hA : A ∈ YYl D L L') :
     ((a * b : ℕ) : D.host.E) • A ∈ YYl D L₁ L₁' := by
-  induction hA using Submodule.span_induction with
-  | mem B hB =>
-    obtain ⟨a', ha', A', hA', rfl⟩ := hB
-    apply Submodule.subset_span
-    refine ⟨a', ha', _, homL_smul a b ha hb hA', ?_⟩
-    rw [smul_comm]
-  | zero => rw [smul_zero]; exact zero_mem _
-  | add A B _ _ hA hB => rw [smul_add]; exact add_mem hA hB
-  | smul o A _ hA =>
-    rw [smul_comm]
-    exact Submodule.smul_mem _ o hA
+  apply _root_.Formalism.L2.KerInert.ie_yy_scale <;> assumption
 
 theorem embV_smul (cc : Ideal (𝓞 D.host.K)) (δ : ℂ) (n : ℕ) (A : Matrix (Fin N') (Fin N) D.host.E) :
     embV D (tor0 D cc δ) ((n : D.host.E) • A) = n • embV D (tor0 D cc δ) A := by

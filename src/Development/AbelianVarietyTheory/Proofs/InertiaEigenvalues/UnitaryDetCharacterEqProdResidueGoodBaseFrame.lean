@@ -51,6 +51,7 @@ import Development.AbelianVarietyTheory.Proofs.FoundationProofs.CharacterAtDetRo
 import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsNormOneRootCongruentOddHostField
 import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.ExistsAdeleRingTensorEquivInfiniteProdFinite
 import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.ExistsLevelSubgroup
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.TameTwistFamilySpecializationGood
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.DetCharacterProductFormula, Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.UnitaryDetCharacterEqProdResidueGoodBaseFrame
@@ -76,17 +77,7 @@ open Classical
 variable {D : D7}
 
 theorem infPart_idemAt (P : Pl D.host.E) (e : AE D) (h : Formalism.L2.NTheta.IsIdemAt e P) : infPart D e = 0 := by
-  obtain ⟨⟨h1, h2, v, ε, ⟨α, rfl, -⟩, h3⟩, -⟩ := h
-  have k1 := congrArg (infPart D) h1
-  have k2 := congrArg (infPart D) h2
-  have k3 := congrArg (infPart D) h3
-  simp only [RingHom.map_mul, RingHom.map_add (f := _), RingHom.map_zero] at k1 k2 k3
-  have k4 : infPart D (algebraMap (AF D.host.F) (AE D) (pairA D.host.F 0 α)) = 0 := by
-    simp [infPart, Algebra.TensorProduct.algebraMap_apply]
-    show (0 : Ainf D.host.F) ⊗ₜ[D.host.F] (1 : D.host.E) = 0
-    exact TensorProduct.zero_tmul _ _
-  rw [k4] at k3
-  linear_combination -k1 + infPart D e * k3 - k2
+  apply _root_.GlobalTheory.ExportSeries.SpecGood.infPart_eq_zero_of_isIdemAt <;> assumption
 
 theorem idemAt_mul_idem {Q : Finset (Pl D.host.E)} (h : SplitSet Q) {P : Pl D.host.E} (hP : P ∈ Q) :
     idemAt P * idem Q = idemAt P :=

@@ -1,5 +1,7 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.IsOneCombSphLevel
+import Formalism.LocalToGlobal.SiegelLatticeTheory.ClosedLocalOrbits.GaugeLatticeShifts.TypedLoc
 public import Development.AbelianVarietyTheory.Definitions.Foundations.SimpleSum
 public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.IsOpenKerUnramMulTame
 public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.IsOneComb
@@ -199,25 +201,7 @@ theorem intM_embX {n : Type} [Fintype n] [DecidableEq n] {c : ℕ} {g : GL n k} 
 
 theorem prX_Cgrp_KO_one (n : Type) [Fintype n] [DecidableEq n] (c : ℕ) :
     prX (Cgrp (KO k (n ⊕ Fin c)) 1) = KO k n := by
-  ext g
-  rw [mem_prX]
-  constructor
-  · rintro ⟨u, hu, hC⟩
-    have hw : u * embX c g ∈ KO k (n ⊕ Fin c) := by simpa using (mem_Cgrp.1 hC).2
-    obtain ⟨h1, h2⟩ := mem_KO.1 hw
-    refine mem_KO.2 ⟨fun a b => ?_, fun a b => ?_⟩
-    · rw [← mul_embX_inl hu g a b]; exact h1 _ _
-    · have hu' : u⁻¹ ∈ N k n c 1 := inv_mem hu
-      have e : (u * embX c g)⁻¹ = embX c g⁻¹ * u⁻¹ := by rw [_root_.mul_inv_rev, map_inv]
-      rw [← embX_mul_inl hu' g⁻¹ a b, ← e]; exact h2 _ _
-  · intro hg
-    refine ⟨1, one_mem _, ?_⟩
-    rw [one_mul, mem_Cgrp]
-    refine ⟨Subgroup.mem_sup_left ⟨g, rfl⟩, ?_⟩
-    simp only [inv_one, one_mul, mul_one]
-    obtain ⟨h1, h2⟩ := mem_KO.1 hg
-    refine mem_KO.2 ⟨intM_embX h1, ?_⟩
-    rw [← map_inv]; exact intM_embX h2
+  first | exact _root_.GlobalTheory.QPl.PinTest.prX_KO | exact @_root_.GlobalTheory.QPl.PinTest.prX_KO | apply _root_.GlobalTheory.QPl.PinTest.prX_KO <;> assumption
 
 theorem reGL_symm_mem_KO_iff {a b : Type} [Fintype a] [DecidableEq a] [Fintype b] [DecidableEq b] (e : a ≃ b)
     {x : GL b k} : (reGL e).symm x ∈ KO k a ↔ x ∈ KO k b := by
@@ -541,27 +525,7 @@ namespace GlobalTheory.LevelApprox
 open GlobalTheory.Mem GlobalTheory.Mem.Col2 GlobalTheory.Mem.ColAd
 
 theorem eq_zero_of_le_pow {γ t : WithZero (Multiplicative ℤ)} (hγ : γ < 1) (h : ∀ m : ℕ, t ≤ γ ^ m) : t = 0 := by
-  by_contra ht
-  by_cases hγ0 : γ = 0
-  · have := h 1
-    rw [hγ0, pow_one] at this
-    exact ht (le_antisymm this zero_le')
-  have hg : γ.log < 0 := by
-    rw [← WithZero.exp_lt_exp, WithZero.exp_log hγ0]
-    simpa using hγ
-  set N : ℕ := (-t.log).toNat + 1 with hN
-  have hm : t.log ≤ (N : ℤ) * γ.log := by
-    have h3 : WithZero.exp t.log ≤ WithZero.exp (N • γ.log) := by
-      rw [WithZero.exp_nsmul, WithZero.exp_log ht, WithZero.exp_log hγ0]
-      exact h N
-    rw [WithZero.exp_le_exp, nsmul_eq_mul] at h3
-    exact h3
-  have h1 : (N : ℤ) * γ.log ≤ -(N : ℤ) := by
-    have : (0 : ℤ) ≤ (N : ℤ) := by positivity
-    nlinarith
-  have h2 := Int.self_le_toNat (-t.log)
-  have h4 : (N : ℤ) = ((-t.log).toNat : ℤ) + 1 := by rw [hN]; push_cast; ring
-  omega
+  first | exact _root_.Formalism.L2.SG.Pf.TypedLoc.wz | exact @_root_.Formalism.L2.SG.Pf.TypedLoc.wz | apply _root_.Formalism.L2.SG.Pf.TypedLoc.wz <;> assumption
 
 variable {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E]
 

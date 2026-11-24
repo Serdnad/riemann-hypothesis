@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.CoherentCohomologyProofs.ExistsSectionLiftFibreNoFirstCohomology
 public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.ExistsKernelVector
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.ValCalc
 public import Development.AbelianVarietyTheory.Definitions.AbelianSchemeLaws.IsScalarTowerOfAlgebraMapEq
@@ -64,19 +65,7 @@ namespace GlobalTheory.SecBasis
 theorem exists_sec_of_ker {R : Type} [CommRing R] {Y : Scheme.{0}} {f : Y ⟶ Spec (CommRingCat.of R)}
     {M : LB Y} (P : Perf f M) (v : Fin P.a → R) (hv : P.D₀.mulVec v = 0) :
     ∃ s : LB.Sec M, ∀ i, rs Y (P.le i) (s.f (P.ch i)) = Seesaw.loc₀ P v i := by
-  have h : IsPullback (𝟙 Y) f f (Spec.map (CommRingCat.ofHom (RingHom.id R))) := by
-    rw [CommRingCat.ofHom_id, Spec.map_id]
-    exact IsPullback.of_horiz_isIso ⟨by simp⟩
-  obtain ⟨E, hE⟩ := P.sec R (RingHom.id R) Y (𝟙 Y) f h
-  let t := E ⟨v, hv⟩
-  have le : ∀ j, M.U j ≤ (M.pull (𝟙 Y)).U (fun _ => j) := fun j => le_pull M (𝟙 Y) le_rfl
-  refine ⟨⟨fun j => rs Y (le j) (t.f fun _ => j), fun i j => ?_⟩, fun i => ?_⟩
-  · have e := GlobalTheory.LB.sec_rel t (fun _ => i) (fun _ => j) (inf_le_left.trans (le i))
-      (inf_le_right.trans (le j)) (inf_le_inf (le i) (le j))
-    have e' := (GlobalTheory.LB.resG_pull_g (L := M) (𝟙 Y) (fun _ => i) (fun _ => j)
-      (inf_le_inf (le i) (le j))).trans (rs_self _ _)
-    exact (rs_rs _ _ _).trans (e.trans (congrArg₂ (· * ·) e' (rs_rs _ _ _).symm))
-  · exact (rs_rs _ _ _).trans (hE ⟨v, hv⟩ i)
+  first | exact _root_.GlobalTheory.AbLaw.FibreLift.exists_sec_of_ker | exact @_root_.GlobalTheory.AbLaw.FibreLift.exists_sec_of_ker | apply _root_.GlobalTheory.AbLaw.FibreLift.exists_sec_of_ker <;> assumption
 
 theorem exists_sec_iso {X X' : Scheme.{0}} {β : X' ⟶ X} {M : LB X} {M' : LB X'} (hM : M.IsLB) (hM' : M'.IsLB)
     (w : LB.Iso M' (M.pull β)) (hw : w.IsGen) (s : LB.Sec M') :

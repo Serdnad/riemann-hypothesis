@@ -1,5 +1,6 @@
 module
 
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ArithVarietyHodgePrimeTotal
 public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.IsLatFamilyCongr
 public import Development.AutomorphicSpectrum.Statements.GeometryStatements.NonemptyEquivOfCardHom
 public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LemmaBTHolds
@@ -71,23 +72,8 @@ theorem sec_eq {A F : Type} [CommRing A] [Field F] (pq : A →+* F) (sc : F →+
 
 theorem p_ne_zero {E : Type} [Field E] [NumberField E] {p : ℕ} {F : Type} [Field F]
     (pq : (𝓞 E ⧸ Ideal.span {(p : 𝓞 E)}) →+* F) (sc : F →+ (𝓞 E ⧸ Ideal.span {(p : 𝓞 E)}))
-    (h : IsSec pq sc) : p ≠ 0 := by
-  intro hp
-  have hbot : Ideal.span {(p : 𝓞 E)} = ⊥ := by simp [hp]
-  haveI : (Ideal.span {(p : 𝓞 E)}).IsPrime := by rw [hbot]; exact Ideal.isPrime_bot
-  have hinj : Function.Injective pq := by
-    set_option backward.isDefEq.respectTransparency.instanceSearchTypes false in rw [injective_iff_map_eq_zero]
-    intro u hu
-    rcases mul_eq_zero.1 (h.2 u 1 hu) with h0 | h0
-    · exact h0
-    · have := h.1 1
-      rw [h0, map_zero] at this
-      exact absurd this zero_ne_one
-  have hf : IsField (𝓞 E ⧸ Ideal.span {(p : 𝓞 E)}) :=
-    (RingEquiv.ofBijective pq ⟨hinj, fun a => ⟨sc a, h.1 a⟩⟩).toMulEquiv.isField (Field.toIsField F)
-  have hm : (Ideal.span {(p : 𝓞 E)}).IsMaximal := Ideal.Quotient.maximal_of_isField _ hf
-  rw [hbot] at hm
-  exact Ring.ne_bot_of_isMaximal_of_not_isField hm (RingOfIntegers.not_isField E) rfl
+    (h : IsSec pq sc) : p ≠ 0 :=
+  _root_.GlobalTheory.CompanionTheory.Ar.Num.FamEx.Idemp.p_ne_zero pq sc h
 
 theorem finite_tors {E : Type} [Field E] [NumberField E] (N : ℕ) {p : ℕ} (hp : p ≠ 0) : Finite (TorsT E N p) := by
   haveI : Finite (𝓞 E ⧸ Ideal.span {(p : 𝓞 E)}) :=

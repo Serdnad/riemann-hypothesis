@@ -1,5 +1,7 @@
 module
 
+import all Development.AbelianVarietyTheory.Proofs.GenericRegularity.KapDivFinStLocDataOf
+import Formalism.LocalToGlobal.ProjectiveLattices.SecPtOrd
 public import Mathlib.RingTheory.DiscreteValuationRing.Basic
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.HeightTheory.TheoremA
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.RangeAlgebraMapEqIInfDiscreteValuationSubring
@@ -273,21 +275,7 @@ open ReciprocityTheory.ChartRestriction.G.T0
 theorem vV_algebraMap {V K : Type} [CommRing V] [IsDomain V] [IsDiscreteValuationRing V] [Field K] [Algebra V K]
     [IsFractionRing V K] (x : V) (n : ℕ) (hx : IsDiscreteValuationRing.addVal V x = n) :
     vV V (algebraMap V K x) = n := by
-  obtain ⟨ϖ, hϖ⟩ := IsDiscreteValuationRing.exists_irreducible V
-  have hx0 : x ≠ 0 := by
-    rintro rfl
-    rw [IsDiscreteValuationRing.addVal_zero] at hx
-    exact ENat.top_ne_coe n hx
-  obtain ⟨m, u, rfl⟩ := IsDiscreteValuationRing.eq_unit_mul_pow_irreducible hx0 hϖ
-  rw [IsDiscreteValuationRing.addVal_def' u hϖ m] at hx
-  obtain rfl : m = n := by exact_mod_cast hx
-  have h1 : (IsDiscreteValuationRing.maximalIdeal V).intValuation (u : V) = 1 :=
-    HeightOneSpectrum.intValuation_eq_one_iff.2 fun hm => (IsLocalRing.mem_maximalIdeal _).1 hm u.isUnit
-  have h2 : (IsDiscreteValuationRing.maximalIdeal V).intValuation ϖ = WithZero.exp (-1 : ℤ) :=
-    HeightOneSpectrum.intValuation_singleton _ hϖ.ne_zero hϖ.maximalIdeal_eq
-  simp only [vV, valV, HeightOneSpectrum.valuation_of_algebraMap, map_mul, map_pow, h1, h2, _root_.one_mul]
-  rw [← WithZero.exp_nsmul, WithZero.log_exp]
-  simp
+  first | exact _root_.Formalism.L2.Pj.vV_alg_of_addVal | exact @_root_.Formalism.L2.Pj.vV_alg_of_addVal | apply _root_.Formalism.L2.Pj.vV_alg_of_addVal <;> assumption
 
 theorem exists_cdvr (Ω : Type) [Field Ω] [CharZero Ω] (v : AddValuation Ω (WithTop ℤ)) (hv : IsNormDiscrete v) :
     ∃ (T : CDVR) (ψ : Ω →+* T.Fr), (∀ a : Ω, 0 ≤ v a → ∃ x : T.V, algebraMap T.V T.Fr x = ψ a) ∧
@@ -334,12 +322,7 @@ theorem exists_cdvr (Ω : Type) [Field Ω] [CharZero Ω] (v : AddValuation Ω (W
 
 theorem integer_nonneg {K Ω : Type} [Field K] [NumberField K] [Field Ω] [Algebra K Ω]
     (v : AddValuation Ω (WithTop ℤ)) (a : 𝓞 K) : 0 ≤ v (algebraMap K Ω (a : K)) := by
-  have h1 : IsIntegral ℤ (algebraMap K Ω (a : K)) :=
-    (RingOfIntegers.isIntegral_coe a).map (algebraMap K Ω).toIntAlgHom
-  have h2 : IsIntegral (vRing v) (algebraMap K Ω (a : K)) := h1.tower_top
-  obtain ⟨y, hy⟩ := (IsIntegrallyClosed.isIntegral_iff (R := vRing v) (K := Ω)).mp h2
-  rw [← hy]
-  exact y.2
+  apply _root_.GlobalTheory.addValuation_algebraMap_ringOfIntegers_nonneg <;> assumption
 
 theorem exists_place_nonneg {K Ω : Type} [Field K] [NumberField K] [Field Ω] [Algebra K Ω]
     (v : AddValuation Ω (WithTop ℤ)) (hv : (∃ la, IsOver (K := K) v la) ∨ IsTrivOn K v) :

@@ -1,5 +1,7 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.SeeSawLatticeFramePinsFiniteIntegralLawsStatement
+import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.SeeSawFixedLevelElementEqProdLocalParts
 public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.NormOneAtOne
 public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.FractionalIdealCompletionLocallyPrincipal
 public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.IsSelfDualLatticeAtPlaceLatticeCompletion
@@ -1461,11 +1463,7 @@ theorem line_loc {S : HSp D} {L : Lat S} {x : Fin S.rank → D.host.E} (hL : IsS
   exact and_iff_left ha
 
 theorem col_e_ne {S S₀ : HSp D} {ρ : ℕ} (d : HypDec S S₀ ρ) (i : Fin ρ) : (fun r => d.e r i) ≠ 0 := by
-  intro h
-  have h1 := congrFun (congrFun d.e'e i) i
-  rw [Matrix.mul_apply, Matrix.one_apply_eq] at h1
-  have : ∀ r, d.e r i = 0 := fun r => congrFun h r
-  simp [this] at h1
+  apply _root_.GlobalTheory.Core.Mi.LatMatch.FlagDown.col_ne_zero <;> assumption
 
 theorem col_e'_ne {S S₀ : HSp D} {ρ : ℕ} (d : HypDec S S₀ ρ) (i : Fin ρ) : (fun r => d.e' r i) ≠ 0 := by
   intro h
@@ -1624,15 +1622,7 @@ theorem loc_level (hE : GlobalTheory.Core.Mi.IdE X) (hF : B.FrameAt μ lam) (hM 
 end Rows
 
 theorem mem_GfC_of_grpAt {S : HSp D} {P : GlobalTheory.FinPl.Pl D → Prop} {a : GA D S} (ha : a ∈ grpAt S P) : a ∈ GfC S := by
-  rw [GlobalTheory.Core.Mi.CenAct.mem_GfC_iff]
-  ext i j
-  have h1 := GlobalTheory.FinPlLoc.infPart_of_idAt ((GlobalTheory.IwaPlace.mem_congGrp_iff S (idAt D P) a).1 ha i j)
-  rw [RingHom.map_sub, sub_eq_zero] at h1
-  rw [Matrix.map_apply]
-  refine Eq.trans h1 ?_
-  by_cases hij : i = j
-  · subst hij; simp
-  · simp [Matrix.one_apply_ne hij]
+  first | exact _root_.GlobalTheory.LevelCut.mem_GfC_of_grpAt | exact @_root_.GlobalTheory.LevelCut.mem_GfC_of_grpAt | apply _root_.GlobalTheory.LevelCut.mem_GfC_of_grpAt <;> assumption
 
 theorem conj_mem_grpAt {S : HSp D} {P : GlobalTheory.FinPl.Pl D → Prop} {a : GA D S} (ha : a ∈ grpAt S P) (t : GA D S) :
     t⁻¹ * a * t ∈ grpAt S P := by

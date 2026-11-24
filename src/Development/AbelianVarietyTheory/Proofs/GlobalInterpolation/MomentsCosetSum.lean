@@ -561,10 +561,7 @@ theorem prodsum (e e'' : VCx X.Tau a b → ℂ) (c : ℂ) (M B' B₁ B₂ : AddS
   rw [_root_.GlobalTheory.MomT.ThShape.Wx_mul A (hB _ (l2 (hR₂.1 _ h₂)) _ (l1 (hR₁.1 _ h₁))), add_comm]
 
 theorem coc_nsmul (n : ℕ) (x y : HomE X.E a b) : coc A ((n : X.E) • x) y = n * coc A x y := by
-  have h4 := (_root_.GlobalTheory.MomT.Heis.calculus X A a b).2.2.2.1
-  induction n with
-  | zero => have := (h4 0 0 y).1; simp only [add_zero] at this; simp only [Nat.cast_zero, zero_smul]; linarith
-  | succ n ih => rw [Nat.cast_succ, add_smul, one_smul, (h4 _ _ _).1, ih]; push_cast; ring
+  apply _root_.GlobalTheory.MomT.UnitTr.coc_nat_left <;> assumption
 
 end An
 

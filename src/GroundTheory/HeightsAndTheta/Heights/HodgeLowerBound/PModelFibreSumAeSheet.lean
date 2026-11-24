@@ -1,5 +1,6 @@
 module
 
+import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.AnResBridgeSheetCore
 public import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.PModelFibreSumAeFibres
 public import Mathlib.Analysis.Calculus.FDeriv.OfCompLeft
 import Mathlib.Analysis.Calculus.InverseFunctionTheorem.FDeriv
@@ -48,24 +49,9 @@ theorem exists_sheet (L : HermLine ι) (r : ℝ) (E : Set M.Xc) (hP : IsArithVar
   set Ce := Df.toContinuousLinearEquivOfDetNeZero hdet with hCe
   have hCe' : (Ce : (Fin e → ℂ) →L[ℂ] (Fin e → ℂ)) = Df :=
     ContinuousLinearMap.coe_toContinuousLinearEquivOfDetNeZero Df hdet
-  have hstrict : HasStrictFDerivAt Q (Ce : (Fin e → ℂ) →L[ℂ] (Fin e → ℂ)) u := by
-    rw [hCe']; exact hQa.hasStrictFDerivAt
-  set F := hstrict.toOpenPartialHomeomorph Q with hF
-  have hFc : (F : (Fin e → ℂ) → (Fin e → ℂ)) = Q := hstrict.toOpenPartialHomeomorph_coe
-  have hus : u ∈ F.source := hstrict.mem_toOpenPartialHomeomorph_source
-  have hyt : Q u ∈ F.target := hstrict.image_mem_toOpenPartialHomeomorph_target
-  have hσu : F.symm (Q u) = u := by
-    have := F.left_inv hus
-    rwa [hFc] at this
+  obtain ⟨F, hFc, hyt, hσu, hσa, hσd⟩ :=
+    GroundTheory.Heights₂.Heights.HilbertSamuel.AnResBridge.exists_analytic_local_inverse Ce hCe' hQa
   have hy0 : Q u = modelQ M Ψ x := by simp only [hQdef, Function.comp_apply, hsu]
-  have hσa : AnalyticAt ℂ F.symm (Q u) := by
-    refine F.analyticAt_symm (i := Ce) hyt ?_ ?_
-    · rw [hσu, hFc]; exact hQa
-    · rw [hσu, hFc, hCe']
-  have hσd : HasFDerivAt F.symm (Ce.symm : (Fin e → ℂ) →L[ℂ] (Fin e → ℂ)) (Q u) := by
-    refine F.hasFDerivAt_symm hyt ?_
-    rw [hσu, hFc, hCe']
-    exact hQa.differentiableAt.hasFDerivAt
   set γ₀ : (Fin e → ℂ) → (Σ k, ι k) → ℂ :=
     fun y' => modelLift M x ((M.atlas.chart j).symm (F.symm y')) with hγ₀
   have hγ₀a : AnalyticAt ℂ γ₀ (Q u) := (analyticAt_lift_chart M x j huU).comp_of_eq hσa hσu
@@ -123,30 +109,8 @@ theorem exists_sheet (L : HermLine ι) (r : ℝ) (E : Set M.Xc) (hP : IsArithVar
       rw [hγ₀u]; exact (lift_mem M x).1
     have hH : cxHessian (fun y' => r * Real.log (L.h (γ y'))) (Q u) =
         cxHessian (fun y' => r * Real.log (L.h (γ₀ y'))) (Q u) := by
-      set G : (Fin e → ℂ) → ℂ :=
-        fun y' => ((-(r * (L.a k0 : ℝ)) : ℝ) : ℂ) * Complex.log (ψ0 y' / ψ0 (Q u)) with hG
-      set C : ℝ := -(r * (L.a k0 : ℝ) * Real.log ‖ψ0 (Q u)‖) with hC
-      have hGa : AnalyticAt ℂ G (Q u) := by
-        refine analyticAt_const.mul ((hψ0a.div analyticAt_const hψ0u).clog ?_)
-        show ψ0 (Q u) / ψ0 (Q u) ∈ Complex.slitPlane
-        rw [div_self hψ0u]
-        exact Complex.one_mem_slitPlane
-      have heq : (fun y' => r * Real.log (L.h (γ y'))) =ᶠ[𝓝 (Q u)]
-          fun y' => r * Real.log (L.h (γ₀ y')) + (G y').re + C := by
-        filter_upwards [hψ0a.continuousAt.eventually_ne hψ0u,
-          hγ₀a.continuousAt.eventually (isOpen_blockNonzero.mem_nhds hblk)] with y' h0 hb
-        have hpos : 0 < L.h (γ₀ y') := L.pos _ hb
-        have hn0 : ‖(ψ0 y')⁻¹‖ ^ L.a k0 ≠ 0 :=
-          zpow_ne_zero _ (norm_ne_zero_iff.mpr (inv_ne_zero h0))
-        simp only [hγdef]
-        rw [show bsmul (c y') (γ₀ y') = fun p => c y' p.1 * γ₀ y' p from rfl, L.smul _ _ (hc_ne y' h0),
-          prod_norm_update_zpow, Real.log_mul hn0 hpos.ne',
-          hG, hC, Complex.re_ofReal_mul, Complex.log_re, norm_div,
-          Real.log_div (norm_ne_zero_iff.mpr h0) (norm_ne_zero_iff.mpr hψ0u), Real.log_zpow,
-          norm_inv, Real.log_inv]
-        ring
-      rw [cxHessian_congr heq, cxHessian_add_re (φ := fun y' => r * Real.log (L.h (γ₀ y'))) C
-        (contDiffAt_const.mul (pot_contDiffAt hL hγ₀a hblk)) hGa]
+      simpa only [hγdef, hcdef] using
+        GroundTheory.Heights₂.Heights.HilbertSamuel.AnResBridge.cxHessian_log_potential_of_block_rescale hγ₀a hψ0a hψ0u hblk k0 hL r
     have hmd : maDensity (fun (_ : Fin e) y' => r * Real.log (L.h (γ y'))) (Q u) =
         maDensity (fun (_ : Fin e) y' => r * Real.log (L.h (γ₀ y'))) (Q u) := by
       simp only [maDensity, hH]

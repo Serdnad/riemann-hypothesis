@@ -1,5 +1,7 @@
 module
 
+
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.CohomologyComplexOfSheafCocycleClassProperties
 public import Development.EtaleCohomology.EtaleSheaves.DescIntPf
 public import Development.EtaleCohomology.EtaleSheaves.LeafConeZeroPf
 import Mathlib.Algebra.Order.Floor.Extended
@@ -40,7 +42,6 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.EtaleCohomology.EtaleSheaves.TruncationPieces, Development.EtaleCohomology.EtaleSheaves.FiltPf
 
@@ -222,11 +223,7 @@ theorem tower_of (hB : TowerFin) (hT : Trunc) : Tower := by
   exact hback (hB R F f' n P hz' (hpp hp))
 
 theorem chains_X_isZero (R : Type) [CommRing R] (U : Spc) (i : ℤ) (hi : 0 < i) : IsZero (((chains R).obj U).X i) := by
-  change IsZero ((((chainsN R).obj U).extend ComplexShape.embeddingDownNat).X i)
-  apply HomologicalComplex.isZero_extend_X
-  intro j hj
-  have e : ComplexShape.embeddingDownNat.f j = -(j : ℤ) := rfl
-  omega
+  apply @GlobalTheory.EtC.HCElements.chains_X_isZero <;> assumption
 
 end LateralTheory.E.FiltPf
 

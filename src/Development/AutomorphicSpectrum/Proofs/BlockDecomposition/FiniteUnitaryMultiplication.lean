@@ -1,5 +1,6 @@
 module
 
+import Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange.ArchimedeanBaseChangeProof.SatakeExponents.UniformizerValuations.InertEigenvalues.EigInert
 public import Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange.ArchimedeanBaseChangeProof.SatakeExponents.UniformizerValuations.MatchT
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.IwahoriAndMaximalCompactCriteria
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.TwistedIwahoriContractionHolds
@@ -45,6 +46,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.MatchingTransferOf
 
 @[expose] public section
 
@@ -398,23 +400,7 @@ section Exponents
 variable {n : ℕ}
 
 theorem cone_anti {m : ℕ} {l : Fin m → ℤ} (hl : Cone l) : Antitone l := by
-  have key : ∀ d : ℕ, ∀ i j : Fin m, j.val = i.val + d → l j ≤ l i := by
-    intro d
-    induction d with
-    | zero =>
-      intro i j h
-      rw [show j = i from Fin.ext (by simpa using h)]
-    | succ d ih =>
-      intro i j h
-      have hlt : i.val + d < m := by
-        have := j.2
-        omega
-      have h1 := ih i ⟨i.val + d, hlt⟩ rfl
-      have h2 := hl.1 ⟨i.val + d, hlt⟩ j (by simp only; omega)
-      omega
-  intro i j hij
-  have h : i.val ≤ j.val := hij
-  exact key (j.val - i.val) i j (by omega)
+  apply _root_.GlobalTheory.CompanionTheory.MatchPow.cone_anti <;> assumption
 
 theorem wexp_add (l l' : Fin (n / 2) → ℤ) : wexp n (l + l') = wexp n l + wexp n l' := by
   funext i
@@ -422,51 +408,10 @@ theorem wexp_add (l l' : Fin (n / 2) → ℤ) : wexp n (l + l') = wexp n l + wex
   split_ifs <;> simp <;> ring
 
 theorem wexp_rev (l : Fin (n / 2) → ℤ) (i : Fin n) : wexp n l i.rev = - wexp n l i := by
-  have hi := i.2
-  have hv : i.rev.val = n - 1 - i.val := by
-    rw [Fin.val_rev]
-    omega
-  have hv2 : n - 1 - i.rev.val = i.val := by omega
-  unfold wexp
-  by_cases h1 : i.val < n / 2
-  · rw [dite_eq_left h1, dite_eq_right (show ¬ i.rev.val < n / 2 by omega), dite_eq_left (show n - 1 - i.rev.val < n / 2 by omega)]
-    exact congrArg (fun x => - l x) (Fin.ext hv2)
-  · rw [dite_eq_right h1]
-    by_cases h2 : n - 1 - i.val < n / 2
-    · rw [dite_eq_left h2, dite_eq_left (show i.rev.val < n / 2 by omega), neg_neg]
-      exact congrArg l (Fin.ext hv)
-    · rw [dite_eq_right h2, dite_eq_right (show ¬ i.rev.val < n / 2 by omega),
-        dite_eq_right (show ¬ n - 1 - i.rev.val < n / 2 by omega), neg_zero]
+  apply _root_.PositivityTheory.Rg.BcB.F.Eig.GluingInclusion.wexp_rev <;> assumption
 
 theorem wexp_anti {l : Fin (n / 2) → ℤ} (hl : Cone l) : Antitone (wexp n l) := by
-  have ha := cone_anti hl
-  have hp := hl.2
-  intro i j hij
-  have hij' : i.val ≤ j.val := hij
-  unfold wexp
-  by_cases h1 : i.val < n / 2
-  · rw [dite_eq_left h1]
-    by_cases h2 : j.val < n / 2
-    · rw [dite_eq_left h2]
-      exact ha (show (⟨i.val, h1⟩ : Fin (n / 2)) ≤ ⟨j.val, h2⟩ from hij')
-    · rw [dite_eq_right h2]
-      have h5 := hp ⟨i.val, h1⟩
-      split_ifs with h3
-      · have := hp ⟨_, h3⟩
-        omega
-      · omega
-  · rw [dite_eq_right h1, dite_eq_right (show ¬ j.val < n / 2 by omega)]
-    by_cases h3 : n - 1 - i.val < n / 2
-    · have h4 : n - 1 - j.val < n / 2 := by omega
-      rw [dite_eq_left h3, dite_eq_left h4]
-      have := ha (show (⟨n - 1 - j.val, h4⟩ : Fin (n / 2)) ≤ ⟨n - 1 - i.val, h3⟩ from
-        show n - 1 - j.val ≤ n - 1 - i.val by omega)
-      omega
-    · rw [dite_eq_right h3]
-      split_ifs with h4
-      · have := hp ⟨_, h4⟩
-        omega
-      · exact le_rfl
+  apply _root_.PositivityTheory.Rg.BcB.F.Eig.IndexUAAux.wexp_anti <;> assumption
 
 end Exponents
 

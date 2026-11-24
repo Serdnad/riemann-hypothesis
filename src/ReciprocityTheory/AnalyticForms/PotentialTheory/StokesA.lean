@@ -7,6 +7,7 @@ public import ReciprocityTheory.AnalyticForms.PotentialTheory.IntegrableOnTarget
 public import ReciprocityTheory.AnalyticForms.PotentialTheory.PotentialContDiffAt
 public import Mathlib.Analysis.Calculus.ContDiff.Basic
 public import Mathlib.Analysis.Calculus.ContDiff.Operations
+import ReciprocityTheory.AnalyticForms.PotentialTheory.HessCEqZeroOfEventuallyEqZero
 
 @[expose] public section
 
@@ -21,17 +22,7 @@ variable {e : ℕ} {X : Type} [TopologicalSpace X]
 
 theorem st_smooth_continuous (A : FinHolAtlas e X) {f : X → ℝ} (hf : A.Smooth f) :
     Continuous f := by
-  rw [continuous_iff_continuousAt]
-  intro x
-  obtain ⟨j, hj⟩ := A.cover x
-  have h1 : ContinuousAt (f ∘ (A.chart j).symm) (A.chart j x) :=
-    (hf j).continuousOn.continuousAt (by
-      rw [Set.preimage_univ, Set.inter_univ]
-      exact (A.chart j).open_target.mem_nhds ((A.chart j).map_source hj))
-  have h2 := h1.comp ((A.chart j).continuousAt hj)
-  refine h2.congr ?_
-  filter_upwards [(A.chart j).open_source.mem_nhds hj] with y hy
-  simp [(A.chart j).left_inv hy]
+  apply _root_.ReciprocityTheory.AnForm.M.PLAux.smooth_continuous <;> assumption
 
 theorem st_smooth_mul (A : FinHolAtlas e X) {f g : X → ℝ} (hf : A.Smooth f) (hg : A.Smooth g) :
     A.Smooth (fun x => f x * g x) := fun j => (hf j).mul (hg j)

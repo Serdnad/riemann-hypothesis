@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.MeasurableSetPreSingleton
 public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.T2SpaceMatrixOfIsNonarchimedeanLocalField
 public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.FourierPairingPairCharIndicatorCosetIndicator
 public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.FourierPairingPairCharIndicatorDualLatticeIndica
@@ -113,24 +114,12 @@ theorem isLocallyConstant_of_periodic (L : Submodule 𝒪[k] (n → k)) [L.IsFul
   · have h := hg x (η - x) hη
     rwa [add_sub_cancel] at h
 
-private theorem secondCountableTopology_localField' (K : Type) [Field K] [ValuativeRel K] [TopologicalSpace K]
-    [IsNonarchimedeanLocalField K] : SecondCountableTopology K := by
-  letI : UniformSpace K := IsTopologicalAddGroup.rightUniformSpace K
-  haveI : IsUniformAddGroup K := isUniformAddGroup_of_addCommGroup
-  obtain ⟨r⟩ := (IsRankLeOne.nonempty : Nonempty (ValuativeRel.RankLeOneStruct K))
-  letI : (Valued.v (R := K) (Γ₀ := ValueGroupWithZero K)).RankOne :=
-    { hom' := r.emb.comp MonoidWithZeroHom.ValueGroup₀.embedding
-      strictMono' := r.strictMono.comp MonoidWithZeroHom.ValueGroup₀.embedding_strictMono }
-  letI : NontriviallyNormedField K := Valued.toNontriviallyNormedField K (ValueGroupWithZero K)
-  haveI : ProperSpace K := ProperSpace.of_nontriviallyNormedField_of_weaklyLocallyCompactSpace K
-  exact secondCountable_of_proper
-
 variable [MeasurableSpace k] [BorelSpace k]
 
 theorem integrable_of_periodic (μ : Measure (n → k)) [μ.IsAddHaarMeasure] (q : Unif k)
     (L : Submodule 𝒪[k] (n → k)) [L.IsFullLattice k] {g : (n → k) → ℂ}
     (hg : ∀ η ξ, InDual L ξ → g (η + ξ) = g η) (hs : ∀ η, g η ≠ 0 → InDual L (q.1 • η)) : Integrable g μ := by
-  haveI := secondCountableTopology_localField' k
+  haveI := _root_.GlobalTheory.IndexVolume.secondCountable k
   have hlc := isLocallyConstant_of_periodic L hg
   have hK : IsCompact {η : n → k | InDual L (q.1 • η)} := by
     have h2 : {η : n → k | InDual L (q.1 • η)} =

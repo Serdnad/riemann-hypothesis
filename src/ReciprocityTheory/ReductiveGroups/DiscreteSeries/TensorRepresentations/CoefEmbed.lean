@@ -27,12 +27,10 @@ def coefMap {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℂ H] (dual :
     (σ : Matrix (Fin n) (Fin n) ℂ → (H →L[ℂ] H)) (η f : Fin n → H) (g : Matrix (Fin n) (Fin n) ℂ) : ℂ :=
   ∑ c, inner ℂ (η c) (tensGrp dual σ g f c)
 
-theorem coef_embed (dual : Bool) {lam : Fin n → ℝ} {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℂ H] [CompleteSpace H] {ε : Fin n → Bool}
+theorem coef_embed_of_memLp (dual : Bool) {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℂ H] [CompleteSpace H] {ε : Fin n → Bool}
     {σ : Matrix (Fin n) (Fin n) ℂ → (H →L[ℂ] H)} {D : Submodule ℂ H} {E : Fin n → Fin n → Module.End ℂ D}
     (hσ : IsURepOn (UJset ε) σ) (hD : IsDerivedOn ε σ D E) (hsm : ∀ v : D, IsSmoothVecU ε σ v)
-    {V : Submodule ℂ D} (hgap : StdGap ε lam) (hV : IsKIrrHW ε E (lowK ε lam) V)
-    (hc : ∀ v ∈ V, casimir E v = (casVal lam : ℂ) • v)
-    (hVK : ∀ k ∈ Kset ε, ∀ v ∈ V, ∃ w ∈ V, (w : H) = σ k v) (hW : ∀ v ∈ genSub E V, ∀ w ∈ genSub E V, MemLp (fun g : Formalism.REAL.UJ ε =>
+    {V : Submodule ℂ D} (hW : ∀ v ∈ genSub E V, ∀ w ∈ genSub E V, MemLp (fun g : Formalism.REAL.UJ ε =>
       ((Real.sqrt (S7.hs (Formalism.MainNotions.S.umat g)) : ℝ) : ℂ) * inner ℂ ((w : D) : H) (σ (Formalism.MainNotions.S.umat g) ((v : D) : H)))
       2 (Formalism.REAL.muG ε)) (η : Fin n → D) (hη : η ∈ tensSub (genSub E V)) :
     ∀ f ∈ tensSub (genSub E V),
@@ -52,6 +50,25 @@ theorem coef_embed (dual : Bool) {lam : Fin n → ℝ} {H : Type*} [NormedAddCom
   · intro k hk f' _ hff g hg
     show ∑ c, _ = ∑ c, _
     rw [_root_.ReciprocityTheory.ChartRestriction.DS.tensor_group_mul_kDiag dual hσ hg hk, ← hff]
+
+theorem coef_embed (dual : Bool) {lam : Fin n → ℝ} {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℂ H] [CompleteSpace H] {ε : Fin n → Bool}
+    {σ : Matrix (Fin n) (Fin n) ℂ → (H →L[ℂ] H)} {D : Submodule ℂ H} {E : Fin n → Fin n → Module.End ℂ D}
+    (hσ : IsURepOn (UJset ε) σ) (hD : IsDerivedOn ε σ D E) (hsm : ∀ v : D, IsSmoothVecU ε σ v)
+    {V : Submodule ℂ D} (hgap : StdGap ε lam) (hV : IsKIrrHW ε E (lowK ε lam) V)
+    (hc : ∀ v ∈ V, casimir E v = (casVal lam : ℂ) • v)
+    (hVK : ∀ k ∈ Kset ε, ∀ v ∈ V, ∃ w ∈ V, (w : H) = σ k v) (hW : ∀ v ∈ genSub E V, ∀ w ∈ genSub E V, MemLp (fun g : Formalism.REAL.UJ ε =>
+      ((Real.sqrt (S7.hs (Formalism.MainNotions.S.umat g)) : ℝ) : ℂ) * inner ℂ ((w : D) : H) (σ (Formalism.MainNotions.S.umat g) ((v : D) : H)))
+      2 (Formalism.REAL.muG ε)) (η : Fin n → D) (hη : η ∈ tensSub (genSub E V)) :
+    ∀ f ∈ tensSub (genSub E V),
+      IsSmoothL2 ε (coefMap dual σ (fun c => ((η c : D) : H)) (fun c => ((f c : D) : H))) ∧
+      (∀ a b, ∀ g, Formalism.REAL.inUJ ε g →
+        Formalism.REAL.Eab ε a b (coefMap dual σ (fun c => ((η c : D) : H)) (fun c => ((f c : D) : H))) g =
+          coefMap dual σ (fun c => ((η c : D) : H)) (fun c => ((tensF dual E a b f c : D) : H)) g) ∧
+      ∀ k ∈ Kset ε, ∀ f' ∈ tensSub (genSub E V),
+        (fun c => ((f' c : D) : H)) = kDiag dual σ k (fun c => ((f c : D) : H)) →
+        ∀ g ∈ UJset ε, coefMap dual σ (fun c => ((η c : D) : H)) (fun c => ((f c : D) : H)) (g * k) =
+          coefMap dual σ (fun c => ((η c : D) : H)) (fun c => ((f' c : D) : H)) g :=
+  coef_embed_of_memLp dual hσ hD hsm hW η hη
 
 theorem occ_exists (dual : Bool) {ε : Fin n → Bool} {lam lam' : Fin n → ℝ} {T : S7.KType ε (lowK ε lam)}
     {T' : S7.KType ε (lowK ε lam')} {Ψ : Matrix (Fin n) (Fin n) ℂ → (T.V →L[ℂ] T.V)}

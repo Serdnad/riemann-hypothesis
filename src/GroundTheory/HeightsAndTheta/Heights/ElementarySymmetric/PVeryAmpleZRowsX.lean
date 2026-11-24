@@ -11,6 +11,7 @@ public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.PVeryAmpleZT
 import Mathlib.RingTheory.Henselian
 import Mathlib.RingTheory.RegularLocalRing.Defs
 import Mathlib.RingTheory.SimpleRing.Principal
+import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.PVeryAmpleZFamily
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.PCechPartition, GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.PVeryAmpleZRows, GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.PZChartLocal, GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.PZChartSmul, GroundTheory.HeightsAndTheta.Heights.ElementarySymmetric.PVeryAmpleZRowsX
@@ -228,19 +229,7 @@ omit [Module S E] [IsScalarTower S Ω E] in
 theorem smul_mem_twist_pow (F : SubSystem S x E) (H : SubSystem S x Ω) (I : Chart x) {c d : ℕ}
     {y : E} {w : Ω} (hy : y ∈ (F.twist (H.pow c)).sub I) (hw : w ∈ (H.pow d).sub I) :
     w • y ∈ (F.twist (H.pow (c + d))).sub I := by
-  change y ∈ Submodule.span _ _ at hy
-  refine Submodule.span_induction
-    (p := fun y _ => w • y ∈ (F.twist (H.pow (c + d))).sub I) ?_ ?_ ?_ ?_ hy
-  · rintro _ ⟨q, hq, z, hz, rfl⟩
-    exact Submodule.subset_span ⟨q * w, mul_mem_pow H I hq d hw, z, hz, by rw [smul_smul, mul_comm]⟩
-  · rw [smul_zero]; exact Submodule.zero_mem _
-  · intro a b _ _ ha hb; rw [smul_add]; exact Submodule.add_mem _ ha hb
-  · intro a z _ hz
-    have e : w • (a • z) = a • (w • z) := by
-      change w • ((a : Ω) • z) = (a : Ω) • (w • z)
-      rw [smul_smul, smul_smul, mul_comm]
-    rw [e]
-    exact Submodule.smul_mem _ a hz
+  apply _root_.GroundTheory.Heights₂.Heights.Kleiman.VeryAmpleZFamily.smul_mem_twist_pow <;> assumption
 
 theorem prod_mem_pow (H : SubSystem S x Ω) (I : Chart x) {r : ℕ} {h : Fin (r + 1) → Ω}
     (hh : ∀ l, h l ∈ H.secs) (T : Finset (Fin (r + 1))) : ∏ l ∈ T, h l ∈ (H.pow T.card).sub I := by

@@ -88,6 +88,7 @@ import Mathlib.RingTheory.WittVector.IsPoly
 import Mathlib.Tactic.Linter.Style
 import Mathlib.Tactic.ReduceModChar
 import Std.Tactic.BVDecide.Normalize.Prop
+import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.IsAdicCompleteSpanAlgebraMapOfFreeFinite
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.CharacterMemLatticeOfComul, Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.SeriesTwoPointsEqSumMul, Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.SeriesTwoPointsEqSumMulStatement, Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.CharacterOnTorsionPointsEqSeries, Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.CharacterOnTorsionPointsEqSeriesStatement, Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.EqZeroOfForallPairPointsValuationIntegers, Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.EqZeroOfForallPairPointsValuationIntegersStatement, Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.FormalDiscPointsValuationIntegersStatement, Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.ExistsIsChOfTors, Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.ExistsIsChOfTorsStatement, Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.IsAddUnitOfPow, Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.MultiplicativeFormalGroupLawPowerPTorsionFiniteF, Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.MultiplicativeFormalGroupLawPowerPTorsionFiniteFStatement, Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.SubSurjectiveOfLinLeftInverse, Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.ExistsFormalTorusCharacterLiftToLaw, Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.ExistsFormalTorusCharacterLiftToLawStatement, Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.FormalSeriesJacobianChainRuleLinearPartStatement, Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.ExistsLinearDataOfSplitFormalGroupExtension
@@ -242,16 +243,7 @@ namespace SeriesTensor
 private theorem mem_smul_top_iff {R M ι : Type} [CommRing R] [AddCommGroup M] [Module R M]
     [Fintype ι] (b : Module.Basis ι R M) (I : Ideal R) (x : M) :
     x ∈ (I • ⊤ : Submodule R M) ↔ ∀ i, b.repr x i ∈ I := by
-  constructor
-  · intro hx i
-    have hle : (I • ⊤ : Submodule R M) ≤ Submodule.comap (b.coord i) I :=
-      Submodule.smul_le.2 fun r hr m _ => by
-        rw [Submodule.mem_comap, map_smul, smul_eq_mul]
-        exact Ideal.mul_mem_right _ _ hr
-    exact hle hx
-  · intro h
-    rw [← b.sum_repr x]
-    exact Submodule.sum_mem _ fun i _ => Submodule.smul_mem_smul (h i) Submodule.mem_top
+  apply _root_.GlobalTheory.CNorm.mem_smul_top_iff_repr <;> assumption
 
 private theorem isAdicComplete_of_basis {R M ι : Type} [CommRing R] [AddCommGroup M] [Module R M]
     [Fintype ι] (b : Module.Basis ι R M) (I : Ideal R) [hI : IsAdicComplete I R] :
@@ -1300,14 +1292,7 @@ private theorem ev_eq_sub (a : Fin m → Pt R n d) (f : PS R m d) : ev a f = sub
 
 private theorem addOf_pt (F : Fin d → PS R 2 d) :
     addOf F (pt R (n := 2) d 0) (pt R (n := 2) d 1) = F := by
-  funext i
-  unfold addOf ev
-  have h : (fun q : Fin 2 × Fin d => (![pt R (n := 2) d 0, pt R (n := 2) d 1] : Fin 2 → Pt R 2 d) q.1 q.2) =
-      MvPowerSeries.X := by
-    funext ⟨a, b⟩
-    fin_cases a <;> rfl
-  rw [h, MvPowerSeries.subst_self]
-  rfl
+  apply _root_.GlobalTheory.ChF.addOf_pt <;> assumption
 
 private theorem const_one (φ : Fin d → PS R n e) (hφ : ∀ j, MvPowerSeries.constantCoeff (φ j) = 0) :
     ∀ (i : Fin 1) j, MvPowerSeries.constantCoeff ((![φ] : Fin 1 → Fin d → PS R n e) i j) = 0 := by

@@ -1,5 +1,6 @@
 module
 
+import Formalism.GL3MeanSquares.GenusMeanAsymptotics.UnimodularClassRepresentatives.UnitaryDensityFieldBis
 public import Formalism.GL3MeanSquares.GenusMeanAsymptotics.UnimodularClassRepresentatives.LocalDensityRatio
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -69,13 +70,6 @@ theorem ne_bot_of_isMaximal {𝔭 : Ideal (𝓞 F)} (h𝔭 : 𝔭.IsMaximal) : �
   exact Ideal.IsMaximal.ne_bot_of_isIntegral_int 𝔭
 
 theorem one_lt_absNorm {𝔭 : Ideal (𝓞 F)} (h𝔭 : 𝔭.IsMaximal) : (1 : ℝ) < (Ideal.absNorm 𝔭 : ℝ) := by
-  have h1 : Ideal.absNorm 𝔭 ≠ 1 := by
-    rw [Ne, Ideal.absNorm_eq_one_iff]
-    exact h𝔭.ne_top
-  have h0 : Ideal.absNorm 𝔭 ≠ 0 := by
-    rw [Ne, Ideal.absNorm_eq_zero_iff]
-    exact ne_bot_of_isMaximal h𝔭
-  have h2 : 1 < Ideal.absNorm 𝔭 := by omega
-  exact_mod_cast h2
+  apply _root_.Formalism.HermitianLattices.Ext.L3.unitaryAbsoluteValueBounds.one_lt_q <;> assumption
 
 end Formalism.HermitianLattices.Ext.L3.BoxSum

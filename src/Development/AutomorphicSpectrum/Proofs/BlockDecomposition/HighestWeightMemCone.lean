@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.JetHarmonics.ExistsStableSubmoduleTopWeightLine
 public import Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange.ArchimedeanBaseChangeProof.RealDescent.RealLeviDescent.ConeWeightsNotSecondType
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -55,15 +56,8 @@ variable {n : ℕ} {V : Type} [AddCommGroup V] [Module ℂ V] {K : Fin n → Fin
 theorem letter_comm (hg : Formalism.REAL.GlRel K) (a b c d : Fin n) (v : V) :
     K a b (K c d v) = K c d (K a b v) + (if b = c then K a d v else 0)
       - (if d = a then K c b v else 0) := by
-  have h := congrArg (fun f : Module.End ℂ V => f v) (hg a b c d)
-  simp only [LinearMap.sub_apply, mul_apply_eq_comp] at h
-  have h3 : (if b = c then K a d else 0 : Module.End ℂ V) v = if b = c then K a d v else 0 := by
-    split_ifs <;> simp
-  have h4 : (if d = a then K c b else 0 : Module.End ℂ V) v = if d = a then K c b v else 0 := by
-    split_ifs <;> simp
-  rw [h3, h4] at h
-  rw [add_sub_assoc, ← h]
-  abel
+  intros
+  apply _root_.GlobalTheory.glRel_apply_comm <;> assumption
 
 theorem levi_step (hg : Formalism.REAL.GlRel K) (lev : Fin n → ℕ) (C : Fin n → Fin n → Prop)
     (Y Z : Submodule ℂ V)

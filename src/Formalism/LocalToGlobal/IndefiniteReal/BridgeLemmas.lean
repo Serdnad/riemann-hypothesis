@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.SatakeParameters.ClassPresBasic
 public import Formalism.LocalToGlobal.IndefiniteReal.Bridge
 import Mathlib.Algebra.Ring.IsFormallyReal
 import Mathlib.RingTheory.PiTensorProduct
@@ -102,17 +103,8 @@ theorem ext_eq (f : S.Forms) (γ : Γ) (c : S.Cl) (k : J) :
   exact coef_smul_eq_of_double_coset_eq P f γ _ c k _ hs
 
 theorem extMem_holds (P : ClassPres ι S σ ρ J χ) : P.ExtMem := by
-  unfold ClassPres.ExtMem
-  intro f
-  show ∀ (γ : Γ) (h : G) (k : J), P.ext f (ι γ * h * k) = (χ k : ℂ) • ρ γ (P.ext f h)
-  intro γ h k
-  obtain ⟨c, ⟨γ0, k0, rfl⟩, -⟩ := P.reps h
-  have e1 : ι γ * (ι γ0 * P.y c * (k0 : G)) * (k : G) = ι (γ * γ0) * P.y c * ((k0 * k : J) : G) := by
-    rw [map_mul ι, Subgroup.coe_mul]
-    simp only [mul_assoc]
-  rw [e1, P.ext_eq f (γ * γ0) c (k0 * k), P.ext_eq f γ0 c k0, map_smul, smul_smul, map_mul χ, map_mul ρ,
-    Units.val_mul, mul_comm ((χ k0 : ℂ))]
-  rfl
+  intros
+  apply _root_.GlobalTheory.PresBasic.extMem <;> assumption
 
 theorem card_stab (c : S.Cl) : Nat.card (stab ι J (P.y c)) = S.wt c := by
   rw [Nat.card_congr (P.stabI c).toEquiv.symm, Nat.card_eq_fintype_card]
@@ -215,20 +207,8 @@ theorem det_ne (P : ClassPres ι S σ ρ J χ) : (S.H.map σ).det ≠ 0 := by
   exact (map_ne_zero σ).2 hH
 
 theorem linInd (P : ClassPres ι S σ ρ J χ) : LinearIndependent ℂ (fun i => P.extL (S.basis i)) := by
-  have hL : ∀ f : S.Forms, P.extL f = P.ext f := fun f => rfl
-  rw [Fintype.linearIndependent_iff]
-  intro a ha
-  have hc : ∀ c, ∑ i, a i • P.coef ((S.basis i : S.Cl → S.V) c) = 0 := by
-    intro c
-    have h1 := congrFun ha (P.y c)
-    simpa [Finset.sum_apply, Pi.smul_apply, hL, P.ext_rep] using h1
-  have hmul : (S.H.map σ).mulVec a = 0 := by
-    funext j
-    rw [P.mulVec_eq]
-    simp [hc]
-  intro i
-  by_contra hi
-  exact P.det_ne (Matrix.exists_mulVec_eq_zero_iff.1 ⟨a, fun h0 => hi (by simp [h0]), hmul⟩)
+  intros
+  apply _root_.GlobalTheory.PresBasic.ext_li <;> assumption
 
 theorem coef_avg (c : S.Cl) (x : S.V) :
     P.coef (clsAvg S c x) = ((S.wt c : ℂ))⁻¹ •
@@ -257,68 +237,8 @@ theorem adForms_ext {F F' : G → W} (hF : F ∈ AdForms ι ρ J χ) (hF' : F' �
   rw [P.adForms_val hF x, P.adForms_val hF' x, h]
 
 theorem span_eq (P : ClassPres ι S σ ρ J χ) : Submodule.span ℂ (Set.range P.extL) = AdForms ι ρ J χ := by
-  have hL : ∀ f : S.Forms, P.extL f = P.ext f := fun f => rfl
-  have hle : Submodule.span ℂ (Set.range P.extL) ≤ AdForms ι ρ J χ := by
-    rw [Submodule.span_le]
-    rintro _ ⟨f, rfl⟩
-    exact P.extMem_holds f
-  refine le_antisymm hle ?_
-  intro F hF
-  have hw : ∀ c, ∃ β : S.ιV → ℂ, ∑ l, β l • P.coef (S.bV l) = F (P.y c) := by
-    intro c
-    have hmem : F (P.y c) ∈ Submodule.span ℂ (Set.range fun l => P.coef (S.bV l)) := by
-      rw [P.coef_span]
-      exact Submodule.mem_top
-    rw [Submodule.mem_span_range_iff_exists_fun] at hmem
-    exact hmem
-  choose β hβ using hw
-  obtain ⟨F', hF'def⟩ : ∃ F' : G → W, F' = ∑ c, ∑ l, β c l • P.extL (clsSingle S c (S.bV l)) := ⟨_, rfl⟩
-  have hF'mem : F' ∈ Submodule.span ℂ (Set.range P.extL) := by
-    rw [hF'def]
-    apply Submodule.sum_mem
-    intro c _
-    apply Submodule.sum_mem
-    intro l _
-    exact Submodule.smul_mem _ _ (Submodule.subset_span ⟨_, rfl⟩)
-  have heq : F = F' := by
-    refine P.adForms_ext hF (hle hF'mem) (fun c => ?_)
-    have hz : ∀ c', c' ≠ c → ∀ l, P.extL (clsSingle S c' (S.bV l)) (P.y c) = 0 := by
-      intro c' hc l
-      rw [hL, P.ext_rep]
-      classical
-      simp [clsSingle, Ne.symm hc]
-    have hs : ∀ l, P.extL (clsSingle S c (S.bV l)) (P.y c) = P.coef (clsAvg S c (S.bV l)) := by
-      intro l
-      rw [hL, P.ext_rep]
-      simp [clsSingle]
-    have hF'c : F' (P.y c) = ∑ l, β c l • P.coef (clsAvg S c (S.bV l)) := by
-      rw [hF'def]
-      simp only [Finset.sum_apply, Pi.smul_apply]
-      rw [Finset.sum_eq_single c]
-      · exact Finset.sum_congr rfl fun l _ => by rw [hs l]
-      · intro c' _ hc'
-        exact Finset.sum_eq_zero fun l _ => by rw [hz c' hc' l, smul_zero]
-      · intro hc
-        exact absurd (Finset.mem_univ c) hc
-    have hwt : ((S.wt c : ℂ)) ≠ 0 := by
-      have hpos : 0 < S.wt c := Fintype.card_pos
-      exact_mod_cast hpos.ne'
-    have hA : ((S.wt c : ℂ))⁻¹ • ∑ g : S.Gam c, (χ (stabK ι (P.stabI c g)) : ℂ) • ρ (P.stabI c g : Γ) (F (P.y c))
-        = F (P.y c) := by
-      rw [Finset.sum_congr rfl (fun g _ => P.adForms_fixed hF c g), Finset.sum_const, Finset.card_univ]
-      change ((S.wt c : ℂ))⁻¹ • (S.wt c • F (P.y c)) = F (P.y c)
-      rw [← Nat.cast_smul_eq_nsmul ℂ, smul_smul, inv_mul_cancel₀ hwt, one_smul]
-    have hB : ∑ l, β c l • P.coef (clsAvg S c (S.bV l)) = ((S.wt c : ℂ))⁻¹ •
-        ∑ g : S.Gam c, (χ (stabK ι (P.stabI c g)) : ℂ) • ρ (P.stabI c g : Γ) (∑ l, β c l • P.coef (S.bV l)) := by
-
-      simp only [P.coef_avg, map_sum, map_smul, Finset.smul_sum, smul_smul]
-      rw [Finset.sum_comm]
-      refine Finset.sum_congr rfl fun g _ => Finset.sum_congr rfl fun l _ => ?_
-      congr 1
-      ring
-    rw [hF'c, hB, hβ c, hA]
-  rw [heq]
-  exact hF'mem
+  intros
+  apply _root_.GlobalTheory.PresBasic.ext_span <;> assumption
 
 theorem extBij_holds (P : ClassPres ι S σ ρ J χ) : P.ExtBij := by
   unfold ClassPres.ExtBij

@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.LocalCochainsGlueGlobal
 public import Development.AutomorphicArithmetic.Foundations.IwahoriReduction.LangPolynomials.FixedIntegersIsUnitOfNotMemPrimeSpan
 public import Development.AutomorphicArithmetic.Foundations.IwahoriReduction.LangPolynomials.FrobEx
 public import Development.AutomorphicArithmetic.Foundations.IwahoriReduction.LangPolynomials.PConj
@@ -22,6 +23,7 @@ public import Development.AutomorphicArithmetic.Foundations.IwahoriReduction.Lan
 public import Development.AutomorphicArithmetic.Foundations.IwahoriReduction.LangPolynomials.PresTr
 public import Development.AutomorphicArithmetic.Foundations.IwahoriReduction.LangPolynomials.WdVal
 public import Development.AutomorphicArithmetic.Foundations.IwahoriReduction.LangPolynomials.RepSmul
+import all Development.AutomorphicArithmetic.Foundations.IwahoriReduction.LangPolynomials.RepSmul
 public import Development.AutomorphicArithmetic.Foundations.IwahoriReduction.LangPolynomials.RepUniq
 public import Development.AbelianVarietyTheory.Definitions.Foundations.ExistsEqSubOfMemCob
 public import Development.AutomorphicArithmetic.Foundations.IwahoriReduction.LangPolynomials.DivEqZeroOfCg
@@ -495,15 +497,7 @@ namespace UpperTheory.Kd.C7.Cl1
 
 private lemma dl_mul {R : Type} [CommRing R] {f g : PowerSeries R} (hf : IsUnit f) (hg : IsUnit g) :
     dl (f * g) = dl f + dl g := by
-  obtain ⟨u, rfl⟩ := hf
-  obtain ⟨w, rfl⟩ := hg
-  unfold dl dd
-  rw [← Units.val_mul, Ring.inverse_unit, Ring.inverse_unit, Ring.inverse_unit, Units.val_mul, Derivation.leibniz,
-    mul_inv_rev, Units.val_mul, smul_eq_mul, smul_eq_mul]
-  have h1 := u.mul_inv
-  have h2 := w.mul_inv
-  linear_combination ((1 + PowerSeries.X) * (PowerSeries.derivative (R := R)) (w : PowerSeries R) * ((w⁻¹ : (PowerSeries R)ˣ) : PowerSeries R)) * h1 +
-    ((1 + PowerSeries.X) * (PowerSeries.derivative (R := R)) (u : PowerSeries R) * ((u⁻¹ : (PowerSeries R)ˣ) : PowerSeries R)) * h2
+  apply _root_.rs_dl_mul <;> assumption
 
 private lemma der_eval {R : Type} [CommRing R] (P : Polynomial R) :
     PowerSeries.derivative (R := R) (P.eval₂ PowerSeries.C (1 + PowerSeries.X)) =
@@ -619,17 +613,8 @@ private lemma add_le {K : Type} [NormedField K] [IsUltrametricDist K] {x y : K} 
     ‖x + y‖ ≤ r := (IsUltrametricDist.norm_add_le_max x y).trans (max_le hx hy)
 
 private lemma coef_le {c : Coef l} (β : Bas c) (a : c.O) : ‖(a : PadicAlgCl l)‖ ≤ 1 := by
-  have h2 := congrArg (fun y : c.O => (y : PadicAlgCl l)) (β.e.sum_repr a)
-  simp only [AddSubmonoidClass.coe_finsetSum] at h2
-  have h3 : (a : PadicAlgCl l) = ∑ i, β.val i * algebraMap ℤ_[l] (PadicAlgCl l) (β.e.repr a i) := by
-    rw [← h2]
-    refine Finset.sum_congr rfl fun i _ => ?_
-    rw [mul_comm, ← Algebra.smul_def]
-    rfl
-  rw [h3]
-  refine sum_le _ _ _ zero_le_one ((pBasEx l c).2 β).1 fun i => ?_
-  rw [IsScalarTower.algebraMap_apply ℤ_[l] ℚ_[l] (PadicAlgCl l), norm_algebraMap']
-  exact PadicInt.norm_le_one _
+  intros
+  apply _root_.GlobalTheory.Ord2.TwistTriv.norm_le_one <;> assumption
 
 private lemma pv_mul (P Q : Polynomial (R0 A)) (z : Ω) : pv (P * Q) z = pv P z * pv Q z := by
   unfold pv
@@ -947,13 +932,7 @@ private theorem dd_mul_eq_dd_mul_add_mul_dd {R : Type} [CommRing R] (f g : Power
 
 private theorem dl_mul_eq_add_of_isUnit {R : Type} [CommRing R] {f g : PowerSeries R}
     (hf : IsUnit f) (hg : IsUnit g) : dl (f * g) = dl f + dl g := by
-  obtain ⟨u, rfl⟩ := hf
-  obtain ⟨v, rfl⟩ := hg
-  simp only [dl, ← Units.val_mul, Ring.inverse_unit]
-  simp only [Units.val_mul, mul_inv_rev, dd_mul_eq_dd_mul_add_mul_dd]
-  have h1 : (u : PowerSeries R) * ↑u⁻¹ = 1 := u.mul_inv
-  have h2 : (v : PowerSeries R) * ↑v⁻¹ = 1 := v.mul_inv
-  linear_combination (dd (u : PowerSeries R) * ↑u⁻¹) * h2 + (dd (v : PowerSeries R) * ↑v⁻¹) * h1
+  apply _root_.rs_dl_mul <;> assumption
 
 theorem UpperTheory.Kd.C7.pRepAdd :
     UpperTheory.Kd.C7.SRepAdd := by

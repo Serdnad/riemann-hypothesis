@@ -1,5 +1,6 @@
 module
 
+import Development.AutomorphicArithmetic.ThetaCorrespondence.ThetaPairLifts.ThirdPlaceSeries.SixRowsAtMemberStatement
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.IntegralityAtPrimeLattices.IntegralityAtFormsOfIncrements
 public import Formalism.LocalToGlobal.GlobalTheory.GL6.BwAValIntegralNonneg
 public import Formalism.LocalToGlobal.GlobalTheory.GL6.FrobeniusNoKernelOfFrobeniusSimilitude
@@ -129,19 +130,7 @@ theorem bases0 (T : Forms0 D u) (c : (D.mem u).C.cls 0) :
 
 theorem rootOfUnity_int (w : D.what₂.places.Pl) (r : D.what₂.LL) {n : ℕ} (hn : 0 < n) (hr : r ^ n = 1) :
     r ∈ intW D.what₂.places w := by
-  show 0 ≤ (D.what₂.places.val w) r
-  have h1 := congrArg (D.what₂.places.val w) hr
-  rw [AddValuation.map_pow, AddValuation.map_one] at h1
-  generalize hv : (D.what₂.places.val w) r = x at h1 ⊢
-  cases x with
-  | top => exact le_top
-  | coe a =>
-    have h2 : ((n • a : ℤ) : WithTop ℤ) = ((0 : ℤ) : WithTop ℤ) := by
-      rw [WithTop.coe_nsmul, WithTop.coe_zero]
-      exact h1
-    have h3 : n • a = 0 := WithTop.coe_injective h2
-    have ha : a = 0 := (smul_eq_zero.mp h3).resolve_left hn.ne'
-    exact WithTop.coe_nonneg.mpr ha.ge
+  apply +allowSynthFailures _root_.GlobalTheory.RedPt0Pend.root_mem_intW <;> assumption
 
 theorem chi_inv_int (T : Forms0 D u) (hC : LocalLatticeBases.ChiFin0 T) (w : D.what₂.places.Pl) (κ : T.cls0.lev.U) :
     ∃ r ∈ intW D.what₂.places w, D.what₂.embLL r = ((((T.cls0.lev.chi κ)⁻¹ : ℂˣ)) : ℂ) := by

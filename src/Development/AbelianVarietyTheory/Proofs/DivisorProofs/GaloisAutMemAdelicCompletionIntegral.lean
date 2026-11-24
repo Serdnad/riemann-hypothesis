@@ -27,6 +27,7 @@ import Mathlib.RingTheory.PicardGroup
 import Mathlib.RingTheory.Radical.NatInt
 import Mathlib.RingTheory.RegularLocalRing.Defs
 import Mathlib.RingTheory.TotallySplit
+import Mathlib.RingTheory.Unramified.Finite
 import Mathlib.RingTheory.WittVector.IsPoly
 import Mathlib.Tactic.Basify
 import Mathlib.Tactic.ENatToNat
@@ -62,32 +63,23 @@ noncomputable section
 
 namespace GlobalTheory.UCls.Det
 
+open Algebra.FormallyUnramified in
 theorem exists_sub_notMem {A B : Type} [CommRing A] [CommRing B] [IsDomain B] [Algebra A B]
     [Algebra.Unramified A B] (σ : B →ₐ[A] B) (hσ : ∃ s, σ s ≠ s) (P : Ideal B) (hP : P ≠ ⊤) :
     ∃ t, t - σ t ∉ P := by
+  have hne : AlgHom.id A B ≠ σ := by
+    obtain ⟨s, hs⟩ := hσ
+    exact fun h => hs (congrArg (fun f : B →ₐ[A] B => f s) h.symm)
+  have hε : equalizerIdempotent (AlgHom.id A B) σ = 0 :=
+    (isIdempotentElem_equalizerIdempotent (AlgHom.id A B) σ).eq_zero_or_one.resolve_right
+      (fun h => hne (equalizerIdempotent_eq_one_iff.mp h))
+  have hspan := span_equalizerIdempotent_one_sub_eq (AlgHom.id A B) σ
+  rw [hε, sub_zero, Ideal.span_singleton_one] at hspan
   by_contra hcon
   push Not at hcon
-  obtain ⟨s, hs⟩ := hσ
-  let φ : B ⊗[A] B →ₐ[A] B := Algebra.TensorProduct.productMap (AlgHom.id A B) σ
-  have h1 : ∀ z, Algebra.TensorProduct.lmul' A (S := B) z - φ z ∈ P := by
-    intro z
-    induction z using TensorProduct.inductionOn with
-    | tmul x y =>
-      have := P.mul_mem_left x (hcon y)
-      simpa [φ, mul_sub] using this
-    | add x y hx hy =>
-      have := P.add_mem hx hy
-      convert this using 1
-      simp only [map_add (f := _)]; ring
-  have h2 : φ (Algebra.FormallyUnramified.elem A B) = 0 := by
-    have h := congrArg φ (Algebra.FormallyUnramified.one_tmul_mul_elem (R := A) s)
-    simp only [map_mul, φ, Algebra.TensorProduct.productMap_apply_tmul, AlgHom.id_apply, map_one,
-      one_mul, mul_one] at h
-    by_contra h0
-    exact hs (mul_right_cancel₀ h0 h)
-  have h3 := h1 (Algebra.FormallyUnramified.elem A B)
-  rw [h2, Algebra.FormallyUnramified.lmul_elem, sub_zero] at h3
-  exact hP ((Ideal.eq_top_iff_one _).2 h3)
+  apply hP
+  rw [eq_top_iff, hspan]
+  exact Ideal.span_le.mpr (Set.range_subset_iff.mpr hcon)
 
 section Lattice
 

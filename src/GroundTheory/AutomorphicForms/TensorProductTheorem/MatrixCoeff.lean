@@ -1,5 +1,6 @@
 module
 
+import GroundTheory.AutomorphicForms.TensorProductTheorem.GenWindow
 public import Mathlib.Basic.Complex.Basic
 public import Mathlib.RepresentationTheory.Irreducible
 import Mathlib.Tactic.TypeStar
@@ -43,22 +44,11 @@ theorem orbitSpan_eq_top {ρ : Representation ℂ G V} [ρ.IsIrreducible] {v : V
 
 theorem mem_span_orbit {ρ : Representation ℂ G V} [ρ.IsIrreducible] {v : V} (hv : v ≠ 0) (x : V) :
     x ∈ Submodule.span ℂ (range fun g => ρ g v) := by
-  have := orbitSpan_eq_top (ρ := ρ) hv
-  have hx : x ∈ (⊤ : Subrepresentation ρ).toSubmodule := trivial
-  rw [← this] at hx
-  exact hx
+  exact mem_span_mOrbit hv x
 
 theorem eq_zero_of_forall_apply {ρ : Representation ℂ G V} [ρ.IsIrreducible] {v : V} (hv : v ≠ 0)
     {l : Module.Dual ℂ V} (h : ∀ g, l (ρ g v) = 0) : l = 0 := by
-  ext x
-  have hx := mem_span_orbit (ρ := ρ) hv x
-  induction hx using Submodule.span_induction with
-  | mem x hx =>
-    obtain ⟨g, rfl⟩ := hx
-    exact h g
-  | zero => simp
-  | add x y _ _ hx hy => simp [hx, hy]
-  | smul c x _ hx => simp [hx]
+  exact eq_zero_of_forall_apply' hv h
 
 theorem eq_zero_of_forall_apply_act {ρ : Representation ℂ G V} [ρ.IsIrreducible]
     {l : Module.Dual ℂ V} (hl : l ≠ 0) {x : V} (h : ∀ g, l (ρ g x) = 0) : x = 0 := by
@@ -78,10 +68,7 @@ theorem orbitMap_single (ρ : Representation ℂ G V) (v : V) (g : G) (a : ℂ) 
 
 theorem orbitMap_mapDomain (ρ : Representation ℂ G V) (v : V) (h : G) (c : G →₀ ℂ) :
     orbitMap ρ v (Finsupp.mapDomain (h * ·) c) = ρ h (orbitMap ρ v c) := by
-  induction c using Finsupp.induction_linear with
-  | zero => simp [orbitMap]
-  | add c d hc hd => rw [Finsupp.mapDomain_add, map_add (f := _), hc, hd, map_add (f := _), map_add (f := _)]
-  | single g a => simp [Finsupp.mapDomain_single, orbitMap_single, map_mul]
+  exact mOrbitMap_mapDomain ρ v h c
 
 theorem range_orbitMap (ρ : Representation ℂ G V) (v : V) :
     LinearMap.range (orbitMap ρ v) = Submodule.span ℂ (range fun g => ρ g v) := by
@@ -89,59 +76,13 @@ theorem range_orbitMap (ρ : Representation ℂ G V) (v : V) :
 
 theorem linearForm_orbitMap (ρ : Representation ℂ G V) (v : V) (l : Module.Dual ℂ V) (h : G)
     (c : G →₀ ℂ) : l (ρ h (orbitMap ρ v c)) = c.sum fun g a => a * l (ρ (h * g) v) := by
-  rw [orbitMap_apply, map_finsuppSum, map_finsuppSum]
-  refine Finsupp.sum_congr fun g _ => ?_
-  rw [map_smul, map_smul, smul_eq_mul, map_mul, Module.End.mul_apply]
+  exact linearForm_mOrbitMap ρ v l h c
 
 theorem nonempty_equiv_of_matrixCoeff_eq {ρ : Representation ℂ G V} {σ : Representation ℂ G W}
     [ρ.IsIrreducible] [σ.IsIrreducible] {v : V} {l : Module.Dual ℂ V} {w : W}
     {m : Module.Dual ℂ W} (h : ∀ g, l (ρ g v) = m (σ g w)) (hne : ∃ g, l (ρ g v) ≠ 0) :
     Nonempty (ρ.Equiv σ) := by
-  obtain ⟨g₀, hg₀⟩ := hne
-  have hv : v ≠ 0 := by rintro rfl; simp at hg₀
-  have hm : m ≠ 0 := by rintro rfl; exact hg₀ (by rw [h]; rfl)
-
-  have hker : LinearMap.ker (orbitMap ρ v) ≤ LinearMap.ker (orbitMap σ w) := by
-    intro c hc
-    rw [LinearMap.mem_ker] at hc ⊢
-    refine eq_zero_of_forall_apply_act (ρ := σ) hm fun k => ?_
-    rw [linearForm_orbitMap]
-    have := linearForm_orbitMap ρ v l k c
-    rw [hc, map_zero, map_zero] at this
-    rw [this]
-    exact Finsupp.sum_congr fun g _ => by rw [h]
-  have hsurj : Function.Surjective (orbitMap ρ v) := by
-    rw [← LinearMap.range_eq_top, range_orbitMap]
-    exact eq_top_iff.2 fun x _ => mem_span_orbit hv x
-  let e := LinearMap.quotKerEquivOfSurjective (orbitMap ρ v) hsurj
-  let F : V →ₗ[ℂ] W := ((LinearMap.ker (orbitMap ρ v)).liftQ (orbitMap σ w) hker).comp
-    e.symm.toLinearMap
-  have hF : ∀ c, F (orbitMap ρ v c) = orbitMap σ w c := by
-    intro c
-    have : e.symm (orbitMap ρ v c) = Submodule.Quotient.mk c := by
-      rw [LinearEquiv.symm_apply_eq]
-      rfl
-    simp only [F, LinearMap.comp_apply, LinearEquiv.coe_coe, this, Submodule.liftQ_apply]
-  have hFint : ∀ g x, F (ρ g x) = σ g (F x) := by
-    intro g x
-    obtain ⟨c, rfl⟩ := hsurj x
-    rw [← orbitMap_mapDomain, hF, hF, orbitMap_mapDomain]
-  let Fi : Representation.IntertwiningMap ρ σ := ⟨F, fun g => LinearMap.ext fun x => hFint g x⟩
-  have hFi0 : Fi ≠ 0 := by
-    intro h0
-    have h1 : F v = w := by
-      have := hF (Finsupp.single 1 1)
-      rwa [orbitMap_single, orbitMap_single, one_smul, one_smul, map_one,
-        Module.End.one_apply, map_one, Module.End.one_apply] at this
-    have h2 : F v = 0 := by
-      have : Fi v = 0 := by rw [h0]; rfl
-      exact this
-    apply hg₀
-    rw [h, ← h1, h2, map_zero, map_zero]
-  rcases Representation.IsIrreducible.bijective_or_eq_zero Fi with hb | h0
-  · exact ⟨Representation.Equiv.mk (LinearEquiv.ofBijective F hb)
-      fun g => LinearMap.ext fun x => hFint g x⟩
-  · exact absurd h0 hFi0
+  exact nonempty_equiv_of_matrixCoeff_eq' h hne
 
 end RestrictedTensor
 

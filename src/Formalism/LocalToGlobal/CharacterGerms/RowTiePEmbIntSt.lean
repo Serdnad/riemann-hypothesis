@@ -1,7 +1,8 @@
 module
 
-public import Formalism.LocalToGlobal.CharacterGerms.HostTraceIdentity
 
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.PullbackSections.VVAlgNonneg
+public import Formalism.LocalToGlobal.CharacterGerms.HostTraceIdentity
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Formalism.LocalToGlobal.CharacterGerms.RowTieCuts, Formalism.LocalToGlobal.CharacterGerms.RowTiePEmbIntSt
 
@@ -49,17 +50,7 @@ namespace Formalism.L2.FormalSeriesBounds
 open Formalism.L2.Pj
 
 theorem vV_algebraMap_nonneg (T : CDVR) (t : T.V) : 0 ≤ vV T.V (algebraMap T.V T.Fr t) := by
-  have hle := (IsDiscreteValuationRing.maximalIdeal T.V).valuation_le_one (K := T.Fr) t
-  unfold vV valV
-  generalize (IsDedekindDomain.HeightOneSpectrum.valuation T.Fr
-    (IsDiscreteValuationRing.maximalIdeal T.V)) (algebraMap T.V T.Fr t) = y at hle ⊢
-  rcases eq_or_ne y 0 with rfl | hy
-  · simp
-  · obtain ⟨a, rfl⟩ := WithZero.ne_zero_iff_exists.1 hy
-    have ha : a ≤ 1 := WithZero.coe_le_one.1 hle
-    have hlog : WithZero.log (a : WithZero (Multiplicative ℤ)) = Multiplicative.toAdd a := rfl
-    rw [hlog, neg_nonneg]
-    exact ha
+  apply _root_.ReciprocityTheory.ChartRestriction.G.PullbackSections.vV_alg_nonneg <;> assumption
 
 theorem embIntSt_holds : EmbIntSt := by
   unfold EmbIntSt

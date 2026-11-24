@@ -57,6 +57,7 @@ import Mathlib.Topology.Connected.Separation
 import Mathlib.Topology.MetricSpace.Ultra.TotallySeparated
 import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
+import ReciprocityTheory.ReductiveGroups.LatticeEmbeddings.IotaPlaceB
 
 @[expose] public section
 
@@ -261,23 +262,7 @@ variable {q : ℕ} [Fact q.Prime] in
 open Filter Topology in
 open Cardinal in
 private theorem cardinal_padicComplex_eq_continuum (q : ℕ) [Fact q.Prime] : #ℂ_[q] = 𝔠 := by
-  have hQ : #ℚ_[q] ≤ 𝔠 := by
-    calc #ℚ_[q] ≤ #(ℕ → ℚ) := cardinal_le_seq_of_denseRange _ (Padic.denseRange_ratCast q)
-      _ = 𝔠 := by rw [← power_def, Cardinal.mk_eq_aleph0 ℚ, Cardinal.mk_nat, aleph0_power_aleph0]
-  have hA : #(PadicAlgCl q) ≤ 𝔠 :=
-    (Algebra.IsAlgebraic.cardinalMk_le_max ℚ_[q] (PadicAlgCl q)).trans
-      (max_le hQ aleph0_le_continuum)
-  apply le_antisymm
-  · calc #ℂ_[q] ≤ #(ℕ → PadicAlgCl q) :=
-          cardinal_le_seq_of_denseRange _ UniformSpace.Completion.denseRange_coe
-      _ = #(PadicAlgCl q) ^ ℵ₀ := by rw [← power_def, Cardinal.mk_nat]
-      _ ≤ 𝔠 ^ ℵ₀ := power_le_power_right hA
-      _ = 𝔠 := continuum_power_aleph0
-  · obtain ⟨f, -, -, hf⟩ := Perfect.exists_nat_bool_injection
-      (PerfectSpace.univ_perfect (α := ℚ_[q])) ⟨0, trivial⟩
-    calc 𝔠 = #(ℕ → Bool) := by rw [← power_def, mk_bool, Cardinal.mk_nat, two_power_aleph0]
-      _ ≤ #ℚ_[q] := mk_le_of_injective hf
-      _ ≤ #ℂ_[q] := mk_le_of_injective (algebraMap ℚ_[q] ℂ_[q]).injective
+  apply _root_.ReciprocityTheory.ChartRestriction.T1.lat_mk_Cp
 
 
 open PowerSeries in

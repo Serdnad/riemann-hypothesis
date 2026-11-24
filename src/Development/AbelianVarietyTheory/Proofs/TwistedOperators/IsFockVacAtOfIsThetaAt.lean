@@ -45,6 +45,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
 import Formalism.LocalToGlobal.IndefiniteReal.ScalarOnPartsFull
 import Formalism.LocalToGlobal.IndefiniteReal.SubgroupCharExtensionOneApply
+import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.DifferentiableOfChar
 
 @[expose] public section
 
@@ -101,34 +102,6 @@ theorem alongLine_heisO (l : (ℝ → ℂ) →ₗ[ℂ] ℂ) (ψ : AddChar (AF D.
   simp only [alongLine, LinearMap.coe_mk, AddHom.coe_mk, hc, key]
   exact l.map_smul (ψ (symplOH S T x u)) (fun t => heisO ψ S T (L t) g (x + u))
 
-private lemma differentiable_of_continuous_additive_char {φ : ℝ → ℂ} (hφ : Continuous φ) (h0 : φ 0 = 1)
-    (hmul : ∀ s t, φ (s + t) = φ s * φ t) : Differentiable ℝ φ := by
-  set F : ℝ → ℂ := fun u => ∫ x in (0:ℝ)..u, φ x with hFdef
-  have hF : ∀ b, HasDerivAt F (φ b) b := fun b => (hφ.integral_hasStrictDerivAt 0 b).hasDerivAt
-  obtain ⟨δ, hδ⟩ : ∃ δ, F δ ≠ 0 := by
-    by_contra hcon
-    have hz : F = fun _ => (0:ℂ) := funext fun δ => by
-      by_contra h
-      exact hcon ⟨δ, h⟩
-    have h1 := hF 0
-    rw [hz, h0] at h1
-    exact one_ne_zero (h1.unique (hasDerivAt_const (0:ℝ) (0:ℂ)))
-  have key : ∀ t, φ t = (F (δ + t) - F t) * (F δ)⁻¹ := by
-    intro t
-    have h1 : ∫ x in (0:ℝ)..δ, φ (x + t) = F (δ + t) - F t := by
-      rw [intervalIntegral.integral_comp_add_right, zero_add, hFdef]
-      exact (intervalIntegral.integral_interval_sub_left (hφ.intervalIntegrable _ _)
-        (hφ.intervalIntegrable _ _)).symm
-    have h2 : ∫ x in (0:ℝ)..δ, φ (x + t) = F δ * φ t := by
-      simp_rw [hmul]
-      exact intervalIntegral.integral_mul_const _ _
-    rw [← h1, h2, mul_comm (F δ) (φ t), mul_assoc, mul_inv_cancel₀ hδ, mul_one]
-  intro t
-  have hd : DifferentiableAt ℝ (fun t => (F (δ + t) - F t) * (F δ)⁻¹) t :=
-    ((((hF (δ + t)).differentiableAt).comp t (differentiableAt_id.const_add δ)).sub
-      (hF t).differentiableAt).mul_const _
-  exact hd.congr_of_eventuallyEq (Filter.Eventually.of_forall key)
-
 theorem exists_annihLin {ψ : AddChar (AF D.host.F) ℂ} (hψ : Continuous ψ) {θ : InfFam D} (hθ : IsInfFam θ)
     (S T : HSp D) (τ : D.what₂.Tau)
     (J : Matrix (Fin T.rank) (Fin S.rank) ℂ → Matrix (Fin T.rank) (Fin S.rank) ℂ)
@@ -165,7 +138,7 @@ theorem exists_annihLin {ψ : AddChar (AF D.host.F) ℂ} (hψ : Continuous ψ) {
       rw [h2]
       exact ((h1.differentiable (by simp)) _).comp _ (differentiableAt_pi.2 fun _ => differentiableAt_id)
     have hφ : Differentiable ℝ (fun t => ψ (symplOH S T x (lineAt θ τ w t))) := by
-      apply differentiable_of_continuous_additive_char
+      apply _root_.GlobalTheory.ContinuousHomDifferentiable.continuous_hom_differentiable
       · have hc : (fun t => symplOH S T x (lineAt θ τ w t)) =
             fun t => algebraMap D.host.F (AF D.host.F) (1 / 2) * symplO S T x (lineAt θ τ w t) := rfl
         exact hψ.comp (hc ▸ continuous_const.mul (GlobalTheory.SplitScalar.continuous_symplO S T continuous_const (hcont w)))

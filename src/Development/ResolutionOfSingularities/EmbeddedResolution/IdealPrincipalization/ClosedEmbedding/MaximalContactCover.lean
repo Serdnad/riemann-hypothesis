@@ -1,5 +1,6 @@
 module
 
+import all Development.ResolutionOfSingularities.EmbeddedResolution.ResolutionDescent.AffineSpaceLinearEmbeddings
 public import Development.ResolutionOfSingularities.EmbeddedResolution.EtaleCoordinates.EtaleChartExistence
 public import Development.ResolutionOfSingularities.EmbeddedResolution.IdealPrincipalization.OrderReduction.MaxContactReduction
 public import Development.ResolutionOfSingularities.EmbeddedResolution.AlgebraicPreliminaries.GenericPointImage
@@ -88,20 +89,7 @@ theorem EtaleChart.coordIdeal_mono {Y : Scheme.{u}} {k : Type u} [Field k]
 
 private theorem coe_support_ker_eq_range {X X' : Scheme.{u}} (τ : X ⟶ X') [IsClosedImmersion τ] :
     (↑(Scheme.Hom.ker τ).support : Set X') = Set.range τ.base := by
-  have h1 : ∀ z, ((FunctorialResolution.EmbeddedResolution.kerSubschemeIso τ).hom ≫ τ).base z
-      = (Scheme.Hom.ker τ).subschemeι.base z := by
-    intro z
-    rw [FunctorialResolution.EmbeddedResolution.kerSubschemeIso_hom_comp τ]
-  have h2 : ∀ x, ((FunctorialResolution.EmbeddedResolution.kerSubschemeIso τ).inv ≫ (Scheme.Hom.ker τ).subschemeι).base x
-      = τ.base x := by
-    intro x
-    rw [FunctorialResolution.EmbeddedResolution.kerSubschemeIso_inv_comp τ]
-  rw [← Scheme.IdealSheafData.range_subschemeι]
-  apply Set.Subset.antisymm
-  · rintro y ⟨z, rfl⟩
-    exact ⟨(FunctorialResolution.EmbeddedResolution.kerSubschemeIso τ).hom.base z, h1 z⟩
-  · rintro y ⟨x, rfl⟩
-    exact ⟨(FunctorialResolution.EmbeddedResolution.kerSubschemeIso τ).inv.base x, h2 x⟩
+  apply _root_.FunctorialResolution.EmbeddedResolution.support_ker_eq_range_of_isClosedImmersion <;> assumption
 
 theorem restrictIdeal_ker_eq_top_of_not_mem {X X' : Scheme.{u}} (τ : X ⟶ X')
     [IsClosedImmersion τ] (U : X'.Opens) (h : ∀ x : X, τ.base x ∉ U) :

@@ -1,5 +1,6 @@
 module
 
+import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.RelativeEquivalence.DCRelEquivAllHolds
 public import Formalism.SharpRestriction.CuspSpanNormBounds.FlagEEqHyperbolic
 import Mathlib.Algebra.AffineMonoid.Basic
 import Mathlib.Algebra.Order.Floor.Extended
@@ -102,19 +103,7 @@ theorem nlam_mem {Λ : Submodule (𝓞 E) S.V} {G : LFlag S r T} {n : S.V ≃ₗ
 
 theorem nlam_X {Λ : Submodule (𝓞 E) S.V} {G : LFlag S r T} {n : S.V ≃ₗ[E] S.V} (hn : n ∈ NLam Λ G)
     {v : S.V} (hv : v ∈ G.fl.X) : n v ∈ G.fl.X := by
-  obtain ⟨-, hflag, -⟩ := hn
-  have h1 : v ∈ Xflag G (r + 1) := by
-    show v ∈ G.fl.Xa (r + 1)
-    refine Submodule.span_mono ?_ hv
-    rintro _ ⟨i, rfl⟩
-    exact ⟨i, show i.1 < r + 1 by have := i.2; omega, rfl⟩
-  have h2 := hflag r v h1
-  have h3 : n v - v ∈ G.fl.X := by
-    refine Submodule.span_mono ?_ h2
-    rintro _ ⟨i, -, rfl⟩
-    exact ⟨i, rfl⟩
-  have h4 := G.fl.X.add_mem h3 hv
-  rwa [sub_add_cancel] at h4
+  apply _root_.PI.DCRelEquiv.UnitaryGroupMassFormula.nlam_maps_X <;> assumption
 
 end Gen
 

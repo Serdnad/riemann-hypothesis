@@ -347,20 +347,8 @@ theorem mn_mul_le_left (A B : Matrix (Fin 2) (Fin 2) (Ad F)) (H : ℝ)
 
 theorem mn_mul_le_right (A B : Matrix (Fin 2) (Fin 2) (Ad F)) (H : ℝ)
     (hB : ∀ k j, ‖UpperTheory.V.TR.pInf F (B k j)‖ ≤ H) : mn (A * B) ≤ 8 * H * mn A := by
-  have hH : 0 ≤ H := (norm_nonneg _).trans (hB 0 0)
-  have h : ∀ i j, ‖UpperTheory.V.TR.pInf F ((A * B) i j)‖ ≤ 2 * H * mn A := by
-    intro i j
-
-    rw [Matrix.mul_apply, map_sum]
-    refine (norm_sum_le _ _).trans ?_
-    calc ∑ k, ‖UpperTheory.V.TR.pInf F (A i k * B k j)‖ ≤ ∑ _k : Fin 2, H * mn A :=
-          Finset.sum_le_sum fun k _ => by
-            rw [map_mul, mul_comm H]
-            exact (norm_mul_le _ _).trans (mul_le_mul (entry_le_mn A i k) (hB k j) (norm_nonneg _) (mn_nonneg A))
-      _ = 2 * H * mn A := by simp [Finset.sum_const]; try ring
-  calc mn (A * B) ≤ ∑ _i : Fin 2, ∑ _j : Fin 2, 2 * H * mn A :=
-        Finset.sum_le_sum fun i _ => Finset.sum_le_sum fun j _ => h i j
-    _ = 8 * H * mn A := by simp [Finset.sum_const]; try ring
+  simpa only [← Matrix.transpose_mul, mn_transpose] using
+    mn_mul_le_left B.transpose A.transpose H (fun i k => hB k i)
 
 theorem norm_pInf_infGL_le (y : GL (Fin 2) (UpperTheory.V.TR.Rinf F)) (i k : Fin 2) :
     ‖UpperTheory.V.TR.pInf F (((UpperTheory.V.TR.infGL F 2 y : GA F 2) : Matrix (Fin 2) (Fin 2) (Ad F)) i k)‖ ≤

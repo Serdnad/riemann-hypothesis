@@ -1,5 +1,6 @@
 module
 
+import Formalism.FormalGroupWitt.FormalGroupWittProofs.IntegralSubstVector
 public import Formalism.TorsionNormIteration.InvIntegralOfClass
 public import Formalism.FormalGroupLog.FormalGroupLogProofs.ChainRule
 import Mathlib.Algebra.Order.Floor.Extended
@@ -105,12 +106,7 @@ variable {K : Type u} [NormedField K] [IsUltrametricDist K] {ι : Type v}
 
 theorem integral_mul {A B : MvPowerSeries ι K} (hA : IntegralMv A) (hB : IntegralMv B) :
     IntegralMv (A * B) := by
-  classical
-  intro d
-  rw [MvPowerSeries.coeff_mul]
-  refine IsUltrametricDist.norm_sum_le_of_forall_le_of_nonneg zero_le_one fun ab _ => ?_
-  rw [norm_mul]
-  exact mul_le_one₀ (hA _) (norm_nonneg _) (hB _)
+  apply _root_.Formalism.FG.IntegralSubstitution.integral_mul <;> assumption
 
 theorem integral_one : IntegralMv (1 : MvPowerSeries ι K) := by
   classical

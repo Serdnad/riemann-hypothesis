@@ -1,5 +1,7 @@
 module
 
+import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.LevelSplitting.FiniteAdelesSecondCountable
+import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.StabilizerOrbitVolume.TopoAF
 public import Formalism.SharpRestriction.GlobalSchurBounds.GeneralLinearActions.GenusMassVolumes
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.AdelicLocalCompactness.T2SpaceTensorProductFiniteExtension
 import Mathlib.Algebra.Order.Floor.Extended
@@ -135,11 +137,7 @@ instance countable_field : Countable F := Finsupp.Countable.of_moduleFinite (R :
 instance countable_ringOfIntegers : Countable (𝓞 F) := Finsupp.Countable.of_moduleFinite (R := ℤ)
 
 theorem countable_ideal : Countable (Ideal (𝓞 F)) := by
-  have hs : Function.Surjective (fun s : Finset (𝓞 F) => Ideal.span (s : Set (𝓞 F))) := by
-    intro I
-    obtain ⟨s, hs⟩ := (IsNoetherian.noetherian I : I.FG)
-    exact ⟨s, hs⟩
-  exact hs.countable
+  apply _root_.PI.VolStabSW.TopoAF.countable_ideal <;> assumption
 
 instance countable_spectrum : Countable (HeightOneSpectrum (𝓞 F)) := by
   have := countable_ideal F
@@ -165,28 +163,7 @@ theorem isOpen_integers (v : HeightOneSpectrum (𝓞 F)) :
   Valued.isOpen_integer _
 
 instance secondCountable_finiteAdeleRing : SecondCountableTopology (FiniteAdeleRing (𝓞 F) F) := by
-  let R := fun v : HeightOneSpectrum (𝓞 F) => v.adicCompletion F
-  let A := fun v : HeightOneSpectrum (𝓞 F) => (v.adicCompletionIntegers F : Set (v.adicCompletion F))
-  have hS : ∀ S : Finset (HeightOneSpectrum (𝓞 F)), cofinite ≤ 𝓟 ((S : Set (HeightOneSpectrum (𝓞 F)))ᶜ) := fun S => by
-    rw [le_principal_iff]; exact S.finite_toSet.compl_mem_cofinite
-  let U : Finset (HeightOneSpectrum (𝓞 F)) → Set (Πʳ v, [R v, A v]) := fun S =>
-    Set.range (RestrictedProduct.inclusion R A (hS S))
-  have hemb : ∀ S, IsOpenEmbedding (RestrictedProduct.inclusion R A (hS S)) := fun S =>
-    RestrictedProduct.isOpenEmbedding_inclusion_principal (isOpen_integers F) (hS S)
-  have hsc : ∀ S, SecondCountableTopology (U S) := fun S => by
-    have h1 : SecondCountableTopology (Πʳ v, [R v, A v]_[𝓟 ((S : Set (HeightOneSpectrum (𝓞 F)))ᶜ)]) :=
-      RestrictedProduct.isEmbedding_coe_of_principal.secondCountableTopology
-    exact (hemb S).toIsEmbedding.toHomeomorph.symm.isEmbedding.secondCountableTopology
-  have hcov : ⋃ S, U S = Set.univ := by
-    refine Set.eq_univ_of_forall fun x => ?_
-    have hx : {v | x v ∉ A v}.Finite := x.eventually
-    refine Set.mem_iUnion.2 ⟨hx.toFinset, ?_⟩
-    show x ∈ Set.range (RestrictedProduct.inclusion R A (hS hx.toFinset))
-    rw [RestrictedProduct.range_inclusion]
-    simp only [Set.mem_ofPred_eq, eventually_principal, Set.mem_compl_iff, Finset.mem_coe,
-      Set.Finite.mem_toFinset, not_not]
-    exact fun v hv => hv
-  exact @secondCountableTopology_of_countable_cover _ _ _ _ U hsc (fun S => (hemb S).isOpen_range) hcov
+  apply _root_.PI.LevelKSplit.W.SC.finite_adeles_secondCountable <;> assumption
 
 instance secondCountable_adeleRing : SecondCountableTopology (AdeleRing (𝓞 F) F) :=
   inferInstanceAs (SecondCountableTopology (InfiniteAdeleRing F × FiniteAdeleRing (𝓞 F) F))
@@ -200,14 +177,7 @@ variable {F} {E : Type} [Field E] [Algebra F E] [FiniteDimensional F E]
 theorem secondCountable_HA_of (R : Type) [CommRing R] [Algebra F R] [TopologicalSpace R]
     [IsTopologicalRing R] [SecondCountableTopology R] (σ : E →ₐ[F] E) {M : ℕ}
     (J : Matrix (Fin M) (Fin M) E) : SecondCountableTopology (HA R σ J) := by
-  haveI : SecondCountableTopology (R ⊗[F] E) := inferInstance
-  haveI hm : SecondCountableTopology (Matrix (Fin M) (Fin M) (R ⊗[F] E)) :=
-    inferInstanceAs (SecondCountableTopology (Fin M → Fin M → R ⊗[F] E))
-  haveI : SecondCountableTopology (Matrix (Fin M) (Fin M) (R ⊗[F] E))ᵐᵒᵖ :=
-    (MulOpposite.opHomeomorph (M := Matrix (Fin M) (Fin M) (R ⊗[F] E))).symm.secondCountableTopology
-  haveI : SecondCountableTopology (GL (Fin M) (R ⊗[F] E)) :=
-    Units.isEmbedding_embedProduct.isInducing.secondCountableTopology
-  exact (Topology.IsInducing.subtypeVal (t := (HR R σ J : Set (GL (Fin M) (R ⊗[F] E))))).secondCountableTopology
+  apply _root_.PI.VolStabSW.TopoAF.secondCountable_HA_of <;> assumption
 
 instance secondCountable_HA (σ : E →ₐ[F] E) {M : ℕ} (J : Matrix (Fin M) (Fin M) E) :
     SecondCountableTopology (HA (AF F) σ J) :=

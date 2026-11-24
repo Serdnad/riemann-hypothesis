@@ -1,5 +1,6 @@
 module
 
+import GroundTheory.LocalFields.ExistsUnitFiltrationUnitsLeRangeNormUnits
 public import GroundTheory.LocalFields.FiniteExtension
 public import GroundTheory.LocalFields.Integers
 public import GroundTheory.LocalFields.UnitsBasic
@@ -75,43 +76,11 @@ variable (K : Type*) [Field K] [ValuativeRel K] [TopologicalSpace K] [IsNonarchi
   {L : Type*} [Field L] [ValuativeRel L] [TopologicalSpace L] [IsNonarchimedeanLocalField L]
   [Algebra K L] [ValuativeExtension K L] [FiniteDimensional K L]
 
-private theorem ord_algebraMap_eq_ramificationIndex_mul (a : K) : ord (algebraMap K L a) = (_root_.Ideal.ramificationIdx (_root_.IsLocalRing.maximalIdeal (_root_.Valuation.integer (_root_.ValuativeRel.valuation L))) (_root_.Valuation.integer (_root_.ValuativeRel.valuation K))) * ord a := by
-  obtain ⟨ϖ, hϖ⟩ := IsDiscreteValuationRing.exists_irreducible 𝒪[K]
-  obtain ⟨ϖL, hϖL⟩ := IsDiscreteValuationRing.exists_irreducible 𝒪[L]
-  have hϖ0 : (ϖ : K) ≠ 0 := by exact_mod_cast hϖ.ne_zero
-
-  have hspan : Ideal.span {algebraMap 𝒪[K] 𝒪[L] ϖ} =
-      Ideal.span {ϖL ^ (_root_.Ideal.ramificationIdx (_root_.IsLocalRing.maximalIdeal (_root_.Valuation.integer (_root_.ValuativeRel.valuation L))) (_root_.Valuation.integer (_root_.ValuativeRel.valuation K)))} := by
-    rw [← Ideal.span_singleton_pow, ← hϖL.maximalIdeal_eq, ← map_maximalIdeal K L,
-      hϖ.maximalIdeal_eq, Ideal.map_span, Set.image_singleton]
-  obtain ⟨u, hu⟩ := Ideal.span_singleton_eq_span_singleton.mp hspan
-  have hu' : algebraMap K L ϖ * ((u : 𝒪[L]) : L) = (ϖL : L) ^ (_root_.Ideal.ramificationIdx (_root_.IsLocalRing.maximalIdeal (_root_.Valuation.integer (_root_.ValuativeRel.valuation L))) (_root_.Valuation.integer (_root_.ValuativeRel.valuation K))) := by
-    have := congrArg (fun z : 𝒪[L] ↦ (z : L)) hu
-    simpa using this
-  have hιϖ : algebraMap K L ϖ ≠ 0 := (_root_.map_ne_zero _).mpr hϖ0
-  have hu0 : ((u : 𝒪[L]) : L) ≠ 0 := by
-    have : (u : 𝒪[L]) ≠ 0 := u.ne_zero
-    exact_mod_cast this
-  have hkey : ord (algebraMap K L ϖ) = (_root_.Ideal.ramificationIdx (_root_.IsLocalRing.maximalIdeal (_root_.Valuation.integer (_root_.ValuativeRel.valuation L))) (_root_.Valuation.integer (_root_.ValuativeRel.valuation K))) := by
-    have h := congrArg ord hu'
-    rw [ord_mul hιϖ hu0, ord_unit, add_zero, ord_pow_alt, ord_uniformizer hϖL, mul_one] at h
-    exact h
-
-  rcases eq_or_ne a 0 with rfl | ha
-  · simp [ord_zero_alt]
-  have hk : (ϖ : K) ^ ord a ≠ 0 := zpow_ne_zero _ hϖ0
-  have hv : valuation K a = valuation K ((ϖ : K) ^ ord a) := by
-    rw [← ord_eq_ord_iff ha hk, ord_zpow_alt, ord_uniformizer hϖ, mul_one]
-  have hvL : valuation L (algebraMap K L a) = valuation L (algebraMap K L ((ϖ : K) ^ ord a)) :=
-    (valuation_algebraMap_eq_iff a _).mpr hv
-  rw [← ord_eq_ord_iff ((_root_.map_ne_zero _).mpr ha) ((_root_.map_ne_zero _).mpr hk)] at hvL
-  rw [hvL, map_zpow₀, ord_zpow_alt, hkey, mul_comm]
-
 theorem valuation_pow_ramificationIndex_eq {y : L} {a : K} (hy : y ≠ 0) (ha : a ≠ 0)
     (h : ord a = ord y) :
     valuation L y ^ (_root_.Ideal.ramificationIdx (_root_.IsLocalRing.maximalIdeal (_root_.Valuation.integer (_root_.ValuativeRel.valuation L))) (_root_.Valuation.integer (_root_.ValuativeRel.valuation K))) = valuation L (algebraMap K L a) := by
   rw [← map_pow, ← ord_eq_ord_iff (pow_ne_zero _ hy) ((_root_.map_ne_zero _).mpr ha), ord_pow_alt,
-    ord_algebraMap_eq_ramificationIndex_mul, h]
+    _root_.GroundTheory.LocalField.ord_algebraMap, h]
 
 end Extension
 

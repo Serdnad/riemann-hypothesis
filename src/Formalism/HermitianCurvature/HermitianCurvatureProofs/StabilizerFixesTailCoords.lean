@@ -1,5 +1,7 @@
 module
 
+
+import Formalism.HermitianCurvature.HermitianCurvatureProofs.WeylCellConjTransposeMulApply
 public import Formalism.FormalDegreeBessel.StatementBF
 public import Mathlib.Analysis.Normed.Lp.MeasurableSpace
 public import Mathlib.Analysis.Calculus.Deriv.Basic
@@ -59,7 +61,6 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Tactic.Basify
 import Mathlib.Tactic.ENatToNat
-
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Formalism.PeriodIntegrals.HaarDefs, Formalism.HermitianCurvature.HermitianCurvatureProofs.StabilizerFixesTailCoords
 
@@ -144,28 +145,7 @@ theorem mvL_apply (v : Fin (2 * r + k + 1) → ℂ) (M : PI.WUN.Mx k r) : mvL v 
 
 theorem exp_fix (A : PI.WUN.Mx k r) (v : Fin (2 * r + k + 1) → ℂ) (hv : A *ᵥ v = 0) (t : ℝ) :
     NormedSpace.exp ((t : ℂ) • A) *ᵥ v = v := by
-  have hz : ∀ n : ℕ, ((t : ℂ) • A) ^ (n + 1) *ᵥ v = 0 := by
-    intro n
-    have hv' : ((t : ℂ) • A) *ᵥ v = 0 := by
-      funext i
-      have := congrFun hv i
-      simp only [Matrix.mulVec, dotProduct, Matrix.smul_apply, smul_eq_mul, Pi.zero_apply] at this ⊢
-      simp only [mul_assoc, ← Finset.mul_sum, this, mul_zero]
-    rw [pow_succ, ← Matrix.mulVec_mulVec, hv', Matrix.mulVec_zero]
-  have h1 : HasSum (fun n : ℕ => mvL v (((n.factorial : ℂ)⁻¹) • ((t : ℂ) • A) ^ n))
-      (mvL v (NormedSpace.exp ((t : ℂ) • A))) := by
-    open scoped Matrix.Norms.Operator in
-    exact (mvL v).hasSum (NormedSpace.exp_series_hasSum_exp' (𝕂 := ℂ) ((t : ℂ) • A))
-  have h2 : HasSum (fun n : ℕ => mvL v (((n.factorial : ℂ)⁻¹) • ((t : ℂ) • A) ^ n))
-      (mvL v (((Nat.factorial 0 : ℂ)⁻¹) • ((t : ℂ) • A) ^ 0)) := by
-    apply hasSum_single 0
-    intro n hn
-    obtain ⟨m, rfl⟩ := Nat.exists_eq_succ_of_ne_zero hn
-    rw [map_smul, mvL_apply, hz m, smul_zero]
-  have := h1.unique h2
-  rw [mvL_apply, mvL_apply] at this
-  rw [this]
-  simp
+  apply _root_.Formalism.FourierDecayAlt.P.Qx3.exp_fix <;> assumption
 
 theorem hcol {z : Fin (2 * r + k + 1) → ℂ} {h : PI.WUN.Mx k r} (hh : h ∈ Formalism.QuantumDeterminants.UWset k r z)
     (i l : Fin (2 * r + k + 1)) (hl : l.val < r) : h i l = if i = l then 1 else 0 := by

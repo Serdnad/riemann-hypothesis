@@ -1,5 +1,6 @@
 module
 
+import Formalism.LocalToGlobal.SiegelLatticeTheory.CokernelGLCounts.RankPointCounts.LeadingMinorIntegrality
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.CountingFormula.UnimodOneGenus
 public import Formalism.LocalToGlobal.SiegelLatticeTheory.ClosedLocalOrbits.GaugeLatticeShifts.TypedLoc
 import Mathlib.Algebra.AffineMonoid.Basic
@@ -133,21 +134,7 @@ theorem ddI_ne_bot : ddI D ≠ ⊥ := by
 theorem mem_inv_coe {J : Ideal (𝓞 D.host.E)} (hJ : J ≠ ⊥) (x : D.host.E) :
     x ∈ ((J : FractionalIdeal (nonZeroDivisors (𝓞 D.host.E)) D.host.E))⁻¹ ↔
       ∀ y ∈ J, ∃ o : 𝓞 D.host.E, (o : D.host.E) = x * (y : D.host.E) := by
-  have hJ' : (J : FractionalIdeal (nonZeroDivisors (𝓞 D.host.E)) D.host.E) ≠ 0 := by
-    rwa [ne_eq, FractionalIdeal.coeIdeal_eq_zero]
-  rw [FractionalIdeal.mem_inv_iff hJ']
-  constructor
-  · intro h y hy
-    have h2 := h _ (by rw [FractionalIdeal.mem_coeIdeal]; exact ⟨y, hy, rfl⟩)
-    rw [FractionalIdeal.mem_one_iff] at h2
-    obtain ⟨o, ho⟩ := h2
-    exact ⟨o, ho⟩
-  · intro h y hy
-    rw [FractionalIdeal.mem_coeIdeal] at hy
-    obtain ⟨y', hy', rfl⟩ := hy
-    obtain ⟨o, ho⟩ := h y' hy'
-    rw [FractionalIdeal.mem_one_iff]
-    exact ⟨o, ho⟩
+  apply +allowSynthFailures _root_.Formalism.L2.SG.NGCut.LeadingMinorIntegrality.mem_inv_coe <;> assumption
 
 theorem localization_eq_localization_span (P : Ideal (𝓞 D.host.E)) [P.IsPrime] (c : Fin D.R.rS → D.host.E)
     (h1 : ∀ a, ∀ x ∈ aaI D a, ∃ s : 𝓞 D.host.E, s ∉ P ∧ ∃ o : 𝓞 D.host.E, (s : D.host.E) * x = c a * o)

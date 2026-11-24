@@ -1,5 +1,7 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ContinuousAlgebraMapPadicInt
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.TeichmullerRoots
 public import Formalism.LocalRingCardinality.RhoDetPrimeEqMuTildeMulChiPow
 public import Formalism.SharpRestriction.LevelLetterCocycles.QuotientHomNonvanishingBound
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.SubMemMaximalIdealIff
@@ -147,36 +149,8 @@ variable {E Ω : Type} [Field E] [NumberField E] [Field Ω] [Algebra E Ω] {A : 
 
 theorem valuation_apply_of_mem_Dec [IsAlgClosure E Ω] {σ : G E Ω} (hσ : σ ∈ Dec (F := E) A) (y : Ω) :
     A.valuation (σ y) = A.valuation y := by
-  rcases eq_or_ne y 0 with rfl | hy
-  · simp
-  have key : ∀ τ : G E Ω, τ ∈ Dec (F := E) A → ∀ z : Ω, z ≠ 0 → ¬ A.valuation (τ z) < A.valuation z := by
-    intro τ hτ z hz hlt
-    have hz0 : ∀ i : ℕ, (τ ^ i) z ≠ 0 := fun i => (map_ne_zero (τ ^ i)).2 hz
-    have hv0 : ∀ x : Ω, x ≠ 0 → 0 < A.valuation x := fun x hx => zero_lt_iff.mpr (by simpa using hx)
-    have h1 : A.valuation (τ z / z) < 1 := by rwa [map_div₀, div_lt_one₀ (hv0 z hz)]
-    have hs : StrictAnti fun i : ℕ => A.valuation ((τ ^ i) z) := by
-      refine strictAnti_nat_of_succ_lt fun i => ?_
-      have h2 := (valuation_apply_lt_one_iff ((Dec (F := E) A).pow_mem hτ i) _).2 h1
-      rw [map_div₀, map_div₀, div_lt_one₀ (hv0 _ (hz0 i))] at h2
-      rwa [pow_succ, AlgEquiv.mul_apply]
-    have hint : IsIntegral E z := Algebra.IsIntegral.isIntegral z
-    have hfin : Set.Finite (Set.range fun i : ℕ => (τ ^ i) z) := by
-      refine ((minpoly E z).rootSet_finite Ω).subset ?_
-      rintro _ ⟨i, rfl⟩
-      rw [mem_rootSet]
-      refine ⟨minpoly.ne_zero hint, ?_⟩
-      rw [Polynomial.aeval_algHom_apply, minpoly.aeval, map_zero]
-    refine Set.infinite_range_of_injective (f := fun i : ℕ => (τ ^ i) z) (fun i j hij => hs.injective ?_) hfin
-    simp only at hij ⊢
-    rw [hij]
-  rcases lt_trichotomy (A.valuation (σ y)) (A.valuation y) with h | h | h
-  · exact absurd h (key σ hσ y hy)
-  · exact h
-  · refine absurd ?_ (key σ⁻¹ ((Dec (F := E) A).inv_mem hσ) (σ y) ((map_ne_zero σ).2 hy))
-    have : (σ⁻¹ : G E Ω) (σ y) = y := by
-      show (σ⁻¹ * σ) y = y
-      simp
-    rwa [this]
+  intros
+  apply _root_.GlobalTheory.PrimeToInertia.valuation_apply_eq <;> assumption
 
 theorem cong_mul {a b c d : Ω} (hab : A.valuation (a - b) < 1) (hcd : A.valuation (c - d) < 1)
     (hb : A.valuation b ≤ 1) (hc : A.valuation c ≤ 1) : A.valuation (a * c - b * d) < 1 := by
@@ -296,15 +270,7 @@ theorem teich_zero (t : Formalism.CyclotomicNorms.Fbar g →* ℂ) (ht : ∀ x y
 
 theorem teich_injective (t : Formalism.CyclotomicNorms.Fbar g →* ℂ) (ht : ∀ x y, x ≠ 0 → y ≠ 0 → t x = t y → x = y) :
     Function.Injective t := by
-  have h0 := teich_zero t ht
-  have hne : ∀ x, x ≠ 0 → t x ≠ 0 := fun x hx => ((IsUnit.mk0 x hx).map t).ne_zero
-  intro x y h
-  by_cases hx : x = 0
-  · by_contra hxy
-    exact hne y (fun hy => hxy (hx.trans hy.symm)) (by rw [← h, hx, h0])
-  · by_cases hy : y = 0
-    · exact absurd (by rw [h, hy, h0]) (hne x hx)
-    · exact ht x y hx hy h
+  apply _root_.GlobalTheory.Compare.TeichmullerRoots.teich_injective <;> assumption
 
 end Roots
 

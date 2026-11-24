@@ -1,5 +1,6 @@
 module
 
+import Formalism.SharpRestriction.Divisibility.GeneratorPowers.GermFunPf
 public import Development.AbelianVarietyTheory.Definitions.Jets.JetsOnCopiesCompatibleFrames
 public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.GlobalBasisAlgebra
 public import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.CoeffSingleLawAdd
@@ -128,19 +129,8 @@ theorem tanV_comp_jetMap {κ' : Type} [Fintype κ'] [DecidableEq κ'] (φ : κ �
 
 theorem coeff_psTrunc' {ιt : Type} [Fintype ιt] [DecidableEq ιt] (m : ℕ) (f : MvPowerSeries ιt S) (e : ιt →₀ ℕ)
     (he : e.degree ≤ m) : AddMonoidAlgebra.coeff (psTrunc m f) e = MvPowerSeries.coeff e f := by
-  have hmem : e ∈ degLE m := by
-    rw [degLE, Finset.mem_filter, Finset.mem_image]
-    refine ⟨⟨fun i => ⟨e i, Nat.lt_succ_of_le ((Finsupp.le_degree i e).trans he)⟩, Finset.mem_univ _, ?_⟩, ?_⟩
-    · ext i
-      simp
-    · rw [Finsupp.degree_apply] at he
-      exact he
-  rw [psTrunc, MvPolynomial.coeff_sum, Finset.sum_eq_single e]
-  · simp [MvPolynomial.coeff_monomial]
-  · intro b _ hb
-    rw [MvPolynomial.coeff_monomial, if_neg hb]
-  · intro h
-    exact absurd hmem h
+  intros
+  apply _root_.Formalism.MainNotions.ModuliIntegralCharts.H1.GermFun.coeff_psTrunc <;> assumption
 
 end Jet
 

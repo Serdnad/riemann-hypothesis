@@ -46,6 +46,7 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
+import Development.AbelianVarietyTheory.Proofs.FlagMeasures.SqIntIrrPerm
 
 @[expose] public section
 
@@ -195,19 +196,7 @@ theorem ktype_perm (s : Equiv.Perm (Fin n)) (hε : ∀ a, ε' a = ε (s a))
 
 theorem rhoC_perm (s : Equiv.Perm (Fin n)) (hs : ∀ a b, a < b → ε (s a) = ε (s b) → s a < s b) :
     rhoC (ε ∘ s) = rhoC ε ∘ s := by
-  funext a
-  have h1 : (univ.filter fun b => a < b ∧ (ε ∘ s) b = (ε ∘ s) a).card =
-      (univ.filter fun b => s a < b ∧ ε b = ε (s a)).card := by
-    refine Finset.card_equiv s fun b => ?_
-    simp only [Finset.mem_filter, Finset.mem_univ, true_and, Function.comp_apply]
-    exact ⟨fun h => ⟨hs _ _ h.1 h.2.symm, h.2⟩, fun h => ⟨lt_of_perm_lt hs h.1 h.2.symm, h.2⟩⟩
-  have h2 : (univ.filter fun b => b < a ∧ (ε ∘ s) b = (ε ∘ s) a).card =
-      (univ.filter fun b => b < s a ∧ ε b = ε (s a)).card := by
-    refine Finset.card_equiv s fun b => ?_
-    simp only [Finset.mem_filter, Finset.mem_univ, true_and, Function.comp_apply]
-    exact ⟨fun h => ⟨hs _ _ h.1 h.2, h.2⟩, fun h => ⟨lt_of_perm_lt hs h.1 h.2, h.2⟩⟩
-  simp only [rhoC, Function.comp_apply] at h1 h2 ⊢
-  rw [h1, h2]
+  apply _root_.GlobalTheory.DSId.PermK.rhoC_perm <;> assumption
 
 theorem lowK_add (ε : Fin n → Bool) (lam : Fin n → ℝ) : lowK ε lam + (2 : ℝ) • rhoC ε = lam + Formalism.QuantumDeterminants.rhoStd n := by
   funext a

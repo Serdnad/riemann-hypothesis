@@ -1,5 +1,6 @@
 module
 
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.HermitianMeasureEulerProduct
 public import Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange.ArchimedeanBaseChangeProof.SatakeExponents.UniformizerValuations.SetupEig
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsBallSubset
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsSatakeParameterDefiniteUnitaryInertPlace
@@ -48,6 +49,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Std.Tactic.BVDecide.Normalize.Prop
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.RelIndexNeZeroOfSubsetCpt
 
 @[expose] public section
 
@@ -110,53 +112,11 @@ theorem exists_equiv (n : ℕ) (w : Pl E) :
     exact ⟨e, fun x => by rw [he, he0]⟩
 
 theorem isClosed_UL (n : ℕ) (w : Pl E) : IsClosed (UL n w : Set (GLw n w)) := by
-  by_cases hw : IsSplitAt w
-  · have : (UL n w : Set (GLw n w)) = Set.univ := by ext g; simp [GlobalTheory.BCT.UL, hw]
-    rw [this]; exact isClosed_univ
-  · have hc : Continuous (cj w) := (GlobalTheory.ConjAtPlace.cj_spec w (exists_conj_ext w hw)).1
-    have : (UL n w : Set (GLw n w)) = {g : GL (Fin n) (w.adicCompletion E) |
-        Formalism.UG.cT (cj w) (g : Matrix (Fin n) (Fin n) (w.adicCompletion E)) * 1 *
-          (g : Matrix (Fin n) (Fin n) (w.adicCompletion E)) = 1} := by
-      ext g; simp [GlobalTheory.BCT.UL, hw, Formalism.UG.UJ]
-    rw [this]
-    have hv : Continuous (fun g : GL (Fin n) (w.adicCompletion E) => (g : Matrix (Fin n) (Fin n) (w.adicCompletion E))) :=
-      Units.continuous_val
-    apply isClosed_eq _ continuous_const
-    unfold Formalism.UG.cT
-    exact ((hv.matrix_map hc).matrix_transpose.matrix_mul continuous_const).matrix_mul hv
+  apply _root_.GlobalTheory.LocFinU.isClosed_UL <;> assumption
 
 private theorem isCompact_adicCompletionIntegers' (w : Pl E) :
     IsCompact (w.adicCompletionIntegers E : Set (w.adicCompletion E)) := by
-  obtain ⟨C, hCc, hC⟩ := exists_compact_mem_nhds (0 : w.adicCompletion E)
-  obtain ⟨γ, hγ⟩ := Valued.mem_nhds_zero.1 hC
-  have hB := (Valued.mem_nhds_zero (R := w.adicCompletion E)).2 ⟨γ, subset_refl _⟩
-  obtain ⟨π, hπ⟩ := IsDedekindDomain.HeightOneSpectrum.valuation_exists_uniformizer (K := E) w
-  have hv0 : Valued.v (π : w.adicCompletion E) = WithZero.exp (-1 : ℤ) := by
-    rw [← hπ]
-    exact IsDedekindDomain.HeightOneSpectrum.valuedAdicCompletion_eq_valuation' w π
-  have hlt : Valued.v (π : w.adicCompletion E) < 1 := by
-    rw [hv0]
-    have h : WithZero.exp (-1 : ℤ) < WithZero.exp 0 := WithZero.exp_lt_exp.2 (by norm_num)
-    simpa using h
-  have hne : (π : w.adicCompletion E) ≠ 0 := by
-    intro h
-    rw [h, map_zero] at hv0
-    exact WithZero.exp_ne_zero hv0.symm
-  obtain ⟨N, hN⟩ := ((GlobalTheory.ConjAtPlace.tendsto_pow_of_lt_one _ hlt).eventually hB).exists
-  have hcne : (π : w.adicCompletion E) ^ N ≠ 0 := pow_ne_zero _ hne
-  have hsub : (w.adicCompletionIntegers E : Set (w.adicCompletion E)) ⊆
-      (fun y => ((π : w.adicCompletion E) ^ N)⁻¹ * y) '' C := by
-    intro x hx
-    have hx1 : Valued.v x ≤ 1 := hx
-    refine ⟨(π : w.adicCompletion E) ^ N * x, hγ ?_, ?_⟩
-    · rw [Set.mem_ofPred_eq, map_mul]
-      refine lt_of_le_of_lt (mul_le_of_le_one_right' ?_) hN
-      exact (Valuation.restrict_le_one_iff _).2 hx1
-    · simp only
-      rw [← mul_assoc, inv_mul_cancel₀ hcne, one_mul]
-  have hcl : IsClosed (w.adicCompletionIntegers E : Set (w.adicCompletion E)) :=
-    Valued.isClosed_integer (w.adicCompletion E)
-  exact (hCc.image (continuous_const.mul continuous_id)).of_isClosed_subset hcl hsub
+  apply _root_.GlobalTheory.CompanionTheory.Hypotheses₂.OneV.Coef.TestC.isCompact_integers <;> assumption
 
 private theorem isCompact_KGL' (w : Pl E) : IsCompact (GlobalTheory.LFun.KGL w (n := n) : Set (GLw n w)) := by
   have hO := isCompact_adicCompletionIntegers' w

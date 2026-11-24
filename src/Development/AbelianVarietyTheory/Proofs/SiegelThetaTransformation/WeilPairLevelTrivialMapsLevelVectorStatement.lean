@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.ThetaKernelOrthonormalFrameInDomainPeriodLinear
 public import Development.AbelianVarietyTheory.Definitions.SpanningFamilies.IsWeakOfDatum
 public import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.DoubledHermitianTestFunctionZeroAndNorm
 public import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.InnerProductTranslatedVacuaEqGaussianKernelStatement
@@ -87,29 +88,7 @@ namespace GlobalTheory.KerVacIp
 variable {D : D7} {S T : HSp D} (C : Ctx S T)
 
 theorem isONFr_xB (B : C.Bas) (hB : C.IsB B) : IsONFr C.X (C.xB B) := by
-  unfold IsONFr
-  intro τ
-  have h1 : ∀ x y : T.V, star (T.hT x y) = T.hT y x := by
-    intro x y
-    exact T.herm.eq x y
-  have h2 : ∀ x : D.host.E, tauE D (C.m.e.symm τ) (star x) = (starRingEnd ℂ) (tauE D (C.m.e.symm τ) x) := by
-    intro x
-    unfold tauE
-    dsimp only [star, Formalism.BasicNotions.Host.cmStar]
-    exact IsCMField.complexEmbedding_complexConj D.host.E (D.host.emb ↑(D.eTau (C.m.e.symm τ))) x
-  have key : ∀ i j, (τ : D.host.E →+* ℂ) (C.X.Gm i j) = tauE D (C.m.e.symm τ) (HSpace.gram T i j) := by
-    intro i j
-    have he := C.m.e_emb (C.m.e.symm τ)
-    rw [Equiv.apply_symm_apply] at he
-    rw [he, C.m.gT, Matrix.transpose_apply, NumberField.ComplexEmbedding.conjugate_coe_eq, ← h2]
-    unfold HSpace.gram
-    rw [h1]
-  rw [← hB (C.m.e.symm τ)]
-  ext a b
-  unfold FD.gram mat Ctx.xB hermC FD.col gramAt
-  simp only [Matrix.of_apply, Matrix.mul_apply, Matrix.conjTranspose_apply, Matrix.map_apply,
-    Complex.star_def, Complex.conj_conj, Finset.sum_mul, key]
-  rw [Finset.sum_comm]
+  first | exact _root_.GlobalTheory.Ker.ONBasis.isONFr_xB | exact @_root_.GlobalTheory.Ker.ONBasis.isONFr_xB | apply _root_.GlobalTheory.Ker.ONBasis.isONFr_xB <;> assumption
 
 theorem rho_zero_pt (f : WO S T → ℂ) : C.rho 0 f = f := by
   unfold Ctx.rho heisO

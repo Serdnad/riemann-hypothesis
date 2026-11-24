@@ -1,5 +1,6 @@
 module
 
+import Formalism.LocalToGlobal.SiegelLatticeTheory.ClosedLocalOrbits.GaugeLatticeShifts.NormStepsColLatRepS
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.ValuationLocalVolumes.LocalGramMatrixFrame
 import Formalism.LocalRingCardinality.SpanPowerMembership.ExampleLayerExistsGenerators
 import Formalism.LocalRingCardinality.SpanPowerMembership.LocAtA
@@ -99,11 +100,7 @@ theorem alp_last {F : Type} [Field F] [NumberField F] (v : HeightOneSpectrum (�
 variable {D : D7} (X : HidaSetting D) (u' : D.what₂.Word)
 
 theorem host_star_conj : Formalism.BasicNotions.bridge_star := by
-  intro R H x
-  have := H.isCMField_hostE
-  apply H.φ₀.injective
-  change H.φ₀ (NumberField.IsCMField.complexConj H.E x) = H.φ₀ (H.conj x)
-  rw [NumberField.IsCMField.complexEmbedding_complexConj, Formalism.HC.HostAx.conjE_apply]
+  apply _root_.Formalism.L2.SG.Pf.NormSteps.ColLatRepSPf.basicNotions_bridge_star <;> assumption
 
 theorem sig_apply (a : X.B.I.E) : X.B.I.cm.sig a = star a := rfl
 

@@ -66,6 +66,7 @@ import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ThetaLatticeImag
 import Development.AbelianVarietyTheory.Proofs.HeightProofs.ExistsIsArchimedeanAdeleChartOfRealChart
 import Mathlib.Tactic.Linter.Style
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.PullbackSections.HolomorphicFamilies.ModelDataX
+import Development.AbelianVarietyTheory.Proofs.FlagMeasures.ImportsLast
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsCommonDenominator, Development.AbelianVarietyTheory.Proofs.TwistedOperators.SelfDualLatticeResolutionOfIdentity, Development.AbelianVarietyTheory.Proofs.TwistedOperators.SelfDualLatticeResolutionOfIdentityStatement, Development.AbelianVarietyTheory.Proofs.TwistedOperators.UnitVacuumEntireFactorIsThetaMovedLattices
@@ -83,43 +84,7 @@ theorem exists_common_denominator {E : Type} [inst : Field E] [NumberField E] [S
     (L : Submodule (NumberField.RingOfIntegers E) (Fin N → E)) (hL : Submodule.FG L) :
     ∃ (b : NumberField.RingOfIntegers E), b ≠ (0 : NumberField.RingOfIntegers E) ∧
       ∀ x ∈ L, ∀ (i : Fin N), ∃ (u : NumberField.RingOfIntegers E), (↑u : E) = (↑b : E) * x i := by
-  obtain ⟨s, rfl⟩ := hL
-  choose z hz using fun p : (Fin N → E) × Fin N =>
-    IsLocalization.surj (nonZeroDivisors (NumberField.RingOfIntegers E)) (p.1 p.2)
-  let b : NumberField.RingOfIntegers E :=
-    ∏ p ∈ s ×ˢ (Finset.univ : Finset (Fin N)), ((z p).2 : NumberField.RingOfIntegers E)
-  refine ⟨b, Finset.prod_ne_zero_iff.mpr fun p _ => nonZeroDivisors.ne_zero (z p).2.2, ?_⟩
-  intro x hx
-  induction hx using Submodule.span_induction with
-  | mem g hg =>
-    intro i
-    obtain ⟨e, he⟩ := Finset.dvd_prod_of_mem (fun p => ((z p).2 : NumberField.RingOfIntegers E))
-      (show (g, i) ∈ s ×ˢ (Finset.univ : Finset (Fin N)) from
-        Finset.mem_product.mpr ⟨hg, Finset.mem_univ i⟩)
-    refine ⟨e * (z (g, i)).1, ?_⟩
-    have h := hz (g, i)
-    simp only [← NumberField.RingOfIntegers.coe_eq_algebraMap] at h
-    rw [show b = ((z (g, i)).2 : NumberField.RingOfIntegers E) * e from he]
-    push_cast
-    linear_combination (-(e : E)) * h
-  | zero =>
-    intro i
-    exact ⟨0, by simp⟩
-  | add x y _ _ hx hy =>
-    intro i
-    obtain ⟨c1, h1⟩ := hx i
-    obtain ⟨c2, h2⟩ := hy i
-    refine ⟨c1 + c2, ?_⟩
-    rw [Pi.add_apply, mul_add, ← h1, ← h2]
-    push_cast
-    ring
-  | smul t x _ hx =>
-    intro i
-    obtain ⟨c1, h1⟩ := hx i
-    refine ⟨t * c1, ?_⟩
-    rw [Pi.smul_apply, Algebra.smul_def, ← NumberField.RingOfIntegers.coe_eq_algebraMap]
-    push_cast
-    linear_combination (t : E) * h1
+  apply _root_.GlobalTheory.SmallIntegerVanishing.exists_denominator <;> assumption
 
 end GlobalTheory.CommonDenominatorLemma
 end -- clump:auto
@@ -377,138 +342,16 @@ theorem mem_La_frame_sd {D : D7} (S T : HSp D) (frS : GL (Fin S.rank) D.host.E) 
 section
 open GlobalTheory.ThetaSignLat
 
-theorem sign_eq_alpha_sd : ∀ {D : D7} (ψ : AddChar (AF D.host.F) ℂ) (S T : HSp D) (frS : GL (Fin S.rank) D.host.E) (frT : GL (Fin T.rank) D.host.E), Formalism.UG.cT (D.sp.cm.sig : D.host.E →+* D.host.E) frS.1 * S.gram * frS.1 = 1 → Formalism.UG.cT (D.sp.cm.sig : D.host.E →+* D.host.E) frT.1 * T.gram * frT.1 = 1 → IsStdChar D ψ (-1) → ∀ (ΛS : Submodule (𝓞 D.host.E) (Fin S.rank → D.host.E)) (ΛT : Submodule (𝓞 D.host.E) (Fin T.rank → D.host.E)), IsSelfDualC S ΛS → IsSelfDualC T ΛT → ∀ δ : ℂ, δ ≠ 0 → ∀ v : Matrix (Fin T.rank) (Fin S.rank) D.host.E, GlobalTheory.VacUnique.finRat S T v ∈ latO S T (ΛS : Set (Fin S.rank → D.host.E)) (ΛT : Set (Fin T.rank → D.host.E)) (fun _ => True) → ∀ ε : ℂ, (∀ g : WO S T → ℂ, IsLatVac (heisO ψ S T) (latO S T (ΛS : Set (Fin S.rank → D.host.E)) (ΛT : Set (Fin T.rank → D.host.E)) (fun _ => True)) g → heisO ψ S T (GlobalTheory.VacUnique.finRat S T (-v)) g = ε • g) → ψ (-symplOH S T (ratW T S v) (GlobalTheory.VacUnique.finRat S T (-v))) * ε = Formalism.MainNotions.TaylorLogMetric.al D (Formalism.MainNotions.TaylorLogMetric.tor0 D D.host.ccK δ) (δ • (fun τ a b => ((GlobalTheory.FockPos.frAt frT τ)⁻¹ * Matrix.of (GlobalTheory.VacUnique.infRat S T v τ) * GlobalTheory.FockPos.frAt frS τ) a b)) := by
-  intro D ψ S T frS frT hS hT hψ ΛS ΛT hSd hTd δ hδ v hv ε hε
-  set L := latO S T (ΛS : Set (Fin S.rank → D.host.E)) (ΛT : Set (Fin T.rank → D.host.E))
-    (fun _ => True) with hL
-  set u : WO S T := GlobalTheory.VacUnique.finRat S T (-v) with hu
-  have huL : u ∈ L := by
-    rw [hu, map_neg]; exact L.neg_mem hv
-
-  have hsq := D.host.sqd_sq
-  let b : 𝓞 D.host.E := ⟨(1 + D.host.sqrtMinusD) / 2,
-    GlobalTheory.NormSum.isIntegral_half_one_add D.host.d D.host.hyp.2.2.2.1 _ hsq⟩
-  have hbv : (b : D.host.E) = (1 + D.host.sqrtMinusD) / 2 := rfl
-  have h2s : star (2 : D.host.E) = 2 := by
-    have := star_natCast (R := D.host.E) 2
-    exact_mod_cast this
-  have hbs : star (b : D.host.E) = 1 - (b : D.host.E) := by
-    rw [hbv, star_div₀, star_add, star_one, h2s, GlobalTheory.FockCompare.RealChart.star_sqrtMinusD]
-    ring
-  have hb : (b : D.host.E) + star (b : D.host.E) = 1 := by rw [hbs]; ring
-  obtain ⟨χ, hχ, hval⟩ := GlobalTheory.ThetaSignLat.semichar_value ψ S T ΛS ΛT hψ hSd hTd b hb
-  obtain ⟨f1, -, f3, -⟩ := GlobalTheory.T.homSymplecticHalfForm_algebraic_laws_continuous D S T
-  have hz : ∀ w : WO S T, symplOH S T 0 w = 0 := fun w => by
-    have := f1 0 0 w
-    rw [add_zero] at this
-    exact left_eq_add.1 this
-  have e1 : ∀ g : WO S T → ℂ, heisO ψ S T u g 0 = g u := fun g => by
-    show ψ (symplOH S T 0 u) * g (0 + u) = g u
-    rw [hz, AddChar.map_zero_eq_one, one_mul, zero_add]
-  have e0 : χ 0 = 1 := by
-    rw [hval 0 (zero_mem _)]
-    have : ((0 : WO S T).map fun z => incA D (b : D.host.E) * z) = 0 := by
-      funext i j; exact mul_zero _
-    rw [this, f3, AddChar.map_zero_eq_one]
-  have hεu : ε = χ u := by
-    have := congrFun (hε χ hχ) 0
-    rw [e1] at this
-    rw [this, Pi.smul_apply, e0, smul_eq_mul, mul_one]
-  have hpm : ε = 1 ∨ ε = -1 := by
-    obtain ⟨ε', h1, h2⟩ := (GlobalTheory.T.self_dual_lattice_pairing_dual D ψ S T ΛS ΛT hψ hSd hTd).2.2 χ hχ u huL
-    have := congrFun (h2 χ hχ) 0
-    rw [e1, Pi.smul_apply, e0, smul_eq_mul, mul_one] at this
-    rw [hεu, this]; exact h1
-
-  set Y : Matrix (Fin T.rank) (Fin S.rank) D.host.E := (frT⁻¹ : GL (Fin T.rank) D.host.E).1 * v * frS.1 with hY
-  set n : D.host.E := ∑ a, ∑ b, star (Y a b) * Y a b with hn
-  have hns : star n = n := by
-    rw [hn, star_sum]
-    refine Finset.sum_congr rfl fun a _ => ?_
-    rw [star_sum]
-    refine Finset.sum_congr rfl fun c _ => ?_
-    rw [star_mul', star_star, mul_comm]
-  have hmap : (u.map fun z => incA D (b : D.host.E) * z) =
-      GlobalTheory.LatVac.finTens 1 (Matrix.of fun i j => (b : D.host.E) * (-v) i j) := by
-    funext i j
-    show ((1 : AF D.host.F) ⊗ₜ[D.host.F] (b : D.host.E)) * (pairA D.host.F 0 1 ⊗ₜ[D.host.F] ((-v) i j)) =
-      pairA D.host.F 0 1 ⊗ₜ[D.host.F] ((b : D.host.E) * (-v) i j)
-    rw [Algebra.TensorProduct.tmul_mul_tmul, one_mul]
-  have hu' : u = GlobalTheory.LatVac.finTens 1 (-v) := rfl
-  have hs : symplOH S T (u.map fun z => incA D (b : D.host.E) * z) u = pairA D.host.F 0
-      (algebraMap D.host.F (Af D.host.F) (1 / 2 * Algebra.trace D.host.F D.host.E (D.host.xi0 * ((b : D.host.E) * n)))) := by
-    rw [hmap, hu', symplOH, GlobalTheory.LatVac.symplO_finTens, hRat_smul_left, hRat_neg_neg,
-      _root_.GlobalTheory.HRatFrame.hRat_frame S T frS frT hS hT v]
-    refine Prod.ext (mul_zero _) ?_
-    show algebraMap D.host.F (Af D.host.F) (1 / 2) * (1 * 1 * _) = _
-    rw [one_mul, one_mul, ← RingHom.map_mul]
-    rfl
-
-  have hq := trace_val n (b : D.host.E) hns hbv
-  have hχu : χ u = Complex.exp (2 * Real.pi * Complex.I * ∑ τ, tauE D τ
-      ((1 / 2 * Algebra.trace D.host.F D.host.E (D.host.xi0 * ((b : D.host.E) * n)) : D.host.F) : D.host.E)) := by
-    rw [hval u huL, hs, _root_.GlobalTheory.PsiFinRat.psi_pairA_zero_algebraMap ψ hψ]
-  obtain ⟨c, hc⟩ : ∃ c : ℂ, c = ∑ τ, tauE D τ n := ⟨_, rfl⟩
-  have hsumq : ∑ τ, tauE D τ
-      ((1 / 2 * Algebra.trace D.host.F D.host.E (D.host.xi0 * ((b : D.host.E) * n)) : D.host.F) : D.host.E) =
-        -c / (2 * (Ideal.absNorm D.host.ccK : ℂ)) := by
-    have : ∀ τ, tauE D τ
-        ((1 / 2 * Algebra.trace D.host.F D.host.E (D.host.xi0 * ((b : D.host.E) * n)) : D.host.F) : D.host.E) =
-          -(tauE D τ n) / (2 * (Ideal.absNorm D.host.ccK : ℂ)) := fun τ => by
-      rw [hq, map_div₀, map_neg, map_mul, map_natCast, map_ofNat]
-    rw [Finset.sum_congr rfl fun τ _ => this τ, ← Finset.sum_div, Finset.sum_neg_distrib, hc]
-  have hcre : ((c.re : ℝ) : ℂ) = c := by
-    have : starRingEnd ℂ c = c := by
-
-      rw [hc, map_sum]
-      refine Finset.sum_congr rfl fun τ _ => ?_
-      rw [← GlobalTheory.FockCompare.tauE_star, hns]
-    exact Complex.conj_eq_iff_re.1 this
-  obtain ⟨hxi, hN1, hd1⟩ := ReciprocityTheory.ChartRestriction.G.PullbackSections.PfModelDataX.xiR_facts D
-  have hNC : (Ideal.absNorm D.host.ccK : ℂ) ≠ 0 := by
-    have : Ideal.absNorm D.host.ccK ≠ 0 := by
-      intro h0; rw [h0, Nat.cast_zero] at hN1; linarith
-    exact_mod_cast this
-  have hNR : (Ideal.absNorm D.host.ccK : ℝ) ≠ 0 := by linarith
-  have hdR : Real.sqrt D.host.d ≠ 0 := by linarith
-  have hεt : ε = Complex.exp (-(Real.pi : ℂ) * Complex.I * ((c.re / Ideal.absNorm D.host.ccK : ℝ) : ℂ)) := by
-    rw [hεu, hχu, hsumq]
-    congr 1
-    push_cast
-    rw [hcre]
-    field_simp
-  have hX : (fun τ a b => ((GlobalTheory.FockPos.frAt frT τ)⁻¹ * Matrix.of (GlobalTheory.VacUnique.infRat S T v τ) *
-      GlobalTheory.FockPos.frAt frS τ) a b) = fun τ a b => tauE D τ (Y a b) := by
-    funext τ a b
-    rw [coord_entry]
-    rfl
-  have hsum : (∑ τ, ∑ a, ∑ b, tauE D τ (Y a b) * starRingEnd ℂ (tauE D τ (Y a b))) = c := by
-    rw [hc]
-    refine Finset.sum_congr rfl fun τ _ => ?_
-
-    rw [hn, map_sum]
-    refine Finset.sum_congr rfl fun a _ => ?_
-
-    rw [map_sum]
-    refine Finset.sum_congr rfl fun b _ => ?_
-    rw [map_mul, GlobalTheory.FockCompare.tauE_star, mul_comm]
-  have h0 := GlobalTheory.RatFinIso.symplOH_ratW_finRat_neg S T v
-  rw [← hu] at h0
-  rw [h0, neg_zero, AddChar.map_zero_eq_one, one_mul, hX, Formalism.MainNotions.TaylorLogMetric.al, GlobalTheory.ThetaLawOF.torusHermitianForm_scaled_coordinate_eq hδ, hsum]
-  have hre : Real.sqrt D.host.d / 2 * (2 * ((Formalism.L2.Pj.xiR D : ℝ) : ℂ) * c).re = c.re / Ideal.absNorm D.host.ccK := by
-    rw [show (2 * ((Formalism.L2.Pj.xiR D : ℝ) : ℂ) * c) = ((2 * Formalism.L2.Pj.xiR D : ℝ) : ℂ) * c by push_cast; ring,
-      Complex.re_ofReal_mul, hxi]
-    field_simp
-  rw [hre, hεt]
-  exact (GlobalTheory.ThetaSignLat.sign_of_exp _ (by rw [← hεt]; exact hpm)).symm
+theorem sign_eq_alpha_sd : ∀ {D : D7} (ψ : AddChar (AF D.host.F) ℂ) (S T : HSp D) (frS : GL (Fin S.rank) D.host.E) (frT : GL (Fin T.rank) D.host.E), Formalism.UG.cT (D.sp.cm.sig : D.host.E →+* D.host.E) frS.1 * S.gram * frS.1 = 1 → Formalism.UG.cT (D.sp.cm.sig : D.host.E →+* D.host.E) frT.1 * T.gram * frT.1 = 1 → IsStdChar D ψ (-1) → ∀ (ΛS : Submodule (𝓞 D.host.E) (Fin S.rank → D.host.E)) (ΛT : Submodule (𝓞 D.host.E) (Fin T.rank → D.host.E)), IsSelfDualC S ΛS → IsSelfDualC T ΛT → ∀ δ : ℂ, δ ≠ 0 → ∀ v : Matrix (Fin T.rank) (Fin S.rank) D.host.E, GlobalTheory.VacUnique.finRat S T v ∈ latO S T (ΛS : Set (Fin S.rank → D.host.E)) (ΛT : Set (Fin T.rank → D.host.E)) (fun _ => True) → ∀ ε : ℂ, (∀ g : WO S T → ℂ, IsLatVac (heisO ψ S T) (latO S T (ΛS : Set (Fin S.rank → D.host.E)) (ΛT : Set (Fin T.rank → D.host.E)) (fun _ => True)) g → heisO ψ S T (GlobalTheory.VacUnique.finRat S T (-v)) g = ε • g) → ψ (-symplOH S T (ratW T S v) (GlobalTheory.VacUnique.finRat S T (-v))) * ε = Formalism.MainNotions.TaylorLogMetric.al D (Formalism.MainNotions.TaylorLogMetric.tor0 D D.host.ccK δ) (δ • (fun τ a b => ((GlobalTheory.FockPos.frAt frT τ)⁻¹ * Matrix.of (GlobalTheory.VacUnique.infRat S T v τ) * GlobalTheory.FockPos.frAt frS τ) a b)) :=
+  GlobalTheory.ThetaSignLat.sign_eq_alpha_of_selfDual
 
 end
 
 section
 open GlobalTheory.ThetaLawOF
 
-theorem theta_of_vacuum_moved : ∀ {D : D7} (ψ : AddChar (AF D.host.F) ℂ) (θ : InfFam D) (S T : HSp D) (frS : GL (Fin S.rank) D.host.E) (frT : GL (Fin T.rank) D.host.E), Formalism.UG.cT (D.sp.cm.sig : D.host.E →+* D.host.E) frS.1 * S.gram * frS.1 = 1 → Formalism.UG.cT (D.sp.cm.sig : D.host.E →+* D.host.E) frT.1 * T.gram * frT.1 = 1 → ∀ δ : ℂ, Formalism.MainNotions.StandardLatticesGL3.Crv D D.host.ccK δ → δ ≠ 0 → ∀ (Ls : Submodule (𝓞 D.host.E) (Fin S.rank → D.host.E)) (Lt : Submodule (𝓞 D.host.E) (Fin T.rank → D.host.E)), Formalism.MainNotions.StandardLatticesGL3.SD D Ls → Formalism.MainNotions.StandardLatticesGL3.SD D Lt → ∀ f : WO S T → ℂ, IsVacO ψ θ S T (fun _ => 1) (fun _ => 1) (GlobalTheory.MovedDict.inV frS Ls) (GlobalTheory.MovedDict.inV frT Lt) f → ∀ Φ : Formalism.MainNotions.TaylorLogMetric.VC D S.rank T.rank → ℂ, Differentiable ℂ Φ → (∀ w : WO S T, w.map (finPart D) = 0 → f w = GlobalTheory.FockPos.gaussO θ frS frT w * Φ (GlobalTheory.FockPos.zCo θ frS frT w)) → (fun Y => Φ (δ⁻¹ • Y)) ∈ Formalism.MainNotions.TaylorLogMetric.Th D (Formalism.MainNotions.TaylorLogMetric.tor0 D D.host.ccK δ) Ls Lt := by
-  intro D ψ θ S T frS frT hS hT δ hC hδ Ls Lt hLs hLt f hf Φ hΦd hΦ
+theorem theta_of_vacuum_on_selfDual : ∀ {D : D7} (ψ : AddChar (AF D.host.F) ℂ) (θ : InfFam D) (S T : HSp D) (frS : GL (Fin S.rank) D.host.E) (frT : GL (Fin T.rank) D.host.E), Formalism.UG.cT (D.sp.cm.sig : D.host.E →+* D.host.E) frS.1 * S.gram * frS.1 = 1 → Formalism.UG.cT (D.sp.cm.sig : D.host.E →+* D.host.E) frT.1 * T.gram * frT.1 = 1 → ∀ δ : ℂ, δ ≠ 0 → ∀ (Ls : Submodule (𝓞 D.host.E) (Fin S.rank → D.host.E)) (Lt : Submodule (𝓞 D.host.E) (Fin T.rank → D.host.E)), Formalism.MainNotions.StandardLatticesGL3.SD D Ls → Formalism.MainNotions.StandardLatticesGL3.SD D Lt → ∀ f : WO S T → ℂ, IsVacO ψ θ S T (fun _ => 1) (fun _ => 1) (GlobalTheory.MovedDict.inV frS Ls) (GlobalTheory.MovedDict.inV frT Lt) f → ∀ Φ : Formalism.MainNotions.TaylorLogMetric.VC D S.rank T.rank → ℂ, Differentiable ℂ Φ → (∀ w : WO S T, w.map (finPart D) = 0 → f w = GlobalTheory.FockPos.gaussO θ frS frT w * Φ (GlobalTheory.FockPos.zCo θ frS frT w)) → (fun Y => Φ (δ⁻¹ • Y)) ∈ Formalism.MainNotions.TaylorLogMetric.Th D (Formalism.MainNotions.TaylorLogMetric.tor0 D D.host.ccK δ) Ls Lt := by
+  intro D ψ θ S T frS frT hS hT δ hδ Ls Lt hLs hLt f hf Φ hΦd hΦ
   obtain ⟨ΛS, hΛS, hSd⟩ := GlobalTheory.MovedDict.isSelfDualC_inV S frS hS Ls hLs
   obtain ⟨ΛT, hΛT, hTd⟩ := GlobalTheory.MovedDict.isSelfDualC_inV T frT hT Lt hLt
   rw [← hΛS, ← hΛT] at hf
@@ -583,6 +426,10 @@ theorem theta_of_vacuum_moved : ∀ {D : D7} (ψ : AddChar (AF D.host.F) ℂ) (�
       Complex.exp (-((Real.pi * Formalism.L2.Pj.xiR D : ℝ) : ℂ) * ∑ τ, ∑ a, ∑ b, ((‖Z τ a b‖ ^ 2 : ℝ) : ℂ)) *
       Complex.exp (-(Real.pi : ℂ) * (2 * ((Formalism.L2.Pj.xiR D : ℝ) : ℂ) * ∑ τ, ∑ a, ∑ b, Z τ a b * starRingEnd ℂ (X τ a b)) -
         (Real.pi : ℂ) * (2 * ((Formalism.L2.Pj.xiR D : ℝ) : ℂ) * ∑ τ, ∑ a, ∑ b, X τ a b * starRingEnd ℂ (X τ a b)) / 2) * Φ Z) * this
+
+theorem theta_of_vacuum_moved : ∀ {D : D7} (ψ : AddChar (AF D.host.F) ℂ) (θ : InfFam D) (S T : HSp D) (frS : GL (Fin S.rank) D.host.E) (frT : GL (Fin T.rank) D.host.E), Formalism.UG.cT (D.sp.cm.sig : D.host.E →+* D.host.E) frS.1 * S.gram * frS.1 = 1 → Formalism.UG.cT (D.sp.cm.sig : D.host.E →+* D.host.E) frT.1 * T.gram * frT.1 = 1 → ∀ δ : ℂ, Formalism.MainNotions.StandardLatticesGL3.Crv D D.host.ccK δ → δ ≠ 0 → ∀ (Ls : Submodule (𝓞 D.host.E) (Fin S.rank → D.host.E)) (Lt : Submodule (𝓞 D.host.E) (Fin T.rank → D.host.E)), Formalism.MainNotions.StandardLatticesGL3.SD D Ls → Formalism.MainNotions.StandardLatticesGL3.SD D Lt → ∀ f : WO S T → ℂ, IsVacO ψ θ S T (fun _ => 1) (fun _ => 1) (GlobalTheory.MovedDict.inV frS Ls) (GlobalTheory.MovedDict.inV frT Lt) f → ∀ Φ : Formalism.MainNotions.TaylorLogMetric.VC D S.rank T.rank → ℂ, Differentiable ℂ Φ → (∀ w : WO S T, w.map (finPart D) = 0 → f w = GlobalTheory.FockPos.gaussO θ frS frT w * Φ (GlobalTheory.FockPos.zCo θ frS frT w)) → (fun Y => Φ (δ⁻¹ • Y)) ∈ Formalism.MainNotions.TaylorLogMetric.Th D (Formalism.MainNotions.TaylorLogMetric.tor0 D D.host.ccK δ) Ls Lt := by
+  intro D ψ θ S T frS frT hS hT δ _ hδ
+  exact theta_of_vacuum_on_selfDual ψ θ S T frS frT hS hT δ hδ
 
 end
 

@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Definitions.SpanningFamilies.FirstCoordinateAdmissible
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.SquareIntegrability.ActEMemSpanOmega
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.SquareIntegrability.TiledBoundaries.ETSymmApply
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.FundamentalDomains.Signature
@@ -372,19 +373,7 @@ theorem mem_tensorLat_span {S : Set (Fin n → E)} {γ : Fin n → Vsp X.dim} :
 
 omit [IsCMField E] in
 theorem mem_stdLat {v : Fin n → E} : v ∈ stdLat E n ↔ ∀ k, IsIntegral ℤ (v k) := by
-  rw [stdLat, Submodule.mem_span_range_iff_exists_fun]
-  constructor
-  · rintro ⟨c, rfl⟩ k
-    have : (∑ j, c j • (Pi.single j 1 : Fin n → E)) k = (c k : E) := by
-      simp [Finset.sum_apply, Pi.single_apply, Algebra.smul_def]
-    rw [this]
-    exact (c k).isIntegral_coe
-  · intro h
-    have hc : ∀ k, ∃ c : 𝓞 E, algebraMap (𝓞 E) E c = v k := fun k => ⟨⟨v k, h k⟩, rfl⟩
-    choose c hc using hc
-    refine ⟨c, ?_⟩
-    funext k
-    simp [Finset.sum_apply, Pi.single_apply, Algebra.smul_def, hc]
+  apply _root_.GlobalTheory.SW.Base.mem_stdL <;> assumption
 
 
 omit [IsCMField E] in

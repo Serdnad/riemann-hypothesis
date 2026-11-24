@@ -1,5 +1,6 @@
 module
 
+import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.ThetaParseval.ThetaKernels.FirstOrbitParabolicLeft
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.ThetaParseval.ThetaKernels.EisensteinSecondTerm
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.ThetaParseval.ThetaKernels.BlockDiagonalPreservesFormIff
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.ThetaParseval.ThetaKernels.PhzEqFlatK
@@ -85,19 +86,8 @@ theorem first_orbit_mul_fixed {γ r : d.G}
     simp only [hx, Matrix.one_apply, mul_ite, mul_one, mul_zero, Finset.sum_ite_eq', Finset.mem_univ, if_true]
   simp only [_root_.PositivityTheory.SiegelWeilFormula.Act.FirstOrbit, e]
 theorem first_orbit_parabolic_invariant {p g : d.G} (hp : p ∈ par2 σ d.Y) : _root_.PositivityTheory.SiegelWeilFormula.Act.FirstOrbit L (p * g) ↔ _root_.PositivityTheory.SiegelWeilFormula.Act.FirstOrbit L g := by
-  have h21 : ∀ {q : d.G}, q ∈ par2 σ d.Y → ∀ i j, inFrame d.b q (Sum.inr i) (Sum.inl j) = 0 := by
-    intro q hq i j
-    have := (kunf.mem_stabiliser_iff_frame_lower_block d.ok.frame q).1 hq
-    have := congrFun (congrFun this i) j
-    simpa [Matrix.toBlocks₂₁] using this
-  have key : ∀ {q γ : d.G}, q ∈ par2 σ d.Y → _root_.PositivityTheory.SiegelWeilFormula.Act.FirstOrbit L γ → _root_.PositivityTheory.SiegelWeilFormula.Act.FirstOrbit L (q * γ) := by
-    intro q γ hq hγ i
-    have hγ' : ∀ k, inFrame d.b γ (Sum.inr k) (Sum.inl L.i₀) = 0 := hγ
-    rw [GlobalTheory.EisBL.DoubledParabolic.inFrame_mul, Matrix.mul_apply, Fintype.sum_sum_type]
-    simp [h21 hq, hγ']
-  refine ⟨fun h => ?_, key hp⟩
-  have := key (inv_mem hp) h
-  rwa [inv_mul_cancel_left] at this
+ intros
+ apply @_root_.PositivityTheory.SiegelWeilFormula.Act.C6.first_orbit_parabolic_left <;> assumption
 theorem eisenstein_second_term_reindex {M : Type} [AddCommMonoid M] [TopologicalSpace M] (H : ℂ → M) {s₁ : ℂ} {f : d.G → ℂ}
     (hf : IsSec d.K d.χ s₁ f) (z : ℂ) {r : d.G} (hr : r ∈ rat2 σ d.Y)
     (hx : ∀ k, inFrame d.b r k (Sum.inl L.i₀) = (1 : Matrix (Fin d.n ⊕ Fin d.n) (Fin d.n ⊕ Fin d.n) (AE F E)) k (Sum.inl L.i₀))

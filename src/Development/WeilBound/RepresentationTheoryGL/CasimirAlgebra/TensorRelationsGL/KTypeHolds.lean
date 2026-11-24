@@ -1,5 +1,6 @@
 module
 
+import GroundTheory.IdeleRoots.ConstantFrames.GaugeExistence.QdetSub
 public import Development.WeilBound.RepresentationTheoryGL.CasimirAlgebra.TensorRelationsGL.QdetFacts
 public import Development.WeilBound.RepresentationTheoryGL.CasimirAlgebra.TensorRelationsGL.LiftCommEAt
 public import Development.WeilBound.RepresentationTheoryGL.CasimirAlgebra.TensorRelationsGL.StepFormula
@@ -825,30 +826,8 @@ omit [Algebra ℂ A] in
 theorem prod_linear (m : ℕ) (c : Fin m → A) :
     (List.ofFn fun k : Fin m => X + C (c k)).prod.natDegree ≤ m ∧
       (List.ofFn fun k : Fin m => X + C (c k)).prod.coeff m = 1 ∧
-      ∀ j, j + 1 = m → (List.ofFn fun k : Fin m => X + C (c k)).prod.coeff j = ∑ k, c k := by
-  induction m with
-  | zero =>
-    refine ⟨by simp, by simp, fun j hj => by omega⟩
-  | succ m ih =>
-    obtain ⟨h1, h2, h3⟩ := ih (fun k => c k.castSucc)
-    have e : (List.ofFn fun k : Fin (m + 1) => X + C (c k)).prod =
-        (List.ofFn fun k : Fin m => X + C (c k.castSucc)).prod * (X + C (c (Fin.last m))) := by
-      rw [List.ofFn_succ', List.concat_eq_append, List.prod_append, List.prod_singleton]
-    rw [e]
-    have hP : (List.ofFn fun k : Fin m => X + C (c k.castSucc)).prod.coeff (m + 1) = 0 :=
-      coeff_eq_zero_of_natDegree_lt (by omega)
-    refine ⟨?_, ?_, ?_⟩
-    · refine natDegree_mul_le.trans (add_le_add h1 ?_)
-      exact (natDegree_add_le _ _).trans (max_le natDegree_X_le (by rw [natDegree_C]; exact zero_le_one))
-    · rw [mul_add, coeff_add, coeff_mul_C, coeff_mul_X, h2, hP, zero_mul, add_zero]
-    · intro j hj
-      obtain rfl : j = m := by omega
-      rw [Fin.sum_univ_castSucc, mul_add, coeff_add, coeff_mul_C, h2, one_mul]
-      congr 1
-      rcases j with _ | j
-      · simp
-      · rw [coeff_mul_X]
-        exact h3 j rfl
+      ∀ j, j + 1 = m → (List.ofFn fun k : Fin m => X + C (c k)).prod.coeff j = ∑ k, c k :=
+  _root_.GroundTheory.BlockD.FourierDecayAlt.GaugeExists.prod_linear m c
 
 theorem tmPoly_diag {n : ℕ} (E : Fin n → Fin n → A) (k : ℕ) (a : Fin n) :
     tmPoly E k a a = X + C (E a a - algebraMap ℂ A (k : ℂ)) := by

@@ -1,5 +1,6 @@
 module
 
+import Development.AutomorphicSpectrum.Proofs.MetricProofs.IsValueAtOfTorus
 public import Development.AutomorphicSpectrum.Definitions.MetricPeriods.GenericBlockMatrixIsBlockDiag
 public import Development.AutomorphicSpectrum.Definitions.MetricPeriods.FiniteEtaleSurjectiveOfPullback
 public import Development.AutomorphicSpectrum.Proofs.MetricProofs.AevalNeZeroOfNotMem
@@ -49,6 +50,7 @@ import Mathlib.Topology.Compactness.Paracompact
 import Mathlib.Topology.Separation.CompletelyRegular
 import Std.Tactic.BVDecide.Normalize.Prop
 import Development.AutomorphicSpectrum.Proofs.MetricProofs.OmHeightslockG
+import Development.WeilBound.CoreStatements.HomogeneousNonvanishing.ContinuousAtOfClosedRel
 
 @[expose] public section
 
@@ -62,44 +64,14 @@ open MvPolynomial Filter Topology
 
 theorem continuousAt_of_holoOn {e : ℕ} {X : Type} [TopologicalSpace X] (A : ReciprocityTheory.AnForm.M.FinHolAtlas e X)
     {U : Set X} {f : X → ℂ} (hf : A.HoloOn U f) {x : X} (hx : x ∈ U) : ContinuousAt f x := by
-  obtain ⟨j, hj⟩ := A.cover x
-  have hx' : A.chart j x ∈ (A.chart j).target ∩ (A.chart j).symm ⁻¹' U :=
-    ⟨(A.chart j).map_source hj, by simp [Set.mem_preimage, (A.chart j).left_inv hj, hx]⟩
-  have h1 : ContinuousAt ((f ∘ (A.chart j).symm) ∘ (A.chart j)) x := by
-    refine ContinuousAt.comp ?_ ((A.chart j).continuousAt hj)
-    exact (hf j _ hx').continuousAt
-  refine h1.congr ?_
-  filter_upwards [(A.chart j).open_source.mem_nhds hj] with z hz
-  simp [(A.chart j).left_inv hz]
+  apply _root_.PositivityTheory.UnitarySelfGeneration.HolomorphicMinorCharts.holo_continuousAt <;> assumption
 
 variable {K : Type} [Fintype K] {ι : K → Type} [∀ k, Fintype (ι k)]
 
 theorem mCoordIdeal_smul (c : K → ℂ) (hc : ∀ k, c k ≠ 0) (z : (Σ k, ι k) → ℂ) :
     mCoordIdeal (fun p : Σ k, ι k => c p.1 * z p) = mCoordIdeal z := by
-  classical
-  let φ : MvPolynomial K ℂ →ₐ[ℂ] MvPolynomial K ℂ := aeval fun k => C (c k) * X k
-  let ψ : MvPolynomial K ℂ →ₐ[ℂ] MvPolynomial K ℂ := aeval fun k => C (c k)⁻¹ * X k
-  have hψφ : ψ.comp φ = AlgHom.id ℂ _ := by
-    apply MvPolynomial.algHom_ext
-    intro k
-    rw [AlgHom.comp_apply, AlgHom.id_apply]
-    simp only [φ, ψ, aeval_X, map_mul, aeval_C, MvPolynomial.algebraMap_eq]
-    rw [← mul_assoc, ← C_mul, mul_inv_cancel₀ (hc k), C_1, one_mul]
-  have hcomp : (mConeMap (fun p : Σ k, ι k => c p.1 * z p)) = (φ.restrictScalars ℤ).comp (mConeMap z) := by
-    apply MvPolynomial.algHom_ext
-    intro p
-    simp [mConeMap, φ, C_mul]
-    ring
-  ext f
-  simp only [mCoordIdeal, RingHom.mem_ker, hcomp]
-  constructor
-  · intro h
-    have h' := congrArg ψ h
-    have e := AlgHom.congr_fun hψφ (mConeMap z f)
-    simp only [AlgHom.comp_apply, AlgHom.id_apply] at e
-    simpa [e] using h'
-  · intro h
-    simp [h]
+  intros
+  apply _root_.GlobalTheory.CompanionTheory.Ar.PB.StepW.TorusAct.mCoordIdeal_torus <;> assumption
 
 theorem X_notMem_iff (w : (Σ k, ι k) → ℂ) (q : Σ k, ι k) :
     (X q : MRing ι) ∉ mCoordIdeal w ↔ w q ≠ 0 := by

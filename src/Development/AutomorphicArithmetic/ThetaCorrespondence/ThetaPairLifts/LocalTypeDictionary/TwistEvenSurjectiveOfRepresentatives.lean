@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.ThetaChainLValuesNonvanishing
 public import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.ChainParSucc
 public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.SphericalOperatorEigenvaluesDeterminedByParamsStatement
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsSatakeParametersBoundedEigenfunctionStatement
@@ -343,17 +344,7 @@ theorem eulerProd_add_segFam {K : Type} [Field K] [NumberField K] {ι : Type} (T
     (hz : ∀ i ∈ s, ∀ l < t, GlobalTheory.LFun.Converges T (fun w => {z i w}) (x + ((t : ℂ) - 1) / 2 - l)) :
     GlobalTheory.LFun.eulerProd T (A + ∑ i ∈ s, GlobalTheory.LFun.segFam (z i) t) x = GlobalTheory.LFun.eulerProd T A x *
       ∏ i ∈ s, ∏ l ∈ Finset.range t, GlobalTheory.LFun.eulerProd T (fun w => {z i w}) (x + ((t : ℂ) - 1) / 2 - l) := by
-  have h1 : HasProd (fun w : {w // w ∉ T} => ∏ i ∈ s, ∏ l ∈ Finset.range t,
-      GlobalTheory.LFun.locL (fun u => {z i u}) w (x + ((t : ℂ) - 1) / 2 - l))
-      (∏ i ∈ s, ∏ l ∈ Finset.range t, GlobalTheory.LFun.eulerProd T (fun w => {z i w}) (x + ((t : ℂ) - 1) / 2 - l)) :=
-    hasProd_prod fun i hi => hasProd_prod fun l hl => (hz i hi l (Finset.mem_range.1 hl)).hasProd
-  have h2 := hA.hasProd.mul h1
-  show ∏' w : {w // w ∉ T}, _ = _
-  refine HasProd.tprod_eq ?_
-  convert h2 using 1
-  funext w
-  rw [GlobalTheory.LFun.locL_add, locL_finsetSum]
-  simp only [GlobalTheory.LFun.locL_segFam']
+  apply _root_.GlobalTheory.ChainOnto.eulerProd_add_segFam <;> assumption
 
 end GlobalTheory.EvenOnto.ChainVal
 

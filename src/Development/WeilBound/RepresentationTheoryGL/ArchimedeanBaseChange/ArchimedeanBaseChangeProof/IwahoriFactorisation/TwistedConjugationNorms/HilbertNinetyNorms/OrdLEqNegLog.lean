@@ -1,5 +1,7 @@
 module
 
+
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.DiagTMemIwGL
 public import Development.AbelianVarietyTheory.Definitions.Divisors.IsUnifAt
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.UnitaryIwahoriOrbitalSupport
 public import Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange.ArchimedeanBaseChangeProof.IwahoriFactorisation.TwistedConjugationNorms.OneCoset
@@ -48,7 +50,6 @@ import Mathlib.Tactic.Basify
 import Mathlib.Tactic.ENatToNat
 import Mathlib.Tactic.ReduceModChar
 import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsIdealWeight
-
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AutomorphicSpectrum.Proofs.BlockDecomposition.UnitaryIwahoriOrbitalSupportStatement, Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange.ArchimedeanBaseChangeProof.IwahoriFactorisation.TwistedConjugationNorms.HilbertNinetyNorms.OrdLEqNegLog
 
@@ -190,21 +191,8 @@ theorem nv_rev {a : ℕ} (y : Fin a → ℤ) (i : Fin a) : nv y i.rev = -nv y i 
   simp [nv]
 
 theorem diagT_mem_iwGL' (w : Pl E) (n : ℕ) (s : Fin n → (w.adicCompletion E)ˣ)
-    (hs : ∀ i, Valued.v (s i : w.adicCompletion E) = 1) : GlobalTheory.SmGL.diagT (w.adicCompletion E) (Fin n) s ∈ iwGL n w := by
-  rw [(GlobalTheory.T.iwahori_and_maximal_compact_criteria E w n _).1]
-  have hinv : ((GlobalTheory.SmGL.diagT (w.adicCompletion E) (Fin n) s)⁻¹ : GLw n w) =
-      GlobalTheory.SmGL.diagT (w.adicCompletion E) (Fin n) s⁻¹ := (map_inv _ _).symm
-  refine ⟨fun i j => ?_, fun i j => ?_, fun i j hij => ?_⟩
-  · rw [GlobalTheory.SmGL.val_diagT, diagonal_apply]
-    split_ifs with h
-    · subst h; rw [hs]
-    · simp
-  · rw [hinv, GlobalTheory.SmGL.val_diagT, diagonal_apply]
-    split_ifs with h
-    · subst h; simp [Units.val_inv_eq_inv_val, map_inv₀, hs]
-    · simp
-  · rw [GlobalTheory.SmGL.val_diagT, diagonal_apply_ne _ (ne_of_gt hij)]
-    simp
+    (hs : ∀ i, Valued.v (s i : w.adicCompletion E) = 1) : GlobalTheory.SmGL.diagT (w.adicCompletion E) (Fin n) s ∈ iwGL n w :=
+  _root_.GlobalTheory.CompanionTheory.UnitaryContraction.diagT_mem_iwGL w n s hs
 
 theorem nrmL_eq (w : Pl E) (hw : ¬ IsSplitAt w) (a : ℕ) (g : GLw a w) : nrmL a w g = g * thL a w g := by
   simp only [nrmL, thL, if_neg hw]

@@ -1,5 +1,6 @@
 module
 
+import Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange.ArchimedeanBaseChangeProof.SatakeExponents.UniformizerValuations.FrameBoundSpaces.MemULOfSplit
 public import Development.WeilBound.CoreStatements.PublishedTheorems.JacquetShalikaRigidity.ColumnConjugationMeasure
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -89,15 +90,7 @@ section Glob
 variable {E : Type} [Field E] [NumberField E] {k : ℕ}
 
 theorem countable_pl : Countable (Pl E) := by
-  classical
-  haveI : Countable (𝓞 E) := (RingOfIntegers.basis E).repr.toEquiv.injective.countable
-  let f : Pl E → Finset (𝓞 E) := fun v ↦ (IsNoetherian.noetherian v.asIdeal).choose
-  refine Function.Injective.countable (f := f) fun v w h ↦ ?_
-  have hv := (IsNoetherian.noetherian v.asIdeal).choose_spec
-  have hw := (IsNoetherian.noetherian w.asIdeal).choose_spec
-  ext1
-  rw [← hv, ← hw]
-  exact congrArg (fun s : Finset (𝓞 E) ↦ Submodule.span (𝓞 E) (s : Set (𝓞 E))) h
+  apply _root_.PositivityTheory.Rg.BcB.F.Small.countable_pl <;> assumption
 
 def A (S : Finset (Pl E)) (l : Off E S →₀ (Fin k → ℤ)) : Set (GA E k) :=
   {g | ∀ w : Off E S, Iwasawa.iwasawaExponent _ k (cLoc w.1 g) = l w}

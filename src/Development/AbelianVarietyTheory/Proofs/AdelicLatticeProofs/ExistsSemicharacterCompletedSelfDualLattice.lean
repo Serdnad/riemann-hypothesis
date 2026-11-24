@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.OmAtSmulRight
 public import Formalism.LocalToGlobal.IndefiniteReal.LocalNewformFunction
 public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.HomSymplecticHalfFormAlgebraicLawsContinuousStatement
 public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.SelfDualLatticePairingDualStatement
@@ -50,7 +51,7 @@ attribute [local instance] Formalism.BasicNotions.Host.cmStar
 
 namespace GlobalTheory.SemiChar
 
-theorem exists_abstract {G R : Type} [AddCommGroup G] [AddCommGroup R] (ψ : AddChar R ℂ) (hψ : ∀ r, ‖ψ r‖ ≤ 1)
+theorem exists_abstract_with_values {G R : Type} [AddCommGroup G] [AddCommGroup R] (ψ : AddChar R ℂ) (hψ : ∀ r, ‖ψ r‖ ≤ 1)
     (B : G → G → R) (hl : ∀ x y z, B (x + y) z = B x z + B y z) (hr : ∀ x y z, B x (y + z) = B x y + B x z)
     (ha : ∀ x, B x x = 0) (L : AddSubgroup G) (K : G → Prop) (K0 : K 0) (Ksub : ∀ x y, K x → K y → K (x - y))
     (hKL : ∀ l ∈ L, K l → l = 0) (hB : ∀ x, K x → ∀ l ∈ L, B x l = 0)
@@ -59,7 +60,8 @@ theorem exists_abstract {G R : Type} [AddCommGroup G] [AddCommGroup R] (ψ : Add
     (adj : ∀ x y, B (p x) y = B x (q y)) (pL : ∀ l ∈ L, p l ∈ L) :
     ∃ χ : G → ℂ, (∀ x, (¬ ∃ l ∈ L, K (x - l)) → χ x = 0) ∧ (∀ x, ‖χ x‖ ≤ 1) ∧ χ 0 = 1 ∧
       (∀ x y, K y → χ (x + y) = χ x) ∧ (∀ u ∈ L, ∀ x, ψ (B x (2 • u)) * χ (x + 2 • u) = χ x) ∧
-      ∀ u ∈ L, B (p u) u = 0 → ∀ x, ψ (B x u) * χ (x + u) = χ x := by
+      (∀ u ∈ L, B (p u) u = 0 → ∀ x, ψ (B x u) * χ (x + u) = χ x) ∧
+      ∀ l ∈ L, χ l = ψ (B (p l) l) := by
   classical
   have Kadd : ∀ x y, K x → K y → K (x + y) := fun x y hx hy => by
     have := Ksub x (0 - y) hx (Ksub 0 y K0 hy)
@@ -88,7 +90,8 @@ theorem exists_abstract {G R : Type} [AddCommGroup G] [AddCommGroup R] (ψ : Add
     · rw [hn x h, hn (x + u), mul_zero]
       rintro ⟨l, hl', hk⟩
       exact h ⟨l - u, L.sub_mem hl' hu, by rwa [← sub_add, sub_add_eq_add_sub]⟩
-  refine ⟨χ, hn, fun x => ?_, ?_, fun x y hk => ?_, fun u hu => ?_, fun u hu h0 => ?_⟩
+  refine ⟨χ, hn, fun x => ?_, ?_, fun x y hk => ?_, fun u hu => ?_, fun u hu h0 => ?_,
+    fun l hl' => hy l l hl' (by rwa [sub_self])⟩
   · by_cases h : ∃ l ∈ L, K (x - l)
     · obtain ⟨l, hl', hk⟩ := h
       rw [hy x l hl' hk]; exact hψ _
@@ -124,28 +127,25 @@ theorem exists_abstract {G R : Type} [AddCommGroup G] [AddCommGroup R] (ψ : Add
       abel
     rw [← AddChar.map_add_eq_mul, e, AddChar.map_add_eq_mul, h2 _ (pL l hl') u hu, mul_one]
 
+theorem exists_abstract {G R : Type} [AddCommGroup G] [AddCommGroup R] (ψ : AddChar R ℂ) (hψ : ∀ r, ‖ψ r‖ ≤ 1)
+    (B : G → G → R) (hl : ∀ x y z, B (x + y) z = B x z + B y z) (hr : ∀ x y z, B x (y + z) = B x y + B x z)
+    (ha : ∀ x, B x x = 0) (L : AddSubgroup G) (K : G → Prop) (K0 : K 0) (Ksub : ∀ x y, K x → K y → K (x - y))
+    (hKL : ∀ l ∈ L, K l → l = 0) (hB : ∀ x, K x → ∀ l ∈ L, B x l = 0)
+    (h2 : ∀ a ∈ L, ∀ u ∈ L, ψ (B a u + B a u) = 1)
+    (p q : G → G) (padd : ∀ x y, p (x + y) = p x + p y) (pq : ∀ x, p x + q x = x)
+    (adj : ∀ x y, B (p x) y = B x (q y)) (pL : ∀ l ∈ L, p l ∈ L) :
+    ∃ χ : G → ℂ, (∀ x, (¬ ∃ l ∈ L, K (x - l)) → χ x = 0) ∧ (∀ x, ‖χ x‖ ≤ 1) ∧ χ 0 = 1 ∧
+      (∀ x y, K y → χ (x + y) = χ x) ∧ (∀ u ∈ L, ∀ x, ψ (B x (2 • u)) * χ (x + 2 • u) = χ x) ∧
+      ∀ u ∈ L, B (p u) u = 0 → ∀ x, ψ (B x u) * χ (x + u) = χ x := by
+  obtain ⟨χ, hs, hn, hz, hp, hd, hl', _⟩ :=
+    exists_abstract_with_values ψ hψ B hl hr ha L K K0 Ksub hKL hB h2 p q padd pq adj pL
+  exact ⟨χ, hs, hn, hz, hp, hd, hl'⟩
+
 variable {D : D7}
 
 theorem latO_inf (S T : HSp D) (LS : Set (Fin S.rank → D.host.E)) (LT : Set (Fin T.rank → D.host.E))
     (P : HeightOneSpectrum (𝓞 D.host.F) → Prop) : ∀ l ∈ latO S T LS LT P, l.map (infPart D) = 0 := by
-  intro l hl
-  induction hl using AddSubgroup.closure_induction with
-  | mem w hw =>
-    obtain ⟨α, -, -, a, -, s, -, t, -, rfl⟩ := hw
-    funext i j
-    exact TensorProduct.zero_tmul _ _
-  | zero => funext i j; exact (infPart D).map_zero
-  | add x y _ _ hx hy =>
-    funext i j
-    have h1 : infPart D (x i j) = 0 := congrFun (congrFun hx i) j
-    have h2 : infPart D (y i j) = 0 := congrFun (congrFun hy i) j
-    show infPart D (x i j + y i j) = 0
-    rw [RingHom.map_add (f := _), h1, h2, add_zero]
-  | neg x _ hx =>
-    funext i j
-    have h1 : infPart D (x i j) = 0 := congrFun (congrFun hx i) j
-    show infPart D (-x i j) = 0
-    rw [RingHom.map_neg, h1, neg_zero]
+  first | exact _root_.GlobalTheory.VacUnique.latO_inf | exact @_root_.GlobalTheory.VacUnique.latO_inf | apply _root_.GlobalTheory.VacUnique.latO_inf <;> assumption
 
 theorem map_mul_add {m n : ℕ} (a : AE D) (x y : Mx D m n) :
     (x + y).map (fun z => a * z) = x.map (fun z => a * z) + y.map (fun z => a * z) := by

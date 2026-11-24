@@ -1,5 +1,6 @@
 module
 
+import all Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.SeparatingAlgebras.BlockBound
 public import Mathlib.NumberTheory.Padics.Complex
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.SeparatingAlgebras.BlockBoundAlt
 public import Development.AbelianVarietyTheory.Definitions.Divisors.OverPair
@@ -129,14 +130,7 @@ theorem coefLe_sum {α : Type} (s : Finset α) (f : α → MvPolynomial σ ℂ) 
 
 theorem coefLe_mul {R S : ℝ} (hR : 0 ≤ R) (hS : 0 ≤ S) {p q : MvPolynomial σ ℂ}
     (hp : CoefLe ι R p) (hq : CoefLe ι S q) : CoefLe ι (R * S) (p * q) := by
-  classical
-  intro m
-
-  rw [MvPolynomial.coeff_mul, map_sum]
-  refine IsUltrametricDist.norm_sum_le_of_forall_le_of_nonneg (mul_nonneg hR hS) ?_
-  intro x _
-  rw [map_mul, norm_mul]
-  exact mul_le_mul (hp _) (hq _) (norm_nonneg _) hR
+  apply _root_.UpperTheory.Gal.Gen.coefLe_mul <;> assumption
 
 theorem coefLe_one : CoefLe ι 1 (1 : MvPolynomial σ ℂ) := by
   classical
@@ -155,13 +149,7 @@ theorem coefLe_pow {R : ℝ} (hR : 0 ≤ R) {p : MvPolynomial σ ℂ} (hp : Coef
 theorem coefLe_prod {α : Type} (s : Finset α) (f : α → MvPolynomial σ ℂ) (r : α → ℝ)
     (hr : ∀ a, 0 ≤ r a) (h : ∀ a ∈ s, CoefLe ι (r a) (f a)) :
     CoefLe ι (∏ a ∈ s, r a) (∏ a ∈ s, f a) := by
-  classical
-  induction s using Finset.induction_on with
-  | empty => simpa using coefLe_one ι
-  | insert a s ha ih =>
-    rw [Finset.prod_insert ha, Finset.prod_insert ha]
-    exact coefLe_mul ι (hr a) (Finset.prod_nonneg fun b _ => hr b) (h a (Finset.mem_insert_self a s))
-      (ih fun b hb => h b (Finset.mem_insert_of_mem hb))
+  apply _root_.UpperTheory.Gal.Gen.coefLe_prod <;> assumption
 
 theorem coefLe_C_mul_X {c : ℂ} {R : ℝ} (hR : 1 ≤ R) (hc : ‖ι.symm c‖ ≤ R) (v : σ) :
     CoefLe ι R (MvPolynomial.C c * MvPolynomial.X v) := by

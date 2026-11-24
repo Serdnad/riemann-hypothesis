@@ -1045,22 +1045,7 @@ theorem cMr_smap (γ : X.B.I.Ginf) (τ : D.what₂.Tau) (s z : Formalism.REAL.UJ
 
 theorem map_smap (τ : D.what₂.Tau) (g : Formalism.REAL.UJ (X.B.I.ε (vOf X τ))) :
     (Formalism.REAL.muG (X.B.I.ε (vOf X τ))).map (Smap C τ g) = muGB X (C.Q τ) (C.Qi τ) τ := by
-  have : (Formalism.REAL.muG (X.B.I.ε (vOf X τ))).IsMulRightInvariant := ⟨fun g => Formalism.REAL.indefinite_unitary_unimodular _ _ g⟩
-  set y' : Formalism.REAL.UJ (X.B.I.ε (vOf X τ)) := ujOf' _ (y_facts C τ).1 with hy'
-  have e : Smap C τ g = (fun γ => Matrix.of.symm (trG (C.Q τ) (C.Qi τ) γ)) ∘ (fun x => x * y') ∘ fun x => g⁻¹ * x := by
-    funext z
-    show Matrix.of.symm (C.Qi τ * umat (g⁻¹ * z) * C.Q τ * (C.y τ)⁻¹) =
-      Matrix.of.symm (C.Qi τ * (umat (g⁻¹ * z) * (C.Q τ * (C.y τ)⁻¹ * C.Qi τ)) * C.Q τ)
-    congr 1
-    simp only [Matrix.mul_assoc]
-    rw [(C.isT τ).1, Matrix.mul_one]
-  have hm : Measurable fun γ : Formalism.REAL.UJ (X.B.I.ε (vOf X τ)) => Matrix.of.symm (trG (C.Q τ) (C.Qi τ) γ) := by
-    refine Continuous.measurable ?_
-    unfold trG
-    exact (continuous_const.matrix_mul (Units.continuous_val.comp continuous_subtype_val)).matrix_mul continuous_const
-  rw [e, ← Measure.map_map hm ((measurable_mul_const _).comp (measurable_const_mul _)),
-    ← Measure.map_map (measurable_mul_const _) (measurable_const_mul _), map_mul_left_eq_self, map_mul_right_eq_self]
-  rfl
+  apply _root_.Formalism.MainStatements.RowRest.muG_smap <;> assumption
 
 theorem quot_push (γ : X.B.I.Ginf) (τ : D.what₂.Tau) {μR ν : Measure (Formalism.REAL.UJ (X.B.I.ε (vOf X τ)))}
     (h : IsQuotLoc μR ν) :

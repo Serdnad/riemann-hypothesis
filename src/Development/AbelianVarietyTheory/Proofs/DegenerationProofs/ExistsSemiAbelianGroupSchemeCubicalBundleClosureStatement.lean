@@ -173,20 +173,7 @@ theorem exists_point_norm_valF_eq {X : Scheme.{0}} {p : ℕ} [Fact p.Prime]
       valF (gPt p ≫ y') U φ = (((Scheme.ΓSpecIso (.of K)).hom
         ((Spec.map (CommRingCat.ofHom (algebraMap (integralClosure ℤ_[p] K) K)) ≫ y).appLE
           U ⊤ hy φ) : K) : PadicAlgCl p) := by
-  haveI := isLocalHom_integralClosureToPadicAlgClIntegers K
-  have e : gPt p ≫ spMap (integralClosureToPadicAlgClIntegers K) ≫ y =
-      spMap K.val.toRingHom ≫
-        Spec.map (CommRingCat.ofHom (algebraMap (integralClosure ℤ_[p] K) K)) ≫ y := by
-    rw [← Category.assoc, ← Category.assoc, ← Spec.map_comp, ← Spec.map_comp]
-    rfl
-  refine ⟨spMap (integralClosureToPadicAlgClIntegers K) ≫ y, ?_, ?_, ?_⟩
-  · refine (Scheme.Hom.comp_apply _ _ _).trans (congrArg y ?_)
-    exact IsLocalRing.comap_closedPoint (integralClosureToPadicAlgClIntegers K)
-  · rw [e]
-    rintro _ ⟨q, rfl⟩
-    exact hy (Set.mem_univ (spMap K.val.toRingHom q))
-  · rw [e, BoundedRegular.valF_spMap_comp_eq _ _ U hy]
-    rfl
+  first | exact _root_.GlobalTheory.BoundedRegular.exists_point_norm_valF_eq | exact @_root_.GlobalTheory.BoundedRegular.exists_point_norm_valF_eq | apply _root_.GlobalTheory.BoundedRegular.exists_point_norm_valF_eq <;> assumption
 
 theorem existsUnique_resG_eq {X : Scheme.{0}} [IsIntegral X] (π : X ⟶ Sp ℤ) [Flat π]
     [LocallyOfFiniteType π] (hX : ReciprocityTheory.ChartRestriction.G.Geo.Tor.IsNormalScheme X) {U W : X.Opens}

@@ -1,5 +1,6 @@
 module
 
+import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.GramSchmidtFrames.HermBvecEI
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.AdjointInverseTranslate.CoefLeftAAv
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.AdjointInverseTranslate.SubsetUpperHessenberg
 import Mathlib.Algebra.Order.Floor.Extended
@@ -75,19 +76,7 @@ theorem lx_mulVec_bvec {n : ℕ} (M : Matrix (Fin n) (Fin n) ℂ) (j i : Fin n) 
 
 theorem lx_herm_eI (k r : ℕ) (v : Fin (2 * r + k + 1) → ℂ) (a : Fin r) :
     herm (Hpk k r) v (bvec (eI k r a)) = v (esI k r a) := by
-  unfold herm
-  rw [dotProduct, Finset.sum_eq_single (eI k r a)]
-  · rw [Pi.star_apply, lf_bvec_apply, if_pos rfl, star_one, one_mul, lx_mulVec_apply,
-      Finset.sum_eq_single (esI k r a)]
-    · rw [lf_H_eI, if_pos rfl, one_mul]
-    · intro q _ hq
-      rw [lf_H_eI, if_neg hq, zero_mul]
-    · intro hn
-      exact absurd (Finset.mem_univ _) hn
-  · intro t _ ht
-    rw [Pi.star_apply, lf_bvec_apply, if_neg ht, star_zero, zero_mul]
-  · intro hn
-    exact absurd (Finset.mem_univ _) hn
+  apply _root_.PI.UnitaryGroupMassFormula.GsFr.herm_bvec_eI <;> assumption
 
 theorem lx_sum_red {n m : ℕ} (e : Fin m → Fin n) (he : Function.Injective e) (F : Fin n → ℂ)
     (hF : ∀ j, j ∉ Set.range e → F j = 0) : ∑ j, F j = ∑ b, F (e b) := by

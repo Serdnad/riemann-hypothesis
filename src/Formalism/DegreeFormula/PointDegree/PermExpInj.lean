@@ -1,5 +1,6 @@
 module
 
+import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.HookBound
 public import Formalism.DegreeFormula.FlagDegFormula
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -59,12 +60,7 @@ theorem permExp_inj {ι : Type} [Fintype ι] {N : ℕ} (σ ρ : ι → Equiv.Per
   omega
 
 theorem sum_delta (N : ℕ) : ∑ i : Fin N, (N - 1 - (i : ℕ)) = N * (N - 1) / 2 := by
-  rw [← Finset.sum_range_id]
-  rw [← Fin.sum_univ_eq_sum_range]
-  refine Fintype.sum_equiv Fin.revPerm _ _ ?_
-  intro i
-  simp [Fin.val_rev]
-  omega
+  apply _root_.PI.HookSteps.sum_rev_eq <;> assumption
 
 end Formalism.DegreeFormula.PermutationPointDegree
 

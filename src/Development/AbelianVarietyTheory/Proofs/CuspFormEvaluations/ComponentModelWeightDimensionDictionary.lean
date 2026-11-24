@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.FinrankLowerBoundCuspFormVanishingLowCoeff
 public import Development.AbelianVarietyTheory.Definitions.ThetaValues.Generic
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovVolumes.UpperBounds.InterpolationModelInequalities
 public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.ModelWeightSizeSpreadBound
@@ -45,6 +46,7 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.PullbackSections.HolomorphicFamilies.TorusFrame
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.PullbackSections.HolomorphicFamilies.WeightFloorInequalities
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.TotallyRealDegreeAndChartDimensionEq
 
 @[expose] public section
 
@@ -118,15 +120,8 @@ theorem wtA_wscalar (j n : ℕ) (hn : Even n) (x : (D.host.E →+* ℂ) × ℕ) 
 
 theorem laR_wadd (T : Top D) (j : ℕ) (k : (T.U j T.σ₀).Comp) (u u' : WeightFamilies.Wt D j) :
     laR T j (wadd u u') k = laR T j u k + laR T j u' k := by
-  funext τ a
-  have hn : (wadd u u').n / 2 = u.n / 2 + u'.n / 2 := by
-    have h1 := u.n_even
-    have h2 := u'.n_even
-    rw [n_wadd]
-    rw [Nat.even_iff] at h1 h2
-    omega
-  simp only [laR, laU, Pi.add_apply, wtA_wadd, hn]
-  split_ifs <;> push_cast <;> ring
+  intros
+  apply _root_.GlobalTheory.LowerBound.laR_wadd <;> assumption
 
 theorem laR_wsmul (T : Top D) (j : ℕ) (k : (T.U j T.σ₀).Comp) (m : ℕ) (u : WeightFamilies.Wt D j) :
     laR T j (wsmul m u) k = m • laR T j u k := by
@@ -139,14 +134,7 @@ theorem laR_wsmul (T : Top D) (j : ℕ) (k : (T.U j T.σ₀).Comp) (m : ℕ) (u 
   split_ifs <;> push_cast <;> ring
 
 theorem card_lower (r : ℕ) : Fintype.card {p : Fin r × Fin r // p.2 < p.1} = r * (r - 1) / 2 := by
-  have e : {p : Fin r × Fin r // p.2 < p.1} ≃ Σ a : Fin r, Finset.Iio a :=
-    { toFun := fun p => ⟨p.1.1, p.1.2, Finset.mem_Iio.2 p.2⟩
-      invFun := fun x => ⟨(x.1, x.2.1), Finset.mem_Iio.1 x.2.2⟩
-      left_inv := fun _ => rfl
-      right_inv := fun _ => rfl }
-  rw [Fintype.card_congr e, Fintype.card_sigma]
-  simp only [Fintype.card_coe, Fin.card_Iio]
-  rw [Fin.sum_univ_eq_sum_range (fun i => i) r, Finset.sum_range_id]
+  apply _root_.GlobalTheory.ChartCount.card_strictLower <;> assumption
 
 theorem choose_split (p q : ℕ) : (p + q) * (p + q - 1) / 2 = p * q + p * (p - 1) / 2 + q * (q - 1) / 2 := by
   rw [← Nat.choose_two_right, ← Nat.choose_two_right, ← Nat.choose_two_right]

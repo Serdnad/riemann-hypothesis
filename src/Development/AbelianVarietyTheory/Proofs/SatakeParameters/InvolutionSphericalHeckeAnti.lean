@@ -70,6 +70,8 @@ import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Heckecomm
 import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Tjcosets
 import Formalism.SatakeDualWeyl.KpqSubgroupCompact
 import Std.Tactic.BVDecide.Normalize.Prop
+import Development.AbelianVarietyTheory.Proofs.SatakeParameters.MemHyperspecialIffGIntOfSuppAtSplit
+import Formalism.LocalToGlobal.SiegelLatticeTheory.CokernelGLCounts.RankPointCounts.MassClEqSum
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.Proofs.SatakeParameters.ExistsFinsetReps, Development.AbelianVarietyTheory.Proofs.SatakeParameters.UnitarySupportedEquiv, Development.AbelianVarietyTheory.Proofs.SatakeParameters.ValEqExpNegOne, Development.AbelianVarietyTheory.Proofs.SatakeParameters.InvolutionSphericalHeckeAnti
@@ -83,15 +85,7 @@ namespace GlobalTheory.FinsetConjugateRepresentatives
 
 theorem mem_map_conj {G : Type} [Group G] (K : Subgroup G) (g y : G) :
     y ∈ K.map (MulAut.conj g).toMonoidHom ↔ g⁻¹ * y * g ∈ K := by
-  constructor
-  · rintro ⟨z, hz, rfl⟩
-    have : g⁻¹ * (MulAut.conj g).toMonoidHom z * g = z := by
-      simp [mul_assoc]
-    rw [this]
-    exact hz
-  · intro h
-    refine ⟨g⁻¹ * y * g, h, ?_⟩
-    simp [mul_assoc]
+  apply _root_.Formalism.L2.SG.RhoPf.mem_map_conj <;> assumption
 
 theorem exists_finset_reps : ∀ {G : Type} [inst : Group G] {K : Subgroup G},
     Formalism.UG.IsCommensurated K → ∀ (g : G), ∃ (R : Finset G),
@@ -683,14 +677,7 @@ theorem suppAt_conj {e : Formalism.L2.Theta.AE D} {V : HSp D} {g : GA D V} (hg :
 
 theorem mem_GfC {e : Formalism.L2.Theta.AE D} (he : IsSplitIdem D e) {V : HSp D} {g : GA D V} (hg : SuppAt e V g) :
     g ∈ GfC V := by
-  obtain ⟨-, -, v, ε, ⟨α, rfl, -⟩, h⟩ := he
-  have h0 : infPart D (e + cA D e) = 0 := by
-    rw [h]; exact TensorProduct.zero_tmul _ _
-  refine Units.ext (Matrix.ext fun i j => ?_)
-  have := congrArg (infPart D) (hg i j)
-  rw [map_mul, h0, zero_mul, Matrix.sub_apply, map_sub, eq_comm, sub_eq_zero] at this
-  refine Eq.trans this ?_
-  by_cases hij : i = j <;> simp [Matrix.one_apply, hij]
+  apply _root_.GlobalTheory.SplitHecke.Stab.mem_GfC <;> assumption
 
 theorem idem_mem {e : Formalism.L2.Theta.AE D} (he : e * e = e) : finPart D e ∈ intAE D :=
   GlobalTheory.AdIdem.idempotent_mem_intAE D _ (by rw [← map_mul, he])

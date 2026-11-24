@@ -1,5 +1,7 @@
 module
 
+import Development.AutomorphicArithmetic.AutomorphicVarieties.LiteratureResults.KTheoryStability.ReductionBoundsTorsion.IteratedHeckeBounds.HkIterContOn
+import Development.AutomorphicArithmetic.AutomorphicVarieties.LiteratureResults.KTheoryStability.ReductionBoundsTorsion.IteratedHeckeBounds.Lemmas
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.LiteratureResults.KTheoryStability.ReductionBoundsTorsion.CompactLocalSets.OverlapG
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.HermiteNormalForms.LowbdSmul
 public import Mathlib.Analysis.Matrix.Hermitian
@@ -98,14 +100,8 @@ def actEq (x : Gp L N) : HS L N ≃L[ℝ] HS L N where
 
 @[simp] theorem actEq_apply (x : Gp L N) (h : HS L N) : actEq x h = actL x h := rfl
 
-theorem pos_convex : Convex ℝ (Pos L N) := by
-  intro h hh k hk a b ha hb hab w
-  rw [mat_add, mat_smul, mat_smul]
-  rcases ha.eq_or_lt with rfl | ha'
-  · rw [zero_add] at hab
-    subst hab
-    simpa using hk w
-  · exact ((hh w).smul ha').add_posSemidef ((hk w).posSemidef.smul hb)
+theorem pos_convex : Convex ℝ (Pos L N) :=
+  _root_.PositivityTheory.KB.JoinReconstruction.pos_convex
 
 theorem kset_sub {q : ℕ} (x : Fin (q + 1) → Gp L N) {B : Set (HS L N)} (hB : B ⊆ Pos L N) :
     Kset (fun j => actL (x j)) B ⊆ Pos L N := by
@@ -158,24 +154,10 @@ theorem measurableSet_simplex (q : ℕ) :
 
 theorem intP_inv {q : ℕ} (ω : Form (HS L N) q) (g : Gp L N) (hg : FInv ω g)
     (y : Fin (q + 1) → Pos L N) : intP ω (fun j => g • y j) = intP ω y := by
-  simp only [intP, intS]
-  refine setIntegral_congr_fun (measurableSet_simplex q) fun t ht => ?_
-  have hv : ∀ j, ((g • y j : Pos L N) : HS L N) = actL g (y j).1 := fun j => rfl
-
-  simp only [hv, ← map_sub, ← map_smul, ← map_sum, ← map_add (f := _)]
-  have hp := simplex_pos (fun j => (y j).1) (fun j => (y j).2) t ht
-  have := congrArg (fun f => f (fun j => (y j.succ).1 - (y 0).1)) (hg _ hp)
-  simpa [Function.comp_def, map_sub] using this
+  apply _root_.PositivityTheory.KB.JoinReconstruction.intP_inv <;> assumption
 
 theorem cont_actL_apply (v : HS L N) : Continuous fun x : Gp L N => actL x v := by
-  refine continuous_induced_rng.2 ?_
-  change Continuous fun x : Gp L N => fun w i j =>
-    ((((x w)⁻¹ : GL (Fin N) ℂ) : Matrix (Fin N) (Fin N) ℂ)ᴴ * mat v w *
-      ((x w)⁻¹ : GL (Fin N) ℂ)) i j
-  refine continuous_pi fun w => continuous_pi fun i => continuous_pi fun j => ?_
-  have hi : Continuous fun x : Gp L N => (((x w)⁻¹ : GL (Fin N) ℂ) : Matrix (Fin N) (Fin N) ℂ) :=
-    Units.continuous_coe_inv.comp (continuous_apply w)
-  exact ((hi.matrix_conjTranspose.matrix_mul continuous_const).matrix_mul hi).matrix_elem i j
+  apply _root_.PositivityTheory.KB.JoinReconstruction.actL_cont <;> assumption
 
 theorem cont_actL : Continuous fun x : Gp L N => actL x :=
   continuous_clm_apply.2 fun v => cont_actL_apply v

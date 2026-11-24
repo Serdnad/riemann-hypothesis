@@ -1,5 +1,6 @@
 module
 
+import Development.WeilBound.RepresentationTheoryGL.UnitaryDualProof.CompactOrbits.SliceVanishing
 public import Mathlib.MeasureTheory.Group.Measure
 public import Mathlib.NumberTheory.LocalField.Basic
 public import Mathlib.Topology.Algebra.Module.ModuleTopology
@@ -63,16 +64,7 @@ section Field
 variable (K : Type) [Field K] [ValuativeRel K] [TopologicalSpace K] [IsNonarchimedeanLocalField K]
 
 theorem secondCountable : SecondCountableTopology K := by
-  letI := IsTopologicalAddGroup.rightUniformSpace K
-  haveI := isUniformAddGroup_of_addCommGroup (G := K)
-  letI : (Valued.v (R := K)).RankOne :=
-  { hom' := IsRankLeOne.nonempty.some.emb (R := K).comp MonoidWithZeroHom.ValueGroup₀.embedding
-    strictMono' := IsRankLeOne.nonempty.some.strictMono.comp
-        MonoidWithZeroHom.ValueGroup₀.embedding_strictMono }
-  open scoped Valued in
-  have : ProperSpace K := .of_nontriviallyNormedField_of_weaklyLocallyCompactSpace K
-  open scoped Valued in
-  exact secondCountable_of_proper
+  apply _root_.PositivityTheory.RgUd.T.Desc.SLF.sck <;> assumption
 
 variable {K}
 

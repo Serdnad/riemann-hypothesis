@@ -1,5 +1,7 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.ExistsOpenFix
+import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.UnitaryAdelicPointEqProdSplitComponentsMulOff
 public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.RescOne
 public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.HandBFSmul
 public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.CosInj
@@ -644,21 +646,7 @@ omit [MeasurableSpace k] [BorelSpace k] in
 theorem exists_open_fix {Y : Type} [Fintype Y] [DecidableEq Y] (L : Level (GL Y k)) (hL : IsOpen (L.J : Set (GL Y k))) (α : GL Y k) :
     ∃ U : Subgroup (GL Y k), IsOpen (U : Set (GL Y k)) ∧ ∀ (A : Type) [AddCommGroup A] [Module ℂ A] (σ : Representation ℂ (GL Y k) A),
       IsSmoothRep σ → ∀ v : A, (∀ j : L.J, σ (j : GL Y k) v = (L.lam j : ℂ) • v) → ∀ u ∈ U, σ u (σ α v) = σ α v := by
-  by_cases h : IsOpen ((L.lam.ker.map L.J.subtype : Subgroup (GL Y k)) : Set (GL Y k))
-  · refine ⟨(L.lam.ker.map L.J.subtype).comap (MulAut.conj α⁻¹).toMonoidHom,
-      h.preimage ((continuous_const.mul continuous_id).mul continuous_const), fun A _ _ σ _ v hv u hu => ?_⟩
-    obtain ⟨j, hj, e⟩ := hu
-    have e' : u * α = α * j := by
-      have e2 : (j : GL Y k) = α⁻¹ * u * α⁻¹⁻¹ := e
-      simp [e2, mul_assoc]
-    rw [← Module.End.mul_apply, ← map_mul, e', map_mul, Module.End.mul_apply, hv, show L.lam j = 1 from hj, Units.val_one, one_smul]
-  · refine ⟨⊤, isOpen_univ, fun A _ _ σ hσ v hv u _ => ?_⟩
-    obtain rfl : v = 0 := by
-      by_contra v0
-      refine h (Subgroup.isOpen_of_mem_nhds _ (g := 1) (Filter.mem_of_superset
-        ((hL.inter (hσ v)).mem_nhds ⟨L.J.one_mem, by simp⟩) fun g hg => ⟨⟨g, hg.1⟩, Units.ext ?_, rfl⟩))
-      exact smul_left_injective ℂ v0 (((hv ⟨g, hg.1⟩).symm.trans hg.2).trans (one_smul ℂ v).symm)
-    simp
+  first | exact _root_.GlobalTheory.QPl.OneComb.exists_open_fix' | exact @_root_.GlobalTheory.QPl.OneComb.exists_open_fix' | apply _root_.GlobalTheory.QPl.OneComb.exists_open_fix' <;> assumption
 
 theorem exists_isOneComb {ψ : AddChar k Circle} (hψ : HasConductor ψ 1) {ν : Measure k} (hν : IsUnitVol ν) {P : ℕ} (h1 : 1 ≤ P)
     (hP : P ≤ c) (L : Level (GL (n ⊕ Fin c) k)) (hL : IsOpen (L.J : Set (GL (n ⊕ Fin c) k))) (α : GL (n ⊕ Fin c) k) :
@@ -1071,19 +1059,7 @@ theorem off_mono {D : D7} {V : HSp D} {R R' : Pl D → Prop} (hR : ∀ p, R' p �
 open GlobalTheory.FinPl in
 theorem off_of_each {D : D7} {V : HSp D} {R : Pl D → Prop} {g : GA D V} (h : ∀ p, R p → g ∈ grpOff V (· = p)) :
     g ∈ grpOff V R := by
-  unfold grpOff
-  rw [GlobalTheory.FinPlLoc.mem_congGrp]
-  intro a b
-  unfold idOff
-  rw [Submodule.mem_iInf]
-  intro u
-  have hu := h u.1 u.2
-  unfold grpOff at hu
-  rw [GlobalTheory.FinPlLoc.mem_congGrp] at hu
-  have := hu a b
-  unfold idOff at this
-  rw [Submodule.mem_iInf] at this
-  exact this ⟨u.1, rfl⟩
+  first | exact _root_.GlobalTheory.FinPl.LocProd.mem_grpOff_of_forall | exact @_root_.GlobalTheory.FinPl.LocProd.mem_grpOff_of_forall | apply _root_.GlobalTheory.FinPl.LocProd.mem_grpOff_of_forall <;> assumption
 
 theorem prod_local : ∀ (D : D7) (c : Comm D) (v : VCom c) (t : Tup c) (w : VTup t) (F : QFam v t), F.Pins w → ∀ j σ (h : j + 2 * (σ + 1) + 2 = D.R.m), ∃ P : (∀ i, GL ((F.Q i).X (j + 1) ⊕ Fin (2 * σ + 2)) (F.Q i).k) →* GA D (c.V (j + 1)), (∀ (H : Subgroup (GA D (c.V (j + 1)))) y, (∀ i, (F.Q i).gl (j + 1) (2 * σ + 2) (by have := (F.Q i).hs; omega) (y i) ∈ H) → P y ∈ H) ∧ (∀ y, P y ∈ GlobalTheory.FinPl.grpAt _ (· ∈ w.Q)) ∧ ∀ x ∈ GlobalTheory.FinPl.grpAt _ (· ∈ w.Q), ∃ y, x = P y ∧ ∀ i, x * ((F.Q i).gl (j + 1) (2 * σ + 2) (by have := (F.Q i).hs; omega) (y i))⁻¹ ∈ GlobalTheory.FinPl.grpOff (c.V (j + 1)) (· = (F.Q i).q.v) := by
   intro D c v t w F hF j σ h

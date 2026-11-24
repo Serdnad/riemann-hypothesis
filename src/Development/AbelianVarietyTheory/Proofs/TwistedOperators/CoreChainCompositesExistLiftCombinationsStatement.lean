@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.IsFiniteAdelicMatrixLatticeDepthLatticeOfPair
 public import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.IsCoreLat
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ChainParIffStepGap
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ContragredientThetaParamsColumnArrows
@@ -653,18 +654,6 @@ private theorem psi_ne_zero {F : Type*} [AddGroup F] (ψ : AddChar F ℂ) (a : F
   rw [add_neg_cancel, AddChar.map_zero_eq_one, h, zero_mul] at this
   exact one_ne_zero this
 
-private theorem finLat_of_nsmul {D : D7} {m n : ℕ} {Λ A : AddSubgroup (Mx D m n)} (h : GlobalTheory.AscFin.FinLat Λ)
-    (hle : A ≤ Λ) {K : ℕ} (hK : 0 < K) (hA : ∀ u ∈ Λ, K • u ∈ A) : GlobalTheory.AscFin.FinLat A := by
-  obtain ⟨U, h1, h2, h3⟩ := h.opn
-  have inv : (K : AE D) * incA D (K : D.host.E)⁻¹ = 1 := by
-    rw [← map_natCast (incA D), ← map_mul, mul_inv_cancel₀ (Nat.cast_ne_zero.2 hK.ne'), map_one]
-  have hc : Continuous fun a : Mx D m n => incA D (K : D.host.E)⁻¹ • a :=
-    continuous_id.const_smul (incA D (K : D.host.E)⁻¹)
-  refine GlobalTheory.AscFinWit.finLat_of (fun a ha => h.fin a (hle ha))
-    ⟨_, h1.preimage hc, by rwa [Set.mem_preimage, smul_zero], fun a ha hb => ?_⟩ h.cpt fun a ha => hle ha
-  have := hA _ (h3 _ ha fun i j => Ideal.mul_mem_left _ _ (hb i j))
-  rwa [← Nat.cast_smul_eq_nsmul (AE D), smul_smul, inv, one_smul] at this
-
 end GlobalTheory.CoreOnto.Reps
 
 open GlobalTheory.CoreOnto.Reps in
@@ -709,7 +698,7 @@ theorem _root_.GlobalTheory.T.exists_representatives_half_quotient_pairing_trivi
     exact nsmul_mem hw K
   have finΛ : GlobalTheory.AscFin.FinLat Λ := GlobalTheory.AscFinWit.finLat_latO (GlobalTheory.ProjXCols.selfDual_isFullLattice _ _ hS) (GlobalTheory.ProjXCols.selfDual_isFullLattice _ _ hT)
   have finKΛ : GlobalTheory.AscFin.FinLat KΛ :=
-    finLat_of_nsmul finΛ hKΛle hK (fun u hu => ⟨u, hu, rfl⟩)
+    _root_.GlobalTheory.AscFin.DepLat.finLat_of_nsmul finΛ hKΛle hK (fun u hu => ⟨u, hu, rfl⟩)
   let N : AddSubgroup ↥Λ := KΛ.addSubgroupOf Λ
   haveI : CompactSpace ↥Λ := isCompact_iff_compactSpace.mp finΛ.cpt
   have hNopen : IsOpen (N : Set ↥Λ) := by

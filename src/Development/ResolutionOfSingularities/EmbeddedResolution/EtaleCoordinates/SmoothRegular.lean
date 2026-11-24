@@ -1,5 +1,6 @@
 module
 
+import GroundTheory.ArithmeticGeometry.SchemeCohomology.RegularSmooth
 public import Mathlib.AlgebraicGeometry.AffineSpace
 public import Mathlib.Combinatorics.Quiver.ReflQuiver
 public import Mathlib.RingTheory.RegularLocalRing.Defs
@@ -115,19 +116,8 @@ private theorem ringKrullDim_le_of_hasGoingDown (R S : Type*) [CommRing R] [Comm
     [IsLocalRing R] [IsLocalRing S] [Algebra R S] [IsLocalHom (algebraMap R S)]
     [Algebra.HasGoingDown R S] :
     ringKrullDim R ≤ ringKrullDim S := by
-  have key : ∀ p : LTSeries (PrimeSpectrum R), (p.length : WithBot ℕ∞) ≤ ringKrullDim S := by
-    intro p
-    have hmax : p.last.asIdeal ≤ IsLocalRing.maximalIdeal R :=
-      IsLocalRing.le_maximalIdeal p.last.isPrime.ne_top
-    have hp : p.last.asIdeal ≤ Ideal.under R (IsLocalRing.maximalIdeal S) := by
-      intro x hx
-      exact map_nonunit (algebraMap R S) x (hmax hx)
-    obtain ⟨q, hq1, -, -⟩ :=
-      exists_ltSeries_le_of_hasGoingDown R S p.length p rfl (IsLocalRing.maximalIdeal S)
-        inferInstance hp
-    calc (p.length : WithBot ℕ∞) = (q.length : WithBot ℕ∞) := by rw [hq1]
-      _ ≤ ringKrullDim S := Order.LTSeries.length_le_krullDim q
-  exact iSup_le key
+  intros
+  apply _root_.GroundTheory.Arith.SchemeCoh.ringKrullDim_le_of_hasGoingDown <;> assumption
 
 private theorem spanFinrank_map_le (R S : Type*) [CommRing R] [CommRing S] [IsNoetherianRing R]
     [Algebra R S] (I : Ideal R) :
@@ -246,46 +236,10 @@ theorem isRegularLocalRing_stalk_affineSpace (k : Type u) [Field k] (n : Type u)
     (fun p hp => by have := hp; infer_instance)
     (AffineSpace.SpecIso n (CommRingCat.of k)) x
 
-private theorem isRegularLocalRing_stalk_of_stalkMap_flat_formallyUnramified {Y Z : Scheme.{u}} (f : Y ⟶ Z) (y : Y)
-    (hZ : _root_.IsRegularLocalRing (Z.presheaf.stalk (f.base y)))
-    (hflat : (f.stalkMap y).hom.Flat)
-    (heft : (f.stalkMap y).hom.EssFiniteType)
-    (hfu : (f.stalkMap y).hom.FormallyUnramified) :
-    _root_.IsRegularLocalRing (Y.presheaf.stalk y) := by
-  have := hZ
-  let _ : Algebra (Z.presheaf.stalk (f.base y)) (Y.presheaf.stalk y) :=
-    (f.stalkMap y).hom.toAlgebra
-  have : IsLocalHom (algebraMap (Z.presheaf.stalk (f.base y)) (Y.presheaf.stalk y)) :=
-    inferInstanceAs (IsLocalHom (f.stalkMap y).hom)
-  have : Module.Flat (Z.presheaf.stalk (f.base y)) (Y.presheaf.stalk y) := hflat
-  have : Algebra.EssFiniteType (Z.presheaf.stalk (f.base y)) (Y.presheaf.stalk y) := heft
-  have : Algebra.FormallyUnramified (Z.presheaf.stalk (f.base y)) (Y.presheaf.stalk y) := hfu
-  have : IsNoetherianRing (Y.presheaf.stalk y) :=
-    Algebra.EssFiniteType.isNoetherianRing
-      (Z.presheaf.stalk (f.base y)) (Y.presheaf.stalk y)
-  exact isRegularLocalRing_of_flat_formallyUnramified
-    (Z.presheaf.stalk (f.base y)) (Y.presheaf.stalk y)
-
-private theorem isRegularLocalRing_stalk_of_opens {X : Scheme.{u}} (U : X.Opens) (y : U)
-    (h : _root_.IsRegularLocalRing (U.toScheme.presheaf.stalk y)) :
-    _root_.IsRegularLocalRing (X.presheaf.stalk y.1) := by
-  have := h
-  exact IsRegularLocalRing.of_ringEquiv (U.stalkIso y).commRingCatIsoToRingEquiv
-
 theorem isRegularLocalRing_stalk_of_smooth {X : Scheme.{u}} {k : Type u} [Field k]
     (p : X ⟶ Spec (CommRingCat.of k)) [AlgebraicGeometry.Smooth p] (x : X) :
     _root_.IsRegularLocalRing (X.presheaf.stalk x) := by
-  obtain ⟨U, m, hxU, -, ⟨c⟩⟩ := exists_etaleChart p x
-  have := c.isEtale
-  have hreg : _root_.IsRegularLocalRing
-      ((affineSpaceFin k m).presheaf.stalk (c.map.base (⟨x, hxU⟩ : U))) :=
-    isRegularLocalRing_stalk_affineSpace k (ULift.{u} (Fin m)) _
-  have h2 : _root_.IsRegularLocalRing (U.toScheme.presheaf.stalk (⟨x, hxU⟩ : U)) :=
-    isRegularLocalRing_stalk_of_stalkMap_flat_formallyUnramified c.map (⟨x, hxU⟩ : U) hreg
-      (AlgebraicGeometry.Flat.stalkMap c.map (⟨x, hxU⟩ : U))
-      (AlgebraicGeometry.LocallyOfFiniteType.stalkMap c.map (⟨x, hxU⟩ : U))
-      (AlgebraicGeometry.FormallyUnramified.stalkMap c.map (⟨x, hxU⟩ : U))
-  exact isRegularLocalRing_stalk_of_opens U (⟨x, hxU⟩ : U) h2
+  exact GroundTheory.Arith.SchemeCoh.isRegularLocalRing_stalk_of_smooth_field p x
 
 theorem isDomain_stalk_of_smooth {X : Scheme.{u}} {k : Type u} [Field k]
     (p : X ⟶ Spec (CommRingCat.of k)) [AlgebraicGeometry.Smooth p] (x : X) :

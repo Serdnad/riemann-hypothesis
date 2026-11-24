@@ -1,6 +1,7 @@
 module
 
 public import CompanionTheory.AutomorphicTheory.PieriRules.ThetaBesselIsometries.IsDSOfIsDG
+import Development.AbelianVarietyTheory.Proofs.JetHarmonics.DiscreteSeriesParameterUnique
 import Mathlib.Algebra.Order.Archimedean.Real.Hom
 import Mathlib.Analysis.LocallyConvex.AbsConvexOpen
 import Mathlib.Tactic.Lemma
@@ -61,19 +62,8 @@ lemma dsig_equiv (V : H ≃L[ℂ] H') (hV : ∀ g, Formalism.REAL.inUJ ε g → 
   rfl
 
 lemma dsigC_equiv (V : H ≃L[ℂ] H') (hV : ∀ g, Formalism.REAL.inUJ ε g → ∀ x, V (τ g x) = τ' g (V x))
-    (Y : Matrix (Fin n) (Fin n) ℂ) (v : H) : V (dsigC ε τ Y v) = dsigC ε τ' Y (V v) := by
-  have hJ := Formalism.REAL.Jm_mul_self ε
-  have hH := Formalism.REAL.Jm_conjTranspose ε
-  have hJ' := Formalism.REAL.f1alg_JJ_left ε
-  unfold dsigC
-  have hs : star (1 / (2 * Complex.I) : ℂ) = -(1 / (2 * Complex.I)) := by simp [Complex.conj_I]
-  have hs' : star (1 / 2 : ℂ) = 1 / 2 := by simp
-  rw [map_add (f := _), map_smul, dsig_equiv V hV, dsig_equiv V hV] <;> rw [Formalism.REAL.f1alg_inG_iff] <;>
-    simp only [thetaJ, conjTranspose_smul, hs, hs', conjTranspose_add, conjTranspose_sub, conjTranspose_neg,
-      conjTranspose_mul, hH, conjTranspose_conjTranspose, Matrix.mul_smul, Matrix.smul_mul, Matrix.mul_add,
-      Matrix.add_mul, Matrix.mul_sub, Matrix.sub_mul, Matrix.mul_neg, Matrix.neg_mul, Matrix.mul_assoc, hJ, hJ',
-      Matrix.mul_one] <;>
-    module
+    (Y : Matrix (Fin n) (Fin n) ℂ) (v : H) : V (dsigC ε τ Y v) = dsigC ε τ' Y (V v) :=
+  _root_.GlobalTheory.DSInequiv.dsigC_equiv V hV Y v
 
 lemma dsigCW_equiv (V : H ≃L[ℂ] H') (hV : ∀ g, Formalism.REAL.inUJ ε g → ∀ x, V (τ g x) = τ' g (V x))
     (w : List (Matrix (Fin n) (Fin n) ℂ)) (v : H) : V (dsigCW ε τ w v) = dsigCW ε τ' w (V v) := by
@@ -145,27 +135,8 @@ end
 
 lemma exists_kfin {k r : ℕ} {ε : Fin (2 * r + k + 1) → Bool} {mu : Fin (2 * r + k + 1) → ℝ} (R : Rep k r)
     {P : Mx k r} (hP : PI.UpqRep.IsCayleyU k r ε P) (h : PI.UpqRep.IsDS ε mu (fun g => R.σ (P⁻¹ * g * P))) :
-    ∃ v, R.KFin v ∧ v ≠ 0 := by
-  obtain ⟨S, hfin, hst, -, ⟨v, hvS, hv0, -⟩, -⟩ := h.2.2.2.2.2.1
-  refine ⟨v, ⟨S, hfin, hvS, ?_⟩, hv0⟩
-  rintro g ⟨hg, hgu⟩ x hx
-  have hd := (Matrix.isUnit_iff_isUnit_det P).mp hP.1.1
-  have hPP : star P * P = 1 := Unitary.star_mul_self_of_mem hP.2
-  have hPP' : P * star P = 1 := Unitary.mul_star_self_of_mem hP.2
-  have hu : P * g * star P ∈ Matrix.unitaryGroup (Fin (2 * r + k + 1)) ℂ :=
-    Submonoid.mul_mem _ (Submonoid.mul_mem _ hP.2 hgu) (Unitary.star_mem hP.2)
-  have hJ : (P * g * star P)ᴴ * PI.UpqRep.Jm ε * (P * g * star P) = PI.UpqRep.Jm ε := by
-    have hg' : gᴴ * PI.UpqRep.Hpk k r * g = PI.UpqRep.Hpk k r := hg
-    rw [dsParamUniq_conjT, dsParamUniq_conjT, hP.1.2, hg', ← hP.1.2, ← dsParamUniq_conjT, hPP']; simp
-  have hK : P * g * star P ∈ PI.UpqRep.Kset ε := by
-    refine ⟨hu, ?_⟩
-    have h1 : (P * g * star P) * (P * g * star P)ᴴ = 1 := Unitary.mul_star_self_of_mem hu
-    generalize P * g * star P = m at hJ h1
-    conv_lhs => rw [← hJ]
-    simp only [← Matrix.mul_assoc, h1, Matrix.one_mul]
-  have e : P⁻¹ * (P * g * star P) * P = g := by
-    simp only [Matrix.mul_assoc, Matrix.nonsing_inv_mul_cancel_left P _ hd, hPP, Matrix.mul_one]
-  simpa only [e] using hst _ hK x hx
+    ∃ v, R.KFin v ∧ v ≠ 0 :=
+  _root_.GlobalTheory.DSInequiv.exists_kfin R hP h
 
 theorem param_eq_of_equiv : HypsG → ∀ (k r : ℕ) (ε : Fin (2 * r + k + 1) → Bool) (mu : Fin (2 * r + k + 1) → ℝ) (mu' : Fin (2 * r + k + 1) → ℝ) (R R' : Rep k r), R.IsDG ε mu → R'.IsDG ε mu' → ∀ U : R.H ≃ₗᵢ[ℂ] R'.H, (∀ g ∈ GG k r, ∀ x, U (R.σ g x) = R'.σ g (U x)) → mu = mu' := by
   intro hy k r ε mu mu' R R' hR hR' U hU

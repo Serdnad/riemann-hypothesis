@@ -1,5 +1,7 @@
 module
 
+
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsRegularOfMulEqSmul
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.IsStratHom
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.AinfAdicTopologicalBasisOverBreuilKisin
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.BreuilKisinAinfDiscIsDomainNormBounds
@@ -48,7 +50,6 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
 import Mathlib.Algebra.Order.Star.Real
 import Mathlib.RingTheory.PowerSeries.NoZeroDivisors
-
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.FrobeniusPeriodMemNonZeroDivisorsDisc, Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.LatticeBasisFrobeniusEquationDisc
 
@@ -104,20 +105,7 @@ namespace GlobalTheory.BSP
 theorem mul_eq_smul_one_comm {R : Type} [CommRing R] [IsDomain R] {d : ℕ}
     {M M' : Matrix (Fin d) (Fin d) R} {c : R} (hc : c ≠ 0) (h : M * M' = c • (1 : Matrix (Fin d) (Fin d) R)) :
     M' * M = c • (1 : Matrix (Fin d) (Fin d) R) := by
-  have hdet : M.det ≠ 0 := by
-    intro h0
-    have h1 := congrArg Matrix.det h
-    rw [Matrix.det_mul, h0, zero_mul, Matrix.det_smul, Matrix.det_one, mul_one] at h1
-    exact pow_ne_zero _ hc h1.symm
-  have key : M.det • (M' * M) = M.det • (c • (1 : Matrix (Fin d) (Fin d) R)) := by
-    calc M.det • (M' * M) = (M.adjugate * M) * (M' * M) := by
-          rw [Matrix.adjugate_mul, Matrix.smul_mul, Matrix.one_mul]
-      _ = M.adjugate * (M * M') * M := by simp only [Matrix.mul_assoc]
-      _ = _ := by rw [h, Matrix.mul_smul, Matrix.mul_one, Matrix.smul_mul, Matrix.adjugate_mul, smul_comm]
-  ext i j
-  have h2 := congrFun (congrFun key i) j
-  simp only [Matrix.smul_apply, smul_eq_mul] at h2
-  simpa [Matrix.smul_apply] using mul_left_cancel₀ hdet h2
+  first | exact _root_.GlobalTheory.SelfDualFil.mul_eq_smul_comm | exact @_root_.GlobalTheory.SelfDualFil.mul_eq_smul_comm | apply _root_.GlobalTheory.SelfDualFil.mul_eq_smul_comm <;> assumption
 
 theorem eq_zero_of_mul_eq_zero_of_mul_eq_smul {R : Type} [CommRing R] {d : ℕ}
     {W W' M : Matrix (Fin d) (Fin d) R} {t : R} (ht : t ∈ nonZeroDivisors R)

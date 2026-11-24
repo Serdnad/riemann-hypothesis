@@ -1,5 +1,6 @@
 module
 
+import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.StabilizerOrbitVolume.TensTop
 public import Formalism.SharpRestriction.GlobalSchurBounds.GeneralLinearActions.GenusMassVolumes
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.AdelicLocalCompactness.T2SpaceTensorProductFiniteExtension
 import Mathlib.Algebra.Order.Floor.Extended
@@ -76,30 +77,10 @@ instance borelSpace_tens : BorelSpace (R ⊗[F] E) := ⟨rfl⟩
 instance borelSpace_herm (σ : E →ₐ[F] E) (n : ℕ) : BorelSpace (HermR R σ n) := ⟨rfl⟩
 
 theorem continuous_norm_tens : Continuous (fun x : R ⊗[F] E => Algebra.norm R x) := by
-  classical
-  haveI : IsModuleTopology R (R ⊗[F] E) := ⟨rfl⟩
-  let b := Algebra.TensorProduct.basis R (Module.finBasis F E)
-  have hn : (fun x : R ⊗[F] E => Algebra.norm R x) = fun x => (Algebra.leftMulMatrix b x).det :=
-    funext fun x => Algebra.norm_eq_matrix_det b x
-  rw [hn]
-  refine Continuous.matrix_det (continuous_pi fun i => continuous_pi fun j => ?_)
-  simp only [Algebra.leftMulMatrix_eq_repr_mul]
-  exact IsModuleTopology.continuous_of_linearMap
-    ((b.coord i).comp (LinearMap.mulRight R (b j)))
+  apply _root_.PI.VolStabSW.continuous_norm_tens <;> assumption
 
 theorem isUnit_iff_norm_tens (x : R ⊗[F] E) : IsUnit x ↔ IsUnit (Algebra.norm R x) := by
-  haveI : Module.Free R (R ⊗[F] E) :=
-    Module.Free.of_basis (Algebra.TensorProduct.basis R (Module.finBasis F E))
-  constructor
-  · intro h
-    exact h.map (Algebra.norm R)
-  · intro h
-    rw [Algebra.norm_apply] at h
-    obtain ⟨u, hu⟩ := (LinearMap.isUnit_iff_isUnit_det _).2 h
-    have h1 : (u : Module.End R (R ⊗[F] E)) ((↑u⁻¹ : Module.End R (R ⊗[F] E)) 1) = 1 := by
-      rw [← Module.End.mul_apply, Units.mul_inv, Module.End.one_apply]
-    rw [hu] at h1
-    exact isUnit_iff_exists_inv.2 ⟨_, h1⟩
+  apply _root_.PI.VolStabSW.isUnit_iff_norm_tens <;> assumption
 
 theorem isOpen_units_tens (h : IsOpen {r : R | IsUnit r}) :
     IsOpen {x : R ⊗[F] E | IsUnit x} := by
@@ -126,58 +107,17 @@ def hLin (σ : E →ₐ[F] E) {M : ℕ} (J : Matrix (Fin M) (Fin M) E) (x : Fin 
 theorem linIndep_of_isUnit_det (σ : E →ₐ[F] E) {M n : ℕ} (J : Matrix (Fin M) (Fin M) E)
     (X : Fin n → Fin M → R ⊗[F] E) (h : IsUnit (gramR R σ J X).det) :
     LinearIndependent (R ⊗[F] E) X := by
-  rw [Fintype.linearIndependent_iff]
-  intro g hg
-  have hM : (gramR R σ J X).mulVec g = 0 := by
-    funext b
-    have hb := congrArg (hLin R σ J (X b)) hg
-
-    simp only [map_sum, map_smul, map_zero, smul_eq_mul] at hb
-    simp only [Matrix.mulVec, dotProduct, Pi.zero_apply]
-    rw [← hb]
-    exact Finset.sum_congr rfl fun a _ => by rw [mul_comm]; rfl
-  have hg0 : g = 0 := by
-    rw [← Matrix.one_mulVec g, ← Matrix.nonsing_inv_mul _ h, ← Matrix.mulVec_mulVec, hM,
-      Matrix.mulVec_zero]
-  intro i
-  rw [hg0]
-  rfl
+  apply _root_.PI.VolStabSW.linIndep_of_isUnit_det <;> assumption
 
 variable [LocallyCompactSpace R] [T2Space R]
 
 theorem continuous_hR (σ : E →ₐ[F] E) {M : ℕ} (J : Matrix (Fin M) (Fin M) E) :
     Continuous (fun p : (Fin M → R ⊗[F] E) × (Fin M → R ⊗[F] E) => hR R σ J p.1 p.2) := by
-  haveI : IsModuleTopology R (R ⊗[F] E) := ⟨rfl⟩
-  haveI : IsTopologicalRing (R ⊗[F] E) := IsModuleTopology.isTopologicalRing R _
-  let sL : R ⊗[F] E →ₗ[R] R ⊗[F] E :=
-    { toFun := sigR R σ
-      map_add' := map_add _
-      map_smul' := fun r x => by
-        rw [RingHom.id_apply, Algebra.smul_def, Algebra.smul_def, map_mul]
-        congr 1
-        simp [sigR, Algebra.TensorProduct.algebraMap_apply] }
-  have hs : Continuous (sigR R σ) := IsModuleTopology.continuous_of_linearMap sL
-  simp only [hR, Formalism.UG.hform]
-  exact continuous_finsetSum _ fun i _ => continuous_finsetSum _ fun j _ =>
-    ((hs.comp ((continuous_apply i).comp continuous_fst)).mul continuous_const).mul
-      ((continuous_apply j).comp continuous_snd)
+  apply _root_.PI.VolStabSW.continuous_hR <;> assumption
 
 theorem continuous_gramR_apply (σ : E →ₐ[F] E) {M n : ℕ} (J : Matrix (Fin M) (Fin M) E)
     (a b : Fin n) : Continuous (fun X : Fin n → Fin M → R ⊗[F] E => gramR R σ J X a b) := by
-  haveI : IsModuleTopology R (R ⊗[F] E) := ⟨rfl⟩
-  haveI : IsTopologicalRing (R ⊗[F] E) := IsModuleTopology.isTopologicalRing R _
-  let sL : R ⊗[F] E →ₗ[R] R ⊗[F] E :=
-    { toFun := sigR R σ
-      map_add' := map_add _
-      map_smul' := fun r x => by
-        rw [RingHom.id_apply, Algebra.smul_def, Algebra.smul_def, map_mul]
-        congr 1
-        simp [sigR, Algebra.TensorProduct.algebraMap_apply] }
-  have hs : Continuous (sigR R σ) := IsModuleTopology.continuous_of_linearMap sL
-  simp only [gramR, hR, Formalism.UG.hform]
-  exact continuous_finsetSum _ fun i _ => continuous_finsetSum _ fun j _ =>
-    ((hs.comp ((continuous_apply i).comp (continuous_apply a))).mul continuous_const).mul
-      ((continuous_apply j).comp (continuous_apply b))
+  apply _root_.PI.VolStabSW.continuous_gramR_apply <;> assumption
 
 theorem continuous_gramR (σ : E →ₐ[F] E) {M n : ℕ} (J : Matrix (Fin M) (Fin M) E) :
     Continuous (fun X : Fin n → Fin M → R ⊗[F] E => gramR R σ J X) :=
@@ -185,25 +125,7 @@ theorem continuous_gramR (σ : E →ₐ[F] E) {M n : ℕ} (J : Matrix (Fin M) (F
 
 theorem isClosed_HermR (σ : E →ₐ[F] E) (n : ℕ) :
     IsClosed (HermR R σ n : Set (Matrix (Fin n) (Fin n) (R ⊗[F] E))) := by
-  haveI : IsModuleTopology R (R ⊗[F] E) := ⟨rfl⟩
-  haveI : IsTopologicalRing (R ⊗[F] E) := IsModuleTopology.isTopologicalRing R _
-  let sL : R ⊗[F] E →ₗ[R] R ⊗[F] E :=
-    { toFun := sigR R σ
-      map_add' := map_add _
-      map_smul' := fun r x => by
-        rw [RingHom.id_apply, Algebra.smul_def, Algebra.smul_def, map_mul]
-        congr 1
-        simp [sigR, Algebra.TensorProduct.algebraMap_apply] }
-  have hs : Continuous (sigR R σ) := IsModuleTopology.continuous_of_linearMap sL
-  have hset : (HermR R σ n : Set (Matrix (Fin n) (Fin n) (R ⊗[F] E))) =
-      ⋂ a, ⋂ b, {S | sigR R σ (S b a) = S a b} := by
-    ext S
-    simp only [Set.mem_iInter, Set.mem_setOf_eq]
-    rfl
-  rw [hset]
-  exact isClosed_iInter fun a => isClosed_iInter fun b =>
-    isClosed_eq (hs.comp ((continuous_apply a).comp (continuous_apply b)))
-      ((continuous_apply b).comp (continuous_apply a))
+  apply _root_.PI.VolStabSW.isClosed_HermR <;> assumption
 
 instance locallyCompact_herm (σ : E →ₐ[F] E) (n : ℕ) : LocallyCompactSpace (HermR R σ n) :=
   (isClosed_HermR R σ n).isClosedEmbedding_subtypeVal.locallyCompactSpace

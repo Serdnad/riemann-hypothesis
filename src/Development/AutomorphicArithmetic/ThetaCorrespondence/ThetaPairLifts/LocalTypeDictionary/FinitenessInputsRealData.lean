@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.DefiniteSourcePairCentredBlockParametersStatement
 public import Mathlib.Analysis.SpecialFunctions.Log.Basic
 public import Development.AbelianVarietyTheory.Definitions.Divisors.FormalDegreeUpperC
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsLinearLift
@@ -1088,15 +1089,7 @@ theorem mem_holPar_kapW {Rk : Ranks} (h : HCParam Rk) (p q : ℕ) (hpq : Odd (p 
 
 theorem lamAt_anti {Rk : Ranks} (h : HCParam Rk) {n n' : ℕ} (hnn : n ≤ n') (hn : n' < Rk.r) :
     Formalism.L2.NTheta.lamAt h n' ≤ Formalism.L2.NTheta.lamAt h n := by
-  have mono : ∀ d : ℕ, n + d < Rk.r → Formalism.L2.NTheta.lamAt h (n + d) ≤ Formalism.L2.NTheta.lamAt h n := by
-    intro d
-    induction d with
-    | zero => intro _; exact le_rfl
-    | succ d ih =>
-      intro hd
-      exact (Formalism.L2.NTheta.lamAt_lt h (n + d) (by omega)).le.trans (ih (by omega))
-  have := mono (n' - n) (by omega)
-  rwa [show n + (n' - n) = n' by omega] at this
+  apply _root_.GlobalTheory.ArchRec.ParPair.lamAt_le_of_le <;> assumption
 
 theorem lamAt_b {Rk : Ranks} (h : HCParam Rk) (c : ℕ) (hc : c < Rk.m) :
     Formalism.L2.NTheta.lamAt h (Rk.k - 1 + c) = -h.b ⟨c, hc⟩ := by

@@ -1,5 +1,6 @@
 module
 
+import GroundTheory.AutomorphicForms.ArchimedeanWhittaker.MultOne
 public import Formalism.SharpRestriction.CuspSpanNormBounds.NormalizedLocalScale
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.CompactGroupHaarExists
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.OppositeWeylSubgroupClosed
@@ -108,54 +109,7 @@ theorem schur_selfAdjoint [Nontrivial H] (𝒮 : Set (H →L[ℂ] H))
     (hirr : ∀ S : Submodule ℂ H, IsClosed (S : Set H) → (∀ U ∈ 𝒮, ∀ v ∈ S, U v ∈ S) → S = ⊥ ∨ S = ⊤)
     (A : H →L[ℂ] H) (hA : IsSelfAdjoint A) (hc : ∀ U ∈ 𝒮, Commute A U) :
     ∃ a : ℝ, A = algebraMap ℝ (H →L[ℂ] H) a := by
-  obtain ⟨a, ha⟩ := ContinuousFunctionalCalculus.spectrum_nonempty (R := ℝ) A hA
-  have hsub : ∀ y ∈ spectrum ℝ A, y = a := by
-    intro y hy
-    by_contra hne
-    set δ := |y - a| / 2 with hδ
-    set F := cfc (tent y δ) A with hF
-    set G := cfc (tent a δ) A with hG
-    have hFG : F * G = 0 := by
-      rw [hF, hG, ← cfc_mul (tent y δ) (tent a δ) A (tent_cont _ _).continuousOn (tent_cont _ _).continuousOn]
-      have : (fun t => tent y δ t * tent a δ t) = fun _ => (0 : ℝ) := by
-        funext t; exact tent_mul hne t
-      rw [this, cfc_const_zero]
-    have hne0 : ∀ x ∈ spectrum ℝ A, cfc (tent x δ) A ≠ 0 := by
-      intro x hx h0
-      have h1 : tent x δ x ∈ spectrum ℝ (cfc (tent x δ) A) := by
-        rw [cfc_map_spectrum (tent x δ) A hA (tent_cont _ _).continuousOn]
-        exact ⟨x, hx, rfl⟩
-      rw [h0, spectrum.zero_eq, tent_self] at h1
-      exact one_ne_zero h1
-    have hGc : ∀ U ∈ 𝒮, Commute G U := fun U hU => (hc U hU).cfc_real _
-    set S : Submodule ℂ H := (LinearMap.range (G : H →ₗ[ℂ] H)).topologicalClosure with hS
-    have hSinv : ∀ U ∈ 𝒮, ∀ v ∈ S, U v ∈ S := by
-      intro U hU v hv
-      have hv' : v ∈ closure ((LinearMap.range (G : H →ₗ[ℂ] H)) : Set H) := hv
-      refine map_mem_closure U.continuous hv' ?_
-      rintro _ ⟨w, rfl⟩
-      refine ⟨U w, ?_⟩
-      have := congrArg (fun T : H →L[ℂ] H => T w) (hGc U hU).eq
-      exact this
-    have hSk : S ≤ LinearMap.ker (F : H →ₗ[ℂ] H) := by
-      refine Submodule.topologicalClosure_minimal _ ?_ F.isClosed_ker
-      rintro _ ⟨w, rfl⟩
-      have := congrArg (fun T : H →L[ℂ] H => T w) hFG
-      exact this
-    rcases hirr S (Submodule.isClosed_topologicalClosure _) hSinv with h | h
-    · apply hne0 a ha
-      ext w
-      have : G w ∈ S := Submodule.le_topologicalClosure _ ⟨w, rfl⟩
-      rw [h] at this
-      simpa using this
-    · apply hne0 y hy
-      ext w
-      have : w ∈ S := by rw [h]; trivial
-      exact hSk this
-  refine ⟨a, ?_⟩
-  calc A = cfc (id : ℝ → ℝ) A := (cfc_id ℝ A hA).symm
-    _ = cfc (fun _ : ℝ => a) A := cfc_congr fun y hy => hsub y hy
-    _ = algebraMap ℝ (H →L[ℂ] H) a := cfc_const a A hA
+  apply +allowSynthFailures _root_.GroundTheory.Automorphic.ArchWhittaker.eq_algebraMap_of_commute <;> assumption
 
 theorem schur_general [Nontrivial H] (𝒮 : Set (H →L[ℂ] H))
     (hirr : ∀ S : Submodule ℂ H, IsClosed (S : Set H) → (∀ U ∈ 𝒮, ∀ v ∈ S, U v ∈ S) → S = ⊥ ∨ S = ⊤)

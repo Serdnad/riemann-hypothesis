@@ -41,6 +41,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Std.Tactic.BVDecide.Normalize.Prop
+import Development.AbelianVarietyTheory.Proofs.FormalGroupCharts.MvPowerSeriesJetEqCalculus
 
 @[expose] public section
 
@@ -81,26 +82,11 @@ private theorem le_degree_lemma_4 {τ : Type} (e : τ →₀ ℕ) (i : τ) : e i
     exact Finset.single_le_sum (f := fun j => e j) (fun _ _ => Nat.zero_le _)
       (Finsupp.mem_support_iff.2 h)
 
-private theorem mem_degLE_lemma_6 {τ : Type} [Fintype τ] [DecidableEq τ] (m : ℕ) (e : τ →₀ ℕ) :
-    e ∈ degLE m ↔ e.degree ≤ m := by
-  unfold degLE
-  rw [Finset.mem_filter, Finset.mem_image]
-  constructor
-  · rintro ⟨_, h⟩
-    rw [degree_eq_sum_lemma_2]
-    exact h
-  · intro h
-    refine ⟨⟨fun i => ⟨e i, by have := le_degree_lemma_4 e i; omega⟩, Finset.mem_univ _, ?_⟩, ?_⟩
-    · ext i
-      simp
-    · rw [degree_eq_sum_lemma_2] at h
-      exact h
-
 private theorem coeff_psTrunc_lemma_7 {τ : Type} [Fintype τ] [DecidableEq τ] (m : ℕ)
     (f : MvPowerSeries τ S) (e : τ →₀ ℕ) :
     AddMonoidAlgebra.coeff (psTrunc m f) e = if e.degree ≤ m then MvPowerSeries.coeff e f else 0 := by
   rw [psTrunc, coeff_sum]
-  simp only [coeff_monomial, Finset.sum_ite_eq', mem_degLE_lemma_6]
+  simp only [coeff_monomial, Finset.sum_ite_eq', _root_.GlobalTheory.ChartCmp.JCalc.mem_degLE_iff]
 
 theorem mk_psTrunc_X {τ : Type} [Fintype τ] [DecidableEq τ] (m : ℕ) (q : τ) :
     (Ideal.Quotient.mk (orig S τ ^ (m + 1)) (psTrunc m (MvPowerSeries.X q))) = Ideal.Quotient.mk _ (X q) := by

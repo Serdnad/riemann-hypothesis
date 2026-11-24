@@ -66,22 +66,7 @@ variable {V K' : Type} [CommRing V] [IsDomain V] [IsDiscreteValuationRing V] [Fi
   [IsFractionRing V K']
 
 theorem mem_range_of_vV_nonneg {x : K'} (h : 0 ≤ vV V x) : x ∈ Set.range (algebraMap V K') := by
-  by_cases hx : x = 0
-  · exact ⟨0, by simp [hx]⟩
-  have hv0 : HeightOneSpectrum.valuation K' (IsDiscreteValuationRing.maximalIdeal V) x ≠ 0 :=
-    (Valuation.ne_zero_iff _).mpr hx
-  have hle : HeightOneSpectrum.valuation K' (IsDiscreteValuationRing.maximalIdeal V) x ≤ 1 := by
-    rw [← WithZero.exp_log hv0, ← WithZero.exp_zero, WithZero.exp_le_exp]
-    unfold vV valV at h
-    linarith
-  have key : ∀ w : HeightOneSpectrum V, w.valuation K' x ≤ 1 := by
-    intro w
-    have hw : w = IsDiscreteValuationRing.maximalIdeal V :=
-      HeightOneSpectrum.ext (IsLocalRing.eq_maximalIdeal w.isMaximal)
-    rw [hw]
-    exact hle
-  obtain ⟨y, hy⟩ := HeightOneSpectrum.mem_integers_of_valuation_le_one (R := V) (K := K') x key
-  exact ⟨y, hy⟩
+  apply _root_.Formalism.L2.Pj.mem_range_of_vV_nonneg <;> assumption
 
 end Dvr
 
@@ -226,16 +211,7 @@ theorem epsPt_one_left {S : Type} [CommRing S] {Xo : Moduli Dw l} {x : Sp S ⟶ 
 theorem isCombAt_single {S : Type} [CommRing S] {Xo : Moduli Dw l} {x : Sp S ⟶ Xo.X} {m : ℕ}
     {v : Fin m → (Sp (DualNumber S) ⟶ Xo.univ.t.G.left)} (hv : ∀ j, IsTanAt x (v j)) (j : Fin m) :
     IsCombAt x v (Pi.single j 1) (v j) := by
-  have h := isCombAt_epsPt hv (Pi.single j 1)
-  suffices e : (List.ofFn fun i => epsPt (hv i) ((Pi.single j 1 : Fin m → S) i)).prod.left = v j by
-    rw [e] at h; exact h
-  rw [List.prod_ofFn, Finset.prod_eq_single j]
-  · simp only [Pi.single_eq_same]
-    exact epsPt_one_left (hv j)
-  · intro i _ hij
-    rw [Pi.single_eq_of_ne hij]
-    exact epsPt_zero (hv i)
-  · intro h; exact absurd (Finset.mem_univ j) h
+  apply _root_.Formalism.L2.Pj.isCombAt_single <;> assumption
 
 variable (Xo : Moduli Dw l) (c : Coeff l)
 

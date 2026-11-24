@@ -277,11 +277,7 @@ open ReciprocityTheory.ChartRestriction.G.DVR
 variable {R : Type} [CommRing R] [IsDomain R] {D : DegPre R} {F : Type} [Field F] [Algebra (FractionRing R) F]
 
 theorem trPt_inv_comp (m : TF (R := R) F ⟶ D.P.A) : DegPre.trPt D F m⁻¹ ≫ DegPre.trPt D F m = 𝟙 _ := by
-  apply CartesianMonoidalCategory.hom_ext
-  · rw [Category.assoc, tr_fst, tr_fst, Category.id_comp]
-  · show (DegPre.trPt D F m⁻¹ ≫ DegPre.trPt D F m) ≫ DegPre.prB D F = 𝟙 _ ≫ DegPre.prB D F
-    rw [Category.assoc, tr_pr, MonObj.comp_mul, tr_pr, ← Category.assoc, tr_fst, _root_.mul_assoc,
-      ← MonObj.comp_mul, inv_mul_cancel, MonObj.comp_one, _root_.mul_one, Category.id_comp]
+  apply _root_.GlobalTheory.PhiBase.trPt_inv_comp <;> assumption
 
 theorem zero_of_phiVal {n : ℕ} (p p' : QkPt D F n)
     (w : LB.Gen (LB.LinComb D.P.L (DegPre.lineφ D F p.g.b) (DegPre.lineε n)))
@@ -337,12 +333,7 @@ open ReciprocityTheory.ChartRestriction.G.DVR
 variable {R : Type} [CommRing R] [IsDomain R] {D : DegPre R} {F : Type} [Field F] [Algebra (FractionRing R) F]
 
 theorem trPt_inv_comp (b : TF (R := R) F ⟶ D.P.A) : DegPre.trPt D F b⁻¹ ≫ DegPre.trPt D F b = 𝟙 _ := by
-  apply CartesianMonoidalCategory.hom_ext
-  · rw [Category.assoc, tr_fst, tr_fst, Category.id_comp]
-  · have e : (DegPre.trPt D F b⁻¹ ≫ DegPre.trPt D F b) ≫ DegPre.prB D F = DegPre.prB D F := by
-      rw [Category.assoc, tr_pr, MonObj.comp_mul, tr_pr, ← Category.assoc, tr_fst, _root_.mul_assoc,
-        ← MonObj.comp_mul, inv_mul_cancel, MonObj.comp_one, _root_.mul_one]
-    exact e.trans (Category.id_comp _).symm
+  apply _root_.GlobalTheory.PhiBase.trPt_inv_comp <;> assumption
 
 theorem phiVal_inv {n : ℕ} (p : QkPt D F n)
     (w : LB.Gen (LB.LinComb D.P.L (DegPre.lineφ D F p.g.b) (DegPre.lineε n)))

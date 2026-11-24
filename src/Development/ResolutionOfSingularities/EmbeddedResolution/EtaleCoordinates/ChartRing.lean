@@ -265,4 +265,37 @@ theorem EtaleChart.etaleCoordinates_coord (c : EtaleChart p U m) (j : Fin m) :
     EtaleChart.coordRingHom_X c j
   exact h
 
+private theorem algebraMap_mem_nonZeroDivisors_of_flat {R A : Type u} [CommRing R]
+    [CommRing A] [Algebra R A] [Module.Flat R A] {r : R} (hr : r ∈ nonZeroDivisors R) :
+    algebraMap R A r ∈ nonZeroDivisors A := by
+  have hreg : IsSMulRegular A r := Module.Flat.isSMulRegular_of_nonZeroDivisors hr
+  have key : ∀ x : A, algebraMap R A r * x = 0 → x = 0 := by
+    intro x hx
+    have hsm : r • x = r • (0 : A) := by
+      rw [smul_zero, Algebra.smul_def]
+      exact hx
+    exact hreg hsm
+  rw [mem_nonZeroDivisors_iff]
+  exact ⟨key, fun x hx => key x (by rw [mul_comm]; exact hx)⟩
+
+theorem coord_mem_nonZeroDivisors {U : X.Opens} (hU : IsAffineOpen U) (c : EtaleChart p U m)
+    (j : Fin m) : c.coord j ∈ nonZeroDivisors ↑(X.presheaf.obj (op U)) := by
+  let _ : Algebra (MvPolynomial (ULift.{u} (Fin m)) k) ↑(X.presheaf.obj (op U)) := c.algebra
+  have : Algebra.Etale (MvPolynomial (ULift.{u} (Fin m)) k) ↑(X.presheaf.obj (op U)) :=
+    c.algebra_etale hU
+  have : Module.Flat (MvPolynomial (ULift.{u} (Fin m)) k) ↑(X.presheaf.obj (op U)) :=
+    inferInstance
+  have halg : (algebraMap (MvPolynomial (ULift.{u} (Fin m)) k) ↑(X.presheaf.obj (op U)))
+      = c.coordRingHom := c.algebraMap_eq_coordRingHom
+  have hXne : (MvPolynomial.X (ULift.up.{u} j) : MvPolynomial (ULift.{u} (Fin m)) k) ≠ 0 :=
+    MvPolynomial.X_ne_zero _
+  have hXnzd : (MvPolynomial.X (ULift.up.{u} j) : MvPolynomial (ULift.{u} (Fin m)) k)
+      ∈ nonZeroDivisors (MvPolynomial (ULift.{u} (Fin m)) k) :=
+    mem_nonZeroDivisors_of_ne_zero hXne
+  have key : (algebraMap (MvPolynomial (ULift.{u} (Fin m)) k) ↑(X.presheaf.obj (op U)))
+      (MvPolynomial.X (ULift.up.{u} j)) ∈ nonZeroDivisors ↑(X.presheaf.obj (op U)) :=
+    algebraMap_mem_nonZeroDivisors_of_flat hXnzd
+  rw [halg] at key
+  rwa [c.coordRingHom_X j] at key
+
 end FunctorialResolution.EmbeddedResolution

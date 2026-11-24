@@ -60,34 +60,8 @@ variable {k : Type} [Field k] [ValuativeRel k] [TopologicalSpace k] [IsNonarchim
 
 theorem move_left (hM : MidP k) (hR : RefineP k) (hS : SwapP k) (hJ : JuxtP k) (hL : LinkP k) (x ρ : IrrGL (k := k)) :
     ∀ (A : List (IrrGL (k := k))), (∀ a ∈ A, a.IsCusp ∧ ρ ≠ a.nu 1) → ∀ (Δ : Segment k) (b : IrrGL (k := k)) (B : List (IrrGL (k := k))), Δ.first = ρ →
-      IsLSeg Δ b.rep → EmbL x (A ++ [b] ++ B) → ∃ (Γ : Segment k) (c y : IrrGL (k := k)), Γ.first = ρ ∧ IsLSeg Γ c.rep ∧ EmbL x [c, y] := by
-  intro A
-  induction A using List.reverseRecOn with
-  | nil =>
-    intro _ Δ b B hΔ hb hx
-    obtain ⟨σ, -, hσ⟩ := hM x [b] B [] (by simpa using hx)
-    exact ⟨Δ, b, σ, hΔ, hb, by simpa using hσ⟩
-  | append_singleton A' a ih =>
-    intro hA Δ b B hΔ hb hx
-    have hA' : ∀ a ∈ A', a.IsCusp ∧ ρ ≠ a.nu 1 := fun a' ha' => hA a' (List.mem_append_left _ ha')
-    have ha := hA a (by simp)
-    have hx' : EmbL x (A' ++ [a, b] ++ B) := by simpa using hx
-    by_cases hlk : (Segment.single a ha.1).Linked Δ
-    · rcases hL a ha.1 Δ hlk with h | h
-      · exact (ha.2 (hΔ.symm.trans h)).elim
-      · obtain ⟨σ, hσ, hxσ⟩ := hM x A' [a, b] B hx'
-        rw [h] at hσ
-        rcases hJ σ b Δ hb hσ with h2 | h2
-        · have hup : (up Δ).first = ρ := by
-            unfold up
-            rw [Segment.first_ofFirst]
-            exact hΔ
-          exact ih hA' (up Δ) σ B hup h2 hxσ
-        · have h3 := hR x σ A' [b, Δ.first.nu Δ.len] B h2 hxσ
-          rw [← h] at h3
-          exact ih hA' Δ b ([a] ++ B) hΔ hb (by simpa using h3)
-    · have h3 := hS x a b A' B _ Δ (single_spec ha.1).2.1 hb hlk hx'
-      exact ih hA' Δ b ([a] ++ B) hΔ hb (by simpa using h3)
+      IsLSeg Δ b.rep → EmbL x (A ++ [b] ++ B) → ∃ (Γ : Segment k) (c y : IrrGL (k := k)), Γ.first = ρ ∧ IsLSeg Γ c.rep ∧ EmbL x [c, y] :=
+  _root_.CompanionTheory.Exh.move_left hM hR hS hJ hL x ρ
 
 theorem exhaustion_of_steps
     (H : ∀ (k : Type) [Field k] [ValuativeRel k] [TopologicalSpace k] [IsNonarchimedeanLocalField k] [CharZero k],

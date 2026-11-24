@@ -145,17 +145,7 @@ theorem lognInf_eq (v : InfinitePlace E) (x : GA E n) {r : ℕ} (M : Matrix (Fin
 
 theorem exists_ginv {K : Type} [Field K] {r m : ℕ} (A : Matrix (Fin r) (Fin m) K) :
     ∃ B : Matrix (Fin m) (Fin r) K, A * B * A = A := by
-  obtain ⟨g, hg⟩ := LinearMap.exists_rightInverse_of_surjective A.mulVecLin.rangeRestrict
-    (LinearMap.range_rangeRestrict _)
-  obtain ⟨h, hh⟩ := LinearMap.exists_extend g
-  refine ⟨LinearMap.toMatrix' h, ?_⟩
-  apply Matrix.mulVec_injective
-  funext z
-  have hz : A *ᵥ z ∈ LinearMap.range A.mulVecLin := ⟨z, rfl⟩
-  have h1 : h (A *ᵥ z) = g ⟨A *ᵥ z, hz⟩ := LinearMap.congr_fun hh ⟨A *ᵥ z, hz⟩
-  have h2 : A *ᵥ g ⟨A *ᵥ z, hz⟩ = A *ᵥ z :=
-    congrArg Subtype.val (LinearMap.congr_fun hg ⟨A *ᵥ z, hz⟩)
-  rw [← Matrix.mulVec_mulVec, ← Matrix.mulVec_mulVec, LinearMap.toMatrix'_mulVec, h1, h2]
+  apply _root_.GlobalTheory.CompanionTheory.LocFlagPf.exists_ginv <;> assumption
 
 theorem exists_left (v : InfinitePlace E) (W : Submodule E (Fin n → E)) :
     ∃ L : Matrix (Fin (Module.finrank E W)) (Fin n) ℂ, L * (basisMat W).map v.embedding = 1 := by
@@ -985,12 +975,7 @@ theorem emb_conj {E : Type} [Field E] [NumberField E] [IsCMField E] (v : Infinit
 
 theorem locGL_theta {E : Type} [Field E] [NumberField E] [IsCMField E] {n : ℕ} (v : InfinitePlace E)
     (d : GL (Fin n) E) : locGL v (thetaE E n d) = thC n (locGL v d) := by
-  apply Units.ext
-  have h1 : (locGL v (thetaE E n d)).val = ((thetaR (conjE E) n d).val).map v.embedding := rfl
-  have h2 : (locGL v d⁻¹).val = (d⁻¹ : GL (Fin n) E).val.map v.embedding := rfl
-  rw [h1, thetaR_val, thetaR_val, ← map_inv, h2]
-  ext i j
-  simp [emb_conj]
+  apply _root_.PositivityTheory.Rg.BcB.CV.Glob1Aux.locGL_theta <;> assumption
 
 theorem locGL_nrm {E : Type} [Field E] [NumberField E] [IsCMField E] {n : ℕ} (v : InfinitePlace E)
     (d : GL (Fin n) E) : locGL v (nrm d) = locGL v d * thC n (locGL v d) := by

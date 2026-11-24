@@ -1,5 +1,7 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.WachImageDeRhamPlusComponentLevel
+import Formalism.SharpRestriction.LevelLetterCocycles.LevelKernelDetection.PfLvFil
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.PeriodDiscExtensionTateElement
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.SeriesTransport
 public import Mathlib.RingTheory.PowerSeries.Substitution
@@ -795,16 +797,7 @@ variable {G : Type} [Group G] {Qp K₀ K : Type} [Field Qp] [Field K₀] [Field 
 variable {LL : Type} [Field LL] [Algebra Qp LL]
     {V : Type} [AddCommGroup V] [Module LL V] [Module Qp V] [IsScalarTower Qp LL V] in
 private theorem exists_mem_filV' (x : V ⊗[Qp] BdR) : ∃ n, x ∈ _root_.Formalism.WeaklyAdmissibleFiltrations.FilV PD (LL := LL) (V := V) n := by
-  induction x using TensorProduct.induction_on with
-  | zero => exact ⟨0, zero_mem _⟩
-  | tmul v y =>
-    obtain ⟨n, hn⟩ := PD.Fil_exh y
-    exact ⟨n, tmul_mem_filV_of_mem_fil PD n v hn⟩
-  | add x y hx hy =>
-    obtain ⟨n₁, h₁⟩ := hx
-    obtain ⟨n₂, h₂⟩ := hy
-    exact ⟨min n₁ n₂, add_mem (filV_antitone' PD (min_le_left _ _) h₁)
-      (filV_antitone' PD (min_le_right _ _) h₂)⟩
+  apply _root_.Formalism.MainNotions.N.Ln03.Pf.lvFil_FilV_exh <;> assumption
 
 open TensorProduct in
 variable {G : Type} [Group G] [TopologicalSpace G] {Qp : Type} [Field Qp] {BdR : Type}
@@ -831,18 +824,7 @@ variable {G : Type} [Group G] [TopologicalSpace G] {Qp : Type} [Field Qp] {BdR :
     [Algebra O LL] [TopologicalSpace LL] (T : _root_.Formalism.BasicNotions.LocLat G Qp LL O) in
 private theorem mulVR_mem_compKer (ι : LL →ₐ[Qp] BdR) (β : BdR) {x : T.V ⊗[Qp] BdR}
     (hx : x ∈ _root_.Formalism.BasicNotions.compKer T ι) : _root_.Formalism.BasicNotions.mulVR T β x ∈ _root_.Formalism.BasicNotions.compKer T ι := by
-  unfold _root_.Formalism.BasicNotions.compKer at hx ⊢
-  induction hx using Submodule.span_induction with
-  | mem y hy =>
-    obtain ⟨c, y, rfl⟩ := hy
-    apply Submodule.subset_span
-    refine ⟨c, _root_.Formalism.BasicNotions.mulVR T β y, ?_⟩
-    rw [map_sub, LinearMap.map_smul, mulVR_mulVR', mulVR_mulVR', mul_comm]
-  | zero => simp
-  | add x y _ _ hx hy =>
-    rw [LinearMap.map_add]
-    exact add_mem hx hy
-  | smul c x _ hx => rw [LinearMap.map_smul]; exact Submodule.smul_mem _ c hx
+  apply _root_.GlobalTheory.NL.PerS.mulVR_compKer <;> assumption
 
 open TensorProduct in
 private theorem mulRight_mem_filV_lemma_4 {G : Type} [Group G] [TopologicalSpace G] {Qp K₀ K : Type}
@@ -854,17 +836,7 @@ private theorem mulRight_mem_filV_lemma_4 {G : Type} [Group G] [TopologicalSpace
     [Algebra O LL] [TopologicalSpace LL] (T : _root_.Formalism.BasicNotions.LocLat G Qp LL O) {p n : ℤ} {β : BdR}
     (hβ : β ∈ PD.Fil p) {x : T.V ⊗[Qp] BdR} (hx : x ∈ _root_.Formalism.WeaklyAdmissibleFiltrations.FilV PD (LL := LL) (V := T.V) n) :
     _root_.Formalism.BasicNotions.mulVR T β x ∈ _root_.Formalism.WeaklyAdmissibleFiltrations.FilV PD (LL := LL) (V := T.V) (p + n) := by
-  unfold _root_.Formalism.WeaklyAdmissibleFiltrations.FilV at hx
-  obtain ⟨t, rfl⟩ := hx
-  induction t using TensorProduct.induction_on with
-  | zero => simp
-  | tmul v y =>
-    simp only [AlgebraTensorModule.map_tmul, LinearMap.id_apply, Submodule.coe_subtype,
-      mulVR_tmul']
-    exact tmul_mem_filV_of_mem_fil PD _ v (PD.Fil_mul _ _ _ _ hβ y.2)
-  | add x y hx hy =>
-    simp only [LinearMap.map_add]
-    exact add_mem hx hy
+  apply _root_.GlobalTheory.NL.PerS.mulVR_FilV <;> assumption
 
 open TensorProduct in
 variable {G : Type} [Group G] [TopologicalSpace G] {Qp : Type} [Field Qp] {BdR : Type}

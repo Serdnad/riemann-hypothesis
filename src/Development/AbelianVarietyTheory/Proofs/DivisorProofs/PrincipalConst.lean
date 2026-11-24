@@ -1,5 +1,6 @@
 module
 
+import Development.WeilBound.CoreStatements.PublishedTheorems.NadelVanishingPairs.NadelVanishingLemmas.KltOfSncCoefficients
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.IsEqnIffGeneratesAtInv
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.MemRiemannRochSpaceIffRegularAtEverywhere
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.RingKrullDimIntegers
@@ -980,17 +981,7 @@ theorem DivOver.ord_finsetProd_zpow {k : Type} [Field k] {X : Scheme.{0}} [IsInt
 theorem DivOver.ord_eq_zero_of_unitAt_through {k : Type} [Field k] {X : Scheme.{0}} [IsIntegral X]
     {p : X ⟶ Sp k} (E : DivOver p) {y : X} (hE : E.Through y) (v : X.functionFieldˣ)
     (h : UnitAt y (v : X.functionField)) : E.ord v = 0 := by
-  obtain ⟨a, ha, e⟩ := h
-  have h1 : (v : X.functionField) ∈ E.ring := hE _ ⟨a, e⟩
-  have h2 : ((v⁻¹ : X.functionFieldˣ) : X.functionField) ∈ E.ring := by
-    refine hE _ ⟨(ha.unit⁻¹ : (X.presheaf.stalk y)ˣ), ?_⟩
-    rw [Units.val_inv_eq_inv_val, ← e]
-    refine eq_inv_of_mul_eq_one_left ?_
-    rw [← map_mul, IsUnit.val_inv_mul, map_one]
-  have a1 := (E.ord_nonneg_iff v).2 h1
-  have a2 := (E.ord_nonneg_iff v⁻¹).2 h2
-  rw [E.ord_inv] at a2
-  omega
+  apply _root_.GlobalTheory.Discrepancy.DivOver.ord_eq_zero_of_unitAt <;> assumption
 
 end GlobalTheory.Discrepancy
 

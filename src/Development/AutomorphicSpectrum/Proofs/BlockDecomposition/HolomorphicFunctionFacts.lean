@@ -46,6 +46,7 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Sheaves.Presheaf
+import ReciprocityTheory.ReductiveGroups.DiscreteSeries.LaplaceOperators.KTypeLemma.TransferB
 
 @[expose] public section
 
@@ -60,20 +61,7 @@ attribute [local instance] Matrix.normedAddCommGroup Matrix.normedSpace
 variable {n : ℕ}
 
 theorem contDiff_lead (j : ℕ) : ContDiff ℂ ⊤ (lead j : Matrix (Fin n) (Fin n) ℂ → ℂ) := by
-  by_cases h : j ≤ n
-  · have : (lead j : Matrix (Fin n) (Fin n) ℂ → ℂ) =
-        fun z => (z.submatrix (Fin.castLE h) (Fin.castLE h)).det := by
-      funext z; simp [lead, h]
-    rw [this]
-    simp only [Matrix.det_apply]
-    refine ContDiff.sum fun σ _ => ?_
-    refine ContDiff.const_smul _ ?_
-    refine contDiff_prod fun i _ => ?_
-    exact contDiff_apply_apply (𝕜 := ℂ) (E := ℂ) (ι := Fin n) (ι' := Fin n) _ _
-  · have : (lead j : Matrix (Fin n) (Fin n) ℂ → ℂ) = fun _ => 0 := by
-      funext z; simp [lead, h]
-    rw [this]
-    exact contDiff_const
+  apply _root_.ReciprocityTheory.ChartRestriction.DS.Lap.LemK.tb_contDiff_lead <;> assumption
 
 theorem isOpen_OmegaSet (n : ℕ) : IsOpen (OmegaSet n) := by
   have : OmegaSet n = ⋂ i : Fin n, {z | lead ((i : ℕ) + 1) z ≠ 0} := by

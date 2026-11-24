@@ -1,5 +1,6 @@
 module
 
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.HodgeCptInteriorGeneric
 public import Development.AbelianVarietyTheory.Definitions.ExistenceOfLattices.NormConst
 public import Development.AbelianVarietyTheory.PublishedTheorems.Landherr₂.ExistsNormTensor
 public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.FinrankEqOfInjectiveOfSpan
@@ -150,16 +151,7 @@ theorem rt0_ne_zero (H : ReciprocityTheory.ChartRestriction.G.Geo.Tor.Host E) : 
   exact H.d_prime.ne_zero (by exact_mod_cast h2)
 
 theorem rt0_conj_neg_ne_zero (H : ReciprocityTheory.ChartRestriction.G.Geo.Tor.Host E) : starRingEnd ℂ H.rt0 = -H.rt0 := by
-  have h1 : (starRingEnd ℂ H.rt0) ^ 2 = H.rt0 ^ 2 := by
-    rw [← map_pow, H.sqrt_neg_disc_sq]; simp
-  rcases sq_eq_sq_iff_eq_or_eq_neg.1 h1 with h | h
-  · exfalso
-    have him : H.rt0.im = 0 := Complex.conj_eq_iff_im.1 h
-    have h2 := congrArg Complex.re H.sqrt_neg_disc_sq
-    have hd : (0 : ℝ) < H.d := by exact_mod_cast H.d_prime.pos
-    simp [pow_two, him] at h2
-    nlinarith [mul_self_nonneg H.rt0.re]
-  · exact h
+  apply _root_.GlobalTheory.CompanionTheory.Ar.HodgeBasic.rt0_conj_neg_ne_zero <;> assumption
 
 theorem emb_rt_eq_or (H : ReciprocityTheory.ChartRestriction.G.Geo.Tor.Host E) (τ : E →+* ℂ) :
     τ (H.rt : E) = H.rt0 ∨ τ (H.rt : E) = -H.rt0 := by

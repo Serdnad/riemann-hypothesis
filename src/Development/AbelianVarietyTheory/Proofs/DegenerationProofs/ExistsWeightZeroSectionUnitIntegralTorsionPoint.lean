@@ -69,6 +69,7 @@ import Mathlib.Algebra.Order.Star.Int
 import Mathlib.Algebra.Order.Star.Rat
 import Mathlib.Tactic.Linter.Style
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.ExistsRosatiGen
+import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.EEContainsStableWeightZero
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.Proofs.DegenerationProofs.ExistsIsCombTranslatesOfNuGe, Development.AbelianVarietyTheory.Proofs.DegenerationProofs.ExistsWeightZeroSectionUnitIntegralTorsionPoint
@@ -209,14 +210,7 @@ open GlobalTheory.ZH.SecValue
 
 theorem quadratic_nonneg {X : Type} [AddCommGroup X] (q : QuadraticMap ℤ X ℝ)
     (hq : Filter.Tendsto q Filter.cofinite Filter.atTop) (a : X) : 0 ≤ q a := by
-  obtain ⟨b, hb⟩ := hq.exists_forall_le
-  have h0 : q b ≤ 0 := by simpa using hb 0
-  have h2 := hb ((2 : ℤ) • b)
-  rw [QuadraticMap.map_smul] at h2
-  simp only [zsmul_eq_mul] at h2
-  push_cast at h2
-  have := hb a
-  linarith
+  apply _root_.GlobalTheory.ZH.LatticeStable.quadratic_nonneg <;> assumption
 
 theorem value_nonneg_all : LL → TwistBCSpanStatement → TWM.VRatioGtStatement → TWStatement → UUStatement → AllUV fun {V} _ _ _ {_} _ {D} Q {F} _ _ {v} _ {A} {_} _ _ U => ∀ w₀ ρ, NormW U.toUnifPre w₀ ρ → ∀ (n : ℕ), 1 ≤ n → ∀ (p : QkPt D.toPre F n) (x : TFK (R := V) F ⟶ A.A), QkToAkU U.toUnifPre F n p x → ∀ e, IsTorsFrame A ρ n x e → ∀ (t : SecA A F 1) (s : Fam D.toPre F 1) (c : F), U.ExpandsF F 1 w₀ t s → NuGe D Q F v 1 s 0 → ValAt t x e c → 0 ≤ v c := by
   intro hL hT hVR hTW hUU V _ _ _ _ hcpl ϖ hϖ D Q hQ F _ _ _ v hv A G _ _ hG U w₀ ρ hN n hn p x hx e he t s c ht hν hc

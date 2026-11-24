@@ -1,5 +1,6 @@
 module
 
+import Formalism.SharpRestriction.LevelLetterCocycles.EqZeroOfPowDvd
 public import Formalism.SharpRestriction.LevelLetterCocycles.CyclotomicPowerSeries.ConstSectionStatement
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -55,15 +56,7 @@ open PowerSeries IsLocalRing
 theorem algHom_coe_eq_aeval {O T : Type} [CommRing O] [CommRing T] [Algebra O T]
     (ρ : PowerSeries O →ₐ[O] T) (r : Polynomial O) :
     ρ (r : PowerSeries O) = Polynomial.aeval (ρ X) r := by
-  induction r using Polynomial.induction_on' with
-  | add p q hp hq => rw [Polynomial.coe_add, map_add (f := _), hp, hq, map_add (f := _)]
-  | monomial n a =>
-    rw [← Polynomial.C_mul_X_pow_eq_monomial, Polynomial.coe_mul, Polynomial.coe_C,
-      Polynomial.coe_pow, Polynomial.coe_X, map_mul, map_pow, map_mul, map_pow,
-      Polynomial.aeval_C, Polynomial.aeval_X]
-    congr 1
-    all_goals first
-      | exact ρ.commutes a
+  apply _root_.Formalism.MainNotions.RamifiedCoefficientChains.S9.Ring.algHom_coe <;> assumption
 
 theorem constantCoeff_aeval {O S : Type} [CommRing O] [CommRing S] [Algebra O S]
     (x : PowerSeries S) (r : Polynomial O) :

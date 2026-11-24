@@ -1,5 +1,7 @@
 module
 
+
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.RowsOfLevelOnObjects
 public import Formalism.LocalToGlobal.IndefiniteReal.SubgroupCharExtensionOneApply
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.LevelGroupActionIsAction
 public import Formalism.LocalToGlobal.IndefiniteReal.LinksChar
@@ -55,7 +57,6 @@ import Mathlib.Tactic.Linter.HaveILetI
 import Mathlib.Tactic.Linter.Style
 import Mathlib.Tactic.ReduceModChar
 import Std.Tactic.BVDecide.Normalize.Prop
-
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.Proofs.TwistedOperators.ConvIdempotentAct, Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.PostOnGaLMemGoodPart
 
@@ -123,35 +124,7 @@ open Formalism.IndefR.Lev
 open scoped Pointwise in
 theorem not_isConjPl {D : D7} (P : Formalism.L2.Host.PiBar D.host) {k k' : Fin 2} {w w' : HeightOneSpectrum (𝓞 D.host.E)}
     (hw : P.Div k w) (hw' : P.Div k' w') : ¬ Lev.IsConjPl w w' := by
-  intro hc
-  have hle : D.host.conj • w.asIdeal ≤ w'.asIdeal := by
-    intro y hy
-    rw [Ideal.mem_pointwise_smul_iff_inv_smul_mem] at hy
-    obtain ⟨z, hz, hzv⟩ := hc _ hy
-    have e : z = y := RingOfIntegers.ext
-      ((hzv.trans (bridge_star_holds D.R D.host _)).trans (D.host.conj.apply_symm_apply (y : D.host.E)))
-    exact e ▸ hz
-  obtain ⟨v, hv, -⟩ := GlobalTheory.Mem.Chr.existsUnique_conjPl D.host.conj.toRingEquiv w
-  have hv' := (GlobalTheory.Mem.Chr.conjPl_iff_smul D.host.conj w v).1 hv
-  have hvw : v = w' := HeightOneSpectrum.ext (v.isMaximal.eq_of_le w'.isPrime.ne_top (hv' ▸ hle))
-  subst hvw
-  obtain ⟨ho, hiff⟩ := (GlobalTheory.Mem.Chr.splitsC_main D.R D.host (D.host.g k) (D.host.g_prime k) (D.nd.g_split k) w
-    (P.overP hw)).2.2.2 (P.pb k) (P.pb_over k) v hv
-  have hk : k = k' := by
-    by_contra hne
-    have hg : D.host.g k ≠ D.host.g k' := by
-      fin_cases k <;> fin_cases k'
-      · exact absurd rfl hne
-      · exact D.host.g_ne
-      · exact D.host.g_ne.symm
-      · exact absurd rfl hne
-    obtain ⟨s, t, hst⟩ : IsCoprime ((D.host.g k : ℕ) : 𝓞 D.host.E) ((D.host.g k' : ℕ) : 𝓞 D.host.E) :=
-      Nat.Coprime.cast ((Nat.coprime_primes (D.host.g_prime k) (D.host.g_prime k')).2 hg)
-    apply v.isPrime.ne_top
-    rw [Ideal.eq_top_iff_one, ← hst]
-    exact v.asIdeal.add_mem (v.asIdeal.mul_mem_left _ ho) (v.asIdeal.mul_mem_left _ (P.overP hw'))
-  subst hk
-  exact hiff.1 hw hw'
+  first | exact _root_.GlobalTheory.LevelRowsObj.not_isConjPl | exact @_root_.GlobalTheory.LevelRowsObj.not_isConjPl | apply _root_.GlobalTheory.LevelRowsObj.not_isConjPl <;> assumption
 
 theorem conv_of_idem {H : Type} [Group H] [Fintype H] (z : MonoidAlgebra ℂ H) (hz : z * z = z) (g : H) :
     ∑ a, z.coeff a * z.coeff (a⁻¹ * g) = z.coeff g := by

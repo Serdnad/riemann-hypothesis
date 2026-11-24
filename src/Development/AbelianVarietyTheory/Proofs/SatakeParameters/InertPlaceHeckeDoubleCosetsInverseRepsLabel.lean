@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ForallExistsTransfer
 public import Formalism.SatakeDualWeyl.StatementG
 public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.FiniteResidueFieldAdicCompletionIntegers
 public import Formalism.LocalToGlobal.IndefiniteReal.ScalarOnPartsFull
@@ -249,15 +250,7 @@ theorem bc_mem_range_iff (ψ : A →+* B) {O : Subring A} {O' : Subring B} (h : 
 
 theorem conj_mem_UJ (σ : A →+* A) {J J' : Matrix (Fin n) (Fin n) A} {h : GL (Fin n) A}
     (hh : cT σ h.1 * J * h.1 = J') {g : GL (Fin n) A} (hg : g ∈ UJ σ J) : h⁻¹ * g * h ∈ UJ σ J' := by
-  have hg' : cT σ g.1 * J * g.1 = J := hg
-  show cT σ (h⁻¹ * g * h).1 * J' * (h⁻¹ * g * h).1 = J'
-  have e : h.1 * (h⁻¹ * g * h).1 = g.1 * h.1 := by
-    rw [← Units.val_mul, ← Units.val_mul]; congr 1; group
-  calc _ = cT σ (h.1 * (h⁻¹ * g * h).1) * J * (h.1 * (h⁻¹ * g * h).1) := by
-        rw [← hh, cT_mul]; simp only [Matrix.mul_assoc]
-    _ = cT σ h.1 * (cT σ g.1 * J * g.1) * h.1 := by
-        rw [e, cT_mul]; simp only [Matrix.mul_assoc]
-    _ = J' := by rw [hg', hh]
+  apply _root_.GlobalTheory.HeckeLabels.conj_mem_UJ <;> assumption
 
 theorem inv_frame (σ : A →+* A) {J J' : Matrix (Fin n) (Fin n) A} {h : GL (Fin n) A}
     (hh : cT σ h.1 * J * h.1 = J') : cT σ (h⁻¹).1 * J' * (h⁻¹).1 = J := by

@@ -17,6 +17,7 @@ import Formalism.SharpRestriction.GrowthBounds.JointsLit
 import Formalism.SharpRestriction.RamificationFrobenius.TotientGaloisClasses.FrameFacts
 import Mathlib.Algebra.Order.Star.Int
 import Mathlib.Algebra.Order.Star.Rat
+import Formalism.SharpRestriction.CuspSpanNormBounds.StandingHypothesesHoldFamily
 
 @[expose] public section
 
@@ -1410,18 +1411,7 @@ theorem w''_le_b'x : L.sc.w'' D.R.n ≤ L.sc.b' / L.sc.x := by
 theorem b'x_le_b' : L.sc.b' / L.sc.x ≤ L.sc.b' := div_le_self (b'_nonneg_rec L) L.sc.one_lt_alt.le
 
 theorem w''_le_b : L.sc.w'' D.R.n ≤ L.sc.b := by
-  have hx1 : 1 < L.sc.x := L.sc.one_lt_alt
-  have hb0 : 0 < L.sc.b := Real.exp_pos _
-  have hn : (1 : ℝ) ≤ D.R.n := by
-    have : 1 ≤ D.R.n := D.R.ord_pos
-    exact_mod_cast this
-  have hX : 1 ≤ L.sc.X' := Real.one_le_exp (Real.rpow_nonneg (by linarith) _)
-  unfold Scale.w'' Scale.b' Scale.a
-  have hxn : 0 < L.sc.x * D.R.n := by positivity
-  rw [div_div, div_le_iff₀ (by positivity)]
-  have hle : L.sc.x * L.sc.b ≤ L.sc.x * L.sc.b * (L.sc.X' * D.R.n) :=
-    le_mul_of_one_le_right (by positivity) (one_le_mul_of_one_le_of_one_le hX hn)
-  linarith
+  apply _root_.Formalism.MainNotions.S.w''_le_b <;> assumption
 
 theorem Nm_le_w'' (hDel : D.s.Del = (Del : ℚ)) (P5 : ParameterChoice' D L) :
     ((ofRecord D L Del h0).Nm : ℝ) + D.R.k + 1 ≤ L.sc.w'' D.R.n := by

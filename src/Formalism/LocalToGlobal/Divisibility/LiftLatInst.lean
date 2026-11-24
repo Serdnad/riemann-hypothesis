@@ -93,14 +93,7 @@ def colFam : DefFam X.K (Col.G0 X.E Pr.vGs R.r) (Col.LevOff ∅ Pr.vGs S0) (TupF
   (colIn W Ch sel hX v0 TU Xg S0 xiVal).fam
 
 theorem twistPrimes_trivialTuple_empty : Col.QE sel ((mu0 X.F X.E X.K S : Tup X.F X.E X.K S) : Chr X.F X.E X.K) = ∅ := by
-  have h1 : ((mu0 X.F X.E X.K S : Tup X.F X.E X.K S) : Chr X.F X.E X.K) = 1 := by
-    simp [mu0]
-  rw [h1]
-  unfold Col.QE
-  split_ifs with h
-  · ext x
-    simp [Qprime, MonoidHom.ker_one]
-  · rfl
+  apply _root_.Formalism.L2.Col.twistPrimes_trivialTuple_empty <;> assumption
 
 end Inst
 

@@ -1,5 +1,7 @@
 module
 
+import Development.WeilBound.ThetaLifts.TowerModels.TwistedSums.StandardAddCharSymplecticLocalLatticeEqOne
+import Development.WeilBound.ThetaLifts.TowerModels.PlaneCodiff
 public import Mathlib.NumberTheory.NumberField.InfinitePlace.Basic
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LatAtVAtStable
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.SplitPrimeAdditiveCharacterUnramified
@@ -135,18 +137,7 @@ theorem at_pairA_zero (a : Ainf F) : GlobalTheory.IndefiniteRowSideFullHecke.Wei
 theorem isStd_fin_rat {ψ : AddChar (AF F) ℂ} (hψ : GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.IsStd ψ) (x : F) :
     ψ (pairA F 0 (algebraMap F (Af F) x)) =
       Complex.exp (2 * Real.pi * Complex.I * ((Algebra.trace ℚ F x : ℚ) : ℂ)) := by
-  have e : pairA F 0 (algebraMap F (Af F) x) =
-      algebraMap F (AF F) x + pairA F (algebraMap F (Ainf F) (-x)) 0 := by
-    refine Prod.ext ?_ (add_zero _).symm
-    show (0 : Ainf F) = algebraMap F (Ainf F) x + algebraMap F (Ainf F) (-x)
-    rw [map_neg, add_neg_cancel]
-  have hev : GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.evI F (pairA F (algebraMap F (Ainf F) (-x)) 0) = mixedEmbedding F (-x) :=
-    (InfiniteAdeleRing.mixedEmbedding_eq_algebraMap_comp (K := F)).symm
-  rw [e, AddChar.map_add_eq_mul, hψ.2.1, one_mul, hψ.2.2 _ (at_pairA_zero _), hev, map_neg, map_neg,
-    trace_mixedEmbedding]
-  congr 1
-  push_cast
-  ring
+  apply _root_.PositivityTheory.ThKG.Tow.Pln.psi_fin_rat <;> assumption
 
 theorem psiAt_ne_one : ∀ {F : Type} [Field F] [NumberField F] (ψ : AddChar (AF F) ℂ), GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.IsStd ψ →
     ∀ v : GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.Pl (F := F), GlobalTheory.LatVac.psiAt ψ v ≠ 1 := by

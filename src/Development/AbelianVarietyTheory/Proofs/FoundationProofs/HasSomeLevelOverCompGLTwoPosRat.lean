@@ -1,5 +1,7 @@
 module
 
+
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.SemisimpleTensorOfSemisimplePotentials
 public import Development.AbelianVarietyTheory.Definitions.Foundations.ExpUpper
 public import Mathlib.LinearAlgebra.Matrix.Integer
 public import Development.AbelianVarietyTheory.Definitions.Divisors.HasQIff
@@ -65,7 +67,6 @@ import Mathlib.NumberTheory.ModularForms.SlashActions
 import Mathlib.Algebra.Order.Star.Int
 import Mathlib.Tactic.Lemma
 import Development.AbelianVarietyTheory.Proofs.FoundationProofs.GlTwoPosRatMobiusUpperHalfPlaneProperties
-
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.Proofs.FoundationProofs.GlTwoPosRatConjPrincipalCongruence, Development.AbelianVarietyTheory.Proofs.FoundationProofs.GlTwoPosRatHermiteNormalFormMobius, Development.AbelianVarietyTheory.Proofs.FoundationProofs.QExpansionAllCoeffsCompUpperTriangular, Development.AbelianVarietyTheory.Proofs.FoundationProofs.QExpansionAllCoeffsDeltaPowAffineSubst, Development.AbelianVarietyTheory.Proofs.FoundationProofs.HasSomeLevelOverCompGLTwoPosRat
 
@@ -467,16 +468,7 @@ open ModularForm (E₄ E₆)
 namespace GlobalTheory.FN
 
 theorem gamma_mul_le (m k : ℕ) : CongruenceSubgroup.Gamma (m * k) ≤ CongruenceSubgroup.Gamma m := by
-  intro γ hγ
-  rw [CongruenceSubgroup.Gamma_mem] at hγ ⊢
-  obtain ⟨h1, h2, h3, h4⟩ := hγ
-  have c := fun (x : ℤ) (y : ZMod (m * k)) (e : (x : ZMod (m * k)) = y) =>
-    congrArg (ZMod.castHom (dvd_mul_right m k) (ZMod m)) e
-  refine ⟨?_, ?_, ?_, ?_⟩
-  · simpa using c _ _ h1
-  · simpa using c _ _ h2
-  · simpa using c _ _ h3
-  · simpa using c _ _ h4
+  first | exact _root_.GlobalTheory.KZ.H3.KZero.gamma_mul_le | exact @_root_.GlobalTheory.KZ.H3.KZero.gamma_mul_le | apply _root_.GlobalTheory.KZ.H3.KZero.gamma_mul_le <;> assumption
 
 theorem inR_cmp : ∀ (E : Subring ℂ) (g : GQ) (f : ℍ → ℂ), (∀ x : ℚ, Complex.exp (2 * Real.pi * Complex.I * (x : ℂ)) ∈ E) →
     InR E f → InR E (GlobalTheory.FN.cmp g f) := by

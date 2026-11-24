@@ -1,5 +1,6 @@
 module
 
+import CompanionTheory.HarishChandraModules.LowKTypeMultiplicity.EigenspaceCyclicDensity.CreationOperators.GeneralizedVermaModulePolynomial
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ChosenSeries
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.DiscreteSeriesPureInnerProductsTensorProduct
 public import Mathlib.Analysis.CStarAlgebra.Classes
@@ -214,22 +215,7 @@ open GlobalTheory.IndefiniteRowSideFullHecke.RaisingLoweringOperators
 
 theorem deg_X_pderiv {σ : Type} (a b : σ) (P : MvPolynomial σ ℂ) :
     (MvPolynomial.X a * MvPolynomial.pderiv b P).totalDegree ≤ P.totalDegree := by
-  classical
-
-  conv_lhs => rw [P.as_sum, map_sum, Finset.mul_sum]
-  refine (MvPolynomial.totalDegree_finsetSum _ _).trans (Finset.sup_le fun s hs => ?_)
-  rw [MvPolynomial.pderiv_monomial]
-  by_cases h : s b = 0
-  · simp [h]
-  · refine le_trans ?_ (MvPolynomial.le_totalDegree hs)
-    rw [MvPolynomial.X, MvPolynomial.monomial_mul]
-    refine (MvPolynomial.totalDegree_monomial_le _ _).trans (le_of_eq ?_)
-    have h1 : s = Finsupp.single b 1 + (s - Finsupp.single b 1) := by
-      rw [add_tsub_cancel_of_le]
-      exact Finsupp.single_le_iff.2 (Nat.one_le_iff_ne_zero.2 h)
-    conv_rhs => rw [h1]
-    rw [Finsupp.sum_add_index' (by simp) (by simp), Finsupp.sum_add_index' (by simp) (by simp)]
-    simp [Function.id_def]
+  first | exact _root_.CompanionTheory.D.LK.deg_X_pderiv | exact @_root_.CompanionTheory.D.LK.deg_X_pderiv | apply _root_.CompanionTheory.D.LK.deg_X_pderiv <;> assumption
 
 theorem deg_pderiv {σ : Type} (b : σ) (P : MvPolynomial σ ℂ) :
     (MvPolynomial.pderiv b P).totalDegree ≤ P.totalDegree := by
@@ -423,25 +409,7 @@ theorem mul_mem {L L' : Module.End ℂ (MvPolynomial σ ℂ)} (h : L ∈ nonRais
 
 theorem totalDegree_X_mul_pderiv (x y : σ) (P : MvPolynomial σ ℂ) :
     (X x * pderiv y P).totalDegree ≤ P.totalDegree := by
-  classical
-
-  conv_lhs => rw [P.as_sum, map_sum, Finset.mul_sum]
-  refine totalDegree_finsetSum_le fun s hs => ?_
-  rw [pderiv_monomial]
-  by_cases h0 : s y = 0
-  · simp [h0]
-  · have hs' : (Finsupp.single y 1) + (s - Finsupp.single y 1) = s := by
-      rw [add_tsub_cancel_of_le]
-      rw [Finsupp.single_le_iff]; omega
-    refine (totalDegree_mul _ _).trans ?_
-    rw [totalDegree_X]
-    refine le_trans ?_ (le_totalDegree hs)
-    have h1 := totalDegree_monomial_le (s - Finsupp.single y 1) (AddMonoidAlgebra.coeff P s * (s y : ℂ))
-    have h2 : (s.sum fun _ e => e) = 1 + (s - Finsupp.single y 1).sum fun _ e => e := by
-      conv_lhs => rw [← hs']
-      rw [Finsupp.sum_add_index' (fun _ => rfl) (fun _ _ _ => rfl), Finsupp.sum_single_index rfl]
-    rw [h2]
-    exact Nat.add_le_add_left h1 1
+  first | exact _root_.CompanionTheory.D.LK.deg_X_pderiv | exact @_root_.CompanionTheory.D.LK.deg_X_pderiv | apply _root_.CompanionTheory.D.LK.deg_X_pderiv <;> assumption
 
 theorem pderiv_mem (y : σ) : (pderiv y).toLinearMap ∈ nonRaising σ := by
   intro P

@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.LineKroneckerRightMatrixConjTranspose
 public import Formalism.LocalRingCardinality.DataTheta
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.ContinuousOfDense
 public import Development.AbelianVarietyTheory.Proofs.HeightProofs.NotTrivialAndTwist
@@ -252,28 +253,8 @@ theorem mfact_add_single (α : σ →₀ ℕ) (l : σ) :
 
 theorem inner_X_mul (h : IsFockIP ι) (l : σ) (f g : MvPolynomial σ ℂ) :
     inner ℂ (ι (X l * f)) (ι g) = inner ℂ (ι f) (ι (pderiv l g)) := by
-  induction f using MvPolynomial.induction_on' with
-  | add f f' hf hf' => simp only [mul_add, map_add (f := _), inner_add_left, hf, hf']
-  | monomial α a =>
-    induction g using MvPolynomial.induction_on' with
-    | add g g' hg hg' => simp only [map_add (f := _), inner_add_right, hg, hg']
-    | monomial β b =>
-      have e : ∀ (γ : σ →₀ ℕ) (c : ℂ), (monomial γ c : MvPolynomial σ ℂ) = c • monomial γ 1 := fun γ c => by
-        simp [smul_monomial]
-      rw [X, monomial_mul, pderiv_monomial, e _ (1 * a), e α a, e β b, e _ (b * _)]
-      simp only [map_smul, inner_smul_left, inner_smul_right, h _ _, ← FockSeq.mfact_cast]
-      by_cases hβ : Finsupp.single l 1 + α = β
-      · subst hβ
-        rw [if_pos rfl, if_pos (by simp), add_comm, mfact_add_single]
-        simp; ring
-      · rw [if_neg hβ]
-        by_cases h0 : β l = 0
-        · simp [h0]
-        · rw [if_neg]
-          · simp
-          · rintro rfl
-            apply hβ
-            rw [add_comm, tsub_add_cancel_of_le (Finsupp.single_le_iff.2 (Nat.pos_of_ne_zero h0))]
+  intros
+  apply _root_.GlobalTheory.JointHarm.inner_X_mul <;> assumption
 
 theorem inner_pderiv (h : IsFockIP ι) (l : σ) (f g : MvPolynomial σ ℂ) :
     inner ℂ (ι (pderiv l f)) (ι g) = inner ℂ (ι f) (ι (X l * g)) := by

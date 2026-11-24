@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsUniqueIsFunForm
 public import Formalism.LocalToGlobal.KernelLattices.ColumnData.KerEntHyp
 public import Formalism.LocalToGlobal.KernelLattices.JetFieldLeKR
 import Formalism.GradedWeylDivisibility.FinalC
@@ -179,6 +180,72 @@ theorem last_real (u : D.what₂.Word) (μ : D.what₂.Tup) (i : ℕ) (hi : i + 
   rw [hN, show i + 1 + 1 = i + 2 from rfl]
   exact nu_step_new D u μ i hi τ D.R.t (by omega)
 
+theorem natW_succ' (hA : ∀ u i τ, i < D.R.m → Antitone (nuT D u i τ)) (u : D.what₂.Word) (μ : D.what₂.Tup) (i : ℕ) (hi : i < D.R.m)
+    (τ : D.what₂.Tau) (r : Fin (D.R.N (i + 1))) :
+    (lam hA u (i + 1) τ).natW r = extNu (D.R.N (i + 1)) (fun τ r => (lam hA u i τ).natW r + nn D u i τ) τ r := by
+  unfold extNu
+  have hNs : ∀ j, D.R.N (j + 1) = D.R.N j + (D.R.t + 1) := fun j => by unfold Ranks.N; ring
+  by_cases h : r.1 < D.R.N i
+  · rw [dif_pos h]
+    beta_reduce
+    rw [clause1 hA u i hi τ ⟨r.1, h⟩]
+    by_cases hi1 : i + 1 < D.R.m
+    · have e : (lam hA u (i + 1) τ).detShift = (nuT D u (i + 1) τ (lastI D (i + 1)) : ℤ) := by
+        simp only [DomWeight.detShift, dif_pos (N_pos D (i + 1)), lam, lamW, if_pos hi1]; rfl
+      have e2 : (lam hA u (i + 1) τ).w r = (nuT D u (i + 1) τ r : ℤ) := by simp only [lam, lamW, if_pos hi1]
+      simp only [DomWeight.natW, e, e2]
+      have A := nuT_real u (i + 1) hi1 τ r
+      have B := nuT_real u i hi τ ⟨r.1, h⟩
+      have C := last_real u μ i hi1 τ
+      have S := nu_step_old D u μ i hi1 τ r.1
+      have key : ((nuT D u (i + 1) τ r : ℤ) : ℝ) - ((nuT D u (i + 1) τ (lastI D (i + 1)) : ℤ) : ℝ) = ((nuT D u i τ ⟨r.1, h⟩ : ℤ) : ℝ) := by
+        push_cast
+        rw [A, B, C, show i + 1 + 1 = i + 2 from rfl]
+        linarith
+      have key' : (nuT D u (i + 1) τ r : ℤ) - nuT D u (i + 1) τ (lastI D (i + 1)) = nuT D u i τ ⟨r.1, h⟩ := by exact_mod_cast key
+      omega
+    · have him : i = D.R.m - 1 := by omega
+      subst him
+      have hm1 : ¬ (D.R.m - 1 + 1 < D.R.m) := by omega
+      have hm2 : D.R.m - 1 + 1 = D.R.m := by have := D.R.two_le_m; omega
+      have hl : ¬ (D.R.m - 1 + 1 = D.R.m ∧ D.R.N (D.R.m - 1 + 1) - 1 < D.R.N (D.R.m - 1)) := by
+        rintro ⟨-, h2⟩; have := hNs (D.R.m - 1); omega
+      have e : (lam hA u (D.R.m - 1 + 1) τ).detShift = 0 := by
+        simp only [DomWeight.detShift, dif_pos (N_pos D _), lam, lamW, if_neg hm1]
+        exact dif_neg hl
+      have e2 : (lam hA u (D.R.m - 1 + 1) τ).w r = (nuT D u (D.R.m - 1) τ ⟨r.1, h⟩ : ℤ) := by
+        simp only [lam, lamW, if_neg hm1]
+        exact dif_pos ⟨hm2, h⟩
+      simp only [DomWeight.natW, e, e2, sub_zero, Int.toNat_natCast]
+  · rw [dif_neg h]
+    by_cases hi1 : i + 1 < D.R.m
+    · have e : (lam hA u (i + 1) τ).detShift = (nuT D u (i + 1) τ (lastI D (i + 1)) : ℤ) := by
+        simp only [DomWeight.detShift, dif_pos (N_pos D (i + 1)), lam, lamW, if_pos hi1]; rfl
+      have e2 : (lam hA u (i + 1) τ).w r = (nuT D u (i + 1) τ r : ℤ) := by simp only [lam, lamW, if_pos hi1]
+      simp only [DomWeight.natW, e, e2]
+      have hr : r.1 < D.R.N i + (D.R.t + 1) := by have := r.2; have := hNs i; omega
+      have A := nuT_real u (i + 1) hi1 τ r
+      have C := last_real u μ i hi1 τ
+      have S := nu_step_new D u μ i hi1 τ (r.1 - D.R.N i) (by omega)
+      rw [show D.R.N i + (r.1 - D.R.N i) = r.1 by omega] at S
+      have key : ((nuT D u (i + 1) τ r : ℤ) : ℝ) = ((nuT D u (i + 1) τ (lastI D (i + 1)) : ℤ) : ℝ) := by
+        push_cast
+        rw [A, C, show i + 1 + 1 = i + 2 from rfl, S]
+      have key' : (nuT D u (i + 1) τ r : ℤ) = nuT D u (i + 1) τ (lastI D (i + 1)) := by exact_mod_cast key
+      omega
+    · have hm1 : ¬ (i + 1 < D.R.m) := hi1
+      have e : (lam hA u (i + 1) τ).detShift = 0 := by
+        simp only [DomWeight.detShift, dif_pos (N_pos D _), lam, lamW, if_neg hm1]
+        refine dif_neg ?_
+        rintro ⟨h1, h2⟩; have := hNs i; have : D.R.m - 1 = i := by omega
+        rw [this] at h2; omega
+      have e2 : (lam hA u (i + 1) τ).w r = 0 := by
+        simp only [lam, lamW, if_neg hm1]
+        refine dif_neg ?_
+        rintro ⟨h1, h2⟩; have : D.R.m - 1 = i := by omega
+        rw [this] at h2; exact h h2
+      simp only [DomWeight.natW, e, e2, sub_zero]; rfl
+
 include hA in
 theorem wtTie_meet {L : SizeData₂ D} {hT : GatTies D} {Gi : Formalism.MainNotions.G.Inst D L} {Gl : Formalism.MainNotions.G.LatInst D} {K : Formalism.MainNotions.G.Consts} {Y : DivX D} {cX : ExtraC}
     {ex : Extra D L hT Gi Gl K Y cX} (t : KerEntTied ex) : t.WtTie (lam hA) (shh D) (nn D) := by
@@ -201,68 +268,7 @@ theorem wtTie_meet {L : SizeData₂ D} {hT : GatTies D} {Gi : Formalism.MainNoti
   · have : Infinite D.what₂.LL := Infinite.of_injective (fun n : ℕ => (n : D.what₂.LL)) (fun a b h => by
       have := congrArg D.what₂.embLL h; simp only [map_natCast] at this; exact_mod_cast this)
     refine jet_in_vv_of_weight D.what₂.LL D.what₂.Tau (D.R.N i) (D.R.N (i + 1)) (by unfold Ranks.N; nlinarith) _ _ _ fun τ r => ?_
-    unfold extNu
-    have hNs : ∀ j, D.R.N (j + 1) = D.R.N j + (D.R.t + 1) := fun j => by unfold Ranks.N; ring
-    by_cases h : r.1 < D.R.N i
-    · rw [dif_pos h]
-      beta_reduce
-      rw [clause1 hA u i hi τ ⟨r.1, h⟩]
-      by_cases hi1 : i + 1 < D.R.m
-      · have e : (lam hA u (i + 1) τ).detShift = (nuT D u (i + 1) τ (lastI D (i + 1)) : ℤ) := by
-          simp only [DomWeight.detShift, dif_pos (N_pos D (i + 1)), lam, lamW, if_pos hi1]; rfl
-        have e2 : (lam hA u (i + 1) τ).w r = (nuT D u (i + 1) τ r : ℤ) := by simp only [lam, lamW, if_pos hi1]
-        simp only [DomWeight.natW, e, e2]
-        have A := nuT_real u (i + 1) hi1 τ r
-        have B := nuT_real u i hi τ ⟨r.1, h⟩
-        have C := last_real u μ i hi1 τ
-        have S := nu_step_old D u μ i hi1 τ r.1
-        have key : ((nuT D u (i + 1) τ r : ℤ) : ℝ) - ((nuT D u (i + 1) τ (lastI D (i + 1)) : ℤ) : ℝ) = ((nuT D u i τ ⟨r.1, h⟩ : ℤ) : ℝ) := by
-          push_cast
-          rw [A, B, C, show i + 1 + 1 = i + 2 from rfl]
-          linarith
-        have key' : (nuT D u (i + 1) τ r : ℤ) - nuT D u (i + 1) τ (lastI D (i + 1)) = nuT D u i τ ⟨r.1, h⟩ := by exact_mod_cast key
-        omega
-      · have him : i = D.R.m - 1 := by omega
-        subst him
-        have hm1 : ¬ (D.R.m - 1 + 1 < D.R.m) := by omega
-        have hm2 : D.R.m - 1 + 1 = D.R.m := by have := D.R.two_le_m; omega
-        have hl : ¬ (D.R.m - 1 + 1 = D.R.m ∧ D.R.N (D.R.m - 1 + 1) - 1 < D.R.N (D.R.m - 1)) := by
-          rintro ⟨-, h2⟩; have := hNs (D.R.m - 1); omega
-        have e : (lam hA u (D.R.m - 1 + 1) τ).detShift = 0 := by
-          simp only [DomWeight.detShift, dif_pos (N_pos D _), lam, lamW, if_neg hm1]
-          exact dif_neg hl
-        have e2 : (lam hA u (D.R.m - 1 + 1) τ).w r = (nuT D u (D.R.m - 1) τ ⟨r.1, h⟩ : ℤ) := by
-          simp only [lam, lamW, if_neg hm1]
-          exact dif_pos ⟨hm2, h⟩
-        simp only [DomWeight.natW, e, e2, sub_zero, Int.toNat_natCast]
-    · rw [dif_neg h]
-      by_cases hi1 : i + 1 < D.R.m
-      · have e : (lam hA u (i + 1) τ).detShift = (nuT D u (i + 1) τ (lastI D (i + 1)) : ℤ) := by
-          simp only [DomWeight.detShift, dif_pos (N_pos D (i + 1)), lam, lamW, if_pos hi1]; rfl
-        have e2 : (lam hA u (i + 1) τ).w r = (nuT D u (i + 1) τ r : ℤ) := by simp only [lam, lamW, if_pos hi1]
-        simp only [DomWeight.natW, e, e2]
-        have hr : r.1 < D.R.N i + (D.R.t + 1) := by have := r.2; have := hNs i; omega
-        have A := nuT_real u (i + 1) hi1 τ r
-        have C := last_real u μ i hi1 τ
-        have S := nu_step_new D u μ i hi1 τ (r.1 - D.R.N i) (by omega)
-        rw [show D.R.N i + (r.1 - D.R.N i) = r.1 by omega] at S
-        have key : ((nuT D u (i + 1) τ r : ℤ) : ℝ) = ((nuT D u (i + 1) τ (lastI D (i + 1)) : ℤ) : ℝ) := by
-          push_cast
-          rw [A, C, show i + 1 + 1 = i + 2 from rfl, S]
-        have key' : (nuT D u (i + 1) τ r : ℤ) = nuT D u (i + 1) τ (lastI D (i + 1)) := by exact_mod_cast key
-        omega
-      · have hm1 : ¬ (i + 1 < D.R.m) := hi1
-        have e : (lam hA u (i + 1) τ).detShift = 0 := by
-          simp only [DomWeight.detShift, dif_pos (N_pos D _), lam, lamW, if_neg hm1]
-          refine dif_neg ?_
-          rintro ⟨h1, h2⟩; have := hNs i; have : D.R.m - 1 = i := by omega
-          rw [this] at h2; omega
-        have e2 : (lam hA u (i + 1) τ).w r = 0 := by
-          simp only [lam, lamW, if_neg hm1]
-          refine dif_neg ?_
-          rintro ⟨h1, h2⟩; have : D.R.m - 1 = i := by omega
-          rw [this] at h2; exact h h2
-        simp only [DomWeight.natW, e, e2, sub_zero]; rfl
+    exact natW_succ' hA u μ i hi τ r
 
 theorem antitone_kernelChain_nuT (D : D7) : ∀ u i τ, i < D.R.m → Antitone (nuT D u i τ) := by
   intro u i τ hi r s hrs
@@ -342,72 +348,6 @@ end Fi
 section VQ
 
 variable {D : D7}
-
-theorem natW_succ' (hA : ∀ u i τ, i < D.R.m → Antitone (nuT D u i τ)) (u : D.what₂.Word) (μ : D.what₂.Tup) (i : ℕ) (hi : i < D.R.m)
-    (τ : D.what₂.Tau) (r : Fin (D.R.N (i + 1))) :
-    (lam hA u (i + 1) τ).natW r = extNu (D.R.N (i + 1)) (fun τ r => (lam hA u i τ).natW r + nn D u i τ) τ r := by
-  unfold extNu
-  have hNs : ∀ j, D.R.N (j + 1) = D.R.N j + (D.R.t + 1) := fun j => by unfold Ranks.N; ring
-  by_cases h : r.1 < D.R.N i
-  · rw [dif_pos h]
-    beta_reduce
-    rw [clause1 hA u i hi τ ⟨r.1, h⟩]
-    by_cases hi1 : i + 1 < D.R.m
-    · have e : (lam hA u (i + 1) τ).detShift = (nuT D u (i + 1) τ (lastI D (i + 1)) : ℤ) := by
-        simp only [DomWeight.detShift, dif_pos (N_pos D (i + 1)), lam, lamW, if_pos hi1]; rfl
-      have e2 : (lam hA u (i + 1) τ).w r = (nuT D u (i + 1) τ r : ℤ) := by simp only [lam, lamW, if_pos hi1]
-      simp only [DomWeight.natW, e, e2]
-      have A := nuT_real u (i + 1) hi1 τ r
-      have B := nuT_real u i hi τ ⟨r.1, h⟩
-      have C := last_real u μ i hi1 τ
-      have S := nu_step_old D u μ i hi1 τ r.1
-      have key : ((nuT D u (i + 1) τ r : ℤ) : ℝ) - ((nuT D u (i + 1) τ (lastI D (i + 1)) : ℤ) : ℝ) = ((nuT D u i τ ⟨r.1, h⟩ : ℤ) : ℝ) := by
-        push_cast
-        rw [A, B, C, show i + 1 + 1 = i + 2 from rfl]
-        linarith
-      have key' : (nuT D u (i + 1) τ r : ℤ) - nuT D u (i + 1) τ (lastI D (i + 1)) = nuT D u i τ ⟨r.1, h⟩ := by exact_mod_cast key
-      omega
-    · have him : i = D.R.m - 1 := by omega
-      subst him
-      have hm1 : ¬ (D.R.m - 1 + 1 < D.R.m) := by omega
-      have hm2 : D.R.m - 1 + 1 = D.R.m := by have := D.R.two_le_m; omega
-      have hl : ¬ (D.R.m - 1 + 1 = D.R.m ∧ D.R.N (D.R.m - 1 + 1) - 1 < D.R.N (D.R.m - 1)) := by
-        rintro ⟨-, h2⟩; have := hNs (D.R.m - 1); omega
-      have e : (lam hA u (D.R.m - 1 + 1) τ).detShift = 0 := by
-        simp only [DomWeight.detShift, dif_pos (N_pos D _), lam, lamW, if_neg hm1]
-        exact dif_neg hl
-      have e2 : (lam hA u (D.R.m - 1 + 1) τ).w r = (nuT D u (D.R.m - 1) τ ⟨r.1, h⟩ : ℤ) := by
-        simp only [lam, lamW, if_neg hm1]
-        exact dif_pos ⟨hm2, h⟩
-      simp only [DomWeight.natW, e, e2, sub_zero, Int.toNat_natCast]
-  · rw [dif_neg h]
-    by_cases hi1 : i + 1 < D.R.m
-    · have e : (lam hA u (i + 1) τ).detShift = (nuT D u (i + 1) τ (lastI D (i + 1)) : ℤ) := by
-        simp only [DomWeight.detShift, dif_pos (N_pos D (i + 1)), lam, lamW, if_pos hi1]; rfl
-      have e2 : (lam hA u (i + 1) τ).w r = (nuT D u (i + 1) τ r : ℤ) := by simp only [lam, lamW, if_pos hi1]
-      simp only [DomWeight.natW, e, e2]
-      have hr : r.1 < D.R.N i + (D.R.t + 1) := by have := r.2; have := hNs i; omega
-      have A := nuT_real u (i + 1) hi1 τ r
-      have C := last_real u μ i hi1 τ
-      have S := nu_step_new D u μ i hi1 τ (r.1 - D.R.N i) (by omega)
-      rw [show D.R.N i + (r.1 - D.R.N i) = r.1 by omega] at S
-      have key : ((nuT D u (i + 1) τ r : ℤ) : ℝ) = ((nuT D u (i + 1) τ (lastI D (i + 1)) : ℤ) : ℝ) := by
-        push_cast
-        rw [A, C, show i + 1 + 1 = i + 2 from rfl, S]
-      have key' : (nuT D u (i + 1) τ r : ℤ) = nuT D u (i + 1) τ (lastI D (i + 1)) := by exact_mod_cast key
-      omega
-    · have hm1 : ¬ (i + 1 < D.R.m) := hi1
-      have e : (lam hA u (i + 1) τ).detShift = 0 := by
-        simp only [DomWeight.detShift, dif_pos (N_pos D _), lam, lamW, if_neg hm1]
-        refine dif_neg ?_
-        rintro ⟨h1, h2⟩; have := hNs i; have : D.R.m - 1 = i := by omega
-        rw [this] at h2; omega
-      have e2 : (lam hA u (i + 1) τ).w r = 0 := by
-        simp only [lam, lamW, if_neg hm1]
-        refine dif_neg ?_
-        rintro ⟨h1, h2⟩; have : D.R.m - 1 = i := by omega
-        rw [this] at h2; exact h h2
-      simp only [DomWeight.natW, e, e2, sub_zero]; rfl
 
 theorem natW_succ (hA : ∀ u i τ, i < D.R.m → Antitone (nuT D u i τ)) (u : D.what₂.Word) (i : ℕ) (hi : i < D.R.m)
     (τ : D.what₂.Tau) (r : Fin (D.R.N (i + 1))) :
@@ -614,17 +554,8 @@ theorem blockEmb_gdet {ι : Type} {n : ℕ} (τ : ι) : Formalism.GradedWeylDivi
   simp [Formalism.GradedWeylDivisibility.blockEmb]
 
 theorem frDet_ne_zero' {ι : Type} {a : ℕ} (τ : ι) : frDet K a τ ≠ 0 := by
-  classical
-  intro h
-  have h1 := congrArg (eval fun v : ι × Fin a × Fin a => if v.2.1 = v.2.2 then (1 : K) else 0) h
-  unfold frDet at h1
-  rw [RingHom.map_det, map_zero] at h1
-  have h2 : (eval fun v : ι × Fin a × Fin a => if v.2.1 = v.2.2 then (1 : K) else 0).mapMatrix
-      (Matrix.of fun α s : Fin a => (X (τ, α, s) : Pol K ι a)) = 1 := by
-    ext α s
-    simp [Matrix.one_apply]
-  rw [h2, Matrix.det_one] at h1
-  exact one_ne_zero h1
+  intros
+  apply _root_.GlobalTheory.FunObj.funFrDet_ne_zero <;> assumption
 
 theorem dk_dvd_wtPol [Infinite K] {ι : Type} [Fintype ι] {n : ℕ} (ν : ι → Fin n → ℕ) (k : ι → ℕ) (hk : ∀ τ r, k τ ≤ ν τ r) :
     ∀ Q ∈ WtPol K ν, (∏ τ, frDet K n τ ^ k τ) ∣ Q := by

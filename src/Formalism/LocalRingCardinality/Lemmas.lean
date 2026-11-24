@@ -26,6 +26,7 @@ import Mathlib.NumberTheory.SelbergSieve
 import Mathlib.RingTheory.Coalgebra.IsFrobenius
 import Mathlib.RingTheory.Etale.Weakly
 import Mathlib.RingTheory.HopfAlgebra.Basic
+import Mathlib.RingTheory.OrderOfVanishing.Basic
 import Mathlib.RingTheory.Radical.NatInt
 import Mathlib.RingTheory.TotallySplit
 import Mathlib.Tactic.Basify
@@ -247,13 +248,7 @@ theorem length_span_quot {A : Type*} [CommRing A] (O : Type*) [CommRing O] [Alge
 
 theorem injective_of_basis_li {F X Y ι : Type*} [Field F] [AddCommGroup X] [Module F X] [AddCommGroup Y] [Module F Y]
     (f : X →ₗ[F] Y) (b : Basis ι F X) (h : LinearIndependent F (f ∘ b)) : Function.Injective f := by
-  have hf : ∀ x, f x = Finsupp.linearCombination F (f ∘ b) (b.repr x) := by
-    intro x
-    conv_lhs => rw [← b.linearCombination_repr x]
-    rw [Finsupp.apply_linearCombination]
-  intro x y hxy
-  rw [hf, hf] at hxy
-  exact b.repr.injective (h hxy)
+  exact LinearMap.injective_of_linearIndependent b.span_eq h
 
 section Tower
 
@@ -328,14 +323,8 @@ theorem li_tower {ι' : Type*} (φ : V →ₗ[K] W) (b : Basis ι K V) (hb : Lin
     convert hb using 1
     ext i
     simp
-  let B := Basis.extend he.linearIndepOn_id
-  have h1 : LinearIndependent Kf (fun i => (1 : Kf) ⊗ₜ[K] e i) := by
-    have := (B.baseChange Kf).linearIndependent.comp
-      (fun i => (⟨e i, he.linearIndepOn_id.subset_extend _ ⟨i, rfl⟩⟩ : he.linearIndepOn_id.extend (Set.subset_univ _)))
-      (fun i j h => he.injective (congrArg Subtype.val h))
-    convert this using 1
-    ext i
-    simp [B, Basis.baseChange_apply, Basis.extend_apply_self]
+  have h1 : LinearIndependent Kf (fun i => (1 : Kf) ⊗ₜ[K] e i) :=
+    Module.Flat.linearIndependent_one_tmul he
   have h2 := h1.map' (φ.liftBaseChange Kf) (LinearMap.ker_eq_bot.2 h4)
   have h3 : (φ ∘ e) = (φ.liftBaseChange Kf) ∘ (fun i => (1 : Kf) ⊗ₜ[K] e i) := by
     ext i
@@ -351,54 +340,34 @@ theorem span_inf_span_tower [Module.Flat A O]
   apply le_antisymm
   · rintro z ⟨hz1, hz2⟩
     set S := Submodule.span Kf (φ '' (U : Set V)) with hS
-    obtain ⟨C, hC⟩ := Submodule.exists_isCompl U
-    let bU := Basis.ofVectorSpace K U
-    let bC := Basis.ofVectorSpace K C
-    have hsum : LinearIndependent K (Sum.elim (fun i => (bU i : V)) (fun i => (bC i : V))) := by
-      apply LinearIndependent.sum_type
-      · exact bU.linearIndependent.map' U.subtype U.ker_subtype
-      · exact bC.linearIndependent.map' C.subtype C.ker_subtype
-      · refine hC.disjoint.mono ?_ ?_
-        · rw [Submodule.span_le]; rintro _ ⟨i, rfl⟩; exact (bU i).2
-        · rw [Submodule.span_le]; rintro _ ⟨i, rfl⟩; exact (bC i).2
-    have hsumKf := li_tower φ b hb _ hsum
-    have hSle : S ≤ Submodule.span Kf (Set.range (fun i => φ (bU i : V))) := by
-      rw [hS, Submodule.span_le]
-      rintro _ ⟨x, hx, rfl⟩
-      have hx' : x ∈ Submodule.span K (Set.range (fun i => (bU i : V))) := by
-        have h1 : (⟨x, hx⟩ : U) ∈ Submodule.span K (Set.range bU) := by rw [bU.span_eq]; trivial
-        have h2 := Submodule.mem_map_of_mem (f := U.subtype) h1
-        rw [Submodule.map_span, ← Set.range_comp] at h2
-        exact h2
-      have key : ∀ y ∈ Submodule.span K (Set.range (fun i => (bU i : V))),
-          φ y ∈ Submodule.span Kf (Set.range (fun i => φ (bU i : V))) := by
-        intro y hy
-        induction hy using Submodule.span_induction with
-        | mem y hy => obtain ⟨i, rfl⟩ := hy; exact Submodule.subset_span ⟨i, rfl⟩
-        | zero => simp
-        | add y y' _ _ h h' => rw [map_add (f := _)]; exact Submodule.add_mem _ h h'
-        | smul k y _ h =>
-          rw [map_smul, ← IsScalarTower.algebraMap_smul Kf k (φ y)]
-          exact Submodule.smul_mem _ _ h
-      exact key x hx'
-    have hdisj : Disjoint (Submodule.span Kf (Set.range (fun i => φ (bC i : V)))) S := by
-      have := hsumKf.disjoint_span_image (s := Set.range Sum.inr) (t := Set.range Sum.inl) (by
-        rw [Set.disjoint_left]; rintro _ ⟨i, rfl⟩ ⟨j, hj⟩; cases hj)
-      rw [← Set.range_comp, ← Set.range_comp] at this
-      exact this.mono_right hSle
-    let bq : Basis _ K (V ⧸ U) := bC.map (Submodule.quotientEquivOfIsCompl U C hC).symm
     let φq : V ⧸ U →ₗ[K] W ⧸ S := U.liftQ ((S.mkQ.restrictScalars K) ∘ₗ φ) (fun x hx => by
       rw [LinearMap.mem_ker]
       exact (Submodule.Quotient.mk_eq_zero S).2 (Submodule.subset_span ⟨x, hx, rfl⟩))
-    have hbq : LinearIndependent Kf (φq ∘ bq) := by
-      have h1 : LinearIndependent Kf (fun i => φ (bC i : V)) := hsumKf.comp Sum.inr Sum.inr_injective
-      have h2 := h1.map (f := S.mkQ) (by rw [Submodule.ker_mkQ]; exact hdisj)
-      have h3 : (φq ∘ bq) = S.mkQ ∘ fun i => φ (bC i : V) := by
-        ext i
-        simp [φq, bq]
-      rw [h3]
-      exact h2
-    have hΞ := liftBaseChange_injective_top (A := A) hO φq bq hbq
+    have hSRange : LinearMap.range ((φ ∘ₗ U.subtype).liftBaseChange Kf) = S := by
+      have hU : Set.range ⇑U.subtype = (U : Set V) := Subtype.range_coe_subtype
+      rw [LinearMap.range_liftBaseChange, hS, LinearMap.coe_range, LinearMap.coe_comp, Set.range_comp, hU]
+    have hqComm : φq.liftBaseChange Kf ∘ₗ U.mkQ.baseChange Kf =
+        S.mkQ ∘ₗ φ.liftBaseChange Kf := by
+      ext x
+      simp [φq]
+    have hφ := (LinearMap.liftBaseChange_injective_iff (A := Kf) φ b).2 hb
+    have hq : Function.Injective (φq.liftBaseChange Kf) := by
+      refine (injective_iff_map_eq_zero _).2 ?_
+      intro x hx
+      obtain ⟨v, rfl⟩ := LinearMap.baseChange_surjective Kf U.mkQ_surjective x
+      have hv : (φ.liftBaseChange Kf) v ∈ S := by
+        apply (Submodule.Quotient.mk_eq_zero S).1
+        change (S.mkQ ∘ₗ φ.liftBaseChange Kf) v = 0
+        rwa [← hqComm]
+      obtain ⟨u, hu⟩ := hSRange ▸ hv
+      rw [LinearMap.liftBaseChange_comp, LinearMap.comp_apply] at hu
+      change U.mkQ.lTensor Kf v = 0
+      apply LinearMap.mem_ker.mp
+      rw [lTensor_mkQ]
+      exact ⟨u, hφ hu⟩
+    let bq := Basis.ofVectorSpace K (V ⧸ U)
+    have hΞ := liftBaseChange_injective_top (A := A) hO φq bq
+      ((LinearMap.liftBaseChange_injective_iff (A := Kf) φq bq).1 hq)
     have hr := range_liftBaseChange O ((φ.restrictScalars A) ∘ₗ L.subtype)
     have hz1' : z ∈ LinearMap.range (((φ.restrictScalars A) ∘ₗ L.subtype).liftBaseChange O) := by
       have hset : Set.range ⇑((φ.restrictScalars A) ∘ₗ L.subtype) = φ '' (L : Set V) := by
@@ -410,26 +379,16 @@ theorem span_inf_span_tower [Module.Flat A O]
       exact hz1
     obtain ⟨t, rfl⟩ := hz1'
     let f : ↥L →ₗ[A] V ⧸ U := (U.mkQ.restrictScalars A) ∘ₗ L.subtype
-    have hcomm : ∀ t, ((φq.restrictScalars A).liftBaseChange O) (f.lTensor O t) =
-        S.mkQ ((((φ.restrictScalars A) ∘ₗ L.subtype).liftBaseChange O) t) := by
-      intro t
-      induction t using TensorProduct.induction_on with
-      | zero => simp
-      | tmul c x => simp [f, φq]
-      | add a b ha hb => simp only [map_add (f := _), ha, hb]
+    have hcomm : (φq.restrictScalars A).liftBaseChange O ∘ₗ f.baseChange O =
+        S.mkQ.restrictScalars O ∘ₗ (((φ.restrictScalars A) ∘ₗ L.subtype).liftBaseChange O) := by
+      ext x
+      simp [f, φq]
     have h0 : f.lTensor O t = 0 := by
       apply hΞ
-      rw [hcomm, map_zero]
+      rw [← LinearMap.baseChange_eq_lTensor, ← LinearMap.comp_apply, hcomm, LinearMap.comp_apply, map_zero]
       exact (Submodule.Quotient.mk_eq_zero S).2 hz2
     obtain ⟨s, rfl⟩ := (Module.Flat.lTensor_exact O (LinearMap.exact_subtype_ker_map f) t).1 h0
-    have hc2 : ∀ s, (((φ.restrictScalars A) ∘ₗ L.subtype).liftBaseChange O) ((LinearMap.ker f).subtype.lTensor O s) =
-        (((φ.restrictScalars A) ∘ₗ L.subtype ∘ₗ (LinearMap.ker f).subtype).liftBaseChange O) s := by
-      intro s
-      induction s using TensorProduct.induction_on with
-      | zero => simp
-      | tmul c x => simp
-      | add a b ha hb => simp only [map_add (f := _), ha, hb]
-    rw [hc2]
+    rw [← LinearMap.baseChange_eq_lTensor, ← LinearMap.comp_apply, ← LinearMap.liftBaseChange_comp]
     have hmem : (((φ.restrictScalars A) ∘ₗ L.subtype ∘ₗ (LinearMap.ker f).subtype).liftBaseChange O) s ∈
         LinearMap.range (((φ.restrictScalars A) ∘ₗ L.subtype ∘ₗ (LinearMap.ker f).subtype).liftBaseChange O) := ⟨s, rfl⟩
     rw [range_liftBaseChange] at hmem
@@ -758,36 +717,17 @@ open IsDedekindDomain IsDiscreteValuationRing
 
 theorem length_ne_top_of_smul {O Q : Type*} [CommRing O] [IsDomain O] [IsDiscreteValuationRing O] [AddCommGroup Q]
     [Module O Q] [Module.Finite O Q] (t : O) (ht : t ≠ 0) (h : ∀ q : Q, t • q = 0) : Module.length O Q ≠ ⊤ := by
-  obtain ⟨n, s, hs⟩ := Module.Finite.exists_fin (R := O) (M := Q)
-  let li : Fin n → (O ⧸ Ideal.span {t}) →ₗ[O] Q := fun i =>
-    Submodule.liftQ (Ideal.span {t}) (LinearMap.toSpanSingleton O Q (s i)) (by
-      rw [Ideal.span, Submodule.span_le]
-      rintro _ rfl
-      simp [h])
-  let g : (Fin n → O ⧸ Ideal.span {t}) →ₗ[O] Q := LinearMap.lsum O (fun _ => O ⧸ Ideal.span {t}) O li
-  have hg : Function.Surjective g := by
-    rw [← LinearMap.range_eq_top, eq_top_iff, ← hs, Submodule.span_le]
-    rintro _ ⟨i, rfl⟩
-    refine ⟨Pi.single i (Submodule.Quotient.mk 1), ?_⟩
-    have h1 : g (Pi.single i (Submodule.Quotient.mk 1)) = li i (Submodule.Quotient.mk 1) := by
-      simp only [g, LinearMap.lsum_apply, LinearMap.coe_sum, Finset.sum_apply, LinearMap.comp_apply, LinearMap.proj_apply]
-      rw [Finset.sum_eq_single i]
-      · rw [Pi.single_eq_same]
-      · intro j _ hj
-        rw [Pi.single_eq_of_ne hj, map_zero]
-      · intro hi
-        exact absurd (Finset.mem_univ i) hi
-    rw [h1]
-    show Submodule.liftQ (Ideal.span {t}) (LinearMap.toSpanSingleton O Q (s i)) _ (Submodule.Quotient.mk 1) = s i
-    rw [Submodule.liftQ_apply, LinearMap.toSpanSingleton_apply, one_smul]
-  have hle := Module.length_le_of_surjective g hg
-  have hfin : Module.length O (Fin n → O ⧸ Ideal.span {t}) ≠ ⊤ := by
-    rw [Module.length_pi_of_fintype]
-    simp only [length_quot_span_dvr t ht, Finset.sum_const, Finset.card_univ, Fintype.card_fin, nsmul_eq_mul]
-    obtain ⟨k, hk⟩ := ENat.ne_top_iff_exists.1 (fun h0 => ht (addVal_eq_top_iff.1 h0))
-    rw [← hk]
-    exact_mod_cast ENat.natCast_ne_top (n * k)
-  exact ne_top_of_le_ne_top hfin hle
+  let I : Ideal O := Ideal.span {t}
+  have hT : Module.IsTorsionBySet O Q I := (Module.isTorsionBySet_span_singleton_iff t).mpr h
+  let _ : Module (O ⧸ I) Q := hT.module
+  have : IsScalarTower O (O ⧸ I) Q := hT.isScalarTower
+  have hquot : IsFiniteLength O (O ⧸ I) :=
+    isFiniteLength_quotient_span_singleton O (mem_nonZeroDivisors_iff_ne_zero.mpr ht)
+  have : IsArtinianRing (O ⧸ I) :=
+    isArtinian_of_tower O (isFiniteLength_iff_isNoetherian_isArtinian.mp hquot).2
+  have hfinite : Module.Finite (O ⧸ I) Q := Module.Finite.of_restrictScalars_finite O (O ⧸ I) Q
+  rw [Module.length_eq_of_surjective (R := O ⧸ I) Ideal.Quotient.mk_surjective]
+  exact Module.length_ne_top_iff.mpr (((IsArtinianRing.tfae (O ⧸ I) Q).out 1 4).mp hfinite)
 
 variable {A K : Type*} [CommRing A] [IsDedekindDomain A] [Field K] [Algebra A K] [IsFractionRing A K]
   (w : HeightOneSpectrum A)

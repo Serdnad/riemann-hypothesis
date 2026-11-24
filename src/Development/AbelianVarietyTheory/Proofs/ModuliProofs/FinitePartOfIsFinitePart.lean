@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.DegenerationPointsAddPullTangent
 public import Development.AbelianVarietyTheory.BlockTheory.CMModuli.FlatIsoUnitGenerator
 public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.IsAdicColimitOfFactor
 public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.IsSmulPtSmulPt
@@ -70,16 +71,7 @@ theorem isZero_unique {T : Over (Sp R)} {g g' : GtPt D T} (h : g.IsZero) (h' : g
     (val_corr hJ (h.2 χ) (𝟙 _)).trans (val_corr hJ (h'.2 χ) (𝟙 _)).symm
 
 theorem isZero_of_isAdd {T : Over (Sp R)} {g : GtPt D T} (h : g.IsAdd g g) : g.IsZero := by
-  obtain ⟨hb, hv⟩ := (TorusModel.isAdd_iff _ _ _).1 h
-  have hb1 : g.b = 1 := mul_eq_left.1 hb.symm
-  refine ⟨hb1, fun χ => corr_of_val D.P.isLB fun y J hJ => ?_⟩
-  have C : IsCub (th D (T := T) y J) := isCub_cubV D.cub hJ
-  have e' : th D y J (cP D T χ) g.b g.b = 1 := by
-    rw [hb1, C.face₃]
-  have e := hv χ y J hJ
-  rw [e', _root_.mul_one] at e
-  have e₂ : cv g χ y J = 1 := mul_eq_left.1 e.symm
-  exact e₂.trans (val_one _).symm
+  apply _root_.GlobalTheory.MBLow.GtVec.isZero_of_isAdd <;> assumption
 
 theorem isZero_one (hΦ : Represents Φ) (T : Over (Sp R)) : (Φ T 1).IsZero := by
   have h := hΦ.2 T 1 1

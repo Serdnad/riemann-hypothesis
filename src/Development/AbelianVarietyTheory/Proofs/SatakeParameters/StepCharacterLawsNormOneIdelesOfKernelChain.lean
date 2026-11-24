@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.HeckeCharLocPowEqOneOnLocalUnits
 public import Formalism.LocalToGlobal.UnitaryNorms.CharTied
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.IsRationalUnitaryDeterminantMapRationalUnitaryTo
 public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.UnderTie
@@ -238,32 +239,7 @@ theorem le_exp_neg_one {γ : WithZero (Multiplicative ℤ)} (h : γ < 1) : γ �
 
 theorem loc_pow_eq_one {L : Type} [Field L] [NumberField L] (χ : HChar L) (v : HeightOneSpectrum (𝓞 L)) (hv : χ.TameAt v)
     (x : (v.adicCompletion L)ˣ) (hx : IsUnitAt v x) : ∃ n : ℕ, 0 < n ∧ χ.loc v x ^ n = 1 := by
-  have := Formalism.UG.P.glint_finite_residueField (F := L) v
-  let _ := Fintype.ofFinite (IsLocalRing.ResidueField (v.adicCompletionIntegers L))
-  set N := Fintype.card (IsLocalRing.ResidueField (v.adicCompletionIntegers L)) with hN
-  have hN2 : 1 < N := Fintype.one_lt_card
-  have hxO : (x : v.adicCompletion L) ∈ v.adicCompletionIntegers L := by
-    rw [HeightOneSpectrum.mem_adicCompletionIntegers]; exact hx.le
-  set y : v.adicCompletionIntegers L := ⟨x, hxO⟩
-  have hyu : IsUnit y := HeightOneSpectrum.adicCompletionIntegers.isUnit_iff_valued_eq_one.2 hx
-  have hr : IsLocalRing.residue _ y ≠ 0 := by
-    rw [ne_eq, IsLocalRing.residue_eq_zero_iff, IsLocalRing.mem_maximalIdeal, mem_nonunits_iff, not_not]
-    exact hyu
-  have hp : IsLocalRing.residue _ (y ^ (N - 1) - 1) = 0 := by
-    rw [map_sub, map_pow, map_one, FiniteField.pow_card_sub_one_eq_one _ hr, sub_self]
-  rw [IsLocalRing.residue_eq_zero_iff] at hp
-  have hlt : Valued.v (((y ^ (N - 1) - 1 : v.adicCompletionIntegers L)) : v.adicCompletion L) < 1 :=
-    (Valuation.mem_maximalIdeal_iff (v := (Valued.v : Valuation (v.adicCompletion L) (WithZero (Multiplicative ℤ))))).1 hp
-  refine ⟨N - 1, by omega, ?_⟩
-  rw [← map_pow]
-  refine hv _ ?_ ?_
-  · show Valued.v (((x ^ (N - 1) : (v.adicCompletion L)ˣ)) : v.adicCompletion L) = 1
-    rw [Units.val_pow_eq_pow_val, map_pow, show Valued.v (x : v.adicCompletion L) = 1 from hx, one_pow]
-  · have e : (((x ^ (N - 1) : (v.adicCompletion L)ˣ)) : v.adicCompletion L) - 1 =
-        (((y ^ (N - 1) - 1 : v.adicCompletionIntegers L)) : v.adicCompletion L) := by
-      push_cast; rfl
-    rw [e]
-    exact le_exp_neg_one hlt
+  apply _root_.GlobalTheory.LocUnitPow.loc_pow_eq_one <;> assumption
 
 theorem loc_mem_Qbar {L : Type} [Field L] [NumberField L] (χ : HChar L) (v : HeightOneSpectrum (𝓞 L)) (hv : χ.TameAt v)
     (x : (v.adicCompletion L)ˣ) (hx : IsUnitAt v x) : ((χ.loc v x : ℂˣ) : ℂ) ∈ Formalism.MainNotions.TaylorLogMetric.Qbar := by

@@ -297,20 +297,7 @@ private lemma F_int {c : ℝ} (hc : 0 < c) :
 end YhaHelp
 
 theorem UpperTheory.Reformulated.B.Yha4.main :
-    ∀ {c : ℝ}, (0 : ℝ) < c → MeasureTheory.Integrable (fun (x : ℝ) ↦ Real.exp (-c * |x|)) MeasureTheory.MeasureSpace.volume := by
-  intro c hc
-  have hF := YhaHelp.F_int hc
-  have hG := hF.comp_neg
-  refine (hF.add hG).mono' (by fun_prop) (Filter.Eventually.of_forall fun x => ?_)
-  rw [Real.norm_eq_abs, abs_of_pos (Real.exp_pos _)]
-  simp only [Pi.add_apply, Set.indicator, Set.mem_Ici, Left.nonneg_neg_iff]
-  rcases le_or_gt 0 x with h | h
-  · rw [abs_of_nonneg h, if_pos h]
-    split_ifs
-    · linarith [Real.exp_pos (-c * -x)]
-    · simp
-  · rw [abs_of_neg h, if_neg (not_le.mpr h), if_pos h.le]
-    simp
+    ∀ {c : ℝ}, (0 : ℝ) < c → MeasureTheory.Integrable (fun (x : ℝ) ↦ Real.exp (-c * |x|)) MeasureTheory.MeasureSpace.volume := @_root_.GlobalTheory.CompanionTheory.TubeFourier.integrable_exp_neg_mul_abs
 end -- clump:auto
 end -- clump:auto
 -- ===== end clump member: Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.FInt =====
@@ -685,14 +672,7 @@ theorem dot_pt_eq (x y t : ℝ × ℝ) :
 
 theorem integrable_gaussian_prod :
     Integrable (fun y : ℝ × ℝ => Real.exp (-(y.1 ^ 2 + y.2 ^ 2))) := by
-  have h1 : Integrable (fun x : ℝ => Real.exp (-1 * x ^ 2)) := integrable_exp_neg_mul_sq one_pos
-  have h2 := h1.mul_prod h1
-  rw [← Measure.volume_eq_prod] at h2
-  refine h2.congr (Eventually.of_forall fun y => ?_)
-  simp only
-  rw [← Real.exp_add]
-  congr 1
-  ring
+  apply _root_.GlobalTheory.CompanionTheory.TubeFourier.integrable_gaussian_plane <;> assumption
 
 theorem phi_eq_smul {X : Type} [NormedAddCommGroup X] [NormedSpace ℂ X] [CompleteSpace X]
     (G : ℂ × ℂ → X) (x t : ℝ × ℝ) :
@@ -805,10 +785,7 @@ theorem shiftFst_bound {Ω : Set (ℝ × ℝ)} {G : ℂ × ℂ → X} (hG : Gaus
 
 theorem integrable_exp_neg_sq_prod :
     Integrable (fun y : ℝ × ℝ => Real.exp (-y.1 ^ 2) * Real.exp (-y.2 ^ 2)) := by
-  have h := (integrable_exp_neg_mul_sq one_pos).mul_prod (integrable_exp_neg_mul_sq one_pos)
-  rw [← MeasureTheory.Measure.volume_eq_prod] at h
-  refine h.congr (Filter.Eventually.of_forall fun y => ?_)
-  simp only [neg_mul, one_mul]
+  apply _root_.GlobalTheory.CompanionTheory.TubeFourier.integrable_gauss_prod <;> assumption
 
 theorem shiftFst_integrable {Ω : Set (ℝ × ℝ)} {G : ℂ × ℂ → X} (hG : GaussTube G Ω) {a b c : ℝ}
     (hs : ∀ s ∈ Set.Icc a b, (s, c) ∈ Ω) (t : ℝ × ℝ) {s : ℝ} (hsm : s ∈ Set.Icc a b) :

@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.ExistsOpenChartFramedPointTestRing
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.SecBaseChangeAnySt
 public import Formalism.LocalToGlobal.ProjectiveLattices.IsCombAt
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.IsHolPeriods
@@ -112,19 +113,7 @@ theorem exists_away_isDomain {R : Type} [CommRing R] [IsNoetherianRing R] (q : I
 
 theorem isTypeFn_fst {E : Type} [Field E] [NumberField E] [IsCMField E] {H : Host E} (Dw : Datum H) {g : ℕ}
     (e : Fin g ≃ Σ τ : E →+* ℂ, Fin (Dw.mult τ)) : IsTypeFn H Dw.p Dw.q (fun j => (e j).1) := by
-  intro τ
-  have hcard : Nat.card {i // (e i).1 = τ} = Dw.mult τ := by
-    have e2 : {i // (e i).1 = τ} ≃ {s : Σ τ : E →+* ℂ, Fin (Dw.mult τ) // s.1 = τ} :=
-      e.subtypeEquiv (fun _ => Iff.rfl)
-    have e3 : {s : Σ τ : E →+* ℂ, Fin (Dw.mult τ) // s.1 = τ} ≃ Fin (Dw.mult τ) := Equiv.sigmaSubtype τ
-    rw [Nat.card_congr (e2.trans e3), Nat.card_eq_fintype_card, Fintype.card_fin]
-  refine ⟨fun h => ?_, fun h => ?_⟩
-  · refine hcard.trans ?_
-    unfold Datum.mult
-    rw [if_pos h]
-  · refine hcard.trans ?_
-    unfold Datum.mult
-    rw [if_neg h]
+  apply _root_.GlobalTheory.Frames.isTypeFn_of_enum <;> assumption
 
 theorem spMap_spMap {R R' R'' : Type} [CommRing R] [CommRing R'] [CommRing R''] (f : R' →+* R'')
     (g : R →+* R') : spMap f ≫ spMap g = spMap (f.comp g) := by

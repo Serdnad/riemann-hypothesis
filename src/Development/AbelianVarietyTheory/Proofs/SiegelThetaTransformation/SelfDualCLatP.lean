@@ -1,5 +1,7 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ValuationLeOneOfMem
+import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.ThetaKernelOrthonormalFrameInDomainPeriodLinear
 public import Development.AbelianVarietyTheory.Definitions.SpanningFamilies.IsWeakOfDatum
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.PullbackSections.HolomorphicFamilies.ModelLatA
 public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.FinTensMemLatO
@@ -131,32 +133,7 @@ theorem exists_level {r : ℕ} (X : Data D.host.E r) : ∃ Lv : GlobalTheory.SW.
 
 theorem cartan_of_on {k : ℕ} {G B s : Matrix (Fin k) (Fin k) ℂ} (hs : s * s = 1) (hs' : sᴴ = s)
     (h : Bᴴ * G * B = s) : IsCartanInv G (B * s * B⁻¹) := by
-  have hB : IsUnit B.det := by
-    have : (s * (Bᴴ * G)) * B = 1 := by rw [Matrix.mul_assoc, h, hs]
-    exact Matrix.isUnit_det_of_left_inverse this
-  have e1 := Matrix.mul_nonsing_inv B hB
-  have e2 := Matrix.nonsing_inv_mul B hB
-  generalize B⁻¹ = A at e1 e2
-  have e3 : Aᴴ * Bᴴ = 1 := by rw [← conjTranspose_mul, e1, conjTranspose_one]
-  have hG : G = Aᴴ * s * A := by
-    rw [← h]
-    calc G = (Aᴴ * Bᴴ) * G * (B * A) := by rw [e1, e3, Matrix.one_mul, Matrix.mul_one]
-      _ = _ := by simp only [Matrix.mul_assoc]
-  have hGs : G * (B * s * A) = Aᴴ * A := by
-    rw [hG]
-    calc _ = Aᴴ * (s * (A * B) * s) * A := by simp only [Matrix.mul_assoc]
-      _ = _ := by rw [e2, Matrix.mul_one, hs, Matrix.mul_one]
-  refine ⟨?_, ?_, ?_⟩
-  · calc _ = B * (s * (A * B) * s) * A := by simp only [Matrix.mul_assoc]
-      _ = _ := by rw [e2, Matrix.mul_one, hs, Matrix.mul_one, e1]
-  · rw [Matrix.mul_assoc, hGs, conjTranspose_mul, conjTranspose_mul, hs', hG]
-    have e4 : Bᴴ * Aᴴ = 1 := by rw [← conjTranspose_mul, e2, conjTranspose_one]
-    calc _ = Aᴴ * (s * (Bᴴ * Aᴴ)) * A := by simp only [Matrix.mul_assoc]
-      _ = _ := by rw [e4, Matrix.mul_one]
-  · rw [hGs]
-    exact Matrix.PosDef.conjTranspose_mul_self A
-      (Matrix.mulVec_injective_iff_isUnit.2 ((Matrix.isUnit_iff_isUnit_det _).2
-        (Matrix.isUnit_det_of_left_inverse e1)))
+  first | exact _root_.GlobalTheory.Ker.ONBasis.isCartanInv | exact @_root_.GlobalTheory.Ker.ONBasis.isCartanInv | apply _root_.GlobalTheory.Ker.ONBasis.isCartanInv <;> assumption
 
 theorem sgnM_sq {r : ℕ} (X : Data D.host.E r) : sgnM X * sgnM X = 1 := by
   rw [sgnM, Matrix.diagonal_mul_diagonal, ← Matrix.diagonal_one]
@@ -172,15 +149,7 @@ theorem sgnM_herm {r : ℕ} (X : Data D.host.E r) : (sgnM X)ᴴ = sgnM X := by
   simp
 
 theorem mem_Dinv {z : D.host.E} : z ∈ Dinv D ↔ ∀ c : 𝓞 D.host.E, ∃ m : ℤ, Algebra.trace ℚ D.host.E (z * c) = m := by
-  rw [FractionalIdeal.mem_dual (one_ne_zero : (1 : FractionalIdeal (nonZeroDivisors (𝓞 D.host.E)) D.host.E) ≠ 0)]
-  constructor
-  · intro h c
-    obtain ⟨m, hm⟩ := h (c : D.host.E) ((FractionalIdeal.mem_one_iff (S := nonZeroDivisors (𝓞 D.host.E))).mpr ⟨c, rfl⟩)
-    exact ⟨m, by rw [← Algebra.traceForm_apply, ← hm]; rfl⟩
-  · rintro h a ha
-    obtain ⟨c, rfl⟩ := (FractionalIdeal.mem_one_iff (S := nonZeroDivisors (𝓞 D.host.E))).mp ha
-    obtain ⟨m, hm⟩ := h c
-    exact ⟨m, by rw [Algebra.traceForm_apply]; exact hm.symm⟩
+  first | exact _root_.GlobalTheory.FunObj.Good.mem_Dinv | exact @_root_.GlobalTheory.FunObj.Good.mem_Dinv | apply _root_.GlobalTheory.FunObj.Good.mem_Dinv <;> assumption
 
 theorem dual_of_selfD {r : ℕ} {X : Data D.host.E r} (hk : X.κ0 = 2 * D.host.xi0) {L : Lt D.host.E r}
     (hL : SelfD X L) (y : Fin r → D.host.E) : y ∈ L ↔ ∀ z ∈ L, D.host.xi0 * herm X.Gm y z ∈ Dinv D := by

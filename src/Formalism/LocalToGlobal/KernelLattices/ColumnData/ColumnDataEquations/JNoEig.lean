@@ -1,5 +1,6 @@
 module
 
+import Formalism.LocalToGlobal.PairingIndexBounds.SplitPairEquations.IntegralSquareRoots.LineOfSpans
 public import Formalism.LocalToGlobal.KernelLattices.ColumnData
 public import Formalism.LocalToGlobal.KernelLattices.ColumnData.IsAdmissibleFlagPairOfUnitriangularLeftAutomorph
 public import Formalism.LocalToGlobal.KernelLattices.ColumnData.ColumnDataEquations.GMConjTranspose
@@ -80,29 +81,7 @@ theorem form_col (A : ℝ) (N N' : ℕ) (x y : TaylorLogMetric.VC D N N') :
   exact Finset.sum_congr rfl fun τ _ => Finset.sum_comm
 
 theorem formV_pos {A : ℝ} (hA : 0 < A) (n : Type) [Fintype n] (N N' : ℕ) : IsPosDef (Ker.formV A n N N') := by
-  intro x hx
-  have e : (Ker.formV A n N N' x x).re = (∑ τ, ∑ i, ∑ j, Complex.normSq (x τ i j)) / A := by
-    simp only [Ker.formV, LinearMap.mk₂'ₛₗ_apply, Complex.mul_conj]
-    rw [← Complex.ofReal_re ((∑ τ, ∑ i, ∑ j, Complex.normSq (x τ i j)) / A)]
-    push_cast
-    rfl
-  rw [e]
-  refine div_pos ?_ hA
-  obtain ⟨τ, i, j, h⟩ : ∃ τ i j, x τ i j ≠ 0 := by
-    by_contra hno
-    push Not at hno
-    exact hx (funext fun τ => funext fun i => funext fun j => hno τ i j)
-  calc 0 < Complex.normSq (x τ i j) := Complex.normSq_pos.mpr h
-    _ ≤ ∑ j, Complex.normSq (x τ i j) :=
-        Finset.single_le_sum (f := fun j => Complex.normSq (x τ i j)) (fun _ _ => Complex.normSq_nonneg _)
-          (Finset.mem_univ j)
-    _ ≤ ∑ i, ∑ j, Complex.normSq (x τ i j) :=
-        Finset.single_le_sum (f := fun i => ∑ j, Complex.normSq (x τ i j))
-          (fun _ _ => Finset.sum_nonneg fun _ _ => Complex.normSq_nonneg _) (Finset.mem_univ i)
-    _ ≤ ∑ τ, ∑ i, ∑ j, Complex.normSq (x τ i j) :=
-        Finset.single_le_sum (f := fun τ => ∑ i, ∑ j, Complex.normSq (x τ i j))
-          (fun _ _ => Finset.sum_nonneg fun _ _ => Finset.sum_nonneg fun _ _ => Complex.normSq_nonneg _)
-          (Finset.mem_univ τ)
+  apply +allowSynthFailures _root_.Formalism.L2.PairingIndexBounds.Eq.J.formV_pos <;> assumption
 
 variable {cc : Ideal (𝓞 D.host.K)} {δ : ℂ} (B : Cd.Base D cc δ)
 

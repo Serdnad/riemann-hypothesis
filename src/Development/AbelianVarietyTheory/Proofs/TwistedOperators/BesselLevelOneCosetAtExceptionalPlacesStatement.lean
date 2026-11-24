@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsMatrixOfIsLattice
 public import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.IsAuxiliaryVectorWittDec
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsContinuousPadic
 public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.ExistsIntegralSplitIdempotentOverTwo
@@ -642,30 +643,7 @@ theorem count_stair (hq : OffQ D) {μ₀ : T} (hL : L.Is μ₀) (G : GridData L 
     (q : Fin c) : stairId (G.pl.stA sc) (G.pl.stAbar sc) c q ≠ 0 ∧
       FractionalIdeal.count D.host.E (G.pl.w v) (stairId (G.pl.stA sc) (G.pl.stAbar sc) c q) =
         ((G.pl.depth sc v * (q.1 + 1) : ℕ) : ℤ) := by
-  classical
-  have hW : G.pl.w v ∈ G.pl.W0 := by
-    unfold Places.W0
-    convert Finset.mem_image_of_mem G.pl.w hv
-  have hw : G.pl.w v ∈ locPl G μ₀ := (GlobalTheory.FunObj.GivenAdm.mem_locPl).2 (Or.inl hW)
-  have hb := Good.badInt_notMem hL (G := G) (t := μ₀) hq (fun P hP => absurd
-    (show (L.xiH μ₀).UnrAt P by rw [hL.xi_base]; exact fun x _ => rfl) ((hL.Q_ram μ₀ P).2 (Or.inl hP))) hw
-  have hA := count_AA_AAbar _ hb
-  have h1 := (GlobalTheory.ChiGrid.StairConj.conj_AA_and_stA D).1
-  have h2 := (GlobalTheory.ChiGrid.StairConj.conj_AA_and_stA D).2 T L G.pl sc
-  have hmo : ((G.pl.modul sc : Ideal (𝓞 D.host.E)) : FractionalIdeal (𝓞 D.host.E)⁰ D.host.E) ≠ 0 := by
-    rw [Ne, FractionalIdeal.coeIdeal_eq_zero]; exact G.pl.modul_ne_bot sc
-  have hmb : ((G.pl.modulBar sc : Ideal (𝓞 D.host.E)) : FractionalIdeal (𝓞 D.host.E)⁰ D.host.E) ≠ 0 := by
-    intro h
-    have h4 := h2.1
-    rw [Places.stA, h, _root_.inv_zero, mul_zero] at h4
-    exact h4 rfl
-  refine ⟨mul_ne_zero (pow_ne_zero _ h2.1) (inv_ne_zero (pow_ne_zero _ (ne_zero_of_conj h2.1 h2.2))), ?_⟩
-  rw [count_stairId h2.1 (ne_zero_of_conj h2.1 h2.2), Places.stA, Places.stAbar,
-    FractionalIdeal.count_mul _ _ h1.1 (inv_ne_zero hmb), FractionalIdeal.count_mul _ _ (ne_zero_of_conj h1.1 h1.2)
-      (inv_ne_zero hmo), FractionalIdeal.count_inv, FractionalIdeal.count_inv, count_modulBar G hw, count_modul, hA.1, hA.2,
-    cosExp, if_pos hW, G.pl.under_w hv]
-  push_cast
-  ring
+  first | exact _root_.GlobalTheory.LatticeMembershipValuation.count_stairIdeal_at_S0 | exact @_root_.GlobalTheory.LatticeMembershipValuation.count_stairIdeal_at_S0 | apply _root_.GlobalTheory.LatticeMembershipValuation.count_stairIdeal_at_S0 <;> assumption
 
 attribute [local instance] GlobalTheory.LocalData.complRel GlobalTheory.LocalData.isLocalField
 

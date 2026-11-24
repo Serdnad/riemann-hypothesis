@@ -1,5 +1,6 @@
 module
 
+import Formalism.LocalToGlobal.TorsionIntegrality.FrobeniusFibreCurves.LogarithmicSubstitution.PderivZeroZeroWeierstrassDifference
 public import Formalism.LocalToGlobal.TorsionIntegrality.FrobeniusFibreCurves.StatementA
 
 @[expose] public section
@@ -42,16 +43,7 @@ theorem pd_sub {ι : Type} (i : ι) (x y : MvPowerSeries ι K) : pd i (x - y) = 
   map_sub (MvPowerSeries.pderiv (R := K) i) x y
 
 theorem fLog_one (h1 : ExpLogRules) {ι : Type} : fLog (1 : MvPowerSeries ι K) = 0 := by
-  obtain ⟨hA, hB, -⟩ := h1 K ι
-  have h0 : MvPowerSeries.constantCoeff (0 : MvPowerSeries ι K) = 0 := map_zero _
-  have hsq : Formalism.L2.Th1.B.fExp (0 : MvPowerSeries ι K) * Formalism.L2.Th1.B.fExp 0 = Formalism.L2.Th1.B.fExp 0 * 1 := by
-    rw [← hA 0 0 h0 h0, add_zero, mul_one]
-  have hu : IsUnit (Formalism.L2.Th1.B.fExp (0 : MvPowerSeries ι K)) :=
-    MvPowerSeries.isUnit_iff_constantCoeff.mpr (by rw [(hB 0 h0).1]; exact isUnit_one)
-  have he : Formalism.L2.Th1.B.fExp (0 : MvPowerSeries ι K) = 1 := hu.mul_left_cancel hsq
-  have hl := (hB 0 h0).2
-  rw [he] at hl
-  exact hl
+  apply _root_.Formalism.L2.Th1.B.Add0.fLog_one <;> assumption
 
 end SlopeTestRemainingChoices
 

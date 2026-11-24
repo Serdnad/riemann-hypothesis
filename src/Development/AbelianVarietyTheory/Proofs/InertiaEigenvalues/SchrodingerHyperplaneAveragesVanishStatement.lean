@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.GoodTypesExcludeLevelCharacter
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.RankWeightComponentEq
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.LevelHyperspecialTrivialCharacterSplitsOffPlaces
 public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.RealIdemMulOfReal
@@ -437,17 +438,7 @@ variable {D : D7} {G : Type} [Group G] [Fintype G] {Pl0 T : Type} {A : FamIn D.w
 
 theorem liftsV (R : RealDat D A Ks) (h : R.toLevCh.Is A.μ0) (i : Fin D.R.m) (t : T) :
     LiftsExist (Vc D i) (R.βV i) (R.datVt i t) := by
-  obtain ⟨c, hc⟩ := h.βV i
-  refine GlobalTheory.T.parahoricLevel_liftsExist _ _ _ _ _ hc (fun PP hP PP' hP' => ?_)
-    (GlobalTheory.LevelRamif.ramif_at_levels D T R.toLevCh A.μ0 h t i).1
-  obtain ⟨k, hk⟩ := (h.Pg PP).1 hP
-  rcases hP' with hP' | hP'
-  · obtain ⟨k', hk'⟩ := (h.Pg PP').1 hP'
-    exact GlobalTheory.ProjectedLift.not_isConjPl R.C.P hk hk'
-  · intro hc
-    obtain ⟨q, hq, hm, hne⟩ := GlobalTheory.LevelRamif.exists_prime_mem (h.Q_pl t) hP'
-    exact GlobalTheory.LevelRamif.not_two_primes PP' hq (D.host.g_prime k) (hne k) hm
-      (GlobalTheory.LevelRamif.natCast_mem_conj hc (GlobalTheory.LevelRamif.typePrime_mem hk))
+  first | exact _root_.GlobalTheory.GoodTypeNoChi.p_lifts | exact @_root_.GlobalTheory.GoodTypeNoChi.p_lifts | apply _root_.GlobalTheory.GoodTypeNoChi.p_lifts <;> assumption
 
 theorem termAt (R : RealDat D A Ks) (hL : R.toLevCh.Is A.μ0) (hω : R.thP_ωP) (i : Fin D.R.m) (t : T)
     (PP : Pl D.host.E) (hPP : PP ∈ R.Pg) {v : FinPl D} (φ : SplitProj D v) (e : Formalism.L2.Theta.AE D) (he : IsIdemOf φ e)

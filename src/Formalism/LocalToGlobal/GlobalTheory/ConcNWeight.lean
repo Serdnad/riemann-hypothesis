@@ -1,5 +1,6 @@
 module
 
+import Formalism.LocalToGlobal.SiegelLatticeTheory.FlagStabilizerTensors.AllRowsOf
 public import Formalism.LocalToGlobal.GlobalTheory.IrreducibleOfCountSizes
 public import Formalism.CyclotomicNorms.NonsquarefreeBounds.NonsquarefreeMonicBoundHolds
 public import Formalism.PadicSubsetSums.StableGradedCounts.LocalEstimateIVOfTypeSetWeight
@@ -38,44 +39,7 @@ theorem wtOf_eq_zero_of_not_label {k : Fin 2} (a : MonoidAlgebra ℂ (GL (Fin D.
 
 theorem sum_eSer (k : Fin 2) :
     ∑ c : Fin D.R.r → ZMod (D.host.g k), D.ntypes.eSer k (Formalism.CyclotomicNorms.monicOf c) = 1 := by
-  classical
-  obtain ⟨S, hS, hsum⟩ := D.ntypes.eSer_sum k
-  have hcoeff : ∀ (c : Fin D.R.r → ZMod (D.host.g k)) (i : Fin D.R.r),
-      (Formalism.CyclotomicNorms.monicOf c).coeff (i : ℕ) = c i := by
-    intro c i
-    unfold Formalism.CyclotomicNorms.monicOf
-    rw [Polynomial.coeff_add, Polynomial.coeff_X_pow, if_neg i.isLt.ne, zero_add,
-      Polynomial.finsetSum_coeff]
-    simp only [Polynomial.coeff_C_mul_X_pow]
-    rw [Finset.sum_eq_single i]
-    · simp
-    · intro j _ hj
-      rw [if_neg]
-      exact fun h => hj (Fin.ext h).symm
-    · simp
-  have hinj : Function.Injective (fun c : Fin D.R.r → ZMod (D.host.g k) => Formalism.CyclotomicNorms.monicOf c) := by
-    intro c c' h
-    funext i
-    have := congrArg (fun p => _root_.AddMonoidAlgebra.coeff (M := ℕ) p (i : ℕ)) h
-    simpa [hcoeff] using this
-  have hsurj : ∀ f ∈ S, f = Formalism.CyclotomicNorms.monicOf (fun i : Fin D.R.r => f.coeff (i : ℕ)) := by
-    intro f hf
-    obtain ⟨hm, hdeg, -⟩ := (hS f).1 hf
-    conv_lhs => rw [hm.as_sum, hdeg]
-    unfold Formalism.CyclotomicNorms.monicOf
-    congr 1
-    exact (Fin.sum_univ_eq_sum_range (fun i => Polynomial.C (f.coeff i) * Polynomial.X ^ i) _).symm
-  have himg : ∑ f ∈ Finset.univ.image (fun c : Fin D.R.r → ZMod (D.host.g k) => Formalism.CyclotomicNorms.monicOf c),
-      D.ntypes.eSer k f = ∑ c, D.ntypes.eSer k (Formalism.CyclotomicNorms.monicOf c) :=
-    Finset.sum_image (fun a _ b _ h => hinj h)
-  rw [← himg, ← hsum]
-  symm
-  apply Finset.sum_subset
-  · intro f hf
-    rw [Finset.mem_image]
-    exact ⟨_, Finset.mem_univ _, (hsurj f hf).symm⟩
-  · intro f _ hf
-    exact D.ntypes.eSer_zero k f (fun h => hf ((hS f).2 h))
+  apply _root_.Formalism.L2.SG.AllRowsOf.sum_eSer' <;> assumption
 
 theorem sum_wtOf (k : Fin 2) (a : MonoidAlgebra ℂ (GL (Fin D.R.r) (ZMod (D.host.g k))))
     (ha : (a.coeff 1).re ≠ 0) :

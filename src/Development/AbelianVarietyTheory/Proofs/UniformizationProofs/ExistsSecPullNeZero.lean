@@ -62,6 +62,7 @@ import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.T
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.IsMonHomOfMul
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.ChartPullbacks.CubePullbacks.CubePull
 import Development.AbelianVarietyTheory.Definitions.Uniformization.ExistsInKNeOne
+import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.ExistsKerIffMinors
 
 @[expose] public section
 
@@ -78,14 +79,7 @@ variable {X X' : Scheme.{0}}
 
 theorem pull_pw_eq (M : LB X) (π : X' ⟶ X) (t : ℤ) :
     (AbLaw.pw M t).pull π = AbLaw.pw (M.pull π) t := by
-  refine congrArg (LB.mk (M.pull π).ι (M.pull π).U) ?_
-  funext j j'
-  change ∏ _k : PUnit, _ = (∏ _k : PUnit, _) ^ t
-  refine Eq.trans ?_ (Finset.prod_zpow
-    (G := Γ(X', LB.wchart M (fun _ : PUnit => π) j ⊓ LB.wchart M (fun _ : PUnit => π) j')ˣ) _ _ t)
-  refine Finset.prod_congr rfl fun k _ => ?_
-  refine (zpow_one _).trans (Eq.trans ?_ (congrArg (· ^ t) (zpow_one _)).symm)
-  exact (congrArg (res _) (map_zpow (pullU π _) (M.g (j k) (j' k)) t)).trans (map_zpow (res _) _ t)
+  apply _root_.GlobalTheory.TrivLocus.pull_pw <;> assumption
 
 theorem pw_pw_eq (M : LB X) (a b : ℤ) : AbLaw.pw (AbLaw.pw M a) b = AbLaw.pw M (a * b) := by
   simp only [AbLaw.pw, zpow_mul]

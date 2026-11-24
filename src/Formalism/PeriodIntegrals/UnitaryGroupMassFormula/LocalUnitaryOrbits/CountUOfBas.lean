@@ -163,10 +163,13 @@ theorem sc_smul_smul (ϖ r : Fv F v) (y : Fin n → Fv F v ⊗[F] E) :
   rw [mul_smul, Algebra.smul_def ϖ, Algebra.TensorProduct.algebraMap_apply]
   rfl
 
-theorem idxV_of (a : ℕ) (Y : TupV (E := E) v n a) (hB : LatBasO σ J ψ v Λ a Y) (hR : ResIdx v) :
-    IdxV σ J ψ v Λ a Y := by
-  intro hG ϖ hϖ
-  obtain ⟨b, hb, hmem⟩ := hB hG
+theorem lattice₂_relIndex_of_basis
+    (hB : ∃ b : Fin (2 * n) → (Fin n → Fv F v ⊗[F] E), LinearIndependent (Fv F v) b ∧
+      ∀ x, x ∈ latLoc (E := E) v Λ ↔
+        ∃ c : Fin (2 * n) → v.adicCompletionIntegers F, x = ∑ i, (c i : Fv F v) • b i)
+    (hR : ResIdx v) (ϖ : Fv F v) (hϖ : IsUnif v ϖ) :
+    (lattice₂ v Λ ϖ).relIndex (latA v Λ) = (Ideal.absNorm v.asIdeal) ^ (2 * n) := by
+  obtain ⟨b, hb, hmem⟩ := hB
   let φ : (Fin (2 * n) → v.adicCompletionIntegers F) →+ latA v Λ :=
     { toFun := fun c => ⟨∑ i, (c i : Fv F v) • b i, (hmem _).2 ⟨c, rfl⟩⟩
       map_zero' := by ext1; simp
@@ -205,6 +208,11 @@ theorem idxV_of (a : ℕ) (Y : TupV (E := E) v n a) (hB : LatBasO σ J ψ v Λ a
       rw [sc_smul_smul, hd i]
   rw [AddSubgroup.relIndex, ← AddSubgroup.index_comap_of_surjective _ hφs, key, AddSubgroup.index_pi]
   simp only [hR ϖ hϖ, Finset.prod_const, Finset.card_univ, Fintype.card_fin]
+
+theorem idxV_of (a : ℕ) (Y : TupV (E := E) v n a) (hB : LatBasO σ J ψ v Λ a Y) (hR : ResIdx v) :
+    IdxV σ J ψ v Λ a Y := by
+  intro hG ϖ hϖ
+  exact lattice₂_relIndex_of_basis v Λ (hB hG) hR ϖ hϖ
 
 end PI.OmLocU
 end -- clump:auto

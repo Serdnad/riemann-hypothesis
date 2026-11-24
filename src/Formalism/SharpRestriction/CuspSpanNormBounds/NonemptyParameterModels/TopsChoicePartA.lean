@@ -1,5 +1,7 @@
 module
 
+import ReciprocityTheory.ReductiveGroups.DiscreteSeries.MultiplicityOne.BigCellCommuteFrameElement
+import Formalism.HermitianCurvature.HermitianCurvatureProofs.TwoByOneBlock
 import ReciprocityTheory.ReductiveGroups.DiscreteSeries.MultiplicityOne.JInvCharA
 public import Formalism.SharpRestriction.CuspSpanNormBounds.AuxiliarySlotStates
 public import Mathlib.Algebra.Group.MinimalAxioms
@@ -232,23 +234,7 @@ theorem hermitian_form_basis_row (a : Fin r) (m : Fin (2 * r + k + 1)) : Hpk k r
   split_ifs <;> first | rfl | (exfalso; omega)
 
 theorem split_form_middle_block_eq (i j : Fin (k + 1)) : Hpk k r (wI k r i) (wI k r j) = Hb k i j := by
-  have hi := i.2
-  have hj := j.2
-  unfold Hpk Hb
-  rw [Matrix.diagonal_apply, if_neg (by simp only [wI]; omega), if_neg (by simp only [wI]; omega)]
-  by_cases hij : i = j
-  · subst hij
-    rw [if_pos ⟨by simp only [wI]; omega, by simp only [wI]; omega, rfl⟩, if_pos rfl]
-    by_cases hl : i = Fin.last k
-    · rw [if_pos hl, if_pos (by rw [hl]; simp [wI])]
-    · rw [if_neg hl, if_neg (by
-        intro h
-        apply hl
-        apply Fin.ext
-        simp only [wI] at h
-        simp only [Fin.val_last]
-        omega)]
-  · rw [if_neg hij, if_neg (fun h => hij (middle_block_index_injective k r h.2.2))]
+  apply _root_.Formalism.FourierDecayAlt.P.TwoByOneBlock.Hpk_wI <;> assumption
 
 theorem conjugate_form_entry_of_fixed_column {n : ℕ} (g H : Matrix (Fin n) (Fin n) ℂ) (p q : Fin n) (hcol : ∀ l, g l p = if l = p then 1 else 0) :
     (gᴴ * H * g) p q = ∑ m, H p m * g m q := by
@@ -503,18 +489,8 @@ theorem one_mem_unitary_stabilizer_set (z : Fin (2 * r + k + 1) → ℂ) : (1 : 
 theorem unitary_stabilizer_mul_mem (z : Fin (2 * r + k + 1) → ℂ) (a : Matrix (Fin (2 * r + k + 1)) (Fin (2 * r + k + 1)) ℂ)
     (ha : a ∈ UWset k r z) (b : Matrix (Fin (2 * r + k + 1)) (Fin (2 * r + k + 1)) ℂ) (hb : b ∈ UWset k r z) :
     a * b ∈ UWset k r z := by
-  obtain ⟨ha1, ha2, ha3⟩ := ha
-  obtain ⟨hb1, hb2, hb3⟩ := hb
-  have ha1' : aᴴ * Hpk k r * a = Hpk k r := ha1
-  have hb1' : bᴴ * Hpk k r * b = Hpk k r := hb1
-  refine ⟨?_, fun c => ⟨?_, ?_⟩, ?_⟩
-  · show (a * b)ᴴ * Hpk k r * (a * b) = Hpk k r
-    calc (a * b)ᴴ * Hpk k r * (a * b) = bᴴ * (aᴴ * Hpk k r * a) * b := by
-          simp only [Matrix.conjTranspose_mul, Matrix.mul_assoc]
-      _ = Hpk k r := by rw [ha1', hb1']
-  · rw [← Matrix.mulVec_mulVec, (hb2 c).1, (ha2 c).1]
-  · rw [← Matrix.mulVec_mulVec, (hb2 c).2, (ha2 c).2]
-  · rw [← Matrix.mulVec_mulVec, hb3, ha3]
+  intros
+  apply _root_.ReciprocityTheory.ChartRestriction.DS.Mult1.SymA.uw_mul <;> assumption
 
 theorem unitary_stabilizer_inv_mem (z : Fin (2 * r + k + 1) → ℂ) (a : Matrix (Fin (2 * r + k + 1)) (Fin (2 * r + k + 1)) ℂ)
     (ha : a ∈ UWset k r z) : Hpk k r * aᴴ * Hpk k r ∈ UWset k r z ∧ (Hpk k r * aᴴ * Hpk k r) * a = 1 := by

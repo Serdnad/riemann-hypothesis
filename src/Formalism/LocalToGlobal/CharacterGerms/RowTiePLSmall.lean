@@ -1,5 +1,6 @@
 module
 
+import Formalism.LocalToGlobal.CharacterGerms.GermEvalOneStandardPointSelf
 public import Formalism.LocalToGlobal.CharacterGerms.RowTieFB
 public import Formalism.LocalToGlobal.CharacterGerms.EndomorphismLimitIntegral
 import Formalism.LocalToGlobal.CharacterGerms.RowTiePProjFB
@@ -27,14 +28,7 @@ theorem lg_const (Y : FBChart C V O dd) (i : Fin dd) : constantCoeff (Y.lg i) = 
   exact (Finsupp.single_ne_zero.2 one_ne_zero).symm
 
 theorem germEval_oneStandardPoint_self (f : PS C 1 dd) : ev (n := 1) ![pt C dd 0] f = f := by
-  unfold ReciprocityTheory.ChartRestriction.G.Geo.Tor.Germ.ev
-  have : (fun p : Fin 1 × Fin dd => (![pt C dd 0] : Fin 1 → Pt C 1 dd) p.1 p.2) = X := by
-    funext p
-    obtain ⟨k, j⟩ := p
-    fin_cases k
-    rfl
-  rw [this, subst_self]
-  rfl
+  apply _root_.Formalism.L2.FormalSeriesBounds.MulLFrob.germEval_oneStandardPoint_self <;> assumption
 
 theorem formalGroupLaw_ev_x_zero (Y : FBChart C V O dd) {n : ℕ} (A : Pt C n dd) (hA : ∀ j, constantCoeff (A j) = 0) (i : Fin dd) :
     ev (![A, 0] : Fin 2 → Pt C n dd) (Y.B.G.F i) = A i := by

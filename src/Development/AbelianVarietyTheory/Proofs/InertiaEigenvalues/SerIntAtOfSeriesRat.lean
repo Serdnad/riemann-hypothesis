@@ -484,31 +484,7 @@ theorem exists_int_add_mul (F : Type) [Field F] [NumberField F] (M : ℕ) (hM : 
 theorem exists_finTens_add_nsmul {D : D7} (V W : HSp D) (LV : Set (Fin V.rank → D.host.E)) (LW : Set (Fin W.rank → D.host.E))
     (M : ℕ) (hM : 0 < M) (Y : WO V W) (hY : Y ∈ latO V W LV LW fun _ => True) :
     ∃ R ∈ GlobalTheory.LatVac.latRat V W LV LW, ∃ c ∈ latO V W LV LW (fun _ => True), Y = GlobalTheory.LatVac.finTens 1 R + M • c := by
-  refine GlobalTheory.LatVac.latO_induction (p := fun Y => ∃ R ∈ GlobalTheory.LatVac.latRat V W LV LW, ∃ c ∈ latO V W LV LW (fun _ => True),
-    Y = GlobalTheory.LatVac.finTens 1 R + M • c) ?_ ?_ ?_ ?_ hY
-  · intro α hα R hR
-    obtain ⟨ρ, β, hβ, hαe⟩ := exists_int_add_mul D.host.F M hM α hα
-    refine ⟨((algebraMap (𝓞 D.host.F) (𝓞 D.host.E) ρ : 𝓞 D.host.E) : D.host.E) • R,
-      GlobalTheory.LatVac.smul_mem_latRat _ hR, GlobalTheory.LatVac.finTens β R, GlobalTheory.LatVac.finTens_mem_latO hβ hR, ?_⟩
-    ext i j
-    simp only [GlobalTheory.LatVac.finTens, Matrix.map_apply, Matrix.add_apply, Matrix.smul_apply, smul_eq_mul]
-    have h1 : pairA D.host.F 0 α = (ρ : D.host.F) • pairA D.host.F 0 1 + M • pairA D.host.F 0 β := by
-      rw [hαe]
-      refine Prod.ext ?_ ?_
-      · show (0 : Ainf D.host.F) = (ρ : D.host.F) • (0 : Ainf D.host.F) + M • (0 : Ainf D.host.F)
-        simp
-      · show algebraMap D.host.F (Af D.host.F) ρ + (M : Af D.host.F) * β = (ρ : D.host.F) • (1 : Af D.host.F) + M • β
-        rw [Algebra.smul_def, mul_one, nsmul_eq_mul]
-    have h2 : ((algebraMap (𝓞 D.host.F) (𝓞 D.host.E) ρ : 𝓞 D.host.E) : D.host.E) * R i j =
-        (ρ : D.host.F) • R i j := by
-      rw [Algebra.smul_def]
-      congr 1
-    rw [h1, TensorProduct.add_tmul, TensorProduct.smul_tmul, h2, nsmul_eq_mul, ← nsmul_eq_mul, TensorProduct.smul_tmul']
-  · exact ⟨0, zero_mem _, 0, zero_mem _, by simp [GlobalTheory.LatVac.finTens_zero]⟩
-  · rintro x y ⟨R, hR, c, hc, rfl⟩ ⟨R', hR', c', hc', rfl⟩
-    exact ⟨R + R', add_mem hR hR', c + c', add_mem hc hc', by rw [GlobalTheory.LatVac.finTens_add, smul_add]; exact add_add_add_comm _ _ _ _⟩
-  · rintro x ⟨R, hR, c, hc, rfl⟩
-    exact ⟨-R, neg_mem hR, -c, neg_mem hc, by rw [GlobalTheory.LatVac.finTens_neg, smul_neg, neg_add]⟩
+  first | exact _root_.GlobalTheory.DatumFourier.approx_mod | exact @_root_.GlobalTheory.DatumFourier.approx_mod | apply _root_.GlobalTheory.DatumFourier.approx_mod <;> assumption
 
 
 theorem exists_levSum_add_of_half : ∀ (D : D7) (V W : HSp D) (ΛV : Submodule (𝓞 D.host.E) (Fin V.rank → D.host.E)) (ΛW : Submodule (𝓞 D.host.E) (Fin W.rank → D.host.E)), V.gram = 1 → (ΛV : Set (Fin V.rank → D.host.E)) = (Formalism.L2.Pj.stdLat D.host.E V.rank : Set (Fin V.rank → D.host.E)) → (ΛW : Set (Fin W.rank → D.host.E)) = L0c D W → ∀ (H : Geo.Tor.Host D.host.E) (Dw : Datum H) (ι : Dw.La →ₗ[𝓞 D.host.E] (Fin W.rank → D.host.E)), GlobalTheory.Member.IotaOK Dw W ι → ∀ (l₂ : Geo.Tor.Level H) (e : AE D), IsHalfIdem l₂ e → ∀ y : WO V W, IsHalf e y → l₂.M • y ∈ latO V W (ΛV : Set (Fin V.rank → D.host.E)) (ΛW : Set (Fin W.rank → D.host.E)) (fun _ => True) → ∃ (x : Fin V.rank → Dw.La) (c : WO V W), c ∈ latO V W (ΛV : Set (Fin V.rank → D.host.E)) (ΛW : Set (Fin W.rank → D.host.E)) (fun _ => True) ∧ y = (Matrix.of fun a b => e * incA D (ι (x b) a / (l₂.M : D.host.E)) : WO V W) + c := by

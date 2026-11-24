@@ -1,5 +1,6 @@
 module
 
+import all Development.AutomorphicArithmetic.Foundations.Convolution.BlockHeckeSlices.CuspidalNormBounds.AmpRep
 public import Development.AutomorphicArithmetic.Foundations.Convolution.CentreSplitting.DefsObj
 public import Development.AutomorphicArithmetic.Foundations.Convolution.CentreSplitting.CapZcMemOfE
 public import GroundTheory.AutomorphicForms.GKModules.Garding
@@ -89,30 +90,7 @@ private theorem UpperTheory.ConvolutionTheory.Dp.infZc_prod {n : ℕ} {m : Multi
 
 private theorem UpperTheory.ConvolutionTheory.Dp.infZc_coeff {M : Type*} [AddCommGroup M] [Module ℂ M] {n : ℕ} (v : Fin n → M)
     (h : ∀ u : ℂ, ∑ i : Fin n, u ^ (n - (i + 1)) • v i = 0) (i : Fin n) : v i = 0 := by
-  rw [← Module.forall_dual_apply_eq_zero_iff ℂ]
-  intro f
-  have hp : (∑ j : Fin n, Polynomial.monomial (n - (j + 1)) (f (v j)) : Polynomial ℂ) = 0 := by
-    apply Polynomial.funext
-    intro u
-    have := congrArg f (h u)
-
-    simp only [map_sum, map_smul, map_zero, smul_eq_mul] at this
-    simp only [Polynomial.eval_finsetSum, Polynomial.eval_monomial, Polynomial.eval_zero]
-    rw [← this]
-    exact Finset.sum_congr rfl fun j _ => mul_comm _ _
-  have := congrArg (fun p => _root_.AddMonoidAlgebra.coeff (M := ℕ) p (n - (i + 1))) hp
-  simp only [Polynomial.finsetSum_coeff, Polynomial.coeff_monomial, Polynomial.coeff_zero] at this
-  rw [Finset.sum_eq_single i] at this
-  · simpa using this
-  · intro j _ hj
-    simp only [Finsupp.single_apply]
-    rw [if_neg]
-    intro e
-    apply hj
-    have := j.2
-    have := i.2
-    exact Fin.ext (by omega)
-  · simp
+  apply _root_.UpperTheory.polynomial_identity_coefficients_zero <;> assumption
 
 theorem UpperTheory.ConvolutionTheory.Dp.infZc :
     UpperTheory.ConvolutionTheory.Dp.InfZc := by

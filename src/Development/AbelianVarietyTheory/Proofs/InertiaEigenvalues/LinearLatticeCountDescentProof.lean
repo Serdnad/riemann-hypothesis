@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.SelmerPresentationMatrixOfGaloisCohomology
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.UnitLemmaGroup
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.DltEqZero
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.LinearDescent
@@ -156,20 +157,8 @@ namespace GlobalTheory.LocalFiniteOddFixed
 
 theorem precomplete_of_finite (O : Type) [CommRing O] (I : Ideal O) [IsPrecomplete I O]
     (M : Type) [AddCommGroup M] [Module O M] [Module.Finite O M] : IsPrecomplete I M := by
-  rw [← AdicCompletion.of_surjective_iff]
-  intro z
-  obtain ⟨t, rfl⟩ := AdicCompletion.ofTensorProduct_surjective_of_finite I M z
-  induction t with
-  | tmul r x =>
-    obtain ⟨a, rfl⟩ := AdicCompletion.of_surjective I O r
-    refine ⟨a • x, ?_⟩
-    rw [AdicCompletion.ofTensorProduct_tmul, map_smul]
-    ext n
-    rfl
-  | add a b ha hb =>
-    obtain ⟨x, hx⟩ := ha
-    obtain ⟨y, hy⟩ := hb
-    exact ⟨x + y, by rw [map_add (f := _), map_add (f := _), hx, hy]⟩
+  intros
+  apply _root_.GlobalTheory.AdicCompleteFinite.isPrecomplete_of_finite <;> assumption
 
 theorem exists_pow_idem (M : Type) [Monoid M] [Finite M] (x : M) :
     ∃ n : ℕ, 0 < n ∧ x ^ n * x ^ n = x ^ n := by

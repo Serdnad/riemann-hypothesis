@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.FlagMeasures.SplitTermWeightLeNearReferenceLattice
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.IdxEqRelIndex
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.CharacterTrivialAtInertPrimes
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.AbsNormCmPrimeInertPrimeSign
@@ -1234,18 +1235,7 @@ namespace GlobalTheory.ThetaLatIndex
 theorem relIndex_pi_const {ι G : Type} [Fintype ι] [AddCommGroup G] (L L' : AddSubgroup G) :
     (AddSubgroup.pi Set.univ fun _ : ι => L').relIndex (AddSubgroup.pi Set.univ fun _ : ι => L) =
       L'.relIndex L ^ Fintype.card ι := by
-  let f : (AddSubgroup.pi Set.univ fun _ : ι => L) →+ (ι → L) :=
-    { toFun := fun x i => ⟨x.1 i, x.2 i (Set.mem_univ i)⟩
-      map_zero' := rfl
-      map_add' := fun _ _ => rfl }
-  have hf : Function.Surjective f := fun y => ⟨⟨fun i => y i, fun i _ => (y i).2⟩, rfl⟩
-  have hc : (AddSubgroup.pi Set.univ fun _ : ι => L').addSubgroupOf
-      (AddSubgroup.pi Set.univ fun _ : ι => L) =
-      (AddSubgroup.pi Set.univ fun _ : ι => L'.addSubgroupOf L).comap f := by
-    ext x
-    simp [AddSubgroup.mem_addSubgroupOf, AddSubgroup.mem_pi, f]
-  rw [AddSubgroup.relIndex, hc, AddSubgroup.index_comap_of_surjective _ hf, AddSubgroup.index_pi]
-  simp [AddSubgroup.relIndex]
+  first | exact _root_.GlobalTheory.DegCnt.MidLayer.relIndex_pi_const | exact @_root_.GlobalTheory.DegCnt.MidLayer.relIndex_pi_const | apply _root_.GlobalTheory.DegCnt.MidLayer.relIndex_pi_const <;> assumption
 
 section General
 

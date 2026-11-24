@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.ModuliProofs.CubeDescendsAlongEtaleIsogeny
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.VRatioGtStatement
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.PeriodicValuation
 public import Development.AbelianVarietyTheory.Definitions.Uniformization.TXFrame
@@ -300,15 +301,8 @@ end Torsion
 theorem exists_gen_flat {X X' Y : Scheme.{0}} {L : LB X} (f : X' ⟶ X) {K : Type} [Fintype K] (φ : K → (Y ⟶ X'))
     (ε : K → ℤ) (a : LB.Gen (LB.LinComb (L.pull f) φ ε)) (ha : a.IsGen) :
     ∃ b : LB.Gen (LB.LinComb L (fun k => φ k ≫ f) ε), b.IsGen := by
-  have le : ∀ j : K → L.ι, LB.wchart L (fun k => φ k ≫ f) j ≤ LB.wchart (L.pull f) φ (fun k _ => j k) :=
-    fun j y hy => Set.mem_iInter.2 fun k => mem_pull.2 (Set.mem_iInter.1 hy k)
-  refine ⟨⟨fun j => res (le j) (a.s fun k _ => j k)⟩, fun j j' => unit_ext fun y hy => ?_⟩
-  refine ((gm_res (𝟙 Y) y _ hy _).trans ((gm_res (𝟙 Y) y (le j) hy.1 _).trans
-    (gen_trans ha (𝟙 Y) y (le j hy.1) (le j' hy.2)))).trans (Eq.trans ?_ ((map_mul _ _ _).trans (congrArg₂ (· * ·)
-      (gm_linComb L (fun k => φ k ≫ f) ε (𝟙 Y) y j j' hy.1 hy.2)
-      ((gm_res (𝟙 Y) y _ hy _).trans (gm_res (𝟙 Y) y (le j') hy.2 _)))).symm)
-  refine congrArg₂ (· * ·) (Finset.prod_congr rfl fun k _ => congrArg (· ^ ε k) ?_) rfl
-  exact gm_pull_g L f (𝟙 Y ≫ φ k) y _ _ (Set.mem_iInter.1 (le j hy.1) k) (Set.mem_iInter.1 (le j' hy.2) k)
+  intros
+  apply _root_.GlobalTheory.CubeDescent.exists_gen_comp <;> assumption
 
 theorem exists_normalised {S : Scheme.{0}} {A : Over S} [GrpObj A] {L : LB A.left} {T : Over S} (hL : L.IsLB)
     {ρ : LB.Gen (L.pull (eSec A))} (hρ : ρ.IsGen) (m : T ⊗ A ⟶ A)

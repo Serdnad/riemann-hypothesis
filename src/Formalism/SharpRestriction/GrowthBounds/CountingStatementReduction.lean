@@ -67,6 +67,7 @@ import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
 public import Formalism.MahlerMeasure.QuotientUpperBoundsOfPowerBounds
+import Formalism.SharpRestriction.GrowthBounds.BinomialRatio.KeptFin
 
 @[expose] public section
 
@@ -2555,43 +2556,7 @@ theorem rk_cap_le (p : ℕ) (S : SegData s) (b : SegBlock s r) (l : ℕ) :
   split_ifs <;> omega
 
 theorem kept_finite (p r : ℕ) (S : SegData s) (aTop : Fin s → ℕ) : {b : SegBlock s r | Kept p r S aTop b}.Finite := by
-  classical
-  set M : ℝ := ((S.A0 p + ∑ i : Fin s, (S.bTop i : ℤ) : ℤ) : ℝ) +
-    (S.La / (r + 1) + 4 / (p : ℝ) ^ 2) * ∑ i, 2 * (S.a : ℝ) / (S.P p i : ℝ) + S.La * (S.bPlus : ℝ) / (r + 1) with hM
-  let f : SegBlock s r → (Fin s → Fin (r + 1) → ℕ) × (Fin s → Fin (r + 1) → ℕ) × (Fin s → ℕ) × (Fin s → ℕ) ×
-      (Fin s → ℕ) × ℕ := fun b => (b.rz, b.ry, b.o, b.w, b.sg, b.oPlus)
-  have hf : Function.Injective f := by
-    rintro ⟨a1, a2, a3, a4, a5, a6⟩ ⟨b1, b2, b3, b4, b5, b6⟩ h
-    simp only [f, Prod.mk.injEq] at h
-    obtain ⟨h1, h2, h3, h4, h5, h6⟩ := h
-    subst h1 h2 h3 h4 h5 h6
-    rfl
-  have hD : {g : Fin s → Fin (r + 1) → ℕ | ∀ i, g i ∈ {h : Fin (r + 1) → ℕ | ∀ c, h c ∈ Set.Iio (S.P p i)}}.Finite :=
-    Set.Finite.pi' fun i => Set.Finite.pi' fun _ => Set.finite_Iio _
-  have hB : {g : Fin s → ℕ | ∀ i, g i ∈ Set.Iic (S.bTop i)}.Finite := Set.Finite.pi' fun i => Set.finite_Iic _
-  have hA : {g : Fin s → ℕ | ∀ i, g i ∈ Set.Iic (aTop i)}.Finite := Set.Finite.pi' fun i => Set.finite_Iic _
-  have hfin := (hD.prod (hD.prod (hB.prod (hB.prod (hA.prod (Set.finite_Iic ⌊M⌋₊)))))).preimage (hf.injOn)
-  refine hfin.subset ?_
-  intro b hb
-  obtain ⟨⟨hd, -, -⟩, hU, hS, hO⟩ := hb
-  simp only [Set.mem_preimage, Set.mem_prod, Set.mem_ofPred_eq, Set.mem_Iio, Set.mem_Iic, f]
-  refine ⟨fun i c => (hd i c).1, fun i c => (hd i c).2, fun i => ?_, fun i => ?_, fun i => ?_, ?_⟩
-  · rcases Nat.lt_or_ge (i : ℕ) S.sigma with h | h
-    · rw [(hS i h).1]; exact Nat.zero_le _
-    · exact (hU i h).1.trans (rk_coarseA_le p S b i)
-  · rcases Nat.lt_or_ge (i : ℕ) S.sigma with h | h
-    · exact (hS i h).2.1.trans (rk_coarseA_le p S b i)
-    · rw [(hU i h).2.2.1]; exact Nat.zero_le _
-  · rcases Nat.lt_or_ge (i : ℕ) S.sigma with h | h
-    · exact (hS i h).2.2.1.trans (rk_coarseC_le p S aTop b i)
-    · rw [(hU i h).2.2.2]; exact Nat.zero_le _
-  · apply Nat.le_floor
-    refine hO.trans ?_
-    unfold Oplus
-    rw [hM]
-    have : ((cap p S b s : ℤ) : ℝ) ≤ ((S.A0 p + ∑ i : Fin s, (S.bTop i : ℤ) : ℤ) : ℝ) := by
-      exact_mod_cast rk_cap_le p S b s
-    linarith
+  apply _root_.Formalism.MainNotions.ColumnSystems.Pf.kf_kept_finite <;> assumption
 
 end Kept
 

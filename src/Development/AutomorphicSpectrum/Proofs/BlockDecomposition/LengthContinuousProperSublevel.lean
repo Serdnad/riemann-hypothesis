@@ -1,5 +1,6 @@
 module
 
+import Development.AutomorphicArithmetic.AutomorphicVarieties.LiteratureResults.KTheoryStability.ReductionBoundsTorsion.MomentEntryBounds.UnitaryConeEstimates.ContVal
 import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.LengthFunctionFactsHold
 public import Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange.ArchimedeanBaseChangeProof.ArchimedeanGelfandKernels.IsMultZero
 import Mathlib.Algebra.Order.Floor.Extended
@@ -42,6 +43,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
 import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.DwCons
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.KernelAdjointRegularStatement
 
 @[expose] public section
 
@@ -87,14 +89,7 @@ theorem entry_sq_le_lgArg {n : ℕ} (p : Mat n × Mat n) (a b : Fin n) :
 theorem lg_eq_log_lgArg {n : ℕ} (y : Mat n) : lg y = Real.log (lgArg (y, y⁻¹)) := rfl
 
 theorem continuousOn_matInv {n : ℕ} : ContinuousOn (fun y : Mat n => y⁻¹) (GLs n) := by
-  have hdet : ContinuousOn (fun y : Mat n => (y.det)⁻¹) (GLs n) :=
-    (continuous_id.matrix_det).continuousOn.inv₀ fun y hy => hy
-  have hadj : Continuous fun y : Mat n => y.adjugate := continuous_id.matrix_adjugate
-  have : (fun y : Mat n => y⁻¹) = fun y => (y.det)⁻¹ • y.adjugate := by
-    funext y
-    rw [Matrix.inv_def, Ring.inverse_eq_inv']
-  rw [this]
-  exact hdet.smul hadj.continuousOn
+  apply _root_.GlobalTheory.CompanionTheory.WaveMult.continuousOn_inv_GLs <;> assumption
 
 theorem continuousOn_lg {n : ℕ} : ContinuousOn (lg (n := n)) (GLs n) := by
   have hp : ContinuousOn (fun y : Mat n => (y, y⁻¹)) (GLs n) :=
@@ -111,15 +106,7 @@ theorem pairOf_isInducing {n : ℕ} : Topology.IsInducing (pairOf (n := n)) := b
   exact h2.comp h
 
 theorem isCompact_entryBox {n : ℕ} (r : ℝ) : IsCompact {m : Mat n | ∀ a b, ‖m a b‖ ≤ r} := by
-  have h : IsCompact (Set.pi Set.univ fun _ : Fin n =>
-      Set.pi Set.univ fun _ : Fin n => Metric.closedBall (0 : ℂ) r) :=
-    isCompact_univ_pi fun _ => isCompact_univ_pi fun _ => isCompact_closedBall _ _
-  have e : {m : Fin n → Fin n → ℂ | ∀ a b, ‖m a b‖ ≤ r} = Set.pi Set.univ fun _ : Fin n =>
-      Set.pi Set.univ fun _ : Fin n => Metric.closedBall (0 : ℂ) r := by
-    ext m
-    simp [Set.mem_pi]
-  have h' : IsCompact {m : Fin n → Fin n → ℂ | ∀ a b, ‖m a b‖ ≤ r} := e ▸ h
-  exact h'
+  apply _root_.PositivityTheory.KB.MomentRationality.Cz.Pk.cpt_box <;> assumption
 
 theorem isCompact_lg_le {n : ℕ} (R : ℝ) : IsCompact {y : G n | lg y.val ≤ R} := by
   apply GlobalTheory.CompanionTheory.LengthGL.isCompact_G

@@ -1,5 +1,6 @@
 module
 
+import GroundTheory.HeightsAndTheta.Heights.Intersections.IsMultiHomogRenameCoordPow
 import GroundTheory.HeightsAndTheta.Heights.Intersections.IsHorizontalImageZ
 public import GroundTheory.HeightsAndTheta.Heights.Intersections.LocRing
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArithmeticIntersection.MixedFieldContraction.GenericFibreKerTarget
@@ -179,19 +180,7 @@ theorem isMultiHomog_of_wh {s : MRing ι} {a : K → ℕ} (h : IsWeightedHomogen
 
 theorem isMultiHomog_coordPow (i : ∀ k, ι k) (α : K → ℕ) :
     IsMultiHomog (∏ k, (X ⟨k, i k⟩ : MRing ι) ^ α k) α := by
-  have h : IsWeightedHomogeneous (blkW (ι := ι)) (∏ k, (X ⟨k, i k⟩ : MRing ι) ^ α k)
-      (∑ k, α k • blkW (ι := ι) ⟨k, i k⟩) :=
-    IsWeightedHomogeneous.prod _ _ _ fun k _ => (isWeightedHomogeneous_X ℤ _ _).pow (α k)
-  have e : (∑ k, α k • blkW (ι := ι) ⟨k, i k⟩) = α := by
-    funext k
-    simp only [blkW, Finset.sum_apply]
-    rw [Finset.sum_eq_single k]
-    · simp
-    · intro b _ hb
-      simp [Ne.symm hb]
-    · simp
-  rw [e] at h
-  exact isMultiHomog_of_wh h
+  apply _root_.GroundTheory.Heights₂.Heights.Inter.PushforwardArithIntersection.isMultiHomog_coordPow <;> assumption
 
 end SemilocRing
 

@@ -344,12 +344,6 @@ theorem fourier_gaussian_real_place : ∀ (ι : Type) [Fintype ι] [DecidableEq 
     · rw [← Complex.exp_sum, ← Finset.sum_neg_distrib]
       congr 1
       refine Finset.sum_congr rfl fun i _ => ?_
-      have hb0 : beta τ (e i) ≠ 0 := by
-        intro h0
-        have := beta_re τ (e := e i)
-        rw [h0] at this
-        simp at this
-        exact hτ.ne this
       have he2 : ((e i : ℝ) : ℂ) ^ 2 = 1 := by
         rcases he i with h | h <;> simp [h]
       rw [beta_inv hτ0 (he i), mul_pow, mul_pow, mul_pow, Complex.I_sq, he2]

@@ -81,6 +81,7 @@ import Mathlib.Algebra.Order.Star.Real
 import Mathlib.RingTheory.RootsOfUnity.AlgebraicallyClosed
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.ThetaCore
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.LBLocal
+import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.ExistsSectionOfTransversal
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsSiegelFamilySRep, Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.ExistsLevelOverIntegers, Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.LiftZPMapAeval, Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.ExistsPrincipalLift, Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.ExistsZpRingHomIntegers, Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.ExistsLiftPrincipallyPolarisedAbelianSquareZero, Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.ExistsLiftPrincipallyPolarisedAbelianSquareZeroStatement
@@ -550,22 +551,6 @@ attribute [local instance] Over.cartesianMonoidalCategory
 
 namespace GlobalTheory.SiegelLift
 
-private theorem formallySmooth_stalk {B : CommRingCat.{0}} {X : Scheme.{0}} (s : X ⟶ Spec B) [Smooth s] (y : X) :
-    ∃ α : B ⟶ X.presheaf.stalk y, α.hom.FormallySmooth ∧ Spec.map α = X.fromSpecStalk y ≫ s := by
-  let τ : B ⟶ (Spec B).presheaf.stalk (s y) := StructureSheaf.toStalk B (s y)
-  refine ⟨τ ≫ s.stalkMap y, ?_, ?_⟩
-  · have hs : (s.stalkMap y).hom.FormallySmooth :=
-      Scheme.Hom.mem_smoothLocus.mp (s.smoothLocus_eq_top.ge (Set.mem_univ y))
-    letI : Algebra B ((Spec B).presheaf.stalk (s y)) := StructureSheaf.stalkAlgebra B (s y)
-    have := (s y).isPrime
-    have : IsLocalization.AtPrime ((Spec B).presheaf.stalk (s y)) (s y).asIdeal :=
-      StructureSheaf.IsLocalization.to_stalk B (s y)
-    have h₀ : Algebra.FormallySmooth B ((Spec B).presheaf.stalk (s y)) :=
-      Algebra.FormallySmooth.of_isLocalization (s y).asIdeal.primeCompl
-    exact RingHom.FormallySmooth.comp (RingHom.formallySmooth_algebraMap.2 h₀) hs
-  · have e : (Spec B).fromSpecStalk (s y) = Spec.map τ := Spec.fromSpecStalk_eq' _ _
-    rw [Spec.map_comp, ← Scheme.SpecMap_stalkMap_fromSpecStalk, e]
-
 private theorem ring_lift {B A O R' : Type} [CommRing B] [CommRing A] [CommRing O] [CommRing R'] (α : B →+* A)
     (hα : α.FormallySmooth) (π : R' →+* O) (hs : Function.Surjective π) (hk : RingHom.ker π ^ 2 = ⊥)
     (β' : B →+* R') (χ : A →+* O) (hc : χ.comp α = π.comp β') :
@@ -585,7 +570,7 @@ private theorem point_lift {B O R' : Type} [CommRing B] [CommRing O] [IsLocalRin
     (s : X ⟶ Geo.Tor.Sp B) [Smooth s] (π : R' →+* O) (hs : Function.Surjective π) (hk : RingHom.ker π ^ 2 = ⊥)
     (β' : B →+* R') (f : Geo.Tor.Sp O ⟶ X) (hf : f ≫ s = Geo.Tor.spMap (π.comp β')) :
     ∃ f' : Geo.Tor.Sp R' ⟶ X, f' ≫ s = Geo.Tor.spMap β' ∧ Geo.Tor.spMap π ≫ f' = f := by
-  obtain ⟨α, hα, e⟩ := formallySmooth_stalk s (f (IsLocalRing.closedPoint O))
+  obtain ⟨α, hα, e⟩ := _root_.GlobalTheory.HenselZero.exists_formallySmooth_stalk s (f (IsLocalRing.closedPoint O))
   have hχ := Scheme.Spec_stalkClosedPointTo_fromSpecStalk (R := CommRingCat.of O) f
   have hc : α ≫ Scheme.stalkClosedPointTo (R := CommRingCat.of O) f = CommRingCat.ofHom (π.comp β') := by
     apply Spec.map_injective

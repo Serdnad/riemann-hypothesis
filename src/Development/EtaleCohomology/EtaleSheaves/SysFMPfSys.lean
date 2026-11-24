@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsClopenOfIsLocallyNoetherian
 public import Development.EtaleCohomology.EtaleSheaves.BuildCut
 public import Development.EtaleCohomology.EtaleSheaves.SysFMPf
 import Mathlib.Algebra.Order.Floor.Extended
@@ -115,19 +116,7 @@ theorem prime_of_filter {W : Type} [CommRing W] (hW : ProdACF W) (F : Set W) (hF
 open AlgebraicGeometry in
 theorem isClosed_basicOpen_idem {X : Scheme.{0}} {s : Γ(X, ⊤)} (hs : IsIdempotentElem s) :
     IsClosed (X.basicOpen s : Set X) := by
-  have : (X.basicOpen s : Set X)ᶜ = (X.basicOpen (1 - s) : Set X) := by
-    ext x
-    simp only [Set.mem_compl_iff, SetLike.mem_coe, Scheme.mem_basicOpen_top, map_sub, map_one]
-    have he : IsIdempotentElem (X.presheaf.germ ⊤ x trivial s) := hs.map _
-    constructor
-    · intro h
-      exact (IsLocalRing.isUnit_or_isUnit_one_sub_self _).resolve_left h
-    · intro h h'
-      have hz : X.presheaf.germ ⊤ x trivial s * (1 - X.presheaf.germ ⊤ x trivial s) = 0 := by
-        rw [mul_sub, mul_one, he.eq, sub_self]
-      exact not_isUnit_zero (hz ▸ h'.mul h)
-  rw [← isOpen_compl_iff, this]
-  exact (X.basicOpen (1 - s)).isOpen
+  apply @GlobalTheory.PairingLocus.isClosed_basicOpen <;> assumption
 
 open AlgebraicGeometry in
 theorem isClosedImmersion_basicOpen_idem {X : Scheme.{0}} {s : Γ(X, ⊤)} (hs : IsIdempotentElem s) :

@@ -1176,27 +1176,31 @@ private theorem lef_zero (lam : Fin 0 → ℤ) (μ : Measure (G 0)) [μ.IsHaarMe
   rw [e, integral_const] at h2
   simpa [weylChar] using h2
 
-private theorem real_univ_ne (μ : Measure (G 0)) [μ.IsHaarMeasure] : (μ.real Set.univ : ℂ) ≠ 0 := by
+theorem haarMeasure_zero_rank_real_univ_ne_zero (μ : Measure (G 0)) [μ.IsHaarMeasure] : (μ.real Set.univ : ℂ) ≠ 0 := by
   have h1 : μ Set.univ ≠ 0 := (isOpen_univ.measure_pos μ Set.univ_nonempty).ne'
   have h2 : μ Set.univ ≠ ⊤ := (Set.subsingleton_of_subsingleton.isCompact.measure_lt_top).ne
   exact_mod_cast (ENNReal.toReal_ne_zero.2 ⟨h1, h2⟩)
 
-theorem cmbPi : PiTerm → TwTrSum → CmbPi := by
-  intro hPi hSum E _ _ _ hU n hn π hreg hdual
-  obtain ⟨l, hl, hP⟩ := hPi E hU n hn π hreg hdual
-  refine ⟨l, hl, ?_⟩
-  intro l₂ D A S hS Z hZ B τ hB hτ u₁ u₂ hu₁
+theorem combined_trace_of_product_trace (hSum : TwTrSum)
+    (E : Type) [Field E] [NumberField E] [IsCMField E] (n : ℕ) (π : CuspSub E n)
+    (l : InfinitePlace E → DomWeight n) (l₂ : InfinitePlace E → DomWeight 0)
+    (D : Dom E n 0) (A : Ar l l₂ D) (S : Set (Pl E)) (Z : Finset (Pl E)) (hZ : SplitIn S Z)
+    (B : Pl E → Multiset ℂˣ) (τ : ∀ w : Pl E, SmIrr (GLw n w))
+    (u₁ : GL (Fin n) E) (u₂ : GL (Fin 0) E) (c : ℂ)
+    (hc :
+      ∀ φ₁ φ₂ : ∀ w : Pl E, LF n 0 w, (∀ w ∈ Z, Lc (K2 n 0 w) (φ₁ w) ∧ Lc (K2 n 0 w) (φ₂ w)) →
+      ∀ T : Finset (Pl E), Disjoint T Z → ∀ (e₁ e₂ : Pl E → Ex (Fin (n + 1) × Fin (0 + 1)))
+        (k : ∀ v, Mat n → ((lefE n (l v).w).V →L[ℂ] (lefE n (l v).w).V)) (vl : InfinitePlace E → Inf n → ℂ) (R : ℝ),
+        TEv S T e₂ → (∀ v, IsMult A.μa (lefE n (l v).w) (k v) (vl v) R) →
+        IsTwTr D.μ π (phiProd (fun v => (l v).w) k (finU S u₁ (intersection_update_fsHerm_neg_one Z T φ₁ e₁) (intersection_update_fsHerm_neg_one Z T φ₂ e₂)))
+          (c * (∏ v, vl v (infOf (l v).w)) * (∏ w ∈ Z, trc (τ w).ρ (KGL w (n := n)) fun g => seen φ₁ φ₂ w (g, 1)) * val T e₁ e₂ B 0)) :
+    ∀ (L : Lv n 0 Z) φ T (e₁ e₂ : Pl E → Ex (Fin (n + 1) × Fin (0 + 1))) (C : Cmb A.blk) (R : ℝ), L.Fix φ → TEv S T e₂ →
+      Disjoint T Z → C.Ok (rt u₁ u₂ (A.fx S L T φ e₁ e₂)) R → IsTwTr D.μ π (trM C.Φ A.tw)
+        ((c * A.blk.vol⁻¹ * ((A.μb.real Set.univ : ℂ)⁻¹) ^ Fintype.card (InfinitePlace E)) * C.val (chi l) (chi l₂) * (∏ w ∈ Z, trc (τ w).ρ (KGL w (n := n)) fun g => φ w (g, 1)) * val T e₁ e₂ B 0) := by
   haveI := A.ha
   haveI := A.hb
-  have hμ : D.μ.IsHaarMeasure := by
-    obtain ⟨h1, -, h3, h4⟩ := D.haar
-    exact { }
-  obtain ⟨c₀, hc₀, hc⟩ := hP S hS Z hZ B τ hB hτ u₁ hu₁ A.μa D.μ A.ha hμ
-  have hvol : A.blk.vol ≠ 0 := (ffAlg E n 0 l l₂ D A S hS).1
-  have hm := real_univ_ne A.μb
-  generalize hmdef : (A.μb.real Set.univ : ℂ) = m at hm
-  refine ⟨c₀ * A.blk.vol⁻¹ * (m⁻¹) ^ Fintype.card (InfinitePlace E),
-    mul_ne_zero (mul_ne_zero hc₀ (inv_ne_zero hvol)) (pow_ne_zero _ (inv_ne_zero hm)), ?_⟩
+  have hm := haarMeasure_zero_rank_real_univ_ne_zero A.μb
+  generalize hmdef : (A.μb.real Set.univ : ℂ) = m at hm ⊢
   intro L φ T e₁ e₂ C R hφ hTE hTZ hC
   have hLc : ∀ w ∈ Z, Lc (K2 n 0 w) (φ w) ∧ Lc (K2 n 0 w) (L.ln w) := by
     intro w hw
@@ -1213,7 +1217,7 @@ theorem cmbPi : PiTerm → TwTrSum → CmbPi := by
     Finset.prod_congr rfl fun w hw => by rw [hseen w hw]
   generalize (∏ w ∈ Z, trc (τ w).ρ (KGL w (n := n)) fun g => φ w (g, 1)) = X at hX ⊢
   have term : ∀ j ∈ C.s, IsTestH (trM (C.t j).Φ A.tw) ∧ IsTwTr D.μ π (trM (C.t j).Φ A.tw)
-      (c₀ * A.blk.vol⁻¹ * (m⁻¹) ^ Fintype.card (InfinitePlace E) * (C.t j).val (chi l) (chi l₂) * X * val T e₁ e₂ B 0) := by
+      (c * A.blk.vol⁻¹ * (m⁻¹) ^ Fintype.card (InfinitePlace E) * (C.t j).val (chi l) (chi l₂) * X * val T e₁ e₂ B 0) := by
     intro j hj
     obtain ⟨ok, hψ, -, -⟩ := hC j hj
     generalize C.t j = t at ok hψ ⊢
@@ -1241,9 +1245,9 @@ theorem cmbPi : PiTerm → TwTrSum → CmbPi := by
       simp only [h3]
       show _ * (∏ v, phiOf (lefE 0 (l₂ v).w) (lefT 0 (l₂ v).w) (t.kb v) 1) * _ = _
       ring
-    have hval : c₀ * A.blk.vol⁻¹ * (m⁻¹) ^ Fintype.card (InfinitePlace E) * t.val (chi l) (chi l₂) * X * val T e₁ e₂ B 0 =
+    have hval : c * A.blk.vol⁻¹ * (m⁻¹) ^ Fintype.card (InfinitePlace E) * t.val (chi l) (chi l₂) * X * val T e₁ e₂ B 0 =
         ((∏ v, phiOf (lefE 0 (l₂ v).w) (lefT 0 (l₂ v).w) (t.kb v) 1) * A.blk.vol⁻¹) *
-          (c₀ * (∏ v, t.va v (infOf (l v).w)) * X * val T e₁ e₂ B 0) := by
+          (c * (∏ v, t.va v (infOf (l v).w)) * X * val T e₁ e₂ B 0) := by
       have hb : ∀ v, t.vb v (chi l₂ v) = m * phiOf (lefE 0 (l₂ v).w) (lefT 0 (l₂ v).w) (t.kb v) 1 := fun v => by
         rw [← hmdef]
         exact (lef_zero (l₂ v).w A.μb (t.kb v) (t.vb v) t.T (ok.kb v)).symm
@@ -1281,13 +1285,32 @@ theorem cmbPi : PiTerm → TwTrSum → CmbPi := by
       exact key _ _ _ hPtest hPt
   have hS' := hSum E n D π C.J C.s C.c (fun j => trM (C.t j).Φ A.tw) _ term
   have e1 : trM C.Φ A.tw = ∑ j ∈ C.s, C.c j • trM (C.t j).Φ A.tw := Growth.trM_sum _ _ _ _
-  have e2 : c₀ * A.blk.vol⁻¹ * (m⁻¹) ^ Fintype.card (InfinitePlace E) * C.val (chi l) (chi l₂) * X * val T e₁ e₂ B 0 =
-      ∑ j ∈ C.s, C.c j * (c₀ * A.blk.vol⁻¹ * (m⁻¹) ^ Fintype.card (InfinitePlace E) * (C.t j).val (chi l) (chi l₂) * X *
+  have e2 : c * A.blk.vol⁻¹ * (m⁻¹) ^ Fintype.card (InfinitePlace E) * C.val (chi l) (chi l₂) * X * val T e₁ e₂ B 0 =
+      ∑ j ∈ C.s, C.c j * (c * A.blk.vol⁻¹ * (m⁻¹) ^ Fintype.card (InfinitePlace E) * (C.t j).val (chi l) (chi l₂) * X *
         val T e₁ e₂ B 0) := by
     rw [Cmb.val, Finset.mul_sum, Finset.sum_mul, Finset.sum_mul]
     exact Finset.sum_congr rfl fun j _ => by ring
   rw [e1, e2]
   exact hS'
+
+theorem cmbPi : PiTerm → TwTrSum → CmbPi := by
+  intro hPi hSum E _ _ _ hU n hn π hreg hdual
+  obtain ⟨l, hl, hP⟩ := hPi E hU n hn π hreg hdual
+  refine ⟨l, hl, ?_⟩
+  intro l₂ D A S hS Z hZ B τ hB hτ u₁ u₂ hu₁
+  haveI := A.ha
+  haveI := A.hb
+  have hμ : D.μ.IsHaarMeasure := by
+    obtain ⟨h1, -, h3, h4⟩ := D.haar
+    exact { }
+  obtain ⟨c₀, hc₀, hc⟩ := hP S hS Z hZ B τ hB hτ u₁ hu₁ A.μa D.μ A.ha hμ
+  have hvol : A.blk.vol ≠ 0 := (ffAlg E n 0 l l₂ D A S hS).1
+  have hm := haarMeasure_zero_rank_real_univ_ne_zero A.μb
+  generalize hmdef : (A.μb.real Set.univ : ℂ) = m at hm
+  refine ⟨c₀ * A.blk.vol⁻¹ * (m⁻¹) ^ Fintype.card (InfinitePlace E),
+    mul_ne_zero (mul_ne_zero hc₀ (inv_ne_zero hvol)) (pow_ne_zero _ (inv_ne_zero hm)), ?_⟩
+  simpa only [← hmdef] using
+    combined_trace_of_product_trace hSum E n π l l₂ D A S Z hZ B τ u₁ u₂ c₀ hc
 
 end UpperTheory.Zero.ConvolutionTheory.EB
 end -- clump:auto

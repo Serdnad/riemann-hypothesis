@@ -1,5 +1,6 @@
 module
 
+import all Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.GammaLaurentFactors.CrossG
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.LeviSmoothLocalization.WinUpDown
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsHasInfCharGL
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.ArchimedeanSchwartz.ArchimedeanDerivatives.ArchOf
@@ -110,36 +111,7 @@ private theorem loc_dual {F : Type*} [Field F] [ValuativeRel F] [TopologicalSpac
     (h : RatFE F (RatFunc.C c * RatFunc.X ^ j * algebraMap ℂ[X] (RatFunc ℂ) P /
       algebraMap ℂ[X] (RatFunc ℂ) (P.comp (C Q * X))) A B) (hA : ∀ s, A s = b) :
     ∃ r : ℝ, ∀ s : ℂ, s.re < -r → B s = c * b * qs F s ^ j * P.eval (qs F s) / P.eval (Q * qs F s) := by
-  obtain ⟨R, s₁, h1, h2⟩ := h
-  have hR : R = RatFunc.C b := eq_of_eval_qs_eq_right (F := F) (s₁ := s₁) fun s hs => by
-    rw [← h1 s hs, hA, RatFunc.eval_C]
-    rfl
-  have hD0 : P.comp (C Q * X) ≠ 0 := fun e => by
-    have := congrArg (eval 0) e
-    simp [eval_comp, hP] at this
-  obtain ⟨Bd, hB, h4⟩ := exists_norm_gt_eval_ne_zero hD0
-  have hq : (1 : ℝ) < GroundTheory.LocalField.residueCard F := by exact_mod_cast GroundTheory.LocalField.one_lt_residueCard
-  refine ⟨max s₁ (Real.logb (GroundTheory.LocalField.residueCard F) Bd), fun s hs => ?_⟩
-  have hs1 := le_max_left s₁ (Real.logb (GroundTheory.LocalField.residueCard F) Bd)
-  have hs2 := le_max_right s₁ (Real.logb (GroundTheory.LocalField.residueCard F) Bd)
-  have h5 : (P.comp (C Q * X)).eval (qs F s) ≠ 0 := h4 _ (by
-    rw [norm_qs]
-    calc Bd = (GroundTheory.LocalField.residueCard F : ℝ) ^ (Real.logb (GroundTheory.LocalField.residueCard F) Bd) :=
-          (Real.rpow_logb (by linarith) hq.ne' hB).symm
-      _ < _ := Real.rpow_lt_rpow_of_exponent_lt hq (by linarith))
-  have hx : qs F s ≠ 0 := qs_ne_zero s
-  have hj : j = (j.toNat : ℤ) - ((-j).toNat : ℤ) := (Int.toNat_sub_toNat_neg j).symm
-  have e : RatFunc.C c * RatFunc.X ^ j * algebraMap ℂ[X] (RatFunc ℂ) P /
-      algebraMap ℂ[X] (RatFunc ℂ) (P.comp (C Q * X)) * RatFunc.C b =
-      algebraMap ℂ[X] (RatFunc ℂ) (C c * C b * X ^ j.toNat * P) /
-        algebraMap ℂ[X] (RatFunc ℂ) (X ^ (-j).toNat * P.comp (C Q * X)) := by
-    simp only [map_mul, map_pow, RatFunc.algebraMap_C, RatFunc.algebraMap_X]
-    rw [hj, zpow_sub₀ RatFunc.X_ne_zero, zpow_natCast, zpow_natCast, ← hj]
-    ring
-  rw [h2 s (by linarith), hR, e, eval_quot _ _ _ (by rw [eval_mul, eval_pow, eval_X]; exact mul_ne_zero (pow_ne_zero _ hx) h5)]
-  simp only [eval_mul, eval_pow, eval_X, eval_C, eval_comp]
-  rw [hj, zpow_sub₀ hx, zpow_natCast, zpow_natCast, ← hj]
-  ring
+  apply _root_.loc_dual <;> assumption
 
 private theorem comb {I : Type} (S : Finset I) (N : I → ℕ) (P : I → ℂ[X]) (c : I → ℂ) (j : I → ℤ) (q : ℕ) (f d : I → ℕ)
     (hq : 1 < q) (h : ∀ v ∈ S, 1 < N v ∧ (P v).eval 0 = 1 ∧ (P v).natDegree = d v ∧ (d v ≠ 0 → N v = q ^ f v)) :

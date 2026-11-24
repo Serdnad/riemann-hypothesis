@@ -1,5 +1,6 @@
 module
 
+import CompanionTheory.RealGroups.DiscreteSeries.DiscreteSeriesClassification.KTypesAbove
 public import Development.WeilBound.RepresentationTheoryGL.FormalDegree.FormalDegreeHilbert.HlamStable
 public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.CasimirCoefficients.ExistsMu
 public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.HighestWeights.Exists
@@ -259,41 +260,7 @@ namespace PositivityTheory.RgFd
 open ReciprocityTheory.ChartRestriction.DS ReciprocityTheory.ChartRestriction.DS.S7
 
 theorem gapNorm_of (hD : DegPsi) : GapNorm := by
-  intro n ε hp hq
-  refine ⟨thrStar ε + 2, fun lam hlam hgap T μ hμ => ?_⟩
-  have hh : thrStar ε + 1 < thrStar ε + 2 := by linarith
-  have hq0 := one_le_q0_of_p_q_pos hp hq
-  have h8 := fdc_eight hh
-  have hP : IsPsiFor ε lam T (PsiM T μ) := (S7.isPsiFor_psiM ε lam _ T μ hlam hμ hgap hq0 h8).1
-  have hgap' := fdc_stdGap hlam hgap hh
-  have hw := _root_.ReciprocityTheory.ChartRestriction.DS.HW.KType.w_ne_zero T
-  have hDS := isDS_sigLam hgap' hP hw
-  have : CompleteSpace (Hlam ε (PsiM T μ) T.w) := hDS.1
-  have : Nontrivial (Hlam ε (PsiM T μ) T.w) := hDS.2.1
-  obtain ⟨d, hd⟩ := fdcGood_of_isDS hDS
-  obtain ⟨x, hx⟩ := exists_ne (0 : Hlam ε (PsiM T μ) T.w)
-  have hΨ : ∀ μ' : Fin n → ℝ, IsHCParam μ' → GapAtLeast ε μ' (thrStar ε + 2) →
-      ∃ (T' : KType ε (lowK ε μ')) (Ψ : Matrix (Fin n) (Fin n) ℂ → (T'.V →L[ℂ] T'.V)), IsPsiFor ε μ' T' Ψ := by
-    intro μ' hμ' hg'
-    obtain ⟨T'⟩ := HW.kType_exists ε μ' hμ'
-    obtain ⟨m', -, hP'⟩ := fdc_model hp hq hμ' hg' hh T'
-    exact ⟨T', _, hP'⟩
-  have hdeg := fdCons_cd hp hq hlam hgap hh hΨ hDS hx
-  rw [fdegOf_of_isFdeg' hd hx] at hdeg
-  subst hdeg
-  set C : ℝ := ‖uniformisationL2 ε (PsiM T μ) T.w T.w‖ ^ 2 with hC
-  have hC0 : 0 < C := by
-    have := datumEmbedding_highest_ne_zero hgap' hP hw
-    positivity
-  have h1 : (1 : Matrix (Fin n) (Fin n) ℂ) ∈ UJset ε := umat_mem_UJset ε 1
-  refine hD n ε T.V (PsiM T μ) (Hlam ε (PsiM T μ) T.w) (sigLam ε (PsiM T μ) T.w)
-    (fun v => ⟨uniformisationL2 ε (PsiM T μ) T.w v, datumEmbedding_mem_Hlam hP v⟩) C (dimVlam lam) (muCD ε) hC0 (fun v v' => ?_) (fun g v v' => ?_) hd
-  · have e := formulaF_sigLam hgap' hP hw h1 v v'
-    rw [hP.2.1] at e
-    simp only [ContinuousLinearMap.one_apply] at e
-    rw [← e, (sigLam_isURepOn hgap' hP hw).1.1]
-    rfl
-  · exact formulaF_sigLam hgap' hP hw (umat_mem_UJset ε g) v v'
+  apply _root_.CompanionTheory.RgFd.gapNorm_of <;> assumption
 
 end PositivityTheory.RgFd
 end -- clump:auto
@@ -348,75 +315,7 @@ theorem prod_cpair (ε : Fin n → Bool) (f : Fin n → Fin n → ℝ) :
     (fun x => by simp) (fun x : Fin n × Fin n => f x.1 x.2)]
 
 theorem kNull_of (hW : MomW) (hP : CoefPow) : KNull := by
-  intro n ε lam hl T TD
-  classical
-  haveI : CompactSpace (KG ε) := compactSpace_KG ε
-  set F : ℝ := (∏ i ∈ range (pOf ε), (i.factorial : ℝ)) * ∏ i ∈ range (qOf ε), (i.factorial : ℝ) with hF
-  have hFpos : 0 < F := by positivity
-  let α : CPair ε → ℝ := fun p => lam p.1.1 - lam p.1.2 + (nab ε p.1.1 p.1.2 : ℝ)
-  let β : CPair ε → ℝ := fun p => ((p.1.2 : ℕ) : ℝ) - ((p.1.1 : ℕ) : ℝ)
-  have hα : ∀ p, 0 < α p := fun p => by
-    have := hl.1 p.2.1
-    have : (0 : ℝ) ≤ nab ε p.1.1 p.1.2 := Nat.cast_nonneg _
-    simp only [α]; linarith
-  have hβ : ∀ p, 0 ≤ β p := fun p => by
-    have : ((p.1.1 : ℕ) : ℝ) < ((p.1.2 : ℕ) : ℝ) := by exact_mod_cast p.2.1
-    simp only [β]; linarith
-
-  have hmom : ∀ t : ℕ, ∫⁻ k, ENNReal.ofReal (cK T k ^ 2) * ENNReal.ofReal ((cK TD k ^ 2) ^ t) ∂(dk ε) =
-      ENNReal.ofReal (F / ∏ p, (α p + t * β p)) := by
-    intro t
-    obtain ⟨Tt⟩ := kType_exists ε (lamT lam t) (isHCParam_lamT hl t)
-    have e : ∀ k, ENNReal.ofReal (cK T k ^ 2) * ENNReal.ofReal ((cK TD k ^ 2) ^ t) = ENNReal.ofReal (cK Tt k ^ 2) := by
-      intro k
-      rw [← ENNReal.ofReal_mul (sq_nonneg _), hP n ε lam hl T TD t Tt k]
-      ring_nf
-    simp_rw [e]
-    have hint : Integrable (fun k => cK Tt k ^ 2) (dk ε) :=
-      ((cK_continuous Tt).pow 2).integrable_of_hasCompactSupport (HasCompactSupport.of_compactSpace _)
-    rw [← ofReal_integral_eq_lintegral_ofReal hint (Filter.Eventually.of_forall fun k => sq_nonneg _)]
-    congr 1
-    have hs := kschur_coef Tt Tt.w Tt.w
-    rw [Tt.w_norm] at hs
-    have h7 := lemma7 Tt
-    have hd : (0 : ℝ) < Module.finrank ℂ Tt.V := by
-      have : Nontrivial Tt.V := ⟨⟨Tt.w, 0, fun h => by have := Tt.w_norm; rw [h, norm_zero] at this; exact zero_ne_one this⟩⟩
-      exact_mod_cast Module.finrank_pos
-    have hI : ∫ k, cK Tt k ^ 2 ∂(dk ε) = (Module.finrank ℂ Tt.V : ℝ)⁻¹ := by
-      unfold cK
-      field_simp
-      linarith
-    rw [hI, h7, prod_cpair ε (fun a b => lamT lam t a - lamT lam t b + (nab ε a b : ℝ))]
-    have e2 : ∀ p : CPair ε, lamT lam t p.1.1 - lamT lam t p.1.2 + (nab ε p.1.1 p.1.2 : ℝ) = α p + t * β p := by
-      intro p
-      simp only [lamT_apply, α, β]
-      ring
-    simp_rw [e2]
-    rw [inv_div]
-  have h0 := hmom 0
-  simp only [pow_zero, ENNReal.ofReal_one, mul_one, Nat.cast_zero, zero_mul, add_zero] at h0
-  have hpos := hW (KG ε) (dk ε) (fun k => ENNReal.ofReal (cK T k ^ 2)) (fun k => cK TD k ^ 2) (CPair ε) α β F 0
-    ((cK_continuous T).pow 2).measurable.ennreal_ofReal ((cK_continuous TD).pow 2).measurable
-    (fun k => ⟨sq_nonneg _, by have h1 := cK_le_one TD k; have h2 : 0 ≤ cK TD k := norm_nonneg _; nlinarith⟩) hα hβ hFpos.le
-    (fun t _ => hmom t)
-  set s : Set (KG ε) := {k | 0 < cK TD k ^ 2} with hs
-  have hsm : MeasurableSet s := measurableSet_lt measurable_const ((cK_continuous TD).pow 2).measurable
-  have hsum := lintegral_add_compl (fun k => ENNReal.ofReal (cK T k ^ 2)) (μ := dk ε) hsm
-  rw [hpos, h0] at hsum
-  have hz : ∫⁻ k in sᶜ, ENNReal.ofReal (cK T k ^ 2) ∂(dk ε) = 0 := by
-    have hne : ENNReal.ofReal (F / ∏ p, α p) ≠ ⊤ := ENNReal.ofReal_ne_top
-    calc _ = ENNReal.ofReal (F / ∏ p, α p) + (∫⁻ k in sᶜ, ENNReal.ofReal (cK T k ^ 2) ∂(dk ε)) -
-          ENNReal.ofReal (F / ∏ p, α p) := by rw [ENNReal.add_sub_cancel_left hne]
-      _ = 0 := by rw [hsum, tsub_self]
-  have hmeas : Measurable fun k => ENNReal.ofReal (cK T k ^ 2) := by
-    exact ((cK_continuous T).pow 2).measurable.ennreal_ofReal
-  replace hz := (lintegral_eq_zero_iff hmeas).1 hz
-  rw [Filter.EventuallyEq, ae_restrict_iff' hsm.compl] at hz
-  apply hz.mono
-  intro k hk h0k
-  have hk' := hk (by simp [hs, h0k])
-  simp only [Pi.zero_apply, ENNReal.ofReal_eq_zero] at hk'
-  nlinarith [sq_nonneg (cK T k), norm_nonneg (⟪T.w, T.op k T.w⟫_ℂ)]
+  apply _root_.CompanionTheory.RgFd.kNull_of <;> assumption
 
 end PositivityTheory.RgFd
 end -- clump:auto
@@ -657,20 +556,8 @@ theorem mom_step {Ω Ω' : Type} [MeasurableSpace Ω] [MeasurableSpace Ω'] {ν 
   apply CompanionTheory.RgFd.mom_step <;> assumption
 
 theorem mom_sum {A : Type} [MeasurableSpace A] (m : Measure A) {W : A → ℝ} (hW : Measurable W) (h : ∀ x, 0 ≤ W x ∧ W x ≤ 1) :
-    m {x | 0 < W x} = ∑' M : ℕ, ∫⁻ x, ENNReal.ofReal (W x ^ 1 * (1 - W x) ^ M) ∂m := by
-  rw [← lintegral_tsum fun M => (by fun_prop : Measurable fun x => ENNReal.ofReal (W x ^ 1 * (1 - W x) ^ M)).aemeasurable,
-    ← lintegral_indicator_one (measurableSet_lt measurable_const hW)]
-  refine lintegral_congr fun x => ?_
-  have a := (h x).1
-  have b := sub_nonneg.2 (h x).2
-  by_cases hx : 0 < W x
-  · have hs : HasSum (fun M : ℕ => W x ^ 1 * (1 - W x) ^ M) (W x ^ 1 * (1 - (1 - W x))⁻¹) :=
-      (hasSum_geometric_of_lt_one b (by linarith)).mul_left _
-    rw [← ENNReal.ofReal_tsum_of_nonneg (fun M => by positivity) hs.summable, hs.tsum_eq,
-      indicator_of_mem (show x ∈ {x | 0 < W x} from hx)]
-    simp [mul_inv_cancel₀ hx.ne']
-  · rw [indicator_of_notMem (show x ∉ {x | 0 < W x} from hx), show W x = 0 from le_antisymm (not_lt.1 hx) a]
-    simp
+    m {x | 0 < W x} = ∑' M : ℕ, ∫⁻ x, ENNReal.ofReal (W x ^ 1 * (1 - W x) ^ M) ∂m :=
+  _root_.CompanionTheory.RgFd.mom_sum m hW h
 
 theorem momA : MomA := by
   intro Ω Ω' _ _ ν ν' U U' t0 hU hU' h h' ht he hf
@@ -876,24 +763,8 @@ theorem nd_muCD_univ {ε : Fin n → Bool} (hq : q0 ε = 0) : muCD ε Set.univ =
     measure_univ, one_mul, mul_one] using lintegral_muCD ε (fun _ => 1) measurable_const
 
 theorem nd_finrank {ε : Fin n → Bool} (hq : q0 ε = 0) {lam : Fin n → ℝ} (hl : StrictAnti lam)
-    (T : KType ε (lowK ε lam)) : (Module.finrank ℂ T.V : ℝ) = dimVlam lam := by
-  obtain ⟨s, hs⟩ := nd_const_sign hq
-  rw [lemma7 T, dimVlam, prod_pairs_eq_factorial]
-  have hden : (∏ i ∈ range (pOf ε), (i.factorial : ℝ)) * ∏ i ∈ range (qOf ε), (i.factorial : ℝ) =
-      ∏ i ∈ range n, (i.factorial : ℝ) := by
-    rcases nd_counts hq with ⟨hp, hq'⟩ | ⟨hp, hq'⟩ <;> rw [hp, hq'] <;> simp
-  rw [hden]
-  congr 1
-  refine Finset.prod_congr rfl fun a _ => ?_
-  have hf : (univ.filter fun b : Fin n => a < b ∧ ε a = ε b) = univ.filter fun b : Fin n => a < b := by
-    ext b; simp [hs]
-  rw [hf]
-  refine Finset.prod_congr rfl fun b hb => ?_
-  simp only [Finset.mem_filter, Finset.mem_univ, true_and] at hb
-  have hn : nab ε a b = 0 := by
-    unfold nab
-    simp [hs]
-  rw [hn, Nat.cast_zero, add_zero, abs_of_pos (sub_pos.2 (hl hb))]
+    (T : KType ε (lowK ε lam)) : (Module.finrank ℂ T.V : ℝ) = dimVlam lam :=
+  _root_.CompanionTheory.RgFd.nd_finrank hq hl T
 
 theorem normDef : NormDef := by
   intro n ε hq lam hl T μ hμ

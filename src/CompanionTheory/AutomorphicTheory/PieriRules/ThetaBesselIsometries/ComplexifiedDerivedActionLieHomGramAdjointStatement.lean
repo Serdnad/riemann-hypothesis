@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.JetHarmonics.ComplexifiedDerivedActionLieHomGramAdjoint
 public import CompanionTheory.AutomorphicTheory.PieriRules.ThetaBesselIsometries.IsDSOfIsDG
 public import CompanionTheory.AutomorphicTheory.PieriRules.ThetaBesselIsometries.DerivedActionDiscreteSeriesProperties
 import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.CapelliEigenvalues.HeckeMultiplication
@@ -65,24 +66,8 @@ theorem dsig_dsig (hσ : IsDSHpk k r ε mu σ) {X Y : Mx k r} (hX : InLieHpk k r
     (hU : IsOpen U) (h1 : (1 : Mx k r) ∈ U) (hF : ContDiffOn ℝ ∞ F U)
     (hfF : ∀ h ∈ U, inUH (Hpk k r) h → σ h v = F h) (L : Mx k r →L[ℝ] Mx k r) (hL : ∀ x, L x = x * Y) :
     dsig (k := k) (r := r) σ X (dsig (k := k) (r := r) σ Y v) =
-      fderiv ℝ (fun g => fderiv ℝ F g (L g)) 1 X := by
-  have hG : ContDiffOn ℝ ∞ (fun g => fderiv ℝ F g (L g)) U :=
-    (hF.fderiv_of_isOpen hU (by simp)).clm_apply L.contDiff.contDiffOn
-  have hGe : ∀ g ∈ U, inUH (Hpk k r) g → σ g (dsig (k := k) (r := r) σ Y v) = fderiv ℝ F g (L g) := by
-    intro g hg hgH
-    have h1 := hasDerivAt_local hY hU hg hF hfF hgH
-    have h2 := hasDerivAt_apply hY hv (σ g)
-    have e : (fun u : ℝ => σ (g * NormedSpace.exp ((u : ℂ) • Y)) v) =
-        fun t : ℝ => σ g (σ (NormedSpace.exp ((t : ℂ) • Y)) v) := by
-      funext t
-      rw [Hecke_multiplication k r ε mu H σ hσ g hgH _ (exp_mem hY t)]
-      rfl
-    rw [e] at h1
-    simp only [hL]
-    exact h2.unique h1
-  have h := hasDerivAt_local (f := fun g => σ g (dsig (k := k) (r := r) σ Y v)) hX hU h1 hG hGe one_mem
-  simp only [Matrix.one_mul] at h
-  exact h.deriv
+      fderiv ℝ (fun g => fderiv ℝ F g (L g)) 1 X :=
+  _root_.GlobalTheory.DerivedBracket.dsig_dsig hσ hX hY hv hU h1 hF hfF L hL
 
 theorem dsig_bracket (hσ : IsDSHpk k r ε mu σ) {X Y : Mx k r} (hX : InLieHpk k r X) (hY : InLieHpk k r Y) {v : H}
     (hv : v ∈ smoothVecs (k := k) (r := r) σ) :
@@ -256,41 +241,7 @@ theorem dC_lin_left (R : Rep k r) (Y Z : Mx k r) (a : ℂ) {v : R.H} (hv : v ∈
 
 theorem complexified_action : PI.KFinSmooth → ∀ (k r : ℕ) (ε : Fin (2 * r + k + 1) → Bool) (mu : Fin (2 * r + k + 1) → ℝ) (R : Rep k r), R.IsDG ε mu → (∀ Y, ∀ v ∈ R.sm, R.dC Y v ∈ R.sm) ∧ (∀ Y (a : ℂ), ∀ v ∈ R.sm, ∀ w ∈ R.sm, R.dC Y (a • v + w) = a • R.dC Y v + R.dC Y w) ∧ (∀ Y Z (a : ℂ), ∀ v ∈ R.sm, R.dC (a • Y + Z) v = a • R.dC Y v + R.dC Z v) ∧ (∀ X, PI.UpqRep.InLieHpk k r X → ∀ v ∈ R.sm, R.dC X v = PI.UpqRep.dsig (k := k) (r := r) R.σ X v) ∧ (∀ Y Z, ∀ v ∈ R.sm, R.dC Y (R.dC Z v) - R.dC Z (R.dC Y v) = R.dC (Y * Z - Z * Y) v) ∧ ∀ Y, ∀ v ∈ R.sm, ∀ w ∈ R.sm, ⟪R.dC Y v, w⟫_ℂ = ⟪v, R.dC ((Formalism.QuantumDeterminants.Hpk k r) * Yᴴ * (Formalism.QuantumDeterminants.Hpk k r)) w⟫_ℂ := by
   intro hK k r ε mu R hR
-  have hsm : ∀ {X}, InLieHpk k r X → ∀ {v}, v ∈ R.sm → dsig (k := k) (r := r) R.σ X v ∈ R.sm :=
-    fun hX _ hv => dsig_smooth hR.2 hX hv
-  have hlin : ∀ {X}, InLieHpk k r X → ∀ (a : ℂ) {v w}, v ∈ R.sm → w ∈ R.sm →
-      dsig (k := k) (r := r) R.σ X (v + a • w) =
-        dsig (k := k) (r := r) R.σ X v + a • dsig (k := k) (r := r) R.σ X w := by
-    intro X hX a v w hv hw
-    rw [dsig_add hX hv (R.smSub.smul_mem a hw), dsig_smul hX a hw]
-  refine ⟨fun Y v hv => ?_, fun Y a v hv w hw => ?_, fun Y Z a v hv => dC_lin_left R Y Z a hv,
-    fun X hX v hv => dC_lie R hX hv, fun Y Z v hv => ?_, fun Y v hv w hw => ?_⟩
-  · exact R.smSub.add_mem (hsm (lie_re Y) hv) (R.smSub.smul_mem _ (hsm (lie_im Y) hv))
-  · obtain ⟨Y₁, Y₂, h1, h2, rfl⟩ := exists_decomp Y
-    rw [dC_decomp R h1 h2, dC_decomp R h1 h2, dC_decomp R h1 h2, add_comm (a • v) w, hlin h1 a hw hv,
-      hlin h2 a hw hv]
-    module
-  · obtain ⟨Y₁, Y₂, h1, h2, rfl⟩ := exists_decomp Y
-    obtain ⟨Z₁, Z₂, h3, h4, rfl⟩ := exists_decomp Z
-    have e : (Y₁ + Complex.I • Y₂) * (Z₁ + Complex.I • Z₂) - (Z₁ + Complex.I • Z₂) * (Y₁ + Complex.I • Y₂) =
-        ((Y₁ * Z₁ - Z₁ * Y₁) + -(Y₂ * Z₂ - Z₂ * Y₂)) + Complex.I • ((Y₁ * Z₂ - Z₂ * Y₁) + (Y₂ * Z₁ - Z₁ * Y₂)) := by
-      simp only [Matrix.add_mul, Matrix.mul_add, Matrix.smul_mul, Matrix.mul_smul]
-      linear_combination (norm := module) Complex.I_mul_I • (Y₂ * Z₂ - Z₂ * Y₂)
-    have b := GlobalTheory.DerivedBracket.derived_action_bracket hK k r ε mu R hR
-    rw [e, dC_decomp R (lie_add (_root_.Gp91.GlobalTheory.DerivedBracket.lie_bracket h1 h3) (lie_neg (_root_.Gp91.GlobalTheory.DerivedBracket.lie_bracket h2 h4))) (lie_add (_root_.Gp91.GlobalTheory.DerivedBracket.lie_bracket h1 h4) (_root_.Gp91.GlobalTheory.DerivedBracket.lie_bracket h2 h3)),
-      dsig_add_left R (_root_.Gp91.GlobalTheory.DerivedBracket.lie_bracket h1 h3) (lie_neg (_root_.Gp91.GlobalTheory.DerivedBracket.lie_bracket h2 h4)) hv, dsig_neg_left R (_root_.Gp91.GlobalTheory.DerivedBracket.lie_bracket h2 h4) hv,
-      dsig_add_left R (_root_.Gp91.GlobalTheory.DerivedBracket.lie_bracket h1 h4) (_root_.Gp91.GlobalTheory.DerivedBracket.lie_bracket h2 h3) hv, ← b _ _ h1 h3 v hv, ← b _ _ h2 h4 v hv,
-      ← b _ _ h1 h4 v hv, ← b _ _ h2 h3 v hv]
-    simp only [dC_decomp R h1 h2, dC_decomp R h3 h4]
-    rw [hlin h1 _ (hsm h3 hv) (hsm h4 hv), hlin h2 _ (hsm h3 hv) (hsm h4 hv), hlin h3 _ (hsm h1 hv) (hsm h2 hv),
-      hlin h4 _ (hsm h1 hv) (hsm h2 hv)]
-    linear_combination (norm := module) Complex.I_mul_I • (dsig (k := k) (r := r) R.σ Y₂ (dsig (k := k) (r := r) R.σ Z₂ v) -
-      dsig (k := k) (r := r) R.σ Z₂ (dsig (k := k) (r := r) R.σ Y₂ v))
-  · obtain ⟨Y₁, Y₂, h1, h2, rfl⟩ := exists_decomp Y
-    rw [adj_decomp h1 h2, dC_decomp R h1 h2, dC_decomp R (lie_neg h1) h2, dsig_neg_left R h1 hw, inner_add_left,
-      inner_add_right, inner_smul_left, inner_smul_right, inner_neg_right, dsig_skew hR.2 h1 hv hw,
-      dsig_skew hR.2 h2 hv hw, Complex.conj_I]
-    ring
+  exact _root_.GlobalTheory.ComplexifiedAction.complexified_action hK k r ε mu R (_root_.GlobalTheory.isDS_of_isDG hR)
 
 end GlobalTheory.ComplexifiedAction
 end -- clump:auto

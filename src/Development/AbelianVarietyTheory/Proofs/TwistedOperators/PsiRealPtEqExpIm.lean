@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.AlVEmbHEqNegOneZpow
 public import Development.AbelianVarietyTheory.BlockTheory.TwistedDiscreteSeries.RealPoints
 public import Development.AbelianVarietyTheory.Definitions.ExistenceOfLattices.CoeSelfDualLatticeInFrameCoordinatesEq
 public import Development.AbelianVarietyTheory.Definitions.ExistenceOfLattices.Hat1
@@ -545,37 +546,7 @@ theorem infPart_realPt (S T : HSp D) (X : Matrix (Fin T.rank) (Fin S.rank) D.hos
 
 theorem sum_two_re_tauE (D : D7) (e : D.host.E) :
     ∑ t, (((2 * (tauE D t e).re : ℝ)) : ℂ) = ((Algebra.trace ℚ D.host.E e : ℚ) : ℂ) := by
-  classical
-  have h1 : ((Algebra.trace ℚ D.host.E e : ℚ) : ℂ) = ∑ σ : D.host.E →+* ℂ, σ e := by
-    have := trace_eq_sum_embeddings (K := ℚ) (L := D.host.E) ℂ (x := e)
-    rw [eq_ratCast] at this
-    rw [this]
-    exact (Fintype.sum_equiv (RingHom.equivRatAlgHom D.host.E ℂ) _ _ fun _ => rfl).symm
-  have hi := GlobalTheory.StdRat.tauE_injective D
-  have hcm := GlobalTheory.StdRat.tauE_cm D
-  have hb : Function.Bijective (Sum.elim (tauE D) fun t => ComplexEmbedding.conjugate (tauE D t)) := by
-    have hc : ∀ σ : D.host.E →+* ℂ, ComplexEmbedding.conjugate (ComplexEmbedding.conjugate σ) = σ :=
-      fun σ => star_star σ
-    constructor
-    · rintro (a | a) (b | b) h <;> simp only [Sum.elim_inl, Sum.elim_inr] at h
-      · rw [hi h]
-      · exact absurd ⟨a, h⟩ ((hcm (tauE D b)).1 ⟨b, rfl⟩)
-      · exact absurd ⟨b, h.symm⟩ ((hcm (tauE D a)).1 ⟨a, rfl⟩)
-      · have := congrArg ComplexEmbedding.conjugate h
-        rw [hc, hc] at this
-        rw [hi this]
-    · intro σ
-      by_cases h : ∃ t, tauE D t = ComplexEmbedding.conjugate σ
-      · obtain ⟨t, ht⟩ := h
-        exact ⟨Sum.inr t, by simp only [Sum.elim_inr]; rw [ht, hc]⟩
-      · obtain ⟨t, ht⟩ := (hcm σ).2 h
-        exact ⟨Sum.inl t, ht⟩
-  have h4 := hb.sum_comp fun σ : D.host.E →+* ℂ => σ e
-  rw [Fintype.sum_sum_type, ← h1] at h4
-  simp only [Sum.elim_inl, Sum.elim_inr, ComplexEmbedding.conjugate_coe_eq] at h4
-  rw [← h4, ← Finset.sum_add_distrib]
-  refine Finset.sum_congr rfl fun t _ => ?_
-  rw [Complex.add_conj]
+  first | exact _root_.GlobalTheory.SemiTrace.sum_two_re_tauE | exact @_root_.GlobalTheory.SemiTrace.sum_two_re_tauE | apply _root_.GlobalTheory.SemiTrace.sum_two_re_tauE <;> assumption
 
 end GlobalTheory.ArchPhase
 

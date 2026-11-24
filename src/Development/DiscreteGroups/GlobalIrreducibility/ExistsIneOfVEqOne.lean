@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.SatakeParameters.UnrAtOfMulLeft
 public import Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms₂.HasExponentZeroIff
 public import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.ValuationDetOfMemKO
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsFixedIff
@@ -65,15 +66,7 @@ variable {E' Ω : Type} [Field E'] [NumberField E'] [Field Ω] [Algebra E' Ω] [
 
 theorem val_eq_one_iff (y : w'.adicCompletion E') :
     valuation (w'.adicCompletion E') y = 1 ↔ Valued.v y = 1 := by
-  have e1 := DiscreteGroups.sglob.DzIso.val_lt_iff y
-  have e2 := DiscreteGroups.sglob.DzIso.val_le_iff y
-  rw [Valued.toNormedField.norm_lt_one_iff] at e1
-  rw [Valued.toNormedField.norm_le_one_iff] at e2
-  constructor
-  · intro h
-    exact le_antisymm (e2.1 h.le) (not_lt.1 fun hl => (e1.2 hl).ne h)
-  · intro h
-    exact le_antisymm (e2.2 h.le) (not_lt.1 fun hl => (e1.1 hl).ne h)
+  apply @GlobalTheory.MuTameQS.val_eq_one_iff <;> assumption
 
 theorem exists_ine_of_v_eq_one {a' : Weil h' →* (w'.adicCompletion E')ˣ} (ha' : IsLocalArtin h' a')
     (u : (w'.adicCompletion E')ˣ) (hu : Valued.v (u : w'.adicCompletion E') = 1) :

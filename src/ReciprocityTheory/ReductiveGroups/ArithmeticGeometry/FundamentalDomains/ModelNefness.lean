@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.TorusHaarMeasure.MahlerCompactness
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.FundamentalDomains.HermitianLatticeMaps
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.FundamentalDomains.IntegralBasisReduction
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.FundamentalDomains.LminorSubmatrixCastSucc
@@ -88,20 +89,7 @@ theorem Sh_finite (R : ℝ) (hR : 0 ≤ R) : (Sh X R).Finite := by
 def Sz (T : ℝ) : Set ℤ := {n | ((n : ℝ)) ^ 2 ≤ T}
 
 theorem Sz_finite (T : ℝ) : (Sz T).Finite := by
-  refine (Set.finite_Icc (-⌈T⌉) ⌈T⌉).subset ?_
-  intro n hn
-  have hn' : ((n : ℝ)) ^ 2 ≤ T := hn
-  have h1 : |n| ≤ n ^ 2 := by
-    rcases eq_or_ne n 0 with h | h
-    · simp [h]
-    · have h0 : 1 ≤ |n| := Int.one_le_abs h
-      nlinarith [abs_mul_abs_self n, abs_nonneg n]
-  have h2 : ((|n| : ℤ) : ℝ) ≤ T := by
-    have h4 : ((|n| : ℤ) : ℝ) ≤ ((n ^ 2 : ℤ) : ℝ) := by exact_mod_cast h1
-    push_cast at h4 ⊢
-    linarith
-  have h3 : |n| ≤ ⌈T⌉ := by exact_mod_cast h2.trans (Int.le_ceil T)
-  exact Set.mem_Icc.mpr ⟨by linarith [neg_abs_le n], by linarith [le_abs_self n]⟩
+  apply _root_.GlobalTheory.FlagMahler.finite_int_sq <;> assumption
 
 variable {ι : Type} [Fintype ι] [DecidableEq ι]
 
@@ -239,26 +227,7 @@ theorem herm_bound {y : X.Ψ → Matrix (Fin r) (Fin r) ℂ} (hy : IntegralBasis
 
 theorem Qy_smul (y : X.Ψ → Matrix (Fin r) (Fin r) ℂ) (α : E) (p : Fin r → E) :
     Qy X y (α • p) ≤ (∑ τ : X.Ψ, ‖τ.1 α‖ ^ 2) * Qy X y p := by
-  unfold Qy
-  rw [Finset.mul_sum]
-  refine Finset.sum_le_sum fun τ _ => ?_
-  have e : Data.emb τ.1 (α • p) = τ.1 α • Data.emb τ.1 p := by
-    funext a; simp [Data.emb]
-  have e2 : ∑ a, ‖((y τ)⁻¹ *ᵥ Data.emb τ.1 (α • p)) a‖ ^ 2 =
-      ‖τ.1 α‖ ^ 2 * ∑ a, ‖((y τ)⁻¹ *ᵥ Data.emb τ.1 p) a‖ ^ 2 := by
-    rw [e, Matrix.mulVec_smul, Finset.mul_sum]
-    refine Finset.sum_congr rfl fun a _ => ?_
-    rw [Pi.smul_apply, smul_eq_mul, norm_mul, mul_pow]
-  rw [e2]
-  have h1 : ‖τ.1 α‖ ^ 2 ≤ ∑ σ : X.Ψ, ‖σ.1 α‖ ^ 2 :=
-    Finset.single_le_sum (f := fun σ : X.Ψ => ‖σ.1 α‖ ^ 2) (fun σ _ => by positivity)
-      (Finset.mem_univ τ)
-  have h2 : 0 ≤ X.c τ * ∑ a, ‖((y τ)⁻¹ *ᵥ Data.emb τ.1 p) a‖ ^ 2 :=
-    mul_nonneg (c_pos X τ).le (Finset.sum_nonneg fun a _ => by positivity)
-  calc X.c τ * (‖τ.1 α‖ ^ 2 * ∑ a, ‖((y τ)⁻¹ *ᵥ Data.emb τ.1 p) a‖ ^ 2)
-      = ‖τ.1 α‖ ^ 2 * (X.c τ * ∑ a, ‖((y τ)⁻¹ *ᵥ Data.emb τ.1 p) a‖ ^ 2) := by ring
-    _ ≤ (∑ σ : X.Ψ, ‖σ.1 α‖ ^ 2) * (X.c τ * ∑ a, ‖((y τ)⁻¹ *ᵥ Data.emb τ.1 p) a‖ ^ 2) :=
-      mul_le_mul_of_nonneg_right h1 h2
+  apply GlobalTheory.FlagMahler.Qy_smul_le <;> assumption
 
 theorem sq_le_Qy_of_le_firstMinimum {x : Frame X.Ψ r} {y : X.Ψ → Matrix (Fin r) (Fin r) ℂ}
     (hm : ∀ τ u, X.maj x τ u = ∑ a, ‖((y τ)⁻¹ *ᵥ u) a‖ ^ 2) {ε : ℝ} (hε : 0 < ε) (hl : ε ≤ X.la1 x)

@@ -1,5 +1,6 @@
 module
 
+import Development.WeilBound.CoreStatements.AutomorphicKernels.SiegelWeilFormula.ZetaEulerProducts.SummablePrimesRpow
 public import Mathlib.Analysis.CStarAlgebra.Classes
 public import Mathlib.Analysis.Calculus.FDeriv.Defs
 public import Mathlib.Analysis.SpecialFunctions.Pow.Complex
@@ -66,23 +67,7 @@ private lemma dedekindZeta_eq_exp_tsum_neg_log (K : Type) [Field K] [NumberField
     (hs : 1 < s.re) :
     dedekindZeta K s = Complex.exp (∑' P : HeightOneSpectrum (𝓞 K),
       -Complex.log (1 - 1 * ((Ideal.absNorm P.asIdeal : ℕ) : ℂ) ^ (-s))) := by
-  have hs0 : -s ≠ 0 := by
-    intro h
-    rw [neg_eq_zero.mp h] at hs
-    norm_num at hs
-  have key := _root_.GlobalTheory.tsum_ideal_mul_absNorm_cpow_eq_exp_tsum K (fun I => if I = ⊥ then 0 else 1)
-    (by simp) (by simp) (fun I J => by
-      by_cases hI : I = ⊥ <;> by_cases hJ : J = ⊥ <;> simp [hI, hJ, Ideal.mul_eq_bot])
-    (fun I => by split_ifs <;> simp) s hs
-  rw [_root_.GlobalTheory.Mem.ZetaPole.dedekindZeta_eq_tsum_ideal K hs]
-  convert key using 1
-  · refine tsum_congr fun I => ?_
-    by_cases hI : I = ⊥
-    · simp [hI, Complex.zero_cpow hs0]
-    · simp [hI]
-  · congr 1
-    refine tsum_congr fun P => ?_
-    simp [P.ne_bot]
+  apply _root_.PositivityTheory.Lord.dedekindZeta_eq_exp <;> assumption
 
 
 open NumberField IsDedekindDomain NumberField.mixedEmbedding Filter Topology Asymptotics Polynomial in

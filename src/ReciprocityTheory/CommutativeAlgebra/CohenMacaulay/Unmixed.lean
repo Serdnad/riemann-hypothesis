@@ -136,13 +136,8 @@ private theorem unm_add_one_eq {a : WithBot ℕ∞} {n : ℕ} (h : a + 1 = n) :
       exact ⟨k, h'.symm, by first | rfl | simp⟩
 
 private theorem unm_dim_le_of_le {I J : Ideal R} (h : I ≤ J) :
-    ringKrullDim (R ⧸ J) ≤ ringKrullDim (R ⧸ I) := by
-  refine ringKrullDim_le_of_surjective
-    (Ideal.Quotient.lift I (Ideal.Quotient.mk J)
-      (fun y hy => Ideal.Quotient.eq_zero_iff_mem.mpr (h hy))) ?_
-  intro z
-  obtain ⟨y, rfl⟩ := Ideal.Quotient.mk_surjective z
-  exact ⟨Ideal.Quotient.mk I y, rfl⟩
+    ringKrullDim (R ⧸ J) ≤ ringKrullDim (R ⧸ I) :=
+  ringKrullDim_le_of_surjective (Ideal.Quotient.factor h) (Ideal.Quotient.factor_surjective h)
 
 private theorem unm_dim_succ_le_of_lt {Q P : Ideal R} [Q.IsPrime] (h : Q < P) :
     ringKrullDim (R ⧸ P) + 1 ≤ ringKrullDim (R ⧸ Q) := by

@@ -1,5 +1,7 @@
 module
 
+
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.SpreadLamOfLe
 public import Development.AbelianVarietyTheory.BlockTheory.SiegelWeilLocal.HermitianPerpSubgroup
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsIrreducible
 public import Development.AbelianVarietyTheory.BlockTheory.TwistedDiscreteSeries.IteratedLiftChains
@@ -53,7 +55,6 @@ import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.FrameLats
 import Formalism.SharpRestriction.GlobalSchurBounds.GeneralLinearActions.GenusMassVolumes
 import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.NcardPrimesOverOfStabilizer
 import Development.AbelianVarietyTheory.Definitions.Foundations.NormEulerPolySubOneLe
-
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.Proofs.FlagMeasures.CardEqNcardPrimesOver, Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsSplitPrimeAvoiding
 
@@ -131,19 +132,7 @@ namespace GlobalTheory.SplitChoice
 
 theorem exists_place_over (K : Type) [Field K] [NumberField K] {p : ℕ} (hp : p.Prime) :
     ∃ v : HeightOneSpectrum (𝓞 K), (p : 𝓞 K) ∈ v.asIdeal := by
-  have hmax : (Ideal.span {(p : ℤ)}).IsMaximal :=
-    PrincipalIdealRing.isMaximal_of_irreducible (Nat.prime_iff_prime_int.1 hp).irreducible
-  obtain ⟨Q, hQ, hQc⟩ := Ideal.exists_ideal_over_maximal_of_isIntegral (S := 𝓞 K) (Ideal.span {(p : ℤ)})
-    (by rw [(RingHom.injective_iff_ker_eq_bot (algebraMap ℤ (𝓞 K))).1 (FaithfulSMul.algebraMap_injective _ _)]; exact bot_le)
-  have hm : ((p : ℕ) : 𝓞 K) ∈ Q := by
-    have : (p : ℤ) ∈ Q.comap (algebraMap ℤ (𝓞 K)) := by
-      change (p : ℤ) ∈ Ideal.under ℤ Q
-      rw [hQc]
-      exact Ideal.mem_span_singleton_self _
-    simpa using this
-  refine ⟨⟨Q, hQ.isPrime, fun h0 => ?_⟩, hm⟩
-  rw [h0, Ideal.mem_bot] at hm
-  exact hp.ne_zero (by exact_mod_cast hm)
+  first | exact _root_.GlobalTheory.Mem.DeltaZero.exists_place_over | exact @_root_.GlobalTheory.Mem.DeltaZero.exists_place_over | apply _root_.GlobalTheory.Mem.DeltaZero.exists_place_over <;> assumption
 
 theorem natCast_notMem_of_absNorm_lt {K : Type} [Field K] [NumberField K] (v : HeightOneSpectrum (𝓞 K)) {p : ℕ}
     (hp : p.Prime) (h : Ideal.absNorm v.asIdeal < p) : (p : 𝓞 K) ∉ v.asIdeal := by

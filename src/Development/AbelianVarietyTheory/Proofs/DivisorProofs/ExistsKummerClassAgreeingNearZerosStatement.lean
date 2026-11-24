@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.RangeAlgebraMapEqIInfDiscreteValuationSubring
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsExcisionNbhdSelf
 public import Mathlib.Tactic.Linter.HaveILetI
 public import Mathlib.RingTheory.Etale.Basic
@@ -917,20 +918,7 @@ namespace GlobalTheory.KummerDiv
 variable {B : Type} [CommRing B] [IsDedekindDomain B]
 
 theorem artinian_quot {I : Ideal B} (hI : I ≠ ⊥) : IsArtinianRing (B ⧸ I) := by
-  rw [isArtinianRing_iff_krullDimLE_zero, Ring.krullDimLE_zero_iff]
-  intro p hp
-  have h1 : (p.comap (Ideal.Quotient.mk I)).IsMaximal := by
-    refine Ring.DimensionLEOne.maximalOfPrime ?_ inferInstance
-    intro h
-    apply hI
-    rw [eq_bot_iff, ← h]
-    intro x hx
-    simp [Ideal.mem_comap, Ideal.Quotient.eq_zero_iff_mem.mpr hx]
-  have h2 := Ideal.map_comap_of_surjective (Ideal.Quotient.mk I) Ideal.Quotient.mk_surjective p
-  rcases Ideal.map_eq_top_or_isMaximal_of_surjective (Ideal.Quotient.mk I)
-    Ideal.Quotient.mk_surjective h1 with h | h
-  · exact absurd (h2 ▸ h) hp.ne_top
-  · exact h2 ▸ h
+  apply _root_.GlobalTheory.isArtinianRing_quotient_of_dimensionLEOne <;> assumption
 
 theorem exists_split (f b : B) (hb : b ≠ 0) :
     ∃ (N : ℕ) (Q : Ideal B), Ideal.span {b} = (Ideal.span {b} ⊔ Ideal.span {f ^ N}) * Q ∧

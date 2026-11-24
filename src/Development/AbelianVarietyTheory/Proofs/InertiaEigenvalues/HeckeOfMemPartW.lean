@@ -1,5 +1,7 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.WeilDatumCharactersUnramifiedOffLevels
+import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.ConjWeilDatumViaAdjointExchangedPair
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.ParamsEx
 public import Formalism.LocalToGlobal.IndefiniteReal.LinksStage
 public import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.RealLowestKTypeCoeffSquareIntegrable
@@ -183,41 +185,12 @@ variable {D : D7}
 
 theorem chi_conj {χ : (AE D)ˣ →* Circle} {n : ℕ} (hR : Formalism.L2.Theta.ResEta D χ n) (y : (AE D)ˣ) :
     χ (Units.map (cA D).toMonoidHom y) = (χ y)⁻¹ := by
-  obtain ⟨⟨η, hη⟩, hall⟩ := hR
-  have hprod : y * Units.map (cA D).toMonoidHom y =
-      idF D (Units.map (Algebra.norm (AF D.host.F) : AE D →* AF D.host.F) y) := by
-    apply Units.ext
-    rw [GlobalTheory.Mem.EtaTilde.idF_norm]
-    rfl
-  have h1 : χ y * χ (Units.map (cA D).toMonoidHom y) = 1 := by
-    rw [← map_mul, hprod, hall η hη, hη.2.2.1, one_pow]
-  exact eq_inv_of_mul_eq_one_right h1
+  apply _root_.GlobalTheory.ConjAdjWeil.chi_conj <;> assumption
 
 theorem unrAt_of_unrPl {w : HeightOneSpectrum (𝓞 D.host.E)} {e : AE D} (he : Formalism.L2.NTheta.IsIdemAt e w)
     {χ : (AE D)ˣ →* Circle} (h : UnrPl w χ) : UnrAt χ w := by
-  intro y hy
-  have hP : IsPrimeIdem w e (e + cA D e) := Or.inl ⟨he, rfl⟩
-  have hf := finPart_of_isPrimeIdem hP
-  have hc : ∀ (y : (w.adicCompletion D.host.E)ˣ) u, compAt D.host.F u (finPart D (locIdele D.host.F w y : AE D)) =
-      Neutral.B1.finiteSingle D.host.E w y u := fun y u =>
-    congrArg (fun z : FiniteAdeleRing (𝓞 D.host.E) D.host.E => z u) (finTens_locIdele (F := D.host.F) w y)
-  have hint : ∀ y : (w.adicCompletion D.host.E)ˣ, Valued.v (y : w.adicCompletion D.host.E) = 1 →
-      finPart D (e * (locIdele D.host.F w y : AE D)) ∈ intAE D := fun y hy => by
-    rw [RingHom.map_mul, hf, singleAt_mul, one_mul, hc, finSingle_self]
-    exact singleAt_mem_intAE hy.le
-  have h1 : χ (locIdele D.host.F w y) = 1 := by
-    refine GlobalTheory.Hk3.SplitMatch.unr he h _ ?_ (hint y hy) ?_
-    · refine GlobalTheory.PlaceIdem.parts_inj D _ _ ?_ (compAt_ext fun u => ?_)
-      · rw [RingHom.map_mul, show infPart D (locIdele D.host.F w y : AE D) = 1 from infTens_locIdele w y, mul_one]
-      · rw [RingHom.map_mul, RingHom.map_mul, hc, RingHom.map_sub, RingHom.map_one, RingHom.map_sub, RingHom.map_one, hf]
-        by_cases hu : u = w
-        · subst hu
-          rw [compAt_singleAt, sub_self, zero_mul]
-        · rw [finSingle_ne hu, mul_one]
-    · rw [← map_inv]
-      refine hint _ ?_
-      rw [Units.val_inv_eq_inv_val, map_inv₀, show Valued.v (y : w.adicCompletion D.host.E) = 1 from hy, inv_one]
-  exact (congrArg Circle.toUnits h1).trans (map_one _)
+  intros
+  apply _root_.GlobalTheory.GoodModUnr.unrAt_of_unrPl <;> assumption
 
 theorem absNorm_conjPl (P : Pl D.host.E) : Ideal.absNorm (Formalism.DivisionValues.conjPl P).asIdeal = Ideal.absNorm P.asIdeal := by
   rw [Ideal.absNorm_apply, Ideal.absNorm_apply, Submodule.cardQuot_apply, Submodule.cardQuot_apply]

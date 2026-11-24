@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.GoodProjectorLevelMultiplicitySpaceMemGoodRows
 public import Formalism.LocalToGlobal.IndefiniteReal.LinksDefs
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LevelTypeEigenfunctionOfLiftableElement
 import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ContDiffDerivSnoc
@@ -60,22 +61,7 @@ variable {D : D7}
 
 theorem not_isConjPl (P : Formalism.L2.Host.PiBar D.host) {k k' : Fin 2} {PP PP' : HeightOneSpectrum (𝓞 D.host.E)}
     (h : P.Div k PP) (h' : P.Div k' PP') : ¬ Formalism.IndefR.Lev.IsConjPl PP PP' := by
-  intro hc
-  obtain ⟨l, -, hl⟩ := Formalism.L2.Pj.levelPb_exists D P.pb P.pb_over
-  have hle : ∀ {k : Fin 2} {Q : HeightOneSpectrum (𝓞 D.host.E)}, P.Div k Q → l.Mb ≤ Q.asIdeal := fun {k Q} hQ => by
-    rw [hl]
-    refine (Ideal.prod_le_inf.trans (Finset.inf_le (Finset.mem_univ k))).trans ?_
-    have e : Q.under (𝓞 D.host.K) = P.pb k := hQ
-    rw [Ideal.map_le_iff_le_comap, ← e]
-    exact le_rfl
-  refine PP'.isPrime.ne_top (top_le_iff.1 (l.coprime.ge.trans (sup_le (hle h') ?_)))
-  rw [Ideal.map_le_iff_le_comap]
-  intro c hc0
-  obtain ⟨c', h1, h2⟩ := hc c (hle h hc0)
-  have e : (Formalism.L2.Pj.hostOfRecord D).bar c = c' :=
-    RingOfIntegers.ext (((Formalism.L2.Pj.hostOfRecord D).bar_eq c).trans h2.symm)
-  show (Formalism.L2.Pj.hostOfRecord D).bar c ∈ PP'.asIdeal
-  rwa [e]
+  apply _root_.GlobalTheory.ProjLift.not_isConjPl_of_div <;> assumption
 
 theorem liftsExist {T : Type} {L : LevCh D T} {μ0 : T} (hL : L.Is μ0) : LiftsExist (Yc D 0) (L.βY 0) (L.dat0 L.triv) := by
   obtain ⟨c, hc⟩ := hL.βY 0 (lt_of_lt_of_le two_pos D.R.two_le_m)

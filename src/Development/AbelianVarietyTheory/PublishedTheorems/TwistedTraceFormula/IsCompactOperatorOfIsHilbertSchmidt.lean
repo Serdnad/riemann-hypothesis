@@ -196,6 +196,24 @@ theorem exists_isHilbertSum (hρ : IsUnitaryRep ρ) (h : ∀ W, IsSubrep ρ W �
     hS.prop.2.insert fun Y hY _ => ⟨ho Y hY, (ho Y hY).symm⟩⟩ (Set.subset_insert _ _) ▸ Set.mem_insert _ _
   exact hi.2.1 (Submodule.isOrtho_self.1 (ho X hXS))
 
+private theorem inner_eq_on_unit_vector (hρ : IsUnitaryRep ρ) (hπ : IsIrrUnitary π) {v : H} (hvnorm : ‖v‖ = 1) :
+    ∀ (T T' : H →L[ℂ] K), T ∈ homIn π ρ ⊤ → T' ∈ homIn π ρ ⊤ →
+      ∀ x y, ⟪T' y, T x⟫_ℂ = ⟪T' v, T v⟫_ℂ * ⟪y, x⟫_ℂ := by
+  have := hπ.complete
+  haveI := hπ.irred.1
+  intro T T' hT hT' x y
+  obtain ⟨c, hc⟩ := GlobalTheory.hilbert_schur H G π hπ.unitary.norm_apply
+    (fun S hS h => hπ.irred.2 S ⟨hS, h⟩) (T'.adjoint ∘L T) fun g => by
+      refine ContinuousLinearMap.ext fun x => ext_inner_left ℂ fun y => ?_
+      change ⟪y, π g (T'.adjoint (T x))⟫_ℂ = ⟪y, T'.adjoint (T (π g x))⟫_ℂ
+      rw [← inv_inv g, ← hπ.unitary.inner_apply_left, adjoint_inner_right,
+        adjoint_inner_right, hT.2, hT'.2, hρ.inner_apply_left]
+  have key : ∀ x y, ⟪T' y, T x⟫_ℂ = c * ⟪y, x⟫_ℂ := fun x y => by
+    rw [← adjoint_inner_right, show T'.adjoint (T x) = c • x from DFunLike.congr_fun hc x,
+      inner_smul_right]
+  rw [key, key, inner_self_eq_norm_sq_to_K, hvnorm]
+  simp
+
 theorem EnoughCompact.multIn_lt (hρ : IsUnitaryRep ρ) (h : EnoughCompact ρ) (hπ : IsIrrUnitary π) :
     multIn π ρ ⊤ < Cardinal.aleph0 := by
   rw [multIn_lt_aleph0_iff]
@@ -204,20 +222,7 @@ theorem EnoughCompact.multIn_lt (hρ : IsUnitaryRep ρ) (h : EnoughCompact ρ) (
   have := hπ.complete
   haveI := hπ.irred.1
   obtain ⟨v, hvnorm⟩ := exists_norm_eq H zero_le_one
-  have inner_eq_be : ∀ (T T' : H →L[ℂ] K), T ∈ homIn π ρ ⊤ → T' ∈ homIn π ρ ⊤ →
-      ∀ x y, ⟪T' y, T x⟫_ℂ = ⟪T' v, T v⟫_ℂ * ⟪y, x⟫_ℂ := by
-    intro T T' hT hT' x y
-    obtain ⟨c, hc⟩ := GlobalTheory.hilbert_schur H G π hπ.unitary.norm_apply
-      (fun S hS h => hπ.irred.2 S ⟨hS, h⟩) (T'.adjoint ∘L T) fun g => by
-        refine ContinuousLinearMap.ext fun x => ext_inner_left ℂ fun y => ?_
-        change ⟪y, π g (T'.adjoint (T x))⟫_ℂ = ⟪y, T'.adjoint (T (π g x))⟫_ℂ
-        rw [← inv_inv g, ← hπ.unitary.inner_apply_left, adjoint_inner_right,
-          adjoint_inner_right, hT.2, hT'.2, hρ.inner_apply_left]
-    have key : ∀ x y, ⟪T' y, T x⟫_ℂ = c * ⟪y, x⟫_ℂ := fun x y => by
-      rw [← adjoint_inner_right, show T'.adjoint (T x) = c • x from DFunLike.congr_fun hc x,
-        inner_smul_right]
-    rw [key, key, inner_self_eq_norm_sq_to_K, hvnorm]
-    simp
+  have inner_eq_be := inner_eq_on_unit_vector hρ hπ hvnorm
   obtain ⟨T, hT, hT0⟩ := Submodule.exists_mem_ne_zero_of_ne_bot h0
   have hc := (isCopy_range hπ hρ hT hT0).isIrredSubrep hπ.irred
   obtain ⟨E, hE, hS, hWE⟩ := h.exists_finiteDimensional hρ hc.1 hc.2.1
@@ -262,20 +267,7 @@ theorem multIn_eq_ncard (hρ : IsUnitaryRep ρ) (hπ : IsIrrUnitary π) (hm : mu
   have := hπ.complete
   haveI := hπ.irred.1
   obtain ⟨v, hvnorm⟩ := exists_norm_eq H zero_le_one
-  have inner_eq_be : ∀ (T T' : H →L[ℂ] K), T ∈ homIn π ρ ⊤ → T' ∈ homIn π ρ ⊤ →
-      ∀ x y, ⟪T' y, T x⟫_ℂ = ⟪T' v, T v⟫_ℂ * ⟪y, x⟫_ℂ := by
-    intro T T' hT hT' x y
-    obtain ⟨c, hc⟩ := GlobalTheory.hilbert_schur H G π hπ.unitary.norm_apply
-      (fun S hS h => hπ.irred.2 S ⟨hS, h⟩) (T'.adjoint ∘L T) fun g => by
-        refine ContinuousLinearMap.ext fun x => ext_inner_left ℂ fun y => ?_
-        change ⟪y, π g (T'.adjoint (T x))⟫_ℂ = ⟪y, T'.adjoint (T (π g x))⟫_ℂ
-        rw [← inv_inv g, ← hπ.unitary.inner_apply_left, adjoint_inner_right,
-          adjoint_inner_right, hT.2, hT'.2, hρ.inner_apply_left]
-    have key : ∀ x y, ⟪T' y, T x⟫_ℂ = c * ⟪y, x⟫_ℂ := fun x y => by
-      rw [← adjoint_inner_right, show T'.adjoint (T x) = c • x from DFunLike.congr_fun hc x,
-        inner_smul_right]
-    rw [key, key, inner_self_eq_norm_sq_to_K, hvnorm]
-    simp
+  have inner_eq_be := inner_eq_on_unit_vector hρ hπ hvnorm
   have := multIn_lt_aleph0_iff.1 hm
   choose e he hr using fun i : {i | IsCopy π ρ (W i)} => isCopy_iff.1 i.2
   let b : {i | IsCopy π ρ (W i)} → homIn π ρ ⊤ := fun i => ⟨(e i).toContinuousLinearMap, mem_homIn_top.2 (he i)⟩

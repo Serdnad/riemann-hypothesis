@@ -781,10 +781,7 @@ theorem isOpenImmersion_of_sections {G X : Scheme.{0}} [IsReduced G] (p : G ⟶ 
 variable {R K : Type} [CommRing R] [Field K] [Algebra R K] {A : Over (Sp K)}
 
 theorem isPullback_j (M : Model R A) : IsPullback M.j A.hom M.Y.hom (spMap (algebraMap R K)) := by
-  have : IsIso M.e.inv.left := inferInstanceAs (IsIso ((Over.forget _).map M.e.inv))
-  have h : IsPullback M.e.inv.left A.hom (pullback.snd M.Y.hom (spMap (algebraMap R K))) (𝟙 _) :=
-    IsPullback.of_horiz_isIso ⟨by simpa using Over.w M.e.inv⟩
-  simpa [Model.j] using h.paste_horiz (IsPullback.of_hasPullback M.Y.hom (spMap (algebraMap R K)))
+  apply _root_.GlobalTheory.SS.GlueCompat.j_isPullback <;> assumption
 
 theorem exists_model (M : Model R A) {G : Scheme.{0}} (p : G ⟶ M.Y.left) [IsOpenImmersion p]
     [QuasiCompact p] (i : A.left ⟶ G) (hi : i ≫ p = M.j) :
@@ -1102,13 +1099,7 @@ theorem exists_section_open [IsDomain R] [IsLocalRing R] (hR : SH R K) (M : Mode
 
 theorem j_comm (M : Model R A) (N : Model R A') (f : A ⟶ A') (g : M.Y ⟶ N.Y)
     (h : M.e.inv ≫ (Over.pullback (spMap (algebraMap R K))).map g = f ≫ N.e.inv) : M.j ≫ g.left = f.left ≫ N.j := by
-  have h2 := congrArg (fun q => q.left ≫ pullback.fst N.Y.hom (spMap (algebraMap R K))) h
-  have h4 : ((Over.pullback (spMap (algebraMap R K))).map g).left ≫ pullback.fst N.Y.hom (spMap (algebraMap R K))
-      = pullback.fst M.Y.hom (spMap (algebraMap R K)) ≫ g.left := pullback.lift_fst _ _ _
-  simp only [Over.comp_left, Category.assoc] at h2
-  unfold Model.j
-  rw [Category.assoc]
-  exact (congrArg (fun q => M.e.inv.left ≫ q) h4).symm.trans h2
+  apply _root_.GlobalTheory.SS.LawDef.j_comm <;> assumption
 
 def pj (M : Model R A) (N : Model R A') : (A ⊗ A').left ⟶ (M.Y ⊗ N.Y).left := (M.prod N).j
 

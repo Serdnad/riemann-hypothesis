@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.SatakeParameters.ExistsVectorPrescribedCosetsBadPrimesFramesStatement
 public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.UnderTie
 public import Development.AbelianVarietyTheory.Definitions.GlobalTwisting.RedPEqZeroOfDiv
 public import Development.AbelianVarietyTheory.Definitions.GlobalTwisting.RedPDivOfUnit
@@ -76,35 +77,7 @@ theorem lin_apply_eq_sum {n : ℕ} (g : (Fin n → E) →ₗ[E] (Fin n → E)) (
 theorem exists_approx_at (T : Finset (HeightOneSpectrum (𝓞 E))) {n : ℕ} (g : T → (Fin n → E) →ₗ[E] (Fin n → E))
     (c : T → E) (t : T → Fin n → E) :
     ∃ d : Fin n → E, ∀ P : T, ∀ l, (P.1).valuation E (c P * g P (d - t P) l) ≤ 1 := by
-  classical
-  have hb : ∀ P : T, ∃ b : WithZero (Multiplicative ℤ), 1 ≤ b ∧
-      ∀ l k, (P.1).valuation E (c P * g P (Pi.single k 1) l) ≤ b := by
-    intro P
-    obtain ⟨b, hb⟩ := (Set.finite_range fun lk : Fin n × Fin n =>
-      (P.1).valuation E (c P * g P (Pi.single lk.2 1) lk.1)).bddAbove
-    exact ⟨max b 1, le_max_right _ _, fun l k => (hb ⟨(l, k), rfl⟩).trans (le_max_left _ _)⟩
-  choose B hB1 hBle using hb
-  have hB0 : ∀ P, B P ≠ 0 := fun P => (lt_of_lt_of_le zero_lt_one (hB1 P)).ne'
-  have hk : ∀ k : Fin n, ∃ a : E, ∀ P : T, (P.1).valuation E (a - t P k) < (B P)⁻¹ := by
-    intro k
-    obtain ⟨a, -, ha, -⟩ := PI.FinOrdValD.WA.weakApprox T
-      (fun v => if h : v ∈ T then algebraMap E (v.adicCompletion E) (t ⟨v, h⟩ k) else 0)
-      (fun v => if h : v ∈ T then (B ⟨v, h⟩)⁻¹ else 1)
-      (fun v hv => by simp only [dif_pos hv]; exact inv_ne_zero (hB0 _))
-    refine ⟨a, fun P => ?_⟩
-    have h := ha P.1 P.2
-    simp only [dif_pos P.2, Subtype.coe_eta] at h
-    rw [← map_sub, PI.FinOrdValD.WA.val_alg] at h
-    exact h
-  choose a ha using hk
-  refine ⟨a, fun P l => ?_⟩
-  rw [lin_apply_eq_sum, Finset.mul_sum]
-  refine Valuation.map_sum_le _ fun k _ => ?_
-  rw [show c P * ((a - t P) k * g P (Pi.single k 1) l) = (a - t P) k * (c P * g P (Pi.single k 1) l) by ring,
-    map_mul, Pi.sub_apply]
-  calc (P.1).valuation E (a k - t P k) * (P.1).valuation E (c P * g P (Pi.single k 1) l)
-      ≤ (B P)⁻¹ * B P := mul_le_mul' (ha k P).le (hBle P l k)
-    _ = 1 := inv_mul_cancel₀ (hB0 P)
+  first | exact _root_.GlobalTheory.CosetApprox.exists_approx | exact @_root_.GlobalTheory.CosetApprox.exists_approx | apply _root_.GlobalTheory.CosetApprox.exists_approx <;> assumption
 
 end Gen
 

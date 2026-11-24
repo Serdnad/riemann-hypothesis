@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.SatakeParameters.DualSplitLabelOperatorMulScalarOperator
 public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.NormalFam
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.CardInversePrimeRepsIntegralRightMulHecke
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.DivisorsAtInvDualLabelAndStabilizerMulStatement
@@ -65,16 +66,7 @@ open Formalism.L2.NTheta
 variable {D : D7}
 
 theorem exists_isIdemAt {P : Pl D.host.E} (hP : conjPl P ≠ P) : ∃ e : AE D, IsIdemAt e P := by
-  obtain ⟨Φ, hΦ⟩ := GlobalTheory.IdemSupport.exists_comp D
-  obtain ⟨e, f, h⟩ := GlobalTheory.IdemSupport.exists_isPrimeIdem hΦ P
-  rcases h with ⟨h, -⟩ | ⟨-, ⟨v, ε, -, rfl⟩, ht⟩
-  · exact ⟨e, h⟩
-  · refine absurd (GlobalTheory.IdemSupport.eq_of_le (Ideal.map_le_iff_le_comap.2 fun x hx => ?_)) hP
-    have h2 := GlobalTheory.IdemSupport.Comparison₂.conj (P := P) ht
-    rw [GlobalTheory.IdemSupport.cA_algebraMap] at h2
-    by_cases h0 : x = 0
-    · rw [h0]; exact zero_mem _
-    · exact (h2 x h0).2 ((ht x h0).1 hx)
+  first | exact _root_.GlobalTheory.DualSplitRel.exists_idem | exact @_root_.GlobalTheory.DualSplitRel.exists_idem | apply _root_.GlobalTheory.DualSplitRel.exists_idem <;> assumption
 
 theorem idem_unique {P : Pl D.host.E} {e e' f' : AE D} (he : IsIdemAt e P) (h : IsPrimeIdem P e' f') :
     e' = e ∧ f' = e + cA D e := by

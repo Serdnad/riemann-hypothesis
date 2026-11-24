@@ -1,5 +1,6 @@
 module
 
+import Development.EtaleCohomology.CohomologicalPurity.LeafRelHocPfX
 public import Development.EtaleCohomology.EtaleSheaves.StalkCut
 public import Mathlib.CategoryTheory.Limits.Shapes.Pullback.IsPullback.Defs
 public import Mathlib.Combinatorics.Quiver.ReflQuiver
@@ -110,11 +111,7 @@ def CechLevel : Prop := ∀ (p : ℕ) {D E Y' Y'' : CommRingCat.{0}} (e : D ⟶ 
 
 theorem pull_iso_bij (R : Type) [CommRing R] {E E' : Spc} (a : E ≅ E') (F : Shv R) (n : ℤ) :
     Function.Bijective (pull R a.hom F n) := by
-  have h1 : ∀ x, pull R a.inv F n (pull R a.hom F n x) = x := fun x => by
-    rw [← pull_comp, Iso.inv_hom_id, pull_id]
-  have h2 : ∀ x, pull R a.hom F n (pull R a.inv F n x) = x := fun x => by
-    rw [← pull_comp, Iso.hom_inv_id, pull_id]
-  exact ⟨Function.LeftInverse.injective h1, Function.RightInverse.surjective h2⟩
+  apply @LateralTheory.CohomologicalPurity.TubeCut.pull_iso_bij <;> assumption
 
 theorem transfer (R : Type) [CommRing R] (F : Shv R) {P Q P' Q' : PSh} (f : P ⟶ Q) (g : P' ⟶ Q')
     (α : Arrow.mk f ≅ Arrow.mk g) (n : ℤ) :

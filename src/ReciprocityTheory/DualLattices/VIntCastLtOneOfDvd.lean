@@ -1,5 +1,6 @@
 module
 
+import Development.WeilBound.CoreStatements.HodgeTatePoints.RaTlog
 public import Mathlib.Algebra.Field.ZMod
 public import Mathlib.Basic.NNReal.Defs
 public import Mathlib.FieldTheory.IsAlgClosed.Basic
@@ -238,17 +239,7 @@ theorem val_sub_one_le {α β : C} (hα : IsPrimitiveRoot α p) (hβ : IsPrimiti
   rwa [one_pow] at this
 
 theorem val_prim_root {z : C} (hz : IsPrimitiveRoot z p) : v (z - 1) ^ (p - 1) = v (p : C) := by
-  have hcyc := Polynomial.cyclotomic_eq_prod_X_sub_primitiveRoots hz
-  have h1 : (p : C) = ∏ μ ∈ primitiveRoots p C, (1 - μ) := by
-    have := congrArg (Polynomial.eval 1) hcyc
-    rw [Polynomial.eval_one_cyclotomic_prime, Polynomial.eval_prod] at this
-    simpa using this
-  have hc : ∀ μ ∈ primitiveRoots p C, v (1 - μ) = v (z - 1) := by
-    intro μ hμ
-    have hμ' : IsPrimitiveRoot μ p := (mem_primitiveRoots hp.out.pos).mp hμ
-    rw [Valuation.map_sub_swap]
-    exact le_antisymm (val_sub_one_le hμ' hz) (val_sub_one_le hz hμ')
-  rw [h1, map_prod, Finset.prod_congr rfl hc, Finset.prod_const, hz.card_primitiveRoots,
-    Nat.totient_prime hp.out]
+  intros
+  apply _root_.PositivityTheory.HtPt.Ra.val_prim <;> assumption
 
 end ReciprocityTheory.PGsh.Up.U3

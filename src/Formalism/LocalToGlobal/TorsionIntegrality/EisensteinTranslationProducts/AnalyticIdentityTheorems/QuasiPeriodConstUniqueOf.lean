@@ -1,5 +1,6 @@
 module
 
+import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.UnimodularLocalStandard.SelfDualStd
 public import Formalism.LocalToGlobal.TorsionIntegrality.EisensteinTranslationProducts.ThetaZeroLogDerivative
 public import Formalism.LocalToGlobal.TorsionIntegrality.EisensteinTranslationProducts.Legendre
 import Mathlib.RingTheory.SimpleRing.Principal
@@ -23,23 +24,7 @@ lemma det_eq (L : PeriodPair) : det L = L.ω₁.re * L.ω₂.im - L.ω₁.im * L
   ring
 
 lemma det_ne_zero (L : PeriodPair) : det L ≠ 0 := by
-  intro h
-  rw [det_eq] at h
-  have key := LinearIndependent.pair_iff.mp L.indep
-  have h1 := key L.ω₂.im (-L.ω₁.im) (by
-    apply Complex.ext
-    · simp; linarith
-    · simp; ring)
-  have h2 := key L.ω₂.re (-L.ω₁.re) (by
-    apply Complex.ext
-    · simp; ring
-    · simp; linarith)
-  have h3 : L.ω₁ = 0 := by
-    apply Complex.ext
-    · simpa using h2.2
-    · simpa using h1.2
-  have h4 := key 1 0 (by simp [h3])
-  exact one_ne_zero h4.1
+  apply _root_.PI.UnitaryGroupMassFormula.UnimodLocStd.detD_ne <;> assumption
 
 lemma ω₁_ne_zero (L : PeriodPair) : L.ω₁ ≠ 0 := by
   intro h

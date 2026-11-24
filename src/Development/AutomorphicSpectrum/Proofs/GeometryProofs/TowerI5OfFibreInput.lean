@@ -1257,14 +1257,7 @@ variable {K : Type} [Fintype K] {ι : K → Type} [∀ k, Fintype (ι k)]
 
 theorem ptsOver_map {F E : Type} [Field F] [Field E] (f : F →+* E) {P : Ideal (MRing ι)}
     {z : (Σ k, ι k) → F} (hz : z ∈ ptsOver F P) : (fun p => f (z p)) ∈ ptsOver E P := by
-  obtain ⟨h1, h2⟩ := hz
-  refine ⟨fun k => ?_, fun p hp => ?_⟩
-  · obtain ⟨i, hi⟩ := h1 k
-    exact ⟨i, (map_ne_zero f).mpr hi⟩
-  · have e := congrArg f (h2 p hp)
-    rw [map_zero, MvPolynomial.aeval_def, MvPolynomial.eval₂_comp_left] at e
-    rw [MvPolynomial.aeval_def]
-    rwa [show f.comp (algebraMap _ F) = algebraMap _ E from Subsingleton.elim _ _] at e
+  apply _root_.GlobalTheory.CompanionTheory.Ar.Ht.FlatLine.ptsOver_embed <;> assumption
 
 theorem ptsOver_of_map {F E : Type} [Field F] [Field E] (f : F →+* E) {P : Ideal (MRing ι)}
     {z : (Σ k, ι k) → F} (hz : (fun p => f (z p)) ∈ ptsOver E P) : z ∈ ptsOver F P := by

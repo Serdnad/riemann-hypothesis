@@ -1,5 +1,6 @@
 module
 
+import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.AdicCompactDensity.ExistsNatLocal
 public import CompanionTheory.SpectralGeometry.CountingDefinitions.AdelicEulerProducts.HypJ
 public import Mathlib.Tactic.Linter.HaveILetI
 public import CompanionTheory.SpectralGeometry.LocalGlobalProofs.AdelicAnalysis.AdelicTupleLocalGlobalProperties
@@ -161,18 +162,7 @@ theorem intS_open (N : ℕ) : IsOpen (intS (F := F) N) := by
 
 theorem exists_nat_v (v : HeightOneSpectrum (𝓞 F)) (a : Fv F v) :
     ∃ N : ℕ, 0 < N ∧ (N : Fv F v) * a ∈ v.adicCompletionIntegers F := by
-  obtain ⟨β, hβ, h⟩ := HeightOneSpectrum.adicCompletion.mul_nonZeroDivisor_mem_adicCompletionIntegers v a
-  have hb0 : β ≠ 0 := nonZeroDivisors.ne_zero hβ
-  obtain ⟨c, hc⟩ := Ideal.mem_span_singleton'.1 (Ideal.absNorm_mem (Ideal.span {β}))
-  refine ⟨Ideal.absNorm (Ideal.span {β}), Nat.pos_of_ne_zero ?_, ?_⟩
-  · intro h0
-    rw [Ideal.absNorm_eq_zero_iff, Ideal.span_singleton_eq_bot] at h0
-    exact hb0 h0
-  · have e : ((Ideal.absNorm (Ideal.span {β}) : ℕ) : Fv F v) =
-        algebraMap (𝓞 F) (Fv F v) c * algebraMap (𝓞 F) (Fv F v) β := by
-      rw [← map_mul, hc, map_natCast]
-    rw [e, mul_assoc, mul_comm (algebraMap (𝓞 F) (Fv F v) β) a]
-    exact mul_mem (Formalism.UG.P.levelaf_int_mem_v v c) h
+  apply _root_.PI.AdCpctDenWork.exists_nat_local <;> assumption
 
 theorem exists_nat_Af (y : Af F) : ∃ N : ℕ, 0 < N ∧ y ∈ intS (F := F) N := by
   classical

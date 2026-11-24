@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.TorusHaarMeasure.FinMuOfFiniteCovolume
 public import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.EmbGLMemRealSU
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovVolumes.UpperBounds.IsOrth
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.FundamentalDomains.FundamentalDomainPointBound
@@ -338,19 +339,8 @@ theorem continuous_lact {Ψ : Finset (E →+* ℂ)} (γ : GL (Fin r) E) : Contin
   exact continuous_const.matrix_mul (continuous_apply τ : Continuous fun y : Frame Ψ r => mat y τ)
 
 theorem measurableSet_Bor (Ψ : Finset (E →+* ℂ)) (r : ℕ) : MeasurableSet (Bor Ψ r) := by
-  have hc : ∀ τ : Ψ, Continuous fun b : Frame Ψ r => mat b τ := fun τ => continuous_apply τ
-  have e : Bor Ψ r = ⋂ τ : Ψ, ({b | (mat b τ).det ≠ 0} ∩
-      ⋂ a : Fin r, ⋂ c : Fin r, {b : Frame Ψ r | c < a → b τ a c = 0}) := by
-    ext b; simp [Bor]
-  rw [e]
-  refine MeasurableSet.iInter fun τ => (IsOpen.measurableSet ?_).inter
-    (MeasurableSet.iInter fun a => MeasurableSet.iInter fun c => ?_)
-  · exact isOpen_ne_fun (hc τ).matrix_det continuous_const
-  · by_cases h : c < a
-    · simp only [h, true_implies]
-      exact (isClosed_eq ((continuous_apply c).comp ((continuous_apply a).comp (continuous_apply τ)))
-        continuous_const).measurableSet
-    · simp [h]
+  intros
+  apply _root_.GlobalTheory.FiniteCovolume.measurableSet_Bor <;> assumption
 
 def frOf (X : Data E r) (x : Frame X.Ψ r) (g : realSU X.Ψ X.Gm) : Frame X.Ψ r :=
   X.lmulC (fun τ => (((g : realSU X.Ψ X.Gm) : X.Ψ → GL (Fin r) ℂ) τ : Matrix (Fin r) (Fin r) ℂ)) x

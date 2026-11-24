@@ -1,5 +1,7 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.FlagMeasures.RationalUnipotentGroupsLatticesGlobalCoordinates
+import Development.AbelianVarietyTheory.Proofs.FlagMeasures.TermOverFrameCoordinates
 public import Formalism.LocalToGlobal.SiegelLatticeTheory.CokernelGLCounts.NGData
 public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.AtBase
 public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.PlacesOf
@@ -312,21 +314,8 @@ theorem framesX' (c : GCoord Z F0 F0' FP G) (p : PlF D) (hB : (FP p).B.f = scale
 theorem lat_eq (c : GCoord Z F0 F0' FP G) (p : PlF D) (σ : (VS D).V ≃ₗ[D.host.E] (VS D).V)
     (gσ : Vp D p ≃ₗ[(D.s.atP p).Ep] Vp D p) (hE : Ext p σ gσ) (Λ : Submodule (𝓞 D.host.E) (VS D).V) :
     (placesOf Z).lat p (c.lat σ Λ) = (c.c p).lat (LocNG.img (M := Z.M p) gσ (lattice₂ D Z.M p Λ)) := by
-  have hs : (placesOf Z).bc p '' ((c.lat σ Λ : Submodule (𝓞 D.host.E) G.V) : Set G.V) =
-      ((fun y => (c.c p).e (gσ (baseChange₂ D p y))) '' (Λ : Set (VS D).V)) := by
-    ext z
-    constructor
-    · rintro ⟨_, ⟨y, hy, rfl⟩, rfl⟩
-      refine ⟨y, hy, ?_⟩
-      show (c.c p).e (gσ (baseChange₂ D p y)) = (placesOf Z).bc p (c.e (σ y))
-      rw [hE y]; exact c.compat p (σ y)
-    · rintro ⟨y, hy, rfl⟩
-      refine ⟨c.e (σ y), ⟨y, hy, rfl⟩, ?_⟩
-      show (placesOf Z).bc p (c.e (σ y)) = (c.c p).e (gσ (baseChange₂ D p y))
-      rw [hE y]; exact (c.compat p (σ y)).symm
-  unfold WCoord.lat LocNG.img lattice₂ Places.lat
-  rw [Submodule.map_span, Submodule.map_span, Set.image_image, Set.image_image, hs]
-  rfl
+  intros
+  apply _root_.GlobalTheory.HL.placesLat_gcoordLat_eq <;> assumption
 
 theorem th_eq (c : GCoord Z F0 F0' FP G) (p : PlF D) : (G.S p).th = LocNG.theta (Z.M p) := by
   unfold Frames.th LocNG.theta
@@ -480,22 +469,7 @@ theorem mem_perp (H : HermSp M V) {S : Submodule E V} {v : V} : v ∈ H.perp S �
 
 theorem mem_smulLat (H : HermSp M V) (c : E) (Λ : Submodule M.L.O V) {x : V} :
     x ∈ H.smulLat c Λ ↔ ∃ v ∈ Λ, x = c • v := by
-  constructor
-  · intro hx
-    induction hx using Submodule.span_induction with
-    | mem x hx => obtain ⟨v, hv, rfl⟩ := hx; exact ⟨v, hv, rfl⟩
-    | zero => exact ⟨0, Λ.zero_mem, (smul_zero c).symm⟩
-    | add x y _ _ ihx ihy =>
-      obtain ⟨v, hv, rfl⟩ := ihx
-      obtain ⟨w, hw, rfl⟩ := ihy
-      exact ⟨v + w, Λ.add_mem hv hw, (smul_add c v w).symm⟩
-    | smul o x _ ih =>
-      obtain ⟨v, hv, rfl⟩ := ih
-      refine ⟨o • v, Λ.smul_mem o hv, ?_⟩
-      show ((o : E)) • (c • v) = c • ((o : E) • v)
-      rw [smul_smul, smul_smul, mul_comm]
-  · rintro ⟨v, hv, rfl⟩
-    exact Submodule.subset_span ⟨v, hv, rfl⟩
+  first | exact _root_.GlobalTheory.HL.CoordTerm.mem_smulLat | exact @_root_.GlobalTheory.HL.CoordTerm.mem_smulLat | apply _root_.GlobalTheory.HL.CoordTerm.mem_smulLat <;> assumption
 
 def Fam (H : HermSp M V) (Λ : Submodule M.L.O V) (f f' : Fin (r + 1) → V) (a b : V) : Prop :=
   ∃ y' ∈ Λ, ∃ y ∈ Λ, y' ∈ H.perp (H.X f') ∧ y ∈ H.perp (H.X f) ∧ y' - a ∈ H.X f' ∧ y - b ∈ H.X f ∧

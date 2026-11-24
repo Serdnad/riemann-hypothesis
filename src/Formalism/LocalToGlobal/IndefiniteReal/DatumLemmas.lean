@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Counterexamples.HeightSurvey.StarPurelyImaginaryEqNeg
 public import Formalism.LocalToGlobal.IndefiniteReal.LocalNewformFunction
 public import Formalism.LocalToGlobal.BesselHermitianTheta.LemmasWeil
 import Mathlib.Tactic.TypeStar
@@ -138,18 +139,7 @@ theorem bridgeSmall : BridgeSmall D := by
 
 theorem trace_cA (a : AE D) :
     Algebra.trace (AF D.host.F) (AE D) (cA D a) = Algebra.trace (AF D.host.F) (AE D) a := by
-  let f : AE D →ₐ[AF D.host.F] AE D := Algebra.TensorProduct.map (AlgHom.id _ _) D.sp.cm.sig
-  have hf : ∀ a, f a = cA D a := by
-    intro a
-    induction a using TensorProduct.induction_on with
-    | zero => simp
-    | tmul r e => simp [f, cA, sigR]
-    | add a b ha hb => rw [map_add (f := _), map_add (f := _), ha, hb]
-  have hff : f.comp f = AlgHom.id _ _ := AlgHom.ext fun a => by
-    rw [AlgHom.comp_apply, hf, hf, cA_cA]; rfl
-  let g : AE D ≃ₐ[AF D.host.F] AE D := AlgEquiv.ofAlgHom f f hff hff
-  rw [← hf]
-  exact Algebra.trace_eq_of_algEquiv g a
+  apply _root_.GlobalTheory.DualPairCheck.trace_cA <;> assumption
 
 theorem bridgeLarge (hxi : star D.host.xi0 = -D.host.xi0) : BridgeLarge D := by
   intro S T hr
@@ -165,15 +155,7 @@ theorem bridgeLarge (hxi : star D.host.xi0 = -D.host.xi0) : BridgeLarge D := by
     exact large_act (cA D) (GI S) _ _ _ k x
 
 theorem star_purely_imaginary_eq_neg : star D.host.xi0 = -D.host.xi0 := by
-  have hs : ∀ x : D.host.E, D.host.φ₀ (star x) = starRingEnd ℂ (D.host.φ₀ x) := fun x => by
-    haveI := D.host.isCMField_hostE
-    exact NumberField.IsCMField.complexEmbedding_complexConj D.host.E D.host.φ₀ x
-  have hd : D.host.φ₀ D.host.sqrtMinusD = Complex.I * (Real.sqrt D.host.d : ℂ) := D.host.φ₀_mem
-  apply D.host.φ₀.injective
-  rw [hs, map_neg]
-  unfold Host.xi0
-  rw [map_div₀, map_neg, map_one, map_mul, map_natCast, hd]
-  simp [div_neg]
+  apply _root_.GlobalTheory.DualPairCheck.star_purely_imaginary_eq_neg <;> assumption
 
 theorem bridgeLarge' : BridgeLarge D := bridgeLarge star_purely_imaginary_eq_neg
 

@@ -62,6 +62,7 @@ import Std.Tactic.BVDecide.Normalize.Prop
 import Development.WeilBound.CoreStatements.LocalThetaKernels.ExistsSmallSubgroups
 import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.AdelicLocalCompactness.AdeleLC
 import GroundTheory.LocalFields.LocalFourierHaar
+import Development.WeilBound.ThetaLifts.LatticeBasics.LocUnrInertA
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.WeilBound.ThetaLifts.CartanFactorisation.MaxDef, Development.AutomorphicSpectrum.Proofs.MembershipProofs.WeilRepresentationSplittingsDiffer, Development.WeilBound.CoreStatements.LocalThetaKernels.LocpairUnit, Development.WeilBound.CoreStatements.LocalThetaKernels.LocpairU
@@ -225,17 +226,7 @@ theorem exists_factor {A K : Type} [AddCommGroup A] [AddCommGroup K] {ev : A →
 variable {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] {σ : E →ₐ[F] E} {v : Pl F}
 
 theorem continuous_tensAt : Continuous (tensAt E v : Ev E v → AE F E) := by
-  have : IsModuleTopology (Fv F v) (Ev E v) := ⟨rfl⟩
-  have : ContinuousAdd (AE F E) := IsModuleTopology.toContinuousAdd (AF F) _
-  let b := Algebra.TensorProduct.basis (Fv F v) (Module.finBasis F E)
-  have e : (tensAt E v : Ev E v → AE F E) = fun y => ∑ i, atPlace v (b.coord i y) • tensAt E v (b i) := by
-    funext y
-
-    conv_lhs => rw [← b.sum_repr y, map_sum]
-    exact Finset.sum_congr rfl fun i _ => smul_tensAt v _ _
-  rw [e]
-  exact continuous_finsetSum _ fun i _ => ((GlobalTheory.VacAny.continuous_atPlace v).comp
-    (IsModuleTopology.continuous_of_linearMap (b.coord i))).smul continuous_const
+  apply _root_.GlobalTheory.ThK.Dbl.Inert.continuous_tensAt <;> assumption
 
 theorem continuous_liftU {β : Type} [Fintype β] [DecidableEq β] {J : Matrix β β (AE F E)} {Jv : Matrix β β (Ev E v)}
     (h : J.map (compFin F E v) = Jv) : Continuous (liftU (σ := σ) h) := by

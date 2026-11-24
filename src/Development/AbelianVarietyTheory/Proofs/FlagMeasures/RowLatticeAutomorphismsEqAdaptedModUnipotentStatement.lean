@@ -1,5 +1,6 @@
 module
 
+import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.CountingFormula.HermFormShiftedVectorZero
 public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.LocClosed
 public import Formalism.LocalRingCardinality.DataSpaces
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.LinearFormsBoundedRepresentatives
@@ -510,17 +511,7 @@ theorem z_perp : F0.z ∈ perpS (VS D) F0.X := by
   · intro c x _ ha; simp [ha]
 
 theorem X_le_perp : F0.X ≤ perpS (VS D) F0.X := by
-  intro y hy x hx
-  refine Submodule.span_induction (p := fun x _ => (VS D).hT x y = 0) ?_ ?_ ?_ ?_ hx
-  · rintro _ ⟨a, rfl⟩
-    refine Submodule.span_induction (p := fun y _ => (VS D).hT (F0.e a) y = 0) ?_ ?_ ?_ ?_ hy
-    · rintro _ ⟨b, rfl⟩; exact F0.e_iso a b
-    · simp
-    · intro x y _ _ ha hb; simp [ha, hb]
-    · intro c x _ ha; simp [ha]
-  · simp
-  · intro x y _ _ ha hb; simp [ha, hb]
-  · intro c x _ ha; simp [ha]
+  first | exact _root_.PI.UnitaryGroupMassFormula.CntFormula.RowsMassW.X_le_perp | exact @_root_.PI.UnitaryGroupMassFormula.CntFormula.RowsMassW.X_le_perp | apply _root_.PI.UnitaryGroupMassFormula.CntFormula.RowsMassW.X_le_perp <;> assumption
 
 theorem symm_mapsTo (g : GV D) (A : Submodule D.host.E (VS D).V) (h : ∀ x ∈ A, g x ∈ A) :
     ∀ x ∈ A, g.symm x ∈ A := by

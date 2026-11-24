@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.HeightProofs.TorusWeightVectorIffCartanWeightVector
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.L2UnitaryRepresentationData
 public import Development.AbelianVarietyTheory.Proofs.HeightProofs.AtPlaceIffEqAtTau
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ContinuousOneP
@@ -80,18 +81,7 @@ theorem dI_mem {p q : ℕ} (x : Ix p q → ℝ) : dI x ∈ upq p q := by
   split_ifs <;> simp
 
 theorem dI_eq_sum {p q : ℕ} (x : Ix p q → ℝ) : dI x = ∑ j, ((x j : ℂ) * Complex.I) • Eab j j := by
-  ext a b
-  simp only [dI, Matrix.sum_apply, Matrix.smul_apply, Eab, Matrix.single_apply, Matrix.diagonal_apply, smul_eq_mul,
-    mul_ite, mul_one, mul_zero]
-  by_cases hab : a = b
-  · subst hab
-    simp
-  · rw [if_neg hab, eq_comm]
-    apply Finset.sum_eq_zero
-    intro j _
-    rw [if_neg]
-    rintro ⟨rfl, rfl⟩
-    exact hab rfl
+  apply _root_.GlobalTheory.RealPar.TorusWt.torX_eq_sum <;> assumption
 
 theorem mem_wtSub {p q : ℕ} {V : Type} [AddCommGroup V] [Module ℂ V] (a : Mat p q →ₗ[ℂ] Module.End ℂ V)
     (μ : Ix p q → ℚ) (v : V) : v ∈ wtSub a μ ↔ ∀ j, a (Eab j j) v = ((μ j : ℚ) : ℂ) • v := by

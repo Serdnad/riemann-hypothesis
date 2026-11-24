@@ -1,5 +1,6 @@
 module
 
+import all Development.AbelianVarietyTheory.Proofs.TwistedOperators.SignCompatibleNumberingOfWittTowerLower
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.L2UnitaryRepresentationData
 import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ContinuousOnAtTau
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.EqZeroOfPderivStable
@@ -111,13 +112,7 @@ theorem polar {Y : Type} [AddCommGroup Y] [Module ℂ Y] {vac : Y → Prop}
   linear_combination (-1 / 2 : ℂ) * e1 + (Complex.I / 2) * e2 + ((E x y - E y x) / 2) * Complex.I_sq
 
 theorem exists_signCompat {n : ℕ} (ε : Fin n → Bool) : ∃ (p q : ℕ) (e : Ix p q ≃ Fin n), SignCompat ε e := by
-  classical
-  refine ⟨Fintype.card {a : Fin n // ε a = true}, Fintype.card {a : Fin n // ¬ ε a = true},
-    (Equiv.sumCongr (Fintype.equivFin _).symm (Fintype.equivFin _).symm).trans (Equiv.sumCompl _), ?_⟩
-  intro a
-  rcases a with a | a
-  · simpa using ((Fintype.equivFin {a : Fin n // ε a = true}).symm a).2
-  · simpa using ((Fintype.equivFin {a : Fin n // ¬ ε a = true}).symm a).2
+  apply _root_.GlobalTheory.WittSign.exists_numbering_signCompat <;> assumption
 
 theorem fockIp_one {ι : Type} : fockIp (1 : MvPolynomial ι ℂ) 1 = 1 := by
   classical

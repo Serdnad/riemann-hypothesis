@@ -1,5 +1,6 @@
 module
 
+import all Development.AutomorphicArithmetic.AutomorphicVarieties.GaloisLibrary.BernoulliNumbers.BNzC
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.IdeleGenerators.ConstSmall
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.IdeleGenerators.HolomorphicIrreducibility.EPrim
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.IdeleGenerators.HolomorphicIrreducibility.EulerianNumeratorThree
@@ -188,18 +189,7 @@ open Formalism.ConjugateSelfDual Finset UpperTheory.V.Sd
 
 private theorem gauss_mul_gauss_inv {N : ℕ} [NeZero N] (χ : DirichletCharacter ℂ N) (hχ : χ.IsPrimitive) :
     gaussSum χ ZMod.stdAddChar * gaussSum χ⁻¹ ZMod.stdAddChar * χ (-1) = N := by
-  have hi : (χ⁻¹).IsPrimitive := by
-    rw [DirichletCharacter.isPrimitive_def, DirichletCharacter.conductor_inv]; exact hχ
-  have h1 : ZMod.dft (χ : ZMod N → ℂ) = fun k => χ⁻¹ (-k) * gaussSum χ ZMod.stdAddChar :=
-    funext fun k => hχ.fourierTransform_eq_inv_mul_gaussSum k
-  have h2 := congrFun (ZMod.dft_dft (χ : ZMod N → ℂ)) (-1)
-  rw [h1, ZMod.dft_mul_const (fun k => χ⁻¹ (-k)), ZMod.dft_comp_neg (fun k => χ⁻¹ k)] at h2
-  simp only [neg_neg, map_one, smul_eq_mul, mul_one] at h2
-  have h3 := hi.fourierTransform_eq_inv_mul_gaussSum 1
-  rw [inv_inv] at h3
-  have h4 : ZMod.dft (fun k => χ⁻¹ k) 1 = χ (-1) * gaussSum χ⁻¹ ZMod.stdAddChar := h3
-  rw [h4] at h2
-  rw [← h2]; ring
+  apply _root_.gauss_mul_gauss_inv <;> assumption
 
 section
 variable {l : ℕ} [hl : Fact l.Prime]

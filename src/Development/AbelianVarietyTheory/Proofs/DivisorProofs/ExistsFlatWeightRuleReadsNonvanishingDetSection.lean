@@ -42,6 +42,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Development.AbelianVarietyTheory.Proofs.FoundationProofs.IsAbelianGaloisHost
 import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.GramTransformOfCoordinateChangeImports
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.IdemAtEqOneIff
 
 @[expose] public section
 
@@ -246,29 +247,7 @@ end Pts
 
 theorem inv_mem {Z : Comp Xo c} {e : Ix Dw → ℤ} {f g : Rul Xo c} (hf : f ∈ secZ Xo c e) (hg : idem Z * g = g)
     (hfg : f * g = idem Z) : g ∈ secZ Xo c (-e) := by
-  have h1 : ∀ p y, f p y * g p y = idem Z p y := fun p y => congrFun (congrFun hfg p) y
-  have h2 : ∀ p y, idem Z p y * g p y = g p y := fun p y => congrFun (congrFun hg p) y
-  refine ⟨fun p q φ y z h => ?_, fun p t y y' h => ?_⟩
-  · have a1 := h1 q z
-    have a2 := congrArg φ (h1 p y)
-    have b1 := h2 q z
-    have b2 := congrArg φ (h2 p y)
-    rw [map_mul, ← (idem_mem_secZ Z).1 p q φ y z h] at a2 b2
-    rw [← hf.1 p q φ y z h] at a2
-    linear_combination φ (g p y) * a1 - g q z * a2 - b1 + b2
-  · have a1 := h1 p y'
-    have a2 := h1 p y
-    have b1 := h2 p y'
-    have b2 := h2 p y
-    have a0 := (idem_mem_secZ Z).2 p t y y' h
-    simp only [Pi.zero_apply, zpow_zero, Finset.prod_const_one, Units.val_one, one_mul] at a0
-    rw [hf.2 p t y y' h] at a1
-    rw [a0] at a1 b1
-    have a3 : ((∏ i, t i ^ (-e) i : (p.R)ˣ) : p.R) * ((∏ i, t i ^ e i : (p.R)ˣ) : p.R) = 1 := by
-      rw [← Units.val_mul, ← Finset.prod_mul_distrib]; simp
-    generalize ((∏ i, t i ^ (-e) i : (p.R)ˣ) : p.R) = A at *
-    generalize ((∏ i, t i ^ e i : (p.R)ˣ) : p.R) = B at *
-    linear_combination (A * g p y) * a1 - (A * B * g p y') * a2 - (idem Z p y * g p y') * a3 - b1 + A * b2
+  apply _root_.GlobalTheory.FlatLine.Definite.inv_mem_secZ_on <;> assumption
 
 theorem exists_reads : ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (H : ReciprocityTheory.ChartRestriction.G.Geo.Tor.Host E)
     (Dw : Datum H) (l : Level H) (Xo : Moduli Dw l) (c : Coeff l) (Y : Model Xo c (RingHom.id c.F)) (Z : Comp Xo c)

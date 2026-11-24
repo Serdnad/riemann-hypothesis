@@ -736,11 +736,7 @@ theorem loc_data (hG : V.gram = 1) (Λ : Submodule (𝓞 D.host.E) (Fin V.rank �
 end Gen
 
 theorem gramX'_one (X : Stages) {px : PreX X.B.toPre} (I : Col2.ColIn X.B px) (hI : I.Ok) : X.toD7.sp.X'.gram = 1 := by
-  obtain ⟨hs, -, h2, -⟩ := hI.spaces
-  change X.B.sp.X'.gram = 1
-  rw [h2]
-  refine Matrix.ext fun i i' => (Formalism.BasicNotions.Examples₂.stdSpace_gram_apply hs _ _ _ _ i i').trans ?_
-  simp [Matrix.one_apply, Formalism.BasicNotions.Examples₂.sgn]
+  apply _root_.GlobalTheory.Mem.R3.RowAd.Inert.gram_eq_one <;> assumption
 
 theorem datX_sub (X : Stages) {px : PreX X.B.toPre} (I : Col2.ColIn X.B px) (U : Set I.ι)
     (L : Formalism.IndefR.Links.LevCh X.toD7 (TupU I U)) (hL : LevOf X I U L) (t : TupU I U) :

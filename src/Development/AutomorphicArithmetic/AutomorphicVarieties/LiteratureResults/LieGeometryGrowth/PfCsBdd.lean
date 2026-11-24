@@ -3,6 +3,7 @@ module
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.LiteratureResults.LieGeometryGrowth.PairDefs
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.L2Cusps.SplitEq
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.LiteratureResults.LieGeometryGrowth.QhtFacts
+import all Development.AutomorphicArithmetic.AutomorphicVarieties.LiteratureResults.LieGeometryGrowth.QhtFacts
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -48,16 +49,7 @@ open GroundTheory.Automorphic GroundTheory.Automorphic.AutomorphicForm GroundThe
 
 private theorem exists_split' {E : Type} [Field E] [NumberField E] [_root_.NumberField.IsTotallyComplex E] {a : ℕ} (g : GA E a) :
     ∃ t : ℝ, splitCentre E a t * g = (retractOne g : UpperTheory.V.KernelIndexFullLattice.G1 E a).1 := by
-  rcases Nat.eq_zero_or_pos a with rfl | ha
-  · exact ⟨0, Units.ext (Subsingleton.elim _ _)⟩
-  have h1 : (0 : ℝ) < a := Nat.cast_pos.2 ha
-  have h2 : (0 : ℝ) < Module.finrank ℚ E := Nat.cast_pos.2 Module.finrank_pos
-  refine ⟨Real.log ((Reduction.detModule E a g)⁻¹).1 / (a * Module.finrank ℚ E), ?_⟩
-  rw [UpperTheory.V.KernelIndexFullLattice.splitEq_holds E a, coe_retractOne, ← centralSection_inv_mul_comm,
-    ← map_inv (Reduction.centralSection E a)]
-  refine congrArg (fun s => Reduction.centralSection E a s * g) (Subtype.ext ?_)
-  change Real.exp _ = _
-  rw [mul_div_cancel₀ _ (mul_pos h1 h2).ne', Real.exp_log ((Reduction.detModule E a g)⁻¹).2]
+  apply _root_.UpperTheory.V.Lit.Geo.exists_split <;> assumption
 
 theorem UpperTheory.V.Lit.Geo.Pf.csBdd :
     UpperTheory.V.Lit.Geo.Pf.CsBdd := by

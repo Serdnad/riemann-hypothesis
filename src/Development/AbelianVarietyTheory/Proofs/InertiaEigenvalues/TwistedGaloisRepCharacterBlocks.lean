@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.SecondClosedOfFirstClosed
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.CentralIdemCoeff
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.StepJumpDirect
 import Mathlib.Algebra.Order.Floor.Extended
@@ -60,25 +61,8 @@ theorem continuous_of_mul_left_dvr {O X : Type} [CommRing O] [IsDomain O] [IsDis
     [TopologicalSpace O] [IsTopologicalRing O] [TopologicalSpace X]
     (hO : IsAdic (IsLocalRing.maximalIdeal O)) {a : O} (ha : a ≠ 0) {f : X → O}
     (hf : Continuous fun x => a * f x) : Continuous f := by
-  obtain ⟨hopen, hbasis⟩ := isAdic_iff.1 hO
-  obtain ⟨ϖ, hϖ⟩ := IsDiscreteValuationRing.exists_irreducible O
-  obtain ⟨k, u, rfl⟩ := IsDiscreteValuationRing.eq_unit_mul_pow_irreducible ha hϖ
-  have hm := hϖ.maximalIdeal_eq
-  rw [continuous_iff_continuousAt]
-  intro x0
-  have h0 : Filter.Tendsto (fun x => f x - f x0) (nhds x0) (nhds 0) := by
-    intro s hs
-    obtain ⟨n, hn⟩ := hbasis s hs
-    have h1 : Continuous fun x => (u : O) * ϖ ^ k * f x - (u : O) * ϖ ^ k * f x0 := hf.sub continuous_const
-    have h2 := (h1.isOpen_preimage _ (hopen (k + n))).mem_nhds (x := x0) (by simp)
-    rw [Filter.mem_map]
-    filter_upwards [h2] with x hx
-    apply hn
-    simp only [Set.mem_preimage, SetLike.mem_coe, hm, Ideal.span_singleton_pow, Ideal.mem_span_singleton] at hx ⊢
-    rw [← mul_sub, pow_add, mul_assoc, u.isUnit.dvd_mul_left, mul_dvd_mul_iff_left (pow_ne_zero k hϖ.ne_zero)] at hx
-    exact hx
-  have := h0.add_const (f x0)
-  simpa [ContinuousAt] using this
+  intros
+  apply _root_.GlobalTheory.BlockJumpsCompare.continuous_of_mul <;> assumption
 
 theorem continuous_of_coeff_dvr {O X : Type} [CommRing O] [IsDomain O] [IsDiscreteValuationRing O]
     [TopologicalSpace O] [IsTopologicalRing O] [TopologicalSpace X]

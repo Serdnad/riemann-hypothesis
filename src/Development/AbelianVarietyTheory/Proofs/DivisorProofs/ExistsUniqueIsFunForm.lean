@@ -1,5 +1,6 @@
 module
 
+import Formalism.LocalToGlobal.Columns.CoefficientsModP.NablaIndependenceHolds
 public import Development.AbelianVarietyTheory.Definitions.Divisors.KernelNormConstantSpec
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.PosOkId
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.CofactorTwistRelationDualWeightInvolutive
@@ -502,15 +503,8 @@ theorem funEquiv_mem_iff {O : Type} [CommRing O] [Algebra O K] (M M' : ι → Su
 variable [NumberField K]
 
 theorem nabStd_mem_VV (lam : ι → DomWeight n) : ∀ x ∈ nabStd K lam, x ∈ VV K lam := by
-  intro x hx
-  have hle : nabStd K lam ≤ (VV K lam).restrictScalars (NumberField.RingOfIntegers K) := by
-    refine Submodule.span_le.2 ?_
-    rintro _ ⟨F, hF, rfl⟩
-    refine Submodule.subset_span ⟨F, fun τ => ?_, rfl⟩
-    obtain ⟨f, hf, e⟩ := hF τ
-    rw [← e]
-    exact dualWeylMap _ K _ _ _ _ _ hf
-  exact hle hx
+  intros
+  apply _root_.Formalism.L2.DIV.nb_nabStd_le_VV <;> assumption
 
 theorem delStd_mem_VV (lam : ι → DomWeight n) : ∀ x ∈ delStd K lam, x ∈ VV K lam := by
   intro x hx

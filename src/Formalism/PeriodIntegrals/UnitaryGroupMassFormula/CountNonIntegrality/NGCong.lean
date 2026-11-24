@@ -1,5 +1,6 @@
 module
 
+import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.NormRepresentationLift.DiffIdealNeBot
 public import Formalism.SharpRestriction.CuspSpanNormBounds.LocalGroupInFamilyNontrivial
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.CountNonIntegrality.ValOneOfNotMem
 import Mathlib.Algebra.AffineMonoid.Basic
@@ -92,19 +93,7 @@ theorem star_eq_conjF (D : Formalism.BasicNotions.D7) (x : D.host.E) : star x = 
 
 theorem one_mem_dd (D : Formalism.BasicNotions.D7) (k : ℕ) :
     (1 : D.host.E) ∈ ((ddS D) ^ (-(k : ℤ)) : FractionalIdeal (nonZeroDivisors (𝓞 D.host.E)) D.host.E) := by
-  have h0 : ddS D ≠ 0 := by
-    unfold ddS
-    rw [FractionalIdeal.coeIdeal_ne_zero]
-    exact Ideal.map_ne_bot_of_ne_bot (differentIdeal_ne_bot)
-  have hle : ddS D ≤ 1 := by
-    unfold ddS
-    exact FractionalIdeal.coeIdeal_le_one
-  have hk0 : ddS D ^ k ≠ 0 := pow_ne_zero _ h0
-  have hk1 : ddS D ^ k ≤ 1 := pow_le_one' hle k
-  rw [zpow_neg, zpow_natCast]
-  have h1 := FractionalIdeal.inv_anti_mono hk0 hk1
-  rw [inv_one] at h1
-  exact h1 (FractionalIdeal.one_mem_one _)
+  apply _root_.PI.NRL.one_mem_ddS_neg <;> assumption
 
 theorem pair_int (D : Formalism.BasicNotions.D7) (Λ : Submodule (𝓞 D.host.E) (VS D).V) (hU : Formalism.HermitianLatticesTheory.dual (VS D).hT Λ = Λ)
     {x y : (VS D).V} (hx : x ∈ Λ) (hy : y ∈ Λ) : ∃ o : 𝓞 D.host.E, (o : D.host.E) = (VS D).hT x y := by

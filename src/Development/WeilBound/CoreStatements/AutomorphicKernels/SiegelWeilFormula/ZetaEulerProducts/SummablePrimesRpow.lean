@@ -44,6 +44,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
+import Development.AbelianVarietyTheory.BlockTheory.AdelicCMFields.UnitaryHeckeCharacterIdele
 
 @[expose] public section
 
@@ -99,14 +100,7 @@ theorem two_le_absNorm' (K : Type) [Field K] [NumberField K] (P : HeightOneSpect
 
 theorem summable_primes_rpow (K : Type) [Field K] [NumberField K] (σ : ℝ) (hσ : 1 < σ) :
     Summable fun P : HeightOneSpectrum (𝓞 K) => ((Ideal.absNorm P.asIdeal : ℕ) : ℝ) ^ (-σ) := by
-  have h := GlobalTheory.Mem.summable_norm_absNorm_cpow K (s := (σ : ℂ)) (by simpa using hσ)
-  have hinj : Function.Injective fun P : HeightOneSpectrum (𝓞 K) => P.asIdeal :=
-    fun P Q hPQ => HeightOneSpectrum.ext hPQ
-  refine (h.comp_injective hinj).congr fun P => ?_
-  have hpos : 0 < Ideal.absNorm P.asIdeal := by have := two_le_absNorm' K P; omega
-  simp only [Function.comp_apply]
-  rw [Complex.norm_natCast_cpow_of_pos hpos]
-  simp
+  apply _root_.GlobalTheory.IndefiniteRowSideFullHecke.UnitaryHeckeCharacterIdele.UnitaryHeckeChar.summable_absNorm_rpow <;> assumption
 
 theorem zeta_euler (K : Type) [Field K] [NumberField K] {s : ℂ} (hs : 1 < s.re) :
     HasProd (fun P : HeightOneSpectrum (𝓞 K) => 1 - (Ideal.absNorm P.asIdeal : ℂ) ^ (-s))

@@ -1,5 +1,7 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.LevelNFunctionGaloisConjQExpansion
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LatticeValueIntegralityRamifiedOfExpansion
 public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.DefiningCoordinates
 public import Mathlib.NumberTheory.NumberField.Discriminant.Different
 public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.LatticeNormTransport
@@ -201,17 +203,7 @@ namespace GlobalTheory.LatConjOne
 
 theorem gamma_nat_add (k m : ℕ) (hk : 1 ≤ k) :
     Real.Gamma ((k : ℝ) + m) = ((k - 1).factorial : ℝ) * ∏ j ∈ Finset.range m, ((k : ℝ) + j) := by
-  induction m with
-  | zero =>
-    simp only [Nat.cast_zero, add_zero, Finset.range_zero, Finset.prod_empty, mul_one]
-    have := Real.Gamma_nat_eq_factorial (k - 1)
-    rwa [Nat.cast_sub hk, Nat.cast_one, sub_add_cancel] at this
-  | succ m ih =>
-    have h0 : (k : ℝ) + m ≠ 0 := by
-      have : (1 : ℝ) ≤ k := by exact_mod_cast hk
-      have : (0 : ℝ) ≤ m := m.cast_nonneg
-      exact ne_of_gt (by linarith)
-    rw [Finset.prod_range_succ, Nat.cast_succ, ← add_assoc, Real.Gamma_add_one h0, ih]; ring
+  apply _root_.GlobalTheory.LatValRam.gamma_nat_add <;> assumption
 
 theorem cmPeriodConstant_eq_of_card_cmType (E : Type) [Field E] [NumberField E] {I : Type} [Fintype I] (d : ℕ) {k : ℕ} (hk : 1 ≤ k)
     (hcard : Fintype.card I = Module.finrank ℚ (maximalRealSubfield E)) (κ : I → ℕ) :
@@ -912,23 +904,7 @@ private theorem exists_eisensteinCombination_of_isModularForm {w : ℕ} {F : ℍ
     (hF : _root_.ReciprocityTheory.ChartRestriction.L1.IsMF (w : ℤ) F) :
     ∃ (s : Finset (ℕ × ℕ)) (c : ℕ × ℕ → ℂ), (∀ p ∈ s, 4 * p.1 + 6 * p.2 = w) ∧
       ∀ τ, F τ = ∑ p ∈ s, c p * (E₄ τ ^ p.1 * E₆ τ ^ p.2) := by
-  obtain ⟨f, hf⟩ := hF
-  have hmem := _root_.ReciprocityTheory.PGsh.coe_mem_monoSpanF w f
-  unfold _root_.ReciprocityTheory.PGsh.monoSpanF at hmem
-  obtain ⟨c, hc⟩ := (Submodule.mem_span_range_iff_exists_fun ℂ).1 hmem
-  classical
-  refine ⟨(_root_.ReciprocityTheory.PGsh.monoIdx w).image fun a => (a, _root_.ReciprocityTheory.PGsh.monoB w a),
-    fun p => if hp : p.1 ∈ _root_.ReciprocityTheory.PGsh.monoIdx w then c ⟨p.1, hp⟩ else 0, ?_, ?_⟩
-  · intro p hp
-    obtain ⟨a, ha, rfl⟩ := Finset.mem_image.1 hp
-    exact _root_.ReciprocityTheory.PGsh.monoIdx_wt ha
-  · intro τ
-    rw [Finset.sum_image (fun x _ y _ h => congrArg Prod.fst h), ← hf τ, ← hc]
-    rw [Finset.sum_apply, ← Finset.sum_attach (_root_.ReciprocityTheory.PGsh.monoIdx w)]
-    refine Finset.sum_congr rfl fun a _ => ?_
-    simp only [Pi.smul_apply, smul_eq_mul, a.2, dif_pos]
-    rw [_root_.ReciprocityTheory.PGsh.coe_monoW a.2]
-    rfl
+  apply _root_.GlobalTheory.QFam.isMF_eq_sum_monomials <;> assumption
 
 open scoped UpperHalfPlane MatrixGroups ModularForm Manifold BigOperators in
 open ModularForm (E₄ E₆) in

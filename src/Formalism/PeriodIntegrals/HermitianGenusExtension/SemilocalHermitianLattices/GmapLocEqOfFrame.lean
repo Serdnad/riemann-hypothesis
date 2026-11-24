@@ -130,7 +130,7 @@ theorem gmap_loc_eq_of_frame {h : V →ₗ⋆[K] V →ₗ[K] K} {L : Submodule (
     have hzN : g.symm y ∈ Formalism.HermitianLatticesTheory.loc (K := K) p (Submodule.span (𝓞 K) (Set.range e)) := by
       rw [← hc]
       refine sum_mem (fun i _ => ?_)
-      exact smul_mem_loc hp (hcj i) (mem_loc_of_mem_lemma_3 p (Submodule.subset_span ⟨i, rfl⟩))
+      exact smul_mem_loc hp (hcj i) (Formalism.HermitianLatticesTheory.locBasic_le_locS _ _ (Submodule.subset_span ⟨i, rfl⟩))
     simp only [Formalism.HermitianLatticesTheory.gmap, Submodule.mem_map]
     exact ⟨g.symm y, hzN, by simp⟩
 

@@ -1,5 +1,7 @@
 module
 
+import Formalism.FormalDegreeBessel.FormalDegreeRatio.BesselUnipotentEquivHolds
+import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.QnRdSkew
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.RestrictionIrrelevantDoubleLevelOperator
 public import Formalism.FormalDegreeBessel.FormalDegreeRatio.GBasic
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.SumDualVectorEqZeta
@@ -411,17 +413,8 @@ theorem Nlev_last {k r : ℕ} {n : Mx k r} (hn : n ∈ Nlev k r (Fin.last r)) : 
   apply Formalism.FourierDecayAlt.P.Qx8.Nlev_last <;> assumption
 
 theorem psi_one {k r : ℕ} {z : Fin (2 * r + k + 1) → ℂ} (hz : inWb k r z) (c : ℂ) : psi k r z c 1 = 1 := by
-  have : ell k r z 1 = 0 := by
-    unfold ell
-    refine Finset.sum_eq_zero fun a _ => ?_
-    split_ifs with h
-    · rw [Matrix.one_apply, if_neg]
-      intro e
-      have := congrArg Fin.val e
-      simp [eI] at this
-    · rw [Matrix.one_mulVec]
-      exact hz _ (Or.inl a.isLt)
-  simp [psi, this]
+  intros
+  apply _root_.Formalism.QuantumDeterminants.BesselUnipotentEquiv.psi_one <;> assumption
 
 def Dp (k r : ℕ) (z z' : Fin (2 * r + k + 1) → ℂ) : Set (Mx k r) := {g | 0 < GGl k r z z' g}
 
@@ -652,27 +645,7 @@ open Qx2
 variable {k r : ℕ}
 
 theorem Glev_closed (i : Fin (r + 1)) : IsClosed (Glev k r i) := by
-  have h : Glev k r i = UH (Hpk k r) ∩ ⋂ a : Fin r, {g : Mx k r | a.val < i.val →
-      g *ᵥ bvec (eI k r a) = bvec (eI k r a) ∧ g *ᵥ bvec (esI k r a) = bvec (esI k r a)} := by
-    ext g
-    simp [Glev]
-  rw [h]
-  refine IsClosed.inter B5.GV_closed (isClosed_iInter fun a => ?_)
-  by_cases ha : a.val < i.val
-  · have : {g : Mx k r | a.val < i.val →
-        g *ᵥ bvec (eI k r a) = bvec (eI k r a) ∧ g *ᵥ bvec (esI k r a) = bvec (esI k r a)} =
-        {g : Mx k r | g *ᵥ bvec (eI k r a) = bvec (eI k r a)} ∩ {g : Mx k r | g *ᵥ bvec (esI k r a) = bvec (esI k r a)} := by
-      ext g
-      simp [ha]
-    rw [this]
-    exact (isClosed_eq (continuous_id.matrix_mulVec continuous_const) continuous_const).inter
-      (isClosed_eq (continuous_id.matrix_mulVec continuous_const) continuous_const)
-  · have : {g : Mx k r | a.val < i.val →
-        g *ᵥ bvec (eI k r a) = bvec (eI k r a) ∧ g *ᵥ bvec (esI k r a) = bvec (esI k r a)} = Set.univ := by
-      ext g
-      simp [ha]
-    rw [this]
-    exact isClosed_univ
+  apply _root_.QnRdSkewW.glev_closed <;> assumption
 
 theorem smoothLev_continuousOn {E : Type*} [NormedAddCommGroup E] [NormedSpace ℂ E] {i : Fin (r + 1)}
     {D : Set (Mx k r)} {f : Mx k r → E} (h : SmoothLev k r i D f) : ContinuousOn f (Glev k r i ∩ D) := by

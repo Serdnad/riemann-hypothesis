@@ -520,7 +520,6 @@ theorem rr_arith (l d G h y C L s r q : ℝ) (hld : l = d + 1) (hd2 : 2 ≤ d) (
       have hd0' : d ≠ 0 := hd0.ne'
       field_simp
     linarith
-  have ht0 : 0 ≤ (d + 1) / ((d - 1) * d) := div_nonneg hl0.le hdd.le
   have htc : (d + 1) / ((d - 1) * d) ≤ 3 / 2 := by
     have key : d + 1 ≤ 3 / 2 * ((d - 1) * d) := by
       nlinarith [mul_nonneg (by linarith : (0:ℝ) ≤ d - 2) (by linarith : (0:ℝ) ≤ 3 * d + 1)]
@@ -546,9 +545,6 @@ theorem rr_arith (l d G h y C L s r q : ℝ) (hld : l = d + 1) (hd2 : 2 ≤ d) (
       _ ≤ 20 * (h * y / d) := by linarith
   have e3 : (C + 3) * ((d + 1) / ((d - 1) * d)) ≤ (C + 3) * (3 / 2) :=
     mul_le_mul_of_nonneg_left htc (by linarith)
-  have expand : (2 * G + 2 * h * y + C + 3) * ((d + 1) / ((d - 1) * d)) + C
-      = 2 * G * ((d + 1) / ((d - 1) * d)) + 2 * h * y * ((d + 1) / ((d - 1) * d))
-        + (C + 3) * ((d + 1) / ((d - 1) * d)) + C := by ring
   linarith
 
 theorem remainder_bound_of_tsum : RrBound := by
@@ -725,7 +721,6 @@ theorem total_exponent_le_eight_hundred : ExponentBoundOfRankAndKappaBounds := b
   rw [hlog2] at hkap
   have hge : (g : ℝ) ≤ g * ell := le_mul_of_one_le_right (by linarith) hell1
   have hee : (ell : ℝ) ≤ g * ell := le_mul_of_one_le_left (by linarith) hg1
-  have h1e : (1 : ℝ) ≤ g * ell := one_le_mul_of_one_le_of_one_le hg1 hell1
   linarith [hB0, hgh', hT, hΛ, hl2, hGL, hgB, h4g, hrr, hkap]
 
 end Formalism.TruncatedSeriesCounting.WachCoordinates

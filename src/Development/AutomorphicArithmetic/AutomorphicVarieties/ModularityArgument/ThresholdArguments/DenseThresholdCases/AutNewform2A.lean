@@ -1,5 +1,6 @@
 module
 
+import all Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.ThresholdArguments.DenseThresholdCases.OrdWinA
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.RankTwoPatching.GaloisRepExistsTotallyRealGL2
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.AutomorphyLifting.UnitaryGaloisFamilies.PlainGd
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.ThresholdArguments.DenseThresholdCases.AfDesc
@@ -1232,50 +1233,9 @@ theorem UpperTheory.V.Z.Win.RR.ordAway_of_alt (hX : ExRS) (hGd : GdOf) :
   obtain ⟨-, wt, HT, -, -, hall⟩ := hX F Ω l ι 2 one_le_two π χ H.reg hχ
   have hG := hall r H.cont H.att
   obtain ⟨⟨σ, hσ⟩, hiso⟩ := _root_.UpperTheory.V.Af.local_comp_real_of_printed_results P F 2 π w
-  have mod_retr {R S M : Type} [Ring R] [AddCommGroup S] [Module R S] [AddCommGroup M] [Module R M]
-      [IsSimpleModule R S] (h : ⨆ f : S →ₗ[R] M, LinearMap.range f = ⊤) (x : M) (hx : x ≠ 0) :
-      ∃ T : M →ₗ[R] S, T x ≠ 0 := by
-    have htop : isotypicComponent R M S = ⊤ := top_le_iff.1 (h ▸ iSup_le fun f => by
-      rcases f.injective_or_eq_zero with hi | rfl
-      · exact le_sSup ⟨(LinearEquiv.ofInjective _ hi).symm⟩
-      · simp)
-    have : IsSemisimpleModule R M :=
-      IsSemisimpleModule.congr (M := isotypicComponent R M S) (LinearEquiv.ofTop _ htop).symm
-    have hiso := IsIsotypicOfType.of_isotypicComponent_eq_top htop
-    obtain ⟨m, hm, hxm⟩ : ∃ m : Submodule R M, IsCoatom m ∧ x ∉ m := by
-      by_contra hn
-      push Not at hn
-      refine hx ((Submodule.mem_bot R).1 ?_)
-      rw [← IsSemisimpleModule.jacobson_eq_bot R M]
-      exact Submodule.mem_sInf.2 hn
-    obtain ⟨W, hc⟩ := exists_isCompl m
-    have : IsSimpleModule R W := isSimpleModule_iff_isAtom.2 (hc.isCoatom_iff_isAtom.1 hm)
-    obtain ⟨e⟩ := hiso W
-    refine ⟨e.toLinearMap ∘ₗ W.projectionOnto m hc.symm, fun h0 => hxm ?_⟩
-    simpa using h0
-  have rep_retr {Γ X V : Type} [Group Γ] [AddCommGroup X] [Module ℂ X] [AddCommGroup V] [Module ℂ V]
-      (σ : Representation ℂ Γ X) (hσ : σ.IsIrreducible) (τ : Representation ℂ Γ V)
-      (h : ⨆ f : {f : X →ₗ[ℂ] V // ∀ g v, f (σ g v) = τ g (f v)}, LinearMap.range f.1 = ⊤) (x : V) (hx : x ≠ 0) :
-      ∃ T : V →ₗ[ℂ] X, (∀ g v, T (τ g v) = σ g (T v)) ∧ T x ≠ 0 := by
-    have key := mod_retr (R := MonoidAlgebra ℂ Γ) (S := σ.asModule) (M := τ.asModule) (by
-        refine top_le_iff.1 fun y _ => ?_
-        have hy : τ.asModuleEquiv y ∈ (⊤ : Submodule ℂ V) := trivial
-        rw [← h] at hy
-        rw [← τ.asModuleEquiv.symm_apply_apply y]
-        refine Submodule.iSup_induction _ (motive := fun z => τ.asModuleEquiv.symm z ∈ _) hy ?_ ?_ ?_
-        · rintro f _ ⟨v, rfl⟩
-          exact Submodule.mem_iSup_of_mem (Representation.IntertwiningMap.equivLinearMapAsModule σ τ
-            ⟨f.1, fun g => LinearMap.ext (f.2 g)⟩) ⟨v, rfl⟩
-        · simp
-        · intro a b ha hb
-          rw [map_add (f := _)]
-          exact add_mem ha hb)
-    obtain ⟨T, h2⟩ := key x hx
-    let T' := (Representation.IntertwiningMap.equivLinearMapAsModule τ σ).symm T
-    exact ⟨T'.toLinearMap, fun g v => LinearMap.congr_fun (T'.2 g) v, h2⟩
   by_cases hc : c w = 0
   · obtain ⟨v, hv, hf⟩ := H.sph w hc
-    obtain ⟨T, hT, hTv⟩ := rep_retr σ.ρ σ.irred (π.locRep w) (hiso σ hσ).2 v hv
+    obtain ⟨T, hT, hTv⟩ := UpperTheory.V.Z.Sym.W.RetractionModules.rep_retr σ.ρ σ.irred (π.locRep w) (hiso σ hσ).2 v hv
     have iwahori_level_zero_eq : K1 w 0 = GlobalTheory.LFun.KGL w (n := 2) := by
       ext g
       constructor
@@ -1296,91 +1256,10 @@ theorem UpperTheory.V.Z.Win.RR.ordAway_of_alt (hX : ExRS) (hGd : GdOf) :
   have hl0 : lam ≠ 0 := by
     rintro rfl
     simp at hlam
-  obtain ⟨T, hT, hTv⟩ := rep_retr σ.ρ σ.irred (π.locRep w) (hiso σ hσ).2 v hv
-  have map_dc {Γ X V : Type} [Group Γ] [AddCommGroup X] [Module ℂ X] [AddCommGroup V] [Module ℂ V]
-      (σ : Representation ℂ Γ X) (τ : Representation ℂ Γ V) (T : V →ₗ[ℂ] X)
-      (hT : ∀ g v, T (τ g v) = σ g (T v)) {x : V} (hx : T x ≠ 0) (K : Subgroup Γ) (a : Γ) :
-      T (Hi.dc τ K K a x) = Hi.dc σ K K a (T x) := by
-    let Q := MulAction.orbit K (a : Γ ⧸ K)
-    rcases finite_or_infinite Q with hfinite | hinfinite
-    · let _ := Fintype.ofFinite Q
-
-      simp only [Hi.dc, finsum_eq_sum_of_fintype, LinearMap.sum_apply, map_sum, hT]
-    · have sum_eq_zero {W : Type} [AddCommGroup W] [Module ℂ W]
-          (ρ : Representation ℂ Γ W) (y : W) (hy : y ≠ 0) :
-          (∑ᶠ q : Q, ρ (q : Γ ⧸ K).out) = 0 := by
-        apply finsum_of_infinite_support
-        rw [Function.support_eq_univ]
-        · exact Set.infinite_univ
-        · intro q hρ
-          let g := (q : Γ ⧸ K).out
-          have hgy : ρ g⁻¹ (ρ g y) = y := by
-            rw [← mul_apply_eq_comp, ← map_mul, inv_mul_cancel, map_one, one_apply_eq_self]
-          exact hy (by rw [← hgy, show ρ g = 0 from hρ, LinearMap.zero_apply, map_zero])
-      have hx0 : x ≠ 0 := fun e => hx (by rw [e, map_zero])
-      rw [Hi.dc, Hi.dc, sum_eq_zero τ x hx0, sum_eq_zero σ (T x) hx]
-      simp
-  obtain ⟨μ₁, μ₂, L, hL, hμ, -, hlaw⟩ := _root_.UpperTheory.V.Sd.jacqOfU_alt P F w σ (c w) (Units.mk0 lam hl0) hc
+  obtain ⟨T, hT, hTv⟩ := UpperTheory.V.Z.Sym.W.RetractionModules.rep_retr σ.ρ σ.irred (π.locRep w) (hiso σ hσ).2 v hv
+  obtain ⟨ψ, hψ, hs, hψ0, -⟩ := Birth.uLoc F w (c w) lam σ hc hl0
     ⟨T v, hTv, fun u hu => by rw [← hT, hf u hu], by
-      rw [Uop, ← map_dc σ.ρ (π.locRep w) T hT hTv, ← Uop, hU, map_smul, Units.val_mk0]⟩
-  have exists_ps {k : Type} [Field k] [ValuativeRel k] [TopologicalSpace k] [IsNonarchimedeanLocalField k]
-      {V : Type} [AddCommGroup V] [Module ℂ V] {π : Representation ℂ (GL (Fin 2) k) V} (hπ : GlobalTheory.PRep.IsSmooth π)
-      (hi : π.IsIrreducible) (μ₁ μ₂ : kˣ →* ℂˣ) (L : V →ₗ[ℂ] ℂ) (hL : L ≠ 0)
-      (H : ∀ (a d : kˣ) (x : k) v, L (π (Matrix.GeneralLinearGroup.scalar (Fin 2) d * aff (a / d) x) v) =
-        ((μ₁ a * μ₂ d : ℂˣ) : ℂ) * L v) :
-      ∃ ψ : Fin 2 → kˣ →* ℂˣ, (∀ i, IsSmoothChar (ψ i)) ∧ IsSubquotient π (prinSeries ψ) ∧
-        ∀ x : kˣ, valuation k (x : k) = 1 → ψ 0 x = μ₁ x := by
-    set δ : (Fin 2 → kˣ) →* ℂˣ := (deltaHalf k fun _ : Fin 2 => Unit).comp (leviTorus k (Fin 2)).toMonoidHom with hδ
-    let χ : (Fin 2 → kˣ) →* ℂˣ := torusChar ![μ₁, μ₂] * δ⁻¹
-    have hU : GlobalTheory.PRep.twKer π (unipB k (Fin 2)) 1 ≤ LinearMap.ker L := by
-      refine Submodule.span_le.2 ?_
-      rintro _ ⟨u, v, rfl⟩
-      obtain ⟨u1, u2⟩ := (mem_unipB k).1 u.2
-      have e : (u : GL (Fin 2) k) = Matrix.GeneralLinearGroup.scalar (Fin 2) 1 * aff (1 / 1) (u.1.val 0 1) := by
-        ext i j
-        fin_cases i <;> fin_cases j <;> simp [aff, u2, u1 1 0]
-      have := H 1 1 (u.1.val 0 1) v
-      rw [← e] at this
-      simp [this]
-    let l : GlobalTheory.PRep.Jacquet π (unipB k (Fin 2)) →ₗ[ℂ] ℂ := Submodule.liftQ _ L hU
-    obtain ⟨v, hv⟩ : ∃ v, L v ≠ 0 := by
-      by_contra hn
-      push Not at hn
-      exact hL (LinearMap.ext hn)
-    have hle : ∀ t x, l (jacB π t x) = (χ t : ℂ) * l x := fun t x => by
-      obtain ⟨y, rfl⟩ := Submodule.Quotient.mk_surjective _ x
-      have e : diagT k (Fin 2) t = Matrix.GeneralLinearGroup.scalar (Fin 2) (t 1) * aff (t 0 / t 1) 0 := by
-        ext i j
-        fin_cases i <;> fin_cases j <;> simp [aff, val_diagT, Matrix.GeneralLinearGroup.scalar, mul_div_cancel₀]
-      rw [UnramFixed.jacB_apply, jacBU_mk, map_smul, e]
-      change _ * L _ = _ * L y
-      rw [H, ← mul_assoc, ← Units.val_mul, mul_comm _ (μ₁ _ * _)]
-      simp [χ, torusChar_apply, hδ]
-    have hs : IsSmoothChar χ := by
-      refine Subgroup.isOpen_of_mem_nhds _ (g := 1) (Filter.mem_of_superset
-        ((isSmooth_jacB hπ (Submodule.Quotient.mk v)).mem_nhds (by simp)) ?_)
-      intro g hg
-      have hg' : jacB π g (Submodule.Quotient.mk v) = Submodule.Quotient.mk v := hg
-      have h := hle g (Submodule.Quotient.mk v)
-      rw [hg'] at h
-      exact Units.ext (mul_right_cancel₀ (show l (Submodule.Quotient.mk v) ≠ 0 from hv) (h.symm.trans (one_mul _).symm))
-    have htc : torusChar (fun i => χ.comp (MonoidHom.mulSingle (fun _ => kˣ) i)) = χ :=
-      MonoidHom.ext fun t => by
-        rw [torusChar_apply]
-        conv_rhs => rw [← Finset.univ_prod_mulSingle t, map_prod]
-        rfl
-    refine ⟨fun i => χ.comp (MonoidHom.mulSingle (fun _ => kˣ) i),
-      fun i => hs.comp _ (continuous_mulSingle (A := fun _ => kˣ) i), ?_, fun x hx => ?_⟩
-    · have key := GlobalTheory.SatakeExists.isSubquotient_of_eigenform hπ hi χ l
-        (fun e => hv (LinearMap.congr_fun e (Submodule.Quotient.mk v))) hle
-      rw [← htc] at key
-      exact key
-    · have h1 : δ (Pi.mulSingle 0 x) = 1 := UnramFixed.deltaHalf_torusO k (t := (Pi.mulSingle 0 x : Fin 2 → kˣ)) fun j => by
-        fin_cases j <;> simp [hx]
-      change torusChar ![μ₁, μ₂] (Pi.mulSingle 0 x) * (δ (Pi.mulSingle 0 x))⁻¹ = _
-      rw [h1]
-      simp [torusChar_apply]
-  obtain ⟨ψ, hψ, hs, hψ0⟩ := exists_ps σ.smooth σ.irred μ₁ μ₂ L hL hlaw
+      rw [Uop, ← UpperTheory.V.Z.Sym.W.RetractionModules.map_dc σ.ρ (π.locRep w) T hT hTv, ← Uop, hU, map_smul]⟩
   obtain ⟨rc, hrc⟩ := recTExists F Ω A w h
   have hpl := (Birth.ordPlain F Ω l ι ξ s c m a π r H w σ hσ).elim id fun ⟨B, hB⟩ => hG.plain w B hB σ hσ
   have hx := (((hG.loc w σ hσ hpl).1 A h rc hrc).1 hl).isWDOf (hGd F Ω A w h rc hrc 2 σ hpl)
@@ -1510,7 +1389,7 @@ theorem UpperTheory.V.Z.Win.RR.ordAway_of_alt (hX : ExRS) (hGd : GdOf) :
       ord_eq_zero_iff.1 (by rw [hb.ord_eq, deg_ineIncl, neg_zero])
     have : (Valued.v : Valuation (w.adicCompletion F) (WithZero (Multiplicative ℤ))).Compatible :=
       Valuation.Compatible.ofValuation _
-    rw [Fin.prod_univ_two, hψ0 _ h2, hμ _ ((isEquiv (valuation (w.adicCompletion F))
+    rw [Fin.prod_univ_two, hψ0 _ ((isEquiv (valuation (w.adicCompletion F))
       (Valued.v : Valuation (w.adicCompletion F) (WithZero (Multiplicative ℤ)))).eq_one_iff_eq_one.1 h2)] at h1
     exact ⟨_, h1⟩
   · have h1 := DFunLike.congr_fun H.det g

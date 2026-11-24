@@ -37,17 +37,8 @@ theorem gauss_C_mem_iff (s : 𝓞 K) :
   · intro h
     exact Ideal.mem_map_of_mem _ h
 
-theorem gauss_unif : ∃ π ∈ la.asIdeal, π ≠ 0 ∧ ∃ s ∉ la.asIdeal,
-    ∀ a ∈ la.asIdeal, ∃ b, s * a = π * b := by
-  have hp0 : la.asIdeal ≠ ⊥ := la.ne_bot
-  have hp1 : la.asIdeal ≠ ⊤ := la.isPrime.ne_top
-  have hlt : la.asIdeal ^ 2 < la.asIdeal := by
-    have := Ideal.pow_right_strictAnti la.asIdeal hp0 hp1 (show 1 < 2 by norm_num)
-    simpa using this
-  obtain ⟨π, hπ, hπ2⟩ := SetLike.exists_of_lt hlt
-  have hπ0 : π ≠ 0 := by
-    rintro rfl
-    exact hπ2 (Ideal.zero_mem _)
+theorem gauss_exists_multiplier {π : 𝓞 K} (hπ : π ∈ la.asIdeal) (hπ2 : π ∉ la.asIdeal ^ 2) :
+    ∃ s ∉ la.asIdeal, ∀ a ∈ la.asIdeal, ∃ b, s * a = π * b := by
   obtain ⟨J, hJ⟩ : la.asIdeal ∣ Ideal.span {π} :=
     Ideal.dvd_iff_le.mpr ((Ideal.span_singleton_le_iff_mem _).mpr hπ)
   have hJp : ¬ J ≤ la.asIdeal := by
@@ -59,11 +50,24 @@ theorem gauss_unif : ∃ π ∈ la.asIdeal, π ≠ 0 ∧ ∃ s ∉ la.asIdeal,
       rw [pow_two]; exact Ideal.mul_mono_right hle
     exact h2 h1
   obtain ⟨s, hsJ, hsp⟩ := SetLike.not_le_iff_exists.mp hJp
-  refine ⟨π, hπ, hπ0, s, hsp, fun a ha => ?_⟩
+  refine ⟨s, hsp, fun a ha => ?_⟩
   have hmem : a * s ∈ Ideal.span {π} := by
     rw [hJ]; exact Ideal.mul_mem_mul ha hsJ
   obtain ⟨b, hb⟩ := Ideal.mem_span_singleton'.mp hmem
   exact ⟨b, by rw [mul_comm s a, ← hb, mul_comm]⟩
+
+theorem gauss_unif : ∃ π ∈ la.asIdeal, π ≠ 0 ∧ ∃ s ∉ la.asIdeal,
+    ∀ a ∈ la.asIdeal, ∃ b, s * a = π * b := by
+  have hp0 : la.asIdeal ≠ ⊥ := la.ne_bot
+  have hp1 : la.asIdeal ≠ ⊤ := la.isPrime.ne_top
+  have hlt : la.asIdeal ^ 2 < la.asIdeal := by
+    have := Ideal.pow_right_strictAnti la.asIdeal hp0 hp1 (show 1 < 2 by norm_num)
+    simpa using this
+  obtain ⟨π, hπ, hπ2⟩ := SetLike.exists_of_lt hlt
+  have hπ0 : π ≠ 0 := by
+    rintro rfl
+    exact hπ2 (Ideal.zero_mem _)
+  exact ⟨π, hπ, hπ0, gauss_exists_multiplier la hπ hπ2⟩
 
 theorem gauss_inj : Function.Injective (algebraMap (OT K D N) (Op D N la)) :=
   IsLocalization.injective (M := (ReciprocityTheory.ChartRestriction.G.T0.laT D N la).primeCompl)

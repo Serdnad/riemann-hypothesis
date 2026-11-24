@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.SubstitutionTotalDegreeLe
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.ParamsEx
 public import Formalism.LocalToGlobal.IndefiniteReal.LinksStage
 public import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.RealLowestKTypeCoeffSquareIntegrable
@@ -1375,23 +1376,7 @@ theorem om_ptP_fock : ∀ (D : D7) (G : Type) [Group G] [Fintype G] (Pl0 T : Typ
 
 theorem totalDegree_aeval_le {σ κ : Type} (f : σ → MvPolynomial κ ℂ) (hf : ∀ v, (f v).totalDegree ≤ 1)
     (P : MvPolynomial σ ℂ) : (MvPolynomial.aeval f P).totalDegree ≤ P.totalDegree := by
-  classical
-  conv_lhs => rw [P.as_sum]
-
-  rw [map_sum]
-  refine MvPolynomial.totalDegree_finsetSum_le fun s hs => ?_
-  rw [MvPolynomial.aeval_monomial]
-  refine (MvPolynomial.totalDegree_mul _ _).trans ?_
-  have h0 : (algebraMap ℂ (MvPolynomial κ ℂ) (AddMonoidAlgebra.coeff P s)).totalDegree = 0 :=
-    MvPolynomial.totalDegree_C _
-  rw [h0, zero_add]
-  refine le_trans ?_ (MvPolynomial.le_totalDegree hs)
-  unfold Finsupp.prod Finsupp.sum
-  refine (MvPolynomial.totalDegree_finsetProd _ _).trans ?_
-  refine Finset.sum_le_sum fun i _ => ?_
-  refine (MvPolynomial.totalDegree_pow _ _).trans ?_
-  calc s i * (f i).totalDegree ≤ s i * 1 := Nat.mul_le_mul_left _ (hf i)
-    _ = s i := mul_one _
+  first | exact _root_.GlobalTheory.Chain.RealIt.SubstDeg.totalDegree_aeval_le | exact @_root_.GlobalTheory.Chain.RealIt.SubstDeg.totalDegree_aeval_le | apply _root_.GlobalTheory.Chain.RealIt.SubstDeg.totalDegree_aeval_le <;> assumption
 
 theorem totalDegree_fockSubst_le {D : D7} {m n : ℕ} (p : D.what₂.Tau → ℕ) (U : GlobalTheory.ExportSeries.GLR D n)
     (P : PolF D m n) : (GlobalTheory.ExportSeries.fockSubst p U P).totalDegree ≤ P.totalDegree := by

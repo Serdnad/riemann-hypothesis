@@ -1,5 +1,6 @@
 module
 
+import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.QnRdSkew
 public import Formalism.PeriodIntegrals.QmSkip
 public import Formalism.PeriodIntegrals.QmBorderES
 public import Formalism.PeriodIntegrals.QmBorderFull
@@ -269,26 +270,11 @@ lemma exp_mem_UH {n : ℕ} (H Y : Matrix (Fin n) (Fin n) ℂ) (hH : H * H = 1) (
 
 lemma glev_mul {k r : ℕ} {i : Fin (r + 1)} {g h : Mx k r} (hg : g ∈ Glev k r i) (hh : h ∈ Glev k r i) :
     g * h ∈ Glev k r i := by
-  simp only [Glev, UH, Set.mem_setOf_eq] at hg hh ⊢
-  obtain ⟨hg1, hg2⟩ := hg
-  obtain ⟨hh1, hh2⟩ := hh
-  refine ⟨?_, fun a ha => ⟨?_, ?_⟩⟩
-  · rw [Matrix.conjTranspose_mul]
-    calc hᴴ * gᴴ * Hpk k r * (g * h) = hᴴ * (gᴴ * Hpk k r * g) * h := by
-          simp only [Matrix.mul_assoc]
-      _ = Hpk k r := by rw [hg1, hh1]
-  · rw [← Matrix.mulVec_mulVec, (hh2 a ha).1, (hg2 a ha).1]
-  · rw [← Matrix.mulVec_mulVec, (hh2 a ha).2, (hg2 a ha).2]
+  apply _root_.QnRdSkewW.glev_mul <;> assumption
 
 lemma exp_mem_glev {k r : ℕ} {i : Fin (r + 1)} {X : Mx k r} (hX : inLieLev k r i X) (t : ℝ) :
     NormedSpace.exp ((t : ℂ) • X) ∈ Glev k r i := by
-  obtain ⟨hL, hF⟩ := hX
-  have hH : Hpk k r * Hpk k r = 1 := (hpkFacts k r).2.1
-  refine ⟨exp_mem_UH _ _ hH ?_, fun a ha => ?_⟩
-  · rw [Matrix.conjTranspose_smul, Complex.star_def, Complex.conj_ofReal, Matrix.smul_mul,
-      Matrix.mul_smul, ← smul_add, hL, smul_zero]
-  · obtain ⟨h1, h2⟩ := hF a ha
-    exact ⟨exp_mulVec_fix X _ h1 t, exp_mulVec_fix X _ h2 t⟩
+  apply _root_.QnRdSkewW.exp_mem_glev <;> assumption
 
 lemma skew_minus {n : ℕ} (H Z : Matrix (Fin n) (Fin n) ℂ) (hh : Hᴴ = H) (hHH : H * H = 1) :
     (Z - H * Zᴴ * H)ᴴ * H + H * (Z - H * Zᴴ * H) = 0 := by
@@ -1458,16 +1444,10 @@ private lemma tau_val_lemma (i : Fin (2 * r + k + 1)) :
     (WeylGroupFacts.tau k r i).val = if i.val < r ∨ r + k < i.val then 2 * r + k - i.val else i.val := rfl
 
 private lemma tau_tau_lemma (i : Fin (2 * r + k + 1)) : WeylGroupFacts.tau k r (WeylGroupFacts.tau k r i) = i := by
-  have hi := i.isLt
-  apply Fin.ext
-  simp only [tau_val_lemma]
-  split_ifs <;> omega
+  apply _root_.Formalism.FourierDecayAlt.Q.LeftMultiplicationRule.tau_tau_lemma <;> assumption
 
 private lemma sgn_tau_lemma (i : Fin (2 * r + k + 1)) : WeylGroupFacts.sgn k r (WeylGroupFacts.tau k r i) = WeylGroupFacts.sgn k r i := by
-  have hi := i.isLt
-  unfold WeylGroupFacts.sgn
-  simp only [tau_val_lemma]
-  split_ifs <;> first | rfl | omega
+  apply _root_.Formalism.FourierDecayAlt.Q.LeftMultiplicationRule.sgn_tau_lemma <;> assumption
 
 private lemma sgn_sq_lemma (i : Fin (2 * r + k + 1)) : WeylGroupFacts.sgn k r i * WeylGroupFacts.sgn k r i = 1 := by
   unfold WeylGroupFacts.sgn
@@ -1475,11 +1455,7 @@ private lemma sgn_sq_lemma (i : Fin (2 * r + k + 1)) : WeylGroupFacts.sgn k r i 
 
 private lemma hpk_eq_lemma (i j : Fin (2 * r + k + 1)) :
     Hpk k r i j = if j = WeylGroupFacts.tau k r i then WeylGroupFacts.sgn k r i else 0 := by
-  have hi := i.isLt
-  have hj := j.isLt
-  unfold Hpk WeylGroupFacts.sgn
-  simp only [Fin.ext_iff, tau_val_lemma]
-  split_ifs <;> first | rfl | omega
+  apply _root_.Formalism.FourierDecayAlt.Q.LeftMultiplicationRule.hpk_eq_lemma <;> assumption
 
 private lemma hpk_sq_lemma : Hpk k r * Hpk k r = 1 := by
   ext i j
@@ -1494,14 +1470,7 @@ lemma hpk_inv : (Hpk k r)⁻¹ = Hpk k r := Matrix.inv_eq_left_inv hpk_sq_lemma
 
 private lemma hpk_col_lemma (x y : Fin (2 * r + k + 1)) :
     Hpk k r x y = if x = WeylGroupFacts.tau k r y then WeylGroupFacts.sgn k r y else 0 := by
-  rw [hpk_eq_lemma]
-  by_cases h : x = WeylGroupFacts.tau k r y
-  · subst h
-    simp [tau_tau_lemma, sgn_tau_lemma]
-  · rw [if_neg h, if_neg]
-    intro h'
-    apply h
-    rw [h', tau_tau_lemma]
+  apply _root_.Formalism.FourierDecayAlt.Q.LeftMultiplicationRule.hpk_col_lemma <;> assumption
 
 private lemma single_ct_lemma (a b : Fin (2 * r + k + 1)) (c : ℂ) :
     (Matrix.single a b c)ᴴ = Matrix.single b a (star c) := by

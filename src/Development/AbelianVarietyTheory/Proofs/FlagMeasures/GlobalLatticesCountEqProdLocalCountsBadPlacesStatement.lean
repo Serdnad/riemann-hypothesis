@@ -1,5 +1,7 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.FlagMeasures.FrameDualUnipotentGroupActsUnitriangularOnto
+import Development.AbelianVarietyTheory.Proofs.FlagMeasures.IsUnimodularOfLocalStandardLatticeTranslates
 public import Formalism.SharpRestriction.CuspSpanNormBounds.IsTermOver
 public import Formalism.LocalRingCardinality.DataHost
 public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.AtBase
@@ -413,16 +415,7 @@ lemma Fj_le_flag {H : HermSp M V} {r : ℕ} (Fr : FrameD H r) (j : ℕ) : Fr.Fj 
 
 lemma last_mem_perp {H : HermSp M V} {r : ℕ} (Fr : FrameD H r) :
     Fr.f (Fin.last r) ∈ H.perp (H.X Fr.f) := by
-  intro x hx
-  have : H.h x (Fr.f (Fin.last r)) = 0 := by
-    induction hx using Submodule.span_induction with
-    | mem x hx =>
-      obtain ⟨a, rfl⟩ := hx
-      exact Fr.h_iso _ _ (Or.inl (Fin.castSucc_lt_last a).ne)
-    | zero => exact H.h_zero_left _
-    | add x y _ _ hx hy => rw [H.h_add_left, hx, hy, add_zero]
-    | smul c x _ hx => rw [H.h_smul_left, hx, mul_zero]
-  rw [H.h_herm, this, map_zero]
+  first | exact _root_.GlobalTheory.LocOver.UnipOnto.z_perp | exact @_root_.GlobalTheory.LocOver.UnipOnto.z_perp | apply _root_.GlobalTheory.LocOver.UnipOnto.z_perp <;> assumption
 
 lemma lowers_of_mem_NSet {H : HermSp M V} {r : ℕ} (Fr : FrameD H r) {n : V ≃ₗ[E] V} (hn : n ∈ Fr.NSet) :
     Lowers Fr.f n := by
@@ -688,38 +681,11 @@ variable {F : Type} [Field F] [ValuativeRel F] [TopologicalSpace F]
   {M : Model F E} {V : Type} [AddCommGroup V] [Module E V]
 
 theorem N_unitary (H : HermSp M V) {r : ℕ} (Fr : FrameD H r) : ∀ n ∈ Fr.N, IsUnitary H n := by
-  intro n hn
-  induction hn using Subgroup.closure_induction with
-  | mem x hx => exact hx.1
-  | one => intro a b; rfl
-  | mul x y _ _ hx hy => intro a b; rw [LinearEquiv.mul_apply, LinearEquiv.mul_apply, hx, hy]
-  | inv x _ hx =>
-    intro a b
-    have hxx : ∀ v, x (x⁻¹ v) = v := fun v => by rw [← LinearEquiv.mul_apply, mul_inv_cancel]; rfl
-    rw [← hx (x⁻¹ a) (x⁻¹ b), hxx, hxx]
+  first | exact _root_.GlobalTheory.Unfold.StdDual.N_unitary | exact @_root_.GlobalTheory.Unfold.StdDual.N_unitary | apply _root_.GlobalTheory.Unfold.StdDual.N_unitary <;> assumption
 
 theorem frame_mem_lamStd (H : HermSp M V) {r : ℕ} (Fr : FrameD H r) (L : Submodule M.L.O (H.Wb Fr.f))
     (hL : Fr.IsInner L) (b : Fin (r + 1)) : Fr.f b ∈ Fr.LamStd L := by
-  apply Submodule.subset_span
-  obtain ⟨-, -, xz, hxz, hxzL, -⟩ := hL
-  induction b using Fin.lastCases with
-  | last =>
-    have h1 : ∀ a, H.h (Fr.f (Fin.last r)) (Fr.es a) = 0 := fun a => by
-      rw [H.h_herm (Fr.es a), Fr.h_sz, map_zero]
-    have h2 : ∀ a : Fin r, H.h (Fr.f (Fin.last r)) (Fr.e a) = 0 := fun a =>
-      Fr.h_iso _ _ (Or.inr (Fin.castSucc_lt_last a).ne)
-    refine ⟨fun a => by rw [h1]; exact M.L.O.zero_mem, fun a => by rw [h2]; exact M.L.O.zero_mem, xz, ?_, hxzL⟩
-    simp [FrameD.prF, h1, h2, hxz, FrameD.z]
-  | cast a =>
-    have h1 : ∀ c, H.h (Fr.f a.castSucc) (Fr.es c) = if a = c then 1 else 0 := fun c => Fr.h_es a c
-    have h2 : ∀ c : Fin r, H.h (Fr.f a.castSucc) (Fr.e c) = 0 := fun c =>
-      Fr.h_iso _ _ (Or.inl (Fin.castSucc_lt_last a).ne)
-    refine ⟨fun c => ?_, fun c => by rw [h2]; exact M.L.O.zero_mem, 0, ?_, by simp⟩
-    · rw [h1]; split_ifs
-      · exact M.L.O.one_mem
-      · exact M.L.O.zero_mem
-    · have h2' : ∀ c : Fin r, H.h (Fr.f a.castSucc) (Fr.f c.castSucc) = 0 := h2
-      simp [FrameD.prF, h1, h2', FrameD.e]
+  first | exact _root_.GlobalTheory.LocOver.WitChange.frame_mem | exact @_root_.GlobalTheory.LocOver.WitChange.frame_mem | apply _root_.GlobalTheory.LocOver.WitChange.frame_mem <;> assumption
 
 theorem noDefect_gen (H : HermSp M V) {r : ℕ} (P : FPair H r) (hR : P.RelG (theta M)) (hP : P.PrimeTo)
     (d : Datum P) (t : Term V M r) (ht : IsTermOver P d t) : ¬ BBne (H := H) t := by

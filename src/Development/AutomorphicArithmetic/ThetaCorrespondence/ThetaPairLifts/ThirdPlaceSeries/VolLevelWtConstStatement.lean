@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.UnitaryHeckeOperatorLevelIndicatorEqInvIndex
 public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.ContinuousLocHom
 public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.IsOpenKerUnramMulTame
 public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.ExistsFiniteAdeleProjectionIntegralReduction
@@ -1473,19 +1474,7 @@ theorem relIndex_eq_prod_of_pi {ι : Type} [Fintype ι] {G : Type} [Group G] {M 
     (φ : G →* ((i : ι) → M i)) (Up U : Subgroup G) (K H : ∀ i, Subgroup (M i))
     (hK : ∀ g ∈ Up, ∀ i, φ g i ∈ K i) (hs : ∀ x : (i : ι) → M i, (∀ i, x i ∈ K i) → ∃ g ∈ Up, φ g = x)
     (hU : ∀ g, g ∈ U ↔ g ∈ Up ∧ ∀ i, φ g i ∈ H i) : U.relIndex Up = ∏ i, (H i).relIndex (K i) := by
-  let ψ : Up →* ((i : ι) → K i) :=
-    { toFun := fun g i => ⟨φ g.1 i, hK g.1 g.2 i⟩
-      map_one' := by ext i; simp
-      map_mul' := by intro x y; ext i; simp }
-  have hψ : Function.Surjective ψ := by
-    intro x
-    obtain ⟨g, hg, e⟩ := hs (fun i => (x i).1) (fun i => (x i).2)
-    exact ⟨⟨g, hg⟩, by ext i; simp [ψ, e]⟩
-  have e : U.subgroupOf Up = (Subgroup.pi Set.univ fun i => (H i).subgroupOf (K i)).comap ψ := by
-    ext g
-    simp [Subgroup.mem_subgroupOf, Subgroup.mem_pi, hU, g.2, ψ]
-  rw [Subgroup.relIndex, e, Subgroup.index_comap_of_surjective _ hψ, index_pi_univ']
-  rfl
+  first | exact _root_.GlobalTheory.BCT.HopLev2.relIndex_eq_prod | exact @_root_.GlobalTheory.BCT.HopLev2.relIndex_eq_prod | apply _root_.GlobalTheory.BCT.HopLev2.relIndex_eq_prod <;> assumption
 
 end VolMid
 

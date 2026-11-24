@@ -57,6 +57,7 @@ import Mathlib.Tactic.Basify
 import Mathlib.Tactic.ENatToNat
 import Development.WeilBound.RepresentationTheoryGL.RegularisedSiegelWeil.HermitianCellMeasures.CellAbs
 import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.IdemElt
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.FiniteBadScalar
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AutomorphicSpectrum.Proofs.BlockDecomposition.CellConditionsOfSmulEq, Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ContinuousUnipotentBlockFamily, Development.AutomorphicSpectrum.Proofs.BlockDecomposition.IsBUnique, Development.AutomorphicSpectrum.Proofs.BlockDecomposition.IsNMapAdd, Development.AutomorphicSpectrum.Proofs.BlockDecomposition.LowerDiagonalOfUpperTriangularBlock, Development.AutomorphicSpectrum.Proofs.BlockDecomposition.MulNBlockInr, Development.AutomorphicSpectrum.Proofs.BlockDecomposition.StandardSymplecticFormSqNegOne, Development.AutomorphicSpectrum.Proofs.BlockDecomposition.UnitOfRetract, Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ContinuousOnTau
@@ -80,14 +81,7 @@ namespace GlobalTheory.CompanionTheory.MuC
 variable {D : D7} {p : ℕ}
 
 theorem isIdem_mul_self_right {S : Finset (Pl D)} {e : AE D} (he : IsIdem S e) : e * e = e := by
-  have h : e * e - e = 0 := by
-    refine GlobalTheory.CompanionTheory.AdeleComp.eq_zero_of_comps D _ (fun w => ?_) (fun v => ?_)
-    · rw [RingHom.map_sub, RingHom.map_mul, he.1 w, mul_one, sub_self]
-    · rw [RingHom.map_sub, RingHom.map_mul, he.2 v]
-      split_ifs
-      · rw [mul_one, sub_self]
-      · rw [mul_zero, sub_self]
-  exact sub_eq_zero.1 h
+  apply _root_.GlobalTheory.CompanionTheory.MoveCell.idem_mul <;> assumption
 
 theorem entry_sub_one_of_bc {B : Type} [CommRing B] (φ : AE D →+* B) {u : G D p}
     (h : Formalism.UG.bc φ (GlobalTheory.AdelicU.matHom (AF D.host.F) D.sp.cm.sig (Jst D p) u) = 1)

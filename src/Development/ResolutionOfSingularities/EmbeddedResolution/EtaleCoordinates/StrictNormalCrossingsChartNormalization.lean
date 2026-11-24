@@ -47,6 +47,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.TypeStar
 import Std.Tactic.BVDecide.Normalize.Prop
+import Development.WeilBound.CoreStatements.ResolutionCharZero.ExistsFinsetComapProdIdealEqSpanProdCoord
 
 @[expose] public section
 
@@ -107,25 +108,7 @@ private theorem restrictIdeal_eq_top_of_le_basicOpen {X : Scheme.{u}} {U : X.Ope
     (hU : IsAffineOpen U) (I : X.IdealSheafData) (f : Γ(X, U))
     (hI : I.ideal ⟨U, hU⟩ = Ideal.span {f}) {V : X.Opens} (hVb : V ≤ X.basicOpen f) :
     restrictIdeal I V = ⊤ := by
-  have hbU : X.basicOpen f ≤ U := X.basicOpen_le f
-  have hVU : V ≤ U := hVb.trans hbU
-  rw [restrictIdeal_eq_comap_ι]
-  refine eq_top_of_forall_ideal_eq_top _ ?_
-  intro Wa
-  have e : (Wa : (V.toScheme).Opens) ≤ V.ι ⁻¹ᵁ U := fun x _ => hVU x.2
-  have e' : (Wa : (V.toScheme).Opens) ≤ V.ι ⁻¹ᵁ X.basicOpen f := fun x _ => hVb x.2
-  rw [Scheme.IdealSheafData.comap_ideal_eq_span_image I V.ι ⟨U, hU⟩ Wa e {f} hI,
-    Set.image_singleton, Ideal.span_singleton_eq_top]
-  have hfac : V.ι.appLE U (Wa : (V.toScheme).Opens) e
-      = X.presheaf.map (homOfLE hbU).op ≫
-        V.ι.appLE (X.basicOpen f) (Wa : (V.toScheme).Opens) e' := by
-    rw [Scheme.Hom.map_appLE]
-  have hcp : ((X.presheaf.map (homOfLE hbU).op ≫
-        V.ι.appLE (X.basicOpen f) (Wa : (V.toScheme).Opens) e').hom) f
-      = (V.ι.appLE (X.basicOpen f) (Wa : (V.toScheme).Opens) e').hom
-          ((X.presheaf.map (homOfLE hbU).op).hom f) := rfl
-  rw [hfac, hcp]
-  exact IsUnit.map _ (X.toRingedSpace.isUnit_res_basicOpen f)
+  apply _root_.PositivityTheory.ResPlug.BlowupCentre.restrictIdeal_eq_top_of_le_basicOpen <;> assumption
 
 private def complOrderEmbInv (m : ℕ) (S : Finset (Fin m)) (t : Fin m) : Option (Fin (m - S.card)) :=
   if h : t ∈ S then none else some (Classical.choose (exists_complOrderEmb_eq m S h))

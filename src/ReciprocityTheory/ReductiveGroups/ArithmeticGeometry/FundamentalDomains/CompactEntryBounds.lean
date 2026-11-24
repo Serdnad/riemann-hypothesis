@@ -105,42 +105,13 @@ theorem entry_bound {τ : E →+* ℂ} {Y : Matrix (Fin r) (Fin r) ℂ} (hY : Y.
 
 theorem comp_le_Qy (y : X.Ψ → Matrix (Fin r) (Fin r) ℂ) (τ : X.Ψ) (p : Fin r → E) (b : Fin r) :
     X.c τ * ‖((y τ)⁻¹ *ᵥ Data.emb τ.1 p) b‖ ^ 2 ≤ QuadraticLatticeForms.Qy X y p := by
-  unfold QuadraticLatticeForms.Qy
-  have hc : ∀ τ' : X.Ψ, 0 ≤ X.c τ' := fun τ' => by unfold Data.c; positivity
-  calc X.c τ * ‖((y τ)⁻¹ *ᵥ Data.emb τ.1 p) b‖ ^ 2
-      ≤ X.c τ * ∑ a, ‖((y τ)⁻¹ *ᵥ Data.emb τ.1 p) a‖ ^ 2 :=
-        mul_le_mul_of_nonneg_left (Finset.single_le_sum
-          (f := fun a => ‖((y τ)⁻¹ *ᵥ Data.emb τ.1 p) a‖ ^ 2) (fun a _ => by positivity)
-          (Finset.mem_univ b)) (hc τ)
-    _ ≤ _ := Finset.single_le_sum
-          (f := fun τ' => X.c τ' * ∑ a, ‖((y τ')⁻¹ *ᵥ Data.emb τ'.1 p) a‖ ^ 2)
-          (fun τ' _ => mul_nonneg (hc τ') (by positivity)) (Finset.mem_univ τ)
+  apply GlobalTheory.FlagMahler.comp_le_Qy <;> assumption
 
 theorem comb_bound (y : X.Ψ → Matrix (Fin r) (Fin r) ℂ) (τ : X.Ψ) {ι : Type} [Fintype ι]
     (q : ι → ℚ) (f : ι → Fin r → E) (b : Fin r) :
     ‖((y τ)⁻¹ *ᵥ Data.emb τ.1 (∑ i, q i • f i)) b‖ ≤
       ∑ i, ‖(q i : ℂ)‖ * (1 + QuadraticLatticeForms.Qy X y (f i) / X.c τ) := by
-  have hcpos : 0 < X.c τ := by
-    unfold Data.c
-    have := (map_ne_zero τ.1).2 X.ξ0_ne
-    positivity
-  have hemb : Data.emb τ.1 (∑ i, q i • f i) = ∑ i, (q i : ℂ) • Data.emb τ.1 (f i) := by
-    funext a
-
-    simp [Data.emb, map_sum, Finset.sum_apply, Rat.smul_def, map_mul, map_ratCast]
-  have hlin : ((y τ)⁻¹ *ᵥ Data.emb τ.1 (∑ i, q i • f i)) b =
-      ∑ i, (q i : ℂ) * ((y τ)⁻¹ *ᵥ Data.emb τ.1 (f i)) b := by
-    rw [hemb, Matrix.mulVec_sum, Finset.sum_apply]
-    simp [Matrix.mulVec_smul]
-  rw [hlin]
-  refine (norm_sum_le _ _).trans (Finset.sum_le_sum fun i _ => ?_)
-  rw [norm_mul]
-  refine mul_le_mul_of_nonneg_left ?_ (norm_nonneg _)
-  have h1 := comp_le_Qy X y τ (f i) b
-  have h2 : ‖((y τ)⁻¹ *ᵥ Data.emb τ.1 (f i)) b‖ ^ 2 ≤ QuadraticLatticeForms.Qy X y (f i) / X.c τ := by
-    rw [le_div_iff₀ hcpos]
-    linarith
-  nlinarith [sq_nonneg (‖((y τ)⁻¹ *ᵥ Data.emb τ.1 (f i)) b‖ - 1)]
+  apply GlobalTheory.FlagMahler.comb_bound <;> assumption
 
 def Kset (R : ℝ) : Set (Frame X.Ψ r) :=
   {w | ∀ τ : X.Ψ, gram τ.1 X.Gm (mat w τ) = diagonal (fun a : Fin r => ((sgn X.p0 (a : ℕ) : ℝ) : ℂ)) ∧

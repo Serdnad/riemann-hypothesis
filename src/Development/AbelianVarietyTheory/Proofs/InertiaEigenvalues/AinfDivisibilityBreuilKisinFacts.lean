@@ -41,6 +41,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.BreuilKisinFlatRadiusIdealFacts
 
 @[expose] public section
 
@@ -94,15 +95,7 @@ theorem flat_ne : bk.flat ≠ 0 := by
   rw [cc_E, h, zero_pow bk.deg_pos.ne']
 
 theorem flat_not_unit : ¬ IsUnit bk.flat := by
-  intro h
-  have h1 : IsUnit (bk.ev bk.E) := by
-    refine GlobalTheory.Per.AinfComplete.witt_isUnit _ ?_
-    rw [cc_E]; exact h.pow _
-  have h2 : Per.θ l (bk.ev bk.E) = 0 := by
-    rw [← RingHom.mem_ker, ← bk.span_ev]; exact Ideal.mem_span_singleton_self _
-  have := h1.map (Per.θ l)
-  rw [h2] at this
-  exact not_isUnit_zero this
+  apply _root_.GlobalTheory.BSP.FlatDisc.not_isUnit_flat <;> assumption
 
 theorem flat_nil : IsNilpotent (Perfection.coeff (ModP (OC l) l) l 0 bk.flat) :=
   GlobalTheory.Per.AinfComplete.nilpotent_of_not_isUnit l _ fun h =>

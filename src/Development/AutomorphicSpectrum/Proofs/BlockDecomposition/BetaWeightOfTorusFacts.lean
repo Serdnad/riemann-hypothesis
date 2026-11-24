@@ -44,6 +44,7 @@ import Mathlib.Tactic.ReduceModChar
 import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.HolomorphicFunctionFacts
 
 @[expose] public section
 
@@ -60,16 +61,7 @@ attribute [local instance] Matrix.normedAddCommGroup Matrix.normedSpace
 variable {n : ℕ}
 
 lemma isOpen_omegaSet (n : ℕ) : IsOpen (OmegaSet n) := by
-  have h : OmegaSet n = ⋂ i : Fin n, {z | lead ((i : ℕ) + 1) z ≠ 0} := by
-    ext z
-    simp [OmegaSet]
-  rw [h]
-  refine isOpen_iInter_of_finite fun i => ?_
-  have hc : Continuous fun z : Matrix (Fin n) (Fin n) ℂ => lead ((i : ℕ) + 1) z := by
-    have hi : (i : ℕ) + 1 ≤ n := i.2
-    simp only [lead, dif_pos hi]
-    exact (continuous_id.matrix_submatrix _ _).matrix_det
-  exact isOpen_ne_fun hc continuous_const
+  apply _root_.GlobalTheory.CompanionTheory.HolOm.isOpen_OmegaSet <;> assumption
 
 lemma differentiableAt_of_mem {F : Matrix (Fin n) (Fin n) ℂ → ℂ} (hF : F ∈ OmF n)
     {z : Matrix (Fin n) (Fin n) ℂ} (hz : z ∈ OmegaSet n) : DifferentiableAt ℂ F z :=

@@ -84,13 +84,7 @@ theorem coeff_subst_congr {g h : PowerSeries R} {a : MvPowerSeries σ R}
     (ha : MvPowerSeries.constantCoeff a = 0) (e : σ →₀ ℕ)
     (hgh : ∀ k ≤ e.degree, coeff k g = coeff k h) :
     MvPowerSeries.coeff e (g.subst a) = MvPowerSeries.coeff e (h.subst a) := by
-  classical
-  have hs : PowerSeries.HasSubst a := PowerSeries.HasSubst.of_constantCoeff_zero ha
-  rw [PowerSeries.coeff_subst hs, PowerSeries.coeff_subst hs]
-  refine finsum_congr fun k => ?_
-  by_cases hk : k ≤ e.degree
-  · rw [hgh k hk]
-  · rw [coeff_subst_congr_lemma ha k e (by omega), smul_zero, smul_zero]
+  apply _root_.Formalism.L2.Th1.C.IntegralMvPolynomialLemmas.coeff_subst_congr <;> assumption
 
 theorem pderiv_subst_coe (p : Polynomial R) {a : MvPowerSeries σ R}
     (ha : MvPowerSeries.constantCoeff a = 0) (i : σ) :

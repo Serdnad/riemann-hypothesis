@@ -1,5 +1,6 @@
 module
 
+import ReciprocityTheory.L2DbarEstimates.HormanderEstimate.HStatementOf
 public import ReciprocityTheory.L2DbarEstimates.MinimalSolutions.MinimalSolutionStatement
 public import ReciprocityTheory.L2DbarEstimates.MinimalSolutions.MinimalSolution
 public import ReciprocityTheory.L2DbarEstimates.SkodaWeights.SkodaWeightStatement
@@ -131,18 +132,7 @@ theorem near_continuous_vsq {M : Type*} [TopologicalSpace M] {p : ℕ} (g : Fin 
 
 theorem near_continuous_of_smoothR {M : Type*} [TopologicalSpace M] (n : ℕ) (z : M → V n)
     (hz : IsLocalHomeomorph z) (f : M → ℝ) (hf : SmoothR n z f) : Continuous f := by
-  have hc : Continuous (fun x => (f x : ℂ)) := by
-    rw [continuous_iff_continuousAt]
-    intro x
-    obtain ⟨e, hx, he⟩ := hz x
-    have hch : IsChart n z e := fun y _ => by rw [he]
-    have h1 := (hf e hch).continuousOn.continuousAt (e.open_target.mem_nhds (e.map_source hx))
-    have h2 : ContinuousAt (((fun y => (f y : ℂ)) ∘ e.symm) ∘ e) x :=
-      ContinuousAt.comp (f := e) h1 (e.continuousAt hx)
-    refine h2.congr ?_
-    filter_upwards [e.open_source.mem_nhds hx] with y hy
-    simp [e.left_inv hy]
-  exact (Complex.continuous_re.comp hc).congr fun x => by simp
+  apply ReciprocityTheory.L2DbarEstimates.F.continuous_of_smoothReal <;> assumption
 
 theorem near_smooth_slice {M : Type*} [TopologicalSpace M] [T2Space M] (n : ℕ) (z : M → V n)
     (hz : IsLocalHomeomorph z) {p : ℕ} (g : Fin p → M → ℂ) (hg : ∀ l, Holo n z (g l))

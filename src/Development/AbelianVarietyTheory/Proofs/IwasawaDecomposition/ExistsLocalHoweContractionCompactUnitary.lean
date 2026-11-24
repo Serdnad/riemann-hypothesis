@@ -65,6 +65,7 @@ import Mathlib.Tactic.Linter.Style
 import Mathlib.Tactic.Linter.HaveILetI
 import ReciprocityTheory.DualLattices.FischerSmulRight
 import Std.Tactic.BVDecide.Normalize.Prop
+import Development.AbelianVarietyTheory.Proofs.FlagMeasures.RightDerivativeSmoothOnIndefiniteUnitaryGroup
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsJointHighestWeightLeadingMinorProduct, Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsIntertwinerIrreducibleUnitaryHighestWeight, Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsUnitaryGroupIntertwinerOfHighestWeightPoly, Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsTensorTypesIntertwinerMatrixPolynomials, Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsLocalHoweContractionCompactUnitary
@@ -223,14 +224,7 @@ attribute [local instance] Matrix.linftyOpNormedRing Matrix.linftyOpNormedAlgebr
 
 theorem hasDerivAt_exp_line {n : ℕ} (X : Matrix (Fin n) (Fin n) ℂ) (i j : Fin n) :
     HasDerivAt (fun t : ℝ => NormedSpace.exp ((t : ℂ) • X) i j) (X i j) 0 := by
-  have h := hasDerivAt_exp_smul_const (𝕂 := ℝ) X (0 : ℝ)
-  let L : Matrix (Fin n) (Fin n) ℂ →ₗ[ℝ] ℂ :=
-    { toFun := fun x => x i j
-      map_add' := fun x y => rfl
-      map_smul' := fun c x => rfl }
-  have h2 := (LinearMap.toContinuousLinearMap L).hasFDerivAt.comp_hasDerivAt 0 h
-  simp only [zero_smul, NormedSpace.exp_zero, one_mul] at h2
-  exact h2
+  apply _root_.GlobalTheory.RightDerivSmooth.hasDerivAt_exp_entry <;> assumption
 
 end
 

@@ -1,5 +1,7 @@
 module
 
+
+import Formalism.HermitianCurvature.HermitianCurvatureProofs.TheoremPIntegralOfPlaces
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.TendstoRatioPow
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.GermLocTail
 import Mathlib.Algebra.Order.Floor.Extended
@@ -45,7 +47,6 @@ import Mathlib.Topology.Sheaves.Init
 import Mathlib.Algebra.Ring.IsFormallyReal
 import Mathlib.RingTheory.WittVector.IsPoly
 import Mathlib.Tactic.ReduceModChar
-
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Formalism.HermitianCurvature.HermitianCurvatureProofs.GermLocalOfRealised, Formalism.HermitianCurvature.HermitianCurvatureProofs.GermLocalOfFibres
 
@@ -263,16 +264,7 @@ def GermFibres (S : C.HidaSetting E Wp Wq) (v : Fin S.f) : Prop :=
 
 theorem integrable_of_decay {φ : ℂ → ℂ} (hφ : Continuous φ) {Cφ : ℝ}
     (h : ∀ c : ℂ, ‖φ c‖ ≤ Cφ * ((1 + ‖c‖) ^ 3)⁻¹) : Integrable φ := by
-  have hg : Integrable (fun c : ℂ => (1 + ‖c‖) ^ (-(3 : ℝ))) := by
-    apply integrable_one_add_norm
-    rw [Complex.finrank_real_complex]
-    norm_num
-  have e : ∀ c : ℂ, (1 + ‖c‖) ^ (-(3 : ℝ)) = ((1 + ‖c‖) ^ 3)⁻¹ := fun c => by
-    rw [Real.rpow_neg (by positivity)]
-    norm_cast
-  refine (hg.const_mul Cφ).mono' hφ.aestronglyMeasurable (ae_of_all _ fun c => ?_)
-  rw [e]
-  exact h c
+  apply _root_.Formalism.FourierDecayAlt.P.JCx1.needs.integrable_of_decay <;> assumption
 
 def FibreGerm.toGermReal {S : C.HidaSetting E Wp Wq} {v : Fin S.f} {ε : ℝ} {b s : ℕ} {a : List C.Letter}
     {Y : Finset C.LPt} (R : FibreGerm S v ε b s a Y) (hI : JC.ThmPIntPlace S v fun i => KB.dlB S i 1)

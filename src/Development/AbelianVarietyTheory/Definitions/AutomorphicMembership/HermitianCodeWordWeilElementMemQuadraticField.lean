@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ProdMinorsMemInv
 public import Formalism.LocalToGlobal.Divisibility.CoefMod
 public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.TensorPlaceNorm
 public import Formalism.LocalToGlobal.Columns.ScaledRamifiedLattice
@@ -93,18 +94,7 @@ theorem fockS_re_nonneg {σ : Type} (f : MvPolynomial σ ℂ) : 0 ≤ (fockS f f
   rw [h, Complex.ofReal_re]; exact hr
 
 theorem fockS_re_pos' {σ : Type} {f : MvPolynomial σ ℂ} (hf : f ≠ 0) : 0 < (fockS f f).re := by
-  have : (fockS f f).re = ∑ m ∈ f.support, ‖f.coeff m‖ ^ 2 * (mfact m : ℝ) := by
-    have e : fockS f f = ((∑ m ∈ f.support, ‖f.coeff m‖ ^ 2 * (mfact m : ℝ) : ℝ) : ℂ) := by
-      unfold fockS
-      push_cast
-      refine Finset.sum_congr rfl fun m _ => ?_
-      rw [← Complex.conj_mul']
-      rfl
-    rw [e, Complex.ofReal_re]
-  rw [this]
-  refine Finset.sum_pos (fun m hm => mul_pos (pow_pos (norm_pos_iff.mpr (mem_support_iff.mp hm)) 2) ?_)
-    (support_nonempty.mpr hf)
-  exact_mod_cast Finset.prod_pos fun k _ => Nat.factorial_pos _
+  apply _root_.GlobalTheory.MinorFrame.fockS_self_re_pos <;> assumption
 
 theorem fockS_conj_symm {σ : Type} (f g : MvPolynomial σ ℂ) : (starRingEnd ℂ) (fockS g f) = fockS f g := by
   classical

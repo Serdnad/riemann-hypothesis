@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.ExistsGrpPullbackThick
 import Development.AbelianVarietyTheory.Proofs.FormalGroupCharts.PrimitiveIsoGPassesToPullback
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.IsMonHomOfMul
 import Mathlib.Algebra.Order.Floor.Extended
@@ -77,22 +78,7 @@ theorem exists_pmaps {w : LB.Iso L' (L.pull F)} (hw : PGen w) (hL : L.IsLB) (hL'
     {φ' : K → (Y' ⟶ X')} {φ : K → (Y ⟶ X)} {ε : K → ℤ} (h : Y' ⟶ Y) (hc : ∀ k, φ' k ≫ F = h ≫ φ k)
     (t : LB.Gen (LB.LinComb L φ ε)) (ht : t.IsGen) :
     ∃ a : LB.Gen (LB.LinComb L' φ' ε), a.IsGen ∧ PMaps w φ' φ ε a t h := by
-  have key : ∀ (ψ : K → (Y' ⟶ X)) (_ : ∀ k, φ' k ≫ F = ψ k) (t₀ : LB.Gen (LB.LinComb L ψ ε)), t₀.IsGen →
-      ∃ a : LB.Gen (LB.LinComb L' φ' ε), a.IsGen ∧
-      ∀ (Z : Scheme.{0}) (r : Z ⟶ Y') (z : Z) (p : K → L.ι) (q : K → L'.ι),
-        r z ∈ LB.wchart L ψ p → r z ∈ LB.wchart L' φ' q →
-        gm r z (LB.wchart L ψ p) (t₀.s p) = pw w φ' ε r z p q * gm r z (LB.wchart L' φ' q) (a.s q) := by
-    intro ψ hψ t₀ h₀
-    obtain rfl : (fun k => φ' k ≫ F) = ψ := funext hψ
-    exact exists_down_units hw hL hL' t₀ h₀
-  obtain ⟨a, ha, hv⟩ := key _ hc (LB.pullGen L φ ε t h) (pullGen_isGen _ _ _ _ ht h)
-  refine ⟨a, ha, fun Z r z p q hp hq => ?_⟩
-  have hm : r z ∈ LB.wchart L (fun k => h ≫ φ k) p := Set.mem_iInter.2 fun k => by
-    show φ k (h (r z)) ∈ L.U (p k)
-    rw [pt_eq hc]; exact hp k
-  refine Eq.trans ?_ (hv Z r z p q hm (Set.mem_iInter.2 hq))
-  exact ((gm_res r z _ hm _).trans (gm_pull r h z (LB.wchart L φ p)
-    (Set.mem_iInter.2 fun k => Set.mem_iInter.1 hm k) _)).symm
+  first | exact _root_.GlobalTheory.TorusCoordPull.exists_pmaps | exact @_root_.GlobalTheory.TorusCoordPull.exists_pmaps | apply _root_.GlobalTheory.TorusCoordPull.exists_pmaps <;> assumption
 
 theorem val_pmaps {w : LB.Iso L' (L.pull F)} {φ' : K → (Y' ⟶ X')} {φ : K → (Y ⟶ X)} {ε : K → ℤ} {h : Y' ⟶ Y}
     (hc : ∀ k, φ' k ≫ F = h ≫ φ k) {a : LB.Gen (LB.LinComb L' φ' ε)} {t : LB.Gen (LB.LinComb L φ ε)}

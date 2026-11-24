@@ -296,35 +296,7 @@ theorem emb_move (hι : HSpace.IsIsomEmb A B ι) {γ : GA D B} {h : GA D A} (hγ
 
 theorem conj_NSet (d : BesselDatum A B ι) {γ : GA D B} {h h' : GA D A} (hγ : EmbRel B A ι γ h)
     (hγ' : EmbRel B A ι γ⁻¹ h') {n : GA D B} (hn : n ∈ d.NSet) : γ * n * γ⁻¹ ∈ d.NSet := by
-  have hsum : ∀ c : Fin d.ρ → AE D, (mt B γ).mulVec (∑ l, c l • vecA B (d.e l)) = ∑ l, c l • vecA B (d.e l) := by
-    intro c
-
-    rw [← Matrix.mulVecLin_apply, map_sum]
-    refine Finset.sum_congr rfl fun l _ => ?_
-    rw [map_smul, Matrix.mulVecLin_apply, emb_fix hγ (d.eA l)]
-  refine ⟨fun i => ?_, fun x hx => ?_⟩
-  · obtain ⟨c, hc, e⟩ := hn.1 i
-    refine ⟨c, hc, ?_⟩
-    unfold actV at e ⊢
-    rw [mulVec_mul, mulVec_mul, emb_fix hγ' (d.eA i), e, Matrix.mulVec_add, emb_fix hγ (d.eA i), hsum]
-  · obtain ⟨t, ht⟩ := emb_move d.isom hγ' x
-    obtain ⟨c, e⟩ := hn.2 x hx
-    choose a ha using fun k => hn.2 (ι (A.frame k)) fun i => hD_swap_zero (d.eA i _)
-    unfold actV at e ha ⊢
-    have e2 : (mt B n).mulVec (iA ι t) = iA ι t + ∑ l, (∑ k, t k * a k l) • vecA B (d.e l) := by
-
-      rw [iA, frameMat_eq, eMat_mulVec, ← Matrix.mulVecLin_apply, map_sum]
-      simp only [map_smul, Matrix.mulVecLin_apply, ha, smul_add, Finset.sum_add_distrib, Finset.smul_sum,
-        Finset.sum_smul, smul_smul]
-      rw [Finset.sum_comm]
-    refine ⟨fun l => c l + ∑ k, t k * a k l, ?_⟩
-    have e3 : (mt B n).mulVec ((mt B γ⁻¹).mulVec (vecA B x)) =
-        (mt B γ⁻¹).mulVec (vecA B x) + ∑ l, (c l + ∑ k, t k * a k l) • vecA B (d.e l) := by
-      rw [ht, Matrix.mulVec_add, e, e2]
-      simp only [add_smul, Finset.sum_add_distrib]
-      abel
-    rw [mulVec_mul, mulVec_mul, e3, Matrix.mulVec_add]
-    exact congrArg₂ (· + ·) (mulVec_cancel_inv γ (vecA B x)) (hsum fun l => c l + ∑ k, t k * a k l)
+  apply _root_.GlobalTheory.BesselConvDefinite.conj_mem_NSet <;> assumption
 
 theorem conj_N (d : BesselDatum A B ι) {γ : GA D B} {h h' : GA D A} (hγ : EmbRel B A ι γ h)
     (hγ' : EmbRel B A ι γ⁻¹ h') : ∀ n ∈ d.N, γ * n * γ⁻¹ ∈ d.N := by

@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.FlagMeasures.UnipotentLeviRadicalCoordsHomeomorph
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.IsotropicLeviEmbeddingHomomorphismProperties
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.IsotropicStabilizerRadicalStructure
 public import Mathlib.LinearAlgebra.Eigenspace.Zero
@@ -232,16 +233,7 @@ theorem cont_upper (r : ℕ) : Continuous (upper : (UT r → ℂ) → Matrix (Fi
   split_ifs <;> fun_prop
 
 theorem cont_uEmb (k r : ℕ) : Continuous fun x : UT r → ℂ => uEmb k r (upper x) := by
-  have hi : Continuous fun x : UT r → ℂ => (upper x)⁻¹ := by
-    have : (fun x : UT r → ℂ => (upper x)⁻¹) = fun x => (upper x).adjugate := by
-      funext x; rw [Matrix.inv_def, det_upper]; simp
-    rw [this]; exact (cont_upper r).matrix_adjugate
-  refine continuous_pi fun i => continuous_pi fun j => ?_
-  unfold uEmb
-  split_ifs
-  · exact (cont_upper r).matrix_elem _ _
-  · exact (hi.matrix_elem _ _).star
-  all_goals exact continuous_const
+  apply _root_.GlobalTheory.Amp.NCoord.cont_uEmb <;> assumption
 
 theorem cont_pOf (k r : ℕ) : Continuous (pOf k r) := by
   refine continuous_pi fun i => continuous_pi fun j => ?_

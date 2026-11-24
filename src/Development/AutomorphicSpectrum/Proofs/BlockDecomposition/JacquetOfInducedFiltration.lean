@@ -1287,26 +1287,8 @@ include hγ hp in
 theorem det_adLie_levi :
     (LinearEquiv.det (adLie k N γ p) : kˣ) =
       ∏ a, GeneralLinearGroup.det (g a) ^ modExp m' a := by
-  have key := prod_le_pairs (fun a => GeneralLinearGroup.det (g a)) (fun a => Fintype.card (m' a))
-  apply Units.ext
-  rw [det_adLie_eq, (adCoord_blockTriangular g p hp).det,
-    Finset.prod_subset (Finset.subset_univ _) (fun x _ hx => ?hz)]
-  case hz =>
-    haveI : IsEmpty {s : ParabolicIndex N γ // parabolicBlockPair e' γ s = x} :=
-      ⟨fun s => hx (Finset.mem_image.mpr ⟨s.1, Finset.mem_univ _, s.2⟩)⟩
-    exact Matrix.det_isEmpty
-  rw [← Equiv.prod_comp toLex, Fintype.prod_prod_type]
-  change _ = ((∏ a, GeneralLinearGroup.det (g a) ^ ((∑ b with a < b, (Fintype.card (m' b) : ℤ)) -
-    ∑ b with b < a, (Fintype.card (m' b) : ℤ)) : kˣ) : k)
-  rw [← key, Units.coe_prod]
-  refine Finset.prod_congr rfl fun a _ => ?_
-  rw [Units.coe_prod]
-  refine Finset.prod_congr rfl fun c _ => ?_
-  by_cases hac : a ≤ c
-  · rw [if_pos hac, block_det_of_le hγ g p hp hac, ← Matrix.GeneralLinearGroup.val_det_apply,
-      ← Matrix.GeneralLinearGroup.val_det_apply, map_inv, Units.val_mul, Units.val_pow_eq_pow_val,
-      Units.val_pow_eq_pow_val]
-  · rw [if_neg hac, block_det_of_not_le hγ p hac, Units.val_one]
+  intros
+  apply _root_.GlobalTheory.CompanionTheory.DeltaLevi.det_adLie_levi <;> assumption
 
 end DetAd
 

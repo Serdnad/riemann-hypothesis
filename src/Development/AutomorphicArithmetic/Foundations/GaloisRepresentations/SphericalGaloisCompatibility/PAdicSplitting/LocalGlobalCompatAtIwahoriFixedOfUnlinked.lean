@@ -1,5 +1,6 @@
 module
 
+public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.SphericalGaloisCompatibility.PAdicSplitting.PRecCharsWithArtin
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.CharpolyFromTrace.NumberField
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.CharpolyFromTrace.GoodLiftAlt
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.InertiaQuadraticRamification.ThreeApartOf
@@ -416,10 +417,7 @@ namespace GlobalTheory.ConjUnder
 theorem complexConj_algebraMap {K M : Type} [Field K] [NumberField K] [IsCMField K] [Field M] [NumberField M] [IsCMField M]
     [Algebra K M] (x : K) :
     IsCMField.complexConj M (algebraMap K M x) = algebraMap K M (IsCMField.complexConj K x) := by
-  obtain ⟨j⟩ : Nonempty (M →+* ℂ) := inferInstance
-  apply j.injective
-  rw [IsCMField.complexEmbedding_complexConj M j]
-  exact (IsCMField.complexEmbedding_complexConj K (j.comp (algebraMap K M)) x).symm
+  apply _root_.GlobalTheory.RealNormChar.conj_algebraMap <;> assumption
 
 theorem cPl_asIdeal {E : Type} [Field E] [NumberField E] [IsCMField E] (w : HeightOneSpectrum (𝓞 E)) :
     (UpperTheory.V.Af.Bc.cPl w).asIdeal =
@@ -1034,26 +1032,11 @@ open UpperTheory.Gal.ToralGalois.R2
 theorem UpperTheory.Gal.ToralGalois.R2.recChars :
     UpperTheory.Gal.InertialTypesAlt.SuppIne → RecChars := by
   intro hSI M Ω _ _ _ _ _ A u h n T ξ hξ hsup
-  haveI : CharZero (u.adicCompletion M) := charZero_of_injective_algebraMap (algebraMap M _).injective
-  have hsupx : HasSupport (IrrGL.of T.ρ T.smooth T.irred).rep (chars ξ hξ) :=
-    hsup.of_equiv (IrrGL.equivOf T.ρ T.smooth T.irred)
-  have hnu := GlobalTheory.RoadU.TwistSupp.supp_nu_chars (u.adicCompletion M) (IrrGL.of T.ρ T.smooth T.irred) n ξ
-    (fun j => ξ j * absPow _ (((1 - (n : ℝ)) / 2 : ℝ) : ℂ))
-    hξ (fun j => (hξ j).mul (GlobalTheory.LocGL.isSmoothChar_absPow _)) (((1 - (n : ℝ)) / 2 : ℝ) : ℂ) (fun _ => rfl)
-  refine ⟨fun hun => ⟨_, hnu.1.1 hsupx, fun y hy => ?_, hnu.2.1 hun⟩, fun rc hrc a ha t => ?_⟩
-  · obtain ⟨j, -, rfl⟩ := Multiset.mem_map.1 hy
-    rfl
-  · have hSI' := hSI M Ω A u h rc hrc _ _ hsupx t
-    obtain ⟨a₀, ha₀, L⟩ := hrc
-    obtain rfl : a₀ = a := (UpperTheory.Zero.LLC.artEx M Ω A u h).unique ha₀ ha
-    have e : algNorm T = (IrrGL.of T.ρ T.smooth T.irred).nu (((1 - (n : ℝ)) / 2 : ℝ) : ℂ) := rfl
-    have h1 : ∀ j, (rc (IrrGL.ofChar (ξ j) (hξ j))).inePol (t : G M Ω) = X - C ((ξ j (a₀ (ineIncl h t)) : ℂˣ) : ℂ) := by
-      intro j
-      rw [WD.inePol_of_mem_Ine _ t.2, L.one, WD.lpOfChar, WD.charPol_mk, WDRep.ofChars_ρ, charpoly_diagEnd]
-      simp
-    rw [← WD.inePol_of_mem_Ine _ t.2, e, L.nu, GlobalTheory.RoadU.DepthZeroRec.inePol_lpTw_of_mem_Ine _ _ t.2, hSI', chars,
-      Multiset.map_map]
-    exact congrArg Multiset.prod (Multiset.map_congr rfl fun j _ => h1 j)
+  obtain ⟨hplain, hcmp⟩ := recCharsWithArtin hSI M Ω A u h n T ξ hξ hsup
+  refine ⟨hplain, fun rc hrc a ha => ?_⟩
+  obtain ⟨a', ha', hcp⟩ := hcmp rc hrc
+  obtain rfl : a' = a := (UpperTheory.Zero.LLC.artEx M Ω A u h).unique ha' ha
+  exact hcp
 end -- clump:auto
 end -- clump:auto
 -- ===== end clump member: Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.SphericalGaloisCompatibility.PAdicSplitting.PRecChars =====
@@ -1112,9 +1095,11 @@ private theorem dvd_of_support {k : Type} [Field k] [ValuativeRel k] [Topologica
   rw [h2, Fintype.card_fin] at h3
   exact Nat.dvd_factorial h1 h3
 
-theorem UpperTheory.Gal.ToralGalois.R2.toTor :
-    UpperTheory.Gal.InertialTypesAlt.SuppBC → UpperTheory.Gal.NearKilling.UnrField → UpperTheory.Gal.NearKilling.AllLift → UpperTheory.Gal.NearKilling.IneNorm → InfLifts → RecChars → UpperTheory.Zero.LLC.RecTExists → ToTor := by
-  intro hSupp hUnr hLift hIne hInf hChars hRec E Ω _ _ _ _ _ _ l _ ι n hn π χ hs r hr w σ hσ hQ hM A h rc hrc
+theorem UpperTheory.Gal.ToralGalois.R2.toTor_of_lifts :
+    UpperTheory.Gal.InertialTypesAlt.SuppBC → UpperTheory.Gal.NearKilling.UnrField →
+    UpperTheory.Gal.NearKilling.AllLift → InfLifts → RecCharsWithArtin →
+    UpperTheory.Zero.LLC.RecTExists → ToTor := by
+  intro hSupp hUnr hLift hInf hChars hRec E Ω _ _ _ _ _ _ l _ ι n hn π χ hs r hr w σ hσ hQ hM A h rc hrc
   obtain ⟨p, hp, i, hi⟩ := hQ
   haveI := hp
   obtain ⟨hq, hsp⟩ := split_of_padic w p i hi
@@ -1130,27 +1115,38 @@ theorem UpperTheory.Gal.ToralGalois.R2.toTor :
   have hXfix := (hXw A h).1
   have hnorm := (hXw A h).2 w' h'
   obtain ⟨σ', hσ', -⟩ := LocEx.exists_isLocComp GlobalTheory.automorphicFormsFiniteGL Xf.K n P w'
-  obtain ⟨art, hart⟩ := GlobalTheory.localArtinExists_holds E Ω A w h
-  obtain ⟨art', hart'⟩ := GlobalTheory.localArtinExists_holds Xf.K Ω A w' h'
-  obtain ⟨g, hg1, -⟩ := hIne E Xf.K Ω A w w' h h' hXfix art art' hart hart'
+  -- The same automorphism acts over the larger field because inertia fixes it.
+  let g (t : Ine (F := E) A) : Ine (F := Xf.K) A :=
+    ⟨{ (t : G E Ω) with commutes' := hXfix t t.2 }, t.2⟩
   obtain ⟨ξ, hξ, hT, hU⟩ := hSupp E Ω n hn π { K := Xf.K, π := P } hPL A w w' h h' p i hi hXfix σ σ' hσ hσ' hM.1 n.factorial
     (by rw [hnorm, hq]) (fun s hs y hy => dvd_of_support _ s hs y hy)
   obtain ⟨-, hTS, hTP⟩ := id hT
   obtain ⟨rc', hrc'⟩ := hRec Xf.K Ω A w' h'
-  have hCh := hChars Xf.K Ω A w' h' n σ' ξ hξ hTS
+  obtain ⟨hplain, hcmp⟩ := hChars Xf.K Ω A w' h' n σ' ξ hξ hTS
+  obtain ⟨art', hart', hcp⟩ := hcmp rc' hrc'
   have hB : ∀ s : ↥(Ine (F := E) A), (rc (IrrGL.of σ.ρ σ.smooth σ.irred)).inePol (s : G E Ω) =
-      ∏ j, (X - C ((ξ j (art' (ineIncl h' (g s))) : ℂˣ) : ℂ)) := fun s => by
-    have := hTP rc hrc art' hart' (g s)
-    rwa [show AlgEquiv.restrictScalars E ((g s : ↥(Ine (F := Xf.K) A)) : G Xf.K Ω) = (s : G E Ω) from hg1 s] at this
-  refine ⟨Xf, P, χ', w', h', σ', rc', hPs, hPr ι r hr, hInf E Ω n hn π { K := Xf.K, π := P } hPL, hσ', hCh.1 (hU hM), hrc',
-    fun t => ⟨g t, fun z => ?_, ?_⟩⟩
-  · exact (DFunLike.congr_fun (hg1 t) z).symm
-  · rw [hCh.2 rc' hrc' art' hart' (g t)]
-    obtain ⟨a₀, ha₀, L⟩ := hrc
-    have e1 : (rc (algNorm σ)).charPol (ineIncl h t) = (rc (algNorm σ)).inePol (t : G E Ω) :=
-      (WD.inePol_of_mem_Ine _ t.2).symm
-    have e2 : algNorm σ = (IrrGL.of σ.ρ σ.smooth σ.irred).nu (((1 - ((n : ℕ) : ℝ)) / 2 : ℝ) : ℂ) := rfl
-    rw [e1, e2, L.nu, GlobalTheory.RoadU.DepthZeroRec.inePol_lpTw_of_mem_Ine _ _ t.2, hB t]
+      ∏ j, (X - C ((ξ j (art' (ineIncl h' (g s))) : ℂˣ) : ℂ)) :=
+    fun s => hTP rc hrc art' hart' (g s)
+  refine ⟨Xf, P, χ', w', h', σ', rc', hPs, hPr ι r hr, hInf E Ω n hn π { K := Xf.K, π := P } hPL, hσ', hplain (hU hM), hrc',
+    fun t => ⟨g t, fun _ => rfl, ?_⟩⟩
+  rw [hcp (g t)]
+  obtain ⟨a₀, ha₀, L⟩ := hrc
+  have e1 : (rc (algNorm σ)).charPol (ineIncl h t) = (rc (algNorm σ)).inePol (t : G E Ω) :=
+    (WD.inePol_of_mem_Ine _ t.2).symm
+  have e2 : algNorm σ = (IrrGL.of σ.ρ σ.smooth σ.irred).nu (((1 - ((n : ℕ) : ℝ)) / 2 : ℝ) : ℂ) := rfl
+  rw [e1, e2, L.nu, GlobalTheory.RoadU.DepthZeroRec.inePol_lpTw_of_mem_Ine _ _ t.2, hB t]
+
+theorem UpperTheory.Gal.ToralGalois.R2.toTor :
+    UpperTheory.Gal.InertialTypesAlt.SuppBC → UpperTheory.Gal.NearKilling.UnrField →
+    UpperTheory.Gal.NearKilling.AllLift → UpperTheory.Gal.NearKilling.IneNorm →
+    InfLifts → RecChars → UpperTheory.Zero.LLC.RecTExists → ToTor :=
+  fun hSupp hUnr hLift _ hInf hChars =>
+    UpperTheory.Gal.ToralGalois.R2.toTor_of_lifts hSupp hUnr hLift hInf (by
+      intro M Ω _ _ _ _ _ A u h n T ξ hξ hsup
+      obtain ⟨hplain, hcmp⟩ := hChars M Ω A u h n T ξ hξ hsup
+      refine ⟨hplain, fun rc hrc => ?_⟩
+      have ⟨a, ha, _⟩ := hrc
+      exact ⟨a, ha, hcmp rc hrc a ha⟩)
 end -- clump:auto
 end -- clump:auto
 -- ===== end clump member: Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.SphericalGaloisCompatibility.PAdicSplitting.PToTor =====
@@ -1235,8 +1231,9 @@ section -- clump:auto
 namespace UpperTheory.Gal.ToralGalois.R2
 
 theorem toTor_holds : ToTor :=
-  toTor UpperTheory.Gal.InertialTypesAlt.suppBC_outright _root_.UpperTheory.Gal.UnramifiedFromSplittingCriterion.unrSplit_holds UpperTheory.Gal.NearKilling.allLift_holds UpperTheory.Gal.NearKilling.ineNorm
-    (infLifts (infStep UpperTheory.Gal.InertialTypesAlt.stableOf)) (recChars UpperTheory.Gal.InertialTypesAlt.suppIne) UpperTheory.Zero.LLC.recTExists
+  toTor_of_lifts UpperTheory.Gal.InertialTypesAlt.suppBC_outright
+    _root_.UpperTheory.Gal.UnramifiedFromSplittingCriterion.unrSplit_holds UpperTheory.Gal.NearKilling.allLift_holds
+    (infLifts (infStep UpperTheory.Gal.InertialTypesAlt.stableOf)) (recCharsWithArtin UpperTheory.Gal.InertialTypesAlt.suppIne) UpperTheory.Zero.LLC.recTExists
 
 theorem localGlobalCompatAtIwahoriFixed_of_unlinked : GlobalTheory.DeRhamOfPlainTorus.R1 → LocalGlobalCompatAtIwahoriFixedPlaces := r2g mixedOf toTor_holds drDesc UpperTheory.Zero.LLC.recTExists
 

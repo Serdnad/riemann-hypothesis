@@ -202,11 +202,6 @@ theorem exists_local_lift_toSpec_of_isLocallyGeneratedByNonZeroDivisor {R : Type
     exists_lift_affineBlowup I ((W.basicOpen (d i)).ι ≫ g) (a i) hgen' hnonZeroDiv'
   exact ⟨W.basicOpen (d i), hi, h, hh⟩
 
-private def openCoverOfForallMem {W : Scheme.{u}} (U : ↥W → W.Opens) (hU : ∀ w, w ∈ U w) :
-    W.OpenCover :=
-  Scheme.Cover.mkOfCovers (↥W) (fun w => (U w).toScheme) (fun w => (U w).ι)
-    (fun x => ⟨x, ⟨x, hU x⟩, rfl⟩)
-
 theorem exists_lift_toSpec_of_isLocallyGeneratedByNonZeroDivisor {R : Type u} [CommRing R] (I : Ideal R)
     {W : Scheme.{u}} (g : W ⟶ Spec (CommRingCat.of R))
     (hcart : IsLocallyGeneratedByNonZeroDivisor ((specIdealSheaf I).comap g)) :
@@ -229,9 +224,12 @@ theorem exists_lift_toSpec_of_isLocallyGeneratedByNonZeroDivisor {R : Type u} [C
         simp [Scheme.IdealSheafData.comap_comp]
       rw [h1, h2]
       exact IsLocallyGeneratedByNonZeroDivisor.comap_of_isOpenImmersion hcart _
-  refine ⟨(openCoverOfForallMem U hU).glueMorphisms h (fun x y => hcompat x y), ?_⟩
-  refine (openCoverOfForallMem U hU).hom_ext _ _ fun x => ?_
-  rw [← Category.assoc, (openCoverOfForallMem U hU).ι_glueMorphisms h (fun x y => hcompat x y) x]
+  let cover : W.OpenCover :=
+    Scheme.Cover.mkOfCovers (↥W) (fun w => (U w).toScheme) (fun w => (U w).ι)
+      (fun x => ⟨x, ⟨x, hU x⟩, rfl⟩)
+  refine ⟨cover.glueMorphisms h hcompat, ?_⟩
+  refine cover.hom_ext _ _ fun x => ?_
+  rw [← Category.assoc, cover.ι_glueMorphisms h hcompat x]
   exact hh x
 
 theorem isBlowupAlongIdealSheaf_affineBlowup_toSpec {R : Type u} [CommRing R] (I : Ideal R) :

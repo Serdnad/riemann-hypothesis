@@ -272,32 +272,7 @@ theorem integral_chg (T : CDVR) (io : c.F →+* T.Fr) : letI := io.toAlgebra
     ∀ (y y' : FrPt Xo c T.Fr) (k : ∀ τ : E →+* ℂ, Matrix (Fin (Dw.mult τ)) (Fin (Dw.mult τ)) T.V) (a : T.Vˣ),
       (∀ τ, IsUnit (k τ).det) → FrChg (fun τ => (k τ).map (algebraMap T.V T.Fr)) (algebraMap T.V T.Fr a) y y' →
       Integral T io y → Integral T io y' := by
-  let _ := io.toAlgebra
-  intro y y' k a hk ⟨hx, hu, pm, h1, h2, h3⟩ hy
-  have hk' : ∀ τ, IsUnit (k τ).transpose.det := fun τ => by rw [Matrix.det_transpose]; exact hk τ
-  have hK : ∀ τ, IsUnit ((k τ).transpose.map (algebraMap T.V T.Fr)).det := fun τ => by
-    have e : ((k τ).transpose.map (algebraMap T.V T.Fr)).det = algebraMap T.V T.Fr (k τ).transpose.det :=
-      (RingHom.map_det _ _).symm
-    rw [e]
-    exact (hk' τ).map _
-  have hr := GlobalTheory.IntRebase.integral_reb T io y hy (fun τ => (k τ).transpose) hk' hK
-  obtain ⟨zx, zo, zu, zt, ze, zb, zs, zg⟩ := y'
-  simp only at hx
-  subst hx
-  have eu : zu = (GlobalTheory.IntRebase.rebase₂ y _ hK).u := by
-    funext τ i
-    exact Formalism.L2.PjFree.isCombAt_unique (hu τ i)
-      ((GlobalTheory.IntRebase.isCombAtG_iff Xo.univ.t y.x (fun j => GlobalTheory.IntRebase.ovT (t := Xo.univ.t) (y.tan τ j)) _ _).2 rfl)
-  subst eu
-  have ep : pm = 𝟙 _ := by
-    apply pullback.hom_ext
-    · refine h2.trans ?_
-      simp only [spMap, CommRingCat.ofHom_id, Spec.map_id, Category.id_comp]
-      rfl
-    · exact h1.trans (Category.id_comp _).symm
-  subst ep
-  refine integral_scal T io (GlobalTheory.IntRebase.rebase₂ y _ hK) a zs zg (fun i => ?_) hr
-  exact (h3 i le_rfl).symm.trans (GlobalTheory.IntRebase.id_appLE_apply _ _ _ _)
+  apply _root_.GlobalTheory.Reg.GenInt.integral_chg <;> assumption
 
 theorem integral_of_frChg : ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (H : Host E) (Dw : Datum H) (l : Level H) (Xo : Moduli Dw l) (c : Coeff l) (T : CDVR) (io : c.F →+* T.Fr) (g : ∀ τ : E →+* ℂ, Matrix (Fin (Dw.mult τ)) (Fin (Dw.mult τ)) T.V) (s : T.V), (∀ τ, IsUnit (g τ).det) → IsUnit s → letI := io.toAlgebra; ∀ y y' : FrPt Xo c T.Fr, FrChg (fun τ => (g τ).map (algebraMap T.V T.Fr)) (algebraMap T.V T.Fr s) y y' → Integral T io y → Integral T io y' := by
   intro E _ _ _ H Dw l Xo c T io g s hg hs y y' h hy

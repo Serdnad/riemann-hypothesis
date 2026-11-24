@@ -5,6 +5,7 @@ public import Development.ResolutionOfSingularities.EmbeddedResolution.IdealPrin
 public import Development.ResolutionOfSingularities.EmbeddedResolution.IdealPrincipalization.MonomialCase.LexOrderEncoding
 public import Development.ResolutionOfSingularities.EmbeddedResolution.IdealPrincipalization.MonomialCase.MonomialCenter
 import Development.ResolutionOfSingularities.Foundations.Blowup.BlowupCoproduct
+import Mathlib.Data.List.Lex
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -395,28 +396,7 @@ theorem minIndexCard_pullbackOverField_eq_zero_or_centerInvariant_le (hGeom : Mo
       sortedIndices B := by
     rw [← hBim]
     exact sortedIndices_image_pullbackIndex T Y k' q g B
-  have htrich : ∀ (a b : List ℕ), List.Lex (· < ·) a b ∨ a = b ∨ List.Lex (· < ·) b a := by
-    intro a
-    induction a with
-    | nil =>
-      intro b
-      cases b with
-      | nil => exact Or.inr (Or.inl rfl)
-      | cons _ _ => exact Or.inl List.Lex.nil
-    | cons x xs ih =>
-      intro b
-      cases b with
-      | nil => exact Or.inr (Or.inr List.Lex.nil)
-      | cons y ys =>
-        rcases lt_trichotomy x y with h | h | h
-        · exact Or.inl (List.Lex.rel h)
-        · subst y
-          rcases ih ys with h | h | h
-          · exact Or.inl (List.Lex.cons h)
-          · exact Or.inr (Or.inl (congrArg (List.cons x) h))
-          · exact Or.inr (Or.inr (List.Lex.cons h))
-        · exact Or.inr (Or.inr (List.Lex.rel h))
-  rcases htrich
+  rcases trichotomous_of (List.Lex (· < ·) : List ℕ → List ℕ → Prop)
       (sortedIndices (lexMaxIndices T.ideal T.mult T.boundary))
       (sortedIndices (lexMaxIndices (T.pullbackOverField Y k' q g).ideal
         (T.pullbackOverField Y k' q g).mult (T.pullbackOverField Y k' q g).boundary)) with

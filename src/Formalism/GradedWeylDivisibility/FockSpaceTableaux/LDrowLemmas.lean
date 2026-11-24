@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.ExistsDominantHighestVectorOfLtStable
 public import Formalism.GradedWeylDivisibility.StatementA
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -101,19 +102,6 @@ lemma ldrow_coeff_rowAct_diag {R : Type*} [CommRing R] {k n : ℕ} (t : Fin k �
 
 lemma ldrow_weight_rowW {k n : ℕ} (m : Fin k × Fin n →₀ ℕ) (a : Fin k) :
     Finsupp.weight (rowW k n) m a = rowDeg m a := by
-  classical
-  rw [Finsupp.weight_apply, Finsupp.sum_fintype m (fun i c => c • rowW k n i) (fun i => zero_smul ℕ _),
-    Finset.sum_apply,
-    Fintype.sum_prod_type]
-  unfold rowDeg
-  rw [Finset.sum_eq_single a]
-  · refine Finset.sum_congr rfl (fun s _ => ?_)
-    simp [rowW]
-  · intro b _ hb
-    apply Finset.sum_eq_zero
-    intro s _
-    simp [rowW, Ne.symm hb]
-  · intro h
-    exact absurd (Finset.mem_univ a) h
+  apply _root_.GlobalTheory.Alc.HighestVec.weight_rowW_apply <;> assumption
 
 end Formalism.GradedWeylDivisibility

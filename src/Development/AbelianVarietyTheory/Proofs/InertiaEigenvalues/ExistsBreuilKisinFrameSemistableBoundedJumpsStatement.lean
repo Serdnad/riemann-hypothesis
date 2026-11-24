@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.FrobeniusEquationOfTwistedCocycleDefectStatement
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.TrivIsCr
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.AcrisTorsionFreeComplete
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.AdaptedBasisThetaGaloisFixedPolesStatement
@@ -246,24 +247,8 @@ namespace GlobalTheory.BSP.RegularPeriodsFiltration
 theorem mul_comm_of_regular {R : Type} [CommRing R] {d : ℕ} {A B : Matrix (Fin d) (Fin d) R} {c : R}
     (hc : ∀ y, c * y = 0 → y = 0) (h : A * B = c • (1 : Matrix (Fin d) (Fin d) R)) :
     B * A = c • (1 : Matrix (Fin d) (Fin d) R) := by
-  have hcn : ∀ (n : ℕ) y, c ^ n * y = 0 → y = 0 := by
-    intro n
-    induction n with
-    | zero => intro y hy; simpa using hy
-    | succ n ih => intro y hy; exact ih y (hc _ (by rw [← mul_assoc, ← pow_succ']; exact hy))
-  have hdet : A.det * B.det = c ^ d := by
-    rw [← Matrix.det_mul, h, Matrix.det_smul, Matrix.det_one, mul_one, Fintype.card_fin]
-  have hreg : ∀ y, A.det * y = 0 → y = 0 := fun y hy =>
-    hcn d y (by rw [← hdet, mul_comm A.det, mul_assoc, hy, mul_zero])
-  have h1 : A.det • B = c • A.adjugate := by
-    rw [← Matrix.one_mul B, ← Matrix.smul_mul, ← Matrix.adjugate_mul, Matrix.mul_assoc, h, Matrix.mul_smul,
-      Matrix.mul_one]
-  have h2 : A.det • (B * A) = A.det • (c • (1 : Matrix (Fin d) (Fin d) R)) := by
-    rw [← Matrix.smul_mul, h1, Matrix.smul_mul, Matrix.adjugate_mul, smul_smul, smul_smul, mul_comm]
-  ext i j
-  have := congrFun (congrFun h2 i) j
-  simp only [Matrix.smul_apply, smul_eq_mul] at this ⊢
-  exact sub_eq_zero.1 (hreg _ (by rw [mul_sub, this, sub_self]))
+  intros
+  apply _root_.GlobalTheory.FrobeniusDefect.mul_comm_of_nzd <;> assumption
 
 end GlobalTheory.BSP.RegularPeriodsFiltration
 

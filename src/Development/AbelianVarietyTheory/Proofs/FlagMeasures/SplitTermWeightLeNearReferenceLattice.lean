@@ -5,6 +5,7 @@ public import Formalism.HermitianLattices.StatementMass
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.ExistsIntegerAddStarEqOneOfIsCMUnram
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.FlagPairDefiniteThetaLatticeLeFixedIndexBound
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.HermFramePairCommonUnipotentStabiliserSummary
+import all Development.AbelianVarietyTheory.Proofs.FlagMeasures.HermFramePairCommonUnipotentStabiliserSummary
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.InvVolEqInfMulSupAndMono
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.HermFramePairInnerLatticesUnimodularPrimitive
 public import Mathlib.NumberTheory.NumberField.Basic
@@ -1352,16 +1353,7 @@ theorem inN_map_mem_of_le (F : FlagD H r) {g : V →ₗ[K] V} (hg : F.InN g) {S 
 
 theorem unipotent_map_mem_V0 (F F' : FlagD H r) {g : V →ₗ[K] V} (hg : F.InN g) (hg' : F'.InN g) :
     ∀ x ∈ V0 F F', g x ∈ V0 F F' := by
-  have h1 := inN_map_mem_of_le F hg (S := V0 F F') (le_sup_left.trans le_sup_left)
-    (Submodule.mem_sup_right (Submodule.subset_span (by simp)))
-  have h2 := inN_map_mem_of_le F' hg' (S := V0 F F') (le_sup_right.trans le_sup_left)
-    (Submodule.mem_sup_right (Submodule.subset_span (by simp)))
-  have : V0 F F' ≤ (V0 F F').comap g := by
-    refine sup_le (sup_le h1.1 h2.1) (Submodule.span_le.2 ?_)
-    rintro _ (rfl | rfl)
-    · exact h1.2
-    · exact h2.2
-  exact fun x hx => this hx
+  apply _root_.GlobalTheory.UnipStab.hermFramePairCommonUnipotent_maps_span_lemma_9 <;> assumption
 
 end
 

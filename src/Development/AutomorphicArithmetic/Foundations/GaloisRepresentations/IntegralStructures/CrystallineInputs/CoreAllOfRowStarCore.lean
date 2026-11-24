@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.SatakeParameters.IsSplitAtOfDegOne
 public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.IsWeight
 public import Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms₂.ExistsSpanFormsNeBot
 public import Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms₂.ExistsUniqueHcharOfFiniteOrder
@@ -150,25 +151,7 @@ namespace GlobalTheory.GalCut
 
 theorem exists_place_dvd_prime {K : Type} [Field K] [NumberField K] (l : ℕ) [hl : Fact l.Prime] :
     ∃ w : HeightOneSpectrum (𝓞 K), ((l : ℕ) : 𝓞 K) ∈ w.asIdeal := by
-  have hP : (Ideal.span {(l : ℤ)}).IsPrime :=
-    (Ideal.span_singleton_prime (by exact_mod_cast hl.out.ne_zero)).2 (Nat.prime_iff_prime_int.1 hl.out)
-  obtain ⟨Q, -, hQ, hQc⟩ := Ideal.exists_ideal_over_prime_of_isIntegral (S := 𝓞 K) (Ideal.span {(l : ℤ)}) ⊥
-    (by
-      intro x hx
-      have : x = 0 := (algebraMap ℤ (𝓞 K)).injective_int (by simpa using hx)
-      simp [this])
-  have hmem : ((l : ℕ) : 𝓞 K) ∈ Q := by
-    have : (l : ℤ) ∈ Q.comap (algebraMap ℤ (𝓞 K)) := by
-      change (l : ℤ) ∈ Ideal.under ℤ Q
-      rw [hQc]
-      exact Ideal.mem_span_singleton_self _
-    simpa using this
-  have hne : Q ≠ ⊥ := by
-    rintro rfl
-    have h0 : ((l : ℕ) : 𝓞 K) = 0 := by simpa using hmem
-    have : ((l : ℕ) : 𝓞 K) ≠ 0 := by exact_mod_cast hl.out.ne_zero
-    exact this h0
-  exact ⟨⟨Q, hQ, hne⟩, hmem⟩
+  first | exact _root_.GlobalTheory.CongEx.exists_place_over | exact @_root_.GlobalTheory.CongEx.exists_place_over | apply _root_.GlobalTheory.CongEx.exists_place_over <;> assumption
 
 theorem continuous_tw_of_continuous {Γ : Type} [Group Γ] [TopologicalSpace Γ] [IsTopologicalGroup Γ] {k : Type} [Field k] [TopologicalSpace k]
     [IsTopologicalRing k] {n : ℕ} {r : Γ →* GL (Fin n) k} {μ : Γ →* kˣ} (hr : Continuous r) (hμ : Continuous μ) :

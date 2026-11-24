@@ -414,56 +414,10 @@ theorem coverU (lev : Fin n → ℕ) (E : Fin n → Fin n → Module.End ℂ V) 
       GlRel EY ∧ Function.Surjective π ∧ (∀ a b y, π (EY a b y) = E a b (π y)) ∧
       ∀ (j : ℕ) (x : Cn n Y), SuppIn (inU lev) x → CompanionTheory.RgExh.U.Deg (j + 1) x → bd (allT n) EY x = 0 →
         ∃ t : Cn n Y, SuppIn (inU lev) t ∧ CompanionTheory.RgExh.U.Deg (j + 2) t ∧ bd (allT n) EY t = x := by
-  obtain ⟨Z, _, _, M, χ, z₀, a, d, Fil, hM, h1, h0, hF⟩ := free_all n n
-  let S : ℕ → Set (V ⊗[ℂ] Z) := fun k => {t | ∃ v z, z ∈ Fil k ∧ t = v ⊗ₜ z}
-  have hin : ∀ {k : ℕ} (v : V) {z : Z}, z ∈ Fil k → v ⊗ₜ[ℂ] z ∈ Submodule.span ℂ (S k) :=
-    fun v _ hz => Submodule.subset_span ⟨_, _, hz, rfl⟩
-  have hmap : ∀ (T : Module.End ℂ (V ⊗[ℂ] Z)) (k : ℕ) (Q : Submodule ℂ (V ⊗[ℂ] Z)),
-      (∀ v z, z ∈ Fil k → T (v ⊗ₜ z) ∈ Q) → ∀ t ∈ Submodule.span ℂ (S k), T t ∈ Q := by
-    intro T k Q h
-    refine fun t ht => (Submodule.span_le (p := Q.comap T)).2 ?_ ht
-    rintro _ ⟨v, z, hz, rfl⟩
-    exact h v z hz
-  have hm : Monotone fun k => Submodule.span ℂ (S k) := fun k l hkl =>
-    Submodule.span_mono (by rintro _ ⟨v, z, hz, rfl⟩; exact ⟨v, z, hF.mono hkl hz, rfl⟩)
-  have hG : GlRel fun c e => ((E c e).rTensor Z + (M c e).lTensor V : Module.End ℂ (V ⊗[ℂ] Z)) :=
-    fun a b c d => kRel_tens (ε := allT n) (fun a b c d _ _ => hE a b c d) hM a b c d rfl rfl
-  refine ⟨V ⊗[ℂ] Z, inferInstance, inferInstance, fun c e => (E c e).rTensor Z + (M c e).lTensor V,
-    (TensorProduct.rid ℂ V).toLinearMap ∘ₗ χ.lTensor V, hG, fun v => ⟨v ⊗ₜ z₀, by simp [h1]⟩,
-    fun c e t => ?_, acycU lev _ (fun i => (a i).lTensor V) (fun i => (d i).lTensor V)
-      (fun k => Submodule.span ℂ (S k)) hG ⟨?_, ?_, ?_, hm, ?_, ?_, ?_, ?_, ?_⟩⟩
-  · induction t using TensorProduct.induction_on with
-    | zero => simp
-    | tmul v f => simp [h0]
-    | add p q hp hq => simp only [map_add (f := _), hp, hq]
-  · exact fun i j => (hF.a_comm i j).map (Module.End.lTensorAlgHom ℂ Z V)
-  · exact fun i j => (hF.d_comm i j).map (Module.End.lTensorAlgHom ℂ Z V)
-  · intro i j _
-    have := congrArg (Module.End.lTensorAlgHom ℂ Z V) (hF.da i j i.1.1.2)
-    rw [map_sub, map_mul, map_mul, apply_ite (Module.End.lTensorAlgHom ℂ Z V), map_one, map_zero] at this
-    exact this
-  · intro t
-    induction t using TensorProduct.induction_on with
-    | zero => exact ⟨0, Submodule.zero_mem _⟩
-    | tmul v z =>
-      obtain ⟨k, hk⟩ := hF.exh z
-      exact ⟨_, hin v hk⟩
-    | add p q hp hq =>
-      obtain ⟨k, hk⟩ := hp
-      obtain ⟨l, hl⟩ := hq
-      exact ⟨max k l, Submodule.add_mem _ (hm (le_max_left _ _) hk) (hm (le_max_right _ _) hl)⟩
-  · exact fun i k => hmap _ k _ fun v z hz => hin v (hF.a_mem i _ z hz)
-  · intro i k
-    refine hmap (((E i.1.1 i.1.2).rTensor Z + (M i.1.1 i.1.2).lTensor V) - (a i).lTensor V) k _ fun v z hz => ?_
-    have e : (((E i.1.1 i.1.2).rTensor Z + (M i.1.1 i.1.2).lTensor V) - (a i).lTensor V :
-        Module.End ℂ (V ⊗[ℂ] Z)) (v ⊗ₜ z) = E i.1.1 i.1.2 v ⊗ₜ z + v ⊗ₜ (M i.1.1 i.1.2 z - a i z) := by
-      simp only [LinearMap.sub_apply, LinearMap.add_apply, LinearMap.rTensor_tmul, LinearMap.lTensor_tmul,
-        TensorProduct.tmul_sub]
-      abel
-    rw [e]
-    exact Submodule.add_mem _ (hin _ hz) (hin _ (hF.r_mem i _ z hz))
-  · exact fun i k => hmap _ _ _ fun v z hz => hin v (hF.d_mem i _ z hz)
-  · exact fun i => hmap _ _ ⊥ fun v z hz => by simp [hF.d_zero i z hz]
+  obtain ⟨Y, _, _, EY, π, a, d, F, hRel, hSurj, hπ, hFilt⟩ :=
+    exists_filtered_tensor_cover (allT n) (inU lev) E (fun a b c d _ _ => hE a b c d)
+  have hG : GlRel EY := fun a b c d => hRel a b c d rfl rfl
+  exact ⟨Y, inferInstance, inferInstance, EY, π, hG, hSurj, hπ, acycU lev EY a d F hG hFilt⟩
 
 section Car
 

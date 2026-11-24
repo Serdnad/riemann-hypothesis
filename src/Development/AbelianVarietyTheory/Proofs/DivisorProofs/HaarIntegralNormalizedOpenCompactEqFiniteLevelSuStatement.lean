@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.SchwartzBruhatInvariantIntegralMatrixMul
 public import Development.AbelianVarietyTheory.Definitions.Divisors.IsUnifAt
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -55,24 +56,7 @@ namespace GlobalTheory.BCT.HintLevel
 
 theorem finsum_prod_fst {A T : Type} [Finite T] [Nonempty T] (f : A → ℂ) :
     ∑ᶠ x : A × T, f x.1 = (Nat.card T : ℂ) * ∑ᶠ a : A, f a := by
-  by_cases hf : (Function.support f).Finite
-  · have hg : (Function.support fun x : A × T => f x.1).Finite := by
-      refine (hf.prod (Set.finite_univ (α := T))).subset ?_
-      intro x hx
-      exact ⟨hx, Set.mem_univ _⟩
-    rw [finsum_curry _ hg, mul_finsum]
-    refine finsum_congr fun a => ?_
-    haveI := Fintype.ofFinite T
-    rw [finsum_eq_sum_of_fintype]
-    show ∑ _i : T, f a = _
-    rw [Finset.sum_const, Finset.card_univ, nsmul_eq_mul, Nat.card_eq_fintype_card]
-  · have hg : ¬ (Function.support fun x : A × T => f x.1).Finite := by
-      intro hg
-      apply hf
-      refine (hg.image Prod.fst).subset ?_
-      intro a ha
-      exact ⟨(a, Classical.arbitrary T), ha, rfl⟩
-    rw [finsum_of_infinite_support hg, finsum_of_infinite_support hf, mul_zero]
+  apply _root_.GlobalTheory.SW.LinChange.finsum_prod_fst <;> assumption
 
 theorem sum_level (H : Type) [Group H] (S L : Subgroup H) (u : H → ℂ) (hLS : L ≤ S) (hS : S ≤ rStab u)
     (hfin : L.relIndex S ≠ 0) :

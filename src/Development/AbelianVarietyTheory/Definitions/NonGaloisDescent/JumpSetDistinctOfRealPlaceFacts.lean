@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.BiInvariantEigenfunctionEqMulZonalSpherical
 import Formalism.PieriBlockIdeals.PieriColumnMinors.HeckeLFunctionIdealEulerProduct
 public import Formalism.SharpRestriction.LevelLetterCocycles.AdmissibleParameterJ
 import Mathlib.Algebra.Order.Floor.Extended
@@ -756,16 +757,7 @@ lemma jd_inj {n : ℕ} (f : Fin n → ℚ) (h : ∀ a a' : Fin n, a.1 < a'.1 →
 
 lemma jd_card_lt {m j : ℕ} (hj : j ≤ m) :
     (Finset.univ.filter (fun a : Fin m => a.1 < j)).card = j := by
-  have : Finset.univ.filter (fun a : Fin m => a.1 < j) = Finset.univ.image (Fin.castLE hj) := by
-    ext a
-    simp only [Finset.mem_filter, Finset.mem_univ, true_and, Finset.mem_image]
-    constructor
-    · intro ha
-      exact ⟨⟨a.1, ha⟩, Fin.ext rfl⟩
-    · rintro ⟨b, rfl⟩
-      simp [b.2]
-  rw [this, Finset.card_image_of_injective _ (Fin.castLE_injective hj), Finset.card_univ,
-    Fintype.card_fin]
+  first | exact _root_.GlobalTheory.CardValuationLt.card_val_lt | exact @_root_.GlobalTheory.CardValuationLt.card_val_lt | apply _root_.GlobalTheory.CardValuationLt.card_val_lt <;> assumption
 
 lemma jd_card_ge {m j : ℕ} (hj : j ≤ m) :
     (Finset.univ.filter (fun a : Fin m => j ≤ a.1)).card = m - j := by

@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.LinearIndependentSemilinearOfBasis
 public import Mathlib.Basic.Complex.Basic
 public import Mathlib.LinearAlgebra.FiniteDimensional.Defs
 public import Mathlib.LinearAlgebra.Dimension.OrzechProperty
@@ -106,16 +107,8 @@ private theorem linearIndependent_image_basis_of_linearIndependent {ι' : Type} 
 
 theorem linInd_comp {ι' : Type} [Fintype ι'] (b' : Basis ι' K' V') (hb : LinearIndependent ℂ fun i => j' (b' i))
     {κ : Type} {x : κ → V'} (hx : LinearIndependent K' x) : LinearIndependent ℂ fun k => j' (x k) := by
-  have := Module.Finite.of_basis b'
-  have hs : LinearIndepOn K' id (Set.range x) := (linearIndepOn_id_range_iff hx.injective).mpr hx
-  have : Fintype (hs.extend (Set.subset_univ _)) := by
-    have := Module.Finite.finite_basis (Basis.extend hs)
-    exact Fintype.ofFinite _
-  have he := linearIndependent_image_basis_of_linearIndependent j' b' hb (Basis.extend hs)
-  let g : κ → hs.extend (Set.subset_univ _) := fun k => ⟨x k, Basis.subset_extend hs ⟨k, rfl⟩⟩
-  have hg : Function.Injective g := fun a b h => hx.injective (congrArg Subtype.val h)
-  have h2 := he.comp g hg
-  simpa [g, Function.comp_def, Basis.coe_extend] using h2
+  intros
+  apply _root_.GlobalTheory.Mem.linearIndependent_semilinear_of_basis <;> assumption
 
 end Lin
 

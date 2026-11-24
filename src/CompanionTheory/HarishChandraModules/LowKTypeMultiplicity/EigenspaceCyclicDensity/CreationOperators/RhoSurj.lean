@@ -1,5 +1,6 @@
 module
 
+import Development.DiscreteGroups.PiInvariants.CompactSupportTwists.TraceUnique
 public import CompanionTheory.HarishChandraModules.LowKTypeMultiplicity.EigenspaceCyclicDensity.LowKMultOneP
 import Mathlib.Algebra.Module.StablyFree.Basic
 import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
@@ -27,31 +28,8 @@ variable {n : ℕ} {V : Type} [AddCommGroup V] [Module ℂ V]
 theorem burnside {A : Type} [Ring A] [Algebra ℂ A] [FiniteDimensional ℂ V] (ρ : A →ₐ[ℂ] Module.End ℂ V)
     (hnt : Nontrivial V) (hirr : ∀ W : Submodule ℂ V, (∀ a : A, ∀ w ∈ W, ρ a w ∈ W) → W = ⊥ ∨ W = ⊤) :
     Function.Surjective ρ := by
-  classical
-  letI : Module A V := Module.compHom V (ρ : A →+* Module.End ℂ V)
-  have hsm : ∀ (a : A) (x : V), a • x = ρ a x := fun _ _ => rfl
-  haveI : IsScalarTower ℂ A V := ⟨fun c a x => by simp [hsm]⟩
-  haveI : IsSimpleModule A V := by
-    rw [isSimpleModule_iff]
-    refine { eq_bot_or_eq_top := fun W => ?_ }
-    rcases hirr (W.restrictScalars ℂ) (fun a w hw => W.smul_mem a hw) with h | h
-    · left; exact (Submodule.restrictScalars_eq_bot_iff ℂ A V).1 h
-    · right; exact (Submodule.restrictScalars_eq_top_iff ℂ A V).1 h
-  have hscal : ∀ φ : Module.End A V, ∃ c : ℂ, ∀ m, φ m = c • m := by
-    intro φ
-    obtain ⟨c, hc⟩ := (IsSimpleModule.algebraMap_end_bijective_of_isAlgClosed (A := A) (V := V) ℂ).2 φ
-    exact ⟨c, fun m => by rw [← hc]; rfl⟩
-  intro f
-  let F : Module.End (Module.End A V) V :=
-    { toFun := f
-      map_add' := fun x y => by simp
-      map_smul' := fun φ m => by
-        obtain ⟨c, hc⟩ := hscal φ
-        simp only [Module.End.smul_def, RingHom.id_apply, hc, map_smul] }
-  let b := Module.finBasis ℂ V
-  obtain ⟨r, hr⟩ := jacobson_density F (Finset.univ.image b)
-  refine ⟨r, b.ext fun i => ?_⟩
-  exact (hr _ (Finset.mem_image_of_mem _ (Finset.mem_univ i))).symm
+  intros
+  apply _root_.DiscreteGroups.T1.Desc.Swap3.burnside <;> assumption
 
 def rho (ε : Fin n → Bool) (E : Fin n → Fin n → Module.End ℂ V) (L : Submodule ℂ V) (hL : KStab ε E L) :
     FreeAlgebra ℂ (Fin n × Fin n) →ₐ[ℂ] Module.End ℂ L :=

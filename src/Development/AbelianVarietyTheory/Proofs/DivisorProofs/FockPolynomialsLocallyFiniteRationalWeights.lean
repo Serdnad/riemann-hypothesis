@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsMultiplicityLiftLastChainStep
 public import Formalism.LocalRingCardinality.DataTheta
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -53,27 +54,7 @@ namespace GlobalTheory.FockPolGK
 theorem X_mul_pderiv_mem {σ : Type} (d : ℕ) (i j : σ) (P : MvPolynomial σ ℂ)
     (hP : P ∈ restrictTotalDegree σ ℂ d) :
     X i * pderiv j P ∈ restrictTotalDegree σ ℂ d := by
-  classical
-  rw [mem_restrictTotalDegree] at hP
-
-  rw [P.as_sum, map_sum, Finset.mul_sum]
-  refine Submodule.sum_mem _ fun α hα => ?_
-  have hd : (α.sum fun _ e => e) ≤ d := (le_totalDegree hα).trans hP
-  rw [pderiv_monomial]
-  by_cases h : α j = 0
-  · simp [h]
-  · rw [mem_restrictTotalDegree, X, monomial_mul]
-    refine (totalDegree_monomial_le _ _).trans (le_trans (le_of_eq ?_) hd)
-    have hα : α = Finsupp.single j 1 + (α - Finsupp.single j 1) := by
-      ext k
-      by_cases hk : k = j
-      · subst hk; simp; omega
-      · simp [hk]
-    conv_rhs => rw [hα]
-    rw [Finsupp.sum_add_index' (fun _ => rfl) (fun _ _ _ => rfl),
-      Finsupp.sum_add_index' (fun _ => rfl) (fun _ _ _ => rfl)]
-    simp
-    rfl
+  apply _root_.GlobalTheory.DefLift.ColHigh.X_mul_pderiv_mem <;> assumption
 
 theorem omE_mem {p q r s : ℕ} (d : ℕ) (l l' : Ln p q r s) (h : linePos l = linePos l')
     (P : Pol p q r s) (hP : P ∈ restrictTotalDegree (Ix p q × Ix r s) ℂ d) :

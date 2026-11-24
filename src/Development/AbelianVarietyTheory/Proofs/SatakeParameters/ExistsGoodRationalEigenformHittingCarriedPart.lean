@@ -1,5 +1,6 @@
 module
 
+import Formalism.LocalToGlobal.IndefiniteReal.PrimitiveStatementsWithPassage
 public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.NormalFam
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.WeightCocharacterEqOfGoodPlaces
 public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.GoodGeneric
@@ -69,6 +70,7 @@ import Formalism.LocalToGlobal.Divisibility.InertPartitionLePartF
 import Mathlib.LinearAlgebra.Eigenspace.Triangularizable
 import Mathlib.Tactic.ENatToNat
 import Mathlib.Tactic.Linter.HaveILetI
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.InertValuesIffInertLabelsCarriedEigensystems
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.Proofs.SatakeParameters.WeightCocharacterEqOfGoodPlacesStatement, Development.AbelianVarietyTheory.Proofs.SatakeParameters.PartsEqOfSameEigensystemThetaAdjoint, Development.AbelianVarietyTheory.Proofs.SatakeParameters.PartsEqOfSameEigensystemThetaAdjointStatement, Development.AbelianVarietyTheory.Proofs.SatakeParameters.ExistsGoodRationalEigenformHittingCarriedPart
@@ -122,14 +124,7 @@ theorem endV_ext (R : RealDat D A Ks) (hM : R.IsModels) (i : Fin D.R.m) (t : T) 
 
 theorem hkF_eq_sum (V : HSp D) {W : Type} [AddCommGroup W] [Module ℂ W] (P : Pl D.host.E) (c : List ℤ →₀ ℂ)
     (F : Bridge.Gf V → W) : hkF V P c F = c.sum fun d z => z • hkF V P (Finsupp.single d 1) F := by
-  have e : ∀ d, hkF V P (Finsupp.single d 1) F = fun h => ∑ γ ∈ rep V P d, F (h * (finHom V).rangeRestrict γ) := by
-    intro d
-    funext h
-    simp [hkF]
-  simp only [e]
-  funext g
-  simp only [Finsupp.sum, Finset.sum_apply, Pi.smul_apply]
-  rfl
+  apply _root_.GlobalTheory.InertValLab.hkF_eq_sum <;> assumption
 
 theorem hkF_nonlab (V : HSp D) {W : Type} [AddCommGroup W] [Module ℂ W] (P : Pl D.host.E) (d : List ℤ)
     (hd : ¬ IsLab V P d) (F : Bridge.Gf V → W) : hkF V P (Finsupp.single d 1) F = 0 := by
@@ -537,19 +532,8 @@ variable {K V W : Type} [Field K] [AddCommGroup V] [Module K V] [AddCommGroup W]
 
 theorem map_maxGen (j : V →ₛₗ[σ] W) (f : Module.End K V) (g : Module.End ℂ W) (h : ∀ x, j (f x) = g (j x)) (μ : K) {x : V}
     (hx : x ∈ f.maxGenEigenspace μ) : j x ∈ g.maxGenEigenspace (σ μ) := by
-  obtain ⟨k, hk⟩ := (Module.End.mem_maxGenEigenspace _ _ _).1 hx
-  refine (Module.End.mem_maxGenEigenspace _ _ _).2 ⟨k, ?_⟩
-  have hS : ∀ z, j ((f - μ • 1) z) = (g - σ μ • 1) (j z) := by
-    intro z
-    simp [h, map_sub, map_smulₛₗ]
-  have hp : ∀ (n : ℕ) (z : V), j (((f - μ • 1) ^ n) z) = ((g - σ μ • 1) ^ n) (j z) := by
-    intro n
-    induction n with
-    | zero => intro z; simp
-    | succ n ih =>
-      intro z
-      rw [pow_succ, pow_succ, Module.End.mul_apply, Module.End.mul_apply, ih, hS]
-  rw [← hp, hk, map_zero]
+  intros
+  apply _root_.Formalism.IndefR.Cx.map_maxGen <;> assumption
 
 theorem out_mem_span {s : Bool} {E : Type} [NormedAddCommGroup E] [InnerProductSpace ℂ E] {S : Set (Tw s E)} {x : Tw s E}
     (hx : x ∈ Submodule.span ℂ S) : Tw.out x ∈ Submodule.span ℂ (Tw.out '' S) := by

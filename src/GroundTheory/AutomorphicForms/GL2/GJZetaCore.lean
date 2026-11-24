@@ -156,9 +156,9 @@ theorem isLocallyConstant_of_mul_right {γ : Type*} {K : Subgroup (GL (Fin n) F)
   have := hf x (x⁻¹ * y) hy
   rwa [mul_inv_cancel_left] at this
 
-theorem exists_zeta_core [π.IsIrreducible] (hπ : IsAdmissible π)
+theorem exists_zeta_core_with_degree_bound [π.IsIrreducible] (hπ : IsAdmissible π)
     (μ : Measure (GL (Fin n) F)) [μ.IsHaarMeasure] :
-    ∃ s₀ : ℝ, ∃ D : ℂ[X], D.eval 0 = 1 ∧
+    ∃ s₀ : ℝ, ∃ D : ℂ[X], D.eval 0 = 1 ∧ D.natDegree ≤ n ∧
       ∀ Φ : Matrix (Fin n) (Fin n) F → ℂ, IsSchwartzBruhat Φ → ∀ (v : V) (ℓ : Module.Dual ℂ V),
         ℓ ∈ smoothVectors (Representation.dual π) →
         (∀ s : ℂ, s₀ < s.re → Integrable (fun g : GL (Fin n) F =>
@@ -169,8 +169,8 @@ theorem exists_zeta_core [π.IsIrreducible] (hπ : IsAdmissible π)
   classical
   obtain ⟨β, W, _, _, σ, hσirr, hσs, hσc, -, ι, hι⟩ := exists_embedding_parabolicInd (π := π) hπ.1
   have := hσirr
-  obtain ⟨s₀, D, hD0, hJ⟩ := exists_inducedZeta (β := β) hσs hσc μ
-  refine ⟨s₀, D, hD0, fun Φ hΦ v ℓ hℓ => ?_⟩
+  obtain ⟨s₀, D, hD0, hDn, hJ⟩ := exists_inducedZeta_with_degree_bound (β := β) hσs hσc μ
+  refine ⟨s₀, D, hD0, hDn, fun Φ hΦ v ℓ hℓ => ?_⟩
 
   obtain ⟨m₀, hm₀⟩ := hΦ.exists_congruence_invariant
   obtain ⟨m₁, -, hm₁⟩ := (hasBasis_nhds_one F n).mem_iff.1
@@ -366,6 +366,19 @@ theorem exists_zeta_core [π.IsIrreducible] (hπ : IsAdmissible π)
   rw [eval_mul, eval_pow, eval_X, pow_sub₀ _ (qs_ne_zero s) hle]
   field_simp
   exact (mul_div_mul_right _ _ (pow_ne_zero _ (qs_ne_zero s))).symm
+
+theorem exists_zeta_core [π.IsIrreducible] (hπ : IsAdmissible π)
+    (μ : Measure (GL (Fin n) F)) [μ.IsHaarMeasure] :
+    ∃ s₀ : ℝ, ∃ D : ℂ[X], D.eval 0 = 1 ∧
+      ∀ Φ : Matrix (Fin n) (Fin n) F → ℂ, IsSchwartzBruhat Φ → ∀ (v : V) (ℓ : Module.Dual ℂ V),
+        ℓ ∈ smoothVectors (Representation.dual π) →
+        (∀ s : ℂ, s₀ < s.re → Integrable (fun g : GL (Fin n) F =>
+          Φ (g : Matrix (Fin n) (Fin n) F) * matrixCoeff π v ℓ g * detPow g s) μ) ∧
+        ∃ (N : ℕ) (P : ℂ[X]), ∀ s : ℂ, s₀ < s.re →
+          D.eval (qs F s) * ∫ g, Φ (g : Matrix (Fin n) (Fin n) F) * matrixCoeff π v ℓ g *
+            detPow g s ∂μ = P.eval (qs F s) / qs F s ^ N := by
+  obtain ⟨s₀, D, hD₀, _, hD⟩ := exists_zeta_core_with_degree_bound hπ μ
+  exact ⟨s₀, D, hD₀, hD⟩
 
 end Core
 

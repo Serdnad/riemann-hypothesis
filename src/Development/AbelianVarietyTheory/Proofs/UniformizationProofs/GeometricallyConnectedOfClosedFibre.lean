@@ -74,16 +74,7 @@ theorem preconnectedSpace_of_functions (Y : Scheme.{0})
 theorem surjective_appTop {k : Type} [Field k] [IsAlgClosed k] {X : Scheme.{0}}
     (p : X ⟶ Spec (.of k)) [IsIntegral X] [UniversallyClosed p] :
     Function.Surjective p.appTop.hom := by
-  let F := (Scheme.ΓSpecIso (.of k)).inv ≫ p.appTop
-  have hF : F.hom.IsIntegral := by
-    apply RingHom.isIntegral_respectsIso.2 (e := (Scheme.ΓSpecIso _).symm.commRingCatIsoToRingEquiv)
-    exact isIntegral_appTop_of_universallyClosed p
-  algebraize [F.hom]
-  have h : Function.Surjective F.hom :=
-    (IsAlgClosed.algebraMap_bijective_of_isIntegral (k := k) (K := Γ(X, ⊤))).2
-  intro s
-  obtain ⟨c, hc⟩ := h s
-  exact ⟨_, hc⟩
+  apply _root_.GlobalTheory.AlgGroup.surjective_appTop <;> assumption
 
 variable {X X' : Scheme.{0}}
 

@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.CoverFormRationalDescentToBaseStatement
 public import Development.AbelianVarietyTheory.Definitions.Divisors.HtValOnSubset
 public import Development.AbelianVarietyTheory.Definitions.Divisors.MulSmulIdemMem
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsCuspOnRestrict
@@ -446,34 +447,8 @@ namespace GlobalTheory.ScalarCusp
 theorem bdd_of_definite {E : Type} [Field E] [NumberField E] [IsCMField E] {r : ℕ} (X : Data E r)
     (hp : X.p0 = 0 ∨ X.p0 = r) (la : Wt X.Ψ r) (P : Frame X.Ψ r → ℂ) (hP : X.IsSec la P) :
     ∃ C : ℝ, ∀ x ∈ X.dom, X.pnorm la P x ≤ C := by
-  obtain ⟨R, hR⟩ := GlobalTheory.orthonormal_frames_bounded_of_definite r X hp
-  let K : Set (Frame X.Ψ r) := {x | X.IsOrtho x}
-  have hKd : K ⊆ X.dom := fun x hx => PIW.FdPA.orthonormal_domain r X x hx
-  have hKc : IsClosed K := by
-    have e : K = ⋂ τ : X.Ψ, {x : Frame X.Ψ r | gram τ.1 X.Gm (mat x τ) =
-        Matrix.diagonal fun a : Fin r => ((sgn X.p0 (a : ℕ) : ℝ) : ℂ)} := by
-      ext x; simp [K, Data.IsOrtho]
-    rw [e]
-    refine isClosed_iInter fun τ => isClosed_eq ?_ continuous_const
-    unfold gram hermC col mat
-    refine continuous_pi fun a => continuous_pi fun b => ?_
-    simp only [Matrix.of_apply]
-    fun_prop
-  have hKb : Bornology.IsBounded K := by
-    rw [Metric.isBounded_iff_subset_closedBall 0]
-    refine ⟨max R 0, fun x hx => ?_⟩
-    rw [mem_closedBall_zero_iff]
-    refine (pi_norm_le_iff_of_nonneg (le_max_right _ _)).2 fun τ => ?_
-    refine (pi_norm_le_iff_of_nonneg (le_max_right _ _)).2 fun a => ?_
-    refine (pi_norm_le_iff_of_nonneg (le_max_right _ _)).2 fun b => ?_
-    exact (hR x hx τ a b).trans (le_max_left _ _)
-  obtain ⟨C, hC⟩ := (Metric.isCompact_of_isClosed_isBounded hKc hKb).exists_bound_of_continuousOn
-    (hP.1.continuousOn.mono hKd)
-  refine ⟨C, fun x hx => ?_⟩
-  obtain ⟨b, hb, ho⟩ := (orthonormalFlagTranslate_holds r X).1 x hx
-  rw [← (orthonormalFlagTranslate_holds r X).2.1 la P hP.2.1 x hx b hb,
-    ReciprocityTheory.ChartRestriction.G.PullbackSections.PfSupAtUnit.pnorm_unit X la P (ReciprocityTheory.ChartRestriction.G.PullbackSections.PfSupAtUnit.dmin_ortho X ho)]
-  exact hC _ ho
+  intros
+  apply _root_.GlobalTheory.BpfUniform.bounded_of_definite <;> assumption
 
 end GlobalTheory.ScalarCusp
 

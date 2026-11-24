@@ -1,5 +1,6 @@
 module
 
+import Formalism.LocalToGlobal.IndefiniteReal.LevelTypeEquivalence.MeasUpq
 public import Formalism.LocalToGlobal.IndefiniteReal.SubgroupCharExtensionOneApply
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.CmDataIsCMExtAndGramIsHermND
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsAdelicSplit
@@ -62,21 +63,7 @@ attribute [local instance] Formalism.BasicNotions.Host.cmStar
 namespace GlobalTheory.LevelMeasure
 
 theorem isMinf_unique {p q : ℕ} {m m' : Measure (UpqT p q)} (h : Lev.IsMinf m) (h' : Lev.IsMinf m') : m' = m := by
-  haveI := (GlobalTheory.UpqTopology.upq_lcsc p q).1
-  haveI := (GlobalTheory.UpqTopology.upq_lcsc p q).2.2.1
-  haveI := (GlobalTheory.UpqTopology.upq_lcsc p q).2.2.2.1
-  haveI := (GlobalTheory.UpqTopology.upq_lcsc p q).2.2.2.2.1
-  haveI := h.1
-  haveI := h'.1
-  have e : m' = ((Measure.haarScalarFactor m' m : NNReal) : ENNReal) • m := Measure.isMulLeftInvariant_eq_smul m' m
-  have h1 := GlobalTheory.OmegaDensityScale.omegaDensity_smul h.2 (Measure.haarScalarFactor m' m)
-  rw [← e] at h1
-  have h2 := GlobalTheory.OmegaDensityScale.omegaDensity_unique h'.2 h1
-  have h0 : minfDensity (p + q) ≠ 0 := ENNReal.inv_ne_zero.2 (ENNReal.pow_ne_top ENNReal.ofNat_ne_top)
-  have ht : minfDensity (p + q) ≠ ⊤ := ENNReal.inv_ne_top.2 (pow_ne_zero _ two_ne_zero)
-  have hc : ((Measure.haarScalarFactor m' m : NNReal) : ENNReal) = 1 :=
-    (ENNReal.mul_left_inj h0 ht).1 (h2.trans (one_mul _).symm)
-  rw [e, hc, one_smul]
+  first | exact _root_.Formalism.IndefR.Eqv.MU.isMinf_unique | exact @_root_.Formalism.IndefR.Eqv.MU.isMinf_unique | apply _root_.Formalism.IndefR.Eqv.MU.isMinf_unique <;> assumption
 
 theorem exists_isMeasLevW (D : D7) (V : HSp D) (hV : V.SigOK) (K : Subgroup (GL (Fin V.rank) (Lev.EAf D)))
     (hKo : IsOpen ((K.comap (Lev.finE V) : Subgroup (GA D V)) : Set (GA D V)))

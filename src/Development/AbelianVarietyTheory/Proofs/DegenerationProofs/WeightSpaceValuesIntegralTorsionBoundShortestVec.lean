@@ -1,5 +1,7 @@
 module
 
+
+import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.ExistsRootStalk
 public import Development.AbelianVarietyTheory.Definitions.Uniformization.TXFrame
 public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.ExpBijFAndExpandsFLin
 public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.SymmetricLiftOddOrderActsAsExpansionOperator
@@ -82,7 +84,6 @@ import Mathlib.Tactic.Basify
 import Mathlib.Tactic.ENatToNat
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.TWMain
 import Std.Tactic.BVDecide.Normalize.Prop
-
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.Proofs.DegenerationProofs.EigensectionSupport, Development.AbelianVarietyTheory.Proofs.DegenerationProofs.ExistsEquivYEqZero, Development.AbelianVarietyTheory.Proofs.DegenerationProofs.NuGeTranslatePullSmul, Development.AbelianVarietyTheory.Proofs.DegenerationProofs.WeightSpaceValuesIntegralTorsionBoundShortestVec
 
@@ -282,19 +283,7 @@ theorem pt_pow (Φ : u.Geom) (a : S.Gam) : Φ.pt (S.r • a) ^ S.N = 1 := by
 
 theorem isUnit_level (u : ρ.UTest p y₀) (hint : ∀ a : o, ‖y₀ (algebraMap o S.R a)‖ ≤ 1) :
     IsUnit ((S.r * S.N : ℕ) : u.V) := by
-  obtain ⟨b, hb⟩ := S.unit.exists_right_inv
-  have e : ((S.r * S.N : ℕ) : PadicAlgCl p) * y₀ (algebraMap o S.R b) = 1 := by
-    have := congrArg (fun a => y₀ (algebraMap o S.R a)) hb
-    simpa only [map_mul, map_natCast, map_one] using this
-  have hf : ∀ x, algebraMap (FractionRing u.V) (PadicAlgCl p) (u.yK x) = y₀ x := fun x => RingHom.congr_fun u.fac x
-  have e' : ((S.r * S.N : ℕ) : FractionRing u.V) * u.yK (algebraMap o S.R b) = 1 := by
-    apply (algebraMap (FractionRing u.V) (PadicAlgCl p)).injective
-    rw [map_mul, map_natCast, map_one, hf, e]
-  obtain ⟨w, hw⟩ := (u.norm_le (u.yK (algebraMap o S.R b))).1 (by
-    rw [hf]
-    exact hint b)
-  refine IsUnit.of_mul_eq_one w (IsFractionRing.injective u.V (FractionRing u.V) ?_)
-  rw [map_mul, map_natCast, hw, e', map_one]
+  first | exact _root_.GlobalTheory.ZH.TestVal.isUnit_level | exact @_root_.GlobalTheory.ZH.TestVal.isUnit_level | apply _root_.GlobalTheory.ZH.TestVal.isUnit_level <;> assumption
 
 theorem exists_wt_ne (l : u.Lab) [ArithBase o Ω] (β : u.D.toPre.X) (hβ : ∀ z, β ≠ S.N • z) : ∃ a, l.wt β a ≠ 0 := by
   by_contra! H

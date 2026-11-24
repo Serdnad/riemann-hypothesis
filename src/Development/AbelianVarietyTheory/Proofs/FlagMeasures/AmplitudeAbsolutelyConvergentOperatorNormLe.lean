@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.FlagMeasures.UnipotentLeviRadicalCoordsHomeomorph
 public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.BlockAnti
 public import Mathlib.Analysis.Complex.ExponentialBounds
 public import Mathlib.Analysis.Real.Sqrt
@@ -656,19 +657,7 @@ theorem hpk_unit : IsUnit (Hpk k r).det :=
   Matrix.isUnit_det_of_left_inverse (Formalism.QuantumDeterminants.hpkFacts k r).2.1
 
 theorem hpk_mulVec_e (v : Fin (2 * r + k + 1) → ℂ) (a : Fin r) : (Hpk k r *ᵥ v) (eI k r a) = v (esI k r a) := by
-  have ha := a.isLt
-  simp only [Matrix.mulVec, dotProduct]
-  rw [Finset.sum_eq_single (esI k r a)]
-  · have : Hpk k r (eI k r a) (esI k r a) = 1 := by
-      unfold Hpk; rw [if_pos]; simp only [eI, esI]; omega
-    rw [this, one_mul]
-  · intro j _ hj
-    have hj' : j.val ≠ 2 * r + k - a.val := fun h => hj (Fin.ext h)
-    have : Hpk k r (eI k r a) j = 0 := by
-      unfold Hpk
-      rw [if_neg, if_neg, if_neg] <;> simp only [eI] <;> omega
-    rw [this, zero_mul]
-  · simp
+  exact _root_.GlobalTheory.Amp.NCoord.H_e v a
 
 theorem herm_e (v : Fin (2 * r + k + 1) → ℂ) (a : Fin r) : herm (Hpk k r) v (bvec (eI k r a)) = v (esI k r a) := by
   rw [← hpk_mulVec_e v a]

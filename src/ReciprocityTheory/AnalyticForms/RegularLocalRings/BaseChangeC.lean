@@ -1,5 +1,6 @@
 module
 
+import ReciprocityTheory.AnalyticForms.RegularLocalRings.BaseChangeCB
 public import Mathlib.Algebra.Algebra.Rat
 public import Mathlib.Algebra.MvPolynomial.Eval
 public import Mathlib.Basic.Complex.Basic
@@ -22,21 +23,7 @@ noncomputable def extC (𝔭 : Ideal (MvPolynomial σ ℚ)) : Ideal (MvPolynomia
 theorem comap_of_mem_minimalPrimes_extC (𝔭 : Ideal (MvPolynomial σ ℚ)) [𝔭.IsPrime]
     (Q : Ideal (MvPolynomial σ ℂ)) (hQ : Q ∈ (extC 𝔭).minimalPrimes) :
     Q.comap (MvPolynomial.map (algebraMap ℚ ℂ)) = 𝔭 := by
-  let _ : Algebra (MvPolynomial σ ℚ) (MvPolynomial σ ℂ) := MvPolynomial.algebraMvPolynomial
-  have hflat : Module.Flat (MvPolynomial σ ℚ) (MvPolynomial σ ℂ) :=
-    BaseChangeC.flat_mvPolynomial_rat_complex
-  have hQp : Q.IsPrime := hQ.1.1
-  have hle : 𝔭 ≤ Q.comap (MvPolynomial.map (algebraMap ℚ ℂ)) := Ideal.map_le_iff_le_comap.mp hQ.1.2
-  have hPp : (Q.comap (MvPolynomial.map (algebraMap ℚ ℂ))).IsPrime := Ideal.comap_isPrime _ Q
-  have hlo : Q.LiesOver (Q.comap (MvPolynomial.map (algebraMap ℚ ℂ))) := ⟨rfl⟩
-  obtain ⟨Q', hQ'le, hQ'p, hQ'lo⟩ := Ideal.exists_ideal_le_liesOver_of_le (p := 𝔭) Q hle
-  have hQ'over : Q'.comap (MvPolynomial.map (algebraMap ℚ ℂ)) = 𝔭 := hQ'lo.over.symm
-  have hmapQ' : extC 𝔭 ≤ Q' := by
-    unfold extC
-    rw [Ideal.map_le_iff_le_comap, hQ'over]
-  have hEq : Q = Q' := le_antisymm (hQ.2 ⟨hQ'p, hmapQ'⟩ hQ'le) hQ'le
-  subst hEq
-  exact hQ'over
+  apply ReciprocityTheory.AnForm.R.BaseChangeC.comap_of_mem_minimalPrimes_map <;> assumption
 
 theorem ringKrullDim_of_mem_minimalPrimes_extC (𝔭 : Ideal (MvPolynomial σ ℚ)) [𝔭.IsPrime]
     (Q : Ideal (MvPolynomial σ ℂ)) (hQ : Q ∈ (extC 𝔭).minimalPrimes) :

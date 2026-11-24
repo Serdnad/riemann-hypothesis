@@ -672,19 +672,8 @@ theorem zpow_contDiffOn {f : Mat n → ℂ} {s : Set (Mat n)} (hf : ContDiffOn �
 
 theorem muZ_antitone {lam : Fin n → ℤ} {lev : Fin n → ℕ} (hlam : Antitone lam) (hlev : Monotone lev) :
     Antitone (muZ lam lev) := by
-  intro a b hab
-  have h1 := hlam hab
-  have h2 : lev a ≤ lev b := hlev hab
-  have c1 : (univ.filter fun c => lev b < lev c).card ≤ (univ.filter fun c => lev a < lev c).card :=
-    Finset.card_le_card fun c hc => by
-      simp only [Finset.mem_filter, Finset.mem_univ, true_and] at hc ⊢
-      omega
-  have c2 : (univ.filter fun c => lev c < lev a).card ≤ (univ.filter fun c => lev c < lev b).card :=
-    Finset.card_le_card fun c hc => by
-      simp only [Finset.mem_filter, Finset.mem_univ, true_and] at hc ⊢
-      omega
-  simp only [muZ]
-  omega
+  intros
+  apply _root_.GlobalTheory.CompanionTheory.ModelS.FFin.muZ_antitone <;> assumption
 
 theorem lm_ne_zero (j : Fin n) (hj : ¬ (j : ℕ) + 1 < n) {g : Mat n} (hg : g ∈ GLs n) : lm j g ≠ 0 := by
   have hb : Function.Bijective (ini j) :=

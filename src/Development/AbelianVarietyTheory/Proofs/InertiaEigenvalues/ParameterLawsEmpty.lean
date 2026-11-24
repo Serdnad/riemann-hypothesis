@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.InfCharOfCharOfHasInfQ
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsIrreducibleFixed
 public import Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms₂.ExistsSteinberg
 public import Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms₂.LocalLanglandsGL
@@ -101,16 +102,7 @@ variable {E Ω : Type} [Field E] [NumberField E] [Field Ω] [Algebra E Ω] [IsAl
 
 theorem locPar_ofChar_unr_iff (hL : GlobalTheory.Published.LocalLanglandsGL) (χ : HChar E) (h : IsPlaceOver A w) :
     (ParLaws.locPar hL (CG.ofChar χ) h).unr ↔ χ.UnrAt w := by
-  obtain ⟨a, ha, ε, -, H⟩ := ParLaws.isRec_locRec hL h
-  rw [ParLaws.locPar_ofChar, H.one, Test.unr_lpOfChar_iff ha (ParLaws.isSmoothChar_loc χ w)]
-  refine forall_congr' fun x => imp_congr_left ?_
-  have h0 : Valued.v (x : w.adicCompletion E) ≠ 0 := by simp
-  rw [← ord_eq_zero_iff, SphCompletion.ord_completion, neg_eq_zero, IsUnitAt]
-  constructor
-  · intro hl
-    rw [← WithZero.exp_log h0, hl, WithZero.exp_zero]
-  · intro hv
-    rw [hv, WithZero.log_one]
+  apply _root_.GlobalTheory.HeightCounting.TrueSide.locPar_unr_iff <;> assumption
 
 theorem locPar_ofChar_frob (hL : GlobalTheory.Published.LocalLanglandsGL) (χ : HChar E) (h : IsPlaceOver A w) (hu : χ.UnrAt w) :
     (ParLaws.locPar hL (CG.ofChar χ) h).frobEig = {(((χ.val w)⁻¹ : ℂˣ) : ℂ)} := by

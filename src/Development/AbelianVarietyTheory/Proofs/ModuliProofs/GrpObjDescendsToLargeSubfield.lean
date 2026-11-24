@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.ModuliProofs.SmoothGrpSchemeDescendsToFgSubring
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.Clauses
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.SabComp
 public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.GrpObjOfDenseOpen
@@ -90,36 +91,7 @@ theorem eq_sq (w : φ ≫ G.hom = A.hom ≫ j) {φ₂ : (A ⊗ A).left ⟶ (G �
 
 theorem isPullback_sq (hA : IsPullback φ A.hom G.hom j) :
     IsPullback (sq hA.w) (A ⊗ A).hom (G ⊗ G).hom j := by
-  have w₁ : (fst G G).left ≫ G.hom = (G ⊗ G).hom := Over.w _
-  have w₂ : (snd G G).left ≫ G.hom = (G ⊗ G).hom := Over.w _
-  have v₁ : (fst A A).left ≫ A.hom = (A ⊗ A).hom := Over.w _
-  have v₂ : (snd A A).left ≫ A.hom = (A ⊗ A).hom := Over.w _
-  have h₁ := (isSquare_sq hA.w).1
-  have h₂ := (isSquare_sq hA.w).2
-  refine ⟨⟨by rw [← w₁, reassoc_of% h₁, hA.w, reassoc_of% v₁]⟩, ⟨PullbackCone.IsLimit.mk _
-    (fun s => pullback.lift
-      (hA.lift (s.fst ≫ (fst G G).left) s.snd (by rw [Category.assoc, w₁, s.condition]))
-      (hA.lift (s.fst ≫ (snd G G).left) s.snd (by rw [Category.assoc, w₂, s.condition]))
-      (by rw [IsPullback.lift_snd, IsPullback.lift_snd])) (fun s => ?_) (fun s => ?_)
-    (fun s m h1 h2 => ?_)⟩⟩
-  · apply sq_ext
-    · rw [Category.assoc, h₁, ← Category.assoc]
-      exact (congrArg (· ≫ φ) (pullback.lift_fst _ _ _)).trans (IsPullback.lift_fst _ _ _ _)
-    · rw [Category.assoc, h₂, ← Category.assoc]
-      exact (congrArg (· ≫ φ) (pullback.lift_snd _ _ _)).trans (IsPullback.lift_fst _ _ _ _)
-  · rw [← v₁, ← Category.assoc]
-    exact (congrArg (· ≫ A.hom) (pullback.lift_fst _ _ _)).trans (IsPullback.lift_snd _ _ _ _)
-  · apply pullback.hom_ext
-    · refine Eq.trans ?_ (pullback.lift_fst _ _ _).symm
-      change _ ≫ (fst A A).left = _
-      apply hA.hom_ext
-      · rw [IsPullback.lift_fst, ← h1, Category.assoc, Category.assoc, h₁]
-      · rw [IsPullback.lift_snd, ← h2, Category.assoc, v₁]
-    · refine Eq.trans ?_ (pullback.lift_snd _ _ _).symm
-      change _ ≫ (snd A A).left = _
-      apply hA.hom_ext
-      · rw [IsPullback.lift_fst, ← h1, Category.assoc, Category.assoc, h₂]
-      · rw [IsPullback.lift_snd, ← h2, Category.assoc, v₂]
+  first | exact _root_.GlobalTheory.GrpSpread.isPullback_sq | exact @_root_.GlobalTheory.GrpSpread.isPullback_sq | apply _root_.GlobalTheory.GrpSpread.isPullback_sq <;> assumption
 
 theorem exists_grpObj (j : U ⟶ Z) [Flat j] [Surjective j] [GrpObj A] (h : IsPullback φ A.hom G.hom j)
     (m : G ⊗ G ⟶ G) (i : G ⟶ G) (e : 𝟙_ (Over Z) ⟶ G)

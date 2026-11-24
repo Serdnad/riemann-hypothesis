@@ -598,13 +598,7 @@ alias exists_ker := _root_.GlobalTheory.Models.SubModel.exists_ker
 alias exists_coker := _root_.GlobalTheory.Models.SubModel.exists_coker
 
 theorem simple_chr (χ : G →* kˣ) : IsSimpleModule (MonoidAlgebra k G) (chr χ).ρ.asModule := by
-  rw [← Representation.irreducible_iff_isSimpleModule_asModule]
-  have h : IsSimpleModule k (Fin 1 → k) := isSimpleModule_iff_finrank_eq_one.mpr (by simp)
-  refine { exists_pair_ne := ⟨⊥, ⊤, fun h' => ?_⟩, eq_bot_or_eq_top := fun S => ?_ }
-  · exact bot_ne_top (α := Submodule k (Fin 1 → k)) (congrArg Subrepresentation.toSubmodule h')
-  · rcases eq_bot_or_eq_top S.toSubmodule with h' | h'
-    · exact Or.inl (Subrepresentation.toSubmodule_injective h')
-    · exact Or.inr (Subrepresentation.toSubmodule_injective h')
+  apply _root_.GlobalTheory.JHMatch.chr_simple <;> assumption
 
 theorem sameSS_three {s t u : ℕ} {M : Type} [AddCommGroup M] [Module k M] {π : Representation k G M}
     (C : (Fin s ⊕ Unit) ⊕ Fin t → Ob k G) (e : Fin u ≃ (Fin s ⊕ Unit) ⊕ Fin t)

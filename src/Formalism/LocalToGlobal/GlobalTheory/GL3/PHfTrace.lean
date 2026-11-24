@@ -1,5 +1,6 @@
 module
 
+import Formalism.LocalToGlobal.GlobalTheory.GL3.CubicFields.PeriodRelations.LeadingConstantNeZero
 public import Formalism.LocalToGlobal.GlobalTheory.GL3.PHfGen
 
 @[expose] public section
@@ -13,14 +14,7 @@ open NumberField Formalism.BasicNotions Formalism.MainNotions.TaylorLogMetric Fo
 variable (D : D7)
 
 theorem embT_inj : Function.Injective (embT D) := by
-  intro τ τ' h
-  have h2 : D.host.sigmaOf ((D.eTau τ : D.R.Psi) : D.R.GG) =
-      D.host.sigmaOf ((D.eTau τ' : D.R.Psi) : D.R.GG) := by
-    refine AlgEquiv.ext fun x => ?_
-    exact D.host.φ₀.injective (congrArg (fun f : D.host.E →+* ℂ => f x) h)
-  have h3 := congrArg (D.host.galE) h2
-  rw [galE_sigmaOf, galE_sigmaOf] at h3
-  exact D.eTau.injective (Subtype.ext h3)
+  apply _root_.Formalism.L2.GlobalTheoryTheory.IntegralLatticeDensity.B5.br_embT_injective <;> assumption
 
 abbrev algKC : Algebra D.host.K ℂ := (D.host.φ₀.comp (algebraMap D.host.K D.host.E)).toAlgebra
 

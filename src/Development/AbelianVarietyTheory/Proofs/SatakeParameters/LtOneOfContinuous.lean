@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.GlobalArtinCompatLocalDegreeOneStatement
 public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.IsWeight
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.BaseChangeIsomorphicFields
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.EquivOfISupRange
@@ -70,17 +71,7 @@ theorem tendsto_pow {v : HeightOneSpectrum (𝓞 K)} (x : v.adicCompletion K) (h
 theorem lt_one_of_continuous {v : HeightOneSpectrum (𝓞 K)} {w : HeightOneSpectrum (𝓞 M)}
     (s : v.adicCompletion K →+* w.adicCompletion M) (hs : Continuous s) {z : v.adicCompletion K}
     (hz : Valued.v z < 1) : Valued.v (s z) < 1 := by
-  have h1 : Tendsto (fun n : ℕ => s z ^ n) atTop (𝓝 0) := by
-    have := (hs.tendsto 0).comp (tendsto_pow z hz)
-    simpa [Function.comp_def, map_pow] using this
-  have hU : {y : w.adicCompletion M | Valued.v y < 1} ∈ 𝓝 (0 : w.adicCompletion M) :=
-    Valued.mem_nhds_zero.2 ⟨1, fun y hy => by simpa using hy⟩
-  obtain ⟨N, hN⟩ := (h1.eventually hU).exists
-  by_contra hc
-  rw [not_lt] at hc
-  have hN' : Valued.v (s z ^ N) < 1 := hN
-  rw [map_pow] at hN'
-  exact absurd hN' (not_lt.2 (one_le_pow₀ hc))
+  first | exact _root_.GlobalTheory.PlaceOver.valuation_lt_one_of_continuous | exact @_root_.GlobalTheory.PlaceOver.valuation_lt_one_of_continuous | apply _root_.GlobalTheory.PlaceOver.valuation_lt_one_of_continuous <;> assumption
 
 theorem mem_iff_lt_one (v : HeightOneSpectrum (𝓞 K)) (x : 𝓞 K) :
     x ∈ v.asIdeal ↔ Valued.v (algebraMap K (v.adicCompletion K) (x : K)) < 1 := by

@@ -1248,13 +1248,7 @@ variable {k : Type} [Field k] [NumberField k]
 
 theorem natCast_finiteAdele_apply (v : HeightOneSpectrum (𝓞 k)) (M : ℕ) :
     ((M : FiniteAdeleRing (𝓞 k) k) v) = (M : v.adicCompletion k) := by
-  induction M with
-  | zero => simp only [Nat.cast_zero]; rfl
-  | succ m ih =>
-    simp only [Nat.cast_succ]
-    change ((m : FiniteAdeleRing (𝓞 k) k) v) + (1 : FiniteAdeleRing (𝓞 k) k) v = _
-    rw [ih]
-    rfl
+  apply _root_.GlobalTheory.CompanionTheory.RgEis.InMTopPf.natCast_apply' <;> assumption
 
 theorem valued_natCast_le_one (v : HeightOneSpectrum (𝓞 k)) (M : ℕ) :
     Valued.v (M : v.adicCompletion k) ≤ 1 := by

@@ -1,5 +1,7 @@
 module
 
+import Formalism.HermitianCurvature.HermitianCurvatureProofs.BesselDecayBounds.BesselUnitNorm.BesselNormSteps.BesselLine.ConvGrp
+import Formalism.HermitianCurvature.HermitianCurvatureProofs.LUFactorOrbitBounds
 public import Formalism.HermitianCurvature.StatementB
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -70,18 +72,7 @@ theorem hpk_sq (k r : ℕ) : Hpk k r * Hpk k r = 1 := by
 
 theorem uh_inv {a : B.Mat k r} (ha : a ∈ UH (Hpk k r)) :
     a * a⁻¹ = 1 ∧ a⁻¹ * a = 1 ∧ a⁻¹ ∈ UH (Hpk k r) := by
-  have ha' : aᴴ * Hpk k r * a = Hpk k r := ha
-  have hl : (Hpk k r * aᴴ * Hpk k r) * a = 1 := by
-    calc Hpk k r * aᴴ * Hpk k r * a = Hpk k r * (aᴴ * Hpk k r * a) := by simp only [Matrix.mul_assoc]
-      _ = 1 := by rw [ha', hpk_sq]
-  have hinv : a⁻¹ = Hpk k r * aᴴ * Hpk k r := Matrix.inv_eq_left_inv hl
-  have h1 : a⁻¹ * a = 1 := by rw [hinv]; exact hl
-  have h2 : a * a⁻¹ = 1 := Matrix.mul_nonsing_inv a (Matrix.isUnit_det_of_left_inverse hl)
-  refine ⟨h2, h1, ?_⟩
-  show (a⁻¹)ᴴ * Hpk k r * a⁻¹ = Hpk k r
-  calc (a⁻¹)ᴴ * Hpk k r * a⁻¹ = (a⁻¹)ᴴ * (aᴴ * Hpk k r * a) * a⁻¹ := by rw [ha']
-    _ = (a * a⁻¹)ᴴ * Hpk k r * (a * a⁻¹) := by simp only [conjTranspose_mul, Matrix.mul_assoc]
-    _ = Hpk k r := by rw [h2]; simp
+  apply _root_.PI.WBL.Cv.uh_inv <;> assumption
 
 theorem col_eq (g : B.Mat k r) (j : Fin (2 * r + k + 1)) : g *ᵥ bvec j = fun i => g i j := by
   funext i
@@ -129,51 +120,7 @@ theorem onto_low {g : B.Mat k r} (hg : g⁻¹ * g = 1) {a : ℕ} (hmaps : ∀ y 
   exact ⟨x.1, x.2, congrArg Subtype.val hx⟩
 
 theorem n_inv {n : B.Mat k r} (hn : n ∈ Nset k r) : n⁻¹ ∈ Nset k r := by
-  have hu := uh_inv hn.1
-  have hC1 := hn.2.1
-  refine ⟨hu.2.2, ?_, ?_⟩
-  · intro a i hai
-    have hmaps := maps_low hC1 (a := a.val) a.isLt.le
-    have hy : bvec (eI k r a) - n *ᵥ bvec (eI k r a) ∈ lowS k r a.val := by
-      intro l hl
-      rw [col_eq]
-      simp only [Pi.sub_apply]
-      rw [hC1 a l hl]
-      simp [bvec, Pi.single_apply]
-    obtain ⟨x, hx, hgx⟩ := onto_low hu.2.1 hmaps _ hy
-    have hx2 : n *ᵥ (x + bvec (eI k r a)) = bvec (eI k r a) := by
-      rw [Matrix.mulVec_add, hgx]
-      abel
-    have hx3 : n⁻¹ *ᵥ bvec (eI k r a) = x + bvec (eI k r a) := by
-      rw [← hx2, Matrix.mulVec_mulVec, hu.2.1, Matrix.one_mulVec, hx2]
-    have e := congrFun hx3 i
-    rw [col_eq] at e
-    simp only at e
-    rw [e]
-    simp only [Pi.add_apply]
-    rw [hx i hai, zero_add]
-    simp [bvec, Pi.single_apply]
-  · intro i j hj1 hj2 hi
-    have hmaps := maps_low hC1 (a := r) le_rfl
-    have hy : bvec j - n *ᵥ bvec j ∈ lowS k r r := by
-      intro l hl
-      rw [col_eq]
-      simp only [Pi.sub_apply]
-      rw [hn.2.2 l j hj1 hj2 hl]
-      simp [bvec, Pi.single_apply]
-    obtain ⟨x, hx, hgx⟩ := onto_low hu.2.1 hmaps _ hy
-    have hx2 : n *ᵥ (x + bvec j) = bvec j := by
-      rw [Matrix.mulVec_add, hgx]
-      abel
-    have hx3 : n⁻¹ *ᵥ bvec j = x + bvec j := by
-      rw [← hx2, Matrix.mulVec_mulVec, hu.2.1, Matrix.one_mulVec, hx2]
-    have e := congrFun hx3 i
-    rw [col_eq] at e
-    simp only at e
-    rw [e]
-    simp only [Pi.add_apply]
-    rw [hx i hi, zero_add]
-    simp [bvec, Pi.single_apply]
+  apply _root_.Formalism.FourierDecayAlt.P.WeakDominationMajorants.Orb.n_inv_mem <;> assumption
 
 theorem uw_inv {z : Fin (2 * r + k + 1) → ℂ} {h : B.Mat k r} (hh : h ∈ UWset k r z) : h⁻¹ ∈ UWset k r z := by
   have hu := uh_inv hh.1

@@ -58,6 +58,7 @@ import Mathlib.Topology.Sheaves.Init
 import Development.AbelianVarietyTheory.Proofs.FoundationProofs.PadicIsNonarchimedeanLocalField
 import Mathlib.Topology.Connected.Separation
 import Mathlib.Topology.MetricSpace.Ultra.TotallySeparated
+import Development.AutomorphicSpectrum.Proofs.MembershipProofs.IntegrablePair
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AutomorphicSpectrum.Proofs.MembershipProofs.LocallyCompactOfGoodChar, Development.WeilBound.CoreStatements.CompactAveragingSplitting.EigenvectorLifting.Vaceigen
@@ -84,17 +85,7 @@ omit [CommRing R] [IsTopologicalRing R] in
 theorem integrable_pair {κ : Type} (μ : @Measure (κ → R) (borel _))
     (hμ : @IsFiniteMeasureOnCompacts _ (borel _) _ μ) (φ φ' : SB (κ → R)) :
     @Integrable _ _ _ _ (borel _) (fun x => (starRingEnd ℂ) ((φ : (κ → R) → ℂ) x) * (φ' : (κ → R) → ℂ) x) μ := by
-  haveI := hμ
-  have hφ : IsLocallyConstant (φ : (κ → R) → ℂ) ∧ HasCompactSupport (φ : (κ → R) → ℂ) := φ.2
-  have hφ' : IsLocallyConstant (φ' : (κ → R) → ℂ) ∧ HasCompactSupport (φ' : (κ → R) → ℂ) := φ'.2
-  have hcont : Continuous (fun x => (starRingEnd ℂ) ((φ : (κ → R) → ℂ) x) * (φ' : (κ → R) → ℂ) x) :=
-    (Complex.continuous_conj.comp hφ.1.continuous).mul hφ'.1.continuous
-  have hsupp : HasCompactSupport
-      (fun x => (starRingEnd ℂ) ((φ : (κ → R) → ℂ) x) * (φ' : (κ → R) → ℂ) x) :=
-    HasCompactSupport.mul_left (f := fun x => (starRingEnd ℂ) ((φ : (κ → R) → ℂ) x)) hφ'.2
-  letI : MeasurableSpace (κ → R) := borel _
-  haveI : BorelSpace (κ → R) := ⟨rfl⟩
-  exact Continuous.integrable_of_hasCompactSupport hcont hsupp
+  apply _root_.GlobalTheory.CompanionTheory.SchrSys.integrable_pair <;> assumption
 
 
 omit [CommRing R] [IsTopologicalRing R] in

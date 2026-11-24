@@ -172,18 +172,7 @@ theorem T_meas (hFF : MeasurableSet FF) : MeasurableSet (T D FF) := by
 
 private lemma rmul_mem_Bor {b b' : Frame X.Ψ r} (hb : b ∈ Bor X.Ψ r) (hb' : b' ∈ Bor X.Ψ r) :
     rmul b b' ∈ Bor X.Ψ r := by
-  have h1' : ∀ τ : X.Ψ, (mat b τ).det ≠ 0 ∧ ∀ a c : Fin r, c < a → b τ a c = 0 := hb
-  have h2' : ∀ τ : X.Ψ, (mat b' τ).det ≠ 0 ∧ ∀ a c : Fin r, c < a → b' τ a c = 0 := hb'
-  show ∀ τ : X.Ψ, (mat (rmul b b') τ).det ≠ 0 ∧ ∀ a c : Fin r, c < a → rmul b b' τ a c = 0
-  intro τ
-  obtain ⟨d1, t1⟩ := h1' τ
-  obtain ⟨d2, t2⟩ := h2' τ
-  have ht : (mat b τ * mat b' τ).BlockTriangular id :=
-    Matrix.BlockTriangular.mul (fun a c h => t1 a c h) (fun a c h => t2 a c h)
-  refine ⟨?_, fun a c h => ht h⟩
-  show (mat b τ * mat b' τ).det ≠ 0
-  rw [Matrix.det_mul]
-  exact mul_ne_zero d1 d2
+  apply _root_.ReciprocityTheory.ChartRestriction.G.AR.Up.ExtFPf.mul_mem <;> assumption
 
 private lemma inv_mat_apply_mem_bor {b : Frame X.Ψ r} (hb : b ∈ Bor X.Ψ r) :
     (fun τ a c => (mat b τ)⁻¹ a c) ∈ Bor X.Ψ r := by

@@ -319,7 +319,7 @@ def Realisable (w : O) (n' r : ℕ) {k : ℕ} (g : Matrix (Fin k) (Fin k) (WF p 
 
 end Real
 
-def Conclusion6 (_D : Formalism.BasicNotions.D7) (CLa CD Csz : ℝ) : Prop :=
+def Conclusion6With (degreeBound : ℝ → ℝ → Prop) (_D : Formalism.BasicNotions.D7) (CLa CD Csz : ℝ) : Prop :=
   ∀ (p n' r K : ℕ) [Fact p.Prime] [NeZero n'] [NeZero r] [NeZero K] (O : Type) [CommRing O] [IsDomain O]
     [IsDiscreteValuationRing O] [Algebra (WF p n') O] (S : UniformizedDVR p O), OHyp p n' O S →
     CommonHypotheses p n' r (r + K) →
@@ -334,10 +334,13 @@ def Conclusion6 (_D : Formalism.BasicNotions.D7) (CLa CD Csz : ℝ) : Prop :=
         (fun x => Bo p Fr deg j x / 2 - sl p Fr deg Y (r + K) j x) (obd j) ∧
       xi i j ∈ restrictSupport O {mm | ∀ x ∈ Fr.letters j, ∑ c : Fin (r + K), mm (x, c) = dd j x}) →
     (∀ j : ℕ, j < Fr.J → ∀ x ∈ Fr.letters j, (Fr.IsW j x ∨ x ∈ Fr.LLset j) →
-        |(dd j x : ℝ) - levDeg p Fr deg j x| ≤ levDeg p Fr deg j x / 100) →
+        degreeBound (dd j x : ℝ) (levDeg p Fr deg j x)) →
   ∀ (mon : Fin n' × Fin (r + K) →₀ ℕ), IsLabel p Fr mon → (∀ v ∈ mon.support, v.1 ∈ Fr.TT) →
   ∀ o : ℕ, (∀ m ∈ (monPh O K p Fr mon xi).support, normDeg r m = o) →
     Realisable p n' S.w n' r g c' o (MvPolynomial.map (algebraMap O (KK O)) (monPh O K p Fr mon xi))
+
+def Conclusion6 (_D : Formalism.BasicNotions.D7) (CLa CD Csz : ℝ) : Prop :=
+  Conclusion6With (fun d l => |d - l| ≤ l / 100) _D CLa CD Csz
 
 def GoodOrbitPositions (_D : Formalism.BasicNotions.D7) : Prop :=
   ∀ (r : ℕ) (h : ℝ), 2 ≤ r → 0 ≤ h → ∃ Ce : ℝ, 0 < Ce ∧

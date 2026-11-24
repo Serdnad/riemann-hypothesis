@@ -1,5 +1,6 @@
 module
 
+import Development.WeilBound.CoreStatements.HodgeTatePoints.CbBase
 public import Development.WeilBound.CoreStatements.HodgeTatePoints.GermCompOneAssocOfConstantCoeffZero
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -228,33 +229,8 @@ theorem bil_calc : ∀ (R : Type) [CommRing R] (d : ℕ) (f g : PS R 2 d) (φ ψ
     fun m n hm hn => bil_ptPow f hm hn⟩
 
 theorem lin_add (G : FGLaw R d) {a b : Pt R 1 d} (ha : Z a) (hb : Z b) :
-    lin (G.add a b) 1 = lin a 1 + lin b 1 := by
-  have hcoeff {σ : Type} (s : σ) (g : MvPowerSeries σ R) :
-      coeff (Finsupp.single s 1) g = constantCoeff (pderiv s g) := by
-    simp [← coeff_zero_eq_constantCoeff_apply, coeff_pderiv]
-  have hF1 : ∀ i l, constantCoeff (pderiv ((1 : Fin 2), l) (G.F i)) = if i = l then 1 else 0 := by
-    intro i l
-    have h := coeff_ev_zero_left (G.F i) (Finsupp.single ((0 : Fin 1), l) 1)
-    rw [G.unit i, Finsupp.embDomain_single, coeff_X] at h
-    rw [← hcoeff]
-    refine h.symm.trans ?_
-    by_cases h' : i = l
-    · subst h'
-      simp
-    · simp [Finsupp.single_eq_single_iff, Ne.symm h', h']
-  have hF0 : ∀ i l, constantCoeff (pderiv ((0 : Fin 2), l) (G.F i)) = if i = l then 1 else 0 := by
-    intro i l
-    have h2 := coeff_ev_swap' (G.F i) (Finsupp.single ((0 : Fin 2), l) 1)
-    rw [G.comm i, Finsupp.embDomain_single] at h2
-    rw [← hcoeff, h2, ← hF1 i l, hcoeff]
-    rfl
-  ext i j
-  simp only [Matrix.add_apply, lin, FGLaw.add, addOf]
-  rw [hcoeff, hcoeff, hcoeff,
-    ReciprocityTheory.ChartRestriction.G.TB.ChartChgPfTP.pderiv_ev _ (cechDeRhamTotalCocyclesTwo ha hb),
-    map_sum, Fintype.sum_prod_type, Fin.sum_univ_two]
-  simp only [map_mul, cc_ev (cechDeRhamTotalCocyclesTwo ha hb)]
-  simp [hF0, hF1]
+    lin (G.add a b) 1 = lin a 1 + lin b 1 :=
+  _root_.PositivityTheory.HtPt.Cb.lin_add G ha hb
 
 variable {O : Type} [CommRing O] [StarRing O]
 

@@ -1,5 +1,6 @@
 module
 
+import Formalism.LocalToGlobal.CharacterGerms.IndependenceBoundRaw
 public import Formalism.LocalToGlobal.CharacterGerms.Interface
 import Mathlib.NumberTheory.Height.NumberField
 import Mathlib.Tactic.TypeStar
@@ -44,11 +45,7 @@ theorem mm_l : V.MM (V.l : C) := by
   unfold VF.MM; rw [V.v_l]; exact zero_lt_one
 
 theorem mm_sum {ι : Type*} {s : Finset ι} {f : ι → C} (h : ∀ i ∈ s, V.MM (f i)) : V.MM (∑ i ∈ s, f i) := by
-  induction s using Finset.induction_on with
-  | empty => rw [Finset.sum_empty]; exact mm_zero
-  | insert a s ha ih =>
-    rw [Finset.sum_insert ha]
-    exact mm_add (h a (Finset.mem_insert_self a s)) (ih fun i hi => h i (Finset.mem_insert_of_mem hi))
+  apply _root_.Formalism.L2.FormalSeriesBounds.ValuationNonnegativity.mm_sum <;> assumption
 
 theorem ge_natCast' (n : ℕ) : V.Ge 0 (n : C) := by
   induction n with

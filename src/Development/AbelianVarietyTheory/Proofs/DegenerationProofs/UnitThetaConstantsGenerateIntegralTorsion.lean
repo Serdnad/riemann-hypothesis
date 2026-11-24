@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.SpanRowsClassZeroEqInvariantStatement
 public import Mathlib.Data.ZMod.Defs
 public import Mathlib.GroupTheory.QuotientGroup.Defs
 public import Mathlib.LinearAlgebra.FreeModule.Basic
@@ -924,15 +925,7 @@ alias isUnit_level := _root_.GlobalTheory.ZH.TestVal.isUnit_level
 
 theorem eq_zero_of_nonpos {X : Type} [AddCommGroup X] [Module.Free ℤ X] (q : QuadraticMap ℤ X ℝ)
     (hq : Filter.Tendsto q Filter.cofinite Filter.atTop) {w : X} (hw : q w ≤ 0) : w = 0 := by
-  by_contra h
-  have hinj : Function.Injective fun k : ℤ => k • w := smul_left_injective ℤ h
-  have hfin : {x | ¬ (1 : ℝ) ≤ q x}.Finite := Filter.eventually_cofinite.1 (hq.eventually_ge_atTop 1)
-  refine Set.infinite_range_of_injective hinj (hfin.subset ?_)
-  rintro _ ⟨k, rfl⟩
-  show ¬ 1 ≤ q (k • w)
-  rw [q.map_smul, zsmul_eq_mul]
-  push_cast
-  nlinarith [mul_self_nonneg (k : ℝ)]
+  apply _root_.GlobalTheory.ZH.WeightZero.eq_zero_of_q_nonpos <;> assumption
 
 theorem exists_bound (hL : Laws) (hL₂ : Laws2) (u : ρ.UTest p y₀) (hy : ∀ a : o, ‖y₀ (algebraMap o S.R a)‖ ≤ 1)
     {n : ℕ} (hn : 2 ≤ n) (hd : n ∣ S.r * S.N) : ∃ c : ℝ, 0 < c ∧ ∀ a, u.Integral a →

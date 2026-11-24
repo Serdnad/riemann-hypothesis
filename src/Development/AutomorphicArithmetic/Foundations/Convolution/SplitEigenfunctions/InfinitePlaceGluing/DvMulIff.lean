@@ -954,16 +954,10 @@ private theorem oh_zero : (0 : A E) ∈ Oh E := by
   exact zero_le_one
 
 private theorem oh_add {c d : A E} (hc : c ∈ Oh E) (hd : d ∈ Oh E) : c + d ∈ Oh E := by
-  refine ⟨by show c.1 + d.1 = 0; rw [hc.1, hd.1, add_zero], fun v => ?_⟩
-  have h : ((c + d).2 v) = c.2 v + d.2 v := rfl
-  rw [h]
-  exact (Valuation.map_add_le _ (hc.2 v) (hd.2 v))
+  apply _root_.oh_add <;> assumption
 
 private theorem oh_neg {c : A E} (hc : c ∈ Oh E) : -c ∈ Oh E := by
-  refine ⟨by show -c.1 = 0; rw [hc.1, neg_zero], fun v => ?_⟩
-  have h : ((-c).2 v) = -(c.2 v) := rfl
-  rw [h, Valuation.map_neg]
-  exact hc.2 v
+  apply _root_.oh_neg <;> assumption
 
 private theorem oh_nat (n : ℕ) {c : A E} (hc : c ∈ Oh E) : (n : A E) * c ∈ Oh E := by
   induction n with

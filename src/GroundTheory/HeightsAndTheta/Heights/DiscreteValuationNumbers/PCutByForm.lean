@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IntersectionNumberZeroSmallImage
 public import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.StatementsCN
 import Mathlib.Order.CompletePartialOrder
 public import Mathlib.RingTheory.KrullDimension.NonZeroDivisors
@@ -46,21 +47,7 @@ theorem isMultiHomogIdeal_sup_span_of_form {R : Type*} [CommRing R] {K : Type*} 
 
 theorem withBot_lt_of_add_one_lt {d : WithBot ℕ∞} {N : ℕ}
     (h : d + 1 < ((N + 1 : ℕ) : WithBot ℕ∞)) : d < ((N : ℕ) : WithBot ℕ∞) := by
-  induction d using WithBot.recBotCoe with
-  | bot => exact WithBot.bot_lt_coe _
-  | coe x =>
-    induction x using ENat.recTopCoe with
-    | top =>
-      exfalso
-      have : ((⊤ : ℕ∞) : WithBot ℕ∞) + 1 = ((⊤ : ℕ∞) : WithBot ℕ∞) := rfl
-      rw [this] at h
-      exact absurd h (not_lt.mpr (WithBot.coe_le_coe.mpr le_top))
-    | coe k =>
-      have h' : ((k + 1 : ℕ) : WithBot ℕ∞) < ((N + 1 : ℕ) : WithBot ℕ∞) := by
-        exact_mod_cast h
-      have h'' : k + 1 < N + 1 := by exact_mod_cast h'
-      have : k < N := by omega
-      exact_mod_cast this
+  apply _root_.GlobalTheory.NatCastStrictBound.lt_natCast_of_add_one_lt_succ <;> assumption
 
 theorem CutByForm.proof (h1 : IntNumAssoc.Statement.{u}) (h2 : HilbFnCut.Statement.{u})
     (h3 : MixedDiffLinear.Statement) : CutByForm.Statement.{u} := by

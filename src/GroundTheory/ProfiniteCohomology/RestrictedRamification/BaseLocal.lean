@@ -7,6 +7,7 @@ public import GroundTheory.ProfiniteCohomology.LocalTateDuality.TensorHomDualRep
 import GroundTheory.ProfiniteCohomology.PoincareDuality.Induced
 import Mathlib.RingTheory.RootsOfUnity.AlgebraicallyClosed
 import Mathlib.Tactic.TypeStar
+import GroundTheory.ProfiniteCohomology.PoitouTate.BrauerInvZOfIsSepClosureCohomologyULiftIntAddEqu
 
 @[expose] public section
 
@@ -111,29 +112,7 @@ theorem brauerInvZOfIsSepClosure_cohomologyMap_uliftInt_base (A : Rep.{0} (ULift
     (hf : ∀ a, f'.hom a = f.hom a) (z : cohomology A 2) :
     brauerInvZOfIsSepClosure F Fsep ((cohomologyMap f' 2).hom (cohomologyULiftIntAddEquiv A 2 z)) =
       brauerInvOfIsSepClosure F Fsep ((cohomologyMap f 2).hom z) := by
-  have hnat : (cohomologyMap f' 2).hom (cohomologyULiftIntAddEquiv A 2 z) =
-      cohomologyULiftIntAddEquiv (galUnits.{0} F Fsep) 2 ((cohomologyMap f 2).hom z) := by
-    obtain ⟨w, rfl⟩ := cohomologyπ_surjective A 2 z
-    change cohomologyMap f' 2 (cohomologyULiftIntAddEquiv A 2 (cohomologyπ A 2 w)) =
-      cohomologyULiftIntAddEquiv (galUnits.{0} F Fsep) 2 (cohomologyMap f 2 (cohomologyπ A 2 w))
-    rw [cohomologyULiftIntAddEquiv_cohomologyπ', cohomologyMap_cohomologyπ, cohomologyMap_cohomologyπ,
-      cohomologyULiftIntAddEquiv_cohomologyπ']
-    congr 1
-    apply cocycles_ext
-    rw [cochainOf_cocycleι_cyclesMap, cochainOf_cocycleι_cocyclesULiftInt]
-    have : IsDiscreteRep (uliftIntToIntRep (galUnits.{0} F Fsep)) :=
-      ⟨fun a => isOpen_stabilizer (galUnits.{0} F Fsep) a⟩
-    change _ = cochainOf (uliftIntToIntRep (galUnits.{0} F Fsep)) (cocycleι (uliftIntToIntRep (galUnits.{0} F Fsep)) 2
-      (cocyclesULiftInt _ _))
-    rw [cochainOf_cocycleι_cocyclesULiftInt, cochainOf_cocycleι_cyclesMap]
-    funext σ
-    exact hf _
-  rw [hnat]
-  let := algebraicValuativeRel F Fsep
-  let := algebraicTopology F Fsep
-  have := algebraicTopology_isValuativeTopology F Fsep
-  have := algebraicValuativeRel_valuativeExtension F Fsep
-  exact brauerInvZ_cohomologyULiftIntAddEquiv F Fsep _
+  apply _root_.GroundTheory.ProfCoh.brauerInvZOfIsSepClosure_cohomologyMap_uliftInt <;> assumption
 
 end AbstractLocal
 

@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.IsHomogeneousOfRowDeg
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.FibExtMarked
 public import Formalism.LocalToGlobal.ProjectiveLattices.HalfOneAddSqrtNegIsIntegral
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.FundamentalDomains.IsotropicCoefficientSplitting
@@ -92,18 +93,7 @@ namespace GlobalTheory.OneMapRef
 
 theorem mem_HHa_span {T : Type} (r : T → ℕ) (n : ℕ) (k : Type) [Field k] (cc : T → T) (isX : T → Prop) (a : T → ℕ → ℕ)
     {P : MvPolynomial (Letter T r n) k} (h : P ∈ Submodule.span k (HHa r n k cc isX a)) : P ∈ HHa r n k cc isX a := by
-  classical
-  induction h using Submodule.span_induction with
-  | mem x hx => exact hx
-  | zero => exact ⟨zero_mem _, fun _ _ _ _ _ => map_zero _, fun m hm => by simp at hm⟩
-  | add x y _ _ hx hy =>
-    refine ⟨add_mem hx.1 hy.1, fun σ i i' hi t => by rw [map_add (f := _), hx.2.1 σ i i' hi t, hy.2.1 σ i i' hi t], fun m hm => ?_⟩
-    rcases Finset.mem_union.1 (MvPolynomial.support_add hm) with h | h
-    · exact hx.2.2 m h
-    · exact hy.2.2 m h
-  | smul c x _ hx =>
-    exact ⟨Submodule.smul_mem _ c hx.1, fun σ i i' hi t => by rw [map_smul, hx.2.1 σ i i' hi t],
-      fun m hm => hx.2.2 m (MvPolynomial.support_smul hm)⟩
+  first | exact _root_.GlobalTheory.PtId.mem_HHa_of_span | exact @_root_.GlobalTheory.PtId.mem_HHa_of_span | apply _root_.GlobalTheory.PtId.mem_HHa_of_span <;> assumption
 
 section Marks
 

@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.ToricGeometry.EvalDivOfIsHomogeneous
 public import Mathlib.Tactic.ENatToNat
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.IsLieBasis
 public import ReciprocityTheory.ThetaQuasiPeriods.PeriodLattice
@@ -76,15 +77,8 @@ theorem valAt'_eval₂ {X : Over (Sp ℂ)} {κ : Type*} (x : 𝟙_ (Over (Sp ℂ
     (h : ⊤ ≤ x.left ⁻¹ᵁ U) (r : κ → Γ(X.left, U)) (P : MvPolynomial κ ℂ) :
     valAt' x.left U (MvPolynomial.eval₂ (RingHom.comp (X.hom.appLE ⊤ U le_top).hom
       (Scheme.ΓSpecIso (CommRingCat.of ℂ)).inv.hom) r P) = MvPolynomial.eval (fun i => valAt' x.left U (r i)) P := by
-  have hc : (valAtHom x.left U h).comp (RingHom.comp (X.hom.appLE ⊤ U le_top).hom
-      (Scheme.ΓSpecIso (CommRingCat.of ℂ)).inv.hom) = RingHom.id ℂ := by
-    ext a
-    have := valAt'_constFn x.left X.hom (Over.w x) U a h
-    rw [valAt'_eq_valAtHom _ h] at this
-    exact this
-  rw [valAt'_eq_valAtHom _ h, MvPolynomial.hom_eval₂, hc]
-  simp only [valAt'_eq_valAtHom _ h]
-  rfl
+  intros
+  apply _root_.GlobalTheory.ThetaQuotient.valAt'_eval₂ <;> assumption
 
 theorem hom_ext_of_points {X Y : Over (Sp ℂ)}
     (H : ∀ F : (𝟙_ (Over (Sp ℂ)) ⟶ Y) → (𝟙_ (Over (Sp ℂ)) ⟶ X), (∀ y : (𝟙_ (Over (Sp ℂ)) ⟶ Y), ∃ (U : Y.left.Opens) (D : X.left.Opens), ⊤ ≤ (y).left ⁻¹ᵁ U ∧ IsAffineOpen D ∧ (∀ y' : (𝟙_ (Over (Sp ℂ)) ⟶ Y), ⊤ ≤ (y').left ⁻¹ᵁ U → ⊤ ≤ (F y').left ⁻¹ᵁ D) ∧ ∀ φ : Γ(X.left, D), ∃ ρ : Γ(Y.left, U), ∀ y' : (𝟙_ (Over (Sp ℂ)) ⟶ Y), ⊤ ≤ (y').left ⁻¹ᵁ U → valAt' y'.left U ρ = valAt' (F y').left D φ) → ∃! m : Y ⟶ X, ∀ y, y ≫ m = F y)

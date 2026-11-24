@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsAutRepOfVecFun
 public import Development.AbelianVarietyTheory.PublishedTheorems.GaloisCohomology₂.BaseChangeDefiniteUnitary
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.NontrivialOfNeBot
 public import Development.AutomorphicArithmetic.DivisorFrames.ExistsIrreducibleSubrepHeckeEigenOfInvariantForm
@@ -743,20 +744,7 @@ open NumberField IsDedekindDomain GlobalTheory.CuspRep GlobalTheory.PRep GlobalT
 
 private theorem cont_cEmb {E : Type} [Field E] [NumberField E] [IsCMField E] {n : ℕ} (τ : E →+* ℂ) :
     Continuous (cEmb (E := E) (n := n) τ) := by
-  have c0 : Continuous (coord τ) := by
-    unfold coord
-    split_ifs
-    · exact continuous_apply _
-    · exact Complex.continuous_conj.comp (continuous_apply _)
-  have c2 : Continuous (infEq E).symm := by
-    refine continuous_pi fun w => ?_
-    exact (InfinitePlace.Completion.isometryEquivComplexOfIsComplex (IsTotallyComplex.isComplex w)).continuous.comp
-      (continuous_apply w)
-  have c3 : Continuous (pInf E) := c2.comp continuous_fst
-  have c4 : Continuous fun a => coord τ (pInf E a) := c0.comp c3
-  refine Units.continuous_iff.2 ⟨?_, ?_⟩
-  · exact (Units.continuous_val.comp continuous_subtype_val).matrix_map c4
-  · exact (Units.continuous_coe_inv.comp continuous_subtype_val).matrix_map c4
+  apply _root_.GlobalTheory.AutRec.continuous_cEmb_emb <;> assumption
 
 theorem UpperTheory.exists_unitaryAutomorphicForm_of_weightVectorValued :
     ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (n : ℕ) (ι : Type) [Fintype ι] [DecidableEq ι] (emb : ι → (E →+* ℂ)), Function.Injective (fun τ => InfinitePlace.mk (emb τ)) →

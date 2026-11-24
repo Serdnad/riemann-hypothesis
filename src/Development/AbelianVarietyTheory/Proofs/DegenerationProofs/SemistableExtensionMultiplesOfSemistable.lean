@@ -42,6 +42,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.ExistsEqDivOfIsPullback
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.IsCompletedStrictHens
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.ChartPullbacks.TangentLinearity.ConstPullback
 
 @[expose] public section
 
@@ -54,17 +55,6 @@ namespace GlobalTheory
 
 theorem isAbelianScheme_overPullback {S S' : Scheme.{0}} (f : S' ⟶ S) (A : Over S) [GrpObj A]
     (h : IsAbelianScheme A) : IsAbelianScheme ((Over.pullback f).obj A) := by
-  constructor
-  · have := h.comm
-    infer_instance
-  · have := h.smooth
-    change Smooth (pullback.snd A.hom f)
-    infer_instance
-  · have := h.proper
-    change IsProper (pullback.snd A.hom f)
-    infer_instance
-  · have := h.geomConnected
-    change GeometricallyConnected (pullback.snd A.hom f)
-    infer_instance
+  apply _root_.ReciprocityTheory.ChartRestriction.G.Out.TLinPf.isAb_pullback <;> assumption
 
 end GlobalTheory

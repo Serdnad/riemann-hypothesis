@@ -47,6 +47,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.HeightTheory.FiniteAlgebraLocalCompletion
 public import Mathlib.RingTheory.DedekindDomain.IntegralClosure
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.CharpolyOverExtIntegralReductionPow
 
 @[expose] public section
 
@@ -66,14 +67,7 @@ theorem intO_lift_of_val_nonneg (K : UQ) (x : K.E) (h : 0 ≤ val K.O x) : ∃ a
   omega
 
 theorem intO_val_algebraMap_nonneg (K : UQ) (a : K.O) : 0 ≤ val K.O (algebraMap K.O K.E a) := by
-  by_cases ha : a = 0
-  · simp [ha, val]
-  have h1 := (IsDiscreteValuationRing.maximalIdeal K.O).valuation_le_one (K := K.E) a
-  have h0 : (IsDiscreteValuationRing.maximalIdeal K.O).valuation K.E (algebraMap K.O K.E a) ≠ 0 := by
-    simpa using (map_ne_zero_iff _ (IsFractionRing.injective K.O K.E)).2 ha
-  unfold val
-  rw [← WithZero.exp_log h0, ← WithZero.exp_zero, WithZero.exp_le_exp] at h1
-  omega
+  apply _root_.GlobalTheory.UnitLemma.Unr.val_nonneg_of_int <;> assumption
 
 theorem intO_val_ne_zero_of_mem (K : UQ) (a : K.O) (ha0 : a ≠ 0) (ha : a ∈ maximalIdeal K.O) :
     val K.O (algebraMap K.O K.E a) ≠ 0 := by

@@ -1,5 +1,7 @@
 module
 
+
+import Formalism.HermitianCurvature.HermitianCurvatureProofs.LongWeylElement
 public import Formalism.HermitianCurvature.StatementJF
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.SmoothnessOnGoodSet
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.JDomBoundOfNnMaj
@@ -68,7 +70,6 @@ import Mathlib.Tactic.ReduceModChar
 import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Separation.CompletelyRegular
 import Mathlib.Topology.Sheaves.Presheaf
-
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Formalism.HermitianCurvature.HermitianCurvatureProofs.JConvOfJDom, Formalism.HermitianCurvature.HermitianCurvatureProofs.JfJqSmoothOfNnMaj, Formalism.HermitianCurvature.HermitianCurvatureProofs.LUFactorOrbitBounds
 
@@ -1377,18 +1378,7 @@ lemma gN_cont (k r : ℕ) : Continuous (fun x : Mt k r => gN (Matrix.of x : Mat 
   fun_prop
 
 lemma levM_meas (k r' : ℕ) : Measurable (levM k r') := by
-  apply Continuous.measurable
-  apply continuous_pi; intro p
-  apply continuous_pi; intro q
-  show Continuous fun x : Mt k r' => ιLev k 1 r' (Matrix.of x) p q
-  unfold ιLev
-  by_cases hp : 1 ≤ p.val ∧ p.val < 2 * r' + k + 1 + 1
-  · simp only [dif_pos hp]
-    by_cases hq : 1 ≤ q.val ∧ q.val < 2 * r' + k + 1 + 1
-    · simp only [dif_pos hq]
-      exact (continuous_apply _).comp (continuous_apply _)
-    · simp only [dif_neg hq]; exact continuous_const
-  · simp only [dif_neg hp]; exact continuous_const
+  apply _root_.Formalism.FourierDecayAlt.P.LongWeylElement.levM_meas <;> assumption
 
 lemma base (k : ℕ) (μ : Measure (Mt k 0)) (hμ : IsHaarOn (Nset k 0) μ) (a : ℝ) :
     ∫⁻ x, ENNReal.ofReal (gN (Matrix.of x : Mat k 0) ^ (-a)) ∂μ < ⊤ := by
@@ -1610,25 +1600,32 @@ attribute [local instance] Matrix.normedAddCommGroup Matrix.normedSpace
 
 open Formalism.FourierDecayAlt.P.WeakDominationMajorants
 
-theorem nnMaj : Formalism.FourierDecayAlt.P.JFxDs2.NNMaj := by
-  intro k r Wp Wq _ _ _ _ D A m hThr K hK hKO
+theorem nnMaj_of_decay_threshold :
+  ∀ (k r : ℕ) (Wp Wq : Type) [NormedAddCommGroup Wp] [InnerProductSpace ℂ Wp] [NormedAddCommGroup Wq]
+    [InnerProductSpace ℂ Wq] (D : B.RealPlaceData k r Wp Wq) (A : ℝ) (m : ℕ),
+    0 < A - 6 * (r : ℝ) * (m : ℝ) →
+    (r : ℝ) * (4 * (r : ℝ) + 2 * (k : ℝ) - 1) * (6 * (r : ℝ) + 1) <
+      A - 6 * (r : ℝ) * (m : ℝ) →
+    ∀ K : Set (B.Mat k r), IsCompact K → K ⊆ Om k r D.z D.z' →
+      ∃ b : B.SS k r → ℝ, Integrable b D.μSS ∧
+        ∀ u v : List (B.Mat k r), (∀ X ∈ u, B.unitLie k r X) → (∀ X ∈ v, B.unitLie k r X) →
+          u.length + v.length ≤ m → ∀ g ∈ K, ∀ᵐ p ∂D.μSS,
+            (u.map fun X => ‖AdL p X‖).prod * (v.map fun X => ‖AdR p X‖).prod * B.gN (B.sgs p g) ^ (-A) ≤ b p := by
+  intro k r Wp Wq _ _ _ _ D A m hA1pos hThr K hK hKO
   obtain ⟨C3, hC3, horb⟩ := orbit3 D.z D.z' K hK hKO
   obtain ⟨cW, hcW, hW⟩ := uw_bound D.z D.z_mem D.T_pos
   obtain ⟨cW', hcW', hW'⟩ := uw_bound D.z' D.z'_mem D.T'_pos
 
+  have hc : 1 ≤ max cW cW' := le_trans hcW (le_max_left _ _)
   have hC4 : 1 ≤ max 1 (C3 * max cW cW' ^ (6 * r)) := le_max_left _ _
   set c := max cW cW' with hc_def
   set C4 := max 1 (C3 * c ^ (6 * r)) with hC4_def
   set NN : ℝ := ((2 * r + k + 1 : ℕ) : ℝ) with hNN
+  have hNN1 : 1 ≤ NN := by rw [hNN]; exact_mod_cast (by omega : 1 ≤ 2 * r + k + 1)
   set Λ1 := max 1 (NN * c ^ 2 * C4 ^ 2) with hΛ1_def
   have hΛ1 : 1 ≤ Λ1 := le_max_left _ _
   set A1 := A - 6 * (r : ℝ) * (m : ℝ) with hA1_def
 
-  have hThr' : 9 * ((r : ℝ) + 1) * NN ^ 2 < A1 := by
-    have h9 : (0 : ℝ) < 9 * ((r : ℝ) + 1) := by positivity
-    have := (lt_div_iff₀ h9).1 hThr
-    rw [hNN]; linarith
-  have hA1pos : 0 < A1 := lt_of_le_of_lt (by positivity) hThr'
   set β := A1 / (6 * (r : ℝ) + 1) with hβ_def
   have hβ0 : 0 ≤ β := div_nonneg hA1pos.le (by positivity)
   have hβA : 6 * (r : ℝ) * β ≤ A1 := by
@@ -1640,12 +1637,7 @@ theorem nnMaj : Formalism.FourierDecayAlt.P.JFxDs2.NNMaj := by
     · exact Or.inl h
     · right
       rw [hβ_def, lt_div_iff₀ (by positivity)]
-      have hr : (1 : ℝ) ≤ r := by exact_mod_cast h
-      have hk : (0 : ℝ) ≤ k := by positivity
-      have hNNe : NN = 2 * (r : ℝ) + k + 1 := by rw [hNN]; push_cast; ring
-      rw [hNNe] at hThr'
-      nlinarith [mul_nonneg (by linarith : (0:ℝ) ≤ r) hk, mul_nonneg hk hk, mul_nonneg (mul_nonneg (by linarith : (0:ℝ) ≤ r) hk) hk,
-        mul_nonneg (mul_nonneg (by linarith : (0:ℝ) ≤ r) (by linarith : (0:ℝ) ≤ r)) hk]
+      exact hThr
 
   set f : Mt k r → ℝ := fun x => gN (Matrix.of x : Mat k r) ^ (-β) with hf_def
   refine ⟨fun p => Λ1 ^ m * (C4 ^ β) ^ 2 * (f p.1.2 * f p.2.2), ?_, ?_⟩
@@ -1741,6 +1733,8 @@ theorem nnMaj : Formalism.FourierDecayAlt.P.JFxDs2.NNMaj := by
         exact ⟨norm_nonneg _, hlet _ (Matrix.of p.2.1) (Or.inr rfl) (Formalism.FourierDecayAlt.P.JFxDs2.sR_mem hp) Y (hv Y hYv)⟩)
       simpa using this
     have hP : (u.map fun Y => ‖AdL p Y‖).prod * (v.map fun Y => ‖AdR p Y‖).prod ≤ (Λ1 * X ^ (6 * r)) ^ m := by
+      have hu0 : 0 ≤ (u.map fun Y => ‖AdL p Y‖).prod := List.prod_nonneg fun y hy => by
+        obtain ⟨Y, _, rfl⟩ := List.mem_map.1 hy; exact norm_nonneg _
       calc _ ≤ (Λ1 * X ^ (6 * r)) ^ u.length * (Λ1 * X ^ (6 * r)) ^ v.length :=
             mul_le_mul hPu hPv (List.prod_nonneg fun y hy => by
               obtain ⟨Y, _, rfl⟩ := List.mem_map.1 hy; exact norm_nonneg _) (by positivity)
@@ -1749,6 +1743,20 @@ theorem nnMaj : Formalism.FourierDecayAlt.P.JFxDs2.NNMaj := by
     exact real_step X (gN (Matrix.of p.1.2)) (gN (Matrix.of p.2.2)) C4 Λ1 A A1 β _ m r hX1 hC4
       (Formalism.FourierDecayAlt.P.BetaSesquilinearity.gN_ge_one (Orb.n_mem_G hn)) (Formalism.FourierDecayAlt.P.BetaSesquilinearity.gN_ge_one (Orb.n_mem_G hn')) hG1 hG2 hβ0 hβA
       hA1_def hΛ1 hP
+
+theorem nnMaj : Formalism.FourierDecayAlt.P.JFxDs2.NNMaj := by
+  intro k r Wp Wq _ _ _ _ D A m hThr K hK hKO
+  have h9 : (0 : ℝ) < 9 * ((r : ℝ) + 1) := by positivity
+  have hA : 9 * ((r : ℝ) + 1) * ((2 * r + k + 1 : ℕ) : ℝ) ^ 2 <
+      A - 6 * (r : ℝ) * (m : ℝ) := by
+    have := (lt_div_iff₀ h9).1 hThr
+    linarith
+  refine nnMaj_of_decay_threshold k r Wp Wq D A m (lt_of_le_of_lt (by positivity) hA) ?_ K hK hKO
+  have hr : (0 : ℝ) ≤ r := by positivity
+  have hk : (0 : ℝ) ≤ k := by positivity
+  push_cast at hA
+  nlinarith [mul_nonneg hr hk, mul_nonneg hk hk, mul_nonneg (mul_nonneg hr hk) hk,
+    mul_nonneg (mul_nonneg hr hr) hk, mul_nonneg (mul_nonneg hr hr) hr]
 
 end Formalism.FourierDecayAlt.P.WeakDominationMajorants.Asm
 

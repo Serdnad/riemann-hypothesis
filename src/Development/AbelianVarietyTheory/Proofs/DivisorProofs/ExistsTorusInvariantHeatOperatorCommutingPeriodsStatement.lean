@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.FlatSectionAndDegree
 public import Mathlib.Algebra.CharZero.Defs
 public import Mathlib.Algebra.Group.Hom.Defs
 public import Mathlib.Algebra.Ring.Defs
@@ -781,18 +782,7 @@ noncomputable section
 namespace GlobalTheory.SpecLocalExt
 
 theorem hom_ext_of_localizationAtPrime : ∀ (A : Type) [CommRing A] (X : Scheme.{0}) (a b : Sp A ⟶ X), (∀ (P : Ideal A) [P.IsPrime], spMap (algebraMap A (Localization.AtPrime P)) ≫ a = spMap (algebraMap A (Localization.AtPrime P)) ≫ b) → a = b := by
-  intro A _ X a b h
-  refine GlobalTheory.hom_ext_of_isLocalRing fun B _ _ φ => ?_
-  let P : Ideal A := (IsLocalRing.maximalIdeal B).comap φ
-  haveI : P.IsPrime := Ideal.comap_isPrime φ (IsLocalRing.maximalIdeal B)
-  have hu : ∀ y : P.primeCompl, IsUnit (φ y) := fun y => by
-    by_contra hy
-    exact y.2 ((IsLocalRing.mem_maximalIdeal _).2 hy)
-  let ψ : Localization.AtPrime P →+* B := IsLocalization.lift hu
-  have e : φ = ψ.comp (algebraMap A (Localization.AtPrime P)) := (IsLocalization.lift_comp hu).symm
-  have h' := h P
-  simp only [spMap] at h'
-  rw [e, CommRingCat.ofHom_comp, Spec.map_comp, Category.assoc, Category.assoc, h']
+  apply _root_.GlobalTheory.FlatRow.EigLocal.hom_ext_of_loc <;> assumption
 
 end GlobalTheory.SpecLocalExt
 end -- clump:auto

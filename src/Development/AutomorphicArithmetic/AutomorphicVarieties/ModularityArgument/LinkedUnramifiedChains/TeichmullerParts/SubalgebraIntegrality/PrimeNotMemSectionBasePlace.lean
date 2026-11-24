@@ -1,5 +1,6 @@
 module
 
+import all Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.LinkedUnramifiedChains.TeichmullerParts.SubalgebraIntegrality.PrimeNotMemSectionBasePlaceBis
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.LinkedUnramifiedChains.TeichmullerParts.UnramifiedTrivialInertialType
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsUniqueAdmissibleLocalComponentDefiniteUnit
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FinrankIntegralFixedVectorsEqOneAlmostAll
@@ -313,21 +314,7 @@ private theorem under_w (v : Plc (Lp L)) : (s.w v).under (𝓞 (Lp L)) = v := by
   exact (s.hw v (algebraMap (𝓞 (Lp L)) (𝓞 L) x)).symm.trans (s.hA v x)
 
 private theorem SectionSplitPlaces : ((l : ℕ) : 𝓞 (Lp L)) ∉ s.v0.asIdeal := by
-  intro h
-  have hcard : Nat.card (𝓞 (Lp L) ⧸ s.v0.asIdeal) = s.p := s.norm_v0_eq_one
-  have hl0 : ((l : ℕ) : 𝓞 (Lp L) ⧸ s.v0.asIdeal) = 0 := by
-    simpa using (Ideal.Quotient.eq_zero_iff_mem.2 h)
-  have hp0 : ((s.p : ℕ) : 𝓞 (Lp L) ⧸ s.v0.asIdeal) = 0 := by
-    have := card_nsmul_eq_zero' (G := 𝓞 (Lp L) ⧸ s.v0.asIdeal) (x := 1)
-    rw [hcard] at this
-    simpa using this
-  obtain ⟨a, b, e⟩ := ((Nat.coprime_primes (Fact.out : l.Prime) s.p_prime).2 (Ne.symm s.p_ne)).isCoprime
-  have e' := congrArg (Int.cast : ℤ → 𝓞 (Lp L) ⧸ s.v0.asIdeal) e
-  push_cast at e'
-  rw [hl0, hp0, mul_zero, mul_zero, add_zero] at e'
-  haveI := subsingleton_of_zero_eq_one e'
-  rw [Nat.card_of_subsingleton (0 : 𝓞 (Lp L) ⧸ s.v0.asIdeal)] at hcard
-  exact s.p_prime.one_lt.ne hcard
+  apply _root_.UpperTheory.V.Z.J.D.AuxBlock5.SectionSplitPlaces <;> assumption
 
 private theorem cmp_S {v : Plc (Lp L)} (h : v ∈ s.St ∨ v = s.v0) (x : UA L n) :
     cmp n (s.w v) ((away l L n).rangeRestrict x) = cLoc (s.w v) x := by

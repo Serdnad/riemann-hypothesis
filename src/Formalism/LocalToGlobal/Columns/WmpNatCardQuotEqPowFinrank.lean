@@ -570,34 +570,7 @@ theorem wmp_card_quot (B N : Submodule (𝓞 E) (Sp E n)) :
 private theorem isFullLattice_of_unimodular {L : Submodule (𝓞 E) (Sp E n)}
     (hL : Submodule.IsLattice E L) (hu : IsUnimodular (hStd E n) L) :
     Submodule.IsFullLattice E L := by
-  let := hL
-  refine { span_eq_top := ?_ }
-  let W := Submodule.span E (L : Set (Sp E n))
-  change W = ⊤
-  by_contra h
-  let e : Sp E n ≃ₗ⋆[E] Sp E n := starLinearEquiv E
-  let g : Sp E n →ₗ[E] Module.Dual E W :=
-    (LinearMap.domRestrict' W).comp ((hStd E n).comp e.toLinearMap)
-  have hdim : finrank E (Module.Dual E W) < finrank E (Sp E n) := by
-    rw [Subspace.dual_finrank_eq]
-    exact Submodule.finrank_lt h
-  obtain ⟨x, hx, hx₀⟩ :=
-    Submodule.exists_mem_ne_zero_of_ne_bot (LinearMap.ker_ne_bot_of_finrank_lt (f := g) hdim)
-  -- Every multiple of the orthogonal vector lies in the self-dual lattice.
-  have hsmul (a : E) : a • e x ∈ L := by
-    rw [← hu, dualBasic_mem_dual]
-    intro y hy
-    apply hStd_mem_one_symm
-    have hxy : hStd E n (e x) y = 0 :=
-      congrArg (fun f : Module.Dual E W => f ⟨y, Submodule.subset_span hy⟩) (LinearMap.mem_ker.mp hx)
-    simp [LinearMap.map_smulₛₗ, LinearMap.smul_apply, hxy]
-  let i : E →ₗ[𝓞 E] L :=
-    ((LinearMap.toSpanSingleton E _ (e x)).restrictScalars (𝓞 E)).codRestrict L hsmul
-  let : Module.Finite (𝓞 E) L := Module.Finite.iff_fg.mpr hL.fg
-  let : Module.Finite (𝓞 E) E := Module.Finite.of_injective i fun a b hab =>
-    smul_left_injective E (fun hzero => hx₀ (e.map_eq_zero_iff.mp hzero)) (congrArg Subtype.val hab)
-  exact RingOfIntegers.not_isField E
-    (isField_of_isIntegral_of_isField (IsFractionRing.injective (𝓞 E) E) (Field.toIsField E))
+  apply _root_.Formalism.L2.Col.hcnt_isFullLattice_of_unimodular <;> assumption
 
 theorem wmp_relIndex_inf_eq {N N₁ : Submodule (𝓞 E) (Sp E n)} (hN : Submodule.IsLattice E N)
     (hN₁ : Submodule.IsLattice E N₁) (hu : IsUnimodular (hStd E n) N) (hu₁ : IsUnimodular (hStd E n) N₁)

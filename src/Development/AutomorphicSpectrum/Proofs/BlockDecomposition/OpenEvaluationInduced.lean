@@ -1,5 +1,6 @@
 module
 
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.AverageVanishesOpenCell
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.AvgVanish
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.DerivativeFunctorTwistEquiv
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.IntegralLinearChangeModulus
@@ -1021,51 +1022,14 @@ def cEl (i t : ℕ) (x : Fin (i + 1) → k) : Mir k ((i + 1) + (t + 1)) :=
   ⟨unip k ((i + 1) + (t + 1)) (Multiplicative.ofAdd (Fin.append x (0 : Fin (t + 1) → k))), MirU_le_Mir k _ ⟨_, rfl⟩⟩
 
 theorem cEl_mem (i t : ℕ) (x : Fin (i + 1) → k) : cEl i t x ∈ HPG k (i + 1) (t + 1) := by
-  refine Cells.mem_HPG_of (I := i + 1) (T := t + 1) (cEl i t x) ?_ ?_
-  · intro a b
-    refine Cells.unip_castSucc_castSucc _ _ _ _ ?_
-    intro e
-    have := congrArg Fin.val e
-    simp only at this
-    omega
-  · intro a
-    refine (unip_apply_castSucc_last k _ _ _).trans ?_
-    show Fin.append x (0 : Fin (t + 1) → k) (Fin.natAdd (i + 1) a) = 0
-    simp
+  apply _root_.GlobalTheory.CompanionTheory.BZPhiPG.LocO.cEl_mem <;> assumption
 
 def uEl (i : ℕ) (x : Fin (i + 1) → k) : MirUin k (i + 1) :=
   ⟨⟨unip k (i + 1) (Multiplicative.ofAdd x), MirU_le_Mir k _ ⟨_, rfl⟩⟩, ⟨_, rfl⟩⟩
 
 theorem pgProj_cEl (i t : ℕ) (x : Fin (i + 1) → k) :
     pgProj k (i + 1) (t + 1) ⟨cEl i t x, cEl_mem i t x⟩ = ((uEl i x : Mir k (i + 1)), 1) := by
-  refine Prod.ext ?_ ?_
-  · apply Subtype.ext
-    apply Units.ext
-    ext a b
-    show (unip k ((i + 1) + (t + 1)) (Multiplicative.ofAdd (Fin.append x (0 : Fin (t + 1) → k)))).val
-      (ePG (i + 1) (t + 1) ⟨false, a⟩) (ePG (i + 1) (t + 1) ⟨false, b⟩) =
-      (unip k (i + 1) (Multiplicative.ofAdd x)).val a b
-    induction a using Fin.lastCases with
-    | last =>
-      rw [ePG_false_last]
-      induction b using Fin.lastCases with
-      | last => rw [ePG_false_last, unip_ll, unip_ll]
-      | cast b => rw [ePG_false_castSucc', unip_lc, unip_lc]
-    | cast a =>
-      rw [ePG_false_castSucc']
-      induction b using Fin.lastCases with
-      | last =>
-        rw [ePG_false_last, unip_apply_castSucc_last, unip_apply_castSucc_last]
-        simp
-      | cast b =>
-        rw [ePG_false_castSucc', unip_cc, unip_cc]
-        simp [Matrix.one_apply]
-  · apply Units.ext
-    ext a b
-    show (unip k ((i + 1) + (t + 1)) (Multiplicative.ofAdd (Fin.append x (0 : Fin (t + 1) → k)))).val
-      (ePG (i + 1) (t + 1) ⟨true, a⟩) (ePG (i + 1) (t + 1) ⟨true, b⟩) = (1 : Matrix (Fin (t + 1)) (Fin (t + 1)) k) a b
-    rw [ePG_true', ePG_true', unip_cc]
-    simp [Matrix.one_apply]
+  apply _root_.GlobalTheory.CompanionTheory.BZPhiPG.LocO.pgProj_cEl <;> assumption
 
 theorem conj_eq_levi (i t : ℕ) (m : Mir k (i + (t + 1))) :
     wEl k i t * sEmb k ((i + 1) + t) (castM k (by omega) m) * (wEl k i t)⁻¹ = levi k _ (gEl i t m) := by

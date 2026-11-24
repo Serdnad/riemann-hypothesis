@@ -1,5 +1,6 @@
 module
 
+import Formalism.SizeWindowBrackets.ChainSlopeWindows.StronglyIrreducible
 public import Formalism.ThickAverageLoss.PartnersToFactorsAt
 public import Mathlib.NumberTheory.Chebyshev
 public import Formalism.StatementOC
@@ -136,20 +137,7 @@ lemma card_S (t : H) :
   exact sum_S_rho t (fun _ => (1 : ℕ))
 
 lemma card_G_eq : (Fintype.card (E0 × H) : ℂ) = 2 * ((PhiSet (H := H)).card : ℂ) := by
-  have h1 : (univ.filter (fun g : E0 × H => InPhi g)).card
-      + (univ.filter (fun g : E0 × H => ¬ InPhi g)).card = Fintype.card (E0 × H) := by
-    rw [Finset.card_eq_sum_ones, Finset.card_eq_sum_ones, ← Finset.card_univ, Finset.card_eq_sum_ones]
-    exact Finset.sum_filter_add_sum_filter_not _ _ _
-  have h2 : (univ.filter (fun g : E0 × H => ¬ InPhi g)).card = (PhiSet (H := H)).card := by
-    rw [← card_S (H := H) 0]
-    congr 1
-    apply Finset.filter_congr
-    intro g _
-    rw [inPhi_add_topPl]
-  have h3 : univ.filter (fun g : E0 × H => InPhi g) = PhiSet (H := H) := PhiSet.eq_1.symm
-  rw [← h1, h2, h3]
-  push_cast
-  ring
+  apply _root_.Formalism.LFunctionChainParameters.characterSumData.PB.card_G <;> assumption
 
 lemma phiSet_card_ne_zero : ((PhiSet (H := H)).card : ℂ) ≠ 0 := by
   have hmem : (0 : E0 × H) ∈ PhiSet (H := H) := by

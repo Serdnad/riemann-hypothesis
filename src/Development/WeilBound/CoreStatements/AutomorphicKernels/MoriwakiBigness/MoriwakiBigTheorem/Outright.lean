@@ -310,6 +310,8 @@ import GroundTheory.HeightsAndTheta.Heights.HeightsOfSets.HeightsSetAll
 import GroundTheory.HeightsAndTheta.Heights.HeightsOfSets.MemMCoordIdealIffOfIsWeightedHomogeneous
 import Mathlib.Algebra.Ring.IsFormallyReal
 import Mathlib.Tactic.Linter.HaveILetI
+import Development.AbelianVarietyTheory.Proofs.ModuliProofs.PolarizedAbelianAmpleExistsPositiveVolume
+import Development.WeilBound.CoreStatements.TemperedRepresentationTheory.NefDivisors.NefRR
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.WeilBound.CoreStatements.AutomorphicKernels.MoriwakiBigness.HilbertSamuelBlock.HSMBlock, Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ExistsCoordNeZero, Development.AutomorphicSpectrum.Proofs.GlobalProofs.TendstoFinrankVeryAmple, Development.WeilBound.CoreStatements.AutomorphicKernels.MoriwakiBigness.MoriwakiRankBounds.OfDegreeGeneric, Development.WeilBound.CoreStatements.AutomorphicKernels.MoriwakiBigness.MoriwakiRankBounds.OfUpper, Development.WeilBound.CoreStatements.AutomorphicKernels.MoriwakiBigness.MoriwakiRankBounds.OfAis, Development.WeilBound.CoreStatements.AutomorphicKernels.MoriwakiBigness.SegreJoinGeneration.GeneratesOverSegreJoinTwist, Development.WeilBound.CoreStatements.AutomorphicKernels.MoriwakiBigness.MoriwakiBigTheorem.HSChain, Development.WeilBound.CoreStatements.AutomorphicKernels.MoriwakiBigness.MoriwakiSymmetry.EqMapSymm, Development.WeilBound.CoreStatements.AutomorphicKernels.MoriwakiBigness.MoriwakiBigTheorem.Outright
@@ -400,39 +402,11 @@ namespace GlobalTheory.CompanionTheory.Hypotheses₂.NefVolume
 
 theorem tendsto_pow_div_pow {i e : ℕ} (h : i ≤ e) :
     Tendsto (fun n : ℕ => (n : ℝ) ^ i / (n : ℝ) ^ e) atTop (𝓝 (if i = e then 1 else 0)) := by
-  rcases h.eq_or_lt with rfl | hlt
-  · rw [if_pos rfl]
-    refine tendsto_const_nhds.congr' ?_
-    filter_upwards [eventually_gt_atTop 0] with n hn
-    have : (n : ℝ) ≠ 0 := by positivity
-    field_simp
-  · rw [if_neg hlt.ne]
-    have h0 : Tendsto (fun n : ℕ => (1 / (n : ℝ)) ^ (e - i)) atTop (𝓝 (0 ^ (e - i))) :=
-      tendsto_one_div_atTop_nhds_zero_nat.pow _
-    rw [zero_pow (by omega)] at h0
-    refine h0.congr' ?_
-    filter_upwards [eventually_gt_atTop 0] with n hn
-    have hn0 : (n : ℝ) ≠ 0 := by positivity
-    obtain ⟨r, rfl⟩ : ∃ r, e = i + r := ⟨e - i, by omega⟩
-    rw [Nat.add_sub_cancel_left, pow_add, one_div, inv_pow]
-    field_simp
+  apply _root_.GlobalTheory.VolEx.tendsto_pow_div_pow <;> assumption
 
 theorem tendsto_eval_div_pow (P : Polynomial ℚ) {e : ℕ} (hP : P.natDegree ≤ e) :
     Tendsto (fun n : ℕ => ((P.eval (n : ℚ) : ℚ) : ℝ) / (n : ℝ) ^ e) atTop (𝓝 (P.coeff e : ℝ)) := by
-  have h1 : ∀ n : ℕ, ((P.eval (n : ℚ) : ℚ) : ℝ) / (n : ℝ) ^ e =
-      ∑ i ∈ Finset.range (e + 1), (P.coeff i : ℝ) * ((n : ℝ) ^ i / (n : ℝ) ^ e) := by
-    intro n
-    rw [Polynomial.eval_eq_sum_range' (Nat.lt_succ_of_le hP), Rat.cast_sum, Finset.sum_div]
-    refine Finset.sum_congr rfl fun i _ => ?_
-    push_cast
-    ring
-  simp_rw [h1]
-  have h2 : Tendsto (fun n : ℕ => ∑ i ∈ Finset.range (e + 1),
-      (P.coeff i : ℝ) * ((n : ℝ) ^ i / (n : ℝ) ^ e)) atTop
-      (𝓝 (∑ i ∈ Finset.range (e + 1), (P.coeff i : ℝ) * (if i = e then 1 else 0))) :=
-    tendsto_finsetSum _ fun i hi =>
-      (tendsto_pow_div_pow (Nat.lt_succ_iff.1 (Finset.mem_range.1 hi))).const_mul _
-  simpa [Finset.sum_ite_eq', Finset.mem_range] using h2
+  apply _root_.GlobalTheory.VolEx.tendsto_eval_div_pow <;> assumption
 
 theorem tendsto_finrank_veryAmple {F : Type} [Field F] {K : Type} [Fintype K] [DecidableEq K] {ι : K → Type}
     [∀ k, Fintype (ι k)] {Ω : Type} [Field Ω] [Algebra F Ω] {y : (Σ k, ι k) → Ω} {k₀ : K} {d : ℕ} {ν : K → ℤ}
@@ -985,20 +959,7 @@ section Final
 variable {K : Type} [Fintype K] {ι : K → Type} [∀ k, Fintype (ι k)] {Ω : Type} [Field Ω] [CharZero Ω]
 
 theorem chartLatQ_eq_secOver (y : (Σ k, ι k) → Ω) (b : K → ℤ) : chartLatQ y b 1 = secOver ℚ y b := by
-  ext s
-  simp only [secOver, Submodule.mem_iInf, Submodule.mem_comap, LinearMap.mulRight_apply,
-    Subalgebra.mem_toSubmodule]
-  have h3 : ∀ (c : ∀ k, ι k) (j : K), -(((1 : ℕ) : ℤ) * b j) = -b j := fun _ j => by simp
-  constructor
-  · intro h c hc
-    have h1 := h c hc
-    simp only [h3 c] at h1
-    exact h1
-  · intro h c hc
-    have h1 := h c hc
-    show s * ∏ k, y ⟨k, c k⟩ ^ (-(((1 : ℕ) : ℤ) * b k)) ∈ chartRingQ y c
-    simp only [h3 c]
-    exact h1
+  apply _root_.GlobalTheory.CompanionTheory.NefLower.chartLatQ_eq_secOver <;> assumption
 
 theorem chartLatQ_smul (y : (Σ k, ι k) → Ω) (a : K → ℤ) (τ : ℕ) :
     chartLatQ y ((τ : ℤ) • a) 1 = chartLatQ y a τ := by

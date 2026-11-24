@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.RelIndexNeZeroOfSubsetCpt
 public import Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange.ArchimedeanBaseChangeProof.SatakeExponents.UniformizerValuations.MatchB
 import Development.AbelianVarietyTheory.Proofs.FoundationProofs.HasSatakeGLOfIsSatVecGL
 import GroundTheory.LocalFields.PadicLogSeries
@@ -146,15 +147,7 @@ theorem mb_lconv_lone {n : ℕ} {w : Pl E} (K' : Subgroup (UL n w)) (hK : K' ≤
     rw [hu, mb_hint_coset _ _ hK, mb_lone_apply, if_neg hy, mul_zero]
 
 theorem mb_isCompact_KL_split {n : ℕ} {w : Pl E} (hw : IsSplitAt w) : IsCompact (KL n w : Set (UL n w)) := by
-  have hcl : IsClosed (UL n w : Set (GLw n w)) := by
-    have h : UL n w = ⊤ := if_pos hw
-    rw [h]
-    exact isClosed_univ
-  have hKL : (KL n w : Set (UL n w)) = Subtype.val ⁻¹' (GlobalTheory.LFun.KGL w (n := n) : Set (GLw n w)) := by
-    ext x
-    exact Subgroup.mem_subgroupOf
-  rw [hKL]
-  exact hcl.isClosedEmbedding_subtypeVal.isCompact_preimage (GlobalTheory.LFun.SatCompare.isOpen_isCompact_KGL w n).2
+  apply _root_.GlobalTheory.LocFinU.isCompact_KL <;> assumption
 
 theorem mb_isHecke_lone {n : ℕ} {w : Pl E} {K' : Subgroup (UL n w)} (hK : IsLevel (MonoidHom.id _) (KL n w) K')
     (hc : IsCompact (KL n w : Set (UL n w))) : IsHecke K' (lone K') := by

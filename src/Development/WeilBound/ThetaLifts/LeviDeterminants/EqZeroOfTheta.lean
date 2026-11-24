@@ -1,5 +1,6 @@
 module
 
+import Development.WeilBound.ThetaLifts.SmallCones.FourierUniq
 public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.WeilTensorModels
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.StandardAdelicCharacterNontrivialAtPlaces
 public import Development.AbelianVarietyTheory.Definitions.Divisors.HilbertNinetyQuotientHomEqIff
@@ -61,21 +62,8 @@ namespace PositivityTheory.ThKF0
 
 variable {F : Type} [Field F] [NumberField F] {κ : Type} [Fintype κ] {ψ : AddChar (AF F) ℂ}
 
-theorem isStd_ne_one (hψ : IsStd ψ) : ψ ≠ 1 := by
-  intro h1
-  have hn : (Module.finrank ℚ F : ℚ) ≠ 0 := by
-    exact_mod_cast (Module.finrank_pos (R := ℚ) (M := F)).ne'
-  have e := GlobalTheory.PsiNontriv.isStd_fin_rat hψ (algebraMap ℚ F (1 / (2 * Module.finrank ℚ F)))
-  rw [h1, AddChar.one_apply, Algebra.trace_algebraMap] at e
-  have e2 : (Module.finrank ℚ F • (1 / (2 * (Module.finrank ℚ F : ℚ))) : ℚ) = 1 / 2 := by
-    rw [nsmul_eq_mul]
-    field_simp
-  rw [e2] at e
-  have e3 : 2 * (Real.pi : ℂ) * Complex.I * (((1 / 2 : ℚ)) : ℂ) = Real.pi * Complex.I := by
-    push_cast
-    ring
-  rw [e3, Complex.exp_pi_mul_I] at e
-  norm_num at e
+theorem isStd_ne_one (hψ : IsStd ψ) : ψ ≠ 1 :=
+  _root_.PositivityTheory.ThKCT.std_ne_one hψ
 
 
 variable (F) in

@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.TwistedGLMassFormula
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.LeftMulMatrixTransfer
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LocalComponentDefiniteUnitaryFinitePartEqLocalPo
 public import Development.AbelianVarietyTheory.Definitions.Divisors.IsUnifAt
@@ -127,25 +128,8 @@ theorem aeval_mulVec_krylov {R : Type} [CommRing R] {r : ℕ} (A : Matrix (Fin r
 theorem eq_aeval_of_cyclic {R : Type} [CommRing R] {r : ℕ} (A : Matrix (Fin r) (Fin r) R) (v : Fin r → R)
     (hKu : IsUnit (GlobalTheory.ClassParam.krylov A v).det) (n : Matrix (Fin r) (Fin r) R) (hn : Commute n A) :
     ∃ q : R[X], n = aeval A q := by
-  set K := GlobalTheory.ClassParam.krylov A v with hK
-  let c := K⁻¹ *ᵥ (n *ᵥ v)
-  refine ⟨∑ j : Fin r, monomial (j : ℕ) (c j), ?_⟩
-  set p := aeval A (∑ j : Fin r, monomial (j : ℕ) (c j)) with hp
-  have hpv : p *ᵥ v = n *ᵥ v := by
-    rw [hp, aeval_mulVec_krylov, ← hK]
-    simp only [c, Matrix.mulVec_mulVec, ← Matrix.mul_assoc, Matrix.mul_nonsing_inv _ hKu, Matrix.one_mul]
-  have hpA : Commute p A := (commute_aeval (Commute.refl A) _).symm
-  have hcol : n * K = p * K := by
-    ext i j
-    have e1 : ∀ M : Matrix (Fin r) (Fin r) R, Commute M A →
-        (M * K) i j = (A ^ (j : ℕ) *ᵥ (M *ᵥ v)) i := by
-      intro M hM
-      have : (M * K) i j = (M *ᵥ (A ^ (j : ℕ) *ᵥ v)) i := by
-        simp [hK, GlobalTheory.ClassParam.krylov, Matrix.mul_apply, Matrix.mulVec, dotProduct]
-      rw [this, Matrix.mulVec_mulVec, Matrix.mulVec_mulVec, (hM.pow_right _).eq]
-    rw [e1 n hn, e1 p hpA, hpv]
-  have := congrArg (· * K⁻¹) hcol
-  simpa [Matrix.mul_assoc, Matrix.mul_nonsing_inv _ hKu] using this
+  intros
+  apply _root_.GlobalTheory.MassNorm.aeval_of_commute_cyclic <;> assumption
 
 theorem commute_of_commute_map_separable {E R : Type} [Field E] [CommRing R] (f : E →+* R) {r : ℕ}
     (A : Matrix (Fin r) (Fin r) E) (hA : A.charpoly.Separable) (X Y : Matrix (Fin r) (Fin r) R)
@@ -253,21 +237,7 @@ namespace GlobalTheory.BCT.CentLev
 theorem loc_cpt_part {E : Type} [Field E] [NumberField E] [IsCMField E] (hU : Unr E) (n : ℕ) (w : Pl E)
     (y : UL n w) (hs : y.1.val.charpoly.Separable) :
     ∃ C : Set (UL n w), IsCompact C ∧ (cptPart (twCent (MonoidHom.id (UL n w)) y) : Set (UL n w)) ⊆ C := by
-  obtain ⟨Ω, hΩ, hmem⟩ := GlobalTheory.CentCpt.main E hU n w y hs
-  haveI : T2Space (GL (Fin n) (w.adicCompletion E)) := Units.isEmbedding_embedProduct.t2Space
-  have hc : ∀ a ∈ twCent (MonoidHom.id (UL n w)) y, ∀ b ∈ twCent (MonoidHom.id (UL n w)) y, a * b = b * a := by
-    intro a ha b hb
-    have ha' : a * y = y * a := ha
-    have hb' : b * y = y * b := hb
-    have hav : (a : GLw n w).val * (y : GLw n w).val = (y : GLw n w).val * (a : GLw n w).val := by
-      have := congrArg (fun z : UL n w => (z : GLw n w).val) ha'; simpa using this
-    have hbv : (b : GLw n w).val * (y : GLw n w).val = (y : GLw n w).val * (b : GLw n w).val := by
-      have := congrArg (fun z : UL n w => (z : GLw n w).val) hb'; simpa using this
-    have := GlobalTheory.commute_of_commute_separable_charpoly _ n _ _ _ hs hav hbv
-    apply Subtype.ext; apply Units.ext; simpa using this
-  refine ⟨Ω, hΩ, fun z hz => ?_⟩
-  obtain ⟨hzT, hzc⟩ := GlobalTheory.LocFinU.cptPart_subset_of_comm _ hc hz
-  exact hmem z hzT hzc
+  apply _root_.GlobalTheory.LocFinU.bound <;> assumption
 
 theorem stab_le_cptPart : ∀ (E : Type) [Field E] [NumberField E] [IsCMField E], Unr E → ∀ n : ℕ, 1 ≤ n → ∀ (S : Set (Pl E)), IsSection S → ∀ (K' : ∀ w : Pl E, Subgroup (UL n w)), IsLevelFam (fun w : Pl E => MonoidHom.id (UL n w)) (KL n) K' → ∀ γ : UE E n, γ.1.val.charpoly.Separable → ∀ x : finU (E := E) (n := n), twCent (MonoidHom.id (finU (E := E) (n := n))) (finPt γ) ⊓ (globLev S (KL n)).map (MulAut.conj x).toMonoidHom ≤ cptPart (twCent (MonoidHom.id (finU (E := E) (n := n))) (finPt γ)) ∧ (twCent (MonoidHom.id (finU (E := E) (n := n))) (finPt γ) ⊓ (globLev S K').map (MulAut.conj x).toMonoidHom).relIndex (cptPart (twCent (MonoidHom.id (finU (E := E) (n := n))) (finPt γ))) ≠ 0 := by
   intro E _ _ _ hU n hn S hS K' hK' γ hγ x

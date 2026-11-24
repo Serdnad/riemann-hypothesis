@@ -1,5 +1,6 @@
 module
 
+import Development.AutomorphicSpectrum.Proofs.MetricProofs.PeriodHermitianTypeCompatibility
 public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.IsHodgeGram
 public import Development.AbelianVarietyTheory.Proofs.HomogeneousIdeals.LeftEqIffLieVecSmul
 import Mathlib.Algebra.Order.Floor.Extended
@@ -165,15 +166,8 @@ theorem trace_basis_mul_sesq (D : Datum H) (x y : D.La) (j) :
 
 theorem trace_mul_sesq (D : Datum H) (x y : D.La) (a : 𝓞 E) :
     Algebra.trace ℚ E ((a : E) * sesq D x y) = D.EF (a • x) y := by
-  have h : a ∈ Submodule.span ℤ (Set.range (RingOfIntegers.basis E)) := by simp
-  induction h using Submodule.span_induction with
-  | mem b hb => obtain ⟨j, rfl⟩ := hb; exact trace_basis_mul_sesq D x y j
-  | zero => simp
-  | add b c _ _ hb hc => simp [add_mul, add_smul, hb, hc]
-  | smul m b _ hb =>
-    have e : ((m • b : 𝓞 E) : E) * sesq D x y = m • ((b : E) * sesq D x y) := by
-      simp only [zsmul_eq_mul, ← _root_.mul_assoc]; simp
-    rw [e, map_zsmul, hb, smul_assoc]; simp
+  intros
+  apply _root_.GlobalTheory.CompanionTheory.Ar.Flat.RiemannTau.trace_mul_sesq <;> assumption
 
 theorem eq_of_trace {s t : E} (h : ∀ a : 𝓞 E, Algebra.trace ℚ E ((a : E) * s) = Algebra.trace ℚ E ((a : E) * t)) :
     s = t := by

@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.RunScalarsNonzeroBoundedSupBound
 public import Development.AbelianVarietyTheory.Definitions.Divisors.NormNegCmConstantEqAtAllEmbeddings
 public import Development.AbelianVarietyTheory.BlockTheory.TorsionBlocks.LevelCarrying
 public import Development.AbelianVarietyTheory.Definitions.Divisors.IsCoprimeOfNatCast
@@ -592,23 +593,8 @@ end GlobalTheory.CovGmin.PrismSpan
 namespace GlobalTheory.CovGmin.PrismSpan
 
 theorem fg_of_trivAt_two {E : Type} [Field E] [NumberField E] {n : ℕ} (Λ : GenLat E n) {bad : ℕ}
-    (h2 : 2 ∣ bad) (h : Λ.TrivAt bad) : Λ.La.FG := by
-  obtain ⟨k, hk, hle, -⟩ := h
-  have hk0 : k ≠ 0 := by
-    rintro rfl
-    rw [Nat.coprime_zero_left] at hk
-    omega
-  have hstd : (stdLat E n).FG := by
-    unfold stdLat
-    exact Submodule.fg_pi fun _ => Submodule.fg_unit 1
-  have hkO : (k : 𝓞 E) ≠ 0 := by exact_mod_cast hk0
-  have hinj : Function.Injective (LinearMap.lsmul (𝓞 E) (Fin n → E) (k : 𝓞 E)) :=
-    LinearMap.lsmul_injective hkO
-  refine Submodule.fg_of_fg_map_injective _ hinj ?_
-  have hN := isNoetherian_of_fg_of_noetherian _ hstd
-  refine isNoetherian_submodule.1 hN _ ?_
-  rintro _ ⟨v, hv, rfl⟩
-  exact hle (Submodule.smul_mem_smul (Ideal.subset_span rfl) hv)
+    (h2 : 2 ∣ bad) (h : Λ.TrivAt bad) : Λ.La.FG :=
+  _root_.GlobalTheory.RunIn.fg_of_trivAt_even Λ h2 h
 
 theorem exponent_le (o L Lb K F R DFr : ℝ) (hF1 : 1 ≤ F) (hR1 : 1 ≤ R) (hL1 : 1 ≤ Lb) (hK1 : 1 ≤ K)
     (hLb : L ≤ 50 * Lb) (hL0 : 0 ≤ L) (hDF0 : 0 ≤ DFr) (hDF : DFr ≤ 2 * F * R * K)

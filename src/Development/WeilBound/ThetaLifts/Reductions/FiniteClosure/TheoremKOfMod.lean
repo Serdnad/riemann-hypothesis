@@ -572,11 +572,10 @@ theorem finAt_sph {ω ρ ω' ρ'} (L : IsLocRep G.M B.ψ om v ω ρ) (L' : IsLoc
   have Ω0 : c (G.M.vac v) ≠ 0 := fun h => by
     have := congrFun h 1; rw [Ω1] at this; exact one_ne_zero this
   have hne : π (c (G.M.vac v)) ≠ 0 := fun h => Ω0 (inj _ ΩS 0 S.zero_mem (h.trans (map_zero π).symm))
-  refine ⟨R, ?_, ?_, ?_, ?_, ?_, ⟨_, _, hne⟩, ?_, fun _ => ?_, fun _ h => absurd h hv⟩
-  · rw [e, eq_top_iff]
-    intro x _
+  have hsurj : (SB _).map (π ∘ₗ c) = ⊤ := eq_top_iff.mpr fun x _ => by
     obtain ⟨φ, hφ, h⟩ := on x
     exact ⟨φ, hφ, by rw [LinearMap.comp_apply, h, hx]⟩
+  refine ⟨R, e.symm ▸ hsurj, ?_, ?_, ?_, ?_, ⟨_, _, hne⟩, ?_, fun _ => ?_, fun _ h => absurd h hv⟩
   · rw [e', eq_top_iff]
     intro x _
     obtain ⟨φ, hφ, h⟩ := on' x
@@ -616,21 +615,16 @@ theorem finAt_sph {ω ρ ω' ρ'} (L : IsLocRep G.M B.ψ om v ω ρ) (L' : IsLoc
     rw [h4, map_smul] at h3
     have hv0 : π (c (G.M.vac v)) ∈ N := by
       have := N.smul_mem cc⁻¹ h3; rwa [smul_smul, inv_mul_cancel₀ hcc, one_smul] at this
-    have hall : ∀ g ∈ UAt σ G.W (evFin F v), π (c (ω (1, g) (G.M.vac v))) ∈ N := fun g hg => step g hg _ hs hv0
-    rw [eq_top_iff]
-    intro x _
-    have hle : S ≤ N.map S.subtype := by
-      change transl (c (G.M.vac v)) v ≤ _
-      refine Submodule.span_le.2 ?_
-      rintro _ ⟨g, hg, rfl⟩
-      have hmem : c (ω (1, g) (G.M.vac v)) ∈ S := mc _ (L.pres 1 o1 g hg _ hs)
-      refine ⟨_, hall g hg, ?_⟩
-      rw [hπ' _ hmem]
-      change c (ω (1, g) (G.M.vac v)) = _
-      rw [hc, coef_transl L hg hs]
-    obtain ⟨z, hz, hzx⟩ := hle x.2
-    have : z = x := Subtype.ext hzx
-    exact this ▸ hz
+    apply eq_top_iff.mpr
+    rw [← hsurj, Submodule.map_le_iff_le_comap]
+    refine le_trans V1.gen ?_
+    refine sup_le ?_ (Submodule.span_le.mpr ?_)
+    · intro χ hχ
+      change π (c χ) ∈ N
+      rw [hc, (LinearMap.mem_ker.mp (coef_aug L hl.aug hχ)), map_zero]
+      exact N.zero_mem
+    · rintro _ ⟨g, hg, rfl⟩
+      exact step g hg _ hs hv0
   · rw [e, e']
     refine ⟨by rw [LinearMap.comp_apply, LinearMap.comp_apply, eΩ], hne⟩
 

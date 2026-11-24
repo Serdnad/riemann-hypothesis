@@ -1,5 +1,7 @@
 module
 
+
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.LocalCountDirectLiftingProof
 public import Formalism.SharpRestriction.LevelLetterCocycles.LocCoh
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.CentralIdemCoeff
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IsSummandTw
@@ -80,7 +82,6 @@ import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.TwistedDualFam
 import Mathlib.RingTheory.Etale.Weakly
 import Mathlib.RingTheory.TotallySplit
 import Formalism.LocalRingCardinality.SpanPowerMembership.NDLocE
-
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsDualLatticeIsOpenPerfectPairing, Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IsComplementedSubrepLocalMatrixRepTwistedSum, Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.TateDualTwistedSumSummandIsDeRham, Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.CrystallinePotentialFamily, Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.LiftAllSubSumsOfLiftFamilyMatrixFamily, Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.CutCocFinsetCommon, Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.EOsurjOneX, Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ComplementedSup, Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsStableComplActK, Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.FinrankSpanVecSLe, Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IsTopRingLL, Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.LocalIntegerSpanOfImageIsStableLattice, Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.LocalCocyclesMemSpanPushoutSummandLattice, Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.LocalCountDualLiftingProof
 
@@ -1687,18 +1688,7 @@ namespace GlobalTheory.Pass.LocDual
 
 theorem T2 {O M : Type} [CommRing O] [AddCommGroup M] [Module O M] {S S' : Submodule O M} (H : Submodule O M)
     (h : S ≤ S') : BlochKatoDuality.lenMod S H ≤ BlochKatoDuality.lenMod S' H := by
-  unfold BlochKatoDuality.lenMod
-  have hle : S ⊔ H ≤ S' ⊔ H := sup_le_sup_right h H
-  let f : ↥(S ⊔ H) ⧸ H.comap (S ⊔ H).subtype →ₗ[O] ↥(S' ⊔ H) ⧸ H.comap (S' ⊔ H).subtype :=
-    Submodule.mapQ _ _ (Submodule.inclusion hle) (fun x hx => hx)
-  refine Module.length_le_of_injective f ?_
-  rw [← LinearMap.ker_eq_bot, eq_bot_iff]
-  intro z hz
-  obtain ⟨x, rfl⟩ := Submodule.Quotient.mk_surjective _ z
-  rw [LinearMap.mem_ker] at hz
-  rw [Submodule.mem_bot, Submodule.Quotient.mk_eq_zero]
-  have := (Submodule.Quotient.mk_eq_zero _).1 hz
-  exact this
+  first | exact _root_.GlobalTheory.lenMod_mono_left | exact @_root_.GlobalTheory.lenMod_mono_left | apply _root_.GlobalTheory.lenMod_mono_left <;> assumption
 
 
 

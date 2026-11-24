@@ -179,29 +179,7 @@ theorem isFundamentalDomain_map {G H : Type} [Group G] [Group H] [MeasurableSpac
     (φ : G ≃* H) (hc : Measurable φ) (hc' : Measurable φ.symm) (Γ : Subgroup G) (Γ' : Subgroup H)
     (hQ : ∀ g, g ∈ Γ ↔ φ g ∈ Γ') (μ : Measure G) (𝓕 : Set G) :
     IsFundamentalDomain Γ 𝓕 μ ↔ IsFundamentalDomain Γ' (φ '' 𝓕) (μ.map φ) := by
-  let ψ : G ≃ᵐ H := ⟨φ.toEquiv, hc, hc'⟩
-  have hψ : MeasurePreserving ψ μ (μ.map φ) := ⟨ψ.measurable, rfl⟩
-  constructor
-  · intro h
-    have e : φ '' 𝓕 = φ.symm ⁻¹' 𝓕 := φ.toEquiv.image_eq_preimage_symm 𝓕
-    rw [e]
-    exact h.preimage_of_equiv (f := φ.symm) (MeasurePreserving.symm ψ hψ).quasiMeasurePreserving
-      (e := fun γ => ⟨φ γ, (hQ γ).1 γ.2⟩)
-      ⟨fun a b hab => Subtype.ext (φ.injective (congrArg Subtype.val hab)),
-        fun b => ⟨⟨φ.symm b, (hQ _).2 (by simp)⟩, Subtype.ext (by simp)⟩⟩
-      fun γ y => by
-        show φ.symm (φ γ * y) = γ * φ.symm y
-        rw [map_mul, φ.symm_apply_apply]
-  · intro h
-    have e : 𝓕 = φ ⁻¹' (φ '' 𝓕) := (φ.injective.preimage_image 𝓕).symm
-    rw [e]
-    exact h.preimage_of_equiv (f := φ) hψ.quasiMeasurePreserving
-      (e := fun γ => ⟨φ.symm γ, (hQ _).2 (by simp)⟩)
-      ⟨fun a b hab => Subtype.ext (φ.symm.injective (congrArg Subtype.val hab)),
-        fun b => ⟨⟨φ b, (hQ b).1 b.2⟩, Subtype.ext (by simp)⟩⟩
-      fun γ y => by
-        show φ (φ.symm γ * y) = γ * φ y
-        rw [map_mul, φ.apply_symm_apply]
+  first | exact _root_.GlobalTheory.VolIndepCompare.isFundamentalDomain_iff_image | exact @_root_.GlobalTheory.VolIndepCompare.isFundamentalDomain_iff_image | apply _root_.GlobalTheory.VolIndepCompare.isFundamentalDomain_iff_image <;> assumption
 
 attribute [local instance] Formalism.BasicNotions.Host.cmStar
 

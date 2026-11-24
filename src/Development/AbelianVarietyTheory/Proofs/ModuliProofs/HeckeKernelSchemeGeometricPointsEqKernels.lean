@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsGeomPtRangeEq
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.HeckeKer
 public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.DvdMulOfIdem
 public import Development.AbelianVarietyTheory.Counterexamples.ModuliSurvey.HeckeKerZero
@@ -630,15 +631,7 @@ namespace GlobalTheory.HkPts
 
 theorem exists_geomPt (S : Scheme.{0}) (p : S) :
     ∃ (k : Type) (_ : Field k) (_ : IsAlgClosed k) (x : Sp k ⟶ S), Set.range x = {p} := by
-  refine ⟨AlgebraicClosure (S.residueField p), inferInstance, inferInstance,
-    Spec.map (CommRingCat.ofHom (algebraMap (S.residueField p) (AlgebraicClosure (S.residueField p))))
-      ≫ S.fromSpecResidueField p, ?_⟩
-  apply Set.eq_singleton_iff_unique_mem.2
-  refine ⟨⟨IsLocalRing.closedPoint _, ?_⟩, ?_⟩
-  · exact (Scheme.Hom.comp_apply _ _ _).trans (Scheme.fromSpecResidueField_apply _ _)
-  · rintro _ ⟨y, rfl⟩
-    rw [Scheme.Hom.comp_apply]
-    exact Scheme.fromSpecResidueField_apply _ _
+  apply _root_.GlobalTheory.HkFam.exists_geomPt_range_eq <;> assumption
 
 theorem eq_comp_section {S X : Scheme.{0}} (g : X ⟶ S) [IsSeparated g] (τ : S ⟶ X) (w : τ ≫ g = 𝟙 S) {k : Type}
     [Field k] (x : Sp k ⟶ S) (z : Sp k ⟶ X) (hz : z ≫ g = x)

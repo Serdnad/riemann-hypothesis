@@ -1,5 +1,6 @@
 module
 
+import Formalism.LocalToGlobal.BesselHermitianTheta.LemmasWeil
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.IsSplitOfMemAdmissibleConjugatePairPlaces
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.IsTameInertiaElementAtTwistPrime
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IsPlaceOverMoveValCc
@@ -456,24 +457,7 @@ open Classical
 
 theorem isDetRoot_of_detAt {e : AE D} (he : IsSplitIdem D e) {V : HSp D} {g : GA D V} (hg : SuppAt e V g) {x : (AE D)ˣ}
     (hx : IsDetAt e V g x) : IsDetRoot V g x := by
-  have h1 : (cA D) (Formalism.L2.Theta.mt V g).det * (Formalism.L2.Theta.mt V g).det = 1 := by
-    rw [mul_comm]; exact GlobalTheory.SplitDetCharacter.det_mul_conj V g
-  have hd : (1 - (e + cA D e)) * (Formalism.L2.Theta.mt V g).det = (1 - (e + cA D e)) * (1 : Matrix (Fin V.rank) (Fin V.rank) (AE D)).det :=
-    GlobalTheory.WeilSplit.mul_det_eq _ _ _ fun i j => by
-      have := hg i j
-      rw [Matrix.sub_apply] at this
-      linear_combination (-1 : AE D) * this
-  rw [Matrix.det_one, mul_one] at hd
-  have e1 : e * e = e := he.1
-  have e2 : e * cA D e = 0 := he.2.1
-  have e3 : cA D e * cA D e = cA D e := by rw [← map_mul, e1]
-  unfold IsDetRoot
-  have hcx : cA D (x : AE D) = cA D e * cA D (Formalism.L2.Theta.mt V g).det + (1 - cA D e) := by
-    rw [hx, map_add (f := _), map_mul, map_sub, map_one]
-  rw [hcx, hx]
-  change e * (Formalism.L2.Theta.mt V g).det + (1 - e) = (Formalism.L2.Theta.mt V g).det * (cA D e * cA D (Formalism.L2.Theta.mt V g).det + (1 - cA D e))
-  set d := (Formalism.L2.Theta.mt V g).det
-  linear_combination (-(cA D e)) * h1 - hd
+  apply _root_.Formalism.L2.Theta.isDetAt_root <;> assumption
 
 theorem unram_at_gen {A : Type} [CommGroup A] {χ : (AE D)ˣ →* A} {Q S' : Finset (Pl D.host.E)} (hχ : UnramOutside χ Q)
     (hS : SplitSet S') (hQ : Q ⊆ S') {P : Pl D.host.E} (hP : P ∈ S') (hn : P ∉ Q) (y : (AE D)ˣ)

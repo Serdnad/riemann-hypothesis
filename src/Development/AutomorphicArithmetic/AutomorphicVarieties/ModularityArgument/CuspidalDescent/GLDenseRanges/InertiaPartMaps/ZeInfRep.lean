@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.HeckeSemisimpleGeneralisedEigenNewformGamma1Gamm
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.LinkedUnramifiedChains.TeichmullerParts.UnramifiedTrivialInertialType
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.BuildingsResidueChars.IsSplitAtOfDecompositionLeRestrictionRange
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.HeckeAlgebras.OrdinaryHeckeCharacters.CLocConjAlt
@@ -102,15 +103,8 @@ private theorem zd_dec (D : J → Submodule ℂ M) {F : M} (h : F ∈ ⨆ i, D i
 
 private theorem zd_pow (T : Module.End ℂ M) (a : ℂ) (Y : Submodule ℂ M) (h : ∀ y ∈ Y, T y ∈ Y) (k : ℕ) :
     ∀ y ∈ Y, ((T - a • 1) ^ k) y ∈ Y := by
-  induction k with
-  | zero => intro y hy; simpa using hy
-  | succ k ih =>
-    intro y hy
-    rw [pow_succ, Module.End.mul_apply]
-    refine ih _ ?_
-    have e : (T - a • (1 : Module.End ℂ M)) y = T y - a • y := by simp
-    rw [e]
-    exact Y.sub_mem (h y hy) (Y.smul_mem a hy)
+  intros
+  apply _root_.GlobalTheory.HeckeFamilyMatrices.Semi.pow_mem <;> assumption
 
 private theorem zd_gen (Y : J → Submodule ℂ M) (hY : iSupIndep Y) (T : Module.End ℂ M) (a : ℂ)
     (hT : ∀ i, ∀ y ∈ Y i, T y ∈ Y i) (x : J → M) (hx : ∀ i, x i ∈ Y i)

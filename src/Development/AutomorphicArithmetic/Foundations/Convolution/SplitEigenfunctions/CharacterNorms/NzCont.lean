@@ -1,5 +1,7 @@
 module
 
+import all Development.AutomorphicArithmetic.Foundations.Convolution.SplitEigenfunctions.InfinitePlaceGluing.ContInfGL2
+import Development.AutomorphicArithmetic.Foundations.Convolution.RealGroupAnalysis.IsotypicQuotients.NormWfLe
 public import Development.AutomorphicArithmetic.Foundations.Convolution.SplitEigenfunctions.Entire
 public import Development.AutomorphicArithmetic.Foundations.Convolution.RealGroupAnalysis.UnitaryActions.ContinuousAdelicGL2OfContinuousEntries
 public import Development.AutomorphicArithmetic.Foundations.Convolution.SplitEigenfunctions.CharacterNorms.IdeleNormEmbeddingNegOneReal
@@ -86,37 +88,14 @@ theorem cont_em : Continuous (em E) :=
   Continuous.units_map _ (Continuous.matrix_map continuous_id AdeleBaseChange.continuous_adeleMap)
 
 theorem contOn_iy : ContinuousOn iy ({0}ᶜ : Set ℝ) := by
-  rw [continuousOn_iff_continuous_restrict]
-  refine Units.continuous_iff.2 ⟨?_, ?_⟩
-  · have e : (fun y : ({0}ᶜ : Set ℝ) => ((iy y : (A ℚ)ˣ) : A ℚ)) = fun y : ({0}ᶜ : Set ℝ) => 1 - TR.sInf ℚ 1 + TR.sInf ℚ fun _ => (y : ℝ) := by
-      funext y
-      exact iy_coe y.2
-    change Continuous fun y : ({0}ᶜ : Set ℝ) => ((iy y : (A ℚ)ˣ) : A ℚ)
-    rw [e]
-    refine continuous_const.add (cont_sInf.comp ?_)
-    exact continuous_pi fun _ => continuous_subtype_val
-  · have e : (fun y : ({0}ᶜ : Set ℝ) => (((iy y)⁻¹ : (A ℚ)ˣ) : A ℚ)) = fun y : ({0}ᶜ : Set ℝ) => 1 - TR.sInf ℚ 1 + TR.sInf ℚ fun _ => (y : ℝ)⁻¹ := by
-      funext y
-      exact iy_inv_coe y.2
-    change Continuous fun y : ({0}ᶜ : Set ℝ) => (((iy y)⁻¹ : (A ℚ)ˣ) : A ℚ)
-    rw [e]
-    refine continuous_const.add (cont_sInf.comp ?_)
-    refine continuous_pi fun _ => ?_
-    exact continuous_subtype_val.inv₀ fun y => y.2
+  apply _root_.UpperTheory.ConvolutionTheory.RankTwoDescent.cont_iy <;> assumption
 
 theorem contOn_curve : ContinuousOn (fun p : ℝ × ℝ => em E (aE (iy p.1) * rot p.2)) (({0}ᶜ : Set ℝ) ×ˢ Set.univ) := by
   refine cont_em.comp_continuousOn (ContinuousOn.mul (continuous_aE.comp_continuousOn ?_) (cont_rot.comp continuous_snd).continuousOn)
   exact contOn_iy.comp continuous_fst.continuousOn fun p hp => hp.1
 
-theorem cont_n : Continuous fun q : A E => gl (nU q) := by
-  refine Units.continuous_iff.2 ⟨?_, ?_⟩
-  · refine continuous_matrix fun i j => ?_
-    fin_cases i <;> fin_cases j <;> simp [nU] <;> fun_prop
-  · have e : ∀ q : A E, (gl (nU q))⁻¹ = gl (nU (-q)) := fun q =>
-      inv_eq_of_mul_eq_one_right (by rw [← n_add, add_neg_cancel, nU_zero, gl_one])
-    simp only [e]
-    refine continuous_matrix fun i j => ?_
-    fin_cases i <;> fin_cases j <;> simp [nU] <;> fun_prop
+theorem cont_n : Continuous fun q : A E => gl (nU q) :=
+  _root_.UpperTheory.ConvolutionTheory.R2.Pp.cont_n
 
 theorem cont_psi : Continuous (ψ (F := ℚ)) := continuous_subtype_val.comp continuous_adelicChar
 
@@ -135,18 +114,7 @@ theorem adelic_measure_fundamental_domain_pi_rat_lt_top : adeleMeasurePi ℚ (FS
 theorem cont_Wo (D : Dat ℚ E) {φ : GL (Fin 2) (A E) → ℂ} (hφ : Continuous φ) (hb : ∃ B : ℝ, ∀ g, ‖φ g‖ ≤ B)
     {T : Type} [TopologicalSpace T] [FirstCountableTopology T] {c : T → GL (Fin 2) (A E)} (hc : Continuous c) :
     Continuous fun x => Wo D φ (c x) := by
-  obtain ⟨B, hB⟩ := hb
-  haveI : IsFiniteMeasure ((adeleMeasurePi ℚ).restrict (FS2 ℚ)) := ⟨by simpa using adelic_measure_fundamental_domain_pi_rat_lt_top⟩
-  have hnorm : ∀ x : A ℚ, ‖ψ x‖ = 1 := fun x => Circle.norm_coe _
-  refine continuous_of_dominated (bound := fun _ => B) ?_ ?_ (integrable_const _) ?_
-  · intro x
-    exact ((hφ.comp ((cont_mkE D).mul continuous_const)).mul (cont_psi.comp (continuous_apply 1))).aestronglyMeasurable
-  · intro x
-    refine Filter.Eventually.of_forall fun u => ?_
-    rw [norm_mul, hnorm, mul_one]
-    exact hB _
-  · refine Filter.Eventually.of_forall fun u => ?_
-    exact (hφ.comp (continuous_const.mul hc)).mul continuous_const
+  apply _root_.UpperTheory.ConvolutionTheory.RankTwoDescent.cont_Wo <;> assumption
 
 theorem contOn_Wo (D : Dat ℚ E) {φ : GL (Fin 2) (A E) → ℂ} (hφ : Continuous φ) (hb : ∃ B : ℝ, ∀ g, ‖φ g‖ ≤ B) :
     ContinuousOn (fun p : ℝ × ℝ => Wo D φ (em E (aE (iy p.1) * rot p.2))) (({0}ᶜ : Set ℝ) ×ˢ Set.univ) := by

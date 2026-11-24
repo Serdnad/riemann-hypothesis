@@ -21,6 +21,7 @@ public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.PChowFormCyc
 public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.PChowFormCycleSmul
 public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.PChowFormExtend
 public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.PChowFormReducedRadical
+import all GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.PChowFormReducedRadical
 public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.PFormsThroughPoint
 public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.PIncIdealNeBotDim
 public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.PIncIdealSeparate
@@ -97,17 +98,7 @@ open MvPolynomial GroundTheory.Heights₂.Heights GroundTheory.Heights₂.Height
 
 theorem mem_support_fundCycle_iff {F : Type*} [Field F] {n : ℕ} {J : Ideal (MvPolynomial (Fin n) F)} (hJ : J.IsRadical)
     {W : Ideal (MvPolynomial (Fin n) F)} : W ∈ (fundCycle J).support ↔ W ∈ relComps J := by
-  classical
-  rw [Finsupp.mem_support_iff]
-  unfold fundCycle
-  rw [Finsupp.onFinset_apply]
-  constructor
-  · intro h
-    by_contra h'
-    exact h (if_neg h')
-  · intro h
-    rw [if_pos h, localMult_eq_one_of_isRadical hJ h.1]
-    exact one_ne_zero
+  apply _root_.GroundTheory.Heights₂.Heights.mem_support_fundCycle_iff <;> assumption
 
 namespace SectionPerfect
 

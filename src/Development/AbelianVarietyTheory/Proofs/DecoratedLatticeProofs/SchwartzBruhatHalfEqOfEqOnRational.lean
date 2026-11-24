@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.IwasawaDecompositionSelfDualWittSplitAtPlace
 public import Formalism.LocalToGlobal.IndefiniteReal.LevelTypeEquivalence.SobFrame
 public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.IsRatDatum
 public import Formalism.LocalToGlobal.ProjectiveLattices.ThShort
@@ -99,15 +100,7 @@ theorem mul_eq_zero_of_parts {e z : AE D} (he : infPart D e = 0) (hz : finPart D
   rw [this, zero_smul]
 
 theorem exists_nat_mul_isIntegral (z : D.host.E) : ∃ n : ℕ, 0 < n ∧ IsIntegral ℤ ((n : D.host.E) * z) := by
-  have hz : IsAlgebraic ℤ z := (IsFractionRing.isAlgebraic_iff ℤ ℚ D.host.E).2 (Algebra.IsAlgebraic.isAlgebraic z)
-  obtain ⟨y, hy, h⟩ := hz.exists_integral_multiple
-  refine ⟨y.natAbs, Int.natAbs_pos.2 hy, ?_⟩
-  rw [zsmul_eq_mul] at h
-  rw [← Int.cast_natCast]
-  rcases Int.natAbs_eq y with e | e
-  · rw [← e]; exact h
-  · have e' : ((y.natAbs : ℕ) : ℤ) = -y := by omega
-    rw [e', Int.cast_neg, neg_mul]; exact h.neg
+  apply _root_.GlobalTheory.IwaFlag.exists_nat_isIntegral <;> assumption
 
 theorem exists_rat_add_nsmul (z : EAf D) (N : ℕ) (hN : 0 < N) :
     ∃ γ : D.host.E, ∃ w ∈ Formalism.L2.Herm.intAf D.host.F D.host.E, z = eToEAf D γ + N • w := by

@@ -264,26 +264,21 @@ theorem exists_unramifiedCoord_eq [Normal K Ω] (n : ℕ+) (c : ZMod n) :
 
 theorem unramifiedDegree_surjective [IsGalois K Ω] : Function.Surjective (unramifiedDegree K Ω) := by
   intro x
-  let N : ℕ → ℕ+ := fun k ↦ ⟨(k + 1).factorial, Nat.factorial_pos _⟩
-  let S : ℕ → Set (Ω ≃ₐ[K] Ω) := fun k ↦
-    {σ | unramifiedCoord K σ (N k) = proj (N k) (Multiplicative.toAdd x)}
-  have hS : ∀ k, IsClosed (S k) := fun k ↦
-    isClosed_eq (continuous_unramifiedCoord _) continuous_const
-  have hdvd : ∀ k, (N k : ℕ) ∣ N (k + 1) := fun k ↦ Nat.factorial_dvd_factorial (by omega)
-  have hmono : ∀ k, S (k + 1) ⊆ S k := by
-    intro k σ hσ
-    simp only [S, Set.mem_ofPred_eq] at hσ ⊢
-    rw [← castHom_unramifiedCoord σ (hdvd k), hσ, castHom_proj]
-  have hne : ∀ k, (S k).Nonempty := fun k ↦ exists_unramifiedCoord_eq _ _
-  obtain ⟨σ, hσ⟩ := IsCompact.nonempty_iInter_of_sequence_nonempty_isCompact_isClosed S hmono hne
-    (hS 0).isCompact hS
-  rw [Set.mem_iInter] at hσ
+  let S (n : ℕ+) : Set (Ω ≃ₐ[K] Ω) :=
+    {σ | unramifiedCoord K σ n = proj n (Multiplicative.toAdd x)}
+  have hS n : IsClosed (S n) := isClosed_eq (continuous_unramifiedCoord _) continuous_const
+  have hsub {m n : ℕ+} (hmn : (m : ℕ) ∣ n) : S n ⊆ S m := by
+    intro σ hσ
+    change unramifiedCoord K σ n = _ at hσ
+    change unramifiedCoord K σ m = _
+    rw [← castHom_unramifiedCoord σ hmn, hσ, castHom_proj]
+  have hdir : Directed (· ⊇ ·) S := fun m n ↦
+    ⟨m * n, hsub (dvd_mul_right (m : ℕ) (n : ℕ)), hsub (dvd_mul_left (n : ℕ) (m : ℕ))⟩
+  obtain ⟨σ, hσ⟩ := IsCompact.nonempty_iInter_of_directed_nonempty_isCompact_isClosed
+    S hdir (fun n ↦ exists_unramifiedCoord_eq n _) (fun n ↦ (hS n).isCompact) hS
   refine ⟨σ, multiplicative_ext fun n ↦ ?_⟩
-  have hn : (n : ℕ) ∣ N ((n : ℕ) - 1) := by
-    show (n : ℕ) ∣ ((n : ℕ) - 1 + 1).factorial
-    rw [Nat.sub_add_cancel n.pos]
-    exact Nat.dvd_factorial n.pos le_rfl
-  rw [proj_toAdd_unramifiedDegree, ← castHom_unramifiedCoord σ hn, hσ _, castHom_proj]
+  rw [proj_toAdd_unramifiedDegree]
+  exact Set.mem_iInter.mp hσ n
 
 theorem unramifiedDegree_eq_ofAdd_natCast_iff (σ : Ω ≃ₐ[K] Ω) (a : ℕ) :
     unramifiedDegree K Ω σ = Multiplicative.ofAdd (a : ℤ̂) ↔

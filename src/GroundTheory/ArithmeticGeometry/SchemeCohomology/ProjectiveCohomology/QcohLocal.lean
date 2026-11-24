@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Definitions.QuasicoherentCohomology.TopologicalKrullDimLeOfIrreducibleCloseds
 public import GroundTheory.ArithmeticGeometry.SchemeCohomology.ProjectiveCohomology.TwistingSheaf
 public import Mathlib.AlgebraicGeometry.Modules.Tilde
 public import Mathlib.AlgebraicGeometry.Noetherian
@@ -233,25 +234,8 @@ variable (F : X.Modules) [F.IsQuasicoherent]
 
 lemma finite_basicOpen {V : X.Opens} (hV : IsAffineOpen V) [Module.Finite Γ(X, V) Γ(F, V)]
     (g : Γ(X, V)) : Module.Finite Γ(X, X.basicOpen g) Γ(F, X.basicOpen g) := by
-  classical
-  obtain ⟨r, gen, hgen⟩ := Module.Finite.exists_fin (R := Γ(X, V)) (M := Γ(F, V))
-  refine ⟨⟨Finset.univ.image (fun i => resF F (X.basicOpen_le g) (gen i)), ?_⟩⟩
-  rw [eq_top_iff]
-  rintro t -
-  obtain ⟨e, m', hm'⟩ := qcoh_exists_res_eq F hV g t
-  have hm'' : m' ∈ Submodule.span Γ(X, V) (Set.range gen) := hgen ▸ Submodule.mem_top
-  obtain ⟨c, hc⟩ := (Submodule.mem_span_range_iff_exists_fun _).mp hm''
-  have hu : IsUnit (resO (X.basicOpen_le g) g ^ e) :=
-    (X.toRingedSpace.isUnit_res_basicOpen g).pow e
-  have hres : resF F (X.basicOpen_le g) m' ∈ Submodule.span Γ(X, X.basicOpen g)
-      (↑(Finset.univ.image (fun i => resF F (X.basicOpen_le g) (gen i)))) := by
-
-    rw [← hc, map_sum]
-    refine Submodule.sum_mem _ fun i _ => ?_
-    rw [resF_smul]
-    exact Submodule.smul_mem _ _ (Submodule.subset_span (by simp))
-  rw [hm'] at hres
-  exact (Submodule.smul_mem_iff_of_isUnit _ hu).mp hres
+  intros
+  apply _root_.GlobalTheory.QCoh.finite_sections_basicOpen <;> assumption
 
 lemma exists_pow_smul_mem_span {U : X.Opens} (hU : IsAffineOpen U) (f : Γ(X, U)) {ι : Type*}
     [Fintype ι] (m : ι → Γ(F, U))

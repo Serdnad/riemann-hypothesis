@@ -48,6 +48,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
+import Formalism.HermitianCurvature.HermitianCurvatureProofs.TopFirstOfParts
 
 @[expose] public section
 
@@ -81,15 +82,7 @@ theorem cpt_zero : KB.CptCoef Bs (fun _ : B.Mat k ρ => (0 : Wq →L[ℂ] Wp)) :
 
 theorem cpt_add {F G : B.Mat k ρ → (Wq →L[ℂ] Wp)} (hF : KB.CptCoef Bs F) (hG : KB.CptCoef Bs G) :
     KB.CptCoef Bs (fun g => F g + G g) := by
-  obtain ⟨h1, ⟨R, hR⟩, ⟨ε, hε, hGε⟩⟩ := hF
-  obtain ⟨h1', ⟨R', hR'⟩, ⟨ε', hε', hGε'⟩⟩ := hG
-  refine ⟨Formalism.FourierDecayAlt.P.BetaSesquilinearity.CkOn_add h1 h1', ⟨max R R', fun g hg hne => ?_⟩, ⟨min ε ε', lt_min hε hε', fun g hg hne => ?_⟩⟩
-  · by_cases h0 : F g = 0
-    · exact (hR' g hg (by simpa [h0] using hne)).trans (le_max_right _ _)
-    · exact (hR g hg h0).trans (le_max_left _ _)
-  · by_cases h0 : F g = 0
-    · exact (min_le_right _ _).trans (hGε' g hg (by simpa [h0] using hne))
-    · exact (min_le_left _ _).trans (hGε g hg h0)
+  apply _root_.Formalism.FourierDecayAlt.P.PBN.cpt_add <;> assumption
 
 theorem cpt_smul (c : ℂ) {F : B.Mat k ρ → (Wq →L[ℂ] Wp)} (hF : KB.CptCoef Bs F) :
     KB.CptCoef Bs (fun g => c • F g) := by

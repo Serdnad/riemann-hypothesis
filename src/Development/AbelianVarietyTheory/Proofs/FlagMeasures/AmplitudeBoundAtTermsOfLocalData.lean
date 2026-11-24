@@ -1,5 +1,6 @@
 module
 
+import Formalism.SharpRestriction.CuspSpanNormBounds.BruhatCellsKronecker.FamilyStatementOfItemsFourSeven
 public import Mathlib.Analysis.SpecialFunctions.Pow.Real
 public import Mathlib.Analysis.Complex.ExponentialBounds
 public import Mathlib.Analysis.Real.Pi.Bounds
@@ -314,30 +315,7 @@ private lemma hsNormSq_eq_sum_norm_sq {Wp Wq : Type*} [NormedAddCommGroup Wp] [I
 theorem hsNormSq_le_finrank_target_mul {Wp Wq : Type*} [NormedAddCommGroup Wp] [InnerProductSpace ℂ Wp]
     [FiniteDimensional ℂ Wp] [NormedAddCommGroup Wq] [InnerProductSpace ℂ Wq] [FiniteDimensional ℂ Wq]
     (J : Wq →L[ℂ] Wp) : hsNormSq J ≤ Module.finrank ℂ Wp * ‖J‖ ^ 2 := by
-  have : CompleteSpace Wp := FiniteDimensional.complete ℂ Wp
-  have : CompleteSpace Wq := FiniteDimensional.complete ℂ Wq
-
-  rw [hsNormSq_eq_sum_norm_sq]
-  calc ∑ i, ‖J (stdOrthonormalBasis ℂ Wq i)‖ ^ 2
-        = ∑ i, ∑ j, ‖⟪(ContinuousLinearMap.adjoint J) (stdOrthonormalBasis ℂ Wp j),
-            stdOrthonormalBasis ℂ Wq i⟫_ℂ‖ ^ 2 := by
-        refine Finset.sum_congr rfl fun i _ => ?_
-        rw [← (stdOrthonormalBasis ℂ Wp).sum_sq_norm_inner_right (J (stdOrthonormalBasis ℂ Wq i))]
-        refine Finset.sum_congr rfl fun j _ => ?_
-        rw [ContinuousLinearMap.adjoint_inner_left]
-    _ = ∑ j, ‖(ContinuousLinearMap.adjoint J) (stdOrthonormalBasis ℂ Wp j)‖ ^ 2 := by
-        rw [Finset.sum_comm]
-        refine Finset.sum_congr rfl fun j _ => ?_
-        exact (stdOrthonormalBasis ℂ Wq).sum_sq_norm_inner_left _
-    _ ≤ ∑ _j : Fin (Module.finrank ℂ Wp), ‖J‖ ^ 2 := by
-        refine Finset.sum_le_sum fun j _ => ?_
-        have hle : ‖(ContinuousLinearMap.adjoint J) (stdOrthonormalBasis ℂ Wp j)‖ ≤ ‖J‖ := by
-          calc _ ≤ ‖ContinuousLinearMap.adjoint J‖ * ‖stdOrthonormalBasis ℂ Wp j‖ :=
-                ContinuousLinearMap.le_opNorm _ _
-            _ = ‖J‖ := by
-                rw [LinearIsometryEquiv.norm_map, (stdOrthonormalBasis ℂ Wp).orthonormal.1 j, mul_one]
-        exact pow_le_pow_left₀ (norm_nonneg _) hle 2
-    _ = Module.finrank ℂ Wp * ‖J‖ ^ 2 := by simp
+  first | exact _root_.Formalism.MainNotions.BridgeLemma.hs_norm_sq_le_rank_mul_norm | exact @_root_.Formalism.MainNotions.BridgeLemma.hs_norm_sq_le_rank_mul_norm | apply _root_.Formalism.MainNotions.BridgeLemma.hs_norm_sq_le_rank_mul_norm <;> assumption
 
 theorem sqrt_hsNormSq_amplitude_le_degBd : ∀ (D : D7) (τ : D.what₂.Tau) (w w' : D.what₂.Word) (θ : ℝ) (W : LocW D.R.k D.R.rS) (lam : Fin (2 * D.R.rS + D.R.k + 1) → ℝ) (A : LocS W), 0 < D.host.v → 0 < θ → 0 < Tr D w → 0 < Tr D w' → GoodW D τ w w' θ W → GoodS D lam A → ∀ (j : ℕ) (hj : j ≤ D.R.rS) (q : ℕ) (γ : Mat D.R.k D.R.rS) (s H₁ De : ℝ) (μR νR : Measure (Mt D.R.k D.R.rS)), 1 ≤ j → j + 2 ≤ D.R.k → 16 * D.R.rS ^ 3 + 4 * D.R.rS + 2 ≤ q → 0 < s → 1 ≤ H₁ → TailBd W.z W.νS A.Φ q H₁ → TailBd W.z' W.νS' A.Φ' q H₁ → DeOK D.R.k D.R.rS W.z W.z' γ De → IsNormalFormStabilizerMeasure D.R.k D.R.rS hj W.z W.z' γ s μR → IsQuotMeas W.μG μR νR → Real.sqrt (hsNormSq (A.J νR γ)) ≤ Real.sqrt (Module.finrank ℂ W.Wp) * (((2 * D.host.v) ^ (-((D.R.rS : ℝ) * D.R.k)) * θ * 2 ^ (D.R.rS * (D.R.k + 1) + D.R.rS * (D.R.rS - 1))) / s * degBd D.R.k D.R.rS j q H₁ De (Dj D.R.k D.R.rS hj W.z W.z' γ) (sgV D.R.k D.R.rS W.z W.z' γ H₁)) := by
   intro D τ w w' θ W lam A hv hθ hw hw' hW hS j hj q γ s H₁ De μR νR hj1 hjk hq hs hH hT hT' hDe hN hQ
@@ -766,31 +744,7 @@ theorem reix_symm (x : X.B.I.Ginf) (τ : D.what₂.Tau) : (reix X).symm x τ = x
 theorem trI_apply (x : X.B.I.Ginf) (τ : D.what₂.Tau) : trI C x τ = GlobalTheory.PullbackComparison.eM C τ (x (vOf X τ)) := rfl
 
 theorem trI_emb : MeasurableEmbedding (trI C) := by
-  choose g hg hgf using fun τ : D.what₂.Tau =>
-    (GlobalTheory.PullbackComparison.eM_emb C τ).exists_measurable_extend (g := id) measurable_id (fun _ => ⟨1⟩)
-  refine MeasurableEmbedding.of_measurable_inverse
-    (g := fun m => reix X (fun τ => g τ (m τ))) ?_ ?_ ?_ ?_
-  · exact Measurable.of_eval fun τ =>
-      (GlobalTheory.PullbackComparison.eM_emb C τ).measurable.comp (measurable_pi_apply (vOf X τ))
-  · have hR : Set.range (trI C) = Set.univ.pi fun τ => Set.range (GlobalTheory.PullbackComparison.eM C τ) := by
-      ext m
-      constructor
-      · rintro ⟨x, rfl⟩ τ _
-        exact ⟨x (vOf X τ), (trI_apply C x τ).symm⟩
-      · intro hm
-        choose a ha using fun τ => hm τ (Set.mem_univ τ)
-        refine ⟨reix X a, funext fun τ => ?_⟩
-        rw [trI_apply, reix_apply, ha]
-    rw [hR]
-    exact MeasurableSet.univ_pi fun τ => (GlobalTheory.PullbackComparison.eM_emb C τ).measurableSet_range
-  · exact (reix X).measurable.comp
-      (Measurable.of_eval fun τ => (hg τ).comp (measurable_pi_apply τ))
-  · intro x
-    have h1 : (fun τ => g τ (trI C x τ)) = (reix X).symm x := by
-      funext τ
-      rw [trI_apply, reix_symm]
-      exact congrFun (hgf τ) _
-    simp only [h1, MeasurableEquiv.apply_symm_apply]
+  first | exact _root_.GlobalTheory.TypeAsm.CovTrans.measEmb_trI | exact @_root_.GlobalTheory.TypeAsm.CovTrans.measEmb_trI | apply _root_.GlobalTheory.TypeAsm.CovTrans.measEmb_trI <;> assumption
 
 theorem trI_mul (q y : X.B.I.Ginf) : GlobalTheory.DegVol.mulP (trI C q) (trI C y) = trI C (q * y) := by
   funext τ

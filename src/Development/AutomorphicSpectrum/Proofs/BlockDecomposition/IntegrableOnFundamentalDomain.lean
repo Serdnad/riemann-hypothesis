@@ -41,6 +41,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
 import Development.WeilBound.CoreStatements.TemperedRepresentationTheory.AffineGLForms.BlockMatrixIdentity.BlockMatOne
 import Development.WeilBound.CoreStatements.TemperedRepresentationTheory.AffineGLForms.GenSpace
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ContinuousOfIsOpenStab
 
 @[expose] public section
 
@@ -71,32 +72,7 @@ theorem continuous_map_pInf :
   Continuous.units_map _ (continuous_id.matrix_map continuous_pInf)
 
 theorem continuous_of_isOpen_stab (φ : Sm E a) (hU : IsOpen {k | finRep E a k φ = φ}) : Continuous φ.1 := by
-  rw [continuous_iff_continuousAt]
-  intro g
-  have hF : ContinuousAt (fun h : GA E a => chart φ.1 g (toL (GeneralLinearGroup.map (pInf E) h).val)) 1 := by
-    have h1 : ContinuousAt (chart φ.1 g) (toL ((GeneralLinearGroup.map (pInf E) (1 : GA E a)).val)) := by
-      rw [map_one]
-      exact (contDiffAt_chart φ.2 g isUnit_one).continuousAt
-    have h0 : Continuous (fun h : GA E a =>
-        ((GeneralLinearGroup.map (n := Fin a) (pInf E) h : GL (Fin a) (Cinf E)) : Matrix (Fin a) (Fin a) (Cinf E))) :=
-      Units.continuous_val.comp continuous_map_pInf
-    have h2 : Continuous (fun h : GA E a => toL (GeneralLinearGroup.map (pInf E) h).val) := h0
-    exact ContinuousAt.comp (f := fun h : GA E a => toL (GeneralLinearGroup.map (pInf E) h).val) h1 h2.continuousAt
-  have hev : ∀ᶠ h in 𝓝 (1 : GA E a), GeneralLinearGroup.map (pFin E) h ∈ {k | finRep E a k φ = φ} := by
-    refine (continuous_map_pFin.continuousAt (x := (1 : GA E a))).eventually (hU.mem_nhds ?_)
-    rw [map_one]
-    change finRep E a 1 φ = φ
-    simp
-  have hG : ContinuousAt (fun h : GA E a => φ.1 (g * h)) 1 := by
-    refine hF.congr ?_
-    filter_upwards [hev] with h hh
-    have e := congrArg (fun ψ : Sm E a => ψ.1 (g * infGL E a (GeneralLinearGroup.map (pInf E) h))) hh
-    change φ.1 (g * infGL E a _ * finGL E a _) = φ.1 _ at e
-    rw [mul_assoc, infGL_mul_finGL] at e
-    rw [e, chart_val]
-  have h2 : ContinuousAt (fun x : GA E a => g⁻¹ * x) g := (continuous_const.mul continuous_id).continuousAt
-  have h3 : ContinuousAt (fun h : GA E a => φ.1 (g * h)) (g⁻¹ * g) := by rwa [inv_mul_cancel]
-  simpa [Function.comp_def] using h3.comp h2
+  apply _root_.GlobalTheory.CuspRep.ContAut.continuous_of_isOpen_stab <;> assumption
 
 
 omit [_root_.NumberField.IsTotallyComplex E] in

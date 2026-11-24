@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.SatakeParameters.IsAlgClosedResidueFieldOfAic
 public import Development.EtaleCohomology.EtaleSheaves.AugBijPf
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.EtaleLocalPrimitiveRootAndRootsOfUnity
 public import Development.EtaleCohomology.EtaleSheaves.MayerVietorisSequence
@@ -838,11 +839,7 @@ namespace LateralTheory.E.IdemSecPf
 
 theorem phi_injective {P : Scheme.{0}} [CompactSpace P] [QuasiSeparatedSpace P] {W : Type} [CommRing W]
     (w : Spec (CommRingCat.of W) ⟶ P) : Function.Injective (phi w) := by
-  have h1 : Function.Injective (w.toNormalization.app ⊤) := w.toNormalization.app_injective ⊤
-  have h2 : Function.Injective (Scheme.ΓSpecIso (CommRingCat.of W)).hom :=
-    ((ConcreteCategory.bijective_of_isIso (Scheme.ΓSpecIso (CommRingCat.of W)).hom)).1
-  intro a b h
-  exact h1 (h2 h)
+  apply @LateralTheory.E.FMrangePf.phi_injective <;> assumption
 
 theorem phi_idem {P : Scheme.{0}} [CompactSpace P] [QuasiSeparatedSpace P] {W : Type} [CommRing W]
     (w : Spec (CommRingCat.of W) ⟶ P) (e : W) (he : IsIdempotentElem e) : ∃ s, phi w s = e := by
@@ -959,20 +956,8 @@ namespace LateralTheory.E.IterBCPf
 
 theorem iterLine_of_isPullback {S P : Scheme.{0}} {q : P ⟶ S} (hq : IterLine q) :
     ∀ {X P' : Scheme.{0}} {a : P' ⟶ P} {q' : P' ⟶ X} {g : X ⟶ S}, IsPullback a q' q g → IterLine q' := by
-  induction hq with
-  | iso e he =>
-    intro X P' a q' g w
-    exact IterLine.iso _ (w.isIso_snd_of_isIso he)
-  | comp l k hl hk ih =>
-    intro X P' a q' g w
-    have hb : IsPullback (pullback.fst k g) (pullback.snd k g) k g := IsPullback.of_hasPullback k g
-    let m : P' ⟶ pullback k g := pullback.lift (a ≫ l) q' (by rw [Category.assoc]; exact w.w)
-    have hm : q' = m ≫ pullback.snd k g := (pullback.lift_snd _ _ _).symm
-    have ht : IsPullback a m l (pullback.fst k g) := by
-      refine IsPullback.of_bot ?_ (pullback.lift_fst _ _ _).symm hb
-      rw [← hm]; exact w
-    rw [hm]
-    exact IterLine.comp m _ (IsLine.bc hl ht) (ih hb)
+  intros
+  apply _root_.LateralTheory.E.ProdPf.iterLine_of_isPullback <;> assumption
 
 theorem IterBC_of : IterBC := by
   intro P S X q g hq
@@ -1187,40 +1172,8 @@ open Polynomial GlobalTheory.EtC
 namespace LateralTheory.E.LocalizationIntegralClosure
 
 theorem aic_loc (B : Type) [CommRing B] [IsDomain B] (M : Submonoid B) (hB : AIC B) :
-    AIC (Localization M) := by
-  classical
-  intro p hp hd
-  set L := Localization M
-  obtain ⟨s, hs⟩ := IsLocalization.exist_integer_multiples_of_finset (R := B) M
-    ((Finset.range (p.natDegree + 1)).image p.coeff) (S := L)
-  set t : L := algebraMap B L (s : B) with ht
-  have hlift : scaleRoots p t ∈ lifts (algebraMap B L) := by
-    rw [lifts_iff_coeff_lifts]
-    intro i
-    rw [coeff_scaleRoots]
-    rcases lt_or_ge i p.natDegree with hi | hi
-    · obtain ⟨c, hc⟩ := hs (p.coeff i) (Finset.mem_image.2 ⟨i, Finset.mem_range.2 (by omega), rfl⟩)
-      obtain ⟨k, hk⟩ : ∃ k, p.natDegree - i = k + 1 := ⟨p.natDegree - i - 1, by omega⟩
-      refine ⟨c * (s : B) ^ k, ?_⟩
-      rw [hk, map_mul, map_pow, hc, pow_succ, Algebra.smul_def, ← ht]
-      ring
-    · rcases eq_or_lt_of_le hi with h | h
-      · subst h; rw [hp.coeff_natDegree]; exact ⟨1, by simp⟩
-      · rw [coeff_eq_zero_of_natDegree_lt h]; exact ⟨0, by simp⟩
-  obtain ⟨q, hq, hqd, hqm⟩ := lifts_and_natDegree_eq_and_monic hlift ((monic_scaleRoots_iff t).2 hp)
-  obtain ⟨b, hb⟩ := hB q hqm (by rw [hqd, natDegree_scaleRoots]; exact hd)
-  obtain ⟨u, hu⟩ := IsLocalization.map_units L s
-  refine ⟨algebraMap B L b * ((u⁻¹ : Lˣ) : L), ?_⟩
-  have h1 : (scaleRoots p t).eval (algebraMap B L b) = 0 := by
-    rw [← hq, eval_map, eval₂_at_apply, hb, map_zero]
-  have h2 : (scaleRoots p t).eval (t * (algebraMap B L b * ((u⁻¹ : Lˣ) : L))) =
-      t ^ p.natDegree * p.eval (algebraMap B L b * ((u⁻¹ : Lˣ) : L)) :=
-    scaleRoots_eval₂_mul (p := p) (RingHom.id L) (algebraMap B L b * ((u⁻¹ : Lˣ) : L)) t
-  have h3 : t * (algebraMap B L b * ((u⁻¹ : Lˣ) : L)) = algebraMap B L b := by
-    rw [ht, ← hu, mul_comm (algebraMap B L b), ← mul_assoc, Units.mul_inv, one_mul]
-  rw [h3, h1] at h2
-  have hunit : IsUnit (t ^ p.natDegree) := (hu ▸ u.isUnit).pow _
-  exact (hunit.mul_right_eq_zero).1 h2.symm
+    AIC (Localization M) :=
+  LateralTheory.E.BaseAICPf.Loc.aic_loc M hB
 
 theorem LocAIC_of : LateralTheory.E.HensCut.LocAIC := by
   intro B _ _ M h0 hB
@@ -1246,24 +1199,8 @@ namespace LateralTheory.E.MonicSplitsPf
 theorem selfDualLattice_projection_mem_of_unit_length (R : Type) [CommRing R] [IsDomain R] (hA : GlobalTheory.EtC.AIC R) :
     ∀ n : ℕ, ∀ p : Polynomial R, p.Monic → p.natDegree = n →
       ∃ s : Multiset R, p = (s.map fun a => X - C a).prod := by
-  intro n
-  induction n with
-  | zero =>
-    intro p hp hn
-    refine ⟨0, ?_⟩
-    simpa using hp.natDegree_eq_zero.mp hn
-  | succ n ih =>
-    intro p hp hn
-    obtain ⟨a, ha⟩ := hA p hp (by omega)
-    have hroot : IsRoot p a := ha
-    have hmul := (mul_divByMonic_eq_iff_isRoot (p := p) (a := a)).mpr hroot
-    set q := p /ₘ (X - C a) with hq
-    have hqm : q.Monic := Polynomial.Monic.of_mul_monic_left (monic_X_sub_C a) (by rw [hmul]; exact hp)
-    have hqd : q.natDegree = n := by
-      rw [hq, natDegree_divByMonic _ (monic_X_sub_C a), natDegree_X_sub_C, hn]; omega
-    obtain ⟨s, hs⟩ := ih q hqm hqd
-    refine ⟨a ::ₘ s, ?_⟩
-    rw [Multiset.map_cons, Multiset.prod_cons, ← hs, hmul]
+  intros
+  apply _root_.GlobalTheory.GenusTwoPureComparison.Cmp.monic_eq_prod_of_aic <;> assumption
 
 theorem MonicSplits_of : LateralTheory.E.HensCut.MonicSplits := by
   intro R _ _ hA p hp
@@ -1287,15 +1224,7 @@ namespace LateralTheory.E.PartBPf
 theorem comp_mem {B : Type} [CommRing B] (I : Ideal B) (P : PartDiagCut.Part (B ⧸ I)) (x : PiLocalization₂ I P)
     (hx : x ∈ I.map (βP I P)) (e : P.1) :
     x e ∈ I.map (algebraMap B (Localization (S I e.1))) := by
-  have h1 : (Pi.evalRingHom (fun e : P.1 => Localization (S I e.1)) e) x ∈
-      (I.map (βP I P)).map (Pi.evalRingHom (fun e : P.1 => Localization (S I e.1)) e) :=
-    Ideal.mem_map_of_mem _ hx
-  rw [Ideal.map_map] at h1
-  have h2 : (Pi.evalRingHom (fun e : P.1 => Localization (S I e.1)) e).comp (βP I P) =
-      algebraMap B (Localization (S I e.1)) := by
-    ext b; rfl
-  rw [h2] at h1
-  exact h1
+  apply @LateralTheory.E.PartAPf.comp_mem <;> assumption
 
 theorem comp_unit {B : Type} [CommRing B] (I : Ideal B) (e : B ⧸ I) (y : Localization (S I e))
     (hy : y ∈ I.map (algebraMap B (Localization (S I e)))) : IsUnit (1 + y) := by
@@ -1481,43 +1410,8 @@ open CategoryTheory Limits AlgebraicGeometry Polynomial GlobalTheory.EtC Lateral
 namespace LateralTheory.E.StalkAICRingPf
 
 theorem aic_loc {R S : Type} [CommRing R] [CommRing S] [Algebra R S] (M : Submonoid R) [IsLocalization M S]
-    (hR : AIC R) : AIC S := by
-  intro p hp hn
-  rcases subsingleton_or_nontrivial R with hR1 | hR1
-  · refine ⟨0, ?_⟩
-    have h01 : (0 : S) = 1 := by
-      rw [← map_zero (algebraMap R S), ← map_one (algebraMap R S), Subsingleton.elim (0 : R) 1]
-    exact @Subsingleton.elim _ (subsingleton_of_zero_eq_one h01) _ _
-  set n := p.natDegree with hnd
-  obtain ⟨b, hb⟩ := IsLocalization.exist_integer_multiples M (Finset.univ : Finset (Fin n)) (fun i => p.coeff i)
-  choose r hr using fun i : Fin n => hb i (Finset.mem_univ _)
-  set β : S := algebraMap R S b with hβ
-  have hu : IsUnit β := IsLocalization.map_units S b
-  set q : R[X] := X ^ n + ∑ i : Fin n, C (r i * (b : R) ^ (n - 1 - i)) * X ^ (i : ℕ) with hq
-  have hqm : q.Monic := monic_X_pow_add (degree_sum_fin_lt _)
-  have hqd : q.natDegree = n := by
-    rw [hq, natDegree_add_eq_left_of_degree_lt, natDegree_X_pow]
-    rw [degree_X_pow]; exact degree_sum_fin_lt _
-  obtain ⟨c, hc⟩ := hR q hqm (hqd ▸ hn)
-  refine ⟨hu.unit⁻¹ * algebraMap R S c, ?_⟩
-  have key : β ^ n * p.eval (hu.unit⁻¹ * algebraMap R S c) = algebraMap R S (q.eval c) := by
-    conv_lhs => rw [hp.as_sum]
-    rw [← hnd, ← Fin.sum_univ_eq_sum_range]
-
-    simp only [hq, eval_add, eval_pow, eval_X, eval_finsetSum, eval_mul, eval_C, map_add (f := _), map_pow, map_sum, map_mul, mul_add,
-    Finset.mul_sum]
-    congr 1
-    · rw [← mul_pow, ← mul_assoc, hu.mul_val_inv, one_mul]
-    · refine Finset.sum_congr rfl fun i _ => ?_
-      rw [hr i]
-      have hβn : β ^ n = β ^ 1 * β ^ (n - 1 - (i : ℕ)) * β ^ (i : ℕ) := by
-        rw [← pow_add, ← pow_add]; congr 1; omega
-      simp only [Algebra.smul_def, ← hβ]
-      rw [hβn, mul_pow]
-      have h1 : β ^ (i : ℕ) * (↑hu.unit⁻¹ : S) ^ (i : ℕ) = 1 := by rw [← mul_pow, hu.mul_val_inv, one_pow]
-      linear_combination (β ^ 1 * β ^ (n - 1 - (i:ℕ)) * p.coeff i * algebraMap R S c ^ (i:ℕ)) * h1
-  rw [hc, map_zero] at key
-  exact (hu.pow n).mul_right_eq_zero.1 key
+    (hR : AIC R) : AIC S :=
+  LateralTheory.E.BaseAICPf.Loc.aic_loc M hR
 
 theorem StalkAICRing_of : _root_.LateralTheory.E.FibStalkPf.StalkAIC := by
   intro S hS x

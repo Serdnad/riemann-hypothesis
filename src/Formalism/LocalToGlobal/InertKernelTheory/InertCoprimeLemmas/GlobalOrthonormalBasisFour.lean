@@ -1,5 +1,6 @@
 module
 
+import Formalism.LocalToGlobal.InertKernelTheory.InertCoprimeLemmas.FrLocB
 public import Formalism.LocalToGlobal.InertKernelTheory.DefsMMOnb
 public import Formalism.LocalToGlobal.InertKernelTheory.DefsMM
 public import Formalism.LocalRingCardinality.RankBoundMonotoneInDimension
@@ -446,30 +447,7 @@ abbrev AAs (D : D7) : Submodule (𝓞 D.host.E) D.host.E := (D.host.AA0 : Submod
 
 theorem mem_one_by_one_lattice_iff (x : Matrix (Fin 1) (Fin 1) D.host.E) :
     x ∈ YYl D (Formalism.MainNotions.StandardLatticesGL3.stdL D 1) (Formalism.MainNotions.StandardLatticesGL3.stdL D 1) ↔ x 0 0 ∈ AAs D := by
-  constructor
-  · intro hx
-    let ev : Matrix (Fin 1) (Fin 1) D.host.E →ₗ[𝓞 D.host.E] D.host.E :=
-      { toFun := fun M => M 0 0, map_add' := fun _ _ => rfl, map_smul' := fun _ _ => rfl }
-    have key : YYl D (Formalism.MainNotions.StandardLatticesGL3.stdL D 1) (Formalism.MainNotions.StandardLatticesGL3.stdL D 1) ≤ (AAs D).comap ev := by
-      unfold YYl
-      rw [Submodule.span_le]
-      rintro B ⟨a, ha, A, hA, rfl⟩
-      simp only [SetLike.mem_coe, Submodule.mem_comap]
-      have hAi := homL_le_intS (D := D) 1 1 hA 0 0
-      obtain ⟨r, hr⟩ := Submodule.mem_one.1 hAi
-      show (a • A) 0 0 ∈ AAs D
-      rw [Matrix.smul_apply, smul_eq_mul, ← hr, mul_comm, ← Algebra.smul_def]
-      exact Submodule.smul_mem _ r ha
-    exact key hx
-  · intro hx
-    have h1 : (1 : Matrix (Fin 1) (Fin 1) D.host.E) ∈ homL D (Formalism.MainNotions.StandardLatticesGL3.stdL D 1) (Formalism.MainNotions.StandardLatticesGL3.stdL D 1) :=
-      Submodule.subset_span (fun v hv => by simpa using hv)
-    have e : x = x 0 0 • (1 : Matrix (Fin 1) (Fin 1) D.host.E) := by
-      refine Matrix.ext fun i j => ?_
-      fin_cases i; fin_cases j; simp
-    rw [e]
-    unfold YYl
-    exact Submodule.subset_span ⟨x 0 0, hx, 1, h1, rfl⟩
+  apply _root_.Formalism.L2.KerInert.FrLocB.mem_one_by_one_lattice_iff <;> assumption
 
 theorem trace_natCast_mul (s : ℕ) (z : D.host.E) :
     Algebra.trace D.host.K D.host.E ((s : D.host.E) * z) = (s : D.host.K) * Algebra.trace D.host.K D.host.E z := by

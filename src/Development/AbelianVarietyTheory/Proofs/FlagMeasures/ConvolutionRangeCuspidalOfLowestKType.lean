@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.FlagMeasures.CuspidalOfConvolutionFixedModerateGrowth
 public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.HermitianFormUnitaryOneOne
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.AdelicUnitaryHaarBiInvariant
 public import Development.AbelianVarietyTheory.Statements.CuspFrameWeights.ConvolutionSmoothL2
@@ -213,29 +214,7 @@ theorem isHaarSub_map_emb {H G : Type} [Group H] [TopologicalSpace H] [IsTopolog
     [MeasurableSpace G] [BorelSpace G] (ι : H →* G) (hι : Topology.IsClosedEmbedding ι) (N : Subgroup H)
     (hN : IsClosed (N : Set H)) (ν : Measure H) (hν : IsHaarSub (N : Set H) ν) :
     IsClosed ((N.map ι : Subgroup G) : Set G) ∧ IsHaarSub ((N.map ι : Subgroup G) : Set G) (ν.map ι) := by
-  have hme : MeasurableEmbedding ι := hι.measurableEmbedding
-  rw [Subgroup.coe_map]
-  unfold GlobalTheory.Dec.IsHaarSub at hν ⊢
-  obtain ⟨h0, hfin, hcon, hinv⟩ := hν
-  refine ⟨hι.isClosedMap _ hN, ?_, ?_, ?_, ?_⟩
-  · intro h
-    apply h0
-    have h2 := hme.map_apply ν Set.univ
-    rw [h, Set.preimage_univ] at h2
-    rw [← Measure.measure_univ_eq_zero]
-    simpa using h2.symm
-  · have := hfin
-    refine ⟨fun K hK => ?_⟩
-    rw [hme.map_apply]
-    exact (hι.isCompact_preimage hK).measure_lt_top
-  · rw [hme.map_apply, Set.preimage_compl, hι.injective.preimage_image]
-    exact hcon
-  · rintro _ ⟨n, hn, rfl⟩
-    rw [Measure.map_map (measurable_const_mul (ι n)) hme.measurable]
-    have hcomp : (fun y => ι n * y) ∘ ι = ι ∘ (fun y => n * y) := by
-      funext y
-      simp only [Function.comp_apply, map_mul]
-    rw [hcomp, ← Measure.map_map hme.measurable (measurable_const_mul n), hinv n hn]
+  first | exact _root_.GlobalTheory.CuspFixed.isHaarSub_map_emb | exact @_root_.GlobalTheory.CuspFixed.isHaarSub_map_emb | apply _root_.GlobalTheory.CuspFixed.isHaarSub_map_emb <;> assumption
 
 theorem constTerm_repro {G : Type} [Group G] [TopologicalSpace G] [IsTopologicalGroup G]
     [SecondCountableTopology G] [MeasurableSpace G] [BorelSpace G] (μ ν : Measure G) [SFinite μ]
@@ -244,60 +223,10 @@ theorem constTerm_repro {G : Type} [Group G] [TopologicalSpace G] [IsTopological
     (hr : ∀ z, f z = ∫ g, φ g * f (z * g) ∂μ) :
     Integrable (fun y => (∫ m, f (m * y) ∂ν) * φ (x⁻¹ * y)) μ ∧
       ∫ m, f (m * x) ∂ν = ∫ y, (∫ m, f (m * y) ∂ν) * φ (x⁻¹ * y) ∂μ := by
-  have hKm : AEStronglyMeasurable (fun p : G × G => φ p.2 * f (p.1 * x * p.2)) (ν.prod μ) := by
-    have h1 : Continuous fun p : G × G => f (p.1 * x * p.2) :=
-      hf.comp ((continuous_fst.mul continuous_const).mul continuous_snd)
-    exact ((hφ.comp measurable_snd).mul h1.measurable).aestronglyMeasurable
-  have hKi : Integrable (fun p : G × G => φ p.2 * f (p.1 * x * p.2)) (ν.prod μ) := by
-    rw [integrable_prod_iff hKm]
-    constructor
-    · filter_upwards [hb] with m hm
-      have hc : Continuous fun g : G => f (m * x * g) := hf.comp (continuous_const_mul (m * x))
-      exact Integrable.mono' hΦ (hφ.mul hc.measurable).aestronglyMeasurable (ae_of_all _ hm)
-    · refine Integrable.mono' (integrable_const (∫ g, Φ g ∂μ)) hKm.norm.integral_prod_right' ?_
-      filter_upwards [hb] with m hm
-      rw [Real.norm_of_nonneg (integral_nonneg fun _ => norm_nonneg _)]
-      exact integral_mono_of_nonneg (ae_of_all _ fun _ => norm_nonneg _) hΦ (ae_of_all _ hm)
-  have hswap := integral_integral_swap (f := fun m g => φ g * f (m * x * g)) hKi
-  have hF : ∀ g, ∫ m, φ g * f (m * x * g) ∂ν =
-      (∫ m, f (m * (x * g)) ∂ν) * φ (x⁻¹ * (x * g)) := by
-    intro g
-    rw [inv_mul_cancel_left, integral_const_mul, mul_comm (φ g)]
-    simp only [mul_assoc]
-  have hI1 : Integrable (fun g => (∫ m, f (m * (x * g)) ∂ν) * φ (x⁻¹ * (x * g))) μ :=
-    hKi.integral_prod_right.congr (ae_of_all _ fun g => hF g)
-  have hI : Integrable (fun y => (∫ m, f (m * y) ∂ν) * φ (x⁻¹ * y)) μ := by
-    have h2 := hI1.comp_mul_left x⁻¹
-    simpa only [mul_inv_cancel_left] using h2
-  refine ⟨hI, ?_⟩
-  calc ∫ m, f (m * x) ∂ν = ∫ m, ∫ g, φ g * f (m * x * g) ∂μ ∂ν := by
-        congr 1
-        funext m
-        exact hr (m * x)
-    _ = ∫ g, ∫ m, φ g * f (m * x * g) ∂ν ∂μ := hswap
-    _ = ∫ g, (∫ m, f (m * (x * g)) ∂ν) * φ (x⁻¹ * (x * g)) ∂μ := by
-        congr 1
-        funext g
-        exact hF g
-    _ = ∫ y, (∫ m, f (m * y) ∂ν) * φ (x⁻¹ * y) ∂μ :=
-        integral_mul_left_eq_self (fun y => (∫ m, f (m * y) ∂ν) * φ (x⁻¹ * y)) x
+  first | exact _root_.GlobalTheory.CuspFixed.constTerm_repro | exact @_root_.GlobalTheory.CuspFixed.constTerm_repro | apply _root_.GlobalTheory.CuspFixed.constTerm_repro <;> assumption
 
 theorem continuous_phe (B : RowsAut) (d : InfinitePlace B.I.F → ℝ) (hd : IsDSData B d) : Continuous (phe B d) := by
-  have hcoef : ∀ v, Continuous (fun g : B.I.Ginf => ⟪B.w v, B.σ v (uMat (g v)) (B.w v)⟫_ℂ) := by
-    intro v
-    obtain ⟨-, ⟨-, -, ⟨-, -, hcont⟩, -⟩, -⟩ := hd v
-    have hu : Continuous (fun g : UJ (B.I.ε v) => uMat g) :=
-      Units.continuous_val.comp continuous_subtype_val
-    have hin : ∀ g : UJ (B.I.ε v), uMat g ∈ UJset (B.I.ε v) := fun g => g.2
-    have h1 : Continuous (fun g : UJ (B.I.ε v) => B.σ v (uMat g) (B.w v)) :=
-      (hcont (B.w v)).comp_continuous hu hin
-    exact continuous_const.inner (h1.comp (continuous_apply v))
-  obtain ⟨hlc, -⟩ := B.e_adm
-  have hph : Continuous (ph B d) := by
-    unfold GlobalTheory.Count.ph
-    exact continuous_const.mul ((continuous_finsetProd _ fun v _ => hcoef v).star)
-  unfold GlobalTheory.Count.phe
-  exact (hph.comp continuous_fst).mul (hlc.continuous.comp continuous_snd)
+  first | exact _root_.GlobalTheory.CuspFixed.continuous_phe | exact @_root_.GlobalTheory.CuspFixed.continuous_phe | apply _root_.GlobalTheory.CuspFixed.continuous_phe <;> assumption
 
 theorem one_le_of_isIsot (I : AutInst) (W : Submodule I.E (Fin I.n → I.E)) (hW : I.IsIsot W) : 1 ≤ I.n := by
   obtain ⟨hne, -⟩ := hW

@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.DifferentiableOnLeftInverse
 public import Mathlib.Analysis.CStarAlgebra.Classes
 public import Mathlib.CategoryTheory.Monoidal.Cartesian.Over
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.IsLatBasisZero
@@ -1135,16 +1136,8 @@ namespace GlobalTheory.ShFam.Hor.LogCh.PerGrowth
 theorem differentiableOn_matrix_det_of_entries_normedSpace {V : Type*} [NormedAddCommGroup V] [NormedSpace ℂ V] {B : Set V} {d : ℕ}
     {A : V → Matrix (Fin d) (Fin d) ℂ} (hA : ∀ i j, DifferentiableOn ℂ (fun b => A b i j) B) :
     DifferentiableOn ℂ (fun b => (A b).det) B := by
-  simp only [Matrix.det_apply']
-  refine DifferentiableOn.fun_sum fun σ _ => DifferentiableOn.const_mul ?_ _
-  have key : ∀ t : Finset (Fin d), DifferentiableOn ℂ (fun b => ∏ i ∈ t, A b (σ i) i) B := by
-    intro t
-    induction t using Finset.induction_on with
-    | empty => simp
-    | insert a t ha ih =>
-      simp only [Finset.prod_insert ha]
-      exact (hA _ _).mul ih
-  exact key _
+  intros
+  apply _root_.GlobalTheory.RiemannRel.differentiableOn_det <;> assumption
 
 theorem differentiableOn_matrix_inv_apply_of_entries {V : Type*} [NormedAddCommGroup V] [NormedSpace ℂ V] {B : Set V} {d : ℕ}
     {A : V → Matrix (Fin d) (Fin d) ℂ} (hA : ∀ i j, DifferentiableOn ℂ (fun b => A b i j) B)

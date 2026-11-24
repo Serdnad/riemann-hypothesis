@@ -1088,14 +1088,8 @@ private theorem UpperTheory.Kd.K4.isCompact_integralCoefficients {l : ℕ} [Fact
   have hfg : (Subalgebra.toSubmodule c.O).FG := Module.Finite.iff_fg.1 c.fin
   exact Submodule.isCompact_of_fg hfg
 
-private theorem UpperTheory.Kd.K4.norm_le_one_of_mem_coefficient_ring {l : ℕ} [Fact l.Prime] (c : Coef l) {a : Qbar l} (ha : a ∈ c.O) : ‖a‖ ≤ 1 := by
-  by_contra h
-  push Not at h
-  obtain ⟨M, hM⟩ := (UpperTheory.Kd.K4.isCompact_integralCoefficients c).isBounded.exists_norm_le
-  obtain ⟨n, hn⟩ := pow_unbounded_of_one_lt M h
-  have := hM _ (c.O.pow_mem ha n)
-  rw [norm_pow] at this
-  linarith
+private theorem UpperTheory.Kd.K4.norm_le_one_of_mem_coefficient_ring {l : ℕ} [Fact l.Prime] (c : Coef l) {a : Qbar l} (ha : a ∈ c.O) : ‖a‖ ≤ 1 :=
+  _root_.GlobalTheory.KZGlobAsm.norm_le_one_of_mem c ha
 
 private theorem UpperTheory.Kd.K4.norm_nat_cast_prime_lt_one_padic_closure (l : ℕ) [Fact l.Prime] : ‖((l : ℕ) : Qbar l)‖ < 1 := by
   have h : ((l : ℕ) : Qbar l) = algebraMap ℚ_[l] (PadicAlgCl l) (l : ℚ_[l]) := by simp

@@ -1,5 +1,6 @@
 module
 
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.TaylorDiscriminants.WickVanishing.LogInv
 public import Development.AbelianVarietyTheory.Proofs.FormalGroupCharts.ConstantCoeffEv
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -76,16 +77,7 @@ theorem pt_apply {n : ℕ} (j : Fin n) (i : Fin d) : pt k (n := n) d j i = (X (j
 variable (G : FGLaw k d)
 
 theorem formalGroupLaw_ev_x_zero (i : Fin d) : ev (n := 1) ![pt k d 0, 0] (G.F i) = (X ((0 : Fin 1), i) : PS k 1 d) := by
-  have hz : CZ (![pt k (n := 1) d 0, 0] : Fin 2 → Pt k 1 d) := CZ.cons (cc_pt 0) (CZ.cons cc_zero CZ.nil)
-  have hs : CZ (![pt k (n := 2) d 1, pt k d 0] : Fin 2 → Pt k 2 d) := CZ.cons (cc_pt 1) (CZ.cons (cc_pt 0) CZ.nil)
-  have h := congrArg (ev (n := 1) ![pt k d 0, 0]) (G.comm i)
-  rw [ev_ev hz hs] at h
-  have e : (fun j c => ev (n := 1) ![pt k d 0, 0] ((![pt k (n := 2) d 1, pt k d 0] : Fin 2 → Pt k 2 d) j c)) =
-      (![0, pt k (n := 1) d 0] : Fin 2 → Pt k 1 d) := by
-    funext j c
-    fin_cases j <;> simp [pt_apply, ev_X hz]
-  rw [e, G.unit] at h
-  exact h.symm
+  first | exact _root_.ReciprocityTheory.ChartRestriction.G.TB.LogPf.formalGroupLaw_ev_x_zero | exact @_root_.ReciprocityTheory.ChartRestriction.G.TB.LogPf.formalGroupLaw_ev_x_zero | apply _root_.ReciprocityTheory.ChartRestriction.G.TB.LogPf.formalGroupLaw_ev_x_zero <;> assumption
 
 theorem pderiv_ev_zero {m n : ℕ} {a : Fin m → Pt k n d} (ha : CZ a) (f : PS k m d) (v : Fin n × Fin d)
     (h : ∀ j i, pderiv v (a j i) = 0) : pderiv v (ev a f) = 0 := by

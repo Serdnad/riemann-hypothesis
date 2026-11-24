@@ -1,5 +1,6 @@
 module
 
+import Formalism.LocalToGlobal.CharacterGerms.RowTiePLSmall
 public import Formalism.LocalToGlobal.CharacterGerms.RowTiePGerm
 import Formalism.FormalGroupLog.FormalGroupLogProofs.ChainRule
 
@@ -48,14 +49,7 @@ theorem eval_eval_single {m n : ℕ} {a : Pt C m d} (ha0 : Z0 (![a] : Fin 1 → 
   exact ha i
 
 theorem ev_self1 (g : PS C 1 d) : ev (n := 1) ![pt C d 0] g = g := by
-  unfold ev
-  have h : (fun p : Fin 1 × Fin d => (![pt C d 0] : Fin 1 → Pt C 1 d) p.1 p.2) = X := by
-    funext p
-    obtain ⟨k, j⟩ := p
-    fin_cases k
-    rfl
-  rw [h, subst_self]
-  rfl
+  apply _root_.Formalism.L2.FormalSeriesBounds.RowTiePLSmall.germEval_oneStandardPoint_self <;> assumption
 
 theorem F_0P {n : ℕ} (P : Pt C n d) (hP : ∀ j, constantCoeff (P j) = 0) (a : Fin d) :
     ev ![0, P] (G.F a) = P a := by

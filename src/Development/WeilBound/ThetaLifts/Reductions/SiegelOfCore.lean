@@ -45,6 +45,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Separation.CompletelyRegular
 import Mathlib.Topology.Sheaves.Init
 import Development.AbelianVarietyTheory.Definitions.Divisors.MatchingOfParts
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.LintegralSiegelConeInvModulusLtTopWeil
 
 @[expose] public section
 
@@ -123,16 +124,7 @@ theorem isClosed_siegelSet (h : IsCMExt F E σ) (hJ : IsHermND σ J) (hW : IsWit
   exact (h2.mul_left_of_isCompact hΩ).mul_right_of_isCompact hK
 
 theorem measurableSet_cone (r : ℕ) (c : ℝ) : MeasurableSet (cone r c) := by
-  have : cone r c = (⋂ i, {t : Fin r → ℝ | 0 < t i}) ∩ ((⋂ i, ⋂ j, ⋂ (_ : (j : Fin r).val = (i : Fin r).val + 1),
-      {t : Fin r → ℝ | c * t j ≤ t i}) ∩ ⋂ i, ⋂ (_ : (i : Fin r).val + 1 = r), {t : Fin r → ℝ | c ≤ t i}) := by
-    ext t
-    simp only [Set.mem_inter_iff, Set.mem_iInter, Set.mem_ofPred_eq]
-    exact Iff.rfl
-  rw [this]
-  exact (MeasurableSet.iInter fun i => measurableSet_lt measurable_const (measurable_pi_apply i)).inter
-    ((MeasurableSet.iInter fun i => MeasurableSet.iInter fun j => MeasurableSet.iInter fun _ =>
-      measurableSet_le (measurable_const.mul (measurable_pi_apply j)) (measurable_pi_apply i)).inter
-    (MeasurableSet.iInter fun i => MeasurableSet.iInter fun _ => measurableSet_le measurable_const (measurable_pi_apply i)))
+  apply _root_.GlobalTheory.SiegelSet.ConeConv.measurableSet_cone <;> assumption
 
 theorem cone_lower {r : ℕ} {c : ℝ} (h3 : 0 ≤ c) {u : Fin r → ℝ} (hu : u ∈ cone r c) :
     ∀ k : ℕ, ∀ i : Fin r, i.val + k + 1 = r → c ^ (k + 1) ≤ u i := by

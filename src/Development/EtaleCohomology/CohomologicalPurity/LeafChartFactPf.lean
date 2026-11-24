@@ -1,5 +1,7 @@
 module
 
+
+import Development.EtaleCohomology.CohomologicalPurity.LeafHsContPf
 public import Development.EtaleCohomology.CohomologicalPurity.LeafThomCut
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -40,7 +42,6 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Linter.Style
-
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.EtaleCohomology.CohomologicalPurity.LeafExcPPf, Development.EtaleCohomology.CohomologicalPurity.LeafChartFactPf
 
@@ -226,17 +227,7 @@ theorem wa_wb (d : ℕ) (R : Type) [CommRing R] : wa d R ≫ wb d R =
   rfl
 
 theorem opn_mono {X : Scheme.{0}} (U : X.Opens) : Mono (opn U).hom := by
-  change Mono (sch.map U.ι)
-  have h : ∀ n, Mono ((sch.map U.ι).app n) := by
-    intro n
-    have : ∀ V, Mono (((sch.map U.ι).app n).app V) := by
-      intro V
-      rw [mono_iff_injective]
-      intro f g h
-      change f ≫ U.ι = g ≫ U.ι at h
-      exact (cancel_mono U.ι).1 h
-    exact NatTrans.mono_of_mono_app _
-  exact NatTrans.mono_of_mono_app _
+  apply @LateralTheory.CohomologicalPurity.opn_mono <;> assumption
 
 def LeafWCov : Prop := Hyp → ∀ (q : ℕ) [NeZero q] (d : ℕ) (R : Type) [CommRing R], IsUnit (q : R) →
   Cover2 (ZMod q) (wb d R) (pr d R).hom

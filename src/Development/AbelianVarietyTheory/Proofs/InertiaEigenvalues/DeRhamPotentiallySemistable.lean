@@ -574,14 +574,7 @@ namespace GlobalTheory.PMon.FrameEquiv
 variable {l : ℕ} [Fact l.Prime]
 
 theorem algebraMap_algebraicClosure_mem_deRhamFil_zero (P : LocPrime l) (x : Om l) : algebraMap (Om l) P.R.BdR x ∈ Fil P 0 := by
-  obtain ⟨K, hK⟩ : ∃ K : FinExt l, x ∈ K.1 := ⟨⟨IntermediateField.adjoin ℚ_[l] {x},
-    IntermediateField.adjoin.finiteDimensional (Algebra.IsIntegral.isIntegral _)⟩,
-    IntermediateField.mem_adjoin_simple_self _ _⟩
-  have h2 := ((P.PD K).Fil 0).smul_mem (⟨x, hK⟩ : ↥K.1) (P.PD K).one_mem
-  rw [Algebra.smul_def, mul_one] at h2
-  show algebraMap (Om l) P.R.BdR x ∈ ((P.PD (botExt l)).Fil 0 : Set P.R.BdR)
-  rw [P.PD_Fil (botExt l) K 0]
-  exact h2
+  apply _root_.GlobalTheory.PMon.om_mem_Fil <;> assumption
 
 theorem fr_zero (c : ↥(MaximalUnramifiedExtension l)) : fr l 0 c = c := by
   show (frobUr l ^ 0) c = c

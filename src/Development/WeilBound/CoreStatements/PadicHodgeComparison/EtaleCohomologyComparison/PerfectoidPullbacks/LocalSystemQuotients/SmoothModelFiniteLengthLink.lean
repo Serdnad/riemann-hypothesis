@@ -1,5 +1,6 @@
 module
 
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.MemBiInf
 public import Development.WeilBound.CoreStatements.PadicHodgeComparison.EtaleCohomologyComparison.PerfectoidPullbacks.DpZeroRight
 public import Mathlib.Algebra.Exact.Basic
 public import Mathlib.RingTheory.Noetherian.Defs
@@ -1139,19 +1140,7 @@ namespace GlobalTheory.CompanionTheory.WittLevel.Van
 
 theorem dividedPowerFiltration_eq_bot {B : Type} [CommRing B] {J : Ideal B} (δ : DividedPowers J) (hJ : J = ⊥) {r : ℕ} (hr : 1 ≤ r) :
     pdP δ r = ⊥ := by
-  subst hJ
-  refine Ideal.span_eq_bot.2 ?_
-  rintro _ ⟨l, hl, hs, rfl⟩
-  have h : ∃ p ∈ l, p.1 ≠ 0 := by
-    by_contra h
-    push Not at h
-    have : (l.map Prod.fst).sum = 0 := List.sum_eq_zero (by simpa using h)
-    omega
-  obtain ⟨p, hp, h0⟩ := h
-  refine List.prod_eq_zero (List.mem_map.2 ⟨p, hp, ?_⟩)
-  have e : p.2 = 0 := hl p hp
-  rw [e]
-  exact δ.dpow_eval_zero h0
+  apply _root_.GlobalTheory.CompanionTheory.DisoHm.dividedPowerFiltration_bot <;> assumption
 
 theorem van_on {O R : Type} [CommRing O] [CommRing R] {I : Ideal R} (γ : DividedPowers I) (hI : I = ⊥) (p : ℕ) (hp : p ≠ 0)
     (hn : IsNilpotent (p : R)) {X : Scheme.{0}} (q : X ⟶ Spec (CommRingCat.of O)) (κ : O →+* R ⧸ I) {V : X.Opens} {e : ℕ}

@@ -1,5 +1,6 @@
 module
 
+import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.AdTransfer
 public import GroundTheory.ProfiniteCohomology.LocalClassFormation.InvariantSplit
 public import GroundTheory.ProfiniteCohomology.CohomologyFunctoriality
 public import GroundTheory.ProfiniteCohomology.LocalClassFormation.UnramifiedRes
@@ -67,33 +68,8 @@ variable (F F' Ω : Type) [Field F] [Field F'] [Field Ω] [Algebra F F'] [Algebr
 
 theorem continuous_restrictScalarsHom_of_tower :
     Continuous (AlgEquiv.restrictScalarsHom F : (Ω ≃ₐ[F'] Ω) →* (Ω ≃ₐ[F] Ω)) := by
-  refine continuous_of_continuousAt_one _ ?_
-  rw [ContinuousAt, map_one]
-  intro s hs
-  obtain ⟨S, hS, hSs⟩ := (krullTopology_mem_nhds_one_iff F Ω s).1 hs
-  rw [Filter.mem_map, krullTopology_mem_nhds_one_iff]
-  let b := Module.finBasis F S
-  let T : Set Ω := Set.range fun i => (b i : Ω)
-  refine ⟨IntermediateField.adjoin F' T, ?_, ?_⟩
-  · refine IntermediateField.finiteDimensional_adjoin fun x hx => ?_
-    obtain ⟨i, rfl⟩ := hx
-    exact ((IsIntegral.of_finite F (b i)).map S.val).tower_top
-  · intro σ hσ
-    apply hSs
-    rw [SetLike.mem_coe, IntermediateField.mem_fixingSubgroup_iff] at hσ ⊢
-    intro x hx
-    have hT : ∀ i, (AlgEquiv.restrictScalarsHom F σ) (b i : Ω) = b i := fun i =>
-      hσ _ (IntermediateField.subset_adjoin F' T ⟨i, rfl⟩)
-    have hx' : x = ∑ i, (b.repr ⟨x, hx⟩ i) • (b i : Ω) := by
-      calc x = S.val (∑ i, b.repr ⟨x, hx⟩ i • b i) := by rw [b.sum_repr]; rfl
-        _ = ∑ i, (b.repr ⟨x, hx⟩ i) • (b i : Ω) := by
-
-          rw [map_sum]
-          exact Finset.sum_congr rfl fun i _ => map_smul S.val _ _
-
-    rw [hx', map_sum]
-    refine Finset.sum_congr rfl fun i _ => ?_
-    rw [map_smul, hT]
+  intros
+  apply _root_.UpperTheory.V.Af.continuous_restrictScalarsHom <;> assumption
 
 def galUnitsResScalars :
     Rep.res (AlgEquiv.restrictScalarsHom F : (Ω ≃ₐ[F'] Ω) →* (Ω ≃ₐ[F] Ω)) (galUnits F Ω) ⟶

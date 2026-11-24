@@ -47,6 +47,7 @@ import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
 import Development.WeilBound.CoreStatements.TemperedRepresentationTheory.MirabolicDerivatives.LeibnizDerivatives.GenericProdIff
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.HasCompactSupportDescend
 
 @[expose] public section
 
@@ -170,14 +171,7 @@ theorem isClosed_unipU : IsClosed (unipU k d hd : Set (GL (Fin N) k)) := by
       IsClosed {g : GL (Fin N) k | (g : Matrix (Fin N) (Fin N) k) i j = c} :=
     fun i j c => isClosed_eq (Units.continuous_val.matrix_elem i j) continuous_const
   have hB : IsClosed (unipB k (Fin N) : Set (GL (Fin N) k)) := by
-    have hs : (unipB k (Fin N) : Set (GL (Fin N) k)) =
-        (⋂ i, ⋂ j, ⋂ (_ : j < i), {g : GL (Fin N) k | (g : Matrix (Fin N) (Fin N) k) i j = 0}) ∩
-          ⋂ i, {g : GL (Fin N) k | (g : Matrix (Fin N) (Fin N) k) i i = 1} := by
-      ext g
-      simp [GlobalTheory.SmGL.mem_unipB]
-    rw [hs]
-    exact (isClosed_iInter fun i => isClosed_iInter fun j => isClosed_iInter fun _ => hent i j 0).inter
-      (isClosed_iInter fun i => hent i i 1)
+    apply _root_.GlobalTheory.LocLanglands.InvInt.isClosed_unipB <;> assumption
   have hL : IsClosed (unipRadLower k (stdBlocks d hd) : Set (GL (Fin N) k)) := by
     have hs : (unipRadLower k (stdBlocks d hd) : Set (GL (Fin N) k)) =
         (⋂ a, ⋂ b, ⋂ i, ⋂ j, ⋂ (_ : a < b), {g : GL (Fin N) k |

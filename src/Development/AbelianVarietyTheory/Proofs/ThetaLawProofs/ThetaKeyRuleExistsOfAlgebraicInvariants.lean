@@ -1,5 +1,7 @@
 module
 
+
+import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.NonemptyRingHomComplex
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.ThetaUnifAV
 public import Development.AbelianVarietyTheory.Definitions.KeyFormula.KeyRuleOneOfKeyFormula
 public import Mathlib.AlgebraicGeometry.EllipticCurve.Weierstrass
@@ -82,7 +84,6 @@ import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.KeyPBId
 import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.StalkOfAppLEEq
 import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.ThetaLawSymplecticNormalForm
 import Mathlib.Algebra.Ring.IsFormallyReal
-
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.ExistsEllipticKeyDataValueEqDiscriminantStatement, Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.ExistsIsSymmMulVecAddDiagModTwo, Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.ThetaLawMul, Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.ThetaSqCongrModTwo, Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.ExistsThetaLawZeroOfEven, Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.KeyRuleCharHalfOfCharZero, Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.NonzeroLocusConstMul, Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.ExistsNormalisedKeyInvariantRuleCharZero, Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.ExistsNormalisedKeyInvariantRuleCharZeroStatement, Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.ThetaKeyRuleExistsOfAlgebraicInvariants
 
@@ -706,21 +707,7 @@ namespace GlobalTheory.KeyHouse
 
 open Cardinal in
 theorem nonempty_ringHom_complex (K : Type) [Field K] [CharZero K] [Countable K] : Nonempty (K →+* ℂ) := by
-  let F := FractionRing (MvPolynomial ℝ K)
-  let L := AlgebraicClosure F
-  have hF : #F = 𝔠 := by
-    have hK : #K ≤ 𝔠 := Cardinal.mk_le_aleph0.trans Cardinal.aleph0_le_continuum
-    rw [Cardinal.mk_fractionRing, MvPolynomial.cardinalMk_eq_max, Cardinal.mk_real, max_eq_right hK,
-      max_eq_left Cardinal.aleph0_le_continuum]
-  have hL : #L = 𝔠 := by
-    refine le_antisymm ?_ (hF ▸ Cardinal.mk_le_of_injective (algebraMap F L).injective)
-    have := Algebra.IsAlgebraic.cardinalMk_le_max F L
-    rwa [hF, max_eq_left Cardinal.aleph0_le_continuum] at this
-  let j : K →+* L := (algebraMap F L).comp ((algebraMap (MvPolynomial ℝ K) F).comp MvPolynomial.C)
-  have : CharZero L := (RingHom.charZero_iff j.injective).1 inferInstance
-  obtain ⟨e⟩ := IsAlgClosed.ringEquiv_of_equiv_of_charZero (K := L) (L := ℂ)
-    (hL ▸ Cardinal.aleph0_lt_continuum) (Cardinal.eq.1 (hL.trans Cardinal.mk_complex.symm))
-  exact ⟨e.toRingHom.comp j⟩
+  first | exact _root_.GlobalTheory.KeyRuleUnique.nonempty_ringHom_complex | exact @_root_.GlobalTheory.KeyRuleUnique.nonempty_ringHom_complex | apply _root_.GlobalTheory.KeyRuleUnique.nonempty_ringHom_complex <;> assumption
 
 def NormalValue (g n : ℕ) (κ : ∀ (K : Type) [Field K] [CharZero K], KeyIn K → Kˣ) : Prop :=
   ∀ (x : KeyIn ℂ) (τ Mx : Matrix (Fin x.P.g) (Fin x.P.g) ℂ) (a b : Fin x.P.g → ℂ) (c₀ : ℂ), x.P.g = g →

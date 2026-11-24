@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.DegenerateWhittakerDimParabolicInductionCuspidal
 public import Development.AbelianVarietyTheory.PublishedTheorems.PublishedFoundations.BlockTriangularOfSubOne
 public import Development.AbelianVarietyTheory.Definitions.Foundations.SmoothPartStable
 public import Development.AbelianVarietyTheory.Definitions.Divisors.SplitDoublingNBlock
@@ -117,18 +118,7 @@ theorem diagPart_apply (b : Fin N → ℕ) (M : Matrix (Fin N) (Fin N) k) (i j :
 
 theorem diagPart_mul {b : Fin N → ℕ} {X Y : Matrix (Fin N) (Fin N) k} (hX : X.BlockTriangular b)
     (hY : Y.BlockTriangular b) : diagPart b (X * Y) = diagPart b X * diagPart b Y := by
-  ext i j
-  simp only [diagPart_apply, Matrix.mul_apply]
-  split_ifs with hij
-  · refine Finset.sum_congr rfl fun l _ => ?_
-    rcases lt_trichotomy (b l) (b i) with h | h | h
-    · rw [hX h, if_neg h.ne', zero_mul, zero_mul]
-    · rw [if_pos h.symm, if_pos (h.trans hij)]
-    · rw [hY (hij ▸ h), if_neg h.ne, mul_zero, zero_mul]
-  · refine (Finset.sum_eq_zero fun l _ => ?_).symm
-    by_cases h : b i = b l
-    · rw [if_neg (fun h' : b l = b j => hij (h.trans h')), mul_zero]
-    · rw [if_neg h, zero_mul]
+  apply _root_.GlobalTheory.FinGL.SortWh.bd_mul <;> assumption
 
 def diagPartHom (b : Fin N → ℕ) : blockTri (κ := k) b →* Matrix (Fin N) (Fin N) k where
   toFun p := diagPart b ((p : GL (Fin N) k) : Matrix (Fin N) (Fin N) k)

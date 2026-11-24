@@ -1167,18 +1167,8 @@ open GlobalTheory.Twist GlobalTheory.LB GlobalTheory.QCoh
 
 theorem spanForms_eq_bot_of_isCoord {K : Type} [Field K] {n : ℕ} {x : Fin n → Kˣ} (hx : IsCoord x)
     (M : Set K) (H : Set Ω[K⁄ℤ]) {a : ℕ} (ha : n < a) : spanForms M H a = ⊥ := by
-  let bs : Module.Basis (Fin n) K Ω[K⁄ℤ] := Module.Basis.mk hx.1 hx.2.ge
-  haveI : Module.Finite K Ω[K⁄ℤ] := Module.Finite.of_basis bs
-  have hfr : Module.finrank K Ω[K⁄ℤ] = n := by
-    rw [Module.finrank_eq_card_basis bs, Fintype.card_fin]
-  refine eq_bot_iff.2 ((AddSubgroup.closure_le _).2 ?_)
-  rintro η ⟨c, -, v, -, rfl⟩
-  have hv : ¬ LinearIndependent K v := fun h => by
-    have := h.fintype_card_le_finrank
-    rw [Fintype.card_fin, hfr] at this
-    omega
-  rw [AlternatingMap.map_linearDependent _ v hv, smul_zero]
-  exact AddSubgroup.zero_mem _
+  intros
+  apply _root_.GlobalTheory.LogDR.spanForms_eq_bot_of_lt_card <;> assumption
 
 theorem logAt_eq_bot_of_lt {X : Scheme.{0}} [IsIntegral X] {C : Type} {E : C → CartierDiv X} {n : ℕ}
     {ι : Type} (𝒜 : SncAtlas E n ι) (Z : Set X) (G : CartierDiv X) {a : ℕ} (ha : n < a) (y : X) :

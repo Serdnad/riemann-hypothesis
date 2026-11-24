@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.HausdorffOfModuleTopologyFiniteDimensional
 public import Formalism.SharpRestriction.LevelLetterCocycles.LocalSituation
 public import Development.AbelianVarietyTheory.Definitions.Foundations.HTBasis
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.CyclotomicCharacterPadicBasicProperties
@@ -648,20 +649,7 @@ theorem v_pow (P : LocPrime l) (LL : FinExt l) (s : ℕ) :
 
 theorem algebraMap_RW_injective (LL : FinExt l) :
     Function.Injective (algebraMap ↥(OL LL) (RW LL)) := by
-  haveI : Module.Flat ℤ_[l] ↥(OL LL) := by
-    rw [Module.Flat.flat_iff_torsion_eq_bot_of_isBezout, eq_bot_iff]
-    rintro x ⟨⟨a, ha⟩, hx⟩
-    have h1 : algebraMap ℤ_[l] ↥(OL LL) a * x = 0 := by rw [← Algebra.smul_def]; exact hx
-    rcases mul_eq_zero.1 h1 with h | h
-    · exfalso
-      apply nonZeroDivisors.ne_zero ha
-      have h2 : algebraMap ℚ_[l] ↥LL.1 (a : ℚ_[l]) = 0 := congrArg Subtype.val h
-      exact PadicInt.coe_eq_zero.1 ((map_eq_zero _).1 h2)
-    · exact h
-  have h : Function.Injective (algebraMap ℤ_[l] (WCb l)) :=
-    (WittVector.map_injective _ (ZMod.castHom (dvd_refl l) (Cb l)).injective).comp
-      (WittVector.equiv l).symm.injective
-  exact Algebra.TensorProduct.includeLeft_injective (S := ↥(OL LL)) h
+  apply _root_.GlobalTheory.HerrNatural.ol_rw_injective <;> assumption
 
 theorem map_id_comm {Z O W : Type} [CommRing Z] [CommRing O] [CommRing W] [Algebra Z O]
     [Algebra Z W] (f g f' g' : W →ₐ[Z] W) (h : ∀ w, f (g w) = f' (g' w)) (x : O ⊗[Z] W) :

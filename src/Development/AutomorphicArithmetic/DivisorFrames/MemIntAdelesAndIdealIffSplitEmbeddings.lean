@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ValuedUnifAt
 public import Development.AutomorphicArithmetic.LocalEmbeddings.ComplEquivEvW
 public import Development.AbelianVarietyTheory.BlockTheory.TwistedDiscreteSeries.UnitCharTriangle
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.PadicIsNonarchimedeanLocalField
@@ -164,20 +165,6 @@ private theorem inId_iff {D : D7} (Pw : Finset (Pl D.host.E)) (c : Pl D.host.E �
     rw [e]
     exact ⟨Subtype.property _, Ideal.mul_mem_right _ _ (Ideal.mem_map_of_mem _ ha)⟩
 
-private theorem val_unifAt {F : Type} [Field F] [NumberField F] (v : Pl F) :
-    Valued.v (GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.unifAt v : Fv F v) = WithZero.exp (-1 : ℤ) := by
-  have e := GlobalTheory.FlipMatch.isEquiv_Fv v
-  have h : valuation (Fv F v) (GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.unifAt v : Fv F v) = uniformizer (Fv F v) :=
-    (GlobalTheory.SplitFlip.exists_isUnif (k := Fv F v)).choose_spec
-  refine le_antisymm ?_ ?_
-  · have h1 : Valued.v (GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.unifAt v : Fv F v) < 1 := e.lt_one_iff_lt_one.1 (h ▸ uniformizer_lt_one)
-    rw [← WithZero.exp_zero] at h1
-    exact WithZero.lt_mul_exp_iff_le (by simp) |>.1 (by simpa [← WithZero.exp_add] using h1)
-  · obtain ⟨π, hπ⟩ := v.valuation_exists_uniformizer F
-    rw [← Formalism.UG.P.levelaf_valued_algebraMap] at hπ
-    rw [← hπ, ← e, h]
-    exact le_uniformizer_iff.2 (e.lt_one_iff_lt_one.2 (by rw [hπ, ← WithZero.exp_zero, WithZero.exp_lt_exp]; omega))
-
 private theorem val_evW {D : D7} {v : Pl D.host.F} (τ : D.host.E →ₐ[D.host.F] Fv D.host.F v) (z : Lev.EAf D) :
     Valued.v (GlobalTheory.BotMatch.evW τ z) = Valued.v (cpt (D := D) (splitPrime τ) z) :=
   GlobalTheory.FlipMatch.valued_complEquiv_symm τ _
@@ -211,7 +198,7 @@ theorem UpperTheory.mem_intAdeles_and_ideal_iff_splitEmbeddings :
         GlobalTheory.SplitWeil.cball (GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.unifAt (pl i) ^ c (splitPrime (τ i))) ↔
         Valued.v (cpt (D := D) (splitPrime (τ i)) z) ≤ WithZero.exp (-(c (splitPrime (τ i)) : ℤ)) := fun i => by
       refine (GlobalTheory.FlipMatch.isEquiv_Fv (pl i) _ _).trans ?_
-      rw [val_evW, Units.val_pow_eq_pow_val, map_pow, val_unifAt, ← WithZero.exp_nsmul]
+      rw [val_evW, Units.val_pow_eq_pow_val, map_pow, _root_.GlobalTheory.CondLESplit.valued_unifAt, ← WithZero.exp_nsmul]
       simp
     refine (inId_iff Pw c z h0).trans ⟨fun h i => (h1 i).2 (h _ ((hP _).2 ⟨i, rfl⟩)), fun h Q hQ => ?_⟩
     obtain ⟨i, rfl⟩ := (hP Q).1 hQ

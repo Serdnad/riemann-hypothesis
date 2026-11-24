@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.ModuliProofs.TorsionPointsFieldExtension
 public import Development.AbelianVarietyTheory.Definitions.Degenerations.CharZeroOfIsPrimitiveRoot
 public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.ExistsPowEqOfBaseChange
 public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.RelationsAreFunctions
@@ -122,22 +123,8 @@ end Val
 
 theorem card_torsion (hL : Laws) {S : Scheme.{0}} (P : PolAV S) {k : Type} [Field k] [IsAlgClosed k] (t : Sp k ⟶ S)
     {n : ℕ} (hn : (n : k) ≠ 0) : Nat.card {x : Over.mk t ⟶ P.A // x ^ n = 1} = n ^ (2 * P.g) := by
-  have hn0 : n ≠ 0 := by rintro rfl; exact hn Nat.cast_zero
-  obtain ⟨P', g, hg, hdim, hmul, -⟩ := hL.polBaseChange S _ t P
-  rw [← hdim, ← (hL.mulN _ P' n (Nat.pos_of_ne_zero hn0)).2.2.2.2 k (𝟙 _) hn]
-  let ρ : Over.mk t ⟶ Over.mk (𝟙 _ ≫ t) := Over.homMk (𝟙 _) ((Category.id_comp _).trans (Category.id_comp _))
-  let Φ : (Over.mk (𝟙 (Spec (CommRingCat.of k))) ⟶ P'.A) →* (Over.mk t ⟶ P.A) :=
-    MonoidHom.mk' (fun x => ρ ≫ toBase hg.w x) fun x y => by rw [hmul, MonObj.comp_mul]
-  have hΦ : ∀ x, (Φ x).left = x.left ≫ g := fun x => Category.id_comp _
-  have hb : Function.Bijective Φ := by
-    refine ⟨fun x y e => Over.OverMorphism.ext (hg.hom_ext ?_ ((Over.w x).trans (Over.w y).symm)), fun a => ?_⟩
-    · rw [← hΦ, ← hΦ, e]
-    · exact ⟨Over.homMk (hg.lift a.left (𝟙 _) ((Over.w a).trans (Category.id_comp t).symm)) (hg.lift_snd _ _ _),
-        Over.OverMorphism.ext ((hΦ _).trans (hg.lift_fst _ _ _))⟩
-  let e := MulEquiv.ofBijective Φ hb
-  exact (Nat.card_congr (e.toEquiv.subtypeEquiv fun x => by
-    show _ ↔ e x ^ n = 1
-    rw [← map_pow, EmbeddingLike.map_eq_one_iff])).symm
+  intros
+  apply _root_.GlobalTheory.TorsionFieldExt.card_torsion <;> assumption
 
 attribute [local instance] gtGroup
 

@@ -1,5 +1,6 @@
 module
 
+import all Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.LocalMaximality.PPLift
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.LocalMaximality.DualForm
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.KahlerFormsOverSubalgebraStandardOpenIffPowSmulStatement
 import Mathlib.Algebra.Order.Floor.Extended
@@ -55,18 +56,7 @@ open scoped TensorProduct
 
 private lemma omB_smul_mem {K : Type} [Field K] [Algebra ℂ K] (B : Subalgebra ℂ K) (q : ℕ) {b : K} (hb : b ∈ B)
     {y : DR ℂ K} (hy : y ∈ omB ℂ K B q) : b • y ∈ omB ℂ K B q := by
-  induction hy using Submodule.span_induction with
-  | mem z hz =>
-    obtain ⟨b', hb', v, hv, rfl⟩ := hz
-    apply Submodule.subset_span
-    exact ⟨b * b', B.mul_mem hb hb', v, hv, by rw [smul_smul]⟩
-  | zero => simp
-  | add u w _ _ hu hw =>
-    rw [smul_add]
-    exact Submodule.add_mem _ hu hw
-  | smul c u _ hu =>
-    rw [smul_comm]
-    exact Submodule.smul_mem _ c hu
+  apply _root_.smul_omB' <;> assumption
 
 private lemma ratio_mem_rB {F : Type} (K : Type) [Field F] [Field K] [Algebra ℂ F] [Algebra ℂ K] [Algebra F K]
     [IsScalarTower ℂ F K] {d : ℕ} (x : Fin (d + 1) → F) (i j : Fin (d + 1)) :

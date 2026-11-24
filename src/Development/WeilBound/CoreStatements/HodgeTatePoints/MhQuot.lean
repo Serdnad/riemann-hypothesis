@@ -97,17 +97,7 @@ theorem valAt_scalar {A B : Type} [CommRing A] [CommRing B] {X : Scheme.{0}} (π
 
 theorem QFGroup.regularAt_scalar_mul (Γ : QFGroup R T) {f : T → FractionRing R} {g : Γ.G.left} (b : R)
     (H : Γ.RegularAt f g) : Γ.RegularAt (fun t => algebraMap R (FractionRing R) b * f t) g := by
-  obtain ⟨U, hg, s, hs⟩ := H
-  obtain ⟨π, hπ⟩ : ∃ π : Γ.G.left ⟶ Spec (CommRingCat.of R), π = Γ.G.hom := ⟨_, rfl⟩
-  have hU : U ≤ π ⁻¹ᵁ ⊤ := fun _ _ => trivial
-  refine ⟨U, hg, π.appLE ⊤ U hU ((Scheme.ΓSpecIso (CommRingCat.of R)).inv.hom b) * s, fun t h => ?_⟩
-  have hw : (Γ.pt t).left ≫ π = Spec.map (CommRingCat.ofHom (algebraMap R (FractionRing R))) := by
-    rw [hπ]; exact Over.w (Γ.pt t)
-  have h1 := valAt_scalar π (Γ.pt t).left (algebraMap R (FractionRing R)) hw U h hU b
-  have h2 := hs t h
-  show _ = algebraMap R (FractionRing R) b * f t
-  rw [← h1, ← h2]
-  simp [valAt, map_mul]
+  apply _root_.GlobalTheory.CompanionTheory.Ar.BT.SubOrder.regularAt_mul <;> assumption
 
 theorem QFGroup.compactSpace (Γ : QFGroup R T) : CompactSpace Γ.G.left := by
   obtain ⟨π, hπ⟩ : ∃ π : Γ.G.left ⟶ Spec (CommRingCat.of R), π = Γ.G.hom := ⟨_, rfl⟩

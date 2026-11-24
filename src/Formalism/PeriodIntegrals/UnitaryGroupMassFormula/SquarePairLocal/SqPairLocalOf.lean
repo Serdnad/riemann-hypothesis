@@ -64,6 +64,7 @@ import Mathlib.Tactic.Linter.HaveILetI
 import Mathlib.Algebra.AffineMonoid.Basic
 import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.UnimodularGenus.StdLatEqSpan
 import Mathlib.Tactic.Lemma
+import Development.AbelianVarietyTheory.Proofs.SatakeParameters.EqZeroOfForallLeExp
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Formalism.PeriodIntegrals.UnitaryGroupMassFormula.SquarePairLocal.SigKApply, Formalism.PeriodIntegrals.UnitaryGroupMassFormula.SquarePairLocal.PowerSeriesExpansionImageDenseWithDenominator, Formalism.PeriodIntegrals.UnitaryGroupMassFormula.SquarePairLocal.DetectIdeal, Formalism.PeriodIntegrals.UnitaryGroupMassFormula.SquarePairLocal.DivAtOneOfInt, Formalism.PeriodIntegrals.UnitaryGroupMassFormula.SquarePairLocal.ExistsConjugationFixedUniformizer, Formalism.PeriodIntegrals.UnitaryGroupMassFormula.SquarePairLocal.ExistsDenFg, Formalism.PeriodIntegrals.UnitaryGroupMassFormula.SquarePairLocal.Imports, Formalism.PeriodIntegrals.UnitaryGroupMassFormula.SquarePairLocal.IsUnimodularOfIsSDG, Formalism.PeriodIntegrals.UnitaryGroupMassFormula.SquarePairLocal.IsUnitIffSub, Formalism.PeriodIntegrals.UnitaryGroupMassFormula.SquarePairLocal.SplitPlaceOf, Formalism.PeriodIntegrals.UnitaryGroupMassFormula.SquarePairLocal.SqPairLocalOf
@@ -82,18 +83,7 @@ open PI.SqPairLocal Formalism.BasicNotions.Examples₂
 
 theorem wz_le_of {a b : ℤᵐ⁰} (hb : b ≤ 1)
     (h : ∀ n : ℕ, b ≤ exp (-(n : ℤ)) → a ≤ exp (-(n : ℤ))) : a ≤ b := by
-  rcases eq_or_ne b 0 with rfl | h0
-  · have : a = 0 := by
-      by_contra ha0
-      obtain ⟨N, hN⟩ := @WithZero.exists_exp_neg_natCast_lt a ha0
-      exact absurd (h N (by simp)) (not_le.2 hN)
-    simp [this]
-  · have hl : log b ≤ 0 := by
-      rw [← exp_le_exp, exp_log h0, exp_zero]; exact hb
-    have e : b = exp (-(((-(log b)).toNat : ℕ) : ℤ)) := by
-      rw [Int.toNat_of_nonneg (by omega), neg_neg, exp_log h0]
-    have := h ((-(log b)).toNat) (le_of_eq e)
-    rwa [← e] at this
+  apply _root_.GlobalTheory.DenseCompl.le_of_forall_le_exp <;> assumption
 
 theorem wz_eq_of {a b : ℤᵐ⁰} (ha : a ≤ 1) (hb : b ≤ 1)
     (h : ∀ n : ℕ, a ≤ exp (-(n : ℤ)) ↔ b ≤ exp (-(n : ℤ))) : a = b :=
@@ -1119,13 +1109,6 @@ private theorem exists_one_sub_pow_mul_pow_eq_mul {E : Type} [Field E] [NumberFi
   · exact key x y hlt h
   · exact key y x hlt h.symm
 
-private theorem one_sub_pow_succ_not_mem_of_mem_maximal {E : Type} [Field E] [NumberField E] (Q : Ideal (𝓞 E)) [hQ : Q.IsMaximal]
-    (ϖ : 𝓞 E) (hϖ : ϖ ∈ Q) (m : ℕ) : (1 - ϖ ^ (m + 1)) ∉ Q := by
-  intro h
-  have h2 : ϖ ^ (m + 1) ∈ Q := Q.pow_mem_of_mem hϖ (m + 1) (Nat.succ_pos m)
-  have h3 : (1 : 𝓞 E) ∈ Q := by simpa using Q.add_mem h h2
-  exact hQ.ne_top ((Ideal.eq_top_iff_one Q).mpr h3)
-
 private theorem algebraMap_cj_eq_star {E : Type} [Field E] [NumberField E] [StarRing E] (x : 𝓞 E) :
     algebraMap (𝓞 E) E (cj E x) = star (algebraMap (𝓞 E) E x) := by
   first
@@ -1143,7 +1126,10 @@ theorem locMat : LocMat := by
   obtain ⟨b, hb0, hb⟩ := exists_common_denominator' (Finset.univ.image (fun p : Fin N × Fin N => u p.1 p.2))
   obtain ⟨m, k, v, hv⟩ := exists_one_sub_pow_mul_pow_eq_mul M.ϖ b hb0
   set d : 𝓞 E := 1 - M.ϖ ^ (m + 1) with hd_def
-  have hd : d ∉ Q := one_sub_pow_succ_not_mem_of_mem_maximal Q M.ϖ M.ϖ_Q m
+  have hd : d ∉ Q := by
+    intro hd
+    exact Ideal.IsMaximal.ne_top inferInstance ((Ideal.eq_top_iff_one Q).mpr
+      (by simpa [d] using Q.add_mem hd (Q.pow_mem_of_mem M.ϖ_Q (m + 1) (Nat.succ_pos m))))
   have hdd : d * d ∉ Q := fun hx => hd ((hQp.mem_or_mem hx).elim id id)
   have hdc : cj E d = d := by rw [hd_def, map_sub, map_one, map_pow, M.ϖ_cj]
   have hc0 : cj E (d * M.ϖ ^ k) = d * M.ϖ ^ k := by rw [map_mul, map_pow, hdc, M.ϖ_cj]

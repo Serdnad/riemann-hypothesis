@@ -1,5 +1,6 @@
 module
 
+import all Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.IwHkNorm
 public import Mathlib.LinearAlgebra.Matrix.Charpoly.Basic
 public import Mathlib.RingTheory.Valuation.Basic
 public import Mathlib.Algebra.Order.BigOperators.GroupWithZero.Finset
@@ -1048,14 +1049,7 @@ private theorem fixed_eq (ρ : Representation ℂ G V) (I : Subgroup G) : fixed 
 
 private theorem mem_orbit (I : Subgroup G) (x g : G) :
     (g : G ⧸ I) ∈ MulAction.orbit I (x : G ⧸ I) ↔ ∃ a ∈ I, ∃ b ∈ I, g = a * x * b := by
-  constructor
-  · rintro ⟨a, ha⟩
-    have ha' : (((a : G) * x : G) : G ⧸ I) = g := ha
-    exact ⟨a, a.2, _, QuotientGroup.eq.1 ha', by group⟩
-  · rintro ⟨a, ha, b, hb, rfl⟩
-    refine ⟨⟨a, ha⟩, ?_⟩
-    change ((a * x : G) : G ⧸ I) = _
-    exact (QuotientGroup.mk_mul_of_mem _ hb).symm
+  apply _root_.hkNorm_mem <;> assumption
 
 open scoped Classical in
 private theorem levOp_eq (ρ : Representation ℂ G V) (K I : Subgroup G) (x : G) (hx : FinOrb I I x) (f : G → ℂ)

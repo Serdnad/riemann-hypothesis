@@ -1,5 +1,6 @@
 module
 
+import Development.WeilBound.ThetaLifts.FrameEstimates.ContinuousMixedSymm
 import Development.WeilBound.ThetaLifts.FrameEstimates.IsCompactIntV
 public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.WeilTensorModels
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsCompactOpenAddSubgroup
@@ -255,16 +256,7 @@ theorem hTens_tr {R E : Type} [CommRing R] [CommRing E] [Algebra R E] (c : E →
   exact Finset.sum_congr rfl fun _ _ => Finset.sum_congr rfl fun _ _ => Finset.sum_congr rfl fun _ _ => by ring
 
 theorem trace_cm (h : IsCMExt F E σ) (x : E) : algebraMap F E (Algebra.trace F E x) = x + σ x := by
-  classical
-  have h1 := trace_eq_sum_embeddings (K := F) (L := E) (AlgebraicClosure E) (x := x)
-  let τ : E →ₐ[F] AlgebraicClosure E := IsScalarTower.toAlgHom F E _
-  have h2 : (Finset.univ : Finset (E →ₐ[F] AlgebraicClosure E)) = {τ, τ.comp σ} := by
-    ext τ'
-    simpa using eq_or_eq_comp_conj h τ τ'
-  rw [h2, Finset.sum_pair (comp_conj_ne h τ).symm] at h1
-  apply (algebraMap E (AlgebraicClosure E)).injective
-  rw [← IsScalarTower.algebraMap_apply, h1, map_add (f := _)]
-  rfl
+  apply _root_.PositivityTheory.ThKEst.W.trace_cm <;> assumption
 
 theorem trace_tmul {R : Type} [CommRing R] [Algebra F R] (r : R) (x : E) :
     Algebra.trace R (R ⊗[F] E) (r ⊗ₜ[F] x) = r * algebraMap F R (Algebra.trace F E x) := by

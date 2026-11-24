@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.OrthogonalFreeOfPerfectAltZmod
 public import Mathlib.Algebra.Module.Injective
 public import Mathlib.Data.ZMod.Defs
 import Mathlib.Algebra.Order.Floor.Extended
@@ -97,16 +98,8 @@ private theorem zmod_ideal_gen (I : Ideal (ZMod N)) :
   exact ⟨r, rfl⟩
 
 theorem zmod_baer : Module.Baer (ZMod N) (ZMod N) := by
-  intro I g
-  obtain ⟨d, hd, hI⟩ := zmod_ideal_gen I
-  obtain ⟨c, hc⟩ := zmod_dbl_ann d (g ⟨d, hd⟩) (fun r hr => by
-    have : r • (⟨d, hd⟩ : I) = 0 := Subtype.ext hr
-    rw [← smul_eq_mul, ← map_smul, this, map_zero])
-  refine ⟨LinearMap.toSpanSingleton _ _ c, fun x hx => ?_⟩
-  obtain ⟨r, rfl⟩ := hI x hx
-  have : (⟨r * d, hx⟩ : I) = r • (⟨d, hd⟩ : I) := rfl
-  rw [this, map_smul, hc, LinearMap.toSpanSingleton_apply, smul_eq_mul, smul_eq_mul]
-  ring
+ intros
+ apply @_root_.GlobalTheory.ZModPerp.baer_zmod <;> assumption
 
 private theorem zmod_extend {A B : Type*} [AddCommGroup A] [Module (ZMod N) A] [AddCommGroup B]
     [Module (ZMod N) B] (φ : A →ₗ[ZMod N] B) (c : A →ₗ[ZMod N] ZMod N)

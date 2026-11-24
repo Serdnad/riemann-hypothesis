@@ -1,5 +1,6 @@
 module
 
+import PositivityTheory.AutomorphicForms.PublishedInputs.RealGaloisRepresentations.IwahoriSphericalTransfer.LocCompROfAdmissibleReal
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.ThresholdArguments.DenseThresholdCases.AutomorphicFormHyp
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.IdeleGenerators.ShortLatticeUnitarize.Unitarize
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.CapCentral
@@ -62,12 +63,6 @@ private theorem orb_comm (κ : Representation ℂ K V) (T : Module.End ℂ V) (h
     (c : K →₀ ℂ) : orb κ (T x) c = T (orb κ x c) := by
 
   simp only [orb, Finsupp.linearCombination_apply, Finsupp.sum, map_sum, map_smul, hT]
-private theorem orb_act (κ : Representation ℂ K V) (x : V) (k : K) (c : K →₀ ℂ) :
-    orb κ x (c.mapDomain (k * ·)) = κ k (orb κ x c) := by
-  induction c using Finsupp.induction_linear with
-  | zero => simp
-  | add c c' h h' => rw [Finsupp.mapDomain_add, map_add (f := _), map_add (f := _), map_add (f := _), h, h']
-  | single a b => simp [orb]
 private def annPart (κ : Representation ℂ K V) (φ : V) : Submodule ℂ V where
   carrier := {x | ∀ c, orb κ φ c = 0 → orb κ x c = 0}
   add_mem' := fun {x y} hx hy c hc => by
@@ -81,34 +76,8 @@ private def annPart (κ : Representation ℂ K V) (φ : V) : Submodule ℂ V whe
 private theorem exists_type (κ : Representation ℂ K V) (φ : V)
     (hφ : FiniteDimensional ℂ (Submodule.span ℂ (Set.range fun k => κ k φ))) :
     ∃ (d : ℕ) (ξ : K →* Matrix (Fin d) (Fin d) ℂ), ∀ x ∈ annPart κ φ, ∃ f : (Fin d → ℂ) →ₗ[ℂ] V,
-      (∀ k v, f (ξ k *ᵥ v) = κ k (f v)) ∧ x ∈ LinearMap.range f ∧ ∀ v, ∃ c, f v = orb κ x c := by
-  have hO : ∀ k, ∀ y ∈ LinearMap.range (orb κ φ), κ k y ∈ LinearMap.range (orb κ φ) := by
-    rintro k _ ⟨c, rfl⟩
-    exact ⟨_, orb_act κ φ k c⟩
-  haveI : FiniteDimensional ℂ (LinearMap.range (orb κ φ)) := by
-    rw [orb, Finsupp.range_linearCombination]; exact hφ
-  let b := Module.finBasis ℂ (LinearMap.range (orb κ φ))
-  obtain ⟨s, hs⟩ := (orb κ φ).rangeRestrict.exists_rightInverse_of_surjective (LinearMap.range_rangeRestrict _)
-  refine ⟨_, (LinearMap.toMatrixAlgEquiv b).toMonoidHom.comp (sub κ _ hO), fun x hx => ?_⟩
-  have key : ∀ c, orb κ x (s ((orb κ φ).rangeRestrict c)) = orb κ x c := fun c => by
-    rw [← sub_eq_zero, ← map_sub]
-    refine hx _ ?_
-    rw [map_sub, sub_eq_zero]
-    exact congrArg Subtype.val (LinearMap.congr_fun hs ((orb κ φ).rangeRestrict c))
-  refine ⟨orb κ x ∘ₗ s ∘ₗ b.equivFun.symm.toLinearMap, fun k v => ?_,
-    ⟨b.equivFun ((orb κ φ).rangeRestrict (Finsupp.single 1 1)), ?_⟩, fun v => ⟨_, rfl⟩⟩
-  · obtain ⟨y, rfl⟩ := b.equivFun.surjective v
-    obtain ⟨c, rfl⟩ := (orb κ φ).surjective_rangeRestrict y
-    have h1 : (LinearMap.toMatrixAlgEquiv b).toMonoidHom.comp (sub κ _ hO) k *ᵥ b.equivFun ((orb κ φ).rangeRestrict c) =
-        b.equivFun ((orb κ φ).rangeRestrict (c.mapDomain (k * ·))) := by
-      have h2 : (orb κ φ).rangeRestrict (c.mapDomain (k * ·)) = sub κ _ hO k ((orb κ φ).rangeRestrict c) :=
-        Subtype.ext (orb_act κ φ k c)
-      rw [h2]
-      exact LinearMap.toMatrix_mulVec_repr b b _ _
-    rw [h1]
-    simp only [LinearMap.comp_apply, LinearEquiv.coe_coe, LinearEquiv.symm_apply_apply, key, orb_act]
-  · simp only [LinearMap.comp_apply, LinearEquiv.coe_coe, LinearEquiv.symm_apply_apply, key]
-    simp [orb]
+      (∀ k v, f (ξ k *ᵥ v) = κ k (f v)) ∧ x ∈ LinearMap.range f ∧ ∀ v, ∃ c, f v = orb κ x c :=
+  _root_.GlobalTheory.RealGal.LocCompRProof.exists_type κ φ hφ
 end Gen
 section Scal
 variable {R S : Type} [CommRing R] [CommRing S]
@@ -354,15 +323,19 @@ private theorem main (h : UpperTheory.V.Published.AdmissibleReal) (π : CuspSub 
   exact (π.cusp φ hφ).1.left _ _
 end UpperTheory.V.Sd.Wc.CentralCharacter
 open UpperTheory.V.Sd.Wc.CentralCharacter in
-theorem UpperTheory.V.Sd.Wc.centChar_alt :
-    _root_.UpperTheory.V.Af.Hypotheses' → UpperTheory.V.Sd.Wc.CentChar := by
-  intro P F _ _ _ π
-  obtain ⟨ω, hω⟩ := main P.admR π
+theorem UpperTheory.V.Sd.Wc.centChar_of_admissibleReal (h : UpperTheory.V.Published.AdmissibleReal) :
+    UpperTheory.V.Sd.Wc.CentChar := by
+  intro F _ _ _ π
+  obtain ⟨ω, hω⟩ := main h π
   refine ⟨ω, fun z φ hφ g => ?_, fun z x => Subtype.ext ?_⟩
   · rw [← sc_comm]
     exact congrArg (fun ψ : Sm F 2 => ψ.1 g) (hω z φ hφ)
   · have := hω (finId F z) x.1 x.2
     rw [← fin_sc] at this
     exact this
+
+theorem UpperTheory.V.Sd.Wc.centChar_alt :
+    _root_.UpperTheory.V.Af.Hypotheses' → UpperTheory.V.Sd.Wc.CentChar :=
+  fun P => UpperTheory.V.Sd.Wc.centChar_of_admissibleReal P.admR
 end
 end

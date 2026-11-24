@@ -40,6 +40,7 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
+import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.ExistsAffineRefinementSplitExtCharts
 
 @[expose] public section
 
@@ -75,16 +76,7 @@ attribute [local instance] SplitExt.free SplitExt.finite
 variable {E : SplitExt S} {G : Over S} [GrpObj G]
 
 theorem exists_mem_commonChart (E : SplitExt S) (x : E.B.left) : ∃ j, x ∈ E.chart j := by
-  have hk : ∀ k, ∃ a, x ∈ (E.O (E.basis k)).L.U a := by
-    intro k
-    have hx : x ∈ (⊤ : E.B.left.Opens) := trivial
-    rw [← (E.O (E.basis k)).isLB.cover] at hx
-    simpa [TopologicalSpace.Opens.mem_iSup] using hx
-  choose c hc using hk
-  refine ⟨c, ?_⟩
-  unfold SplitExt.chart
-  rw [← SetLike.mem_coe, TopologicalSpace.Opens.coe_iInf]
-  exact Set.mem_iInter.2 hc
+  apply _root_.GlobalTheory.ZH.UFib.exists_mem_splitChart <;> assumption
 
 private theorem gm_res_pullU_eq_gm_comp {Z P Y : Scheme.{0}} (p : Z ⟶ P) (a : P ⟶ Y) {U : Y.Opens} {W : P.Opens}
     (h : W ≤ a ⁻¹ᵁ U) {z : Z} (hz : p z ∈ W) (w : Γ(Y, U)ˣ) :

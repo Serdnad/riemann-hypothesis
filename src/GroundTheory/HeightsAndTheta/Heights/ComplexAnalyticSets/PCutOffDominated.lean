@@ -1,5 +1,6 @@
 module
 
+import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.PConeFibreDegree
 public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.StCutOffDominated
 public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.LogIntPoly
 public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.PFibreBound
@@ -38,15 +39,7 @@ theorem sheetSum_eq_sum {J : Ideal (MvPolynomial (Fin n) ℂ)} {A : Matrix (Fin 
 
 theorem ae_eval_ne_zero {ι : Type*} [Fintype ι] (g : MvPolynomial ι ℂ) (hg : g ≠ 0) :
     ∀ᵐ u : ι → ℂ, eval u g ≠ 0 := by
-  have hU : (⋃ r : ℕ, LogInt.polydisc ι r) = Set.univ := by
-    refine Set.eq_univ_of_forall fun u => ?_
-    obtain ⟨r, hr⟩ := exists_nat_ge ‖u‖
-    refine Set.mem_iUnion.mpr ⟨r, Set.mem_univ_pi.mpr fun i => ?_⟩
-    rw [Metric.mem_closedBall, dist_zero_right]
-    exact (norm_le_pi_norm u i).trans hr
-  have h := (ae_restrict_iUnion_iff (fun r : ℕ => LogInt.polydisc ι r) (fun u => eval u g ≠ 0)).mpr
-    fun r => LogInt.ae_eval_ne_zero g hg r
-  rwa [hU, Measure.restrict_univ] at h
+  apply _root_.GroundTheory.Heights₂.Heights.ConeFibreDegree.ae_eval_ne_zero_univ <;> assumption
 
 end CutOffDominated
 

@@ -1,5 +1,7 @@
 module
 
+import PositivityTheory.AutomorphicForms.PublishedInputs.RealGaloisRepresentations.IwahoriSphericalTransfer.ImportsAlt
+import PositivityTheory.AutomorphicForms.PublishedInputs.RealGaloisRepresentations.IwahoriSphericalTransfer.LocCompROfAdmissibleReal
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.NewformCoefficients.CuspCritAlt
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.PublishedTheorems.GelfandKazhdanReal
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.HasSatakeGLOfIsSatVecGL
@@ -86,34 +88,8 @@ private def annPart (κ : Representation ℂ K V) (φ : V) : Submodule ℂ V whe
 private theorem exists_type (κ : Representation ℂ K V) (φ : V)
     (hφ : FiniteDimensional ℂ (Submodule.span ℂ (Set.range fun k => κ k φ))) :
     ∃ (d : ℕ) (ξ : K →* Matrix (Fin d) (Fin d) ℂ), ∀ x ∈ annPart κ φ, ∃ f : (Fin d → ℂ) →ₗ[ℂ] V,
-      (∀ k v, f (ξ k *ᵥ v) = κ k (f v)) ∧ x ∈ LinearMap.range f ∧ ∀ v, ∃ c, f v = orb κ x c := by
-  have hO : ∀ k, ∀ y ∈ LinearMap.range (orb κ φ), κ k y ∈ LinearMap.range (orb κ φ) := by
-    rintro k _ ⟨c, rfl⟩
-    exact ⟨_, orb_act κ φ k c⟩
-  haveI : FiniteDimensional ℂ (LinearMap.range (orb κ φ)) := by
-    rw [orb, Finsupp.range_linearCombination]; exact hφ
-  let b := Module.finBasis ℂ (LinearMap.range (orb κ φ))
-  obtain ⟨s, hs⟩ := (orb κ φ).rangeRestrict.exists_rightInverse_of_surjective (LinearMap.range_rangeRestrict _)
-  refine ⟨_, (LinearMap.toMatrixAlgEquiv b).toMonoidHom.comp (sub κ _ hO), fun x hx => ?_⟩
-  have key : ∀ c, orb κ x (s ((orb κ φ).rangeRestrict c)) = orb κ x c := fun c => by
-    rw [← sub_eq_zero, ← map_sub]
-    refine hx _ ?_
-    rw [map_sub, sub_eq_zero]
-    exact congrArg Subtype.val (LinearMap.congr_fun hs ((orb κ φ).rangeRestrict c))
-  refine ⟨orb κ x ∘ₗ s ∘ₗ b.equivFun.symm.toLinearMap, fun k v => ?_,
-    ⟨b.equivFun ((orb κ φ).rangeRestrict (Finsupp.single 1 1)), ?_⟩, fun v => ⟨_, rfl⟩⟩
-  · obtain ⟨y, rfl⟩ := b.equivFun.surjective v
-    obtain ⟨c, rfl⟩ := (orb κ φ).surjective_rangeRestrict y
-    have h1 : (LinearMap.toMatrixAlgEquiv b).toMonoidHom.comp (sub κ _ hO) k *ᵥ b.equivFun ((orb κ φ).rangeRestrict c) =
-        b.equivFun ((orb κ φ).rangeRestrict (c.mapDomain (k * ·))) := by
-      have h2 : (orb κ φ).rangeRestrict (c.mapDomain (k * ·)) = sub κ _ hO k ((orb κ φ).rangeRestrict c) :=
-        Subtype.ext (orb_act κ φ k c)
-      rw [h2]
-      exact LinearMap.toMatrix_mulVec_repr b b _ _
-    rw [h1]
-    simp only [LinearMap.comp_apply, LinearEquiv.coe_coe, LinearEquiv.symm_apply_apply, key, orb_act]
-  · simp only [LinearMap.comp_apply, LinearEquiv.coe_coe, LinearEquiv.symm_apply_apply, key]
-    simp [orb]
+      (∀ k v, f (ξ k *ᵥ v) = κ k (f v)) ∧ x ∈ LinearMap.range f ∧ ∀ v, ∃ c, f v = orb κ x c :=
+  _root_.GlobalTheory.RealGal.LocCompRProof.exists_type κ φ hφ
 
 end Gen
 
@@ -218,37 +194,7 @@ end UpperTheory.V.Af.Nf.LocalComponentIsotypic
 
 open NumberField IsDedekindDomain GlobalTheory.CuspRep GlobalTheory.LFun GlobalTheory.PRep in
 private theorem UpperTheory.V.Af.Nf.satLoc' : UpperTheory.V.Af.SatLoc := by
-  intro F _ _ n w σ
-  have hex : GlobalTheory.LGrp.IsSpherical σ.ρ (KGL w n) → ∃ B, HasSatGL w σ.ρ B :=
-    GlobalTheory.SatInd.exists_hasSatGL_of_isIrreducible σ.smooth σ.irred
-  refine ⟨fun ⟨v, h0, hv⟩ => hex ((Submodule.ne_bot_iff _).2 ⟨v, GlobalTheory.LGrp.mem_fixed.2 hv, h0⟩), ?_⟩
-  intro V _ _ ρ ⟨hV, htop⟩ B
-  have up : ∀ B, HasSatGL w σ.ρ B → HasSatGL w (ρ.comp (locGL F n w)) B := by
-    intro B h
-    constructor
-    · obtain ⟨f, h0⟩ : ∃ f : {f : σ.V →ₗ[ℂ] V // ∀ g v, f (σ.ρ g v) = ρ (locGL F n w g) (f v)}, f.1 ≠ 0 := by
-        by_contra hc
-        push Not at hc
-        refine top_ne_bot (htop.symm.trans (eq_bot_iff.2 (iSup_le fun f => ?_)))
-        rw [hc f, LinearMap.range_zero]
-      obtain ⟨x, hx⟩ := h.exists_vec
-      have hi : LinearMap.ker f.1 = ⊥ := ((isIrreducible_iff σ.ρ).1 σ.irred).2 _ (fun g v hv => by
-        rw [LinearMap.mem_ker] at hv ⊢
-        rw [f.2, hv, map_zero]) |>.resolve_right fun e => h0 (LinearMap.ker_eq_top.1 e)
-      have h1 := hx.map (ρ' := ρ.comp (locGL F n w)) f.1 f.2
-        ((map_ne_zero_iff f.1 (LinearMap.ker_eq_bot.1 hi)).2 hx.1)
-      exact (Submodule.ne_bot_iff _).2 ⟨_, h1.2.1, h1.1⟩
-    · intro x hx h0
-      exact GlobalTheory.HeightCounting.Blocks.isSatVecGL_of_mem_iSup (ρ := ρ.comp (locGL F n w)) σ.irred h
-        (fun f : {f : σ.V →ₗ[ℂ] V // ∀ g v, f (σ.ρ g v) = ρ (locGL F n w g) (f v)} => f.1) (fun f => f.2)
-        (htop ▸ Submodule.mem_top) hx h0
-  refine ⟨fun h => ?_, up B⟩
-  obtain ⟨x, hx, hx0⟩ := (Submodule.ne_bot_iff _).1 h.1
-  obtain ⟨y, hy0, hy⟩ := LocSph.exists_fixed_of_mem_iSup (ρ.comp (locGL F n w)) σ.ρ σ.irred
-    (fun f : {f : σ.V →ₗ[ℂ] V // ∀ g v, f (σ.ρ g v) = ρ (locGL F n w g) (f v)} => f.1) (fun f => f.2)
-    (KGL w n : Set _) x hx0 (fun k hk => GlobalTheory.LGrp.mem_fixed.1 hx k hk) (htop ▸ Submodule.mem_top)
-  obtain ⟨B', hB'⟩ := hex ((Submodule.ne_bot_iff _).2 ⟨y, GlobalTheory.LGrp.mem_fixed.2 hy, hy0⟩)
-  exact (up B' hB').unique h ▸ hB'
+  exact _root_.GlobalTheory.RealGal.SatLocProof.main
 
 open UpperTheory.V.Af GlobalTheory.LFun in
 theorem UpperTheory.V.Af.Nf.satOfVec :

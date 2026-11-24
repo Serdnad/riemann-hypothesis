@@ -1,5 +1,6 @@
 module
 
+import Formalism.LocalToGlobal.IndefiniteReal.FinrankISupLeSum
 public import Development.AbelianVarietyTheory.Definitions.Divisors.MulSmulIdemMem
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.FlagComponentFramedPointFrame
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsLinearEquivMulTwistingSectionIntegral
@@ -207,20 +208,7 @@ set_option synthInstance.maxHeartbeats 200000
 theorem finrank_iSup_of_indep {R V ι : Type} [Field R] [AddCommGroup V] [Module R V] [FiniteDimensional R V]
     [Fintype ι] (S : ι → Submodule R V) (hS : iSupIndep S) :
     finrank R (⨆ i, S i : Submodule R V) = ∑ i, finrank R (S i) := by
-  classical
-  have key : ∀ s : Finset ι, finrank R (⨆ i ∈ s, S i : Submodule R V) = ∑ i ∈ s, finrank R (S i) := by
-    intro s
-    induction s using Finset.induction_on with
-    | empty => simp
-    | insert a s ha ih =>
-      rw [Finset.iSup_insert, Finset.sum_insert ha, ← ih]
-      have hd : Disjoint (S a) (⨆ i ∈ s, S i) := hS.disjoint_biSup (y := (s : Set ι)) (by exact_mod_cast ha)
-      have h := Submodule.finrank_sup_add_finrank_inf_eq (S a) (⨆ i ∈ s, S i)
-      rw [hd.eq_bot, finrank_bot, add_zero] at h
-      exact h
-  have hu : (⨆ i ∈ (Finset.univ : Finset ι), S i) = ⨆ i, S i := iSup_congr fun i => iSup_pos (Finset.mem_univ i)
-  rw [← hu]
-  exact key Finset.univ
+  apply _root_.Formalism.IndefR.Cx.finrank_iSup_eq_sum <;> assumption
 
 variable {D : D7} {H : ReciprocityTheory.ChartRestriction.G.Geo.Tor.Host D.host.E} {Dw : Datum H} {l : Level H} {Xo : Moduli Dw l}
   {c : Coeff l} {r : ℕ}

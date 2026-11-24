@@ -1,5 +1,6 @@
 module
 
+import Development.EtaleCohomology.EtaleSheaves.ZeroSheafMaps
 public import Development.EtaleCohomology.EtaleSheaves.LeafDegCut
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -50,16 +51,7 @@ open LateralTheory.E.LeafDegCut LateralTheory.E.EtaleTopologySheaves
 
 theorem Cov.bind {B : Scheme.{0}} {U : B.Etale} {P Q : ∀ U' : B.Etale, (U' ⟶ U) → Prop} (h : Cov U P)
     (hPQ : ∀ U' (a : U' ⟶ U), P U' a → Cov U' (fun U'' b => Q U'' (b ≫ a))) : Cov U Q := by
-  obtain ⟨S, hS, hP⟩ := h
-  let R : Sieve U :=
-    { arrows := fun Z c => ∀ (W : B.Etale) (d : W ⟶ Z), Q W (d ≫ c)
-      downward_closed := fun {Z Z'} c hc e W d => by simpa [Category.assoc] using hc W (d ≫ e) }
-  refine ⟨R, (EtTop B).transitive hS R ?_, fun U' a ha => by simpa using ha U' (𝟙 _)⟩
-  intro Y f hf
-  obtain ⟨S', hS', hQ⟩ := hPQ Y f (hP Y f hf)
-  refine (EtTop B).superset_covering ?_ hS'
-  intro Z c hc W d
-  simpa [Category.assoc] using hQ W (d ≫ c) (S'.downward_closed hc d)
+  apply @LateralTheory.E.LeafShMapZeroPf.Cov.trans <;> assumption
 
 abbrev H0 (B : Scheme.{0}) (q : ℕ) := DerivedCategory.homologyFunctor (SShv B q) 0
 

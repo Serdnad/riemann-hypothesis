@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.FlagMeasures.T2SpaceOfNonarchimedeanLocalField
 public import Formalism.LocalRingCardinality.SpanPowerMembership.Spaces
 public import Formalism.LocalRingCardinality.DataSpaces
 public import Mathlib.RingTheory.Henselian
@@ -285,18 +286,7 @@ theorem cm_exists_unit_disc (cm : CMData F E) (M : Ideal (𝓞 F)) (hM : M.IsMax
 
 theorem cm_exists_coords (cm : CMData F E) (θ : E) (hθ : θ - star θ ≠ 0) (x : E) :
     ∃ p q : F, x = algebraMap F E p + algebraMap F E q * θ := by
-  have hθ' : star θ - θ ≠ 0 := fun h => hθ (by linear_combination -h)
-  have hq : star ((x - star x) / (θ - star θ)) = (x - star x) / (θ - star θ) := by
-    rw [star_div₀, star_sub, star_sub, star_star, star_star]
-    field_simp
-    ring
-  obtain ⟨q, hq'⟩ := (cm.fixed _).1 hq
-  have hp : star (x - (x - star x) / (θ - star θ) * θ) = x - (x - star x) / (θ - star θ) * θ := by
-    rw [star_sub, star_mul, hq]
-    field_simp
-    ring
-  obtain ⟨p, hp'⟩ := (cm.fixed _).1 hp
-  exact ⟨p, q, by rw [hp', hq']; ring⟩
+  first | exact _root_.GlobalTheory.LocSpan.exists_coord | exact @_root_.GlobalTheory.LocSpan.exists_coord | apply _root_.GlobalTheory.LocSpan.exists_coord <;> assumption
 
 theorem cm_local_neg_one (cm : CMData F E) (θ : 𝓞 E) (t n : 𝓞 F)
     (ht : (θ : E) + star (θ : E) = algebraMap F E t) (hn : (θ : E) * star (θ : E) = algebraMap F E n)

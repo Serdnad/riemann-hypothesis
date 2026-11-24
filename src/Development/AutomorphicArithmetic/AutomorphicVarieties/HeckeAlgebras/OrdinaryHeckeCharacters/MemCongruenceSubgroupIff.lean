@@ -1,5 +1,6 @@
 module
 
+import all Development.AutomorphicArithmetic.AutomorphicVarieties.HeckeAlgebras.OrdinaryHeckeCharacters.GlBridge
 public import Development.AbelianVarietyTheory.Definitions.Foundations.SmoothPartStable
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.HidaCompleteRings.TopLeCopiesSelf
 public import Mathlib.GroupTheory.Index
@@ -360,39 +361,9 @@ attribute [local instance] integers_isLocalRing
 
 private alias valuation_unif_eq_uniformizer := _root_.UpperTheory.V.Hi.GlAx.unif_spec
 
-private theorem mem_maximal_pow_iff_valuation (c : ℕ) (x : 𝒪[k]) :
-    x ∈ IsLocalRing.maximalIdeal 𝒪[k] ^ c ↔ valuation k (x : k) ≤ uniformizer k ^ c := by
-  have hI := Valuation.integer.integers (valuation k)
-  let p : 𝒪[k] := ⟨unif k, (valuation_unif_eq_uniformizer.trans_lt uniformizer_lt_one).le⟩
-  have hp : valuation k (algebraMap 𝒪[k] k p) = uniformizer k := valuation_unif_eq_uniformizer
-  have e : IsLocalRing.maximalIdeal 𝒪[k] = Ideal.span {p} := by
-    ext y
-    rw [← IsLocalRing.residue_eq_zero_iff, GlobalTheory.StepData.residue_eq_zero_iff_lt, Ideal.mem_span_singleton,
-      hI.dvd_iff_le, hp, le_uniformizer_iff]
-    rfl
-  rw [e, Ideal.span_singleton_pow, Ideal.mem_span_singleton, hI.dvd_iff_le, map_pow, map_pow, hp]
-  rfl
-
 private theorem mem_Kc_iff' {c : ℕ} {g : GL (Fin n) k} :
     g ∈ Kc k n c ↔ g ∈ KO k (Fin n) ∧ ∀ i j, valuation k ((g.val - 1) i j) ≤ uniformizer k ^ c := by
-  have key : ∀ u : GL (Fin n) 𝒪[k],
-      u ∈ (Matrix.GeneralLinearGroup.map (n := Fin n) (Ideal.Quotient.mk (IsLocalRing.maximalIdeal 𝒪[k] ^ c))).ker ↔
-      ∀ i j, valuation k (((Matrix.GeneralLinearGroup.map (algebraMap 𝒪[k] k) u).val - 1) i j) ≤ uniformizer k ^ c := by
-    intro u
-    rw [MonoidHom.mem_ker, Units.ext_iff, ← Matrix.ext_iff]
-    refine forall₂_congr fun i j => ?_
-    have e : ((1 : GL (Fin n) (𝒪[k] ⧸ IsLocalRing.maximalIdeal 𝒪[k] ^ c)).val) i j =
-        Ideal.Quotient.mk _ ((1 : Matrix (Fin n) (Fin n) 𝒪[k]) i j) := by
-      simp only [Units.val_one, Matrix.one_apply]; split_ifs <;> simp
-    rw [e]
-    refine (Ideal.Quotient.eq.trans (mem_maximal_pow_iff_valuation c _)).trans (iff_of_eq ?_)
-    congr 2
-    simp only [Matrix.sub_apply, Matrix.one_apply]; split_ifs <;> simp <;> rfl
-  constructor
-  · rintro ⟨u, hu, rfl⟩
-    exact ⟨⟨u, rfl⟩, (key u).1 hu⟩
-  · rintro ⟨⟨u, rfl⟩, hu⟩
-    exact ⟨u, (key u).2 hu, rfl⟩
+  apply _root_.br_memKc <;> assumption
 
 private theorem congruence_subgroup_isOpen (c : ℕ) : IsOpen (Kc k n c : Set (GL (Fin n) k)) := by
   have e : (Kc k n c : Set (GL (Fin n) k)) = (KO k (Fin n) : Set (GL (Fin n) k)) ∩

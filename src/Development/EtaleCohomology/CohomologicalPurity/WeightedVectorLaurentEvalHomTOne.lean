@@ -1,5 +1,6 @@
 module
 
+import Development.EtaleCohomology.KummerExtensions.EtaleWeightedBlowupExceptionalChartTorsorOfEquiv
 public import Development.EtaleCohomology.CohomologicalPurity.LeafWCechPf
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -124,21 +125,7 @@ theorem pr_ext {X Y : Spc} (n : SimplexCategoryᵒᵖ) (U : Scheme.{0}ᵒᵖ) (w
 theorem pr_mk {X Y : Spc} (n : SimplexCategoryᵒᵖ) (U : Scheme.{0}ᵒᵖ) (a : (X.obj n).obj U) (b : (Y.obj n).obj U) :
     ∃ w : ((X ⨯ Y).obj n).obj U, ((prod.fst : X ⨯ Y ⟶ X).app n).app U w = a ∧
       ((prod.snd : X ⨯ Y ⟶ Y).app n).app U w = b := by
-  let x : ∀ j, (pair X Y ⋙ ev n U).obj j := fun j => match j with
-    | ⟨WalkingPair.left⟩ => a
-    | ⟨WalkingPair.right⟩ => b
-  let l := Types.Limit.mk (pair X Y ⋙ ev n U) x (by
-    intro j j' f
-    have e : j = j' := IsDiscrete.eq_of_hom f
-    subst j'
-    have ef : f = 𝟙 j := Subsingleton.elim _ _
-    subst f
-    exact ConcreteCategory.congr_hom ((pair X Y ⋙ ev n U).map_id j) (x j))
-  obtain ⟨w, hw⟩ : ∃ w, (preservesLimitIso (ev n U) (pair X Y)).hom w = l :=
-    ⟨(preservesLimitIso (ev n U) (pair X Y)).inv l, ConcreteCategory.congr_hom (preservesLimitIso (ev n U) (pair X Y)).inv_hom_id l⟩
-  refine ⟨w, ?_, ?_⟩
-  · rw [← ev_fst, hw]; exact Types.Limit.π_mk _ _ _ _
-  · rw [← ev_snd, hw]; exact Types.Limit.π_mk _ _ _ _
+  apply @WeightedBlowupChartPointUnits.Cb.etale_weighted_blowup_exceptional_chart_torsor_of_equivalence.prod_mk <;> assumption
 
 variable {d : ℕ}
 

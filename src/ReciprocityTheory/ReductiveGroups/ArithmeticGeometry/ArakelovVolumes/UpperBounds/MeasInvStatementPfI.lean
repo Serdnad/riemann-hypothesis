@@ -1,5 +1,7 @@
 module
 
+
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovVolumes.UpperBounds.ExtFStatementPfA
 public import Mathlib.Analysis.Complex.Norm
 public import Mathlib.LinearAlgebra.Matrix.Block
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovVolumes.UpperBounds.MeasInvStatementPfE
@@ -14,7 +16,6 @@ import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.FundamentalDomains.D
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovVolumes.ArakelovInstances.IsStrictDom
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.FundamentalDomains.FourierCoefficientDomain
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.FundamentalDomains.OrthogonalFrameDomain
-
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovVolumes.UpperBounds.MeasInvStatementPfH, ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovVolumes.UpperBounds.MeasInvStatementPfI
 
@@ -293,19 +294,7 @@ theorem Wf_rmul_UF {y : Frame X.Ψ r} (hy : y ∈ X.dom) {y' : UpI X.Ψ r → �
 def invF (b : Frame X.Ψ r) : Frame X.Ψ r := fun τ => ((mat b τ)⁻¹ : Matrix (Fin r) (Fin r) ℂ)
 
 lemma invF_mem' {b : Frame X.Ψ r} (hb : b ∈ Bor X.Ψ r) : invF X b ∈ Bor X.Ψ r := by
-  simp only [Bor, Set.mem_setOf_eq] at hb ⊢
-  intro τ
-  obtain ⟨hd, hup⟩ := hb τ
-  have hu : (mat b τ).BlockTriangular id := fun a c h => hup a c h
-  letI := (mat b τ).invertibleOfIsUnitDet (isUnit_iff_ne_zero.2 hd)
-  have hinv := Matrix.blockTriangular_inv_of_blockTriangular hu
-  refine ⟨?_, fun a c h => hinv h⟩
-  intro h0
-  have h1 := Matrix.det_mul (mat b τ) (mat b τ)⁻¹
-  rw [Matrix.mul_nonsing_inv _ (isUnit_iff_ne_zero.2 hd), Matrix.det_one] at h1
-  have h0' : ((mat b τ)⁻¹).det = 0 := h0
-  rw [h0', mul_zero] at h1
-  exact one_ne_zero h1
+  apply ReciprocityTheory.ChartRestriction.G.AR.Up.ExtFPf.invF_mem <;> assumption
 
 lemma rmul_invF {y b : Frame X.Ψ r} (hb : b ∈ Bor X.Ψ r) : rmul (rmul y b) (invF X b) = y := by
   have hb' := hb

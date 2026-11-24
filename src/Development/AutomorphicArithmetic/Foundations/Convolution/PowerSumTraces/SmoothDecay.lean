@@ -1,5 +1,7 @@
 module
 
+import all Development.AutomorphicArithmetic.Foundations.Convolution.ConvolutionKernels.KernelTransforms.RconvSlice
+import GroundTheory.AutomorphicForms.CuspidalDiscreteness.DecayUniform
 public import Development.WeilBound.RepresentationTheoryGL.TwistedFactors.CuspDecayHeights.CuspDecay
 public import GroundTheory.AutomorphicForms.CuspidalDiscreteness.SiegelCount
 public import GroundTheory.AutomorphicForms.CuspidalDiscreteness.SmoothingFinite
@@ -266,76 +268,9 @@ theorem UpperTheory.cuspDecay_archConv_finAvg :
         ∀ R : ℝ, 1 ≤ R → (∃ i j : Fin n, i < j ∧ R ≤ ρ i / ρ j) →
         ‖rconv (Gam K n) μ (archConv ν hβ.continuous hβc hβu (finAvg U hU g)) φ x‖ ≤
           C * (R ^ N')⁻¹ * ‖φ‖ := by
-    set f := archConv ν hβ.continuous hβc hβu (finAvg U hU g)
-    obtain ⟨C₀, N₀, hC₀⟩ := exists_norm_rconv_le_siegel_basic f hSg ht
-    have hdec := fun (r : ℕ) (hr : 0 < r) (hrn : r < n) =>
-      exists_norm_rconv_le_siegel μ ν hβ hβc hβu U hU g hSg hSB ht hr hrn
-    choose Nf hNf using hdec
-    have hdec2 := fun (r : ℕ) (hr : 0 < r) (hrn : r < n) =>
-      hNf r hr hrn (n * Nf r hr hrn + n * N')
-    choose Cf hCf using hdec2
-    set Cmax := max C₀ 0 + ∑ r : Fin n, if h : 0 < (r : ℕ) then max (Cf r h r.2) 0 else 0
-    have hsum0 : 0 ≤ ∑ r : Fin n, if h : 0 < (r : ℕ) then max (Cf r h r.2) 0 else 0 :=
-      Finset.sum_nonneg fun r _ => by split_ifs <;> simp
-    have hCf_le : ∀ (r : ℕ) (hr : 0 < r) (hrn : r < n), Cf r hr hrn ≤ Cmax := by
-      intro r hr hrn
-      have h1 := Finset.single_le_sum (f := fun r : Fin n =>
-        if h : 0 < (r : ℕ) then max (Cf r h r.2) 0 else 0)
-        (fun r _ => by split_ifs <;> simp) (Finset.mem_univ ⟨r, hrn⟩)
-      simp only [hr, dif_pos] at h1
-      exact (le_max_left _ _).trans (h1.trans (le_add_of_nonneg_left (le_max_right _ _)))
-    have hC₀_le : C₀ ≤ Cmax := (le_max_left _ _).trans (le_add_of_nonneg_right hsum0)
-    have hCmax0 : 0 ≤ Cmax := (le_max_right _ _).trans (le_add_of_nonneg_right hsum0)
-    refine ⟨Cmax, ?_⟩
-    intro φ hφ b hb ρ hρ hsieg kk hkk x hx R hR1 ⟨i₀, j₀, hij₀, hRij⟩
-    have hn : 2 ≤ n := by
-      have : (i₀ : ℕ) < j₀ := hij₀
-      omega
-    obtain ⟨r, hr, hrn, hratio⟩ := exists_le_max_pow hn ρ hρ
-    set α := ρ ⟨r - 1, by omega⟩ / ρ ⟨r, hrn⟩
-    have hα0 : 0 < α := div_pos (hρ _) (hρ _)
-    rcases le_or_gt α 1 with hα1 | hα1
-    · have hM : max 1 α = 1 := max_eq_left hα1
-      have hR1' : R = 1 := le_antisymm (hRij.trans ((hratio i₀ j₀ hij₀).trans
-        (by rw [hM, one_pow]))) hR1
-      have h := hC₀ φ b hb ρ hρ hsieg kk hkk x hx 1 le_rfl fun i j hij =>
-        (hratio i j hij).trans (by rw [hM, one_pow])
-      rw [one_pow, Real.sqrt_one, mul_one] at h
-      rw [hR1', one_pow, inv_one, mul_one]
-      exact h.trans (mul_le_mul_of_nonneg_right hC₀_le (norm_nonneg _))
-    · have hM : max 1 α = α := max_eq_right hα1.le
-      have h := hCf r hr hrn φ hφ b hb ρ hρ hsieg kk hkk x hx (α ^ n) (one_le_pow₀ hα1.le)
-        fun i j hij => (hratio i j hij).trans (by rw [hM])
-      have hgain : ρ ⟨r, hrn⟩ / ρ ⟨r - 1, by omega⟩ = α⁻¹ := by rw [inv_div]
-      rw [hgain] at h
-      set a := n * Nf r hr hrn
-      set c := n * N'
-      have hy1 : 1 ≤ α ^ a := one_le_pow₀ hα1.le
-      have hsq : √((α ^ n) ^ Nf r hr hrn) ≤ α ^ a := by
-        rw [← pow_mul]
-        calc √(α ^ a) ≤ √((α ^ a) ^ 2) := Real.sqrt_le_sqrt (le_self_pow₀ hy1 two_ne_zero)
-          _ = α ^ a := Real.sqrt_sq (by positivity)
-      have hpow : (α⁻¹) ^ (a + c) * α ^ a = (α ^ c)⁻¹ := by
-        rw [inv_pow, pow_add]
-        field_simp
-      have hRc : (α ^ c)⁻¹ ≤ (R ^ N')⁻¹ := by
-        have hRα : R ≤ α ^ n := hRij.trans ((hratio i₀ j₀ hij₀).trans (by rw [hM]))
-        rw [show c = n * N' from rfl, pow_mul]
-        exact inv_anti₀ (pow_pos (by linarith) _) (pow_le_pow_left₀ (by linarith) hRα _)
-      have hX : 0 ≤ (α⁻¹) ^ (a + c) * √((α ^ n) ^ Nf r hr hrn) := by positivity
-      calc ‖rconv (Gam K n) μ f φ x‖
-          ≤ Cf r hr hrn * (α⁻¹) ^ (a + c) * √((α ^ n) ^ Nf r hr hrn) * ‖φ‖ := h
-        _ ≤ Cmax * ((α⁻¹) ^ (a + c) * α ^ a) * ‖φ‖ := by
-            rw [mul_assoc (Cf r hr hrn)]
-            refine mul_le_mul_of_nonneg_right ?_ (norm_nonneg _)
-            calc Cf r hr hrn * ((α⁻¹) ^ (a + c) * √((α ^ n) ^ Nf r hr hrn))
-                ≤ Cmax * ((α⁻¹) ^ (a + c) * √((α ^ n) ^ Nf r hr hrn)) :=
-                  mul_le_mul_of_nonneg_right (hCf_le r hr hrn) hX
-              _ ≤ Cmax * ((α⁻¹) ^ (a + c) * α ^ a) :=
-                  mul_le_mul_of_nonneg_left (mul_le_mul_of_nonneg_left hsq (by positivity)) hCmax0
-        _ = Cmax * (α ^ c)⁻¹ * ‖φ‖ := by rw [hpow]
-        _ ≤ Cmax * (R ^ N')⁻¹ * ‖φ‖ :=
-            mul_le_mul_of_nonneg_right (mul_le_mul_of_nonneg_left hRc hCmax0) (norm_nonneg _)
+    first
+    | exact _root_.GroundTheory.Automorphic.CuspidalSpectrum.exists_norm_rconv_le_decay
+    | apply _root_.GroundTheory.Automorphic.CuspidalSpectrum.exists_norm_rconv_le_decay <;> assumption
   
   
   obtain ⟨C₁, hC₁⟩ := exists_norm_rconv_le_decay hβ hβc hβu U hU g hω hωB ht (n * e * N')
@@ -574,34 +509,7 @@ private theorem tensFun_shift (β : TI K n) (e : TF K n) (a : archGroup K n) (g 
 private theorem kbar_conv (hn : 0 < n) (ν : Measure (archGroup K n)) [ν.IsHaarMeasure] (β₁ β₂ : TI K n)
     (x : archGroup K n) :
     kbar (conv ν β₁ β₂) x = ∫ a, β₁ a * kbar β₂ (a⁻¹ * x) ∂ν := by
-  have hc : Continuous (Function.uncurry fun (s : {r : ℝ // 0 < r}) (a : archGroup K n) =>
-      β₁ a * β₂ (a⁻¹ * (x * zInf K n s))) := by
-    refine (β₁.continuous.comp continuous_snd).mul (β₂.continuous.comp ?_)
-    exact (continuous_snd.inv).mul (continuous_const.mul (continuous_zInf.comp continuous_fst))
-  have hs : HasCompactSupport (Function.uncurry fun (s : {r : ℝ // 0 < r}) (a : archGroup K n) =>
-      β₁ a * β₂ (a⁻¹ * (x * zInf K n s))) := by
-    have hC : IsCompact ((fun p : {r : ℝ // 0 < r} × archGroup K n => (p.1 * detA K n (x⁻¹ * p.2), p.2)) ''
-        ((detA K n '' tsupport β₂) ×ˢ tsupport β₁)) :=
-      ((β₂.hasCompactSupport.isCompact.image continuous_detA).prod β₁.hasCompactSupport.isCompact).image
-        ((continuous_fst.mul (continuous_detA.comp (continuous_const.mul continuous_snd))).prodMk continuous_snd)
-    refine HasCompactSupport.intro hC fun p hp => ?_
-    by_contra hne
-    apply hp
-    obtain ⟨s, a⟩ := p
-    have h1 : β₁ a ≠ 0 := left_ne_zero_of_mul hne
-    have h2 : β₂ (a⁻¹ * (x * zInf K n s)) ≠ 0 := right_ne_zero_of_mul hne
-    have h3 := mem_of_kernel_ne_zero hn (κ := β₂) (a := a⁻¹ * x) (s := s) (by rwa [mul_assoc])
-    refine ⟨(s * detA K n (a⁻¹ * x), a), ⟨h3, subset_tsupport _ h1⟩, ?_⟩
-    have h4 : detA K n (a⁻¹ * x) * detA K n (x⁻¹ * a) = 1 := by
-      rw [← map_mul]
-      simp [mul_assoc]
-    simp only [mul_assoc, h4, mul_one]
-  have hsw := integral_integral_swap_of_hasCompactSupport hc hs (μ := GroundTheory.Global.posRealMeasure) (ν := ν)
-  simp only [kbar, conv_apply]
-  rw [hsw]
-  refine integral_congr_ae (Filter.Eventually.of_forall fun a => ?_)
-  simp only [mul_assoc]
-  exact integral_const_mul _ _
+  apply _root_.kbar_conv <;> assumption
 
 private theorem tens_conv (hn : 0 < n) (ν : Measure (archGroup K n)) [ν.IsHaarMeasure] (β₁ β₂ : TI K n) (e : TF K n)
     (g : normOneGL (K := K) (n := n)) :

@@ -1,5 +1,6 @@
 module
 
+import all Development.AbelianVarietyTheory.Proofs.JetHarmonics.SplitCasEigenvalueSummand
 public import Development.AbelianVarietyTheory.Definitions.Jets.SumIoPr
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -77,15 +78,7 @@ theorem dualTens_casimir_apply {M : Type} [NormedAddCommGroup M] [InnerProductSp
 
 theorem casG_sub_single {n : ℕ} (mu : Fin n → ℝ) (s : Fin n) :
     casG (mu - Pi.single s 1) = casG mu - 2 * mu s + 1 := by
-  have h : ∀ a, (mu - Pi.single s (1 : ℝ) : Fin n → ℝ) a ^ 2
-      = mu a ^ 2 + (if a = s then - 2 * mu s + 1 else 0) := by
-    intro a
-    by_cases ha : a = s
-    · subst ha; simp; ring
-    · simp [ha]
-  simp only [casG, h, Finset.sum_add_distrib]
-  simp
-  ring
+  apply _root_.GlobalTheory.casG_sub_single <;> assumption
 
 theorem splitCas_on_summand : ∀ (M : Type) [NormedAddCommGroup M] [InnerProductSpace ℂ M] (Ns : Type) [AddCommGroup Ns] [Module ℂ Ns] (n : ℕ) (E : Fin n → Fin n → Module.End ℂ M) (F : Fin n → Fin n → Module.End ℂ Ns) (io : Ns →ₗ[ℂ] (Fin n → M)) (mu : Fin n → ℝ) (s : Fin n), (∀ w, Formalism.REAL.Cas E w = (casG mu : ℂ) • w) → (∀ y, Formalism.REAL.Cas F y = (casG (mu - Pi.single s 1) : ℂ) • y) → (∀ a b y, io (F a b y) = dualTens E a b (io y)) → ∀ y, splitCas E (io y) = ((-mu s + (1 - (n : ℝ)) / 2 : ℝ) : ℂ) • io y := by
   intro M _ _ Ns _ _ n E F io mu s hE hF hio y

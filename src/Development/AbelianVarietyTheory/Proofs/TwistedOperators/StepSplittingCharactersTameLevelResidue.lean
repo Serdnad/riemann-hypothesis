@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.TameAtOfUnrAt
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.TameOnOne
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.TameHeckeIntegralUnitsEqResidueCharProduct
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.PlaceOverTypePrimeDividesOrConjugateStatement
@@ -76,17 +77,7 @@ namespace GlobalTheory.StepLaw
 variable {D : D7}
 
 theorem isRes_one_of_unrAt (χ : Formalism.L2.Host.HChar D.host.E) (PP : Pl D.host.E) (h : χ.UnrAt PP) : IsRes χ PP 1 := by
-  intro a k u hk hu
-  have ha : a ∉ PP.asIdeal := by
-    intro ha
-    have h0 : (u : kP PP) = 0 := by rw [hu]; exact Ideal.Quotient.eq_zero_iff_mem.2 ha
-    haveI : Nontrivial (kP PP) := Ideal.Quotient.nontrivial_iff.2 PP.isPrime.ne_top
-    exact u.ne_zero h0
-  have hv : Formalism.L2.Host.IsUnitAt PP (Formalism.L2.Host.atFin PP k) := by
-    show Valued.v (((k : D.host.E)) : PP.adicCompletion D.host.E) = 1
-    rw [HeightOneSpectrum.valuedAdicCompletion_eq_valuation', hk]
-    exact (PP.valuation_eq_one_iff_notMem (K := D.host.E)).2 ha
-  exact (h _ hv).symm
+  first | exact _root_.GlobalTheory.VecInv.isRes_one | exact @_root_.GlobalTheory.VecInv.isRes_one | apply _root_.GlobalTheory.VecInv.isRes_one <;> assumption
 
 theorem natCast_mem_of_isConjPl {PP PP' : Pl D.host.E} (h : Lev.IsConjPl PP PP') {n : ℕ}
     (hn : (n : 𝓞 D.host.E) ∈ PP.asIdeal) : (n : 𝓞 D.host.E) ∈ PP'.asIdeal := by

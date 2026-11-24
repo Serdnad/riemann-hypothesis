@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.BlockTheory.HeightDefect.BesselDatum
 public import Formalism.LocalToGlobal.BesselHermitianTheta.TiedBessel
 public import Formalism.LocalToGlobal.Divisibility.DefGroup
 public import Formalism.LocalToGlobal.IndefiniteReal.LocalNewformFunction
@@ -62,19 +63,7 @@ attribute [local instance] Formalism.BasicNotions.Host.cmStar
 variable {D : D7}
 
 theorem cmHost_imaginaryGenerator_ne_zero : D.host.xi0 ≠ 0 := by
-  have h1 : (Ideal.absNorm D.host.ccK : D.host.E) ≠ 0 := by
-    exact_mod_cast (Ideal.absNorm_eq_zero_iff.not.2 D.host.ccK_ne_bot)
-  have h2 : D.host.sqrtMinusD ≠ 0 := by
-    intro h
-    have := D.host.sqrtMinusD_sq
-    rw [h] at this
-    have hd : (D.host.d : D.host.E) ≠ 0 := by
-      have := D.host.qd_big.2
-      exact_mod_cast (by omega : D.host.d ≠ 0)
-    apply hd
-    linear_combination this
-  unfold Formalism.BasicNotions.Host.xi0
-  exact div_ne_zero (by norm_num) (mul_ne_zero h1 h2)
+  first | exact _root_.GlobalTheory.IndefiniteRowSideFullHecke.BesselData.embedding_xi_zero_ne_zero | exact @_root_.GlobalTheory.IndefiniteRowSideFullHecke.BesselData.embedding_xi_zero_ne_zero | apply _root_.GlobalTheory.IndefiniteRowSideFullHecke.BesselData.embedding_xi_zero_ne_zero <;> assumption
 
 @[reducible] def negSp (V : HSp D) : HSp D where
   V := V.V

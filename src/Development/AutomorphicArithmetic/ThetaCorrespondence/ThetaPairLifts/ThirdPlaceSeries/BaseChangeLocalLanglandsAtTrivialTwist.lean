@@ -1,5 +1,6 @@
 module
 
+import Development.AutomorphicArithmetic.ThetaCorrespondence.ThetaPairLifts.ThirdPlaceSeries.NOProd
 public import Formalism.LocalToGlobal.GaloisLevelStructure.TiedHecke
 public import Formalism.SharpRestriction.CuspSpanNormBounds.BesselShellMomentBounds
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.IsComp
@@ -219,37 +220,7 @@ theorem locG_rankOne_alt {hL : _root_.UpperTheory.Zero.LLC.RecTExists} {D : D7} 
     (cg : _root_.GlobalTheory.HeightCounting.CGTrueT hL D T) (cs : CharSide D cf) (π : D.naut.CG 1) (w : PlE D.host)
     (ξ : (w.adicCompletion D.host.E)ˣ →* ℂˣ) (h : IsComp (cs.e1 π).1 w ξ) :
     T.e w (D.naut.locG π w) = _root_.GlobalTheory.NPin.weilDeligneOfLocalIrrep hL D w 1 (Irr.ofDet 1 ξ h.1) := by
-  have := host_isCMField D.host
-  set χ' := (CGu.equivChar D.host.E (cg.e 1 π)).1 with hχ'
-  set χ := (cs.e1 π).1 with hχ
-  have hloc (v : PlE D.host) : T.e v (D.naut.locG π v) =
-      ParLawsT.locParT hL (CG.ofChar χ') (D.nd.plOm.2 v) := by
-    rw [hχ', CGu.ofChar_equivChar]
-    exact cg.loc 1 π v
-  have unr' (v : PlE D.host) : D.naut.unr (D.naut.locG π v) ↔ χ'.UnrAt v := by
-    rw [T.unr v (D.naut.locG π v), hloc v]
-    exact _root_.GlobalTheory.RankOneComp.locParT_ofChar_unr_iff_unrAt hL χ' (D.nd.plOm.2 v)
-  have hchar : χ' = χ := by
-    rw [← mul_inv_eq_one]
-    apply GlobalTheory.HeckeSplitRow.eq_one_of_split D.host
-    filter_upwards [D.naut.locG_unr_ae π] with v hv _
-    have u1 := (cs.unr_iff π v).1 hv
-    have u2 := (unr' v).1 hv
-    refine ⟨fun x hx => ?_, ?_⟩
-    · change χ'.loc v x * (χ.loc v x)⁻¹ = 1
-      rw [u2 x hx, u1 x hx, inv_one, mul_one]
-    · have hf := cs.frob π v u1
-      have hf' : D.naut.frobEig (D.naut.locG π v) = {(((χ'.val v)⁻¹ : ℂˣ) : ℂ)} := by
-        rw [T.frobEig _ _ hv, hloc v]; exact _root_.GlobalTheory.RankOneComp.frobEig_locParT_ofChar_of_unrAt hL χ' _ u2
-      rw [hf', Multiset.singleton_inj, Units.val_inj, inv_inj] at hf
-      rw [HChar.val_mul, HChar.val_inv, hf, mul_inv_cancel]
-  have hcomp : IsComp χ w (χ.loc w) := ⟨ParLaws.isSmoothChar_loc χ w, fun _ => rfl⟩
-  obtain ⟨ξ₀, -, huniq, -⟩ := GlobalTheory.T.heckeChar_localComponent_exists_unique_unitary D.host.E χ w
-  have hξ : ξ = χ.loc w := (huniq _ h).trans (huniq _ hcomp).symm
-  subst hξ
-  rw [hloc, _root_.GlobalTheory.CuspRep.ParLaws.local_parameter_of_hecke_character_eq_reciprocity, _root_.GlobalTheory.NPin.weilDeligneOfLocalIrrep]
-  rw [hchar]
-  rfl
+  apply _root_.GlobalTheory.ParLawsBare.e_locG_eq_rcAt_ofDet_of_isComp <;> assumption
 end GlobalTheory.LiftSplitLoc
 namespace GlobalTheory.LiftSplitLoc
 end GlobalTheory.LiftSplitLoc
@@ -996,31 +967,7 @@ theorem fV_rat (Ad : GlobalTheory.HeightCounting.MtAd Y M) (i : Fin D.R.m)
     (Fm : ↥(NG.AFall D.host.E D.R.nV (M D.what₂.mu0 (i.1 + 1) (by omega) (by omega)).wt.ρ))
     (γ : Formalism.L2.Theta.GA D (Vc D i)) (hγ : γ ∈ Formalism.L2.Theta.GQ (Vc D i)) (x : Formalism.L2.Theta.GA D (Vc D i)) :
     RefTheta.fV Ad i Fm (γ * x) = RefTheta.fV Ad i Fm x := by
-  obtain ⟨y, hy⟩ := fin_frame_surj (Ad.PV i) ((Formalism.L2.Theta.finHom (Vc D i)).rangeRestrict γ)
-  obtain ⟨z, hz⟩ := fin_frame_surj (Ad.PV i) ((Formalism.L2.Theta.finHom (Vc D i)).rangeRestrict x)
-  have he : Formalism.L2.Theta.finHom (Vc D i) γ = Formalism.L2.Theta.finHom (Vc D i) ((Ad.PV i).ψ y) :=
-    (congrArg Subtype.val hy).symm
-  have hh' : y ∈ ReciprocityTheory.Aut.GQ D.host.E D.R.nV := (Ad.rat i _).2 ⟨γ, hγ, he⟩
-  show (R.cV i).ρ (γ * x)⁻¹ (Ad.eW D.what₂.mu0 (reference_tuple_used D) i ((Fm : Formalism.AUTREP.GAf D.host.E D.R.nV → (M D.what₂.mu0 (i.1 + 1) (by omega) (by omega)).wt.W)
-      (preF (Ad.PV i) ((Formalism.L2.Theta.finHom (Vc D i)).rangeRestrict (γ * x))))) =
-    (R.cV i).ρ x⁻¹ (Ad.eW D.what₂.mu0 (reference_tuple_used D) i ((Fm : Formalism.AUTREP.GAf D.host.E D.R.nV → (M D.what₂.mu0 (i.1 + 1) (by omega) (by omega)).wt.W)
-      (preF (Ad.PV i) ((Formalism.L2.Theta.finHom (Vc D i)).rangeRestrict x))))
-  have hprod : (Formalism.L2.Theta.finHom (Vc D i)).rangeRestrict γ * (Formalism.L2.Theta.finHom (Vc D i)).rangeRestrict x =
-      (Formalism.L2.Theta.finHom (Vc D i)).rangeRestrict ((Ad.PV i).ψ (y * z)) :=
-    (congrArg₂ (· * ·) hy.symm hz.symm).trans
-      ((map_mul (Formalism.L2.Theta.finHom (Vc D i)).rangeRestrict _ _).symm.trans
-        (congrArg (Formalism.L2.Theta.finHom (Vc D i)).rangeRestrict (map_mul (Ad.PV i).ψ y z).symm))
-  have key : preF (Ad.PV i) ((Formalism.L2.Theta.finHom (Vc D i)).rangeRestrict (γ * x)) = y * z :=
-    (congrArg (preF (Ad.PV i)) ((map_mul (Formalism.L2.Theta.finHom (Vc D i)).rangeRestrict γ x).trans hprod)).trans (preF_frame _ _)
-  have hz' : preF (Ad.PV i) ((Formalism.L2.Theta.finHom (Vc D i)).rangeRestrict x) = z :=
-    (congrArg (preF (Ad.PV i)) hz.symm).trans (preF_frame _ _)
-  rw [key, hz']
-  have e1 := Fm.2.1 ⟨y, hh'⟩ z
-  have e2 := Ad.wt D.what₂.mu0 (reference_tuple_used D) i ⟨y, hh'⟩ γ hγ he
-    ((Fm : Formalism.AUTREP.GAf D.host.E D.R.nV → (M D.what₂.mu0 (i.1 + 1) (by omega) (by omega)).wt.W) z)
-  rw [e1, e2, _root_.mul_inv_rev,
-    map_mul, Module.End.mul_apply, ← Module.End.mul_apply ((R.cV i).ρ γ⁻¹), ← map_mul, inv_mul_cancel, map_one,
-    Module.End.one_apply]
+  apply _root_.GlobalTheory.RefTheta.fV_invariant <;> assumption
 
 theorem yv_apply {rep : D.what₂.FT → NG.FinTyp D.host.E D.R.r} {i : Fin D.R.m} {j : ℕ} {hj : i.1 + 1 = j}
     {X : GlobalTheory.NPin.RowMod D rep j} (hc : IsCanonR Y i hj X) (y : ↥X.C) (x : Formalism.L2.Theta.GA D (Wc D i)) :

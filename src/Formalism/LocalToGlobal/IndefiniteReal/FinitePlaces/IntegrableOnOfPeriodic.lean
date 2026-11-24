@@ -1,5 +1,7 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.HasDerivAtZeroAndIsTheta
+import Formalism.LocalToGlobal.IndefiniteReal.LevelTypeEquivalence.IpTheta
 public import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.CharLem
 public import Formalism.LocalToGlobal.IndefiniteReal.PHeisThA
 import Mathlib.RingTheory.PiTensorProduct
@@ -92,32 +94,10 @@ theorem theta_zero : IsThetaFunO ψ S T 0 := by
 
 theorem theta_add {f g : MO S T → ℂ} (hf : IsThetaFunO ψ S T f) (hg : IsThetaFunO ψ S T g) :
     IsThetaFunO ψ S T (f + g) := by
-  obtain ⟨hq1, ⟨U1, hU1, hl1⟩, hc1, hs1⟩ := hf
-  obtain ⟨hq2, ⟨U2, hU2, hl2⟩, hc2, hs2⟩ := hg
-  refine ⟨fun γ w => ?_, ⟨U1 ⊓ U2, ?_, fun u hu h0 => ?_⟩, hc1.add hc2,
-    fun k L hL h0 w => (hs1 k L hL h0 w).add (hs2 k L hL h0 w)⟩
-  · simp only [Pi.add_apply, hq1 γ w, hq2 γ w, mul_add]
-  · rw [AddSubgroup.coe_inf]
-    exact hU1.inter hU2
-  · have e1 := hl1 u hu.1 h0
-    have e2 := hl2 u hu.2 h0
-    funext z
-    have z1 := congrFun e1 z
-    have z2 := congrFun e2 z
-    simp only [heisO, Pi.add_apply] at z1 z2 ⊢
-    rw [mul_add, z1, z2]
+  apply _root_.Formalism.IndefR.Eqv.thetaO_add <;> assumption
 
 theorem theta_smul (c : ℂ) {f : MO S T → ℂ} (hf : IsThetaFunO ψ S T f) : IsThetaFunO ψ S T (c • f) := by
-  obtain ⟨hq1, ⟨U1, hU1, hl1⟩, hc1, hs1⟩ := hf
-  refine ⟨fun γ w => ?_, ⟨U1, hU1, fun u hu h0 => ?_⟩, hc1.const_smul c,
-    fun k L hL h0 w => (hs1 k L hL h0 w).const_smul c⟩
-  · simp only [Pi.smul_apply, smul_eq_mul, hq1 γ w]
-    ring
-  · have e1 := hl1 u hu h0
-    funext z
-    have z1 := congrFun e1 z
-    simp only [heisO, Pi.smul_apply, smul_eq_mul] at z1 ⊢
-    rw [mul_left_comm, z1]
+  apply _root_.GlobalTheory.WeilVacMove.isTheta_smul <;> assumption
 
 end Theta
 

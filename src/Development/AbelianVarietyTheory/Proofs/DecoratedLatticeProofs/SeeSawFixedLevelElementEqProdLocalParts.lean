@@ -1,5 +1,9 @@
 module
 
+import Development.AbelianVarietyTheory.Counterexamples.HeightSurvey.EmbRelExistsUnique
+import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.SelfDualLatticePairingDual
+import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.MemSupportedSubgroupOfSuppAtSplitPlaceMem
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.StandardAuxiliaryFramesGoodRowGridsStatement
 public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.HzUnit
 public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.IdempotentMulEntryEqZeroOfCutInverse
 import Mathlib.Algebra.Order.Floor.Extended
@@ -66,15 +70,7 @@ theorem mem_GfC_of (V : HSp D) (y : GA D V) (hy : ∀ i j, infPart D ((mt V y - 
   by_cases hij : i = j <;> simp [Matrix.one_apply, hij]
 
 theorem mem_GfC_of_grpAt (V : HSp D) (P : Pl D → Prop) (x : GA D V) (hx : x ∈ grpAt V P) : x ∈ GfC V := by
-  refine mem_GfC_of V x fun i j => ?_
-  have h := congrArg (fun y : GL (Fin V.rank) (AE D ⧸ idAt D P) => y.1 i j) (show _ = (1 : GL _ _) from hx)
-  change Ideal.Quotient.mk (idAt D P) (mt V x i j) = _ at h
-  have h2 : Ideal.Quotient.mk (idAt D P) (mt V x i j) =
-      Ideal.Quotient.mk (idAt D P) ((1 : Matrix (Fin V.rank) (Fin V.rank) (AE D)) i j) := by
-    rw [h, Units.val_one]; by_cases hij : i = j <;> simp [Matrix.one_apply, hij]
-  have h4 : (mt V x - 1) i j ∈ idAt D P := by
-    rw [Matrix.sub_apply]; exact Ideal.Quotient.eq.mp h2
-  exact (RingHom.mem_ker).mp (Ideal.mem_inf.mp h4).1
+  first | exact _root_.GlobalTheory.LevelOffS.mem_GfC_of_grpAt | exact @_root_.GlobalTheory.LevelOffS.mem_GfC_of_grpAt | apply _root_.GlobalTheory.LevelOffS.mem_GfC_of_grpAt <;> assumption
 
 theorem mem_GfC_of_supp (V : HSp D) {w : Pl D} (e : AE D) (he : ∃ ε, IsPlaceIdem D w ε ∧ e + cA D e = algebraMap (AF D.host.F) (AE D) ε)
     (y : GA D V) (hy : SuppAt e V y) : y ∈ GfC V := by
@@ -102,15 +98,7 @@ theorem entry_mem_of (V : HSp D) (I : Ideal (AE D)) (g : GA D V) (hg : g ∈ con
 
 theorem mem_of_entry (V : HSp D) (I : Ideal (AE D)) (g : GA D V) (hg : ∀ i j, (mt V g - 1) i j ∈ I) :
     g ∈ congGrp V I := by
-  show (Matrix.GeneralLinearGroup.map (Ideal.Quotient.mk I)) (matHom V g) = 1
-  apply Units.ext
-  ext i j
-  change Ideal.Quotient.mk I (mt V g i j) = (1 : GL (Fin V.rank) (AE D ⧸ I)).1 i j
-  rw [Units.val_one]
-  have h2 : Ideal.Quotient.mk I (mt V g i j) =
-      Ideal.Quotient.mk I ((1 : Matrix (Fin V.rank) (Fin V.rank) (AE D)) i j) :=
-    Ideal.Quotient.eq.mpr (by rw [← Matrix.sub_apply]; exact hg i j)
-  rw [h2]; by_cases hij : i = j <;> simp [Matrix.one_apply, hij]
+  first | exact _root_.GlobalTheory.SuppGrp.mem_congGrp | exact @_root_.GlobalTheory.SuppGrp.mem_congGrp | apply _root_.GlobalTheory.SuppGrp.mem_congGrp <;> assumption
 
 theorem congGrp_le (V : HSp D) {I J : Ideal (AE D)} (h : I ≤ J) : congGrp V I ≤ congGrp V J :=
   fun g hg => mem_of_entry V J g fun i j => h (entry_mem_of V I g hg i j)

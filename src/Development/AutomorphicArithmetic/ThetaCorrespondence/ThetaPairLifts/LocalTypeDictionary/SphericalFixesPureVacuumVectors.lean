@@ -590,18 +590,8 @@ theorem schr_box_star [Invertible (2 : R)] (ψ : AddChar R ℂ) (hψ : ∀ a, st
 
 theorem box_mem_SB {k : Type} [CommRing k] [TopologicalSpace k] [T2Space k] {κ κ' : Type}
     {φ₁ : (κ → k) → ℂ} {φ₂ : (κ' → k) → ℂ} (h₁ : φ₁ ∈ SB (κ → k)) (h₂ : φ₂ ∈ SB (κ' → k)) :
-    boxFun φ₁ φ₂ ∈ SB (κ ⊕ κ' → k) := by
-  have cl : Continuous fun x : κ ⊕ κ' → k => x ∘ Sum.inl := continuous_pi fun i => continuous_apply _
-  have cr : Continuous fun x : κ ⊕ κ' → k => x ∘ Sum.inr := continuous_pi fun i => continuous_apply _
-  refine ⟨(h₁.1.comp_continuous cl).mul (h₂.1.comp_continuous cr), ?_⟩
-  let e := (Homeomorph.sumArrowHomeomorphProdArrow (X := k) (ι := κ) (ι' := κ'))
-  refine HasCompactSupport.intro ((h₁.2.prod h₂.2).image e.symm.continuous) fun x hx => ?_
-  have hx' : e x ∉ tsupport φ₁ ×ˢ tsupport φ₂ := fun h => hx ⟨e x, h, e.symm_apply_apply x⟩
-  rw [Homeomorph.sumArrowHomeomorphProdArrow_apply, Set.mem_prod, not_and_or] at hx'
-  simp only [boxFun]
-  rcases hx' with h | h
-  · rw [image_eq_zero_of_notMem_tsupport h, zero_mul]
-  · rw [image_eq_zero_of_notMem_tsupport h, mul_zero]
+    boxFun φ₁ φ₂ ∈ SB (κ ⊕ κ' → k) :=
+  _root_.GlobalTheory.DblVacEigen.sb_boxFun h₁ h₂
 
 end Alg
 
@@ -614,45 +604,8 @@ theorem local_identity (v : Pl (F := F)) {W : Type} [AddCommGroup W] [Module (AF
     (ξ : κ → Fv F v) : GlobalTheory.LatVac.psiAt ψ v (ξ ⬝ᵥ (GlobalTheory.LatVac.locCo co v γ).2 +
         (2 : Fv F v)⁻¹ * ((GlobalTheory.LatVac.locCo co v γ).1 ⬝ᵥ (GlobalTheory.LatVac.locCo co v γ).2)) *
       f (ξ + (GlobalTheory.LatVac.locCo co v γ).1) = χ * f ξ := by
-  have hx1 : ∀ k, At (evFin F v) ((co.e γ).1 k) := fun k u hu => by
-    have h := congrArg (fun w => (co.e w).1 k) (hγ u hu)
-    simpa [LinearEquiv.map_smul] using h
-  have hy1 : ∀ k, At (evFin F v) ((co.e γ).2 k) := fun k u hu => by
-    have h := congrArg (fun w => (co.e w).2 k) (hγ u hu)
-    simpa [LinearEquiv.map_smul] using h
-  set z : κ → AF F := fun k => GlobalTheory.LatVac.liftV v (ξ k - evFin F v (x₀ k)) with hz
-  have hzat : At (evFin F v) z := Tw.VacIndic.at_pi fun k => GlobalTheory.LatVac.at_liftV v _
-  set x : κ → AF F := x₀ + z with hx
-  have hevx : (fun i => evFin F v (x i)) = ξ := by
-    funext i
-    simp [hx, hz, GlobalTheory.LatVac.evFin_liftV]
-  have hrx : r x = r x₀ := hr x₀ z hzat
-  have hrx1 : r (x + (co.e γ).1) = r x := hr x _ (Tw.VacIndic.at_pi hx1)
-  have key := congrFun hA x
-  simp only [Darboux.rho, schr, tens, Pi.smul_apply, smul_eq_mul] at key
-  have hAt : At (evFin F v) (x ⬝ᵥ (co.e γ).2 + ⅟(2 : AF F) * ((co.e γ).1 ⬝ᵥ (co.e γ).2)) := by
-    refine Tw.VacIndic.at_add ?_ (Tw.VacIndic.at_mul_left ?_)
-    · exact Tw.VacIndic.at_sum _ _ fun i => Tw.VacIndic.at_mul_left (hy1 i)
-    · exact Tw.VacIndic.at_sum _ _ fun i => Tw.VacIndic.at_mul_left (hy1 i)
-  rw [Tw.VacIndic.psi_of_at ψ hAt, hrx1] at key
-  have hhalf : evFin F v (⅟(2 : AF F)) = (2 : Fv F v)⁻¹ := by
-    rw [Tw.VacIndic.invOf_two_eq, Tw.VacIndic.evFin_algebraMap]
-    simp [map_ofNat]
-  have hdot : ∀ a b : κ → AF F, evFin F v (a ⬝ᵥ b) = (fun i => evFin F v (a i)) ⬝ᵥ (fun i => evFin F v (b i)) := by
-    intro a b
-
-    simp [dotProduct, map_sum, map_mul]
-  have hsum : (fun i => evFin F v ((x + (co.e γ).1) i)) = ξ + (GlobalTheory.LatVac.locCo co v γ).1 := by
-    funext i
-    rw [← hevx]
-    simp [GlobalTheory.LatVac.locCo]
-  rw [map_add (f := _), map_mul, hhalf, hdot, hdot, hevx, hsum] at key
-  have hr0 : r x ≠ 0 := hrx ▸ hx₀
-  rw [GlobalTheory.LatVac.psiAt_apply]
-  apply mul_right_cancel₀ hr0
-  rw [mul_assoc χ, ← key]
-  simp only [GlobalTheory.LatVac.locCo, AddMonoidHom.coe_mk, ZeroHom.coe_mk]
-  ring
+  intros
+  apply _root_.GlobalTheory.DblVacEigen.local_identity_of_tens_eigen <;> assumption
 
 def latDbl {n d : ℕ} (X : Spc F E n) (Y : Spc F E d) (v : Pl (F := F)) :
     AddSubgroup (Matrix (Fin n) (Fin d ⊕ Fin d) (AE F E)) where

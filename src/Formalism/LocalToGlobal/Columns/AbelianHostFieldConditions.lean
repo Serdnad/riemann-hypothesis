@@ -1,5 +1,6 @@
 module
 
+import Formalism.LocalToGlobal.Divisibility.CoeffLemmas
 public import Formalism.LocalRingCardinality.SpanPowerMembership.FmZeroHLatEmpty
 public import Formalism.LocalToGlobal.UnitaryNorms.AdjoinCycZeta
 public import Formalism.LocalToGlobal.Divisibility.ConjugationAtDistinguishedPlace
@@ -534,11 +535,7 @@ structure Dat.Ok (D : Dat) : Prop where
   sizes : Sizes D.Pr D.W D.a
 
 theorem finite_pow_eq (n : ℕ) (hn : 0 < n) (a : Qb) : {z : Qb | z ^ n = a}.Finite := by
-  classical
-  refine (Polynomial.nthRoots n a).toFinset.finite_toSet.subset ?_
-  intro z hz
-  simp only [Finset.mem_coe, Multiset.mem_toFinset, Polynomial.mem_nthRoots hn]
-  exact hz
+  apply _root_.Formalism.L2.DIV.finite_pow_eq <;> assumption
 
 theorem fin_adjoin {S : Set Qb} (hS : S.Finite) : FiniteDimensional ℚ (adjoin ℚ S) := by
   have : Finite S := hS.to_subtype

@@ -1,5 +1,7 @@
 module
 
+
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.FiniteMassProductFormula
 public import Development.AbelianVarietyTheory.Definitions.Divisors.SimpleTwistedTraceFormulaStable
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.AvgEqOfLeRightStabiliser
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SubgroupAverageLinearTranslateConst
@@ -45,7 +47,6 @@ import Mathlib.Tactic.ENatToNat
 import Mathlib.Tactic.Linter.Style
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
-
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.Proofs.DivisorProofs.SubgroupAverageProdMulEqMul, Development.AbelianVarietyTheory.Proofs.DivisorProofs.TwistedOrbitalIntegralProductGroup
 
@@ -207,31 +208,7 @@ variable {G G' : Type} [Group G] [TopologicalSpace G] [IsTopologicalGroup G] [T2
 
 theorem cptPart_prod (T : Subgroup G) (T' : Subgroup G') :
     cptPart (T.prod T') = (cptPart T).prod (cptPart T') := by
-  apply le_antisymm
-  · rw [cptPart, Subgroup.closure_le]
-    rintro ⟨t, t'⟩ ⟨ht, hc⟩
-    rw [Subgroup.mem_prod] at ht
-    rw [SetLike.mem_coe, Subgroup.mem_prod]
-    refine ⟨Subgroup.subset_closure ⟨ht.1, ?_⟩, Subgroup.subset_closure ⟨ht.2, ?_⟩⟩
-    · have h := cpt_map (MonoidHom.fst G G') continuous_fst hc
-      simpa only [MonoidHom.coe_fst] using h
-    · have h := cpt_map (MonoidHom.snd G G') continuous_snd hc
-      simpa only [MonoidHom.coe_snd] using h
-  · have h1 : (cptPart T).map (MonoidHom.inl G G') ≤ cptPart (T.prod T') := by
-      rw [cptPart, MonoidHom.map_closure, cptPart, Subgroup.closure_le]
-      rintro _ ⟨t, ⟨ht, hc⟩, rfl⟩
-      refine Subgroup.subset_closure ⟨Subgroup.mem_prod.mpr ⟨ht, T'.one_mem⟩, ?_⟩
-      exact cpt_map (MonoidHom.inl G G') (by show Continuous fun x : G => (x, (1 : G')); fun_prop) hc
-    have h2 : (cptPart T').map (MonoidHom.inr G G') ≤ cptPart (T.prod T') := by
-      rw [cptPart, MonoidHom.map_closure, cptPart, Subgroup.closure_le]
-      rintro _ ⟨t, ⟨ht, hc⟩, rfl⟩
-      refine Subgroup.subset_closure ⟨Subgroup.mem_prod.mpr ⟨T.one_mem, ht⟩, ?_⟩
-      exact cpt_map (MonoidHom.inr G G') (by show Continuous fun x : G' => ((1 : G), x); fun_prop) hc
-    rintro ⟨a, a'⟩ h
-    rw [Subgroup.mem_prod] at h
-    have e : ((a, a') : G × G') = MonoidHom.inl G G' a * MonoidHom.inr G G' a' := by simp
-    rw [e]
-    exact (cptPart (T.prod T')).mul_mem (h1 ⟨a, h.1, rfl⟩) (h2 ⟨a', h.2, rfl⟩)
+  apply _root_.GlobalTheory.CompanionTheory.MassProd.cptPart_prod <;> assumption
 
 theorem conj_cpt_le (T : Subgroup G) {t : G} (ht : t ∈ T) :
     (cptPart T).map (MulAut.conj t).toMonoidHom ≤ cptPart T := by

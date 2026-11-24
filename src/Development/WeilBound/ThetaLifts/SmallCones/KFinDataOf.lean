@@ -1,5 +1,8 @@
 module
 
+
+import Development.AutomorphicSpectrum.Proofs.TwistedProofs.ExistsAdelePiInf
+import Development.WeilBound.ThetaLifts.FrameEstimates.FinBound
 public import Development.WeilBound.ThetaLifts.SmallCones.KFinAn
 public import Development.WeilBound.ThetaLifts.SmallCones.ExpAlg
 public import Development.WeilBound.ThetaLifts.TowerModels.LeviAd
@@ -58,7 +61,6 @@ import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.AdelicLocalCompactness.
 import GroundTheory.GlobalFields.TateThesis.AdeleMeasure
 import Mathlib.Topology.Baire.LocallyCompactRegular
 import Mathlib.Topology.Compactness.Paracompact
-
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.WeilBound.ThetaLifts.SmallCones.KFinArch, Development.WeilBound.ThetaLifts.SmallCones.KFinDataOf
 
@@ -80,20 +82,7 @@ variable {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algeb
 
 theorem exists_at_inf (h : IsCMExt F E σ) (τ : ∀ w : InfinitePlace F, EmbOver E w) (z : InfinitePlace F → ℂ) :
     ∃ a : AE F E, At (evI F) a ∧ ∀ w, piInf (τ w) a = z w := by
-  choose b hb using fun w => (infEmb_bijective h (τ w)).2 (z w)
-  refine ⟨∑ w, TensorProduct.map (sgI w) LinearMap.id (b w), fun s hs => ?_, fun w => ?_⟩
-  · have h1 : s.1 = 0 := (InfiniteAdeleRing.ringEquiv_mixedSpace F).map_eq_zero_iff.1 hs
-    rw [Finset.smul_sum]
-    refine Finset.sum_eq_zero fun w _ => ?_
-    induction b w using TensorProduct.induction_on with
-    | zero => simp
-    | tmul a x =>
-      have : s * sgI w a = 0 := Prod.ext (show s.1 * _ = 0 by rw [h1, zero_mul]) (show s.2 * 0 = 0 from mul_zero _)
-      rw [TensorProduct.map_tmul, TensorProduct.smul_tmul', smul_eq_mul, this, TensorProduct.zero_tmul]
-    | add x y hx hy => rw [map_add (f := _), smul_add, hx, hy, add_zero]
-
-  · rw [piInf, RingHom.comp_apply, map_sum, Finset.sum_eq_single w (fun u _ hu => compInf_sgI_ne hu.symm _)
-    (fun h => absurd (Finset.mem_univ w) h), compInf_sgI_self, hb]
+  apply _root_.GlobalTheory.CompanionTheory.RealPlaceAdele.exists_adele_piInf <;> assumption
 
 theorem exists_mat_inf (h : IsCMExt F E σ) (τ : ∀ w : InfinitePlace F, EmbOver E w) (z : InfinitePlace F → Matrix (Fin n) (Fin d) ℂ) :
     ∃ u : Matrix (Fin n) (Fin d) (AE F E), At (evI F) u ∧ ∀ w, u.map (piInf (τ w)) = z w := by
@@ -309,23 +298,8 @@ open PositivityTheory.ThKOwn.KPol
 open scoped TensorProduct Classical Matrix
 
 theorem sb_unif {Y : Type} [AddCommGroup Y] [TopologicalSpace Y] [IsTopologicalAddGroup Y] {g : Y → ℂ} (hg : g ∈ SB Y) :
-    ∀ᶠ u in 𝓝 (0 : Y), ∀ y, g (y + u) = g y := by
-  have h1 : ∀ᶠ u in 𝓝 (0 : Y), ∀ y ∈ tsupport g, g (y + u) = g y := by
-    refine hg.2.isCompact.eventually_forall_of_forall_eventually fun y _ => ?_
-    have a : Tendsto (fun z : Y × Y => z.2 + z.1) (𝓝 (0, y)) (𝓝 y) := by
-      exact (continuous_snd.add continuous_fst).tendsto' ((0 : Y), y) y (add_zero y)
-    filter_upwards [a.eventually (hg.1.eventually_eq y), (continuous_snd.tendsto ((0 : Y), y)).eventually (hg.1.eventually_eq y)]
-      with z h h'
-    rw [h, h']
-  have h2 : ∀ᶠ u in 𝓝 (0 : Y), ∀ y ∈ tsupport g, g (y + -u) = g y := by
-    have : Tendsto (fun u : Y => -u) (𝓝 0) (𝓝 0) := by simpa using continuous_neg.tendsto (0 : Y)
-    exact this.eventually h1
-  filter_upwards [h1, h2] with u a b y
-  by_cases hy : y ∈ tsupport g
-  · exact a y hy
-  by_cases hy' : y + u ∈ tsupport g
-  · rw [← b _ hy', add_neg_cancel_right]
-  · rw [image_eq_zero_of_notMem_tsupport hy, image_eq_zero_of_notMem_tsupport hy']
+    ∀ᶠ u in 𝓝 (0 : Y), ∀ y, g (y + u) = g y :=
+  _root_.PositivityTheory.ThKEst.W.sb_inv hg
 
 variable {F : Type} [Field F] [NumberField F] {κ : Type} [Fintype κ]
 

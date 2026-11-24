@@ -196,6 +196,24 @@ theorem UMem.mono_mem {mu : Fin 8 → X} (h : mu ≠ 0) : mono W t δ mu ∈ max
 
 end
 
+private theorem semi_of_ab {S : Scheme.{0}} (B : Over S) [GrpObj B] (h : IsAbelianScheme B) : IsSemiAbelian B := by
+  have := h.proper
+  refine ⟨h.comm, h.smooth, inferInstance, inferInstance, h.geomConnected, ?_⟩
+  intro Ω _ _ p
+  have hab := TLinPf.isAb_pullback p B h
+  refine ⟨{ X := PUnit, B := _, isAbelian := hab, q := 𝟙 _, q_hom := inferInstance
+            q_flat := ?_, q_surjective := ?_, q_quasiCompact := ?_
+            i := toUnit _ ≫ η, i_hom := ?_, isKernel := ?_ }⟩
+  · rw [Over.id_left]; infer_instance
+  · rw [Over.id_left]; infer_instance
+  · rw [Over.id_left]; infer_instance
+  · have := hab.comm; infer_instance
+  · have hident : 𝟙 (splitTorus (Spec (CommRingCat.of Ω)) PUnit) = 1 := by
+      rw [← Diag.diagMap_id, ← Diag.diagMap_zero]
+      congr 1
+    have : IsIso (toUnit (splitTorus (Spec (CommRingCat.of Ω)) PUnit)) := ⟨η, hident.symm, toUnit_unique _ _⟩
+    exact IsPullback.of_vert_isIso ⟨Category.comp_id _⟩
+
 theorem exists_unif_good {V : Type} [CommRing V] [IsDomain V] [IsLocalRing V] (hV : IsCN V) (P : PolAV (Sp V)) :
     letI := P.isAb.comm
     ∃ (D : DegData V (maximalIdeal V)) (A : PolAV (Sp (FractionRing V))) (U : Unif (maximalIdeal V) D A P.A)
@@ -204,41 +222,7 @@ theorem exists_unif_good {V : Type} [CommRing V] [IsDomain V] [IsLocalRing V] (h
   have hN := hV.1
   have hC := hV.2.2.1
   obtain ⟨D, rfl, hX⟩ := SelfUnif.exists_degData firstFiveLaws.1.cube (maximalIdeal V) P
-  have semi_of_ab {S : Scheme.{0}} (B : Over S) [GrpObj B] (h : IsAbelianScheme B) : IsSemiAbelian B := by
-    have := h.proper
-    refine ⟨h.comm, h.smooth, inferInstance, inferInstance, h.geomConnected, ?_⟩
-    intro Ω _ _ p
-    have hab := TLinPf.isAb_pullback p B h
-    refine ⟨{ X := PUnit, B := _, isAbelian := hab, q := 𝟙 _, q_hom := inferInstance
-              q_flat := ?_, q_surjective := ?_, q_quasiCompact := ?_
-              i := toUnit _ ≫ η, i_hom := ?_, isKernel := ?_ }⟩
-    · rw [Over.id_left]; infer_instance
-    · rw [Over.id_left]; infer_instance
-    · rw [Over.id_left]; infer_instance
-    · have := hab.comm; infer_instance
-    · have hident : 𝟙 (splitTorus (Spec (CommRingCat.of Ω)) PUnit) = 1 := by
-        rw [← Diag.diagMap_id, ← Diag.diagMap_zero]
-        congr 1
-      have : IsIso (toUnit (splitTorus (Spec (CommRingCat.of Ω)) PUnit)) := ⟨η, hident.symm, toUnit_unique _ _⟩
-      exact IsPullback.of_vert_isIso ⟨Category.comp_id _⟩
-  let polPull {S S' : Scheme.{0}} (P : PolAV S) (f : S' ⟶ S) : PolAV S' := by
-    exact {
-      A := (Over.pullback f).obj P.A,
-      isAb := TLinPf.isAb_pullback f P.A P.isAb,
-      g := P.g,
-      smoothDim := (smoothOfRelativeDimension_isStableUnderBaseChange _).of_isPullback
-        (isGrpPullback_pullback P.A f).1 P.smoothDim,
-      L := P.L.pull (pullback.fst P.A.hom f),
-      isLB := LB.isLB_pull P.isLB _,
-      rigid := PolBaseChange.rigidified_pull (isGrpPullback_pullback P.A f) P.rigid,
-      sym := PolBaseChange.sym_pull (isGrpPullback_pullback P.A f) P.sym,
-      ample := by
-        haveI := P.isAb.proper
-        exact AmpleBaseChange.relAmple_of_isPullback P.isLB P.ample (IsPullback.of_hasPullback P.A.hom f)
-      ktriv := by
-        obtain ⟨w, hw⟩ := PolBaseChange.lbIso_refl (LB.isLB_pull P.isLB (pullback.fst P.A.hom f))
-        exact kTriv_pull (isGrpPullback_pullback P.A f) P.isLB (LB.isLB_pull P.isLB _) ((isGen_iff w).1 hw) P.ktriv } 
-  let A := polPull D.toPre.P (jK V)
+  let A := _root_.GlobalTheory.StrictPull.polPull D.toPre.P (jK V)
   have r : LBIso A.L (D.toPre.P.L.pull (pullback.fst D.toPre.P.A.hom (jK V))) := PolBaseChange.lbIso_refl A.isLB
   have hm : IsMonHom (Iso.refl A.A).hom := inferInstanceAs (IsMonHom (𝟙 A.A))
   have hw : LBIso (A.L.pull (Iso.refl A.A).hom.left) (D.toPre.P.L.pull (pullback.fst D.toPre.P.A.hom (jK V))) := by
@@ -261,41 +245,7 @@ theorem UMem.nonempty_of_regular {X₁ : Setup F W i} {z₁ : X₁.M.Z} {act : M
     rwa [Scheme.range_fromSpecStalk] at this
   let yV : X₁.S.R →+* V := (RatModel.valLoc (spMap ev ≫ X₁.M.Z.fromSpecStalk z₁) z₁ (sp _)).comp
     (Subalgebra.inclusion hz).toRingHom
-  have semi_of_ab {S : Scheme.{0}} (B : Over S) [GrpObj B] (h : IsAbelianScheme B) : IsSemiAbelian B := by
-    have := h.proper
-    refine ⟨h.comm, h.smooth, inferInstance, inferInstance, h.geomConnected, ?_⟩
-    intro Ω _ _ p
-    have hab := TLinPf.isAb_pullback p B h
-    refine ⟨{ X := PUnit, B := _, isAbelian := hab, q := 𝟙 _, q_hom := inferInstance
-              q_flat := ?_, q_surjective := ?_, q_quasiCompact := ?_
-              i := toUnit _ ≫ η, i_hom := ?_, isKernel := ?_ }⟩
-    · rw [Over.id_left]; infer_instance
-    · rw [Over.id_left]; infer_instance
-    · rw [Over.id_left]; infer_instance
-    · have := hab.comm; infer_instance
-    · have hident : 𝟙 (splitTorus (Spec (CommRingCat.of Ω)) PUnit) = 1 := by
-        rw [← Diag.diagMap_id, ← Diag.diagMap_zero]
-        congr 1
-      have : IsIso (toUnit (splitTorus (Spec (CommRingCat.of Ω)) PUnit)) := ⟨η, hident.symm, toUnit_unique _ _⟩
-      exact IsPullback.of_vert_isIso ⟨Category.comp_id _⟩
-  let polPull {S S' : Scheme.{0}} (P : PolAV S) (f : S' ⟶ S) : PolAV S' := by
-    exact {
-      A := (Over.pullback f).obj P.A,
-      isAb := TLinPf.isAb_pullback f P.A P.isAb,
-      g := P.g,
-      smoothDim := (smoothOfRelativeDimension_isStableUnderBaseChange _).of_isPullback
-        (isGrpPullback_pullback P.A f).1 P.smoothDim,
-      L := P.L.pull (pullback.fst P.A.hom f),
-      isLB := LB.isLB_pull P.isLB _,
-      rigid := PolBaseChange.rigidified_pull (isGrpPullback_pullback P.A f) P.rigid,
-      sym := PolBaseChange.sym_pull (isGrpPullback_pullback P.A f) P.sym,
-      ample := by
-        haveI := P.isAb.proper
-        exact AmpleBaseChange.relAmple_of_isPullback P.isLB P.ample (IsPullback.of_hasPullback P.A.hom f)
-      ktriv := by
-        obtain ⟨w, hw⟩ := PolBaseChange.lbIso_refl (LB.isLB_pull P.isLB (pullback.fst P.A.hom f))
-        exact kTriv_pull (isGrpPullback_pullback P.A f) P.isLB (LB.isLB_pull P.isLB _) ((isGen_iff w).1 hw) P.ktriv } 
-  let P := polPull X₁.ρ.P (spMap yV)
+  let P := _root_.GlobalTheory.StrictPull.polPull X₁.ρ.P (spMap yV)
   letI := P.isAb.comm
   obtain ⟨D, A, U, ψ, hX, hψ, hL, hE⟩ := exists_unif_good hV P
   have r : LBIso P.L (X₁.ρ.P.L.pull (pullback.fst X₁.ρ.P.A.hom (spMap yV))) := PolBaseChange.lbIso_refl P.isLB

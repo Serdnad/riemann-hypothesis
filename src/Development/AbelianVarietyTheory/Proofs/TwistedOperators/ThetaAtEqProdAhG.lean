@@ -1,5 +1,8 @@
 module
 
+import Formalism.LocalToGlobal.SiegelLatticeTheory.ClosedLocalOrbits.GaugeLatticeShifts.StabilizerIndexVolumes.NatSmulMem
+import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.ComplexEmbeddingHermitianQuadrupleSum
+import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.SumLeFinsumOfSurjectsOntoFinset
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.FundamentalDomains.Signature
 public import Development.AbelianVarietyTheory.BlockTheory.TwistedDiscreteSeries.RealPoints
 public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.SmulEqZeroOfInf
@@ -60,16 +63,7 @@ section -- clump:auto
 
 private theorem UpperTheory.Reformulated.B.Uc15.exists_nsmul_integral {E : Type} [Field E] [NumberField E]
     (a : E) : ∃ M : ℕ, M ≠ 0 ∧ ∃ b : NumberField.RingOfIntegers E, (b : E) = (M : E) * a := by
-  have halg : IsAlgebraic ℤ a :=
-    (IsFractionRing.isAlgebraic_iff ℤ ℚ E).mpr (Algebra.IsAlgebraic.isAlgebraic a)
-  obtain ⟨y, hy, hint⟩ := halg.exists_integral_multiple
-  have h2 : IsIntegral ℤ (y • (y • a)) := hint.smul y
-  refine ⟨(y * y).natAbs, Int.natAbs_ne_zero.mpr (mul_ne_zero hy hy), ⟨y • (y • a), h2⟩, ?_⟩
-  have h3 : (((y * y).natAbs : ℕ) : E) = ((y * y : ℤ) : E) := by
-    rw [← Int.cast_natCast, Int.natAbs_of_nonneg (mul_self_nonneg y)]
-  rw [h3]
-  change y • (y • a) = _
-  rw [smul_smul, zsmul_eq_mul]
+  apply _root_.Formalism.L2.SG.Pf.StabilizerIndexVolumes.den_exists <;> assumption
 
 theorem UpperTheory.Reformulated.B.Uc15.exists_nsmul_mem :
     ∀ {E : Type} [inst : Field E] [inst_1 : NumberField E] [inst_2 : NumberField.IsCMField E] {r : ℕ}
@@ -203,16 +197,7 @@ def pv (W : UnfAt U k x) (v : Fin r → E) : Fin W.g → ℂ :=
 
 theorem perFr_add' (X : Data E r) (y : Frame X.Ψ r) (v w : Fin r → E) (τ : E →+* ℂ) (i : ℕ) :
     perFr X y (v + w) τ i = perFr X y v τ i + perFr X y w τ i := by
-  have h : ∀ ρ : E →+* ℂ, Data.emb ρ (v + w) = Data.emb ρ v + Data.emb ρ w := fun ρ => by
-    ext a; simp [Data.emb]
-  unfold perFr
-  simp only [h]
-  split_ifs
-  · simp [Matrix.mulVec_add]
-  · simp
-  · simp [hermC, mul_add, Finset.sum_add_distrib]
-  · simp
-  · simp
+  first | exact _root_.GlobalTheory.OrthoPeriodTorus.perFr_add | exact @_root_.GlobalTheory.OrthoPeriodTorus.perFr_add | apply _root_.GlobalTheory.OrthoPeriodTorus.perFr_add <;> assumption
 
 def pvHom (W : UnfAt U k x) : (Fin r → E) →+ (Fin W.g → ℂ) :=
   AddMonoidHom.mk' (pv W) fun v w => funext fun j => perFr_add' _ _ _ _ _ _

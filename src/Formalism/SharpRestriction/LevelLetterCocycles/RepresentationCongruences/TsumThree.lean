@@ -256,7 +256,6 @@ theorem sig_le (l : ℕ) (hl : 11 ≤ l) (h w S η : ℕ) (h1 : 1 ≤ h) (hG : w
   have n2 : 0 ≤ (S:ℝ) * x := mul_nonneg (Nat.cast_nonneg _) px.le
   have n3 : 0 ≤ (η:ℝ) * x := mul_nonneg (Nat.cast_nonneg _) px.le
   have n4 : 0 ≤ (h:ℝ) * x ^ 2 := mul_nonneg (Nat.cast_nonneg _) (sq_nonneg x)
-  have hx2 : x ^ 2 ≤ x / 11 := by linarith [mul_le_mul_of_nonneg_left hx1 px.le]
   have hg := logb_two_mul_natCast_nonneg_of_eleven_le l h hl
   have hl1 : ((l - 1 : ℕ) : ℝ) = (l:ℝ) - 1 := by
     rw [Nat.cast_sub (show 1 ≤ l by omega), Nat.cast_one]
@@ -273,14 +272,11 @@ theorem sig_le (l : ℕ) (hl : 11 ≤ l) (h w S η : ℕ) (h1 : 1 ≤ h) (hG : w
   rw [mul_div_sub_one_sq_eq_mul_add_sq _ _ _ hy eLy]
   have hP0 : 0 ≤ y + y ^ 2 := add_nonneg py.le (sq_nonneg y)
   have hP1 : y + y ^ 2 ≤ 121 / 100 * x := by linarith [mul_le_mul_of_nonneg_left hy1 py.le]
-  have hhy : 0 ≤ (h:ℝ) * y := mul_nonneg (Nat.cast_nonneg _) py.le
   have hV : ((2 * (w + S) : ℕ) : ℝ) + ((2 * h / (l - 1) + 1 : ℕ) : ℝ) ≤
       2 * ((w:ℝ) + S) + 2 * (h:ℝ) * y + 1 := by
     rw [e1, e2]
     linarith
   have hV0 : (0:ℝ) ≤ 2 * ((w:ℝ) + S) + 2 * (h:ℝ) * y + 1 := by
-    have hw0 : (0:ℝ) ≤ w := Nat.cast_nonneg _
-    have hS0 : (0:ℝ) ≤ S := Nat.cast_nonneg _
     linarith
   have b1 := mul_le_mul hV hP1 hP0 hV0
   have hxy : x * y ≤ 11 / 10 * x ^ 2 := by linarith [mul_le_mul_of_nonneg_left hyx px.le]
@@ -371,7 +367,6 @@ theorem Aa_le (l : ℕ) (hl : 11 ≤ l) (h w S η H H₁ : ℕ) (hη : η + 1 �
   have d1 := mul_le_mul hH1r hxy (mul_nonneg px.le py.le) hhη
   have d2 := mul_le_mul_of_nonneg_left hy1 hc3
   have d7 := mul_le_mul_of_nonneg_left hx2 (Nat.cast_nonneg η : (0:ℝ) ≤ η)
-  have d8 := mul_le_mul_of_nonneg_left hx2 hu0
   have e3 : s / ((l : ℝ) - 1) = s * y := by rw [hy, div_eq_mul_inv]
   rw [e3] at hA
   have ez : ((H : ℝ) + cW l H + 3) / ((l : ℝ) - 2) = ((H : ℝ) + cW l H + 3) * z := by

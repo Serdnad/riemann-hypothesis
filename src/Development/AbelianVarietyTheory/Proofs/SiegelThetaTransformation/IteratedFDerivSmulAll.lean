@@ -1007,16 +1007,7 @@ theorem finsum_exchange {Q C V : Type} [Finite Q] [Finite C] [AddCommGroup V] [M
 variable {E : Type} [Field E] [NumberField E] [IsCMField E]
 
 theorem finite_levQ {H : Host E} (Dw : Datum H) (l : Geo.Tor.Level H) : Finite (LevQ Dw l) := by
-  have hM : l.Mb ≠ ⊥ := by
-    intro h
-    have h₁ := l.prod
-    rw [h, Ideal.bot_mul, eq_comm, Ideal.span_singleton_eq_bot] at h₁
-    have h₂ : l.M = 0 := by exact_mod_cast h₁
-    have := l.three_le
-    omega
-  have := l.Mb.finiteQuotientOfFreeOfNeBot hM
-  have := Dw.fin
-  exact Submodule.finite_quotient_smul l.Mb (N := (⊤ : Submodule (𝓞 E) Dw.La)) Module.Finite.fg_top
+  first | exact _root_.GlobalTheory.finite_levQ | exact @_root_.GlobalTheory.finite_levQ | apply _root_.GlobalTheory.finite_levQ <;> assumption
 
 theorem natCast_mem_Mfr {H : Host E} (l : Geo.Tor.Level H) : (l.M : 𝓞 E) ∈ Mfr l := by
   have h : Ideal.span {(l.M : 𝓞 E)} ≤ Mfr l := l.prod.symm.le.trans Ideal.mul_le_right

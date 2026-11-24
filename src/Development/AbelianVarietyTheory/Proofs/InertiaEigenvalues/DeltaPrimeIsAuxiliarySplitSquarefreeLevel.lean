@@ -1,5 +1,7 @@
 module
 
+
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsAlgebraicOfRoot
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.IsPlaceModelPlaceMap
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.MemSelfDualLatticeIffIntegralFrameMatricesHalf
 public import Development.AbelianVarietyTheory.Definitions.SpanningFamilies.IMemSiegel
@@ -80,7 +82,6 @@ import Formalism.LocalRingCardinality.RankBoundMonotoneInDimension
 import Mathlib.FieldTheory.Galois.Profinite
 import Mathlib.Tactic.Basify
 import Mathlib.Tactic.Linter.Style
-
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.MemSelfDualLatticeIffIntegralFrameMatricesHalfStatement, Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.DeltaPrimeIsAuxiliarySplitSquarefreeLevel
 
@@ -491,20 +492,7 @@ theorem ioP_mem_valSpace {F : Face D A3.A} (hC : GlobalTheory.Hk3.Core Rl.toReal
 
 theorem baseOf_of_realPin (hL : Rl.toLevCh.Is A3.A.μ0) {ρ : Setup D.ntw} (hρ : ρ.Good) (hp : RealPin Rl cG ρ) (i : D.ntw.Tw)
     (j : Fin D.R.m) (b : Bool) : BaseOf Rl.toRealDat j (ρ.B i j b) := by
-  have hB := hρ.base i j b
-  have hlam := GlobalTheory.BaseLiftWeight.lam_eq D _ Rl.toLevCh A3.A.μ0 j (ρ.B i j b) hL hB (hp.mu0 i j b) (hp.ap i j b) (hp.am i j b)
-  have hc : ∀ τ, (ρ.B i j b).w.c τ = liftC D j τ := fun τ => GlobalTheory.BaseLiftWeight.c_eq hL hB (hp.mu0 i j b) τ
-  have hP : (ρ.B i j b).w.p = GlobalTheory.IndefiniteRowSideFullHecke.InfinityTypes.pS D j := funext fun τ => congrArg Prod.fst (hB.sig τ)
-  have hQ : (ρ.B i j b).w.q = GlobalTheory.IndefiniteRowSideFullHecke.InfinityTypes.qS D j := funext fun τ => congrArg Prod.snd (hB.sig τ)
-  have hAP : (ρ.B i j b).w.ap = GlobalTheory.IndefiniteRowSideFullHecke.InfinityTypes.aP D j := funext fun τ => hp.ap i j b τ
-  have hAM : (ρ.B i j b).w.am = GlobalTheory.IndefiniteRowSideFullHecke.InfinityTypes.aM D j := funext fun τ => hp.am i j b τ
-  refine
-    { ψ := hp.psi i j b, θ := hp.inf i j b, sT := hp.cartT i j b, BS := hp.onbS i j b, BT := hp.onbT i j b,
-      ΛS := hp.latS i j b, ΛT := hp.latT i j b, βS := hp.frS i j b, βT := hp.frT i j b, vac := hp.vac i j b,
-      Pg := hp.Pg i j b, mu0 := hp.mu0 i j b, eta := hp.eta i j b, lam := hlam, delta := ?_, p := hP, q := hQ,
-      c := funext hc }
-  rw [← liftWeight_delta, Weight.delta, Weight.delta, hP, hQ, hAP, hAM]
-  rfl
+  first | exact _root_.GlobalTheory.BigOn.Exp.TwConj.baseOf_of_realPin | exact @_root_.GlobalTheory.BigOn.Exp.TwConj.baseOf_of_realPin | apply _root_.GlobalTheory.BigOn.Exp.TwConj.baseOf_of_realPin <;> assumption
 
 theorem lifts_one {j : Fin D.R.m} {B : Base (Vc D j) (Wc D j)} (hBo : BaseOf Rl.toRealDat j B) {k : GA D (Wc D j)}
     (hk : Lev.IsLevelLift (Wc D j) (Rl.βW j) (Rl.toRealDat.datWp j Rl.toRealDat.triv) 1 k) : GlobalTheory.ExportType.Lifts B 1 k := by

@@ -1,5 +1,6 @@
 module
 
+import all Development.ResolutionOfSingularities.EmbeddedResolution.IdealPrincipalization.OrderReduction.FaithfullyFlatDescent
 public import Development.ResolutionOfSingularities.EmbeddedResolution.IteratedBlowups.BlowupSequenceRelations
 public import Development.ResolutionOfSingularities.EmbeddedResolution.IdealPrincipalization.MarkedBlowupSequence.Append
 public import Development.ResolutionOfSingularities.EmbeddedResolution.IdealPrincipalization.MarkedOrderReduction.ConcatComparisonMap
@@ -430,12 +431,7 @@ private theorem dim_derivedTriple_le_dim (hstar : MaxContactCoverProperties.{u})
     (hft : AlgebraicGeometry.LocallyOfFiniteType (s.proj s.length ≫ S.structMap))
     (added : List (s.obj s.length).IdealSheafData) (nDrop : ℕ) :
     (MaxContactCoverData.derivedTriple S s hft added nDrop).krullDimSucc ≤ S.krullDimSucc := by
-  have h : krullDimSucc (s.toMarkedSequenceOfBlowups.schemeAt s.length) ≤ S.krullDimSucc :=
-    hstar.schemeDim_level_le S hV s.toMarkedSequenceOfBlowups s.length
-      (s.le_toSequenceOfBlowups_length (le_refl s.length))
-  show krullDimSucc (MaxContactCoverData.derivedTriple S s hft added nDrop).scheme ≤ S.krullDimSucc
-  rw [MaxContactCoverData.derivedTriple_scheme]
-  exact h
+  apply _root_.FunctorialResolution.EmbeddedResolution.MaxContactFunctoriality.derivedTriple_dim_le <;> assumption
 
 private theorem boundary_length_pullbackTriple (S : MarkedIdealWithBoundary.{u}) {X' : Scheme.{u}}
     (g : X' ⟶ S.scheme) : (LowerDimReductionPullback.pullbackTriple S g).boundary.length = S.boundary.length := by

@@ -1,5 +1,6 @@
 module
 
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.TwLMulSelf
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.PairStructureOnLine
 public import CompanionTheory.HarishChandraModules.LowKTypeMultiplicity.EigenspaceCyclicDensity.CreationOperators.KoszulDifferentialAnticommutator
 import CompanionTheory.HarishChandraModules.LowKTypeMultiplicity.EigenspaceCyclicDensity.CreationOperators.CreApply
@@ -283,16 +284,7 @@ theorem key_lt (p : Pos n) : key p < n * n := by
     _ ≤ n * n := Nat.mul_le_mul_right n ha
 
 theorem keyR_inj {i j : Ix n} (h : keyR i = keyR j) : i = j := by
-  obtain ⟨s, p⟩ := i
-  obtain ⟨t, q⟩ := j
-  have hp := key_lt p
-  have hq := key_lt q
-  have hk : key p = key q → p = q := fun e => CompanionTheory.D.LK.Car.key_inj e
-  cases s <;> cases t <;> simp only [keyR, Bool.false_eq_true, if_false, if_true] at h
-  · rw [hk (by omega)]
-  · omega
-  · omega
-  · rw [hk (by omega)]
+  apply _root_.GlobalTheory.CompanionTheory.LvChain.keyL_inj <;> assumption
 
 def tw (i j : Ix n) : ℂ := if keyR j < keyR i then -1 else 1
 

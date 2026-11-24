@@ -1,5 +1,6 @@
 module
 
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.IsCompactMaximalPairPlace
 public import Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange.ArchimedeanBaseChangeProof.SatakeExponents.UniformizerValuations.MatchT
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.RelIndexNeZeroOfIsOpen
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.IwahoriProjSurjective
@@ -137,34 +138,8 @@ theorem conv_sum_sum {K L : Subgroup G} (ho : IsOpen (L : Set G)) (hle : L ≤ K
 theorem conv_unit {K L : Subgroup G} (hle : L ≤ K) (hidx : L.relIndex K ≠ 0) {f : G → ℂ}
     (hr : ∀ k ∈ L, ∀ x, f (x * k) = f x) (y : G) :
     hint K (fun z => f z * (L : Set G).indicator (fun _ => ((L.relIndex K : ℕ) : ℂ)) (z⁻¹ * y)) = f y := by
-  have hmem : ∀ q : G ⧸ L, q ≠ QuotientGroup.mk y → q.out⁻¹ * y ∉ L := by
-    intro q hq hm
-    apply hq
-    rw [← QuotientGroup.out_eq' q]
-    exact QuotientGroup.eq.2 hm
-  have hc : ((L.relIndex K : ℕ) : ℂ) ≠ 0 := Nat.cast_ne_zero.2 hidx
-  rw [GlobalTheory.CompanionTheory.LocHecke.hint_eq K L hle hidx _ ?_ ?_]
-  · rw [finsum_eq_single _ (QuotientGroup.mk y : G ⧸ L) ?_]
-    · obtain ⟨h, hh⟩ := QuotientGroup.mk_out_eq_mul L y
-      have h2 : (QuotientGroup.mk y : G ⧸ L).out⁻¹ * y ∈ L := by
-        have e : (y * (h : G))⁻¹ * y = (h : G)⁻¹ := by group
-        rw [hh, e]
-        exact L.inv_mem h.2
-      rw [Set.indicator_of_mem (by exact h2), hh, hr _ h.2]
-      field_simp
-    · intro q hq
-      rw [Set.indicator_of_notMem (hmem q hq), mul_zero]
-  · intro k hk x
-    rw [hr k hk x]
-    congr 1
-    have : (x * k)⁻¹ * y = k⁻¹ * (x⁻¹ * y) := by group
-    rw [this]
-    have hiff : k⁻¹ * (x⁻¹ * y) ∈ L ↔ x⁻¹ * y ∈ L := L.mul_mem_cancel_left (L.inv_mem hk)
-    simp only [Set.indicator, SetLike.mem_coe, hiff]
-  · refine (Set.finite_singleton (QuotientGroup.mk y : G ⧸ L)).subset fun q hq => ?_
-    by_contra hne
-    apply hq
-    rw [Set.indicator_of_notMem (hmem q hne), mul_zero]
+  intros
+  apply _root_.GlobalTheory.CompanionTheory.FmPowP.hint_ind_right <;> assumption
 
 end Generic
 

@@ -104,27 +104,10 @@ theorem prod_val (h : IsEtaT H χ) (v : HeightOneSpectrum (𝓞 H.F)) :
 
 open Classical in
 theorem above_eq {w w' : PlE H} (hc : IsConjPl H w w') : aboveF (L := H.E) H.F (w.under (𝓞 H.F)) = {w, w'} := by
-  obtain ⟨c, hc', hcm, -⟩ := GlobalTheory.Mem.HostCM.host_cm R H
-  have h1 : GlobalTheory.Mem.Chr.ConjPl c.toRingEquiv w w' :=
-    (GlobalTheory.Mem.Chr.conjPl_iff_mem _ _ _).2 fun x y e => hc x y (e.trans (hc' _))
-  ext P
-  have : P ∈ aboveF (L := H.E) H.F (w.under (𝓞 H.F)) ↔ P.under (𝓞 H.F) = w.under (𝓞 H.F) := by simp [aboveF]
-  rw [this, GlobalTheory.Mem.Chr.under_eq_iff_conjPl c hcm.rank hcm.ne w P, Finset.mem_insert, Finset.mem_singleton]
-  refine or_congr Iff.rfl ⟨fun h' => (GlobalTheory.Mem.Chr.existsUnique_conjPl _ w).unique h' h1, ?_⟩
-  rintro rfl
-  exact h1
+  first | exact _root_.GlobalTheory.HeightCounting.TrueSide.above_eq | exact @_root_.GlobalTheory.HeightCounting.TrueSide.above_eq | apply _root_.GlobalTheory.HeightCounting.TrueSide.above_eq <;> assumption
 
 theorem val_inert (h : IsEtaT H χ) {w : PlE H} (hw : ¬ IsSplitPl H w) : χ.val w = -1 := by
-  have e : aboveF (L := H.E) H.F (w.under (𝓞 H.F)) = {w} := by
-    ext P
-    have : P ∈ aboveF (L := H.E) H.F (w.under (𝓞 H.F)) ↔ P.under (𝓞 H.F) = w.under (𝓞 H.F) := by simp [aboveF]
-    rw [this, Finset.mem_singleton]
-    refine ⟨fun h' => ?_, fun h' => h' ▸ rfl⟩
-    by_contra hne
-    exact hw ((GlobalTheory.Mem.GoodPlace.isSplitPl_iff H w).2 ⟨P, fun h => hne h.symm, h'⟩)
-  have := prod_val h (w.under (𝓞 H.F))
-  rw [e] at this
-  simpa using this
+  first | exact _root_.GlobalTheory.HeightCounting.TrueSide.val_inert | exact @_root_.GlobalTheory.HeightCounting.TrueSide.val_inert | apply _root_.GlobalTheory.HeightCounting.TrueSide.val_inert <;> assumption
 
 theorem val_split (h : IsEtaT H χ) {w w' : PlE H} (hw : IsSplitPl H w) (hc : IsConjPl H w w') :
     χ.val w * χ.val w' = 1 := by

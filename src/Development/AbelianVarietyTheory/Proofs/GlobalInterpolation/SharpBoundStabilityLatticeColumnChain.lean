@@ -1351,26 +1351,7 @@ theorem below_finite {b : (B.I.S i).β} (v : B.ch.A.vT) (d : (B.I.S i).D b) :
 include R in
 theorem val_ext {W : Type} [AddCommGroup W] [Module ℂ W] (f g : M.Val →ₗ[ℂ] W)
     (h : ∀ (F : B.V i) (y : M.Val), y.1 = B.ev i F → f y = g y) : f = g := by
-  have hv : M.Val = Submodule.span ℂ (Set.range (B.ev i)) :=
-    R.val_eq.trans (span_evV B.emb 1 (B.lam i) D.what₂.embLL).symm
-  ext ⟨y, hy⟩
-  have key : ∀ y ∈ Submodule.span ℂ (Set.range (B.ev i)), ∀ hy : y ∈ M.Val, f ⟨y, hy⟩ = g ⟨y, hy⟩ := by
-    intro y hy
-    induction hy using Submodule.span_induction with
-    | mem x hx =>
-      obtain ⟨F, rfl⟩ := hx
-      exact fun hy => h F _ rfl
-    | zero => exact fun hy => (map_zero f).trans (map_zero g).symm
-    | add x y hx hy ihx ihy =>
-      intro hxy
-      have hx' : x ∈ M.Val := hv ▸ hx
-      have hy' : y ∈ M.Val := hv ▸ hy
-      exact (map_add f ⟨x, hx'⟩ ⟨y, hy'⟩).trans ((congrArg₂ (· + ·) (ihx hx') (ihy hy')).trans (map_add g _ _).symm)
-    | smul c x hx ih =>
-      intro hc
-      have hx' : x ∈ M.Val := hv ▸ hx
-      exact (map_smul f c ⟨x, hx'⟩).trans ((congrArg (c • ·) (ih hx')).trans (map_smul g c _).symm)
-  exact key y (hv ▸ hy) hy
+  first | exact _root_.GlobalTheory.LvT.Built.DilPass.ext_ev | exact @_root_.GlobalTheory.LvT.Built.DilPass.ext_ev | apply _root_.GlobalTheory.LvT.Built.DilPass.ext_ev <;> assumption
 
 end Real
 

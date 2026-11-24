@@ -1,5 +1,6 @@
 module
 
+import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.DegreeOneCellEqChartUpdate
 public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.ExistsHomogOfMemQuotPartAlt
 public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.ImportsTerTer
 
@@ -46,16 +47,8 @@ theorem cechD_apply' {M : Type} [AddCommGroup M] [Module (MRingOver S ι) M] (n 
 theorem cechD_mem_locPart (γ : K → ℤ) (n : ℕ) {f : CechC S ι (MRingOver S ι ⧸ mIdealOver S y) n}
     (hf : f ∈ cechCc ι (quotPart S (mIdealOver S y)) γ n) (I : Cell K ι (n + 1)) :
     cechD S ι _ n f I ∈ locPart ι (quotPart S (mIdealOver S y)) (cellMon S I.1) γ := by
-  rw [cechD_apply']
-  refine Submodule.sum_mem _ fun k _ => Submodule.sum_mem _ fun i _ => ?_
-  split_ifs with hc
-  · have hJ : f ⟨Function.update I.1 k ((I.1 k).erase i), hc⟩ ∈ locPart ι (quotPart S (mIdealOver S y))
-        (cellMon S (Function.update I.1 k ((I.1 k).erase i))) γ :=
-      Submodule.mem_pi.mp hf ⟨Function.update I.1 k ((I.1 k).erase i), hc⟩ (Set.mem_univ _)
-    have hm := cellRes_mem_locPart (J := Function.update I.1 k ((I.1 k).erase i)) (I := I.1)
-      (cellMon_mono (face_subset I.1 k i)) γ hJ
-    exact zsmul_mem hm _
-  · exact Submodule.zero_mem _
+  intros
+  apply _root_.GroundTheory.Heights₂.Heights.Kleiman.SectionsOverLocalization.HZeroRowPlaceData.cechD_mem_locPart <;> assumption
 
 theorem cechD_mem_cechCc (γ : K → ℤ) (n : ℕ) {f : CechC S ι (MRingOver S ι ⧸ mIdealOver S y) n}
     (hf : f ∈ cechCc ι (quotPart S (mIdealOver S y)) γ n) :

@@ -1,6 +1,7 @@
 module
 
 public import Formalism.LocalToGlobal.IndefiniteReal.LinksDefs
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.BlockDetSingleBlockSecondEqOneOfLe
 
 @[expose] public section
 
@@ -30,14 +31,7 @@ theorem mem_blockTriangular_twoBlockSizes_of_le {r : ℕ} (hn : n ≤ r) (g : GL
   simp [blk2, hi, hj] at hij
 
 theorem block_determinant_empty_eq_one {r : ℕ} (hn : n ≤ r) (g : GL (Fin n) κF) : dBlk (blk2 (n := n) r) 1 g = 1 := by
-  unfold dBlk
-  rw [extendOne_of_mem _ (mem_blockTriangular_twoBlockSizes_of_le hn g)]
-  have : IsEmpty {a : Fin n // blk2 r a = 1} :=
-    ⟨fun a => by
-      have ha := a.2
-      simp [blk2, lt_of_lt_of_le a.1.2 hn] at ha⟩
-  ext
-  simp [blkDet]
+  apply _root_.GlobalTheory.blockDet_singleBlock_second_eq_one_of_le <;> assumption
 
 theorem mem_parLev_datY_noQ (hn : V.rank ≤ r) (hr : r ≤ V.rank) (t j : ℕ) (Pg Q : Finset (Pl D.host.E))
     (P : LevelP Pg r ℂ) (χ : ℕ → ∀ PP : Pl D.host.E, (kP PP)ˣ →* ℂˣ) (ξ ξ' : ∀ PP : Pl D.host.E, (kP PP)ˣ →* ℂˣ) (fr : Formalism.IndefR.Lev.Frm)

@@ -1,5 +1,6 @@
 module
 
+import Formalism.LocalRingCardinality.SpanPowerMembership.ExistsOmegaLeb
 public import Formalism.LocalRingCardinality.DataCD
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.UpqDefiniteCompact
 public import Mathlib.Analysis.Normed.Module.Basic
@@ -448,33 +449,7 @@ theorem reImMap_surjective (P Q : ℕ) : Function.Surjective (reImMap P Q) := by
     exact (congrArg entries h2).trans rfl
 
 theorem exists_isOmegaLeb : ∀ P Q : ℕ, ∃ lam : Measure (lieU P Q), IsOmegaLeb lam := by
-  intro P Q
-  have : BorelSpace (lieU P Q) := ⟨rfl⟩
-  have : LocallyCompactSpace (Matrix (Fin P ⊕ Fin Q) (Fin P ⊕ Fin Q) ℂ) :=
-    inferInstanceAs (LocallyCompactSpace ((Fin P ⊕ Fin Q) → (Fin P ⊕ Fin Q) → ℂ))
-  have : SecondCountableTopology (Matrix (Fin P ⊕ Fin Q) (Fin P ⊕ Fin Q) ℂ) :=
-    inferInstanceAs (SecondCountableTopology ((Fin P ⊕ Fin Q) → (Fin P ⊕ Fin Q) → ℂ))
-  have : LocallyCompactSpace (lieU P Q) :=
-    (Submodule.closed_of_finiteDimensional (lieU P Q)).isClosedEmbedding_subtypeVal.locallyCompactSpace
-  have : SecondCountableTopology (lieU P Q) :=
-    TopologicalSpace.Subtype.secondCountableTopology _
-  have : FiniteDimensional ℝ (lieU P Q × lieU P Q) :=
-    FiniteDimensional.of_injective (reImMap P Q) (reImMap_injective P Q)
-  let e : (lieU P Q × lieU P Q) ≃L[ℝ] ((Fin P ⊕ Fin Q) × (Fin P ⊕ Fin Q) → ℂ) :=
-    (LinearEquiv.ofBijective (reImMap P Q)
-      ⟨reImMap_injective P Q, reImMap_surjective P Q⟩).toContinuousLinearEquiv
-  let l : Measure (lieU P Q) := Measure.addHaar
-  have : ((l.prod l).map e).IsAddHaarMeasure := e.isAddHaarMeasure_map _
-  let t : ℝ≥0 := Measure.addHaarScalarFactor volume ((l.prod l).map e)
-  have ht : volume = t • (l.prod l).map e := Measure.isAddLeftInvariant_eq_smul _ _
-  have ht0 : 0 < t := Measure.addHaarScalarFactor_pos_of_isAddHaarMeasure _ _
-  have hs : NNReal.sqrt t ≠ 0 := by simpa using ht0.ne'
-  refine ⟨NNReal.sqrt t • l, Measure.IsAddHaarMeasure.nnreal_smul l hs, ?_⟩
-  rw [Measure.prod_smul_left, Measure.prod_smul_right, smul_smul, NNReal.mul_self_sqrt,
-    Measure.map_smul]
-  · exact ht.symm
-  · change AEMeasurable e (l.prod l)
-    exact e.continuous.measurable.aemeasurable
+  apply _root_.Formalism.BasicNotions.Examples₂.CD.exists_omegaLeb <;> assumption
 
 end GlobalTheory.CompactDualOmega
 end -- clump:auto

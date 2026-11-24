@@ -1,5 +1,6 @@
 module
 
+import PositivityTheory.AutomorphicForms.PublishedInputs.JacquetLanglands.TorusKernels.AutomorphyFactorScalarMatrix
 public import PositivityTheory.AutomorphicForms.PublishedInputs.JacquetLanglands.TorusKernels.MultivariableReproducingFormula
 import Mathlib.Algebra.Ring.IsFormallyReal
 
@@ -16,27 +17,8 @@ namespace KernelTermsInvariantLemmas
 
 theorem automorphy_factor_scalar_matrix (k : ℕ) (g : GL (Fin 2) ℝ) (hb : g 0 1 = 0) (hc : g 1 0 = 0) (h : g 0 0 = g 1 1) (z : P) :
     j1 k g z = ((SignType.sign (g 0 0) : ℝ) : ℂ) ^ k := by
-  have ha : g 0 0 ≠ 0 := by
-    intro h0
-    apply g.det_ne_zero
-    simp [det_eq, hb, hc, h0, ← h]
-  have hden : den g z.1 = ((g 0 0 : ℝ) : ℂ) := by
-    simp [den, hc, h]
-  have hr : |g.val.det| ^ (-(k : ℝ) / 2) = (|g 0 0| ^ k)⁻¹ := by
-    have e : |g.val.det| = |g 0 0| ^ ((2 : ℕ) : ℝ) := by
-      rw [Real.rpow_natCast, det_eq, hb, hc, ← h]
-      simp [sq, abs_mul]
-    rw [e, ← Real.rpow_mul (abs_nonneg _)]
-    have e2 : ((2 : ℕ) : ℝ) * (-(k : ℝ) / 2) = -((k : ℕ) : ℝ) := by push_cast; ring
-    rw [e2, Real.rpow_neg (abs_nonneg _), Real.rpow_natCast]
-  have key : g 0 0 ^ k * (|g 0 0| ^ k)⁻¹ = (SignType.sign (g 0 0) : ℝ) ^ k := by
-    have hs : g 0 0 ^ k = (SignType.sign (g 0 0) : ℝ) ^ k * |g 0 0| ^ k := by
-      rw [← mul_pow, sign_mul_abs]
-    rw [hs, mul_assoc, mul_inv_cancel₀ (pow_ne_zero _ (abs_ne_zero.2 ha)), mul_one]
-  calc j1 k g z = ((g 0 0 ^ k * (|g 0 0| ^ k)⁻¹ : ℝ) : ℂ) := by
-        unfold j1
-        rw [hr, hden, Complex.ofReal_mul, Complex.ofReal_pow]
-    _ = ((SignType.sign (g 0 0) : ℝ) : ℂ) ^ k := by rw [key, Complex.ofReal_pow]
+  intros
+  apply _root_.UpperTheory.Esk.KernelLevelTransform.automorphy_factor_scalar_matrix <;> assumption
 
 theorem block_frame_conjugation_identity (hco : ∀ (k : ℕ) (g h : GL (Fin 2) ℝ) (z : P), j1 k (g * h) z = j1 k g (h • z) * j1 k h z)
     (hn : ∀ (k : ℕ) (g : GL (Fin 2) ℝ) (z : P), j1 k g z ≠ 0)

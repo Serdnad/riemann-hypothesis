@@ -1,5 +1,6 @@
 module
 
+import Formalism.SharpRestriction.Divisibility.SlopeExcess.ConstRankBaseLePolyFourth
 public import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.NeNeedPrice
 import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.NcCGNonneg
 public import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.NdLszLe
@@ -60,14 +61,7 @@ theorem nd_b'_nonneg : 0 ≤ L.sc.b' := by
   exact div_nonneg (mul_nonneg (by linarith) (Real.exp_pos _).le) (Real.exp_pos _).le
 
 theorem nd_b'_le : L.sc.b' ≤ L.sc.a := by
-  have hx : (1 : ℝ) < L.sc.x := L.sc.one_lt_alt
-  have ha : 0 ≤ L.sc.a := by
-    unfold Scale.a Scale.b
-    exact mul_nonneg (by linarith) (Real.exp_pos _).le
-  unfold Scale.b'
-  apply div_le_self ha
-  unfold Scale.X'
-  exact Real.one_le_exp (Real.rpow_nonneg (by linarith) _)
+  apply _root_.Formalism.MainNotions.DIV.Proofs.HHParts.b'_le_a <;> assumption
 
 theorem nd_n_ge : (1 : ℝ) ≤ (D.R.n : ℝ) := by
   have h1 := D.R.two_le_m

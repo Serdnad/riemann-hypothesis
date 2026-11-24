@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.VVNonnegIffLeOne
 public import Mathlib.RingTheory.DiscreteValuationRing.Basic
 public import Development.AbelianVarietyTheory.Proofs.HomogeneousIdeals.EqZeroOfForallLTensorEqZero
 public import Mathlib.RingTheory.Valuation.ValuationSubring
@@ -339,15 +340,7 @@ variable {V K' : Type} [CommRing V] [IsDomain V] [IsDiscreteValuationRing V] [Fi
   [Algebra V K'] [IsFractionRing V K']
 
 theorem mem_range_iff_vV_nonneg (x : K') : x ∈ Set.range (algebraMap V K') ↔ 0 ≤ vV V x := by
-  by_cases hx : x = 0
-  · subst hx
-    exact ⟨fun _ => by simp [vV], fun _ => ⟨0, map_zero _⟩⟩
-  have h1 : valV V x ≠ 0 := valV_ne_zero hx
-  have h2 : valV V x ≤ 1 ↔ 0 ≤ vV V x := by
-    rw [vV, ← WithZero.log_le_log h1 one_ne_zero, WithZero.log_one]
-    omega
-  rw [← h2]
-  exact ⟨fun ⟨v, hv⟩ => hv ▸ valV_algebraMap_le_one v, exists_algebraMap_eq_of_valV_le_one⟩
+  apply _root_.GlobalTheory.IntegralFrameAllCompare.mem_range_iff <;> assumption
 
 theorem vV_of_irreducible {v : V} (hv : Irreducible v) : vV V (algebraMap V K' v) = 1 := by
   rw [vV, valV_algebraMap_of_irreducible hv, WithZero.log_exp]; simp

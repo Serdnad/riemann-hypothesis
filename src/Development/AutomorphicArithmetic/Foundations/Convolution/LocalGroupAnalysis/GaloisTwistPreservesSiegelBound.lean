@@ -1,5 +1,6 @@
 module
 
+import all Development.AutomorphicArithmetic.Foundations.Convolution.LocalGroupAnalysis.CharacterColumnKernelsOfBlockChiCOfBlockChiOne
 public import Development.WeilBound.RepresentationTheoryGL.TwistedFactors.IntegralUnitBaseChange.InvTransposeGLInvTransposeGL
 public import GroundTheory.AutomorphicForms.AutomorphicFormSpaces.Height
 public import GroundTheory.AutomorphicForms.ReductionSiegel
@@ -460,20 +461,7 @@ private theorem map_pos' (s : ℝ) (hs : 0 < s) :
     rw [h1, map_one]
 
 private theorem galAd_apply (σ : E ≃ₐ[F] E) (y : 𝔸[E]) : galAd σ y = σ • y := by
-  have h : galAd σ = MulSemiringAction.toRingHom (E ≃ₐ[F] E) 𝔸[E] σ := by
-    refine adeleRingHom_ext (K := F) (fun l => ?_) (fun a => ?_)
-    · change adeleTensorEquiv F E (Algebra.TensorProduct.map (σ : E →ₐ[F] E) (AlgHom.id F 𝔸[F])
-        ((adeleTensorEquiv F E).symm (algebraMap E 𝔸[E] l))) = σ • algebraMap E 𝔸[E] l
-      rw [adeleTensorEquiv_symm_algebraMap, Algebra.TensorProduct.map_tmul, adeleTensorEquiv_tmul,
-        AdeleBaseChange.smul_algebraMap, map_one, map_one, mul_one]
-      rfl
-    · change adeleTensorEquiv F E (Algebra.TensorProduct.map (σ : E →ₐ[F] E) (AlgHom.id F 𝔸[F])
-        ((adeleTensorEquiv F E).symm (adeleMap F E a))) = σ • adeleMap F E a
-      rw [adeleTensorEquiv_symm_adeleMap, Algebra.TensorProduct.map_tmul, adeleTensorEquiv_tmul,
-        smul_adeleMap, map_one, map_one, one_mul]
-      rfl
-  rw [h]
-  rfl
+  apply _root_.galAd_apply <;> assumption
 
 private theorem cont_gal (σ : E ≃ₐ[F] E) (n : ℕ) :
     Continuous (mapGL n (galAd σ) : AdelicGLn.AdelicGL E n → AdelicGLn.AdelicGL E n) := by

@@ -1,5 +1,7 @@
 module
 
+import GroundTheory.HeightsAndTheta.Heights.ElementarySymmetric.PBoundedSectionTransfer
+import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PLocalRep
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsEmbeddingWeight
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsTwistIntersectionInt
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsUnitApprox
@@ -84,14 +86,7 @@ theorem mh_add {f g : MRing ι} {a : K → ℕ} (hf : IsMultiHomog f a) (hg : Is
   · exact hg m h k
 
 theorem mh_C (r : ℤ) : IsMultiHomog (C r : MRing ι) 0 := by
-  classical
-  intro m hm k
-  have h0 : m = 0 := by
-    by_contra h
-    rw [MvPolynomial.mem_support_iff, MvPolynomial.coeff_C, if_neg (Ne.symm h)] at hm
-    exact hm rfl
-  subst h0
-  simp
+  apply _root_.GroundTheory.Heights₂.Heights.Targets.BoundedSectionTransfer.isMultiHomog_C <;> assumption
 
 open Classical in
 theorem mh_X (k : K) (i : ι k) : IsMultiHomog (X ⟨k, i⟩ : MRing ι) (Pi.single k 1) := by
@@ -113,20 +108,7 @@ theorem mh_pow {f : MRing ι} {a : K → ℕ} (hf : IsMultiHomog f a) (n : ℕ) 
     exact mh_mul ih hf
 
 theorem mh_coordProd (c : ∀ k, ι k) (d : K → ℕ) : IsMultiHomog (∏ k, (X ⟨k, c k⟩ : MRing ι) ^ d k) d := by
-  classical
-  have key : ∀ s : Finset K, IsMultiHomog (∏ k ∈ s, (X ⟨k, c k⟩ : MRing ι) ^ d k)
-      (∑ k ∈ s, d k • Pi.single k 1) := by
-    intro s
-    induction s using Finset.induction_on with
-    | empty => simpa using mh_C (ι := ι) 1
-    | insert k s hk ih =>
-      rw [Finset.prod_insert hk, Finset.sum_insert hk]
-      exact mh_mul (mh_pow (mh_X k (c k)) _) ih
-  have e : (∑ k, d k • (Pi.single k 1 : K → ℕ)) = d := by
-    ext k
-    simp [Finset.sum_apply, Pi.single_apply]
-  have := key Finset.univ
-  rwa [e] at this
+  apply _root_.GroundTheory.Heights₂.Heights.HilbertSamuel.LocalRep.isMultiHomog_chartMono <;> assumption
 
 theorem coordProd_add (c : ∀ k, ι k) (d e : K → ℕ) :
     (∏ k, (X ⟨k, c k⟩ : MRing ι) ^ (d + e) k) =

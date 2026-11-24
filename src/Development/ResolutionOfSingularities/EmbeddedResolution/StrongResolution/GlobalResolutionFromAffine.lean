@@ -8,6 +8,7 @@ public import Development.ResolutionOfSingularities.EmbeddedResolution.Resolutio
 public import Development.ResolutionOfSingularities.EmbeddedResolution.ResolutionDescent.BlowupSequenceDescentDatum
 public import Development.ResolutionOfSingularities.EmbeddedResolution.ResolutionDescent.BlowupSequenceFlatDescent
 public import Development.ResolutionOfSingularities.EmbeddedResolution.StrongResolution.SequenceIsomorphism
+import all Development.ResolutionOfSingularities.EmbeddedResolution.StrongResolution.SequenceIsomorphism
 public import Development.ResolutionOfSingularities.EmbeddedResolution.ResolutionDescent.BlowupSequenceFlatBaseChange
 public import Development.ResolutionOfSingularities.EmbeddedResolution.ResolutionDescent.IsoBlowupRemoval
 public import Development.ResolutionOfSingularities.EmbeddedResolution.ResolutionDescent.IsoBlowupRemovalBaseChange
@@ -64,6 +65,7 @@ import Mathlib.Order.CompletePartialOrder
 import Development.ResolutionOfSingularities.Foundations.Schemes.SchemeMorphismProperties
 import Mathlib.RingTheory.WittVector.IsPoly
 import Mathlib.Tactic.ReduceModChar
+import Development.ResolutionOfSingularities.EmbeddedResolution.EtaleCoordinates.StrictNormalCrossingsOpenImmersion
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.ResolutionOfSingularities.EmbeddedResolution.ResolutionDescent.SubordinateAffineCover, Development.ResolutionOfSingularities.EmbeddedResolution.AlgebraicPreliminaries.StandardSmoothCharts, Development.ResolutionOfSingularities.EmbeddedResolution.AlgebraicPreliminaries.DisjointUnionOfOpensPullback, Development.ResolutionOfSingularities.EmbeddedResolution.ResolutionDescent.GluedBlowupSequenceExistence, Development.ResolutionOfSingularities.EmbeddedResolution.ResolutionDescent.AffineResolutionCenterNeTop, Development.ResolutionOfSingularities.EmbeddedResolution.StrongResolution.LocalResolutionCenters, Development.ResolutionOfSingularities.EmbeddedResolution.StrongResolution.LocalResolutionDense, Development.ResolutionOfSingularities.EmbeddedResolution.StrongResolution.LocalResolutionProper, Development.ResolutionOfSingularities.EmbeddedResolution.StrongResolution.LocalResolutionSmooth, Development.ResolutionOfSingularities.EmbeddedResolution.StrongResolution.LocalResolutionStrictNormalCrossings, Development.ResolutionOfSingularities.EmbeddedResolution.StrongResolution.SmoothLocusIsomorphism, Development.ResolutionOfSingularities.EmbeddedResolution.StrongResolution.GlobalResolutionFromAffine
@@ -1000,46 +1002,7 @@ private theorem comap_vanishingIdeal_of_isOpenImmersion {Y T : Scheme.{u}} (g : 
     (hW : (W : Set ↥T) = g.base ⁻¹' (Z : Set ↥Y)) :
     (Scheme.IdealSheafData.vanishingIdeal Z).comap g
       = Scheme.IdealSheafData.vanishingIdeal W := by
-  have hrad : ((Scheme.IdealSheafData.vanishingIdeal Z).comap g).radical
-      = (Scheme.IdealSheafData.vanishingIdeal Z).comap g := by
-    refine Scheme.IdealSheafData.ext (funext fun U => ?_)
-    rw [Scheme.IdealSheafData.radical_ideal,
-      Scheme.IdealSheafData.ideal_comap_of_isOpenImmersion,
-      Scheme.IdealSheafData.vanishingIdeal_ideal]
-    exact ((PrimeSpectrum.isRadical_vanishingIdeal _).comap _).radical
-  have hsupp : ((Scheme.IdealSheafData.vanishingIdeal Z).comap g).support = W := by
-    rw [Scheme.IdealSheafData.support_comap, support_vanishingIdeal_eq]
-    exact TopologicalSpace.Closeds.ext hW.symm
-  rw [← hsupp, Scheme.IdealSheafData.vanishingIdeal_support, hrad]
-
-private theorem isRegularParameterSystem_map_ringEquiv {R S : Type u} [CommRing R] [CommRing S]
-    [IsLocalRing R] [IsLocalRing S] (e : R ≃+* S) (n : ℕ) (x : Fin n → R)
-    (h : IsRegularParameterSystem R n x) :
-    IsRegularParameterSystem S n (fun i => e (x i)) := by
-  unfold IsRegularParameterSystem at h ⊢
-  obtain ⟨h1, h2⟩ := h
-  constructor
-  · have hmax : Ideal.comap (e : R →+* S) (IsLocalRing.maximalIdeal S)
-        = IsLocalRing.maximalIdeal R :=
-      IsLocalRing.eq_maximalIdeal
-        (Ideal.comap_isMaximal_of_surjective (e : R →+* S) e.surjective)
-    have hm : Ideal.map (e : R →+* S) (IsLocalRing.maximalIdeal R)
-        = IsLocalRing.maximalIdeal S := by
-      rw [← hmax]
-      exact Ideal.map_comap_of_surjective (e : R →+* S) e.surjective _
-    have himg : Ideal.span (Set.range fun i => e (x i))
-        = Ideal.map (e : R →+* S) (Ideal.span (Set.range x)) := by
-      rw [Ideal.map_span]
-      congr 1
-      ext b
-      constructor
-      · rintro ⟨i, rfl⟩
-        exact ⟨x i, ⟨i, rfl⟩, rfl⟩
-      · rintro ⟨a, ⟨i, rfl⟩, rfl⟩
-        exact ⟨i, rfl⟩
-    rw [himg, h1, hm]
-  · rw [h2]
-    exact ringKrullDim_eq_of_ringEquiv e
+  apply _root_.FunctorialResolution.EmbeddedResolution.comap_vanishingIdeal_of_isOpenImmersion_of_coe_eq <;> assumption
 
 private theorem isRegularParameterSystem_of_ringEquiv_apply_eq {R S : Type u} [CommRing R] [CommRing S]
     [IsLocalRing R] [IsLocalRing S] (e : R ≃+* S) (n : ℕ) (x : Fin n → R) (y : Fin n → S)
@@ -1047,7 +1010,7 @@ private theorem isRegularParameterSystem_of_ringEquiv_apply_eq {R S : Type u} [C
     IsRegularParameterSystem S n y := by
   have hy : y = fun i => e (x i) := (funext fun i => hxy i).symm
   subst hy
-  exact isRegularParameterSystem_map_ringEquiv e n x h
+  exact _root_.FunctorialResolution.EmbeddedResolution.isRegularParameterSystem_ringEquiv e n x h
 
 private theorem surjective_iso_inv {A B : CommRingCat.{u}} (e : A ≅ B) :
     Function.Surjective (CommRingCat.Hom.hom e.inv) := by

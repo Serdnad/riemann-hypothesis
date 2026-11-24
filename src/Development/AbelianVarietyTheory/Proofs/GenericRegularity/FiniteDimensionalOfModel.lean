@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.GenericRegularity.CurveModelExistsAllPrimesAllPoints
 public import Formalism.LocalToGlobal.ProjectiveLattices.RealPtPf
 public import Formalism.LocalToGlobal.ProjectiveLattices.CurveInstSt
 public import Formalism.LocalToGlobal.ProjectiveLattices.CurveOpen
@@ -62,19 +63,8 @@ theorem ev_ne_zero_of_nonZeroComp (X : PJ D B P j) {ι : Type} (Ω : ι → Type
     (hinj : ∀ (w : WeightFamilies.Wt D j) (g : B.Cusp j w), (∀ Z, gF Z (X.inc w g) = 0) → g = 0)
     {u : WeightFamilies.Wt D j} {F : B.Cusp j u} (hF : X.NonZeroComp u F) (Z : ι) {w : WeightFamilies.Wt D j} (g : B.Cusp j w)
     (hg : gF Z (X.inc w g) ≠ 0) (hg' : ∀ Z', Z' ≠ Z → gF Z' (X.inc w g) = 0) : gF Z (X.inc u F) ≠ 0 := by
-  intro h0
-  obtain ⟨H, hH⟩ := X.inc_mul u w F g
-  have hH0 : H = 0 := by
-    refine hinj _ H fun Z' => ?_
-    rw [← hH, map_mul]
-    by_cases hZ : Z' = Z
-    · subst hZ
-      rw [h0, zero_mul]
-    · rw [hg' Z' hZ, mul_zero]
-  rw [hH0, map_zero] at hH
-  have := hF w g hH
-  rw [this, map_zero, map_zero] at hg
-  exact hg rfl
+  intros
+  apply _root_.GlobalTheory.CurveRecord.ev_ne_zero_of_nonZeroComp <;> assumption
 
 theorem ne_zero_of_nval_eq {T T' : CDVR} {e : ℕ} {x : T.Fr} {x' : T'.Fr} (hx : x ≠ 0)
     (h : nval T.V e x = nval T'.V e x') : x' ≠ 0 := by

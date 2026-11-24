@@ -34,6 +34,7 @@ public import Development.WeilBound.CoreStatements.TemperedRepresentationTheory.
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.SegmentProductWordInShuffle
 public import Development.WeilBound.CoreStatements.TemperedRepresentationTheory.MirabolicDerivatives.SegmentCuspLines.ProdIrrFiniteLength
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.UnlinkedCommuteOfIrreducible
+import CompanionTheory.AutomorphicTheory.ProductFormulaTheory.CuspidalExhaustion.IsLAddSegmentOfInjectiveOfNotPrecedes
 import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsListPairwiseNotRel
 import Development.AbelianVarietyTheory.PublishedTheorems.GaloisCohomology₂.ExhUnipRadOne
 import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ProductIrreducibleFiniteLength
@@ -82,64 +83,11 @@ theorem ex_of (HS : ∀ (𝔪 : Multiset (Segment k)) (h N : ℕ) (x : Fin h →
 theorem peelGood (HS : ∀ (𝔪 : Multiset (Segment k)) (h N : ℕ) (x : Fin h → IrrGL (k := k)) (hd : ∑ a, (x a).1 = N), LFactors 𝔪 x →
       ∃ π : IrrRep (GL (Fin N) k), IsCosocle π.ρ (prodIrr x hd)) (HL : LSocleGL k) : Zc.PeelGoodP k := by
   intro x y hd s 𝔫 hs hn hf hp
-  obtain ⟨f, hf⟩ := hf
-  have hn' := hn
-  obtain ⟨h, z, hz, ⟨Δ, hΔ, hzL⟩, -⟩ := hn'
-  let w : Fin (h + 1) → IrrGL (k := k) := Fin.snoc (α := fun _ => IrrGL (k := k)) z (y 0)
-  have hwL : LFactors (𝔫 + {s}) w := by
-    refine ⟨_, isOrderedForm_snoc hΔ s hp, fun i => ?_⟩
-    induction i using Fin.lastCases with
-    | last =>
-      have e : w (Fin.last h) = y 0 := Fin.snoc_last (α := fun _ => IrrGL (k := k)) _ _
-      rw [e, Fin.snoc_last]
-      exact hs
-    | cast i =>
-      have e : w i.castSucc = z i := Fin.snoc_castSucc (α := fun _ => IrrGL (k := k)) _ _ _
-      rw [e, Fin.snoc_castSucc]
-      exact hzL i
-  have hwd : ∑ a, (w a).1 = x.1 := by
-    rw [Fin.sum_univ_castSucc, ← hd, Fin.sum_univ_two, add_comm, ← hz]
-    simp [w]
-  have hwr : ∑ a, (w (Fin.rev a)).1 = x.1 := (Equiv.sum_comp Fin.revPerm fun a => (w a).1).trans hwd
-  have hzr : ∑ a, (z (Fin.rev a)).1 = (y 1).1 := (Equiv.sum_comp Fin.revPerm fun a => (z a).1).trans hz
-  obtain ⟨π, hπ⟩ := HS (𝔫 + {s}) (h + 1) x.1 w hwd hwL
-  have hπL : IsL (𝔫 + {s}) π.ρ := ⟨_, w, hwd, hwL, hπ⟩
-  have hsoc := HL (𝔫 + {s}) (h + 1) x.1 w hwr hwL π.ρ hπL
-  have hsoc₁ := HL 𝔫 h (y 1).1 z hzr ⟨Δ, hΔ, hzL⟩ (y 1).rep hn
-  obtain ⟨-, g, hg, -⟩ := hsoc₁
-  obtain ⟨F, hF⟩ := embed_family y (w ∘ Fin.rev) (z ∘ Fin.rev)
-    (by simp [w, Function.comp]) (fun i => by simp [w, Function.comp, Fin.rev_succ]) hd hwr hzr g hg
-  obtain ⟨e⟩ := hsoc.equiv_of_embeds x.2.rep.irr ⟨F.comp f, hF.comp hf⟩
-  exact hπL.of_equiv e.symm
+  exact isL_add_segment_of_injective_of_not_precedes_of_cosocle HS HL x y hd s 𝔫 hs hn hf hp
 
 theorem exh_at (hM : MidP k) (hR : RefineP k) (hS : SwapP k) (hC : CuspEmbP k) (hP : SuppP k) (hJ : JuxtP k)
-    (hL : LinkP k) (hm : MinP k) (hG : Zc.PeelGoodP k) (x : IrrGL (k := k)) : ∃ 𝔪 : Multiset (Segment k), IsL 𝔪 x.rep := by
-  suffices H : ∀ n : ℕ, ∀ x : IrrGL (k := k), x.1 = n → ∃ 𝔪 : Multiset (Segment k), IsL 𝔪 x.rep from H _ x rfl
-  intro n
-  induction n using Nat.strong_induction_on with
-  | _ n ih =>
-    intro x hn
-    rcases Nat.eq_zero_or_pos n with h0 | hpos
-    · exact GlobalTheory.LocGL.exh_le_one x (by omega)
-    obtain ⟨l, hl, hx⟩ := hC x
-    have hne : l ≠ [] := by
-      rintro rfl
-      obtain ⟨hd, -⟩ := hx
-      simp at hd
-      omega
-    obtain ⟨ρ, hρ, hmin⟩ := hm l hne hl
-    obtain ⟨A, B, rfl⟩ := List.append_of_mem hρ
-    obtain ⟨Γ, c, y, e, hc, hy⟩ := move_left hM hR hS hJ hL x ρ A
-      (fun a ha => ⟨hl a (List.mem_append_left _ ha), by simpa using hmin a (List.mem_append_left _ ha) 1 one_pos⟩)
-      (Segment.single ρ (hl ρ hρ)) ρ B rfl (single_spec (hl ρ hρ)).2.1 (by simpa using hx)
-    obtain ⟨hd, f, hf⟩ := id hy
-    have hdeg : Γ.deg = c.1 := hc.deg_eq
-    have hpos' : 0 < Γ.deg := Nat.mul_pos Γ.len_pos Γ.d_pos
-    have hd2 : c.1 + y.1 = x.1 := (Fin.sum_univ_two fun a => ([c, y].get a).1).symm.trans hd
-    obtain ⟨𝔫, h𝔫⟩ := ih y.1 (by omega) y rfl
-    refine ⟨_, hG x [c, y].get hd Γ 𝔫 hc h𝔫 ⟨f, hf⟩ fun Δ' hΔ' hp => ?_⟩
-    obtain ⟨j, hj, ej⟩ := hp.2
-    exact hmin _ (hP x c y _ 𝔫 hl hx hy h𝔫 Δ' hΔ') j hj (e.symm.trans ej)
+    (hL : LinkP k) (hm : MinP k) (hG : Zc.PeelGoodP k) (x : IrrGL (k := k)) : ∃ 𝔪 : Multiset (Segment k), IsL 𝔪 x.rep :=
+  exhaustion_at hM hR hS hC hP hJ hL hm hG x
 
 end CompanionTheory.Groth.ClsOfF
 

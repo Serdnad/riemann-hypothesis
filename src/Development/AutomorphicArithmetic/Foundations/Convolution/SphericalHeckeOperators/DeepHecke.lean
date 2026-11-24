@@ -23,6 +23,7 @@ public import Development.AutomorphicArithmetic.Foundations.Convolution.TwistedL
 public import Development.AutomorphicArithmetic.Foundations.Convolution.TwistedLocalOrbits.StrictNormal
 public import Mathlib.GroupTheory.DoubleCoset
 public import Development.AutomorphicArithmetic.Foundations.Convolution.SphericalHeckeOperators.DefBridge
+import all Development.AutomorphicArithmetic.Foundations.Convolution.SphericalHeckeOperators.DefBridge
 public import Development.AutomorphicArithmetic.Foundations.Convolution.SphericalHeckeOperators.UnrQ
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.TraceFormula.OrbitalIntegrals.QuotFubiniHolds
 import Mathlib.Algebra.Order.Floor.Extended
@@ -864,17 +865,7 @@ private theorem sig_mem_I (σ : E ≃ₐ[k] E) {g : GL (Fin n) E} (hg : g ∈ iw
 
 private theorem diag_mem_I {d : Fin n → Eˣ} (hd : ∀ i, ValuativeRel.valuation E (d i : E) = 1) :
     diagGL E n d ∈ iwahori E n := by
-  rw [mem_iwahori_iff]
-  refine ⟨fun i j => ?_, fun i j h => ?_, fun i => ?_⟩
-  · rw [coe_diagGL]
-    by_cases e : i = j
-    · subst e
-      rw [Matrix.diagonal_apply_eq, hd]
-    · rw [Matrix.diagonal_apply_ne _ e, map_zero]
-      exact zero_le'
-  · rw [coe_diagGL, Matrix.diagonal_apply_ne _ h.ne', map_zero]
-    exact zero_lt_one
-  · rw [coe_diagGL, Matrix.diagonal_apply_eq, hd]
+  apply _root_.diag_mem <;> assumption
 
 private theorem sig_torusPow (σ : E ≃ₐ[k] E) (a : Fin n → ℤ) :
     ∃ u ∈ iwahori E n, PositivityTheory.Rg.Tf.Loc.sigmaGL σ (torusPow E n a) = torusPow E n a * u := by

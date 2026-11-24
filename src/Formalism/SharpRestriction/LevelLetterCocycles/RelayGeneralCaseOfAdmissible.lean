@@ -888,14 +888,21 @@ variable {G : Type} [Group G] [TopologicalSpace G] {Qp K₀ K : Type} [Field Qp]
     {LL O : Type} [Field LL] [Algebra Qp LL] [TopologicalSpace LL] [CommRing O] [Algebra O LL]
     {v : AddValuation LL (WithTop ℚ)} {n : ℕ} (W : LocWach PD LL O v n)
 
-theorem tau_exists [IsDomain O] (T : LocLat G Qp LL O) (hC : Ctx W T) (h9 : Formalism.MainNotions.LiftingTheory.UniformizerRingClause W)
-    (hp2 : PD.p ≠ 2) (A : Formalism.MainNotions.ArcLiftingSetup.ArcP n) (hj : 1 ≤ A.j)
-    (hM : 2 * A.G₀ ≤ (PD.p - 1) * A.M PD.p) (c : ZMod n) (w : W.DD T)
+theorem tau_data_of_solution [IsDomain O] (T : LocLat G Qp LL O) (hC : Ctx W T) (h9 : Formalism.MainNotions.LiftingTheory.UniformizerRingClause W)
+    (hp2 : PD.p ≠ 2) (A : Formalism.MainNotions.ArcLiftingSetup.ArcP n) (hj : 1 ≤ A.j) (c : ZMod n) (Z : W.DD T)
     {d : ℕ} (b : Fin d → W.DD T) (cf : ℕ → Fin d → LL) (hb : Formalism.MainNotions.LiftingTheory.IsFrameΔ W T c b)
-    (hsol : Formalism.MainNotions.LiftingTheory.IsSol W T c b (W.γ T w - w) cf) (hc0 : cf 0 = 0)
+    (hsol : Formalism.MainNotions.LiftingTheory.IsSol W T c b Z cf) (hc0 : cf 0 = 0)
     (hbd : ∀ r m, Formalism.MainNotions.LiftingTheory.Bd W r (cf r m))
     (h4 : ∀ r : ℕ, ((r + padicValNat PD.p r.factorial : ℕ) : ℚ) ≤ r * PD.p / ((PD.p : ℚ) - 1)) :
-    ∃ τ, Formalism.MainNotions.ArcLiftingSetup.IsTr W A T c w τ := by
+    ∃ (τ : W.DD T) (κ : ℕ) (y : ℕ → Fin d → O) (S : W.DD T),
+      Formalism.MainNotions.ArcLiftingSetup.InFP W T c A.j W.π₀ τ ∧
+      (∀ r < A.M PD.p, ∀ m, algebraMap O LL (y r m) = (PD.p : LL) ^ κ * cf r m) ∧
+      SolOK W T c (A.M PD.p) Z κ S ∧
+      Formalism.MainNotions.ArcLiftingSetup.InFP W T c A.j
+        (Formalism.MainNotions.LiftingTheory.JJ W A.j (2 * A.G₀) (A.M PD.p))
+        (Formalism.MainNotions.ArcLiftingSetup.lA W ^ 0 •
+          (Formalism.MainNotions.ArcLiftingSetup.lA W ^ κ • τ -
+            Formalism.MainNotions.ArcLiftingSetup.lA W ^ (A.σ PD.p) • ((W.φD T) ^ A.j) S)) := by
   have hl : 2 ≤ PD.p := PD.hp.two_le
   have hO := SatW.p_nzd_O W hC.inj
   have hg : ∀ r m, ∃ o : O, algebraMap O LL o = (PD.p : LL) ^ Ex PD.p r * cf r m :=
@@ -966,14 +973,24 @@ theorem tau_exists [IsDomain O] (T : LocLat G Qp LL O) (hC : Ctx W T) (h9 : Form
       (σ - sg) sg (κ - Ex PD.p r) (Ex PD.p r) κ σ (by omega) (by omega) (heq r m)
     rw [hyA]
     linear_combination this
-  have hGood : Good W T c A.j (2 * A.G₀) M σ w τ := by
-    refine ⟨κ, 0, S, hS, ?_⟩
-    rw [key]
-    refine inMultiple_of_mem W T c A.j _ (AddSubgroup.sum_mem _ fun r _ => AddSubgroup.sum_mem _ fun m _ =>
-      Pp_smul W T c A.j ?_ _ (hβ m))
-    exact W.AΔ.neg_mem (W.AΔ.mul_mem (W.AΔ.mul_mem (W.AΔ.mul_mem (W.AΔ.pow_mem (lA_mem W) _)
-      (W.AΔ.pow_mem (lA_mem W) _)) (W.AΔ.algebraMap_mem _)) (hB r))
-  exact ⟨τ, isTr_of W T hC A c hM hτ hGood b cf hb hsol hc0 κ y hy⟩
+  refine ⟨τ, κ, y, S, hτ, hy, hS, ?_⟩
+  rw [key]
+  refine inMultiple_of_mem W T c A.j _ (AddSubgroup.sum_mem _ fun r _ => AddSubgroup.sum_mem _ fun m _ =>
+    Pp_smul W T c A.j ?_ _ (hβ m))
+  exact W.AΔ.neg_mem (W.AΔ.mul_mem (W.AΔ.mul_mem (W.AΔ.mul_mem (W.AΔ.pow_mem (lA_mem W) _)
+    (W.AΔ.pow_mem (lA_mem W) _)) (W.AΔ.algebraMap_mem _)) (hB r))
+
+theorem tau_exists [IsDomain O] (T : LocLat G Qp LL O) (hC : Ctx W T) (h9 : Formalism.MainNotions.LiftingTheory.UniformizerRingClause W)
+    (hp2 : PD.p ≠ 2) (A : Formalism.MainNotions.ArcLiftingSetup.ArcP n) (hj : 1 ≤ A.j)
+    (hM : 2 * A.G₀ ≤ (PD.p - 1) * A.M PD.p) (c : ZMod n) (w : W.DD T)
+    {d : ℕ} (b : Fin d → W.DD T) (cf : ℕ → Fin d → LL) (hb : Formalism.MainNotions.LiftingTheory.IsFrameΔ W T c b)
+    (hsol : Formalism.MainNotions.LiftingTheory.IsSol W T c b (W.γ T w - w) cf) (hc0 : cf 0 = 0)
+    (hbd : ∀ r m, Formalism.MainNotions.LiftingTheory.Bd W r (cf r m))
+    (h4 : ∀ r : ℕ, ((r + padicValNat PD.p r.factorial : ℕ) : ℚ) ≤ r * PD.p / ((PD.p : ℚ) - 1)) :
+    ∃ τ, Formalism.MainNotions.ArcLiftingSetup.IsTr W A T c w τ := by
+  obtain ⟨τ, κ, y, S, hτ, hy, hS, hRem⟩ :=
+    tau_data_of_solution W T hC h9 hp2 A hj c (W.γ T w - w) b cf hb hsol hc0 hbd h4
+  exact ⟨τ, isTr_of W T hC A c hM hτ ⟨κ, 0, S, hS, hRem⟩ b cf hb hsol hc0 κ y hy⟩
 
 end Formalism.MainNotions.UnusedSlot80.Relay2
 

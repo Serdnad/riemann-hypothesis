@@ -207,7 +207,15 @@ theorem ge_older (L₁ N₁ : ℕ) (hV : F.Valid L₁ N₁) (hn : Even n') (hr :
 
 end Count
 
-theorem restGeom : RestGeom := by
+theorem restGeom_of_upper_bound :
+  ∀ (p n' r : ℕ) [NeZero n'] (F : Frames n' r) (L₁ N₁ : ℕ), 13 ≤ p → 2 ≤ r → Even n' → F.Valid L₁ N₁ →
+  ∀ (deg : Fin n' → ℕ) (a : ℕ), (∀ s ∈ F.TT, (a : ℝ) ≤ deg s ∧ (deg s : ℝ) ≤ 2 * a) →
+  ∀ (j : ℤ) (dd : ℤ → ℕ),
+    (∀ x ∈ F.letters j, (F.IsW j x ∨ x ∈ F.LLset j) →
+      (dd x : ℝ) ≤ levDeg p F deg j x + levDeg p F deg j x / 100) →
+  ∀ x ∈ nonW F j,
+    ((∑ y ∈ (F.letters j).filter (fun y => Even y ∧ y < x ∧ ∀ l < r, y ≠ Arow F x l), dd y : ℕ) : ℝ) ≤
+      Bo p F deg j x / 80 := by
   intro p n' r _ F L₁ N₁ hp hr hn hV deg a hdeg j dd hdd x hx
   have hx1 : x ∈ F.letters j := (Finset.mem_filter.1 hx).1
   have hW : ¬ F.IsW j x := (Finset.mem_filter.1 hx).2
@@ -236,7 +244,7 @@ theorem restGeom : RestGeom := by
       (dd y : ℝ) ≤ 2.02 * ((a : ℝ) / (p : ℝ) ^ (F.dist j y)) := by
     intro y hy
     obtain ⟨_, _, h3, h4⟩ := hY y hy
-    have h5 := (abs_le.1 (hdd y h3 h4)).2
+    have h5 := hdd y h3 h4
     have h6 := hlev y h3
     linarith
   rw [Nat.cast_sum]
@@ -292,5 +300,10 @@ theorem restGeom : RestGeom := by
         rw [h3, ← h4, mul_div_assoc]
         exact hdd' y hy)
     exact le_trans g1 g2
+
+theorem restGeom : RestGeom := by
+  intro p n' r _ F L₁ N₁ hp hr hn hV deg a hdeg j dd hdd
+  exact restGeom_of_upper_bound p n' r F L₁ N₁ hp hr hn hV deg a hdeg j dd
+    (fun x hx hw => by linarith [(abs_le.mp (hdd x hx hw)).2])
 
 end Formalism.MainNotions.G.symbolGeneratorData

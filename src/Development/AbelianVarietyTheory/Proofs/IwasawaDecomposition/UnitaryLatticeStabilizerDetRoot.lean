@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.ExistsPotential
 public import Mathlib.NumberTheory.NumberField.Basic
 public import Mathlib.FieldTheory.IsAlgClosed.Spectrum
 public import Mathlib.LinearAlgebra.Matrix.Charpoly.Eigs
@@ -89,44 +90,7 @@ theorem UpperTheory.Reformulated.B.Ybf4.isIntegral_det :
     ∀ {E : Type} [inst : Field E] [NumberField E] {N : ℕ} (L : Submodule (NumberField.RingOfIntegers E) (Fin N → E)),
       L.FG →
         Submodule.span E (↑L : Set (Fin N → E)) = ⊤ →
-          ∀ (γ : Matrix (Fin N) (Fin N) E), (∀ v ∈ L, γ.mulVec v ∈ L) → IsIntegral ℤ γ.det := by
-  intro E _ _ N L hfg hspan γ hγ
-  refine isIntegral_trans (A := NumberField.RingOfIntegers E) _
-    (UpperTheory.Reformulated.B.Ybf4.isIntegral_det_of_isIntegral γ ?_)
-  haveI : Module.Finite (NumberField.RingOfIntegers E) L := Module.Finite.iff_fg.2 hfg
-  let g : (Fin N → E) →ₗ[NumberField.RingOfIntegers E] (Fin N → E) :=
-    (Matrix.mulVecLin γ).restrictScalars _
-  let f : Module.End (NumberField.RingOfIntegers E) L := g.restrict (p := L) (q := L) hγ
-  obtain ⟨p, hp, hp0⟩ := LinearMap.exists_monic_and_aeval_eq_zero (NumberField.RingOfIntegers E) f
-  refine ⟨p, hp, ?_⟩
-  have hpow : ∀ (n : ℕ) (v : L), ((f ^ n) v : Fin N → E) = (γ ^ n).mulVec v := by
-    intro n
-    induction n with
-    | zero => intro v; simp
-    | succ n ih =>
-      intro v
-      rw [pow_succ, pow_succ, Module.End.mul_apply, ih, ← Matrix.mulVec_mulVec]
-      rfl
-  have key : ∀ (q : (NumberField.RingOfIntegers E)[X]) (v : L),
-      ((aeval f q) v : Fin N → E) = (aeval γ q).mulVec v := by
-    intro q v
-    induction q using Polynomial.induction_on' with
-    | add a b ha hb => simp [ha, hb, Matrix.add_mulVec]
-    | monomial n a =>
-      rw [aeval_monomial, aeval_monomial, ← Algebra.smul_def, ← Algebra.smul_def,
-        LinearMap.smul_apply, Submodule.coe_smul, hpow]
-      ext i
-      change a • (∑ j, (γ ^ n) i j * (v : Fin N → E) j) = ∑ j, (a • (γ ^ n) i j) * (v : Fin N → E) j
-      simp only [Algebra.smul_def, mul_assoc, Finset.mul_sum]
-  have hz : Matrix.mulVecLin (aeval γ p) = 0 := by
-    refine LinearMap.ext_on hspan fun v hv => ?_
-    have := key p ⟨v, hv⟩
-    rw [hp0] at this
-    simpa using this.symm
-  rw [← aeval_def]
-  apply Matrix.toLin'.injective
-  rw [map_zero]
-  exact hz
+          ∀ (γ : Matrix (Fin N) (Fin N) E), (∀ v ∈ L, γ.mulVec v ∈ L) → IsIntegral ℤ γ.det := @_root_.GlobalTheory.IsIntegralDetLattice.isIntegral_det_of_preserves_lattice
 end -- clump:auto
 end -- clump:auto
 -- ===== end clump member: Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.IsIntegralDetOfIsIntegral =====

@@ -1,5 +1,6 @@
 module
 
+import Development.WeilBound.CoreStatements.LocallyConstantCoinvariants.PfDictMod
 public import Mathlib.Analysis.CStarAlgebra.Classes
 public import Mathlib.Analysis.Complex.Circle
 public import Mathlib.NumberTheory.LocalField.Basic
@@ -87,29 +88,10 @@ namespace GlobalTheory.CharSep
 variable {k : Type} [Field k] [ValuativeRel k] [TopologicalSpace k] [IsNonarchimedeanLocalField k]
 
 theorem norm_le_one (ψ0 : AddChar k ℂ) (hc : Continuous ψ0) (x : k) : ‖ψ0 x‖ ≤ 1 := by
-  obtain ⟨B, hB⟩ := (SplitWeil.isCompact_int k).exists_bound_of_continuousOn
-    (f := fun y => ψ0 (x * y)) (hc.comp (continuous_const.mul continuous_id)).continuousOn
-  have hpow : ∀ m : ℕ, ‖ψ0 x‖ ^ m ≤ B := fun m => by
-    have hm : ((m : k)) ∈ 𝒪[k] := by
-      simpa using (Subring.natCast_mem (𝒪[k]) m)
-    have := hB _ hm
-    rwa [show x * (m : k) = m • x by rw [nsmul_eq_mul, mul_comm], AddChar.map_nsmul_eq_pow, norm_pow] at this
-  by_contra h
-  push_neg at h
-  obtain ⟨m, hm⟩ := (tendsto_pow_atTop_atTop_of_one_lt h).eventually_gt_atTop B |>.exists
-  exact absurd (hpow m) (not_le.mpr hm)
+  apply _root_.PositivityTheory.KCo.Mod.norm_le_one <;> assumption
 
 theorem norm_eq_one (ψ0 : AddChar k ℂ) (hc : Continuous ψ0) (x : k) : ‖ψ0 x‖ = 1 := by
-  have h1 := norm_le_one ψ0 hc x
-  have h2 := norm_le_one ψ0 hc (-x)
-  have hm : ψ0 x * ψ0 (-x) = 1 := by
-    rw [← AddChar.map_add_eq_mul, add_neg_cancel, AddChar.map_zero_eq_one]
-  have hn : ‖ψ0 x‖ * ‖ψ0 (-x)‖ = 1 := by rw [← norm_mul, hm, norm_one]
-  by_contra hne
-  have hlt : ‖ψ0 x‖ < 1 := lt_of_le_of_ne h1 hne
-  have : ‖ψ0 x‖ * ‖ψ0 (-x)‖ < 1 :=
-    lt_of_le_of_lt (mul_le_of_le_one_right (norm_nonneg _) h2) hlt
-  linarith
+  apply _root_.GlobalTheory.norm_addChar_nonarch <;> assumption
 
 def toCircle (ψ0 : AddChar k ℂ) (h : ∀ x, ‖ψ0 x‖ = 1) : AddChar k Circle where
   toFun x := ⟨ψ0 x, mem_sphere_zero_iff_norm.2 (h x)⟩

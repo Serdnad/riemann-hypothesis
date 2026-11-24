@@ -1,5 +1,7 @@
 module
 
+import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.PAmpleCover
+import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.TwistBundleToSubSystem
 public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.GeneratedTwistSysZero
 public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.GenericPointSectionHypotheses
 public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.Statements
@@ -27,26 +29,11 @@ variable {S : Type u} [CommRing S] {Ω : Type w} [Field Ω] [Algebra S Ω] {N : 
 
 theorem KThm.sub_twist (F Q : SubSystem S x Ω) (I : Chart x) :
     (F.twist Q).sub I = Q.sub I * F.sub I := by
-  rw [Submodule.mul_eq_span_mul_set]
-  change Submodule.span _ _ = _
-  congr 1
-  ext z
-  simp only [Set.mem_ofPred_eq, Set.mem_mul, SetLike.mem_coe, smul_eq_mul]
-  constructor
-  · rintro ⟨q, hq, y, hy, rfl⟩; exact ⟨q, hq, y, hy, rfl⟩
-  · rintro ⟨q, hq, y, hy, rfl⟩; exact ⟨q, hq, y, hy, rfl⟩
+  apply _root_.GroundTheory.Heights₂.Heights.Kleiman.SubSystem.twist_sub_eq_mul_sub <;> assumption
 
 theorem KThm.sub_pow (Q : SubSystem S x Ω) (n : ℕ) (I : Chart x) :
     (Q.pow n).sub I = Q.sub I ^ n := by
-  induction n with
-  | zero =>
-    obtain ⟨i, hi⟩ := I.2.1
-    rw [pow_zero]
-    change twistMod S x 0 I = 1
-    rw [twistMod_eq_span 0 I hi, zpow_zero, Submodule.one_eq_span]
-  | succ n ih =>
-    change ((Q.pow n).twist Q).sub I = _
-    rw [KThm.sub_twist, ih, pow_succ, mul_comm]
+  apply _root_.GroundTheory.Heights₂.Heights.Kleiman.AmpleCover.sub_pow <;> assumption
 
 theorem KThm.span_zpow_mul (I : Chart x) {i : Fin (N + 1)} (hi : i ∈ I.1) (a b : ℤ) :
     Submodule.span (chartRing S x I) {x i ^ a} * Submodule.span (chartRing S x I) {x i ^ b} =

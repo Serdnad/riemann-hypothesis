@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.WeilOperatorIdempotentSumVacuumNormalisedSum
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.FinPartAlgebraMap
 public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.IsSumFrame
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.EqSumFiniteCoordsOfInfinitePartZero
@@ -76,16 +77,7 @@ alias cA_algebraMap := _root_.GlobalTheory.LocWeil.cA_algebraMap
 
 theorem cut_exists (V : HSp D) (g : GA D V) (ε : AE D) (hεε : ε * ε = ε) (hε : cA D ε = ε) :
     ∃ k : GA D V, mt V k = ε • mt V g + (1 - ε) • (1 : Matrix (Fin V.rank) (Fin V.rank) (AE D)) := by
-  set M := mt V g with hM
-  have hinv : M * ((matHom V g)⁻¹).1 = 1 := (matHom V g).mul_inv
-  have hinv' : ((matHom V g)⁻¹).1 * M = 1 := (matHom V g).inv_mul
-  let K : GL (Fin V.rank) (AE D) := ⟨ε • M + (1 - ε) • 1, ε • ((matHom V g)⁻¹).1 + (1 - ε) • 1,
-    GlobalTheory.GfCut.idem_mul ε hεε _ _ hinv, GlobalTheory.GfCut.idem_mul ε hεε _ _ hinv'⟩
-  have hgU : Formalism.UG.cT (cA D) M * V.gram.map (incA D) * M = V.gram.map (incA D) :=
-    (show HR (AF D.host.F) D.sp.cm.sig V.gram from g).2
-  have hKU : K ∈ HR (AF D.host.F) D.sp.cm.sig V.gram :=
-    GlobalTheory.GfCut.idem_unitary (cA D) ε hε hεε _ M hgU
-  exact ⟨(⟨K, hKU⟩ : HR (AF D.host.F) D.sp.cm.sig V.gram), rfl⟩
+  first | exact _root_.GlobalTheory.SumHecke.cut_exists | exact @_root_.GlobalTheory.SumHecke.cut_exists | apply _root_.GlobalTheory.SumHecke.cut_exists <;> assumption
 
 theorem entry_mem (V : HSp D) (P : Pl D → Prop) (g : GA D V) (hg : g ∈ grpOff V P) (i j : Fin V.rank) (u : Pl D) (hu : P u) :
     compAt D u ((mt V g - 1) i j) = 0 := by

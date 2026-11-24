@@ -1,5 +1,6 @@
 module
 
+import all Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.LinMulFAndCompAndSpanLeAndMemPowStatement
 public import Development.AbelianVarietyTheory.Definitions.PlaceAdaptation.AdaptStd
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.TaylorDiscriminants.ConnectionKillsSeries
 public import Development.AbelianVarietyTheory.Proofs.CoherentCohomologyProofs.PredMulSumPadicValNatFactorialAddCardLe
@@ -122,12 +123,7 @@ theorem coeff_single_C (q : τ) (c : V) : coeff (Finsupp.single q 1) (C c : MvPo
 
 theorem coeff_single_X [DecidableEq τ] (q p : τ) :
     coeff (Finsupp.single q 1) (X p : MvPowerSeries τ V) = if q = p then 1 else 0 := by
-  rw [coeff_X]
-  by_cases h : q = p
-  · simp [h]
-  · rw [if_neg, if_neg h]
-    intro h'
-    exact h (Finsupp.single_left_injective one_ne_zero h')
+  apply _root_.GlobalTheory.ChF.coeff_single_X' <;> assumption
 
 theorem const_hom [Fintype σ] (ψ : MvPowerSeries σ V →ₐ[V] MvPowerSeries τ V)
     (h : ∀ j, constantCoeff (ψ (X j)) = 0) (f : MvPowerSeries σ V) : constantCoeff (ψ f) = constantCoeff f := by

@@ -1,5 +1,8 @@
 module
 
+
+import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.IwasawaDecompositionSelfDualWittSplitAtPlace
+import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.PlaceInst
 public import Mathlib.Algebra.Group.Subgroup.Defs
 public import Mathlib.Data.Finset.Defs
 public import Mathlib.Algebra.Group.Action.Defs
@@ -72,7 +75,6 @@ import Mathlib.RingTheory.PicardGroup
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.RingTheory.PiTensorProduct
-
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.AddSubgroupFiniteQuotOfCommensurable, Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.ExistsIsIdemSumConjOfIsIdemSum, Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.ExistsNsmulAnnihilatorHalfMemStandardHom, Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.PairFiniteAdeleZeroMulPairFiniteAdeleZero, Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.FiniteQuotientAnnihilatorStandardLatticeConjHalf
 
@@ -325,17 +327,7 @@ theorem psi_trace {ψ : AddChar (AF D.host.F) ℂ} (hψ : IsStdChar D ψ (-1)) {
 
 theorem exists_den {ι : Type} [Fintype ι] (f : ι → D.host.E) :
     ∃ d : ℕ, 0 < d ∧ ∀ i, IsIntegral ℤ ((d : D.host.E) * f i) := by
-  have : Algebra.IsAlgebraic ℤ D.host.E :=
-    (IsFractionRing.comap_isAlgebraic_iff (A := ℤ) (K := ℚ) (C := D.host.E)).2 inferInstance
-  obtain ⟨y, hy, h⟩ := Algebra.IsAlgebraic.exists_integral_multiples ℤ (Finset.univ.image f)
-  refine ⟨y.natAbs, Int.natAbs_pos.2 hy, fun i => ?_⟩
-  have h1 := h (f i) (Finset.mem_image.2 ⟨i, Finset.mem_univ _, rfl⟩)
-  rw [zsmul_eq_mul] at h1
-  rcases Int.natAbs_eq y with e | e
-  · rw [e] at h1; simpa using h1
-  · rw [e] at h1
-    have := h1.neg
-    simpa using this
+  first | exact _root_.GlobalTheory.IwaFlag.exists_nat_isIntegral_fin | exact @_root_.GlobalTheory.IwaFlag.exists_nat_isIntegral_fin | apply _root_.GlobalTheory.IwaFlag.exists_nat_isIntegral_fin <;> assumption
 
 theorem exists_den_entries (S T : HSp D) : ∃ d : ℕ, 0 < d ∧ ∀ v ∈ stdHom S T, ∀ r s, (d : AE D) * v r s ∈ finInt D := by
   obtain ⟨a0, ha0, hfrac⟩ := D.host.AA.isFractional
@@ -445,17 +437,7 @@ theorem half_nsmul {m n : ℕ} {f : AE D} {u : Mx D m n} (hu : IsHalf f u) (N : 
   fun i j => by rw [Matrix.smul_apply, nsmul_eq_mul, mul_left_comm, hu i j]
 
 theorem nsmul_eq_zero_WO (S T : HSp D) {N : ℕ} (hN : 0 < N) (v : WO S T) (h : N • v = 0) : v = 0 := by
-  ext i j
-  have hij : N • v i j = 0 := by
-    have := congrFun (congrFun h i) j
-    rwa [Matrix.smul_apply] at this
-  have hF : (N : D.host.F) ≠ 0 := Nat.cast_ne_zero.2 hN.ne'
-  have hu : IsUnit ((N : ℕ) : AE D) := by
-    have := (isUnit_iff_ne_zero.2 hF).map (algebraMap D.host.F (AE D))
-    rwa [map_natCast] at this
-  rw [nsmul_eq_mul] at hij
-  rw [Matrix.zero_apply]
-  exact (hu.mul_right_eq_zero).1 hij
+  first | exact _root_.Formalism.IndefR.Fin.nsmul_eq_zero_WO | exact @_root_.Formalism.IndefR.Fin.nsmul_eq_zero_WO | apply _root_.Formalism.IndefR.Fin.nsmul_eq_zero_WO <;> assumption
 
 theorem ann_conj_half_finite : ∀ (D : D7) (ψ : AddChar (AF D.host.F) ℂ), IsStdChar D ψ (-1) → ∀ (S T : HSp D) (Q : Finset (Formalism.L2.DIV.Pl D.host.E)) (E₂ : AE D), IsIdemSum E₂ Q → ∀ k : ℕ, 0 < k → ∃ R : Finset (WO S T), ∀ u : WO S T, IsHalf (cA D E₂) u → (∀ x ∈ stdHom S T, IsHalf E₂ x → ψ (symplO S T x u) = 1) → ∃ r ∈ R, ∃ v : WO S T, IsHalf (cA D E₂) v ∧ (∀ x ∈ stdHom S T, IsHalf E₂ x → ψ (symplO S T x v) = 1) ∧ u = r + k • v := by
   intro D ψ hψ S T Q E₂ hE k hk

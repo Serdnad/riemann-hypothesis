@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.FinrankOfIsSecBasis
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.SecBaseChangeAnySt
 public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.AbelianSchemeLawsOfCubeBundleGenerator
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.TwistBCPf
@@ -237,27 +238,8 @@ theorem trEnd_snd (d : T ⟶ A) : (trEnd d).left ≫ (snd T A).left = (translPt 
 theorem finrank_of_isSecBasis [Nontrivial Γ(T.left, ⊤)] {L : LB A.left} {n : ℤ} {m : ℕ}
     {b : Fin m → LB.Sec (LPow A L n T)} (hb : IsSecBasis (LPow A L n T) b) :
     Module.finrank Γ(T.left, ⊤) (SecM A L n T) = m := by
-  have e : ∀ (z : Fin m → Γ(T.left, ⊤)) j, (SecM.toSec A (∑ i, z i • (SecM.ofSec A (b i) : SecM A L n T))).f j =
-      ∑ l, rs (T ⊗ A).left le_top ((fst T A).left.appTop.hom (z l)) * (b l).f j := by
-    intro z j
-    change (∑ i, z i • (SecM.ofSec A (b i) : SecM A L n T)).1 j = _
-    rw [Submodule.coe_sum, Finset.sum_apply]
-    rfl
-  have li : LinearIndependent Γ(T.left, ⊤) (fun i => (SecM.ofSec A (b i) : SecM A L n T)) := by
-    rw [Fintype.linearIndependent_iff]
-    intro z hz
-    have r₁ := e z
-    have r₀ := e 0
-    rw [hz] at r₁
-    simp only [Pi.zero_apply, zero_smul, Finset.sum_const_zero] at r₀
-    exact congrFun ((hb (SecM.toSec A 0)).unique (y₂ := 0) r₁ r₀)
-  have sp : ⊤ ≤ Submodule.span Γ(T.left, ⊤) (Set.range fun i => (SecM.ofSec A (b i) : SecM A L n T)) := fun s _ => by
-    obtain ⟨z, hz, -⟩ := hb (SecM.toSec A s)
-    have e' : s = ∑ i, z i • (SecM.ofSec A (b i) : SecM A L n T) :=
-      congrArg (SecM.ofSec A) (sec_ext fun j => (hz j).trans (e z j).symm)
-    rw [e']
-    exact Submodule.sum_mem _ fun i _ => Submodule.smul_mem _ _ (Submodule.subset_span ⟨i, rfl⟩)
-  rw [Module.finrank_eq_card_basis (Module.Basis.mk li sp), Fintype.card_fin]
+  intros
+  apply _root_.GlobalTheory.SecTwist.finrank_of_isSecBasis <;> assumption
 
 variable {L : LB A.left} {K' : Type} [Fintype K'] {ψ : K' → ((T ⊗ A).left ⟶ A.left)} {ε' : K' → ℤ} {n : ℤ}
   {d : T ⟶ A}

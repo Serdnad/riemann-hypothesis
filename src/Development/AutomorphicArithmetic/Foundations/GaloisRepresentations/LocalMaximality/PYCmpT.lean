@@ -1,5 +1,6 @@
 module
 
+import all Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.LocalMaximality.DeltaConst
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.LocalMaximality.ResidueOfTraceIsFiberSum
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -112,17 +113,7 @@ private lemma omB_mono' {L : Type} [Field L] [Algebra ℂ L] {B B' : Subalgebra 
 
 private lemma omB_smul' {L : Type} [Field L] [Algebra ℂ L] {B : Subalgebra ℂ L} {q : ℕ} {a : L} (ha : a ∈ B)
     {y : DR ℂ L} (hy : y ∈ omB ℂ L B q) : a • y ∈ omB ℂ L B q := by
-  induction hy using Submodule.span_induction with
-  | mem y hy =>
-    obtain ⟨b, hb, v, hv, rfl⟩ := hy
-    exact Submodule.subset_span ⟨a * b, mul_mem ha hb, v, hv, by rw [smul_smul]⟩
-  | zero => simp
-  | add _ _ _ _ h1 h2 =>
-    rw [smul_add]
-    exact add_mem h1 h2
-  | smul c y _ h1 =>
-    rw [smul_comm]
-    exact Submodule.smul_mem _ c h1
+  apply _root_.UpperTheory.Gal.productCup_of_system.omB_smul' <;> assumption
 
 private lemma off_col (hKE : YKE) (hPt : PtT) (hRS : RS) (h0 : Y0 x j2) (hg : (sysY x j2 d).Good)
     {i j : Fin (d + 1)} (hi : i ≠ 0) :

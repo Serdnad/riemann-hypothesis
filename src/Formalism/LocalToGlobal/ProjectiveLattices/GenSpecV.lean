@@ -1,11 +1,12 @@
 module
 
+
+import Formalism.LocalToGlobal.ProjectiveLattices.GenFrPfV
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.SabPull
 public import Formalism.LocalToGlobal.ProjectiveLattices.IsCombAt
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.EigLatBasis
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.RankPf
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.RankLin
-
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Formalism.LocalToGlobal.ProjectiveLattices.GenSpecRel, Formalism.LocalToGlobal.ProjectiveLattices.GenSpecV
 
@@ -164,18 +165,7 @@ variable {E : Type} [Field E] [NumberField E] [IsCMField E] {H : Host E} {Dw : D
 instance gsvActHom (a : 𝓞 E) : IsMonHom (Xo.univ.t.act.act a) := Xo.univ.t.act.hom a
 
 theorem gsv_hcId : IsGrpPullback Xo.univ.t.G Xo.univ.t.G (𝟙 Xo.X) (𝟙 Xo.univ.t.G.left) := by
-  refine ⟨IsPullback.of_horiz_isIso ⟨by simp⟩, ?_⟩
-  intro T x y x₀ y₀ hx hy
-  let e : Over.mk (T.hom ≫ 𝟙 Xo.X) ⟶ T := Over.homMk (𝟙 T.left) (by simp)
-  have h1 : x₀ = e ≫ x := by
-    apply Over.OverMorphism.ext
-    simpa [e] using hx
-  have h2 : y₀ = e ≫ y := by
-    apply Over.OverMorphism.ext
-    simpa [e] using hy
-  subst h1 h2
-  rw [← comp_mul]
-  simp [e]
+  apply _root_.Formalism.L2.Pj.gfp_hcId <;> assumption
 
 def gsvVec {L : Type} [CommRing L] (x : Sp L ⟶ Xo.X) {n : ℕ}
     (xc : ∀ m : ℕ, ReciprocityTheory.ChartRestriction.G.Chart.sp (R₀ := L) (JetR L (Fin n) m) ⟶ (Over.pullback x).obj Xo.univ.t.G)

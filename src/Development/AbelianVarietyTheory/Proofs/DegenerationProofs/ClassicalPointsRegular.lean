@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.ClassicalPointsAndLocalRegularity
 public import Development.AbelianVarietyTheory.Definitions.Degenerations.InducedModelMorphismCompStructureMap
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -73,17 +74,7 @@ theorem flat_int_sections [CharZero Ω] (U : M.Z.Opens) : Module.Flat ℤ Γ(M.Z
       ((smul_eq_zero.1 h).resolve_left (nonZeroDivisors.ne_zero hn))
 
 theorem flat_int [CharZero Ω] (π : M.Z ⟶ Sp ℤ) : Flat π := by
-  refine HasRingHomProperty.of_iSup_eq_top (P := @Flat) (fun U : M.Z.affineOpens => U)
-    (iSup_affineOpens_eq_top _) fun U => ?_
-  have e : (π.appLE ⊤ U le_top).hom =
-      (algebraMap ℤ Γ(M.Z, U)).comp (Scheme.ΓSpecIso (CommRingCat.of ℤ)).hom.hom := by
-    have e' : ((Scheme.ΓSpecIso (CommRingCat.of ℤ)).inv ≫ π.appLE ⊤ U le_top).hom = algebraMap ℤ Γ(M.Z, U) :=
-      RingHom.ext_int _ _
-    rw [← e', ← CommRingCat.hom_comp, Iso.hom_inv_id_assoc]
-  rw [e]
-  exact RingHom.Flat.comp
-    (RingHom.Flat.of_bijective (Scheme.ΓSpecIso (CommRingCat.of ℤ)).commRingCatIsoToRingEquiv.bijective)
-    (RingHom.flat_algebraMap_iff.2 (flat_int_sections M U))
+  first | exact _root_.GlobalTheory.ZH.RatModel.flat_int | exact @_root_.GlobalTheory.ZH.RatModel.flat_int | apply _root_.GlobalTheory.ZH.RatModel.flat_int <;> assumption
 
 end GlobalTheory.ZH.MinorModel
 

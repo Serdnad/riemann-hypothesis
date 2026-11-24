@@ -1,5 +1,6 @@
 module
 
+import ReciprocityTheory.ReductiveGroups.DiscreteSeries.LaplaceOperators.LaplaceFoundations.IsCompactUnitaryMat
 public import Formalism.SharpRestriction.CuspSpanNormBounds.RootMeasBig
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.OrbitQuotientTopology.IsClosedRStab
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.OrbitQuotientTopology.MeasurableStabActOne
@@ -138,15 +139,7 @@ theorem rs_back (hc : μR {x | Matrix.of x ∉ RStab k r g} = 0) :
 
 theorem measurable_lmulM (a : Matrix (Fin (2 * r + k + 1)) (Fin (2 * r + k + 1)) ℂ) :
     Measurable (lmulM (k := k) (r := r) a) := by
-  apply measurable_pi_lambda
-  intro i
-  apply measurable_pi_lambda
-  intro j
-  have : Continuous (fun x : Mt k r => (a * Matrix.of x) i j) := by
-    simp only [Matrix.mul_apply, Matrix.of_apply]
-    exact continuous_finsetSum _ fun l _ =>
-      continuous_const.mul ((continuous_apply j).comp (continuous_apply l))
-  exact this.measurable
+  apply _root_.ReciprocityTheory.ChartRestriction.DS.Lap.Base.StandardBasisEmbedding.measurable_lmulM' <;> assumption
 
 theorem rs_val_mul [Fact (g ∈ UH (Hpk k r))] (a : RT k r g) :
     (Subtype.val : RT k r g → Mt k r) ∘ (fun x => a * x) = lmulM (toM a) ∘ Subtype.val := by

@@ -45,6 +45,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Basify
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.BtOrderComapHomStatement
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AutomorphicSpectrum.Proofs.GeometryProofs.BtOrderComapHom, Development.WeilBound.CoreStatements.HodgeTatePoints.Twfunct, Development.AutomorphicSpectrum.Proofs.GeometryProofs.SemiabelianAdicTorsionFour, Development.AutomorphicSpectrum.Proofs.GeometryProofs.SemiabelianAdicTorsionFourStatement
@@ -82,22 +83,7 @@ theorem regularAt_pullback {R : Type} [CommRing R] [IsDomain R] {T : Type} [Comm
   rw [valAt_pullback _ _ _ hy U h₂ h s]
   exact hs (α t) h₂
 
-theorem comp_mem_btOrder : ∀ (R : Type) [CommRing R] [IsDomain R] (T : Type) [CommGroup T] [Finite T] (Γ : QFGroup R T) (T' : Type) [CommGroup T'] [Finite T'] (Γ' : QFGroup R T') (a : Γ.G ⟶ Γ'.G) (α : T →* T'), (∀ t, Γ.pt t ≫ a = Γ'.pt (α t)) → ∀ f ∈ Γ'.btOrder ⊤, (fun t => f (α t)) ∈ Γ.btOrder ⊤ := by
-  intro R _ _ T _ _ Γ T' _ _ Γ' a α ha f hf
-  let Φ : (T' → R) →ₐ[R] (T → R) :=
-    { toFun := fun f t => f (α t)
-      map_one' := rfl
-      map_mul' := fun _ _ => rfl
-      map_zero' := rfl
-      map_add' := fun _ _ => rfl
-      commutes' := fun _ => rfl }
-  have hle : Γ'.btOrder ⊤ ≤ (Γ.btOrder ⊤).comap Φ := by
-    refine Algebra.adjoin_le fun f hf => ?_
-    refine Algebra.subset_adjoin fun t g _ => ?_
-    have h := regularAt_pullback Γ Γ' a α ha _ g (hf (α t) (a.left g) trivial)
-    change Γ.RegularAt (fun x => algebraMap R (FractionRing R) (f (α (t * x)))) g
-    simpa only [map_mul] using h
-  exact hle hf
+theorem comp_mem_btOrder : ∀ (R : Type) [CommRing R] [IsDomain R] (T : Type) [CommGroup T] [Finite T] (Γ : QFGroup R T) (T' : Type) [CommGroup T'] [Finite T'] (Γ' : QFGroup R T') (a : Γ.G ⟶ Γ'.G) (α : T →* T'), (∀ t, Γ.pt t ≫ a = Γ'.pt (α t)) → ∀ f ∈ Γ'.btOrder ⊤, (fun t => f (α t)) ∈ Γ.btOrder ⊤ := @_root_.GlobalTheory.T.btOrder_comap_hom
 
 end GlobalTheory.CompanionTheory.Ar.BT.Funct
 end -- clump:auto

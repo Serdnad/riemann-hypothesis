@@ -1,5 +1,6 @@
 module
 
+import GroundTheory.HeightsAndTheta.Heights.MultihomogeneousPolynomials
 public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.ImportsExtraSide
 public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.ImportsSideFurther
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovGeometry.KleimanNefness.AlgCechSt
@@ -36,13 +37,7 @@ theorem quotPart_eq_gradedPiece {F : Type} [Field F] {K : Type} [Fintype K] [Dec
 
 theorem isMultiHomog_one {S : Type} [CommRing S] {K : Type} [Fintype K] {ι : K → Type} [∀ k, Fintype (ι k)] :
     IsMultiHomog (1 : MRingOver S ι) 0 := by
-  intro d hd k
-  classical
-  rw [mem_support_iff, coeff_one] at hd
-  split_ifs at hd with h
-  · subst h
-    simp
-  · exact absurd rfl hd
+  apply _root_.GroundTheory.Heights₂.Heights.MultiHomogeneous.one <;> assumption
 
 theorem MultiSerre.proof (hS : ReciprocityTheory.ChartRestriction.G.ArakelovGeometry.KH.TheoremSStatement) (hI : SectionMapInj.Statement) :
     MultiSerre.Statement := by

@@ -53,6 +53,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.BCTools
+import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.SubmoduleEqTopOfSupSmulOfIsNilpotent
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.Proofs.DegenerationProofs.ExistsPowSection, Development.AbelianVarietyTheory.Proofs.DegenerationProofs.ExistsPowSectionStatement, Development.AbelianVarietyTheory.Proofs.DegenerationProofs.RelAmpleLiftSquareZeroThickening
@@ -267,17 +268,7 @@ namespace GlobalTheory.AmpleThickening
 theorem surjective_spec_of_isNilpotent_ker {A A' : Type} [CommRing A] [CommRing A'] (g : A →+* A')
     (hg : Function.Surjective g) (hn : IsNilpotent (RingHom.ker g)) :
     Surjective (Spec.map (CommRingCat.ofHom g)) := by
-  refine ⟨fun (x : PrimeSpectrum A) ↦ ?_⟩
-  have : x ∈ Set.range (PrimeSpectrum.comap g) := by
-    rw [range_comap_of_surjective _ _ hg]
-    obtain ⟨n, hn⟩ := hn
-    intro a ha
-    apply x.isPrime.mem_of_pow_mem n
-    have : a ^ n ∈ RingHom.ker g ^ n := Ideal.pow_mem_pow ha n
-    rw [hn] at this
-    rw [show a ^ n = 0 from this]
-    exact zero_mem _
-  exact this
+  apply _root_.GlobalTheory.AbLaw.surjective_specMap_of_isNilpotent <;> assumption
 
 theorem exists_sec_lbPow_of_pw {X : Scheme.{0}} {H : LB X} {n : ℕ} (σ : LB.Sec (pw H n)) :
     ∃ s : (lbPow H n).Sec, nonzeroLocus s = nonzeroLocus σ :=

@@ -336,15 +336,7 @@ theorem exists_finite_field {F E : Type} [Field F] [Field E] [Algebra F E] (t : 
 
 theorem valuation_eq_one_iff' {K : Type} [Field K] (W : ValuationSubring K) (x : K) :
     W.valuation x = 1 ↔ x ≠ 0 ∧ x ∈ W ∧ x⁻¹ ∈ W := by
-  rw [← W.valuation_le_one_iff, ← W.valuation_le_one_iff, map_inv₀]
-  constructor
-  · intro h
-    refine ⟨?_, h.le, by rw [h, inv_one]⟩
-    rintro rfl
-    simp at h
-  · rintro ⟨h0, h1, h2⟩
-    have hp : 0 < W.valuation x := zero_lt_iff.2 ((map_ne_zero _).2 h0)
-    exact le_antisymm h1 ((inv_le_one₀ hp).1 h2)
+  apply _root_.GlobalTheory.KZ.UnRoot.val_eq_one_iff <;> assumption
 
 theorem gauss_comap {F E : Type} [Field F] [Field E] [Algebra F E] {t : E} (L : IntermediateField F E) (ht : t ∈ L)
     {V : ValuationSubring F} {W : ValuationSubring E} (h : Gauss t V W) :
@@ -1444,10 +1436,7 @@ theorem lev_const (X : Tower Ω ε) (M : ℕ) (c : Ω) : Lev X M (algebraMap Ω 
   fun _ _ => AlgEquiv.commutes _ c
 
 theorem lev_sl {X : Tower Ω ε} {M : ℕ} {f : X.K} (hf : Lev X M f) (γ : SL(2, ℤ)) : Lev X M (X.sl (ofSL γ) f) := by
-  intro δ hδ
-  have e : γ * δ = (γ * δ * γ⁻¹) * γ := by group
-  rw [← X.sl_mul, ← map_mul, e, map_mul, X.sl_mul,
-    hf _ ((CongruenceSubgroup.Gamma_normal M).conj_mem δ hδ γ)]
+  apply _root_.GlobalTheory.KZ.ES.RootGal.lev_sl <;> assumption
 
 theorem lev_gal [IsAlgClosure ℚ Ω] {X : Tower Ω ε} {M : ℕ} (hM : 0 < M) {f : X.K} (hf : Lev X M f)
     (s : Ω ≃ₐ[ℚ] Ω) : Lev X M (X.gal s f) := by

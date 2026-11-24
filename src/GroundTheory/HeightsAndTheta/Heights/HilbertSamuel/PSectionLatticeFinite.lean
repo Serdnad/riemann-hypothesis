@@ -1,5 +1,6 @@
 module
 
+import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PPullSectionIntegral
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsSectionLatticeFinite
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovGeometry.KleimanNefness.TargetSt
 import Mathlib.Algebra.Order.Floor.Extended
@@ -138,22 +139,8 @@ variable {K : Type} [Fintype K] {ι : K → Type} [∀ k, Fintype (ι k)] {Ω : 
 theorem aeval_scale {g : MRing ι} {d : K → ℕ} (hg : IsMultiHomog g d) (μ : K → Ω)
     (y : (Σ k, ι k) → Ω) :
     aeval (fun p => μ p.1 * y p) g = (∏ k, μ k ^ d k) * aeval y g := by
-  classical
-  conv_lhs => rw [g.as_sum]
-  conv_rhs => rw [g.as_sum]
-
-  rw [map_sum, map_sum, Finset.mul_sum]
-  refine Finset.sum_congr rfl fun m hm => ?_
-  rw [aeval_monomial, aeval_monomial, Finsupp.prod, Finsupp.prod]
-  simp only [mul_pow, Finset.prod_mul_distrib]
-  have hμ : ∏ p ∈ m.support, μ p.1 ^ m p = ∏ k, μ k ^ d k := by
-    rw [Finset.prod_subset (Finset.subset_univ m.support)
-      (fun p _ hp => by rw [Finsupp.notMem_support_iff.mp hp, pow_zero]), Fintype.prod_sigma]
-    refine Finset.prod_congr rfl fun k _ => ?_
-    show ∏ i, μ k ^ m ⟨k, i⟩ = _
-    rw [Finset.prod_pow_eq_pow_sum, hg m hm k]
-  rw [hμ]
-  ring
+  intros
+  apply _root_.GroundTheory.Heights₂.Heights.HilbertSamuel.PullSectionIntegral.aeval_scale_of_isMultiHomog <;> assumption
 
 theorem secM_fg (y : (Σ k, ι k) → Ω) (d : K → ℕ) : (secM y d).FG := by
   classical

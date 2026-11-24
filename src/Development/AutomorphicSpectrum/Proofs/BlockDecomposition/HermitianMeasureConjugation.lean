@@ -46,6 +46,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
 import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.WhitKA
+import Development.WeilBound.CoreStatements.AutomorphicKernels.SiegelWeilFormula.WhittakerCovolume.FrameSignEqHermitianSign
 
 @[expose] public section
 
@@ -115,21 +116,7 @@ end Abstract
 
 theorem exists_anti {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] (σ : E →ₐ[F] E)
     (h : IsCMExt F E σ) : ∃ δ : E, δ ≠ 0 ∧ σ δ = -δ := by
-  obtain ⟨-, hc, -, hs⟩ := h
-  obtain ⟨v⟩ : Nonempty (NumberField.InfinitePlace E) := inferInstance
-  have hv : v.IsComplex := hc.isComplex v
-  have hsq : ∀ x, σ (σ x) = x := fun x => v.embedding.injective (by rw [hs, hs]; simp)
-  have hx : ∃ x, σ x ≠ x := by
-    by_contra hn
-    push Not at hn
-    apply NumberField.InfinitePlace.not_isReal_iff_isComplex.2 hv
-    rw [NumberField.InfinitePlace.isReal_iff, NumberField.ComplexEmbedding.isReal_iff]
-    ext x
-    have := hs v.embedding x
-    rw [hn] at this
-    simpa [NumberField.ComplexEmbedding.conjugate_coe_eq] using this.symm
-  obtain ⟨x, hx⟩ := hx
-  exact ⟨x - σ x, sub_ne_zero.2 (Ne.symm hx), by rw [map_sub, hsq]; abel⟩
+  apply _root_.PositivityTheory.SiegelWeilFormula.KWhit.rel_anti <;> assumption
 
 open GlobalTheory.CompanionTheory.IwaAd GlobalTheory.CompanionTheory.HermVol
 

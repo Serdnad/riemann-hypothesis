@@ -1,5 +1,7 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.IteratedFDerivSmulAll
+import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.VacuumMultiplierEqOneOnStabiliserStatement
 public import Development.AbelianVarietyTheory.Definitions.SpanningFamilies.IsBaseClassLevelAdapted
 public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.ThExprUniqOfChartIndep2
 public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.LawsFieldsSeparately
@@ -75,47 +77,14 @@ namespace GlobalTheory.Dict.ThRead
 
 theorem cmHost_idempotent_trace_eq_one {E : Type} [Field E] [NumberField E] [IsCMField E] (H : Host E) :
     (H.w0 : E) + cc (H.w0 : E) = 1 := by
-  have h2 : 2 * (H.w0 : E) = 1 + (H.rt : E) := by
-    simpa [map_ofNat] using congrArg (algebraMap (𝓞 E) E) H.two_weight_eq_one_add_root
-  have hs : (H.rt : E) ^ 2 = -(H.d : E) := by
-    simpa using congrArg (algebraMap (𝓞 E) E) H.rt_sq
-  have hc : cc (H.rt : E) = -(H.rt : E) := by
-    obtain ⟨τ⟩ : Nonempty (E →+* ℂ) := inferInstance
-    apply τ.injective
-    have h1 : τ (H.rt : E) ^ 2 = -(H.d : ℂ) := by rw [← map_pow, hs]; simp
-    have hre : (τ (H.rt : E)).re = 0 := by
-      have a1 := congrArg Complex.re h1
-      have a2 := congrArg Complex.im h1
-      simp [pow_two] at a1 a2
-      have hd : (0 : ℝ) < H.d := by exact_mod_cast H.d_prime.pos
-      by_contra hne
-      have : (τ (H.rt : E)).im = 0 := by
-        have : (τ (H.rt : E)).re * (τ (H.rt : E)).im = 0 := by linarith
-        exact (mul_eq_zero.1 this).resolve_left hne
-      rw [this] at a1
-      nlinarith [mul_self_nonneg (τ (H.rt : E)).re]
-    rw [cc, IsCMField.complexEmbedding_complexConj, map_neg]
-    apply Complex.ext <;> simp [hre]
-  have h3 : 2 * cc (H.w0 : E) = 1 + cc (H.rt : E) := by
-    have := congrArg (IsCMField.complexConj E) h2
-    simpa [cc, map_ofNat] using this
-  have : 2 * ((H.w0 : E) + cc (H.w0 : E)) = 2 * 1 := by linear_combination h2 + h3 + hc
-  exact mul_left_cancel₀ two_ne_zero this
+  first | exact _root_.GlobalTheory.VacMult.hostHalfRoot_add_conj_eq_one | exact @_root_.GlobalTheory.VacMult.hostHalfRoot_add_conj_eq_one | apply _root_.GlobalTheory.VacMult.hostHalfRoot_add_conj_eq_one <;> assumption
 
 theorem theta_smul₂ {E : Type} [Field E] [NumberField E] [IsCMField E] {r g q0 n : ℕ} (X : Data E r)
     (hr : X.p0 + q0 = r) (bas : (Fin g ⊕ Fin g → ℤ) ≃ₗ[ℤ] X.Λ) (idx : Fin g ≃ X.Ψ × Fin r) (C : ℂ) (φ : TF n g)
     (P : Harm.Poly ℂ X.Ψ q0 X.p0 (Fin n)) (x : Frame X.Ψ r)
     (h : AnalyticOnNhd ℂ (thA X bas idx φ x) Set.univ) :
     thP X hr bas idx (C • φ) P x = C * thP X hr bas idx φ P x := by
-  have e : thA X bas idx (C • φ) x = C • thA X bas idx φ x := by
-    funext z
-    simp only [thA, SW.thS, Pi.smul_apply, smul_eq_mul, _root_.mul_assoc, tsum_mul_left]
-    ring
-  rw [thP, thP, e, I2.polyDeriv, I2.polyDeriv, Finset.mul_sum]
-  refine Finset.sum_congr rfl fun m _ => ?_
-  rw [iteratedFDeriv_const_smul_apply ((h 0 trivial).contDiffAt)]
-  simp only [ContinuousMultilinearMap.smul_apply, smul_eq_mul]
-  ring
+  apply _root_.GlobalTheory.Dict.ShortPt.theta_smul₂ <;> assumption
 
 theorem isSB_smul {n g : ℕ} (C : ℂ) {φ : TF n g} (h : IsSB φ) : IsSB (C • φ) := by
   obtain ⟨R, hR, h1, h2⟩ := h

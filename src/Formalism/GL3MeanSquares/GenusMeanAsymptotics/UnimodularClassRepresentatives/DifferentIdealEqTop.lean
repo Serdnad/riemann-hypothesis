@@ -1,5 +1,6 @@
 module
 
+import Formalism.GL3MeanSquares.GenusMeanAsymptotics.UnimodularClassRepresentatives.StarAlgebraMap
 public import Formalism.GL3MeanSquares.GenusMeanAsymptotics.UnimodularClassRepresentatives.MassSt
 public import Mathlib.RingTheory.DedekindDomain.Different
 import Mathlib.Algebra.Order.Floor.Extended
@@ -63,16 +64,7 @@ namespace Formalism.HermitianLattices.Ext.L3.QuadraticExtensionConjugation
 variable {K F : Type} [Field K] [NumberField K] [StarRing K] [Field F] [NumberField F] [Algebra F K]
 
 theorem exists_star_ne (hK : Formalism.HermitianLatticesTheory.IsCMUnram K) : ∃ a : K, star a ≠ a := by
-  obtain ⟨hTC, hconj, -⟩ := hK
-  by_contra h
-  push_neg at h
-  obtain ⟨w⟩ : Nonempty (NumberField.InfinitePlace K) := inferInstance
-  have hc := hTC.isComplex w
-  rw [NumberField.InfinitePlace.isComplex_iff] at hc
-  apply hc
-  rw [NumberField.ComplexEmbedding.isReal_iff]
-  ext a
-  rw [NumberField.ComplexEmbedding.conjugate_coe_eq, ← hconj, h]
+  apply _root_.Formalism.HermitianLattices.Ext.L3.MeanB.exists_star_ne <;> assumption
 
 theorem star_algebraMap (hF : ∀ a : K, star a = a ↔ a ∈ Set.range (algebraMap F K)) (u : F) :
     star (algebraMap F K u) = algebraMap F K u :=

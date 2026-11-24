@@ -57,7 +57,7 @@ import Mathlib.Tactic.ReduceModChar
 import Mathlib.Tactic.ENatToNat
 import Std.Tactic.BVDecide.Normalize.Prop
 import Formalism.GradedWeylDivisibility.FockSpaceTableaux.ColLexInitMinor
-import Formalism.GradedWeylDivisibility.FockSpaceTableaux.SSYTPeel
+import all Formalism.GradedWeylDivisibility.FockSpaceTableaux.SSYTPeel
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Formalism.GradedWeylDivisibility.FockSpaceTableaux.ColumnLexBideterminant, Formalism.GradedWeylDivisibility.FockSpaceTableaux.LCcompLemmas, Formalism.GradedWeylDivisibility.FockSpaceTableaux.CompDeg, Formalism.GradedWeylDivisibility.FockSpaceTableaux.LCdegLemmas, Formalism.GradedWeylDivisibility.FockSpaceTableaux.EvalDeg, Formalism.GradedWeylDivisibility.FockSpaceTableaux.LeadComp, Formalism.GradedWeylDivisibility.FockSpaceTableaux.LeadInterlaced, Formalism.GradedWeylDivisibility.FockSpaceTableaux.MinorExpLt, Formalism.GradedWeylDivisibility.FockSpaceTableaux.PeelDecomp, Formalism.GradedWeylDivisibility.FockSpaceTableaux.PeelDegBound, Formalism.GradedWeylDivisibility.FockSpaceTableaux.PeelHomog, Formalism.GradedWeylDivisibility.FockSpaceTableaux.LCpleadLemmas, Formalism.GradedWeylDivisibility.FockSpaceTableaux.PeelLead, Formalism.GradedWeylDivisibility.FockSpaceTableaux.SMSAssembly, Formalism.GradedWeylDivisibility.FockSpaceTableaux.LCssytLemmas, Formalism.GradedWeylDivisibility.FockSpaceTableaux.SSYTExists, Formalism.GradedWeylDivisibility.FockSpaceTableaux.StandardMonomialSpanOf, Formalism.GradedWeylDivisibility.FockSpaceTableaux.TwoColumn, Formalism.GradedWeylDivisibility.FinalC
@@ -531,37 +531,7 @@ private theorem domCongr_cmIdx_apply_cmIdx {r n : ℕ} (x : Fin r × Fin n →�
 private theorem sum_single_castLE_apply' {r n s : ℕ} (τ : Fin s → Fin r) (hs : s ≤ n) (b : Fin r) (t : Fin n) :
     (∑ q : Fin s, Finsupp.single (τ q, Fin.castLE hs q) 1 : Fin r × Fin n →₀ ℕ) (b, t) =
       if h : t.val < s then (if τ ⟨t.val, h⟩ = b then 1 else 0) else 0 := by
-  rw [Finsupp.finsetSum_apply]
-  by_cases h : t.val < s
-  · rw [dite_eq_left h, Finset.sum_eq_single ⟨t.val, h⟩]
-    · rw [Finsupp.single_apply]
-      by_cases hb : τ ⟨t.val, h⟩ = b
-      · have hp : (τ ⟨t.val, h⟩, Fin.castLE hs ⟨t.val, h⟩) = (b, t) := by
-          first
-          | exact Prod.ext hb (Fin.ext rfl)
-        rw [if_pos hp, if_pos hb]
-      · rw [if_neg, if_neg hb]
-        intro he
-        exact hb (congrArg Prod.fst he)
-    · intro q _ hq
-      rw [Finsupp.single_apply, if_neg]
-      intro he
-      apply hq
-      apply Fin.ext
-      have h2 : (Fin.castLE hs q).val = t.val := congrArg (fun x => (x.2 : ℕ)) he
-      exact h2
-    · intro hq
-      exact absurd (Finset.mem_univ _) hq
-  · rw [dite_eq_right h]
-    apply Finset.sum_eq_zero
-    intro q _
-    rw [Finsupp.single_apply, if_neg]
-    intro he
-    apply h
-    have h2 : (Fin.castLE hs q).val = t.val := congrArg (fun x => (x.2 : ℕ)) he
-    have h3 := q.isLt
-    have h4 : (Fin.castLE hs q).val = q.val := rfl
-    omega
+  apply _root_.Formalism.GradedWeylDivisibility.colExp_apply <;> assumption
 
 private theorem toLex_lt_of_eq_below_of_apply_lt {N : ℕ} (x y : Fin N →₀ ℕ) (i : Fin N)
     (h1 : ∀ j, j < i → x j = y j) (h2 : x i < y i) : toLex x < toLex y := by

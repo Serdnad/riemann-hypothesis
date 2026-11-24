@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.FlagMeasures.SmallFundamentalSetRealUnipotent
 public import Development.AbelianVarietyTheory.Statements.CuspFrameWeights.SameKindIsometric
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.MeasurableSetHasFlag
 public import Development.AbelianVarietyTheory.BlockTheory.SiegelWeilLocal.SubquotientSizeInequality
@@ -1391,21 +1392,7 @@ theorem hf_dot (y z : Fin I.n → I.E) : hf I y z = (starRingEnd I.E ∘ y) ⬝�
 
 theorem mem_perpIn (S : Submodule (𝓞 I.E) (Fin I.n → I.E)) (y : Fin I.n → I.E) :
     y ∈ perpIn I x S ↔ y ∈ lamX I x ∧ ∀ s ∈ S, hf I s y = 0 := by
-  refine ⟨fun hy => ?_, fun h => Submodule.subset_span h⟩
-  induction hy using Submodule.span_induction with
-  | mem y hy => exact hy
-  | zero => exact ⟨zero_mem _, fun s _ => by simp [hf, Formalism.UG.hform]⟩
-  | add y z _ _ h1 h2 =>
-    refine ⟨add_mem h1.1 h2.1, fun s hs => ?_⟩
-    have e1 := h1.2 s hs
-    have e2 := h2.2 s hs
-    rw [hf_dot] at *
-    rw [Matrix.mulVec_add, dotProduct_add, e1, e2, add_zero]
-  | smul c y _ h1 =>
-    refine ⟨Submodule.smul_mem _ _ h1.1, fun s hs => ?_⟩
-    have e1 := h1.2 s hs
-    rw [hf_dot] at *
-    rw [Matrix.mulVec_smul, dotProduct_smul, e1, smul_zero]
+  apply _root_.GlobalTheory.NilLift.mem_perpIn_iff <;> assumption
 
 theorem exists_chain (a : ℕ) (j : Fin a → ℕ) (τ : Fin a → ℝ) (h : HasType I x j τ) :
     ∃ (G : ℕ → Submodule (𝓞 I.E) (Fin I.n → I.E)) (t : ℕ → ℝ), G 0 = ⊥ ∧ Monotone G ∧

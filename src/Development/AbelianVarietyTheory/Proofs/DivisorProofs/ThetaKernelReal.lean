@@ -98,15 +98,7 @@ theorem piInf_algebraMap {v : InfinitePlace F} (τ : EmbOver E v) (y : AF F) :
 
 theorem at_algebraMap_sgnAd_sub_one (w : InfinitePlace F) :
     At (evI F) (algebraMap (AF F) (AE F E) (sgnAd w) - 1) := by
-  intro u hu
-  have h1 : u.1 = 0 := (InfiniteAdeleRing.ringEquiv_mixedSpace F).injective (by rw [map_zero]; exact hu)
-  have h2 : u * (sgnAd w - 1) = 0 := by
-    refine Prod.ext ?_ ?_
-    · show u.1 * _ = 0
-      rw [h1, zero_mul]
-    · show u.2 * ((1 : Af F) - 1) = 0
-      rw [sub_self, mul_zero]
-  rw [← map_one (algebraMap (AF F) (AE F E)), ← map_sub, Algebra.smul_def, ← map_mul, h2, map_zero]
+  apply _root_.PositivityTheory.RL.at_sgn <;> assumption
 
 end SignAdele
 

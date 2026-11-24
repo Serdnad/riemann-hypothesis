@@ -42,6 +42,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.WhitKA
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.WeilRepresentationCovarianceLevi
 
 @[expose] public section
 
@@ -87,18 +88,7 @@ theorem emb_comm (M : Maps D hn) (ζ : hermA D ρ) (g₀ : G D p) (a : GL (Fin p
 
 theorem mat_inv_levi (g₀ : G D p) (a : GL (Fin p) (AE D)) (hg : mat g₀ = blk4 a.1 0 0 (adj (a⁻¹).1)) :
     mat g₀⁻¹ = blk4 (a⁻¹).1 0 0 (adj a.1) := by
-  have h1 : HMul.hMul (mat g₀) (blk4 (a⁻¹).1 0 0 (adj a.1)) = (1 : Mx D (p + p) (p + p)) := by
-    rw [hg, submatrix_fromBlocks_mul]
-    have e1 : a.1 * (a⁻¹).1 = 1 := by rw [← Units.val_mul, mul_inv_cancel, Units.val_one]
-    have e2 : HMul.hMul (adj (a⁻¹).1) (adj a.1) = (1 : Mx D p p) := adj_inv_mul_adj a
-    simp only [Matrix.mul_zero, Matrix.zero_mul, add_zero, zero_add, e1, e2]
-    exact block_matrix_one
-  calc mat g₀⁻¹ = HMul.hMul (mat g₀⁻¹) (HMul.hMul (mat g₀) (blk4 (a⁻¹).1 0 0 (adj a.1))) := by
-        rw [h1]; exact (Matrix.mul_one _).symm
-    _ = HMul.hMul (mat (g₀⁻¹ * g₀)) (blk4 (a⁻¹).1 0 0 (adj a.1)) := by
-        rw [mat_mul']; exact (Matrix.mul_assoc _ _ _).symm
-    _ = blk4 (a⁻¹).1 0 0 (adj a.1) := by
-        rw [inv_mul_cancel]; exact Matrix.one_mul _
+  apply _root_.GlobalTheory.CompanionTheory.EisCovar.mat_inv_levi <;> assumption
 
 theorem exists_lv (hn : ρ + p = n) (a : GL (Fin p) (AE D)) :
     ∃ b : GL (Fin n) (AE D), b.1 = bl hn 1 0 0 a.1 := by

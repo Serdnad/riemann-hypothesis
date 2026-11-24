@@ -43,6 +43,7 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import Development.WeilBound.CoreStatements.TemperedRepresentationTheory.AffineGLForms.GenSpace
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.CapelliConstantTermVanishing
 
 @[expose] public section
 
@@ -67,24 +68,7 @@ theorem map_lev {R S : Type} [CommRing R] [CommRing S] (f : R →+* S) (r s : �
     (m : GL (Fin r) R × GL (Fin s) R) :
     GeneralLinearGroup.map f (lev R r s m) =
       lev S r s (GeneralLinearGroup.map f m.1, GeneralLinearGroup.map f m.2) := by
-  apply Units.ext
-  ext i j
-  change f (((lev R r s m : GL (Fin (r + s)) R) : Matrix _ _ R) i j) = ((lev S r s _ : GL (Fin (r + s)) S) : Matrix _ _ S) i j
-  have val_emb (T : Type) [CommRing T] (g : GL (Fin r) T × GL (Fin s) T) :
-      (GlobalTheory.SmGL.emb₂ T (GlobalTheory.SmGL.stdSum (rfl : r + s = r + s)) g : Matrix _ _ T) =
-        Matrix.reindex (GlobalTheory.SmGL.stdSum (rfl : r + s = r + s))
-          (GlobalTheory.SmGL.stdSum (rfl : r + s = r + s)) (Matrix.fromBlocks g.1.val 0 0 g.2.val) := by
-    ext i j
-    obtain ⟨i, rfl⟩ := (GlobalTheory.SmGL.stdSum (rfl : r + s = r + s)).surjective i
-    obtain ⟨j, rfl⟩ := (GlobalTheory.SmGL.stdSum (rfl : r + s = r + s)).surjective j
-    simp only [Matrix.reindex_apply, Matrix.submatrix_apply, Equiv.symm_apply_apply]
-    rcases i with i | i <;> rcases j with j | j <;>
-      simp [GlobalTheory.SmGL.emb₂, GlobalTheory.SmGL.leviEmb,
-        GlobalTheory.SmGL.leviTwo, GlobalTheory.SmGL.two, Matrix.blockDiagonal'_apply]
-  rw [lev, lev, val_emb, val_emb]
-  obtain ⟨i, rfl⟩ := (GlobalTheory.SmGL.stdSum (rfl : r + s = r + s)).surjective i
-  obtain ⟨j, rfl⟩ := (GlobalTheory.SmGL.stdSum (rfl : r + s = r + s)).surjective j
-  rcases i with i | i <;> rcases j with j | j <;> simp
+  apply _root_.GlobalTheory.CompanionTheory.CTFin.CapStable.map_lev <;> assumption
 
 theorem exists_finset_cover (E : Type) [Field E] [NumberField E] (n : ℕ) (L : Subgroup (GL (Fin n) (Af E)))
     (hL : IsOpen (L : Set (GL (Fin n) (Af E)))) :

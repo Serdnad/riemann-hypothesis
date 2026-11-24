@@ -1,5 +1,6 @@
 module
 
+import Formalism.LocalToGlobal.TorsionIntegrality.SecondCoefficientNorms.BinomialSeriesCoefficients.USideB
 import Formalism.LocalToGlobal.TorsionIntegrality.SecondCoefficientNorms.BinomialSeriesCoefficients.IntPSDerivativeOfLG
 public import Formalism.LocalToGlobal.TorsionIntegrality.SecondCoefficientNorms.VeluIntegral
 import Mathlib.RingTheory.Henselian
@@ -68,11 +69,7 @@ theorem hs_of {a : PowerSeries K} (h : PowerSeries.constantCoeff a = 0) : PowerS
 
 theorem cc_mulBy {l linv : PowerSeries K} (h : IsLogPair l linv) (al : K) :
     PowerSeries.constantCoeff (mulBy l linv al) = 0 := by
-  obtain ⟨q, hq⟩ := PowerSeries.X_dvd_iff.mpr h.2.2.1
-  have ha : PowerSeries.HasSubst (PowerSeries.C al * l) := hs_of (by simp [h.1])
-  unfold mulBy
-  rw [hq, ← PowerSeries.coe_substAlgHom ha, map_mul, PowerSeries.coe_substAlgHom,
-    PowerSeries.subst_X ha, map_mul, map_mul, h.1, mul_zero, zero_mul]
+  apply _root_.Formalism.L2.Th1.C.USideB.cc_mulBy <;> assumption
 
 theorem subst_mulBy_l {l linv : PowerSeries K} (h : IsLogPair l linv) (al : K) :
     PowerSeries.subst (mulBy l linv al) l = PowerSeries.C al * l := by
@@ -84,14 +81,7 @@ theorem subst_mulBy_l {l linv : PowerSeries K} (h : IsLogPair l linv) (al : K) :
 theorem subst_rescale {l linv : PowerSeries K} (h : IsLogPair l linv) (al : K) (g : PowerSeries K) :
     PowerSeries.subst l (PowerSeries.rescale al g) =
       PowerSeries.subst (mulBy l linv al) (PowerSeries.subst l g) := by
-  have hl : PowerSeries.HasSubst l := hs_of h.1
-  have hm : PowerSeries.HasSubst (mulBy l linv al) := hs_of (cc_mulBy h al)
-  have hX : PowerSeries.HasSubst (PowerSeries.C al * PowerSeries.X : PowerSeries K) := hs_of (by simp)
-  have hC : PowerSeries.subst l (PowerSeries.C al) = PowerSeries.C al := PowerSeries.subst_C al
-  rw [PowerSeries.subst_comp_subst_apply hl hm, subst_mulBy_l h, PowerSeries.rescale_eq_subst,
-    PowerSeries.smul_eq_C_mul, PowerSeries.subst_comp_subst_apply hX hl,
-    ← PowerSeries.coe_substAlgHom hl, map_mul, PowerSeries.coe_substAlgHom, hC,
-    PowerSeries.subst_X hl]
+  apply _root_.Formalism.L2.Th1.C.USideB.subst_rescale <;> assumption
 
 theorem l_ne_zero {l linv : PowerSeries K} (h : IsLogPair l linv) : l ≠ 0 := by
   intro h0

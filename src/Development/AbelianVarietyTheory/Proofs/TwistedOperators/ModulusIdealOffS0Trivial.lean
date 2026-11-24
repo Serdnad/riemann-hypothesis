@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.GenericCharacterTrivialBesselStepUnitriangularStatement
 public import Development.AbelianVarietyTheory.Definitions.Divisors.BasePlaceNotMemChiGridBadPlaces
 public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.LineLatAt
 public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.FractionalIdealCompletionLocallyPrincipal
@@ -59,26 +60,7 @@ open GlobalTheory.ChiGrid
 
 theorem exists_int_mem_modul {D : D7} {T : Type} {L : LevCh D T} (P : Places L) (sc : Consts) (v : GlobalTheory.FinPl.Pl D)
     (hv : v ∉ P.S0) : ∃ t : 𝓞 D.host.F, t ∉ v.asIdeal ∧ algebraMap (𝓞 D.host.F) (𝓞 D.host.E) t ∈ P.modul sc := by
-  have hne : ∀ v' ∈ P.S0, ∃ t : 𝓞 D.host.F, t ∈ v'.asIdeal ∧ t ∉ v.asIdeal := by
-    intro v' hv'
-    by_contra hc
-    push_neg at hc
-    have hle : v'.asIdeal ≤ v.asIdeal := fun t ht => hc t ht
-    have heq : v'.asIdeal = v.asIdeal := v'.isMaximal.eq_of_le v.isPrime.ne_top hle
-    have : v' = v := HeightOneSpectrum.ext heq
-    exact hv (this ▸ hv')
-  choose! f hf using hne
-  refine ⟨∏ v' ∈ P.S0, f v' ^ P.depth sc v', ?_, ?_⟩
-  · rw [Ideal.IsPrime.prod_mem_iff]
-    rintro ⟨v', hv', h⟩
-    exact (hf v' hv').2 (v.isPrime.mem_of_pow_mem _ h)
-  · rw [map_prod, Places.modul]
-    refine Ideal.prod_mem_prod fun v' hv' => ?_
-    rw [map_pow]
-    refine Ideal.pow_mem_pow ?_ _
-    have e : ((P.w v').under (𝓞 D.host.F)).asIdeal = v'.asIdeal := by rw [P.under_w hv']
-    have h1 : f v' ∈ ((P.w v').under (𝓞 D.host.F)).asIdeal := e ▸ (hf v' hv').1
-    exact h1
+  first | exact _root_.GlobalTheory.StairUnit.exists_mem_modul_notMem | exact @_root_.GlobalTheory.StairUnit.exists_mem_modul_notMem | apply _root_.GlobalTheory.StairUnit.exists_mem_modul_notMem <;> assumption
 
 end GlobalTheory.ModulUnit
 

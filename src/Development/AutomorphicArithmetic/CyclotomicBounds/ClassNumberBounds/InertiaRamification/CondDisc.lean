@@ -1,5 +1,6 @@
 module
 
+import Mathlib.FieldTheory.Minpoly.ConjRootClass
 public import Development.AutomorphicArithmetic.CyclotomicBounds.ClassNumberBounds.InertiaRamification.LogRootDiscChar
 public import Mathlib.Data.Nat.GCD.Prime
 public import Mathlib.Algebra.AffineMonoid.Basic
@@ -283,27 +284,19 @@ private theorem minpoly_map_eq_prod_gal {F L : Type*} [Field F] [Field L] [Algeb
     [FiniteDimensional F L] [IsGalois F L] (x : L) (hx : Algebra.adjoin F {x} = ⊤) :
     (minpoly F x).map (algebraMap F L) = ∏ σ : Gal(L/F), (X - C (σ x)) := by
   classical
-  have hint : IsIntegral F x := Algebra.IsIntegral.isIntegral x
-  have hinj : Function.Injective (fun σ : Gal(L/F) => σ x) := by
-    intro σ τ h
-    apply AlgEquiv.coe_toAlgHom_injective
-    apply AlgHom.ext_of_adjoin_eq_top hx
-    rintro y rfl
-    exact h
-  have hm : (∏ σ : Gal(L/F), (X - C (σ x))).Monic :=
-    monic_prod_of_monic _ _ fun σ _ => monic_X_sub_C _
-  have hdvd : (∏ σ : Gal(L/F), (X - C (σ x))) ∣ (minpoly F x).map (algebraMap F L) := by
-    apply Finset.prod_dvd_of_coprime
-    · intro σ _ τ _ hne
-      exact pairwise_coprime_X_sub_C hinj hne
-    · intro σ _
-      rw [dvd_iff_isRoot, IsRoot.def, eval_map_algebraMap, aeval_algEquiv]
-      simp
-  refine eq_of_monic_of_dvd_of_natDegree_le hm ((minpoly.monic hint).map _) hdvd ?_
-  rw [natDegree_map, natDegree_prod_of_monic _ _ (fun σ _ => monic_X_sub_C _)]
-  simp only [natDegree_X_sub_C, Finset.sum_const, Finset.card_univ, smul_eq_mul, mul_one]
-  rw [← Nat.card_eq_fintype_card, IsGalois.card_aut_eq_finrank]
-  exact minpoly.natDegree_le x
+  let c := ConjRootClass.mk F x
+  have hcarrier : c.carrier.toFinset =
+      Finset.univ.image (fun σ : Gal(L/F) => σ x) := by
+    ext y
+    simp [c, ConjRootClass.mem_carrier, ConjRootClass.mk_eq_mk,
+      isConjRoot_iff_exists_algEquiv]
+  rw [← ConjRootClass.minpoly_mk, ConjRootClass.minpoly.map_eq_prod, hcarrier]
+  apply Finset.prod_image
+  intro σ _ τ _ h
+  apply AlgEquiv.coe_toAlgHom_injective
+  apply AlgHom.ext_of_adjoin_eq_top hx
+  rintro y rfl
+  exact h
 
 open Polynomial Classical in
 private theorem aeval_derivative_minpoly_eq_prod_gal {F L : Type*} [Field F] [Field L]

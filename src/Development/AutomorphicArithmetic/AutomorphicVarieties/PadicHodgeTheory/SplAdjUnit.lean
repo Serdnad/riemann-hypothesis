@@ -1,5 +1,6 @@
 module
 
+import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.ExDefs
 public import Mathlib.NumberTheory.Padics.Complex
 public import Mathlib.NumberTheory.Padics.PadicIntegers
 public import Mathlib.RingTheory.Henselian
@@ -255,17 +256,7 @@ private theorem spl_gsp {ν : R} {X : M4 R} (h : IsGSp ν X) : IsGSp (f ν) (f.m
 
 private theorem spl_prj (c : Fin 4 → R) (X : M4 R) (i : Fin 4) :
     prj (fun a => f (c a)) (f.mapMatrix X) i = f.mapMatrix (prj c X i) := by
-  unfold prj
-  have h : ∀ p : Polynomial R,
-      Polynomial.aeval (f.mapMatrix X) (p.map f) = f.mapMatrix (Polynomial.aeval X p) := by
-    intro p
-    induction p using Polynomial.induction_on' with
-    | add p q hp hq => rw [Polynomial.map_add (f := _), map_add (f := _), map_add (f := _), map_add (f := _), hp, hq]
-    | monomial n a =>
-      rw [Polynomial.map_monomial, Polynomial.aeval_monomial, Polynomial.aeval_monomial, map_mul, map_pow,
-        Algebra.algebraMap_eq_smul_one, Algebra.algebraMap_eq_smul_one, spl_smul, map_one]
-  rw [← h, Polynomial.map_prod]
-  simp only [Polynomial.map_sub, Polynomial.map_X, Polynomial.map_C]
+  apply _root_.UpperTheory.V.GradeZeroInterpolatingElement.Ex.prj_map <;> assumption
 
 private theorem spl_ord {I : Subgroup H} {ps : Fin 4 → H → R} {s₀ : H} {r : H →* M4 R} (h : Ord I ps s₀ r) :
     Ord I (fun i g => f (ps i g)) s₀ (mapRep f r) := by

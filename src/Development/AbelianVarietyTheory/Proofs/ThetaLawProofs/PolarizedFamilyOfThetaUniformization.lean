@@ -257,21 +257,8 @@ theorem sqOf_of_iso_of_siegPB {h k : ℕ} {o o' : Type} [CommRing o] [CommRing o
     (H : SiegPB c' c f) {P : Out.PolAV S'} (hg : P.g = h) (e : c'.A ≅ P.A) [IsMonHom e.hom]
     (hP : LBIso c'.P ((abelian₂ P.A P.L).pull (lift (fst c'.A c'.A ≫ e.hom) (snd c'.A c'.A ≫ e.hom)).left)) :
     ∃ φ, SqOf P c f φ ∧ ∀ a, (c'.lev a ≫ e.hom).left ≫ φ = f ≫ (c.lev a).left := by
-  obtain ⟨φ, φ₂, gp, sq, iP, hlev⟩ := H
-  have hinv : IsMonHom e.symm.hom := inferInstanceAs (IsMonHom e.inv)
-  have hΛ : (abelian₂ P.A P.L).IsLB := DVR.linComb_isLB _ P.isLB _ _
-  refine ⟨e.inv.left ≫ φ, ⟨((isGrpPullback_of_iso e.symm).comp gp).congr (Category.id_comp _) rfl, hg,
-    (e.inv ⊗ₘ e.inv).left ≫ φ₂, isSquare_comp (isSquare_tensor e.inv) sq, ?_⟩, fun a => ?_⟩
-  · have k₁ := SiegPull.lbIso_pull_comp hP (e.inv ⊗ₘ e.inv).left
-    have k₂ := SiegPull.lbIso_pull_comp iP (e.inv ⊗ₘ e.inv).left
-    have k₃ : (e.inv ⊗ₘ e.inv).left ≫ (lift (fst c'.A c'.A ≫ e.hom) (snd c'.A c'.A ≫ e.hom)).left = 𝟙 _ := by
-      rw [← Over.comp_left, ← Over.id_left]
-      congr 1
-      ext1 <;> simp
-    rw [k₃] at k₁
-    exact LBIso.trans hΛ (pull_isLB c'.isLB _) (pull_isLB c.isLB _)
-      (LBIso.trans (pull_isLB c'.isLB _) (pull_isLB hΛ _) hΛ k₁ (GlobalTheory.lbIso_pull_id hΛ)).symm k₂
-  · rw [← hlev, ← Category.assoc, ← Over.comp_left, Category.assoc, e.hom_inv_id, Category.comp_id]
+  intros
+  apply _root_.GlobalTheory.KeyFam.sqOf_of_siegPB <;> assumption
 
 theorem PerLev.level {P : Out.PolAV (Sp ℂ)} {g k : ℕ} {τ : Matrix (Fin g) (Fin g) ℂ}
     {lev : (Fin g ⊕ Fin g → ℤ) → (𝟙_ (Over (Sp ℂ)) ⟶ P.A)} (H : PerLev P τ k lev) (hk : 0 < k) :

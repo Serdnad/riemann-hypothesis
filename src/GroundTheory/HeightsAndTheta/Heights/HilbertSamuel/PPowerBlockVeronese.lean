@@ -1,5 +1,6 @@
 module
 
+import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PEuclideanSections
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsPowerBlockVeronese
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsSectionRing
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.ArithModel
@@ -22,21 +23,7 @@ variable {K : Type} [Fintype K] {ι : K → Type} [∀ k, Fintype (ι k)] {Ω : 
 omit [∀ k, Fintype (ι k)] in
 theorem chartLat_mul {y : (Σ k, ι k) → Ω} {a : K → ℤ} {n m : ℕ} {s t : Ω} (hs : s ∈ chartLat y a n)
     (ht : t ∈ chartLat y a m) : s * t ∈ chartLat y a (n + m) := by
-  intro c hc
-  have key : s * t * ∏ k, y ⟨k, c k⟩ ^ (-(((n + m : ℕ) : ℤ) * a k)) =
-      (s * ∏ k, y ⟨k, c k⟩ ^ (-((n : ℤ) * a k))) * (t * ∏ k, y ⟨k, c k⟩ ^ (-((m : ℤ) * a k))) := by
-    have hp : ∏ k, y ⟨k, c k⟩ ^ (-(((n + m : ℕ) : ℤ) * a k)) =
-        (∏ k, y ⟨k, c k⟩ ^ (-((n : ℤ) * a k))) * ∏ k, y ⟨k, c k⟩ ^ (-((m : ℤ) * a k)) := by
-      rw [← Finset.prod_mul_distrib]
-      refine Finset.prod_congr rfl fun k _ => ?_
-      rw [← zpow_add₀ (hc k)]
-      congr 1
-      push_cast
-      ring
-    rw [hp]
-    ring
-  rw [key]
-  exact mul_mem (hs c hc) (ht c hc)
+  apply _root_.GroundTheory.Heights₂.Heights.HilbertSamuel.EuclideanSections.mul_mem_chartLat <;> assumption
 
 
 omit [∀ k, Fintype (ι k)] in

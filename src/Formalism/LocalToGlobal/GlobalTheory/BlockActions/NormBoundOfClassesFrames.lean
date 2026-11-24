@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.FormsLatticeAtClassIffTwistedPolynomial
 public import Formalism.LocalToGlobal.GlobalTheory.BlockActions.ClassMapEstimateOfPartial
 import Formalism.LocalToGlobal.KernelLattices.KernelLocalFactors.InterlaceDifferenceShiftInvariant
 
@@ -14,21 +15,7 @@ open Formalism.BasicNotions Formalism.MainNotions.product_first_zeroth_parts For
 theorem exists_map_of_ratSpan (D : D7) {n : ℕ} {lam : D.what₂.Tau → DomWeight n}
     {p : MvPolynomial (D.what₂.Tau × Fin n × Fin n) ℂ} (hp : p ∈ RatSpan D lam) :
     ∃ F : MvPolynomial (D.what₂.Tau × Fin n × Fin n) D.what₂.LL, MvPolynomial.map D.what₂.embLL F = p := by
-  have hle : RatSpan D lam ≤ (MvPolynomial.map (σ := D.what₂.Tau × Fin n × Fin n) D.what₂.embLL).range.toAddSubgroup := by
-    unfold RatSpan
-    refine (AddSubgroup.closure_le _).2 ?_
-    rintro q ⟨r, f, -, rfl⟩
-    refine RingHom.mem_range.2
-      ⟨MvPolynomial.C r * Formalism.L2.Forms.ten (fun τ => MvPolynomial.map (Int.castRingHom D.what₂.LL) (f τ)), ?_⟩
-    have hi : D.what₂.embLL.comp (Int.castRingHom D.what₂.LL) = Int.castRingHom ℂ := RingHom.ext_int _ _
-    rw [MvPolynomial.smul_eq_C_mul, map_mul, MvPolynomial.map_C]
-    congr 1
-    unfold Formalism.L2.Forms.ten
-    rw [map_prod]
-    refine Finset.prod_congr rfl fun τ _ => ?_
-    rw [MvPolynomial.map_rename, MvPolynomial.map_map, hi]
-  obtain ⟨F, hF⟩ := RingHom.mem_range.1 (hle hp)
-  exact ⟨F, hF⟩
+  apply _root_.GlobalTheory.IntegralityCompare.lift_ratSpan <;> assumption
 
 def FramesAt : Prop :=
   ∀ (D : D7) (u : D.what₂.Word) (Ch : ℕ → Type) (chOf : ∀ i, (D.mem u).C.cls i → Ch i) (_ : FormsTiedSym D u Ch chOf)

@@ -1,5 +1,7 @@
 module
 
+import all Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsSimilitudeOfAutModLevelIdeal
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsLevelAtEachIndex
 public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.TameInvariantLevelAction
 public import Development.AbelianVarietyTheory.Definitions.ExistenceOfLattices.Hat1
 public import Formalism.LocalToGlobal.ProjectiveLattices.FamilyUniformisationBasePointOrthogonalBis
@@ -502,12 +504,7 @@ theorem map_mem_smul_top {I : Ideal (𝓞 E)} (f : Dw.La →ₗ[𝓞 E] Dw.La) {
   exact Submodule.smul_mono le_rfl le_top h
 
 theorem half_ne_bot (l : Level H) : l.Mb ≠ ⊥ := by
-  intro h
-  have h1 := l.prod
-  rw [h, Ideal.bot_mul, eq_comm, Ideal.span_singleton_eq_bot] at h1
-  have := l.three_le
-  have h2 : l.M = 0 := by exact_mod_cast h1
-  omega
+  apply _root_.GlobalTheory.SimMb.level_Mb_ne_bot <;> assumption
 
 theorem graph_iff {r : ℕ} (φ : LaMod Dw l ≃ₗ[𝓞 E] (Fin r → 𝓞 E ⧸ l.Mb)) (Y : Matrix (Fin r) (Fin r) (𝓞 E ⧸ l.Mb))
     (C : Dw.La → Dw.La → Prop)
@@ -891,16 +888,7 @@ theorem isBaseFrame_of_isLatBasis {D : D7} (V : HSp D) (β : GL (Fin V.rank) (EA
 
 theorem not_isConjPl_of_le {D : D7} {H : ReciprocityTheory.ChartRestriction.G.Geo.Tor.Host D.host.E} (l : Level H)
     {w w' : Formalism.L2.DIV.Pl D.host.E} (hw : l.Mb ≤ w.asIdeal) (hw' : l.Mb ≤ w'.asIdeal) : ¬ IsConjPl w w' := by
-  intro h
-  apply w'.isPrime.ne_top
-  rw [eq_top_iff, ← l.coprime]
-  refine sup_le hw' (Ideal.map_le_iff_le_comap.2 fun a ha => ?_)
-  obtain ⟨c', hc', e⟩ := h a (hw ha)
-  have : H.bar a = c' := by
-    apply RingOfIntegers.coe_injective
-    exact (H.bar_eq a).trans e.symm
-  show H.bar a ∈ w'.asIdeal
-  rw [this]; exact hc'
+  apply _root_.GlobalTheory.LevelAction.not_isConjPl <;> assumption
 
 theorem finR_rfl {D : D7} (V : HSp D) (κ : GA D V) : finR V rfl κ = finE V κ := by
   apply Units.ext

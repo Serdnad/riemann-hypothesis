@@ -1,5 +1,6 @@
 module
 
+import all Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.ProjectiveAutomorphicHecke.PIntConj
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.IntegralStructures.GeometricFlagBases.PrimeLevelLocalization.CongruenceReduction.LevLocAlt
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -51,12 +52,7 @@ private theorem cjEnt_rel {E : Type} [Field E] [NumberField E] [IsCMField E] {n 
     ((comp (cj u) k).val.map (conjLoc (GlobalTheory.SplitPts.conjE E) u))ᵀ * (comp u k).val =
       pLoc E u (GroundTheory.Global.AdeleBaseChange.finiteAdeleMap ℚ E ((sim k : AfQˣ) : AfQ)) •
         (1 : Matrix (Fin n) (Fin n) (u.adicCompletion E)) := by
-  have h := UpperTheory.Gal.CertificateRingHomMap.mem_Sim.1 k.2
-  have h2 := congrArg (RingHom.mapMatrix (pLoc E u)) h
-  rw [map_mul] at h2
-  refine h2.trans ?_
-  ext i j
-  by_cases hij : i = j <;> simp [hij, sim]
+  apply _root_.comp_rel <;> assumption
 
 theorem UpperTheory.Gal.Int.Geo.Pl.Tj.cjEnt :
     UpperTheory.Gal.Int.Geo.Pl.Tj.CjEnt := by

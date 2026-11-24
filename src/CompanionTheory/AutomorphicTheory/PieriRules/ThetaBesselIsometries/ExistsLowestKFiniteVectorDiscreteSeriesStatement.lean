@@ -1,5 +1,8 @@
 module
 
+import CompanionTheory.SpectralGeometry.LocalGlobalProofs.StableLattices.HasDerivAtExpMul
+import Development.AbelianVarietyTheory.Proofs.JetHarmonics.KStableFiniteDimSmoothCompactRootStable
+import Development.AbelianVarietyTheory.Proofs.JetHarmonics.TorusWeightEigenAndRootShift
 public import CompanionTheory.AutomorphicTheory.PieriRules.ThetaBesselIsometries.IsDSOfIsDG
 public import Mathlib.Analysis.LocallyConvex.AbsConvexOpen
 public import CompanionTheory.AutomorphicTheory.PieriRules.ThetaBesselIsometries.DerivedActionDiscreteSeriesProperties
@@ -60,27 +63,8 @@ theorem dC_mem (R : Rep k r) (S : Submodule ℂ R.H) [FiniteDimensional ℂ S]
     (hS : ∀ g ∈ UH (Hpk k r) ∩ (Matrix.unitaryGroup (Fin (2 * r + k + 1)) ℂ : Set _), ∀ x ∈ S, R.σ g x ∈ S)
     (h1 : (Hpk k r)ᴴ = Hpk k r) (h2 : Hpk k r * Hpk k r = 1)
     {Y : Mx k r} (hc : Hpk k r * Y = Y * Hpk k r) {v : R.H} (hv : v ∈ S) (hsm : v ∈ R.sm) :
-    R.dC Y v ∈ S := by
-  have hc' : Hpk k r * Yᴴ = Yᴴ * Hpk k r := by
-    have := congrArg Matrix.conjTranspose hc
-    rw [conjTranspose_mul, conjTranspose_mul, h1] at this
-    exact this.symm
-  have e : Formalism.QuantumDeterminants.Hpk k r * Yᴴ * Formalism.QuantumDeterminants.Hpk k r = Yᴴ := by
-    show Hpk k r * Yᴴ * Hpk k r = Yᴴ
-    rw [hc', Matrix.mul_assoc, h2, Matrix.mul_one]
-  unfold Rep.dC
-  rw [e]
-  refine S.add_mem (dsig_mem R S hS ?_ ?_ hv hsm) (S.smul_mem _ (dsig_mem R S hS ?_ ?_ hv hsm))
-  · rw [conjTranspose_smul, conjTranspose_add, conjTranspose_neg, conjTranspose_conjTranspose, ← smul_neg]
-    congr 1
-    · simp
-    · abel
-  · rw [Matrix.mul_smul, Matrix.smul_mul, Matrix.mul_add, Matrix.add_mul, Matrix.mul_neg, Matrix.neg_mul, hc, hc']
-  · rw [conjTranspose_smul, conjTranspose_sub, conjTranspose_neg, conjTranspose_conjTranspose, ← neg_smul]
-    congr 1
-    · simp
-    · abel
-  · rw [Matrix.mul_smul, Matrix.smul_mul, Matrix.mul_sub, Matrix.sub_mul, Matrix.mul_neg, Matrix.neg_mul, hc, hc']
+    R.dC Y v ∈ S :=
+  _root_.GlobalTheory.CompactStable.dC_mem R S hS h1 h2 hc hv hsm
 
 theorem Jm_single {n : ℕ} (ε : Fin n → Bool) {a b : Fin n} (h : ε a = ε b) :
     Jm ε * Matrix.single a b (1 : ℂ) = Matrix.single a b 1 * Jm ε := by
@@ -152,7 +136,7 @@ noncomputable section
 
 namespace GlobalTheory.TorusWeight
 
-open PI.UpqRep GlobalTheory.DerivedAction
+open PI.UpqRep _root_.Gp91.GlobalTheory.DerivedAction
 
 section alg
 
@@ -273,17 +257,7 @@ theorem dC_conj (hK : PI.KFinSmooth) (R : Rep k r) (hR : R.IsDG ε mu)
 
 theorem torus_mem_K {n : ℕ} (ε : Fin n → Bool) (θ : Fin n → ℝ) :
     Matrix.diagonal (fun a => Complex.exp ((θ a : ℂ) * Complex.I)) ∈ Kset ε := by
-  refine ⟨?_, ?_⟩
-  · rw [Matrix.mem_unitaryGroup_iff, Matrix.star_eq_conjTranspose, Matrix.diagonal_conjTranspose,
-      Matrix.diagonal_mul_diagonal, ← Matrix.diagonal_one]
-    congr 1
-    funext a
-    simp [← Complex.exp_conj, ← Complex.exp_add]
-  · unfold Jm
-    rw [Matrix.diagonal_mul_diagonal, Matrix.diagonal_mul_diagonal]
-    congr 1
-    funext a
-    ring
+  apply _root_.GlobalTheory.CompanionTheory.WtLinkPf.tor_mem_K <;> assumption
 
 theorem torus_single {n : ℕ} (θ : Fin n → ℝ) (a b : Fin n) :
     Matrix.diagonal (fun a => Complex.exp ((θ a : ℂ) * Complex.I)) * Matrix.single a b (1 : ℂ) =
@@ -301,118 +275,8 @@ theorem torus_single {n : ℕ} (θ : Fin n → ℝ) (a b : Fin n) :
   · simp
 
 theorem torus_weight_action : PI.KFinSmooth → ∀ (k r : ℕ) (ε : Fin (2 * r + k + 1) → Bool) (mu : Fin (2 * r + k + 1) → ℝ) (R : Rep k r), R.IsDG ε mu → ∀ (Q : Mx k r) (E : (Fin (2 * r + k + 1) → Fin (2 * r + k + 1) → Module.End ℂ R.smSub)), PI.UpqRep.IsCayleyU k r ε Q → R.IsE Q E → ∀ (ν : Fin (2 * r + k + 1) → ℝ) (v : R.smSub), PI.UpqRep.IsWtOn (PI.UpqRep.Kset ε) (fun g => R.σ (Q⁻¹ * g * Q)) ν (v : R.H) → Formalism.REAL.IsWeight E ν v ∧ ∀ a b, PI.UpqRep.IsWtOn (PI.UpqRep.Kset ε) (fun g => R.σ (Q⁻¹ * g * Q)) (ν + PI.UpqRep.root a b) ((E a b v : R.smSub) : R.H) := by
-  intro hK k r ε mu R hR Q E hQ hE ν v hv
-  obtain ⟨⟨hQu, hQJ⟩, hQU⟩ := hQ
-  have hQd := (Matrix.isUnit_iff_isUnit_det _).1 hQu
-  have q1 : Q * Qᴴ = 1 := Matrix.mem_unitaryGroup_iff.1 hQU
-  have q2 : Qᴴ * Q = 1 := Matrix.mem_unitaryGroup_iff'.1 hQU
-  have qi : Q⁻¹ = Qᴴ := Matrix.inv_eq_right_inv q1
-  have q1' : ∀ M : Mx k r, Q * (Qᴴ * M) = M := fun M => by rw [← Matrix.mul_assoc, q1, Matrix.one_mul]
-  have jj : ∀ M : Mx k r, Jm ε * (Jm ε * M) = M := fun M => by
-    rw [← Matrix.mul_assoc, Jm_mul_self, Matrix.one_mul]
-  have h1 : (Hpk k r)ᴴ = Hpk k r := by
-    rw [← hQJ]
-    simp only [conjTranspose_mul, conjTranspose_conjTranspose, Jm_conjTranspose, Matrix.mul_assoc]
-  have h2 : Hpk k r * Hpk k r = 1 := by
-    rw [← hQJ]
-    simp only [Matrix.mul_assoc, q1', jj, q2]
-  have hvs : (v : R.H) ∈ R.sm := v.2
-  refine ⟨fun a => ?_, fun a b θ hθ => ?_⟩
-  · apply Subtype.ext
-    rw [hE, Submodule.coe_smul]
-    have hH : Formalism.QuantumDeterminants.Hpk k r = Hpk k r := rfl
-    have hJ : Jm ε * (Matrix.single a a (1 : ℂ) * Jm ε) = Matrix.single a a 1 := by
-      unfold Jm
-      ext i j
-      simp only [Matrix.diagonal_mul, Matrix.mul_diagonal, Matrix.single_apply]
-      by_cases h : a = i ∧ a = j
-      · obtain ⟨rfl, rfl⟩ := h
-        split_ifs <;> simp_all
-      · simp [h]
-    have hθ : Hpk k r * (Q⁻¹ * Matrix.single a a (1 : ℂ) * Q)ᴴ * Hpk k r = Q⁻¹ * Matrix.single a a (1 : ℂ) * Q := by
-      rw [← hQJ, qi]
-      simp only [conjTranspose_mul, conjTranspose_conjTranspose, Matrix.mul_assoc, q1',
-        Matrix.conjTranspose_single, star_one]
-      rw [← Matrix.mul_assoc (Matrix.single a a (1 : ℂ)), ← Matrix.mul_assoc (Jm ε), hJ]
-    have e0 : dsig (k := k) (r := r) R.σ 0 (v : R.H) = 0 := by simp [dsig]
-    have e1 : (1 / (2 * Complex.I)) • (Q⁻¹ * Matrix.single a a (1 : ℂ) * Q - -(Q⁻¹ * Matrix.single a a (1 : ℂ) * Q)) =
-        (-Complex.I) • (Q⁻¹ * Matrix.single a a (1 : ℂ) * Q) := by
-      rw [sub_neg_eq_add, ← two_smul ℂ, smul_smul]
-      congr 1
-      field_simp
-      simp
-    have e2 : ∀ t : ℝ, R.σ (NormedSpace.exp ((t : ℂ) • (-Complex.I) • (Q⁻¹ * Matrix.single a a (1 : ℂ) * Q))) v =
-        Complex.exp ((t : ℂ) * (-(ν a) * Complex.I)) • (v : R.H) := by
-      intro t
-      have h := hv (Pi.single a (-t)) (torus_mem_K ε _)
-      have f1 : (t : ℂ) • (-Complex.I) • (Q⁻¹ * Matrix.single a a (1 : ℂ) * Q) =
-          Q⁻¹ * Matrix.diagonal (fun c => (((Pi.single a (-t) : Fin (2 * r + k + 1) → ℝ) c : ℝ) : ℂ) * Complex.I) * Q := by
-        rw [smul_smul, ← Matrix.smul_mul, ← Matrix.mul_smul]
-        congr 2
-        ext i j
-        by_cases hij : i = j
-        · subst hij
-          by_cases hi : i = a
-          · subst hi; simp
-          · simp [hi, Ne.symm hi]
-        · rw [Matrix.diagonal_apply_ne _ hij, Matrix.smul_apply, Matrix.single_apply, if_neg, smul_zero]
-          rintro ⟨rfl, rfl⟩
-          exact hij rfl
-      rw [f1, Matrix.exp_conj' _ _ hQu, Matrix.exp_diagonal, Pi.exp_def, ← Complex.exp_eq_exp_ℂ]
-      refine h.trans ?_
-      congr 2
-      rw [Finset.sum_eq_single a (fun b _ hb => by simp [hb]) (by simp)]
-      simp
-      ring
-    have e3 : dsig (k := k) (r := r) R.σ ((-Complex.I) • (Q⁻¹ * Matrix.single a a (1 : ℂ) * Q)) (v : R.H) =
-        (-(ν a) * Complex.I) • (v : R.H) := by
-      unfold dsig
-      simp only [e2]
-      have d1 : HasDerivAt (fun t : ℝ => (t : ℂ) * (-(ν a) * Complex.I)) (-(ν a) * Complex.I) 0 := by
-        simpa using (Complex.ofRealCLM.hasDerivAt (x := (0 : ℝ))).mul_const (-(ν a : ℂ) * Complex.I)
-      have d2 := (d1.cexp.smul_const (v : R.H)).deriv
-      simpa using d2
-    unfold Rep.dC
-    rw [hH, hθ, add_neg_cancel, smul_zero, e0, zero_add, e1, e3, smul_smul]
-    congr 1
-    linear_combination (-(ν a : ℂ)) * Complex.I_mul_I
-  · have h := hv θ hθ
-    have ht := torus_single θ a b
-    simp only at h ⊢
-    set t : Mx k r := Matrix.diagonal (fun a => Complex.exp ((θ a : ℂ) * Complex.I)) with htdef
-    have t1 : tᴴ * t = 1 := Matrix.mem_unitaryGroup_iff'.1 hθ.1
-    have tJ : t * Jm ε = Jm ε * t := hθ.2
-    have hg : Q⁻¹ * t * Q ∈ GG k r := by
-      show (Q⁻¹ * t * Q)ᴴ * Hpk k r * (Q⁻¹ * t * Q) = Hpk k r
-      rw [← hQJ, qi]
-      simp only [conjTranspose_mul, conjTranspose_conjTranspose, Matrix.mul_assoc, q1']
-      rw [← Matrix.mul_assoc (Jm ε), ← tJ, Matrix.mul_assoc t, ← Matrix.mul_assoc tᴴ, t1, Matrix.one_mul]
-    have hu : IsUnit (Q⁻¹ * t * Q).det := by
-      have htd : IsUnit t.det := Matrix.isUnit_det_of_left_inverse t1
-      rw [Matrix.det_mul, Matrix.det_mul]
-      exact ((Matrix.isUnit_nonsing_inv_det _ hQd).mul htd).mul hQd
-    have hc : (Q⁻¹ * t * Q) * (Q⁻¹ * Matrix.single a b (1 : ℂ) * Q) * (Q⁻¹ * t * Q)⁻¹ =
-        Complex.exp (((θ a - θ b : ℝ) : ℂ) * Complex.I) • (Q⁻¹ * Matrix.single a b (1 : ℂ) * Q) := by
-      have : (Q⁻¹ * t * Q) * (Q⁻¹ * Matrix.single a b (1 : ℂ) * Q) =
-          (Complex.exp (((θ a - θ b : ℝ) : ℂ) * Complex.I) • (Q⁻¹ * Matrix.single a b (1 : ℂ) * Q)) *
-            (Q⁻¹ * t * Q) := by
-        rw [qi]
-        simp only [Matrix.mul_assoc, q1', Matrix.smul_mul]
-        rw [← Matrix.mul_assoc t, ht]
-        simp only [Matrix.mul_assoc, Matrix.smul_mul, Matrix.mul_smul]
-      rw [this, Matrix.mul_assoc _ (Q⁻¹ * t * Q), Matrix.mul_nonsing_inv _ hu, Matrix.mul_one]
-    rw [hE, dC_conj hK R hR h1 h2 hg hu _ hvs, hc, h,
-      dC_smul_left h1 h2 R _ _ (R.smSub.smul_mem _ v.2), dC_smul_right h1 h2 R _ _ hvs, smul_smul,
-      ← Complex.exp_add]
-    congr 2
-    have : ∑ c, (ν + root a b) c * θ c = (θ a - θ b) + ∑ c, ν c * θ c := by
-      simp only [root, Pi.add_apply, Pi.sub_apply, add_mul, sub_mul, Finset.sum_add_distrib,
-        Finset.sum_sub_distrib, Pi.single_apply, ite_mul, one_mul, zero_mul, Finset.sum_ite_eq',
-        Finset.mem_univ, if_true]
-      ring
-    rw [this]
-    push_cast
-    ring
+  intro hK k r ε mu R hR
+  exact _root_.GlobalTheory.TorusWeight.torus_weight_action hK k r ε mu R (_root_.GlobalTheory.isDS_of_isDG hR)
 
 end GlobalTheory.TorusWeight
 end -- clump:auto

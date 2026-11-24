@@ -1,5 +1,6 @@
 module
 
+import ReciprocityTheory.ReductiveGroups.DiscreteSeries.HighestWeights.ContinuousRepresentations.Blocks
 public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.PosPartUnitaryMul
 public import Development.AbelianVarietyTheory.Statements.CuspFrameWeights.DiscreteSpectrumKFiniteDecomposition
 public import Mathlib.MeasureTheory.Order.Group.Lattice
@@ -139,20 +140,7 @@ lemma emb_crd_iff (p : Fin n × Fin n × Bool → Prop) [DecidablePred p] (x : M
 
 lemma comm_J_iff (ε : Fin n → Bool) (x : Matrix (Fin n) (Fin n) ℂ) :
     x * Formalism.REAL.Jm ε = Formalism.REAL.Jm ε * x ↔ ∀ i j, ε i ≠ ε j → x i j = 0 := by
-  unfold Formalism.REAL.Jm
-  constructor
-  · intro h i j hij
-    have h1 := congrFun (congrFun h i) j
-    rw [Matrix.mul_diagonal, Matrix.diagonal_mul] at h1
-    cases hi : ε i <;> cases hj : ε j <;> simp [hi, hj] at h1 hij
-    · linear_combination (1 / 2 : ℂ) * h1
-    · linear_combination (-1 / 2 : ℂ) * h1
-  · intro h
-    ext i j
-    rw [Matrix.mul_diagonal, Matrix.diagonal_mul]
-    by_cases hij : ε i = ε j
-    · rw [hij, mul_comm]
-    · rw [h i j hij]; simp
+  apply _root_.ReciprocityTheory.ChartRestriction.DS.HW.commJ_iff <;> assumption
 
 lemma isLo_mul {a b : Matrix (Fin n) (Fin n) ℂ} (ha : IsLo a) (hb : IsLo b) : IsLo (a * b) := by
   intro i j hij

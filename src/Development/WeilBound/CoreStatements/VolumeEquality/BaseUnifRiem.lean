@@ -182,19 +182,8 @@ theorem adj_herm (R : RiemLat E g Λ) (a a' : 𝓞 E) (ha : (a' : E) = IsCMField
 
 theorem orth (R : RiemLat E g Λ) (s s' : 𝓞 E →+* ℂ) (hne : s ≠ s') (x : Fin g → ℂ) (hx : x ∈ eigSp R.B s)
     (y : Fin g → ℂ) (hy : y ∈ eigSp R.B s') : R.ip x y = 0 := by
-  by_contra h0
-  refine hne (RingHom.ext fun a => ?_)
-  let a' : 𝓞 E := IsCMField.ringOfIntegersComplexConj E a
-  have ha : (a' : E) = IsCMField.complexConj E (a : E) := rfl
-  have e := adj_herm R a a' ha y x
-  rw [mem_eigSp_iff.1 hy a, mem_eigSp_iff.1 hx a', star_smul, mulVec_smul, smul_dotProduct, dotProduct_smul] at e
-  have e2 : s a' = starRingEnd ℂ (s a) := by
-    rw [← extEmb_apply s a', ← extEmb_apply s a]
-    show extEmb s (a' : E) = starRingEnd ℂ (extEmb s (a : E))
-    rw [ha, IsCMField.complexEmbedding_complexConj]
-  have e3 : star (s a') = s a := by rw [e2]; exact Complex.conj_conj _
-  rw [e3] at e
-  exact (mul_right_cancel₀ h0 e).symm
+  intros
+  apply _root_.LevelTowerAlt.ip_orth <;> assumption
 
 end SheetDecomposition.Riem
 

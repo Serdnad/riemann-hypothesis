@@ -1,5 +1,6 @@
 module
 
+import all Development.AbelianVarietyTheory.Proofs.CharacterTheory.ExistsStandardUnipotentRadicalBijOnNilradical
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.AtPBijective
 public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.IsFundOne
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.CoordOfMemXa
@@ -1705,12 +1706,7 @@ theorem exu_image {T A : Type} [AddCommGroup A] {P : T → Prop} {f : T → A} {
   rw [hu t' ⟨ht', h2⟩]
 
 theorem card_top (r j : ℕ) : Fintype.card {a : Fin r // j ≤ a.val} = r - j := by
-  have h1 : Fintype.card {b : Fin r // b.val < j} = min r j := by
-    rw [Fintype.card_subtype, Fin.card_filter_val_lt]
-  have h2 := Fintype.card_subtype_compl fun b : Fin r => b.val < j
-  rw [h1, Fintype.card_fin] at h2
-  rw [Fintype.card_congr (Equiv.subtypeEquivRight fun b : Fin r => (not_lt (a := b.val) (b := j)).symm), h2]
-  omega
+  apply _root_.GlobalTheory.CuspGL.UnipNilRad.card_fin_le_val_eq_sub <;> assumption
 
 theorem card_UT (r : ℕ) (P : UT r → Prop) [Fintype (Subtype P)] : Fintype.card (Subtype P) ≤ r ^ 2 := by
   refine (Fintype.card_le_of_injective (fun p : Subtype P => p.1.1) fun p q h => Subtype.ext (Subtype.ext h)).trans ?_

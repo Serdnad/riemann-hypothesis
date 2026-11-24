@@ -920,17 +920,7 @@ variable {D : D7} {m n : ℕ}
 
 theorem isHalf_add_right_iff {e : AE D} {t x : Mx D m n} (hx : IsHalf e x) :
     IsHalf e (t + x) ↔ IsHalf e t := by
-  constructor
-  · intro h i j
-    have h1 := h i j
-    have h2 := hx i j
-    simp only [Matrix.add_apply, mul_add] at h1
-    linear_combination h1 - h2
-  · intro h i j
-    have h1 := h i j
-    have h2 := hx i j
-    simp only [Matrix.add_apply, mul_add]
-    linear_combination h1 + h2
+  first | exact _root_.GlobalTheory.ExtDatTheta.half_add_iff | exact @_root_.GlobalTheory.ExtDatTheta.half_add_iff | apply _root_.GlobalTheory.ExtDatTheta.half_add_iff <;> assumption
 
 theorem smul_of_isHalf {e : AE D} {x : Mx D m n} (hx : IsHalf e x) : e • x = x := by
   ext i j

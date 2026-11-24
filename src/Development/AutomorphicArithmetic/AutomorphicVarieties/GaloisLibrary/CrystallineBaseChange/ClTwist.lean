@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.IsCuspFormCoeffSeqDirichletTwistLevelMulSq
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.GaloisLibrary.CrystallineBaseChange.RnStmt
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -48,21 +49,6 @@ open CongruenceSubgroup UpperHalfPlane ModularForm UpperTheory.V.Af Matrix.Gener
 open scoped MatrixGroups ModularForm Manifold
 
 namespace UpperTheory.V.Br
-
-private theorem tw_coeffs {N : ℕ} [NeZero N] (ψ : DirichletCharacter ℂ N) :
-    ∃ c : ZMod N → ℂ, (∀ n : ZMod N, ∑ u, c u * ZMod.stdAddChar (u * n) = ψ n) ∧
-      ∀ d u : ZMod N, IsUnit d → c u = ψ d * c (d * u) := by
-  refine ⟨fun u => (N : ℂ)⁻¹ * ZMod.dft (fun j => ψ j) u, fun n => ?_, fun d u hd => ?_⟩
-  · have h := ZMod.invDFT_apply (ZMod.dft (fun j => ψ j)) n
-    rw [LinearEquiv.symm_apply_apply] at h
-    rw [h, smul_eq_mul, Finset.mul_sum]
-    refine Finset.sum_congr rfl fun u _ => ?_
-    rw [smul_eq_mul]; ring
-  · obtain ⟨d, rfl⟩ := hd
-    have h := ZMod.dft_comp_unitMul (fun j => ψ j) d (d * u)
-    simp only [map_mul] at h
-    rw [ZMod.dft_const_mul, Units.inv_mul_cancel_left] at h
-    simp only [← h]; ring
 
 private def tG (N : ℕ) (u : ℤ) : GL (Fin 2) ℝ := upperRightHom ((u : ℝ) / N)
 
@@ -162,7 +148,7 @@ end UpperTheory.V.Br
 theorem UpperTheory.V.Br.clTwist :
     UpperTheory.V.Br.ClTwist := by
   intro N k _ χ ψ f hf
-  obtain ⟨c, hc1, hc2⟩ := tw_coeffs ψ
+  obtain ⟨c, hc1, hc2⟩ := _root_.GlobalTheory.EisM.CharTwist.exists_coeffs ψ
   have hch := tw_char k χ ψ hc2 hf
   haveI : NeZero (N * N) := ⟨mul_ne_zero (NeZero.ne N) (NeZero.ne N)⟩
   have h1 : (1 : ℝ) ∈ (Gamma1 N : Subgroup (GL (Fin 2) ℝ)).strictPeriods := by simp

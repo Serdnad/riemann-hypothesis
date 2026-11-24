@@ -1,5 +1,7 @@
 module
 
+
+import Formalism.ThetaLogCoordinates.JacobiPathWeights.JacobiMinorProofs.ExistsSuppOfEvalNe
 public import Formalism.ThetaLogCoordinates.JacobiPathWeights.StatementA
 public import Mathlib.Data.Int.Interval
 public import Formalism.ThetaLogCoordinates.JacobiPathWeights.JacobiMinorProofs.LeIffLtColHeight
@@ -62,7 +64,6 @@ import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
 import Formalism.ThetaLogCoordinates.JacobiPathWeights.JacobiMinorProofs.IndexWeightsDominance
 import Std.Tactic.BVDecide.Normalize.BitVec
-
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Formalism.ThetaLogCoordinates.JacobiPathWeights.JacobiMinorProofs.IsWeightedHomogeneousZeroStripPathWord, Formalism.ThetaLogCoordinates.JacobiPathWeights.JacobiMinorProofs.LemmaA2indepOf
 
@@ -404,10 +405,6 @@ private theorem leading_contract_lemma_13 {R : Type*} [CommRing R] {n N : ℕ} (
     (fun m => ((Formalism.InvariantFactorPaths.GelfandTsetlinBases.sg I m : ℤ) : MvPolynomial (ℕ × Fin n) R) * XR R n N m * K (insert m I))
     (fun m _ => contr_term _ K hK N I m) top (Finset.mem_compl.mpr htop) hlt
 
-private theorem monomial_zero_one_eq_lemma_14 {σ R : Type*} [CommRing R] :
-    (monomial (0 : σ →₀ ℕ) (1 : R) : MvPolynomial σ R) = 1 := by
-  rfl
-
 theorem col_lead (R : Type*) [CommRing R] {n N : ℕ} {isVec : ℕ → Bool} {B : ℕ → ℕ} {μ : ℕ → Fin n → ℤ}
     (hp : IsPath n isVec B μ (N + 1)) (c : ℤ) :
     ∃ a : ℤ, (a = 1 ∨ a = -1) ∧
@@ -433,7 +430,7 @@ theorem col_lead (R : Type*) [CommRing R] {n N : ℕ} {isVec : ℕ → Bool} {B 
     have hci : Formalism.InvariantFactorPaths.GelfandTsetlinBases.canIdx (μ (N + 1)) c = Formalism.InvariantFactorPaths.GelfandTsetlinBases.canIdx (μ N) c := by
       unfold Formalism.InvariantFactorPaths.GelfandTsetlinBases.canIdx
       rw [hch]
-    rw [hcj, map_zero, hci, stripPathWord_succ_eq_lemma_2, if_pos hch, Int.cast_one, one_mul, monomial_zero_one_eq_lemma_14, mul_one]
+    rw [hcj, map_zero, hci, stripPathWord_succ_eq_lemma_2, if_pos hch, Int.cast_one, one_mul, MvPolynomial.monomial_zero', map_one, mul_one]
     exact Formalism.InvariantFactorPaths.GelfandTsetlinBases.A1.LeadAt.of_hom (hK _)
   · have hmin : min (Formalism.InvariantFactorPaths.GelfandTsetlinBases.colHeight (μ (N + 1)) c) (Formalism.InvariantFactorPaths.GelfandTsetlinBases.colHeight (μ N) c) < n := by
       rcases Nat.lt_or_gt_of_ne hch with h | h
@@ -1241,13 +1238,7 @@ theorem domLe_eq {n : ℕ} {μ ν : Fin n → ℤ} (h : DomLe μ ν) (hh : heigh
   exact eq_of_psum fun j hj => (heq j (Finset.mem_range.2 (by omega))).symm
 
 theorem genMat_det_ne (k : Type*) [Field k] (n : ℕ) : (genMat k n).det ≠ 0 := by
-  have : genMat k n = (algebraMap (MvPolynomial (Fin n × Fin n) k) (GenField k n)).mapMatrix
-      (Matrix.mvPolynomialX (Fin n) (Fin n) k) := by
-    ext a b
-    simp [genMat, Matrix.mvPolynomialX]
-  rw [this, ← RingHom.map_det]
-  exact (map_ne_zero_iff _ (IsFractionRing.injective _ _)).mpr
-    (Matrix.det_mvPolynomialX_ne_zero (Fin n) k)
+  apply _root_.Formalism.InvariantFactorPaths.GelfandTsetlinBases.genMat_det_ne <;> assumption
 
 def genU (k : Type*) [Field k] (n : ℕ) : (Matrix (Fin n) (Fin n) (GenField k n))ˣ where
   val := genMat k n

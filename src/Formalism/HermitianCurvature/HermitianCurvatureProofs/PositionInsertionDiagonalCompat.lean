@@ -112,16 +112,7 @@ theorem eU_comm_of_ne {a c : S} (hc : c ≠ a) (i j k l : Fin 2) :
 
 theorem star_eU [StarRing A] (a : S) (i j : Fin 2) :
     star (eU a i j : SlopeTestRemainingChoices S A) = eU a j i := by
-  ext x y
-  rw [Matrix.star_eq_conjTranspose, Matrix.conjTranspose_apply]
-  simp only [eU, Matrix.of_apply]
-  rw [apply_ite star, star_one, star_zero]
-  refine if_congr ?_ rfl rfl
-  constructor
-  · rintro ⟨h1, h2, h3⟩
-    exact ⟨h2, h1, fun b hb => (h3 b hb).symm⟩
-  · rintro ⟨h1, h2, h3⟩
-    exact ⟨h2, h1, fun b hb => (h3 b hb).symm⟩
+  apply _root_.Formalism.FourierDecayAlt.P.Wd7.star_eU <;> assumption
 
 theorem ins_mul (a : S) (M N : M2 (SlopeTestRemainingChoices S A)) (hM : FreeOf2 a M) :
     ins a (M * N) = ins a M * ins a N := by
@@ -129,14 +120,7 @@ theorem ins_mul (a : S) (M N : M2 (SlopeTestRemainingChoices S A)) (hM : FreeOf2
 
 theorem ins_star [StarRing A] (a : S) (M : M2 (SlopeTestRemainingChoices S A)) (hM : FreeOf2 a M) :
     star (ins a M) = ins a Mᴴ := by
-  have key : ∀ i j : Fin 2, star ((eU a i j : SlopeTestRemainingChoices S A) * M i j) = eU a j i * star (M i j) := by
-    intro i j
-    have h := congrArg star (hM i j i j).eq
-    rw [star_mul, star_mul, star_eU] at h
-    rw [star_mul, star_eU]
-    exact h
-  simp only [ins, Fin.sum_univ_two, star_add, key, Matrix.conjTranspose_apply]
-  abel
+  apply _root_.Formalism.FourierDecayAlt.P.Wd7.ins_star <;> assumption
 
 theorem ins_one (a : S) : ins a (1 : M2 (SlopeTestRemainingChoices S A)) = 1 := by
   simp only [ins, Matrix.one_apply, mul_ite, mul_one, mul_zero, Finset.sum_ite_eq, Finset.mem_univ,
@@ -150,22 +134,11 @@ theorem insert_diagonal_extract (a : S) (b : SlopeTestRemainingChoices S A) : in
 
 theorem ins_free {a c : S} (hc : c ≠ a) (M : M2 (SlopeTestRemainingChoices S A)) (hM : FreeOf2 c M) :
     FreeOf c (ins a M) := by
-  intro k l
-  unfold ins
-  apply Commute.sum_right
-  intro i _
-  apply Commute.sum_right
-  intro j _
-  exact (eU_comm_of_ne hc k l i j).mul_right (hM i j k l)
+  apply _root_.Formalism.FourierDecayAlt.P.Wd7.ins_free <;> assumption
 
 theorem ins_comm (a : S) (M : M2 (SlopeTestRemainingChoices S A)) (b : SlopeTestRemainingChoices S A) (hb : FreeOf a b)
     (hbM : ∀ i j, Commute b (M i j)) : Commute b (ins a M) := by
-  unfold ins
-  apply Commute.sum_right
-  intro i _
-  apply Commute.sum_right
-  intro j _
-  exact (hb i j).symm.mul_right (hbM i j)
+  apply _root_.Formalism.FourierDecayAlt.P.Wd7.ins_comm <;> assumption
 
 end Formalism.FourierDecayAlt.P.Wd1
 

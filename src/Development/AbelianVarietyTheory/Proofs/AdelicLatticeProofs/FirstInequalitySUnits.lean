@@ -65,6 +65,7 @@ import Mathlib.RingTheory.WittVector.IsPoly
 import Mathlib.Tactic.Linter.HaveILetI
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
+import Development.AbelianVarietyTheory.Proofs.HeightProofs.ExistsAdmissibleLocalNormMemSUnitsSupGlobalNorm
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.Hilbert90SUnitsQuadraticExtension, Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.RelIndexNormMulRelIndexSqsKer, Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.TwoMulIndexSqsInvolution, Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.IndexFormulaNormsInvolution, Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.SUnitsPlacesOverAndQuadraticConj, Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.IsQuadraticSqrtExtensionIsGaloisAndEmbedding, Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.TwoMulCardInfinitePlaceLeQuadratic, Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.TwoMulCardPlacesLeCardOverQuadratic, Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.FirstInequalitySUnits
@@ -95,67 +96,7 @@ private lemma valuation_algebraMap_eq_of_unit_at_under {F E : Type} [Field F] [N
     (hq : _root_.GlobalTheory.QNorm.IsQuad δ θ σ) (w : HeightOneSpectrum (𝓞 E))
     (h2 : (w.under (𝓞 F)).valuation F 2 = 1) (hδ : (w.under (𝓞 F)).valuation F δ = 1) (c : F) :
     w.valuation E (algebraMap F E c) = (w.under (𝓞 F)).valuation F c := by
-  obtain ⟨-, -, hram⟩ := _root_.GlobalTheory.QNorm.places_over F E
-  obtain ⟨e, he0, hw⟩ := hram w
-  set v := w.under (𝓞 F)
-  set V := w.valuation E
-  suffices he : e = 1 by rw [hw, he, pow_one]
-  have hV2 : V 2 = 1 := by
-    have := hw 2
-    rw [map_ofNat] at this
-    rw [this, h2, one_pow]
-  have hθ : V θ = 1 := by
-    apply eq_one_of_sq_eq_one_withZero_int
-    rw [← map_pow, hq.sq, hw, hδ, one_pow]
-  have hσθ := hq.conj
-  have hθ0 := hq.root_ne_zero
-  obtain ⟨x, hx⟩ := HeightOneSpectrum.valuation_exists_uniformizer E w
-  obtain ⟨a, b, hab⟩ := hq.span x
-  have hσx : σ x = algebraMap F E a - algebraMap F E b * θ := by
-    rw [hab, map_add (f := _), map_mul, AlgEquiv.commutes, AlgEquiv.commutes, hσθ]; ring
-  obtain ⟨-, -, -, hnorm, -⟩ := _root_.GlobalTheory.QNorm.isQuad_basic F E δ θ σ hq
-  obtain ⟨a', b', hN⟩ := hnorm x
-  have hbθ : V (algebraMap F E b * θ) = V (algebraMap F E b) := by rw [map_mul, hθ, mul_one]
-  have hA : V x ≤ max (V (algebraMap F E a)) (V (algebraMap F E b)) := by
-    rw [hab, ← hbθ]; exact Valuation.map_add _ _ _
-  have hB : V (σ x) ≤ max (V (algebraMap F E a)) (V (algebraMap F E b)) := by
-    rw [hσx, ← hbθ]; exact Valuation.map_sub _ _ _
-  have ha : V (algebraMap F E a) ≤ max (V x) (V (σ x)) := by
-    have h' : algebraMap F E a = (x + σ x) * (2 : E)⁻¹ := by
-      rw [hσx, hab]; field_simp; ring
-    rw [h', map_mul, map_inv₀, hV2, inv_one, mul_one]
-    exact Valuation.map_add _ _ _
-  have hb : V (algebraMap F E b) ≤ max (V x) (V (σ x)) := by
-    have h' : algebraMap F E b = (x - σ x) * (2 * θ)⁻¹ := by
-      rw [hσx, hab]; field_simp; ring
-    rw [h', map_mul, map_inv₀, map_mul, hV2, hθ, one_mul, inv_one, mul_one]
-    exact Valuation.map_sub _ _ _
-  have hmax : max (V x) (V (σ x)) = max (V (algebraMap F E a)) (V (algebraMap F E b)) :=
-    le_antisymm (max_le hA hB) (max_le ha hb)
-  have hx0 : V x ≠ 0 := by rw [hx]; exact WithZero.exp_ne_zero
-  have key : ∃ d : F, V x = v.valuation F d ^ e := by
-    have hmem : max (V x) (V (σ x)) = V (algebraMap F E a) ∨
-        max (V x) (V (σ x)) = V (algebraMap F E b) := by
-      rw [hmax]; exact max_choice _ _
-    rcases le_total (V (σ x)) (V x) with hle | hle
-    · rw [max_eq_left hle] at hmem
-      rcases hmem with h | h
-      · exact ⟨a, h.trans (hw a)⟩
-      · exact ⟨b, h.trans (hw b)⟩
-    · rw [max_eq_right hle] at hmem
-      have hc : ∃ c : F, V (σ x) = V (algebraMap F E c) := by
-        rcases hmem with h | h
-        · exact ⟨a, h⟩
-        · exact ⟨b, h⟩
-      obtain ⟨c, hc⟩ := hc
-      have hσ0 : V (σ x) ≠ 0 := ne_of_gt (lt_of_lt_of_le (zero_lt_iff.mpr hx0) hle)
-      refine ⟨(a' ^ 2 - δ * b' ^ 2) / c, ?_⟩
-      rw [← hw, map_div₀, map_div₀, ← hN, ← hc, map_mul, mul_div_cancel_right₀ _ hσ0]
-  obtain ⟨d, hd⟩ := key
-  rw [hx] at hd
-  have hl := congrArg WithZero.log hd
-  rw [WithZero.log_exp, WithZero.log_pow, nsmul_eq_mul] at hl
-  rcases Int.eq_one_or_neg_one_of_mul_eq_neg_one hl.symm with h1 | h1 <;> omega
+  apply _root_.GlobalTheory.QNorm.valuation_unramified_of_unit <;> assumption
 
 
 open NumberField IsDedekindDomain in

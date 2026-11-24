@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.StarDetMulDetMem
 public import Formalism.LocalToGlobal.KernelLattices.ThDistC
 public import Development.AbelianVarietyTheory.Counterexamples.PlaceInjectivity.StandardDeterminantUnits
 import Formalism.HermitianLattices.HermitianLatticesProofs.DualBasic
@@ -96,42 +97,7 @@ def IsFr (P : HeightOneSpectrum (𝓞 E)) (N : Submodule (𝓞 E) (Sp E n)) (f :
 
 theorem span_eq_top_of_isSdLat {N : Submodule (𝓞 E) (Sp E n)} (hN : IsSdLat N) :
     Submodule.span E (N : Set (Sp E n)) = ⊤ := by
-  classical
-  apply Submodule.dualAnnihilator_eq_bot_iff.mp
-  apply le_antisymm ?_ bot_le
-  intro f hf
-  let v : Sp E n := fun i => star (f (Pi.single i 1))
-  have hpair : hStd E n v = f := by
-    apply (Pi.basisFun E (Fin n)).ext
-    intro i
-    rw [Pi.basisFun_apply, hStd_apply, Finset.sum_eq_single i]
-    · simp [v]
-    · intro j _ hj
-      simp [hj]
-    · simp
-  have hline (r : E) : r • v ∈ N := by
-    rw [← show dual (hStd E n) N = N from hN.2, dualBasic_mem_dual]
-    intro y hy
-    have hy0 : hStd E n v y = 0 := by
-      rw [hpair]
-      exact (Submodule.mem_dualAnnihilator f).mp hf y (Submodule.subset_span hy)
-    have hz : hStd E n y v = 0 := by
-      simpa [hy0] using ((hStd_isSymm (E := E) (n := n)).eq v y).symm
-    simp [hz]
-  have hv : v = 0 := by
-    funext i
-    change v i = 0
-    by_contra hi
-    let coord := (LinearMap.proj i : Sp E n →ₗ[E] E).restrictScalars (𝓞 E)
-    have htop : N.map coord = ⊤ := by
-      rw [eq_top_iff]
-      intro x _
-      exact ⟨(x / v i) • v, hline _, div_mul_cancel₀ _ hi⟩
-    have : Module.Finite (𝓞 E) E := Module.finite_def.mpr (htop ▸ hN.1.fg.map coord)
-    exact RingOfIntegers.not_isField E
-      (isField_of_isIntegral_of_isField (IsFractionRing.injective (𝓞 E) E) (Field.toIsField E))
-  rw [Submodule.mem_bot]
-  simpa [hv] using hpair.symm
+  first | exact _root_.GlobalTheory.DetSelfDual.span_eq_top_of_isSdLat | exact @_root_.GlobalTheory.DetSelfDual.span_eq_top_of_isSdLat | apply _root_.GlobalTheory.DetSelfDual.span_eq_top_of_isSdLat <;> assumption
 
 theorem exists_isFr (P : HeightOneSpectrum (𝓞 E)) {N : Submodule (𝓞 E) (Sp E n)}
     (hN : IsSdLat N) : ∃ f, IsFr P N f := by

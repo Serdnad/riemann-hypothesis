@@ -1,5 +1,6 @@
 module
 
+import ReciprocityTheory.DualLattices.ValuationDetLeOneOfEntriesIntegral
 public import Mathlib.FieldTheory.IsAlgClosed.Basic
 public import Mathlib.RingTheory.Valuation.Integers
 public import ReciprocityTheory.DualLattices.TensorSpan
@@ -127,22 +128,8 @@ variable {C : Type} [Field C] {R : Type} [CommRing R] [Algebra R C]
 
 theorem translate_mem (AA : HopfOrder (C := C) R N) (y : N) {g : N → C} (hg : g ∈ AA.carrier) :
     (fun x => g (x + y)) ∈ AA.carrier := by
-  have key : ∀ F ∈ tensorSpan R AA.carrier, (fun x => F (x, y)) ∈ AA.carrier := by
-    intro F hF
-    induction hF using Submodule.span_induction with
-    | mem F hF =>
-      obtain ⟨a, ha, b, hb, rfl⟩ := hF
-      obtain ⟨r, hr⟩ := AA.le_int hb y
-      have h : (fun x => a x * b y) = r • a := by
-        funext x
-        simp [Algebra.smul_def, hr, mul_comm]
-      show (fun x => a x * b y) ∈ AA.carrier
-      rw [h]
-      exact AA.carrier.smul_mem r ha
-    | zero => exact AA.carrier.zero_mem
-    | add F G _ _ hF hG => exact AA.carrier.add_mem hF hG
-    | smul c F _ hF => exact AA.carrier.smul_mem c hF
-  exact key _ (AA.comul g hg)
+  intros
+  apply _root_.ReciprocityTheory.PGsh.L2.hopfOrder_translate_mem <;> assumption
 
 def nearZero (v : Valuation C NNReal) (AA : HopfOrder (C := C) R N) : AddSubgroup N where
   carrier := {x | ∀ g ∈ AA.carrier, v (g x - g 0) < 1}

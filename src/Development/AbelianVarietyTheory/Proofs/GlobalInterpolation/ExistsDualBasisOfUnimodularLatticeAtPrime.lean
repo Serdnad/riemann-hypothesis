@@ -54,6 +54,7 @@ import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
 import Development.AbelianVarietyTheory.Definitions.GlobalTwisting.LatIntZero
 public import Mathlib.LinearAlgebra.Complex.FiniteDimensional
+import Development.AbelianVarietyTheory.Proofs.JetHarmonics.OpUConstMul
 
 @[expose] public section
 
@@ -96,14 +97,7 @@ theorem hf_smul_right (Hm : Matrix (Fin g) (Fin g) ℂ) (c : ℂ) (z w : Fin g �
 
 theorem hf_conj {Hm : Matrix (Fin g) (Fin g) ℂ} (hH : Hm.IsHermitian) (z w : Fin g → ℂ) :
     hf Hm w z = conj (hf Hm z w) := by
-
-  simp only [hf, map_sum, map_mul, Complex.conj_conj]
-  rw [Finset.sum_comm]
-  refine Finset.sum_congr rfl fun i _ => Finset.sum_congr rfl fun j _ => ?_
-  have h : Hm j i = conj (Hm i j) := by
-    have := congrFun (congrFun hH j) i
-    simpa [Matrix.conjTranspose_apply] using this.symm
-  rw [h]; ring
+  apply _root_.GlobalTheory.HeisOps.hf_swap <;> assumption
 
 theorem hf_self_ne {Hm : Matrix (Fin g) (Fin g) ℂ} (hH : Hm.PosDef) {z : Fin g → ℂ} (hz : z ≠ 0) : hf Hm z z ≠ 0 := by
   have hx : star z ≠ 0 := by simpa using hz

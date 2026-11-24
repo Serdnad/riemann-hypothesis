@@ -1,5 +1,7 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.ProdSumReindex
+import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.ExpansionBijectiveOverFields
 import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.ExistsTwistBasisOffPrime
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.ValCalc
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.DegExpF
@@ -73,30 +75,8 @@ theorem secLin_val {φ₁ : K' → (Y₁ ⟶ X)} {ε₁ : K' → ℤ} {s₁ : LB
     {ε : K → ℤ} {n : ℕ} {s : Fin n → LB.Sec (LB.LinComb L φ ε)} {h : Y₁ ⟶ Y} {c : Fin n → Γ(Y₁, ⊤)}
     (H : GeneratorPullback.SecLin L φ₁ ε₁ s₁ φ ε s h c) (r : Z ⟶ Y₁) (z : Z) {J} (hJ : Good L z J) :
     sval s₁ r z J = ∑ i, gs r z ⊤ (c i) * sval (s i) (r ≫ h) z J := by
-  unfold GeneratorPullback.SecLin LB.Coh at H
-  set j₁ : K' → L.ι := fun κ => J (r ≫ φ₁ κ) with hj₁
-  set j₂ : K → L.ι := fun κ => J ((r ≫ h) ≫ φ κ) with hj₂
-  have hsum : ∀ k, Sum.elim j₁ j₂ k = J (r ≫ Sum.elim φ₁ (fun k => h ≫ φ k) k) := by
-    rintro (a | a)
-    · rfl
-    · simp only [Sum.elim_inr, j₂, Category.assoc]
-  have E := H j₁ j₂ fun k₁ k₂ e => by rw [hsum, hsum, e]
-  have m₁ : r z ∈ L.wchart φ₁ j₁ := hJ.mem φ₁ r
-  have m₂ : r z ∈ L.wchart (fun k => h ≫ φ k) j₂ := by
-    have e : (fun k => J (r ≫ h ≫ φ k)) = j₂ := funext fun k => by simp only [j₂, Category.assoc]
-    exact e ▸ hJ.mem (fun k => h ≫ φ k) r
-  have m₃ : (r ≫ h) z ∈ L.wchart φ j₂ := hJ.mem φ (r ≫ h)
-  have hV : r z ∈ L.wchart φ₁ j₁ ⊓ L.wchart (fun k => h ≫ φ k) j₂ := ⟨m₁, m₂⟩
-  refine (sval_of s₁ r z J j₁ (fun _ => rfl)).trans ?_
-  refine ((gs_res r z inf_le_left hV _).symm.trans (congrArg (gs r z _) E)).trans ?_
-  rw [gs_sum_lemma r z _ hV]
-  refine Finset.sum_congr rfl fun i _ => ?_
-  rw [gs_mul r z _ hV, sval_of (s i) (r ≫ h) z J j₂ (fun _ => rfl)]
-  congr 1
-  · simp only [resTop]
-    exact gs_res r z le_top hV _
-  · rw [gs_res r z _ hV]
-    exact gs_pull r h z _ m₃ _
+  intros
+  apply _root_.GlobalTheory.BoxExpansion.secLin_val <;> assumption
 
 theorem secLin_transport (hL : L.IsLB) (hL' : L'.IsLB) (w : LB.Iso L' (L.pull F))
     (φ₁ : K → (Y₁ ⟶ X)) (φ₁' : K → (Y₁' ⟶ X')) (φ : K → (Y ⟶ X)) (φ' : K → (Y' ⟶ X')) (ε : K → ℤ)
@@ -171,16 +151,7 @@ variable {R R' : Type} [CommRing R] [IsDomain R] [CommRing R'] [IsDomain R'] {φ
 
 theorem famφ_eq (D : DegPre R) (F : Type) [Field F] [Algebra (FractionRing R) F] (α : D.X) (κ : Fin 4) :
     DegPre.famφ D F α κ = (DegPre.prB D F).left ≫ D.famφB α κ := by
-  unfold DegPre.famφ DegPre.famφB
-  fin_cases κ <;> dsimp
-  · simp
-  · show _ = (D.prB F).left ≫ _
-    rw [← Over.comp_left]
-    congr 1
-    unfold padd
-    rw [CartesianMonoidalCategory.comp_lift_assoc, Category.comp_id, CartesianMonoidalCategory.comp_toUnit_assoc]
-  · rw [pullback.condition, Category.assoc]
-  · rw [pullback.condition, Category.assoc]
+  apply _root_.GlobalTheory.FieldBaseChange.famφ_prB <;> assumption
 
 theorem famφB_pull (hD : IsPullDeg φ D D') (x : D'.X) (κ : Fin 4) :
     D'.famφB x κ ≫ (hD.e.hom.left ≫ pullback.fst D.P.A.hom (specOf φ)) =

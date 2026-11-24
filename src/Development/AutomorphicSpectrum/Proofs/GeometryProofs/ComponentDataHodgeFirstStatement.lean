@@ -45,6 +45,7 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Std.Tactic.BVDecide.Normalize.Prop
 import Development.AutomorphicSpectrum.Definitions.MetricPeriods.ExistsIntSmulIsAdicIntegralInTensorBasis
+import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.FrameDefinitions.Values
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AutomorphicSpectrum.Proofs.GeometryProofs.ComponentDataHodgeFirst, Development.AutomorphicSpectrum.Proofs.GeometryProofs.ComponentDataHodgeFirstStatement
@@ -123,16 +124,7 @@ private theorem isMultiHomog_prod_X_one {K : Type} [Fintype K] {Jt : K → Type}
 private theorem isValueAt_add' {K : Type} {Jt : K → Type} [∀ k, Fintype (Jt k)] {Ω : Type} [Field Ω]
     {y : (k : K) × Jt k → Ω} {w : (k : K) × Jt k → ℂ} {s s' : Ω} {v v' : ℂ}
     (h1 : IsValueAt y s w v) (h2 : IsValueAt y s' w v') : IsValueAt y (s + s') w (v + v') := by
-  unfold IsValueAt at *
-  obtain ⟨d, g, h, hg, hh, hy, hgs, hw, rfl⟩ := h1
-  obtain ⟨d', g', h', hg', hh', hy', hgs', hw', rfl⟩ := h2
-  refine ⟨d + d', g * h' + g' * h, h * h', isMultiHomog_add_geometry (isMultiHomog_mul_geometry hg hh') ?_,
-    isMultiHomog_mul_geometry hh hh', ?_, ?_, ?_, ?_⟩
-  · rw [add_comm d d']; exact isMultiHomog_mul_geometry hg' hh
-  · rw [map_mul]; exact mul_ne_zero hy hy'
-  · simp only [map_mul, map_add (f := _), hgs, hgs']; ring
-  · simp only [map_mul]; exact mul_ne_zero hw hw'
-  · simp only [map_mul, map_add (f := _)]; rw [div_add_div _ _ hw hw']; ring
+  apply _root_.GroundTheory.Heights₂.Heights.LowerBoundFree.isValueAt_add <;> assumption
 
 private theorem isValueAt_mul' {K : Type} {Jt : K → Type} [∀ k, Fintype (Jt k)] {Ω : Type} [Field Ω]
     {y : (k : K) × Jt k → Ω} {w : (k : K) × Jt k → ℂ} {s s' : Ω} {v v' : ℂ}

@@ -138,15 +138,9 @@ theorem val_coe_lt_one_iff (f : 𝓞 F) :
     | exact IsDedekindDomain.HeightOneSpectrum.intValuation_lt_one_iff_mem v f
 
 theorem val_coe_le_one (f : 𝓞 F) : Valued.v (((f : F) : v.adicCompletion F)) ≤ 1 := by
-  first
-    | (rw [IsDedekindDomain.HeightOneSpectrum.valuedAdicCompletion_eq_valuation',
-         ← IsDedekindDomain.HeightOneSpectrum.valuation_of_algebraMap (v := v) (r := f) ▸ rfl]
-       exact IsDedekindDomain.HeightOneSpectrum.intValuation_le_one v f)
-    | (have e : Valued.v (((f : F) : v.adicCompletion F)) = v.intValuation f := by
-         rw [IsDedekindDomain.HeightOneSpectrum.valuedAdicCompletion_eq_valuation']
-         exact IsDedekindDomain.HeightOneSpectrum.valuation_of_algebraMap (v := v) (r := f)
-       rw [e]
-       exact IsDedekindDomain.HeightOneSpectrum.intValuation_le_one v f)
+  rw [IsDedekindDomain.HeightOneSpectrum.valuedAdicCompletion_eq_valuation']
+  exact (IsDedekindDomain.HeightOneSpectrum.valuation_of_algebraMap (v := v) (r := f)).trans_le
+    (IsDedekindDomain.HeightOneSpectrum.intValuation_le_one v f)
 
 
 

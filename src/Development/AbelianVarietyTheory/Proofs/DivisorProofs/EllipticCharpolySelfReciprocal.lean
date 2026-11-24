@@ -39,6 +39,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
+import Development.WeilBound.CoreStatements.AutomorphicKernels.IsobaricBaseChange.IntegralCoefficientBaseChange.UnitaryBaseChangeCharacters.UnitaryBaseChangeLinks.EllipticCharpolySelfReciprocal
 
 @[expose] public section
 
@@ -88,29 +89,7 @@ theorem reverse_map_inj {R S : Type} [CommRing R] [CommRing S] (f : R →+* S)
 
 theorem ell_conj_selfRecip : ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (n : ℕ) (P : E[X]), P ∈ Ell E n →
     P.coeff 0 ≠ 0 ∧ C (IsCMField.complexConj E (P.coeff 0)) * P =
-      (P.map (IsCMField.complexConj E).toRingEquiv.toRingHom).reverse := by
-  intro E _ _ _ n P hP
-  obtain ⟨hm, -, -, hroots⟩ := hP
-  let τ : E →+* ℂ := Classical.choice inferInstance
-  have hQm : (P.map τ).Monic := hm.map τ
-  have hQ : ((P.map τ).roots.map fun z => X - C z).prod = P.map τ :=
-    prod_multiset_X_sub_C_of_monic_of_roots_card_eq hQm IsAlgClosed.card_roots_eq_natDegree
-  have hr : ∀ z ∈ (P.map τ).roots, ‖z‖ = 1 := hroots τ
-  have key := prod_conj_reverse (P.map τ).roots hr
-  rw [hQ] at key
-  constructor
-  · intro h0
-    have h0' : (0 : ℂ) ∈ (P.map τ).roots := by
-      rw [mem_roots hQm.ne_zero, IsRoot, ← coeff_zero_eq_eval_zero, coeff_map, h0, map_zero]
-    have := hr 0 h0'
-    simp at this
-  · apply Polynomial.map_injective τ τ.injective
-    have hcomp : τ.comp (IsCMField.complexConj E).toRingEquiv.toRingHom = (starRingEnd ℂ).comp τ := by
-      ext x
-      simp [IsCMField.complexEmbedding_complexConj]
-    rw [Polynomial.map_mul, map_C, ← reverse_map_inj τ τ.injective, Polynomial.map_map, hcomp,
-      ← Polynomial.map_map, key, coeff_map]
-    congr 2
-    simp [IsCMField.complexEmbedding_complexConj]
+      (P.map (IsCMField.complexConj E).toRingEquiv.toRingHom).reverse :=
+  _root_.GlobalTheory.T.elliptic_charpoly_self_reciprocal
 
 end GlobalTheory.ConjSelfRecip

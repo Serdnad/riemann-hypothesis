@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.RankSchwartzBruhatAdicCompletionPiLeAleph0
 public import Development.AbelianVarietyTheory.Definitions.Divisors.HilbertNinetyQuotientHomEqIff
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.DixmierCommutantScalar
 public import Development.WeilBound.ThetaLifts.CartanFactorisation.ExistsPureML
@@ -120,33 +121,7 @@ theorem countable_compactOpen (Y : Type) [TopologicalSpace Y] [SecondCountableTo
 
 theorem rank_SB (Y : Type) [TopologicalSpace Y] [T2Space Y] [SecondCountableTopology Y] :
     Module.rank ℂ (GlobalTheory.WeilM.SB Y) ≤ Cardinal.aleph0 := by
-  classical
-  let I : Set (Y → ℂ) := (fun K => Set.indicator K 1) '' {K : Set Y | IsCompact K ∧ IsOpen K}
-  have hle : GlobalTheory.WeilM.SB Y ≤ Submodule.span ℂ I := by
-    rintro f ⟨h1, h2⟩
-    have hs : IsCompact (Function.support f) :=
-      h2.of_isClosed_subset (h1.isClopen_fiber 0).compl.isClosed (subset_tsupport f)
-    have fin : (f '' Function.support f).Finite := by
-      obtain ⟨t, ht⟩ := hs.elim_finite_subcover (fun c : ℂ => f ⁻¹' {c}) (fun c => (h1.isClopen_fiber c).isOpen)
-        fun x _ => Set.mem_iUnion.2 ⟨f x, rfl⟩
-      refine t.finite_toSet.subset ?_
-      rintro _ ⟨x, hx, rfl⟩
-      obtain ⟨c, hc, e⟩ := Set.mem_iUnion₂.1 (ht hx)
-      rw [show f x = c from e]; exact hc
-    have e : f = ∑ c ∈ fin.toFinset, c • Set.indicator (f ⁻¹' {c}) 1 := by
-      funext x
-      simp only [Finset.sum_apply, Pi.smul_apply, Set.indicator_apply, Set.mem_preimage, Set.mem_singleton_iff,
-        Pi.one_apply, smul_eq_mul, mul_ite, mul_one, mul_zero, Finset.sum_ite_eq, Set.Finite.mem_toFinset]
-      split_ifs with h
-      · rfl
-      · by_contra h0; exact h ⟨x, h0, rfl⟩
-    rw [e]
-    refine sum_mem fun c hc => Submodule.smul_mem _ _ (Submodule.subset_span ⟨_, ⟨?_, (h1.isClopen_fiber c).isOpen⟩, rfl⟩)
-    obtain ⟨x, hx, rfl⟩ := (Set.Finite.mem_toFinset _).1 hc
-    exact hs.of_isClosed_subset (h1.isClopen_fiber _).isClosed fun y hy => by
-      rw [Function.mem_support, show f y = f x from hy]; exact hx
-  refine (Submodule.rank_mono hle).trans ((rank_span_le I).trans ?_)
-  exact Cardinal.le_aleph0_iff_set_countable.2 ((countable_compactOpen Y).image _)
+  apply _root_.GlobalTheory.SBCount.rank_SB_le <;> assumption
 
 end PositivityTheory.ThKF
 

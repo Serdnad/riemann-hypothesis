@@ -200,7 +200,6 @@ theorem posPairs_filter_lt {N k : ℕ} (hk : k ≤ N) :
   simp only [posPairs, Finset.mem_filter, Finset.mem_univ, true_and, Finset.mem_map]
   constructor
   · rintro ⟨hab, hb⟩
-    have hab' : a.val < b.val := hab
     exact ⟨(⟨a.val, by omega⟩, ⟨b.val, hb⟩), hab, rfl⟩
   · rintro ⟨⟨a', b'⟩, hab, h2⟩
     obtain ⟨rfl, rfl⟩ := Prod.mk.inj h2
@@ -214,8 +213,6 @@ theorem posPairs_filter_ge {N k : ℕ} (hk : k ≤ N) :
   constructor
   · rintro ⟨hab, ha⟩
     have hab' : a.val < b.val := hab
-    have ha2 := a.isLt
-    have hb2 := b.isLt
     refine ⟨(⟨a.val - k, by omega⟩, ⟨b.val - k, by omega⟩), ?_, ?_⟩
     · show a.val - k < b.val - k
       omega
@@ -244,7 +241,6 @@ theorem posPairs_filter_cross {N k : ℕ} (hk : k ≤ N) :
     Finset.mem_product]
   constructor
   · rintro ⟨-, ha, hb⟩
-    have hb2 := b.isLt
     refine ⟨⟨⟨a.val, ha⟩, rfl⟩, ⟨⟨b.val - k, by omega⟩, ?_⟩⟩
     apply Fin.ext
     show k + (b.val - k) = b.val
@@ -456,8 +452,6 @@ theorem exZ_rank_le_one {N : ℕ} (hN : N ≤ 1) (ν : Fin N → ℕ) (l : ℕ) 
     LA.exZ N N le_rfl ν l = 0 := by
   have hanti : Antitone ν := by
     intro i j _
-    have hi := i.isLt
-    have hj := j.isLt
     have : i = j := Fin.ext (by omega)
     rw [this]
   have h := LA.lattice_z_rank_le_two N N le_rfl (by omega) ν hanti l hl
@@ -466,9 +460,6 @@ theorem exZ_rank_le_one {N : ℕ} (hN : N ≤ 1) (ν : Fin N → ℕ) (l : ℕ) 
     apply Finset.sum_eq_zero
     intro p hp
     simp only [Formalism.RankGapBounds.JumpSetsAlt.posPairs, Finset.mem_filter, Finset.mem_univ, true_and] at hp
-    have h1 := p.1.isLt
-    have h2 := p.2.isLt
-    have h3 : p.1.val < p.2.val := hp
     omega
   rw [he] at h
   exact Nat.le_zero.mp (Nat.sInf_le h)

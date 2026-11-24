@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ContinuousWittCbInclusionSmulWeakTopology
 import Formalism.SharpRestriction.LevelLetterCocycles.DvrLatticeRank.FramePfHyp
 public import Formalism.SharpRestriction.LevelLetterCocycles.DeltaInvariantUniformizer
 import Formalism.SharpRestriction.LevelLetterCocycles.BaseChangePreservesUnitaryOf
@@ -283,11 +284,7 @@ theorem frobenius_uniformiser_wach {G : Type} [Group G] [TopologicalSpace G] {Qp
   exact frobpin_local W T I hI hφI π' (Formalism.MainNotions.DeltaInvariantLattices.Eat E π') u s' h' M hu hEI hsM hN hπΔ' hunit
 
 theorem max_unramified_finrank_pos {l : ℕ} [Fact l.Prime] (K : FinExt l) : 0 < finrank ℚ_[l] ↥(K0 K) := by
-  have := K.2
-  have : FiniteDimensional ℚ_[l] ↥(K0 K) := FiniteDimensional.of_injective
-      (IntermediateField.inclusion (inf_le_left : K0 K ≤ K.1)).toLinearMap
-      (IntermediateField.inclusion (inf_le_left : K0 K ≤ K.1)).injective
-  exact finrank_pos
+  apply _root_.GlobalTheory.WeakClosed.finrank_maxUnramifiedSubfield_pos <;> assumption
 
 theorem frobpin_finrank_sup {l : ℕ} [Fact l.Prime] (F : IntermediateField ℚ_[l] (Om l)) (y : Om l)
     (hint : IsIntegral F y) :

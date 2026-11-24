@@ -1,5 +1,6 @@
 module
 
+import Formalism.SharpRestriction.GrowthBounds.IntegralWeylLatticeSpan.ColSpanMulUnit
 public import Formalism.LocalToGlobal.Divisibility.DefGroupLemmas
 import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Bridge
 import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.CsScale
@@ -19,44 +20,7 @@ variable {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [StarR
 
 theorem span_dualSet_eq (σ : E →+* E) (J : Matrix (Fin n) (Fin n) E) (L : Submodule (𝓞 E) (Fin n → E)) :
     ((Submodule.span (𝓞 E) (dualSet σ J L) : Submodule (𝓞 E) (Fin n → E)) : Set (Fin n → E)) = dualSet σ J L := by
-  refine Set.Subset.antisymm ?_ Submodule.subset_span
-  intro v hv
-  rw [SetLike.mem_coe] at hv
-  induction hv using Submodule.span_induction with
-  | mem x hx => exact hx
-  | zero =>
-    unfold dualSet
-    intro w _
-    refine ⟨0, ?_⟩
-    unfold hform
-    simp
-  | add x y hx' hy' hx hy =>
-    clear hx' hy'
-    unfold dualSet at hx hy ⊢
-    intro w hw
-    obtain ⟨a, ha⟩ := hx w hw
-    obtain ⟨b, hb⟩ := hy w hw
-    clear hx hy hw
-    refine ⟨a + b, ?_⟩
-    unfold hform at ha hb ⊢
-    rw [map_add (f := _), ha, hb, ← Finset.sum_add_distrib]
-    refine Finset.sum_congr rfl (fun i _ => ?_)
-    rw [← Finset.sum_add_distrib]
-    refine Finset.sum_congr rfl (fun j _ => ?_)
-    rw [Pi.add_apply, mul_add]
-  | smul c x hx' hx =>
-    clear hx'
-    unfold dualSet at hx ⊢
-    intro w hw
-    obtain ⟨a, ha⟩ := hx w hw
-    refine ⟨c * a, ?_⟩
-    unfold hform at ha ⊢
-    rw [map_mul, ha, Finset.mul_sum]
-    refine Finset.sum_congr rfl (fun i _ => ?_)
-    rw [Finset.mul_sum]
-    refine Finset.sum_congr rfl (fun j _ => ?_)
-    rw [Pi.smul_apply, Algebra.smul_def]
-    ring
+  apply _root_.Formalism.L2.G.RelativeIndexFlags.span_dualSet <;> assumption
 
 theorem exists_gramS_sd (hc : CMData F E) {J : Matrix (Fin n) (Fin n) E} {L : Submodule (𝓞 E) (Fin n → E)}
     {β : GL (Fin n) (E ⊗[F] Af F)} (hJ : IsUnit J.det) (hspan : Submodule.span E (L : Set (Fin n → E)) = ⊤)

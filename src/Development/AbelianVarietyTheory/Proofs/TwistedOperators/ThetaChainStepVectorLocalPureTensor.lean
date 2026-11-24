@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.HasInfExpMulZero
 public import Development.AbelianVarietyTheory.BlockTheory.TwistedDiscreteSeries.HalfLinearCocycle
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.DegreeOnePrimeReductionSplitPlaceDictionary
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.RestrictedTensorBasePointNormSq
@@ -567,15 +568,7 @@ namespace GlobalTheory.StepVec.HalfCmp
 variable {D : D7}
 
 theorem toEAf_surjective : Function.Surjective (toEAf D) := by
-  intro y
-  have hs : Function.Surjective (finPart D) := by
-    have h1 : Function.Surjective (sndA D.host.F) := fun b => ⟨(0, b), rfl⟩
-    exact TensorProduct.map_surjective (g := (sndA D.host.F).toLinearMap) h1
-      (g' := (AlgHom.id D.host.F D.host.E).toLinearMap) Function.surjective_id
-  obtain ⟨z, hz⟩ := hs ((Algebra.TensorProduct.comm D.host.F (Af D.host.F) D.host.E).symm y)
-  refine ⟨z, ?_⟩
-  change (Algebra.TensorProduct.comm D.host.F (Af D.host.F) D.host.E) (finPart D z) = y
-  rw [hz]; exact AlgEquiv.apply_symm_apply _ _
+  apply _root_.GlobalTheory.InnerSteps.toEAf_surjective <;> assumption
 
 theorem gl_map_val {n : ℕ} {R S : Type} [CommRing R] [CommRing S] (f : R →+* S) (g : GL (Fin n) R) :
     (Matrix.GeneralLinearGroup.map f g).val = g.val.map f := rfl

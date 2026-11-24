@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.SatakeParameters.ReprMemOfBasisRational
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.NabBaseChange
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.DualWeylLatticeBaseChangeSpanProof
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.LevelCharacterApplyEqLevelFunctionSwap
@@ -113,26 +114,7 @@ theorem isOfFinOrder_hom_of_finite {G : Type} [Group G] [Finite G] (f : G →* �
 
 theorem levFn_isOfFinOrder (β : GL (Fin n) (E ⊗[F] Formalism.L2.Herm.Af F)) (L : LevDat E ℂ n)
     (x : GL (Fin n) (E ⊗[F] Formalism.L2.Herm.Af F)) : IsOfFinOrder (levFn β L x) := by
-  classical
-  have hPP : ∀ PP : Pl E, Finite (kP PP) := fun PP =>
-    Ideal.finiteQuotientOfFreeOfNeBot PP.asIdeal PP.ne_bot
-  have hU : ∀ PP : Pl E, Finite (kP PP)ˣ := fun PP => Finite.of_injective _ Units.val_injective
-  have hG : ∀ (PP : Pl E) (r : ℕ), Finite (GL (Fin r) (kP PP)) := fun PP r => Finite.of_injective _ Units.val_injective
-  have hG0 : Finite (G0 L.Pg L.r) := Pi.finite
-  rw [← CommGroup.mem_torsion]
-  unfold levFn
-  refine Subgroup.mul_mem _ (Subgroup.mul_mem _ ?_ ?_) ?_
-  · rw [CommGroup.mem_torsion]
-    unfold ext1
-    split_ifs with h
-    · exact isOfFinOrder_hom_of_finite L.P.chi _
-    · exact IsOfFinOrder.one
-  · refine Subgroup.prod_mem _ fun PP _ => Subgroup.prod_mem _ fun c _ => ?_
-    rw [CommGroup.mem_torsion]
-    exact isOfFinOrder_hom_of_finite _ _
-  · refine Subgroup.prod_mem _ fun PP _ => ?_
-    rw [CommGroup.mem_torsion]
-    exact isOfFinOrder_hom_of_finite _ _
+  apply _root_.GlobalTheory.HeckeRational.levFn_isOfFinOrder <;> assumption
 end
 
 

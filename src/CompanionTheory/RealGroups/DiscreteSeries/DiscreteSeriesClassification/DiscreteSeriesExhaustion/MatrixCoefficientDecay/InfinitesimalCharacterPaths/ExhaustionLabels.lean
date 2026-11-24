@@ -1,5 +1,6 @@
 module
 
+import CompanionTheory.SpectralGeometry.LocalGlobalProofs.StableLattices.MatrixActionBracket
 public import CompanionTheory.RealGroups.DiscreteSeries.DiscreteSeriesClassification.DiscreteSeriesExhaustion.MatrixCoefficientDecay.InfinitesimalCharacterPaths.TensDecomp
 public import CompanionTheory.RealGroups.DiscreteSeries.DiscreteSeriesClassification.DiscreteSeriesExhaustion.MatrixCoefficientDecay.LineFormulas.RightRule
 public import CompanionTheory.SpectralGeometry.LocalGlobalProofs.StableLattices.NilpotentLeftRule
@@ -648,41 +649,8 @@ theorem actL_single (E : Fin n → Fin n → Module.End ℂ M) (a b : Fin n) (x 
   · simp
 
 theorem actL_comm {E : Fin n → Fin n → Module.End ℂ M} (hE : GlRel E) (Y Z : Matrix (Fin n) (Fin n) ℂ) :
-    actL E Y * actL E Z - actL E Z * actL E Y = actL E (Y * Z - Z * Y) := by
-  refine Matrix.induction_on' Y ?_ ?_ ?_
-  · simp
-  · intro p q hp hq
-    have e1 : actL E (p + q) * actL E Z - actL E Z * actL E (p + q) =
-        (actL E p * actL E Z - actL E Z * actL E p) + (actL E q * actL E Z - actL E Z * actL E q) := by
-      rw [map_add (f := _), add_mul, mul_add]; abel
-    have e2 : actL E ((p + q) * Z - Z * (p + q)) = actL E (p * Z - Z * p) + actL E (q * Z - Z * q) := by
-      rw [← map_add (f := _)]; congr 1; rw [add_mul, mul_add]; abel
-    rw [e1, e2, hp, hq]
-  · intro i j x
-    refine Matrix.induction_on' Z ?_ ?_ ?_
-    · simp
-    · intro p q hp hq
-      have e1 : actL E (Matrix.single i j x) * actL E (p + q) - actL E (p + q) * actL E (Matrix.single i j x) =
-          (actL E (Matrix.single i j x) * actL E p - actL E p * actL E (Matrix.single i j x)) +
-            (actL E (Matrix.single i j x) * actL E q - actL E q * actL E (Matrix.single i j x)) := by
-        rw [map_add (f := _), add_mul, mul_add]; abel
-      have e2 : actL E (Matrix.single i j x * (p + q) - (p + q) * Matrix.single i j x) =
-          actL E (Matrix.single i j x * p - p * Matrix.single i j x) +
-            actL E (Matrix.single i j x * q - q * Matrix.single i j x) := by
-        rw [← map_add (f := _)]; congr 1; rw [add_mul, mul_add]; abel
-      rw [e1, e2, hp, hq]
-    · intro k l y
-      have hm : ∀ (a b c d : Fin n) (x y : ℂ), Matrix.single a b x * Matrix.single c d y =
-          if b = c then Matrix.single a d (x * y) else 0 := by
-        intro a b c d x y
-        split_ifs with h
-        · subst h; exact Matrix.single_mul_single_same _ _ _ _ _
-        · exact Matrix.single_mul_single_of_ne _ _ _ _ h _
-      have g := hE i j k l
-      have e : (x • E i j) * (y • E k l) - (y • E k l) * (x • E i j) = (x * y) • (E i j * E k l - E k l * E i j) := by
-        simp only [smul_mul_assoc, mul_smul_comm, smul_smul, smul_sub, mul_comm y x]
-      rw [actL_single, actL_single, e, g, hm, hm, map_sub]
-      by_cases h1 : j = k <;> by_cases h2 : l = i <;> simp [h1, h2, actL_single, smul_sub, mul_comm y x]
+    actL E Y * actL E Z - actL E Z * actL E Y = actL E (Y * Z - Z * Y) :=
+  GlobalTheory.CompanionTheory.MatrixAction.bracket E hE Y Z
 
 end Act
 

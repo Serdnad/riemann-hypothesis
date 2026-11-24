@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.TwistedOrbitalIntegralTwistedConjInvariant
 public import Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange.ArchimedeanBaseChangeProof.ThetaNormCommutation.LocalComparisonSplitting.EulerFactorLevels.EulerFinOf
 public import Mathlib.Algebra.BigOperators.Finprod
 public import Mathlib.Basic.Complex.Basic
@@ -55,28 +56,8 @@ namespace PositivityTheory.Rg.BcB.G8.Fin.DoubleCosetCounting
 
 open PositivityTheory.Rg.BcB.G8 PositivityTheory.Rg.BcB.G8.Fin
 
-theorem avg_comp_mul_left {H : Type} [Group H] (u : H → ℂ) (h : H) : avg (fun y => u (h * y)) = avg u := by
-  have hR : rStab (fun y => u (h * y)) = rStab u := by
-    ext k
-    show (∀ x, u (h * (x * k)) = u (h * x)) ↔ ∀ x, u (x * k) = u x
-    constructor
-    · intro H x
-      have := H (h⁻¹ * x)
-      simpa [mul_assoc] using this
-    · intro H x
-      simpa [mul_assoc] using H (h * x)
-  unfold avg
-  rw [hR]
-  congr 1
-  calc ∑ᶠ q : H ⧸ rStab u, u (h * q.out) = ∑ᶠ q : H ⧸ rStab u, u ((h • q).out) := by
-        refine finsum_congr fun q => ?_
-        obtain ⟨r, hr⟩ := QuotientGroup.mk_out_eq_mul (rStab u) (h * q.out)
-        have hq : h • q = ((h * q.out : H) : H ⧸ rStab u) := by
-          conv_lhs => rw [← QuotientGroup.out_eq' q]
-          rfl
-        rw [hq, hr]
-        exact (r.2 (h * q.out)).symm
-    _ = ∑ᶠ q : H ⧸ rStab u, u q.out := finsum_comp_equiv (MulAction.toPerm h) (f := fun q : H ⧸ rStab u => u q.out)
+theorem avg_comp_mul_left {H : Type} [Group H] (u : H → ℂ) (h : H) : avg (fun y => u (h * y)) = avg u :=
+  _root_.GlobalTheory.TwOrbConj.avg_left u h
 
 end PositivityTheory.Rg.BcB.G8.Fin.DoubleCosetCounting
 

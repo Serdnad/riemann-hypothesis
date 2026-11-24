@@ -73,33 +73,7 @@ theorem extZ_val (U : Set V) (φ : U → ℝ) (u : U) : extZ U φ u = φ u := by
 
 theorem extZ_props {U : Set V} (hU : IsOpen U) (φ : U → ℝ) (hc : Continuous φ)
     (hs : HasCompactSupport φ) : IsCcOn U (extZ U φ) := by
-  set K : Set V := Subtype.val '' tsupport φ with hKdef
-  have hK : IsCompact K := hs.image continuous_subtype_val
-  have hKU : K ⊆ U := by rintro _ ⟨u, -, rfl⟩; exact u.2
-  have hzero : ∀ v ∉ K, extZ U φ v = 0 := by
-    intro v hv
-    by_cases h : v ∈ U
-    · simp only [extZ, h, dite_true]
-      exact image_eq_zero_of_notMem_tsupport (fun hm => hv ⟨⟨v, h⟩, hm, rfl⟩)
-    · simp [extZ, h]
-  have hsupp : tsupport (extZ U φ) ⊆ K := by
-    apply closure_minimal _ hK.isClosed
-    intro v hv
-    by_contra h
-    exact hv (hzero v h)
-  refine ⟨?_, HasCompactSupport.intro' hK hK.isClosed hzero, hsupp.trans hKU⟩
-  rw [continuous_iff_continuousAt]
-  intro v
-  by_cases hv : v ∈ U
-  · have hcon : ContinuousOn (extZ U φ) U := by
-      rw [continuousOn_iff_continuous_restrict]
-      convert hc using 1
-      funext u; exact extZ_val U φ u
-    exact hcon.continuousAt (hU.mem_nhds hv)
-  · have hvK : v ∉ K := fun h => hv (hKU h)
-    have hev : (fun _ => (0 : ℝ)) =ᶠ[𝓝 v] extZ U φ := by
-      filter_upwards [hK.isClosed.isOpen_compl.mem_nhds hvK] with w hw using (hzero w hw).symm
-    exact (continuousAt_const (y := (0 : ℝ))).congr hev
+  apply _root_.PI.VolStabSW.Glue.extZ_props <;> assumption
 
 theorem extZ_add (U : Set V) (φ ψ : U → ℝ) : extZ U (φ + ψ) = extZ U φ + extZ U ψ := by
   funext v; by_cases h : v ∈ U <;> simp [extZ, h]
@@ -135,12 +109,7 @@ variable [OpensMeasurableSpace X] [T2Space X] [LocallyCompactSpace X]
 
 theorem dens_unique {g1 g2 : X → ℝ} (h1 : Continuous g1) (h2 : Continuous g2)
     (h : ∀ S, IsCompact S → ∫ b in S, g1 b ∂ν = ∫ b in S, g2 b ∂ν) : g1 = g2 := by
-  funext b
-  have := DensGen.eq_zero_of_setIntegral (ν := ν) (fun b => g1 b - g2 b) univ b univ_mem
-    (h1.sub h2).continuousOn (fun S hS _ => by
-      rw [integral_sub (h1.continuousOn.integrableOn_compact hS)
-        (h2.continuousOn.integrableOn_compact hS), h S hS, sub_self])
-  linarith
+  apply +allowSynthFailures _root_.PI.VolStabSW.Glue.dens_unique <;> assumption
 
 theorem dens_nonneg {g : X → ℝ} (hg : Continuous g)
     (h : ∀ S, IsCompact S → 0 ≤ ∫ b in S, g b ∂ν) (b0 : X) : 0 ≤ g b0 := by
@@ -192,15 +161,7 @@ variable {V X Y : Type} [TopologicalSpace V] [MeasurableSpace V] [BorelSpace V]
 
 theorem tsupport_extZ (U : Set V) (φ : U → ℝ) (hs : HasCompactSupport φ) :
     tsupport (extZ U φ) ⊆ Subtype.val '' tsupport φ := by
-  have hK : IsCompact (Subtype.val '' tsupport φ) := hs.image continuous_subtype_val
-  apply closure_minimal _ hK.isClosed
-  intro v hv
-  by_contra h
-  apply hv
-  by_cases hU : v ∈ U
-  · simp only [extZ, hU, dite_true]
-    exact image_eq_zero_of_notMem_tsupport (fun hm => h ⟨⟨v, hU⟩, hm, rfl⟩)
-  · simp [extZ, hU]
+  apply _root_.PI.VolStabSW.Glue.tsupport_extZ <;> assumption
 
 def lam (hD : DensAll μ f ι ν U) (hU : IsOpen U) (b : X) : C_c(U, ℝ) →ₚ[ℝ] ℝ :=
   PositiveLinearMap.mk₀

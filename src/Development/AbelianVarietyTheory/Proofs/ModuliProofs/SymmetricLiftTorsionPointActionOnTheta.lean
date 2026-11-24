@@ -488,12 +488,7 @@ def cval {φ : K → (Y ⟶ X)} {ε : K → ℤ} (t : LB.Gen (LB.LinComb L φ ε
 private theorem valAt'_presheaf_map_homOfLE {Z : Scheme.{0}} (x : Sp ℂ ⟶ Z) {U V : Z.Opens} (hVU : V ≤ U)
     (h : ⊤ ≤ x ⁻¹ᵁ V) (f : Γ(Z, U)) :
     valAt' x V (Z.presheaf.map (homOfLE hVU).op f) = valAt' x U f := by
-  unfold valAt'
-  rw [dif_pos h, dif_pos (h.trans fun p hp => hVU hp)]
-  unfold valAt
-  congr 1
-  rw [← Scheme.Hom.map_appLE x h (homOfLE hVU).op]
-  rfl
+  apply _root_.GlobalTheory.ThetaFn.valAt'_resG <;> assumption
 
 private theorem valAt'_mul_moduli {Z : Scheme.{0}} (x : Sp ℂ ⟶ Z) (U : Z.Opens) (f f' : Γ(Z, U)) :
     valAt' x U (f * f') = valAt' x U f * valAt' x U f' := by

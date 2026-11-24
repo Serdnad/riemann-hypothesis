@@ -413,19 +413,7 @@ open scoped SchwartzMap RealInnerProductSpace
 
 theorem lintegral_of_integral (l : Type) [Fintype l] (f g : GlobalTheory.RealWeil.Sch l)
     (h : ∫ x, ‖f x‖ ^ 2 = ∫ x, ‖g x‖ ^ 2) : ∫⁻ x, ‖f x‖ₑ ^ 2 = ∫⁻ x, ‖g x‖ₑ ^ 2 := by
-  have key : ∀ u : GlobalTheory.RealWeil.Sch l, ∫ x, ‖u x‖ ^ 2 = (∫⁻ x, ‖u x‖ₑ ^ 2).toReal := by
-    intro u
-    rw [integral_eq_lintegral_of_nonneg_ae (f := fun x => ‖u x‖ ^ 2) (Eventually.of_forall fun x => sq_nonneg ‖u x‖)
-      ((by fun_prop : Continuous fun x => ‖u x‖ ^ 2).aestronglyMeasurable)]
-    congr 1
-    refine lintegral_congr fun x => ?_
-    rw [← ofReal_norm_eq_enorm, ENNReal.ofReal_pow (norm_nonneg _)]
-  have fin : ∀ u : GlobalTheory.RealWeil.Sch l, ∫⁻ x, ‖u x‖ₑ ^ 2 ≠ ⊤ := by
-    intro u
-    rw [GlobalTheory.MetaplecticScalarDeriv.lintegral_sq_eq]
-    exact ENNReal.pow_ne_top (Lp.eLpNorm_ne_top _)
-  rw [key, key] at h
-  exact (ENNReal.toReal_eq_toReal_iff' (fin f) (fin g)).1 h
+  apply _root_.GlobalTheory.ArchCont.lintegral_of_integral <;> assumption
 
 
 end GlobalTheory.SchwartzSlope

@@ -1,5 +1,8 @@
 module
 
+import Development.AutomorphicArithmetic.ThetaCorrespondence.ThetaPairLifts.ThirdPlaceSeries.LevTraceMemStatement
+import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.SeeSawLatticeFramePinsFiniteIntegralLawsStatement
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.BesselLevelOneCosetAtExceptionalPlacesStatement
 public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.NormOneAtOne
 public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.ExistsCompactOpenLatticeStabilizerAtPlaces
 public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.FinitePartMemFrameStabilizerIffLocalStabilizer
@@ -707,17 +710,8 @@ namespace GlobalTheory.Core.Mi.LatMatch
 theorem mulVec_sec_split {D : D7} {k : Type} [Field k] [ValuativeRel k] [TopologicalSpace k] [IsNonarchimedeanLocalField k]
     (q : GlobalTheory.FinPl.SplitPt D k) {n : ℕ} (g : Matrix (Fin n) (Fin n) (AE D)) (w : Fin n → k) :
     g *ᵥ (fun i => q.sec (w i)) = fun i => q.sec ((g.map q.pr *ᵥ w) i) := by
-  funext i
-
-  simp only [mulVec, dotProduct, Matrix.map_apply, map_sum]
-  refine Finset.sum_congr rfl fun j _ => ?_
-  have h1 := GlobalTheory.LocMod.PinEx.sec_mul q (q.pr (g i j)) (w j)
-  have h2 := q.sec_pr (g i j)
-  have h3 : q.e * q.sec (w j) = q.sec (w j) := by
-    have := q.sec_pr (q.sec (w j))
-    rw [q.pr_sec] at this
-    exact this.symm
-  rw [← h1, h2, mul_assoc, mul_left_comm, h3]
+  intros
+  apply _root_.GlobalTheory.FinPl.mulVec_sec <;> assumption
 
 end GlobalTheory.Core.Mi.LatMatch
 
@@ -1051,20 +1045,7 @@ alias mt_one := _root_.GlobalTheory.BesselCompare.mt_one
 
 theorem mem_congGrp {V : HSp D} {I : Ideal (AE D)} {g : GA D V} :
     g ∈ GlobalTheory.FinPl.congGrp V I ↔ ∀ i j, Formalism.L2.Theta.mt V g i j - (1 : Matrix (Fin V.rank) (Fin V.rank) (AE D)) i j ∈ I := by
-  unfold GlobalTheory.FinPl.congGrp
-  rw [MonoidHom.mem_ker]
-  constructor
-  · intro h i j
-    have := congrArg (fun x : GL (Fin V.rank) (AE D ⧸ I) => x.1 i j) h
-    rw [← Ideal.Quotient.eq]
-    simp [Formalism.L2.Theta.mt, Matrix.one_apply] at this ⊢
-    exact this
-  · intro h
-    ext i j
-    have := h i j
-    rw [← Ideal.Quotient.eq] at this
-    simp [Formalism.L2.Theta.mt, Matrix.one_apply] at this ⊢
-    exact this
+  apply _root_.GlobalTheory.OneCosetBF.mem_congGrp_iff <;> assumption
 
 theorem idAt_le_idOff {v w : GlobalTheory.FinPl.Pl D} (h : v ≠ w) : idAt D (· = w) ≤ GlobalTheory.FinPl.idOff D (· = v) := by
   intro a ha
@@ -1720,27 +1701,8 @@ open GlobalTheory.Core.Mi.LatMatch
 namespace GlobalTheory.Core.Mi.LatMatch
 
 theorem moves_emb0_iff_moves_of_monoAt : ∀ (D : D7) (S S₀ : HSp D) (ρ : ℕ) (d : HypDec S S₀ ρ) (L : Lat S) (M : Lat S₀) (v : GlobalTheory.FinPl.Pl D) (γ : GA D S₀), MonoAt d L M v → (Moves S (d.emb0 γ) L L (· = v) ↔ Moves S₀ γ M M (· = v)) := by
-  intro D S S₀ ρ d L M v γ hL
-  have supp : ∀ {m n : ℕ} (A : Matrix (Fin m) (Fin n) (AE D)) (y : Fin n → AE D), (∀ i, y i ∈ idAt D (· = v)) →
-      ∀ i, (A *ᵥ y) i ∈ idAt D (· = v) := fun A y hy i => by
-    simp only [Matrix.mulVec, dotProduct]
-    exact Ideal.sum_mem _ fun k _ => Ideal.mul_mem_left _ _ (hy k)
-  have hc : ∀ {n : ℕ} (x : Matrix (Fin S.rank) (Fin n) (AE D)) (i : Fin n), colMul x i 0 = 0 := fun x i => by
-    funext k; simp [colMul]
-  have j0iff : ∀ w : Fin S₀.rank → AE D, d.j0 *ᵥ w ∈ latV S L (· = v) ↔ w ∈ latV S₀ M (· = v) := by
-    intro w
-    rw [hL]
-    simp only [Matrix.mulVec_mulVec, d.pX_j0, d.pY_j0, d.p0_j0, Matrix.zero_mulVec, Matrix.one_mulVec, Pi.zero_apply, hc,
-      zero_mem, implies_true, true_and]
-  constructor
-  · intro h w hw
-    have h1 := h (d.j0 *ᵥ w) (supp _ _ hw)
-    rw [j0iff, Matrix.mulVec_mulVec, d.wittDecomp_anisotropicEmbedding_inclAnisotropic, ← Matrix.mulVec_mulVec, j0iff] at h1
-    exact h1
-  · intro h y hy
-    rw [hL y, hL (mt S (d.emb0 γ) *ᵥ y)]
-    simp only [Matrix.mulVec_mulVec, d.wittDecomp_projX_anisotropicEmbedding, d.wittDecomp_projY_anisotropicEmbedding, d.wittDecomp_projAnisotropic_anisotropicEmbedding]
-    rw [← Matrix.mulVec_mulVec, ← h _ (supp _ _ hy)]
+  intros
+  apply _root_.GlobalTheory.OffTrace.carriesLattice_wittEmbedding_iff_core <;> assumption
 
 end GlobalTheory.Core.Mi.LatMatch
 end -- clump:auto

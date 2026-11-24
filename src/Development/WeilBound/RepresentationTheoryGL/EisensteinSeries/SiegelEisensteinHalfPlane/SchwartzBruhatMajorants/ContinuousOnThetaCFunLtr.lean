@@ -572,12 +572,7 @@ theorem scalC_commute (a : IdeleGroup k) (A : GL ι 𝔸[k]) :
   exact (Matrix.scalar_commute _ (fun r ↦ Commute.all _ r) _)
 
 theorem continuous_scalC : Continuous (scalC : IdeleGroup k → GL ι 𝔸[k]) := by
-  refine Continuous.units_map _ ?_
-  refine continuous_matrix fun i j ↦ ?_
-  by_cases h : i = j
-  · subst h
-    simpa [Matrix.scalar_apply] using continuous_id'
-  · simpa [Matrix.scalar_apply, Matrix.diagonal_apply_ne _ h] using continuous_const
+  apply _root_.GlobalTheory.CompanionTheory.EpsteinThetaC.continuous_scalC <;> assumption
 
 theorem thetaC_ltr (A h : GL ι 𝔸[k]) (F : (ι → 𝔸[k]) → ℂ) :
     thetaC (ltr A F) h = thetaC F (A * h) := by

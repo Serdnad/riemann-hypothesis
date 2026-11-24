@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.LieCombAddPowMap
 public import Development.AbelianVarietyTheory.Definitions.RegularCharts.MatrixTwoByTwoCongr
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.PullCub
 public import Formalism.LocalToGlobal.ProjectiveLattices.ThetaFramePf
@@ -111,16 +112,8 @@ theorem exists_hom {S S' : Scheme.{0}} {t : SAB H S} {t₁ t₂ : SAB H S'} {f f
 theorem lieComb_map {R : Type} [CommRing R] {G G' : Over (Sp R)} [GrpObj G] [GrpObj G'] (ψ : G ⟶ G') [IsMonHom ψ]
     {n : ℕ} {c : Fin n → R} {v : Fin n → (epsR R ⟶ G)} {w : epsR R ⟶ G} (h : IsLieComb c v w) :
     IsLieComb c (fun j => v j ≫ ψ) (w ≫ ψ) := by
-  obtain ⟨u, hu, rfl⟩ := h
-  have hL : ∀ L : List (epsR R ⟶ G), (L.map (· ≫ ψ)).prod = L.prod ≫ ψ := by
-    intro L
-    induction L with
-    | nil => simp [MonObj.one_comp]
-    | cons a L ih => rw [List.map_cons, List.prod_cons, List.prod_cons, ih, MonObj.mul_comp]
-  refine ⟨fun j => u j ≫ ψ, fun j => ?_, ?_⟩
-  · rw [Over.comp_left, Over.comp_left, hu j, Category.assoc]
-  · rw [← hL, List.map_ofFn]
-    rfl
+  intros
+  apply _root_.GlobalTheory.LieCombHom.isLieComb_comp <;> assumption
 
 variable {Dw : Datum H} {l : Level H} {Xo : Moduli Dw l} {c : Coeff l} {O : Type} [CommRing O] {β : O →+* c.F}
   {Y : Model Xo c β} {M : MChart Y} {R : Type} [CommRing R] [Algebra c.F R] {f : Γ(Y.X, M.U) →+* R}

@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.TypeSpaceProjectionToPointEigenspaces
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.RowsExhaust
 public import Formalism.LocalToGlobal.ProjectiveLattices.HalfOneAddSqrtNegIsIntegral
 public import Formalism.LocalToGlobal.GaloisLevelStructure.DefsAut
@@ -328,37 +329,7 @@ theorem isConjPl_symm' {D : D7} {w w' : PlE D.host} (h : IsConjPl D.host w w') :
 
 theorem not_bad {D : D7} {M : MtFam D} (HT : HeckeTied D M) (i : D.nd.Loc) {w : PlE D.host}
     (hw : SplitOut D.nd i w) (s : SplitPlace D.host.E) (hc : IsConjPl D.host w s.w) : s.v ∉ badPl D i := by
-  rintro ⟨w', hover, hw'⟩
-  have hp : ∀ p : ℕ, w' ∈ placesOver D.host.E p → w ∈ placesOver D.host.E p := by
-    intro p hp
-    have h1 : algebraMap (𝓞 (maximalRealSubfield D.host.E)) (𝓞 D.host.E) (p : 𝓞 (maximalRealSubfield D.host.E)) ∈
-        w'.asIdeal := by rw [map_natCast]; exact hp
-    have h2 : (p : 𝓞 (maximalRealSubfield D.host.E)) ∈ s.v.asIdeal := by
-      rw [← hover]; exact h1
-    have h3 : algebraMap (𝓞 (maximalRealSubfield D.host.E)) (𝓞 D.host.E) (p : 𝓞 (maximalRealSubfield D.host.E)) ∈
-        s.w.asIdeal := by
-      rw [← Ideal.mem_comap, s.w_under]; exact h2
-    rw [map_natCast] at h3
-    exact (hc (p : 𝓞 D.host.E) (p : 𝓞 D.host.E) (by rw [host_conj_eq']; simp)).2 h3
-  obtain ⟨hsp, hl, hS, hQ⟩ := hw
-  rcases hw' with hQ' | ⟨kk, hg⟩ | hpd
-  · rcases GlobalTheory.SplitConjPlace.eq_or_eq_conjPlE s.w w' (hover.trans s.w_under.symm) with e | e
-    · subst e
-      exact hQ (HT.Q_conj i s.w w (isConjPl_symm' hc) hQ')
-    · have ew : GlobalTheory.SplitConjPlace.conjPlE s.w = w := by
-        ext1; ext x
-        rw [GlobalTheory.SplitConjPlace.mem_conjPlE]
-        refine (hc x _ ?_).symm
-        rw [IsCMField.coe_ringOfIntegersComplexConj, host_conj_eq']
-      rw [e, ew] at hQ'
-      exact hQ hQ'
-  · apply hS
-    refine (D.nd.S_def i w).2 ⟨?_, hl⟩
-    have hv := hp _ hg
-    fin_cases kk
-    · exact Or.inl hv
-    · exact Or.inr (Or.inl hv)
-  · exact hS ((D.nd.S_def i w).2 ⟨Or.inr (Or.inr (hp _ hpd)), hl⟩)
+  first | exact _root_.GlobalTheory.EtaJoin.TypeTieProof.not_bad_of_splitOut | exact @_root_.GlobalTheory.EtaJoin.TypeTieProof.not_bad_of_splitOut | apply _root_.GlobalTheory.EtaJoin.TypeTieProof.not_bad_of_splitOut <;> assumption
 
 theorem heckeScalar_all : ∀ (D : D7) (M : MtFam D), HeckeTied D M → AVTied D M → ∀ i : D.nd.Loc, HeckeScalar M i := by
   intro D M HT A i P w k s ϖ hw hcw hu _ _

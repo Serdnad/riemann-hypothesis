@@ -1,5 +1,6 @@
 module
 
+import Formalism.LocalToGlobal.KernelLattices.ColumnData.ThIndep
 public import Formalism.LocalToGlobal.GlobalTheory.GL3.PHfArith
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsMonicAevalEqZero
 public import Formalism.LocalToGlobal.GlobalTheory.GL3.PIopNorm
@@ -83,34 +84,7 @@ theorem sE_hom_gen {N N' : ℕ} (L : Submodule (𝓞 D.host.E) (Fin N → D.host
     (hL' : letI := D.host.cmStar; IsSDLat D.host.E N' L')
     (A B : Matrix (Fin N') (Fin N) D.host.E)
     (hA : ∀ x ∈ L, A *ᵥ x ∈ L') (hB : ∀ x ∈ L, B *ᵥ x ∈ L') : IsIntegral ℤ (sE D A B) := by
-  let _ := D.host.cmStar
-  set Bs : Matrix (Fin N) (Fin N') D.host.E := Matrix.of fun j i => D.host.conj (B i j) with hBs
-  have hBs_mem : ∀ y ∈ L', Bs *ᵥ y ∈ L := by
-    intro y hy
-    rw [hL.2.2]
-    intro x hx
-    have h1 : stdH D.host.E N x (Bs *ᵥ y) = stdH D.host.E N' (B *ᵥ x) y := by
-
-      simp only [stdH, CU.star_conj D, Matrix.mulVec, dotProduct, hBs, Matrix.of_apply, map_sum,
-      map_mul, Finset.mul_sum]
-      rw [Finset.sum_comm]
-      refine Finset.sum_congr rfl fun i _ => ?_
-      rw [Finset.sum_mul]
-      refine Finset.sum_congr rfl fun j _ => ?_
-      ring
-    rw [h1]
-    exact (hL'.2.2 y).1 hy _ (hB x hx)
-  have hM : ∀ x ∈ L, (Bs * A) *ᵥ x ∈ L := by
-    intro x hx
-    rw [← Matrix.mulVec_mulVec]
-    exact hBs_mem _ (hA x hx)
-  have h := _root_.GlobalTheory.IntegralTrace.isIntegral_trace D.host.φ₀ L hL.1 hL.2.1 (Bs * A) hM
-  have htr : (Bs * A).trace = sE D A B := by
-    simp only [Matrix.trace, Matrix.diag, Matrix.mul_apply, sE, hBs, Matrix.of_apply]
-    rw [Finset.sum_comm]
-    refine Finset.sum_congr rfl fun i _ => Finset.sum_congr rfl fun j _ => ?_
-    ring
-  rwa [htr] at h
+  apply (_root_.Formalism.L2.Ker.Cd.IntegralLatticeDensity.TI.sE_hom_gen (D := (_root_.Formalism.L2.Ker.Car.ofRec D))) <;> assumption
 
 theorem sE_hom {N N' : ℕ} (L : Submodule (𝓞 D.host.E) (Fin N → D.host.E))
     (L' : Submodule (𝓞 D.host.E) (Fin N' → D.host.E))
@@ -118,18 +92,7 @@ theorem sE_hom {N N' : ℕ} (L : Submodule (𝓞 D.host.E) (Fin N → D.host.E))
     (hL' : letI := D.host.cmStar; IsSDLat D.host.E N' L')
     (A B : Matrix (Fin N') (Fin N) D.host.E) (hA : A ∈ homL D L L') (hB : B ∈ homL D L L') :
     IsIntegral ℤ (sE D A B) := by
-  have h1 : ∀ A ∈ homL D L L', ∀ B, (∀ x ∈ L, B *ᵥ x ∈ L') → IsIntegral ℤ (sE D A B) := by
-    intro A hA B hB
-    induction hA using Submodule.span_induction with
-    | mem A hA => exact sE_hom_gen D L L' hL hL' A B hA hB
-    | zero => rw [sE_zero_left]; exact isIntegral_zero
-    | add A A' _ _ h1 h2 => rw [sE_add_left]; exact h1.add h2
-    | smul o A _ h1 => rw [sE_smul_left]; exact o.isIntegral_coe.mul h1
-  induction hB using Submodule.span_induction with
-  | mem B hB => exact h1 A hA B hB
-  | zero => rw [sE_zero_right]; exact isIntegral_zero
-  | add B B' _ _ h2 h3 => rw [sE_add_right]; exact h2.add h3
-  | smul o B _ h2 => rw [sE_smul_right]; exact (conj_int D o).mul h2
+  apply (_root_.Formalism.L2.Ker.Cd.IntegralLatticeDensity.TI.sE_hom (D := (_root_.Formalism.L2.Ker.Car.ofRec D))) <;> assumption
 
 def TrOK (z : D.host.E) : Prop :=
   ∀ o : 𝓞 D.host.E, IsIntegral ℤ (Algebra.trace D.host.K D.host.E ((o : D.host.E) * z))
@@ -155,15 +118,7 @@ theorem trace_conj_integral (a b : D.host.E) (ha : a ∈ (D.host.AA0 : Submodule
 theorem trOK_gen (a b : D.host.E) (ha : a ∈ (D.host.AA0 : Submodule (𝓞 D.host.E) D.host.E))
     (hb : b ∈ (D.host.AA0 : Submodule (𝓞 D.host.E) D.host.E)) (t : 𝓞 D.host.E) :
     TrOK D (a * D.host.conj b * t) := by
-  intro o
-  have hot : ((o * t : 𝓞 D.host.E) : D.host.E) * a ∈
-      (D.host.AA0 : Submodule (𝓞 D.host.E) D.host.E) := by
-    have := (D.host.AA0 : Submodule (𝓞 D.host.E) D.host.E).smul_mem (o * t) ha
-    rwa [Algebra.smul_def] at this
-  have := trace_conj_integral D _ b hot hb
-  rw [show ((o * t : 𝓞 D.host.E) : D.host.E) = (o : D.host.E) * t from rfl] at this
-  convert this using 2
-  ring
+  apply (_root_.Formalism.L2.Ker.Cd.IntegralLatticeDensity.TI.trOK_gen (D := (_root_.Formalism.L2.Ker.Car.ofRec D))) <;> assumption
 
 theorem trOK_YY {N N' : ℕ} (L : Submodule (𝓞 D.host.E) (Fin N → D.host.E))
     (L' : Submodule (𝓞 D.host.E) (Fin N' → D.host.E))
@@ -171,30 +126,7 @@ theorem trOK_YY {N N' : ℕ} (L : Submodule (𝓞 D.host.E) (Fin N → D.host.E)
     (hL' : letI := D.host.cmStar; IsSDLat D.host.E N' L')
     (A B : Matrix (Fin N') (Fin N) D.host.E) (hA : A ∈ YYl D L L') (hB : B ∈ YYl D L L') :
     TrOK D (sE D A B) := by
-
-  have hgen : ∀ a ∈ (D.host.AA0 : Submodule (𝓞 D.host.E) D.host.E), ∀ A₀ ∈ homL D L L',
-      ∀ b ∈ (D.host.AA0 : Submodule (𝓞 D.host.E) D.host.E), ∀ B₀ ∈ homL D L L',
-      TrOK D (sE D (a • A₀) (b • B₀)) := by
-    intro a ha A₀ hA₀ b hb B₀ hB₀
-    rw [sE_esmul_left, sE_esmul_right, ← mul_assoc]
-    exact trOK_gen D a b ha hb ⟨sE D A₀ B₀, sE_hom D L L' hL hL' A₀ B₀ hA₀ hB₀⟩
-  have h1 : ∀ A ∈ YYl D L L', ∀ b ∈ (D.host.AA0 : Submodule (𝓞 D.host.E) D.host.E),
-      ∀ B₀ ∈ homL D L L', TrOK D (sE D A (b • B₀)) := by
-    intro A hA b hb B₀ hB₀
-    induction hA using Submodule.span_induction with
-    | mem A hA =>
-      obtain ⟨a, ha, A₀, hA₀, rfl⟩ := hA
-      exact hgen a ha A₀ hA₀ b hb B₀ hB₀
-    | zero => rw [sE_zero_left]; exact trOK_zero D
-    | add A A' _ _ h2 h3 => rw [sE_add_left]; exact trOK_add D h2 h3
-    | smul o A _ h2 => rw [sE_smul_left]; exact trOK_mul D h2 o
-  induction hB using Submodule.span_induction with
-  | mem B hB =>
-    obtain ⟨b, hb, B₀, hB₀, rfl⟩ := hB
-    exact h1 A hA b hb B₀ hB₀
-  | zero => rw [sE_zero_right]; exact trOK_zero D
-  | add B B' _ _ h2 h3 => rw [sE_add_right]; exact trOK_add D h2 h3
-  | smul o B _ h2 => rw [sE_smul_right]; exact trOK_mul D h2 (cO D o)
+  apply (_root_.Formalism.L2.Ker.Cd.IntegralLatticeDensity.TI.trOK_YY (D := (_root_.Formalism.L2.Ker.Car.ofRec D))) <;> assumption
 
 end Formalism.L2.GlobalTheoryTheory.IntegralLatticeDensity.TI
 

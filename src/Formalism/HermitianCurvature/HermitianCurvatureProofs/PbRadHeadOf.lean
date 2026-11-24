@@ -48,6 +48,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
+import Formalism.HermitianCurvature.HermitianCurvatureProofs.HeadCorrespondenceOfParts
 
 @[expose] public section
 
@@ -88,16 +89,7 @@ end smul
 
 theorem isLocPt_snoc {h : C.LPt} {j : ℕ} (hh : D.IsLocPt h j) {t : ℂ} (ht : t ≠ 0) :
     D.IsLocPt (h ++ [(1, t)]) (j + 1) := by
-  obtain ⟨h1, h2⟩ := hh
-  refine ⟨fun b hb => ?_, ?_⟩
-  · rcases List.mem_append.1 hb with hb | hb
-    · exact h1 b hb
-    · rw [List.mem_singleton] at hb
-      subst hb
-      exact ⟨le_rfl, ht⟩
-  · unfold D.ptSize at h2 ⊢
-    rw [List.map_append, List.sum_append, h2]
-    simp
+  apply _root_.Formalism.FourierDecayAlt.P.PBI.isLocPt_app <;> assumption
 
 theorem levW_below (P : M.Par) (j : ℕ) (hj : j + 1 ≤ P.r) {t : ℂ} (ht : t ≠ 0) :
     ‖t‖ ^ (-2 : ℤ) * (‖t‖ ^ (2 * (P.r - j) + P.k)) ^ 2 = KB.levW P (j + 1) t := by

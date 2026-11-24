@@ -1,5 +1,6 @@
 module
 
+import GroundTheory.HeightsAndTheta.Heights.Intersections.PBlockGenFinite
 public import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.StatementsVertFactorSmooth
 public import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.StatementsVertFactorPos
 public import Mathlib.Data.FunLike.Fintype
@@ -8,6 +9,7 @@ public import Mathlib.Analysis.InnerProductSpace.Calculus
 import Mathlib.RingTheory.Henselian
 import Mathlib.RingTheory.RegularLocalRing.Defs
 import Mathlib.RingTheory.SimpleRing.Principal
+import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.MCoordIdealGenericPointEq
 
 @[expose] public section
 
@@ -148,34 +150,11 @@ theorem eval_torusSmul {g : MRing ι} {d : K → ℕ} (hg : IsMultiHomog g d) (c
     (z : (Σ k, ι k) → ℂ) :
     eval (torusSmul c z) (map (Int.castRingHom ℂ) g) =
       (∏ k, c k ^ d k) * eval z (map (Int.castRingHom ℂ) g) := by
-  classical
-  rw [eval_eq', eval_eq', Finset.mul_sum,
-    support_map_of_injective _ (Int.castRingHom ℂ).injective_int]
-  refine Finset.sum_congr rfl fun m hm => ?_
-  have hdeg := hg m hm
-  have hc : ∏ p : Σ k, ι k, c p.1 ^ m p = ∏ k, c k ^ d k := by
-    rw [Fintype.prod_sigma]
-    refine Finset.prod_congr rfl fun k _ => ?_
-    show ∏ i, c k ^ m ⟨k, i⟩ = _
-    rw [Finset.prod_pow_eq_pow_sum, hdeg k]
-  simp only [torusSmul, mul_pow, Finset.prod_mul_distrib, hc]
-  ring
+  apply _root_.GroundTheory.Heights₂.Heights.Inter.BlockGenFinite.eval_smul_of_isMultiHomog <;> assumption
 
 theorem torusSmul_mem_mcPts {P : Ideal (MRing ι)} (hP : IsMultiHomogIdeal P) {z : (Σ k, ι k) → ℂ}
     (hz : z ∈ mcPts P) {c : K → ℂ} (hc : ∀ k, c k ≠ 0) : torusSmul c z ∈ mcPts P := by
-  obtain ⟨S, hS, hPS⟩ := hP
-  refine ⟨fun k => ?_, fun g hg => ?_⟩
-  · obtain ⟨i, hi⟩ := hz.1 k
-    exact ⟨i, mul_ne_zero (hc k) hi⟩
-  · have hle : Ideal.span S ≤ RingHom.ker ((eval (torusSmul c z)).comp (map (Int.castRingHom ℂ))) := by
-      rw [Ideal.span_le]
-      intro s hs
-      obtain ⟨a, ha⟩ := hS s hs
-      rw [SetLike.mem_coe, RingHom.mem_ker, RingHom.comp_apply, eval_torusSmul ha,
-        hz.2 s (hPS ▸ Ideal.subset_span hs), mul_zero]
-    rw [hPS] at hg
-    have := hle hg
-    rwa [RingHom.mem_ker, RingHom.comp_apply] at this
+  apply _root_.GroundTheory.Heights₂.Heights.LowerBoundFree.ComponentDataEquivalence.mcPts_torus <;> assumption
 
 section Component
 

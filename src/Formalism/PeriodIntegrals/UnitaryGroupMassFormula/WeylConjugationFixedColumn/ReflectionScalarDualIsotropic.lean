@@ -1,5 +1,6 @@
 module
 
+import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.WeylCellRange.ReflectionMultiplicationOnBigCell
 public import Formalism.HermitianCurvature.StatementQ
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -70,11 +71,7 @@ private lemma eI_val_weyl_conjugation_fixed_column (l : Fin r) : (eI k r l).val 
 private lemma esI_val' (l : Fin r) : (esI k r l).val = 2 * r + k - l.val := rfl
 
 lemma eI_ne_esI (l : Fin r) : eI k r l ≠ esI k r l := by
-  intro h
-  have h' := congrArg Fin.val h
-  rw [eI_val_weyl_conjugation_fixed_column, esI_val'] at h'
-  have := l.isLt
-  omega
+  apply _root_.PI.QnWCellW.eI_ne_esI <;> assumption
 
 lemma sw_e (l : Fin r) : sw (k := k) l (eI k r l) = esI k r l := by
   simp [sw]

@@ -1,5 +1,6 @@
 module
 
+import all Development.AbelianVarietyTheory.Proofs.FlagMeasures.RankTwoDefiniteUnimodularHermitianClassBound
 public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.NormalFormDualOrthogonalLast
 public import Mathlib.NumberTheory.NumberField.CMField
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.GenusMassSignature
@@ -54,51 +55,7 @@ namespace GlobalTheory.OrthoLattice
 
 theorem isCMField_of_star (K : Type) [Field K] [NumberField K] [StarRing K] (htc : IsTotallyComplex K)
     (hst : ∀ (φ : K →+* ℂ) (a : K), φ (star a) = starRingEnd ℂ (φ a)) : IsCMField K := by
-  let φ : K →+* ℂ := Classical.choice (inferInstance : Nonempty _)
-  have hmem : ∀ x : K, star x = x → x ∈ maximalRealSubfield K := fun x hx ψ => by
-    have := hst ψ x
-    rw [hx] at this
-    exact this.symm
-  have hfix : ∀ x : maximalRealSubfield K, star (x : K) = x := fun x =>
-    φ.injective (by rw [hst]; exact x.2 φ)
-  obtain ⟨a, ha⟩ : ∃ a : K, star a ≠ a := by
-    by_contra h
-    push Not at h
-    apply IsTotallyComplex.complexEmbedding_not_isReal φ
-    rw [ComplexEmbedding.isReal_iff]
-    ext x
-    rw [ComplexEmbedding.conjugate_coe_eq, ← hst, h]
-  set d : K := a - star a with hd
-  have hd0 : d ≠ 0 := sub_ne_zero.2 ha.symm
-  have hds : star d = -d := by simp [hd]
-  have hli : LinearIndependent (maximalRealSubfield K) ![(1 : K), d] := by
-    rw [LinearIndependent.pair_iff]
-    intro s t h
-    have h1 : (s : K) + (t : K) * d = 0 := by simpa [Subfield.smul_def] using h
-    have h2 := congrArg star h1
-    rw [star_add, star_mul, hfix, hfix, hds, star_zero] at h2
-    have h3 : (s : K) = 0 := by linear_combination (h1 + h2) / 2
-    have h4 : (t : K) * d = 0 := by linear_combination h1 - h3
-    exact ⟨Subtype.ext h3, Subtype.ext ((mul_eq_zero.1 h4).resolve_right hd0)⟩
-  have hsp : ⊤ ≤ Submodule.span (maximalRealSubfield K) (Set.range ![(1 : K), d]) := by
-    intro x _
-    have h1 : star ((x + star x) / 2) = (x + star x) / 2 := by
-      rw [star_div₀, star_add, star_star, star_ofNat, add_comm]
-    have h2 : star ((x - star x) / (2 * d)) = (x - star x) / (2 * d) := by
-      rw [star_div₀, star_sub, star_star, star_mul, star_ofNat, hds]
-      field_simp
-      ring
-    have h3 : x = (⟨_, hmem _ h1⟩ : maximalRealSubfield K) • (1 : K) +
-        (⟨_, hmem _ h2⟩ : maximalRealSubfield K) • d := by
-      simp only [Subfield.smul_def, smul_eq_mul]
-      field_simp
-      ring
-    rw [h3]
-    exact add_mem (Submodule.smul_mem _ _ (Submodule.subset_span ⟨0, rfl⟩))
-      (Submodule.smul_mem _ _ (Submodule.subset_span ⟨1, rfl⟩))
-  have : Algebra.IsQuadraticExtension (maximalRealSubfield K) K :=
-    { finrank_eq_two' := by simpa using Module.finrank_eq_card_basis (Module.Basis.mk hli hsp) }
-  exact ⟨⟩
+  apply _root_.GlobalTheory.RealIdealCount.isCMField_of_star_compat <;> assumption
 
 theorem hasOrtho : ∀ (K : Type) [Field K] [NumberField K] [StarRing K],
     Formalism.HermitianLatticesTheory.IsCMUnram K → HasOrtho K := by

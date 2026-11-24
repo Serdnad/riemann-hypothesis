@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.LowestKTypeValuesKilledByLoweringPart
 public import Development.AbelianVarietyTheory.Definitions.Divisors.RangeShape
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.IsMulCommutativeCentRealUJ
 import Mathlib.Algebra.Order.Floor.Extended
@@ -253,16 +254,7 @@ theorem signMatrix_mul_apply (g : Matrix (Fin n) (Fin n) ℂ) (a b : Fin n) :
 
 theorem entry_eq_zero_of_commute_signMatrix_diffSign {g : Matrix (Fin n) (Fin n) ℂ} (h : g * Jm ε = Jm ε * g) (a b : Fin n) (hab : ε a ≠ ε b) :
     g a b = 0 := by
-  have h1 := congrFun (congrFun h a) b
-  rw [mul_signMatrix_apply, signMatrix_mul_apply] at h1
-  have h2 : g a b * ((if ε b then (1 : ℂ) else -1) - (if ε a then 1 else -1)) = 0 := by
-    rw [mul_sub, h1]; ring
-  rcases mul_eq_zero.1 h2 with h3 | h3
-  · exact h3
-  · exfalso
-    cases ha : ε a <;> cases hb : ε b <;> first
-      | exact absurd (ha.trans hb.symm) hab
-      | (rw [ha, hb] at h3; norm_num at h3)
+  apply _root_.GlobalTheory.DefLift.LowerKill.entry_eq_zero <;> assumption
 
 theorem rM_of_mem_K (g : UJ ε) (h : g ∈ KG ε) : rM ε (toM g) = 0 := by
   rw [Formalism.REAL.mem_KG] at h

@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.FamilyUniformisationFibreTheta
 public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsLinearEquivLift
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.GlobalSectionsRankAlgClosed
 public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.WeilIsGrpPullbackOfCommute
@@ -144,19 +145,7 @@ theorem HasForm.of_comp {La : Type} [AddCommGroup La] {EF : LinearMap.BilinForm 
 
 theorem int_eq_of_exp {a b : ℤ} (h : ∀ k : ℕ, 0 < k → Complex.exp (-(2 * Real.pi * Complex.I) * (a : ℂ) / k) =
     Complex.exp (-(2 * Real.pi * Complex.I) * (b : ℂ) / k)) : a = b := by
-  have hd : ∀ k : ℕ, 0 < k → (k : ℤ) ∣ b - a := fun k hk => by
-    obtain ⟨n, hn⟩ := Complex.exp_eq_exp_iff_exists_int.1 (h k hk)
-    have hk' : (k : ℂ) ≠ 0 := Nat.cast_ne_zero.2 hk.ne'
-    have hp := Complex.two_pi_I_ne_zero
-    refine ⟨n, ?_⟩
-    have : ((b : ℂ) - a) = k * n := by
-      refine mul_left_cancel₀ hp ?_
-      field_simp at hn
-      linear_combination (2 * Real.pi * Complex.I) * hn
-    exact_mod_cast this
-  have := Int.eq_zero_of_dvd_of_natAbs_lt_natAbs (hd ((b - a).natAbs + 1) (Nat.succ_pos _)) (by
-    rw [Int.natAbs_natCast]; exact Nat.lt_succ_self _)
-  omega
+  first | exact _root_.GlobalTheory.FibreUnif.int_eq_of_exp_eq | exact @_root_.GlobalTheory.FibreUnif.int_eq_of_exp_eq | apply _root_.GlobalTheory.FibreUnif.int_eq_of_exp_eq <;> assumption
 
 theorem hasForm_of_weil (hT : ThetaUnifAV) (hB : Out.PolBaseChangeSt)
     (A : Out.PolAV X) (y₀ y : Sp ℂ ⟶ X) (hy : y = (𝟙_ (Over (Sp ℂ))).hom ≫ y₀)

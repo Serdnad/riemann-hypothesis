@@ -113,20 +113,13 @@ theorem pow_mul_mem_factoredIdeals_insert [DecidableEq (HeightOneSpectrum R)]
 theorem pow_mul_inj {v : HeightOneSpectrum R} {k j : ℕ} {I J : Ideal R}
     (hI : ¬ v.asIdeal ∣ I) (hJ : ¬ v.asIdeal ∣ J) (h : v.asIdeal ^ k * I = v.asIdeal ^ j * J) :
     k = j ∧ I = J := by
-  have hv0 : v.asIdeal ≠ 0 := by simpa [Submodule.zero_eq_bot] using v.ne_bot
-  have hp0 : ∀ n : ℕ, v.asIdeal ^ n ≠ 0 := fun n ↦ pow_ne_zero n hv0
-  rcases lt_trichotomy k j with hkj | rfl | hkj
-  · exfalso
-    obtain ⟨d, rfl⟩ := Nat.exists_eq_add_of_lt hkj
-    rw [add_assoc, pow_add, mul_assoc] at h
-    have h' := mul_left_cancel₀ (hp0 k) h
-    exact hI (h' ▸ Dvd.dvd.mul_right (dvd_pow_self _ (Nat.succ_ne_zero d)) J)
-  · exact ⟨rfl, mul_left_cancel₀ (hp0 k) h⟩
-  · exfalso
-    obtain ⟨d, rfl⟩ := Nat.exists_eq_add_of_lt hkj
-    rw [add_assoc, pow_add, mul_assoc] at h
-    have h' := mul_left_cancel₀ (hp0 j) h.symm
-    exact hJ (h' ▸ Dvd.dvd.mul_right (dvd_pow_self _ (Nat.succ_ne_zero d)) I)
+  have hp := HeightOneSpectrum.prime v
+  have hkj : k = j := by
+    have hm := congrArg (emultiplicity v.asIdeal) h
+    simpa only [emultiplicity_mul hp, emultiplicity_pow_self_of_prime hp,
+      emultiplicity_eq_zero.mpr hI, emultiplicity_eq_zero.mpr hJ, add_zero, Nat.cast_inj] using hm
+  subst j
+  exact ⟨rfl, mul_left_cancel₀ (pow_ne_zero k hp.ne_zero) h⟩
 
 theorem exists_pow_mul_of_mem_factoredIdeals_insert [DecidableEq (HeightOneSpectrum R)]
     {S : Finset (HeightOneSpectrum R)}

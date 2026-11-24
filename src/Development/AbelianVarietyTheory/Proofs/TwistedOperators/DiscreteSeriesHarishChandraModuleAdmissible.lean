@@ -760,15 +760,7 @@ open GlobalTheory.ArchRec
 namespace GlobalTheory.ArchRec.NoLiftTransfer
 
 theorem conj_trace {p q : ℕ} {Z : Mat p q} (hZ : Z ∈ upq p q) : (starRingEnd ℂ) Z.trace = -Z.trace := by
-  have h : Zᴴ * Jm p q + Jm p q * Z = 0 := hZ
-
-  have h2 : Jm p q * Zᴴ * Jm p q + Z = 0 := by
-    have h' := congrArg (fun X => Jm p q * X) h
-    simpa [mul_add, ← mul_assoc, _root_.GlobalTheory.RealPar.KStabLie.Jm_sq] using h'
-  have h3 : (Jm p q * Zᴴ * Jm p q).trace + Z.trace = 0 := by rw [← Matrix.trace_add, h2, Matrix.trace_zero]
-  rw [Matrix.trace_mul_comm, ← mul_assoc, _root_.GlobalTheory.RealPar.KStabLie.Jm_sq, one_mul, Matrix.trace_conjTranspose] at h3
-  rw [starRingEnd_apply]
-  exact eq_neg_of_add_eq_zero_left h3
+  apply _root_.GlobalTheory.ArchRec.Lift.star_trace <;> assumption
 
 def invConj {A B : Type} [AddCommGroup A] [Module ℂ A] [AddCommGroup B] [Module ℂ B] (u : A → B)
     (hb : Function.Bijective u) (hadd : ∀ x y, u (x + y) = u x + u y)

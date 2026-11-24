@@ -332,13 +332,7 @@ theorem jnt_kronSym_odd (Dd : ℤ) (n : ℕ) (hn : n % 2 = 1) : kronSym Dd n = j
 
 theorem jnt_recip (m a : ℕ) (hm : m % 4 = 3) (ha : a % 2 = 1) :
     jacobiSym (-(m : ℤ)) a = jacobiSym a m := by
-  have hao : Odd a := Nat.odd_iff.mpr ha
-  have hmo : Odd m := Nat.odd_iff.mpr (by omega)
-  rw [jacobiSym.neg _ hao]
-  rcases (by omega : a % 4 = 1 ∨ a % 4 = 3) with h1 | h3
-  · rw [ZMod.χ₄_nat_one_mod_four h1, one_mul, jacobiSym.quadratic_reciprocity_one_mod_four h1 hmo]
-  · rw [ZMod.χ₄_nat_three_mod_four h3, jacobiSym.quadratic_reciprocity_three_mod_four h3 hm]
-    ring
+  apply _root_.Formalism.HC.jacobi_neg_recip <;> assumption
 
 def hN (e a : ℕ) : HGrp e :=
   if h : Nat.Coprime a 2 then hcl e (ZMod.unitOfCoprime a (Nat.Coprime.pow_right (e + 2) h)) else 1

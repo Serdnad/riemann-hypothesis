@@ -1,5 +1,6 @@
 module
 
+import ReciprocityTheory.ReductiveGroups.DiscreteSeries.TailIntegrals.UHMulInv
 public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.MultiplicityOne.StDefs
 import Mathlib.Algebra.Order.Star.Real
 import Mathlib.Analysis.CStarAlgebra.ContinuousLinearMap
@@ -34,51 +35,10 @@ theorem hpk_mid {i : Fin (2 * r + k + 1)} (h : ¬(i.val < r ∨ r + k < i.val)) 
 theorem hpk_mulVec (v : Fin (2 * r + k + 1) → ℂ) (i : Fin (2 * r + k + 1)) :
     (Hpk k r *ᵥ v) i = if i.val < r ∨ r + k < i.val then v ⟨2 * r + k - i.val, by omega⟩
       else if i.val = r + k then -v i else v i := by
-  have hi := i.isLt
-  show ∑ j, Hpk k r i j * v j = _
-  split_ifs with h1 h2
-  · simp_rw [hpk_out h1]
-    rw [Finset.sum_eq_single ⟨2 * r + k - i.val, by omega⟩]
-    · simp
-    · intro j _ hj
-      rw [if_neg, zero_mul]
-      intro hj'
-      exact hj (Fin.ext hj')
-    · intro h
-      exact absurd (Finset.mem_univ _) h
-  · simp_rw [hpk_mid h1]
-    rw [Finset.sum_eq_single i]
-    · simp [h2]
-    · intro j _ hj
-      rw [if_neg, zero_mul]
-      intro hj'
-      exact hj (Fin.ext hj')
-    · intro h
-      exact absurd (Finset.mem_univ _) h
-  · simp_rw [hpk_mid h1]
-    rw [Finset.sum_eq_single i]
-    · simp [h2]
-    · intro j _ hj
-      rw [if_neg, zero_mul]
-      intro hj'
-      exact hj (Fin.ext hj')
-    · intro h
-      exact absurd (Finset.mem_univ _) h
+  apply ReciprocityTheory.ChartRestriction.DS.Xi.StepA.Hpk_mulVec <;> assumption
 
 theorem hpk_mulVec_mulVec (v : Fin (2 * r + k + 1) → ℂ) : Hpk k r *ᵥ (Hpk k r *ᵥ v) = v := by
-  funext i
-  have hi := i.isLt
-  rw [hpk_mulVec]
-  split_ifs with h1 h2
-  · rw [hpk_mulVec, if_pos]
-    · congr 1
-      ext
-      show 2 * r + k - (2 * r + k - i.val) = i.val
-      omega
-    · show 2 * r + k - i.val < r ∨ r + k < 2 * r + k - i.val
-      omega
-  · rw [hpk_mulVec, if_neg h1, if_pos h2, neg_neg]
-  · rw [hpk_mulVec, if_neg h1, if_neg h2]
+  apply ReciprocityTheory.ChartRestriction.DS.Xi.StepA.Hpk_mulVec_mulVec <;> assumption
 
 theorem mat_eq_of_mulVec {A B : Mat k r} (h : ∀ v, A *ᵥ v = B *ᵥ v) : A = B := by
   ext i j

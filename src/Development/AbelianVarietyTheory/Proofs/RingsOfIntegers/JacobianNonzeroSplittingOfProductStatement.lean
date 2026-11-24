@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.JetHarmonics.IntegralChartDirectionsAreEigenvectors
 public import Mathlib.RingTheory.LocalRing.ResidueField.Defs
 public import Mathlib.RingTheory.Trace.Defs
 public import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.DiscrMulDetEqNormOfAnnihilator
@@ -762,24 +763,8 @@ theorem coeff_one_subst {k σ τ : Type} [CommRing k] [Fintype σ] {a : σ → M
     (ha : ∀ s, MvPowerSeries.constantCoeff (a s) = 0) (f : MvPowerSeries σ k) (t : τ) :
     MvPowerSeries.coeff (Finsupp.single t 1) (MvPowerSeries.subst a f) =
       ∑ s, MvPowerSeries.coeff (Finsupp.single s 1) f * MvPowerSeries.coeff (Finsupp.single t 1) (a s) := by
-  have h0 : ∀ {ρ : Type} (u : ρ) (g : MvPowerSeries ρ k), MvPowerSeries.constantCoeff (MvPowerSeries.pderiv (R := k) u g) =
-      MvPowerSeries.coeff (Finsupp.single u 1) g := by
-    intro ρ u g
-    rw [← MvPowerSeries.coeff_zero_eq_constantCoeff_apply, MvPowerSeries.coeff_pderiv]
-    simp
-  have h1 : ∀ g : MvPowerSeries σ k, MvPowerSeries.constantCoeff (MvPowerSeries.subst a g) =
-      MvPowerSeries.constantCoeff g := by
-    intro g
-    rw [MvPowerSeries.constantCoeff_subst (MvPowerSeries.hasSubst_of_constantCoeff_zero ha),
-      finsum_eq_single _ 0]
-    · simp
-    · intro e he
-      obtain ⟨s, hs⟩ := Finsupp.support_nonempty_iff.2 he
-      rw [Finsupp.prod, map_prod, Finset.prod_eq_zero hs, smul_zero]
-      rw [map_pow, ha, zero_pow (Finsupp.mem_support_iff.1 hs)]
-
-  rw [← h0, GlobalTheory.FormalCalc.pderiv_subst (MvPowerSeries.hasSubst_of_constantCoeff_zero ha), map_sum]
-  simp only [map_mul, h1, h0]
+  intros
+  apply _root_.GlobalTheory.EigDir.coeff_single_subst' <;> assumption
 
 theorem map_subst_eq_zero {k σ τ Ω : Type} [CommRing k] [CommRing Ω] [Algebra k Ω] [Fintype σ]
     {a : σ → MvPowerSeries τ k} (ha : ∀ s, MvPowerSeries.constantCoeff (a s) = 0) (χ : MvPowerSeries τ k →ₐ[k] Ω)

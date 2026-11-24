@@ -1,5 +1,6 @@
 module
 
+import Formalism.SharpRestriction.GlobalSchurBounds.GlobalRankLatticeProofs.UnitTraceSumBounds.AdditionIdentityOfSigmaFormulaUnit
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.ConjugateNormBound.Development
 public import Mathlib.Analysis.Normed.Field.Instances
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.PowerSeriesNormUnits.ConstantCoeffFormalSMul
@@ -74,24 +75,7 @@ variable {p : ℕ} [Fact p.Prime]
 theorem coeff_one_subst (a f : PowerSeries ℂ_[p]) (ha : PowerSeries.constantCoeff a = 0)
     (hf : PowerSeries.constantCoeff f = 0) :
     PowerSeries.coeff 1 (PowerSeries.subst a f : PowerSeries ℂ_[p]) = PowerSeries.coeff 1 f * PowerSeries.coeff 1 a := by
-  have hs : PowerSeries.HasSubst a := by
-    first
-    | exact PowerSeries.HasSubst.of_constantCoeff_zero' ha
-  have h1 : PowerSeries.coeff 1 (PowerSeries.subst a f : PowerSeries ℂ_[p]) =
-      ∑ᶠ k : ℕ, PowerSeries.coeff k f * PowerSeries.coeff 1 (a ^ k) :=
-    (PowerSeries.coeff_subst hs f (Finsupp.single () 1)).trans (finsum_congr fun k => smul_eq_mul _ _)
-  have hz : ∀ k, 2 ≤ k → PowerSeries.coeff 1 (a ^ k) = 0 := by
-    intro k hk
-    obtain ⟨g, rfl⟩ := PowerSeries.X_dvd_iff.mpr ha
-    rw [mul_pow, PowerSeries.coeff_X_pow_mul', if_neg (by omega)]
-  rw [h1, finsum_eq_sum_of_support_subset _ (s := Finset.range 2)]
-  · rw [Finset.sum_range_succ, Finset.sum_range_one, pow_zero, pow_one,
-      PowerSeries.coeff_zero_eq_constantCoeff_apply, hf, zero_mul, zero_add]
-  · intro k hk
-    rw [Function.mem_support] at hk
-    simp only [Finset.coe_range, Set.mem_Iio]
-    by_contra h
-    exact hk (by rw [hz k (by omega), mul_zero])
+  apply _root_.Formalism.MainNotions.Ext.CutA.coeff_one_subst <;> assumption
 
 private theorem coeff_zero_subst_of_constantCoeff_eq_zero (a f : PowerSeries ℂ_[p]) (ha : PowerSeries.constantCoeff a = 0) :
     PowerSeries.coeff 0 (PowerSeries.subst a f : PowerSeries ℂ_[p]) = PowerSeries.coeff 0 f := by

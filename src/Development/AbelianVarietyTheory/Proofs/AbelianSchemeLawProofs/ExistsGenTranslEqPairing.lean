@@ -1,5 +1,8 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.ExistsFrameRatio
+import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.TorsionPairingValuesOfFamiliesValues
+import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.MulqLaws
 public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.ExistsUniqueWeilIs
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.CubeVal
 import Mathlib.Algebra.Order.Floor.Extended
@@ -66,31 +69,11 @@ include h
 
 theorem interchange (p q r s x : A) :
     θ (p * q) (r * s) x * θ p q x * θ r s x = θ (p * r) (q * s) x * θ p r x * θ q s x := by
-  have a := h.coc p q (r * s) x
-  have b := h.coc q r s x
-  have c := h.coc r q s x
-  have d := h.coc p r (q * s) x
-  rw [mul_comm r q, h.s01 r q] at c
-  rw [mul_left_comm r q s] at d
-  apply Additive.ofMul.injective
-  have E := fun {p q : U} (e : p = q) => congrArg Additive.ofMul e
-  have a' := E a; have b' := E b; have c' := E c; have d' := E d
-  simp only [ofMul_mul] at *
-  linear_combination (norm := abel) a' - b' + c' - d'
+  first | exact _root_.GlobalTheory.Ex.cub_four | exact @_root_.GlobalTheory.Ex.cub_four | apply _root_.GlobalTheory.Ex.cub_four <;> assumption
 
 theorem cubN_mul (k : ℕ) (a b x : A) :
     cubN θ k 1 (a * b) x * θ a b x ^ k = θ (a ^ k) (b ^ k) x * cubN θ k 1 a x * cubN θ k 1 b x := by
-  induction k with
-  | zero => simp [cubN, h.face]
-  | succ k ih =>
-    have c := interchange h (a ^ k) (b ^ k) a b x
-    simp only [cubN, Finset.prod_range_succ, _root_.one_mul] at ih ⊢
-    rw [pow_succ a, pow_succ b, pow_succ (θ a b x), mul_pow a b k]
-    apply Additive.ofMul.injective
-    have ih' := congrArg Additive.ofMul ih
-    have c' := congrArg Additive.ofMul c
-    simp only [ofMul_mul] at ih' c' ⊢
-    linear_combination (norm := abel) ih' + c'
+  first | exact _root_.GlobalTheory.Ex.PhiOp.cubN_mul | exact @_root_.GlobalTheory.Ex.PhiOp.cubN_mul | apply _root_.GlobalTheory.Ex.PhiOp.cubN_mul <;> assumption
 
 theorem cubN_transl (k : ℕ) (y w x : A) (hy : y ^ k = 1) :
     cubN θ k 1 (y * w) x * cubN θ k 1 y w = cubN θ k 1 w x * cubN θ k 1 y (x * w) := by
@@ -108,18 +91,8 @@ end Alg
 
 theorem exists_frame {X Y : Scheme.{0}} {M : LB X} (hM : M.IsLB) {K : Type} [Fintype K] (φ : K → (Y ⟶ X)) (ε : K → ℤ)
     (y₀ : Y) (hY : ∀ y : Y, y = y₀) : ∃ t : LB.Gen (LB.LinComb M φ ε), t.IsGen := by
-  choose I hI using fun χ : Y ⟶ X => exists_chart hM (χ y₀)
-  have m₀ : ∀ y : Y, y ∈ LB.wchart M φ (fun k => I (φ k)) := fun y => by
-    rw [hY y]; exact Set.mem_iInter.2 fun k => hI _
-  have le : ∀ j, LB.wchart M φ j ≤ LB.wchart M φ j ⊓ LB.wchart M φ (fun k => I (φ k)) := fun j y hy => ⟨hy, m₀ y⟩
-  have v : ∀ j (y : Y), y ∈ LB.wchart M φ j →
-      gm (𝟙 Y) y _ (res (le j) ((LB.LinComb M φ ε).g j (fun k => I (φ k)))) = trF φ ε (𝟙 Y) y j (fun k => I (φ k)) :=
-    fun j y hy => (gm_res (𝟙 Y) y (le j) hy _).trans (gm_linComb M φ ε (𝟙 Y) y j _ hy (m₀ y))
-  refine ⟨⟨fun j => res (le j) ((LB.LinComb M φ ε).g j (fun k => I (φ k)))⟩, fun j j' => unit_ext fun y hy => ?_⟩
-  refine ((gm_res (𝟙 Y) y _ hy _).trans (v j y hy.1)).trans (Eq.symm ?_)
-  refine (map_mul _ _ _).trans ((congrArg₂ (· * ·) (gm_linComb M φ ε (𝟙 Y) y j j' hy.1 hy.2)
-    ((gm_res (𝟙 Y) y _ hy _).trans (v j' y hy.2))).trans ?_)
-  exact trF_trans hM φ ε (𝟙 Y) y hy.1 hy.2 (m₀ y)
+  intros
+  apply _root_.GlobalTheory.UT.CoefBasic.exists_gen_pt <;> assumption
 
 variable {S : Scheme.{0}} {A : Over S} [GrpObj A] [IsCommMonObj A] {L : RigLB A} (c : CubicalStr A L)
 

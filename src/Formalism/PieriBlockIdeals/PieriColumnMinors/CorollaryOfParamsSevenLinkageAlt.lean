@@ -1,5 +1,6 @@
 module
 
+import Formalism.QuotientMetricDivisors.ReductionLemmaZero
 public import Formalism.PieriBlockIdeals.LatticeInclusionRealSettingAlt
 public import Mathlib.Algebra.Order.Floor.Semifield
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.ChebyshevPrimeBounds.PrimeCountBoundOf
@@ -556,14 +557,7 @@ open ArithmeticFunction hiding log id
 open scoped Nat Chebyshev ArithmeticFunction.zeta
 
 theorem log_factorial_eq_sum_log (N : ℕ) : log ((N ! : ℕ) : ℝ) = ∑ m ∈ Ioc 0 N, log (m : ℝ) := by
-  induction N with
-  | zero => simp
-  | succ n ih =>
-    rw [Finset.sum_Ioc_succ_top (Nat.zero_le n), ← ih, Nat.factorial_succ, Nat.cast_mul,
-      Real.log_mul (Nat.cast_ne_zero.mpr (Nat.succ_ne_zero n))
-        (Nat.cast_ne_zero.mpr (Nat.factorial_ne_zero n))]
-    push_cast
-    ring
+  apply _root_.PI.PrimeLogOverPWork.log_factorial_eq_sum_log <;> assumption
 
 theorem log_factorial_eq_sum (N : ℕ) :
     log ((N ! : ℕ) : ℝ) = ∑ d ∈ Ioc 0 N, Λ d * ((N / d : ℕ) : ℝ) := by
@@ -692,15 +686,7 @@ open scoped Nat
 
 theorem g_diff {a b : ℝ} (ha : 0 < a) (hab : a ≤ b) :
     (b - a) * log a ≤ (b * log b - b) - (a * log a - a) := by
-  have hb : 0 < b := lt_of_lt_of_le ha hab
-  have h := Real.one_sub_inv_le_log_of_pos (div_pos hb ha)
-  rw [Real.log_div hb.ne' ha.ne', inv_div] at h
-  have h2 : b - a ≤ b * (log b - log a) := by
-    have h3 := mul_le_mul_of_nonneg_left h hb.le
-    rwa [mul_sub, mul_one, mul_div_cancel₀ _ hb.ne'] at h3
-  have e : (b * log b - b) - (a * log a - a) - (b - a) * log a = b * (log b - log a) - (b - a) := by
-    ring
-  linarith
+  apply _root_.Formalism.LatticeIndexTer.le_ph_sub <;> assumption
 
 theorem g_mono {a b : ℝ} (ha : 1 ≤ a) (hab : a ≤ b) : a * log a - a ≤ b * log b - b := by
   have h := g_diff (by linarith : (0 : ℝ) < a) hab

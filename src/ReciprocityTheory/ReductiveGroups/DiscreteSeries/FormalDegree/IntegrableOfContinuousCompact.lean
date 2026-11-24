@@ -13,6 +13,7 @@ public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.FormalDegree.PBri
 public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.FormalDegree.PolarBasic
 public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.FormalDegree.SumInnerBasisSqEqAdjoint
 public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.FormalDegree.AdKMeasurePreserving
+import ReciprocityTheory.ReductiveGroups.DiscreteSeries.FormalDegree.PolarBasicA
 
 @[expose] public section
 
@@ -95,15 +96,9 @@ theorem continuous_potential_conj {ε : Fin n → Bool} (lam : Fin n → ℝ) (z
   exact (((continuous_toMK_formal_degree ε).comp continuous_inv).mul continuous_const).mul (continuous_toMK_formal_degree ε)
 
 private theorem continuous_pmat {ε : Fin n → Bool} : Continuous (fun y : PCoord ε → ℂ => pmat y) := by
-  refine continuous_pi fun a => continuous_pi fun b => ?_
-  by_cases h1 : b < a ∧ ε a ≠ ε b
-  · simp only [pmat, dif_pos h1]
-    exact continuous_apply _
-  · by_cases h2 : a < b ∧ ε b ≠ ε a
-    · simp only [pmat, dif_neg h1, dif_pos h2]
-      exact (continuous_apply _).star
-    · simp only [pmat, dif_neg h1, dif_neg h2]
-      exact continuous_const
+  first
+    | exact _root_.ReciprocityTheory.ChartRestriction.DS.pmat_continuous
+    | apply _root_.ReciprocityTheory.ChartRestriction.DS.pmat_continuous <;> first | assumption | rfl | infer_instance
 
 theorem continuous_potential_conj_prod {ε : Fin n → Bool} (lam : Fin n → ℝ) :
     Continuous (fun p : (PCoord ε → ℂ) × KG ε => Ph lam (toMK p.2⁻¹ * pmat p.1 * toMK p.2)) := by

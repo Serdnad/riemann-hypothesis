@@ -201,6 +201,7 @@ import Development.WeilBound.ThetaLifts.SmallCones.TwoExp
 import Development.WeilBound.ThetaLifts.SmallCones.Unfold
 import Development.WeilBound.ThetaLifts.SmallCones.UnipEx
 import Development.WeilBound.ThetaLifts.SmallCones.WittOf
+import Development.WeilBound.ThetaLifts.CartanFactorisation.ExistsBeta
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.WeilBound.ThetaLifts.EigenvalueEndgame.CuspidalAverages.PlaContinuous, Development.WeilBound.ThetaLifts.EigenvalueEndgame.CuspidalAverages.VacIntZ, Development.WeilBound.ThetaLifts.EigenvalueEndgame.EigenKilling.AlphaZeroOf, Development.WeilBound.ThetaLifts.EigenvalueEndgame.EigenKilling.SmallAnyOf, Development.WeilBound.ThetaLifts.EigenvalueEndgame.EigenKilling.SubMemKer, Development.WeilBound.ThetaLifts.EigenvalueEndgame.SignatureSplitting.SigSplitOf, Development.WeilBound.ThetaLifts.EigenvalueEndgame.UnipotentGroups.PerpZeroOf, Development.WeilBound.ThetaLifts.EigenvalueEndgame.UnipotentGroups.SigReOf, Development.WeilBound.ThetaLifts.LatticeBasics.HeightGLLe, Development.WeilBound.ThetaLifts.LatticeBasics.OffOpen, Development.WeilBound.ThetaLifts.LocalTheory.ConeShifts.ConeFacOf, Development.WeilBound.ThetaLifts.SphericalLattices.SphericalClosure.EndCore
@@ -366,10 +367,7 @@ theorem vac_int_E (x : E) : ∀ᶠ v : Pl F in cofinite, ∀ t : E →ₐ[F] Fv 
   exact mul_mem hv h1
 
 theorem vac_val {v : Pl F} (y : Fv F v) : ValuativeRel.valuation (Fv F v) y ≤ 1 ↔ y ∈ v.adicCompletionIntegers F := by
-  haveI : (Valued.v : Valuation (Fv F v) (WithZero (Multiplicative ℤ))).Compatible := Valuation.Compatible.ofValuation _
-  rw [(ValuativeRel.isEquiv (ValuativeRel.valuation (Fv F v))
-    (Valued.v : Valuation (Fv F v) (WithZero (Multiplicative ℤ)))).le_one_iff_le_one]
-  exact Iff.rfl
+  apply _root_.PositivityTheory.ThKEnd.Cusp.pla_le_one_iff <;> assumption
 
 theorem vac_one {n d : ℕ} {v : Pl F} (Y : Matrix (Fin n) (Fin d) (Fv F v)) :
     Set.indicator {x : Fin n × Fin d → Fv F v | ∀ i, x i ∈ v.adicCompletionIntegers F} (1 : (Fin n × Fin d → Fv F v) → ℂ) (ofM Y) =
@@ -770,16 +768,7 @@ theorem detW (hp : IsPair B M χX χW om r s r' s') : W.J.det ≠ 0 := by
 
 theorem I_left (hU : Unimod) (hT : ThetaBasic) (hp : IsPair B M χX χW om r s r' s') {Φ : Fn F n d} (hΦ : Φ ∈ schA F _)
     (g₀ : UA σ X.J) : M.I om (om (g₀, 1) Φ) = M.I om Φ := by
-  funext h
-  obtain ⟨h1, -, h3⟩ := hU F E σ hp.base.cm n X.J 1 (fun i j => by simpa using hp.herm.herm i j) (detX hp)
-  have h2 := h3 _ hp.good.haar
-  have := hp.good.haar
-  have : BorelSpace (UA σ X.J) := ⟨rfl⟩
-  have e : ∀ g, theta om (om (g₀, 1) Φ) g h = theta om Φ (g * g₀) h := fun g => by
-    simp only [theta, ← Module.End.mul_apply, ← map_mul, Prod.mk_mul_mk, mul_one]
-  simp only [Model.I, e]
-  exact L2.integral_right hp.good.dom (fun g => theta om Φ g h) (fun γ hγ g => by
-    simpa using ((hT F E σ B n d X W M χX χW om r s r' s' hp).1 Φ hΦ).2.1 γ hγ 1 (one_mem _) g h) g₀
+  apply _root_.PositivityTheory.ThKF.I_left <;> assumption
 
 theorem theta_add (hp : IsPair B M χX χW om r s r' s') {Φ Ψ : Fn F n d} (hΦ : Φ ∈ schA F _) (hΨ : Ψ ∈ schA F _) (g h) :
     theta om (Φ + Ψ) g h = theta om Φ g h + theta om Ψ g h := by

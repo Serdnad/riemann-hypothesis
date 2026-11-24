@@ -1,5 +1,6 @@
 module
 
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.MinusculeSetEqDoubleCoset
 public import Development.WeilBound.CoreStatements.PublishedTheorems.JacquetShalikaBound.lift_levelP_alt₂
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.NormSatakeLeOfUnitarySphericalGL
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.SymmetricFunctionAbsoluteValues
@@ -149,16 +150,7 @@ theorem Tj_eq {n r : ℕ} (hr : r ≤ n) :
 end SatakeEigenvalues
 
 theorem satake_eigenvalue_formula : lift_levelP_alt₂ := by
-  intro E _ _ w
-  refine ⟨SatakeEigenvalues.qF_eq w, ?_⟩
-  intro n V _ _ ρ v z h
-  obtain ⟨-, hfix, -, hT⟩ := h
-  have hK := SatakeEigenvalues.KGL_eq w n
-  refine ⟨fun g hg => GlobalTheory.LGrp.mem_fixed.1 hfix g (hK ▸ hg), fun r hr => ?_⟩
-  have h1 := hT _ (SatakeEigenvalues.isUnifV_uniformizer w) r hr
-  rw [heckeVec, SatakeEigenvalues.Tj_eq w hr, SatakeEigenvalues.satEig_eq w hr] at h1
-  rw [hK] at h1
-  exact h1
+  apply _root_.GlobalTheory.CompanionTheory.SatakeTyping.l12 <;> assumption
 
 end PositivityTheory.JacquetShalikaLocal
 

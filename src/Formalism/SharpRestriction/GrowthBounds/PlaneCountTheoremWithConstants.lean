@@ -156,7 +156,6 @@ theorem lo_le_loG (K : Consts) (L : SizeData₂ D) (hK : 0 ≤ K.La) (hLa : La K
       mul_le_mul_of_nonneg_right hle (by linarith)
     have h2 := mul_nonneg habs hη.le
     have h3 := mul_nonneg habs hk
-    have h4 := mul_nonneg habs hSc.le
     rw [hC']
     linarith
 
@@ -271,9 +270,6 @@ theorem vUnit_pos {p : ℕ} (G : GAtP p) (v : Fin G.P.nV) : 0 < vUnit G := by
   have hinjW : Function.Injective (algebraMap (G.P.W v) (G.P.Qq v)) := by
     have := S.frac_alt
     exact IsFractionRing.injective _ _
-  have hinjO : Function.Injective (algebraMap G.O G.Kf) := by
-    have := S.frac_O
-    exact IsFractionRing.injective _ _
   have hinj : Function.Injective (G.P.j v) := by
     intro a b hab
     apply hinjW
@@ -362,16 +358,11 @@ theorem svBound_of (X : Inst D L) (K : Consts) (hK : K.Nonneg) (P : ParameterCho
   obtain ⟨hw1, hw2⟩ := w''_le L.sc D.R.n hn
   have hkS := P.kS_le
   have hab := _root_.Formalism.MainNotions.G.TopChoiceBounds.two_b'_le_a₂ L.sc
-  have hx := sc_x_pos L.sc
-  have ha := _root_.Formalism.MainNotions.G.TopChoiceBounds.bt_a L.sc
-  have hb' := _root_.Formalism.MainNotions.G.TopChoiceBounds.scale_b'_nonneg₂ L.sc
-  have hw0 := _root_.Formalism.MainNotions.G.TopChoiceBounds.w''_nonneg₂ L.sc D.R.n
   have hη := L.etaSz_pos
   have hp1 : (1 : ℝ) < p := by exact_mod_cast hp.one_lt
   have hp2 : (2 : ℝ) ≤ p := by exact_mod_cast hp.two_le
   have hp0 : (0 : ℝ) < p := by linarith
   have hkSc : 5 * L.Sc ≤ (D.R.k : ℝ) * L.Sc := mul_le_mul_of_nonneg_right hk (by linarith)
-  have hw500 : 500 ≤ L.sc.w'' D.R.n := by linarith
   have hlg : 0 ≤ Real.logb p (2 * L.sc.a) := Real.logb_nonneg hp1 (by linarith)
   have hNm0 : 0 ≤ Nm D := by unfold Nm; exact Nat.cast_nonneg _
   have hcG : 0 ≤ cG L := by unfold cG; linarith
@@ -1310,7 +1301,6 @@ theorem sizes_bound_of_log_estimates (K : Consts) (δ Ce : ℝ) (hLa : 0 < K.La)
       have h4 := Real.log_le_log hpp hpX.le
       unfold Scale.X' at h4
       rwa [Real.log_exp] at h4
-    have hx3' : 0 < x ^ (e / 3) := Real.rpow_pos_of_pos hx0 _
     have hsplit : x ^ (11 * e / 24 + δ) = x ^ (e / 8) * x ^ (e / 3) * xd := by
       rw [← Real.rpow_add hx0, ← Real.rpow_add hx0]
       congr 1
@@ -1358,7 +1348,6 @@ theorem family_sizes_bound {eps : ℝ} (Fm : FamP eps) (hLa : 0 < Fm.GK.La) : Ad
   have hk := (Fm.sizes x hx1 i).2.2.1.2
   refine le_trans hk (Real.rpow_le_rpow_of_exponent_le (Fm.L x i).sc.one_lt_alt.le ?_)
   have := (Fm.L x i).sc.eps_lt
-  have h0 := (Fm.L x i).sc.eps_pos
   unfold szTh
   linarith
 

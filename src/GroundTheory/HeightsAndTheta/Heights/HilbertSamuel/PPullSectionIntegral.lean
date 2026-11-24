@@ -1,5 +1,6 @@
 module
 
+import GroundTheory.HeightsAndTheta.Heights.MultihomogeneousPolynomials
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsPullSectionIntegral
 import Mathlib.RingTheory.Henselian
 import Mathlib.RingTheory.RegularLocalRing.Defs
@@ -25,18 +26,7 @@ variable {K : Type} [Fintype K] {ι : K → Type} [∀ k, Fintype (ι k)] {Ω : 
 theorem aeval_scale_of_isMultiHomog (y : (Σ k, ι k) → Ω) (t : K → Ω) {f : MRing ι} {e : K → ℕ}
     (hf : IsMultiHomog f e) :
     aeval (fun p => t p.1 * y p) f = (∏ k, t k ^ e k) * aeval y f := by
-  simp only [aeval_def, eval₂_eq', Finset.mul_sum]
-  refine Finset.sum_congr rfl fun d hd => ?_
-  have hpow : ∏ p : Σ k, ι k, t p.1 ^ d p = ∏ k, t k ^ e k := by
-    rw [Fintype.prod_sigma]
-    refine Finset.prod_congr rfl fun k _ => ?_
-    show ∏ i, t k ^ d ⟨k, i⟩ = t k ^ e k
-    rw [Finset.prod_pow_eq_pow_sum, hf d hd k]
-  have hsplit : ∏ p, (t p.1 * y p) ^ d p = (∏ p : Σ k, ι k, t p.1 ^ d p) * ∏ p, y p ^ d p := by
-    rw [← Finset.prod_mul_distrib]
-    exact Finset.prod_congr rfl fun p _ => mul_pow _ _ _
-  rw [hsplit, hpow]
-  ring
+  apply _root_.GroundTheory.Heights₂.Heights.MultiHomogeneous.aevalCoordinateScale <;> assumption
 
 
 omit [Fintype K] [∀ k, Fintype (ι k)] in

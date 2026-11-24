@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.CovolumeBounds.IntegralConjInnerMulInnerOfIsEmptyEquiv
 public import GroundTheory.AutomorphicForms.RealIwasawaUnipotentHaar
 public import GroundTheory.AutomorphicForms.RealGroups
 import Mathlib.CategoryTheory.Countable
@@ -45,21 +46,8 @@ theorem isInvInvariant_of_isMulRightInvariant (μ : Measure G) [μ.IsHaarMeasure
 
 theorem isMulRightInvariant_of_compactSpace [CompactSpace G] (μ : Measure G) [μ.IsHaarMeasure] :
     μ.IsMulRightInvariant := by
-  constructor
-  intro g
-  have hfin : IsFiniteMeasureOnCompacts (map (· * g) μ) :=
-    IsFiniteMeasureOnCompacts.map μ (Homeomorph.mulRight g)
-  have h := isMulLeftInvariant_eq_smul (map (· * g) μ) μ
-  set c := haarScalarFactor (map (· * g) μ) μ
-  have hu := congrArg (fun ν : Measure G => ν univ) h
-  simp only [map_apply (measurable_mul_const g) MeasurableSet.univ, preimage_univ,
-    Measure.smul_apply, ENNReal.smul_def, smul_eq_mul] at hu
-  have hpos : μ univ ≠ 0 := IsOpenPosMeasure.open_pos univ isOpen_univ univ_nonempty
-  have htop : μ univ ≠ ∞ := isCompact_univ.measure_lt_top.ne
-  have hc : (c : ℝ≥0∞) = 1 := by
-    have := (ENNReal.mul_left_inj hpos htop).1 (hu.symm.trans (one_mul _).symm)
-    exact this
-  rw [h, ENNReal.smul_def, hc, one_smul]
+  intros
+  apply _root_.GlobalTheory.isMulRightInvariant_of_compactSpace <;> assumption
 
 end Unimodular
 

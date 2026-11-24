@@ -1,5 +1,6 @@
 module
 
+import Formalism.SharpRestriction.Divisibility.PrimeDegreeVariant
 public import Formalism.LocalRingCardinality.PrincipalHermitianLattice
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -66,11 +67,7 @@ section Sharp
 variable (D : D7)
 
 theorem sharp_downTo (μ) (j : ℕ) : (RowSide.sharp D).downTo μ j = D.what₂.downTo μ j := by
-  induction j with
-  | zero => rfl
-  | succ j ih =>
-    show ((RowSide.sharp D).downTo μ j).comp (D.what₂.io μ j) = (D.what₂.downTo μ j).comp (D.what₂.io μ j)
-    rw [ih]; rfl
+  apply _root_.Formalism.MainNotions.PrimeDegreeVariant.sharp_downTo <;> assumption
 
 theorem sharp_iota (μ) : (RowSide.sharp D).iota μ = D.what₂.iota μ := by
   unfold RowSide.iota Rows.Data.iota

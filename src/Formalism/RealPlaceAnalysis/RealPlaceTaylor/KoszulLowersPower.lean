@@ -1,5 +1,6 @@
 module
 
+import Formalism.PeriodIntegrals.UpqRep
 public import Formalism.RealPlaceAnalysis.UJLocCompact
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -95,21 +96,7 @@ lemma range_coeMatrix {n : ℕ} (ε : Fin n → Bool) :
     exact ⟨⟨u, hg⟩, rfl⟩
 
 lemma isInducing_coeMatrix {n : ℕ} (ε : Fin n → Bool) : IsInducing (coeMatrixAlt ε) := by
-  have hc : Continuous (fun M : Matrix (Fin n) (Fin n) ℂ =>
-      (M, MulOpposite.op (Jm ε * Mᴴ * Jm ε))) :=
-    continuous_id.prodMk (MulOpposite.continuous_op.comp
-      ((continuous_const.matrix_mul continuous_id.matrix_conjTranspose).matrix_mul continuous_const))
-  refine IsInducing.of_comp (continuous_coeMatrix ε) hc ?_
-  have heq : (fun M : Matrix (Fin n) (Fin n) ℂ => (M, MulOpposite.op (Jm ε * Mᴴ * Jm ε))) ∘ coeMatrixAlt ε
-      = (Units.embedProduct (Matrix (Fin n) (Fin n) ℂ)) ∘ (Subtype.val : UJ ε → _) := by
-    funext g
-    refine Prod.ext rfl ?_
-    show MulOpposite.op (Jm ε * (coeMatrixAlt ε g)ᴴ * Jm ε) =
-      MulOpposite.op (((g : (Matrix (Fin n) (Fin n) ℂ)ˣ)⁻¹ : (Matrix (Fin n) (Fin n) ℂ)ˣ) :
-        Matrix (Fin n) (Fin n) ℂ)
-    rw [coeMatrix_inv_eq]
-  rw [heq]
-  exact Units.isInducing_embedProduct.comp IsInducing.subtypeVal
+  apply _root_.PI.UpqRep.isInducing_coeMatrix <;> assumption
 
 lemma injective_coeMatrix {n : ℕ} (ε : Fin n → Bool) : Function.Injective (coeMatrixAlt ε) := by
   intro a b h

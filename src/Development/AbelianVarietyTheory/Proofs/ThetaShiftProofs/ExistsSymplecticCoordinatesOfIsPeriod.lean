@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Statements.ThetaLevelCharacters.MemThetaLevelCharDimZero
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.IsHolPeriods
 public import ReciprocityTheory.ThetaQuasiPeriods.PeriodLattice
 public import Development.AbelianVarietyTheory.Proofs.CovolumeBounds.DualRestrictSurjectiveOfIsTorsionFreeQuotient
@@ -124,18 +125,8 @@ variable {g : ℕ}
 theorem thetaChar_eq_theta_re (τ : Matrix (Fin g) (Fin g) ℂ) {a b : Fin g → ℂ} (ha : ∀ i, a i = 0 ∨ a i = 1 / 2)
     (hb : ∀ i, b i = 0 ∨ b i = 1 / 2) :
     thetaChar τ a b = fun z => theta (fun i => (a i).re) (fun i => (b i).re) z τ := by
-  have hre : ∀ {a : Fin g → ℂ}, (∀ i, a i = 0 ∨ a i = 1 / 2) → ofRealVec (fun i => (a i).re) = a := fun {a} ha => by
-    funext i
-    rcases ha i with h | h <;> simp [ofRealVec, h]
-  have key : ∀ a b : Fin g → ℝ, thetaChar τ (ofRealVec a) (ofRealVec b) = fun z => theta a b z τ := fun a b => by
-    funext z
-    unfold thetaChar theta thetaTerm eC
-    refine tsum_congr fun n => ?_
-    have e1 : ((fun i => (n i : ℂ)) + ofRealVec a) = shiftVec a n := rfl
-    rw [e1]
-    congr 1
-    ring
-  rw [← key, hre ha, hre hb]
+  intros
+  apply _root_.GlobalTheory.TorusAlg.thetaChar_eq_theta <;> assumption
 
 theorem apply_eq_of_period_matrix (Q : (Fin g ⊕ Fin g → ℤ) →+ (Fin g → ℂ)) (τ : Matrix (Fin g) (Fin g) ℂ)
     (hQ : ∀ k, Q (Pi.single (.inl k) 1) = Pi.single k 1 ∧ Q (Pi.single (.inr k) 1) = τ *ᵥ Pi.single k 1)

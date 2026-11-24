@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.CharConjFixedEqOne
 public import Formalism.LocalToGlobal.BesselHermitianTheta.TiedWeil
 public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.ExistsInverseChart
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsIsEtaTildeUnramified
@@ -103,19 +104,7 @@ end GlobalTheory.SplitParity
 namespace GlobalTheory.SplitParity
 
 theorem exists_idF_of_fixed (D : D7) (u : (AE D)ˣ) (hu : cA D (u : AE D) = u) : ∃ y, idF D y = u := by
-  have hfx : ∀ z : AE D, cA D z = z → ∃ r : AF D.host.F, algebraMap (AF D.host.F) (AE D) r = z := fun z hz =>
-    exists_eq_of_sigR_fixed D.sp.cm.sig D.sp.cm.deg2 (fun x => star_star x)
-      (GlobalTheory.VolHeckeCompare.exists_not_fixed D) z hz
-  obtain ⟨r, hr⟩ := hfx _ hu
-  have hu' : cA D ((u⁻¹ : (AE D)ˣ) : AE D) = ((u⁻¹ : (AE D)ˣ) : AE D) := by
-    have h1 : (u : AE D) * cA D ((u⁻¹ : (AE D)ˣ) : AE D) = 1 := by
-      rw [← hu, ← map_mul, Units.mul_inv, map_one]
-    exact (Units.inv_eq_of_mul_eq_one_right h1).symm
-  obtain ⟨r', hr'⟩ := hfx _ hu'
-  have m1 : r * r' = 1 := GlobalTheory.VolHeckeCompare.algebraMap_AE_injective D (by
-    rw [map_mul, hr, hr', Units.mul_inv, map_one])
-  refine ⟨⟨r, r', m1, by rw [mul_comm]; exact m1⟩, Units.ext ?_⟩
-  exact hr
+  first | exact _root_.GlobalTheory.CharConjFixed.fixed_unit | exact @_root_.GlobalTheory.CharConjFixed.fixed_unit | apply _root_.GlobalTheory.CharConjFixed.fixed_unit <;> assumption
 
 theorem exists_int_add_half : ∀ (D : D7) (χ : (AE D)ˣ →* Circle) (n : ℕ) (τ : D.what₂.Tau) (a : ℚ),
     IsHeckeChar D χ → ResEta D χ n → HasInfExp D χ τ a → ∃ e : ℤ, (e : ℚ) = a + (n : ℚ) / 2 := by

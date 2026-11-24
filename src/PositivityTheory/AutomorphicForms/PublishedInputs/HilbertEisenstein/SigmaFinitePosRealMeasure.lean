@@ -6,6 +6,7 @@ import Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms₂.Ex
 import Development.AutomorphicArithmetic.AutomorphicVarieties.GaloisLibrary.SelmerTransport.RestrictionMemInvariantH1
 import Development.AutomorphicArithmetic.AutomorphicVarieties.IdeleGenerators.ConstSmall
 import Development.AutomorphicArithmetic.AutomorphicVarieties.PublishedTheorems.GelfandKazhdanReal
+import PositivityTheory.AutomorphicForms.PublishedInputs.HilbertEisenstein.IdeleModuleInfIdDetLe
 
 @[expose] public section
 
@@ -60,16 +61,7 @@ theorem absD_infGL (y : GL (Fin 2) (UpperTheory.V.TR.Rinf F)) :
 theorem absD_scalar_mul (t : {r : ℝ // 0 < r}) (u : normOneSubgroup F) (g : GA F 2) :
     absD (Matrix.GeneralLinearGroup.scalar (Fin 2) (moduleSection (w0 F) t * (u : Ideles F)) * g) =
       (t : ℝ) ^ 2 * absD g := by
-  rw [absD_mul]
-  congr 1
-  have hdet : Matrix.GeneralLinearGroup.det (Matrix.GeneralLinearGroup.scalar (Fin 2)
-      (moduleSection (w0 F) t * (u : Ideles F))) = (moduleSection (w0 F) t * (u : Ideles F)) ^ 2 := by
-    ext
-    simp [sq]
-    ring
-  have hu : IdeleGroup.ideleModule F (u : Ideles F) = 1 := u.2
-  rw [absD, hdet, map_pow, map_mul, ideleModule_moduleSection, hu, mul_one]
-  rfl
+  apply @_root_.UpperTheory.HilbertEisensteinWeightOne.eisensteinGrowth.absD_scalar_mul <;> assumption
 
 theorem norm_hchar_of_finOrder {χ : HChar F} (hχ : IsOfFinOrder χ) (a : Ideles F) :
     ‖((χ.1 a : ℂˣ) : ℂ)‖ = 1 := by

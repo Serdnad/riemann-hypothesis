@@ -46,6 +46,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
+import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.IsOpenCongruenceIdelesAndRealFiniteParts
 
 @[expose] public section
 
@@ -197,14 +198,7 @@ end Integral
 
 theorem integralFiniteAdeles_eq_adelicCompletion_integers (D : D7) :
     intAE D = hat1 D.host.F (Set.range (algebraMap (𝓞 D.host.E) D.host.E)) := by
-  unfold intAE hat1
-  congr 1
-  ext z
-  constructor
-  · rintro ⟨a, ha, x, rfl⟩
-    exact ⟨a, ha, _, ⟨x, rfl⟩, rfl⟩
-  · rintro ⟨a, ha, _, ⟨x, rfl⟩, rfl⟩
-    exact ⟨a, ha, x, rfl⟩
+  apply _root_.GlobalTheory.IdeleParts.integralFiniteAdeles_eq_adelicCompletion_integers <;> assumption
 
 theorem char_finUnit_finite_order : ∀ (D : D7) (χ : (AE D)ˣ →* Circle), Continuous χ → ∃ N : ℕ, 0 < N ∧ (∀ x, FinUnit x → (∃ y ∈ intAE D, finPart D (x : AE D) - 1 = N • y) → χ x = 1) ∧ ∃ m : ℕ, 0 < m ∧ ∀ x, FinUnit x → χ x ^ m = 1 := by
   intro D χ hχ

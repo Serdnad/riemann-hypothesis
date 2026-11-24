@@ -1,5 +1,6 @@
 module
 
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.HodgeInnerProductMapIff
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsQuasiInv
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.GeomClausesIff
 import Mathlib.Algebra.Order.Floor.Extended
@@ -56,17 +57,8 @@ namespace GlobalTheory.UPel.HT.ES
 theorem tjAt_pull_one_left {S S' : Scheme.{0}} {G' : Over S'} [GrpObj G'] {G : Over S} [GrpObj G]
     {f : S' ⟶ S} {φ : G'.left ⟶ G.left} (h : IsGrpPullback G' G f φ) (T : Over S') :
     (1 : T ⟶ G').left ≫ φ = (1 : Over.mk (T.hom ≫ f) ⟶ G).left := by
-  have hw : ((1 : T ⟶ G').left ≫ φ) ≫ G.hom = (Over.mk (T.hom ≫ f)).hom := by
-    rw [Category.assoc, h.1.w, ← Category.assoc, Over.w]
-    rfl
-  let x₀ : Over.mk (T.hom ≫ f) ⟶ G := Over.homMk ((1 : T ⟶ G').left ≫ φ) hw
-  have e := h.2 T 1 1 x₀ x₀ rfl rfl
-  rw [_root_.mul_one] at e
-  have hxx : x₀ * x₀ = x₀ := by
-    ext
-    exact e
-  have h1 : x₀ = 1 := mul_eq_right.mp hxx
-  exact congrArg Over.Hom.left h1
+  intros
+  apply _root_.GlobalTheory.CompanionTheory.Ar.TripleHodge.one_left_comp <;> assumption
 
 theorem tjAt_iff_tjAt_pull : ∀ (p : ℕ) [Fact p.Prime] (D : Datum p) (R : Type) [CommRing R] (b : Base D R) (N : ℕ) (T Y : Scheme.{0}) (s₁ : T ⟶ Sp R) (s : Y ⟶ Sp R) (t : T ⟶ Y) (o₁ : Obj b N s₁) (o : Obj b N s) (m : ObjMap o₁ o t) (B₁ : Over T) [GrpObj B₁] [IsCommMonObj B₁] (B : Over Y) [GrpObj B] [IsCommMonObj B] (θ : B₁.left ⟶ B.left) (ψ₁ : o₁.A ⟶ B₁) (ψ : o.A ⟶ B) (r : ℤ) (w : Ideal (𝓞 D.F)) (j : ℕ), IsGrpPullback B₁ B t θ → m.φ ≫ ψ.left = ψ₁.left ≫ θ → (TjAt r w j o ψ t ↔ TjAt r w j o₁ ψ₁ (𝟙 T)) := by
   intro p _ D R _ b N T Y s₁ s t o₁ o m B₁ _ _ B _ _ θ ψ₁ ψ r w j hB hψ

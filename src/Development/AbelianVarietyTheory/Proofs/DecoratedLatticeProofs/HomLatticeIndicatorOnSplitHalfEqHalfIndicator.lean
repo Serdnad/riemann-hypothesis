@@ -40,6 +40,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
+import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.SelfDualSplitComponentIsLatticeStabilizerEq
 
 @[expose] public section
 
@@ -67,19 +68,7 @@ theorem sec_mul (p : SplitPt D k) (a b : k) : p.sec (a * b) = p.sec a * p.sec b 
     _ = p.sec a * p.sec b := by rw [← mul_assoc, e_mul_sec]
 
 theorem e_mem_idAt (p : SplitPt D k) : p.e ∈ idAt D (· = p.v) := by
-  obtain ⟨ε, hε, heε⟩ := GlobalTheory.FinPl.HalfInd.exists_idem p
-  obtain ⟨α, rfl, -, h0⟩ := hε
-  have hmem : algebraMap (AF D.host.F) (AE D) (pairA D.host.F 0 α) ∈ idAt D (· = p.v) := by
-    rw [show algebraMap (AF D.host.F) (AE D) (pairA D.host.F 0 α) = pairA D.host.F 0 α ⊗ₜ[D.host.F] (1 : D.host.E) from rfl]
-    unfold idAt
-    rw [Submodule.mem_inf, RingHom.mem_ker, Submodule.mem_iInf]
-    refine ⟨?_, fun w => RingHom.mem_ker.2 ?_⟩
-    · change fstA D.host.F (pairA D.host.F 0 α) ⊗ₜ[D.host.F] (1 : D.host.E) = 0
-      exact TensorProduct.zero_tmul _ _
-    · change evalV D.host.F w.1 α ⊗ₜ[D.host.F] (1 : D.host.E) = 0
-      rw [h0 w.1 w.2, TensorProduct.zero_tmul]
-  rw [← heε]
-  exact Ideal.mul_mem_right _ _ hmem
+  apply _root_.GlobalTheory.FinPl.FrameLat.e_mem_idAt <;> assumption
 
 theorem mul_mem_latV {S : HSp D} {L : Lat S} {P : Pl D → Prop} {w : AE D} (hw : finPart D w ∈ intAE D)
     {y : Fin S.rank → AE D} (hy : y ∈ latV S L P) : (fun i => w * y i) ∈ latV S L P := by

@@ -1,5 +1,7 @@
 module
 
+import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.SatakeMat
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.RegularSemisimpleRationalClassKernelIntegralsStatement
 public import Development.AbelianVarietyTheory.Definitions.Divisors.SimpleTwistedTraceFormulaStable
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ConjZpowersEntriesValuedBoundedOfCompactClosure
 public import Mathlib.LinearAlgebra.Eigenspace.Triangularizable
@@ -85,35 +87,7 @@ namespace GlobalTheory.IntMatSep
 theorem nilp_eq_zero_of_commute_sep_alg {K : Type} [Field K] [IsAlgClosed K] {n : ℕ}
     {A N : Matrix (Fin n) (Fin n) K} (hA : A.charpoly.Separable) (hN : IsNilpotent N) (hc : Commute A N) :
     N = 0 := by
-  set f := Matrix.toLin' A
-  have hcp : f.charpoly = A.charpoly := Matrix.charpoly_toLin' A
-  have hfg : Commute f (Matrix.toLin' N) := hc.map Matrix.toLinAlgEquiv'
-  have hNl : IsNilpotent (Matrix.toLin' N) := hN.map Matrix.toLinAlgEquiv'
-  obtain ⟨k, hk⟩ := hNl
-  have key : ∀ μ, Module.End.maxGenEigenspace f μ ≤ LinearMap.ker (Matrix.toLin' N) := fun μ v hv => by
-    have h1 : Module.finrank K (Module.End.maxGenEigenspace f μ) ≤ 1 := by
-      rw [LinearMap.finrank_maxGenEigenspace_eq, hcp]; exact Polynomial.rootMultiplicity_le_one_of_separable hA μ
-    by_cases h0 : v = 0
-    · simp [h0]
-    have h2 : Module.finrank K (Module.End.maxGenEigenspace f μ) = 1 := le_antisymm h1
-        (Module.finrank_pos_iff_exists_ne_zero.2 ⟨⟨v, hv⟩, fun h => h0 (congrArg Subtype.val h)⟩)
-    obtain ⟨c, hc⟩ := (finrank_eq_one_iff_of_nonzero' (⟨v, hv⟩ : Module.End.maxGenEigenspace f μ)
-        fun h => h0 (congrArg Subtype.val h)).1 h2 ⟨_, Module.End.mapsTo_maxGenEigenspace_of_comm hfg μ hv⟩
-    have hc' : Matrix.toLin' N v = c • v := (congrArg Subtype.val hc).symm
-    have hpow : ∀ m : ℕ, (Matrix.toLin' N ^ m) v = c ^ m • v := by
-      intro m
-      induction m with
-      | zero => simp
-      | succ m ih => rw [pow_succ', Module.End.mul_apply, ih, map_smul, hc', smul_smul, pow_succ]
-    have h5 : c ^ k • v = 0 := by rw [← hpow, hk]; rfl
-    have hc0 : c = 0 := by
-      rcases smul_eq_zero.1 h5 with h | h
-      · exact pow_eq_zero_iff'.1 h |>.1
-      · exact absurd h h0
-    rw [LinearMap.mem_ker, hc', hc0, zero_smul]
-  have h3 := iSup_le key
-  rw [Module.End.iSup_maxGenEigenspace_eq_top, top_le_iff, LinearMap.ker_eq_top] at h3
-  exact Matrix.toLin'.injective (by rw [h3, map_zero])
+  apply _root_.GlobalTheory.RegSSClass.nilpotent_eq_zero_of_commute_sep_alg <;> assumption
 
 theorem nilp_eq_zero_of_commute_sep {K : Type} [Field K] {n : ℕ}
     {A N : Matrix (Fin n) (Fin n) K} (hA : A.charpoly.Separable) (hN : IsNilpotent N) (hc : Commute A N) :
@@ -259,15 +233,8 @@ namespace GlobalTheory.CptCent
 
 theorem mem_GLint_of_entries' {K : Type} [Field K] {n : ℕ} (O : Subring K) (g : GL (Fin n) K)
     (h1 : ∀ a b, g.val a b ∈ O) (h2 : ∀ a b, (g⁻¹).val a b ∈ O) : g ∈ Formalism.UG.GLint (Fin n) O := by
-  have inj : Function.Injective (O.subtype.mapMatrix (m := Fin n)) :=
-    fun A B h => by ext i j; exact congrFun (congrFun h i) j
-  let A : Matrix (Fin n) (Fin n) O := fun i j => ⟨g.val i j, h1 i j⟩
-  let B : Matrix (Fin n) (Fin n) O := fun i j => ⟨(g⁻¹).val i j, h2 i j⟩
-  have hA : O.subtype.mapMatrix A = g.val := rfl
-  have hB : O.subtype.mapMatrix B = (g⁻¹).val := rfl
-  refine ⟨⟨A, B, inj ?_, inj ?_⟩, Units.ext rfl⟩
-  · rw [map_mul, hA, hB, map_one, Units.mul_inv]
-  · rw [map_mul, hA, hB, map_one, Units.inv_mul]
+  intros
+  apply _root_.Formalism.UG.P.satake_mem_glint <;> assumption
 
 theorem entry_mem_of_mem_GLint' {K : Type} [Field K] {n : ℕ} (O : Subring K) {g : GL (Fin n) K}
     (hg : g ∈ Formalism.UG.GLint (Fin n) O) (a b : Fin n) : g.val a b ∈ O := by

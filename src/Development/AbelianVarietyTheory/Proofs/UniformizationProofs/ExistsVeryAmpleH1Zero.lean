@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.CardTorsionPointsAbelianVariety
 public import Mathlib.RingTheory.DiscreteValuationRing.Basic
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.ThickTransComp
 public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.IsPushoutQuotientMap
@@ -211,15 +212,7 @@ theorem pw_pull (H : LB X) (f : Y ⟶ X) (a : ℤ) :
   exact congrArg (fun g => (⟨(H.pull f).ι, (H.pull f).U, g⟩ : LB Y)) this
 
 theorem lbIso_pw {A B : LB X} (h : LBIso A B) (a : ℤ) : LBIso (AbLaw.pw A a) (AbLaw.pw B a) := by
-  obtain ⟨w, hw⟩ := h
-  refine ⟨⟨fun p => (w.s p) ^ a⟩, fun p q => ?_⟩
-  have key : ∀ {G : Type} [CommGroup G] {x y z u : G}, x = y * z⁻¹ * u →
-      x ^ a = y ^ a * (z ^ a)⁻¹ * u ^ a := by
-    rintro G _ x y z u rfl
-    rw [mul_zpow, mul_zpow, inv_zpow]
-  change res _ (w.s p ^ a) = (res _ (B.g p.1 q.1 ^ a) * (res _ (A.g p.2 q.2 ^ a))⁻¹) * res _ (w.s q ^ a)
-  rw [map_zpow, map_zpow, map_zpow, map_zpow]
-  exact key (hw p q)
+  apply _root_.GlobalTheory.UU.TorsionCount.lbIso_pw <;> assumption
 
 theorem cocycle_on {H : LB X} (hH : H.IsLB) (i j k : H.ι) {W : X.Opens} (hi : W ≤ H.U i)
     (hj : W ≤ H.U j) (hk : W ≤ H.U k) :

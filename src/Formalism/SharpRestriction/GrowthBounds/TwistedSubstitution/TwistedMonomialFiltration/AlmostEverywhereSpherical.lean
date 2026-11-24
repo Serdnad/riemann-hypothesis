@@ -1,5 +1,6 @@
 module
 
+import Formalism.SharpRestriction.GrowthBounds.RootWeights.DerivativeValuationBounds
 public import Formalism.SharpRestriction.GrowthBounds.TwistedSubstitution.TwistedMonomialFiltration.TMemLaurentFiltration
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -57,22 +58,7 @@ open Formalism.MainNotions.G
 
 theorem flt_twistMat_mem (R : Type*) [CommRing R] (n : ℕ) (j : Fin n) (k e t : ℤ) (h0 : t ≤ 0) (hk : t ≤ e * k)
     (b c : Fin n) : twistMat R n j k b c ∈ (flt_L (GLCoord R n) e).F t := by
-  unfold twistMat
-  rw [Matrix.mul_apply]
-  refine sum_mem fun a _ => ?_
-  rw [Matrix.mul_diagonal]
-  have hg : gL R n b a ∈ (flt_L (GLCoord R n) e).F 0 := by
-    simp only [gL, Matrix.map_apply]
-    exact flt_L_C e _
-  have hgi : gLinv R n a c ∈ (flt_L (GLCoord R n) e).F 0 := by
-    simp only [gLinv, Matrix.map_apply]
-    exact flt_L_C e _
-  have hd : (if a = j then LaurentPolynomial.T k else 1) ∈ (flt_L (GLCoord R n) e).F t := by
-    split_ifs
-    · exact (flt_L (GLCoord R n) e).anti hk (T_mem_laurentFiltration e k)
-    · exact (flt_L (GLCoord R n) e).anti h0 (flt_L (GLCoord R n) e).one_mem
-  have hm := (flt_L (GLCoord R n) e).mul_mem ((flt_L (GLCoord R n) e).mul_mem hg hd) hgi
-  rwa [zero_add, add_zero] at hm
+  apply _root_.Formalism.MainNotions.G.GLWeightTheory.flt_twistMat_mem <;> assumption
 
 
 open Classical in
@@ -94,30 +80,7 @@ theorem flt_twistX_mem {R : Type*} [CommRing R] {ι : Type*} {n : ℕ} (LL : Let
     {e : ℤ} {bm : Bool} (h : flt_compat e bm) (v : ι × Fin n) :
     twistSub LL S j (X v : MvPolynomial (ι × Fin n) R) ∈
       (laurentCoeffFiltration R n (ι × Fin n) e).F ((-flt_cost LL S bm) (Finsupp.single v 1)) := by
-  classical
-  have hX : ∀ w : ι × Fin n,
-      (X w : MvPolynomial (ι × Fin n) (GLLaurent R n)) ∈ (laurentCoeffFiltration R n (ι × Fin n) e).F 0 := by
-    intro w
-    rw [laurentCoeffFiltration, flt_lift_mem]
-    intro m
-    rw [AddMonoidHom.zero_apply, sub_zero, MvPolynomial.coeff_X]
-    split_ifs
-    · exact (flt_L (GLCoord R n) e).one_mem
-    · exact zero_mem _
-  have hterm : ∀ (a : GLLaurent R n) (w : ι × Fin n) (t : ℤ), a ∈ (flt_L (GLCoord R n) e).F t →
-      MvPolynomial.C a * X w ∈ (laurentCoeffFiltration R n (ι × Fin n) e).F t := by
-    intro a w t ha
-    have hm := (laurentCoeffFiltration R n (ι × Fin n) e).mul_mem (flt_C_mem ha) (hX w)
-    rwa [add_zero] at hm
-  unfold twistSub
-  rw [MvPolynomial.eval₂Hom_X', AddMonoidHom.neg_apply, flt_cost_single]
-  by_cases hS : v.1 ∈ S
-  · rw [if_pos hS]
-    rcases h with ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩ <;> cases hb : LL.vec v.1 <;> simp only [hS, true_and] <;>
-      norm_num <;>
-      exact sum_mem fun b _ => hterm _ _ _ (flt_twistMat_mem R n j _ _ _ (by norm_num) (by norm_num) _ _)
-  · rw [if_neg hS, if_neg (fun h' => hS h'.1), neg_zero]
-    exact hX v
+  apply _root_.Formalism.MainNotions.G.GLWeightTheory.flt_twistX_mem <;> assumption
 
 theorem flt_twist_monomial_mem {R : Type*} [CommRing R] {ι : Type*} {n : ℕ} (LL : Letters ι) (S : Set ι) (j : Fin n)
     {e : ℤ} {bm : Bool} (h : flt_compat e bm) (al : ι × Fin n →₀ ℕ) :

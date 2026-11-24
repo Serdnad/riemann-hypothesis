@@ -61,6 +61,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
 import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.StepBoxIffStepSuppDeg
+import Formalism.LocalToGlobal.UnitaryNorms.AdjoinCycZeta
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AutomorphicArithmetic.CyclotomicBounds.RamifiedDiscriminants.IsCond, Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.FieldsIsConductorPrimesModulus, Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.DefiniteBaseDataAdmissible, Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.DefiniteBaseDataAdmissibleStatement, Development.AbelianVarietyTheory.Definitions.GlobalTwisting.JetsAllOfColIn
@@ -112,33 +113,6 @@ private theorem exists_aut_fix (N M : ℕ) (hN : 0 < N) (hM : 0 < M) (u : ℕ) (
     | inv a _ ha => rw [map_inv₀, ha]
     | mul a b _ _ ha hb => rw [map_mul, ha, hb]
 
-private theorem aut_art {φ : Frame} (H : HostRaw φ) (j : H.E →ₐ[ℚ] Qb) (u : (ZMod H.condN)ˣ) (s : Qb ≃ₐ[ℚ] Qb)
-    (hs : ∀ z ∈ mus H.condN, s z = z ^ (u : ZMod H.condN).val) (x : H.E) :
-    s (j x) = j (H.gal.symm (H.art u) x) := by
-  let _ : Algebra H.E (Cond.Cyc H.condN) := (emb H).toRingHom.toAlgebra
-  have : IsScalarTower ℚ H.E (Cond.Cyc H.condN) := IsScalarTower.of_algebraMap_eq fun x => ((emb H).commutes x).symm
-  have : Algebra.IsAlgebraic H.E (Cond.Cyc H.condN) := Algebra.IsAlgebraic.tower_top (K := ℚ) H.E
-  let _ : Algebra H.E Qb := j.toRingHom.toAlgebra
-  let Ψ0 : Cond.Cyc H.condN →ₐ[H.E] Qb := (by
-    refine @_root_.IsAlgClosed.lift _ _ _ _ _ _ _ _ _ _ _ ?_ ?_ ?_
-    solve_by_elim* (maxDepth := 2) only [*,
-      @_root_.DivisionSemiring.to_moduleIsTorsionFree,
-      @_root_.Algebra.IsIntegral.isAlgebraic, @_root_.inferInstance])
-  let Ψ : Cond.Cyc H.condN →+* Qb := Ψ0.toRingHom
-  have h1 : ∀ y, Ψ (emb H y) = j y := fun y => Ψ0.commutes y
-  have key : (Ψ.comp (tauN H.condN u : Cond.Cyc H.condN →+* Cond.Cyc H.condN)).toRatAlgHom =
-      ((s : Qb →+* Qb).comp Ψ).toRatAlgHom := by
-    refine AlgHom.ext_of_adjoin_eq_top
-      (IsCyclotomicExtension.adjoin_primitive_root_eq_top (Cond.z_spec H.condN)) ?_
-    intro y hy
-    rw [Set.mem_singleton_iff] at hy
-    subst hy
-    show Ψ (tauN H.condN u (Cond.z H.condN)) = s (Ψ (Cond.z H.condN))
-    have hz := (Cond.z_spec H.condN).pow_eq_one
-    rw [tauN_root H.condN _ _ hz, map_pow, hs _ (show _ ^ H.condN = 1 by rw [← map_pow, hz, map_one])]
-  rw [← h1, ← h1, emb_art]
-  exact (DFunLike.congr_fun key (emb H x)).symm
-
 private theorem exists_exact {R : Formalism.BasicNotions.Ranks} (H : Formalism.BasicNotions.Host R) {l : ℕ} (hl : l.Prime) (hd : l ∣ H.condN) :
     ∃ u : (ZMod H.condN)ˣ, (u : ZMod H.condN).val ≡ 1 [MOD H.condN / l] ∧ H.art u ≠ 1 := by
   rcases (H.toHostRaw.dvd_condN_iff hl).1 hd with h | rfl | rfl
@@ -186,7 +160,8 @@ theorem UpperTheory.Ram.isCond_condN :
     apply hu2
     rw [← H.gal.symm.map_eq_one_iff]
     refine AlgEquiv.ext fun x => j.injective ?_
-    have h := aut_art H.toHostRaw j u s (fun z hz => by rw [hs1 z hz, pow_eq_pow_of_modEq hn1 hz]) x
+    have h := _root_.Formalism.HC.HostRaw.artin_apply H.toHostRaw s u
+      (fun z hz => by rw [hs1 z hz, pow_eq_pow_of_modEq hn1 hz]) j x
     exact h.symm.trans (hs2 _ (hle ⟨x, rfl⟩))
 end -- clump:auto
 end -- clump:auto

@@ -1,5 +1,8 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.JetHarmonics.ExistsIdempotentFrobeniusOrbitUnramified
+import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.FrobeniusLiftEmbeddingsUnit
+import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.LevelsUsedBalancedValueOrbitSums
 import Development.AbelianVarietyTheory.Proofs.JetHarmonics.RealPlaceLabellingInertFrobeniusNotConj
 public import Formalism.LocalToGlobal.CharacterGerms.SelfConjugateRowData
 public import Formalism.LocalToGlobal.Divisibility.Numbers
@@ -123,14 +126,7 @@ theorem exists_pow_ge {a : C} (ha : V.MM a) : ∃ n : ℕ, V.Ge 1 (a ^ n) := by
   exact ⟨n, (ge_pow_mul hwa n).mono ((div_le_iff₀ hw).mp hn)⟩
 
 theorem eq_zero_of_ge {a : C} (h : ∀ n : ℕ, V.Ge n a) : a = 0 := by
-  by_contra h0
-  have h1 : V.v a ≠ ⊤ := by rwa [Ne, AddValuation.top_iff]
-  obtain ⟨t, ht⟩ := WithTop.ne_top_iff_exists.mp h1
-  obtain ⟨n, hn⟩ := exists_nat_gt t
-  have h2 := h n
-  unfold VF.Ge at h2
-  rw [← ht] at h2
-  exact absurd (by exact_mod_cast h2 : (n : ℝ) ≤ t) (not_le.mpr hn)
+  apply _root_.GlobalTheory.TeichSeq.eq_zero_of_ge <;> assumption
 
 theorem not_mm_two (h2 : V.l ≠ 2) : ¬ V.MM (2 : C) := by
   intro h
@@ -408,36 +404,8 @@ namespace UpperTheory.G2.RowLab.Idem
 
 theorem exists_idem (E : Type) [Field E] [NumberField E] (l : ℕ) (hl : l.Prime)
     (hd : ¬ (l : ℤ) ∣ NumberField.discr E) (P : Ideal (𝓞 E)) [hP : P.IsPrime] (hlP : (l : 𝓞 E) ∈ P) :
-    ∃ ε : 𝓞 E, (∃ y, ε * ε - ε = (l : 𝓞 E) * y) ∧ ε - 1 ∈ P ∧ ∀ x ∈ P, ∃ y, ε * x = (l : 𝓞 E) * y := by
-  have hp : Prime (l : ℤ) := Nat.prime_iff_prime_int.mp hl
-  have hun : Algebra.IsUnramifiedAt ℤ P :=
-    (NumberField.not_dvd_discr_iff_forall_mem E (𝓞 E) hp).mp hd P hP (by simpa using hlP)
-  have hov : P.LiesOver (Ideal.span {(l : ℤ)}) :=
-    (Ideal.liesOver_span_iff hP.ne_top hp).mpr (by simpa using hlP)
-  have hmap : (Ideal.span {(l : ℤ)}).map (algebraMap ℤ (𝓞 E)) = Ideal.span {(l : 𝓞 E)} := by
-    rw [Ideal.map_span]; simp
-  have hl0 : (l : 𝓞 E) ≠ 0 := by exact_mod_cast hl.ne_zero
-  have hne : (Ideal.span {(l : ℤ)}).map (algebraMap ℤ (𝓞 E)) ≠ ⊥ := by
-    rw [hmap]; simpa using hl.ne_zero
-  have hP0 : P ≠ ⊥ := by
-    rintro rfl
-    exact hl0 (by simpa using hlP)
-  have := hP.isMaximal hP0
-  obtain ⟨Q, h₁, h₂⟩ := Ideal.eq_prime_pow_mul_coprime hne P
-  rw [← Ideal.IsDedekindDomain.ramificationIdx_eq_normalizedFactors_count _ _ hne,
-    Ideal.ramificationIdx_eq_one P ℤ, pow_one, hmap] at h₂
-  obtain ⟨p, hpP, q, hqQ, hpq⟩ := Submodule.mem_sup.mp ((Ideal.eq_top_iff_one _).mp h₁)
-  have key : ∀ x ∈ P, ∃ y, q * x = (l : 𝓞 E) * y := by
-    intro x hx
-    have : x * q ∈ Ideal.span {(l : 𝓞 E)} := h₂ ▸ Ideal.mul_mem_mul hx hqQ
-    obtain ⟨y, hy⟩ := Ideal.mem_span_singleton.mp this
-    exact ⟨y, by rw [mul_comm, hy]⟩
-  have hq1 : q - 1 ∈ P := by
-    have : q - 1 = -p := by rw [← hpq]; ring
-    rw [this]; exact P.neg_mem hpP
-  refine ⟨q, ?_, hq1, key⟩
-  obtain ⟨y, hy⟩ := key _ hq1
-  exact ⟨y, by rw [← hy]; ring⟩
+    ∃ ε : 𝓞 E, (∃ y, ε * ε - ε = (l : 𝓞 E) * y) ∧ ε - 1 ∈ P ∧ ∀ x ∈ P, ∃ y, ε * x = (l : 𝓞 E) * y :=
+  _root_.GlobalTheory.UnrIdem.exists_idem E l hl hd P hlP
 
 variable {C : Type} [Field C] {V : VF C}
 
@@ -461,84 +429,24 @@ def ker (V : VF C) {R : Type} [CommRing R] (f : R →+* C) (hf : ∀ x, V.Ge 0 (
     show V.MM (f (c * x))
     rw [map_mul]; exact mm_mul (hf c) hx
 
-theorem ker_isPrime {R : Type} [CommRing R] (f : R →+* C) (hf : ∀ x, V.Ge 0 (f x)) : (ker V f hf).IsPrime := by
-  refine ⟨(Ideal.ne_top_iff_one _).mpr ?_, fun {a b} hab => ?_⟩
-  · show ¬ V.MM (f 1)
-    simp [VF.MM]
-  · change V.MM (f (a * b)) at hab
-    show V.MM (f a) ∨ V.MM (f b)
-    have ha := hf a
-    have hb := hf b
-    unfold VF.MM VF.Ge at *
-    rw [map_mul, V.v.map_mul] at hab
-    by_contra hc
-    push Not at hc
-    exact absurd hab (not_lt.mpr (add_nonpos hc.1 hc.2))
+theorem ker_isPrime {R : Type} [CommRing R] (f : R →+* C) (hf : ∀ x, V.Ge 0 (f x)) : (ker V f hf).IsPrime :=
+  _root_.GlobalTheory.UnrIdem.ker_isPrime f hf
 
 end UpperTheory.G2.RowLab.Idem
 
 open UpperTheory.G2.RowLab.Idem in
 theorem UpperTheory.G2.RowLab.exists_idempotent : ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (H : ReciprocityTheory.ChartRestriction.G.Geo.Tor.Host E) (lv : Level H) (c : Coeff lv) (T : CDVR) (io : c.F →+* T.Fr) (C : Type) [Field C] [CharZero C] (V : VF C) (ι : T.Fr →+* C), EmbOK T V ι → ¬ (V.l : ℤ) ∣ NumberField.discr E → ∀ (d : ℕ) [NeZero d] (tau : ZMod d → (E →+* ℂ)), (∀ s x, V.MM (emA3 io ι (tau (s + 1)) x - emA3 io ι (tau s) x ^ V.l)) → ∃ ε : 𝓞 E, (∃ y, ε * ε - ε = (V.l : 𝓞 E) * y) ∧ (∀ a, V.MM (emA3 io ι (tau a) ε - 1)) ∧ ∀ x : 𝓞 E, (∀ a, V.MM (emA3 io ι (tau a) x)) → ∃ y, ε * x = (V.l : 𝓞 E) * y := by
-  intro E _ _ _ H lv c T io C _ _ V ι _ hd d _ tau hF
-  have hint : ∀ τ x, V.Ge 0 (emA3 io ι τ x) := fun τ x =>
-    ge_int ((RingOfIntegers.isIntegral x).map (emA3 io ι τ).toIntAlgHom)
-  have hstep : ∀ x s, V.MM (emA3 io ι (tau s) x) → V.MM (emA3 io ι (tau (s + 1)) x) := by
-    intro x s hs
-    have h1 := hF s x
-    have h2 : V.MM (emA3 io ι (tau s) x ^ V.l) := by
-      obtain ⟨k, hk⟩ := Nat.exists_eq_succ_of_ne_zero V.l_prime.ne_zero
-      rw [hk, pow_succ]
-      exact mm_mul ((hint _ _).pow k) hs
-    simpa using mm_add h1 h2
-  have hall : ∀ x, V.MM (emA3 io ι (tau 0) x) → ∀ a, V.MM (emA3 io ι (tau a) x) := by
-    intro x h0 a
-    have : ∀ n : ℕ, V.MM (emA3 io ι (tau (n : ZMod d)) x) := by
-      intro n
-      induction n with
-      | zero => simpa using h0
-      | succ n ih => push_cast; exact hstep x _ ih
-    simpa using this a.val
-  have hP := ker_isPrime (V := V) (emA3 io ι (tau 0)) (hint _)
-  obtain ⟨ε, h1, h2, h3⟩ := exists_idem E V.l V.l_prime hd (ker V (emA3 io ι (tau 0)) (hint _)) (by
-    show V.MM (emA3 io ι (tau 0) (V.l : 𝓞 E))
-    rw [map_natCast]
-    unfold VF.MM
-    rw [V.v_l]
-    exact zero_lt_one)
-  refine ⟨ε, h1, fun a => ?_, fun x hx => h3 x (hx 0)⟩
-  have := hall _ h2 a
-  rwa [map_sub, map_one] at this
+  exact _root_.GlobalTheory.exists_idempotent_of_unramified_place
 
 namespace UpperTheory.G2.RowLab
 
 lemma pos_add (N : NumDatum) (l : ℕ) (z : RPl N.R) (s t : ℕ) :
-    N.pos l (N.pos l z s) t = N.pos l z (s + t) := by
-  unfold NumDatum.pos
-  refine Prod.ext ?_ ?_
-  · dsimp only
-    by_cases h : N.cls l = PrimeClass.signal <;> by_cases hs : Odd s <;> by_cases ht : Odd t <;>
-      simp [h, hs, ht, Nat.odd_add, ← Nat.not_odd_iff_even]
-  · dsimp only
-    rw [add_smul, add_assoc]
+    N.pos l (N.pos l z s) t = N.pos l z (s + t) :=
+  _root_.GlobalTheory.LevelsOrbits.pos_add N l z s t
 
 lemma pos_mul_period (N : NumDatum) (l : ℕ) (z : RPl N.R) (c : ℕ) :
-    N.pos l z (N.ordP l * c) = z := by
-  unfold NumDatum.pos NumDatum.ordP
-  by_cases h : N.cls l = PrimeClass.signal
-  · rw [if_pos h]
-    refine Prod.ext ?_ ?_
-    · have : ¬ Odd (2 * addOrderOf (2 • N.hP l) * c) := by
-        rw [Nat.not_odd_iff_even, mul_assoc]; exact even_two_mul _
-      dsimp only
-      rw [decide_eq_false (fun hh => this hh.2), Bool.xor_false]
-    · dsimp only
-      rw [show 2 * addOrderOf (2 • N.hP l) * c = c * addOrderOf (2 • N.hP l) * 2 by ring,
-        mul_smul, mul_smul, addOrderOf_nsmul_eq_zero, smul_zero, add_zero]
-  · rw [if_neg h]
-    refine Prod.ext ?_ ?_
-    · simp [h]
-    · dsimp only
-      rw [mul_comm, mul_smul, addOrderOf_nsmul_eq_zero, smul_zero, add_zero]
+    N.pos l z (N.ordP l * c) = z :=
+  _root_.GlobalTheory.LevelsOrbits.pos_mul_period N l z c
 
 lemma pos_mod (N : NumDatum) (l : ℕ) (z : RPl N.R) (e : ℕ) :
     N.pos l z (e % N.ordP l) = N.pos l z e := by

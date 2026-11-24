@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ArtinTwistingCharacterDeltaGoodStatement
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.GoodSetupCountEqZeroOffBadPlaces
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -55,22 +56,8 @@ attribute [local instance] Formalism.BasicNotions.Host.cmStar
 theorem coprime_absNorm {K : Type} [Field K] [NumberField K] (l : ℕ) (hl : l.Prime)
     (P : HeightOneSpectrum (𝓞 K)) (hP : ((l : ℕ) : 𝓞 K) ∉ P.asIdeal) :
     Nat.Coprime l (Ideal.absNorm P.asIdeal) := by
-  rw [Nat.Prime.coprime_iff_not_dvd hl]
-  intro hd
-  haveI : Fact l.Prime := ⟨hl⟩
-  letI : Field (𝓞 K ⧸ P.asIdeal) := Ideal.Quotient.field P.asIdeal
-  have hfin : Finite (𝓞 K ⧸ P.asIdeal) := Ideal.finiteQuotientOfFreeOfNeBot _ P.ne_bot
-  haveI := Fintype.ofFinite (𝓞 K ⧸ P.asIdeal)
-  have hc : l ∣ Fintype.card (𝓞 K ⧸ P.asIdeal) := by
-    rw [Fintype.card_eq_nat_card, ← Submodule.cardQuot_apply, ← Ideal.absNorm_apply]; exact hd
-  obtain ⟨x, hx⟩ := exists_prime_addOrderOf_dvd_card l hc
-  have h1 : (l : 𝓞 K ⧸ P.asIdeal) * x = 0 := by
-    rw [← nsmul_eq_mul, ← hx, addOrderOf_nsmul_eq_zero]
-  have hx0 : x ≠ 0 := by
-    rintro rfl; rw [addOrderOf_zero] at hx; exact hl.one_lt.ne hx
-  have h2 : (l : 𝓞 K ⧸ P.asIdeal) = 0 := (mul_eq_zero.1 h1).resolve_right hx0
-  apply hP
-  rw [← Ideal.Quotient.eq_zero_iff_mem, map_natCast]; exact h2
+  intros
+  apply _root_.GlobalTheory.CoprimeAbsNorm.coprime_absNorm_of_natCast_notMem <;> assumption
 
 theorem isUnit_natCast_of_coprime {R : Type} [CommRing R] [IsLocalRing R] {l n : ℕ}
     (hl : ((l : ℕ) : R) ∈ IsLocalRing.maximalIdeal R) (h : Nat.Coprime l n) : IsUnit ((n : ℕ) : R) := by

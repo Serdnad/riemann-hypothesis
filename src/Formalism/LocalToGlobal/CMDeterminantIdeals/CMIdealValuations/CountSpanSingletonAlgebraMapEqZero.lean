@@ -1,5 +1,7 @@
 module
 
+
+import Formalism.LocalToGlobal.GlobalTheory.GL4.ColumnLatticeExactSlope
 public import Formalism.LocalToGlobal.CMDeterminantIdeals.DetIdeal
 public import Mathlib.RingTheory.FractionalIdeal.Extended
 public import Formalism.LocalToGlobal.CMDeterminantIdeals.CMIdealValuations.OneLeAbsNormOfLeOne
@@ -11,7 +13,6 @@ import Mathlib.RingTheory.Henselian
 import Mathlib.RingTheory.RegularLocalRing.Defs
 import Mathlib.RingTheory.SimpleRing.Principal
 import Mathlib.Tactic.Lemma
-
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Formalism.LocalToGlobal.CMDeterminantIdeals.StatementP, Formalism.LocalToGlobal.CMDeterminantIdeals.CMIdealValuations.CountSpanSingletonAlgebraMapEqZero
 
@@ -193,13 +194,7 @@ lemma absNorm_coeIdeal' {F : Type} [Field F] [NumberField F] (J : Ideal (𝓞 F)
     FractionalIdeal.absNorm (J : FractionalIdeal (𝓞 F)⁰ F) = (Ideal.absNorm J : ℚ) := FractionalIdeal.coeIdeal_absNorm J
 
 lemma finrank_int_eq : Module.finrank (𝓞 K) (𝓞 K1) = Module.finrank K K1 := by
-  have h1 := IsLocalization.finrank_eq (R := 𝓞 K) K (N := K1) (𝓞 K)⁰ le_rfl
-  have hloc : IsLocalization (Algebra.algebraMapSubmonoid (𝓞 K1) (𝓞 K)⁰) K1 :=
-    IsIntegralClosure.isLocalization (𝓞 K) K K1 (𝓞 K1)
-  haveI : IsLocalizedModule (𝓞 K)⁰ (IsScalarTower.toAlgHom (𝓞 K) (𝓞 K1) K1).toLinearMap :=
-    (isLocalizedModule_iff_isLocalization).mpr hloc
-  have h2 := IsLocalizedModule.finrank_eq (𝓞 K)⁰ (IsScalarTower.toAlgHom (𝓞 K) (𝓞 K1) K1).toLinearMap le_rfl
-  rw [h1, h2]
+  apply _root_.Formalism.HermiteSiegelSlopes.finrank_ringOfIntegers_eq <;> assumption
 
 lemma norm_algebraMap_tower (x : K) :
     Algebra.norm ℚ (algebraMap K K1 x) = (Algebra.norm ℚ x) ^ Module.finrank K K1 := by

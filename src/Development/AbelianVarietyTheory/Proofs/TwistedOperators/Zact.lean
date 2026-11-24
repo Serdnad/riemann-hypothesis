@@ -1,5 +1,6 @@
 module
 
+import all Development.AbelianVarietyTheory.Proofs.DivisorProofs.TowerStageFinitePlacesUnramifiedOrSplit
 public import Development.AbelianVarietyTheory.Definitions.Divisors.IsUnitaryOnTheta
 public import Development.AbelianVarietyTheory.Definitions.Foundations.NotIsSplitOfIsInertAt
 public import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.IdemSum
@@ -257,18 +258,7 @@ attribute [local instance] Formalism.BasicNotions.Host.cmStar
 
 theorem not_nonSplitAt_of_emb {D : D7} {v : HeightOneSpectrum (𝓞 D.host.F)} {ε : AF D.host.F}
     (hε : IsPlaceIdem D v ε) (τ : D.host.E →ₐ[D.host.F] Fv D.host.F v) : ¬ GlobalTheory.WeilParts.NonSplitAt D v ε := by
-  intro h
-  refine h.2 ⟨GlobalTheory.EmbChart.idem τ, GlobalTheory.EmbChart.isSplitIdem_idem τ, ?_⟩
-  have he : ε = GlobalTheory.EmbChart.atPlace v 1 := by
-    obtain ⟨α, rfl, h1, h0⟩ := hε
-    rw [GlobalTheory.EmbChart.atPlace_apply]
-    congr 1
-    refine FiniteAdeleRing.ext _ fun u => ?_
-    change evalV D.host.F u α = evalV D.host.F u (GlobalTheory.AdelicU.singleFin v 1)
-    by_cases e : u = v
-    · subst e; rw [GlobalTheory.AdelicU.evalV_singleFin_self, h1]
-    · rw [GlobalTheory.AdelicU.evalV_singleFin_ne e, h0 u e]
-  rw [he, GlobalTheory.EmbChart.cA_idem, GlobalTheory.EmbChart.idem, ← LinearMap.map_add (f := _), add_sub_cancel]; rfl
+  apply _root_.GlobalTheory.StageRam.not_nonSplitAt_of_emb <;> assumption
 
 theorem not_unramAt_of_forall {D : D7} {χ : (AE D)ˣ →* Circle} {v : HeightOneSpectrum (𝓞 D.host.F)}
     {ε : AF D.host.F} (hε : IsPlaceIdem D v ε)

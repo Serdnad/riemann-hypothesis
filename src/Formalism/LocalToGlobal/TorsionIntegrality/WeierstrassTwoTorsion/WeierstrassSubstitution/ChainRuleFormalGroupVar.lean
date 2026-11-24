@@ -1,5 +1,6 @@
 module
 
+import all Formalism.LocalToGlobal.TorsionIntegrality.WeierstrassTwoTorsion.WeierstrassSubstitution.TwoTorsionIntegral
 public import Formalism.LocalToGlobal.TorsionIntegrality.WeierstrassTwoTorsion.StatementM
 public import Formalism.LocalToGlobal.TorsionIntegrality.WeierstrassTwoTorsion.WeierstrassSubstitution.WpShape
 public import Formalism.LocalToGlobal.TorsionIntegrality.WeierstrassTwoTorsion.FglInvariant
@@ -69,13 +70,7 @@ end More
 private theorem constantCoeff_powerSeries_subst_eq_zero {R : Type u} [CommRing R] {a : R⟦X⟧} (ha : HasSubst a)
     (ha0 : constantCoeff a = 0) (g : R⟦X⟧) :
     constantCoeff (g.subst a) = constantCoeff g := by
-  obtain ⟨h, hh⟩ := (PowerSeries.X_dvd_iff).mpr
-    (show constantCoeff (g - C (constantCoeff g)) = 0 by simp)
-  have hg : g = X * h + (constantCoeff g) • (1 : R⟦X⟧) := by
-    rw [PowerSeries.smul_eq_C_mul, mul_one, ← hh]; ring
-  rw [hg, ← PowerSeries.coe_substAlgHom ha, map_add (f := _), map_mul, map_smul, map_one,
-    PowerSeries.coe_substAlgHom ha, PowerSeries.subst_X ha]
-  simp [ha0, PowerSeries.smul_eq_C_mul]
+  apply _root_.Formalism.L2.Th1.A.Two.cc_subst_lemma <;> assumption
 
 private theorem factorial_mul_coeff_eq_coeff_zero_iterate_derivative {R : Type u} [CommRing R] (n : ℕ) (g : R⟦X⟧) :
     (n.factorial : R) * coeff n g = coeff 0 ((derivative (R := R))^[n] g) := by

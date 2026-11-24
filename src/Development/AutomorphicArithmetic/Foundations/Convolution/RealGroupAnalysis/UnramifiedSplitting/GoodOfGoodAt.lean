@@ -1,5 +1,6 @@
 module
 
+import Development.WeilBound.CoreStatements.AutomorphicKernels.IsobaricBaseChange.IntegralCoefficientBaseChange.UnitaryBaseChangeCharacters.UnitaryBaseChangeLinks.EllipticCharpolyLocalRealisationStatement
 public import Development.AutomorphicArithmetic.Foundations.Convolution.RealGroupAnalysis.UnramifiedSplitting.SplitAt
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.SmoothRepresentationsGL.PsiLoc
 import Mathlib.Algebra.Order.Floor.Extended
@@ -49,18 +50,7 @@ private theorem psi_sg {K : Type} [Field K] [NumberField K] (v : P K) (x : Kv v)
 
 private theorem val_ae {K : Type} [Field K] [NumberField K] (a : K) (ha : a ≠ 0) :
     ∀ᶠ v : P K in cofinite, Valued.v (algebraMap K (Kv v) a) = 1 := by
-  have h1 := HeightOneSpectrum.Support.finite (𝓞 K) a
-  have h2 := HeightOneSpectrum.Support.finite (𝓞 K) a⁻¹
-  filter_upwards [h1.compl_mem_cofinite, h2.compl_mem_cofinite] with v hv1 hv2
-  have e : Valued.v (algebraMap K (Kv v) a) = v.valuation K a :=
-    HeightOneSpectrum.valuedAdicCompletion_eq_valuation' v a
-  rw [e]
-  have n1 : v.valuation K a ≤ 1 := not_lt.1 hv1
-  have n2 : (v.valuation K a)⁻¹ ≤ 1 := by
-    have : v.valuation K a⁻¹ ≤ 1 := not_lt.1 hv2
-    rwa [map_inv₀] at this
-  have h0 : v.valuation K a ≠ 0 := (Valuation.ne_zero_iff _).2 ha
-  exact le_antisymm n1 ((inv_le_one₀ (zero_lt_iff.2 h0)).1 n2)
+  apply _root_.GlobalTheory.IntUnitaryPoly.ae_unit <;> assumption
 
 private theorem good_of_goodAt {K : Type} [Field K] [NumberField K] (v : P K)
     (h : UpperTheory.V.Af.Smo.GoodAt v (UpperTheory.V.Af.Smo.psiL v)) :

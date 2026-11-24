@@ -69,6 +69,7 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Separation.CompletelyRegular
 import Mathlib.Topology.Separation.Connected
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.HintConstMul
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AutomorphicSpectrum.Proofs.BlockDecomposition.RelIndexNeZeroOfIsOpen, Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ConstantTermConvolutionHecke
@@ -119,18 +120,7 @@ section Generic
 
 theorem hint_const_mul {H : Type} [Group H] (K : Subgroup H) (u : H → ℂ) (c : ℂ) :
     hint K (fun z => c * u z) = c * hint K u := by
-  by_cases hc : c = 0
-  · subst hc
-    simpa using GlobalTheory.CompanionTheory.FamClP.hint_zero K
-  · have hs : rStab (fun z => c * u z) = rStab u := by
-      ext r
-      rw [GlobalTheory.CompanionTheory.FamClP.mem_rStab', GlobalTheory.CompanionTheory.FamClP.mem_rStab']
-      exact forall_congr' fun x => mul_right_inj' hc
-    unfold hint
-    rw [hs, mul_left_comm]
-    congr 1
-    have := smul_finsum c (fun q : H ⧸ (rStab u ⊓ K) => u q.out)
-    simpa [smul_eq_mul] using this.symm
+  apply _root_.GlobalTheory.CompanionTheory.ActTr.hint_const_mul <;> assumption
 
 theorem hint_swap {H₁ H₂ : Type} [Group H₁] [Group H₂] (A₁ L₁ : Subgroup H₁) (A₂ L₂ : Subgroup H₂)
     (h₁ : L₁ ≤ A₁) (h₂ : L₂ ≤ A₂) (f₁ : L₁.relIndex A₁ ≠ 0) (f₂ : L₂.relIndex A₂ ≠ 0) (u : H₁ → H₂ → ℂ)

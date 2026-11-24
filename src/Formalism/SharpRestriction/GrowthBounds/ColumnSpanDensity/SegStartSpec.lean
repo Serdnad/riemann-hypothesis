@@ -1,5 +1,6 @@
 module
 
+import Formalism.SharpRestriction.GrowthBounds.BinomialRatio.SegmentStatementHolds
 public import Formalism.SharpRestriction.GrowthBounds.ColumnSpanDensity.InitialLevelFormula
 public import Formalism.SharpRestriction.GrowthBounds.ColumnSpanDensity.NumBase
 public import Formalism.SharpRestriction.GrowthBounds.ColumnSpanDensity.FourDepthLtConductorOfBounds
@@ -49,13 +50,7 @@ namespace Formalism.MainNotions.flipOneThree.Pf
 open Formalism.MainNotions.G Formalism.MainNotions.flipOneThree
 
 theorem posAdd_cdist {n' : ℕ} (x y : Fin n') : posAdd x (cdist x y) = y := by
-  apply Fin.ext
-  show (x.val + (y.val + n' - x.val) % n') % n' = y.val
-  rw [Nat.add_mod_mod]
-  have h : x.val + (y.val + n' - x.val) = y.val + n' := by
-    have := x.isLt
-    omega
-  rw [h, Nat.add_mod_right, Nat.mod_eq_of_lt y.isLt]
+  apply _root_.Formalism.MainNotions.ColumnSystems.Pf.posAdd_cdist <;> assumption
 
 theorem mem_segDists {n' : ℕ} (TT : Finset (Fin n')) (j : Fin (numSeg TT)) (d : ℕ) :
     d ∈ segDists TT j ↔ ∃ s ∈ TT, ¬ Even s.val ∧ 0 < cdist (segStart TT j) s ∧

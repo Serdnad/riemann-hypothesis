@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.ExistsUniqueCharacterOfMul
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.CubeVal
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.DegUnif
 public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.ThickenedPointToTorusExtensionGenerator
@@ -846,18 +847,7 @@ namespace GlobalTheory.UU.UnitRigid
 theorem coeff_inl_mul_inr {B X : Type} [CommRing B] [AddCommGroup X] (a b : AddMonoidAlgebra B X) (x y : X) :
     (AddMonoidAlgebra.mapDomainRingHom B (AddMonoidHom.inl X X) a *
       AddMonoidAlgebra.mapDomainRingHom B (AddMonoidHom.inr X X) b).coeff (x, y) = a.coeff x * b.coeff y := by
-  classical
-  induction a using AddMonoidAlgebra.induction_linear with
-  | zero => simp
-  | add a a' h h' => simp only [map_add (f := _), add_mul, AddMonoidAlgebra.coeff_add, Finsupp.add_apply, h, h']
-  | single p r =>
-    induction b using AddMonoidAlgebra.induction_linear with
-    | zero => simp
-    | add b b' h h' => simp only [map_add (f := _), mul_add, AddMonoidAlgebra.coeff_add, Finsupp.add_apply, h, h']
-    | single q s =>
-      simp only [AddMonoidAlgebra.mapDomainRingHom_apply, AddMonoidAlgebra.mapDomain_single,
-        AddMonoidAlgebra.single_mul_single, AddMonoidAlgebra.coeff_single, Finsupp.single_apply]
-      by_cases h₁ : p = x <;> by_cases h₂ : q = y <;> simp [h₁, h₂]
+  first | exact _root_.GlobalTheory.TorusUnit.coeff_inl_mul_inr | exact @_root_.GlobalTheory.TorusUnit.coeff_inl_mul_inr | apply _root_.GlobalTheory.TorusUnit.coeff_inl_mul_inr <;> assumption
 
 theorem eq_one_of_groupLike {B X : Type} [CommRing B] [AddCommGroup X] (I : Ideal B) (hI : ∀ b ∈ I, IsNilpotent b)
     (g : AddMonoidAlgebra B X)

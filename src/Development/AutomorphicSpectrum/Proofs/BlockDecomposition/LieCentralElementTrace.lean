@@ -45,6 +45,7 @@ import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.T2SpaceAdelicGeneralLinearGroupNumberField
 import Development.WeilBound.CoreStatements.TemperedRepresentationTheory.ClozelPurity.EopV
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.LieOneLMemZalg
 
 @[expose] public section
 
@@ -92,22 +93,6 @@ theorem sum_Eop_diag (i : Fin a) : ∑ τ : E →+* ℂ, Eop τ i i = lieS E a i
 
 theorem lie_oneL_eq_sum_Eop (E : Type) [Field E] [NumberField E] [_root_.NumberField.IsTotallyComplex E] (a : ℕ) :
     lie E a (oneL E a) = ∑ τ : E →+* ℂ, ∑ i : Fin a, Eop τ i i := by
-  rw [Finset.sum_comm, Finset.sum_congr rfl fun i _ => sum_Eop_diag i]
-  simp only [lieS_apply]
-
-  rw [← map_sum]
-  have hm : ∑ i : Fin a, Matrix.single i i (1 : Cinf E) = 1 := by
-    refine Matrix.ext fun p q => ?_
-    rw [Matrix.sum_apply, Matrix.one_apply]
-    by_cases h : p = q
-    · subst h
-      simp [Matrix.single_apply]
-    · rw [if_neg h]
-      refine Finset.sum_eq_zero fun c _ => ?_
-      rw [Matrix.single_apply, if_neg]
-      rintro ⟨rfl, rfl⟩
-      exact h rfl
-  congr 1
-  exact (congrArg Matrix.of.symm hm).symm
+  apply _root_.GlobalTheory.CompanionTheory.CapelliTrace.lie_oneL_eq <;> assumption
 
 end GlobalTheory.CompanionTheory.ClozelLie

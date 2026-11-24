@@ -1,5 +1,6 @@
 module
 
+import Development.WeilBound.ThetaLifts.Reductions.WeilPairs.ExistsSplitAt
 public import Development.WeilBound.ThetaLifts.Reductions.SiegelCore
 public import Development.WeilBound.ThetaLifts.Reductions.SiegelMod
 public import Development.WeilBound.ThetaLifts.FrameEstimates.SquareIntegrableWeilRange
@@ -118,15 +119,7 @@ theorem sigR_sigR (hσ : ∀ x, σ (σ x) = x) (x : AF F ⊗[F] E) : sigR (AF F)
   | add x y hx hy => rw [map_add (f := _), map_add (f := _), hx, hy]
 
 theorem continuous_sigR : Continuous (sigR (AF F) σ) := by
-  have : Module.Finite F E := Module.Finite.of_restrictScalars_finite ℚ F E
-  have : IsModuleTopology (AF F) (AF F ⊗[F] E) := ⟨rfl⟩
-  let L : (AF F ⊗[F] E) →ₗ[AF F] (AF F ⊗[F] E) :=
-    { toFun := sigR (AF F) σ
-      map_add' := map_add _
-      map_smul' := fun c x => by
-        rw [Algebra.smul_def, map_mul, sigR_algebraMap, ← Algebra.smul_def]
-        rfl }
-  exact IsModuleTopology.continuous_of_linearMap L
+  apply _root_.PositivityTheory.ThKW.SplitChar.continuous_cA <;> assumption
 
 variable {σ} {n r : ℕ} {J : Matrix (Fin n) (Fin n) E} {X Y : Matrix (Fin n) (Fin r) E}
 

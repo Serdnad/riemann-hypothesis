@@ -1,5 +1,6 @@
 module
 
+import GroundTheory.HeightsAndTheta.Heights.MultihomogeneousPolynomials
 public import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.IsVerticalCartier
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ArithmeticHilbertSamuelLowerBound
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.ArithModel
@@ -21,23 +22,11 @@ section Homog
 variable {κ : Type} [Fintype κ] {ι : κ → Type} [∀ k, Fintype (ι k)]
 
 theorem isMultiHomog_C (c : ℤ) : IsMultiHomog (C c : MRing ι) 0 := by
-  classical
-  intro m hm k
-  rw [mem_support_iff, coeff_C] at hm
-  split_ifs at hm with h
-  · subst h
-    simp
-  · exact absurd rfl hm
+  apply _root_.GroundTheory.Heights₂.Heights.MultiHomogeneous.constant <;> assumption
 
 theorem isMultiHomog_prod {σ : Type} (s : Finset σ) (f : σ → MRing ι) (d : σ → κ → ℕ)
     (h : ∀ a ∈ s, IsMultiHomog (f a) (d a)) : IsMultiHomog (∏ a ∈ s, f a) (∑ a ∈ s, d a) := by
-  classical
-  induction s using Finset.induction_on with
-  | empty => simpa using ProjLine.isMultiHomog_one
-  | insert a s ha ih =>
-    rw [Finset.prod_insert ha, Finset.sum_insert ha]
-    exact ProjLine.mhMul (h a (Finset.mem_insert_self a s))
-      (ih fun b hb => h b (Finset.mem_insert_of_mem hb))
+  apply _root_.GroundTheory.Heights₂.Heights.MultiHomogeneous.prod <;> assumption
 
 theorem isMultiHomog_chartMonomial (c : ∀ k, ι k) :
     IsMultiHomog (∏ k, (X ⟨k, c k⟩ : MRing ι)) (fun _ => 1) := by

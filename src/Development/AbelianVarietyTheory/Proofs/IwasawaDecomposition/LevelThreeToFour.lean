@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.LamPOfPart
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.UpLReStage
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.MemPrinCongOfSm
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.IsPtOfIffUnitaryDecoration
@@ -535,19 +536,7 @@ theorem isMultiplicityInner_smul_measure (M : DSModel V S) (μ : Measure (GA D V
 theorem ipM_smul (M : DSModel V S) (μ : Measure (GA D V)) (𝓕 : Set (GA D V)) (T T' : MMap M) {c : ℝ}
     (hc : 0 < c) (hv : ∃ v : M.Vec, ∏ τ, ⟪(v τ : M.H τ), (v τ : M.H τ)⟫_ℂ ≠ 0) :
     ipM M (ENNReal.ofReal c • μ) 𝓕 T T' = (c : ℂ) * ipM M μ 𝓕 T T' := by
-  obtain ⟨v, hv⟩ := hv
-  by_cases h : ∃ k, IsMultIP M μ 𝓕 T T' k
-  · have hs := isMultiplicityInner_smul_measure M μ 𝓕 T T' hc (ipM_spec M μ 𝓕 T T' h)
-    exact hasPeterssonInner_unique M _ 𝓕 T T' v hv (ipM_spec M _ 𝓕 T T' ⟨_, hs⟩) hs
-  · have h' : ¬ ∃ k, IsMultIP M (ENNReal.ofReal c • μ) 𝓕 T T' k := by
-      rintro ⟨k, hk⟩
-      have e : ENNReal.ofReal c⁻¹ • ENNReal.ofReal c • μ = μ := by
-        rw [smul_smul, ← ENNReal.ofReal_mul (inv_nonneg.2 hc.le), inv_mul_cancel₀ hc.ne', ENNReal.ofReal_one, one_smul]
-      have := isMultiplicityInner_smul_measure M _ 𝓕 T T' (inv_pos.2 hc) hk
-      rw [e] at this
-      exact h ⟨_, this⟩
-    unfold ipM
-    rw [dite_eq_right h, dite_eq_right h', mul_zero]
+  apply _root_.GlobalTheory.LamPrimeTransport.ipM_smul_meas <;> assumption
 
 theorem mmap_eq_zero (M : DSModel V S) (hv : ¬ ∃ v : M.Vec, ∏ τ, ⟪(v τ : M.H τ), (v τ : M.H τ)⟫_ℂ ≠ 0) (T : MMap M) :
     T = 0 := by

@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.DetOfTriangular
 public import Development.AbelianVarietyTheory.Definitions.Divisors.IsKMOne
 public import Mathlib.NumberTheory.NumberField.CMField
 public import Mathlib.RingTheory.SimpleRing.Principal
@@ -238,31 +239,7 @@ theorem col_eq_mulVec (M : Matrix (Fin r) (Fin r) ℂ) (a : Fin r) :
 theorem hermC_map_of_herm (τ : E →+* ℂ) (G : Matrix (Fin r) (Fin r) E) (γ : Matrix (Fin r) (Fin r) E)
     (h2 : ∀ x y, herm G (γ *ᵥ x) (γ *ᵥ y) = herm G x y) (u w : Fin r → ℂ) :
     hermC τ G (γ.map τ *ᵥ u) (γ.map τ *ᵥ w) = hermC τ G u w := by
-  have key (a b : Fin r) : ∑ c, ∑ d, τ (γ c a) * τ (G c d) * (starRingEnd ℂ) (τ (γ d b)) =
-      τ (G a b) := by
-    have h := congrArg τ (h2 (Pi.single a 1) (Pi.single b 1))
-
-    simp only [herm, cc, mulVec_single_one, Matrix.col_apply, map_sum, map_mul,
-    IsCMField.complexEmbedding_complexConj] at h
-    rw [h, Finset.sum_eq_single a (by intro c _ hc; simp [hc]) (by simp),
-      Finset.sum_eq_single b (by intro c _ hc; simp [hc]) (by simp)]
-    simp
-  have hR : hermC τ G u w = ∑ a, ∑ b, u a *
-      (∑ c, ∑ d, τ (γ c a) * τ (G c d) * (starRingEnd ℂ) (τ (γ d b))) * (starRingEnd ℂ) (w b) := by
-    simp only [hermC, key]
-  rw [hR]
-
-  simp only [hermC, mulVec, dotProduct, Matrix.map_apply, map_sum, map_mul, Finset.mul_sum,
-  Finset.sum_mul]
-  calc _ = ∑ c, ∑ d, ∑ a, ∑ b,
-        u a * (τ (γ c a) * τ (G c d) * (starRingEnd ℂ) (τ (γ d b))) * (starRingEnd ℂ) (w b) := by
-        refine Finset.sum_congr rfl fun c _ => Finset.sum_congr rfl fun d _ => ?_
-        rw [Finset.sum_comm]
-        exact Finset.sum_congr rfl fun a _ => Finset.sum_congr rfl fun b _ => by ring
-    _ = _ := by
-        refine (Finset.sum_congr rfl fun c _ => Finset.sum_comm).trans (Finset.sum_comm.trans ?_)
-        refine Finset.sum_congr rfl fun a _ => ?_
-        exact (Finset.sum_congr rfl fun c _ => Finset.sum_comm).trans Finset.sum_comm
+  apply _root_.GlobalTheory.PerMove.hermC_unitary <;> assumption
 
 theorem hermC_smul (τ : E →+* ℂ) (G : Matrix (Fin r) (Fin r) E) (c : ℂ) (u w : Fin r → ℂ) :
     hermC τ G (c • u) (c • w) = c * starRingEnd ℂ c * hermC τ G u w := by
@@ -941,17 +918,7 @@ theorem countable_numberField (E : Type) [Field E] [NumberField E] : Countable E
 
 theorem countable_inReal {E : Type} [Field E] [NumberField E] [IsCMField E] {r : ℕ} (Ψ : Finset (E →+* ℂ))
     (G : Matrix (Fin r) (Fin r) E) (Γ : Subgroup (GL (Fin r) E)) : Countable (inReal Ψ G Γ) := by
-  haveI := countable_numberField E
-  haveI : Countable (Matrix (Fin r) (Fin r) E) := inferInstanceAs (Countable (Fin r → Fin r → E))
-  haveI : Countable (GL (Fin r) E) := Function.Injective.countable (f := fun u : GL (Fin r) E => (u : Matrix (Fin r) (Fin r) E)) (fun a b h => Units.ext h)
-  have hsub : ∀ y : inReal Ψ G Γ, ∃ γ : GL (Fin r) E, embGL Ψ r γ = (y : realSU Ψ G).1 := by
-    rintro ⟨y, hy⟩
-    obtain ⟨γ, -, hγ⟩ := Subgroup.mem_map.1 (Subgroup.mem_subgroupOf.1 hy)
-    exact ⟨γ, hγ⟩
-  choose f hf using hsub
-  refine Function.Injective.countable (f := f) fun a b hab => ?_
-  apply Subtype.ext; apply Subtype.ext
-  rw [← hf a, ← hf b, hab]
+  apply _root_.GlobalTheory.SUCovolConj.countable_inReal <;> assumption
 
 theorem tangentHaar_smul {ι : Type} [Fintype ι] {r : ℕ} (H : Subgroup (ι → GL (Fin r) ℂ)) [LocallyCompactSpace H]
     [MeasurableSpace H] [BorelSpace H] (c : ℝ≥0∞) (hc : c ≠ ⊤) (ν : Measure (ι → Fin r → Fin r → ℂ)) :

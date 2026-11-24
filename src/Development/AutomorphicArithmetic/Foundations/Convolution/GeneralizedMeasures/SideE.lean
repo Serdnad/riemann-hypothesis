@@ -1,5 +1,6 @@
 module
 
+import all Development.AutomorphicArithmetic.Foundations.Convolution.GeneralizedMeasures.RepOne
 public import Development.AutomorphicArithmetic.Foundations.Convolution.TensFun
 public import Development.AutomorphicArithmetic.Foundations.Convolution.ConvolutionKernels.KernelTransforms.CommPrj
 public import Development.AutomorphicArithmetic.Foundations.Convolution.PowerSumTraces.HopOloc
@@ -350,13 +351,7 @@ private def iwSet (E : Type) [Field E] [NumberField E] [Algebra F E] (n : ℕ) (
 
 private theorem iwCoset_zero' (w : Pl E) :
     iwCoset w (0 : Fin n → ℤ) = (GLnLocal.iwahori (w.adicCompletion E) n : Set (GL (Fin n) (w.adicCompletion E))) := by
-  ext g
-  constructor
-  · rintro ⟨a, ha, b, hb, rfl⟩
-    rw [GroundTheory.Automorphic.Parabolic.diagPow_zero, mul_one]
-    exact mul_mem ha hb
-  · intro hg
-    exact ⟨g, hg, 1, one_mem _, by rw [GroundTheory.Automorphic.Parabolic.diagPow_zero, mul_one, mul_one]⟩
+  apply _root_.iw_zero <;> assumption
 
 private theorem iwFn_zero {q : Pl F} (w₀ : PlacesOver E q) :
     iwFn w₀ (0 : Fin n → ℤ) = (iwSet E n q).indicator 1 := by

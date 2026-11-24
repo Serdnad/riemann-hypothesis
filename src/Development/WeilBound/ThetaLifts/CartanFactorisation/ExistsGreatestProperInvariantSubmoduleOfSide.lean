@@ -71,7 +71,7 @@ section Gen
 
 variable {r s : ℕ} {M : Type} [AddCommGroup M] [Module ℂ M]
 
-theorem casimir_eigenvalue_and_sub_smul_onto_proper_submodule (act : Mat r s →ₗ[ℂ] Module.End ℂ M) (hL : IsLie act) (La : Ix r s → ℚ)
+theorem casimir_eigenvalue_and_injective_shift_on_finite_submodule (act : Mat r s →ₗ[ℂ] Module.End ℂ M) (hL : IsLie act) (La : Ix r s → ℚ)
     {A : Type} [NormedAddCommGroup A] [InnerProductSpace ℂ A] [FiniteDimensional ℂ A]
     (ρ : Ix r s → Ix r s → Module.End ℂ A) (ι : A →ₗ[ℂ] M) (f : A)
     (hadj : AdjK ρ) (hgl : GlK ρ) (hw : HwK ρ La f)
@@ -79,7 +79,10 @@ theorem casimir_eigenvalue_and_sub_smul_onto_proper_submodule (act : Mat r s →
     (hs : StarK act (LinearMap.range ι) ((casW La : ℚ) : ℝ)) :
     casK (units act) (ι f) = ((casW La : ℚ) : ℂ) • ι f ∧ ∀ N : Submodule ℂ M, N ≤ genG act (Submodule.span ℂ {ι f}) →
       (∀ W, ∀ x ∈ N, act W x ∈ N) → N ≠ genG act (Submodule.span ℂ {ι f}) →
-      ∀ x ∈ N, ∃ y, x = casK (units act) y - ((casW La : ℚ) : ℂ) • y := by
+      ∀ x ∈ N,
+        let C : Module.End ℂ M := casK (units act) - ((casW La : ℚ) : ℂ) • 1
+        ∃ (U : Submodule ℂ M) (_ : FiniteDimensional ℂ U)
+          (hU : ∀ y ∈ U, C y ∈ U), x ∈ U ∧ Function.Injective (C.restrict hU) := by
   classical
   let V : Submodule ℂ A := cycK ρ f
   let ρV : Ix r s → Ix r s → Module.End ℂ V := fun a b =>
@@ -167,8 +170,26 @@ theorem casimir_eigenvalue_and_sub_smul_onto_proper_submodule (act : Mat r s →
       have h1 : C (y : M) = 0 := congrArg Subtype.val (LinearMap.mem_ker.1 hy)
       have h2 := hinj y (hNG y.2.1) (by rw [← hC, h1]; exact Submodule.zero_mem _)
       exact Subtype.ext (hdis y y.2.1 h2)
-    obtain ⟨y, hy⟩ := LinearMap.injective_iff_surjective.1 hi ⟨x, hx, hxF⟩
-    exact ⟨y, by rw [← hcc]; exact (congrArg Subtype.val hy).symm⟩
+    dsimp only
+    rw [← hcc]
+    exact ⟨N ⊓ F, inferInstance, hCN, ⟨hx, hxF⟩, hi⟩
+
+theorem casimir_eigenvalue_and_sub_smul_onto_proper_submodule (act : Mat r s →ₗ[ℂ] Module.End ℂ M) (hL : IsLie act) (La : Ix r s → ℚ)
+    {A : Type} [NormedAddCommGroup A] [InnerProductSpace ℂ A] [FiniteDimensional ℂ A]
+    (ρ : Ix r s → Ix r s → Module.End ℂ A) (ι : A →ₗ[ℂ] M) (f : A)
+    (hadj : AdjK ρ) (hgl : GlK ρ) (hw : HwK ρ La f)
+    (hι : ∀ a b, sameBlock a b → ∀ u, ι (ρ a b u) = act (Eab a b) (ι u))
+    (hs : StarK act (LinearMap.range ι) ((casW La : ℚ) : ℝ)) :
+    casK (units act) (ι f) = ((casW La : ℚ) : ℂ) • ι f ∧ ∀ N : Submodule ℂ M, N ≤ genG act (Submodule.span ℂ {ι f}) →
+      (∀ W, ∀ x ∈ N, act W x ∈ N) → N ≠ genG act (Submodule.span ℂ {ι f}) →
+      ∀ x ∈ N, ∃ y, x = casK (units act) y - ((casW La : ℚ) : ℂ) • y := by
+  obtain ⟨hv, hC⟩ := casimir_eigenvalue_and_injective_shift_on_finite_submodule
+    act hL La ρ ι f hadj hgl hw hι hs
+  refine ⟨hv, fun N hNG hNs hne x hx => ?_⟩
+  obtain ⟨U, hfd, hU, hxU, hi⟩ := hC N hNG hNs hne x hx
+  letI := hfd
+  obtain ⟨y, hy⟩ := LinearMap.injective_iff_surjective.1 hi ⟨x, hxU⟩
+  exact ⟨y, (congrArg Subtype.val hy).symm⟩
 
 theorem exists_greatest_proper_invariant_submodule_of_side {La : Ix r s → ℚ} {act : Mat r s →ₗ[ℂ] Module.End ℂ M} (h : Side La M act) :
     ∃ K : Submodule ℂ M, K ≠ ⊤ ∧ (∀ W, ∀ x ∈ K, act W x ∈ K) ∧ (∀ N, (∀ W, ∀ x ∈ N, act W x ∈ N) → N ≠ ⊤ → N ≤ K) ∧

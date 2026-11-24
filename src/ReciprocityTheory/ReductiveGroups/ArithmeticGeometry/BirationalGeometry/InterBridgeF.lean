@@ -1,6 +1,6 @@
 module
 
-import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.AnResBridgeSheetCore
+import all GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.AnResBridgeSheetCore
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.InterBridgeD
 public import Mathlib.Analysis.Calculus.FDeriv.OfCompLeft
 public import Mathlib.Analysis.Calculus.InverseFunctionTheorem.FDeriv
@@ -30,12 +30,7 @@ theorem maDensity_eq_maDens {D : ℕ} (φ : Fin D → (Fin D → ℂ) → ℝ) (
 
 theorem prod_norm_update_zpow [DecidableEq K] (k0 : K) (v : ℂ) (a : K → ℤ) :
     ∏ k, ‖Function.update (fun _ => (1 : ℂ)) k0 v k‖ ^ a k = ‖v‖ ^ a k0 := by
-  rw [Finset.prod_eq_single k0]
-  · simp
-  · intro k _ hk
-    simp [hk]
-  · intro h
-    exact absurd (Finset.mem_univ k0) h
+  apply _root_.GroundTheory.Heights₂.Heights.HilbertSamuel.AnResBridge.prod_norm_update_zpow <;> assumption
 
 theorem exists_sheet_brW (L : Fin e → HermLine ι) (A : HermLine ι) (s : MRing ι)
     (hP : IsArithVar P (e + 1)) (hL : ∀ j, IsSmoothHerm (L j)) (hs : IsSectionOn P A s)

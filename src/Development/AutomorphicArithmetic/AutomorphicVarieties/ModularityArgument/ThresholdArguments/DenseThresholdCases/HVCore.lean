@@ -806,26 +806,20 @@ theorem UpperTheory.V.Win.thmBab_of :
             IsLayer l (Nat.log l (Rl l (L l)) + 3) L₀' L₁ → VVat l L₁ (t x) (Real.exp (x ^ (4 * eps / 5))) := by
     intro l hl
     obtain ⟨hp, hl2, hmu⟩ := hAux l hl
-    haveI : Fact l.Prime := ⟨hp⟩
-    by_cases hex : ∃ (L₀ : Type) (_ : Field L₀) (_ : NumberField L₀), IsAbField (L l) L₀
-    · obtain ⟨L₀, _, _, hab⟩ := hex
-      have hP : ∃ R, P l (L l) R := by
-        obtain ⟨R', hR'⟩ := hF l hl2 (L l) hmu L₀ hab
-        exact ⟨R', ⟨_, L₀, _, _, hab, hR'⟩⟩
-      have hRl : Rl l (L l) = Classical.choose hP := by
-        show (if h : ∃ R, P l (L l) R then Classical.choose h else 0) = _
-        rw [dite_eq_left hP]
-      obtain ⟨_, L₀₀, _, _, hab0, hR0⟩ := Classical.choose_spec hP
-      obtain ⟨x0, hx0⟩ := partB CK hCKpos hK l (Classical.choose hP) hl2 (L l) hmu L₀₀ hab0 hR0
-        J Ct eps A1 hJpos hCt0.le heps
-      refine ⟨x0, fun e t hAdm X => ?_⟩
-      obtain ⟨Exc, hcard, hx⟩ := hx0 e t hAdm X
-      refine ⟨Exc, hRl ▸ hcard, fun x hxx hlo hhi hg _ L₀' _ _ hab' L₁ _ _ _ hlay => ?_⟩
-      rw [hRl] at hlay
-      exact hx x hxx hlo hhi hg L₀' hab' L₁ hlay
-    · refine ⟨0, fun e t _ X => ⟨∅, by simp, ?_⟩⟩
-      intro x _ _ _ _ _ L₀' _ _ hab' _ _ _ _ _
-      exact absurd ⟨L₀', _, _, hab'⟩ hex
+    have : Fact l.Prime := ⟨hp⟩
+    obtain ⟨L₀, _, _, hab⟩ := UpperTheory.V.Two.abExists (L l)
+    have hP : ∃ R, P l (L l) R := by
+      obtain ⟨R', hR'⟩ := hF l hl2 (L l) hmu L₀ hab
+      exact ⟨R', ⟨_, L₀, _, _, hab, hR'⟩⟩
+    have hRl : Rl l (L l) = Classical.choose hP := dite_eq_left hP
+    obtain ⟨_, L₀₀, _, _, hab0, hR0⟩ := Classical.choose_spec hP
+    obtain ⟨x0, hx0⟩ := partB CK hCKpos hK l (Classical.choose hP) hl2 (L l) hmu L₀₀ hab0 hR0
+      J Ct eps A1 hJpos hCt0.le heps
+    refine ⟨x0, fun e t hAdm X => ?_⟩
+    obtain ⟨Exc, hcard, hx⟩ := hx0 e t hAdm X
+    refine ⟨Exc, hRl ▸ hcard, fun x hxx hlo hhi hg _ L₀' _ _ hab' L₁ _ _ _ hlay => ?_⟩
+    rw [hRl] at hlay
+    exact hx x hxx hlo hhi hg L₀' hab' L₁ hlay
   choose! f hf using hB
   set x1 : ℝ := max 1 (max x0A (∑ l ∈ B', |f l|)) with hx1def
   have hfle : ∀ l ∈ B', f l ≤ x1 := fun l hl =>

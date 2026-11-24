@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.TorusSplitting.NormalisedThetaConstantOfUniversalOriginValueStatement
 public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.AdelicGroupAlgebraActionInjective
 public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.IsHodgeLine
 public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.IsCptGen
@@ -265,18 +266,7 @@ theorem genMap_stalkMap_eq (ξ' : Spec (CommRingCat.of Ω) ⟶ X') (g : X' ⟶ X
 
 theorem eta_comp {G : Over X} [GrpObj G] {G' : Over X'} [GrpObj G'] (f : X' ⟶ X) (φ : G'.left ⟶ G.left)
     (h : IsGrpPullback G' G f φ) : η[G'].left ≫ φ = f ≫ η[G].left := by
-  have hw := h.1.w
-  let x₀ : Over.mk ((Over.mk (𝟙 X')).hom ≫ f) ⟶ G :=
-    Over.homMk ((1 : Over.mk (𝟙 X') ⟶ G').left ≫ φ) (by
-      rw [Category.assoc, hw, ← Category.assoc, Over.w]; simp)
-  have hm := h.2 (Over.mk (𝟙 X')) 1 1 x₀ x₀ rfl rfl
-  have hx : x₀ * x₀ = x₀ := by
-    ext1
-    rw [hm, _root_.mul_one]
-    rfl
-  have h1 : x₀ = 1 := by simpa using hx
-  have h2 := congrArg (fun u => u.left) h1
-  simpa [x₀, Hom.one_def] using h2
+  apply _root_.GlobalTheory.EtaVal.NullMove.eSec_comm <;> assumption
 
 end Scheme
 

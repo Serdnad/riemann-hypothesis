@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.FlagUnipotentAnisotropicProjectionEqOne
 public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.IsThetaFam
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.IsClosedNFlag
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.FlagUnipotentFourierJacobiGroupStructure
@@ -60,24 +61,7 @@ theorem continuous_embA {S S₀ A L : HSp D} {ρ : ℕ} (d : HypDec S S₀ ρ) (
 
 theorem besselCompression_unipotent_mul_embedding {S S₀ : HSp D} {ρ : ℕ} (d : HypDec S S₀ ρ) {n : GA D S} (hn : n ∈ flagN d) (k : GA D S₀) :
     d.p0 * (mt S (n * d.emb0 k) * d.j0) = mt S₀ k := by
-  have hflag := (GlobalTheory.BesselChar.mem_NFlag_iff S d.e
-    (GlobalTheory.MixPer.Decomp.linInd d) n).1 hn
-  have hcols : ∀ j : Fin S₀.rank, ∃ a : Fin ρ → AE D,
-      mt S n *ᵥ (fun i => d.j0 i j) = (fun i => d.j0 i j) + d.jX *ᵥ a := by
-    intro j
-    apply hflag.2
-    change d.pY *ᵥ (fun i => d.j0 i j) = 0
-    funext i
-    simpa [Matrix.mul_apply, Matrix.mulVec, dotProduct] using
-      congrFun (congrFun d.pY_j0 i) j
-  choose a ha using hcols
-  have h0 : mt S n * d.j0 = d.j0 + d.jX * Matrix.of (fun i j => a j i) := by
-    ext i j
-    simpa [Matrix.mul_apply, Matrix.mulVec, dotProduct] using congrFun (ha j) i
-  have hproj : d.p0 * (mt S n * d.j0) = 1 := by
-    rw [h0, Matrix.mul_add, d.p0_j0, ← Matrix.mul_assoc, d.p0_jX, Matrix.zero_mul, add_zero]
-  rw [mt_mul, Matrix.mul_assoc, d.wittDecomp_anisotropicEmbedding_inclAnisotropic,
-    ← Matrix.mul_assoc (mt S n), ← Matrix.mul_assoc d.p0, hproj, Matrix.one_mul]
+  first | exact _root_.GlobalTheory.BesClosed.witt_anisotropic_block_flag_mul_embedded | exact @_root_.GlobalTheory.BesClosed.witt_anisotropic_block_flag_mul_embedded | apply _root_.GlobalTheory.BesClosed.witt_anisotropic_block_flag_mul_embedded <;> assumption
 
 theorem unique {S S₀ A L : HSp D} {ρ : ℕ} (d : HypDec S S₀ ρ) (o : OrthDec S₀ A L) {n n' : GA D S}
     (hn : n ∈ flagN d) (hn' : n' ∈ flagN d) {h h' : GA D A} (e : n * embA d o h = n' * embA d o h') :

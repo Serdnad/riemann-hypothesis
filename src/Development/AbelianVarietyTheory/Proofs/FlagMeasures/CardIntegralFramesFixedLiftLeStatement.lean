@@ -1,5 +1,8 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.FlagMeasures.EncardBiUnionLe
+import Formalism.SharpRestriction.CuspSpanNormBounds.CayleyDegreeNondegeneracy.FibreCountOfPositions
+import Formalism.LocalToGlobal.SiegelLatticeTheory.ClosedLocalOrbits.GaugeLatticeShifts.TermDefPf
 public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.RowMinor
 public import Formalism.FlagUnipotentLattices.CardSubmodulesAndLinearEquivBounds
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.FixedFramesPerpendicularVectors
@@ -1108,25 +1111,7 @@ variable {E : Type} [Field E] [NumberField E] [StarRing E] {S : HSpace E} {r : �
   {Λ : Submodule (𝓞 E) S.V} {T : E} {F : LFlag S r T}
 
 lemma gmap_iff (n : S.V ≃ₗ[E] S.V) : Formalism.HermitianLatticesTheory.gmap n Λ = Λ ↔ (∀ x, n x ∈ Λ ↔ x ∈ Λ) := by
-  constructor
-  · intro h x
-    constructor
-    · intro hx
-      rw [← h] at hx
-      obtain ⟨y, hy, e⟩ := hx
-      have : y = x := n.injective e
-      exact this ▸ hy
-    · intro hx
-      rw [← h]
-      exact ⟨x, hx, rfl⟩
-  · intro h
-    ext x
-    constructor
-    · rintro ⟨y, hy, rfl⟩
-      exact (h y).2 hy
-    · intro hx
-      refine ⟨n.symm x, (h _).1 (by simpa using hx), ?_⟩
-      simp
+  first | exact _root_.Formalism.L2.SG.Pf.gmap_eq_iff | exact @_root_.Formalism.L2.SG.Pf.gmap_eq_iff | apply _root_.Formalism.L2.SG.Pf.gmap_eq_iff <;> assumption
 
 lemma Xflag_mono (j : ℕ) : Xflag F j ≤ Xflag F (j + 1) :=
   Submodule.span_mono (Set.image_mono fun i (hi : i.1 < j) => Nat.lt_succ_of_lt hi)
@@ -1153,46 +1138,13 @@ lemma NLam_one : LinearEquiv.refl E S.V ∈ NLam Λ F :=
 
 lemma NLam_trans {m n : S.V ≃ₗ[E] S.V} (hm : m ∈ NLam Λ F) (hn : n ∈ NLam Λ F) :
     m.trans n ∈ NLam Λ F := by
-  obtain ⟨⟨m1, m2⟩, m3, m4⟩ := hm
-  obtain ⟨⟨n1, n2⟩, n3, n4⟩ := hn
-  refine ⟨⟨fun x y => ?_, (gmap_iff _).2 fun x => ?_⟩, fun j x hx => ?_, fun x hx => ?_⟩
-  · change S.hT (n (m x)) (n (m y)) = _
-    rw [n1, m1]
-  · change n (m x) ∈ Λ ↔ _
-    rw [(gmap_iff n).1 n2, (gmap_iff m).1 m2]
-  · change n (m x) - x ∈ _
-    have h1 := m3 j x hx
-    have h2 : m x ∈ Xflag F (j + 1) := by
-      simpa using Submodule.add_mem _ (Xflag_mono j h1) hx
-    simpa using Submodule.add_mem _ (n3 j _ h2) h1
-  · change n (m x) - x ∈ _
-    have h1 := m4 x hx
-    have h2 : m x ∈ orth S (Xsp F) := by
-      have : m x - x ∈ orth S (Xsp F) := mem_orth.2 fun y hy => X_iso hy h1
-      simpa using Submodule.add_mem _ this hx
-    simpa using Submodule.add_mem _ (n4 _ h2) h1
+  intros
+  apply _root_.Formalism.MainNotions.BridgeLemma₂.c3eqv_NLam_trans <;> assumption
 
 lemma NLam_symm {m : S.V ≃ₗ[E] S.V} (hm : m ∈ NLam Λ F) (he : ∀ a, m (F.fl.e a) = F.fl.e a) :
     m.symm ∈ NLam Λ F := by
-  obtain ⟨⟨m1, m2⟩, m3, m4⟩ := hm
-  have hX : ∀ x ∈ Xsp F, m x = x := by
-    intro x hx
-    induction hx using Submodule.span_induction with
-    | mem x hx => obtain ⟨a, rfl⟩ := hx; exact he a
-    | zero => simp
-    | add x y _ _ h1 h2 => simp [h1, h2]
-    | smul c x _ h => simp [h]
-  have hX' : ∀ x ∈ Xsp F, m.symm x = x := fun x hx => by
-    rw [LinearEquiv.symm_apply_eq, hX x hx]
-  refine ⟨⟨(Formalism.HermitianLatticesTheory.isom S.hT).inv_mem m1, (gmap_iff _).2 fun x => ?_⟩, fun j x hx => ?_,
-    fun x hx => ?_⟩
-  · rw [← (gmap_iff m).1 m2]; simp
-  · have : x ∈ Xsp F := Submodule.span_mono (Set.image_subset_range _ _) hx
-    simp [hX' x this]
-  · have h1 : m.symm x ∈ orth S (Xsp F) := mem_orth.2 fun y hy => by
-      rw [← m1, hX y hy]; simpa using mem_orth.1 hx y hy
-    have := Submodule.neg_mem _ (m4 _ h1)
-    simpa using this
+  intros
+  apply _root_.GlobalTheory.LoopC.FrEqv.symm_mem_NLam <;> assumption
 
 def move {T' : E} (n : S.V ≃ₗ[E] S.V) (hn : n ∈ Formalism.HermitianLatticesTheory.isom S.hT) (F' : LFlag S r T') :
     LFlag S r T' where

@@ -1,5 +1,8 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.ConjugateIntertwinerValuesIsCuspFun
+import Development.AbelianVarietyTheory.Proofs.FlagMeasures.CountedVectorIsCuspForm
+import Development.AbelianVarietyTheory.Proofs.FlagMeasures.CuspidalFrame
 public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.HermitianFormUnitaryOneOne
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.CuspidalOfConvolutionFixedModerateGrowth
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.ExistsContinuousRepresentativeBoundedEvaluation
@@ -75,59 +78,12 @@ private theorem one_mem_Kg_flag_measures (I : AutInst) (g : ℕ) : (1 : I.Gf) �
 
 theorem level_comp_Re (B : RowsAut) (k : B.I.Gf) (hk : k ∈ B.I.Kg B.g) (hg : 1 ≤ B.g) :
     (B.R (1, k)).comp B.Re = B.Re := by
-  obtain ⟨h1, hm, hn, -⟩ := GlobalTheory.RightRegFund.rightReg_unitary_continuous B
-  set π : B.I.Gf → (B.I.L2 B.μf B.fund →L[ℂ] B.I.L2 B.μf B.fund) := fun g => B.R (1, g) with hπ
-  have p1 : π 1 = 1 := h1
-  have pm : ∀ a b, π (a * b) = π a * π b := by
-    intro a b
-    have : ((1 : B.I.Ginf), a * b) = ((1 : B.I.Ginf), a) * (1, b) := by simp
-    simp only [hπ, this, hm]
-  have pn : ∀ g v, ‖π g v‖ = ‖v‖ := fun g v => hn _ v
-  have he : ∀ g, B.e (k * g) = B.e g := by
-    intro g
-    have := B.e_adm.2.2.2.2.2.1 g k hk 1 (one_mem_Kg_flag_measures B.I B.g)
-    simpa using this
-  ext1 y
-  refine ext_inner_left ℂ fun x => ?_
-  rw [ContinuousLinearMap.comp_apply]
-  change inner ℂ x (π k (B.Re y)) = _
-  rw [GlobalTheory.IdemProj.inner_rep π p1 pm pn, B.Re_spec.2, B.Re_spec.2]
-  have key : ∀ g, B.e g * inner ℂ (π k⁻¹ x) (B.R (1, g) y)
-      = (fun g' => B.e g' * inner ℂ x (B.R (1, g') y)) (k * g) := by
-    intro g
-    have e1 : inner ℂ (π k⁻¹ x) (B.R (1, g) y) = inner ℂ x (π k (π g y)) := by
-      rw [GlobalTheory.IdemProj.inner_rep π p1 pm pn k x]
-    have e2 : π k (π g y) = B.R (1, k * g) y := by
-      show π k (π g y) = π (k * g) y
-      rw [pm]; rfl
-    simp only [e1, e2, he]
-  simp_rw [key]
-  exact MeasureTheory.integral_mul_left_eq_self (fun g' => B.e g' * inner ℂ x (B.R (1, g') y)) k
+  first | exact _root_.GlobalTheory.RowCusp.level_comp_Re | exact @_root_.GlobalTheory.RowCusp.level_comp_Re | apply _root_.GlobalTheory.RowCusp.level_comp_Re <;> assumption
 
 theorem integrable_ph (B : RowsAut) (d : InfinitePlace B.I.F → ℝ) (h : ℝ) (hd : IsDSData B d) (hn : 1 ≤ B.I.n)
     (hh : ∀ v, 120 * (B.I.n : ℝ) * ((rkR (B.I.ε v) : ℕ) : ℝ) ^ ((3 : ℝ) / 2) ≤ h) (hl : LocDec B h) :
     Integrable (ph B d) (muInf B.I) := by
-  obtain ⟨hc, hb, hi⟩ := GlobalTheory.Dec.PhMajProof.phMaj B d h hd hl
-  have hcond : ∀ v, rkR (B.I.ε v) = 0 ∨
-      8 * Real.sqrt (rkR (B.I.ε v)) * (0 + 4 * B.I.n * rkR (B.I.ε v)) < h := by
-    intro v
-    rcases Nat.eq_zero_or_pos (rkR (B.I.ε v)) with h0 | hpos
-    · exact Or.inl h0
-    · right
-      have hq : (0 : ℝ) < (rkR (B.I.ε v) : ℝ) := by exact_mod_cast hpos
-      have hnr : (1 : ℝ) ≤ (B.I.n : ℝ) := by exact_mod_cast hn
-      have hpow : ((rkR (B.I.ε v) : ℕ) : ℝ) ^ ((3 : ℝ) / 2)
-          = Real.sqrt (rkR (B.I.ε v)) * (rkR (B.I.ε v) : ℝ) := by
-        rw [Real.sqrt_eq_rpow, show (3 : ℝ) / 2 = 1 / 2 + 1 by norm_num,
-          Real.rpow_add hq, Real.rpow_one]
-      have hs : 0 < Real.sqrt (rkR (B.I.ε v)) := Real.sqrt_pos.mpr hq
-      have hv := hh v
-      rw [hpow] at hv
-      have hpos' : 0 < Real.sqrt (rkR (B.I.ε v)) * (rkR (B.I.ε v) : ℝ) * (B.I.n : ℝ) := by positivity
-      nlinarith
-  have hI := hi 0 le_rfl hcond
-  simp only [zero_mul, Real.exp_zero, mul_one] at hI
-  exact hI.mono' hc.aestronglyMeasurable (Filter.Eventually.of_forall hb)
+  first | exact _root_.GlobalTheory.RowCusp.integrable_ph | exact @_root_.GlobalTheory.RowCusp.integrable_ph | apply _root_.GlobalTheory.RowCusp.integrable_ph <;> assumption
 
 theorem row_isCuspFn : ∀ (B : RowsAut) (d : InfinitePlace B.I.F → ℝ) (h : ℝ), IsDSData B d → (∀ v, Formalism.MainNotions.S.IsKTypeOf (B.I.ε v) (B.σ v) (Formalism.QuantumDeterminants.lowK (B.I.ε v) (B.lam v)) (Formalism.MainNotions.S.lowKSub (B.I.ε v) (B.lam v) (B.σ v))) → 1 ≤ B.g → (∀ v, 120 * (B.I.n : ℝ) * ((rkR (B.I.ε v) : ℕ) : ℝ) ^ ((3 : ℝ) / 2) ≤ h) → LocDec B h → HBig B 40 h → ∀ T, B.I.IsRConv B.μf B.fund B.R (phe B d) T → ∀ A ∈ B.I.eHom B.σs B.μf B.fund B.R B.Re, B.I.IsCuspFn (B.I.muA B.μf) (B.I.ext (A (B.tens B.w))) := by
   intro B d h hd hK hg hh hl hbig T hT A hA
@@ -179,67 +135,14 @@ noncomputable section
 namespace GlobalTheory.Dec.CuspAllKType
 
 theorem one_mem_Kg (I : AutInst) (g : ℕ) : (1 : I.Gf) ∈ I.Kg g := by
-  simp only [AutInst.Kg, AutInst.Kset, Set.mem_setOf_eq]
-  refine ⟨?_, fun y _ => ⟨0, Submodule.zero_mem _, ?_⟩⟩
-  · simp
-  · simp [AutInst.fmat]
+  apply _root_.GlobalTheory.RowCuspKType.one_mem_Kg_flag_measures <;> assumption
 
 theorem re_fixed (B : RowsAut) : ∀ k ∈ B.I.Kg B.g, (B.R (1, k)).comp B.Re = B.Re := by
-  intro k hk
-  obtain ⟨h1, hm, hn, -, -⟩ := GlobalTheory.RightRegFund.rightReg_unitary_continuous B
-  obtain ⟨-, -, -, -, -, hbi, -⟩ := B.e_adm
-
-  set π : B.I.Gf → (B.I.L2 B.μf B.fund →L[ℂ] B.I.L2 B.μf B.fund) := fun a => B.R (1, a) with hπ
-  have hπ1 : π 1 = 1 := h1
-  have hπm : ∀ a b, π (a * b) = π a * π b := fun a b => by
-    simp only [hπ]
-    rw [← hm]
-    congr 1
-    ext <;> simp
-  have hπn : ∀ a v, ‖π a v‖ = ‖v‖ := fun a v => hn _ v
-
-  have hek : ∀ x, B.e (k * x) = B.e x := fun x => by
-    simpa using hbi x k hk 1 (one_mem_Kg B.I B.g)
-  refine ContinuousLinearMap.ext fun y => ext_inner_left ℂ fun x => ?_
-  rw [ContinuousLinearMap.comp_apply]
-  change ⟪x, π k (B.Re y)⟫_ℂ = _
-  rw [GlobalTheory.IdemProj.inner_rep π hπ1 hπm hπn k x (B.Re y), B.Re_spec.2 (π k⁻¹ x) y, B.Re_spec.2 x y]
-  have hinner : ∀ a, ⟪π k⁻¹ x, B.R (1, a) y⟫_ℂ = ⟪x, B.R (1, k * a) y⟫_ℂ := fun a => by
-    have := (GlobalTheory.IdemProj.inner_rep π hπ1 hπm hπn k x (π a y)).symm
-    change ⟪π k⁻¹ x, π a y⟫_ℂ = ⟪x, π (k * a) y⟫_ℂ
-    rw [this, hπm, ContinuousLinearMap.mul_apply]
-  simp_rw [hinner]
-  calc ∫ a, B.e a * ⟪x, B.R (1, k * a) y⟫_ℂ ∂B.μf
-      = ∫ a, (fun b => B.e b * ⟪x, B.R (1, b) y⟫_ℂ) (k * a) ∂B.μf := by
-        congr 1
-        ext a
-        simp only [hek]
-    _ = ∫ a, B.e a * ⟪x, B.R (1, a) y⟫_ℂ ∂B.μf := by
-        exact integral_mul_left_eq_self (μ := B.μf) (fun b => B.e b * ⟪x, B.R (1, b) y⟫_ℂ) k
+  first | exact _root_.GlobalTheory.Dec.CuspFrame.re_fixed | exact @_root_.GlobalTheory.Dec.CuspFrame.re_fixed | apply _root_.GlobalTheory.Dec.CuspFrame.re_fixed <;> assumption
 
 theorem integrable_ph (B : RowsAut) (d : InfinitePlace B.I.F → ℝ) (h : ℝ) (hd : IsDSData B d)
     (hl : LocDec B h) (hb : HBig B 40 h) : Integrable (ph B d) (muInf B.I) := by
-  obtain ⟨hc, hle, hint⟩ := GlobalTheory.Dec.PhMajProof.phMaj B d h hd hl
-  have hmaj := hint 0 le_rfl (fun v => by
-    by_cases hq : rkR (B.I.ε v) = 0
-    · exact Or.inl hq
-    right
-
-    have hqn : rkR (B.I.ε v) ≤ B.I.n := by
-      unfold rkR
-      exact (min_le_left _ _).trans ((Finset.card_filter_le _ _).trans (by simp))
-    have hq1 : (1 : ℝ) ≤ (rkR (B.I.ε v) : ℝ) := by exact_mod_cast Nat.one_le_iff_ne_zero.2 hq
-    have hqn' : (rkR (B.I.ε v) : ℝ) ≤ (B.I.n : ℝ) := by exact_mod_cast hqn
-    have hs : 0 < Real.sqrt (rkR (B.I.ε v) : ℝ) := Real.sqrt_pos.2 (by linarith)
-    have hn : 0 < (B.I.n : ℝ) := by linarith
-    have hns : 0 < (B.I.n : ℝ) * Real.sqrt (rkR (B.I.ε v) : ℝ) := mul_pos hn hs
-    have h1 : (B.I.n : ℝ) * Real.sqrt (rkR (B.I.ε v) : ℝ) * (rkR (B.I.ε v) : ℝ)
-        ≤ (B.I.n : ℝ) * Real.sqrt (rkR (B.I.ε v) : ℝ) * (B.I.n : ℝ) :=
-      mul_le_mul_of_nonneg_left hqn' hns.le
-    have h2 := hb v
-    nlinarith)
-  simp only [zero_mul, Real.exp_zero, mul_one] at hmaj
-  exact hmaj.mono' hc.aestronglyMeasurable (Filter.Eventually.of_forall hle)
+  first | exact _root_.GlobalTheory.Dec.CuspAll.integrable_ph | exact @_root_.GlobalTheory.Dec.CuspAll.integrable_ph | apply _root_.GlobalTheory.Dec.CuspAll.integrable_ph <;> assumption
 
 theorem cusp_all : ∀ (B : RowsAut) (d : InfinitePlace B.I.F → ℝ) (h : ℝ), IsDSData B d → (∀ v, Formalism.MainNotions.S.IsKTypeOf (B.I.ε v) (B.σ v) (Formalism.QuantumDeterminants.lowK (B.I.ε v) (B.lam v)) (Formalism.MainNotions.S.lowKSub (B.I.ε v) (B.lam v) (B.σ v))) → 1 ≤ B.g → (∀ v, 120 * (B.I.n : ℝ) * ((rkR (B.I.ε v) : ℕ) : ℝ) ^ ((3 : ℝ) / 2) ≤ h) → LocDec B h → HBig B 40 h → ∀ A ∈ B.I.eHom B.σs B.μf B.fund B.R B.Re, A ∈ B.I.HomS B.σs B.μf B.fund B.R ∧ ∀ u, B.I.IsCuspFn (B.I.muA B.μf) (B.I.ext (A u)) ∧ ∀ k ∈ B.I.Kg B.g, B.R (1, k) (A u) = A u := by
   intro B d h hd hK hg hh hl hb A hA

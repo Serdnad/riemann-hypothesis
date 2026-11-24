@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.FlagMeasures.KTypeExtendsHolomorphicComplexifiedK
 public import Development.AbelianVarietyTheory.Definitions.Divisors.BadElt
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.EmbedsInRegularRepresentationCopiesOfFreePermute
 public import Development.AbelianVarietyTheory.BlockTheory.PoincareCuspForms.SmallUnipotentElements
@@ -269,15 +270,7 @@ namespace GlobalTheory
 
 theorem differentiable_det_of {r : ℕ} :
     Differentiable ℂ (fun y : Fin r → Fin r → ℂ => (Matrix.of y).det) := by
-  have : (fun y : Fin r → Fin r → ℂ => (Matrix.of y).det) =
-      fun y => ∑ σ : Equiv.Perm (Fin r), (Equiv.Perm.sign σ : ℂ) * ∏ i, y (σ i) i := by
-    funext y
-    rw [Matrix.det_apply]
-    refine Finset.sum_congr rfl fun σ _ => ?_
-    rw [Units.smul_def, zsmul_eq_mul]
-    simp [Matrix.of_apply]
-  rw [this]
-  fun_prop
+  apply _root_.GlobalTheory.HolExt.differentiable_det <;> assumption
 
 theorem differentiable_update_frame {Ψ : Type} [Fintype Ψ] [DecidableEq Ψ] {r : ℕ}
     (x : Ψ → Fin r → Fin r → ℂ) (τ : Ψ) :

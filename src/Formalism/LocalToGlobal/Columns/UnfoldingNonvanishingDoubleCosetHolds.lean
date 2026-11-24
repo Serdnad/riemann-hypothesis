@@ -1,5 +1,6 @@
 module
 
+import all Formalism.LocalToGlobal.Columns.ChainTopLaw
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.TwistedEisensteinCoset.JacobianTransformationLaw
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.TwistedEisensteinCoset.Development
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.TwistedEisensteinCoset.WeightedSumScaling
@@ -178,21 +179,11 @@ private theorem one_not_mem_asIdeal {E : Type} [Field E] [NumberField E] [StarRi
 
 private theorem intAt_add_of_starRing {E : Type} [Field E] [NumberField E] [StarRing E] {P : HeightOneSpectrum (𝓞 E)} {a b : E} (ha : IntAt P a) (hb : IntAt P b) :
     IntAt P (a + b) := by
-  obtain ⟨r1, s1, hs1, h1⟩ := ha
-  obtain ⟨r2, s2, hs2, h2⟩ := hb
-  refine ⟨s2 * r1 + s1 * r2, s1 * s2, mul_not_mem_of_not_mem hs1 hs2, ?_⟩
-  simp only [map_add (f := _), map_mul]
-  rw [← h1, ← h2]
-  ring
+  apply _root_.Formalism.L2.Col.intAt_add_columns <;> assumption
 
 private theorem intAt_mul_twisted_eisenstein_coset {E : Type} [Field E] [NumberField E] [StarRing E] {P : HeightOneSpectrum (𝓞 E)} {a b : E} (ha : IntAt P a) (hb : IntAt P b) :
     IntAt P (a * b) := by
-  obtain ⟨r1, s1, hs1, h1⟩ := ha
-  obtain ⟨r2, s2, hs2, h2⟩ := hb
-  refine ⟨r1 * r2, s1 * s2, mul_not_mem_of_not_mem hs1 hs2, ?_⟩
-  simp only [map_mul]
-  rw [← h1, ← h2]
-  ring
+  apply _root_.Formalism.L2.Col.intAt_mul_columns <;> assumption
 
 private theorem intAt_neg_of_starRing {E : Type} [Field E] [NumberField E] [StarRing E] {P : HeightOneSpectrum (𝓞 E)} {a : E} (ha : IntAt P a) : IntAt P (-a) := by
   obtain ⟨r, s, hs, h⟩ := ha
@@ -1080,17 +1071,6 @@ theorem psi_ne {E K : Type} [Field E] [NumberField E] [StarRing E] [Field K] {D 
   · rw [hout z hz]
     exact one_ne_zero
 
-private lemma intAt_add_twisted_eisenstein_coset {E : Type} [Field E] [NumberField E] {P : HeightOneSpectrum (𝓞 E)} {a b : E}
-    (ha : IntAt P a) (hb : IntAt P b) : IntAt P (a + b) := by
-  obtain ⟨r1, s1, hs1, h1⟩ := ha
-  obtain ⟨r2, s2, hs2, h2⟩ := hb
-  refine ⟨r1 * s2 + r2 * s1, s1 * s2, fun h => ?_, ?_⟩
-  · rcases P.isPrime.mem_or_mem h with h' | h'
-    · exact hs1 h'
-    · exact hs2 h'
-  · rw [map_mul, map_add (f := _), map_mul, map_mul, ← h1, ← h2]
-    ring
-
 private lemma intAt_neg_twisted_eisenstein_coset {E : Type} [Field E] [NumberField E] {P : HeightOneSpectrum (𝓞 E)} {a : E}
     (h : IntAt P a) : IntAt P (-a) := by
   obtain ⟨r, s, hs, hr⟩ := h
@@ -1127,7 +1107,7 @@ theorem key_pt {E K : Type} [Field E] [NumberField E] [StarRing E] [Field K] {D 
         rw [hc]
         ring
       rw [e]
-      exact intAt_add_twisted_eisenstein_coset i_cy (intAt_neg_twisted_eisenstein_coset i_cx)
+      exact ia_add P i_cy (intAt_neg_twisted_eisenstein_coset i_cx)
     have i_ncy : IntAt P ((qOf P : E) ^ D * (-cy)) := by
       rw [mul_neg]
       exact intAt_neg_twisted_eisenstein_coset i_cy

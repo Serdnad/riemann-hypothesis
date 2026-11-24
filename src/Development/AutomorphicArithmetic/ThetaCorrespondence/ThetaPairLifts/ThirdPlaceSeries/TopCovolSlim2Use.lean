@@ -1,5 +1,6 @@
 module
 
+import Development.AutomorphicArithmetic.ThetaCorrespondence.ThetaPairLifts.HodgeBundleWeights.ExistsCuspRegularLevelDeterminant
 public import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.EqOfIsometricTrivShift
 public import Development.WeilBound.CoreStatements.MinimalPrimeDimensions.GenIdeal
 public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.MahlerSectionStatementHolds
@@ -788,14 +789,8 @@ end GlobalTheory.CompanionTheory.Ar.Rec
 namespace GlobalTheory.CompanionTheory.Ar.Rec
 
 theorem cls_nsmul_common {Y : Scheme.{0}} {Λ : Type} [AddCommGroup Λ] {B : Λ → LB Y} (C : Common B) (n : ℕ)
-    (a : Λ) : cls (B (n • a)) (C.isLB (n • a)) = n • cls (B a) (C.isLB a) := by
-  induction n with
-  | zero =>
-    have h := GlobalTheory.HSApp.cls_common_add C 0 0
-    simp only [add_zero] at h
-    simp only [zero_nsmul]
-    exact left_eq_add.1 h
-  | succ n ih => rw [succ_nsmul, GlobalTheory.HSApp.cls_common_add C, ih, succ_nsmul]
+    (a : Λ) : cls (B (n • a)) (C.isLB (n • a)) = n • cls (B a) (C.isLB a) :=
+  _root_.GlobalTheory.OrbitSep.cls_nsmul C n a
 
 theorem val_ne_zero {F : Type} [Field F] {X : Scheme.{0}} (p : X ⟶ Sp F) {B : LB X} (θ : B.Sec) (z : Sp ℂ ⟶ X)
     (k : B.ι) (hk : ⊤ ≤ z ⁻¹ᵁ B.U k) (hz : ∀ s, z s ∈ nonzeroLocus θ) :

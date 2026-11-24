@@ -15,6 +15,8 @@ import CompanionTheory.SpectralGeometry.LocalGlobalProofs.AdelicAnalysis.WittExt
 import Mathlib.RingTheory.Henselian
 import Mathlib.RingTheory.RegularLocalRing.Defs
 import Mathlib.RingTheory.SimpleRing.Principal
+import CompanionTheory.SpectralGeometry.LocalGlobalProofs.AdelicAnalysis.HyperbolicAndBlockOneNondegenerate
+import CompanionTheory.SpectralGeometry.LocalGlobalProofs.AdelicAnalysis.LocalMeasuresOrthogonalSumAlmostAllPlaces
 
 @[expose] public section
 
@@ -48,28 +50,14 @@ theorem det_blockOne {K : Type} [CommRing K] {M : ℕ} (t : K) (A : Matrix (Fin 
 theorem isHermND_blockOne {F E : Type} [Field F] [Field E] [Algebra F E] (σ : E →ₐ[F] E) {M : ℕ}
     (J : Matrix (Fin M) (Fin M) E) (hJ : IsHermND σ J) (t : F) (ht : t ≠ 0) :
     IsHermND σ (blockOne (algebraMap F E t) J) := by
-  refine ⟨fun i j => ?_, ?_⟩
-  · refine Fin.cases ?_ (fun i => ?_) i <;> refine Fin.cases ?_ (fun j => ?_) j
-    · simp [blockOne_zero_zero]
-    · simp [blockOne_zero_succ, blockOne_succ_zero]
-    · simp [blockOne_zero_succ, blockOne_succ_zero]
-    · simpa [blockOne_succ_succ] using hJ.1 i j
-  · rw [det_blockOne]
-    exact mul_ne_zero (by simpa using ht) hJ.2
+  apply _root_.GlobalTheory.CompanionTheory.SW.BlockForm.isHermND_blockOne <;> assumption
 
 theorem gram_mulVec_e0 {F E : Type} [Field F] [Field E] [Algebra F E] (R : Type) [CommRing R] [Algebra F R]
     (σ : E →ₐ[F] E) {M : ℕ} (J : Matrix (Fin M) (Fin M) E) (t : F) :
     gramR R σ (blockOne (algebraMap F E t) J)
         (fun _ : Fin 1 => (Fin.cons 1 (fun _ => 0) : Fin (M + 1) → R ⊗[F] E)) =
       (hermScal R σ (algebraMap F R t) : HermR R σ 1) := by
-  ext a c
-  show hR R σ _ _ _ = algebraMap F R t ⊗ₜ[F] (1 : E)
-  simp only [hR, hform, Fin.sum_univ_succ, Fin.cons_zero, Fin.cons_succ, map_one, map_zero, one_mul,
-    mul_zero, zero_mul, mul_one, Finset.sum_const_zero, add_zero, JR, Matrix.map_apply,
-    blockOne_zero_zero]
-  show (1 : R) ⊗ₜ[F] (algebraMap F E t) = _
-  rw [Algebra.algebraMap_eq_smul_one, Algebra.algebraMap_eq_smul_one, TensorProduct.tmul_smul,
-    TensorProduct.smul_tmul']
+  apply _root_.GlobalTheory.CompanionTheory.SW.StageGood.gram_first <;> assumption
 
 section Place
 

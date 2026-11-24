@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.TorusSplitting.ExistsTorusOfPeriodHermitian
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.ProjectiveAutomorphicHecke.CyclotomicConjugation.QuadConjAlt
 public import GroundTheory.GlobalFields.IdeleGroups.IdeleNorms.CompletionsOverBasisRepr
 public import GroundTheory.GlobalFields.IdeleGroups.IdeleNorms.InfiniteAdeleRingMapInfiniteAdeleRingMap
@@ -107,15 +108,7 @@ private theorem norm_Kx {E : Type} [Field E] [NumberField E] (x : E) (φ : E →
 
 private theorem conj_of_sq {z : ℂ} {d : ℕ} (hd : 0 < d) (hz : z ^ 2 = -(d : ℂ)) :
     starRingEnd ℂ z = -z := by
-  have h1 : (starRingEnd ℂ z) ^ 2 = z ^ 2 := by
-    rw [← map_pow, hz]; simp
-  rcases sq_eq_sq_iff_eq_or_eq_neg.1 h1 with h | h
-  · exfalso
-    obtain ⟨r, rfl⟩ := Complex.conj_eq_iff_real.1 h
-    have h2 : (r ^ 2 : ℝ) = -(d : ℝ) := by exact_mod_cast hz
-    have h3 : (0 : ℝ) < d := by exact_mod_cast hd
-    nlinarith [sq_nonneg r]
-  · exact h
+  apply _root_.GlobalTheory.ImaginarySqrtEmbedding.conj_eq_neg_of_sq_eq_neg_nat <;> assumption
 
 private theorem emb_conj {E : Type} [Field E] [NumberField E] [IsCMField E] (φ : E →+* ℂ) (a : E) :
     φ (conjE E a) = starRingEnd ℂ (φ a) := by

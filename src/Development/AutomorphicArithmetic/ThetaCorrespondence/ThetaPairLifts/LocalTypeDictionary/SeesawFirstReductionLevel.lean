@@ -29,6 +29,7 @@ public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsLatticeOfE
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.IsLatticeComapSubspaceRingOfIntegers
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.FinrankOrth
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.HasSignatureFromBlocks
+import all Development.AbelianVarietyTheory.Proofs.TwistedOperators.HasSignatureFromBlocks
 public import Development.AutomorphicArithmetic.ThetaCorrespondence.ThetaPairLifts.LocalTypeDictionary.BernsteinUnitaryProductIrreducible
 public import Development.AbelianVarietyTheory.BlockTheory.TwistedDiscreteSeries.UnitCharTriangle
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsThetaFunctionStandardPairSecondStatement
@@ -667,37 +668,7 @@ open ReciprocityTheory.ChartRestriction.G GlobalTheory.Inertia
 
 theorem posIndex_of_hasSignature {n : Type} [Fintype n] [DecidableEq n] {M : Matrix n n ℂ} {p q : ℕ}
     (h : Formalism.UG.HasSignature M p q) : posIndex M = p ∧ posIndex (-M) = q := by
-  obtain ⟨e, P, hP⟩ := h
-  set A : Matrix (Fin p ⊕ Fin q) (Fin p ⊕ Fin q) ℂ := (P : Matrix _ _ ℂ).map (starRingEnd ℂ) with hA
-  have hAc : A.map (starRingEnd ℂ) = (P : Matrix _ _ ℂ) := by
-    ext i j; simp [hA]
-  have hdet : A.det ≠ 0 := by
-    have hu := Matrix.isUnits_det_units P
-    have h2 := RingHom.map_det (starRingEnd ℂ) (P : Matrix (Fin p ⊕ Fin q) (Fin p ⊕ Fin q) ℂ)
-    rw [RingHom.mapMatrix_apply] at h2
-    rw [hA, ← h2]
-    exact (map_ne_zero _).2 hu.ne_zero
-  have hc : A.transpose * M.reindex e e * A.map (starRingEnd ℂ) = Formalism.UG.Jpq p q := by
-    rw [hAc, ← hP]; rfl
-  have hcn : A.transpose * (-M).reindex e e * A.map (starRingEnd ℂ) = -Formalism.UG.Jpq p q := by
-    rw [← hc]
-    have : (-M).reindex e e = -(M.reindex e e) := by ext; simp
-    rw [this, Matrix.mul_neg, Matrix.neg_mul]
-  have hJ : Formalism.UG.Jpq p q = Matrix.diagonal (Sum.elim (fun _ => (1 : ℂ)) (fun _ => -1)) := by
-    ext i j
-    rcases i with i | i <;> rcases j with j | j <;>
-      simp [Formalism.UG.Jpq, Matrix.one_apply, Matrix.diagonal_apply] <;> split_ifs <;> simp
-  have hJn : -Formalism.UG.Jpq p q = Matrix.diagonal (Sum.elim (fun _ => (-1 : ℂ)) (fun _ => 1)) := by
-    rw [hJ, Matrix.diagonal_neg]
-    congr 1
-    ext i; rcases i with i | i <;> simp
-  have hre : ∀ N : Matrix n n ℂ, posIndex N = posIndex (N.reindex e e) := fun N =>
-    (posIndex_submatrix_equiv N e.symm).symm
-  constructor
-  · rw [hre, ← posIndex_congr _ hdet, hc, hJ, posIndex_diagonal, Finset.card_filter, Fintype.sum_sum_type]
-    simp
-  · rw [hre, ← posIndex_congr _ hdet, hcn, hJn, posIndex_diagonal, Finset.card_filter, Fintype.sum_sum_type]
-    simp
+  apply _root_.GlobalTheory.FrameComplement.posIndex_negIndex_of_hasSignature <;> assumption
 
 theorem hT_coords {E : Type} [Field E] [NumberField E] [StarRing E] (S : Formalism.BasicNotions.HSpace E) (u : Fin S.rank → E) :
     S.hT (S.frame.equivFun.symm u) (S.frame.equivFun.symm u) = ∑ b, ∑ a, star (u a) * S.gram a b * u b := by

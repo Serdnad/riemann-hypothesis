@@ -121,17 +121,7 @@ def LIP (R : Type) [CommRing R] : Prop :=
     (∀ c, W *ᵥ c = 0 → c = 0) → ∃ P : Matrix n m R, P * W = 1
 
 theorem lip_field (K : Type) [Field K] : LIP K := by
-  intro m n _ _ _ _ W hW
-  have hker : LinearMap.ker (Matrix.mulVecLin W) = ⊥ := by
-    rw [LinearMap.ker_eq_bot']
-    intro c hc
-    exact hW c hc
-  obtain ⟨g, hg⟩ := LinearMap.exists_leftInverse_of_injective (Matrix.mulVecLin W) hker
-  refine ⟨LinearMap.toMatrix' g, ?_⟩
-  have h1 : LinearMap.toMatrix' (g ∘ₗ Matrix.mulVecLin W) = 1 := by
-    rw [hg, LinearMap.toMatrix'_id]
-  rwa [LinearMap.toMatrix'_comp,
-    show LinearMap.toMatrix' (Matrix.mulVecLin W) = W from LinearMap.toMatrix'_toLin' W] at h1
+  apply _root_.PI.AprimeInfW.lip_field <;> assumption
 
 theorem inj_of_isUnit {R : Type} [CommRing R] {m n : Type} [Fintype m] [Fintype n]
     [DecidableEq n] (W : Matrix m n R) (P : Matrix n m R) (hP : IsUnit (P * W).det)
@@ -165,63 +155,12 @@ theorem wMat_mulVec (R : Type) [CommRing R] [Algebra F R] {a M : ℕ}
 theorem wMat_mulVec_eq_zero (R : Type) [CommRing R] [Algebra F R] {a M : ℕ}
     (X : Fin a → Fin M → R ⊗[F] E) (c : Fin a × Fin d → R) :
     wMat b R X *ᵥ c = 0 ↔ ∀ j, ∑ i, (∑ k, c (i, k) • ((1 : R) ⊗ₜ[F] b k)) * X i j = 0 := by
-  constructor
-  · intro h j
-    apply (Algebra.TensorProduct.basis R b).repr.injective
-    ext l
-    have h1 := congrFun h (j, l)
-    rw [wMat_mulVec] at h1
-    simpa [crd] using h1
-  · intro h
-    funext q
-    obtain ⟨j, l⟩ := q
-    rw [wMat_mulVec, h j]
-    simp [crd]
+  apply _root_.PI.AprimeInfW.wMat_mulVec_eq_zero <;> assumption
 
 theorem linIndep_iff (R : Type) [CommRing R] [Algebra F R] {a M : ℕ}
     (X : Fin a → Fin M → R ⊗[F] E) :
     LinearIndependent (R ⊗[F] E) X ↔ ∀ c, wMat b R X *ᵥ c = 0 → c = 0 := by
-  classical
-  let B := Algebra.TensorProduct.basis R b
-  have hBk : ∀ k, B k = (1 : R) ⊗ₜ[F] b k := fun k => Algebra.TensorProduct.basis_apply b k
-  have hsum : ∀ g : Fin a → R ⊗[F] E, (∑ i, g i • X i = 0) ↔ ∀ j, ∑ i, g i * X i j = 0 := by
-    intro g
-    constructor
-    · intro h j
-      have h1 := congrFun h j
-      simpa [Finset.sum_apply] using h1
-    · intro h
-      funext j
-      simpa [Finset.sum_apply] using h j
-  rw [Fintype.linearIndependent_iff]
-  constructor
-  · intro hli c hc
-    rw [wMat_mulVec_eq_zero] at hc
-    have h0 := hli (fun i => ∑ k, c (i, k) • ((1 : R) ⊗ₜ[F] b k)) ((hsum _).mpr hc)
-    funext q
-    obtain ⟨i, k⟩ := q
-    have h0' : (∑ k, c (i, k) • B k) = 0 := by
-      have h3 := h0 i
-      simpa [hBk] using h3
-    have h2 : ⇑(B.repr (∑ k, c (i, k) • B k)) = fun k => c (i, k) := B.repr_sum_self _
-    rw [h0', map_zero] at h2
-    simpa using (congrFun h2 k).symm
-  · intro h g hg i
-    let c : Fin a × Fin d → R := fun q => B.repr (g q.1) q.2
-    have hg' : ∀ i, (∑ k, c (i, k) • ((1 : R) ⊗ₜ[F] b k)) = g i := by
-      intro i
-      simp only [c, ← hBk]
-      exact B.sum_repr (g i)
-    have hc : wMat b R X *ᵥ c = 0 := by
-      rw [wMat_mulVec_eq_zero]
-      intro j
-      simp only [hg']
-      exact (hsum g).mp hg j
-    have h0 := h c hc
-    apply B.repr.injective
-    ext k
-    have h4 := congrFun h0 (i, k)
-    simpa [c] using h4
+  apply _root_.PI.AprimeInfW.linIndep_iff <;> assumption
 
 variable [FiniteDimensional F E] (R : Type) [CommRing R] [Algebra F R] [TopologicalSpace R]
   [IsTopologicalRing R]

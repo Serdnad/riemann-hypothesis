@@ -1,5 +1,8 @@
 module
 
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ConstantTermAuxiliaryStatementA
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.CommuteRtOfMemZalg
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ModerateGrowthConvolutionIntegral
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.OneMemGoodCT
 public import Development.WeilBound.CoreStatements.TemperedRepresentationTheory.AffineGLForms.GenSpace
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.CapCommuteRtInfGL
@@ -58,23 +61,8 @@ variable {E : Type} [Field E] [NumberField E] [_root_.NumberField.IsTotallyCompl
 theorem map_lev {R S : Type} [CommRing R] [CommRing S] (f : R →+* S) (g : GL (Fin r) R × GL (Fin s) R) :
     Matrix.GeneralLinearGroup.map f (lev R r s g) =
       lev S r s (Matrix.GeneralLinearGroup.map f g.1, Matrix.GeneralLinearGroup.map f g.2) := by
-  have val_emb₂ (T : Type) [CommRing T] (g : GL (Fin r) T × GL (Fin s) T) :
-      (GlobalTheory.SmGL.emb₂ T (GlobalTheory.SmGL.stdSum (rfl : r + s = r + s)) g).val =
-        Matrix.reindex (GlobalTheory.SmGL.stdSum (rfl : r + s = r + s)) (GlobalTheory.SmGL.stdSum (rfl : r + s = r + s))
-          (Matrix.fromBlocks g.1.val 0 0 g.2.val) := by
-    ext i j
-    simp [GlobalTheory.SmGL.emb₂, GlobalTheory.SmGL.leviEmb, GlobalTheory.SmGL.leviTwo,
-      GlobalTheory.SmGL.two, Matrix.reindex_apply, Matrix.blockDiagonal']
-    rcases (GlobalTheory.SmGL.stdSum (rfl : r + s = r + s)).symm i with a | a <;>
-      rcases (GlobalTheory.SmGL.stdSum (rfl : r + s = r + s)).symm j with b | b <;> simp
-  apply Units.ext
-  change (lev R r s g).val.map f = (lev S r s _).val
-  unfold lev
-  rw [val_emb₂, val_emb₂]
-  ext i j
-  simp only [Matrix.reindex_apply, Matrix.submatrix_apply, Matrix.map_apply]
-  rcases (GlobalTheory.SmGL.stdSum (rfl : r + s = r + s)).symm i with a | a <;>
-    rcases (GlobalTheory.SmGL.stdSum (rfl : r + s = r + s)).symm j with b | b <;> simp
+  intros
+  apply _root_.GlobalTheory.CompanionTheory.CTFin.IwaAd.map_lev <;> assumption
 
 theorem lev_infGL (a : GL (Fin r) (Cinf E)) (b : GL (Fin s) (Cinf E)) :
     lev (Ad E) r s (infGL E r a, infGL E s b) = infGL E (r + s) (lev (Cinf E) r s (a, b)) := by
@@ -216,15 +204,8 @@ theorem res_mem_Sm (F : Sm E (r + s)) : (fun m : GA E s => F.1 (lev (Ad E) r s (
     rw [chart_val, Function.comp_apply, blkL_val, chart_val, lev_mul_right, ← lev_infGL_one]
 
 theorem Zalg_comm_rt {a : ℕ} (h : GA E a) {z : Module.End ℂ (Sm E a)} (hz : z ∈ Zalg E a) : Commute z (rt E a h) := by
-  have hle : Zalg E a ≤ Subalgebra.centralizer ℂ {rt E a h} := by
-    refine Algebra.adjoin_le ?_
-    rintro _ ⟨τ, u, rfl⟩
-    rw [SetLike.mem_coe, Subalgebra.mem_centralizer_iff]
-    intro y hy
-    obtain rfl := Set.mem_singleton_iff.1 hy
-    rw [← infGL_mul_finGL h, map_mul]
-    exact ((GlobalTheory.CapAdInv.cap_commute_rt_infGL E a τ u _).mul_right (commute_cap_finRep τ u _)).symm.eq
-  exact (Subalgebra.mem_centralizer_iff ℂ).1 (hle hz) _ rfl |>.symm
+  intros
+  apply _root_.GlobalTheory.CompanionTheory.CTFin.Slice1.commute_rt_of_mem_Zalg <;> assumption
 
 theorem exists_interp {K : Type} (A : Submodule ℂ (K → ℂ)) [FiniteDimensional ℂ A] :
     ∃ (S : Finset K) (lam : K → S → ℂ), ∀ c ∈ A, ∀ k, c k = ∑ κ : S, lam k κ * c κ.1 := by
@@ -271,20 +252,7 @@ theorem kfin_of_coeff {a : ℕ} {W : Type} [AddCommGroup W] [Module ℂ W] [Fini
 
 theorem zfin_of_cofin {a : ℕ} {J : Set (Module.End ℂ (Sm E a))} (hJ : Cofin J) (φ : Sm E a) (h : ∀ z ∈ J, z φ = 0) :
     FiniteDimensional ℂ (Submodule.span ℂ ((fun z : Module.End ℂ (Sm E a) => z φ) '' Zalg E a)) := by
-  obtain ⟨-, V, hV, hz⟩ := hJ
-  let ev : Module.End ℂ (Sm E a) →ₗ[ℂ] Sm E a := LinearMap.applyₗ φ
-  have hker : Submodule.span ℂ {y | ∃ x ∈ Zalg E a, ∃ j ∈ J, y = x * j} ≤ LinearMap.ker ev := by
-    refine Submodule.span_le.2 ?_
-    rintro _ ⟨x, -, j, hj, rfl⟩
-    change x (j φ) = 0
-    rw [h j hj, map_zero]
-  refine Submodule.finiteDimensional_of_le (S₂ := V.map ev) (Submodule.span_le.2 ?_)
-  rintro _ ⟨z, hzZ, rfl⟩
-  obtain ⟨v, hv, y, hy, rfl⟩ := Submodule.mem_sup.1 (hz z hzZ)
-  refine ⟨v, hv, ?_⟩
-  have : y φ = 0 := hker hy
-  change v φ = v φ + y φ
-  rw [this, add_zero]
+  apply _root_.GlobalTheory.CompanionTheory.CTFin.Slice1.zfin_of_cofin <;> assumption
 
 theorem norm_toL_lev (y : GL (Fin s) (Cinf E)) :
     ‖toL (lev (Cinf E) r s (1, y)).val‖ ≤ 1 + ‖toL y.val‖ := by
@@ -331,18 +299,7 @@ theorem height_lev_le (y : GL (Fin s) (Cinf E)) : height (lev (Cinf E) r s (1, y
 def bnd {a : ℕ} (c : GL (Fin a) (Cinf E)) : ℝ := 1 + ‖rmul (toL c.val)‖ + ‖lmul (toL (c⁻¹).val)‖
 
 theorem height_mul_le {a : ℕ} (c y : GL (Fin a) (Cinf E)) : height (y * c) ≤ bnd c * height y := by
-  have h1 : toL (y * c).val = rmul (toL c.val) (toL y.val) := rfl
-  have h2 : toL ((y * c)⁻¹).val = lmul (toL (c⁻¹).val) (toL (y⁻¹).val) := by
-    rw [_root_.mul_inv_rev]; rfl
-  have e1 := (rmul (toL c.val)).le_opNorm (toL y.val)
-  have e2 := (lmul (toL (c⁻¹).val)).le_opNorm (toL (y⁻¹).val)
-  have n1 := norm_nonneg (toL y.val)
-  have n2 := norm_nonneg (toL (y⁻¹).val)
-  have n3 := norm_nonneg (rmul (toL c.val))
-  have n4 := norm_nonneg (lmul (toL (c⁻¹).val))
-  unfold height bnd
-  rw [h1, h2]
-  nlinarith
+  apply _root_.GlobalTheory.CompanionTheory.GrowthConv.height_mul_le_bnd <;> assumption
 
 theorem coeff_comp {W : Type} [AddCommGroup W] [Module ℂ W] (ρ : Representation ℂ (Kinf E (r + s)) W)
     (κ : Kinf E (r + s)) {c : Kinf E (r + s) → ℂ} (hc : c ∈ GlobalTheory.Published.AutFin.coeffSpan ρ) :

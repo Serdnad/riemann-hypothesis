@@ -345,19 +345,8 @@ variable {K : Type*} [Fintype K] [DecidableEq K] {ι : K → Type*} {R : Type*} 
 
 theorem exists_multiHomog_not_mem_of_isRelevant {H : Ideal (MRing ι R)} (hH : H.IsPrime)
     (hrel : IsRelevant H) (c : K → ℕ) : ∃ m : MRing ι R, IsMultiHomog m c ∧ m ∉ H := by
-  choose i hi using hrel
-  refine ⟨∏ k, X ⟨k, i k⟩ ^ c k, ?_, ?_⟩
-  · have hprod := IsWeightedHomogeneous.prod (w := blockWeight ι) Finset.univ
-      (fun k => (X ⟨k, i k⟩ : MRing ι R) ^ c k) (fun k => c k • blockWeight ι ⟨k, i k⟩)
-      (fun k _ => (isWeightedHomogeneous_X R _ _).pow _)
-    have hc : (∑ k, c k • blockWeight ι ⟨k, i k⟩) = c := by
-      funext k'
-      simp [blockWeight, Finset.sum_apply, Pi.single_apply]
-    rw [hc] at hprod
-    exact hprod
-  · intro hm
-    obtain ⟨k, -, hk⟩ := hH.prod_mem_iff.mp hm
-    exact hi k (hH.mem_of_pow_mem _ hk)
+  intros
+  apply _root_.GroundTheory.Heights₂.Heights.NumbersDVR.exists_form_not_mem_of_isRelevant <;> assumption
 
 theorem exists_multiHomog_not_mem_finset [Infinite R] (c : K → ℕ) (S : Finset (Ideal (MRing ι R)))
     (hS : ∀ Q ∈ S, Q.IsPrime ∧ IsRelevant Q ∧ ∀ a : R, C a ∈ Q → a = 0) :

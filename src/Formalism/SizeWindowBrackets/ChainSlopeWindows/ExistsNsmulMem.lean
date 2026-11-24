@@ -495,15 +495,7 @@ theorem locLen_subsingleton (w : Ideal R) [w.IsPrime] (Q : Type) [AddCommGroup Q
 
 theorem locLen_quot_ne (w m : Ideal R) [hw : w.IsMaximal] [hm : m.IsMaximal] (h : w ≠ m) :
     locLen w (R ⧸ m) = 0 := by
-  refine Module.length_eq_zero_iff.2 ((IsLocalizedModule.subsingleton_iff w.primeCompl
-    (LocalizedModule.mkLinearMap w.primeCompl (R ⧸ m))).2 ?_)
-  have hnle : ¬ m ≤ w := fun hle => h (hm.eq_of_le hw.ne_top hle).symm
-  obtain ⟨s, hsm, hsw⟩ := SetLike.not_le_iff_exists.1 hnle
-  intro x
-  refine ⟨s, hsw, ?_⟩
-  obtain ⟨y, rfl⟩ := Ideal.Quotient.mk_surjective x
-  rw [Algebra.smul_def, Ideal.Quotient.algebraMap_eq, ← map_mul, Ideal.Quotient.eq_zero_iff_mem]
-  exact m.mul_mem_right _ hsm
+  apply _root_.GlobalTheory.CardLength.lenAt_quot_ne <;> assumption
 
 theorem locLen_quot_self (m : Ideal R) [hm : m.IsMaximal] : locLen m (R ⧸ m) = 1 := by
   apply GlobalTheory.CardLength.lenAt_quot_self

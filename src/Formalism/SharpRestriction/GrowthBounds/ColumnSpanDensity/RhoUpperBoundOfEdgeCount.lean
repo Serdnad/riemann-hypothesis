@@ -145,9 +145,13 @@ theorem be_scale_Re (e : Edge R.W R.Qq (m + 1)) (c : ℕ) {F : Vsp R.Kf lam0}
 
 end Clean
 
-theorem rho_upper_bound_of_edge_count (hcnt : RestEdgeCountSrc) : RhoUpperBoundSmallDepth := by
+open Formalism.MainNotions.G.LatticeSystems in
+theorem nLeD_of_edge_count (hcnt : RestEdgeCountSrc) {p n' : ℕ} (R : RS p n') {m : ℕ} (lam0 : Fin n' → Fin (m + 1) → ℤ) (hDom : IsDominant lam0)
+    (t c n : ℕ) (D : ℝ) (hD0 : 0 ≤ D) (hDc : 2 * D < c)
+    (hfac : ∀ e, IsEdge p n' 1 e →
+      FactorsLE p (be (Kf := R.Kf) p 1 lam0) (CCL R lam0 t c e) (Re' p R.ι R.σ R.w 1 lam0 e) n D) :
+    (n : ℝ) ≤ dL R lam0 := by
   classical
-  intro p n' R m lam0 hDom t c n D hD0 hDc hfac
   have hdnn := dL_nonneg R lam0
   by_cases hn0 : n = 0
   · subst hn0; simpa using hdnn
@@ -158,7 +162,7 @@ theorem rho_upper_bound_of_edge_count (hcnt : RestEdgeCountSrc) : RhoUpperBoundS
     exact_mod_cast this
   have hdata : ∀ i : Fin Ne, ∃ (x : Fin n → Vsp R.Kf lam0)
       (y : Fin n → Module.Dual R.Kf (Vsp R.Kf lam0)) (z z' : R.O), z ≠ 0 ∧
-      (∀ a, x a ∈ CCL R lam0 t c (es i)) ∧ (∀ a, y a ∈ CCL' R lam0 t c (es i)) ∧
+      (∀ a, x a ∈ CCL R lam0 t c (es i)) ∧ (∀ a, y a ∈ Re' p R.ι R.σ R.w 1 lam0 (es i)) ∧
       z' * z = R.w ^ (c - 1) ∧
       ∀ a b, be p 1 lam0 (x a) (y b) = if a = b then algebraMap R.O R.Kf z else 0 := by
     intro i
@@ -185,7 +189,7 @@ theorem rho_upper_bound_of_edge_count (hcnt : RestEdgeCountSrc) : RhoUpperBoundS
         rw [if_neg hab, if_neg this]; simp
     · have hne : es l ≠ es i := fun h => hil (hinj h).symm
       have hXs := CCL_other R lam0 t c (es i) (es l) (hes _).1 ((hes _).2.trans (hes _).2.symm) hne (hx i a)
-      obtain ⟨b', hb⟩ := be_scale_Re R lam0 (es l) c hXs (hy l b).1.2
+      obtain ⟨b', hb⟩ := be_scale_Re R lam0 (es l) c hXs (hy l b)
       have h2 : ((i, a) : Fin Ne × Fin n) ≠ (l, b) := fun h => hil (Prod.mk.inj h).1
       refine ⟨R.w * b' * z' l, Ideal.mul_mem_right _ _ (Ideal.mul_mem_right _ _ R.w_mem), ?_⟩
       simp only
@@ -245,6 +249,14 @@ theorem rho_upper_bound_of_edge_count (hcnt : RestEdgeCountSrc) : RhoUpperBoundS
   have h7 : (n : ℝ) * gaussianNumber (p ^ n') (m + 1) ≤ (n : ℝ) * Ne := mul_le_mul_of_nonneg_left hNe (Nat.cast_nonneg _)
   push_cast at h6
   linarith
+
+theorem rho_upper_bound_of_edge_count (hcnt : RestEdgeCountSrc) : RhoUpperBoundSmallDepth := by
+  intro p n' R m lam0 hDom t c n D hD0 hDc hfac
+  refine nLeD_of_edge_count hcnt R lam0 hDom t c n D hD0 hDc ?_
+  intro e he
+  rcases hfac e he with h0 | ⟨x, y, hx, hy, z, M, hz, hv, hM⟩
+  · exact Or.inl h0
+  · exact Or.inr ⟨x, y, hx, fun a => (hy a).1.2, z, M, hz, hv, hM⟩
 
 end Formalism.MainNotions.flipOneThree.Pf
 

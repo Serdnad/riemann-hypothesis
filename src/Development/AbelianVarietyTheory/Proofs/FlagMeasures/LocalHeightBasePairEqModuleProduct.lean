@@ -1,5 +1,7 @@
 module
 
+
+import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.ResiduallyFiniteUnitOff
 public import Formalism.SharpRestriction.CuspSpanNormBounds.IsTermOver
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.DetGramSumElimSmulSub
 public import Formalism.SharpRestriction.CuspSpanNormBounds.FractionFieldToGenericStalkAlgebraMapEq
@@ -9,6 +11,7 @@ public import Formalism.LocalToGlobal.SiegelLatticeTheory.ClosedLocalOrbits.Gaug
 public import Formalism.FlagUnipotentLattices.AlgebraicIdentityHigherDegree
 public import Formalism.LocalToGlobal.SiegelLatticeTheory.ClosedLocalOrbits.GaugeLatticeShifts.LocFacts
 public import Formalism.LocalToGlobal.SiegelLatticeTheory.CokernelGLCounts.RankPointCounts.StepNormOneOfLeaves
+import all Formalism.LocalToGlobal.SiegelLatticeTheory.CokernelGLCounts.RankPointCounts.StepNormOneOfLeaves
 public import Formalism.SharpRestriction.CuspSpanNormBounds.BruhatCellsKronecker.GlobalConditionOfLocalAgreement
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -65,7 +68,6 @@ import Mathlib.Tactic.Linter.HaveILetI
 import Mathlib.Tactic.Linter.Style
 import Mathlib.Tactic.TypeStar
 import Std.Tactic.BVDecide.Normalize.Prop
-
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.Proofs.FlagMeasures.LocalHeightScaling, Development.AbelianVarietyTheory.Proofs.FlagMeasures.LocalHeightBasePairEqModuleProduct
 
@@ -226,16 +228,7 @@ namespace GlobalTheory.HTPlaceLeaf
 attribute [local instance] Formalism.BasicNotions.Host.cmStar
 
 theorem two_sum_range (r : ℕ) : ∀ q, q ≤ r + 1 → 2 * ∑ n ∈ Finset.range q, (r - n) = q * (2 * r + 1 - q) := by
-  intro q
-  induction q with
-  | zero => intro _; simp
-  | succ q ih =>
-    intro hq
-    rw [Finset.sum_range_succ, mul_add, ih (by omega)]
-    obtain ⟨k, rfl⟩ := Nat.exists_eq_add_of_le (show q ≤ r by omega)
-    rw [show 2 * (q + k) + 1 - q = q + 2 * k + 1 by omega, show q + k - q = k by omega,
-      show 2 * (q + k) + 1 - (q + 1) = q + 2 * k by omega]
-    ring
+  apply _root_.Formalism.L2.SG.NGCut.LeadingMinorIntegrality.gauss_lemma_5 <;> assumption
 
 theorem lead_scale_pow {R : Type*} [CommRing R] (r : ℕ) (x : R) (s : Fin (r + 1) → R)
     (M : Matrix (Fin (r + 1)) (Fin (r + 1)) R) (q : ℕ) (hq : q ≤ r + 1) :
@@ -328,18 +321,7 @@ theorem point_ends {K : Type} [Field K] {r : ℕ} (w : Point K (r + 1)) :
     · rw [← Formalism.L2.SG.NGCut.LeadingMinorIntegrality.endMin_eq]; exact hne a
 
 theorem infinite_places (K : Type) [Field K] [NumberField K] : Infinite (HeightOneSpectrum (𝓞 K)) := by
-  have h : ∀ p : Nat.Primes, ∃ la : HeightOneSpectrum (𝓞 K), la.asIdeal.comap (algebraMap ℤ (𝓞 K)) =
-      Ideal.span {((p : ℕ) : ℤ)} := fun p => by
-    haveI : Fact (p : ℕ).Prime := ⟨p.2⟩
-    haveI : (Ideal.span {((p : ℕ) : ℤ)}).IsMaximal := Int.ideal_span_isMaximal_of_prime p
-    obtain ⟨M, hM, hc⟩ := Ideal.exists_ideal_over_maximal_of_isIntegral (S := 𝓞 K) (Ideal.span {((p : ℕ) : ℤ)})
-      (by rw [(RingHom.injective_iff_ker_eq_bot _).1 (algebraMap ℤ (𝓞 K)).injective_int]; exact bot_le)
-    exact ⟨⟨M, hM.isPrime, Ring.ne_bot_of_isMaximal_of_not_isField hM (RingOfIntegers.not_isField K)⟩, hc⟩
-  choose f hf using h
-  refine Infinite.of_injective f fun p q hpq => ?_
-  have e : Ideal.span {((p : ℕ) : ℤ)} = Ideal.span {((q : ℕ) : ℤ)} := by rw [← hf p, ← hf q, hpq]
-  have := Int.associated_iff_natAbs.1 (Ideal.span_singleton_eq_span_singleton.1 e)
-  exact Subtype.ext (by simpa using this)
+  first | exact _root_.GlobalTheory.LvT.Inh.ResFin.infinite_places | exact @_root_.GlobalTheory.LvT.Inh.ResFin.infinite_places | apply _root_.GlobalTheory.LvT.Inh.ResFin.infinite_places <;> assumption
 
 theorem modK_yP (D : D7) (Z : LocDat D) (p : PlF D) :
     (Z.M p).modK (algebraMap _ _ (Formalism.L2.SG.Pf.AtPt.yP Z p)) = (Z.M p).modK (algebraMap _ _ (Z.δ p)) := by

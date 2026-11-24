@@ -1,5 +1,9 @@
 module
 
+import Formalism.ThetaLogCoordinates.JacobiPathWeights.JacobiMinorProofs.JacobiMinorProof
+import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.GelfandTsetlinBranching.CoeffRowActDiagA
+import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.GelfandTsetlinLowering.IoExistsOfCap
+import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.GelfandTsetlinBranching.ExtremalFactsProofA
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.GelfandTsetlinLowering.LiftDefs
 public import Formalism.GradedWeylDivisibility.DualWeylDominanceOf
 public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Wlocal
@@ -82,11 +86,7 @@ namespace PI.WGL
 open Formalism.BasicNotions Formalism.GradedWeylDivisibility MvPolynomial
 
 theorem dominant_weight_ext {N : ℕ} (a b : DomWeight N) (hab : a.w = b.w) : a = b := by
-  obtain ⟨w, hw⟩ := a
-  obtain ⟨w', hw'⟩ := b
-  simp only at hab
-  subst hab
-  rfl
+  apply _root_.PI.WGL.io_dw_ext <;> assumption
 
 theorem extremal_mem_nablaSq' (n : ℕ) (mu : DomWeight n) : extremal ℂ n mu ∈ nablaSq ℂ n mu :=
   Formalism.GradedWeylDivisibility.hwMem ℂ n n le_rfl mu.natW (fun i j hij => Int.toNat_le_toNat (by have := mu.anti hij; omega))
@@ -346,16 +346,7 @@ theorem coeff_sqAct_diag {r : ℕ} (lam : DomWeight r) (t : Fin r → ℂˣ) (f 
 
 theorem weight_rowW_apply {r c : ℕ} (m : Fin r × Fin c →₀ ℕ) (a : Fin r) :
     Finsupp.weight (rowW r c) m a = rowDeg m a := by
-  rw [Finsupp.weight_apply, Finsupp.sum_fintype _ _ (by simp), Finset.sum_apply,
-    Fintype.sum_prod_type]
-  unfold rowDeg
-  rw [Finset.sum_eq_single a]
-  · refine Finset.sum_congr rfl fun s _ => ?_
-    simp [rowW]
-  · intro b _ hb
-    refine Finset.sum_eq_zero fun s _ => ?_
-    simp [rowW, Ne.symm hb]
-  · simp
+  apply _root_.PI.WGB.weight_row_A <;> assumption
 
 theorem weight_colW_apply {r c : ℕ} (m : Fin r × Fin c →₀ ℕ) (j : Fin c) :
     Finsupp.weight (colW r c) m j = ∑ a, m (a, j) := by
@@ -1166,16 +1157,7 @@ theorem sum_cnt_lt {n K : ℕ} {sz : Fin K → ℕ} (J : ∀ k, Fin (sz k) → F
 
 private theorem card_filter_fin_val_lt' {n c : ℕ} (hc : c ≤ n) :
     (Finset.univ.filter fun a : Fin n => a.1 < c).card = c := by
-  have e : (Finset.univ.filter fun a : Fin n => a.1 < c).card = (Finset.range c).card := by
-    apply Finset.card_bij (fun a _ => a.1)
-    · intro a ha
-      simpa using ha
-    · intro a _ b _ hab
-      exact Fin.ext hab
-    · intro b hb
-      have hb' : b < c := by simpa using hb
-      exact ⟨⟨b, by omega⟩, by simpa using hb', rfl⟩
-  rw [e, Finset.card_range]
+  apply _root_.Formalism.InvariantFactorPaths.GelfandTsetlinBases.leadingTermLemmas.card_initSeg <;> assumption
 
 theorem sum_shape_lt {n K : ℕ} (sz : Fin K → ℕ) (hsz : ∀ k, sz k ≤ n) (t : ℕ) (ht : t ≤ n) :
     ∑ a ∈ Finset.univ.filter (fun a : Fin n => a.1 < t), shapeDeg sz a = ∑ k, min t (sz k) := by
@@ -1324,14 +1306,7 @@ theorem natW_last {n : ℕ} (sg : DomWeight n) (hn : 0 < n) : sg.natW ⟨n - 1, 
   simp [Formalism.BasicNotions.DomWeight.natW, Formalism.BasicNotions.DomWeight.detShift, hn]
 
 theorem natW_add {n : ℕ} (sg : DomWeight n) (i : Fin n) : ((sg.natW i : ℕ) : ℤ) + sg.detShift = sg.w i := by
-  have hn : 0 < n := lt_of_le_of_lt (Nat.zero_le _) i.2
-  have hle : sg.detShift ≤ sg.w i := by
-    unfold Formalism.BasicNotions.DomWeight.detShift
-    rw [dif_pos hn]
-    exact sg.anti (Fin.le_iff_val_le_val.mpr (by show i.1 ≤ n - 1; have := i.2; omega))
-  simp only [Formalism.BasicNotions.DomWeight.natW]
-  rw [Int.toNat_of_nonneg (sub_nonneg.mpr hle)]
-  ring
+  apply _root_.PI.WGB.natW_add_A <;> assumption
 
 theorem sz_lt {n K : ℕ} (sg : DomWeight n) (sz : Fin K → ℕ) (hsz : ∀ k, sz k ≤ n)
     (hsh : shapeDeg sz = sg.natW) (k : Fin K) (hk : 0 < sz k) : sz k < n := by

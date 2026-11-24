@@ -863,60 +863,19 @@ private theorem infAt_finEmb' (w : InfinitePlace K) (x : AdelicGLn.FiniteAdelicG
 private theorem iw_eq (w : Pl K) (ν : Fin n → ℤ) : iwCoset w ν =
     (GLnLocal.iwahori (w.adicCompletion K) n : Set _) * {Cartan.diagPow (w.adicCompletion K) n ν} *
       (GLnLocal.iwahori (w.adicCompletion K) n : Set _) := by
-  ext g
-  constructor
-  · rintro ⟨a, ha, b, hb, rfl⟩
-    exact ⟨_, ⟨a, ha, _, rfl, rfl⟩, b, hb, rfl⟩
-  · rintro ⟨_, ⟨a, ha, _, rfl, rfl⟩, b, hb, rfl⟩
-    exact ⟨a, ha, b, hb, rfl⟩
+  apply _root_.UpperTheory.ConvolutionTheory.GM.TE.iwCoset_eq <;> assumption
 
 private theorem iw_test (w : Pl K) (ν : Fin n → ℤ) :
     IsLocallyConstant ((iwCoset w ν).indicator 1 : GL (Fin n) (w.adicCompletion K) → ℂ) ∧ HasCompactSupport ((iwCoset w ν).indicator 1 : GL (Fin n) (w.adicCompletion K) → ℂ) := by
-  have hc : IsCompact (iwCoset w ν) := by
-    rw [iw_eq]
-    exact ((GLnLocal.isCompact_iwahori _ n).mul isCompact_singleton).mul (GLnLocal.isCompact_iwahori _ n)
-  have ho : IsOpen (iwCoset w ν) := by
-    rw [iw_eq]
-    exact (GLnLocal.isOpen_iwahori _ n).mul_left
-  refine ⟨?_, HasCompactSupport.intro hc fun x hx => Set.indicator_of_notMem hx _⟩
-  refine (IsLocallyConstant.iff_exists_open _).2 fun x => ?_
-  by_cases hx : x ∈ iwCoset w ν
-  · exact ⟨_, ho, hx, fun y hy => by simp [Set.indicator_of_mem hx, Set.indicator_of_mem hy]⟩
-  · exact ⟨_, hc.isClosed.isOpen_compl, hx, fun y hy => by
-      rw [Set.indicator_of_notMem hx, Set.indicator_of_notMem hy]⟩
+  apply _root_.UpperTheory.ConvolutionTheory.GM.TE.test_iw <;> assumption
 
 private theorem det_int (w : Pl K) {g : GL (Fin n) (w.adicCompletion K)} (hg : g ∈ GLnLocal.integralGL (w.adicCompletion K) n) :
     Valued.v (g : Matrix (Fin n) (Fin n) (w.adicCompletion K)).det = 1 := by
-  have key : ∀ g ∈ GLnLocal.integralGL (w.adicCompletion K) n,
-      Valued.v (g : Matrix (Fin n) (Fin n) (w.adicCompletion K)).det ≤ 1 := by
-    intro g hg
-    rw [GLnLocal.mem_integralGL_iff] at hg
-    simp only [GroundTheory.Global.mem_valuationInteger_iff] at hg
-    rw [Matrix.det_apply']
-    exact (w.adicCompletionIntegers K).sum_mem fun σ _ => mul_mem (intCast_mem _ _) (prod_mem fun i _ => hg.1 _ _)
-  have h1 := key g hg
-  have h2 := key _ (inv_mem hg)
-  have h3 : Valued.v (g : Matrix (Fin n) (Fin n) (w.adicCompletion K)).det *
-      Valued.v ((g⁻¹ : GL (Fin n) (w.adicCompletion K)) : Matrix (Fin n) (Fin n) (w.adicCompletion K)).det = 1 := by
-    rw [← map_mul, ← Matrix.det_mul, ← Units.val_mul, mul_inv_cancel, Units.val_one, Matrix.det_one, map_one]
-  refine le_antisymm h1 ?_
-  calc (1 : _) = _ := h3.symm
-    _ ≤ _ * 1 := mul_le_mul' le_rfl h2
-    _ = _ := mul_one _
+  apply _root_.UpperTheory.ConvolutionTheory.GM.TE.det_int <;> assumption
 
 private theorem det_iw (w : Pl K) {ν : Fin n → ℤ} (hν : ∑ i, ν i = 0) {g : GL (Fin n) (w.adicCompletion K)} (hg : g ∈ iwCoset w ν) :
     Valued.v (g : Matrix (Fin n) (Fin n) (w.adicCompletion K)).det = 1 := by
-  obtain ⟨a, ha, b, hb, rfl⟩ := hg
-  rw [Units.val_mul, Units.val_mul, Matrix.det_mul, Matrix.det_mul, map_mul, map_mul,
-    det_int w (GLnLocal.iwahori_le_integralGL _ n ha), det_int w (GLnLocal.iwahori_le_integralGL _ n hb), Cartan.coe_diagPow,
-    Matrix.det_diagonal]
-  have hz : ∀ (a : w.adicCompletion K), a ≠ 0 → ∀ s : Finset (Fin n), ∏ i ∈ s, a ^ ν i = a ^ ∑ i ∈ s, ν i := by
-    intro a ha s
-    induction s using Finset.induction_on with
-    | empty => simp
-    | insert i s hi ih => rw [Finset.prod_insert hi, Finset.sum_insert hi, ih, zpow_add₀ ha]
-  rw [hz _ (Cartan.uniformizer_ne_zero _), hν]
-  simp
+  apply _root_.UpperTheory.ConvolutionTheory.GM.TE.det_one <;> assumption
 
 private theorem loc_bd (w : Pl K) {C : Set (GL (Fin n) (w.adicCompletion K))} (hC : IsCompact C) :
     ∃ B : ℝ, 1 ≤ B ∧ ∀ g ∈ C, locHeight g ≤ B := by
@@ -1452,11 +1411,7 @@ private theorem glue_cont {ι : Type} {R : ι → Type} [∀ i, CommRing (R i)] 
 
 private theorem cmp_cont {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] {n : ℕ} {v : Pl F}
     (w : PlacesOver E v) : Continuous (cmp (n := n) w) := by
-  refine Units.continuous_iff.2 ⟨?_, ?_⟩
-  · refine continuous_pi fun a => continuous_pi fun b => ?_
-    exact (continuous_apply w).comp (Units.continuous_val.matrix_elem a b)
-  · refine continuous_pi fun a => continuous_pi fun b => ?_
-    exact (continuous_apply w).comp (Units.continuous_coe_inv.matrix_elem a b)
+  apply _root_.cmp_continuous <;> assumption
 
 private theorem prodFn_test {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] {n : ℕ} {v : Pl F}
     (h : ∀ w : PlacesOver E v, GL (Fin n) (w.1.adicCompletion E) → ℂ) (hc : ∀ w, Continuous (h w) ∧ HasCompactSupport (h w)) :
@@ -1477,33 +1432,12 @@ private theorem prodFn_test {F E : Type} [Field F] [NumberField F] [Field E] [Nu
 private theorem prodFn_unit {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] {n : ℕ} {v : Pl F} :
     (prodFn fun w : PlacesOver E v => (GLnLocal.integralGL (w.1.adicCompletion E) n : Set _).indicator 1) =
       (unitSet E n v).indicator 1 := by
-  haveI : Fintype (PlacesOver E v) := Fintype.ofFinite _
-  funext g
-  rw [prodFn, finprod_eq_prod_of_fintype]
-  by_cases hg : g ∈ unitSet E n v
-  · rw [Set.indicator_of_mem hg]
-    exact Finset.prod_eq_one fun w _ => Set.indicator_of_mem (hg w) _
-  · rw [Set.indicator_of_notMem hg]
-    obtain ⟨w, hw⟩ := not_forall.1 hg
-    exact Finset.prod_eq_zero (Finset.mem_univ w) (Set.indicator_of_notMem hw _)
+  apply _root_.UpperTheory.ConvolutionTheory.GM.TE.unit_prod <;> assumption
 
 open scoped Pointwise in
 private theorem iwCoset_test {K : Type} [Field K] [NumberField K] {n : ℕ} (w : Pl K) (ν : Fin n → ℤ) :
     Continuous ((iwCoset w ν).indicator (1 : GL (Fin n) (w.adicCompletion K) → ℂ)) ∧ HasCompactSupport ((iwCoset w ν).indicator (1 : GL (Fin n) (w.adicCompletion K) → ℂ)) := by
-  have e : iwCoset w ν = (GLnLocal.iwahori (w.adicCompletion K) n : Set _) * {Cartan.diagPow (w.adicCompletion K) n ν} *
-      (GLnLocal.iwahori (w.adicCompletion K) n : Set _) := by
-    ext g
-    constructor
-    · rintro ⟨a, ha, b, hb, rfl⟩
-      exact Set.mul_mem_mul (Set.mul_mem_mul ha rfl) hb
-    · rintro ⟨_, ⟨a, ha, _, rfl, rfl⟩, b, hb, rfl⟩
-      exact ⟨a, ha, b, hb, rfl⟩
-  have hc : IsCompact (iwCoset w ν) := by
-    rw [e]; exact ((GLnLocal.isCompact_iwahori _ _).mul isCompact_singleton).mul (GLnLocal.isCompact_iwahori _ _)
-  have ho : IsOpen (iwCoset w ν) := by
-    rw [e]; exact (GLnLocal.isOpen_iwahori _ _).mul_left
-  exact ⟨IsClopen.continuous_indicator ⟨hc.isClosed, ho⟩ continuous_const,
-    HasCompactSupport.intro hc fun g hg => Set.indicator_of_notMem hg _⟩
+  apply _root_.UpperTheory.ConvolutionTheory.L1.CosetQuotientIntegrals.iwCoset_test <;> assumption
 
 open Classical in
 private theorem mono_split {E : Type} [Field E] [NumberField E] {n : ℕ} (κ : Finset (Pl E)) (β : Pl E × Fin n →₀ ℕ)

@@ -1,5 +1,7 @@
 module
 
+
+import Formalism.SharpRestriction.LevelLetterCocycles.KillerLevCoreOf
 public import Mathlib.RingTheory.PowerSeries.Substitution
 public import Formalism.SharpRestriction.LevelLetterCocycles.ArcLiftingSetup
 public import Mathlib.RingTheory.PowerSeries.Inverse
@@ -49,7 +51,6 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
-
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Formalism.SharpRestriction.LevelLetterCocycles.ConstantCoeffAlgHom, Formalism.SharpRestriction.LevelLetterCocycles.RepresentationCongruences.GammaPi0EqPi0MulUnit
 
@@ -266,11 +267,7 @@ theorem γD_smulA (T : LocLat G Qp LL O) (g : W.Gam) (a : LetA O n) (x : W.DD T)
   rfl
 
 theorem γA_letE (g : W.Gam) (c : ZMod n) : W.γA g (letE c) = letE c := by
-  funext i
-  change W.γ₀ g ((letE c : LetA O n) i) = (letE c : LetA O n) i
-  by_cases h : i = c
-  · subst h; simp [letE]
-  · simp [letE, Pi.single_eq_of_ne h]
+  apply _root_.Formalism.MainNotions.UnusedSlot80.KL.γA_letE <;> assumption
 
 theorem γE_ι (g : W.Gam) (a : LetA O n) :
     W.γE g (algebraMap (LetA O n) W.EE a) = algebraMap (LetA O n) W.EE (W.γA g a) := W.γE_ext g a

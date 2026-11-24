@@ -1,5 +1,6 @@
 module
 
+import Formalism.SharpRestriction.GrowthBounds.PathWeight.MdWeightMapDomain
 public import Formalism.SharpRestriction.GrowthBounds.PathWeight.GeneratorImageIsSymbol
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -59,18 +60,7 @@ variable {R : Type} [CommRing R] {ι : Type} [Fintype ι] {n : ℕ}
 
 theorem dv_pol_iff (F : MvPolynomial (ι × Fin n) R) (d : ι → ℕ) :
     F ∈ Pol R n d ↔ IsWeightedHomogeneous (letterWeight (ι := ι) (n := n)) F d := by
-  unfold Pol
-  rw [mem_restrictSupport_iff]
-  constructor
-  · intro h m hm
-    have h' : ∀ i, multideg m i = d i := h (Finset.mem_coe.2 (mem_support_iff.2 hm))
-    rw [weight_eq_multidegree_fun]; funext i; exact h' i
-  · intro h m hm
-    show ∀ i, multideg m i = d i
-    intro i
-    have := h (mem_support_iff.1 (Finset.mem_coe.1 hm))
-    rw [weight_eq_multidegree_fun] at this
-    exact congrFun this i
+  apply _root_.Formalism.MainNotions.G.symbolGeneratorData.md_pol_iff <;> assumption
 
 theorem dv_comp_zero (ψ : MvPolynomial (ι × Fin n) R) (d : ι → ℕ)
     (h : ∀ m ∈ ψ.support, (fun i => multideg m i) ≠ d) : multidegreeComponent d ψ = 0 := by
@@ -602,7 +592,7 @@ theorem dv_segment (hE : FieldMultidegreeDivisibility) (hV : F.Valid L₁ N₁) 
 
 end SegDiv
 
-theorem restDivM (hE : FieldMultidegreeDivisibility) : ∃ C : ℝ, 1 ≤ C ∧ (RestGeom → RestDivM C (C + 1) C) := by
+theorem restDivM_of_degree_bound (degreeBound : ℝ → ℝ → Prop) (hE : FieldMultidegreeDivisibility) : ∃ C : ℝ, 1 ≤ C ∧ (RestGeomWith degreeBound → RestDivMWith degreeBound C (C + 1) C) := by
   obtain ⟨C, hC, H⟩ := numeric_symbol_bound_real
   refine ⟨C, hC, fun hGeom => ?_⟩
   intro p n' r K _ _ _ _ O _ _ _ _ X deg a Y c0 c'' cStar Dd hII j dd hdd P hP
@@ -640,5 +630,8 @@ theorem restDivM (hE : FieldMultidegreeDivisibility) : ∃ C : ℝ, 1 ≤ C ∧ 
         (mStar p X.Fr (r + K) X.N₁ (p ^ X.G') (cPrime n' r X.Fr.TT.card c0 c'' cStar) : ℝ) ≤ (z : ℝ) := by
       linarith
     exact WithTop.coe_le_coe.2 (by exact_mod_cast h4)
+
+theorem restDivM (hE : FieldMultidegreeDivisibility) : ∃ C : ℝ, 1 ≤ C ∧ (RestGeom → RestDivM C (C + 1) C) := by
+  exact restDivM_of_degree_bound (fun d l => |d - l| ≤ l / 100) hE
 
 end Formalism.MainNotions.G.symbolGeneratorData

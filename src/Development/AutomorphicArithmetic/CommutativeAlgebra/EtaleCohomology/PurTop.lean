@@ -24,6 +24,7 @@ public import Development.EtaleCohomology.CohomologicalPurity.LeafLocCutAug
 public import Development.EtaleCohomology.CohomologicalPurity.LeafFstHocPf
 public import Development.AutomorphicArithmetic.CommutativeAlgebra.ProductLevelwiseOfAlexanderWhitney
 public import Development.AutomorphicArithmetic.Foundations.EtaleClopenDescent.EtaleExcisionHocolimOfLocalProperties
+import all Development.AutomorphicArithmetic.Foundations.EtaleClopenDescent.EtaleExcisionHocolimOfLocalProperties
 public import Development.AutomorphicArithmetic.Foundations.EtaleClopenDescent.HocolimAugmentationInjectiveOfPurityInputs
 public import Development.EtaleCohomology.CohomologicalPurity.FinLeafAW
 public import Development.EtaleCohomology.CohomologicalPurity.FinLeafChart
@@ -726,12 +727,7 @@ open CategoryTheory Limits AlgebraicGeometry Opposite GlobalTheory.EtC CochainCo
 namespace LateralTheory.CohomologicalPurity.TubeCut
 
 theorem hs_pull_id (q : ℕ) (P : Arrow Spc) (n i : ℤ) (x : Hs q P n i) : Hs.pull q (𝟙 P) n i x = x := by
-  apply Subtype.ext
-  change pull _ (dbl.map (𝟙 P)) _ _ x.1 = x.1
-  have e : dbl.map (𝟙 P) = 𝟙 _ := by
-    set_option synthInstance.maxHeartbeats 200000 in
-      apply pushout.hom_ext <;> (simp [dbl.map]; try rfl)
-  rw [e, pull_id]
+  apply _root_.UpperTheory.Cb.hs_pull_id <;> assumption
 
 theorem exc_iso (q : ℕ) {P' P : Arrow Spc} (e : P' ≅ P) : Exc q e.hom := fun n i =>
   Function.bijective_iff_has_inverse.2 ⟨Hs.pull q e.inv n i,
@@ -884,12 +880,7 @@ theorem opnMap_comp_RLocP {X'' X' X : Scheme.{0}} (f : X'' ⟶ X') (g : X' ⟶ X
     rw [← Functor.map_comp]
 
 theorem hs_pull_id_RLocP (q : ℕ) (P : Arrow Spc) (n i : ℤ) (x : Hs q P n i) : Hs.pull q (𝟙 P) n i x = x := by
-  apply Subtype.ext
-  change pull _ (dbl.map (𝟙 P)) _ _ x.1 = x.1
-  have e : dbl.map (𝟙 P) = 𝟙 _ := by
-    set_option synthInstance.maxHeartbeats 200000 in
-      apply pushout.hom_ext <;> (simp [dbl.map]; rfl)
-  rw [e, pull_id]
+  apply _root_.UpperTheory.Cb.hs_pull_id <;> assumption
 
 theorem LeafLocPrd_of (hCl : LeafCl) (hPR : LeafPrdRing) (hZ : LeafZ) (hAbv : LeafAbv) (hAN : LeafActNat) : LeafLocPrd := by
   intro hyp H d P V q _ hq hG

@@ -1,5 +1,6 @@
 module
 
+import all Development.AutomorphicArithmetic.Foundations.Convolution.BlockHeckeSlices.CuspidalNormBounds.Langlands
 public import Development.AutomorphicArithmetic.Foundations.Convolution.SplitEigenfunctions.OrbitMeasurability.PerCont
 public import Development.AutomorphicArithmetic.Foundations.Convolution.RealGroupAnalysis.UnitaryActions.ContinuousAdelicGL2OfContinuousEntries
 public import GroundTheory.AutomorphicForms.GL2Classical.EigenformTranslates
@@ -401,16 +402,7 @@ namespace UpperTheory.ConvolutionTheory.RankTwoDescent.Cp
 private theorem exists_form0 {K : Type} [Field K] [NumberField K] {n : ℕ} (μ : Measure (normOneGL (K := K) (n := n))) [μ.IsHaarMeasure]
     {v : LL μ} (hv : v ∈ cuspidalL2 μ) (h0 : v ≠ 0) :
     ∃ V, IsSummand μ V ∧ ∃ f ∈ formsIn μ V, inner ℂ v (clsL μ f) ≠ 0 := by
-  by_contra hc
-  push Not at hc
-  have h1 : (⨆ V : {V // IsSummand μ V}, V.1) ≤ (ℂ ∙ v)ᗮ := iSup_le fun V => by
-    rw [← (formsIrr K n μ V.1 V.2).2.2.2]
-    refine Submodule.topologicalClosure_minimal _ ?_ (Submodule.isClosed_orthogonal _)
-    rintro _ ⟨f, hf, rfl⟩
-    exact Submodule.mem_orthogonal_singleton_iff_inner_right.2 (hc _ V.2 f hf)
-  have h2 := Submodule.topologicalClosure_minimal _ h1 (Submodule.isClosed_orthogonal _)
-  rw [summandsSpan K n μ] at h2
-  exact h0 (inner_self_eq_zero.1 (Submodule.mem_orthogonal_singleton_iff_inner_right.1 (h2 hv)))
+  apply _root_.UpperTheory.ConvolutionTheory.BW.exists_form0 <;> assumption
 
 private theorem oneInt (f : (AutomorphicForm.UPos 2 1 → A ℚ) → ℂ) :
     ∫ y in GroundTheory.Global.fundamentalSet ℚ, f (fun _ => y) ∂GroundTheory.Global.adeleMeasure ℚ =

@@ -1,5 +1,6 @@
 module
 
+import all Development.AutomorphicArithmetic.Foundations.Convolution.BlockEvaluation.EvalPowE
 public import Development.AutomorphicArithmetic.Foundations.Convolution.BlockEvaluation.TruncSpec
 public import Development.AutomorphicArithmetic.Foundations.Convolution.PolynomialCoefficientBounds.AevalSingleZero
 public import Development.AutomorphicArithmetic.Foundations.Convolution.PolynomialCoefficientBounds.LiftSingleAlt
@@ -176,31 +177,7 @@ private theorem ev_ren {ι ι' : Type} [Fintype ι] [Fintype ι'] [DecidableEq �
 
 private theorem eval_powE {n : ℕ} (f : ℕ) (i : Fin n) (s : Multiset ℂ) (hs : s.card = n) :
     eval (fun j : Fin n => s.esymm (j + 1)) (powE f i) = (s.map (· ^ f)).esymm (i + 1) := by
-  obtain ⟨a, rfl⟩ : ∃ a : Fin n → ℂ, s = Finset.univ.val.map a := by
-    induction s using Quotient.inductionOn with
-    | h l =>
-      have hl : l.length = n := by simpa using hs
-      subst hl
-      refine ⟨l.get, ?_⟩
-      rw [Fin.univ_val_map, List.ofFn_get]
-      rfl
-  have h1 : aeval (fun j : Fin n => esymm (Fin n) ℂ (j + 1)) (powE f i)
-      = expand f (esymm (Fin n) ℂ (i + 1)) := by
-    rw [← esymmAlgHom_apply]
-    have := congrArg Subtype.val
-      ((esymmAlgEquiv (Fin n) ℂ (Fintype.card_fin n)).apply_symm_apply
-        ⟨expand f (esymm (Fin n) ℂ (i + 1)), fun w => by rw [rename_expand, esymm_isSymmetric]⟩)
-    exact this
-  have h2 := congrArg (aeval a) h1
-  rw [← AlgHom.comp_apply, comp_aeval, ← AlgHom.comp_apply] at h2
-  have h3 : (aeval a : MvPolynomial (Fin n) ℂ →ₐ[ℂ] ℂ).comp (expand f) = aeval fun r => a r ^ f := by
-    apply MvPolynomial.algHom_ext
-    intro r
-    simp
-  rw [h3] at h2
-  simp only [aeval_esymm_eq_multiset_esymm] at h2
-  rw [Multiset.map_map, ← coe_aeval_eq_eval]
-  exact h2
+  apply _root_.eval_powE <;> assumption
 
 private theorem map_eq_cm {κ R R' : Type} [CommRing R] [CommRing R'] (φ : R →+* R') (P : MvPolynomial κ R) :
     map φ P = cm φ P := by

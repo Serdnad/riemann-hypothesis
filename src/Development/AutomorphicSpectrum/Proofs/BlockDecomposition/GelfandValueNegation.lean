@@ -1,5 +1,6 @@
 module
 
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.TrETransposeEqPhiSeq
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.IsMultOfFintype
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.GelfandSeriesShiftIdentity
 public import Mathlib.RingTheory.PowerSeries.Inverse
@@ -86,18 +87,7 @@ section
 variable {A : Type} [Ring A] (N : A) (τ : ℕ → A)
 
 theorem bco_of_lt : ∀ (m j : ℕ), m < j → bco N τ m j = 0 := by
-  intro m
-  induction m with
-  | zero =>
-    intro j h
-    cases j with
-    | zero => omega
-    | succ j => simp [bco]
-  | succ m ih =>
-    intro j h
-    cases j with
-    | zero => omega
-    | succ j => rw [bco, ih j (by omega), ih (j + 1) (by omega)]; simp
+  apply _root_.GlobalTheory.CompanionTheory.WaveMult.GlTranspose.bco_eq_zero <;> assumption
 
 theorem bco_self (m : ℕ) : bco N τ m m = 1 := by
   induction m with

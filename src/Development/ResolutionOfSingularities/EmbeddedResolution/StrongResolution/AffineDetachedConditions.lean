@@ -174,17 +174,8 @@ private theorem mem_support_mul {X : Scheme.{u}} (I J : X.IdealSheafData) (x : �
     exact h2
 
 private theorem mem_support_comap {X Z : Scheme.{u}} (f : X ⟶ Z) (I : Z.IdealSheafData) (x : ↥X) :
-    x ∈ (I.comap f).support ↔ ⇑f.base x ∈ I.support := by
-  constructor
-  · intro hx
-    have h : x ∈ ((((I.comap f)).support : TopologicalSpace.Closeds ↥X) : Set ↥X) := hx
-    rw [support_comap_eq] at h
-    exact h
-  · intro hx
-    have h : x ∈ ((((I.comap f)).support : TopologicalSpace.Closeds ↥X) : Set ↥X) := by
-      rw [support_comap_eq]
-      exact hx
-    exact h
+    x ∈ (I.comap f).support ↔ ⇑f.base x ∈ I.support :=
+  _root_.AlgebraicGeometry.Scheme.IdealSheafData.mem_support_comap
 
 private theorem exists_mem_list_subset_of_isIrreducible {α : Type*} [TopologicalSpace α] {ι : Type*}
     {s : Set α} (hs : IsIrreducible s) (g : ι → Set α) :

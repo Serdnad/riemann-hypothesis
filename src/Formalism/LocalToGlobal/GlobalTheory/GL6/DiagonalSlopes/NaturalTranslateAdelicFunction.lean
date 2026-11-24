@@ -1,5 +1,7 @@
 module
 
+
+import Formalism.LocalToGlobal.SiegelLatticeTheory.FlagStabilizerTensors.RootLatticeThresholds.AllRowsRedKerA
 public import Formalism.SharpRestriction.GlobalSchurBounds.ProductFirstZerothParts
 public import Formalism.LocalToGlobal.GlobalTheory.GL6.DiamondPreservesRationalFormZero
 public import Formalism.LocalToGlobal.GlobalTheory.GL6.FrameTranslate
@@ -22,7 +24,6 @@ import Formalism.LocalToGlobal.HermitianForms.IsLocBasis
 import Mathlib.RingTheory.PiTensorProduct
 import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.RationalPointsLeHolds
 import Formalism.LocalToGlobal.GlobalTheory.GL6.PKerAtP
-
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Formalism.LocalToGlobal.GlobalTheory.GL6.CongruenceNoKernelOfLevelZeroIdentities, Formalism.LocalToGlobal.GlobalTheory.GL6.AdelicFunctionExtendsFromClasses, Formalism.LocalToGlobal.GlobalTheory.GL6.DiagonalSlopes.NaturalTranslateAdelicFunction
 
@@ -662,16 +663,7 @@ section DiaLat
 theorem hermitian_form_unitary_mul {A : Type} [CommRing A] {n : Type} [Fintype n] [DecidableEq n] (σ : A →+* A)
     (J M : Matrix n n A) (hM : Formalism.UG.cT σ M * J * M = J) (x y : n → A) :
     Formalism.UG.hform σ J (M *ᵥ x) (M *ᵥ y) = Formalism.UG.hform σ J x y := by
-  have hdot : ∀ x y : n → A, Formalism.UG.hform σ J x y = (fun i => σ (x i)) ⬝ᵥ (J *ᵥ y) := by
-    intro x y
-    simp only [Formalism.UG.hform, dotProduct, mulVec, Finset.mul_sum, mul_assoc]
-  have hσ : (fun i => σ ((M *ᵥ x) i)) = (M.map σ) *ᵥ (fun i => σ (x i)) := by
-    funext i
-
-    simp [mulVec, dotProduct, map_sum, map_mul]
-  rw [hdot, hdot, hσ, ← vecMul_transpose, ← dotProduct_mulVec]
-  simp only [mulVec_mulVec, ← Matrix.mul_assoc]
-  rw [show (M.map σ)ᵀ * J * M = J from hM]
+  apply _root_.Formalism.L2.SG.Pf.AllRowsRedKerA.hform_unit <;> assumption
 
 theorem mem_mul_lattice_iff {E : Type} [Field E] [NumberField E] {n : ℕ} (g : GL (Fin n) E)
     (L : Submodule (𝓞 E) (Fin n → E)) (x : Fin n → E) :

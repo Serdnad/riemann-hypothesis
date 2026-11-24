@@ -1,5 +1,6 @@
 module
 
+import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.SymplecticPeriodMatrixIntegrality
 public import Formalism.PeriodIntegrals.SqPair
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.SquarePairGluing.ExistsDenLe
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.SquarePairGluing.ConjTransposeMemLam
@@ -1391,26 +1392,8 @@ theorem sel_unit_of_rel (σ : R ≃+* R) {ι : Type} [Fintype ι] [DecidableEq �
 
 theorem sel_comm {ι : Type} [Fintype ι] [DecidableEq ι] {c : R} (hc : c ≠ 0)
     (g h : Matrix ι ι R) (hgh : g * h = c • 1) : h * g = c • 1 := by
-  have hdet : g.det * h.det = c ^ Fintype.card ι := by
-    rw [← Matrix.det_mul, hgh, Matrix.det_smul, Matrix.det_one, mul_one]
-  have hh0 : h.det ≠ 0 := by
-    intro h0
-    rw [h0, mul_zero] at hdet
-    exact pow_ne_zero _ hc hdet.symm
-  have key : (h * g - c • 1) * h = 0 := by
-    rw [Matrix.sub_mul, Matrix.mul_assoc, hgh, Matrix.mul_smul, Matrix.smul_mul, Matrix.mul_one,
-      Matrix.one_mul, sub_self]
-  have key2 : h.det • (h * g - c • 1) = 0 := by
-    have e := congrArg (· * h.adjugate) key
-    simp only [Matrix.zero_mul] at e
-    rw [Matrix.mul_assoc, Matrix.mul_adjugate, Matrix.mul_smul, Matrix.mul_one] at e
-    exact e
-  have e0 : h * g - c • 1 = 0 := by
-    ext i j
-    have e := congrFun (congrFun key2 i) j
-    simp only [Matrix.smul_apply, smul_eq_mul, Matrix.zero_apply] at e ⊢
-    exact (mul_eq_zero.mp e).resolve_left hh0
-  exact sub_eq_zero.mp e0
+  intros
+  apply _root_.PositivityTheory.HtPt.Rh.mul_eq_smul_one_symm <;> assumption
 
 theorem sel_inv (σ : R ≃+* R) {ι : Type} [Fintype ι] [DecidableEq ι]
     (A A' h₁ : Matrix ι ι R) (hA' : IsUnit A'.det) {c : R} (hc : c ≠ 0)

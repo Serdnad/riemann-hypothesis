@@ -1,8 +1,10 @@
 module
 
+import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.PVeryAmpleZChartSpan
 public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.StatementsVeryAmpleZFinite
 public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.PAmpleAffineGen
 import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.PAmpleTwistLocal
+import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.PVeryAmpleZFamily
 
 @[expose] public section
 
@@ -23,33 +25,15 @@ variable {S : Type u} [CommRing S] {Ω : Type w} [Field Ω] [Algebra S Ω] {N : 
 
 theorem prod_mem_pow {r : ℕ} (H : SubSystem S x Ω) {h : Fin (r + 1) → Ω} (hh : ∀ l, h l ∈ H.secs)
     (I : Chart x) (T : Finset (Fin (r + 1))) : ∏ l ∈ T, h l ∈ (H.pow T.card).sub I := by
-  classical
-  induction T using Finset.induction_on with
-  | empty => rw [Finset.prod_empty, Finset.card_empty]; exact one_mem_twistMod_zero I
-  | insert a T ha ih =>
-    rw [Finset.prod_insert ha, Finset.card_insert_of_notMem ha, mul_comm]
-    have h1 : h a ∈ (H.pow 1).sub I := by
-      rw [SubSystem.pow_sub, pow_one]
-      exact (Submodule.restrictScalars_mem _ _ _).mp ((Submodule.mem_iInf _).mp (hh a) I)
-    exact AmpleTwistLocal.mul_mem_pow H I ih 1 h1
+  intros
+  apply _root_.GroundTheory.Heights₂.Heights.Kleiman.VeryAmpleZChartSpan.prod_mem_pow <;> assumption
 
 
 omit [Module S E] [IsScalarTower S Ω E] in
 theorem smul_mem_twist_pow (F : SubSystem S x E) (H : SubSystem S x Ω) (I : Chart x) {a b : ℕ} {z : E}
     {w : Ω} (hz : z ∈ (F.twist (H.pow a)).sub I) (hw : w ∈ (H.pow b).sub I) :
     w • z ∈ (F.twist (H.pow (a + b))).sub I := by
-  change z ∈ Submodule.span _ _ at hz
-  refine Submodule.span_induction
-    (p := fun z _ => w • z ∈ (F.twist (H.pow (a + b))).sub I) ?_ ?_ ?_ ?_ hz
-  · rintro _ ⟨q, hq, y, hy, rfl⟩
-    refine Submodule.subset_span ⟨q * w, AmpleTwistLocal.mul_mem_pow H I hq b hw, y, hy, ?_⟩
-    rw [smul_smul, mul_comm]
-  · rw [smul_zero]; exact Submodule.zero_mem _
-  · intro z z' _ _ hz hz'; rw [smul_add]; exact Submodule.add_mem _ hz hz'
-  · intro t z _ hz
-    have e : w • (t • z) = t • (w • z) := by
-      rw [Subalgebra.smul_def, Subalgebra.smul_def, smul_smul, smul_smul, mul_comm]
-    rw [e]; exact Submodule.smul_mem _ t hz
+  apply _root_.GroundTheory.Heights₂.Heights.Kleiman.VeryAmpleZFamily.smul_mem_twist_pow <;> assumption
 
 
 omit [Module S E] [IsScalarTower S Ω E] in

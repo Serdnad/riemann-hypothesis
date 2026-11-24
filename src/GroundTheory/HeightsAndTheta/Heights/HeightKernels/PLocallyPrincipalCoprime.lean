@@ -117,7 +117,18 @@ end LocallyPrincipalCoprimeAlt
 
 
 open LocallyPrincipalCoprimeAlt in
-theorem LocallyPrincipalCoprime.proof : LocallyPrincipalCoprime.Statement := by
+/-- Produce a coprime ideal representative over a characteristic-zero field. -/
+theorem LocallyPrincipalCoprime.exists_coprime_rep :
+  ∀ (L : Type) [Field L] [CharZero L] (B : Subring L) (M : AddSubgroup L) (ι : Type) [Fintype ι]
+    (a : ι → L),
+    Module.Finite ℤ B →
+    (∀ b ∈ B, ∀ z ∈ M, b * z ∈ M) →
+    (∀ i, a i ∈ M) →
+    (∀ i, ∃ c ∈ B, c ≠ 0 ∧ c * a i ∈ B) →
+    (∀ m : Ideal B, m.IsMaximal → ∃ i, ∀ z ∈ M, ∃ b c : B, b ∉ m ∧ (b : L) * z = c * a i) →
+    M ≠ ⊥ → ∀ s : B, s ≠ 0 →
+      ∃ (β δ : B) (I : Ideal B), β ≠ 0 ∧ δ ≠ 0 ∧ I ⊔ Ideal.span {s} = ⊤ ∧
+        ∀ x : L, x ∈ M ↔ ∃ y ∈ I, (β : L) * x = δ * y := by
   classical
   intro L _ _ B M ι _ a hfin hBM haM hden hloc hM s hs
   obtain ⟨m₀, hm₀⟩ := Ideal.exists_maximal B
@@ -235,5 +246,7 @@ theorem LocallyPrincipalCoprime.proof : LocallyPrincipalCoprime.Statement := by
       have hx : x = (w : L) * γ⁻¹ := by rw [← h2]; field_simp
       rw [hx]
       exact (memI w).mp hwI
+theorem LocallyPrincipalCoprime.proof : LocallyPrincipalCoprime.Statement :=
+  fun L _ _ => LocallyPrincipalCoprime.exists_coprime_rep L
 
 end GroundTheory.Heights₂.Heights

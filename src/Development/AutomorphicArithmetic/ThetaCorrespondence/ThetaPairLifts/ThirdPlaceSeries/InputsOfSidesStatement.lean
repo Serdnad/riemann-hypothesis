@@ -470,20 +470,8 @@ namespace GlobalTheory.SourceTrans
 variable {D : D7}
 
 theorem idem_mul_idemAt {Q : Finset (Pl D.host.E)} (hQ : SplitSet Q) {PP : Pl D.host.E} (hP : PP ∈ Q) :
-    (idem Q + cA D (idem Q)) * (idemAt PP + cA D (idemAt PP)) = idemAt PP + cA D (idemAt PP) := by
-  have he : idemAt PP * idemAt PP = idemAt PP := (hQ.isIdemAt hP).1.1
-  have h1 : idem Q * idemAt PP = idemAt PP := by
-    rw [idem, Finset.sum_mul, Finset.sum_eq_single PP (fun q hq hne => hQ.mul_eq_zero hq hP (Ne.symm hne))
-      (fun h => absurd hP h), he]
-  have h2 : idem Q * cA D (idemAt PP) = 0 := by
-    rw [idem, Finset.sum_mul]
-    exact Finset.sum_eq_zero fun q hq => hQ.mul_conj hq hP
-  have h3 : cA D (idem Q) * idemAt PP = 0 := by
-
-    rw [idem, map_sum, Finset.sum_mul]
-    exact Finset.sum_eq_zero fun q hq => by rw [mul_comm]; exact hQ.mul_conj hP hq
-  have h4 : cA D (idem Q) * cA D (idemAt PP) = cA D (idemAt PP) := by rw [← map_mul, h1]
-  rw [add_mul, mul_add, mul_add, h1, h2, h3, h4, add_zero, zero_add]
+    (idem Q + cA D (idem Q)) * (idemAt PP + cA D (idemAt PP)) = idemAt PP + cA D (idemAt PP) :=
+  _root_.GlobalTheory.TypeSupportLift.idem_add_conj_mul hQ hP
 
 theorem suppAt_idem_of {Q : Finset (Pl D.host.E)} (hQ : SplitSet Q) {PP : Pl D.host.E} (hP : PP ∈ Q) {V : HSp D}
     {g : GA D V} (h : SuppAt (idemAt PP) V g) : SuppAt (idem Q) V g := by

@@ -359,7 +359,43 @@ theorem natCast_mem_Mb {H : Geo.Tor.Host D.host.E} (l : Geo.Tor.Level H) : (l.M 
     rw [show l.Mb * Mfr l = _ from l.prod]; exact Ideal.mem_span_singleton_self _
   exact Ideal.mul_le_left hM
 
-theorem step (ψ : AddChar (AF D.host.F) ℂ) (hψ : IsStdChar D ψ (-1)) (V W : HSp D) (hV : V.gram = 1) {r : ℕ}
+namespace Internal
+
+theorem one_sub_smul_mem_latO_pow (V W : HSp D) (LV : Set (Fin V.rank → D.host.E)) (LW : Set (Fin W.rank → D.host.E))
+    (e : AE D) (P : Finset (Formalism.L2.DIV.Pl D.host.E)) (he : IsIdemSum e P) (x : WO V W)
+    (hx : ∀ s : 𝓞 D.host.E, (∀ PP ∈ P, s ∈ PP.asIdeal) →
+      ∃ j : ℕ, incA D ((s ^ j : 𝓞 D.host.E) : D.host.E) • x ∈ (latO V W LV LW fun _ => True)) :
+    (1 - e) • x ∈ (latO V W LV LW fun _ => True) := by
+  obtain ⟨y, hy0, hy, hw⟩ := GlobalTheory.OffIdem.exists_den he
+  obtain ⟨j, hj⟩ := hx y hy
+  rw [show ((y ^ j : 𝓞 D.host.E) : D.host.E) = (y : D.host.E) ^ j from map_pow (algebraMap (𝓞 D.host.E) D.host.E) y j] at hj
+  have h1 : e * e = e := GlobalTheory.PlaceDatum.idemSum_mul_self he
+  have h2 : (1 - e) * (1 - e) = 1 - e := GlobalTheory.OffIdem.one_sub_mul_self (R := AE D) h1
+  have hi : finPart D (1 - e) ∈ intAE D := GlobalTheory.AdIdem.idempotent_mem_intAE D _ (by rw [← RingHom.map_mul, h2])
+  set f : AE D := (1 - e) * incA D ((y : D.host.E)⁻¹) with hf
+  have hpow : ∀ n : ℕ, ∀ z ∈ (latO V W LV LW fun _ => True), f ^ n • z ∈ (latO V W LV LW fun _ => True) := by
+    intro n
+    induction n with
+    | zero => intro z hz; rwa [pow_zero, one_smul]
+    | succ n ih =>
+      intro z hz
+      rw [pow_succ', mul_smul]
+      exact GlobalTheory.LatticeStable.smul_mem_latO D V W LV LW _ _ hw _ (ih z hz)
+  have hp : ∀ n : ℕ, (1 - e) * (1 - e) ^ n = 1 - e := by
+    intro n
+    induction n with
+    | zero => rw [pow_zero, mul_one]
+    | succ n ih => rw [pow_succ, ← mul_assoc, ih, h2]
+  have hyy : incA D ((y : D.host.E)⁻¹) * incA D (y : D.host.E) = 1 := by
+    rw [← RingHom.map_mul, inv_mul_cancel₀ hy0, RingHom.map_one]
+  have key : (1 - e) * (f ^ j * incA D ((y : D.host.E) ^ j)) = 1 - e := by
+    rw [map_pow, ← mul_pow, hf, mul_assoc, hyy, mul_one, hp]
+  have := GlobalTheory.LatticeStable.smul_mem_latO D V W LV LW _ _ hi _ (hpow j _ hj)
+  rwa [smul_smul, smul_smul, mul_assoc, key] at this
+
+end Internal
+
+theorem step_of_pow (ψ : AddChar (AF D.host.F) ℂ) (hψ : IsStdChar D ψ (-1)) (V W : HSp D) (hV : V.gram = 1) {r : ℕ}
     (hr : W.rank = r) (ΛV : Submodule (𝓞 D.host.E) (Fin V.rank → D.host.E))
     (ΛW : Submodule (𝓞 D.host.E) (Fin W.rank → D.host.E)) (a1 : (ΛV : Set (Fin V.rank → D.host.E)) = L0c D V)
     (a2 : (ΛW : Set (Fin W.rank → D.host.E)) = L0c D W) (a3 : IsSelfDualC V ΛV) (a4 : IsSelfDualC W ΛW)
@@ -373,7 +409,7 @@ theorem step (ψ : AddChar (AF D.host.F) ℂ) (hψ : IsStdChar D ψ (-1)) (V W :
     (hΛ : ∀ v, v ∈ Λ.La ↔ (fun j => star (v j)) ∈ Bridge.hLat V (fin V h)) (hT : Λ.TrivAt l.M) (hL : Λ.LevOK N l.M)
     (hmk : MarkAd l W hr ι k mk) (Y : (Fin V.rank → LevQ Dw l) → Matrix (Fin V.rank) (Fin r) D.host.E)
     (hY : IsRoots l (latR hr (latG W k)) mk N Y) (q : Fin V.rank → LevQ Dw l)
-    (hq : ∀ s : 𝓞 D.host.E, (∀ PP ∈ P, s ∈ PP.asIdeal) → ∀ b, ∃ z : Dw.La, s • (cSep l • levRep (q b)) = l.M • z)
+    (hq : ∀ s : 𝓞 D.host.E, (∀ PP ∈ P, s ∈ PP.asIdeal) → ∃ j : ℕ, ∀ b, ∃ z : Dw.La, s ^ j • (cSep l • levRep (q b)) = l.M • z)
     (γ : Matrix (Fin W.rank) (Fin V.rank) D.host.E) (u : WO V W) (hγ : colsR hr γ = δ • Y q) (hu : IsFinOf V W γ u) :
     ∃ c₀ ∈ latO V W (ΛV : Set (Fin V.rank → D.host.E)) (ΛW : Set (Fin W.rank → D.host.E)) fun _ => True,
       u = actO V W h k (Matrix.of fun a b => e * incA D ((δ : D.host.E) * ι (cSep l • levRep (q b)) a / (l.M : D.host.E))) +
@@ -521,10 +557,35 @@ theorem step (ψ : AddChar (AF D.host.F) ℂ) (hψ : IsStdChar D ψ (-1)) (V W :
     (nsmul_mem_latO V W _ _ _ N (nsmul_std Λ.La _ hΛ N (hN.trans inf_le_left)))
     (nsmul_mem_latO V W _ _ _ k₀ (nsmul_std Λ.La _ hΛ k₀ hk₁)) hk₀ l.odd hMN
     (idem_div_mem he 2 fun PP hPP => (hP PP hPP).2) u _ h1
-    (GlobalTheory.T.one_sub_idempotent_smul_mem_lattice D V W _ _ e P he _ fun s hs => hX s (hq s hs)) hMX _ w hw hw' s hs0 hsi w₂ hw₂ hw₂'
+    (Internal.one_sub_smul_mem_latO_pow V W _ _ e P he _ fun s hs => (hq s hs).imp fun j hj => hX (s ^ j) hj) hMX _ w hw hw' s hs0 hsi w₂ hw₂ hw₂'
   obtain ⟨c₀, hc₀, rfl⟩ := (m3 c).1 hc
   rw [hy, actO_smul V W h k e f1]
   exact ⟨c₀, hc₀, hc1, hc2⟩
+
+theorem step (ψ : AddChar (AF D.host.F) ℂ) (hψ : IsStdChar D ψ (-1)) (V W : HSp D) (hV : V.gram = 1) {r : ℕ}
+    (hr : W.rank = r) (ΛV : Submodule (𝓞 D.host.E) (Fin V.rank → D.host.E))
+    (ΛW : Submodule (𝓞 D.host.E) (Fin W.rank → D.host.E)) (a1 : (ΛV : Set (Fin V.rank → D.host.E)) = L0c D V)
+    (a2 : (ΛW : Set (Fin W.rank → D.host.E)) = L0c D W) (a3 : IsSelfDualC V ΛV) (a4 : IsSelfDualC W ΛW)
+    (a5 : (ΛV : Set (Fin V.rank → D.host.E)) = (Formalism.L2.Pj.stdLat D.host.E V.rank : Set (Fin V.rank → D.host.E)))
+    {H : Geo.Tor.Host D.host.E} {Dw : Datum H} (l : Geo.Tor.Level H)
+    (ι : Dw.La →ₗ[𝓞 D.host.E] (Fin W.rank → D.host.E)) (hι : LatEmb W ι) (δ : ℤ)
+    (P : Finset (Formalism.L2.DIV.Pl D.host.E)) (e : AE D) (he : IsIdemSum e P)
+    (hP : ∀ PP ∈ P, l.Mb ≤ PP.asIdeal ∧ (2 : 𝓞 D.host.E) ∉ PP.asIdeal) (bad N : ℕ) (h : GA D V) (k : GA D W)
+    (Λ : GenLat D.host.E V.rank) (mk : Dw.La →ₗ[𝓞 D.host.E] (Fin r → D.host.E))
+    (hbad : ∀ PP ∈ P, ((bad : ℕ) : 𝓞 D.host.E) ∈ PP.asIdeal) (hh : SplitOffBad V bad h)
+    (hΛ : ∀ v, v ∈ Λ.La ↔ (fun j => star (v j)) ∈ Bridge.hLat V (fin V h)) (hT : Λ.TrivAt l.M) (hL : Λ.LevOK N l.M)
+    (hmk : MarkAd l W hr ι k mk) (Y : (Fin V.rank → LevQ Dw l) → Matrix (Fin V.rank) (Fin r) D.host.E)
+    (hY : IsRoots l (latR hr (latG W k)) mk N Y) (q : Fin V.rank → LevQ Dw l)
+    (hq : ∀ s : 𝓞 D.host.E, (∀ PP ∈ P, s ∈ PP.asIdeal) → ∀ b, ∃ z : Dw.La, s • (cSep l • levRep (q b)) = l.M • z)
+    (γ : Matrix (Fin W.rank) (Fin V.rank) D.host.E) (u : WO V W) (hγ : colsR hr γ = δ • Y q) (hu : IsFinOf V W γ u) :
+    ∃ c₀ ∈ latO V W (ΛV : Set (Fin V.rank → D.host.E)) (ΛW : Set (Fin W.rank → D.host.E)) fun _ => True,
+      u = actO V W h k (Matrix.of fun a b => e * incA D ((δ : D.host.E) * ι (cSep l • levRep (q b)) a / (l.M : D.host.E))) +
+        2 • actO V W h k c₀ ∧
+      ψ (symplOH V W (actO V W h k
+        (Matrix.of fun a b => e * incA D ((δ : D.host.E) * ι (cSep l • levRep (q b)) a / (l.M : D.host.E))))
+        (2 • actO V W h k c₀)) = 1 := by
+  exact step_of_pow ψ hψ V W hV hr ΛV ΛW a1 a2 a3 a4 a5 l ι hι δ P e he hP bad N h k Λ mk hbad hh hΛ hT hL hmk Y hY q
+    (fun s hs => ⟨1, by simpa only [pow_one] using hq s hs⟩) γ u hγ hu
 
 end GlobalTheory.AdTh.MovedDatum
 end -- clump:auto

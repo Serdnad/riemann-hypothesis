@@ -1,5 +1,6 @@
 module
 
+import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.CmBridge
 public import Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms₂.ExistsSpanFormsNeBot
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.ExpoConjOfIsCsd
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FiniteDimensionalSpanCompactOrbitLieDerivative
@@ -43,6 +44,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsFiniteDimensionalSpaceAutomorphicSmoothing
 
 @[expose] public section
 
@@ -85,19 +87,7 @@ theorem level_of_le {φ ψ : Sm E a} (h : IsOpen {k | finRep E a k φ = φ})
   isOpen_stab_of_mem_nhds _ _ (Filter.mem_of_superset (h.mem_nhds (by simp)) fun k hk => hle k hk)
 
 theorem height_mul_le_const (c : GL (Fin a) (Cinf E)) : ∃ B : ℝ, 1 ≤ B ∧ ∀ y, height (y * c) ≤ B * height y := by
-  refine ⟨1 + ‖rmul (toL c.val)‖ + ‖lmul (toL (c⁻¹).val)‖, by linarith [norm_nonneg (rmul (toL c.val)), norm_nonneg (lmul (toL (c⁻¹).val))], fun y => ?_⟩
-  have h1 : toL (y * c).val = rmul (toL c.val) (toL y.val) := rfl
-  have h2 : toL ((y * c)⁻¹).val = lmul (toL (c⁻¹).val) (toL (y⁻¹).val) := by
-    rw [_root_.mul_inv_rev]; rfl
-  have e1 := (rmul (toL c.val)).le_opNorm (toL y.val)
-  have e2 := (lmul (toL (c⁻¹).val)).le_opNorm (toL (y⁻¹).val)
-  have n1 := norm_nonneg (toL y.val)
-  have n2 := norm_nonneg (toL (y⁻¹).val)
-  have n3 := norm_nonneg (rmul (toL c.val))
-  have n4 := norm_nonneg (lmul (toL (c⁻¹).val))
-  unfold height
-  rw [h1, h2]
-  nlinarith
+  apply _root_.GlobalTheory.AutGrowth.SmoothFinite.height_mul_le <;> assumption
 
 theorem growth_mul_const {f : GL (Fin a) (Cinf E) → ℂ} (c : GL (Fin a) (Cinf E))
     (h : ∃ (C : ℝ) (N : ℕ), ∀ y, ‖f y‖ ≤ C * height y ^ N) :
@@ -113,83 +103,7 @@ theorem growth_mul_const {f : GL (Fin a) (Cinf E) → ℂ} (c : GL (Fin a) (Cinf
   exact mul_le_mul_of_nonneg_left (pow_le_pow_left₀ (by linarith [one_le_height (y * c)]) (hB' y) N) C0
 
 theorem isCuspForm_act' (hP : GlobalTheory.Published.AutomorphicFormsFiniteGL) (o : Op E a) (φ : Sm E a) (h : IsCuspForm φ) : IsCuspForm (act o φ) := by
-  obtain ⟨hA, hC⟩ := h
-  cases o with
-  | fin k =>
-    refine ⟨⟨fun γ g => ?_, ?_, ?_, ?_, fun g => ?_⟩, ?_⟩
-    · change φ.1 (ratGL E a γ * g * finGL E a k) = φ.1 (g * finGL E a k)
-      rw [mul_assoc, hA.left]
-    · have e : {k' | finRep E a k' (finRep E a k φ) = finRep E a k φ} =
-          (fun k' => k⁻¹ * k' * k) ⁻¹' {k' | finRep E a k' φ = φ} := by
-        ext k'
-        simp only [Set.mem_setOf_eq, Set.mem_preimage, map_mul]
-        constructor
-        · intro e
-          rw [Module.End.mul_apply, Module.End.mul_apply, e, ← Module.End.mul_apply, ← map_mul, inv_mul_cancel,
-            map_one, Module.End.one_apply]
-        · intro e
-          have := congrArg (finRep E a k) e
-          rwa [Module.End.mul_apply, Module.End.mul_apply, ← Module.End.mul_apply (finRep E a k), ← map_mul,
-            mul_inv_cancel, map_one, Module.End.one_apply] at this
-      change IsOpen {k' | finRep E a k' (finRep E a k φ) = finRep E a k φ}
-      rw [e]
-      exact hA.level.preimage ((continuous_const.mul continuous_id).mul continuous_const)
-    · have := hA.kfin
-      refine Submodule.finiteDimensional_of_le (S₂ := (Submodule.span ℂ (Set.range fun c => cptRep E a c φ)).map
-        (finRep E a k)) (Submodule.span_le.2 ?_)
-      rintro _ ⟨c, rfl⟩
-      exact ⟨_, Submodule.subset_span ⟨c, rfl⟩, (LinearMap.congr_fun (_root_.GlobalTheory.AutGrowth.SmoothFinite.fin_cpt_comm k c) φ)⟩
-    · exact zfin_of_comm _ (fun z hz => zalg_comm_fin k hz) hA.zfin
-    · obtain ⟨C, N, h1⟩ := hA.growth (g * finGL E a k)
-      refine ⟨C, N, fun y => ?_⟩
-      change ‖φ.1 (g * infGL E a y * finGL E a k)‖ ≤ _
-      rw [mul_assoc, infGL_comm, ← mul_assoc]
-      exact h1 y
-    · intro r h0 h1 _ _ μ 𝓕 hμ hF g
-      change ∫ x in 𝓕, φ.1 (unip x * g * finGL E a k) ∂μ = 0
-      simp_rw [mul_assoc]
-      exact hC r h0 h1 μ 𝓕 hμ hF (g * finGL E a k)
-  | cpt c =>
-    refine ⟨⟨fun γ g => ?_, ?_, ?_, ?_, fun g => ?_⟩, ?_⟩
-    · change φ.1 (ratGL E a γ * g * infGL E a (Unitary.toUnits c)) = φ.1 (g * infGL E a (Unitary.toUnits c))
-      rw [mul_assoc, hA.left]
-    · exact level_of_le hA.level fun k hk => by
-        change finRep E a k (cptRep E a c φ) = cptRep E a c φ
-        rw [← Module.End.mul_apply, _root_.GlobalTheory.AutGrowth.SmoothFinite.fin_cpt_comm, Module.End.mul_apply, hk]
-    · have := hA.kfin
-      refine Submodule.finiteDimensional_of_le (S₂ := Submodule.span ℂ (Set.range fun c => cptRep E a c φ))
-        (Submodule.span_le.2 ?_)
-      rintro _ ⟨c', rfl⟩
-      refine Submodule.subset_span ⟨c' * c, ?_⟩
-      change _ = (cptRep E a c' * cptRep E a c) φ
-      rw [← map_mul]
-    · exact zfin_of_comm _ (fun z hz => _root_.GlobalTheory.ZalgCpt.zalg_comm_cptRep E a c z hz) hA.zfin
-    · obtain ⟨C, N, h1⟩ := growth_mul_const (Unitary.toUnits c) (hA.growth g)
-      refine ⟨C, N, fun y => ?_⟩
-      change ‖φ.1 (g * infGL E a y * infGL E a (Unitary.toUnits c))‖ ≤ _
-      rw [mul_assoc, ← map_mul]
-      exact h1 y
-    · intro r h0 h1 _ _ μ 𝓕 hμ hF g
-      change ∫ x in 𝓕, φ.1 (unip x * g * infGL E a (Unitary.toUnits c)) ∂μ = 0
-      simp_rw [mul_assoc]
-      exact hC r h0 h1 μ 𝓕 hμ hF (g * infGL E a (Unitary.toUnits c))
-  | lie X =>
-    refine ⟨⟨fun γ g => ?_, ?_, _root_.GlobalTheory.CuspRep.KFin.kfin_lie E a X φ hA.kfin, zfin_of_comm _ (fun z hz => _root_.GlobalTheory.CuspRep.Zalg_mul_lie E a X z hz) hA.zfin, GlobalTheory.AutGrowth.lie_growth_of_finite hP E a X φ hA⟩,
-      _root_.GlobalTheory.CuspRep.isCuspidal_lie_of_isCuspForm E a X φ ⟨hA, hC⟩⟩
-    · change lieD X φ.1 (ratGL E a γ * g) = lieD X φ.1 g
-      have e : chart φ.1 (ratGL E a γ * g) = chart φ.1 g := by
-        funext x
-        unfold chart
-        split_ifs
-        · rw [mul_assoc, hA.left]
-        · rfl
-      unfold lieD
-      rw [e]
-    · exact level_of_le hA.level fun k hk => by
-        change finRep E a k (lie E a X φ) = lie E a X φ
-        change (rt E a (finGL E a k) * lie E a X) φ = _
-        rw [← lie_rt_fin, Module.End.mul_apply]
-        exact congrArg (lie E a X) hk
+  apply _root_.UpperTheory.V.Cm.isCuspForm_act <;> assumption
 
 end GlobalTheory.CuspStabFin
 

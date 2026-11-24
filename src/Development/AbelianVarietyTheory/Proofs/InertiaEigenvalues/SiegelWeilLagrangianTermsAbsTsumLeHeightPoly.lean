@@ -60,6 +60,7 @@ import Mathlib.Tactic.ReduceModChar
 public import Development.AbelianVarietyTheory.BlockTheory.TwistedDiscreteSeries.ConjugateAdjointDagger
 public import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.SqNormIntegralFundamentalDomainEqL2NormSq
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.DblApply
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.RelativeHeightEntryLeAdelicHeightGL
 
 @[expose] public section
 
@@ -96,14 +97,7 @@ theorem absNorm_le_sq {σ : E →ₐ[F] E} (hσ : IsCMExt F E σ) (v : HeightOne
   exact (absFin_mul_le F v _ _).trans (mul_le_mul' le_rfl hs)
 
 theorem entry_le_opNorm {n : Type} [Fintype n] [DecidableEq n] (y : Matrix n n ℂ) (i j : n) : ‖y i j‖₊ ≤ opNorm y := by
-  have h1 := (Matrix.toEuclideanCLM (n := n) (𝕜 := ℂ) y).le_opNNNorm (EuclideanSpace.single j 1)
-  have h2 := PiLp.norm_apply_le (Matrix.toEuclideanCLM (n := n) (𝕜 := ℂ) y (EuclideanSpace.single j 1)) i
-  have h3 : (Matrix.toEuclideanCLM (n := n) (𝕜 := ℂ) y (EuclideanSpace.single j 1)) i = y i j := by
-    change ∑ k, y i k * (EuclideanSpace.single j (1 : ℂ)) k = _
-    simp
-  rw [h3] at h2
-  rw [PiLp.nnnorm_single, nnnorm_one, mul_one] at h1
-  exact (show ‖y i j‖₊ ≤ _ from h2).trans h1
+  apply _root_.GlobalTheory.RatCount.nnnorm_entry_le_opNorm <;> assumption
 
 theorem absE_le_heightGL {σ : E →ₐ[F] E} (hσ : IsCMExt F E σ) (n : ℕ) :
     ∃ C : ℝ≥0, ∀ (x : GL (Fin (n + n)) (AF F ⊗[F] E)) (u : (AF F ⊗[F] E)ˣ),

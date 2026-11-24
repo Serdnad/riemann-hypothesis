@@ -1,5 +1,6 @@
 module
 
+import Development.WeilBound.RepresentationTheoryGL.RegularisedSiegelWeil.SingularNullSets.LGoodEvA
 public import Development.WeilBound.RepresentationTheoryGL.RegularisedSiegelWeil.SingularNullSets.WeakApproximationFinitePlace
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -67,24 +68,8 @@ theorem repr_map' {F E R R' ι : Type} [Field F] [Field E] [Algebra F E] [CommRi
   | tmul a e => simp [Algebra.TensorProduct.basis_repr_tmul]
 
 theorem ae_ext (z z' : AE D) (hi : ∀ w, compInf D.host.F D.host.E w z = compInf D.host.F D.host.E w z')
-    (hf : ∀ v, cv D v z = cv D v z') : z = z' := by
-  let b := Module.Basis.ofVectorSpace D.host.F D.host.E
-  apply (Algebra.TensorProduct.basis (AF D.host.F) b).repr.injective
-  refine Finsupp.ext fun k => Prod.ext ?_ ?_
-  · funext w
-    have h1 := repr_map' (evInf D.host.F w) b z k
-    have h2 := repr_map' (evInf D.host.F w) b z' k
-    have h : Algebra.TensorProduct.map (evInf D.host.F w) (AlgHom.id D.host.F D.host.E) z =
-        Algebra.TensorProduct.map (evInf D.host.F w) (AlgHom.id D.host.F D.host.E) z' := hi w
-    rw [h, h2] at h1
-    exact h1.symm
-  · refine FiniteAdeleRing.ext _ fun v => ?_
-    have h1 := repr_map' (evFin D.host.F v) b z k
-    have h2 := repr_map' (evFin D.host.F v) b z' k
-    have h : Algebra.TensorProduct.map (evFin D.host.F v) (AlgHom.id D.host.F D.host.E) z =
-        Algebra.TensorProduct.map (evFin D.host.F v) (AlgHom.id D.host.F D.host.E) z' := hf v
-    rw [h, h2] at h1
-    exact h1.symm
+    (hf : ∀ v, cv D v z = cv D v z') : z = z' :=
+  _root_.PositivityTheory.Rg.Rsw.L.LGoodEv.ae_ext z z' hi hf
 
 
 open Classical in

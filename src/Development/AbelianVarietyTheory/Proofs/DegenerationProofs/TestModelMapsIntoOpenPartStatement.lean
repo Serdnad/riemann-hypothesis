@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.ExistsGeometricTestMapClassicalPointStatement
 public import Development.AbelianVarietyTheory.Definitions.Degenerations.BaseFacts
 public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.ExistsNeZeroOfLe
 public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.ImmByWeightZeroStatement
@@ -155,15 +156,7 @@ theorem big_of_big (ρ : S.Real) (h : S.Big) : Big S.g S.N (S.r * S.N) := by
 variable {p : ℕ} [Fact p.Prime] {y₀ : S.R →+* PadicAlgCl p}
 
 theorem isLocalHom_j (u : ρ.UTest p y₀) : IsLocalHom u.j := by
-  refine ⟨fun a ha => ?_⟩
-  obtain ⟨b, hb⟩ := ha.exists_right_inv
-  have hb' : algebraMap (FractionRing u.V) (PadicAlgCl p) (algebraMap u.V _ a) * b = 1 := congrArg Subtype.val hb
-  have h0 : algebraMap u.V (FractionRing u.V) a ≠ 0 := fun h => by simp [h] at hb'
-  obtain ⟨c, hc⟩ := (u.norm_le (algebraMap u.V _ a)⁻¹).1 (by
-    rw [map_inv₀, ← eq_inv_of_mul_eq_one_right hb']
-    exact (mem_OO_iff _).1 b.2)
-  refine IsUnit.of_mul_eq_one c (IsFractionRing.injective u.V (FractionRing u.V) ?_)
-  rw [map_mul, hc, mul_inv_cancel₀ h0, map_one]
+  apply _root_.GlobalTheory.ZH.TestMap.isLocalHom_j <;> assumption
 
 theorem mem_range_or (u : ρ.UTest p y₀) (s : Sp u.V) :
     s ∈ Set.range (jK u.V) ∨ s ∈ Set.range (rPt p ≫ spMap u.j) := by

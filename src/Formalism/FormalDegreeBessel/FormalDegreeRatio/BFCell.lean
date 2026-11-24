@@ -1,5 +1,6 @@
 module
 
+import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.WeightedLimitGauge.RhsTest
 import Development.AbelianVarietyTheory.Proofs.FoundationProofs.BigCellMemUnitary
 public import Formalism.FormalDegreeBessel.StatementBF
 public import Formalism.FormalDegreeBessel.FormalDegreeRatio.GBasic
@@ -155,19 +156,7 @@ lemma mid_mid (p q : Fin (k + 1)) : bigCell k r c μ (wI k r p) (wI k r q) = μ 
 lemma sum_mid (f : Fin (2 * r + k + 1) → ℂ)
     (hf : ∀ p : Fin (2 * r + k + 1), (p.val < r ∨ r + k < p.val) → f p = 0) :
     ∑ p, f p = ∑ q : Fin (k + 1), f (wI k r q) := by
-  have emb : Function.Injective (wI k r) := by
-    intro a b h; apply Fin.ext; have := congrArg Fin.val h; simp only [wI] at this; omega
-  have hm : ∑ q : Fin (k + 1), f (wI k r q) = ∑ x ∈ Finset.univ.map ⟨wI k r, emb⟩, f x := by
-    rw [Finset.sum_map]; rfl
-  rw [hm]
-  symm
-  apply Finset.sum_subset (Finset.subset_univ _)
-  intro p _ hp
-  apply hf
-  by_contra hlt
-  push Not at hlt
-  exact hp (Finset.mem_map.2 ⟨⟨p.val - r, by omega⟩, Finset.mem_univ _,
-    Fin.ext (by show r + (p.val - r) = p.val; omega)⟩)
+  apply _root_.PI.RhsWLim.W.sum_wb <;> assumption
 
 end BruhatBigCell
 

@@ -67,6 +67,8 @@ import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.GramMapMulIn
 import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsCharFamIsVacVec
 import Mathlib.Tactic.ENatToNat
 import Std.Tactic.BVDecide.Normalize.BitVec
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ThetaVectorNeZero
+import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.PolynomialModelIsometry.ModelMap
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExtremalNegativeSets, Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsExtremalUnitVectorSameHighestImage, Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsExtremalUnitVectorSameHighestImageStatement, Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsNonvanishingFiniteDatumDefiniteLiftStatement, Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.FockPolynomialVectorMaximalCompactBasisSubstitutStatement, Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.FockPolynomialVectorsInjectiveNonzeroVacuumStatement, Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.LowestKTypeSmoothVectorsIsKStable, Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.LowestKTypeSmoothVectorsIsKStableStatement, Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.MinorProductTorusWeightBlockTranslates, Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.MinorProductTorusWeightBlockTranslatesStatement, Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.SchrodingerIntertwinerInjectiveSchwartzBruhatStatement, Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.PureTensorOSmul
@@ -872,29 +874,7 @@ theorem thPVec_ne_zero {ψ : AddChar (AF D.host.F) ℂ} {θ : InfFam D} {S T : H
     {βS : GL (Fin S.rank) (Datum.EAf D)} {βT : GL (Fin T.rank) (Datum.EAf D)} {Pg Q : Finset (Pl D.host.E)}
     {ξ : ∀ PP : Pl D.host.E, (kP PP)ˣ →* ℂˣ} {f₀ f : WO S T → ℂ} (hS : IsSelfDualC S ΛS) (hT : IsSelfDualC T ΛT)
     (hr : T.rank ≤ S.rank) (h : IsThPVecOf ψ θ S T sS sT ΛS ΛT βS βT Pg Q ξ f₀ f) : f ≠ 0 := by
-  classical
-  obtain ⟨hv, e, he, ⟨Tm, hTm⟩, hall⟩ := h
-  have h0 : f₀ ≠ 0 := by
-    rintro rfl
-    obtain ⟨⟨p, hp⟩, h2⟩ := hv.2.norm
-    have := h2 p hp
-    simp [nrm2] at this
-  have ho := GlobalTheory.PlaceModelSum.isOrthSum_of_isIdemSum he
-  have hinf := ho.conj.infPart_eq
-  rw [hall Tm hTm]
-  obtain ⟨x, h1, h2, h3⟩ := GlobalTheory.T.exists_nonvanishing_finite_datum_definite_lift D S T βS βT Pg Q _ ξ e hr he (fun PP h => Finset.mem_union_left _ h)
-    fun PP h => Finset.mem_union_right _ h
-  refine GlobalTheory.T.schrodingerIntertwiner_injective_schwartzBruhat D ψ S T ΛS ΛT _ f₀ _ Tm hv.1 hS hT ho.conj.idem
-    (by rw [GlobalTheory.DualPairCheck.cA_cA, mul_comm, he.2]) hinf hTm h0
-    (GlobalTheory.PlaceVec.isSBHalf_of_red (GlobalTheory.PlaceVec.selfDual_isFullLattice S ΛS hS)
-      (GlobalTheory.PlaceVec.selfDual_isFullLattice T ΛT hT) hinf (frMapAdj S T βS βT) (GlobalTheory.PlaceVec.frMapAdj_add S T βS βT)
-      (GlobalTheory.PlaceVec.frMapAdj_up S T βS βT) (GlobalTheory.PlaceVec.frMapAdj_down S T βS βT) (Pg ∪ Q)
-      (fun y => omegaK Pg y * omegaQ Q T.rank ξ (-1) y) fun y y' h => by
-        rw [GlobalTheory.PlaceVec.omegaK_congr Pg fun PP hPP => h PP (Finset.mem_union_left _ hPP),
-          GlobalTheory.PlaceVec.omegaQ_congr Q _ ξ _ fun PP hPP => h PP (Finset.mem_union_right _ hPP)])
-    fun hz => h3 ?_
-  have := congrFun hz x
-  rwa [if_pos ⟨h1, h2⟩] at this
+  apply _root_.GlobalTheory.AdTh.VecNe.thPVec_ne_zero <;> assumption
 
 abbrev sub {m n : ℕ} (c : D.what₂.Tau → Matrix (Fin m) (Fin m) ℂ) : PolF D m n →ₐ[ℂ] PolF D m n :=
   MvPolynomial.aeval fun v : FVar D m n => ∑ b, c v.1 b v.2.1 • (MvPolynomial.X (v.1, b, v.2.2) : PolF D m n)
@@ -919,14 +899,7 @@ theorem coeff_scale {ι : Type} (t : ι → ℂ) (s : ι →₀ ℕ) (y : MvPoly
 
 theorem eq_of_exp_eq {a b : ℝ} (h : ∀ s : ℝ, Complex.exp (((s * a : ℝ) : ℂ) * Complex.I) =
     Complex.exp (((s * b : ℝ) : ℂ) * Complex.I)) : a = b := by
-  by_contra hne
-  have hd : a - b ≠ 0 := sub_ne_zero.2 hne
-  have h1 := h (Real.pi / (a - b))
-  have e : Real.pi / (a - b) * a = Real.pi / (a - b) * b + Real.pi := by field_simp; ring
-  rw [e, Complex.ofReal_add, add_mul, Complex.exp_add, Complex.exp_pi_mul_I] at h1
-  have h2 := Complex.exp_ne_zero (((Real.pi / (a - b) * b : ℝ) : ℂ) * Complex.I)
-  apply h2
-  linear_combination (-1 / 2) * h1
+  apply _root_.PI.WMI.MMap.real_eq_of_exp <;> assumption
 
 def tw {m : ℕ} (ε : Fin m → Bool) (k : Matrix (Fin m) (Fin m) ℂ) : Matrix (Fin m) (Fin m) ℂ :=
   fun b a => if ε a then k b a else starRingEnd ℂ (k b a)

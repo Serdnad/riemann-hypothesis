@@ -1,5 +1,6 @@
 module
 
+import Development.WeilBound.RepresentationTheoryGL.RegularisedSiegelWeil.SingularNullSets.LGenKF
 public import Formalism.LocalToGlobal.Divisibility.CoefMod
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.CoefficientSpaceEndomorphismScalarSchur
 public import Formalism.SatakeDualWeyl.Statement
@@ -416,17 +417,7 @@ theorem map_inv_hom {K L : Type} [Field K] [Field L] (f : K →+* L) {n : ℕ} (
     Ring.inverse_eq_inv', map_inv₀]
 
 theorem sig_ne_id (D : D7) : D.sp.cm.sig ≠ AlgHom.id D.host.F D.host.E := by
-  intro h
-  have hall : ∀ a : D.host.E, a ∈ (algebraMap D.host.F D.host.E).range := fun a =>
-    (D.sp.cm.fixed a).1 (by have := congrArg (fun φ => φ a) h; simpa [CMData.sig, starRingEnd_apply] using this)
-  have hbot : (⊥ : Subalgebra D.host.F D.host.E) = ⊤ := by
-    ext a
-    simp only [Algebra.mem_top, iff_true, Algebra.mem_bot]
-    obtain ⟨b, hb⟩ := hall a
-    exact ⟨b, hb⟩
-  have := Subalgebra.bot_eq_top_iff_finrank_eq_one.1 hbot
-  rw [D.sp.cm.deg2] at this
-  norm_num at this
+  apply _root_.PositivityTheory.Rg.Rsw.L.LGenK.sig_ne <;> assumption
 
 theorem ratDense (D : D7) (V : Formalism.BasicNotions.TH.HSp D)
     (Q : MvPolynomial (D.what₂.Tau × Fin V.rank × Fin V.rank) ℂ)

@@ -1,5 +1,6 @@
 module
 
+import GroundTheory.HeightsAndTheta.Heights.MultihomogeneousPolynomials
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovGeometry.KleimanNefness.AlgDefs
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PGenSESStep
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PGenTwistGenerated
@@ -56,25 +57,11 @@ theorem chartMon_mem (c : ∀ k, ι k) (e : K → ℕ) : chartMon (S := S) c e �
 
 theorem isMultiHomog_pow {p : MRingOver S ι} {a : K → ℕ} (hp : IsMultiHomog p a) (n : ℕ) :
     IsMultiHomog (p ^ n) (n • a) := by
-  induction n with
-  | zero =>
-    rw [pow_zero, zero_smul]
-    exact isMultiHomog_one_zero
-  | succ n ih =>
-    rw [pow_succ, succ_nsmul]
-    exact GenSESStep.isMultiHomog_mul ih hp
+  apply _root_.GroundTheory.Heights₂.Heights.MultiHomogeneous.pow <;> assumption
 
 theorem isMultiHomog_prod {β : Type} (s : Finset β) (f : β → MRingOver S ι) (a : β → K → ℕ)
     (h : ∀ i ∈ s, IsMultiHomog (f i) (a i)) : IsMultiHomog (∏ i ∈ s, f i) (∑ i ∈ s, a i) := by
-  classical
-  induction s using Finset.induction_on with
-  | empty =>
-    rw [Finset.prod_empty, Finset.sum_empty]
-    exact isMultiHomog_one_zero
-  | insert b s hb ih =>
-    rw [Finset.prod_insert hb, Finset.sum_insert hb]
-    exact GenSESStep.isMultiHomog_mul (h b (Finset.mem_insert_self b s))
-      (ih fun i hi => h i (Finset.mem_insert_of_mem hi))
+  apply _root_.GroundTheory.Heights₂.Heights.MultiHomogeneous.prod <;> assumption
 
 theorem isMultiHomog_chartMon (c : ∀ k, ι k) (e : K → ℕ) : IsMultiHomog (chartMon (S := S) c e) e := by
   classical

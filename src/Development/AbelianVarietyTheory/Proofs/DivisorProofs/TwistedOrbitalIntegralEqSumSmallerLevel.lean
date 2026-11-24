@@ -1,5 +1,6 @@
 module
 
+import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.SymmetricPowerTransfer.TraceFormulaEigenvalues.TraceBlocks
 public import Development.AbelianVarietyTheory.Definitions.Divisors.SimpleTwistedTraceFormulaStable
 public import Formalism.SharpRestriction.GenusPolyhedralBounds.RelativeIndexClassSets.ClassCountFib
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.AvgEqOfLeRightStabiliser
@@ -115,22 +116,7 @@ theorem cptPart_map_conj (T : Subgroup G) {γ : G} (hγ : γ ∈ T) :
 omit [TopologicalSpace G] [IsTopologicalGroup G] in
 theorem finsum_sigma_of_finite {ι : Type} {β : ι → Type} [∀ i, Finite (β i)] (h : (Σ i, β i) → ℂ)
     (hh : (support h).Finite) : ∑ᶠ p, h p = ∑ᶠ i, ∑ᶠ b, h ⟨i, b⟩ := by
-  letI : ∀ i, Fintype (β i) := fun i => Fintype.ofFinite _
-  set I := hh.toFinset.image Sigma.fst
-  have h1 : support h ⊆ ((I.sigma fun _ => Finset.univ : Finset (Σ i, β i)) : Set _) := by
-    intro p hp
-    simp only [Finset.mem_coe, Finset.mem_sigma, Finset.mem_univ, and_true, I, Finset.mem_image]
-    exact ⟨p, hh.mem_toFinset.2 hp, rfl⟩
-  have h2 : (support fun i => ∑ᶠ b, h ⟨i, b⟩) ⊆ (I : Set ι) := by
-    intro i hi
-    obtain ⟨b, hb⟩ : ∃ b, h ⟨i, b⟩ ≠ 0 := by
-      by_contra hc; push_neg at hc
-      exact hi (finsum_eq_zero_of_forall_eq_zero hc)
-    simp only [Finset.mem_coe, I, Finset.mem_image]
-    exact ⟨⟨i, b⟩, hh.mem_toFinset.2 hb, rfl⟩
-  rw [finsum_eq_sum_of_support_subset _ h1, finsum_eq_sum_of_support_subset _ h2, Finset.sum_sigma]
-  refine Finset.sum_congr rfl fun i _ => ?_
-  rw [finsum_eq_sum_of_fintype]
+  apply _root_.UpperTheory.V.Z.Sym.Tf.finsum_sig <;> assumption
 
 omit [TopologicalSpace G] [IsTopologicalGroup G] in
 theorem finsum_orbits {H X : Type} [Group H] [MulAction H X] [Finite X] (φ : X → ℂ)

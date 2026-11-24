@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.BiThetaOfVac
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.LengthPosOfPosDef
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.InnerProductFormula
 public import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.SqNormIntegralFundamentalDomainEqL2NormSq
@@ -69,44 +70,7 @@ namespace GlobalTheory.FockCoefSplit
 
 theorem actO_inf : ∀ (D : D7) (S T : HSp D) (a : GA D S) (b : GA D T), a ∈ GinfC S → b ∈ GinfC T →
     ∀ w : WO S T, w.map (infPart D) = 0 → actO S T a b w = w := by
-  intro D S T a b ha hb w hw
-  have hfb : (Formalism.L2.Theta.mt T b).map (finPart D) = 1 := by
-    have h := congrArg (fun g : GL (Fin T.rank) (Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes.Af D.host.F ⊗[D.host.F] D.host.E) => g.val)
-      (MonoidHom.mem_ker.1 hb)
-    exact h
-  have hfa : (Formalism.L2.Theta.mt S a⁻¹).map (finPart D) = 1 := by
-    have h := congrArg (fun g : GL (Fin S.rank) (Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes.Af D.host.F ⊗[D.host.F] D.host.E) => g.val)
-      (MonoidHom.mem_ker.1 (Subgroup.inv_mem _ ha))
-    exact h
-  have h0 : ∀ k j, infPart D (w k j) = 0 := fun k j => by
-    have := congrFun (congrFun hw k) j
-    simpa using this
-  have e1 : Formalism.L2.Theta.mt T b * w = w := by
-    ext i j
-    refine GlobalTheory.UnitarySplit.parts_inj D _ _ ?_ ?_
-    · set_option synthInstance.maxHeartbeats 100000 in
-        rw [Matrix.mul_apply, map_sum]
-      simp [map_mul, h0]
-    · have h1 : ∀ k, finPart D (Formalism.L2.Theta.mt T b i k) = if i = k then 1 else 0 := fun k => by
-        have := congrFun (congrFun hfb i) k
-        simpa [Matrix.one_apply] using this
-
-      rw [Matrix.mul_apply, map_sum]
-      simp [map_mul, h1]
-  have e2 : w * Formalism.L2.Theta.mt S a⁻¹ = w := by
-    ext i j
-    refine GlobalTheory.UnitarySplit.parts_inj D _ _ ?_ ?_
-    · set_option synthInstance.maxHeartbeats 100000 in
-        rw [Matrix.mul_apply, map_sum]
-      simp [map_mul, h0]
-    · have h1 : ∀ k, finPart D (Formalism.L2.Theta.mt S a⁻¹ k j) = if k = j then 1 else 0 := fun k => by
-        have := congrFun (congrFun hfa k) j
-        simpa [Matrix.one_apply] using this
-
-      rw [Matrix.mul_apply, map_sum]
-      simp [map_mul, h1]
-  unfold actO
-  rw [e1, e2]
+  first | exact _root_.GlobalTheory.FrComb.actO_real | exact @_root_.GlobalTheory.FrComb.actO_real | apply _root_.GlobalTheory.FrComb.actO_real <;> assumption
 
 open GlobalTheory.VacPairSchur GlobalTheory.RawLift
 

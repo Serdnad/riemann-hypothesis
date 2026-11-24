@@ -53,6 +53,7 @@ import Mathlib.Tactic.ReduceModChar
 import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
+import Formalism.HermitianCurvature.HermitianCurvatureProofs.RadicalUnipotentFirstBasisEqOne
 
 @[expose] public section
 
@@ -131,20 +132,9 @@ theorem head_hermitian_eq : HeadHEq := by
   simp only [U.headH, lhOf, U.hMat, Matrix.mul_assoc]
   rw [← Matrix.mul_assoc (U.wP σ)⁻¹ (U.wP σ), Matrix.nonsing_inv_mul _ (isUnit_det_wP σ), Matrix.one_mul]
 
-private theorem blk2_fin_zero_eq {p : ℕ} (A : Matrix (Fin p) (Fin p) ℂ) (B' : Matrix (Fin p) (Fin 0) ℂ)
-    (C : Matrix (Fin 0) (Fin p) ℂ) (D : Matrix (Fin 0) (Fin 0) ℂ) : U.blk2 A B' C D = A := by
-  ext i j
-  have hi : finSumFinEquiv.symm i = Sum.inl i := by
-    rw [Equiv.symm_apply_eq]
-    exact Fin.ext (by first | rfl)
-  have hj : finSumFinEquiv.symm j = Sum.inl j := by
-    rw [Equiv.symm_apply_eq]
-    exact Fin.ext (by first | rfl)
-  simp [U.blk2, Matrix.reindex_apply, hi, hj]
-
 theorem lower_corner_hermitian_zero : ZjHZero := by
   intro p σ d η Z
-  simp only [U.ZjH, U.Zj, blk2_fin_zero_eq, Matrix.one_mul, Matrix.mul_one]
+  simp only [U.ZjH, U.Zj, _root_.Formalism.FourierDecayAlt.P.PBH.block_two_zero_size_eq, Matrix.one_mul, Matrix.mul_one]
 
 theorem lh_unit {p : ℕ} (σ : Equiv.Perm (Fin p)) (v : U.LW σ → ℂ) : IsUnit (lhOf σ v).det := by
   have hL : (U.lowW σ v).det = 1 := by

@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.BesselToFourierJacobiDepthLatticeSplitsStatement
 import Formalism.LocalToGlobal.IndefiniteReal.SelfDualFullLattice
 public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.IsSumFrame
 public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.RealIdemMulOfReal
@@ -470,18 +471,7 @@ variable {D : D7}
 
 theorem hatMx_mul {m n : ℕ} {M : Submodule (𝓞 D.host.E) (Matrix (Fin m) (Fin n) D.host.E)} (π : Matrix (Fin n) (Fin n) D.host.E)
     (hM : ∀ x ∈ M, x * π ∈ M) {z : Mx D m n} (hz : z ∈ hatMx M) : z ⬝ rat π ∈ hatMx M := by
-  induction hz using AddSubgroup.closure_induction with
-  | mem w hw =>
-    obtain ⟨α, hα, x, hx, rfl⟩ := hw
-    refine AddSubgroup.subset_closure ⟨α, hα, x * π, hM x hx, ?_⟩
-    ext i j
-    simp only [Matrix.mul_apply, Matrix.of_apply, rat, Matrix.map_apply, TensorProduct.tmul_sum]
-    refine Finset.sum_congr rfl fun k _ => ?_
-    change (pairA D.host.F 0 α ⊗ₜ[D.host.F] x i k) * ((1 : AF D.host.F) ⊗ₜ[D.host.F] π k j) = _
-    rw [Algebra.TensorProduct.tmul_mul_tmul, mul_one]
-  | zero => rw [Matrix.zero_mul]; exact zero_mem _
-  | add a b _ _ ha hb => rw [Matrix.add_mul]; exact add_mem ha hb
-  | neg a _ ha => rw [Matrix.neg_mul]; exact neg_mem ha
+  first | exact _root_.GlobalTheory.AscFin.SrcSplit.mul_rat_mem_hatMx | exact @_root_.GlobalTheory.AscFin.SrcSplit.mul_rat_mem_hatMx | apply _root_.GlobalTheory.AscFin.SrcSplit.mul_rat_mem_hatMx <;> assumption
 
 theorem smul_homLat_mul {m n : ℕ} (I : Ideal (𝓞 D.host.E)) {Λ : Submodule (𝓞 D.host.E) (Fin n → D.host.E)}
     {Λ' : Submodule (𝓞 D.host.E) (Fin m → D.host.E)} (π : Matrix (Fin n) (Fin n) D.host.E) (hπ : ∀ y ∈ Λ, π *ᵥ y ∈ Λ) :

@@ -1098,15 +1098,7 @@ theorem eq_zero_of_intertwine_of_isCoprime_charpoly {K : Type} [Field K] {a b : 
     (A : Matrix (Fin a) (Fin a) K) (B : Matrix (Fin b) (Fin b) K) (C : Matrix (Fin b) (Fin a) K)
     (hcop : IsCoprime (Matrix.charpoly A) (Matrix.charpoly B)) (h : C * A = B * C) :
     C = (0 : Matrix (Fin b) (Fin a) K) := by
-  obtain ⟨u, v, huv⟩ := hcop
-  have h1 : aeval B (u * A.charpoly + v * B.charpoly) = 1 := by rw [huv, map_one]
-  rw [map_add (f := _), map_mul, map_mul, Matrix.aeval_self_charpoly, mul_zero, add_zero] at h1
-  have h2 : aeval B A.charpoly * C = 0 := by
-    rw [← aeval_intertwine A B C h, Matrix.aeval_self_charpoly, Matrix.mul_zero]
-  calc C = 1 * C := (Matrix.one_mul C).symm
-    _ = (aeval B u * aeval B A.charpoly) * C := by rw [h1]
-    _ = aeval B u * (aeval B A.charpoly * C) := Matrix.mul_assoc _ _ _
-    _ = 0 := by rw [h2, Matrix.mul_zero]
+  apply _root_.GlobalTheory.IntertwiningOperators.main <;> assumption
 
 alias main := _root_.GlobalTheory.IntertwinerCoprimeCharpoly.eq_zero_of_intertwine_of_isCoprime_charpoly
 

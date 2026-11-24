@@ -1,5 +1,7 @@
 module
 
+import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.UnitaryDense
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.UnitaryKTypeFinite
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.SchurOrthogonality.InstMeasurableSpaceMat
 public import Formalism.PeriodIntegrals.SchurFock
 public import Mathlib.Tactic.Monotonicity.Lemmas
@@ -342,19 +344,7 @@ open Formalism.BasicNotions MvPolynomial MeasureTheory Measure TopologicalSpace 
 
 theorem isCompact_unitaryGroup (N : ℕ) :
     IsCompact ((Matrix.unitaryGroup (Fin N) ℂ : Set (Matrix (Fin N) (Fin N) ℂ))) := by
-  have hK : IsCompact (Set.univ.pi fun _ : Fin N => Set.univ.pi fun _ : Fin N => Metric.closedBall (0 : ℂ) 1) :=
-    isCompact_univ_pi fun _ => isCompact_univ_pi fun _ => isCompact_closedBall 0 1
-  refine hK.of_isClosed_subset ?_ ?_
-  · have e : (Matrix.unitaryGroup (Fin N) ℂ : Set (Matrix (Fin N) (Fin N) ℂ)) =
-        {A : Matrix (Fin N) (Fin N) ℂ | A * star A = 1} := by
-      ext A
-      exact Matrix.mem_unitaryGroup_iff
-    rw [e]
-    exact isClosed_eq (continuous_id.matrix_mul continuous_star) continuous_const
-  · intro A hA
-    simp only [Set.mem_pi, Set.mem_univ, true_implies, Metric.mem_closedBall, dist_zero_right]
-    intro i j
-    exact entry_norm_bound_of_unitary hA i j
+  apply _root_.GlobalTheory.CompanionTheory.LinRedFactor.isCompact_unitary_fin <;> assumption
 
 instance compactSpace_unitaryGroup (N : ℕ) : CompactSpace (Matrix.unitaryGroup (Fin N) ℂ) :=
   isCompact_iff_compactSpace.mp (isCompact_unitaryGroup N)
@@ -428,19 +418,7 @@ private theorem entry_le_lemma {N : ℕ} {x : Matrix (Fin N) (Fin N) ℂ} (hx : 
   nlinarith [norm_nonneg (x i j)]
 
 theorem ci_compact (N : ℕ) : IsCompact (unitaryGroup (Fin N) ℂ : Set (Matrix (Fin N) (Fin N) ℂ)) := by
-  have hset : (unitaryGroup (Fin N) ℂ : Set (Matrix (Fin N) (Fin N) ℂ)) = {x | x * star x = 1} := by
-    ext x
-    exact Matrix.mem_unitaryGroup_iff
-  have hclosed : IsClosed (unitaryGroup (Fin N) ℂ : Set (Matrix (Fin N) (Fin N) ℂ)) := by
-    rw [hset]
-    exact isClosed_eq (continuous_id.matrix_mul continuous_star) continuous_const
-  have hbound : (unitaryGroup (Fin N) ℂ : Set (Matrix (Fin N) (Fin N) ℂ)) ⊆
-      Set.pi Set.univ fun _ => Set.pi Set.univ fun _ => Metric.closedBall (0 : ℂ) 1 := by
-    intro x hx
-    exact Set.mem_univ_pi.mpr fun i => Set.mem_univ_pi.mpr fun j =>
-      mem_closedBall_zero_iff.mpr (entry_le_lemma hx i j)
-  exact (isCompact_univ_pi fun _ => isCompact_univ_pi fun _ => isCompact_closedBall 0 1).of_isClosed_subset
-    hclosed hbound
+  apply _root_.GlobalTheory.CompanionTheory.LinRedFactor.isCompact_unitary_fin <;> assumption
 
 theorem ci_cont {N : ℕ} (p : MvPolynomial (Fin N × Fin N) ℂ) :
     Continuous fun x : Matrix (Fin N) (Fin N) ℂ => evalM x p := by
@@ -724,20 +702,9 @@ namespace PI.WSF
 open MvPolynomial Matrix
 open scoped ComplexOrder
 
-private theorem setOf_norm_eq_one_infinite : ({z : ℂ | ‖z‖ = 1} : Set ℂ).Infinite := by
-  have hI : (Set.Ioc (-Real.pi) Real.pi).Infinite := Set.Ioc_infinite (by linarith [Real.pi_pos])
-  refine Set.infinite_of_injOn_mapsTo
-    (f := fun θ : ℝ => Complex.cos θ + Complex.sin θ * Complex.I) ?_ ?_ hI
-  · intro a ha b hb hab
-    have h1 := congrArg Complex.arg hab
-    simp only at h1
-    rwa [Complex.arg_cos_add_sin_mul_I ha, Complex.arg_cos_add_sin_mul_I hb] at h1
-  · intro θ _
-    exact Complex.norm_cos_add_sin_mul_I θ
-
 theorem cz_torus_zero {ι : Type*} [Fintype ι] (Q : MvPolynomial ι ℂ)
     (h : ∀ z : ι → ℂ, (∀ i, ‖z i‖ = 1) → eval z Q = 0) : Q = 0 := by
-  rw [MvPolynomial.funext_set_iff (fun _ => {z : ℂ | ‖z‖ = 1}) (fun _ => setOf_norm_eq_one_infinite)]
+  rw [MvPolynomial.funext_set_iff (fun _ => {z : ℂ | ‖z‖ = 1}) (fun _ => _root_.PI.UD.circle_infinite)]
   intro x hx
   rw [map_zero]
   exact h x (fun i => hx i (Set.mem_univ i))

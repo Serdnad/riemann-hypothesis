@@ -54,6 +54,7 @@ import Mathlib.Tactic.ReduceModChar
 import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
+import Formalism.HermitianCurvature.HermitianCurvatureProofs.DilationUnipotentWeylMeasure
 
 @[expose] public section
 
@@ -220,23 +221,7 @@ lemma unit_lr' {u v : List (Mat k r)} (hu : ∀ X ∈ u, unitLie k r X) (hv : �
   · exact hv X hX
 
 private theorem inLie_conj_of_mem_GV {y X : Mat k r} (hy : y ∈ GV k r) (hX : inLie k r X) : inLie k r (y⁻¹ * X * y) := by
-  have hHH : Hpk k r * Hpk k r = 1 := Formalism.QuantumDeterminants.GBasic.Hpk_sq k r
-  have hHH' : ∀ A : Mat k r, Hpk k r * (Hpk k r * A) = A := fun A => by rw [← mul_assoc, hHH, one_mul]
-  have hX' : Xᴴ * Hpk k r + Hpk k r * X = 0 := hX
-  have hy' : yᴴ * Hpk k r * y = Hpk k r := hy
-  have hinv : y⁻¹ = Hpk k r * yᴴ * Hpk k r := by
-    apply Matrix.inv_eq_left_inv
-    simp only [mul_assoc] at hy' ⊢
-    rw [hy', hHH]
-  have e1 : (y⁻¹ * X * y)ᴴ * Hpk k r = yᴴ * (Xᴴ * Hpk k r) * y := by
-    rw [hinv]
-    simp only [Matrix.conjTranspose_mul, Matrix.conjTranspose_conjTranspose, Formalism.QuantumDeterminants.GBasic.Hpk_herm, mul_assoc,
-      hHH, mul_one]
-  have e2 : Hpk k r * (y⁻¹ * X * y) = yᴴ * (Hpk k r * X) * y := by
-    rw [hinv]
-    simp only [mul_assoc, hHH']
-  show (y⁻¹ * X * y)ᴴ * Hpk k r + Hpk k r * (y⁻¹ * X * y) = 0
-  rw [e1, e2, ← add_mul, ← mul_add, hX', mul_zero, zero_mul]
+  apply _root_.Formalism.FourierDecayAlt.P.B4.inLie_conj <;> assumption
 
 lemma adM_lie {D : RealPlaceData k r Wp Wq} {p : SS k r} (hp : D.inSS p) {x : Bool × Mat k r} (hx : inLie k r x.2) :
     inLie k r (adM p x).2 := by

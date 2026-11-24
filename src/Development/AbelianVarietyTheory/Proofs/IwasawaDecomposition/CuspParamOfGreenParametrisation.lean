@@ -1,5 +1,6 @@
 module
 
+import Development.WeilBound.CoreStatements.FiniteTypeHarishChandra.GreenCuspLabels.GreenCuspidal
 public import Development.AbelianVarietyTheory.PublishedTheorems.GaloisCohomology₂.GreenCuspidalIff
 public import Formalism.LocalToGlobal.NormalizedHeckeFactors.CoeffZeroNeOfMonicIrr
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.CuspidalCharacterLabelUniqueGLn
@@ -75,15 +76,7 @@ theorem mem_rootsBar_of_aeval {P : (ZMod g)[X]} (hP : P ≠ 0) {x : Formalism.Cy
 
 theorem isPrimeLab_iff (d : ℕ) (P : (ZMod g)[X]) :
     IsPrimeLab d P ↔ P.Monic ∧ Irreducible P ∧ P ≠ X ∧ P.natDegree = d := by
-  constructor
-  · rintro ⟨h1, h2, h3, h4⟩
-    refine ⟨h1, h2, ?_, h4⟩
-    rintro rfl
-    exact h3 (by simp)
-  · rintro ⟨h1, h2, h3, h4⟩
-    refine ⟨h1, h2, fun h0 => h3 ?_, h4⟩
-    have hd : (X : (ZMod g)[X]) ∣ P := X_dvd_iff.2 h0
-    exact (eq_of_monic_of_associated monic_X h1 (irreducible_X.associated_of_dvd h2 hd)).symm
+  apply _root_.PositivityTheory.GreenCharacters.isPrimeLab_iff <;> assumption
 
 theorem isPrimeLab_charpoly {d : ℕ} (y : Gn g d) (hy : Irreducible (y : Mt g d).charpoly) :
     IsPrimeLab d (y : Mt g d).charpoly := by

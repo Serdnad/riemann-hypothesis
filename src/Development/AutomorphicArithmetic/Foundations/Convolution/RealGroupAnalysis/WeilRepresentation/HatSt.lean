@@ -6,6 +6,7 @@ public import Development.AutomorphicArithmetic.Foundations.Convolution.RealGrou
 public import Development.AutomorphicArithmetic.Foundations.Convolution.RealGroupAnalysis.ThetaReindexing.HatN
 public import Development.AutomorphicArithmetic.Foundations.Convolution.RealGroupAnalysis.Smooth
 public import Development.AutomorphicArithmetic.Foundations.Convolution.RealGroupAnalysis.ThetaReindexing.IntegralScale
+import all Development.AutomorphicArithmetic.Foundations.Convolution.RealGroupAnalysis.ThetaReindexing.IntegralScale
 import GroundTheory.GlobalFields.TateThesis.AdeleScaling
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -64,16 +65,7 @@ open scoped Classical
 
 private theorem integral_mul_left_adele {F : Type} [Field F] [NumberField F] (a : (A F)ˣ) (g : A F → ℂ) :
     ∫ s, g ((a : A F) * s) ∂(adeleMeasure F) = (((ab a)⁻¹ : ℝ) : ℂ) * ∫ s, g s ∂(adeleMeasure F) := by
-  have hpos : 0 ≤ ((IdeleGroup.ideleModule F a : ℝ))⁻¹ := inv_nonneg.mpr (IdeleGroup.ideleModule F a).2.le
-  have hmap := map_smul_adeleMeasure (K := F) a
-  have he : MeasurableEmbedding (fun x : A F => a • x) :=
-    (Homeomorph.smul a).measurableEmbedding
-  have h1 : ∫ s, g ((a : A F) * s) ∂(adeleMeasure F) =
-      ∫ s, g s ∂((adeleMeasure F).map (fun x : A F => a • x)) :=
-    (he.integral_map g).symm
-  rw [h1, hmap, integral_smul_measure, ENNReal.toReal_ofReal hpos]
-  rw [Complex.real_smul]
-  rfl
+  apply _root_.integral_scale <;> assumption
 
 theorem UpperTheory.ConvolutionTheory.R2.D.hatM :
     ∀ (F E : Type) [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] [IsTotallyReal F] [_root_.NumberField.IsTotallyComplex E] (D : Dat F E) (W : Weil D), ∀ (a : (A F)ˣ) φ v, hat (W.Om (mD a) φ).1 v = ((W.η.1 a : ℂˣ) : ℂ) * ((ab a : ℝ) : ℂ) *

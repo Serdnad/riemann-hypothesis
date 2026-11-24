@@ -1,5 +1,6 @@
 module
 
+import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.OrbitQuotientTopology.IsClosedRStab
 public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.UpperOff
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.IsotropicLeviEmbeddingHomomorphismProperties
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.IsotropicStabilizerRadicalStructure
@@ -303,41 +304,7 @@ theorem col_e {n : Mat k r} (hn : n ∈ Nset k r) (b : Fin r) :
 
 private theorem mul_mem_Nset {a b : Mat k r} (ha : a ∈ Nset k r) (hb : b ∈ Nset k r) :
     a * b ∈ Nset k r := by
-  obtain ⟨ha0, ha1, ha2⟩ := ha
-  obtain ⟨hb0, hb1, hb2⟩ := hb
-  refine ⟨?_, ?_, ?_⟩
-  · show (a * b)ᴴ * Hpk k r * (a * b) = Hpk k r
-    have ha0' : aᴴ * Hpk k r * a = Hpk k r := ha0
-    have hb0' : bᴴ * Hpk k r * b = Hpk k r := hb0
-    rw [conjTranspose_mul]
-    calc bᴴ * aᴴ * Hpk k r * (a * b) = bᴴ * (aᴴ * Hpk k r * a) * b := by simp only [Matrix.mul_assoc]
-      _ = Hpk k r := by rw [ha0', hb0']
-  · intro c i hci
-    rw [Matrix.mul_apply, Finset.sum_eq_single (eI k r c)]
-    · rw [hb1 c _ (by rw [eI_val_flag_measures]), if_pos rfl, mul_one]
-      exact ha1 c i hci
-    · intro l _ hl
-      by_cases hlc : c.val ≤ l.val
-      · rw [hb1 c l hlc, if_neg hl, mul_zero]
-      · have hlr : l.val < r := by have := c.2; omega
-        have hle : eI k r ⟨l.val, hlr⟩ = l := Fin.ext (eI_val_flag_measures _)
-        have hx := ha1 ⟨l.val, hlr⟩ i (by show l.val ≤ i.val; omega)
-        rw [hle] at hx
-        rw [hx, if_neg (by intro h; rw [h] at hci; omega), zero_mul]
-    · simp
-  · intro i j hj1 hj2 hi
-    rw [Matrix.mul_apply, Finset.sum_eq_single j]
-    · rw [hb2 j j hj1 hj2 hj1, if_pos rfl, mul_one]
-      exact ha2 i j hj1 hj2 hi
-    · intro l _ hl
-      by_cases hlr : r ≤ l.val
-      · rw [hb2 l j hj1 hj2 hlr, if_neg hl, mul_zero]
-      · have hlr' : l.val < r := by omega
-        have hle : eI k r ⟨l.val, hlr'⟩ = l := Fin.ext (eI_val_flag_measures _)
-        have hx := ha1 ⟨l.val, hlr'⟩ i (by show l.val ≤ i.val; omega)
-        rw [hle] at hx
-        rw [hx, if_neg (by intro h; rw [h] at hi; omega), zero_mul]
-    · simp
+  apply _root_.PI.AmpOrbQuot.nset_mul <;> assumption
 
 theorem exists_coord {n : Mat k r} (hn : n ∈ Nset k r) :
     ∃ q : (UT r → ℂ) × PPar k r, uEmb k r (upper q.1) * pOf k r q.2 = n := by

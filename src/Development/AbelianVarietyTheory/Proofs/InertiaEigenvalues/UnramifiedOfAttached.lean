@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ForallFieldIffForallSubgroup
 public import ReciprocityTheory.GaloisValuations.Global
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -67,21 +68,7 @@ theorem valuation_smul_lt_one_iff (A : ValuationSubring Ω) (g : Formalism.Conju
 
 theorem conj_mem_Ine_of_smul {A : ValuationSubring Ω} {g σ : Formalism.ConjugateSelfDual.G F Ω} (hσ : σ ∈ Ine (F := F) (g • A)) :
     g⁻¹ * σ * g ∈ Ine (F := F) A := by
-  rw [mem_Ine] at hσ ⊢
-  obtain ⟨hdec, hval⟩ := hσ
-  refine ⟨?_, fun x hx => ?_⟩
-  · have hdec' : σ • g • A = g • A := hdec
-    show (g⁻¹ * σ * g) • A = A
-    rw [mul_smul, mul_smul, hdec', inv_smul_smul]
-  ·
-    have hx' : (g • A).valuation (g x) ≤ 1 := by
-      rw [ValuationSubring.valuation_le_one_iff, mem_smul_iff, ← AlgEquiv.mul_apply, inv_mul_cancel,
-        AlgEquiv.one_apply]
-      exact (ValuationSubring.valuation_le_one_iff _ _).1 hx
-    have key := (valuation_smul_lt_one_iff A g _).1 (hval (g x) hx')
-    have e : (g⁻¹ : Formalism.ConjugateSelfDual.G F Ω) (σ (g x) - g x) = (g⁻¹ * σ * g) x - x := by
-      simp [AlgEquiv.mul_apply, map_sub]
-    rwa [e] at key
+  first | exact _root_.GlobalTheory.PointIrredCompare.conj_mem_Ine_of_smul | exact @_root_.GlobalTheory.PointIrredCompare.conj_mem_Ine_of_smul | apply _root_.GlobalTheory.PointIrredCompare.conj_mem_Ine_of_smul <;> assumption
 
 end Galois
 

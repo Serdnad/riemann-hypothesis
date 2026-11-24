@@ -92,23 +92,7 @@ theorem ell_phiOf (hA : GlobalTheory.Published.IrreducibleAdmissibleGL) (hj : LS
       phiOf Lseg (∏ a, MvPolynomial.X (Γ a)) = toR (cl0 (prodIrr (fun a => Lseg (Γ a)) hd)))
     (Δ : Segment k) (p : MvPolynomial (Segment k) ℤ) :
     ell Δ (toR.symm (phiOf Lseg p)) = p.coeff (Finsupp.single Δ 1) * (-1) ^ (Δ.len - 1) := by
-  classical
-  induction p using MvPolynomial.induction_on' with
-  | monomial u a =>
-    obtain ⟨h, Γ, hΓ⟩ := exists_enum u
-    have hm : MvPolynomial.monomial u a = MvPolynomial.C a * ∏ i : Fin h, MvPolynomial.X (Γ i) := by
-      rw [prod_X_of_map u Γ hΓ, MvPolynomial.C_mul_monomial, mul_one]
-    have hC : phiOf Lseg (MvPolynomial.C a) = (a : R k) := by simp [phiOf]
-    rw [hm, map_mul, hC, hprod h _ Γ rfl, ← zsmul_eq_mul, map_zsmul, AddEquiv.symm_apply_apply, map_zsmul,
-      ell_prod hA hj hJ hAlt Lseg hL Δ Γ rfl, hΓ, MvPolynomial.coeff_C_mul, prod_X_of_map u Γ hΓ,
-      MvPolynomial.coeff_monomial]
-    split_ifs with h1 h2 h2
-    · simp
-    · exact absurd ((toMultiset_eq_single_iff u Δ).mp h1) h2
-    · exact absurd ((toMultiset_eq_single_iff u Δ).mpr h2) h1
-    · simp
-  | add p q hp hq =>
-    rw [map_add (f := _), map_add (f := _), map_add (f := _), hp, hq, MvPolynomial.coeff_add, add_mul]
+  apply _root_.CompanionTheory.Groth.GrothendieckPhiBijection.ell_phiOf <;> assumption
 
 end PositivityTheory.Groth.GrothendieckPhiBijection
 
@@ -123,44 +107,7 @@ open GrothendieckPhiBijection in
 theorem phiZ_bijective (hk : Steps k) (h1 : TriAut) (h2 : UniTri)
     (Z : ∀ Δ : Segment k, IrrCl (GL (Fin (Δ.len * Δ.d)) k)) (hZ : IsSegmentClass k Z) :
     Function.Bijective (phiOf (k := k) fun Δ => ⟨Δ.len * Δ.d, Z Δ⟩) := by
-  obtain ⟨Lseg, hL, hbij, hrep, hprod⟩ := phiL_main hk h2
-  obtain ⟨hC, -, -, -, -, -, -, -, hJ, hJS, hAlt⟩ := hk
-  have hA := PositivityTheory.Tls2.BZGL.irreducibleAdmissibleGL_top
-  have hx : ∀ Δ : Segment k, ∃ p : MvPolynomial (Segment k) ℤ,
-      phiOf Lseg p = toR (sg (⟨Δ.len * Δ.d, Z Δ⟩ : IrrGL (k := k))) ∧
-        ∀ s ∈ p.support, msupp (Finsupp.toMultiset s) = Δ.ms := by
-    intro Δ
-    obtain ⟨n, hn⟩ := hC.exh ⟨Δ.len * Δ.d, Z Δ⟩
-    obtain ⟨p, hp1, hp2⟩ := hrep n _ hn
-    exact ⟨p, hp1, fun s hs => (hp2 s hs).trans (msupp_seg hA hC.jac Z hZ hJS Δ hn)⟩
-  choose p hp1 hp2 using hx
-  let ψ : MvPolynomial (Segment k) ℤ →+* MvPolynomial (Segment k) ℤ := (MvPolynomial.aeval p).toRingHom
-  have hψX : ∀ Δ, ψ (MvPolynomial.X Δ) = p Δ := fun Δ => MvPolynomial.aeval_X p Δ
-  have hcomp : (phiOf Lseg).comp ψ = phiOf (k := k) (fun Δ => ⟨Δ.len * Δ.d, Z Δ⟩) := by
-    apply MvPolynomial.ringHom_ext
-    · intro r
-      simp [ψ, phiOf]
-    · intro Δ
-      rw [RingHom.comp_apply, hψX, hp1, phiOf_X]
-  have hψ : Function.Bijective ψ := by
-    apply h1 (Segment k) (fun Δ => Δ.len) ψ
-    intro Δ
-    have hell := ell_phiOf hA hC.jac hJ hAlt Lseg hL hprod Δ (p Δ)
-    rw [hp1, AddEquiv.symm_apply_apply, ell_sg (hJS Z hZ Δ).1 (hJS Z hZ Δ).2] at hell
-    have hc : (p Δ).coeff (Finsupp.single Δ 1) = (-1) ^ (Δ.len - 1) := by
-      have h' : ((-1 : ℤ) ^ (Δ.len - 1)) * ((-1) ^ (Δ.len - 1)) = 1 := by
-        rw [← mul_pow]
-        simp
-      calc (p Δ).coeff (Finsupp.single Δ 1)
-          = (p Δ).coeff (Finsupp.single Δ 1) * ((-1) ^ (Δ.len - 1) * (-1) ^ (Δ.len - 1)) := by
-            rw [h', mul_one]
-        _ = (-1) ^ (Δ.len - 1) := by rw [← mul_assoc, ← hell, one_mul]
-    refine ⟨(-1) ^ (Δ.len - 1), _, vars_lt hA (p Δ) (hp2 Δ), ?_⟩
-    rw [hψX, MvPolynomial.X, MvPolynomial.smul_monomial, smul_eq_mul, mul_one]
-    push_cast
-    rw [← hc, add_sub_cancel]
-  rw [← hcomp]
-  exact hbij.comp hψ
+  apply _root_.CompanionTheory.Groth.phiZ_bijective <;> assumption
 
 end PositivityTheory.Groth
 
@@ -189,26 +136,7 @@ theorem GrothendieckClassGeneralLinear.class_gl_eq_class {k : Type} [Field k] [V
 theorem groth_of_steps (H : ∀ (k : Type) [Field k] [ValuativeRel k] [TopologicalSpace k] [IsNonarchimedeanLocalField k],
       Cls k ∧ MulCls k ∧ Assoc k ∧ Comm k ∧ One k ∧ ProdList k ∧ Tri k ∧ MultOne k ∧ JCls k ∧ JSeg k ∧ AltSum k)
     (h1 : TriAut) (h2 : UniTri) : GlobalTheory.Published.GrothendieckRingPolynomial := by
-  intro k _ _ _ _ Z hZ
-  obtain ⟨hCls, hMul, hAs, hCo, hOne, hPL, hTri, hMO, hJC, hJS, hAlt⟩ := H k
-  haveI : Fact (Assoc k) := ⟨hAs⟩
-  haveI : Fact (Comm k) := ⟨hCo⟩
-  haveI : Fact (One k) := ⟨hOne⟩
-  have hst : Steps k := ⟨hCls, hMul, hAs, hCo, hOne, hPL, hTri, hMO, hJC, hJS, hAlt⟩
-  have hbij := phiZ_bijective hst h1 h2 Z hZ
-  let e := RingEquiv.ofBijective (phiOf fun Δ : Segment k => (⟨Δ.len * Δ.d, Z Δ⟩ : IrrGL (k := k))) hbij
-  refine ⟨toR.trans e.symm.toAddEquiv, ?_, ?_, ?_⟩
-  · change e.symm (toR (GrothGL.unit k)) = 1
-    rw [toR_unit, map_one]
-  · intro r t V W _ _ _ _ π₁ π₂ h₁ h₂ s₁ s₂ h
-    obtain ⟨_, hc⟩ := hMul r t V W π₁ π₂ h₁ h₂ s₁ s₂
-    change e.symm (toR (clsGL (prod₂ π₁ π₂) h)) =
-      e.symm (toR (clsGL π₁ h₁)) * e.symm (toR (clsGL π₂ h₂))
-    rw [GrothendieckClassGeneralLinear.class_gl_eq_class, GrothendieckClassGeneralLinear.class_gl_eq_class, GrothendieckClassGeneralLinear.class_gl_eq_class, hc, toR_mulR, map_mul]
-  · intro Δ
-    change e.symm (toR (sg (⟨Δ.len * Δ.d, Z Δ⟩ : IrrGL (k := k)))) = MvPolynomial.X Δ
-    rw [RingEquiv.symm_apply_eq]
-    exact (phiOf_X (fun Δ : Segment k => (⟨Δ.len * Δ.d, Z Δ⟩ : IrrGL (k := k))) Δ).symm
+  apply _root_.CompanionTheory.Groth.groth_of_steps <;> assumption
 
 end PositivityTheory.Groth
 

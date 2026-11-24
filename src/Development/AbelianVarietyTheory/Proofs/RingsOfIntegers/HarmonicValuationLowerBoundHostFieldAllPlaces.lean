@@ -73,6 +73,7 @@ import Mathlib.Analysis.SpecialFunctions.Bernstein
 import Mathlib.Tactic.ReduceModChar
 import Development.AbelianVarietyTheory.Definitions.Jets.ExistsSecTieFOfTies
 import Formalism.SharpRestriction.Divisibility.GeneratorPowers.CIndSt
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.PullbackSections.HolomorphicFamilies.RamifiedEigenLiftsGeneral
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.ExistsRamifiedEigenLiftsOfChartDirections, Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.ExistsRamifiedEigenLiftsOfChartDirectionsStatement, Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.HarmonicValueBoundOfColumnProductsStatement, Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.HarmonicValueBoundIntegralChartRamified, Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.HarmonicValueBoundIntegralChartRamifiedStatement, Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.HarmonicValueIntegralOfUnitDiscriminant, Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.HarmonicValueIntegralOfUnitDiscriminantStatement, Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.HostFieldGaloisDegreeDiscrConjMovesPrimesStatement, Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.HarmonicValuationLowerBoundHostFieldAllPlaces
@@ -214,20 +215,7 @@ theorem isRQ_of_nonunit {V k : Type} [CommRing V] [IsDomain V] [IsDiscreteValuat
 
 theorem isIntegral_mul_dual {E : Type} [Field E] [NumberField E] (δ : 𝓞 E) (hδ : δ ∈ differentIdeal ℤ (𝓞 E))
     (i : Fin (ERam.nI E)) : IsIntegral ℤ ((δ : E) * ERam.omDF (E := E) i) := by
-  classical
-  have hbqω : ∀ i, integralBasis E i = algebraMap (𝓞 E) E (RingOfIntegers.basis E i) :=
-    fun i => integralBasis_apply E i
-  refine _root_.PI.UnitaryGroupMassFormula.TBIdemDen.dualDiff E _ (integralBasis E) (fun i => ?_) (fun x => ?_) _ hδ _
-  · rw [hbqω]
-    exact RingOfIntegers.isIntegral_coe _
-  · refine ⟨fun i => (RingOfIntegers.basis E).repr x i, ?_⟩
-    have h1 := congrArg (algebraMap (𝓞 E) E) ((RingOfIntegers.basis E).sum_repr x)
-
-    rw [map_sum] at h1
-    show algebraMap (𝓞 E) E x = _
-    rw [← h1]
-    refine Finset.sum_congr rfl fun i _ => ?_
-    rw [hbqω, map_zsmul, Int.cast_smul_eq_zsmul]
+  apply _root_.ReciprocityTheory.ChartRestriction.G.PullbackSections.dual_int <;> assumption
 
 theorem sum_embeddings {E : Type} [Field E] [NumberField E] (x : E) :
     ∑ τ : E →+* ℂ, τ x = ((Algebra.trace ℚ E x : ℚ) : ℂ) := by

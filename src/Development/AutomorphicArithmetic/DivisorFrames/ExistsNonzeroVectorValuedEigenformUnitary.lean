@@ -1,5 +1,7 @@
 module
 
+import Development.AbelianVarietyTheory.Definitions.ThetaValues.IoOverLeftUnique
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.WeilVacuumFiniteSelfDualLatticeSplitting
 public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.NormalFam
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsSystemOf
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsSemilinearActionDualWeylTensor
@@ -123,15 +125,7 @@ private theorem finPart_cA {D : D7} (w : AE D) :
 
 private theorem placeIdem {D : D7} {v : HeightOneSpectrum (𝓞 D.host.F)} {ε : Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes.AF D.host.F}
     (h : IsPlaceIdem D v ε) : ε * ε = ε := by
-  obtain ⟨α, rfl, h1, h0⟩ := h
-  have : α * α = α := by
-    refine DFunLike.ext _ _ fun w => ?_
-    change Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes.evalV _ w (α * α) = Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes.evalV _ w α
-    rw [map_mul]
-    by_cases hw : w = v
-    · subst hw; rw [h1, mul_one]
-    · rw [h0 w hw, mul_zero]
-  exact Prod.ext (mul_zero _) this
+  apply _root_.GlobalTheory.FinVac.placeIdem_idem <;> assumption
 
 theorem UpperTheory.eval_localElement_matrix_eq_one_of_prime_not_dvd :
     ∀ (D : D7) (V : HSp D) (l : ℕ) [Fact l.Prime]
@@ -179,28 +173,7 @@ open MvPolynomial GlobalTheory.ExpFrame
 private theorem map_mem {R S : Type} [CommRing R] [CommRing S] (σ : R →+* S) {r n : ℕ} {ν : Fin n → ℕ}
     {f : MvPolynomial (Fin r × Fin n) R} (hf : f ∈ Formalism.GradedWeylDivisibility.dualWeyl R r n ν) :
     map σ f ∈ Formalism.GradedWeylDivisibility.dualWeyl S r n ν := by
-  unfold Formalism.GradedWeylDivisibility.dualWeyl at hf ⊢
-  obtain ⟨h1, h2⟩ := Submodule.mem_inf.1 hf
-  refine Submodule.mem_inf.2 ⟨?_, ?_⟩
-  · rw [mem_weightedHomogeneousSubmodule] at h1 ⊢
-    intro d hd
-    apply h1
-    intro h0
-    apply hd
-    rw [coeff_map, h0, map_zero]
-  · simp only [Submodule.mem_iInf, LinearMap.mem_ker] at h2 ⊢
-    intro l j hlj
-    have e := h2 l j hlj
-    simp only [LinearMap.sub_apply, AlgHom.toLinearMap_apply, sub_eq_zero] at e ⊢
-    have hc : ∀ g : MvPolynomial (Fin r × Fin n) R,
-        map σ (Formalism.GradedWeylDivisibility.colAddGen R l j g) = Formalism.GradedWeylDivisibility.colAddGen S l j (map σ g) := by
-      intro g
-      unfold Formalism.GradedWeylDivisibility.colAddGen
-      rw [aeval_eq_bind₁, aeval_eq_bind₁, map_bind₁]
-      congr 2
-      funext v
-      split_ifs <;> simp
-    rw [← hc, e, map_rename]
+  apply _root_.GlobalTheory.FieldBCModel.map_mem_dualWeyl <;> assumption
 
 private def onFactor {R S : Type} [CommRing R] [CommRing S] (σ : R →+* S) (r n : ℕ) (ν : Fin n → ℕ) :
     Formalism.GradedWeylDivisibility.dualWeyl R r n ν →+ Formalism.GradedWeylDivisibility.dualWeyl S r n ν where

@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.HasDerivAtThetaTransformHeisenbergRealLine
 public import Development.WeilBound.CoreStatements.AutomorphicKernels.SiegelWeilFormula.ThetaBijections.SymplecticFormCoordinates
 public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.WeilTensorModels
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.CharacterInvariantAdelicFormEqMulEvalZero
@@ -59,19 +60,8 @@ attribute [-instance] CStarMatrix.instHMulOfFintypeOfMulOfAddCommMonoid
 
 open scoped Classical in
 theorem comp_schA {F : Type} [Field F] [NumberField F] {κ κ' : Type} [Fintype κ] [Fintype κ'] (τ : κ ≃ κ')
-    {Φ : (κ → AF F) → ℂ} (hΦ : Φ ∈ schA F κ) : (fun x : κ' → AF F => Φ (x ∘ τ)) ∈ schA F κ' := by
-  induction hΦ using Submodule.span_induction with
-  | mem Φ h =>
-    obtain ⟨f, g, hg, rfl⟩ := h
-    let A : (κ' → mixedEmbedding.mixedSpace F) ≃L[ℝ] (κ → mixedEmbedding.mixedSpace F) :=
-      (LinearEquiv.funCongrLeft ℝ (mixedEmbedding.mixedSpace F) τ).toContinuousLinearEquiv
-    let B : (κ' → Af F) ≃ₜ (κ → Af F) := (Homeomorph.piCongrLeft (Y := fun _ => Af F) τ).symm
-    refine Submodule.subset_span ⟨SchwartzMap.compCLMOfContinuousLinearEquiv ℂ A f, g ∘ B,
-      ⟨hg.1.comp_continuous B.continuous, hg.2.comp_homeomorph B⟩, ?_⟩
-    rfl
-  | zero => exact Submodule.zero_mem _
-  | add Φ Ψ _ _ h1 h2 => exact Submodule.add_mem _ h1 h2
-  | smul c Φ _ h => exact Submodule.smul_mem _ c h
+    {Φ : (κ → AF F) → ℂ} (hΦ : Φ ∈ schA F κ) : (fun x : κ' → AF F => Φ (x ∘ τ)) ∈ schA F κ' :=
+  _root_.GlobalTheory.ThetaLineDeriv.comp_mem_schA τ hΦ
 
 theorem act_one' {R κ : Type} [CommRing R] [Fintype κ] [DecidableEq κ] (w : (κ → R) × (κ → R)) :
     act (1 : Matrix (κ ⊕ κ) (κ ⊕ κ) R) w = w := by

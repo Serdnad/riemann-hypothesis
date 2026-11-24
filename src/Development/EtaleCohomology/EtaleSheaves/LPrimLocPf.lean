@@ -1,5 +1,6 @@
 module
 
+import Development.EtaleCohomology.EtaleSheaves.KummerSequence.TwLocGenPfSec
 public import Development.AbelianVarietyTheory.Definitions.Divisors.SecClass
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -163,19 +164,7 @@ theorem ee_nil {q : ℕ} [NeZero q] {A : Type} [CommRing A] (ζ ξ : Prim q A) (
   exact ha ((hζ.pow_iff_coprime (Nat.pos_of_ne_zero (NeZero.ne q)) a).1 hξ)
 
 theorem algPow : AlgPow := by
-  intro q _ A _ ζ ξ
-  refine ⟨Set.range fun a : Fin q => ee ζ ξ.1 a, ?_, ?_⟩
-  · rw [Ideal.eq_top_iff_one, ← ee_sum ζ ξ.1, Finset.sum_range]
-    exact Ideal.sum_mem _ fun a _ => Ideal.subset_span ⟨a, rfl⟩
-  · rintro f ⟨a, rfl⟩
-    by_cases hc : (a : ℕ).Coprime q
-    · refine ⟨ZMod.unitOfCoprime a hc, 1, ?_⟩
-      have hv : ((ZMod.unitOfCoprime (a : ℕ) hc : (ZMod q)ˣ) : ZMod q).val = a := by
-        rw [ZMod.coe_unitOfCoprime, ZMod.val_natCast, Nat.mod_eq_of_lt a.2]
-      rw [hv, pow_one]
-      exact ee_kill ζ ξ.1 (prim_pow_q ξ) a
-    · obtain ⟨n, hn⟩ := ee_nil ζ ξ a hc
-      exact ⟨1, n, by rw [hn, zero_mul]⟩
+  apply _root_.LateralTheory.E.H2CurveOrder.TwLocGenPfSec.AlgPow_of <;> assumption
 
 theorem loc_of_span {U : Scheme.{0}} (s : Set Γ(U, ⊤)) (hs : Ideal.span s = ⊤) {P : ∀ V : Scheme.{0}, (V ⟶ U) → Prop}
     (h : ∀ f ∈ s, ∀ (V : Scheme.{0}) (g : V ⟶ U), IsUnit (g.appTop.hom f) → P V g) : Loc U P := by

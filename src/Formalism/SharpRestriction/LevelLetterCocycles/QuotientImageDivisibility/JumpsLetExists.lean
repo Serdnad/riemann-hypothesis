@@ -107,39 +107,15 @@ theorem tmul_mem_filV (a : ℤ) (x : V) {y : BdR} (hy : y ∈ PD.Fil a) :
     ⟨x ⊗ₜ[Qp] (⟨y, hy⟩ : (PD.Fil a).restrictScalars Qp), by simp⟩
 
 theorem filV_exh (z : V ⊗[Qp] BdR) : ∃ a : ℤ, z ∈ FilV PD (LL := LL) (V := V) a := by
-  induction z using TensorProduct.induction_on with
-  | zero => exact ⟨0, Submodule.zero_mem _⟩
-  | tmul x y =>
-    obtain ⟨a, ha⟩ := PD.Fil_exh y
-    exact ⟨a, tmul_mem_filV PD a x ha⟩
-  | add z₁ z₂ h₁ h₂ =>
-    obtain ⟨a₁, ha₁⟩ := h₁
-    obtain ⟨a₂, ha₂⟩ := h₂
-    exact ⟨min a₁ a₂, add_mem (filVB_anti PD (min_le_left _ _) ha₁)
-      (filVB_anti PD (min_le_right _ _) ha₂)⟩
+  apply +allowSynthFailures _root_.Formalism.MainNotions.N.Ln34.CrystallineExponents.filV_exh <;> assumption
 
 theorem coord_mem {ι : Type} (b : Basis ι Qp V) (a : ℤ) (z : V ⊗[Qp] BdR)
     (hz : z ∈ FilV PD (LL := LL) (V := V) a) (i : ι) :
     TensorProduct.equivFinsuppOfBasisLeft b z i ∈ PD.Fil a := by
-  obtain ⟨w, rfl⟩ := (mem_FilV_iff' PD a z).mp hz
-  clear hz
-  induction w using TensorProduct.induction_on with
-  | zero => simp
-  | tmul x y =>
-    simp only [AlgebraTensorModule.map_tmul, LinearMap.id_apply, Submodule.subtype_apply,
-      TensorProduct.equivFinsuppOfBasisLeft_apply_tmul_apply]
-    exact Submodule.smul_of_tower_mem (PD.Fil a) _ y.2
-  | add w₁ w₂ h₁ h₂ =>
-    rw [map_add (f := _), map_add (f := _), Finsupp.add_apply]
-    exact add_mem h₁ h₂
+  apply +allowSynthFailures _root_.Formalism.MainNotions.N.Ln34.CrystallineExponents.coord_mem <;> assumption
 
 theorem filV_sep (z : V ⊗[Qp] BdR) (hz : ∀ a : ℤ, z ∈ FilV PD (LL := LL) (V := V) a) : z = 0 := by
-  apply (TensorProduct.equivFinsuppOfBasisLeft (Basis.ofVectorSpace Qp V)).injective
-  rw [map_zero]
-  ext i
-  rw [Finsupp.zero_apply]
-  refine PD.Fil_sep _ fun a => ?_
-  convert coord_mem PD (Basis.ofVectorSpace Qp V) a z (hz a) i
+  apply +allowSynthFailures _root_.Formalism.MainNotions.N.Ln34.CrystallineExponents.filV_sep <;> assumption
 
 private theorem exists_int_finset_subset_FilV (s : Finset (V ⊗[Qp] BdR)) :
     ∃ a : ℤ, ∀ z ∈ s, z ∈ Formalism.WeaklyAdmissibleFiltrations.FilV PD (LL := LL) (V := V) a := by
@@ -155,11 +131,7 @@ private theorem exists_int_finset_subset_FilV (s : Finset (V ⊗[Qp] BdR)) :
 
 theorem exists_le_filV (D : Submodule LL (V ⊗[Qp] BdR)) [FiniteDimensional LL D] :
     ∃ a : ℤ, D ≤ FilV PD (LL := LL) (V := V) a := by
-  obtain ⟨s, hs⟩ := (Module.Finite.iff_fg (N := D)).mp inferInstance
-  obtain ⟨a, ha⟩ := exists_int_finset_subset_FilV PD (LL := LL) (V := V) s
-  refine ⟨a, ?_⟩
-  rw [← hs]
-  exact Submodule.span_le.mpr fun z hz => ha z (Finset.mem_coe.mp hz)
+  apply +allowSynthFailures _root_.Formalism.MainNotions.N.Ln34.CrystallineExponents.exists_le_filV <;> assumption
 
 theorem exists_inf_filV_eq_bot (D : Submodule LL (V ⊗[Qp] BdR)) [FiniteDimensional LL D] :
     ∃ a : ℤ, D ⊓ FilV PD (LL := LL) (V := V) a = ⊥ := by

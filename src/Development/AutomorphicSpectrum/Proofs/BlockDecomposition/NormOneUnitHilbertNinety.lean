@@ -303,50 +303,9 @@ theorem exists_unit_norm_eq : ∀ (E : Type) [Field E] [NumberField E] [IsCMFiel
       exact not_le.mpr hx'
 
     have adicInt_isAdicComplete : IsAdicComplete (maximalIdeal Ov) Ov := by
-      have key : ∀ (n : ℕ) (x y : Ov), x ≡ y [SMOD (maximalIdeal Ov ^ n • ⊤ : Submodule Ov Ov)] ↔
-          Valued.v ((x : Kv) - y) ≤ exp (-(n : ℤ)) := by
-        intro n x y
-        rw [smul_eq_mul, Ideal.mul_top, SModEq.sub_mem, adicInt_mem_pow_iff]
-        rfl
-      have h1 : IsHausdorff (maximalIdeal Ov) Ov := by
-        refine ⟨fun x hx => ?_⟩
-        have h0 : (x : Kv) = 0 := adicInt_eq_zero_of_forall _ (fun n => by
-          simpa using (key n x 0).1 (hx n))
-        exact Subtype.ext h0
-      have h2 : IsPrecomplete (maximalIdeal Ov) Ov := by
-        refine ⟨fun f hf => ?_⟩
-        set g : ℕ → Kv := fun n => (f n : Kv)
-        have hg : ∀ m n, m ≤ n → Valued.v (g n - g m) ≤ exp (-(m : ℤ)) := by
-          intro m n hmn
-          have := (key m (f m) (f n)).1 (hf hmn)
-          rwa [← Valuation.map_neg, neg_sub] at this
-        have hc : CauchySeq g := by
-          rw [(Valued.hasBasis_uniformity Kv ℤᵐ⁰).cauchySeq_iff]
-          intro γ _
-          have hne : MonoidWithZeroHom.ValueGroup₀.embedding γ.1 ≠ 0 := fun h =>
-            γ.ne_zero (MonoidWithZeroHom.ValueGroup₀.embedding_injective (h.trans (map_zero _).symm))
-          obtain ⟨N, hN⟩ := wz_exists_nat_lt _ hne
-          refine ⟨N, fun m hm n hn => ?_⟩
-          simp only [Set.mem_ofPred_eq, Valuation.restrict_lt_iff_lt_embedding]
-          have hle : ∀ a b, N ≤ a → a ≤ b →
-              Valued.v (g b - g a) < MonoidWithZeroHom.ValueGroup₀.embedding γ.1 := fun a b ha hab =>
-            lt_of_le_of_lt ((hg a b hab).trans (exp_le_exp.2 (by omega))) hN
-          rcases le_total m n with h | h
-          · exact hle m n hm h
-          · rw [← Valuation.map_neg, neg_sub]; exact hle n m hn h
-        obtain ⟨L, hL⟩ := cauchySeq_tendsto_of_complete hc
-        have hLmem : L ∈ Ov := by
-          refine (Valued.isClosed_valuationSubring Kv).mem_of_tendsto hL (Eventually.of_forall ?_)
-          intro n; exact (f n).2
-        refine ⟨⟨L, hLmem⟩, fun n => ?_⟩
-        rw [key]
-        have hcl : IsClosed {y : Kv | Valued.v (g n - y) ≤ exp (-(n : ℤ))} :=
-          (adicCompl_isClosed_le _).preimage (continuous_const.sub continuous_id)
-        refine hcl.mem_of_tendsto hL ?_
-        filter_upwards [eventually_ge_atTop n] with k hk
-        show Valued.v (g n - g k) ≤ _
-        rw [← Valuation.map_neg, neg_sub]; exact hg n k hk
-      exact { toIsHausdorff := h1, toIsPrecomplete := h2 }
+      first
+      | exact _root_.Formalism.BasicNotions.Examples₂.adicInt_isAdicComplete
+      | apply _root_.Formalism.BasicNotions.Examples₂.adicInt_isAdicComplete <;> assumption
 
     haveI : HenselianLocalRing Ov := by
       have := adicInt_isAdicComplete 

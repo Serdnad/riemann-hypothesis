@@ -1,5 +1,6 @@
 module
 
+import Formalism.SharpRestriction.GrowthBounds.RootWeights.WeightComponentsMemInvariant
 public import Formalism.SharpRestriction.GrowthBounds.RootWeights.StableSubspaceCompleteReducibility
 public import Formalism.SharpRestriction.GrowthBounds.RootWeights.HighestWeightModuleBounds
 import Mathlib.Algebra.Order.Floor.Extended
@@ -69,44 +70,7 @@ variable {n : ℕ} {K V : Type*} [Field K] [AddCommGroup V] [Module K V]
 theorem v2rep_comp_mem [CharZero K] (E : GLOps n K V) (Z : Submodule K V) (hZ : ∀ a, ∀ x ∈ Z, E a a x ∈ Z)
     (s : Finset (Fin n → ℤ)) : ∀ g : (Fin n → ℤ) → V, (∀ ν ∈ s, g ν ∈ weightSp E ν) → ∑ ν ∈ s, g ν ∈ Z →
       ∀ ν ∈ s, g ν ∈ Z := by
-  induction s using Finset.strongInduction with
-  | H s ih =>
-  intro g hg hsum μ hμ
-  by_cases hs : ∃ ν ∈ s, ν ≠ μ
-  · obtain ⟨ν, hν, hne⟩ := hs
-    obtain ⟨a, ha⟩ : ∃ a, μ a ≠ ν a := by
-      by_contra h
-      push_neg at h
-      exact hne (funext h).symm
-    let g' : (Fin n → ℤ) → V := fun ρ => (((ρ a - ν a : ℤ) : K)) • g ρ
-    have hZ' : (E a a - (ν a : K) • (1 : Module.End K V)) (∑ ρ ∈ s, g ρ) ∈ Z := by
-      rw [LinearMap.sub_apply, LinearMap.smul_apply, Module.End.one_apply]
-      exact Z.sub_mem (hZ a _ hsum) (Z.smul_mem _ hsum)
-    have heq : (E a a - (ν a : K) • (1 : Module.End K V)) (∑ ρ ∈ s, g ρ) = ∑ ρ ∈ s.erase ν, g' ρ := by
-
-      rw [map_sum, ← Finset.sum_erase_add _ _ hν]
-      have h0 : (E a a - (ν a : K) • (1 : Module.End K V)) (g ν) = 0 := by
-        have := (v2rep_mem_weightSp E ν (g ν)).mp (hg ν hν) a
-        rw [LinearMap.sub_apply, LinearMap.smul_apply, Module.End.one_apply, this, sub_self]
-      rw [h0, add_zero]
-      refine Finset.sum_congr rfl fun ρ hρ => ?_
-      have := (v2rep_mem_weightSp E ρ (g ρ)).mp (hg ρ (Finset.mem_of_mem_erase hρ)) a
-      rw [LinearMap.sub_apply, LinearMap.smul_apply, Module.End.one_apply, this, ← sub_smul]
-      simp only [g', Int.cast_sub]
-    have hg' : ∀ ρ ∈ s.erase ν, g' ρ ∈ weightSp E ρ := fun ρ hρ =>
-      (weightSp E ρ).smul_mem _ (hg ρ (Finset.mem_of_mem_erase hρ))
-    have hIH := ih (s.erase ν) (Finset.erase_ssubset hν) g' hg' (heq ▸ hZ') μ
-      (Finset.mem_erase.mpr ⟨hne.symm, hμ⟩)
-    have hc : (((μ a - ν a : ℤ)) : K) ≠ 0 := by
-      exact_mod_cast sub_ne_zero.mpr ha
-    have := Z.smul_mem (((μ a - ν a : ℤ) : K))⁻¹ hIH
-    simp only [g'] at this
-    rwa [smul_smul, inv_mul_cancel₀ hc, one_smul] at this
-  · push_neg at hs
-    have : ∑ ν ∈ s, g ν = g μ :=
-      Finset.sum_eq_single_of_mem μ hμ (fun ν hν hne => absurd (hs ν hν) hne)
-    rw [this] at hsum
-    exact hsum
+  apply _root_.Formalism.MainNotions.G.GLWeightTheory.weight_components_mem_invariant <;> assumption
 
 theorem v2rep_graded [CharZero K] (E : GLOps n K V) (Z : Submodule K V) (hZ : ∀ a, ∀ x ∈ Z, E a a x ∈ Z)
     (x : V) (hx : x ∈ Z) (hw : x ∈ ⨆ ν, weightSp E ν) : x ∈ ⨆ ν, weightSp E ν ⊓ Z := by

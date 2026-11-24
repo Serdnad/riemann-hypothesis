@@ -1,5 +1,6 @@
 module
 
+import Development.WeilBound.ThetaLifts.LatticeBasics.HgtExA
 public import Development.WeilBound.ThetaLifts.LatticeBasics.HypothesesE
 public import Development.WeilBound.ThetaLifts.LatticeBasics.FrameA
 public import Development.WeilBound.ThetaLifts.TowerModels.TwistedSums.ExistsIntAddConjEqOneOfBaseGood
@@ -117,60 +118,8 @@ theorem smul_incl (a : AF F) (x : E) : a • inclR (F := F) (AF F) x = a ⊗ₜ[
   rw [mul_one]
 
 theorem mem_latHat (hL : Y.L.FG) (z : Fin n → AE F E) :
-    z ∈ latHat Y ↔ eF F • z = z ∧ ∀ v, compFin F E v ∘ z ∈ latLoc F Y.L v := by
-  constructor
-  · intro hz
-    induction hz using AddSubgroup.closure_induction with
-    | mem y hy =>
-      obtain ⟨a, ha, ha', x, hx, rfl⟩ := hy
-      refine ⟨?_, fun v => ?_⟩
-      · have : a.1 = 0 := (InfiniteAdeleRing.ringEquiv_mixedSpace F).map_eq_zero_iff.1 ha
-        rw [smul_smul]
-        congr 1
-        exact Prod.ext ((zero_mul _).trans this.symm) (one_mul _)
-      · convert tmul_mem_latLoc (ha' v) hx using 1
-        exact funext fun i => congrArg (compFin F E v) (smul_incl a (x i))
-    | zero => exact ⟨smul_zero _, fun v => by
-        convert zero_mem (latLoc F Y.L v) using 1
-        exact funext fun i => map_zero _⟩
-    | add y z _ _ hy hz => exact ⟨by rw [smul_add, hy.1, hz.1], fun v => by
-        convert add_mem (hy.2 v) (hz.2 v) using 1
-        exact funext fun i => map_add _ _ _⟩
-    | neg y _ hy => exact ⟨by rw [smul_neg, hy.1], fun v => by
-        convert neg_mem (hy.2 v) using 1
-        exact funext fun i => map_neg _ _⟩
-  · rintro ⟨h1, h2⟩
-    let π := Algebra.TensorProduct.map (sndA F) (AlgHom.id F E)
-    let ι : Af F ⊗[F] E →ₗ[F] AE F E := TensorProduct.map (LinearMap.inr F (Ainf F) (Af F)) LinearMap.id
-    have e1 : ∀ y, ι (π y) = eF F • y := fun y => by
-      induction y using TensorProduct.induction_on with
-      | zero => simp
-      | add x y hx hy => simp only [map_add (f := _), smul_add, hx, hy]
-      | tmul a x => exact congrArg (· ⊗ₜ[F] x) (Prod.ext (zero_mul _).symm (one_mul _).symm)
-    have e2 : ∀ v y, Algebra.TensorProduct.map (Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes.evalV F v) (AlgHom.id F E) (π y) = compFin F E v y := fun v y => by
-      induction y using TensorProduct.induction_on with
-      | zero => simp
-      | add x y hx hy => simp only [map_add (f := _), hx, hy]
-      | tmul a x => rfl
-    have e3 : ∀ y ∈ Formalism.MainNotions.StandardLattice.latHat F E (Y.L : Set (Fin n → E)), ι ∘ y ∈ latHat Y := fun y hy => by
-      induction hy using AddSubgroup.closure_induction with
-      | mem y hy =>
-        obtain ⟨a, ha, x, hx, rfl⟩ := hy
-        exact AddSubgroup.subset_closure ⟨LinearMap.inr F (Ainf F) (Af F) a, map_zero (InfiniteAdeleRing.ringEquiv_mixedSpace F),
-          ha, x, hx, funext fun i => (smul_incl _ _).symm⟩
-      | zero =>
-        convert zero_mem (latHat Y) using 1
-        exact funext fun i => map_zero _
-      | add y z _ _ hy hz =>
-        convert add_mem hy hz using 1
-        exact funext fun i => map_add _ _ _
-      | neg y _ hy =>
-        convert neg_mem hy using 1
-        exact funext fun i => map_neg _ _
-    convert e3 (π ∘ z) ((mem_latHat_iff hL _).2 fun v => by
-      convert h2 v using 1
-      exact funext fun i => e2 v _) using 1
-    exact funext fun i => (congrFun h1 i).symm.trans (e1 _).symm
+    z ∈ latHat Y ↔ eF F • z = z ∧ ∀ v, compFin F E v ∘ z ∈ latLoc F Y.L v :=
+  _root_.GlobalTheory.ThK.Dbl.Hgt.mem_latHat hL z
 
 omit [NumberField E] in
 theorem cA_eq : ⇑(cA (F := F) σ) = Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes.sigR (AF F) σ := funext fun z => by
@@ -279,9 +228,13 @@ open scoped Matrix TensorProduct
 open NumberField IsDedekindDomain GlobalTheory.WeilM GlobalTheory.AdelicU GlobalTheory.LFun GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes GlobalTheory.Doubling GlobalTheory.ThK.Dbl.Frame
 open Formalism.UG (bc)
 
-theorem frameConj : FrameConj := by
-  intro F E _ _ _ _ _ σ B n Y r s hB hY K hK
-  have hc := hB.cm
+theorem frameConj_of_local_frames :
+  ∀ (F E : Type) [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] (σ : E →ₐ[F] E) (B : Base F E) (n : ℕ) (Y : Spc F E n) r s, IsCMExt F E σ → (Y.IsHerm σ B r s ∨ Y.IsSkew σ B r s) →
+    (∀ c : InfinitePlace F → GL (Fin n) ℂ, ∃ a g : GL (Fin n) (AE F E), IsLatticeFrame Y.L a ∧
+      (∀ v, (∃ l : (Fv F v ⊗[F] E)ˣ, (bc (compFin F E v) a).1 = l.1 • (bc (compFin F E v) g).1) ∧
+        Frame.Uni σ v Y.J (bc (compFin F E v) g)) ∧ ∀ w, bc (piInf (B.emb w)) g = c w) →
+    (∃ t : 𝓞 E, (t : E) + σ t = 1) → ∀ K, IsStab2 (σ := σ) (Y := Y) B K → ∃ b K₀ p t, IsFrame2 σ Y b ∧ IsStdK B b K₀ ∧ IsPar p t ∧ ∀ k, k ∈ K ↔ p⁻¹ * k * p ∈ K₀ := by
+  intro F E _ _ _ _ _ σ B n Y r s hc hY had htrace K hK
   have hσ := cm_conj_conj hc
   have hL : Y.L.IsLattice E := hY.elim (·.lat.toIsLattice) (·.lat.toIsLattice)
   have hJ := Frame.det_ne hY
@@ -297,8 +250,8 @@ theorem frameConj : FrameConj := by
   have ee : ∀ (S : Type) [CommRing S], ((ε : ℤ) : S) * (ε : ℤ) = 1 := fun S _ => by
     rw [← Int.cast_mul, ← Units.val_mul, Int.units_mul_self]; simp
   choose gw hw using fun w => Frame.exists_arch c1 (c2 w).1 (Frame.isUnit_of_cartan (c2 w).2) (c2 w).2
-  obtain ⟨a, g, ha, hg, hg'⟩ := exists_ad hB hY hJ gw
-  obtain ⟨t, ht⟩ := Tw.exists_int_add_conj_eq_one_of_base_good B hB
+  obtain ⟨a, g, ha, hg, hg'⟩ := had gw
+  obtain ⟨t, ht⟩ := htrace
   let ι := inclR (F := F) (E := E) (AF F)
   let cc : AE F E →+* AE F E := cA σ
   have hι : ∀ z, ι (σ z) = cc (ι z) := fun z => rfl
@@ -404,6 +357,11 @@ theorem frameConj : FrameConj := by
   · exact par_of ι (d0.trans (Matrix.mul_one _)) d1
   · change _ ↔ p * (p⁻¹ * k * p) * p⁻¹ ∈ K
     rw [show p * (p⁻¹ * k * p) * p⁻¹ = k by group]
+
+theorem frameConj : FrameConj := by
+  intro F E _ _ _ _ _ σ B n Y r s hB hY
+  exact frameConj_of_local_frames F E σ B n Y r s hB.cm hY
+    (exists_ad hB hY (Frame.det_ne hY)) (Tw.exists_int_add_conj_eq_one_of_base_good B hB)
 
 end GlobalTheory.ThK.Dbl
 

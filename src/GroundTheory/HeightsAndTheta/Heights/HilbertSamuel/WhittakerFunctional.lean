@@ -1,5 +1,6 @@
 module
 
+import GroundTheory.HeightsAndTheta.Heights.Intersections.ConservationDegreeFormOfExistence
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArithmeticIntersection.RationalSections.IsRatSectionOn
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ArithmeticHilbertSamuelLowerBound
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.InterDerived
@@ -47,17 +48,7 @@ theorem G5.ptsIntegral_eq_of_add_const {e : ℕ} (P : Ideal (MRing ι)) (φ ψ :
 
 theorem G5.ptsIntegral_const {e : ℕ} (P : Ideal (MRing ι)) (φ : Fin e → ((Σ k, ι k) → ℂ) → ℝ) (c : ℝ) :
     ptsIntegral P φ (fun _ => c) = c * ptsIntegral P φ (fun _ => 1) := by
-  unfold ptsIntegral
-  split_ifs with hΨ
-  · unfold ptsIntegralAt
-    rw [← MeasureTheory.integral_const_mul]
-    congr 1
-    funext y
-    rw [mul_finsum_mem]
-    refine finsum_mem_congr rfl fun w _ => ?_
-    unfold sheetDensity
-    split_ifs <;> ring
-  · simp
+  apply _root_.GroundTheory.Heights₂.Heights.Inter.Conservation.ptsIntegral_const <;> assumption
 
 theorem G5.isSmoothHerm_constLine (c : ℝ) : IsSmoothHerm (constLine (ι := ι) c) := by
   show ContDiffOn ℝ _ (fun _ => Real.exp (-c)) _

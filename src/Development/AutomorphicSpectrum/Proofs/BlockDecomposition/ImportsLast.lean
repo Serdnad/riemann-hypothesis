@@ -806,12 +806,7 @@ namespace GlobalTheory.CompanionTheory.ColumnSplitting.Form
 
 theorem continuous_jn_pair {D : D7} {a r t n : ℕ} (hn : r + t = n) :
     Continuous fun z : Mx D a r × Mx D a t => jn hn z.1 z.2 := by
-  unfold jn
-  refine continuous_pi fun i => continuous_pi fun j => ?_
-  simp only [Matrix.submatrix_apply, id]
-  cases (finSumFinEquiv.trans (finCongr hn)).symm j with
-  | inl c => simpa using continuous_fst.matrix_elem i c
-  | inr c => simpa using continuous_snd.matrix_elem i c
+  apply _root_.GlobalTheory.CompanionTheory.ColumnSplitting.continuous_jn_pair <;> assumption
 
 theorem continuous_yv_pair {D : D7} {r t : ℕ} (V : HSp D) (b₀ : HermE D r) :
     Continuous (yv (t := t) V b₀) := by

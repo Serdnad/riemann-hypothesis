@@ -1,5 +1,6 @@
 module
 
+import all Development.AutomorphicArithmetic.AutomorphicVarieties.UnitaryThreeDeformations.ExistsUnobstructed
 import Mathlib
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.CurveDVRSpecialization.RatTorsionFree
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.UnitaryThreeDeformations.FiniteResidue
@@ -105,26 +106,6 @@ private theorem go_mat {D C : Type} [Group D] [CommRing C] (r : D →* GG (m := 
 private theorem diagonal_character_rep_matrix {O D : Type} [CommRing O] [Group D] (η : D →* ℤˣ) (Ψ : D →* Oˣ) (g : D) :
     (r0 η Ψ g).mat = Matrix.diagonal fun a => UnitaryThreeInertia.psi Ψ a g := rfl
 
-private theorem go_unit {O D : Type} [CommRing O] [Group D] (Ψ : D →* Oˣ) (x : D)
-    (hu : IsUnit ((Ψ x : O) ^ 2 - 1)) (a b : Fin 3) (hab : a ≠ b) : IsUnit (UnitaryThreeInertia.psi Ψ a x - UnitaryThreeInertia.psi Ψ b x) := by
-  have e0 : UnitaryThreeInertia.psi Ψ 0 x = Ψ x := by simp [UnitaryThreeInertia.psi, wt1]
-  have e1 : UnitaryThreeInertia.psi Ψ 1 x = 1 := by simp [UnitaryThreeInertia.psi, wt1]
-  have e2 : UnitaryThreeInertia.psi Ψ 2 x = ((Ψ x)⁻¹ : Oˣ) := by simp [UnitaryThreeInertia.psi, wt1]
-  generalize Ψ x = t at *
-  have ht : (t : O) * (t⁻¹ : Oˣ) = 1 := Units.mul_inv t
-  have h01 : IsUnit (UnitaryThreeInertia.psi Ψ 0 x - UnitaryThreeInertia.psi Ψ 1 x) := by
-    rw [e0, e1]
-    exact isUnit_of_mul_isUnit_left (y := (t : O) + 1) (by convert hu using 1; ring)
-  have h02 : IsUnit (UnitaryThreeInertia.psi Ψ 0 x - UnitaryThreeInertia.psi Ψ 2 x) := by
-    rw [e0, e2]
-    exact isUnit_of_mul_isUnit_left (y := (t : O)) (by convert hu using 1; linear_combination -ht)
-  have h12 : IsUnit (UnitaryThreeInertia.psi Ψ 1 x - UnitaryThreeInertia.psi Ψ 2 x) := by
-    rw [e1, e2]
-    exact isUnit_of_mul_isUnit_left (y := (t : O) * (t + 1))
-      (by convert hu using 1; linear_combination (-(t : O) - 1) * ht)
-  have hs : ∀ {u v : O}, IsUnit (u - v) → IsUnit (v - u) := fun h => by rw [← neg_sub]; exact h.neg
-  fin_cases a <;> fin_cases b <;> first | exact absurd rfl hab | assumption | exact hs (by assumption)
-
 private theorem go_uadd {A : Type} [CommRing A] [IsLocalRing A] {u v : A} (hu : IsUnit u) (h : v - u ∈ maximalIdeal A) :
     IsUnit v := by
   by_contra hv
@@ -142,7 +123,7 @@ private theorem triangular_of_reducible_rank_three {O A K D : Type} [CommRing O]
     simpa [diagonal_character_rep_matrix] using hr.red x a a
   have ho : ∀ a b, a ≠ b → (r x).mat a b ∈ maximalIdeal A := fun a b hab => by
     simpa [diagonal_character_rep_matrix, hab] using hr.red x a b
-  have hU := fun a b hab => (go_unit Ψ x hu a b hab).map (algebraMap O A)
+  have hU := fun a b hab => (_root_.psi_diff Ψ x hu a b hab).map (algebraMap O A)
   obtain ⟨h, h1, h2, h3⟩ := UnitaryThreeInertia.exists_canon (r x).mat (fun a b hab => go_uadd (hU a b hab) (by
     convert Ideal.sub_mem _ (hd a) (hd b) using 1
     rw [map_sub]; ring)) ho

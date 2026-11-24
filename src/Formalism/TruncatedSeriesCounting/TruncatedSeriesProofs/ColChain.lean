@@ -1,5 +1,6 @@
 module
 
+import Formalism.LogFactorialIndices.SignedSubspaceIndex.IdxBase
 public import Formalism.TruncatedSeriesCounting.RamifiedValuationInequality
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -60,36 +61,7 @@ variable {O : Type} [CommRing O] {M : Type} [AddCommGroup M] [Module O M]
 theorem chain_len_add (X Y Z : Submodule O M) (hXY : X ≤ Y) (hYZ : Y ≤ Z) :
     Module.length O (↥Z ⧸ X.comap Z.subtype) =
       Module.length O (↥Y ⧸ X.comap Y.subtype) + Module.length O (↥Z ⧸ Y.comap Z.subtype) := by
-  have hle : X.comap Y.subtype ≤ (X.comap Z.subtype).comap (Submodule.inclusion hYZ) :=
-    fun x hx => hx
-  have hle2 : X.comap Z.subtype ≤ (Y.comap Z.subtype).comap LinearMap.id := fun x hx => hXY hx
-  let f := Submodule.mapQ (X.comap Y.subtype) (X.comap Z.subtype) (Submodule.inclusion hYZ) hle
-  let g := Submodule.mapQ (X.comap Z.subtype) (Y.comap Z.subtype) LinearMap.id hle2
-  have hf : Function.Injective f := by
-    refine (injective_iff_map_eq_zero f).2 ?_
-    intro q hq
-    obtain ⟨y, rfl⟩ := Submodule.Quotient.mk_surjective _ q
-    rw [Submodule.mapQ_apply, Submodule.Quotient.mk_eq_zero] at hq
-    rw [Submodule.Quotient.mk_eq_zero]
-    exact hq
-  have hg : Function.Surjective g := by
-    intro q
-    obtain ⟨z, rfl⟩ := Submodule.Quotient.mk_surjective _ q
-    exact ⟨Submodule.Quotient.mk z, by rw [Submodule.mapQ_apply, LinearMap.id_apply]⟩
-  have hfg : Function.Exact f g := by
-    intro q
-    constructor
-    · intro hz
-      obtain ⟨z, rfl⟩ := Submodule.Quotient.mk_surjective _ q
-      rw [Submodule.mapQ_apply, LinearMap.id_apply, Submodule.Quotient.mk_eq_zero] at hz
-      have hz' : (z : M) ∈ Y := hz
-      exact ⟨Submodule.Quotient.mk ⟨z, hz'⟩, by rw [Submodule.mapQ_apply]; rfl⟩
-    · rintro ⟨q', rfl⟩
-      obtain ⟨y, rfl⟩ := Submodule.Quotient.mk_surjective _ q'
-      rw [Submodule.mapQ_apply, Submodule.mapQ_apply, LinearMap.id_apply,
-        Submodule.Quotient.mk_eq_zero]
-      exact y.2
-  exact Module.length_eq_add_of_exact f g hf hg hfg
+  apply _root_.Formalism.LatticeIndexTer.LatticeIndexLength.length_quotient_tower_add <;> assumption
 
 theorem chain_len_le_of_le_sup (A X Z : Submodule O M) (hAZ : A ≤ Z) (hZ : Z ≤ A ⊔ X) :
     Module.length O (↥Z ⧸ X.comap Z.subtype) ≤ Module.length O (↥A ⧸ X.comap A.subtype) := by

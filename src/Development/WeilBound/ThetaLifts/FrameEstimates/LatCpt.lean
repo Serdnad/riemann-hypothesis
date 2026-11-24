@@ -37,6 +37,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
 import Development.AbelianVarietyTheory.Definitions.Divisors.MatchingOfParts
+import Development.WeilBound.ThetaLifts.FrameEstimates.LatMeas
 
 @[expose] public section
 
@@ -57,17 +58,7 @@ variable {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algeb
 theorem topRing : IsTopologicalRing (AE F E) := IsModuleTopology.isTopologicalRing (AF F) (AE F E)
 
 theorem continuous_piInf {w : InfinitePlace F} (τ : EmbOver E w) : Continuous (piInf τ) := by
-  refine IsModuleTopology.continuous_of_ringHom (R := AF F) (piInf τ) ?_
-  have h : ⇑((piInf τ).comp (algebraMap (AF F) (AE F E))) =
-      fun a : AF F => InfinitePlace.Completion.extensionEmbedding w (a.1 w) := by
-    funext a
-    change infEmb τ (compInf F E w (a ⊗ₜ[F] (1 : E))) = _
-    change infEmb τ (evInf F w a ⊗ₜ[F] (1 : E)) = _
-    rw [infEmb_tmul, map_one, mul_one]
-    rfl
-  rw [h]
-  exact (InfinitePlace.Completion.isometry_extensionEmbedding w).continuous.comp
-    ((continuous_apply w).comp continuous_fst)
+  apply _root_.PositivityTheory.ThKEst.LatticeQuotientMeasure.continuous_piInf <;> assumption
 
 variable (τ : ∀ w : InfinitePlace F, EmbOver E w)
 

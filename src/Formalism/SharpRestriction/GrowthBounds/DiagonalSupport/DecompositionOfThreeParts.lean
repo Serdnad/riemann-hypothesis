@@ -1,5 +1,6 @@
 module
 
+import Formalism.SharpRestriction.GrowthBounds.MonomialOrderSegments.BrBase
 public import Formalism.SharpRestriction.GrowthBounds.DiagonalSupport.TwiceValuationFactorialProduct
 import Formalism.SharpRestriction.GrowthBounds.DualFockLinear.FockRLinDual
 public import Formalism.SharpRestriction.GrowthBounds.ProjectionOfIsotypicDecomposition
@@ -115,17 +116,7 @@ theorem geQ_sum {ι : Type*} (s : Finset ι) (f : ι → KK O) {t : ℝ} (h : �
     exact geQ_add _ _ (h a (Finset.mem_insert_self _ _)) (ih fun i hi => h i (Finset.mem_insert_of_mem hi))
 
 theorem valuation_one_eq_zero_alt : vK p (1 : KK O) = 0 := by
-  have h := valuation_mul_alt p (1 : KK O) 1
-  rw [mul_one] at h
-  have hne : vK p (1 : KK O) ≠ ⊤ := by
-    have h1 := valuation_algebraMap_eq_alt (O := O) p 1 one_ne_zero
-    rw [map_one] at h1
-    rw [h1]; exact WithTop.coe_ne_top
-  obtain ⟨q, hq⟩ := WithTop.ne_top_iff_exists.1 hne
-  rw [← hq, ← WithTop.coe_add, WithTop.coe_inj] at h
-  rw [← hq]
-  have : q = 0 := by linarith
-  rw [this]; rfl
+  apply _root_.Formalism.MainNotions.PlaneGram.vK_one' <;> assumption
 
 theorem geQ_one : geQ (vK p (1 : KK O)) 0 := by
   intro q hq

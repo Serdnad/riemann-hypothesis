@@ -46,8 +46,10 @@ theorem first_mem {F E : Type} [Field F] [NumberField F] [Field E] [Algebra F E]
   intro a i k
   exact hX 0 i k
 
-theorem stage_good : ∀ (F E : Type) [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] (σ : E →ₐ[F] E), IsCMExt F E σ → ∀ (M : ℕ) (J : Matrix (Fin M) (Fin M) E), IsHermND σ J → ∀ t : F, t ≠ 0 → ∀ (n : ℕ) (T : Matrix (Fin n) (Fin n) E) (hT : ∀ a b, σ (T b a) = T a b), T.det ≠ 0 → ∀ (d : ℕ) (b : Module.Basis (Fin d) F E), ∀ᶠ v : HeightOneSpectrum (𝓞 F) in Filter.cofinite, ∀ (μ : Measure (Fin n → Fin M → Fv F v ⊗[F] E)) (ν : Measure (HermR (Fv F v) σ n)) m, μ.IsAddHaarMeasure → ν.IsAddHaarMeasure → IsGramFib (Fv F v) σ J n μ ν m → ∀ h : HA (Fv F v) σ (blockOne (algebraMap F E t) J), m (hermOf (Fv F v) σ T hT) {X | actW (Fv F v) σ _ h (consTup X) ∈ latV b v} = (latV b v).indicator (fun _ => m (hermOf (Fv F v) σ T hT) (latV b v)) (actW (Fv F v) σ _ h (fun _ : Fin 1 => Fin.cons 1 (fun _ => 0))) := by
-  intro F E _ _ _ _ _ σ hCM M J hJ t ht n T hT _ d b
+theorem stage_good_of_invariant : ∀ (F E : Type) [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] (σ : E →ₐ[F] E), IsCMExt F E σ → ∀ (M : ℕ) (J : Matrix (Fin M) (Fin M) E), IsHermND σ J → ∀ t : F, t ≠ 0 → ∀ (n : ℕ) (d : ℕ) (b : Module.Basis (Fin d) F E), ∀ᶠ v : HeightOneSpectrum (𝓞 F) in Filter.cofinite, ∀ μ : Measure (Fin n → Fin M → Fv F v ⊗[F] E),
+    (∀ g : HA (Fv F v) σ J, μ.map (actW (Fv F v) σ J g) = μ) →
+    ∀ h : HA (Fv F v) σ (blockOne (algebraMap F E t) J), μ {X | actW (Fv F v) σ _ h (consTup X) ∈ latV b v} = (latV b v).indicator (fun _ => μ (latV b v)) (actW (Fv F v) σ _ h (fun _ : Fin 1 => Fin.cons 1 (fun _ => 0))) := by
+  intro F E _ _ _ _ _ σ hCM M J hJ t ht n d b
   obtain ⟨hdet, hherm, -, -⟩ := BlockAlg.block_alg F E σ hCM M J t
   have hND : IsHermND σ (blockOne (algebraMap F E t) J) :=
     ⟨hherm hJ.1, by
@@ -56,7 +58,7 @@ theorem stage_good : ∀ (F E : Type) [Field F] [NumberField F] [Field E] [Numbe
   filter_upwards [GoodTrans.good_trans F E σ hCM (M + 1) _ hND t ht d b,
     (LatRat.latV_rational F E σ hCM d b n M).2.2, (LatRat.latV_rational F E σ hCM d b 0 M).2.2]
     with v hv hv1 hv0
-  intro μ ν m hμ hν hm h
+  intro μ hμ h
   have hLoc := LocFv.isLocR_Fv F v
   obtain ⟨i1, i2, i3, i4, -⟩ := id hLoc
   have : BorelSpace (Fv F v) := ⟨rfl⟩
@@ -91,12 +93,20 @@ theorem stage_good : ∀ (F E : Type) [Field F] [NumberField F] [Field E] [Numbe
     have hcont : Continuous (actW (Fv F v) σ J u : (Fin n → Fin M → Fv F v ⊗[F] E) → _) :=
       (hactJ n).1.comp (Continuous.prodMk continuous_const continuous_id)
     rw [hset, ← Measure.map_apply hcont.measurable hOpen.measurableSet,
-      _root_.GlobalTheory.CompanionTheory.SW.FibreInv.map_actW_fibre F E σ hCM M J hJ (Fv F v) hLoc n μ ν m hμ hν hm u]
+      hμ u]
   · rw [Set.indicator_of_notMem he]
     have hempty : {X : Fin n → Fin M → Fv F v ⊗[F] E | actW (Fv F v) σ _ h (consTup X) ∈ latV b v} = ∅ := by
       ext X
       simp only [Set.mem_ofPred_eq, Set.mem_empty_iff_false, iff_false]
       exact fun hX => he (first_mem b v σ _ h X hX)
     rw [hempty, measure_empty]
+
+theorem stage_good : ∀ (F E : Type) [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] (σ : E →ₐ[F] E), IsCMExt F E σ → ∀ (M : ℕ) (J : Matrix (Fin M) (Fin M) E), IsHermND σ J → ∀ t : F, t ≠ 0 → ∀ (n : ℕ) (T : Matrix (Fin n) (Fin n) E) (hT : ∀ a b, σ (T b a) = T a b), T.det ≠ 0 → ∀ (d : ℕ) (b : Module.Basis (Fin d) F E), ∀ᶠ v : HeightOneSpectrum (𝓞 F) in Filter.cofinite, ∀ (μ : Measure (Fin n → Fin M → Fv F v ⊗[F] E)) (ν : Measure (HermR (Fv F v) σ n)) m, μ.IsAddHaarMeasure → ν.IsAddHaarMeasure → IsGramFib (Fv F v) σ J n μ ν m → ∀ h : HA (Fv F v) σ (blockOne (algebraMap F E t) J), m (hermOf (Fv F v) σ T hT) {X | actW (Fv F v) σ _ h (consTup X) ∈ latV b v} = (latV b v).indicator (fun _ => m (hermOf (Fv F v) σ T hT) (latV b v)) (actW (Fv F v) σ _ h (fun _ : Fin 1 => Fin.cons 1 (fun _ => 0))) := by
+  intro F E _ _ _ _ _ σ hCM M J hJ t ht n T hT _ d b
+  filter_upwards [_root_.GlobalTheory.CompanionTheory.SW.StageGood.stage_good_of_invariant F E σ hCM M J hJ t ht n d b] with v hv
+  intro μ ν m hμ hν hm
+  have : BorelSpace (Fv F v) := ⟨rfl⟩
+  exact hv (m (hermOf (Fv F v) σ T hT))
+    (fun g => _root_.GlobalTheory.CompanionTheory.SW.FibreInv.map_actW_fibre F E σ hCM M J hJ (Fv F v) (LocFv.isLocR_Fv F v) n μ ν m hμ hν hm g (hermOf (Fv F v) σ T hT))
 
 end GlobalTheory.CompanionTheory.SW.StageGood

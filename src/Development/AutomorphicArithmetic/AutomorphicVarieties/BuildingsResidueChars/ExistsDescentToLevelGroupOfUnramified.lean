@@ -1,5 +1,6 @@
 module
 
+import all Development.AutomorphicArithmetic.AutomorphicVarieties.BuildingsResidueChars.ExistsQuadraticOfInertia
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.IsAlgChar
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.WeilGroupCharacters.ContinuousResP
 import Mathlib.Algebra.Order.Floor.Extended
@@ -59,26 +60,7 @@ private theorem place_between {K L Ω : Type} [Field K] [NumberField K] [Field L
     [Algebra K L] [Algebra L Ω] [Algebra K Ω] [IsScalarTower K L Ω]
     {A : ValuationSubring Ω} {v : HeightOneSpectrum (𝓞 K)} (hA : IsPlaceOver A v) :
     ∃ w : HeightOneSpectrum (𝓞 L), IsPlaceOver A w ∧ w.under (𝓞 K) = v := by
-  have hint : ∀ x : 𝓞 L, algebraMap L Ω (x : L) ∈ A := fun x => by
-    have h : IsIntegral A (algebraMap L Ω (x : L)) :=
-      (x.isIntegral_coe.map (algebraMap L Ω).toIntAlgHom).tower_top
-    obtain ⟨y, hy⟩ := IsIntegrallyClosed.isIntegral_iff.1 h
-    rw [← hy]
-    exact y.2
-  let f : 𝓞 L →+* A := ((algebraMap L Ω).comp (algebraMap (𝓞 L) L)).codRestrict A hint
-  let P : Ideal (𝓞 L) := (IsLocalRing.maximalIdeal A).comap f
-  have hP : ∀ x : 𝓞 L, A.valuation (algebraMap L Ω (x : L)) < 1 ↔ x ∈ P := fun x =>
-    (A.valuation_lt_one_iff (f x)).symm
-  have hu : v.asIdeal = P.under (𝓞 K) := by
-    ext x
-    rw [← hA x, Ideal.under, Ideal.mem_comap, ← hP, IsScalarTower.algebraMap_apply K L Ω]
-    rfl
-  have hne : P ≠ ⊥ := by
-    intro h
-    apply v.ne_bot
-    rw [hu, h]
-    exact Ideal.comap_bot_of_injective _ (RingOfIntegers.algebraMap.injective K L)
-  exact ⟨⟨P, inferInstance, hne⟩, hP, HeightOneSpectrum.ext hu.symm⟩
+  apply _root_.place_between <;> assumption
 
 private theorem ker_pr_le {l : ℕ} [Fact l.Prime] {L Ω : Type} [Field L] [NumberField L] [IsCMField L] [Field Ω]
     [Algebra L Ω] [IsAlgClosure L Ω] {s : W.HidaSetting l L Ω} (V : s.Lev) (K : Subgroup (G L Ω))

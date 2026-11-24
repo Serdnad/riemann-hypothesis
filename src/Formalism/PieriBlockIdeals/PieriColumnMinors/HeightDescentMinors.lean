@@ -1,5 +1,6 @@
 module
 
+import Formalism.DistinguishedUnitIdeals.DistinguishedOrderProofs.GoodOf
 public import Formalism.PieriBlockIdeals.CapelliCentralEnveloping
 public import Mathlib.GroupTheory.Nilpotent
 public import Mathlib.RingTheory.Polynomial.Cyclotomic.Basic
@@ -1190,14 +1191,7 @@ lemma dvd_prod_sub_prod {R ι : Type} [CommRing R] (s : Finset ι) (a b : ι →
 
 lemma one_add_pow_eq_linear_add_sq_mul {R : Type} [CommRing R] (x : R) (n : ℕ) :
     ∃ e, (1 + x) ^ n = 1 + (n : R) * x + x ^ 2 * e := by
-  induction n with
-  | zero => exact ⟨0, by simp⟩
-  | succ n ih =>
-    obtain ⟨e, he⟩ := ih
-    refine ⟨(n : R) + e + x * e, ?_⟩
-    rw [pow_succ, he]
-    push_cast
-    ring
+  apply _root_.Formalism.ExponentWindows.E.GoodPlacesAlt.one_add_pow_expansion <;> assumption
 
 section
 

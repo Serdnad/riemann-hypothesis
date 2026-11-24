@@ -54,6 +54,8 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsFinExt
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.HausdorffOfModuleTopologyFiniteDimensional
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.Proofs.FoundationProofs.AbsoluteGaloisMemFixingSubgroupMaxUnramified, Development.AbelianVarietyTheory.Proofs.FoundationProofs.TorsionTheoremModule, Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IsCrysOnOfIsCrys, Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.CrysOnCondOfEveryDatum
@@ -149,20 +151,7 @@ theorem finrank_maxUnramified_levelFieldFiniteExtension (K : FinExt l) (s : ℕ)
 
 theorem val_le_iff (P : LocPrime l) (LL : FinExt l) (x : ℚ_[l]) (s : ℕ) :
     (s : WithTop ℚ) ≤ P.v LL (algebraMap ℚ_[l] ↥LL.1 x) ↔ ‖x‖ ≤ (l : ℝ) ^ (-(s : ℤ)) := by
-  have hl0 : (l : ℚ_[l]) ≠ 0 := by exact_mod_cast (Fact.out : l.Prime).ne_zero
-  have hl1 : (0 : ℝ) < l := by exact_mod_cast (Fact.out : l.Prime).pos
-  obtain ⟨y, rfl⟩ : ∃ y, x = (l : ℚ_[l]) ^ s * y := ⟨((l : ℚ_[l]) ^ s)⁻¹ * x, by field_simp⟩
-  rw [map_mul, map_pow, map_natCast, AddValuation.map_mul, AddValuation.map_pow, P.v_l,
-    norm_mul, norm_pow, Padic.norm_p, nsmul_one, inv_pow, ← zpow_natCast, ← zpow_neg,
-    mul_le_iff_le_one_right (zpow_pos hl1 _)]
-  have h1 : (s : WithTop ℚ) ≤ s + P.v LL (algebraMap ℚ_[l] ↥LL.1 y) ↔
-      0 ≤ P.v LL (algebraMap ℚ_[l] ↥LL.1 y) := by
-    conv_lhs => lhs; rw [← add_zero (s : WithTop ℚ)]
-    exact WithTop.add_le_add_iff_left (WithTop.natCast_ne_top s)
-  rw [h1, P.v_O]
-  change IsIntegral ℤ_[l] _ ↔ _
-  rw [isIntegral_algebraMap_iff , IsIntegrallyClosed.isIntegral_iff]
-  exact ⟨fun ⟨z, hz⟩ => hz ▸ z.2, fun h => ⟨⟨y, h⟩, rfl⟩⟩
+  apply _root_.GlobalTheory.HerrNatural.le_v_iff <;> assumption
 
 theorem absoluteGalois_mem_fixingSubgroup_maxUnramified {K : FinExt l} (g : ↥(GK K)) : (g : GQ l) ∈ (K0 K).fixingSubgroup :=
   fun x => g.2 ⟨x.1, x.2.1⟩
@@ -177,15 +166,7 @@ theorem mem_GKs (hs : W.s = s) (g : ↥(GK K)) : g ∈ W.GKs ↔ (g : GQ l) ∈ 
   exact (((GlobalTheory.Cyc.cyc_basic l P.χQ P.χQ_cyc).2.2 K g (absoluteGalois_mem_fixingSubgroup_maxUnramified g)).1 s).symm
 
 theorem prim_ζQ (P : LocPrime l) (m : ℕ) : IsPrimitiveRoot (P.ζQ (m + 1)) (l ^ (m + 1)) := by
-  have h : ∀ j, P.ζQ (j + 1) ^ l ^ j = P.ζQ 1 := by
-    intro j
-    induction j with
-    | zero => simp
-    | succ j ih => rw [pow_succ', pow_mul, P.ζQ_succ, ih]
-  have h1 : ¬ P.ζQ (m + 1) ^ l ^ m = 1 := by rw [h]; exact P.ζQ_one
-  have h2 : P.ζQ (m + 1) ^ l ^ (m + 1) = 1 := by rw [pow_succ, pow_mul, h, P.ζQ_succ, P.ζQ_zero]
-  rw [← orderOf_eq_prime_pow h1 h2]
-  exact IsPrimitiveRoot.orderOf _
+  apply _root_.GlobalTheory.MemLoc.FitsEx.zeta_prim <;> assumption
 
 theorem resΓ_eq_one (g : ↥(GK K)) (hg : ∀ j : ℕ, (g : GQ l) (P.ζQ j) = P.ζQ j) : W.resΓ g = 1 := by
   have h1 : (P.χQ (g : GQ l) : ℚ_[l]) = 1 := by

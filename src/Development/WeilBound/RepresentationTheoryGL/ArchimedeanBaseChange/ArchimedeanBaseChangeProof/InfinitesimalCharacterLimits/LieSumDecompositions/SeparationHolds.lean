@@ -1,5 +1,6 @@
 module
 
+import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.TemperedLocalComponents.FormsFiniteGL
 public import Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange.ArchimedeanBaseChangeProof.InfinitesimalCharacterLimits.LieSumDecompositions.GrowPHolds
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.CasimirEigenOrthogonal
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.StableLevelDecomposition
@@ -190,16 +191,7 @@ end Hilb
 theorem coeffSpan_rt {K Y : Type} [Group K] [AddCommGroup Y] [Module ℂ Y] (ρ : Representation ℂ K Y)
     {f : K → ℂ} (hf : f ∈ GlobalTheory.Published.AutFin.coeffSpan ρ) (k₀ : K) :
     (fun k => f (k * k₀)) ∈ GlobalTheory.Published.AutFin.coeffSpan ρ := by
-  induction hf using Submodule.span_induction with
-  | mem f hf =>
-    obtain ⟨ℓ, w, rfl⟩ := hf
-    refine Submodule.subset_span ⟨ℓ, ρ k₀ w, ?_⟩
-    funext k
-    show ℓ (ρ (k * k₀) w) = _
-    rw [map_mul, Module.End.mul_apply]
-  | zero => exact zero_mem _
-  | add f g _ _ hf hg => exact add_mem hf hg
-  | smul c f _ hf => exact Submodule.smul_mem _ c hf
+  apply _root_.UpperTheory.V.Af.CoefficientSpans.coeffSpan_right <;> assumption
 
 theorem cptRep_mem_typePart {L : Subgroup (GL (Fin N) (Af E))} {Y : Type} [AddCommGroup Y] [Module ℂ Y]
     {ρ : Representation ℂ (Kinf E N) Y} {f : Sm E N} (hf : f ∈ typePart L ρ) (k : Kinf E N) :

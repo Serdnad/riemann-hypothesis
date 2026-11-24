@@ -1,5 +1,7 @@
 module
 
+
+import ReciprocityTheory.ReductiveGroups.DiscreteSeries.CasimirCoefficients.TopContDiffOn
 public import Formalism.RealPlaceAnalysis.StatementE
 public import Mathlib.LinearAlgebra.Matrix.NonsingularInverse
 public import Formalism.RealPlaceAnalysis.ThirdArithmeticHolds
@@ -48,7 +50,6 @@ import Mathlib.Tactic.Basify
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Tactic.TypeStar
 import Std.Tactic.BVDecide.Normalize.Prop
-
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Formalism.PeriodIntegrals.UnitaryGroupMassFormula.CentralCharacters.CentralScalar, Formalism.PeriodIntegrals.UnitaryGroupMassFormula.CentralCharacters.QuasiDeterminantConjInv
 
@@ -100,13 +101,7 @@ theorem ofFn_prod_sum {R : Type*} [Ring R] {ι : Type*} [Fintype ι] [DecidableE
 theorem ofFn_prod_smul {R : Type*} [Ring R] [Algebra ℂ R] :
     ∀ (t : ℕ) (a : Fin t → ℂ) (x : Fin t → R),
       (List.ofFn fun k => a k • x k).prod = (∏ k, a k) • (List.ofFn x).prod := by
-  intro t
-  induction t with
-  | zero => simp
-  | succ t ih =>
-    intro a x
-    rw [List.ofFn_succ, List.prod_cons, ih, List.ofFn_succ (f := x), List.prod_cons, Fin.prod_univ_succ,
-      smul_mul_smul_comm]
+  apply _root_.ReciprocityTheory.ChartRestriction.DS.S7.CapAd.prod_ofFn_smul <;> assumption
 
 theorem intCast_mul_eq {R : Type*} [Ring R] [Algebra ℂ R] (z : ℤ) (y : R) : (z : R) * y = (z : ℂ) • y := by
   rw [← zsmul_eq_mul, Int.cast_smul_eq_zsmul]
@@ -114,17 +109,8 @@ theorem intCast_mul_eq {R : Type*} [Ring R] [Algebra ℂ R] (z : ℤ) (y : R) : 
 theorem sum_fun_eq_sum_perm {M : Type*} [AddCommMonoid M] {n : ℕ} (f : (Fin n → Fin n) → M)
     (hf : ∀ c, ¬ Function.Injective c → f c = 0) :
     ∑ c, f c = ∑ π : Equiv.Perm (Fin n), f π := by
-  classical
-  rw [← Finset.sum_subset (Finset.subset_univ
-    (Finset.univ.map ⟨fun π : Equiv.Perm (Fin n) => (π : Fin n → Fin n), DFunLike.coe_injective⟩))]
-  · rw [Finset.sum_map]
-    rfl
-  · intro c _ hc
-    apply hf
-    intro hinj
-    apply hc
-    rw [Finset.mem_map]
-    exact ⟨Equiv.ofBijective c hinj.bijective_of_finite, Finset.mem_univ _, rfl⟩
+  intros
+  apply _root_.ReciprocityTheory.ChartRestriction.DS.S7.CapAd.sum_fun_perm <;> assumption
 
 def qF {R : Type*} [Ring R] {n : ℕ} (F : ℂ → Fin n → Fin n → R) (u : ℂ) : R :=
   ∑ σ : Equiv.Perm (Fin n), ((Equiv.Perm.sign σ : ℤ) : R) * (List.ofFn fun k : Fin n => F (u - (k : ℂ)) (σ k) k).prod

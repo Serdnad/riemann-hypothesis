@@ -17,7 +17,11 @@ namespace CompanionTheory.Exh
 
 variable {k : Type} [Field k] [ValuativeRel k] [TopologicalSpace k] [IsNonarchimedeanLocalField k]
 
-theorem isL_add_segment_of_injective_of_not_precedes [CharZero k] (HS : GlobalTheory.Published.StandardCosocleGL) (HL : LSocleGL k) (x : IrrGL (k := k))
+theorem isL_add_segment_of_injective_of_not_precedes_of_cosocle
+    (HS : ∀ (𝔪 : Multiset (Segment k)) (h N : ℕ) (x : Fin h → IrrGL (k := k))
+      (hd : ∑ a, (x a).1 = N), LFactors 𝔪 x →
+        ∃ π : IrrRep (GL (Fin N) k), IsCosocle π.ρ (prodIrr x hd))
+    (HL : LSocleGL k) (x : IrrGL (k := k))
     (y : Fin 2 → IrrGL (k := k)) (hd : ∑ a, (y a).1 = x.1) (s : Segment k) (𝔫 : Multiset (Segment k))
     (hs : IsLSeg s (y 0).rep) (hn : IsL 𝔫 (y 1).rep)
     (hf : ∃ f : x.rep.IntertwiningMap (prodIrr y hd), Function.Injective f)
@@ -43,7 +47,7 @@ theorem isL_add_segment_of_injective_of_not_precedes [CharZero k] (HS : GlobalTh
     simp [w]
   have hwr : ∑ a, (w (Fin.rev a)).1 = x.1 := (Equiv.sum_comp Fin.revPerm fun a => (w a).1).trans hwd
   have hzr : ∑ a, (z (Fin.rev a)).1 = (y 1).1 := (Equiv.sum_comp Fin.revPerm fun a => (z a).1).trans hz
-  obtain ⟨π, hπ⟩ := HS k (𝔫 + {s}) (h + 1) x.1 w hwd hwL
+  obtain ⟨π, hπ⟩ := HS (𝔫 + {s}) (h + 1) x.1 w hwd hwL
   have hπL : IsL (𝔫 + {s}) π.ρ := ⟨_, w, hwd, hwL, hπ⟩
   have hsoc := HL (𝔫 + {s}) (h + 1) x.1 w hwr hwL π.ρ hπL
   have hsoc₁ := HL 𝔫 h (y 1).1 z hzr ⟨Δ, hΔ, hzL⟩ (y 1).rep hn
@@ -52,6 +56,14 @@ theorem isL_add_segment_of_injective_of_not_precedes [CharZero k] (HS : GlobalTh
     (by simp [w, Function.comp]) (fun i => by simp [w, Function.comp, Fin.rev_succ]) hd hwr hzr g hg
   obtain ⟨e⟩ := hsoc.equiv_of_embeds x.2.rep.irr ⟨F.comp f, hF.comp hf⟩
   exact hπL.of_equiv e.symm
+
+theorem isL_add_segment_of_injective_of_not_precedes [CharZero k] (HS : GlobalTheory.Published.StandardCosocleGL) (HL : LSocleGL k) (x : IrrGL (k := k))
+    (y : Fin 2 → IrrGL (k := k)) (hd : ∑ a, (y a).1 = x.1) (s : Segment k) (𝔫 : Multiset (Segment k))
+    (hs : IsLSeg s (y 0).rep) (hn : IsL 𝔫 (y 1).rep)
+    (hf : ∃ f : x.rep.IntertwiningMap (prodIrr y hd), Function.Injective f)
+    (hp : ∀ Δ ∈ 𝔫, ¬ Δ.Precedes s) :
+    IsL (𝔫 + {s}) x.rep :=
+  isL_add_segment_of_injective_of_not_precedes_of_cosocle (HS k) HL x y hd s 𝔫 hs hn hf hp
 
 theorem peelGoodP (h1 : GlobalTheory.Published.StandardCosocleGL) (h2 : Zc.LSocleGL k) (_h3 : RefineP k) [CharZero k] :
     Zc.PeelGoodP k := by

@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.CmExtensionIdeleConjIdeleMapMaxRealSubfieldStatement
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.BcDefs
 public import CompanionTheory.AutomorphicTheory.UnitriangularMeasure.AdeleCoordinateMeasure.EllipticTorusNorm
 public import GroundTheory.GlobalFields.NormResidueSymbol.FunctorialFinite
@@ -42,18 +43,8 @@ import Mathlib.Tactic.NormNum.RealSqrt
 open NumberField IsDedekindDomain Neutral.B1 Formalism.L2.Host Formalism.ConjugateSelfDual ReciprocityTheory.Gal Formalism.MainNotions.N Polynomial GlobalTheory.CuspRep GlobalTheory.HeckeGal GlobalTheory.GalOfCusp UpperTheory.V UpperTheory.V.Af UpperTheory.V.Af.Bc UpperTheory.V.Published
 
 private theorem adeleMap_eq (K L : Type) [Field K] [NumberField K] [Field L] [NumberField L] [Algebra K L] :
-    GlobalTheory.IndefiniteRowSideFullHecke.UnitaryHeckeCharacterIdele.adeleMap K L = GroundTheory.Global.AdeleBaseChange.adeleMap K L := by
-  ext a : 1
-  apply Prod.ext
-  · funext w
-    open scoped NumberField.LiesOver in
-    change AbsoluteValue.Completion.map _ _ _ = algebraMap _ _ _
-    rw [AbsoluteValue.Completion.algebraMap_eq_of_liesOver]
-  · apply FiniteAdeleRing.ext
-    intro w
-    change GlobalTheory.IndefiniteRowSideFullHecke.UnitaryHeckeCharacterIdele.finiteCompletionMap K L w _ =
-      GroundTheory.Global.SemiLocal.completionMap _ w _
-    rfl
+    GlobalTheory.IndefiniteRowSideFullHecke.UnitaryHeckeCharacterIdele.adeleMap K L = GroundTheory.Global.AdeleBaseChange.adeleMap K L :=
+  _root_.GlobalTheory.ConjIdeleReal.adeleMap_eq_baseChange K L
 
 open scoped GroundTheory.Global.AdeleBaseChange in
 private theorem ideleNorm_eq (E : Type) [Field E] [NumberField E] [IsCMField E] (x : (AdeleRing (𝓞 E) E)ˣ) :

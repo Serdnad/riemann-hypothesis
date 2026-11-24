@@ -1,5 +1,6 @@
 module
 
+import Development.AutomorphicArithmetic.ThetaCorrespondence.ThetaPairLifts.ThirdPlaceSeries.ExistsBigOSplitStatement
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.UnitaryClassMass.LSSkeleton
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.UnitaryClassMass.PSurjH
 import Mathlib.Algebra.Order.Floor.Extended
@@ -104,14 +105,7 @@ theorem flocEq (v : HeightOneSpectrum (𝓞 F)) (L N : Submodule (𝓞 E) V) (D 
 omit [NumberField E] in
 theorem finF (D : ℤ) (hD : D ≠ 0) :
     {v : HeightOneSpectrum (𝓞 F) | ((D : 𝓞 F)) ∈ v.asIdeal}.Finite := by
-  have hI : Ideal.span {((D : 𝓞 F))} ≠ 0 := by
-    rw [Ne, Ideal.zero_eq_bot, Ideal.span_singleton_eq_bot]
-    exact_mod_cast hD
-  apply (Ideal.finite_factors hI).subset
-  intro v hv
-  show v.asIdeal ∣ Ideal.span {((D : 𝓞 F))}
-  rw [Ideal.dvd_iff_le, Ideal.span_singleton_le_iff_mem]
-  exact hv
+  apply _root_.GlobalTheory.SysFin.finite_intCast_mem <;> assumption
 
 theorem interLocStd [FiniteDimensional E V] (N : Submodule (𝓞 E) V) (hN : Submodule.IsLattice E N) (x : V)
     (hx : ∀ p : Ideal (𝓞 E), p.IsMaximal → ∃ t : 𝓞 E, t ∉ p ∧ t • x ∈ N) : x ∈ N := by

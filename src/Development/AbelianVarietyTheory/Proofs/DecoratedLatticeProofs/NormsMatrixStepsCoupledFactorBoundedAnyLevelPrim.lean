@@ -90,6 +90,7 @@ import Mathlib.RingTheory.PiTensorProduct
 import Mathlib.Tactic.Linter.HaveILetI
 import Mathlib.Tactic.TypeStar
 import Development.AbelianVarietyTheory.Proofs.DivisorProofs.CoefficientGramPosSemidefAndNormAtPlace
+import Formalism.LocalToGlobal.Columns.ChainInst
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.Proofs.DivisorProofs.CharacterSumLocalConstantFirst, Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.NormMuInvDetZeroOrOne, Development.AbelianVarietyTheory.Proofs.DivisorProofs.CharacterSumLocalConstantThird, Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.SharpUnitAtBadPrimes, Development.AbelianVarietyTheory.Proofs.DivisorProofs.CharacterSumLocalConstantNinth, Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.WeightsRows, Development.AbelianVarietyTheory.Proofs.DivisorProofs.JetBlockBoundLeExpKernelBound, Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.ChainKernelBoundAtEmbeddingAnyLevelPrime, Development.AbelianVarietyTheory.Proofs.DivisorProofs.CharacterSumLocalConstantSeventh, Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.FirstCoupledKernelFiniteDatumLevelSize, Development.AbelianVarietyTheory.Proofs.DivisorProofs.CharacterSumLocalConstantEighth, Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.LastKernelFiniteDatumBoundedLevelSize, Development.AbelianVarietyTheory.Proofs.SatakeParameters.SumModGPeriodValues, Development.AbelianVarietyTheory.Proofs.DivisorProofs.CharacterSumLocalConstantFifth, Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.UnfoldedEntryTypePrimeSupportPeriodSize, Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.MatrixEntryFiniteDatumBoundedLevelSize, Development.AbelianVarietyTheory.Proofs.DivisorProofs.ColumnNormsOf, Development.AbelianVarietyTheory.Proofs.DivisorProofs.CoupledClassSumCauchySchwarz, Development.AbelianVarietyTheory.Proofs.DivisorProofs.PairAtInvNatSmulSelf, Development.AbelianVarietyTheory.Proofs.DivisorProofs.SqNormClassSumMatrixLeCauchySchwarz, Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.NormsMatrixStepsCoupledFactorBoundedAnyLevelPrim
@@ -710,16 +711,7 @@ theorem proj_inX {n c : ℕ} (y : Sp E n) : LinearMap.funLeft E E (Fin.castAdd c
 
 theorem inX_mem_iff (P : HeightOneSpectrum (𝓞 E)) (q n c : ℕ) (ex : ℕ → ℕ) (y : Sp E n) :
     Loc.inX E n c y ∈ LocE.lamY P q n c ex ↔ y ∈ stdAt E n P := by
-  constructor
-  · intro h
-    simpa [proj_inX] using proj_mem h
-  · intro h
-    refine (mem_lamY_iff P q n c ex _).2 fun l => ?_
-    by_cases hl : l.1 < n
-    · have := (mem_localization_standardLattice P _).1 h ⟨l.1, hl⟩
-      simpa [LocE.scE, Loc.inX, hl] using this
-    · have := Formalism.L2.Col.IntAt.coe P (0 : 𝓞 E)
-      simpa [Loc.inX, hl] using this
+  apply _root_.Formalism.L2.Col.ciMem_lamY <;> assumption
 
 theorem joinCol_inX {n' c' n c : ℕ} (x₀ : HomE E n' n) (y' : Sp E n) (y : Sp E n') :
     (joinCol x₀ y' : HomE E (n' + c') (n + c)) (Loc.inX E n' c' y) = Loc.inX E n c (x₀ y) := by
@@ -1700,13 +1692,7 @@ theorem pairAt_sum_right {α : Type*} (s : Finset α) (x : α → S.V) (y : S.V)
   | insert a s ha ih => rw [Finset.sum_insert ha, Finset.sum_insert ha, pairAt_add_right, ih]
 
 theorem pairAt_self_nonneg (h : PosAt S v) (x : S.V) : 0 ≤ (S.pairAt v x x).re := by
-  have h1 := h.dotProduct_mulVec_nonneg (fun i => v.embedding (S.bV.repr x i))
-  have h2 : S.pairAt v x x = star (fun i => v.embedding (S.bV.repr x i)) ⬝ᵥ
-      (S.gramV.map v.embedding) *ᵥ (fun i => v.embedding (S.bV.repr x i)) := by
-    simp only [GSD.pairAt, dotProduct, Matrix.mulVec, Finset.mul_sum, Matrix.map_apply, Pi.star_apply, mul_assoc]
-    rfl
-  rw [h2]
-  exact (Complex.nonneg_iff.mp h1).1
+  apply _root_.GlobalTheory.ColNorms.CplCS.sq_nonneg' <;> assumption
 
 theorem pairAt_smul_self (a : K) (x : S.V) :
     (S.pairAt v (a • x) (a • x)).re = ‖v.embedding a‖ ^ 2 * (S.pairAt v x x).re := by

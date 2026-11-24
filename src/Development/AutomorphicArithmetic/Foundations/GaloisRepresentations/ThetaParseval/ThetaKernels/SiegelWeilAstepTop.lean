@@ -1,5 +1,7 @@
 module
 
+import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.ThetaParseval.ThetaKernels.ContinuousCjK
+import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.ThetaParseval.ThetaKernels.UnipotentNilpotentMulEqZero
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.ThetaParseval.ThetaKernels.SiegelWeilDatumProperties
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.ThetaParseval.ThetaKernels.SiegelWeilAstepCLawD
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.ThetaParseval.ThetaKernels.SiegelWeilAvacIwaC
@@ -406,20 +408,8 @@ theorem uM_frame_k {uM ν 𝓤} (hu : L.UData uM ν 𝓤) (u : Fin L.n → AE F 
       _ = (1 - _root_.PositivityTheory.SiegelWeilFormula.AStep.COneB.Nu_k L u)ᵀ := by rw [h1, Matrix.mul_one]
   have h4 : a' = ((1 - _root_.PositivityTheory.SiegelWeilFormula.AStep.COneB.Nu_k L u)ᵀ).map (cA σ) := by rw [← h3, _root_.PositivityTheory.SiegelWeilFormula.AStep.COneB.cA_cA_mat_k d]
   rw [h4]
-theorem uM_add_k {uM ν 𝓤} (hu : L.UData uM ν 𝓤) (u v : Fin L.n → AE F E) : uM (u + v) = uM u * uM v := by
-  apply kfour.inFrame_injective d.b
-  rw [SiegelEisensteinSeries.Grp.inFrame_mul, _root_.PositivityTheory.SiegelWeilFormula.AStep.COneB.uM_frame_k L hu, _root_.PositivityTheory.SiegelWeilFormula.AStep.COneB.uM_frame_k L hu, _root_.PositivityTheory.SiegelWeilFormula.AStep.COneB.uM_frame_k L hu, Matrix.fromBlocks_multiply]
-  have e1 : (1 + _root_.PositivityTheory.SiegelWeilFormula.AStep.COneB.Nu_k L u) * (1 + _root_.PositivityTheory.SiegelWeilFormula.AStep.COneB.Nu_k L v) = 1 + _root_.PositivityTheory.SiegelWeilFormula.AStep.COneB.Nu_k L (u + v) := by
-    rw [_root_.PositivityTheory.SiegelWeilFormula.AStep.COneB.Nu_add_k, Matrix.add_mul, Matrix.one_mul, Matrix.mul_add, Matrix.mul_one, _root_.PositivityTheory.SiegelWeilFormula.AStep.COneB.Nu_mul_k, add_zero]
-    abel
-  have e2 : ((1 - _root_.PositivityTheory.SiegelWeilFormula.AStep.COneB.Nu_k L u)ᵀ).map (cA σ) * ((1 - _root_.PositivityTheory.SiegelWeilFormula.AStep.COneB.Nu_k L v)ᵀ).map (cA σ) = ((1 - _root_.PositivityTheory.SiegelWeilFormula.AStep.COneB.Nu_k L (u + v))ᵀ).map (cA σ) := by
-    have hm := Matrix.map_mul (L := (1 - _root_.PositivityTheory.SiegelWeilFormula.AStep.COneB.Nu_k L u)ᵀ) (M := (1 - _root_.PositivityTheory.SiegelWeilFormula.AStep.COneB.Nu_k L v)ᵀ) (f := (cA σ).toRingHom)
-    erw [← hm]
-    rw [← Matrix.transpose_mul, _root_.PositivityTheory.SiegelWeilFormula.AStep.COneB.Nu_add_k, Matrix.sub_mul, Matrix.one_mul, Matrix.mul_sub, Matrix.mul_one, _root_.PositivityTheory.SiegelWeilFormula.AStep.COneB.Nu_mul_k,
-      sub_zero]
-    congr 2
-    abel
-  simp only [Matrix.mul_zero, Matrix.zero_mul, add_zero, zero_add, e1, e2]
+theorem uM_add_k {uM ν 𝓤} (hu : L.UData uM ν 𝓤) (u v : Fin L.n → AE F E) : uM (u + v) = uM u * uM v :=
+  _root_.PositivityTheory.SiegelWeilFormula.Act.C1.uM_add_k hu u v
 theorem uM_zero_k {uM ν 𝓤} (hu : L.UData uM ν 𝓤) : uM 0 = 1 := by
   have h := _root_.PositivityTheory.SiegelWeilFormula.AStep.COneB.uM_add_k L hu 0 0
   rw [add_zero] at h
@@ -429,21 +419,7 @@ theorem uM_neg_k {uM ν 𝓤} (hu : L.UData uM ν 𝓤) (u : Fin L.n → AE F E)
   rw [neg_add_cancel, _root_.PositivityTheory.SiegelWeilFormula.AStep.COneB.uM_zero_k L hu] at h
   exact (eq_inv_of_mul_eq_one_left h.symm).symm
 theorem uM_cont_k {uM ν 𝓤} (hu : L.UData uM ν 𝓤) : Continuous uM := by
-  have hcA : Continuous (cA σ : AE F E → AE F E) :=
-    IsModuleTopology.continuous_of_linearMap (R := AF F) (cA σ).toLinearMap
-  have hmat : Continuous fun u => mat2 (uM u) := by
-    have e : (fun u => mat2 (uM u)) = fun u => incM F d.b.1 * Matrix.fromBlocks (1 + _root_.PositivityTheory.SiegelWeilFormula.AStep.COneB.Nu_k L u) 0 0
-        (((1 - _root_.PositivityTheory.SiegelWeilFormula.AStep.COneB.Nu_k L u)ᵀ).map (cA σ)) * incM F (d.b⁻¹).1 := by
-      funext u; rw [SiegelEisensteinSeries.Grp.matrix_eq_frame_conjugate d.b, _root_.PositivityTheory.SiegelWeilFormula.AStep.COneB.uM_frame_k L hu]
-    rw [e]
-    refine (continuous_const.matrix_mul (Continuous.matrix_fromBlocks (continuous_const.add (_root_.PositivityTheory.SiegelWeilFormula.AStep.COneB.Nu_cont_k L))
-      continuous_const continuous_const ?_)).matrix_mul continuous_const
-    exact ((continuous_const.sub (_root_.PositivityTheory.SiegelWeilFormula.AStep.COneB.Nu_cont_k L)).matrix_transpose).matrix_map hcA
-  have hinv : Continuous fun u => mat2 (uM u)⁻¹ := by
-    simp only [_root_.PositivityTheory.SiegelWeilFormula.AStep.COneB.uM_neg_k L hu]
-    exact hmat.comp continuous_neg
-  refine Topology.IsInducing.subtypeVal.continuous_iff.2 ?_
-  exact Units.continuous_iff.2 ⟨hmat, hinv⟩
+  apply _root_.PositivityTheory.SiegelWeilFormula.Act.ComplexParameterFamilyContinuity.continuous_uM_k <;> assumption
 theorem ratV_cocompact_k : ∃ K : Set (Fin L.n → AE F E), IsCompact K ∧ ∀ u, ∃ r ∈ L.ratV, r + u ∈ K := by
   obtain ⟨C, hC, hCx⟩ := kfour.exists_compact_AE (F := F) (E := E)
   refine ⟨Set.univ.pi (fun _ => C), isCompact_univ_pi (fun _ => hC), fun u => ?_⟩

@@ -1,5 +1,6 @@
 module
 
+import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.LatSelf
 public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.AdelicPointComponentsAtPlacesLatticesVacua
 public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.SelfDualSplitComponentIsLatticeStabilizerEq
 public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.IsPrincipalIdealRingSemiLoc
@@ -254,32 +255,7 @@ theorem idem_mul_inv (v : Pl D) (c : 𝓞 D.host.F) (hc : c ∉ v.asIdeal) :
 
 theorem intAE_dense (T : ℕ) (hT : 0 < T) {z : Af D.host.F ⊗[D.host.F] D.host.E} (hz : z ∈ intAE D) :
     ∃ u : 𝓞 D.host.E, ∃ w ∈ intAE D, z = (1 : Af D.host.F) ⊗ₜ[D.host.F] (u : D.host.E) + T • w := by
-  induction hz using AddSubgroup.closure_induction with
-  | mem z hz =>
-    obtain ⟨a, ha, o, rfl⟩ := hz
-    obtain ⟨ρ, w, hw, e⟩ := Formalism.UG.P.csGlob_intAdApprox D.host.F (T : 𝓞 D.host.F) (by exact_mod_cast hT.ne') a ha
-    rw [map_natCast, ← nsmul_eq_mul] at e
-    refine ⟨algebraMap (𝓞 D.host.F) (𝓞 D.host.E) ρ * o, w ⊗ₜ[D.host.F] (o : D.host.E),
-      AddSubgroup.subset_closure ⟨w, hw, o, rfl⟩, ?_⟩
-    rw [e, TensorProduct.add_tmul]
-    congr 1
-    · have h1 : ((algebraMap (𝓞 D.host.F) (𝓞 D.host.E) ρ * o : 𝓞 D.host.E) : D.host.E) =
-          (ρ : D.host.F) • (o : D.host.E) := by
-        rw [Algebra.smul_def]; rfl
-      rw [h1, ← TensorProduct.smul_tmul, ← Algebra.algebraMap_eq_smul_one]
-      rfl
-  | zero => exact ⟨0, 0, zero_mem _, by simp⟩
-  | add y z _ _ hy hz =>
-    obtain ⟨u, w, hw, rfl⟩ := hy
-    obtain ⟨u', w', hw', rfl⟩ := hz
-    refine ⟨u + u', w + w', add_mem hw hw', ?_⟩
-    rw [show ((u + u' : 𝓞 D.host.E) : D.host.E) = u + u' from rfl, TensorProduct.tmul_add, smul_add]
-    abel
-  | neg y _ hy =>
-    obtain ⟨u, w, hw, rfl⟩ := hy
-    refine ⟨-u, -w, neg_mem hw, ?_⟩
-    rw [show ((-u : 𝓞 D.host.E) : D.host.E) = -(u : D.host.E) from map_neg (algebraMap (𝓞 D.host.E) D.host.E) u, TensorProduct.tmul_neg, smul_neg]
-    abel
+  first | exact _root_.Formalism.IndefR.Fin.PDB.intAE_decomp | exact @_root_.Formalism.IndefR.Fin.PDB.intAE_decomp | apply _root_.Formalism.IndefR.Fin.PDB.intAE_decomp <;> assumption
 
 theorem intAt_dense (P : Pl D → Prop) (T : ℕ) (hT : 0 < T) (a : AE D) (ha : a ∈ intAt D P) :
     ∃ u : 𝓞 D.host.E, ∃ z ∈ intAt D P, a = idem D P * incA D u + T * z := by

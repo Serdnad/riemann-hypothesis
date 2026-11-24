@@ -1,5 +1,7 @@
 module
 
+
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.LocMIterateDiag
 public import Mathlib.GroupTheory.Index
 public import Mathlib.Topology.Algebra.Group.Defs
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsContinuousPadic
@@ -62,7 +64,6 @@ import Mathlib.Tactic.ENatToNat
 import Mathlib.Tactic.Linter.Style
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
-
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.Proofs.DivisorProofs.RelIndexNeZeroOfIsOpenLeIsCompact, Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange.ArchimedeanBaseChangeProof.SatakeExponents.UniformizerValuations.FrameReading.LocalActionPowers.Psmall
 
@@ -109,19 +110,8 @@ section Generic
 
 variable {P X : Type} [Group P] [Group X]
 
-theorem hint_smul (K : Subgroup P) (c : ℂ) (v : P → ℂ) : hint K (fun m => c * v m) = c * hint K v := by
-  by_cases hc : c = 0
-  · subst hc
-    simp only [zero_mul]
-    exact GlobalTheory.CompanionTheory.FamClP.hint_zero K
-  · have hst : rStab (fun m => c * v m) = rStab v := by
-      ext r
-      show (∀ x, c * v (x * r) = c * v x) ↔ ∀ x, v (x * r) = v x
-      exact forall_congr' fun x => mul_right_inj' hc
-    unfold hint
-    rw [hst, show (∑ᶠ q : P ⧸ (rStab v ⊓ K), c * v q.out) = c * ∑ᶠ q : P ⧸ (rStab v ⊓ K), v q.out from
-      (smul_finsum c _).symm]
-    ring
+theorem hint_smul (K : Subgroup P) (c : ℂ) (v : P → ℂ) : hint K (fun m => c * v m) = c * hint K v :=
+  _root_.GlobalTheory.CompanionTheory.TailLocPow.hint_smul K c v
 
 theorem act_left (K L : Subgroup P) (c : ℂ) (φ : P →* X) (G : X → ℂ) (z : X) (l : P) (hl : l ∈ L) :
     hint K (fun m => (L : Set P).indicator (fun _ => c) m * G (z * φ l * φ m)) =

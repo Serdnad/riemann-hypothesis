@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.DetCharacterMemPrincipalCongruenceFixedVectors
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.IsCharLab
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IntertwinerUnipotentInvariant
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.MemPrincipalCongruenceFixedVectorsIff
@@ -57,15 +58,7 @@ variable {g : ℕ} [Fact g.Prime]
 
 theorem alg_apply {G U : Type} [Group G] [Fintype G] [AddCommGroup U] [Module ℂ U] (ρ : Representation ℂ G U)
     (a : MonoidAlgebra ℂ G) (w : U) : ρ.asAlgebraHom a w = ∑ x, a.coeff x • ρ x w := by
-  induction a using MonoidAlgebra.induction_linear with
-  | zero => simp
-  | add a b ha hb => simp [ha, hb, add_smul, Finset.sum_add_distrib]
-  | single x c =>
-    rw [Finset.sum_eq_single x]
-    · simp
-    · intro y _ hy
-      simp [Finsupp.single_eq_of_ne hy]
-    · simp
+  apply _root_.GlobalTheory.SerSys.Loc.alg_sum <;> assumption
 
 theorem entN_par {a b : ℕ} (x : Gn g a) (B : Matrix (Fin a) (Fin b) (ZMod g)) (y : Gn g b) (i j : ℕ) :
     (i < a → j < a → entN (par finSumFinEquiv x B y).val i j = entN x.val i j) ∧

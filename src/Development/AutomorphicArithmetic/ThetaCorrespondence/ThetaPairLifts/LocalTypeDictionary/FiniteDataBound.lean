@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.SplitThetaGridIsAdmissibleFlipTensor
 public import Development.AbelianVarietyTheory.Statements.PlaceShiftStatements.InfClassAt
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FiniteCoefficientBound
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.MovedTensorUnfoldingIntegralValuationLossBoundStatement
@@ -608,23 +609,7 @@ variable {k : Type} [Field k] [ValuativeRel k] [TopologicalSpace k] [IsNonarchim
 private theorem mk_eq_iff {ϖ : kˣ} (hϖ : IsUnif ϖ) (e : ℕ) (a b : 𝒪[k]) :
     (Ideal.Quotient.mk (IsLocalRing.maximalIdeal 𝒪[k] ^ e) a = Ideal.Quotient.mk _ b) ↔
       (((ϖ ^ e)⁻¹ : kˣ) : k) * ((a : k) - b) ∈ 𝒪[k] := by
-  rw [Ideal.Quotient.eq, hϖ.maximalIdeal_eq, Ideal.span_singleton_pow, Ideal.mem_span_singleton']
-  have hϖ0 : (ϖ : k) ≠ 0 := ϖ.ne_zero
-  constructor
-  · rintro ⟨c, hc⟩
-    have hc' : (c : k) * (ϖ : k) ^ e = (a : k) - b := by
-      simpa using congrArg Subtype.val hc
-    rw [← hc', Units.val_inv_eq_inv_val, Units.val_pow_eq_pow_val]
-    have : ((ϖ : k) ^ e)⁻¹ * ((c : k) * (ϖ : k) ^ e) = c := by
-      field_simp
-    rw [this]
-    exact c.2
-  · intro h
-    refine ⟨⟨_, h⟩, ?_⟩
-    apply Subtype.ext
-    simp only [MulMemClass.coe_mul, SubmonoidClass.coe_pow, AddSubgroupClass.coe_sub,
-      Units.val_inv_eq_inv_val, Units.val_pow_eq_pow_val]
-    field_simp
+  apply _root_.GlobalTheory.ResSumInv.mk_eq_iff <;> assumption
 
 private theorem mul_mem_int {A C B : Type} [Fintype C] {X : Matrix A C k} {Y : Matrix C B k}
     (hX : ∀ i j, X i j ∈ 𝒪[k]) (hY : ∀ i j, Y i j ∈ 𝒪[k]) (i : A) (j : B) : (X * Y) i j ∈ 𝒪[k] := by
@@ -637,38 +622,7 @@ private theorem sum_res_mul_left {A B : Type} [Fintype A] [DecidableEq A] [Finty
     (M : GL A k) (hM : M ∈ KO k A) :
     ∑ S : A → B → Res (k := k) e, f (M.val * ((ϖ ^ e)⁻¹ • liftRes S)) =
       ∑ S : A → B → Res (k := k) e, f ((ϖ ^ e)⁻¹ • liftRes S) := by
-  obtain ⟨hMi, hMinv⟩ := (mem_KO_iff M).1 hM
-  have hint : ∀ (S : A → B → Res (k := k) e) (i : A) (j : B), (M.val * liftRes S) i j ∈ 𝒪[k] :=
-    fun S i j => mul_mem_int hMi (liftRes_mem S) i j
-  let σ : (A → B → Res (k := k) e) → (A → B → Res (k := k) e) := fun S i j =>
-    Ideal.Quotient.mk _ ⟨(M.val * liftRes S) i j, hint S i j⟩
-  have hclose : ∀ (S : A → B → Res (k := k) e) (i : A) (j : B),
-      (((ϖ ^ e)⁻¹ : kˣ) : k) * (liftRes (σ S) i j - (M.val * liftRes S) i j) ∈ 𝒪[k] := by
-    intro S i j
-    have h := (mk_eq_iff hϖ e (Quotient.out (σ S i j)) ⟨_, hint S i j⟩).1
-      (by rw [Ideal.Quotient.mk_out])
-    simpa [liftRes] using h
-  have hinj : Function.Injective σ := by
-    intro S S' h
-    funext i j
-    have hd : ∀ a b, ((((ϖ ^ e)⁻¹ : kˣ) : k) • (M.val * (liftRes S - liftRes S'))) a b ∈ 𝒪[k] := by
-      intro a b
-      have h1 := (mk_eq_iff hϖ e _ _).1 (congrFun (congrFun h a) b)
-      simpa [Matrix.mul_sub, Matrix.sub_apply, Matrix.smul_apply] using h1
-    have h2 := mul_mem_int hMinv hd i j
-    rw [Matrix.mul_smul, ← Matrix.mul_assoc, Units.inv_mul, Matrix.one_mul] at h2
-    have h3 := (mk_eq_iff hϖ e (Quotient.out (S i j)) (Quotient.out (S' i j))).2
-      (by simpa [liftRes, Matrix.sub_apply, Matrix.smul_apply] using h2)
-    rwa [Ideal.Quotient.mk_out, Ideal.Quotient.mk_out] at h3
-  refine Fintype.sum_bijective σ (Finite.injective_iff_bijective.1 hinj) _ _ ?_
-  intro S
-  have hsplit : (ϖ ^ e)⁻¹ • liftRes (σ S) = M.val * ((ϖ ^ e)⁻¹ • liftRes S) +
-      ((ϖ ^ e)⁻¹ • liftRes (σ S) - M.val * ((ϖ ^ e)⁻¹ • liftRes S)) := by abel
-  rw [hsplit, hf]
-  intro i j
-  rw [Matrix.mul_smul]
-  simp only [Units.smul_def, Matrix.sub_apply, Matrix.smul_apply, smul_eq_mul, ← mul_sub]
-  exact hclose S i j
+  apply _root_.GlobalTheory.ResSumInv.sum_res_mul_left <;> assumption
 
 end UpperTheory.FourierBlockTranspose
 

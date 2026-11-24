@@ -366,27 +366,12 @@ theorem uw_block {z : Fin (2 * r + k + 1) → ℂ}
 theorem uw_inv {z : Fin (2 * r + k + 1) → ℂ}
     {h : Matrix (Fin (2 * r + k + 1)) (Fin (2 * r + k + 1)) ℂ} (hh : h ∈ UWset k r z) :
     h⁻¹ ∈ UWset k r z := by
-  simp only [UWset, Set.mem_setOf_eq] at hh ⊢
-  obtain ⟨hU, hfix, hz⟩ := hh
-  have hd := isUnit_of_uh hU
-  have key : ∀ v, h *ᵥ v = v → h⁻¹ *ᵥ v = v := by
-    intro v hv
-    calc h⁻¹ *ᵥ v = h⁻¹ *ᵥ (h *ᵥ v) := by rw [hv]
-      _ = (h⁻¹ * h) *ᵥ v := by rw [Matrix.mulVec_mulVec]
-      _ = v := by rw [Matrix.nonsing_inv_mul h hd, Matrix.one_mulVec]
-  exact ⟨uh_inv hU, fun a => ⟨key _ (hfix a).1, key _ (hfix a).2⟩, key _ hz⟩
+  apply _root_.WlocSk.UnitaryGroupBasics.uw_inv <;> assumption
 
 theorem uw_mul {z : Fin (2 * r + k + 1) → ℂ}
     {h h' : Matrix (Fin (2 * r + k + 1)) (Fin (2 * r + k + 1)) ℂ} (hh : h ∈ UWset k r z)
     (hh' : h' ∈ UWset k r z) : h * h' ∈ UWset k r z := by
-  simp only [UWset, Set.mem_setOf_eq] at hh hh' ⊢
-  obtain ⟨hU, hfix, hz⟩ := hh
-  obtain ⟨hU', hfix', hz'⟩ := hh'
-  have key : ∀ v, h *ᵥ v = v → h' *ᵥ v = v → (h * h') *ᵥ v = v := by
-    intro v hv hv'
-    rw [← Matrix.mulVec_mulVec, hv', hv]
-  exact ⟨uh_mul hU hU', fun a => ⟨key _ (hfix a).1 (hfix' a).1, key _ (hfix a).2 (hfix' a).2⟩,
-    key _ hz hz'⟩
+  apply _root_.WlocSk.UnitaryGroupBasics.uw_mul <;> assumption
 
 theorem block_mul_col {h g : Matrix (Fin (2 * r + k + 1)) (Fin (2 * r + k + 1)) ℂ}
     (hh : block k r h) (hg : col k r g) (i q : Fin (2 * r + k + 1)) (hq : q.val ≤ r + k)

@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.ModuliProofs.EpsPtScaleZero
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.PushInvertible
 public import Development.AbelianVarietyTheory.BlockTheory.CMModuli.PeriodMapPresentation
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.IsHolPeriods
@@ -147,31 +148,14 @@ variable {X S : Scheme.{0}} {g : ℕ}
 
 theorem isDerivAt0_smul {F : (Fin g → ℂ) → (Sp ℂ ⟶ X)} {w : Fin g → ℂ} {v : Sp (DualNumber ℂ) ⟶ X}
     (hv : IsDerivAt0 F w v) (c : ℂ) : IsDerivAt0 F (c • w) (spMap (epsScale c) ≫ v) := by
-  have h0 : spMap TangentOrigin.fstC ≫ spMap (epsScale c) ≫ v = spMap TangentOrigin.fstC ≫ v := by
-    rw [← Category.assoc, TanMod.spMap_comp']
-    congr 2
-    exact RingHom.ext fun x => by simp [epsScale]
-  refine ⟨h0.trans hv.1, fun U h f => ?_⟩
-  have h' : ⊤ ≤ v ⁻¹ᵁ U := by
-    rw [TangentOrigin.top_le_preimage_iff] at h ⊢
-    exact h0 ▸ h
-  refine (congrArg TrivSqZeroExt.snd (TangentOrigin.evalPt_spMap_comp (epsScale c) v U h' h f)).trans ?_
-  rw [map_smul, ← hv.2 U h' f]
-  exact TrivSqZeroExt.snd_map _ _
+  intros
+  apply _root_.GlobalTheory.PointUnif.deriv_smul <;> assumption
 
 theorem isDerivAt0_mul {G : Over S} [GrpObj G] {y : Sp ℂ ⟶ S} {F : (Fin g → ℂ) → (Sp ℂ ⟶ G.left)}
     (h0 : F 0 = (1 : Over.mk y ⟶ G).left) {w w' : Fin g → ℂ} {v v' : epsPt y ⟶ G}
     (hv : IsDerivAt0 F w v.left) (hv' : IsDerivAt0 F w' v'.left) : IsDerivAt0 F (w + w') (v * v').left := by
-  have t := TanMod.smT_zero_of y v (hv.1.trans h0)
-  have t' := TanMod.smT_zero_of y v' (hv'.1.trans h0)
-  have t'' : spMap TangentOrigin.fstC ≫ (v * v').left = F 0 :=
-    (TanMod.unit_of_smT_zero y (v * v') (by rw [TanMod.smT_mul, t, t', _root_.mul_one])).trans h0.symm
-  refine ⟨t'', fun U h f => ?_⟩
-  have hF : ⊤ ≤ F 0 ⁻¹ᵁ U := t'' ▸ (TangentOrigin.top_le_preimage_iff _ U).1 h
-  have h1 := (TangentOrigin.top_le_preimage_iff v.left U).2 (hv.1.symm ▸ hF)
-  have h2 := (TangentOrigin.top_le_preimage_iff v'.left U).2 (hv'.1.symm ▸ hF)
-  rw [map_add (f := _), ← hv.2 U h1 f, ← hv'.2 U h2 f]
-  exact TanDeriv.snd_evAt_mul v v' t t' U h1 h2 h f
+  intros
+  apply _root_.GlobalTheory.PointUnif.deriv_mul <;> assumption
 
 end Deriv
 

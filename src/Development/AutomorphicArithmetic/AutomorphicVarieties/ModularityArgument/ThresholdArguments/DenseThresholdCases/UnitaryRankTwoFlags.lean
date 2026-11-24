@@ -1,5 +1,7 @@
 module
 
+import all Development.AutomorphicArithmetic.AutomorphicVarieties.TheoremsMuLinked.GaloisRepresentationTypes.LiftSmul
+import all Development.AutomorphicArithmetic.AutomorphicVarieties.TheoremsMuLinked.GaloisRepresentationTypes.IsIrrOfMatIrr
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.LinkedUnramifiedChains.AbsGood
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.CurveDVRSpecialization.ComponentsGoodRankTwo
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.CurveDVRSpecialization.FinLamOf
@@ -8,6 +10,7 @@ public import Development.AutomorphicArithmetic.AutomorphicVarieties.CurveDVRSpe
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.CurveDVRSpecialization.PxIsCont
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.CurveDVRSpecialization.SecondThirdPrimeConditionTransfer
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.CurveDVRSpecialization.SeedOf
+import all Development.AutomorphicArithmetic.AutomorphicVarieties.CurveDVRSpecialization.SeedOf
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.CommutativeAlgebra.CoSqz
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.CommutativeAlgebra.DerHom
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.LinkedUnramifiedChains.LinkedUnlOf
@@ -495,22 +498,7 @@ private theorem norm_lt_of_mem {l : ℕ} [Fact l.Prime] (c : Coef l) (x : c.O) (
 
 private theorem map_mem_max {O R : Type} [CommRing O] [IsLocalRing O] [CommRing R] [IsLocalRing R] [Algebra O R]
     (ξ : R →ₐ[O] O) (x : R) (hx : x ∈ maximalIdeal R) : ξ x ∈ maximalIdeal O := by
-  by_contra h
-  rw [IsLocalRing.mem_maximalIdeal, mem_nonunits_iff, not_not] at h
-  obtain ⟨u, hu⟩ := h
-  have hy : ξ (x * algebraMap O R (↑u⁻¹ : O) - 1) = 0 := by
-    rw [map_sub, map_mul, AlgHom.commutes, ← hu, map_one]
-    simp
-  have hm : x * algebraMap O R (↑u⁻¹ : O) - 1 ∈ maximalIdeal R := by
-    by_contra h2
-    rw [IsLocalRing.mem_maximalIdeal, mem_nonunits_iff, not_not] at h2
-    have h3 := h2.map ξ
-    rw [hy] at h3
-    exact not_isUnit_zero h3
-  have h1 : (1 : R) ∈ maximalIdeal R := by
-    have h4 := (maximalIdeal R).sub_mem ((maximalIdeal R).mul_mem_right (algebraMap O R ↑u⁻¹) hx) hm
-    simpa using h4
-  exact (IsLocalRing.maximalIdeal.isMaximal R).ne_top ((Ideal.eq_top_iff_one _).mpr h1)
+  apply _root_.x_loc <;> assumption
 
 private theorem not_irr_of_line {Γ k : Type} [Group Γ] [Field k] (r : Γ →* GL (Fin 3) k) (j : Fin 3)
     (h : ∀ s i, i ≠ j → (r s).val i j = 0) : ¬ IsIrr r := by
@@ -594,17 +582,7 @@ private def xiExt {l : ℕ} [Fact l.Prime] {k k' : Type} [Field k] [Field k'] {�
 private theorem xi_adic {Γ R S : Type} [TopologicalSpace Γ] [CommRing R] [CommRing S] [IsLocalRing R]
     [IsLocalRing S] (φ : R →+* S) [IsLocalHom φ] {u : Γ → R} (h : AdicCont (maximalIdeal R) u) :
     AdicCont (maximalIdeal S) fun g => φ (u g) := by
-  unfold AdicCont at h ⊢
-  intro N
-  have h1 : Ideal.map φ (maximalIdeal R) ≤ maximalIdeal S :=
-    Ideal.map_le_iff_le_comap.mpr (fun a ha => Ideal.mem_comap.mpr (map_nonunit φ a ha))
-  have hle : maximalIdeal R ^ N ≤ Ideal.comap φ (maximalIdeal S ^ N) := by
-    rw [← Ideal.map_le_iff_le_comap, Ideal.map_pow]
-    exact Ideal.pow_right_mono h1 N
-  have hc := (h N).comp (Ideal.quotientMap (maximalIdeal S ^ N) φ hle)
-  convert hc using 1
-  ext g
-  rfl
+  apply _root_.UpperTheory.V.Pr.ac_map <;> assumption
 
 private theorem xi_key {O A O₁ : Type} [CommRing O] [IsLocalRing O] [CommRing A] [IsLocalRing A]
     [CommRing O₁] [IsLocalRing O₁] [IsNoetherianRing O₁] [IsAdicComplete (maximalIdeal O₁) O₁]
@@ -778,17 +756,7 @@ private theorem xa_adic {O R Γ : Type} [CommRing O] [IsLocalRing O] [IsNoetheri
 private theorem ap_det {n : ℕ} {A B G H : Type} [CommRing A] [CommRing B] [Group G] [Group H]
     (ρ : G →* Matrix (Fin n) (Fin n) A) (f : A →+* B) (p : H →* G) (τ : H →* Matrix (Fin n) (Fin n) B)
     (h : ∀ g, τ g = (ρ (p g)).map f) : ((W.GDet.ofRep ρ).map f).comap p = W.GDet.ofRep τ := by
-  refine W.GDet.ext fun C _ _ x => ?_
-  letI : Algebra A C := ((algebraMap B C).comp f).toAlgebra
-  change (W.GDet.repAlg ρ C (MonoidAlgebra.mapDomainRingHom C p x)).det = (W.GDet.repAlg τ C x).det
-  congr 1
-  induction x using MonoidAlgebra.induction_linear with
-  | zero => simp
-  | add a b ha hb => simp only [map_add (f := _), ha, hb]
-  | single g r =>
-    ext i j
-    simp [W.GDet.repAlg, h]
-    rfl
+  apply _root_.ap_det <;> assumption
 
 private theorem ap_locAlg (hG : GlobalTheory.Published.GlobalArtinReciprocity) {L Ω : Type} [Field L] [NumberField L] [Field Ω]
     [Algebra L Ω] [IsAlgClosure L Ω] {l : ℕ} [Fact l.Prime] (ι : Qbar l ≃+* ℂ) (ka : G L Ω →* (Qbar l)ˣ)
@@ -798,26 +766,7 @@ private theorem ap_locAlg (hG : GlobalTheory.Published.GlobalArtinReciprocity) {
       ∀ κ : Dec (F := L) A →* (Qbar l)ˣ,
         (∀ g : Dec (F := L) A, (g : G L Ω) ∈ Ine (F := L) A → κ g = cycBar L Ω l g ^ m * χ g * ka g) →
         W.IsLocAlg h κ fun τ => wt τ - m := by
-  obtain ⟨-, art, Y, a, hart, -, hY⟩ := hka
-  refine ⟨fun τ => -a ((ι.toRingHom.comp τ.1).comp (algebraMap L (w.adicCompletion L))), fun m χ hχ κ hκ => ?_⟩
-  by_cases hl : ∃ b, GlobalTheory.LocLanglands.IsLocalArtin h b
-  swap
-  · exact ⟨1, by simp, fun b hb => absurd ⟨b, hb⟩ hl⟩
-  obtain ⟨ph, h1⟩ := Loc.laHecke h art hart ι Y a ka hY hl
-  have h2 := (Loc.laMul h).2.1 _ _ _ m (Loc.laCyc hG h hw)
-  have h3 := (Loc.laMul h).2.2 (χ.comp (Dec (F := L) A).subtype) (χ.comp (Ine (F := L) A).subtype)⁻¹
-    (Subgroup.isOpen_mono (H₁ := χ.ker.comap (Ine (F := L) A).subtype) (fun x hx => inv_eq_one.2 hx)
-      (hχ.preimage continuous_subtype_val)) fun s => mul_inv_cancel _
-  have h4 := ((Loc.laMul h).1 _ _ _ _ _ _ ((Loc.laMul h).1 _ _ _ _ _ _ h2 h3).1 h1).1
-  refine ⟨_, h4.1, fun b hb s => ?_⟩
-  have h5 := h4.2 b hb s
-  rw [hκ _ s.2]
-  refine Eq.trans ?_ (h5.trans ?_)
-  · rfl
-  · refine finprod_congr fun τ => ?_
-    congr 1
-    simp only [Pi.add_apply, Pi.smul_apply, Pi.zero_apply, smul_eq_mul]
-    ring
+  apply _root_.ap_locAlg <;> assumption
 
 private theorem ap_psi {Ω : Type} [Field Ω] [CharZero Ω] [IsAlgClosure ℚ Ω] {l : ℕ} [Fact l.Prime] (c : Coef l)
     {N : ℕ} [NeZero N] (e : ℕ) (ψ : DirichletCharacter c.O N) (L : Type) [Field L] [NumberField L] [Algebra L Ω]

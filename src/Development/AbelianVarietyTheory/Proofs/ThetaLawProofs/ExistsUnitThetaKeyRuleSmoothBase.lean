@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.HeightProofs.IsValLineLogNormAtIffEmbedding
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.ThetaUnifAV
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.GlobalSectionsRankAlgClosed
 public import Development.AbelianVarietyTheory.Definitions.KeyFormula.KeyRuleOneOfKeyFormula
@@ -70,19 +71,7 @@ section Tangent
 
 theorem eq_of_isDiff {A : Over (Sp ℂ)} [GrpObj A] {L : LB A.left} {g : ℕ} (u : HolUnif A L g) {w : Fin g → ℂ}
     {v v' : epsR ℂ ⟶ A} (hv : IsTangent v) (hv' : IsTangent v') (h : u.IsDiff w v) (h' : u.IsDiff w v') : v = v' := by
-  let pt : (𝟙_ (Over (Sp ℂ))).left := (default : PrimeSpectrum ℂ)
-  have hsub : ∀ q : (𝟙_ (Over (Sp ℂ))).left, q = pt := fun q =>
-    Subsingleton.elim (α := PrimeSpectrum ℂ) q pt
-  obtain ⟨U, hU, hx, -⟩ := exists_isAffineOpen_mem_and_subset (X := A.left) (x := (u.ex 0).left pt) (U := ⊤) trivial
-  have h0 : ⊤ ≤ (u.ex 0).left ⁻¹ᵁ U := by
-    intro q _
-    rw [hsub q]
-    exact hx
-  have h₁ := (GlobalTheory.TangentOrigin.tangent_mem_iff (u := u) hv U).2 h0
-  have h₂ := (GlobalTheory.TangentOrigin.tangent_mem_iff (u := u) hv' U).2 h0
-  rw [GlobalTheory.TangentOrigin.isDiff_iff hv hU h₁ h0] at h
-  rw [GlobalTheory.TangentOrigin.isDiff_iff hv' hU h₂ h0] at h'
-  exact Over.OverMorphism.ext (GlobalTheory.TangentOrigin.ext_evalPt hU h₁ h₂ (h.trans h'.symm))
+  first | exact _root_.GlobalTheory.ArchMetricCompare.eq_of_isDiff | exact @_root_.GlobalTheory.ArchMetricCompare.eq_of_isDiff | apply _root_.GlobalTheory.ArchMetricCompare.eq_of_isDiff <;> assumption
 
 theorem det_ne_zero_of_normalAt {x : KeyIn ℂ} {τ M : Matrix (Fin x.P.g) (Fin x.P.g) ℂ} {a b : Fin x.P.g → ℂ} {c : ℂ}
     (h : NormalAt x τ M a b c) : M.det ≠ 0 := by

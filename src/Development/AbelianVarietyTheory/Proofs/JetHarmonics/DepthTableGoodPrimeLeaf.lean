@@ -928,36 +928,7 @@ open Formalism.L2.FormalSeriesBounds
 
 private lemma UpperTheory.least_level_le_log_bound (k l : ℕ) (hk : 1 ≤ k) (hl : 5 ≤ l) :
     ((RF.i0 k l : ℕ) : ℝ) ≤ 3 + 2 * Real.log k := by
-  have hk0 : (0:ℝ) < k := by exact_mod_cast hk
-  have hk1 : (1:ℝ) ≤ k := by exact_mod_cast hk
-  have hlog : 0 ≤ Real.log k := Real.log_nonneg hk1
-  have hj1 : Real.log k < (⌊Real.log k⌋₊ : ℝ) + 1 := Nat.lt_floor_add_one _
-  have hj2 : (⌊Real.log k⌋₊ : ℝ) ≤ Real.log k := Nat.floor_le hlog
-  have hmem : 2 * ⌊Real.log k⌋₊ + 3 ∈
-      {i : ℕ | Odd i ∧ 3 ≤ i ∧ (k:ℝ) ^ ((3:ℝ) / 2) < (l:ℝ) ^ i} := by
-    refine ⟨⟨⌊Real.log k⌋₊ + 1, by ring⟩, by omega, ?_⟩
-    have e1 : (k:ℝ) ^ ((3:ℝ) / 2) ≤ (k:ℝ) ^ (2:ℝ) :=
-      Real.rpow_le_rpow_of_exponent_le hk1 (by norm_num)
-    have e2 : (k:ℝ) ^ (2:ℝ) = Real.exp (2 * Real.log k) := by
-      rw [Real.rpow_def_of_pos hk0, mul_comm]
-    have e3 : Real.exp (2 * Real.log k) < Real.exp ((2 * ⌊Real.log k⌋₊ + 3 : ℕ) : ℝ) := by
-      apply Real.exp_lt_exp.2
-      push_cast
-      linarith
-    have e4 : Real.exp ((2 * ⌊Real.log k⌋₊ + 3 : ℕ) : ℝ) ≤ (5:ℝ) ^ (2 * ⌊Real.log k⌋₊ + 3) := by
-      rw [show ((2 * ⌊Real.log k⌋₊ + 3 : ℕ) : ℝ) = ((2 * ⌊Real.log k⌋₊ + 3 : ℕ) : ℝ) * 1 by ring,
-        Real.exp_nat_mul]
-      apply pow_le_pow_left₀ (Real.exp_pos 1).le
-      have := Real.exp_one_lt_d9
-      linarith
-    have e5 : (5:ℝ) ^ (2 * ⌊Real.log k⌋₊ + 3) ≤ (l:ℝ) ^ (2 * ⌊Real.log k⌋₊ + 3) := by
-      apply pow_le_pow_left₀ (by norm_num)
-      exact_mod_cast hl
-    linarith
-  have hle : RF.i0 k l ≤ 2 * ⌊Real.log k⌋₊ + 3 := Nat.sInf_le hmem
-  have hc : ((RF.i0 k l : ℕ) : ℝ) ≤ ((2 * ⌊Real.log k⌋₊ + 3 : ℕ) : ℝ) := by exact_mod_cast hle
-  push_cast at hc
-  linarith
+  apply _root_.GlobalTheory.RowBudgets.level_le <;> assumption
 
 theorem UpperTheory.f_mul_leastAdmissibleLevel_rows_le :
     ∀ (r f n m nW l k : ℕ) (L : ℝ), 1 ≤ m → m ≤ n → n ≤ r → 2 ≤ f → n + 1 = k → 3 ≤ L → Real.log k ≤ L →
@@ -1013,27 +984,13 @@ open Formalism.IncomingBounds in
 private theorem cut (K s B : ℕ) (e : ℕ → ℕ) : ∃ pc : Fin s → ℕ → ℕ,
     (∀ u, ∑ k ∈ Finset.Icc 1 K, pc u k ≤ B) ∧
     (∑ k ∈ Finset.Icc 1 K, e k ≤ s * B → (∀ k, e k ≠ 0 → 1 ≤ k ∧ k ≤ K) → ∀ k, ∑ u, pc u k = e k) := by
-  by_cases h : ∑ k ∈ Finset.Icc 1 K, e k ≤ s * B
-  · obtain ⟨pc, h1, h2, h3⟩ := GlobalTheory.exists_cut_columns_bounded_width K s B e h
-    refine ⟨pc, h2, fun _ hs k => ?_⟩
-    by_cases hk : k ∈ Finset.Icc 1 K
-    · exact h1 k hk
-    · have : e k = 0 := by
-        by_contra h0
-        exact hk (Finset.mem_Icc.2 (hs k h0))
-      rw [this]
-      exact Finset.sum_eq_zero fun u _ => h3 u k hk
-  · exact ⟨fun _ _ => 0, by simp, fun h' => absurd h' h⟩
+  apply _root_.GlobalTheory.GoodDepth.Zero.cut <;> assumption
 
 
 open Formalism.IncomingBounds in
 private theorem monAl_le_first (K rk : ℕ) (e : ℕ → ℕ) (ρ : ℕ) :
     monAl K rk e ρ ≤ ∑ k ∈ Finset.Icc 1 K, e k := by
-  unfold monAl
-  apply Finset.sum_le_sum_of_subset
-  intro k hk
-  rw [Finset.mem_Icc] at hk ⊢
-  exact ⟨le_trans (Nat.le_add_left 1 ρ) hk.1, le_trans hk.2 (min_le_left _ _)⟩
+  apply _root_.GlobalTheory.GoodDepth.Zero.monAl_le_first <;> assumption
 
 theorem UpperTheory.pkgZeroCs_nu_nonpos_of_monSupply :
     RF.MONSupply → ∀ (P : RF.Par) (l : ℕ) (Pk : PkgZeroCs P l), Pk.ν ≤ 0 := by

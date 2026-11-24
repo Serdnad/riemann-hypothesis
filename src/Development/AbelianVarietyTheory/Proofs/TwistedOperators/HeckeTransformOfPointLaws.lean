@@ -1,5 +1,7 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.ChartCoverFOfSecBaseChange
+import Development.AbelianVarietyTheory.Proofs.ModuliProofs.HeckeKernelSchemeGeometricPointsEqKernels
 public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.HkRelFrOfTransportIff
 public import Development.AbelianVarietyTheory.Proofs.HomogeneousIdeals.BijectiveRestrictPointsOfEtaleOfHenselian
 public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsUniqueTangentLift
@@ -393,15 +395,7 @@ open GlobalTheory.HeckeKerModel
 
 theorem exists_pt (X : Scheme.{0}) (g : X) :
     ∃ (k : Type) (_ : Field k) (_ : IsAlgClosed k) (x : Sp k ⟶ X), Set.range x = {g} := by
-  refine ⟨AlgebraicClosure (X.residueField g), inferInstance, inferInstance,
-    Spec.map (CommRingCat.ofHom (algebraMap (X.residueField g) (AlgebraicClosure (X.residueField g))))
-      ≫ X.fromSpecResidueField g, ?_⟩
-  apply Set.eq_singleton_iff_unique_mem.2
-  refine ⟨⟨IsLocalRing.closedPoint _, ?_⟩, ?_⟩
-  · exact (Scheme.Hom.comp_apply _ _ _).trans (Scheme.fromSpecResidueField_apply _ _)
-  · rintro _ ⟨y, rfl⟩
-    rw [Scheme.Hom.comp_apply]
-    exact Scheme.fromSpecResidueField_apply _ _
+  apply _root_.GlobalTheory.HkPts.exists_geomPt <;> assumption
 
 theorem lift_closed {T N B : Scheme.{0}} [IsReduced T] (x : T ⟶ B) (ν : N ⟶ B)
     [IsClosedImmersion ν] (h : Set.range x ⊆ Set.range ν) : ∃ l : T ⟶ N, l ≫ ν = x := by
@@ -427,27 +421,7 @@ theorem kerSet_unique {G G' : Over S} [GrpObj G'] {ψ : G ⟶ G'} {K K' : Set G.
 
 theorem kerSet_preimage {G G' : Over S} [GrpObj G'] [IsSeparated G'.hom] (ψ : G ⟶ G') :
     KerSet ψ (ψ.left ⁻¹' Set.range (η[G'] : 𝟙_ (Over S) ⟶ G').left) := by
-  intro k _ _ x z
-  have hw : (η[G'] : 𝟙_ (Over S) ⟶ G').left ≫ G'.hom = 𝟙 _ := Over.w _
-  have : IsClosedImmersion (η[G'] : 𝟙_ (Over S) ⟶ G').left := by
-    have : IsClosedImmersion ((η[G'] : 𝟙_ (Over S) ⟶ G').left ≫ G'.hom) := by rw [hw]; infer_instance
-    exact IsClosedImmersion.of_comp _ G'.hom
-  have h1 : (1 : Over.mk x ⟶ G').left = x ≫ (η[G'] : 𝟙_ (Over S) ⟶ G').left := rfl
-  constructor
-  · rintro h _ ⟨w, rfl⟩
-    refine ⟨x w, ?_⟩
-    have := congrArg (fun f : Over.mk x ⟶ G' => f.left w) h
-    simp only [h1, Over.comp_left, Scheme.Hom.comp_apply] at this
-    exact this.symm
-  · intro h
-    obtain ⟨t, ht⟩ := lift_closed (T := Sp k) (z.left ≫ ψ.left) (η[G'] : 𝟙_ (Over S) ⟶ G').left (by
-      rintro _ ⟨w, rfl⟩
-      exact h ⟨w, rfl⟩)
-    have ht' : t = x := by
-      have := Over.w (z ≫ ψ)
-      rw [Over.comp_left, ← ht, Category.assoc, hw] at this
-      exact (Category.comp_id _).symm.trans this
-    exact Over.OverMorphism.ext (by rw [h1, Over.comp_left, ← ht, ht'])
+  apply _root_.GlobalTheory.HeckeDual.kerSet_unit <;> assumption
 
 theorem etSet_of_kerSet {G G' : Over S} [GrpObj G'] [IsSeparated G'.hom] {ψ : G ⟶ G'} [IsFinite ψ.left] [Etale ψ.left]
     {K : Set G.left} (h : KerSet ψ K) : EtSet G K := by
@@ -1308,27 +1282,8 @@ theorem evR_frBor_of_isReduced (hL : GlobalTheory.Reg.EvLaws Xo c) {a : (E →+*
     {F : Rul Xo c} (hF : F ∈ sec Xo c a n) {S : Type} [CommRing S] [Algebra c.F S] [IsReduced S]
     (t : Ix Dw → Sˣ) (y y' : FrPt Xo c S) (h : FrBor t y y') :
     evR Xo c F y' = wchar (ex Dw a n) t * evR Xo c F y := by
-  rw [← sub_eq_zero]
-  apply IsReduced.eq_zero
-  rw [nilpotent_iff_mem_prime]
-  intro P hP
-  let φ : S →ₐ[c.F] S ⧸ P := Ideal.Quotient.mkₐ c.F P
-  obtain ⟨z, hz⟩ := hL.bc _ _ φ y
-  obtain ⟨z', hz'⟩ := hL.bc _ _ φ y'
-  obtain ⟨g, hg1, hg2, hg⟩ := ((_root_.GlobalTheory.Frames.frChg_calculus E H Dw l Xo c S).2.2.2 t y y').1 h
-  have hc := ((_root_.GlobalTheory.Frames.frChg_calculus E H Dw l Xo c S).2.2.1 _ φ g _ y y' z z' hg hz).1 hz'
-  let t' : Ix Dw → (S ⧸ P)ˣ := fun i => Units.map (φ : S →* S ⧸ P) (t i)
-  have hb : FrBor t' z z' :=
-    ((_root_.GlobalTheory.Frames.frChg_calculus E H Dw l Xo c (S ⧸ P)).2.2.2 t' z z').2
-      ⟨fun τ => (g τ).map φ, fun τ i => by simp [t', hg1], fun τ i j hij => by simp [hg2 τ i j hij], hc⟩
-  have hw := evR_frBor_of_isDomain hL hF t' z z' hb
-  rw [GlobalTheory.Reg.evR_baseChange_of_isReduced E H Dw l Xo c hL a n F hF S _ φ y z hz,
-    GlobalTheory.Reg.evR_baseChange_of_isReduced E H Dw l Xo c hL a n F hF S _ φ y' z' hz'] at hw
-  rw [← Ideal.Quotient.eq_zero_iff_mem]
-  change φ _ = 0
-  rw [map_sub, hw, map_mul, sub_eq_zero]
-  congr 1
-  simp [wchar, t']
+  intros
+  apply _root_.GlobalTheory.FrameEval.evR_frBor <;> assumption
 
 theorem evR_scale_of_isReduced (hL : GlobalTheory.Reg.EvLaws Xo c) {a : (E →+* ℂ) × ℕ → ℕ} {n : ℕ}
     {F : Rul Xo c} (hF : F ∈ sec Xo c a n) {A T : Type} [CommRing A] [Algebra c.F A] [IsReduced A]

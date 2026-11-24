@@ -43,6 +43,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Development.AbelianVarietyTheory.Definitions.Divisors.TwistedPlacesOfCondition
+import Development.AbelianVarietyTheory.Counterexamples.TwistSurvey.ConjModelCast
 
 @[expose] public section
 
@@ -116,19 +117,7 @@ theorem norm_conj_of_not_good (he : R.models_HW) (fw : FWTie T R κ v₀) (hE : 
 omit R in
 theorem not_good_conj {σ : D.what₂.LL →+* ℂ} (h : GoodEmb T.Q.c (res T σ)) :
     ¬ GoodEmb T.Q.c (res T ((starRingEnd ℂ).comp σ)) := by
-  have key : ∀ {E : Type} [Field E] [NumberField E] [IsCMField E] {H : ReciprocityTheory.ChartRestriction.G.Geo.Tor.Host E}
-      {l : ReciprocityTheory.ChartRestriction.G.Geo.Tor.Level H} (c : ReciprocityTheory.ChartRestriction.G.Geo.Tor.Coeff l) {s : c.F →+* ℂ}, GoodEmb c s →
-      ¬ GoodEmb c ((starRingEnd ℂ).comp s) := by
-    intro E _ _ _ H l c s h h'
-    have h2 : starRingEnd ℂ H.rt0 = H.rt0 := by
-      conv_lhs => rw [← h]
-      exact h'
-    have him : H.rt0.im = 0 := Complex.conj_eq_iff_im.1 h2
-    have h3 := congrArg Complex.re H.sqrt_neg_disc_sq
-    have hd : (0 : ℝ) < H.d := by exact_mod_cast H.d_prime.pos
-    simp [pow_two, him] at h3
-    nlinarith [mul_self_nonneg H.rt0.re]
-  exact key T.Q.c h
+  apply _root_.GlobalTheory.ConjReading.not_good_conj <;> assumption
 
 end GlobalTheory.ConjNorm
 

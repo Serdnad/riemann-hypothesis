@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.SemistableExtensionMultiplesOfSemistable
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.IsLieBasis
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.DegProd
 public import Development.AbelianVarietyTheory.Proofs.HomogeneousIdeals.LocallyOfFinitePresentationDiagMap
@@ -64,17 +65,7 @@ theorem isIso_toUnit_splitTorus_punit (S : Scheme.{0}) : IsIso (toUnit (splitTor
 
 theorem isAbelianScheme_pullback_obj {S S' : Scheme.{0}} (f : S' ⟶ S) (A : Over S) [GrpObj A]
     (h : IsAbelianScheme A) : IsAbelianScheme ((Over.pullback f).obj A) := by
-  have := h.comm
-  have := h.smooth
-  have := h.proper
-  have := h.geomConnected
-  refine ⟨inferInstance, ?_, ?_, ?_⟩
-  · change Smooth (pullback.snd A.hom f)
-    infer_instance
-  · change IsProper (pullback.snd A.hom f)
-    infer_instance
-  · change GeometricallyConnected (pullback.snd A.hom f)
-    infer_instance
+  first | exact _root_.GlobalTheory.isAbelianScheme_overPullback | exact @_root_.GlobalTheory.isAbelianScheme_overPullback | apply _root_.GlobalTheory.isAbelianScheme_overPullback <;> assumption
 
 noncomputable def torusExtensionOfAbelian {K : Type} [Field K] (A : Over (Spec (.of K))) [GrpObj A]
     (h : IsAbelianScheme A) : TorusExtension A where

@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.NormSubMulAddLeOfUltrametricReplace
 public import Development.AutomorphicArithmetic.Foundations.IwahoriReduction.LangPolynomials.FixedIntegersIsUnitOfNotMemPrimeSpan
 public import Development.AutomorphicArithmetic.Foundations.IwahoriReduction.LangPolynomials.DvdOfNormLe
 public import Development.AutomorphicArithmetic.Foundations.IwahoriReduction.LangPolynomials.KumAlg
@@ -96,19 +97,8 @@ private theorem ng_sum_le {l : ℕ} [Fact l.Prime] {ι : Type} (F : Finset ι) (
   Finset.sum_induction _ (fun x : Qbar l => ‖x‖ ≤ r) (fun _ _ => ng_add_le) (by simpa using hr) h
 
 private theorem ng_O {l : ℕ} [Fact l.Prime] {c : Coef l} (β : Bas c) (x : Qbar l) (hx : x ∈ c.O) : ‖x‖ ≤ 1 := by
-  have h1 := ((pBasEx l c).2 β).1
-  have e : x = ∑ i, β.val i * algebraMap ℤ_[l] (PadicAlgCl l) (β.e.repr ⟨x, hx⟩ i) := by
-    have := congrArg (fun y : c.O => (y : PadicAlgCl l)) (β.e.sum_repr ⟨x, hx⟩)
-    simp only [AddSubmonoidClass.coe_finsetSum] at this
-    refine this.symm.trans (Finset.sum_congr rfl fun i _ => ?_)
-    rw [mul_comm, ← Algebra.smul_def]
-    rfl
-  rw [e]
-  refine ng_sum_le _ _ zero_le_one fun i _ => ?_
-  rw [norm_mul]
-  refine mul_le_one₀ (h1 i) (norm_nonneg _) ?_
-  rw [IsScalarTower.algebraMap_apply ℤ_[l] ℚ_[l] (PadicAlgCl l), norm_algebraMap']
-  exact PadicInt.norm_le_one _
+  intros
+  apply _root_.GlobalTheory.KA.TameLim.norm_le_one_of_mem <;> assumption
 
 private theorem ng_dvd {l m : ℕ} [Fact l.Prime] (x : (ZMod (l ^ (m + 1)))ˣ) (hx : red l m x = 1) :
     ((l : ℤ) ^ m) ∣ (((x : ZMod (l ^ (m + 1))).val : ℕ) : ℤ) - 1 := by

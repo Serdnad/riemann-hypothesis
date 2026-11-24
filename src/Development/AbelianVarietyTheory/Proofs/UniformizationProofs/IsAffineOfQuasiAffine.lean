@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.EffOfSec
 public import Development.AbelianVarietyTheory.Definitions.AbelianSchemeLaws.FirstCohomologyVanishesSpecOfIsLocalRing
 public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ClsLinCombSingle
 public import Mathlib.AlgebraicGeometry.QuasiAffine
@@ -103,16 +104,7 @@ theorem surj_of_isPullback (hG : GlobalFnsSt) {S : Scheme.{0}} {B : Over S} [Grp
   exact surj_comp (ConcreteCategory.bijective_of_isIso (h.isoPullback.hom.app ⊤)).2 (surj_snd hG hB (Over.mk b))
 
 theorem cls_pw {X : Scheme.{0}} {L : LB X} (hL : L.IsLB) (d : ℤ) : cls (pw L d) (isLB_pw hL d) = d • cls L hL := by
-  have h := LB.isLB_linComb hL (fun _ : PUnit => 𝟙 X) (fun _ => d)
-  have e := cls_linComb hL _ _ h
-  rw [Fintype.sum_unique, pull_id] at e
-  rw [← e]
-  refine (cls_eq_iff _ h).2 (iso_of_chart h ⟨fun i _ => i, fun _ _ hy => Set.mem_iInter.2 fun _ => hy, ?_⟩)
-  intro y i j hi hj
-  refine Eq.trans (map_zpow _ _ _) (Eq.symm ((gm_linComb L (fun _ : PUnit => 𝟙 X) (fun _ => d) (𝟙 X) y (fun _ => i) (fun _ => j)
-    (Set.mem_iInter.2 fun _ => hi) (Set.mem_iInter.2 fun _ => hj)).trans ?_))
-  rw [Fintype.prod_unique, Category.id_comp]
-  rfl
+  apply _root_.GlobalTheory.EffBound.cls_pw <;> assumption
 
 theorem pull_spec_local {K : Type} [CommRing K] [IsLocalRing K] {X : Scheme.{0}} (y : Spec (CommRingCat.of K) ⟶ X)
     (c : CechPic.Pic X) : CechPic.pull y c = 0 := by

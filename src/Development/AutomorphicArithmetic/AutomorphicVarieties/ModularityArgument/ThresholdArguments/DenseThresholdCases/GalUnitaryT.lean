@@ -1,5 +1,6 @@
 module
 
+import all Development.AutomorphicArithmetic.AutomorphicVarieties.BuildingsResidueChars.SumHodgeTate
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.AutomorphyLifting.UnitaryGaloisFamilies.IrrCaseT
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.AutomorphyLifting.AbsCentral
 public import Development.AutomorphicArithmetic.Foundations.LocalLanglands.LocalCentralUnits.RecTExists
@@ -365,30 +366,12 @@ private theorem model_sum {L : FinExt l} {r₁ : ↥Gw →* GL (Fin a) ↥L.1} {
 
 private theorem dR_sum (h : IsdRAt (UpperTheory.V.Loc.PP l) Bw r) (h' : IsdRAt (UpperTheory.V.Loc.PP l) Bw r') :
     IsdRAt (UpperTheory.V.Loc.PP l) Bw (Formalism.MainNotions.SumRepresentations.At.sumRep r r') := by
-  obtain ⟨L₁, r₁, m₁, -⟩ := id h
-  obtain ⟨L₂, r₂, m₂, -⟩ := id h'
-  have l₁ : L₁.1 ≤ (supExt L₁ L₂).1 := le_sup_left
-  have l₂ : L₂.1 ≤ (supExt L₁ L₂).1 := le_sup_right
-  have n₁ := m₁.enlarge l₁
-  have n₂ := m₂.enlarge l₂
-  exact ⟨_, _, model_sum n₁ n₂, (GlobalTheory.T.sumRep_deRham_iff_and_multiplicity_add l _ _ (UpperTheory.V.Loc.tiedP l) E Ω Gw O Bw _ a b _ _).1.2
-    ⟨(n₁.isdRAt_iff _).1 h, (n₂.isdRAt_iff _).1 h'⟩⟩
+  apply _root_.dR_sum <;> assumption
 
 private theorem jumps_sum {τ : E →+* Om l} {J J' : Multiset ℤ}
     (h : IsJumpsAt (UpperTheory.V.Loc.PP l) Bw r τ J) (h' : IsJumpsAt (UpperTheory.V.Loc.PP l) Bw r' τ J') :
     IsJumpsAt (UpperTheory.V.Loc.PP l) Bw (Formalism.MainNotions.SumRepresentations.At.sumRep r r') τ (J + J') := by
-  obtain ⟨L₁, r₁, m₁, d₁, τ₁, t₁, -⟩ := id h
-  obtain ⟨L₂, r₂, m₂, d₂, -⟩ := id h'
-  have l₁ : L₁.1 ≤ (supExt L₁ L₂).1 := le_sup_left
-  have l₂ : L₂.1 ≤ (supExt L₁ L₂).1 := le_sup_right
-  have n₁ := m₁.enlarge l₁
-  have n₂ := m₂.enlarge l₂
-  have t : IsInduced Bw τ (LL' := supExt L₁ L₂) ((IntermediateField.inclusion l₁).comp τ₁) := t₁
-  have S := GlobalTheory.T.sumRep_deRham_iff_and_multiplicity_add l _ _ (UpperTheory.V.Loc.tiedP l) E Ω Gw O Bw _ a b
-    (mapRep (IntermediateField.inclusion l₁).toRingHom r₁) (mapRep (IntermediateField.inclusion l₂).toRingHom r₂)
-  refine ⟨_, _, model_sum n₁ n₂, S.1.2 ⟨(n₁.isdRAt_iff _).1 ⟨_, _, m₁, d₁⟩, (n₂.isdRAt_iff _).1 ⟨_, _, m₂, d₂⟩⟩,
-    _, t, fun c => ?_⟩
-  rw [S.2, ← h.count_eq _ n₁ t, ← h'.count_eq _ n₂ t, Multiset.count_add, Nat.cast_add]
+  apply _root_.jumps_sum <;> assumption
 
 end
 

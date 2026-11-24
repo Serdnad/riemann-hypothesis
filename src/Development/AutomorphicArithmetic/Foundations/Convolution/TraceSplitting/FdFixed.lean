@@ -1,5 +1,6 @@
 module
 
+import all Development.AutomorphicArithmetic.Foundations.Convolution.PowerSumTraces.TermEV
 public import Development.AutomorphicArithmetic.Foundations.Convolution.IntegrableConvolution.TensFactor
 public import Development.AutomorphicArithmetic.Foundations.Convolution.ConvolutionKernels.KernelTransforms.CommPrj
 public import Development.AutomorphicArithmetic.Foundations.Convolution.ConvolutionKernels.KernelTransforms.LocEmb
@@ -113,16 +114,7 @@ open scoped InnerProductSpace
 
 private theorem hasFinTrace_smul {V : Type} [AddCommGroup V] [Module ℂ V] (A : V →ₗ[ℂ] V) {c : ℂ} (b : ℂ) (hb : b ≠ 0)
     (h : HasFinTrace A c) : HasFinTrace (b • A) (b * c) := by
-  obtain ⟨hf, rfl⟩ := h
-  have key : ∀ (R : Submodule ℂ V) (_ : R = LinearMap.range A) (h1 : ∀ v ∈ R, (b • A) v ∈ R)
-      (h2 : ∀ v ∈ LinearMap.range A, A v ∈ LinearMap.range A),
-      LinearMap.trace ℂ R ((b • A).restrict h1) = b * LinearMap.trace ℂ (LinearMap.range A) (A.restrict h2) := by
-    intro R hR h1 h2
-    subst hR
-    have e : (b • A).restrict h1 = b • A.restrict h2 := rfl
-    rw [e, map_smul, smul_eq_mul]
-  have hr : LinearMap.range (b • A) = LinearMap.range A := LinearMap.range_smul _ _ hb
-  exact ⟨by rw [hr]; exact hf, key _ hr _ _⟩
+  apply _root_.UpperTheory.ConvolutionTheory.C.TraceVanishing.hasFinTrace_smul <;> assumption
 
 private theorem hasTrace_smul {G V : Type} [Group G] [MeasurableSpace G] [AddCommGroup V] [Module ℂ V]
     {m : Measure G} {ρ : Representation ℂ G V} {f : G → ℂ} {s : ℂ} (d : ENNReal) (hd0 : d ≠ 0) (hdt : d ≠ ⊤)

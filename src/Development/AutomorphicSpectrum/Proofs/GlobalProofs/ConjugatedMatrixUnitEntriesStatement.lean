@@ -1,5 +1,6 @@
 module
 
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.UnitaryMemGLs
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsBlockEmb
 public import Development.AbelianVarietyTheory.Proofs.HeightProofs.IsTopologicalRingAE
 import Mathlib.Algebra.Order.Floor.Extended
@@ -250,21 +251,6 @@ theorem gramShape (hH : Hᴴ = H) (hxx : Xcᴴ * H * Xc = 0) (hyy : Ycᴴ * H * 
   · intro i b hi hc
     rw [hrow i b hi, if_pos hc]
 
-private theorem valuation_single_one_le_one {u : ℕ} (A B : Matrix (Fin u) (Fin u) ℂ) (q p a b : Fin u) :
-    (A * Matrix.single q p (1 : ℂ) * B : Matrix (Fin u) (Fin u) ℂ) a b = A a q * B p b := by
-  rw [Matrix.mul_apply, Finset.sum_eq_single p]
-  · rw [Matrix.mul_apply, Finset.sum_eq_single q]
-    · simp
-    · intro y _ hy
-      simp [Ne.symm hy]
-    · intro h
-      exact absurd (Finset.mem_univ q) h
-  · intro x _ hx
-    rw [Matrix.mul_apply]
-    simp [Ne.symm hx]
-  · intro h
-    exact absurd (Finset.mem_univ p) h
-
 theorem conj_entry (H P : Matrix (Fin n) (Fin n) ℂ) (p q a b : Fin n) :
     (P⁻¹ * (-(H⁻¹ * (P * Matrix.single p q 1 * P⁻¹)ᴴ * H)) * P : Matrix (Fin n) (Fin n) ℂ) a b =
       -((P⁻¹ * H⁻¹ * (P⁻¹)ᴴ) a q * (Pᴴ * H * P) p b) := by
@@ -276,7 +262,7 @@ theorem conj_entry (H P : Matrix (Fin n) (Fin n) ℂ) (p q a b : Fin n) :
       = -((P⁻¹ * H⁻¹ * (P⁻¹)ᴴ) * Matrix.single q p 1 * (Pᴴ * H * P)) := by
     rw [Matrix.conjTranspose_mul, Matrix.conjTranspose_mul, hS]
     simp only [Matrix.mul_neg, Matrix.neg_mul, Matrix.mul_assoc]
-  rw [e2, Matrix.neg_apply, valuation_single_one_le_one]
+  rw [e2, Matrix.neg_apply, _root_.GlobalTheory.CompanionTheory.RCalc.conj_single_apply]
 
 end Gram
 

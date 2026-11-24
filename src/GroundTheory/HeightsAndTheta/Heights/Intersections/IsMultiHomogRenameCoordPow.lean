@@ -1,5 +1,6 @@
 module
 
+import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PLocalRep
 public import GroundTheory.HeightsAndTheta.Heights.Intersections.IsFieldIntersectionNoBlockFam
 public import GroundTheory.HeightsAndTheta.Heights.Intersections.StatementsArith
 import Mathlib.Algebra.Order.Floor.Extended
@@ -105,17 +106,7 @@ theorem wh_prod_X_pow {K₀ : Type} [Fintype K₀] (q : K₀ → Σ k, ι k) (α
 
 theorem isMultiHomog_coordPow (i : ∀ k, ι k) (α : K → ℕ) :
     IsMultiHomog (∏ k, (X ⟨k, i k⟩ : MRing ι) ^ α k) α := by
-  have h := wh_prod_X_pow (ι := ι) (fun k => ⟨k, i k⟩) α
-  have e : (∑ k, α k • blkW (ι := ι) ⟨k, i k⟩) = α := by
-    funext k
-    simp only [blkW, Finset.sum_apply]
-    rw [Finset.sum_eq_single k]
-    · simp
-    · intro b _ hb
-      simp [Ne.symm hb]
-    · simp
-  rw [e] at h
-  exact isMultiHomog_of_wh h
+  apply _root_.GroundTheory.Heights₂.Heights.HilbertSamuel.LocalRep.isMultiHomog_chartMono <;> assumption
 
 
 omit [∀ k, Fintype (ι k)] in

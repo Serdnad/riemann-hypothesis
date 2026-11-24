@@ -50,6 +50,7 @@ import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Sheaves.Init
 public import Mathlib.Analysis.InnerProductSpace.GramSchmidtOrtho
 public import Mathlib.MeasureTheory.Measure.Haar.InnerProductSpace
+import Development.AbelianVarietyTheory.Proofs.CovolumeBounds.ExistsOrthonormalOfLinearIndependent
 
 @[expose] public section
 
@@ -89,14 +90,7 @@ theorem det_gram_le_of_finrank_eq {V : Type*} [NormedAddCommGroup V] [InnerProdu
 
 theorem norm_det_sq_le_prod_col (A : Matrix ι ι 𝕜) :
     ‖A.det‖ ^ 2 ≤ ∏ j, ∑ i, ‖A i j‖ ^ 2 := by
-  let v : ι → EuclideanSpace 𝕜 ι := fun j ↦ WithLp.toLp 2 fun i ↦ A i j
-  have h := det_gram_le_of_finrank_eq (𝕜 := 𝕜) (by simp) v
-  rw [det_gram_eq_normSq_det (EuclideanSpace.basisFun ι 𝕜), RCLike.ofReal_le_ofReal] at h
-  have h2 : (EuclideanSpace.basisFun ι 𝕜).toBasis.det v = A.det := by
-    rw [Basis.det_apply]; congr 1
-  rw [h2] at h
-  refine h.trans_eq (Finset.prod_congr rfl fun j _ ↦ ?_)
-  rw [EuclideanSpace.norm_sq_eq]
+  apply _root_.GlobalTheory.Hadamard.norm_det_sq_le_prod_col <;> assumption
 
 theorem posSemidef_det_le_prod_diag {A : Matrix ι ι 𝕜} (hA : A.PosSemidef) :
     A.det ≤ ∏ i, A i i := by

@@ -107,18 +107,7 @@ theorem fixes_inv {x : X.B.I.Gf} {v : VA X.B.I} (hx : X.B.I.fmat x *ᵥ v = v) :
 
 theorem mem_mL_of_Kset {x : X.B.I.Gf} (hx : x ∈ X.B.I.Kset) (m : ℕ) {y : VA X.B.I} (hy : y ∈ mL X.B.I m) :
     X.B.I.fmat x *ᵥ y ∈ mL X.B.I m := by
-  unfold mL at *
-  induction hy using Submodule.span_induction with
-  | mem y hy =>
-    obtain ⟨w, hw, rfl⟩ := hy
-    refine Submodule.subset_span ⟨X.B.I.fmat x *ᵥ w, ?_, ?_⟩
-    · exact (hx w).1 hw
-    · rw [Matrix.mulVec_smul]
-  | zero => simp
-  | add a b _ _ ha hb => rw [Matrix.mulVec_add]; exact Submodule.add_mem _ ha hb
-  | smul c a _ ha =>
-    rw [Subring.smul_def, Matrix.mulVec_smul, ← Subring.smul_def]
-    exact Submodule.smul_mem _ c ha
+  apply _root_.Formalism.L2.SG.NormCut.mem_mL_of_Kset <;> assumption
 
 theorem congG_of_Kset {x : X.B.I.Gf} (hx : x ∈ X.B.I.Kset) {δ : VA X.B.I} (hδ : InAt X.B.I X.B.g X.B.g δ) :
     InAt X.B.I X.B.g X.B.g (X.B.I.fmat x *ᵥ δ - δ) := by

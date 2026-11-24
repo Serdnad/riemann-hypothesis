@@ -1,5 +1,6 @@
 module
 
+import CompanionTheory.SpectralGeometry.LocalGlobalProofs.StableLattices.MatrixActionBracket
 public import CompanionTheory.RealGroups.DiscreteSeries.DiscreteSeriesClassification.DiscreteSeriesExhaustion.MatrixCoefficientDecay.HilbertSchmidtDecay.AbsoluteL2Bound
 public import CompanionTheory.RealGroups.DiscreteSeries.DiscreteSeriesClassification.DiscreteSeriesExhaustion.MatrixCoefficientDecay.InfinitesimalCharacterPaths.TensDecomp
 public import CompanionTheory.SpectralGeometry.LocalGlobalProofs.StableLattices.ConjQdet
@@ -221,53 +222,8 @@ theorem actL_apply (E : Fin n → Fin n → Module.End ℂ V) (P : Matrix (Fin n
     actL E P = aM E P := rfl
 
 theorem actM_bracket (E : Fin n → Fin n → Module.End ℂ V) (hE : GlRel E) (P Q : Matrix (Fin n) (Fin n) ℂ) :
-    aM E P * aM E Q - aM E Q * aM E P = aM E (P * Q - Q * P) := by
-  classical
-  have h1 : aM E P * aM E Q - aM E Q * aM E P =
-      ∑ a, ∑ b, ∑ c, ∑ d, (P a b * Q c d) • ((if b = c then E a d else 0) - (if d = a then E c b else 0)) := by
-    have hmul : ∀ f g : Fin n → Fin n → Module.End ℂ V, (∑ a, ∑ b, f a b) * (∑ c, ∑ d, g c d) =
-        ∑ a, ∑ b, ∑ c, ∑ d, f a b * g c d := by
-      intro f g
-      simp only [Finset.sum_mul]
-      simp only [Finset.mul_sum]
-    have hmul' : ∀ f g : Fin n → Fin n → Module.End ℂ V, (∑ c, ∑ d, g c d) * (∑ a, ∑ b, f a b) =
-        ∑ a, ∑ b, ∑ c, ∑ d, g c d * f a b := by
-      intro f g
-      simp only [Finset.mul_sum]
-      simp only [Finset.sum_mul]
-    simp only [ReciprocityTheory.ChartRestriction.DS.actM]
-    rw [hmul, hmul']
-    simp only [← Finset.sum_sub_distrib]
-    refine Finset.sum_congr rfl fun a _ => Finset.sum_congr rfl fun b _ =>
-      Finset.sum_congr rfl fun c _ => Finset.sum_congr rfl fun d _ => ?_
-    rw [← hE a b c d, smul_mul_smul_comm, smul_mul_smul_comm, smul_sub, mul_comm (Q c d)]
-  have t1 : ∑ a, ∑ b, ∑ c, ∑ d, (P a b * Q c d) • (if b = c then E a d else 0) =
-      ∑ x, ∑ y, (∑ k, P x k * Q k y) • E x y := by
-    refine Finset.sum_congr rfl fun a _ => ?_
-    have e : ∀ b, ∑ c, ∑ d, (P a b * Q c d) • (if b = c then E a d else 0) =
-        ∑ d, (P a b * Q b d) • E a d := by
-      intro b
-      rw [Finset.sum_eq_single b]
-      · simp
-      · intro c _ hc
-        simp [Ne.symm hc]
-      · simp
-    simp only [e, Finset.sum_smul]
-    exact Finset.sum_comm
-  have t2 : ∑ a, ∑ b, ∑ c, ∑ d, (P a b * Q c d) • (if d = a then E c b else 0) =
-      ∑ x, ∑ y, (∑ k, Q x k * P k y) • E x y := by
-    have e : ∀ a b c, ∑ d, (P a b * Q c d) • (if d = a then E c b else 0) = (P a b * Q c a) • E c b := by
-      intro a b c
-      simp
-    simp only [e, Finset.sum_smul]
-    rw [Finset.sum_congr rfl fun a _ => Finset.sum_comm, Finset.sum_comm]
-    refine Finset.sum_congr rfl fun c _ => ?_
-    rw [Finset.sum_comm]
-    refine Finset.sum_congr rfl fun b _ => Finset.sum_congr rfl fun a _ => ?_
-    rw [mul_comm]
-  rw [h1]
-  simp only [smul_sub, Finset.sum_sub_distrib, t1, t2]
-  simp only [ReciprocityTheory.ChartRestriction.DS.actM, Matrix.sub_apply, Matrix.mul_apply, sub_smul, Finset.sum_sub_distrib]
+    aM E P * aM E Q - aM E Q * aM E P = aM E (P * Q - Q * P) :=
+  GlobalTheory.CompanionTheory.MatrixAction.bracket E hE P Q
 
 end Act
 

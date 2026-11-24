@@ -88,9 +88,6 @@ theorem core_ineq {nT a b b' k L La B0 Nc M sA lW lk lH dI et Xpp y yD yL K h g
       ≤ yD * yL * y * y * y * (nT * a * (1 + M ^ 2 / k) + M * (B0 + Nc)) := by
   have hK : 0 ≤ K := c1.trans c1'
   have hy0 : 0 ≤ y := by linarith
-  have hh0 : 0 ≤ h := by linarith
-  have hg0 : 0 ≤ g := by linarith
-  have hnT0 : 0 ≤ nT := by linarith
   have ha0 : 0 ≤ a := by linarith
   obtain ⟨r, hr⟩ : ∃ r, r = M ^ 2 / k := ⟨_, rfl⟩
   have hr0 : 0 ≤ r := by rw [hr]; positivity
@@ -124,7 +121,6 @@ theorem core_ineq {nT a b b' k L La B0 Nc M sA lW lk lH dI et Xpp y yD yL K h g
     have : yL ≤ yD * yL := le_mul_of_one_le_left (by linarith) hyD
     rw [hY]
     exact this.trans (le_mul_of_one_le_right (by linarith) hy)
-  have hY0 : 0 ≤ Y := by linarith
   obtain ⟨P, hP⟩ : ∃ P, P = Y * E := ⟨_, rfl⟩
   have hP0 : 0 ≤ P := by rw [hP]; positivity
   have EP : E ≤ P := by rw [hP]; exact le_mul_of_one_le_left hE0 oneY
@@ -157,7 +153,6 @@ theorem core_ineq {nT a b b' k L La B0 Nc M sA lW lk lH dI et Xpp y yD yL K h g
       _ ≤ K * E * (2 * Y) * (1 + 1) := by gcongr
       _ = 4 * K * P := by rw [hP]; ring
   have T5 : lW ≤ P := by linarith only [hlW, hA1a, orbitMap_conj_smul_one, EP]
-  have T60 : 0 ≤ cLoss * nT * M * b * yL := by positivity
   have FreeQuotientRank : cLoss * nT * M * b * yL ≤ K * P := by
     calc cLoss * nT * M * b * yL = cLoss * (nT * (M * b)) * yL := by ring
       _ ≤ K * (nT * a) * Y := by gcongr
@@ -169,7 +164,6 @@ theorem core_ineq {nT a b b' k L La B0 Nc M sA lW lk lH dI et Xpp y yD yL K h g
       calc nT * M ^ 2 * (a / k + b') ≤ nT * M ^ 2 * (a / k + a / k) := by gcongr
         _ = 2 * (A1 * r) := by rw [hA1, hr]; ring
         _ ≤ 2 * E := by linarith
-    have hQ0 : 0 ≤ nT * M ^ 2 * (a / k + b') := by positivity
     calc cSl1 * nT * M * (a / k + b') * (cCount * M * L)
         = cSl1 * cCount * L * (nT * M ^ 2 * (a / k + b')) := by ring
       _ ≤ K * K * (2 * Y) * (2 * E) := by gcongr
@@ -227,7 +221,6 @@ theorem core_ineq {nT a b b' k L La B0 Nc M sA lW lk lH dI et Xpp y yD yL K h g
       _ ≤ 2 * (4 * (h * y) * (u * P) + K * P) := by gcongr
 
   have hyP : P ≤ y * P := le_mul_of_one_le_left hP0 hy
-  have hyP0 : 0 ≤ y * P := by positivity
   have hsum : (5 * K ^ 2 + 16 * K + 2) + 8 * h * u ≤ 200 * (1 + K) ^ 2 * h * g := by
     rw [hu]
     have hhg : 1 ≤ h * g := one_le_mul_of_one_le_of_one_le hh hg

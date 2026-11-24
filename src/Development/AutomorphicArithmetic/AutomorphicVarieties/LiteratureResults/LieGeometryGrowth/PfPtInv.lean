@@ -1,5 +1,6 @@
 module
 
+import all Development.AutomorphicArithmetic.AutomorphicVarieties.LiteratureResults.BorelHarmonicForms.OpenFix
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.LiteratureResults.LieGeometryGrowth.PairDefs
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.LiteratureResults.LieGeometryGrowth.PfInvLie
 import Mathlib.Algebra.Order.Floor.Extended
@@ -50,13 +51,7 @@ open scoped TensorProduct
 private theorem open_stab {G V : Type} [Group G] [TopologicalSpace G] [IsTopologicalGroup G] [AddCommGroup V] [Module ℂ V]
     (ρ : Representation ℂ G V) (v : V) {S : Set G} (hS : IsOpen S) (h1 : (1 : G) ∈ S) (h : ∀ g ∈ S, ρ g v = v) :
     IsOpen {g | ρ g v = v} := by
-  rw [isOpen_iff_forall_mem_open]
-  intro g hg
-  refine ⟨(fun x => g⁻¹ * x) ⁻¹' S, fun x hx => ?_, hS.preimage (by fun_prop), by simpa using h1⟩
-  have e : x = g * (g⁻¹ * x) := by group
-  have hg' : ρ g v = v := hg
-  show ρ x v = v
-  rw [e, map_mul, Module.End.mul_apply, h _ hx, hg']
+  apply _root_.open_fix <;> assumption
 
 theorem UpperTheory.V.Lit.Geo.Pf.ptInv :
     UpperTheory.V.Lit.Geo.Pf.PtInv := by

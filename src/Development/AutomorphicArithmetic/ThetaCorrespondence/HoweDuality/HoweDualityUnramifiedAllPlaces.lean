@@ -890,18 +890,8 @@ theorem exists_op {V : Type} [AddCommGroup V] [Module ℂ V] (P : Submodule ℂ 
 
 end Ops
 
-private theorem det_ne_hasSig {n r s : ℕ} {M : Matrix (Fin n) (Fin n) ℂ} (h : HasSig M r s) : M.det ≠ 0 := by
-  obtain ⟨hrs, A, hA⟩ := h
-  let e : Fin r ⊕ Fin s ≃ Fin n := finSumFinEquiv.trans (finCongr hrs)
-  let A' : Matrix (Fin n) (Fin n) ℂ := A.submatrix id e.symm
-  have h1 : A'ᵀ * M * A'.map star = (Matrix.fromBlocks (1 : Matrix (Fin r) (Fin r) ℂ) 0 0 (-1)).submatrix e.symm e.symm := by
-    rw [← hA]; ext i j; simp [A', Matrix.mul_apply, Matrix.submatrix_apply, Matrix.transpose_apply, Matrix.map_apply]
-  have h2 : (A'ᵀ * M * A'.map star).det ≠ 0 := by
-    rw [h1, Matrix.det_submatrix_equiv_self, Matrix.det_fromBlocks_zero₂₁]
-    simp [Matrix.det_neg]
-  intro h0
-  apply h2
-  rw [Matrix.det_mul, Matrix.det_mul, h0]; simp
+private theorem det_ne_hasSig {n r s : ℕ} {M : Matrix (Fin n) (Fin n) ℂ} (h : HasSig M r s) : M.det ≠ 0 :=
+  _root_.GlobalTheory.ThK.RealUniq.det_ne_zero_of_sig h
 
 private theorem det_ne_sig_map {E : Type} [Field E] {n r s : ℕ} {J : Matrix (Fin n) (Fin n) E} (τ : E →+* ℂ) (c : ℂ)
     (h : HasSig (c • J.map τ) r s) : J.det ≠ 0 := by
@@ -918,16 +908,8 @@ private theorem hecke_div {F E : Type} [Field F] [NumberField F] [Field E] [Numb
 
 private theorem resEta_div {R A : Type} [CommRing R] [CommRing A] [Algebra R A] {K : Subgroup Rˣ}
     {χ χ' : Aˣ →* Circle} {n m k : ℕ} (h : ResEtaPow K χ n) (h' : ResEtaPow K χ' m) (hk : k = n + m) :
-    ResEtaPow K (χ / χ') k := by
-  subst hk
-  intro a
-  have e := h a
-  have e' := h' a
-  rw [MonoidHom.div_apply, Circle.coe_div, e, e']
-  split_ifs
-  · simp
-  · rw [pow_add]
-    rcases neg_one_pow_eq_or ℂ m with hm | hm <;> rw [hm] <;> ring
+    ResEtaPow K (χ / χ') k :=
+  _root_.GlobalTheory.ThK.RealUniq.resEtaPow_div' h h' hk
 
 theorem realTransfer' : ∀ (F E : Type) [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] (σ : E →ₐ[F] E)
     (Bs : GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.Base F E) (a a' : ℕ) (G : GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.Geo σ a a') (Xc : GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.Chars F E)
@@ -1069,28 +1051,17 @@ theorem decomp {M₀ : Type} [AddCommGroup M₀] [Module ℂ M₀] {ι : Type} [
 
 theorem det_ne_sig_map {E : Type} [Field E] {n r s : ℕ} {J : Matrix (Fin n) (Fin n) E} (τ : E →+* ℂ) (c : ℂ)
     (h : HasSig (c • J.map τ) r s) : J.det ≠ 0 := by
-  intro h0
-  apply _root_.GlobalTheory.ThK.RealUniq.det_ne_zero_of_sig h
-  have hmap : (J.map τ).det = τ J.det := (RingHom.map_det τ J).symm
-  rw [Matrix.det_smul, hmap, h0, map_zero, mul_zero]
+  apply _root_.GlobalTheory.HoweGlobalPair.RealPlaceSmall.det_ne_sig_map <;> assumption
 
 theorem hecke_div {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E]
     {χ χ' : Chr F E} (h : GlobalTheory.LFun.IsHecke F E χ) (h' : GlobalTheory.LFun.IsHecke F E χ') :
     GlobalTheory.LFun.IsHecke F E (χ / χ') := by
-  refine ⟨?_, fun x => ?_⟩
-  · have hc : Continuous fun z => χ z / χ' z := h.1.div' h'.1
-    exact hc
-  · rw [MonoidHom.div_apply, h.2 x, h'.2 x, div_one]
+  apply _root_.GlobalTheory.HoweGlobalPair.RealPlaceSmall.hecke_div <;> assumption
 
 theorem resEta_div {R A : Type} [CommRing R] [CommRing A] [Algebra R A] {K : Subgroup Rˣ}
     {χ χ' : Aˣ →* Circle} {n m k : ℕ} (h : ResEtaPow K χ n) (h' : ResEtaPow K χ' m) (hk : k = n + m) :
     ResEtaPow K (χ / χ') k := by
-  subst hk
-  intro x
-  rw [MonoidHom.div_apply, Circle.coe_div, h x, h' x]
-  split_ifs
-  · exact div_one 1
-  · rw [pow_add, div_eq_mul_inv, ← inv_pow, inv_neg, inv_one]
+  apply _root_.GlobalTheory.HoweGlobalPair.RealPlaceSmall.resEta_div <;> assumption
 
 end GlobalTheory.HoweGlobalPair
 

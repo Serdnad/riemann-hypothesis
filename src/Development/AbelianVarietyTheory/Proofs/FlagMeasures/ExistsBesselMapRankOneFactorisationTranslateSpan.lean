@@ -1,5 +1,7 @@
 module
 
+import Formalism.SharpRestriction.CuspSpanNormBounds.LowestKTypeMultiplicity
+import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.AmpOrbQuot
 public import Mathlib.Analysis.Complex.Basic
 public import Mathlib.MeasureTheory.Function.StronglyMeasurable.AEStronglyMeasurable
 public import Mathlib.MeasureTheory.Integral.Lebesgue.Basic
@@ -400,15 +402,7 @@ namespace GlobalTheory.SgInf.LocEmb
 variable {k r : ℕ}
 
 theorem det_ne_zero_of_mem {g : Mat k r} (hg : g ∈ GG k r) : g.det ≠ 0 := by
-  have h : gᴴ * Hpk k r * g = Hpk k r := hg
-  have hH : (Hpk k r).det ≠ 0 := by
-    have := congrArg Matrix.det (Formalism.QuantumDeterminants.GBasic.Hpk_sq k r)
-    rw [Matrix.det_mul, Matrix.det_one] at this
-    intro h0; rw [h0, zero_mul] at this; exact zero_ne_one this
-  intro h0
-  have := congrArg Matrix.det h
-  rw [Matrix.det_mul, Matrix.det_mul, h0, mul_zero] at this
-  exact hH this.symm
+  apply _root_.PI.AmpOrbQuot.det_ne_of_uh <;> assumption
 
 theorem isClosed_GG : IsClosed (GG k r) := by
   show IsClosed {g : Mat k r | gᴴ * Hpk k r * g = Hpk k r}
@@ -937,15 +931,7 @@ attribute [local instance] Matrix.normedAddCommGroup Matrix.normedSpace
 theorem smooth_add {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℂ H]
     {σ : Mat k r → (H →L[ℂ] H)} {u u' : H} (hu : IsSmoothVec σ u) (hu' : IsSmoothVec σ u') :
     IsSmoothVec σ (u + u') := by
-  intro g₀ hg₀
-  obtain ⟨U, F, hU, hg, hF, hFe⟩ := hu g₀ hg₀
-  obtain ⟨U', F', hU', hg', hF', hFe'⟩ := hu' g₀ hg₀
-  refine ⟨U ∩ U', F + F', hU.inter hU', ⟨hg, hg'⟩, (hF.mono Set.inter_subset_left).add
-    (hF'.mono Set.inter_subset_right), fun g hg hgH => ?_⟩
-  have e1 := hFe g hg.1 hgH
-  have e2 := hFe' g hg.2 hgH
-  simp only at e1 e2
-  simp only [map_add (f := _), Pi.add_apply, e1, e2]
+  apply _root_.Formalism.MainNotions.LowestKTypeMultiplicity.smooth_add <;> assumption
 
 theorem smooth_smul {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℂ H]
     {σ : Mat k r → (H →L[ℂ] H)} {u : H} (b : ℂ) (hu : IsSmoothVec σ u) :

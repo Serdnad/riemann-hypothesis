@@ -9,6 +9,7 @@ public import Mathlib.RingTheory.Henselian
 public import Mathlib.RingTheory.HopfAlgebra.Basic
 public import Development.AbelianVarietyTheory.Definitions.Foundations.IsPrimitiveRootTopZeta
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.EisensteinModularTowers.SmoothedEisensteinCongrOfModEq
+import all Development.AutomorphicArithmetic.AutomorphicVarieties.EisensteinModularTowers.SmoothedEisensteinCongrOfModEq
 public import Development.AbelianVarietyTheory.Definitions.Foundations.PieceEqPieceT
 public import Development.AbelianVarietyTheory.Definitions.Foundations.ApplyEqOfMemAdjoin
 public import Mathlib.RingTheory.Flat.FaithfullyFlat.Basic
@@ -129,13 +130,7 @@ open GlobalTheory.KZ GlobalTheory.K4 GlobalTheory.Glue GlobalTheory.KummerEisens
 
 private theorem zpow_cg {K : Type} [Field K] {M : ℕ} {ζ : K} (hM : 0 < M) (hζ : ζ ^ M = 1) {x y : ℤ}
     (h : x ≡ y [ZMOD M]) : ζ ^ x = ζ ^ y := by
-  have h0 : ζ ≠ 0 := by
-    rintro rfl
-    rw [zero_pow hM.ne'] at hζ
-    exact zero_ne_one hζ
-  obtain ⟨k, hk⟩ := h.dvd
-  have : y = x + (M : ℤ) * k := by linarith
-  rw [this, zpow_add₀ h0, zpow_mul, zpow_natCast, hζ, one_zpow, mul_one]
+  apply _root_.zpow_congr_mod <;> assumption
 
 private theorem eisF_shift {K : Type} [Field K] [CharZero K] (j M : ℕ) (ζ : K) (a₁ a₂ e : ℤ) (hM : 0 < M)
     (hζ : ζ ^ M = 1) (n : ℕ) :

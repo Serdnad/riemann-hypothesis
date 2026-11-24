@@ -458,9 +458,10 @@ theorem isFibreOf_trans {R R' R'' : Type} [CommRing R] [CommRing R'] [CommRing R
 
 variable {E : Type} [Field E] [NumberField E] [IsCMField E] {H : Host E}
 
-theorem exists_isFibreOf_pull {R R' R'' : Type} [CommRing R] [IsLocalRing R] [CommRing R'] [IsLocalRing R'] [CommRing R'']
-    {f : R →+* R'} [IsLocalHom f] {f' : R' →+* R''} {t : SAB H (Sp R)} {t' : SAB H (Sp R')} (m : SABMap t' t (spMap f))
-    {θ : t.PP.L.Sec} {n : ℕ} {v : Fin n → (epsR R ⟶ t.G)} (hθ : NonzeroClosed (X := t.G) θ) (hv : IsLieBasis v)
+theorem exists_isFibreOf_pull_of_nonzero_over_closedPoint {R R' R'' : Type} [CommRing R] [CommRing R'] [IsLocalRing R'] [CommRing R'']
+    {f : R →+* R'} {f' : R' →+* R''} {t : SAB H (Sp R)} {t' : SAB H (Sp R')} (m : SABMap t' t (spMap f))
+    {θ : t.PP.L.Sec} {n : ℕ} {v : Fin n → (epsR R ⟶ t.G)} (hθ : ∃ y : t.G.left, t.G.hom y = spMap f (closedPoint R') ∧ y ∈ Out.nonzeroLocus θ)
+    (hv : IsLieBasis v)
     {x : KeyIn R''} (hx : IsFibreOf x t.G t.PP.L t.PP.rig θ v (f'.comp f)) :
     ∃ (θ' : t'.PP.L.Sec) (v' : Fin n → (epsR R' ⟶ t'.G)), NonzeroClosed (X := t'.G) θ' ∧ IsLieBasis v' ∧
       IsFibreOf x t'.G t'.PP.L t'.PP.rig θ' v' f' := by
@@ -480,8 +481,7 @@ theorem exists_isFibreOf_pull {R R' R'' : Type} [CommRing R] [IsLocalRing R] [Co
   rw [hrig] at hr
   refine ⟨θ', v', ?_, hv', ?_⟩
   · obtain ⟨z, hz, hz'⟩ := hθ
-    obtain ⟨y, rfl, hy⟩ := Scheme.exists_preimage_of_isPullback m.cart.1 z (closedPoint R')
-      (hz.trans (IsLocalRing.comap_closedPoint f).symm)
+    obtain ⟨y, rfl, hy⟩ := Scheme.exists_preimage_of_isPullback m.cart.1 z (closedPoint R') hz
     obtain ⟨k, hb⟩ := TopologicalSpace.Opens.mem_iSup.1 hz'
     have hk : m.φ y ∈ t.PP.L.U k := t.G.left.basicOpen_le _ hb
     obtain ⟨l, hl⟩ := exists_chart t'.PP.isLB y
@@ -538,6 +538,16 @@ theorem exists_isFibreOf_pull {R R' R'' : Type} [CommRing R] [IsLocalRing R] [Co
       rw [← Spec.map_comp, ← Spec.map_comp, ← CommRingCat.ofHom_comp, ← CommRingCat.ofHom_comp]
       congr 2
       ext a <;> simp [Chart.dualMapR, TrivSqZeroExt.algebraMap_eq_inl]
+
+theorem exists_isFibreOf_pull {R R' R'' : Type} [CommRing R] [IsLocalRing R] [CommRing R'] [IsLocalRing R'] [CommRing R'']
+    {f : R →+* R'} [IsLocalHom f] {f' : R' →+* R''} {t : SAB H (Sp R)} {t' : SAB H (Sp R')} (m : SABMap t' t (spMap f))
+    {θ : t.PP.L.Sec} {n : ℕ} {v : Fin n → (epsR R ⟶ t.G)} (hθ : NonzeroClosed (X := t.G) θ) (hv : IsLieBasis v)
+    {x : KeyIn R''} (hx : IsFibreOf x t.G t.PP.L t.PP.rig θ v (f'.comp f)) :
+    ∃ (θ' : t'.PP.L.Sec) (v' : Fin n → (epsR R' ⟶ t'.G)), NonzeroClosed (X := t'.G) θ' ∧ IsLieBasis v' ∧
+      IsFibreOf x t'.G t'.PP.L t'.PP.rig θ' v' f' := by
+  obtain ⟨z, hz, hz'⟩ := hθ
+  exact exists_isFibreOf_pull_of_nonzero_over_closedPoint m
+    ⟨z, hz.trans (IsLocalRing.comap_closedPoint f).symm, hz'⟩ hv hx
 
 theorem exists_pat_of_isFibreOf {R R' : Type} [CommRing R] [CommRing R'] {f : R →+* R'} {t : SAB H (Sp R)}
     {t' : SAB H (Sp R')} (m : SABMap t' t (spMap f)) {θ : t.PP.L.Sec} {n : ℕ} {v : Fin n → (epsR R ⟶ t.G)}

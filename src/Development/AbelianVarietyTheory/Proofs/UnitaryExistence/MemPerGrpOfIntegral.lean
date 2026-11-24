@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.ExistsSabMapOfIsAH
 public import Mathlib.Algebra.Module.ZLattice.Basic
 public import Mathlib.Analysis.Analytic.Basic
 public import Mathlib.Analysis.CStarAlgebra.Classes
@@ -99,6 +100,7 @@ import Std.Tactic.BVDecide.Normalize.Prop
 import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.HermitianFormAtFrameLaws
 import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.TensorLatticeSelfDualSemicharacterIndex
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.SquareIntegrability.ContDiffOfDifferentiableFd
+import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.DeterminantBlockProductRenameTorusPolynomial
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.Proofs.UnitaryExistence.DifferentiableFderivApply, Development.AbelianVarietyTheory.Proofs.UnitaryExistence.ImFormApply, Development.AbelianVarietyTheory.Proofs.UnitaryExistence.ThetaFunctionIsogenyRestriction, Development.AbelianVarietyTheory.Proofs.UnitaryExistence.MemPerGrpOfIntegral
@@ -1268,26 +1270,8 @@ theorem eq_zero_of_im (hpos : ∀ z, z ≠ 0 → 0 < (hermForm Hm z z).re) {S : 
 theorem discrete_of_integral (hpos : ∀ z, z ≠ 0 → 0 < (hermForm Hm z z).re) (Λ : AddSubgroup (Fin g → ℂ))
     (hS : Submodule.span ℝ (Λ : Set (Fin g → ℂ)) = ⊤)
     (hint : ∀ a ∈ Λ, ∀ v ∈ Λ, ∃ k : ℤ, (hermForm Hm a v).im = k) : DiscreteTopology Λ := by
-  obtain ⟨b, hb, hsp, hli⟩ := exists_linearIndependent ℝ (Λ : Set (Fin g → ℂ))
-  have hfin : b.Finite := hli.setFinite
-  have hop : IsOpen (⋂ a ∈ b, {v : Fin g → ℂ | |(hermForm Hm a v).im| < 1}) := by
-    refine hfin.isOpen_biInter fun a _ => isOpen_lt ?_ continuous_const
-    unfold hermForm
-    fun_prop
-  rw [discreteTopology_iff_isOpen_singleton_zero]
-  convert hop.preimage (continuous_subtype_val (p := fun v => v ∈ Λ)) using 1
-  ext v
-  simp only [Set.mem_singleton_iff, Set.mem_preimage, Set.mem_iInter, Set.mem_setOf_eq]
-  constructor
-  · rintro rfl a _
-    simp [hermForm]
-  · intro h
-    refine Subtype.ext (eq_zero_of_im Hm hpos (hsp.trans hS) fun a ha => ?_)
-    obtain ⟨k, hk⟩ := hint a (hb ha) v v.2
-    have h1 := h a ha
-    rw [hk] at h1 ⊢
-    have h2 : |k| < 1 := by exact_mod_cast h1
-    rw [Int.abs_lt_one_iff.1 h2, Int.cast_zero]
+  intros
+  apply _root_.GlobalTheory.Dict.SameFibre.discrete_of_im_int <;> assumption
 
 end Forms
 
@@ -1299,17 +1283,7 @@ variable {V : Type} [NormedAddCommGroup V] [NormedSpace ℂ V]
 
 theorem contDiffAt_of_entire [FiniteDimensional ℂ V] {F : V → ℂ} (hF : Differentiable ℂ F) (x : V) :
     ContDiffAt ℂ ω F x := by
-  let e : V ≃L[ℂ] (Fin (Module.finrank ℂ V) → ℂ) :=
-    (Module.finBasis ℂ V).equivFun.toContinuousLinearEquiv
-  have h1 : Differentiable ℂ (F ∘ e.symm) := hF.comp e.symm.differentiable
-  have h2 : AnalyticOnNhd ℂ (F ∘ e.symm) Set.univ :=
-    ReciprocityTheory.AnForm.Osgood.osgood _ _ _ isOpen_univ h1.differentiableOn
-  have h3 : ContDiff ℂ ω (F ∘ e.symm) := by
-    rw [← contDiffOn_univ]
-    exact h2.contDiffOn uniqueDiffOn_univ
-  have : F = (F ∘ e.symm) ∘ e := by ext y; simp
-  rw [this]
-  exact (h3.comp e.contDiff).contDiffAt
+  apply _root_.GlobalTheory.BlockRen.contDiffAt_of_diff <;> assumption
 
 theorem polyDeriv_rename [FiniteDimensional ℂ V] {θ : V → ℂ} (hθ : Differentiable ℂ θ) (x : V) {T₁ T₂ : Type}
     (ρ : T₁ → T₂) (hρ : Function.Injective ρ) (P : MvPolynomial T₁ ℂ) (v : T₂ → V) :

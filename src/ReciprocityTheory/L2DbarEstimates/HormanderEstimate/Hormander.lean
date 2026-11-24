@@ -1,5 +1,6 @@
 module
 
+import ReciprocityTheory.L2DbarEstimates.HormanderEstimate.ExistsLintegralCompactLe
 public import ReciprocityTheory.L2DbarEstimates.Localization.UnweightBackStatement
 public import Mathlib.MeasureTheory.Function.L2Space
 public import ReciprocityTheory.L2DbarEstimates.ChartDerivatives.MeasurableSetImageOfIsLocalHomeomorph
@@ -82,17 +83,8 @@ variable {M : Type*} [TopologicalSpace M]
 
 theorem gm_cont_of_smoothR (n : ℕ) (z : M → V n) (hz : IsLocalHomeomorph z) (ph : M → ℝ)
     (hph : SmoothR n z ph) : Continuous ph := by
-  rw [continuous_iff_continuousAt]
-  intro x
-  obtain ⟨e, hx, he⟩ := hz x
-  have hc : IsChart n z e := fun y _ => congrFun he y
-  have h := (hph e hc).continuousOn.continuousAt (e.open_target.mem_nhds (e.map_source hx))
-  have h2 := h.comp (e.continuousAt hx)
-  have h3 : ContinuousAt (fun y => (ph y : ℂ)) x := by
-    refine h2.congr ?_
-    filter_upwards [e.open_source.mem_nhds hx] with y hy
-    simp [e.left_inv hy]
-  simpa [Function.comp_def] using Complex.continuous_re.continuousAt.comp h3
+  intros
+  apply _root_.ReciprocityTheory.L2DbarEstimates.F.continuous_of_smoothR <;> assumption
 
 private lemma natCast_le_coe_infty (k : ℕ) : (k : ℕ∞ω) ≤ ((⊤ : ℕ∞) : ℕ∞ω) := by
   first
@@ -404,15 +396,9 @@ theorem gm_memLp_tstar (n : ℕ) (z : M → V n) (hz : IsLocalHomeomorph z) (ph 
 
 private lemma continuous_of_ck {n : ℕ} {z : M → V n} (hz : IsLocalHomeomorph z) {k : ℕ} {g : M → ℂ}
     (hg : Ck n z k g) : Continuous g := by
-  rw [continuous_iff_continuousAt]
-  intro x
-  obtain ⟨e, hx, he⟩ := hz x
-  have hc : IsChart n z e := fun y _ => congrFun he y
-  have h := (hg e hc).continuousOn.continuousAt (e.open_target.mem_nhds (e.map_source hx))
-  have h2 := h.comp (e.continuousAt hx)
-  refine h2.congr ?_
-  filter_upwards [e.open_source.mem_nhds hx] with y hy
-  simp [e.left_inv hy]
+  first
+    | exact _root_.ReciprocityTheory.L2DbarEstimates.Ck.continuous
+    | apply _root_.ReciprocityTheory.L2DbarEstimates.Ck.continuous <;> first | assumption | rfl | infer_instance
 
 theorem gm_ipV_integrable (n : ℕ) (z : M → V n) (hz : IsLocalHomeomorph z) (ph : M → ℝ)
     (hph : SmoothR n z ph) (v : M → V n) (hv : Continuous v) (f : M → V n)
@@ -487,18 +473,9 @@ theorem gm_single_isTestForm (n : ℕ) (z : M → V n) (ph : M → ℝ) (hph : S
 
 private lemma d_conj_eq_conj_db {n : ℕ} {z : M → V n} (φ : M → ℂ) (j : Fin n) (x : M) :
     d n z j (fun y => conj (φ y)) x = conj (db n z j φ x) := by
-  unfold d db
-  split_ifs with h
-  · set e := Classical.choose h with he_def
-    have hc : (fun y => conj (φ y)) ∘ e.symm = Complex.conjCLE ∘ (φ ∘ e.symm) := by
-      funext w
-      simp
-    simp only [wd, wdb]
-    rw [hc, Complex.conjCLE.comp_fderiv]
-    simp only [ContinuousLinearMap.comp_apply, ContinuousLinearEquiv.coe_coe, Complex.conjCLE_apply,
-      map_div₀, map_add, map_mul, Complex.conj_I, map_ofNat]
-    ring
-  · simp
+  first
+    | exact _root_.ReciprocityTheory.L2DbarEstimates.d_conj
+    | apply _root_.ReciprocityTheory.L2DbarEstimates.d_conj <;> first | assumption | rfl | infer_instance
 
 theorem gm_tstar_single (n : ℕ) (z : M → V n) (ph : M → ℝ) (φ : M → ℂ) (j : Fin n) (x : M) :
     tstar n z ph ph (gmSingle ph φ j) x = -((Real.exp (ph x) : ℂ) * conj (db n z j φ x)) := by

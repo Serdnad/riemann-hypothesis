@@ -45,6 +45,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
+import Development.WeilBound.CoreStatements.FlagImmersions.RootModelLineSemipositive
 
 @[expose] public section
 
@@ -155,18 +156,6 @@ theorem hasVal_scale {K : Type} [Fintype K] {ι : K → Type} [∀ k, Fintype (�
 
 theorem isSmoothHerm_comb {K : Type} [Fintype K] {ι : K → Type} [∀ k, Fintype (ι k)] {σ : Type} [Fintype σ]
     {A : σ → HermLine ι} (hA : ∀ a, IsSmoothHerm (A a)) (n : σ → ℤ) : IsSmoothHerm (combLine A n) := by
-  refine contDiffOn_prod fun a _ => ?_
-  intro z hz
-  have h0 : (A a).h z ≠ 0 := ((A a).pos z hz).ne'
-  have hf := hA a z hz
-  have key : ∀ m : ℤ, ContDiffWithinAt ℝ ((⊤ : ℕ∞) : WithTop ℕ∞) (fun z => (A a).h z ^ m)
-      {z | ∀ k, ∃ i, z ⟨k, i⟩ ≠ 0} z := by
-    intro m
-    cases m with
-    | ofNat k => simpa only [Int.ofNat_eq_natCast, zpow_natCast] using hf.pow k
-    | negSucc k =>
-      simp only [zpow_negSucc]
-      exact (hf.pow (k + 1)).inv (pow_ne_zero _ h0)
-  exact key _
+  apply _root_.RootFieldNumerics.combLine_smooth <;> assumption
 
 end GlobalTheory.CompanionTheory.Ar.Small.Fund

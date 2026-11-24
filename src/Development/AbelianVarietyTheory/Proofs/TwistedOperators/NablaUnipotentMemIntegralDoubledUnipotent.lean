@@ -1,5 +1,7 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.InvTwoSmulMemAdelicLatticeAtFinitePlace
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsFinsetAdelicUnitaryPreservesLatticeAlmostA
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.DiagonalFixingDoublingMatrix
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -153,31 +155,11 @@ variable {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algeb
 theorem smul_mem_latAt_of_int {d : ℕ} (W : Spc F E d) (v : Pl (F := F)) {x : AF F}
     (hx : evFin F v x ∈ v.adicCompletionIntegers F) {y : Fin d → AE F E}
     (hy : y ∈ GlobalTheory.InertSph.latAt W v) : x • y ∈ GlobalTheory.InertSph.latAt W v := by
-  induction hy using AddSubgroup.closure_induction with
-  | mem z hz =>
-    obtain ⟨a, ha, hv, y, hy, rfl⟩ := hz
-    rw [smul_smul]
-    refine AddSubgroup.subset_closure ⟨x * a, ?_, ?_, y, hy, rfl⟩
-    · intro u hu
-      rw [smul_eq_mul, mul_left_comm, ← smul_eq_mul u a, ha u hu, mul_zero]
-    · rw [map_mul]
-      exact mul_mem hx hv
-  | zero => rw [smul_zero]; exact zero_mem _
-  | add x y _ _ hx hy => rw [smul_add]; exact add_mem hx hy
-  | neg x _ hx => rw [smul_neg]; exact neg_mem hx
+  first | exact _root_.GlobalTheory.LatAlmostAll.smul_mem_latAt | exact @_root_.GlobalTheory.LatAlmostAll.smul_mem_latAt | apply _root_.GlobalTheory.LatAlmostAll.smul_mem_latAt <;> assumption
 
 theorem evFin_invTwo_mem (v : Pl (F := F)) (h2 : (2 : 𝓞 F) ∉ v.asIdeal) :
     evFin F v (⅟(2 : AF F)) ∈ v.adicCompletionIntegers F := by
-  have h : evFin F v (⅟(2 : AF F)) * algebraMap F (Fv F v) (algebraMap (𝓞 F) F 2) = 1 := by
-    rw [map_ofNat, map_ofNat, ← map_ofNat (evFin F v) 2, ← map_mul, invOf_mul_self, map_one]
-  have hv : Valued.v (algebraMap F (v.adicCompletion F) (algebraMap (𝓞 F) F 2)) = 1 := by
-    have := v.valuedAdicCompletion_eq_valuation' (K := F) (algebraMap (𝓞 F) F 2)
-    rw [HeightOneSpectrum.valuation_of_algebraMap, (HeightOneSpectrum.intValuation_eq_one_iff).2 h2] at this
-    exact this
-  rw [HeightOneSpectrum.mem_adicCompletionIntegers]
-  have h' := congrArg (Valued.v : v.adicCompletion F → _) h
-  rw [map_mul, map_one, hv, mul_one] at h'
-  exact h'.le
+  first | exact _root_.GlobalTheory.InertSph.evFin_invTwo_mem | exact @_root_.GlobalTheory.InertSph.evFin_invTwo_mem | apply _root_.GlobalTheory.InertSph.evFin_invTwo_mem <;> assumption
 
 theorem half_smul_mem {d : ℕ} (W : Spc F E d) (v : Pl (F := F)) (h2 : (2 : 𝓞 F) ∉ v.asIdeal) {y : Fin d → AE F E}
     (hy : y ∈ GlobalTheory.InertSph.latAt W v) : (GlobalTheory.SplitDblGen.half : AE F E) • y ∈ GlobalTheory.InertSph.latAt W v := by

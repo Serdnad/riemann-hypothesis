@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.KernelConstantExponentsFinite
 public import Development.AbelianVarietyTheory.Proofs.HeightProofs.DenomBound
 public import Development.AbelianVarietyTheory.Definitions.ExistenceOfLattices.CoeSelfDualLatticeInFrameCoordinatesEq
 public import Development.AbelianVarietyTheory.Definitions.ExistenceOfLattices.Hat1
@@ -245,16 +246,8 @@ theorem exists_unitary_to_finite : ∀ (E : Type) [Field E] [NumberField E] [Num
 
 theorem exists_nat_integral {E : Type} [Field E] [NumberField E] {κ : Type} [Finite κ] (A : κ → E) :
     ∃ m : ℕ, 0 < m ∧ ∀ i, IsIntegral ℤ ((m : E) * A i) := by
-  classical
-  haveI := Fintype.ofFinite κ
-  obtain ⟨y, hy, h⟩ := exists_integral_multiples ℤ ℚ (Finset.univ.image A)
-  refine ⟨y.natAbs, Int.natAbs_pos.2 hy, fun i => ?_⟩
-  have h1 := h (A i) (Finset.mem_image_of_mem _ (Finset.mem_univ i))
-  rw [zsmul_eq_mul] at h1
-  rw [← Int.cast_natCast, Int.natCast_natAbs]
-  rcases abs_choice y with e | e <;> rw [e]
-  · exact h1
-  · rw [Int.cast_neg, neg_mul]; exact h1.neg
+  intros
+  apply _root_.GlobalTheory.ExponentsFinite.exists_den <;> assumption
 
 variable {D : D7}
 

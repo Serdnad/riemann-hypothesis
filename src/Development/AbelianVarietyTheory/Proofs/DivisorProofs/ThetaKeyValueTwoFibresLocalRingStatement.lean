@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.MemNonzeroLocusVia
 public import Mathlib.LinearAlgebra.Matrix.Determinant.Basic
 public import Mathlib.LinearAlgebra.Basis.Basic
 public import Mathlib.LinearAlgebra.Basis.VectorSpace
@@ -1327,16 +1328,7 @@ theorem spMap_comp_gen {A B C : Type} [CommRing A] [CommRing B] [CommRing C] (a 
   rfl
 
 theorem surj_fst (R : Type) [CommRing R] : Function.Surjective (spMap (TrivSqZeroExt.fstHom R R R).toRingHom) := by
-  have hs : Function.Surjective (TrivSqZeroExt.fstHom R R R).toRingHom := fun x => ⟨TrivSqZeroExt.inl x, rfl⟩
-  intro P
-  have : P ∈ Set.range (PrimeSpectrum.comap (TrivSqZeroExt.fstHom R R R).toRingHom) := by
-    rw [range_comap_of_surjective _ _ hs]
-    intro x hx
-    refine (P : PrimeSpectrum (DualNumber R)).2.mem_of_pow_mem 2 ?_
-    have hx' : x.fst = 0 := hx
-    have : x ^ 2 = 0 := by ext <;> simp [sq, hx']
-    rw [this]; exact zero_mem _
-  exact this
+  apply _root_.GlobalTheory.KeyKa.EtBaseChange.fst_surjective <;> assumption
 
 theorem isLocalRing_dual (k : Type) [Field k] : IsLocalRing (DualNumber k) :=
   IsLocalRing.of_isUnit_or_isUnit_one_sub_self fun x => by
@@ -1361,15 +1353,8 @@ theorem map_inl_inr {R K : Type} [CommRing R] [CommRing K] (f : R →+* K) (F : 
 
 theorem valR_spMap_comp' {A A' : Type} [CommRing A] [CommRing A'] {Y : Scheme.{0}} (ψ : A →+* A') (x : Sp A ⟶ Y)
     (V : Y.Opens) (h : ⊤ ≤ x ⁻¹ᵁ V) (f : Γ(Y, V)) : valR (spMap ψ ≫ x) V f = ψ (valR x V f) := by
-  have h' : ⊤ ≤ (spMap ψ ≫ x) ⁻¹ᵁ V := fun y _ => h (Set.mem_univ ((spMap ψ) y))
-  unfold valR
-  rw [dite_eq_left h', dite_eq_left h]
-  have e : (spMap ψ ≫ x).appLE V ⊤ h' = x.appLE V ⊤ h ≫ (spMap ψ).appTop :=
-    (Scheme.Hom.appLE_comp_appLE (spMap ψ) x V ⊤ ⊤ h le_rfl).symm
-  have n := Scheme.ΓSpecIso_naturality (CommRingCat.ofHom ψ)
-  change ((spMap ψ ≫ x).appLE V ⊤ h' ≫ (Scheme.ΓSpecIso (CommRingCat.of A')).hom).hom f =
-    (x.appLE V ⊤ h ≫ (Scheme.ΓSpecIso (CommRingCat.of A)).hom ≫ CommRingCat.ofHom ψ).hom f
-  rw [e, Category.assoc, n]
+  intros
+  apply _root_.GlobalTheory.HolHom.valR_spMap <;> assumption
 
 end GlobalTheory.MBLow.JetBCGen
 

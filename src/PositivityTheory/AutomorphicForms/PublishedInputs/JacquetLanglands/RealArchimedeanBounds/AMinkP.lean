@@ -51,56 +51,47 @@ lemma map_eq (F : Type) [Field F] [NumberField F] [IsTotallyReal F] :
 lemma cst_pos (F : Type) [Field F] [NumberField F] [IsTotallyReal F] : 0 < cst F := by
   unfold cst; exact Measure.addHaarScalarFactor_pos_of_isAddHaarMeasure _ _
 
+private def shear {κ : Type} (x : κ → ℝ) :
+    ((κ → ℝ) × (κ → ℝ)) →ₗ[ℝ] ((κ → ℝ) × (κ → ℝ)) where
+  toFun p := (p.1, fun w => p.1 w * x w + p.2 w)
+  map_add' p q := by
+    refine Prod.ext rfl (funext fun w => ?_)
+    simp
+    ring
+  map_smul' c p := by
+    refine Prod.ext rfl (funext fun w => ?_)
+    simp
+    ring
+
+private theorem shear_preimage {κ : Type} (α β x : κ → ℝ) :
+    shear x ⁻¹' (Set.Icc (-α) α ×ˢ Set.Icc (-β) β) =
+      {p : (κ → ℝ) × (κ → ℝ) | ∀ w, |p.1 w| ≤ α w ∧ |p.1 w * x w + p.2 w| ≤ β w} := by
+  ext p
+  simp only [Set.mem_preimage, Set.mem_prod, Set.mem_Icc, shear, LinearMap.coe_mk,
+    AddHom.coe_mk, Pi.le_def, Pi.neg_apply, Set.mem_ofPred_eq, abs_le]
+  aesop
+
 lemma vol_S {κ : Type} [Fintype κ] (α β x : κ → ℝ) (hβ : ∀ w, 0 ≤ β w) :
     ((volume : Measure (κ → ℝ)).prod (volume : Measure (κ → ℝ)))
       {p : (κ → ℝ) × (κ → ℝ) | ∀ w, |p.1 w| ≤ α w ∧ |p.1 w * x w + p.2 w| ≤ β w}
       = ∏ w, ENNReal.ofReal (4 * (α w * β w)) := by
-  have hS : MeasurableSet
-      {p : (κ → ℝ) × (κ → ℝ) | ∀ w, |p.1 w| ≤ α w ∧ |p.1 w * x w + p.2 w| ≤ β w} := by
-    have : IsClosed
-        {p : (κ → ℝ) × (κ → ℝ) | ∀ w, |p.1 w| ≤ α w ∧ |p.1 w * x w + p.2 w| ≤ β w} := by
-      simp only [Set.ofPred_forall, Set.ofPred_and]
-      exact isClosed_iInter fun w =>
-        (isClosed_le (by fun_prop) continuous_const).inter (isClosed_le (by fun_prop) continuous_const)
-    exact this.measurableSet
-  rw [Measure.prod_apply hS]
-  have hslice : (fun p1 : κ → ℝ => volume (Prod.mk p1 ⁻¹'
-      {p : (κ → ℝ) × (κ → ℝ) | ∀ w, |p.1 w| ≤ α w ∧ |p.1 w * x w + p.2 w| ≤ β w}))
-      = (Set.Icc (-α) α).indicator (fun _ => ∏ w, ENNReal.ofReal (2 * β w)) := by
-    funext p1
-    by_cases h : p1 ∈ Set.Icc (-α) α
-    · rw [Set.indicator_of_mem h]
-      rw [Set.mem_Icc, Pi.le_def, Pi.le_def] at h
-      have hA : ∀ w, |p1 w| ≤ α w := fun w => abs_le.2 ⟨by simpa using h.1 w, h.2 w⟩
-      have e : Prod.mk p1 ⁻¹'
-          {p : (κ → ℝ) × (κ → ℝ) | ∀ w, |p.1 w| ≤ α w ∧ |p.1 w * x w + p.2 w| ≤ β w}
-          = Set.Icc (fun w => -β w - p1 w * x w) (fun w => β w - p1 w * x w) := by
-        ext q
-        simp only [Set.mem_preimage, Set.mem_ofPred_eq, Set.mem_Icc, Pi.le_def]
-        constructor
-        · intro hq
-          refine ⟨fun w => ?_, fun w => ?_⟩
-          · have := abs_le.1 (hq w).2; linarith [this.1]
-          · have := abs_le.1 (hq w).2; linarith [this.2]
-        · rintro ⟨h1, h2⟩ w
-          exact ⟨hA w, abs_le.2 ⟨by linarith [h1 w], by linarith [h2 w]⟩⟩
-      rw [e, Real.volume_Icc_pi]
-      congr 1; funext w; congr 1; ring
-    · rw [Set.indicator_of_notMem h]
-      have e : Prod.mk p1 ⁻¹'
-          {p : (κ → ℝ) × (κ → ℝ) | ∀ w, |p.1 w| ≤ α w ∧ |p.1 w * x w + p.2 w| ≤ β w} = ∅ := by
-        ext q
-        simp only [Set.mem_preimage, Set.mem_ofPred_eq, Set.mem_empty_iff_false, iff_false]
-        intro hq
-        apply h
-        rw [Set.mem_Icc, Pi.le_def, Pi.le_def]
-        exact ⟨fun w => by simpa using (abs_le.1 (hq w).1).1, fun w => (abs_le.1 (hq w).1).2⟩
-      rw [e, measure_empty]
-  rw [hslice, lintegral_indicator_const measurableSet_Icc, Real.volume_Icc_pi,
-    ← Finset.prod_mul_distrib]
-  congr 1; funext w
-  rw [← ENNReal.ofReal_mul (by linarith [hβ w])]
-  congr 1; simp only [Pi.neg_apply]; ring
+  let μ : Measure (κ → ℝ) := volume
+  have hshear : MeasurePreserving (shear x) (μ.prod μ) (μ.prod μ) := by
+    exact (MeasurePreserving.id μ).skew_product
+      (g := fun (p q : κ → ℝ) w => p w * x w + q w) (by fun_prop)
+      (ae_of_all _ fun p => (measurePreserving_add_left μ (fun w => p w * x w)).map_eq)
+  rw [← shear_preimage α β x,
+    hshear.measure_preimage (measurableSet_Icc.prod measurableSet_Icc).nullMeasurableSet,
+    Measure.prod_prod, Real.volume_Icc_pi, Real.volume_Icc_pi, ← Finset.prod_mul_distrib]
+  congr 1
+  funext w
+  have hβ' : 0 ≤ β w - (-β) w := by
+    simp only [Pi.neg_apply]
+    linarith [hβ w]
+  rw [mul_comm, ← ENNReal.ofReal_mul hβ']
+  congr 1
+  simp only [Pi.neg_apply]
+  ring
 
 lemma sum_integral (F : Type) [Field F] [NumberField F] (u : Ix F → ℤ) :
     IsIntegral ℤ (∑ i, (u i : F) * integralBasis F i) := by
@@ -140,17 +131,15 @@ theorem core (F : Type) [Field F] [NumberField F] [IsTotallyReal F] : ∃ C : �
   let α : Rp F → ℝ := fun w => t / r w
   let β : Rp F → ℝ := fun w => t * r w
   let xx : Rp F → ℝ := fun w => (z w.1).re
-  let S := {p : (Rp F → ℝ) × (Rp F → ℝ) | ∀ w, |p.1 w| ≤ α w ∧ |p.1 w * xx w + p.2 w| ≤ β w}
-  have hSm : MeasurableSet S := by
-    have : IsClosed S := by
-      simp only [S, Set.ofPred_forall, Set.ofPred_and]
-      exact isClosed_iInter fun w =>
-        (isClosed_le (by fun_prop) continuous_const).inter (isClosed_le (by fun_prop) continuous_const)
-    exact this.measurableSet
+  let box := Set.Icc (-α) α ×ˢ Set.Icc (-β) β
+  let S := shear xx ⁻¹' box
+  have hS' := shear_preimage α β xx
+  have hbox : MeasurableSet box := measurableSet_Icc.prod measurableSet_Icc
+  have hSm : MeasurableSet S := hbox.preimage (shear xx).continuous_of_finiteDimensional.measurable
   have hαβ : ∀ w, α w * β w = t ^ 2 := fun w => by
     simp only [α, β]; field_simp [(hr w).ne']
   have hvS : ((volume : Measure (Rp F → ℝ)).prod (volume : Measure (Rp F → ℝ))) S = ENNReal.ofReal ((4 * t ^ 2) ^ d) := by
-    rw [vol_S α β xx (fun w => by positivity)]
+    rw [show S = _ from hS', vol_S α β xx (fun w => by positivity)]
     simp only [hαβ, Finset.prod_const, Finset.card_univ]
     rw [ENNReal.ofReal_pow (by positivity)]
   have hvs : volume ((Phi F) ⁻¹' S) = ENNReal.ofReal (c * (4 * t ^ 2) ^ d) := by
@@ -161,34 +150,15 @@ theorem core (F : Type) [Field F] [NumberField F] [IsTotallyReal F] : ∃ C : �
       ENNReal.ofReal_mul hc.le, hc_def, ENNReal.ofReal_coe_nnreal]
   have hsymm : ∀ y ∈ (Phi F) ⁻¹' S, -y ∈ (Phi F) ⁻¹' S := by
     intro y hy
-    simp only [S, Set.mem_preimage, Set.mem_ofPred_eq, map_neg] at hy ⊢
-    intro w
-    obtain ⟨h1, h2⟩ := hy w
-    refine ⟨by simpa using h1, ?_⟩
-    have e : (-(Phi F y)).1 w * xx w + (-(Phi F y)).2 w = -((Phi F y).1 w * xx w + (Phi F y).2 w) := by
-      simp only [Prod.fst_neg, Prod.snd_neg, Pi.neg_apply]; ring
-    rw [e, abs_neg]; exact h2
-  have hconvS : Convex ℝ S := by
-    intro p hp q hq a b ha hb hab
-    simp only [S, Set.mem_ofPred_eq] at hp hq ⊢
-    intro w
-    obtain ⟨h1, h2⟩ := hp w
-    obtain ⟨h3, h4⟩ := hq w
-    simp only [Prod.fst_add, Prod.snd_add, Prod.smul_fst, Prod.smul_snd, Pi.add_apply,
-      Pi.smul_apply, smul_eq_mul]
-    constructor
-    · calc |a * p.1 w + b * q.1 w| ≤ |a * p.1 w| + |b * q.1 w| := abs_add_le _ _
-        _ = a * |p.1 w| + b * |q.1 w| := by rw [abs_mul, abs_mul, abs_of_nonneg ha, abs_of_nonneg hb]
-        _ ≤ a * α w + b * α w := by gcongr
-        _ = α w := by rw [← add_mul, hab, one_mul]
-    · calc |(a * p.1 w + b * q.1 w) * xx w + (a * p.2 w + b * q.2 w)|
-          = |a * (p.1 w * xx w + p.2 w) + b * (q.1 w * xx w + q.2 w)| := by congr 1; ring
-        _ ≤ |a * (p.1 w * xx w + p.2 w)| + |b * (q.1 w * xx w + q.2 w)| := abs_add_le _ _
-        _ = a * |p.1 w * xx w + p.2 w| + b * |q.1 w * xx w + q.2 w| := by
-          rw [abs_mul, abs_mul, abs_of_nonneg ha, abs_of_nonneg hb]
-        _ ≤ a * β w + b * β w := by gcongr
-        _ = β w := by rw [← add_mul, hab, one_mul]
-  have hconv : Convex ℝ ((Phi F) ⁻¹' S) := hconvS.linear_preimage (Phi F).toLinearMap
+    change (shear xx) (Phi F y) ∈ box at hy
+    change (shear xx) (Phi F (-y)) ∈ box
+    rw [map_neg, map_neg]
+    rcases hy with ⟨⟨ha, ha'⟩, hb, hb'⟩
+    exact ⟨⟨neg_le_neg ha', by simpa using neg_le_neg ha⟩,
+      neg_le_neg hb', by simpa using neg_le_neg hb⟩
+  have hconv : Convex ℝ ((Phi F) ⁻¹' S) :=
+    (((convex_Icc (-α) α).prod (convex_Icc (-β) β)).linear_preimage (shear xx)).linear_preimage
+      (Phi F).toLinearMap
   have hF0 : volume (ZSpan.fundamentalDomain (Pi.basisFun ℝ (Ix F ⊕ Ix F))) = 1 := by
     rw [ZSpan.fundamentalDomain_pi_basisFun, volume_pi, Measure.pi_pi]
     simp [Real.volume_Ico]
@@ -223,8 +193,9 @@ theorem core (F : Type) [Field F] [NumberField F] [IsTotallyReal F] : ∃ C : �
   have hPhi : Phi F y = (B F (fun i => (n (Sum.inl i) : ℝ)), B F (fun i => (n (Sum.inr i) : ℝ))) := by
     rw [Phi_apply]; congr 1 <;> congr 1 <;> funext i <;> exact hn _
   have hys' : Phi F y ∈ S := hys
-  rw [hPhi] at hys'
-  simp only [S, Set.mem_ofPred_eq] at hys'
+  change Phi F y ∈ shear xx ⁻¹' (Set.Icc (-α) α ×ˢ Set.Icc (-β) β) at hys'
+  rw [hPhi, hS'] at hys'
+  simp only [Set.mem_ofPred_eq] at hys'
   refine ⟨![a, b], ?_, ?_, ?_⟩
   · intro h0
     have ha0 : a = 0 := by simpa using congrFun h0 0

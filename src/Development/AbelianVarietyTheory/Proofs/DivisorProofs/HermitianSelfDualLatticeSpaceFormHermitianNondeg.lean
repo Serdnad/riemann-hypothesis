@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.StrongApproximationSplitPlaceSkewHermitianUnitarStatement
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.GramHspOf
 public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.WeilTensorModels
 import Mathlib.Algebra.Order.Floor.Extended
@@ -65,20 +66,7 @@ theorem sesq_transpose_eq_form (D : D7) {k : ℕ} (J : Matrix (Fin k) (Fin k) D.
 
 theorem det_ne_zero_of_hasSig {n r s : ℕ} {M : Matrix (Fin n) (Fin n) ℂ} (h : GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.HasSig M r s) :
     M.det ≠ 0 := by
-  obtain ⟨hrs, A, hA⟩ := h
-  let e : Fin r ⊕ Fin s ≃ Fin n := finSumFinEquiv.trans (finCongr hrs)
-  let P : Matrix (Fin n) (Fin n) ℂ := A.submatrix id e.symm
-  have key : Pᵀ * M * P.map star =
-      (Matrix.fromBlocks 1 0 0 (-1) : Matrix (Fin r ⊕ Fin s) (Fin r ⊕ Fin s) ℂ).submatrix e.symm e.symm := by
-    rw [← hA]
-    rfl
-  have hd := congrArg Matrix.det key
-  rw [Matrix.det_submatrix_equiv_self, Matrix.det_fromBlocks_zero₂₁, Matrix.det_one, Matrix.det_neg,
-    Matrix.det_one, Matrix.det_mul, Matrix.det_mul] at hd
-  intro h0
-  rw [h0, mul_zero, zero_mul] at hd
-  rw [Fintype.card_fin, one_mul, mul_one] at hd
-  exact pow_ne_zero s (neg_ne_zero.mpr one_ne_zero) hd.symm
+  apply _root_.GlobalTheory.SplitApprox.det_ne_zero_of_hasSig <;> assumption
 
 variable (D : D7) (B : Base D.host.F D.host.E) {n : ℕ} (X : Spc D.host.F D.host.E n) {r s : ℕ}
 

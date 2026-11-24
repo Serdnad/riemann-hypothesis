@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.ModuliProofs.TorsionIsometryPrimitiveRootBijectiveModN
 public import Development.AbelianVarietyTheory.Definitions.SpanningFamilies.IsBaseClassLevelAdapted
 public import Development.AbelianVarietyTheory.Counterexamples.LevelGroupExamples.ZeroNotAdmissibleOfRankPos
 public import Development.AbelianVarietyTheory.Definitions.HermitianLattices.TraceFormBilinSeparatingLeftIff
@@ -47,6 +48,7 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
+import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.ExistsClassicalLevelDataCoverSelfDual
 
 @[expose] public section
 
@@ -67,17 +69,7 @@ variable {R P A : Type} [CommRing R] [AddCommGroup P] [Module R P] [AddCommGroup
 
 theorem exists_nsmul {B : LinearMap.BilinForm ℤ P} (hB : Function.Bijective B) {m : ℕ} (hm : m ≠ 0) {x : P}
     (h : ∀ y, (m : ℤ) ∣ B x y) : ∃ z, x = m • z := by
-  let f : P →ₗ[ℤ] ℤ :=
-    { toFun := fun y => B x y / m
-      map_add' := fun a b => by rw [map_add (f := _), Int.add_ediv_of_dvd_left (h a)]
-      map_smul' := fun k a => by
-        rw [map_zsmul]; simp only [smul_eq_mul, RingHom.id_apply]; exact Int.mul_ediv_assoc _ (h a) }
-  obtain ⟨z, hz⟩ := hB.2 f
-  refine ⟨z, hB.1 ?_⟩
-  ext y
-  rw [map_nsmul, hz]
-  simp only [LinearMap.smul_apply, nsmul_eq_mul, f, LinearMap.coe_mk, AddHom.coe_mk]
-  exact (Int.mul_ediv_cancel' (h y)).symm
+  apply _root_.GlobalTheory.TorsIsometry.exists_eq_nsmul_of_dvd <;> assumption
 
 theorem smul_eq_nsmul {I J : Ideal R} {m : ℕ} (h : J * I ≤ Ideal.span {(m : R)}) {a : R} (ha : a ∈ J) {x : P}
     (hx : x ∈ I • (⊤ : Submodule R P)) : ∃ z, a • x = m • z := by
@@ -291,14 +283,7 @@ theorem isDual_iff {B : LinearMap.BilinForm ℤ L} (hB : ∀ x y : L, EF X x y =
     fun h => ⟨fun a => (δ a).2, fun x a ha => (key x a ha).2 (h x a ha)⟩⟩
 
 theorem conj_half (l : Geo.Tor.Level H) : conjI (Mfr l) = l.Mb := by
-  refine le_antisymm (Ideal.span_le.2 ?_) fun a ha => Ideal.subset_span
-    ⟨H.bar a, Ideal.mem_map_of_mem (H.bar : 𝓞 E →+* 𝓞 E) ha, ?_⟩
-  · rintro a ⟨b, hb, h⟩
-    have : a = H.bar b := Subtype.ext (h.trans (H.bar_eq b).symm)
-    rw [this]
-    exact LevelPairing.bar_mem_Mb hb
-  · conv_lhs => rw [← LevelPairing.bar_bar H a]
-    exact H.bar_eq _
+  apply _root_.GlobalTheory.LevelTied.conjI_Mfr <;> assumption
 
 theorem exists_roots (l : Geo.Tor.Level H) (mk : Dw.La →ₗ[𝓞 E] L) (n N : ℕ) (hN : 0 < N) :
     ∃ Y : (Fin n → LevQ Dw l) → Matrix (Fin n) (Fin r) E, IsRoots l L (L.subtype ∘ₗ mk) N Y := by

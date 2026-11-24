@@ -1366,12 +1366,6 @@ theorem zeta_negative_real_axis : ZetaNegReal := by
     intro n
     rw [← hr n]
     exact Formalism.ZF.ComplexPowerDifferenceIntegral.d_eq (by positivity) _
-  have hsum : Summable r := by
-    have hs := Formalism.ZF.ComplexPowerDifferenceIntegral.summable_norm_dz hre
-    have hs' : Summable (fun n => ‖((σ : ℂ) - 1)‖⁻¹ * ‖Formalism.ZF.ComplexPowerDifferenceIntegral.dz (σ : ℂ) n‖) := hs.mul_left _
-    refine hs'.congr (fun n => ?_)
-    rw [hdz n, norm_mul, ← mul_assoc, inv_mul_cancel₀ (norm_ne_zero_iff.mpr hne'), one_mul,
-      Complex.norm_real, Real.norm_eq_abs, abs_of_nonneg (hr0 n)]
   have hDz : Formalism.ZF.ComplexPowerDifferenceIntegral.Dz (σ : ℂ) = ((σ : ℂ) - 1) * ((∑' n, r n : ℝ) : ℂ) := by
     unfold Formalism.ZF.ComplexPowerDifferenceIntegral.Dz
     simp_rw [hdz]

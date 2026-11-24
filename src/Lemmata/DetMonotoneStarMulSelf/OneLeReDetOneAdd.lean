@@ -1,78 +1,59 @@
 module
 
+
+import GroundTheory.HeightsAndTheta.Heights.LocalDensities.PHermitianDetMono
+import Mathlib.LinearAlgebra.Matrix.Charpoly.Coeff
 public import ReciprocityTheory.L2DbarEstimates.JacobianInterpolationStatement
 public import Mathlib.Analysis.Matrix.Order
 import Mathlib.Tactic.Lemma
-
 @[expose] public section
 
 namespace Bl.DetMonotoneStarMulSelf
 
-open Matrix in
-open scoped ComplexOrder in
-private lemma one_le_re_det_one_add {n : ℕ} (D : Matrix (Fin n) (Fin n) ℂ) (hD : D.PosSemidef) :
-    1 ≤ (1 + D).det.re := by
-  have hH : (1 + D).IsHermitian := isHermitian_one.add hD.isHermitian
-  have key : ∀ i, 1 ≤ hH.eigenvalues i := by
-    intro i
-    rw [hH.eigenvalues_eq i]
-    have h1 : RCLike.re (star ⇑(hH.eigenvectorBasis i) ⬝ᵥ ⇑(hH.eigenvectorBasis i)) = (1 : ℝ) := by
-      rw [dotProduct_comm, ← EuclideanSpace.inner_eq_star_dotProduct, inner_self_eq_norm_sq_to_K,
-        hH.eigenvectorBasis.orthonormal.1 i]
-      simp
-    have h2 := hD.dotProduct_mulVec_nonneg (⇑(hH.eigenvectorBasis i))
-    have h3 : 0 ≤ RCLike.re (star ⇑(hH.eigenvectorBasis i) ⬝ᵥ D *ᵥ ⇑(hH.eigenvectorBasis i)) :=
-      (Complex.nonneg_iff.mp h2).1
-    rw [add_mulVec, one_mulVec, dotProduct_add, map_add (f := _), h1]
-    linarith
-  rw [hH.det_eq_prod_eigenvalues]
-  have hp : (∏ i, ((hH.eigenvalues i : ℝ) : ℂ)).re = ∏ i, hH.eigenvalues i := by
-    rw [← Complex.ofReal_prod, Complex.ofReal_re]
-  refine le_of_le_of_eq ?_ hp.symm
-  calc (1 : ℝ) = ∏ _i : Fin n, (1 : ℝ) := by simp
-    _ ≤ ∏ i, hH.eigenvalues i := Finset.prod_le_prod₀ (fun _ _ => zero_le_one) (fun i _ => key i)
+open Matrix
+open scoped ComplexOrder
 
-open Matrix in
-open scoped ComplexOrder in
-open scoped MatrixOrder in
-private lemma exists_star_mul_self {n : ℕ} (B : Matrix (Fin n) (Fin n) ℂ) (hB : B.PosSemidef) :
-    ∃ X : Matrix (Fin n) (Fin n) ℂ, B = Xᴴ * X := by
-  obtain ⟨X, hX⟩ := CStarAlgebra.nonneg_iff_eq_star_mul_self.mp hB.nonneg
-  exact ⟨X, by rw [hX, star_eq_conjTranspose]⟩
+private lemma det_diagonal_add_le {n : ℕ} (d : Fin n → ℂ) (hd : ∀ i, 0 ≤ d i)
+    (C : Matrix (Fin n) (Fin n) ℂ) (hC : C.PosSemidef) :
+    (diagonal d).det ≤ (C + diagonal d).det := by
+  classical
+  let D := (detRowAlternating : (Fin n → ℂ) [⋀^Fin n]→ₗ[ℂ] ℂ)
+  -- Expand by choosing which rows come from C. Each term is a principal minor
+  -- of C times nonnegative diagonal entries at the remaining indices.
+  have hexpand : (C + diagonal d).det =
+      ∑ s : Finset (Fin n), D (s.piecewise C (diagonal d)) :=
+    D.map_add_univ C (diagonal d)
+  have hterm (s : Finset (Fin n)) : 0 ≤ D (s.piecewise C (diagonal d)) := by
+    let a : Fin n → ℂ := fun i => if i ∈ s then 1 else d i
+    have hrows : s.piecewise C (diagonal d) =
+        fun i => a i • s.piecewise C (1 : Matrix (Fin n) (Fin n) ℂ) i := by
+      funext i j
+      by_cases hi : i ∈ s
+      · simp [Finset.piecewise, a, hi]
+      · have hone : (1 : Matrix (Fin n) (Fin n) ℂ) i j = if i = j then 1 else 0 :=
+          Matrix.one_apply
+        simp only [Finset.piecewise, hi, ite_false, Pi.smul_apply, smul_eq_mul, a, diagonal_apply, hone]
+        split <;> simp
+    have hminor : 0 ≤ D (s.piecewise C (1 : Matrix (Fin n) (Fin n) ℂ)) := by
+      change 0 ≤ (Matrix.of (s.piecewise C.row (1 : Matrix (Fin n) (Fin n) ℂ).row)).det
+      rw [det_piecewise_one_eq_submatrix_det]
+      exact (hC.submatrix Subtype.val).det_nonneg
+    rw [hrows, D.map_smul_univ]
+    exact mul_nonneg (Finset.prod_nonneg fun i _ => by
+      by_cases hi : i ∈ s <;> simp [a, hi, hd]) hminor
+  rw [hexpand]
+  have h := Finset.single_le_sum (s := (Finset.univ : Finset (Finset (Fin n))))
+    (f := fun s => D (s.piecewise C (diagonal d))) (fun s _ => hterm s) (Finset.mem_univ ∅)
+  have hempty : (∅ : Finset (Fin n)).piecewise (fun i => C i) (fun i => diagonal d i)
+      = fun i => diagonal d i := Finset.piecewise_empty _ _
+  calc
+    (diagonal d).det = D ((∅ : Finset (Fin n)).piecewise C (diagonal d)) :=
+      congrArg D hempty.symm
+    _ ≤ _ := h
 
-open Matrix in
-open scoped ComplexOrder in
 private lemma det_mono {n : ℕ} (A B : Matrix (Fin n) (Fin n) ℂ) (hB : B.PosSemidef)
     (hAB : (A - B).PosSemidef) : B.det.re ≤ A.det.re := by
-  have hA : A.PosSemidef := by simpa using hB.add hAB
-  by_cases hdet : B.det = 0
-  · rw [hdet, Complex.zero_re]
-    exact (Complex.nonneg_iff.mp hA.det_nonneg).1
-  · obtain ⟨X, hBX⟩ := exists_star_mul_self B hB
-    have hXd : X.det ≠ 0 := by
-      intro h
-      apply hdet
-      rw [hBX, det_mul, h, mul_zero]
-    have hXu : IsUnit X.det := isUnit_iff_ne_zero.mpr hXd
-    have hYX : X⁻¹ * X = 1 := nonsing_inv_mul X hXu
-    set C := A - B with hCdef
-    set D := (X⁻¹)ᴴ * C * X⁻¹ with hDdef
-    have hD : D.PosSemidef := hAB.conjTranspose_mul_mul_same X⁻¹
-    have h2 : Xᴴ * D * X = C := by
-      calc Xᴴ * D * X = (X⁻¹ * X)ᴴ * C * (X⁻¹ * X) := by
-            rw [hDdef, conjTranspose_mul]; simp only [Matrix.mul_assoc]
-        _ = C := by rw [hYX, conjTranspose_one, Matrix.one_mul, Matrix.mul_one]
-    have hEq : A = Xᴴ * (1 + D) * X := by
-      rw [Matrix.mul_add, Matrix.add_mul, Matrix.mul_one, h2, ← hBX, hCdef]
-      abel
-    have hdA : A.det = (1 + D).det * B.det := by
-      rw [hEq, det_mul, det_mul, hBX, det_mul]; ring
-    have hu := one_le_re_det_one_add D hD
-    have hu0 : (1 + D).det.im = 0 :=
-      ((Complex.nonneg_iff.mp (PosSemidef.one.add hD).det_nonneg).2).symm
-    have hw := Complex.nonneg_iff.mp hB.det_nonneg
-    rw [hdA, Complex.mul_re, hu0, zero_mul, sub_zero]
-    nlinarith [hw.1]
+  apply _root_.GroundTheory.Heights₂.Heights.FourB.HermitianDetMono.proof <;> assumption
 
 theorem goal1 :
   ∀ (n : Nat), ReciprocityTheory.L2DbarEstimates.DetMonoStatement n := by

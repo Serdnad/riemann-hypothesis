@@ -149,30 +149,24 @@ namespace GlobalTheory
 theorem finite_quotient_of_integral {k R S : Type} [Field k] [CommRing R] [CommRing S] [Algebra k R] [Algebra k S]
     [Algebra.FiniteType k S] (f : R →ₐ[k] S) (hi : (f : R →+* S).IsIntegral) (I : Ideal S)
     (hc : ∀ r, ∃ c : k, f r - algebraMap k S c ∈ I) : Module.Finite k (S ⧸ I) := by
-  classical
-  letI : Algebra R S := (f : R →+* S).toAlgebra
-  haveI : IsScalarTower k R S := IsScalarTower.of_algebraMap_eq (fun c => (f.commutes c).symm)
-  haveI : Algebra.FiniteType R S := Algebra.FiniteType.of_restrictScalars_finiteType k R S
-  haveI : Algebra.IsIntegral R S := ⟨hi⟩
-  haveI : Module.Finite R S := Algebra.IsIntegral.finite
-  obtain ⟨G, hG⟩ := Module.Finite.fg_top (R := R) (M := S)
-  refine ⟨⟨G.image (Ideal.Quotient.mk I), ?_⟩⟩
-  rw [eq_top_iff]
-  rintro q -
-  obtain ⟨s, rfl⟩ := Ideal.Quotient.mk_surjective q
-  have hs : s ∈ Submodule.span R (G : Set S) := hG ▸ Submodule.mem_top
-  induction hs using Submodule.span_induction with
-  | mem y hy => exact Submodule.subset_span (by simp only [Finset.coe_image]; exact ⟨y, hy, rfl⟩)
-  | zero => simp
-  | add a b _ _ ha hb => rw [map_add]; exact add_mem ha hb
-  | smul r a _ ha =>
+  let : Algebra R S := (f : R →+* S).toAlgebra
+  have : IsScalarTower k R S := IsScalarTower.of_algebraMap_eq (fun c => (f.commutes c).symm)
+  have : Algebra.FiniteType R S := Algebra.FiniteType.of_restrictScalars_finiteType k R S
+  have : Algebra.IsIntegral R S := ⟨hi⟩
+  have : Module.Finite R S := Algebra.IsIntegral.finite
+  let J := I.comap (algebraMap R S)
+  have hsurj : Function.Surjective (algebraMap k (R ⧸ J)) := by
+    intro x
+    obtain ⟨r, rfl⟩ := Ideal.Quotient.mk_surjective x
     obtain ⟨c, hc⟩ := hc r
-    have e : Ideal.Quotient.mk I (r • a) = c • Ideal.Quotient.mk I a := by
-      rw [Algebra.smul_def, map_mul, Algebra.smul_def, ← Ideal.Quotient.mk_algebraMap]
-      congr 1
-      exact Ideal.Quotient.eq.2 hc
-    rw [e]
-    exact Submodule.smul_mem _ _ ha
+    refine ⟨c, (Ideal.Quotient.eq.2 ?_).symm⟩
+    change f (r - algebraMap k R c) ∈ I
+    simpa only [map_sub, f.commutes] using hc
+  have : Module.Finite k (R ⧸ J) :=
+    Module.Finite.of_surjective (Algebra.linearMap k (R ⧸ J)) hsurj
+  have : Module.Finite (R ⧸ J) (S ⧸ I) :=
+    Module.Finite.of_restrictScalars_finite R (R ⧸ J) (S ⧸ I)
+  exact Module.Finite.trans (R ⧸ J) (S ⧸ I)
 
 end GlobalTheory
 
@@ -194,46 +188,37 @@ theorem isArtinianRing_fib_quot : ∀ (k K : Type) [Field k] [Field K] [Algebra 
     have e := Polynomial.hom_eval₂ p (f : rA k x {0} →+* rB k K x {0}) (rB k K x {0}).val.toRingHom s
     refine e.trans ?_
     exact hp
-  have hc : ∀ r, ∃ c : k, f r - algebraMap k _ c ∈ I := by
-    rintro ⟨r, hr⟩
-    induction hr using Algebra.adjoin_induction with
-    | mem y hy =>
-      obtain ⟨i, hi0, j, rfl⟩ := hy
-      rw [Finset.mem_singleton] at hi0
-      subst hi0
-      cases j using Fin.cases with
-      | zero =>
-        refine ⟨1, ?_⟩
-        convert I.zero_mem using 1
-        rw [map_one, sub_eq_zero]
-        refine Subtype.ext ?_
-        show algebraMap F K (x 0 / x 0) = 1
+  let q := (Ideal.Quotient.mkₐ k I).comp f
+  let G : Set F := {y | ∃ i ∈ ({0} : Finset (Fin (d + 1))), ∃ j, y = x j / x i}
+  have hq : (⊤ : Subalgebra k (rA k x {0})) ≤ (⊥ : Subalgebra k _).comap q := by
+    change (⊤ : Subalgebra k (Algebra.adjoin k G)) ≤ _
+    rw [← Algebra.adjoin_adjoin_coe_preimage (R := k) (s := G)]
+    apply Algebra.adjoin_le
+    rintro ⟨r, hr⟩ hs
+    change r ∈ G at hs
+    obtain ⟨i, hi, j, rfl⟩ := hs
+    rw [Finset.mem_singleton] at hi
+    subst i
+    change q ⟨_, hr⟩ ∈ (⊥ : Subalgebra k (rB k K x {0} ⧸ I))
+    rw [Algebra.mem_bot]
+    cases j using Fin.cases with
+    | zero =>
+      refine ⟨1, ?_⟩
+      change algebraMap k _ 1 = Ideal.Quotient.mk I (f ⟨x 0 / x 0, hr⟩)
+      have hf : f ⟨x 0 / x 0, hr⟩ = 1 := by
+        apply Subtype.ext
+        change algebraMap F K (x 0 / x 0) = 1
         rw [div_self (h.pd.ne 0), map_one]
-      | succ j =>
-        refine ⟨0, ?_⟩
-        rw [map_zero, sub_zero]
-        exact Ideal.subset_span ⟨j, rfl⟩
-    | algebraMap r =>
-      refine ⟨r, ?_⟩
-      have : f ⟨algebraMap k F r, _⟩ = algebraMap k _ r := f.commutes r
-      rw [this, sub_self]
-      exact I.zero_mem
-    | add a b ha hb iha ihb =>
-      obtain ⟨c₁, h₁⟩ := iha
-      obtain ⟨c₂, h₂⟩ := ihb
-      refine ⟨c₁ + c₂, ?_⟩
-      have : f ⟨a + b, add_mem ha hb⟩ = f ⟨a, ha⟩ + f ⟨b, hb⟩ := map_add f ⟨a, ha⟩ ⟨b, hb⟩
-      rw [this, map_add (f := _)]
-      convert add_mem h₁ h₂ using 1
-      ring
-    | mul a b ha hb iha ihb =>
-      obtain ⟨c₁, h₁⟩ := iha
-      obtain ⟨c₂, h₂⟩ := ihb
-      refine ⟨c₁ * c₂, ?_⟩
-      have : f ⟨a * b, mul_mem ha hb⟩ = f ⟨a, ha⟩ * f ⟨b, hb⟩ := map_mul f ⟨a, ha⟩ ⟨b, hb⟩
-      rw [this, map_mul]
-      convert add_mem (I.mul_mem_right (f ⟨b, hb⟩) h₁) (I.mul_mem_left (algebraMap k _ c₁) h₂) using 1
-      ring
+      rw [hf, map_one, map_one]
+    | succ j =>
+      refine ⟨0, ?_⟩
+      rw [map_zero, eq_comm]
+      change Ideal.Quotient.mk I (f ⟨x j.succ / x 0, hr⟩) = 0
+      exact Ideal.Quotient.eq_zero_iff_mem.mpr (Ideal.subset_span ⟨j, rfl⟩)
+  have hc (r : rA k x {0}) : ∃ c : k, f r - algebraMap k _ c ∈ I := by
+    have hmem : q r ∈ (⊥ : Subalgebra k (rB k K x {0} ⧸ I)) := hq (Algebra.mem_top (x := r))
+    obtain ⟨c, hc⟩ := Algebra.mem_bot.mp hmem
+    exact ⟨c, Ideal.Quotient.eq.1 hc.symm⟩
   haveI := GlobalTheory.finite_quotient_of_integral f hi I hc
   exact IsArtinianRing.of_finite k _
 
@@ -288,51 +273,18 @@ theorem pow_eq_self_of_le_sq {R : Type} [CommRing R] (M : Ideal R) (h : M ≤ M 
 theorem isReduced_quotient_of_artinian_of_maximal_le (A : Type) [CommRing A] (I : Ideal A)
     (hart : IsArtinianRing (A ⧸ I))
     (h : ∀ m : Ideal A, m.IsMaximal → I ≤ m → m ≤ I ⊔ m ^ 2) : IsReduced (A ⧸ I) := by
-  classical
-  set R := A ⧸ I
-  haveI : Finite (MaximalSpectrum R) := inferInstance
-  haveI : Fintype (MaximalSpectrum R) := Fintype.ofFinite _
-  set J : Ideal R := ∏ M : MaximalSpectrum R, M.asIdeal with hJ
-  have hJinf : J = ⨅ M ∈ (Finset.univ : Finset (MaximalSpectrum R)), M.asIdeal := by
-    rw [hJ]
-    apply Ideal.prod_eq_iInf_of_pairwise_isCoprime
-    intro a _ b _ hab
-    exact Ideal.isCoprime_of_isMaximal (fun e => hab (MaximalSpectrum.ext e))
-  have hpow : ∀ k : ℕ, J ^ (k + 1) = J := by
-    intro k
-    rw [hJ, ← Finset.prod_pow]
-    refine Finset.prod_congr rfl (fun M _ => ?_)
-    exact pow_eq_self_of_le_sq _ (quotient_maximal_le_sq I h M.asIdeal M.isMaximal) k
-  have hJjac : J ≤ Ideal.jacobson ⊥ := by
-    rw [hJinf]
-    intro x hx
-    rw [Ideal.mem_jacobson_bot]
-    intro y
-    by_contra hu
-    obtain ⟨M, hMmax, hM⟩ := Ideal.exists_le_maximal (Ideal.span {x * y + 1})
-      (by rwa [Ne, Ideal.span_singleton_eq_top])
-    have hxM : x ∈ M := by
-      have := (Submodule.mem_iInf _).mp hx ⟨M, hMmax⟩
-      simpa using this
-    have h1 : x * y + 1 ∈ M := hM (Ideal.subset_span rfl)
-    have : (1 : R) ∈ M := by
-      have := M.sub_mem h1 (M.mul_mem_right y hxM)
-      simpa using this
-    exact hMmax.ne_top ((Ideal.eq_top_iff_one _).mpr this)
-  obtain ⟨n, hn⟩ := IsArtinianRing.isNilpotent_jacobson_bot (R := R)
-  have hJbot : J = ⊥ := by
-    rw [← hpow n]
-    refine le_bot_iff.mp ?_
-    calc J ^ (n + 1) ≤ (Ideal.jacobson ⊥) ^ (n + 1) := Ideal.pow_right_mono hJjac _
-      _ ≤ (Ideal.jacobson ⊥) ^ n := Ideal.pow_le_pow_right (Nat.le_succ n)
-      _ = ⊥ := hn
-  refine ⟨fun x hx => ?_⟩
-  have hxJ : x ∈ J := by
-    rw [hJinf]
-    refine (Submodule.mem_iInf _).mpr (fun M => (Submodule.mem_iInf _).mpr (fun _ => ?_))
-    exact (hx.map (Ideal.Quotient.mk M.asIdeal)).eq_zero |> Ideal.Quotient.eq_zero_iff_mem.mp
-  rw [hJbot] at hxJ
-  exact (Submodule.mem_bot R).mp hxJ
+  let R := A ⧸ I
+  have : IsArtinianRing R := hart
+  obtain ⟨n, hn⟩ := IsArtinianRing.isNilpotent_nilradical R
+  apply nilradical_eq_bot_iff.mp
+  change nilradical R = ⊥
+  calc
+    nilradical R = nilradical R ^ (n + 1) := by
+      rw [IsArtinianRing.nilradical_pow_eq_iInf, IsArtinianRing.nilradical_eq_iInf]
+      congr 1
+      funext M
+      exact (pow_eq_self_of_le_sq _ (quotient_maximal_le_sq I h M.asIdeal M.isMaximal) n).symm
+    _ = ⊥ := by rw [pow_succ, hn, zero_mul, Ideal.zero_eq_bot]
 
 end GlobalTheory
 end -- clump:auto

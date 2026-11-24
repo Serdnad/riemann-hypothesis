@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsUniqueIsContr
 public import Development.AbelianVarietyTheory.BlockTheory.TwistedDiscreteSeries.ContractionTensorModels
 import Mathlib.Algebra.Module.StablyFree.Basic
 import Mathlib.Algebra.Order.Floor.Extended
@@ -106,64 +107,10 @@ theorem contrHilbert : ContrHilbert := by
 
 theorem tprod_ne_zero_of_ne {ι : Type} [Fintype ι] {B : ι → Type} [∀ τ, AddCommGroup (B τ)]
     [∀ τ, Module ℂ (B τ)] (w : ∀ τ, B τ) (hw : ∀ τ, w τ ≠ 0) : PiTensorProduct.tprod ℂ w ≠ 0 := by
-  classical
-  have : ∀ τ, ∃ f : Module.Dual ℂ (B τ), f (w τ) ≠ 0 := fun τ => by
-    by_contra hc
-    push_neg at hc
-    exact hw τ ((Module.forall_dual_apply_eq_zero_iff ℂ (w τ)).1 hc)
-  choose f hf using this
-  intro h
-  have := congrArg (PiTensorProduct.lift ((MultilinearMap.mkPiAlgebra ℂ ι ℂ).compLinearMap f)) h
-  simp [Finset.prod_eq_zero_iff, hf] at this
+  first | exact _root_.GlobalTheory.ContrObj.tprod_ne_zero | exact @_root_.GlobalTheory.ContrObj.tprod_ne_zero | apply _root_.GlobalTheory.ContrObj.tprod_ne_zero <;> assumption
 
 theorem contrTensor : ContrTensor := by
-  intro ι _ σ Var e A B _ _ _ _ Itl
-  classical
-  have hinj : ∀ τ, Function.Injective fun s : σ τ => e ⟨τ, s⟩ := fun τ =>
-    e.injective.comp sigma_mk_injective
-  let r : (Var →₀ ℕ) → ∀ τ, σ τ →₀ ℕ := fun m τ => m.comapDomain (fun s => e ⟨τ, s⟩) (hinj τ).injOn
-  let It : MvPolynomial Var ℂ →ₗ[ℂ] (⨂[ℂ] τ, A τ) →ₗ[ℂ] ⨂[ℂ] τ, B τ :=
-    (MvPolynomial.basisMonomials Var ℂ).constr ℂ fun m =>
-      PiTensorProduct.map fun τ => Itl τ (MvPolynomial.monomial (r m τ) 1)
-  have hr : ∀ m : ∀ τ, σ τ →₀ ℕ, r (∑ τ, (m τ).mapDomain fun s => e ⟨τ, s⟩) = m := by
-    intro m
-    funext τ
-    ext s
-    simp only [r, Finsupp.comapDomain_apply, Finsupp.finsetSum_apply]
-    rw [Finset.sum_eq_single τ]
-    · exact Finsupp.mapDomain_apply_of_injective (hinj τ) _ _
-    · intro τ' _ hne
-      apply Finsupp.mapDomain_notin_range
-      rintro ⟨s', hs'⟩
-      exact hne (congrArg Sigma.fst (e.injective hs'))
-    · simp
-  have key : It.compMultilinearMap ((MultilinearMap.mkPiAlgebra ℂ ι (MvPolynomial Var ℂ)).compLinearMap
-      fun τ => (MvPolynomial.rename (fun s : σ τ => e ⟨τ, s⟩)).toLinearMap) =
-      (PiTensorProduct.mapMultilinear ℂ A B).compLinearMap Itl := by
-    apply Module.Basis.ext_multilinear fun τ => MvPolynomial.basisMonomials (σ τ) ℂ
-    intro m
-    simp only [LinearMap.compMultilinearMap_apply, MultilinearMap.compLinearMap_apply,
-      MultilinearMap.mkPiAlgebra_apply, AlgHom.toLinearMap_apply, MvPolynomial.coe_basisMonomials,
-      MvPolynomial.rename_monomial, PiTensorProduct.mapMultilinear_apply]
-    rw [← MvPolynomial.monomial_sum_one]
-    have := (MvPolynomial.basisMonomials Var ℂ).constr_basis ℂ (fun m =>
-      PiTensorProduct.map fun τ => Itl τ (MvPolynomial.monomial (r m τ) 1))
-      (∑ τ, (m τ).mapDomain fun s => e ⟨τ, s⟩)
-    rw [hr] at this
-    simpa [It] using this
-  have hT : IsTensorIt e Itl It := by
-    intro P v
-    have := congrArg (fun F => F P (PiTensorProduct.tprod ℂ v)) key
-    simpa using this
-  refine ⟨It, hT, fun hne h0 => ?_⟩
-  have : ∀ τ, ∃ P v, Itl τ P v ≠ 0 := fun τ => by
-    by_contra hc
-    push_neg at hc
-    exact hne τ (LinearMap.ext fun P => LinearMap.ext fun v => hc P v)
-  choose P v hPv using this
-  apply tprod_ne_zero_of_ne _ hPv
-  rw [← hT P v, h0]
-  rfl
+  first | exact _root_.GlobalTheory.ContrObj.contrTensor | exact @_root_.GlobalTheory.ContrObj.contrTensor | apply _root_.GlobalTheory.ContrObj.contrTensor <;> assumption
 
 theorem contraction : Contraction := ⟨contrHilbert, contrTensor⟩
 

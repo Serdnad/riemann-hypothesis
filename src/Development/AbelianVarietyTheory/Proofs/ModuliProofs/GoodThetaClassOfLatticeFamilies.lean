@@ -422,30 +422,8 @@ theorem obbuild_adj {g : ℕ} (Hm : Matrix (Fin g) (Fin g) ℂ) (s : Set (Fin g 
     (hs : Submodule.span ℝ s = ⊤) (F F' : (Fin g → ℂ) →ₗ[ℂ] (Fin g → ℂ))
     (h : ∀ a ∈ s, ∀ c ∈ s, (hermForm Hm (F a) c).im = (hermForm Hm a (F' c)).im) (z z' : Fin g → ℂ) :
     hermForm Hm (F z) z' = hermForm Hm z (F' z') := by
-  have hz : ∀ z : Fin g → ℂ, hermForm Hm 0 z = 0 ∧ hermForm Hm z 0 = 0 := fun z => by simp [hermForm]
-  have hr : ∀ (r : ℝ) (z : Fin g → ℂ), r • z = (r : ℂ) • z := fun r z => by
-    ext i; simp
-  have h1 : ∀ a ∈ s, ∀ c, (hermForm Hm (F a) c).im = (hermForm Hm a (F' c)).im := by
-    intro a ha c
-    have hc : c ∈ Submodule.span ℝ s := hs ▸ Submodule.mem_top
-    induction hc using Submodule.span_induction with
-    | mem x hx => exact h a ha x hx
-    | zero => simp [hz]
-    | add x y _ _ hx hy => simp [_root_.GlobalTheory.SelfCube.herm_add_right, hx, hy]
-    | smul r x _ hx => rw [hr, map_smul, obbuild_hf_smul_right, obbuild_hf_smul_right]; simp [hx]
-  have h2 : ∀ a c, (hermForm Hm (F a) c).im = (hermForm Hm a (F' c)).im := by
-    intro a c
-    have ha : a ∈ Submodule.span ℝ s := hs ▸ Submodule.mem_top
-    induction ha using Submodule.span_induction with
-    | mem x hx => exact h1 x hx c
-    | zero => simp [hz]
-    | add x y _ _ hx hy => simp [_root_.GlobalTheory.AppellHumbertTrivial.hermForm_add_left, hx, hy]
-    | smul r x _ hx => rw [hr, map_smul, _root_.GlobalTheory.AppellHumbertTrivial.hermForm_smul_left, _root_.GlobalTheory.AppellHumbertTrivial.hermForm_smul_left]; simp [hx]
-  apply Complex.ext
-  · have := h2 (Complex.I • z) z'
-    rw [map_smul, _root_.GlobalTheory.AppellHumbertTrivial.hermForm_smul_left, _root_.GlobalTheory.AppellHumbertTrivial.hermForm_smul_left] at this
-    simpa using this
-  · exact h2 z z'
+  intros
+  apply _root_.GlobalTheory.HermAdjoint.adjoint_of_im <;> assumption
 
 theorem obbuild_ex_pow {A : Over (Sp ℂ)} [GrpObj A] {L : LB A.left} {g : ℕ} (u : HolUnif A L g)
     (z : Fin g → ℂ) (n : ℕ) : u.ex z ^ n = u.ex ((n : ℂ) • z) := by

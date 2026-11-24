@@ -1,5 +1,6 @@
 module
 
+import Formalism.SharpRestriction.Divisibility.AbsolutelyIrreducibleSpan
 public import Formalism.LocalRingCardinality.PrincipalHermitianLattice
 public import Formalism.SharpRestriction.LevelLetterCocycles.ArithmeticCylinders
 public import Mathlib.Tactic.Linter.HaveILetI
@@ -488,13 +489,7 @@ end GoodType
 
 theorem sharp_downTo (D : D7) (μ : D.what₂.Tup) (j : ℕ) :
     (RowSide.sharp D).downTo μ j = D.what₂.downTo μ j := by
-  induction j with
-  | zero => rfl
-  | succ j ih =>
-    show ((RowSide.sharp D).downTo μ j).comp ((RowSide.sharp D).io μ j) =
-      (D.what₂.downTo μ j).comp (D.what₂.io μ j)
-    rw [ih]
-    all_goals rfl
+  apply _root_.Formalism.MainNotions.AbsolutelyIrreducibleSpan.sharp_downTo <;> assumption
 
 def frg (D : D7) : ℝ := (D.R.f : ℝ) * D.R.r / (min (D.host.g 0) (D.host.g 1) : ℕ)
 

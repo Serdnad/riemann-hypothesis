@@ -1,5 +1,6 @@
 module
 
+import Development.AutomorphicSpectrum.Proofs.MetricProofs.LogResolutionFunctorialHolomorphic
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsAnResNullForm
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsNonvanishingDense
 public import Mathlib.Topology.Algebra.MvPolynomial
@@ -51,19 +52,7 @@ theorem blockProportional_of_sameOrbit {a b : (Σ k, ι k) → ℂ} (h : SameOrb
 theorem sameOrbit_of_blockProportional {a b : (Σ k, ι k) → ℂ} (ha : ∀ k, ∃ i, a ⟨k, i⟩ ≠ 0)
     (hb : ∀ k, ∃ i, b ⟨k, i⟩ ≠ 0) (h : ∀ k (i i' : ι k), a ⟨k, i⟩ * b ⟨k, i'⟩ = a ⟨k, i'⟩ * b ⟨k, i⟩) :
     SameOrbit a b := by
-  choose p hp using hb
-  refine ⟨fun k => a ⟨k, p k⟩ / b ⟨k, p k⟩, fun k => ?_, ?_⟩
-  · intro h0
-    obtain ⟨i, hi⟩ := ha k
-    have h1 := h k i (p k)
-    rcases div_eq_zero_iff.1 h0 with h0 | h0
-    · rw [h0, zero_mul] at h1
-      exact hi ((mul_eq_zero_iff_right (hp k)).1 h1)
-    · exact hp k h0
-  · funext ⟨k, i⟩
-    show a ⟨k, i⟩ = a ⟨k, p k⟩ / b ⟨k, p k⟩ * b ⟨k, i⟩
-    rw [div_mul_eq_mul_div, eq_div_iff (hp k)]
-    exact h k i (p k)
+  apply _root_.GlobalTheory.CompanionTheory.Ar.PB.Proj.orbit_of_cross <;> assumption
 
 theorem eval_eq_zero_iff_of_sameOrbit {G : MRing ι} {dG : K → ℕ} (hG : IsMultiHomog G dG)
     {z z' : (Σ k, ι k) → ℂ} (h : SameOrbit z z') :

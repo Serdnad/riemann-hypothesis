@@ -1,5 +1,6 @@
 module
 
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ComplexPointExistsUniqueEmbedding
 import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PSectionBounded
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsSectionNormSqExtension
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsPowerBlockMetric
@@ -56,25 +57,7 @@ theorem homog_mul {f g : MRing ι} {a b : K → ℕ} (hf : IsMultiHomog f a) (hg
   simp only [Finsupp.add_apply, Finset.sum_add_distrib, Pi.add_apply, hf m1 hm1 k, hg m2 hm2 k]
 
 theorem homog_X [DecidableEq K] (p : Σ k, ι k) : IsMultiHomog (X p : MRing ι) (Pi.single p.1 1) := by
-  classical
-  obtain ⟨k, i⟩ := p
-  intro m hm k'
-  rw [MvPolynomial.support_X, Finset.mem_singleton] at hm
-  subst hm
-  by_cases h : k' = k
-  · subst h
-    rw [Pi.single_eq_same, Finset.sum_eq_single i]
-    · simp
-    · intro b _ hb
-      rw [Finsupp.single_apply, if_neg]
-      intro e
-      exact hb (eq_of_heq (Sigma.mk.inj_iff.mp e).2).symm
-    · simp
-  · rw [Pi.single_eq_of_ne h]
-    refine Finset.sum_eq_zero fun j _ => ?_
-    rw [Finsupp.single_apply, if_neg]
-    intro e
-    exact h (congrArg Sigma.fst e).symm
+  apply _root_.GlobalTheory.CompanionTheory.Ar.Flat.OverUnique.homog_X <;> assumption
 
 def chartMon (c : ∀ k, ι k) (d : K → ℕ) : MRing ι := ∏ k, (X ⟨k, c k⟩ : MRing ι) ^ d k
 

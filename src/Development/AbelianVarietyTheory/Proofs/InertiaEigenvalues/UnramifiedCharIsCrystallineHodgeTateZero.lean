@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.SatakeParameters.NormEqOneOfCompact
 public import Formalism.LocalRingCardinality.AdicCompletionLocal.LocTied
 public import Development.AbelianVarietyTheory.BlockTheory.TorsionBlocks.SelmerWindowSums
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.DeRhamComponentsCrystallineLettersFinrank
@@ -59,18 +60,7 @@ namespace GlobalTheory.UnramifiedChar
 
 theorem norm_eq_one_of_compact {Γ k : Type} [Group Γ] [TopologicalSpace Γ] [CompactSpace Γ] [NormedField k]
     (d : Γ →* k) (hd : Continuous d) (g : Γ) : ‖d g‖ = 1 := by
-  obtain ⟨C, hC⟩ := (isCompact_range (continuous_norm.comp hd)).bddAbove
-  have hle : ∀ g, ‖d g‖ ≤ 1 := by
-    intro g
-    by_contra hlt
-    rw [not_le] at hlt
-    obtain ⟨n, hn⟩ := pow_unbounded_of_one_lt C hlt
-    have : ‖d (g ^ n)‖ ≤ C := hC ⟨g ^ n, rfl⟩
-    rw [map_pow, norm_pow] at this
-    linarith
-  have h1 : ‖d g‖ * ‖d g⁻¹‖ = 1 := by rw [← norm_mul, ← map_mul, mul_inv_cancel, map_one, norm_one]
-  have := hle g; have := hle g⁻¹; have := norm_nonneg (d g); have := norm_nonneg (d g⁻¹)
-  nlinarith
+  first | exact _root_.GlobalTheory.XiOver.norm_eq_one_of_compact | exact @_root_.GlobalTheory.XiOver.norm_eq_one_of_compact | apply _root_.GlobalTheory.XiOver.norm_eq_one_of_compact <;> assumption
 
 variable {l : ℕ} [Fact l.Prime]
 

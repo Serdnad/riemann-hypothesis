@@ -1,5 +1,7 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.ComplexPadicNormKappaSplitPrime
+import Formalism.LocalToGlobal.KernelLattices.KernelLocalFactors.SelfDualLatticeNorms.SelfDualFourfoldCurveIdealLattice
 public import Formalism.LocalToGlobal.TorsionIntegrality.GaussianEigenFrames.StatementC
 public import Formalism.LocalToGlobal.TorsionIntegrality.TorsionTranslationPowers.StatementW
 public import Formalism.LocalToGlobal.KernelLattices.KerStd
@@ -233,16 +235,7 @@ theorem stable_of_one {V : Type*} [AddCommGroup V] [Module ℂ V] (Λ : AddSubgr
   exact Λ.zsmul_mem hx k
 
 theorem odd_of_cmOK {a : ℕ} {b c : ℤ} {d : ℕ} (h : CmOK a b c d) : Odd b := by
-  by_contra hb
-  obtain ⟨k, rfl⟩ := Int.not_odd_iff_even.1 hb
-  have h1 := h.1
-  have h8 := h.2.2.1
-  have h2 : (d : ℤ) = 4 * ((a : ℤ) * c - k * k) := by
-    have : (k + k) ^ 2 = 4 * (k * k) := by ring
-    rw [this] at h1
-    linarith
-  generalize (a : ℤ) * c - k * k = t at h2
-  omega
+  first | exact _root_.Formalism.L2.AlgTh.ImageLatticeRepresentatives.odd_b | exact @_root_.Formalism.L2.AlgTh.ImageLatticeRepresentatives.odd_b | apply _root_.Formalism.L2.AlgTh.ImageLatticeRepresentatives.odd_b <;> assumption
 
 end GlobalTheory.ThLoc.KapNonSplit
 end -- clump:auto
@@ -273,33 +266,7 @@ alias odd_of_cmOK := _root_.GlobalTheory.ThLoc.KapNonSplit.odd_of_cmOK
 
 theorem hermitianSelfDual_of_fourfoldBlock {n : Type} [Fintype n] (h : Matrix n n ℂ) (Λ : AddSubgroup (n → ℂ))
     (hsd : IsSelfDual (matH (blk4 h)) (pow4 Λ)) : IsSelfDual (matH h) Λ := by
-  have key : ∀ (x : n → ℂ) (y : Fin 4 × n → ℂ), altE (matH (blk4 h)) (CmData.embA 0 x) y = altE (matH h) x (slice 0 y) := by
-    intro x y
-    simp only [altE, matrixForm_fourfoldBlock, CmData.slice_embA]
-    rw [Finset.sum_eq_single (0 : Fin 4)]
-    · simp
-    · intro b _ hb
-      simp [hb]
-    · intro hh
-      exact absurd (Finset.mem_univ _) hh
-  ext x
-  constructor
-  · intro hx
-    have h1 : CmData.embA 0 x ∈ dualLat (matH (blk4 h)) (pow4 Λ) := by
-      intro y hy
-      obtain ⟨m, hm⟩ := hx (slice 0 y) (hy 0)
-      exact ⟨m, by rw [key, hm]⟩
-    rw [hsd] at h1
-    have h2 := h1 0
-    rwa [CmData.slice_embA, if_pos rfl] at h2
-  · intro hx y hy
-    have h1 : CmData.embA 0 x ∈ dualLat (matH (blk4 h)) (pow4 Λ) := by
-      rw [hsd]
-      exact CmData.embA_mem Λ 0 hx
-    obtain ⟨m, hm⟩ := h1 _ (CmData.embA_mem Λ 0 hy)
-    refine ⟨m, ?_⟩
-    rw [key, CmData.slice_embA, if_pos rfl] at hm
-    exact hm
+  first | exact _root_.Formalism.L2.Ker.KS.MM.hermitianSelfDual_of_fourfoldBlock | exact @_root_.Formalism.L2.Ker.KS.MM.hermitianSelfDual_of_fourfoldBlock | apply _root_.Formalism.L2.Ker.KS.MM.hermitianSelfDual_of_fourfoldBlock <;> assumption
 
 section Base
 
@@ -467,34 +434,8 @@ open Formalism.L2.GlobalTheoryTheory.IntegralLatticeDensity
 
 theorem hermitianSelfDual_of_fourfoldBlock {n : Type} [Fintype n] [DecidableEq n] (h : Matrix n n ℂ) (Λ : AddSubgroup (n → ℂ))
     (hsd : IsSelfDual (matH (blk4 h)) (pow4 Λ)) : IsSelfDual (matH h) Λ := by
-  have key : ∀ (x : n → ℂ) (y : Fin 4 × n → ℂ),
-      altE (matH (blk4 h)) (Formalism.L2.Th1.H.CmData.embA 0 x) y = altE (matH h) x (slice 0 y) := by
-    intro x y
-    simp only [altE, Formalism.L2.Th1.H.matrixForm_fourfoldBlock, Formalism.L2.Th1.H.CmData.slice_embA]
-    rw [Finset.sum_eq_single (0 : Fin 4)]
-    · simp
-    · intro b _ hb
-      simp [hb]
-    · intro hh
-      exact absurd (Finset.mem_univ _) hh
-  ext x
-  constructor
-  · intro hx
-    have h1 : Formalism.L2.Th1.H.CmData.embA 0 x ∈ dualLat (matH (blk4 h)) (pow4 Λ) := by
-      intro y hy
-      obtain ⟨m, hm⟩ := hx (slice 0 y) (hy 0)
-      exact ⟨m, by rw [key, hm]⟩
-    rw [hsd] at h1
-    have h2 := h1 0
-    rwa [Formalism.L2.Th1.H.CmData.slice_embA, if_pos rfl] at h2
-  · intro hx y hy
-    have h1 : Formalism.L2.Th1.H.CmData.embA 0 x ∈ dualLat (matH (blk4 h)) (pow4 Λ) := by
-      rw [hsd]
-      exact Formalism.L2.Th1.H.CmData.embA_mem Λ 0 hx
-    obtain ⟨m, hm⟩ := h1 _ (Formalism.L2.Th1.H.CmData.embA_mem Λ 0 hy)
-    refine ⟨m, ?_⟩
-    rw [key, Formalism.L2.Th1.H.CmData.slice_embA, if_pos rfl] at hm
-    exact hm
+  intros
+  apply _root_.GlobalTheory.ThLoc.LocMM.hermitianSelfDual_of_fourfoldBlock <;> assumption
 
 end GlobalTheory.ThLoc.LocStd
 

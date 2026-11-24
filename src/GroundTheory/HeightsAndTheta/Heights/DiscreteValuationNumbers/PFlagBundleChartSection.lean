@@ -1,6 +1,7 @@
 module
 
 public import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.PFlagBundleSectionFormsTools
+import all GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.PFlagBundleSectionFormsTools
 public import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.StatementsFlagBundle
 public import Mathlib.Algebra.MvPolynomial.Monad
 public import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.PProjIdealFormValue
@@ -70,17 +71,7 @@ variable {M N : ℕ} {E : Type} [AddCommGroup E] [Module Ω E] {Φ : Type} [Fiel
 
 theorem chartMono_homog (M : ℕ) (c : ∀ k, ι k) (α : K → ℕ) :
     IsMultiHomog (chartMono (F := F) M c α) (liftNat α) := by
-  have h := IsWeightedHomogeneous.prod (R := F) Finset.univ
-    (fun k => X (⟨some k, c k⟩ : Σ o, bundleIdx ι M o) ^ α k)
-    (fun k => α k • blockWeight (bundleIdx ι M) ⟨some k, c k⟩)
-    (fun k _ => (isWeightedHomogeneous_X F _ _).pow (α k))
-  have hw : liftNat α = ∑ k, α k • blockWeight (bundleIdx ι M) ⟨some k, c k⟩ := by
-    funext o
-    cases o with
-    | none => simp [liftNat, blockWeight, Finset.sum_apply]
-    | some k => simp [liftNat, blockWeight, Finset.sum_apply, Pi.single_apply]
-  rw [IsMultiHomog, chartMono, hw]
-  exact h
+  apply _root_.GroundTheory.Heights₂.Heights.NumbersDVR.FlagBundleSectionForms.chartMono_homog_aux <;> assumption
 
 theorem eval_chartMono (y : (Σ k, ι k) → Ω) (w : Module.Basis (Fin N) Ω E) (φ : Fin M → Module.Dual Ω E)
     (t : Fin N → Φ) (c : ∀ k, ι k) (α : K → ℕ) :

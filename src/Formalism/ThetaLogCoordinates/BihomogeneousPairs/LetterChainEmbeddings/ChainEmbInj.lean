@@ -102,12 +102,7 @@ theorem letterAt_succ_val (hB : D.BlockOK) (i : Fin D.T.t) :
 theorem pos_inj (hB : D.BlockOK) {i i' : Fin D.T.t} (h : D.T.pos i = D.T.pos i') : i = i' := hB.1.1.injective h
 
 theorem pos_ne_succ (hB : D.BlockOK) (i i' : Fin D.T.t) : D.T.pos i ≠ D.T.pos i' + 1 := by
-  intro h
-  obtain ⟨hi, hti, _⟩ := hB.1.2.1 i
-  obtain ⟨hi', _, hfi'⟩ := hB.1.2.1 i'
-  have e : D.LL.vec ⟨D.T.pos i, by omega⟩ = D.LL.vec ⟨D.T.pos i' + 1, hi'⟩ := congrArg D.LL.vec (Fin.ext h)
-  rw [hti, hfi'] at e
-  exact absurd e (by decide)
+  apply _root_.Formalism.GM.FockB.pos_ne_succ <;> assumption
 
 theorem pos_lt_u (hB : D.BlockOK) (i : Fin D.T.t) : D.T.pos i + 1 < (D.uPos : ℕ) := hB.2.1 i
 
@@ -121,13 +116,7 @@ theorem deg_lettersAt_pos_succ (hB : D.BlockOK) (j : Fin D.T.t → ℕ) (jp : �
 
 theorem deg_U (hB : D.BlockOK) (j : Fin D.T.t → ℕ) (jp : ℕ) :
     (D.lettersAt j jp).deg D.uPos = D.LL.deg D.uPos - jp := by
-  simp only [BlockData.lettersAt]
-  simp only [← List.sum_toFinset _ (List.nodup_finRange _), List.toFinset_finRange]
-  rw [Finset.sum_eq_zero (fun b _ => by
-      rw [if_neg]
-      have := pos_lt_u hB b
-      omega)]
-  simp
+  apply _root_.Formalism.GM.FockB.degU <;> assumption
 
 end block
 

@@ -61,6 +61,8 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Sheaves.Init
+import Formalism.PolynomialDimension.MultinomialDepth.MonoCount
+import Formalism.ThetaLogCoordinates.TraceIsometryWeights.SchurTraceProofs.FischerAdjointnessHolds
 
 @[expose] public section
 
@@ -73,28 +75,7 @@ namespace GlX
 variable {K V : Type} [Field K] [CharZero K] [AddCommGroup V] [Module K V] {r : ℕ} (G : GlW K V r)
 
 theorem cas_hw {μ : Fin r → ℤ} {x : V} (h : G.IsHW μ x) : G.Cas x = ((GlW.casI μ : ℤ) : K) • x := by
-  have h' := h
-  unfold Formalism.GM.DimensionMonotonicity.GlW.IsHW Formalism.GM.DimensionMonotonicity.GlW.IsWt at h'
-  obtain ⟨hw, hr⟩ := h'
-  have hd : ∀ c, G.E c c x = ((μ c : ℤ) : K) • x := fun c => by
-    have := G.diag c μ x
-    rwa [hw] at this
-  have hterm : ∀ a b, G.E a b (G.E b a x) =
-      (((if a = b then μ a * μ a else if a < b then μ a - μ b else 0 : ℤ)) : K) • x := by
-    intro a b
-    split_ifs with hab hlt
-    · subst hab
-      rw [hd, map_smul, hd, smul_smul, Int.cast_mul]
-    · have hc := G.comm a b b a x
-      simp only [if_true] at hc
-      rw [hr a b hlt, map_zero, sub_zero] at hc
-      rw [hc, hd, hd, ← sub_smul, Int.cast_sub]
-    · have hba : b < a := lt_of_le_of_ne (not_lt.mp hlt) (Ne.symm hab)
-      rw [hr b a hba, map_zero, Int.cast_zero, zero_smul]
-  have hC : G.Cas x = ∑ a, ∑ b, G.E a b (G.E b a x) := by
-    simp only [Formalism.GM.DimensionMonotonicity.GlW.Cas, LinearMap.sum_apply, LinearMap.comp_apply]
-  rw [hC]
-  simp only [hterm, Formalism.GM.DimensionMonotonicity.GlW.casI, Int.cast_sum, Finset.sum_smul]
+  apply _root_.Formalism.CountingSumsFrames.GlX.cas_hw <;> assumption
 
 theorem cprod_kill {x : V} {e : ℤ} (hx : G.Cas x = ((e : ℤ) : K) • x) (cs : List ℤ) (he : e ∈ cs) :
     G.cprod cs x = 0 := by
@@ -119,64 +100,15 @@ theorem mem_qlist {S : Finset (Fin r → ℤ)} {c : ℤ} {ν : Fin r → ℤ} (h
 
 private theorem cas_wt_lemma_2 {U : Submodule K V} (hU : G.Stable U) {μ : Fin r → ℤ} {v : V} (hv : G.IsWt μ v)
     (hr : ∀ a b, a < b → G.E a b v ∈ U) : G.Cas v - ((GlW.casI μ : ℤ) : K) • v ∈ U := by
-  have hw := hv
-  unfold Formalism.GM.DimensionMonotonicity.GlW.IsWt at hw
-  have hd : ∀ c, G.E c c v = ((μ c : ℤ) : K) • v := fun c => by
-    have := G.diag c μ v
-    rwa [hw] at this
-  have hterm : ∀ a b, G.E a b (G.E b a v) -
-      (((if a = b then μ a * μ a else if a < b then μ a - μ b else 0 : ℤ)) : K) • v ∈ U := by
-    intro a b
-    split_ifs with hab hlt
-    · subst hab
-      rw [hd, map_smul, hd, smul_smul, Int.cast_mul, sub_self]
-      exact zero_mem _
-    · have hc := G.comm a b b a v
-      simp only [if_true] at hc
-      have e : G.E a b (G.E b a v) - (((μ a - μ b : ℤ)) : K) • v = G.E b a (G.E a b v) := by
-        rw [Int.cast_sub, sub_smul, ← hd a, ← hd b, ← hc]
-        abel
-      rw [e]
-      exact hU b a _ (hr a b hlt)
-    · have hba : b < a := lt_of_le_of_ne (not_lt.mp hlt) (Ne.symm hab)
-      rw [Int.cast_zero, zero_smul, sub_zero]
-      exact hU a b _ (hr b a hba)
-  have e2 : G.Cas v - ((GlW.casI μ : ℤ) : K) • v = ∑ a, ∑ b, (G.E a b (G.E b a v) -
-      (((if a = b then μ a * μ a else if a < b then μ a - μ b else 0 : ℤ)) : K) • v) := by
-    simp only [Formalism.GM.DimensionMonotonicity.GlW.Cas, Formalism.GM.DimensionMonotonicity.GlW.casI, LinearMap.sum_apply, LinearMap.comp_apply,
-      Int.cast_sum, Finset.sum_smul, Finset.sum_sub_distrib]
-  rw [e2]
-  exact sum_mem fun a _ => sum_mem fun b _ => hterm a b
+  apply _root_.Formalism.GM.DimensionMonotonicity.GlW.Cas_hwmod <;> assumption
 
 theorem cprod_mod {U : Submodule K V} (hU : G.Stable U) {μ : Fin r → ℤ} {v : V} (hv : G.IsWt μ v)
     (hr : ∀ a b, a < b → G.E a b v ∈ U) (cs : List ℤ) :
     G.cprod cs v - (cs.map (fun c => (((GlW.casI μ - c : ℤ)) : K))).prod • v ∈ U := by
-  have hcas : ∀ y ∈ U, G.Cas y ∈ U := fun y hy => by
-    simp only [Formalism.GM.DimensionMonotonicity.GlW.Cas, LinearMap.sum_apply, LinearMap.comp_apply]
-    exact sum_mem fun a _ => sum_mem fun b _ => hU a b _ (hU b a y hy)
-  induction cs with
-  | nil => simp [Formalism.GM.DimensionMonotonicity.GlW.cprod]
-  | cons c cs ih =>
-    have key : G.cprod (c :: cs) v - ((c :: cs).map (fun c => (((GlW.casI μ - c : ℤ)) : K))).prod • v =
-        (cs.map (fun c => (((GlW.casI μ - c : ℤ)) : K))).prod • (G.Cas v - ((GlW.casI μ : ℤ) : K) • v) +
-        (G.Cas (G.cprod cs v - (cs.map (fun c => (((GlW.casI μ - c : ℤ)) : K))).prod • v) -
-          ((c : ℤ) : K) • (G.cprod cs v - (cs.map (fun c => (((GlW.casI μ - c : ℤ)) : K))).prod • v)) := by
-      simp only [Formalism.GM.DimensionMonotonicity.GlW.cprod, LinearMap.comp_apply, List.map_cons, List.prod_cons,
-        LinearMap.sub_apply, LinearMap.smul_apply, LinearMap.id_apply, map_sub, map_smul, Int.cast_sub]
-      module
-    rw [key]
-    exact add_mem (U.smul_mem _ (cas_wt_lemma_2 G hU hv hr)) (sub_mem (hcas _ ih) (U.smul_mem _ ih))
+  apply _root_.Formalism.CountingSumsFrames.GlX.cprod_mod <;> assumption
 
 theorem iSup_stable {ι : Sort*} {U : ι → Submodule K V} (hU : ∀ i, G.Stable (U i)) : G.Stable (⨆ i, U i) := by
-  unfold Formalism.GM.DimensionMonotonicity.GlW.Stable at *
-  intro a b x hx
-  refine Submodule.iSup_induction U (motive := fun x => G.E a b x ∈ ⨆ i, U i) hx ?_ ?_ ?_
-  · intro i y hy
-    exact Submodule.mem_iSup_of_mem i (hU i a b y hy)
-  · simp
-  · intro y z hy hz
-    rw [map_add (f := _)]
-    exact add_mem hy hz
+  apply _root_.Formalism.CountingSumsFrames.GlX.iSup_stable <;> assumption
 
 theorem inf_stable {U U' : Submodule K V} (hU : G.Stable U) (hU' : G.Stable U') : G.Stable (U ⊓ U') := by
   unfold Formalism.GM.DimensionMonotonicity.GlW.Stable at *
@@ -218,94 +150,13 @@ theorem span_hw {W : Submodule K V} (hW : G.Stable W) {S : Finset (Fin r → ℤ
     (hh : ∀ i, G.IsHW (la i) (h i)) (hhW : ∀ i, h i ∈ W) (hh0 : ∀ i, h i ≠ 0)
     (hsp : ∀ μ v, v ∈ W → G.IsHW μ v → v ∈ Submodule.span K (Set.range h)) :
     W ≤ ⨆ i, G.gS {h i} := by
-  classical
-  have hUs : G.Stable (⨆ i, G.gS {h i}) := iSup_stable G (fun i => G.gS_stable _)
-  by_contra hn
-  obtain ⟨v, hvW, hvU, μ, hvw, hr⟩ := G.exists_hwmod (G.graded_of hW) (G.raising_of hW) ⟨S, hS⟩ hn
-  have hμ : DomW μ := G.dom_of_hwmod hUs hW ⟨S, hS⟩ hvW hvU hvw hr
-  have hs : (((qlist S (GlW.casI μ)).map (fun c => (((GlW.casI μ - c : ℤ)) : K))).prod) ≠ 0 :=
-    cprod_ne (V := V) (GlW.casI μ) _ (qlist_ne S _)
-  have hmod := cprod_mod G hUs hvw hr (qlist S (GlW.casI μ))
-  have hv'U : ((((qlist S (GlW.casI μ)).map (fun c => (((GlW.casI μ - c : ℤ)) : K))).prod)⁻¹ •
-      G.cprod (qlist S (GlW.casI μ)) v) - v ∈ ⨆ i, G.gS {h i} := by
-    have := Submodule.smul_mem _ ((((qlist S (GlW.casI μ)).map (fun c => (((GlW.casI μ - c : ℤ)) : K))).prod)⁻¹) hmod
-    rwa [smul_sub, smul_smul, inv_mul_cancel₀ hs, one_smul] at this
-  have hkill : ∀ a b, a < b → ∀ y ∈ ⨆ i, G.gS {h i},
-      G.cprod (qlist S (GlW.casI μ)) (G.comp (μ + dl a b) y) = 0 := by
-    intro a b hab y hy
-    refine Submodule.iSup_induction _ (motive := fun y => G.cprod (qlist S (GlW.casI μ)) (G.comp (μ + dl a b) y) = 0) hy
-      (fun i x hx => gen_kill G hW hS (hh i) (hhW i) (hh0 i) hμ (Dle_raise μ hab) ?_ x hx) (by simp) ?_
-    · intro hle hlaμ
-      rw [hlaμ] at hle
-      have := Dle_antisymm hle (Dle_raise μ hab)
-      exact dl_ne_zero (ne_of_lt hab) (by simpa using this)
-    · intro x y hx hy; rw [map_add (f := _), map_add (f := _), hx, hy, add_zero]
-  apply hvU
-  have hv'hw : G.IsHW μ ((((qlist S (GlW.casI μ)).map (fun c => (((GlW.casI μ - c : ℤ)) : K))).prod)⁻¹ •
-      G.cprod (qlist S (GlW.casI μ)) v) := by
-    refine ⟨?_, fun a b hab => ?_⟩
-    · show G.comp μ _ = _
-      rw [map_smul, G.comp_cprod, hvw]
-    · rw [map_smul, G.E_cprod]
-      have hw := G.isWt_E hvw a b
-      have := hkill a b hab _ (hr a b hab)
-      rw [hw] at this
-      rw [this, smul_zero]
-  have hin := hsp μ _ (W.smul_mem _ (G.cprod_mem hW _ hvW)) hv'hw
-  have hin' : _ ∈ ⨆ i, G.gS {h i} := Submodule.span_le.mpr (by
-    rintro _ ⟨i, rfl⟩; exact Submodule.mem_iSup_of_mem i (G.subset_gS _ (Set.mem_singleton _))) hin
-  have hfin := Submodule.sub_mem _ hin' hv'U
-  rwa [sub_sub_cancel] at hfin
+  apply _root_.Formalism.CountingSumsFrames.GlX.span_hw <;> assumption
 
 theorem indep_hw {W : Submodule K V} (hW : G.Stable W) {S : Finset (Fin r → ℤ)}
     (hS : ∀ x ∈ W, ∀ μ ∉ S, G.comp μ x = 0) {ι : Type*} (h : ι → V) (la : ι → Fin r → ℤ)
     (hh : ∀ i, G.IsHW (la i) (h i)) (hhW : ∀ i, h i ∈ W) (hli : LinearIndependent K h) :
     iSupIndep (fun i => G.gS {h i}) := by
-  classical
-  have hh0 : ∀ i, h i ≠ 0 := fun i => hli.ne_zero i
-  intro i
-  rw [Submodule.disjoint_def]
-  intro x0 hx01 hx02
-  by_contra hx00
-  have hKs : G.Stable (G.gS {h i} ⊓ ⨆ (j) (_ : j ≠ i), G.gS {h j}) :=
-    inf_stable G (G.gS_stable _) (iSup_stable G fun j => iSup_stable G fun _ => G.gS_stable _)
-  have hgW : G.gS {h i} ≤ W := G.gS_le (by simpa using hhW i) hW
-  have hn' : ¬ (G.gS {h i} ⊓ ⨆ (j) (_ : j ≠ i), G.gS {h j}) ≤ ⊥ := fun h' =>
-    hx00 ((Submodule.mem_bot K).mp (h' ⟨hx01, hx02⟩))
-  obtain ⟨y, hyK, hy0, ν, hyw, hyr⟩ := G.exists_hwmod (G.graded_of hKs) (G.raising_of hKs)
-    ⟨S, fun x hx => hS x (hgW hx.1)⟩ hn'
-  have hyhw : G.IsHW ν y := ⟨hyw, fun a b hab => (Submodule.mem_bot K).mp (hyr a b hab)⟩
-  have hy0' : y ≠ 0 := fun h' => hy0 (by rw [h']; exact Submodule.zero_mem _)
-  obtain ⟨-, c, hyc⟩ := G.hw_in_gS (hh i) hW ⟨S, hS⟩ (hhW i) hyK.1 hyhw hy0'
-  have hc0 : c ≠ 0 := by rintro rfl; exact hy0' (by rw [hyc, zero_smul])
-  have hiK : h i ∈ ⨆ (j) (_ : j ≠ i), G.gS {h j} := by
-    have := Submodule.smul_mem _ c⁻¹ hyK.2
-    rwa [hyc, smul_smul, inv_mul_cancel₀ hc0, one_smul] at this
-  have hμ : DomW (la i) := G.dom_of_hwmod G.bot_stable hW ⟨S, hS⟩ (hhW i) (by rw [Submodule.mem_bot]; exact hh0 i)
-    (hh i).1 (fun a b hab => by rw [(hh i).2 a b hab]; exact Submodule.zero_mem _)
-  have hs : (((qlist S (GlW.casI (la i))).map (fun c => (((GlW.casI (la i) - c : ℤ)) : K))).prod) ≠ 0 :=
-    cprod_ne (V := V) (GlW.casI (la i)) _ (qlist_ne S _)
-  have hQ : ∀ x ∈ ⨆ (j) (_ : j ≠ i), G.gS {h j},
-      G.cprod (qlist S (GlW.casI (la i))) (G.comp (la i) x) ∈ Submodule.span K (h '' {j | j ≠ i}) := by
-    intro x hx
-    refine Submodule.iSup_induction _ (motive := fun x =>
-      G.cprod (qlist S (GlW.casI (la i))) (G.comp (la i) x) ∈ Submodule.span K (h '' {j | j ≠ i})) hx
-      (fun j x hx => ?_) (by simp) (fun x y hx hy => by rw [map_add (f := _), map_add (f := _)]; exact Submodule.add_mem _ hx hy)
-    refine Submodule.iSup_induction _ (motive := fun x =>
-      G.cprod (qlist S (GlW.casI (la i))) (G.comp (la i) x) ∈ Submodule.span K (h '' {j | j ≠ i})) hx
-      (fun hj x hx => ?_) (by simp) (fun x y hx hy => by rw [map_add (f := _), map_add (f := _)]; exact Submodule.add_mem _ hx hy)
-    by_cases hlj : la j = la i
-    · obtain ⟨c', hc'⟩ := G.comp_top_of_mem (hh j) hx
-      have e : G.comp (la i) x = c' • h j := by rw [← hlj]; exact hc'
-      rw [e, map_smul, cprod_eig G (cas_hw G (hh j)) _, smul_smul]
-      exact Submodule.smul_mem _ _ (Submodule.subset_span ⟨j, hj, rfl⟩)
-    · rw [gen_kill G hW hS (hh j) (hhW j) (hh0 j) hμ (Dle_refl _) (fun _ => hlj) x hx]
-      exact Submodule.zero_mem _
-  have h1 := hQ _ hiK
-  rw [(hh i).1, cprod_eig G (cas_hw G (hh i)) _] at h1
-  have h2 := Submodule.smul_mem _ ((((qlist S (GlW.casI (la i))).map (fun c => (((GlW.casI (la i) - c : ℤ)) : K))).prod)⁻¹) h1
-  rw [smul_smul, inv_mul_cancel₀ hs, one_smul] at h2
-  exact hli.notMem_span_image (s := {j | j ≠ i}) (x := i) (by simp) h2
+  apply _root_.Formalism.CountingSumsFrames.GlX.indep_hw <;> assumption
 
 end GlX
 
@@ -430,26 +281,7 @@ namespace GlX
 variable {K V : Type} [Field K] [CharZero K] [AddCommGroup V] [Module K V] {r : ℕ} (G : GlW K V r)
 
 theorem isWt_of_eig {μ : Fin r → ℤ} {z : V} (hz : ∀ c, G.E c c z = ((μ c : ℤ) : K) • z) : G.IsWt μ z := by
-  unfold Formalism.GM.DimensionMonotonicity.GlW.IsWt
-  obtain ⟨S, hS⟩ := G.dec z
-  have hkill : ∀ ν, ν ≠ μ → G.comp ν z = 0 := by
-    intro ν hne
-    obtain ⟨c, hc⟩ : ∃ c, ν c ≠ μ c := by
-      by_contra h
-      push_neg at h
-      exact hne (funext h)
-    have h1 := G.shift c c ν z
-    have hdl : Formalism.GM.DimensionMonotonicity.dl c c = (0 : Fin r → ℤ) := by simp [Formalism.GM.DimensionMonotonicity.dl]
-    rw [hdl, sub_zero, G.diag c ν z, hz c, map_smul] at h1
-    have h2 : (((ν c : ℤ) : K) - ((μ c : ℤ) : K)) • G.comp ν z = 0 := by
-      rw [sub_smul, h1, sub_self]
-    have h3 : (((ν c : ℤ) : K) - ((μ c : ℤ) : K)) ≠ 0 := by
-      rw [sub_ne_zero]
-      exact_mod_cast hc
-    exact (smul_eq_zero.mp h2).resolve_left h3
-  have hsum := G.sum_comp z S hS
-  rw [Finset.sum_eq_single μ (fun ν _ hne => hkill ν hne) (fun hμ => hS μ hμ)] at hsum
-  exact hsum
+  apply _root_.Formalism.CountingSumsFrames.GlX.isWt_of_eig <;> assumption
 
 end GlX
 
@@ -461,35 +293,7 @@ theorem proj_exists {W : Submodule K V} {ι : Type*} [DecidableEq ι] (R : ι �
     (hind : iSupIndep R) (hRW : ∀ i, R i ≤ W) (hWR : W ≤ ⨆ i, R i) :
     ∃ π : ι → V →ₗ[K] V, (∀ i x, π i x ∈ R i) ∧ (∀ i, ∀ x ∈ R i, π i x = x) ∧
       (∀ i j, j ≠ i → ∀ x ∈ R j, π i x = 0) := by
-  obtain ⟨D, hD⟩ := Submodule.exists_isCompl W
-  have hc : ∀ i, IsCompl (R i) ((⨆ (j) (_ : j ≠ i), R j) ⊔ D) := by
-    intro i
-    constructor
-    · rw [Submodule.disjoint_def]
-      intro x hx hx2
-      obtain ⟨y, hy, d, hd, rfl⟩ := Submodule.mem_sup.mp hx2
-      have hyW : y ∈ W := (iSup_le fun j => iSup_le fun _ => hRW j) hy
-      have hdW : d ∈ W := by
-        have := W.sub_mem (hRW i hx) hyW
-        rwa [add_sub_cancel_left] at this
-      have hd0 : d = 0 := (Submodule.disjoint_def.mp hD.disjoint) d hdW hd
-      subst hd0
-      rw [add_zero] at hx ⊢
-      exact (Submodule.disjoint_def.mp (hind i)) y hx hy
-    · rw [codisjoint_iff, eq_top_iff]
-      calc ⊤ = W ⊔ D := hD.codisjoint.eq_top.symm
-        _ ≤ (⨆ j, R j) ⊔ D := sup_le_sup_right hWR D
-        _ = R i ⊔ ((⨆ (j) (_ : j ≠ i), R j) ⊔ D) := by rw [iSup_split_single R i, sup_assoc]
-  refine ⟨fun i => (R i).subtype ∘ₗ (R i).projectionOnto _ (hc i), fun i x => by simp,
-    fun i x hx => ?_, fun i j hji x hx => ?_⟩
-  · have := Submodule.projectionOnto_apply_left (hc i) ⟨x, hx⟩
-    simp only [LinearMap.comp_apply, Submodule.subtype_apply]
-    rw [this]
-  · have hxq : x ∈ (⨆ (j) (_ : j ≠ i), R j) ⊔ D :=
-      Submodule.mem_sup_left (Submodule.mem_iSup_of_mem j (Submodule.mem_iSup_of_mem hji hx))
-    have := Submodule.projectionOnto_apply_right (hc i) ⟨x, hxq⟩
-    simp only [LinearMap.comp_apply, Submodule.subtype_apply]
-    rw [this]; rfl
+  apply _root_.Formalism.CountingSumsFrames.proj_exists <;> assumption
 
 end Proj
 
@@ -522,15 +326,7 @@ theorem frst_of {m : σ →₀ ℕ} (h : ∀ v, m v ≠ 0 → fs v) : frst fs m 
   · by_contra hne
     exact hv (h v (Ne.symm hne))
 theorem ltr_of {m : σ →₀ ℕ} (h : ∀ v, m v ≠ 0 → fs v) : ltr fs m = 0 := by
-  ext v
-  unfold ltr
-  rw [Finsupp.filter_apply, Finsupp.coe_zero, Pi.zero_apply]
-  by_cases hv : fs v
-  · simp [hv]
-  · have : m v = 0 := by
-      by_contra hne
-      exact hv (h v hne)
-    simp [hv, this]
+  apply _root_.Formalism.CountingSumsFrames.ltr_of <;> assumption
 theorem frst_of' {m : σ →₀ ℕ} (h : ∀ v, m v ≠ 0 → ¬ fs v) : frst fs m = 0 := by
   ext v
   unfold frst
@@ -540,15 +336,7 @@ theorem frst_of' {m : σ →₀ ℕ} (h : ∀ v, m v ≠ 0 → ¬ fs v) : frst f
     exact h v hne hv
   · rfl
 theorem ltr_of' {m : σ →₀ ℕ} (h : ∀ v, m v ≠ 0 → ¬ fs v) : ltr fs m = m := by
-  ext v
-  unfold ltr
-  rw [Finsupp.filter_apply]
-  by_cases hv : fs v
-  · have : m v = 0 := by
-      by_contra hne
-      exact h v hne hv
-    simp [hv, this]
-  · simp [hv]
+  apply _root_.Formalism.CountingSumsFrames.ltr_of' <;> assumption
 theorem frst_add (m m' : σ →₀ ℕ) : frst fs (m + m') = frst fs m + frst fs m' := by
   unfold frst
   exact Finsupp.filter_add
@@ -702,16 +490,7 @@ def wfir (N r j0 : ℕ) : Fin N × Fin r → ℤ := fun v => if (v.1 : ℕ) < j0
 
 theorem weight_eq_zero_iff {σ : Type} (w : σ → ℤ) (hw : ∀ v, 0 ≤ w v) (m : σ →₀ ℕ) :
     Finsupp.weight w m = 0 ↔ ∀ v, m v ≠ 0 → w v = 0 := by
-  rw [Finsupp.weight_apply, Finsupp.sum, Finset.sum_eq_zero_iff_of_nonneg (fun v _ => nsmul_nonneg (hw v) _)]
-  constructor
-  · intro h v hv
-    have := h v (Finsupp.mem_support_iff.mpr hv)
-    rw [nsmul_eq_mul] at this
-    rcases mul_eq_zero.mp this with h0 | h0
-    · exact absurd (by exact_mod_cast h0 : m v = 0) hv
-    · exact h0
-  · intro h v hv
-    rw [h v (Finsupp.mem_support_iff.mp hv), smul_zero]
+  apply _root_.Formalism.CountingSumsFrames.weight_eq_zero_iff <;> assumption
 
 theorem isF_iff (j0 : ℕ) (g : MvPolynomial (Fin N × Fin r) ℚ_[p]) :
     IsF (fsj N r j0) g ↔ g ∈ weightedHomogeneousSubmodule ℚ_[p] (wlat N r j0) 0 := by
@@ -1053,16 +832,7 @@ theorem whc_comm {σ M : Type} [AddCommMonoid M] (w : σ → M) (A : MvPolynomia
     (hA : ∀ D x, x ∈ weightedHomogeneousSubmodule ℚ_[p] w D → A x ∈ weightedHomogeneousSubmodule ℚ_[p] w D)
     (D : M) (x : MvPolynomial σ ℚ_[p]) :
     weightedHomogeneousComponent w D (A x) = A (weightedHomogeneousComponent w D x) := by
-  classical
-  refine MvPolynomial.induction_on' x (fun d a => ?_) (fun f g hf hg => ?_)
-  · have h0 : monomial d a ∈ weightedHomogeneousSubmodule ℚ_[p] w (Finsupp.weight w d) :=
-      (mem_weightedHomogeneousSubmodule ..).mpr (isWeightedHomogeneous_monomial w d a rfl)
-    have h1 := hA _ _ h0
-    by_cases h : Finsupp.weight w d = D
-    · subst h
-      rw [whc_same_lemma w h0, whc_same_lemma w h1]
-    · rw [whc_ne_lemma_2 w h0 (Ne.symm h), whc_ne_lemma_2 w h1 (Ne.symm h), map_zero]
-  · simp only [map_add (f := _), hf, hg]
+  apply _root_.Formalism.CountingSumsFrames.whc_comm <;> assumption
 
 theorem whc_keep {σ M M' : Type} [AddCommMonoid M] [AddCommMonoid M'] (w : σ → M) (w' : σ → M') (ν : M')
     (D : M) {x : MvPolynomial σ ℚ_[p]} (hx : x ∈ weightedHomogeneousSubmodule ℚ_[p] w D) :
@@ -1521,16 +1291,7 @@ theorem fock_rename {σ τ : Type} (ι : σ → τ) (hι : Function.Injective ι
   rw [coeff_rename_mapDomain ι hι, coeff_rename_mapDomain ι hι, Finsupp.prod_mapDomain_index_inj hι]
 
 theorem fock_nondeg {σ : Type} (z : MvPolynomial σ ℚ_[p]) (h : ∀ y, fock p z y = 0) : z = 0 := by
-  by_contra hz
-  obtain ⟨m, hm⟩ : ∃ m, m ∈ z.support := by
-    by_contra hc; push Not at hc
-    exact hz (MvPolynomial.support_eq_empty.mp (Finset.eq_empty_of_forall_notMem hc))
-  have h1 := Formalism.CountingSumsFrames.fock_monomial z m hm
-  rw [h] at h1
-  have h2 : (m.prod fun _ k => (k.factorial : ℚ_[p])) ≠ 0 := by
-    rw [Finsupp.prod]
-    exact Finset.prod_ne_zero_iff.mpr fun v _ => by exact_mod_cast Nat.factorial_ne_zero _
-  exact (mul_ne_zero (mem_support_iff.mp hm) h2) h1.symm
+  apply _root_.Formalism.InvariantFactorPaths.PW.fock_nondeg <;> assumption
 
 theorem phi_mem' (L : Letters N) (T : TieData) (j : Fin T.t) (h : T.pos j + 1 < N) :
     (T.phi p L j : Module.End ℚ_[p] (MvPolynomial (Fin N × Fin r) ℚ_[p])) ∈
@@ -1926,25 +1687,11 @@ theorem glAct_C' (L : Letters N) (j : ℕ) (c d : Fin r) (a : ℚ_[p]) :
 
 theorem glAct_X_int (L : Letters N) (j : ℕ) (c d : Fin r) (v : Fin N × Fin r) :
     glAct p L j c d (X v) ∈ IntPol p (Fin N × Fin r) := by
-  obtain ⟨i, a⟩ := v
-  rw [glAct_X_gen]
-  split_ifs
-  · exact FrozenVariableLemmas.intPol_X p _
-  · exact Submodule.zero_mem _
-  · exact Submodule.neg_mem _ (FrozenVariableLemmas.intPol_X p _)
-  · exact Submodule.zero_mem _
-  · exact Submodule.zero_mem _
+  apply _root_.Formalism.InvariantFactorPaths.PW.glAct_X_int <;> assumption
 
 theorem glAct_glAct_X (L : Letters N) (j : ℕ) (c d : Fin r) (hcd : c ≠ d) (v : Fin N × Fin r) :
     glAct p L j c d (glAct p L j c d (X v)) = 0 := by
-  obtain ⟨i, a⟩ := v
-  rw [glAct_X_gen]
-  split_ifs with h1 h2 h3 h3
-  · rw [glAct_X_gen, if_pos h1, if_pos h2, if_neg hcd]
-  · exact map_zero _
-  · rw [map_neg, glAct_X_gen, if_pos h1, if_neg h2, if_neg (Ne.symm hcd), neg_zero]
-  · exact map_zero _
-  · exact map_zero _
+  apply _root_.Formalism.InvariantFactorPaths.PW.glAct_glAct_X <;> assumption
 
 theorem divpow_int (L : Letters N) (j : ℕ) (c d : Fin r) (hcd : c ≠ d) (k : ℕ)
     (x : MvPolynomial (Fin N × Fin r) ℚ_[p]) (hx : x ∈ IntPol p (Fin N × Fin r)) :

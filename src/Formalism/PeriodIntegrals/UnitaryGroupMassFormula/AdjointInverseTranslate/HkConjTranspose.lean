@@ -1,5 +1,6 @@
 module
 
+import ReciprocityTheory.ReductiveGroups.DiscreteSeries.TailIntegrals.UHMulInv
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.AdjointInverseTranslate.CoefLeftAAv
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -89,13 +90,7 @@ theorem hk_mul_self (k r : ℕ) : Hpk k r * Hpk k r = 1 := by
   | (apply _root_.Formalism.SharedLemmas.upq_hpk_mul_self <;> assumption)
 
 theorem hk_conjTranspose (k r : ℕ) : (Hpk k r)ᴴ = Hpk k r := by
-  ext i j
-  rw [conjTranspose_apply, hk_apply, hk_apply]
-  by_cases h : j = hkSig k r i
-  · subst h
-    simp [hk_sig_sig, hk_eps_sig, hk_star_eps]
-  · have h' : i ≠ hkSig k r j := fun e => h (by rw [e, hk_sig_sig])
-    simp [h, h']
+  apply _root_.ReciprocityTheory.ChartRestriction.DS.Xi.StepA.Hpk_conjT <;> assumption
 
 theorem hpk_involution : HpkInvol := fun k r => ⟨hk_conjTranspose k r, hk_mul_self k r⟩
 

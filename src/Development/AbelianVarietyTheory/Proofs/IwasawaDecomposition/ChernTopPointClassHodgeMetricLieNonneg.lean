@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsDifferentiableOnVerticalVectorField
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.IsNegSqZero
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.PushExLeft
 public import Development.AbelianVarietyTheory.Proofs.ToricGeometry.TangentBijectionOfValues
@@ -1474,16 +1475,7 @@ namespace GlobalTheory.LieBase.LocalModel
 theorem differentiableAt_det {V : Type} [NormedAddCommGroup V] [NormedSpace ℂ V] {d : ℕ}
     {A : V → Matrix (Fin d) (Fin d) ℂ} {u : V} (hA : ∀ a b, DifferentiableAt ℂ (fun v => A v a b) u) :
     DifferentiableAt ℂ (fun v => (A v).det) u := by
-  simp only [Matrix.det_apply']
-  refine DifferentiableAt.fun_sum fun σ _ => DifferentiableAt.const_mul ?_ _
-  have key : ∀ t : Finset (Fin d), DifferentiableAt ℂ (fun v => ∏ i ∈ t, A v (σ i) i) u := by
-    intro t
-    induction t using Finset.induction_on with
-    | empty => simp
-    | insert a t ha ih =>
-      simp only [Finset.prod_insert ha]
-      exact (hA _ _).mul ih
-  exact key _
+  apply _root_.GlobalTheory.KS.VertField.differentiableAt_det <;> assumption
 
 theorem differentiableAt_inv {V : Type} [NormedAddCommGroup V] [NormedSpace ℂ V] {d : ℕ}
     {A : V → Matrix (Fin d) (Fin d) ℂ} {u : V} (hA : ∀ a b, DifferentiableAt ℂ (fun v => A v a b) u)

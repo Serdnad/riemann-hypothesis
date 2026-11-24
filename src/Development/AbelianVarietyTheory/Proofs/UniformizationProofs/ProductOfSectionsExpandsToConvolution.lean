@@ -1,5 +1,7 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.JetHarmonics.DepthBoundFromCharactersPointDatumStatement
+import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.ExistsFamOfIsPullDeg
 public import Development.AbelianVarietyTheory.Definitions.Uniformization.TXFrame
 public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.ExpansionBijectiveOverFields
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.ProdExpPf
@@ -74,15 +76,7 @@ variable {R : Type} [CommRing R] [IsDomain R] {D : DegPre R}
 theorem prod_famB {T : Over (Spec (CommRingCat.of R))} (ρ : T ⟶ D.P.A) (α : D.X) (k : ℕ) {U : Type} [CommGroup U]
     (h : (T.left ⟶ D.P.A.left) → U) : ∏ i, h (ρ.left ≫ D.famφB α i) ^ DegPre.famε k i =
       h ρ.left ^ ((k : ℤ) - 1) * h (cP D T α * ρ).left * (h (cP D T α).left)⁻¹ * h (1 : T ⟶ D.P.A).left := by
-  have e₀ : ρ.left ≫ D.famφB α 0 = ρ.left := Category.comp_id _
-  have e₁ : ρ.left ≫ D.famφB α 1 = (cP D T α * ρ).left :=
-    congrArg (fun q => q.left) ((MonObj.comp_mul ρ (𝟙 _) (cP D _ α)).trans (by rw [comp_cP, Category.comp_id, mul_comm]))
-  have e₂ : ρ.left ≫ D.famφB α 2 = (cP D T α).left := congrArg (fun q => q.left) (comp_cP D ρ α)
-  have e₃ : ρ.left ≫ D.famφB α 3 = (1 : T ⟶ D.P.A).left :=
-    congrArg (fun q : T ⟶ D.P.A => q.left) (MonObj.comp_one (M := D.P.A) ρ)
-  rw [Fin.prod_univ_four, e₀, e₁, e₂, e₃]
-  show _ ^ ((k : ℤ) - 1) * _ ^ (1 : ℤ) * _ ^ (-1 : ℤ) * _ ^ (1 : ℤ) = _
-  rw [zpow_one, zpow_one, zpow_neg_one]
+  first | exact _root_.GlobalTheory.FamPull.prod_famB | exact @_root_.GlobalTheory.FamPull.prod_famB | apply _root_.GlobalTheory.FamPull.prod_famB <;> assumption
 
 def IsProd (r : R) {k l m : ℕ} {β ga α : D.X} (a : D.SecB k β) (b : D.SecB l ga) (c : D.SecB m α) : Prop :=
   ∀ (T : Over (Spec (CommRingCat.of R))) (ρ : T ⟶ D.P.A) (z : T.left) (J), Good D.P.L z J →
@@ -304,21 +298,7 @@ theorem exists_powMul {X Y : Scheme.{0}} {L : LB X} (hL : L.IsLB) {q : Y ⟶ X} 
   exact (hc Z r z J hJ).trans (H1.SectionArithmetic.sval_mulSec a b r z hJ)
 
 theorem genericSec_injective (k : ℕ) : Function.Injective (genericSec U k) := by
-  have := U.smooth
-  have hd : IsDominant (jK R) := by
-    refine ⟨?_⟩
-    exact (PrimeSpectrum.denseRange_comap_iff_ker_le_nilRadical (algebraMap R (FractionRing R))).2 (by
-      rw [(RingHom.injective_iff_ker_eq_bot _).1 (IsFractionRing.injective R (FractionRing R))]
-      exact bot_le)
-  have : IsSchemeTheoreticallyDominant (jK R) := .of_isDominant _
-  intro a b e
-  refine SecOver.ext _ _ fun j => Scheme.Hom.app_injective (pullback.fst G.hom (jK R)) _ (fn_ext fun y hy => ?_)
-  have hy' := (wchart_eq (L := U.LG.L) (φ := fun _ : Fin 1 => 𝟙 G.left) (p := pullback.fst G.hom (jK R))
-    (fun _ => (Category.comp_id _).symm) j).ge hy
-  have v : ∀ s : IntSec U k, gs (𝟙 _) y _ (LB.Sec.f (genericSec U k s) j) =
-      gs (𝟙 _) y _ (((pullback.fst G.hom (jK R)).app _).hom (LB.Sec.f s j)) := fun s =>
-    (gs_pullFn _ _ _ (𝟙 _) y hy').trans (gs_pull (𝟙 _) _ y _ hy _).symm
-  exact (v a).symm.trans ((congrArg (fun s : U.SecK k => gs (𝟙 _) y _ (LB.Sec.f s j)) e).trans (v b))
+  first | exact _root_.GlobalTheory.FamGermExist.genericSec_injective | exact @_root_.GlobalTheory.FamGermExist.genericSec_injective | apply _root_.GlobalTheory.FamGermExist.genericSec_injective <;> assumption
 
 section Global
 

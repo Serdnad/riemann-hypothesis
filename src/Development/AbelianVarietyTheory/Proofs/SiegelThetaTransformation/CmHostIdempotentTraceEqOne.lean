@@ -1,5 +1,7 @@
 module
 
+
+import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.HalfIntegralGeneratorAddConjEqOne
 public import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.DoubledRowTestFunctionProperties
 public import Development.AbelianVarietyTheory.Definitions.SpanningFamilies.IntMIffInt
 public import Development.AbelianVarietyTheory.Definitions.SpanningFamilies.IsStabForm
@@ -101,7 +103,6 @@ import Mathlib.LinearAlgebra.FreeModule.IdealQuotient
 import Mathlib.RingTheory.Coalgebra.IsFrobenius
 import Mathlib.RingTheory.Ideal.Quotient.Index
 import Mathlib.Tactic.Linter.HaveILetI
-
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.ExistsRationalSymplecticUnitaryColumns, Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.ExistsRationalSymplecticUnitaryColumnsStatement, Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.SiegelParabolicTransformPhase, Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.TransSIntertwines, Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.TransSUnique, Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.RootOfUnityPhaseVacuumSiegelThetaTransform, Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.MultiplierSqMulDetUnitaryColumnChange, Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.MultiplierSqMulDetUnitaryColumnChangeStatement, Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.CmHostIdempotentTraceEqOne
 
@@ -954,13 +955,7 @@ theorem transS_unique {κ ι : Type} [Fintype κ] [Fintype ι] [DecidableEq ι]
     {σ : Matrix (ι ⊕ ι) (ι ⊕ ι) ℚ} (hσ : σ ∈ Matrix.symplecticGroup ι ℚ)
     {φ ψ ψ' : Matrix κ ι ℚ → ℂ} (hψ : IsSB ψ) (hψ' : IsSB ψ') (h : TransS σ φ ψ)
     (h' : TransS σ φ ψ') : ψ = ψ' := by
-  obtain ⟨hd, hs, -⟩ := _root_.GlobalTheory.SiegelAction.symplectic_action ι σ hσ _ I_mem_siegel
-  refine _root_.GlobalTheory.SW.eq_of_thS_eq κ ι ψ ψ' hψ hψ' _ hs fun ζ => ?_
-  have e1 := h _ I_mem_siegel fun k => ζ k ᵥ* spDen σ (I • 1)
-  have e2 := h' _ I_mem_siegel fun k => ζ k ᵥ* spDen σ (I • 1)
-  have e := e1.trans e2.symm
-  simpa only [Matrix.vecMul_vecMul, Matrix.mul_nonsing_inv _ (Ne.isUnit hd),
-    Matrix.vecMul_one] using e
+  apply _root_.GlobalTheory.Phase.ParabValues.trans_unique <;> assumption
 
 theorem val_trans_J : ∀ (κ ι : Type) [Fintype κ] [Fintype ι] [DecidableEq ι],
     Even (Fintype.card κ) → ∀ φ ψ : Matrix κ ι ℚ → ℂ, IsSB φ → IsSB ψ →
@@ -1394,32 +1389,7 @@ variable {E : Type} [Field E] [NumberField E] [IsCMField E] {r g q0 n : ℕ} {X 
   {bas : (Fin g ⊕ Fin g → ℤ) ≃ₗ[ℤ] X.Λ}
 
 theorem cmHost_idempotent_trace_eq_one (H : Host E) : (H.w0 : E) + cc (H.w0 : E) = 1 := by
-  have h2 : 2 * (H.w0 : E) = 1 + (H.rt : E) := by
-    simpa [map_ofNat] using congrArg (algebraMap (𝓞 E) E) H.two_weight_eq_one_add_root
-  have hs : (H.rt : E) ^ 2 = -(H.d : E) := by
-    simpa using congrArg (algebraMap (𝓞 E) E) H.rt_sq
-  have hc : cc (H.rt : E) = -(H.rt : E) := by
-    obtain ⟨τ⟩ : Nonempty (E →+* ℂ) := inferInstance
-    apply τ.injective
-    have h1 : τ (H.rt : E) ^ 2 = -(H.d : ℂ) := by rw [← map_pow, hs]; simp
-    have hre : (τ (H.rt : E)).re = 0 := by
-      have a1 := congrArg Complex.re h1
-      have a2 := congrArg Complex.im h1
-      simp [pow_two] at a1 a2
-      have hd : (0 : ℝ) < H.d := by exact_mod_cast H.d_prime.pos
-      by_contra hne
-      have : (τ (H.rt : E)).im = 0 := by
-        have : (τ (H.rt : E)).re * (τ (H.rt : E)).im = 0 := by linarith
-        exact (mul_eq_zero.1 this).resolve_left hne
-      rw [this] at a1
-      nlinarith [mul_self_nonneg (τ (H.rt : E)).re]
-    rw [cc, IsCMField.complexEmbedding_complexConj, map_neg]
-    apply Complex.ext <;> simp [hre]
-  have h3 : 2 * cc (H.w0 : E) = 1 + cc (H.rt : E) := by
-    have := congrArg (IsCMField.complexConj E) h2
-    simpa [cc, map_ofNat] using this
-  have : 2 * ((H.w0 : E) + cc (H.w0 : E)) = 2 * 1 := by linear_combination h2 + h3 + hc
-  exact mul_left_cancel₀ two_ne_zero this
+  first | exact _root_.GlobalTheory.Dict.ShortRead.halfIntegralGenerator_add_conj_eq_one | exact @_root_.GlobalTheory.Dict.ShortRead.halfIntegralGenerator_add_conj_eq_one | apply _root_.GlobalTheory.Dict.ShortRead.halfIntegralGenerator_add_conj_eq_one <;> assumption
 
 theorem mem_vset (Λ : GenLat E n) {M : ℕ} (hM : 3 ≤ M) (hU : Λ.Unimod) (hT : Λ.TrivAt M) :
     Λ.La ∈ Vset E n M := by

@@ -1,5 +1,6 @@
 module
 
+import Formalism.GL3MeanSquares.GenusMeanAsymptotics.UnimodularClassRepresentatives.NeBotOfIsMaximal
 public import Formalism.GL3MeanSquares.GenusMeanAsymptotics.UnimodularClassRepresentatives.LocalDensityRatio
 public import Formalism.GL3MeanSquares.GenusMeanAsymptotics.UnimodularClassRepresentatives.ExistsLocalData
 public import Formalism.GL3MeanSquares.GenusMeanAsymptotics.UnimodularClassRepresentatives.FirstFamilyOperatorEnd
@@ -79,16 +80,7 @@ theorem card_quot_pow (𝔭 : Ideal (𝓞 F)) (k : ℕ) : Nat.card (𝓞 F ⧸ �
   rw [← map_pow, Ideal.absNorm_apply, Submodule.cardQuot_apply]
 
 theorem vF_lt_of_notMem {𝔭 : Ideal (𝓞 F)} {n : 𝓞 F} {j : ℕ} (h : n ∉ 𝔭 ^ j) : vF 𝔭 n < j := by
-  have hb : BddAbove {e : ℕ | n ∈ 𝔭 ^ e} := ⟨j, fun e he => by
-    by_contra hlt
-    push_neg at hlt
-    exact h (Ideal.pow_le_pow_right hlt.le he)⟩
-  have hne : ({e : ℕ | n ∈ 𝔭 ^ e}).Nonempty := ⟨0, by simp⟩
-  have hm : n ∈ 𝔭 ^ sSup {e : ℕ | n ∈ 𝔭 ^ e} := Nat.sSup_mem hne hb
-  unfold vF
-  by_contra hle
-  push_neg at hle
-  exact h (Ideal.pow_le_pow_right hle hm)
+  apply _root_.Formalism.HermitianLattices.Ext.L3.BoxSum.vF_lt_of_notMem <;> assumption
 
 theorem card_out_mem (𝔭 : Ideal (𝓞 F)) {j k : ℕ} (hjk : j ≤ k) :
     Nat.card {n' : 𝓞 F ⧸ 𝔭 ^ k // Quotient.out n' ∈ 𝔭 ^ j} * Ideal.absNorm 𝔭 ^ j =

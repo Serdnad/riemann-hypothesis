@@ -1,5 +1,6 @@
 module
 
+import Development.ResolutionOfSingularities.EmbeddedResolution.IdealPrincipalization.OrderReduction.MaxContactGeometry
 public import Development.ResolutionOfSingularities.EmbeddedResolution.IdealPrincipalization.MarkedOrderReduction.MarkedPullbackSquare
 public import Development.ResolutionOfSingularities.EmbeddedResolution.IdealPrincipalization.MarkedOrderReduction.NonMonomialOrderReduction
 public import Development.ResolutionOfSingularities.EmbeddedResolution.IdealPrincipalization.MarkedOrderReduction.SequenceOfBlowupsPullback
@@ -1422,20 +1423,8 @@ private theorem projectionToBase_mem_orderAtLeastLocus (hG : PrincipalizationGeo
     (j : ℕ) (hj : j ≤ σ.toSequenceOfBlowups.length) (z : ↥(σ.toSequenceOfBlowups.schemeAt j))
     (hz : z ∈ orderAtLeastLocus (σ.ideal j) T.mult) :
     (σ.toSequenceOfBlowups.projectionToBase j).base z ∈ orderAtLeastLocus T.ideal T.mult := by
-  have hval : ∀ l ≤ σ.toSequenceOfBlowups.length, (T.transformAt σ l).IsAdmissible := by
-    intro l hl
-    exact hG.monomialInputs.level_valid T hT σ l hl
-  have hsub := MarkedSequenceOfBlowups.orderAtLeastLocus_subset_preimage_transitionMap
-    (orderAtComapOffExceptionalLocus_of_monomialGeometryHypotheses hG.monomialInputs)
-    T σ hval T.mult le_rfl 0 j (Nat.zero_le j) hj
-  have h0 : (σ.toSequenceOfBlowups.transitionMap (Nat.zero_le j)).base z ∈ orderAtLeastLocus (σ.ideal 0) T.mult := hsub hz
-  rw [σ.ideal_zero, hinv.coSupport_comap σ.toSequenceOfBlowups.isoZero T.ideal T.mult] at h0
-  have hcomp : (σ.toSequenceOfBlowups.projectionToBase j).base z
-      = (σ.toSequenceOfBlowups.isoZero.hom).base ((σ.toSequenceOfBlowups.transitionMap (Nat.zero_le j)).base z) := by
-    rw [SequenceOfBlowups.projectionToBase_def]
-    simp
-  rw [hcomp]
-  exact h0
+  intros
+  apply _root_.FunctorialResolution.EmbeddedResolution.OrderReductionCorrectness.projectionToBase_mem_orderAtLeastLocus_of_mem_ideal <;> assumption
 
 private theorem nonempty_sequenceOfBlowupsPullback_of_center_not_mem_range {X Y : Scheme.{u}} (g : Y ⟶ X)
     (hflat : AlgebraicGeometry.Flat g) (sD : SequenceOfBlowups X) (sU : SequenceOfBlowups Y)

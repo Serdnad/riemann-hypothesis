@@ -53,6 +53,7 @@ import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.ClassListMa
 import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.PPairNumberRelabel
 import Mathlib.Tactic.Basify
 import Mathlib.Tactic.ENatToNat
+import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.PTwinPairNumRelabel
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.WeilBound.CoreStatements.TorusUniformisation.ChowMahlerFamilies.XRelabelBundle, Development.AutomorphicSpectrum.Proofs.AlgebraProofs.SameGenericBaseExtension
@@ -138,26 +139,7 @@ theorem pointIdeal_eq (O : Type) [CommRing O] [Algebra O Ω] (e : K₁ ≃ K₂)
 theorem fnField_eq (O : Type) [CommRing O] [Algebra O Ω] (e : K₁ ≃ K₂)
     (σ : (Σ k, ι₁ k) ≃ (Σ k, ι₂ k)) (hσ : ∀ v, (σ v).1 = e v.1) (y : (Σ k, ι₂ k) → Ω) :
     fnField O y = fnField O (y ∘ σ) := by
-  unfold fnField
-  congr 2
-  ext a
-  constructor
-  · rintro ⟨⟨k, i, j⟩, rfl⟩
-    have h : ∀ i : ι₂ k, ∃ i' : ι₁ (e.symm k), σ.symm ⟨k, i⟩ = ⟨e.symm k, i'⟩ := fun i => by
-      apply exists_snd
-      apply e.injective
-      rw [← hσ, Equiv.apply_symm_apply, Equiv.apply_symm_apply]
-    obtain ⟨i', hi⟩ := h i
-    obtain ⟨j', hj⟩ := h j
-    refine ⟨⟨e.symm k, i', j'⟩, ?_⟩
-    simp only [Function.comp]
-    rw [← hi, ← hj, Equiv.apply_symm_apply, Equiv.apply_symm_apply]
-  · rintro ⟨⟨k, i, j⟩, rfl⟩
-    obtain ⟨i', hi⟩ := exists_snd (σ ⟨k, i⟩) (e k) (hσ _)
-    obtain ⟨j', hj⟩ := exists_snd (σ ⟨k, j⟩) (e k) (hσ _)
-    refine ⟨⟨e k, i', j'⟩, ?_⟩
-    simp only [Function.comp]
-    rw [hi, hj]
+  apply _root_.GroundTheory.Heights₂.Heights.NumbersDVR.PairNumberRelabelAlt.fnField_comp <;> assumption
 
 variable [Fintype K₁] [Fintype K₂] [∀ k, Fintype (ι₁ k)] [∀ k, Fintype (ι₂ k)]
 

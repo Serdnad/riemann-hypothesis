@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.DescentPowerIsoEndomorphismAbelianPartUniformiza
 public import Mathlib.RingTheory.Ideal.Maps
 public import Mathlib.SetTheory.Cardinal.Finite
 public import Mathlib.LinearAlgebra.Dimension.Constructions
@@ -398,15 +399,8 @@ theorem exists_ratio (hL : L.IsLB) {E W : Scheme.{0}} {φ : K → (E ⟶ X)} {ε
     (σ : LB.Gen (LB.LinComb L φ ε)) (hσ : σ.IsGen) (r₁ r₀ : W ⟶ E) (h : ∀ k, r₁ ≫ φ k = r₀ ≫ φ k) :
     ∃ a : Γ(W, ⊤)ˣ, ∀ (Z : Scheme.{0}) (q : Z ⟶ W) (w : Z) (J), Good L w J →
       val σ (q ≫ r₁) w J = gm q w ⊤ a * val σ (q ≫ r₀) w J := by
-  have gen : ∀ (ψ₁ ψ₀ : K → (W ⟶ X)), ψ₁ = ψ₀ → ∀ (t₁ : (L.LinComb ψ₁ ε).Gen) (t₀ : (L.LinComb ψ₀ ε).Gen),
-      t₁.IsGen → t₀.IsGen → ∃ a : Γ(W, ⊤)ˣ, ∀ (Z : Scheme.{0}) (q : Z ⟶ W) (w : Z) (J : (Z ⟶ X) → L.ι),
-        Good L w J → val t₁ q w J = gm q w ⊤ a * val t₀ q w J := by
-    rintro ψ _ rfl t₁ t₀ h₁ h₀
-    exact AbPackage.exists_unit_ratio hL h₁ h₀
-  obtain ⟨a, ha⟩ := gen _ _ (funext h) _ _ (DVR.pullGen_isGen L φ ε σ hσ r₁) (DVR.pullGen_isGen L φ ε σ hσ r₀)
-  refine ⟨a, fun Z q w J hJ => ?_⟩
-  have := ha Z q w J hJ
-  rwa [val_pull hJ, val_pull hJ] at this
+  intros
+  apply _root_.GlobalTheory.UT.PullDescent.exists_ratio <;> assumption
 
 theorem exists_ch (hA : IsAbelianScheme A) (hL : L.IsLB) {φ : K → ((A ⊗ T).left ⟶ X)} {ε : K → ℤ}
     (σ : LB.Gen (LB.LinComb L φ ε)) (hσ : σ.IsGen) (y : T ⟶ A) (h : ∀ k, (tr y).left ≫ φ k = φ k) :

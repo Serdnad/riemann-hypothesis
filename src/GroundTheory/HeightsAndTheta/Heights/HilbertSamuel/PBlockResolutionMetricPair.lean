@@ -1,5 +1,8 @@
 module
 
+import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.PFlatLocalRegularSequence
+import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PResolutionMetricPair
+import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PSupBoundBlock
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsBlockResolutionMetricPair
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsBergmanDensChartSum
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.AnResBridgePot
@@ -62,32 +65,7 @@ theorem lintegral_chart [MeasurableSpace X] [BorelSpace X] (c : OpenPartialHomeo
       μ S = ∫⁻ y in c.target ∩ c.symm ⁻¹' S, ENNReal.ofReal (ν y))
     {W : Set X} (hW : IsOpen W) (g : X → ℝ≥0∞) (hg : Measurable g) :
     ∫⁻ x in c.source ∩ W, g x ∂μ = ∫⁻ y in c.target ∩ c.symm ⁻¹' W, g (c.symm y) * ENNReal.ofReal (ν y) := by
-  set T := c.target ∩ c.symm ⁻¹' W with hT
-  have hTm : MeasurableSet T := (c.isOpen_inter_preimage_symm hW).measurableSet
-  have hsymm : AEMeasurable c.symm (volume.restrict T) :=
-    (c.continuousOn_symm.mono inter_subset_left).aemeasurable hTm
-  have hdens : AEMeasurable (fun y => ENNReal.ofReal (ν y)) (volume.restrict T) :=
-    ENNReal.measurable_ofReal.comp_aemeasurable ((hνc.mono inter_subset_left).aemeasurable hTm)
-  have hsymm' : AEMeasurable c.symm ((volume.restrict T).withDensity fun y => ENNReal.ofReal (ν y)) :=
-    hsymm.mono_ac (withDensity_absolutelyContinuous _ _)
-  have hmeas : μ.restrict (c.source ∩ W) =
-      ((volume.restrict T).withDensity fun y => ENNReal.ofReal (ν y)).map c.symm := by
-    ext S hS
-    rw [Measure.restrict_apply hS, Measure.map_apply_of_aemeasurable hsymm' hS, withDensity_apply',
-      Measure.restrict_restrict' hTm,
-      hν _ (hS.inter (c.open_source.inter hW).measurableSet) (inter_subset_right.trans inter_subset_left)]
-    have hset : c.target ∩ c.symm ⁻¹' (S ∩ (c.source ∩ W)) = c.symm ⁻¹' S ∩ T := by
-      ext y
-      constructor
-      · rintro ⟨hyt, hyS, -, hyW⟩
-        exact ⟨hyS, hyt, hyW⟩
-      · rintro ⟨hyS, hyt, hyW⟩
-        exact ⟨hyt, hyS, c.map_target hyt, hyW⟩
-    rw [hset]
-  rw [hmeas, lintegral_map' hg.aemeasurable hsymm',
-    lintegral_withDensity_eq_lintegral_mul₀ (g := fun a => g (c.symm a)) hdens (hg.comp_aemeasurable hsymm)]
-  refine lintegral_congr fun y => ?_
-  simp [mul_comm]
+  apply _root_.GroundTheory.Heights₂.Heights.HilbertSamuel.ResolutionMetricPair.lintegral_chart <;> assumption
 
 end Refine
 
@@ -138,16 +116,7 @@ theorem isConeTangent_of_map {P0 P : Ideal (MRing ι)} (hP0 : P0 ≤ P) {e : ℕ
     {γ : (Fin e → ℂ) → (Σ k, ι k) → ℂ} {y : Fin e → ℂ} (hγ : AnalyticAt ℂ γ y)
     (hpts : ∀ᶠ y' in 𝓝 y, γ y' ∈ mcPts P) (ξ : Fin e → ℂ) :
     IsConeTangent (Int.castRingHom ℂ) P0 (γ y) (fderiv ℂ γ y ξ) := by
-  intro f hf
-  set F := map (Int.castRingHom ℂ) f
-  have hzero : (fun w => eval w F) ∘ γ =ᶠ[𝓝 y] fun _ => (0 : ℂ) := by
-    filter_upwards [hpts] with w hw
-    exact hw.2 f (hP0 hf)
-  have hd := (adens_hasFDerivAt_eval F (γ y)).comp y hγ.differentiableAt.hasFDerivAt
-  have h0 : HasFDerivAt ((fun w => eval w F) ∘ γ) (0 : (Fin e → ℂ) →L[ℂ] ℂ) y :=
-    (hasFDerivAt_const (0 : ℂ) y).congr_of_eventuallyEq hzero
-  have := congrArg (fun L => L ξ) (hd.unique h0)
-  simpa [_root_.sum_apply, smul_eq_mul] using this
+  apply _root_.GroundTheory.Heights₂.Heights.HilbertSamuel.ResolutionMetricPair.isConeTangent_of_map <;> assumption
 
 theorem levi_const_mul {κ : Type} [Fintype κ] {f : (κ → ℂ) → ℝ} {z : κ → ℂ} (c : ℝ)
     (hf : ContDiffAt ℝ 2 f z) (w : κ → ℂ) : levi (fun y => c * f y) z w = c * levi f z w := by

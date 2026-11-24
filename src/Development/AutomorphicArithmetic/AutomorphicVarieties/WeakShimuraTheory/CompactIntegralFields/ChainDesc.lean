@@ -1,5 +1,6 @@
 module
 
+import all Development.AutomorphicArithmetic.AutomorphicVarieties.WeakShimuraTheory.CompactIntegralFields.ChainMap
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.WeakShimuraTheory.NearSplit
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.HeightAndVanishing.CoefSup
 import Mathlib.Algebra.Order.Floor.Extended
@@ -77,14 +78,7 @@ private theorem supp_of (f : R →+* R') (hf : Function.Injective f) (S : Finset
   exact h i j hij hw
 
 private theorem cont_iff {Γ : Type} [TopologicalSpace Γ] (z : Γ → R) : AdicCont ⊥ z ↔ IsLocallyConstant z := by
-  constructor
-  · intro h
-    refine IsLocallyConstant.desc z (Ideal.Quotient.mk ((⊥ : Ideal R) ^ 1)) (h 1) ?_
-    intro x y hxy
-    rw [Ideal.Quotient.eq, pow_one, Ideal.mem_bot, sub_eq_zero] at hxy
-    exact hxy
-  · intro h N
-    exact h.comp _
+  apply _root_.adic_bot <;> assumption
 
 variable {ι Γ : Type} [Group Γ]
 

@@ -43,6 +43,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.DegreeUnderTranslation
 
 @[expose] public section
 
@@ -130,14 +131,7 @@ theorem sz_rows_le {K : Type} [NormedField K] {n k : ℕ} (X : Matrix (Fin n) (F
     (Set.finite_range _).bddAbove (s p.1, p.2)) (sz_nonneg X)
 
 theorem sz_sq_le {n : ℕ} (X : Matrix (Fin n) (Fin n) ℂ) : sz X ^ 2 ≤ ⨆ p : Fin n × Fin n, ‖X p.1 p.2‖ ^ 2 := by
-  have hT : 0 ≤ ⨆ p : Fin n × Fin n, ‖X p.1 p.2‖ ^ 2 := Real.iSup_nonneg fun _ => by positivity
-  have h : sz X ≤ Real.sqrt (⨆ p : Fin n × Fin n, ‖X p.1 p.2‖ ^ 2) :=
-    Real.iSup_le (fun p => Real.le_sqrt_of_sq_le (le_ciSup (f := fun p : Fin n × Fin n => ‖X p.1 p.2‖ ^ 2)
-      (Set.finite_range _).bddAbove p)) (Real.sqrt_nonneg _)
-  calc sz X ^ 2 ≤ Real.sqrt (⨆ p : Fin n × Fin n, ‖X p.1 p.2‖ ^ 2) ^ 2 := by
-        gcongr
-        exact sz_nonneg X
-    _ = _ := Real.sq_sqrt hT
+  apply _root_.GlobalTheory.CompanionTheory.DegMoveProof.sz_sq_le <;> assumption
 
 theorem neg_log_le {t a : ℝ} {k : ℕ} (ht : 0 ≤ t) (ha : 0 ≤ a) (h : 1 ≤ t ^ k * a) :
     -Real.log a ≤ k * Real.posLog t := by

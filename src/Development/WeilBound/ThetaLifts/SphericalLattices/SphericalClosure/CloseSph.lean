@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ThetaFactorNonzero
 public import Development.WeilBound.ThetaLifts.Reductions.JoinDef
 public import Development.WeilBound.ThetaLifts.CartanFactorisation.CartanConj
 public import Development.WeilBound.ThetaLifts.CartanFactorisation.PolCountDef
@@ -422,29 +423,8 @@ theorem exists_enlarge {α : Type} {Q : α → Type} [∀ v, AddCommGroup (Q v)]
     {T T' : Finset α} (h : T ⊆ T') : ∃ L : PiTensorProduct ℂ (fun v : T => Q v) →ₗ[ℂ] PiTensorProduct ℂ (fun v : T' => Q v),
       ∀ y : ∀ v, Q v, (∀ v ∉ T, y v = z v) →
         L (PiTensorProduct.tprod ℂ fun v : T => y v) = PiTensorProduct.tprod ℂ fun v : T' => y v := by
-  let e : (∀ v : T, Q v) → ∀ v : T', Q v := fun ψ v => if hv : v.1 ∈ T then ψ ⟨v, hv⟩ else z v
-  have he : ∀ [DecidableEq T] (ψ : ∀ v : T, Q v) (i : T) (x : Q i),
-      e (Function.update ψ i x) = Function.update (e ψ) ⟨i.1, h i.2⟩ x := by
-    intro _ ψ i x
-    funext v
-    by_cases hv : v = ⟨i.1, h i.2⟩
-    · subst hv; simp only [e, dif_pos i.2, Function.update_self]
-    · rw [Function.update_of_ne hv]
-      simp only [e]
-      split_ifs with hT
-      · exact Function.update_of_ne (f := ψ) (a := ⟨v.1, hT⟩) (a' := i) (fun k => hv (Subtype.ext (congrArg Subtype.val k :))) _
-      · rfl
-  refine ⟨PiTensorProduct.lift
-    { toFun := fun ψ => PiTensorProduct.tprod ℂ (e ψ)
-      map_update_add' := fun ψ i x y => by rw [he, he, he, MultilinearMap.map_update_add]
-      map_update_smul' := fun ψ i c x => by rw [he, he, MultilinearMap.map_update_smul] }, fun y hy => ?_⟩
-  rw [PiTensorProduct.lift.tprod]
-  change PiTensorProduct.tprod ℂ (e fun v => y v) = _
-  congr 1
-  funext v
-  simp only [e]
-  split_ifs with hv
-  exacts [rfl, (hy v hv).symm]
+  intros
+  apply _root_.GlobalTheory.ThK.Dbl.TC.exists_ext <;> assumption
 
 variable {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] {σ : E →ₐ[F] E}
   {n d : ℕ} {X : Spc F E n} {W : Spc F E d}
@@ -1596,20 +1576,8 @@ theorem continuous_chrW' {χ : Chr F E} (hχ : Continuous χ) (τ : E →ₐ[F] 
 theorem exists_unit_chrW_ne {χ : Chr F E} (τ : E →ₐ[F] Fv F v) (h : ¬ UnrAt χ (splitPrime τ)) :
     ∃ x : (Fv F v)ˣ, (x : Fv F v) ∈ v.adicCompletionIntegers F ∧
       ((x⁻¹ : (Fv F v)ˣ) : Fv F v) ∈ v.adicCompletionIntegers F ∧ chrW χ τ x ≠ 1 := by
-  obtain ⟨ψ, h1, -, h3, -⟩ := SplitChart.exists_equiv_complMap τ (splitPrime_under τ)
-  simp only [UnrAt, not_forall] at h
-  obtain ⟨y, hy, hne⟩ := h
-  have e : Units.map (complMap (splitPrime_under τ)).toMonoidHom (Units.map ψ.symm.toRingHom.toMonoidHom y) = y :=
-    Units.ext ((h1 _).symm.trans (ψ.apply_symm_apply _))
-  have hv : Valued.v ((Units.map ψ.symm.toRingHom.toMonoidHom y : (Fv F v)ˣ) : Fv F v) = 1 := by
-    rw [← h3]
-    exact (congrArg Valued.v (ψ.apply_symm_apply (y : _))).trans hy
-  refine ⟨Units.map ψ.symm.toRingHom.toMonoidHom y, ?_, ?_, fun h0 => hne ?_⟩
-  · rw [HeightOneSpectrum.mem_adicCompletionIntegers]
-    exact hv.le
-  · rw [HeightOneSpectrum.mem_adicCompletionIntegers, Units.val_inv_eq_inv_val, map_inv₀, hv, inv_one]
-  · rw [← e]
-    exact h0
+  intros
+  apply _root_.GlobalTheory.StepFacNe.chrW_ram <;> assumption
 
 theorem eps_ne_zero {ψ : AddChar (AF F) ℂ} {ν : (Fv F v)ˣ →* ℂˣ} (h : gauss ψ ν ≠ 0) (z : ℤ) : eps ψ ν z ≠ 0 :=
   mul_ne_zero (mul_ne_zero (zpow_ne_zero _ (Nat.cast_ne_zero.2 (one_lt_absNorm v).ne_bot)) h)

@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.FractionalIdealCompletionMulModulusOffExceptiona
 public import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.IsAuxiliaryVectorWittDec
 public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.LineLatAt
 public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.FinitePartTraceCharacterIdempotentInverseDiffere
@@ -272,48 +273,7 @@ theorem idV_inv_mul (I : Ideal (𝓞 D.host.E)) (v : GlobalTheory.FinPl.Pl D) (c
 
 theorem exists_mem_modulBar {T : Type} {L : LevCh D T} (P : Places L) (sc : Consts) {v : GlobalTheory.FinPl.Pl D} (hv : v ∉ P.S0) :
     ∃ c : 𝓞 D.host.F, c ∉ v.asIdeal ∧ algebraMap (𝓞 D.host.F) (𝓞 D.host.E) c ∈ P.modulBar sc := by
-  classical
-
-  have hsep : ∀ u ∈ P.S0, ∃ c : 𝓞 D.host.F, c ∈ u.asIdeal ∧ c ∉ v.asIdeal := by
-    intro u hu
-    have hne : u ≠ v := fun h => hv (h ▸ hu)
-    by_contra hcon
-    push_neg at hcon
-    apply hne
-    have hle : u.asIdeal ≤ v.asIdeal := fun c hc => hcon c hc
-    exact HeightOneSpectrum.ext (u.isMaximal.eq_of_le v.isPrime.ne_top hle)
-  choose! f hfu hfv using hsep
-  refine ⟨∏ u ∈ P.S0, f u ^ P.depth sc u, ?_, ?_⟩
-  ·
-    intro hmem
-    obtain ⟨u, hu, hpow⟩ := (Ideal.IsPrime.prod_mem_iff (hp := v.isPrime)).1 hmem
-    exact hfv u hu (v.isPrime.mem_of_pow_mem _ hpow)
-  ·
-    have hmod : algebraMap (𝓞 D.host.F) (𝓞 D.host.E) (∏ u ∈ P.S0, f u ^ P.depth sc u) ∈ P.modul sc := by
-      rw [map_prod]
-      show _ ∈ ∏ u ∈ P.S0, (P.w u).asIdeal ^ P.depth sc u
-      apply Ideal.prod_mem_prod
-      intro u hu
-      rw [map_pow]
-      apply Ideal.pow_mem_pow
-      have hover := P.w_over u hu
-      have h1 : f u ∈ ((P.w u).under (𝓞 D.host.F)).asIdeal := by
-        rw [hover]
-        exact hfu u hu
-      exact h1
-    have hsm := Ideal.smul_mem_pointwise_smul D.host.conj _ _ hmod
-    have hcoe : ∀ x : 𝓞 D.host.F,
-        ((algebraMap (𝓞 D.host.F) (𝓞 D.host.E) x : 𝓞 D.host.E) : D.host.E) = ((x : D.host.F) : D.host.E) :=
-      fun _ => rfl
-    have hfix : ∀ x : 𝓞 D.host.F,
-        D.host.conj • algebraMap (𝓞 D.host.F) (𝓞 D.host.E) x = algebraMap (𝓞 D.host.F) (𝓞 D.host.E) x := by
-      intro x
-      apply RingOfIntegers.ext
-      show D.host.conj ((algebraMap (𝓞 D.host.F) (𝓞 D.host.E) x : 𝓞 D.host.E) : D.host.E) = _
-      rw [hcoe x]
-      exact GlobalTheory.IdeleAA.conj_F x
-    rw [hfix] at hsm
-    exact hsm
+  apply _root_.GlobalTheory.ModulUnit.exists_mem_modulBar <;> assumption
 
 theorem wittDecompositionColumns_auxiliaryVectors {A B B₀ : HSp D} {c ρ : ℕ} {a : HermitianOrthogonalExtensionData A B c (-1)} {d : HypDec B B₀ ρ} (h : IsAuxiliaryVectorWittDec a d) (i : Fin ρ) :
     ∃ p : Fin c, p.1 = i.1 ∧ p.rev ≠ p ∧

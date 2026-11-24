@@ -1,5 +1,6 @@
 module
 
+import all Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsGeomPtRangeEq
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.IsCompletedStrictHens
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.SemiabelianSchemes.AbelianSchemeQuotients.IsAbelianScheme
 public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.GeometricallyReducedOfPerfectField
@@ -55,12 +56,7 @@ namespace GlobalTheory.AbelianSubgroupFinite
 
 theorem exists_lift_of_range_subset {T N B : Scheme.{0}} [IsReduced T] (x : T ⟶ B) (ν : N ⟶ B)
     [IsClosedImmersion ν] (h : Set.range x ⊆ Set.range ν) : ∃ l : T ⟶ N, l ≫ ν = x := by
-  have hs : Surjective (pullback.snd ν x) := ⟨by
-    rw [← Set.range_eq_univ, Scheme.Pullback.range_snd]
-    exact Set.eq_univ_of_forall fun t => h ⟨t, rfl⟩⟩
-  have : IsIso (pullback.snd ν x) := isIso_of_isClosedImmersion_of_surjective _
-  exact ⟨inv (pullback.snd ν x) ≫ pullback.fst ν x, by
-    rw [Category.assoc, pullback.condition, IsIso.inv_hom_id_assoc]⟩
+  apply _root_.GlobalTheory.HkFam.exists_factor_of_range_subset_closedImmersion <;> assumption
 
 theorem isCommMonObj_of_mono {𝒞 : Type*} [Category 𝒞] [CartesianMonoidalCategory 𝒞]
     [BraidedCategory 𝒞] {N B : 𝒞} [MonObj N] [MonObj B] [IsCommMonObj B] (ν : N ⟶ B) [Mono ν]

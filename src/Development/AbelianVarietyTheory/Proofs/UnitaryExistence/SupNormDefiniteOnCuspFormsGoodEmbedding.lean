@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Counterexamples.JetSurvey.EqZeroOfPnorm
 public import Formalism.LocalToGlobal.ProjectiveLattices.NormsFree
 public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.AllUniformizationLawsHold
 public import Formalism.LocalToGlobal.ProjectiveLattices.UnFree
@@ -55,19 +56,7 @@ namespace GlobalTheory
 theorem SupNormCusp.eq_zero_of_pnorm_eq_zero {E : Type} [Field E] [NumberField E] [IsCMField E] {r : ℕ}
     (X : Data E r) (la : ReciprocityTheory.ChartRestriction.G.FD.Wt X.Ψ r) (P : Frame X.Ψ r → ℂ) (x : Frame X.Ψ r)
     (hx : x ∈ X.dom) (h : X.pnorm la P x = 0) : P x = 0 := by
-  have hx' : ∀ τ : X.Ψ, (mat x τ).det ≠ 0 ∧ ∀ i : Fin (r + 1), 0 < psgn X.p0 i * (dmin X.Gm x τ i).re := hx
-  have hd : ∀ τ i, dmin X.Gm x τ i ≠ 0 := by
-    intro τ i h0
-    have := (hx' τ).2 i
-    rw [h0] at this
-    simp at this
-  unfold Data.pnorm at h
-  rcases mul_eq_zero.1 h with h1 | h1
-  · exact norm_eq_zero.1 h1
-  · exfalso
-    refine (ne_of_gt ?_) h1
-    refine Finset.prod_pos fun τ _ => Finset.prod_pos fun i _ => Real.rpow_pos_of_pos ?_ _
-    exact norm_pos_iff.2 (div_ne_zero (hd τ _) (hd τ _))
+  first | exact _root_.GlobalTheory.NetNormExamples.eq_zero_of_pnorm | exact @_root_.GlobalTheory.NetNormExamples.eq_zero_of_pnorm | apply _root_.GlobalTheory.NetNormExamples.eq_zero_of_pnorm <;> assumption
 
 theorem supNorm_definite_on_cusp : ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (H : ReciprocityTheory.ChartRestriction.G.Geo.Tor.Host E) (Dw : Datum H) (l : Level H) (Xo : Moduli Dw l) (c : Coeff l), ∀ (r : ℕ) (U : ∀ σ : c.F →+* ℂ, Formalism.L2.PjFree.Unf Xo c σ r), (∀ σ, Formalism.L2.PjFree.GoodEmb c σ → Formalism.L2.PjFree.IsUnf (U σ)) → Formalism.L2.PjFree.SupDef Xo c U := by
   intro E _ _ _ H Dw l Xo c r U hU a n hd σ hσ f hf h0

@@ -56,6 +56,7 @@ import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.T
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.OneArc
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.ExistsRosatiGen
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.SemiabelianSchemes.PrecompleteBases.PsbLb
+import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsCommonAlgClosedExtension
 
 @[expose] public section
 
@@ -280,17 +281,7 @@ end Values
 
 theorem exists_common_field {K F L : Type} [Field K] [Field F] [Field L] (i : K →+* F) (j : K →+* L) :
     ∃ (F' : Type) (_ : Field F') (_ : IsAlgClosed F') (σ : F →+* F') (τ : L →+* F'), σ.comp i = τ.comp j := by
-  let := i.toAlgebra
-  let := j.toAlgebra
-  have : Nontrivial (TensorProduct K F L) := inferInstance
-  obtain ⟨m, hm⟩ := Ideal.exists_maximal (TensorProduct K F L)
-  let := Ideal.Quotient.field m
-  let q : TensorProduct K F L →+* AlgebraicClosure (TensorProduct K F L ⧸ m) :=
-    (algebraMap (TensorProduct K F L ⧸ m) _).comp (Ideal.Quotient.mk m)
-  refine ⟨AlgebraicClosure (TensorProduct K F L ⧸ m), inferInstance, inferInstance,
-    q.comp Algebra.TensorProduct.includeLeftRingHom, q.comp Algebra.TensorProduct.includeRight.toRingHom, ?_⟩
-  rw [RingHom.comp_assoc, RingHom.comp_assoc]
-  exact congrArg q.comp Algebra.TensorProduct.includeLeftRingHom_comp_algebraMap
+  apply _root_.GlobalTheory.CommonAlgClosedExtension.exists_common_algClosed_extension <;> assumption
 
 variable {R : Type} [CommRing R] [IsDomain R] {D : DegPre R} {F F' : Type} [Field F] [Algebra (FractionRing R) F]
   [Field F'] [Algebra (FractionRing R) F']

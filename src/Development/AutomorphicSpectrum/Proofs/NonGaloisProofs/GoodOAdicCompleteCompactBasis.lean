@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.DualLatticeCompactPowSmulNhdsBasis
 public import Formalism.SharpRestriction.LevelLetterCocycles.LocCoh
 public import Mathlib.NumberTheory.Padics.PadicIntegers
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.H2EquivOfTorsionCharacter
@@ -103,17 +104,8 @@ theorem ball_subset_range (ϖ : O) (n : ℕ) : (ball ϖ n : Set LL) ⊆ Set.rang
   exact ⟨_, rfl⟩
 
 theorem eq_zero_of_forall_dvd {ϖ : O} (hϖ : Irreducible ϖ) {y : O} (h : ∀ n, ϖ ^ n ∣ y) : y = 0 := by
-  have hne : Ideal.span {ϖ} ≠ (⊤ : Ideal O) := by
-    rw [Ne, Ideal.span_singleton_eq_top]
-    exact hϖ.not_isUnit
-  have h0 := Ideal.iInf_pow_eq_bot_of_isLocalRing (Ideal.span {ϖ}) hne
-  have : y ∈ (⨅ i : ℕ, Ideal.span {ϖ} ^ i : Ideal O) := by
-    rw [Ideal.mem_iInf]
-    intro n
-    rw [Ideal.span_singleton_pow, Ideal.mem_span_singleton]
-    exact h n
-  rw [h0] at this
-  simpa using this
+  intros
+  apply _root_.GlobalTheory.LocDualTop.eq_zero_of_forall_pow_dvd <;> assumption
 
 theorem basis_nhds (hop : IsOpen (Set.range (algebraMap O LL)))
     (hc : IsCompact (Set.range (algebraMap O LL))) {ϖ : O} (hϖ : Irreducible ϖ) :

@@ -1,5 +1,6 @@
 module
 
+import Development.EtaleCohomology.CohomologicalPurity.LeafWLocPf
 public import Development.EtaleCohomology.CohomologicalPurity.LeafWEqvLPf
 public import Development.EtaleCohomology.CohomologicalPurity.LeafWCechPf
 public import Development.EtaleCohomology.CohomologicalPurity.LeafWCechRec
@@ -394,11 +395,7 @@ abbrev evF (n : SimplexCategoryᵒᵖ) (T : Scheme.{0}ᵒᵖ) : Spc ⥤ Type :=
 theorem prod_ext {A B : Spc} {n : SimplexCategoryᵒᵖ} {T : Scheme.{0}ᵒᵖ} {w w' : ((A ⨯ B).obj n).obj T}
     (h1 : ((prod.fst : A ⨯ B ⟶ A).app n).app T w = ((prod.fst : A ⨯ B ⟶ A).app n).app T w')
     (h2 : ((prod.snd : A ⨯ B ⟶ B).app n).app T w = ((prod.snd : A ⨯ B ⟶ B).app n).app T w') : w = w' := by
-  have hl := mapIsLimitOfPreservesOfIsLimit (evF n T) (prod.fst : A ⨯ B ⟶ A) prod.snd (prodIsProd A B)
-  let f1 : PUnit ⟶ (evF n T).obj (A ⨯ B) := TypeCat.ofHom fun _ => w
-  let f2 : PUnit ⟶ (evF n T).obj (A ⨯ B) := TypeCat.ofHom fun _ => w'
-  have : f1 = f2 := BinaryFan.IsLimit.hom_ext hl (by ext _; exact h1) (by ext _; exact h2)
-  exact ConcreteCategory.congr_hom this PUnit.unit
+  apply @LateralTheory.CohomologicalPurity.Thom.ExcP.Chart.prod_ext_app <;> assumption
 
 theorem prod_mk {A B : Spc} {n : SimplexCategoryᵒᵖ} {T : Scheme.{0}ᵒᵖ} (a : (A.obj n).obj T) (b : (B.obj n).obj T) :
     ∃ w : ((A ⨯ B).obj n).obj T, ((prod.fst : A ⨯ B ⟶ A).app n).app T w = a ∧

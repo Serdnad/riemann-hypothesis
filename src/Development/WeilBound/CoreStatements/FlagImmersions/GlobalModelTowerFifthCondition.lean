@@ -1,5 +1,9 @@
 module
 
+import Development.AutomorphicSpectrum.Proofs.MetricProofs.FlagCoverArithmeticFourth
+import Development.WeilBound.CoreStatements.TorusUniformisation.ChowMahlerFamilies.LocallyQuasiFiniteSpMap
+import Development.WeilBound.CoreStatements.AmpleLineBundles.IntersectionNumberEqLineHeight
+import Development.WeilBound.CoreStatements.CentralCharts.ReferenceGeometryHolomorphicInverse
 public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.ArchBetween
 public import Development.AutomorphicSpectrum.Statements.GeometryStatements.FlatLineGenerator
 public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.JoinModelPointsProject
@@ -507,17 +511,7 @@ variable {X : Scheme.{0}} {Ω : Type} [Field Ω] {ξ : Spec (CommRingCat.of Ω) 
 
 theorem unitAt_div_of_span {p : Cpt ξ} {g m : Ω} (hg : g ≠ 0) (hm : m ≠ 0)
     (h : Submodule.span (regAt ξ p) {g} = Submodule.span (regAt ξ p) {m}) : unitAt ξ p (g / m) := by
-  have h₁ : g ∈ Submodule.span (regAt ξ p) {m} := h ▸ Submodule.mem_span_singleton_self g
-  have h₂ : m ∈ Submodule.span (regAt ξ p) {g} := h ▸ Submodule.mem_span_singleton_self m
-  obtain ⟨r, hr⟩ := Submodule.mem_span_singleton.1 h₁
-  obtain ⟨s, hs⟩ := Submodule.mem_span_singleton.1 h₂
-  have e₁ : (r : Ω) * m = g := hr
-  have e₂ : (s : Ω) * g = m := hs
-  refine ⟨div_ne_zero hg hm, ?_, ?_⟩
-  · rw [← e₁, mul_div_cancel_right₀ _ hm]
-    exact r.2
-  · rw [inv_div, ← e₂, mul_div_cancel_right₀ _ hg]
-    exact s.2
+  apply _root_.AnalyticReference.An.unitAt_of_span_eq <;> assumption
 
 theorem isCoeffAt_of_smul {V : Type} [AddCommGroup V] [Module Ω V] {A B : Lat ξ V} {p q : ℕ} {a a' : ⋀[Ω]^p V}
     {b b' : ⋀[Ω]^q V} {x : Cpt ξ} {d₁ d₂ : Ω} (h₁ : d₁ ≠ 0) (h₂ : d₂ ≠ 0) (ea : a' = d₁ • a) (eb : b' = d₂ • b)
@@ -616,17 +610,7 @@ theorem exists_cptOver [NumberField c.F] (Y : Model Xo c (algebraMap (𝓞 c.F) 
 
 theorem isGeom_of_splitComps [NumberField c.F] {Y : Model Xo c (algebraMap (𝓞 c.F) c.F)} (hs : SplitComps Y)
     {U : Set (Xo.XF c)} (Z : CptOver Y U) : Z.IsGeom := by
-  rintro x ⟨f, hf, hfx⟩
-  have hover : (Z.ξ₀ ≫ Y.j) ≫ Y.s = spMap (Z.inc.comp (algebraMap (𝓞 c.F) c.F)) := by
-    simp only [Model.j, Category.assoc]
-    rw [pullback.condition, ← Category.assoc Y.jQ, Y.jQ_over, ← Category.assoc, Z.over_inc]
-    simp [spMap, ← Spec.map_comp]
-  letI : Algebra c.F Z.Ω := Z.inc.toAlgebra
-  have hx : IsAlgebraic c.F x := ⟨f, hf, by rw [Polynomial.aeval_def]; exact hfx⟩
-  haveI : Algebra.IsAlgebraic ℤ c.F := (IsFractionRing.comap_isAlgebraic_iff (A := ℤ) (K := ℚ) (C := c.F)).2 inferInstance
-  have hz : IsAlgebraic ℤ x := hx.restrictScalars ℤ
-  obtain ⟨a, ha⟩ := hs Z.Ω (Z.ξ₀ ≫ Y.j) Z.inc Z.gen hover x hz
-  exact ⟨a, ha⟩
+  apply _root_.AnalyticReference.An.isGeom_of_split <;> assumption
 
 theorem flat_unit_of_root_lines : Flat.FlatLineGenerator → ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (H : Host E) (D : Datum H) (l : Level H) (Xo : Moduli D l) (c : Coeff l) (Y : Model Xo c (algebraMap (𝓞 c.F) c.F)) (S : Finset ℕ) (R : Top.RootModel (CMType H) (D.p + D.q)) (𝔐 : HodgeCpt Y S R.y) (Fl : 𝔐.Flag) (e : CMType H × Fin (D.p + D.q) → R.Ω), 1 ≤ D.p + D.q → SplitComps Y → Fl.RootLines R.xdeg e → Ht.FlatUnit R := by
   intro hA0 E _ _ _ H D l Xo c Y S R 𝔐 Fl e hpq hs hroot τ
@@ -1217,36 +1201,13 @@ theorem mCoordIdeal_ren {Ω : Type} [Field Ω] (e : ∀ k, ι k ≃ Fin (n k + 1
 
 theorem mCoordIdeal_ringHom {L Ω : Type} [Field L] [Field Ω] (j : L →+* Ω) (w : (Σ k, ι k) → L) :
     mCoordIdeal (fun p => j (w p)) = mCoordIdeal w := by
-  have key : ∀ f : MRing ι, mConeMap (fun p => j (w p)) f = MvPolynomial.map j (mConeMap w f) := by
-    intro f
-    induction f using MvPolynomial.induction_on with
-    | C a => simp [mConeMap]
-    | add p q hp hq => simp only [map_add (f := _), hp, hq]
-    | mul_X p q hp =>
-      rw [map_mul, map_mul, map_mul, hp]
-      simp [mConeMap]
-  ext f
-  simp only [mCoordIdeal, RingHom.mem_ker, key]
-  exact map_eq_zero_iff _ (MvPolynomial.map_injective j j.injective)
+  intros
+  apply _root_.GlobalTheory.CompanionTheory.Ar.PB.BaseCount.mCoordIdeal_map <;> assumption
 
 theorem lineHt_tensor (A B : HermLine ι) (L : Type) [Field L] [NumberField L] (w : (Σ k, ι k) → L)
     (hw : ∀ k, ∃ i, w ⟨k, i⟩ ≠ 0) :
     lineHt (A.tensor B) L w = lineHt A L w + lineHt B L w := by
-  have hx : ∀ k, (fun i => w ⟨k, i⟩) ≠ 0 := fun k => Function.ne_iff.mpr (hw k)
-  have hfin : ∀ C : K → ℝ, ∑ᶠ v : FinitePlace L, ∑ k, C k * Real.log (⨆ i, v (w ⟨k, i⟩)) =
-      ∑ k, C k * ∑ᶠ v : FinitePlace L, Real.log (⨆ i, v (w ⟨k, i⟩)) := fun C =>
-    GroundTheory.Heights₂.Heights.finsum_sum_mul _ _
-      fun k => GroundTheory.Heights₂.Heights.support_log_iSup_place_finite (hx k)
-  have harch : ∀ σ : L →+* ℂ, Real.log ((A.tensor B).h fun p => σ (w p)) =
-      Real.log (A.h fun p => σ (w p)) + Real.log (B.h fun p => σ (w p)) := fun σ => by
-    have hσ : ∀ k, ∃ i, (fun p => σ (w p)) ⟨k, i⟩ ≠ 0 := fun k => by
-      obtain ⟨i, hi⟩ := hw k
-      exact ⟨i, (map_ne_zero _).mpr hi⟩
-    exact Real.log_mul (A.pos _ hσ).ne' (B.pos _ hσ).ne'
-  unfold lineHt ptHt
-  rw [hfin, hfin, hfin, Finset.sum_congr rfl fun σ _ => harch σ, Finset.sum_add_distrib]
-  simp only [HermLine.tensor, Pi.add_apply, Int.cast_add, add_mul, Finset.sum_add_distrib]
-  ring
+  apply _root_.CoverDenseAlt.HtF.lineHt_tensor <;> assumption
 
 theorem isSmoothHerm_pushLine (e : ∀ k, ι k ≃ Fin (n k + 1)) {A : HermLine ι} (hA : IsSmoothHerm A) :
     IsSmoothHerm (pushLine e A) := by
@@ -1701,17 +1662,7 @@ theorem spMap_genMap (ξ : Spec (CommRingCat.of Ω) ⟶ X) (p : Cpt ξ) :
 
 theorem eq_of_specializes_genPt {ξ : Spec (CommRingCat.of Ω) ⟶ X}
     (hb : Function.Bijective (Scheme.stalkClosedPointTo ξ).hom) (x' : X) (h : x' ⤳ genPt ξ) : x' = genPt ξ := by
-  have hF : IsField (X.presheaf.stalk (genPt ξ)) :=
-    (RingEquiv.ofBijective _ hb).toMulEquiv.isField (Field.toIsField Ω)
-  have h1 : x' ∈ Set.range (X.fromSpecStalk (genPt ξ)) := by
-    rw [Scheme.range_fromSpecStalk]; exact h
-  have h2 : genPt ξ ∈ Set.range (X.fromSpecStalk (genPt ξ)) := by
-    rw [Scheme.range_fromSpecStalk]; exact specializes_rfl
-  obtain ⟨u, hu⟩ := h1
-  obtain ⟨v, hv⟩ := h2
-  let _ := hF.toField
-  have huv : u = v := Subsingleton.elim (α := PrimeSpectrum (X.presheaf.stalk (genPt ξ))) u v
-  rw [← hu, huv, hv]
+  apply _root_.PositivityTheory.Xgn.GeometricOfPeriods.eq_of_specializes_of_bij <;> assumption
 
 theorem exists_factor {ξ : Spec (CommRingCat.of Ω) ⟶ X}
     (hb : Function.Bijective (Scheme.stalkClosedPointTo ξ).hom) (ξ' : Spec (CommRingCat.of Ω') ⟶ X)

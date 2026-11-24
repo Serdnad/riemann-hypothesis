@@ -1,5 +1,6 @@
 module
 
+import ReciprocityTheory.CommutativeAlgebra.CohenMacaulay.Bridge
 public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.StAuslanderBuchsbaumDepthLower
 public import Mathlib.Algebra.Category.ModuleCat.Ext.HasExt
 public import Mathlib.RingTheory.Support
@@ -140,6 +141,7 @@ import Mathlib.Analysis.LocallyConvex.AbsConvexOpen
 import Mathlib.Algebra.Order.Archimedean.Real.Hom
 import Mathlib.RingTheory.PiTensorProduct
 import Mathlib.Topology.Separation.CompletelyRegular
+import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.PHilbertPoint
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.PAuslanderBuchsbaumDepthLower, GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.AuslanderBuchsbaumDepthBound, GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.PAuslanderBuchsbaumProjDimUpper, GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.PCMProjDimCriterion, GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.PCMQuotientUnmixed, GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.PCMRingUnmixed, GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.PChartIntSumOffHyperplane, GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.PCurveNormalisationQuotientLength, GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.PGenericFibreRadicalPrime, GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.PInvarianceOfDomain, GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.PLengthLocalizedQuotient, GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.POrdDeterminesPlace, GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.PParametrisationSheetsConnected, GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.PRegularSequenceLengthLeDim, GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.PSheetPieceReachesCentre, GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.PUniformiserGradientIndependent, GroundTheory.HeightsAndTheta.Heights.LocalFiniteness.ParametrisationSheetsConnectedHolds
@@ -510,16 +512,7 @@ theorem exists_nat_eq_of_ne_bot_of_le {x : WithBot ℕ∞} {d : ℕ} (h0 : x ≠
 theorem quotient_mk_mem_maximalIdeal {S : Type*} [CommRing S] [IsLocalRing S] {J : Ideal S}
     [IsLocalRing (S ⧸ J)] (hJ : J ≤ maximalIdeal S) {r : S} (hr : r ∈ maximalIdeal S) :
     Ideal.Quotient.mk J r ∈ maximalIdeal (S ⧸ J) := by
-  rw [mem_maximalIdeal, mem_nonunits_iff]
-  intro hu
-  obtain ⟨t, ht⟩ := hu.exists_right_inv
-  obtain ⟨s, rfl⟩ := Ideal.Quotient.mk_surjective t
-  have h1 : r * s - 1 ∈ J := by
-    rw [← Ideal.Quotient.eq_zero_iff_mem, map_sub, map_mul, ht, map_one, sub_self]
-  have h2 : (1 : S) ∈ maximalIdeal S := by
-    have := sub_mem ((maximalIdeal S).mul_mem_right s hr) (hJ h1)
-    rwa [sub_sub_cancel] at this
-  exact (maximalIdeal.isMaximal S).ne_top ((Ideal.eq_top_iff_one _).mpr h2)
+  apply _root_.ReciprocityTheory.CA.mk_mem_maximalIdeal_quot <;> assumption
 
 theorem mem_maximalIdeal_of_quotient_mk {S : Type*} [CommRing S] [IsLocalRing S] {J : Ideal S}
     [IsLocalRing (S ⧸ J)] {r : S} (hr : Ideal.Quotient.mk J r ∈ maximalIdeal (S ⧸ J)) : r ∈ maximalIdeal S := by
@@ -760,17 +753,7 @@ namespace GroundTheory.Heights₂.Heights
 open MvPolynomial ComplexSets
 
 theorem withBot_enat_le_zero_of_add_one_le_one {x : WithBot ℕ∞} (h : x + 1 ≤ 1) : x ≤ 0 := by
-  induction x using WithBot.recBotCoe with
-  | bot => exact bot_le
-  | coe e =>
-    have h' : e + 1 ≤ 1 := by exact_mod_cast h
-    have : e ≤ 0 := by
-      induction e using ENat.recTopCoe with
-      | top => simp at h'
-      | coe k =>
-        have hk : k + 1 ≤ 1 := by exact_mod_cast h'
-        exact_mod_cast (show k ≤ 0 by omega)
-    exact_mod_cast this
+  apply _root_.GroundTheory.Heights₂.Heights.Kleiman.HilbertPoint.le_zero_of_add_one_le_one <;> assumption
 
 theorem CurveNormalisationQuotientLength.proof (hF : CurveNormalisationFinite.Statement) :
     CurveNormalisationQuotientLength.Statement := by

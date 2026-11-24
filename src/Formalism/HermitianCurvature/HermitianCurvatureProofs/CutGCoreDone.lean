@@ -105,6 +105,7 @@ import Mathlib.RingTheory.PiTensorProduct
 import Std.Tactic.BVDecide.Normalize.Prop
 import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.UnipotentComposition.Development
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.CutGCoreGTCLocal
+import Formalism.HermitianCurvature.HermitianCurvatureProofs.CutAsm
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Formalism.HermitianCurvature.HermitianCurvatureProofs.CutGCoreGTCCurvTrCalc, Formalism.HermitianCurvature.HermitianCurvatureProofs.CutGCoreGTCCurvTr, Formalism.HermitianCurvature.HermitianCurvatureProofs.CutGCoreGTCRefAn, Formalism.HermitianCurvature.HermitianCurvatureProofs.ImCircleIntegral, Formalism.HermitianCurvature.HermitianCurvatureProofs.ThShiftInt, Formalism.HermitianCurvature.HermitianCurvatureProofs.NeZeroOfAn, Formalism.HermitianCurvature.HermitianCurvatureProofs.HasFDerivAtBrReal, Formalism.HermitianCurvature.HermitianCurvatureProofs.CutGCoreGTConnAnn, Formalism.HermitianCurvature.HermitianCurvatureProofs.CutGCoreGTConnFinal, Formalism.HermitianCurvature.HermitianCurvatureProofs.CutGCoreGTRConst, Formalism.HermitianCurvature.HermitianCurvatureProofs.CutGCoreGTRInt, Formalism.HermitianCurvature.HermitianCurvatureProofs.CutGCoreGTRMove, Formalism.HermitianCurvature.HermitianCurvatureProofs.CutGCoreGTRTopActAlg, Formalism.HermitianCurvature.HermitianCurvatureProofs.CutGCoreGTRTopActCut, Formalism.HermitianCurvature.HermitianCurvatureProofs.CutGCoreGTRTopAct, Formalism.HermitianCurvature.HermitianCurvatureProofs.CutGCoreGTRTrans, Formalism.HermitianCurvature.HermitianCurvatureProofs.CutGCoreDone
@@ -792,32 +793,6 @@ private theorem hsVec_finset_sum_smul {Wp Wq : Type} [NormedAddCommGroup Wp] [In
   ext j
   simp [B.hsVec]
 
-private theorem hsVec_injective_apply {Wp Wq : Type} [NormedAddCommGroup Wp] [InnerProductSpace ℂ Wp]
-    [NormedAddCommGroup Wq] [InnerProductSpace ℂ Wq] [FiniteDimensional ℂ Wq] (A C : Wq →L[ℂ] Wp)
-    (h : B.hsVec A = B.hsVec C) : A = C := by
-  have h' : ∀ i, A (stdOrthonormalBasis ℂ Wq i) = C (stdOrthonormalBasis ℂ Wq i) := fun i => by
-    have := congrArg (fun v => v i) h
-    simpa [B.hsVec] using this
-  apply ContinuousLinearMap.coe_injective
-  exact (stdOrthonormalBasis ℂ Wq).toBasis.ext (fun i => by simpa using h' i)
-
-private theorem toSm_smul_hermitian_curvature (P : M.Par) (c : ℂ) (u : MA.Qp P.r P.TT → ℂ) :
-    MA.toSm P (c • u) = c • MA.toSm P u := by
-  unfold MA.toSm
-  by_cases hu : u ∈ MA.smSub P.r P.TT
-  · rw [dite_eq_left hu, dite_eq_left (Subalgebra.smul_mem _ hu c)]
-    rfl
-  · rw [dite_eq_right hu]
-    by_cases hc : c = 0
-    · subst hc
-      rw [zero_smul, smul_zero, dite_eq_left (Subalgebra.zero_mem _)]
-      rfl
-    · rw [smul_zero, dite_eq_right]
-      intro hm
-      apply hu
-      have := Subalgebra.smul_mem _ hm c⁻¹
-      rwa [smul_smul, inv_mul_cancel₀ hc, one_smul] at this
-
 theorem radial_constant_of_point_and_line (hPt : GTKPt) (hLine : GTKLine) : GTRConst := by
   intro Wp Wq _ _ _ _ _ _ P Bs X d h
   obtain ⟨Qr, hQ⟩ := hPt Wp Wq P Bs X d h
@@ -882,10 +857,13 @@ theorem radial_constant_of_point_and_line (hPt : GTKPt) (hLine : GTKLine) : GTRC
       intro σ
       rw [← hc]
       exact hv.inner_right_fintype c σ
-    apply hsVec_injective_apply
-    rw [hsVec_finset_sum_smul]
     simp only [hcoef]
-    exact hc.symm
+    apply ContinuousLinearMap.coe_injective
+    refine (stdOrthonormalBasis ℂ Wq).toBasis.ext fun i => ?_
+    have hvec : B.hsVec Y = B.hsVec (∑ σ, c σ • E σ) := by
+      rw [hsVec_finset_sum_smul]
+      exact hc.symm
+    simpa [B.hsVec] using congrArg (fun v => v i) hvec
   refine ⟨fun ρ _ => E ρ, ⟨fun ρ => contDiffOn_const, fun ζ hζ =>
     ⟨fun ρ => (hFib ζ hζ).symm ▸ hEmem ρ, horth, fun Y hY => hexp Y (hFib ζ hζ ▸ hY)⟩⟩, ?_, fun ρ ζ ζ' => rfl⟩
   intro f Φ
@@ -906,7 +884,7 @@ theorem radial_constant_of_point_and_line (hPt : GTKPt) (hLine : GTKLine) : GTRC
     rfl
   · intro hρ
     exact absurd (Finset.mem_univ ρ) hρ
-  · rw [if_pos rfl, hR, toSm_smul_hermitian_curvature]
+  · rw [if_pos rfl, hR, _root_.Formalism.FourierDecayAlt.P.CutMP.toSm_smul]
     rfl
 
 end
@@ -1207,6 +1185,7 @@ attribute [local instance] Matrix.normedAddCommGroup Matrix.normedSpace
 
 theorem radial_gauge_move : GTRMove := by
   intro Wp Wq _ _ _ _ _ _ P Bs hpl hk μ0 h0 e0 he0
+  obtain ⟨e, hframe, htransport⟩ := transport_radial_frame Wp Wq P Bs hpl μ0 h0 e0 he0
   have hz := Bs.z_mem
   have hz' := Bs.z'_mem
   have hT : Tz P.k P.r Bs.z = P.T := hpl.2.2.2.1
@@ -1215,181 +1194,16 @@ theorem radial_gauge_move : GTRMove := by
     intro ζ hζ
     rw [hT, hT']
     exact hζ
-  set c1 : Fin P.r → ℂ := fun _ => 1 with hc1def
-  have hc1 : c1 ∈ OmX P.r := fun _ => one_ne_zero
-
-  have hRB : NF.RadBase P.k P.r Bs.z Bs.z' μ0 Bs.π Bs.π' :=
-    ⟨Bs.k_pos, hz, hz', Bs.T_pos, Bs.T'_pos, h0, Bs.π_rep, Bs.π'_rep, Bs.π_cont, Bs.π'_cont⟩
-
-  have hφ : ∀ ρ : M.Ty P, (NF.QR P.k P.r Bs.z Bs.z').indicator (fun q => e0 ρ q.2) ∈
-      NF.RadSec P.k P.r Bs.z Bs.z' μ0 Bs.π Bs.π' := by
-    intro ρ
-    refine ⟨?_, ?_, ?_⟩
-    · have hc : ContDiffOn ℝ ∞ (fun q : (Fin P.r → ℂ) × ℂ => e0 ρ q.2) (NF.QR P.k P.r Bs.z Bs.z') := by
-        refine (he0.1 ρ).comp contDiff_snd.contDiffOn fun q hq => ?_
-        show P.TT < Complex.normSq q.2
-        have := hq.2
-        rw [hT, hT'] at this
-        exact this
-      exact hc.congr fun q hq => Set.indicator_of_mem hq _
-    · intro q hq
-      rw [Set.indicator_of_mem hq]
-      have hq2 : P.TT < Complex.normSq q.2 := by
-        have := hq.2
-        rw [hT, hT'] at this
-        exact this
-      exact (he0.2 q.2 hq2).1 ρ
-    · intro q hq
-      exact Set.indicator_of_notMem hq _
-  choose Φr hΦr hrad using fun ρ => Formalism.FourierDecayAlt.P.radical_reduction_surjective Wp Wq P.k P.r Bs.z Bs.z' μ0 Bs.π Bs.π' hRB _ (hφ ρ)
-  obtain ⟨e, he_def⟩ : ∃ e : M.Ty P → ℂ → (Wq →L[ℂ] Wp),
-      e = fun ρ ζ => (Φr ρ : Q.Fn P.k P.r (Wq →L[ℂ] Wp)) c1 (NF.muZ P.k P.r Bs.μsec ζ) := ⟨_, rfl⟩
-
-  have hdom : ∀ ζ : ℂ, P.TT < Complex.normSq ζ →
-      (c1, NF.muZ P.k P.r Bs.μsec ζ) ∈ Q.DomR P.k P.r Bs.z Bs.z' :=
-    fun ζ hζ => Formalism.FourierDecayAlt.P.NFRadRedA.mem_domR hz hz' Bs.sec (q := (c1, ζ)) ⟨hc1, hTT ζ hζ⟩
-  have hdom0 : ∀ ζ : ℂ, P.TT < Complex.normSq ζ → (c1, NF.muZ P.k P.r μ0 ζ) ∈ Q.DomR P.k P.r Bs.z Bs.z' :=
-    fun ζ hζ => Formalism.FourierDecayAlt.P.NFRadRedA.mem_domR hz hz' h0 (q := (c1, ζ)) ⟨hc1, hTT ζ hζ⟩
-  have hdec : ∀ ζ : ℂ, P.TT < Complex.normSq ζ → ∃ h ∈ UWset P.k P.r Bs.z, ∃ h' ∈ UWset P.k P.r Bs.z',
-      NF.muZ P.k P.r Bs.μsec ζ = h * NF.muZ P.k P.r μ0 ζ * h' := by
-    intro ζ hζ
-    obtain ⟨h, hh, h', hh', he⟩ := Formalism.FourierDecayAlt.P.NFRadRedA.decomp Bs.k_pos hz hz' Bs.T_pos Bs.T'_pos h0
-      (hdom ζ hζ).2.1 (hdom ζ hζ).2.2
-    rw [Formalism.FourierDecayAlt.P.NFRadRedA.zeta_muZ hz hz' Bs.sec (hTT ζ hζ)] at he
-    exact ⟨h, hh, h', hh', he⟩
-
-  have hrad0 : ∀ ρ ζ, P.TT < Complex.normSq ζ → (Φr ρ : Q.Fn P.k P.r (Wq →L[ℂ] Wp)) c1 (NF.muZ P.k P.r μ0 ζ) = e0 ρ ζ := by
-    intro ρ ζ hζ
-    have hq : (c1, ζ) ∈ NF.QR P.k P.r Bs.z Bs.z' := ⟨hc1, hTT ζ hζ⟩
-    have h1 := congrFun (hrad ρ) (c1, ζ)
-    unfold NF.radR at h1
-    rw [Set.indicator_of_mem hq, Set.indicator_of_mem hq] at h1
-    exact h1
-
-  have htr : ∀ ρ ζ, P.TT < Complex.normSq ζ → ∀ h ∈ UWset P.k P.r Bs.z, ∀ h' ∈ UWset P.k P.r Bs.z',
-      NF.muZ P.k P.r Bs.μsec ζ = h * NF.muZ P.k P.r μ0 ζ * h' →
-      e ρ ζ = (Bs.π h).comp ((e0 ρ ζ).comp (Bs.π' h')) := by
-    intro ρ ζ hζ h hh h' hh' hd
-    rw [he_def]
-    show (Φr ρ : Q.Fn P.k P.r (Wq →L[ℂ] Wp)) c1 (NF.muZ P.k P.r Bs.μsec ζ) = _
-    rw [hd, ← hrad0 ρ ζ hζ]
-    exact (hΦr ρ).2.2 (c1, NF.muZ P.k P.r μ0 ζ) (hdom0 ζ hζ) h hh h' hh'
-
-  have hsmooth : ∀ ρ, ContDiffOn ℝ ((⊤ : ℕ∞) : WithTop ℕ∞) (e ρ) {ζ : ℂ | P.TT < Complex.normSq ζ} := by
-    intro ρ
-    rw [he_def]
-    have hmZ : ContDiffOn ℝ ∞ (fun ζ : ℂ => (c1, NF.muZ P.k P.r Bs.μsec ζ)) {ζ : ℂ | P.TT < Complex.normSq ζ} :=
-      contDiffOn_const.prodMk ((Formalism.FourierDecayAlt.P.NFRadRedA.muZ_contDiffOn Bs.sec).mono fun ζ hζ => hTT ζ hζ)
-    have hopen : IsOpen {ζ : ℂ | P.TT < Complex.normSq ζ} :=
-      isOpen_lt continuous_const Complex.continuous_normSq
-    refine contDiffOn_of_locally_contDiffOn fun ζ₀ hζ₀ => ?_
-    obtain ⟨U, F, hU, hx₀U, hF, hΦF⟩ := (hΦr ρ).2.1 _ (hdom ζ₀ hζ₀)
-    refine ⟨{ζ : ℂ | P.TT < Complex.normSq ζ} ∩ (fun ζ : ℂ => (c1, NF.muZ P.k P.r Bs.μsec ζ)) ⁻¹' U,
-      hmZ.continuousOn.isOpen_inter_preimage hopen hU, ⟨hζ₀, hx₀U⟩, ?_⟩
-    have hc : ContDiffOn ℝ ∞ (fun ζ : ℂ => F (c1, NF.muZ P.k P.r Bs.μsec ζ))
-        ({ζ : ℂ | P.TT < Complex.normSq ζ} ∩
-          ({ζ : ℂ | P.TT < Complex.normSq ζ} ∩ (fun ζ : ℂ => (c1, NF.muZ P.k P.r Bs.μsec ζ)) ⁻¹' U)) :=
-      hF.comp (hmZ.mono fun ζ hζ => hζ.1) fun ζ hζ => hζ.2.2
-    exact hc.congr fun ζ hζ => hΦF _ hζ.2.2 (hdom ζ hζ.1).2.1
-
-  have hrep := Bs.π_rep
-  have hrep' := Bs.π'_rep
-  have pmi : ∀ h ∈ UWset P.k P.r Bs.z, (Bs.π h).comp (Bs.π h⁻¹) = 1 := by
-    intro h hh
-    rw [← hrep.2 h hh h⁻¹ (Formalism.FourierDecayAlt.P.BigCellInversePair.uw_inv hh), Formalism.FourierDecayAlt.P.NFRadRedS.uw_mul_inv hh, hrep.1]
-  have pim' : ∀ h' ∈ UWset P.k P.r Bs.z', (Bs.π' h'⁻¹).comp (Bs.π' h') = 1 := by
-    intro h' hh'
-    rw [← hrep'.2 h'⁻¹ (Formalism.FourierDecayAlt.P.BigCellInversePair.uw_inv hh') h' hh', Formalism.FourierDecayAlt.P.NFRadRedS.uw_inv_mul hh', hrep'.1]
-
-  have hframe : IsFrameB P Bs e := by
-    refine ⟨hsmooth, fun ζ hζ => ⟨?_, ?_, ?_⟩⟩
-    · intro ρ p hp
-      rw [he_def]
-      show (Bs.π p.1).comp (((Φr ρ : Q.Fn P.k P.r (Wq →L[ℂ] Wp)) c1 (NF.muZ P.k P.r Bs.μsec ζ)).comp (Bs.π' p.2)) =
-        (Φr ρ : Q.Fn P.k P.r (Wq →L[ℂ] Wp)) c1 (NF.muZ P.k P.r Bs.μsec ζ)
-      rw [← (hΦr ρ).2.2 (c1, NF.muZ P.k P.r Bs.μsec ζ) (hdom ζ hζ) p.1 hp.1 p.2 hp.2.1]
-      show (Φr ρ : Q.Fn P.k P.r (Wq →L[ℂ] Wp)) c1 (p.1 * NF.muZ P.k P.r Bs.μsec ζ * p.2) = _
-      rw [hp.2.2]
-    · intro ρ ρ'
-      obtain ⟨h, hh, h', hh', hd⟩ := hdec ζ hζ
-      rw [htr ρ ζ hζ h hh h' hh' hd, htr ρ' ζ hζ h hh h' hh' hd, sm_inner_conj Bs hh hh']
-      exact (he0.2 ζ hζ).2.1 ρ ρ'
-    · intro X hX
-      obtain ⟨h, hh, h', hh', hd⟩ := hdec ζ hζ
-      have hhi := Formalism.FourierDecayAlt.P.BigCellInversePair.uw_inv hh
-      have hhi' := Formalism.FourierDecayAlt.P.BigCellInversePair.uw_inv hh'
-      set X0 := (Bs.π h⁻¹).comp (X.comp (Bs.π' h'⁻¹)) with hX0def
-      have e1 : ∀ Y : B.Mat P.k P.r, h⁻¹ * (h * Y) = Y := fun Y => by
-        rw [← Matrix.mul_assoc, Formalism.FourierDecayAlt.P.NFRadRedS.uw_inv_mul hh, Matrix.one_mul]
-      have e2 : ∀ Y : B.Mat P.k P.r, h' * (h'⁻¹ * Y) = Y := fun Y => by
-        rw [← Matrix.mul_assoc, Formalism.FourierDecayAlt.P.NFRadRedS.uw_mul_inv hh', Matrix.one_mul]
-      have hX0 : X0 ∈ NF.Fib P.k P.r Bs.z Bs.z' μ0 Bs.π Bs.π' ζ := by
-        intro p hp
-        have hp1 := hp.1
-        have hp2 := hp.2.1
-        have hp3 := hp.2.2
-        have ht1 : h * p.1 * h⁻¹ ∈ UWset P.k P.r Bs.z :=
-          Formalism.FourierDecayAlt.P.NFRadRedS.uw_mul (Formalism.FourierDecayAlt.P.NFRadRedS.uw_mul hh hp1) hhi
-        have ht2 : h'⁻¹ * p.2 * h' ∈ UWset P.k P.r Bs.z' :=
-          Formalism.FourierDecayAlt.P.NFRadRedS.uw_mul (Formalism.FourierDecayAlt.P.NFRadRedS.uw_mul hhi' hp2) hh'
-        have e3 : ∀ Y : B.Mat P.k P.r, p.1 * (NF.muZ P.k P.r μ0 ζ * (p.2 * Y)) = NF.muZ P.k P.r μ0 ζ * Y := by
-          intro Y
-          conv_rhs => rw [← hp3]
-          simp only [Matrix.mul_assoc]
-        have ht : (h * p.1 * h⁻¹, h'⁻¹ * p.2 * h') ∈ NF.Stab P.k P.r Bs.z Bs.z' Bs.μsec ζ := by
-          refine ⟨ht1, ht2, ?_⟩
-          show h * p.1 * h⁻¹ * NF.muZ P.k P.r Bs.μsec ζ * (h'⁻¹ * p.2 * h') = NF.muZ P.k P.r Bs.μsec ζ
-          rw [hd]
-          simp only [Matrix.mul_assoc, e1, e2, e3]
-        have hXt := hX _ ht
-        have hA : (Bs.π p.1).comp (Bs.π h⁻¹) = (Bs.π h⁻¹).comp (Bs.π (h * p.1 * h⁻¹)) := by
-          rw [← hrep.2 _ hp1 _ hhi, ← hrep.2 _ hhi _ ht1]
-          congr 1
-          simp only [Matrix.mul_assoc, e1]
-        have hB : (Bs.π' h'⁻¹).comp (Bs.π' p.2) = (Bs.π' (h'⁻¹ * p.2 * h')).comp (Bs.π' h'⁻¹) := by
-          rw [← hrep'.2 _ hhi' _ hp2, ← hrep'.2 _ ht2 _ hhi']
-          congr 1
-          simp only [Matrix.mul_assoc, Formalism.FourierDecayAlt.P.NFRadRedS.uw_mul_inv hh', Matrix.mul_one]
-        calc (Bs.π p.1).comp (X0.comp (Bs.π' p.2))
-            = ((Bs.π p.1).comp (Bs.π h⁻¹)).comp (X.comp ((Bs.π' h'⁻¹).comp (Bs.π' p.2))) := by
-              simp only [hX0def, ContinuousLinearMap.comp_assoc]
-          _ = ((Bs.π h⁻¹).comp (Bs.π (h * p.1 * h⁻¹))).comp
-                (X.comp ((Bs.π' (h'⁻¹ * p.2 * h')).comp (Bs.π' h'⁻¹))) := by rw [hA, hB]
-          _ = (Bs.π h⁻¹).comp (((Bs.π (h * p.1 * h⁻¹)).comp (X.comp (Bs.π' (h'⁻¹ * p.2 * h')))).comp
-                (Bs.π' h'⁻¹)) := by simp only [ContinuousLinearMap.comp_assoc]
-          _ = X0 := by rw [hXt]
-      have hXX : X = (Bs.π h).comp (X0.comp (Bs.π' h')) := by
-        have : (Bs.π h).comp (X0.comp (Bs.π' h')) =
-            ((Bs.π h).comp (Bs.π h⁻¹)).comp (X.comp ((Bs.π' h'⁻¹).comp (Bs.π' h'))) := by
-          simp only [hX0def, ContinuousLinearMap.comp_assoc]
-        rw [this, pmi h hh, pim' h' hh']
-        ext v
-        rfl
-      have hc : ∀ ρ, inner ℂ (B.hsVec (e ρ ζ)) (B.hsVec X) = inner ℂ (B.hsVec (e0 ρ ζ)) (B.hsVec X0) := by
-        intro ρ
-        rw [htr ρ ζ hζ h hh h' hh' hd]
-        conv_lhs => rw [hXX]
-        exact sm_inner_conj Bs hh hh' _ _
-      have hsp0 := (he0.2 ζ hζ).2.2 X0 hX0
-      have hrhs : ∑ ρ, inner ℂ (B.hsVec (e ρ ζ)) (B.hsVec X) • e ρ ζ =
-          ∑ ρ, inner ℂ (B.hsVec (e0 ρ ζ)) (B.hsVec X0) • (Bs.π h).comp ((e0 ρ ζ).comp (Bs.π' h')) :=
-        Finset.sum_congr rfl fun ρ _ => by rw [hc ρ, htr ρ ζ hζ h hh h' hh' hd]
-      rw [hrhs]
-      conv_lhs => rw [hXX, hsp0]
-      ext v
-
-      simp only [ContinuousLinearMap.comp_apply, FunLike.coe_sum, Finset.sum_apply,
-      FunLike.coe_smul, Pi.smul_apply, map_sum, map_smul]
   refine ⟨e, hframe, fun Φ => ?_⟩
   funext ρ
   unfold trR
   congr 1
   funext q
   have hζ : P.TT < Complex.normSq q.1.2 := q.2.2
-  obtain ⟨h, hh, h', hh', hd⟩ := hdec q.1.2 hζ
+  obtain ⟨h, hh, h', hh', hd, htr⟩ := htransport q.1.2 hζ
   unfold rawR
   congr 1
-  rw [htr ρ q.1.2 hζ h hh h' hh' hd, hd]
+  rw [htr ρ, hd]
   have hq : (q.1.1, NF.muZ P.k P.r μ0 q.1.2) ∈ Q.DomR P.k P.r Bs.z Bs.z' :=
     Formalism.FourierDecayAlt.P.NFRadRedA.mem_domR hz hz' h0 (q := (q.1.1, q.1.2)) ⟨q.2.1, hTT q.1.2 hζ⟩
   rw [Φ.2.2.2 _ hq h hh h' hh']
@@ -1777,32 +1591,10 @@ theorem vl_smul (P : M.Par) (Bs : B.RealPlaceData P.k P.r Wp Wq) [FiniteDimensio
 end vals
 
 theorem dzQ_one (P : M.Par) (hTT : 0 ≤ P.TT) : dzQ P (1 : MA.SmQ P.r P.TT) = 0 := by
-  have h0 : MA.eulerQ (TT := P.TT) M.vz (1 : MA.SmQ P.r P.TT) = 0 := by
-    have h := Formalism.FourierDecayAlt.P.analytic_leibniz P.r P.TT M.vz 1 1
-    rw [mul_one, one_mul, mul_one] at h
-    have h2 : MA.eulerQ (TT := P.TT) M.vz (1 : MA.SmQ P.r P.TT) + MA.eulerQ (TT := P.TT) M.vz 1 =
-        MA.eulerQ (TT := P.TT) M.vz 1 + 0 := by
-      rw [add_zero]
-      exact h.symm
-    exact add_left_cancel h2
-  unfold dzQ MA.DAlg.dzP MA.DAlg.mkP
-  have h0' : (MA.DQ P).ev M.vz 1 = 0 := h0
-  show (MA.DQ P).mulOp ((MA.DQ P).inv ((MA.DQ P).x M.vz)) ((MA.DQ P).ev M.vz 1) = 0
-  rw [h0', map_zero]
+  apply _root_.Formalism.FourierDecayAlt.P.CutMP.Gauge.GC.CurvTr.dzQ_one <;> assumption
 
 theorem dzbQ_one (P : M.Par) (hTT : 0 ≤ P.TT) : dzbQ P (1 : MA.SmQ P.r P.TT) = 0 := by
-  have h0 : MA.eulerQ (TT := P.TT) M.vzb (1 : MA.SmQ P.r P.TT) = 0 := by
-    have h := Formalism.FourierDecayAlt.P.analytic_leibniz P.r P.TT M.vzb 1 1
-    rw [mul_one, one_mul, mul_one] at h
-    have h2 : MA.eulerQ (TT := P.TT) M.vzb (1 : MA.SmQ P.r P.TT) + MA.eulerQ (TT := P.TT) M.vzb 1 =
-        MA.eulerQ (TT := P.TT) M.vzb 1 + 0 := by
-      rw [add_zero]
-      exact h.symm
-    exact add_left_cancel h2
-  unfold dzbQ MA.DAlg.dzbP MA.DAlg.mkP
-  have h0' : (MA.DQ P).ev M.vzb 1 = 0 := h0
-  show (MA.DQ P).mulOp ((MA.DQ P).inv ((MA.DQ P).x M.vzb)) ((MA.DQ P).ev M.vzb 1) = 0
-  rw [h0', map_zero]
+  apply _root_.Formalism.FourierDecayAlt.P.CutMP.Gauge.GC.CurvTr.dzbQ_one <;> assumption
 
 theorem theta_fst {V : Type} [AddCommGroup V] [Module ℂ V] (P : M.Par) (d : Q.NFData P (Q.Pr V)) (Φ : V) :
     (ThetaNF P d).1 Φ = d.L.ζ.1 (d.L.nab.1 Φ) + d.L.ζb.1 (d.L.nabs.1 Φ) +

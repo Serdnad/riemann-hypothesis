@@ -1,5 +1,7 @@
 module
 
+import all Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.ThresholdArguments.DenseThresholdCases.GalUnitaryT
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.EqOfPowEqOneOfValLt
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.BlochKatoSelmerVanishes
 public import Mathlib.RingTheory.Valuation.ValuationSubring
 public import ReciprocityTheory.GaloisValuations.Global
@@ -179,18 +181,7 @@ theorem UpperTheory.Reformulated.B.Qh11.pow_cong :
     (A.valuation : Ω → A.ValueGroup) a ≤ (1 : A.ValueGroup) →
       (A.valuation : Ω → A.ValueGroup) b ≤ (1 : A.ValueGroup) →
         (A.valuation : Ω → A.ValueGroup) (a - b) < (1 : A.ValueGroup) →
-          ∀ (m : ℕ), (A.valuation : Ω → A.ValueGroup) (a ^ m - b ^ m) < (1 : A.ValueGroup) := by
-  intro Ω _ A a b ha hb hab m
-  induction m with
-  | zero => simp
-  | succ n ih =>
-    have hsplit : a ^ (n + 1) - b ^ (n + 1) = a * (a ^ n - b ^ n) + (a - b) * b ^ n := by ring
-    rw [hsplit]
-    refine Valuation.map_add_lt _ ?_ ?_
-    · rw [map_mul]
-      exact lt_of_le_of_lt (mul_le_of_le_one_left' ha) ih
-    · rw [map_mul, map_pow]
-      exact lt_of_le_of_lt (mul_le_of_le_one_right' (pow_le_one' hb n)) hab
+          ∀ (m : ℕ), (A.valuation : Ω → A.ValueGroup) (a ^ m - b ^ m) < (1 : A.ValueGroup) := @_root_.GlobalTheory.RootValuationOne.sub_pow_lt_one
 end -- clump:auto
 end -- clump:auto
 -- ===== end clump member: Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.PowCong =====
@@ -580,36 +571,7 @@ private theorem fin_cpt (k : GL (Fin a) (Af L)) (u : Kinf L a) :
   exact congrArg _ (infGL_comm _ _)
 
 private theorem phiOp_mul (o : Op L a) : phiOp L a * act (invTOp (conjOp o)) = act (thetaOp o) * phiOp L a := by
-  cases o with
-  | fin k =>
-    simp only [phiOp, conjOp, invTOp, thetaOp]
-    rw [mul_assoc, fin_cpt, ← mul_assoc, ← mul_assoc]
-    congr 1
-    change finRep L a _ * finRep L a _ = finRep L a _ * finRep L a _
-    rw [← map_mul, ← map_mul]
-    congr 1
-    change _ = PhiU a (Af L) * _ * (PhiU a (Af L))⁻¹ * _
-    rw [inv_mul_cancel_right]
-    rfl
-  | cpt k =>
-    simp only [phiOp, conjOp, invTOp, thetaOp, barK_barK]
-    rw [← mul_assoc, fin_cpt, mul_assoc, mul_assoc]
-    congr 1
-    change cptRep L a _ * cptRep L a _ = cptRep L a _ * cptRep L a _
-    rw [← map_mul, ← map_mul, inv_mul_cancel_right]
-  | lie X =>
-    simp only [phiOp, conjOp, invTOp, thetaOp]
-    have h1 := GlobalTheory.CapAdInv.rt_lie (Unitary.toUnits (PhiK L a)) (-(Matrix.of X)ᴴ)
-    have h2 := lie_rt_fin (E := L) (toL (-(GlobalTheory.Tw.Phi a (Cinf L) * (Matrix.of X)ᴴ * (GlobalTheory.Tw.Phi a (Cinf L))ᵀ)))
-      (PhiU a (Af L))
-    have e : Unitary.toUnits (PhiK L a) = PhiU a (Cinf L) := Units.ext rfl
-    have e2 : (Unitary.toUnits (PhiK L a)).val * (-(Matrix.of X)ᴴ) * ((Unitary.toUnits (PhiK L a))⁻¹).val =
-        -(GlobalTheory.Tw.Phi a (Cinf L) * (Matrix.of X)ᴴ * (GlobalTheory.Tw.Phi a (Cinf L))ᵀ) := by
-      rw [e, mul_neg, neg_mul]; rfl
-    rw [e2] at h1
-    rw [mul_assoc, ← mul_assoc (act (Op.lie _))]
-    exact (congrArg (act (.fin (PhiU a (Af L))) * ·) h1).trans ((mul_assoc _ _ _).symm.trans
-      (congrArg (· * _) h2.symm))
+  apply _root_.GuIrrCaseTDualProof.phiOp_mul <;> assumption
 
 private theorem dualIsConj_of_isCsd {π : CuspSub L a} (h : Paired π π invTOp) (hc : π.IsCsd) : DualIsConj π := by
   obtain ⟨B, h1, h2, h3, h4, h5⟩ := h

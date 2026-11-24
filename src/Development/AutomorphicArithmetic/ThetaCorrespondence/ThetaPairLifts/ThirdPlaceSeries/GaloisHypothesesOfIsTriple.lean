@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ReciprocityAuxiliaryPlacesSecondHalf
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.TripleAtt
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Eps0UnramFrob
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.InjPrimeTo
@@ -127,16 +128,8 @@ theorem not_mem_placesOver_of_ne (E : Type) [Field E] [NumberField E] {p q : ℕ
 
 theorem continuous_algebraMap_padicInt {O : Type} [CommRing O] [TopologicalSpace O] [IsTopologicalRing O]
     {l : ℕ} [Fact l.Prime] [Algebra ℤ_[l] O] (I : Ideal O) (hI : IsAdic I) (hO : (l : O) ∈ I) :
-    Continuous (algebraMap ℤ_[l] O) := by
-  refine continuous_of_continuousAt_zero (algebraMap ℤ_[l] O) ?_
-  rw [ContinuousAt, map_zero, hI.hasBasis_nhds_zero.tendsto_right_iff]
-  intro n _
-  have hl : (0 : ℝ) < (l : ℝ) ^ (-(n : ℤ)) := zpow_pos (by exact_mod_cast (Fact.out : l.Prime).pos) _
-  filter_upwards [Metric.closedBall_mem_nhds (0 : ℤ_[l]) hl] with x hx
-  rw [mem_closedBall_zero_iff, PadicInt.norm_le_pow_iff_mem_span_pow, Ideal.mem_span_singleton] at hx
-  obtain ⟨y, rfl⟩ := hx
-  rw [map_mul, map_pow, map_natCast]
-  exact Ideal.mul_mem_right _ _ (Ideal.pow_mem_pow hO n)
+    Continuous (algebraMap ℤ_[l] O) :=
+  _root_.GlobalTheory.PrimeToInertia.continuous_algebraMap_padicInt I hI hO
 
 theorem sum_coeff_charpolyRev {R : Type} [CommRing R] [Nontrivial R] {n : ℕ} (M : Matrix (Fin n) (Fin n) R) :
     ∑ k ∈ Finset.range (n + 1), M.charpolyRev.coeff k = (1 - M).det := by
@@ -991,15 +984,8 @@ theorem cycLL_eq (g : ↥(GK Bw.Kw)) :
 theorem dot_dual {O L : Type} [CommRing O] [CommRing L] (φ : O →+* L) {m : ℕ} (A : GL (Fin m) O) (ε : O)
     (x y : Fin m → L) :
     ((A : Matrix (Fin m) (Fin m) O).map φ).mulVec x ⬝ᵥ
-      ((ε • (A : Matrix (Fin m) (Fin m) O)⁻¹.transpose).map φ).mulVec y = φ ε * (x ⬝ᵥ y) := by
-  have h1 : (ε • (A : Matrix (Fin m) (Fin m) O)⁻¹.transpose).map φ =
-      φ ε • (((A : Matrix (Fin m) (Fin m) O)⁻¹).map φ).transpose := by
-    ext a b
-    simp
-  have h2 : ((A : Matrix (Fin m) (Fin m) O)⁻¹).map φ * (A : Matrix (Fin m) (Fin m) O).map φ = 1 := by
-    rw [← Matrix.map_mul, ← Matrix.coe_units_inv, Units.inv_mul, Matrix.map_one _ φ.map_zero φ.map_one]
-  rw [h1, Matrix.smul_mulVec, dotProduct_smul, smul_eq_mul, Matrix.dotProduct_mulVec, Matrix.vecMul_transpose,
-    Matrix.mulVec_mulVec, h2, Matrix.one_mulVec]
+      ((ε • (A : Matrix (Fin m) (Fin m) O)⁻¹.transpose).map φ).mulVec y = φ ε * (x ⬝ᵥ y) :=
+  _root_.GlobalTheory.BKCup.dot_dual φ A ε x y
 
 omit [IsAlgClosed Ω] in
 theorem rep_apply {m : ℕ} (r : ↥Gw →* GL (Fin m) O) (g : ↥(GK Bw.Kw)) (x : Fin m → ↥Bw.LL.1) :

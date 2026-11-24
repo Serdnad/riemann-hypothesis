@@ -74,6 +74,7 @@ import Mathlib.RingTheory.Henselian
 import Mathlib.RingTheory.RegularLocalRing.Defs
 import Mathlib.RingTheory.SimpleRing.Principal
 import Mathlib.Tactic.Linter.HaveILetI
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FormalGroupDeterminantPowDepthBounds
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.DeterminantPairingQuotientValuationLowerBound, Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.FactorialWeightedPairingDetPowProportional, Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.NewtonBoundPosAndNewtonStep, Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.RadiiValuationDifferences, Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.WeightNonnegExpOfWeightGeInvPrimeSubOne, Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.SumEqOfIsHomogeneous
@@ -622,14 +623,7 @@ theorem slope_identity : I2 := by
 
 theorem val_natCast_nonneg {C : Type} [Field C] (v : AddValuation C (WithTop ℝ)) (n : ℕ) :
     0 ≤ v (n : C) := by
-  induction n with
-  | zero => simp
-  | succ k ih =>
-    push_cast
-    calc (0 : WithTop ℝ) ≤ min (v (k : C)) (v 1) := by
-          rw [AddValuation.map_one]
-          exact le_min ih le_rfl
-      _ ≤ v ((k : C) + 1) := AddValuation.map_add v _ _
+  apply _root_.GlobalTheory.FGDepth.natCast_isInt <;> assumption
 
 theorem val_intCast_nonneg {C : Type} [Field C] (v : AddValuation C (WithTop ℝ)) (n : ℤ) :
     0 ≤ v (n : C) := by

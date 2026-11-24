@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.CoboundaryMemBlochKatoCocycles
 public import Formalism.WeaklyAdmissibleFiltrations.CocyclesFunctorial
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -68,11 +69,7 @@ variable [TopologicalSpace G] [TopologicalSpace V] [IsTopologicalAddGroup V]
 
 theorem coboundaryMap_mem_finiteCocycles (hcont : ∀ x, Continuous fun g => ρ g x) (x : V) :
     cob ρ x ∈ finiteCocycles PD ρ := by
-  refine ⟨⟨?_, fun g h => ?_⟩, x ⊗ₜ[Qp] (1 : B), fun g => ?_⟩
-  · exact (hcont x).sub continuous_const
-  · simp only [cob_apply_galois, map_mul, Module.End.mul_apply, map_sub]
-    abel
-  · simp [cob_apply_galois, actVB, sub_tmul]
+  apply _root_.GlobalTheory.H1fGeneratorBoundAlt.coboundary_mem_blochKatoCocycles <;> assumption
 
 theorem coboundaries_le_finiteCocycles (hcont : ∀ x, Continuous fun g => ρ g x) : B1 ρ ≤ finiteCocycles PD ρ := by
   rintro c ⟨x, rfl⟩

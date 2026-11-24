@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.ExistsUnitaryOfTraceEq
 public import Development.AbelianVarietyTheory.Definitions.ExistenceOfLattices.CoeSelfDualLatticeInFrameCoordinatesEq
 public import Development.AbelianVarietyTheory.Definitions.ExistenceOfLattices.PermutesRefl
 public import Development.AbelianVarietyTheory.Definitions.ExistenceOfLattices.Hat1
@@ -266,15 +267,7 @@ theorem mulVec_congr {R : Type} [CommRing R] {n M : ℕ} {A' A B S G : Matrix (F
 
 theorem gLat_eq_of_finCong {D : D7} (V : HSp D) (u : GA D V) (h : FinCong V 1 u) (h' : FinCong V 1 u⁻¹) :
     gLat V u = latHat V := by
-  have key : ∀ k, FinCong V 1 k → ∀ z ∈ latHat V, (finHom V k).1 *ᵥ z ∈ latHat V := fun k hk z hz => by
-    obtain ⟨y, hy, e⟩ := hk z hz
-    rw [one_smul, sub_eq_iff_eq_add] at e
-    rw [e]
-    exact add_mem hy hz
-  refine Set.Subset.antisymm ?_ fun z hz => ⟨_, key _ h' z hz, ?_⟩
-  · rintro _ ⟨z, hz, rfl⟩
-    exact key u h z hz
-  · rw [Matrix.mulVec_mulVec, ← Units.val_mul, ← map_mul, mul_inv_cancel, map_one, Units.val_one, Matrix.one_mulVec]
+  apply _root_.GlobalTheory.CharRead.gLat_eq_of_finCong <;> assumption
 
 
 

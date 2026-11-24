@@ -1,5 +1,6 @@
 module
 
+import all Development.AutomorphicArithmetic.AutomorphicVarieties.UnitaryThreeGroups.PtShape
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.UnitaryThreeGroups.Rigid0
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.GaloisLibrary.SelmerTransport.NormO
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.UnitaryThreeGroups.ModelSigns
@@ -291,18 +292,7 @@ private theorem spans_of_der {O A K ι : Type} [CommRing O] [IsDomain O] [CommRi
 
 private theorem norm_lt_one_of_mem {l : ℕ} [Fact l.Prime] (c : Coef l) (a : c.O) (ha : ¬ IsUnit a) :
     ‖(a : PadicAlgCl l)‖ < 1 := by
-  by_cases h0 : a = 0
-  · subst h0; simp
-  have h := UpperTheory.V.Base.normO l c.O a h0
-  have h1 : IsDiscreteValuationRing.addVal c.O a ≠ 0 := fun h =>
-    ha (IsDiscreteValuationRing.addVal_eq_zero_iff.1 h)
-  have h2 : IsDiscreteValuationRing.addVal c.O a ≠ ⊤ := fun h => h0 (IsDiscreteValuationRing.addVal_eq_top_iff.1 h)
-  have h3 : (IsDiscreteValuationRing.addVal c.O a).toNat ≠ 0 := by
-    rw [Ne, ENat.toNat_eq_zero]; tauto
-  have hl : (1 : ℝ) < l := by exact_mod_cast (Fact.out : l.Prime).one_lt
-  have h4 := pow_lt_one₀ (a := (l : ℝ)⁻¹) (by positivity) (inv_lt_one_of_one_lt₀ hl) h3
-  by_contra hn
-  exact absurd (h ▸ h4) (not_lt.2 (one_le_pow₀ (not_lt.1 hn)))
+  apply _root_.norm_lt_one_of_nonunit <;> assumption
 
 private theorem local_of_res {O R : Type} [CommRing O] [IsLocalRing O] [CommRing R] [Algebra O R] [IsCO O R]
     (x : R →ₐ[O] O) (y : R) (hy : y ∈ maximalIdeal R) : ¬ IsUnit (x y) := by
@@ -463,38 +453,7 @@ private theorem mem_range_of_approx {l : ℕ} [Fact l.Prime] {R : Type} [CommRin
 
 private theorem norm_coe_coefO_le_one {l : ℕ} [Fact l.Prime] (c : Coef l) (x : c.O) :
     ‖(x : PadicAlgCl l)‖ ≤ 1 := by
-  haveI := c.fin
-  have hint : IsIntegral ℤ_[l] (x : PadicAlgCl l) := by
-    have hx : IsIntegral ℤ_[l] x := Algebra.IsIntegral.isIntegral x
-    exact hx.map c.O.val
-  obtain ⟨p, hmon, hp⟩ := hint
-  by_contra hgt
-  push_neg at hgt
-  rw [hmon.as_sum, Polynomial.eval₂_add, Polynomial.eval₂_X_pow, Polynomial.eval₂_finsetSum] at hp
-  have hcoef : ∀ i ∈ Finset.range p.natDegree,
-      ‖Polynomial.eval₂ (algebraMap ℤ_[l] (PadicAlgCl l)) (x : PadicAlgCl l)
-        (Polynomial.C (p.coeff i) * Polynomial.X ^ i)‖ ≤ ‖(x : PadicAlgCl l)‖ ^ i := by
-    intro i _
-    rw [Polynomial.eval₂_mul, Polynomial.eval₂_C, Polynomial.eval₂_X_pow, norm_mul, norm_pow]
-    have hc : ‖algebraMap ℤ_[l] (PadicAlgCl l) (p.coeff i)‖ ≤ 1 := by
-      rw [IsScalarTower.algebraMap_apply ℤ_[l] ℚ_[l] (PadicAlgCl l), PadicAlgCl.norm_extends]
-      exact PadicInt.norm_le_one _
-    calc _ ≤ 1 * ‖(x : PadicAlgCl l)‖ ^ i := by gcongr
-      _ = _ := one_mul _
-  have hlt : ‖∑ i ∈ Finset.range p.natDegree, Polynomial.eval₂ (algebraMap ℤ_[l] (PadicAlgCl l))
-      (x : PadicAlgCl l) (Polynomial.C (p.coeff i) * Polynomial.X ^ i)‖ <
-      ‖(x : PadicAlgCl l)‖ ^ p.natDegree := by
-    rcases Nat.eq_zero_or_pos p.natDegree with hn | hn
-    · rw [hn]
-      simp
-    · obtain ⟨i, hi, hle⟩ := IsUltrametricDist.exists_norm_finsetSum_le_of_nonempty
-        (Finset.nonempty_range_iff.mpr hn.ne') (fun i => Polynomial.eval₂
-          (algebraMap ℤ_[l] (PadicAlgCl l)) (x : PadicAlgCl l) (Polynomial.C (p.coeff i) * Polynomial.X ^ i))
-      exact lt_of_le_of_lt (hle.trans (hcoef i hi)) (pow_lt_pow_right₀ hgt (Finset.mem_range.mp hi))
-  have heq := eq_neg_of_add_eq_zero_left hp
-  have hn := congrArg norm heq
-  rw [norm_neg, norm_pow] at hn
-  linarith
+  apply _root_.norm_coe_coefO_le_one <;> assumption
 
 private theorem natCast_not_isUnit {l : ℕ} [Fact l.Prime] (c : Coef l) : ¬ IsUnit (l : c.O) := by
   rintro ⟨u, hu⟩

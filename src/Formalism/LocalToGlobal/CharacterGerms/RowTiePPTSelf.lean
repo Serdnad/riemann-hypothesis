@@ -1,5 +1,6 @@
 module
 
+import Formalism.LocalToGlobal.CharacterGerms.RowTiePGmExLem
 public import Formalism.LocalToGlobal.CharacterGerms.RowTiePPTAvg
 public import Formalism.LocalToGlobal.CharacterGerms.Interface
 public import Mathlib.Data.Nat.Choose.Dvd
@@ -11,7 +12,7 @@ import Mathlib.RingTheory.Henselian
 import Mathlib.RingTheory.RegularLocalRing.Defs
 import Mathlib.RingTheory.SimpleRing.Principal
 import Formalism.LocalToGlobal.CharacterGerms.RowTiePGerm
-import Formalism.LocalToGlobal.CharacterGerms.ConstMemTypeSetOfNonneg
+import all Formalism.LocalToGlobal.CharacterGerms.ConstMemTypeSetOfNonneg
 import Formalism.LocalToGlobal.CharacterGerms.ValNonnegLeadingCoeffOfMemTySet
 
 -- This file was produced by scripts/clump.py from the modules listed below.
@@ -74,14 +75,7 @@ private theorem ge_sum_lemma_7 {ι : Type} (s : Finset ι) {f : ι → C} {w : �
     exact ge_add_lemma (h a (Finset.mem_insert_self a s)) (ih fun i hi => h i (Finset.mem_insert_of_mem hi))
 
 private theorem ge0_pow_lemma_8 {a : C} (ha : V.Ge 0 a) (n : ℕ) : V.Ge 0 (a ^ n) := by
-  induction n with
-  | zero =>
-    rw [pow_zero]
-    exact ge_one_lemma_5
-  | succ n ih =>
-    rw [pow_succ]
-    have h := ge_mul_lemma_2 ih ha
-    rwa [add_zero] at h
+  apply _root_.Formalism.L2.FormalSeriesBounds.RawChart.ge_zero_pow' <;> assumption
 
 private theorem ge_l_lemma_9 : V.Ge 1 (V.l : C) := by
   unfold VF.Ge
@@ -319,13 +313,7 @@ theorem mm_add' {a b : C} (ha : V.MM a) (hb : V.MM b) : V.MM (a + b) := by
   exact lt_of_lt_of_le (lt_min ha hb) (V.v.map_add a b)
 
 theorem mm_mul_int {a b : C} (ha : V.MM a) (hb : V.Ge 0 b) : V.MM (a * b) := by
-  unfold VF.MM at *
-  unfold VF.Ge at hb
-  rw [AddValuation.map_mul]
-  have hb' : (0 : WithTop ℝ) ≤ V.v b := by simpa using hb
-  calc (0 : WithTop ℝ) < V.v a := ha
-    _ = V.v a + 0 := (add_zero _).symm
-    _ ≤ V.v a + V.v b := add_le_add le_rfl hb'
+  apply _root_.Formalism.L2.FormalSeriesBounds.GmExArith.mm_mul_int <;> assumption
 
 theorem mm_of_ge {δ : ℝ} (hδ : 0 < δ) {a : C} (h : V.Ge δ a) : V.MM a := by
   unfold VF.MM

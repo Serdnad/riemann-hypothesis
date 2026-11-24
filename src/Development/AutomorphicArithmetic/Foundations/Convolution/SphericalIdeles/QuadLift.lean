@@ -1,5 +1,6 @@
 module
 
+import all Development.AutomorphicArithmetic.Foundations.Convolution.TraceSplitting.OffStable
 public import Development.AutomorphicArithmetic.Foundations.Convolution.SphericalIdeles.RamDefs
 public import Development.AbelianVarietyTheory.PublishedTheorems.GaloisCohomology₂.StrongMultiplicityOne
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.CuspidalTwistRamifiedCharNeSelf
@@ -991,27 +992,7 @@ variable {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algeb
 private theorem val_gal (v : HeightOneSpectrum (𝓞 F)) (σ : E ≃ₐ[F] E) (w u : HeightOneSpectrum (𝓞 E))
     [w.asIdeal.LiesOver v.asIdeal] [u.asIdeal.LiesOver v.asIdeal] (h : u = σ • w) (y : w.adicCompletion E) :
     Valued.v (galEquiv v σ w u h y) = Valued.v y := by
-  subst h
-  have ev : ∀ (u : HeightOneSpectrum (𝓞 E)) (x : E),
-      Valued.v (algebraMap E (u.adicCompletion E) x) = u.valuation E x :=
-    fun u x => HeightOneSpectrum.valuedAdicCompletion_eq_valuation' u x
-  have key : ∀ x : E, Valued.v (galEquiv v σ w (σ • w) rfl (algebraMap E _ x)) =
-      Valued.v (algebraMap E (w.adicCompletion E) x) := by
-    intro x
-    rw [galEquiv_algebraMap, ev, ev]
-    exact valuation_smul σ w x
-  by_cases hy : y = 0
-  · simp [hy]
-  have hy' : galEquiv v σ w (σ • w) rfl y ≠ 0 := by simpa using hy
-  have h1 := Valued.locally_const ((Valuation.ne_zero_iff _).mpr hy)
-  have h2 := (continuous_galEquiv v σ w (σ • w) rfl).continuousAt.preimage_mem_nhds
-    (Valued.locally_const ((Valuation.ne_zero_iff _).mpr hy'))
-  obtain ⟨_, ⟨x, rfl⟩, hx⟩ :=
-    (HeightOneSpectrum.denseRange_algebraMap E w).inter_nhds_nonempty (Filter.inter_mem h1 h2)
-  have e1 : Valued.v (algebraMap E (w.adicCompletion E) x) = Valued.v y := hx.1
-  have e2 : Valued.v (galEquiv v σ w (σ • w) rfl (algebraMap E _ x)) =
-      Valued.v (galEquiv v σ w (σ • w) rfl y) := hx.2
-  rw [← e2, key, e1]
+  apply _root_.UpperTheory.ConvolutionTheory.T.val_gal <;> assumption
 
 private theorem galFin_eq (σ : E ≃ₐ[F] E) {v : Pl F} (w : PlacesOver E v) (hfix : w.1 = σ • w.1)
     (y : CompletionsOver E v) : galFin σ v y w = galEquiv v σ w.1 w.1 hfix (y w) := by

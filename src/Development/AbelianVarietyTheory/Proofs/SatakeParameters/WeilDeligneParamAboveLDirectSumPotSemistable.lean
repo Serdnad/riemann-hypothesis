@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.SatakeParameters.PotSemistableParameterCoefficientFieldEnlargeStatement
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.CommuteIsNilpotentOfUnipotent
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.SumRepDeRhamIffAndMultiplicityAdd
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.CharpolyEqOfIsNilpotentSub
@@ -414,20 +415,8 @@ theorem wdPst_enlarge {l : ℕ} [Fact l.Prime] (P : LocPrime l) (ι : Om l ≃+*
     IsPst P (Bw.repE L₁ r₁) → IsPst P (Bw.repE L₂ (mapRep (IntermediateField.inclusion hL).toRingHom r₁)) →
     wdPst P ι Bw h hj (Bw.repE L₂ (mapRep (IntermediateField.inclusion hL).toRingHom r₁)) =
       wdPst P ι Bw h hj (Bw.repE L₁ r₁) := by
-  intro hV₁ hV₂
-  obtain ⟨n, b, π, hπ, hsum⟩ := EnlargeCoeff.exists_decomp hL (m := m)
-  have hf : ∀ g v, EnlargeCoeff.incV hL m (Bw.repE L₁ r₁ g v) =
-      Bw.repE L₂ (mapRep (IntermediateField.inclusion hL).toRingHom r₁) g (EnlargeCoeff.incV hL m v) :=
-    fun g v => EnlargeCoeff.incV_mulVec hL _ v
-  have hπ' : ∀ (j : Fin n) (g : ↥(GK Bw.Kw)) (v : Fin m → ↥L₂.1),
-      π j (Bw.repE L₂ (mapRep (IntermediateField.inclusion hL).toRingHom r₁) g v) = Bw.repE L₁ r₁ g (π j v) :=
-    fun j g v => hπ j (r₁ (Bw.e.symm g) : Matrix (Fin m) (Fin m) ↥L₁.1) v
-  have hdim : finrank ℂ (WDSpace P ι (Bw.repE L₁ r₁)) =
-      finrank ℂ (WDSpace P ι (Bw.repE L₂ (mapRep (IntermediateField.inclusion hL).toRingHom r₁))) :=
-    (GlobalTheory.Pst.LetterDim.finrank_wdSpace l P ι Bw.Kw L₁ _ _ hV₁).trans ((Module.finrank_fin_fun _).trans
-      ((Module.finrank_fin_fun _).symm.trans (GlobalTheory.Pst.LetterDim.finrank_wdSpace l P ι Bw.Kw L₂ _ _ hV₂).symm))
-  exact wdPst_eq_of_map P ι Bw h hj (IntermediateField.inclusion hL).toRingHom (fun _ => rfl) hf
-    (EnlargeCoeff.incV_smul hL) b π hπ' hsum hV₁ hV₂ hdim
+  intros
+  apply _root_.GlobalTheory.Pst.EnlargeParam.wdPst_enlarge <;> assumption
 
 theorem wdPst_sumRep {l : ℕ} [Fact l.Prime] (P : LocPrime l) (ι : Om l ≃+* ℂ) {E Ω : Type} [Field E]
     [NumberField E] [Field Ω] [Algebra E Ω] [IsAlgClosure E Ω] {A : ValuationSubring Ω}

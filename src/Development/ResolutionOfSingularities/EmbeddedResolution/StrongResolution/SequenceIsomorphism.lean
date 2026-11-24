@@ -1,5 +1,6 @@
 module
 
+import all Development.ResolutionOfSingularities.EmbeddedResolution.ResolutionDescent.PullbackBlowupSequenceIsomorphism
 public import Development.ResolutionOfSingularities.EmbeddedResolution.IteratedBlowups.BlowupSequenceRelations
 public import Development.ResolutionOfSingularities.EmbeddedResolution.StrongResolution.StrongResolution
 public import Development.ResolutionOfSingularities.EmbeddedResolution.IteratedBlowups.BlowupSequenceBasic
@@ -178,19 +179,7 @@ private theorem iso_hom_comp_projectionToBase_of_commute_blowupMorphism {X : Sch
     (hstep : ∀ i : ℕ, ∀ hi : i < B.length,
         (e (i + 1) hi).hom ≫ B'.transitionMapSucc i = B.transitionMapSucc i ≫ (e i hi.le).hom) :
     ∀ (i : ℕ) (hi : i ≤ B.length), (e i hi).hom ≫ B'.projectionToBase i = B.projectionToBase i := by
-  intro i
-  induction i with
-  | zero =>
-    intro _
-    rw [B'.projectionToBase_zero, B.projectionToBase_zero]
-    exact h0
-  | succ n ih =>
-    intro hi
-    have hn : n < B.length := hi
-    rw [B'.projectionToBase_succ, B.projectionToBase_succ, ← Category.assoc]
-    show ((e (n + 1) hn).hom ≫ B'.transitionMapSucc n) ≫ B'.projectionToBase n
-      = B.transitionMapSucc n ≫ B.projectionToBase n
-    rw [hstep n hn, Category.assoc, ih hn.le]
+  apply _root_.FunctorialResolution.EmbeddedResolution.iso_hom_comp_projectionToBase <;> assumption
 
 private theorem mem_support_of_mem_support_comap {Y Z : Scheme.{u}} (g : Y ⟶ Z)
     (I : Z.IdealSheafData) {x : Y} (hx : x ∈ (I.comap g).support) : g x ∈ I.support := by

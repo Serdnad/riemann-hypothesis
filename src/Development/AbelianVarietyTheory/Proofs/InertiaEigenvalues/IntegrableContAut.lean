@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.WeilDatumCharactersUnramifiedOffLevels
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.ParamsEx
 public import Formalism.LocalToGlobal.IndefiniteReal.LinksStage
 public import Development.AbelianVarietyTheory.PublishedTheorems.GaloisGeometry₂.HoweUnram
@@ -413,22 +414,7 @@ theorem vacFin_of_isVacAt {w : HeightOneSpectrum (𝓞 D.host.E)} (hw : Formalis
 
 theorem unrAt_of_unrPl {w : HeightOneSpectrum (𝓞 D.host.E)} (hw : Formalism.DivisionValues.conjPl w = w) {χ : (AE D)ˣ →* Circle}
     (h : GlobalTheory.Hk3.UnrPl w χ) : UnrAt χ w := by
-  intro x hx
-  obtain ⟨e0, f0, h0⟩ := (GlobalTheory.T.supported_subgroup_split_commute_primeIdempotents (D.sp.V 0)).2.1 w
-  obtain ⟨ε, -, -, -, hpi⟩ := GlobalTheory.VacFixInert.inert_data hw
-  obtain ⟨he0, hf0⟩ := hpi e0 f0 h0
-  have hΦ : GlobalTheory.IdemSupport.Comp D (GlobalTheory.LFun.EulerTie.finComp D.host.F D.host.E) := by
-    obtain ⟨a, b, c, d, e⟩ := (GlobalTheory.LFun.EulerTie.comp_finComp (F := D.host.F) (E := D.host.E))
-    exact ⟨a, b, c, d, e⟩
-  have hd := (GlobalTheory.IdemSupport.of_isPrimeIdem hΦ h0).1
-  have hg := GlobalTheory.LFun.EulerTie.glue_eq_locIdele hd (GlobalTheory.LFun.EulerTie.finComp_locIdele_self (F := D.host.F) w x)
-  obtain ⟨h1, h2⟩ := (GlobalTheory.LFun.EulerTie.isUnitAt_iff w x).1 hx
-  have k := h e0 f0 h0 (locIdele D.host.F w x) (by
-      rw [hf0, ← he0]
-      linear_combination hg)
-    ((GlobalTheory.LFun.EulerTie.locIdele_int_iff w x).2 h1) (by rw [← map_inv]; exact (GlobalTheory.LFun.EulerTie.locIdele_int_iff w x⁻¹).2 h2)
-  show Circle.toUnits (χ (locIdele D.host.F w x)) = 1
-  rw [k, map_one]
+  apply _root_.GlobalTheory.GoodModUnr.unrAt_of_unrPl <;> assumption
 
 end Dict
 

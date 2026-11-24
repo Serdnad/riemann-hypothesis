@@ -1,5 +1,7 @@
 module
 
+import all Development.AutomorphicArithmetic.AutomorphicVarieties.WeakShimuraTheory.SymplecticIwahori.TriIwa
+import all Development.AutomorphicArithmetic.AutomorphicVarieties.WeakShimuraTheory.CompactIntegralFields.SpaceEx
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.PadicHodgeTheory.IsFirstOrderDeformationOfRZero
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -215,14 +217,7 @@ theorem exists_diag (π : R →+* E) (hπ : ∀ a, π a = 1 → IsUnit a) {X : M
     rw [IsUnit.unit_spec, hK, Matrix.of_apply, htri hT b hab, mul_zero]
 
 theorem adj_mul (A B : M4 R) : adj (A * B) = adj B * adj A := by
-  ext i j
-  have hs : ∀ k : Fin 4, (sgn k : R) * sgn k = 1 := fun k => by
-    have : sgn k * sgn k = 1 := by revert k; decide
-    rw [← Int.cast_mul, this, Int.cast_one]
-  simp only [adj_apply, Matrix.mul_apply, zsmul_eq_mul, Int.cast_mul, Finset.mul_sum]
-  exact Fintype.sum_equiv Fin.revPerm _ _ (fun k => by
-    simp only [Fin.revPerm_apply, Fin.rev_rev]
-    linear_combination (-((sgn i : R) * sgn j * A j.rev k * B k i.rev)) * hs k.rev)
+  apply _root_.adj_mul <;> assumption
 
 theorem adj_adj (A : M4 R) : adj (adj A) = A := by
   ext i j
@@ -233,15 +228,7 @@ theorem adj_adj (A : M4 R) : adj (adj A) = A := by
   linear_combination (A i j * sgn j.rev * sgn j) * hr i - A i j * hr j
 
 theorem adj_diagonal (c : Fin 4 → R) : adj (Matrix.diagonal c) = Matrix.diagonal fun i => c i.rev := by
-  ext i j
-  have hs : ∀ k : Fin 4, (sgn k : R) * sgn k = 1 := fun k => by
-    have : sgn k * sgn k = 1 := by revert k; decide
-    rw [← Int.cast_mul, this, Int.cast_one]
-  simp only [adj_apply, Matrix.diagonal_apply, Fin.rev_inj, zsmul_eq_mul, Int.cast_mul]
-  by_cases h : j = i
-  · subst h
-    simp [hs]
-  · simp [h, Ne.symm h]
+  apply _root_.adj_diag <;> assumption
 
 theorem adj_map (π : R →+* E) (A : M4 R) : (adj A).map π = adj (A.map π) := by
   ext i j

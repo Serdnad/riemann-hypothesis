@@ -141,20 +141,8 @@ theorem gen_unique (hT : Out.SecTwistSt) {σ' : KA l →+* ℂ} {g : ℕ} {ty : 
 theorem sum_single_of_support {J : Type} {m : J → ℕ} {g : ℕ} (e : Fin g ≃ Σ τ : J, Fin (m τ)) (τ : J)
     (v : Fin g → ℂ) (hv : ∀ jj, v jj ≠ 0 → (e jj).1 = τ) :
     ∑ k : Fin (m τ), v (e.symm ⟨τ, k⟩) • (Pi.single (e.symm ⟨τ, k⟩) 1 : Fin g → ℂ) = v := by
-  funext jj
-  rw [Finset.sum_apply]
-  by_cases h : (e jj).1 = τ
-  · obtain ⟨⟨τ', k⟩, rfl⟩ := e.symm.surjective jj
-    obtain rfl : τ' = τ := by simpa using h
-    rw [Finset.sum_eq_single k (fun b _ hb => ?_) (by simp)]
-    · simp
-    · have : e.symm ⟨τ', k⟩ ≠ e.symm ⟨τ', b⟩ := fun hh => hb (by simpa using (e.symm.injective hh).symm)
-      simp [Pi.single_eq_of_ne this]
-  · have h0 : v jj = 0 := by_contra fun h' => h (hv jj h')
-    rw [h0]
-    refine Finset.sum_eq_zero fun b _ => ?_
-    have : jj ≠ e.symm ⟨τ, b⟩ := fun hh => h (by rw [hh]; simp)
-    simp [Pi.single_eq_of_ne this]
+  intros
+  apply _root_.GlobalTheory.LieFrame.eq_sum_single <;> assumption
 
 theorem isUnit_det_of_support {J : Type} {m : J → ℕ} {g : ℕ} (e : Fin g ≃ Σ τ : J, Fin (m τ)) (τ : J)
     (v : Fin (m τ) → Fin g → ℂ) (hl : LinearIndependent ℂ v) (hv : ∀ i jj, v i jj ≠ 0 → (e jj).1 = τ) :

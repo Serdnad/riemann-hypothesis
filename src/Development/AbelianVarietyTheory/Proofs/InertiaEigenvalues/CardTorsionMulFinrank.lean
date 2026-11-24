@@ -1,5 +1,6 @@
 module
 
+import all Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.OneAddXMulDerivativeBinomial
 public import Formalism.SharpRestriction.LevelLetterCocycles.DataNLoc
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ChiOntoOfUnramified
 import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.CyclotomicCharacterPadicBasicProperties
@@ -153,13 +154,7 @@ theorem card_torsion (h2 : l ≠ 2) {Γ : Type} [Group Γ] (χ : Γ →* ℤ_[l]
 
 theorem exists_chi (P : LocPrime l) :
     ∃ χ : GQ l →* ℤ_[l]ˣ, ∀ g, ((χ g : ℤ_[l]) : ℚ_[l]) = (P.χQ g : ℚ_[l]) := by
-  have hn := GlobalTheory.Cyc.IsCyc.norm_eq_one P.χQ_cyc
-  refine ⟨{ toFun := fun g => PadicInt.mkUnits (hn g), map_one' := ?_, map_mul' := ?_ },
-    fun g => PadicInt.mkUnits_eq (hn g)⟩
-  · apply Units.ext; apply PadicInt.ext
-    simp
-  · intro a b; apply Units.ext; apply PadicInt.ext
-    simp only [Units.val_mul, PadicInt.coe_mul, PadicInt.mkUnits_eq, map_mul]
+  apply _root_.GlobalTheory.HWL.Ser.exists_integral_chi <;> assumption
 
 theorem finrank_eq_relIndex (K : FinExt l) :
     Module.finrank ↥(K0 K) ↥K.1 = (GK K).relIndex (K0 K).fixingSubgroup := by

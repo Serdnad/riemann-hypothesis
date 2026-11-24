@@ -6,6 +6,7 @@ public import Formalism.SharpRestriction.GrowthBounds.ColumnSpanDensity.OneMemDu
 public import Formalism.SharpRestriction.GrowthBounds.HermitianTensor.MemInvariantSectionsIffIntegral
 public import Formalism.SharpRestriction.GrowthBounds.HermitianTensor.MemInvariantSectionsTwoWeightIff
 public import Formalism.SharpRestriction.GrowthBounds.HermitianTensor.NuOfLoZero
+import all Formalism.SharpRestriction.GrowthBounds.HermitianTensor.NuOfLoZero
 public import Formalism.SharpRestriction.GrowthBounds.HermitianTensor.DetFactsPAlt
 public import Formalism.SharpRestriction.GrowthBounds.ColumnSpanDensity.TensorKP
 public import Formalism.SharpRestriction.GrowthBounds.HermitianTensor.DerivativeRepresentation
@@ -577,16 +578,7 @@ theorem qc_rowA_one {K : Type} [CommRing K] {k n : ℕ} (a : Fin k) : RowA a (1 
 
 private theorem rowA_X {K : Type} [CommRing K] {k n : ℕ} (a : Fin k) (v : Fin k × Fin n) :
     RowA a (X v : MvPolynomial (Fin k × Fin n) K) (if v.1 = a then 1 else 0) := by
-  intro u hu
-  rw [coeff_X'] at hu
-  split_ifs at hu with h
-  · subst h
-    rcases v with ⟨b, q⟩
-    by_cases hb : b = a
-    · subst hb
-      simp [rowDeg, Finsupp.single_apply]
-    · simp [rowDeg, Prod.ext_iff, hb]
-  · exact absurd rfl hu
+  apply _root_.Formalism.MainNotions.flipOneThree.Pf.rowA_X_lemma_3 <;> assumption
 
 private theorem degA_prod_X_eq_card_first_coord_eq {K : Type} [CommRing K] {k n m : ℕ} (a : Fin k) (g : Fin m → Fin k × Fin n)
     (S : Finset (Fin m)) :

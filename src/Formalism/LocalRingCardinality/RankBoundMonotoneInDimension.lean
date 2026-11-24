@@ -1031,13 +1031,7 @@ theorem nPl_two_mul (K : Type) [Field K] [NumberField K] [_root_.NumberField.IsT
 
 theorem HLat.L_ne_bot {K : Type} [Field K] [NumberField K] [StarRing K] (A : HLat K)
     (hr : 0 < A.rank) : A.L ≠ ⊥ := by
-  intro h
-  have h1 : Submodule.span K ((A.L : Set A.V)) = ⊥ := by
-    rw [h, Submodule.bot_coe, Submodule.span_zero_singleton]
-  have h2 : A.rank = 0 := by
-    show Module.finrank K (Submodule.span K ((A.L : Set A.V))) = 0
-    rw [h1, finrank_bot]
-  omega
+  apply _root_.Formalism.MainNotions.J.ne_bot_of_rank_pos <;> assumption
 
 theorem bridge_hn_mu_holds : bridge_hn_mu := by
   intro K _ _ _ _ A hG hr
@@ -1097,21 +1091,11 @@ theorem span_prime_isMaximal (p : ℕ) (hp : p.Prime) : (Ideal.span {(p : ℤ)})
 
 theorem liesOver_of_mem (p : ℕ) (hp : p.Prime) (w : HeightOneSpectrum (𝓞 K))
     (hmem : (p : 𝓞 K) ∈ w.asIdeal) : w.asIdeal.LiesOver (Ideal.span {(p : ℤ)}) := by
-  have hmax := span_prime_isMaximal p hp
-  have hP : (w.asIdeal.comap (algebraMap ℤ (𝓞 K))).IsPrime := w.isPrime.comap _
-  have hle : Ideal.span {(p : ℤ)} ≤ w.asIdeal.comap (algebraMap ℤ (𝓞 K)) := by
-    rw [Ideal.span_le, Set.singleton_subset_iff, SetLike.mem_coe, Ideal.mem_comap]
-    simpa using hmem
-  exact ⟨hmax.eq_of_le hP.ne_top hle⟩
+  apply _root_.Formalism.MainNotions.J.liesOver_of_mem <;> assumption
 
 theorem mem_of_liesOver (p : ℕ) (q : Ideal (𝓞 K)) [q.LiesOver (Ideal.span {(p : ℤ)})] :
     (p : 𝓞 K) ∈ q := by
-  have h : Ideal.span {(p : ℤ)} = q.under ℤ := Ideal.LiesOver.over
-  have hm : (p : ℤ) ∈ q.under ℤ := by
-    rw [← h]
-    exact Ideal.subset_span (Set.mem_singleton _)
-  have hm2 : algebraMap ℤ (𝓞 K) (p : ℤ) ∈ q := hm
-  simpa using hm2
+  apply _root_.Formalism.MainNotions.J.mem_of_liesOver <;> assumption
 
 theorem vAdd_prime (p : ℕ) (hp : p.Prime) (w : HeightOneSpectrum (𝓞 K))
     (hmem : (p : 𝓞 K) ∈ w.asIdeal) : vAdd w ((p : ℕ) : K) = (eWL K w : ℤ) := by
@@ -1143,12 +1127,7 @@ theorem sum_lw_e (p : ℕ) (hp : p.Prime) (S : Finset (HeightOneSpectrum (𝓞 K
 
 theorem finite_places_over (p : ℕ) (hp : p.Prime) :
     ∃ S : Finset (HeightOneSpectrum (𝓞 K)), ∀ w, w ∈ S ↔ (p : 𝓞 K) ∈ w.asIdeal := by
-  have hI : Ideal.span {(p : 𝓞 K)} ≠ 0 := by
-    rw [Ne, Ideal.zero_eq_bot, Ideal.span_singleton_eq_bot]
-    exact_mod_cast hp.ne_zero
-  have hfin := Ideal.finite_factors hI
-  refine ⟨hfin.toFinset, fun w => ?_⟩
-  rw [Set.Finite.mem_toFinset, Set.mem_setOf_eq, Ideal.dvd_span_singleton]
+  apply _root_.Formalism.MainNotions.J.finite_places_over <;> assumption
 
 end places
 

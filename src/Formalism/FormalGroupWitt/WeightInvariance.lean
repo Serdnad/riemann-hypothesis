@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.PadicComplexIntegralBoundedSeriesLaws
 public import Formalism.FormalGroupWitt.SubstInjectiveV
 public import Formalism.FormalGroupWitt.FormalGroupWittProofs.IntegralSubstVector
 public import Formalism.TorsionNormIteration.InverseIntegralClasses.MemSpanOfNormLe
@@ -142,14 +143,7 @@ variable {K : Type u} [NormedField K] [IsUltrametricDist K]
 
 lemma sigma_norm_le_one {p q : ℕ} {σ : K →+* K} (hp : ‖(p : K)‖ ≤ 1)
     (hσ : IsFrobLift p q σ) (a : K) (ha : ‖a‖ ≤ 1) : ‖σ a‖ ≤ 1 := by
-  unfold IsFrobLift at hσ
-  have h1 := hσ a ha
-  have h2 : ‖a ^ q‖ ≤ 1 := by
-    rw [norm_pow]
-    exact pow_le_one₀ (norm_nonneg _) ha
-  calc ‖σ a‖ = ‖(σ a - a ^ q) + a ^ q‖ := by rw [sub_add_cancel]
-    _ ≤ max ‖σ a - a ^ q‖ ‖a ^ q‖ := IsUltrametricDist.norm_add_le_max _ _
-    _ ≤ 1 := max_le (h1.trans hp) h2
+  apply _root_.Formalism.LT.CoeffP.sigma_norm_le_one <;> assumption
 
 lemma coeff_split {ι : Type v} [Fintype ι] {τ : Type w} (p q : ℕ) (hq : q ≠ 0) (σ : K →+* K)
     (M : ι → ι → K) (f : ι → MvPowerSeries τ K) (j : ι) (n : τ →₀ ℕ) :
@@ -300,12 +294,7 @@ alias norm_sub_le_of := _root_.Formalism.LT.InverseIntegralClassesKeyFacts.norm_
 
 lemma norm_finsum_le {α : Type v} {g : α → K} {C : ℝ} (hC : 0 ≤ C) (hg : ∀ n, ‖g n‖ ≤ C) :
     ‖∑ᶠ n, g n‖ ≤ C := by
-  classical
-  by_cases hfin : (Function.support g).Finite
-  · rw [finsum_eq_sum g hfin]
-    exact IsUltrametricDist.norm_sum_le_of_forall_le_of_nonneg hC (fun i _ => hg i)
-  · rw [finsum_of_infinite_support hfin]
-    simpa using hC
+  apply _root_.GlobalTheory.EvenTheta.SerRing.norm_finsum_le <;> assumption
 
 lemma bd_prod_sub {τ : Type w} {ι : Type v} {C : ℝ} (hC : 0 ≤ C) (X Y : ι → MvPowerSeries τ K)
     (s : Finset ι) (hX : ∀ i ∈ s, IntegralMv (X i)) (hY : ∀ i ∈ s, IntegralMv (Y i))

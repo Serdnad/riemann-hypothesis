@@ -1,5 +1,6 @@
 module
 
+import Formalism.LocalToGlobal.Divisibility.DivisibilityProofs.TuplesP
 public import Formalism.LocalToGlobal.SiegelLatticeTheory.FlagStabilizerTensors.RootLatticeThresholds.LatDictZ
 public import Formalism.SelfDualUnimodular.LocalLatticeDictionary.AlgebraMapNeZero
 public import Formalism.SelfDualUnimodular.LocalLatticeDictionary.SemiGenusLocal
@@ -221,11 +222,7 @@ theorem eT_sum {Q : Set (HeightOneSpectrum (𝓞 F))} (hQ : Q.Finite) :
 
 theorem val_one {v : HeightOneSpectrum (𝓞 F)} {r : 𝓞 F} (h : r ∉ v.asIdeal) :
     Valued.v (algebraMap (𝓞 F) (v.adicCompletion F) r) = 1 := by
-  erw [IsDedekindDomain.HeightOneSpectrum.valuedAdicCompletion_eq_valuation]
-  rw [
-    IsDedekindDomain.HeightOneSpectrum.valuation_of_algebraMap,
-    IsDedekindDomain.HeightOneSpectrum.intValuation_eq_one_iff]
-  exact h
+  apply _root_.Formalism.L2.DIV.b_val_one <;> assumption
 
 theorem val_lt {v : HeightOneSpectrum (𝓞 F)} {r : 𝓞 F} (h : r ∈ v.asIdeal) :
     Valued.v (algebraMap (𝓞 F) (v.adicCompletion F) r) < 1 := by
@@ -1287,30 +1284,7 @@ theorem glue (hs : h.IsSymm) (hc : IsCompl P (orth h P))
 
 theorem isSelfDualMod_comap (F : V ≃ₗ[K] V) (hF : ∀ x y, h (F x) (F y) = h x y)
     (hM : IsSelfDualMod S h M) : IsSelfDualMod S h (M.comap F.symm.toLinearMap.toAddMonoidHom) := by
-  refine ⟨?_, ?_, ?_, ?_⟩
-  · intro a ha m hm
-    change F.symm (a • m) ∈ M
-    rw [map_smul]
-    exact hM.smul_mem a ha _ hm
-  · intro x hx y hy
-    have e := hF (F.symm x) (F.symm y)
-    rw [F.apply_symm_apply, F.apply_symm_apply] at e
-    rw [e]
-    exact hM.int _ hx _ hy
-  · intro x hx
-    change F.symm x ∈ M
-    apply hM.dual
-    intro m hm
-    have e := hF m (F.symm x)
-    rw [F.apply_symm_apply] at e
-    rw [← e]
-    apply hx
-    change F.symm (F m) ∈ M
-    rw [F.symm_apply_apply]
-    exact hm
-  · intro x
-    obtain ⟨t, ht0, htx⟩ := hM.span (F.symm x)
-    exact ⟨t, ht0, by change F.symm (t • x) ∈ M; rw [map_smul]; exact htx⟩
+  apply _root_.Formalism.L2.SG.Pf.LatDictZ.Z0.SGB.selfDual_map <;> assumption
 
 theorem orth_pair {z y x : V} (hz : h z x = 0) (hy : h y x = 0) :
     x ∈ orth h (Submodule.span K {z, y}) := by

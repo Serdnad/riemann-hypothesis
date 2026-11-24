@@ -1,5 +1,7 @@
 module
 
+import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.ValuationLatticeMatrixReduction
+import Formalism.CoboundaryTransfers.GammaStableTransfers.TorsionKilledCriterionHolds
 public import Formalism.LagrangeIdealLifts.Statement
 public import Mathlib.Algebra.Polynomial.Roots
 public import Formalism.WindowSums.AnnihilatorPolynomials.ZpowVal
@@ -236,21 +238,8 @@ open Polynomial
 theorem prod_X_sub_C_dvd_of_injOn {R : Type} [CommRing R] [IsDomain R] {ι : Type}
     (S : Finset ι) (c : ι → R) (hc : Set.InjOn c S) (G : R[X])
     (hG : ∀ a ∈ S, G.eval (c a) = 0) : (∏ a ∈ S, (X - C (c a))) ∣ G := by
-  classical
-  by_cases hG0 : G = 0
-  · rw [hG0]
-    exact dvd_zero _
-  have hle : S.val.map c ≤ G.roots := by
-    rw [Multiset.le_iff_subset (Multiset.Nodup.map_on (fun a ha b hb hab => hc ha hb hab) S.nodup)]
-    intro x hx
-    obtain ⟨a, ha, rfl⟩ := Multiset.mem_map.mp hx
-    exact (Polynomial.mem_roots hG0).mpr (hG a ha)
-  calc (∏ a ∈ S, (X - C (c a))) = ((S.val.map c).map fun x => X - C x).prod := by
-        rw [Multiset.map_map]
-        rfl
-    _ ∣ (G.roots.map fun x => X - C x).prod :=
-        Multiset.prod_dvd_prod_of_le (Multiset.map_le_map hle)
-    _ ∣ G := Polynomial.prod_multiset_X_sub_C_dvd G
+  intros
+  apply _root_.GlobalTheory.EigenSubFree.prod_X_sub_C_dvd <;> assumption
 
 theorem lagrangian_ideal_holds : LagrangeIdeal := by
   intro R _ _ ℓ ι _ S₁ S₂ c w hdisj hw
@@ -756,21 +745,7 @@ namespace CocyclePolynomialSubmodules
 theorem aeval_pres {R E : Type} [CommRing R] [AddCommGroup E] [Module R E] (f : E →ₗ[R] E)
     (S : Submodule R E) (hf : ∀ y ∈ S, f y ∈ S) (p : Polynomial R) :
     ∀ y ∈ S, Polynomial.aeval f p y ∈ S := by
-  intro y hy
-  induction p using Polynomial.induction_on' with
-  | add p q hp hq =>
-    rw [map_add (f := _), LinearMap.add_apply]
-    exact S.add_mem hp hq
-  | monomial n a =>
-    rw [Polynomial.aeval_monomial, Module.End.mul_apply, Module.algebraMap_end_apply]
-    apply S.smul_mem
-    induction n with
-    | zero =>
-      rw [pow_zero, Module.End.one_apply]
-      exact hy
-    | succ n ih =>
-      rw [pow_succ', Module.End.mul_apply]
-      exact hf _ ih
+  apply _root_.Formalism.CoboundaryTransfers.aeval_stable <;> assumption
 
 variable {ℓ : ℕ} [Fact ℓ.Prime] {A : Type} [CommRing A] [Algebra ℤ_[ℓ] A]
   {B : Base ℓ A} {M : ℕ} {D : Type} [AddCommGroup D] [Module A D] [Module ℤ_[ℓ] D]

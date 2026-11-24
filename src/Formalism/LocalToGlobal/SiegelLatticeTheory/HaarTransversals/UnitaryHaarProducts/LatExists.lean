@@ -1,5 +1,8 @@
 module
 
+
+import Development.AbelianVarietyTheory.Proofs.FlagMeasures.UnramifiedDegreeOneOfNcardPlacesOver
+import Formalism.LocalRingCardinality.PosOfIsomEmb
 public import Formalism.SharpRestriction.LevelLetterCocycles.DataN
 public import Mathlib.RingTheory.Ideal.Int
 public import Formalism.LocalToGlobal.SiegelLatticeTheory.HaarTransversals.UnitaryHaarProducts.SettingBlocks
@@ -58,14 +61,13 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
-import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.LatExistsOfSteps
+import all Development.AbelianVarietyTheory.Definitions.SemilocalFrames.LatExistsOfSteps
 import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.SesquilinearRowSplitting.RetractionReduction
 import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.SesquilinearRowSplitting.SesquilinearRepresentation
 import Mathlib.Tactic.Linter.HaveILetI
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Std.Tactic.BVDecide.Normalize.Prop
-
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Formalism.PeriodIntegrals.UnitaryGroupMassFormula.TameSurjectivity.RecUnram, Formalism.LocalToGlobal.SiegelLatticeTheory.HaarTransversals.UnitaryHaarProducts.LatExists
 
@@ -83,17 +85,7 @@ namespace PI.TameSurjW
 theorem liesOver_span_iff {E : Type} [Field E] [NumberField E] {p : ℕ} (hp : p.Prime)
     (P : Ideal (𝓞 E)) [hP : P.IsPrime] :
     P.LiesOver (Ideal.span {(p : ℤ)}) ↔ ((p : ℕ) : 𝓞 E) ∈ P := by
-  have : Fact p.Prime := ⟨hp⟩
-  have hmax : (Ideal.span {(p : ℤ)}).IsMaximal := Int.ideal_span_isMaximal_of_prime p
-  constructor
-  · intro h
-    have h1 : (p : ℤ) ∈ Ideal.span {(p : ℤ)} := Ideal.subset_span rfl
-    rw [Ideal.mem_of_liesOver P (Ideal.span {(p : ℤ)})] at h1
-    simpa using h1
-  · intro h
-    refine ⟨hmax.eq_of_le (Ideal.IsPrime.under ℤ P).ne_top ?_⟩
-    rw [Ideal.span_le, Set.singleton_subset_iff, SetLike.mem_coe, Ideal.under, Ideal.mem_comap]
-    simpa using h
+  apply _root_.GlobalTheory.splitPrime_liesOver_span_iff <;> assumption
 
 theorem notMem_sq_of_split {E : Type} [Field E] [NumberField E] {p : ℕ} (hp : p.Prime)
     (h : (Formalism.BasicNotions.placesOver E p).ncard = Module.finrank ℚ E)
@@ -644,60 +636,7 @@ theorem posFrameSig (S : HSpace E) (σ : E →+* ℂ)
     (hσ : ∀ a, σ (star a) = (starRingEnd ℂ) (σ a)) (h : Formalism.UG.HasSignature (S.gram.map σ) S.rank 0) :
     ∃ Y : Matrix (Fin S.rank) (Fin S.rank) ℂ, IsUnit Y.det ∧
       ∀ y : S.V, ∑ i, ‖(Y.mulVec fun j => σ (S.frame.repr y j)) i‖ ^ 2 = (σ (S.hT y y)).re := by
-  obtain ⟨e, P, hP⟩ := h
-  have hJ : Formalism.UG.Jpq S.rank 0 = 1 := by
-    ext i j
-    rcases i with i | i
-    · rcases j with j | j
-      · simp [Formalism.UG.Jpq, Matrix.one_apply]
-      · exact j.elim0
-    · exact i.elim0
-  set Pm : Matrix (Fin S.rank ⊕ Fin 0) (Fin S.rank ⊕ Fin 0) ℂ := P.val with hPm
-  set Qm : Matrix (Fin S.rank ⊕ Fin 0) (Fin S.rank ⊕ Fin 0) ℂ := (P⁻¹).val with hQm
-  have hPQ : Pm * Qm = 1 := by rw [hPm, hQm, ← Units.val_mul, mul_inv_cancel]; rfl
-  have hcT : Formalism.UG.cT (starRingEnd ℂ) Pm = Pm.conjTranspose := by
-    ext i j; simp [Formalism.UG.cT, Matrix.conjTranspose_apply]
-  rw [hcT, hJ] at hP
-  set G : Matrix (Fin S.rank) (Fin S.rank) ℂ := S.gram.map σ with hG
-  have hGr : G.reindex e e = Qm.conjTranspose * Qm := by
-    have h1 : Qm.conjTranspose * (Pm.conjTranspose * G.reindex e e * Pm) * Qm = Qm.conjTranspose * Qm := by
-      rw [hP, Matrix.mul_one]
-    have h2 : Qm.conjTranspose * Pm.conjTranspose = 1 := by
-      rw [← Matrix.conjTranspose_mul, hPQ, Matrix.conjTranspose_one]
-    rw [← h1]
-    calc G.reindex e e = (Qm.conjTranspose * Pm.conjTranspose) * G.reindex e e * (Pm * Qm) := by
-          rw [h2, hPQ, Matrix.one_mul, Matrix.mul_one]
-      _ = _ := by simp only [Matrix.mul_assoc]
-  let Y : Matrix (Fin S.rank) (Fin S.rank) ℂ := Qm.submatrix e e
-  have hGY : G = Y.conjTranspose * Y := by
-    have : G = (G.reindex e e).submatrix e e := by ext i j; simp
-    rw [this, hGr]
-    ext i j
-    simp only [Y, Matrix.submatrix_apply, Matrix.mul_apply, Matrix.conjTranspose_apply]
-    exact (Equiv.sum_comp e _).symm
-  refine ⟨Y, ?_, fun y => ?_⟩
-  · have : Y.det = Qm.det := Matrix.det_submatrix_equiv_self e Qm
-    rw [this]
-    exact (Matrix.isUnit_iff_isUnit_det _).mp ⟨P⁻¹, rfl⟩
-  · set z : Fin S.rank → ℂ := fun j => σ (S.frame.repr y j) with hz
-    have h1 : ∑ i, ‖(Y.mulVec z) i‖ ^ 2 = (star (Y.mulVec z) ⬝ᵥ Y.mulVec z).re := by
-      simp [dotProduct, Complex.mul_re, Complex.sq_norm, Complex.normSq_apply]
-    have h2 : star (Y.mulVec z) ⬝ᵥ Y.mulVec z = star z ⬝ᵥ G.mulVec z := by
-      rw [hGY, Matrix.star_mulVec, ← Matrix.mulVec_mulVec, Matrix.dotProduct_mulVec (star z)]
-    have h3 : σ (S.hT y y) = star z ⬝ᵥ G.mulVec z := by
-      have := LinearMap.sum_repr_mul_repr_mulₛₗ S.frame S.frame (B := S.hT) y y
-      rw [← this, Finsupp.sum_fintype _ _ (by intro i; simp)]
-
-      simp only [dotProduct, Matrix.mulVec, map_sum]
-      refine Finset.sum_congr rfl fun i _ => ?_
-
-      rw [Finsupp.sum_fintype _ _ (by intro j; simp), map_sum, Finset.mul_sum]
-      refine Finset.sum_congr rfl fun j _ => ?_
-      simp only [smul_eq_mul, map_mul, RingHom.id_apply, hG, hz, Matrix.map_apply, HSpace.gram, Pi.star_apply]
-      rw [starRingEnd_apply, hσ]
-      simp only [starRingEnd_apply]
-      ring
-    rw [h1, h2, h3]
+  apply +allowSynthFailures _root_.Formalism.BasicNotions.HSpace.frame_of_pos <;> assumption
 
 theorem totPosDef_of_sig (S : HSpace E) (hσ : ∀ (σ : E →+* ℂ) a, σ (star a) = (starRingEnd ℂ) (σ a))
     (h : ∀ σ : E →+* ℂ, Formalism.UG.HasSignature (S.gram.map σ) S.rank 0) :
@@ -864,231 +803,17 @@ theorem lat_riesz (φ : (VS D).V →ₗ[D.host.E] D.host.E) : ∃ μ : (VS D).V,
 private theorem lat_span_eq_top_of_unimodular {Λ : Submodule (𝓞 D.host.E) (VS D).V}
     (hL : Λ.FG) (hU : Formalism.HermitianLatticesTheory.IsUnimodular (VS D).hT Λ) :
     Submodule.span D.host.E (Λ : Set (VS D).V) = ⊤ := by
-  by_contra hspan
-  obtain ⟨φ, hφ₀, hφ⟩ := Submodule.exists_le_ker_of_lt_top _ (lt_top_iff_ne_top.mpr hspan)
-  obtain ⟨μ, hμ⟩ := lat_riesz D φ
-  have hμ₀ : μ ≠ 0 := by
-    intro h
-    apply hφ₀
-    ext y
-    simpa [h] using (hμ y).symm
-  have hline (a : D.host.E) : a • μ ∈ Λ := by
-    rw [← hU]
-    change a • μ ∈ Formalism.E.hdual (VS D).hT Λ
-    simp only [Formalism.E.hdual, Submodule.mem_iInf, Submodule.mem_comap, LinearMap.restrictScalars_apply]
-    intro y hy
-    have hy₀ := LinearMap.mem_ker.mp (hφ (Submodule.subset_span hy))
-    simp [← (VS D).herm.eq (a • μ) y, LinearMap.map_smulₛₗ, hμ, hy₀]
-  obtain ⟨ψ, hψ, -⟩ := Submodule.exists_le_ker_of_notMem
-    (show μ ∉ (⊥ : Submodule D.host.E (VS D).V) by simpa using hμ₀)
-  let f := ψ.restrictScalars (𝓞 D.host.E)
-  have hmap (x : D.host.E) : x ∈ Λ.map f := by
-    refine ⟨(x / ψ μ) • μ, hline _, ?_⟩
-    change ψ ((x / ψ μ) • μ) = x
-    rw [map_smul, smul_eq_mul, div_mul_cancel₀ _ hψ]
-  obtain ⟨d, hd₀, hd⟩ := FractionalIdeal.isFractional_of_fg
-    (S := nonZeroDivisors (𝓞 D.host.E)) (hL.map f)
-  have hinj := IsFractionRing.injective (𝓞 D.host.E) D.host.E
-  have hne {a : 𝓞 D.host.E} (ha : a ≠ 0) : algebraMap (𝓞 D.host.E) D.host.E a ≠ 0 :=
-    fun h => ha (hinj (h.trans (map_zero _).symm))
-  have hinteger (x : D.host.E) : IsLocalization.IsInteger (𝓞 D.host.E) x := by
-    have hx := hd _ (hmap ((algebraMap (𝓞 D.host.E) D.host.E d)⁻¹ * x))
-    rwa [Algebra.smul_def, ← mul_assoc, mul_inv_cancel₀ (hne (nonZeroDivisors.ne_zero hd₀)),
-      one_mul] at hx
-  apply RingOfIntegers.not_isField D.host.E
-  refine ⟨⟨0, 1, zero_ne_one⟩, mul_comm, ?_⟩
-  intro a ha
-  obtain ⟨b, hb⟩ := hinteger ((algebraMap (𝓞 D.host.E) D.host.E a)⁻¹)
-  refine ⟨b, hinj ?_⟩
-  rw [map_mul, hb, map_one, mul_inv_cancel₀ (hne ha)]
+  apply _root_.GlobalTheory.St.Lat.lat_span_eq_top_of_unimodular <;> assumption
 
 
 variable [Fact Formalism.HermitianLattices.Ext.L3.HermRepUnram] in
 theorem latExists_of_steps (hSB : SatBasis) (hPC : PrimesInClasses) (hDd : DdG D) :
     Formalism.L2.SG.SplitPrimeNormLemmas.LatExists D := by
-  classical
-  obtain ⟨w, hw0, hww, hwo⟩ := isoW_holds D
-  let wf : Fin (D.R.rS + 1) → (VS D).V := Fin.snoc (α := fun _ => (VS D).V) D.sp.hypE w
-  have hfe_hyp : ∀ j i, (VS D).hT (D.sp.hypF j) (D.sp.hypE i) = if j = i then 1 else 0 :=
-    hfe_of D.sp.hyp_ef
-  have hind : LinearIndependent D.host.E wf := by
-    rw [Fintype.linearIndependent_iff]
-    intro g hg
-    have hc : ∀ j : Fin D.R.rS, g (Fin.castSucc j) = 0 := by
-      intro j
-      have h1 := congrArg ((VS D).hT (D.sp.hypF j)) hg
-
-      rw [map_sum, map_zero, Fin.sum_univ_castSucc] at h1
-      simp only [wf, map_smul, Fin.snoc_castSucc, Fin.snoc_last, (hwo j).2, hfe_hyp, smul_eq_mul, mul_zero,
-        add_zero, mul_ite, mul_one, Finset.sum_ite_eq, Finset.mem_univ, if_true] at h1
-      exact h1
-    have hl : g (Fin.last _) = 0 := by
-      rw [Fin.sum_univ_castSucc] at hg
-      simp only [wf, hc, zero_smul, Finset.sum_const_zero, zero_add, Fin.snoc_last] at hg
-      exact (smul_eq_zero.1 hg).resolve_right hw0
-    intro i
-    exact Fin.lastCases hl (fun j => hc j) i
-  have hsnoc_iso : ∀ i j, (VS D).hT (wf i) (wf j) = 0 := by
-    intro i j
-    refine Fin.lastCases ?_ (fun i => ?_) i <;> refine Fin.lastCases ?_ (fun j => ?_) j <;>
-      simp only [wf, Fin.snoc_last, Fin.snoc_castSucc]
-    · exact hww
-    · rw [← hconj, (hwo j).1, star_zero]
-    · exact (hwo i).1
-    · exact D.sp.hyp_ee i j
-  have haa := PI.SRW.adjoint_action_reduction D
-  have hfull : Submodule.IsFullLattice D.host.E (VS D).L0 := by
-    letI := (VS D).standardTuple_isLattice
-    exact ⟨lat_span_eq_top_of_unimodular D (VS D).standardTuple_isLattice.fg (VS D).baseLattice_isUnimodular⟩
-  obtain ⟨e', c, hind', hspan, hc0, hX⟩ :=
-    hSB D.host.E (VS D) (VS D).L0 hfull D.R.rS wf hind (aaS D) (fun a => (haa a).1)
-  have hmem : ∀ a, e' a ∈ Submodule.span D.host.E (Set.range wf) := fun a =>
-    hspan ▸ Submodule.subset_span ⟨a, rfl⟩
-  have he'iso : ∀ a b, (VS D).hT (e' a) (e' b) = 0 := fun a b => iso_span hsnoc_iso (hmem a) (hmem b)
-  let cc : Fin (D.R.rS + 1) → FractionalIdeal (nonZeroDivisors (𝓞 D.host.E)) D.host.E :=
-    Fin.snoc (α := fun _ => FractionalIdeal (nonZeroDivisors (𝓞 D.host.E)) D.host.E) (aaS D) c
-  have hcc0 : ∀ a, cc a ≠ 0 := fun a =>
-    Fin.lastCases (by simpa [cc] using hc0) (fun a => by simpa [cc] using (haa a).1) a
-  have hX' : (VS D).L0 ⊓ (Submodule.span D.host.E (Set.range e')).restrictScalars (𝓞 D.host.E) =
-      latSpan cc e' := by rw [hspan]; exact hX
-  obtain ⟨f', hf'iso, he'f', hf'Λ⟩ := genFrame_holds D.host.E (VS D) (VS D).L0 (VS D).standardTuple_isLattice
-    (VS D).baseLattice_isUnimodular (PI.SRW.trace_reduction D) _ e' cc hind' he'iso hcc0 hX'
-  have hccΛ : ∀ a, ∀ x ∈ cc a, x • e' a ∈ (VS D).L0 := fun a x hx => by
-    have h1 : x • e' a ∈ latSpan cc e' := Submodule.subset_span ⟨a, x, hx, rfl⟩
-    rw [← hX'] at h1
-    exact h1.1
-  let eX : Fin D.R.rS → (VS D).V := fun a => e' (Fin.castSucc a)
-  let fY : Fin D.R.rS → (VS D).V := fun a => f' (Fin.castSucc a)
-  let el : (VS D).V := e' (Fin.last _)
-  let fl : (VS D).V := f' (Fin.last _)
-  have hee : ∀ a b, (VS D).hT (eX a) (eX b) = 0 := fun a b => he'iso _ _
-  have hff : ∀ a b, (VS D).hT (fY a) (fY b) = 0 := fun a b => hf'iso _ _
-  have hef : ∀ a b, (VS D).hT (eX a) (fY b) = if a = b then 1 else 0 := fun a b => by
-    simp only [eX, fY, he'f', Fin.castSucc_inj]
-  have hPe : ∀ a, ∀ x ∈ aaS D a, x • eX a ∈ (VS D).L0 := fun a x hx =>
-    hccΛ (Fin.castSucc a) x (by simpa [cc] using hx)
-  have hfΛ : ∀ a, ∀ y ∈ (VS D).L0, (VS D).hT (fY a) y ∈ aaS D a := fun a y hy => by
-    simpa [cc] using hf'Λ (Fin.castSucc a) y hy
-  have heΛ : ∀ a, ∀ y ∈ (VS D).L0, (VS D).hT (eX a) y ∈ (aaS D a)⁻¹ := fun a y hy =>
-    dualE (VS D).baseLattice_isUnimodular (haa a).1 (haa a).2 (hPe a) hy
-  have hQf : ∀ a, ∀ x ∈ (aaS D a)⁻¹, x • fY a ∈ (VS D).L0 := fun a x hx =>
-    dualF (VS D).baseLattice_isUnimodular (haa a).1 (haa a).2 (hfΛ a) hx
-  have hsplit := key_split (VS D).L0 eX fY (aaS D) (fun a => (aaS D a)⁻¹) hee hff hef hPe hQf hfΛ heΛ
-
-  have hel_el : (VS D).hT el el = 0 := he'iso _ _
-  have hfl_fl : (VS D).hT fl fl = 0 := hf'iso _ _
-  have hel_fl : (VS D).hT el fl = 1 := by simp [el, fl, he'f']
-  have hcel : ∀ x ∈ c, x • el ∈ (VS D).L0 := fun x hx => hccΛ (Fin.last _) x (by simpa [cc] using hx)
-  have hflc : ∀ y ∈ (VS D).L0, (VS D).hT fl y ∈ c := fun y hy => by simpa [cc] using hf'Λ (Fin.last _) y hy
-  have hl1 : ∀ a, (VS D).hT (eX a) el = 0 := fun a => he'iso _ _
-  have hl2 : ∀ a, (VS D).hT (eX a) fl = 0 := fun a => by
-    simp only [eX, fl, he'f']; rw [if_neg (Fin.castSucc_ne_last a)]
-  have hl3 : ∀ a, (VS D).hT (fY a) el = 0 := fun a => by
-    rw [← hconj]; simp only [fY, el, he'f']; rw [if_neg (Fin.castSucc_ne_last a).symm, star_zero]
-  have hl4 : ∀ a, (VS D).hT (fY a) fl = 0 := fun a => hf'iso _ _
-
-  have hz : ∀ u : D.what₂.Word, ∃ z : (VS D).V, z ∈ Submodule.span D.host.E {el, fl} ∧ z ∈ (VS D).L0 ∧
-      (VS D).hT z z = -(((D.mem u).A.T : ℕ) : D.host.E) ∧
-      ∀ γ : D.host.E, γ • z ∈ (VS D).L0 → ∃ o : 𝓞 D.host.E, (o : D.host.E) = γ := by
-    intro u
-    have hT0 : (((D.mem u).A.T : ℕ) : 𝓞 D.host.E) ≠ 0 := Nat.cast_ne_zero.2 (D.mem u).A.T_prime.ne_zero
-    obtain ⟨P, hPm, hpr, hTP, hα⟩ := hPC D.host.E c hc0 _ hT0
-    exact hypRep_holds D.host.E (VS D) (VS D).L0 D.sp.cm.cmUnram (VS D).baseLattice_isUnimodular (PI.SRW.trace_reduction D)
-      el fl c hc0 hel_el hfl_fl hel_fl hcel hflc _ P hPm hpr hTP hα
-  choose zu hzspan hzL hznorm hzprim using hz
-  have hzo : ∀ u a, (VS D).hT (eX a) (zu u) = 0 ∧ (VS D).hT (fY a) (zu u) = 0 := fun u a =>
-    ⟨orth_pair (hl1 a) (hl2 a) (hzspan u), orth_pair (hl3 a) (hl4 a) (hzspan u)⟩
-  have heX_ind : LinearIndependent D.host.E eX := hind'.comp _ (Fin.castSucc_injective _)
-  let Fu : ∀ u, FlagS D u := fun u =>
-    { e := eX, z := zu u, e_indep := heX_ind, e_iso := hee, z_orth := fun a => (hzo u a).1,
-      z_norm := hznorm u }
-
-  have hXL : (VS D).L0 ⊓ (Submodule.span D.host.E (Set.range eX)).restrictScalars (𝓞 D.host.E) =
-      latSpan (aaS D) eX := by
-    apply le_antisymm
-    · intro y hy
-      obtain ⟨hyΛ, hyX⟩ := Submodule.mem_inf.1 hy
-      rw [Submodule.restrictScalars_mem] at hyX
-      have hβ : ∀ a, (VS D).hT (eX a) y = 0 := fun a => orth_span_right (fun b => hee a b) hyX
-      have hwperp := decomp eX fY hee hff hef y
-      have hw0 : y - ∑ a, (VS D).hT (fY a) y • eX a = 0 := by
-        refine zero_of_dual (hfe_of hef) (Submodule.sub_mem _ hyX (Submodule.sum_mem _
-          (fun a _ => Submodule.smul_mem _ _ (Submodule.subset_span ⟨a, rfl⟩)))) (fun b => ?_)
-        have h1 := (hwperp b).2
-        simpa [hβ] using h1
-      rw [sub_eq_zero.1 hw0]
-      exact (mem_latSpan (aaS D) eX _).2 ⟨_, fun a => hfΛ a y hyΛ, rfl⟩
-    · refine le_inf (latSpan_le _ _ _ hPe) ?_
-      exact Submodule.span_le.2 (by
-        rintro _ ⟨a, x, hx, rfl⟩
-        exact (Submodule.restrictScalars_mem _ _ _).2 (Submodule.smul_mem _ _ (Submodule.subset_span ⟨a, rfl⟩)))
-
-  have hloc : ∀ P : HeightOneSpectrum (𝓞 D.host.E), ∃ cl : Fin D.R.rS → D.host.E, (∀ a, cl a ≠ 0) ∧
-      (((gS D : ℕ) : 𝓞 D.host.E) ∈ P.asIdeal → ∀ a, cl a = 1) ∧
-      Formalism.HermitianLatticesTheory.localization₂ P.asIdeal (latSpan (aaS D) eX) =
-        Formalism.HermitianLatticesTheory.localization₂ P.asIdeal (Submodule.span (𝓞 D.host.E) (Set.range fun a => cl a • eX a)) := by
-    intro P
-    have hPt : P.asIdeal ≠ ⊤ := P.isPrime.ne_top
-    have hgen : ∀ a, ∃ c' ∈ aaS D a, c' ∉ aaS D a * (P.asIdeal : FractionalIdeal (nonZeroDivisors (𝓞 D.host.E)) D.host.E) ∧
-        (((gS D : ℕ) : 𝓞 D.host.E) ∈ P.asIdeal → c' = 1) := by
-      intro a
-      by_cases hg : ((gS D : ℕ) : 𝓞 D.host.E) ∈ P.asIdeal
-      · obtain ⟨h1, h2⟩ := aa_gen_one D hDd P hg a
-        exact ⟨1, h1, h2, fun _ => rfl⟩
-      · obtain ⟨c', hc', hc'n⟩ := exists_gen (haa a).1 hPt
-        exact ⟨c', hc', hc'n, fun h => absurd h hg⟩
-    choose cl hclI hclP hcl1 using hgen
-    refine ⟨cl, fun a h0 => hclP a (by rw [h0]; exact FractionalIdeal.zero_mem _), fun hg a => hcl1 a hg, ?_⟩
-    exact localization_latSpan P.asIdeal (aaS D) eX cl hclI (fun a => locgen (haa a).1 (hclI a) (hclP a))
-
-  have hprim : ∀ u (γ : D.host.E), γ • zu u ∈ Lsub (VS D).L0 (⟨Fu u, zu u⟩ : LFlag (D.sp.Y 0) D.R.rS _) →
-      ∃ o : 𝓞 D.host.E, (o : D.host.E) = γ := by
-    intro u γ hγ
-    obtain ⟨h1, -⟩ := Submodule.mem_inf.1 hγ
-    obtain ⟨l, hl, x, hx, hlx⟩ := Submodule.mem_sup.1 h1
-    obtain ⟨hlΛ, hlo⟩ := Submodule.mem_inf.1 hl
-    have hx' : x ∈ Submodule.span D.host.E (Set.range eX) := hx
-    have hlo' : l ∈ orth (VS D) (Submodule.span D.host.E (Set.range eX)) := hlo
-    have hβ : ∀ a, (VS D).hT (eX a) l = 0 := fun a =>
-      (PI.SRW.mem_orth_iff.1 hlo') (eX a) (Submodule.subset_span ⟨a, rfl⟩)
-    have hwperp := decomp eX fY hee hff hef l
-    have hp : ∑ a, (VS D).hT (fY a) l • eX a ∈ (VS D).L0 :=
-      latSpan_le _ _ _ hPe ((mem_latSpan _ _ _).2 ⟨_, fun a => hfΛ a l hlΛ, rfl⟩)
-    have hw : l - ∑ a, (VS D).hT (fY a) l • eX a ∈ (VS D).L0 := (VS D).L0.sub_mem hlΛ hp
-    have hwf : ∀ b, (VS D).hT (fY b) (l - ∑ a, (VS D).hT (fY a) l • eX a) = 0 := fun b => by
-      have h2 := (hwperp b).2
-      simpa [hβ] using h2
-    have hxp : x + ∑ a, (VS D).hT (fY a) l • eX a = γ • zu u - (l - ∑ a, (VS D).hT (fY a) l • eX a) := by
-      rw [← hlx]; abel
-    have hxpX : x + ∑ a, (VS D).hT (fY a) l • eX a ∈ Submodule.span D.host.E (Set.range eX) :=
-      Submodule.add_mem _ hx' (Submodule.sum_mem _ (fun a _ => Submodule.smul_mem _ _ (Submodule.subset_span ⟨a, rfl⟩)))
-    have hxp0 : x + ∑ a, (VS D).hT (fY a) l • eX a = 0 := by
-      refine zero_of_dual (hfe_of hef) hxpX (fun b => ?_)
-      rw [hxp, map_sub, map_smul, (hzo u b).2, hwf b, smul_zero, sub_zero]
-    have hγz : γ • zu u = l - ∑ a, (VS D).hT (fY a) l • eX a := sub_eq_zero.1 (hxp.symm.trans hxp0)
-    exact hzprim u γ (hγz ▸ hw)
-  refine ⟨{
-      eX := eX
-      fY := fY
-      ee := hee
-      ff := hff
-      ef := hef
-      Lb := perpL (VS D).L0 eX fY
-      Lb_perp := fun x hx a => hx.2 a
-      Lam_split := hsplit
-      zu := zu
-      zu_norm := hznorm
-      zu_orth := hzo
-      zu_Lb := fun u => ⟨hzL u, fun a => hzo u a⟩
-      Fu := Fu
-      Fu_e := fun u => rfl
-      flagZVector := fun u => rfl
-      Fu_fixed := fun u => ⟨(VS D).standardTuple_isLattice, (VS D).baseLattice_isUnimodular, ⟨hzL u, rfl⟩, ⟨fun P => ?_, hprim u⟩⟩ }⟩
-  obtain ⟨cl, hcl0, hcl1, hcle⟩ := hloc P
-  refine ⟨cl, hcl0, hcl1, ?_⟩
-  show Formalism.HermitianLatticesTheory.localization₂ P.asIdeal ((VS D).L0 ⊓ (Submodule.span D.host.E (Set.range eX)).restrictScalars (𝓞 D.host.E)) = _
-  rw [hXL]
-  exact hcle
+  refine _root_.GlobalTheory.St.Lat.latExists_of_steps_with_rep D hSB (isoW_holds D) hDd ?_
+  intro e f c hc he hf hef hcel hflc T hT
+  obtain ⟨P, hPm, hpr, hTP, hα⟩ := hPC D.host.E c hc _ (Nat.cast_ne_zero.2 hT)
+  exact hypRep_holds D.host.E (VS D) (VS D).L0 D.sp.cm.cmUnram (VS D).baseLattice_isUnimodular
+    (PI.SRW.trace_reduction D) e f c hc he hf hef hcel hflc T P hPm hpr hTP hα
 
 end D7main
 

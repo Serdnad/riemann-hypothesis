@@ -1,9 +1,10 @@
 module
 
+
+import all Development.AbelianVarietyTheory.Proofs.JetHarmonics.CayleyExistsAndAny
 public import CompanionTheory.AutomorphicTheory.PieriRules.ThetaBesselIsometries.IsDSOfIsDG
 public import Development.AbelianVarietyTheory.Counterexamples.JetSurvey.ExistsIsCayleyUIff
 import Mathlib.Tactic.Lemma
-
 @[expose] public section
 
 namespace GlobalTheory
@@ -31,12 +32,7 @@ lemma Kset_sub {g : Matrix (Fin n) (Fin n) ℂ} (hg : g ∈ Kset ε) : g ∈ UJs
   rw [Matrix.mul_assoc, ← hg.2, ← Matrix.mul_assoc, hg1, Matrix.one_mul]
 
 lemma UJ_mul {g h : Matrix (Fin n) (Fin n) ℂ} (hg : g ∈ UJset ε) (hh : h ∈ UJset ε) : g * h ∈ UJset ε := by
-  have hg' : gᴴ * Jm ε * g = Jm ε := hg
-  have hh' : hᴴ * Jm ε * h = Jm ε := hh
-  show (g * h)ᴴ * Jm ε * (g * h) = Jm ε
-  calc (g * h)ᴴ * Jm ε * (g * h) = hᴴ * (gᴴ * Jm ε * g) * h := by
-        simp only [conjTranspose_mul, Matrix.mul_assoc]
-    _ = Jm ε := by rw [hg', hh']
+  apply _root_.GlobalTheory.CayleyChoice.mul_mem_UJset_jet_harmonics <;> assumption
 
 lemma symm_inter (T : H ≃ₗᵢ[ℂ] H) (h : ∀ g ∈ UJset ε, ∀ v, T (σ' g v) = σ g (T v)) :
     ∀ g ∈ UJset ε, ∀ v, T.symm (σ g v) = σ' g (T.symm v) := by
@@ -132,20 +128,8 @@ theorem isDS_transfer (T : H ≃ₗᵢ[ℂ] H) (h : ∀ g ∈ UJset ε, ∀ v, T
 
 theorem isDS_conj {lam : Fin n → ℝ} (hσ : IsDS ε lam σ) {u u' : Matrix (Fin n) (Fin n) ℂ}
     (hu : u ∈ UJset ε) (hu' : u' ∈ UJset ε) (h1 : u * u' = 1) :
-    IsDS ε lam (fun g => σ (u' * g * u)) := by
-  obtain ⟨⟨r1, r2⟩, r3, -⟩ := hσ.2.2.1
-  have hs : ∀ v, σ u (σ u' v) = v := by
-    intro v
-    have := r2 u hu u' hu'
-    rw [h1, r1] at this
-    simpa using (congrArg (fun A : H →L[ℂ] H => A v) this).symm
-  let T : H ≃ₗᵢ[ℂ] H := LinearIsometryEquiv.ofSurjective
-    { toLinearMap := (σ u : H →ₗ[ℂ] H), norm_map' := r3 u hu } (fun v => ⟨σ u' v, hs v⟩)
-  refine isDS_transfer T ?_ hσ
-  intro g hg v
-  show σ u (σ (u' * g * u) v) = σ g (σ u v)
-  rw [r2 _ (UJ_mul hu' hg) u hu, r2 u' hu' g hg]
-  simp [hs]
+    IsDS ε lam (fun g => σ (u' * g * u)) :=
+  _root_.GlobalTheory.CayleyChoice.isDS_conj hσ hu hu' h1
 
 lemma card_even (r : ℕ) : ((range (2 * r + 2)).filter fun m => m % 2 = 0).card = r + 1 := by
   induction r with

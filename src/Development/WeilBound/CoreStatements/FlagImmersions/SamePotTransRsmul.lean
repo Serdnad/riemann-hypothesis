@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.PartialZetaDenominatorsCMFieldOfSiegelKlingenDel
 public import Development.AutomorphicSpectrum.Definitions.MetricPeriods.MetricsProjectionFormulaNef
 public import GroundTheory.HeightsAndTheta.Heights.Intersections.ProjLineRankTwoPushforwardHypotheses
 public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LogResolutionPotentialPullback
@@ -292,28 +293,6 @@ end Pull
 
 theorem sum_padicValNat_log {S : Finset ℕ} (hS : ∀ p ∈ S, p.Prime) {n : ℕ} (hn : 0 < n) :
     ∑ p ∈ S, (padicValNat p n : ℝ) * Real.log p ≤ Real.log n := by
-  have hdZ : ∏ p ∈ S, ((p : ℤ)) ^ padicValNat p n ∣ (n : ℤ) := by
-    apply Finset.prod_dvd_of_coprime
-    · intro p hp q hq hpq
-      exact IsCoprime.pow (Nat.isCoprime_iff_coprime.2 ((Nat.coprime_primes (hS p hp) (hS q hq)).2 hpq))
-    · intro p _
-      exact_mod_cast ((_root_.Dvd.intro_left _ (_root_.Nat.divMaxPow_mul_pow_padicValNat _ _)) : p ^ padicValNat p n ∣ n)
-  have hd : ∏ p ∈ S, p ^ padicValNat p n ∣ n := by
-    apply Int.natCast_dvd_natCast.1
-    push_cast
-    exact hdZ
-  have hle : ((∏ p ∈ S, p ^ padicValNat p n : ℕ) : ℝ) ≤ n := by
-    exact_mod_cast Nat.le_of_dvd hn hd
-  have hpos : ∀ p ∈ S, ((p : ℝ) ^ padicValNat p n) ≠ 0 := fun p hp =>
-    pow_ne_zero _ (Nat.cast_ne_zero.2 (hS p hp).ne_zero)
-  calc ∑ p ∈ S, (padicValNat p n : ℝ) * Real.log p
-      = Real.log (∏ p ∈ S, ((p : ℝ) ^ padicValNat p n)) := by
-        rw [Real.log_prod hpos]
-        simp [Real.log_pow]
-    _ ≤ Real.log n := by
-        apply Real.log_le_log
-        · exact Finset.prod_pos fun p hp => pow_pos (Nat.cast_pos.2 (hS p hp).pos) _
-        · push_cast at hle
-          exact hle
+  apply _root_.GlobalTheory.ceSum_val_le <;> assumption
 
 end RootFieldNumerics.Ref

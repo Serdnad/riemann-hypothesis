@@ -1,5 +1,6 @@
 module
 
+import CompanionTheory.HarishChandraModules.LowKTypeMultiplicity.EigenspaceCyclicDensity.CreationOperators.FilterAll
 public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.CoordPair
 public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.HermCoord
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.OneVectorCcOfSiegelWeil
@@ -67,24 +68,8 @@ open GlobalTheory.GaussMean.OneVec
 
 theorem sum_sum_split {M : Type} [AddCommMonoid M] {n : ℕ} (f : Fin n → Fin n → M) :
     ∑ a, ∑ b, f a b = ∑ a, f a a + ∑ p : {p : Fin n × Fin n // p.1 < p.2}, (f p.1.1 p.1.2 + f p.1.2 p.1.1) := by
-  classical
-  have h1 : ∀ a b, f a b = (if a < b then f a b else 0) + (if a = b then f a b else 0) +
-      (if b < a then f a b else 0) := by
-    intro a b
-    rcases lt_trichotomy a b with h | h | h
-    · simp [h, h.ne, not_lt.2 h.le]
-    · subst h; simp
-    · simp [h, h.ne', not_lt.2 h.le]
-  have hsub : ∀ g : Fin n → Fin n → M, ∑ p : {p : Fin n × Fin n // p.1 < p.2}, g p.1.1 p.1.2 =
-      ∑ a, ∑ b, if a < b then g a b else 0 := by
-    intro g
-    rw [← Fintype.sum_prod_type' (f := fun a b => if a < b then g a b else 0), ← Finset.sum_filter]
-    exact (Finset.sum_subtype _ (by simp) (fun a : Fin n × Fin n => g a.1 a.2)).symm
-  rw [Finset.sum_add_distrib, hsub (fun a b => f a b), hsub (fun a b => f b a)]
-  conv_lhs => enter [2, a, 2, b]; rw [h1 a b]
-  simp only [Finset.sum_add_distrib, Finset.sum_ite_eq, Finset.mem_univ, if_true]
-  rw [Finset.sum_comm (f := fun a b => if b < a then f a b else 0)]
-  abel
+  intros
+  apply _root_.CompanionTheory.D.LK.sum_pos <;> assumption
 
 section Main
 

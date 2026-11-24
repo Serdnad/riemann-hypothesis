@@ -107,13 +107,7 @@ theorem bwE_prod_eq {ι : Type} [DecidableEq ι] (s : Finset ι) (X : ι → Mat
 theorem bwE_sum_mem {ι : Type} [DecidableEq ι] (s : Finset ι) (X : ι → Matrix (Fin r) (Fin r) ℂ)
     (h1 : ∀ i ∈ s, 1 + X i ∈ bwA_EO O r) (h0 : ∀ i ∈ s, ∀ i' ∈ s, X i * X i' = 0) :
     1 + ∑ i ∈ s, X i ∈ bwA_EO O r := by
-  induction s using Finset.induction_on with
-  | empty => simp only [Finset.sum_empty, add_zero]; exact (bwA_EO O r).one_mem
-  | @insert a s ha ih =>
-    rw [bwE_prod_eq s X a ha h0]
-    exact (bwA_EO O r).mul_mem (h1 a (Finset.mem_insert_self _ _))
-      (ih (fun i hi => h1 i (Finset.mem_insert_of_mem hi))
-        (fun i hi i' hi' => h0 i (Finset.mem_insert_of_mem hi) i' (Finset.mem_insert_of_mem hi')))
+  apply _root_.Formalism.L2.GlobalTheoryTheory.LocalLatticeBases.bwD_sum_mem <;> assumption
 
 theorem bwE_single_mul_apply (p q : Fin r) (x : ℂ) (M : Matrix (Fin r) (Fin r) ℂ) (a b : Fin r) :
     (Matrix.single p q x * M) a b = if a = p then x * M q b else 0 := by
@@ -264,12 +258,7 @@ theorem bwE_locBasis_int (w : D.what₂.places.Pl) (hw : OverT D u w) (τ : D.wh
 theorem bwE_col_loc (w : D.what₂.places.Pl) (hw : OverT D u w) {n : ℕ} {L : Set (Fin n → D.host.E)}
     {B : GL (Fin n) D.host.E} (hB : IsLocBasis (D.mem u).A.T L B) (k : Fin n) :
     ∃ s : ℕ, ¬ (D.mem u).A.T ∣ s ∧ (s : D.host.E) • (fun r => (B : Matrix (Fin n) (Fin n) D.host.E) r k) ∈ L := by
-  refine (hB _).2 ⟨1, ?_, fun a => ?_⟩
-  · rw [← hw]; exact (D.what₂.places.resChar_prime w).not_dvd_one
-  · rw [Nat.cast_one, one_mul, bwE_mulVec_col, ← Units.val_mul, inv_mul_cancel, Units.val_one, Matrix.one_apply]
-    split_ifs
-    · exact ⟨1, map_one _⟩
-    · exact ⟨0, map_zero _⟩
+  apply _root_.Formalism.L2.GlobalTheoryTheory.LocalLatticeBases.bwD_col_loc <;> assumption
 
 end Spec
 

@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.HarmonicValuesInvariantUniversalEndomorphism
 public import Formalism.LocalToGlobal.ProjectiveLattices.ChartDirectionsIntegral
 public import Development.AbelianVarietyTheory.Proofs.FormalGroupCharts.AdjointSeriesFramesPullback
 public import Development.AbelianVarietyTheory.Proofs.FormalGroupCharts.CubeFramesMoveToPullbackTriple
@@ -383,15 +384,7 @@ theorem push_act {T : Over B'} (x : T ⟶ t'.G) (a : 𝓞 E) :
     rw [Category.assoc, mp.act, Category.assoc])
 
 theorem adφ_comm (a : 𝓞 E) (k) : adφ t' a k ≫ mp.φ = (sqMap mp).left ≫ adφ t a k := by
-  rcases k with I | I
-  · refine psum_push mp.cart _ _ (sqMap mp) (fun i => ?_) I.down
-    fin_cases i
-    · simp [sqMap]
-    · exact (push_act mp _ _).trans (by simp [sqMap])
-  · refine psum_push mp.cart _ _ (sqMap mp) (fun i => ?_) I.down
-    fin_cases i
-    · exact (push_act mp _ _).trans (by simp [sqMap])
-    · simp [sqMap]
+  apply _root_.GlobalTheory.FrameAdjDown.adj_comm <;> assumption
 
 theorem lift_sqMap {T' : Over B'} {T : Over B} (g : T'.left ⟶ T.left) (p' q' : T' ⟶ t'.G) (p q : T ⟶ t.G)
     (hp : p'.left ≫ mp.φ = g ≫ p.left) (hq : q'.left ≫ mp.φ = g ≫ q.left) :
@@ -448,15 +441,8 @@ end Adj
 
 theorem psJet_zero_of {S κ : Type} [CommRing S] [Fintype κ] [DecidableEq κ] (f : MvPowerSeries κ S)
     (hf : MvPowerSeries.constantCoeff f = 1) : psJet 0 f = 1 := by
-  have hc : MvPolynomial.constantCoeff (psTrunc 0 f) = 1 := by
-    rw [MvPolynomial.constantCoeff_eq, GermFun.coeff_psTrunc _ _ _ (by simp),
-      MvPowerSeries.coeff_zero_eq_constantCoeff_apply, hf]
-  unfold psJet
-  rw [← map_one (Ideal.Quotient.mk (orig S κ ^ (0 + 1)))]
-  refine Ideal.Quotient.eq.2 ?_
-  have := sub_const_mem_orig (psTrunc 0 f)
-  rw [hc, map_one] at this
-  rwa [zero_add, pow_one]
+  intros
+  apply _root_.GlobalTheory.ChartPush.psJet_zero_of <;> assumption
 
 theorem aug_subst {S κ κ' : Type} [CommRing S] (m : ℕ) (φ : κ → MvPolynomial κ' S) :
     (jetAug : Jet S κ' m →ₐ[S] S).comp (jetSubstP m φ) = jetAug := by

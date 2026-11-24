@@ -1,5 +1,6 @@
 module
 
+import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.TwistAlg
 public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.StatementsStepThreeAway
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -102,14 +103,7 @@ theorem twistSys_sub (c : ℤ) (I : Chart x) : (twistSys S x c).sub I = twistMod
 
 theorem twist_sub (F Q : SubSystem S x Ω) (I : Chart x) :
     (F.twist Q).sub I = Q.sub I * F.sub I := by
-  rw [Submodule.mul_eq_span_mul_set]
-  change Submodule.span _ {z | ∃ q ∈ Q.sub I, ∃ y ∈ F.sub I, z = q • y} = _
-  congr 1
-  ext z
-  simp only [Set.mem_ofPred_eq, Set.mem_mul, SetLike.mem_coe, smul_eq_mul]
-  constructor
-  · rintro ⟨q, hq, y, hy, rfl⟩; exact ⟨q, hq, y, hy, rfl⟩
-  · rintro ⟨q, hq, y, hy, rfl⟩; exact ⟨q, hq, y, hy, rfl⟩
+  apply _root_.GroundTheory.Heights₂.Heights.Kleiman.SubSystem.twist_sub_eq_mul_of_line <;> assumption
 
 theorem twistMod_zero (I : Chart x) : twistMod S x 0 I = 1 := by
   obtain ⟨i, hi⟩ := I.2.1

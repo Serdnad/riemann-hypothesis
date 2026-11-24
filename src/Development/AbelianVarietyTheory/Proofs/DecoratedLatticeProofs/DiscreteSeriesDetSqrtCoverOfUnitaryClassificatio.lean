@@ -1,5 +1,6 @@
 module
 
+import ReciprocityTheory.ReductiveGroups.DiscreteSeries.DiscreteSeriesExistence.SmoothA
 public import Development.AbelianVarietyTheory.PublishedTheorems.TwistedTraceFormula.AdmissibleDiscreteSeriesOfHasParam
 public import Development.AbelianVarietyTheory.Statements.CuspFrameWeights.DiscreteSpectrumKFiniteDecomposition
 public import Development.AbelianVarietyTheory.Proofs.HeightProofs.RhoCompactTwiceEqOfSignBlockOrdered
@@ -300,17 +301,7 @@ theorem inG_cpart1 (ε : Fin n → Bool) (Z : Matrix (Fin n) (Fin n) ℂ) :
 
 theorem inG_cpart2 (ε : Fin n → Bool) (Z : Matrix (Fin n) (Fin n) ℂ) :
     Formalism.REAL.inG ε (Formalism.REAL.cpart2 ε Z) := by
-  apply inG_of_J
-  unfold Formalism.REAL.cpart2
-  rw [conjTranspose_smul, conjTranspose_add, conjTranspose_mul, conjTranspose_mul, _root_.Formalism.REAL.Jm_conjTranspose,
-    conjTranspose_conjTranspose]
-  simp only [Matrix.mul_smul, Matrix.smul_mul, mul_add, add_mul, mul_assoc]
-  rw [← mul_assoc (Formalism.REAL.Jm ε) (Formalism.REAL.Jm ε), Formalism.REAL.Jm_mul_self, one_mul, mul_one]
-  have : star (1 / (2 * Complex.I)) = -(1 / (2 * Complex.I)) := by
-    rw [show star (1 / (2 * Complex.I)) = (starRingEnd ℂ) (1 / (2 * Complex.I)) from rfl]
-    simp only [map_div₀, map_one, map_mul, Complex.conj_I, map_ofNat]
-    rw [mul_neg, div_neg]
-  rw [this, neg_smul, add_comm]
+  apply _root_.ReciprocityTheory.ChartRestriction.DS.SmDerA.inG_cpart2 <;> assumption
 
 theorem cpart_sum (ε : Fin n → Bool) (Z : Matrix (Fin n) (Fin n) ℂ) :
     Formalism.REAL.cpart1 ε Z + Complex.I • Formalism.REAL.cpart2 ε Z = Z := by

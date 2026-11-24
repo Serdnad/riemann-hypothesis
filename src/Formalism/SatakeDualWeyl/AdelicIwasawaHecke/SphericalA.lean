@@ -1,5 +1,6 @@
 module
 
+import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.UniAMulDiag
 public import Formalism.SatakeDualWeyl.StatementE
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -66,11 +67,7 @@ theorem spherical_upper_iff (b : GL (Fin n) L) :
 
 theorem spherical_diag_mul (A B : Matrix (Fin n) (Fin n) L) (hA : A.BlockTriangular id)
     (hB : B.BlockTriangular id) (i : Fin n) : (A * B) i i = A i i * B i i := by
-  rw [Matrix.mul_apply]
-  refine Finset.sum_eq_single i (fun j _ hji => ?_) (by simp)
-  rcases lt_or_gt_of_ne hji with h | h
-  · rw [hA h, zero_mul]
-  · rw [hB h, mul_zero]
+  apply _root_.UpperTheory.Reformulated.B.Qh23.uniA_mul_diag <;> assumption
 
 theorem spherical_upper_inv (b : GL (Fin n) L) (hb : (b : Matrix (Fin n) (Fin n) L).BlockTriangular id) :
     ((b⁻¹ : GL (Fin n) L) : Matrix (Fin n) (Fin n) L).BlockTriangular id := by

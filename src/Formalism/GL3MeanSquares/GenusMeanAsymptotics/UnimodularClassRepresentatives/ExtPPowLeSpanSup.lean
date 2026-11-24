@@ -1,5 +1,6 @@
 module
 
+import Formalism.GL3MeanSquares.GenusMeanAsymptotics.UnimodularClassRepresentatives.DiscrIdealLeIff
 public import Formalism.GL3MeanSquares.GenusMeanAsymptotics.UnimodularClassRepresentatives.LocalDensityRatio
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -186,14 +187,7 @@ theorem conjO_map (hF : IsFixF K F) (a : 𝓞 F) : conjO K (ι a) = ι a := by
 
 theorem conjO_mem_pow (hF : IsFixF K F) (𝔭 : Ideal (𝓞 F)) (k : ℕ) :
     ∀ z ∈ extP K 𝔭 ^ k, conjO K z ∈ extP K 𝔭 ^ k := by
-  intro z hz
-  have hcomp : (conjO K).comp ι = ι := RingHom.ext (fun a => conjO_map hF a)
-  have hJ : extP K 𝔭 ^ k = Ideal.map ι (𝔭 ^ k) := by
-    rw [Ideal.map_pow]
-    rfl
-  rw [hJ] at hz ⊢
-  have h1 := Ideal.mem_map_of_mem (conjO K) hz
-  rwa [Ideal.map_map, hcomp] at h1
+  apply _root_.Formalism.HermitianLattices.Ext.L3.ExtendedPrimeIdeals.conjO_mem_extP <;> assumption
 
 theorem map_pow_le_span_sup {𝔭 : Ideal (𝓞 F)} (h𝔭 : 𝔭.IsMaximal) {d : 𝓞 F} {c : ℕ}
     (hd : d ∉ 𝔭 ^ (c + 1)) (N : ℕ) : extP K 𝔭 ^ c ≤ Ideal.span {ι d} ⊔ extP K 𝔭 ^ N := by

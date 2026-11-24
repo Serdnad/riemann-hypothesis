@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.AddSubgroupRepsExistenceCardSum
 public import Development.AbelianVarietyTheory.Definitions.PlaceAdaptation.AdaptStd
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -50,19 +51,7 @@ namespace GlobalTheory.LatticeIndex
 
 theorem not_dvd_relIndex {G : Type} [AddCommGroup G] (A B : AddSubgroup G) (k ℓ : ℕ) (hl : ℓ.Prime)
     (hk : Nat.Coprime k ℓ) (h0 : A.relIndex B ≠ 0) (h : ∀ b ∈ B, k • b ∈ A) : ¬ ℓ ∣ A.relIndex B := by
-  intro hdvd
-  have : Fact ℓ.Prime := ⟨hl⟩
-  have : (A.addSubgroupOf B).FiniteIndex := ⟨h0⟩
-  rw [AddSubgroup.relIndex, AddSubgroup.index_eq_card] at hdvd
-  obtain ⟨x, hx⟩ := exists_prime_addOrderOf_dvd_card' ℓ hdvd
-  induction x using QuotientAddGroup.induction_on with
-  | H b =>
-    have hkb : k • (b : B ⧸ A.addSubgroupOf B) = 0 := by
-      rw [← QuotientAddGroup.mk_nsmul, QuotientAddGroup.eq_zero_iff, AddSubgroup.mem_addSubgroupOf]
-      simpa using h b b.2
-    have hd := addOrderOf_dvd_of_nsmul_eq_zero hkb
-    rw [hx] at hd
-    exact hl.one_lt.ne' (Nat.Coprime.eq_one_of_dvd hk.symm hd)
+  first | exact _root_.GlobalTheory.RepsMod.not_dvd_relIndex | exact @_root_.GlobalTheory.RepsMod.not_dvd_relIndex | apply _root_.GlobalTheory.RepsMod.not_dvd_relIndex <;> assumption
 
 section Idx
 variable {E : Type} [Field E] [NumberField E] {n : ℕ}

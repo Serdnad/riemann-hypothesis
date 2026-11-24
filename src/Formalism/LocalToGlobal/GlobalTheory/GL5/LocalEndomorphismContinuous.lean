@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.LcscAdelicUnitaryGroup
 public import Formalism.LocalRingCardinality.DataLevel
 public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.SplitUnitaryGroupIso
 public import Formalism.LocalToGlobal.GlobalTheory.GL5.Statement
@@ -208,13 +209,7 @@ section Iw
 variable {F : Type} [Field F] [NumberField F]
 
 theorem compactOv (v : HeightOneSpectrum (𝓞 F)) : CompactSpace (v.adicCompletionIntegers F) := by
-  have h1 : Finite (IsLocalRing.ResidueField (v.adicCompletionIntegers F)) :=
-    Formalism.UG.P.glint_finite_residueField v
-  have h2 : IsClosed ((v.adicCompletionIntegers F : Set (v.adicCompletion F))) :=
-    Valued.isClosed_valuationSubring _
-  have h3 : CompleteSpace (v.adicCompletionIntegers F) := h2.completeSpace_coe
-  exact Valued.integer.compactSpace_iff_completeSpace_and_isDiscreteValuationRing_and_finite_residueField.2
-    ⟨h3, (inferInstance : IsDiscreteValuationRing (v.adicCompletionIntegers F)), h1⟩
+  apply _root_.GlobalTheory.AdelicUnitaryTop.compactSpace_adicCompletionIntegers <;> assumption
 
 theorem iwProG : Formalism.L2.G.Triv.IwProG := by
   intro F _ _ k v g hg hgv

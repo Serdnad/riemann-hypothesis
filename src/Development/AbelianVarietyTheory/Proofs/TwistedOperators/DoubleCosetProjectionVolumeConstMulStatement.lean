@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.LocalInvariantIntegralsSymmetricHaarSubgroupsStatement
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.RowGrpEq
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.RepresentationAtEveryPlace
 public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.BesselColumnFormCentralTranslation
@@ -153,17 +154,8 @@ theorem KO_of_mul (hc : 1 ≤ c) {u : GL (n ⊕ Fin c) k} (hu : u ∈ symN k n c
     simp [Matrix.one_apply]
 
 theorem embX_KO {g : GL n k} (h : g ∈ KO k n) : embX c g ∈ KO k (n ⊕ Fin c) := by
-  have key : ∀ z : GL n k, (∀ i j, z.val i j ∈ 𝒪[k]) → ∀ r s, (embX c z).val r s ∈ 𝒪[k] := fun z H r s => by
-    change fromBlocks z.val 0 0 1 r s ∈ _
-    rcases r with r | r <;> rcases s with s | s
-    · exact H r s
-    · exact zero_mem _
-    · exact zero_mem _
-    · rw [fromBlocks_apply₂₂, Matrix.one_apply]; split_ifs
-      · exact one_mem _
-      · exact zero_mem _
-  obtain ⟨h1, h2⟩ := (mem_KO_iff _).1 h
-  exact (mem_KO_iff _).2 ⟨key _ h1, by rw [← map_inv]; exact key _ h2⟩
+  intros
+  apply _root_.GlobalTheory.HaarFJInt.embX_mem_KO <;> assumption
 
 theorem frameGL_KO {a b : ℕ} (h : a + c = b) (x : GL (Fin b) k) : frameGL h x ∈ KO k (Fin a ⊕ Fin c) ↔ x ∈ KO k (Fin b) := by
   rw [mem_KO_iff, mem_KO_iff, ← map_inv]

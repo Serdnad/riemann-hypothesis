@@ -1,5 +1,6 @@
 module
 
+import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.LatAnn
 public import Formalism.SharpRestriction.GlobalSchurBounds.StandardLattice
 public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.AddCharTrivialIntegralFiniteAdeleMul
 public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.FinTensMemLatO
@@ -239,31 +240,8 @@ theorem char_sympl_eq_one {ψ : AddChar (AF D.host.F) ℂ} (hψ : IsStdChar D ψ
     (hu : u ∈ latO S T (ΛS : Set (Fin S.rank → D.host.E)) (ΛT : Set (Fin T.rank → D.host.E)) fun _ => True)
     (hu' : u' ∈ latO S T (ΛS : Set (Fin S.rank → D.host.E)) (ΛT : Set (Fin T.rank → D.host.E)) fun _ => True) :
     ψ (symplO S T u u') = 1 := by
-  change symplHom S T u u' ∈ kerChar ψ
-  refine latO_induction (p := fun u => symplHom S T u u' ∈ kerChar ψ) ?_ ?_ ?_ ?_ hu
-  · intro α hα M hM
-    refine latO_induction (p := fun u' => symplHom S T (finTens α M) u' ∈ kerChar ψ) ?_ ?_ ?_ ?_ hu'
-    · intro β hβ N hN
-      change ψ (symplO S T _ _) = 1
-      rw [symplO_finTens]
-      refine GlobalTheory.T.addChar_trivial_integralFiniteAdele_mul D.host.F ψ hψ.1.1 _ (fun a => ?_) _ (mul_mem_intAf hα hβ)
-      have h1 := (GlobalTheory.T.rationalHermitianRankOneLattice_selfDual D S T ΛS ΛT hS hT (GlobalTheory.T.exists_dual_family_selfDual_hermitianSpace D S ΛS hS) _).1
-        (smul_mem_latRat (algebraMap (𝓞 D.host.F) (𝓞 D.host.E) a) hM) N hN
-      rw [hRat_smul, ← char_rat hψ] at h1
-      rw [← h1, ← smul_eq_mul, ← map_smul, Algebra.smul_def, mul_left_comm]
-      rfl
-    · rw [map_zero]; exact zero_mem _
-    · intro x y hx hy
-      change symplO S T (finTens α M) (x + y) ∈ kerChar ψ
-      rw [symplO_add_right]
-      exact add_mem hx hy
-    · intro x hx; rw [map_neg]; exact neg_mem hx
-  · rw [map_zero]; exact zero_mem _
-  · intro x y hx hy
-    change symplO S T (x + y) u' ∈ kerChar ψ
-    rw [symplO_add_left]
-    exact add_mem hx hy
-  · intro x hx; rw [map_neg]; exact neg_mem hx
+  intros
+  apply _root_.Formalism.IndefR.Fin.lat_ann <;> assumption
 
 private theorem selfDual_isFullLattice {D : D7} : ∀ (V : HSp D) (Λ : Submodule (𝓞 D.host.E) (Fin V.rank → D.host.E)),
     IsSelfDualC V Λ → Submodule.IsFullLattice D.host.E Λ := by

@@ -42,6 +42,7 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
+import all Development.AutomorphicArithmetic.CommutativeAlgebra.TwistedSectionEqNsmulGeneratorOfConnected
 
 @[expose] public section
 
@@ -72,13 +73,7 @@ theorem sec_empty {R : Type} [CommRing R] {F : Shv R} {U : Scheme.{0}} [IsEmpty 
 variable {q : ℕ} {i : ℤ}
 
 theorem smul_mod {U : Scheme.{0}} (G : Sec (tw q i) U) (a : ℕ) : a • G = (a % q) • G := by
-  have hq : q • G = 0 := by
-    rw [← Nat.cast_smul_eq_nsmul (ULift.{1} (ZMod q))]
-    have : ((q : ℕ) : ULift.{1} (ZMod q)) = 0 := by
-      ext; simp
-    rw [this, zero_smul]
-  conv_lhs => rw [← Nat.mod_add_div a q]
-  rw [add_smul, mul_comm, mul_smul, hq, smul_zero, add_zero]
+  apply _root_.tw_nsmul_mod <;> assumption
 
 theorem smul_eq_of_cast {U : Scheme.{0}} (G : Sec (tw q i) U) {a b : ℕ} (h : (a : ZMod q) = b) : a • G = b • G := by
   rw [smul_mod G a, smul_mod G b, (ZMod.natCast_eq_natCast_iff' a b q).1 h]
@@ -110,65 +105,7 @@ variable {q : ℕ} {i : ℤ}
 
 theorem surj (hT : TwSec) [NeZero q] {U : Scheme.{0}} [ConnectedSpace U] (ζ : Prim q Γ(U, ⊤))
     (s : Sec (tw q i) U) : ∃ k : ℕ, s = k • twGen i ζ := by
-  obtain ⟨S, hS, hSP⟩ := (hT q i).2.1 U ζ s
-  obtain ⟨𝒰, hle⟩ := Scheme.exists_cover_of_mem_grothendieckTopology hS
-  have hcov := (Scheme.presieve₀_mem_precoverage_iff 𝒰.toPreZeroHypercover).1 𝒰.mem₀
-  have hgen : ∀ {V : Scheme.{0}} (g : V ⟶ U) (n : ℕ),
-      n • twGen i (ζ.map g.appTop.hom) = Sec.res g (n • twGen i ζ) := by
-    intro V g n
-    rw [res_nsmul', (hT q i).2.2.2.1]
-  have hc : ∀ j, ∃ c : ℕ, Sec.res (𝒰.f j) s = Sec.res (𝒰.f j) (c • twGen i ζ) := by
-    intro j
-    obtain ⟨c, hc⟩ := hSP _ _ (hle _ (𝒰.f j) (Presieve.ofArrows.mk j))
-    exact ⟨c, hc.trans (hgen _ _)⟩
-  choose c hc using hc
-  have compat : ∀ j j' (x : 𝒰.X j) (x' : 𝒰.X j'), 𝒰.f j x = 𝒰.f j' x' → (c j : ZMod q) = c j' := by
-    intro j j' x x' hx
-    obtain ⟨z, -, -⟩ := Scheme.Pullback.exists_preimage_pullback x x' hx
-    have : Nonempty ↑(pullback (𝒰.f j) (𝒰.f j') : Scheme.{0}) := ⟨z⟩
-    have e1 : Sec.res (pullback.fst (𝒰.f j) (𝒰.f j') ≫ 𝒰.f j) s =
-        Sec.res (pullback.fst (𝒰.f j) (𝒰.f j') ≫ 𝒰.f j) (c j • twGen i ζ) := by
-      rw [res_comp', hc j, ← res_comp']
-    have e2 : Sec.res (pullback.fst (𝒰.f j) (𝒰.f j') ≫ 𝒰.f j) s =
-        Sec.res (pullback.fst (𝒰.f j) (𝒰.f j') ≫ 𝒰.f j) (c j' • twGen i ζ) := by
-      rw [pullback.condition, res_comp', hc j', ← res_comp']
-    rw [← hgen] at e1 e2
-    exact cast_of_smul_eq hT _ (e1.symm.trans e2)
-  have hopen : ∀ j, IsOpen (Set.range (𝒰.f j)) := by
-    intro j
-    have := hcov.2 j
-    exact (𝒰.f j).isOpenMap.isOpen_range
-  obtain ⟨x0⟩ := (inferInstance : Nonempty U)
-  obtain ⟨j0, y0, hy0⟩ := hcov.1 x0
-  have claim : ∀ j (y : 𝒰.X j), (c j : ZMod q) = c j0 := by
-    intro j y
-    by_contra hne
-    have hpc := (isPreconnected_univ (α := U))
-      (⋃ (j : 𝒰.I₀) (_ : (c j : ZMod q) = c j0), Set.range (𝒰.f j))
-      (⋃ (j : 𝒰.I₀) (_ : (c j : ZMod q) ≠ c j0), Set.range (𝒰.f j))
-      (isOpen_iUnion fun j => isOpen_iUnion fun _ => hopen j)
-      (isOpen_iUnion fun j => isOpen_iUnion fun _ => hopen j)
-      (by
-        intro x _
-        obtain ⟨j', y', hy'⟩ := hcov.1 x
-        by_cases h : (c j' : ZMod q) = c j0
-        · exact Or.inl (Set.mem_iUnion₂.2 ⟨j', h, y', hy'⟩)
-        · exact Or.inr (Set.mem_iUnion₂.2 ⟨j', h, y', hy'⟩))
-      ⟨x0, trivial, Set.mem_iUnion₂.2 ⟨j0, rfl, y0, hy0⟩⟩
-      ⟨𝒰.f j y, trivial, Set.mem_iUnion₂.2 ⟨j, hne, y, rfl⟩⟩
-    obtain ⟨x, -, hA, hB⟩ := hpc
-    obtain ⟨j1, h1, y1, hy1⟩ := Set.mem_iUnion₂.1 hA
-    obtain ⟨j2, h2, y2, hy2⟩ := Set.mem_iUnion₂.1 hB
-    exact h2 ((compat j2 j1 y2 y1 (hy2.trans hy1.symm)).trans h1)
-  refine ⟨c j0, sep' _ (Scheme.Cover.mem_grothendieckTopology 𝒰) _ _ ?_⟩
-  rintro V g ⟨W, h, g', hg', rfl⟩
-  cases hg' with
-  | mk j =>
-    rw [res_comp', res_comp', hc j]
-    congr 1
-    rcases isEmpty_or_nonempty (𝒰.X j) with he | ⟨⟨y⟩⟩
-    · exact sec_empty _ _
-    · rw [smul_eq_of_cast _ (claim j y)]
+  apply _root_.UpperTheory.twisted_section_eq_nsmul_generator_of_connected <;> assumption
 
 theorem gen_bij (hT : TwSec) [NeZero q] {U : Scheme.{0}} [ConnectedSpace U] (ζ : Prim q Γ(U, ⊤)) :
     Function.Bijective (fun k : ZMod q => k.val • twGen i ζ) := by

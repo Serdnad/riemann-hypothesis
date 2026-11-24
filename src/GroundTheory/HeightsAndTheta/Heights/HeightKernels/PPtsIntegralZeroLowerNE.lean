@@ -1,5 +1,6 @@
 module
 
+import GroundTheory.HeightsAndTheta.Heights.HeightComparison.PPtsIntegralPoints
 public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.StatementsGrassHeightNE
 public import Mathlib.Algebra.Module.Submodule.Union
 import Mathlib.Topology.Separation.CompletelyRegular
@@ -61,15 +62,7 @@ theorem segre_ne_zero {W : Ideal (MRing ι)} {z : (Σ k, ι k) → ℂ} (hz : z 
 
 theorem exists_goodProj {W : Ideal (MRing ι)} (hfin : Finite (McClasses W)) :
     ∃ Ψ : (((k : K) → ι k) → ℂ) →ₗ[ℂ] (Fin (0 + 1) → ℂ), IsGoodProj W Ψ := by
-  classical
-  obtain ⟨f, hf⟩ := Module.exists_dual_forall_apply_ne_zero (K := ℂ)
-    (fun q : McClasses W => segre (q.out : (Σ k, ι k) → ℂ)) (fun q => segre_ne_zero q.out.2)
-  refine ⟨LinearMap.pi fun _ => f, fun z hz h => ?_⟩
-  obtain ⟨c, hc, e⟩ := rel_of_mk_eq (Quot.out_eq (Quot.mk _ ⟨z, hz⟩ : McClasses W))
-  have e' : z = fun p => c p.1 * ((Quot.mk _ ⟨z, hz⟩ : McClasses W).out : (Σ k, ι k) → ℂ) p := e
-  have h0 := congrFun h 0
-  rw [LinearMap.pi_apply, Pi.zero_apply, e', segre_smul, map_smul, smul_eq_mul] at h0
-  exact hf _ ((mul_eq_zero.mp h0).resolve_left (Finset.prod_ne_zero_iff.mpr fun k _ => hc k))
+  apply _root_.GroundTheory.Heights₂.Heights.PtsIntegralPoints.exists_isGoodProj <;> assumption
 
 theorem bij_fibre [Nonempty K] {W : Ideal (MRing ι)} (hW : IsMultiHomogIdeal W)
     (Ψ : (((k : K) → ι k) → ℂ) →ₗ[ℂ] (Fin (0 + 1) → ℂ)) (hΨ : IsGoodProj W Ψ) (y : Fin 0 → ℂ) :

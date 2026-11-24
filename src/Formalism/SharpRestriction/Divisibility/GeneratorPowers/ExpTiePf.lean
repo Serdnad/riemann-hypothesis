@@ -1,5 +1,6 @@
 module
 
+import all Formalism.SharpRestriction.Divisibility.GeneratorPowers.ExpChartJet
 public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.ExpTie
 public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.CIndBCNab
 public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.ExpTieAlg
@@ -64,22 +65,7 @@ attribute [local instance] Over.cartesianMonoidalCategory
 
 private lemma mem_degLE_lemma {κ : Type} [Fintype κ] [DecidableEq κ] (m : ℕ) (e : κ →₀ ℕ) :
     e ∈ degLE m ↔ (e.sum fun _ k => k) ≤ m := by
-  unfold degLE
-  rw [Finset.mem_filter]
-  constructor
-  · exact fun h => h.2
-  · intro h
-    refine ⟨?_, h⟩
-    rw [Finset.mem_image]
-    refine ⟨fun i => ⟨e i, ?_⟩, Finset.mem_univ _, ?_⟩
-    · have hi : e i ≤ e.sum fun _ k => k := by
-        by_cases hi0 : e i = 0
-        · omega
-        · exact Finset.single_le_sum (f := fun j => e j) (fun _ _ => Nat.zero_le _)
-            (Finsupp.mem_support_iff.2 hi0)
-      omega
-    · ext i
-      simp
+  apply _root_.Formalism.MainNotions.ModuliIntegralCharts.H1.ExpChartJet.mem_degLE_lemma_5 <;> assumption
 
 private lemma coeff_psTrunc_lemma_2 {R κ : Type} [CommRing R] [Fintype κ] [DecidableEq κ] (m : ℕ)
     (f : MvPowerSeries κ R) (e : κ →₀ ℕ) (he : (e.sum fun _ k => k) ≤ m) :
@@ -110,30 +96,13 @@ private lemma mem_orig_pow_lemma_3 {R κ : Type} [CommRing R] (m : ℕ) (p : MvP
 
 private lemma psJet_mul_lemma_4 {R κ : Type} [CommRing R] [Fintype κ] [DecidableEq κ] (m : ℕ)
     (f g : MvPowerSeries κ R) : psJet m (f * g) = psJet m f * psJet m g := by
-  unfold psJet
-  rw [← map_mul, Ideal.Quotient.eq]
-  apply mem_orig_pow_lemma_3
-  intro e he
-  rw [MvPolynomial.coeff_sub, MvPolynomial.coeff_mul, coeff_psTrunc_lemma_2 m _ e he,
-    MvPowerSeries.coeff_mul, sub_eq_zero]
-  refine Finset.sum_congr rfl fun p hp => ?_
-  have hpe : p.1 + p.2 = e := by simpa using hp
-  have hd : (p.1.sum fun _ k => k) + (p.2.sum fun _ k => k) = e.sum fun _ k => k := by
-    rw [← hpe, Finsupp.sum_add_index' (fun _ => rfl) (fun _ _ _ => rfl)]
-  rw [coeff_psTrunc_lemma_2 m f p.1 (by omega), coeff_psTrunc_lemma_2 m g p.2 (by omega)]
+  intros
+  apply _root_.Formalism.MainNotions.ModuliIntegralCharts.H1.FBIdJet.psJet_mul <;> assumption
 
 private lemma psJet_one_lemma_5 {R κ : Type} [CommRing R] [Fintype κ] [DecidableEq κ] (m : ℕ) :
     psJet m (1 : MvPowerSeries κ R) = 1 := by
-  unfold psJet
-  rw [← map_one (Ideal.Quotient.mk (orig R κ ^ (m + 1))), Ideal.Quotient.eq]
-  apply mem_orig_pow_lemma_3
-  intro e he
-  rw [MvPolynomial.coeff_sub, coeff_psTrunc_lemma_2 m _ e he, MvPowerSeries.coeff_one,
-    MvPolynomial.coeff_one]
-  by_cases h0 : e = 0
-  · subst h0
-    simp
-  · simp [h0, Ne.symm h0]
+  intros
+  apply _root_.Formalism.MainNotions.ModuliIntegralCharts.H1.FBIdJet.psJet_one <;> assumption
 
 theorem psJet_pow {R κ : Type} [CommRing R] [Fintype κ] [DecidableEq κ] (m : ℕ) (f : MvPowerSeries κ R) (k : ℕ) :
     psJet m (f ^ k) = psJet m f ^ k := by

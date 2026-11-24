@@ -232,7 +232,7 @@ theorem common_eps_R {k r : ℕ} {Wp Wq : Type} [NormedAddCommGroup Wp] [InnerPr
     fun e g hg hne => (hR1 e g hg hne).trans (hb1 e), fun e => nice_mono (h2 e) (min_le_right _ _),
     fun e g hg hne => (hR2 e g hg hne).trans (hb2 e)⟩
 
-theorem pb_sizeStdCpt_main : Formalism.FourierDecayAlt.KB.SizeStdCpt := by
+theorem sizeStdCpt_of_radial_module (hRMF : Formalism.FourierDecayAlt.JC.RadialModuleForm) : Formalism.FourierDecayAlt.KB.SizeStdCpt := by
   intro hP Wp Wq _ _ _ _ _ _ P p j hj w ys hc1 hc2 hys
   have hOK : P.OK := p.hP.1
   obtain ⟨hl1, hlk, -⟩ := p.hl
@@ -250,7 +250,7 @@ theorem pb_sizeStdCpt_main : Formalism.FourierDecayAlt.KB.SizeStdCpt := by
     ⟨hPl, Formalism.FourierDecayAlt.P.JCTx5.haar_glev μ0 hμ0, h1, h2, h3, h4, h5, h6⟩
   obtain ⟨K, hThm, -, -, hJc⟩ := hP Wp Wq (Fin (KB.plusW ys w).length) (JC.parLev P jF) _ _ _ _ X μ L st p.l0
     (p.T.bs jF) _ _ hD hl1 hlk rfl rfl rfl rfl le_rfl le_rfl
-  obtain ⟨Cst, hC, hform⟩ := Formalism.FourierDecayAlt.P.radial_module_form Wp Wq P p.T jF X μ L st p.l0 hD
+  obtain ⟨Cst, hC, hform⟩ := hRMF Wp Wq P p.T jF X μ L st p.l0 hD
   have hJ' : PicsInBS p.T jF (K 0) := fun F ε R hε hF hR => pic_of_cptClause (p.T.bs jF) (K 0) hJc hε hF hR
 
   choose Φ hΦK hΦ using fun a => hJ' (x a) ε R hε (hxN a) (hxR a)
@@ -374,6 +374,9 @@ theorem pb_sizeStdCpt_main : Formalism.FourierDecayAlt.KB.SizeStdCpt := by
   refine final_ineq Cst _ _ _ _ _ hQ (fun z hz => ?_) hAi hBi hdk
   obtain ⟨y, hy, rfl⟩ := List.mem_map.1 hz
   exact hqpos y hy
+
+theorem pb_sizeStdCpt_main : Formalism.FourierDecayAlt.KB.SizeStdCpt :=
+  sizeStdCpt_of_radial_module Formalism.FourierDecayAlt.P.radial_module_form
 
 end
 

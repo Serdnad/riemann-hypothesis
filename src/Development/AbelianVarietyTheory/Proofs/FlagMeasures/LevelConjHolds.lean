@@ -1,5 +1,8 @@
 module
 
+import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.MassComputations.SigROneTmul
+import Formalism.LocalToGlobal.SiegelLatticeTheory.ClosedLocalOrbits.GaugeLatticeShifts.NormStepsLeviOntoSEnd
+import Development.AbelianVarietyTheory.Proofs.FlagMeasures.VolumeRatioEqSignatureIndex
 public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.LevelMatchIff
 public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.FrLink
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.AdelicColumnLatticeEqSpanPartTransportedFrameStatement
@@ -308,17 +311,7 @@ variable {D : D7}
 
 theorem mL_div (I : Formalism.MainNotions.S.AutInst) (m : ℕ) :
     ∀ v ∈ mL I m, ∃ z ∈ I.Lf, v = (m : I.E ⊗[I.F] Af I.F) • z := by
-  intro v hv
-  induction hv using Submodule.span_induction with
-  | mem x hx => exact hx
-  | zero => exact ⟨0, I.Lf.zero_mem, (smul_zero _).symm⟩
-  | add x y _ _ hx hy =>
-    obtain ⟨a, ha, rfl⟩ := hx
-    obtain ⟨b, hb, rfl⟩ := hy
-    exact ⟨a + b, I.Lf.add_mem ha hb, (smul_add _ _ _).symm⟩
-  | smul c x _ hx =>
-    obtain ⟨a, ha, rfl⟩ := hx
-    exact ⟨c • a, I.Lf.smul_mem c ha, smul_comm _ _ _⟩
+  first | exact _root_.Formalism.L2.SG.Pf.NormSteps.LeviFramePf.lf_mem_mL | exact @_root_.Formalism.L2.SG.Pf.NormSteps.LeviFramePf.lf_mem_mL | apply _root_.Formalism.L2.SG.Pf.NormSteps.LeviFramePf.lf_mem_mL <;> assumption
 
 theorem embA_smul (X : HidaSetting D) (wt : (VS D).V ≃ₗ[D.host.E] (VS D).V)
     (ιA : X.B.I.E ⊗[X.B.I.F] Af X.B.I.F ≃+* D.host.E ⊗[D.host.F] Ad D.host.F)
@@ -740,21 +733,8 @@ def satG (I : AutInst) (g : ℕ) (T : Submodule (IntAf I.F I.E) (VA I)) :
 theorem mem_of_coprime_smul (I : AutInst) (g n : ℕ) (hn : Nat.Coprime n g)
     (T : Submodule (IntAf I.F I.E) (VA I)) (hT : mL I g ≤ T) {v : VA I} (hv : v ∈ I.Lf)
     (hnv : (n : I.E ⊗[I.F] Af I.F) • v ∈ T) : v ∈ T := by
-  have hg : (g : ℤ) • v ∈ T := by
-    have h : (g : I.E ⊗[I.F] Af I.F) • v ∈ mL I g := Submodule.subset_span ⟨v, hv, rfl⟩
-    rw [Nat.cast_smul_eq_nsmul] at h
-    rw [natCast_zsmul]
-    exact hT h
-  have hn' : (n : ℤ) • v ∈ T := by
-    rw [Nat.cast_smul_eq_nsmul] at hnv
-    rw [natCast_zsmul]
-    exact hnv
-
-  have key : v = Nat.gcdA n g • ((n : ℤ) • v) + Nat.gcdB n g • ((g : ℤ) • v) := by
-    rw [smul_smul, smul_smul, ← add_smul, mul_comm (Nat.gcdA n g), mul_comm (Nat.gcdB n g),
-      ← Nat.gcd_eq_gcd_ab, Nat.Coprime.gcd_eq_one hn, Nat.cast_one, one_smul]
-  rw [key]
-  exact add_mem (zsmul_mem hn' _) (zsmul_mem hg _)
+  intros
+  apply _root_.MassDataMassesW.NLev.bezout <;> assumption
 
 private theorem mem_satG_iff_exists_coprime_smul_mem (I : AutInst) (g : ℕ) (T : Submodule (IntAf I.F I.E) (VA I)) (x : VA I) :
     x ∈ satG I g T ↔ ∃ N : ℕ, Nat.Coprime N g ∧ (N : I.E ⊗[I.F] Af I.F) • x ∈ T := Iff.rfl
@@ -1523,21 +1503,7 @@ variable (I : AutInst)
 
 theorem mem_mL {m : ℕ} {y : VA I} :
     y ∈ mL I m ↔ ∃ x ∈ I.Lf, y = (m : I.E ⊗[I.F] Af I.F) • x := by
-  constructor
-  · intro h
-    unfold mL at h
-    induction h using Submodule.span_induction with
-    | mem y hy => exact hy
-    | zero => exact ⟨0, I.Lf.zero_mem, by simp⟩
-    | add a b _ _ ha hb =>
-      obtain ⟨x, hx, rfl⟩ := ha
-      obtain ⟨x', hx', rfl⟩ := hb
-      exact ⟨x + x', I.Lf.add_mem hx hx', by rw [smul_add]⟩
-    | smul r a _ ha =>
-      obtain ⟨x, hx, rfl⟩ := ha
-      exact ⟨r • x, I.Lf.smul_mem r hx, by rw [Subring.smul_def, Subring.smul_def, smul_comm]⟩
-  · rintro ⟨x, hx, rfl⟩
-    exact Submodule.subset_span ⟨x, hx, rfl⟩
+  first | exact _root_.GlobalTheory.RowIndex.mem_mL | exact @_root_.GlobalTheory.RowIndex.mem_mL | apply _root_.GlobalTheory.RowIndex.mem_mL <;> assumption
 
 variable {I}
 

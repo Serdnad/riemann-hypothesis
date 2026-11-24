@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.MemRangeOfFrobeniusEquationCyclotomicFixed
 public import Development.AbelianVarietyTheory.Definitions.Foundations.HTBasis
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.CoeffZeroEqZeroIff
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.CyclotomicTowerFixesEpsilonRootsResGammaTrivial
@@ -70,19 +71,7 @@ theorem root_sub_dvd (j : ℕ) : AI.εroot j - 1 ∣ AI.ε - 1 := by
 
 theorem exists_pow_mul_integral (s : ℕ) (y : Cb l) : ∃ k, ∀ k' ≥ k, ∃ z : OCb l,
     algebraMap (OCb l) (Cb l) ((AI.εroot s - 1) ^ k') * y = algebraMap (OCb l) (Cb l) z := by
-  obtain ⟨a, b, hb, rfl⟩ := IsFractionRing.div_surjective (A := OCb l) y
-  have hb0 : b ≠ 0 := nonZeroDivisors.ne_zero hb
-  obtain ⟨k, hk⟩ : ∃ k, b ∣ (AI.εroot s - 1) ^ k := by
-    by_contra h
-    exact hb0 ((GlobalTheory.TiltComplete.tilt_separated_complete l P AI s).1 b fun m =>
-      (ValuationRing.dvd_total _ _).resolve_right fun h' => h ⟨m, h'⟩)
-  refine ⟨k, fun k' hk' => ?_⟩
-  obtain ⟨d, hd⟩ := hk.trans (pow_dvd_pow _ hk')
-  have : algebraMap (OCb l) (Cb l) b ≠ 0 := fun h =>
-    hb0 (IsFractionRing.injective (OCb l) (Cb l) (h.trans (map_zero _).symm))
-  refine ⟨d * a, ?_⟩
-  rw [hd, map_mul, map_mul]
-  field_simp
+  first | exact _root_.GlobalTheory.FrobDescent.exists_pow_mul | exact @_root_.GlobalTheory.FrobDescent.exists_pow_mul | apply _root_.GlobalTheory.FrobDescent.exists_pow_mul <;> assumption
 
 theorem flat_invariant_approx : ∀ (l : ℕ) [Fact l.Prime] (P : LocPrime l) (AI : LocAinf l P) (K : FinExt l) (s : ℕ) (w : Cb l), (∀ g ∈ Hinf K, autCb l (AI.actT g) w = w) → ∀ m : ℕ, ∃ N₀ : ℕ, ∀ N ≥ N₀, ∃ u ∈ Subring.closure (Set.range AI.εroot ∪ {xb | ∃ c : Om l, c ∈ K0 K ∧ ∃ m : ℕ, 0 < m ∧ ¬ l ∣ m ∧ c ^ m = 1 ∧ IsTiltOf c m xb}), ∃ v : OCb l, algebraMap (OCb l) (Cb l) ((AI.εroot s - 1) ^ N) * w = algebraMap (OCb l) (Cb l) (u + (AI.εroot s - 1) ^ (N + m) * v) := by
   intro l _ P AI K s w hw m

@@ -115,17 +115,7 @@ private theorem mm_finset_sum_of_forall_mm {V : VF C} {ι : Type} (s : Finset ι
 
 private theorem mms_mul_of_intS_of_mms {V : VF C} {σ : Type} {f h : MvPowerSeries σ C} (hf : IntS V f)
     (hh : MaximalIdealCongruence.MMS V h) : MaximalIdealCongruence.MMS V (f * h) := by
-  intro μ
-  rw [MvPowerSeries.coeff_mul]
-  apply mm_finset_sum_of_forall_mm
-  intro x _
-  have h1 := hf x.1
-  have h2 := hh x.2
-  unfold VF.Ge at h1
-  unfold VF.MM at h2 ⊢
-  rw [AddValuation.map_mul]
-  have h1' : (0 : WithTop ℝ) ≤ V.v (coeff x.1 f) := by simpa using h1
-  exact lt_of_lt_of_le h2 (le_add_of_nonneg_left h1')
+  apply _root_.Formalism.L2.FormalSeriesBounds.MaximalIdealCongruence.MMS.mul_left <;> assumption
 
 theorem frobD_mul {f g : PS C 3 dd} (hf : IntS V f) (hg : IntS V g) (hf' : FrobD V f) (hg' : FrobD V g) :
     FrobD V (f * g) := by

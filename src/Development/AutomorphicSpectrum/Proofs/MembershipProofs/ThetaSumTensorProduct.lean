@@ -60,6 +60,7 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import Mathlib.Tactic.Basify
+import Development.WeilBound.ThetaLifts.LeviDeterminants.CharacterAdmissibility.ExistsDoubledUnitaryBlock
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AutomorphicSpectrum.Proofs.MembershipProofs.SeesawThetaDualPair, Development.AutomorphicSpectrum.Proofs.MembershipProofs.ThetaSumTensorProduct
@@ -423,16 +424,7 @@ theorem isHerm_dbl {J : Matrix β β E} (h : IsHerm c J) : IsHerm c (dbl J) := b
 
 theorem exists_dbl_elem {J : Matrix β β E} (g : UG c J) : ∃ gd : UG c (dbl J),
     ((gd : GL (β ⊕ β) E) : Matrix (β ⊕ β) (β ⊕ β) E) = fromBlocks ((g : GL β E) : Matrix β β E) 0 0 1 := by
-  have hg : ((g : GL β E) : Matrix β β E)ᵀ * J * ((g : GL β E) : Matrix β β E).map c = J := g.2
-  refine ⟨⟨⟨fromBlocks ((g : GL β E) : Matrix β β E) 0 0 1,
-    fromBlocks (((g : GL β E)⁻¹ : GL β E) : Matrix β β E) 0 0 1, ?_, ?_⟩, ?_⟩, rfl⟩
-  · rw [fromBlocks_multiply, Units.mul_inv]; simp
-  · rw [fromBlocks_multiply, Units.inv_mul]; simp
-  · change (fromBlocks ((g : GL β E) : Matrix β β E) 0 0 1)ᵀ * dbl J *
-      (fromBlocks ((g : GL β E) : Matrix β β E) 0 0 1).map c = dbl J
-    rw [fromBlocks_map, fromBlocks_transpose, dbl, fromBlocks_multiply, fromBlocks_multiply,
-      Matrix.map_one _ (map_zero c) (map_one c), Matrix.map_zero _ (map_zero c)]
-    simp [hg]
+  apply _root_.PositivityTheory.ThKF0.Chr.exists_doubled_unitary_block <;> assumption
 
 end General
 

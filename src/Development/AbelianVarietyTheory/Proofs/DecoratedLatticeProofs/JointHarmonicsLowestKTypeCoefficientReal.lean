@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.AdelicLiftMemCuspFormMultiplicitySpaceStatement
 public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.TwistedLevelValues
 public import Development.AbelianVarietyTheory.Definitions.Divisors.IsSmoothVector
 public import Development.AbelianVarietyTheory.BlockTheory.TwistedDiscreteSeries.HolomorphicLowestType
@@ -644,64 +645,7 @@ theorem gen_kill (hψ : IsStdChar D ψ (-1)) (hθ : IsInfFam θ) {BS : D.what₂
     (hP : ∀ a b : Fin T.rank, p ≤ (a : ℕ) → (b : ℕ) < p →
       ∑ c : Fin S.rank, MvPolynomial.pderiv (τ, a, c) (MvPolynomial.pderiv (τ, b, c) P) = 0) :
     (GX + Complex.I • GY) (pureTensorO ψ θ S T (fun _ => 1) (cart M) BS BT f P) = 0 := by
-  have hT := GlobalTheory.Chain.VacVec.cart_isCartanInv M
-  have hS := fun τ => isCartanInv_one (hB τ)
-  obtain ⟨ν, n0, hν⟩ := exists_coef hB hBT lX lY ha
-  unfold pureTensorO aPlusAll
-  refine (quad_pure (P := IsThetaFunO ψ S T) (G := GX + Complex.I • GY)
-    (B := fun k g => ((fockScale D k.1 : ℂ)⁻¹ * (if k.1 = τ then (1 : ℂ) else 0)) •
-      (annih (heisO ψ S T) θ τ (cplxO 1 (cart M τ)) (X * unitMap (BS k.1) (BT k.1) k.2.1 k.2.2) g +
-        (-Complex.I) • annih (heisO ψ S T) θ τ (cplxO 1 (cart M τ))
-          (X * cplxO 1 (cart M k.1) (unitMap (BS k.1) (BT k.1) k.2.1 k.2.2)) g))
-    (μ := fun i j => if i.1 = τ then if j.1 = τ then if i.2.2 = j.2.2 then
-      ((fockScale D τ : ℂ)⁻¹ * (fockScale D τ : ℂ)⁻¹ * (-(4 * π * Complex.I))) * ν i.2.1 j.2.1 else 0 else 0 else 0)
-    (fun _ _ => theta_add) (fun a _ => theta_smul a) ?_ ?_ ?_ ?_ ?_ ?_ ?_ ?_ hf ?_ h0 P).trans ?_
-  · exact fun _ _ h => aPlus_theta hψ hθ _ _ _ h
-  · exact fun i j _ h => aPlus_comm' (sS := fun _ => 1) hψ hθ i.1 _ hS hT j.1 _ h
-  · exact fun _ _ _ h h' => aPlus_add hψ hθ _ _ _ h h'
-  · exact fun _ a _ h => aPlus_smul hψ hθ _ _ _ a h
-  · intro i g g' hg hg'
-    rw [annih_add hψ hθ _ _ _ hg hg', annih_add hψ hθ _ _ _ hg hg']
-    simp only [smul_add]
-    abel
-  · intro i a g hg
-    rw [annih_smul hψ hθ _ _ _ _ hg, annih_smul hψ hθ _ _ _ _ hg, smul_comm _ a, ← smul_add, smul_comm _ a]
-  · rintro ⟨τ₁, a, c⟩ ⟨τ₂, b, d⟩ g hg
-    have ta := fun z => annih_theta hψ hθ τ (cplxO 1 (cart M τ)) z hg
-    have aa := fun z => annih_aPlus (sS := fun _ => 1) hψ hθ τ z hS hT τ₂ (unitMap (BS τ₂) (BT τ₂) b d) hg
-    dsimp only at aa ⊢
-    rw [aa, aa, aPlus_smul hψ hθ _ _ _ _ (theta_add (ta _) (theta_smul _ (ta _))),
-      aPlus_add hψ hθ _ _ _ (ta _) (theta_smul _ (ta _)), aPlus_smul hψ hθ _ _ _ _ (ta _), smul_add (-Complex.I),
-      add_add_add_comm, smul_add, smul_smul, ← add_smul, smul_smul]
-    refine congrArg₂ (· + ·) rfl (congrArg (· • g) ?_)
-    by_cases e1 : τ₁ = τ
-    swap
-    · simp only [if_neg e1, ite_self, mul_zero, zero_mul, add_zero]
-    by_cases e2 : τ₂ = τ
-    swap
-    · simp [e2, omDir, Ne.symm e2]
-    subst e1
-    subst e2
-    have := hν a c b d _ rfl _ rfl
-    simp only [if_true]
-    by_cases e3 : c = d
-    · simp only [if_pos e3, if_pos e3.symm] at this ⊢
-      linear_combination ((fockScale D τ₂ : ℂ)⁻¹ * (fockScale D τ₂ : ℂ)⁻¹ * (-(4 * π * Complex.I))) * this
-    · simp only [if_neg e3, if_neg (Ne.symm e3)] at this ⊢
-      linear_combination ((fockScale D τ₂ : ℂ)⁻¹ * (fockScale D τ₂ : ℂ)⁻¹ * (-(4 * π * Complex.I))) * this
-  · exact fun i _ h => gen_aPlus hψ hθ hX hY _ _ _ h
-  · intro i
-    rw [hv, hv, smul_zero, add_zero, smul_zero]
-  · refine (congrArg _ ?_).trans (map_zero _)
-    simp only [Fintype.sum_prod_type, ite_smul, zero_smul, Finset.sum_ite_irrel, Finset.sum_const_zero,
-      Finset.sum_ite_eq', Finset.sum_ite_eq, Finset.mem_univ, if_true]
-    refine Finset.sum_eq_zero fun a _ => ?_
-    rw [Finset.sum_comm]
-    refine Finset.sum_eq_zero fun b _ => ?_
-    rw [← Finset.smul_sum]
-    by_cases hab : p ≤ (a : ℕ) ∧ (b : ℕ) < p
-    · rw [hP a b hab.1 hab.2, smul_zero]
-    · rw [n0 a b hab, mul_zero, zero_smul]
+  first | exact _root_.GlobalTheory.LowKillDelta.gen_kill_any | exact @_root_.GlobalTheory.LowKillDelta.gen_kill_any | apply _root_.GlobalTheory.LowKillDelta.gen_kill_any <;> assumption
 
 end GlobalTheory.FockKillAdapted
 

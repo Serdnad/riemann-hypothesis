@@ -1,5 +1,7 @@
 module
 
+import ReciprocityTheory.ReductiveGroups.DiscreteSeries.DiscreteSeriesExistence.Bridge
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExtremalVectorMatrixCoeffHolomorphicType
 public import Formalism.SharpRestriction.CuspSpanNormBounds.RelevantZeroGramTerms
 public import Development.AbelianVarietyTheory.Definitions.Foundations.ContinuousOfMemCcSmooth
 public import Development.AbelianVarietyTheory.Definitions.Foundations.ExistsAuxiliaryPlaceNotMemFinset
@@ -193,19 +195,7 @@ noncomputable abbrev dg {n : ℕ} (θ : Fin n → ℝ) : Matrix (Fin n) (Fin n) 
   Matrix.diagonal (fun a => Complex.exp ((θ a : ℂ) * Complex.I))
 
 lemma diag_mem (n : ℕ) (ε : Fin n → Bool) (θ : Fin n → ℝ) : dg θ ∈ Formalism.REAL.Kset ε := by
-  refine ⟨?_, ?_⟩
-  · rw [Matrix.mem_unitaryGroup_iff]
-    rw [Matrix.star_eq_conjTranspose, Matrix.diagonal_conjTranspose, Matrix.diagonal_mul_diagonal,
-      ← Matrix.diagonal_one]
-    congr 1
-    funext i
-    simp only [Pi.star_apply, Complex.star_def, ← Complex.exp_conj, ← Complex.exp_add]
-    simp [Complex.conj_ofReal]
-  · unfold Formalism.REAL.Jm
-    rw [Matrix.diagonal_mul_diagonal, Matrix.diagonal_mul_diagonal]
-    congr 1
-    funext a
-    ring
+  apply _root_.GlobalTheory.HolDict.CoefExt.diagonal_mem_Kset <;> assumption
 
 lemma sum_single {n : ℕ} (μ : Fin n → ℝ) (a : Fin n) (c : ℝ) :
     (∑ b, μ b * (Pi.single a c : Fin n → ℝ) b) = μ a * c := by
@@ -697,17 +687,7 @@ theorem idxSum_sum {ι : Type} (s : Finset ι) (f : ι → Fin n → ℝ) : idxS
 
 theorem idxSum_nonpos_of_cdom {ε : Fin n → Bool} {μ Λ : Fin n → ℝ} (h : Formalism.MainNotions.S.CDom ε μ Λ) :
     idxSum (Λ - μ) ≤ 0 := by
-  obtain ⟨c, hc, heq⟩ := h
-  rw [heq, idxSum_sum]
-  refine Finset.sum_nonpos fun a _ => ?_
-  rw [idxSum_sum]
-  refine Finset.sum_nonpos fun b _ => ?_
-  rw [idxSum_smul, idxSum_root]
-  by_cases h0 : c a b = 0
-  · simp [h0]
-  · have hab := (hc a b h0).1
-    have : ((a : ℕ) : ℝ) < (b : ℕ) := by exact_mod_cast hab
-    exact mul_nonpos_of_nonneg_of_nonpos (by positivity) (by linarith)
+  apply _root_.ReciprocityTheory.ChartRestriction.DS.brIdxSum_nonpos_of_cdom <;> assumption
 
 theorem not_cdom_add_root (ε : Fin n → Bool) (Λ : Fin n → ℝ) {a b : Fin n} (hab : a < b) :
     ¬ Formalism.MainNotions.S.CDom ε (Λ + Formalism.REAL.root a b) Λ := by

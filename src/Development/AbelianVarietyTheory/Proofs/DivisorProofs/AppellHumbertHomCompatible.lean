@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Definitions.ArchimedeanThetaValues.ExistsChartComplexPoint
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsAHOfIsFactorAH
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ProductAbelianUniformization
 public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.DifferentiableOnProdOfForall
@@ -149,16 +150,7 @@ theorem ex_add_mem {M : LB A.left} (u : HolUnif A M g) (z : Fin g → ℂ) {w : 
 omit [IsCommMonObj A] in
 theorem exists_chart_pt' {X : Scheme.{0}} (L : LB X) (hL : L.IsLB) (y : Sp ℂ ⟶ X) :
     ∃ j, ⊤ ≤ y ⁻¹ᵁ L.U j := by
-  let p0 : Sp ℂ := (⟨⊥, Ideal.isPrime_bot⟩ : PrimeSpectrum ℂ)
-  have hmem : y p0 ∈ (⨆ i, L.U i : X.Opens) := by rw [hL.cover]; trivial
-  obtain ⟨j, hj⟩ := TopologicalSpace.Opens.mem_iSup.mp hmem
-  refine ⟨j, fun q _ => ?_⟩
-  have : q = p0 := by
-    haveI := q.isPrime
-    haveI := p0.isPrime
-    exact PrimeSpectrum.ext ((Ideal.eq_bot_of_prime q.asIdeal).trans (Ideal.eq_bot_of_prime p0.asIdeal).symm)
-  rw [this]
-  exact hj
+  apply _root_.GlobalTheory.exists_chart_complexPoint <;> assumption
 
 
 open Classical in

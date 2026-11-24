@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.SatakeParameters.InertHeckeOperatorCompSphericalConvolution
 public import Formalism.AlgebraicWeights.InertDatumExists
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsContinuousPadic
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.MemMaxCompactOfTrivOutsideLocalIntegral
@@ -69,21 +70,8 @@ theorem compAt_mem_tensInt (L : Type) [Field L] [NumberField L] [IsCMField L]
     compAt L v z ∈ Formalism.UG.tensInt (F := maximalRealSubfield L)
       (v.adicCompletion (maximalRealSubfield L)) (Formalism.UG.intOE L)
       (Formalism.UG.Ov (maximalRealSubfield L) v) := by
-  have key : ALint L ≤ (Formalism.UG.tensInt (F := maximalRealSubfield L)
-      (v.adicCompletion (maximalRealSubfield L)) (Formalism.UG.intOE L)
-      (Formalism.UG.Ov (maximalRealSubfield L) v)).comap (compAt L v) := by
-    rw [ALint, Subring.closure_le]
-    rintro _ (⟨y, rfl⟩ | ⟨a, ha, rfl⟩)
-    · apply Subring.subset_closure
-      left
-      refine ⟨⟨(y : L), y, rfl⟩, ?_⟩
-      rw [GlobalTheory.InertUmax.compAt_tmul]
-      rfl
-    · apply Subring.subset_closure
-      right
-      refine ⟨⟨a v, ha v⟩, ?_⟩
-      rw [GlobalTheory.InertUmax.compAt_tmul]
-  exact key hz
+  intros
+  apply _root_.GlobalTheory.InertUmaxInt.compAt_mem_tensInt <;> assumption
 
 theorem mem_range_bc_of_entries {K : Type} [Field K] (S : Subring K) {n : ℕ} (g : GL (Fin n) K)
     (hg : ∀ i j, (g : Matrix (Fin n) (Fin n) K) i j ∈ S)
@@ -115,17 +103,7 @@ theorem loc_entries_mem (L : Type) [Field L] [NumberField L] [IsCMField L] (n : 
     (Dv : InertDatum L n v w) (y : GAf L n) (hy : y ∈ Umax L n) (i j : Fin n) :
     ((Dv.loc y : GL (Fin n) (w.adicCompletion L)) : Matrix (Fin n) (Fin n) (w.adicCompletion L)) i j
       ∈ Formalism.UG.intL (w.adicCompletion L) := by
-  have hP := GlobalTheory.InertUmax.entries_mem_of_range _ _ Dv.Pint
-  have hP' := GlobalTheory.InertUmax.entries_mem_of_range _ _ (inv_mem Dv.Pint)
-  have hE : ∀ l k, ((Formalism.UG.bc (n := Fin n)
-      (Dv.e : L ⊗[maximalRealSubfield L] v.adicCompletion (maximalRealSubfield L) →+* w.adicCompletion L)
-      (Matrix.GeneralLinearGroup.map (compAt L v) (y : GL (Fin n) (AL L))) : GL (Fin n) _) :
-        Matrix (Fin n) (Fin n) (w.adicCompletion L)) l k ∈ Formalism.UG.intL (w.adicCompletion L) :=
-    fun l k => (Dv.integ _).1 (compAt_mem_tensInt L v (hy l k))
-  unfold InertDatum.loc
-  simp only [Units.val_mul, Matrix.mul_apply]
-  exact Subring.sum_mem _ fun k _ => Subring.mul_mem _
-    (Subring.sum_mem _ fun l _ => Subring.mul_mem _ (hP' i l) (hE l k)) (hP k j)
+  apply _root_.GlobalTheory.InertUmaxInt.loc_integral_of_mem_Umax <;> assumption
 
 theorem loc_mem_KU : ∀ (L : Type) [Field L] [NumberField L] [IsCMField L] (n : ℕ) (v : HeightOneSpectrum (𝓞 (maximalRealSubfield L))) (w : HeightOneSpectrum (𝓞 L)) (Dv : InertDatum L n v w) (x : GAf L n), x ∈ Umax L n → ∀ hg : Dv.loc x ∈ Formalism.UG.GU Dv.σw n, (⟨Dv.loc x, hg⟩ : Formalism.UG.GU Dv.σw n) ∈ Formalism.UG.KU Dv.σw n := by
   intro L _ _ _ n v w Dv x hx hg

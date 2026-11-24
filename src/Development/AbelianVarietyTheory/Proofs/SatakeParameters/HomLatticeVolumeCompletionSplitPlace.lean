@@ -1,5 +1,6 @@
 module
 
+import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.SmulPsiGUp
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.MemHomLat
 public import Formalism.SharpRestriction.GlobalSchurBounds.GeneralLinearActions.IsDiscriminantTwelfthRootOfIdealLattice
 public import Formalism.SharpRestriction.GrowthBounds.UnramifiedQuadraticSetting
@@ -317,17 +318,8 @@ variable {O E W Qq : Type} [CommRing O] [IsDedekindDomain O] [Field E] [Algebra 
 
 theorem mem_colSpan_iff {k : ℕ} (a : Matrix (Fin k) (Fin k) Qq) (y : Fin k → Qq) :
     y ∈ colSpan W a ↔ ∃ c : Fin k → W, y = a *ᵥ (fun i => algebraMap W Qq (c i)) := by
-  unfold colSpan
-  rw [Submodule.mem_span_range_iff_exists_fun]
-  constructor
-  · rintro ⟨c, rfl⟩
-    refine ⟨c, ?_⟩
-    ext i
-    simp [Matrix.mulVec, dotProduct, Algebra.smul_def, mul_comm]
-  · rintro ⟨c, rfl⟩
-    refine ⟨c, ?_⟩
-    ext i
-    simp [Matrix.mulVec, dotProduct, Algebra.smul_def, mul_comm]
+  intros
+  apply _root_.Formalism.MainNotions.FormalGroupSystem.Pf.Cnt.mem_colSpan <;> assumption
 
 theorem exists_frame {k : ℕ} (ρ : E →+* Qq) (N : Submodule O (Fin k → E))
     (a : Matrix (Fin k) (Fin k) Qq) (ha : IsUnit a.det)
@@ -549,17 +541,7 @@ theorem exists_pow_smul_matrix {ϖ : W} (hp : Irreducible ϖ) {m n : Type} [Fint
 
 theorem mem_colSpan_iff_mulVec {k : ℕ} (g : Matrix (Fin k) (Fin k) Qq) (z : Fin k → Qq) :
     z ∈ colSpan W g ↔ ∃ v : Fin k → W, z = g *ᵥ (fun i => algebraMap W Qq (v i)) := by
-  unfold colSpan
-  rw [Submodule.mem_span_range_iff_exists_fun]
-  constructor
-  · rintro ⟨c, rfl⟩
-    refine ⟨c, ?_⟩
-    ext i
-    simp [Matrix.mulVec, dotProduct, Finset.sum_apply, Algebra.smul_def, mul_comm]
-  · rintro ⟨c, rfl⟩
-    refine ⟨c, ?_⟩
-    ext i
-    simp [Matrix.mulVec, dotProduct, Finset.sum_apply, Algebra.smul_def, mul_comm]
+  first | exact _root_.GlobalTheory.VolOnto.mem_colSpan_iff | exact @_root_.GlobalTheory.VolOnto.mem_colSpan_iff | apply _root_.GlobalTheory.VolOnto.mem_colSpan_iff <;> assumption
 
 theorem exists_pow_smul_mem_homLat {ϖ : W} (hp : Irreducible ϖ) {k k' : ℕ}
     (a : Matrix (Fin k) (Fin k) Qq) (b : Matrix (Fin k') (Fin k') Qq) (hb : IsUnit b.det) :

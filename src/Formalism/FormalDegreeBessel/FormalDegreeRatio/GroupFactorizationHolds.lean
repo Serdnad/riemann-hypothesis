@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.FlagMeasures.ProdPartialZpow
 public import Formalism.FormalDegreeBessel.StatementG
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -59,12 +60,7 @@ namespace Formalism.QuantumDeterminants
 theorem sum_fin_castLE {m l : ℕ} (h : l ≤ m) (f : Fin m → ℂ)
     (hf : ∀ j : Fin m, l ≤ j.val → f j = 0) :
     ∑ j, f j = ∑ j : Fin l, f (Fin.castLE h j) := by
-  rw [show (∑ j : Fin l, f (Fin.castLE h j)) = ∑ j ∈ Finset.univ.map (Fin.castLEEmb h), f j from
-    (Finset.sum_map Finset.univ (Fin.castLEEmb h) f).symm]
-  refine (Finset.sum_subset (Finset.subset_univ _) fun j _ hj => hf j ?_).symm
-  by_contra hlt
-  push_neg at hlt
-  exact hj (Finset.mem_map.mpr ⟨⟨j.val, hlt⟩, Finset.mem_univ _, Fin.ext rfl⟩)
+  apply _root_.GlobalTheory.LeadMinorTri.sum_fin_eq_sum_castLE_of_vanish <;> assumption
 
 theorem minor_eq_of_mul {m : ℕ} (L U X Y : Matrix (Fin m) (Fin m) ℂ)
     (hL0 : ∀ i j : Fin m, i < j → L i j = 0) (hL1 : ∀ i, L i i = 1)

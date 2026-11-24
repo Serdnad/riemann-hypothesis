@@ -1,5 +1,6 @@
 module
 
+import Development.EtaleCohomology.EtaleSheaves.LineHighPf
 public import Development.EtaleCohomology.EtaleSheaves.LineHigh
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -49,15 +50,7 @@ open CategoryTheory Limits AlgebraicGeometry GlobalTheory.EtC LateralTheory.E.t_
 namespace LateralTheory.E.AICAcycPf
 
 theorem acyc_of_iso (q : ℕ) {X Y : Scheme.{0}} (e : X ≅ Y) (h : Acyc q (sch.obj Y)) : Acyc q (sch.obj X) := by
-  intro n i hn
-  have := h n i hn
-  constructor
-  intro a b
-  have key : ∀ a : Ht q (sch.obj X) n i,
-      a = pull _ (sch.map e.hom) _ n (pull _ (sch.map e.inv) _ n a) := by
-    intro a
-    rw [← pull_comp, ← CategoryTheory.Functor.map_comp, e.hom_inv_id, CategoryTheory.Functor.map_id, pull_id]
-  rw [key a, key b, Subsingleton.elim (pull _ (sch.map e.inv) _ n a) (pull _ (sch.map e.inv) _ n b)]
+  apply @LateralTheory.E.LineHighPf.acyc_of_iso <;> assumption
 
 theorem aff (hB5 : B5) (q : ℕ) (Z : Scheme.{0}) [IsAffine Z] (hZ : AICSch Z) (hq : IsUnit (q : Γ(Z, ⊤))) :
     Acyc q (sch.obj Z) := by

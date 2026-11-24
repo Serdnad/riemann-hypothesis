@@ -1,5 +1,6 @@
 module
 
+import all Development.AutomorphicArithmetic.Foundations.Convolution.RealGroupAnalysis.ThetaReindexing.ActMat
 public import Development.AutomorphicArithmetic.Foundations.Convolution.RealGroupAnalysis.ThetaLiftTrivialOrbitTermsVanish
 import GroundTheory.GlobalFields.TateThesis.AdeleScaling
 import Mathlib.Algebra.Order.Floor.Extended
@@ -55,15 +56,7 @@ section SlopeTestRemainingChoices
 variable {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E]
 
 private theorem co_mkE (D : Dat F E) (u t : A F) : D.co (D.mkE u t) = ![u, t] := by
-  letI : Algebra (A F) (A E) := AdeleBaseChange.algebraAdeleRing
-  have h : D.mkE u t = u • AdeleBaseChange.adeleBasis D.b 0 + t • AdeleBaseChange.adeleBasis D.b 1 := by
-    rw [AdeleBaseChange.adeleBasis_apply, AdeleBaseChange.adeleBasis_apply, D.b0, D.b1,
-      Algebra.smul_def, Algebra.smul_def, map_one, mul_one]
-    rfl
-  funext i
-  unfold Dat.co
-  rw [h]
-  fin_cases i <;> simp
+  apply _root_.UpperTheory.ConvolutionTheory.R2.D.actionMatrixCoordinates.co_mkE <;> assumption
 
 private theorem sigma_ne (D : Dat F E) : D.σ ≠ 1 := by
   intro h

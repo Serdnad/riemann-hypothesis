@@ -1,5 +1,6 @@
 module
 
+import all Development.AutomorphicArithmetic.AutomorphicVarieties.PadicHodgeTheory.SplAdjUnit
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.LocDefs
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.EiiUnit
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.OnCompMap
@@ -67,34 +68,9 @@ private theorem ptIn_gsp {ν : R} {X : M4 R} (h : IsGSp ν X) : IsGSp (f ν) (f.
   unfold IsGSp at *
   rw [ptIn_adj, ← map_mul, h, ptIn_smul, map_one]
 
-private theorem ptIn_prj (c : Fin 4 → R) (X : M4 R) (i : Fin 4) :
-    prj (fun a => f (c a)) (f.mapMatrix X) i = f.mapMatrix (prj c X i) := by
-  unfold prj
-  have h : ∀ p : Polynomial R,
-      Polynomial.aeval (f.mapMatrix X) (p.map f) = f.mapMatrix (Polynomial.aeval X p) := by
-    intro p
-    induction p using Polynomial.induction_on' with
-    | add p q hp hq => rw [Polynomial.map_add (f := _), map_add (f := _), map_add (f := _), map_add (f := _), hp, hq]
-    | monomial n a =>
-      rw [Polynomial.map_monomial, Polynomial.aeval_monomial, Polynomial.aeval_monomial, map_mul, map_pow,
-        Algebra.algebraMap_eq_smul_one, Algebra.algebraMap_eq_smul_one, ptIn_smul, map_one]
-  rw [← h, Polynomial.map_prod]
-  simp only [Polynomial.map_sub, Polynomial.map_X, Polynomial.map_C]
-
 private theorem ptIn_ord {I : Subgroup H} {ps : Fin 4 → H → R} {s₀ : H} {r : H →* M4 R} (h : Ord I ps s₀ r) :
     Ord I (fun i g => f (ps i g)) s₀ (mapRep f r) := by
-  refine ⟨?_, ?_, ?_⟩
-  · rw [ptIn_rep, RingHom.mapMatrix_apply, Matrix.charpoly_map, h.charpoly, Polynomial.map_prod]
-    simp only [Polynomial.map_sub, Polynomial.map_X, Polynomial.map_C]
-  · intro g i j hij
-    simp only [ptIn_rep, ptIn_prj]
-    rw [← map_mul, ← map_mul, h.stable g i j hij, map_zero]
-  · intro s hs i
-    simp only [ptIn_rep, ptIn_prj]
-    have hsub : f.mapMatrix (r s - ps i s • 1) =
-        f.mapMatrix (r s) - f (ps i s) • (1 : M4 K) := by
-      rw [map_sub, ptIn_smul, map_one]
-    rw [← hsub, ← map_mul, ← map_mul, h.inert s hs i, map_zero]
+  apply _root_.UpperTheory.V.Loc.spl_ord <;> assumption
 
 private theorem ptIn_span (r : H →* M4 R) {X : M4 R} (h : X ∈ Submodule.span R (Set.range r)) :
     f.mapMatrix X ∈ Submodule.span K (Set.range (mapRep f r)) := by

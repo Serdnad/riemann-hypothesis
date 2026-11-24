@@ -137,13 +137,7 @@ theorem cob_subst {ι : Type} {F : MvPowerSeries (Fin 2) K}
     MvPowerSeries.subst ![A, B] (cob F f) =
       PowerSeries.subst (MvPowerSeries.subst ![A, B] F) f - PowerSeries.subst A f -
         PowerSeries.subst B f := by
-  have hAB : MvPowerSeries.HasSubst ![A, B] := hs2 hA hB
-  simp only [cob, at1]
-  rw [MvPowerSeries.subst_sub hAB, MvPowerSeries.subst_sub hAB, psubst_subst f hF hAB,
-    psubst_subst f (MvPowerSeries.constantCoeff_X 0) hAB,
-    psubst_subst f (MvPowerSeries.constantCoeff_X 1) hAB,
-    MvPowerSeries.subst_X hAB, MvPowerSeries.subst_X hAB]
-  simp
+  apply _root_.Formalism.L2.Th1.B.cube_cob_subst <;> assumption
 
 theorem law_subst {ι : Type} {F : MvPowerSeries (Fin 2) K} {l : PowerSeries K}
     (hF : MvPowerSeries.constantCoeff F = 0) (hc : cob F l = 0) {A B : MvPowerSeries ι K}

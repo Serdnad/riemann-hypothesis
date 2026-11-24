@@ -789,16 +789,7 @@ theorem logTeich_dvd [IsDomain R] {ε : tateModule p R} (hε : IsPrimitive ε) :
 theorem log_linear (η : tateModule p R) (a : ℤ_[p]) :
     Acris.logTeich (tateModule.padicPow η a) =
       algebraMap ℤ_[p] (Acris p R) a * Acris.logTeich η := by
-  refine sub_eq_zero.1 (Acris.eq_zero_of_forall_dvd fun k => ?_)
-  have h : (p : ℤ_[p]) ^ k ∣ a - (a.appr k : ℕ) := mem_span_singleton.1 (PadicInt.appr_spec k a)
-  obtain ⟨ζ, hζ⟩ := tateModule.exists_padicPow_eq η h
-  have h2 := map_dvd (algebraMap ℤ_[p] (Acris p R)) h
-  rw [map_pow, map_natCast, map_sub, map_natCast] at h2
-  have h3 := dvd_sub (dvd_mul_right ((p : Acris p R) ^ k) (Acris.logTeich ζ))
-    (h2.mul_right (Acris.logTeich η))
-  convert h3 using 1
-  simp only [hζ, Acris.logTeich_mul, Acris.logTeich_pow, Nat.cast_pow]
-  ring
+  apply _root_.Reformulated.AutPerF.Acris.logTeich_padicPow
 
 theorem logTeich_dvd_of_ne_one [IsDomain R] {ε : tateModule p R} (hε : IsPrimitive ε)
     (η : tateModule p R) (hη : η ≠ 1) :

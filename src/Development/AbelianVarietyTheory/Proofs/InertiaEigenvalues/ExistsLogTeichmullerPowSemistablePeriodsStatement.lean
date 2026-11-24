@@ -1192,13 +1192,7 @@ theorem zeta_pow_compat {l : ℕ} [Fact l.Prime] (C : Core l) (c : ℤ_[l]) (m :
 
 theorem rootT_mul {l : ℕ} [Fact l.Prime] (a b : Per.Fl l) (m : ℕ) :
     rootT (a * b) m = rootT a m * rootT b m := by
-  unfold rootT
-  rw [← map_mul]
-  congr 1
-  induction m with
-  | zero => rfl
-  | succ m ih => rw [Function.iterate_succ_apply', Function.iterate_succ_apply',
-      Function.iterate_succ_apply', ih, map_mul]
+  apply _root_.GlobalTheory.LogU.rootT_mul <;> assumption
 
 theorem gal_factor_log : ∀ (l : ℕ) [Fact l.Prime] (C : Core l) (x : Per.Fl l) (g : GQ l) (c : ℤ_[l]),
     (∀ m : ℕ, rootT (Per.σF g x) m = rootT C.ε m ^ (PadicInt.toZModPow m c).val * rootT x m) →

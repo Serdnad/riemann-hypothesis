@@ -43,6 +43,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.CrystallineFiltrationMultiplicative
 
 @[expose] public section
 
@@ -79,19 +80,7 @@ private theorem exists_factorial_mul_eq_pow' (k : ℕ) :
 
 theorem factorial_mul_divided_power_xi (k : ℕ) :
     (k.factorial : A.Acr0) * A.dxi0 k = algebraMap A.W A.Acr0 A.xi ^ k := by
-  obtain ⟨N, c, hc⟩ := exists_factorial_mul_eq_pow' A k
-  have hu : IsUnit (algebraMap A.W (Localization.Away (l : A.W)) (k.factorial : A.W)) := by
-    have h1 : IsUnit (algebraMap A.W (Localization.Away (l : A.W)) ((l : A.W) ^ N)) := by
-      rw [map_pow]
-      exact (IsLocalization.Away.algebraMap_isUnit _).pow N
-    rw [← hc, map_mul] at h1
-    exact isUnit_of_mul_isUnit_left h1
-  rw [map_natCast] at hu
-  unfold CrystallineSemistableComparison.PAlg.dxi0
-  apply Subtype.ext
-  push_cast
-  unfold CrystallineSemistableComparison.dpw
-  rw [← mul_assoc, Ring.mul_inverse_cancel _ hu, one_mul]
+  apply _root_.GlobalTheory.CompanionTheory.FilMul.factorial_mul_divided_power_xi <;> assumption
 
 theorem xi_mul_divided_power (r : ℕ) :
     algebraMap A.W A.Acr0 A.xi * A.dxi0 r = ((r + 1 : ℕ) : A.Acr0) * A.dxi0 (r + 1) := by

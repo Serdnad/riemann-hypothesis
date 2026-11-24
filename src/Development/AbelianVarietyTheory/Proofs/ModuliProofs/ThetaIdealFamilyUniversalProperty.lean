@@ -57,6 +57,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
+import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.ExistsHomOfThickenings
 
 @[expose] public section
 
@@ -76,14 +77,7 @@ alias spMap_inj := _root_.GlobalTheory.ZM.DenseFib.spMap_inj
 open MvPolynomial in
 theorem eval₂_scale {σ R A : Type} [CommRing R] [CommRing A] (φ : R →+* A) (c : A) (x : σ → A) {F : MvPolynomial σ R}
     {e : ℕ} (hF : F.IsHomogeneous e) : eval₂ φ (fun j => c * x j) F = c ^ e * eval₂ φ x F := by
-  rw [eval₂_eq, eval₂_eq, Finset.mul_sum]
-  refine Finset.sum_congr rfl fun a ha => ?_
-  have hd : ∑ j ∈ a.support, a j = e := by
-    have := hF (mem_support_iff.1 ha)
-    rw [← this, Finsupp.weight_apply, Finsupp.sum]
-    simp
-  simp only [mul_pow, Finset.prod_mul_distrib, Finset.prod_pow_eq_pow_sum, hd]
-  ring
+  apply _root_.GlobalTheory.MorAlg.eval₂_scale <;> assumption
 
 variable {o : Type} [CommRing o] {S : Scheme.{0}} {g N' : ℕ} {J : Type} {b : TBase o (N' ^ 2)} {s : S ⟶ Sp o}
 

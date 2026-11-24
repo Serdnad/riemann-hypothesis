@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FibrePowerMapOfTotalSpacesIsPullback
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.SphericalCoordinates.DetOfCharpoly
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -50,17 +51,7 @@ open GlobalTheory.HodgeCoh GlobalTheory.CechDR Polynomial UpperTheory.Gal.W2
 private theorem pow_map_ext {X : Scheme.{0}} {A : Over X} {k : ℕ} {T : Scheme.{0}}
     (a b : T ⟶ (GlobalTheory.KS.pow A k).left) (h0 : a ≫ (GlobalTheory.KS.pow A k).hom = b ≫ (GlobalTheory.KS.pow A k).hom)
     (h : ∀ j, a ≫ (GlobalTheory.KS.pr A j).left = b ≫ (GlobalTheory.KS.pr A j).left) : a = b := by
-  let Y : Over X := Over.mk (a ≫ (GlobalTheory.KS.pow A k).hom)
-  let fa : Y ⟶ GlobalTheory.KS.pow A k := Over.homMk a rfl
-  let fb : Y ⟶ GlobalTheory.KS.pow A k := Over.homMk b h0.symm
-  have hab : fa = fb := by
-    unfold GlobalTheory.KS.pow at fa fb ⊢
-    apply Limits.Pi.hom_ext
-    intro j
-    ext
-    simp only [Over.comp_left, Over.homMk_left, fa, fb]
-    exact h j
-  exact congrArg (fun f => f.left) hab
+  apply _root_.GlobalTheory.KS.PowPB.pow_left_hom_ext <;> assumption
 
 section
 variable {O : Type} [Ring O] {bar : O → O} {g : ℕ} {ρ : O →+* Matrix (Fin g) (Fin g) ℂ} {D : PLat O bar}

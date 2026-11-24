@@ -1,5 +1,6 @@
 module
 
+import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.ThetaParseval.ThetaKernels.SiegelWeilKawayDecG
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.ThetaParseval.ThetaKernels.SiegelWeilKwhitCut
 public import Development.WeilBound.CoreStatements.AutomorphicKernels.SiegelWeilFormula.WhittakerCovolume.ParabolicLowerBlockZero
 import Mathlib.Algebra.Order.Floor.Extended
@@ -62,14 +63,8 @@ theorem incM_mul_inv_k (d : _root_.PositivityTheory.SiegelWeilFormula.SD_k σ) :
 theorem incM_inv_mul_k (d : _root_.PositivityTheory.SiegelWeilFormula.SD_k σ) : incM F (d.b⁻¹).1 * incM F d.b.1 = 1 := by
   simp only [incM, ← Matrix.map_mul, Units.inv_mul]
   exact Matrix.map_one _ (map_zero _) (map_one _)
-theorem inFrame_mul_k (d : _root_.PositivityTheory.SiegelWeilFormula.SD_k σ) (x y : d.G) : inFrame d.b (x * y) = inFrame d.b x * inFrame d.b y := by
-  have h1 := _root_.PositivityTheory.SiegelWeilFormula.KWhit.incM_mul_inv_k d
-  have e : mat2 (x * y) = mat2 x * mat2 y := rfl
-  simp only [inFrame, e]
-  calc incM F (d.b⁻¹).1 * (mat2 x * mat2 y) * incM F d.b.1
-      = incM F (d.b⁻¹).1 * mat2 x * (incM F d.b.1 * incM F (d.b⁻¹).1) * mat2 y * incM F d.b.1 := by
-        rw [h1, Matrix.mul_one]; simp only [Matrix.mul_assoc]
-    _ = _ := by simp only [Matrix.mul_assoc]
+theorem inFrame_mul_k (d : _root_.PositivityTheory.SiegelWeilFormula.SD_k σ) (x y : d.G) : inFrame d.b (x * y) = inFrame d.b x * inFrame d.b y :=
+  _root_.PositivityTheory.SiegelWeilFormula.KAway.inFrame_mul_k d x y
 theorem matrixRep_eq_frameConj_inFrame (d : _root_.PositivityTheory.SiegelWeilFormula.SD_k σ) (x : d.G) : mat2 x = incM F d.b.1 * inFrame d.b x * incM F (d.b⁻¹).1 := by
   simp only [inFrame, ← Matrix.mul_assoc, _root_.PositivityTheory.SiegelWeilFormula.KWhit.incM_mul_inv_k d, Matrix.one_mul]
   rw [Matrix.mul_assoc, _root_.PositivityTheory.SiegelWeilFormula.KWhit.incM_mul_inv_k d, Matrix.mul_one]

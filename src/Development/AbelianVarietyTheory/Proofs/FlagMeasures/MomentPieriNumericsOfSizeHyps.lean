@@ -1,5 +1,6 @@
 module
 
+import Formalism.SharpRestriction.CuspSpanNormBounds.NonemptyParameterModels.UnitaryPointsRankZeroSubsingleton
 public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.OnePlaceKF
 public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.DegVand
 import Mathlib.Algebra.Order.Floor.Extended
@@ -185,20 +186,6 @@ private theorem two_mul_rS_add_k_add_one_eq (R : Formalism.BasicNotions.Ranks) :
   unfold Formalism.BasicNotions.Ranks.rS
   omega
 
-private theorem lam_antitone_of_isDominant_liftWt {n : ℕ} (f : Fin n → ℝ)
-    (hf : ∀ (a : Fin n) (h : a.val + 1 < n), f ⟨a.val + 1, h⟩ < f a) : StrictAnti f := by
-  intro a c hac
-  obtain ⟨c, hc⟩ := c
-  have hac' : a.val < c := hac
-  induction c with
-  | zero => omega
-  | succ c ih =>
-    by_cases h : a.val < c
-    · exact lt_trans (hf ⟨c, by omega⟩ hc) (ih (by omega) (Fin.lt_def.mpr h) h)
-    · have e : a = ⟨c, by omega⟩ := Fin.ext (show a.val = c by omega)
-      rw [e]
-      exact hf ⟨c, by omega⟩ hc
-
 theorem num_of_size : ∀ (D : D7) (large₂ : SizeData₂ D) (C' Cl Cg cb Cu cT CT C0 : ℝ), HypZ D large₂ C' Cl Cg cb Cu cT CT C0 → 1000 ≤ Cl → ∀ (τ : D.what₂.Tau) (w : D.what₂.Word) (U : ℕ → ℝ), (∀ i : Fin D.R.k, U (i.val + 1) = uS D w τ i) → Num D.R.k D.R.rS (lamD D τ) U (large₂.sc.b ^ max 2 Cu) (bOne D τ 1) ((D.R.r : ℝ) * (D.R.m : ℝ) ^ 10) ((D.R.r : ℝ) ^ 19) (D.R.k * D.R.m ^ 5) ∧ GapCell D.R.k D.R.rS ((D.R.r : ℝ) ^ 19 / 2) ∧ PI.BesselPeriodGGP.eps48 D.R.k D.R.rS = epsSH D.R := by
   intro D large₂ C' Cl Cg cb Cu cT CT C0 hZ hCl τ w U hU
   obtain ⟨hS0, hD0, -⟩ := hZ
@@ -250,7 +237,7 @@ theorem num_of_size : ∀ (D : D7) (large₂ : SizeData₂ D) (C' Cl Cg cb Cu cT
       omega
     exact hgap τ (Fin.cast (dimS_eq D.R) a) h'
   have hanti : StrictAnti (lamD D τ) := by
-    apply lam_antitone_of_isDominant_liftWt
+    apply _root_.Formalism.MainNotions.S.Inh.aut_strictAnti_of_step
     intro a h
     have := hcons a h
     linarith

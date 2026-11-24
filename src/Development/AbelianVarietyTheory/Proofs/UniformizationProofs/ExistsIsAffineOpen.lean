@@ -1,5 +1,7 @@
 module
 
+
+import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.ExistsGtCoordOfTorusQuotient
 public import Development.AbelianVarietyTheory.Definitions.Uniformization.PointEqOfSubsingleton
 public import Development.AbelianVarietyTheory.Definitions.Uniformization.ExistsUniqueTorusCompat
 public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.ExistsTorusQuotientSchemeOverNilpotentThickening
@@ -47,7 +49,6 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Development.AbelianVarietyTheory.Proofs.ModuliProofs.IsSemiAbelianOfCharts
 import Mathlib.Tactic.Lemma
-
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.Proofs.UniformizationProofs.ExistsTorusQuotientSchemeOverNilpotentThickeningStatement, Development.AbelianVarietyTheory.Proofs.UniformizationProofs.ExistsIsAffineOpen
 
@@ -109,21 +110,7 @@ private lemma pullback_fst_comp_mul_left {S S' : Scheme.{0}} {G : Over S} [GrpOb
 theorem exists_iso_pullback {S S' : Scheme.{0}} {G : Over S} {G' : Over S'} [GrpObj G] [GrpObj G'] {f : S' ⟶ S}
     {F : G'.left ⟶ G.left} (h : IsGrpPullback G' G f F) :
     ∃ e : G' ≅ (Over.pullback f).obj G, IsMonHom e.hom ∧ e.hom.left ≫ pullback.fst G.hom f = F := by
-  obtain ⟨hpb, hmul⟩ := h
-  let e : G' ≅ (Over.pullback f).obj G :=
-    Over.isoMk hpb.isoPullback (by simp)
-  have he : e.hom.left ≫ pullback.fst G.hom f = F := by
-    simp [e]
-  refine ⟨e, ?_, he⟩
-  apply isMonHom_of_points
-  intro T x y
-  apply GlobalTheory.TorusLift.hom_ext_fst f
-  rw [pullback_fst_comp_mul_left]
-  rw [Over.comp_left, Category.assoc, he]
-  symm
-  apply hmul T x y
-  · simp [he]
-  · simp [he]
+  first | exact _root_.GlobalTheory.QuotCoord.exists_iso_pullback | exact @_root_.GlobalTheory.QuotCoord.exists_iso_pullback | apply _root_.GlobalTheory.QuotCoord.exists_iso_pullback <;> assumption
 
 theorem exists_isAffineOpen {R : Type} [CommRing R] [IsLocalRing R] {X : Type} [AddCommGroup X]
     {G : Over (Spec (CommRingCat.of R))} [GrpObj G] (Q : TQ G X) :

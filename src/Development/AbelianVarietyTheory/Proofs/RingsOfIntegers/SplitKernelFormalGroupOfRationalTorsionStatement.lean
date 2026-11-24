@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.PsiUnitOnAbelianLocusUniformisation
 public import Development.AbelianVarietyTheory.Definitions.PlaceAdaptation.AdaptStd
 public import Development.AbelianVarietyTheory.Definitions.TwoChartAtlas.TwoChartSt
 public import Development.AbelianVarietyTheory.Proofs.FormalGroupCharts.ExistsToJetEq
@@ -433,15 +434,7 @@ open GlobalTheory.PlaceInt
 theorem pow_eq_one_iff_of_push {S S' W : Scheme.{0}} {g : S' ⟶ S} {t : W ⟶ S} {t' : W ⟶ S'} {A : Over S}
     {A' : Over S'} [GrpObj A] [GrpObj A'] {Φ : A'.left ⟶ A.left} (ht : t' ≫ g = t) (hp : IsGrpPullback A' A g Φ)
     {x : Over.mk t ⟶ A} {x' : Over.mk t' ⟶ A'} (hx : x'.left ≫ Φ = x.left) (k : ℕ) : x' ^ k = 1 ↔ x ^ k = 1 := by
-  subst ht
-  have e : pushHom hp (Over.mk t') x' = x := Over.OverMorphism.ext hx
-  refine ⟨fun h => ?_, fun h => ?_⟩
-  · have := congrArg (pushHom hp (Over.mk t')) h
-    rw [map_pow, map_one, e] at this
-    exact this
-  · have e₂ : pushHom hp (Over.mk t') (x' ^ k) = pushHom hp (Over.mk t') 1 := by
-      rw [map_pow, map_one, e]; exact h
-    exact Over.OverMorphism.ext (hp.1.hom_ext (congrArg (fun q => q.left) e₂) (by rw [Over.w, Over.w]))
+  apply _root_.GlobalTheory.PsiAbelian.pow_eq_one_iff_of_pull <;> assumption
 
 theorem descends_of_allRat {E : Type} [Field E] [NumberField E] [IsCMField E] {H : Host E} {Dw : Datum H}
     {l : Level H} {Xo : Moduli Dw l} {V K : Type} [CommRing V] [Field K] [Algebra V K] {x : Sp K ⟶ Xo.X}

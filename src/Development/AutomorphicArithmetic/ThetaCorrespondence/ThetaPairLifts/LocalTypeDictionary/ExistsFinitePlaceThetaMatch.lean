@@ -1,5 +1,9 @@
 module
 
+import Development.AutomorphicArithmetic.LocalEmbeddings.StageGeoConst
+import Development.AutomorphicArithmetic.DivisorFrames.StdSectionFirstEqProdLocal
+import Development.AutomorphicArithmetic.DivisorFrames.ExistsGeoOfSignatureRankBounds
+import Development.AutomorphicArithmetic.DivisorFrames.ExistsIsSBHalfThetaOfSelfDualLattices
 public import Development.AbelianVarietyTheory.Definitions.Divisors.RankEqCardIffExistsFrameMatrixFirstColumnBlock
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FinsumVolShellInterTranslate
 public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.WeilTensorModels
@@ -208,38 +212,7 @@ variable {k : Type} [Field k] [ValuativeRel k] [TopologicalSpace k] [IsNonarchim
 private theorem std_key (α β ν : kˣ →* ℂˣ) (ϖ : kˣ) (c a a' : ℕ) (hϖ : IsUnif ϖ) (hν : ν = α / β) (h : GL (Fin (a + a')) k) :
     bigP (haarVol (KO k (Fin a))) ϖ finSumFinEquiv ν β (stdA ν ϖ c a a') h =
       smallP (haarVol (KO k (Fin a'))) finSumFinEquiv ν α (stdB ν ϖ c a a') h := by
-  rw [bigZetaIntegral_eq, smallP]
-  obtain ⟨hdet, hrel⟩ := standardPair_frameBlocks_det_and_neg_transpose a a' h
-  obtain ⟨hA0, hA⟩ := bigF_stdA ν ϖ c a a' hϖ
-  obtain ⟨hB0, hB⟩ := smallF_stdB (k := k) ν ϖ c a a'
-  by_cases h0 : (blk₁ (X0 k (finSumFinEquiv (m := a) (n := a')) * (invT h).val)).det = 0
-  · have h0' : (blk₂ (Y0 k (finSumFinEquiv (m := a) (n := a')) * h.val)).det = 0 := by rw [← hdet, h0, zero_mul]
-    rw [hA0 _ h0, hB0 _ h0']; simp
-  · have h0' : (blk₂ (Y0 k (finSumFinEquiv (m := a) (n := a')) * h.val)).det ≠ 0 := by
-      rw [← hdet]; exact mul_ne_zero h0 h.det_ne_zero
-    set g₁ := Matrix.GeneralLinearGroup.mkOfDetNeZero _ h0 with hg₁
-    set g₂ := Matrix.GeneralLinearGroup.mkOfDetNeZero _ h0' with hg₂
-    rw [hA _ g₁ rfl, hB _ g₂ rfl, hrel g₁ g₂ rfl rfl, cball_neg_transpose]
-    have hd : gdet g₂ = gdet g₁ * gdet h := Units.ext (by
-      simp only [gdet, Units.val_mul, Matrix.GeneralLinearGroup.val_det_apply, g₁, g₂,
-        Matrix.GeneralLinearGroup.val_mkOfDetNeZero]
-      exact hdet.symm)
-    have hαν : α = ν * β := by rw [hν, div_mul_cancel]
-    have e : apow (gdet h) ((Fintype.card (Fin a') : ℂ) / 2) * apow (gdet h) (-((Fintype.card (Fin (a + a')) : ℂ) / 2)) =
-        apow (gdet h) (-(a : ℂ) / 2) := by
-      rw [← apow_add]; congr 1; simp only [Fintype.card_fin]; push_cast; ring
-    have e1 : (((ν (gdet g₁ * gdet h))⁻¹ : ℂˣ) : ℂ) = (((ν (gdet g₁))⁻¹ : ℂˣ) : ℂ) * (((ν (gdet h))⁻¹ : ℂˣ) : ℂ) := by
-      rw [map_mul, _root_.mul_inv, Units.val_mul]
-    have e2 : (α (gdet h) : ℂ) = (ν (gdet h) : ℂ) * (β (gdet h) : ℂ) := by
-      rw [hαν, MonoidHom.mul_apply, Units.val_mul]
-    have e3 : (ν (gdet h) : ℂ) * (((ν (gdet h))⁻¹ : ℂˣ) : ℂ) = 1 := by
-      rw [← Units.val_mul, mul_inv_cancel, Units.val_one]
-    rw [hd, e1, apow_mul, e2]
-    have key2 : ∀ B V Vi Vhi P1 Pa' PN I : ℂ, V * Vhi = 1 →
-        B * (Pa' * PN) * (Vi * P1 * I) = V * B * Pa' * (Vi * Vhi * (P1 * PN) * I) := by
-      intro B V Vi Vhi P1 Pa' PN I hV; linear_combination (-(B * Pa' * PN * Vi * P1 * I)) * hV
-    rw [← e]
-    exact key2 _ _ _ _ _ _ _ _ e3
+  exact _root_.UpperTheory.StandardPairNonvanishing.std_key (k := k) α β ν ϖ c a a' hϖ hν h
 
 private theorem std_ne (β ν : kˣ →* ℂˣ) (ϖ : kˣ) (c a a' : ℕ) (hϖ : IsUnif ϖ) :
     bigP (haarVol (KO k (Fin a))) ϖ finSumFinEquiv ν β (stdA ν ϖ c a a') 1 ≠ 0 := by
@@ -420,43 +393,7 @@ private theorem fmFst_loc {k : Type} [Field k] [ValuativeRel k] [TopologicalSpac
     GlobalTheory.StdPairCone.stdA ν ϖ c a a' ((Mᵀ).submatrix id (finCongr hr)) =
       if (∀ i j, M i j ∈ (ValuativeRel.valuation k).integer) ∧ ∀ i j, a ≤ i.1 → M i j ∈ GlobalTheory.SplitWeil.cball (ϖ ^ c) then
         GlobalTheory.StdPairCone.unitInd ν (topL a M).det else 0 := by
-  subst hr
-  have hb : GlobalTheory.StdPairCone.blk₁ ((Mᵀ).submatrix id (finCongr (rfl : a + a' = a + a'))) = (topL a M)ᵀ := by
-    ext i j
-    have : j.1 < a + a' ∧ i.1 < a := ⟨by omega, i.2⟩
-    simp only [GlobalTheory.StdPairCone.blk₁, topL, Matrix.of_apply, Matrix.submatrix_apply, Matrix.transpose_apply, dif_pos this]
-    rfl
-  have hb2 : ∀ i j, GlobalTheory.StdPairCone.blk₂ ((Mᵀ).submatrix id (finCongr (rfl : a + a' = a + a'))) i j = M (Fin.natAdd a j) i :=
-    fun i j => rfl
-  have hb1 : ∀ i j, GlobalTheory.StdPairCone.blk₁ ((Mᵀ).submatrix id (finCongr (rfl : a + a' = a + a'))) i j = M (Fin.castAdd a' j) i :=
-    fun i j => rfl
-  have hd : (GlobalTheory.StdPairCone.blk₁ ((Mᵀ).submatrix id (finCongr (rfl : a + a' = a + a')))).det = (topL a M).det := by
-    rw [hb, Matrix.det_transpose]
-  have hsub : ∀ x, x ∈ GlobalTheory.SplitWeil.cball (ϖ ^ c) → x ∈ (ValuativeRel.valuation k).integer := by
-    intro x hx
-    have h1 : ValuativeRel.valuation k x ≤ ValuativeRel.valuation k ((ϖ ^ c : kˣ) : k) := hx
-    have h2 : ((ϖ ^ c : kˣ) : k) ∈ (ValuativeRel.valuation k).integer := by
-      rw [Units.val_pow_eq_pow_val]; exact pow_mem hϖ.mem c
-    exact (Valuation.mem_integer_iff _ _).2 (le_trans h1 ((Valuation.mem_integer_iff _ _).1 h2))
-  unfold GlobalTheory.StdPairCone.stdA GlobalTheory.StdPairCone.unitInd GlobalTheory.StdPairCone.IsGLO
-  simp only [hb1, hb2]
-  by_cases h : (∀ i j, M i j ∈ (ValuativeRel.valuation k).integer) ∧ ∀ i j, a ≤ i.1 → M i j ∈ GlobalTheory.SplitWeil.cball (ϖ ^ c)
-  · rw [if_pos h]
-    by_cases h' : (topL a M).det ≠ 0 ∧ ValuativeRel.valuation k (topL a M).det = 1
-    · rw [dif_pos h', dif_pos ⟨hd ▸ h'.1, ⟨fun i j => h.1 _ _, hd ▸ h'.2⟩, fun i j => h.2 _ _ (by simp)⟩]
-      simp only [hd]
-    · rw [dite_eq_right h', dite_eq_right]
-      rintro ⟨h1, ⟨-, h2⟩, -⟩
-      exact h' ⟨hd ▸ h1, hd ▸ h2⟩
-  · rw [if_neg h, dite_eq_right]
-    rintro ⟨-, ⟨h1, -⟩, h2⟩
-    refine h ⟨fun i j => ?_, fun i j => ?_⟩
-    · induction i using Fin.addCases with
-      | left i => exact h1 j i
-      | right i => exact hsub _ (h2 j i)
-    · induction i using Fin.addCases with
-      | left i => intro hi; exact absurd i.2 (not_lt.2 hi)
-      | right i => exact fun _ => h2 j i
+  exact _root_.GlobalTheory.StdPairCone.stdA_transpose (k := k) ν ϖ hϖ c a a' d hr M
 
 theorem UpperTheory.exists_gl_stdFst_eq_product_local :
     ∀ (D : D7) (e₀ : AE D) (S : Finset (HeightOneSpectrum (𝓞 D.host.E))), IsIdemSum e₀ S →
@@ -789,43 +726,7 @@ private theorem skew_of_lat {D : D7} (B : Base D.host.F D.host.E) (τf : Infinit
     ∃ Λ bas, Spc.IsSkew D.sp.cm.sig B (Spc.mk (D.host.xi0 • (X.gramᵀ).submatrix e e) Λ
       (fun w => ((s (τf w)).submatrix e e).map conj) bas) p q ∧
       ∀ y, y ∈ Λ ↔ (fun k => y (e.symm k)) ∈ GlobalTheory.SkewLat.scLat D.host.AA Λ₀ := by
-  let e' : Fin X.rank ⊕ Fin (zeroSp D).rank ≃ Fin k := (Equiv.sumEmpty (Fin X.rank) (Fin 0)).trans e.symm
-  have hJ : D.host.xi0 • (X.gramᵀ).submatrix e e = GlobalTheory.IndefiniteRowSideFullHecke.UnitaryConjugation.skewGram X (zeroSp D) e' :=
-    congrArg (D.host.xi0 • ·) (blk_empty e _ _).symm
-  have hZ := GlobalTheory.LineSelfDual.isSelfDualC_selfDualLatticeCoordsInFrame D (zeroSp D)
-  have hlat := _root_.GlobalTheory.SkewLat.pairLat_scLat_isLattice GlobalTheory.SkewLat.DualPair.AA_ne hA.1 hZ.1 e'
-  have hfull := GlobalTheory.SkewLat.pairLat_isFull
-    (GlobalTheory.SkewLat.scLat_isFull GlobalTheory.SkewLat.DualPair.AA_ne
-      (GlobalTheory.ProjXCols.selfDual_isFullLattice X Λ₀ hA))
-    (GlobalTheory.SkewLat.scLat_isFull GlobalTheory.SkewLat.DualPair.AA_ne
-      (GlobalTheory.ProjXCols.selfDual_isFullLattice (zeroSp D) _ hZ)) e'
-  obtain ⟨bas, hbas⟩ := exists_bas B _ hfull
-  have hsub : Subsingleton (Matrix (Fin (zeroSp D).rank) (Fin (zeroSp D).rank) ℂ) :=
-    inferInstanceAs (Subsingleton (Matrix (Fin 0) (Fin 0) ℂ))
-  have hsub' : Subsingleton (Fin (zeroSp D).rank → D.host.E) :=
-    inferInstanceAs (Subsingleton (Fin 0 → D.host.E))
-  refine ⟨_, bas, ⟨fun a b => ?_, fun w => ?_, hfull, fun y => ?_, fun w => ?_, hbas⟩, fun y => ?_⟩
-  · show star (D.host.xi0 * X.gram (e a) (e b)) = -(D.host.xi0 * X.gram (e b) (e a))
-    rw [star_mul', GlobalTheory.DualPairCheck.star_purely_imaginary_eq_neg D, _root_.GlobalTheory.DualPairCheck.gram_star, neg_mul]
-  · show GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.HasSig (Complex.I • (D.host.xi0 • (X.gramᵀ).submatrix e e).map (B.emb w).1) _ _
-    rw [hJ, GlobalTheory.SkewLat.I_smul_skewGram_map _ _ e' (τf w) (B.emb w).1 (hB w)]
-    have h0 : Formalism.UG.HasSignature (gramAt D (zeroSp D) (τf w)) 0 0 :=
-      ⟨(Equiv.sumEmpty (Fin 0) (Fin 0)).symm, 1, by ext (a | a) <;> exact a.elim0⟩
-    exact _root_.GlobalTheory.SigBlockSum.hasSig_smul_blk e' _ _ (Formalism.L2.Theta.xi_zero_im_pos D (τf w)) (hsig _) h0
-  · show y ∈ _ ↔ ∀ x ∈ _, ∀ o : 𝓞 D.host.E, IsIntegral ℤ (Algebra.trace ℚ D.host.E
-      (o * GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.form D.sp.cm.sig (D.host.xi0 • (X.gramᵀ).submatrix e e) y x))
-    rw [hJ]
-    exact _root_.GlobalTheory.SkewLat.pairLat_trace_selfDual (fun c hc => _root_.GlobalTheory.star_mem_AA_of_mem_AAbar hc) _ _ hA hZ e' y
-  · show GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.IsCartan (Complex.I • (D.host.xi0 • (X.gramᵀ).submatrix e e).map (B.emb w).1)
-      (((s (τf w)).submatrix e e).map conj)
-    rw [hJ, GlobalTheory.SkewLat.I_smul_skewGram_map _ _ e' (τf w) (B.emb w).1 (hB w), ← blk_empty e (s (τf w)) 1]
-    have h0 : IsCartanInv (gramAt D (zeroSp D) (τf w)) 1 :=
-      ⟨Subsingleton.elim _ _, Subsingleton.elim _ _, by
-        rw [Subsingleton.elim (gramAt D (zeroSp D) (τf w) * 1) 1]; exact Matrix.PosDef.one⟩
-    exact _root_.GlobalTheory.CartanBlocks.isCartan_blk e' _ _ _ _ (Formalism.L2.Theta.xi_zero_im_pos D (τf w)) (hs _) h0
-  · refine GlobalTheory.SkewLat.mem_pairLat.trans ⟨fun h => h.1, fun h => ⟨h, ?_⟩⟩
-    rw [Subsingleton.elim (fun k => y (e' (.inr k))) 0]
-    exact zero_mem _
+  exact _root_.UpperTheory.HermitianSkewLattice.skew_of_lat (D := D) B τf hB X e Λ₀ hA s hs hsig
 
 private theorem ram_set {D : D7} {W W₁ X : HSp D} {α β : (AE D)ˣ →* Circle} (h : IsTriple W W₁ X α β)
     (S : Finset (HeightOneSpectrum (𝓞 D.host.E)))
@@ -1264,134 +1165,8 @@ theorem UpperTheory.isSBHalf_thetaFun_of_halfIdempotent_places :
           (thO M ψ (sgn ε S).gram e (GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.pure g M.vac)) Φ f →
         ∃ z : ℂ, z ≠ 0 ∧ f = thO M ψ (sgn ε S).gram e (GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.pure (z • g) φ) := by
   intro D ψ ε S X d e Bs Vs Ws M hP ΛS ΛX hLat sdS sdX P t₁ t₀ ht eh h₀ h₁ b c ι hι φ hφ hφv g Φ f hΦ hth
-  obtain ⟨⟨T, hT⟩, hf⟩ := hth
-  have hfT := hf T hT
-  obtain ⟨lsym, lrho, ladd, lsmul, -, -⟩ := UpperTheory.thetaOperator_intertwines_heisenberg D ψ ε S X d e Bs Vs Ws M hP
-  obtain ⟨lat₁, lat₂⟩ := UpperTheory.ptO_sgn_mem_latAtV_iff_mem_latO D ψ ε S X d e Bs Vs Ws M hP ΛS ΛX hLat
-  obtain ⟨hB, rfl, -, -, ⟨r, s, hV⟩, ⟨r', s', hW⟩, hM⟩ := hP
-  have hcm := hB.cm
-  have hstd := hB.std
-  have hψ := GlobalTheory.T.isStdChar_neg_one_of_standardTraceAdelicAddChar D _ hstd
-  have ht' : ∀ v, t₀ v = (t₁ v).comp D.sp.cm.sig := fun v => AlgHom.ext (ht v)
-  choose z hz0 hz using fun v : P => UpperTheory.exists_ne_zero_linearModel_vacuum_eq_smul _ _ _ Bs _ _ Vs Ws M r s r' s' hB hV hW hM v.1 (t₁ v) (t₀ v) (ht v)
-    (b v) (c v) (ι v) (hι v)
-  choose a ha ha1 ha0 using fun v : P => exists_idem hcm (t₁ v)
-  have hG : IsUnit (sgn ε S).gram.det := GlobalTheory.IndefiniteRowSideFullHecke.AdelicUnitaryGroups.gram_det_isUnit (sgn ε S)
-  have hbij := ptO_bij (D := D) (sgn ε S).gram hG e
-  set Λ := latO (sgn ε S) X (ΛS : Set (Fin S.rank → D.host.E)) (ΛX : Set (Fin X.rank → D.host.E)) fun _ => True with hΛ
-  let H : AddSubgroup (Matrix (Fin S.rank) (Fin d) (AE D)) :=
-    { carrier := {u | IsHalf eh u}
-      zero_mem' := fun _ _ => mul_zero _
-      add_mem' := fun {x y} hx hy i j => by rw [Matrix.add_apply, mul_add, hx i j, hy i j]
-      neg_mem' := fun {x} hx i j => by rw [Matrix.neg_apply, mul_neg, hx i j] }
-  have hH : ∀ x : WO (sgn ε S) X, ptO (sgn ε S).gram e x ∈ H ↔ IsHalf eh x := fun x =>
-    (isHalf_iff_ptO (sgn ε S).gram hG e eh x).symm
-  let R : Submodule ℂ ((Matrix (Fin S.rank) (Fin d) (AE D) → ℂ) × ((Fin S.rank × Fin d → AF D.host.F) → ℂ)) :=
-    { carrier := {p | p.2 ∈ GlobalTheory.WeilM.schA D.host.F _ ∧ IsSBHalf eh Λ (fun x => p.1 (ptO (sgn ε S).gram e x)) ∧
-        T (fun x => p.1 (ptO (sgn ε S).gram e x)) = thO M Bs.ψ (sgn ε S).gram e p.2}
-      zero_mem' := ⟨zero_mem _, sb_zero _ _, by
-        have := lsmul 0 0
-        rw [zero_smul, zero_smul] at this
-        exact (map_zero T).trans this.symm⟩
-      add_mem' := fun {p q} hp hq => ⟨add_mem hp.1 hq.1, sb_add hp.2.1 hq.2.1, by
-        rw [Prod.snd_add, ladd _ hp.1 _ hq.1, ← hp.2.2, ← hq.2.2, ← map_add (f := _)]; rfl⟩
-      smul_mem' := fun a p hp => ⟨Submodule.smul_mem _ a hp.1, sb_smul hp.2.1 a, by
-        rw [Prod.smul_snd, lsmul, ← hp.2.2, ← map_smul]; rfl⟩ }
-  have hind : ∀ χ : ∀ v : HeightOneSpectrum (𝓞 D.host.F), (Fin S.rank × Fin d → Fv D.host.F v) → ℂ, ∀ x : WO (sgn ε S) X,
-      Set.indicator (H : Set _) (fun u => ∏ v : P, ι v (χ v) ((b v).1 * u.map (piW (t₁ v)) * (c v).1)) (ptO (sgn ε S).gram e x) =
-        if IsHalf eh x then ∏ v : P, ι v (χ v) ((b v).1 * (ptO (sgn ε S).gram e x).map (piW (t₁ v)) * (c v).1) else 0 := by
-    intro χ x
-    by_cases hx : IsHalf eh x
-    · rw [if_pos hx, Set.indicator_of_mem ((hH x).2 hx)]
-    · rw [if_neg hx, Set.indicator_of_notMem (mt (hH x).1 hx)]
-  have hbase : (fun x : WO (sgn ε S) X => Set.indicator (H : Set _)
-      (fun u => ∏ v : P, ι v (M.vac v) ((b v).1 * u.map (piW (t₁ v)) * (c v).1)) (ptO (sgn ε S).gram e x)) =
-      (∏ v, z v) • halfInd eh Λ := by
-    funext x
-    rw [hind, Pi.smul_apply, smul_eq_mul, halfInd]
-    by_cases hx : IsHalf eh x
-    · have hu := (hH x).2 hx
-      have key : ∀ v : P, ι v (M.vac v) ((b v).1 * (ptO (sgn ε S).gram e x).map (piW (t₁ v)) * (c v).1) =
-          if GlobalTheory.LatVac.liftV v.1 (1 : Fv D.host.F v) • ptO (sgn ε S).gram e x ∈ latAtV Vs Ws v then z v else 0 := fun v => by
-        rw [← hz v _ (at_liftV_smul v.1 _) (Matrix.ext fun i j => by
-          rw [Matrix.map_apply, Matrix.smul_apply, GlobalTheory.LatFill.piW_smul, ((h₀ _).1 (hu i j)).2 v, mul_zero]; rfl)]
-        refine congrArg (fun w => ι v (M.vac v) ((b v).1 * w * (c v).1)) (Matrix.ext fun i j => ?_)
-        rw [Matrix.map_apply, Matrix.map_apply, Matrix.smul_apply, GlobalTheory.LatFill.piW_smul, GlobalTheory.LatVac.evFin_liftV, one_mul]
-      rw [if_pos hx, Finset.prod_congr rfl fun v _ => key v]
-      by_cases hl : x ∈ Λ
-      · rw [if_pos ⟨hl, hx⟩, mul_one]
-        exact Finset.prod_congr rfl fun v _ => if_pos (lat₂ v _ (GlobalTheory.LatVac.at_liftV v.1 1)
-          (by rw [GlobalTheory.LatVac.evFin_liftV]; exact one_mem _) x hl)
-      · rw [if_neg fun h => hl h.1, mul_zero]
-        by_contra hne
-        refine hl ?_
-        have hx' : x = ∑ v : P, GlobalTheory.LatVac.liftV v.1 (1 : Fv D.host.F v) • x := Matrix.ext fun i j => by
-          rw [Matrix.sum_apply]
-          exact eq_sum_of_halfEl ((h₀ _).1 (hx i j))
-        rw [hx']
-        refine sum_mem fun v _ => lat₁ v _ ?_
-        rw [UpperTheory.FmPlace.ptO_smul']
-        by_contra hn
-        exact hne (Finset.prod_eq_zero (Finset.mem_univ v) (if_neg hn))
-    · rw [if_neg hx, if_neg fun h => hx h.2, mul_zero]
-  have hmm : ∀ (v : P) (t : D.host.E →ₐ[D.host.F] Fv D.host.F v) (w : AE D) (u : Matrix (Fin S.rank) (Fin d) (AE D)),
-      (w • u).map (piW t) = piW t w • u.map (piW t) := fun v t w u => Matrix.ext fun i j => map_mul (piW t) w (u i j)
-  have hR := _root_.GlobalTheory.InductLagr.rel_of_vac M Bs.ψ hstd hM (Finset.univ : Finset P) Subtype.val Subtype.val_injective.injOn
-    (fun v => Matrix (Fin S.rank) (Fin d) (Fv D.host.F v))
-    (fun v => {u | At (evFin D.host.F v.1) u ∧ u.map (piW (t₀ v)) = 0})
-    (fun v => {u | At (evFin D.host.F v.1) u ∧ u.map (piW (t₁ v)) = 0})
-    (fun v u => (b v).1 * u.map (piW (t₁ v)) * (c v).1) ι H R ((∏ v, z v) • g)
-    (fun v _ => GlobalTheory.BigNZ.isLagrModel_of_isLin (hι v))
-    (fun v _ u hu => ⟨hu.1, fun i j => (h₀ _).2 (halfEl_of_at t₀ v (at_entry hu.1 i j) (congrFun (congrFun hu.2 i) j))⟩)
-    (fun v _ u hu => hu.1)
-    (fun v _ u hu => ⟨a v • u, ⟨at_mul_smul (ha v) u, by rw [hmm, ht', ha0, zero_smul]⟩, u - a v • u,
-      ⟨fun q hq => by rw [smul_sub, hu q hq, at_mul_smul (ha v) u q hq, sub_zero],
-        by rw [Matrix.map_sub _ (map_sub _), hmm, ha1, one_smul, sub_self]⟩, (add_sub_cancel _ _).symm⟩)
-    (fun v _ x _ u => by rw [Matrix.map_add _ (map_add _), Matrix.mul_add, Matrix.add_mul])
-    (fun v _ v' _ hne x hx u => by
-      have : x.map (piW (t₁ v')) = 0 := Matrix.ext fun i j =>
-        piW_of_at_ne (fun e => hne (Subtype.ext e)) _ (at_entry hx.1 i j)
-      rw [Matrix.map_add _ (map_add _), this, add_zero])
-    (fun v _ u => ⟨a v • u, ⟨at_mul_smul (ha v) u, by rw [hmm, ht', ha0, zero_smul]⟩, by
-      beta_reduce; rw [hmm, ha1, one_smul], fun y hy => symp_idem hcm (t₁ v) (ha1 v) _ _ _ u hy.1 hy.2⟩)
-    (fun v _ x hx p hp => by
-      obtain ⟨y, rfl⟩ := hbij.2 x
-      have hy : IsHalf eh y := (hH y).1 fun i j =>
-        (h₀ _).2 (halfEl_of_at t₀ v (at_entry hx.1 i j) (congrFun (congrFun hx.2 i) j))
-      obtain ⟨k, hk, hky⟩ := GlobalTheory.PlaceVec.exists_nsmul_mem_latO (S := sgn ε S) (T := X)
-        (GlobalTheory.PlaceVec.selfDual_isFullLattice _ _ sdS) (GlobalTheory.PlaceVec.selfDual_isFullLattice _ _ sdX) y
-        (Matrix.ext fun i j => infPart_halfEl ((h₀ _).1 (hy i j)))
-      refine ⟨GlobalTheory.HeisSchA.rho_mem_schA M _ hstd _ _ hp.1, ?_, ?_⟩
-      · simp only [← ptO_add]
-        exact sb_trans hp.2.1 hy hk hky
-      · simp only [← ptO_add]
-        rw [lrho, ← hp.2.2]
-        exact hT.trans _ hp.2.1 y hy)
-    (fun v _ x hx p hp => by
-      obtain ⟨y, rfl⟩ := hbij.2 x
-      have hy : IsHalf (cA D eh) y := (isHalf_iff_ptO (sgn ε S).gram hG e _ y).2 fun i j =>
-        (h₁ _).2 (halfEl_of_at t₁ v (at_entry hx.1 i j) (congrFun (congrFun hx.2 i) j))
-      obtain ⟨k, hk, hky⟩ := GlobalTheory.PlaceVec.exists_nsmul_mem_latO (S := sgn ε S) (T := X)
-        (GlobalTheory.PlaceVec.selfDual_isFullLattice _ _ sdS) (GlobalTheory.PlaceVec.selfDual_isFullLattice _ _ sdX) y
-        (Matrix.ext fun i j => infPart_halfEl ((h₁ _).1 (hy i j)))
-      refine ⟨GlobalTheory.HeisSchA.rho_mem_schA M _ hstd _ _ hp.1, ?_, ?_⟩
-      · simp only [lsym]
-        refine sb_modul hp.2.1 (fun t => Bs.ψ (symplO (sgn ε S) X t y)) (fun q q' => ?_) hk (fun u hu _ => ?_)
-        · rw [symplO_add_left', AddChar.map_add_eq_mul]
-        · rw [symplO_nsmul']
-          exact GlobalTheory.LatVac.char_sympl_eq_one hψ sdS sdX hu hky
-      · simp only [lsym]
-        rw [lrho, ← hp.2.2]
-        exact hT.modul _ hp.2.1 y hy)
-    ⟨(GlobalTheory.BigNZ.isFinPart_vac hM ∅).fam.mem hM _, by
-      rw [hbase]; exact sb_smul (GlobalTheory.isSBHalf_halfInd _ _) _, by
-      have e1 : GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.pure ((∏ v, z v) • g) M.vac = (∏ v, z v) • GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.pure g M.vac :=
-        funext fun _ => mul_assoc _ _ _
-      rw [hbase, e1, lsmul, ← hT.vac, one_smul, map_smul]⟩
-    φ hφ fun v hv => hφv v fun hm => hv ⟨v, hm⟩ (Finset.mem_univ _) rfl
-  refine ⟨∏ v, z v, Finset.prod_ne_zero_iff.2 fun v _ => hz0 v, ?_⟩
-  rw [hfT, ← hR.2.2]
-  exact congrArg T (funext fun x => (hΦ x).trans (hind φ x).symm)
+  obtain ⟨a, ha, -, hf⟩ := UpperTheory.theta_of_halfIdempotent_places D ψ ε S X d e Bs Vs Ws M hP ΛS ΛX hLat sdS sdX P t₁ t₀ ht eh h₀ h₁ b c ι hι φ hφ hφv g Φ f hΦ hth
+  exact ⟨a, ha, hf⟩
 end -- clump:auto
 end -- clump:auto
 -- ===== end clump member: Development.AutomorphicArithmetic.DivisorFrames.IsSBHalfThetaFunOfHalfIdempotentPlaces =====

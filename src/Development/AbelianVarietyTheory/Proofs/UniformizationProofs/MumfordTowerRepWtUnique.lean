@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.FormalGroupCharts.ExistsGenRosati
 public import Development.AbelianVarietyTheory.Definitions.Uniformization.IsCPPullback
 public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.LocGenOfTrivial
 public import Development.AbelianVarietyTheory.Proofs.HomogeneousIdeals.ExistsUniqueFactorCompletedStalkOfMap
@@ -80,20 +81,7 @@ theorem TQ.exists_genWt_pull_comp {S : Scheme.{0}} {X : Type} [AddCommGroup X] {
 theorem hasGen_sum_of_lbIso {X Y : Scheme.{0}} (L : LB X) {K K' : Type} [Fintype K] [Fintype K'] (φ : K → (Y ⟶ X))
     (ε : K → ℤ) (φ' : K' → (Y ⟶ X)) (ε' : K' → ℤ) (H : LBIso (LB.LinComb L φ ε) (LB.LinComb L φ' ε')) :
     KerPow.HasGen L (Sum.elim φ' φ) (Sum.elim ε' fun k => -ε k) := by
-  obtain ⟨w, hw⟩ := H
-  have le : ∀ j : K' ⊕ K → L.ι, LB.wchart L (Sum.elim φ' φ) j ≤
-      LB.wchart L φ' (j ∘ Sum.inl) ⊓ LB.wchart L φ (j ∘ Sum.inr) := fun j y hy =>
-    ⟨Set.mem_iInter.2 fun k => Set.mem_iInter.1 hy (.inl k), Set.mem_iInter.2 fun k => Set.mem_iInter.1 hy (.inr k)⟩
-  refine gen_chartPull (A' := LB.LinComb L (Sum.elim φ' φ) (Sum.elim ε' fun k => -ε k)) (h := 𝟙 Y)
-    (A := LB.div (LB.LinComb L φ' ε') (LB.LinComb L φ ε))
-    ⟨fun j => (j ∘ Sum.inl, j ∘ Sum.inr), le, fun y p q hp hq => ?_⟩ w hw
-  refine (gm_linComb L _ _ (𝟙 Y) y p q hp hq).trans (Eq.trans ?_
-    (gm_div (LB.LinComb L φ ε) (LB.LinComb L φ' ε') (𝟙 Y) y (p ∘ Sum.inl, p ∘ Sum.inr) (q ∘ Sum.inl, q ∘ Sum.inr)
-      ⟨le p hp, le q hq⟩).symm)
-  refine Eq.trans ?_ (congrArg₂ (fun a b => a * b⁻¹) (gm_linComb L φ' ε' (𝟙 Y) y _ _ (le p hp).1 (le q hq).1)
-    (gm_linComb L φ ε (𝟙 Y) y _ _ (le p hp).2 (le q hq).2)).symm
-  simp only [Fintype.prod_sum_type, Sum.elim_inl, Sum.elim_inr, zpow_neg, Finset.prod_inv_distrib]
-  rfl
+  apply _root_.GlobalTheory.NormRos.exists_gen_of_lbIso <;> assumption
 
 theorem section_eq_of_lbIso {S : Scheme.{0}} {B : Over S} [GrpObj B] {L : LB B.left} (hL : L.IsLB) (hK : KTriv B L)
     (c c' : 𝟙_ _ ⟶ B) {T : Over S} {Y : Scheme.{0}} {b : Y ⟶ B.left} {p : Y ⟶ T.left}

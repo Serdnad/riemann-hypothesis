@@ -77,6 +77,7 @@ import Mathlib.LinearAlgebra.Matrix.FiniteDimensional
 import Mathlib.RingTheory.Coalgebra.IsFrobenius
 import Mathlib.RingTheory.HopfAlgebra.Basic
 import Mathlib.Algebra.Ring.IsFormallyReal
+import ReciprocityTheory.SemistableReduction.SemiDegCA
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Formalism.GL3MeanSquares.GenusMeanAsymptotics.UnimodularClassRepresentatives.CoeMemOfMemSmulTop, Formalism.GL3MeanSquares.GenusMeanAsymptotics.UnimodularClassRepresentatives.MemLocFOfSmulMem, Formalism.GL3MeanSquares.GenusMeanAsymptotics.UnimodularClassRepresentatives.MulMemPrimePower, Formalism.GL3MeanSquares.GenusMeanAsymptotics.UnimodularClassRepresentatives.RelIndexEqMapMulKer, Formalism.GL3MeanSquares.GenusMeanAsymptotics.UnimodularClassRepresentatives.RelIndexEqOfMap, Formalism.GL3MeanSquares.GenusMeanAsymptotics.UnimodularClassRepresentatives.SurjectiveOfNondegenerate, Formalism.GL3MeanSquares.GenusMeanAsymptotics.UnimodularClassRepresentatives.RelIndexSSubInfEq, Formalism.GL3MeanSquares.GenusMeanAsymptotics.UnimodularClassRepresentatives.LocalDensityRatioHolds
@@ -702,18 +703,7 @@ namespace J
 theorem relIndex_eq_map_mul_ker {G G' : Type*} [AddCommGroup G] [AddCommGroup G'] (f : G →+ G')
     {A B : AddSubgroup G} (hBA : B ≤ A) :
     B.relIndex A = (B.map f).relIndex (A.map f) * (B ⊓ f.ker).relIndex (A ⊓ f.ker) := by
-  have h1 : (B.map f).relIndex (A.map f) = (B ⊔ (A ⊓ f.ker)).relIndex A := by
-    rw [AddSubgroup.relIndex_map_map]
-    have e1 : A ⊔ f.ker = A ⊔ (B ⊔ f.ker) := by
-      rw [← sup_assoc, sup_eq_left.2 hBA]
-    rw [e1, AddSubgroup.relIndex_sup_right, ← AddSubgroup.inf_relIndex_right]
-    congr 1
-    rw [inf_comm A, sup_inf_assoc_of_le _ hBA]
-  have h2 : (B ⊓ f.ker).relIndex (A ⊓ f.ker) = B.relIndex (B ⊔ (A ⊓ f.ker)) := by
-    have e2 : B ⊓ f.ker = B ⊓ (A ⊓ f.ker) := by rw [← inf_assoc, inf_eq_left.2 hBA]
-    rw [sup_comm, AddSubgroup.relIndex_sup_right, e2, AddSubgroup.inf_relIndex_right]
-  rw [h1, h2, mul_comm]
-  exact (AddSubgroup.relIndex_mul_relIndex _ _ _ le_sup_left (sup_le hBA inf_le_left)).symm
+  apply _root_.ReciprocityTheory.MultiplicativeHeights.SemiDegIdx.relIndex_eq_map_mul_ker <;> assumption
 
 def adjF (s : V →ₗ⋆[K] V →ₗ[K] K) : V →ₗ⋆[K] V →ₗ[K] K :=
   LinearMap.mk₂'ₛₗ (starRingEnd K) (RingHom.id K) (fun x y => star (s y x))

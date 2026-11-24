@@ -1,5 +1,6 @@
 module
 
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.UnitaryJacquetNonzero
 public import Development.AbelianVarietyTheory.Definitions.Divisors.ExistsRootSelectionUnitaryRankOne
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.UnitarySimilitudeIntegralSubgroupCommensuratedFr
 import Mathlib.Algebra.Order.Floor.Extended
@@ -105,19 +106,7 @@ theorem relIndex_ne_zero_open_compact {G : Type} [Group G] [TopologicalSpace G] 
 theorem isOpen_map_conj {G : Type} [Group G] [TopologicalSpace G] [IsTopologicalGroup G]
     (U : Subgroup G) (hU : IsOpen (U : Set G)) (y : G) :
     IsOpen ((U.map (MulAut.conj y).toMonoidHom : Subgroup G) : Set G) := by
-  have e : ((U.map (MulAut.conj y).toMonoidHom : Subgroup G) : Set G) = (fun g => y⁻¹ * g * y) ⁻¹' (U : Set G) := by
-    ext g
-    simp only [Subgroup.coe_map, Set.mem_image, SetLike.mem_coe, Set.mem_preimage]
-    constructor
-    · rintro ⟨k, hk, rfl⟩
-      have : y⁻¹ * ((MulAut.conj y).toMonoidHom k) * y = k := by
-        show y⁻¹ * (y * k * y⁻¹) * y = k; group
-      rw [this]; exact hk
-    · intro h
-      refine ⟨_, h, ?_⟩
-      show y * (y⁻¹ * g * y) * y⁻¹ = g; group
-  rw [e]
-  exact hU.preimage ((continuous_const.mul continuous_id).mul continuous_const)
+  apply _root_.GlobalTheory.CompanionTheory.SatPow.isOpen_map_conj <;> assumption
 
 end GlobalTheory.CosetFin
 

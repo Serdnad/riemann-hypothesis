@@ -1,5 +1,6 @@
 module
 
+import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.CrystallineOrdinaryIdeals.SaturatedOrdinaryIdealCutsOutCrystallineLocus
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.PadicHodgeTheory.IsInertiaInfiniteCyclotomic
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.PadicHodgeTheory.ExistsEps
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.PadicHodgeTheory.RtCompl
@@ -137,29 +138,8 @@ private theorem cond_tri (Ψ : G →* Oˣ) (I : Subgroup G) {C : Type} [CommRing
       simp [Matrix.mul_apply, Fin.sum_univ_three, h10, h20, h21, e0, e1, e2]
 
 private theorem cond_conj (Ψ : G →* Oˣ) (I : Subgroup G) {C : Type} [CommRing C] [Algebra O C] (u : G →* GG (m := 3) (R := C))
-    (hu : ∀ s ∈ I, (u s).right = 1) (n : GL (Fin 3) C) (h : Cond Ψ I u) : Cond Ψ I (conjBy n u) := by
-  have hm : ∀ s ∈ I, (conjBy n u s).mat =
-      (n : Matrix (Fin 3) (Fin 3) C) * (u s).mat * ((n⁻¹ : GL (Fin 3) C) : Matrix (Fin 3) (Fin 3) C) := by
-    intro s hs
-    have : (conjBy n u s).left = n * (u s).left * n⁻¹ := by
-      simp [conjBy, hu s hs]
-    simp only [GG.mat, this, Units.val_mul]
-  have hc : ∀ (A : Matrix (Fin 3) (Fin 3) C) (c : C),
-      (n : Matrix (Fin 3) (Fin 3) C) * A * ((n⁻¹ : GL (Fin 3) C) : Matrix (Fin 3) (Fin 3) C) - Matrix.scalar _ c =
-      (n : Matrix (Fin 3) (Fin 3) C) * (A - Matrix.scalar _ c) *
-        ((n⁻¹ : GL (Fin 3) C) : Matrix (Fin 3) (Fin 3) C) := by
-    intro A c
-    rw [mul_sub, sub_mul, ← (Matrix.scalar_commute c (fun _ => Commute.all _ _) _).eq, mul_assoc (Matrix.scalar _ c),
-      Units.mul_inv, mul_one]
-  refine ⟨fun s hs => ?_, fun s hs => ?_⟩
-  · rw [hm s hs, ← h.1 s hs, Matrix.coe_units_inv, Matrix.charpoly_units_conj]
-  · rw [hm _ (hs 0), hm _ (hs 1), hm _ (hs 2), hc, hc, hc]
-    have := h.2 s hs
-    generalize (u (s 0)).mat - _ = A at *
-    generalize (u (s 1)).mat - _ = B at *
-    generalize (u (s 2)).mat - _ = D at *
-    simp only [mul_assoc, Units.inv_mul_cancel_left]
-    rw [← mul_assoc B, ← mul_assoc A, ← mul_assoc A, this, zero_mul, mul_zero]
+    (hu : ∀ s ∈ I, (u s).right = 1) (n : GL (Fin 3) C) (h : Cond Ψ I u) : Cond Ψ I (conjBy n u) :=
+  _root_.GlobalTheory.OrdLoc.DcrOrd.cond_conj Ψ I u hu n h
 
 end
 

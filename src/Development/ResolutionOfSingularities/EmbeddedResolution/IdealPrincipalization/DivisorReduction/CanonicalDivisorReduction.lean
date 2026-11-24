@@ -1,5 +1,6 @@
 module
 
+import Development.ResolutionOfSingularities.EmbeddedResolution.IdealPrincipalization.OrderReduction.MaxContactGeometry
 public import Mathlib.AlgebraicGeometry.IdealSheaf.Basic
 public import Mathlib.Combinatorics.Quiver.ReflQuiver
 public import Development.ResolutionOfSingularities.EmbeddedResolution.IdealPrincipalization.DivisorReduction.PushedBlowupSequence
@@ -687,22 +688,7 @@ private theorem blowupMorphism_mem_orderAtLeastLocus {k : Type u} [Field k] [Cha
 private theorem projectionToBase_mem_orderAtLeastLocus {T : MarkedIdealWithBoundary.{u}} (hV : T.IsAdmissible) (s : T.SequenceOfBlowups) :
     ∀ i, i ≤ s.length → ∀ z : s.schemeAt i,
       z ∈ orderAtLeastLocus (s.ideal i) T.mult → (s.projectionToBase i) z ∈ orderAtLeastLocus T.ideal T.mult := by
-  have := hV.charZero
-  intro i
-  induction i with
-  | zero =>
-      intro _ z hz
-      rw [markedSequenceOfBlowups_ideal_zero s, MarkedSequenceOfBlowups.projectionToBase_zero s, orderAtLeastLocus_comap_iso_hom_eq_preimage] at hz
-      rw [MarkedSequenceOfBlowups.projectionToBase_zero s]
-      exact hz
-  | succ i ih =>
-      intro hi z hz
-      rw [MarkedSequenceOfBlowups.projectionToBase_succ_apply]
-      refine ih (Nat.le_of_succ_le hi) _ ?_
-      exact blowupMorphism_mem_orderAtLeastLocus s hV.one_le_mult
-        (fun j hj => MarkedSequenceOfBlowups.smooth_projectionToSpec effectiveCartierSupportContainsNoComponent hV s j hj)
-        (fun j hj => MarkedSequenceOfBlowups.isNoetherian_schemeAt effectiveCartierSupportContainsNoComponent hV s j hj)
-        i (Nat.lt_of_succ_le hi) z hz
+  apply _root_.FunctorialResolution.EmbeddedResolution.OrderReductionCorrectness.projectionToBase_mem_orderAtLeastLocus_of_mem_ideal <;> assumption
 
 theorem center_disjoint_range_of_preimage_orderAtLeastLocus_eq_empty
     {T : MarkedIdealWithBoundary.{u}} (hV : T.IsAdmissible) {Y : Scheme.{u}} (h : Y ⟶ T.scheme)

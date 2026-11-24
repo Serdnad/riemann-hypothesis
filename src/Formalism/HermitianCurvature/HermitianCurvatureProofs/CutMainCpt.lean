@@ -935,29 +935,7 @@ theorem rr_congr_below {P : M.Par} {Wp Wq : Type} [NormedAddCommGroup Wp] [Inner
     (p : KB.Pl P Wp Wq) {F F₂ : B.Mat P.k P.r → (Wq →L[ℂ] Wp)} (hF : KB.CptCoef p.T.base F)
     (hE : ∀ g ∈ B.GV P.k P.r, F g = F₂ g) (i : ℕ) (hi : i ≤ P.r) (hi1 : 1 ≤ i) (w : List C.Letter)
     (a b : C.LPt) : p.RR F i w a b = p.RR F₂ i w a b := by
-  by_cases hl : D.IsLocPt a i ∧ D.IsLocPt b i
-  · unfold KB.Pl.RR D.RRplace
-    rw [dite_eq_left hl, dite_eq_left hl, dite_eq_left hi, dite_eq_left hi]
-    have hU : ∀ (e : Wd.Ix (Fin w.length)), ∀ g ∈ B.GV P.k P.r,
-        D.uwG P.k P.r p.T.base.z p.T.base.z' F₂ i hi w e g = D.uwG P.k P.r p.T.base.z p.T.base.z' F i hi w e g :=
-      fun e g hg => (Formalism.FourierDecayAlt.P.CutEXUw.uwG_congrG p.T.base.z p.T.base.z' i hi isOpen_univ
-        (fun x _ hx => (hE x hx).symm) w e g (Set.mem_univ _) hg)
-    have hS : ∀ (q : C.LPt), D.IsLocPt q i → ∀ (e : Wd.Ix (Fin w.length)),
-        ∀ γ ∈ B.GV P.k (P.r - D.ptSize q),
-        D.sliceAt P.k P.r p.T.base.z p.T.base.z' (D.uwG P.k P.r p.T.base.z p.T.base.z' F i hi w e) q γ =
-          D.sliceAt P.k P.r p.T.base.z p.T.base.z' (D.uwG P.k P.r p.T.base.z p.T.base.z' F₂ i hi w e) q γ := by
-      intro q hq e γ hγ
-      have h1 := Formalism.FourierDecayAlt.P.PBG.sliceAt_lincomb P.k P.r Wp Wq p.T F hF i hi hi1 q hq ({()} : Finset Unit)
-        (fun _ => 1) (fun _ => w) (fun _ => e) (D.uwG P.k P.r p.T.base.z p.T.base.z' F₂ i hi w e)
-        (fun g hg _ => by simp [hU e g hg]) γ hγ
-      simp only [Finset.sum_singleton, one_smul] at h1
-      exact h1.symm
-    refine Formalism.FourierDecayAlt.P.PBG.formLev_congrGV p.T _ _ w _ _ _ _ (fun e g hg => ?_) (fun e g hg => ?_)
-    · simp only [D.castF]
-      exact hS a hl.1 e _ (Formalism.FourierDecayAlt.P.PBE.castM_GV _ hg)
-    · simp only [D.castF]
-      exact hS b hl.2 e _ (Formalism.FourierDecayAlt.P.PBE.castM_GV _ hg)
-  · rw [PBL.rr_zero_of_not p F i w a b hl, PBL.rr_zero_of_not p F₂ i w a b hl]
+  apply _root_.Formalism.FourierDecayAlt.P.CutBP.GLG.rr_congr_belowG <;> assumption
 
 theorem rank_below_compact : RRBelowCpt := by
   intro Wp Wq _ _ _ _ _ _ P p F hF i hi w hw h h' m hm hsz hsz'

@@ -4,6 +4,7 @@ public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.FunKilled
 public import Formalism.LocalToGlobal.Columns.RecLevelLocF
 public import Formalism.LocalToGlobal.Columns.RecLevelLocK
+import all Formalism.LocalToGlobal.Columns.RecLevelLocK
 import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.BaseFieldsDefiniteLaws
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.TrueColumnSpacesStandardInFrameCoords
 public import Formalism.LocalToGlobal.Columns.LevPackFrLat
@@ -115,12 +116,7 @@ local notation "𝒪v" => Formalism.BasicNotions.intV E v
 local notation "pE" => algebraMap (𝓞 E) E π
 
 theorem sig_sig (x : Rv) : sigR hc.sig (v.adicCompletion F) (sigR hc.sig (v.adicCompletion F) x) = x := by
-  induction x using TensorProduct.inductionOn with
-  | add x y hx hy => rw [map_add (f := _), map_add (f := _), hx, hy]
-  | tmul a b =>
-    have e : ∀ a : E, (hc.sig a) = star a := fun a => by
-      simp [Formalism.BasicNotions.CMData.sig, starRingEnd_apply]
-    simp [sigR, e]
+  apply _root_.Formalism.L2.Col.sigR_sigR_apply <;> assumption
 
 theorem incl_mul_inv_mul {a : E} (ha : a ≠ 0) (x : Rv) : ιv a * (ιv a⁻¹ * x) = x := by
   rw [← mul_assoc, ← map_mul, mul_inv_cancel₀ ha, map_one, one_mul]

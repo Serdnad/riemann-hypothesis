@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.TamePartRight
 public import Development.AutomorphicArithmetic.Foundations.Convolution.RealGroupAnalysis.ThetaLiftTrivialOrbitTermsVanish
 public import Development.AutomorphicArithmetic.Foundations.Convolution.RealGroupAnalysis.ReductionDomains.KkCpt
 public import Development.AutomorphicArithmetic.Foundations.Convolution.RealGroupAnalysis.GaussianProducts.ExistsRowSec
@@ -639,21 +640,8 @@ open UpperTheory.ConvolutionTheory.R2 UpperTheory.ConvolutionTheory.R2.G
 open scoped Classical ENNReal nonZeroDivisors
 
 private theorem td_adic {F : Type} [Field F] [NumberField F] (v : HeightOneSpectrum (𝓞 F)) :
-    TotallyDisconnectedSpace (v.adicCompletion F) := by
-  rw [totallyDisconnectedSpace_iff_connectedComponent_zero]
-  refine Set.eq_singleton_iff_unique_mem.mpr ⟨mem_connectedComponent, fun x hx => ?_⟩
-  by_contra hne
-  have hr : (Valued.v : Valuation (v.adicCompletion F) _).restrict x ≠ 0 :=
-    (Valuation.zero_iff _).not.mpr hne
-  have hc := Valued.isClopen_ball (R := v.adicCompletion F)
-    ((Valued.v : Valuation (v.adicCompletion F) _).restrict x)
-  have h0 : (0 : v.adicCompletion F) ∈
-      {y | (Valued.v : Valuation (v.adicCompletion F) _).restrict y <
-        (Valued.v : Valuation (v.adicCompletion F) _).restrict x} := by
-    simp only [Set.mem_ofPred_eq, map_zero]
-    exact pos_iff_ne_zero.mpr hr
-  have h1 := hc.connectedComponent_subset h0 hx
-  exact (lt_irrefl ((Valued.v : Valuation (v.adicCompletion F) _).restrict x)) h1
+    TotallyDisconnectedSpace (v.adicCompletion F) :=
+  _root_.GlobalTheory.TamePartR.td_adic v
 
 private theorem td_fin (F : Type) [Field F] [NumberField F] :
     TotallyDisconnectedSpace (FiniteAdeleRing (𝓞 F) F) := by

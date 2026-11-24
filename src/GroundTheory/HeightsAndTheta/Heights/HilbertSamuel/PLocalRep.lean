@@ -1,5 +1,6 @@
 module
 
+import GroundTheory.HeightsAndTheta.Heights.MultihomogeneousPolynomials
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsLocalRep
 
 @[expose] public section
@@ -62,25 +63,7 @@ theorem isMultiHomog_X [DecidableEq K] (k : K) (i : ι k) :
 
 theorem isMultiHomog_chartMono (c : ∀ k, ι k) (e : K → ℕ) :
     IsMultiHomog (∏ k, (X ⟨k, c k⟩ : MRing ι) ^ e k) e := by
-  classical
-  have key : ∀ s : Finset K, IsMultiHomog (∏ k ∈ s, (X ⟨k, c k⟩ : MRing ι) ^ e k)
-      (∑ k ∈ s, e k • Pi.single k 1) := by
-    intro s
-    induction s using Finset.induction_on with
-    | empty => simpa using isMultiHomog_C (ι := ι) 1
-    | insert k s hk ih =>
-      rw [Finset.prod_insert hk, Finset.sum_insert hk]
-      refine isMultiHomog_mul ?_ ih
-      induction e k with
-      | zero => simpa using isMultiHomog_C (ι := ι) 1
-      | succ m ihm =>
-        rw [pow_succ, succ_nsmul]
-        exact isMultiHomog_mul ihm (isMultiHomog_X k (c k))
-  have h : (∑ k, e k • (Pi.single k 1 : K → ℕ)) = e := by
-    ext k
-    simp [Finset.sum_apply, Pi.single_apply]
-  have := key Finset.univ
-  rwa [h] at this
+  apply _root_.GroundTheory.Heights₂.Heights.MultiHomogeneous.coordinateProduct <;> assumption
 
 theorem exists_form_of_mem_chartRingZ (y : (Σ k, ι k) → Ω) (c : ∀ k, ι k) (hc : ∀ k, y ⟨k, c k⟩ ≠ 0)
     {x : Ω} (hx : x ∈ chartRingZ y c) :

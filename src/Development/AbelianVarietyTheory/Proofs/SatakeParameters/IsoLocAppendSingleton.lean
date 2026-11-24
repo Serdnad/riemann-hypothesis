@@ -39,6 +39,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
+import Development.AbelianVarietyTheory.Proofs.SatakeParameters.SplitPlaceGoodSignature
 
 @[expose] public section
 
@@ -52,15 +53,7 @@ variable {R : Ranks} {H : Host R} {what₂ : Rows.Data R} (N : NData R H what₂
 
 theorem spehLoc_twist (hL : ParamLaws N A) (p : Part A.CG) (χ : A.CG 1) (w : PlE H) :
     spehLoc N A ⟨p.a, A.tw p.π χ, p.d⟩ w = A.lpChar (spehLoc N A p w) (A.locG χ w) := by
-  obtain ⟨hsum, hzero, htw, -, -⟩ := hL w
-  have hχ := A.locG_dim χ w
-  unfold spehLoc
-  dsimp only
-  generalize (List.range p.d >>= fun a : ℕ => (pure (a : ℝ) : List ℝ)) = l
-  induction l with
-  | nil => exact (hzero _ hχ).symm
-  | cons k l ih =>
-    rw [List.foldr_cons, List.foldr_cons, ih, hsum _ _ _ hχ, htw _ _ _ hχ, A.locG_tw]
+  apply _root_.GlobalTheory.ThetaExh.Check.speh_char <;> assumption
 
 theorem isoLoc_twist (hL : ParamLaws N A) (S : List (Part A.CG)) (χ : A.CG 1) (w : PlE H) :
     isoLoc N A (twistIso N A S χ) w = A.lpChar (isoLoc N A S w) (A.locG χ w) := by
@@ -74,14 +67,7 @@ theorem isoLoc_twist (hL : ParamLaws N A) (S : List (Part A.CG)) (χ : A.CG 1) (
 
 theorem isoLoc_append_singleton (S : List (Part A.CG)) (q : Part A.CG) (w : PlE H) :
     isoLoc N A (S ++ [q]) w = A.lpSum (isoLoc N A S w) (spehLoc N A q w) := by
-  induction S with
-  | nil =>
-    change A.lpSum (spehLoc N A q w) (A.lpZero w) = A.lpSum (A.lpZero w) (spehLoc N A q w)
-    exact A.lpSum_comm _ _
-  | cons p S ih =>
-    change A.lpSum (spehLoc N A p w) (isoLoc N A (S ++ [q]) w) =
-      A.lpSum (A.lpSum (spehLoc N A p w) (isoLoc N A S w)) (spehLoc N A q w)
-    rw [ih, A.lpSum_assoc]
+  apply _root_.GlobalTheory.ThetaExh.Check.iso_append <;> assumption
 
 theorem isoLoc_lift (hL : ParamLaws N A) (i : N.Loc) (Sig : List (Part A.CG)) (w : PlE H) :
     isoLoc N A (twistIso N A (Sig ++ [muPart N A i]) A.etaTinv) w =

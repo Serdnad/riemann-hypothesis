@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.MultiplicitySpaceEqZeroOfLowestKTypes
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.EqZeroOfInnerSmooth
 public import Development.AbelianVarietyTheory.Proofs.HeightProofs.HilbertSchurUnitaryIrreducibleScalar
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.SobolevContinuousFormGardingVector
@@ -371,26 +372,8 @@ private theorem equivariant_and_sobCont_slice {T : MMap M} (hT : T ∈ Mult θ M
       (w : M.H τ) = M.rep τ g (v τ) → T (Function.update v τ w) = rTr V (atTau θ V τ g) (T v)) ∧
     (∀ τ (v : M.Vec) (x : GA D V), ∃ ℓ : M.H τ →ₗ[ℂ] ℂ, Sobolev₂ (lieAt V τ) (M.rep τ) ℓ ∧
       ∀ w : M.sm τ, ℓ w = T (Function.update v τ w) x) := by
-  induction hT using Submodule.span_induction with
-  | mem T hT => exact ⟨hT.equiv, hT.cont⟩
-  | zero =>
-    refine ⟨fun τ g _ v w _ => ?_, fun τ v y => ⟨0, sobCont_zero_twisted_operators _ _, fun w => ?_⟩⟩
-    · simp only [MultilinearMap.zero_apply]
-      rfl
-    · simp
-  | add T T' _ _ hT hT' =>
-    refine ⟨fun τ g hg v w hw => ?_, fun τ v y => ?_⟩
-    · rw [MultilinearMap.add_apply, MultilinearMap.add_apply, hT.1 τ g hg v w hw, hT'.1 τ g hg v w hw]
-      rfl
-    · obtain ⟨ℓ, h1, h2⟩ := hT.2 τ v y
-      obtain ⟨ℓ', h1', h2'⟩ := hT'.2 τ v y
-      exact ⟨ℓ + ℓ', _root_.GlobalTheory.MultMem.sobCont_add h1 h1', fun w => by simp [h2, h2']⟩
-  | smul c T _ hT =>
-    refine ⟨fun τ g hg v w hw => ?_, fun τ v y => ?_⟩
-    · rw [MultilinearMap.smul_apply, MultilinearMap.smul_apply, hT.1 τ g hg v w hw]
-      rfl
-    · obtain ⟨ℓ, h1, h2⟩ := hT.2 τ v y
-      exact ⟨c • ℓ, sobCont_smul_twisted_operators h1 c, fun w => by simp [h2]⟩
+  intros
+  apply _root_.GlobalTheory.Survey.SobolevContinuityLowGeneration.mult_equiv_cont <;> assumption
 
 theorem multT_eq_zero {u : (⨂[ℂ] τ, M.sm τ) →ₗ[ℂ] (GA D V → ℂ)} (hu : u ∈ MultT θ M J χ) {x : ⨂[ℂ] τ, M.sm τ}
     (hx : x ≠ 0) (h : u x = 0) : u = 0 := by

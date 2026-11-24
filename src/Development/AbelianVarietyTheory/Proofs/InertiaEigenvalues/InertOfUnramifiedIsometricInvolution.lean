@@ -1,5 +1,6 @@
 module
 
+import Development.DiscreteGroups.GlobalIrreducibility.DzApprox
 public import Development.AbelianVarietyTheory.PublishedTheorems.GaloisCohomology₂.BaseChangeDefiniteUnitary
 public import Formalism.LocalToGlobal.GaloisLevelStructure.DefsAut
 import Development.AbelianVarietyTheory.Proofs.SatakeParameters.LevelHyperspecialTrivialCharacterSplitsOffPlaces
@@ -54,29 +55,7 @@ variable {L : Type} [Field L] [NumberField L] [IsCMField L]
 
 theorem exists_int_approx (w : HeightOneSpectrum (𝓞 L)) (x : w.adicCompletion L) (hx : Valued.v x ≤ 1) :
     ∃ a : 𝓞 L, Valued.v (x - algebraMap L (w.adicCompletion L) (a : L)) < 1 := by
-  have hval : ∀ k : L, Valued.v (algebraMap L (w.adicCompletion L) k) = w.valuation L k :=
-    fun k => HeightOneSpectrum.valuedAdicCompletion_eq_valuation' (v := w) k
-  have hU : IsOpen {z : w.adicCompletion L | Valued.v (z - x) < 1} := by
-    have h := (Valued.isOpen_ball (w.adicCompletion L) 1).preimage (continuous_sub_right x)
-    simpa [Valuation.restrict_lt_one_iff] using h
-  obtain ⟨y, hy⟩ :=
-    (HeightOneSpectrum.denseRange_algebraMap (K := L) (v := w)).exists_mem_open hU ⟨x, by simp⟩
-  have hy' : Valued.v (algebraMap L (w.adicCompletion L) y - x) < 1 := hy
-  have hyv : w.valuation L y ≤ 1 := by
-    rw [← hval]
-    calc Valued.v (algebraMap L (w.adicCompletion L) y)
-        = Valued.v ((algebraMap L (w.adicCompletion L) y - x) + x) := by rw [sub_add_cancel]
-      _ ≤ max (Valued.v (algebraMap L (w.adicCompletion L) y - x)) (Valued.v x) := Valuation.map_add _ _ _
-      _ ≤ 1 := max_le hy'.le hx
-  obtain ⟨a, ha⟩ := HeightOneSpectrum.exists_valuation_sub_lt_of_integer (K := L) (v := w) hyv 1
-  refine ⟨a, ?_⟩
-  have e : x - algebraMap L (w.adicCompletion L) (a : L) =
-      -(algebraMap L (w.adicCompletion L) y - x) + -(algebraMap L (w.adicCompletion L) (a : L) -
-        algebraMap L (w.adicCompletion L) y) := by ring
-  rw [e]
-  refine Valuation.map_add_lt _ (by rw [Valuation.map_neg]; exact hy') ?_
-  rw [Valuation.map_neg, ← map_sub, hval]
-  simpa using ha
+  apply _root_.DiscreteGroups.sglob.DzType.exists_int_approx_compl <;> assumption
 
 theorem inert_of_isUnramInv : ∀ (L : Type) [Field L] [NumberField L] [IsCMField L] (v : HeightOneSpectrum (𝓞 (maximalRealSubfield L))) (w : HeightOneSpectrum (𝓞 L)), NG.OverPl w v → ∀ (s : w.adicCompletion L →+* w.adicCompletion L) (ϖ : w.adicCompletion L) (q : ℕ), (∀ x : L, s (algebraMap L _ x) = algebraMap L _ (IsCMField.complexConj L x)) → Formalism.UG.IsUnramInv ϖ s q → Algebra.IsUnramifiedAt (𝓞 (maximalRealSubfield L)) w.asIdeal ∧ ¬ IsSplitAt w ∧ q = Formalism.UG.qV (maximalRealSubfield L) v := by
   intro L _ _ _ v w hvw s ϖ q hsc hU

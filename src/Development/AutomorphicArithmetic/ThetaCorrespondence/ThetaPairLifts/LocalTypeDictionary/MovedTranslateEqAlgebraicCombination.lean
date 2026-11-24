@@ -147,15 +147,8 @@ theorem std_eq_colLat_one' {D : D7} {n : ℕ} (L : Submodule (𝓞 D.host.E) (Fi
   simp only [SetLike.mem_coe, hL, lc_mem_colLat_one, Submodule.mem_one]
 
 theorem even_bot' {D : D7} {T : Type} {L : LevCh D T} {sc : Consts} {G : GridData L sc} {W : G.Weil}
-    {i j : Fin D.R.m} {A A' WW : HSp D} {X : Tri T A A' WW} (hX : IsBottomTri W i j X) : Even (A.rank * WW.rank) := by
-  refine Even.mul_left ?_ _
-  have h1 := hX.rank
-  have h2 := hX.rank'
-  have h3 := hX.is.rank
-  have h4 := SqNum.ranks_exact D i j
-  rw [← h3, h1, h2]
-  refine ⟨SqNum.halfRank D i j - (D.R.m - (j.1 + 1)) / 2 - (D.R.m - j.1) / 2, ?_⟩
-  omega
+    {i j : Fin D.R.m} {A A' WW : HSp D} {X : Tri T A A' WW} (hX : IsBottomTri W i j X) : Even (A.rank * WW.rank) :=
+  _root_.GlobalTheory.BotTransJet.even_bot hX
 
 theorem vac_jet_ne_zero {D : D7} {T : Type} {L : LevCh D T} {sc : Consts} {G : GridData L sc} {W : G.Weil}
     {i j : Fin D.R.m} {A A' WW : HSp D} {X : Tri T A A' WW} (hI : ∀ D, GlobalTheory.NormSum.Inp D) (hX : IsBottomTri W i j X) :

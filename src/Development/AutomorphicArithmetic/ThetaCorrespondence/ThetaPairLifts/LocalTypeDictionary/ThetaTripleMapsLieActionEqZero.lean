@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.SeesawFramesWeilEquivalence
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsRtensOp
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.RamificationIdxEqOneOfIsSquare
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ContinuousOneP
@@ -79,14 +80,8 @@ namespace GlobalTheory.TripleAssembly.LieInv
 
 theorem exists_factor {U V P : Type} [AddCommGroup U] [Module ℂ U] [AddCommGroup V] [Module ℂ V] [AddCommGroup P]
     [Module ℂ P] (T : U →ₗ[ℂ] V) (S : Submodule ℂ U) (hT : ∀ x ∈ S, T x = 0 → x = 0) (p : U →ₗ[ℂ] P) :
-    ∃ q : V →ₗ[ℂ] P, ∀ x ∈ S, q (T x) = p x := by
-  obtain ⟨r, hr⟩ := (T.comp S.subtype).exists_leftInverse_of_injective (by
-    rw [LinearMap.ker_eq_bot']
-    exact fun x hx => Subtype.ext (hT x.1 x.2 hx))
-  refine ⟨p.comp (S.subtype.comp r), fun x hx => ?_⟩
-  have := LinearMap.congr_fun hr ⟨x, hx⟩
-  change r (T x) = ⟨x, hx⟩ at this
-  simp [this]
+    ∃ q : V →ₗ[ℂ] P, ∀ x ∈ S, q (T x) = p x :=
+  _root_.GlobalTheory.TripleAssembly.Onto.exists_factor T S hT p
 
 theorem det_ne_of_hasSig_map {E : Type} [Field E] {n r s : ℕ} {J : Matrix (Fin n) (Fin n) E} (τ : E →+* ℂ) (c : ℂ)
     (h : GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.HasSig (c • J.map τ) r s) : J.det ≠ 0 := by

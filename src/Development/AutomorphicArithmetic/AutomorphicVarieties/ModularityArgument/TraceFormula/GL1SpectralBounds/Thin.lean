@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SquareRatioValuationWithoutNormFormulaStatement
 public import Development.AbelianVarietyTheory.PublishedTheorems.GaloisCohomology₂.BaseChangeDefiniteUnitary
 public import Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange.ArchimedeanBaseChangeProof.EigenvalueSeparation.LeftInv
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.TraceFormula.GL1SpectralBounds.SecondFromFirstStatement
@@ -97,16 +98,7 @@ section Gen
 variable {K : Type} [Field K] [NumberField K]
 
 lemma exists_prime_mem (P : HeightOneSpectrum (𝓞 K)) : ∃ p : ℕ, p.Prime ∧ (p : 𝓞 K) ∈ P.asIdeal := by
-  have hn : Ideal.absNorm P.asIdeal ≠ 0 := by
-    intro h
-    rw [Ideal.absNorm_eq_zero_iff] at h
-    exact P.ne_bot h
-  have hmem := Ideal.absNorm_mem P.asIdeal
-  rw [← Nat.prod_primeFactorsList hn, Nat.cast_list_prod, ← Multiset.prod_coe] at hmem
-  obtain ⟨x, hx, hxP⟩ := (P.isPrime.multiset_prod_mem_iff_exists_mem _).mp hmem
-  rw [Multiset.mem_coe, List.mem_map] at hx
-  obtain ⟨q, hq, rfl⟩ := hx
-  exact ⟨q, Nat.prime_of_mem_primeFactorsList hq, hxP⟩
+  apply _root_.GlobalTheory.SqTop.OneSqProof.exists_prime_mem' <;> assumption
 
 lemma span_max {p : ℕ} (hp : p.Prime) : (Ideal.span {(p : ℤ)}).IsMaximal := by
   haveI := Fact.mk hp

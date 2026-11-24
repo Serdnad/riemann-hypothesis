@@ -1,5 +1,7 @@
 module
 
+import PositivityTheory.AutomorphicForms.PublishedInputs.JacquetLanglands.RealArchimedeanBounds.DCount
+import PositivityTheory.AutomorphicForms.PublishedInputs.JacquetLanglands.TorusKernels.PfHRep
 public import PositivityTheory.AutomorphicForms.PublishedInputs.JacquetLanglands.TorusKernels.IsHolVOf
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.RChar2
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.IsUnitaryOfCharIff
@@ -694,16 +696,7 @@ theorem Jg_ne (hB : B1b) (k : InfinitePlace F → ℕ) (g : GL (Fin 2) (TR.Rinf 
 
 theorem pInf_alg (x : F) (v : InfinitePlace F) :
     TR.pInf F (algebraMap F (Ad F) x) v = InfinitePlace.embedding_of_isReal (IsTotallyReal.isReal v) x := by
-  have h : algebraMap F (InfiniteAdeleRing F) x = TR.infEq F (fun w => InfinitePlace.embedding_of_isReal (IsTotallyReal.isReal w) x) := by
-    funext w
-    apply (InfinitePlace.Completion.ringEquivRealOfIsReal (IsTotallyReal.isReal w)).injective
-    show _ = (InfinitePlace.Completion.ringEquivRealOfIsReal (IsTotallyReal.isReal w))
-      ((InfinitePlace.Completion.ringEquivRealOfIsReal (IsTotallyReal.isReal w)).symm
-        (InfinitePlace.embedding_of_isReal (IsTotallyReal.isReal w) x))
-    rw [RingEquiv.apply_symm_apply]
-    simp
-  change (TR.infEq F).symm (algebraMap F (InfiniteAdeleRing F) x) v = _
-  rw [h, RingEquiv.symm_apply_apply]
+  apply _root_.UpperTheory.Esk.HyperbolicSetupLemmas.pInf_alg <;> assumption
 
 theorem gv_rat (γ : GL (Fin 2) F) (v : InfinitePlace F) :
     gv v (Matrix.GeneralLinearGroup.map (TR.pInf F) (ratGL F 2 γ)) =
@@ -1044,86 +1037,9 @@ theorem fix_of (k : InfinitePlace F → ℕ) (c : Pl F → ℕ) (ω : HChar F) (
   intro u hu
   exact congrArg Subtype.val (h u hu)
 
-private def rot (θ : TR.Rinf F) : GL (Fin 2) (TR.Rinf F) where
-  val := !![fun v => Real.cos (θ v), fun v => Real.sin (θ v); fun v => -Real.sin (θ v), fun v => Real.cos (θ v)]
-  inv := !![fun v => Real.cos (θ v), fun v => -Real.sin (θ v); fun v => Real.sin (θ v), fun v => Real.cos (θ v)]
-  val_inv := by
-    ext i j v
-    have := Real.sin_sq_add_cos_sq (θ v)
-    fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_succ] <;> linarith
-  inv_val := by
-    ext i j v
-    have := Real.sin_sq_add_cos_sq (θ v)
-    fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_succ] <;> linarith
-
-omit [NumberField F] [IsTotallyReal F] in
-private theorem rot_add (θ θ' : TR.Rinf F) : rot (θ + θ') = rot θ * rot θ' := by
-  ext i j v
-  fin_cases i <;> fin_cases j <;> simp [rot, Matrix.mul_apply, Fin.sum_univ_succ, Real.cos_add, Real.sin_add] <;> ring
-
 theorem sign_holV {k c} {ω : HChar F} {φ : TR.Sm F 2} (hφ : IsHolV k c ω φ) (h0 : φ ≠ 0) (v : InfinitePlace F) :
-    ((ω.locInf v (-1) : ℂˣ) : ℂ) = Complex.exp (Complex.I * (k v : ℕ) * Real.pi) := by
-  classical
-  obtain ⟨g, hg⟩ : ∃ g, φ.1 g ≠ 0 := by
-    by_contra h
-    push_neg at h
-    exact h0 (Subtype.ext (funext h))
-  set e : TR.Rinf F := Pi.single v 1 with he
-  have hr0 : rot ((0 : ℝ) • e) = 1 := by
-    ext i j u
-    fin_cases i <;> fin_cases j <;> simp [rot]
-  have hd0 : ∀ g, HasDerivAt (fun t : ℝ => φ.1 (g * TR.infGL F 2 (rot (t • e)))) (Complex.I * (k v : ℕ) * φ.1 g) 0 := fun g => by
-    have h1 := TR.hasDerivAt_curve φ g (fun t : ℝ => rot (t • e))
-      (TR.toL (Matrix.single 0 1 e) - TR.toL (Matrix.single 1 0 e)) hr0 (by
-        refine hasDerivAt_pi.2 fun i => hasDerivAt_pi.2 fun j => hasDerivAt_pi.2 fun u => ?_
-        have hc := ((hasDerivAt_id (0 : ℝ)).mul_const (e u)).cos
-        have hs := ((hasDerivAt_id (0 : ℝ)).mul_const (e u)).sin
-        fin_cases i <;> fin_cases j
-        · simpa [rot] using hc
-        · simpa [rot] using hs
-        · simpa [rot] using hs.fun_neg
-        · simpa [rot] using hc)
-    rw [← TR.lie_apply, map_sub] at h1
-    exact h1.congr_deriv (congrArg (fun x : TR.Sm F 2 => x.1 g) (hφ.wt v))
-  set f : ℝ → ℂ := fun t => φ.1 (g * TR.infGL F 2 (rot (t • e))) with hf
-  have hd : ∀ t, HasDerivAt f (Complex.I * (k v : ℕ) * f t) t := fun t => by
-    have h1 := HasDerivAt.comp_sub_const t t ((sub_self t).symm ▸ hd0 (g * TR.infGL F 2 (rot (t • e))))
-    refine h1.congr_of_eventuallyEq (Filter.Eventually.of_forall fun s => ?_)
-    simp only [hf]
-    rw [mul_assoc, ← map_mul, ← rot_add, ← add_smul, add_sub_cancel]
-  have hc : ∀ t : ℝ, HasDerivAt (fun t : ℝ => f t * Complex.exp (-(Complex.I * (k v : ℕ) * t))) 0 t := fun t => by
-    have h1 := (hd t).mul (((Complex.ofRealCLM.hasDerivAt (x := t)).const_mul (Complex.I * (k v : ℕ))).fun_neg.cexp)
-    exact h1.congr_deriv (by simp; ring)
-  have h2 := is_const_of_deriv_eq_zero (fun t => (hc t).differentiableAt) (fun t => (hc t).deriv) Real.pi 0
-  have hu : (1 - 2 * e) * (1 - 2 * e) = 1 := by
-    funext w
-    by_cases h : w = v
-    · subst h; simp [he]; norm_num
-    · simp [he, h]
-  let u : (TR.Rinf F)ˣ := ⟨1 - 2 * e, 1 - 2 * e, hu, hu⟩
-  have h3 : rot (Real.pi • e) = GeneralLinearGroup.scalar (Fin 2) u := by
-    ext i j w
-    by_cases h : w = v
-    · subst h
-      fin_cases i <;> fin_cases j <;> simp [rot, u, he] <;> norm_num
-    · fin_cases i <;> fin_cases j <;> simp [rot, u, he, h]
-  have h4 : Units.map (GlobalTheory.CuspRep.corner (TR.sInf F)) u = ReciprocityTheory.Neutral.Bridge.HCFR.infIdele F v (-1) := by
-    refine Units.ext (Prod.ext (funext fun w => ?_) ?_)
-    · change (1 - TR.infEq F 1 + TR.infEq F (1 - 2 * e)) w = Pi.mulSingle (M := fun w : InfinitePlace F => w.Completion) v (-1) w
-      rw [map_one, sub_self, zero_add]
-      change (InfinitePlace.Completion.ringEquivRealOfIsReal (IsTotallyReal.isReal w)).symm ((1 - 2 * e) w) = _
-      by_cases h : w = v
-      · subst h
-        rw [show (1 - 2 * e) w = -1 by simp [he]; norm_num]
-        simp
-      · simp [he, h]
-    · change (1 : Af F) - 0 + 0 = 1
-      simp
-  simp only [hf, hr0, h3, TR.infGL, map_one, mul_one] at h2
-  rw [GlobalTheory.CuspRep.cornerGL_scalar, h4, ← GlobalTheory.CuspRep.scalar_comm, hφ.cent] at h2
-  rw [Complex.ofReal_zero, mul_zero, neg_zero, Complex.exp_zero, mul_one, Complex.exp_neg, mul_right_comm,
-    mul_eq_right₀ hg, mul_inv_eq_one₀ (Complex.exp_ne_zero _)] at h2
-  exact h2
+    ((ω.locInf v (-1) : ℂˣ) : ℂ) = Complex.exp (Complex.I * (k v : ℕ) * Real.pi) :=
+  UpperTheory.Esk.HeckeRepresentationSatake.sign_hol hφ h0 v
 
 theorem sgn_of {k c} {ω : HChar F} {φ : TR.Sm F 2} (hφ : IsHolV k c ω φ) (h0 : φ ≠ 0) : Sgn k ω := by
   intro v
@@ -1285,19 +1201,7 @@ theorem nrm_unit {w : Pl F} {x : w.adicCompletion F} (h : Valued.v x = 1) : ‖x
     ((Valued.toNormedField.one_le_norm_iff (x := x)).2 h.ge)
 
 theorem fin_supp (y : (Af F)ˣ) : (Function.mulSupport fun w : Pl F => ‖pLoc F w (y : Af F)‖).Finite := by
-  have h1 := Filter.eventually_cofinite.1 (y : Af F).2
-  have h2 := Filter.eventually_cofinite.1 ((y⁻¹ : (Af F)ˣ) : Af F).2
-  refine (h1.union h2).subset fun w hw => ?_
-  by_contra hc
-  simp only [Set.mem_union, Set.mem_setOf_eq, not_or, not_not] at hc
-  have a1 : Valued.v (pLoc F w (y : Af F)) ≤ 1 := hc.1
-  have a2 : Valued.v (pLoc F w ((y⁻¹ : (Af F)ˣ) : Af F)) ≤ 1 := hc.2
-  have a3 : Valued.v (pLoc F w (y : Af F)) * Valued.v (pLoc F w ((y⁻¹ : (Af F)ˣ) : Af F)) = 1 := by
-    rw [← map_mul, ← map_mul, Units.mul_inv, map_one, map_one]
-  refine hw (nrm_unit (le_antisymm a1 ?_))
-  calc 1 = _ := a3.symm
-    _ ≤ Valued.v (pLoc F w (y : Af F)) * 1 := mul_le_mul_right a2 _
-    _ = _ := mul_one _
+  apply @_root_.UpperTheory.Esk.MonomialSupportLemmas.fin_supp <;> assumption
 
 end UpperTheory.Esk.ModulusCharacterLemmas
 

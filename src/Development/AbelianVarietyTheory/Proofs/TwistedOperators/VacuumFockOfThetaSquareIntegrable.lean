@@ -1,5 +1,7 @@
 module
 
+import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.OscActMonomialOfUnique
+import Formalism.ThetaLogCoordinates.UniformThetaSubstitution.FrobeniusLiftNorms.FinsuppStepInduction
 public import Development.AbelianVarietyTheory.BlockTheory.TwistedDiscreteSeries.VacuumFockVectors
 public import Development.AbelianVarietyTheory.BlockTheory.TwistedDiscreteSeries.HermitianSymplecticScalars
 public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.ComplexEmbeddingHermitianQuadrupleSum
@@ -63,41 +65,11 @@ attribute [local instance] Formalism.BasicNotions.Host.cmStar
 
 theorem multiFact_add_single {ι : Type} (k : ι →₀ ℕ) (v : ι) :
     multiFact (k + Finsupp.single v 1) = (k v + 1) * multiFact k := by
-  classical
-  have hsub : (k + Finsupp.single v 1).support ⊆ insert v k.support := by
-    intro i hi
-    rw [Finsupp.mem_support_iff] at hi
-    by_cases h : i = v
-    · exact h ▸ Finset.mem_insert_self _ _
-    · refine Finset.mem_insert_of_mem (Finsupp.mem_support_iff.mpr ?_)
-      simpa [Finsupp.single_apply, Ne.symm h] using hi
-  have h1 : multiFact k = ∏ i ∈ insert v k.support, (k i).factorial :=
-    Finsupp.prod_of_support_subset _ (Finset.subset_insert _ _) _ (fun _ _ => Nat.factorial_zero)
-  have h2 : multiFact (k + Finsupp.single v 1) =
-      ∏ i ∈ insert v k.support, ((k + Finsupp.single v 1 : ι →₀ ℕ) i).factorial :=
-    Finsupp.prod_of_support_subset _ hsub _ (fun _ _ => Nat.factorial_zero)
-  rw [h1, h2, ← Finset.mul_prod_erase _ (fun i => ((k + Finsupp.single v 1 : ι →₀ ℕ) i).factorial)
-      (Finset.mem_insert_self v k.support),
-    ← Finset.mul_prod_erase _ (fun i => (k i).factorial) (Finset.mem_insert_self v k.support), ← mul_assoc]
-  congr 1
-  · simp [Nat.factorial_succ]
-  · refine Finset.prod_congr rfl fun i hi => ?_
-    have hne : i ≠ v := Finset.ne_of_mem_erase hi
-    simp [Ne.symm hne]
+  apply _root_.GlobalTheory.Oscillator.mfact_add_single <;> assumption
 
 theorem multiIndex_induction {ι : Type} {p : (ι →₀ ℕ) → Prop} (h0 : p 0)
     (h1 : ∀ k v, p k → p (k + Finsupp.single v 1)) (k : ι →₀ ℕ) : p k := by
-  refine Finsupp.induction k h0 fun a b g _ _ ih => ?_
-  have key : ∀ n : ℕ, p (Finsupp.single a n + g) := by
-    intro n
-    induction n with
-    | zero => simpa using ih
-    | succ n ihn =>
-      have e : Finsupp.single a (n + 1) + g = (Finsupp.single a n + g) + Finsupp.single a 1 := by
-        rw [add_right_comm, ← Finsupp.single_add]
-      rw [e]
-      exact h1 _ _ ihn
-  exact key b
+  first | exact _root_.Formalism.InvariantFactorPaths.G7.finsupp_step_induction | exact @_root_.Formalism.InvariantFactorPaths.G7.finsupp_step_induction | apply _root_.Formalism.InvariantFactorPaths.G7.finsupp_step_induction <;> assumption
 
 private theorem foldr_eq_of_perm_of_comm {ι Y : Type} (F : ι → Y → Y) (hF : ∀ i j y, F i (F j y) = F j (F i y))
     {l₁ l₂ : List ι} (p : l₁.Perm l₂) (y : Y) : l₁.foldr F y = l₂.foldr F y := by

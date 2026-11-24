@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.SumRpowZerosLe
 public import Mathlib.NumberTheory.ArithmeticFunction.VonMangoldt
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -73,21 +74,7 @@ theorem log_factorial_eq_sum_log (n : ℕ) :
 
 theorem log_factorial_eq (n : ℕ) :
     Real.log (n ! : ℝ) = ∑ d ∈ Ioc 0 n, Λ d * ((n / d : ℕ) : ℝ) := by
-  rw [log_factorial_eq_sum_log]
-  have h1 : ∀ k ∈ Ioc 0 n, Real.log (k : ℝ) = ∑ d ∈ k.divisors, Λ d :=
-    fun k _ => vonMangoldt_sum.symm
-  rw [Finset.sum_congr rfl h1,
-    Finset.sum_comm' (t' := Ioc 0 n) (s' := fun d => (Ioc 0 n).filter (fun k => d ∣ k))]
-  · apply Finset.sum_congr rfl
-    intro d _
-    rw [Finset.sum_const, Nat.Ioc_filter_dvd_card_eq_div, nsmul_eq_mul, mul_comm]
-  · intro k d
-    simp only [Finset.mem_Ioc, Nat.mem_divisors, Finset.mem_filter]
-    constructor
-    · rintro ⟨⟨hk0, hkn⟩, hdk, -⟩
-      exact ⟨⟨⟨hk0, hkn⟩, hdk⟩, Nat.pos_of_dvd_of_pos hdk hk0, (Nat.le_of_dvd hk0 hdk).trans hkn⟩
-    · rintro ⟨⟨⟨hk0, hkn⟩, hdk⟩, -⟩
-      exact ⟨⟨hk0, hkn⟩, hdk, hk0.ne'⟩
+  apply _root_.GlobalTheory.log_factorial_eq_sum_vonMangoldt_mul_div <;> assumption
 
 theorem log_factorial_le (n : ℕ) (hn : 1 ≤ n) :
     Real.log (n ! : ℝ) ≤ n * Real.log n - n + 1 + Real.log n / 2 := by

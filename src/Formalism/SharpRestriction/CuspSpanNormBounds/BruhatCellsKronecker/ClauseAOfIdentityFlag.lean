@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.FlagMeasures.IsotropicPartEqSpanScaledFrameUnitriangularStatement
 public import Formalism.SharpRestriction.CuspSpanNormBounds.BlockEnds
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -80,12 +81,7 @@ theorem tie_Xa_eq (F : FlagG S r T) (F' : FlagG S r T') (h : ∀ a, F'.e a - F.e
       (tie_Xa_mono F' (le_of_lt ha) (ih a.val ha (h a)))
 
 theorem tie_X_eq_Xa (F : FlagG S r T) : F.X = F.Xa r := by
-  unfold FlagG.X FlagG.Xa
-  congr 1
-  ext x
-  constructor
-  · rintro ⟨a, rfl⟩; exact ⟨a, a.isLt, rfl⟩
-  · rintro ⟨a, _, rfl⟩; exact ⟨a, rfl⟩
+  apply _root_.GlobalTheory.RowLatAssembly.X_eq_Xa <;> assumption
 
 end Gen
 

@@ -1,5 +1,6 @@
 module
 
+public import Formalism.SharpRestriction.GrowthBounds.CoarseMultiplicity.BFDefs
 public import Formalism.SharpRestriction.GrowthBounds.BinomialRatio.FinalTheorems
 public import Formalism.SharpRestriction.GrowthBounds.CoarseMultiplicity.DegSplit
 public import Formalism.SharpRestriction.GrowthBounds.CoarseMultiplicity.SymbolVariableLowerLetter
@@ -79,7 +80,7 @@ def TD (b : SegBlock (segS X.TT j) X.m) (ω : (X.TT × Bool) × Fin (X.m + 1) �
   (segAPlus X.TT X.aT j - b.oPlus) * ω ((topEnd X j, true), 0) + b.oPlus * ω ((topEnd X j, true), Fin.succ 0) +
     (X.seg C0 CE1 CE2 j).bPlus * ω ((topEnd X j, false), Fin.succ 0)
 
-theorem ioBlock_wh (O : Type) [CommRing O] [IsDomain O] (mm : ℝ) (b : SegBlock (segS X.TT j) X.m)
+theorem ioBlock_wh_of_balanced (O : Type) [CommRing O] [IsDomain O] (b : SegBlock (segS X.TT j) X.m)
     (ω : (X.TT × Bool) × Fin (X.m + 1) → ℕ) (hc : ∀ x (c c' : Fin X.m), ω (x, c.succ) = ω (x, c'.succ))
     (hU : ∀ l : Fin (X.seg C0 CE1 CE2 j).t,
       ω ((topOdd X j (uTop (X.seg C0 CE1 CE2 j) l), true), 0) + ω ((topOdd X j (uTop (X.seg C0 CE1 CE2 j) l), false), 0) =
@@ -88,7 +89,9 @@ theorem ioBlock_wh (O : Type) [CommRing O] [IsDomain O] (mm : ℝ) (b : SegBlock
     (hP : ω ((topEnd X j, true), 0) + ω ((topEnd X j, false), 0) =
       ω ((topEnd X j, true), Fin.succ 0) + ω ((topEnd X j, false), Fin.succ 0))
     (s : MvPolynomial (BVar (2 * segS X.TT j + 1) X.m (X.seg C0 CE1 CE2 j).t) (KK O))
-    (hs : s ∈ (blockData X.p (X.seg C0 CE1 CE2 j) (segATop X.TT X.aT j) (segAPlus X.TT X.aT j) mm b).SSZ O (r := X.m)) :
+    (hs : ∀ (ω' : BVar (2 * segS X.TT j + 1) X.m (X.seg C0 CE1 CE2 j).t → ℕ) (ωL : Fin (2 * segS X.TT j + 1 + 1) → ℕ),
+      Balanced X.m (X.seg C0 CE1 CE2 j) ω' ωL → IsWeightedHomogeneous ω' s
+        (OmB X.p (X.seg C0 CE1 CE2 j) (segATop X.TT X.aT j) (segAPlus X.TT X.aT j) b ω' ωL)) :
     IsWeightedHomogeneous ω (ioBlock (KK O) X.p C0 CE1 CE2 X j b s) (TD C0 CE1 CE2 X j b ω) := by
   let ω' : BVar (2 * segS X.TT j + 1) X.m (X.seg C0 CE1 CE2 j).t → ℕ := fun v => symLev X.p C0 CE1 CE2 X j v * ω (symVar C0 CE1 CE2 X j v)
   let ωL : Fin (2 * segS X.TT j + 1 + 1) → ℕ := fun a => ω' (Sum.inl (a, 0))
@@ -146,7 +149,7 @@ theorem ioBlock_wh (O : Type) [CommRing O] [IsDomain O] (mm : ℝ) (b : SegBlock
       ωL (Fin.castSucc ⟨2 * segS X.TT j, by omega⟩) + ωL (Fin.last _) := by
     rw [hx, hx, hUU, hXi]
     exact hP
-  have hS := ssz_wh O X.p (X.seg C0 CE1 CE2 j) (segATop X.TT X.aT j) (segAPlus X.TT X.aT j) mm b ω' ωL h1 h2 h3 s hs
+  have hS := hs ω' ωL ⟨h1, h2, h3⟩
   have hA := wh_aeval ω (symVar C0 CE1 CE2 X j) (symLev X.p C0 CE1 CE2 X j) s _ hS
   have hDg : IsWeightedHomogeneous ω (digitMon (KK O) C0 CE1 CE2 X j b)
       (∑ i : Fin (segS X.TT j), ∑ c : Fin (X.m + 1),
@@ -212,6 +215,22 @@ theorem ioBlock_wh (O : Type) [CommRing O] [IsDomain O] (mm : ℝ) (b : SegBlock
   simp only [Finset.sum_add_distrib]
   ring
 
+
+theorem ioBlock_wh (O : Type) [CommRing O] [IsDomain O] (mm : ℝ) (b : SegBlock (segS X.TT j) X.m)
+    (ω : (X.TT × Bool) × Fin (X.m + 1) → ℕ) (hc : ∀ x (c c' : Fin X.m), ω (x, c.succ) = ω (x, c'.succ))
+    (hU : ∀ l : Fin (X.seg C0 CE1 CE2 j).t,
+      ω ((topOdd X j (uTop (X.seg C0 CE1 CE2 j) l), true), 0) + ω ((topOdd X j (uTop (X.seg C0 CE1 CE2 j) l), false), 0) =
+      ω ((topOdd X j (uTop (X.seg C0 CE1 CE2 j) l), true), Fin.succ 0) +
+        ω ((topOdd X j (uTop (X.seg C0 CE1 CE2 j) l), false), Fin.succ 0))
+    (hP : ω ((topEnd X j, true), 0) + ω ((topEnd X j, false), 0) =
+      ω ((topEnd X j, true), Fin.succ 0) + ω ((topEnd X j, false), Fin.succ 0))
+    (s : MvPolynomial (BVar (2 * segS X.TT j + 1) X.m (X.seg C0 CE1 CE2 j).t) (KK O))
+    (hs : s ∈ (blockData X.p (X.seg C0 CE1 CE2 j) (segATop X.TT X.aT j) (segAPlus X.TT X.aT j) mm b).SSZ O (r := X.m)) :
+    IsWeightedHomogeneous ω (ioBlock (KK O) X.p C0 CE1 CE2 X j b s) (TD C0 CE1 CE2 X j b ω) := by
+  apply ioBlock_wh_of_balanced C0 CE1 CE2 X j O b ω hc hU hP s
+  intro ω' ωL h
+  exact ssz_wh O X.p (X.seg C0 CE1 CE2 j) (segATop X.TT X.aT j) (segAPlus X.TT X.aT j) mm b
+    ω' ωL h.1 h.2.1 h.2.2 s hs
 end Formalism.MainNotions.ColumnSystems.Pf
 end -- clump:auto
 end -- clump:auto
@@ -249,8 +268,14 @@ theorem weight_wLet (X : Loc) (x : X.TT × Bool) (μ : (X.TT × Bool) × Fin (X.
 
 variable (C0 CE1 CE2 : ℝ) (X : Loc) [NeZero X.m] (j : Fin (numSeg X.TT))
 
-theorem TD_wLet (x : X.TT × Bool) (b : SegBlock (segS X.TT j) X.m)
-    (hk : Kept X.p X.m (X.seg C0 CE1 CE2 j) (segATop X.TT X.aT j) b) (ho : b.oPlus ≤ segAPlus X.TT X.aT j) :
+theorem TD_wLet_of_bounds (x : X.TT × Bool) (b : SegBlock (segS X.TT j) X.m)
+    (hdig : DigitsOK X.p (X.seg C0 CE1 CE2 j) (segATop X.TT X.aT j) b)
+    (hlarge : ∀ i : Fin (segS X.TT j), (X.seg C0 CE1 CE2 j).sigma ≤ (i : ℕ) →
+      b.o i ≤ coarseA X.p (X.seg C0 CE1 CE2 j) b i)
+    (hsmall : ∀ i : Fin (segS X.TT j), (i : ℕ) < (X.seg C0 CE1 CE2 j).sigma →
+      b.w i ≤ coarseA X.p (X.seg C0 CE1 CE2 j) b i ∧
+      b.sg i ≤ coarseC X.p (X.seg C0 CE1 CE2 j) (segATop X.TT X.aT j) b i)
+    (ho : b.oPlus ≤ segAPlus X.TT X.aT j) :
     TD C0 CE1 CE2 X j b (wLet X x) =
       (if segNext X.TT j = x.1.val then hhDegs X.TT X.aT X.bT x else 0) +
         ∑ i, (if segPos X.TT j i = x.1.val then hhDegs X.TT X.aT X.bT x else 0) := by
@@ -280,7 +305,7 @@ theorem TD_wLet (x : X.TT × Bool) (b : SegBlock (segS X.TT j) X.m)
       · have w1 : ∀ c, wLet X (topOdd X j i, false) ((topOdd X j i, true), c) = 0 := fun c => if_neg (by simp)
         have w2 : ∀ c, wLet X (topOdd X j i, false) ((topOdd X j i, false), c) = 1 := fun c => if_pos rfl
         simp only [w1, w2, mul_zero, mul_one, zero_add, add_zero]
-        have hd := hk.1.2.2 i
+        have hd := hdig.2.2 i
         have hPC : (X.seg C0 CE1 CE2 j).P X.p i * coarseC X.p (X.seg C0 CE1 CE2 j) (segATop X.TT X.aT j) b i =
             segATop X.TT X.aT j i - ∑ c, b.ry i c := Nat.mul_div_cancel' hd.2
         have hdeg : hhDegs X.TT X.aT X.bT (topOdd X j i, false) = segATop X.TT X.aT j i := by
@@ -292,7 +317,7 @@ theorem TD_wLet (x : X.TT × Bool) (b : SegBlock (segS X.TT j) X.m)
             else coarseC X.p (X.seg C0 CE1 CE2 j) (segATop X.TT X.aT j) b i) =
             coarseC X.p (X.seg C0 CE1 CE2 j) (segATop X.TT X.aT j) b i := by
           split_ifs with hs
-          · have := (hk.2.2.1 i hs).2.2.1
+          · have := (hsmall i hs).2
             omega
           · rfl
         rw [hin, hPC, hdeg]
@@ -301,7 +326,7 @@ theorem TD_wLet (x : X.TT × Bool) (b : SegBlock (segS X.TT j) X.m)
       · have w1 : ∀ c, wLet X (topOdd X j i, true) ((topOdd X j i, true), c) = 1 := fun c => if_pos rfl
         have w2 : ∀ c, wLet X (topOdd X j i, true) ((topOdd X j i, false), c) = 0 := fun c => if_neg (by simp)
         simp only [w1, w2, mul_zero, mul_one, add_zero]
-        have hd := hk.1.2.1 i
+        have hd := hdig.2.1 i
         have hPA : (X.seg C0 CE1 CE2 j).P X.p i * coarseA X.p (X.seg C0 CE1 CE2 j) b i =
             (X.seg C0 CE1 CE2 j).bTop i - ∑ c, b.rz i c := Nat.mul_div_cancel' hd.2
         have hdeg : hhDegs X.TT X.aT X.bT (topOdd X j i, true) = (X.seg C0 CE1 CE2 j).bTop i := by
@@ -312,9 +337,9 @@ theorem TD_wLet (x : X.TT × Bool) (b : SegBlock (segS X.TT j) X.m)
             coarseA X.p (X.seg C0 CE1 CE2 j) b i - b.w i + b.w i
             else coarseA X.p (X.seg C0 CE1 CE2 j) b i - b.o i + b.o i) = coarseA X.p (X.seg C0 CE1 CE2 j) b i := by
           split_ifs with hs
-          · have := (hk.2.2.1 i hs).2.1
+          · have := (hsmall i hs).1
             omega
-          · have := (hk.2.1 i (not_lt.1 hs)).1
+          · have := hlarge i (not_lt.1 hs)
             omega
         rw [hin, hPA, hdeg]
         have := hd.1
@@ -353,6 +378,14 @@ theorem TD_wLet (x : X.TT × Bool) (b : SegBlock (segS X.TT j) X.m)
   unfold TD
   rw [Finset.sum_congr rfl fun i _ => hterm i, add_assoc, add_assoc, ← add_assoc ((segAPlus X.TT X.aT j - b.oPlus) * _),
     hend, add_comm]
+
+theorem TD_wLet (x : X.TT × Bool) (b : SegBlock (segS X.TT j) X.m)
+    (hk : Kept X.p X.m (X.seg C0 CE1 CE2 j) (segATop X.TT X.aT j) b) (ho : b.oPlus ≤ segAPlus X.TT X.aT j) :
+    TD C0 CE1 CE2 X j b (wLet X x) =
+      (if segNext X.TT j = x.1.val then hhDegs X.TT X.aT X.bT x else 0) +
+        ∑ i, (if segPos X.TT j i = x.1.val then hhDegs X.TT X.aT X.bT x else 0) := by
+  exact TD_wLet_of_bounds C0 CE1 CE2 X j x b hk.1 (fun i hi => (hk.2.1 i hi).1)
+    (fun i hi => ⟨(hk.2.2.1 i hi).2.1, (hk.2.2.1 i hi).2.2.1⟩) ho
 
 end Formalism.MainNotions.ColumnSystems.Pf
 end -- clump:auto

@@ -1,5 +1,6 @@
 module
 
+import Formalism.HermitianCurvature.HermitianCurvatureProofs.CutGCoreKLExistsOfAlg
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.CapelliAbstractCharacter
 import Formalism.RealPlaceAnalysis.RealPlaceTaylor.QuantumDetHighestWeightHolds
 import Formalism.RealPlaceAnalysis.RealPlaceTaylor.ShiftedGeneratorEqIteSmulAdd
@@ -133,23 +134,8 @@ end Alg
 
 theorem qdet_int {V V' : Type} [AddCommGroup V] [Module ℂ V] [AddCommGroup V'] [Module ℂ V'] {n : ℕ}
     {E : Fin n → Fin n → Module.End ℂ V} {E' : Fin n → Fin n → Module.End ℂ V'} (f : V →ₗ[ℂ] V')
-    (hf : ∀ a b x, f (E a b x) = E' a b (f x)) (u : ℂ) (x : V) : f (qdet E u x) = qdet E' u (f x) := by
-  have tm : ∀ w a b y, f (Tm E w a b y) = Tm E' w a b (f y) := fun w a b y => by
-    unfold Tm
-    split_ifs <;> simp [Module.algebraMap_end_apply, hf]
-  have hl : ∀ (L : List (ℂ × Fin n × Fin n)) y, f ((L.map fun p => Tm E p.1 p.2.1 p.2.2).prod y) =
-      (L.map fun p => Tm E' p.1 p.2.1 p.2.2).prod (f y) := fun L y => by
-    induction L with
-    | nil => simp
-    | cons p L ih => simp only [List.map_cons, List.prod_cons, mul_apply_eq_comp, tm, ih]
-  unfold qdet qminor
-
-  rw [LinearMap.sum_apply, LinearMap.sum_apply, map_sum]
-  refine Finset.sum_congr rfl fun σ _ => ?_
-  rw [mul_apply_eq_comp, mul_apply_eq_comp, intCast_apply_eq_smul, intCast_apply_eq_smul, map_zsmul]
-  have := hl (List.ofFn fun k : Fin n => (u - (k : ℂ), σ k, k)) x
-  simp only [List.map_ofFn] at this
-  exact congrArg _ this
+    (hf : ∀ a b x, f (E a b x) = E' a b (f x)) (u : ℂ) (x : V) : f (qdet E u x) = qdet E' u (f x) :=
+  _root_.Formalism.FourierDecayAlt.P.CutMP.Gauge.GC.KLExA.qdet_int f hf u x
 
 section Norm
 

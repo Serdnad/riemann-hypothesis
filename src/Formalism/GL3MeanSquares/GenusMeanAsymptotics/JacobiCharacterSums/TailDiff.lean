@@ -1,5 +1,6 @@
 module
 
+import Formalism.LandauZeroFreeBounds.ExceptionalZeroBounds.SumVonMangoldtNotCoprimeLe
 public import Formalism.LandauZeroFreeBounds.LogDerivRegionChiOf
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -50,15 +51,7 @@ namespace Formalism.HermitianLattices.Ext.BoxTail
 
 lemma tail_diff_split (g : ℕ → ℂ) {a b : ℕ} (hab : a ≤ b) :
     ∑ n ∈ Icc 1 b, g n = ∑ n ∈ Icc 1 a, g n + ∑ n ∈ Ioc a b, g n := by
-  have h1 : Icc 1 b = Icc 1 a ∪ Ioc a b := by
-    ext n
-    simp only [mem_union, mem_Icc, mem_Ioc]
-    omega
-  rw [h1, sum_union]
-  rw [disjoint_left]
-  intro n h2 h3
-  simp only [mem_Icc, mem_Ioc] at h2 h3
-  omega
+  apply _root_.Formalism.ZeroFreeDirichlet.sum_Icc_eq_add_sum_Ioc <;> assumption
 
 lemma tail_diff_identity {N : ℕ} (χ : DirichletCharacter ℂ N) (z h : ℝ) (hh : 0 < h) :
     Formalism.ZeroFreeDirichlet.Schi χ (z + h) - Formalism.ZeroFreeDirichlet.Schi χ z -

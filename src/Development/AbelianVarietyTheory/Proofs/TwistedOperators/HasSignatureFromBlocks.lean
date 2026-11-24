@@ -1,5 +1,6 @@
 module
 
+import Formalism.SharpRestriction.CuspSpanNormBounds.NonemptyParameterModels.TermTiesEmptyOfLargeIndex
 public import Formalism.LocalRingCardinality.RhoDetPrimeEqMuTildeMulChiPow
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.AdelicDataRowMeasureScaleTrivialTuple
 public import Development.AbelianVarietyTheory.Proofs.HermitianTraceForms.PosIndexMapEqCardOfCongrDiagonal
@@ -128,25 +129,7 @@ section
 variable {E : Type} [Field E] [NumberField E] [StarRing E]
 
 theorem gram_det_ne (S : Formalism.BasicNotions.HSpace E) : S.gram.det ≠ 0 := by
-  classical
-  intro h0
-  obtain ⟨c, hc0, hc⟩ := Matrix.exists_mulVec_eq_zero_iff.mpr h0
-  have h1 : ∀ i, S.hT (S.frame i) (∑ j, c j • S.frame j) = 0 := by
-    intro i
-    have h2 := congrFun hc i
-    simp only [Matrix.mulVec, dotProduct, Pi.zero_apply, Formalism.BasicNotions.HSpace.gram] at h2
-
-    rw [← h2, map_sum]
-    refine Finset.sum_congr rfl fun j _ => ?_
-    rw [map_smul, smul_eq_mul, mul_comm]
-  have hy : ∀ x, S.hT x (∑ j, c j • S.frame j) = 0 := by
-    intro x
-
-    rw [← S.frame.sum_repr x, map_sum S.hT, LinearMap.sum_apply]
-    refine Finset.sum_eq_zero fun i _ => ?_
-    rw [map_smulₛₗ, LinearMap.smul_apply, h1, smul_zero]
-  have hy0 := S.nondeg.2 _ hy
-  exact hc0 (funext (Fintype.linearIndependent_iff.mp S.frame.linearIndependent c hy0))
+  apply _root_.Formalism.MainNotions.S.Inh.tie_gram_det_ne <;> assumption
 
 theorem exists_basis (X Y : Formalism.BasicNotions.HSpace E) (ι : X.V →ₗ[E] Y.V) (hι : X.IsIsomEmb Y ι) {c : ℕ}
     (hc : Y.rank = X.rank + c) :

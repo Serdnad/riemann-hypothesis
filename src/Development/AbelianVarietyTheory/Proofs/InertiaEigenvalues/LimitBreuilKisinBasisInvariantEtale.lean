@@ -46,6 +46,7 @@ import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.LocalPrimeGaloisActionPeriodT
 import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.PolyApproxZeroPadic
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.EquivariantPhiModuleMatrixMemOE
 
 @[expose] public section
 
@@ -139,14 +140,7 @@ theorem inOE_of_approx {ι κ : Type} {A : Matrix ι κ (WCb l)}
     exact ⟨M i j, hM i j, by simpa [Matrix.sub_apply] using hc.dvd i j⟩
 
 theorem E_not_dvd : ¬ (l : bk.S) ∣ bk.E := by
-  rintro ⟨s, hs⟩
-  have h := congrArg (PowerSeries.coeff bk.Ep.natDegree) hs
-  rw [BK.E, Polynomial.coeff_coe, bk.monic.coeff_natDegree] at h
-  have h2 : (1 : Wq l bk.a) = (PowerSeries.coeff bk.Ep.natDegree s) * (l : Wq l bk.a) := by
-    rw [h, ← nsmul_eq_mul, map_nsmul, nsmul_eq_mul, mul_comm]
-  have h3 := congrArg (fun w : Wq l bk.a => w.coeff 0) h2
-  simp only [WittVector.one_coeff_zero, WittVector.mul_charP_coeff_zero] at h3
-  exact one_ne_zero h3
+  apply _root_.GlobalTheory.BSP.EquivOE.not_dvd_E <;> assumption
 
 theorem main : ∀ (l : ℕ) [Fact l.Prime] (K : FinExt l) (bk : BK K) (τ : Ainf l), bk.IsPer τ → ∀ (d N : ℕ) (ρ : ↥(GK K) →* GL (Fin d) ℤ_[l]) (tw : Tower ρ) (F : ∀ n, Pre bk N (tw.d' n) fun g => (tw.ρ' n g).val) (T0 : Matrix (Fin d) (Fin d) (WCb l)), IsUnit T0 → (∀ n, ∃ (R : Matrix (Fin d) (Fin (tw.d' n)) (WCb l)) (R' : Matrix (Fin (tw.d' n)) (Fin d) (WCb l)), (∀ i j, R i j ∈ bk.OE) ∧ (∀ i j, R' i j ∈ bk.OE) ∧ (∀ i j, (l : WCb l) ^ n ∣ (zW (tw.Pi n) * (F n).T - T0 * R) i j) ∧ (∀ i j, (l : WCb l) ^ n ∣ (R * R' - (1 : Matrix (Fin d) (Fin d) (WCb l))) i j)) → (∀ g : ↥(GK K), bk.FixFlat g → zW (ρ g).val * T0.map (galW l (g : GQ l)) = T0) ∧ ∃ A0 A0' : Matrix (Fin d) (Fin d) (WCb l), (∀ i j, A0 i j ∈ bk.OE) ∧ (∀ i j, A0' i j ∈ bk.OE) ∧ T0.map (frobW l) = T0 * A0 ∧ A0 * A0' = 1 := by
   intro l _ K bk τ _ d N ρ tw F T0 hT0 hR

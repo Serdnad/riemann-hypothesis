@@ -1,5 +1,7 @@
 module
 
+
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsFiniteFlatTorsionHarrisTaylorAbelian
 public import Formalism.GL3MeanSquares.RationalMatrixPrimeOrderBound
 public import Formalism.GL3MeanSquares.HookFormulaTorsion.LengthQuotientBoundGeneral
 public import Formalism.LogVandermondeBounds.FinrankFiberSumZero
@@ -66,7 +68,6 @@ import Std.Tactic.BVDecide.Normalize.Prop
 import Mathlib.Tactic.TypeStar
 import Mathlib.Algebra.Order.Star.Rat
 import Mathlib.Algebra.Ring.IsFormallyReal
-
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Formalism.GL3MeanSquares.HookFormulaTorsion.LemmaCTwistRamified, Formalism.LogVandermondeBounds.LogVandermondeProofs.MulSingleMulApplySelf, Formalism.LogVandermondeBounds.GaussOperatorProductFormula, Formalism.SharpRestriction.GlobalSchurBounds.FiniteModelOfAdmissibleTransports
 
@@ -703,17 +704,7 @@ def LatticeChainWithoutLast (C : ℝ) : Prop :=
       Into D u w (fun φ => tpow D u (2 * Wt D u ((D.fm u).tauOf w v) + D.R.t) • φ) ((D.fm u).Bw i w v) ((D.fm u).S i w))
 
 lemma natCast_not_isUnit (K : Type) [Field K] [NumberField K] {p : ℕ} (hp : p.Prime) : ¬ IsUnit ((p : ℕ) : 𝓞 K) := by
-  intro h
-  have h1 := h.map (Algebra.norm ℤ)
-  rw [show ((p : ℕ) : 𝓞 K) = algebraMap ℤ (𝓞 K) (p : ℤ) from by simp,
-    Algebra.norm_algebraMap_of_basis (RingOfIntegers.basis K)] at h1
-  have hne : Fintype.card (Module.Free.ChooseBasisIndex ℤ (𝓞 K)) ≠ 0 := by
-    have := (RingOfIntegers.basis K).index_nonempty
-    exact Fintype.card_ne_zero
-  have h2 : IsUnit ((p : ℕ) : ℤ) := (isUnit_pow_iff hne).mp h1
-  have h3 := Int.isUnit_iff_natAbs_eq.mp h2
-  rw [Int.natAbs_natCast] at h3
-  exact hp.one_lt.ne' h3
+  apply _root_.GlobalTheory.IdealPrincipalCoprime.natCast_prime_not_isUnit <;> assumption
 
 theorem exists_offT (D : D7) (u : D.what₂.Word) : ∃ w, ¬ OverT D u w := by
   obtain ⟨p, hp, hne⟩ : ∃ p : ℕ, p.Prime ∧ p ≠ (D.mem u).A.T := by

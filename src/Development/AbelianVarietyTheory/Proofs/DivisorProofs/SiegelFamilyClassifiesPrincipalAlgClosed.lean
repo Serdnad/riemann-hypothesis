@@ -1,5 +1,7 @@
 module
 
+import Development.AbelianVarietyTheory.Definitions.ModuliSpaces.DenseGenericOfFlat
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.BezoutEisensteinDerivativePrimePow
 public import Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms₂.SiegelToroidalIntegral
 public import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.CrystallinePull2SumCup
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.AbelianDualCrystalOfDualAbelianScheme
@@ -146,18 +148,7 @@ namespace GlobalTheory.SiegelTor.CycLift
 
 theorem charZero_witt (p : ℕ) [hp : Fact p.Prime] (K : Type) [Field K] [CharP K p] :
     CharZero (WittVector p K) := by
-  obtain ⟨l, hl⟩ := CharP.exists (WittVector p K)
-  rcases CharP.char_is_prime_or_zero (WittVector p K) l with h | h
-  · exfalso
-    have h1 : ((l : ℕ) : WittVector p K) = 0 := CharP.cast_eq_zero _ l
-    have h2 : ((l : ℕ) : K) = 0 := by
-      have := congrArg (WittVector.constantCoeff : WittVector p K →+* K) h1
-      rwa [map_natCast, map_zero] at this
-    have h4 : p = l := (Nat.prime_dvd_prime_iff_eq hp.out h).1 ((CharP.cast_eq_zero_iff K p l).1 h2)
-    subst h4
-    exact WittVector.p_ne_zero p K h1
-  · subst h
-    exact CharP.charP_to_charZero _
+  apply _root_.GlobalTheory.charZero_wittVector_of_field <;> assumption
 
 theorem isPrimitiveRoot_zetaAway {n : ℕ} (hn : n ≠ 0) : IsPrimitiveRoot (zetaAway n) n :=
   IsPrimitiveRoot.of_map_of_injective (f := (cycAway n).subtype) (Complex.isPrimitiveRoot_exp n hn)
@@ -1479,17 +1470,8 @@ namespace GlobalTheory.SiegelFieldClass
 
 theorem dense_generic {A V : Type} [CommRing A] [CommRing V] [IsDomain V] (β : A →+* V)
     (hβ : Function.Injective β) : Dense {x : Sp V | (spMap β x).asIdeal = ⊥} := by
-  let ξ : Sp V := (⟨⊥, Ideal.isPrime_bot⟩ : PrimeSpectrum V)
-  have hξ : ξ ∈ {x : Sp V | (spMap β x).asIdeal = ⊥} := by
-    show (PrimeSpectrum.comap (CommRingCat.ofHom β).hom ⟨⊥, Ideal.isPrime_bot⟩).asIdeal = ⊥
-    simp only [PrimeSpectrum.comap_asIdeal, CommRingCat.hom_ofHom]
-    exact (RingHom.injective_iff_ker_eq_bot β).1 hβ
-  have hd : Dense ({ξ} : Set (Sp V)) := by
-    rw [dense_iff_closure_eq]
-    show closure ({(⟨⊥, Ideal.isPrime_bot⟩ : PrimeSpectrum V)} : Set (PrimeSpectrum V)) = Set.univ
-    rw [PrimeSpectrum.closure_singleton]
-    exact PrimeSpectrum.zeroLocus_bot
-  exact hd.mono (Set.singleton_subset_iff.2 hξ)
+  intros
+  apply _root_.GlobalTheory.ZM.dense_generic_spMap <;> assumption
 
 theorem classifies_algClosed : ∀ (g n : ℕ), 1 ≤ g → 3 ≤ n → Odd n → ∀ F : SFam g n (zetaAway n), ∀ (K : Type) [Field K] [IsAlgClosed K] (β : cycAway n →+* K) (c : SiegPre g n (zetaAway n) (spMap β)), c.Principal → ∃ f : Sp K ⟶ F.X, f ≫ F.s = spMap β ∧ SiegPB c F.univ f := by
   intro g n hg hn hodd F K _ _ β c hc

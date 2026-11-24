@@ -37,6 +37,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
+import Development.AbelianVarietyTheory.BlockTheory.HeightDefect.SymplecticTensorMeasures
 
 @[expose] public section
 
@@ -51,14 +52,7 @@ attribute [local instance] Formalism.BasicNotions.Host.cmStar
 variable {D : D7}
 
 theorem cA_cA (x : Formalism.L2.Theta.AE D) : cA D (cA D x) = x := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
-  | add a b ha hb => simp only [map_add (f := _), ha, hb]
-  | tmul a e =>
-    simp only [cA, sigR]
-    simp
-    congr 1
-    exact star_star e
+  apply _root_.GlobalTheory.IndefiniteRowSideFullHecke.SymplecticTensorMeasures.cA_cA
 
 theorem cA_incA (e : D.host.E) : cA D (incA D e) = incA D (star e) := by
   simp only [cA, sigR, incA, inclR]

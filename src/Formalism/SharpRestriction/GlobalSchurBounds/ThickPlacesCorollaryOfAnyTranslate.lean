@@ -1,5 +1,8 @@
 module
 
+
+import Formalism.SharpRestriction.CuspSpanNormBounds.BruhatCellsKronecker.DegreeRatioFormulaStatement
+import Formalism.SharpRestriction.CuspSpanNormBounds.ExpansionFromLemmaB
 public import Mathlib.Algebra.BigOperators.Group.Finset.Defs
 public import Mathlib.Data.Fintype.Prod
 public import Mathlib.Algebra.BigOperators.Group.Finset.Basic
@@ -76,7 +79,6 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.TypeStar
 import Std.Tactic.BVDecide.Normalize.BitVec
 import Std.Tactic.BVDecide.Normalize.Prop
-
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Formalism.GL3MeanSquares.HookFormulaTorsion.HilbertSchmidtHalfBound, Formalism.GL3MeanSquares.HookFormulaTorsion.FiniteEulerProductLeZeta, Formalism.SharpRestriction.GlobalSchurBounds.ThickPlacesCorollaryOfAnyTranslate
 
@@ -691,22 +693,7 @@ open scoped InnerProductSpace
 theorem formal_degree_of_eq {n : ℕ} {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℂ H] {ε : Fin n → Bool}
     (μ : Measure (Formalism.REAL.UJ ε)) (σ : Matrix (Fin n) (Fin n) ℂ → (H →L[ℂ] H)) (d : ℝ) (h : IsFdeg μ σ d)
     (w : H) (hw : w ≠ 0) : fdegOf μ σ w = d := by
-  obtain ⟨hd, hh⟩ := h
-  obtain ⟨-, h2⟩ := hh w w w w
-  have e1 : ∀ g, coefOn σ w w g * star (coefOn σ w w g) = ((‖coefOn (ε := ε) σ w w g‖ ^ 2 : ℝ) : ℂ) := by
-    intro g
-    rw [Complex.star_def, Complex.mul_conj, Complex.normSq_eq_norm_sq]
-  simp only [e1] at h2
-  rw [integral_complex_ofReal] at h2
-  have e2 : (⟪w, w⟫_ℂ : ℂ) = ((‖w‖ ^ 2 : ℝ) : ℂ) := by
-    rw [inner_self_eq_norm_sq_to_K]; push_cast; rfl
-  rw [e2] at h2
-  have h3 : (∫ g, ‖coefOn (ε := ε) σ w w g‖ ^ 2 ∂μ) = ‖w‖ ^ 2 * ‖w‖ ^ 2 / d := by
-    exact_mod_cast h2
-  have hn : 0 < ‖w‖ := norm_pos_iff.2 hw
-  unfold fdegOf
-  rw [h3]
-  field_simp
+  apply _root_.Formalism.MainNotions.DiscreteSeriesInnerProducts.fdegOf_eq <;> assumption
 
 theorem dim_weyl_finCast {n n' : ℕ} (h : n = n') (x : Fin n' → ℝ) : dimV (fun i => x (Fin.cast h i)) = dimV x := by
   subst h
@@ -844,15 +831,7 @@ theorem column_param_apply (D : D7) (u : D.what₂.Word) (ρ : D.what₂.Tau) (i
   unfold uColR uN; rw [dite_eq_left i.2]
 
 theorem column_param_strictAnti (D : D7) (u : D.what₂.Word) (ρ : D.what₂.Tau) : StrictAnti (uColR D u ρ) := by
-  apply strictAnti_of_succ_lt_alt
-  intro i j hij
-  have hi : i.val < D.R.k - 1 := by have := j.2; omega
-  have h1 := (D.hcW u ρ).u_gt_v ⟨i.val, hi⟩
-  have h2 := (D.hcW u ρ).v_gt_u ⟨i.val, hi⟩
-  have e : (⟨(⟨i.val, hi⟩ : Fin (D.R.k - 1)).1 + 1, by simp; omega⟩ : Fin D.R.k) = j := by ext; simp [hij]
-  rw [e] at h2
-  unfold uColR
-  exact_mod_cast h2.trans h1
+  apply _root_.Formalism.MainNotions.BridgeLemma.sza_u_anti <;> assumption
 
 theorem one_le_column_param_sub (D : D7) (u : D.what₂.Word) (ρ : D.what₂.Tau) (a b : Fin D.R.k) (hab : a < b) :
     1 ≤ uColR D u ρ a - uColR D u ρ b := by

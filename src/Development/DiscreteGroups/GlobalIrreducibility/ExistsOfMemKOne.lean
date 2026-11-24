@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.TameUniformizerPower
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.IsCharLab
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsContinuousPadic
 public import Development.AbelianVarietyTheory.Definitions.Foundations.MatrixMeasurableSpace
@@ -54,18 +55,10 @@ namespace DiscreteGroups.sglob.DzIso
 variable {E : Type} [Field E] [NumberField E] {w : HeightOneSpectrum (𝓞 E)}
 
 theorem val_lt_iff (y : w.adicCompletion E) : valuation (w.adicCompletion E) y < 1 ↔ ‖y‖ < 1 := by
-  have : (Valued.v : Valuation (w.adicCompletion E) (WithZero (Multiplicative ℤ))).Compatible :=
-    Valuation.Compatible.ofValuation _
-  have he := isEquiv (valuation (w.adicCompletion E))
-    (Valued.v : Valuation (w.adicCompletion E) (WithZero (Multiplicative ℤ)))
-  rw [he.lt_one_iff_lt_one, Valued.toNormedField.norm_lt_one_iff]
+  apply @GlobalTheory.DepthZeroRankOneLabel.val_lt_iff <;> assumption
 
 theorem val_le_iff (y : w.adicCompletion E) : valuation (w.adicCompletion E) y ≤ 1 ↔ ‖y‖ ≤ 1 := by
-  have : (Valued.v : Valuation (w.adicCompletion E) (WithZero (Multiplicative ℤ))).Compatible :=
-    Valuation.Compatible.ofValuation _
-  have he := isEquiv (valuation (w.adicCompletion E))
-    (Valued.v : Valuation (w.adicCompletion E) (WithZero (Multiplicative ℤ)))
-  rw [he.le_one_iff_le_one, Valued.toNormedField.norm_le_one_iff]
+  apply @GlobalTheory.DepthZeroRankOneLabel.val_le_iff <;> assumption
 
 variable {g : ℕ} [Fact g.Prime] (i : ℚ_[g] ≃+* w.adicCompletion E) (hi : Continuous i)
 include hi

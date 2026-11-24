@@ -43,6 +43,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
+import Development.WeilBound.ThetaLifts.LocalTheory.ToralCohomology.ExistsTorus
 
 @[expose] public section
 
@@ -58,24 +59,9 @@ variable {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algeb
 theorem piInf_tmul {w : InfinitePlace F} (τ : EmbOver E w) (a : AF F) (e : E) :
     piInf τ (a ⊗ₜ[F] e) = InfinitePlace.Completion.extensionEmbedding w (a.1 w) * τ.1 e := rfl
 
-private theorem star_extensionEmbedding_eq (h : IsCMExt F E σ) {w : InfinitePlace F} (x : w.Completion) :
-    star (InfinitePlace.Completion.extensionEmbedding w x) = InfinitePlace.Completion.extensionEmbedding w x := by
-  have h' := h
-  obtain ⟨hF, -⟩ := h'
-  have hw : w.IsReal := hF.isReal w
-  rw [← InfinitePlace.Completion.extensionEmbeddingOfIsReal_apply hw]
-  exact Complex.conj_ofReal _
-
 theorem piInf_cA (h : IsCMExt F E σ) {w : InfinitePlace F} (τ : EmbOver E w) (z : AE F E) :
     piInf τ (cA σ z) = star (piInf τ z) := by
-  have hconj := h
-  obtain ⟨-, -, -, hconj⟩ := hconj
-  induction z using TensorProduct.induction_on with
-  | zero => simp
-  | tmul a e =>
-    have hz : cA σ (a ⊗ₜ[F] e) = a ⊗ₜ[F] σ e := by simp [cA]
-    rw [hz, piInf_tmul, piInf_tmul, star_mul', star_extensionEmbedding_eq h, hconj]
-  | add x y hx hy => simp only [map_add (f := _), hx, hy, star_add]
+  apply _root_.PositivityTheory.ThKG.CayleyTransformDarboux.piInf_cA <;> assumption
 
 private theorem trace_pi_real_eq_sum {ι : Type} [Fintype ι] [DecidableEq ι] (f : ι → ℝ) :
     Algebra.trace ℝ (ι → ℝ) f = ∑ i, f i := by

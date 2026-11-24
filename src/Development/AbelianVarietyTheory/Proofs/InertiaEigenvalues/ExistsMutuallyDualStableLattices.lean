@@ -55,6 +55,7 @@ import Mathlib.Algebra.Module.StablyFree.Basic
 import Mathlib.Tactic.Basify
 import Mathlib.Tactic.ENatToNat
 import Mathlib.FieldTheory.Galois.Profinite
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsCyclotomicIntegralLattice
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.DualLatticeStableTwistedPairing, Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsStableLatticeCompactGroup, Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsMutuallyDualStableLattices
@@ -316,14 +317,7 @@ theorem cyc_integral (l : ℕ) [Fact l.Prime] (P : LocPrime l) (K : FinExt l) (L
     [Algebra ℚ_[l] LL] [TopologicalSpace LL] (O : Type) [CommRing O] [Algebra O LL]
     (hO : GoodO (Qp := ℚ_[l]) LL O) (g : ↥(GK K)) :
     ∃ a : O, ((cycLL (P.PD K) LL g : LLˣ) : LL) = algebraMap O LL a := by
-  obtain ⟨_, _, hmod, _, hopen⟩ := hO
-  have hn : ‖(P.χQ (g : GQ l) : ℚ_[l])‖ ≤ 1 := ((GlobalTheory.Cyc.cyc_basic l P.χQ P.χQ_cyc).1 _).le
-  have hmem := GlobalTheory.GoodCoeff.padicInt_mem (algebraMap O LL).range
-    (by rw [RingHom.coe_range]; exact hopen) (⟨_, hn⟩ : ℤ_[l])
-  obtain ⟨a, ha⟩ := RingHom.mem_range.1 hmem
-  refine ⟨a, ?_⟩
-  rw [ha]
-  simp [cycLL, LocPrime.PD_χ]
+  apply _root_.GlobalTheory.CycIntegral.cyc_mem <;> assumption
 
 theorem stable_dual_lattices : ∀ (l : ℕ) [Fact l.Prime] (P : LocPrime l) (K : FinExt l) (LL : Type) [Field LL] [Algebra ℚ_[l] LL] [TopologicalSpace LL] (O : Type) [CommRing O] [Algebra O LL], GoodO (Qp := ℚ_[l]) LL O → ∀ (A A' : GRep ↥(GK K) ℚ_[l] LL O) (m : A.V →ₗ[LL] A'.V →ₗ[LL] LL), IsDual1 (P.PD K) A.ρ A'.ρ m → ∃ (LA : Lattice (O := O) A.ρ) (LA' : Lattice (O := O) A'.ρ), IsDualLat1 (P.PD K) LA LA' m ∧ IsDualLat1 (P.PD K) LA' LA m.flip := by
   intro l _ P K LL _ _ _ O _ _ hO A A' m hm

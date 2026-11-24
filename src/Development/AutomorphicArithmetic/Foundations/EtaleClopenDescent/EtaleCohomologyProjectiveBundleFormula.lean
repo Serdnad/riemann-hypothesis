@@ -33,6 +33,7 @@ public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.TateTwistUni
 public import Development.AutomorphicArithmetic.CommutativeAlgebra.LerayHirschOneIffTwistEquiv
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.EtaleCohomologyEquivalenceBasicPropertiesStatement
 public import Development.AutomorphicArithmetic.CommutativeAlgebra.EqvTwistBlowupRestriction
+import all Development.AutomorphicArithmetic.CommutativeAlgebra.EqvTwistBlowupRestriction
 public import Development.AutomorphicArithmetic.CommutativeAlgebra.LerayHirschOfTwoCoversPullbackSquare
 public import Development.AbelianVarietyTheory.Definitions.Divisors.BlockGLMap
 import Mathlib.Algebra.Order.Floor.Extended
@@ -256,13 +257,7 @@ private def chiM (N : ℕ) (Q : Pred (BC N)) : ((BC N).sub Q).G ⟶ gmF where
 
 private theorem isUnit_um_join_of_span_castSucc_eq_whole {N : ℕ} {A : Type} [CommRing A] (x : Um N A × Um 2 A)
     (h : Ideal.span ((Um.join x).1 '' Set.range Fin.castSucc) = ⊤) : IsUnit (x.2.1 0) := by
-  have h' : Ideal.span ((Um.join x).1 '' Set.range Fin.castSucc) ≤ Ideal.span {x.2.1 0} := by
-    rw [Ideal.span_le]
-    rintro _ ⟨_, ⟨i, rfl⟩, rfl⟩
-    simp only [Um.join, Fin.snoc_castSucc]
-    exact Ideal.mul_mem_right _ _ (Ideal.subset_span (Set.mem_singleton _))
-  rw [h, top_le_iff, Ideal.span_singleton_eq_top] at h'
-  exact h'
+  apply _root_.UpperTheory.BlowEqv.s_unit <;> assumption
 
 private def sU {N : ℕ} {A : CommRingCat.{0}} (y : ((BC N).sub ((Q2 N).comap (βC N))).D.obj A) : Aˣ :=
   (isUnit_um_join_of_span_castSucc_eq_whole (A := A) y.1 y.2).unit
@@ -1440,24 +1435,8 @@ private theorem rHom_fst {N : ℕ} (Q : Pred (XC N)) (i : Fin N) :
     (rHom Q i).comp (prFst ((XC N).sub Q)) = (piC N).sub Q :=
   hom_ext' rfl (Category.comp_id _)
 
-private theorem lh_one {q : ℕ} {X E : Spc} (π : X ⟶ E) (d e : Fin 1 → ℤ) (c : ∀ j, Ht q X (d j) (e j))
-    (hd : ∀ j, 0 = d j) (he : ∀ j, 0 = e j) (hc : ∀ j, c j = (one q X).cast (hd j) (he j)) (h : LH q π d e c) :
-    LH q π (fun _ : Fin 1 => (0 : ℤ)) (fun _ : Fin 1 => (0 : ℤ)) (fun _ => one q X) := by
-  obtain rfl : d = fun _ => 0 := funext fun j => (hd j).symm
-  obtain rfl : e = fun _ => 0 := funext fun j => (he j).symm
-  obtain rfl : c = fun _ => one q X := funext fun j => hc j
-  exact h
-
 private theorem eqv_fst (q : ℕ) [NeZero q] (S : Spc) (hS : Inv q S) (i : ℤ) : Eqv _ (Sp.fst S (XC 1)) (tw q i) := by
-  have h : Pbf q S 1 := (UpperTheory.projBundleFormula_iff_pglForm q S 1 hS).1 (UpperTheory.projectiveBundleFormula_rank_one_of_homotopyInvariant q S hS)
-  have hX : Inv q (Sp S (XC 1)) := fun U ⟨x⟩ => hS U ⟨x.1⟩
-  refine (UpperTheory.lerayHirsch_one_iff_twist_equiv q _ hX).1 (lh_one _ _ _ _ (fun j => ?_) (fun j => ?_) (fun j => ?_) h) i
-  · obtain rfl : j = 0 := Subsingleton.elim _ _
-    simp
-  · obtain rfl : j = 0 := Subsingleton.elim _ _
-    simp
-  · obtain rfl : j = 0 := Subsingleton.elim _ _
-    rfl
+  apply _root_.UpperTheory.W1.equiv_first_twist <;> assumption
 
 private theorem eqv_main (q : ℕ) [NeZero q] (N : ℕ) (E : Spc) (i : Fin N) (Q : Pred (XC N)) (hQ : Q.Le (unitAt i))
     (hE : Inv q E) (j : ℤ) : Eqv _ (Sp.map E ((piC N).sub Q)) (tw q j) := by

@@ -2,6 +2,7 @@ module
 
 public import CompanionTheory.AutomorphicTheory.PieriRules.ThetaBesselIsometries.IsDSOfIsDG
 public import CompanionTheory.AutomorphicTheory.PieriRules.ThetaBesselIsometries.ComplexifiedDerivedActionLieHomGramAdjointStatement
+import Development.AbelianVarietyTheory.Proofs.JetHarmonics.SmoothVectorsDiscreteSeriesGlModule
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: CompanionTheory.AutomorphicTheory.PieriRules.ThetaBesselIsometries.SmoothVectorsDiscreteSeriesGlModule, CompanionTheory.AutomorphicTheory.PieriRules.ThetaBesselIsometries.SmoothVectorsDiscreteSeriesGlModuleStatement
@@ -27,24 +28,7 @@ theorem conj_single_comm {n : ℕ} (Q : Matrix (Fin n) (Fin n) ℂ) (hQ : IsUnit
       (Q⁻¹ * Matrix.single c d 1 * Q) * (Q⁻¹ * Matrix.single a b 1 * Q) =
     (if b = c then Q⁻¹ * Matrix.single a d 1 * Q else 0) -
       (if d = a then Q⁻¹ * Matrix.single c b 1 * Q else 0) := by
-  have hQQ : Q * Q⁻¹ = 1 := Matrix.mul_nonsing_inv Q ((Matrix.isUnit_iff_isUnit_det Q).mp hQ)
-  have key : ∀ X Y : Matrix (Fin n) (Fin n) ℂ,
-      (Q⁻¹ * X * Q) * (Q⁻¹ * Y * Q) = Q⁻¹ * (X * Y) * Q := by
-    intro X Y
-    calc (Q⁻¹ * X * Q) * (Q⁻¹ * Y * Q) = Q⁻¹ * X * (Q * Q⁻¹) * Y * Q := by
-          simp only [Matrix.mul_assoc]
-      _ = Q⁻¹ * (X * Y) * Q := by
-          rw [hQQ, Matrix.mul_one]
-          simp only [Matrix.mul_assoc]
-  rw [key, key, ← Matrix.sub_mul, ← Matrix.mul_sub]
-  by_cases hbc : b = c <;> by_cases hda : d = a
-  · subst hbc hda
-    simp [Matrix.single_mul_single_same, Matrix.mul_sub, Matrix.sub_mul]
-  · subst hbc
-    simp [Matrix.single_mul_single_same, Matrix.single_mul_single_of_ne, hda]
-  · subst hda
-    simp [Matrix.single_mul_single_same, Matrix.single_mul_single_of_ne, hbc]
-  · simp [Matrix.single_mul_single_of_ne, hbc, hda]
+  apply _root_.GlobalTheory.conj_single_comm <;> assumption
 
 theorem smooth_gl_module : PI.KFinSmooth → ∀ (k r : ℕ) (ε : Fin (2 * r + k + 1) → Bool) (mu : Fin (2 * r + k + 1) → ℝ) (R : Rep k r), R.IsDG ε mu → ∀ Q : Mx k r, IsUnit Q → ∃ E : (Fin (2 * r + k + 1) → Fin (2 * r + k + 1) → Module.End ℂ R.smSub), R.IsE Q E ∧ Formalism.REAL.GlRel E := by
   intro hK k r ε mu R hR Q hQ

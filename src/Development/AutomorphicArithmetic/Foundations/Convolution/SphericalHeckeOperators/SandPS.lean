@@ -15,6 +15,7 @@ public import Development.AutomorphicArithmetic.Foundations.Convolution.Spherica
 public import Development.AutomorphicArithmetic.Foundations.Convolution.SphericalHeckeOperators.Mac
 public import Development.AutomorphicArithmetic.Foundations.Convolution.SphericalHeckeOperators.ThPMul
 public import Development.AutomorphicArithmetic.Foundations.Convolution.SphericalHeckeOperators.VandSum
+import all Development.AutomorphicArithmetic.Foundations.Convolution.SphericalHeckeOperators.VandSum
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -102,12 +103,7 @@ private lemma eig_mc_ne {n : ℕ} (a : Fin n → ℤ) (w : Fin n → ℂˣ) : mo
 
 private lemma eig_mc_single {n : ℕ} (i : Fin n) (w : Fin n → ℂˣ) :
     monomialChar (Pi.single i 1) w = w i := by
-  change ∏ j, (((w j) ^ ((Pi.single i (1 : ℤ) : Fin n → ℤ) j) : ℂˣ) : ℂ) = w i
-  rw [Finset.prod_eq_single i]
-  · simp
-  · intro j _ hj
-    simp [Pi.single_eq_of_ne hj]
-  · simp
+  apply _root_.vs_single <;> assumption
 
 private lemma eigChar_inj {n : ℕ} : Function.Injective (eigChar (n := n)) := by
   intro w w' h

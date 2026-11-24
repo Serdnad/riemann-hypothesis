@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.EqOfValFGeneric
 public import Development.AbelianVarietyTheory.Definitions.Degenerations.AdmissiblePadicIntMaximalIdeal
 public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.HasBasisOfBasis
 public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.ExistsUniqueCombOfIndependentSpecialFibre
@@ -637,15 +638,7 @@ variable {o Ω : Type} [CommRing o] [Field Ω] [Algebra o Ω]
 
 theorem exists_eq_spMap_pt (M : RatModel o Ω) {K : Type} [Field K] (x : Sp K ⟶ M.Z)
     (hx : ∀ w, x w = genericPoint M.Z) : ∃ β : Ω →+* K, x = spMap β ≫ M.pt := by
-  have hs : ∀ w, x w ⤳ genericPoint M.Z := fun w => hx w ▸ specializes_rfl
-  have hm : ∀ a : Ω, a ∈ M.O (genericPoint M.Z) := fun a => by rw [M.O_genericPoint]; trivial
-  let β : Ω →+* K := (RatModel.valHomOf x _ hs).comp ((RingHom.id Ω).codRestrict (M.O (genericPoint M.Z)) hm)
-  obtain ⟨V, hV, hz, -⟩ := exists_isAffineOpen_mem_and_subset (U := ⊤) (x := genericPoint M.Z) trivial
-  have h₁ := top_le_preimage_of_specializes hs hz
-  have h₂ := M.top_le_preimage_pt ⟨_, hz⟩
-  refine ⟨β, Points.ext_of_valR hV h₁ (Points.le_preimage_comp _ _ h₂ (Points.le_preimage_top _)) fun f => ?_⟩
-  rw [Points.valR_spMap_comp β M.pt V h₂]
-  exact (RatModel.val_valF ((top_le_preimage_iff _ _).1 h₁) f).symm
+  apply _root_.GlobalTheory.ZH.RatModel.exists_eq_spMap_pt <;> assumption
 
 variable {S : ThetaSys o Ω} {ρ : S.Real} {M : RatModel o Ω} {U₀ : M.Z.Opens} {EE : M.Lat S.J} (Z : ZHOut ρ M U₀ EE)
 

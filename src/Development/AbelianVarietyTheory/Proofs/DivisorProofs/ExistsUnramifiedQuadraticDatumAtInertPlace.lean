@@ -1,5 +1,7 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.IsSquareOneAddFourMul
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.UnitEqNormCompletionTensorOfIsInertAt
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.UnitLemmaGroup
 public import Development.AbelianVarietyTheory.Definitions.Divisors.SimpleTwistedTraceFormulaStable
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.PlaceConjugationPropertiesCmField
@@ -64,15 +66,7 @@ variable {E : Type} [Field E] [NumberField E] (w : HeightOneSpectrum (𝓞 E))
 
 theorem mem_max_iff (x : w.adicCompletionIntegers E) :
     x ∈ IsLocalRing.maximalIdeal (w.adicCompletionIntegers E) ↔ Valued.v (x : w.adicCompletion E) < 1 := by
-  have hI := Valuation.valuationSubring.integers (Valued.v : Valuation (w.adicCompletion E) (WithZero (Multiplicative ℤ)))
-  rw [IsLocalRing.mem_maximalIdeal, mem_nonunits_iff]
-  have hx : Valued.v (x : w.adicCompletion E) ≤ 1 := x.2
-  constructor
-  · intro hn
-    refine lt_of_le_of_ne hx fun h => hn ?_
-    exact (hI.isUnit_iff_valuation_eq_one (x := x)).2 h
-  · intro hlt hu
-    exact (ne_of_lt hlt) ((hI.isUnit_iff_valuation_eq_one (x := x)).1 hu)
+  apply _root_.GlobalTheory.InertUnitNorm.mem_maximalIdeal_iff_valued_lt_one <;> assumption
 
 private lemma mem_span_pow_iff_valuation_le_exp_neg_one_pow (p : w.adicCompletionIntegers E)
     (hp : Valued.v (p : w.adicCompletion E) = WithZero.exp (-1 : ℤ)) (n : ℕ)
@@ -162,56 +156,8 @@ theorem valuation_max_eq (ϖ : w.adicCompletion E) (hϖ : Valued.v ϖ = WithZero
 private lemma isAdicComplete_maximalIdeal_adicCompletionIntegers (ϖ : w.adicCompletion E) (hϖ : Valued.v ϖ = WithZero.exp (-1 : ℤ)) :
     IsAdicComplete (IsLocalRing.maximalIdeal (w.adicCompletionIntegers E))
       (w.adicCompletionIntegers E) := by
-  have hϖ1 : Valued.v ϖ ≤ 1 := by
-    rw [hϖ]
-    exact ((_root_.GlobalTheory.BorelUMod.UpLatIndex.lt_one_iff _).2 le_rfl).le
-  have hϖ0 : ϖ ≠ 0 := by
-    intro h
-    rw [h, map_zero] at hϖ
-    exact WithZero.exp_ne_zero hϖ.symm
-  let p : w.adicCompletionIntegers E := ⟨ϖ, hϖ1⟩
-  have hp : Valued.v (p : w.adicCompletion E) = WithZero.exp (-1 : ℤ) := hϖ
-  have hpow : ∀ (n : ℕ) (a : w.adicCompletionIntegers E),
-      a ∈ (IsLocalRing.maximalIdeal (w.adicCompletionIntegers E)) ^ n ↔
-        Valued.v (a : w.adicCompletion E) ≤ Valued.v ϖ ^ n := by
-    intro n a
-    rw [maximalIdeal_eq_span_of_valuation_eq_exp_neg_one w p hp, Ideal.span_singleton_pow, hϖ]
-    exact mem_span_pow_iff_valuation_le_exp_neg_one_pow w p hp n a
-  have hadic : IsAdic (IsLocalRing.maximalIdeal (w.adicCompletionIntegers E)) := by
-    rw [isAdic_iff]
-    constructor
-    · intro n
-      have hset : ((IsLocalRing.maximalIdeal (w.adicCompletionIntegers E) ^ n : Ideal (w.adicCompletionIntegers E)) :
-          Set (w.adicCompletionIntegers E)) =
-          Subtype.val ⁻¹' {y : w.adicCompletion E |
-            (Valued.v : Valuation (w.adicCompletion E) (WithZero (Multiplicative ℤ))).restrict y ≤
-              (Valued.v : Valuation (w.adicCompletion E) (WithZero (Multiplicative ℤ))).restrict (ϖ ^ n)} := by
-        ext a
-        simp only [SetLike.mem_coe, Set.mem_preimage, Set.mem_ofPred_eq]
-        rw [Valuation.restrict_le_iff, map_pow]
-        exact hpow n a
-      rw [hset]
-      refine (Valued.isOpen_closedBall _ ?_).preimage continuous_subtype_val
-      intro h0
-      have h1 : Valued.v (ϖ ^ n) = 0 := by
-        rw [← Valuation.embedding_restrict, h0, map_zero]
-      exact pow_ne_zero n hϖ0 ((Valuation.zero_iff _).1 h1)
-    · intro s hs
-      obtain ⟨u, hu, hus⟩ := mem_nhds_subtype _ _ _ |>.1 hs
-      rw [ZeroMemClass.coe_zero, Valued.mem_nhds_zero] at hu
-      obtain ⟨γ, hγ⟩ := hu
-      obtain ⟨n, hn⟩ := Valued.exists_pow_lt_of_le_exp_neg_one (R := w.adicCompletion E) hϖ.le
-        (Units.map (MonoidWithZeroHom.ValueGroup₀.embedding
-          (f := ((Valued.v : Valuation (w.adicCompletion E) (WithZero (Multiplicative ℤ))) : (w.adicCompletion E) →*₀ WithZero (Multiplicative ℤ)))).toMonoidHom γ)
-      refine ⟨n, fun a ha => hus (hγ ?_)⟩
-      show (Valued.v : Valuation (w.adicCompletion E) (WithZero (Multiplicative ℤ))).restrict
-        (a : w.adicCompletion E) < γ.1
-      rw [Valuation.restrict_lt_iff_lt_embedding]
-      exact lt_of_le_of_lt ((hpow n a).1 ha) (by simpa using hn)
-  have hcl : IsClosed ((w.adicCompletionIntegers E : Set (w.adicCompletion E))) :=
-    Valued.isClosed_valuationSubring _
-  have : CompleteSpace (w.adicCompletionIntegers E) := hcl.completeSpace_coe
-  exact hadic.isAdicComplete_iff.mpr ⟨inferInstance, inferInstance⟩
+  intros
+  apply _root_.GlobalTheory.HenselSquare.isAdicComplete_integers <;> assumption
 
 private lemma neg_log_valuation_eq_ordL (x : w.adicCompletion E) : -WithZero.log (Valued.v x) = ordL x := by
   unfold ordL

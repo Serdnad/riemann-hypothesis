@@ -1,5 +1,6 @@
 module
 
+import all Development.AutomorphicArithmetic.Foundations.Convolution.RealGroupAnalysis.ThetaBounds.CenExp
 public import Development.AutomorphicArithmetic.Foundations.Convolution.RealGroupAnalysis.ThetaBounds.UnfoldedThetaIntegralConvergesSimilitudeOne
 import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.ExistsUniqueIdeleOfLinearEquivQuotientLocal
 public import Development.AutomorphicArithmetic.Foundations.Convolution.RealGroupAnalysis.ThetaBounds.OneOf
@@ -50,20 +51,7 @@ open scoped Classical
 private theorem infGL_scalarE {E : Type} [Field E] [NumberField E] [_root_.NumberField.IsTotallyComplex E] (u : (Cinf E)ˣ) :
     infGL E 2 (Matrix.GeneralLinearGroup.scalar (Fin 2) u) =
       Matrix.GeneralLinearGroup.scalar (Fin 2) (infId E u) := by
-  have h1 : pInf E (infId E u).val = u.val := by
-    change pInf E (1 - sInf E 1 + sInf E _) = _
-    have h : ∀ x, pInf E (sInf E x) = x := fun x => (infEq E).symm_apply_apply x
-    simp [h]
-  have h2 : pFin E (infId E u).val = 1 := by
-    change (1 : Af E) - 0 + 0 = 1
-    simp
-  refine ga_ext ?_ ?_
-  · rw [pInf_infGL]
-    ext i j
-    by_cases e : i = j <;> simp [e, h1]
-  · rw [pFin_infGL]
-    ext i j
-    by_cases e : i = j <;> simp [e, h2]
+  apply _root_.inf_scalarE <;> assumption
 
 section SlopeTestRemainingChoices
 

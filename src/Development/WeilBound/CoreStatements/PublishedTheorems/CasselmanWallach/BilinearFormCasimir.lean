@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExtremalLowestKtypeKilledByCompactRoots
 public import Development.WeilBound.CoreStatements.PublishedTheorems.CasselmanWallach.SmoothSeminormAndSobolevBounds
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -59,15 +60,7 @@ variable {n : ℕ}
 
 theorem exp_mem_kset' {ε : Fin n → Bool} {X : Mx n} (h1 : Xᴴ = -X) (h2 : Commute X (Formalism.REAL.Jm ε)) (t : ℝ) :
     NormedSpace.exp (t • X) ∈ Formalism.REAL.Kset ε := by
-  refine ⟨?_, ?_⟩
-  · rw [Matrix.mem_unitaryGroup_iff']
-    have hs : (t • X)ᴴ = -(t • X) := by
-      rw [Matrix.conjTranspose_smul, h1]
-      simp
-    rw [Matrix.star_eq_conjTranspose, ← Matrix.exp_conjTranspose, hs,
-      ← Matrix.exp_add_of_commute _ _ ((Commute.refl (t • X)).neg_left), neg_add_cancel,
-      NormedSpace.exp_zero]
-  · exact ((h2.smul_left t).exp_left).eq
+  apply _root_.GlobalTheory.HolDict.BorelK.exp_mem_kset <;> assumption
 
 theorem lie_of {ε : Fin n → Bool} {X : Mx n} (h1 : Xᴴ = -X) (h2 : Commute X (Formalism.REAL.Jm ε)) : X ∈ lieSet ε := by
   show Xᴴ * Formalism.REAL.Jm ε + Formalism.REAL.Jm ε * X = 0

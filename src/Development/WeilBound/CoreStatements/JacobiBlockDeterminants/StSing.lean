@@ -1,5 +1,6 @@
 module
 
+import Development.WeilBound.CoreStatements.PluriharmonicCharts.BlockFnFieldCompLe
 public import Development.WeilBound.CoreStatements.MultihomogeneousSquares.SingSt
 public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ExistsLieModel
 public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.GramMatrixTwoFrames
@@ -1116,21 +1117,8 @@ open GroundTheory.Heights₂.Heights.LowerBoundFree (valAt IsValueAt)
 
 theorem isValueAt_valAt_of_regAt {K : Type} [Fintype K] {J : K → Type} [∀ k, Fintype (J k)] {Ω : Type} [Field Ω]
     {x : (Σ k, J k) → Ω} {w : (Σ k, J k) → ℂ} (hw : w ∈ mcPts (mCoordIdeal x)) {s : Ω}
-    (hs : RegAt x (mCoordIdeal w) s) : IsValueAt x s w (valAt x s w) := by
-  obtain ⟨d, g, h, hg, hh, hQ, hgh⟩ := hs
-  have hwh : (MvPolynomial.eval w) ((MvPolynomial.map (Int.castRingHom ℂ)) h) ≠ 0 := by
-    intro h0
-    apply hQ
-    apply GroundTheory.Heights₂.Heights.LowerBoundFree.mem_mCoordIdeal_of_aeval_eq_zero w hh
-    rw [MvPolynomial.eval_map] at h0
-    simpa [MvPolynomial.aeval_def] using h0
-  have hxh : (MvPolynomial.aeval x) h ≠ 0 := by
-    intro h0
-    exact hwh (hw.2 h (GroundTheory.Heights₂.Heights.LowerBoundFree.mem_mCoordIdeal_of_aeval_eq_zero x hh h0))
-  have hex : ∃ v, IsValueAt x s w v := ⟨_, d, g, h, hg, hh, hxh, hgh, hwh, rfl⟩
-  unfold GroundTheory.Heights₂.Heights.LowerBoundFree.valAt
-  rw [dite_eq_left hex]
-  exact hex.choose_spec
+    (hs : RegAt x (mCoordIdeal w) s) : IsValueAt x s w (valAt x s w) :=
+  _root_.GlobalTheory.CompanionTheory.Ar.PB.CovGraph.BStep.isValueAt_valAt hw hs
 
 theorem c0 : C0 := by
   intro E _ _ _ H D l Xo c Y S K _ ι _ Φ _ y M 𝔐 𝔐' pr j z w hO hw

@@ -546,18 +546,8 @@ attribute [local instance] GlobalTheory.LocalData.complRel GlobalTheory.LocalDat
 namespace GlobalTheory.NewformAutAtL
 open Polynomial
 private theorem ss_of_tw' {Γ k : Type} [Group Γ] [Field k] {n : ℕ} (r : Γ →* GL (Fin n) k) (χ : Γ →* kˣ)
-    (h : IsSSRep (tw r χ)) : IsSSRep r := by
-  have key : ∀ W, IsInv (tw r χ) W ↔ IsInv r W := fun W => by
-    constructor
-    · intro h g v hv
-      have := W.smul_mem ((χ g : k)⁻¹) (h g v hv)
-      rwa [tw_val, Matrix.smul_mulVec, smul_smul, inv_mul_cancel₀ (Units.ne_zero _), one_smul] at this
-    · intro h g v hv
-      rw [tw_val, Matrix.smul_mulVec]
-      exact W.smul_mem _ (h g v hv)
-  intro W hW
-  obtain ⟨W', hW', hc⟩ := h W ((key W).2 hW)
-  exact ⟨W', (key W').1 hW', hc⟩
+    (h : IsSSRep (tw r χ)) : IsSSRep r :=
+  _root_.GlobalTheory.Ord2.SrcForm.ss_of_tw r χ h
 private theorem ev_not_mem' (N : ℕ) (hN : N ≠ 0) :
     ∀ᶠ w : HeightOneSpectrum (𝓞 ℚ) in Filter.cofinite, ((N : ℕ) : 𝓞 ℚ) ∉ w.asIdeal := by
   have h0 : Ideal.span {((N : ℕ) : 𝓞 ℚ)} ≠ 0 := by
@@ -581,32 +571,8 @@ private theorem normV_rat' {p : ℕ} (hp : p.Prime) (w : HeightOneSpectrum (𝓞
   exact w.isPrime.ne_top
 private theorem scale_charpoly' {k : Type} [Field k] (φ : k →+* ℂ) (M : Matrix (Fin 2) (Fin 2) k) (c : k) (hc : c ≠ 0)
     (B : Multiset ℂ) (h : (c • M).charpoly.map φ = (B.map fun b => X - C (φ c * b)).prod) :
-    M.charpoly.map φ = (B.map fun b => X - C b).prod := by
-  have hc' : φ c ≠ 0 := by simpa using hc
-  have hcard : B.card = 2 := by
-    have h1 := congrArg natDegree h
-    rw [natDegree_map, Matrix.charpoly_natDegree_eq_dim] at h1
-    have h2 := natDegree_multiset_prod_X_sub_C_eq_card (B.map (φ c * ·))
-    rw [Multiset.map_map] at h2
-    simp only [Function.comp_def, Multiset.card_map] at h2
-    rw [h2] at h1
-    simpa using h1.symm
-  obtain ⟨x, y, rfl⟩ := Multiset.card_eq_two.1 hcard
-  rw [Matrix.charpoly_fin_two] at h ⊢
-  simp only [Multiset.insert_eq_cons, Multiset.map_cons, Multiset.map_singleton, Multiset.prod_cons,
-    Multiset.prod_singleton, Polynomial.map_add, Polynomial.map_sub, Polynomial.map_mul, Polynomial.map_pow, map_X,
-    map_C, Matrix.trace_smul, Matrix.det_smul, smul_eq_mul, map_mul, map_pow, Fintype.card_fin] at h ⊢
-  have e0 := congrArg (eval 0) h
-  have e1 := congrArg (eval 1) h
-  simp only [eval_add, eval_sub, eval_mul, eval_pow, eval_X, eval_C] at e0 e1
-  have hd : φ M.det = x * y := by
-    apply mul_left_cancel₀ (pow_ne_zero 2 hc')
-    linear_combination e0
-  have ht : φ M.trace = x + y := by
-    apply mul_left_cancel₀ hc'
-    linear_combination e0 - e1
-  rw [hd, ht, C_add, C_mul]
-  ring
+    M.charpoly.map φ = (B.map fun b => X - C b).prod :=
+  _root_.GlobalTheory.Ord2.SrcForm.scale_charpoly φ M c hc B h
 theorem exists_cuspidal_satake_prod_eq_hecke_poly_of_not_dvd_level : _root_.UpperTheory.V.Af.Hypotheses' → ∀ (e : ℕ) (g : Newform (2 * e + 1)) (l : ℕ) [Fact l.Prime] (Ω : Type) [Field Ω] [Algebra ℚ Ω]
     [IsAlgClosure ℚ Ω] (ι : Qbar l ≃+* ℂ) (V : G ℚ Ω →* GL (Fin 2) (Qbar l)), 1 ≤ e →
     g.Att ι (tw V (cycBar ℚ Ω l ^ (-(e : ℤ)))) → ¬ l ∣ g.M →
@@ -1049,10 +1015,7 @@ open GlobalTheory.WeilDeligne GlobalTheory.Pst GlobalTheory.GalOfCusp UpperTheor
 private theorem cont_diag {Γ : Type} [Group Γ] [TopologicalSpace Γ] {l : ℕ} [Fact l.Prime] {n : ℕ}
     {r : Γ →* GL (Fin n) (Qbar l)} (hr : Continuous r) {H : Subgroup Γ} {κ : Fin n → ↥H →* (Qbar l)ˣ}
     (hf : IsFlagOn r H κ) (i : Fin n) : Continuous fun s => (κ i s : Qbar l) := by
-  obtain ⟨g, hg⟩ := hf
-  have h1 : Continuous fun s : ↥H => (g * r s * g⁻¹ : GL (Fin n) (Qbar l)) :=
-    (continuous_const.mul (hr.comp continuous_subtype_val)).mul continuous_const
-  exact ((Units.continuous_val.comp h1).matrix_elem i i).congr fun s => (hg s).2 i
+  apply _root_.GlobalTheory.FlagFrob.cont_diag <;> assumption
 private theorem transport_rho {F Ω : Type} [Field F] [NumberField F] [Field Ω] [Algebra F Ω] [IsAlgClosure F Ω]
     {w : HeightOneSpectrum (𝓞 F)} {A : ValuationSubring Ω} {h : IsPlaceOver A w} {W : Type} [AddCommGroup W] [Module ℂ W]
     [FiniteDimensional ℂ W] {n : ℕ} (a : WDRep h W) (b : Basis (Fin n) ℂ W) (σ : ↥(Weil h))
@@ -1283,12 +1246,7 @@ local instance (priority := high + 1)  (L Ω : Type) [Field L] [Field Ω] [Algeb
   DivisionSemiring.to_moduleIsTorsionFree
 private theorem cofinite_notMem (N : ℕ) (hN : N ≠ 0) :
     ∀ᶠ w : HeightOneSpectrum (𝓞 ℚ) in Filter.cofinite, ((N : ℕ) : 𝓞 ℚ) ∉ w.asIdeal := by
-  have h0 : Ideal.span {((N : ℕ) : 𝓞 ℚ)} ≠ 0 := by
-    rw [Ne, Ideal.zero_eq_bot, Ideal.span_singleton_eq_bot]
-    exact_mod_cast hN
-  refine Filter.eventually_cofinite.2 ((Ideal.finite_factors h0).subset fun w hw => ?_)
-  simp only [Set.mem_setOf_eq, not_not] at hw
-  exact Ideal.dvd_span_singleton.2 hw
+  apply _root_.GlobalTheory.NewformAutAtL.ev_not_mem' <;> assumption
 private theorem mem_of_normV_dvd {N : ℕ} {w : HeightOneSpectrum (𝓞 ℚ)} (h : normV w ∣ N) :
     ((N : ℕ) : 𝓞 ℚ) ∈ w.asIdeal := by
   obtain ⟨c, rfl⟩ := h

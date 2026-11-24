@@ -1,5 +1,6 @@
 module
 
+import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.DegreeOneCellEqChartUpdate
 public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.ImportsSideMore
 import Mathlib.RingTheory.RegularLocalRing.Defs
 
@@ -87,40 +88,7 @@ variable {Ω : Type} [Field Ω] [Algebra S Ω]
 theorem RowSub.exists_form_of_mem_chartRingOver (y : (Σ k, ι k) → Ω) (c : ∀ k, ι k) (hc : ∀ k, y ⟨k, c k⟩ ≠ 0)
     {z : Ω} (hz : z ∈ ReciprocityTheory.ChartRestriction.G.ArakelovGeometry.KH.chartRingOver S y c) :
     ∃ (m : K → ℕ) (h : MRingOver S ι), IsMultiHomog h m ∧ z = aeval y h / ∏ k, y ⟨k, c k⟩ ^ m k := by
-  classical
-  have hP : ∀ m : K → ℕ, (∏ k, y ⟨k, c k⟩ ^ m k) ≠ 0 := fun m =>
-    Finset.prod_ne_zero_iff.mpr fun k _ => pow_ne_zero _ (hc k)
-  have hPadd : ∀ m m' : K → ℕ, (∏ k, y ⟨k, c k⟩ ^ (m + m') k) =
-      (∏ k, y ⟨k, c k⟩ ^ m k) * ∏ k, y ⟨k, c k⟩ ^ m' k := fun m m' => by
-    simp [pow_add, Finset.prod_mul_distrib]
-  induction hz using Algebra.adjoin_induction with
-  | mem x hx =>
-    obtain ⟨p, rfl⟩ := hx
-    refine ⟨Pi.single p.1 1, X p, RowSub.isMultiHomog_X p.1 p.2, ?_⟩
-    rw [aeval_X]
-    rw [Finset.prod_eq_single p.1 (fun k _ hk => by simp [hk]) (by simp)]
-    simp
-  | algebraMap r =>
-    exact ⟨0, C r, RowSub.isMultiHomog_C r, by simp⟩
-  | add x x' _ _ ih ih' =>
-    obtain ⟨m, h, hh, rfl⟩ := ih
-    obtain ⟨m', h', hh', rfl⟩ := ih'
-    refine ⟨m + m', h * ∏ k, (X ⟨k, c k⟩ : MRingOver S ι) ^ m' k + h' * ∏ k, (X ⟨k, c k⟩ : MRingOver S ι) ^ m k,
-      ?_, ?_⟩
-    · have h1 := RowSub.isMultiHomog_mul hh (RowSub.isMultiHomog_coordProd (S := S) c m')
-      have h2 := RowSub.isMultiHomog_mul hh' (RowSub.isMultiHomog_coordProd (S := S) c m)
-      rw [add_comm m' m] at h2
-      intro d hd k
-      rcases Finset.mem_union.mp (MvPolynomial.support_add hd) with hd | hd
-      · exact h1 d hd k
-      · exact h2 d hd k
-    · rw [hPadd, div_add_div _ _ (hP m) (hP m')]
-      simp only [map_add (f := _), map_mul, map_prod, map_pow, aeval_X]
-      ring
-  | mul x x' _ _ ih ih' =>
-    obtain ⟨m, h, hh, rfl⟩ := ih
-    obtain ⟨m', h', hh', rfl⟩ := ih'
-    exact ⟨m + m', h * h', RowSub.isMultiHomog_mul hh hh', by rw [hPadd, map_mul, div_mul_div_comm]⟩
+  apply _root_.GroundTheory.Heights₂.Heights.Kleiman.SectionsOverLocalization.HZeroRowPlaceData.exists_of_mem_chartRing <;> assumption
 
 end Forms
 

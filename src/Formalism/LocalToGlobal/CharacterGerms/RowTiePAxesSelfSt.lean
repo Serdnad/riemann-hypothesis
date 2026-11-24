@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.IsIntegralGaugedFormalGroupLawSelfConjugateSquar
 public import Formalism.LocalToGlobal.CharacterGerms.RowTieSelf
 public import Formalism.LocalToGlobal.CharacterGerms.RowTieAxes
 import Mathlib.Algebra.Order.Floor.Extended
@@ -98,15 +99,7 @@ theorem van_hCol (col g : Fin 2) (h : PS C 2 dd)
 
 theorem gauge_axes (Y : FBChart C V O dd) (g : Fin 2) :
     ∀ e : Fin 2 × Fin dd →₀ ℕ, (∀ s ∈ e.support, s.1 ≠ g) → coeff e Y.h = 0 := by
-  fin_cases g
-  · refine coeff_of_ev_zero Y.h 0 ![0, pt C dd 0] rfl ?_ Y.gauge.ax0
-    intro g' hg'
-    rw [fin_two_eq_one_sub_of_ne' 0 g' hg']
-    rfl
-  · refine coeff_of_ev_zero Y.h 1 ![pt C dd 0, 0] rfl ?_ Y.gauge.ax1
-    intro g' hg'
-    rw [fin_two_eq_one_sub_of_ne' 1 g' hg']
-    rfl
+  apply _root_.GlobalTheory.RowLawSquare.h_axes <;> assumption
 
 theorem axesSelf_holds : AxesSelfSt := by
   intro C _ _ V O _ _ dd Y d _ I0 _ p

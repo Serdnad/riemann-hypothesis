@@ -1,5 +1,7 @@
 module
 
+import Development.AbelianVarietyTheory.Definitions.GlobalTwisting.ExistsPowPrincipalFractionalIdeal
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.DegreeEqTotDeg
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.CosetRefinement
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.CmThetaComplexConjugationCompatible
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsTwoTorsionCMPointAllConjugates
@@ -269,19 +271,8 @@ namespace GlobalTheory.ConjVacuumNorm
 theorem area_lamConj_pos (D : D7) (cc : Ideal (𝓞 D.host.K)) (dl : ℂ) (hc : StandardLatticesGL3.Crv D cc dl)
     (M : IntermediateField ℚ ℂ) (ρ : M →ₐ[ℚ] ℂ) (hD : TaylorLogMetric.DataIn D (TaylorLogMetric.tor0 D cc dl) M) :
     0 < TaylorLogMetric.area (TaylorLogMetric.lamConj M ρ (TaylorLogMetric.lamOf D cc dl)) := by
-  have g1 := (GlobalTheory.InducedType.induced_type D).1
-  obtain ⟨hK | hK, hT, -⟩ := GlobalTheory.ThetaConj.useBar_holds D cc dl hc M ρ hD
-  · obtain ⟨cc', δ', hc', -, hl⟩ :=
-      GlobalTheory.ConjCurve.galCurve_holds D cc dl hc M ρ hK hD.2.1 hD.2.2 1 one_pos
-    rw [hl]
-    exact GlobalTheory.ConjJet.area_pos D g1 cc' δ' hc'
-  · obtain ⟨cc', δ', hc', -, hl⟩ :=
-      GlobalTheory.ConjCurve.galCurve_holds D cc dl hc M _ hK hD.2.1 hD.2.2 1 one_pos
-    have hL : TaylorLogMetric.lamConj M (StandardLatticesGL3.rhoBar M ρ) (TaylorLogMetric.lamOf D cc dl) =
-        (TaylorLogMetric.lamConj M ρ (TaylorLogMetric.lamOf D cc dl)).map (starRingEnd ℂ).toAddMonoidHom :=
-      congrArg TaylorLogMetric.Tor.abelian₂ hT
-    rw [← GlobalTheory.ConjJet.area_conj, ← hL, hl]
-    exact GlobalTheory.ConjJet.area_pos D g1 cc' δ' hc'
+  intros
+  apply _root_.GlobalTheory.Glob.area_lamConj_pos <;> assumption
 
 theorem exists_extension_normSq_eq : ∀ (D : D7) (cc : Ideal (𝓞 D.host.K)) (dl : ℂ) (t0 : ℂ), StandardLatticesGL3.Crv D cc dl → GL3Theta.IsTwoTorsionPointUnkilled D (TaylorLogMetric.lamOf D cc dl) t0 → ∀ (M : IntermediateField ℚ ℂ) [FiniteDimensional ℚ M] (ρ : M →ₐ[ℚ] ℂ), TaylorLogMetric.DataIn D (TaylorLogMetric.tor0 D cc dl) M → ∃ ρ' : TaylorLogMetric.Qbar →ₐ[ℚ] ℂ, (∀ x ∈ M, x ∈ TaylorLogMetric.Qbar ∧ StandardLatticesGL3.cj TaylorLogMetric.Qbar ρ' x = StandardLatticesGL3.cj M ρ x) ∧ TaylorLogMetric.lamConj TaylorLogMetric.Qbar ρ' (TaylorLogMetric.lamOf D cc dl) = TaylorLogMetric.lamConj M ρ (TaylorLogMetric.lamOf D cc dl) ∧ 0 < TaylorLogMetric.area (TaylorLogMetric.lamConj M ρ (TaylorLogMetric.lamOf D cc dl)) ∧ ∀ (a b : ℕ) (L : Submodule (𝓞 D.host.E) (Fin a → D.host.E)) (L' : Submodule (𝓞 D.host.E) (Fin b → D.host.E)) (L₀ : Submodule (𝓞 D.host.E) (Fin a → D.host.E)) (L₀' : Submodule (𝓞 D.host.E) (Fin b → D.host.E)), StandardLatticesGL3.SD D L → StandardLatticesGL3.SD D L' → StandardLatticesGL3.SD D L₀ → StandardLatticesGL3.SD D L₀' → Even (a * b) → ∀ F F₀ : TaylorLogMetric.VC D a b → ℂ, StandardLatticesGL3.ThetaVectorUpToUnits D (TaylorLogMetric.tor0 D cc dl) t0 L L' F → StandardLatticesGL3.ThetaVectorUpToUnits D (TaylorLogMetric.tor0 D cc dl) t0 L₀ L₀' F₀ → TaylorLogMetric.CoefIn D F₀ M → TaylorLogMetric.normSq D (TaylorLogMetric.torConj D (TaylorLogMetric.tor0 D cc dl) TaylorLogMetric.Qbar ρ') (TaylorLogMetric.La D (TaylorLogMetric.torConj D (TaylorLogMetric.tor0 D cc dl) TaylorLogMetric.Qbar ρ') L L') (TaylorLogMetric.fnConj D TaylorLogMetric.Qbar ρ' F) = TaylorLogMetric.normSq D (TaylorLogMetric.torConj D (TaylorLogMetric.tor0 D cc dl) M ρ) (TaylorLogMetric.La D (TaylorLogMetric.torConj D (TaylorLogMetric.tor0 D cc dl) M ρ) L₀ L₀') (TaylorLogMetric.fnConj D M ρ F₀) := by
   intro D cc dl t0 hc ht M _ ρ hD
@@ -473,18 +464,7 @@ theorem latSum_tower_reps (E : Type) [Field E] [NumberField E] (W : Type) [AddCo
 theorem thInd_congr_of_sub_mem {X : Fields} (A : Amb X) {a b : ℕ} (S : Finset (HeightOneSpectrum (𝓞 X.E)))
     (L : Submodule (𝓞 X.E) (Sp X.E a)) (L' : Submodule (𝓞 X.E) (Sp X.E b)) (c : ℕ) (x y : HomE X.E a b)
     (h : x - y ∈ mulLat c (homAt S L L')) : A.thInd S L L' c x = A.thInd S L L' c y := by
-  have h1 : A.IsLift S L L' c x = A.IsLift S L L' c y := by
-    funext s
-    unfold Amb.IsLift
-    congr 1
-    apply propext
-    constructor
-    · intro hs
-      simpa using Submodule.add_mem _ hs h
-    · intro hs
-      simpa using Submodule.sub_mem _ hs h
-  unfold Amb.thInd Amb.liftW
-  rw [h1]
+  apply _root_.GlobalTheory.Mem.Col2.JetFin.thInd_congr <;> assumption
 
 theorem latSum_thInd_regroup : ∀ (X : Fields) (A : Amb X) (a b : ℕ) (S : Finset (HeightOneSpectrum (𝓞 X.E))) (L : Submodule (𝓞 X.E) (Sp X.E a)) (L' : Submodule (𝓞 X.E) (Sp X.E b)) (cA c c' : ℕ) (Ξ : HomE X.E a b → ℂ), A.IndAdd a b S (cA * (c * c')) → IsSdLat L → IsSdLat L' → 0 < cA → 0 < c → 0 < c' → (∀ x, Ξ x ≠ 0 → x ∈ homAt S L L') → (∀ x, ∀ y ∈ mulLat c (homAt S L L'), Ξ (x + y) = Ξ x) → ∃ R : Finset (HomE X.E a b), R.card ≤ c ^ (Module.finrank ℚ X.E * a * b) ∧ ∀ z, latSum (divLat cA (homAt S L L')) (mulLat (c * c') (homAt S L L')) (fun x => Ξ x * A.thInd S L L' (c * c') x z) = ∑ x ∈ R, Ξ x * A.thInd S L L' c x z := by
   intro X A a b S L L' cA c c' Ξ hadd hL hL' hcA hc hc' hsupp hinv

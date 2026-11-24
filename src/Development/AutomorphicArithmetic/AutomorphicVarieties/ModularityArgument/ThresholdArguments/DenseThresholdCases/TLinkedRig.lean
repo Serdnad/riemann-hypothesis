@@ -1,5 +1,6 @@
 module
 
+import Development.AutomorphicArithmetic.AutomorphicVarieties.TheoremsMuLinked.GaloisRepresentationTypes.IsIrrOfMatIrr
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.ThresholdArguments.DenseThresholdCases.AutomorphicPointGalois
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.ThresholdArguments.DenseThresholdCases.LinkedRig
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.CharacterLevelBounds.ClsFacts
@@ -373,106 +374,13 @@ private theorem rp_par {A : Type} [CommGroup A] (t x y z : A) (a b : ℤ) (k : �
   rw [h, div_pow, hx, hy, div_one]
 theorem UpperTheory.V.Th.rigPtOf_alt :
     GlobalTheory.Published.GlobalArtinReciprocity → _root_.UpperTheory.V.Th.AdjointLiftingTheorem → _root_.UpperTheory.V.Th.RigPtOfAlt := by
-  intro hG hAd Ω _ _ _ l _ ι c _ N _ e ψ η σ g₁ B M H L _ _ _ _ _ Φ k c₁ _ f n ka R hL hka A _ _ _ ρ hρ hψ r hr hirr haut hfree
-  obtain ⟨c₂, h₁, h₂⟩ := ap_coef c c₁ A
-  letI : Algebra c₁.O c₂.O := (Subalgebra.inclusion h₁).toRingHom.toAlgebra
-  let φ : A →+* c₂.O := A.val.toRingHom.codRestrict c₂.O fun x => h₂ x.1 x.2
-  haveI : IsLocalHom φ := ap_local c₂ φ (fun a => rfl) fun a b h => Subtype.ext (congrArg (fun t : c₂.O => t.1) h)
-  haveI hl : IsLocalHom (algebraMap c₁.O c₂.O) := ap_local c₂ _ (fun a => rfl) (Subalgebra.inclusion_injective h₁)
-  obtain ⟨hc, hf, -⟩ := UpperTheory.V.abelian₂.dvr_finite l c₂.O
-  haveI : IsCD c₁.O c₂.O := { complete := hc, isLocalHom := hl, fin := hf }
-  let j : c₂.O →ₐ[c₁.O] Qbar l := { c₂.O.val.toRingHom with commutes' := fun _ => rfl }
-  let ρ₂ : Fr.NRep (Φ.ext f) n c₂.O := apExt f (ρ.map φ)
-  have hlift : IsLiftA c₁.O ρ₂ := ap_lift f φ (fun a => by
-    rw [R.hf a ⟨a.1, R.le a.2⟩ rfl, ResidueField.map_residue]; rfl) ρ hρ
-  obtain ⟨Ph, hPh, -⟩ := phiEx l c₁.O (Φ.ext f) n R.T
-  obtain ⟨F, -, hD, hP⟩ := goodPtOf l c₁.O (Φ.ext f) n R.T Ph hPh ⊥ (fun p _ _ => by rw [Ideal.map_bot]; exact bot_le)
-    c₂.O ρ₂ hlift (Qbar l) j Subtype.val_injective fun U hU =>
-    hirr.2.2 U le_top fun s v hv => by rw [hr]; exact hU (k.p0 s) trivial v hv
-  have hAl : ∀ v : W.Vl l L, (R.s.A v).valuation (l : Ω) < 1 := fun v => (natCast_place (R.s.hA v) l).2 v.2
-  have hw : ∀ v : W.Vl l L, ((l : ℕ) : 𝓞 L) ∈ (R.s.w v).asIdeal := fun v => (natCast_place (R.s.hw v) l).1 (hAl v)
-  choose wt hwt using fun v : W.Vl l L => ap_locAlg hG ι ka hka.alg (R.s.hw v) (hw v)
-  choose χ hχ hχN hχe using fun i : Fin n => rp_psi c e ψ L (Ω := Ω) (Fr.w n i)
-  let x : R.B₀.Pt := j.comp F
-  let ρQ : Fr.NRep (Φ.ext f) n (Qbar l) := ρ₂.map (j : c₂.O →+* Qbar l)
-  let ρ0 : R.V.frame.G₀ →* GL (Fin n) (Qbar l) := (R.K.tw ρQ).toHomUnits
-  have hrQ : ∀ g, ρQ.r (R.K.π (R.V.pr g)) = W.mat r g := fun g => by
-    change _ = (r g).val
-    rw [hr, ← R.π_pr]
-    rfl
-  have hκ : ∀ g, R.K.κA (Qbar l) (R.V.pr g) = ka g := fun g => Units.ext (R.κ_pr g)
-  have hpr : ∀ g, W.mat ρ0 (R.V.pr g) = (ka g : Qbar l) • W.mat r g := fun g => by
-    rw [← hrQ, ← hκ]
-    rfl
-  have htw : ρ0.comp R.V.pr = tw r ka := MonoidHom.ext fun g => Units.ext ((hpr g).trans (tw_val r ka g).symm)
-  have hx : ∀ v, x.psi v = R.K.twψ ρQ v := fun v => funext fun i => MonoidHom.ext fun g => Units.ext (by
-    have h2 : F (R.B₀.u.ψ v i g).val = (R.K.twψ ρ₂ v i g).val := congrArg (fun t => (t g).val) (hP v i)
-    change j (F (R.B₀.u.ψ v i g).val) = _
-    rw [h2]
-    rfl)
-  have hxv : ∀ v i g, x.psi v i g = ρQ.ψ (R.K.e v) i (R.K.lam v g) * ka g := fun v i g => by
-    rw [hx, ← hκ]
-    rfl
-  have hin : ∀ (v : W.Vl l L) i (g : Dec (F := L) (R.s.A v)), (g : G L Ω) ∈ Ine (F := L) (R.s.A v) →
-      x.psi v i g = cycBar L Ω l g ^ ((e : ℤ) * Fr.w n i) * χ i g * ka g := fun v i g hg => by
-    have h3 := hψ (R.K.e v) i (R.K.lam v g) ((R.K.lam_I v g).2 hg)
-    rw [R.lam_j] at h3
-    rw [hxv]
-    congr 1
-    refine Units.ext ?_
-    rw [← hχe]
-    exact congrArg (fun t : A => t.1) h3
-  have hanti : StrictAnti fun i => (e : ℤ) * Fr.w n i := fun a b hab => by
-    have h1 : Fr.w n b < Fr.w n a := by
-      have h2 : (a : ℕ) < b := hab
-      unfold Fr.w
-      split_ifs <;> omega
-    have h3 : (0 : ℤ) < e := by exact_mod_cast H.e_pos
-    exact mul_lt_mul_of_pos_left h1 h3
-  have hfl : ∀ v, W.HasFlag (ρQ.r.comp ((Φ.ext f).loc0 v)).toHomUnits (ρQ.ψ v) := fun v => by
-    obtain ⟨g₀, hg⟩ := R.ok.f3 v
-    exact rp_flag R.n23 ρ₂ hlift _ v g₀ hg
-  have hV : Nonempty Φ.V := by
-    by_contra hV
-    rw [not_nonempty_iff] at hV
-    have h : _ < Φ.d := R.big.1
-    simp [Fr.Frame.d] at h
-  obtain ⟨v'⟩ := hV
-  have hA : _root_.UpperTheory.V.Th.AutomorphicPointGalois ι x ρ0 := by
-    refine ⟨rp_cont R.K ρ₂ hlift.cont _ fun _ => rfl, ?_,
-      ⟨fun v i τ => wt v τ - (e : ℤ) * Fr.w n i, fun v τ a b hab => sub_lt_sub_left (hanti hab) _,
-        fun v i => hwt v _ (χ i) (hχ i) _ (hin v i)⟩, htw ▸ haut, ?_, fun v => ?_⟩
-    · have h1 : W.UniversalOrdinaryDeterminantRing.Pt.D x = (W.GDet.ofRep (R.K.tw ρ₂)).map (j : c₂.O →+* Qbar l) :=
-        congrArg (fun D => D.map (j : c₂.O →+* Qbar l)) hD
-      refine (congrArg (fun D => D.comap R.V.pr) h1).trans (ap_det _ _ _ _ fun g => ?_)
-      rfl
-    · rintro _ ⟨g, hg, rfl⟩
-      refine Units.ext ((hpr g).trans ?_)
-      rw [hka.unr _ R.v0M g hg, ← hrQ, R.π_pr, rp_unr e ψ H.dvd k _ R.v0M g hg]
-      exact (one_smul _ _).trans (map_one ρQ.r)
-    · exact (hx v).symm ▸ rp_tw_flag R.K ρQ v (hfl _)
-  have hN : _root_.UpperTheory.V.Th.AutomorphicPointLocallyGeneric ι x ρ0 := by
-    refine _root_.UpperTheory.V.Th.nice_zero_of_rank_two_or_three_irreducible_free ι x ρ0 R.n23 hA (rp_irr _ (W.mat r) R.V.pr ka hpr fun U hU =>
-      hirr.2.2 U le_top fun s v hv => hU s trivial v hv) (fun v => ?_) ?_
-    · obtain ⟨g, hg, h1, α, hα, h2⟩ := hfree _ (hAl v)
-      refine ⟨⟨g, hg⟩, (DFunLike.congr_fun R.V.hε (W.resP L Ω g)).trans h1, ?_⟩
-      have h3 := rp_charpoly _ _ (hfl (R.K.e v)) (R.K.lam v ⟨g, hg⟩)
-      have h5 := (congrArg ρQ.r (R.K.lam_loc v ⟨g, hg⟩)).trans (hrQ g)
-      have h4 := rp_free α _ (ka g) hα (h3.symm.trans ((congrArg Matrix.charpoly h5).trans h2))
-      convert h4 using 2 with i
-      exact hxv v i ⟨g, hg⟩
-    · obtain ⟨v, hv⟩ := R.K.e.surjective v'
-      obtain ⟨s, hs⟩ := R.ok.f3 (R.K.e v)
-      obtain ⟨g, rfl⟩ := (R.K.lam v).surjective s
-      have hn : 1 < n := by have := R.n23; omega
-      refine ⟨v, ⟨0, by omega⟩, ⟨1, hn⟩, g, fun h => rp_w_ne R.n23 _ hs ⟨0, by omega⟩ ⟨1, hn⟩ (by simp) ?_⟩
-      rw [R.K.psib, R.K.psib, R.K.chib, R.K.chib, ← R.K.lam_loc] at h
-      exact mul_right_cancel h
-  refine ⟨R.s, R.V, ρ0, hpr, rp_conj R.V c₁ R.K.κ _ R.K.κ_conj ka R.κ_pr, hAd l L Ω R.s R.V R.hV (degEq Ω l ι c N e ψ η σ g₁ B M H L Φ k v').2 c₁ hL n
-    (by have := R.n23; omega) (by have := R.n23; omega) R.r R.v0 R.B₀ ι x ρ0 hN
-    fun v => ⟨_, Nat.card (ZMod N)ˣ, hanti, Nat.card_pos, fun a b g hg => ?_⟩⟩
-  rw [hin v a g hg, hin v b g hg]
-  exact rp_par _ _ _ _ _ _ _ (hχN a g) (hχN b g)
+  intro hG hAd
+  refine _root_.UpperTheory.V.Th.rigPtOf_of_automorphy
+    (fun _ _ _ _ _ _ _ _ _ _ => _root_.UpperTheory.V.Z.Win.IsAutCsdA)
+    (fun _ _ h => h.1) hG ?_
+  intro l _ L Ω _ _ _ _ _ _ s V hV hζ c hL n hn1 hn2 r hr B ι x ρ hN hAut hPar
+  exact hAd l L Ω s V hV hζ c hL n hn1 hn2 r hr B ι x ρ
+    ⟨⟨hN.cont, hN.rep, hN.arith, hAut, hN.unr0, hN.flag⟩, hN.free, hN.irr, hN.n3⟩ hPar
 end
 end -- clump:auto
 end -- clump:auto

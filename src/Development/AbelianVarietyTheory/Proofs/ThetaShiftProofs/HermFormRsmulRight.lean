@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.EqZeroOfSumSq
 public import Development.AbelianVarietyTheory.Definitions.ArchimedeanThetaValues.IsThetaL2NormSquared
 public import Formalism.LocalToGlobal.ProjectiveLattices.UnFree
 public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.FramePeriodsAlongIsotropicFlowAndBlockChange
@@ -223,17 +224,7 @@ variable [IsCMField E]
 
 theorem maj_smul {r : ℕ} (X : Data E r) (x : Frame X.Ψ r) (τ : X.Ψ) (a : ℂ) (v : Fin r → ℂ) :
     X.maj x τ (a • v) = ‖a‖ ^ 2 * X.maj x τ v := by
-  have e : ((‖a‖ ^ 2 : ℝ) : ℂ) = a * (starRingEnd ℂ) a := by
-    rw [Complex.mul_conj, Complex.normSq_eq_norm_sq]
-  have h1 : X.posPart x τ (a • v) = ‖a‖ ^ 2 * X.posPart x τ v := by
-    simp only [Data.posPart]
-    rw [← Complex.re_ofReal_mul, e]
-    congr 1
-    simp only [_root_.ReciprocityTheory.ChartRestriction.G.FD.hermC_smul_left, map_mul, Finset.mul_sum]
-    exact Finset.sum_congr rfl fun _ _ => Finset.sum_congr rfl fun _ _ => by ring
-  have h2 : (hermC τ.1 X.Gm (a • v) (a • v)).re = ‖a‖ ^ 2 * (hermC τ.1 X.Gm v v).re := by
-    rw [← Complex.re_ofReal_mul, e, _root_.ReciprocityTheory.ChartRestriction.G.FD.hermC_smul_left, _root_.ReciprocityTheory.ChartRestriction.G.FD.hermC_smul_right, mul_assoc]
-  simp only [Data.maj, h1, h2]; ring
+  apply _root_.GlobalTheory.ArcQ.IsoTime.maj_smul <;> assumption
 
 noncomputable def diagMul {g : ℕ} (d : Fin g → ℂ) : (Fin g → ℂ) →ₗ[ℝ] (Fin g → ℂ) where
   toFun z := fun j => d j * z j

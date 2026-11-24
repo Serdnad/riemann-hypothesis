@@ -1,5 +1,6 @@
 module
 
+import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.TranscendenceTraces.IsolateSpecHolds
 public import Development.AbelianVarietyTheory.Definitions.Divisors.ExistsTjCorrDiagModel
 public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.GlobalFnsHolds
 public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.TorsionFramePowEqIntegralGenerator
@@ -599,24 +600,7 @@ open CategoryTheory.Limits GlobalTheory.FlagCell
 
 theorem finite_points {X Y : Scheme.{0}} (f : X ⟶ Y) [IsFinite f] (K : Type) [Field K] (y : Sp K ⟶ Y) :
     {x : Sp K ⟶ X | x ≫ f = y}.Finite := by
-  have hp : IsFinite (pullback.snd f y) := inferInstance
-  have : IsAffine (pullback f y) := isAffine_of_isAffineHom (pullback.snd f y)
-  obtain ⟨φ, hφ⟩ := Spec.map_surjective ((pullback f y).isoSpec.inv ≫ pullback.snd f y)
-  have h4 : φ.hom.Finite := by
-    rw [← IsFinite.SpecMap_iff, hφ]; infer_instance
-  letI : Algebra K Γ(pullback f y, ⊤) := φ.hom.toAlgebra
-  haveI : Module.Finite K Γ(pullback f y, ⊤) := h4
-  refine (Set.finite_range fun σ : Γ(pullback f y, ⊤) →ₐ[K] K =>
-    Spec.map (CommRingCat.ofHom σ.toRingHom) ≫ (pullback f y).isoSpec.inv ≫ pullback.fst f y).subset fun x hx => ?_
-  let s : Sp K ⟶ pullback f y := pullback.lift x (𝟙 _) (by rw [Category.id_comp]; exact hx)
-  obtain ⟨σ, hσ⟩ := Spec.map_surjective (s ≫ (pullback f y).isoSpec.hom)
-  have e : φ ≫ σ = 𝟙 _ := Spec.map_injective (by
-    rw [Spec.map_comp, hσ, hφ, Spec.map_id, Category.assoc, Iso.hom_inv_id_assoc]
-    exact pullback.lift_snd _ _ _)
-  refine ⟨⟨σ.hom, fun a => congr($e a)⟩, ?_⟩
-  show Spec.map σ ≫ _ = _
-  rw [hσ, Category.assoc, Iso.hom_inv_id_assoc]
-  exact pullback.lift_fst _ _ _
+  apply _root_.UpperTheory.Gal.TranscendenceTraces.fibFin_holds <;> assumption
 
 section Sheaves
 

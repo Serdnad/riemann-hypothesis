@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ShintaniLiftKillsProductOfCuspForms
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.RegularSemisimpleFibres.ResEmbCompat
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -146,34 +147,7 @@ private theorem UpperTheory.Gal.InertialTypesAlt.liftAll_spec (q l : ℕ) (L : L
     (h : ∀ p ∈ L, 0 < p.1 ∧ GlobalTheory.Shin.Reg q p.1 p.2) :
     GlobalTheory.Shin.deg (GlobalTheory.Shin.liftAll q l L) = GlobalTheory.Shin.deg L ∧
       ∀ p ∈ GlobalTheory.Shin.liftAll q l L, 0 < p.1 ∧ GlobalTheory.Shin.Reg (q ^ l) p.1 p.2 := by
-  induction L with
-  | nil => simp [GlobalTheory.Shin.liftAll, GlobalTheory.Shin.deg]
-  | cons p L ih =>
-    obtain ⟨ih1, ih2⟩ := ih fun x hx => h x (List.mem_cons_of_mem _ hx)
-    obtain ⟨hp0, hpR⟩ := h p List.mem_cons_self
-    have hsplit : GlobalTheory.Shin.liftAll q l (p :: L) =
-        (if l ∣ p.1 then GlobalTheory.Shin.liftL q l [p] else [(p.1, p.2 * ∑ i ∈ Finset.range l, q ^ (p.1 * i))]) ++
-          GlobalTheory.Shin.liftAll q l L := by
-      simp only [GlobalTheory.Shin.liftAll, List.flatMap_cons]
-    have hdegp : GlobalTheory.Shin.deg (p :: L) = p.1 + GlobalTheory.Shin.deg L := by simp [GlobalTheory.Shin.deg]
-    rw [hsplit, UpperTheory.Gal.InertialTypesAlt.deg_append, ih1, hdegp]
-    by_cases hd : l ∣ p.1
-    · rw [if_pos hd]
-      refine ⟨by rw [UpperTheory.Gal.InertialTypesAlt.block_dvd q l p hd], ?_⟩
-      intro x hx
-      rcases List.mem_append.1 hx with hx | hx
-      · simp only [GlobalTheory.Shin.liftL, List.flatMap_cons, List.flatMap_nil, List.append_nil] at hx
-        obtain ⟨i, -, rfl⟩ := List.mem_map.1 hx
-        exact ⟨Nat.div_pos (Nat.le_of_dvd hp0 hd) hl.pos, UpperTheory.Gal.InertialTypesAlt.reg_dvd i hq hl.pos hp0 hd hpR⟩
-      · exact ih2 x hx
-    · rw [if_neg hd]
-      refine ⟨by simp [GlobalTheory.Shin.deg], ?_⟩
-      intro x hx
-      rcases List.mem_append.1 hx with hx | hx
-      · rw [List.mem_singleton] at hx
-        subst hx
-        exact ⟨hp0, UpperTheory.Gal.InertialTypesAlt.reg_ndvd hq hl hp0 hd hpR⟩
-      · exact ih2 x hx
+  apply _root_.GlobalTheory.liftAll_deg_reg <;> assumption
 
 theorem UpperTheory.Gal.InertialTypesAlt.liftOk :
     LiftOk := by

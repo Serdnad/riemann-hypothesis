@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsCommonLevelSpanMultiple
 public import Development.AbelianVarietyTheory.Definitions.Foundations.MemRingOfInR
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.EisensteinDeltaQExpansionIntegrality
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.QAllQConjOfDvd
@@ -51,16 +52,7 @@ namespace GlobalTheory.FN
 
 theorem gamma_le_of_dvd {N N' : ℕ} (hd : N ∣ N') :
     CongruenceSubgroup.Gamma N' ≤ CongruenceSubgroup.Gamma N := by
-  intro γ hγ
-  rw [CongruenceSubgroup.Gamma_mem] at hγ ⊢
-  have key : ∀ x : ℤ, (x : ZMod N) = ZMod.castHom hd (ZMod N) (x : ZMod N') := fun x => by
-    rw [map_intCast]
-  obtain ⟨h1, h2, h3, h4⟩ := hγ
-  refine ⟨?_, ?_, ?_, ?_⟩
-  · rw [key, h1, map_one]
-  · rw [key, h2, map_zero]
-  · rw [key, h3, map_zero]
-  · rw [key, h4, map_one]
+  first | exact _root_.GlobalTheory.KZ.gamma_le_of_dvd | exact @_root_.GlobalTheory.KZ.gamma_le_of_dvd | apply _root_.GlobalTheory.KZ.gamma_le_of_dvd <;> assumption
 
 theorem lv_mono : ∀ (E : Subring ℂ) (N N' w w' : ℕ) (f : ℍ → ℂ), 0 < N' → N ∣ N' → w ≤ w' →
     Lv E N w f → Lv E N' w' f := by

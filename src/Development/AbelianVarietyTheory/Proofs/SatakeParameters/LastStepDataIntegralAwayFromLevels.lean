@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.SatakeParameters.DatumPeriodicMulLatticeFinal
 public import Formalism.LocalToGlobal.KernelLattices.FirstKernelLawReading
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.ChainLocalDataIntegralOffLevels
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.IntAtNatCast
@@ -115,32 +116,7 @@ variable {X : Fields} {Pr : Primes X} (sel : HeightOneSpectrum (𝓞 X.F) → He
 theorem repY_mem {n : ℕ} {N : Submodule (𝓞 X.E) (Sp X.E n)} {Yb : Set (Sp X.E n)} (hY : Yb ∈ ybSet sel mu cst N)
     (P : rowSG Pr sel mu) :
     ((qOf P.1 : X.E) ^ (if P.1 ∈ Pr.vGs then 1 else cst.M)) • repY Yb ∈ localization₂ P.1.asIdeal N := by
-  obtain ⟨y, hy, rfl⟩ := hY
-  have hq : (qOf P.1 : X.E) ≠ 0 := by exact_mod_cast (GlobalTheory.GO.ChRoot.qOf_pos P.1).ne'
-  have hs : ∀ (k : ℕ) v, v ∈ localization₂ P.1.asIdeal N → ((qOf P.1 : X.E) ^ k) • v ∈ localization₂ P.1.asIdeal N := by
-    intro k v hv
-    have := Submodule.smul_mem _ ((qOf P.1 : 𝓞 X.E) ^ k) hv
-    rwa [← algebraMap_smul X.E, map_pow, map_natCast] at this
-  have key : ∀ z, z - y ∈ locLat (rowSG Pr sel mu) N (fun P => if P.1 ∈ Pr.vGs then 0 else (cst.M : ℤ)) →
-      ((qOf P.1 : X.E) ^ (if P.1 ∈ Pr.vGs then 1 else cst.M)) • z ∈ localization₂ P.1.asIdeal N := by
-    intro z hz
-    rw [mem_locLat] at hy hz
-    have h1 := hy P
-    have h2 := hz P
-    rw [show z = y + (z - y) by abel, smul_add]
-    split_ifs at h1 h2 ⊢ with hP
-    · refine add_mem ?_ ?_
-      · simpa using h1
-      · exact hs 1 _ (by simpa using h2)
-    · refine add_mem ?_ ?_
-      · simpa [zpow_neg] using h1
-      · have e : ((qOf P.1 : X.E) ^ cst.M) • (z - y) =
-            ((qOf P.1 : X.E) ^ (cst.M + cst.M)) • (((qOf P.1 : X.E) ^ (cst.M : ℤ))⁻¹ • (z - y)) := by
-          rw [smul_smul, zpow_natCast, pow_add, mul_assoc, mul_inv_cancel₀ (pow_ne_zero _ hq), mul_one]
-        rw [e]
-        exact hs _ _ h2
-  exact key _ (Classical.epsilon_spec (p := fun z => z - y ∈ locLat (rowSG Pr sel mu) N
-    (fun P => if P.1 ∈ Pr.vGs then 0 else (cst.M : ℤ))) ⟨y, by simp⟩)
+  first | exact _root_.GlobalTheory.TopInv.repY_mem | exact @_root_.GlobalTheory.TopInv.repY_mem | apply _root_.GlobalTheory.TopInv.repY_mem <;> assumption
 
 end Yb
 

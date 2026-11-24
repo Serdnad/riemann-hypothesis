@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SumFCompEquiv
 public import Development.AbelianVarietyTheory.Definitions.Divisors.IsActIffIsDiagEnd
 public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.ExistsNumberFieldQkPointsComplexDegeneration
 public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.NormVal
@@ -940,18 +941,7 @@ namespace GlobalTheory.Poinc.Sep
 theorem sumF_comp_equiv {R : Type} [CommRing R] [IsDomain R] {I : Ideal R} {K : Type} [Field K]
     [Algebra (FractionRing R) K] {Ix Jx : Type} {x : Ix → K} {s : K} (e : Jx ≃ Ix) (h : SumF I K x s) :
     SumF I K (fun j => x (e j)) s := by
-  letI : Module R K := Module.compHom K (algebraMap R (FractionRing R))
-  obtain ⟨N, hN, hs, hx, hlim⟩ := h
-  refine ⟨N, hN, hs, fun j => hx _, fun k => ?_⟩
-  classical
-  obtain ⟨S, hS⟩ := hlim k
-  refine ⟨S.map e.symm.toEmbedding, fun T hT => ?_⟩
-  have hsub : S ⊆ T.map e.toEmbedding := by
-    intro a ha
-    have := hT (Finset.mem_map_of_mem e.symm.toEmbedding ha)
-    exact Finset.mem_map.2 ⟨e.symm a, this, by simp⟩
-  have := hS _ hsub
-  rwa [Finset.sum_map] at this
+  apply _root_.GlobalTheory.GSep.TransTerms.sumF_comp_equiv <;> assumption
 
 theorem sum_terms : ∀ (g n : ℕ) (F : SFam g n (zetaAway n)) (W : Matrix (Fin 8) (Fin 8) ℤ) (Z : Scheme.{0}) (i : F.X ⟶ Z) (X₁ : Setup F W i) (z₁ : X₁.M.Z) (act : Matrix (Fin 8) (Fin 8) ℤ → (X₁.ρ.P.A ⟶ X₁.ρ.P.A)) (x₀ : X₁.S.Gam), X₁.M.Div X₁.S.th x₀ z₁ → ∀ (V : Type) [CommRing V] [IsDomain V] [IsLocalRing V] (ev : X₁.M.Z.presheaf.stalk z₁ →+* V) (X : Type) [AddCommGroup X] (m : ℕ) (t : Fin m → V) (δ : Fin m → LinearMap.BilinForm ℤ X) (𝔪 : UMem X₁ z₁ act V ev X t δ), ∀ (C : Type) (lab : C → X₁.S.Gam) (T : (Fin 8 → X) → C → V), 𝔪.Terms x₀ lab T → ∀ (c : C), SumF (maximalIdeal V) (FractionRing V) (fun mu : Fin 8 → X => algebraMap V (FractionRing V) (T mu c) * 𝔪.yK ⟨X₁.S.th x₀, X₁.S.th_mem x₀⟩) (𝔪.yK ⟨X₁.S.th (lab c), X₁.S.th_mem (lab c)⟩) := by
   intro g n F W Z i X₁ z₁ act x₀ _ V _ _ _ ev X _ m t δ 𝔪 C lab T hT c

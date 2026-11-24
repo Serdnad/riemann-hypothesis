@@ -1,5 +1,7 @@
 module
 
+
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.LanglandsSocleOfOrderFree
 public import Mathlib.Analysis.Complex.Norm
 public import Mathlib.LinearAlgebra.Matrix.NonsingularInverse
 public import Mathlib.Analysis.CStarAlgebra.Classes
@@ -77,7 +79,6 @@ import Mathlib.RingTheory.Coalgebra.IsFrobenius
 import Mathlib.RingTheory.HopfAlgebra.Basic
 import Mathlib.LinearAlgebra.Matrix.FiniteDimensional
 import Mathlib.RingTheory.SimpleRing.Principal
-
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.EntriesBoundedOfConjSpanningBounded, Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.IsClosedIsHermitianLogOfPosDef, Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.MatrixEntriesBoundedOfHermitianLogTraceSqLe, Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.ExistsEnergyMin, Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.LogSqLeTangentAddSq, Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.HermitianLogTraceSqFirstVariationBound, Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.ExistsConjHarmOfSpan, Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.TraceLogLeLogDet, Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.ExistsIsometryMatrixRange, Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.IsLogKronecker, Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.SsTransfer, Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.IsCompletelyReducibleKroneckerOfSpanEqTop, Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.IsSemisimpleRepresentationTprodOfIsIrreducibleAl, Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.IsSemisimpleRepresentationTprodChevalley
 
@@ -1722,47 +1723,7 @@ open scoped Kronecker ComplexOrder TensorProduct in
 variable {G : Type} [Group G] {V : Type} [AddCommGroup V] [Module ℂ V] {ρ : Representation ℂ G V} in
 theorem _root_.GlobalTheory.ClassFin.isIrreducible_toRepresentation_of_isAtom (σ : Subrepresentation ρ) (h : IsAtom σ) :
     σ.toRepresentation.IsIrreducible := by
-  let F : Subrepresentation σ.toRepresentation → Subrepresentation ρ := fun τ =>
-    ⟨τ.toSubmodule.map σ.toSubmodule.subtype, by
-      rintro g _ ⟨w, hw, rfl⟩
-      exact ⟨σ.toRepresentation g w, τ.apply_mem_toSubmodule g hw, rfl⟩⟩
-  have hinj : Function.Injective (Submodule.map σ.toSubmodule.subtype) :=
-    Submodule.map_injective_of_injective σ.toSubmodule.injective_subtype
-  have hle : ∀ τ, F τ ≤ σ := by
-    intro τ
-    show τ.toSubmodule.map σ.toSubmodule.subtype ≤ σ.toSubmodule
-    rw [Submodule.map_le_iff_le_comap]
-    intro w _
-    exact w.2
-  have hF : ∀ τ, F τ = ⊥ ∨ F τ = σ := fun τ => h.le_iff.mp (hle τ)
-  have hbot : ∀ τ, F τ = ⊥ → τ = ⊥ := by
-    intro τ hτ
-    apply Subrepresentation.ext
-    apply hinj
-    have := congrArg Subrepresentation.toSubmodule hτ
-    change _ = Submodule.map _ ⊥
-    rw [Submodule.map_bot]
-    exact this
-  have htop : ∀ τ, F τ = σ → τ = ⊤ := by
-    intro τ hτ
-    apply Subrepresentation.ext
-    apply hinj
-    have := congrArg Subrepresentation.toSubmodule hτ
-    simp only [F] at this
-    rw [this]
-    exact (Submodule.map_subtype_top σ.toSubmodule).symm
-  have hne : (⊥ : Subrepresentation σ.toRepresentation) ≠ ⊤ := by
-    intro he
-    apply h.1
-    have h1 : F ⊤ = σ := by
-      apply Subrepresentation.ext
-      exact Submodule.map_subtype_top σ.toSubmodule
-    have h2 : F ⊥ = ⊥ := by
-      apply Subrepresentation.ext
-      exact Submodule.map_bot _
-    rw [← h1, ← he, h2]
-  haveI : Nontrivial (Subrepresentation σ.toRepresentation) := ⟨⟨⊥, ⊤, hne⟩⟩
-  exact ⟨fun τ => (hF τ).imp (hbot τ) (htop τ)⟩
+  first | exact _root_.GlobalTheory.MaschkeForms.isIrreducible_of_isAtom | exact @_root_.GlobalTheory.MaschkeForms.isIrreducible_of_isAtom | apply _root_.GlobalTheory.MaschkeForms.isIrreducible_of_isAtom <;> assumption
 
 end
 

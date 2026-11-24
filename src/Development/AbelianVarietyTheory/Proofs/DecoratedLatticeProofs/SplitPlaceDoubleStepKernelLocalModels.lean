@@ -1,5 +1,7 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.ExistsLocalModelSliceSourceLine
+import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.LineContractionSplitPlaceLocalModel
 public import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.StandardOrderExtendedBasisApplyLowBlock
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.AddCharConductorAndHaarIntegersExist
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.FourierTransformInversionLocalFieldPi
@@ -566,39 +568,14 @@ variable {ρ : ℕ} {B : BesLev D ρ} {s : k} {n n' : Type} [Fintype n] [Decidab
 theorem up_fromCols_left (h : p.IsCoreFrame B s FA F₀) (hL : ∀ r, FL.β r () = s * p.pr (B.ζ r)) {S : HSp D}
     (FS : Frame k S.rank n) (x : Matrix n n' k) :
     p.up F₀ FS (fromCols x 0) = (B.o.resS S).symm (p.up FA FS x, 0) := by
-  have k1 : x * FA.γ * B.o.qA.map (p.π.comp (incA D)) * F₀.β = fromCols x (0 : Matrix n Unit k) := by
-    rw [beta_eq p h hL, Matrix.mul_fromCols]
-    simp only [Matrix.mul_assoc]
-    rw [← Matrix.mul_assoc (B.o.qA.map _) (B.o.iA.map _), ← Matrix.map_mul, B.o.qA_iA,
-      ← Matrix.mul_assoc (B.o.qA.map _) (B.o.iB.map _), ← Matrix.map_mul, B.o.qA_iB]
-    simp [FA.γβ]
-  have k2 : fromCols x (0 : Matrix n Unit k) * F₀.γ = x * FA.γ * B.o.qA.map (p.π.comp (incA D)) := by
-    rw [← k1, Matrix.mul_assoc (x * FA.γ * B.o.qA.map (p.π.comp (incA D))) F₀.β F₀.γ, F₀.βγ, Matrix.mul_one]
-  rw [resS_symm_apply, Matrix.zero_mul, add_zero]
-  unfold Place.up
-  rw [pA, map_ι_mul, rat_map_π]
-  congr 1
-  rw [Matrix.mul_assoc FS.β (fromCols x 0) F₀.γ, k2]
-  simp only [Matrix.mul_assoc]
+  intros
+  apply _root_.GlobalTheory.ContrModL.up_fromCols <;> assumption
 
 theorem resS_up_fst (h : p.IsCoreFrame B s FA F₀) (hL : ∀ r, FL.β r () = s * p.pr (B.ζ r)) {S : HSp D}
     (FS : Frame k S.rank n) (t : Matrix n (n' ⊕ Unit) k) :
     (B.o.resS S (p.up F₀ FS t)).1 = p.up FA FS t.toCols₁ := by
-  have k1 : t * F₀.γ * B.o.iA.map (p.π.comp (incA D)) * FA.β = t.toCols₁ := by
-    calc t * F₀.γ * B.o.iA.map (p.π.comp (incA D)) * FA.β
-        = ((t * F₀.γ) * fromCols (B.o.iA.map (p.π.comp (incA D)) * FA.β)
-            (B.o.iB.map (p.π.comp (incA D)) * FL.β)).toCols₁ := by
-          rw [Matrix.mul_fromCols, toCols₁_fromCols, Matrix.mul_assoc (t * F₀.γ)]
-      _ = ((t * F₀.γ) * F₀.β).toCols₁ := by rw [← beta_eq p h hL]
-      _ = t.toCols₁ := by rw [Matrix.mul_assoc, F₀.γβ, Matrix.mul_one]
-  have k2 : t * F₀.γ * B.o.iA.map (p.π.comp (incA D)) = t.toCols₁ * FA.γ := by
-    rw [← k1, Matrix.mul_assoc (t * F₀.γ * B.o.iA.map (p.π.comp (incA D))) FA.β FA.γ, FA.βγ, Matrix.mul_one]
-  rw [resS_apply]
-  dsimp only
-  unfold Place.up
-  rw [jA, map_ι_mul, rat_map_π]
-  simp only [Matrix.mul_assoc] at k2 ⊢
-  rw [k2]
+  intros
+  apply _root_.GlobalTheory.SliceModel.res_up <;> assumption
 
 end GlobalTheory.SliceLeft
 

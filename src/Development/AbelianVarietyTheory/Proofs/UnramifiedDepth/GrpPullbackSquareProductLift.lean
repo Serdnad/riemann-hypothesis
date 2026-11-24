@@ -49,6 +49,7 @@ import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRin
 import Std.Tactic.BVDecide.Normalize.Prop
 import ReciprocityTheory.DualLattices.CotangentSurjective
 import ReciprocityTheory.DualLattices.FormalChartAtZero
+import Development.AbelianVarietyTheory.Proofs.JetHarmonics.NonDegAtOfSabMap
 
 @[expose] public section
 
@@ -261,14 +262,7 @@ omit [IsCommMonObj G] [IsCommMonObj G'] in
 include gp in
 theorem adjPoints {X : Scheme.{0}} (a : X ⟶ S') (b : X ⟶ S) (hb : b = a ≫ σ) :
     ∃ e : (Over.mk a ⟶ G') ≃* (Over.mk b ⟶ G), ∀ x, (e x).left = x.left ≫ φ := by
-  subst hb
-  let ρ : (Over.mk a ⟶ G') →* (Over.mk (a ≫ σ) ⟶ G) := pushHom gp (Over.mk a)
-  have hρ : ∀ x, (ρ x).left = x.left ≫ φ := fun _ => rfl
-  refine ⟨MulEquiv.ofBijective ρ ⟨fun x y hxy => ?_, fun y => ?_⟩, hρ⟩
-  · refine Over.OverMorphism.ext (gp.1.hom_ext ?_ ((Over.w x).trans (Over.w y).symm))
-    exact (hρ x).symm.trans ((congrArg (fun z => z.left) hxy).trans (hρ y))
-  · exact ⟨Over.homMk (gp.1.lift y.left a (Over.w y)) (gp.1.lift_snd _ _ _),
-      Over.OverMorphism.ext ((hρ _).trans (gp.1.lift_fst _ _ _))⟩
+  apply _root_.GlobalTheory.AlphaPair.exists_ptEquiv <;> assumption
 
 end Geometry
 

@@ -1,5 +1,7 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.ExistsSobolevBoundThetaPointwise
+import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.ThetaSobolevSeminormSubTendstoZeroOfWordsUnif
 public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.SobContId
 public import Development.AbelianVarietyTheory.Definitions.Foundations.AestronglyMeasurableQuotMeasureIffLift
 import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.CovolOneIntegralAdd
@@ -260,15 +262,7 @@ namespace UpperTheory.Lit.Rallis.ThetaDensSup
 open GlobalTheory
 
 theorem sup_le_sobO : ∀ (D : D7) (ψ : AddChar (AF D.host.F) ℂ), IsStdChar D ψ (-1) → ∀ θ : InfFam D, IsInfFam θ → ∀ S T : HSp D, ∀ (μ : Measure (WO S T)) (𝓕 : Set (WO S T)), IsCovolOne (ratL T S) μ 𝓕 → ∀ U : AddSubgroup (WO S T), IsOpen (U : Set (WO S T)) → ∃ (d : ℕ) (C : ℝ≥0), ∀ f ∈ thetaLevel ψ S T U, ∀ w, ‖f w‖ₑ ≤ C * sobO ψ θ μ 𝓕 d f := by
-  intro D ψ hψ θ hθ S T μ 𝓕 hm U hU
-  haveI : LocallyCompactSpace (WO S T) := (GlobalTheory.MixModel.lattice_Mx D T.rank S.rank).2.1
-  obtain ⟨K₀, hK₀n, hK₀U, hK₀c⟩ := local_compact_nhds (hU.mem_nhds U.zero_mem)
-  obtain ⟨C, hC⟩ := GlobalTheory.LevelSupBound.pointwise (S := S) (T := T) hψ hθ hK₀n hK₀c
-  refine ⟨Module.finrank ℝ (GlobalTheory.FockCompare.RW T S), C, fun f hf w => ?_⟩
-  have h := hC μ 𝓕 hm 1 one_pos f hf.1 (fun u hu hinf => by rw [one_smul]; exact hf.2 u (hK₀U hu) hinf) w
-  refine h.trans (le_of_eq ?_)
-  congr 1
-  simp
+  apply _root_.GlobalTheory.ThetaDensSup.sup_le_sobO <;> assumption
 
 end UpperTheory.Lit.Rallis.ThetaDensSup
 end
@@ -366,16 +360,7 @@ theorem eLpNorm_sub_tendsto_of_unif {X : Type} [MeasurableSpace X] (ν : Measure
     (g : ℕ → X → ℂ) (f : X → ℂ) (hm : ∀ j, AEStronglyMeasurable (g j - f) ν)
     (h : TendstoUniformly g f Filter.atTop) :
     Filter.Tendsto (fun j => eLpNorm (g j - f) 2 ν) Filter.atTop (nhds 0) := by
-  rw [ENNReal.tendsto_nhds_zero]
-  intro ε hε
-  obtain ⟨δ, hδ0, hδ⟩ := ENNReal.lt_iff_exists_nnreal_btwn.1 hε
-  have hδ0' : (0 : ℝ) < δ := by exact_mod_cast hδ0
-  filter_upwards [Metric.tendstoUniformly_iff.1 h δ hδ0'] with j hj
-  have hb : ∀ᵐ x ∂ν, ‖(g j - f) x‖ ≤ δ := Filter.Eventually.of_forall fun x => by
-    have := (hj x).le
-    rwa [dist_comm, dist_eq_norm] at this
-  refine (eLpNorm_le_of_ae_bound (hm j) hb).trans ?_
-  simpa [hν] using hδ.le
+  apply _root_.GlobalTheory.ThetaDens.eLpNorm_sub_tendsto_of_unif <;> assumption
 
 theorem wordAct_heisDer_sub {D : D7} {ψ : AddChar (AF D.host.F) ℂ} (hψ : IsStdChar D ψ (-1)) {θ : InfFam D}
     (hθ : IsInfFam θ) {S T : HSp D} {f g : WO S T → ℂ} (hf : IsThetaFunO ψ S T f) (hg : IsThetaFunO ψ S T g)
@@ -392,20 +377,7 @@ theorem wordAct_heisDer_sub {D : D7} {ψ : AddChar (AF D.host.F) ℂ} (hψ : IsS
       (GlobalTheory.OrientedHeis.theta_smul _ (GlobalTheory.Size.theta_word hψ hθ l hg)), GlobalTheory.Size.dRho_smul]
 
 theorem sobO_sub_tendsto_zero : ∀ (D : D7) (ψ : AddChar (AF D.host.F) ℂ), IsStdChar D ψ (-1) → ∀ θ : InfFam D, IsInfFam θ → ∀ S T : HSp D, ∀ (μ : Measure (WO S T)) (𝓕 : Set (WO S T)), IsCovolOne (ratL T S) μ 𝓕 → ∀ (u : ℕ → WO S T → ℂ) (f : WO S T → ℂ), IsThetaFunO ψ S T f → (∀ j, IsThetaFunO ψ S T (u j)) → (∀ l : List (D.what₂.Tau × Fin T.rank × Fin S.rank × Bool), TendstoUniformly (fun j => GlobalTheory.Size.wordAct (GlobalTheory.Size.heisDer ψ θ) l (u j)) (GlobalTheory.Size.wordAct (GlobalTheory.Size.heisDer ψ θ) l f) Filter.atTop) → ∀ d, Filter.Tendsto (fun j => sobO ψ θ μ 𝓕 d (u j - f)) Filter.atTop (nhds 0) := by
-  intro D ψ hψ θ hθ S T μ 𝓕 hμ u f hf hu hl d
-  haveI : BorelSpace (WO S T) := ⟨rfl⟩
-  have key : ∀ l : List (D.what₂.Tau × Fin T.rank × Fin S.rank × Bool), Filter.Tendsto
-      (fun j => GlobalTheory.Size.l2O μ 𝓕 (GlobalTheory.Size.wordAct (GlobalTheory.Size.heisDer ψ θ) l (u j - f))) Filter.atTop (nhds 0) := by
-    intro l
-    simp only [wordAct_heisDer_sub hψ hθ (hu _) hf l, GlobalTheory.Size.l2O]
-    exact eLpNorm_sub_tendsto_of_unif _ (by rw [Measure.restrict_apply_univ]; exact hμ.2.2) _ _
-      (fun j => ((GlobalTheory.Size.theta_word hψ hθ l (hu j)).cont.sub
-        (GlobalTheory.Size.theta_word hψ hθ l hf).cont).aestronglyMeasurable) (hl l)
-  have := tendsto_finsetSum (Finset.range (d + 1)) fun k _ =>
-    tendsto_finsetSum (Finset.univ : Finset (Fin k → D.what₂.Tau × Fin T.rank × Fin S.rank × Bool))
-      fun a _ => key (List.ofFn a)
-  simp only [Finset.sum_const_zero] at this
-  exact this
+  apply _root_.GlobalTheory.ThetaDens.sobO_sub_tendsto_zero <;> assumption
 
 end UpperTheory.Lit.Rallis.ThetaDens
 end

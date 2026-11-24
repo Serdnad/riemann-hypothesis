@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.ContinuousOfMem
 public import Development.AbelianVarietyTheory.PublishedTheorems.GaloisCohomology₂.BaseChangeDefiniteUnitary
 public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.SplitsAlgebraMap
 import Mathlib.Algebra.Order.Floor.Extended
@@ -68,29 +69,11 @@ theorem coord_star' (τ : E →+* ℂ) (z : Cinf E) : coord τ (star z) = star (
   split_ifs <;> rfl
 
 theorem coord_conj (τ : E →+* ℂ) (z : Cinf E) : coord (ComplexEmbedding.conjugate τ) z = star (coord τ z) := by
-  have hne : ComplexEmbedding.conjugate τ ≠ τ := fun h =>
-    (InfinitePlace.isComplex_mk_iff.1 (IsTotallyComplex.isComplex (InfinitePlace.mk τ)))
-      (ComplexEmbedding.isReal_iff.2 h)
-  unfold coord
-  rw [InfinitePlace.mk_conjugate_eq]
-  rcases InfinitePlace.embedding_mk_eq τ with h | h
-  · rw [ite_eq_left h, ite_eq_right (by rw [h]; exact hne.symm)]
-    rfl
-  · rw [ite_eq_left h, ite_eq_right (by rw [h]; exact hne)]
-    simp
+  apply _root_.GlobalTheory.CoordinateEmbeddingSplits.coord_conjugate <;> assumption
 
 theorem entry_inv (τ : E →+* ℂ) (x : UA E n) (i j : Fin n) :
     (cEmb τ x⁻¹).val i j = star ((cEmb τ x).val j i) := by
-  have hx : Formalism.UG.cT (conjAd E) x.1.val * 1 * x.1.val = 1 := x.2
-  rw [Matrix.mul_one] at hx
-  have h1 : (x.1⁻¹).val = Formalism.UG.cT (conjAd E) x.1.val := Units.inv_eq_of_mul_eq_one_left hx
-  have h2 : ∀ y, pInf E (conjAd E y) = star (pInf E y) := fun y => by
-    change (infEq E).symm (infEq E _) = _
-    rw [RingEquiv.symm_apply_apply]
-    rfl
-  change coord τ (pInf E ((x.1⁻¹).val i j)) = star (coord τ (pInf E (x.1.val j i)))
-  rw [h1, ← coord_star', ← h2]
-  rfl
+  apply _root_.GlobalTheory.CoordinateEmbeddingSplits.cEmb_inv <;> assumption
 
 theorem eq_of_entry {x y : infU E n} (h : ∀ τ i j, (cEmb τ x.1).val i j = (cEmb τ y.1).val i j) : x = y := by
   refine Subtype.ext (Subtype.ext (ga_ext ?_ ?_))

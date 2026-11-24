@@ -1,5 +1,6 @@
 module
 
+import GroundTheory.ArithmeticGeometry.AbelianVarieties.FormalGroupInverse
 public import Formalism.LocalToGlobal.TorsionIntegrality.FrobeniusFibreCurves.StatementA
 public import Formalism.FormalGroupLog.FormalGroupLogProofs.ChainRule
 public import Formalism.ThetaLogCoordinates.UniformThetaSubstitution.FrobeniusLiftNorms.TopsChoicePartA
@@ -288,22 +289,10 @@ theorem coeff_dq {K : Type} [Field K] [CharZero K] (P : PowerSeries K) (n : Fin 
       if Even (n 0) ∧ Even (n 1) then PowerSeries.coeff (n 0 + n 1 + 2) P else 0 := rfl
 
 theorem eq_single_zero_iff (n : Fin 2 →₀ ℕ) : n = Finsupp.single 0 (n 0) ↔ n 1 = 0 := by
-  constructor
-  · intro h
-    rw [h]
-    simp
-  · intro h
-    ext a
-    fin_cases a <;> simp [h]
+  apply _root_.GroundTheory.Arith.Abelian.fin_two_eq_single_zero_iff <;> assumption
 
 theorem eq_single_one_iff (n : Fin 2 →₀ ℕ) : n = Finsupp.single 1 (n 1) ↔ n 0 = 0 := by
-  constructor
-  · intro h
-    rw [h]
-    simp
-  · intro h
-    ext a
-    fin_cases a <;> simp [h]
+  apply _root_.GroundTheory.Arith.Abelian.fin_two_eq_single_one_iff <;> assumption
 
 theorem difference_quotient_rule_holds : DqRule := by
   intro K _ _ P hodd

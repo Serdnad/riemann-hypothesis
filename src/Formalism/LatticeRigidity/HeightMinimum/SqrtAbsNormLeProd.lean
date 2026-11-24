@@ -1,5 +1,6 @@
 module
 
+import Formalism.LocalToGlobal.CMDeterminantIdeals.CMIdealValuations.OneLeAbsNormOfLeOne
 public import Formalism.LatticeRigidity.StatementC
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -107,15 +108,7 @@ theorem sqrt_absNorm_le_prod (b : FractionalIdeal (nonZeroDivisors (𝓞 E)) E) 
 
 theorem absNorm_pos (b : FractionalIdeal (nonZeroDivisors (𝓞 E)) E) (hb : b ≠ 0) :
     (0 : ℝ) < (FractionalIdeal.absNorm b : ℝ) := by
-  have h : FractionalIdeal.absNorm b * FractionalIdeal.absNorm b⁻¹ = 1 := by
-    rw [← map_mul, mul_inv_cancel₀ hb, map_one]
-  have h0 := FractionalIdeal.absNorm_nonneg b
-  have hq : (0 : ℚ) < FractionalIdeal.absNorm b := by
-    refine lt_of_le_of_ne h0 ?_
-    intro h'
-    rw [← h', zero_mul] at h
-    exact zero_ne_one h
-  exact_mod_cast hq
+  apply _root_.Formalism.L2.LamCM.absNorm_pos' <;> assumption
 
 private theorem absNorm_le_prod_infinitePlace_sq (b : FractionalIdeal (nonZeroDivisors (𝓞 E)) E) (hb : b ≠ 0)
     (l : E) (hl : l ∈ b) (hl0 : l ≠ 0) :

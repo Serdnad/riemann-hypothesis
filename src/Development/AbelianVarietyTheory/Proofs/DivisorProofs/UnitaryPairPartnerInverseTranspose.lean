@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.DoubledUnitaryPartnerDiagStatement
 public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.WeilTensorModels
 public import Development.AbelianVarietyTheory.Proofs.HeightProofs.EmbeddingXiZeroNeZero
 public import Development.AbelianVarietyTheory.Proofs.HeightProofs.IsFundamentalDomainOfHaar
@@ -86,59 +87,7 @@ theorem pair_partner : ∀ (D : D7) (S T : HSp D) (JA : Matrix (Fin T.rank) (Fin
     ξ • incM D.host.F JB = incM D.host.F (D.host.xi0 • S.gram⁻¹) →
     ∀ (a : GlobalTheory.WeilM.UG (GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.cA D.sp.cm.sig) (incM D.host.F JA))
       (b : GlobalTheory.WeilM.UG (GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.cA D.sp.cm.sig) (incM D.host.F JB)),
-      ∃ (g : GA D S) (h : GA D T), mt T h = a.1.1 ∧ mt S g = (b⁻¹).1.1ᵀ := by
-  intro D S T JA JB ξ hA hB a b
-  have hmap : ∀ {m n : Type} (X : Matrix m n (AE D)),
-      X.map (Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes.sigR (AF D.host.F) D.sp.cm.sig) = X.map (GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.cA D.sp.cm.sig) :=
-    fun X => Matrix.ext fun i j => rfl
-
-  have ha : (a.1.val)ᵀ * incM D.host.F JA * (a.1.val).map (GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.cA D.sp.cm.sig) = incM D.host.F JA := a.2
-  set A : Matrix (Fin T.rank) (Fin T.rank) (AE D) := a.1.val with hAdef
-  have hJA : incM D.host.F JA = (incM D.host.F T.gram)ᵀ := by
-    rw [hA]; rfl
-  rw [hJA] at ha
-  have ha' := congrArg Matrix.transpose ha
-  simp only [Matrix.transpose_mul, Matrix.transpose_transpose, Matrix.mul_assoc] at ha'
-  have hmemA : a.1 ∈ Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes.HR (AF D.host.F) D.sp.cm.sig T.gram := by
-    show Formalism.UG.cT _ a.1.val * _ * a.1.val = _
-    simp only [Formalism.UG.cT, hmap]
-    rw [Matrix.mul_assoc]
-    exact ha'
-
-  obtain ⟨cR, hcR⟩ : ∃ f, Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes.sigR (AF D.host.F) D.sp.cm.sig = f := ⟨_, rfl⟩
-  have hb : (b.1.val)ᵀ * incM D.host.F JB * (b.1.val).map cR = incM D.host.F JB := by
-    rw [← hcR, hmap]; exact b.2
-  have hBB : b.1.val * (b⁻¹).1.val = 1 := by
-    rw [Subgroup.coe_inv]; exact (b.1).mul_inv
-  have hBB' : (b⁻¹).1.val * b.1.val = 1 := by
-    rw [Subgroup.coe_inv]; exact (b.1).inv_mul
-  obtain ⟨B, hBdef⟩ : ∃ B : Matrix (Fin S.rank) (Fin S.rank) (AE D), b.1.val = B := ⟨_, rfl⟩
-  obtain ⟨Bi, hBidef⟩ : ∃ B : Matrix (Fin S.rank) (Fin S.rank) (AE D), (b⁻¹).1.val = B := ⟨_, rfl⟩
-  rw [hBdef] at hb hBB hBB'
-  rw [hBidef] at hBB hBB'
-  have hGN := GlobalTheory.WeilPairPartner.map_mul_map_inv (inclR (F := D.host.F) (E := D.host.E) (AF D.host.F)) S.gram
-    (GlobalTheory.VolHeckeCompare.gram_det_ne_zero S)
-  have hNG := GlobalTheory.WeilPairPartner.map_inv_mul_map (inclR (F := D.host.F) (E := D.host.E) (AF D.host.F)) S.gram
-    (GlobalTheory.VolHeckeCompare.gram_det_ne_zero S)
-  have hsm : incM D.host.F (D.host.xi0 • S.gram⁻¹) = inclR (F := D.host.F) (AF D.host.F) D.host.xi0 •
-      incM D.host.F S.gram⁻¹ :=
-    GlobalTheory.WeilPairPartner.map_smul_eq _ _ _
-  have hu : IsUnit (inclR (F := D.host.F) (AF D.host.F) D.host.xi0) :=
-    (isUnit_iff_ne_zero.mpr (GlobalTheory.DualPairCompare.embedding_xi_zero_ne_zero D)).map _
-  have hcore := GlobalTheory.WeilPairPartner.conj_inv_transpose cR ξ _ hu B Bi (incM D.host.F JB) (incM D.host.F S.gram)
-    (incM D.host.F S.gram⁻¹) hb hBB hBB' (hB.trans hsm) hGN hNG
-  have hTT : Biᵀ * Bᵀ = 1 := by
-    rw [← Matrix.transpose_mul, hBB, Matrix.transpose_one]
-  let gU : GL (Fin S.rank) (AE D) :=
-    ⟨Biᵀ, Bᵀ, hTT, by rw [← Matrix.transpose_mul, hBB', Matrix.transpose_one]⟩
-  have hmemB : gU ∈ Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes.HR (AF D.host.F) D.sp.cm.sig S.gram := by
-    show Formalism.UG.cT (Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes.sigR (AF D.host.F) D.sp.cm.sig) Biᵀ * incM D.host.F S.gram * Biᵀ =
-      incM D.host.F S.gram
-    rw [hcR]
-    simp only [Formalism.UG.cT, Matrix.transpose_map, Matrix.transpose_transpose]
-    exact hcore
-  refine ⟨⟨gU, hmemB⟩, ⟨a.1, hmemA⟩, rfl, ?_⟩
-  show Biᵀ = ((b⁻¹).1.val)ᵀ
-  rw [hBidef]
+      ∃ (g : GA D S) (h : GA D T), mt T h = a.1.1 ∧ mt S g = (b⁻¹).1.1ᵀ :=
+  _root_.GlobalTheory.T.unitaryPair_of_transposedGram_inverseGram
 
 end GlobalTheory.WeilPairPartner

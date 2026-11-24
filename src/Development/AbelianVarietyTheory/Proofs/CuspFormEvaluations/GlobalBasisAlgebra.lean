@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.ExistsTangentModuleUniversalGroup
 public import Formalism.LocalToGlobal.ProjectiveLattices.IsChartIff
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -315,56 +316,7 @@ theorem smT_unit (v : overAt x0 (DualNumber S) ⟶ G) : smT x0 1 v = v := by
 
 theorem smT_add (v : overAt x0 (DualNumber S) ⟶ G) (h0 : smT x0 0 v = 1) (a b : S) :
     smT x0 (a + b) v = smT x0 a v * smT x0 b v := by
-  let m : DualNumber S →ₐ[S] TrivSqZeroExt S (S × S) := TrivSqZeroExt.map (LinearMap.prod LinearMap.id LinearMap.id)
-  let i1 : DualNumber S →ₐ[S] TrivSqZeroExt S (S × S) := TrivSqZeroExt.map (LinearMap.inl S S S)
-  let i2 : DualNumber S →ₐ[S] TrivSqZeroExt S (S × S) := TrivSqZeroExt.map (LinearMap.inr S S S)
-  let q1 : TrivSqZeroExt S (S × S) →ₐ[S] DualNumber S := TrivSqZeroExt.map (LinearMap.fst S S S)
-  let q2 : TrivSqZeroExt S (S × S) →ₐ[S] DualNumber S := TrivSqZeroExt.map (LinearMap.snd S S S)
-  let qa : TrivSqZeroExt S (S × S) →ₐ[S] DualNumber S :=
-    TrivSqZeroExt.map (LinearMap.coprod (a • LinearMap.id) (b • LinearMap.id))
-  have h0' : homAt x0 (tm ((0 : S) • (LinearMap.id : S →ₗ[S] S))) ≫ v = 1 := h0
-  have key : homAt x0 m ≫ v = homAt x0 i1 ≫ v * homAt x0 i2 ≫ v := by
-    have e1 : homAt x0 q1 ≫ (homAt x0 m ≫ v) = homAt x0 q1 ≫ (homAt x0 i1 ≫ v * homAt x0 i2 ≫ v) := by
-      have c1 : q1.comp m = AlgHom.id S _ :=
-        AlgHom.ext fun z => TrivSqZeroExt.ext (by simp [q1, m]) (by simp [q1, m])
-      have c2 : q1.comp i1 = AlgHom.id S _ :=
-        AlgHom.ext fun z => TrivSqZeroExt.ext (by simp [q1, i1]) (by simp [q1, i1])
-      have c3 : q1.comp i2 = tm ((0 : S) • (LinearMap.id : S →ₗ[S] S)) :=
-        AlgHom.ext fun z => TrivSqZeroExt.ext (by simp [q1, i2, tm]) (by simp [q1, i2, tm])
-      simp only [MonObj.comp_mul, ← Category.assoc, homAt_comp, c1, c2, c3, homAt_id, Category.id_comp, h0',
-        _root_.mul_one]
-    have e2 : homAt x0 q2 ≫ (homAt x0 m ≫ v) = homAt x0 q2 ≫ (homAt x0 i1 ≫ v * homAt x0 i2 ≫ v) := by
-      have c1 : q2.comp m = AlgHom.id S _ :=
-        AlgHom.ext fun z => TrivSqZeroExt.ext (by simp [q2, m]) (by simp [q2, m])
-      have c2 : q2.comp i1 = tm ((0 : S) • (LinearMap.id : S →ₗ[S] S)) :=
-        AlgHom.ext fun z => TrivSqZeroExt.ext (by simp [q2, i1, tm]) (by simp [q2, i1, tm])
-      have c3 : q2.comp i2 = AlgHom.id S _ :=
-        AlgHom.ext fun z => TrivSqZeroExt.ext (by simp [q2, i2]) (by simp [q2, i2])
-      simp only [MonObj.comp_mul, ← Category.assoc, homAt_comp, c1, c2, c3, homAt_id, Category.id_comp, h0',
-        _root_.one_mul]
-    apply Over.OverMorphism.ext
-    refine spec_ext_two (q1 : TrivSqZeroExt S (S × S) →+* DualNumber S) (q2 : TrivSqZeroExt S (S × S) →+* DualNumber S)
-      ?_ ?_ ?_ _ _ (congrArg Over.Hom.left e1) (congrArg Over.Hom.left e2)
-    · intro z
-      exact ⟨TrivSqZeroExt.inl z.fst + TrivSqZeroExt.inr (z.snd, 0),
-        TrivSqZeroExt.ext (by simp [q1]) (by simp [q1])⟩
-    · intro z hz
-      have h1 : z.fst = 0 := by simpa [q1] using congrArg TrivSqZeroExt.fst hz
-      exact TrivSqZeroExt.ext (by simp [h1]) (by simp [h1])
-    · intro z hz1 hz2
-      have h1 : z.fst = 0 := by simpa [q1] using congrArg TrivSqZeroExt.fst hz1
-      have h2 : z.snd.1 = 0 := by simpa [q1] using congrArg TrivSqZeroExt.snd hz1
-      have h3 : z.snd.2 = 0 := by simpa [q2] using congrArg TrivSqZeroExt.snd hz2
-      exact TrivSqZeroExt.ext h1 (Prod.ext h2 h3)
-  have ca : qa.comp m = tm ((a + b) • (LinearMap.id : S →ₗ[S] S)) :=
-    AlgHom.ext fun z => TrivSqZeroExt.ext (by simp [qa, m, tm]) (by simp [qa, m, tm, add_smul])
-  have cb1 : qa.comp i1 = tm (a • (LinearMap.id : S →ₗ[S] S)) :=
-    AlgHom.ext fun z => TrivSqZeroExt.ext (by simp [qa, i1, tm]) (by simp [qa, i1, tm])
-  have cb2 : qa.comp i2 = tm (b • (LinearMap.id : S →ₗ[S] S)) :=
-    AlgHom.ext fun z => TrivSqZeroExt.ext (by simp [qa, i2, tm]) (by simp [qa, i2, tm])
-  have e := congrArg (homAt x0 qa ≫ ·) key
-  simp only [MonObj.comp_mul, ← Category.assoc, homAt_comp, ca, cb1, cb2] at e
-  exact e
+  first | exact _root_.GlobalTheory.TanMod.smT_add | exact @_root_.GlobalTheory.TanMod.smT_add | apply _root_.GlobalTheory.TanMod.smT_add <;> assumption
 
 section Comb
 

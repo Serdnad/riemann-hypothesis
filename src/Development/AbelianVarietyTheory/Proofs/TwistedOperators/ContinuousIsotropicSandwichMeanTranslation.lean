@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.EqZeroOfAeFundamentalDomain
 public import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.CovolOneIntegralAdd
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.CoefIntegralEq
 import Development.AbelianVarietyTheory.Proofs.HeightProofs.IsTopologicalRingAE
@@ -51,17 +52,8 @@ namespace GlobalTheory.IsoMean
 
 theorem isThetaFunO_bounded {D : D7} (V W : HSp D) (ψ : AddChar (AF D.host.F) ℂ) (hψ : IsStdChar D ψ (-1))
     (F : WO V W → ℂ) (hF : IsThetaFunO ψ V W F) : ∃ C : ℝ, ∀ x, ‖F x‖ ≤ C := by
-  obtain ⟨-, -, -, -, -, K, hK, hKc⟩ := GlobalTheory.MixModel.lattice_Mx D W.rank V.rank
-  obtain ⟨C, hC⟩ := hK.exists_bound_of_continuousOn hF.cont.continuousOn
-  refine ⟨C, fun x => ?_⟩
-  obtain ⟨γ, ⟨γ', rfl⟩, hx⟩ := hKc x
-  have hq := hF.quasi γ' x
-  have e : (((incA D).toAddMonoidHom.mapMatrix (m := Fin W.rank) (n := Fin V.rank)) γ') = ratW W V γ' := rfl
-  rw [e] at hx
-  have h1 := hψ.1.2.1 (-(symplOH V W (ratW W V γ') x))
-  have := hC _ hx
-  rw [hq, norm_mul, h1, one_mul] at this
-  exact this
+  intros
+  apply _root_.GlobalTheory.WeilVacMove.exists_bound <;> assumption
 
 theorem continuous_emb {D : D7} (V W : HSp D) {a b : ℕ} (P : Matrix (Fin W.rank) (Fin a) D.host.E)
     (Q : Matrix (Fin b) (Fin V.rank) D.host.E) : Continuous (emb V W P Q) := by

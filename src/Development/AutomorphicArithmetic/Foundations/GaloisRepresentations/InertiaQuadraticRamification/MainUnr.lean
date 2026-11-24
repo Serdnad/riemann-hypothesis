@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.UnramifiedCocycleKillsRoots
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.InertiaQuadraticRamification.UnrCharAtOf
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.InertiaQuadraticRamification.InertSplitAlt
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.InertiaQuadraticRamification.InertiaGenAlt
@@ -20,6 +21,7 @@ public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.ExistsOpe
 public import Development.AbelianVarietyTheory.PublishedTheorems.GaloisCohomology₂.ExistsCoprimePowOfMemIneKer
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.InertiaQuadraticRamification.DecPow
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.InertiaQuadraticRamification.InfinitelyManyRealQuadraticSteps
+import all Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.InertiaQuadraticRamification.InfinitelyManyRealQuadraticSteps
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -343,16 +345,7 @@ private theorem res_ine {F Ω : Type} [Field F] [NumberField F] [Field Ω] [Char
 
 private theorem eq_of_natCast_mem {p : ℕ} (hp : p.Prime) {a b : HeightOneSpectrum (𝓞 ℚ)}
     (ha : ((p : ℕ) : 𝓞 ℚ) ∈ a.asIdeal) (hb : ((p : ℕ) : 𝓞 ℚ) ∈ b.asIdeal) : a = b := by
-  have hpZ : Prime (p : ℤ) := Nat.prime_iff_prime_int.mp hp
-  haveI hM : (Ideal.span {(p : ℤ)}).IsMaximal :=
-    PrincipalIdealRing.isMaximal_of_irreducible hpZ.irreducible
-  have hmax : (Ideal.span {((p : ℕ) : 𝓞 ℚ)}).IsMaximal := by
-    have h := Ideal.map_isMaximal_of_equiv Rat.ringOfIntegersEquiv.symm (p := Ideal.span {(p : ℤ)})
-    rwa [Ideal.map_span, Set.image_singleton, map_natCast] at h
-  have key : ∀ c : HeightOneSpectrum (𝓞 ℚ), ((p : ℕ) : 𝓞 ℚ) ∈ c.asIdeal →
-      c.asIdeal = Ideal.span {((p : ℕ) : 𝓞 ℚ)} := fun c hc =>
-    (hmax.eq_of_le c.isPrime.ne_top ((Ideal.span_singleton_le_iff_mem _).2 hc)).symm
-  exact HeightOneSpectrum.ext ((key a ha).trans (key b hb).symm)
+  apply _root_.GlobalTheory.PlaceConjQ.eq_of_prime_mem <;> assumption
 
 private theorem natCast_normV_mem (u : HeightOneSpectrum (𝓞 ℚ)) (h : (normV u).Prime) :
     ((normV u : ℕ) : 𝓞 ℚ) ∈ u.asIdeal := by
@@ -1200,14 +1193,7 @@ open UpperTheory.Gal.UnramifiedFromSplittingCriterion
 private theorem chi_of_pow {F Ω : Type} [Field F] [Field Ω] [Algebra F Ω] {p : ℕ} [Fact p.Prime] {ζ : Ω}
     (hζ : IsPrimitiveRoot ζ p) (g : G F Ω) (k : ℕ) (h : g ζ = ζ ^ k) :
     ((hζ.autToPow F g : (ZMod p)ˣ) : ZMod p) = (k : ZMod p) := by
-  have hp : 0 < p := (Fact.out : p.Prime).pos
-  have h1 := IsPrimitiveRoot.autToPow_spec F hζ g
-  have h2 : ζ ^ (k % p) = ζ ^ k := by
-    conv_lhs => rw [hζ.eq_orderOf]
-    exact pow_mod_orderOf ζ k
-  rw [h, ← h2] at h1
-  have h3 := hζ.pow_inj (ZMod.val_lt _) (Nat.mod_lt _ hp) h1
-  rw [← ZMod.natCast_mod k p, ← h3, ZMod.natCast_val, ZMod.cast_id', id]
+  apply _root_.chi_of_pow <;> assumption
 
 private theorem chi_one {F Ω : Type} [Field F] [Field Ω] [Algebra F Ω] {p : ℕ} [Fact p.Prime] {ζ : Ω}
     (hζ : IsPrimitiveRoot ζ p) (g : G F Ω) (h : g ζ = ζ) : hζ.autToPow F g = 1 := by
@@ -1224,17 +1210,7 @@ private theorem exists_prim {F Ω : Type} [Field F] [NumberField F] [Field Ω] [
 private theorem chi_conj {F Ω : Type} [Field F] [Field Ω] [Algebra F Ω] {p : ℕ} [Fact p.Prime] {ζ : Ω}
     (hζ : IsPrimitiveRoot ζ p) (j : Ω →+* ℂ) (c : G F Ω) (hc : ∀ x, j (c x) = starRingEnd ℂ (j x)) :
     hζ.autToPow F c = -1 := by
-  have hp : p.Prime := Fact.out
-  have hjζ : IsPrimitiveRoot (j ζ) p := hζ.map_of_injective j.injective
-  have hn : ‖j ζ‖ = 1 := hjζ.norm'_eq_one hp.ne_zero
-  have hne : j ζ ≠ 0 := hjζ.ne_zero hp.ne_zero
-  have h1 : c ζ = ζ ^ (p - 1) := by
-    apply j.injective
-    rw [hc, ← Complex.inv_eq_conj hn, map_pow]
-    apply inv_eq_of_mul_eq_one_right
-    rw [← pow_succ', Nat.sub_add_cancel hp.one_le, hjζ.pow_eq_one]
-  apply Units.ext
-  rw [chi_of_pow hζ c _ h1, Nat.cast_sub hp.one_le, ZMod.natCast_self, Nat.cast_one, zero_sub, Units.val_neg, Units.val_one]
+  apply _root_.chi_conj <;> assumption
 
 private theorem good_ker {F Ω : Type} [Field F] [NumberField F] [Field Ω] [Algebra F Ω] [IsAlgClosure F Ω] {p : ℕ}
     [Fact p.Prime] {ζ : Ω} (hζ : IsPrimitiveRoot ζ p) (lam : (ZMod p)ˣ →* ℂˣ) (h1 : lam (-1) = 1) :

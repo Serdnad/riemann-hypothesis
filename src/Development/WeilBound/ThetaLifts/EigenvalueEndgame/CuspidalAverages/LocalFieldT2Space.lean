@@ -51,6 +51,7 @@ import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
 import Mathlib.RingTheory.PiTensorProduct
 import Mathlib.Tactic.Linter.HaveILetI
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.CharacterTrivialMatrixLatticeOpenCompactBasis
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.WeilBound.ThetaLifts.EigenvalueEndgame.CuspidalAverages.ZariskiLocallyAffineLine, Development.WeilBound.ThetaLifts.EigenvalueEndgame.CuspidalAverages.LocalFieldT2Space
@@ -293,16 +294,7 @@ theorem local_field_t2Space : T2Space k := by
 
 variable (k) in
 theorem loc_neBot : NeBot (𝓝[≠] (0 : k)) := by
-  rw [← mem_closure_iff_nhdsWithin_neBot, mem_closure_iff_nhds]
-  intro s hs
-  obtain ⟨r, hr, hrs⟩ := (IsValuativeTopology.hasBasis_nhds_zero' k).mem_iff.mp hs
-  obtain ⟨p, hp0, hp⟩ := Valuation.IsNontrivial.exists_lt_one (v := ValuativeRel.valuation k)
-  obtain ⟨y, rfl⟩ := ValuativeRel.valuation_surjective r
-  have hy : y ≠ 0 := by simpa using hr
-  refine ⟨y * p, hrs ?_, mul_ne_zero hy (by simpa using hp0)⟩
-  show ValuativeRel.valuation k (y * p) < _
-  rw [map_mul]
-  exact mul_lt_of_lt_one_right (zero_lt_iff.2 hr) hp
+  apply _root_.GlobalTheory.LinSchurLatt.nhdsNE_neBot' <;> assumption
 
 
 variable (k n d) in

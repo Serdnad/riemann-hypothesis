@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.EtaleHermitianPairStructureFacts
 public import Mathlib.LinearAlgebra.Matrix.Charpoly.Basic
 public import Mathlib.Topology.Instances.Matrix
 import Mathlib.Algebra.Order.Floor.Extended
@@ -54,18 +55,7 @@ namespace GlobalTheory.TypeLeaf
 theorem continuous_charpoly_coeff_of_matrix {K : Type} [CommRing K] [TopologicalSpace K]
     [IsTopologicalRing K] (n i : ℕ) :
     Continuous fun M : Matrix (Fin n) (Fin n) K => M.charpoly.coeff i := by
-
-  have key : ∀ M : Matrix (Fin n) (Fin n) K, M.charpoly.coeff i =
-      MvPolynomial.eval (fun p : Fin n × Fin n => M p.1 p.2)
-        ((Matrix.charpoly.univ K (Fin n)).coeff i) := fun M =>
-    (Matrix.charpoly.univ_coeff_eval₂Hom (Fin n) (RingHom.id K)
-      (fun p : Fin n × Fin n => M p.1 p.2) i).symm
-  have hfun : (fun M : Matrix (Fin n) (Fin n) K => M.charpoly.coeff i) = fun M =>
-      MvPolynomial.eval (fun p : Fin n × Fin n => M p.1 p.2)
-        ((Matrix.charpoly.univ K (Fin n)).coeff i) := funext key
-  rw [hfun]
-  exact (MvPolynomial.continuous_eval _).comp
-    (continuous_pi fun p => continuous_id.matrix_elem p.1 p.2)
+  first | exact _root_.GlobalTheory.JR.OKCompact.continuous_coeff_charpoly | exact @_root_.GlobalTheory.JR.OKCompact.continuous_coeff_charpoly | apply _root_.GlobalTheory.JR.OKCompact.continuous_coeff_charpoly <;> assumption
 
 theorem charpoly_eq_of_dense :
     ∀ (Γ : Type) [TopologicalSpace Γ] (K : Type) [CommRing K] [TopologicalSpace K]

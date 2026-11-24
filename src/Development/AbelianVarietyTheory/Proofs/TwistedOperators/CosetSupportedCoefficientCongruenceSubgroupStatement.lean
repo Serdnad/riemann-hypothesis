@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.PadOneMemSecondBlockTriangular
 public import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.IsCoreLat
 public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.SelfDualLatticePairingDual
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsNsmulIntMemLatO
@@ -571,15 +572,7 @@ theorem latO_comm {D : D7} (S T : HSp D) {A A' : Submodule (𝓞 D.host.E) (Fin 
     (hA' : Submodule.IsFullLattice D.host.E A') (hB' : Submodule.IsFullLattice D.host.E B') : ∃ N : ℕ, 0 < N ∧
     ∀ y ∈ latO S T (A : Set (Fin S.rank → D.host.E)) (B : Set (Fin T.rank → D.host.E)) (fun _ => True),
       N • y ∈ latO S T (A' : Set (Fin S.rank → D.host.E)) (B' : Set (Fin T.rank → D.host.E)) (fun _ => True) := by
-  obtain ⟨M, hM, hden⟩ := GlobalTheory.PlaceDatum.exists_den_latO (S := S) (T := T) hA hB
-  obtain ⟨K, hK, hKm⟩ := GlobalTheory.PlaceDatum.exists_nsmul_mem_latO (S := S) (T := T) hA' hB'
-  refine ⟨K * M, Nat.mul_pos hK hM, fun y hy => ?_⟩
-  rw [mul_smul]
-  refine hKm _ (Matrix.ext fun i j => ?_) fun i j => ?_
-  · rw [Matrix.map_apply, Matrix.smul_apply, nsmul_eq_mul, RingHom.map_mul, GlobalTheory.LatVac.infPart_of_mem hy i j,
-      mul_zero, Matrix.zero_apply]
-  · rw [Matrix.smul_apply, nsmul_eq_mul, RingHom.map_mul, map_natCast]
-    exact hden y hy i j
+  apply _root_.GlobalTheory.DiagLiftFix.exists_nsmul_latO <;> assumption
 
 theorem stdHom_eq {D : D7} (S T : HSp D) : GlobalTheory.AdForm.stdHom S T =
     latO S T (Formalism.L2.Col.stdLat D.host.E S.rank : Submodule (𝓞 D.host.E) (Fin S.rank → D.host.E))

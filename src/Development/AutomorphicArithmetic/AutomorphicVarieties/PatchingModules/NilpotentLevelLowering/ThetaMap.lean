@@ -1,5 +1,7 @@
 module
 
+import all Development.AutomorphicArithmetic.AutomorphicVarieties.PatchingModules.NilpotentLevelLowering.ThetaLoc
+import all Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.IwThetaEx
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.PatchingModules.NilpotentLevelLowering.LevelModule
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.IwHeckePairIwC
 import Mathlib.Algebra.Order.Floor.Extended
@@ -48,16 +50,7 @@ open scoped TensorProduct
 private theorem lt_imp_mul_prod_le_of_b_le_one_le_a_mul_le {G : Type} [CommGroup G] [LinearOrder G] [IsOrderedMonoid G] {n : ℕ}
     (a b : Fin n → G) (hb1 : ∀ l, b l ≤ 1) (hba : ∀ l, b l ≤ a l) (hab : ∀ l, a l * b l ≤ 1) :
     ∀ i j : Fin n, i < j → a i * ∏ l, b l ≤ a j := by
-  classical
-  intro i j hij
-  have hne : j ≠ i := ne_of_gt hij
-  have hsplit : ∏ l, b l = b i * (b j * ∏ l ∈ (Finset.univ.erase i).erase j, b l) := by
-    rw [Finset.mul_prod_erase _ _ (Finset.mem_erase.mpr ⟨hne, Finset.mem_univ j⟩),
-      Finset.mul_prod_erase _ _ (Finset.mem_univ i)]
-  calc a i * ∏ l, b l = (a i * b i) * (b j * ∏ l ∈ (Finset.univ.erase i).erase j, b l) := by
-        rw [hsplit, mul_assoc]
-    _ ≤ 1 * (b j * 1) := mul_le_mul' (hab i) (mul_le_mul' le_rfl (Finset.prod_le_one' (fun l _ => hb1 l)))
-    _ ≤ a j := by rw [one_mul, mul_one]; exact hba j
+  apply _root_.mul_prod_le_of_le_one_of_le_of_mul_le_one <;> assumption
 
 private theorem le_imp_mul_pow_sub_le_of_c_le_one_mul_le {G : Type} [CommGroup G] [LinearOrder G] [IsOrderedMonoid G] {n : ℕ}
     (a : Fin n → G) (c : G) (hc1 : c ≤ 1) (hc : ∀ i j : Fin n, i < j → a i * c ≤ a j) (i j : Fin n)
@@ -70,43 +63,6 @@ private theorem le_imp_mul_pow_sub_le_of_c_le_one_mul_le {G : Type} [CommGroup G
       _ ≤ a j * 1 * c ^ (n - (j : ℕ)) := mul_le_mul' (mul_le_mul' (hc i j h) (pow_le_one' hc1 d)) le_rfl
       _ = a j * c ^ (n - (j : ℕ)) := by rw [mul_one]
   · rw [h]
-
-private theorem thetaMap_split {k : Type} [Field k] [ValuativeRel k] {n : ℕ} (t : Fin n → kˣ) :
-    ∃ c : kˣ, ∀ s : Fin n → kˣ, (s = 1 ∨ s = t) → ∀ i j : Fin n, i ≤ j →
-      valuation k ((s i * c ^ (n - i) : kˣ) : k) ≤ valuation k ((s j * c ^ (n - j) : kˣ) : k) := by
-  classical
-  let φ : kˣ →* (ValueGroupWithZero k)ˣ := Units.map (valuation k).toMonoidWithZeroHom.toMonoidHom
-  have hφ : ∀ u : kˣ, valuation k (u : k) = ((φ u : (ValueGroupWithZero k)ˣ) : ValueGroupWithZero k) :=
-    fun u => rfl
-  let w : Fin n → kˣ := fun l => if φ (t l) ≤ 1 then t l else (t l)⁻¹
-  have hw1 : ∀ l, φ (w l) ≤ 1 := fun l => by
-    simp only [w]
-    split_ifs with h
-    · exact h
-    · rw [map_inv]; exact inv_le_one'.mpr (le_of_lt (not_le.mp h))
-  have hwa : ∀ l, φ (w l) ≤ φ (t l) := fun l => by
-    simp only [w]
-    split_ifs with h
-    · exact le_rfl
-    · rw [map_inv]
-      exact (inv_le_one'.mpr (le_of_lt (not_le.mp h))).trans (le_of_lt (not_le.mp h))
-  have hwab : ∀ l, φ (t l) * φ (w l) ≤ 1 := fun l => by
-    simp only [w]
-    split_ifs with h
-    · exact mul_le_one' h h
-    · rw [map_inv, mul_inv_cancel]
-  refine ⟨∏ l, w l, ?_⟩
-  have hC : φ (∏ l, w l) = ∏ l, φ (w l) := map_prod φ _ _
-  have hc1 : ∏ l, φ (w l) ≤ 1 := Finset.prod_le_one' (fun l _ => hw1 l)
-  intro s hs i j hij
-  rw [hφ, hφ, Units.val_le_val, map_mul, map_mul, map_pow, map_pow, hC]
-  rcases hs with h | h
-  · rw [h]
-    simpa using le_imp_mul_pow_sub_le_of_c_le_one_mul_le (fun _ => (1 : (ValueGroupWithZero k)ˣ)) _ hc1
-      (fun _ _ _ => by rw [one_mul]; exact hc1) i j hij
-  · rw [h]
-    exact le_imp_mul_pow_sub_le_of_c_le_one_mul_le (fun l => φ (t l)) _ hc1
-      (lt_imp_mul_prod_le_of_b_le_one_le_a_mul_le (fun l => φ (t l)) (fun l => φ (w l)) hw1 hwa hwab) i j hij
 
 private theorem thetaMap_dc {A M A' M' G : Type} [CommRing A] [AddCommGroup M] [Module A M] [CommRing A'] [AddCommGroup M']
     [Module A' M'] [Group G] (ρ : Representation A G M) (ρ' : Representation A' G M') (K K' : Subgroup G) (x : G)
@@ -141,7 +97,7 @@ theorem UpperTheory.V.Pa.Lev.thetaMap :
     change _ = f (((Θ j s).val x : M))
     rw [hΘ.1 j s hs x]
     exact thetaMap_dc _ _ _ _ _ ((heckePairIwC _ n (C j)).1 _) f (fun g' y => hf _ y) x
-  obtain ⟨c, hc⟩ := thetaMap_split t
+  obtain ⟨c, hc⟩ := _root_.thetaEx_split t
   let b : Fin n → (HeightOneSpectrum.adicCompletion L (w j))ˣ := fun i => c ^ (n - (i : ℕ))
   have hb : Dom b := fun i i' h => by simpa [b] using hc 1 (Or.inl rfl) i i' h
   have hbt : Dom (b * t) := fun i i' h => by

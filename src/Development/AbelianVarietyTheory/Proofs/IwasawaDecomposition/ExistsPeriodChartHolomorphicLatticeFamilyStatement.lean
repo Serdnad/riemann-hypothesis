@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.HolomorphicMapLiftsLocallyToPeriodFamiliesStatement
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.PerValNeZero
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.EqOnBallOfEqOnPunctPolydiscCoveringExpImage
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.IsLatBasisZero
@@ -379,20 +380,6 @@ attribute [local instance] Over.cartesianMonoidalCategory
 
 namespace GlobalTheory.PeriodFrame
 
-private theorem differentiableOn_finsetProd' {E : Type} [NormedAddCommGroup E] [NormedSpace ℂ E] {Idx : Type}
-    (u : Finset Idx) (f : Idx → E → ℂ) {S : Set E} (h : ∀ i ∈ u, DifferentiableOn ℂ (f i) S) :
-    DifferentiableOn ℂ (fun s => ∏ i ∈ u, f i s) S := by
-  classical
-  revert h
-  refine Finset.induction_on u ?_ ?_
-  · intro _
-    simp only [Finset.prod_empty]
-    exact differentiableOn_const _
-  · intro a u ha ih h
-    simp only [Finset.prod_insert ha]
-    exact (h a (Finset.mem_insert_self a u)).fun_mul
-      (ih fun i hi => h i (Finset.mem_insert_of_mem hi))
-
 theorem differentiableOn_det_of_entries {E : Type} [NormedAddCommGroup E] [NormedSpace ℂ E] {g : ℕ}
     {M : E → Matrix (Fin g) (Fin g) ℂ} {S : Set E} (h : ∀ i j, DifferentiableOn ℂ (fun s => M s i j) S) :
     DifferentiableOn ℂ (fun s => (M s).det) S := by
@@ -404,7 +391,7 @@ theorem differentiableOn_det_of_entries {E : Type} [NormedAddCommGroup E] [Norme
   apply DifferentiableOn.fun_sum
   intro σ _
   apply DifferentiableOn.const_mul
-  exact differentiableOn_finsetProd' Finset.univ (fun i s => M s (σ i) i) (fun i _ => h (σ i) i)
+  exact _root_.GlobalTheory.PELU.Retype.dOn_prod Finset.univ (fun i s => M s (σ i) i) (fun i _ => h (σ i) i)
 
 theorem differentiableOn_inv_of_entries {E : Type} [NormedAddCommGroup E] [NormedSpace ℂ E] {g : ℕ}
     {M : E → Matrix (Fin g) (Fin g) ℂ} {S : Set E} (h : ∀ i j, DifferentiableOn ℂ (fun s => M s i j) S)

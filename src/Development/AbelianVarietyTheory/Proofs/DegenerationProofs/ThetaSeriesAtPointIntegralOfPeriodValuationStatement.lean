@@ -1303,15 +1303,7 @@ theorem exists_pull (hL : L.IsLB) {φ : K₁ → (Y ⟶ X)} {ε : K₁ → ℤ} 
 
 theorem exists_isGen {R : Type} [CommRing R] [IsLocalRing R] {M : LB (Sp R)} (hM : M.IsLB) :
     ∃ t : LB.Gen M, t.IsGen := by
-  have : (𝟙 (Sp R) : Sp R ⟶ Sp R) (IsLocalRing.closedPoint R) ∈ ⨆ i, M.U i := by rw [hM.cover]; trivial
-  obtain ⟨l, hl⟩ := TopologicalSpace.Opens.mem_iSup.1 this
-  have hl' : ⊤ ≤ M.U l := (CrdCalc.top_le_iff (𝟙 (Sp R)) _).2 hl
-  have le : ∀ V : (Sp R).Opens, V ≤ V ⊓ M.U l := fun V => le_inf le_rfl (le_top.trans hl')
-  refine ⟨⟨fun j => res (le _) (M.g j l)⟩, fun i j => ?_⟩
-  have e := congrArg (res (le (M.U i ⊓ M.U j))) (hM.cocycle i j l)
-  rw [map_mul, DVR.res_res', DVR.res_res', DVR.res_res', DVR.res_refl'] at e
-  simp only [DVR.res_res']
-  exact e.symm
+  apply _root_.ReciprocityTheory.ChartRestriction.G.DVR.exists_gen_of_isLB_local <;> assumption
 
 end Pull
 

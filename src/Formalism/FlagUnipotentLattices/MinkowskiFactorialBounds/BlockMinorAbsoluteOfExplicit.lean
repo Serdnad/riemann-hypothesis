@@ -1,5 +1,6 @@
 module
 
+import Formalism.HermitianCurvature.HermitianCurvatureProofs.TwoByOneBlock
 public import Formalism.FlagUnipotentLattices.StabiliserComplementDecomposition
 public import Formalism.FlagUnipotentLattices.MinkowskiFactorialBounds.IntegrableOnIoiTruncatedPowerMoment
 public import Mathlib.CategoryTheory.Category.Basic
@@ -272,14 +273,7 @@ open Formalism.QuantumDeterminants.WeylGroupFacts in
 lemma s1c2_Hh (k r : ℕ) : (Hpk k r)ᴴ = Hpk k r := Formalism.QuantumDeterminants.GBasic.Hpk_herm k r
 
 lemma s1c2_hzz (k r : ℕ) (z : Fin (2 * r + k + 1) → ℂ) : herm (Hpk k r) z z = -((Tz k r z : ℝ) : ℂ) := by
-  have h := ggHerm_swap (Hpk k r) (s1c2_Hh k r) z z
-  have him : (herm (Hpk k r) z z).im = 0 := by
-    have h2 := congrArg Complex.im h
-    simp only [Complex.star_def, Complex.conj_im] at h2
-    linarith
-  apply Complex.ext
-  · simp [Tz]
-  · simp [him]
+  apply _root_.Formalism.FourierDecayAlt.P.TwoByOneBlock.herm_self_eq <;> assumption
 
 lemma s1c2_gram_f (k r : ℕ) (z : Fin (2 * r + k + 1) → ℂ) (hz : inWb k r z) (a b : Fin (r + 1)) :
     herm (Hpk k r) (fvec k r z a) (fvec k r z b) =

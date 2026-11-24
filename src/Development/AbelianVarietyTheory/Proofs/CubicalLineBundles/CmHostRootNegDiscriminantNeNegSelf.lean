@@ -1,5 +1,6 @@
 module
 
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.HodgeCptInteriorGeneric
 public import Development.AbelianVarietyTheory.Definitions.CMLattices.LamLetters
 public import Development.AbelianVarietyTheory.Definitions.CMLattices.IsDiffOf
 public import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.ExistsUniqueExtendRingOfIntegersHom
@@ -68,19 +69,7 @@ theorem cmHost_rootNegDiscriminant_ne_neg_self (H : Host E) : H.rt0 ≠ -H.rt0 :
   linear_combination h / 2
 
 theorem cmHost_conj_sqrtNegDisc (H : Host E) : starRingEnd ℂ H.rt0 = -H.rt0 := by
-  have h2 := H.sqrt_neg_disc_sq
-  have him := congrArg Complex.im h2
-  have hre := congrArg Complex.re h2
-  simp [pow_two] at him hre
-  have hd : (0 : ℝ) < H.d := by exact_mod_cast H.d_prime.pos
-  have h0 : H.rt0.re = 0 := by
-    by_contra hne
-    have : H.rt0.im = 0 := by
-      have : H.rt0.re * H.rt0.im = 0 := by linarith
-      exact (mul_eq_zero.1 this).resolve_left hne
-    rw [this] at hre
-    nlinarith [mul_self_nonneg H.rt0.re]
-  apply Complex.ext <;> simp [h0]
+  apply _root_.GlobalTheory.CompanionTheory.Ar.HodgeBasic.rt0_conj_neg_ne_zero <;> assumption
 
 theorem host_emb_rt_sq (H : Host E) (τ : E →+* ℂ) : τ (H.rt : E) ^ 2 = H.rt0 ^ 2 := by
   have h := congrArg (fun a : 𝓞 E => τ (a : E)) H.rt_sq

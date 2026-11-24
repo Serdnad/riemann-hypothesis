@@ -1,5 +1,6 @@
 module
 
+import all Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.LocFactor
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.CommutativeAlgebra.ResMapBijective
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -66,29 +67,7 @@ private theorem isPrecomplete_finite {R M : Type} [CommRing R] [AddCommGroup M] 
 
 private theorem prec_cofinal {R : Type*} [CommRing R] {I J : Ideal R} (hJI : J ≤ I) {e : ℕ}
     (he : I ^ e ≤ J) (hJ : IsPrecomplete J R) : IsPrecomplete I R := by
-  have hsm : ∀ (K : Ideal R) (x : R), x ∈ (K • (⊤ : Submodule R R)) ↔ x ∈ K := by
-    intro K x
-    simp [smul_eq_mul, Ideal.mul_top]
-  have he' : I ^ (e + 1) ≤ J := le_trans (Ideal.pow_le_pow_right (Nat.le_succ e)) he
-  have hpow : ∀ k, I ^ ((e + 1) * k) ≤ J ^ k := by
-    intro k
-    rw [pow_mul]
-    exact Ideal.pow_right_mono he' k
-  refine ⟨fun {f} hf => ?_⟩
-  have hgc : ∀ {m n : ℕ}, m ≤ n →
-      f ((e + 1) * m) ≡ f ((e + 1) * n) [SMOD (J ^ m • ⊤ : Submodule R R)] := by
-    intro m n hmn
-    have h := hf (Nat.mul_le_mul_left (e + 1) hmn)
-    rw [SModEq.sub_mem, hsm] at h ⊢
-    exact hpow m h
-  obtain ⟨L, hL⟩ := hJ.prec' (fun k => f ((e + 1) * k)) hgc
-  refine ⟨L, fun n => ?_⟩
-  have h1 := hf (show n ≤ (e + 1) * n by nlinarith)
-  have h2 := hL n
-  rw [SModEq.sub_mem, hsm] at h1 h2 ⊢
-  have h3 : f ((e + 1) * n) - L ∈ I ^ n := Ideal.pow_right_mono hJI n h2
-  have := Ideal.add_mem _ h1 h3
-  simpa using this
+  apply _root_.prec_cofinal <;> assumption
 
 theorem UpperTheory.V.Alg.co_finite :
     ∀ (O : Type) [CommRing O] [IsLocalRing O] (R : Type) [CommRing R] [Algebra O R] [IsCO O R] (R' : Type) [CommRing R'] [Algebra O R'] [Algebra R R'] [IsScalarTower O R R'] [Module.Finite R R'] [IsLocalRing R'],

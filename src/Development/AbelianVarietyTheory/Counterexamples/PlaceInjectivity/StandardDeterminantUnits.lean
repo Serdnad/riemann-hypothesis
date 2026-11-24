@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.SatakeParameters.UnimodularLatticeLocalConjSymm
 public import Formalism.LocalToGlobal.Columns.FiniteSumNonzeroLargeDepth
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -89,49 +90,7 @@ theorem val_det_le_one {P : HeightOneSpectrum (𝓞 E)} (g : Sp E n →ₗ[E] Sp
 theorem mem_at_conj {N : Submodule (𝓞 E) (Sp E n)} (hl : N.FG) (hu : IsUnimodular (hStd E n) N)
     (P : HeightOneSpectrum (𝓞 E)) (x : Sp E n) :
     x ∈ localization₂ (conjPrime₂ P).asIdeal N ↔ ∀ y ∈ localization₂ P.asIdeal N, IntAt (conjPrime₂ P) (hStd E n y x) := by
-  constructor
-  · intro hx y hy
-    rw [mem_locP] at hx hy
-    obtain ⟨t, ht, htx⟩ := hx
-    obtain ⟨s, hs, hsy⟩ := hy
-    have htd : t • x ∈ dual (hStd E n) N := by rw [hu]; exact htx
-    obtain ⟨r, hr⟩ := Submodule.mem_one.1 ((mem_dual N _).1 htd _ hsy)
-    refine ⟨r, cO E s * t, ?_, ?_⟩
-    · intro hmul
-      rcases (conjPrime₂ P).isPrime.mem_or_mem hmul with h1 | h1
-      · rw [mem_conjP, cO_cO] at h1
-        exact hs h1
-      · exact ht h1
-    · rw [hr, hStd_osmul_left, smul_smul, LinearMap.map_smul_of_tower, Algebra.smul_def]
-  · intro hx
-    classical
-    obtain ⟨S, hS⟩ := hl
-
-    have hz : ∀ z ∈ S, ∃ s : 𝓞 E, s ∉ (conjPrime₂ P).asIdeal ∧
-        hStd E n z (s • x) ∈ (1 : Submodule (𝓞 E) E) := by
-      intro z hzS
-      obtain ⟨r, s, hs, hsr⟩ := hx z (le_locP P N (hS ▸ Submodule.subset_span hzS))
-      refine ⟨s, hs, ?_⟩
-      rw [LinearMap.map_smul_of_tower, Algebra.smul_def, hsr]
-      exact Submodule.mem_one.2 ⟨r, rfl⟩
-    choose! sf hsf hsm using hz
-    have hprod : (∏ z ∈ S, sf z) ∈ (conjPrime₂ P).asIdeal.primeCompl :=
-      Submonoid.prod_mem _ fun z hzS => hsf z hzS
-    refine (mem_locP _ _ _).2 ⟨∏ z ∈ S, sf z, hprod, ?_⟩
-    rw [← hu, mem_dual]
-    intro y hy
-    rw [← hS] at hy
-    induction hy using Submodule.span_induction with
-    | mem z hzS =>
-      rw [← Finset.mul_prod_erase S sf hzS, mul_comm, ← smul_smul, LinearMap.map_smul_of_tower]
-      exact Submodule.smul_mem _ _ (hsm z hzS)
-    | zero => simp
-    | add y₁ y₂ _ _ h₁ h₂ =>
-      rw [map_add (f := _), LinearMap.add_apply]
-      exact Submodule.add_mem _ h₁ h₂
-    | smul a y _ h =>
-      rw [hStd_osmul_left, LinearMap.map_smul_of_tower]
-      exact Submodule.smul_mem _ _ h
+  first | exact _root_.GlobalTheory.GO.UniExt.mem_localization_conj_iff | exact @_root_.GlobalTheory.GO.UniExt.mem_localization_conj_iff | apply _root_.GlobalTheory.GO.UniExt.mem_localization_conj_iff <;> assumption
 
 end Generic
 

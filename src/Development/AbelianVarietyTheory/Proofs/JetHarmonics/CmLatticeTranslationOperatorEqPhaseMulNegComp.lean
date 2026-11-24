@@ -25,6 +25,7 @@ public import Development.AbelianVarietyTheory.Proofs.ToricGeometry.IsUnitOfLagr
 public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.CmThetaOperatorInvariantOfLiftCongrOne
 public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.CpTransportedTaylorSeriesInChartRingHomLawsStatement
 public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.ExistsOrthogonalFrameNormsCoprimeOfUnimodular
+import all Development.AbelianVarietyTheory.Proofs.JetHarmonics.ExistsOrthogonalFrameNormsCoprimeOfUnimodular
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -483,13 +484,7 @@ theorem beta_sum_left {κ : Type} [Fintype κ] (d : ℕ) (Hm : Matrix (Fin g) (F
 
 theorem beta_conj (d : ℕ) {Hm : Matrix (Fin g) (Fin g) ℂ} (h : Hm.IsHermitian) (z w : Fin g → ℂ) :
     conj (beta d Hm z w) = beta d Hm w z := by
-
-  simp only [beta, hf, map_mul, map_sum, Complex.conj_ofReal, Complex.conj_conj]
-  rw [Finset.sum_comm]
-  congr 1
-  refine Finset.sum_congr rfl fun i _ => Finset.sum_congr rfl fun j _ => ?_
-  have : conj (Hm j i) = Hm i j := h.apply i j
-  rw [this]; ring
+  apply _root_.conj_beta_eq_beta_swap <;> assumption
 
 theorem eq_sum_frame (d : ℕ) (Hm : Matrix (Fin g) (Fin g) ℂ) (x : Fin g → Fin g → ℂ) (a : Fin g → ℕ)
     (hx : ∀ i j, beta d Hm (x i) (x j) = if i = j then (a i : ℂ) else 0) (ha : ∀ i, (a i : ℂ) ≠ 0)
@@ -1119,46 +1114,7 @@ private lemma eq_sum_beta_div_smul_of_beta_orthogonal {g d : ℕ} {Hm : Matrix (
     (hpos : Hm.PosDef) (hd : 0 < d) (x : Fin g → Fin g → ℂ) (a : Fin g → ℕ) (ha : ∀ i, 0 < a i)
     (hx : ∀ i j, _root_.Formalism.L2.Ker.JMB.beta d Hm (x i) (x j) = if i = j then (a i : ℂ) else 0) (v : Fin g → ℂ) :
     v = ∑ i, (_root_.Formalism.L2.Ker.JMB.beta d Hm v (x i) / (a i : ℂ)) • x i := by
-  have ha' : ∀ i, (a i : ℂ) ≠ 0 := fun i => by exact_mod_cast (ha i).ne'
-  have hli : LinearIndependent ℂ x := by
-    refine Fintype.linearIndependent_iff.2 fun c hc i => ?_
-    have h := congrArg (fun w => _root_.Formalism.L2.Ker.JMB.beta d Hm w (x i)) hc
-    simp only [beta_sum_left', beta_smul_left', hx, mul_ite, mul_zero,
-      Finset.sum_ite_eq', Finset.mem_univ, if_true] at h
-    have h0 : _root_.Formalism.L2.Ker.JMB.beta d Hm 0 (x i) = 0 := by
-      simpa using beta_smul_left' (d := d) Hm 0 (x i) (x i)
-    rw [h0] at h
-    exact (mul_eq_zero.1 h).resolve_right (ha' i)
-  have hspan : Submodule.span ℂ (Set.range x) = ⊤ := hli.span_eq_top_of_card_eq_finrank' (by simp)
-  set w := v - ∑ i, (_root_.Formalism.L2.Ker.JMB.beta d Hm v (x i) / (a i : ℂ)) • x i with hw
-  have horth : ∀ j, _root_.Formalism.L2.Ker.JMB.beta d Hm w (x j) = 0 := by
-    intro j
-    have hsub : w + ∑ i, (_root_.Formalism.L2.Ker.JMB.beta d Hm v (x i) / (a i : ℂ)) • x i = v := by rw [hw]; abel
-    have := congrArg (fun u => _root_.Formalism.L2.Ker.JMB.beta d Hm u (x j)) hsub
-    simp only [beta_add_left', beta_sum_left', beta_smul_left', hx,
-      mul_ite, mul_zero, Finset.sum_ite_eq', Finset.mem_univ, if_true, div_mul_cancel₀ _ (ha' j)] at this
-    linear_combination this
-  have hww : _root_.Formalism.L2.Ker.JMB.beta d Hm w w = 0 := by
-    have hmem : w ∈ Submodule.span ℂ (Set.range x) := by rw [hspan]; exact Submodule.mem_top
-    obtain ⟨c, hc⟩ := (Submodule.mem_span_range_iff_exists_fun ℂ).1 hmem
-    conv_lhs => arg 4; rw [← hc]
-    rw [beta_sum_right_jet_harmonics]
-    simp [beta_smul_right_eq_conj_mul, horth]
-  have hw0 : w = 0 := by
-    by_contra hne
-    have hs : star w ≠ 0 := by simpa using hne
-    have hp := hpos.dotProduct_mulVec_pos hs
-    rw [star_star] at hp
-    unfold _root_.Formalism.L2.Ker.JMB.beta at hww
-    rw [hf_eq_dotProduct_mulVec_star] at hww
-    have hsq : ((√(d : ℝ) / 2 : ℝ) : ℂ) ≠ 0 := by
-      have : (0 : ℝ) < √(d : ℝ) / 2 := by positivity
-      exact_mod_cast this.ne'
-    have h2 := (mul_eq_zero.1 hww).resolve_left hsq
-    rw [h2] at hp
-    exact lt_irrefl _ hp
-  rw [hw] at hw0
-  exact sub_eq_zero.1 hw0
+  apply _root_.GlobalTheory.MomOne.Frame.expand <;> assumption
 
 
 open scoped ComplexConjugate BigOperators in

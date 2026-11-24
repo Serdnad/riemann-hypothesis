@@ -1,5 +1,6 @@
 module
 
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ContinuousFlipGL
 public import Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange.ArchimedeanBaseChangeProof.SatakeExponents.SatakeRigidity.StFull
 public import Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange.ArchimedeanBaseChangeProof.SatakeExponents.SatakeRigidity.ThetaOfCsdR
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.HasSatGLOfInvT
@@ -454,19 +455,7 @@ theorem sc_satVec (X : Pre E n) (w : HeightOneSpectrum (𝓞 E)) (B : Multiset �
 
 theorem sc_cLoc_conj (x : UA E n) (u : HeightOneSpectrum (𝓞 E)) :
     cLoc u x = GlobalTheory.LFun.ConjPlace.invT (GlobalTheory.ThetaSatake.cloc u) n (cLoc (GlobalTheory.ThetaSatake.cw u) x) := by
-  have h : ((GeneralLinearGroup.map (conjLoc (IsCMField.complexConj E).toRingEquiv u)
-      (cLoc (GlobalTheory.ThetaSatake.cw u) x)).val)ᵀ * (cLoc u x).val = 1 := GlobalTheory.SplitPts.comp_eq x u
-  generalize hM : GeneralLinearGroup.map (conjLoc (IsCMField.complexConj E).toRingEquiv u)
-      (cLoc (GlobalTheory.ThetaSatake.cw u) x) = M at h
-  have h1 : ((M⁻¹ : GL (Fin n) (u.adicCompletion E)).val)ᵀ * (M.val)ᵀ = 1 := by
-    rw [← Matrix.transpose_mul, Units.mul_inv, Matrix.transpose_one]
-  have h2 : (cLoc u x).val = ((M⁻¹ : GL (Fin n) (u.adicCompletion E)).val)ᵀ := by
-    calc (cLoc u x).val = ((M⁻¹ : GL (Fin n) (u.adicCompletion E)).val)ᵀ * ((M.val)ᵀ * (cLoc u x).val) := by
-          rw [← Matrix.mul_assoc, h1, Matrix.one_mul]
-      _ = _ := by rw [h, Matrix.mul_one]
-  refine Units.ext (Matrix.ext fun i j => ?_)
-  rw [h2, GlobalTheory.LFun.ConjPlace.invT_val, Matrix.transpose_apply, ← hM, ← map_inv]
-  rfl
+  apply _root_.GlobalTheory.CompanionTheory.ConjSat.cLoc_eq_flipGL <;> assumption
 
 theorem splitConj : SplitConj := by
   intro E _ _ _ n π hπ D w u hw hwu hu hDw hDu B B' hB hB'

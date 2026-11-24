@@ -1,5 +1,6 @@
 module
 
+import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.AlgClosedTensorIsDomain
 public import Formalism.LocalToGlobal.ProjectiveLattices.PetersonNormSubspace
 public import Formalism.LocalToGlobal.ProjectiveLattices.CompHt
 public import Formalism.LocalToGlobal.ProjectiveLattices.UnFree
@@ -75,28 +76,7 @@ open Topology Filter
 theorem linearDisjoint_algebraicClosure {K Ω L : Type} [Field K] [CharZero K] [Field Ω] [Field L] [Algebra K Ω]
     [Algebra Ω L] [Algebra K L] [IsScalarTower K Ω L]
     (h : ∀ a : Ω, IsAlgebraic K a → a ∈ (algebraMap K Ω).range) : (algebraicClosure K L).LinearDisjoint Ω := by
-  have : Algebra.IsIntegral K (algebraicClosure K L).toSubalgebra := (algebraicClosure.isAlgebraic K L).isIntegral
-  refine Subalgebra.LinearDisjoint.of_linearDisjoint_finite_left _ _ fun B hB _ => ?_
-  have halg : B.IsAlgebraic := fun x hx => (mem_algebraicClosure_iff (F := K)).1 (hB hx)
-  let M : IntermediateField K L := halg.toIntermediateField
-  haveI : FiniteDimensional K M := ‹Module.Finite K B›
-  change M.LinearDisjoint Ω
-  obtain ⟨θ, hθ⟩ := Field.exists_primitive_element K M
-  have hi : IsIntegral K (θ : L) := (Algebra.IsIntegral.isIntegral (R := K) θ).map M.val
-  have e : K⟮(θ : L)⟯ = M := by
-    have := congrArg (IntermediateField.lift (F := M)) hθ
-    simpa using this
-  rw [← e]
-  refine IntermediateField.LinearDisjoint.of_basis_left (IntermediateField.adjoin.powerBasis hi).basis ?_
-  have hd := GlobalTheory.GeomIrr.natDegree_minpoly_eq (L := K) (F := Ω) (fun x hx => h x hx.isAlgebraic) hi
-  have hl := linearIndependent_pow (K := Ω) (θ : L)
-  rw [hd] at hl
-  have he : (K⟮(θ : L)⟯.val ∘ (IntermediateField.adjoin.powerBasis hi).basis) =
-      fun i : Fin (IntermediateField.adjoin.powerBasis hi).dim => (θ : L) ^ (i : ℕ) := by
-    funext i
-    simp
-  rw [he]
-  exact hl
+  first | exact _root_.PositivityTheory.Xgn.TensorDomain.linearDisjoint_algebraicClosure | exact @_root_.PositivityTheory.Xgn.TensorDomain.linearDisjoint_algebraicClosure | apply _root_.PositivityTheory.Xgn.TensorDomain.linearDisjoint_algebraicClosure <;> assumption
 
 theorem isDomain_tensor {K A Ω : Type} [Field K] [CharZero K] [CommRing A] [Field Ω] [Algebra K A] [Algebra K Ω]
     [Algebra.FiniteType K A] (j : A →ₐ[K] Ω) (hj : Function.Injective j)

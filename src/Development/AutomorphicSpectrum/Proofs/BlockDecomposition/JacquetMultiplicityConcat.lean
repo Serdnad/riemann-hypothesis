@@ -53,6 +53,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.JacquetMultiplicityTransitiveLe
 
 @[expose] public section
 
@@ -83,19 +84,7 @@ private theorem sum_castLE_add_le_lemma_2 {s : ℕ} (d : Fin s → ℕ) {a b : F
 
 theorem stdBlocks_lt (d : Fin s → ℕ) (h : ∑ a, d a = N) {p q : Σ a, Fin (d a)} (hpq : toLex p < toLex q) :
     stdBlocks d h p < stdBlocks d h q := by
-  have h' : Sigma.Lex (· < ·) (fun _ => (· < ·)) p q := hpq
-  obtain ⟨a, i⟩ := p
-  obtain ⟨b, j⟩ := q
-  rw [Fin.lt_def, stdBlocks_val, stdBlocks_val]
-  rcases Sigma.lex_iff.1 h' with hab | ⟨hab, hij⟩
-  · dsimp only at hab
-    have key := sum_castLE_add_le_lemma_2 d hab
-    have hi := i.2
-    omega
-  · dsimp only at hab hij
-    subst hab
-    have hij' : (i : ℕ) < j := hij
-    omega
+  apply _root_.GlobalTheory.CompanionTheory.CsStages.stdBlocks_lt <;> assumption
 
 variable {y : Fin s → ℕ} {c : Fin s → ℕ} {x : ∀ a, Fin (c a) → ℕ}
 

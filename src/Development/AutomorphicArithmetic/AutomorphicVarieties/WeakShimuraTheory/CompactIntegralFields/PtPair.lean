@@ -1,5 +1,6 @@
 module
 
+import all Development.AutomorphicArithmetic.AutomorphicVarieties.PadicHodgeTheory.SplAdjUnit
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.WeakShimuraTheory.RedIdeal
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.OrdFlag
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.WeakShimuraTheory.SymplecticIwahori.AdjMulSelf
@@ -107,33 +108,7 @@ private theorem UpperTheory.V.Ws.Pp.gf_conj {R : Type} [CommRing R] {ν : R} {X 
 private theorem UpperTheory.V.Ws.Pp.gf_gram {K : Type} [Field K] {ν : K} {M A : M4 K} (hM : ∀ i j, j < i → M i j = 0)
     (h : adj M * A * M = ν • A)
     (hc : ∀ i j : Fin 4, j < i → M i.rev i.rev * M j j ≠ ν) : ∀ i j, j < i → A i j = 0 := by
-  have e := fun i j => congrFun (congrFun h i) j
-  have m10 := hM 1 0 (by decide)
-  have m20 := hM 2 0 (by decide)
-  have m30 := hM 3 0 (by decide)
-  have m21 := hM 2 1 (by decide)
-  have m31 := hM 3 1 (by decide)
-  have m32 := hM 3 2 (by decide)
-  have k : ∀ {a b x : K}, a ≠ b → a * x = b * x → x = 0 := fun hab hx => by
-    by_contra h0
-    exact hab (mul_right_cancel₀ h0 hx)
-  have e30 := e 3 0
-  have e20 := e 2 0
-  have e10 := e 1 0
-  have e31 := e 3 1
-  have e21 := e 2 1
-  have e32 := e 3 2
-  simp [adj_apply, Matrix.mul_apply, Fin.sum_univ_four, sgn, Fin.rev, m10, m20, m30, m21, m31, m32] at e30 e20 e10 e31 e21 e32
-  have a30 : A 3 0 = 0 := k (hc 3 0 (by decide)) (by show M 0 0 * M 0 0 * _ = _; linear_combination e30)
-  rw [a30] at e20 e10 e31 e21 e32
-  have a20 : A 2 0 = 0 := k (hc 2 0 (by decide)) (by show M 1 1 * M 0 0 * _ = _; linear_combination e20)
-  have a31 : A 3 1 = 0 := k (hc 3 1 (by decide)) (by show M 0 0 * M 1 1 * _ = _; linear_combination e31)
-  simp only [a20, a31] at e10 e21 e32
-  have a10 : A 1 0 = 0 := k (hc 1 0 (by decide)) (by show M 2 2 * M 0 0 * _ = _; linear_combination e10)
-  have a21 : A 2 1 = 0 := k (hc 2 1 (by decide)) (by show M 1 1 * M 1 1 * _ = _; linear_combination e21)
-  have a32 : A 3 2 = 0 := k (hc 3 2 (by decide)) (by show M 0 0 * M 2 2 * _ = _; linear_combination e32)
-  intro i j hij
-  fin_cases i <;> fin_cases j <;> first | exact absurd hij (by decide) | assumption
+  apply _root_.UpperTheory.V.Loc.spl_gram <;> assumption
 
 theorem UpperTheory.V.Ws.Pp.genFlag :
     ∀ {H K : Type} [Group H] [Field K] (I : Subgroup H) (ps : Fin 4 → H → K) (s₀ : H) (ν : K) (r : H →* M4 K), s₀ ∈ I → Function.Injective (fun i => ps i s₀) → (∀ i, ps i s₀ * ps i.rev s₀ = ν) → ν ≠ 0 → IsGSp ν (r s₀) → Ord I ps s₀ r → ∃ h : M4 K, IsGSp 1 h ∧ (∀ g, IsUp (adj h * r g * h)) ∧ (∀ s ∈ I, ∀ i, (adj h * r s * h) i i = ps i s) ∧ ∀ i g, (∏ j ∈ Finset.univ.erase i, (ps i s₀ - ps j s₀)) * (adj h * r g * h) i i = (prj (fun a => ps a s₀) (r s₀) i * r g).trace := by
@@ -309,37 +284,9 @@ private theorem gt_prj (c : Fin 4 → R) (Y : M4 R) (i : Fin 4) :
   rw [← h, Polynomial.map_prod]
   simp only [Polynomial.map_sub, Polynomial.map_X, Polynomial.map_C]
 
-private theorem gt_ord {I : Subgroup H} {ps : Fin 4 → H → R} {s₀ : H} {r : H →* M4 R} (h : Ord I ps s₀ r) :
-    Ord I (fun i g => f (ps i g)) s₀ (mapRep f r) := by
-  refine ⟨?_, ?_, ?_⟩
-  · rw [gt_rep, RingHom.mapMatrix_apply, Matrix.charpoly_map, h.charpoly, Polynomial.map_prod]
-    simp only [Polynomial.map_sub, Polynomial.map_X, Polynomial.map_C]
-  · intro g i j hij
-    rw [gt_rep, gt_rep, gt_prj f (fun a => ps a s₀), gt_prj f (fun a => ps a s₀), ← map_mul, ← map_mul,
-      h.stable g i j hij, map_zero]
-  · intro s hs i
-    rw [gt_rep, gt_rep, gt_prj f (fun a => ps a s₀), ← map_one f.mapMatrix, ← gt_smul, ← map_sub, ← map_mul,
-      ← map_mul, h.inert s hs i, map_zero]
-
 private theorem gt_tr (c : Fin 4 → R) (Y Z : M4 R) (i : Fin 4) :
     (prj (fun a => f (c a)) (f.mapMatrix Y) i * f.mapMatrix Z).trace = f (prj c Y i * Z).trace := by
   rw [gt_prj, ← map_mul, RingHom.mapMatrix_apply, AddMonoidHom.map_trace]
-
-private theorem gt_tr_diag (c a : Fin 4 → R) (i : Fin 4) :
-    (prj c (Matrix.diagonal c) i * Matrix.diagonal a).trace = (∏ j ∈ Finset.univ.erase i, (c i - c j)) * a i := by
-  have h : prj c (Matrix.diagonal c) i = Matrix.diagonal fun b => ∏ j ∈ Finset.univ.erase i, (c b - c j) := by
-    unfold prj
-    have h1 := aeval_algHom_apply (Matrix.diagonalAlgHom (n := Fin 4) (α := R) R) c
-      (∏ j ∈ Finset.univ.erase i, (X - C (c j)))
-    rw [Matrix.diagonalAlgHom_apply, Matrix.diagonalAlgHom_apply] at h1
-    rw [h1]
-    congr 1
-    funext b
-    simp [map_prod]
-  rw [h, Matrix.diagonal_mul_diagonal, Matrix.trace_diagonal, Finset.sum_eq_single i]
-  · intro b _ hb
-    rw [Finset.prod_eq_zero (i := b) (by simp [hb]) (sub_self _), zero_mul]
-  · simp
 
 end Gen
 
@@ -361,7 +308,7 @@ theorem UpperTheory.V.Ws.Pp.genTri :
   obtain ⟨h, h1, h2, h3, h4⟩ := genFlag I (fun i g => algebraMap B (FractionRing B) (algebraMap O B (ps i g))) s₀
     (algebraMap B (FractionRing B) (algebraMap O B ν)) (mapRep (algebraMap B (FractionRing B)) ρ) hs
     (fun a b e => hinj (hB (hF e))) (fun i => by rw [← map_mul, ← map_mul, hrev])
-    ((map_ne_zero_iff _ hF).2 ((map_ne_zero_iff _ hB).2 hν)) (gt_gsp _ hG) (gt_ord _ hρ)
+    ((map_ne_zero_iff _ hF).2 ((map_ne_zero_iff _ hB).2 hν)) (gt_gsp _ hG) (_root_.UpperTheory.V.Loc.spl_ord _ hρ)
   have key : ∀ g i, ∃ q : B[X], Dist (maximalIdeal B) q ∧
       aeval ((adj h * mapRep (algebraMap B (FractionRing B)) ρ g * h) i i -
         algebraMap B (FractionRing B) (algebraMap O B (ps i g))) q = 0 ∧ (g ∈ I → q = X) := by
@@ -379,7 +326,7 @@ theorem UpperTheory.V.Ws.Pp.genTri :
       have e1 := gt_tr (x : B →+* O) (fun a => algebraMap O B (ps a s₀)) (ρ s₀) (ρ g) i
       have e2 : ∀ g, (x : B →+* O).mapMatrix (ρ g) = Matrix.diagonal fun i => ps i g := fun g => Matrix.ext (hx g)
       simp only [e2, RingHom.coe_coe, AlgHom.commutes, Algebra.algebraMap_self, RingHom.id_apply] at e1
-      rw [gt_tr_diag] at e1
+      rw [_root_.UpperTheory.V.Loc.spl_tr_diag] at e1
       exact e1.symm
     have hint : IsIntegral B ((adj h * mapRep (algebraMap B (FractionRing B)) ρ g * h) i i) :=
       gt_int (ρ g) (adj_mul_self h1) (h2 g) i

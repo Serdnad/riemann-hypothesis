@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.BreuilKisinHomEisensteinSpanAndNonZeroDivisor
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.IsStratHom
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IsOrientedPrismUniformizerFrameBreuilKisinHomStatement
 import Mathlib.Algebra.Order.Floor.Extended
@@ -50,19 +51,8 @@ namespace GlobalTheory.BSP
 
 theorem mem_nonZeroDivisors_of_invertible_span {A : Type} [CommRing A] {I : Ideal A}
     (hI : Module.Invertible A ↥I) {d : A} (hd : I = Ideal.span {d}) : d ∈ nonZeroDivisors A := by
-  have hdI : d ∈ I := hd ▸ Ideal.mem_span_singleton_self d
-  let φ : A →ₗ[A] ↥I := LinearMap.toSpanSingleton A ↥I ⟨d, hdI⟩
-  have hs : Function.Surjective φ := by
-    rintro ⟨x, hx⟩
-    rw [hd] at hx
-    obtain ⟨a, rfl⟩ := Ideal.mem_span_singleton'.1 hx
-    exact ⟨a, Subtype.ext (by simp [φ])⟩
-  have hb := Module.Invertible.bijective_of_surjective hs
-  refine mem_nonZeroDivisors_iff.2 ⟨fun a ha => ?_, fun a ha => ?_⟩
-  · refine hb.1 (?_ : φ a = φ 0)
-    exact Subtype.ext (by simp [φ]; linear_combination ha)
-  · refine hb.1 (?_ : φ a = φ 0)
-    exact Subtype.ext (by simp [φ]; linear_combination ha)
+  intros
+  apply _root_.GlobalTheory.BSP.mem_nonZeroDivisors_of_invertible_eq_span <;> assumption
 
 theorem associated_of_span_eq {A : Type} [CommRing A] {d d' : A} (hd : d ∈ nonZeroDivisors A)
     (h : Ideal.span {d} = Ideal.span {d'}) : Associated d d' := by

@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.HypercohomologyCoefficientMapFunctorialAdditive
 public import Development.EtaleCohomology.EtaleSheaves.KummerSequence.LeafKumSeqPf
 public import Mathlib.Algebra.Homology.Embedding.ExtendHomotopy
 import Mathlib.Algebra.Order.Floor.Extended
@@ -64,14 +65,7 @@ theorem resMap_comp_homotopy (R : Type) [CommRing R] {F G L : Shv R} (f : F ⟶ 
 
 theorem post_comp (R : Type) [CommRing R] (K : Cx R) {F G L : Shv R} (f : F ⟶ G) (g : G ⟶ L) (n : ℤ)
     (x : HK R K F n) : HK.post R K (f ≫ g) n x = HK.post R K g n (HK.post R K f n x) := by
-  obtain ⟨H⟩ := resMap_comp_homotopy R f g
-  obtain ⟨a, rfl⟩ := CohomologyClass.mk_surjective x
-  show CohomologyClass.mk _ = CohomologyClass.mk _
-  rw [← sub_eq_zero, ← CohomologyClass.mk_sub, CohomologyClass.mk_eq_zero_iff,
-    mem_coboundaries_iff _ (n - 1) (by omega)]
-  refine ⟨a.1.comp (Cochain.ofHomotopy H) (by omega), ?_⟩
-  rw [δ_comp _ _ _ (n + 1) 0 n (by omega) rfl (by omega), δ_ofHomotopy, Cocycle.δ_eq_zero]
-  simp [zcomp, Cochain.comp_sub, Cochain.ofHom_comp]
+  apply @GlobalTheory.EtC.PostFun.post_comp <;> assumption
 
 def kumM (q : ℕ) : (kumSC q).X₃ ⟶ Gm := cokernel.desc (kernel.ι (powGm q)) (powGm q) (kernel.condition _)
 

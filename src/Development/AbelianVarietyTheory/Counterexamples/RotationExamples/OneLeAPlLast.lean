@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.LiftFormsMainTerm
 public import Formalism.LocalToGlobal.IndefiniteReal.LinksDefs
 public import Formalism.LocalToGlobal.BesselHermitianTheta.LemmasSign
 import Mathlib.Algebra.Order.Floor.Extended
@@ -57,25 +58,7 @@ theorem labE_fixed (τ : D.what₂.Tau) : labE D.what₂.embLL τ = tauE D τ :=
   exact DFunLike.congr_fun D.embE_φ₀ (D.host.sigmaOf (D.eTau τ).1 x)
 
 theorem lab_fixed (ρ : D.what₂.Tau) : lab D.what₂.embLL ρ = ρ := by
-  have h : ∃ τ, labE D.what₂.embLL τ = tauE D ρ ∨ labE D.what₂.embLL τ = (starRingEnd ℂ).comp (tauE D ρ) :=
-    ⟨ρ, Or.inl (labE_fixed ρ)⟩
-  unfold lab
-  rw [dite_eq_left h]
-  have hs := h.choose_spec
-  generalize h.choose = τ at hs
-  rw [labE_fixed] at hs
-  rcases hs with hs | hs
-  · have h1 : D.host.sigmaOf (D.eTau τ).1 = D.host.sigmaOf (D.eTau ρ).1 := by
-      exact AlgEquiv.ext fun x => D.host.φ₀.injective (DFunLike.congr_fun hs x)
-    apply D.eTau.injective
-    apply Subtype.ext
-    exact (by unfold Host.sigmaOf at h1; exact (EquivLike.injective _) h1)
-  · exfalso
-    have a := xi_zero_im_pos D τ
-    have b := xi_zero_im_pos D ρ
-    rw [hs] at a
-    simp at a
-    linarith
+  first | exact _root_.GlobalTheory.IndefiniteRowSideFullHecke.LiftFormsMainTerm.lab_base | exact @_root_.GlobalTheory.IndefiniteRowSideFullHecke.LiftFormsMainTerm.lab_base | apply _root_.GlobalTheory.IndefiniteRowSideFullHecke.LiftFormsMainTerm.lab_base <;> assumption
 
 theorem parAt_fixed (W : HSp D) (ρ : D.what₂.Tau) :
     parAt W D.what₂.embLL ρ = Formalism.L2.NTheta.holPar _ _ (Formalism.L2.NTheta.wtOf D W ρ) := by

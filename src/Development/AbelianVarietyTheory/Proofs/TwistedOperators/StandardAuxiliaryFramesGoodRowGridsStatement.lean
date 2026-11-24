@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.XLastLin
 public import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.IsAuxiliaryVectorWittDec
 public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.NonemptyOffDatOfTrueD
 public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.AdelicPointComponentsAtPlacesLatticesVacua
@@ -1574,54 +1575,7 @@ variable {D : D7} {ψ : AddChar (AF D.host.F) ℂ}
 theorem xLast_rat {V V₀ A L : HSp D} {σ : ℕ} (d : HypDec V V₀ σ) (o : OrthDec V₀ A L) (ζ : Fin L.rank → D.host.E)
     (hζ : IsLineVec L ζ) : ∃ x₀ : Matrix (Fin V.rank) (Fin (σ + 1)) D.host.E,
       LinearIndependent D.host.E x₀.transpose ∧ xLast d (vecB o ζ) = rat x₀ := by
-  set x₀ : Matrix (Fin V.rank) (Fin (σ + 1)) D.host.E := d.e * selFirst D σ + d.i₀ * vecMulVec (vecB o ζ) (lastE D σ) with hx₀
-  have hne : ∀ x : Fin σ, (Fin.last σ = x.castSucc) ↔ False := fun x => iff_false_intro (Fin.castSucc_lt_last x).ne'
-  have hrat : xLast d (vecB o ζ) = rat x₀ := by
-    funext k j
-    refine Fin.lastCases ?_ (fun j => ?_) j
-    · simp [hx₀, xLast, rat, selFirst, lastE, Matrix.mul_apply, vecMulVec, HypDec.j0, mulVec, dotProduct, ratV, vecB, hne]
-    · simp [hx₀, xLast, rat, selFirst, lastE, Matrix.mul_apply, vecMulVec, HypDec.jX, mulVec, dotProduct, ratV, vecB]
-  have hgram : x₀ᴴ * V.gram * x₀ = (vecMulVec ζ (lastE D σ))ᴴ * L.gram * vecMulVec ζ (lastE D σ) := by
-    have hXX := mul_mul_mul_of_gram (n := Fin (σ + 1)) d.ee
-    have h0X := mul_mul_mul_of_gram (n := Fin (σ + 1)) d.i₀e
-    have hX0 : d.eᴴ * V.gram * d.i₀ = 0 := by
-      have := congrArg conjTranspose d.i₀e
-      rwa [conjTranspose_mul, conjTranspose_mul, conjTranspose_conjTranspose, gram_conjTranspose, conjTranspose_zero,
-        ← Matrix.mul_assoc] at this
-    have hX0' := mul_mul_mul_of_gram (n := Fin (σ + 1)) hX0
-    have h00 := mul_mul_mul_of_gram (n := Fin (σ + 1)) d.iso
-    have hBB := mul_mul_mul_of_gram (n := Fin (σ + 1)) o.isoB
-    have hz : vecMulVec (vecB o ζ) (lastE D σ) = o.iB * vecMulVec ζ (lastE D σ) := by
-      rw [vecB, mul_vecMulVec]
-    rw [hx₀, hz]
-    simp only [conjTranspose_add, conjTranspose_mul, Matrix.add_mul, Matrix.mul_add, Matrix.mul_assoc, hXX, h0X, hX0',
-      h00, hBB, Matrix.zero_mul, Matrix.mul_zero, add_zero, zero_add]
-  refine ⟨x₀, ?_, hrat⟩
-  refine Fintype.linearIndependent_iff.2 ?_
-  intro g hg
-  have hv : x₀ *ᵥ g = 0 := by
-    funext k
-    have := congrFun hg k
-    simpa [Finset.sum_apply, mulVec, dotProduct, mul_comm] using this
-  have h0 : d.e'ᴴ * V.gram * d.i₀ = 0 := by
-    have := congrArg conjTranspose d.i₀e'
-    rwa [conjTranspose_mul, conjTranspose_mul, conjTranspose_conjTranspose, gram_conjTranspose, conjTranspose_zero,
-      ← Matrix.mul_assoc] at this
-  have hq : (d.e'ᴴ * V.gram) * x₀ = selFirst D σ := by
-    rw [hx₀, Matrix.mul_add, ← Matrix.mul_assoc, d.e'e, Matrix.one_mul, ← Matrix.mul_assoc, h0, Matrix.zero_mul, add_zero]
-  have h1 : selFirst D σ *ᵥ g = 0 := by rw [← hq, ← Matrix.mulVec_mulVec, hv, Matrix.mulVec_zero]
-  have h2 : ((vecMulVec ζ (lastE D σ))ᴴ * L.gram * vecMulVec ζ (lastE D σ)) *ᵥ g = 0 := by
-    rw [← hgram, ← Matrix.mulVec_mulVec, hv, Matrix.mulVec_zero]
-  intro i
-  refine Fin.lastCases ?_ (fun i => ?_) i
-  · have h3 := congrFun h2 (Fin.last σ)
-    rw [← Matrix.mulVec_mulVec, ← Matrix.mulVec_mulVec, vecMulVec_mulVec, conjTranspose_vecMulVec, vecMulVec_mulVec] at h3
-    simp [lastE, mulVec_smul] at h3
-    rcases h3 with h3 | h3
-    · exact h3
-    · exact absurd h3 hζ.2
-  · have := congrFun h1 i
-    simpa [selFirst, mulVec, dotProduct] using this
+  first | exact _root_.GlobalTheory.JacMean.xLast_lin | exact @_root_.GlobalTheory.JacMean.xLast_lin | apply _root_.GlobalTheory.JacMean.xLast_lin <;> assumption
 
 theorem loc_cls {V V₀ W W₀ : HSp D} {ρ σ : ℕ} (dV : HypDec V V₀ ρ) (dW : HypDec W W₀ σ) (s : Step ψ V V₀ W W₀ ρ σ)
     (x : Mx D W.rank ρ) (x₀ : Matrix (Fin W.rank) (Fin ρ) D.host.E) (hx : x = rat x₀) (y : Mx D V₀.rank σ)

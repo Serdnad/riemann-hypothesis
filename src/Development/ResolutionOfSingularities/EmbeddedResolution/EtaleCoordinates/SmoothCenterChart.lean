@@ -196,7 +196,7 @@ private theorem repr_mem_maximalIdeal_of_tmul_eq_zero {A : Type*} [CommRing A] [
   rw [← IsLocalRing.residue_eq_zero_iff]
   exact h2
 
-private theorem residue_det_ne_zero_of_tmul_eq_basis {A : Type*} [CommRing A] [IsLocalRing A]
+theorem residue_det_ne_zero_of_tmul_eq_basis {A : Type*} [CommRing A] [IsLocalRing A]
     {M : Type*} [AddCommGroup M] [Module A M] {ι : Type*} [Fintype ι] [DecidableEq ι]
     (bA : Module.Basis ι A M) (G : ι → M)
     (B' : Module.Basis ι (IsLocalRing.ResidueField A) (IsLocalRing.ResidueField A ⊗[A] M))

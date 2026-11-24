@@ -1,5 +1,6 @@
 module
 
+import all Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.ThresholdArguments.DenseThresholdCases.CharOfScalar
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.ThresholdArguments.DenseThresholdCases.PartRep
 import Development.AbelianVarietyTheory.Definitions.Divisors.EqOfHasValueAtInfinite
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.ExistsTorusEigenformOfCompactTorusEigenvector
@@ -90,38 +91,7 @@ private theorem eq_of_gen {f : Module.End ℂ V} {v : V} {a c : ℂ} (h : f v = 
   exact sub_eq_zero.1 (pow_eq_zero_iff'.1 ((smul_eq_zero.1 hm).resolve_right h0)).1
 private theorem exists_eig [FiniteDimensional ℂ V] (ρ : Representation ℂ G V) (E : Submodule ℂ V) (hE0 : E ≠ ⊥)
     (hE : ∀ t, ∀ v ∈ E, ρ t v ∈ E) : ∃ χ : G →* ℂˣ, ∃ v ∈ E, v ≠ 0 ∧ ∀ t, ρ t v = (χ t : ℂ) • v := by
-  obtain ⟨S, ⟨hS0, hSE, hS⟩, hmin⟩ := (wellFounded_lt (α := Submodule ℂ V)).has_min
-    {S | S ≠ ⊥ ∧ S ≤ E ∧ ∀ t, ∀ v ∈ S, ρ t v ∈ S} ⟨E, hE0, le_rfl, hE⟩
-  have : Nontrivial S := Submodule.nontrivial_iff_ne_bot.2 hS0
-  have key : ∀ t, ∃ c : ℂ, ∀ v ∈ S, ρ t v = c • v := fun t => by
-    obtain ⟨c, hc⟩ := Module.End.exists_eigenvalue ((ρ t).restrict (hS t))
-    obtain ⟨w, hw⟩ := hc.exists_hasEigenvector
-    have hw1 : ρ t w = c • (w : V) := congrArg Subtype.val hw.apply_eq_smul
-    refine ⟨c, fun v hv => ?_⟩
-    have h1 : S ⊓ Module.End.eigenspace (ρ t) c = S := by
-      by_contra hne
-      refine hmin _ ⟨?_, inf_le_left.trans hSE, ?_⟩ (lt_of_le_of_ne inf_le_left hne)
-      · exact (Submodule.ne_bot_iff _).2 ⟨w, ⟨w.2, Module.End.mem_eigenspace_iff.2 hw1⟩,
-          fun h => hw.2 (Subtype.ext h)⟩
-      · rintro s x ⟨hx, hx'⟩
-        refine ⟨hS s x hx, Module.End.mem_eigenspace_iff.2 ?_⟩
-        rw [← Module.End.mul_apply, ← map_mul, mul_comm, map_mul,
-          Module.End.mul_apply, Module.End.mem_eigenspace_iff.1 hx', map_smul]
-    rw [← h1] at hv
-    exact Module.End.mem_eigenspace_iff.1 hv.2
-  choose c hc using key
-  obtain ⟨v, hv, hv0⟩ := (Submodule.ne_bot_iff _).1 hS0
-  let c' : G →* ℂ :=
-    { toFun := c
-      map_one' := by
-        have := hc 1 v hv
-        rw [map_one, Module.End.one_apply] at this
-        exact smul_left_injective ℂ hv0 (this.symm.trans (one_smul _ _).symm)
-      map_mul' := fun s t => by
-        have := hc (s * t) v hv
-        rw [map_mul, Module.End.mul_apply, hc t v hv, map_smul, hc s v hv, smul_smul, mul_comm] at this
-        exact smul_left_injective ℂ hv0 this.symm }
-  exact ⟨c'.toHomUnits, v, hSE hv, hv0, fun t => hc t v hv⟩
+  apply _root_.UpperTheory.V.Hi.OrdB.exists_eig <;> assumption
 private theorem le_gen [FiniteDimensional ℂ V] (ρ : Representation ℂ G V) (E : Submodule ℂ V)
     (hE : ∀ t, ∀ v ∈ E, ρ t v ∈ E) (μ : G →* ℂˣ)
     (h : ∀ χ : G →* ℂˣ, ∀ v ∈ E, v ≠ 0 → (∀ t, ρ t v = (χ t : ℂ) • v) → χ = μ) (t : G) :
@@ -222,45 +192,7 @@ private theorem num (ω : Fin n → kˣ →* ℂˣ) {j : ℕ} (hj : j ≤ n) :
       ((deltaHalf k (fun _ : Fin n => Unit) (leviTorus k (Fin n) fun i => unif k ^ (if (i : ℕ) < j then 1 else 0 : ℤ)) : ℂ) *
         (torusChar (fun i => ω i * absPow k (((n : ℂ) - 1) / 2))
           (fun i => unif k ^ (if (i : ℕ) < j then 1 else 0 : ℤ)) : ℂ)) = psEig ω j := by
-  have hd : ∀ (t : Fin n → kˣ) i, Matrix.GeneralLinearGroup.det (leviTorus k (Fin n) t i) = t i := fun t =>
-    congrFun ((leviTorus k (Fin n)).left_inv t)
-  have hq : (Nat.card 𝓀[k] : ℂ) ≠ 0 := Nat.cast_ne_zero.2 Nat.card_pos.ne'
-  have hn : ((nabs k (unif k) : ℝ) : ℂ) = (Nat.card 𝓀[k] : ℂ)⁻¹ := by
-    rw [GlobalTheory.LGrp.nabs_eq_zpow, ord_eq_one GlAx.unif_spec]
-    simp [resCard]
-  have h1 : ∀ i : Fin n, ((absPow k ((modExp (fun _ : Fin n => Unit) i : ℂ) / 2)
-        (unif k ^ (if (i : ℕ) < j then 1 else 0 : ℤ)) : ℂ) *
-      ((ω i * absPow k (((n : ℂ) - 1) / 2)) (unif k ^ (if (i : ℕ) < j then 1 else 0 : ℤ)) : ℂ)) =
-      (if (i : ℕ) < j then (ω i (unif k) : ℂ) * ((Nat.card 𝓀[k] : ℂ) ^ (i : ℕ))⁻¹ else 1) *
-        (Nat.card 𝓀[k] : ℂ) ^ (if (i : ℕ) < j then -((n : ℤ) - 1 - 2 * (i : ℕ)) else 0) := by
-    intro i
-    split_ifs
-    · rw [zpow_one, MonoidHom.mul_apply, Units.val_mul, mul_left_comm, ← Units.val_mul, ← MonoidHom.mul_apply,
-        ← absPow_add, modExp_fin _ (fun _ => by simp), mul_assoc, val_absPow, hn,
-        show ((((n : ℤ) - 1 - 2 * (i : ℕ) : ℤ) : ℂ) / 2 + ((n : ℂ) - 1) / 2) = (((n : ℤ) - 1 - (i : ℕ) : ℤ) : ℂ) by
-          push_cast; ring, Complex.cpow_intCast, ← zpow_natCast, ← _root_.zpow_neg, ← zpow_add₀ hq, _root_.inv_zpow']
-      congr 2
-      ring
-    · simp
-  have hp : ∀ (s : Finset (Fin n)) (e : Fin n → ℤ),
-      ∏ i ∈ s, (Nat.card 𝓀[k] : ℂ) ^ e i = (Nat.card 𝓀[k] : ℂ) ^ ∑ i ∈ s, e i := by
-    intro s e
-    induction s using Finset.induction_on with
-    | empty => simp
-    | insert i s hi ih => rw [Finset.prod_insert hi, Finset.sum_insert hi, ih, zpow_add₀ hq]
-  have h2 : ∑ i : Fin n, (if (i : ℕ) < j then -((n : ℤ) - 1 - 2 * (i : ℕ)) else 0) = -((j * (n - j) : ℕ) : ℤ) := by
-    rw [Fin.sum_univ_eq_sum_range (fun i : ℕ => if i < j then -((n : ℤ) - 1 - 2 * i) else 0), ← Finset.sum_filter,
-      show (Finset.range n).filter (· < j) = Finset.range j by ext; simp; omega, Nat.cast_mul, Nat.cast_sub hj]
-    clear h1
-    generalize (n : ℤ) = N
-    clear hj
-    induction j with
-    | zero => simp
-    | succ j ih => rw [Finset.sum_range_succ, ih]; push_cast; ring
-  rw [deltaHalf_apply, torusChar_apply, Units.coe_prod, Units.coe_prod, ← Finset.prod_mul_distrib]
-  simp only [hd, h1]
-  rw [Finset.prod_mul_distrib, hp, h2, psEig, Finset.prod_filter, Nat.cast_pow, _root_.zpow_neg, zpow_natCast]
-  field_simp
+  apply _root_.UpperTheory.V.Hi.OrdB.num <;> assumption
 end Num
 end UpperTheory.V.Z.J.D.OrdinaryOrderOne
 open UpperTheory.V.Z.J.D

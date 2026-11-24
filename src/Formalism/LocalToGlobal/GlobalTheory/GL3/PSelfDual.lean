@@ -1,5 +1,6 @@
 module
 
+import Formalism.LocalToGlobal.KernelLattices.ColumnData.SelfDual
 import Formalism.LocalToGlobal.ProjectiveLattices.LevelPb
 public import Formalism.LocalToGlobal.GlobalTheory.GL3.PIopNorm
 public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.CanonicalTranslateJets
@@ -104,31 +105,7 @@ theorem hom_step {N N' : ℕ} (L : Submodule (𝓞 D.host.E) (Fin N → D.host.E
     (hZ : ∀ x ∈ L, ∀ y ∈ L', (∑ i, D.host.conj (y i) * Z.mulVec x i) ∈
       (D.host.AA0 : Submodule (𝓞 D.host.E) D.host.E)) :
     Z ∈ YYl D L L' := by
-  have key : ∀ r ∈ (D.host.𝔟 : FractionalIdeal (nonZeroDivisors (𝓞 D.host.E)) D.host.E) *
-      D.host.AA0, r • Z ∈ YYl D L L' := by
-    intro r hr
-    refine FractionalIdeal.mul_induction_on hr ?_ ?_
-    · intro b hb a ha
-      have hbZ : b • Z ∈ homL D L L' := by
-        refine Submodule.subset_span ?_
-        intro x hx
-        refine (hL'.2.2 _).mpr ?_
-        intro y hy
-        rw [stdH_eq, Matrix.smul_mulVec]
-        have : (∑ i, D.host.conj (y i) * (b • Z.mulVec x) i) =
-            b * ∑ i, D.host.conj (y i) * Z.mulVec x i := by
-          rw [Finset.mul_sum]
-          refine Finset.sum_congr rfl fun i _ => ?_
-          rw [Pi.smul_apply, smul_eq_mul]; ring
-        rw [this]
-        exact ideal_mul_inverse_integral D hb (hZ x hx y hy)
-      have : (b * a) • Z = a • (b • Z) := by rw [smul_smul, mul_comm]
-      rw [this]
-      exact Submodule.subset_span ⟨a, ha, b • Z, hbZ, rfl⟩
-    · intro x y hx hy
-      rw [add_smul]
-      exact Submodule.add_mem _ hx hy
-  simpa using key 1 (one_mem_ideal_mul_inverse D)
+  exact _root_.Formalism.L2.Ker.Cd.IntegralLatticeDensity.SD.hom_step (D := (_root_.Formalism.L2.Ker.Car.ofRec D)) L L' hL' Z hZ
 
 theorem rank_one_mem_hom_lattice {N N' : ℕ} (L : Submodule (𝓞 D.host.E) (Fin N → D.host.E))
     (L' : Submodule (𝓞 D.host.E) (Fin N' → D.host.E))
@@ -231,80 +208,7 @@ theorem coord (δ : ℂ) (hδ : δ ≠ 0) (u : D.what₂.Tau → ℂ)
     (hu : ∀ y : D.host.E, ∃ k : D.host.K,
       ∑ τ, u τ * embT D τ y = δ * D.host.φ₀ (k : D.host.E)) :
     ∃ x : D.host.E, ∀ τ, u τ = δ * embT D τ x := by
-  choose g hg using hu
-  have ginj : ∀ k k' : D.host.K, δ * D.host.φ₀ (k : D.host.E) = δ * D.host.φ₀ (k' : D.host.E) →
-      k = k' := fun k k' h => Subtype.ext (D.host.φ₀.injective (mul_left_cancel₀ hδ h))
-  let lam : D.host.E →ₗ[D.host.K] D.host.K :=
-    { toFun := g
-      map_add' := fun y1 y2 => by
-        apply ginj
-        calc δ * D.host.φ₀ (g (y1 + y2) : D.host.E)
-            = ∑ τ, u τ * embT D τ (y1 + y2) := (hg _).symm
-          _ = ∑ τ, u τ * embT D τ y1 + ∑ τ, u τ * embT D τ y2 := by
-              simp only [map_add (f := _), mul_add, Finset.sum_add_distrib]
-          _ = δ * D.host.φ₀ (g y1 : D.host.E) + δ * D.host.φ₀ (g y2 : D.host.E) := by
-              rw [hg, hg]
-          _ = δ * D.host.φ₀ ((g y1 + g y2 : D.host.K) : D.host.E) := by
-              simp only [IntermediateField.coe_add, map_add (f := _)]; ring
-      map_smul' := fun k y => by
-        apply ginj
-        calc δ * D.host.φ₀ (g (k • y) : D.host.E)
-            = ∑ τ, u τ * embT D τ (k • y) := (hg _).symm
-          _ = D.host.φ₀ (k : D.host.E) * ∑ τ, u τ * embT D τ y := by
-              rw [Finset.mul_sum]
-              refine Finset.sum_congr rfl fun τ _ => ?_
-              rw [Algebra.smul_def, IntermediateField.algebraMap_apply, map_mul,
-                FL.embT_K D τ _ k.2]
-              ring
-          _ = δ * D.host.φ₀ ((k * g y : D.host.K) : D.host.E) := by
-              rw [hg, IntermediateField.coe_mul, map_mul]; ring }
-  have hB := traceForm_nondegenerate D.host.K D.host.E
-  set x := ((Algebra.traceForm D.host.K D.host.E).toDual hB).symm lam with hxdef
-  have hx : ∀ y, Algebra.trace D.host.K D.host.E (x * y) = g y := by
-    intro y
-    have := LinearMap.BilinForm.apply_toDual_symm_apply
-      (B := Algebra.traceForm D.host.K D.host.E) (hB := hB) lam y
-    rw [Algebra.traceForm_apply] at this
-    exact this
-  refine ⟨x, ?_⟩
-  set u' : D.what₂.Tau → ℂ := fun τ => u τ - δ * embT D τ x with hu'
-  have h0 : ∀ y : D.host.E, ∑ τ, u' τ * embT D τ y = 0 := by
-    intro y
-    have h1 := FL.sum_tau_trace D (x * y)
-    rw [hx] at h1
-    simp only [u', sub_mul, Finset.sum_sub_distrib]
-    rw [hg y, ← h1, Finset.mul_sum]
-    rw [sub_eq_zero]
-    refine Finset.sum_congr rfl fun τ _ => ?_
-    rw [map_mul]; ring
-  have hspan : ∀ z ∈ Submodule.span ℝ (Set.range (fun b : 𝓞 D.host.E => FL.embP D (b : D.host.E))),
-      ∑ τ, u' τ * z τ = 0 := by
-    intro z hz
-    induction hz using Submodule.span_induction with
-    | mem z hz =>
-      obtain ⟨b, rfl⟩ := hz
-      exact h0 _
-    | zero => simp
-    | add z w _ _ h1 h2 =>
-      simp only [Pi.add_apply, mul_add, Finset.sum_add_distrib, h1, h2, add_zero]
-    | smul r z _ h1 =>
-      have : ∑ τ, u' τ * (r • z) τ = (r : ℂ) * ∑ τ, u' τ * z τ := by
-        rw [Finset.mul_sum]
-        refine Finset.sum_congr rfl fun τ _ => ?_
-        rw [Pi.smul_apply, Complex.real_smul]; ring
-      rw [this, h1, mul_zero]
-  have hc := hspan (fun τ => starRingEnd ℂ (u' τ)) (by rw [FL.span_embP]; trivial)
-  have hsq : ∑ τ, (Complex.normSq (u' τ) : ℂ) = 0 := by
-    rw [← hc]
-    refine Finset.sum_congr rfl fun τ _ => ?_
-    rw [Complex.mul_conj]
-  have hsq' : ∑ τ, Complex.normSq (u' τ) = 0 := by exact_mod_cast hsq
-  intro τ
-  have hτ := (Finset.sum_eq_zero_iff_of_nonneg (fun τ _ => Complex.normSq_nonneg (u' τ))).mp hsq'
-    τ (Finset.mem_univ _)
-  rw [Complex.normSq_eq_zero] at hτ
-  have : u τ - δ * embT D τ x = 0 := hτ
-  exact sub_eq_zero.mp this
+  exact _root_.Formalism.L2.Ker.Cd.IntegralLatticeDensity.SD.coord (_root_.Formalism.L2.Ker.Car.ofRec D) δ hδ u hu
 
 end Formalism.L2.GlobalTheoryTheory.IntegralLatticeDensity.SD
 
@@ -354,90 +258,8 @@ theorem mem_La_of {cc : Ideal (𝓞 D.host.K)} {δ : ℂ} {N N' : ℕ}
 end SD
 
 theorem SelfDualRec_of_curve (hC : CurveSelfDualRec) : SelfDualRec := by
-  intro D cc hcc δ _ h0 N N' L L' hA v hv
-  set ℓ : Matrix (Fin N') (Fin N) D.host.E → ℂ := fun Y =>
-    ∑ τ, ∑ i, ∑ j, v τ i j * starRingEnd ℂ (embT D τ (Y i j)) with hℓdef
-
-  have hℓ : ∀ Y ∈ YYl D L L', ∃ c ∈ cc, ℓ Y = δ * D.host.φ₀ (((c : D.host.K) : D.host.E)) := by
-    intro Y hY
-    apply FL.lam_mem
-    apply hC D cc hcc δ h0
-    intro w hw
-    obtain ⟨b, hb⟩ := hv (w • embV D (tor0 D cc δ) Y)
-      (AddSubgroup.subset_closure ⟨w, hw, Y, hY, rfl⟩)
-    refine ⟨b, ?_⟩
-    rw [← hb]
-    congr 1
-    unfold Hf
-    congr 1
-    simp only [ℓ, Finset.sum_mul]
-    refine Finset.sum_congr rfl fun τ _ => Finset.sum_congr rfl fun i _ =>
-      Finset.sum_congr rfl fun j _ => ?_
-    simp only [Pi.smul_apply, smul_eq_mul, map_mul, embV, tor0]
-    ring
-
-  obtain ⟨M, hM, hMY⟩ := FL.YY_lower D L L' hA.2.2.1 hA.2.2.2
-  have hcoord : ∀ i j, ∃ x : D.host.E, ∀ τ, v τ i j = δ * embT D τ x := by
-    intro i j
-    apply SD.coord D δ h0
-    intro y
-    obtain ⟨m, hm, hmy⟩ := FL.exists_int_mul D {D.host.conj y}
-    have hy' := hmy _ (Finset.mem_singleton_self _)
-    set A : Matrix (Fin N') (Fin N) D.host.E :=
-      Matrix.of fun i' j' => if i' = i ∧ j' = j then (m : D.host.E) * D.host.conj y else 0
-    have hAint : ∀ i' j', IsIntegral ℤ (A i' j') := by
-      intro i' j'
-      simp only [A, Matrix.of_apply]
-      split_ifs
-      · exact hy'
-      · exact isIntegral_zero
-    obtain ⟨c, hc, hcY⟩ := hℓ _ (hMY A hAint)
-    have hMm : ((M * m : ℤ) : ℂ) ≠ 0 := by exact_mod_cast mul_ne_zero hM hm
-    have hval : ℓ ((M : D.host.E) • A) = ((M * m : ℤ) : ℂ) * ∑ τ, v τ i j * embT D τ y := by
-      simp only [ℓ, Finset.mul_sum]
-      refine Finset.sum_congr rfl fun τ _ => ?_
-      rw [Finset.sum_eq_single i, Finset.sum_eq_single j]
-      · simp only [A, Matrix.smul_apply, Matrix.of_apply, and_self, if_true, smul_eq_mul,
-          map_mul, map_intCast, FL.emb_conj, Complex.conj_conj, map_intCast]
-        push_cast; ring
-      · intro j' _ hj'
-        simp [A, hj']
-      · intro h; exact absurd (Finset.mem_univ j) h
-      · intro i' _ hi'
-        refine Finset.sum_eq_zero fun j' _ => ?_
-        simp [A, hi']
-      · intro h; exact absurd (Finset.mem_univ i) h
-    refine ⟨((c : D.host.K)) / ((M * m : ℤ) : D.host.K), ?_⟩
-    rw [hval] at hcY
-    rw [IntermediateField.coe_div, map_div₀]
-    have e2 : D.host.φ₀ ((((M * m : ℤ) : D.host.K)) : D.host.E) = ((M * m : ℤ) : ℂ) := by
-      simp
-    rw [e2]
-    field_simp
-    linear_combination hcY
-  choose X hXv using hcoord
-
-  have hXc : ∀ Y ∈ YYl D L L', ∃ c ∈ cc, hYY D (Matrix.of X) Y = ((c : 𝓞 D.host.K) : D.host.K) := by
-    intro Y hY
-    obtain ⟨c, hc, hcY⟩ := hℓ Y hY
-    refine ⟨c, hc, ?_⟩
-    have e1 : ℓ Y = δ * D.host.φ₀ ((hYY D (Matrix.of X) Y : D.host.K) : D.host.E) := by
-      unfold hYY
-      rw [← FL.sum_tau_trace, Finset.mul_sum]
-      refine Finset.sum_congr rfl fun τ _ => ?_
-
-      simp only [map_sum, map_mul, FL.emb_conj, Finset.mul_sum, Matrix.of_apply, hXv]
-      refine Finset.sum_congr rfl fun i _ => Finset.sum_congr rfl fun j _ => ?_
-      ring
-    rw [e1] at hcY
-    exact Subtype.ext (D.host.φ₀.injective (mul_left_cancel₀ h0 hcY))
-
-  have hXS := SD.alg_step cc hcc.1 L L' hA (Matrix.of X) hXc
-  have hv' : v = (fun τ i j => δ * embT D τ ((Matrix.of X) i j) : VC D N N') := by
-    funext τ i j
-    exact hXv i j τ
-  rw [hv']
-  exact SD.mem_La_of hXS
+  intro D
+  exact _root_.Formalism.L2.Ker.Cd.IntegralLatticeDensity.self_dual_lattice (_root_.Formalism.L2.Ker.Car.ofRec D)
 
 end Formalism.L2.GlobalTheoryTheory.IntegralLatticeDensity
 
@@ -522,52 +344,7 @@ theorem cc_basis (cc : Ideal (𝓞 D.host.K)) (hcc : cc ≠ ⊥) :
     ∃ c1 ∈ cc, ∃ c2 ∈ cc, (∀ c ∈ cc, ∃ m n : ℤ, c = (m : 𝓞 D.host.K) * c1 + (n : 𝓞 D.host.K) * c2) ∧
       ∀ p q : ℚ, (p : D.host.E) * ((c1 : D.host.K) : D.host.E) +
         (q : D.host.E) * ((c2 : D.host.K) : D.host.E) = 0 → p = 0 ∧ q = 0 := by
-  have hr : Module.finrank ℤ (𝓞 D.host.K) = 2 := by rw [RingOfIntegers.rank, finrank_K]
-  let b := Module.finBasisOfFinrankEq ℤ (𝓞 D.host.K) hr
-  let bI := Ideal.selfBasis b cc hcc
-  refine ⟨bI 0, (bI 0).2, bI 1, (bI 1).2, ?_, ?_⟩
-  · intro c hc
-    have h := bI.sum_repr ⟨c, hc⟩
-    rw [Fin.sum_univ_two] at h
-    refine ⟨bI.repr ⟨c, hc⟩ 0, bI.repr ⟨c, hc⟩ 1, ?_⟩
-    have h2 := congrArg (fun t : cc => (t : 𝓞 D.host.K)) h
-    simp only [Submodule.coe_add, Submodule.coe_smul_of_tower, zsmul_eq_mul] at h2
-    exact h2.symm
-  · intro p q hpq
-    have hli : LinearIndependent ℤ ![bI 0, bI 1] := by
-      have : ![bI 0, bI 1] = ⇑bI := by ext i; fin_cases i <;> rfl
-      rw [this]; exact bI.linearIndependent
-    have key := LinearIndependent.pair_iff.mp hli (p.num * q.den) (q.num * p.den) (by
-      apply Subtype.ext
-      apply RingOfIntegers.ext
-      apply Subtype.ext
-      simp only [Submodule.coe_add, Submodule.coe_smul_of_tower, zsmul_eq_mul, Submodule.coe_zero]
-      have hc : ∀ n : ℤ, ((((n : 𝓞 D.host.K) : D.host.K)) : D.host.E) = (n : D.host.E) := by
-        intro n
-        have h1 : ((n : 𝓞 D.host.K) : D.host.K) = (n : D.host.K) :=
-          map_intCast (algebraMap (𝓞 D.host.K) D.host.K) n
-        rw [h1]; exact map_intCast D.host.K.val n
-      push_cast [Int.cast_natCast, hc]
-      have hp : (p : D.host.E) = (p.num : D.host.E) / (p.den : D.host.E) := by
-        rw [← Rat.cast_intCast, ← Rat.cast_natCast, ← Rat.cast_div, Rat.num_div_den]
-      have hq : (q : D.host.E) = (q.num : D.host.E) / (q.den : D.host.E) := by
-        rw [← Rat.cast_intCast, ← Rat.cast_natCast, ← Rat.cast_div, Rat.num_div_den]
-      rw [hp, hq] at hpq
-      have hpd : (p.den : D.host.E) ≠ 0 := by exact_mod_cast p.den_nz
-      have hqd : (q.den : D.host.E) ≠ 0 := by exact_mod_cast q.den_nz
-      field_simp at hpq
-      linear_combination hpq)
-    constructor
-    · have : p.num = 0 := by
-        rcases mul_eq_zero.mp key.1 with h | h
-        · exact h
-        · exact absurd h (by exact_mod_cast q.den_nz)
-      exact Rat.num_eq_zero.mp this
-    · have : q.num = 0 := by
-        rcases mul_eq_zero.mp key.2 with h | h
-        · exact h
-        · exact absurd h (by exact_mod_cast p.den_nz)
-      exact Rat.num_eq_zero.mp this
+  exact _root_.Formalism.L2.Ker.Cd.IntegralLatticeDensity.CS.cc_basis (_root_.Formalism.L2.Ker.Car.ofRec D) cc hcc
 
 end Formalism.L2.GlobalTheoryTheory.IntegralLatticeDensity.CS
 

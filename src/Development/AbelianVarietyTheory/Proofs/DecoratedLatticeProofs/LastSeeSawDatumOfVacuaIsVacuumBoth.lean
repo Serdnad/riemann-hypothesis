@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.ExtendByZeroRightMemCoreLattice
 public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.SmallPair
 public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.HermitianLinkMapAdditiveRationalEquivariant
 public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.LastSeeSawDatumIsTwoVariableThetaFunction
@@ -160,17 +161,7 @@ theorem isHalf_resT {e : AE D} {X T L'' : HSp D} (o'' : OrthDec X T L'') (S : HS
 
 theorem smul_latV_mem_latA {S : HSp D} (L : Lat S) (P : Pl D → Prop) {c : D.host.E} (hc : c ∈ D.host.AA)
     {w : Fin S.rank → AE D} (hw : w ∈ latV S L P) : ((1 : AF D.host.F) ⊗ₜ[D.host.F] c : AE D) • w ∈ latA S L P := by
-  induction hw using AddSubgroup.closure_induction with
-  | mem y hy =>
-    obtain ⟨α, hα, hv, a, ha, z, hz, rfl⟩ := hy
-    rw [Set.mem_singleton_iff] at ha
-    subst ha
-    refine AddSubgroup.subset_closure ⟨α, hα, hv, c, hc, z, hz, ?_⟩
-    funext i
-    simp only [Pi.smul_apply, smul_eq_mul, Algebra.TensorProduct.tmul_mul_tmul, one_mul]
-  | zero => rw [smul_zero]; exact zero_mem _
-  | add y y' _ _ h h' => rw [smul_add]; exact add_mem h h'
-  | neg y _ h => rw [smul_neg]; exact neg_mem h
+  first | exact _root_.GlobalTheory.ContrComb.LatT.smul_latV_mem_latA | exact @_root_.GlobalTheory.ContrComb.LatT.smul_latV_mem_latA | apply _root_.GlobalTheory.ContrComb.LatT.smul_latV_mem_latA <;> assumption
 
 theorem latA_orth {S A B : HSp D} (o : OrthDec S A B) (L : Lat S) (LA : Lat A) (LB : Lat B) (x : Pl D)
     (hO : OrthAt o L LA LB x) {z : Fin S.rank → AE D} (hz : z ∈ latA S L (· = x)) :

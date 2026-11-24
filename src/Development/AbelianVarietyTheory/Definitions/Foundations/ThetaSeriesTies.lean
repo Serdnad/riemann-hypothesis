@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Counterexamples.LevelGroupExamples.ZeroNotAdmissibleOfRankPos
 public import Development.AbelianVarietyTheory.Definitions.Jets.EmbShortThLeThetaPlain
 public import Formalism.LocalToGlobal.ProjectiveLattices.FullExists
 public import Formalism.LocalToGlobal.IndefiniteReal.FWTie
@@ -302,18 +303,7 @@ variable {E : Type} [Field E] [NumberField E] [IsCMField E] {H : ReciprocityTheo
 
 theorem dvd_pair_of_mem (x : Dw.La) {q : Dw.La} (hq : q ∈ l.Mb • (⊤ : Submodule (𝓞 E) Dw.La)) :
     (l.M : ℤ) ∣ Dw.EF x (cSep l • q) := by
-  have hc : cSep l ∈ Mfr l := by
-    unfold cSep
-    split_ifs with h
-    · exact h.choose_spec.1
-    · exact zero_mem _
-  have h1 : cSep l • q ∈ (Ideal.span {(l.M : 𝓞 E)}) • (⊤ : Submodule (𝓞 E) Dw.La) := by
-    rw [← l.prod, mul_comm, Submodule.mul_smul]
-    exact Submodule.smul_mem_smul hc hq
-  rw [Submodule.ideal_span_singleton_smul] at h1
-  obtain ⟨y, -, hy⟩ := (Submodule.mem_smul_pointwise_iff_exists _ _ _).1 h1
-  rw [← hy, Nat.cast_smul_eq_nsmul, map_nsmul, nsmul_eq_mul]
-  exact dvd_mul_right _ _
+  first | exact _root_.GlobalTheory.LevelPairing.dvd_right | exact @_root_.GlobalTheory.LevelPairing.dvd_right | apply _root_.GlobalTheory.LevelPairing.dvd_right <;> assumption
 
 theorem IsRightMul.mul {γ δ : LaMod Dw l ≃ₗ[𝓞 E] LaMod Dw l} {n : ℕ} {x x' x'' : Fin n → Dw.La} (h : IsRightMul γ x x')
     (h' : IsRightMul δ x' x'') : IsRightMul (γ * δ) x x'' := by

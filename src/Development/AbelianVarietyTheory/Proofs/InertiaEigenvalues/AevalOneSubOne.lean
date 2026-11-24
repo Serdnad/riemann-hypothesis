@@ -57,6 +57,7 @@ import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IsPlaceOverMoveValCc
 import Std.Tactic.BVDecide.Normalize.Prop
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.PropEOfAdmissible
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IndexSpanMatrixEqValDet, Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.AevalOneSubOne
@@ -86,73 +87,7 @@ theorem mem_span_of_aeval_eq_zero {O O' : Type} [CommRing O] [CommRing O'] [IsDo
       aeval (fun q => (u q : O') - 1) h = 0) :
     h ∈ Ideal.span (Set.range (fun i : Fin R => (X (Sum.inr i) : MvPolynomial (Fin R ⊕ Fin R) O)) ∪
       Set.range (fun i : Fin R => (1 + X (Sum.inl i)) ^ n - 1)) := by
-  classical
-  have : IsDomain O := hinj.isDomain
-  obtain ⟨m⟩ := nonempty_monomialOrder (Fin R ⊕ Fin R)
-  let b : Fin R ⊕ Fin R → MvPolynomial (Fin R ⊕ Fin R) O :=
-    Sum.elim (fun i => (1 + X (Sum.inl i)) ^ n - 1) (fun i => X (Sum.inr i))
-  let e : Fin R ⊕ Fin R → ℕ := Sum.elim (fun _ => n) (fun _ => 1)
-  have hb : ∀ q, m.Monic (b q) ∧ m.degree (b q) = Finsupp.single q (e q) := by
-    rintro (i | i)
-    · have e1 : (1 + X (Sum.inl i) : MvPolynomial (Fin R ⊕ Fin R) O) = X (Sum.inl i) - C (-1) := by
-        simp [add_comm]
-      have d1 : m.degree ((1 + X (Sum.inl i) : MvPolynomial (Fin R ⊕ Fin R) O) ^ n) = Finsupp.single (.inl i) n := by
-        rw [m.degree_pow, e1, m.degree_X_sub_C]; simp
-      have m1 : m.Monic ((1 + X (Sum.inl i) : MvPolynomial (Fin R ⊕ Fin R) O) ^ n) := by
-        rw [e1]; exact (m.monic_X_sub_C _ _).pow
-      have hlt : m.degree (C (-1) : MvPolynomial (Fin R ⊕ Fin R) O) ≺[m]
-          m.degree ((1 + X (Sum.inl i) : MvPolynomial (Fin R ⊕ Fin R) O) ^ n) := by
-        rw [d1, m.degree_C, map_zero]
-        refine lt_of_le_of_ne bot_le fun h0 => hn.ne' ?_
-        have := (map_eq_zero_iff _ m.toSyn.injective).1 h0.symm
-        simpa using this
-      have e2 : b (.inl i) = (1 + X (Sum.inl i)) ^ n + C (-1) := by simp [b, sub_eq_add_neg]
-      rw [e2]
-      exact ⟨m1.add_of_lt hlt, (m.degree_add_of_lt hlt).trans d1⟩
-    · exact ⟨m.leadingCoeff_X, m.degree_X⟩
-  obtain ⟨g, r, hf, -, hr⟩ := m.div (b := b) (fun q => by rw [(hb q).1.leadingCoeff_eq_one]; exact isUnit_one) h
-  have hbI : ∀ q, b q ∈ Ideal.span (Set.range (fun i : Fin R => (X (Sum.inr i) : MvPolynomial (Fin R ⊕ Fin R) O)) ∪
-      Set.range (fun i : Fin R => (1 + X (Sum.inl i)) ^ n - 1)) := by
-    rintro (i | i)
-    · exact Ideal.subset_span (Or.inr ⟨i, rfl⟩)
-    · exact Ideal.subset_span (Or.inl ⟨i, rfl⟩)
-  suffices r = 0 by
-    rw [hf, this, add_zero, Finsupp.linearCombination_apply, Finsupp.sum]
-    exact Ideal.sum_mem _ fun q _ => Ideal.mul_mem_left _ _ (hbI q)
-  apply map_injective _ hinj
-  rw [map_zero]
-  let S : Fin R ⊕ Fin R → Finset O' :=
-    Sum.elim (fun _ => (Polynomial.nthRootsFinset n (1 : O')).image (· - 1)) (fun _ => {0})
-  have hS : ∀ q, (S q).card = e q := by
-    rintro (i | i)
-    · exact (Finset.card_image_of_injective _ sub_left_injective).trans hζ.card_nthRootsFinset
-    · rfl
-  have he : ∀ q, 0 < e q := by rintro (i | i); exacts [hn, one_pos]
-  apply eq_zero_of_eval_zero_at_prod_finset _ S
-  · intro q
-    rw [hS, degreeOf_lt_iff (he q)]
-    intro c hc
-    have := hr c (support_map_subset _ _ hc) q
-    rw [(hb q).2, Finsupp.single_le_iff] at this
-    omega
-  · intro x hx
-    have hx1 : ∀ q, (x q + 1) ^ n = 1 := by
-      rintro (i | i)
-      · obtain ⟨y, hy, hxy⟩ := Finset.mem_image.1 (hx (.inl i))
-        rw [← hxy, sub_add_cancel]
-        exact (Polynomial.mem_nthRootsFinset hn _).1 hy
-      · rw [Finset.mem_singleton.1 (hx (.inr i))]; simp
-    let u : Fin R ⊕ Fin R → O'ˣ := fun q => Units.ofPowEqOne _ n (hx1 q) hn.ne'
-    have hu : (fun q => (u q : O') - 1) = x := by ext q; simp [u]
-    have h0 := hh u (fun q => Units.ext (by simpa [u] using hx1 q))
-      (fun a => Units.ext (by simpa [u] using Finset.mem_singleton.1 (hx (.inr a))))
-
-    rw [hu, hf, map_add (f := _), Finsupp.linearCombination_apply, Finsupp.sum, map_sum, Finset.sum_eq_zero, zero_add] at h0
-    · rw [eval_map, ← aeval_def, h0]
-    · rintro (i | i) _
-      · have := hx1 (.inl i)
-        simp [b, add_comm (1 : O'), this]
-      · simp [b, Finset.mem_singleton.1 (hx (.inr i))]
+  exact _root_.GlobalTheory.ToricFactor.mem_span_of_vanish_roots hinj hn hζ h hh
 
 
 open Polynomial in

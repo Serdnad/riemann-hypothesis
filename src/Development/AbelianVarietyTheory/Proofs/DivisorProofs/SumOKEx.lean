@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.FlipOfWeilConvergenceAndTheta
 public import Formalism.DoubleCosetMeasures.StatementZ
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsSBArgs
 public import Development.AbelianVarietyTheory.Definitions.Divisors.InvVolConjLevelOne
@@ -72,39 +73,8 @@ theorem squareFlip_zero {A A' Dd : Type} [Fintype A] [DecidableEq A] [Fintype A'
 
 theorem isNatDatum_sliceB {ϖ : kˣ} {e : ℕ} {γ : List Edge} {T : G.Args → ℂ} (hT : G.IsTensor ϖ e γ T) {i j : ℕ}
     (h1 : Edge.theta i j ∈ γ) (h2 : Edge.ex i j ∈ γ) (x : G.Args) : IsNatDatum ϖ e (G.sliceB i j T x) := by
-  have hne : Edge.theta i j ≠ Edge.ex i j := by simp
-  refine ⟨fun Z hZ => ?_, fun Z Z₀ hZ₀ => ?_⟩
-  · rw [mem_matLat_stdLat] at hZ
-    push_neg at hZ
-    obtain ⟨r, c, hc⟩ := hZ
-    rcases c with c | c
-    · refine hT.2.1 _ _ h1 fun H => hc ?_
-      have := mem_matLat_stdLat.1 H r c
-      simpa [Function.update_of_ne hne, Matrix.toCols₁] using this
-    · refine hT.2.1 _ _ h2 fun H => hc ?_
-      have := mem_matLat_stdLat.1 H c r
-      simpa [Matrix.toCols₂] using this
-  · have key : (Function.update (Function.update x (.theta i j) (Z + Z₀).toCols₁) (.ex i j) (Z + Z₀).toCols₂ᵀ : G.Args) =
-        Function.update (Function.update x (.theta i j) Z.toCols₁) (.ex i j) Z.toCols₂ᵀ +
-          Function.update (Function.update (0 : G.Args) (.theta i j) Z₀.toCols₁) (.ex i j) Z₀.toCols₂ᵀ := by
-      funext b
-      by_cases hb : b = .ex i j
-      · subst hb
-        ext r s; simp [Matrix.toCols₂]
-      · by_cases hb' : b = .theta i j
-        · subst hb'
-          ext r s; simp [Matrix.toCols₁]
-        · simp [Function.update_of_ne hb, Function.update_of_ne hb']
-    have hZ' := FourierDepth.mem_matLat_smul_stdLat.1 hZ₀
-    refine (congrArg T key).trans (hT.2.2 _ _ fun b => ?_)
-    rw [FourierDepth.mem_matLat_smul_stdLat]
-    by_cases hb : b = .ex i j
-    · subst hb
-      intro r s; simpa [Matrix.toCols₂] using hZ' s (Sum.inr r)
-    · by_cases hb' : b = .theta i j
-      · subst hb'
-        intro r s; simpa [Function.update_of_ne hne, Matrix.toCols₁] using hZ' r (Sum.inl s)
-      · intro r s; simp [Function.update_of_ne hb, Function.update_of_ne hb']
+  intros
+  apply _root_.GlobalTheory.FlipRun.isNatDatum_small <;> assumption
 
 end Flip
 

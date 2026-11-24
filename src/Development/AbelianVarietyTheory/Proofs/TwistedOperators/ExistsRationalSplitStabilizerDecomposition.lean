@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.DefNodeIsV
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.SplitOff
 public import Development.AbelianVarietyTheory.Definitions.AdelicHermitianForms.IsHermForm
 public import Development.AbelianVarietyTheory.Definitions.ExistenceOfLattices.CoeSelfDualLatticeInFrameCoordinatesEq
@@ -70,19 +71,7 @@ theorem colLat_fg {K : Type} [Field K] [NumberField K] {n : ℕ} (B : GL (Fin n)
 
 theorem colLat_span {K : Type} [Field K] [NumberField K] {n : ℕ} (B : GL (Fin n) K) :
     Submodule.span K ((colLat B : Submodule (𝓞 K) (Fin n → K)) : Set (Fin n → K)) = ⊤ := by
-  unfold colLat
-  rw [Submodule.span_span_of_tower]
-  rw [eq_top_iff]
-  intro x _
-  have hx : x = ∑ j, (((B⁻¹ : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) *ᵥ x) j •
-      (fun a : Fin n => (B : Matrix (Fin n) (Fin n) K) a j) := by
-    funext a
-    have := congrFun (show (B : Matrix (Fin n) (Fin n) K) *ᵥ (((B⁻¹ : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) *ᵥ x) = x by
-      rw [Matrix.mulVec_mulVec, Units.mul_inv, Matrix.one_mulVec]) a
-    conv_lhs => rw [← this]
-    simp [Matrix.mulVec, dotProduct, Finset.sum_apply, mul_comm]
-  rw [hx]
-  exact Submodule.sum_mem _ fun j _ => Submodule.smul_mem _ _ (Submodule.subset_span ⟨j, rfl⟩)
+  first | exact _root_.GlobalTheory.FunObj.StdReps.span_colLat | exact @_root_.GlobalTheory.FunObj.StdReps.span_colLat | apply _root_.GlobalTheory.FunObj.StdReps.span_colLat <;> assumption
 
 theorem stab_iff {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] {n : ℕ}
     (H : AddSubgroup (Fin n → GlobalTheory.AdLat.RA F E)) (k : GL (Fin n) (GlobalTheory.AdLat.RA F E)) (N : ℕ)

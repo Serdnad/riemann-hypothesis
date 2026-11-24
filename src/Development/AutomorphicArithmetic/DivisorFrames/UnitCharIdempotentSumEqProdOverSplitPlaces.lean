@@ -1,5 +1,6 @@
 module
 
+import all Development.AutomorphicArithmetic.DivisorFrames.MemIntAfAndInIdIffSplitComponents
 public import Development.AutomorphicArithmetic.LocalEmbeddings.FinMatchDefs
 public import Development.AbelianVarietyTheory.BlockTheory.TwistedDiscreteSeries.UnitCharTriangle
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsLocPart
@@ -85,14 +86,7 @@ private theorem no_conj {D : D7} {e : AE D} {S : Finset (HeightOneSpectrum (𝓞
 
 private theorem evW_eq {D : D7} {v : HeightOneSpectrum (𝓞 D.host.F)} (τ : D.host.E →ₐ[D.host.F] Fv D.host.F v)
     (z : EAf D) : GlobalTheory.BotMatch.evW τ z = piF τ z := by
-  obtain ⟨y, rfl⟩ := (Algebra.TensorProduct.comm D.host.F (Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes.Af D.host.F) D.host.E).surjective z
-  obtain ⟨e, he, -⟩ := GlobalTheory.AdSplit.exists_adele_equiv D.host.F D.host.E
-  obtain ⟨a, ha⟩ := e.surjective (0, y)
-  have h2 : finPart D a = y := by
-    have : (e a).2 = finPart D a := (he a).2
-    rw [← this, ha]
-  rw [← h2]
-  exact (GlobalTheory.BotMatch.evW_toEAf τ a).trans (piF_toEAf τ a).symm
+  apply _root_.evW_eq_piF <;> assumption
 
 theorem UpperTheory.unitChar_idempotentSum_eq_prod_over_splitPlaces :
     ∀ (D : D7) (e₀ : AE D) (S : Finset (HeightOneSpectrum (𝓞 D.host.E))), IsIdemSum e₀ S →

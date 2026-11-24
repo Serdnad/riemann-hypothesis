@@ -1,5 +1,6 @@
 module
 
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.PullbackSections.WtFieldPfA
 public import Formalism.LocalToGlobal.ProjectiveLattices.IntAllProofFree
 public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.AbelianSchemeLawsUnconditional
 public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.ExistsFramedPointBaseChangeAlgebraMap
@@ -151,38 +152,7 @@ theorem exists_testRing_factor {K : Type} [Field K] (p : TRing K) {S : Type} [Fi
     (φ : p.R →ₐ[K] S) {J : Type} [Fintype J] (g : J → S) :
     ∃ (r : TRing K) (α : p.R →ₐ[K] r.R) (χ : r.R →ₐ[K] S) (gr : J → r.R),
       Function.Injective χ ∧ χ.comp α = φ ∧ ∀ j, χ (gr j) = g j := by
-  classical
-  let e := Fintype.equivFin J
-  let v : Fin (p.n + Fintype.card J) → S :=
-    Fin.append (fun i => φ (Ideal.Quotient.mk p.I (MvPolynomial.X i))) (fun k => g (e.symm k))
-  let Φ : MvPolynomial (Fin (p.n + Fintype.card J)) K →ₐ[K] S := MvPolynomial.aeval v
-  let r : TRing K := ⟨p.n + Fintype.card J, RingHom.ker Φ, (RingHom.ker_isPrime Φ).isRadical⟩
-  have hΦ : Φ.comp (MvPolynomial.rename (Fin.castAdd (Fintype.card J))) =
-      φ.comp (Ideal.Quotient.mkₐ K p.I) := by
-    apply MvPolynomial.algHom_ext
-    intro i
-    simp [Φ, v, Fin.append_left]
-  let α₀ : MvPolynomial (Fin p.n) K →ₐ[K] r.R :=
-    (Ideal.Quotient.mkₐ K (RingHom.ker Φ)).comp (MvPolynomial.rename (Fin.castAdd (Fintype.card J)))
-  have hα₀ : ∀ a ∈ p.I, α₀ a = 0 := by
-    intro a ha
-    show Ideal.Quotient.mk _ _ = 0
-    rw [Ideal.Quotient.eq_zero_iff_mem, RingHom.mem_ker]
-    have h1 : Φ (MvPolynomial.rename (Fin.castAdd (Fintype.card J)) a) = φ (Ideal.Quotient.mk p.I a) :=
-      congrArg (fun F => F a) hΦ
-    exact h1.trans (by rw [Ideal.Quotient.eq_zero_iff_mem.2 ha, map_zero])
-  let α : p.R →ₐ[K] r.R := Ideal.Quotient.liftₐ p.I α₀ hα₀
-  let χ : r.R →ₐ[K] S := Ideal.kerLiftAlg Φ
-  refine ⟨r, α, χ, fun j => Ideal.Quotient.mk _ (MvPolynomial.X (Fin.natAdd p.n (e j))),
-    Ideal.kerLiftAlg_injective Φ, ?_, ?_⟩
-  · apply Ideal.Quotient.algHom_ext
-    rw [← hΦ]
-    apply MvPolynomial.algHom_ext
-    intro i
-    rfl
-  · intro j
-    show Φ _ = g j
-    simp [Φ, v, Fin.append_right]
+  first | exact _root_.ReciprocityTheory.ChartRestriction.G.PullbackSections.wtfA_tring | exact @_root_.ReciprocityTheory.ChartRestriction.G.PullbackSections.wtfA_tring | apply _root_.ReciprocityTheory.ChartRestriction.G.PullbackSections.wtfA_tring <;> assumption
 
 variable {E : Type} [Field E] [NumberField E] [IsCMField E] {H : Host E} {Dw : Datum H} {l : Level H}
 variable {Xo : Moduli Dw l} {c : Coeff l}

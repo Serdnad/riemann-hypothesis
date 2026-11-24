@@ -1,5 +1,6 @@
 module
 
+import all Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.LocalMaximality.PPLift
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.LocalMaximality.ResidueOfTraceIsFiberSum
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -91,18 +92,7 @@ private lemma UpperTheory.Gal.productCup_of_system.yb_omB_mono {L : Type} [Field
 
 private lemma UpperTheory.Gal.productCup_of_system.yb_omB_smul {L : Type} [Field L] [Algebra ℂ L] {B : Subalgebra ℂ L}
     {q : ℕ} {b : L} (hb : b ∈ B) {w : DR ℂ L} (hw : w ∈ omB ℂ L B q) : b • w ∈ omB ℂ L B q := by
-  induction hw using Submodule.span_induction with
-  | mem y hy =>
-    obtain ⟨b', hb', v, hv, rfl⟩ := hy
-    refine Submodule.subset_span ⟨b * b', B.mul_mem hb hb', v, hv, ?_⟩
-    rw [smul_smul]
-  | zero => simp
-  | add u v _ _ hu hv =>
-    rw [smul_add]
-    exact Submodule.add_mem _ hu hv
-  | smul a u _ hu =>
-    rw [smul_comm]
-    exact Submodule.smul_mem _ a hu
+  apply _root_.smul_omB' <;> assumption
 
 private lemma UpperTheory.Gal.productCup_of_system.yb_mem_sm {S E : Type} [CommRing S] [Algebra ℂ S] [AddCommGroup E] [Module ℂ E]
     (act : S →ₐ[ℂ] Module.End ℂ E) {M : Submodule ℂ E} {T : Set S} {r : S} (hr : r ∈ T) {m : E}

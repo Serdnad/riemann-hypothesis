@@ -354,18 +354,7 @@ lemma hpk_sq' : Hpk k r * Hpk k r = 1 := (hpkFacts k r).2.1
 def prj (Z : Mat k r) : Mat k r := (1 / 2 : ℂ) • (Z - Hpk k r * Zᴴ * Hpk k r)
 
 lemma prj_lie (Z : Mat k r) : inLie k r (prj Z) := by
-  unfold inLie prj
-  have hH := (hpk_herm (k := k) (r := r))
-  have hHH := (hpk_sq' (k := k) (r := r))
-  rw [conjTranspose_smul, conjTranspose_sub, conjTranspose_mul, conjTranspose_mul, hH,
-    conjTranspose_conjTranspose]
-  have h1 : Hpk k r * (Z * Hpk k r) * Hpk k r = Hpk k r * Z := by
-    rw [Matrix.mul_assoc, Matrix.mul_assoc, hHH, Matrix.mul_one]
-  have h2 : Hpk k r * (Hpk k r * Zᴴ * Hpk k r) = Zᴴ * Hpk k r := by
-    rw [← Matrix.mul_assoc, ← Matrix.mul_assoc, hHH, Matrix.one_mul]
-  have hs : star (1 / 2 : ℂ) = 1 / 2 := by simp
-  rw [hs, Matrix.smul_mul, Matrix.mul_smul, Matrix.sub_mul, Matrix.mul_sub, h1, h2, ← smul_add]
-  simp
+  apply _root_.Formalism.FourierDecayAlt.P.Ux1.prj_lie <;> assumption
 
 lemma prj_of_lie {Z : Mat k r} (hZ : inLie k r Z) : prj Z = Z := by
   unfold prj
@@ -439,16 +428,7 @@ lemma Mv_co (Z : Mat k r) : Mv (co Z) = Z := by
   simp [Mv, co, Complex.re_add_im]
 
 lemma Mv_sum (Y : J k r → ℝ) : Mv Y = ∑ i, Y i • Eb i := by
-  ext p q
-  rw [Matrix.sum_apply]
-  simp only [Matrix.smul_apply, Eb, Matrix.of_apply, Mv, smul_ite, smul_zero, ite_and]
-  rw [Fintype.sum_prod_type]
-  simp only [Fintype.sum_prod_type, Fintype.sum_bool]
-  simp only [Complex.real_smul, mul_one, if_true, if_false, Bool.false_eq_true]
-  simp only [Finset.sum_add_distrib]
-  rw [Finset.sum_eq_single p, Finset.sum_eq_single q, Finset.sum_eq_single p, Finset.sum_eq_single q]
-  · simp [add_comm]
-  all_goals first | (intro b _ hb; simp [Ne.symm hb]) | simp
+  apply _root_.Formalism.FourierDecayAlt.P.Ux1.Mv_sum <;> assumption
 
 lemma co_add (Z Z' : Mat k r) (i : J k r) : co (Z + Z') i = co Z i + co Z' i := by
   unfold co; split_ifs <;> simp
@@ -569,31 +549,11 @@ def aC (g0 : Mat k r) (i : J k r) (Y : J k r → ℝ) : (J k r → ℝ) →L[ℝ
 
 lemma aC_apply (g0 : Mat k r) (i : J k r) (Y W : J k r → ℝ) :
     aC g0 i Y W = kc i (-(fderiv ℝ (chart g0) Y W) * (chart g0 Y)⁻¹) := by
-  have hW : W = ∑ b, W b • ebv b := pi_eq_sum_univ W
-  have e1 : -(fderiv ℝ (chart g0) Y W) * (chart g0 Y)⁻¹ =
-      ∑ b, W b • (-(fderiv ℝ (chart g0) Y (ebv b)) * (chart g0 Y)⁻¹) := by
-    conv_lhs => rw [hW]
-
-    rw [map_sum, ← Finset.sum_neg_distrib, Finset.sum_mul]
-    refine Finset.sum_congr rfl fun b _ => ?_
-    rw [map_smul, ← smul_neg, Matrix.smul_mul]
-  rw [e1, kc_sum]
-  simp only [aC, FunLike.coe_sum, Finset.sum_apply, FunLike.coe_smul,
-    Pi.smul_apply, ContinuousLinearMap.proj_apply, smul_eq_mul, sC]
-  exact Finset.sum_congr rfl fun b _ => mul_comm _ _
+  apply _root_.Formalism.FourierDecayAlt.P.Ux1.aC_apply <;> assumption
 
 lemma aC_cd {g0 : Mat k r} (hg0 : g0 ∈ GV k r) (i : J k r) :
     ContDiffOn ℝ ((⊤ : ℕ∞) : WithTop ℕ∞) (aC g0 i) (Dom k r) := by
-  have h1 : ∀ b, ContDiffOn ℝ ((⊤ : ℕ∞) : WithTop ℕ∞) (fun Y => fderiv ℝ (chart g0) Y (ebv b)) (Dom k r) :=
-    fun b => ((chart_cd g0).fderiv_of_isOpen dom_open (by simp)).clm_apply contDiffOn_const
-  have h2 : ContDiffOn ℝ ((⊤ : ℕ∞) : WithTop ℕ∞) (fun Y => (chart g0 Y)⁻¹) (Dom k r) :=
-    cdm_inv (chart_cd g0) fun Y hY => Formalism.QuantumDeterminants.WeylGroupFacts.isUnit_of_uh (chart_mem hg0 hY)
-  have h3 : ∀ b, ContDiffOn ℝ ((⊤ : ℕ∞) : WithTop ℕ∞) (sC g0 i b) (Dom k r) := by
-    intro b
-    unfold sC kc
-    exact (cd_co (cdm_mul (h1 b).neg h2) i).mul contDiffOn_const
-  unfold aC
-  exact ContDiffOn.sum fun b _ => (h3 b).smul contDiffOn_const
+  apply _root_.Formalism.FourierDecayAlt.P.Ux1.aC_cd <;> assumption
 
 variable {E : Type*} [NormedAddCommGroup E] [NormedSpace ℂ E]
 
@@ -605,15 +565,7 @@ lemma hasFDeriv_chart {g0 : Mat k r} (hg0 : g0 ∈ GV k r) {H : Mat k r → E}
 
 lemma cont_chart {g0 : Mat k r} (hg0 : g0 ∈ GV k r) {H : Mat k r → E}
     (hH : CkOn ((0 : ℕ) : ℕ∞) (GV k r) H) : ContinuousOn (fun Y => H (chart g0 Y)) (Dom k r) := by
-  intro Y hY
-  apply ContinuousAt.continuousWithinAt
-  obtain ⟨U, h', hU, hcU, hcd, hff⟩ := hH _ (chart_mem hg0 hY)
-  have hchc : ContinuousAt (chart g0) Y := (chart_diff g0 hY).continuousAt
-  have h1 : ContinuousAt (fun Y' => h' (chart g0 Y')) Y :=
-    ContinuousAt.comp (g := h') (hcd.continuousOn.continuousAt (hU.mem_nhds hcU)) hchc
-  refine h1.congr ?_
-  filter_upwards [hchc.preimage_mem_nhds (hU.mem_nhds hcU), dom_open.mem_nhds hY] with Y' h1 h2
-  exact (hff _ h1 (chart_mem hg0 h2)).symm
+  apply _root_.Formalism.FourierDecayAlt.P.Ux1.cont_chart <;> assumption
 
 def rho (g0 : Mat k r) (x : Mat k r) : J k r → ℝ := co (iot (x * g0⁻¹))
 

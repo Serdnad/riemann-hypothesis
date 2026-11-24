@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ChainStepsAreGridArrows
 public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.IsBiSmooth
 public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.IsOpenNsmulCompletedHomLatticeFiniteAdelic
 public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.RealIdemMulOfReal
@@ -73,15 +74,7 @@ theorem slice_right {A S A' : HSp D} {K : WO A S → WO S A' → ℂ} (hK : IsBi
 
 theorem actO_real {S T : HSp D} {g : GA D S} {h : GA D T} (hg : g ∈ GinfC S) (hh : h ∈ GinfC T) {x : WO S T}
     (hx : x.map (infPart D) = 0) : actO S T g h x = x := by
-  have e1 : (Formalism.L2.Theta.mt S g⁻¹).map (finPart D) = 1 := congrArg Units.val (show finHom S g⁻¹ = 1 from inv_mem hg)
-  have e2 : (Formalism.L2.Theta.mt T h).map (finPart D) = 1 := congrArg Units.val (show finHom T h = 1 from hh)
-  have e3 : (actO S T g h x).map (infPart D) = x.map (infPart D) := by
-    unfold actO
-    rw [Matrix.map_mul, Matrix.map_mul, hx, Matrix.mul_zero, Matrix.zero_mul]
-  have e4 : (actO S T g h x).map (finPart D) = x.map (finPart D) := by
-    unfold actO
-    rw [Matrix.map_mul, Matrix.map_mul, e1, e2, Matrix.mul_one, Matrix.one_mul]
-  exact Matrix.ext fun i j => GlobalTheory.SplitScalar.adele_ext (congrFun (congrFun e3 i) j) (congrFun (congrFun e4 i) j)
+  apply _root_.GlobalTheory.Grid.actO_eq_of_real <;> assumption
 
 theorem nsmul_fin {S T : HSp D} {x : WO S T} (hx : x.map (infPart D) = 0) (n : ℕ) : (n • x).map (infPart D) = 0 := by
   ext i j

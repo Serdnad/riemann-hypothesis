@@ -37,6 +37,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
+import Development.WeilBound.CoreStatements.PublishedTheorems.JacquetShalikaRigidity.UpperBlockProducts
 
 @[expose] public section
 
@@ -76,19 +77,7 @@ theorem unipotent_zero_one : UU 0 (1 : GA E k) := by
   · rw [Units.val_one, Matrix.one_apply_eq]
 
 theorem unipotent_zero_mul {u v : GA E k} (hu : UU 0 u) (hv : UU 0 v) : UU 0 (u * v) := by
-  refine ⟨fun i c h => ?_, fun i => ?_, fun i c h => absurd h (Nat.not_lt_zero _)⟩
-  · rw [Units.val_mul, Matrix.mul_apply]
-    refine Finset.sum_eq_zero fun l _ => ?_
-    rcases lt_or_ge l i with hl | hl
-    · rw [hu.1 i l hl, zero_mul]
-    · rw [hv.1 l c (lt_of_lt_of_le h hl), mul_zero]
-  · rw [Units.val_mul, Matrix.mul_apply, Finset.sum_eq_single i]
-    · rw [hu.2.1, hv.2.1, one_mul]
-    · intro l _ hl
-      rcases lt_or_gt_of_ne hl with hl | hl
-      · rw [hu.1 i l hl, zero_mul]
-      · rw [hv.1 l i hl, mul_zero]
-    · intro hi; exact absurd (Finset.mem_univ i) hi
+  apply _root_.PositivityTheory.AdelicQuotientData.UpperBlockProducts.uu_mul <;> assumption
 
 theorem step (ψ : AddChar (Ad E) ℂ) (j : ℕ) (f f' : GA E k → ℂ) (g g' : GA E k) (c : ℂ)
     (h : ∀ u, UU 0 u → f (u * g) = c * f' (u * g')) :

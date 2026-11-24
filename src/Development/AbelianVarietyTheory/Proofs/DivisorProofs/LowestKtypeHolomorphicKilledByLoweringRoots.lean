@@ -1,5 +1,6 @@
 module
 
+import CompanionTheory.SpectralGeometry.LocalGlobalProofs.StableLattices.HasDerivAtExpMul
 public import Development.AbelianVarietyTheory.Definitions.Divisors.IsSmoothVector
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsCompactTypeInCompactStableSubmodule
 public import Formalism.SharpRestriction.CuspSpanNormBounds.RelevantZeroGramTerms
@@ -260,16 +261,7 @@ lemma kset_inv {g : Mt n} (hg : g ∈ Kset ε) : g⁻¹ = star g :=
   Matrix.inv_eq_left_inv (Matrix.mem_unitaryGroup_iff'.1 hg.1)
 
 lemma tor_mem (ε : Fin n → Bool) (θ : Fin n → ℝ) : tor θ ∈ Kset ε := by
-  refine ⟨?_, ?_⟩
-  · rw [Matrix.mem_unitaryGroup_iff, Matrix.star_eq_conjTranspose, Matrix.diagonal_conjTranspose,
-      Matrix.diagonal_mul_diagonal, ← Matrix.diagonal_one]
-    congr 1
-    funext i
-    simp only [Pi.star_apply]
-    change _ * (starRingEnd ℂ) (Complex.exp _) = _
-    rw [← Complex.exp_conj, ← Complex.exp_add]
-    simp
-  · simp only [Formalism.REAL.Jm, Matrix.diagonal_mul_diagonal, mul_comm]
+  apply _root_.GlobalTheory.CompanionTheory.WtLinkPf.tor_mem_K <;> assumption
 
 lemma inner_kset (hσ : IsURepOn (UJset ε) σ) {g : Mt n} (hg : g ∈ Kset ε) (x y : H) :
     ⟪x, σ g y⟫_ℂ = ⟪σ (star g) x, y⟫_ℂ := by

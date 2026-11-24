@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.SatakeParameters.DetInvMulFrameReadingCongruentOneModNorm
 public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.UnderTie
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.AdelicLatAtRep
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.ChartFunctionalEqOfAgreeBadPlacesAllSteps
@@ -939,16 +940,7 @@ variable {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algeb
 
 theorem intAtA_add {a b : E ⊗[F] FiniteAdeleRing (𝓞 F) F} (ha : IntAtA (F := F) P a) (hb : IntAtA (F := F) P b) :
     IntAtA (F := F) P (a + b) := by
-  obtain ⟨s, hs, h1⟩ := ha
-  obtain ⟨r, hr, h2⟩ := hb
-  have hi : ∀ x : 𝓞 E, iA F E (algebraMap (𝓞 E) E x) ∈ Formalism.L2.Herm.intAf F E := fun x => (toRInt F E x).2
-  refine ⟨s * r, fun h => (P.isPrime.mem_or_mem h).elim hs hr, ?_⟩
-  have e : iA F E (algebraMap (𝓞 E) E (s * r)) * (a + b) =
-      iA F E (algebraMap (𝓞 E) E r) * (iA F E (algebraMap (𝓞 E) E s) * a) +
-        iA F E (algebraMap (𝓞 E) E s) * (iA F E (algebraMap (𝓞 E) E r) * b) := by
-    rw [map_mul, map_mul]; ring
-  rw [e]
-  exact add_mem (mul_mem (hi r) h1) (mul_mem (hi s) h2)
+  apply _root_.GlobalTheory.CplPt.intAtA_add <;> assumption
 
 theorem intAtA_mul {a b : E ⊗[F] FiniteAdeleRing (𝓞 F) F} (ha : IntAtA (F := F) P a) (hb : IntAtA (F := F) P b) :
     IntAtA (F := F) P (a * b) := by
@@ -980,64 +972,7 @@ def intAtSub (P : HeightOneSpectrum (𝓞 E)) :
 theorem det_congAt {d : ℕ} (hd : 1 ≤ d) {k : GL (Fin N) (E ⊗[F] FiniteAdeleRing (𝓞 F) F)} (h : CongAt P d k) :
     IntAtA (F := F) P (iA F E ((qOf P : ℕ) : E)⁻¹ *
       (((Matrix.GeneralLinearGroup.det k : (E ⊗[F] FiniteAdeleRing (𝓞 F) F)ˣ) : E ⊗[F] FiniteAdeleRing (𝓞 F) F) - 1)) := by
-  classical
-  set S := intAtSub (F := F) P with hS
-  have hq : ((qOf P : ℕ) : E) ≠ 0 := by
-    have : qOf P ≠ 0 := fun h0 => P.ne_bot (Ideal.absNorm_eq_zero_iff.1 h0)
-    exact_mod_cast this
-  set Q := iA F E ((qOf P : ℕ) : E) with hQ
-  have hcQ : iA F E ((qOf P : ℕ) : E)⁻¹ * Q = 1 := by rw [hQ, ← map_mul, inv_mul_cancel₀ hq, map_one]
-  have hQS : Q ∈ S := by
-    have := intAtA_int (F := F) (P := P) ((qOf P : ℕ) : 𝓞 E)
-    simpa [hQ] using this
-  have hZ : ∀ a b, Q ^ (d - 1) * (iA F E (((qOf P : ℕ) : E) ^ d)⁻¹ *
-      ((k : Matrix (Fin N) (Fin N) (E ⊗[F] FiniteAdeleRing (𝓞 F) F)) - 1) a b) ∈ S :=
-    fun a b => S.mul_mem (S.pow_mem hQS _) (h a b)
-  have hZe : ∀ a b, Q * (Q ^ (d - 1) * (iA F E (((qOf P : ℕ) : E) ^ d)⁻¹ *
-      ((k : Matrix (Fin N) (Fin N) (E ⊗[F] FiniteAdeleRing (𝓞 F) F)) - 1) a b)) =
-      ((k : Matrix (Fin N) (Fin N) (E ⊗[F] FiniteAdeleRing (𝓞 F) F)) - 1) a b := by
-    intro a b
-    have e : Q * Q ^ (d - 1) * iA F E (((qOf P : ℕ) : E) ^ d)⁻¹ = 1 := by
-      rw [← pow_succ', Nat.sub_add_cancel hd, hQ, ← map_pow, ← map_mul, mul_inv_cancel₀ (pow_ne_zero _ hq), map_one]
-    rw [← mul_assoc, ← mul_assoc, e, one_mul]
-  let Z : Matrix (Fin N) (Fin N) S := fun a b => ⟨_, hZ a b⟩
-  let q' : S := ⟨Q, hQS⟩
-  let M : Matrix (Fin N) (Fin N) S := 1 + q' • Z
-  have hM : M.map S.subtype = (k : Matrix (Fin N) (Fin N) (E ⊗[F] FiniteAdeleRing (𝓞 F) F)) := by
-    ext a b
-    have e1 : S.subtype ((1 : Matrix (Fin N) (Fin N) S) a b) = (1 : Matrix (Fin N) (Fin N) (E ⊗[F] FiniteAdeleRing (𝓞 F) F)) a b := by
-      rw [Matrix.one_apply, Matrix.one_apply]; split_ifs <;> simp
-    rw [Matrix.map_apply]
-    simp only [M]
-    rw [Matrix.add_apply, map_add (f := _), e1, Matrix.smul_apply, smul_eq_mul, map_mul]
-    show _ + Q * (Q ^ (d - 1) * _) = _
-    rw [hZe, Matrix.sub_apply]
-    ring_nf
-  set I : Ideal S := Ideal.span {q'}
-  have hMI : M.map (Ideal.Quotient.mk I) = 1 := by
-    ext a b
-    have hq0 : Ideal.Quotient.mk I q' = 0 := Ideal.Quotient.eq_zero_iff_mem.2 (Ideal.subset_span rfl)
-    rw [Matrix.map_apply]
-    simp only [M]
-    rw [Matrix.add_apply, map_add (f := _), Matrix.smul_apply, smul_eq_mul, map_mul, hq0, zero_mul, add_zero,
-      Matrix.one_apply, Matrix.one_apply]
-    split_ifs <;> simp
-  have hdet : Ideal.Quotient.mk I M.det = Ideal.Quotient.mk I 1 := by
-    rw [RingHom.map_det, map_one]
-    show (M.map (Ideal.Quotient.mk I)).det = 1
-    rw [hMI, Matrix.det_one]
-  obtain ⟨w, hw⟩ := Ideal.mem_span_singleton'.1 (Ideal.Quotient.eq.1 hdet)
-  have hk : ((Matrix.GeneralLinearGroup.det k : (E ⊗[F] FiniteAdeleRing (𝓞 F) F)ˣ) : E ⊗[F] FiniteAdeleRing (𝓞 F) F) =
-      S.subtype M.det := by
-    rw [RingHom.map_det, Matrix.GeneralLinearGroup.val_det_apply]
-    exact congrArg Matrix.det hM.symm
-  have e2 : iA F E ((qOf P : ℕ) : E)⁻¹ *
-      (((Matrix.GeneralLinearGroup.det k : (E ⊗[F] FiniteAdeleRing (𝓞 F) F)ˣ) : E ⊗[F] FiniteAdeleRing (𝓞 F) F) - 1) = (w : _) := by
-    rw [hk, show S.subtype M.det - 1 = S.subtype (M.det - 1) by simp, ← hw, map_mul]
-    show iA F E ((qOf P : ℕ) : E)⁻¹ * ((w : _) * Q) = _
-    rw [mul_comm (w : E ⊗[F] FiniteAdeleRing (𝓞 F) F), ← mul_assoc, hcQ, one_mul]
-  rw [e2]
-  exact w.2
+  apply _root_.GlobalTheory.FramesDet.det_congAt <;> assumption
 
 end Cong
 
@@ -1074,16 +1009,7 @@ theorem det_inFrame {P : SB} {κ : GL (Fin (D.R.N i)) (D.host.E ⊗[D.host.F] Fi
     IntAtA (F := D.host.F) (seamP s P.1) (iA D.host.F D.host.E ((qOf (seamP s P.1) : D.host.E))⁻¹ *
       ((((Matrix.GeneralLinearGroup.det κ)⁻¹ : (AfE D.host.F D.host.E)ˣ) : AfE D.host.F D.host.E) *
         iA D.host.F D.host.E (s.iE ((LinearEquiv.det g : X.Eˣ) : X.E)) - 1)) := by
-  have H := det_congAt hd h
-  have e : ((Matrix.GeneralLinearGroup.det (((ratA D.host.F (fb P))⁻¹ * κ * ratA D.host.F (fb P))⁻¹ *
-      ratA D.host.F (seamGL s g)) : (AfE D.host.F D.host.E)ˣ) : AfE D.host.F D.host.E) =
-      (((Matrix.GeneralLinearGroup.det κ)⁻¹ : (AfE D.host.F D.host.E)ˣ) : AfE D.host.F D.host.E) *
-        iA D.host.F D.host.E (s.iE ((LinearEquiv.det g : X.Eˣ) : X.E)) := by
-    rw [map_mul, map_inv, map_mul, map_mul, map_inv, Units.val_mul, det_ratA, det_seamGL]
-    congr 2
-    rw [mul_comm, mul_inv_cancel_left]
-  rw [← e]
-  exact H
+  apply _root_.GlobalTheory.FramesDet.det_inFrame <;> assumption
 
 end Frame
 

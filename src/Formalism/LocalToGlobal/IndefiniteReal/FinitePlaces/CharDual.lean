@@ -3,6 +3,7 @@ module
 public import Formalism.LocalToGlobal.IndefiniteReal.LocalNewformFunction
 public import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.CharLem
 public import Formalism.LocalToGlobal.IndefiniteReal.DatumLemmas
+import Development.AbelianVarietyTheory.BlockTheory.HeightDefect.BesselDatum
 
 @[expose] public section
 
@@ -27,21 +28,7 @@ section Matrix
 variable {D : D7} (S T : HSp D)
 
 theorem embedding_xi_zero_ne_zero : D.host.xi0 ≠ 0 := by
-  have hd : D.host.φ₀ D.host.sqrtMinusD = Complex.I * (Real.sqrt D.host.d : ℂ) := D.host.φ₀_mem
-  have hdpos : (0 : ℝ) < D.host.d := by exact_mod_cast D.host.hyp.2.1.pos
-  have hs : D.host.sqrtMinusD ≠ 0 := by
-    intro h0
-    rw [h0, map_zero] at hd
-    have : (Real.sqrt D.host.d : ℂ) = 0 := by
-      rcases mul_eq_zero.1 hd.symm with h | h
-      · exact absurd h Complex.I_ne_zero
-      · exact h
-    exact (Real.sqrt_pos.2 hdpos).ne' (by exact_mod_cast this)
-  have hN : (Ideal.absNorm D.host.ccK : D.host.E) ≠ 0 := by
-    have : Ideal.absNorm D.host.ccK ≠ 0 := fun h => D.host.ccK_ne_bot (Ideal.absNorm_eq_zero_iff.1 h)
-    exact_mod_cast this
-  unfold Host.xi0
-  exact div_ne_zero (neg_ne_zero.2 one_ne_zero) (mul_ne_zero hN hs)
+  apply _root_.GlobalTheory.IndefiniteRowSideFullHecke.BesselData.embedding_xi_zero_ne_zero <;> assumption
 
 def hE (e γ : Matrix (Fin T.rank) (Fin S.rank) D.host.E) : D.host.E :=
   ∑ a, ∑ b, ∑ c, ∑ d, S.gram⁻¹ a b * star (γ c b) * T.gram c d * e d a

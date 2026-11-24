@@ -47,6 +47,7 @@ import Mathlib.Tactic.ReduceModChar
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.SabPull
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.LBPull
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.ChartPullbacks.TangentLinearity.ConstPullback
+import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.ExistsUniqueWeilIs
 
 @[expose] public section
 
@@ -114,18 +115,7 @@ variable {S : Scheme.{0}} {A : Over S} [GrpObj A] {L : LB A.left}
 
 theorem surj_fst (hG : GlobalFnsSt) (hA : IsAbelianScheme A) (T : Over S) :
     Function.Surjective (fst T A).left.appTop.hom := by
-  have h1 : Function.Surjective (snd A T).left.appTop.hom := (hG _ _ (TLinPf.isAb_pullback T.hom A hA)).2
-  have h2 : Function.Surjective (lift (snd T A) (fst T A)).left.appTop.hom := by
-    have e : (lift (snd T A) (fst T A)).left ≫ (lift (snd A T) (fst A T)).left = 𝟙 _ :=
-      congrArg (fun q => q.left) (show lift (snd T A) (fst T A) ≫ lift (snd A T) (fst A T) = 𝟙 _ by ext <;> simp)
-    intro v
-    refine ⟨(lift (snd A T) (fst A T)).left.appTop.hom v, ?_⟩
-    rw [← CommRingCat.comp_apply, ← Scheme.Hom.comp_appTop, e]
-    simp
-  have e : (fst T A).left = (lift (snd T A) (fst T A)).left ≫ (snd A T).left := by
-    rw [← Over.comp_left, lift_snd]
-  rw [e, Scheme.Hom.comp_appTop, CommRingCat.hom_comp, RingHom.coe_comp]
-  exact h2.comp h1
+  apply _root_.GlobalTheory.CommutatorPairing.surj_fst <;> assumption
 
 theorem exists_constT (hG : GlobalFnsSt) (hA : IsAbelianScheme A) (hL : L.IsLB) {T : Over S} {K : Type} [Fintype K]
     {φ : K → ((T ⊗ A).left ⟶ A.left)} {ε : K → ℤ}

@@ -1,5 +1,6 @@
 module
 
+import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.StabilizerVolume.ExStabOrb
 public import Mathlib.MeasureTheory.Group.Defs
 public import Mathlib.MeasureTheory.Integral.Lebesgue.Basic
 public import Mathlib.Topology.MetricSpace.Polish
@@ -100,13 +101,7 @@ theorem avg_out (H : Subgroup G) (ν : Measure H) [ν.IsMulLeftInvariant] (f : G
 theorem meas_avg_q (H : Subgroup G) (ν : Measure H) [SFinite ν] [ν.IsMulLeftInvariant]
     {f : G → ℝ≥0∞} (hf : Measurable f) :
     Measurable (fun q : G ⧸ H => ∫⁻ h, f (q.out * (h : G)) ∂ν) := by
-  apply measurable_from_quotient.2
-  have : ((fun q : G ⧸ H => ∫⁻ h, f (q.out * (h : G)) ∂ν) ∘ Quotient.mk'') =
-      fun g => ∫⁻ h, f (g * (h : G)) ∂ν := by
-    funext g
-    exact avg_out H ν f g
-  rw [this]
-  exact meas_avg H ν hf
+  apply _root_.PI.VolStabS.meas_avg_q <;> assumption
 
 theorem lint_eq (H : Subgroup G) (ν : Measure H) [ν.IsMulLeftInvariant] [IsFiniteMeasure ν]
     (μ : Measure G) [SFinite μ] (hr : ∀ k : H, μ.map (· * (k : G)) = μ) (f : G → ℝ≥0∞) (hf : Measurable f) :

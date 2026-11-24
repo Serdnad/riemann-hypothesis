@@ -1,5 +1,6 @@
 module
 
+import Formalism.SharpRestriction.LevelLetterCocycles.TwGood
 public import Formalism.LocalToGlobal.NormalizedHeckeFactors.RhoDefs
 public import Formalism.LocalToGlobal.NormalizedHeckeFactors.NormalizedHeckeData
 public import Mathlib.RingTheory.DedekindDomain.Factorization
@@ -145,13 +146,7 @@ variable {K : Type} [Field K] [TopologicalSpace K] {a b : ℕ}
 end transfer
 
 theorem placesOver_finite (E : Type) [Field E] [NumberField E] (p : ℕ) (hp : p ≠ 0) : (placesOver E p).Finite := by
-  have h0 : Ideal.span {((p : ℕ) : 𝓞 E)} ≠ 0 := by
-    rw [Ne, Ideal.zero_eq_bot, Ideal.span_singleton_eq_bot]
-    exact_mod_cast hp
-  refine (Ideal.finite_factors h0).subset fun v hv => ?_
-  show v.asIdeal ∣ _
-  rw [Ideal.dvd_iff_le, Ideal.span_singleton_le_iff_mem]
-  exact hv
+  apply _root_.Formalism.MainNotions.placesOver_finite_av <;> assumption
 
 theorem isoLoc_single (D : D7) {a : ℕ} (π : D.naut.CG a) (w : PlE D.host) :
     Formalism.MainNotions.N.isoLoc D.nd D.naut [⟨a, π, 1⟩] w = D.naut.locG π w := by

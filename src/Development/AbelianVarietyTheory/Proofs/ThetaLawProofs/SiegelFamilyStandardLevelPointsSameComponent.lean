@@ -1,5 +1,6 @@
 module
 
+import all Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.SndFDerivAddSndFDerivIEqZeroOfHarmonicAtLine
 public import Development.AbelianVarietyTheory.Definitions.KeyFormula.GeomIntSelf
 public import Development.AbelianVarietyTheory.Statements.ThetaLevelCharacters.MemThetaLevelCharDimZero
 public import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.AppellHumbertUnifTangentWeilPairing
@@ -192,17 +193,7 @@ namespace GlobalTheory.SiegelConnected
 
 theorem convex_siegel (h : ℕ) :
     Convex ℝ {τ : Matrix (Fin h) (Fin h) ℂ | τ.IsSymm ∧ (τ.map Complex.im).PosDef} := by
-  rintro x ⟨hx, hx'⟩ y ⟨hy, hy'⟩ a b ha hb hab
-  refine ⟨(hx.smul a).add (hy.smul b), ?_⟩
-  have e : (a • x + b • y).map Complex.im = a • x.map Complex.im + b • y.map Complex.im := by
-    ext i j
-    simp
-  rw [e]
-  rcases ha.eq_or_lt with rfl | ha'
-  · have : b = 1 := by simpa using hab
-    subst this
-    simpa using hy'
-  · exact (hx'.smul ha').add_posSemidef (hy'.posSemidef.smul hb)
+  apply _root_.GlobalTheory.convex_siegelH <;> assumption
 
 variable {o : Type} [CommRing o] {S : Scheme.{0}} {s : S ⟶ Sp o} {σ : o →+* ℂ}
 

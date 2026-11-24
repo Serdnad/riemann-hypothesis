@@ -166,10 +166,6 @@ theorem weight_sum {N m : ℕ} (hN : N ≠ 0) (hm : m ∣ N) (hm1 : m ≠ 1) :
 
 variable {N : ℕ} [NeZero N]
 
-private theorem intCast_zmod_eq_zero_iff_dvd' (a : ℤ) : ((a : ZMod N) = 0) ↔ (N : ℤ) ∣ a := by
-  first
-  | exact CharP.intCast_eq_zero_iff (ZMod N) N a
-
 theorem order_dvd_iff {m : ℕ} (hm : m ∣ N) (u : ZMod N) : addOrderOf (u - 1) ∣ m ↔ u.val ≡ 1 [MOD N / m] := by
   obtain ⟨d, hd⟩ := hm
   have hm0 : m ≠ 0 := by
@@ -181,7 +177,7 @@ theorem order_dvd_iff {m : ℕ} (hm : m ∣ N) (u : ZMod N) : addOrderOf (u - 1)
     rw [nsmul_eq_mul, Int.cast_mul, Int.cast_natCast, Int.cast_sub, Int.cast_natCast, Int.cast_one,
       ZMod.natCast_zmod_val]
   have hN : (N : ℤ) = (m : ℤ) * d := by exact_mod_cast hd
-  rw [hdm, addOrderOf_dvd_iff_nsmul_eq_zero, key, intCast_zmod_eq_zero_iff_dvd', hN,
+  rw [hdm, addOrderOf_dvd_iff_nsmul_eq_zero, key, CharP.intCast_eq_zero_iff (ZMod N) N, hN,
     mul_dvd_mul_iff_left (by exact_mod_cast hm0), Nat.modEq_iff_dvd, Nat.cast_one, dvd_sub_comm]
 
 private theorem coe_unitsMap_eq_natCast_val_of_dvd {d : ℕ} (hd : d ∣ N) (u : (ZMod N)ˣ) :
@@ -203,9 +199,6 @@ theorem mem_KK {f : ℕ} {u : (ZMod N)ˣ} : u ∈ KK N f ↔ (u : ZMod N).val �
 private theorem ne_zero_of_dvd_of_neZero {f : ℕ} (hf : f ∣ N) : f ≠ 0 := by
   rintro rfl
   exact NeZero.ne N (zero_dvd_iff.mp hf)
-
-private theorem addOrderOf_dvd_of_zmod (x : ZMod N) : addOrderOf x ∣ N :=
-  addOrderOf_dvd_of_nsmul_eq_zero (by rw [nsmul_eq_mul, ZMod.natCast_self, zero_mul])
 
 theorem card_KK {f : ℕ} (hf : f ∣ N) : (KK N f).card * f.totient = N.totient := by
   classical
@@ -238,7 +231,7 @@ theorem abel (U : Subgroup (ZMod N)ˣ) :
           vonMangoldt m * ((N / m).totient : ℝ) / N.totient else 0) := by
         refine Finset.sum_congr rfl fun u hu => ?_
         rw [Finset.mem_filter] at hu
-        have hd : addOrderOf ((u : ZMod N) - 1) ∣ N := addOrderOf_dvd_of_zmod _
+        have hd : addOrderOf ((u : ZMod N) - 1) ∣ N := addOrderOf_dvd_of_nsmul_eq_zero (by rw [nsmul_eq_mul, ZMod.natCast_self, zero_mul])
         have h1 : addOrderOf ((u : ZMod N) - 1) ≠ 1 := by
           intro h
           have h' := addOrderOf_nsmul_eq_zero ((u : ZMod N) - 1)
@@ -277,26 +270,29 @@ theorem rho_nonneg (U : Subgroup (ZMod N)ˣ) (f : ℕ) : 0 ≤ rho U f := by
   · exact le_of_lt (by exact_mod_cast (Nat.totient_pos).2 (Nat.pos_of_ne_zero (NeZero.ne N)))
 
 open Classical in
+private theorem card_outside_add_card_inside (U : Subgroup (ZMod N)ˣ) (f : ℕ) :
+    ((KK N f).filter fun u => u ∉ U).card +
+      ((KK N f).filter fun u => u ∈ U).card = (KK N f).card := by
+  rw [add_comm]
+  exact Finset.card_filter_add_card_filter_not (s := KK N f) (fun u => u ∈ U)
+
+open Classical in
+private theorem rho_eq_card_outside_div (U : Subgroup (ZMod N)ˣ) {f : ℕ} (hf : f ∣ N) :
+    rho U f =
+      (((KK N f).filter fun u => u ∉ U).card : ℝ) / (KK N f).card := by
+  have hc : ((KK N f).card : ℝ) * f.totient = N.totient := by
+    exact_mod_cast card_KK hf
+  have ht : (f.totient : ℝ) ≠ 0 := by
+    exact_mod_cast totient_ne_zero_of_ne_zero (ne_zero_of_dvd_of_neZero hf)
+  have hK : ((KK N f).card : ℝ) ≠ 0 := by
+    exact_mod_cast card_KK_ne_zero_of_dvd hf
+  unfold rho
+  rw [← hc]
+  field_simp [ht, hK]
+
+open Classical in
 theorem rho_eq (U : Subgroup (ZMod N)ˣ) {f : ℕ} (hf : f ∣ N) :
     rho U f = 1 - (((KK N f).filter fun u => u ∈ U).card : ℝ) * f.totient / N.totient := by
-  have card_outside_add_card_inside_lemma_12 {N : ℕ} [NeZero N] (U : Subgroup (ZMod N)ˣ) (f : ℕ) :
-      ((KK N f).filter fun u => u ∉ U).card +
-        ((KK N f).filter fun u => u ∈ U).card = (KK N f).card := by
-    rw [add_comm]
-    first
-    | convert Finset.card_filter_add_card_filter_not (s := KK N f) (fun u => u ∈ U)
-  have kernelOutsideFraction_eq_div_lemma_13 {N : ℕ} [NeZero N] (U : Subgroup (ZMod N)ˣ) {f : ℕ} (hf : f ∣ N) :
-      rho U f =
-        (((KK N f).filter fun u => u ∉ U).card : ℝ) / (KK N f).card := by
-    have hc : ((KK N f).card : ℝ) * f.totient = N.totient := by
-      exact_mod_cast card_KK hf
-    have ht : (f.totient : ℝ) ≠ 0 := by
-      exact_mod_cast totient_ne_zero_of_ne_zero (ne_zero_of_dvd_of_neZero hf)
-    have hK : ((KK N f).card : ℝ) ≠ 0 := by
-      exact_mod_cast card_KK_ne_zero_of_dvd hf
-    unfold rho
-    rw [← hc]
-    field_simp [ht, hK]
   have hc : ((KK N f).card : ℝ) * f.totient = N.totient := by
     exact_mod_cast card_KK hf
   have ht : (f.totient : ℝ) ≠ 0 := by
@@ -304,8 +300,8 @@ theorem rho_eq (U : Subgroup (ZMod N)ˣ) {f : ℕ} (hf : f ∣ N) :
   have hK : ((KK N f).card : ℝ) ≠ 0 := by exact_mod_cast card_KK_ne_zero_of_dvd hf
   have hs : (((KK N f).filter fun u => u ∉ U).card : ℝ) +
       (((KK N f).filter fun u => u ∈ U).card : ℝ) = (KK N f).card := by
-    exact_mod_cast card_outside_add_card_inside_lemma_12 U f
-  rw [kernelOutsideFraction_eq_div_lemma_13 U hf, ← hc, mul_div_mul_right _ _ ht, eq_sub_iff_add_eq, ← add_div, hs,
+    exact_mod_cast card_outside_add_card_inside U f
+  rw [rho_eq_card_outside_div U hf, ← hc, mul_div_mul_right _ _ ht, eq_sub_iff_add_eq, ← add_div, hs,
     div_self hK]
 
 private theorem mem_KK_iff_mem_ker_unitsMap {f : ℕ} (hf : f ∣ N) {u : (ZMod N)ˣ} :
@@ -334,26 +330,6 @@ theorem rho_le (U : Subgroup (ZMod N)ˣ) {f : ℕ} (hf : f ∣ N) : rho U f ≤ 
 
 theorem half_le_rho (U : Subgroup (ZMod N)ˣ) {f : ℕ} (hf : f ∣ N) (h : ∃ u ∈ KK N f, u ∉ U) : 1 / 2 ≤ rho U f := by
   open Classical in
-  have card_outside_add_card_inside_lemma_12 {N : ℕ} [NeZero N] (U : Subgroup (ZMod N)ˣ) (f : ℕ) :
-      ((KK N f).filter fun u => u ∉ U).card +
-        ((KK N f).filter fun u => u ∈ U).card = (KK N f).card := by
-    rw [add_comm]
-    first
-    | convert Finset.card_filter_add_card_filter_not (s := KK N f) (fun u => u ∈ U)
-  open Classical in
-  have kernelOutsideFraction_eq_div_lemma_13 {N : ℕ} [NeZero N] (U : Subgroup (ZMod N)ˣ) {f : ℕ} (hf : f ∣ N) :
-      rho U f =
-        (((KK N f).filter fun u => u ∉ U).card : ℝ) / (KK N f).card := by
-    have hc : ((KK N f).card : ℝ) * f.totient = N.totient := by
-      exact_mod_cast card_KK hf
-    have ht : (f.totient : ℝ) ≠ 0 := by
-      exact_mod_cast totient_ne_zero_of_ne_zero (ne_zero_of_dvd_of_neZero hf)
-    have hK : ((KK N f).card : ℝ) ≠ 0 := by
-      exact_mod_cast card_KK_ne_zero_of_dvd hf
-    unfold rho
-    rw [← hc]
-    field_simp [ht, hK]
-  open Classical in
   have card_inside_le_outside_lemma_15 {N : ℕ} [NeZero N] (U : Subgroup (ZMod N)ˣ) {f : ℕ} (hf : f ∣ N) {u0 : (ZMod N)ˣ}
       (hu0 : u0 ∈ KK N f) (hu0' : u0 ∉ U) :
       ((KK N f).filter fun u => u ∈ U).card ≤
@@ -368,36 +344,16 @@ theorem half_le_rho (U : Subgroup (ZMod N)ˣ) {f : ℕ} (hf : f ∣ N) (h : ∃ 
       exact mul_left_cancel hab
   obtain ⟨u0, hu0, hu0'⟩ := h
   have h1 := (Nat.cast_le (α := ℝ)).mpr (card_inside_le_outside_lemma_15 U hf hu0 hu0')
-  have h2 := congrArg (Nat.cast : ℕ → ℝ) (card_outside_add_card_inside_lemma_12 U f)
+  have h2 := congrArg (Nat.cast : ℕ → ℝ) (card_outside_add_card_inside U f)
   push_cast at h2
   have hK : (0 : ℝ) < (KK N f).card :=
     Nat.cast_pos.mpr (Nat.pos_of_ne_zero (card_KK_ne_zero_of_dvd hf))
-  rw [kernelOutsideFraction_eq_div_lemma_13 U hf]
+  rw [rho_eq_card_outside_div U hf]
   first
   | exact (le_div_iff₀ hK).mpr (by linarith)
 
 theorem rho_le_half (U : Subgroup (ZMod N)ˣ) {f : ℕ} (hf : f ∣ N)
     (h : ∀ u ∈ KK N f, ∀ v ∈ KK N f, u ∉ U → v ∉ U → u * v ∈ U) : rho U f ≤ 1 / 2 := by
-  open Classical in
-  have card_outside_add_card_inside_lemma_12 {N : ℕ} [NeZero N] (U : Subgroup (ZMod N)ˣ) (f : ℕ) :
-      ((KK N f).filter fun u => u ∉ U).card +
-        ((KK N f).filter fun u => u ∈ U).card = (KK N f).card := by
-    rw [add_comm]
-    first
-    | convert Finset.card_filter_add_card_filter_not (s := KK N f) (fun u => u ∈ U)
-  open Classical in
-  have kernelOutsideFraction_eq_div_lemma_13 {N : ℕ} [NeZero N] (U : Subgroup (ZMod N)ˣ) {f : ℕ} (hf : f ∣ N) :
-      rho U f =
-        (((KK N f).filter fun u => u ∉ U).card : ℝ) / (KK N f).card := by
-    have hc : ((KK N f).card : ℝ) * f.totient = N.totient := by
-      exact_mod_cast card_KK hf
-    have ht : (f.totient : ℝ) ≠ 0 := by
-      exact_mod_cast totient_ne_zero_of_ne_zero (ne_zero_of_dvd_of_neZero hf)
-    have hK : ((KK N f).card : ℝ) ≠ 0 := by
-      exact_mod_cast card_KK_ne_zero_of_dvd hf
-    unfold rho
-    rw [← hc]
-    field_simp [ht, hK]
   open Classical in
   have card_outside_le_inside_lemma_16 {N : ℕ} [NeZero N] (U : Subgroup (ZMod N)ˣ) {f : ℕ} (hf : f ∣ N)
       (h : ∀ u ∈ KK N f, ∀ v ∈ KK N f, u ∉ U → v ∉ U → u * v ∈ U) :
@@ -414,11 +370,11 @@ theorem rho_le_half (U : Subgroup (ZMod N)ˣ) {f : ℕ} (hf : f ∣ N)
       · intro a _ b _ hab
         exact mul_left_cancel hab
   have h1 := (Nat.cast_le (α := ℝ)).mpr (card_outside_le_inside_lemma_16 U hf h)
-  have h2 := congrArg (Nat.cast : ℕ → ℝ) (card_outside_add_card_inside_lemma_12 U f)
+  have h2 := congrArg (Nat.cast : ℕ → ℝ) (card_outside_add_card_inside U f)
   push_cast at h2
   have hK : (0 : ℝ) < (KK N f).card :=
     Nat.cast_pos.mpr (Nat.pos_of_ne_zero (card_KK_ne_zero_of_dvd hf))
-  rw [kernelOutsideFraction_eq_div_lemma_13 U hf]
+  rw [rho_eq_card_outside_div U hf]
   first
   | exact (div_le_iff₀ hK).mpr (by linarith)
 

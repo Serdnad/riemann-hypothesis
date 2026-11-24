@@ -1,5 +1,6 @@
 module
 
+import Development.AutomorphicSpectrum.Proofs.MetricProofs.LogResolutionFunctorialHolomorphic
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.InterRes
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -174,15 +175,8 @@ theorem minors_of_so {z z' : (Σ k, ι k) → ℂ} (h : SameOrbit z z') : Minors
 
 theorem so_of_minors {z z' : (Σ k, ι k) → ℂ} (h : Minors z z') (hz : ∀ k, ∃ i, z ⟨k, i⟩ ≠ 0)
     (hz' : ∀ k, ∃ i, z' ⟨k, i⟩ ≠ 0) : SameOrbit z z' := by
-  choose p hp using hz'
-  have key : ∀ k i, z ⟨k, i⟩ = z ⟨k, p k⟩ / z' ⟨k, p k⟩ * z' ⟨k, i⟩ := fun k i => by
-    have := h k i (p k)
-    have h0 := hp k
-    field_simp
-    rw [this]
-  refine ⟨fun k => z ⟨k, p k⟩ / z' ⟨k, p k⟩, fun k h0 => ?_, funext fun q => key q.1 q.2⟩
-  obtain ⟨i, hi⟩ := hz k
-  exact hi (by rw [key k i, show z ⟨k, p k⟩ / z' ⟨k, p k⟩ = 0 from h0, zero_mul])
+  intros
+  apply _root_.GlobalTheory.CompanionTheory.Ar.PB.Proj.orbit_of_cross <;> assumption
 
 theorem minors_congr {a a' b b' : (Σ k, ι k) → ℂ} (ha : SameOrbit a a') (hb : SameOrbit b b') (h : Minors a' b') :
     Minors a b := by

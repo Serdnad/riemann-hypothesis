@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Counterexamples.LevelGroupExamples.OrthonormalBaseFrameNeg
 public import Development.AbelianVarietyTheory.BlockTheory.HeightDefect.AdelicUnitaryGroups
 public import Formalism.SharpRestriction.GlobalSchurBounds.StandardLattice
 public import Development.AbelianVarietyTheory.Counterexamples.HeightSurvey.EmbRelExistsUnique
@@ -195,21 +196,7 @@ theorem isInfEmb_infEmb (τ : E →+* ℂ) : Formalism.MainNotions.StandardLatti
 
 theorem isInfEmb_unique (τ : E →+* ℂ) (θ θ' : Ainf F ⊗[F] E →+* ℂ) (h : Formalism.MainNotions.StandardLattice.IsInfEmb τ θ)
     (h' : Formalism.MainNotions.StandardLattice.IsInfEmb τ θ') : θ = θ' := by
-  have key : (fun a : Ainf F => θ (a ⊗ₜ[F] (1 : E))) = fun a : Ainf F => θ' (a ⊗ₜ[F] (1 : E)) := by
-    refine (InfiniteAdeleRing.denseRange_algebraMap F).equalizer h.2 h'.2 ?_
-    funext x
-    have e : (algebraMap F (Ainf F) x) ⊗ₜ[F] (1 : E) = (1 : Ainf F) ⊗ₜ[F] (algebraMap F E x) := by
-      rw [Algebra.algebraMap_eq_smul_one, Algebra.algebraMap_eq_smul_one, TensorProduct.smul_tmul]
-    show θ (algebraMap F (Ainf F) x ⊗ₜ[F] (1 : E)) = θ' (algebraMap F (Ainf F) x ⊗ₜ[F] (1 : E))
-    rw [e, h.1, h'.1]
-  refine RingHom.ext fun z => ?_
-  induction z using TensorProduct.induction_on with
-  | zero => simp
-  | tmul a x =>
-    have e : a ⊗ₜ[F] x = (a ⊗ₜ[F] (1 : E)) * ((1 : Ainf F) ⊗ₜ[F] x) := by
-      rw [Algebra.TensorProduct.tmul_mul_tmul, mul_one, one_mul]
-    rw [e, map_mul, map_mul, h.1, h'.1, congrFun key a]
-  | add x y hx hy => rw [map_add (f := _), map_add (f := _), hx, hy]
+  apply _root_.GlobalTheory.LettersCheck.isInfEmb_unique <;> assumption
 
 def evW (w : InfinitePlace F) : Ainf F →ₐ[F] w.Completion :=
   Pi.evalAlgHom F (fun w : InfinitePlace F => w.Completion) w

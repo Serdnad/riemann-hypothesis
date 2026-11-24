@@ -58,6 +58,7 @@ import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.T
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.LBLocal
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.FirstCohomology.LevelFrameOfLaws
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.FirstCohomology.OneCSt
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.StalkGenerizationGermCompat
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.Proofs.GenericRegularity.ExistsChartGeneratorPullbackGeneratesFibre, Development.AbelianVarietyTheory.Proofs.GenericRegularity.ExistsFrPtTie
@@ -82,14 +83,7 @@ section Stalk
 variable {X Z : Scheme.{0}}
 
 theorem flat_fromSpecStalk (x : X) : Flat (X.fromSpecStalk x) := by
-  obtain ⟨U, hU, hx, -⟩ := exists_isAffineOpen_mem_and_subset (show x ∈ (⊤ : X.Opens) from trivial)
-  rw [← hU.fromSpecStalk_eq_fromSpecStalk hx, IsAffineOpen.fromSpecStalk]
-  have : Flat (Spec.map (X.presheaf.germ U x hx)) := by
-    rw [HasRingHomProperty.Spec_iff (P := @Flat)]
-    let _ := X.presheaf.algebra_section_stalk ⟨x, hx⟩
-    have := hU.isLocalization_stalk ⟨x, hx⟩
-    exact IsLocalization.flat (X.presheaf.stalk x) (hU.primeIdealOf ⟨x, hx⟩).asIdeal.primeCompl
-  infer_instance
+  apply _root_.GlobalTheory.LocalRingGeneralisation.flat_fromSpecStalk <;> assumption
 
 theorem stalkMap_injective (r : Z ⟶ X) [Flat r] (z : Z) : Function.Injective (r.stalkMap z).hom := by
   refine (injective_iff_map_eq_zero _).2 fun b hb => zero_dvd_iff.1 (dvd_descend r z ?_)

@@ -25,6 +25,7 @@ public import Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTool
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.CaCplSpec
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.CaCplEx
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.PatchingModules.AnnihilatorBaseChange.PmodEx
+import all Development.AutomorphicArithmetic.AutomorphicVarieties.PatchingModules.AnnihilatorBaseChange.PmodEx
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -460,32 +461,11 @@ open UpperTheory.V.AlgebraTools
 
 private lemma mem_smul_top_pi {L : Type} [CommRing L] (I : Ideal L) {n : ℕ} (x : Fin n → L) :
     x ∈ (I • ⊤ : Submodule L (Fin n → L)) ↔ ∀ i, x i ∈ I := by
-  constructor
-  · intro hx i
-    refine Submodule.smul_induction_on (p := fun y : Fin n → L => y i ∈ I) hx ?_ ?_
-    · intro r hr y _
-      exact I.mul_mem_right _ hr
-    · intro y z hy hz
-      exact I.add_mem hy hz
-  · intro h
-    rw [pi_eq_sum_univ x]
-    exact Submodule.sum_mem _ fun i _ => Submodule.smul_mem_smul (h i) Submodule.mem_top
+  apply _root_.tf_mem_smul_top_pi <;> assumption
 
 private lemma precomplete_pi {L : Type} [CommRing L] (I : Ideal L) [IsPrecomplete I L] (n : ℕ) :
     IsPrecomplete I (Fin n → L) := by
-  refine ⟨fun f hf => ?_⟩
-  have h : ∀ i, ∃ x : L, ∀ k, f k i ≡ x [SMOD (I ^ k • ⊤ : Submodule L L)] := by
-    intro i
-    refine IsPrecomplete.prec' (fun k => f k i) ?_
-    intro a b hab
-    have := (mem_smul_top_pi _ _).1 (SModEq.sub_mem.1 (hf hab)) i
-    rw [SModEq.sub_mem]
-    simpa using this
-  choose x hx using h
-  refine ⟨x, fun k => ?_⟩
-  rw [SModEq.sub_mem, mem_smul_top_pi]
-  intro i
-  simpa using SModEq.sub_mem.1 (hx i k)
+  apply _root_.tf_isPrecomplete_pi <;> assumption
 
 private lemma map_eq_max {R : Type} [CommRing R] {q : Ideal R} {B : Type} [CommRing B]
     [IsLocalRing B] [Algebra R B] (h : IsCplAt R q B) :
@@ -854,34 +834,6 @@ section -- clump:auto
 
 open IsLocalRing UpperTheory.V.AlgebraTools
 
-private theorem mult_operator_shifts_twist {Λ R B M : Type} [CommRing Λ] [CommRing R] [Algebra Λ R]
-    [AddCommGroup B] [Module R B] [Module Λ B] [IsScalarTower Λ R B]
-    [AddCommGroup M] [Module R M] [Module Λ M] [IsScalarTower Λ R M]
-    [Module.Flat R B] [Module.Flat Λ M] : Module.Flat Λ (TensorProduct R B M) := by
-  rw [Module.Flat.iff_lTensor_preserves_injective_linearMap]
-  intro N N' _ _ _ _ f hf
-  have h1 : Function.Injective (TensorProduct.AlgebraTensorModule.lTensor R M f) :=
-    Module.Flat.lTensor_preserves_injective_linearMap f hf
-  have h2 : Function.Injective
-      (LinearMap.lTensor B (TensorProduct.AlgebraTensorModule.lTensor R M f)) :=
-    Module.Flat.lTensor_preserves_injective_linearMap _ h1
-  have h3 : ∀ x, TensorProduct.AlgebraTensorModule.assoc Λ R R B M N'
-        (LinearMap.lTensor (TensorProduct R B M) f x)
-      = LinearMap.lTensor B (TensorProduct.AlgebraTensorModule.lTensor R M f)
-        (TensorProduct.AlgebraTensorModule.assoc Λ R R B M N x) := by
-    intro x
-    induction x using TensorProduct.induction_on with
-    | zero => simp
-    | add x y hx hy => simp only [map_add (f := _), hx, hy]
-    | tmul y n =>
-      induction y using TensorProduct.induction_on with
-      | zero => simp
-      | add x y hx hy => simp only [TensorProduct.add_tmul, map_add (f := _), hx, hy]
-      | tmul b m => simp
-  intro x y hxy
-  apply (TensorProduct.AlgebraTensorModule.assoc Λ R R B M N).injective
-  apply h2
-  rw [← h3, ← h3, hxy]
 
 end -- clump:auto
 end -- clump:auto

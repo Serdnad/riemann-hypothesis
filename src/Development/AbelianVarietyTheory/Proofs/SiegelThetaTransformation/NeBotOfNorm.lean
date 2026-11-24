@@ -1,5 +1,6 @@
 module
 
+import all Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.FiniteClsAndStab
 public import Development.AbelianVarietyTheory.Definitions.SpanningFamilies.FirstCoordinateAdmissible
 public import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.CycOfPrime
 import Mathlib.Algebra.Order.Floor.Extended
@@ -459,12 +460,7 @@ theorem nb_count {M q : ℕ} {P : Ideal (𝓞 E)} (hP : GoodPrime M q P) {Λ : L
 
 theorem herm_move {h : Matrix (Fin n) (Fin n) E} (hh : ccT h * h = 1) (x y : Fin n → E) :
     herm 1 (h *ᵥ x) (h *ᵥ y) = herm 1 x y := by
-  have h1 : ∀ x y : Fin n → E, herm 1 x y = (fun a => cc (y a)) ⬝ᵥ x := fun x y => by
-    rw [_root_.GlobalTheory.SW.Base.herm_one, dotProduct_comm]; rfl
-  have h2 : (fun a => cc ((h *ᵥ y) a)) = (fun a => cc (y a)) ᵥ* ccT h := by
-    ext a
-    simp [cc, ccT, Matrix.mulVec, Matrix.vecMul, dotProduct, mul_comm]
-  rw [h1, h1, h2, ← Matrix.dotProduct_mulVec, Matrix.mulVec_mulVec, hh, Matrix.one_mulVec]
+  apply _root_.GlobalTheory.SW.herm_one_mulVec_of_unitary <;> assumption
 
 theorem move_inv {h : Matrix (Fin n) (Fin n) E} (hh : h * ccT h = 1) {Λ Λ₁ : Lt E n}
     (hm : Moves h Λ Λ₁) : Moves (ccT h) Λ₁ Λ := fun v => by

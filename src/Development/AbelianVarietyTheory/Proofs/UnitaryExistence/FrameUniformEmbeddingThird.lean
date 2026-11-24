@@ -71,15 +71,7 @@ theorem coset_tmul_eq (t : Af F) (x : Fin n → E) :
 theorem coset_smul_mem_hat (L : Set (Fin n → E)) (t : Af F) (ht : ∀ v, t v ∈ v.adicCompletionIntegers F)
     (w : Fin n → AdLat.RA F E) (hw : w ∈ AdLat.hat F L) :
     (t ⊗ₜ[F] (1 : E) : AdLat.RA F E) • w ∈ AdLat.hat F L := by
-  induction hw using AddSubgroup.closure_induction with
-  | mem w hw =>
-    obtain ⟨s, hs, x, hx, rfl⟩ := hw
-    refine AddSubgroup.subset_closure ⟨t * s, fun v => mul_mem (ht v) (hs v), x, hx, ?_⟩
-    funext i
-    simp only [Pi.smul_apply, smul_eq_mul, Algebra.TensorProduct.tmul_mul_tmul, one_mul]
-  | zero => rw [smul_zero]; exact zero_mem _
-  | add w w' _ _ h h' => rw [smul_add]; exact add_mem h h'
-  | neg w _ h => rw [smul_neg]; exact neg_mem h
+  apply _root_.GlobalTheory.AdLat.Translate.hat_smul_int <;> assumption
 
 theorem coset_mulVec_mem_hat (L : Set (Fin n → E)) (A : Matrix (Fin n) (Fin n) E) (hA : ∀ x ∈ L, A *ᵥ x ∈ L)
     (w : Fin n → AdLat.RA F E) (hw : w ∈ AdLat.hat F L) :

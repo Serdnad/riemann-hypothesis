@@ -138,7 +138,7 @@ variable {E : Type} [CommRing E] [Algebra F E] [TopologicalSpace E] [MeasurableS
 variable {M : _root_.Formalism.MainNotions.S.Loc.Model F E} {V : Type} [AddCommGroup V] [Module E V] {H : _root_.Formalism.MainNotions.S.Loc.HermSp M V} {r k : ℕ} in
 variable {P : _root_.Formalism.MainNotions.S.LocNG.FPair H r} {S : _root_.GlobalTheory.HL.Frames M.L r k}
   (c : _root_.GlobalTheory.HL.Coord P S) in
-private theorem mem_UW0_iff_grp_mem_H0 (g : V ≃ₗ[E] V) :
+theorem mem_UW0_iff_grp_mem_H0 (g : V ≃ₗ[E] V) :
     g ∈ P.UW0 ↔ c.grp g ∈ S.H0 := by
   constructor
   · intro hg

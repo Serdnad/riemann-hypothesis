@@ -165,45 +165,7 @@ theorem localLattice_hasBasis
 theorem idxVP_of (a : ℕ) (Y : TupV (E := E) v n a) (hB : LatBasOP σ J ψ v Λ a Y) (hR : ResIdx v) :
     IdxVP σ J ψ v Λ a Y := by
   intro hG ϖ hϖ
-  obtain ⟨b, hb, hmem⟩ := hB hG
-  let φ : (Fin (2 * n) → v.adicCompletionIntegers F) →+ latA v Λ :=
-    { toFun := fun c => ⟨∑ i, (c i : Fv F v) • b i, (hmem _).2 ⟨c, rfl⟩⟩
-      map_zero' := by ext1; simp
-      map_add' := fun c d => by
-        ext1
-        simp [add_smul, Finset.sum_add_distrib] }
-  have hφs : Function.Surjective φ := by
-    rintro ⟨x, hx⟩
-    obtain ⟨c, rfl⟩ := (hmem x).1 hx
-    exact ⟨c, rfl⟩
-  have key : ((lattice₂ v Λ ϖ).addSubgroupOf (latA v Λ)).comap φ =
-      AddSubgroup.pi Set.univ (fun _ => unifO v ϖ) := by
-    ext c
-    rw [AddSubgroup.mem_comap, AddSubgroup.mem_addSubgroupOf, AddSubgroup.mem_pi]
-    constructor
-    · rintro ⟨z, hz, hze⟩ i _
-      obtain ⟨d, rfl⟩ := (hmem z).1 hz
-      refine ⟨d i, ?_⟩
-      have e : ∑ i, (c i : Fv F v) • b i = ∑ i, (ϖ * d i) • b i := by
-        have : (DistribSMul.toAddMonoidHom (Fin n → Fv F v ⊗[F] E) (sc (E := E) v ϖ))
-            (∑ i, (d i : Fv F v) • b i) = ∑ i, (ϖ * d i) • b i := by
-          show sc (E := E) v ϖ • ∑ i, (d i : Fv F v) • b i = _
-          rw [Finset.smul_sum]
-          exact Finset.sum_congr rfl fun i _ => sc_smul_smul v ϖ _ _
-        rw [← this, hze]
-        rfl
-      have h0 := Fintype.linearIndependent_iff.1 hb (fun i => (c i : Fv F v) - ϖ * d i)
-        (by simp only [sub_smul, Finset.sum_sub_distrib, e, sub_self])
-      exact sub_eq_zero.1 (h0 i)
-    · intro h
-      choose d hd using fun i => h i (Set.mem_univ i)
-      refine ⟨∑ i, (d i : Fv F v) • b i, (hmem _).2 ⟨d, rfl⟩, ?_⟩
-      show sc (E := E) v ϖ • ∑ i, (d i : Fv F v) • b i = ∑ i, (c i : Fv F v) • b i
-      rw [Finset.smul_sum]
-      refine Finset.sum_congr rfl fun i _ => ?_
-      rw [sc_smul_smul, hd i]
-  rw [AddSubgroup.relIndex, ← AddSubgroup.index_comap_of_surjective _ hφs, key, AddSubgroup.index_pi]
-  simp only [hR ϖ hϖ, Finset.prod_const, Finset.card_univ, Fintype.card_fin]
+  exact lattice₂_relIndex_of_basis v Λ (hB hG) hR ϖ hϖ
 
 theorem idxP_of (a : ℕ) (Y : TupV (E := E) v n a) (h : IdxVP σ J ψ v Λ a Y) : IdxP σ J ψ v Λ a Y := by
   intro hG ϖ hϖ

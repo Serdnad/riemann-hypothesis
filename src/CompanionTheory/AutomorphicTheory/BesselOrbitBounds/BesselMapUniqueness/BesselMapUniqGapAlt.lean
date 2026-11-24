@@ -1,5 +1,6 @@
 module
 
+import ReciprocityTheory.ReductiveGroups.DiscreteSeries.LaplaceOperators.LaplaceEstimates.SmoothMatrixMaps.ContinuousSecondMatrix
 public import CompanionTheory.AutomorphicTheory.BesselOrbitBounds.BesselMapUniqueness.BesselMapUniqGap
 public import Formalism.FormalDegreeBessel.FormalDegreeRatio.UnitaryWeylNormalHolds
 public import CompanionTheory.AutomorphicTheory.BesselOrbitBounds.BesselMapUniqueness.ContinuousOnOrbit
@@ -116,16 +117,7 @@ theorem psiGen_one {z : Fin (2 * r + k + 1) → ℂ} (hz : inWb k r z) (c : Fin 
 
 theorem psiGen_cont (z : Fin (2 * r + k + 1) → ℂ) (c : Fin r → ℂ) :
     Continuous (PI.BesselMapUniq.psiGen k r z c) := by
-  have h : ∀ a, Continuous fun g => PI.BesselMapUniq.ellA k r z g a := by
-    intro a
-    unfold PI.BesselMapUniq.ellA
-    split_ifs with h
-    · exact continuous_id.matrix_elem _ _
-    · exact (continuous_apply (eI k r a)).comp
-        ((continuous_id (X := Mat (2 * r + k + 1))).matrix_mulVec (continuous_const (y := z)))
-  unfold PI.BesselMapUniq.psiGen
-  exact Complex.continuous_exp.comp (continuous_const.mul (Complex.continuous_ofReal.comp
-    (Complex.continuous_re.comp (continuous_finsetSum _ fun a _ => continuous_const.mul (h a)))))
+  apply _root_.ReciprocityTheory.ChartRestriction.DS.Lap.CurveContinuity.psiGen_cont <;> assumption
 
 theorem norm_psiGen (z : Fin (2 * r + k + 1) → ℂ) (c : Fin r → ℂ) (g : Mat (2 * r + k + 1)) :
     ‖PI.BesselMapUniq.psiGen k r z c g‖ = 1 := by

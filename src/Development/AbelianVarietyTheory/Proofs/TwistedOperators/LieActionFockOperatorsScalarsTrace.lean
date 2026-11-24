@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsNonzeroFockVacuumOfNonzeroThetaFunction
 public import Mathlib.Analysis.CStarAlgebra.Classes
 public import Mathlib.Analysis.Calculus.Deriv.Basic
 public import Mathlib.Analysis.InnerProductSpace.Basic
@@ -780,18 +781,8 @@ theorem ptF_one (A : Fr V) (B : Fr W) (f : WO V W → ℂ) : ptF ψ θ A B f 1 =
 
 theorem ptF_zero (hθ : IsInfFam θ) (hψ : IsStdChar D ψ (-1)) (A : Fr V) (B : Fr W)
     (hf : IsVacF ψ θ A B (0 : WO V W → ℂ)) (P : PolF D W.rank V.rank) : ptF ψ θ A B 0 P = 0 := by
-  obtain ⟨-, -, h⟩ := ptF_laws hθ hψ A B hf
-  have lin : ∀ (c : ℂ) (P : PolF D W.rank V.rank), ptF ψ θ A B 0 (c • P) = c • ptF ψ θ A B 0 P := fun c P =>
-    map_smul (pureTensorO ψ θ V W A.cart B.cart A.onb B.onb 0) c P
-  have add : ∀ P P' : PolF D W.rank V.rank, ptF ψ θ A B 0 (P + P') = ptF ψ θ A B 0 P + ptF ψ θ A B 0 P' := fun P P' =>
-    map_add (pureTensorO ψ θ V W A.cart B.cart A.onb B.onb 0) P P'
-  induction P using MvPolynomial.induction_on with
-  | C r =>
-    rw [MvPolynomial.C_eq_smul_one, lin, ptF_one, smul_zero]
-  | add p q hp hq => rw [add, hp, hq, add_zero]
-  | mul_X p v hp =>
-    rw [mul_comm]
-    exact h v p hp
+  intros
+  apply _root_.GlobalTheory.Mem.VacReal.ptF_zero <;> assumption
 
 theorem ptF_injective (hθ : IsInfFam θ) (hψ : IsStdChar D ψ (-1)) (A : Fr V) (B : Fr W) {f : WO V W → ℂ}
     (hf : IsVacF ψ θ A B f) (h0 : f ≠ 0) :

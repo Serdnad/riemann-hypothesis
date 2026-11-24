@@ -401,15 +401,8 @@ end Cot
 theorem valAt_spec_map' {B C : Type} [CommRing B] [CommRing C] {X : Scheme.{0}} (ψ : B →+* C)
     (y : Spec (CommRingCat.of B) ⟶ X) (s : Γ(X, ⊤)) :
     valAt (Spec.map (CommRingCat.ofHom ψ) ≫ y) ⊤ le_top s = ψ (valAt y ⊤ le_top s) := by
-  unfold valAt
-  rw [← Scheme.Hom.appLE_comp_appLE (Spec.map (CommRingCat.ofHom ψ)) y ⊤ ⊤ ⊤ le_top le_top]
-  have e1 : (Spec.map (CommRingCat.ofHom ψ)).appLE ⊤ ⊤ le_top = (Spec.map (CommRingCat.ofHom ψ)).appTop := by
-    rw [Scheme.Hom.appTop, Scheme.Hom.app_eq_appLE]
-    congr 1
-  rw [e1]
-  have e2 := congrArg (fun φ => φ.hom ((y.appLE ⊤ ⊤ le_top).hom s))
-    (Scheme.ΓSpecIso_naturality (CommRingCat.ofHom ψ))
-  exact e2
+  intros
+  apply _root_.PositivityTheory.HtPt.Twpair.valHom_top_comp <;> assumption
 
 private theorem valAt_top_lemma {B : Type} [CommRing B] {X : Scheme} (f : Spec (CommRingCat.of B) ⟶ X)
     (h : ⊤ ≤ f ⁻¹ᵁ ⊤) (s : Γ(X, ⊤)) :

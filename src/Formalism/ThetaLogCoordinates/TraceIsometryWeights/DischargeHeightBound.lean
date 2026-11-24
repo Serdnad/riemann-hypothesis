@@ -353,15 +353,7 @@ theorem wl_comp_hw (G : GlW K V n) (W : Submodule K V) (la : Fin n → ℤ) {x :
 theorem wl_comp_comm {U : Type} [AddCommGroup U] [Module K U] (G₁ : GlW K U n) (G₂ : GlW K V n) (θ : U →ₗ[K] V)
     (hθ : ∀ c x, θ (G₁.E c c x) = G₂.E c c (θ x)) (μ : Fin n → ℤ) (x : U) :
     θ (G₁.comp μ x) = G₂.comp μ (θ x) := by
-  classical
-  have hwt : ∀ ν, G₂.IsWt ν (θ (G₁.comp ν x)) := fun ν => GlX.isWt_of_eig G₂ (fun c => by
-    rw [← hθ, G₁.diag, map_smul])
-  obtain ⟨S, hS⟩ := G₁.dec x
-  have hx' := G₁.sum_comp x (insert μ S) (fun ν hν => hS ν (fun h => hν (Finset.mem_insert_of_mem h)))
-  conv_rhs => rw [← hx']
-
-  rw [map_sum, map_sum, Finset.sum_eq_single μ (fun ν _ hν => by rw [G₂.comp_of_isWt (hwt ν), if_neg (Ne.symm hν)])
-  (fun h => absurd (Finset.mem_insert_self μ S) h), G₂.comp_of_isWt (hwt μ), if_pos rfl]
+  apply _root_.Formalism.InvariantFactorPaths.PW.comp_comm2 <;> assumption
 
 theorem wl_transport (G : GlW K V n) {W : Submodule K V} (hW : G.Stable W) (hWf : G.FinW W) {la : Fin n → ℤ}
     {h h' : V} (hh : G.IsHW la h) (hh' : G.IsHW la h') (hhW : h ∈ W) (hh'W : h' ∈ W) (h0 : h ≠ 0) :
@@ -536,10 +528,9 @@ namespace Formalism.InvariantFactorPaths.PW.Top
 theorem weylInt : WeylInt := weyl_integral_holds
 theorem weylP : WeylP := weylP_of weylInt lattice_basis_polynomial
 
-private theorem intP_statement : IntP := by
-  exact intP_of (typeInt_of invariant_natural_holds (homInv_of invariant_inverse_holds) (schurTrace_of invariant_inverse_holds)) lattice_basis_polynomial
-
-theorem extP : ExtP := extP_of intP_statement
+theorem extP : ExtP := extP_of (intP_of
+  (typeInt_of invariant_natural_holds (homInv_of invariant_inverse_holds) (schurTrace_of invariant_inverse_holds))
+  lattice_basis_polynomial)
 theorem dischargeW : DischargeW := dischargeW_of weylP
 theorem dischargeE : DischargeE := dischargeE_of extP
 

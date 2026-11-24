@@ -1,5 +1,6 @@
 module
 
+import all Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.LeadingProductsIndependentModuloDeepProducts
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovVolumes.UpperBounds.BasePsiLeviLowerBound
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovVolumes.UpperBounds.DivStatementPfLA
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovVolumes.UpperBounds.DivStatementPfLB
@@ -128,28 +129,7 @@ theorem homog_pt {n d : ℕ} (P : V n → ℂ) (hP : ∀ (t : ℂ) (y : V n), P 
 
 theorem coeff_zero {n : ℕ} (A : Finset (Fin n → ℕ)) (b : (Fin n → ℕ) → ℂ)
     (h : ∀ y : Fin n → ℂ, ∑ α ∈ A, b α * ∏ i, y i ^ α i = 0) : ∀ α ∈ A, b α = 0 := by
-  classical
-  set p : MvPolynomial (Fin n) ℂ :=
-    ∑ α ∈ A, MvPolynomial.monomial (Finsupp.equivFunOnFinite.symm α) (b α) with hpdef
-  have hp : p = 0 := by
-    apply MvPolynomial.funext
-    intro y
-
-    rw [hpdef, map_sum, map_zero, ← h y]
-    refine Finset.sum_congr rfl fun α _ => ?_
-    rw [MvPolynomial.eval_monomial, Finsupp.prod_fintype _ _ (fun i => pow_zero _)]
-    simp
-  intro α hα
-  have := congrArg (AddMonoidAlgebra.coeff · (Finsupp.equivFunOnFinite.symm α)) hp
-  rw [hpdef, MvPolynomial.coeff_sum, MvPolynomial.coeff_zero] at this
-  rw [Finset.sum_eq_single α] at this
-  · simpa [MvPolynomial.coeff_monomial] using this
-  · intro β _ hβ
-    rw [MvPolynomial.coeff_monomial, if_neg]
-    intro he
-    exact hβ (Finsupp.equivFunOnFinite.symm.injective he)
-  · intro h'
-    exact absurd hα h'
+  apply _root_.GlobalTheory.Shares.LeadDeep.coeff_lemma_3 <;> assumption
 
 theorem homog_L {n d : ℕ} (b : (Fin n → ℕ) → ℂ) (L : V n ≃L[ℂ] V n)
     (h : (fun z => ∑ α ∈ Finset.Nat.antidiagonalTuple n d, b α * ∏ i, (L z) i ^ α i) =O[𝓝 0]

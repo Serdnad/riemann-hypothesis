@@ -1,5 +1,6 @@
 module
 
+import Formalism.LocalToGlobal.KernelLattices.KernelLocalFactors.IsAdmissibleFlagPairOfUnitriangularLeftAutomorph
 public import Formalism.LocalToGlobal.KernelLattices.LateralTheory
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.OddThetaFunctionExistenceUniqueness
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.StandardPairLatticeLocallyOrthonormalBasis
@@ -60,19 +61,7 @@ namespace WeilVac
 variable {D : D7} {cc : Ideal (𝓞 D.host.K)} {δ : ℂ}
 
 theorem kappa_ne_zero {γ₀ : IsoK D} (k : KapChoice γ₀) : k.kappa ≠ 0 := by
-  refine finprod_induction (fun x : ℂ => x ≠ 0) one_ne_zero (fun _ _ => mul_ne_zero) fun p => zpow_ne_zero _ ?_
-  intro h0
-  have h1 := k.rt_pow p p.2.1 p.2.2
-  have hpi : k.pi p ≠ 0 := by
-    intro h
-    have h2 := k.pi_gen p p.2.1 p.2.2
-    rw [h, Ideal.span_singleton_zero] at h2
-    exact pow_ne_zero _ (k.pp p).ne_bot h2
-  have hE : (((k.pi p : 𝓞 D.host.K) : D.host.K) : D.host.E) ≠ 0 := by
-    set_option synthInstance.maxHeartbeats 200000 in
-      simpa using hpi
-  rw [h0, zero_pow (mul_ne_zero two_ne_zero (classNumber_ne_zero _))] at h1
-  exact div_ne_zero ((map_ne_zero _).2 hE) ((map_ne_zero _).2 ((map_ne_zero _).2 hE)) h1.symm
+  apply _root_.Formalism.L2.Ker.KapChoice.kappa_ne_zero <;> assumption
 
 theorem thMM_spec (B : Base D cc δ) (h : B.StdOK) : B.IsThMM B.thMM ∧ B.thMM ≠ 0 := by
   obtain ⟨e, u⟩ := ThetaVec.thetaVector _ _ _ _ _ _ _ _ h _ (kappa_ne_zero B.kc)

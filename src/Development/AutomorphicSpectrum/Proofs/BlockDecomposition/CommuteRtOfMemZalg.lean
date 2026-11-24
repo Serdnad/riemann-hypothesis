@@ -1,5 +1,7 @@
 module
 
+import Development.AutomorphicArithmetic.AutomorphicVarieties.BuildingsResidueChars.IsAutomorphicFormOfBddSubmodule
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.CapelliConstantTermVanishing
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.OneMemGoodCT
 public import Development.WeilBound.CoreStatements.TemperedRepresentationTheory.AffineGLForms.GenSpace
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.CapCommuteRtInfGL
@@ -57,25 +59,8 @@ variable {E : Type} [Field E] [NumberField E] [_root_.NumberField.IsTotallyCompl
 
 theorem map_lev {R S : Type} [CommRing R] [CommRing S] (p : R →+* S) (g : GL (Fin r) R × GL (Fin s) R) :
     GeneralLinearGroup.map p (lev R r s g) = lev S r s (GeneralLinearGroup.map p g.1, GeneralLinearGroup.map p g.2) := by
-  have val_lev : ∀ (T : Type) [CommRing T] (g : GL (Fin r) T × GL (Fin s) T),
-      (lev T r s g : Matrix (Fin (r + s)) (Fin (r + s)) T) =
-        Matrix.reindex (GlobalTheory.SmGL.stdSum (rfl : r + s = r + s))
-          (GlobalTheory.SmGL.stdSum (rfl : r + s = r + s)) (Matrix.fromBlocks g.1.val 0 0 g.2.val) := by
-    intro T _ g
-    ext i j
-    obtain ⟨i, rfl⟩ := (GlobalTheory.SmGL.stdSum (rfl : r + s = r + s)).surjective i
-    obtain ⟨j, rfl⟩ := (GlobalTheory.SmGL.stdSum (rfl : r + s = r + s)).surjective j
-    simp only [Matrix.reindex_apply, Matrix.submatrix_apply, Equiv.symm_apply_apply]
-    rcases i with i | i <;> rcases j with j | j <;>
-      simp [lev, GlobalTheory.SmGL.emb₂, GlobalTheory.SmGL.leviEmb,
-        GlobalTheory.SmGL.leviTwo, GlobalTheory.SmGL.two, Matrix.blockDiagonal']
-  ext i j
-  change p ((lev R r s g : Matrix _ _ R) i j) = (lev S r s _ : Matrix _ _ S) i j
-  rw [val_lev, val_lev]
-  simp only [Matrix.reindex_apply, Matrix.submatrix_apply]
-  generalize (GlobalTheory.SmGL.stdSum (rfl : r + s = r + s)).symm i = i'
-  generalize (GlobalTheory.SmGL.stdSum (rfl : r + s = r + s)).symm j = j'
-  rcases i' with i' | i' <;> rcases j' with j' | j' <;> simp [Matrix.fromBlocks]
+  intros
+  apply _root_.GlobalTheory.CompanionTheory.CTFin.CapStable.map_lev <;> assumption
 
 theorem lev_infGL (y₁ : GL (Fin r) (Cinf E)) (y₂ : GL (Fin s) (Cinf E)) :
     lev (Ad E) r s (infGL E r y₁, infGL E s y₂) = infGL E (r + s) (lev (Cinf E) r s (y₁, y₂)) := by
@@ -260,23 +245,8 @@ theorem zfin_of_cofin {J : Set (Module.End ℂ (Sm E a))} (hJ : Cofin J) {φ : S
 
 theorem fd_span_of_forall_mem {K X : Type} (C : Submodule ℂ (K → ℂ)) [FiniteDimensional ℂ C] (f : K → X → ℂ)
     (hf : ∀ x, (fun k => f k x) ∈ C) : FiniteDimensional ℂ (Submodule.span ℂ (Set.range f)) := by
-  let b := Module.finBasis ℂ C
-  let A : Fin (Module.finrank ℂ C) → X → ℂ := fun i x => b.repr ⟨_, hf x⟩ i
-  have hA : ∀ k, f k = ∑ i, (b i : K → ℂ) k • A i := by
-    intro k
-    funext x
-    have e := congrArg (fun c : C => (c : K → ℂ) k) (b.sum_repr ⟨_, hf x⟩)
-    simp only [Submodule.coe_sum, Submodule.coe_smul, Finset.sum_apply, Pi.smul_apply, smul_eq_mul] at e
-    simp only [Finset.sum_apply, Pi.smul_apply, smul_eq_mul, A]
-    rw [← e]
-    exact Finset.sum_congr rfl fun i _ => mul_comm _ _
-  have hle : Submodule.span ℂ (Set.range f) ≤ Submodule.span ℂ (Set.range A) := by
-    rw [Submodule.span_le]
-    rintro _ ⟨k, rfl⟩
-    rw [hA k]
-    exact Submodule.sum_mem _ fun i _ => Submodule.smul_mem _ _ (Submodule.subset_span ⟨i, rfl⟩)
-  haveI : FiniteDimensional ℂ (Submodule.span ℂ (Set.range A)) := FiniteDimensional.span_of_finite ℂ (Set.finite_range A)
-  exact Submodule.finiteDimensional_of_le hle
+  intros
+  apply _root_.UpperTheory.finiteDimensional_span_range_of_columns_mem <;> assumption
 
 theorem kfin_of_coeff {W : Type} [AddCommGroup W] [Module ℂ W] [FiniteDimensional ℂ W] (ρ : Representation ℂ (Kinf E a) W)
     (φ : Sm E a) (h : ∀ g : GA E a, (fun k : Kinf E a => (cptRep E a k φ).1 g) ∈ GlobalTheory.Published.AutFin.coeffSpan ρ) :

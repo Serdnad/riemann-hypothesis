@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.DoubledVacuumStabilizerGaussDecompositionBigCell
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.DiagonalBlockOfMatrix
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsFinsetAdelicUnitaryPreservesLatticeAlmostA
 import Mathlib.Algebra.Order.Floor.Extended
@@ -123,17 +124,7 @@ variable {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algeb
 
 theorem evFin_invOf_two_mem {v : Pl (F := F)} (h : (2 : 𝓞 F) ∉ v.asIdeal) :
     evFin F v (⅟(2 : AF F)) ∈ v.adicCompletionIntegers F := by
-  have h0 : evFin F v (⅟(2 : AF F)) = (2 : Fv F v)⁻¹ := by
-    apply eq_inv_of_mul_eq_one_left
-    rw [← map_ofNat (evFin F v) 2, ← map_mul, invOf_mul_self, map_one]
-  rw [h0, HeightOneSpectrum.mem_adicCompletionIntegers]
-  have h1 : v.valuation F (algebraMap (𝓞 F) F 2) = 1 := (v.valuation_eq_one_iff_notMem (K := F)).2 h
-  rw [map_ofNat] at h1
-  have h2 : Valued.v (algebraMap F (Fv F v) (2 : F)⁻¹) = v.valuation F (2 : F)⁻¹ :=
-    v.valuedAdicCompletion_eq_valuation' _
-  simp only [map_inv₀] at h2
-  rw [h1, inv_one, map_ofNat] at h2
-  rw [map_inv₀, h2]
+  first | exact _root_.GlobalTheory.DblVacGauss.evFin_invOf_two_mem | exact @_root_.GlobalTheory.DblVacGauss.evFin_invOf_two_mem | apply _root_.GlobalTheory.DblVacGauss.evFin_invOf_two_mem <;> assumption
 
 theorem uni_mulVec_mem {d : ℕ} (W : Spc F E d) (v : Pl (F := F)) (Z : Matrix (Fin d) (Fin d) (AE F E))
     (hZ : ∀ z ∈ GlobalTheory.InertSph.latAt W v, Z *ᵥ z ∈ GlobalTheory.InertSph.latAt W v) :
@@ -145,17 +136,7 @@ theorem uni_mulVec_mem {d : ℕ} (W : Spc F E d) (v : Pl (F := F)) (Z : Matrix (
 
 theorem mul_mem_KD {σ : E →ₐ[F] E} {d : ℕ} {W : Spc F E d} {v : Pl (F := F)} {p g : GlobalTheory.DblVac.UD σ W}
     (hp : p ∈ GlobalTheory.DblVac.KD σ W v) (hg : g ∈ GlobalTheory.DblVac.KD σ W v) : p * g ∈ GlobalTheory.DblVac.KD σ W v := by
-  have hm : ∀ a b : GlobalTheory.DblVac.UD σ W, GlobalTheory.DblVac.matD (a * b) = GlobalTheory.DblVac.matD a * GlobalTheory.DblVac.matD b :=
-    fun _ _ => rfl
-  refine ⟨fun u hu => ?_, fun z hz => ⟨?_, ?_⟩⟩
-  · have e : GlobalTheory.DblVac.matD (p * g) - 1 =
-        (GlobalTheory.DblVac.matD p - 1) * GlobalTheory.DblVac.matD g + (GlobalTheory.DblVac.matD g - 1) := by
-      rw [hm]; noncomm_ring
-    rw [e, smul_add, ← Matrix.smul_mul, hp.1 u hu, hg.1 u hu, Matrix.zero_mul, add_zero]
-  · rw [hm, ← Matrix.mulVec_mulVec]
-    exact (hp.2 _ (hg.2 z hz).1).1
-  · rw [mul_inv_rev, hm, ← Matrix.mulVec_mulVec]
-    exact (hg.2 _ (hp.2 z hz).2).2
+  first | exact _root_.GlobalTheory.DblVacGauss.mul_mem_KD | exact @_root_.GlobalTheory.DblVacGauss.mul_mem_KD | apply _root_.GlobalTheory.DblVacGauss.mul_mem_KD <;> assumption
 
 theorem exists_unip : ∀ {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] (σ : E →ₐ[F] E)
     {d : ℕ} (W : Spc F E d) (v : Pl (F := F)), (2 : 𝓞 F) ∉ v.asIdeal → ∀ Y : Matrix (Fin d) (Fin d) (AE F E),

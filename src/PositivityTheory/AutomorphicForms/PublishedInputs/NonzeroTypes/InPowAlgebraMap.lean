@@ -1,8 +1,9 @@
 module
 
+
+import PositivityTheory.AutomorphicForms.PublishedInputs.NonzeroTypes.PIndExt
 public import PositivityTheory.AutomorphicForms.PublishedInputs.NonzeroTypes.NonzeroLeviEigenvectorExists
 import Development.AbelianVarietyTheory.Definitions.Divisors.T2SpaceGeneralLinearGroup
-
 @[expose] public section
 
 noncomputable section
@@ -72,42 +73,10 @@ theorem coe_H (n r : ℕ) : (H k n r : Set (GL (Fin n) k)) = KC k n r :=
   Set.ext fun g => (mem_KC_iff n r g).symm
 
 theorem isOpen_inPow (r : ℕ) : IsOpen {x : k | InPow r x} := by
-  let A : AddSubgroup k :=
-    (IsLocalRing.maximalIdeal 𝒪[k] ^ r).toAddSubgroup.map (algebraMap 𝒪[k] k).toAddMonoidHom
-  have hA : (A : Set k) = {x : k | InPow r x} := by
-    ext x
-    simp only [A, AddSubgroup.coe_map, Set.mem_image, SetLike.mem_coe, Set.mem_ofPred_eq, InPow]
-    rfl
-  rw [← hA]
-  obtain ⟨w, hw, hw0⟩ := Submodule.exists_mem_ne_zero_of_ne_bot
-    (IsDiscreteValuationRing.not_a_field 𝒪[k])
-  have hc : (algebraMap 𝒪[k] k w) ^ r ≠ 0 := by
-    refine pow_ne_zero _ ?_
-    intro h
-    exact hw0 (Subtype.val_injective h)
-  refine A.isOpen_of_mem_nhds (g := 0) ?_
-  rw [mem_nhds_iff]
-  refine ⟨(fun x => (algebraMap 𝒪[k] k w) ^ r * x) '' (𝒪[k] : Set k), ?_, ?_, ?_⟩
-  · rintro _ ⟨y, hy, rfl⟩
-    refine ⟨w ^ r * ⟨y, hy⟩, Ideal.mul_mem_right _ _ (Ideal.pow_mem_pow hw r), ?_⟩
-    show algebraMap 𝒪[k] k (w ^ r * ⟨y, hy⟩) = algebraMap 𝒪[k] k w ^ r * y
-    rw [map_mul, map_pow]
-    rfl
-  · have := (Homeomorph.mulLeft₀ _ hc).isOpenMap _ (Valuation.isOpen_integer (v := valuation k))
-    simpa using this
-  · exact ⟨0, zero_mem _, mul_zero _⟩
+  apply @_root_.UpperTheory.TNZ.P_indExt.isOpen_inPow <;> assumption
 
 theorem isOpen_KC (n r : ℕ) : IsOpen (KC k n r) := by
-  have e : KC k n r = (KO k (Fin n) : Set (GL (Fin n) k)) ∩
-      ⋂ i, ⋂ j, (fun g : GL (Fin n) k => (g : Matrix (Fin n) (Fin n) k) i j - if i = j then 1 else 0) ⁻¹'
-        {x : k | InPow r x} := by
-    ext g
-    simp only [KC, Set.mem_ofPred_eq, Set.mem_inter_iff, SetLike.mem_coe, Set.mem_iInter, Set.mem_preimage]
-  rw [e]
-  refine GlobalTheory.SplitFlip.isOpen_KO.inter (isOpen_iInter_of_finite fun i => isOpen_iInter_of_finite fun j =>
-    (isOpen_inPow r).preimage ?_)
-  have := Units.continuous_val (M := Matrix (Fin n) (Fin n) k)
-  fun_prop
+  apply @_root_.UpperTheory.TNZ.P_indExt.isOpen_KC <;> assumption
 
 end UpperTheory.TNZ.Grp.P_KC
 

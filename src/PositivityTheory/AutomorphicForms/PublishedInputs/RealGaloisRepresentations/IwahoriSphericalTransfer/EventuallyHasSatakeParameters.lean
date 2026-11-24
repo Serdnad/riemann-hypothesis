@@ -1,5 +1,6 @@
 module
 
+import PositivityTheory.AutomorphicForms.PublishedInputs.CyclicBaseChange.P_SSatEx
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.PublishedTheorems.GelfandKazhdanReal
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.SstConj
 public import PositivityTheory.AutomorphicForms.PublishedInputs.RealGaloisRepresentations.IwahoriSphericalTransfer.ImportsAlt
@@ -22,15 +23,8 @@ attribute [local instance] GlobalTheory.LocalData.complRel GlobalTheory.LocalDat
 namespace GlobalTheory.RealGal.SatAeProof
 
 theorem main : AdmissibleReal → ∀ (F : Type) [Field F] [NumberField F] [IsTotallyReal F] (a : ℕ) (π : TR.CuspSub F a), ∀ᶠ v : HeightOneSpectrum (𝓞 F) in Filter.cofinite, ∃ B, π.HasSat v B := by
-  intro hA F _ _ _ a π
-  have : Nontrivial π.V := Submodule.nontrivial_iff_ne_bot.2 π.ne_bot
-  have hsm : GlobalTheory.PRep.IsSmooth π.finPart := fun v => by
-    convert (π.cusp v.1 v.2).1.level using 1
-    ext k
-    exact Subtype.ext_iff
-  exact sat_ae_of_smooth GlobalTheory.RealGal.SatLocProof.main π.finPart hsm fun w =>
-    let ⟨⟨σ, hσ⟩, hiso⟩ := GlobalTheory.RealGal.locCompR_of_admissibleReal hA F a π w
-    ⟨σ, hiso σ hσ⟩
+  intros
+  apply _root_.UpperTheory.CBC.SatakeParameterExistence.re <;> assumption
 
 end GlobalTheory.RealGal.SatAeProof
 end -- clump:auto

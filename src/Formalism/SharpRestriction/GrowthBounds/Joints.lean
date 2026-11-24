@@ -1,5 +1,6 @@
 module
 
+import Formalism.SharpRestriction.GrowthBounds.CountingStatementReduction
 public import Formalism.SharpRestriction.GrowthBounds.TableLineDegreeFive
 public import Formalism.SharpRestriction.GrowthBounds.SourceCleaning
 public import Formalism.SharpRestriction.GrowthBounds.Lemma5aAt
@@ -294,27 +295,7 @@ theorem mq_top_of_irr {O : Type} [CommRing O] [IsDomain O] [IsDiscreteValuationR
 
 theorem weight_condition_of_integral_form (D : Formalism.BasicNotions.D7) (X : Formalism.MainNotions.flipOneThree.Inst) (h : Formalism.MainNotions.CovariantDegrees.NablaDeltaComparisonField D) :
     Formalism.MainNotions.flipOneThree.adm2 D X := by
-  intro n V _ _ _ _ E lam v hn _ hirr hl
-  obtain ⟨hA, hB⟩ := h X.p X.L.n' X.O X.setting X.instance_ring_standard (n + 1) lam V E v hirr
-  refine ⟨fun x hx => ?_, fun M hM hv hwt => ?_⟩
-  · have hx' := hA x hx
-    have hle := integral_form_exponent_le_ceil X.p X.L.a X.r n hn (ellWt lam) hl
-    obtain ⟨k, hk⟩ := Nat.exists_eq_add_of_le hle
-    have : ((X.p : KK X.O) ^ ⌈Formalism.MainNotions.flipOneThree.kappaOneExponent X.p X.L.a X.r⌉₊) • x =
-        ((X.p : X.O) ^ k) • (((X.p : X.O) ^ (N0 (n + 1) * deF X.p (n + 1) (ellWt lam))) • x) := by
-      rw [hk, smul_smul, ← pow_add, add_comm, ← algebraMap_smul (KK X.O) (((X.p : X.O)) ^ _ )]
-      simp
-    rw [this]
-    exact Submodule.smul_mem _ _ hx'
-  · apply hB M hM (mq_top_of_irr E lam v hirr M hM hv)
-    intro x
-    constructor
-    · rintro ⟨hxM, hxw⟩
-      exact hwt x hxM hxw
-    · rintro ⟨c, rfl⟩
-      refine ⟨M.smul_mem c hv, ?_⟩
-      rw [← algebraMap_smul (KK X.O) c v]
-      exact Submodule.smul_mem _ _ hirr.2.2.1.2.1
+  apply _root_.Formalism.MainNotions.G.CountingStatementReduction.weight_condition_from_integral_form <;> assumption
 
 theorem isotypic_multiplicity_of_reducibility (D : Formalism.BasicNotions.D7) (hV : Formalism.MainNotions.CovariantDegrees.ValuationLemmaField D) (hdec : _root_.Formalism.MainNotions.G.Joints.PolIsoDecompB) :
     Formalism.MainNotions.PlaneGramData.adm1 D := by

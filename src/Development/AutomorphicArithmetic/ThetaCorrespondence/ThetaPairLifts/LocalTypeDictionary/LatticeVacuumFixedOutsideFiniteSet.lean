@@ -1,5 +1,6 @@
 module
 
+import CompanionTheory.SpectralGeometry.LocalGlobalProofs.AdelicAnalysis.RationalGramAdelicCompactFinite
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FromBlocksMem
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.UnitaryToDoubledFirstFactorBigCellInertPlace
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.DiagonalFixingDoublingMatrix
@@ -631,16 +632,7 @@ theorem cm_sigma_sigma (σ : E →ₐ[F] E) (h : IsCMExt F E σ) (x : E) : σ (�
   rw [h.2.2.2, h.2.2.2, star_star]
 
 theorem cm_exists_moved (σ : E →ₐ[F] E) (h : IsCMExt F E σ) : ∃ x : E, σ x ≠ x := by
-  haveI : IsTotallyComplex E := h.2.1
-  obtain ⟨w⟩ : Nonempty (InfinitePlace E) := inferInstance
-  have hc := InfinitePlace.isComplex_iff.1 (IsTotallyComplex.isComplex w)
-  by_contra hne
-  push_neg at hne
-  apply hc
-  ext x
-  have hx := h.2.2.2 w.embedding x
-  rw [hne x] at hx
-  simpa [ComplexEmbedding.conjugate_coe_eq] using hx.symm
+  apply _root_.GlobalTheory.CompanionTheory.SW.FinQ.exists_moved <;> assumption
 
 theorem cm_exists_skew (σ : E →ₐ[F] E) (h : IsCMExt F E σ) : ∃ δ : E, δ ≠ 0 ∧ σ δ = -δ := by
   obtain ⟨x, hx⟩ := cm_exists_moved σ h

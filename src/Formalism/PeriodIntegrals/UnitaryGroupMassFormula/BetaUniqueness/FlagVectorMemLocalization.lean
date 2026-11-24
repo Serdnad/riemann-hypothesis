@@ -1,5 +1,6 @@
 module
 
+import Formalism.SharpRestriction.CuspSpanNormBounds.LatticeGluingRadicals
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.BetaUniqueness.EqZeroOfNormLtOne
 public import Formalism.SharpRestriction.CuspSpanNormBounds.IsPrimitiveSub
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.BetaUniqueness.Lemmas
@@ -170,18 +171,7 @@ theorem e_mem_Xsp {r : ℕ} {T : E} (F : LFlag S r T) (a : Fin r) : F.fl.e a ∈
 
 theorem hT_X {r : ℕ} {T : E} (F : LFlag S r T) {x y : S.V} (hx : x ∈ Xsp F) (hy : y ∈ Xsp F) :
     S.hT x y = 0 := by
-  rw [Xsp_eq] at hx hy
-  induction hx using Submodule.span_induction with
-  | mem a ha =>
-    obtain ⟨i, rfl⟩ := ha
-    induction hy using Submodule.span_induction with
-    | mem b hb => obtain ⟨j, rfl⟩ := hb; exact F.fl.e_iso i j
-    | zero => simp
-    | add _ _ _ _ h1 h2 => simp [h1, h2]
-    | smul c _ _ h => simp [h]
-  | zero => simp
-  | add _ _ _ _ h1 h2 => simp [h1, h2]
-  | smul c _ _ h => simp [h]
+  apply _root_.Formalism.MainNotions.LatticeGluingRadicals.p_X_iso <;> assumption
 
 theorem Xflag_r {r : ℕ} {T : E} (F : LFlag S r T) : Xflag F r = Xsp F := by
   show Submodule.span E (F.fl.e '' {i | i.1 < r}) = Submodule.span E (Set.range F.fl.e)

@@ -528,13 +528,8 @@ private lemma sb_comp {X : Type} [TopologicalSpace X] (e : X ≃ₜ X) {b : X �
 
 private lemma ind_mem {G : Type} [Group G] [TopologicalSpace G] [IsTopologicalGroup G] [T2Space G]
     {U : Subgroup G} (hUo : IsOpen (U : Set G)) (hUc : IsCompact (U : Set G)) : ind U ∈ SB G := by
-  refine ⟨(IsLocallyConstant.iff_exists_open _).2 fun x => ?_,
-    HasCompactSupport.intro hUc fun x hx => Set.indicator_of_notMem hx _⟩
-  by_cases hx : x ∈ (U : Set G)
-  · exact ⟨U, hUo, hx, fun y hy => by
-      simp only [ind]; rw [Set.indicator_of_mem hy, Set.indicator_of_mem hx]⟩
-  · exact ⟨(U : Set G)ᶜ, (U.isClosed_of_isOpen hUo).isOpen_compl, hx, fun y hy => by
-      simp only [ind]; rw [Set.indicator_of_notMem hy, Set.indicator_of_notMem hx]⟩
+  intros
+  apply _root_.ind_mem_SB <;> assumption
 
 private lemma one_term {V : Type} [AddCommGroup V] [Module ℂ V] (ρ : Representation ℂ (GLv v) V)
     (β : V →ₗ[ℂ] SB (SL v) →ₗ[ℂ] ℂ)

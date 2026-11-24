@@ -1,5 +1,6 @@
 module
 
+import GroundTheory.HeightsAndTheta.Heights.FiniteCovolume.PReducedBasisBound
 public import Formalism.LatticeSlopes.Statement
 public import Formalism.LatticeSlopes.LatticeSlopesProofs.CovolEqCovolume
 public import Formalism.LatticeSlopes.LatticeSlopesProofs.CovolPos
@@ -72,21 +73,8 @@ variable {E : Type*} [NormedAddCommGroup E] [InnerProductSpace ℝ E] [FiniteDim
 
 theorem discreteTopology_of_norm_ge (L : Submodule ℤ E) {ε : ℝ} (hε : 0 < ε)
     (h : ∀ x ∈ L, x ≠ 0 → ε ≤ ‖x‖) : DiscreteTopology L := by
-  rw [discreteTopology_iff_isOpen_singleton_zero]
-  have hball : ({0} : Set L) = Metric.ball (0 : L) ε := by
-    ext x
-    simp only [Set.mem_singleton_iff, Metric.mem_ball, dist_zero_right]
-    constructor
-    · rintro rfl
-      simpa using hε
-    · intro hx
-      by_contra hne
-      have hx0 : (x : E) ≠ 0 := fun h0 => hne (Subtype.ext h0)
-      have := h x x.2 hx0
-      rw [Submodule.coe_norm] at hx
-      linarith
-  rw [hball]
-  exact Metric.isOpen_ball
+  intros
+  apply _root_.GroundTheory.Heights₂.Theta.FunctionalEquationAlt.ShortGen.discreteTopology_of_sep <;> assumption
 
 theorem exists_ne_zero_norm_le_rank_div_of_dualMinimum (Q : Submodule ℤ E) [hQd : DiscreteTopology Q] (hQ : Q ≠ ⊥) {l : ℝ}
     (hl : 0 < l)

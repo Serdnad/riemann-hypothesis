@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.MaxVSpanSingleton
 public import Development.AbelianVarietyTheory.BlockTheory.GlobalSignature.SourceLatticeInvariance
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -53,18 +54,7 @@ open GlobalTheory.IndefiniteRowSideFullHecke.SourceLatticeInvariance (DegOneUnra
 variable {E : Type} [Field E] [NumberField E]
 
 theorem intAt_iff_val (P : HeightOneSpectrum (𝓞 E)) (a : E) : IntAt P a ↔ P.valuation E a ≤ 1 := by
-  constructor
-  · rintro ⟨r, s, hs, h⟩
-    have h1 : P.valuation E (algebraMap (𝓞 E) E s) = 1 := by
-      rw [HeightOneSpectrum.valuation_of_algebraMap, HeightOneSpectrum.intValuation_eq_one_iff]
-      exact hs
-    have h2 := congrArg (P.valuation E) h
-    rw [map_mul, h1, one_mul] at h2
-    rw [h2]
-    exact P.valuation_le_one r
-  · intro h
-    obtain ⟨n, d, hnd⟩ := P.exists_primeCompl_mul_eq_of_integer a h
-    exact ⟨n, d, d.2, by rw [mul_comm]; exact hnd⟩
+  first | exact _root_.GlobalTheory.CharVal.intAt_iff | exact @_root_.GlobalTheory.CharVal.intAt_iff | apply _root_.GlobalTheory.CharVal.intAt_iff <;> assumption
 
 theorem le_exp_neg_one_of_lt_one {x : WithZero (Multiplicative ℤ)} (h : x < 1) : x ≤ WithZero.exp (-1) := by
   rcases eq_or_ne x 0 with rfl | hx

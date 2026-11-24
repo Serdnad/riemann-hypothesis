@@ -322,10 +322,7 @@ private theorem pInf_coord_eq (x : Ad F) (v : InfinitePlace F) :
 
 private theorem continuous_pInf_coord (v : InfinitePlace F) :
     Continuous fun x : Ad F => UpperTheory.V.TR.pInf F x v := by
-  have h : (fun x : Ad F => UpperTheory.V.TR.pInf F x v) =
-      fun x => (homeomorphMixedSpace F x.1).1 ⟨v, IsTotallyReal.isReal v⟩ := funext fun x => pInf_coord_eq x v
-  rw [h]
-  exact (continuous_apply _).comp (continuous_fst.comp ((homeomorphMixedSpace F).continuous.comp continuous_fst))
+  apply _root_.UpperTheory.HilbertEisensteinWeightOne.EisensteinIntegrability.continuous_pInf_apply <;> assumption
 
 private theorem continuous_arch_comp {X : Type*} [TopologicalSpace X] {a b : X → Ad F} (ha : Continuous a)
     (hb : Continuous b) : Continuous fun p => arch (UpperTheory.V.TR.pInf F (a p)) (UpperTheory.V.TR.pInf F (b p)) := by

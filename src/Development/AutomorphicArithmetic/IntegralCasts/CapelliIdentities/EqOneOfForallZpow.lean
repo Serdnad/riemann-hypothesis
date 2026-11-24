@@ -1,5 +1,6 @@
 module
 
+import GroundTheory.AutomorphicForms.WhittakerGroups
 public import Mathlib.Analysis.Complex.Norm
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -63,26 +64,4 @@ private theorem UpperTheory.Reformulated.B.Qk23.half_le_re {w : ℂ} (h : ‖w�
   nlinarith
 
 theorem UpperTheory.Reformulated.B.Qk23.eq_one_of_forall_zpow :
-    ∀ {z : ℂ}, (∀ (k : ℤ), ‖z ^ k - (1 : ℂ)‖ < (1 : ℝ)) → z = (1 : ℂ) := by
-  intro z h
-  by_contra hz
-  have hd : 0 < ‖z - 1‖ := norm_pos_iff.mpr (sub_ne_zero.mpr hz)
-  have hre : ∀ k : ℕ, (1 / 2 : ℝ) ≤ (z ^ k).re := by
-    intro k
-    apply UpperTheory.Reformulated.B.Qk23.half_le_re
-    have := h (-(k : ℤ))
-    rwa [zpow_neg, zpow_natCast] at this
-  obtain ⟨n, hn⟩ := exists_nat_gt (2 / ‖z - 1‖)
-  rw [div_lt_iff₀ hd] at hn
-  have h1 : (n : ℝ) * (1 / 2) ≤ ‖∑ k ∈ Finset.range n, z ^ k‖ := by
-    refine le_trans ?_ (Complex.re_le_norm _)
-    rw [Complex.re_sum]
-    have := Finset.card_nsmul_le_sum (Finset.range n) (fun k => (z ^ k).re) (1 / 2 : ℝ)
-      (fun k _ => hre k)
-    rwa [Finset.card_range, nsmul_eq_mul] at this
-  have h2 : ‖∑ k ∈ Finset.range n, z ^ k‖ * ‖z - 1‖ < 1 := by
-    rw [← norm_mul, geom_sum_mul]
-    have := h (n : ℤ)
-    rwa [zpow_natCast] at this
-  have h3 := mul_le_mul_of_nonneg_right h1 hd.le
-  linarith
+    ∀ {z : ℂ}, (∀ (k : ℤ), ‖z ^ k - (1 : ℂ)‖ < (1 : ℝ)) → z = (1 : ℂ) := @_root_.GroundTheory.Variant₂.N1.eq_one_of_forall_norm_zpow_sub_one_lt

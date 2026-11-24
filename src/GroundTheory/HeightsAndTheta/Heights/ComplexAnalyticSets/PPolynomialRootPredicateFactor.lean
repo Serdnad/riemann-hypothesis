@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.MonicRootNormLeOneAddSum
 public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.StPolynomialRootPredicateFactor
 public import Mathlib.Analysis.Calculus.FDeriv.Defs
 public import Mathlib.RingTheory.SimpleRing.Principal
@@ -72,23 +73,7 @@ theorem rootFactor_mul_not (p : ℂ[X]) (hp : p.Monic) (Q : ℂ → Prop) :
 
 theorem norm_root_le {N : ℕ} (c : Fin N → ℂ) (τ : ℂ) (h : τ ^ N + ∑ j, c j * τ ^ (j : ℕ) = 0) :
     ‖τ‖ ≤ 1 + ∑ j, ‖c j‖ := by
-  have hs : 0 ≤ ∑ j, ‖c j‖ := Finset.sum_nonneg fun j _ => norm_nonneg _
-  by_cases h1 : ‖τ‖ ≤ 1
-  · linarith
-  push Not at h1
-  cases N with
-  | zero => simp at h
-  | succ n =>
-    have key : ‖τ‖ ^ (n + 1) ≤ (∑ j, ‖c j‖) * ‖τ‖ ^ n := by
-      have e : τ ^ (n + 1) = -∑ j, c j * τ ^ (j : ℕ) := eq_neg_of_add_eq_zero_left h
-      rw [← norm_pow, e, norm_neg, Finset.sum_mul]
-      refine (norm_sum_le _ _).trans (Finset.sum_le_sum fun j _ => ?_)
-      rw [norm_mul, norm_pow]
-      exact mul_le_mul_of_nonneg_left (pow_le_pow_right₀ h1.le (Nat.lt_succ_iff.1 j.2)) (norm_nonneg _)
-    have hpos : 0 < ‖τ‖ ^ n := pow_pos (by linarith) n
-    rw [pow_succ, mul_comm (∑ j, ‖c j‖)] at key
-    have := le_of_mul_le_mul_left key hpos
-    linarith
+  apply _root_.GlobalTheory.monic_root_norm_le_one_add_sum <;> assumption
 
 theorem norm_coeff_rootFactor_le {d N : ℕ} (a : Fin N → (Fin d → ℂ) → ℂ) (t : Fin d → ℂ) (Q : ℂ → Prop)
     (k : ℕ) : ‖(rootFactor (fiberPoly a t) Q).coeff k‖ ≤ (1 + ∑ j, ‖a j t‖) ^ N * 2 ^ N := by

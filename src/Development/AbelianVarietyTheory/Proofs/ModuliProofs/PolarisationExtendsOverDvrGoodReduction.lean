@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.ToricGeometry.KrullDimLEAndIsLocalRingQuotientPow
 public import Development.AbelianVarietyTheory.Definitions.Uniformization.PointEqOfSubsingleton
 public import Development.AbelianVarietyTheory.Definitions.AbelianSchemeLaws.FirstCohomologyVanishesSpecOfIsLocalRing
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.SecBaseChangeAnySt
@@ -71,6 +72,7 @@ import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.T
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.ChartPullbacks.CubePullbacks.CubePull
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.AmplePt
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.SemiabelianSchemes.PrecompleteBases.PsbLb
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsCommonFieldExtension
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.Proofs.ModuliProofs.TorsionEqOneOfTranslDiffTrivialModel, Development.AbelianVarietyTheory.Proofs.ModuliProofs.TorsionEqOneOfTranslDiffTrivialModelStatement, Development.AbelianVarietyTheory.Proofs.ModuliProofs.RelAmpleSpecialFibreExtendedPrincipalPolarisatio, Development.AbelianVarietyTheory.Proofs.ModuliProofs.RelAmpleSpecialFibreExtendedPrincipalPolarisatioStatement, Development.AbelianVarietyTheory.Proofs.ModuliProofs.RelAmpleExtendedPrincipalPolarisationDvr, Development.AbelianVarietyTheory.Proofs.ModuliProofs.RelAmpleExtendedPrincipalPolarisationDvrStatement, Development.AbelianVarietyTheory.Proofs.ModuliProofs.PolarisationExtendsOverDvrGoodReduction
@@ -92,14 +94,7 @@ open GlobalTheory.UU GlobalTheory.AbLaw
 
 theorem exists_common_overfield {k A B : Type} [Field k] [Field A] [Field B] (f : k →+* A) (g : k →+* B) :
     ∃ (L : Type) (_ : Field L) (a : A →+* L) (b : B →+* L), a.comp f = b.comp g := by
-  let _ := f.toAlgebra
-  let _ := g.toAlgebra
-  obtain ⟨m, hm⟩ := Ideal.exists_maximal (TensorProduct k A B)
-  refine ⟨TensorProduct k A B ⧸ m, Ideal.Quotient.field m,
-    (Ideal.Quotient.mk m).comp (Algebra.TensorProduct.includeLeftRingHom),
-    (Ideal.Quotient.mk m).comp (Algebra.TensorProduct.includeRight (R := k) (A := A) (B := B)).toRingHom, ?_⟩
-  rw [RingHom.comp_assoc, RingHom.comp_assoc]
-  exact congrArg _ (Algebra.TensorProduct.includeLeftRingHom_comp_algebraMap (R := k) (A := A) (B := B))
+  apply _root_.GlobalTheory.exists_common_field_extension <;> assumption
 
 theorem exists_valuationSubring {W F Ω : Type} [CommRing W] [IsLocalRing W] [Field F] [Field Ω] (φ : W →+* F)
     (f : W →+* Ω) [IsLocalHom f] : ∃ (O : ValuationSubring F) (j : W →+* O) (L : Type) (_ : Field L) (a : Ω →+* L)
@@ -136,19 +131,8 @@ theorem exists_embedding (V K W : Type) [CommRing V] [IsDomain V] [Field K] [Alg
 
 theorem triv_comp {S : Scheme.{0}} {A : Over S} [GrpObj A] {L : LB A.left} {T T' : Over S} (x : T ⟶ A) (g : T' ⟶ T)
     (h : Triv (translDiff A L x)) : Triv (translDiff A L (g ≫ x)) := by
-  obtain ⟨d, hd⟩ := h
-  have h4 : ∃ w : LB.Gen (LB.LinComb L _ _), w.IsGen := ⟨_, DVR.pullGen_isGen _ _ _ d hd (g ▷ A).left⟩
-  have h3 : (fun k : Fin 2 => (g ▷ A).left ≫ ![(lift (fst T A ≫ x) (snd T A) ≫ μ[A]).left, (snd T A).left] k) =
-      ![(lift (fst T' A ≫ g ≫ x) (snd T' A) ≫ μ[A]).left, (snd T' A).left] := by
-    funext k
-    fin_cases k
-    · change (g ▷ A ≫ lift (fst T A ≫ x) (snd T A) ≫ μ[A]).left =
-        (lift (fst T' A ≫ g ≫ x) (snd T' A) ≫ μ[A]).left
-      rw [comp_lift_assoc, whiskerRight_fst_assoc, whiskerRight_snd]
-    · change (g ▷ A ≫ snd T A).left = (snd T' A).left
-      rw [whiskerRight_snd]
-  rw [h3] at h4
-  exact h4
+  intros
+  apply _root_.GlobalTheory.ArtinReduction.exists_isGen_translDiff_comp <;> assumption
 
 theorem cubWeil_generic (hG : GlobalFnsSt) {S : Scheme.{0}} {A : Over S} [GrpObj A] [IsCommMonObj A]
     (hA : IsAbelianScheme A) {L : RigLB A} (c : CubicalStr A L) {O F k : Type} [CommRing O] [IsDomain O]

@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.MassBoundOfTamagawaUnitary
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.FundamentalDomains.Signature
 public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.ExistsInvariantNatLengthLattice
 public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.SmulMemOfIsIntegral
@@ -120,21 +121,7 @@ theorem exists_nat_herm_int (G : Matrix (Fin r) (Fin r) E) (L : Submodule (𝓞 
     rw [e, neg_mul]; exact key.neg
 
 theorem exists_nat_int (k : E) : ∃ n : ℕ, 0 < n ∧ IsIntegral ℤ ((n : E) * k) := by
-  have halg : IsAlgebraic ℤ k := (IsFractionRing.isAlgebraic_iff ℤ ℚ E).2 (Algebra.IsAlgebraic.isAlgebraic _)
-  obtain ⟨y, hy, hyi⟩ := halg.exists_integral_multiple
-  refine ⟨y.natAbs, Int.natAbs_pos.2 hy, ?_⟩
-  rw [zsmul_eq_mul] at hyi
-  rcases Int.natAbs_eq y with h | h
-  · have e : ((y.natAbs : ℕ) : E) = (y : E) := by
-      have h' := congrArg (fun z : ℤ => (z : E)) h
-      simp only [Int.cast_natCast] at h'
-      exact h'.symm
-    rw [e]; exact hyi
-  · have e : ((y.natAbs : ℕ) : E) = -(y : E) := by
-      have h' := congrArg (fun z : ℤ => (z : E)) h
-      simp only [Int.cast_neg, Int.cast_natCast] at h'
-      rw [h', neg_neg]
-    rw [e, neg_mul]; exact hyi.neg
+  apply _root_.GlobalTheory.DenClear.exists_natMul_isIntegral <;> assumption
 
 theorem exists_princ_data : ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (r : ℕ) (M : ℕ) (X0 : Data E r) (Λ : Submodule (𝓞 E) (Fin r → E)), 3 ≤ M → Λ.FG → Submodule.span E (Λ : Set (Fin r → E)) = ⊤ → ∃ X : Data E r, X.Gm = X0.Gm ∧ X.Ψ = X0.Ψ ∧ X.p0 = X0.p0 ∧ X.Λ = Λ ∧ ∀ γ, γ ∈ X.Γ ↔ IsUStab X0.Gm Λ γ ∧ ∀ x ∈ Λ, ∃ y ∈ Λ, (γ : Matrix (Fin r) (Fin r) E).mulVec x - x = M • y := by
   intro E _ _ _ r M X0 Λ hM hfg hsp

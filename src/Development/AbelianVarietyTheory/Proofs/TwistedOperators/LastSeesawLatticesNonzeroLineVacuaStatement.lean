@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.DepthLatticeGridRowStableWittTargetProjections
 public import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.WittDecompSymplInclIsotropicInclAnisotropic
 public import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.IsAuxiliaryVectorWittDec
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.DepthLatticeGridCoreIffFirstRowExtByZero
@@ -274,25 +275,8 @@ theorem rat_mul_mem_hatMx {m n : ℕ} {ΛS : Submodule (𝓞 D.host.E) (Fin n �
     {ΛT : Submodule (𝓞 D.host.E) (Fin m → D.host.E)} (M : Matrix (Fin m) (Fin m) D.host.E)
     (hM : ∀ y ∈ ΛT, M *ᵥ y ∈ ΛT) (I : Ideal (𝓞 D.host.E)) {z : Mx D m n} (hz : z ∈ hatMx (I • homLat ΛS ΛT)) :
     (rat M : Mx D m m) ⬝ z ∈ hatMx (I • homLat ΛS ΛT) := by
-  have key : ∀ X ∈ I • homLat ΛS ΛT, M * X ∈ I • homLat ΛS ΛT := by
-    intro X hX
-    refine Submodule.smul_induction_on hX (fun r hr Y hY => ?_) (fun a b ha hb => ?_)
-    · rw [Matrix.mul_smul]
-      refine Submodule.smul_mem_smul hr ?_
-      intro y hy
-      rw [← Matrix.mulVec_mulVec]
-      exact hM _ (hY _ hy)
-    · rw [Matrix.mul_add]; exact add_mem ha hb
-  induction hz using AddSubgroup.closure_induction with
-  | mem w hw =>
-    obtain ⟨α, hα, X, hX, rfl⟩ := hw
-    refine AddSubgroup.subset_closure ⟨α, hα, M * X, key X hX, ?_⟩
-    ext i j
-    simp only [Matrix.mul_apply, Matrix.of_apply, TensorProduct.tmul_sum, rat_entry',
-      Algebra.TensorProduct.tmul_mul_tmul, one_mul]
-  | zero => rw [Matrix.mul_zero]; exact zero_mem _
-  | add x y _ _ hx hy => rw [Matrix.mul_add]; exact add_mem hx hy
-  | neg x _ hx => rw [Matrix.mul_neg]; exact neg_mem hx
+  intros
+  apply _root_.GlobalTheory.AscFin.ProjTgt.rat_mul_mem_hatMx <;> assumption
 
 theorem proj_mem_latCore : OnStd fun {D} _ _ _ {G} _ F => ∀ u ∈ latCore G 0, F.oz.jA ⬝ (F.oz.pA ⬝ u) ∈ latCore G 0 := by
   intro D hq T L μ0 hL sc G W M hM F hF u hu

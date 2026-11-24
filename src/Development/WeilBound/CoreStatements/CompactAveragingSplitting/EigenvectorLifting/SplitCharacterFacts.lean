@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SplitPlaceCharacterComponentSmoothUnitaryConductStatement
 public import Development.WeilBound.CoreStatements.CompactAveragingSplitting.EigenvectorLifting.SplitAsm
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.GSEqZeroOfLt
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsIsSplitChartOne
@@ -68,45 +69,12 @@ theorem condLE_add {k : Type} [Field k] [ValuativeRel k] [TopologicalSpace k] [I
 variable {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] {v : Pl F}
 
 theorem val_eq_one_iff (x : Fv F v) : valuation (Fv F v) x = 1 ↔ Valued.v x = 1 := by
-  haveI hc : (Valued.v : Valuation (Fv F v) _).Compatible := by
-    first
-    | exact ⟨fun _ _ => Iff.rfl⟩
-  have he : (valuation (Fv F v)).IsEquiv (Valued.v : Valuation (Fv F v) _) := ValuativeRel.isEquiv _ _
-  have h1 := he.le_iff_le (x := x) (y := 1)
-  have h2 := he.le_iff_le (x := 1) (y := x)
-  simp only [map_one] at h1 h2
-  constructor
-  · intro h
-    exact le_antisymm (h1.mp h.le) (h2.mp h.ge)
-  · intro h
-    exact le_antisymm (h1.mpr h.le) (h2.mpr h.ge)
+  apply _root_.GlobalTheory.ChrWLocal.valuation_eq_one_iff <;> assumption
 
 theorem isUnram_chrW_iff (χ : Chr F E) (τ : E →ₐ[F] Fv F v) :
     GlobalTheory.SplitWeil.IsUnram (chrW χ τ) ↔ UnrAt χ (splitPrime τ) := by
-  obtain ⟨ψ, hψ, -, hv, -, -⟩ :=
-    GlobalTheory.LFun.SplitChart.exists_equiv_complMap τ (GlobalTheory.AdelicU.splitPrime_under τ)
-  constructor
-  · intro hU y hy
-    have hy' : Valued.v (y : HeightOneSpectrum.adicCompletion E (splitPrime τ)) = 1 := hy
-    let x : (Fv F v)ˣ := Units.map ψ.symm.toRingHom.toMonoidHom y
-    have hxv : valuation (Fv F v) (x : Fv F v) = 1 := by
-      show valuation (Fv F v) (ψ.symm (y : HeightOneSpectrum.adicCompletion E (splitPrime τ))) = 1
-      rw [val_eq_one_iff, ← hv, RingEquiv.apply_symm_apply]
-      exact hy'
-    have h1 := hU x hxv
-    have hxy : Units.map (GlobalTheory.LFun.complMap (GlobalTheory.AdelicU.splitPrime_under τ)).toMonoidHom x = y := by
-      apply Units.ext
-      show GlobalTheory.LFun.complMap (GlobalTheory.AdelicU.splitPrime_under τ)
-        (ψ.symm (y : HeightOneSpectrum.adicCompletion E (splitPrime τ))) = y
-      rw [← hψ, RingEquiv.apply_symm_apply]
-    rw [← hxy]
-    exact h1
-  · intro hU x hx
-    have hx' : Valued.v (x : Fv F v) = 1 := (val_eq_one_iff _).mp hx
-    have hc : Valued.v (GlobalTheory.LFun.complMap (GlobalTheory.AdelicU.splitPrime_under τ) (x : Fv F v)) = 1 := by
-      rw [← hψ, hv]
-      exact hx'
-    exact hU (Units.map (GlobalTheory.LFun.complMap (GlobalTheory.AdelicU.splitPrime_under τ)).toMonoidHom x) hc
+  intros
+  apply _root_.GlobalTheory.ChrWLocal.isUnram_chrW_iff <;> assumption
 
 theorem continuous_chrW {χ : Chr F E} (hχ : Continuous χ) (τ : E →ₐ[F] Fv F v) :
     Continuous fun x => (chrW χ τ x : ℂ) := by

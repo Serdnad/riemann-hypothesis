@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.CoherentCohomologyProofs.ExactAndSurjectiveAppOfExactOfEpi
 public import Development.AbelianVarietyTheory.Proofs.CoherentCohomologyProofs.IsQuasicoherentOfForallExistsAffine
 public import Mathlib.AlgebraicGeometry.Morphisms.Finite
 public import Mathlib.AlgebraicGeometry.Morphisms.Flat
@@ -558,23 +559,8 @@ set_option backward.isDefEq.respectTransparency false in
 theorem app_surjective_of_epi_of_isAffineOpen (φ : F ⟶ F') [Epi φ] [F.IsQuasicoherent]
     [F'.IsQuasicoherent] {U : X.Opens} (hU : IsAffineOpen U) :
     Function.Surjective (φ.app U) := by
-  let ψ := (Scheme.Modules.restrictFunctor hU.fromSpec).map φ
-  have h := (Scheme.Modules.fromTildeΓNatTrans (R := Γ(X, U))).naturality ψ
-  have h₁ : IsIso ((Scheme.Modules.fromTildeΓNatTrans (R := Γ(X, U))).app
-    (F.restrict hU.fromSpec)) :=
-    Scheme.Modules.isIso_fromTildeΓ_of_isQuasicoherent (F.restrict hU.fromSpec)
-  have h₂ : IsIso ((Scheme.Modules.fromTildeΓNatTrans (R := Γ(X, U))).app
-    (F'.restrict hU.fromSpec)) :=
-    Scheme.Modules.isIso_fromTildeΓ_of_isQuasicoherent (F'.restrict hU.fromSpec)
-  have h₃ : Epi ((𝟭 _).map ψ) := inferInstanceAs (Epi ψ)
-  have h₄ : Epi ((moduleSpecΓFunctor ⋙ tilde.functor Γ(X, U)).map ψ) := by
-    rw [← epi_comp_iff_of_isIso _ ((Scheme.Modules.fromTildeΓNatTrans (R := Γ(X, U))).app
-      (F'.restrict hU.fromSpec)), h]
-    exact epi_comp' (@IsIso.epi_of_iso _ _ _ _ _ h₁) h₃
-  have h₅ : Epi (moduleSpecΓFunctor.map ψ) := (tilde.functor Γ(X, U)).epi_of_epi_map h₄
-  have h₆ : Function.Surjective (φ.app (hU.fromSpec ''ᵁ ⊤)) :=
-    (ModuleCat.epi_iff_surjective (moduleSpecΓFunctor.map ψ)).mp h₅
-  rwa [fromSpec_image_top hU] at h₆
+  intros
+  apply _root_.GlobalTheory.QCoh.surjective_app_of_epi <;> assumption
 
 variable (f : X ⟶ Y)
 

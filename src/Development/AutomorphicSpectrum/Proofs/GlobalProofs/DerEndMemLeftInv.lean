@@ -1,5 +1,8 @@
 module
 
+
+import Development.WeilBound.ThetaLifts.LocalTheory.ToralCohomology.SumPlSingle
+import Development.AutomorphicSpectrum.Proofs.GlobalProofs.ConstantTermParabolicFiniteType
 public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.WeilTensorModels
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsBlockEmb
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExpGLiAddSmul
@@ -78,7 +81,6 @@ import Mathlib.Tactic.ENatToNat
 import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.GodementSectionSmoothBounded
 import Development.AbelianVarietyTheory.Proofs.HeightProofs.AdelicUnitaryRealPointsStructureRealPlacesStatement
 import Std.Tactic.BVDecide.Normalize.Prop
-
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.ExistsInhabitant, Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.DetALeviTorus, Development.AutomorphicSpectrum.Proofs.GlobalProofs.ArchMatBlockEmbInfGL, Development.AutomorphicSpectrum.Proofs.GlobalProofs.AdaptedBasisBlockEntries, Development.AutomorphicSpectrum.Proofs.GlobalProofs.AdaptedBasisBlockEntriesStatement, Development.AutomorphicSpectrum.Proofs.GlobalProofs.BlockEmbeddingAdaptedBasis, Development.AutomorphicSpectrum.Proofs.GlobalProofs.BlockEmbeddingAdaptedBasisStatement, Development.AutomorphicSpectrum.Proofs.GlobalProofs.DerEndMemLeftInv
 
@@ -933,15 +935,8 @@ theorem qdet_intertwine (L : W →ₗ[ℂ] Q) {a : ℕ} (A : Fin a → Fin a →
 
 theorem aeval_intertwine (L : W →ₗ[ℂ] Q) (a : Module.End ℂ W) (b : Module.End ℂ Q) (h : ∀ F, L (a F) = b (L F))
     (q : Polynomial ℂ) (F : W) : L (Polynomial.aeval a q F) = Polynomial.aeval b q (L F) := by
-  have hm : Polynomial.aeval ((a, b) : Module.End ℂ W × Module.End ℂ Q) q ∈ pairAlg L := by
-    rw [Polynomial.aeval_eq_sum_range]
-    exact Subalgebra.sum_mem _ fun i _ => Subalgebra.smul_mem _ (pow_mem (show (a, b) ∈ pairAlg L from h) i) _
-  have h1 : (Polynomial.aeval ((a, b) : Module.End ℂ W × Module.End ℂ Q) q).1 = Polynomial.aeval a q :=
-    (Polynomial.aeval_algHom_apply (AlgHom.fst ℂ (Module.End ℂ W) (Module.End ℂ Q)) (a, b) q).symm
-  have h2 : (Polynomial.aeval ((a, b) : Module.End ℂ W × Module.End ℂ Q) q).2 = Polynomial.aeval b q :=
-    (Polynomial.aeval_algHom_apply (AlgHom.snd ℂ (Module.End ℂ W) (Module.End ℂ Q)) (a, b) q).symm
-  have := hm F
-  rwa [h1, h2] at this
+  intros
+  apply _root_.PositivityTheory.ThKG.CayleyTransformDarboux.aeval_int <;> assumption
 
 def sizes (l d N : ℕ) : Fin 5 → ℕ := ![l, d, N - 2 * (l + d), d, l]
 
@@ -1051,22 +1046,7 @@ variable {n : ℕ}
 
 theorem glRel_conj (P Q : Matrix (Fin n) (Fin n) ℂ) (hQP : Q * P = 1) :
     Formalism.REAL.GlRel (fun p q => P * Matrix.single p q (1 : ℂ) * Q) := by
-  have e : ∀ A B : Matrix (Fin n) (Fin n) ℂ, (P * A * Q) * (P * B * Q) = P * (A * B) * Q := fun A B => by
-    calc (P * A * Q) * (P * B * Q) = P * A * (Q * P) * B * Q := by simp only [Matrix.mul_assoc]
-      _ = P * (A * B) * Q := by rw [hQP]; simp only [Matrix.mul_one, Matrix.mul_assoc]
-  intro a b c d
-  simp only [e]
-  rw [← Matrix.sub_mul, ← Matrix.mul_sub]
-  have s1 : Matrix.single a b (1 : ℂ) * Matrix.single c d 1 = if b = c then Matrix.single a d 1 else 0 := by
-    split_ifs with h
-    · subst h; simp
-    · exact Matrix.single_mul_single_of_ne _ _ _ _ h _
-  have s2 : Matrix.single c d (1 : ℂ) * Matrix.single a b 1 = if d = a then Matrix.single c b 1 else 0 := by
-    split_ifs with h
-    · subst h; simp
-    · exact Matrix.single_mul_single_of_ne _ _ _ _ h _
-  rw [s1, s2]
-  split_ifs <;> simp [Matrix.sub_mul, Matrix.mul_sub]
+  apply _root_.GlobalTheory.CompanionTheory.Hypotheses₂.LeviPart.UCentre.glRel_conj <;> assumption
 
 theorem glRel_conj_rev (P Q : Matrix (Fin n) (Fin n) ℂ) (hQP : Q * P = 1) :
     Formalism.REAL.GlRel (fun p q : Fin n => -(P * Matrix.single q.rev p.rev (1 : ℂ) * Q)) := by
@@ -1082,19 +1062,7 @@ theorem glRel_conj_rev (P Q : Matrix (Fin n) (Fin n) ℂ) (hQP : Q * P = 1) :
 
 theorem span_conj (P Q : Matrix (Fin n) (Fin n) ℂ) (hPQ : P * Q = 1) (hQP : Q * P = 1) :
     Submodule.span ℂ (Set.range fun p : Fin n × Fin n => P * Matrix.single p.1 p.2 (1 : ℂ) * Q) = ⊤ := by
-  rw [eq_top_iff]
-  intro Z _
-  have e : Z = ∑ a, ∑ b, (Q * Z * P) a b • (P * Matrix.single a b (1 : ℂ) * Q) := by
-    have h1 : Q * Z * P = ∑ a, ∑ b, (Q * Z * P) a b • Matrix.single a b (1 : ℂ) := by
-      simpa [Matrix.smul_single] using Matrix.matrix_eq_sum_single (Q * Z * P)
-    calc Z = P * (Q * Z * P) * Q := by
-          simp only [← Matrix.mul_assoc]; rw [hPQ, Matrix.one_mul, Matrix.mul_assoc, hPQ, Matrix.mul_one]
-      _ = _ := by
-          conv_lhs => rw [h1]
-          simp only [Finset.mul_sum, Finset.sum_mul, Matrix.mul_smul, Matrix.smul_mul]
-  rw [e]
-  exact Submodule.sum_mem _ fun a _ => Submodule.sum_mem _ fun b _ =>
-    Submodule.smul_mem _ _ (Submodule.subset_span ⟨(a, b), rfl⟩)
+  apply _root_.GlobalTheory.CompanionTheory.Hypotheses₂.LeviPart.UCentre.span_conj <;> assumption
 
 theorem span_conj_rev (P Q : Matrix (Fin n) (Fin n) ℂ) (hPQ : P * Q = 1) (hQP : Q * P = 1) :
     Submodule.span ℂ (Set.range fun p : Fin n × Fin n => -(P * Matrix.single p.2.rev p.1.rev (1 : ℂ) * Q)) = ⊤ := by

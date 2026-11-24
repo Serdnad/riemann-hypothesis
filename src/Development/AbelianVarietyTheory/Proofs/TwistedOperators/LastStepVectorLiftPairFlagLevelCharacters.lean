@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.TwistPlaceDatumParabolicMoveStatement
 public import Formalism.LocalToGlobal.IndefiniteReal.DatumVec
 public import Formalism.LocalToGlobal.IndefiniteReal.SubgroupCharExtensionOneApply
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.FrameMatrixMovedHomIntegralReduction
@@ -199,17 +200,7 @@ theorem det_topL {a b r : ℕ} (ha : r ≤ a) (hb : r ≤ b) {gS : GL (Fin a) κ
 theorem lowZero_iff {a b r : ℕ} {gS : GL (Fin a) κ} {gT : GL (Fin b) κ}
     (hS : gS ∈ blockTri (blk2 r)) (hT : gT ∈ blockTri (blk2 r)) (y : Matrix (Fin b) (Fin a) κ) :
     LowZero r ((gT⁻¹).val * y * gS.val) ↔ LowZero r y := by
-  have hS' := lowZero_of_mem hS
-  have hTi := lowZero_of_mem (inv_mem hT)
-  constructor
-  · intro h
-    have hy : y = gT.val * ((gT⁻¹).val * y * gS.val) * (gS⁻¹).val := by
-      rw [← Matrix.mul_assoc, ← Matrix.mul_assoc, ← Units.val_mul, mul_inv_cancel, Units.val_one, Matrix.one_mul,
-        Matrix.mul_assoc, ← Units.val_mul, mul_inv_cancel, Units.val_one, Matrix.mul_one]
-    rw [hy]
-    exact lowZero_mul (lowZero_mul (lowZero_of_mem hT) h) (lowZero_of_mem (inv_mem hS))
-  · intro h
-    exact lowZero_mul (lowZero_mul hTi h) hS'
+  first | exact _root_.GlobalTheory.ParabolicDatum.lowZero_move | exact @_root_.GlobalTheory.ParabolicDatum.lowZero_move | apply _root_.GlobalTheory.ParabolicDatum.lowZero_move <;> assumption
 
 end Fin
 

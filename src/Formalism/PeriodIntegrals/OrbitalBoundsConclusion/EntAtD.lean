@@ -1,5 +1,7 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.IsThClsDGalRul
+import Development.AbelianVarietyTheory.Proofs.JetHarmonics.ConstantCoeffDmonOfProdLinear
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.PartialDerivativeMinors.PMinorAff
 public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.MsMul
 public import Mathlib.RingTheory.Derivation.Lie
@@ -998,17 +1000,7 @@ open PI.EntAtD
 
 theorem pderiv_pderiv_comm {σ R : Type} [CommRing R] (v w : σ) (f : MvPolynomial σ R) :
     MvPolynomial.pderiv v (MvPolynomial.pderiv w f) = MvPolynomial.pderiv w (MvPolynomial.pderiv v f) := by
-  have hX : ∀ i j k : σ, MvPolynomial.pderiv i (MvPolynomial.pderiv j (MvPolynomial.X k : MvPolynomial σ R)) = 0 := by
-    intro i j k
-    by_cases h : k = j
-    · subst h; simp
-    · simp [MvPolynomial.pderiv_X_of_ne h]
-  induction f using MvPolynomial.induction_on with
-  | C a => simp
-  | add p q hp hq => simp only [map_add (f := _), hp, hq]
-  | mul_X p k hp =>
-    simp only [Derivation.leibniz, smul_eq_mul, map_add (f := _), hX, mul_zero, zero_add, hp]
-    ring
+  apply _root_.GlobalTheory.NabUniqCompare.pderiv_swap <;> assumption
 
 theorem pd_comm {H : Type} {N0 N1 : ℕ} (v w : XZ (Bool × H) N0 N1) :
     Commute (pd (H := H) (N0 := N0) (N1 := N1) v) (pd w) := by
@@ -1691,15 +1683,7 @@ variable {R A : Type} [CommRing R] [CommRing A] [Algebra R A]
 
 theorem minorAff_derProd {ι : Type} [DecidableEq ι] (D : Derivation R A A) (f : ι → A) (s : Finset ι) :
     D (∏ j ∈ s, f j) = ∑ i ∈ s, (∏ j ∈ s.erase i, f j) * D (f i) := by
-  refine Finset.induction_on s ?_ ?_
-  · simp
-  · intro i s hi ih
-    rw [Finset.prod_insert hi, Derivation.leibniz, ih, Finset.sum_insert hi, Finset.erase_insert hi,
-      smul_eq_mul, smul_eq_mul, add_comm, Finset.mul_sum]
-    congr 1
-    refine Finset.sum_congr rfl fun k hk => ?_
-    rw [Finset.erase_insert_of_ne (by rintro rfl; exact hi hk),
-      Finset.prod_insert (fun h => hi (Finset.mem_of_mem_erase h)), mul_assoc]
+  apply _root_.GlobalTheory.SymbolOne.deriv_prod <;> assumption
 
 theorem minorAff_derDet (D : Derivation R A A) {k : ℕ} (M : Matrix (Fin k) (Fin k) A) :
     D M.det = ∑ i, (M.updateCol i (fun r => D (M r i))).det := by

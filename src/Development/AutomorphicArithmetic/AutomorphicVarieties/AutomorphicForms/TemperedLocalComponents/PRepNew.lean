@@ -39,6 +39,7 @@ public import Development.AutomorphicArithmetic.AutomorphicVarieties.Automorphic
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.AutomorphicRankinSelberg.Rankin
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.AutomorphicRankinSelberg.RowBij
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.AutomorphicRankinSelberg.StripIm
+import all Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.AutomorphicRankinSelberg.StripIm
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.AutomorphicRankinSelberg.TailFin
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.AutomorphicRankinSelberg.Unfold
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.AutomorphicRankinSelberg.VolMap
@@ -1065,29 +1066,6 @@ private lemma pt_re (x y : ℝ) (hy : 0 < y) : (pt x y).re = x := by
   rw [pt, ← UpperHalfPlane.coe_re, UpperHalfPlane.ofComplex_apply_of_im_pos (by simpa using hy)]
   simp
 
-private lemma vol_strip (hV : VolMap) :
-    (volume : Measure ℍ).restrict strip = Measure.map (fun p : ℝ × ℝ => pt p.1 p.2)
-      ((((volume : Measure ℝ).restrict (Ico 0 1)).prod (volume.restrict (Ioi 0))).withDensity
-        fun p => ENNReal.ofReal (1 / p.2 ^ 2)) := by
-  obtain ⟨hm, hv⟩ := hV
-  have hS := hm strip_meas
-  have h1 : ((volume : Measure ℝ).prod ((volume : Measure ℝ).restrict (Ioi 0))) =
-      ((volume : Measure ℝ).prod (volume : Measure ℝ)).restrict (univ ×ˢ Ioi 0) := by
-    rw [← Measure.prod_restrict, Measure.restrict_univ]
-  have h2 : (fun p : ℝ × ℝ => pt p.1 p.2) ⁻¹' strip ∩ univ ×ˢ Ioi 0 = Ico 0 1 ×ˢ Ioi 0 := by
-    ext ⟨x, y⟩
-    simp only [mem_inter_iff, mem_preimage, mem_prod, mem_univ, true_and, mem_Ioi, mem_Ico, strip,
-      mem_setOf_eq]
-    constructor
-    · rintro ⟨h, hy⟩
-      rw [pt_re x y hy] at h
-      exact ⟨h, hy⟩
-    · rintro ⟨h, hy⟩
-      rw [pt_re x y hy]
-      exact ⟨h, hy⟩
-  rw [hv, Measure.restrict_map hm strip_meas, restrict_withDensity hS, h1,
-    Measure.restrict_restrict hS, h2, Measure.prod_restrict]
-
 end UpperTheory.V.Af.Rs
 
 open UpperTheory.V.Af.Rs in
@@ -1098,7 +1076,7 @@ theorem UpperTheory.V.Af.Rs.stripFub :
   have hg : Measurable fun p : ℝ × ℝ => ENNReal.ofReal (1 / p.2 ^ 2) := by fun_prop
   have hlt : ∀ᵐ p ∂(((volume : Measure ℝ).restrict (Ico 0 1)).prod (volume.restrict (Ioi 0))),
       ENNReal.ofReal (1 / p.2 ^ 2) < ⊤ := Filter.Eventually.of_forall fun _ => ENNReal.ofReal_lt_top
-  have hμ := vol_strip hV
+  have hμ := _root_.volume_restrict_strip_eq_map_withDensity hV
   have hI : Integrable H ((volume : Measure ℍ).restrict strip) := hH
   rw [hμ] at hI
   have hHm := hI.1

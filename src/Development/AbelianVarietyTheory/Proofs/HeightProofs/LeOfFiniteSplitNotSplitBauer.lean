@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.HeightProofs.NcardEqIffStabilizer
 public import Mathlib.Analysis.SpecialFunctions.Pow.Real
 public import Mathlib.NumberTheory.NumberField.Basic
 public import Mathlib.RingTheory.Ideal.Norm.AbsNorm
@@ -297,15 +298,7 @@ theorem ncard_eq_ncard_primesOver (K M : Type) [Field K] [NumberField K] [Field 
     [Algebra K M] (v : HeightOneSpectrum (𝓞 K)) :
     {Q : HeightOneSpectrum (𝓞 M) | Q.asIdeal.comap (algebraMap (𝓞 K) (𝓞 M)) = v.asIdeal}.ncard =
       (v.asIdeal.primesOver (𝓞 M)).ncard := by
-  rw [← Set.ncard_image_of_injective _ (f := HeightOneSpectrum.asIdeal)
-    (fun _ _ h => HeightOneSpectrum.ext h)]
-  congr 1
-  ext Q
-  constructor
-  · rintro ⟨Q, hQ, rfl⟩
-    exact ⟨Q.isPrime, ⟨Eq.symm hQ⟩⟩
-  · rintro ⟨h1, h2⟩
-    exact ⟨⟨Q, h1, Ideal.ne_bot_of_liesOver_of_ne_bot v.ne_bot Q⟩, h2.over.symm, rfl⟩
+  apply _root_.GlobalTheory.FieldSize.RaySplit.ncard_eq_primesOver <;> assumption
 
 theorem ncard_eq_finrank_iff (K M : Type) [Field K] [NumberField K] [Field M] [NumberField M]
     [Algebra K M] (v : HeightOneSpectrum (𝓞 K)) :

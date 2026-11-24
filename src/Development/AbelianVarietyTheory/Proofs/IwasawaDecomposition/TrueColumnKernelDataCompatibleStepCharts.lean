@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.MatchTupleChartMemberChart
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.LiftsInvOne
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ChartReadsAtClassGL
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.LevQOfCongE
@@ -1003,17 +1004,7 @@ theorem hasRes_add {P : HeightOneSpectrum (𝓞 E)} {a b : P.adicCompletion E} {
 
 theorem hasRes_mul {P : HeightOneSpectrum (𝓞 E)} {a b : P.adicCompletion E} {c d : 𝓞 E ⧸ P.asIdeal}
     (ha : HasRes P a c) (hb : HasRes P b d) : HasRes P (a * b) (c * d) := by
-  have hale := hasRes_le_one ha
-  obtain ⟨r, rfl, hr⟩ := ha
-  obtain ⟨r', rfl, hr'⟩ := hb
-  refine ⟨r * r', by rw [map_mul], ?_⟩
-  have e : a * b - algebraMap E (P.adicCompletion E) (algebraMap (𝓞 E) E (r * r')) =
-      a * (b - algebraMap E _ (algebraMap (𝓞 E) E r')) + algebraMap E _ (algebraMap (𝓞 E) E r') * (a - algebraMap E _ (algebraMap (𝓞 E) E r)) := by
-    simp only [map_mul]; ring
-  rw [e]
-  refine Valuation.map_add_lt _ ?_ ?_
-  · rw [map_mul]; exact lt_of_le_of_lt (mul_le_of_le_one_left' hale) hr'
-  · rw [map_mul]; exact lt_of_le_of_lt (mul_le_of_le_one_left' (val_le_one P r')) hr
+  first | exact _root_.GlobalTheory.Mem.Col2.TC.ChTw.Match.hasRes_mul | exact @_root_.GlobalTheory.Mem.Col2.TC.ChTw.Match.hasRes_mul | apply _root_.GlobalTheory.Mem.Col2.TC.ChTw.Match.hasRes_mul <;> assumption
 
 theorem hasRes_sum {P : HeightOneSpectrum (𝓞 E)} {ι : Type} (s : Finset ι) (a : ι → P.adicCompletion E) (c : ι → 𝓞 E ⧸ P.asIdeal)
     (h : ∀ j ∈ s, HasRes P (a j) (c j)) : HasRes P (∑ j ∈ s, a j) (∑ j ∈ s, c j) := by

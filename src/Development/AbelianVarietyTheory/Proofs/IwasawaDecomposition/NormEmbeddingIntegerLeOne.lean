@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.NormLeOneOfIsIntegralInt
 public import Formalism.ConjugateSelfDual.Statement
 public import Mathlib.RingTheory.DedekindDomain.AdicValuation.Valuation
 import Mathlib.Algebra.Order.Floor.Extended
@@ -60,33 +61,7 @@ namespace GlobalTheory.LadicPlace
 
 theorem norm_embedding_integer_le_one {E : Type} [Field E] [NumberField E] {l : ℕ} [Fact l.Prime]
     (τ : E →+* PadicAlgCl l) (a : 𝓞 E) : ‖τ (a : E)‖ ≤ 1 := by
-  have h : IsIntegral ℤ (τ (a : E)) := by
-    have := (RingOfIntegers.isIntegral_coe a).map τ.toIntAlgHom
-    simpa using this
-  obtain ⟨p, hp, hp0⟩ := h
-  by_contra hlt
-  push_neg at hlt
-  set y := τ (a : E)
-  rw [Polynomial.eval₂_eq_sum_range, Finset.sum_range_succ, hp.coeff_natDegree, map_one,
-    one_mul] at hp0
-  have h1 : y ^ p.natDegree =
-      - ∑ i ∈ Finset.range p.natDegree, algebraMap ℤ (PadicAlgCl l) (p.coeff i) * y ^ i := by
-    linear_combination hp0
-  have hpos : 0 < ‖y‖ ^ p.natDegree := pow_pos (by linarith) _
-  have h2 : ‖∑ i ∈ Finset.range p.natDegree, algebraMap ℤ (PadicAlgCl l) (p.coeff i) * y ^ i‖
-      < ‖y‖ ^ p.natDegree := by
-    refine Finset.sum_induction _ (fun z => ‖z‖ < ‖y‖ ^ p.natDegree) ?_ (by simpa using hpos) ?_
-    · intro u v hu hv
-      exact lt_of_le_of_lt (IsUltrametricDist.norm_add_le_max u v) (max_lt hu hv)
-    · intro i hi
-      rw [norm_mul, norm_pow]
-      have h3 : ‖algebraMap ℤ (PadicAlgCl l) (p.coeff i)‖ ≤ 1 := by
-        simpa using IsUltrametricDist.norm_intCast_le_one (PadicAlgCl l) (p.coeff i)
-      calc _ ≤ 1 * ‖y‖ ^ i := by gcongr
-        _ = ‖y‖ ^ i := one_mul _
-        _ < _ := pow_lt_pow_right₀ hlt (Finset.mem_range.mp hi)
-  rw [← norm_neg, ← h1, norm_pow] at h2
-  exact lt_irrefl _ h2
+  first | exact _root_.GlobalTheory.CongW.PlaceEmb.norm_int_le | exact @_root_.GlobalTheory.CongW.PlaceEmb.norm_int_le | apply _root_.GlobalTheory.CongW.PlaceEmb.norm_int_le <;> assumption
 
 theorem exists_place_of_embedding :
     ∀ (E : Type) [Field E] [NumberField E] (l : ℕ) [Fact l.Prime] (τ : E →+* Qbar l),

@@ -54,6 +54,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Std.Tactic.BVDecide.Normalize.Prop
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ExistsLocalFrameOfCoords
 
 @[expose] public section
 
@@ -151,18 +152,7 @@ section Concrete
 variable {K : Type} [Field K] {X : Scheme.{0}} (q : X ⟶ Spec (CommRingCat.of K))
 
 theorem dividedPowerFiltration_bot {r : ℕ} (hr : 1 ≤ r) : pdP (dividedPowersBot K) r = ⊥ := by
-  refine Ideal.span_eq_bot.2 ?_
-  rintro _ ⟨l, hl, hs, rfl⟩
-  have h : ∃ p ∈ l, p.1 ≠ 0 := by
-    by_contra h
-    push Not at h
-    have : (l.map Prod.fst).sum = 0 := List.sum_eq_zero (by simpa using h)
-    omega
-  obtain ⟨p, hp, h0⟩ := h
-  refine List.prod_eq_zero (List.mem_map.2 ⟨p, hp, ?_⟩)
-  have e : p.2 = 0 := hl p hp
-  rw [e]
-  exact (dividedPowersBot K).dpow_eval_zero h0
+  apply _root_.GlobalTheory.CompanionTheory.ConeLocal.dividedPowerFiltration_dividedPowersBot_of_one_le <;> assumption
 
 theorem tfBase [CharZero K] {s : ℕ} (hs : 1 ≤ s) : TFBase (dividedPowersBot K) 1 s := by
   refine ⟨dividedPowerFiltration_bot hs, ?_, ?_⟩

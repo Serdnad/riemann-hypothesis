@@ -1,5 +1,7 @@
 module
 
+import all Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.LinkedUnramifiedChains.CrystallineCardinalities.TanAOf
+import all Development.AutomorphicArithmetic.AutomorphicVarieties.TheoremsMuLinked.GaloisRepresentationTypes.OrdinaryHeckeAlgebraIntegral
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.PatchingModules.DegreeCountCohomology.IsDualPair
 public import Mathlib.NumberTheory.NumberField.InfinitePlace.TotallyRealComplex
 public import Mathlib.RingTheory.AdicCompletion.Noetherian
@@ -98,13 +100,7 @@ private theorem card_cls (h : ContAction ρ) (L : Submodule k (H1 ρ)) :
 
 omit [TopologicalSpace G] [TopologicalSpace M] [DiscreteTopology M] in
 private theorem card_coboundaries_mul_card_h0 : Nat.card (B1 ρ) * Nat.card (H0 ρ) = Nat.card M := by
-  have e : LinearMap.ker (d0 ρ) = H0 ρ := by
-    ext m
-    rw [LinearMap.mem_ker, funext_iff]
-    exact forall_congr' fun g => sub_eq_zero
-  rw [← e, Submodule.card_eq_card_quotient_mul_card (LinearMap.ker (d0 ρ)), mul_comm]
-  congr 1
-  exact (Nat.card_congr (d0 ρ).quotKerEquivRange.toEquiv).symm
+  apply _root_.card_coboundaries_mul_card_h0 <;> assumption
 
 private theorem Zl_iff (z : G → M) : z ∈ Zl ρ ↔ z ∈ Z1 ρ :=
   and_congr_left' (IsLocallyConstant.iff_continuous z)
@@ -306,19 +302,7 @@ private theorem cup_inj {R Γ D M : Type} [CommRing R] [TopologicalSpace R] [Dis
     (hρ : ContAction (ρ.comp φ)) (χ' : D →* Rˣ) (e : χ' = χ.comp φ)
     (h : Function.Injective (cupH1H1TwistedDual χ' (ρ.comp φ) (MonoidHom.id D) (hρ.comp' continuous_id))) :
     Function.Injective (cupH1H1TwistedDual χ ρ φ hρ) := by
-  subst e
-  have e1 : (twDual χ ρ).comp φ = (twDual (χ.comp φ) (ρ.comp φ)).comp (MonoidHom.id D) := by
-    refine MonoidHom.ext fun g => LinearMap.ext fun y => DFunLike.ext _ _ fun m => ?_
-    simp only [MonoidHom.comp_apply, MonoidHom.id_apply, twDual_apply, map_inv φ]
-  have gen : ∀ (σ σ' : Representation R D (TDual R M)) (_ : σ = σ') h1 h2,
-      Function.Injective (cupProductH1H1 σ' (ρ.comp φ) ((charRep χ).comp φ) evalPair.flip
-        continuous_of_discreteTopology h2 hρ) →
-      Function.Injective (cupProductH1H1 σ (ρ.comp φ) ((charRep χ).comp φ) evalPair.flip
-        continuous_of_discreteTopology h1 hρ) := by
-    intro σ σ' e h1 h2 h
-    subst e
-    exact h
-  exact gen _ _ e1 _ (fun g y x => evalPair_equiv (χ.comp φ) (ρ.comp φ) g x y) h
+  apply _root_.cup_inj <;> assumption
 
 private theorem card_dual (p : ℕ) [Fact p.Prime] (M : Type) [AddCommGroup M] [Module (ZMod p) M] [Finite M] :
     Nat.card (TDual (ZMod p) M) = Nat.card M :=

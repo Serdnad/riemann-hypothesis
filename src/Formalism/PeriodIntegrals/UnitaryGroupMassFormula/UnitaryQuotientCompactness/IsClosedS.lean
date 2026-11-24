@@ -1,5 +1,6 @@
 module
 
+import ReciprocityTheory.ReductiveGroups.DiscreteSeries.LaplaceOperators.SpectralGap.Groups
 import Development.AbelianVarietyTheory.Proofs.JetHarmonics.BesselSubgroupProductMeasureIsHaar
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.UnitaryQuotientCompactness.SsetGroup
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.UnitaryQuotientCompactness.NilpotentSubgroup
@@ -85,24 +86,7 @@ lemma mem_S_iff (g : Matrix (Fin (2 * r + k + 1)) (Fin (2 * r + k + 1)) ℂ) :
     rw [← inv_eq_UH hh.1, ← Matrix.mul_assoc, mul_inv_UH hh.1, Matrix.one_mul]
 
 lemma isClosed_S (hK : IsCompact (UWset k r z)) : IsClosed (Sset k r z) := by
-  haveI : CompactSpace (UWset k r z) := isCompact_iff_compactSpace.mp hK
-  set C : Set (UWset k r z × Matrix (Fin (2 * r + k + 1)) (Fin (2 * r + k + 1)) ℂ) :=
-    {p | Hpk k r * (p.1 : Matrix (Fin (2 * r + k + 1)) (Fin (2 * r + k + 1)) ℂ)ᴴ * Hpk k r * p.2 ∈ Nset k r}
-  have hC : IsClosed C := by
-    have hc : Continuous fun p : UWset k r z × Matrix (Fin (2 * r + k + 1)) (Fin (2 * r + k + 1)) ℂ =>
-        Hpk k r * (p.1 : Matrix (Fin (2 * r + k + 1)) (Fin (2 * r + k + 1)) ℂ)ᴴ * Hpk k r * p.2 :=
-      ((continuous_const.matrix_mul
-        ((continuous_subtype_val.comp continuous_fst).matrix_conjTranspose)).matrix_mul continuous_const).matrix_mul
-        continuous_snd
-    exact isClosed_N.preimage hc
-  have e : Sset k r z = Prod.snd '' C := by
-    ext g
-    rw [mem_S_iff]
-    constructor
-    · rintro ⟨h, hh, hn⟩; exact ⟨(⟨h, hh⟩, g), hn, rfl⟩
-    · rintro ⟨⟨h, g'⟩, hn, rfl⟩; exact ⟨h.1, h.2, hn⟩
-  rw [e]
-  exact isClosedMap_snd_of_compactSpace C hC
+  apply _root_.ReciprocityTheory.ChartRestriction.DS.Lap.groups_sset_closed <;> assumption
 
 lemma one_mem_S : (1 : Matrix (Fin (2 * r + k + 1)) (Fin (2 * r + k + 1)) ℂ) ∈ Sset k r z :=
   ⟨1, one_mem_UW, 1, (nilpotent_subgroup k r).1, (Matrix.one_mul 1).symm⟩

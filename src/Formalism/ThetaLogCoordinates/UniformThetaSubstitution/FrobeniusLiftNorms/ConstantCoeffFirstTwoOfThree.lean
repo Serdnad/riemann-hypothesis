@@ -1,5 +1,6 @@
 module
 
+import Formalism.ThetaLogCoordinates.UniformThetaSubstitution.FrobeniusLiftNorms.ScalingSwapLemmas
 public import Formalism.ThetaLogCoordinates.UniformThetaSubstitution.FirstDeriv
 public import Formalism.ThetaLogCoordinates.UniformThetaSubstitution.FrobeniusLiftNorms.TopsChoicePartA
 import Mathlib.Algebra.Order.Floor.Extended
@@ -73,20 +74,7 @@ theorem has_subst_first_pair : HasSubst ![(X 0 : MvPowerSeries (Fin 3) K), X 1] 
 
 theorem constantCoeff_first_two_of_three {F : MvPowerSeries (Fin 2) K} (hF : constantCoeff F = 0) :
     constantCoeff (in3 F) = 0 := by
-  unfold in3
-  rw [MvPowerSeries.constantCoeff_subst has_subst_first_pair]
-  refine finsum_eq_zero_of_forall_eq_zero fun d => ?_
-  by_cases hd : d = 0
-  · subst hd
-    simp [MvPowerSeries.coeff_zero_eq_constantCoeff_apply, hF]
-  · obtain ⟨s, hs⟩ : ∃ s, d s ≠ 0 := by
-      by_contra h
-      push_neg at h
-      exact hd (Finsupp.ext h)
-    rw [Finsupp.prod, map_prod, Finset.prod_eq_zero (Finsupp.mem_support_iff.2 hs), smul_zero]
-    have h0 : constantCoeff ((![(X 0 : MvPowerSeries (Fin 3) K), X 1] : Fin 2 → MvPowerSeries (Fin 3) K) s) = 0 := by
-      fin_cases s <;> simp
-    rw [map_pow, h0, zero_pow hs]
+  apply _root_.Formalism.InvariantFactorPaths.G7.TwoVariableSwapLemmas.constantCoeff_first_two_of_three <;> assumption
 
 theorem has_subst_coboundary_first {F : MvPowerSeries (Fin 2) K} (hF : constantCoeff F = 0) :
     HasSubst ![in3 F, (X 2 : MvPowerSeries (Fin 3) K)] := MvPowerSeries.hasSubst_of_constantCoeff_zero (by intro s; fin_cases s <;> simp [constantCoeff_first_two_of_three hF])
@@ -101,13 +89,7 @@ theorem partial_coboundary_sub {F : MvPowerSeries (Fin 2) K} (hF : constantCoeff
 
 theorem partial_coboundary_C_mul {F : MvPowerSeries (Fin 2) K} (hF : constantCoeff F = 0) (a : K)
     (H : MvPowerSeries (Fin 2) K) : d1 F (C a * H) = C a * d1 F H := by
-  have key : ∀ (b : Fin 2 → MvPowerSeries (Fin 3) K), HasSubst b →
-      subst b (C a * H) = C a * subst b H := by
-    intro b hb
-    rw [← MvPowerSeries.smul_eq_C_mul, ← MvPowerSeries.smul_eq_C_mul, MvPowerSeries.subst_smul hb]
-  unfold d1
-  rw [key _ (has_subst_coboundary_first hF), key _ (has_subst_last_pair 0), key _ (has_subst_last_pair 1)]
-  ring
+  apply _root_.Formalism.InvariantFactorPaths.G7.TwoVariableSwapLemmas.partial_coboundary_C_mul <;> assumption
 
 theorem subst_subst {ι κ : Type} {b : ι → MvPowerSeries κ K} (hb : HasSubst b)
     {a : MvPowerSeries ι K} (ha : PowerSeries.HasSubst a) (f : PowerSeries K) :

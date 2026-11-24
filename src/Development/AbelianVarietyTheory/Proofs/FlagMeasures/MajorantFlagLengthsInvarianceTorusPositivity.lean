@@ -40,6 +40,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
+import Development.AbelianVarietyTheory.Proofs.FlagMeasures.IsotropicStabilizerRadicalStructure
 
 @[expose] public section
 
@@ -81,68 +82,11 @@ theorem mEmb_mulVec_of_supp (m : Matrix (Fin (k + 1)) (Fin (k + 1)) ℂ) {v : Fi
   · intro h
     exact absurd (Finset.mem_univ i) h
 
-private lemma mEmb_mul' (m n : Matrix (Fin (k + 1)) (Fin (k + 1)) ℂ) :
-    mEmb k r m * mEmb k r n = mEmb k r (m * n) := by
-  ext i j
-  rw [Matrix.mul_apply]
-  by_cases hi : r ≤ i.val ∧ i.val ≤ r + k
-  · by_cases hj : r ≤ j.val ∧ j.val ≤ r + k
-    · rw [mEmb_apply_of_mem_block (m * n) i j ⟨hi, hj⟩, Matrix.mul_apply]
-      let e : Fin (k + 1) ↪ Fin (2 * r + k + 1) := ⟨fun t => ⟨r + t.val, by omega⟩, fun s t h => by
-        have h' := congrArg Fin.val h
-        exact Fin.ext (by simp only at h'; omega)⟩
-      rw [← Finset.sum_subset (Finset.subset_univ (Finset.univ.map e)), Finset.sum_map]
-      · apply Finset.sum_congr rfl
-        intro t _
-        have ht : (e t).val = r + t.val := rfl
-        have h' : (⟨(e t).val - r, by rw [ht]; omega⟩ : Fin (k + 1)) = t :=
-          Fin.ext (by show (e t).val - r = t.val; rw [ht]; omega)
-        rw [mEmb_apply_of_mem_block m i (e t) ⟨hi, by rw [ht]; omega, by rw [ht]; omega⟩,
-          mEmb_apply_of_mem_block n (e t) j ⟨⟨by rw [ht]; omega, by rw [ht]; omega⟩, hj⟩, h']
-      · intro l _ hl
-        have hl' : ¬(r ≤ l.val ∧ l.val ≤ r + k) := by
-          rintro ⟨h1, h2⟩
-          apply hl
-          exact Finset.mem_map.2 ⟨⟨l.val - r, by omega⟩, Finset.mem_univ _,
-            Fin.ext (by show r + (l.val - r) = l.val; omega)⟩
-        rw [mEmb_apply_of_not_mem_block m i l (fun h => hl' h.2), if_neg (by rintro rfl; exact hl' hi), zero_mul]
-    · rw [mEmb_apply_of_not_mem_block (m * n) i j (fun h => hj h.2)]
-      rw [Finset.sum_eq_single j]
-      · rw [mEmb_apply_of_not_mem_block n j j (fun h => hj h.1), if_pos rfl, mul_one]
-        exact mEmb_apply_of_not_mem_block m i j (fun h => hj h.2)
-      · intro l _ hlj
-        rw [mEmb_apply_of_not_mem_block n l j (fun h => hj h.2), if_neg hlj, mul_zero]
-      · intro h
-        exact absurd (Finset.mem_univ j) h
-  · rw [mEmb_apply_of_not_mem_block (m * n) i j (fun h => hi h.1)]
-    rw [Finset.sum_eq_single i]
-    · rw [mEmb_apply_of_not_mem_block m i i (fun h => hi h.1), if_pos rfl, one_mul]
-      exact mEmb_apply_of_not_mem_block n i j (fun h => hi h.1)
-    · intro l _ hli
-      rw [mEmb_apply_of_not_mem_block m i l (fun h => hi h.1), if_neg (Ne.symm hli), zero_mul]
-    · intro h
-      exact absurd (Finset.mem_univ i) h
-
-private lemma mEmb_one' : mEmb k r (1 : Matrix (Fin (k + 1)) (Fin (k + 1)) ℂ) = 1 := by
-  ext i j
-  by_cases h : (r ≤ i.val ∧ i.val ≤ r + k) ∧ (r ≤ j.val ∧ j.val ≤ r + k)
-  · rw [mEmb_apply_of_mem_block 1 i j h, Matrix.one_apply, Matrix.one_apply]
-    obtain ⟨⟨h1, h2⟩, h3, h4⟩ := h
-    by_cases hij : i = j
-    · subst hij
-      simp
-    · rw [if_neg hij, if_neg]
-      intro h'
-      apply hij
-      have h'' : i.val - r = j.val - r := congrArg Fin.val h'
-      exact Fin.ext (by omega)
-  · rw [mEmb_apply_of_not_mem_block 1 i j h, Matrix.one_apply]
-
 theorem isUnit_det_mEmb {m : Matrix (Fin (k + 1)) (Fin (k + 1)) ℂ} (hm : IsUnit m.det) :
     IsUnit (mEmb k r m).det := by
   have h1 : m * m⁻¹ = 1 := Matrix.mul_nonsing_inv m hm
   have h2 : (mEmb k r m).det * (mEmb k r m⁻¹).det = 1 := by
-    rw [← Matrix.det_mul, mEmb_mul', h1, mEmb_one', Matrix.det_one]
+    rw [← Matrix.det_mul, _root_.GlobalTheory.Amp.Rad.mEmb_mul, h1, _root_.GlobalTheory.Amp.Rad.mEmb_one, Matrix.det_one]
   exact isUnit_iff_ne_zero.2 (left_ne_zero_of_mul_eq_one h2)
 
 theorem uEmb_diagonal (a : Fin r → ℂ) (ha : ∀ b, a b ≠ 0) :

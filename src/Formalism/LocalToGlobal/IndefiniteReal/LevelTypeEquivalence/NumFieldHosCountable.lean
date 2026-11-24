@@ -1,5 +1,8 @@
 module
 
+import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.WeilStabilizerVolume.TopoAF
+import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.LevelSplitting.CompVInvMulVec
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ImportsTailTer
 public import Formalism.SharpRestriction.GlobalSchurBounds.GeneralLinearActions.GenusMassVolumes
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.AdicIntegersCompact.IsCompactAdicCompletionIntegers
 import Mathlib.Topology.Algebra.Group.Units
@@ -23,15 +26,7 @@ theorem numField_countable : Countable F := by
   exact Finsupp.Countable.of_moduleFinite (R := ℚ) (M := F)
 
 theorem numField_hos_countable : Countable (HeightOneSpectrum (𝓞 F)) := by
-  have := numField_countable F
-  have : Countable (𝓞 F) := inferInstanceAs (Countable {x : F // x ∈ integralClosure ℤ F})
-  have hs : Function.Surjective (fun s : Finset (𝓞 F) => Ideal.span (s : Set (𝓞 F))) := by
-    intro I
-    obtain ⟨s, hs⟩ := (IsNoetherian.noetherian I : I.FG)
-    exact ⟨s, hs⟩
-  have : Countable (Ideal (𝓞 F)) := hs.countable
-  exact Function.Injective.countable (f := fun v : HeightOneSpectrum (𝓞 F) => v.asIdeal)
-    (fun v w h => HeightOneSpectrum.ext h)
+  apply _root_.PI.LevelKSplit.W.Meas.places_countable <;> assumption
 
 end Count
 
@@ -86,36 +81,7 @@ theorem finite_adeles_t2 : T2Space (Af F) :=
     (Πʳ v : HeightOneSpectrum (𝓞 F), [v.adicCompletion F, v.adicCompletionIntegers F]))
 
 theorem af_secondCountable : SecondCountableTopology (Af F) := by
-  have := numField_hos_countable F
-  have hfv : ∀ v : HeightOneSpectrum (𝓞 F), SecondCountableTopology (v.adicCompletion F) :=
-    fun v => fv_secondCountable v
-  let R := fun v : HeightOneSpectrum (𝓞 F) => v.adicCompletion F
-  let A := fun v : HeightOneSpectrum (𝓞 F) => (v.adicCompletionIntegers F : Set (v.adicCompletion F))
-  have hAo : ∀ v, IsOpen (A v) := fun v => Valued.isOpen_valuationSubring _
-  have hS : ∀ T : Finset (HeightOneSpectrum (𝓞 F)), cofinite ≤ 𝓟 ((T : Set (HeightOneSpectrum (𝓞 F)))ᶜ) := by
-    intro T
-    rw [le_principal_iff, mem_cofinite, compl_compl]
-    exact T.finite_toSet
-  let U : Finset (HeightOneSpectrum (𝓞 F)) → Set (Πʳ v, [R v, A v]) :=
-    fun T => Set.range (RestrictedProduct.inclusion R A (hS T))
-  have hU : ∀ T, IsOpenEmbedding (RestrictedProduct.inclusion R A (hS T)) :=
-    fun T => RestrictedProduct.isOpenEmbedding_inclusion_principal hAo (hS T)
-  have hsc : ∀ T, SecondCountableTopology (U T) := by
-    intro T
-    have : SecondCountableTopology (Πʳ v, [R v, A v]_[𝓟 ((T : Set (HeightOneSpectrum (𝓞 F)))ᶜ)]) :=
-      RestrictedProduct.isEmbedding_coe_of_principal.secondCountableTopology
-    exact (hU T).isEmbedding.toHomeomorph.symm.secondCountableTopology
-  have hcov : ⋃ T, U T = Set.univ := by
-    refine Set.eq_univ_of_forall fun x => ?_
-    have hx : Set.Finite {v | x v ∉ A v} := x.2
-    refine Set.mem_iUnion.2 ⟨hx.toFinset, ?_⟩
-    show x ∈ Set.range (RestrictedProduct.inclusion R A (hS hx.toFinset))
-    rw [RestrictedProduct.range_inclusion]
-    refine eventually_principal.2 fun v hv => ?_
-    by_contra h
-    exact hv (by simpa using h)
-  exact @TopologicalSpace.secondCountableTopology_of_countable_cover _ _ _ _ U hsc
-    (fun T => (hU T).isOpen_range) hcov
+  apply _root_.PI.VolStabW.TopoAF.secondCountable_finiteAdeleRing <;> assumption
 
 end Fin
 
@@ -152,16 +118,7 @@ theorem tens_facts (R : Type) [CommRing R] [Algebra F R] [TopologicalSpace R] [I
 
 theorem sigR_continuous (R : Type) [CommRing R] [Algebra F R] [TopologicalSpace R]
     [IsTopologicalRing R] (σ : E →ₐ[F] E) : Continuous (sigR R σ) := by
-  have : IsModuleTopology R (R ⊗[F] E) := ⟨rfl⟩
-  have : ContinuousAdd (R ⊗[F] E) := IsModuleTopology.toContinuousAdd R (R ⊗[F] E)
-  have h : (sigR R σ : R ⊗[F] E → R ⊗[F] E) = LinearMap.baseChange R σ.toLinearMap := by
-    funext x
-    induction x using TensorProduct.induction_on with
-    | zero => simp
-    | tmul r e => simp [sigR]
-    | add x y hx hy => rw [map_add (f := _), map_add (f := _), hx, hy]
-  rw [h]
-  exact IsModuleTopology.continuous_of_linearMap _
+  apply _root_.GlobalTheory.SUWeakApprox.continuous_sigR <;> assumption
 
 end Tens
 

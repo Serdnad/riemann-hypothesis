@@ -60,19 +60,7 @@ theorem ringKrullDim_sup_span_add_one_le {P : Ideal (MRing ι F)} [P.IsPrime] {s
     exact Ideal.mem_sup_right (Ideal.subset_span rfl)
 
 theorem lt_of_add_one_le_natCast {x : WithBot ℕ∞} {n : ℕ} (h : x + 1 ≤ n) : x < n := by
-  induction x using WithBot.recBotCoe with
-  | bot => exact WithBot.bot_lt_coe _
-  | coe a =>
-    induction a using ENat.recTopCoe with
-    | top =>
-      exfalso
-      have e : ((⊤ : ℕ∞) : WithBot ℕ∞) + 1 = ((⊤ : ℕ∞) : WithBot ℕ∞) := by
-        rw [← WithBot.coe_one, ← WithBot.coe_add, top_add]
-      rw [e, ← WithBot.coe_natCast, WithBot.coe_le_coe] at h
-      exact absurd h (not_le.mpr (ENat.natCast_lt_top n))
-    | coe a =>
-      have : a + 1 ≤ n := by exact_mod_cast h
-      exact_mod_cast (show a < n by omega)
+  apply _root_.GroundTheory.Heights₂.Heights.NumbersDVR.HilbDegBound.lt_of_add_one_le_natCast <;> assumption
 
 end Lemmas
 

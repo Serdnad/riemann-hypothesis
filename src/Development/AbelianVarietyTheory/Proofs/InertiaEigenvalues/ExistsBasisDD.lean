@@ -44,6 +44,7 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import Development.AbelianVarietyTheory.BlockTheory.NonGaloisCusps.UnitDualParts
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.InclWFrobIter
 
 @[expose] public section
 
@@ -188,28 +189,11 @@ theorem mem_range_jD (hd : Descends E) (T : LocLat G Qp LL O) {ι : Type} [Finty
 
 theorem ioE_φE (hO : Function.Injective (algebraMap O LL)) (a : W.EE) :
     E.ioE (W.φE a) = φR (E.ioE a) := by
-  obtain ⟨e, e₀, h₀, hj, -⟩ := E.one_e
-  obtain ⟨e₁, he₁, hT⟩ := W.one_line
-  have he₁T : e₁ ∈ W.one.L.T := by rw [hT]; exact Submodule.mem_span_singleton_self e₁
-  have h1 : TWmap φR W.one ((1 : RW) ⊗ₜ[O] e₀) = (1 : RW) ⊗ₜ[O] e₀ := by simp [TWmap]
-  have h2 := E.jD_φ W.one (a • e)
-  rw [W.φD_smul, E.jD_smul, E.jD_smul, E.jD_φ, hj, h1, TensorProduct.smul_tmul',
-    TensorProduct.smul_tmul', smul_eq_mul, smul_eq_mul, mul_one, mul_one] at h2
-  exact GlobalTheory.Cyc.Decomp.tmul_gen_cancel hO W.one e₁ he₁ he₁T e₀ h₀ _ _ h2
+  apply _root_.GlobalTheory.TorsionBoundCompare.ioE_φ <;> assumption
 
 theorem ioE_γE (hO : Function.Injective (algebraMap O LL)) (g : G) (a : W.EE) :
     E.ioE (W.γE (W.resΓ g) a) = gR g (E.ioE a) := by
-  obtain ⟨e, e₀, h₀, hj, -⟩ := E.one_e
-  obtain ⟨e₁, he₁, hT⟩ := W.one_line
-  have he₁T : e₁ ∈ W.one.L.T := by rw [hT]; exact Submodule.mem_span_singleton_self e₁
-  have hact : W.one.actT g e₀ = e₀ := Subtype.ext (W.one_triv g e₀)
-  have h1 : TWact (gR g) W.one g ((1 : RW) ⊗ₜ[O] e₀) = (1 : RW) ⊗ₜ[O] e₀ := by
-    simp [TWact, hact]
-  have h2 := E.jD_act W.one g (a • e)
-  rw [W.γD_smul, E.jD_smul, E.jD_smul, E.jD_act, hj, GlobalTheory.Cyc.Decomp.TWact_smul, h1,
-    TensorProduct.smul_tmul', TensorProduct.smul_tmul', smul_eq_mul, smul_eq_mul,
-    mul_one, mul_one] at h2
-  exact GlobalTheory.Cyc.Decomp.tmul_gen_cancel hO W.one e₁ he₁ he₁T e₀ h₀ _ _ h2
+  apply _root_.GlobalTheory.TorsionBoundCompare.ioE_γ <;> assumption
 
 end Generic
 

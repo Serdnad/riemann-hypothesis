@@ -1,5 +1,7 @@
 module
 
+import all Development.AutomorphicArithmetic.AutomorphicVarieties.BuildingsResidueChars.DeRhamLeFiltrationShift
+import Development.AutomorphicArithmetic.AutomorphicVarieties.BuildingsResidueChars.FrobeniusIterateMatrixForm
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.PadicHodgeTheory.FiniteCohomology
 import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.DeRhamComparisonIsFiltered
 import Development.AutomorphicArithmetic.AutomorphicVarieties.PadicHodgeTheory.ExistsMonicUnitCoeffZeroAnnihilatingOfSpectrumNo
@@ -43,36 +45,12 @@ private theorem coord_sum (c : Fin d → BdR) (i : Fin d) :
 
 private theorem sum_mem_fil_iff (a : ℤ) (c : Fin d → BdR) :
     ∑ j, e j ⊗ₜ[Qp] c j ∈ FilV PD (LL := Qp) (V := V) a ↔ ∀ i, c i ∈ PD.Fil a := by
-  constructor
-  · rintro ⟨z, hz⟩ i
-    rw [← coord_sum e c i, ← hz]
-    clear hz
-    induction z using TensorProduct.induction_on with
-    | zero => simp
-    | tmul v x =>
-      have := ((PD.Fil a).restrictScalars Qp).smul_mem (e.coord i v) x.2
-      simpa using this
-    | add x y hx hy =>
-      simp only [map_add (f := _)]
-      exact Submodule.add_mem _ hx hy
-  · intro h
-    exact Submodule.sum_mem _ fun j _ => ⟨e j ⊗ₜ ⟨c j, h j⟩, rfl⟩
+  apply _root_.sum_mem_fil_iff <;> assumption
 
 private theorem sum_mem_DdR (c : Fin d → BdR)
     (h : ∀ g, ((LinearMap.toMatrix e e (ρ g)).map (algebraMap Qp BdR)).mulVec (fun j => PD.actdR g (c j)) = c) :
     ∑ j, e j ⊗ₜ[Qp] c j ∈ DdR PD ρ := by
-  simp only [DdR, Submodule.mem_iInf, LinearMap.mem_ker, LinearMap.sub_apply, LinearMap.id_apply, sub_eq_zero]
-  intro g
-  conv_rhs => rw [← h g]
-
-  simp only [map_sum, Matrix.mulVec, dotProduct, tmul_sum, Matrix.map_apply, LinearMap.toMatrix_apply]
-  rw [Finset.sum_comm]
-  refine Finset.sum_congr rfl fun j _ => ?_
-  change ρ g (e j) ⊗ₜ[Qp] PD.actdR g (c j) = _
-  conv_lhs => rw [← e.sum_repr (ρ g (e j))]
-  rw [sum_tmul]
-  refine Finset.sum_congr rfl fun i _ => ?_
-  rw [smul_tmul, Algebra.smul_def]
+  apply _root_.sum_mem_DdR <;> assumption
 
 /-- If the invariant vectors lie in filtration zero and meet filtration one trivially,
 a period matrix and its inverse both have entries in filtration zero. -/
@@ -222,20 +200,7 @@ private theorem wt_iter (K : FinExt l) {d : ℕ} (M : Matrix (Fin d) (Fin d) (Bc
     (h : M.map (PP l).φB = M * A.map (algebraMap ↥(K0 K) (Bcr l))) (k : ℕ) :
     ∃ F : Matrix (Fin d) (Fin d) ↥(K0 K), IsUnit F.det ∧
       M.map (((PP l).φB)^[k]) = M * F.map (algebraMap ↥(K0 K) (Bcr l)) := by
-  induction k with
-  | zero => exact ⟨1, by simp, by simp⟩
-  | succ k ih =>
-    obtain ⟨F, hF, e⟩ := ih
-    refine ⟨A * F.map ((PP l).PD K).σ, ?_, ?_⟩
-    · rw [Matrix.det_mul]
-      refine hA.mul ?_
-      have := hF.map (((PP l).PD K).σ : ↥(K0 K) →+* ↥(K0 K))
-      rw [RingHom.map_det] at this
-      exact this
-    · rw [Function.iterate_succ', ← Matrix.map_map, e, Matrix.map_mul, h, Matrix.map_mul, Matrix.mul_assoc]
-      congr 2
-      ext i j
-      exact wt_phi K _
+  apply _root_.UpperTheory.frobenius_iterate_matrix_form <;> assumption
 
 private theorem wt_spec {L : Type} [Field L] {d : ℕ} (G : Matrix (Fin d) (Fin d) L) (hG : IsUnit G.det) {a : L}
     (ha : a ∈ spectrum L G) : a ≠ 0 ∧ a⁻¹ ∈ spectrum L (G⁻¹).transpose := by

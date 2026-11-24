@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.GenericIsoAgreesOnCompletePoints
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.MapsAtExpLeB
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.CocycleIdentityIso
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.ValCalc
@@ -660,19 +661,8 @@ theorem gw_trans' {D : DegData R I} {A : PolAV (Spec (CommRingCat.of (FractionRi
     (e : ℕ) {Z : Scheme.{0}} (r : Z ⟶ (thickObj R I e G).left) (z : Z) (jM : D.toPre.P.L.ι) (jL : U.LG.L.ι)
     (hM : (U.gt e).pG.left (r z) ∈ D.toPre.P.L.U jM) (hL : (fstG I e G).left (r z) ∈ U.LG.L.U jL) :
     gw (U.w (e + 1)) (r ≫ thickMap R I e G) z jM (fun _ => jL) = gw (U.w e) r z jM (fun _ => jL) := by
-  have hM' : (U.gt (e + 1)).pG.left (thickMap R I e G (r z)) ∈ D.toPre.P.L.U jM :=
-    (congrArg (fun g => g (r z) ∈ D.toPre.P.L.U jM) (U.gt_q e)).mpr hM
-  have hL' : (fstG I (e + 1) G).left (thickMap R I e G (r z)) ∈ U.LG.L.U jL :=
-    (congrArg (fun g => g (r z) ∈ U.LG.L.U jL) (trans_comp_proj e G)).mpr hL
-  have hm : r z ∈ thickMap R I e G ⁻¹ᵁ ((D.toPre.P.L.pull (U.gt (e + 1)).pG.left).U (fun _ => jM) ⊓
-        (U.LG.L.pull (fstG I (e + 1) G).left).U (fun _ => jL)) ⊓
-      ((D.toPre.P.L.pull (U.gt e).pG.left).U (fun _ => jM) ⊓
-        (U.LG.L.pull (fstG I e G).left).U (fun _ => jL)) :=
-    ⟨⟨mem_pull.2 hM', mem_pull.2 hL'⟩, mem_pull.2 hM, mem_pull.2 hL⟩
-  have H := congrArg (gm r z _)
-    (U.w_compat e (fun _ => jM, fun _ => jL) _ inf_le_left inf_le_right)
-  have h₁ := gm_pull r (thickMap R I e G) z _ hm.1 ((U.w (e + 1)).s (fun _ => jM, fun _ => jL))
-  exact h₁.symm.trans ((gm_res r z inf_le_left hm _).symm.trans (H.trans (gm_res r z inf_le_right hm _)))
+  intros
+  apply _root_.GlobalTheory.FormalGeneric.gw_thickMap <;> assumption
 
 
 omit [IsDomain R] [GrpObj G] [IsCommMonObj G] in

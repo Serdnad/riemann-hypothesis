@@ -42,6 +42,7 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
+import GroundTheory.PAdicHodge.CyclotomicField
 
 @[expose] public section
 
@@ -74,14 +75,7 @@ theorem seq_primitive (n : ℕ) : IsPrimitiveRoot (rootSeq l n) (l ^ n) := by
     exact IsPrimitiveRoot.orderOf _
 
 theorem exists_primitive_cl (n : ℕ) : ∃ η : PadicAlgCl l, IsPrimitiveRoot η (l ^ n) := by
-  have hq : (l ^ n : ℕ) ≠ 0 := pow_ne_zero n hl.out.ne_zero
-  haveI : NeZero ((l ^ n : ℕ) : PadicAlgCl l) := ⟨by exact_mod_cast hq⟩
-  have hdeg : (Polynomial.cyclotomic (l ^ n) (PadicAlgCl l)).degree ≠ 0 := by
-    rw [Polynomial.degree_cyclotomic]
-    have ht : 0 < Nat.totient (l ^ n) := Nat.totient_pos.2 (Nat.pos_of_ne_zero hq)
-    exact_mod_cast ht.ne'
-  obtain ⟨η, hη⟩ := IsAlgClosed.exists_root _ hdeg
-  exact ⟨η, Polynomial.isRoot_cyclotomic_iff.1 hη⟩
+  apply _root_.GroundTheory.PAdicHodge.exists_isPrimitiveRoot <;> assumption
 
 theorem exists_lift (n : ℕ) :
     ∃ ρ : PadicAlgCl l, IsPrimitiveRoot ρ (l ^ n) ∧ clToC l ρ = rootSeq l n := by

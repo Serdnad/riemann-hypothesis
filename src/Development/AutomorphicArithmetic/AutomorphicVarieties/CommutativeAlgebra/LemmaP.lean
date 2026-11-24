@@ -1,5 +1,6 @@
 module
 
+import all Development.AutomorphicArithmetic.AutomorphicVarieties.CommutativeAlgebra.ObsPres
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.CommutativeAlgebra.FramedTwoCoboundaries
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.CommutativeAlgebra.CoEvLow
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.CommutativeAlgebra.CoordGrading
@@ -851,48 +852,7 @@ private theorem rel_pres_min {A ι : Type} [CommRing A] [IsLocalRing A] [IsNoeth
     (K K0 : Ideal A) (f : ι → A) (h : K = K0 ⊔ Ideal.span (Set.range f)) :
     ∃ s : Finset ι, K = K0 ⊔ Ideal.span (Set.range fun u : s => f u) ∧
       ∀ c : s → A, ∑ u, c u * f u ∈ K0 ⊔ maximalIdeal A * K → ∀ u, c u ∈ maximalIdeal A := by
-  classical
-  have hex : ∃ n, ∃ s : Finset ι, s.card = n ∧ K = K0 ⊔ Ideal.span (Set.range fun u : s => f u) := by
-    refine ⟨_, Finset.univ, rfl, ?_⟩
-    rw [h]
-    congr 2
-    ext x
-    simp
-  obtain ⟨s, hs, hK⟩ := Nat.find_spec hex
-  refine ⟨s, hK, fun c hc u => ?_⟩
-  by_contra hu
-  have hun : IsUnit (c u) := by
-    by_contra h'
-    exact hu h'
-  obtain ⟨v, hv⟩ := hun
-  refine Nat.find_min hex (m := (s.erase u).card) (by rw [← hs]; exact Finset.card_erase_lt_of_mem u.2)
-    ⟨s.erase u, rfl, ?_⟩
-  set N : Ideal A := K0 ⊔ Ideal.span (Set.range fun w : s.erase u => f w) with hN
-  have hmem : ∀ w : s, w ≠ u → f w ∈ N := fun w hw =>
-    Ideal.mem_sup_right (Ideal.subset_span ⟨⟨w, Finset.mem_erase.2 ⟨fun e => hw (Subtype.ext e), w.2⟩⟩, rfl⟩)
-  have hNK : N ≤ K := by
-    rw [hK]
-    refine sup_le_sup_left (Ideal.span_mono ?_) _
-    rintro _ ⟨w, rfl⟩
-    exact ⟨⟨w, Finset.mem_of_mem_erase w.2⟩, rfl⟩
-  refine le_antisymm ?_ hNK
-  refine Submodule.le_of_le_smul_of_le_jacobson_bot (I := maximalIdeal A) (IsNoetherian.noetherian K)
-    (maximalIdeal_le_jacobson _) ?_
-  have h1 : f u ∈ N ⊔ maximalIdeal A • K := by
-    have h2 : ∑ w, c w * f w ∈ N ⊔ maximalIdeal A • K :=
-      (sup_le_sup_right (le_sup_left : K0 ≤ N) (maximalIdeal A * K)) hc
-    rw [← Finset.add_sum_erase _ _ (Finset.mem_univ u)] at h2
-    have h3 : ∑ w ∈ Finset.univ.erase u, c w * f w ∈ N ⊔ maximalIdeal A • K :=
-      Ideal.mem_sup_left (Ideal.sum_mem _ fun w hw =>
-        Ideal.mul_mem_left _ _ (hmem w (Finset.mem_erase.1 hw).1))
-    have h4 := Ideal.mul_mem_left _ (↑v⁻¹ : A) (sub_mem h2 h3)
-    rwa [add_sub_cancel_right, ← hv, Units.inv_mul_cancel_left] at h4
-  conv_lhs => rw [hK]
-  refine sup_le (le_sup_of_le_left le_sup_left) (Ideal.span_le.2 ?_)
-  rintro _ ⟨w, rfl⟩
-  by_cases hw : w = u
-  · subst hw; exact h1
-  · exact Ideal.mem_sup_left (hmem w hw)
+  apply _root_.op_min <;> assumption
 
 private theorem rel_pres_max_le {O : Type} [CommRing O] [IsLocalRing O] {X : Type} [AddCommGroup X] {R : Type}
     [CommRing R] [Algebra O R] [IsCO O R] (W : WPres O X R) (hz : ∀ s, W.z s ∈ maximalIdeal R) :

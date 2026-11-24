@@ -82,22 +82,9 @@ theorem nrm_J_conj (X : Matrix (Fin n) (Fin n) ℂ) : nrm (Formalism.REAL.Jm ε 
   simp only [Formalism.REAL.Jm, Matrix.mul_diagonal, Matrix.diagonal_mul]
   split_ifs <;> simp
 
-private theorem uMat_inv_eq_Jm_conjTranspose_Jm (g : Formalism.REAL.UJ ε) :
-    uMat g⁻¹ = Formalism.REAL.Jm ε * (uMat g)ᴴ * Formalism.REAL.Jm ε := by
-  have hg : (uMat g)ᴴ * (Formalism.REAL.Jm ε * uMat g) = Formalism.REAL.Jm ε := by
-    rw [← Matrix.mul_assoc]
-    exact g.2
-  have h1 : uMat g * uMat g⁻¹ = 1 := by simp [uMat]
-  have h2 : Formalism.REAL.Jm ε * (uMat g)ᴴ * Formalism.REAL.Jm ε * uMat g = 1 := by
-    rw [Matrix.mul_assoc, Matrix.mul_assoc, hg, _root_.GlobalTheory.IwConst.FlagMem.Jm_mul_self]
-  calc uMat g⁻¹ = (Formalism.REAL.Jm ε * (uMat g)ᴴ * Formalism.REAL.Jm ε * uMat g) * uMat g⁻¹ := by
-        rw [h2, Matrix.one_mul]
-    _ = Formalism.REAL.Jm ε * (uMat g)ᴴ * Formalism.REAL.Jm ε * (uMat g * uMat g⁻¹) := Matrix.mul_assoc _ _ _
-    _ = Formalism.REAL.Jm ε * (uMat g)ᴴ * Formalism.REAL.Jm ε := by rw [h1, Matrix.mul_one]
-
 theorem nrm_inv (g : Formalism.REAL.UJ ε) : nrm (uMat g⁻¹ - 1) = nrm (uMat g - 1) := by
   have e : uMat g⁻¹ - 1 = Formalism.REAL.Jm ε * (uMat g - 1)ᴴ * Formalism.REAL.Jm ε := by
-    rw [uMat_inv_eq_Jm_conjTranspose_Jm, Matrix.conjTranspose_sub, Matrix.conjTranspose_one, Matrix.mul_sub, Matrix.sub_mul,
+    rw [_root_.GlobalTheory.GaugeSubLip.uMat_inv, Matrix.conjTranspose_sub, Matrix.conjTranspose_one, Matrix.mul_sub, Matrix.sub_mul,
       Matrix.mul_one, _root_.GlobalTheory.IwConst.FlagMem.Jm_mul_self]
   rw [e, nrm_J_conj, nrm_conjTranspose]
 

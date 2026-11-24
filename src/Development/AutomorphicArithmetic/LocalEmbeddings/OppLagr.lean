@@ -1,5 +1,7 @@
 module
 
+import Development.WeilBound.ThetaLifts.FrameEstimates.FundamentalDomainFiniteVolume
+import Development.WeilBound.ThetaLifts.TowerModels.PlaneReal
 public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.WeilTensorModels
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsHomSuppSplit
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LocalCharacterNormOneUnit
@@ -54,24 +56,8 @@ noncomputable section
 namespace GlobalTheory.OppLagr
 open scoped TensorProduct
 
-theorem det_ne_zero_of_hasSig {n r s : ℕ} {M : Matrix (Fin n) (Fin n) ℂ} (h : HasSig M r s) : M.det ≠ 0 := by
-  obtain ⟨hrs, A, hA⟩ := h
-  have hNN : Matrix.fromBlocks (1 : Matrix (Fin r) (Fin r) ℂ) 0 0 (-1 : Matrix (Fin s) (Fin s) ℂ) *
-      Matrix.fromBlocks (1 : Matrix (Fin r) (Fin r) ℂ) 0 0 (-1 : Matrix (Fin s) (Fin s) ℂ) = 1 := by
-    rw [Matrix.fromBlocks_multiply]; simp [Matrix.fromBlocks_one]
-  have hN : IsUnit (Matrix.fromBlocks (1 : Matrix (Fin r) (Fin r) ℂ) 0 0 (-1 : Matrix (Fin s) (Fin s) ℂ)) :=
-    ⟨⟨_, _, hNN, hNN⟩, rfl⟩
-  have h1 := Matrix.rank_of_isUnit _ hN
-  have h2 : (Aᵀ * M * A.map star).rank ≤ M.rank := (Matrix.rank_mul_le_left _ _).trans (Matrix.rank_mul_le_right _ _)
-  rw [hA, h1] at h2
-  simp only [Fintype.card_sum, Fintype.card_fin, hrs] at h2
-  have h3 : LinearMap.range M.mulVecLin = ⊤ := by
-    apply Submodule.eq_top_of_finrank_eq
-    have := M.rank_le_width
-    simp only [← Matrix.finrank_range_mulVecLin] at h2 this
-    rw [Module.finrank_fin_fun]; omega
-  have hu : IsUnit M := (Matrix.mulVec_surjective_iff_isUnit).mp (LinearMap.range_eq_top.mp h3)
-  exact ((Matrix.isUnit_iff_isUnit_det M).mp hu).ne_zero
+theorem det_ne_zero_of_hasSig {n r s : ℕ} {M : Matrix (Fin n) (Fin n) ℂ} (h : HasSig M r s) : M.det ≠ 0 :=
+  _root_.PositivityTheory.ThKG.Tow.Pln.det_ne_zero_of_hasSig h
 
 end GlobalTheory.OppLagr
 
@@ -85,23 +71,8 @@ alias conj_conj := _root_.GlobalTheory.AdelicU.cm_conj_conj
 theorem comp_comp (h : IsCMExt F E σ) {K : Type} [Ring K] [Algebra F K] (t : E →ₐ[F] K) : (t.comp σ).comp σ = t :=
   AlgHom.ext fun x => by simp [conj_conj h]
 
-theorem exists_anti (h : IsCMExt F E σ) : ∃ ξ : E, ξ ≠ 0 ∧ σ ξ = -ξ := by
-  by_contra hc
-  push_neg at hc
-  have hfix : ∀ x, σ x = x := fun x => by
-    by_contra hne
-    exact hc (x - σ x) (sub_ne_zero.mpr (Ne.symm hne)) (by rw [map_sub, conj_conj h]; ring)
-  obtain ⟨τ⟩ : Nonempty (E →+* ℂ) := inferInstance
-  have hreal : ComplexEmbedding.IsReal τ := by
-    rw [ComplexEmbedding.isReal_iff]
-    ext x
-    rw [ComplexEmbedding.conjugate_coe_eq]
-    have := h.2.2.2 τ x
-    rw [hfix] at this
-    exact this.symm
-  have hc' := h.2.1.isComplex (InfinitePlace.mk τ)
-  rw [← InfinitePlace.not_isReal_iff_isComplex] at hc'
-  exact hc' (InfinitePlace.isReal_mk_iff.mpr hreal)
+theorem exists_anti (h : IsCMExt F E σ) : ∃ ξ : E, ξ ≠ 0 ∧ σ ξ = -ξ :=
+  _root_.PositivityTheory.ThKEst.fv_exists_skew h
 
 theorem exists_isQuad (h : IsCMExt F E σ) : ∃ ξ : AE F E, IsQuad (cA σ) ξ := by
   obtain ⟨ξ, hξ0, hξ⟩ := exists_anti h

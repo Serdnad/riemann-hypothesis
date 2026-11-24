@@ -1,5 +1,6 @@
 module
 
+import Development.WeilBound.CoreStatements.HodgeTatePoints.TwhopfSec
 public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.FiniteOpenHopfOrder
 public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ExistsDenominatorRegular
 public import Mathlib.RingTheory.Henselian
@@ -67,65 +68,12 @@ variable {R : Type} [CommRing R] [IsDomain R] {T : Type} [CommGroup T]
 
 theorem isFinOpenSub [IsLocalRing R] (Γ : QFGroup R T) (U : Γ.G.left.Opens) (hfin : IsFinite (U.ι ≫ Γ.G.hom))
     (hU : ∀ x : Γ.G.left, Γ.G.hom x = IsLocalRing.closedPoint R → x ∈ U) : Γ.IsFinOpenSub U := by
-  have hV : IsFinite (openOver Γ.G U).hom := hfin
-  refine ⟨hfin, ?_, ?_, ?_⟩
-  · intro x
-    refine _root_.GlobalTheory.CompanionTheory.Ar.BT.mem_of_finite_of_closedFibre U hU (𝟙_ _) ?_ η[Γ.G] x
-    show IsFinite (𝟙 _)
-    infer_instance
-  · intro S x y hx hy z
-    obtain ⟨x', rfl⟩ := exists_factor_openIncl U x hx
-    obtain ⟨y', rfl⟩ := exists_factor_openIncl U y hy
-    have hP : IsFinite (openOver Γ.G U ⊗ openOver Γ.G U).hom := by
-      rw [Over.tensorObj_hom]
-      infer_instance
-    have key := _root_.GlobalTheory.CompanionTheory.Ar.BT.mem_of_finite_of_closedFibre U hU _ hP
-      ((fst _ _ ≫ openIncl Γ.G U) * (snd _ _ ≫ openIncl Γ.G U))
-    have heq : x' ≫ openIncl Γ.G U * y' ≫ openIncl Γ.G U =
-        lift x' y' ≫ ((fst _ _ ≫ openIncl Γ.G U) * (snd _ _ ≫ openIncl Γ.G U)) := by
-      rw [comp_mul]
-      simp
-    rw [heq]
-    simpa using key ((lift x' y').left z)
-  · intro S x hx z
-    obtain ⟨x', rfl⟩ := exists_factor_openIncl U x hx
-    have key := _root_.GlobalTheory.CompanionTheory.Ar.BT.mem_of_finite_of_closedFibre U hU _ hV (openIncl Γ.G U)⁻¹
-    have heq : (x' ≫ openIncl Γ.G U)⁻¹ = x' ≫ (openIncl Γ.G U)⁻¹ := by
-      simp [Hom.inv_def]
-    rw [heq]
-    simpa using key (x'.left z)
+  intros
+  apply _root_.GlobalTheory.CompanionTheory.Ar.BT.QFGroup.isFinOpenSub_of_closedFibre <;> assumption
 
 theorem regularAt_generic [Finite T] (Γ : QFGroup R T) (f : T → FractionRing R) (g : Γ.G.left)
     (hg : (Γ.G.hom g).asIdeal = ⊥) : Γ.RegularAt f g := by
-  obtain ⟨d, hd, V, hgV, s, hs⟩ := RegDenom.exists_denom_regularAt R T Γ f g
-  let σ : Γ(Γ.G.left, V) := RegDenom.structHom Γ.G.hom V d
-  let W := Γ.G.left.basicOpen σ
-  have hW : W ≤ V := Γ.G.left.basicOpen_le σ
-  have hgW : g ∈ W := by
-    have e : W = V ⊓ Γ.G.hom ⁻¹ᵁ (Spec (CommRingCat.of R)).basicOpen
-        ((Scheme.ΓSpecIso (CommRingCat.of R)).inv d) :=
-      Scheme.basicOpen_appLE _ _ _ _ _
-    rw [e, basicOpen_eq_of_affine]
-    refine ⟨hgV, ?_⟩
-    change d ∉ (Γ.G.hom g).asIdeal
-    rw [hg]
-    exact hd
-  let ρ : Γ(Γ.G.left, V) →+* Γ(Γ.G.left, W) := (Γ.G.left.presheaf.map (homOfLE hW).op).hom
-  have hu : IsUnit (ρ σ) := Γ.G.left.toRingedSpace.isUnit_res_basicOpen σ
-  obtain ⟨u, hu⟩ := hu.exists_left_inv
-  refine ⟨W, hgW, u * ρ s, fun t ht => ?_⟩
-  have htV : ⊤ ≤ (Γ.pt t).left ⁻¹ᵁ V := fun z hz => hW (ht hz)
-  have hρ : ∀ a, RegDenom.valHom (Γ.pt t).left W ht (ρ a) = RegDenom.valHom (Γ.pt t).left V htV a := by
-    intro a
-    have := Scheme.Hom.map_appLE (Γ.pt t).left ht (homOfLE hW).op
-    simp only [RegDenom.valHom, RingHom.comp_apply]
-    rw [← this]
-    rfl
-  have h1 := congrArg (RegDenom.valHom (Γ.pt t).left W ht) hu
-  rw [map_mul, map_one, hρ, RegDenom.valHom_structHom Γ.G.hom _ _ (Over.w (Γ.pt t)) V htV d] at h1
-  rw [← RegDenom.valHom_apply, map_mul, hρ, RegDenom.valHom_apply _ _ _ s, hs t htV]
-  change _ * (_ * f t) = f t
-  rw [← _root_.mul_assoc, h1, _root_.one_mul]
+  apply _root_.PositivityTheory.HtPt.Twhopf.regularAt_generic <;> assumption
 
 theorem valHom_top_comp {B C : Type} [CommRing B] [CommRing C] {X : Scheme.{0}} (x : Spec (CommRingCat.of B) ⟶ X)
     (φ : B →+* C) (s : Γ(X, ⊤)) :

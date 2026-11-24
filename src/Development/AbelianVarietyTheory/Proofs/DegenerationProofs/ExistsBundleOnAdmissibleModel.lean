@@ -66,6 +66,7 @@ import Mathlib.Tactic.Linter.HaveILetI
 import Mathlib.Tactic.Linter.Style
 import Mathlib.Tactic.ENatToNat
 import Std.Tactic.BVDecide.Normalize.Prop
+import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.QuadraticMapNonnegOfTendstoCofinite
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.Proofs.DegenerationProofs.ExistsReducedCombination, Development.AbelianVarietyTheory.Proofs.DegenerationProofs.ComparisonFunctionRegular, Development.AbelianVarietyTheory.Proofs.DegenerationProofs.FFDivFFMemOOfValuationRing, Development.AbelianVarietyTheory.Proofs.DegenerationProofs.IsEEOfSpanWeightSpaces, Development.AbelianVarietyTheory.Proofs.DegenerationProofs.SpanLatticeEqOfValuationRing, Development.AbelianVarietyTheory.Proofs.DegenerationProofs.ExistsBundleOnAdmissibleModel
@@ -212,20 +213,7 @@ namespace Regular
 
 theorem nonneg_of_tendsto {X : Type} [AddCommGroup X] [Module.Free ℤ X] (q : QuadraticMap ℤ X ℝ)
     (h : Filter.Tendsto q Filter.cofinite Filter.atTop) (x : X) : 0 ≤ q x := by
-  by_contra hx
-  push_neg at hx
-  have hx0 : x ≠ 0 := by
-    rintro rfl
-    simp at hx
-  have hfin : {v | ¬ (0 : ℝ) ≤ q v}.Finite := Filter.eventually_cofinite.1 (h.eventually_ge_atTop 0)
-  have hinj : Function.Injective fun n : ℕ => ((n : ℤ) + 1) • x := by
-    intro a b hab
-    have := smul_left_injective ℤ hx0 hab
-    omega
-  refine Set.infinite_of_injective_forall_mem hinj (fun n => ?_) hfin
-  simp only [Set.mem_setOf_eq, not_le, QuadraticMap.map_smul, zsmul_eq_mul]
-  refine mul_neg_of_pos_of_neg ?_ hx
-  positivity
+  apply _root_.GlobalTheory.ZH.quadraticMap_nonneg_of_tendsto_cofinite <;> assumption
 
 variable {o Ω : Type} [CommRing o] [Field Ω] [Algebra o Ω]
 
@@ -431,10 +419,7 @@ variable {o Ω : Type} [CommRing o] [Field Ω] [Algebra o Ω]
 
 theorem ThetaSys.FF_mem_ring (S : ThetaSys o Ω) (T : AddSubgroup S.Gam) (c : T →+ ZMod S.N)
     (k : S.J × (T → ZMod ((S.r * S.N) ^ 2))) : S.FF T c k ∈ S.R := by
-  unfold ThetaSys.FF
-  refine finsum_induction (· ∈ S.R) (zero_mem _) (fun _ _ => add_mem) fun t => ?_
-  exact mul_mem (S.R.algebraMap_mem _)
-    (sum_mem fun j _ => mul_mem (S.R.algebraMap_mem _) (S.ev_mem _ _))
+  apply _root_.GlobalTheory.ZH.Regular.FF_mem <;> assumption
 
 theorem RatModel.span_val_span {M : RatModel o Ω} {J : Type} {p : ℕ} [Fact p.Prime] {y : Sp (OO p) ⟶ M.Z}
     {z : M.Z} (h : y (cPt p) = z) (w : Sp (PadicAlgCl p)) (G : Set (J → Ω))

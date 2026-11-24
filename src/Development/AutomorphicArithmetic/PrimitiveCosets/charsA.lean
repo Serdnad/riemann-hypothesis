@@ -68,73 +68,48 @@ open UpperTheory.Comparison₂ Deduction.CH Formalism Formalism.HC Formalism.D5 
   Formalism.LFunctionChainParameters.LChain Formalism.LFunctionChainParameters.LHost
 
 open Classical in
-private theorem tops_sum_coset {H : Type} [AddCommGroup H] [Fintype H] (A0 : AddSubgroup H) (θ : AddChar H ℂ)
-    (h0 : ∀ s ∈ A0, θ s = 1) (t : H) :
-    ∑ g : H, (if t - g ∈ A0 then θ g else 0) = (Nat.card A0 : ℂ) * θ t := by
-  have step : ∀ g, (if t - g ∈ A0 then θ g else 0) = if t - g ∈ A0 then θ t else 0 := by
-    intro g
-    split_ifs with hg
-    · have e : g = t + -(t - g) := by abel
-      rw [e, AddChar.map_add_eq_mul, h0 _ (A0.neg_mem hg), mul_one]
-    · rfl
-  have eqv : A0 ≃ {g : H // t - g ∈ A0} :=
-    { toFun := fun s => ⟨t - s, by simp⟩
-      invFun := fun g => ⟨t - g, g.2⟩
-      left_inv := fun s => by ext; simp
-      right_inv := fun g => by ext; simp }
-  have hc : (Finset.univ.filter fun g => t - g ∈ A0).card = Nat.card A0 := by
-    rw [Nat.card_congr eqv, Nat.card_eq_fintype_card, Fintype.card_subtype]
-  rw [Finset.sum_congr rfl fun g _ => step g, ← Finset.sum_filter, Finset.sum_const, nsmul_eq_mul, hc]
-
-open Classical in
 private theorem tops_sum_gen {H : Type} [AddCommGroup H] [Fintype H] (A0 : AddSubgroup H) (θ : AddChar H ℂ)
-    (h0 : ∀ s ∈ A0, θ s = 1) (h1 : θ ≠ 0) (TT : Finset H) (o : ℕ) (ho : Fintype.card H = o * Nat.card A0)
-    (b c η : ℝ)
+    (h0 : ∀ s ∈ A0, θ s = 1) (h1 : θ ≠ 0) (TT : Finset H) (b c η : ℝ)
     (hs : ∀ g : H, |((TT.filter fun t => t - g ∈ A0).card : ℝ) - (b + if g ∈ A0 then c else 0)| ≤ η) :
-    ‖(∑ t ∈ TT, θ t) - (c : ℂ)‖ ≤ o * η := by
-  have hiff : ∀ g : H, 0 - g ∈ A0 ↔ g ∈ A0 := fun g => by rw [zero_sub, neg_mem_iff]
-  have hz := tops_sum_coset A0 θ h0 0
-  simp only [hiff, AddChar.map_zero_eq_one, mul_one] at hz
-  have hB : ∑ g, θ g = 0 := AddChar.sum_eq_zero_iff_ne_zero.mpr h1
-  have hC : ∑ g, θ g * (if g ∈ A0 then (c : ℂ) else 0) = (Nat.card A0 : ℂ) * c := by
-    rw [← hz, Finset.sum_mul]
-    refine Finset.sum_congr rfl fun g _ => ?_
-    split_ifs <;> ring
-  have hA : ∑ g, θ g * ((TT.filter fun t => t - g ∈ A0).card : ℂ) = (Nat.card A0 : ℂ) * ∑ t ∈ TT, θ t := by
-    rw [Finset.mul_sum, Finset.sum_congr rfl fun t _ => (tops_sum_coset A0 θ h0 t).symm, Finset.sum_comm]
-    refine Finset.sum_congr rfl fun g _ => ?_
-    rw [← Finset.sum_filter, Finset.sum_const, nsmul_eq_mul, mul_comm]
-  obtain ⟨e, he⟩ : ∃ e : H → ℝ, ∀ g, e g =
-      ((TT.filter fun t => t - g ∈ A0).card : ℝ) - (b + if g ∈ A0 then c else 0) := ⟨_, fun _ => rfl⟩
-  have key : (Nat.card A0 : ℂ) * ((∑ t ∈ TT, θ t) - c) = ∑ g, θ g * ((e g : ℝ) : ℂ) := by
-    have hsplit : ∀ g, θ g * ((e g : ℝ) : ℂ) = θ g * ((TT.filter fun t => t - g ∈ A0).card : ℂ)
-        - (b : ℂ) * θ g - θ g * (if g ∈ A0 then (c : ℂ) else 0) := by
-      intro g
-      rw [he g]
-      split_ifs <;> push_cast <;> ring
-    rw [Finset.sum_congr rfl fun g _ => hsplit g, Finset.sum_sub_distrib, Finset.sum_sub_distrib, hA,
-      ← Finset.mul_sum, hB, hC]
-    ring
-  have hnorm : ∀ g, ‖θ g‖ = 1 := by
-    intro g
-    have hp : θ g ^ Fintype.card H = 1 := by
-      rw [← AddChar.map_nsmul_eq_pow, card_nsmul_eq_zero, AddChar.map_zero_eq_one]
-    have hq : ‖θ g‖ ^ Fintype.card H = 1 := by rw [← norm_pow, hp, norm_one]
-    exact (pow_eq_one_iff_of_nonneg (norm_nonneg _) Fintype.card_ne_zero).mp hq
-  have hbound : ‖∑ g, θ g * ((e g : ℝ) : ℂ)‖ ≤ Fintype.card H * η := by
-    calc ‖∑ g, θ g * ((e g : ℝ) : ℂ)‖ ≤ ∑ g, ‖θ g * ((e g : ℝ) : ℂ)‖ := norm_sum_le _ _
-      _ ≤ ∑ _g : H, η := Finset.sum_le_sum fun g _ => by
-          rw [norm_mul, hnorm, one_mul, Complex.norm_real, Real.norm_eq_abs, he g]
-          exact hs g
-      _ = Fintype.card H * η := by rw [Finset.sum_const, Finset.card_univ, nsmul_eq_mul]
-  have hn : (0 : ℝ) < Nat.card A0 := by exact_mod_cast Nat.card_pos
-  have h3 : (Nat.card A0 : ℝ) * ‖(∑ t ∈ TT, θ t) - (c : ℂ)‖ ≤ (Nat.card A0 : ℝ) * (o * η) := by
-    calc (Nat.card A0 : ℝ) * ‖(∑ t ∈ TT, θ t) - (c : ℂ)‖
-        = ‖(Nat.card A0 : ℂ) * ((∑ t ∈ TT, θ t) - c)‖ := by rw [norm_mul, Complex.norm_natCast]
-      _ = ‖∑ g, θ g * ((e g : ℝ) : ℂ)‖ := by rw [key]
-      _ ≤ Fintype.card H * η := hbound
-      _ = (Nat.card A0 : ℝ) * (o * η) := by rw [ho]; push_cast; ring
-  exact le_of_mul_le_mul_left h3 hn
+    ‖(∑ t ∈ TT, θ t) - (c : ℂ)‖ ≤ (A0.index : ℝ) * η := by
+  let π := QuotientAddGroup.mk' A0
+  let χ : AddChar (H ⧸ A0) ℂ := AddChar.toAddMonoidHomEquiv.symm
+    (QuotientAddGroup.lift A0 θ.toAddMonoidHom fun t ht => by
+      rw [AddMonoidHom.mem_ker, AddChar.toAddMonoidHom_apply, h0 t ht]
+      rfl)
+  have hχ (t : H) : χ (π t) = θ t := rfl
+  have hχne : χ ≠ 0 := by
+    intro hz
+    apply h1
+    ext t
+    rw [← hχ, hz]
+    rfl
+  let count (q : H ⧸ A0) := (TT.filter fun t => π t = q).card
+  let err (q : H ⧸ A0) : ℝ := count q - (b + if q = 0 then c else 0)
+  have herr (q : H ⧸ A0) : |err q| ≤ η := by
+    obtain ⟨g, rfl⟩ := QuotientAddGroup.mk'_surjective A0 q
+    simpa only [err, count, π, QuotientAddGroup.mk'_apply, QuotientAddGroup.eq_iff_sub_mem,
+      QuotientAddGroup.eq_zero_iff] using hs g
+  -- Group by quotient fibers and cancel the constant part by character orthogonality.
+  have hsum : ∑ t ∈ TT, θ t = ∑ q, (count q : ℂ) * χ q := by
+    simp_rw [← hχ]
+    rw [← Finset.sum_fiberwise' TT (fun t => π t) (fun q => χ q)]
+    simp [count, nsmul_eq_mul]
+  have hbase : ∑ q, (b : ℂ) * χ q = 0 := by
+    rw [← Finset.mul_sum, AddChar.sum_eq_zero_iff_ne_zero.mpr hχne, mul_zero]
+  have hspecial : ∑ q : H ⧸ A0, (if q = 0 then (c : ℂ) * χ q else 0) = c := by
+    simp
+  have hterm (q : H ⧸ A0) :
+      (err q : ℂ) * χ q =
+        (count q : ℂ) * χ q - (b : ℂ) * χ q - (if q = 0 then (c : ℂ) * χ q else 0) := by
+    by_cases hq : q = 0 <;> simp [err, hq] <;> ring
+  rw [show (∑ t ∈ TT, θ t) - (c : ℂ) = ∑ q, (err q : ℂ) * χ q by
+    simp only [hterm, Finset.sum_sub_distrib, ← hsum, hbase, hspecial, sub_zero]]
+  calc ‖∑ q, (err q : ℂ) * χ q‖ ≤ ∑ q, ‖(err q : ℂ) * χ q‖ := norm_sum_le _ _
+    _ ≤ ∑ _q : H ⧸ A0, η := Finset.sum_le_sum fun q _ => by
+      simpa [norm_mul, Real.norm_eq_abs] using herr q
+    _ = (A0.index : ℝ) * η := by
+      rw [Finset.sum_const, Finset.card_univ, nsmul_eq_mul, A0.index_eq_card, Nat.card_eq_fintype_card]
 
 theorem UpperTheory.Comparison₂.tops_sum :
     ∀ (φ : Frame) (TT : Finset φ.A) (δ : ℝ), φ.Shares TT δ → ∀ ψ ∈ PsiA φ.A0, (¬ ∀ h : φ.A, ψ (0, h) = 1) →
@@ -150,8 +125,6 @@ theorem UpperTheory.Comparison₂.tops_sum :
     apply hnt
     intro t
     rw [← hθ, h, AddChar.zero_apply]
-  have ho : Fintype.card φ.A = φ.o * Nat.card φ.A0 := by
-    rw [Frame.card_A, Frame.natCard_cyclic_subgroup, Frame.exponent_eq_index_mul_cyclic_order]
   have hpos : (0 : ℝ) < 3 * (φ.o : ℝ) + 1 := by positivity
   have hs : ∀ g : φ.A, |((TT.filter fun t => t - g ∈ φ.A0).card : ℝ) -
       (3 * (3 * (φ.o : ℝ) + 1)⁻¹ * TT.card + if g ∈ φ.A0 then (3 * (φ.o : ℝ) + 1)⁻¹ * TT.card else 0)|
@@ -161,8 +134,8 @@ theorem UpperTheory.Comparison₂.tops_sum :
     convert hg using 3
     simp only [Frame.lam]
     split_ifs <;> field_simp <;> ring
-  have hfin := tops_sum_gen φ.A0 θ (fun s hs => by rw [hθ]; exact hmem s hs) h1 TT φ.o ho _ _ _ hs
-  simp only [hθ] at hfin
+  have hfin := tops_sum_gen φ.A0 θ (fun s hs => by rw [hθ]; exact hmem s hs) h1 TT _ _ _ hs
+  simp only [hθ, φ.index_A0_eq_o] at hfin
   push_cast at hfin ⊢
   exact le_of_le_of_eq hfin (by ring)
 end -- clump:auto

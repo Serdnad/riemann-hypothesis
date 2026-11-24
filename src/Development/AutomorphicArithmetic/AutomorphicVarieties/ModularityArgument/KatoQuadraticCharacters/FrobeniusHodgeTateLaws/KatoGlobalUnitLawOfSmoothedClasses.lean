@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.UntwistedRepresentationOrdinaryTriangularShape
 public import Development.AbelianVarietyTheory.Definitions.Foundations.HTPresNuOfPolys
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.KatoQuadraticCharacters.FrobeniusHodgeTateLaws.SmoothedZetaClassHodgeTateLawStatement
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.KatoQuadraticCharacters.FrobeniusHodgeTateLaws.SerVal
@@ -22,6 +23,7 @@ public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityA
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.KatoQuadraticCharacters.FrobeniusHodgeTateLaws.DistributionApply
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.KatoQuadraticCharacters.FrobeniusHodgeTateLaws.JEx
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.KatoQuadraticCharacters.FrobeniusHodgeTateLaws.KatoGlobalAdmissibilityOfAdmissible
+import all Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.KatoQuadraticCharacters.FrobeniusHodgeTateLaws.KatoGlobalAdmissibilityOfAdmissible
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.KatoQuadraticCharacters.FrobeniusHodgeTateLaws.TowerEx
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -499,31 +501,7 @@ variable {Ω : Type} [Field Ω] [Algebra ℚ Ω]
 
 private theorem cont_of_apply [IsAlgClosure ℚ Ω] {Y : Type} [TopologicalSpace Y] (ζ : Ω) (f : G ℚ Ω → Y)
     (h : ∀ s t : G ℚ Ω, s ζ = t ζ → f s = f t) : Continuous f := by
-  have hint : IsIntegral ℚ ζ :=
-    ((IsAlgClosure.isAlgebraic (R := ℚ) (K := Ω)).isAlgebraic ζ).isIntegral
-  haveI : FiniteDimensional ℚ (IntermediateField.adjoin ℚ {ζ}) :=
-    IntermediateField.adjoin.finiteDimensional hint
-  have hH : IsOpen (((IntermediateField.adjoin ℚ {ζ}).fixingSubgroup : Subgroup (Ω ≃ₐ[ℚ] Ω)) :
-      Set (Ω ≃ₐ[ℚ] Ω)) := IntermediateField.fixingSubgroup_isOpen _
-  refine continuous_iff_continuousAt.2 fun t => ?_
-  have hU : IsOpen ((fun s : Ω ≃ₐ[ℚ] Ω => t⁻¹ * s) ⁻¹'
-      (((IntermediateField.adjoin ℚ {ζ}).fixingSubgroup : Subgroup (Ω ≃ₐ[ℚ] Ω)) :
-        Set (Ω ≃ₐ[ℚ] Ω))) := hH.preimage (continuous_const_mul _)
-  have ht : t ∈ (fun s : Ω ≃ₐ[ℚ] Ω => t⁻¹ * s) ⁻¹'
-      (((IntermediateField.adjoin ℚ {ζ}).fixingSubgroup : Subgroup (Ω ≃ₐ[ℚ] Ω)) :
-        Set (Ω ≃ₐ[ℚ] Ω)) := by
-    simp only [Set.mem_preimage, inv_mul_cancel, SetLike.mem_coe]
-    exact Subgroup.one_mem _
-  refine (continuousAt_const (y := f t)).congr ?_
-  filter_upwards [hU.mem_nhds ht] with s hs
-  have h1 : (t⁻¹ * s) ζ = ζ :=
-    (IntermediateField.mem_fixingSubgroup_iff _ _).1 hs ζ
-      (IntermediateField.mem_adjoin_simple_self ℚ ζ)
-  have h2 : s ζ = t ζ := by
-    have h3 := congrArg t h1
-    rw [AlgEquiv.mul_apply] at h3
-    simpa using h3
-  exact (h s t h2).symm
+  apply _root_.cont_of_apply <;> assumption
 
 private theorem root_pow {M n : ℕ} (hM : M ≠ 0) {B : ValuationSubring Ω} {v : Pl} (hB : IsPlaceOver B v)
     (hv : ((M : ℕ) : 𝓞 ℚ) ∉ v.asIdeal) {s : G ℚ Ω} {ζ : Ω} (hζ : ζ ^ M = 1)
@@ -716,20 +694,7 @@ open NumberField IsDedekindDomain Formalism.ConjugateSelfDual ReciprocityTheory.
 open UpperTheory.V.Z.Kato.Joint
 
 private theorem frobU_normV {p : ℕ} (hp : p.Prime) {v : Pl} (hv : ((p : ℕ) : 𝓞 ℚ) ∈ v.asIdeal) : normV v = p := by
-  have hN : normV v = Ideal.absNorm v.asIdeal := by
-    rw [Ideal.absNorm_apply, Submodule.cardQuot_apply]
-    rfl
-  have hspan : Ideal.absNorm (Ideal.span {((p : ℕ) : 𝓞 ℚ)}) = p := by
-    rw [Ideal.absNorm_span_singleton]
-    have h1 : ((p : ℕ) : 𝓞 ℚ) = algebraMap ℤ (𝓞 ℚ) (p : ℤ) := by simp
-    rw [h1, Algebra.norm_algebraMap, NumberField.RingOfIntegers.rank, Module.finrank_self, pow_one]
-    simp
-  have hle : Ideal.span {((p : ℕ) : 𝓞 ℚ)} ≤ v.asIdeal := (Ideal.span_singleton_le_iff_mem _).2 hv
-  have hd := Ideal.absNorm_dvd_absNorm_of_le hle
-  rw [hspan] at hd
-  rcases hp.eq_one_or_self_of_dvd _ hd with h1 | h1
-  · exact absurd (Ideal.absNorm_eq_one_iff.1 h1) v.isPrime.ne_top
-  · rw [hN, h1]
+  apply _root_.GlobalTheory.RhoAdm.normV_ratPrime <;> assumption
 
 theorem UpperTheory.V.Z.Kato.Joint.frobU :
     UpperTheory.V.Z.Kato.Joint.FrobU := by

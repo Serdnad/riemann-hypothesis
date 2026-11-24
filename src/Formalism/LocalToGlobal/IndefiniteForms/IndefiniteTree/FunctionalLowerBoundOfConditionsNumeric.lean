@@ -63,6 +63,7 @@ import Mathlib.RingTheory.HopfAlgebra.Basic
 import Mathlib.RingTheory.RegularLocalRing.Defs
 import Mathlib.RingTheory.SimpleRing.Principal
 import Mathlib.Tactic.Linter.Style
+import Formalism.LocalToGlobal.IndefiniteReal.OpNormAtLeOfPoints
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Formalism.TowerValuationBounds.TowerValuationBoundIndexed, Formalism.TowerValuationBounds.TowerValuationProofs.ValuationRatioIndex, Formalism.LocalToGlobal.ExponentGrids.ExponentGridsProofs.GridSquaresIndexEstimate, Formalism.PeriodIntegrals.OrbitalBoundsConclusion.LocGlobIncl, Formalism.LocalToGlobal.IndefiniteForms.IndefiniteTree.FunctionalLowerBoundOfConditionsNumeric
@@ -1278,14 +1279,7 @@ variable {Bs : DefBase K} {Df : DefSide Bs}
 theorem fcoord_sum {ι V P : Type} [Fintype ι] [DecidableEq ι] [AddCommGroup V] [Module K V] (b : Module.Basis ι K V)
     (X : InfinitePlace K → Matrix ι ι ℂ) (v : InfinitePlace K) (s : Finset P) (f : P → V) :
     Formalism.HermitianLatticesTheory.fcoord b X v (∑ p ∈ s, f p) = ∑ p ∈ s, Formalism.HermitianLatticesTheory.fcoord b X v (f p) := by
-  have hv : Formalism.HermitianLatticesTheory.vecAt b v (∑ p ∈ s, f p) = ∑ p ∈ s, Formalism.HermitianLatticesTheory.vecAt b v (f p) := by
-    funext i
-
-    simp [Formalism.HermitianLatticesTheory.vecAt, map_sum, Finsupp.finsetSum_apply, Finset.sum_apply]
-  unfold Formalism.HermitianLatticesTheory.fcoord
-  rw [hv]
-  first
-    | exact Matrix.mulVec_sum _ _ _
+  apply _root_.Formalism.IndefR.LatticeTransfer.BlockMetrics.fc_sum <;> assumption
 
 theorem normAt_sq_eq {ι V : Type} [Fintype ι] [DecidableEq ι] [AddCommGroup V] [Module K V] (b : Module.Basis ι K V)
     (X : InfinitePlace K → Matrix ι ι ℂ) (v : InfinitePlace K) (x : V) :

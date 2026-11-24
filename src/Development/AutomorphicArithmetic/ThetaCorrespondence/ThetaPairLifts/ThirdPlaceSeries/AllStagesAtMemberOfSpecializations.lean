@@ -17,6 +17,7 @@ public import Development.AutomorphicArithmetic.ThetaCorrespondence.ThetaPairLif
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.GridStaircaseLatticeFirstColumnTransportStages
 public import Development.AutomorphicArithmetic.ThetaCorrespondence.ThetaPairLifts.ThirdPlaceSeries.GeometricHeckeLawsOfMultiplicityLowerBound
 public import Development.AutomorphicArithmetic.ThetaCorrespondence.ThetaPairLifts.ThirdPlaceSeries.Lb2OfThetaTwistStatement
+import all Development.AutomorphicArithmetic.ThetaCorrespondence.ThetaPairLifts.ThirdPlaceSeries.Lb2OfThetaTwistStatement
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.CarriedThTw
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.DofOTw
 public import Development.AutomorphicArithmetic.ThetaCorrespondence.ThetaPairLifts.ThirdPlaceSeries.SameGaloisLevelExists
@@ -926,17 +927,7 @@ private theorem charFrame_heq_of_fields {D D' : D7} (hD : D = D')
     (hP : HEq c.P c'.P) (hW : HEq c.W c'.W) (hmu : HEq c.mu0 c'.mu0)
     (heta : HEq c.eta c'.eta) (hchi : HEq c.chiPsi c'.chiPsi)
     (hdel : HEq c.del c'.del) (hdel' : HEq c.del' c'.del') : HEq c c' := by
-  subst D'
-  cases c
-  cases c'
-  cases eq_of_heq hP
-  cases eq_of_heq hW
-  cases eq_of_heq hmu
-  cases eq_of_heq heta
-  cases eq_of_heq hchi
-  cases eq_of_heq hdel
-  cases eq_of_heq hdel'
-  rfl
+  apply _root_.GlobalTheory.HeightCounting.Up.SerCp.charFrame_heq <;> assumption
 
 private theorem sideB_tau_reindex {D D' : D7} {cf cf' Rw Rw' low low' Pq Pq' S S' hL hL' eig eig' θ θ'}
     (hD : D = D') (hc : HEq cf cf') (hr : HEq Rw Rw') (hlow : low = low')

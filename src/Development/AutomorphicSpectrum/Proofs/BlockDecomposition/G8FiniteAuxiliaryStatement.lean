@@ -38,6 +38,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Std.Tactic.BVDecide.Normalize.Prop
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.MapPFinThetaGL
 
 @[expose] public section
 
@@ -63,21 +64,7 @@ theorem map_phiU {R S : Type} [CommRing R] [CommRing S] (f : R →+* S) (n : ℕ
 theorem map_thetaGL {R S : Type} [CommRing R] [CommRing S] (f : R →+* S) (c : R →+* R) (c' : S →+* S)
     (h : ∀ x, f (c x) = c' (f x)) (n : ℕ) (g : GL (Fin n) R) :
     GeneralLinearGroup.map f (thetaGL n c g) = thetaGL n c' (GeneralLinearGroup.map f g) := by
-  have h1 : ∀ x : GL (Fin n) R, GeneralLinearGroup.map f (invT n R x) = invT n S (GeneralLinearGroup.map f x) := by
-    intro x
-    apply Units.ext
-    ext i j
-    have e : (GeneralLinearGroup.map f x)⁻¹ = GeneralLinearGroup.map f x⁻¹ := (map_inv _ x).symm
-    simp only [invT]
-    rfl
-  have h2 : GeneralLinearGroup.map f (GeneralLinearGroup.map c g) =
-      GeneralLinearGroup.map c' (GeneralLinearGroup.map f g) := by
-    apply Units.ext
-    ext i j
-    exact h _
-  have h3 : ∀ (T : Type) [CommRing T] (d : T →+* T) (x : GL (Fin n) T),
-      thetaGL n d x = PhiU n T * invT n T (GeneralLinearGroup.map d x) * (PhiU n T)⁻¹ := fun _ _ _ _ => rfl
-  rw [h3, h3, map_mul, map_mul, map_inv, map_phiU, h1, h2]
+  apply _root_.GlobalTheory.CompanionTheory.AdelEqProof.map_thetaGL <;> assumption
 
 theorem evw_pv (v : PlF E) (w : Above v) (y : Gf E a b) : evw w (pv a b v y) = atW w.1 y := by
   refine Prod.ext ?_ ?_ <;> · apply Units.ext; ext i j; rfl

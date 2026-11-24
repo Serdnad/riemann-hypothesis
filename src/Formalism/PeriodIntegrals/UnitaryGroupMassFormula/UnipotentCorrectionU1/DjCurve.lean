@@ -1,5 +1,6 @@
 module
 
+import Formalism.HermitianCurvature.HermitianCurvatureProofs.BesselDecayBounds.HaarCompactGrowth.IsHaarOnUWsetOfIsHaarOnOfUnivEqOne
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.UnipotentCorrectionU1.DjCurveA
 public import Formalism.HermitianCurvature.StatementU
 public import Mathlib.Analysis.Calculus.Deriv.Linear
@@ -189,11 +190,7 @@ theorem mem_range_eL (c : Fin (2 * (j + ρ) + k + 1)) :
 
 theorem hpk_row {k r : ℕ} (i m : Fin (2 * r + k + 1)) (hi : i.val < r) :
     Hpk k r i m = if i.val + m.val = 2 * r + k then 1 else 0 := by
-  unfold Hpk
-  by_cases h : i.val + m.val = 2 * r + k
-  · simp [hi, h]
-  · rw [if_neg (fun h' => h h'.2), if_neg (fun h' => h h'.2), if_neg (fun h' => absurd h'.1 (by omega)),
-      if_neg h]
+  apply _root_.Formalism.MainNotions.GrowthW.hpk_row_e <;> assumption
 
 variable {k j ρ}
 

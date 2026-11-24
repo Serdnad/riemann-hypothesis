@@ -76,6 +76,7 @@ import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ThetaEmbeddingSectio
 import Mathlib.Algebra.Order.Star.Int
 import Mathlib.AlgebraicGeometry.Morphisms.WeaklyEtale
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.OneArc
+import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsCommonAlgClosedExtension
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsAlgClosedJoinOfMemRange, Development.AbelianVarietyTheory.Proofs.ModuliProofs.LbIsoOfCompat, Development.AbelianVarietyTheory.Proofs.ModuliProofs.SecCoordOfRatio, Development.AbelianVarietyTheory.Proofs.ModuliProofs.ThetaLevelIsoUniqueOfDenseCommonFibres
@@ -93,28 +94,6 @@ open GlobalTheory.TUniq
 
 namespace GlobalTheory.TUniq
 
-private theorem exists_algClosed_compositum {k K K₀ : Type} [Field k] [Field K] [Field K₀]
-    (φ : k →+* K) (ψ : k →+* K₀) :
-    ∃ (Ω : Type) (_ : Field Ω) (_ : IsAlgClosed Ω) (i : K →+* Ω) (j : K₀ →+* Ω),
-      i.comp φ = j.comp ψ := by
-  letI : Algebra k K := φ.toAlgebra
-  letI : Algebra k K₀ := ψ.toAlgebra
-  haveI : Nontrivial (K ⊗[k] K₀) :=
-    Algebra.TensorProduct.nontrivial_of_algebraMap_injective_of_isDomain k K K₀
-      φ.injective ψ.injective
-  obtain ⟨m, hm⟩ := Ideal.exists_maximal (K ⊗[k] K₀)
-  letI : Field (K ⊗[k] K₀ ⧸ m) := Ideal.Quotient.field m
-  let emb : K ⊗[k] K₀ →+* AlgebraicClosure (K ⊗[k] K₀ ⧸ m) :=
-    (algebraMap (K ⊗[k] K₀ ⧸ m) (AlgebraicClosure (K ⊗[k] K₀ ⧸ m))).comp (Ideal.Quotient.mk m)
-  refine ⟨AlgebraicClosure (K ⊗[k] K₀ ⧸ m), inferInstance, inferInstance,
-    emb.comp Algebra.TensorProduct.includeLeftRingHom,
-    emb.comp (Algebra.TensorProduct.includeRight : K₀ →ₐ[k] K ⊗[k] K₀).toRingHom, ?_⟩
-  ext a
-  simp only [RingHom.comp_apply]
-  congr 1
-  show (algebraMap k K a) ⊗ₜ[k] (1 : K₀) = (1 : K) ⊗ₜ[k] (algebraMap k K₀ a)
-  rw [Algebra.algebraMap_eq_smul_one, Algebra.algebraMap_eq_smul_one, TensorProduct.smul_tmul]
-
 private theorem pt_eq_lemma_2 {K : Type} [Field K] (q r : PrimeSpectrum K) : q = r :=
   PrimeSpectrum.ext ((Ideal.eq_bot_of_prime q.asIdeal).trans (Ideal.eq_bot_of_prime r.asIdeal).symm)
 
@@ -129,7 +108,7 @@ theorem exists_algClosed_join_of_mem_range {S : Scheme.{0}} {K K₀ : Type} [Fie
   have hx₀ := Scheme.descResidueField_stalkClosedPointTo_fromSpecResidueField K₀ S x₀
   generalize S.descResidueField (Scheme.stalkClosedPointTo x) = φ at hx
   generalize S.descResidueField (Scheme.stalkClosedPointTo x₀) = φ₀ at hx₀
-  obtain ⟨Ω, hΩ, hΩc, i, j, hij⟩ := exists_algClosed_compositum φ.hom ((S.residueFieldCongr h).hom ≫ φ₀).hom
+  obtain ⟨Ω, hΩ, hΩc, i, j, hij⟩ := _root_.GlobalTheory.CommonAlgClosedExtension.exists_common_algClosed_extension _ _ _ φ.hom ((S.residueFieldCongr h).hom ≫ φ₀).hom
   refine ⟨Ω, hΩ, hΩc, i, j, ?_⟩
   have hx₀' : Spec.map ((S.residueFieldCongr h).hom ≫ φ₀) ≫
       S.fromSpecResidueField (x (IsLocalRing.closedPoint K)) = x₀ := by

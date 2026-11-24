@@ -1,5 +1,6 @@
 module
 
+import all Development.AutomorphicArithmetic.Foundations.Convolution.RealGroupAnalysis.WeilRepresentation.UnitsCpt
 public import Development.AutomorphicArithmetic.Foundations.Convolution.RealGroupAnalysis.IsotypicQuotients.IsotypQuot
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -63,14 +64,7 @@ theorem n_zero : gl (nU (0 : A F)) = 1 := by
   fin_cases i <;> fin_cases j <;> simp [vn]
 
 theorem cont_n : Continuous fun q : A F => gl (nU q) := by
-  refine Units.continuous_iff.2 ⟨?_, ?_⟩
-  · refine continuous_matrix fun i j => ?_
-    fin_cases i <;> fin_cases j <;> simp [vn] <;> fun_prop
-  · have e : ∀ q : A F, (gl (nU q))⁻¹ = gl (nU (-q)) := fun q =>
-      inv_eq_of_mul_eq_one_right (by rw [← n_add, add_neg_cancel, n_zero])
-    simp only [e]
-    refine continuous_matrix fun i j => ?_
-    fin_cases i <;> fin_cases j <;> simp [vn] <;> fun_prop
+  apply _root_.cont_n <;> assumption
 
 theorem rat_n (k : F) : ∃ γ : GL (Fin 2) F, ratGL F 2 γ = gl (nU (rt k)) := by
   refine ⟨Matrix.SpecialLinearGroup.toGL ⟨!![1, k; 0, 1], by simp [Matrix.det_fin_two]⟩, Units.ext ?_⟩

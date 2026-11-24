@@ -53,6 +53,7 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
+import Development.AbelianVarietyTheory.Proofs.SatakeParameters.ThetaVacuaMatchingConjugatePrime
 
 @[expose] public section
 
@@ -140,14 +141,7 @@ theorem integral_comb {G H X M ι κ : Type} [Group G] [Group H] [TopologicalSpa
 variable {D : D7}
 
 theorem one_mem_hyp (S : HSp D) (P : Pl D.host.E) : (1 : GA D S) ∈ hyp S P := by
-  obtain ⟨e, f', hef⟩ := (GlobalTheory.T.supported_subgroup_split_commute_primeIdempotents S).2.1 P
-  refine ⟨⟨one_mem _, fun y => ?_, by simp⟩, e, f', hef, fun i j => ?_⟩
-  · have : finMat D.sp.cm.sig S.gram (1 : GA D S) = 1 := by
-      unfold finMat
-      exact Matrix.map_one _ (map_zero _) (map_one _)
-    rw [this, Matrix.one_mulVec]
-  · have : Formalism.L2.Theta.mt S (1 : GA D S) = 1 := by simp [Formalism.L2.Theta.mt]
-    rw [this, sub_self, Matrix.zero_apply, mul_zero]
+  apply _root_.GlobalTheory.Hk3.ConjMatch.one_mem_hyp <;> assumption
 
 theorem theta_comb {ψ : AddChar (AF D.host.F) ℂ} {S T : HSp D} {χS χT : (AE D)ˣ →* Circle}
     {om : GA D S × GA D T →* Module.End ℂ (WO S T → ℂ)} {P : Pl D.host.E} (hW : IsWeilDatumO ψ S T χS χT om)

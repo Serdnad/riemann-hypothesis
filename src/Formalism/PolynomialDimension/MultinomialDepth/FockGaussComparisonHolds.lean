@@ -1,5 +1,6 @@
 module
 
+import Formalism.SharpRestriction.GrowthBounds.MonomialOrderSegments.CgeZeroIffIntegral
 public import Mathlib.Data.Nat.Choose.Multinomial
 public import Mathlib.Data.Nat.Factorization.Defs
 public import Mathlib.Data.Nat.Log
@@ -56,17 +57,7 @@ namespace Formalism.CountingSumsFrames
 
 theorem fock_mult_fact_le {α : Type*} (p : ℕ) (f : α → ℕ) (s : Finset α) :
     (Nat.multinomial s f).factorization p ≤ s.card * Nat.log p (∑ i ∈ s, f i) := by
-  classical
-  refine Finset.induction_on s (by simp) ?_
-  intro a s ha ih
-  rw [Nat.multinomial_insert ha, Nat.factorization_mul (Nat.choose_pos (Nat.le_add_right _ _)).ne'
-    (Nat.multinomial_pos _ _).ne', Finsupp.add_apply, Finset.card_insert_of_notMem ha, Finset.sum_insert ha]
-  have h1 := Nat.factorization_choose_le_log (p := p) (n := f a + ∑ i ∈ s, f i) (k := f a)
-  have h2 : Nat.log p (∑ i ∈ s, f i) ≤ Nat.log p (f a + ∑ i ∈ s, f i) :=
-    Nat.log_mono_right (Nat.le_add_left _ _)
-  have h3 := Nat.mul_le_mul_left s.card h2
-  rw [add_one_mul]
-  omega
+  apply _root_.Formalism.MainNotions.PlaneGram.multinomial_fact_le <;> assumption
 
 theorem fock_mult_val_le {α : Type*} (p : ℕ) [hp : Fact p.Prime] (f : α → ℕ) (s : Finset α) :
     padicValNat p (Nat.multinomial s f) ≤ s.card * Nat.log p (∑ i ∈ s, f i) := by

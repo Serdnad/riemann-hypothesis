@@ -49,6 +49,8 @@ import Mathlib.RingTheory.Finiteness.ModuleFinitePresentation
 import Mathlib.RingTheory.Henselian
 import Mathlib.RingTheory.RegularLocalRing.Defs
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.LBLocalC
+import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.DegenerationWeilPairingProperties
+import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.CubWeilOneLeft
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.Proofs.DegenerationProofs.FeOfPhiTriv, Development.AbelianVarietyTheory.Proofs.DegenerationProofs.TorsionPairingValuesOfFamiliesValues
@@ -83,17 +85,7 @@ theorem cub_four (u v u' v' x : A) :
 
 theorem cubN_mul (k : ℕ) (b b' x : A) :
     cubN θ k 1 (b * b') x * θ b b' x ^ k = θ (b ^ k) (b' ^ k) x * cubN θ k 1 b x * cubN θ k 1 b' x := by
-  induction k with
-  | zero => simp [cubN, h.face]
-  | succ k ih =>
-    have c := cub_four h (b ^ k) (b' ^ k) b b' x
-    simp only [cubN, Finset.prod_range_succ, one_mul] at ih ⊢
-    rw [mul_pow b b' k, pow_succ b, pow_succ b', pow_succ (θ b b' x)]
-    apply Additive.ofMul.injective
-    have ih' := congrArg Additive.ofMul ih
-    have c' := congrArg Additive.ofMul c
-    simp only [ofMul_mul] at ih' c' ⊢
-    linear_combination (norm := abel) ih' + c'
+  apply _root_.GlobalTheory.UU.cubN_mul_left <;> assumption
 
 theorem factor_comp (k : ℕ) (a b b' x : A) :
     cubN θ k (a * b' ^ k) b x / θ (a * b' ^ k) x b * (cubN θ k a b' (x * b) / θ a (x * b) b') * θ a b b' =
@@ -122,14 +114,7 @@ end Cube
 variable {O : Type} [CommRing O] (N : NumD O)
 
 theorem s_nsmul (g : N.Gt) (k : ℕ) (y : N.X) : g.s (k • y) * cubN N.θ k 1 (N.c y) g.b = g.s y ^ k := by
-  induction k with
-  | zero => simp [cubN]
-  | succ k ih =>
-    have m := g.mult (k • y) y
-    rw [N.c_nsmul] at m
-    rw [cubN] at ih
-    rw [cubN, Finset.prod_range_succ, one_mul, succ_nsmul, pow_succ, ← ih, ← mul_assoc, mul_right_comm, m,
-      mul_right_comm]
+  apply _root_.GlobalTheory.Ex.WpPairing.s_nsmul <;> assumption
 
 theorem phi_phi {k : ℕ} (p p' : N.QT k) (w w' : Oˣ) (s : N.X → N.A → O) :
     N.phi p w (N.phi p' w' s) = N.phi (p * p') (w * w' * N.tk p p') s := by

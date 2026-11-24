@@ -1,5 +1,6 @@
 module
 
+import all Development.AbelianVarietyTheory.Proofs.UnitaryExistence.MemIffConjugateNotMem
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.TwoWeightEqOneAddRoot
 public import Mathlib.Basic.Complex.Basic
 public import Mathlib.NumberTheory.NumberField.Basic
@@ -105,16 +106,7 @@ theorem eq_iff_conj_ne {x r : ℂ} {d : ℝ} (hd : 0 < d) (hx : x ^ 2 = -(d : �
 theorem mem_iff_conjugate_notMem {E : Type} [Field E] [NumberField E] [IsCMField E] (H : Host E)
     (Ψ : Finset (E →+* ℂ)) (hΨ : ∀ τ : E →+* ℂ, τ ∈ Ψ ↔ τ (H.rt : E) = H.rt0) (τ : E →+* ℂ) :
     τ ∈ Ψ ↔ ComplexEmbedding.conjugate τ ∉ Ψ := by
-  have hd : (0 : ℝ) < (H.d : ℝ) := by exact_mod_cast H.d_prime.pos
-  have hE : (H.rt : E) ^ 2 = -(H.d : E) := by
-    have := congrArg (algebraMap (𝓞 E) E) H.rt_sq
-    simpa using this
-  have hx : (τ (H.rt : E)) ^ 2 = -(((H.d : ℝ) : ℂ)) := by
-    rw [← map_pow, hE]; simp
-  have hr : H.rt0 ^ 2 = -(((H.d : ℝ) : ℂ)) := by
-    rw [H.sqrt_neg_disc_sq]; simp
-  rw [hΨ, hΨ, ComplexEmbedding.conjugate_coe_eq]
-  exact eq_iff_conj_ne hd hx hr
+  apply _root_.GlobalTheory.UnitFrame.mem_iff_conjugate_not_mem <;> assumption
 
 end GlobalTheory.ConjugateMembership
 end -- clump:auto
@@ -580,33 +572,7 @@ alias exists_row := _root_.GlobalTheory.ExistsSmulMemRange.exists_coeffs
 theorem trace_eq_sum_re (Ψ : Finset (E →+* ℂ))
     (hΨ : ∀ τ : E →+* ℂ, τ ∈ Ψ ↔ ComplexEmbedding.conjugate τ ∉ Ψ) (z : E) :
     ((Algebra.trace ℚ E z : ℚ) : ℝ) = ∑ τ : Ψ, 2 * (τ.1 z).re := by
-  classical
-  have h1 : algebraMap ℚ ℂ (Algebra.trace ℚ E z) = ∑ σ : E →ₐ[ℚ] ℂ, σ z :=
-    trace_eq_sum_embeddings (K := ℚ) (E := ℂ) (x := z)
-  have h2 : ∑ σ : E →ₐ[ℚ] ℂ, σ z = ∑ σ : E →+* ℂ, σ z :=
-    (Fintype.sum_equiv (RingHom.equivRatAlgHom (R := E) (S := ℂ)) (fun σ : E →+* ℂ => σ z)
-      (fun σ => σ z) (fun σ => rfl)).symm
-  have h3 : ∑ σ ∈ Ψᶜ, σ z = ∑ σ ∈ Ψ, conj (σ z) := by
-    refine Finset.sum_nbij' (fun σ => ComplexEmbedding.conjugate σ)
-      (fun σ => ComplexEmbedding.conjugate σ) ?_ ?_ ?_ ?_ ?_
-    · intro σ hσ
-      have := hΨ (ComplexEmbedding.conjugate σ)
-      rw [ComplexEmbedding.involutive_conjugate E σ] at this
-      simp only [Finset.mem_compl] at hσ
-      exact this.mpr hσ
-    · intro σ hσ
-      simp only [Finset.mem_compl]
-      exact (hΨ σ).mp hσ
-    · intro σ _; exact ComplexEmbedding.involutive_conjugate E σ
-    · intro σ _; exact ComplexEmbedding.involutive_conjugate E σ
-    · intro σ _; simp [ComplexEmbedding.conjugate_coe_eq]
-  have h4 : ((Algebra.trace ℚ E z : ℚ) : ℂ) = ∑ σ ∈ Ψ, (σ z + conj (σ z)) := by
-    rw [← eq_ratCast (algebraMap ℚ ℂ) (Algebra.trace ℚ E z), h1, h2,
-      ← Finset.sum_add_sum_compl Ψ, h3, Finset.sum_add_distrib]
-  apply Complex.ofReal_injective
-  rw [Complex.ofReal_ratCast, h4, ← Finset.sum_coe_sort Ψ, Complex.ofReal_sum]
-  refine Finset.sum_congr rfl fun τ _ => ?_
-  rw [Complex.add_conj]
+  apply _root_.GlobalTheory.UnitFrame.trace_eq_sum_re <;> assumption
 
 variable [IsCMField E]
 

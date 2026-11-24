@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsAdelicLiftEqGeometricClassSumAllTuples
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.JEvExists
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.LiftsSpanOfOnto
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ClsAt
@@ -84,15 +85,7 @@ open GlobalTheory.PhaseRationalDegenerate GlobalTheory.AdTh GlobalTheory.PtId Gl
 
 theorem lieFac_eq_pow {E : Type} [Field E] [NumberField E] [IsCMField E] {H : ReciprocityTheory.ChartRestriction.G.Geo.Tor.Host E} (Dw : Datum H) {x : ℝ}
     (hx : 0 < x) (a : (E →+* ℂ) × ℕ → ℕ) : lieFac Dw x a = (Real.sqrt (2 * Real.pi * x))⁻¹ ^ GlobalTheory.PtId.degW Dw a := by
-  have h : 0 < 2 * Real.pi * x := by positivity
-  have e : (Real.sqrt (2 * Real.pi * x))⁻¹ = Real.exp (-(1 / 2) * Real.log (2 * Real.pi * x)) := by
-    rw [Real.sqrt_eq_rpow, Real.rpow_def_of_pos h, ← Real.exp_neg]
-    congr 1
-    ring
-  rw [e, ← Real.exp_nat_mul, lieFac, GlobalTheory.PtId.degW]
-  congr 1
-  push_cast
-  ring
+  apply _root_.GlobalTheory.AdTh.SerCore.lieFac_eq_sqrt_pow <;> assumption
 
 theorem shape {c s l k m r : ℂ} (hc : c ≠ 0) : s * l * k * (m * r) = c * (c⁻¹ * s * k * l * m * r) := by
   field_simp

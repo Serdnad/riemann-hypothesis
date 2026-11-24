@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.FlagMeasures.NormalFormTerminalDeterminant
 public import Mathlib.Algebra.Module.Lattice.Full
 public import Mathlib.NumberTheory.NumberField.Basic
 public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.RowMinor
@@ -104,24 +105,8 @@ theorem span_inf_eq {K : Type} [Field K] [NumberField K] {V : Type} [AddCommGrou
     [Module K V] [Module (RingOfIntegers K) V] [IsScalarTower (RingOfIntegers K) K V]
     (L : Submodule (RingOfIntegers K) V) (hL : Submodule.IsFullLattice K L) (T : Submodule K V) :
     Submodule.span K (↑(L ⊓ Submodule.restrictScalars (RingOfIntegers K) T) : Set V) = T := by
-  apply le_antisymm
-  · rw [Submodule.span_le]
-    intro x hx
-    exact (Submodule.mem_inf.mp hx).2
-  · intro v hv
-    obtain ⟨d, hd, h⟩ := exists_smul_mem L hL v
-    have hd' : algebraMap (RingOfIntegers K) K d ≠ 0 := by
-      intro h0
-      exact hd ((map_eq_zero_iff _ (IsFractionRing.injective (RingOfIntegers K) K)).mp h0)
-    have hdT : d • v ∈ Submodule.restrictScalars (RingOfIntegers K) T := by
-      rw [← algebraMap_smul K d v]
-      exact T.smul_mem _ hv
-    have hmem : d • v ∈ L ⊓ Submodule.restrictScalars (RingOfIntegers K) T :=
-      Submodule.mem_inf.mpr ⟨h, hdT⟩
-    have : v = (algebraMap (RingOfIntegers K) K d)⁻¹ • (d • v) := by
-      rw [← algebraMap_smul K d v, smul_smul, inv_mul_cancel₀ hd', one_smul]
-    rw [this]
-    exact Submodule.smul_mem _ _ (Submodule.subset_span hmem)
+  intros
+  apply _root_.GlobalTheory.DegCnt.SplitIdx.span_inf <;> assumption
 
 alias main := _root_.GlobalTheory.SpanInfEq.span_inf_eq
 

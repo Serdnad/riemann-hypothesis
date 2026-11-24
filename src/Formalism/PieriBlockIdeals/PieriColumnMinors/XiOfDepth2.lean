@@ -1,5 +1,6 @@
 module
 
+import Formalism.LocalToGlobal.Columns.CoefficientsModP.WeTransposeWordTransposeWord
 public import Formalism.GradedWeylDivisibility.StatementE
 public import Formalism.PieriBlockIdeals.StatementLD
 public import Formalism.GradedWeylDivisibility.FockSpaceTableaux.FockQHW
@@ -488,15 +489,7 @@ theorem lrc_intQ_apply (r n : ℕ) (P : MvPolynomial (Fin r × Fin n) ℤ) :
 
 theorem lrc_eval_map (r n : ℕ) (P : MvPolynomial (Fin r × Fin n) ℤ) :
     eval (idFrame ℚ r n) (map (Int.castRingHom ℚ) P) = ((eval (idFrame ℤ r n) P : ℤ) : ℚ) := by
-  have h : (eval (idFrame ℚ r n)).comp (map (Int.castRingHom ℚ)) =
-      (Int.castRingHom ℚ).comp (eval (idFrame ℤ r n)) := by
-    apply MvPolynomial.ringHom_ext
-    · intro c
-      simp
-    · intro v
-      simp only [RingHom.comp_apply, map_X, eval_X, idFrame]
-      split_ifs <;> simp
-  exact congrArg (fun F => F P) h
+  apply _root_.Formalism.L2.DIV.we_eval_idFrame_map <;> assumption
 
 theorem lrc_applyWord_mem (R : Type) [CommRing R] (r n : ℕ) (ν : Fin n → ℕ) (w : List (Fin r × Fin r × ℕ))
     (f : MvPolynomial (Fin r × Fin n) R) (hf : f ∈ dualWeyl R r n ν) : applyWord R w f ∈ dualWeyl R r n ν := by

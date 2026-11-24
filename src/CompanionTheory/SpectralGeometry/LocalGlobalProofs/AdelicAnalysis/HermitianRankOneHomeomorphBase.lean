@@ -5,6 +5,8 @@ import Mathlib.Algebra.Module.StablyFree.Basic
 import Mathlib.RingTheory.Henselian
 import Mathlib.RingTheory.RegularLocalRing.Defs
 import Mathlib.RingTheory.SimpleRing.Principal
+import CompanionTheory.SpectralGeometry.LocalGlobalProofs.AdelicAnalysis.EtaleAwayQuotientEqLocalization
+import CompanionTheory.SpectralGeometry.LocalGlobalProofs.AdelicAnalysis.HermitianOneByOneIsScalar
 
 @[expose] public section
 
@@ -27,33 +29,11 @@ theorem sig_sig (hcm : IsCMExt F E σ) (x : E) : σ (σ x) = x := by
   rw [h τ, h τ, star_star]
 
 theorem exists_sig_ne (hcm : IsCMExt F E σ) : ∃ x : E, σ x ≠ x := by
-  obtain ⟨-, htc, -, h⟩ := hcm
-  let τ : E →+* ℂ := (inferInstance : Nonempty (E →+* ℂ)).some
-  have hc : (InfinitePlace.mk τ).IsComplex := htc.isComplex _
-  rw [InfinitePlace.isComplex_mk_iff] at hc
-  by_contra hall
-  push_neg at hall
-  apply hc
-  rw [ComplexEmbedding.isReal_iff]
-  ext x
-  have := h τ x
-  rw [hall x] at this
-  simpa using this.symm
+  apply _root_.GlobalTheory.CompanionTheory.SW.HermOne.exists_ne <;> assumption
 
 theorem trace_sig (hcm : IsCMExt F E σ) (y : E) :
     Algebra.trace F E (σ y) = Algebra.trace F E y := by
-  haveI : FiniteDimensional F E := Module.Finite.of_restrictScalars_finite ℚ F E
-  let e : E ≃ₐ[F] E := AlgEquiv.ofAlgHom σ σ (AlgHom.ext (sig_sig hcm)) (AlgHom.ext (sig_sig hcm))
-  have h : (e.toLinearEquiv).conj (Algebra.lmul F E y) = Algebra.lmul F E (σ y) := by
-    ext z
-    have h1 : e.toLinearEquiv.symm z = σ z := rfl
-    have h2 : ∀ w, e.toLinearEquiv w = σ w := fun _ => rfl
-    have h3 : ∀ w, e w = σ w := fun _ => rfl
-    have h4 : ∀ w, e.symm w = σ w := fun _ => rfl
-    simp [LinearEquiv.conj_apply, h3, h4, sig_sig hcm]
-  rw [Algebra.trace_apply, Algebra.trace_apply]
-  show LinearMap.trace F E (Algebra.lmul F E (σ y)) = LinearMap.trace F E (Algebra.lmul F E y)
-  rw [← h, LinearMap.trace_conj']
+  apply _root_.GlobalTheory.CompanionTheory.SW.TraceFormGram.trace_sig <;> assumption
 
 theorem add_sig_eq_trace (hcm : IsCMExt F E σ) (y : E) :
     y + σ y = algebraMap F E (Algebra.trace F E y) := by
@@ -108,14 +88,7 @@ variable {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algeb
 
 theorem trace_tmul (r : R) (e : E) :
     Algebra.trace R (R ⊗[F] E) (r ⊗ₜ[F] e) = r * algebraMap F R (Algebra.trace F E e) := by
-  haveI : FiniteDimensional F E := Module.Finite.of_restrictScalars_finite ℚ F E
-  have h1 : r ⊗ₜ[F] e = r • ((1 : R) ⊗ₜ[F] e) := by simp [TensorProduct.smul_tmul']
-  have h2 : Algebra.lmul R (R ⊗[F] E) ((1 : R) ⊗ₜ[F] e) = (Algebra.lmul F E e).baseChange R := by
-    ext z
-    simp
-  rw [h1, map_smul, smul_eq_mul, Algebra.trace_apply, Algebra.trace_apply]
-  show r * LinearMap.trace R _ (Algebra.lmul R (R ⊗[F] E) ((1 : R) ⊗ₜ[F] e)) = _
-  rw [h2, LinearMap.trace_baseChange]
+  apply _root_.GlobalTheory.CompanionTheory.SW.TraceFormGram.trace_tmul <;> assumption
 
 theorem add_sigR_eq_trace (hcm : IsCMExt F E σ) (z : R ⊗[F] E) :
     z + sigR R σ z = (Algebra.trace R (R ⊗[F] E) z) ⊗ₜ[F] (1 : E) := by

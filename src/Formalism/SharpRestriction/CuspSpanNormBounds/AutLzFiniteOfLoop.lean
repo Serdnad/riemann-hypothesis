@@ -1,5 +1,6 @@
 module
 
+import Formalism.SharpRestriction.CuspSpanNormBounds.LatticeGluingRadicals
 public import Formalism.SharpRestriction.CuspSpanNormBounds.CntPartners
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -56,19 +57,7 @@ namespace Formalism.MainNotions.S.Lem.Comparison₂
 variable {E : Type} [Field E] [NumberField E] [StarRing E] {S : HSpace E} {r : ℕ}
 
 theorem z_mem_orth {T : E} (F : LFlag S r T) : F.fl.z ∈ orth S (Xsp F) := by
-  have key : ∀ y ∈ Submodule.span E (Set.range F.fl.e), S.hT y F.fl.z = 0 := by
-    intro y hy
-    induction hy using Submodule.span_induction with
-    | mem w hw =>
-      obtain ⟨b, rfl⟩ := hw
-      exact F.fl.z_orth b
-    | zero => simp
-    | add w v _ _ h1 h2 => simp [h1, h2]
-    | smul c w _ h => simp [h]
-  show F.fl.z ∈ ⨅ x ∈ Xsp F, LinearMap.ker (S.hT x)
-  simp only [Submodule.mem_iInf, LinearMap.mem_ker]
-  intro x hx
-  exact key x hx
+  apply _root_.Formalism.MainNotions.LatticeGluingRadicals.d_z_orthX <;> assumption
 
 end Formalism.MainNotions.S.Lem.Comparison₂
 

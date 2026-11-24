@@ -63,6 +63,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Std.Tactic.BVDecide.Normalize.Prop
 import Mathlib.Topology.Sheaves.Init
+import Development.AutomorphicSpectrum.Proofs.MetricProofs.FlagCoverBasePointRegular
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.WeilBound.CoreStatements.HomogeneousNonvanishing.CmpBuild, Development.WeilBound.CoreStatements.HomogeneousNonvanishing.TopCmp, Development.AutomorphicSpectrum.Proofs.GeometryProofs.ComparisonOfInputsAvoidance
@@ -143,20 +144,7 @@ theorem sum_mapDomain {κ : K → K'} {v : (Σ k, ι k) → Σ k, ι' k} (hv : �
 
 theorem isMultiHomog_rename {κ : K → K'} {v : (Σ k, ι k) → Σ k, ι' k} (hb : IsBlockMap κ v) {f : MRing ι}
     {b : K → ℕ} (hf : IsMultiHomog f b) : IsMultiHomog (rename v f) (Function.extend κ b 0) := by
-  classical
-  intro m hm k'
-  rw [support_rename_of_injective hb.2.1, Finset.mem_image] at hm
-  obtain ⟨m₀, hm₀, rfl⟩ := hm
-  rw [sum_mapDomain hb.2.2.1, Fintype.sum_sigma]
-  by_cases hk : ∃ k, κ k = k'
-  · obtain ⟨k, rfl⟩ := hk
-    rw [hb.1.extend_apply, Finset.sum_eq_single k]
-    · simpa using hf m₀ hm₀ k
-    · intro k₂ _ hne
-      exact Finset.sum_eq_zero fun i _ => if_neg (hb.1.ne hne)
-    · simp
-  · rw [Function.extend_apply' _ _ _ hk]
-    exact Finset.sum_eq_zero fun k _ => Finset.sum_eq_zero fun i _ => if_neg fun h => hk ⟨k, h⟩
+  apply _root_.GlobalTheory.CompanionTheory.Ar.PB.CovGraph.RegPhi.isMultiHomog_rename_block <;> assumption
 
 end Forms
 

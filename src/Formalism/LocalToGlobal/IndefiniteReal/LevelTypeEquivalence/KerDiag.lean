@@ -6,6 +6,7 @@ import Formalism.LocalToGlobal.IndefiniteReal.FockTheta.RealPlaceImaginaryGenera
 public import Formalism.LocalToGlobal.Divisibility.LiftLat
 import Formalism.LocalToGlobal.IndefiniteForms.IndefSide
 public import Formalism.LocalToGlobal.IndefiniteReal.LinksDefs
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.OmPureTensorOOfFinite
 
 @[expose] public section
 
@@ -29,15 +30,7 @@ variable {ψ : AddChar (AF D.host.F) ℂ} {S T : HSp D}
 
 theorem dRho_smul (θ : InfFam D) (τ : D.what₂.Tau) (z : Matrix (Fin T.rank) (Fin S.rank) ℂ) (c : ℂ)
     (g : WO S T → ℂ) : Datum.dRho (heisO ψ S T) θ τ z (c • g) = c • Datum.dRho (heisO ψ S T) θ τ z g := by
-  unfold Formalism.IndefR.Datum.dRho
-  funext x
-  have hx : ∀ t, heisO ψ S T ((lineAt θ τ z) t) (c • g) x = c * heisO ψ S T ((lineAt θ τ z) t) g x := by
-    intro t
-    first
-      | (simp only [heisO, Pi.smul_apply, smul_eq_mul]; ring)
-  simp only [hx, Pi.smul_apply, smul_eq_mul]
-  first
-    | exact congrFun (deriv_const_mul_field' c) 0
+  apply _root_.GlobalTheory.FiniteFock.dRho_smul <;> assumption
 
 theorem comm_pureTensorO (hψ : IsStdChar D ψ (-1)) (θ : InfFam D) (hθ : IsInfFam θ)
     (sS : D.what₂.Tau → Matrix (Fin S.rank) (Fin S.rank) ℂ) (sT : D.what₂.Tau → Matrix (Fin T.rank) (Fin T.rank) ℂ)
@@ -103,25 +96,7 @@ theorem pureTensorO_smul (θ : InfFam D)
     (BS : D.what₂.Tau → Matrix (Fin S.rank) (Fin S.rank) ℂ) (BT : D.what₂.Tau → Matrix (Fin T.rank) (Fin T.rank) ℂ)
     (c : ℂ) (f : WO S T → ℂ) (P : MvPolynomial (FVar D T.rank S.rank) ℂ) :
     pureTensorO ψ θ S T sS sT BS BT (c • f) P = c • pureTensorO ψ θ S T sS sT BS BT f P := by
-  have hA : ∀ x (g : WO S T → ℂ), aPlusAll (heisO ψ S T) θ (fun τ => cplxO (sS τ) (sT τ)) BS BT x (c • g) = c • aPlusAll (heisO ψ S T) θ (fun τ => cplxO (sS τ) (sT τ)) BS BT x g := by
-    intro x g
-    unfold aPlusAll aPlus crea
-    rw [dRho_smul, dRho_smul]
-    first
-      | module
-  unfold Formalism.IndefR.Datum.pureTensorO
-  generalize aPlusAll (heisO ψ S T) θ (fun τ => cplxO (sS τ) (sT τ)) BS BT = A at hA ⊢
-  unfold pureTensorL
-  have hO : ∀ m, opPow A m (c • f) = c • opPow A m f := by
-    intro m
-    unfold opPow
-    generalize (Finsupp.toMultiset m).toList = L
-    induction L with
-    | nil => rfl
-    | cons i L ih => simp only [List.foldr_cons, ih, hA]
-  first
-    | rw [show (fun m => opPow A m (c • f)) = c • (fun m => opPow A m f) from funext fun m => hO m,
-        map_smul, LinearMap.smul_apply]
+  apply _root_.GlobalTheory.FiniteFock.pureTensorO_smul <;> assumption
 
 end Gen
 

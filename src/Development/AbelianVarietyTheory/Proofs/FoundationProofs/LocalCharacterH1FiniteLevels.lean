@@ -64,6 +64,7 @@ import Mathlib.Tactic.Basify
 import Mathlib.Tactic.ENatToNat
 import Mathlib.Tactic.Linter.HaveILetI
 import Mathlib.Tactic.Linter.Style
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsLengthEqAndCardEqPowOfIsFiniteLength
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.CoboundaryOfDualCoboundaries, Development.AutomorphicArithmetic.AutomorphicVarieties.LevelCohomology.SoCardLen, Development.AbelianVarietyTheory.Proofs.FoundationProofs.LocalCharacterH1FiniteLevels
@@ -150,21 +151,7 @@ private theorem card_simple (O : Type) [CommRing O] [IsLocalRing O] (M : Type) [
 private theorem card_of_finiteLength (O : Type) [CommRing O] [IsLocalRing O] (M : Type) [AddCommGroup M]
     [Module O M] (h : IsFiniteLength O M) :
     ∃ k : ℕ, Module.length O M = k ∧ Nat.card M = Nat.card (ResidueField O) ^ k := by
-  induction h with
-  | of_subsingleton =>
-    refine ⟨0, Module.length_eq_zero, ?_⟩
-    rw [pow_zero]
-    exact Nat.card_of_subsingleton 0
-  | @of_simple_quotient M _ _ N _ hS ih =>
-    obtain ⟨k, hk, hc⟩ := ih
-    refine ⟨k + 1, ?_, ?_⟩
-    · rw [Module.length_eq_add_of_exact N.subtype N.mkQ N.injective_subtype N.mkQ_surjective
-        (LinearMap.exact_subtype_mkQ N), hk, Module.length_eq_one]
-      norm_cast
-    · have hq : Nat.card (M ⧸ N) = Nat.card (ResidueField O) := card_simple O (M ⧸ N)
-      have hsplit := AddSubgroup.card_eq_card_quotient_mul_card_addSubgroup N.toAddSubgroup
-      change Nat.card M = Nat.card (M ⧸ N) * Nat.card N at hsplit
-      rw [hsplit, hq, hc, pow_succ, mul_comm]
+  apply _root_.GlobalTheory.exists_length_eq_and_card_eq_pow_of_isFiniteLength <;> assumption
 
 theorem UpperTheory.V.X.So.cardLen :
     ∀ (l : ℕ) [Fact l.Prime] (O : Type) [CommRing O] [IsDomain O] [IsDiscreteValuationRing O] [Algebra ℤ_[l] O] [Module.Finite ℤ_[l] O], 1 < Nat.card (ResidueField O) ∧ ∀ (N : Type) [AddCommGroup N] [Module O N], (Module.length O N ≠ ⊤ ↔ Finite N) ∧ (Finite N → Nat.card N = Nat.card (ResidueField O) ^ (Module.length O N).toNat) := by

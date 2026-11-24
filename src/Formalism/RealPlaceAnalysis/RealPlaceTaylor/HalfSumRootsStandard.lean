@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.JetHarmonics.UnitaryGlProjectionLevelSumSqLe
 public import Formalism.RealPlaceAnalysis.StatementA
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -62,12 +63,7 @@ lemma rho_card_le {n : ℕ} (p : Fin n → Prop) [DecidablePred p] :
 
 lemma rho_rhoN_bound {n : ℕ} (ε : Fin n → Bool) (a : Fin n) :
     -((n : ℝ) / 2) ≤ rhoN ε a ∧ rhoN ε a ≤ (n : ℝ) / 2 := by
-  unfold rhoN
-  have h1 := rho_card_le (fun b => a < b ∧ ε b ≠ ε a)
-  have h2 := rho_card_le (fun b => b < a ∧ ε b ≠ ε a)
-  have h3 := Nat.cast_nonneg (α := ℝ) (univ.filter (fun b => a < b ∧ ε b ≠ ε a)).card
-  have h4 := Nat.cast_nonneg (α := ℝ) (univ.filter (fun b => b < a ∧ ε b ≠ ε a)).card
-  constructor <;> linarith
+  apply _root_.GlobalTheory.LowCasShift.rhoN_bd <;> assumption
 
 theorem half_sum_roots_standard : RhoStd := by
   intro n ε a

@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.SameAtOfLocalizationEq
 public import Formalism.LocalToGlobal.Columns.SmulMemTrpSet
 public import Formalism.LocalToGlobal.Columns.CoefficientsModP
 import Formalism.LogVandermondeBounds.FinrankFiberSumZero
@@ -34,28 +35,7 @@ theorem localization_le_of_le_localization {W : Type} [AddCommGroup W] [Module (
 theorem bt_exists_smul_le_of_fg {W : Type} [AddCommGroup W] [Module (𝓞 K) W] (w : HeightOneSpectrum (𝓞 K))
     {A B : Submodule (𝓞 K) W} (hfg : A.FG) (h : A ≤ localization₂ w.asIdeal B) :
     ∃ s : 𝓞 K, s ∉ w.asIdeal ∧ ∀ x ∈ A, s • x ∈ B := by
-  classical
-  obtain ⟨T, rfl⟩ := hfg
-  have key : ∀ T' : Finset W, (∀ t ∈ T', t ∈ localization₂ w.asIdeal B) →
-      ∃ s : 𝓞 K, s ∉ w.asIdeal ∧ ∀ t ∈ T', s • t ∈ B := by
-    intro T'
-    induction T' using Finset.induction_on with
-    | empty => exact fun _ => ⟨1, fun h1 => w.isPrime.ne_top ((Ideal.eq_top_iff_one _).2 h1), by simp⟩
-    | insert a T' _ ih =>
-      intro hT
-      obtain ⟨s, hs, hsT⟩ := ih fun t ht => hT t (Finset.mem_insert_of_mem ht)
-      obtain ⟨r, hr, hra⟩ := hT a (Finset.mem_insert_self _ _)
-      refine ⟨s * r, fun hm => (w.isPrime.mem_or_mem hm).elim hs hr, fun t ht => ?_⟩
-      rcases Finset.mem_insert.1 ht with rfl | ht
-      · rw [mul_smul]
-        exact B.smul_mem s hra
-      · rw [mul_comm, mul_smul]
-        exact B.smul_mem r (hsT t ht)
-  obtain ⟨s, hs, hsT⟩ := key T fun t ht => h (Submodule.subset_span ht)
-  refine ⟨s, hs, fun x hx => ?_⟩
-  have : Submodule.span (𝓞 K) (T : Set W) ≤ B.comap (LinearMap.lsmul (𝓞 K) W s) :=
-    Submodule.span_le.2 fun t ht => hsT t ht
-  exact this hx
+  apply +allowSynthFailures _root_.GlobalTheory.SameAtOfLoc.exists_smul_mem_of_le_locP <;> assumption
 
 theorem tauLat_le_locP (w : HeightOneSpectrum (𝓞 K)) (τ : ι) {L L' : Submodule (𝓞 E) (Fin n → E)}
     (h : ∀ x ∈ L, ∃ s : 𝓞 E, RingOfIntegers.mapRingHom (emb τ) s ∉ w.asIdeal ∧ s • x ∈ L') :

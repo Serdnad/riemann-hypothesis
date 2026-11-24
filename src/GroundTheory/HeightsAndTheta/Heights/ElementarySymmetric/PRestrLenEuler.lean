@@ -1,5 +1,7 @@
 module
 
+import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.PPrimeFiltrationPoint
+import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.PRestrLenRestrict
 public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.GenericPointSectionHypotheses
 public import GroundTheory.HeightsAndTheta.Heights.ElementarySymmetric.StRestrLenEuler
 public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.AssemblyBase
@@ -139,17 +141,7 @@ theorem d_mk (F₁ F₂ : SubSystem S x Ω) (u : Cech.Idx (support x) 0 → Ω) 
       Submodule.Quotient.mk ⟨∑ j : J.1.1, Cech.sgn J.1.1 j • u (Cech.face J j),
         Submodule.sum_mem _ fun j _ =>
           zsmul_mem (F₁.mono _ _ (Cech.face_subset J j) _ (hu (Cech.face J j))) _⟩ := by
-  rw [Cech.d_apply]
-  have : (⟨∑ j : J.1.1, Cech.sgn J.1.1 j • u (Cech.face J j),
-        Submodule.sum_mem _ fun j _ =>
-          zsmul_mem (F₁.mono _ _ (Cech.face_subset J j) _ (hu (Cech.face J j))) _⟩ : F₁.sub J.1) =
-      ∑ j : J.1.1, Cech.sgn J.1.1 j • F₁.res _ J.1 (Cech.face_subset J j) ⟨u (Cech.face J j), hu _⟩ := by
-    apply Subtype.ext
-    simp [SubSystem.res]
-
-  rw [this, ← Submodule.mkQ_apply, map_sum]
-  simp only [map_zsmul]
-  rfl
+  apply _root_.GroundTheory.Heights₂.Heights.Kleiman.RestrLenRestrict.d_mk <;> assumption
 
 
 

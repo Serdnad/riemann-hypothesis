@@ -1,5 +1,6 @@
 module
 
+import all Development.AutomorphicArithmetic.AutomorphicVarieties.CommutativeAlgebra.ObsClass
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.CommutativeAlgebra.ResMapBijective
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.WeakShimuraTheory.AdjointMemSp4
 public import Mathlib.RingTheory.Filtration
@@ -400,19 +401,7 @@ omit [Fintype ι] [DecidableEq ι] in
 private theorem lc_ker [IsNoetherianRing A] {I K : Ideal A} (hs : I * K = ⊥) {f : T → Matrix ι ι A}
     (hf : ∀ s a b, f s a b ∈ K) (h : ∀ N, IsLocallyConstant fun s => (f s).map (Ideal.Quotient.mk (I ^ N))) :
     IsLocallyConstant f := by
-  obtain ⟨n, hn⟩ := Ideal.exists_pow_inf_eq_pow_smul I (K : Submodule A A)
-  have e := hn (n + 1) (Nat.le_succ n)
-  have e2 : ∀ x ∈ K, x ∈ I ^ (n + 1) → x = 0 := fun x hx hx' => by
-    have m : x ∈ (I ^ (n + 1) • (⊤ : Submodule A A)) ⊓ K := ⟨by simpa using hx', hx⟩
-    rw [e, Nat.add_sub_cancel_left, pow_one] at m
-    have : x ∈ I * K := Submodule.smul_mono le_rfl inf_le_right m
-    rwa [hs, Ideal.mem_bot] at this
-  rw [IsLocallyConstant.iff_eventually_eq]
-  intro x
-  refine ((h (n + 1)).eventually_eq x).mono fun y hy => ?_
-  ext a b
-  have := congrFun (congrFun hy a) b
-  exact sub_eq_zero.1 (e2 _ (K.sub_mem (hf _ _ _) (hf _ _ _)) (Ideal.Quotient.eq.1 this))
+  apply _root_.lc_ker <;> assumption
 
 end LC
 
@@ -617,25 +606,7 @@ open IsLocalRing UpperTheory.V UpperTheory.V.Alg UpperTheory.V.GradeZeroInterpol
 private theorem ex_mu {O A : Type} [CommRing O] [IsLocalRing O] [CommRing A] [Algebra O A] [IsCO O A] (η : A)
     (hη : ∀ x ∈ maximalIdeal A, x * η = 0) :
     ∃ μ : ResidueField O →+ A, (∀ a : O, μ (residue O a) = a • η) ∧ ∀ (a : A) c, μ (res O A a * c) = a * μ c := by
-  have k : ∀ a b : O, residue O a = residue O b → a • η = b • η := fun a b h => by
-    rw [← sub_eq_zero, ← sub_smul, Algebra.smul_def]
-    refine hη _ ?_
-    rw [← res_eq_zero_iff O, AlgHom.commutes, ResidueField.algebraMap_eq, map_sub, h, sub_self]
-  choose s hs using residue_surjective (R := O)
-  have k2 : ∀ a : O, s (residue O a) • η = a • η := fun a => k _ _ (hs _)
-  refine ⟨AddMonoidHom.mk' (fun c => s c • η) fun c d => ?_, k2, fun a c => ?_⟩
-  · rw [← add_smul]
-    exact k _ _ (by rw [map_add (f := _), hs, hs, hs])
-  · obtain ⟨b, hb⟩ := IsCO.res_surj (O := O) a
-    have e : res O A a = residue O b := by
-      have := (res_eq_zero_iff O A _).2 hb
-      rwa [map_sub, AlgHom.commutes, sub_eq_zero] at this
-    have e2 : a * η = b • η := by
-      have := hη _ hb
-      rwa [sub_mul, sub_eq_zero, ← Algebra.smul_def] at this
-    show s _ • η = a * (s c • η)
-    rw [mul_smul_comm, e2, smul_smul]
-    exact k _ _ (by rw [map_mul, hs, hs, e, mul_comm])
+  apply _root_.ex_mu <;> assumption
 
 private theorem mmap {O R S : Type} [CommRing O] [CommRing R] [CommRing S] [Algebra O R] [Algebra O S]
     (f : R →ₐ[O] S) (A B : M4 R) : (A * B).map f = A.map f * B.map f :=

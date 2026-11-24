@@ -419,15 +419,7 @@ theorem tends_mul {s t : ℕ → Matrix (Fin n) (Fin n) C} {x y : Matrix (Fin n)
 theorem tends_pow {s : ℕ → Matrix (Fin n) (Fin n) C} {x : Matrix (Fin n) (Fin n) C}
     (hs : ∀ i j, Tends V (fun k => s k i j) (x i j)) (m : ℕ) (i j : Fin n) :
     Tends V (fun k => (s k ^ m) i j) ((x ^ m) i j) := by
-  induction m generalizing i j with
-  | zero =>
-    simp only [pow_zero]
-    unfold Tends
-    intro w
-    exact ⟨0, fun k _ => by simp only [sub_self]; exact VF.Ge.zero w⟩
-  | succ m ih =>
-    simp only [pow_succ]
-    exact tends_mul (fun i j => ih i j) hs i j
+  apply _root_.Formalism.L2.FormalSeriesBounds.RowTiePKeyEig.MT.pow <;> assumption
 
 theorem tends_shift {s : ℕ → C} {x : C} (h : Tends V s x) : Tends V (fun k => s (k + 1)) x := by
   unfold Tends at h ⊢

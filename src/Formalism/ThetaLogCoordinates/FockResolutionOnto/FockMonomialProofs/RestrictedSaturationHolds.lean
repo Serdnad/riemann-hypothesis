@@ -77,7 +77,7 @@ import Mathlib.Tactic.Linter.HaveILetI
 import Formalism.ThetaLogCoordinates.TraceIsometryWeights.SchurTraceProofs.LatticeBasisPolynomial
 import Formalism.ThetaLogCoordinates.FockResolutionOnto.FockMonomialProofs.FiltrationBotHolds
 import Formalism.ThetaLogCoordinates.FockResolutionOnto.FockMonomialProofs.FirstWeightLeOfSupport
-import Formalism.ThetaLogCoordinates.FockResolutionOnto.FockMonomialProofs.ResInto
+import all Formalism.ThetaLogCoordinates.FockResolutionOnto.FockMonomialProofs.ResInto
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Formalism.ThetaLogCoordinates.FockResolutionOnto.FockMonomialProofs.DerivativeDividedIntegral, Formalism.ThetaLogCoordinates.FockResolutionOnto.FockMonomialProofs.DerivativeKillsDegreeZero, Formalism.ThetaLogCoordinates.FockResolutionOnto.FockMonomialProofs.RestrictedLatticeDividedPower, Formalism.ThetaLogCoordinates.FockResolutionOnto.FockMonomialProofs.WmMulWmComm, Formalism.ThetaLogCoordinates.FockResolutionOnto.FockMonomialProofs.RestrictedSaturationHolds
@@ -1082,22 +1082,7 @@ private theorem glAct_mem_yCond_r {N : ℕ} (LL : Letters N) (j : ℕ) (Mt : Wit
 
 private theorem yCond_of_K_succ_le (LL : Letters (K + 1)) (j : ℕ) (Mt : WithTop ℤ) (hj : K + 1 ≤ j) :
     YCond p (r := r) LL j Mt = YCond p LL (K + 1) Mt := by
-  have hg : ∀ c d : Fin r, glAct p LL j c d = glAct p LL (K + 1) c d := by
-    intro c d
-    unfold glAct
-    refine Finset.sum_congr rfl fun i _ => ?_
-    have h1 : (i : ℕ) < K + 1 := i.isLt
-    have h2 : (i : ℕ) < j := by omega
-    simp only [h1, h2, ↓reduceIte]
-  have hw : ∀ m : Fin (K + 1) × Fin r →₀ ℕ, wt LL j 0 m = wt LL (K + 1) 0 m := by
-    intro m
-    unfold wt
-    refine Finset.sum_congr rfl fun i _ => ?_
-    have h1 : (i : ℕ) < K + 1 := i.isLt
-    have h2 : (i : ℕ) < j := by omega
-    simp only [h1, h2, ↓reduceIte]
-  unfold YCond GlStable
-  simp_rw [hg, hw]
+  apply _root_.Formalism.InvariantFactorPaths.L4.ycond_late <;> assumption
 
 theorem glAct_y (LL : Letters (K + 1)) {q : ℕ} (J : Fin q → ℕ) (M : Fin q → WithTop ℤ) (c d : Fin r) :
     ∀ h ∈ Y p LL J M, glAct p LL (K + 1) c d h ∈ Y p LL J M := by
@@ -1596,12 +1581,7 @@ theorem eul_X_mul (b : Fin r) (G : MvPolynomial (Fin (K + 1) × Fin r) ℚ_[p]) 
 theorem pderiv_eul (j : Fin r) (G : MvPolynomial (Fin (K + 1) × Fin r) ℚ_[p]) :
     pderiv (Fin.last K, j) (ProjS.eulL (fun c : Fin r => (Fin.last K, c)) G) =
       pderiv (Fin.last K, j) G + ProjS.eulL (fun c : Fin r => (Fin.last K, c)) (pderiv (Fin.last K, j) G) := by
-
-  rw [ProjS.eulL_apply, ProjS.eulL_apply, map_sum]
-  simp only [pderiv_X_mul, Finset.sum_add_distrib]
-  rw [Finset.sum_ite_eq, if_pos (Finset.mem_univ j)]
-  congr 1
-  exact Finset.sum_congr rfl fun c _ => by rw [ProjS.pderiv_comm]
+  apply _root_.Formalism.InvariantFactorPaths.L4.pderiv_last_eulL_eq <;> assumption
 
 theorem eul_Uop (LL : Letters (K + 1)) (c : ℤ) (Cs : Finset (Fin r)) (i : Fin r)
     (F : MvPolynomial (Fin (K + 1) × Fin r) ℚ_[p]) :

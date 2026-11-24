@@ -9,6 +9,7 @@ public import Mathlib.RingTheory.KrullDimension.Field
 public import Mathlib.RingTheory.KrullDimension.Polynomial
 import Mathlib.RingTheory.RegularLocalRing.Defs
 import Mathlib.RingTheory.SimpleRing.Principal
+import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.IrreducibleConnected.BasicOpenSteps
 
 @[expose] public section
 
@@ -20,20 +21,7 @@ open MvPolynomial
 
 theorem exists_ringKrullDim_quotient_eq_nat {n : ℕ} (J : Ideal (MvPolynomial (Fin n) ℂ)) (hJ : J.IsPrime) :
     ∃ d : ℕ, ringKrullDim (MvPolynomial (Fin n) ℂ ⧸ J) = d := by
-  have : J.IsPrime := hJ
-  have hge : (0 : WithBot ℕ∞) ≤ ringKrullDim (MvPolynomial (Fin n) ℂ ⧸ J) :=
-    ringKrullDim_nonneg_of_nontrivial
-  have hle : ringKrullDim (MvPolynomial (Fin n) ℂ ⧸ J) ≤ (n : WithBot ℕ∞) := by
-    refine (ringKrullDim_quotient_le J).trans ?_
-    rw [MvPolynomial.ringKrullDim_of_isNoetherianRing_of_finite, ringKrullDim_eq_zero_of_field, Nat.card_eq_fintype_card,
-      Fintype.card_fin, zero_add]
-  generalize ringKrullDim (MvPolynomial (Fin n) ℂ ⧸ J) = x at hge hle
-  induction x using WithBot.recBotCoe with
-  | bot => exact absurd hge (by simp)
-  | coe m =>
-    induction m using ENat.recTopCoe with
-    | top => exact absurd hle (by norm_cast)
-    | coe d => exact ⟨d, rfl⟩
+  apply _root_.GroundTheory.Heights₂.Heights.HilbertSamuel.IrreducibleBasicOpenConnected.exists_dim <;> assumption
 
 theorem analyticOnNhd_of_differentiableOn_fin {d : ℕ} {σ : Type} [Fintype σ] {U : Set (Fin d → ℂ)}
     {G : (Fin d → ℂ) → σ → ℂ} (hU : IsOpen U) (hG : DifferentiableOn ℂ G U) : AnalyticOnNhd ℂ G U := by

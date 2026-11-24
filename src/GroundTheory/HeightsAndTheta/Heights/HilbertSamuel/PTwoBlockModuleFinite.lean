@@ -12,6 +12,7 @@ import Mathlib.RingTheory.SimpleRing.Principal
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovGeometry.IsHomogeneousGrL
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovGeometry.TwoLeKrullDimOfRelevantPrime
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.InterRed
+import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.MemMinimalPrimesOfDivCycleNeZero
 
 @[expose] public section
 
@@ -58,18 +59,7 @@ theorem mem_twoBlockIdeal (x x' : Ix κ → Ω) (f : MRing (FinTwoTypeFamily κ)
 
 theorem le_of_add_one_le' {a : WithBot ℕ∞} {n : ℕ} (h : a + 1 ≤ ((n + 1 : ℕ) : WithBot ℕ∞)) :
     a ≤ ((n : ℕ) : WithBot ℕ∞) := by
-  induction a using WithBot.recBotCoe with
-  | bot => exact bot_le
-  | coe b =>
-    have h' : ((b + 1 : ℕ∞) : WithBot ℕ∞) ≤ (((n + 1 : ℕ) : ℕ∞) : WithBot ℕ∞) := h
-    rw [WithBot.coe_le_coe] at h'
-    change ((b : ℕ∞) : WithBot ℕ∞) ≤ (((n : ℕ) : ℕ∞) : WithBot ℕ∞)
-    rw [WithBot.coe_le_coe]
-    induction b using ENat.recTopCoe with
-    | top => exact absurd h' (by simp)
-    | coe m =>
-      have : m + 1 ≤ n + 1 := by exact_mod_cast h'
-      exact_mod_cast (by omega : m ≤ n)
+  apply _root_.GroundTheory.Heights₂.Heights.NumbersDVR.withBot_le_of_add_one_le <;> assumption
 
 end TwoBlockModuleFinite
 

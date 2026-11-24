@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.IrreducibleOfValued
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.IsIntOv
 public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.GlintPrincRelIndexNeZero
 import Mathlib.Algebra.Order.Floor.Extended
@@ -80,23 +81,7 @@ theorem mem_max (x : v.adicCompletionIntegers F) :
 
 theorem irreducible_of_valued (p : v.adicCompletionIntegers F)
     (hp : Valued.v (p : v.adicCompletion F) = WithZero.exp (-1)) : Irreducible p := by
-  have hp0 : (p : v.adicCompletion F) ≠ 0 := by
-    intro h
-    rw [h, map_zero] at hp
-    exact WithZero.exp_ne_zero hp.symm
-  rw [IsDiscreteValuationRing.irreducible_iff_uniformizer]
-  ext x
-  rw [mem_max, lt_one_iff, Ideal.mem_span_singleton', ← hp]
-  constructor
-  · intro h
-    refine ⟨⟨(x : v.adicCompletion F) / p, ?_⟩, Subtype.ext (div_mul_cancel₀ _ hp0)⟩
-    show Valued.v ((x : v.adicCompletion F) / p) ≤ 1
-    rw [map_div₀]
-    exact div_le_one_of_le₀ h zero_le
-  · rintro ⟨a, rfl⟩
-    show Valued.v ((a : v.adicCompletion F) * p) ≤ _
-    rw [map_mul]
-    exact mul_le_of_le_one_left' a.2
+  first | exact _root_.GlobalTheory.DegreeOneUniformiser.irreducible_of_valued | exact @_root_.GlobalTheory.DegreeOneUniformiser.irreducible_of_valued | apply _root_.GlobalTheory.DegreeOneUniformiser.irreducible_of_valued <;> assumption
 
 variable (P : HeightOneSpectrum (𝓞 E))
   (hφ : ∀ t : F, φ (algebraMap F E t) = algebraMap F (v.adicCompletion F) t)

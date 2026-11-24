@@ -1,5 +1,6 @@
 module
 
+import all Development.AutomorphicArithmetic.WhittakerHecke.ExistsFactorizationOfIdeleCongruenceDivisorLevel
 public import Development.AutomorphicArithmetic.Foundations.Convolution.SplitEigenfunctions.CharacterNorms.FacDefs
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.CharpolySmulMap
 public import Development.AutomorphicArithmetic.Foundations.Convolution.RealGroupAnalysis.UnramifiedSplitting.SgLaws
@@ -51,13 +52,7 @@ open scoped ComplexOrder
 
 private theorem cp_pv (v w : H.P ℚ) :
     H.cp v ((pv w : (A ℚ)ˣ) : A ℚ) = if w = v then ((atFin v (unif v) : (H.Kv v)ˣ) : H.Kv v) else 1 := by
-  obtain ⟨-, -, h3, h4, -, -, -, h8, -⟩ := UpperTheory.ConvolutionTheory.R2.H.sgLaws ℚ w
-  rw [pv, h4, map_add (f := _), map_one]
-  split_ifs with h
-  · subst h
-    rw [h3, add_sub_cancel]
-  · have : H.cp v (H.sg w (((atFin w (unif w) : (H.Kv w)ˣ) : H.Kv w) - 1)) = 0 := (h8 _).2 v (Ne.symm h)
-    rw [this, add_zero]
+  apply _root_.cp_pv <;> assumption
 
 private theorem fin_supp {n : ℕ} : (Function.mulSupport fun v : H.P ℚ => pv v ^ n.factorization (normV v)).Finite := by
   refine (n.factorization.support.finite_toSet.preimage GlobalTheory.TwAtt.normV_injective.injOn).subset fun v hv => ?_
@@ -65,14 +60,7 @@ private theorem fin_supp {n : ℕ} : (Function.mulSupport fun v : H.P ℚ => pv 
 
 private theorem cp_pin (n : ℕ) (v : H.P ℚ) :
     H.cp v ((pin n : (A ℚ)ˣ) : A ℚ) = ((atFin v (unif v) : (H.Kv v)ˣ) : H.Kv v) ^ n.factorization (normV v) := by
-  have h := ((H.cp v).toMonoidHom.comp (Units.coeHom (A ℚ))).map_finprod (fin_supp (n := n))
-  refine h.trans ((finprod_eq_single _ v fun w hw => ?_).trans ?_)
-  · rw [map_pow]
-    change H.cp v ((pv w : (A ℚ)ˣ) : A ℚ) ^ _ = 1
-    rw [cp_pv, if_neg hw, one_pow]
-  · rw [map_pow]
-    change H.cp v ((pv v : (A ℚ)ˣ) : A ℚ) ^ _ = _
-    rw [cp_pv, if_pos rfl]
+  apply _root_.cp_pin <;> assumption
 
 private theorem val_nat (v : H.P ℚ) (n : ℕ) : Valued.v (n : H.Kv v) = v.intValuation (n : 𝓞 ℚ) := by
   have h1 := HeightOneSpectrum.valuedAdicCompletion_eq_valuation (K := ℚ) v (n : 𝓞 ℚ)

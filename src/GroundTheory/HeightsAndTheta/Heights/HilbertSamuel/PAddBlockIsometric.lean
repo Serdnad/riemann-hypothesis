@@ -1,5 +1,8 @@
 module
 
+
+import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.SectionNormSquares.ExistsFormOfMemChartRingZ
+import GroundTheory.HeightsAndTheta.Heights.ElementarySymmetric.PBoundedSectionTransfer
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsSectionPointValue
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PSectionBounded
 public import Mathlib.RingTheory.RegularLocalRing.Defs
@@ -60,7 +63,6 @@ import Std.Tactic.BVDecide.Normalize.Prop
 import Mathlib.NumberTheory.Height.NumberField
 import Mathlib.Tactic.TypeStar
 import Mathlib.Algebra.Order.Star.Int
-
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PSectionPointValue, GroundTheory.HeightsAndTheta.Heights.WeightedHomogeneous.LiftOldChartMonomialMemPrimeCompl, GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PAddBlockIsometric
 
@@ -163,18 +165,7 @@ theorem val_eq {y : (Σ k, ι k) → Ω} {A : HermLine ι} {n : ℕ} {s : Ω} (h
 theorem rep_add {y : (Σ k, ι k) → Ω} {a : K → ℤ} {n : ℕ} {s t : Ω} {g₁ h₁ g₂ h₂ : MRing ι}
     (r₁ : IsRep y a n s g₁ h₁) (r₂ : IsRep y a n t g₂ h₂) :
     IsRep y a n (s + t) (g₁ * h₂ + g₂ * h₁) (h₁ * h₂) := by
-  obtain ⟨dg₁, dh₁, hg₁, hh₁, hd₁, hy₁⟩ := r₁
-  obtain ⟨dg₂, dh₂, hg₂, hh₂, hd₂, hy₂⟩ := r₂
-  refine ⟨dg₁ + dh₂, dh₁ + dh₂, homog_add (homog_mul hg₁ hh₂) (homog_congr (homog_mul hg₂ hh₁) fun k => ?_),
-    homog_mul hh₁ hh₂, fun k => ?_, ?_⟩
-  · simp only [Pi.add_apply]
-    zify
-    linear_combination hd₂ k - hd₁ k
-  · simp only [Pi.add_apply]
-    push_cast
-    linear_combination hd₁ k
-  · rw [map_add (f := _), map_mul, map_mul, map_mul, hy₁, hy₂]
-    ring
+  apply _root_.GroundTheory.Heights₂.Heights.HilbertSamuel.SectionNormSqExtension.rep_add <;> assumption
 
 theorem rep_mul {y : (Σ k, ι k) → Ω} {a : K → ℤ} {n m : ℕ} {s t : Ω} {g₁ h₁ g₂ h₂ : MRing ι}
     (r₁ : IsRep y a n s g₁ h₁) (r₂ : IsRep y a m t g₂ h₂) :
@@ -224,20 +215,7 @@ theorem val_continuousOn {y : (Σ k, ι k) → Ω} {A : HermLine ι}
 
 theorem secNormAt_eq {y : (Σ k, ι k) → Ω} {A : HermLine ι} {n : ℕ} {s : Ω} (hs : s ∈ chartLat y A.a n)
     {z : (Σ k, ι k) → ℂ} (hz : z ∈ mcPts (mCoordIdeal y)) : secNormAt y A n s z = ‖val y A n s z‖ := by
-  have hT : 0 < A.h z := A.pos z hz.1
-  have hnT : ‖(A.h z : ℂ) ^ n‖ = A.h z ^ n := by
-    rw [norm_pow, Complex.norm_real, Real.norm_of_nonneg hT.le]
-  have hb : IsBoundedAt y A n ‖val y A n s z‖ s z := by
-    intro dg dh g h hg hh hd hy
-    rw [val_spec hs hz ⟨dg, dh, hg, hh, hd, hy⟩, norm_mul, norm_mul, hnT]
-  refine le_antisymm (secNormAt_le (norm_nonneg _) hb) ?_
-  rw [secNormAt]
-  refine le_csInf ⟨_, norm_nonneg _, hb⟩ ?_
-  rintro c ⟨-, hc⟩
-  obtain ⟨⟨g, h⟩, ⟨dg, dh, hg, hh, hd, hy⟩, hne⟩ := exists_rep_at hs hz
-  have := hc dg dh g h hg hh hd hy
-  rw [val_spec hs hz ⟨dg, dh, hg, hh, hd, hy⟩, norm_mul, norm_mul, hnT, mul_assoc, mul_assoc] at this
-  exact le_of_mul_le_mul_right this (mul_pos (norm_pos_iff.mpr hne) (pow_pos hT n))
+  apply _root_.GroundTheory.Heights₂.Heights.HilbertSamuel.SectionNormSqExtension.secNormAt_eq <;> assumption
 
 theorem val_mul {y : (Σ k, ι k) → Ω} {A : HermLine ι} {n m : ℕ} {s t st : Ω} (hs : s ∈ chartLat y A.a n)
     (ht : t ∈ chartLat y A.a m) (hst : st ∈ chartLat y A.a (n + m)) (he : st = s * t)
@@ -498,16 +476,7 @@ theorem divCycle_eq_of_forall_cross (P : Ideal (MRing ι)) {f g : MRing ι}
 
 theorem mem_iff {Ω : Type} [Field Ω] (y : (Σ k, ι k) → Ω) {F : MRing ι} {d : K → ℕ} (hF : IsMultiHomog F d) :
     F ∈ mCoordIdeal y ↔ aeval y F = 0 := by
-  show F ∈ RingHom.ker (mConeMap y) ↔ _
-  rw [RingHom.mem_ker]
-  erw [mConeMap_homog y hF]
-  constructor
-  · intro h
-    have hM : (∏ k, (MvPolynomial.X k : MvPolynomial K Ω) ^ d k) ≠ 0 :=
-      Finset.prod_ne_zero_iff.mpr fun k _ => pow_ne_zero _ (MvPolynomial.X_ne_zero k)
-    exact MvPolynomial.C_eq_zero.mp ((mul_eq_zero.mp h).resolve_right hM)
-  · intro h
-    rw [h, map_zero, zero_mul]
+  apply _root_.GroundTheory.Heights₂.Heights.Targets.BoundedSectionTransfer.mem_mCoordIdeal_iff <;> assumption
 
 end Cycle
 

@@ -53,10 +53,13 @@ open Formalism.WeaklyAdmissibleFiltrations Formalism.BasicNotions Formalism.Basi
 
 
 
-theorem ptTrans_rec (D : D7) (HW : HWOf D.loc) (F : FonOf D.loc D.locA HW)
-    (h9 : Formalism.MainNotions.DeltaInvariantLattices.P9 D HW F) :
-    Formalism.MainNotions.WachCoordinates.AtCaseA fun l _ K LL h => PtTrans ((HW l).W K 1 LL h.2.2) := by
-  intro l _ K LL hA hl5
+theorem ptTrans_of_caseA (D : D7) (HW : HWOf D.loc) (F : FonOf D.loc D.locA HW)
+    (h9 : Formalism.MainNotions.DeltaInvariantLattices.P9 D HW F) (l : ℕ) [Fact l.Prime] (K LL : FinExt l) (hA : Loc.CaseA K LL) :
+    Formalism.MainNotions.N.Pv.LocalLengthBound.PtTrans ((HW l).W K 1 LL hA.2.2) := by
+  have hl3 : 3 ≤ l := by
+    have h2 := (Fact.out : l.Prime).two_le
+    have hodd : l ≠ 2 := hA.2.1
+    lia
   set W := (HW l).W K 1 LL hA.2.2 with hW
   intro ζ ζ' hζ hζ'
   have hpl : ((D.loc l).PD K).p = l := (D.loc l).PD_p K
@@ -184,7 +187,6 @@ theorem ptTrans_rec (D : D7) (HW : HWOf D.loc) (F : FonOf D.loc D.locA HW)
       rw [pow_mul, hδk, one_pow, one_mul, mul_comm k k', pow_mul, hδk', one_pow, inv_one]
     have hξk : (algebraMap ↥(OL LL) ↥LL.1 (W.χΓ g : ↥(OL LL))) ^ (k * k') = 1 := by
       rw [← map_pow, ← Units.val_pow_eq_pow_val, ← map_pow, hgk, map_one, Units.val_one, map_one]
-    have hl3 : 3 ≤ l := by omega
     have hξeq : algebraMap ↥(OL LL) ↥LL.1 (W.χΓ g : ↥(OL LL)) = 1 := by
       by_contra hne1
       exact Formalism.MainNotions.N.Pv.LocalLengthBound.Val.pow_ne_one_of_close ((D.loc l).v LL) (Fact.out : l.Prime) hv hl3
@@ -215,5 +217,11 @@ theorem ptTrans_rec (D : D7) (HW : HWOf D.loc) (F : FonOf D.loc D.locA HW)
     conv_lhs => rw [← Nat.mod_add_div m l, pow_add, pow_mul, hζ.pow_eq_one, one_pow, mul_one]
   refine ⟨δ, δ.2, aδ δ, ?_, haδ δ⟩
   rw [hpowmod, h1, ← hpowmod, hζb]
+
+theorem ptTrans_rec (D : D7) (HW : HWOf D.loc) (F : FonOf D.loc D.locA HW)
+    (h9 : Formalism.MainNotions.DeltaInvariantLattices.P9 D HW F) :
+    Formalism.MainNotions.WachCoordinates.AtCaseA fun l _ K LL h => PtTrans ((HW l).W K 1 LL h.2.2) := by
+  intro l _ K LL hA _
+  exact ptTrans_of_caseA D HW F h9 l K LL hA
 
 end Formalism.MainNotions.N.Pv.LocalLengthBound

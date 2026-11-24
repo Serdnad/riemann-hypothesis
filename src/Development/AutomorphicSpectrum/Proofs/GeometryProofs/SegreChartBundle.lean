@@ -141,18 +141,7 @@ theorem exists_chart (hT : CoordTie o ξ x) {c : κ} (hc : x c ≠ 0) :
       (∀ q : X, q ∈ U → genPt ξ ⤳ q) ∧
       Function.Injective (secVal ξ U h) ∧
       ∀ a : Ω, a ∈ Algebra.adjoin o (Set.range fun j => x j / x c) ↔ a ∈ (secVal ξ U h).range := by
-  obtain ⟨U, hU, hmem⟩ := hT.affine c hc
-  have h : genPt ξ ∈ U := (hmem _).2 ⟨specializes_rfl, hc, fun c' => regAt_genPt hT.gen _⟩
-  have hsp : ∀ q : X, q ∈ U → genPt ξ ⤳ q := fun q hq => by
-    obtain ⟨h2, _⟩ := (hmem q).1 hq
-    exact h2
-  have hUq : ∀ q : Cpt ξ, q.1 ∈ U ↔ InChart ξ x c q := fun q =>
-    ⟨fun hq => by obtain ⟨_, h2⟩ := (hmem q.1).1 hq; exact h2, fun hq => (hmem q.1).2 ⟨q.2, hq⟩⟩
-  obtain ⟨hinj, hran⟩ := regAt_sections X Ω ξ hT.gen U h hsp
-  refine ⟨U, h, hU, hUq, hsp, hinj, fun a => ?_⟩
-  rw [hT.ring c hc a]
-  refine Iff.trans ?_ (hran a).symm
-  exact forall_congr' fun q => (by rw [hUq q])
+  apply _root_.GlobalTheory.CompanionTheory.Ar.TieVB.exists_chart <;> assumption
 
 theorem exists_point (hT : CoordTie o ξ x) {c : κ} (hc : x c ≠ 0) (P : Ideal (chartRing o x c)) (hP : P.IsPrime) :
     ∃ p : Cpt ξ, InChart ξ x c p ∧ ∀ s : chartRing o x c, s ∈ P ↔ ¬ unitAt ξ p s := by

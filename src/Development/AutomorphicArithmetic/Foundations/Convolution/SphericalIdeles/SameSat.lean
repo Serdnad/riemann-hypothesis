@@ -1,5 +1,6 @@
 module
 
+import all Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.RegularSemisimpleFibres.PowerMatchingTraces.VarTrace
 public import Development.AutomorphicArithmetic.Foundations.Convolution.SphericalIdeles.SphConj
 public import Development.AutomorphicArithmetic.Foundations.Convolution.BlockEvaluation.Ci
 import Development.AutomorphicArithmetic.Foundations.Convolution.CentreSplitting.ExCusp
@@ -65,22 +66,7 @@ variable {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algeb
 private theorem bc_tw {χ : HChar F} {χ' : HChar E} {s : ℂ} (h : IsPow χ s) (h' : IsPow χ' s)
     (π : CuspSub F n) (P : CuspSub E n) (H : WeakBC (Cusp.cx π).sat (Cusp.cx P).sat) :
     WeakBC (Cusp.cx (π.twist χ)).sat (Cusp.cx (P.twist χ')).sat := by
-  refine Filter.Eventually.mono H fun w hw f hf => ?_
-  obtain ⟨B, hB, hB'⟩ := hw f hf
-  have hf' : Ideal.absNorm w.asIdeal = Ideal.absNorm (w.under (𝓞 F)).asIdeal ^ f := by
-    simpa only [normV, Ideal.absNorm_apply, Submodule.cardQuot_apply] using hf
-  have hv : χ'.val w = χ.val (w.under (𝓞 F)) ^ f := by
-    apply Units.ext
-    rw [Units.val_pow_eq_pow_val, (Sph.powSat F χ s h _).2, (Sph.powSat E χ' s h' w).2, hf', Nat.cast_pow,
-      ← Complex.cpow_nat_mul, Complex.natCast_cpow_natCast_mul]
-  refine ⟨B.map (· * χ.val (w.under (𝓞 F))), ?_, ?_⟩
-  · have := satake_twist_holds F n (CG.mk π) χ _ B (Sph.powSat F χ s h _).1 hB
-    rwa [CG.twist_mk] at this
-  · have := satake_twist_holds E n (CG.mk P) χ' w _ (Sph.powSat E χ' s h' w).1 hB'
-    rw [CG.twist_mk] at this
-    change (CG.mk (P.twist χ')).HasSat w _
-    convert this using 1
-    simp [Multiset.map_map, hv, mul_pow]
+  apply _root_.UpperTheory.Gal.InertialTypesAlt.G.WP.weak_twist <;> assumption
 
 private theorem same_sat [IsGalois F E] (hp : (Module.finrank F E).Prime) (π : CuspSub F n) {sat sat' : Pl E → Multiset ℂˣ → Prop}
     (H : WeakBC (CG.mk π).HasSat sat) (H' : WeakBC (CG.mk π).HasSat sat') :

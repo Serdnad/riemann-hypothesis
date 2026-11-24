@@ -1,5 +1,6 @@
 module
 
+import all Development.AutomorphicArithmetic.AutomorphicVarieties.IdeleGenerators.TorsionOrderFrobenius.ContinuousKap
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.RealTransport.RealTransport
 import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.LatticeIndices.CharZeroAdicCompletion
 import Mathlib.Algebra.Order.Floor.Extended
@@ -126,33 +127,6 @@ private theorem tendsto_unit_pow_factorial_finiteAdele_one {F : Type} [Field F] 
     exact h.congr e
   exact ((RestrictedProduct.isEmbedding_structureMap).continuous.tendsto 1).comp hg
 
-private theorem infDiag_inv_unit_eq_infinite_one {F : Type} [Field F] [NumberField F] (u : Fˣ) :
-    (((Formalism.L2.Host.infDiag u : Neutral.B1.Ideles F) :
-      NumberField.AdeleRing (NumberField.RingOfIntegers F) F)) =
-      ((algebraMap F (NumberField.InfiniteAdeleRing F) u, 1) : NumberField.InfiniteAdeleRing F ×
-        IsDedekindDomain.FiniteAdeleRing (NumberField.RingOfIntegers F) F) := by
-  classical
-  letI : IsOneApply (Fˣ →* Neutral.B1.Ideles F) := ⟨fun _ => rfl⟩
-  letI : IsMulApply (Fˣ →* Neutral.B1.Ideles F) := ⟨fun _ _ _ => rfl⟩
-  rw [Formalism.L2.Host.infDiag, prod_apply, Units.coe_prod]
-  let p2 : NumberField.AdeleRing (NumberField.RingOfIntegers F) F →*
-      IsDedekindDomain.FiniteAdeleRing (NumberField.RingOfIntegers F) F :=
-    ⟨⟨Prod.snd, rfl⟩, fun _ _ => rfl⟩
-  refine Prod.ext ?_ ?_
-  · funext w
-    let q : NumberField.AdeleRing (NumberField.RingOfIntegers F) F →* w.Completion :=
-      ⟨⟨fun x => x.1 w, rfl⟩, fun _ _ => rfl⟩
-    change q _ = _
-    rw [map_prod, Finset.prod_eq_single w]
-    · exact Pi.mulSingle_eq_same (M := fun v : NumberField.InfinitePlace F => v.Completion) w _
-    · intro b _ hb
-      exact Pi.mulSingle_eq_of_ne (Ne.symm hb) _
-    · intro h
-      exact absurd (Finset.mem_univ w) h
-  · change p2 _ = _
-    rw [map_prod]
-    exact Finset.prod_eq_one (fun _ _ => rfl)
-
 private theorem one_le_of_tendsto_pow_factorial_one (r : ℝ) (h0 : 0 ≤ r)
     (h : Filter.Tendsto (fun k : ℕ => r ^ (Nat.factorial k)) Filter.atTop (nhds 1)) : 1 ≤ r := by
   by_contra hr
@@ -180,7 +154,7 @@ private theorem one_le_norm_char_diagUnits_unit_of_continuous {F : Type} [Field 
           algebraMap F (IsDedekindDomain.FiniteAdeleRing (NumberField.RingOfIntegers F) F) (y : F))) =
         ((Neutral.B1.diagUnits F y : Neutral.B1.Ideles F) :
           NumberField.AdeleRing (NumberField.RingOfIntegers F) F) := by
-      rw [infDiag_inv_unit_eq_infinite_one]
+      rw [_root_.coe_infDiag']
       refine Prod.ext ?_ ?_
       · change algebraMap F (NumberField.InfiniteAdeleRing F) (y : F) * 1 = _
         rw [mul_one]

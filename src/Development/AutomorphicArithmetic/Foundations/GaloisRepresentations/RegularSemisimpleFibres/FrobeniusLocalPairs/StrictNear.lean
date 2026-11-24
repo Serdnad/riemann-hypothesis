@@ -405,18 +405,7 @@ private theorem strict_near {r : ValueGroupWithZero E} (hr : r < 1) {t s : Fin n
 
 private theorem ball_sg {r : ValueGroupWithZero E} {σ : E ≃+* E} (hσ : Isom σ) {a : GL (Fin n) E}
     (ha : a ∈ ball n r) : sg σ a ∈ ball n r := by
-  simp only [ball, Set.mem_setOf_eq] at ha ⊢
-  intro i j
-  have h : ((sg σ a : GL (Fin n) E) : Matrix (Fin n) (Fin n) E) i j - (1 : Matrix (Fin n) (Fin n) E) i j
-      = σ ((a : Matrix (Fin n) (Fin n) E) i j - (1 : Matrix (Fin n) (Fin n) E) i j) := by
-    rw [sg, GeneralLinearGroup.map_apply, map_sub]
-    congr 1
-    by_cases hij : i = j
-    · subst hij
-      simp
-    · simp [Matrix.one_apply_ne hij]
-  rw [h, hσ]
-  exact ha i j
+  apply _root_.UpperTheory.ConvolutionTheory.Loc.ball_sgB <;> assumption
 
 private theorem diag_ball {r : ValueGroupWithZero E} {s : Fin n → Eˣ} (hs : Near r s) :
     diagT E (Fin n) s ∈ ball n r := by

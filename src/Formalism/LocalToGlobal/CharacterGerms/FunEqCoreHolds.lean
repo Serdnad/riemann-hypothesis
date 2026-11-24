@@ -2,6 +2,7 @@ module
 
 public import Formalism.LocalToGlobal.CharacterGerms.FirstVanishingAt
 public import Formalism.LocalToGlobal.CharacterGerms.IndexRaiseFirst
+import all Formalism.LocalToGlobal.CharacterGerms.IndexRaiseFirst
 public import Formalism.LocalToGlobal.CharacterGerms.TripleMultiplicationConstantCoeff
 public import Formalism.LocalToGlobal.CharacterGerms.PderivTripleMultiplicationMaximal
 import Formalism.LocalToGlobal.CharacterGerms.RowTiePGmExLem
@@ -411,12 +412,7 @@ theorem phiQ (Y : FBChart C V O dd) (u : Fin dd → C) (hu : ∀ i, V.Ge 0 (u i)
     exact mm_mul_of_ge_zero_of_mm (hIT k _) (hV1 k)
 
 private theorem v_natCast_nonneg_vf (V : VF C) (m : ℕ) : 0 ≤ V.v (m : C) := by
-  induction m with
-  | zero => simp [AddValuation.map_zero]
-  | succ m ih =>
-    rw [Nat.cast_succ]
-    refine le_trans (le_min ih ?_) (AddValuation.map_add _ _ _)
-    rw [AddValuation.map_one]
+  apply _root_.Formalism.L2.FormalSeriesBounds.FunEq.v_natCast_nonneg_of_vf <;> assumption
 
 private theorem mm_add_pow_l_sub_pow_l_sub_pow_l {y z : C} (hy : V.Ge 0 y) (hz : V.Ge 0 z) :
     V.MM ((y + z) ^ V.l - y ^ V.l - z ^ V.l) := by

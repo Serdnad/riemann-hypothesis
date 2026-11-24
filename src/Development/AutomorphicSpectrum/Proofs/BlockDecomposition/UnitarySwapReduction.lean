@@ -1291,13 +1291,7 @@ section RootInt
 variable {L : Type} [Field L]
 
 theorem partner_nU (σ : L →+* L) (x : L) : partner σ (nU x) = !![1, -σ x; 0, 1] := by
-  have hi : (((nU x)⁻¹ : GL (Fin 2) L) : Matrix (Fin 2) (Fin 2) L) = !![1, -x; 0, 1] := rfl
-  have hc : cT σ (!![1, -x; 0, 1] : Matrix (Fin 2) (Fin 2) L) = !![1, 0; -σ x, 1] := by
-    ext p r
-    fin_cases p <;> fin_cases r <;> simp [cT]
-  simp only [partner, hi, hc, w2]
-  rw [Matrix.mul_fin_two, Matrix.mul_fin_two]
-  simp
+  apply _root_.GlobalTheory.CompanionTheory.SwapRoot.Torus.partner_nU <;> assumption
 
 variable [Valued L (WithZero (Multiplicative ℤ))]
 
@@ -1360,30 +1354,14 @@ namespace GlobalTheory.CompanionTheory.SwapRoot
 variable {L : Type} [Field L]
 
 theorem partner_wU (σ : L →+* L) : partner σ (wU L) = w2 L := by
-  have hw : (((wU L)⁻¹ : GL (Fin 2) L) : Matrix (Fin 2) (Fin 2) L) = w2 L := rfl
-  have hc : cT σ (w2 L) = w2 L := by
-    delta cT w2
-    ext i j
-    fin_cases i <;> fin_cases j <;> simp
-  delta partner
-  rw [hw, hc, weyl_mul_weyl, one_mul]
+  apply _root_.GlobalTheory.CompanionTheory.SwapRoot.Torus.partner_wU <;> assumption
 
 variable [Valued L (WithZero (Multiplicative ℤ))]
 
 theorem cM_conj_int {n : ℕ} (c : Fin 2 → Fin n) (P : Matrix (Fin 2) (Fin 2) L)
     (hP : ∀ p r, Valued.v (P p r) ≤ 1) (b d : Fin n) :
     Valued.v ((cM L c * P * (cM L c)ᵀ) b d) ≤ 1 := by
-  have hA : ∀ (x : Fin n) (p : Fin 2), Valued.v (cM L c x p) ≤ 1 := by
-    intro x p
-    show Valued.v (if x = c p then (1 : L) else 0) ≤ 1
-    split_ifs <;> simp
-  rw [Matrix.mul_apply]
-  refine Valuation.map_sum_le (Valued.v : Valuation L (WithZero (Multiplicative ℤ))) fun r _ => ?_
-  rw [Valuation.map_mul, Matrix.transpose_apply, Matrix.mul_apply]
-  refine mul_le_one' ?_ (hA d r)
-  refine Valuation.map_sum_le (Valued.v : Valuation L (WithZero (Multiplicative ℤ))) fun p _ => ?_
-  rw [Valuation.map_mul]
-  exact mul_le_one' (hA b p) (hP p r)
+  apply _root_.GlobalTheory.CompanionTheory.SwapRoot.val_cM_conj_le_one <;> assumption
 
 theorem weyl_sub_one_entries_integral (p r : Fin 2) : Valued.v ((w2 L - 1) p r) ≤ 1 := by
   delta w2

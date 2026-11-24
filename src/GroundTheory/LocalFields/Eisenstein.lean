@@ -92,88 +92,61 @@ theorem natDegree_mul_addVal_eq_ramificationIndex {f : 𝒪[K][X]}
     (hf : f.IsEisensteinAt (IsLocalRing.maximalIdeal 𝒪[K])) (hn : 0 < f.natDegree)
     {α : 𝒪[L]} (hα : aeval α f = 0) :
     (f.natDegree : ℕ∞) * addVal 𝒪[L] α = (_root_.Ideal.ramificationIdx (_root_.IsLocalRing.maximalIdeal (_root_.Valuation.integer (_root_.ValuativeRel.valuation L))) (_root_.Valuation.integer (_root_.ValuativeRel.valuation K))) := by
-  set n := f.natDegree with hn_def
-  set e := (_root_.Ideal.ramificationIdx (_root_.IsLocalRing.maximalIdeal (_root_.Valuation.integer (_root_.ValuativeRel.valuation L))) (_root_.Valuation.integer (_root_.ValuativeRel.valuation K))) with he_def
+  set n := f.natDegree
+  set e := ramificationIndex K L
   have he : 0 < e := ramificationIndex_pos K L
-  have hinj := algebraMap_integer_injective K L
-  have hα0 : α ≠ 0 := by
-    rintro rfl
-    rw [aeval_def, eval₂_at_zero] at hα
-    have : f.coeff 0 = 0 := hinj (by rw [hα, map_zero])
-    exact hf.notMem (by rw [this]; exact zero_mem _)
-  obtain ⟨m, hm⟩ := exists_addVal_eq_coe hα0
-  set t : ℕ → 𝒪[L] := fun i => algebraMap 𝒪[K] 𝒪[L] (f.coeff i) * α ^ i with ht
+  let t : ℕ → 𝒪[L] := fun i => algebraMap 𝒪[K] 𝒪[L] (f.coeff i) * α ^ i
   have hsum : ∑ i ∈ Finset.range (n + 1), t i = 0 := by
     rw [← hα, aeval_eq_sum_range]
     simp [t, Algebra.smul_def, n]
-  have hval : ∀ i, addVal 𝒪[L] (t i) = e * addVal 𝒪[K] (f.coeff i) + i * m := by
-    intro i
-    simp only [t, addVal_mul, addVal_pow, addVal_algebraMap_integer, hm, nsmul_eq_mul, e]
-
-  have hlow : ∀ i < n, ((e + i * m : ℕ) : ℕ∞) ≤ addVal 𝒪[L] (t i) := by
-    intro i hi
-    have h1 : (1 : ℕ∞) ≤ addVal 𝒪[K] (f.coeff i) := by
-      have := hf.mem hi
-      rw [← pow_one (IsLocalRing.maximalIdeal 𝒪[K]), mem_maximalIdeal_pow_iff_le_addVal] at this
-      exact_mod_cast this
-    rw [hval]
-    push_cast
-    gcongr
-    calc (e : ℕ∞) = e * 1 := (mul_one _).symm
-      _ ≤ e * addVal 𝒪[K] (f.coeff i) := by gcongr
-
-  have htop : addVal 𝒪[L] (t n) = ((n * m : ℕ) : ℕ∞) := by
-    have hu : IsUnit (f.coeff n) := by
-      have := hf.leading
-      rw [leadingCoeff] at this
-      exact (IsLocalRing.notMem_maximalIdeal.mp this)
-    rw [hval, addVal_eq_zero_iff.mpr hu]
-    push_cast
-    ring
-
-  have hbot : addVal 𝒪[L] (t 0) = (e : ℕ∞) := by
-    have h1 : f.coeff 0 ∈ IsLocalRing.maximalIdeal 𝒪[K] := hf.mem hn
-    rw [hval, addVal_eq_one_of_mem_of_notMem_sq h1 hf.notMem]
+  have hval (i : ℕ) :
+      addVal 𝒪[L] (t i) = (e : ℕ∞) * addVal 𝒪[K] (f.coeff i) + i * addVal 𝒪[L] α := by
+    simp only [t, addVal_mul, addVal_pow, addVal_algebraMap_integer, nsmul_eq_mul, e,
+      ramificationIndex]
+  have hcoeff (i : ℕ) (hi : i < n) : (e : ℕ∞) ≤ (e : ℕ∞) * addVal 𝒪[K] (f.coeff i) := by
+    have hmem := hf.mem hi
+    rw [← pow_one (IsLocalRing.maximalIdeal 𝒪[K]), mem_maximalIdeal_pow_iff_le_addVal] at hmem
+    calc (e : ℕ∞) = e * 1 := by rw [mul_one]
+      _ ≤ _ := by
+        gcongr
+        exact_mod_cast hmem
+  have hlead : addVal 𝒪[L] (t n) = (n : ℕ∞) * addVal 𝒪[L] α := by
+    have hunit : IsUnit (f.coeff n) := IsLocalRing.notMem_maximalIdeal.mp hf.leading
+    rw [hval, addVal_eq_zero_iff.mpr hunit, mul_zero, zero_add]
+  have hconst : addVal 𝒪[L] (t 0) = (e : ℕ∞) := by
+    rw [hval, addVal_eq_one_of_mem_of_notMem_sq (hf.mem hn) hf.notMem]
     simp
-  have hne_n : t n ≠ 0 := by
-    intro h
-    rw [h, addVal_zero] at htop
-    exact ENat.top_ne_natCast _ htop
-  have hne_0 : t 0 ≠ 0 := by
-    intro h
-    rw [h, addVal_zero] at hbot
-    exact ENat.top_ne_natCast _ hbot
-
-  have hA : e ≤ n * m := by
-    by_contra hlt
-    rw [not_le] at hlt
-    refine hne_n (eq_zero_of_addVal_lt_of_sum_eq_zero hsum (Finset.self_mem_range_succ n) ?_)
-    intro i hi hin
-    have hi' : i < n := lt_of_le_of_ne (Nat.lt_succ_iff.mp (Finset.mem_range.mp hi)) hin
-    refine lt_of_lt_of_le ?_ (hlow i hi')
-    rw [htop]
-    exact_mod_cast (by omega : n * m < e + i * m)
-  have hm1 : 1 ≤ m := by
-    rcases Nat.eq_zero_or_pos m with h | h
-    · rw [h] at hA
-      omega
-    · exact h
-
-  have hB : n * m ≤ e := by
-    by_contra hlt
-    rw [not_le] at hlt
-    refine hne_0 (eq_zero_of_addVal_lt_of_sum_eq_zero hsum (by simp) ?_)
-    intro i hi hi0
-    have hi' : i ≤ n := Nat.lt_succ_iff.mp (Finset.mem_range.mp hi)
-    rw [hbot]
-    rcases lt_or_eq_of_le hi' with hlt' | rfl
-    · refine lt_of_lt_of_le ?_ (hlow i hlt')
-      have : 1 ≤ i * m := Nat.one_le_iff_ne_zero.mpr (Nat.mul_ne_zero hi0 (by omega))
-      exact_mod_cast (by omega : e < e + i * m)
-    · rw [htop]
-      exact_mod_cast hlt
-  rw [hm]
-  exact_mod_cast le_antisymm hB hA
+  have hαval : 1 ≤ addVal 𝒪[L] α := by
+    by_contra! h
+    have hlead₀ : addVal 𝒪[L] (t n) = 0 := by rw [hlead, Order.lt_one_iff.mp h, mul_zero]
+    have hzero := eq_zero_of_addVal_lt_of_sum_eq_zero hsum (Finset.self_mem_range_succ n)
+      (fun i hi hin => by
+        have hi' : i < n := lt_of_le_of_ne (Nat.lt_succ_iff.mp (Finset.mem_range.mp hi)) hin
+        rw [hlead₀, hval]
+        exact (by exact_mod_cast he : (0 : ℕ∞) < e).trans_le
+          ((hcoeff i hi').trans le_self_add))
+    rw [hzero, addVal_zero] at hlead₀
+    exact (ENat.top_ne_natCast 0) hlead₀
+  let middle := ∑ i ∈ (Finset.range n).erase 0, t i
+  have hmiddle : (e : ℕ∞) < addVal 𝒪[L] middle := by
+    apply (addVal 𝒪[L]).map_lt_sum (ENat.natCast_ne_top _)
+    intro i hi
+    have hi' := Finset.mem_range.mp (Finset.mem_of_mem_erase hi)
+    have hp : (0 : ℕ∞) < i * addVal 𝒪[L] α := by
+      calc (0 : ℕ∞) < i * 1 := by
+            rw [mul_one]
+            exact_mod_cast Nat.pos_of_ne_zero (Finset.ne_of_mem_erase hi)
+        _ ≤ _ := by gcongr
+    rw [hval]
+    exact (ENat.lt_add_left (ENat.natCast_ne_top _) hp).trans_le (by
+      rw [add_comm]
+      exact add_le_add_left (hcoeff i hi') _)
+  have heq : t n = -(t 0 + middle) := by
+    rw [Finset.sum_range_succ,
+      ← Finset.add_sum_erase (Finset.range n) t (Finset.mem_range.mpr hn)] at hsum
+    exact eq_neg_of_add_eq_zero_right hsum
+  rw [← hlead, heq, (addVal 𝒪[L]).map_neg,
+    (addVal 𝒪[L]).map_add_eq_of_lt_left (hconst ▸ hmiddle), hconst]
 
 end Forward
 

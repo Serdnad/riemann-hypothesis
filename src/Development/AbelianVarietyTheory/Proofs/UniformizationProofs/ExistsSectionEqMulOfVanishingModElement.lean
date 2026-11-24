@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.ExistsCompatibleSections
 public import Development.AbelianVarietyTheory.Definitions.AbelianSchemeLaws.FirstCohomologyVanishesSpecOfIsLocalRing
 public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.ExistsGenOfSmallExtension
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.ValCalc
@@ -56,18 +57,8 @@ namespace GlobalTheory.SectionKernel
 theorem mem_map_of_flat {R B : Type} [CommRing R] [CommRing B] (c : R →+* B) (hf : c.Flat)
     {I : Ideal R} {ε : R} (h : ∀ x, ε * x = 0 → x ∈ I) (b : B) (hb : c ε * b = 0) :
     b ∈ I.map c := by
-  letI := c.toAlgebra
-  haveI : Module.Flat R B := hf
-  obtain ⟨l, d, y, hy, hc⟩ := Module.Flat.isTrivialRelation_of_sum_smul_eq_zero (R := R) (M := B)
-    (f := fun _ : Unit => ε) (x := fun _ => b)
-    (by rw [Fintype.sum_unique, Algebra.smul_def]; exact hb)
-  have : b = ∑ j, d () j • y j := hy ()
-  rw [this]
-  refine Ideal.sum_mem _ fun j _ => ?_
-  rw [Algebra.smul_def]
-  refine Ideal.mul_mem_right _ _ (Ideal.mem_map_of_mem c (h _ ?_))
-  have h := hc j
-  rwa [Fintype.sum_unique] at h
+  intros
+  apply _root_.GlobalTheory.SecLift.mem_of_flat' <;> assumption
 
 variable {X Y : Scheme.{0}}
 

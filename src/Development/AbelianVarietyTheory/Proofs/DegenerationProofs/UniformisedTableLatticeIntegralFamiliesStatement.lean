@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.DegenerationRecognitionOfAbelianPartsIsoLabelsStatement
 public import Development.AbelianVarietyTheory.Definitions.Uniformization.AllDV
 public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.IsNsmulIffEq
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.AppCompatGeneric
@@ -453,17 +454,7 @@ theorem sum_tors (F X : Type) [Field F] [IsAlgClosed F] [CharZero F] [AddCommGro
 
 theorem eq_zero_of_div (X : Type) [AddCommGroup X] [Module.Free ℤ X] (n : ℕ) (hn : 2 ≤ n) (x : X)
     (h : ∀ k, ∃ z, x = n ^ k • z) : x = 0 := by
-  let b := Module.Free.chooseBasis ℤ X
-  apply b.repr.injective
-  ext i
-  rw [map_zero, Finsupp.zero_apply]
-  obtain ⟨z, hz⟩ := h (b.repr x i).natAbs
-  refine Int.eq_zero_of_dvd_of_natAbs_lt_natAbs (d := ((n ^ (b.repr x i).natAbs : ℕ) : ℤ))
-    ⟨b.repr z i, ?_⟩ ?_
-  · conv_lhs => rw [hz]
-    rw [map_nsmul, Finsupp.smul_apply, nsmul_eq_mul]
-  · rw [Int.natAbs_natCast]
-    exact Nat.lt_pow_self (by omega)
+  first | exact _root_.GlobalTheory.eq_zero_of_forall_pow_nsmul | exact @_root_.GlobalTheory.eq_zero_of_forall_pow_nsmul | apply _root_.GlobalTheory.eq_zero_of_forall_pow_nsmul <;> assumption
 
 theorem class_mono (X : Type) [AddCommGroup X] (n : ℕ) (c : ℕ → X)
     (hc : ∀ k, ∃ z, c (k + 1) = c k + n ^ k • z) (α : X) (j k : ℕ) (hjk : j ≤ k)

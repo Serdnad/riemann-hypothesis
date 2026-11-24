@@ -1,5 +1,6 @@
 module
 
+import Formalism.LocalToGlobal.SiegelLatticeTheory.ClosedLocalOrbits.GaugeLatticeShifts.StabilizerIndexVolumes.VolumeIndexBStable
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.NormRepresentationChange.Development
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -84,15 +85,7 @@ theorem Xa_le_X (F : FlagG S r T) (j : ℕ) : F.Xa j ≤ F.X :=
   Submodule.span_mono (Set.image_subset_range _ _)
 
 theorem z_mem_orth (F : FlagG S r T) : F.z ∈ orth S F.X := by
-  simp only [orth, Submodule.mem_iInf, LinearMap.mem_ker]
-  intro x (hx : x ∈ Submodule.span E (Set.range F.e))
-  induction hx using Submodule.span_induction with
-  | mem x h =>
-    obtain ⟨a, rfl⟩ := h
-    exact F.z_orth a
-  | zero => simp
-  | add x w _ _ hx hw => simp [hx, hw]
-  | smul c x _ hx => simp [hx]
+  apply _root_.Formalism.L2.SG.Pf.StabilizerIndexVolumes.z_mem_orth <;> assumption
 
 theorem frame_castSucc (G : LFlag S r T) (i : Fin r) : frame G i.castSucc = G.fl.e i := by
   simp only [frame, FlagG.fvec, Fin.snoc_castSucc]

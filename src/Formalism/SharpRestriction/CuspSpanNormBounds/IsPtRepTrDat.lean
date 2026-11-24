@@ -1,5 +1,6 @@
 module
 
+import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.RootSubgroupJacobian.ContinuousRootCoords
 public import Formalism.SharpRestriction.CuspSpanNormBounds.ContinuousCjIT
 public import Formalism.SharpRestriction.CuspSpanNormBounds.OnePlaceEstimates
 public import Formalism.SharpRestriction.CuspSpanNormBounds.StarVecMulDM
@@ -864,20 +865,7 @@ theorem map_scC_volume {P : Type*} [Fintype P] (lam : P → ℝ) (h : ∀ p, lam
 
 theorem continuous_rootCoords (z : Fin (2 * r + k + 1) → ℂ) (γ : Point ℂ (r + 1)) :
     Continuous (rootCoords k r z γ) := by
-  refine continuous_pi fun p => ?_
-  by_cases hi : (p.1.1 : ℕ) < r
-  · have e : (fun x => rootCoords k r z γ x p) =
-        fun x : Mt k r => ((Matrix.of x : Mx k r) *ᵥ fvec k r z p.1.2) (eI k r ⟨p.1.1.val, hi⟩) := by
-      funext x; simp only [rootCoords, flagMat, dif_pos hi]
-    rw [e]
-    have hc : Continuous fun x : Mt k r => ((Matrix.of x : Mx k r) *ᵥ fvec k r z p.1.2) :=
-      Continuous.matrix_mulVec (A := fun x : Mt k r => (Matrix.of x : Mx k r)) (B := fun _ => fvec k r z p.1.2)
-        continuous_id continuous_const
-    exact (continuous_apply (eI k r ⟨p.1.1.val, hi⟩)).comp hc
-  · have e : (fun x => rootCoords k r z γ x p) = fun _ : Mt k r => (if p.1.1 = p.1.2 then (1 : ℂ) else 0) := by
-      funext x; simp only [rootCoords, flagMat, dif_neg hi]
-    rw [e]
-    exact continuous_const
+  apply _root_.PI.AmpRootJacW.continuous_rootCoords <;> assumption
 
 theorem isRootMeas_congr_pat (L : LocBessel k r) {γ₁ γ : Point ℂ (r + 1)} (h : rootPat γ₁ = rootPat γ)
     (g : Mx k r) (μR : Measure (Mt k r)) : IsRootMeas L γ₁ g μR ↔ IsRootMeas L γ g μR := by

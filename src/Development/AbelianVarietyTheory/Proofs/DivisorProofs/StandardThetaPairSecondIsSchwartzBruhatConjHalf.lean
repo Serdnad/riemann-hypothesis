@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsThetaFunctionStandardPairSecond
 public import Development.AbelianVarietyTheory.BlockTheory.TwistedDiscreteSeries.UnitCharTriangle
 public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.ContinuousCharacterFiniteOrderIntegralUnits
 public import Development.AbelianVarietyTheory.Proofs.HeightProofs.EmbeddingXiZeroNeZero
@@ -86,33 +87,7 @@ private theorem stdSnd_shift {ν : (AE D)ˣ →* Circle} {e : AE D} {S : Finset 
     {W : Matrix (Fin A.rank) (Fin WW.rank) (EAf D)} (hW : IsIntM W)
     (h : ∀ i j, dualCoord A WW βA βW t' i j = dualCoord A WW βA βW t i j + ((n₀ * (n * c) : ℕ) : EAf D) * W i j) :
     stdSnd ν e I a A WW βA βW t' = stdSnd ν e I a A WW βA βW t := by
-  have hW1 : ∀ i j, ((n * c : ℕ) : EAf D) * W i j ∈ OO := fun i j => mul_mem (natCast_mem _ _) (hW i j)
-  have hW2 : ∀ i j, (n₀ : EAf D) * (((n * c : ℕ) : EAf D) * W i j) ∈ OO := fun i j => mul_mem (natCast_mem _ _) (hW1 i j)
-  have ha : ∀ i j, dualCoord A WW βA βW t' i j =
-      dualCoord A WW βA βW t i j + (n₀ : EAf D) * (((n * c : ℕ) : EAf D) * W i j) := fun i j => by
-    rw [h, Nat.cast_mul n₀, mul_assoc]
-  have hb : ∀ i j, dualCoord A WW βA βW t i j =
-      dualCoord A WW βA βW t' i j + (n₀ : EAf D) * (-(((n * c : ℕ) : EAf D) * W i j)) := fun i j => by
-    rw [ha, mul_neg, add_neg_cancel_right]
-  have hint : IsIntM (dualCoord A WW βA βW t') ↔ IsIntM (dualCoord A WW βA βW t) :=
-    forall_congr' fun i => forall_congr' fun j => by
-      rw [ha]
-      exact add_mem_cancel_right (hW2 i j)
-  have hid : (∀ i j, j.1 < a → InId I (dualCoord A WW βA βW t' i j)) ↔
-      ∀ i j, j.1 < a → InId I (dualCoord A WW βA βW t i j) :=
-    ⟨fun H i j hi => inId_shift hn₀ (neg_mem (hW1 i j)) (hb i j) (H i j hi),
-      fun H i j hi => inId_shift hn₀ (hW1 i j) (ha i j) (H i j hi)⟩
-  unfold stdSnd
-  by_cases hcnd : IsHalf (cA D e) t ∧ IsIntM (dualCoord A WW βA βW t) ∧
-      ∀ i j, j.1 < a → InId I (dualCoord A WW βA βW t i j)
-  · rw [if_pos hcnd, if_pos ⟨hh.2 hcnd.1, hint.2 hcnd.2.1, hid.2 hcnd.2.2⟩]
-    refine (unitChar_congr he hl hc (isIntM_rightBlock hcnd.2.1)
-      (Z := rightBlock a fun i j => (n₀ : EAf D) * W i j)
-      (isIntM_rightBlock fun i j => mul_mem (natCast_mem _ _) (hW i j))
-      (rightBlock_shift (c := ((n * c : ℕ) : EAf D)) fun i j => ?_)).symm
-    rw [h, Nat.cast_mul n₀]
-    ring
-  · rw [ite_eq_right hcnd, ite_eq_right fun h' => hcnd ⟨hh.1 h'.1, hint.1 h'.2.1, hid.1 h'.2.2⟩]
+  apply _root_.GlobalTheory.CompanionTheory.StdSndTheta.stdSnd_shift <;> assumption
 
 private theorem dualCoord_add (A WW : HSp D) (βA : GL (Fin A.rank) (EAf D)) (βW : GL (Fin WW.rank) (EAf D))
     (x y : WO A WW) : dualCoord A WW βA βW (x + y) = dualCoord A WW βA βW x + dualCoord A WW βA βW y := by

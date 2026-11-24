@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.CompanionMatrixOfCoeffsPowMulVecFirstBasisVector
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.FourierMatch
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.GeneralLinearHaarIsMulRightInvariantUnramified
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.InvariantImageOpenClosedLocalSections
@@ -119,20 +120,8 @@ namespace GlobalTheory.JR.OrbLC
 theorem companion_pow_mulVec {r : ℕ} {k : Type} [CommRing k] (p : Fin r → k) :
     ∀ (j : ℕ) (hj : j < r), (companion p) ^ j *ᵥ (fun i : Fin r => if (i : ℕ) = 0 then (1 : k) else 0) =
       Pi.single (⟨j, hj⟩ : Fin r) 1 := by
-  intro j
-  induction j with
-  | zero =>
-    intro hj
-    funext i
-    simp only [pow_zero, Matrix.one_mulVec, Pi.single_apply, Fin.ext_iff]
-  | succ j ih =>
-    intro hj
-    rw [pow_succ', ← Matrix.mulVec_mulVec, ih (by omega)]
-    funext i
-    rw [Matrix.mulVec_single]
-    simp only [companion, Pi.single_apply, Fin.ext_iff]
-    have : j + 1 ≠ r := by omega
-    simp [this]
+  intros
+  apply _root_.GlobalTheory.JR.ImgSec.companionMatrixOfCoeffs_pow_mulVec_firstBasisVector <;> assumption
 
 theorem Cm_sec {r : ℕ} {k : Type} [CommRing k] (a : Inv r k) : Cm (sec a) = hankel a := by
   ext i j
@@ -218,17 +207,7 @@ theorem continuous_star_of_unram (F E : Type) [NontriviallyNormedField F] [Nontr
 theorem continuous_actU (F E : Type) [NontriviallyNormedField F] [NontriviallyNormedField E] [NormedAlgebra F E]
     [StarRing E] [Unram F E] (r : ℕ) :
     Continuous (fun p : Matrix.unitaryGroup (Fin r) E × Hn r F E => actU p.1 p.2) := by
-  haveI : ContinuousStar E := ⟨continuous_star_of_unram F E⟩
-  have hg : Continuous (fun p : Matrix.unitaryGroup (Fin r) E × Hn r F E => (p.1 : Matrix (Fin r) (Fin r) E)) :=
-    continuous_subtype_val.comp continuous_fst
-  have hA : Continuous (fun p : Matrix.unitaryGroup (Fin r) E × Hn r F E => (p.2.1 : Matrix (Fin r) (Fin r) E)) :=
-    continuous_subtype_val.comp (continuous_fst.comp continuous_snd)
-  have hb : Continuous (fun p : Matrix.unitaryGroup (Fin r) E × Hn r F E => p.2.2.1) :=
-    continuous_fst.comp (continuous_snd.comp continuous_snd)
-  have hl : Continuous (fun p : Matrix.unitaryGroup (Fin r) E × Hn r F E => p.2.2.2) :=
-    continuous_snd.comp (continuous_snd.comp continuous_snd)
-  refine Continuous.prodMk ?_ (Continuous.prodMk (hg.matrix_mulVec hb) hl)
-  exact Continuous.subtype_mk ((hg.mul hA).mul hg.star) _
+  first | exact _root_.GlobalTheory.JR.OrbProper.continuous_actU | exact @_root_.GlobalTheory.JR.OrbProper.continuous_actU | apply _root_.GlobalTheory.JR.OrbProper.continuous_actU <;> assumption
 
 theorem part4 (F E : Type) [NontriviallyNormedField F] [NontriviallyNormedField E] [NormedAlgebra F E] [StarRing E]
     [Unram F E] (r : ℕ) (M : Meas r F E) (f : Hn r F E → ℂ) (hf : IsTest f) (a₀ : Inv r F) (X₀ : Hn r F E)

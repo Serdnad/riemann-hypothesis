@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.HeisenbergCommutingOperatorIndependentOfArchimedeanFiber
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.WeilRepresentationPreservesSchwartz
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LatAtVAtStable
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.AdelicSchwartzMemL2
@@ -86,24 +87,7 @@ theorem mixed_eq_zero (u : mixedEmbedding.mixedSpace F)
 
 theorem fin_exists_ne_one (ψ : AddChar (AF F) ℂ) (hψ : ∀ w : Pl (F := F), ∃ t, GlobalTheory.LatVac.psiAt ψ w t ≠ 1) {a : Af F}
     (ha : a ≠ 0) : ∃ b : Af F, GlobalTheory.HeisSchA.finChar ψ (a * b) ≠ 1 := by
-  classical
-  obtain ⟨v, hv⟩ : ∃ v, evalV F v a ≠ 0 := by
-    by_contra h
-    push_neg at h
-    exact ha (af_ext fun u => by rw [h u, map_zero])
-  obtain ⟨t, ht⟩ := hψ v
-  refine ⟨singleFin v (t / evalV F v a), ?_⟩
-  have e : a * singleFin v (t / evalV F v a) = singleFin v t := by
-    apply af_ext
-    intro u
-    rw [map_mul]
-    by_cases hu : u = v
-    · subst hu
-      rw [evalV_singleFin_self, evalV_singleFin_self]
-      field_simp
-    · rw [evalV_singleFin_ne hu, evalV_singleFin_ne hu, mul_zero]
-  rw [e]
-  exact ht
+  apply _root_.GlobalTheory.FinFibre.exists_ne_one <;> assumption
 
 theorem sep {κ : Type} [Fintype κ] (ψ : AddChar (AF F) ℂ) (hψ : IsStd ψ) (x : κ → AF F)
     (hx : ∀ y : κ → AF F, ψ (x ⬝ᵥ y) = 1) : x = 0 := by

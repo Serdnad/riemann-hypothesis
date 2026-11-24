@@ -676,10 +676,7 @@ variable {n : ℕ}
 private theorem rm_unitary_apply (ν : Fin n → ℤ) (k : Matrix.unitaryGroup (Fin n) ℂ) :
     Rm ν k.1 = LinearMap.toMatrix (wb ν) (wb ν)
       (GlobalTheory.Branching.sqRep ℂ n (dw ν) (GlobalTheory.Branching.unitaryIncl n k)) := by
-  have h : IsUnit k.1.det :=
-    (Matrix.isUnit_iff_isUnit_det _).1 (GlobalTheory.Branching.unitaryIncl n k).isUnit
-  have e : Matrix.nonsingInvUnit k.1 h = GlobalTheory.Branching.unitaryIncl n k := Units.ext rfl
-  rw [Rm, dite_eq_left h, e]
+  apply _root_.GlobalTheory.CompanionTheory.CxAvg.Rm_unitary <;> assumption
 
 private theorem rm_unitary_mul (ν : Fin n → ℤ) (a b : Matrix.unitaryGroup (Fin n) ℂ) :
     Rm ν (a * b).1 = Rm ν a.1 * Rm ν b.1 := by

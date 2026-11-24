@@ -1,5 +1,6 @@
 module
 
+import all Development.AutomorphicArithmetic.AutomorphicVarieties.GaloisLibrary.GaloisCohomologyLength.DecFrob
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.QuadraticExtensions.ModulusAdjoinISqrtNegPrimes
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -79,23 +80,7 @@ private theorem val_intCast_le_one (A : ValuationSubring Ω) (n : ℤ) : A.valua
 
 private theorem val_intCast_lt_one_iff (A : ValuationSubring Ω) (hA : A.valuation ((l : ℕ) : Ω) < 1) (n : ℤ) :
     A.valuation (n : Ω) < 1 ↔ ((l : ℕ) : ℤ) ∣ n := by
-  constructor
-  · intro h
-    by_contra hnd
-    have hc : IsCoprime ((l : ℕ) : ℤ) n :=
-      ((Nat.prime_iff_prime_int.mp hl.out).coprime_iff_not_dvd).mpr hnd
-    obtain ⟨a, b, hab⟩ := hc
-    have h1 : A.valuation ((a : Ω) * ((l : ℕ) : Ω) + (b : Ω) * (n : Ω)) < 1 := by
-      refine Valuation.map_add_lt _ ?_ ?_
-      · rw [map_mul]; exact lt_of_le_of_lt (mul_le_of_le_one_left' (val_intCast_le_one A a)) hA
-      · rw [map_mul]; exact lt_of_le_of_lt (mul_le_of_le_one_left' (val_intCast_le_one A b)) h
-    have h2 : (a : Ω) * ((l : ℕ) : Ω) + (b : Ω) * (n : Ω) = 1 := by exact_mod_cast congrArg (Int.cast : ℤ → Ω) hab
-    rw [h2, map_one] at h1
-    exact lt_irrefl _ h1
-  · rintro ⟨k, rfl⟩
-    push_cast
-    rw [map_mul]
-    exact lt_of_le_of_lt (mul_le_of_le_one_right' (val_intCast_le_one A k)) hA
+  apply _root_.UpperTheory.V.LDataCardLeFinrank.DecompositionFrobenius.val_intCast_lt_one_iff <;> assumption
 
 private theorem isPlaceOver_vQ [Algebra ℚ Ω] (A : ValuationSubring Ω) (hA : A.valuation ((l : ℕ) : Ω) < 1) :
     IsPlaceOver (F := ℚ) A (vQ l) := by

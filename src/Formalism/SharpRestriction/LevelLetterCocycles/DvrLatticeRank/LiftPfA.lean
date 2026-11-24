@@ -1,5 +1,6 @@
 module
 
+import Formalism.SharpRestriction.LevelLetterCocycles.DvrLatticeRank.FrobPiNPf
 public import Formalism.SharpRestriction.LevelLetterCocycles.DataNLoc
 public import Formalism.SharpRestriction.LevelLetterCocycles.ProdOneSubPrimitiveRoots
 public import Mathlib.FieldTheory.Relrank
@@ -86,11 +87,7 @@ theorem finrank_Ks (K : FinExt l) {s : ℕ} (hs : 0 < s) :
     Nat.totient_prime_pow Fact.out hs]
 
 theorem finrank_maxUnramifiedSubfield_padicFinExt_pos (K : FinExt l) : 0 < finrank ℚ_[l] ↥(K0 K) := by
-  have := K.2
-  have : FiniteDimensional ℚ_[l] ↥(K0 K) := FiniteDimensional.of_injective
-      (IntermediateField.inclusion (inf_le_left : K0 K ≤ K.1)).toLinearMap
-      (IntermediateField.inclusion (inf_le_left : K0 K ≤ K.1)).injective
-  exact finrank_pos
+  apply _root_.Formalism.MainNotions.N.Ln34.max_unramified_finrank_pos <;> assumption
 
 end Formalism.MainNotions.N.PreambleDegrees
 end -- clump:auto

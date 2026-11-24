@@ -1,5 +1,7 @@
 module
 
+
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.DeltaPrimeIsAuxiliarySplitSquarefreeLevel
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.IsPlaceModelPlaceMap
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.TameTwistFamilySpecializationGood
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.ConjMemCompletedLatticeIffDualSplitPlace
@@ -109,7 +111,6 @@ import Formalism.TameInertiaTowers.CentralOrderTwo.OddEqOneOfSubOneMem
 import Mathlib.Tactic.Basify
 import Mathlib.Tactic.Linter.Style
 import Std.Tactic.BVDecide.Normalize.Prop
-
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.OnePlaceTwistTrivialOnCongruentUnits, Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.OnePlaceTwistTrivialOnCongruentUnitsStatement, Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.OpenKernelIdeleCharacterTrivialFinitePartOneStatement, Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsFibreIdempotents, Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsAuxiliarySquarefreeLevelTwistPlaces
 
@@ -548,25 +549,7 @@ variable {S T : HSp D}
 open Classical in
 theorem isIdemSum_halfIdem {Pg Q : Finset (Pl D.host.E)} (h : PlacesOK Pg Q) :
     IsIdemSum (halfIdem Pg Q) (Pg.image Formalism.L2.DIV.conjPl ∪ Q) := by
-  obtain ⟨R, h1, h2, hR⟩ := h.split
-  have hc := GlobalTheory.RefDatumLev.isIdemSum_conjPl (hR.mono h1).isIdemSum
-  have hA : ∀ P ∈ Pg.image Formalism.L2.DIV.conjPl, Formalism.L2.NTheta.IsIdemAt (idemAt P) P := fun P hP =>
-    SplitSet.isIdemAt ⟨_, hc⟩ hP
-  have hd : Disjoint (Pg.image Formalism.L2.DIV.conjPl) Q := Finset.disjoint_left.2 fun P hP hQ => by
-    obtain ⟨P₀, h0, rfl⟩ := Finset.mem_image.1 hP
-    have a1 : Formalism.L2.NTheta.IsIdemAt (cA D (idemAt P₀)) (Formalism.L2.DIV.conjPl P₀) :=
-      GlobalTheory.MovedIdem.isIdemAt_conj (hR.isIdemAt (h1 h0)) fun x => Iff.rfl
-    have a2 := hR.mul_conj (h2 hQ) (h1 h0)
-    rw [idemAt_eq a1, a1.1.1] at a2
-    obtain ⟨x, hx, hx0⟩ := Submodule.exists_mem_ne_zero_of_ne_bot (Formalism.L2.DIV.conjPl P₀).ne_bot
-    refine (a1.2 x hx0).1 hx ?_
-    rw [a2, zero_mul, map_zero]
-    exact zero_mem _
-  refine ⟨⟨idemAt, fun P hP => ?_, ?_⟩, h.isOrthSum.2⟩
-  · rcases Finset.mem_union.1 hP with hP | hP
-    exacts [hA P hP, hR.isIdemAt (h2 hP)]
-  · rw [Finset.sum_union hd, halfIdem, ← idem_eq hc]
-    rfl
+  first | exact _root_.GlobalTheory.SeriesTie.BaseRat.isIdemSum_halfIdem | exact @_root_.GlobalTheory.SeriesTie.BaseRat.isIdemSum_halfIdem | apply _root_.GlobalTheory.SeriesTie.BaseRat.isIdemSum_halfIdem <;> assumption
 
 theorem frMapO_add_nsmul (F : Frame S T) (k : ℕ) (x u : WO S T) :
     frMapO S T F.βS F.βT (x + k • u) = frMapO S T F.βS F.βT x + k • frMapO S T F.βS F.βT u := by

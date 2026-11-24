@@ -1,5 +1,7 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.ThetaAtEqSumHeisOfFourierSum
+import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.SplitPlaceDatumBoxTensorLineOverVacuum
 public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.LatIndLastKerRow
 public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.HasDerivAtZeroAndIsTheta
 public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.ExistsSBExtFunEqHalfInd
@@ -123,19 +125,7 @@ theorem line_sum {L : HSp D} {ζ : Fin L.rank → D.host.E} (hζ : IsLineVec L �
 
 theorem isLattice_span {L : HSp D} {ζ : Fin L.rank → D.host.E} (hζ : IsLineVec L ζ) :
     Submodule.IsFullLattice D.host.E (Submodule.span (NumberField.RingOfIntegers D.host.E) {ζ} : Lat L) := by
-  haveI : Submodule.IsLattice D.host.E (Submodule.span (NumberField.RingOfIntegers D.host.E) {ζ} : Lat L) :=
-    Submodule.IsLattice.of_fg D.host.E (Submodule.fg_span_singleton ζ)
-  refine ⟨?_⟩
-  rw [Submodule.span_span_of_tower]
-  apply eq_top_iff.mpr
-  intro v _
-  let j : Fin L.rank := ⟨0, by have := hζ.1; omega⟩
-  have hs : Subsingleton (Fin L.rank) := by rw [hζ.1]; infer_instance
-  apply Submodule.mem_span_singleton.mpr
-  refine ⟨v j / ζ j, ?_⟩
-  funext i
-  rw [Subsingleton.elim i j]
-  simp [Pi.smul_apply, smul_eq_mul, div_mul_cancel₀ _ (line_ne hζ j)]
+  first | exact _root_.GlobalTheory.FinPl.BoxDatum.isLattice_span | exact @_root_.GlobalTheory.FinPl.BoxDatum.isLattice_span | apply _root_.GlobalTheory.FinPl.BoxDatum.isLattice_span <;> assumption
 theorem exists_colFun (p : SplitPt D k) {n : Type} [Fintype n] [DecidableEq n] {L S : HSp D}
     {ζ : Fin L.rank → D.host.E} (hζ : IsLineVec L ζ) (β : Frame p S n) {LL : Lat L} {LS : Lat S}
     (hL : Submodule.IsFullLattice D.host.E LL) (hS : Submodule.IsFullLattice D.host.E LS) {Φ : WO L S → ℂ}

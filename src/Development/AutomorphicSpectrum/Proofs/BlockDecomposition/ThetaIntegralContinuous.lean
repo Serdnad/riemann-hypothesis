@@ -43,6 +43,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Sheaves.Init
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IntegrableOfMem
 
 @[expose] public section
 
@@ -59,22 +60,7 @@ namespace GlobalTheory.CompanionTheory.BigCellJ
 theorem integrable_schwartzA {D : D7} {θ : InfFam D} (hθ : IsInfFam θ) {m n : ℕ} {μ : Measure (Mx D m n)}
     {𝓕 : Set (Mx D m n)} (hμ : IsCovolOne (ratMx D m n) μ 𝓕) {φ : Mx D m n → ℂ}
     (hφ : φ ∈ schwartzA θ m n) : Integrable φ μ := by
-  obtain ⟨i1, i2, i3, i4, i5, K, hK, hKc⟩ := GlobalTheory.TowerRestrict.lattice_Mx D m n
-  haveI : BorelSpace (Mx D m n) := ⟨rfl⟩
-  haveI := hμ.1
-  haveI i6 : DiscreteTopology (ratMx D m n) := i5
-  haveI : SecondCountableTopology (ratMx D m n) := TopologicalSpace.Subtype.secondCountableTopology _
-  haveI : Countable (ratMx D m n) := TopologicalSpace.separableSpace_iff_countable.1 inferInstance
-  have hc : Continuous φ := (GlobalTheory.CompanionTheory.WeilTheta.schwartzA_continuous_and_dominated D θ hθ _ _ φ hφ).1
-  have hU : GlobalTheory.CompanionTheory.Hypotheses₂.OneV.PoiAbs.UnifSummable (ratMx D m n).subtype φ := fun Q hQ => by
-    obtain ⟨b, hb1, hb2⟩ := GlobalTheory.CompanionTheory.ThetaPoisson.translates_bound hθ ⟨φ, hφ⟩ Q hQ
-    refine ⟨b, hb1, fun c x hx => ?_⟩
-    have h := hb2 x hx c
-    rwa [add_comm] at h
-  exact GlobalTheory.CompanionTheory.Hypotheses₂.OneV.PoiAbs.integrable_of_unif hc hU μ hK fun x => by
-    obtain ⟨γ, hγ, h⟩ := hKc x
-    refine ⟨⟨-γ, (ratMx D m n).neg_mem hγ⟩, ?_⟩
-    simpa [sub_neg_eq_add, add_comm] using h
+  apply _root_.GlobalTheory.SchwartzAInt.integrable_of_mem <;> assumption
 
 theorem continuous_halfTr {D : D7} : Continuous (halfTr : AE D → AF D.host.F) := by
   haveI := isTopologicalRing_tens (F := D.host.F) (E := D.host.E) (R := AF D.host.F)

@@ -72,6 +72,7 @@ import Std.Tactic.BVDecide.Normalize.Prop
 public import Development.WeilBound.CoreStatements.LocallyConstantCoinvariants.EqZeroOfLocW
 public import Development.WeilBound.CoreStatements.LocallyConstantCoinvariants.LmOfLinBar
 import Development.AbelianVarietyTheory.Definitions.Divisors.MatchingOfParts
+import Development.WeilBound.ThetaLifts.SmallCones.FormSwapZero
 
 @[expose] public section
 
@@ -92,42 +93,7 @@ section
 theorem kill_set {X : Type} [TopologicalSpace X] (N : Submodule ℂ (X → ℂ)) (Z : Set X)
     (h : ∀ Y ∉ Z, ∃ (m : X → ℂ) (c : ℂ), IsLocallyConstant m ∧ m Y ≠ c ∧ ∀ Φ ∈ SB X, (fun y => (m y - c) * Φ y) ∈ N) :
     ∀ Φ ∈ SB X, (∀ Y ∈ Z, Φ Y = 0) → Φ ∈ N := by
-  classical
-  choose! m c hm hne hN using h
-  have key : ∀ s : Finset X, (∀ Y ∈ s, Y ∉ Z) → ∀ Φ ∈ SB X, (∀ y, Φ y ≠ 0 → ∃ Y ∈ s, m Y y = m Y Y) → Φ ∈ N := by
-    intro s
-    induction s using Finset.induction_on with
-    | empty =>
-      intro _ Φ _ h0
-      have : Φ = 0 := funext fun y => by by_contra e; simpa using h0 y e
-      rw [this]; exact zero_mem _
-    | insert Y s hY ih =>
-      intro hs Φ hΦ h0
-      have hY1 := hs Y (Finset.mem_insert_self _ _)
-      have hU : IsClopen {y | m Y y = m Y Y} := (hm Y hY1).isClopen_fiber _
-      have h1 := hN Y hY1 _ (Submodule.smul_mem _ (m Y Y - c Y)⁻¹ (indicator_mem hU hΦ))
-      have h2 := ih (fun Z hZ => hs Z (Finset.mem_insert_of_mem hZ)) _ (indicator_mem hU.compl hΦ) fun y hy => by
-        have hy1 : y ∈ {y | m Y y = m Y Y}ᶜ := Set.mem_of_indicator_ne_zero hy
-        rw [Set.indicator_of_mem hy1] at hy
-        obtain ⟨Z, hZ, e⟩ := h0 y hy
-        rcases Finset.mem_insert.1 hZ with rfl | hZ
-        · exact (hy1 e).elim
-        · exact ⟨Z, hZ, e⟩
-      convert add_mem h1 h2 using 1
-      funext y
-      by_cases hy : y ∈ {y | m Y y = m Y Y}
-      · have e : m Y y = m Y Y := hy
-        have : y ∉ {y | m Y y = m Y Y}ᶜ := fun h => h hy
-        simp only [Pi.add_apply, Pi.smul_apply, Set.indicator_of_mem hy, Set.indicator_of_notMem this, e, smul_eq_mul]
-        rw [mul_inv_cancel_left₀ (sub_ne_zero.2 (hne Y hY1)), add_zero]
-      · simp [Set.indicator_of_notMem hy, Set.indicator_of_mem (show y ∈ {y | m Y y = m Y Y}ᶜ from hy)]
-  intro Φ hΦ h1
-  have hK : IsCompact {y | Φ y ≠ 0} :=
-    hΦ.2.isCompact.of_isClosed_subset (hΦ.1.isClopen_fiber 0).compl.1 subset_closure
-  obtain ⟨s, hs, hc⟩ := hK.elim_nhds_subcover (fun Y => {y | m Y y = m Y Y}) fun Y hY =>
-    ((hm Y fun e => hY (h1 Y e)).isOpen_fiber _).mem_nhds rfl
-  refine key s (fun Y hY e => hs Y hY (h1 Y e)) Φ hΦ fun y hy => ?_
-  simpa using hc hy
+  apply _root_.PositivityTheory.ThKCT.So.kill_set <;> assumption
 
 theorem rank_ne_iff {k : Type} [Field k] {n d : ℕ} (C : Matrix (Fin n) (Fin d) k) : C.rank ≠ n ↔ ∃ p, p ≠ 0 ∧ p ᵥ* C = 0 := by
   have h := LinearMap.finrank_range_add_finrank_ker Cᵀ.mulVecLin

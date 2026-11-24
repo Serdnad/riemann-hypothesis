@@ -1,5 +1,8 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.TorsionCoordinatesEqDegenerationSeries
+import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.TorsionPairingValuesOfFamiliesValues
+import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.HasSumOfAdicSumUnitBallExtension
 public import Development.AbelianVarietyTheory.Definitions.Degenerations.AdmissibleBaseOfCompleteDvr
 public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.UnivIdentity
 public import Development.AbelianVarietyTheory.Definitions.Uniformization.AllDV
@@ -79,48 +82,7 @@ open GlobalTheory.UT GlobalTheory.UT.SymFrame ReciprocityTheory.ChartRestriction
 theorem hasSum_of_sumF {R : Type} [CommRing R] [IsDomain R] [IsNoetherianRing R] {I : Ideal R} {C : Type} [NormedField C]
     [IsUltrametricDist C] [Algebra (FractionRing R) C] (hC : CExt R I C) {Ix : Type} {x : Ix → C} {s : C}
     (h : SumF I C x s) : HasSum x s := by
-  let : Module R C := Module.compHom C (algebraMap R (FractionRing R))
-  let φ : R →+* C := (algebraMap (FractionRing R) C).comp (algebraMap R _)
-  have hφ : ∀ (a : R) (y : C), a • y = φ a * y := fun a y => Algebra.smul_def (algebraMap R (FractionRing R) a) y
-  have bd : ∀ {E : Type} [AddCommGroup E] [Module R E] (f : E →+ C), (∀ (a : R) y, f (a • y) = φ a * f y) →
-      ∀ (t : Set E) (c : ℝ), 0 ≤ c → (∀ y ∈ t, ‖f y‖ ≤ c) → ∀ y ∈ Submodule.span R t, ‖f y‖ ≤ c := by
-    intro E _ _ f hf t c h0 hc y hy
-    induction hy using Submodule.span_induction with
-    | mem y hy => exact hc y hy
-    | zero => simpa using h0
-    | add y z _ _ h1 h2 => rw [map_add (f := _)]; exact (IsUltrametricDist.norm_add_le_max _ _).trans (max_le h1 h2)
-    | smul a y _ h1 => rw [hf, norm_mul]; exact (mul_le_of_le_one_left (norm_nonneg _) (hC.1 a)).trans h1
-  obtain ⟨N, ⟨t, rfl⟩, -, -, h⟩ := h
-  obtain ⟨u, rfl⟩ := IsNoetherian.noetherian I
-  obtain ⟨c, hc0, hc⟩ : ∃ c : ℝ, 0 ≤ c ∧ ∀ y ∈ t, ‖y‖ ≤ c :=
-    ⟨∑ y ∈ t, ‖y‖, Finset.sum_nonneg fun _ _ => norm_nonneg _,
-      fun y hy => Finset.single_le_sum (f := fun y : C => ‖y‖) (fun _ _ => norm_nonneg _) hy⟩
-  obtain ⟨r, hr0, hr1, hr⟩ : ∃ r : ℝ, 0 ≤ r ∧ r < 1 ∧ ∀ a ∈ u, ‖φ a‖ ≤ r :=
-    ⟨(u.sup fun a => ‖φ a‖₊ : NNReal), NNReal.coe_nonneg _,
-      by exact_mod_cast (Finset.sup_lt_iff (f := fun a => ‖φ a‖₊) (zero_lt_one' NNReal)).2 fun a ha =>
-        show ‖φ a‖₊ < 1 from hC.2 a (Submodule.subset_span ha),
-      fun a ha => by exact_mod_cast Finset.le_sup (f := fun a => ‖φ a‖₊) ha⟩
-  have hI := bd φ.toAddMonoidHom (fun a y => map_mul φ a y) u r hr0 hr
-  have hP : ∀ n : ℕ, ∀ y ∈ (Submodule.span R (u : Set R)) ^ n • Submodule.span R (t : Set C), ‖y‖ ≤ r ^ n * c := by
-    intro n
-    induction n with
-    | zero => simpa using bd (AddMonoidHom.id C) hφ t c hc0 hc
-    | succ n ih =>
-      intro y hy
-      rw [pow_succ', Submodule.mul_smul] at hy
-      refine Submodule.smul_induction_on hy (fun a ha z hz => ?_)
-        (fun y z h1 h2 => (IsUltrametricDist.norm_add_le_max _ _).trans (max_le h1 h2))
-      rw [hφ, norm_mul, pow_succ', _root_.mul_assoc]
-      exact mul_le_mul (hI a ha) (ih z hz) (norm_nonneg _) hr0
-  refine Metric.tendsto_nhds.2 fun e he => ?_
-  have lim := (tendsto_pow_atTop_nhds_zero_of_lt_one hr0 hr1).mul_const c
-  rw [zero_mul] at lim
-  obtain ⟨n, hn⟩ := (lim.eventually (gt_mem_nhds he)).exists
-  obtain ⟨S, hS⟩ := h n
-  refine Filter.mem_of_superset (Filter.mem_atTop S) fun T hT => ?_
-  show dist _ _ < e
-  rw [dist_comm, dist_eq_norm]
-  exact (hP n _ (hS T hT)).trans_lt hn
+  exact _root_.GlobalTheory.Ex.AdicNormSum.main R I C hC Ix x s h
 
 section Alg
 
@@ -184,16 +146,8 @@ theorem step_one (n : ℕ) {T : Over (Spec (CommRingCat.of R))} {z : T.left} {J}
 theorem val_nu (hG : GlobalFnsSt) {n : ℕ} {ν : LB.Gen (nuLB D n)} (hν : Normd ν) {T : Over (Spec (CommRingCat.of R))}
     (b : T ⟶ D.P.A) {z : T.left} {J} (hJ : Good D.P.L z J) :
     val ν b.left z J = cubN (cubV D.cub z J) n 1 b b / dbl (cubV D.cub z J) (symV D z J) b ^ n := by
-  have key := ((grep_nu ν hν.1 (𝟙 _)).mul (grep_step n).inv).triv hG (fun U _ h => by
-      rw [← pow_succ]
-      apply Additive.ofMul.injective
-      simp only [ofMul_mul, ofMul_inv, ofMul_zpow, ofMul_pow, ofMul_one]
-      module)
-    (fun y J hJ => by
-      rw [Category.comp_id, normd_one hν hJ, step_one n hJ, inv_one, _root_.mul_one]) T b z J hJ
-  beta_reduce at key
-  rw [Category.comp_id] at key
-  exact mul_inv_eq_one.1 key
+  intros
+  apply _root_.GlobalTheory.Ex.CoordSeries.val_nu <;> assumption
 
 theorem val_kap (hG : GlobalFnsSt) {n : ℕ} {κ : LB.Gen (kapLB D (𝟙 D.P.A ^ n) (n ^ 2) 1)} (hκ : Normd κ)
     {T : Over (Spec (CommRingCat.of R))} (b : T ⟶ D.P.A) {z : T.left} {J} (hJ : Good D.P.L z J) :
@@ -255,14 +209,7 @@ theorem pt_val {g : GtPtF D F} {c : N.Gt} (h : ν.Pt g c) (χ : N.X) :
   Units.ext ((c_vF ν y _ _).symm.trans (congrArg (cstH y) (h.2 χ).symm))
 
 theorem famV_smul {k : ℕ} {s : Fam D F k} {f : N.X → N.A → F} (h : ν.FamV s f) (c : F) : ν.FamV (c • s) (c • f) := by
-  intro α x
-  obtain ⟨y⟩ := exists_pt (R := R) (F := F)
-  have hm := (good ν y).mem (DegPre.famφ D F (ν.eX α)) (lift (𝟙 (TF (R := R) F)) (ν.eA x)).left
-  have e := sval_lin (ν.eA x) s 0 c (ν.eX α) (good ν y)
-  have z : sval ((0 : Fam D F k).s (ν.eX α)) (lift (𝟙 (TF (R := R) F)) (ν.eA x)).left y ν.J = 0 :=
-    (gs_eq _ y _ hm _).trans ((congrArg _ (map_zero _)).trans (map_zero _))
-  rw [add_zero, z, add_zero, cst_eq, ← c_sF, ← c_sF, ← map_mul, ← h α x] at e
-  exact (_root_.mul_assoc _ _ _).trans (cstH_inj y e).symm
+  exact _root_.GlobalTheory.WeilValues.famV_smul ν h c
 
 theorem val_frame [IsNoetherianRing R] (hL : Laws) {k : ℕ} (hk : Odd k) {p : QkPt D F k} {q : N.QT k} (hq : ν.QPt p q)
     {w} (hw : TXFrame k p w) : val w (𝟙 _) y ν.J = sU y (N.wQ q) := by

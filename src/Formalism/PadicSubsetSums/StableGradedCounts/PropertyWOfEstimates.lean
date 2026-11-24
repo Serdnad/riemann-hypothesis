@@ -774,15 +774,7 @@ theorem primeToPart_eq_self_of_not_dvd {M : Type} [Monoid M] {l n : ℕ} (hl : l
 
 theorem sqWeight_irreducible {K : Type} [Field K] [Fintype K] (P : K[X]) (hP : Irreducible P)
     (hm : P.Monic) : sqWeight P = ((Fintype.card K : ℝ) ^ P.natDegree - 1)⁻¹ := by
-  unfold sqWeight
-  classical
-  have h1 := UniqueFactorizationMonoid.normalizedFactors_irreducible hP
-  rw [hm.normalize_eq_self] at h1
-  have h2 : (Multiset.map (fun P : K[X] => ((Fintype.card K : ℝ) ^ P.natDegree - 1)⁻¹)
-      (UniqueFactorizationMonoid.normalizedFactors P)).prod =
-      ((Fintype.card K : ℝ) ^ P.natDegree - 1)⁻¹ := by
-    rw [h1]; simp
-  convert h2
+  apply _root_.Formalism.IrreducibleCountingLemmas.GaloisIrreducibility.E4.sqWeight_irred <;> assumption
 
 section sets
 
@@ -941,12 +933,6 @@ theorem wt_caseB (N δ δ' l : ℕ) (hl : l.Prime) (hδ : 1 ≤ δ) (hδ' : 1 �
 
 variable {K L}
 
-private theorem monicOf_coeff_eq_of_monic {F : Type} [Field F] (P : F[X]) (hP : P.Monic) :
-    monicOf (fun i : Fin P.natDegree => P.coeff (i : ℕ)) = P := by
-  unfold monicOf
-  rw [Fin.sum_univ_eq_sum_range (fun i => C (P.coeff i) * X ^ i) P.natDegree]
-  exact hP.as_sum.symm
-
 private theorem ne_zero_of_aeval_eq_zero_of_coeff_zero_ne_zero {F E : Type} [Field F] [Field E] [Algebra F E] {f : F[X]}
     (h0 : f.coeff 0 ≠ 0) {x : E} (hx : aeval x f = 0) : x ≠ 0 := by
   rintro rfl
@@ -964,7 +950,7 @@ theorem exists_irr_factor {f : K[X]} (hf : f ≠ 0) (h0 : f.coeff 0 ≠ 0) {x : 
   have hPd : minpoly K x ∣ f := minpoly.dvd K x hx
   refine ⟨(minpoly K x).natDegree, minpoly.natDegree_pos hint, natDegree_le_of_dvd hPd hf,
     fun i => (minpoly K x).coeff (i : ℕ), ?_⟩
-  rw [monicOf_coeff_eq_of_monic _ hPm]
+  rw [monicOf_coeffs hPm rfl]
   exact ⟨minpoly.irreducible hint, minpoly.coeff_zero_ne_zero hint hxne, hPd, minpoly.aeval K x⟩
 
 private theorem pow_card_pow_eq_self_of_aeval_monicOf_irreducible {F E : Type} [Field F] [Fintype F] [Field E] [Algebra F E]

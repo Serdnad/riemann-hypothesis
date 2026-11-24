@@ -1,5 +1,6 @@
 module
 
+import GroundTheory.AutomorphicForms.TensorProductTheorem.MatrixCoeff
 public import GroundTheory.AutomorphicForms.HeckeAlgebraLevel
 public import Mathlib.RepresentationTheory.Irreducible
 import Mathlib.Algebra.Order.Floor.Extended
@@ -95,22 +96,8 @@ omit [LocallyCompactSpace G] [T2Space G] [TotallyDisconnectedSpace G] [Measurabl
   [BorelSpace G] [IsTopologicalGroup G] in
 theorem mem_span_orbit [ρ.IsIrreducible] {v : V} (hv : v ≠ 0) (w : V) :
     w ∈ Submodule.span ℂ (range fun g => ρ g v) := by
-  set S := Submodule.span ℂ (range fun g => ρ g v)
-  have hS : ∀ g, ∀ ⦃x⦄, x ∈ S → ρ g x ∈ S := by
-    intro g x hx
-    have : S ≤ S.comap (ρ g) := Submodule.span_le.2 (by
-      rintro _ ⟨h, rfl⟩
-      exact Submodule.subset_span ⟨g * h, by simp⟩)
-    exact this hx
-  rcases IsSimpleOrder.eq_bot_or_eq_top (⟨S, hS⟩ : Subrepresentation ρ) with h | h
-  · exfalso
-    apply hv
-    have : v ∈ (⟨S, hS⟩ : Subrepresentation ρ) := Submodule.subset_span ⟨1, by simp⟩
-    rw [h] at this
-    exact (Submodule.mem_bot ℂ).1 this
-  · have : w ∈ (⊤ : Subrepresentation ρ) := Submodule.mem_top
-    rw [← h] at this
-    exact this
+  intros
+  apply _root_.GroundTheory.Automorphic.RestrictedTensor.mem_span_orbit <;> assumption
 
 end General
 

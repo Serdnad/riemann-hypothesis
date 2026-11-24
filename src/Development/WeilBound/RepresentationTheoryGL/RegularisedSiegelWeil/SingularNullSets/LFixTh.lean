@@ -1,5 +1,6 @@
 module
 
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.WeilRepresentationCovarianceLevi
 public import Development.AbelianVarietyTheory.Definitions.Divisors.IsCompactIsOpenUnitsAt
 public import Development.WeilBound.RepresentationTheoryGL.RegularisedSiegelWeil.SingularNullSets.LFixWB
 public import Development.WeilBound.RepresentationTheoryGL.RegularisedSiegelWeil.SingularNullSets.WeakApproximationFinitePlace
@@ -348,19 +349,7 @@ theorem map_one_apply {R : Type} [Ring R] (f : AE D →+* R) (i j : Fin n) :
 
 theorem mat_inv_levi {g : G D p} {a : GL (Fin p) (AE D)} (ha : mat g = blk4 a.1 0 0 (adj (a⁻¹).1)) :
     mat g⁻¹ = blk4 (a⁻¹).1 0 0 (adj a.1) := by
-  have h1 : (a⁻¹).1 * a.1 = 1 := a.inv_mul
-  have h2 : adj a.1 * adj (a⁻¹).1 = 1 := by
-    delta GlobalTheory.MixModel.adj
-    rw [← Matrix.transpose_mul, ← Matrix.map_mul, h1, Matrix.map_one _ (map_zero _) (map_one _),
-      Matrix.transpose_one]
-  have hprod : blk4 (a⁻¹).1 0 0 (adj a.1) * blk4 a.1 0 0 (adj (a⁻¹).1) = 1 := by
-    delta GlobalTheory.StdUnn.blk4
-    rw [Matrix.submatrix_mul_equiv, Matrix.fromBlocks_multiply]
-    simp only [Matrix.zero_mul, Matrix.mul_zero, add_zero, zero_add, h1, h2, Matrix.fromBlocks_one]
-    exact Matrix.submatrix_one_equiv _
-  delta GlobalTheory.StdUnn.mat at ha ⊢
-  rw [map_inv]
-  exact Units.inv_eq_of_mul_eq_one_left (by rw [ha]; exact hprod)
+  apply _root_.GlobalTheory.CompanionTheory.EisCovar.mat_inv_levi <;> assumption
 
 private theorem matHom_proj_fst_eq_mat_map_cv (g : G D p) (v : Pl D) :
     (GlobalTheory.AdelicU.matHom _ D.sp.cm.sig (GlobalTheory.StdUnn.Jst D p)

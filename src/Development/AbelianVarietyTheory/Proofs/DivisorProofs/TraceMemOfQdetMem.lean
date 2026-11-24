@@ -1,5 +1,6 @@
 module
 
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.LieOneLMemZalg
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.ContinuousConjFin
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -178,51 +179,8 @@ variable {A : Type} [Ring A] [Algebra ℂ A]
 
 theorem trace_mem_of_qdet_mem {n : ℕ} (X : Fin n → Fin n → A) (S : Subalgebra ℂ A)
     (h : ∀ u : ℂ, Formalism.REAL.qdet X u ∈ S) : ∑ i, X i i ∈ S := by
-  classical
-  let d : Equiv.Perm (Fin n) → Fin n → ℂ := fun σ k => if σ k = k then 1 else 0
-  let B : Equiv.Perm (Fin n) → Fin n → A := fun σ k =>
-    (if σ k = k then algebraMap ℂ A (-((k : ℕ) : ℂ)) else 0) + X (σ k) k
-  let L : Equiv.Perm (Fin n) → List (ℂ × A) := fun σ => List.ofFn fun k => (d σ k, B σ k)
-  have hlen : ∀ σ, (L σ).length = n := fun σ => List.length_ofFn
-  choose c hc0 hcu hctop hcsub using fun σ => prod_affine (L σ)
-  have hfac : ∀ σ (u : ℂ), (List.ofFn fun k : Fin n => Formalism.REAL.Tm X (u - ((k : ℕ) : ℂ)) (id (σ k)) (id k)).prod =
-      ((L σ).map fun p => (u * p.1) • (1 : A) + p.2).prod := by
-    intro σ u
-    simp only [L, List.map_ofFn]
-    congr 1
-    refine List.ofFn_inj.2 (funext fun k => ?_)
-    simp only [Function.comp_apply, Formalism.REAL.Tm, id, d, B]
-    split_ifs
-    · rw [Algebra.algebraMap_eq_smul_one, Algebra.algebraMap_eq_smul_one, mul_one, sub_eq_add_neg, add_smul]; abel
-    · simp
-  let C : ℕ → A := fun k => ∑ σ : Equiv.Perm (Fin n), ((Equiv.Perm.sign σ : ℤ) : A) * c σ k
-  have hC : ∀ u : ℂ, Formalism.REAL.qdet X u = ∑ k ∈ Finset.range (n + 1), u ^ k • C k := by
-    intro u
-    simp only [Formalism.REAL.qdet, Formalism.REAL.qminor, hfac, hcu, hlen, C, Finset.mul_sum, Finset.smul_sum, mul_smul_comm]
-    exact Finset.sum_comm
-  rcases Nat.eq_zero_or_pos n with hn | hn
-  · subst hn; simp
-  have hmem : C (n - 1) ∈ S := coeff_mem (Subalgebra.toSubmodule S) n C (fun u => by
-    rw [← hC]; exact h u) (n - 1) (by omega)
-  have hsub : ∀ σ, c σ (n - 1) = sub1 (L σ) := fun σ => hcsub σ _ (by rw [hlen]; omega)
-  have hCeq : C (n - 1) = ∑ k : Fin n, B 1 k := by
-    simp only [C, hsub]
-    rw [Finset.sum_eq_single (1 : Equiv.Perm (Fin n))]
-    · rw [(sub1_ones (L 1) ?_).1]
-      · simp [L, List.map_ofFn, List.sum_ofFn]
-      · intro p hp
-        obtain ⟨k, rfl⟩ := List.mem_ofFn.1 hp
-        simp [d]
-    · intro σ _ hσ
-      obtain ⟨k₀, hk₀⟩ : ∃ k, σ k ≠ k := by
-        by_contra hc; exact hσ (Equiv.ext fun k => not_not.1 fun hk => hc ⟨k, hk⟩)
-      have hk₁ : σ (σ k₀) ≠ σ k₀ := fun e => hk₀ (σ.injective e)
-      rw [sub1_ofFn_eq_zero n (d σ) (B σ) k₀ (σ k₀) (Ne.symm hk₀) (by simp [d, hk₀]) (by simp [d, hk₁]), mul_zero]
-    · simp
-  have hB : ∀ k : Fin n, B 1 k = algebraMap ℂ A (-((k : ℕ) : ℂ)) + X k k := fun k => by simp [B]
-  simp only [hCeq, hB, Finset.sum_add_distrib] at hmem
-  have hs : ∑ k : Fin n, algebraMap ℂ A (-((k : ℕ) : ℂ)) ∈ S := S.sum_mem fun k _ => S.algebraMap_mem _
-  simpa using S.sub_mem hmem hs
+  intros
+  apply _root_.GlobalTheory.CompanionTheory.CapelliTrace.trace_mem <;> assumption
 
 end GlobalTheory.CapTrace
 

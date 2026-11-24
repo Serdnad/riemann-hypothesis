@@ -11,6 +11,7 @@ import Mathlib.Tactic.TypeStar
 import ReciprocityTheory.ReductiveGroups.DiscreteSeries.DiscreteSeriesExistence.RightDerivativeToL2
 import ReciprocityTheory.ReductiveGroups.DiscreteSeries.DiscreteSeriesExistence.RregRep
 public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.DiscreteSeriesExistence.SmoothCore
+import ReciprocityTheory.ReductiveGroups.DiscreteSeries.LaplaceOperators.KTypeLemma.TransferA
 
 @[expose] public section
 
@@ -86,32 +87,7 @@ private theorem inG_cpart2' (Z : Matrix (Fin n) (Fin n) ℂ) : inG ε (S7.cpart2
 
 private theorem inUJ_mul_exp_smul_of_inG {g X : Matrix (Fin n) (Fin n) ℂ} (hg : inUJ ε g) (hX : inG ε X) (t : ℝ) :
     inUJ ε (g * NormedSpace.exp ((t : ℂ) • X)) := by
-  have hX0 : Xᴴ * Jm ε + Jm ε * X = 0 := hX
-  have hX' : Xᴴ * Jm ε = -(Jm ε * X) := eq_neg_of_add_eq_zero_left hX0
-  unfold inUJ at hg ⊢
-  set Y := (t : ℂ) • X with hY
-  have hYJ : Yᴴ * Jm ε = Jm ε * -Y := by
-    rw [hY, Matrix.conjTranspose_smul, Matrix.smul_mul, hX', Matrix.mul_neg, Matrix.mul_smul, smul_neg]
-    simp
-  have hYc : Yᴴ = Jm ε * -Y * Jm ε := by
-    calc Yᴴ = Yᴴ * Jm ε * Jm ε := by rw [Matrix.mul_assoc, Jm_mul_Jm_eq_oneDiscreteSeriesExistence, Matrix.mul_one]
-      _ = Jm ε * -Y * Jm ε := by rw [hYJ]
-  have hJinv : (Jm ε)⁻¹ = Jm ε := Matrix.inv_eq_right_inv Jm_mul_Jm_eq_oneDiscreteSeriesExistence
-  have hJu : IsUnit (Jm ε) := ⟨⟨Jm ε, Jm ε, Jm_mul_Jm_eq_oneDiscreteSeriesExistence, Jm_mul_Jm_eq_oneDiscreteSeriesExistence⟩, rfl⟩
-  have hE : (NormedSpace.exp Y)ᴴ = Jm ε * NormedSpace.exp (-Y) * Jm ε := by
-    rw [← Matrix.exp_conjTranspose, hYc]
-    have := Matrix.exp_conj (Jm ε) (-Y) hJu
-    rw [hJinv] at this
-    exact this
-  have e1 : NormedSpace.exp (-Y) * NormedSpace.exp Y = 1 := by
-    rw [← Matrix.exp_add_of_commute _ _ (Commute.neg_left (Commute.refl Y)), neg_add_cancel,
-      NormedSpace.exp_zero]
-  have step : (g * NormedSpace.exp Y)ᴴ * Jm ε * (g * NormedSpace.exp Y) =
-      (NormedSpace.exp Y)ᴴ * (gᴴ * Jm ε * g) * NormedSpace.exp Y := by
-    rw [Matrix.conjTranspose_mul]
-    simp only [Matrix.mul_assoc]
-  rw [step, hg, hE, Matrix.mul_assoc (Jm ε * NormedSpace.exp (-Y)) (Jm ε) (Jm ε), Jm_mul_Jm_eq_oneDiscreteSeriesExistence,
-    Matrix.mul_one, Matrix.mul_assoc, e1, Matrix.mul_one]
+  apply _root_.ReciprocityTheory.ChartRestriction.DS.Lap.LemK.ta_inUJ_mul_exp <;> assumption
 
 theorem icx_eabV_congr {f f' : Matrix (Fin n) (Fin n) ℂ → E} (h : ∀ g, inUJ ε g → f g = f' g) (a b : Fin n)
     {g : Matrix (Fin n) (Fin n) ℂ} (hg : inUJ ε g) : S7.EabV ε a b f g = S7.EabV ε a b f' g := by

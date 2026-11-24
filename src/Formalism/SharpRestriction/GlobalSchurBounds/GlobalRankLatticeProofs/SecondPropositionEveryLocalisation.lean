@@ -1,5 +1,6 @@
 module
 
+import Formalism.LocalRingCardinality.RankBoundMonotoneInDimension
 public import Formalism.SharpRestriction.GlobalSchurBounds.CMFieldLemmas
 public import Formalism.FrobeniusOrbits.FrobeniusOrbitsProofs.CoprimeTwoPow
 public import Formalism.SharpRestriction.RamificationFrobenius.TotientGaloisClasses.FrameFacts
@@ -59,11 +60,7 @@ theorem ord_five (e : ℕ) : orderOf (hcl e (u5 (e + 2))) = 2 ^ e :=
   (hostGroup e).2.2.2.2.2.2.2.1
 
 theorem iotaH_add (e : ℕ) (i j : ZMod (2 ^ e)) : iotaH e (i + j) = iotaH e i * iotaH e j := by
-  unfold iotaH
-  have h := pow_mod_orderOf (hcl e (u5 (e + 2))) (i.val + j.val)
-  rw [ord_five] at h
-  rw [ZMod.val_add, ← pow_add]
-  exact h
+  apply _root_.Formalism.BasicNotions.iotaH_add <;> assumption
 
 theorem iotaH_injective (e : ℕ) : Function.Injective (iotaH e) := by
   intro i j hij

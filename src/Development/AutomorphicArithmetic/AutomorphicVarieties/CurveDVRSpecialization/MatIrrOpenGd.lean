@@ -1,5 +1,6 @@
 module
 
+import all Development.AutomorphicArithmetic.AutomorphicVarieties.UnitaryThreeDeformations.IrrOpen
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.CurveDVRSpecialization.RatTorsionFree
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.UnitaryThreeGroups.RhoKApply
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.CyclotomicCharInertiaSurjective
@@ -86,52 +87,7 @@ private theorem exists_line (H U : Subgroup G) (hUH : U ≤ H) [hn : U.Normal] (
     (hm : ∀ g ∈ H, ∀ h ∈ H, a (g * h) = a g * a h) (h1 : a 1 = 1) {u : G} (hu : u ∈ U) (d : Fin 3 → K)
     (hd : Function.Injective d) (hud : a u = diagonal d) (hH : MatIrr H a) (hU : ¬MatIrr U a) :
     ∃ i, ∀ s ∈ U, ∀ j, j ≠ i → a s j i = 0 := by
-  have key : ∀ W : Submodule K (Fin 3 → K), (∀ g ∈ U, ∀ v ∈ W, a g *ᵥ v ∈ W) →
-      ∀ v ∈ W, ∀ i, v i ≠ 0 → Pi.single i (1 : K) ∈ W := fun W hW v hv i hi =>
-    _root_.UpperTheory.Reformulated.B.SingleMemSubmodule.single_mem d hd W (fun v hv => hud ▸ hW u hu v hv) hv hi
-  have fin : ∀ W : Submodule K (Fin 3 → K), (∀ g ∈ U, ∀ v ∈ W, a g *ᵥ v ∈ W) →
-      (∃ i, Pi.single i (1 : K) ∈ W ∧ ∀ j, j ≠ i → ¬Pi.single j (1 : K) ∈ W) → ∃ i, ∀ s ∈ U, ∀ j, j ≠ i → a s j i = 0 :=
-    fun W hW ⟨i, hi, hi'⟩ => ⟨i, fun s hs j hj => by
-      by_contra hc
-      exact hi' j hj (key W hW _ (hW s hs _ hi) j (by simpa using hc))⟩
-  have ne1 : ∀ W : Submodule K (Fin 3 → K), (∀ g ∈ U, ∀ v ∈ W, a g *ᵥ v ∈ W) → W ≠ ⊥ →
-      ∃ i, Pi.single i (1 : K) ∈ W := fun W hW hb => by
-    obtain ⟨v, hv, h0⟩ := (Submodule.ne_bot_iff W).1 hb
-    obtain ⟨i, hi⟩ := Function.ne_iff.1 h0
-    exact ⟨i, key W hW v hv i hi⟩
-  have ne2 : ∀ W : Submodule K (Fin 3 → K), W ≠ ⊤ → ∃ i, ¬Pi.single i (1 : K) ∈ W := fun W ht => by
-    by_contra hc
-    push Not at hc
-    exact ht (top_le_iff.1 (le_of_single fun _ _ i _ => hc i))
-  unfold MatIrr at hU
-  push Not at hU
-  obtain ⟨W, hW, hb, ht⟩ := hU
-  obtain ⟨g, hg, v, hv, hgv⟩ : ∃ g ∈ H, ∃ v ∈ W, a g *ᵥ v ∉ W := by
-    by_contra hc
-    push Not at hc
-    exact (hH W hc).elim hb ht
-  have hinv : ∀ w, a g *ᵥ (a g⁻¹ *ᵥ w) = w := fun w => by
-    rw [mulVec_mulVec, ← hm g hg _ (H.inv_mem hg), mul_inv_cancel, h1, one_mulVec]
-  set W' := W.comap (mulVecLin (a g)) with hW'
-  have hm' : ∀ w, w ∈ W' ↔ a g *ᵥ w ∈ W := fun _ => Iff.rfl
-  have hs' : ∀ s ∈ U, ∀ w ∈ W', a s *ᵥ w ∈ W' := fun s hs w hw => by
-    have h2 := hn.conj_mem s hs g
-    rw [hm', mulVec_mulVec, ← hm g hg s (hUH hs), show g * s = g * s * g⁻¹ * g by group, hm _ (hUH h2) g hg,
-      ← mulVec_mulVec]
-    exact hW _ h2 _ hw
-  have hb' : W' ≠ ⊥ := fun h => hb ((Submodule.eq_bot_iff W).2 fun w hw => by
-    have : a g⁻¹ *ᵥ w ∈ W' := by rw [hm', hinv]; exact hw
-    rw [h, Submodule.mem_bot] at this
-    rw [← hinv w, this, mulVec_zero])
-  have ht' : W' ≠ ⊤ := fun h => hgv ((hm' v).1 (h ▸ Submodule.mem_top))
-  have hle : ∃ i, Pi.single i (1 : K) ∈ W ∧ ¬Pi.single i (1 : K) ∈ W' := by
-    by_contra hc
-    push Not at hc
-    exact hgv (le_of_single (W' := W') (fun v hv i hi => hc i (key W hW v hv i hi)) hv)
-  rcases comb _ _ (ne1 W hW hb) (ne2 W ht) (ne1 W' hs' hb') (ne2 W' ht') hle with h | h | h
-  · exact fin W hW h
-  · exact fin W' hs' h
-  · exact fin (W ⊓ W') (fun s hs w hw => ⟨hW s hs w hw.1, hs' s hs w hw.2⟩) h
+  apply _root_.exists_line <;> assumption
 
 private theorem coord {H : Subgroup G} {a : G → Matrix (Fin 3) (Fin 3) K} (hH : MatIrr H a) (P : Fin 3 → Prop)
     (h : ∀ g ∈ H, ∀ i j, P i → ¬P j → a g j i = 0) {i : Fin 3} (hi : P i) (j : Fin 3) : P j := by

@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.ExistsEqTransposeMulMapOfIdempotent
 public import Formalism.HermitianLattices.StatementJac
 public import Mathlib.LinearAlgebra.Matrix.Transvection
 import Mathlib.Algebra.Order.Floor.Extended
@@ -89,22 +90,8 @@ theorem unimodUnramUnique_split (T N d r : S) (hr : r ^ 2 + T * r + N = 0)
 
 theorem unimodUnramUnique_ff {k : Type*} [Field k] [Finite k] (T N d : k)
     (hD : T ^ 2 - 4 * N ≠ 0) : ∃ a b : k, a ^ 2 + T * a * b + N * b ^ 2 = d := by
-  classical
-  have := Fintype.ofFinite k
-  rcases Nat.mod_two_eq_zero_or_one (Fintype.card k) with h | h
-  · obtain ⟨c, hc⟩ := FiniteField.isSquare_of_char_two (FiniteField.even_card_iff_char_two.2 h) d
-    exact ⟨c, 0, by rw [hc]; ring⟩
-  · have h2 : (2 : k) ≠ 0 := Ring.two_ne_zero (fun hc => by
-      rw [FiniteField.even_card_iff_char_two.1 hc] at h; exact absurd h (by decide))
-    have hf : (X ^ 2 : k[X]).degree = 2 := by compute_degree!
-    have hg : (C (-(T ^ 2 - 4 * N)) * X ^ 2 + C (-(4 * d)) : k[X]).degree = 2 := by
-      compute_degree!
-      intro h; exact hD (by linear_combination -h)
-    obtain ⟨x, y, hxy⟩ := FiniteField.exists_root_sum_quadratic hf hg h
-    simp at hxy
-    refine ⟨(x - T * y) / 2, y, ?_⟩
-    field_simp
-    linear_combination hxy
+  intros
+  apply _root_.GlobalTheory.BinaryFormUniversal.binary_form_universal <;> assumption
 
 theorem unimodUnramUnique_quad [Finite (ResidueField S)] (T N d : S)
     (hD : IsUnit (T ^ 2 - 4 * N)) (hd : IsUnit d) :

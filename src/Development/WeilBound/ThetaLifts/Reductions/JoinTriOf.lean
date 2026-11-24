@@ -126,97 +126,17 @@ theorem local_poly (act : Mat r s →ₗ[ℂ] Module.End ℂ M) (hL : IsLie act)
     casK (units act) (ι f) = ((casW La : ℚ) : ℂ) • ι f ∧ ∀ N : Submodule ℂ M, N ≤ genG act (Submodule.span ℂ {ι f}) →
       (∀ W, ∀ x ∈ N, act W x ∈ N) → N ≠ genG act (Submodule.span ℂ {ι f}) →
       ∀ x ∈ N, ∃ g : Polynomial ℂ, g.eval ((casW La : ℚ) : ℂ) = 1 ∧ Polynomial.aeval (casK (units act)) g x = 0 := by
-  classical
-  let V : Submodule ℂ A := cycK ρ f
-  let ρV : Ix r s → Ix r s → Module.End ℂ V := fun a b =>
-    if h : sameBlock a b then (ρ a b).restrict (kSt_cycK ρ f a b h) else 0
-  have hρV : ∀ a b, sameBlock a b → ∀ v : V, ((ρV a b v : V) : A) = ρ a b v := by
-    intro a b h v
-    simp only [ρV, dif_pos h]
-    rfl
-  let ιV : V →ₗ[ℂ] M := ι ∘ₗ V.subtype
-  have hιV : ∀ a b, sameBlock a b → ∀ v, ιV (ρV a b v) = act (Eab a b) (ιV v) := by
-    intro a b h v
-    change ι ((ρV a b v : V) : A) = act (Eab a b) (ι (v : A))
-    rw [hρV a b h, hι a b h]
-  have hadjV : AdjK ρV := by
-    intro a b h u v
-    rw [Submodule.coe_inner, Submodule.coe_inner, hρV a b h, hρV b a (sameBlock_symm' h)]
-    exact hadj a b h _ _
-  set c0 : ℝ := ((casW La : ℚ) : ℝ) with hc0
-  have hcc : (c0 : ℂ) = ((casW La : ℚ) : ℂ) := by simp [hc0]
-  have hcV : casK ρV = (c0 : ℂ) • (1 : Module.End ℂ V) := by
-    refine LinearMap.ext fun v => Subtype.ext ?_
-    have h1 := casK_intertw (ρ := ρV) (ρ' := ρ) V.subtype (fun a b h v => hρV a b h v) v
-    change ((casK ρV v : V) : A) = (c0 : ℂ) • (v : A)
-    rw [hcc, ← cas_cyc hgl hw v v.2]
-    exact h1
-  have hsV : StarK act (LinearMap.range ιV) c0 := by
-    intro t ht x hx
-    refine hs t ht x (Submodule.span_mono ?_ hx)
-    rintro y ⟨a, b, hab, v, ⟨w, rfl⟩, rfl⟩
-    exact ⟨a, b, hab, _, ⟨(w : A), rfl⟩, rfl⟩
-  obtain ⟨hinj, hfin⟩ := cas_bound_gl act hL ρV hadjV c0 hcV ιV hιV hsV
-  have hfV : f ∈ V := self_mem_cycK ρ f
-  have hG : genG act (LinearMap.range ιV) = genG act (Submodule.span ℂ {ι f}) := by
-    apply le_antisymm
-    · refine genG_le' ?_ (genG_stable' _ _)
-      rintro _ ⟨v, rfl⟩
-      have : V ≤ (genG act (Submodule.span ℂ {ι f})).comap ι := by
-        refine sInf_le ⟨le_genG' _ _ (Submodule.mem_span_singleton_self _), fun a b h x hx => ?_⟩
-        rw [Submodule.mem_comap, hι a b h]
-        exact genG_stable' _ _ _ _ hx
-      exact this v.2
-    · refine genG_le' ?_ (genG_stable' _ _)
-      rw [Submodule.span_singleton_le_iff_mem]
-      exact le_genG' _ _ ⟨⟨f, hfV⟩, rfl⟩
-  rw [hG] at hinj hfin
-  set G := genG act (Submodule.span ℂ {ι f}) with hGdef
-  let C : Module.End ℂ M := casK (units act) - (c0 : ℂ) • 1
-  have hC : ∀ x, C x = casK (units act) x - (c0 : ℂ) • x := fun x => rfl
-  have hC0 : ∀ x ∈ LinearMap.range ιV, C x = 0 := by
-    rintro _ ⟨v, rfl⟩
-    rw [hC, ← casK_intertw (ρ := ρV) (ρ' := units act) ιV hιV v, hcV]
-    simp
-  refine ⟨?_, fun N hNG hNs hne => ?_⟩
-  · have := hC0 (ι f) ⟨⟨f, hfV⟩, rfl⟩
-    rw [hC, sub_eq_zero, hcc] at this
-    exact this
-  · have hdis : ∀ x ∈ N, x ∈ LinearMap.range ιV → x = 0 := by
-      have hK : KSt ρ (V ⊓ N.comap ι) := by
-        intro a b h x hx
-        refine ⟨kSt_cycK ρ f a b h x hx.1, ?_⟩
-        change ι (ρ a b x) ∈ N
-        rw [hι a b h]
-        exact hNs _ _ hx.2
-      rcases cyc_irred hadj hgl hw (V ⊓ N.comap ι) inf_le_left hK with h | h
-      · rintro _ hx ⟨v, rfl⟩
-        have : (v : A) ∈ V ⊓ N.comap ι := ⟨v.2, hx⟩
-        rw [h, Submodule.mem_bot] at this
-        change ι (v : A) = 0
-        rw [this, map_zero]
-      · exfalso
-        apply hne
-        refine le_antisymm hNG (genG_le' ?_ hNs)
-        rw [Submodule.span_singleton_le_iff_mem]
-        have : f ∈ V ⊓ N.comap ι := h ▸ hfV
-        exact this.2
-    intro x hx
-    obtain ⟨F, hF, hxF, hFK⟩ := hfin x (hNG hx)
-    have hKN : KSt (units act) (N ⊓ F) := fun a b h y hy => ⟨hNs _ _ hy.1, hFK a b h y hy.2⟩
-    have hCN : ∀ y ∈ N ⊓ F, C y ∈ N ⊓ F := fun y hy =>
-      (N ⊓ F).sub_mem (casK_mem hKN hy) ((N ⊓ F).smul_mem _ hy)
-    have : FiniteDimensional ℂ ↥(N ⊓ F) := Submodule.finiteDimensional_of_le inf_le_right
-    have hi : Function.Injective (C.restrict hCN) := by
-      rw [← LinearMap.ker_eq_bot, eq_bot_iff]
-      intro y hy
-      have h1 : C (y : M) = 0 := congrArg Subtype.val (LinearMap.mem_ker.1 hy)
-      have h2 := hinj y (hNG y.2.1) (by rw [← hC, h1]; exact Submodule.zero_mem _)
-      exact Subtype.ext (hdis y y.2.1 h2)
-    obtain ⟨g, g1, g2⟩ := poly_kill C (N ⊓ F) hCN hi ⟨hx, hxF⟩
-    refine ⟨g.comp (Polynomial.X - Polynomial.C (c0 : ℂ)), by rw [← hcc]; simpa using g1, ?_⟩
-    rw [Polynomial.aeval_comp, map_sub, Polynomial.aeval_X, Polynomial.aeval_C, Algebra.algebraMap_eq_smul_one]
-    exact g2
+  obtain ⟨hv, hC⟩ := casimir_eigenvalue_and_injective_shift_on_finite_submodule
+    act hL La ρ ι f hadj hgl hw hι hs
+  refine ⟨hv, fun N hNG hNs hne x hx => ?_⟩
+  let c : ℂ := ((casW La : ℚ) : ℂ)
+  let C : Module.End ℂ M := casK (units act) - c • 1
+  obtain ⟨U, hfd, hU, hxU, hi⟩ := hC N hNG hNs hne x hx
+  letI := hfd
+  obtain ⟨g, g1, g2⟩ := poly_kill C U hU hi hxU
+  refine ⟨g.comp (Polynomial.X - Polynomial.C c), by simpa [c] using g1, ?_⟩
+  rw [Polynomial.aeval_comp, map_sub, Polynomial.aeval_X, Polynomial.aeval_C, Algebra.algebraMap_eq_smul_one]
+  exact g2
 
 theorem cas_mem (act : Mat r s →ₗ[ℂ] Module.End ℂ M) : casK (units act) ∈ Algebra.adjoin ℂ (Set.range act) := by
   refine sum_mem fun a _ => sum_mem fun b _ => ?_

@@ -121,6 +121,7 @@ import Mathlib.RingTheory.Valuation.Integral
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.LBLocalC
 import Mathlib.CategoryTheory.Monoidal.Opposite.Mon
 import Mathlib.RingTheory.MvPolynomial
+import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.FormalGroupLawCompMulNZero
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.Proofs.JetHarmonics.ExistsCharactersBoundedMinorsOfHodgeTateChartBouStatement, Development.AbelianVarietyTheory.Proofs.JetHarmonics.ExistsIntegralTypesAndDirectionsStatement, Development.AbelianVarietyTheory.Proofs.JetHarmonics.GermBoxProductEqProdGermsStatement, Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.ExpBijFOfAdmissibleBase, Development.AbelianVarietyTheory.Proofs.JetHarmonics.BoxTupOfColumns, Development.AbelianVarietyTheory.Proofs.JetHarmonics.BoxTupOfColumnsStatement, Development.AbelianVarietyTheory.Proofs.JetHarmonics.GsSpMapGermAt, Development.AbelianVarietyTheory.Proofs.JetHarmonics.TruncationFramesLocalSeriesStatement, Development.AbelianVarietyTheory.Proofs.JetHarmonics.ChartFromPointDatumOfLaws, Development.AbelianVarietyTheory.Proofs.JetHarmonics.ChartFromPointDatumOfLawsStatement, Development.AbelianVarietyTheory.Proofs.JetHarmonics.IntegralChartColumnsToTupleHarmonicValues, Development.AbelianVarietyTheory.Proofs.JetHarmonics.IntegralChartColumnsToTupleHarmonicValuesStatement, Development.AbelianVarietyTheory.Proofs.JetHarmonics.IsUnitIffNotIsUnitOfCoprime, Development.AbelianVarietyTheory.Proofs.JetHarmonics.DepthBelowOneOfHodgeTateChartForm, Development.AbelianVarietyTheory.Proofs.JetHarmonics.DepthBelowOneOfHodgeTateChartFormStatement, Development.AbelianVarietyTheory.Proofs.JetHarmonics.ExistsAlgClosedValuedFieldOverCompleteDVRStatement, Development.AbelianVarietyTheory.Proofs.JetHarmonics.ThetaGeneratorsLeastValueOverLevelPrime
@@ -774,14 +775,7 @@ open MvPowerSeries ReciprocityTheory.ChartRestriction.G.Geo.Tor.Germ Reciprocity
 variable {R : Type} [CommRing R] {d : ℕ} {O : Type} [CommRing O] [StarRing O]
 
 theorem dLin_id : dLin (pt R (n := 1) d 0) = 1 := by
-  classical
-  ext i j
-  simp only [dLin, pt, coeff_X, Matrix.one_apply]
-  by_cases h : i = j
-  · simp [h]
-  · rw [if_neg h, if_neg]
-    intro e
-    exact h (congrArg Prod.snd (Finsupp.single_left_injective one_ne_zero e)).symm
+  apply _root_.GlobalTheory.FormalMulN.dLin_pt <;> assumption
 
 theorem law_eq {B B' : FB R d O} {ε : PS R 2 d} (h : Related B B' (pt R (n := 1) d 0) (pt R (n := 1) d 0) ε) :
     B.G.F = B'.G.F := funext fun i => ((Related.refl B).law i).trans (h.law i).symm

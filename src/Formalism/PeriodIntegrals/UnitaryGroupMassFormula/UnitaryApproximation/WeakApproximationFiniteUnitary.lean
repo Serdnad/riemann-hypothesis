@@ -1,5 +1,6 @@
 module
 
+import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.AdicIntegersCompact.IsCompactAdicCompletionIntegers
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.UnitaryApproximation.WeakApproxF
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -58,17 +59,7 @@ variable {F : Type} [Field F] [NumberField F]
 
 theorem wa_isOpen_lt_one (v : HeightOneSpectrum (𝓞 F)) (x : v.adicCompletion F) :
     IsOpen {y : v.adicCompletion F | Valued.v (y - x) < 1} := by
-  rw [isOpen_iff_mem_nhds]
-  intro y hy
-  rw [Valued.mem_nhds]
-  refine ⟨1, fun z hz => ?_⟩
-  have hz' : Valued.v (z - y) < 1 := by
-    first
-      | simpa using hz
-  simp only [Set.mem_setOf_eq] at hy ⊢
-  have hzx : z - x = (z - y) + (y - x) := by abel
-  rw [hzx]
-  exact lt_of_le_of_lt (Valuation.map_add _ _ _) (max_lt hz' hy)
+  apply _root_.PI.IntAdCpctOpenWork.isOpen_lt_one <;> assumption
 
 theorem wa_valued_algebraMap (v : HeightOneSpectrum (𝓞 F)) (k : F) :
     Valued.v (algebraMap F (v.adicCompletion F) k) = v.valuation F k :=

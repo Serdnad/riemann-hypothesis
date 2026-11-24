@@ -1,5 +1,6 @@
 module
 
+import Formalism.LocalToGlobal.CharacterGerms.LemmaMLin
 public import Formalism.LocalToGlobal.CharacterGerms.RowTieFB
 public import Formalism.FormalGroupLog.FormalGroupLogProofs.ChainRule
 public import Formalism.LocalToGlobal.CharacterGerms.RowTieCartFB
@@ -43,11 +44,7 @@ namespace RowTiePCEqDer
 variable {d : ℕ} {I : Fin 2 → Type} [∀ g, Fintype (I g)]
 
 theorem dVar_eq {σ : Type} (w : σ) (F : MvPowerSeries σ C) : dVar w F = MvPowerSeries.pderiv (R := C) w F := by
-  ext μ
-  rw [MvPowerSeries.coeff_pderiv]
-  show ((μ w + 1 : ℕ) : C) * MvPowerSeries.coeff (μ + Finsupp.single w 1) F = _
-  push_cast
-  ring
+  apply _root_.Formalism.L2.FormalSeriesBounds.dVar_eq_pderiv <;> assumption
 
 theorem pderiv_upG_same (g : Fin 2) (k : I g) (F : MvPowerSeries (I g) C) :
     MvPowerSeries.pderiv (R := C) (⟨g, k⟩ : WV I) (upG g F) = upG g (MvPowerSeries.pderiv (R := C) k F) := by

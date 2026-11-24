@@ -1,5 +1,6 @@
 module
 
+import Formalism.SharpRestriction.AdmissibleParameterJoins.SumLogPrimeFactorsLe
 public import Development.AutomorphicArithmetic.MeanSquareBounds.PrimeSetTwoBounds
 public import Formalism.GL3MeanSquares.GenusMeanAsymptotics.JacobiCharacterSums.MeanSquareHypWIff
 public import Development.AutomorphicArithmetic.MeanSquareBounds.TailKExp
@@ -835,19 +836,6 @@ open Finset Formalism.HermitianLattices.ZeroFreeRegionGL2 Formalism.HermitianLat
 
 namespace QH
 
-private theorem sum_log_primes_le_mul_log_four (Y : ℕ) :
-    ∑ p ∈ (range (Y + 1)).filter Nat.Prime, Real.log p ≤ Y * Real.log 4 := by
-  rw [← Real.log_prod]
-  · have h1 : ((primorial Y : ℕ) : ℝ) ≤ (4 : ℝ) ^ Y := by exact_mod_cast primorial_le_four_pow Y
-    have h2 : ((primorial Y : ℕ) : ℝ) = ∏ p ∈ (range (Y + 1)).filter Nat.Prime, (p : ℝ) := by
-      simp [primorial, Nat.cast_prod]
-    rw [← h2, ← Real.log_pow]
-    have hpos : (0 : ℝ) < (primorial Y : ℕ) := by exact_mod_cast primorial_pos Y
-    exact Real.log_le_log hpos h1
-  · intro p hp
-    have := (Finset.mem_filter.mp hp).2.pos
-    positivity
-
 private theorem sum_sP_sq_large_primes_le (y : ℝ) (hy : 3 ≤ y) (N : ℕ) :
     ∑ p ∈ ((Icc 1 N).filter Nat.Prime).filter (fun p => ¬ p ≤ ⌊y⌋₊), sP (cN y) N p ^ 2
       ≤ 96 * Real.log 4 * (y * Real.log y) := by
@@ -967,7 +955,7 @@ private theorem sum_sP_sq_small_primes_le_of_bound (C0 : ℝ) (hC0 : 0 < C0)
           rw [sum_const, card_range, nsmul_eq_mul]
           push_cast
           ring
-  have htheta := sum_log_primes_le_mul_log_four Y
+  have htheta := _root_.Formalism.MainNotions.J.sum_log_primes_le Y
   have hL : 0 < Real.log 4 := Real.log_pos (by norm_num)
   have hA : ((S : ℝ) + 1) * Real.log y ≤ 4 * y := by
     calc ((S : ℝ) + 1) * Real.log y ≤ (Real.sqrt y + 1) * (2 * Real.sqrt y) :=

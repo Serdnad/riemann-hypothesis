@@ -1,5 +1,6 @@
 module
 
+import all Development.ResolutionOfSingularities.EmbeddedResolution.IdealPrincipalization.MarkedBlowupSequence.Prepend
 public import Development.ResolutionOfSingularities.EmbeddedResolution.IdealPrincipalization.DivisorReduction.AmbientBlowupSequence
 public import Development.ResolutionOfSingularities.EmbeddedResolution.IdealPrincipalization.DivisorReduction.ControlledTransformBasic
 import Development.ResolutionOfSingularities.EmbeddedResolution.IdealPrincipalization.DivisorReduction.ControlledTransformRestriction
@@ -105,28 +106,7 @@ theorem projectionToBase_prepend_zero {X : Scheme.{u}} (Z : X.IdealSheafData)
 theorem projectionToBase_prepend_succ {X : Scheme.{u}} (Z : X.IdealSheafData)
     (hZ : Blowup.IsBlowupAlongIdealSheaf (CategoryStruct.id X) Z) (d : BlowupSequenceData X) (t : ℕ) :
     (BlowupSequenceData.prepend Z hZ d).projectionToBase (t + 1) = d.projectionToBase t := by
-  induction t with
-  | zero =>
-    have e1 : (BlowupSequenceData.prepend Z hZ d).projectionToBase (0 + 1)
-        = (BlowupSequenceData.prepend Z hZ d).map 0 ≫ (BlowupSequenceData.prepend Z hZ d).projectionToBase 0 :=
-      BlowupSequenceData.projectionToBase_succ (BlowupSequenceData.prepend Z hZ d) 0
-    have e2 : (BlowupSequenceData.prepend Z hZ d).projectionToBase 0 = (BlowupSequenceData.prepend Z hZ d).isoZero.hom :=
-      BlowupSequenceData.projectionToBase_zero (BlowupSequenceData.prepend Z hZ d)
-    have e3 : (BlowupSequenceData.prepend Z hZ d).isoZero = Iso.refl X :=
-      BlowupSequenceData.prepend_isoObjZero Z hZ d
-    have e4 : (BlowupSequenceData.prepend Z hZ d).map 0 = d.isoZero.hom :=
-      BlowupSequenceData.prepend_blowupMorphism_zero Z hZ d
-    have e5 : d.projectionToBase 0 = d.isoZero.hom := BlowupSequenceData.projectionToBase_zero d
-    rw [e1, e2, e3, e4, e5]
-    exact Category.comp_id _
-  | succ n ih =>
-    have e1 : (BlowupSequenceData.prepend Z hZ d).projectionToBase (n + 1 + 1)
-        = (BlowupSequenceData.prepend Z hZ d).map (n + 1) ≫ (BlowupSequenceData.prepend Z hZ d).projectionToBase (n + 1) :=
-      BlowupSequenceData.projectionToBase_succ (BlowupSequenceData.prepend Z hZ d) (n + 1)
-    have e2 : (BlowupSequenceData.prepend Z hZ d).map (n + 1) = d.map n :=
-      BlowupSequenceData.prepend_blowupMorphism_succ Z hZ d n
-    rw [e1, e2, ih]
-    exact (BlowupSequenceData.projectionToBase_succ d n).symm
+  apply _root_.FunctorialResolution.EmbeddedResolution.SequenceOfBlowupsPullback.prepend_projectionToBase_succ <;> assumption
 
 theorem controlledTransform_prepend_succ {X : Scheme.{u}} (Z : X.IdealSheafData)
     (hZ : Blowup.IsBlowupAlongIdealSheaf (CategoryStruct.id X) Z) (d : BlowupSequenceData X)

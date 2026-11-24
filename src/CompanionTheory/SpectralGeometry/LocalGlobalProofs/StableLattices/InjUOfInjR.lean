@@ -1,5 +1,6 @@
 module
 
+import CompanionTheory.SpectralGeometry.LocalGlobalProofs.StableLattices.EvaluationLiftDegreeZero
 public import CompanionTheory.HarishChandraModules.LowKTypeMultiplicity.EigenspaceCyclicDensity.LowKMultOneP
 public import CompanionTheory.RealGroups.DiscreteSeries.DiscreteSeriesClassification.DiscreteSeriesExhaustion.FarRegularity.LKTExists
 public import CompanionTheory.HarishChandraModules.LowKTypeMultiplicity.EigenspaceCyclicDensity.CreationOperators.DifferentialBoundedSupport
@@ -461,57 +462,8 @@ open GlobalTheory.CompanionTheory.LeviChain in
 theorem GlobalTheory.CompanionTheory.LeviChain.lF_bd_comm : ∀ (n : ℕ) (lev : Fin n → ℕ) (V : Type) [AddCommGroup V] [Module ℂ V] (E : Fin n → Fin n → Module.End ℂ V),
     Monotone lev → GlRel E → ∀ p q : Fin n, lev p = lev q → ∀ x : Cn n V, SuppIn (inU lev) x →
       lF E p q (bd (allT n) E x) = bd (allT n) E (lF E p q x) := by
-  intro n lev V _ _ E hm hE p q hpq x hx
-  have hx' : x ∈ SU V lev := hx
-  have hc := _root_.GlobalTheory.CompanionTheory.CliffordCoeff.commute_shifted_dirac n (Module.End ℂ (Cn n V)) (tau lev) (cT lev) (dT lev) (LT E) p q
-    (fun a b a' b' => by
-      by_cases h : tau lev a b
-      · by_cases h' : tau lev a' b'
-        · rw [cT_pos h, cT_pos h']; exact CompanionTheory.D.LK.Car.ann_ann _ _
-        · rw [cT_neg h']; simp
-      · rw [cT_neg h]; simp)
-    (fun a b a' b' => by
-      by_cases h : tau lev a b
-      · by_cases h' : tau lev a' b'
-        · rw [dT_pos h, dT_pos h']; exact CompanionTheory.D.LK.Car.cre_cre _ _
-        · rw [dT_neg h']; simp
-      · rw [dT_neg h]; simp)
-    (fun a b a' b' => by
-      by_cases h : tau lev a b
-      · by_cases h' : tau lev a' b'
-        · rw [cT_pos h, dT_pos h', CompanionTheory.D.LK.Car.ann_cre]
-          by_cases e : a = a' ∧ b = b'
-          · obtain ⟨rfl, rfl⟩ := e
-            simp [h]
-          · rw [if_neg, if_neg]
-            · exact fun t => e ⟨t.1, t.2.1⟩
-            · intro t
-              have := congrArg Subtype.val t
-              simp only [Prod.mk.injEq] at this
-              exact e this
-        · rw [dT_neg h', if_neg]
-          · simp
-          · rintro ⟨rfl, rfl, t⟩
-            exact h' t
-      · rw [cT_neg h, if_neg (fun t => h t.2.2)]; simp)
-    (fun a b h => cT_neg h) (fun a b h => dT_neg h)
-    (fun b => ⟨fun h => ⟨hm.reflect_lt (by rw [← hpq] at *; exact h.2), by rw [← hpq]; exact h.2⟩,
-      fun h => ⟨hm.reflect_lt (by rw [hpq]; exact h.2), by rw [hpq]; exact h.2⟩⟩)
-    (fun a => ⟨fun h => ⟨hm.reflect_lt (by rw [← hpq]; exact h.2), by rw [← hpq]; exact h.2⟩,
-      fun h => ⟨hm.reflect_lt (by rw [hpq]; exact h.2), by rw [hpq]; exact h.2⟩⟩)
-    (fun a b a' b' => by
-      by_cases h : tau lev a' b'
-      · rw [cT_pos h]
-        exact LinearMap.ext fun y => CompanionTheory.D.LK.lift_ann _ _ y
-      · rw [cT_neg h]; exact Commute.zero_right _)
-    (fun a b a' b' => by
-      by_cases h : tau lev a' b'
-      · rw [dT_pos h]
-        exact LinearMap.ext fun y => CompanionTheory.D.LK.lift_cre _ _ y
-      · rw [dT_neg h]; exact Commute.zero_right _)
-    (fun a b => glRel_LT hE p q a b)
-  rw [bd_eq E hx', lF_eq hm E hpq (Dl_mem E hx'), lF_eq hm E hpq hx', bd_eq E (Th_mem E p q hx')]
-  exact LinearMap.congr_fun hc.eq x
+  intros
+  apply _root_.GlobalTheory.CompanionTheory.GenCOUP.lF_comm <;> assumption
 end -- clump:auto
 end -- clump:auto
 end -- clump:auto
@@ -719,19 +671,8 @@ theorem cre_ann_mem {S : Submodule ℂ V} {x : Cn n V} (hx : ∀ A, x A ∈ S) (
 
 theorem inU_of_adC {lev : Fin n → ℕ} {p q : Fin n} (hpq : lev p = lev q) {i k : Pos n}
     (h : adC p q i k ≠ 0) (hi : inU lev i) : inU lev k := by
-  by_cases c1 : q = i.1.1 ∧ k.1 = (p, i.1.2)
-  · show lev k.1.1 < lev k.1.2
-    rw [c1.2]
-    show lev p < lev i.1.2
-    rw [hpq, c1.1]
-    exact hi
-  by_cases c2 : i.1.2 = p ∧ k.1 = (i.1.1, q)
-  · show lev k.1.1 < lev k.1.2
-    rw [c2.2]
-    show lev i.1.1 < lev q
-    rw [← hpq, ← c2.1]
-    exact hi
-  · exact absurd (by simp [adC, c1, c2]) h
+  intros
+  apply _root_.GlobalTheory.CompanionTheory.GenCOUP.adC_U <;> assumption
 
 theorem lF_ne {E : Fin n → Fin n → Module.End ℂ V} {p q : Fin n} {x : Cn n V} {A : Finset (Pos n)}
     (h : lF E p q x A ≠ 0) : x A ≠ 0 ∨ ∃ i k, adC p q i k ≠ 0 ∧ cre k (ann i x) A ≠ 0 := by

@@ -1,5 +1,6 @@
 module
 
+import Development.EtaleCohomology.TateTwists.EtaleChainsMayerVietorisShortExactOfFree
 public import Mathlib.Algebra.Homology.HomotopyCategory.HomComplexSingle
 public import Mathlib.Algebra.Homology.HomotopyCategory.MappingCone
 public import Mathlib.Combinatorics.Quiver.ReflQuiver
@@ -313,14 +314,7 @@ end General
 theorem chains_f_comm (R : Type) [CommRing R] {E₀ E : Spc} (g : E₀ ⟶ E) (p : ℕ) :
     ((chains R).map g).f (-(p : ℤ)) ≫ (chainsXIso R E p).hom =
       (chainsXIso R E₀ p).hom ≫ (free R).map (g.app (op (SimplexCategory.mk p))) := by
-  unfold chains chainsXIso
-  rw [Functor.comp_map]
-  show (HomologicalComplex.extendMap ((chainsN R).map g) ComplexShape.embeddingDownNat).f (ComplexShape.embeddingDownNat.f p) ≫
-      (HomologicalComplex.extendXIso ((chainsN R).obj E) ComplexShape.embeddingDownNat (i := p) rfl).hom =
-    (HomologicalComplex.extendXIso ((chainsN R).obj E₀) ComplexShape.embeddingDownNat (i := p) rfl).hom ≫ _
-  rw [HomologicalComplex.extendMap_f _ _ (i := p) rfl]
-  simp only [Category.assoc, Iso.inv_hom_id, Category.comp_id]
-  congr 1
+  apply @LateralTheory.EtaleFoundations.chainsXIso_nat <;> assumption
 
 theorem ShiftLvl_of : LateralTheory.E.CechFiltPf.ShiftLvl := by
   intro R _ F E₀ E g p n h

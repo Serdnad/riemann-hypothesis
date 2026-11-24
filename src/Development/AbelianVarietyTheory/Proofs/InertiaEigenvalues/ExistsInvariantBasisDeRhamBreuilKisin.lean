@@ -61,6 +61,7 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ThetaAinfPeriodPowNeZero
 import Mathlib.Tactic.Linter.HaveILetI
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.BdRFiltrationLaws
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.BreuilKisinLatticeFrameLimitGaloisInvariant, Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsBetaLimitBdRPlusDeRhamFrame, Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IsUnitBdRPlusMatrixOfCongrOne, Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IsUnitBdRPlusMatrixOfCongrOneStatement, Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.KerQEqMapKerTheta, Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsInvariantBasisDeRhamBreuilKisin
@@ -79,28 +80,9 @@ private theorem algebraMap_mem_filtration_one_iff_mem_ker (l : ℕ) [Fact l.Prim
     algebraMap (Per.AinfP l) (Per.BdRp l) a ∈ Per.FilP l 1 ↔ a ∈ Per.kerP l := by
   rw [GlobalTheory.RingIface.mem_filtration_iff_mem_kerTheta_pow, GlobalTheory.RingIface.ev_alg, Ideal.Quotient.eq_zero_iff_mem, pow_one]
 
-private theorem galoisAction_mem_filtration (l : ℕ) [Fact l.Prime] (g : Per.Gq l) (n : ℕ) (y : Per.BdRp l)
-    (hy : y ∈ Per.FilP l n) : Per.σDp g y ∈ Per.FilP l n := by
-  obtain ⟨e, he⟩ := _root_.GlobalTheory.MemLoc.CrisUnique.exists_isEps l
-  obtain ⟨hP, -, -, -⟩ := GlobalTheory.MemLoc.filtration_eq_xi_pow l e he
-  have hξ : aDp l (xi e) ∈ Per.FilP l 1 := (hP 1 _).2 (by rw [pow_one])
-  have ha : aDp l (xi e) = algebraMap (Per.AinfP l) (Per.BdRp l)
-      (algebraMap (Per.Ainf l) (Per.AinfP l) (xi e)) := by
-    unfold aDp
-    rw [RingHom.comp_apply]
-  have hσ : Per.σDp g (aDp l (xi e)) ∈ Per.FilP l 1 := by
-    rw [ha] at hξ ⊢
-    rw [GlobalTheory.RingIface.sigDp_alg, algebraMap_mem_filtration_one_iff_mem_ker]
-    exact GlobalTheory.RingBasics.ker_σ g ((algebraMap_mem_filtration_one_iff_mem_ker l _).1 hξ)
-  have hd : aDp l (xi e) ∣ Per.σDp g (aDp l (xi e)) := by
-    simpa only [pow_one] using (hP 1 _).1 hσ
-  refine (hP n _).2 ((pow_dvd_pow_of_dvd hd n).trans ?_)
-  rw [← map_pow]
-  exact map_dvd _ ((hP n _).1 hy)
-
 theorem σDp_mem_FilP {l : ℕ} [Fact l.Prime] (g : Per.Gq l) (m : ℕ) {x : Per.BdRp l}
     (hx : x ∈ Per.FilP l m) : Per.σDp g x ∈ Per.FilP l m :=
-  galoisAction_mem_filtration l g m x hx
+  _root_.GlobalTheory.MemLoc.FilLaws.σDp_mem_FilP g m x hx
 
 theorem eq_of_forall_mem_FilP {l : ℕ} [Fact l.Prime] {x : Per.BdRp l}
     (hx : ∀ m, x ∈ Per.FilP l m) : x = 0 :=

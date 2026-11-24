@@ -1,5 +1,6 @@
 module
 
+import Formalism.QuotientMetricDivisors.HermitianTwistDivisors.ReductionLemmaFirst
 public import Formalism.QuotientMetricDivisors.ProdFormula
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -107,13 +108,7 @@ theorem vw_zero (w : HeightOneSpectrum (𝓞 K)) : vw w (0 : K) = 0 := by
 
 theorem vw_mul (w : HeightOneSpectrum (𝓞 K)) (a b : K) (ha : a ≠ 0) (hb : b ≠ 0) :
     vw w (a * b) = vw w a + vw w b := by
-  have h1 : FractionalIdeal.spanSingleton (nonZeroDivisors (𝓞 K)) a ≠ 0 := by
-    rwa [Ne, FractionalIdeal.spanSingleton_eq_zero_iff]
-  have h2 : FractionalIdeal.spanSingleton (nonZeroDivisors (𝓞 K)) b ≠ 0 := by
-    rwa [Ne, FractionalIdeal.spanSingleton_eq_zero_iff]
-  simp only [vw]
-  rw [← FractionalIdeal.spanSingleton_mul_spanSingleton]
-  exact FractionalIdeal.count_mul K w h1 h2
+  apply _root_.Formalism.DivisionValues.ReductionFirst.vw_mul <;> assumption
 
 theorem vw_inv (w : HeightOneSpectrum (𝓞 K)) (a : K) : vw w a⁻¹ = - vw w a := by
   simp only [vw]

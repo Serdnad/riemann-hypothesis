@@ -1,5 +1,6 @@
 module
 
+import Formalism.ThetaLogCoordinates.DualWeylCoordinates.DualWeylProofs.QaRowStrictMono
 public import Formalism.ThetaLogCoordinates.JacobiPathWeights.IndexWeightsDominance
 public import Mathlib.Data.Int.Interval
 public import Mathlib.Data.Sym.Card
@@ -127,18 +128,7 @@ private theorem card_lt_lemma (n k : ℕ) :
 
 private theorem lt_colHeight_iff_lemma {n : ℕ} {μ : Fin n → ℤ} (h : Antitone μ) (c : ℤ) (m : Fin n) :
     m.val < colHeight μ c ↔ c ≤ μ m := by
-  have hmn := m.2; unfold colHeight; constructor
-  · refine fun hm => by_contra fun hc => hm.not_ge ?_
-    refine (card_le_card fun m' hm' => ?_).trans_eq ((card_lt_lemma n m.val).trans (min_eq_left hmn.le))
-    simp only [mem_filter, mem_univ, true_and] at hm' ⊢
-    exact by_contra fun hle => hc ((h (Fin.le_iff_val_le_val.mpr (by omega))).trans' hm')
-  · intro hc
-    have h1 : m.val + 1 ≤ (univ.filter fun m' : Fin n => c ≤ μ m').card := by
-      rw [← min_eq_left (by omega : m.val + 1 ≤ n), ← card_lt_lemma n (m.val + 1)]
-      exact card_le_card fun m' hm' => by
-        simp only [mem_filter, mem_univ, true_and] at hm' ⊢
-        exact hc.trans (h (Fin.le_iff_val_le_val.mpr (by omega)))
-    omega
+  apply _root_.Formalism.InvariantFactorPaths.ColumnFamilies.qa_lt_colH <;> assumption
 
 theorem idxWeight_can {n : ℕ} {μ : Fin n → ℤ} (h : Antitone μ) : idxWeight (canIdx μ) = μ := by
   funext m; unfold idxWeight

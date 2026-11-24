@@ -1,5 +1,6 @@
 module
 
+import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.MCoordIdealGenericPointEq
 public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.StSheetLift
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.InterSheetA
 
@@ -21,17 +22,8 @@ variable {K : Type} [Fintype K] {ι : K → Type} [∀ k, Fintype (ι k)]
 
 theorem bsmul_mem {P : Ideal (MRing ι)} (hP : IsMultiHomogIdeal P) {c : K → ℂ} (hc : ∀ k, c k ≠ 0)
     {z : (Σ k, ι k) → ℂ} (hz : z ∈ mcPts P) : bsmul c z ∈ mcPts P := by
-  refine ⟨fun k => ?_, fun f hf => ?_⟩
-  · obtain ⟨i, hi⟩ := hz.1 k
-    exact ⟨i, mul_ne_zero (hc k) hi⟩
-  · obtain ⟨S, hS, hPS⟩ := hP
-    have hle : P ≤ RingHom.ker ((eval (bsmul c z)).comp (map (Int.castRingHom ℂ))) := by
-      rw [hPS, Ideal.span_le]
-      intro g hg
-      obtain ⟨a, ha⟩ := hS g hg
-      rw [SetLike.mem_coe, RingHom.mem_ker, RingHom.comp_apply, eval_bsmul_of_isMultiHomog ha c z,
-        hz.2 g (by rw [hPS]; exact Ideal.subset_span hg), mul_zero]
-    exact hle hf
+  intros
+  apply _root_.GroundTheory.Heights₂.Heights.LowerBoundFree.ComponentDataEquivalence.mcPts_torus <;> assumption
 
 
 omit [∀ k, Fintype (ι k)] in

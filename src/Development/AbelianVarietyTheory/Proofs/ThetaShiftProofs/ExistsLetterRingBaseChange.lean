@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.IsIntegralElemOfIsAlgebraicInt
 public import Formalism.LocalToGlobal.ProjectiveLattices.ArchimedeanQuadraticData.ArcLineFunctions.FunDef
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -74,18 +75,7 @@ open AlgebraicGeometry CategoryTheory CategoryTheory.Limits NumberField in
 variable {E : Type} [Field E] [NumberField E] [IsCMField E] {H : _root_.ReciprocityTheory.ChartRestriction.G.Geo.Tor.Host E} in
 theorem _root_.GlobalTheory.LetterMap.det_ne_zero (Dw : _root_.ReciprocityTheory.ChartRestriction.G.Geo.Tor.Datum H) (K₁ : Type) [Field K₁] :
     _root_.Formalism.L2.Pj.arcDet Dw K₁ ≠ 0 := by
-  unfold _root_.Formalism.L2.Pj.arcDet
-  rw [Finset.prod_ne_zero_iff]
-  intro τ _
-  have h : (Matrix.of fun i k ↦
-      (MvPolynomial.X ⟨τ, (i, k)⟩ : MvPolynomial (_root_.Formalism.L2.Pj.ArcLt Dw) (LaurentSeries K₁))) =
-      (MvPolynomial.rename (Sigma.mk τ)).mapMatrix
-        (Matrix.mvPolynomialX (Fin (Dw.mult τ)) (Fin (Dw.mult τ)) (LaurentSeries K₁)) := by
-    ext i k; simp
-  rw [h, ← AlgHom.map_det]
-  intro h0
-  rw [map_eq_zero_iff _ (MvPolynomial.rename_injective _ sigma_mk_injective)] at h0
-  exact Matrix.det_mvPolynomialX_ne_zero _ _ h0
+  first | exact _root_.GlobalTheory.ArcConst.arcDet_ne_zero | exact @_root_.GlobalTheory.ArcConst.arcDet_ne_zero | apply _root_.GlobalTheory.ArcConst.arcDet_ne_zero <;> assumption
 
 open AlgebraicGeometry CategoryTheory CategoryTheory.Limits NumberField in
 variable {E : Type} [Field E] [NumberField E] [IsCMField E] {H : _root_.ReciprocityTheory.ChartRestriction.G.Geo.Tor.Host E} in

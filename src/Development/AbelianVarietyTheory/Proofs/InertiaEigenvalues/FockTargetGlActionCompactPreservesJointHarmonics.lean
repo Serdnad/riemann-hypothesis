@@ -1,5 +1,6 @@
 module
 
+import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.FockDegreeOne.ExistsMonomialWeight
 public import Development.AbelianVarietyTheory.BlockTheory.TwistedDiscreteSeries.RaisingLoweringOperators
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -61,19 +62,7 @@ open MvPolynomial
 
 theorem pd_comm {σ : Type*} (i j : σ) (f : MvPolynomial σ ℂ) :
     pderiv i (pderiv j f) = pderiv j (pderiv i f) := by
-  classical
-  induction f using MvPolynomial.induction_on with
-  | C a => simp
-  | add p q hp hq => simp only [map_add (f := _), hp, hq]
-  | mul_X p k hp =>
-    have h : ∀ a b : σ, pderiv a (pderiv b (X k : MvPolynomial σ ℂ)) = 0 := by
-      intro a b
-      rw [pderiv_X]
-      by_cases hk : k = b
-      · subst hk; simp
-      · simp [Pi.single_eq_of_ne hk]
-    simp only [Derivation.leibniz, map_add (f := _), smul_eq_mul, hp, h]
-    ring
+  first | exact _root_.PI.FockOneDegW.Core.pd_comm | exact @_root_.PI.FockOneDegW.Core.pd_comm | apply _root_.PI.FockOneDegW.Core.pd_comm <;> assumption
 
 theorem pd_X_mul {σ : Type*} [DecidableEq σ] (x u : σ) (Q : MvPolynomial σ ℂ) :
     pderiv x (X u * Q) = (if u = x then Q else 0) + X u * pderiv x Q := by

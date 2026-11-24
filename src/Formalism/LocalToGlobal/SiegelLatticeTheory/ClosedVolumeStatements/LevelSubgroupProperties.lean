@@ -1,5 +1,7 @@
 module
 
+import all Formalism.LocalToGlobal.SiegelLatticeTheory.HaarTransversals.UnitaryHaarProducts.LocalWeightCharts.DecayR
+import GroundTheory.HeightsAndTheta.Heights.HeightKernels.PCauchyBinet
 public import Formalism.PeriodIntegrals.ExpTri
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.ExponentialTriangular.SortedSpec
 public import Mathlib.Analysis.Matrix.Spectrum
@@ -618,13 +620,7 @@ namespace PI.ET
 theorem det_mul_rect {R : Type*} [CommRing R] {k n : ℕ}
     (A : Matrix (Fin k) (Fin n) R) (B : Matrix (Fin n) (Fin k) R) :
     (A * B).det = ∑ f : Fin k → Fin n, (∏ i, B (f i) i) * (A.submatrix id f).det := by
-  simp only [det_apply, Matrix.mul_apply, Fintype.prod_sum, Finset.smul_sum]
-  rw [Finset.sum_comm]
-  refine Finset.sum_congr rfl fun f _ => ?_
-  rw [Finset.mul_sum]
-  refine Finset.sum_congr rfl fun σ _ => ?_
-  simp only [Finset.prod_mul_distrib, submatrix_apply, id, Units.smul_def, zsmul_eq_mul]
-  ring
+  apply _root_.GroundTheory.Heights₂.Heights.CauchyBinetAlt.det_mul_eq_sum <;> assumption
 
 theorem sum_comp_perm {M : Type*} [AddCommMonoid M] {k n : ℕ} (F : (Fin k → Fin n) → M)
     (τ : Equiv.Perm (Fin k)) : ∑ f : Fin k → Fin n, F (fun i => f (τ i)) = ∑ f, F f := (Equiv.arrowCongr τ.symm (Equiv.refl (Fin n))).sum_comp F
@@ -1489,15 +1485,7 @@ lemma kset_inv {ε : Fin n → Bool} {k : Matrix (Fin n) (Fin n) ℂ} (hk : k �
 
 lemma kset_ct {ε : Fin n → Bool} {k : Matrix (Fin n) (Fin n) ℂ} (hk : k ∈ Kset ε) :
     kᴴ ∈ Kset ε := by
-  have hJ : (Jm ε)ᴴ = Jm ε := by
-    unfold Jm
-    rw [Matrix.diagonal_conjTranspose]
-    congr 1
-    funext a
-    by_cases hεa : ε a = true <;> simp [hεa]
-  have h2 := congrArg Matrix.conjTranspose hk.2
-  simp only [Matrix.conjTranspose_mul, hJ] at h2
-  exact ⟨Unitary.star_mem hk.1, h2.symm⟩
+  apply _root_.WlocSk.OneP.conjTranspose_mem_Kset' <;> assumption
 
 lemma symD_eq {ε : Fin n → Bool} (g : UJ ε) {k X : Matrix (Fin n) (Fin n) ℂ} (hk : k ∈ Kset ε)
     (hX : inP ε X)

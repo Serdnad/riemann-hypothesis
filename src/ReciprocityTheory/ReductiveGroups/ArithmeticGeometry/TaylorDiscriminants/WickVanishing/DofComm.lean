@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.FormalGroupCharts.InvariantDerivationsCommuteFormalConnection
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.TaylorDiscriminants.WickVanishing.ConnectionKillsSeries
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.TaylorDiscriminants.WickVanishing.LogInv
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.TaylorDiscriminants.WickVanishing.GaugeExp
@@ -33,16 +34,7 @@ theorem vf_vf (c c' : τ → MvPowerSeries τ k) (G : MvPowerSeries τ k) :
 
 theorem vf_comm (c c' : τ → MvPowerSeries τ k) (G : MvPowerSeries τ k) :
     vf c (vf c' G) - vf c' (vf c G) = vf (fun t => vf c (c' t) - vf c' (c t)) G := by
-  rw [vf_vf, vf_vf]
-  have h : ∑ s, ∑ t, c' s * c t * pderiv (R := k) s (pderiv (R := k) t G) =
-      ∑ s, ∑ t, c s * c' t * pderiv (R := k) s (pderiv (R := k) t G) := by
-    rw [Finset.sum_comm]
-    refine Finset.sum_congr rfl fun s _ => Finset.sum_congr rfl fun t _ => ?_
-    rw [pderiv_comm]
-    ring
-  rw [h]
-  simp only [vf, sub_mul, Finset.sum_sub_distrib]
-  ring
+  apply _root_.GlobalTheory.FormalConnection.vf_comm <;> assumption
 
 private theorem vf_mul' {k : Type} [CommRing k] {τ : Type} [Fintype τ] (c : τ → MvPowerSeries τ k)
     (a b : MvPowerSeries τ k) : vf c (a * b) = a * vf c b + b * vf c a := by

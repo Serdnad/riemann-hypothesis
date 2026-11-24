@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.FractionalIdealCompletionMulModulusOffExceptiona
 public import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.IsAuxiliaryVectorWittDec
 public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.AdelicPointComponentsAtPlacesLatticesVacua
 public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.LineLatAt
@@ -848,25 +849,7 @@ namespace GlobalTheory.StairUnit
 
 theorem exists_mem_modul_notMem {D : D7} {T : Type} {L : LevCh D T} (P : Places L) (sc : Consts) (v : GlobalTheory.FinPl.Pl D)
     (hv : v ∉ P.S0) : ∃ u : 𝓞 D.host.F, u ∉ v.asIdeal ∧ algebraMap (𝓞 D.host.F) (𝓞 D.host.E) u ∈ P.modul sc := by
-  have h : ∀ v' : GlobalTheory.FinPl.Pl D, ∃ x : 𝓞 D.host.F, x ∉ v.asIdeal ∧ (v' ∈ P.S0 → x ∈ v'.asIdeal) := by
-    intro v'
-    by_cases h' : v' ∈ P.S0
-    · have hn : ¬ v'.asIdeal ≤ v.asIdeal := fun hle =>
-        hv (HeightOneSpectrum.ext (v'.isMaximal.eq_of_le v.isPrime.ne_top hle) ▸ h')
-      obtain ⟨x, hx, hx'⟩ := Set.not_subset.1 hn
-      exact ⟨x, hx', fun _ => hx⟩
-    · exact ⟨1, (Ideal.ne_top_iff_one _).1 v.isPrime.ne_top, fun h => absurd h h'⟩
-  choose x hx hx' using h
-  refine ⟨∏ v' ∈ P.S0, x v' ^ P.depth sc v', fun hu => ?_, ?_⟩
-  · haveI := v.isPrime
-    obtain ⟨v', -, h'⟩ := Ideal.IsPrime.prod_mem_iff.1 hu
-    exact hx v' (v.isPrime.mem_of_pow_mem _ h')
-  · rw [map_prod]
-    refine Ideal.prod_mem_prod fun v' h' => ?_
-    rw [map_pow]
-    refine Ideal.pow_mem_pow ?_ _
-    have h1 : x v' ∈ ((P.w v').under (𝓞 D.host.F)).asIdeal := by rw [P.under_w h']; exact hx' v' h'
-    exact h1
+  apply _root_.GlobalTheory.ModulUnit.exists_mem_modul <;> assumption
 
 theorem mem_span_of_mem_mul {E : Type} [Field E] [NumberField E] [StarRing E] {A B A' B' C : FractionalIdeal (𝓞 E)⁰ E}
     (hA : ∀ x ∈ A', star x ∈ A) (hB : ∀ x ∈ B', star x ∈ B) {t : E} (ht : t ∈ A' * B' * C) :

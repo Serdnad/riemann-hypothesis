@@ -75,14 +75,7 @@ omit [DecidableEq ι] in
 theorem norm_hh_le (Γ : Matrix ι ι ℂ) (R : Rep k r) (x y : ι → R.H) (A B : ℝ)
     (hx : ∀ c, ‖x c‖ ≤ A) (hy : ∀ c, ‖y c‖ ≤ B) :
     ‖hh Γ R x y‖ ≤ (∑ i, ∑ j, ‖Γ i j‖) * (A * B) := by
-  rw [hh, Finset.sum_mul]
-  refine (norm_sum_le _ _).trans (Finset.sum_le_sum fun i _ => ?_)
-  rw [Finset.sum_mul]
-  refine (norm_sum_le _ _).trans (Finset.sum_le_sum fun j _ => ?_)
-  rw [norm_mul]
-  refine mul_le_mul_of_nonneg_left ((norm_inner_le_norm _ _).trans ?_) (norm_nonneg _)
-  rw [mul_comm A B]
-  exact mul_le_mul (hy i) (hx j) (norm_nonneg _) ((norm_nonneg _).trans (hy i))
+  apply _root_.Gp91.GlobalTheory.TensForm.norm_hh_le <;> assumption
 
 theorem family_bound (R R' : Rep k r) (T : ι → R.H → R'.H) (hT : ∀ c, SmMap R R' (T c)) :
     ∃ (C : ℝ) (Ws : List (List (Mx k r))), (∀ W ∈ Ws, ∀ X ∈ W, PI.UpqRep.InLieHpk k r X) ∧

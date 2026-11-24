@@ -51,18 +51,7 @@ theorem continuous_sqSum : Continuous (sqSum : (J → ℂ) → ℝ) := by
   fun_prop
 
 theorem hasFDerivAt_sqSum (z : J → ℂ) : HasFDerivAt sqSum ((2 : ℝ) • reInner z) z := by
-  have h := HasFDerivAt.sum (u := Finset.univ) (A := fun p (x : J → ℂ) => ‖x p‖ ^ 2)
-    fun p _ => (hasFDerivAt_apply p z).norm_sq
-  rw [show (∑ p ∈ Finset.univ, fun x : J → ℂ => ‖x p‖ ^ 2) = sqSum from by
-    funext x; simp [sqSum, Finset.sum_apply]] at h
-  refine h.congr_fderiv ?_
-  refine ContinuousLinearMap.ext fun v => ?_
-  simp only [ContinuousLinearMap.coe_sum', Finset.sum_apply, ContinuousLinearMap.coe_smul',
-    Pi.smul_apply, ContinuousLinearMap.coe_comp', Function.comp_apply, innerSL_apply_apply,
-    ContinuousLinearMap.proj_apply, smul_eq_mul, reInner_apply, Complex.inner, Finset.mul_sum]
-  refine Finset.sum_congr rfl fun p _ => ?_
-  simp only [Complex.mul_re, Complex.conj_re, Complex.conj_im]
-  ring
+  apply _root_.GroundTheory.Heights₂.Heights.LowerBoundFree.FubiniLevi.hasFDerivAt_sqSum <;> assumption
 
 def phi (z : J → ℂ) : ℝ := Real.log (sqSum z) * (1 / 2)
 

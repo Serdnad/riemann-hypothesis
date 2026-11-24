@@ -47,6 +47,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
+import Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange.ArchimedeanBaseChangeProof.EigenvalueSeparation.StableEigenspaces.FiniteTypes.FintypeHolds
 
 @[expose] public section
 
@@ -120,20 +121,7 @@ variable {E : Type} [Field E] [NumberField E] [IsCMField E] {M : ℕ}
 
 theorem continuous_slice (φ : Sm E M) (g : GA E M) :
     Continuous fun k : Kinf E M => φ.1 (g * infGL E M (Unitary.toUnits k)) := by
-  have h1 : Continuous fun k : Kinf E M => (Unitary.toUnits k : GL (Fin M) (Cinf E)) :=
-    Units.continuous_iff.2 ⟨continuous_subtype_val, continuous_subtype_val.star⟩
-  have e : (fun k : Kinf E M => φ.1 (g * infGL E M (Unitary.toUnits k))) =
-      fun k => chart φ.1 g (toL (Unitary.toUnits k : GL (Fin M) (Cinf E)).val) := by
-    funext k
-    rw [chart_val]
-  rw [e]
-  have hc : ContinuousOn (chart φ.1 g) (invSet E M) := (φ.2 g).continuousOn
-  have h3' : Continuous fun k : Kinf E M =>
-      ((Unitary.toUnits k : GL (Fin M) (Cinf E)) : Matrix (Fin M) (Fin M) (Cinf E)) :=
-    (Units.continuous_val (M := Matrix (Fin M) (Fin M) (Cinf E))).comp h1
-  have h3 : Continuous fun k : Kinf E M =>
-      toL ((Unitary.toUnits k : GL (Fin M) (Cinf E)) : Matrix (Fin M) (Fin M) (Cinf E)) := h3'
-  exact hc.comp_continuous h3 fun k => val_mem_invSet _
+  apply _root_.PositivityTheory.Rg.BcB.E.E3.fintype.cont_ev <;> assumption
 
 theorem admissible_discrete_spaces : PositivityTheory.Rg.BcB.SpectralAccumulation.AdmDisc := by
   intro E _ _ _ M K' W' hK' hW' V hV

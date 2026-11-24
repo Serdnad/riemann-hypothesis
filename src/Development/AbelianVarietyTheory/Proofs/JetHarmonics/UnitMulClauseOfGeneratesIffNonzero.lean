@@ -56,6 +56,7 @@ import Mathlib.Tactic.Linter.Style
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.LBLocalC
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.SectionScalarValuation
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.FirstCohomology.LevelFrameOfLaws
+import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.ExistsExpandsAtOfIntegral
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.BlockTheory.JetGauges.ThetaSectionsClosedFibre, Development.AbelianVarietyTheory.Proofs.JetHarmonics.UnitMulClauseOfGeneratesIffNonzero
@@ -255,14 +256,7 @@ omit [IsDomain R] in
 theorem exists_thick_pt {J : Ideal R} (hJ : J ≤ maximalIdeal R) (e : ℕ) (X : Over (Spec (CommRingCat.of R)))
     (x : X.left) (hx : X.hom x = closedPoint R) :
     ∃ y : (thickObj R J e X).left, pullback.fst X.hom (thick R J e) y = x := by
-  have hm : closedPoint R ∈ Set.range (PrimeSpectrum.comap (Ideal.Quotient.mk (J ^ (e + 1)))) := by
-    rw [_root_.range_comap_of_surjective _ _ Ideal.Quotient.mk_surjective, Ideal.mk_ker,
-      PrimeSpectrum.mem_zeroLocus]
-    exact (Ideal.pow_le_self (Nat.succ_ne_zero e)).trans hJ
-  obtain ⟨z, hz⟩ := hm
-  obtain ⟨y, hy, -⟩ := Scheme.exists_preimage_of_isPullback (IsPullback.of_hasPullback X.hom (thick R J e)) x z
-    (hx.trans hz.symm)
-  exact ⟨y, hy⟩
+  apply _root_.GlobalTheory.ThetaUnit.exists_thick_pt <;> assumption
 
 theorem exists_group_pt (hI : I ≤ maximalIdeal R) (U : UnifPre I D A G) (e : ℕ) (x : D.toPre.P.A.left)
     (hx : D.toPre.P.A.hom x = closedPoint R) : ∃ y : (thickObj R I e G).left, pGl U e y = x := by

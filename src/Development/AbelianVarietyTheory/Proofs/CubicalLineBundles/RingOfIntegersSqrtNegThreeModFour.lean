@@ -1,5 +1,6 @@
 module
 
+import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.DyadicStableLattices.ExistsNormEqTwoPow
 public import Mathlib.NumberTheory.NumberField.InfinitePlace.Embeddings
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -125,27 +126,6 @@ private theorem exists_int_eq_of_isIntegral_rat {K : Type*} [Field K] [CharZero 
   obtain ⟨z, hz⟩ := IsIntegrallyClosed.isIntegral_iff.mp hq
   exact ⟨z, by simpa using hz.symm⟩
 
-private theorem exists_int_eq_of_squarefree_mul_sq_eq_int {d : ℕ} (hsq : Squarefree d) (q : ℚ) (M : ℤ)
-    (h : (d : ℚ) * q ^ 2 = M) : ∃ z : ℤ, q = z := by
-  have hden : q.den = 1 := by
-    have hq := Rat.num_div_den q
-    have hpos : (q.den : ℚ) ≠ 0 := by positivity
-    have key : (d : ℤ) * q.num ^ 2 = M * q.den ^ 2 := by
-      have h' : (d : ℚ) * ((q.num : ℚ) / q.den) ^ 2 = M := by rw [hq]; exact h
-      field_simp at h'
-      have h'' : (d : ℤ) * q.num ^ 2 = ((q.den ^ 2 : ℕ) : ℤ) * M := by exact_mod_cast h'
-      push_cast at h''
-      linear_combination h''
-    have key' : d * q.num.natAbs ^ 2 = M.natAbs * q.den ^ 2 := by
-      have := congrArg Int.natAbs key
-      simpa [Int.natAbs_mul, Int.natAbs_pow] using this
-    have hdvd : q.den ^ 2 ∣ d * q.num.natAbs ^ 2 := ⟨M.natAbs, by rw [key']; ring⟩
-    have hcop : Nat.Coprime (q.den ^ 2) (q.num.natAbs ^ 2) := Nat.Coprime.pow 2 2 q.reduced.symm
-    have h3 : q.den ^ 2 ∣ d := hcop.dvd_of_dvd_mul_right hdvd
-    have hu := hsq q.den (by simpa [sq] using h3)
-    simpa using hu
-  exact ⟨q.num, (Rat.coe_int_num_of_den_eq_one hden).symm⟩
-
 theorem exists_integer_generator_of_sq_eq_neg {K : Type*} [Field K] [NumberField K] {d : ℕ}
     (h2 : finrank ℚ K = 2) (hsq : Squarefree d) (hd : d % 4 = 3) {r : K} (hr : r ^ 2 = -d) :
     ∃ w : 𝓞 K, 2 * (w : K) = 1 + r ∧ ∀ c : 𝓞 K, ∃ m n : ℤ, c = m + n * w := by
@@ -186,7 +166,7 @@ theorem exists_integer_generator_of_sq_eq_neg {K : Type*} [Field K] [NumberField
       exact h
     obtain ⟨A, hA⟩ := exists_int_eq_of_isIntegral_rat _ hsum
     obtain ⟨N, hN⟩ := exists_int_eq_of_isIntegral_rat _ hprod
-    obtain ⟨B, hB⟩ := exists_int_eq_of_squarefree_mul_sq_eq_int hsq (2 * b) (4 * N - A ^ 2) (by
+    obtain ⟨B, hB⟩ := _root_.PI.GoodTwo.AlgebraicValuationTrichotomy.sqfree_rat _ hsq (2 * b) (4 * N - A ^ 2) (by
       push_cast
       rw [← hN, ← hA]
       ring)

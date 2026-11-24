@@ -1,5 +1,6 @@
 module
 
+import all Development.AutomorphicArithmetic.Foundations.Convolution.BlockEvaluation.CprsMulRight
 public import Development.AutomorphicArithmetic.Foundations.Convolution.BlockEvaluation.TruncSpec
 public import Development.AutomorphicArithmetic.Foundations.Convolution.ConvolutionKernels.GalTwistEx
 import Aesop.Main
@@ -158,13 +159,7 @@ private theorem pres_of_comm (V : Submodule ℂ H) (hV : IsClosed (V : Set H)) (
 
 private theorem eig_pres (V : Submodule ℂ H) (hV : IsClosed (V : Set H)) (A T : H →L[ℂ] H) (x : ℝ)
     (h : Commute T (prj V)) (hA : Commute T A) : ∀ v ∈ eigIn V A x, T v ∈ eigIn V A x := by
-  intro v hv
-  refine ⟨pres_of_comm V hV T h.eq v hv.1, ?_⟩
-  have h2 : A v = (x : ℂ) • v := Module.End.mem_eigenspace_iff.1 hv.2
-  refine Module.End.mem_eigenspace_iff.2 ?_
-  have := congrArg (fun S : H →L[ℂ] H => S v) hA.eq
-  simp only [ContinuousLinearMap.mul_apply, h2, map_smul] at this
-  exact this.symm
+  apply _root_.mem_eig <;> assumption
 
 private theorem trOn_scalar (V : Submodule ℂ H) (hV : IsClosed (V : Set H)) (A Q B : H →L[ℂ] H) (x : ℝ) (a : ℂ)
     (hsa : IsSelfAdjoint A) (hAV : Commute A (prj V)) (hQV : Commute Q (prj V)) (hQA : Commute Q A)

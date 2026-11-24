@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsHeckeTranslateHarrisTaylorPullbackBase
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.AnnihilatorModels.PairCalc
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.AnnihilatorModels.OrdReadOf
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsHarrisTaylorObjectPullbackTer
@@ -78,15 +79,8 @@ private theorem square_map_snd_left {S : Scheme.{0}} {A B : Over S} [GrpObj A] [
 
 private theorem tensor_left_ext {S X : Scheme.{0}} {A : Over S} [GrpObj A] [IsCommMonObj A] (u v : X ⟶ (A ⊗ A).left)
     (h₁ : u ≫ (fst A A).left = v ≫ (fst A A).left) (h₂ : u ≫ (snd A A).left = v ≫ (snd A A).left) : u = v := by
-  have hw : u ≫ (A ⊗ A).hom = v ≫ (A ⊗ A).hom := by
-    rw [← Over.w (fst A A), ← Category.assoc, h₁, Category.assoc]
-  have key : (Over.homMk u rfl : Over.mk (u ≫ (A ⊗ A).hom) ⟶ A ⊗ A) = Over.homMk v hw.symm := by
-    apply CartesianMonoidalCategory.hom_ext
-    · ext
-      simpa using h₁
-    · ext
-      simpa using h₂
-  simpa using congrArg CommaMorphism.left key
+  intros
+  apply _root_.GlobalTheory.UPel.HT.Hecke.PullHecke.grpScheme_square_hom_ext <;> assumption
 
 theorem UpperTheory.Gal.crystallineComparison.Mod.frobIsog_of :
     FrobHom → FrobFin → PicFrob → QuasiInv → FrobIsog := by

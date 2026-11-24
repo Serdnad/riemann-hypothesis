@@ -123,12 +123,7 @@ lemma gl_cut_le {K L y : ℝ} (hK : 0 ≤ K) (hy : 0 < y) (h : y ≤ L) : y * Tr
 
 lemma gl_cut_gt {K L y : ℝ} (hK : 0 ≤ K) (hL : 0 < L) (h : L < y) :
     y * TruncationCutoff K L y = L ^ K * y ^ (1 - K) := by
-  have hy : 0 < y := hL.trans h
-  unfold TruncationCutoff
-  rw [if_neg hy.ne', min_eq_right]
-  · rw [Real.div_rpow hL.le hy.le, Real.rpow_sub hy, Real.rpow_one]
-    ring
-  · exact Real.rpow_le_one (div_nonneg hL.le hy.le) ((div_le_one hy).mpr h.le) hK
+  apply _root_.Formalism.HermitianLatticeCounting.P.mul_cutoff_of_gt <;> assumption
 
 lemma integrableOn_Ioc_truncated_power_moment {K L : ℝ} (hK : 0 ≤ K) :
     IntegrableOn (fun y : ℝ => y * TruncationCutoff K L y) (Set.Ioc 0 L) := by

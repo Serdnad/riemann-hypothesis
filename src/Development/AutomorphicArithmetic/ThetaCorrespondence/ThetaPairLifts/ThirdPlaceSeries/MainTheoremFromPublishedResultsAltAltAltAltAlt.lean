@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.SeeSawLastTwoStepsDoubleLiftPeriodValue
 public import Development.AutomorphicArithmetic.ThetaCorrespondence.ThetaPairLifts.ThirdPlaceSeries.FormsAtZero
 public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.PairForm
 public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.UnitRatio
@@ -490,15 +491,7 @@ theorem perF_smul {c : Comm D} (t : Tup c) (j ρ : ℕ) (h : j + 2 * ρ + 2 = D.
   exact e
 
 theorem contAut_trc {V : HSp D} (e : GA D V →₀ ℂ) {f : GA D V → ℂ} (hf : IsContAut V f) : IsContAut V (trc e f) := by
-  refine ⟨fun γ hγ g => ?_, ?_⟩
-  · simp only [trc, rTrans, Finset.sum_apply, Pi.smul_apply]
-    refine Finset.sum_congr rfl fun x _ => ?_
-    rw [mul_assoc, hf.1 γ hγ]
-  · have e : trc e f = fun x => ∑ g ∈ e.support, e g * f (x * g) := by
-      funext x
-      simp only [trc, rTrans, Finset.sum_apply, Pi.smul_apply, smul_eq_mul]
-    rw [e]
-    exact continuous_finsetSum _ fun g _ => continuous_const.mul (hf.2.comp (continuous_mul_const g))
+  apply _root_.GlobalTheory.SeeSawLastValue.contAut_trc <;> assumption
 
 theorem contAut_emb {S A B : HSp D} (o : OrthDec S A B) {f : GA D S → ℂ} (hf : IsContAut S f) :
     Continuous (fun h : GA D A => f (o.emb (h, 1))) ∧ ∀ γ ∈ GQ A, ∀ g, f (o.emb (γ * g, 1)) = f (o.emb (g, 1)) := by

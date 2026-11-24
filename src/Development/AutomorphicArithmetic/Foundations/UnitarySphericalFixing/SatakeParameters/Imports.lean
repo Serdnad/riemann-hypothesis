@@ -417,31 +417,7 @@ end GlobalTheory.KOneTransport
 
 open GlobalTheory.LocLanglands.FieldCompat GlobalTheory.LocLanglands.TransportGL in
 theorem GlobalTheory.KOneTransport.fixed_ne_bot_transport : ∀ (k k' : Type) [Field k] [ValuativeRel k] [TopologicalSpace k] [IsNonarchimedeanLocalField k] [CharZero k] [Field k'] [ValuativeRel k'] [TopologicalSpace k'] [IsNonarchimedeanLocalField k'] [CharZero k'] (i : k ≃+* k'), Continuous i → ∀ (x : IrrGL (k := k)) (x' : IrrGL (k := k')), RepRel i x x' → GlobalTheory.PRep.fixed x.rep (GlobalTheory.SplitWeil.KOne k (Fin x.1)) ≠ ⊥ → GlobalTheory.PRep.fixed x'.rep (GlobalTheory.SplitWeil.KOne k' (Fin x'.1)) ≠ ⊥ := by
-  intro k k' _ _ _ _ _ _ _ _ _ _ i hi x x' H hx
-  obtain ⟨-, hv, -⟩ := GlobalTheory.T.continuous_ringEquiv_localField_preserves_valuation k k' i hi
-  rw [← GlobalTheory.LocLanglands.FieldCompat.cls_rep x] at H
-  obtain ⟨π', e, rfl, he⟩ := GlobalTheory.TheRecTransport.exists_of_repRel _ H
-  obtain ⟨v, hv0, hvne⟩ := Submodule.exists_mem_ne_zero_of_ne_bot hx
-  let φ := equivRep π'
-  have h2 : ∀ g v, φ.toLinearEquiv (π'.ρ g v) = π'.cl.rep.ρ g (φ.toLinearEquiv v) := fun g v =>
-    φ.toIntertwiningMap.isIntertwining _ _ g v
-  rw [Submodule.ne_bot_iff]
-  refine ⟨φ.toLinearEquiv (e v), fun h => ?_, ?_⟩
-  · have hg : GeneralLinearGroup.map i.symm.toRingHom (h : GL (Fin x.1) k') ∈ GlobalTheory.SplitWeil.KOne k (Fin x.1) :=
-      GlobalTheory.KOneTransport.map_mem_kOne i.symm (GlobalTheory.KOneTransport.symm_hv i hv) h.2
-    have hfx : x.rep (GeneralLinearGroup.map i.symm.toRingHom (h : GL (Fin x.1) k')) v = v := by
-      have := hv0 ⟨_, hg⟩
-      simpa using this
-    have h3 := he (GeneralLinearGroup.map i.symm.toRingHom (h : GL (Fin x.1) k')) v
-    rw [GlobalTheory.LocLanglands.TransportGL.map_map_symm] at h3
-    show π'.cl.rep.ρ (h : GL (Fin x.1) k') (φ.toLinearEquiv (e v)) = ((1 : _ →* ℂˣ) h : ℂ) • φ.toLinearEquiv (e v)
-    rw [← h2, ← h3]
-    erw [hfx]
-    simp
-  · intro h0
-    apply hvne
-    have : e v = 0 := φ.toLinearEquiv.map_eq_zero_iff.1 h0
-    exact e.map_eq_zero_iff.1 this
+  apply _root_.GlobalTheory.FixedKOneTransport.fixed_kOne_transport <;> assumption
 end -- clump:auto
 end -- clump:auto
 end -- clump:auto

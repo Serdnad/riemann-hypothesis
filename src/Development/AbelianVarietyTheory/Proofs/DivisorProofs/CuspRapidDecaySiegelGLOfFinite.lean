@@ -1,5 +1,6 @@
 module
 
+import Development.WeilBound.RepresentationTheoryGL.ConstantTermFiniteness.LieInvariants.InvariantOfLieOneLEqZero
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.EqZeroOfMemWeakIn
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.RealLieSmoothingMemSlowlyIncreasing
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LieDerivativeRealLieSmoothingEqDensity
@@ -1365,24 +1366,7 @@ namespace GlobalTheory
 
 theorem cuspRapidDecaySiegelGL_of_finite (hfin : GlobalTheory.Published.AutomorphicFormsFiniteGL) :
     GlobalTheory.Published.CuspRapidDecaySiegelGL := by
-  intro E _ _ _ a φ hφ ω hω hωB _ t ht lam
-  obtain ⟨Ω, Kf, hΩ, hKf, hgeom⟩ := _root_.GlobalTheory.SiegelSetGL.exists_compact_decomp E a ω hω hωB t ht
-  obtain ⟨S, hS⟩ := _root_.GlobalTheory.finite_translates_of_isCompact E a φ hφ.1.level Kf hKf
-  have hcore := fun f' : GL (Fin a) (Af E) =>
-    _root_.GlobalTheory.cuspForm_rapidDecay_siegel hfin E a (finRep E a f' φ) (_root_.GlobalTheory.CuspStabFin.isCuspForm_act hfin E a (.fin f') φ hφ) Ω hΩ t ht lam
-  choose C hC0 hC using hcore
-  refine ⟨∑ f' ∈ S, C f', fun b hb r hr hchain hprod k hk => ?_⟩
-  obtain ⟨d, hd, hdiag⟩ := _root_.GlobalTheory.SiegelTorusInf.exists_diag_infGL E a r hr
-  rw [hdiag]
-  obtain ⟨c, hc, f, hf, heq⟩ := hgeom r d hr hchain hd b hb k hk
-  rw [heq]
-  obtain ⟨f', hf', hff'⟩ := hS f hf
-  have e : φ.1 (infGL E a (d * c) * finGL E a f) = (finRep E a f' φ).1 (infGL E a (d * c)) := by
-    rw [← hff']; rfl
-  rw [e]
-  refine (hC f' r d hr hchain hd hprod c hc).trans ?_
-  exact mul_le_mul_of_nonneg_right (Finset.single_le_sum (fun i _ => hC0 i) hf')
-    (Finset.prod_nonneg fun i _ => Real.rpow_nonneg (hr i).le _)
+  apply _root_.PositivityTheory.Rg.HF.GL.cuspRapidDecaySiegelGL <;> assumption
 
 end GlobalTheory
 end -- clump:auto

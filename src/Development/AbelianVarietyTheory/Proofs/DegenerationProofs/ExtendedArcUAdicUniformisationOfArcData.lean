@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.JetHarmonics.CharBundlePrimitive
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.UnifUniqSt
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.BCTools
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.HasArcDataIff
@@ -621,17 +622,7 @@ theorem comp_Oφ_id {T : Over (Spec (CommRingCat.of R))} (x : T ⟶ D.P.A) (χ :
 
 theorem bundle₀_add (χ χ' : D.X) :
     ∃ t : LB.Iso (bundle₀ D χ') (LB.div (bundle₀ D (χ + χ')) (bundle₀ D χ)), t.IsGen := by
-  refine (((refines_self _ _).div (refines_self _ _)).div (refines_self _ _)).exists_gen D.P.isLB (fun U _ h => ?_)
-    _ (DVR.pullGen_isGen _ _ _ _ D.cub.isGen (lift (toUnit _ ≫ D.c χ) (lift (toUnit _ ≫ D.c χ') (𝟙 D.P.A))).left)
-  refine (prod_cub (toUnit _ ≫ D.c χ) (toUnit _ ≫ D.c χ') (𝟙 D.P.A) h).trans (Eq.symm ?_)
-  rw [Fintype.prod_sum_type, Fintype.prod_sum_type]
-  simp only [Sum.elim_inl, Sum.elim_inr, zpow_neg, Finset.prod_inv_distrib]
-  refine (congrArg₂ (· * ·) (congrArg₂ (· * ·) (prod_O D (𝟙 _) _ h) (congrArg (·⁻¹) (prod_O D (𝟙 _) _ h)))
-    (congrArg (·⁻¹) (prod_O D (𝟙 _) _ h))).trans ?_
-  rw [c_add]
-  apply Additive.ofMul.injective
-  simp only [ofMul_mul, ofMul_inv]
-  abel
+  apply _root_.GlobalTheory.TorusModel.charBundle_add <;> assumption
 
 theorem bundle₀_zero : ∃ t : LB.Gen (bundle₀ D 0), t.IsGen := by
   refine (refines_self _ _).exists_gen D.P.isLB (fun U _ h => ?_) _ isGen_one
@@ -642,33 +633,10 @@ theorem bundle₀_zero : ∃ t : LB.Gen (bundle₀ D 0), t.IsGen := by
   abel
 
 theorem bundle₀_primitive (χ : D.X) : ∃ t : LB.Gen (abelian₂ D.P.A (bundle₀ D χ)), t.IsGen := by
-  refine ((refines_self _ _).linComb _ _).exists_gen D.P.isLB (fun U _ h => ?_)
-    _ (DVR.pullGen_isGen _ _ _ _ D.cub.isGen (lift (toUnit _ ≫ D.c χ) (lift (x2 D.P.A 0) (x2 D.P.A 1))).left)
-  refine (prod_cub (toUnit _ ≫ D.c χ) (x2 D.P.A 0) (x2 D.P.A 1) h).trans (Eq.symm ?_)
-  rw [Fintype.prod_prod_type]
-  simp only [zpow_mul, Finset.prod_zpow, comp_Oφ_id]
-  refine (prod_square (x2 D.P.A) (fun x => ∏ k, h (D.Oφ x χ k) ^ Oε k)).trans ?_
-  refine (congrArg₂ (· * ·) (congrArg₂ (· * ·) (congrArg₂ (· * ·) (prod_O D _ _ h) (congrArg (·⁻¹) (prod_O D _ _ h)))
-    (congrArg (·⁻¹) (prod_O D _ _ h))) (prod_O D _ _ h)).trans ?_
-  rw [_root_.mul_one, ← _root_.mul_assoc (toUnit _ ≫ D.c χ)]
-  apply Additive.ofMul.injective
-  simp only [ofMul_mul, ofMul_inv]
-  abel
+  first | exact _root_.GlobalTheory.TorusModel.charBundle_primitive | exact @_root_.GlobalTheory.TorusModel.charBundle_primitive | apply _root_.GlobalTheory.TorusModel.charBundle_primitive <;> assumption
 
 theorem bundle₀_rig (χ : D.X) : ∃ t : LB.Gen ((bundle₀ D χ).pull (eSec D.P.A)), t.IsGen := by
-  refine ((refines_self _ _).linComb _ _).exists_gen D.P.isLB (fun U _ h => ?_) _ isGen_one
-  refine (Fintype.prod_empty _).trans (Eq.symm ?_)
-  have e₁ : η[D.P.A] = (1 : 𝟙_ (Over (Spec (CommRingCat.of R))) ⟶ D.P.A) := by
-    rw [Hom.one_def, toUnit_unit, Category.id_comp]
-  have e₂ : ∀ k, eSec D.P.A ≫ D.Oφ (𝟙 D.P.A) χ k = D.Oφ (1 : 𝟙_ (Over (Spec (CommRingCat.of R))) ⟶ D.P.A) χ k :=
-    fun k => e₁ ▸ comp_Oφ_id D η[D.P.A] χ k
-  rw [Fintype.prod_prod_type, Fintype.prod_unique]
-  simp only [_root_.mul_one, e₂]
-  refine (prod_O D _ _ h).trans ?_
-  rw [_root_.mul_one]
-  apply Additive.ofMul.injective
-  simp only [ofMul_mul, ofMul_inv, ofMul_one]
-  abel
+  apply _root_.GlobalTheory.TorusModel.charBundle_rig <;> assumption
 
 def extOf : SplitExt (Spec (CommRingCat.of R)) where
   B := D.P.A

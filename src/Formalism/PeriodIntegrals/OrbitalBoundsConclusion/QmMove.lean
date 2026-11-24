@@ -1,5 +1,6 @@
 module
 
+import Development.WeilBound.CoreStatements.PluriharmonicCharts.XFibMdisc
 public import Formalism.PeriodIntegrals.QmDefs
 public import Formalism.RealPlaceAnalysis.RealPlaceTaylor.GeneratorCommutatorQuantumDet
 public import Formalism.RealPlaceAnalysis.RealPlaceTaylor.ShiftedGeneratorEqIteSmulAdd
@@ -139,20 +140,7 @@ theorem sign_firstColumnSplit (m : ℕ) (j : Fin (m + 1)) (ρ : Equiv.Perm (Fin 
     Equiv.Perm.decomposeFin.symm_sign]
 
 theorem firstColumnSplit_bijective (m : ℕ) : Function.Bijective (phi0 m) := by
-  rw [Fintype.bijective_iff_injective_and_card]
-  refine ⟨?_, ?_⟩
-  · rintro ⟨j, τ⟩ ⟨j', τ'⟩ h
-    have hj : j = j' := by
-      have := congrArg (fun σ : Equiv.Perm (Fin (m + 1)) => σ 0) h
-      simpa [firstColumnSplit_zero] using this
-    subst hj
-    have : τ = τ' := by
-      refine Equiv.ext fun k => ?_
-      have := congrArg (fun σ : Equiv.Perm (Fin (m + 1)) => σ k.succ) h
-      simp only [firstColumnSplit_succ] at this
-      exact Fin.succAbove_right_inj.mp this
-    rw [this]
-  · simp [Fintype.card_prod, Fintype.card_perm, Nat.factorial_succ]
+  apply _root_.PositivityTheory.Xgp.fib_mdisc.phi_bijective <;> assumption
 
 theorem sum_perm_eq_sum_firstColumnSplit {M : Type*} [AddCommMonoid M] (m : ℕ) (g : Equiv.Perm (Fin (m + 1)) → M) :
     ∑ τ, g τ = ∑ j : Fin (m + 1), ∑ ρ : Equiv.Perm (Fin m), g (phi0 m (j, ρ)) := by

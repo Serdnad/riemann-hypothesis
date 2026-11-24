@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.UpqLocallyCompactGroup
 public import Formalism.LocalRingCardinality.SpanPowerMembership.ExistsDensity
 public import Formalism.LocalRingCardinality.SpanPowerMembership.ExistsOmegaLeb
 public import Mathlib.Analysis.Matrix.Normed
@@ -87,11 +88,7 @@ theorem mat_range : Set.range (UpqT.mat : UpqT P Q → MM P Q) = {h | hᴴ * J *
   exact ⟨fun ⟨g, hg⟩ => hg ▸ mat_mem P Q g, exists_of_mem P Q h⟩
 
 theorem mat_closedEmbedding : IsClosedEmbedding (UpqT.mat : UpqT P Q → MM P Q) := by
-  refine ⟨mat_embedding P Q, ?_⟩
-  rw [mat_range]
-  exact isClosed_eq
-    ((continuous_id.matrix_conjTranspose.matrix_mul continuous_const).matrix_mul continuous_id)
-    continuous_const
+  apply _root_.GlobalTheory.UpqTopology.isClosedEmbedding_mat <;> assumption
 
 instance : LocallyCompactSpace (UpqT P Q) :=
   haveI : LocallyCompactSpace (MM P Q) :=

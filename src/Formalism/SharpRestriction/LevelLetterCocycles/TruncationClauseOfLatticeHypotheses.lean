@@ -125,40 +125,7 @@ theorem serZ_exists [NeZero n] (hinj : Function.Injective (algebraMap O LL))
     (hH : Formalism.MainNotions.LiftingTheory.coreH W) (hA : Formalism.MainNotions.LiftingTheory.CaseA W) (T : LocLat G Qp LL O) (hT : IsCrys PD T.ρ)
     (i : ZMod n) (ζ : W.DD T) (hD : Formalism.MainNotions.CrystallineLiftingInputs.DL W T i ζ) (h1 : Formalism.MainNotions.CrystallineLiftingInputs.InPN W T 1 ζ) :
     ∃ c, Formalism.MainNotions.RamifiedCoefficientChains.S9.ExtensionLemmaAlt.IsSerZ W T i ζ c := by
-  have hl : 2 ≤ PD.p := PD.hp.two_le
-  obtain ⟨d, b, cf, hb, hsol, hc0, hbd⟩ :=
-    solData W T i (Formalism.MainNotions.LiftingTheory.frame_p9A W h9 hA T hT).2 (hH hA T hT i).2.2.1 _ (eq_uniformizer_smul_of_level_one W T i hD h1)
-  have h4 := (hH hA T hT i).2.2.2.1
-  have hg : ∀ r m, ∃ o : O, algebraMap O LL o = (PD.p : LL) ^ Ex PD.p r * cf r m :=
-    fun r m => int_of_bd W hO2 r (h4 r) _ (hbd r m)
-  choose g hg using hg
-  have hg0 : g 0 = 0 := by
-    funext m
-    apply hinj
-    rw [hg, hc0]
-    simp
-  refine ⟨fun y => Formalism.MainNotions.LiftingTheory.vecB W T b (g y), ?_, fun y => ?_, fun K => ?_⟩
-  · show Formalism.MainNotions.LiftingTheory.vecB W T b (g 0) = 0
-    rw [hg0]
-    simp [Formalism.MainNotions.LiftingTheory.vecB]
-  · exact DL_of W T i (Formalism.MainNotions.LiftingTheory.frame_vecB_mem W T i b hb _)
-  · refine ⟨0, ?_⟩
-    set yv : ℕ → Fin d → O := fun r m => ((PD.p : ℕ) : O) ^ (Ex PD.p K - Ex PD.p r) * g r m
-    have hy : ∀ r < K, ∀ m, algebraMap O LL (yv r m) = (PD.p : LL) ^ Ex PD.p K * cf r m := by
-      intro r hr m
-      have hle := Ex_mono PD.p hl hr.le
-      simp only [yv, map_mul, map_pow, map_natCast, hg]
-      rw [← mul_assoc, ← pow_add, Nat.sub_add_cancel hle]
-    obtain ⟨x, hx, hxe⟩ := hsol K (Ex PD.p K) yv hy
-    refine ⟨-x, (W.N T).neg_mem hx.1.1, fun δ hδ => by rw [map_neg, hx.1.2 δ hδ], ?_⟩
-    have hv : ∀ r, Formalism.MainNotions.LiftingTheory.vecB W T b (yv r) =
-        ((PD.p : ℕ) : O) ^ (Ex PD.p K - Ex PD.p r) • Formalism.MainNotions.LiftingTheory.vecB W T b (g r) :=
-      fun r => Formalism.MainNotions.LiftingTheory.frame_vecB_smul W T b _ (g r)
-    simp only [hv] at hxe
-    rw [γsum, pow_zero, one_smul, smul_neg, ← hxe]
-    simp only [eY_eq]
-    abel
-
+  exact ser_exists_of_uniformizer_dvd W hinj hO2 h9 hH hA T hT i ζ (eq_uniformizer_smul_of_level_one W T i hD h1)
 theorem serZ_unique [NeZero n] (hinj : Function.Injective (algebraMap O LL))
     (hO2 : ∀ x : LL, 0 ≤ v x → ∃ o : O, algebraMap O LL o = x) (h9 : Formalism.MainNotions.DeltaInvariantLattices.P9W W)
     (hH : Formalism.MainNotions.LiftingTheory.coreH W) (hA : Formalism.MainNotions.LiftingTheory.CaseA W) (T : LocLat G Qp LL O) (hT : IsCrys PD T.ρ)
@@ -167,75 +134,8 @@ theorem serZ_unique [NeZero n] (hinj : Function.Injective (algebraMap O LL))
       Formalism.MainNotions.CrystallineLiftingInputs.InPN W T K (((PD.p : ℕ) : O) ^ j • ∑ y ∈ Finset.range K,
         ((PD.p : ℕ) : O) ^ (Formalism.MainNotions.CrystallineLiftingInputs.eY PD.p K - Formalism.MainNotions.CrystallineLiftingInputs.eY PD.p y) •
           (W.π₀ ^ y • (c y - c' y))) := by
-  have hr := (Formalism.MainNotions.LiftingTheory.frame_p9A W h9 hA T hT).1
-  obtain ⟨hc0, hcN, hcK⟩ := hc
-  obtain ⟨hc0', hcN', hcK'⟩ := hc'
-  obtain ⟨j1, a, ha, haΔ, hae⟩ := hcK K
-  obtain ⟨j2, a', ha', haΔ', hae'⟩ := hcK' K
-  set ex : ℕ → ℕ := fun y => Formalism.MainNotions.CrystallineLiftingInputs.eY PD.p K - Formalism.MainNotions.CrystallineLiftingInputs.eY PD.p y
-  have he : ∀ y, Formalism.MainNotions.LiftingTheory.InNΔi W T i (c y - c' y) := fun y =>
-    InNΔi_sub W T i (InNΔi_of_DL W T i (hcN y).1 (hcN y).2) (InNΔi_of_DL W T i (hcN' y).1 (hcN' y).2)
-  set E : W.DD T := ∑ y ∈ Finset.range K, ((PD.p : ℕ) : O) ^ ex y • (W.π₀ ^ y • (c y - c' y)) with hE
-
-  have hterm : ∀ y, W.π₀ ^ y • (c y - c' y) = W.π₀ • (W.π₀ ^ (y - 1) • (c y - c' y)) := by
-    intro y
-    rcases Nat.eq_zero_or_pos y with rfl | hy
-    · rw [hc0, hc0', sub_self]; simp
-    · rw [smul_smul, ← pow_succ', Nat.sub_add_cancel hy]
-  set E' : W.DD T := ∑ y ∈ Finset.range K, ((PD.p : ℕ) : O) ^ ex y • (W.π₀ ^ (y - 1) • (c y - c' y))
-  have hEE' : E = W.π₀ • E' := by
-    rw [hE, Finset.smul_sum]
-    refine Finset.sum_congr rfl fun y _ => ?_
-    rw [hterm, smul_comm]
-  have hE'N : Formalism.MainNotions.LiftingTheory.InNΔi W T i E' :=
-    InNΔi_sum W T i _ _ fun y _ => InNΔi_osmul W T i _ (InNΔi_smul W T i (W.AΔ.pow_mem hr.1 _) (he y))
-
-  have hγE : W.γ T E - E = ∑ y ∈ Finset.range K, ((PD.p : ℕ) : O) ^ ex y •
-        (W.γ T (W.π₀ ^ y • c y) - W.π₀ ^ y • c y) -
-      ∑ y ∈ Finset.range K, ((PD.p : ℕ) : O) ^ ex y •
-        (W.γ T (W.π₀ ^ y • c' y) - W.π₀ ^ y • c' y) := by
-    have hy : ∀ y, W.γ T (((PD.p : ℕ) : O) ^ ex y • (W.π₀ ^ y • (c y - c' y))) -
-        ((PD.p : ℕ) : O) ^ ex y • (W.π₀ ^ y • (c y - c' y)) =
-        ((PD.p : ℕ) : O) ^ ex y • (W.γ T (W.π₀ ^ y • c y) - W.π₀ ^ y • c y) -
-        ((PD.p : ℕ) : O) ^ ex y • (W.γ T (W.π₀ ^ y • c' y) - W.π₀ ^ y • c' y) := by
-      intro y
-      rw [(W.γ T).map_smul, smul_sub (W.π₀ ^ y) (c y) (c' y), map_sub]
-      simp only [smul_sub]
-      abel
-
-    rw [hE, map_sum, ← Finset.sum_sub_distrib, ← Finset.sum_sub_distrib]
-    exact Finset.sum_congr rfl fun y _ => hy y
-  set E2 : W.DD T := ((PD.p : ℕ) : O) ^ (j1 + j2) • E
-  have hlet : ∀ y, (letE i : LetA O n) • (W.π₀ ^ y • (c y - c' y)) = W.π₀ ^ y • (c y - c' y) := by
-    intro y
-    rw [smul_comm, InNΔi_letter W T i (he y)]
-  have hEl : (letE i : LetA O n) • E = E := by
-    rw [hE, Finset.smul_sum]
-    refine Finset.sum_congr rfl fun y _ => ?_
-    rw [smul_comm, hlet]
-  have hz0 : W.γ T E2 - E2 = W.π₀ ^ K •
-      (((PD.p : ℕ) : O) ^ j1 • a' - ((PD.p : ℕ) : O) ^ j2 • a) := by
-    have e1 : W.γ T E2 - E2 = ((PD.p : ℕ) : O) ^ (j1 + j2) • (W.γ T E - E) := by
-      rw [(W.γ T).map_smul, smul_sub]
-    rw [e1, hγE, pow_add, alg_uniq _ _ _ _ _ _ _ hae hae', smul_comm (((PD.p : ℕ) : O) ^ j1) (W.π₀ ^ K) a',
-      smul_comm (((PD.p : ℕ) : O) ^ j2) (W.π₀ ^ K) a, ← smul_sub]
-  set z0 : W.DD T := ((PD.p : ℕ) : O) ^ j1 • a' - ((PD.p : ℕ) : O) ^ j2 • a
-  have hz : Formalism.MainNotions.LiftingTheory.InNΔi W T i ((letE i : LetA O n) • z0) :=
-    InNΔi_of W T i (Formalism.MainNotions.UnusedSlot80.SatW.smul_mem_NΔ W T (Formalism.MainNotions.LiftingTheory.idempotent_mem_invariants W i)
-      ((W.NΔ T).sub_mem ((W.NΔ T).smul_mem _ ⟨ha', haΔ'⟩) ((W.NΔ T).smul_mem _ ⟨ha, haΔ⟩)))
-      (by rw [smul_smul, letE_mul_self])
-  have hzE : W.γ T E2 - E2 = W.π₀ ^ K • ((letE i : LetA O n) • z0) := by
-    rw [smul_comm, ← hz0, smul_sub, letE_γ]
-    have : (letE i : LetA O n) • E2 = E2 := by
-      show (letE i : LetA O n) • (((PD.p : ℕ) : O) ^ (j1 + j2) • E) = _
-      rw [smul_comm, hEl]
-    rw [this]
-  obtain ⟨k, x, hx, hkx⟩ := formal_unique W T i hinj hO2 hr.1 hr.2.2.1 (hH hA T hT i).1
-    (hH hA T hT i).2.1 K E2 ⟨((PD.p : ℕ) : O) ^ (j1 + j2) • E', InNΔi_osmul W T i _ hE'N, by
-      show ((PD.p : ℕ) : O) ^ (j1 + j2) • E = _
-      rw [hEE', smul_comm]⟩ ⟨_, hz, hzE⟩
-  refine ⟨k + (j1 + j2), x, hx.1.1, hx.1.2, ?_⟩
-  rw [← hkx, ← lsmul_eq, pow_add, mul_smul]
+  exact ser_unique_of_truncations W hinj hO2 h9 hH hA T hT i ζ c c' K
+    hc.1 hc'.1 hc.2.1 hc'.2.1 (hc.2.2 K) (hc'.2.2 K)
 
 theorem serZ_lin (T : LocLat G Qp LL O) (i : ZMod n) (a a' : O) {ζ ζ' : W.DD T} {c c' : ℕ → W.DD T}
     (hc : Formalism.MainNotions.RamifiedCoefficientChains.S9.ExtensionLemmaAlt.IsSerZ W T i ζ c) (hc' : Formalism.MainNotions.RamifiedCoefficientChains.S9.ExtensionLemmaAlt.IsSerZ W T i ζ' c') :

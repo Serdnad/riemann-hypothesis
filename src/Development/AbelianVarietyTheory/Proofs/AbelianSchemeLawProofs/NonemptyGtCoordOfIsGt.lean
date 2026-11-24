@@ -1,5 +1,7 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.HomogeneousIdeals.FormallyUnramifiedOfTangentMapInjective
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.ChartPullbacks.WeightedChartPullback.CancelSecAct
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.ValCalc
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.DegUnif
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.GlobalSectionsRankAlgClosed
@@ -404,15 +406,7 @@ variable {R : Type} [CommRing R] [IsDomain R] (D : DegPre R)
 
 theorem comp_Oφ {T T' : Over (Spec (CommRingCat.of R))} (h : T' ⟶ T) (p : T ⟶ D.P.A) (χ : D.X)
     (k : Fin 4) : h.left ≫ D.Oφ p χ k = D.Oφ (h ≫ p) χ k := by
-  have e0 : h ≫ padd D.P.A p (toUnit T ≫ D.c χ) = padd D.P.A (h ≫ p) (toUnit T' ≫ D.c χ) := by
-    simp only [padd]; rw [← Category.assoc, comp_lift, comp_toUnit_assoc]
-  have e1 : h ≫ toUnit T ≫ D.c χ = toUnit T' ≫ D.c χ := by simp
-  have e3 : h ≫ toUnit T ≫ η[D.P.A] = toUnit T' ≫ η[D.P.A] := by simp
-  fin_cases k
-  · exact congrArg (fun g => g.left) e0
-  · exact congrArg (fun g => g.left) e1
-  · rfl
-  · exact congrArg (fun g => g.left) e3
+  first | exact _root_.ReciprocityTheory.ChartRestriction.G.Out.WeightPf.Oφ_comp | exact @_root_.ReciprocityTheory.ChartRestriction.G.Out.WeightPf.Oφ_comp | apply _root_.ReciprocityTheory.ChartRestriction.G.Out.WeightPf.Oφ_comp <;> assumption
 
 theorem prod_Oφ {T : Over (Spec (CommRingCat.of R))} (p : T ⟶ D.P.A) (χ : D.X) {U : Type}
     [CommGroup U] (h : (T.left ⟶ D.P.A.left) → U) :
@@ -506,17 +500,7 @@ end Coord
 
 theorem unit_fst {S S' : Scheme.{0}} (f : S' ⟶ S) (A : Over S) [GrpObj A] :
     η[(Over.pullback f).obj A].left ≫ pullback.fst A.hom f = f ≫ η[A].left := by
-  have h : η[(Over.pullback f).obj A] =
-      Functor.LaxMonoidal.ε (Over.pullback f) ≫ (Over.pullback f).map η[A] := rfl
-  have h₁ : ((Over.pullback f).map η[A]).left ≫ pullback.fst A.hom f =
-      pullback.fst (𝟙_ (Over S)).hom f ≫ η[A].left := pullback.lift_fst _ _ _
-  rw [h, Over.comp_left, Category.assoc, h₁, ← Category.assoc]
-  congr 1
-  have h₂ : pullback.fst (𝟙_ (Over S)).hom f = pullback.snd (𝟙_ (Over S)).hom f ≫ f :=
-    (Category.comp_id _).symm.trans pullback.condition
-  rw [h₂, ← Category.assoc]
-  exact (congrArg (· ≫ f) (Over.w (Functor.LaxMonoidal.ε (Over.pullback f)))).trans
-    (Category.id_comp _)
+  first | exact _root_.GlobalTheory.GrpTangent.one_pullback_left_fst | exact @_root_.GlobalTheory.GrpTangent.one_pullback_left_fst | apply _root_.GlobalTheory.GrpTangent.one_pullback_left_fst <;> assumption
 
 theorem val_charGen {S Y Z : Scheme.{0}} (X : Type) [AddCommGroup X] (G : Over S) (L : LB Y) (χ : X)
     (r : Z ⟶ (splitTorus S X ⊗ G).left) (z : Z) (J : (Z ⟶ Y) → L.ι) :

@@ -1,5 +1,6 @@
 module
 
+import Formalism.SharpRestriction.Divisibility.ClosedSizeLink.DivisionAdmissibleFamilyOfData
 public import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.StmtNumEOf
 public import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.NcIotaInj
 public import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.NcLgpLe
@@ -59,15 +60,7 @@ def nc_Size (D : Formalism.BasicNotions.D7) (L : SizeData₂ D) (Y : Formalism.M
     ((Y.Fl u w hg).w (Y.vOf u w hg t0)) j s : ℝ) ≤ (2 * L.sc.a) ^ 4)
 
 theorem nc_a_ge : (1 : ℝ) ≤ L.sc.a := by
-  have hx : 1 < L.sc.x := L.sc.one_lt_alt
-  have hL : 0 ≤ L.sc.L := by
-    simp only [Formalism.BasicNotions.Scale.L]
-    exact Real.rpow_nonneg (by linarith) _
-  have hb : 1 ≤ L.sc.b := by
-    simp only [Formalism.BasicNotions.Scale.b]
-    exact Real.one_le_exp hL
-  simp only [Formalism.BasicNotions.Scale.a]
-  exact one_le_mul_of_one_le_of_one_le hx.le hb
+  apply _root_.Formalism.MainNotions.DIV.one_le_a <;> assumption
 
 theorem nc_de (X : Formalism.MainNotions.G.Inst D L) (Y : Formalism.MainNotions.G.LatInst D) (K : Formalism.MainNotions.G.Consts) (hT : GatTies D)
     (hL : Formalism.MainNotions.G.LatTied hT X Y) (u : D.what₂.Word) (w : D.what₂.places.Pl)

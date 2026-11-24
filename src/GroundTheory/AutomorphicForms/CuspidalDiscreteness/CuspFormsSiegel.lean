@@ -39,7 +39,13 @@ theorem conj_unipGL_eq_archExp {r : ℕ} (x : AdelicGLn.AdelicGL K n) (P : UPos 
   rw [hg, coe_conj_unipGL, map_add (f := _), map_one]
   rfl
 
-theorem exists_norm_le_siegel_root {φ : AdelicGLn.AdelicGL K n → ℂ} (hφ : φ ∈ cuspForms K n)
+theorem exists_norm_le_siegel_root_of_diffSum {φ : AdelicGLn.AdelicGL K n → ℂ}
+    (hcont : Continuous φ) (hleft : IsLeftInvariant φ) (hcusp : IsCuspidal φ)
+    (hlev : ∃ U : OpenSubgroup (AdelicGLn.FiniteAdelicGL K n),
+      ∀ g, ∀ u ∈ U, φ (g * finEmb K n u) = φ g)
+    (hdiff : ∃ N : ℕ, ∀ (k : ℕ) (T : ℝ), ∃ C : ℝ, ∀ (x : AdelicGLn.AdelicGL K n)
+      (Y : Fin k → ArchMatrix K n), (∀ i j, Y i * Y j = 0) → (∀ i, ‖Y i‖ ≤ T) →
+      ‖diffSum φ x Y‖ ≤ C * (∏ i, ‖Y i‖) * height x ^ N)
     {ω : Set (AdelicGLn.AdelicGL K n)} (hω : IsCompact ω)
     (hωB : ω ⊆ ((Reduction.adelicBorel : Subgroup (AdelicGLn.AdelicGL K n)) :
       Set (AdelicGLn.AdelicGL K n)))
@@ -49,10 +55,10 @@ theorem exists_norm_le_siegel_root {φ : AdelicGLn.AdelicGL K n → ℂ} (hφ : 
       ∀ kk ∈ (Reduction.maxCompact : Subgroup (AdelicGLn.AdelicGL K n)),
       ∀ x : AdelicGLn.AdelicGL K n,
       x = b * Reduction.diagUnits n (fun i => Reduction.posIdele (K := K) (ρ i) (hρ i)) * kk →
-      ‖φ x‖ ≤ C * (ρ ⟨r, hrn⟩ / ρ ⟨r - 1, by omega⟩) ^ k * height x ^ N := by
-  obtain ⟨N, hN⟩ := exists_norm_diffSum_le hφ.1
+      ‖φ x‖ ≤ C * (ρ ⟨r, hrn⟩ / ρ ⟨r - 1, Nat.lt_of_le_of_lt (Nat.sub_le r 1) hrn⟩) ^ k * height x ^ N := by
+  obtain ⟨N, hN⟩ := hdiff
   refine ⟨N, fun k => ?_⟩
-  obtain ⟨U₀, -, hU₀⟩ := exists_openSubgroup_rightInvariant hφ.1.isSmooth hφ.1.isKFinite
+  obtain ⟨U₀, hU₀⟩ := hlev
   set U : Subgroup (AdelicGLn.integralFiniteGL K n) :=
     (U₀ : Subgroup (AdelicGLn.FiniteAdelicGL K n)).subgroupOf (AdelicGLn.integralFiniteGL K n)
   have hU : IsOpen (U : Set (AdelicGLn.integralFiniteGL K n)) :=
@@ -72,9 +78,9 @@ theorem exists_norm_le_siegel_root {φ : AdelicGLn.AdelicGL K n → ℂ} (hφ : 
     rw [div_le_iff₀ (hρ _), ← div_eq_inv_mul, le_div_iff₀ ht, mul_comm]
     exact h1
   set H : (UPos n r → 𝔸[K]) → ℂ := fun s => φ (unipGL s * x) with hH
-  have hHc : Continuous H := hφ.1.continuous.comp (continuous_unipGL.mul continuous_const)
+  have hHc : Continuous H := hcont.comp (continuous_unipGL.mul continuous_const)
   have hper : ∀ ξ ∈ unipLattice K n r, ∀ s, H (ξ + s) = H s := fun ξ hξ s =>
-    hφ.1.isLeftInvariant.unipGL_vadd x ⟨ξ, hξ⟩ s
+    hleft.unipGL_vadd x ⟨ξ, hξ⟩ s
   have hD := isAddFundamentalDomain_scaledUnipFD (K := K) (n := n) (r := r) hM
   obtain ⟨Cc, hCc, hDC⟩ := exists_isCompact_superset_scaledUnipFD (K := K) (n := n) r hM
   have hint : ∀ t', IntegrableOn (fun y => H (t' + y)) (scaledUnipFD K n r M) (unipMeasure K n r) :=
@@ -82,7 +88,7 @@ theorem exists_norm_le_siegel_root {φ : AdelicGLn.AdelicGL K n → ℂ} (hφ : 
       hCc).mono_set hDC
   have hmean : ∫ y in scaledUnipFD K n r M, H y ∂unipMeasure K n r = 0 := by
     rw [hD.setIntegral_eq isAddFundamentalDomain_unipFundamentalDomain fun ξ s => hper ξ ξ.2 s]
-    exact hφ.2 r hr hrn x
+    exact hcusp r hr hrn x
   have h0 := norm_le_of_forall_altSum_le hD (unipMeasure_scaledUnipFD hM) k H hper hint hmean
     (max C 0 * (C₁' * gain) ^ k * height x ^ N) ?_
   · have hH0 : H 0 = φ x := by simp [hH, unipGL_zero]
@@ -142,18 +148,40 @@ theorem exists_norm_le_siegel_root {φ : AdelicGLn.AdelicGL K n → ℂ} (hφ : 
     _ ≤ max C 0 * (C₁' * gain) ^ k * height x ^ N :=
         mul_le_mul_of_nonneg_right (mul_le_mul_of_nonneg_left hprod (le_max_right _ _)) hh
 
-theorem exists_norm_le_height_pow_neg_siegel {φ : AdelicGLn.AdelicGL K n → ℂ}
-    (hφ : φ ∈ cuspForms K n) {ω : Set (AdelicGLn.AdelicGL K n)} (hω : IsCompact ω)
+theorem exists_norm_le_siegel_root {φ : AdelicGLn.AdelicGL K n → ℂ} (hφ : φ ∈ cuspForms K n)
+    {ω : Set (AdelicGLn.AdelicGL K n)} (hω : IsCompact ω)
     (hωB : ω ⊆ ((Reduction.adelicBorel : Subgroup (AdelicGLn.AdelicGL K n)) :
       Set (AdelicGLn.AdelicGL K n)))
-    {t : ℝ} (ht : 0 < t) (N' : ℕ) :
+    {t : ℝ} (ht : 0 < t) {r : ℕ} (hr : 0 < r) (hrn : r < n) :
+    ∃ N : ℕ, ∀ k : ℕ, ∃ C : ℝ, ∀ b ∈ ω, ∀ (ρ : Fin n → ℝ) (hρ : ∀ i, 0 < ρ i),
+      (∀ i j : Fin n, (j : ℕ) = i + 1 → t * ρ j ≤ ρ i) →
+      ∀ kk ∈ (Reduction.maxCompact : Subgroup (AdelicGLn.AdelicGL K n)),
+      ∀ x : AdelicGLn.AdelicGL K n,
+      x = b * Reduction.diagUnits n (fun i => Reduction.posIdele (K := K) (ρ i) (hρ i)) * kk →
+      ‖φ x‖ ≤ C * (ρ ⟨r, hrn⟩ / ρ ⟨r - 1, by omega⟩) ^ k * height x ^ N := by
+  obtain ⟨U, _, hU⟩ := exists_openSubgroup_rightInvariant hφ.1.isSmooth hφ.1.isKFinite
+  exact exists_norm_le_siegel_root_of_diffSum hφ.1.continuous hφ.1.isLeftInvariant hφ.2
+    ⟨U, hU⟩ (exists_norm_diffSum_le hφ.1) hω hωB ht hr hrn
+
+theorem exists_norm_le_height_pow_neg_siegel_of_root_bounds {φ : AdelicGLn.AdelicGL K n → ℂ}
+    (hmod : HasModerateGrowth φ) {ω : Set (AdelicGLn.AdelicGL K n)} (hω : IsCompact ω)
+    (hωB : ω ⊆ ((Reduction.adelicBorel : Subgroup (AdelicGLn.AdelicGL K n)) :
+      Set (AdelicGLn.AdelicGL K n)))
+    {t : ℝ} (ht : 0 < t)
+    (hroot : ∀ (r : ℕ) (hr : 0 < r) (hrn : r < n),
+      ∃ N : ℕ, ∀ k : ℕ, ∃ C : ℝ, ∀ b ∈ ω, ∀ (ρ : Fin n → ℝ) (hρ : ∀ i, 0 < ρ i),
+      (∀ i j : Fin n, (j : ℕ) = i + 1 → t * ρ j ≤ ρ i) →
+      ∀ kk ∈ (Reduction.maxCompact : Subgroup (AdelicGLn.AdelicGL K n)),
+      ∀ x : AdelicGLn.AdelicGL K n,
+      x = b * Reduction.diagUnits n (fun i => Reduction.posIdele (K := K) (ρ i) (hρ i)) * kk →
+      ‖φ x‖ ≤ C * (ρ ⟨r, hrn⟩ / ρ ⟨r - 1, Nat.lt_of_le_of_lt (Nat.sub_le r 1) hrn⟩) ^ k * height x ^ N) (N' : ℕ) :
     ∃ C : ℝ, ∀ b ∈ ω, ∀ (ρ : Fin n → ℝ) (hρ : ∀ i, 0 < ρ i),
       (∀ i j : Fin n, (j : ℕ) = i + 1 → t * ρ j ≤ ρ i) →
       ∀ kk ∈ (Reduction.maxCompact : Subgroup (AdelicGLn.AdelicGL K n)),
       ∀ x : AdelicGLn.AdelicGL K n, x ∈ Reduction.normOneGL (K := K) (n := n) →
       x = b * Reduction.diagUnits n (fun i => Reduction.posIdele (K := K) (ρ i) (hρ i)) * kk →
       ‖φ x‖ ≤ C * (height x ^ N')⁻¹ := by
-  obtain ⟨C₀, N₀, hC₀⟩ := hφ.1.hasModerateGrowth
+  obtain ⟨C₀, N₀, hC₀⟩ := hmod
   obtain ⟨Ch, hCh0, hCh⟩ := exists_height_le_normOne (K := K) (n := n) hω
   set e := 2 * Fintype.card (InfinitePlace K)
   set τ := (max 1 t⁻¹) ^ n with hτ
@@ -161,7 +189,6 @@ theorem exists_norm_le_height_pow_neg_siegel {φ : AdelicGLn.AdelicGL K n → �
   set D := max (Ch * τ ^ e) 1 with hD
   have hD1 : 1 ≤ D := le_max_right _ _
   have hD0 : 0 ≤ D := le_trans zero_le_one hD1
-  have hroot := fun (r : ℕ) (hr : 0 < r) (hrn : r < n) => exists_norm_le_siegel_root hφ hω hωB ht hr hrn
   choose Nf hNf using hroot
   have hroot2 := fun (r : ℕ) (hr : 0 < r) (hrn : r < n) => hNf r hr hrn (n * e * (Nf r hr hrn + N'))
   choose Cf hCf using hroot2
@@ -264,6 +291,20 @@ theorem exists_norm_le_height_pow_neg_siegel {φ : AdelicGLn.AdelicGL K n → �
       have : (i : ℕ) < j := hij
       omega
     simpa using this
+
+theorem exists_norm_le_height_pow_neg_siegel {φ : AdelicGLn.AdelicGL K n → ℂ}
+    (hφ : φ ∈ cuspForms K n) {ω : Set (AdelicGLn.AdelicGL K n)} (hω : IsCompact ω)
+    (hωB : ω ⊆ ((Reduction.adelicBorel : Subgroup (AdelicGLn.AdelicGL K n)) :
+      Set (AdelicGLn.AdelicGL K n)))
+    {t : ℝ} (ht : 0 < t) (N' : ℕ) :
+    ∃ C : ℝ, ∀ b ∈ ω, ∀ (ρ : Fin n → ℝ) (hρ : ∀ i, 0 < ρ i),
+      (∀ i j : Fin n, (j : ℕ) = i + 1 → t * ρ j ≤ ρ i) →
+      ∀ kk ∈ (Reduction.maxCompact : Subgroup (AdelicGLn.AdelicGL K n)),
+      ∀ x : AdelicGLn.AdelicGL K n, x ∈ Reduction.normOneGL (K := K) (n := n) →
+      x = b * Reduction.diagUnits n (fun i => Reduction.posIdele (K := K) (ρ i) (hρ i)) * kk →
+      ‖φ x‖ ≤ C * (height x ^ N')⁻¹ :=
+  exists_norm_le_height_pow_neg_siegel_of_root_bounds hφ.1.hasModerateGrowth hω hωB ht
+    (fun _ => exists_norm_le_siegel_root hφ hω hωB ht) N'
 
 theorem exists_norm_le_of_mem_cuspForms {φ : AdelicGLn.AdelicGL K n → ℂ}
     (hφ : φ ∈ cuspForms K n) : ∃ C : ℝ, ∀ x ∈ Reduction.normOneGL (K := K) (n := n), ‖φ x‖ ≤ C := by

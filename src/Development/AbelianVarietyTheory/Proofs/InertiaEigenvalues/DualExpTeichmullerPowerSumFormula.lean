@@ -1379,12 +1379,7 @@ theorem frob_mu : WittVector.frobenius AI.μ =
   rw [LocAinf.μ, map_sub, map_one, h, geom_sum_mul]
 
 theorem mu_not_isUnit : ¬ IsUnit AI.μ := by
-  intro h
-  obtain ⟨θ, hθ⟩ := exists_isTheta l P AI
-  have h0 : θ AI.μ = 0 := (hθ.2.2.2.1 _).2 ⟨AI.π₁, by rw [AI.μ_eq, mul_comm]⟩
-  have := h.map θ
-  rw [h0] at this
-  exact not_isUnit_zero this
+  apply _root_.GlobalTheory.ExpImage.EpsSolve.μ_not_unit <;> assumption
 
 theorem main : ∀ (l : ℕ) [Fact l.Prime] (P : LocPrime l) (AI : LocAinf l P), (∀ q : Ainf l, ∃ y : Ainf l, AI.μ * y - WittVector.frobenius (AI.μ * y) = AI.μ * q) ∧ ∀ M n : ℕ, ∃ k₀ : ℕ, ∀ k ≥ k₀, (WittVector.frobenius : Ainf l →+* Ainf l)^[k] AI.μ ∈ Ideal.span {((l : ℕ) : Ainf l) ^ n, AI.ξ ^ M} := by
   intro l _ P AI
@@ -1637,11 +1632,7 @@ open Formalism.WeaklyAdmissibleFiltrations Formalism.BasicNotions Formalism.Basi
 variable {l : ℕ} [Fact l.Prime] {P : LocPrime l}
 
 theorem root_pow (AI : LocAinf l P) (m : ℕ) : AI.εroot m ^ (l ^ m) = AI.ε := by
-  induction m with
-  | zero => simp [LocAinf.εroot]
-  | succ m ih =>
-    rw [pow_succ', pow_mul, LocAinf.εroot, Function.iterate_succ_apply', frobeniusEquiv_symm_pow_p]
-    exact ih
+  apply _root_.GlobalTheory.ExpImage.EpsSolve.εroot_pow_eq <;> assumption
 
 theorem epsT_pow (AI : LocAinf l P) (s : ℕ) :
     epsT AI s ^ (l ^ s) = WittVector.teichmuller l AI.ε := by

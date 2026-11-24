@@ -1308,13 +1308,7 @@ section Matrix
 
 theorem aeval_mul_of_intertwine {K : Type} [Field K] {n : ℕ} {B C H : Matrix (Fin n) (Fin n) K}
     (h : B * H = H * C) (g : K[X]) : aeval B g * H = H * aeval C g := by
-  induction g using Polynomial.induction_on' with
-  | add p q hp hq => rw [map_add (f := _), map_add (f := _), add_mul, mul_add, hp, hq]
-  | monomial d a =>
-    have e : B ^ d * H = H * C ^ d :=
-      (((show SemiconjBy H C B from h.symm).pow_right d).eq).symm
-    rw [aeval_monomial, aeval_monomial]
-    simp only [Algebra.algebraMap_eq_smul_one, smul_mul_assoc, one_mul, mul_smul_comm, e]
+  apply _root_.GlobalTheory.CompanionTheory.LocAssembly.aeval_intertwine <;> assumption
 
 theorem cT_mul {K : Type} [Field K] (s : K →+* K) {n : ℕ} (B C : Matrix (Fin n) (Fin n) K) :
     cT s (B * C) = cT s C * cT s B := by
@@ -1472,16 +1466,7 @@ namespace GlobalTheory.CompanionTheory.NormCongr
 
 theorem aeval_intertwine {K : Type} [Field K] {n : ℕ} {X Y H : Matrix (Fin n) (Fin n) K}
     (h : X * H = H * Y) (p : K[X]) : aeval X p * H = H * aeval Y p := by
-  have hpow : ∀ k : ℕ, X ^ k * H = H * Y ^ k := by
-    intro k
-    induction k with
-    | zero => simp
-    | succ k ih => rw [pow_succ, Matrix.mul_assoc, h, ← Matrix.mul_assoc, ih, Matrix.mul_assoc, ← pow_succ]
-  induction p using Polynomial.induction_on' with
-  | add p q hp hq => rw [map_add (f := _), map_add (f := _), add_mul, mul_add, hp, hq]
-  | monomial k a =>
-    rw [aeval_monomial, aeval_monomial, Matrix.mul_assoc, hpow, ← Matrix.mul_assoc,
-      Algebra.commutes a H, Matrix.mul_assoc]
+  apply _root_.GlobalTheory.CompanionTheory.LocAssembly.aeval_intertwine <;> assumption
 
 variable {E : Type} [Field E] [NumberField E] [IsCMField E]
 

@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.NormTraceFormDetIndex
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.FundamentalDomains.Signature
 public import Development.AbelianVarietyTheory.PublishedTheorems.GlobalTheta.HermitianHassePrincipleHolds
 import Mathlib.Algebra.Order.Floor.Extended
@@ -57,19 +58,8 @@ variable {E : Type} [Field E] [NumberField E] [IsCMField E]
 
 alias cc_cc := _root_.ReciprocityTheory.ChartRestriction.G.FD.HermitianTraceFormVanishing.cc_cc
 
-theorem exists_skew : ∃ θ : E, θ ≠ 0 ∧ FD.cc θ = -θ := by
-  by_contra hne
-  push Not at hne
-  apply IsCMField.complexConj_ne_one E
-  ext t
-  by_contra ht
-  have h1 : t - FD.cc t ≠ 0 := sub_ne_zero.mpr (Ne.symm ht)
-  apply hne _ h1
-  show IsCMField.complexConj E (t - FD.cc t) = -(t - FD.cc t)
-  rw [map_sub]
-  change FD.cc t - FD.cc (FD.cc t) = _
-  rw [cc_cc]
-  ring
+theorem exists_skew : ∃ θ : E, θ ≠ 0 ∧ FD.cc θ = -θ :=
+  _root_.GlobalTheory.TraceSkew.exists_ne_zero_cc_eq_neg
 
 theorem emb_real (τ : E →+* ℂ) {t : E} (ht : FD.cc t = t) : τ t = ((τ t).re : ℂ) := by
   have h := _root_.GlobalTheory.Published.embedding_cc τ t

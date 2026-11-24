@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.ExistsNumberFieldPointOfCmPeriodLattice
 public import Development.AbelianVarietyTheory.Definitions.CMLattices.IsDiffOf
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.SabPull
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.ThetaUnifAV
@@ -72,21 +73,8 @@ theorem push_comp (h : IsGrpPullback A' A f φ) (h' : IsGrpPullback C' C f ψ) {
 
 theorem exists_monHom_lift (h : IsGrpPullback A' A f φ) (h' : IsGrpPullback C' C f ψ) (p : A ⟶ C) [IsMonHom p] :
     ∃ p' : A' ⟶ C', IsMonHom p' ∧ p'.left ≫ ψ = φ ≫ p.left := by
-  obtain ⟨p', e⟩ : ∃ p' : A' ⟶ C', p'.left ≫ ψ = φ ≫ p.left :=
-    ⟨Over.homMk (h'.1.lift (φ ≫ p.left) A'.hom (by rw [Category.assoc, Over.w, h.1.w])) (h'.1.lift_snd _ _ _),
-      h'.1.lift_fst _ _ _⟩
-  refine ⟨p', ?_, e⟩
-  have h1 : (1 : 𝟙_ (Over S') ⟶ A') ≫ p' = 1 := by
-    apply push_inj h'
-    rw [push_comp h h' e, map_one, map_one, MonObj.one_comp]
-  have h2 : (fst A' A' * snd A' A') ≫ p' = (fst A' A' ≫ p') * (snd A' A' ≫ p') := by
-    apply push_inj h'
-    rw [push_comp h h' e, map_mul, map_mul, MonObj.mul_comp, push_comp h h' e, push_comp h h' e]
-  constructor
-  · simpa [Hom.one_def] using h1
-  · rw [Hom.mul_def, Hom.mul_def] at h2
-    have e1 : lift (fst A' A' ≫ p') (snd A' A' ≫ p') = p' ⊗ₘ p' := by ext <;> simp
-    simpa [e1] using h2
+  intros
+  apply _root_.GlobalTheory.PointAlg.exists_lift_hom <;> assumption
 end
 
 theorem isVecOver_comp {R R' : Type} [CommRing R] [CommRing R'] {s : R →+* R'} {A C : Over (Sp R)}

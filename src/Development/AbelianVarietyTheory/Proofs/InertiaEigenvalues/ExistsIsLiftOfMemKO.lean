@@ -317,30 +317,8 @@ private theorem isOpen_valuation_sub_lt_one (c : F) : IsOpen {x : F | valuation 
 
 private theorem isCompact_KOne' (p : ℕ) [Fact p.Prime] :
     IsCompact (KOne F n : Set (GL n F)) := by
-  haveI : CompactSpace (Matrix n n 𝒪[F]) := inferInstanceAs (CompactSpace (n → n → 𝒪[F]))
-  haveI : T1Space (Matrix n n 𝒪[F]) := inferInstanceAs (T1Space (n → n → 𝒪[F]))
-  have hcm : Continuous (GeneralLinearGroup.map (n := n) (algebraMap 𝒪[F] F)) := by
-    have hcs : Continuous (algebraMap 𝒪[F] F) := continuous_subtype_val
-    refine Units.continuous_iff.2 ⟨?_, ?_⟩
-    · change Continuous fun κ : GL n 𝒪[F] => (κ.val).map (algebraMap 𝒪[F] F)
-      exact Continuous.matrix_map Units.continuous_val hcs
-    · change Continuous fun κ : GL n 𝒪[F] => ((κ⁻¹ : GL n 𝒪[F]).val).map (algebraMap 𝒪[F] F)
-      exact Continuous.matrix_map Units.continuous_coe_inv hcs
-  have hKO : IsCompact (KO F n : Set (GL n F)) := by
-    rw [KO, MonoidHom.coe_range]
-    exact isCompact_range hcm
-  have hset : (KOne F n : Set (GL n F)) = {h | IsLift (1 : GL n (ZMod p)) h} := by
-    ext h
-    exact (isLift_one_iff h).symm
-  have hopen : IsOpen (KOne F n : Set (GL n F)) := by
-    rw [hset]
-    simp only [IsLift, Set.setOf_forall]
-    refine isOpen_iInter_of_finite fun a => isOpen_iInter_of_finite fun b => ?_
-    exact (isOpen_valuation_sub_lt_one _).preimage (Units.continuous_val.matrix_elem a b)
-  have hsub : (KOne F n : Set (GL n F)) ⊆ KO F n := by
-    rintro h ⟨κ, -, rfl⟩
-    exact ⟨κ, rfl⟩
-  exact hKO.of_isClosed_subset ((KOne F n).isClosed_of_isOpen hopen) hsub
+  intros
+  apply _root_.GlobalTheory.SmGL.DepthZero.isCompact_KOne₁ <;> assumption
 
 theorem TypeVec.up {V W : Type} [AddCommGroup V] [Module ℂ V] [AddCommGroup W] [Module ℂ W]
     {τ : Representation ℂ (GL n F) W} {π : Representation ℂ (GL n F) V} (hπ : IsSmooth π) (h : IsSubquotient τ π)

@@ -208,17 +208,7 @@ variable {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algeb
 theorem sdc_exists_int_smul_mem (L : Submodule (𝓞 E) (Fin n → E))
     (hL : Submodule.span E (L : Set (Fin n → E)) = ⊤) (x : Fin n → E) :
     ∃ y : ℤ, y ≠ 0 ∧ y • x ∈ L := by
-  classical
-  have hx : x ∈ Submodule.span E (L : Set (Fin n → E)) := hL ▸ Submodule.mem_top
-  obtain ⟨m, f, g, rfl⟩ := Submodule.mem_span_set'.1 hx
-  obtain ⟨y, hy, hint⟩ := exists_integral_multiples ℤ ℚ (Finset.univ.image f)
-  refine ⟨y, hy, ?_⟩
-  rw [Finset.smul_sum]
-  refine Submodule.sum_mem _ fun i _ => ?_
-  have hi : IsIntegral ℤ (y • f i) := hint _ (Finset.mem_image_of_mem _ (Finset.mem_univ i))
-  convert L.smul_mem (⟨y • f i, hi⟩ : 𝓞 E) (g i).2 using 1
-  rw [← smul_assoc]
-  rfl
+  apply _root_.PI.OmLocU.basInt_smul_mem <;> assumption
 
 theorem exists_int_smul_mem_all (L : Submodule (𝓞 E) (Fin n → E))
     (hL : Submodule.span E (L : Set (Fin n → E)) = ⊤) {ι : Type} [Fintype ι] (w : ι → Fin n → E) :

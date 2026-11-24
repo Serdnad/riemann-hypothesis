@@ -1,5 +1,6 @@
 module
 
+import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.PChartMassCompact
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.InterNamed
 public import Development.WeilBound.CoreStatements.FlagImmersions.IntersectionConstantMetricLine
 import Mathlib.Algebra.Order.Floor.Extended
@@ -58,18 +59,7 @@ namespace RootFieldNumerics
 
 theorem mixedDisc_eq_zero {D : ℕ} (A : Fin D → Matrix (Fin D) (Fin D) ℂ) (k : Fin D)
     (hk : A k = 0) : mixedDisc A = 0 := by
-  unfold mixedDisc
-  have h : ∑ S : Finset (Fin D), (-1 : ℂ) ^ (D - S.card) * (∑ j ∈ S, A j).det = 0 := by
-    rw [← Finset.powerset_univ, ← Finset.insert_erase (Finset.mem_univ k),
-      Finset.sum_powerset_insert (Finset.notMem_erase k _), ← Finset.sum_add_distrib]
-    refine Finset.sum_eq_zero fun S hS => ?_
-    have hkS : k ∉ S := fun h => Finset.notMem_erase k _ (Finset.mem_powerset.mp hS h)
-    have hc : (insert k S).card ≤ D := by simpa using Finset.card_le_univ (insert k S)
-    rw [Finset.card_insert_of_notMem hkS] at hc
-    rw [Finset.sum_insert hkS, hk, zero_add, Finset.card_insert_of_notMem hkS,
-      show D - S.card = D - (S.card + 1) + 1 by omega, pow_succ]
-    ring
-  rw [h, mul_zero]
+  apply _root_.GroundTheory.Heights₂.Heights.ChartMassCompact.mdisc_coord_zero <;> assumption
 
 theorem maDensity_eq_zero {D : ℕ} (φ : Fin D → (Fin D → ℂ) → ℝ) (k : Fin D) (c : ℝ)
     (hk : φ k = fun _ => c) (z : Fin D → ℂ) : maDensity φ z = 0 := by

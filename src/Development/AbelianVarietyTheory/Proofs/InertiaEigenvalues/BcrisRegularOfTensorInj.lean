@@ -89,6 +89,7 @@ import Mathlib.Algebra.Ring.IsFormallyReal
 import Mathlib.RingTheory.WittVector.IsPoly
 import Formalism.CoboundaryTransfers.Statement
 import Mathlib.Algebra.Order.Star.Real
+import GroundTheory.PAdicHodge.BdRAlg
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.AinfFrobeniusUnitEigenvectorGaloisLine, Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.BcrisExistsTPowMulThetaNeZero, Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.BcrisRegularOfFullGaloisLineUnits, Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsUnitCharacterOfGaloisStableLineCLTate, Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ImportsBisAlt, Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.NonemptyClosureHomTiltField, Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.TiltGaloisActionRootOfUnityCoprime, Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsUnramifiedPeriodAinfUnit, Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.FixedOfInertiaFrobenius, Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.PadicIntExistsPowSubNormLeOfExactLevel, Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.CyclotomicAlgHomSubDvdOfXDvd, Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.NormPowIndexLeOfFixed, Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.NormSubLt, Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.NormInertiaPowPrimePowSubLe, Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.NormInertiaPartialTraceGeometricLe, Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.TateEstimateGaloisEigenvectorCLTate, Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.TateCharacterFiniteOnInertiaOfEigenvector, Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.BcrisRegularOfTensorInj
@@ -501,19 +502,6 @@ theorem exists_unit_frobenius_eq_mul (l : ℕ) [Fact l.Prime] (k : Type) [Field 
   · have := WittVector.frobenius_frobeniusRotation l h1 h2
     rwa [mul_one, mul_comm] at this
 
-private theorem padicInt_ringHom_ext (l : ℕ) [Fact l.Prime] {R : Type*} [CommRing R]
-    [IsHausdorff (Ideal.span {(l : R)}) R] (f g : ℤ_[l] →+* R) : f = g := by
-  refine RingHom.ext fun x => ?_
-  refine sub_eq_zero.1 (IsHausdorff.haus (inferInstance : IsHausdorff (Ideal.span {(l : R)}) R) _ fun n => ?_)
-  obtain ⟨c, hc⟩ := Ideal.mem_span_singleton'.1 (PadicInt.appr_spec n x)
-  have hx : x = c * (l : ℤ_[l]) ^ n + (x.appr n : ℤ_[l]) := by rw [hc]; ring
-  have h : f x - g x = (f c - g c) * (l : R) ^ n := by
-    rw [hx]
-    simp only [map_add (f := _), map_mul, map_pow, map_natCast]
-    ring
-  rw [SModEq.zero, smul_eq_mul, Ideal.mul_top, Ideal.span_singleton_pow, h]
-  exact Ideal.mul_mem_left _ _ (Ideal.mem_span_singleton_self _)
-
 theorem exists_unramified_period : ∀ (l : ℕ) [Fact l.Prime] (F : GQ l), (∀ (x : Om l) (m : ℕ), 0 < m → ¬ l ∣ m → x ^ m = 1 → F x = x ^ l) → ∀ u : ℤ_[l]ˣ, ∃ w : Per.Ainf l, IsUnit w ∧ (∀ g ∈ (MaximalUnramifiedExtension l).fixingSubgroup, Per.σA g w = w) ∧ Per.σA F w = Per.zA l u * w ∧ Per.φA l w = Per.zA l u * w := by
   intro l _ F hF u
   obtain ⟨f⟩ := _root_.GlobalTheory.Per.nonempty_algClosure_zmod_to_tilt l
@@ -522,7 +510,7 @@ theorem exists_unramified_period : ∀ (l : ℕ) [Fact l.Prime] (F : GQ l), (∀
   have hu' : IsUnit u' := (u.isUnit.map _).map _
   obtain ⟨w₀, hw₀, hφ⟩ := exists_unit_frobenius_eq_mul l _ u' hu'
   have hfu : WittVector.map f u' = Per.zA l u := by
-    exact RingHom.congr_fun (padicInt_ringHom_ext l (R := Per.Ainf l)
+    exact RingHom.congr_fun (_root_.GroundTheory.PAdicHodge.ringHom_ext_padicInt (S := Per.Ainf l)
       ((WittVector.map f).comp ((WittVector.map (ZMod.castHom (dvd_refl l) _)).comp
         (WittVector.fromPadicInt l))) (Per.zA l)) u
   have hact : ∀ (g : GQ l) (n : ℕ), n ≠ 0 →

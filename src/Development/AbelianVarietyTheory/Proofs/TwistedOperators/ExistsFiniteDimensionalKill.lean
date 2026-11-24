@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.DiscreteSeriesIntegrableCoefficientProjector
 public import Formalism.SharpRestriction.Divisibility.SchurIrreducible
 public import Formalism.LocalRingCardinality.DataTheta
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FockOperatorsLieRepresentationCommute
@@ -117,16 +118,7 @@ private theorem inner_pi_apply_pi_apply {T : GrpData p q} (U : URep T) (g : T.G)
 theorem inner_act_skew {T : GrpData p q} (D : DSRep T) {X : Mat p q} (hX : X ∈ upq p q)
     (v w : D.HK.V) :
     inner ℂ (D.ι v) (D.ι (D.HK.act X w)) + inner ℂ (D.ι (D.HK.act X v)) (D.ι w) = 0 := by
-  have hv := D.der X hX v
-  have hw := D.der X hX w
-  have h := hv.inner ℂ hw
-  have hc : (fun t : ℝ => inner ℂ ((D.U.π (T.expt (t • X))) (D.ι v))
-      ((D.U.π (T.expt (t • X))) (D.ι w))) = fun _ => inner ℂ (D.ι v) (D.ι w) := by
-    funext t
-    exact inner_pi_apply_pi_apply D.U _ _ _
-  rw [hc] at h
-  have h0 := h.unique (hasDerivAt_const (0 : ℝ) (inner ℂ (D.ι v) (D.ι w)))
-  simpa [T.expt_zero] using h0
+  apply _root_.GlobalTheory.DSProj.skew <;> assumption
 
 section Frame
 variable {A H : Type} [AddCommGroup A] [Module ℂ A] [NormedAddCommGroup H] [InnerProductSpace ℂ H]

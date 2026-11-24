@@ -317,49 +317,51 @@ section Hyp
 
 variable (p : ℕ) [Fact p.Prime] {N r : ℕ} [NeZero r] (G : M.BlockData N)
 
-theorem hypU_proved (hB : G.BlockOK) : Formalism.InvariantFactorPaths.KP.LL.HypU p (r := r) G := by
-  have hpol : ∀ (LL LL' : M.Letters N) (a : Fin N) (c : Fin r), LL'.deg a = LL.deg a - 1 →
+private theorem pderiv_mem_pol_of_degrees : ∀ (LL LL' : M.Letters N) (a : Fin N) (c : Fin r), LL'.deg a = LL.deg a - 1 →
       (∀ i, i ≠ a → LL'.deg i = LL.deg i) →
       ∀ y ∈ M.Pol p r LL, pderiv (a, c) y ∈ M.Pol p r LL' := by
-    intro LL LL' a c hda hdo y hy
-    unfold M.Pol at hy ⊢
-    rw [MvPolynomial.restrictSupport, AddMonoidAlgebra.supported, Submodule.mem_comap, Finsupp.mem_supported] at hy
+  intro LL LL' a c hda hdo y hy
+  unfold M.Pol at hy ⊢
+  rw [MvPolynomial.restrictSupport, AddMonoidAlgebra.supported, Submodule.mem_comap, Finsupp.mem_supported] at hy
 
-    rw [y.as_sum, map_sum]
-    refine Submodule.sum_mem _ fun m hm => ?_
-    rw [MvPolynomial.pderiv_monomial]
-    by_cases h0 : m (a, c) = 0
-    · rw [h0, Nat.cast_zero, mul_zero, MvPolynomial.monomial_zero]
-      exact zero_mem _
-    · have hmd : M.MultiDeg LL m := hy (Finset.mem_coe.mpr hm)
-      rw [MvPolynomial.restrictSupport, AddMonoidAlgebra.supported, Submodule.mem_comap, Finsupp.mem_supported]
-      refine (Finset.coe_subset.mpr MvPolynomial.support_monomial_subset).trans ?_
-      rw [Finset.coe_singleton, Set.singleton_subset_iff]
-      show M.MultiDeg LL' (m - Finsupp.single (a, c) 1)
-      intro i
-      by_cases hi : i = a
-      · subst hi
-        have key : ∀ c', ((m - Finsupp.single (i, c) 1 : (Fin N × Fin r) →₀ ℕ) (i, c')) + (if c' = c then 1 else 0) =
-            m (i, c') := by
-          intro c'
-          rw [Finsupp.tsub_apply, Finsupp.single_apply]
-          by_cases hc : c' = c
-          · subst hc
-            rw [if_pos rfl, if_pos rfl]
-            omega
-          · have hne : ¬ (i, c) = (i, c') := fun h => hc (congrArg Prod.snd h).symm
-            rw [if_neg hne, if_neg hc]
-            simp
-        have hs : ∑ c', (((m - Finsupp.single (i, c) 1 : (Fin N × Fin r) →₀ ℕ) (i, c')) + (if c' = c then 1 else 0)) =
-            ∑ c', m (i, c') := Finset.sum_congr rfl fun c' _ => key c'
-        have h1 : ∑ c' : Fin r, (if c' = c then 1 else 0 : ℕ) = 1 := by simp
-        rw [Finset.sum_add_distrib, h1] at hs
-        rw [hda, ← hmd i]
-        omega
-      · rw [hdo i hi, ← hmd i]
-        refine Finset.sum_congr rfl fun c' _ => ?_
-        rw [Finsupp.tsub_apply, Finsupp.single_apply,
-          if_neg (fun h => hi (congrArg Prod.fst h).symm), Nat.sub_zero]
+  rw [y.as_sum, map_sum]
+  refine Submodule.sum_mem _ fun m hm => ?_
+  rw [MvPolynomial.pderiv_monomial]
+  by_cases h0 : m (a, c) = 0
+  · rw [h0, Nat.cast_zero, mul_zero, MvPolynomial.monomial_zero]
+    exact zero_mem _
+  · have hmd : M.MultiDeg LL m := hy (Finset.mem_coe.mpr hm)
+    rw [MvPolynomial.restrictSupport, AddMonoidAlgebra.supported, Submodule.mem_comap, Finsupp.mem_supported]
+    refine (Finset.coe_subset.mpr MvPolynomial.support_monomial_subset).trans ?_
+    rw [Finset.coe_singleton, Set.singleton_subset_iff]
+    show M.MultiDeg LL' (m - Finsupp.single (a, c) 1)
+    intro i
+    by_cases hi : i = a
+    · subst hi
+      have key : ∀ c', ((m - Finsupp.single (i, c) 1 : (Fin N × Fin r) →₀ ℕ) (i, c')) + (if c' = c then 1 else 0) =
+          m (i, c') := by
+        intro c'
+        rw [Finsupp.tsub_apply, Finsupp.single_apply]
+        by_cases hc : c' = c
+        · subst hc
+          rw [if_pos rfl, if_pos rfl]
+          omega
+        · have hne : ¬ (i, c) = (i, c') := fun h => hc (congrArg Prod.snd h).symm
+          rw [if_neg hne, if_neg hc]
+          simp
+      have hs : ∑ c', (((m - Finsupp.single (i, c) 1 : (Fin N × Fin r) →₀ ℕ) (i, c')) + (if c' = c then 1 else 0)) =
+          ∑ c', m (i, c') := Finset.sum_congr rfl fun c' _ => key c'
+      have h1 : ∑ c' : Fin r, (if c' = c then 1 else 0 : ℕ) = 1 := by simp
+      rw [Finset.sum_add_distrib, h1] at hs
+      rw [hda, ← hmd i]
+      omega
+    · rw [hdo i hi, ← hmd i]
+      refine Finset.sum_congr rfl fun c' _ => ?_
+      rw [Finsupp.tsub_apply, Finsupp.single_apply,
+        if_neg (fun h => hi (congrArg Prod.fst h).symm), Nat.sub_zero]
+
+theorem hypU_proved (hB : G.BlockOK) : Formalism.InvariantFactorPaths.KP.LL.HypU p (r := r) G := by
+  have hpol := pderiv_mem_pol_of_degrees (N := N) (r := r) p
   intro j jp c y hy
   simp only [M.Y, Submodule.mem_inf, Submodule.mem_iInf] at hy ⊢
   refine ⟨hpol _ _ G.uPos c ?_ ?_ y hy.1, fun k => ?_⟩
@@ -385,48 +387,7 @@ theorem sum_update_ite {t : ℕ} (P : Fin t → Prop) [DecidablePred P] (j : Fin
   simp
 
 theorem hypTie_proved (hB : G.BlockOK) : Formalism.InvariantFactorPaths.KP.LL.HypJoin p (r := r) G := by
-  have hpol : ∀ (LL LL' : M.Letters N) (a : Fin N) (c : Fin r), LL'.deg a = LL.deg a - 1 →
-      (∀ i, i ≠ a → LL'.deg i = LL.deg i) →
-      ∀ y ∈ M.Pol p r LL, pderiv (a, c) y ∈ M.Pol p r LL' := by
-    intro LL LL' a c hda hdo y hy
-    unfold M.Pol at hy ⊢
-    rw [MvPolynomial.restrictSupport, AddMonoidAlgebra.supported, Submodule.mem_comap, Finsupp.mem_supported] at hy
-
-    rw [y.as_sum, map_sum]
-    refine Submodule.sum_mem _ fun m hm => ?_
-    rw [MvPolynomial.pderiv_monomial]
-    by_cases h0 : m (a, c) = 0
-    · rw [h0, Nat.cast_zero, mul_zero, MvPolynomial.monomial_zero]
-      exact zero_mem _
-    · have hmd : M.MultiDeg LL m := hy (Finset.mem_coe.mpr hm)
-      rw [MvPolynomial.restrictSupport, AddMonoidAlgebra.supported, Submodule.mem_comap, Finsupp.mem_supported]
-      refine (Finset.coe_subset.mpr MvPolynomial.support_monomial_subset).trans ?_
-      rw [Finset.coe_singleton, Set.singleton_subset_iff]
-      show M.MultiDeg LL' (m - Finsupp.single (a, c) 1)
-      intro i
-      by_cases hi : i = a
-      · subst hi
-        have key : ∀ c', ((m - Finsupp.single (i, c) 1 : (Fin N × Fin r) →₀ ℕ) (i, c')) + (if c' = c then 1 else 0) =
-            m (i, c') := by
-          intro c'
-          rw [Finsupp.tsub_apply, Finsupp.single_apply]
-          by_cases hc : c' = c
-          · subst hc
-            rw [if_pos rfl, if_pos rfl]
-            omega
-          · have hne : ¬ (i, c) = (i, c') := fun h => hc (congrArg Prod.snd h).symm
-            rw [if_neg hne, if_neg hc]
-            simp
-        have hs : ∑ c', (((m - Finsupp.single (i, c) 1 : (Fin N × Fin r) →₀ ℕ) (i, c')) + (if c' = c then 1 else 0)) =
-            ∑ c', m (i, c') := Finset.sum_congr rfl fun c' _ => key c'
-        have h1 : ∑ c' : Fin r, (if c' = c then 1 else 0 : ℕ) = 1 := by simp
-        rw [Finset.sum_add_distrib, h1] at hs
-        rw [hda, ← hmd i]
-        omega
-      · rw [hdo i hi, ← hmd i]
-        refine Finset.sum_congr rfl fun c' _ => ?_
-        rw [Finsupp.tsub_apply, Finsupp.single_apply,
-          if_neg (fun h => hi (congrArg Prod.fst h).symm), Nat.sub_zero]
+  have hpol := pderiv_mem_pol_of_degrees (N := N) (r := r) p
   intro j jp i y hy
   obtain ⟨hlt, hvW, hvE⟩ := hB.1.2.1 i
   set W := G.letterAt (G.T.pos i) with hWdef

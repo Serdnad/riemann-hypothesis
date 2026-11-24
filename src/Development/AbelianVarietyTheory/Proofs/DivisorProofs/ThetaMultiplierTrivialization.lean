@@ -1,5 +1,6 @@
 module
 
+import all Development.AbelianVarietyTheory.Proofs.ModuliProofs.DifferentiableOnProdOfForall
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsAHOfIsFactorAH
 public import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.IsHolFormConst
 public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsUniqueThetaCharAtPoint
@@ -71,12 +72,7 @@ namespace GlobalTheory.TorusRM.TransFrame
 private theorem differentiableOn_finprod {E κ : Type} [NormedAddCommGroup E] [NormedSpace ℂ E] {S : Set E}
     (s : Finset κ) (φ : κ → E → ℂ) (h : ∀ k, DifferentiableOn ℂ (φ k) S) :
     DifferentiableOn ℂ (fun z => ∏ k ∈ s, φ k z) S := by
-  classical
-  induction s using Finset.induction_on with
-  | empty => simpa using differentiableOn_const (1 : ℂ)
-  | insert a s ha ih =>
-    simp only [Finset.prod_insert ha]
-    exact (h a).mul ih
+  apply _root_.GlobalTheory.differentiableOn_prod_of_forall <;> assumption
 
 section
 

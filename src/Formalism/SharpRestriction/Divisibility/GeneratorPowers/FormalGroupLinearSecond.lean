@@ -1,5 +1,6 @@
 module
 
+import all Formalism.SharpRestriction.Divisibility.GeneratorPowers.FBIdJet
 public import Formalism.LocalToGlobal.ProjectiveLattices.ThGerm
 public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.PairEvaluation
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.TaylorDiscriminants.ChartChg
@@ -47,6 +48,7 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Std.Tactic.BVDecide.Normalize.Prop
 import Formalism.SharpRestriction.Divisibility.GeneratorPowers.GermDJet
+import Development.AbelianVarietyTheory.Proofs.FormalGroupCharts.MvPowerSeriesJetEqCalculus
 
 @[expose] public section
 
@@ -73,22 +75,7 @@ private theorem coeff_mul_eq_zero_lemma_4 {τ : Type} (A B : MvPowerSeries τ S)
     (hA : ∀ x : τ →₀ ℕ, x.degree < a → MvPowerSeries.coeff x A = 0)
     (hB : ∀ x : τ →₀ ℕ, x.degree < b → MvPowerSeries.coeff x B = 0) :
     ∀ x : τ →₀ ℕ, x.degree < a + b → MvPowerSeries.coeff x (A * B) = 0 := by
-  classical
-  intro x hx
-  rw [MvPowerSeries.coeff_mul]
-  refine Finset.sum_eq_zero fun p hp => ?_
-  replace hp : p.1 + p.2 = x := by
-    first
-      | exact Finset.HasAntidiagonal.mem_antidiagonal.1 hp
-  have hdeg : p.1.degree + p.2.degree = x.degree := by
-    rw [← hp]
-    have e : ∀ y : τ →₀ ℕ, y.degree = y.sum (fun _ k => k) := fun y => by
-      first
-        | rfl
-    rw [e, e, e, Finsupp.sum_add_index' (fun _ => rfl) (fun _ _ _ => rfl)]
-  by_cases h1 : p.1.degree < a
-  · rw [hA _ h1, zero_mul]
-  · rw [hB _ (by omega), mul_zero]
+  apply _root_.Formalism.MainNotions.ModuliIntegralCharts.H1.FBIdJet.low_mul_lemma <;> assumption
 
 private theorem order_prod_lemma_5 {τ τ' : Type} (σ' : τ' → MvPowerSeries τ S)
     (hσ : ∀ s, MvPowerSeries.constantCoeff (σ' s) = 0) (e : τ' →₀ ℕ) (x : τ →₀ ℕ)
@@ -238,33 +225,9 @@ theorem formal_group_linear_first (G : FGLaw S d) (i j : Fin d) :
   rw [← hc]
   exact formal_group_linear_second G i j
 
-private theorem mem_degLE_lemma {κ : Type} [Fintype κ] [DecidableEq κ] {n : ℕ} {x : κ →₀ ℕ}
-    (hx : x.degree ≤ n) : x ∈ degLE n := by
-  have hle : ∀ i, x i ≤ n := by
-    intro i
-    by_cases hi : x i = 0
-    · rw [hi]
-      exact Nat.zero_le n
-    · exact le_trans (Finset.single_le_sum (f := fun j => x j) (fun j _ => Nat.zero_le (x j))
-        (Finsupp.mem_support_iff.2 hi)) hx
-  unfold degLE
-  rw [Finset.mem_filter, Finset.mem_image]
-  refine ⟨⟨fun i => ⟨x i, Nat.lt_succ_of_le (hle i)⟩, Finset.mem_univ _, ?_⟩, hx⟩
-  ext i
-  simp
-
 private theorem coeff_psTrunc_lemma_2 {κ : Type} [Fintype κ] [DecidableEq κ] (f : MvPowerSeries κ S) (n : ℕ)
     (x : κ →₀ ℕ) : AddMonoidAlgebra.coeff (psTrunc n f) x = if x.degree ≤ n then MvPowerSeries.coeff x f else 0 := by
-  unfold psTrunc
-  rw [coeff_sum]
-  simp only [coeff_monomial, Finset.sum_ite_eq']
-  by_cases h : x.degree ≤ n
-  · rw [if_pos (mem_degLE_lemma h), if_pos h]
-  · have h' : x ∉ degLE n := by
-      intro h'
-      unfold degLE at h'
-      exact h (Finset.mem_filter.1 h').2
-    rw [if_neg h', if_neg h]
+  apply _root_.GlobalTheory.ChartCmp.JCalc.coeff_psTrunc_ite <;> assumption
 
 private theorem mem_pow_Io_lemma_3 {κ : Type} (k : ℕ) (p : MvPolynomial κ S)
     (hp : ∀ x ∈ p.support, k ≤ x.degree) : p ∈ Io S κ ^ k := by

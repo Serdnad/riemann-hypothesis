@@ -6,6 +6,7 @@ public import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.Stat
 public import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.StatementsComponentDim
 public import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.StatementsGenericDimGe
 import Mathlib.Order.CompletePartialOrder
+import Lemmata.GeneralBFactBis.Imports
 
 @[expose] public section
 
@@ -19,27 +20,7 @@ universe u
 
 private theorem withBot_eq_of_add_one_eq (a : WithBot ℕ∞) (m : ℕ)
     (h : a + 1 = ((m + 1 : ℕ) : WithBot ℕ∞)) : a = (m : WithBot ℕ∞) := by
-  induction a using WithBot.recBotCoe with
-  | bot =>
-    exfalso
-    have e : ((m : WithBot ℕ∞) + 1) = (((m + 1 : ℕ) : ℕ∞) : WithBot ℕ∞) := by push_cast; rfl
-    rw [Nat.cast_add, Nat.cast_one, e] at h
-    exact WithBot.bot_ne_coe h
-  | coe a =>
-    induction a using ENat.recTopCoe with
-    | top =>
-      exfalso
-      have h' : (⊤ : ℕ∞) = (m + 1 : ℕ) := by
-        apply WithBot.coe_injective
-        simpa using h
-      exact ENat.top_ne_natCast (m + 1) h'
-    | coe a =>
-      have h' : ((a + 1 : ℕ) : WithBot ℕ∞) = ((m + 1 : ℕ) : WithBot ℕ∞) := by
-        rw [← h]; push_cast; rfl
-      have : a + 1 = m + 1 := by exact_mod_cast h'
-      have ham : a = m := by omega
-      subst ham
-      rfl
+  apply _root_.Bl.general_b_fact_bis.goal1 <;> assumption
 
 theorem FibreVarieties.proof
     (hGen : GenericFibProps.Statement.{u}) (hBound : GenericDimBound.Statement.{u})

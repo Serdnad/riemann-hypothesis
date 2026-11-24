@@ -50,6 +50,7 @@ import Mathlib.Tactic.ReduceModChar
 import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Algebra.Group.Units
 import Mathlib.Topology.Sheaves.Init
+import GroundTheory.AutomorphicForms.FiniteBruhat
 
 @[expose] public section
 
@@ -81,17 +82,7 @@ theorem Dp.mono {ρ : ValueGroupWithZero F} (hρ : ρ ≤ 1) {a b : ℕ} (hab : 
   (hM i l).trans (pow_le_pow_right_of_le_one' hρ hab)
 
 theorem perm_eq_one_of_le (π : Equiv.Perm (Fin n)) (h : ∀ i, π i ≤ i) : π = 1 := by
-  have key : ∀ m : ℕ, ∀ i : Fin n, (i : ℕ) = m → π i = i := by
-    intro m
-    induction m using Nat.strong_induction_on with
-    | _ m ih =>
-      intro i hi
-      refine le_antisymm (h i) ?_
-      by_contra hlt
-      have hlt' : π i < i := not_le.mp hlt
-      have h2 : π (π i) = π i := ih (π i) (by rw [← hi]; exact hlt') _ rfl
-      exact hlt'.ne (π.injective h2)
-  exact Equiv.ext fun i => key i i rfl
+  apply _root_.GroundTheory.Automorphic.perm_eq_one_of_forall_le <;> assumption
 
 theorem val_det_sub_prod_lt (M : Matrix (Fin n) (Fin n) F)
     (h0 : ∀ i l, valuation F (M i l) ≤ 1) (hl : ∀ i l, l < i → valuation F (M i l) < 1) :

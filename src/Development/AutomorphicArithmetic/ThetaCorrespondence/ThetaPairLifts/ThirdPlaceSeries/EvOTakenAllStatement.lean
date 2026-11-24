@@ -1,5 +1,6 @@
 module
 
+import Development.AutomorphicArithmetic.ThetaCorrespondence.ThetaPairLifts.ThirdPlaceSeries.AdmissibleJOfRestricted
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.IsWildInertiaCyclotomicElement
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.LocalisationCoefficientExtensionIsWildInertiaCyc
 public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.SSAscent
@@ -457,15 +458,7 @@ theorem charZero_O (N : NData R H what₂) (A : NAut N) (i : N.Loc) : CharZero (
 
 theorem l_mem_maximalIdeal (N : NData R H what₂) (A : NAut N) (i : N.Loc) :
     ((N.l i : ℕ) : N.O i) ∈ IsLocalRing.maximalIdeal (N.O i) := by
-  have hinj : Function.Injective (algebraMap ℤ_[N.l i] (N.O i)) := by
-    intro x y h
-    have hx := A.iotaQ_alg i x
-    rw [h, A.iotaQ_alg i y] at hx
-    exact (Subtype.ext ((algebraMap ℚ_[N.l i] (Qbar (N.l i))).injective hx)).symm
-  have : FaithfulSMul ℤ_[N.l i] (N.O i) := (faithfulSMul_iff_algebraMap_injective _ _).2 hinj
-  have h : ((N.l i : ℕ) : ℤ_[N.l i]) ∈ IsLocalRing.maximalIdeal ℤ_[N.l i] := PadicInt.p_nonunit
-  have := map_nonunit (algebraMap ℤ_[N.l i] (N.O i)) _ h
-  rwa [map_natCast] at this
+  apply _root_.GlobalTheory.HOneTwoLevel.l_mem_max <;> assumption
 
 variable {N₀ N₁ : NData R H what₂} {A₀ : NAut N₀} {A₁ : NAut N₁} {i₀ : N₀.Loc} {i₁ : N₁.Loc}
 

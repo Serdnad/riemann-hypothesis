@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.FiniteGaloisInertiaLiftsAbsoluteInertiaRat
 public import ReciprocityTheory.GaloisValuations.Global
 public import Mathlib.FieldTheory.Galois.IsGaloisGroup
 public import Mathlib.RingTheory.Frobenius
@@ -80,22 +81,8 @@ theorem exists_place_between {A : ValuationSubring Ω} {v : HeightOneSpectrum (�
   exact ⟨⟨P, inferInstance, hne⟩, hP, ⟨hu⟩⟩
 
 theorem mem_Ine_of_integral {A : ValuationSubring Ω} {σ : G K Ω} (hσ : σ ∈ Dec (F := K) A)
-    (h : ∀ b : Ω, IsIntegral ℤ b → A.valuation (σ b - b) < 1) : σ ∈ Ine (F := K) A := by
-  refine ⟨hσ, fun x hx => ?_⟩
-  obtain ⟨s, t, hs, ht, hs1, e⟩ := exists_den K A hx
-  have hσx : A.valuation (σ x) ≤ 1 := by
-    rw [A.valuation_le_one_iff, apply_mem_iff_of_mem_Dec hσ, ← A.valuation_le_one_iff]
-    exact hx
-  have he' : σ s * σ x = σ t := by rw [← map_mul, e]
-  have key : s * (σ x - x) = (σ t - t) - (σ s - s) * σ x := by
-    rw [← he', ← e]; ring
-  have hv : A.valuation (s * (σ x - x)) < 1 := by
-    rw [key]
-    apply Valuation.map_sub_lt _ (h t ht)
-    rw [Valuation.map_mul]
-    calc A.valuation (σ s - s) * A.valuation (σ x) ≤ A.valuation (σ s - s) * 1 := mul_le_mul_right hσx _
-      _ < 1 := by rw [mul_one]; exact h s hs
-  rwa [Valuation.map_mul, hs1, one_mul] at hv
+    (h : ∀ b : Ω, IsIntegral ℤ b → A.valuation (σ b - b) < 1) : σ ∈ Ine (F := K) A :=
+  _root_.GlobalTheory.InertiaLift.mem_Ine_of_integral hσ h
 
 variable [IsGalois K L]
 

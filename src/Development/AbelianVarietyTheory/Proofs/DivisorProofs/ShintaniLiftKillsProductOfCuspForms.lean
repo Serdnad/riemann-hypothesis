@@ -1,5 +1,7 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.CharacterTheory.AdditiveEqPolynomialVonMangoldtConvolutionOne
+import all Development.AbelianVarietyTheory.Proofs.CharacterTheory.InvertibleEndInnerProductRootPowerSumEqTorusSum
 public import Development.AbelianVarietyTheory.Definitions.Divisors.OrthSubrepresentation
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LiftLDegRegStatement
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.RegularPairLiftToPrimePowerField
@@ -615,15 +617,7 @@ namespace GlobalTheory.Shin
 
 theorem torusPair_pow_eq_one_iff {F : Type} [Field F] [Finite F] (n : ℕ) (α : AlgebraicClosure F) (h0 : α ≠ 0) :
     α ^ (Nat.card F ^ n - 1) = 1 ↔ (minpoly F α).natDegree ∣ n := by
-  have hi : IsIntegral F α := Algebra.IsIntegral.isIntegral α
-  rw [(minpoly.irreducible hi).natDegree_dvd_iff_dvd_X_pow_card_pow_sub_X, minpoly.dvd_iff]
-  have hq : 0 < Nat.card F ^ n := pow_pos Nat.card_pos _
-  simp only [map_sub, map_pow, aeval_X, sub_eq_zero]
-  obtain ⟨k, hk⟩ : ∃ k, Nat.card F ^ n = k + 1 := ⟨_, (Nat.succ_pred_eq_of_pos hq).symm⟩
-  rw [hk, Nat.add_sub_cancel, pow_succ]
-  constructor
-  · intro h; rw [h, one_mul]
-  · intro h; exact mul_right_cancel₀ h0 (h.trans (one_mul α).symm)
+  apply _root_.GlobalTheory.CuspGL.torus_iff <;> assumption
 
 theorem torusPair_finite_monic {F : Type} [Field F] [Finite F] (n : ℕ) :
     {P : F[X] | P.Monic ∧ P.natDegree = n ∧ P.coeff 0 ≠ 0}.Finite := by
@@ -642,17 +636,8 @@ theorem torusPair_finite_torus {F : Type} [Field F] [Finite F] (n : ℕ) (hn : 0
 
 theorem torusPair_mangoldt_pow {F : Type} [Field F] (s : F[X] → ℂ) (f : F[X]) (hf : f.Monic)
     (hirr : Irreducible f) (r : ℕ) (hr : 0 < r) : mangoldt s (f ^ r) = s f := by
-  have hset : {g : F[X] | g.Monic ∧ Irreducible g ∧ ∃ r' : ℕ, 0 < r' ∧ f ^ r = g ^ r'} = {f} := by
-    ext g
-    simp only [Set.mem_setOf_eq, Set.mem_singleton_iff]
-    constructor
-    · rintro ⟨hg, hgi, r', hr', he⟩
-      have h1 : g ∣ f ^ r := he ▸ dvd_pow_self g hr'.ne'
-      have h2 : g ∣ f := hgi.prime.dvd_of_dvd_pow h1
-      exact eq_of_monic_of_associated hg hf (hgi.associated_of_dvd hirr h2)
-    · rintro rfl
-      exact ⟨hf, hirr, r, hr, rfl⟩
-  rw [mangoldt, hset, finsum_mem_singleton]
+  intros
+  apply _root_.GlobalTheory.CuspGL.mangoldt_pow <;> assumption
 
 theorem torusPair_mangoldt_sum (F : Type) [Field F] [Finite F] (θ : AlgebraicClosure F →* ℂ) (n k : ℕ)
     (S : F[X] → ℂ) (hn : 0 < n) :

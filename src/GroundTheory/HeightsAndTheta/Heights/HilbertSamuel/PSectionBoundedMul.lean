@@ -1,5 +1,6 @@
 module
 
+import GroundTheory.HeightsAndTheta.Heights.MultihomogeneousPolynomials
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsSectionRing
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -106,19 +107,7 @@ def chartMono (c : ∀ k, ι k) (d : K → ℕ) : MRing ι :=
   ∏ k, X ⟨k, c k⟩ ^ d k
 
 theorem isMultiHomog_chartMono (c : ∀ k, ι k) (d : K → ℕ) : IsMultiHomog (chartMono c d) d := by
-  classical
-  have h : chartMono c d = monomial (∑ k, Finsupp.single (⟨k, c k⟩ : Σ k, ι k) (d k)) (1 : ℤ) := by
-    rw [chartMono, monomial_sum_one]
-    exact Finset.prod_congr rfl fun k _ => X_pow_eq_monomial
-  have hd : (fun k => ∑ i, (∑ k', Finsupp.single (⟨k', c k'⟩ : Σ k, ι k) (d k')) ⟨k, i⟩) = d := by
-    funext k
-    simp only [Finsupp.finsetSum_apply]
-    rw [Finset.sum_comm]
-    simp only [sum_single_apply, Finset.sum_ite_eq', Finset.mem_univ, if_true]
-  rw [h]
-  have hm := isMultiHomog_monomial (ι := ι) (∑ k, Finsupp.single (⟨k, c k⟩ : Σ k, ι k) (d k)) (1 : ℤ)
-  rw [hd] at hm
-  exact hm
+  apply _root_.GroundTheory.Heights₂.Heights.MultiHomogeneous.coordinateProduct <;> assumption
 
 
 omit [∀ k, Fintype (ι k)] in

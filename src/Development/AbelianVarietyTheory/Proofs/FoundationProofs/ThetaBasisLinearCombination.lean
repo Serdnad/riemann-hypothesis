@@ -47,6 +47,7 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import Development.AbelianVarietyTheory.Definitions.Foundations.ExistsRootOfIsAlgClosed
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.MulOfIsPrimitiveIntegralHahnGauss
 
 @[expose] public section
 
@@ -131,47 +132,7 @@ theorem prim_iff (A : ValuationSubring Ω) (φ : HahnSeries ℚ Ω) :
     exact ⟨h1', r, (unit_iff A _ (h1' r)).2 h2⟩
 
 theorem prim_mul {A : ValuationSubring Ω} {x y : HahnSeries ℚ Ω} (hx : Prim A x) (hy : Prim A y) : Prim A (x * y) := by
-  rw [prim_iff] at hx hy ⊢
-  obtain ⟨hx1, hx2⟩ := hx
-  obtain ⟨hy1, hy2⟩ := hy
-  set v := A.valuation
-  have sx : {r | v (x.coeff r) = 1} ⊆ x.support := fun r hr h => by simp [h] at hr
-  have sy : {r | v (y.coeff r) = 1} ⊆ y.support := fun r hr h => by simp [h] at hr
-  have wx := x.isPWO_support.isWF.mono sx
-  have wy := y.isPWO_support.isWF.mono sy
-  have nx : {r | v (x.coeff r) = 1}.Nonempty := hx2
-  have ny : {r | v (y.coeff r) = 1}.Nonempty := hy2
-  set r0 := wx.min nx
-  set s0 := wy.min ny
-  have hr0 : v (x.coeff r0) = 1 := wx.min_mem nx
-  have hs0 : v (y.coeff s0) = 1 := wy.min_mem ny
-  have ltx : ∀ r, r < r0 → v (x.coeff r) < 1 := fun r hr =>
-    lt_of_le_of_ne (hx1 r) (fun h => wx.not_lt_min nx h hr)
-  have lty : ∀ r, r < s0 → v (y.coeff r) < 1 := fun r hr =>
-    lt_of_le_of_ne (hy1 r) (fun h => wy.not_lt_min ny h hr)
-  have int : ∀ r, v ((x * y).coeff r) ≤ 1 := by
-    intro r; rw [HahnSeries.coeff_mul]
-    exact v.map_sum_le (fun ij _ => by rw [map_mul]; exact mul_le_one' (hx1 _) (hy1 _))
-  refine ⟨int, r0 + s0, ?_⟩
-  rw [HahnSeries.coeff_mul, ← Finset.add_sum_erase _ _ ((Finset.mem_addAntidiagonal (x := (r0, s0))).2 ⟨sx (show r0 ∈ {r | v (x.coeff r) = 1} from hr0), sy (show s0 ∈ {r | v (y.coeff r) = 1} from hs0), rfl⟩)]
-  have hmain : v (x.coeff r0 * y.coeff s0) = 1 := by rw [map_mul, hr0, hs0, one_mul]
-  rw [Valuation.map_add_eq_of_lt_left, hmain]
-  rw [hmain]
-  refine v.map_sum_lt one_ne_zero (fun ij hij => ?_)
-  rw [Finset.mem_erase] at hij
-  obtain ⟨hne, hij⟩ := hij
-  obtain ⟨-, -, hsum⟩ := Finset.mem_addAntidiagonal.1 hij
-  rw [map_mul]
-  rcases lt_trichotomy ij.1 r0 with h | h | h
-  · exact lt_of_le_of_lt (mul_le_of_le_one_right' (hy1 _)) (ltx _ h)
-  · exfalso; apply hne; ext
-    · exact h
-    · simp only; rw [h] at hsum; exact add_left_cancel hsum
-  · have : ij.2 < s0 := by
-      by_contra hc; push_neg at hc
-      have := add_lt_add_of_lt_of_le h hc
-      rw [hsum] at this; exact lt_irrefl _ this
-    exact lt_of_le_of_lt (mul_le_of_le_one_left' (hx1 _)) (lty _ this)
+  apply _root_.GlobalTheory.Glue.Prim.mul <;> assumption
 
 end GlobalTheory.ThAdd
 

@@ -1,5 +1,7 @@
 module
 
+import Formalism.FrobeniusOrbits.FrobeniusOrbitsProofs.SplitK
+import Development.AbelianVarietyTheory.Proofs.TorusHaarMeasure.ThetaArchimedeanDataIndefiniteModels
 public import Mathlib.NumberTheory.NumberField.CMField
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.ProjectiveAutomorphicHecke.CyclotomicConjugation.QuadConjAlt
 public import GroundTheory.AutomorphicForms.StrongApproximationSLDense
@@ -66,17 +68,7 @@ section -- clump:auto
 
 private theorem UpperTheory.Reformulated.B.CMConjugationOfSqrtNeg.conj_eq_neg_of_sq {z : ℂ} {r : ℝ} (hr : 0 < r)
     (hz : z ^ 2 = -(r : ℂ)) : starRingEnd ℂ z = -z := by
-  have hre : z.re * z.re - z.im * z.im = -r := by
-    simpa [pow_two] using congrArg Complex.re hz
-  have him : z.re * z.im + z.im * z.re = 0 := by
-    simpa [pow_two] using congrArg Complex.im hz
-  have hprod : z.re * z.im = 0 := by linarith
-  have h0 : z.re = 0 := by
-    rcases mul_eq_zero.mp hprod with h | h
-    · exact h
-    · rw [h] at hre
-      nlinarith [mul_self_nonneg z.re]
-  apply Complex.ext <;> simp [h0]
+  apply _root_.GlobalTheory.CMConjugationOfSquareRoot.conj_eq_neg_of_sq_eq_neg <;> assumption
 
 theorem UpperTheory.Reformulated.B.CMConjugationOfSqrtNeg.conj_alt_bis :
     ∀ {E : Type} [inst : Field E] [inst_1 : NumberField E] [inst_2 : NumberField.IsCMField E] {d : ℕ} {x : E},
@@ -177,19 +169,8 @@ private theorem cK_ne {d : ℕ} {x : E} (hd : 0 < d) (hx : x ^ 2 = -(d : E)) : c
 
 private theorem finrank_K {d : ℕ} {x : E} (hd : 0 < d) (hx : x ^ 2 = -(d : E)) :
     Module.finrank ℚ (Kx x) = 2 := by
-  have hint : IsIntegral ℚ x := Algebra.IsIntegral.isIntegral x
-  have hmonic : (Polynomial.X ^ 2 + Polynomial.C (d : ℚ)).Monic := Polynomial.monic_X_pow_add_C _ (by norm_num)
-  have hdeg : (Polynomial.X ^ 2 + Polynomial.C (d : ℚ)).natDegree = 2 := Polynomial.natDegree_X_pow_add_C
-  have hirr : Irreducible (Polynomial.X ^ 2 + Polynomial.C (d : ℚ)) := by
-    refine Polynomial.irreducible_of_degree_le_three_of_not_isRoot (by rw [hdeg]; simp) fun q hq => ?_
-    have hd' : (0 : ℚ) < d := by exact_mod_cast hd
-    simp only [Polynomial.IsRoot, Polynomial.eval_add, Polynomial.eval_pow, Polynomial.eval_X, Polynomial.eval_C] at hq
-    nlinarith [sq_nonneg q]
-  have hmin : Polynomial.X ^ 2 + Polynomial.C (d : ℚ) = minpoly ℚ x :=
-    minpoly.eq_of_irreducible_of_monic hirr (by simp [hx]) hmonic
-  have := IntermediateField.adjoin.finrank hint
-  rw [← hmin, hdeg] at this
-  exact this
+  intros
+  apply _root_.Formalism.FrobeniusOrbits.SplitK.finrank_K <;> assumption
 
 private theorem univ_eq {d : ℕ} {x : E} (hd : 0 < d) (hx : x ^ 2 = -(d : E)) :
     (Finset.univ : Finset (Kx x ≃ₐ[ℚ] Kx x)) = {1, cK hd hx} := by

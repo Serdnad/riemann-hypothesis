@@ -1,5 +1,7 @@
 module
 
+import all Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.ProjectiveAutomorphicHecke.CyclotomicConjugation.QuadConj
+import Development.AbelianVarietyTheory.Proofs.SatakeParameters.MemHeckeSplitPlaceSetIffDoubleCoset
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.SphericalCoordinates.AlgebraEquivSetup.ApartOfNotMem
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsAdeleEquivOfLocal
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.MatrixExtPLoc
@@ -734,19 +736,7 @@ private theorem below_conjSrc {E : Type} [Field E] [NumberField E] [IsCMField E]
 
 private theorem conj_finiteAdeleMap {E : Type} [Field E] [NumberField E] [IsCMField E] (a : AfQ) :
     conjFin (conjE E) (finiteAdeleMap ℚ E a) = finiteAdeleMap ℚ E a := by
-  refine GlobalTheory.EulerTw.pLoc_ext E fun w => ?_
-  rw [pLoc_conjFin]
-  have hb := below_conjSrc w
-  have key : ∀ (u : Plc E) (_ : below ℚ u = below ℚ w) (f : u.adicCompletion E →+* w.adicCompletion E),
-      Continuous f → f (pLoc E u (finiteAdeleMap ℚ E a)) = pLoc E w (finiteAdeleMap ℚ E a) := by
-    intro u hu f hf
-    haveI : w.asIdeal.LiesOver (below ℚ u).asIdeal := (GroundTheory.Global.AdeleBaseChange.below_eq_iff w _).1 hu.symm
-    change f (completionMap (below ℚ u) u (a (below ℚ u))) = completionMap (below ℚ w) w (a (below ℚ w))
-    rw [← GroundTheory.Global.AdeleBaseChange.completionMap_congr hu w a]
-    exact ringHom_eq_of_continuous (below ℚ u) (f.comp (completionMap (below ℚ u) u)) (completionMap (below ℚ u) w)
-      (hf.comp (GroundTheory.Global.SemiLocal.continuous_completionMap _ _))
-      (GroundTheory.Global.SemiLocal.continuous_completionMap _ _) _
-  exact key _ hb _ (conjLoc_spec (conjE E) w).1
+  apply _root_.conjFin_rat <;> assumption
 
 end UpperTheory.Gal.W2.Seed
 
@@ -827,16 +817,8 @@ open UpperTheory.Gal.CertificateRingHomMap (GUf Gam0 AfQ Plc sim mat comp rat le
 open scoped TensorProduct Classical
 
 private theorem mem_GLint_of_entries {K : Type} [Field K] {n : ℕ} (O : Subring K) (g : GL (Fin n) K)
-    (h1 : ∀ a b, g.val a b ∈ O) (h2 : ∀ a b, (g⁻¹).val a b ∈ O) : g ∈ Formalism.UG.GLint (Fin n) O := by
-  have inj : Function.Injective (O.subtype.mapMatrix (m := Fin n)) :=
-    fun A B h => by ext i j; exact congrFun (congrFun h i) j
-  let A : Matrix (Fin n) (Fin n) O := fun i j => ⟨g.val i j, h1 i j⟩
-  let B : Matrix (Fin n) (Fin n) O := fun i j => ⟨(g⁻¹).val i j, h2 i j⟩
-  have hA : O.subtype.mapMatrix A = g.val := rfl
-  have hB : O.subtype.mapMatrix B = (g⁻¹).val := rfl
-  refine ⟨⟨A, B, inj ?_, inj ?_⟩, Units.ext rfl⟩
-  · rw [map_mul, hA, hB, map_one, Units.mul_inv]
-  · rw [map_mul, hA, hB, map_one, Units.inv_mul]
+    (h1 : ∀ a b, g.val a b ∈ O) (h2 : ∀ a b, (g⁻¹).val a b ∈ O) : g ∈ Formalism.UG.GLint (Fin n) O :=
+  _root_.GlobalTheory.TSetDoubleCoset.mem_GLint_of_entries O g h1 h2
 
 theorem UpperTheory.Gal.W2.Seed.pIntCof :
     IntCof := by

@@ -1,5 +1,6 @@
 module
 
+import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.ChartRingOverOneBlockBase
 public import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.StatementsTwistedDualGensExist
 import Mathlib.Tactic.TypeStar
 public import Mathlib.LinearAlgebra.Dual.Basis
@@ -41,20 +42,7 @@ def TwistedDualGensExist.dualSub {x : τ → Ω} (B : ChartBundle O x r E) (c : 
 theorem TwistedDualGensExist.exists_pow_combination (A : Subalgebra O Ω) {k : ℕ} (f cc : Fin k → Ω)
     (hf : ∀ l, f l ∈ A) (hcc : ∀ l, cc l ∈ A) (hsum : ∑ l, cc l * f l = 1) (N : ℕ) :
     ∃ g : Fin k → Ω, (∀ l, g l ∈ A) ∧ ∑ l, g l * f l ^ N = 1 := by
-  set f' : Fin k → A := fun l => ⟨f l, hf l⟩ with hf'
-  have h1 : Ideal.span (Set.range f') = ⊤ := by
-    rw [Ideal.eq_top_iff_one]
-    have : (1 : A) = ∑ l, (⟨cc l, hcc l⟩ : A) * f' l := Subtype.ext (by simp [f', hsum])
-    rw [this]
-    exact Ideal.sum_mem _ fun l _ => Ideal.mul_mem_left _ _ (Ideal.subset_span ⟨l, rfl⟩)
-  have h2 := Ideal.span_pow_eq_top _ h1 N
-  rw [← Set.range_comp] at h2
-  have h3 : (1 : A) ∈ Ideal.span (Set.range ((fun z : A => z ^ N) ∘ f')) := by
-    rw [h2]; trivial
-  obtain ⟨g, hg⟩ := (Submodule.mem_span_range_iff_exists_fun _).1 h3
-  refine ⟨fun l => g l, fun l => (g l).2, ?_⟩
-  have := congrArg Subtype.val hg
-  simpa [f'] using this
+  apply _root_.GroundTheory.Heights₂.Heights.Kleiman.TranslateEq.exists_sum_mul_pow_eq_one <;> assumption
 
 theorem TwistedDualGensExist.latSub_fg {x : τ → Ω} (B : ChartBundle O x r E) {c : τ} (hc : x c ≠ 0) :
     (TwistedDualGensExist.latSub B c).FG := by

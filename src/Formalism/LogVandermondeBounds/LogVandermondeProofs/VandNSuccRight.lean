@@ -1,5 +1,6 @@
 module
 
+import Formalism.SharpRestriction.GlobalSchurBounds.GlobalRankLatticeProofs.LogFactorialProductDifference
 public import Formalism.LogVandermondeBounds.VandPlace
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -53,35 +54,14 @@ open Finset
 
 lemma anti_of_step (f : ℕ → ℝ) (N : ℕ) (h : ∀ i, i + 1 < N → f (i + 1) < f i) :
     ∀ i j, i < j → j < N → f j < f i := by
-  intro i j hij hjN
-  induction j with
-  | zero => omega
-  | succ j ih =>
-    rcases Nat.lt_succ_iff_lt_or_eq.1 hij with h' | h'
-    · exact lt_trans (h j (by omega)) (ih h' (by omega))
-    · subst h'; exact h i hjN
+  apply _root_.Formalism.LogVandermondeBounds.StandardLattice.up_anti_of_step <;> assumption
 
 lemma gap_of_step (f : ℕ → ℝ) (N : ℕ) (h : ∀ i, i + 1 < N → 1 ≤ f (i + 1) - f i) :
     ∀ i j, i < j → j < N → 1 ≤ f j - f i := by
-  intro i j hij hjN
-  induction j with
-  | zero => omega
-  | succ j ih =>
-    rcases Nat.lt_succ_iff_lt_or_eq.1 hij with h' | h'
-    · have h1 := h j (by omega)
-      have h2 := ih h' (by omega)
-      linarith
-    · subst h'; exact h i hjN
+  apply _root_.Formalism.LogVandermondeBounds.StandardLattice.up_gap_of_step <;> assumption
 
 lemma vandN_pos (x : ℕ → ℝ) (N : ℕ) (h : ∀ i j, i < j → j < N → x j < x i) : 0 < vandN x N := by
-  unfold vandN
-  apply prod_pos
-  intro i hi
-  apply prod_pos
-  intro j hj
-  rw [mem_range] at hi
-  rw [mem_Ico] at hj
-  exact sub_pos.2 (h i j (by omega) (by omega))
+  apply _root_.Formalism.LogVandermondeBounds.StandardLattice.up_vandN_pos <;> assumption
 
 lemma vandN_congr (x y : ℕ → ℝ) (N : ℕ) (h : ∀ i, i < N → x i = y i) : vandN x N = vandN y N := by
   unfold vandN

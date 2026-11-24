@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsWeightedAverageHaar
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsFiniteAdelicPointUnitaryGroupGramOne
 public import Development.AbelianVarietyTheory.BlockTheory.TwistedDiscreteSeries.ClassFunctionSumIntegral
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsCongLevelIntG
@@ -559,16 +560,7 @@ theorem cong_transfer (e : TensorProduct D.host.F (Af D.host.F) D.host.E) (c : F
     map_natCast (GlobalTheory.LFun.finAdEquiv D.host.F D.host.E) N]
 
 theorem ker_finE (V : HSp D) {k : GA D V} (hk : Lev.finE V k = 1) : k ∈ GinfC V := by
-  show finHom V k = 1
-  have hinj : Function.Injective (Lev.swapAE D) :=
-    (Algebra.TensorProduct.comm D.host.F (Af D.host.F) D.host.E).injective
-  have h1 : Formalism.UG.bc (Lev.swapAE D) (finHom V k) = 1 := hk
-  apply Units.ext
-  have h2 := congrArg Units.val h1
-  change Matrix.map (finHom V k).val (Lev.swapAE D) = 1 at h2
-  refine Matrix.map_injective hinj ?_
-  beta_reduce
-  rw [h2, Units.val_one, Matrix.map_one _ (map_zero _) (map_one _)]
+  apply _root_.GlobalTheory.SrcLevel.ker_finE <;> assumption
 
 theorem mulVec_mem_iff {R : Type} [CommRing R] {S : Subring R} {r : ℕ} (M : GL (Fin r) R)
     (h1 : ∀ i j, (M : Matrix (Fin r) (Fin r) R) i j ∈ S)

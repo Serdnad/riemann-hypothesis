@@ -1,5 +1,6 @@
 module
 
+import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.RelativeEquivalence.DCRelEquivAllHolds
 public import Formalism.PeriodIntegrals.ScalPairs
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -85,35 +86,11 @@ theorem mem_aut_iff {Λ : Submodule (𝓞 E) S.V} {β : S.V ≃ₗ[E] S.V} (h : 
     exact ⟨x, hx, rfl⟩
 
 theorem aut_inv {Λ : Submodule (𝓞 E) S.V} {β : S.V ≃ₗ[E] S.V} (h : IsAutLam S Λ β) : IsAutLam S Λ β⁻¹ := by
-  refine ⟨Subgroup.inv_mem _ h.1, ?_⟩
-  unfold Formalism.HermitianLatticesTheory.gmap
-  ext x
-  constructor
-  · rintro ⟨y, hy, rfl⟩
-    rw [← mem_aut_iff h]
-    show β (β.symm y) ∈ Λ
-    simpa using hy
-  · intro hx
-    refine ⟨β x, (mem_aut_iff h x).2 hx, ?_⟩
-    show β.symm (β x) = x
-    exact β.symm_apply_apply x
+  apply _root_.PI.DCRelEquiv.UnitaryGroupMassFormula.autLam_inv <;> assumption
 
 theorem aut_mul {Λ : Submodule (𝓞 E) S.V} {β β' : S.V ≃ₗ[E] S.V} (h : IsAutLam S Λ β) (h' : IsAutLam S Λ β') :
     IsAutLam S Λ (β * β') := by
-  refine ⟨Subgroup.mul_mem _ h.1 h'.1, ?_⟩
-  unfold Formalism.HermitianLatticesTheory.gmap
-  ext x
-  constructor
-  · rintro ⟨y, hy, rfl⟩
-    show β (β' y) ∈ Λ
-    exact (mem_aut_iff h _).2 ((mem_aut_iff h' _).2 hy)
-  · intro hx
-    refine ⟨β'.symm (β.symm x), ?_, ?_⟩
-    · have h1 : β.symm x ∈ Λ := by
-        rw [← mem_aut_iff h]; simpa using hx
-      rw [SetLike.mem_coe, ← mem_aut_iff h']; simpa using h1
-    · show β (β' (β'.symm (β.symm x))) = x
-      simp
+  apply _root_.PI.DCRelEquiv.UnitaryGroupMassFormula.autLam_mul <;> assumption
 
 end Gen
 

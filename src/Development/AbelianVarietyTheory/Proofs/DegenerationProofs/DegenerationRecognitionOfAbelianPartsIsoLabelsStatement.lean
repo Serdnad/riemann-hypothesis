@@ -1222,15 +1222,7 @@ theorem qmul {k : ℕ} {p q : N.QT k} (a : N.QT k) (h : N.QEq p q) : N.QEq (a * 
   exact ⟨z, (mul_assoc _ _ _).symm⟩
 
 theorem r_one (μ : Match N N' n) {k : ℕ} (hk : ∃ j, k = n ^ j) : μ.r k 1 1 := by
-  obtain ⟨p', h⟩ := tot' μ hk 1
-  have h2 := μ.mul k _ _ _ _ h h
-  rw [mul_one] at h2
-  have h3 := qmul p'⁻¹ ((r_right μ h).1 h2)
-  rw [inv_mul_cancel, inv_mul_cancel_left] at h3
-  apply (r_right μ h).2
-  obtain ⟨z, hz, hz'⟩ := h3
-  exact ⟨-z, by rw [hz, smul_neg, add_neg_cancel_right],
-    by rw [hz', N'.io_neg, mul_inv_cancel_right]⟩
+  apply _root_.GlobalTheory.MatchTerm.r_one <;> assumption
 
 theorem r_pow (μ : Match N N' n) {k : ℕ} (hk : ∃ j, k = n ^ j) {p : N.QT k} {p' : N'.QT k} (h : μ.r k p p')
     (a : ℕ) : μ.r k (p ^ a) (p' ^ a) := by
@@ -1240,12 +1232,7 @@ theorem r_pow (μ : Match N N' n) {k : ℕ} (hk : ∃ j, k = n ^ j) {p : N.QT k}
 
 theorem r_inv (μ : Match N N' n) {k : ℕ} (hk : ∃ j, k = n ^ j) {p : N.QT k} {p' : N'.QT k} (h : μ.r k p p') :
     μ.r k p⁻¹ p'⁻¹ := by
-  obtain ⟨q', hq⟩ := tot' μ hk p⁻¹
-  have h2 := μ.mul k _ _ _ _ h hq
-  rw [mul_inv_cancel] at h2
-  have h3 := qmul p'⁻¹ ((r_right μ h2).1 (r_one μ hk))
-  rw [inv_mul_cancel_left, mul_one] at h3
-  exact (r_right μ hq).2 h3
+  apply _root_.GlobalTheory.MatchTerm.r_inv <;> assumption
 
 def ofG {k : ℕ} (x : N.Gt) (hx : x ^ k = 1) : N.QT k := ⟨(1, x), by rw [N.mem_QT]; exact hx.trans N.io_zero.symm⟩
 
@@ -1254,11 +1241,7 @@ theorem pow_eq_one_of {k : ℕ} (p : N.QT k) (h : p.1.1 = 1) : p.1.2 ^ k = 1 := 
   rw [this, h]; exact N.io_zero
 
 theorem exists_rep {k : ℕ} {p : N.QT k} (h : N.InG p) : ∃ q, N.QEq p q ∧ q.1.1 = 1 := by
-  obtain ⟨z, hz⟩ := h
-  refine ⟨p * N.qTriv k (-z), (N.qEq_iff _ _).2 ⟨_, rfl⟩, ?_⟩
-  apply Multiplicative.toAdd.injective
-  change p.1.1.toAdd + k • (-z) = 0
-  rw [hz, smul_neg, add_neg_cancel]
+  apply _root_.GlobalTheory.MatchTerm.exists_one_of_inG <;> assumption
 
 theorem y_pow {k : ℕ} (p : N.QT k) (a : ℕ) : (p ^ a).1.1.toAdd = a • p.1.1.toAdd := by simp
 

@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ContDiffDerivSnoc
 public import Formalism.LocalToGlobal.IndefiniteReal.ScalarOnPartsFull
 public import Formalism.LocalToGlobal.IndefiniteReal.SmExpSmulContDiff
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.KFiniteSmoothVectors.DenseWeakVectors
@@ -48,21 +49,7 @@ theorem sum_map_norm_nonneg (S : List (List (Matrix (Fin n) (Fin n) ℂ))) (w : 
 
 theorem sobCont_add {ℓ₁ ℓ₂ : H →ₗ[ℂ] ℂ} (h₁ : Sobolev₂ Lie σ ℓ₁) (h₂ : Sobolev₂ Lie σ ℓ₂) :
     Sobolev₂ Lie σ (ℓ₁ + ℓ₂) := by
-  obtain ⟨S₁, C₁, hS₁, hb₁⟩ := h₁
-  obtain ⟨S₂, C₂, hS₂, hb₂⟩ := h₂
-  refine ⟨S₁ ++ S₂, |C₁| + |C₂|, ?_, fun w hw => ?_⟩
-  · intro l hl X hX
-    rcases List.mem_append.1 hl with h | h
-    exacts [hS₁ l h X hX, hS₂ l h X hX]
-  · have e₁ := hb₁ w hw
-    have e₂ := hb₂ w hw
-    have a₀ := sum_map_norm_nonneg (σ := σ) S₁ w
-    have b₀ := sum_map_norm_nonneg (σ := σ) S₂ w
-    rw [List.map_append, List.sum_append, LinearMap.add_apply]
-    calc ‖ℓ₁ w + ℓ₂ w‖ ≤ ‖ℓ₁ w‖ + ‖ℓ₂ w‖ := norm_add_le _ _
-      _ ≤ _ := by
-        nlinarith [mul_nonneg (sub_nonneg.2 (le_abs_self C₁)) a₀, mul_nonneg (abs_nonneg C₁) b₀,
-          mul_nonneg (sub_nonneg.2 (le_abs_self C₂)) b₀, mul_nonneg (abs_nonneg C₂) a₀]
+  apply _root_.GlobalTheory.MultMem.sobCont_add <;> assumption
 
 theorem sobCont_smul {ℓ : H →ₗ[ℂ] ℂ} (c : ℂ) (h : Sobolev₂ Lie σ ℓ) : Sobolev₂ Lie σ (c • ℓ) := by
   obtain ⟨S, C, hS, hb⟩ := h

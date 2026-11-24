@@ -275,15 +275,7 @@ theorem deep_binomial {O : Type} [CommRing O] (t : O) (n : ℕ) :
 
 theorem deep_mem_oneUnits {O : Type} [CommRing O] (t : O) (u : Oˣ) :
     u ∈ oneUnits t ↔ ∃ x : O, (u : O) = 1 + t * x := by
-  rw [oneUnits, MonoidHom.mem_ker, Units.ext_iff, Units.coe_map, Units.val_one]
-  have : ((Ideal.Quotient.mk (Ideal.span {t}) : O →* O ⧸ Ideal.span {t}) (u : O) = 1) ↔
-      Ideal.Quotient.mk (Ideal.span {t}) (u : O) = Ideal.Quotient.mk (Ideal.span {t}) 1 := Iff.rfl
-  rw [this, Ideal.Quotient.eq, Ideal.mem_span_singleton]
-  constructor
-  · rintro ⟨x, hx⟩
-    exact ⟨x, by linear_combination hx⟩
-  · rintro ⟨x, hx⟩
-    exact ⟨x, by linear_combination hx⟩
+  apply _root_.GlobalTheory.CNorm.mem_oneUnits_iff_exists_eq_one_add <;> assumption
 
 theorem deep_isUnit {O : Type} [CommRing O] (π : O)
     [IsAdicComplete (Ideal.span {π}) O] (x : O) : IsUnit (1 + π * x) := by

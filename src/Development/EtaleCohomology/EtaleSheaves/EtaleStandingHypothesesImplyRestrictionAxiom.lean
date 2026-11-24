@@ -1,5 +1,7 @@
 module
 
+import Development.EtaleCohomology.EtaleSheaves.ResZeroOfRange
+import Development.EtaleCohomology.EtaleSheaves.FiltrationLevelBase
 public import Development.EtaleCohomology.EtaleSheaves.LeafInj0Of
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -52,47 +54,12 @@ open LateralTheory.E.E4 LateralTheory.E.LeafGhostCut LateralTheory.E.EtaleTopolo
 
 theorem fgtInj0 (R : Type) [CommRing R] (F : Shv R) {U E : Spc} (f : U ⟶ E)
     (hU : Subsingleton (H R U F (-1))) (y : Hrel R f F 0) (hy : fgt R f F 0 y = 0) : y = 0 := by
-  obtain ⟨z, rfl⟩ := y.mk_surjective
-  obtain ⟨β, hβ⟩ : ∃ β : Cochain ((chains R).obj E) (res R F) (-1), δ (-1) 0 β = (Cochain.ofHom (mappingCone.inr ((chains R).map f))).comp z.1 (zero_add 0) := by
-    have := hy
-    change CohomologyClass.mk _ = 0 at this
-    rw [CohomologyClass.mk_eq_zero_iff, mem_coboundaries_iff _ (-1) (by omega)] at this
-    obtain ⟨β, hβ⟩ := this
-    exact ⟨β, by rw [hβ]; rfl⟩
-  have hdec : z.1 = mappingCone.descCochain ((chains R).map f) ((mappingCone.inl ((chains R).map f)).comp z.1 (show -1 + 0 = -1 by omega))
-      ((Cochain.ofHom (mappingCone.inr ((chains R).map f))).comp z.1 (zero_add 0)) (show (-1 : ℤ) + 1 = 0 by omega) := by
-    rw [mappingCone.ext_cochain_from_iff _ (-1) 0 (by omega)]
-    simp [mappingCone.inl_descCochain]
-  have hz : δ 0 1 z.1 = 0 := Cocycle.δ_eq_zero z 1
-  rw [hdec, mappingCone.δ_descCochain _ _ _ _ _ (by omega)] at hz
-  rw [mappingCone.ext_cochain_from_iff _ 0 1 (by omega)] at hz
-  obtain ⟨hz1, -⟩ := hz
-  simp only [Cochain.comp_zero, Cochain.comp_add, mappingCone.inl_fst_assoc, mappingCone.inl_snd_assoc, add_zero] at hz1
-  have hw : δ (-1) 0 ((mappingCone.inl ((chains R).map f)).comp z.1 (show -1 + 0 = -1 by omega) - (Cochain.ofHom ((chains R).map f)).comp β (zero_add (-1))) = 0 := by
-    rw [δ_sub, δ_ofHom_comp, hβ, sub_eq_zero]
-    rw [show Int.negOnePow 1 = -1 by decide] at hz1
-    simp only [Units.smul_def, Units.val_neg, Units.val_one, neg_smul, one_smul, ← sub_eq_add_neg, sub_eq_zero] at hz1
-    exact hz1
-  obtain ⟨γ, hγ⟩ : ∃ γ : Cochain ((chains R).obj U) (res R F) (-2), δ (-2) (-1) γ = (mappingCone.inl ((chains R).map f)).comp z.1 (show -1 + 0 = -1 by omega) - (Cochain.ofHom ((chains R).map f)).comp β (zero_add (-1)) := by
-    have h0 : CohomologyClass.mk (Cocycle.mk _ 0 (by omega) hw) = 0 := Subsingleton.elim _ _
-    rw [CohomologyClass.mk_eq_zero_iff, mem_coboundaries_iff _ (-2) (by omega)] at h0
-    obtain ⟨γ, hγ⟩ := h0
-    exact ⟨γ, by rw [hγ]; rfl⟩
-  rw [CohomologyClass.mk_eq_zero_iff, mem_coboundaries_iff _ (-1) (by omega)]
-  refine ⟨mappingCone.descCochain ((chains R).map f) γ β (show (-2 : ℤ) + 1 = -1 by omega), ?_⟩
-  rw [mappingCone.δ_descCochain _ _ _ _ _ (by omega), hγ, hβ, show Int.negOnePow 0 = 1 by decide, one_smul, sub_add_cancel]
-  conv_rhs => rw [hdec]
-  rfl
+  intros
+  apply _root_.LateralTheory.E.LeafSurj0WPf.fgt_zero <;> assumption
 
 theorem fgtPull (R : Type) [CommRing R] (F : Shv R) {U E : Spc} (f : U ⟶ E) (n : ℤ) (y : Hrel R f F n) :
     pull R f F n (fgt R f F n y) = 0 := by
-  obtain ⟨y, rfl⟩ := y.mk_surjective
-  change CohomologyClass.mk _ = 0
-  rw [CohomologyClass.mk_eq_zero_iff, mem_coboundaries_iff _ (n - 1) (by omega)]
-  refine ⟨n.negOnePow • (mappingCone.inl ((chains R).map f)).comp y.1 (by omega), ?_⟩
-  rw [δ_units_smul]
-  rw [δ_comp (mappingCone.inl ((chains R).map f)) y.1 (show -1 + n = n - 1 by omega) 0 (n + 1) n (by omega) (by omega) (by omega)]
-  simp [zcomp, mappingCone.δ_inl, Cochain.ofHom_comp, Cochain.comp_assoc_of_first_is_zero_cochain, smul_smul, Int.units_mul_self]
+  apply @LateralTheory.E.RelativeTruncationSingleDegree.pull_fgt <;> assumption
 
 theorem fgtNat (R : Type) [CommRing R] (F : Shv R) {U E U' E' : Spc} (f : U ⟶ E) (f' : U' ⟶ E') (u : U' ⟶ U)
   (e : E' ⟶ E) (comm : f' ≫ e = u ≫ f) (n : ℤ) (y : Hrel R f F n) :

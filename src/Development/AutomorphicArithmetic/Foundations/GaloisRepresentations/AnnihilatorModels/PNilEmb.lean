@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.CharacterTheory.EqZeroOfNotPrimary
 public import Mathlib.Algebra.Polynomial.AlgebraMap
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.AnnihilatorModels.DinvExact
 import Mathlib.Algebra.Order.Floor.Extended
@@ -58,18 +59,8 @@ theorem UpperTheory.Reformulated.B.Qk66.aeval_comm :
       ∀ (Q : Polynomial L) (y : M),
         (φ : M → N) (((Polynomial.aeval A : Polynomial L → Module.End L M) Q : M → M) y) =
           ((Polynomial.aeval A' : Polynomial L → Module.End L N) Q : N → N) ((φ : M → N) y) := by
-  intro L M N _ _ _ _ _ φ A A' h Q
-  induction Q using Polynomial.induction_on with
-  | C a =>
-    intro y
-    simp [Module.algebraMap_end_apply]
-  | add p q hp hq =>
-    intro y
-    simp only [map_add (f := _), LinearMap.add_apply, hp, hq]
-  | monomial n a ih =>
-    intro y
-    rw [pow_succ, ← mul_assoc, map_mul (Polynomial.aeval A), map_mul (Polynomial.aeval A'),
-      Polynomial.aeval_X, Polynomial.aeval_X, Module.End.mul_apply, Module.End.mul_apply, ih, h]
+  intros
+  apply _root_.GlobalTheory.CuspGL.intertwine_aeval_apply <;> assumption
 end -- clump:auto
 end -- clump:auto
 -- ===== end clump member: Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.AevalComm =====

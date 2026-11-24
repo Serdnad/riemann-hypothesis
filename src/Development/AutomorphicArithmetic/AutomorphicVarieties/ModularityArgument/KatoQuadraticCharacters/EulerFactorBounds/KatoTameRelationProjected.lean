@@ -696,12 +696,7 @@ private theorem ixVT_eq (l L N p : ℕ) (i : Fin 2) : ixVT l L N p i = (rV l L N
 
 private theorem bar_mul {l L N p D : ℕ} [NeZero (N * l ^ L)] (hp : Nat.Coprime p (N * l ^ L)) (h : D ∣ N * l ^ L) :
     (bar l L N p : ZMod D) * p = 1 := by
-  have h1 : ((p : ZMod (N * l ^ L)) * (p : ZMod (N * l ^ L))⁻¹) = 1 := ZMod.coe_mul_inv_eq_one p hp
-  have h2 := congrArg (ZMod.castHom h (ZMod D)) h1
-  simp only [map_mul, map_natCast, map_one, ZMod.castHom_apply] at h2
-  simp only [bar]
-  rw [Int.cast_natCast, ZMod.natCast_val, mul_comm]
-  exact h2
+  apply _root_.UpperTheory.V.Z.Kato.Nb.NormOneTraceTorsion.bar_mul <;> assumption
 
 private theorem rows_l {l L N p : ℕ} [Fact l.Prime] [NeZero N] (x : ZMod N) (hL : 1 ≤ L) (hp : Nat.Coprime p (N * l ^ L)) :
     (rU l L N p x 0 : ZMod l) = N ∧ (rV l L N p 1 : ZMod l) = N ∧ rU l L N p x 1 = 0 := by
@@ -726,20 +721,7 @@ private theorem crt {m n : ℕ} (h : Nat.Coprime m n) {a b : ℤ} (h1 : (a : ZMo
 
 private theorem topT_succ {l L N : ℕ} [NeZero N] (h : Nat.Coprime l N) :
     (topT l (L + 1) N : ZMod (N * l ^ L)) * (l : ZMod (N * l ^ L)) ^ (L + 1) = (topT l L N : ZMod (N * l ^ L)) * (l : ZMod (N * l ^ L)) ^ L := by
-  have hc : Nat.Coprime N (l ^ L) := Nat.Coprime.pow_right L h.symm
-  have hu : IsUnit (l : ZMod N) := (ZMod.unitOfCoprime l h).isUnit
-  have key : (((topT l (L + 1) N * l ^ (L + 1) : ℕ) : ℤ) : ZMod (N * l ^ L)) =
-      (((topT l L N * l ^ L : ℕ) : ℤ) : ZMod (N * l ^ L)) := by
-    apply crt hc
-    · push_cast
-      simp only [topT, ZMod.natCast_val, ZMod.cast_id', id]
-      rw [ZMod.inv_mul_of_unit _ (hu.pow _), ZMod.inv_mul_of_unit _ (hu.pow _)]
-    · push_cast
-      have h0 : ((l : ZMod (l ^ L))) ^ L = 0 := by rw [← Nat.cast_pow, ZMod.natCast_self]
-      rw [pow_succ, h0]
-      simp
-  push_cast at key
-  exact key
+  apply _root_.UpperTheory.V.Z.Kato.Nb.NormOneTraceTorsion.topT_succ <;> assumption
 
 private theorem rows_succ {l L N p k : ℕ} [Fact l.Prime] [NeZero N] (x : ZMod N) (h : Nat.Coprime l N)
     (hp : Nat.Coprime p (N * l ^ (L + 1))) (k1 : (k : ZMod (N * l ^ L)) = 1) (k2 : (k : ZMod p) = l) :
@@ -1405,13 +1387,7 @@ private theorem UpperTheory.Kd.K4.mlT_cpt {l : ℕ} [Fact l.Prime] (c : Coef l) 
   exact Submodule.isCompact_of_fg hfg
 
 private theorem UpperTheory.Kd.K4.mlT_le {l : ℕ} [Fact l.Prime] (c : Coef l) {a : Qbar l} (ha : a ∈ c.O) : ‖a‖ ≤ 1 := by
-  by_contra h
-  push Not at h
-  obtain ⟨M, hM⟩ := (UpperTheory.Kd.K4.mlT_cpt c).isBounded.exists_norm_le
-  obtain ⟨n, hn⟩ := pow_unbounded_of_one_lt M h
-  have := hM _ (c.O.pow_mem ha n)
-  rw [norm_pow] at this
-  linarith
+  apply _root_.nle <;> assumption
 
 private theorem UpperTheory.Kd.K4.mlT_lt (l : ℕ) [Fact l.Prime] : ‖((l : ℕ) : Qbar l)‖ < 1 := by
   have h : ((l : ℕ) : Qbar l) = algebraMap ℚ_[l] (PadicAlgCl l) (l : ℚ_[l]) := by simp

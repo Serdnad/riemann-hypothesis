@@ -1,5 +1,6 @@
 module
 
+import Formalism.LocalToGlobal.SiegelLatticeTheory.FlagStabilizerTensors.RootLatticeThresholds.RowDictPf
 public import Formalism.CyclotomicNorms.StatementI
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -83,15 +84,7 @@ lemma monic_monicOf {N : ℕ} (a : Fin N → K) : (monicOf a).Monic := by
 
 lemma monicOf_coeffs (p : K[X]) (hp : p.Monic) {m : ℕ} (hd : p.natDegree = m) :
     monicOf (fun i : Fin m => p.coeff i) = p := by
-  ext n
-  rcases lt_or_ge n m with h | h
-  · exact coeff_monicOf_lt (fun i : Fin m => p.coeff i) ⟨n, h⟩
-  · rw [coeff_monicOf_ge _ n h]
-    split_ifs with hn
-    · subst hn
-      rw [← hd]
-      exact hp.coeff_natDegree.symm
-    · exact (coeff_eq_zero_of_natDegree_lt (by omega)).symm
+  apply _root_.Formalism.L2.SG.Pf.RowDictPf.monicOf_coeff <;> assumption
 
 end Sqf
 

@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ThetaPureTensorO
 public import Formalism.LocalToGlobal.IndefiniteReal.LocalNewformFunction
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -64,26 +65,6 @@ namespace GlobalTheory.OneMapRef.VecP
 
 open scoped ComplexOrder in
 theorem isCartanInv_one_of_onb {k : ℕ} {G B : Matrix (Fin k) (Fin k) ℂ} (h : IsONBasis G 1 B k) : IsCartanInv G 1 := by
-  obtain ⟨ε, hε, hB, -⟩ := h
-  have hε1 : ∀ a, ε a = 1 := fun a =>
-    ((hε a).resolve_right fun h' => absurd h'.2 (not_le.mpr a.2)).1
-  have hB1 : Bᴴ * G * B = 1 := by simpa [hε1] using hB
-  have hBC : B * (Bᴴ * G) = 1 := mul_eq_one_comm.mp hB1
-  have hGB : G * B = (Bᴴ * G)ᴴ := by
-    calc G * B = (B * (Bᴴ * G))ᴴ * (G * B) := by rw [hBC, conjTranspose_one, Matrix.one_mul]
-      _ = (Bᴴ * G)ᴴ * (Bᴴ * G * B) := by simp only [conjTranspose_mul, Matrix.mul_assoc]
-      _ = (Bᴴ * G)ᴴ := by rw [hB1, Matrix.mul_one]
-  have hG : G = (Bᴴ * G)ᴴ * (Bᴴ * G) := by
-    calc G = G * (B * (Bᴴ * G)) := by rw [hBC, Matrix.mul_one]
-      _ = G * B * (Bᴴ * G) := by rw [Matrix.mul_assoc]
-      _ = (Bᴴ * G)ᴴ * (Bᴴ * G) := by rw [hGB]
-  have hinj : Function.Injective (Bᴴ * G).mulVec := by
-    intro v w hvw
-    have h2 := congrArg (fun x => B *ᵥ x) hvw
-    simpa only [Matrix.mulVec_mulVec, hBC, Matrix.one_mulVec] using h2
-  unfold IsCartanInv
-  refine ⟨by simp, by simp, ?_⟩
-  rw [Matrix.mul_one, hG]
-  exact Matrix.PosDef.conjTranspose_mul_self _ hinj
+  first | exact _root_.GlobalTheory.GalLift.Vec.isCartanInv_one | exact @_root_.GlobalTheory.GalLift.Vec.isCartanInv_one | apply _root_.GlobalTheory.GalLift.Vec.isCartanInv_one <;> assumption
 
 end GlobalTheory.OneMapRef.VecP

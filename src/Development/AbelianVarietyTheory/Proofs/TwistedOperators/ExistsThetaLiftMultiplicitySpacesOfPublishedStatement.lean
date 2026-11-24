@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.PairThetaLiftFactorsThroughIntertwiner
 public import Development.AbelianVarietyTheory.BlockTheory.TwistedDiscreteSeries.LoweredSignatureVanishing
 public import Development.AbelianVarietyTheory.PublishedTheorems.TwistedTraceFormula.AdmissibleDiscreteSeriesOfHasParam
 public import Development.AbelianVarietyTheory.PublishedTheorems.TwistedTraceFormula.HarishChandraModulesOn
@@ -93,6 +94,7 @@ import Mathlib.Analysis.Calculus.Deriv.Star
 import Mathlib.Dynamics.Ergodic.Action.Regular
 import Mathlib.Tactic.Linter.HaveILetI
 import Mathlib.Tactic.Polynomial.Basic
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ThetaLiftsCuspidalOfLowerTowerLiftsVanish
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.Proofs.TwistedOperators.ThetaLiftLowerTowerVanishingStatement, Development.AbelianVarietyTheory.Proofs.TwistedOperators.ThetaChainLiftsAreCuspForms, Development.AbelianVarietyTheory.Proofs.TwistedOperators.ThetaChainLiftsAreCuspFormsStatement, Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsThetaLiftMultiplicitySpacesOfHyp, Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsThetaLiftMultiplicitySpacesOfPublishedStatement
@@ -132,19 +134,7 @@ theorem multT_induction {W : HSp D} {S : D.what₂.Tau → SPar} (θ : InfFam D)
     (hadd : ∀ φ φ', P φ → P φ' → P (φ + φ')) (hsmul : ∀ (c : ℂ) φ, P φ → P (c • φ))
     (hcusp : ∀ φ, IsAutFunSm θ W φ → IsCuspFun W φ → P φ)
     (F : SmT M →ₗ[ℂ] (GA D W → ℂ)) (hF : F ∈ MultT θ M J χ) (v : SmT M) : P (F v) := by
-  obtain ⟨T, hT, rfl⟩ := Submodule.mem_map.1 hF
-  have key : ∀ m, P (T m) := by
-    intro m
-    have hT' : T ∈ Submodule.span ℂ {T | IsMultMap θ M J χ T} := hT
-    clear hF hT
-    induction hT' using Submodule.span_induction with
-    | mem x hx => exact hcusp _ ((show IsMultMap θ M J χ x from hx).aut m) ((show IsMultMap θ M J χ x from hx).cusp m)
-    | zero => simpa using h0
-    | add x y _ _ hx hy => simpa using hadd _ _ hx hy
-    | smul a x _ hx => simpa using hsmul a _ hx
-  induction v using PiTensorProduct.induction_on with
-  | smul_tprod a m => simpa using hsmul a _ (key m)
-  | add x y hx hy => simpa using hadd _ _ hx hy
+  apply _root_.GlobalTheory.PairLift.LowCusp.multT_ind <;> assumption
 
 theorem liftInt_add {G H S : Type*} [MeasurableSpace H] {ν : Measure H} {𝓕 : Set H} {th : G → H → S → ℂ} {s : S}
     {φ φ' : H → ℂ} {g : G} (h : IntegrableOn (fun x => th g x s * φ x) 𝓕 ν)
@@ -243,17 +233,7 @@ theorem constTerm_multT (hct : TowerConstTerm D) (hP : GlobalTheory.Published.Cu
     (hlow : ∀ f', IsThetaFunO ψ V' W f' → Lift.liftInt ν 𝓕 (thetaKO ω') f' (F v) 1 = 0)
     (κ : Measure (NI V C)) (𝓝 : Set (NI V C)) (hκ : κ.IsHaarMeasure) (h𝓝 : IsFundamentalDomain (NIQ V C) 𝓝 κ)
     (g : GA D V) : ∫ n in 𝓝, Lift.liftInt ν 𝓕 (thetaKO ω) f (F v) ((n : GA D V) * g) ∂κ = 0 := by
-  obtain ⟨μ, 𝓨, h𝓨⟩ : ∃ μ 𝓨, IsCovolOne (ratMx D W.rank r) μ 𝓨 := GlobalTheory.MixModel.exists_isCovolOne D W.rank r
-  have hfor := hct V V' W r C B hs ψ χS χT χT' ω ω' hω hω' μ 𝓨 h𝓨 ν 𝓕 hν h𝓕 κ 𝓝 hκ h𝓝
-  have hgood : Good C ω ω' ν 𝓕 κ 𝓝 f (res V V' W C B μ 𝓨 (ω (g, 1) f)) g ((κ 𝓝).toReal : ℂ) (F v) :=
-    multT_induction θ M J χ
-      (fun φ => Good C ω ω' ν 𝓕 κ 𝓝 f (res V V' W C B μ 𝓨 (ω (g, 1) f)) g ((κ 𝓝).toReal : ℂ) φ)
-      Good.zero (fun _ _ h h' => Good.add h h') (fun a _ h => Good.smul a h)
-      (fun φ hφ hc => by
-        obtain ⟨-, -, -, h1, h2, h3, h4⟩ := hfor φ (GlobalTheory.Grow.rapidDec_of_cuspForm hP hθ hφ hc) hc f hf g
-        exact ⟨h1, h2, h3, h4⟩) F hF v
-  obtain ⟨-, -, hres, -⟩ := hfor 0 GlobalTheory.Grow.RapidDec.zero (by intro _ _ _ _ _ _ _ _; simp) f hf g
-  rw [hgood.eq, hlow _ hres, mul_zero]
+  apply _root_.GlobalTheory.PairLift.LowCusp.constTerm_eq_zero <;> assumption
 
 theorem liftCusp : GlobalTheory.Published.DiscreteSeriesCover → GlobalTheory.Published.HarishChandraModules → GlobalTheory.Published.CuspRapidDecay →
     ∀ D : D7, GlobalTheory.Chain.LiftCusp D := by
@@ -317,42 +297,8 @@ theorem bounded_of_rapid {D : D7} {θ : InfFam D} {V : HSp D} (hP : GlobalTheory
   (GlobalTheory.Grow.rapidDec_of_unifModGrowth hP hθ h.1 h.2.1 h.2.2.2 h.2.2.1).bounded
 
 theorem exists_embedding_skew_of_rapid : GlobalTheory.Published.CuspRapidDecay → ∀ (D : D7) (θ : InfFam D) (V : HSp D) (μ : Measure (GA D V)) (𝓕 : Set (GA D V)), IsInfFam θ → μ.IsHaarMeasure → IsFundamentalDomain (GQ V) 𝓕 μ → ∃ E : (GA D V → ℂ) →ₗ[ℂ] Lp ℂ 2 (μ.restrict 𝓕), (∀ φ, IsCuspGrow θ V φ → MemLp φ 2 (μ.restrict 𝓕) ∧ (E φ = 0 → φ = 0)) ∧ ∀ τ, ∀ X ∈ lieAt V τ, ∀ φ φ', IsCuspGrow θ V φ → IsCuspGrow θ V φ' → IsCuspGrow θ V (Rder θ V τ X φ) → IsCuspGrow θ V (Rder θ V τ X φ') → ⟪E (Rder θ V τ X φ), E φ'⟫_ℂ + ⟪E φ, E (Rder θ V τ X φ')⟫_ℂ = 0 := by
-  intro hP D θ V μ 𝓕 hθ hμ h𝓕
-  obtain ⟨-, -, -, _, _, -, _⟩ := GlobalTheory.Mem.AdelicGroupTop.adelic_unitary_topology D V
-  have hfin := (GlobalTheory.CuspDecay.measure_lt_top GlobalTheory.Mem.VolFin.finVol V μ 𝓕 hμ h𝓕).ne
-  haveI : IsFiniteMeasure (μ.restrict 𝓕) := isFiniteMeasure_restrict.2 hfin
-  haveI := (GlobalTheory.Mem.AdelicGroupFund.rightInvariant_and_exists_fundamentalDomain D V μ hμ).1
-  obtain ⟨E, hE⟩ := exists_toLp_ext (μ.restrict 𝓕)
-  have mem : ∀ φ, IsCuspGrow θ V φ → MemLp φ 2 (μ.restrict 𝓕) := fun φ h => by
-    obtain ⟨B, hB⟩ := bounded_of_rapid hP hθ h
-    exact MemLp.of_bound h.1.cont.measurable.aestronglyMeasurable B (.of_forall hB)
-  refine ⟨E, fun φ h => ⟨mem φ h, fun h0 => ?_⟩, fun τ X hX φ φ' h h' hd hd' => ?_⟩
-  · have h1 := hE φ (mem φ h)
-    rw [h0] at h1
-    have h2 : φ =ᵐ[μ.restrict 𝓕] 0 := h1.symm.trans (Lp.coeFn_zero _ _ _)
-    have hm : MeasurableSet {g | φ g ≠ 0} := (isOpen_ne_fun h.1.cont continuous_const).measurableSet
-    have h3 : μ {g | φ g ≠ 0} = 0 := by
-      refine h𝓕.measure_zero_of_invariant _ (fun γ => ?_) ?_
-      · ext g
-        rw [Set.mem_smul_set_iff_inv_smul_mem]
-        change φ (((γ⁻¹ : GQ V) : GA D V) * g) ≠ 0 ↔ φ g ≠ 0
-        rw [h.1.left _ (γ⁻¹).2]
-      · rw [← Measure.restrict_apply hm]
-        exact h2
-    exact (Continuous.ae_eq_iff_eq μ h.1.cont continuous_zero).1 h3
-  · rw [inner_eq (hE _ (mem _ hd)) (hE _ (mem _ h')), inner_eq (hE _ (mem _ h)) (hE _ (mem _ hd'))]
-    obtain ⟨c0, B0, hB0⟩ := conj_mul h.1.cont h'.1.cont (bounded_of_rapid hP hθ h) (bounded_of_rapid hP hθ h')
-    obtain ⟨c1, B1, hB1⟩ := conj_mul hd.1.cont h'.1.cont (bounded_of_rapid hP hθ hd) (bounded_of_rapid hP hθ h')
-    obtain ⟨c2, B2, hB2⟩ := conj_mul h.1.cont hd'.1.cont (bounded_of_rapid hP hθ h) (bounded_of_rapid hP hθ hd')
-    rw [← integral_add (Integrable.of_bound c1.measurable.aestronglyMeasurable B1 (.of_forall hB1))
-      (Integrable.of_bound c2.measurable.aestronglyMeasurable B2 (.of_forall hB2))]
-    exact GlobalTheory.Mem.IntByParts.setIntegral_deriv_eq_zero (GQ V) μ h𝓕 hfin
-      (Φ := fun g => (starRingEnd ℂ) (φ g) * φ' g)
-      (fun γ hγ g => by simp only [h.1.left γ hγ, h'.1.left γ hγ]) c0 (c1.add c2) hB0
-      (fun g => (norm_add_le _ _).trans (add_le_add (hB1 g) (hB2 g)))
-      (GlobalTheory.Mem.Lift.oneP_zero (V := V) (τ := τ) (X := X) hθ)
-      fun g t => (GlobalTheory.Mem.Lift.hasDerivAt_oneP hθ hX (GlobalTheory.Mem.Lift.hasDerivAt_Rder h.2.1 hX) g t).star.mul
-        (GlobalTheory.Mem.Lift.hasDerivAt_oneP hθ hX (GlobalTheory.Mem.Lift.hasDerivAt_Rder h'.2.1 hX) g t)
+  intros
+  apply _root_.GlobalTheory.PairLift.RuleLift.exists_embedding_skew <;> assumption
 
 end Embedding
 

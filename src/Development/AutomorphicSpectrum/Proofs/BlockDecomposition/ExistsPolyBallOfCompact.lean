@@ -56,6 +56,7 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.AverageVanishesOpenCell
 
 @[expose] public section
 
@@ -456,20 +457,7 @@ theorem exists_val_ge (s₁ s₂ : kˣ) :
 
 theorem exists_polyBall_of_compact {n : ℕ} {K : Set (Fin n → k)} (hK : IsCompact K) :
     ∃ s : kˣ, ∀ x ∈ K, Multiplicative.ofAdd x ∈ polyBall n s := by
-  refine hK.induction_on (p := fun S => ∃ s : kˣ, ∀ x ∈ S, Multiplicative.ofAdd x ∈ polyBall n s)
-    ⟨1, by simp⟩ ?_ ?_ ?_
-  · rintro S T hST ⟨s, hs⟩
-    exact ⟨s, fun x hx => hs x (hST hx)⟩
-  · rintro S T ⟨s₁, h₁⟩ ⟨s₂, h₂⟩
-    obtain ⟨s, a, b⟩ := exists_val_ge s₁ s₂
-    refine ⟨s, fun x hx => ?_⟩
-    rcases hx with hx | hx
-    · exact polyBall_mono n a (h₁ x hx)
-    · exact polyBall_mono n b (h₂ x hx)
-  · intro x _
-    obtain ⟨s, hs⟩ := exists_mem_polyBall (Multiplicative.ofAdd x)
-    exact ⟨_, mem_nhdsWithin_of_mem_nhds
-      (((isOpen_polyBall n s).preimage continuous_ofAdd).mem_nhds hs), s, fun y hy => hy⟩
+  apply _root_.GlobalTheory.CompanionTheory.BZPhiPG.LocO.exists_polyBall_of_isCompact <;> assumption
 
 theorem twKer_one_mono {G V : Type} [Group G] [AddCommGroup V] [Module ℂ V] (ρ : Representation ℂ G V)
     {A B : Subgroup G} (h : A ≤ B) : twKer ρ A 1 ≤ twKer ρ B 1 := by

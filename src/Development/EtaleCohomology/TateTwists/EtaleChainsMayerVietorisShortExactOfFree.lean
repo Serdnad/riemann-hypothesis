@@ -1,5 +1,7 @@
 module
 
+
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.EtaleSpaceChainsMayerVietorisShortExact
 public import Development.AbelianVarietyTheory.Definitions.Divisors.GalMapMul
 public import Mathlib.CategoryTheory.Limits.FunctorCategory.Shapes.Pullbacks
 import Mathlib.Algebra.Order.Floor.Extended
@@ -44,7 +46,6 @@ import Mathlib.CategoryTheory.Limits.Types.Pushouts
 import Mathlib.CategoryTheory.Presentable.Type
 import Mathlib.RingTheory.WittVector.IsPoly
 import Mathlib.Tactic.ReduceModChar
-
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.EtaleCohomology.TateTwists.EtaleMayerVietorisChainsShortExact, Development.EtaleCohomology.TateTwists.EtaleChainsMayerVietorisShortExactOfFree
 
@@ -79,12 +80,7 @@ def EtaleFreePresheafMayerVietorisShortExact : Prop :=
 theorem chainsXIso_nat (R : Type) [CommRing R] {E E' : Spc} (φ : E ⟶ E') (p : ℕ) :
     ((chains R).map φ).f (-(p : ℤ)) ≫ (chainsXIso R E' p).hom =
       (chainsXIso R E p).hom ≫ (free R).map (φ.app (op (SimplexCategory.mk p))) := by
-  have h := HomologicalComplex.extendMap_f ((chainsN R).map φ) ComplexShape.embeddingDownNat (i := p) (i' := -(p:ℤ)) rfl
-  have h2 : ((chains R).map φ).f (-(p:ℤ)) = (HomologicalComplex.extendMap ((chainsN R).map φ) ComplexShape.embeddingDownNat).f (-(p:ℤ)) := rfl
-  rw [h2, h]
-  simp only [chainsXIso]
-  erw [Category.assoc, Category.assoc, Iso.inv_hom_id, Category.comp_id]
-  rfl
+  apply @GlobalTheory.EtC.chainsXIso_naturality <;> assumption
 
 theorem chains_isZero (R : Type) [CommRing R] (E : Spc) (n : ℤ) (hn : 0 < n) :
     IsZero (((chains R).obj E).X n) := by

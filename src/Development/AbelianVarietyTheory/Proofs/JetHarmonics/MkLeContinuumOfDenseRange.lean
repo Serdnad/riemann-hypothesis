@@ -50,6 +50,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
 public import Mathlib.Analysis.Complex.Cardinality
 public import Mathlib.Topology.MetricSpace.Perfect
+import ReciprocityTheory.ReductiveGroups.LatticeEmbeddings.IotaPlaceB
 
 @[expose] public section
 
@@ -98,19 +99,7 @@ theorem mk_le_continuum_of_denseRange {X Y : Type} [MetricSpace Y] (f : X → Y)
     _ = 𝔠 := Cardinal.continuum_power_aleph0
 
 theorem mk_padicComplex (q : ℕ) [Fact q.Prime] : #ℂ_[q] = 𝔠 := by
-  apply le_antisymm
-  · have hQp : #ℚ_[q] ≤ 𝔠 :=
-      mk_le_continuum_of_denseRange _ (Padic.denseRange_ratCast q)
-        (by rw [Cardinal.mkRat]; exact Cardinal.aleph0_le_continuum)
-    have hAl : #(PadicAlgCl q) ≤ 𝔠 :=
-      (Algebra.IsAlgebraic.cardinalMk_le_max ℚ_[q] (PadicAlgCl q)).trans
-        (max_le hQp Cardinal.aleph0_le_continuum)
-    exact mk_le_continuum_of_denseRange _ (UniformSpace.Completion.denseRange_coe (α := PadicAlgCl q)) hAl
-  · obtain ⟨g, -, -, hg⟩ :=
-      (PerfectSpace.univ_perfect (α := ℂ_[q])).exists_nat_bool_injection Set.univ_nonempty
-    calc 𝔠 = #(ℕ → Bool) := by
-          rw [← Cardinal.power_def, Cardinal.mk_bool, Cardinal.mk_nat, Cardinal.two_power_aleph0]
-      _ ≤ #ℂ_[q] := Cardinal.mk_le_of_injective hg
+  apply _root_.ReciprocityTheory.ChartRestriction.T1.lat_mk_Cp <;> assumption
 
 theorem exists_ringEquiv_extending : ∀ (q : ℕ) [Fact q.Prime]
     (lam : algebraicClosure ℚ ℂ →+* ℂ_[q]),

@@ -44,6 +44,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 public import Mathlib.RingTheory.Polynomial.Cyclotomic.Roots
+import Development.EtaleCohomology.EtaleSheaves.RootPowPf
 
 @[expose] public section
 
@@ -95,16 +96,7 @@ theorem prim_res (hq : IsUnit (q : B)) (ζ : Prim q B) : IsPrimitiveRoot (residu
 
 theorem exists_idx (hq : IsUnit (q : B)) (ζ ξ : Prim q B) :
     ∃ a : (ZMod q)ˣ, ξ.1 = ζ.1 ^ (a : ZMod q).val := by
-  have hζ := prim_res hq ζ
-  have hξ := prim_res hq ξ
-  obtain ⟨i, hi, he⟩ := hζ.eq_pow_of_pow_eq_one hξ.pow_eq_one
-  have hc : i.Coprime q := (hζ.pow_iff_coprime (Nat.pos_of_ne_zero (NeZero.ne q)) i).1 (he ▸ hξ)
-  refine ⟨ZMod.unitOfCoprime i hc, ?_⟩
-  have hval : ((ZMod.unitOfCoprime i hc : (ZMod q)ˣ) : ZMod q).val = i := by
-    rw [ZMod.coe_unitOfCoprime, ZMod.val_natCast, Nat.mod_eq_of_lt hi]
-  rw [hval]
-  refine uniq hq (prim_pow ξ) (by rw [← pow_mul, mul_comm, pow_mul, prim_pow ζ, one_pow]) ?_
-  rw [map_pow, he]
+  apply _root_.LateralTheory.E.RootPowPf.local_case <;> assumption
 
 theorem idx_unique (hq : IsUnit (q : B)) (ζ : Prim q B) {a b : (ZMod q)ˣ}
     (h : ζ.1 ^ (a : ZMod q).val = ζ.1 ^ (b : ZMod q).val) : a = b := by

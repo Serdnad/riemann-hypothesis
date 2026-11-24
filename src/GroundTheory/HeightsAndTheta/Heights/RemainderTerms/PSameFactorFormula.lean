@@ -1,5 +1,6 @@
 module
 
+import GroundTheory.HeightsAndTheta.Heights.RemainderTerms.PRestPolynomialHomogeneous
 public import GroundTheory.HeightsAndTheta.Heights.RemainderTerms.BlockValue
 public import GroundTheory.HeightsAndTheta.Heights.RemainderTerms.StatementsCoinv
 public import GroundTheory.HeightsAndTheta.Heights.RemainderTerms.StatementsTop
@@ -22,22 +23,7 @@ noncomputable section
 
 theorem tri_add (r a : ℕ) :
     (r + a) * (r + a - 1) / 2 = r * (r - 1) / 2 + a * (a - 1) / 2 + r * a := by
-  have h1 : (r + a) * (r + a - 1) = r * (r - 1) + a * (a - 1) + 2 * (r * a) := by
-    rcases Nat.eq_zero_or_pos r with hr | hr
-    · subst hr; simp
-    rcases Nat.eq_zero_or_pos a with ha | ha
-    · subst ha; simp
-    obtain ⟨r', rfl⟩ : ∃ r', r = r' + 1 := ⟨r - 1, by omega⟩
-    obtain ⟨a', rfl⟩ : ∃ a', a = a' + 1 := ⟨a - 1, by omega⟩
-    rw [show r' + 1 + (a' + 1) - 1 = r' + a' + 1 by omega, Nat.add_sub_cancel, Nat.add_sub_cancel]
-    ring
-  obtain ⟨x, hx⟩ := Nat.even_mul_pred_self r
-  obtain ⟨y, hy⟩ := Nat.even_mul_pred_self a
-  generalize r * (r - 1) = A at h1 hx ⊢
-  generalize a * (a - 1) = B at h1 hy ⊢
-  generalize r * a = P at h1 ⊢
-  generalize (r + a) * (r + a - 1) = T at h1 ⊢
-  omega
+  apply _root_.GroundTheory.Heights₂.Heights.RestTerms.choose_two_add <;> assumption
 
 theorem isHomogeneous_yRoot (f r a : ℕ) (c : SmallBlock) (τ : Fin f) (i : Fin r) :
     (yRoot f r a c τ i).IsHomogeneous 1 := by

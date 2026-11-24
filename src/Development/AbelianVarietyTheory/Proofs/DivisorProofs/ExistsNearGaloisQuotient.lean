@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsSquarefreePolyDistinctZerosOnCurve
 public import Mathlib.AlgebraicGeometry.AffineScheme
 public import Mathlib.CategoryTheory.Monoidal.Cartesian.Over
 public import Development.AbelianVarietyTheory.Definitions.Divisors.ExistsToricRankOne
@@ -193,20 +194,8 @@ namespace GlobalTheory.Mum
 theorem algebraMap_norm_mem_span_singleton (A B : Type) [CommRing A] [CommRing B] [Algebra A B]
     [Module.Finite A B] [Module.Free A B] (f : B) :
     algebraMap A B (Algebra.norm A f) ∈ Ideal.span {f} := by
-  set g : B →ₗ[A] B := Algebra.lmul A B f with hg
-  set p := g.charpoly
-  obtain ⟨q, hq⟩ := Polynomial.X_dvd_sub_C (p := p)
-  have h0 : Polynomial.aeval f p = 0 := by
-    have h1 : Polynomial.aeval g p = 0 := LinearMap.aeval_self_charpoly g
-    rw [hg, Polynomial.aeval_algHom_apply] at h1
-    have h2 := congrArg (fun u : B →ₗ[A] B => u 1) h1
-    simpa using h2
-  have h3 := congrArg (Polynomial.aeval f) hq
-  simp only [map_sub, Polynomial.aeval_C, map_mul, Polynomial.aeval_X, h0, zero_sub] at h3
-  rw [Algebra.norm_apply, LinearMap.det_eq_sign_charpoly_coeff, map_mul,
-    show algebraMap A B (g.charpoly.coeff 0) = -(f * Polynomial.aeval f q) by
-      rw [← h3, neg_neg]]
-  exact Ideal.mul_mem_left _ _ (neg_mem (Ideal.mul_mem_right _ _ (Ideal.mem_span_singleton_self f)))
+  intros
+  apply _root_.GlobalTheory.SquarefreeFibre.algebraMap_norm_mem_span <;> assumption
 
 theorem norm_not_mem_iff (A B : Type) [CommRing A] [CommRing B] [Algebra A B]
     [Module.Finite A B] [Module.Free A B] (f : B) (P : PrimeSpectrum A) :

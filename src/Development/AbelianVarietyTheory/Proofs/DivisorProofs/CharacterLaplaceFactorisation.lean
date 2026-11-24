@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.BlockTheory.TwistedDiscreteSeries.EllipticPartTestData
 public import Mathlib.Basic.Complex.Basic
 public import Mathlib.LinearAlgebra.Matrix.Charpoly.Basic
 public import Mathlib.LinearAlgebra.Matrix.GeneralLinearGroup.Defs
@@ -154,16 +155,7 @@ theorem chAt_prod_eq_gtChar {n : ℕ} (lam : DomWeight n) (t : Fin n → ℂ) (h
 
 theorem exists_eq_prod_X_sub_C : ∀ (a : ℕ) (Q : ℂ[X]), Q.Monic → Q.natDegree = a →
     ∃ α : Fin a → ℂ, Q = ∏ i, (X - C (α i)) := by
-  intro a Q hm hd
-  have hs : Q.Splits := IsAlgClosed.splits Q
-  obtain ⟨roots, hroots⟩ : ∃ roots : List ℂ, (roots : Multiset ℂ) = Q.roots :=
-    Quotient.exists_rep Q.roots
-  have hlength : roots.length = a := by
-    rw [← Multiset.coe_card, hroots, ← hs.natDegree_eq_card_roots, hd]
-  rw [← hlength]
-  refine ⟨fun i => roots[(i : ℕ)], ?_⟩
-  rw [← Fin.prod_ofFn, List.ofFn_getElem_eq_map roots (fun z => X - C z)]
-  simpa only [← hroots, Multiset.map_coe, Multiset.prod_coe] using hs.eq_prod_roots_of_monic hm
+  apply _root_.GlobalTheory.IndefiniteRowSideFullHecke.PlusPolynomialRoots.exists_roots <;> assumption
 
 theorem wden_addCases (a b : ℕ) (α : Fin a → ℂ) (β : Fin b → ℂ) :
     wden (a + b) (Fin.addCases α β) = wden a α * wden b β * ∏ i, ∏ j, (α i - β j) := by

@@ -1,5 +1,6 @@
 module
 
+import all Development.AbelianVarietyTheory.Proofs.TwistedOperators.PairOperatorStatement
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsBallSubset
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.BaseChangeLevelFamilyIff
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.StableTwistedOrbitalProduct
@@ -57,13 +58,7 @@ noncomputable section
 namespace GlobalTheory.BCT.StTwLevel
 
 theorem finsum_const_mul {ι : Type} (c : ℂ) (g : ι → ℂ) : ∑ᶠ i, c * g i = c * ∑ᶠ i, g i := by
-  by_cases hc : c = 0
-  · simp [hc]
-  by_cases h : (Function.support g).Finite
-  · exact (mul_finsum _ _).symm
-  · have hs : Function.support (fun i => c * g i) = Function.support g := by
-      ext i; simp [hc]
-    rw [finsum_of_infinite_support h, mul_zero, finsum_of_infinite_support (by rwa [hs])]
+  apply _root_.GlobalTheory.PairOp.finsum_const_mul_eq_mul_finsum <;> assumption
 
 theorem avg_const_mul {H : Type} [Group H] (c : ℂ) (u : H → ℂ) : avg (fun h => c * u h) = c * avg u := by
   by_cases hc : c = 0

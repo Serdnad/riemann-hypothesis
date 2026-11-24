@@ -1,5 +1,7 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.TorusHaarMeasure.PoinSumMul
+import Development.AbelianVarietyTheory.Proofs.TorusSplitting.ExistsProductCuspFormNeZeroArchSupNormBounds
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovVolumes.UpperBounds.InterpolationModelInequalities
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovVolumes.ArakelovInstances.FirstMinimumInvariantContinuousPos
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.FundamentalDomains.ModelNefness
@@ -862,31 +864,10 @@ open NumberField ReciprocityTheory.ChartRestriction.G.FD ReciprocityTheory.Chart
 variable {E : Type} [Field E] [NumberField E] [IsCMField E] {r : ℕ}
 
 theorem exists_mem_dom (X : Data E r) : ∃ x, x ∈ X.dom := by
-  choose M hM using X.signature
-  refine ⟨fun τ => M τ, ?_⟩
-  show (fun τ => M τ) ∈ GG X.Ψ X.Gm X.p0
-  intro τ
-  refine ⟨(hM τ).1, fun i => ?_⟩
-  have hd : dmin X.Gm (fun τ => M τ) τ i = ((psgn X.p0 i : ℝ) : ℂ) := by
-    unfold dmin
-    rw [show gram τ.1 X.Gm (mat (fun τ => M τ) τ) = _ from (hM τ).2]
-    exact PoinPf.lminor_Jd X i
-  rw [hd, Complex.ofReal_re]
-  exact mul_self_pos.mpr (PoinPf.psgn_ne X.p0 i)
+  apply _root_.GlobalTheory.EtaAn.nonzeroRule_dom_nonempty <;> assumption
 
 theorem isSec_one (X : Data E r) : X.IsSec 0 (fun _ => 1) := by
-  refine ⟨differentiableOn_const _, fun x _ b _ => ?_, fun γ hγ x _ => ?_⟩
-  · simp [bchar]
-  · have h1 := X.χ_add 0 0 γ hγ
-    obtain ⟨n, hn, hpow⟩ := X.χ_fin 0
-    have h2 := hpow γ hγ
-    rw [add_zero] at h1
-    have hne : X.χ 0 γ ≠ 0 := by
-      intro h
-      rw [h, zero_pow hn.ne'] at h2
-      exact zero_ne_one h2
-    have h3 : X.χ 0 γ = 1 := mul_left_cancel₀ hne (by rw [mul_one]; exact h1.symm)
-    simp [h3]
+  apply _root_.GlobalTheory.Up.DivCorePf.isSec_one <;> assumption
 
 def RatiosFree (X : Data E r) {N : ℕ} (w : Fin N → Frame X.Ψ r → ℂ) : Prop :=
   ∃ (j0 : Fin N) (jj : Fin (nd X) → Fin N), (∃ x ∈ X.dom, w j0 x ≠ 0) ∧

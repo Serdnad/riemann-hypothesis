@@ -1,5 +1,6 @@
 module
 
+import Formalism.HermitianCurvature.HermitianCurvatureProofs.OppositeWeylSubgroupClosed
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.WeightedLimitGauge.MBaseMem
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.WeightedLimitGauge.OrbitPushCut
 public import Mathlib.MeasureTheory.Constructions.Pi
@@ -109,23 +110,7 @@ lemma op_uwb_col {g : Mat k r} (hg : g ∈ UWb k r) (i l : Fin (2 * r + k + 1)) 
 
 lemma op_uwb_row {g : Mat k r} (hg : g ∈ UWb k r) (i l : Fin (2 * r + k + 1)) (hi : ¬ mid k r i) :
     g i l = if i = l then 1 else 0 := by
-  have key : ∀ j : Fin (2 * r + k + 1), gᴴ *ᵥ bvec j = bvec j → g j l = if j = l then 1 else 0 := by
-    intro j hj
-    have h := congrFun hj l
-    rw [mulVec_bvec, bvec_apply, Matrix.conjTranspose_apply] at h
-    have h2 := congrArg star h
-    rw [star_star] at h2
-    rw [h2]
-    by_cases e : l = j
-    · rw [if_pos e, if_pos e.symm, star_one]
-    · rw [if_neg e, if_neg (fun e' => e e'.symm), star_zero]
-  obtain ⟨a, rfl | rfl⟩ := op_not_mid_cases i hi
-  · apply key
-    have := op_fix_dual hg.1 (hg.2 a).2
-    rwa [op_hpk_es] at this
-  · apply key
-    have := op_fix_dual hg.1 (hg.2 a).1
-    rwa [op_hpk_e] at this
+  apply _root_.Formalism.FourierDecayAlt.P.B2x3.uwb_row <;> assumption
 
 lemma op_uwb_eq_emb {g : Mat k r} (hg : g ∈ UWb k r) : g = embWb k r (g.submatrix (wI k r) (wI k r)) := by
   ext i j

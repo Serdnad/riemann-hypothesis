@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.SatakeParameters.InSupportMulUnramifiedCharOfIntegralEigenvectorStatement
 public import Development.WeilBound.RepresentationTheoryGL.TwistedFactors.LocalBaseChange.ElementaryCosets.CosetMap
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.CongruenceSubgroupBasisNhds
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.MonomialOfConjTorus
@@ -173,15 +174,7 @@ theorem exists_contract {N : ℕ} {d : Fin N → k} (hd : ∀ i, d i ≠ 0)
   exact ⟨Finset.univ.sup f, fun i j hij => hf (i, j) hij _ (Finset.le_sup (Finset.mem_univ _))⟩
 
 theorem levi_comm {N : ℕ} (s x : Levi k (Bl (ones N))) : s * x = x * s := by
-  funext a
-  haveI : Subsingleton (Fin (ones N a)) := by
-    show Subsingleton (Fin 1)
-    infer_instance
-  apply Units.ext
-  ext i j
-  obtain rfl : i = j := Subsingleton.elim i j
-  simp only [Units.val_mul, Matrix.mul_apply, Pi.mul_apply]
-  rw [Fintype.sum_subsingleton _ i, Fintype.sum_subsingleton _ i, mul_comm]
+  apply _root_.GlobalTheory.SphSupport.levi_comm <;> assumption
 
 theorem torEmb_diag {N : ℕ} (s : Levi k (Bl (ones N))) :
     ((torEmb k N s : GL (Fin N) k) : Matrix (Fin N) (Fin N) k) =

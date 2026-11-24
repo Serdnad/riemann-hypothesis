@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.HermitianSelfDualLatticeSpaceFormHermitianNondeg
 public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.WeilTensorModels
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -62,17 +63,7 @@ open scoped GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels
 namespace GlobalTheory.TripleAssembly.PureImage
 
 theorem det_ne_of_sig {n r s : ℕ} {M : Matrix (Fin n) (Fin n) ℂ} (h : GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.HasSig M r s) : M.det ≠ 0 := by
-  obtain ⟨hn, A, hA⟩ := h
-  subst hn
-  intro h0
-  have h1 : Aᵀ * M * A.map star = (A.submatrix finSumFinEquiv id)ᵀ * M.submatrix finSumFinEquiv finSumFinEquiv *
-      (A.map star).submatrix finSumFinEquiv id := by
-    rw [Matrix.transpose_submatrix, Matrix.submatrix_mul_equiv, Matrix.submatrix_mul_equiv, Matrix.submatrix_id_id]
-  have h2 := congrArg Matrix.det hA
-  rw [h1, Matrix.det_mul, Matrix.det_mul, Matrix.det_submatrix_equiv_self, h0, Matrix.det_fromBlocks_zero₂₁,
-    Matrix.det_neg] at h2
-  simp only [mul_zero, zero_mul, Matrix.det_one, one_mul, mul_one] at h2
-  exact pow_ne_zero _ (neg_ne_zero.2 one_ne_zero) h2.symm
+  first | exact _root_.GlobalTheory.WeilSchrodingerHerm.det_ne_zero_of_hasSig | exact @_root_.GlobalTheory.WeilSchrodingerHerm.det_ne_zero_of_hasSig | apply _root_.GlobalTheory.WeilSchrodingerHerm.det_ne_zero_of_hasSig <;> assumption
 
 theorem det_ne_of_sig_map {E : Type} [Field E] {n r s : ℕ} {J : Matrix (Fin n) (Fin n) E} (τ : E →+* ℂ) (c : ℂ)
     (h : GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.HasSig (c • J.map τ) r s) : J.det ≠ 0 := by

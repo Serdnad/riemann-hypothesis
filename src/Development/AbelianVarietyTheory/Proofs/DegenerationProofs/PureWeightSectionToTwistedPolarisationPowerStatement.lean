@@ -1,5 +1,6 @@
 module
 
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.VtPull
 public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.IsPartPartSec
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.ValCalc
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.SecBaseChangeAnySt
@@ -208,17 +209,8 @@ theorem exists_pull {Y' : Scheme.{0}} (L : LB X) {K : Type} [Fintype K] (φ : K 
     (h : Y' ⟶ Y) (e : ∀ k, ψ k = h ≫ φ k) (s : LB.Sec (LB.LinComb L φ ε)) : ∃ s' : LB.Sec (LB.LinComb L ψ ε),
       ∀ (Z : Scheme.{0}) (r : Z ⟶ Y') (z : Z) (j : K → L.ι), r z ∈ LB.wchart L ψ j →
         gs r z (LB.wchart L ψ j) (s'.f j) = gs (r ≫ h) z (LB.wchart L φ j) (s.f j) := by
-  obtain rfl : ψ = fun k => h ≫ φ k := funext e
-  have le := Out.wchart_comp_le L φ h
-  let a : ∀ j, Γ(Y', (LB.LinComb L (fun k => h ≫ φ k) ε).U j) := fun j => resG _ (le j) ((h.app _).hom (s.f j))
-  have ha : ∀ (Z : Scheme.{0}) (r : Z ⟶ Y') (z : Z) (j : K → L.ι), r z ∈ LB.wchart L (fun k => h ≫ φ k) j →
-      gs r z (LB.wchart L (fun k => h ≫ φ k) j) (a j) = gs (r ≫ h) z (LB.wchart L φ j) (s.f j) :=
-    fun Z r z j hz => (gs_res r z (le j) hz _).trans (gs_pull r h z _ (le j hz) _)
-  refine ⟨Fam.sec (a := a) fun y i j hi hj => ?_, ha⟩
-  refine (ha _ (𝟙 Y') y i hi).trans ((sec_trans s (𝟙 Y' ≫ h) y (le i hi) (le j hj)).trans
-    (congrArg₂ (· * ·) (congrArg Units.val ?_) (ha _ (𝟙 Y') y j hj).symm))
-  refine Eq.trans ?_ (gm_linComb L _ ε (𝟙 Y') y i j hi hj).symm
-  simp only [trF, Category.assoc]
+  intros
+  apply _root_.ReciprocityTheory.ChartRestriction.G.Geo.Tor.exists_sec_pull <;> assumption
 
 end Cochain
 

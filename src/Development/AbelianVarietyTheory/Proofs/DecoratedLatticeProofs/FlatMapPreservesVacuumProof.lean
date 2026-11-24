@@ -1,5 +1,7 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.FockVacuaLocalFactorsStableHeisenbergAway
+import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.DescentDataStepLattice
 public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.SmallPair
 public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.IsSumFrame
 public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.AdelicPointComponentsAtPlacesLatticesVacua
@@ -75,17 +77,7 @@ theorem mulVec_latV_of_local {S S' : HSp D} {L : Lat S} {L' : Lat S'} (hL : Subm
 theorem smul_mem_latA {S : HSp D} {L : Lat S} {P : Pl D → Prop} {a : D.host.E} (ha : a ∈ D.host.AA)
     {y : Fin S.rank → AE D} (hy : y ∈ latV S L P) :
     ((1 : AF D.host.F) ⊗ₜ[D.host.F] a : AE D) • y ∈ latA S L P := by
-  induction hy using AddSubgroup.closure_induction with
-  | mem z hz =>
-    obtain ⟨β, hβi, hβ, c, hc, x, hx, rfl⟩ := hz
-    rw [Set.mem_singleton_iff] at hc
-    subst hc
-    refine AddSubgroup.subset_closure ⟨β, hβi, hβ, a, ha, x, hx, ?_⟩
-    funext i
-    simp only [Pi.smul_apply, smul_eq_mul, Algebra.TensorProduct.tmul_mul_tmul, one_mul]
-  | zero => rw [smul_zero]; exact zero_mem _
-  | add z z' _ _ hz hz' => rw [smul_add]; exact add_mem hz hz'
-  | neg z _ hz => rw [smul_neg]; exact neg_mem hz
+  first | exact _root_.GlobalTheory.MidVacLat.smul_mem_latA | exact @_root_.GlobalTheory.MidVacLat.smul_mem_latA | apply _root_.GlobalTheory.MidVacLat.smul_mem_latA <;> assumption
 
 theorem mulVec_latA {S S' : HSp D} {L : Lat S} {L' : Lat S'} {P : Pl D → Prop}
     (M : Matrix (Fin S'.rank) (Fin S.rank) (AE D)) (h : ∀ y ∈ latV S L P, M *ᵥ y ∈ latV S' L' P)
@@ -170,15 +162,7 @@ theorem isLatVac_of_intertwine {m n m' n' : ℕ} {hs : Mx D m n → (Mx D m n �
 
 theorem latO_empty {S T : HSp D} {LS : Set (Fin S.rank → D.host.E)} {LT : Set (Fin T.rank → D.host.E)}
     {P : Pl D → Prop} (hP : ∀ v, ¬ P v) {u : WO S T} (hu : u ∈ latO S T LS LT P) : u = 0 := by
-  ext i j
-  have h1 := LatMem.mul_indP (LatMem.latO_mxAt hu i j)
-  have h2 : LatMem.indP D.host.F P = 0 := by
-    classical
-    refine Subtype.ext (funext fun v => ?_)
-    exact if_neg (hP v)
-  have h3 : pairA D.host.F 0 (0 : Af D.host.F) = 0 := rfl
-  rw [h2, h3, TensorProduct.zero_tmul, mul_zero] at h1
-  exact h1.symm
+  apply _root_.GlobalTheory.PlaceStable.latO_empty <;> assumption
 
 theorem vac_of_heisLaws {ψ : AddChar (AF D.host.F) ℂ} {V V₀ W W₀ : HSp D} {ρ σ : ℕ} {dV : HypDec V V₀ ρ}
     {dW : HypDec W W₀ σ} {x : Mx D W.rank ρ} {y : Mx D V₀.rank σ} {P : Pl D → Prop}

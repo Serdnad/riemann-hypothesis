@@ -1,5 +1,6 @@
 module
 
+import Development.EtaleCohomology.EtaleSheaves.DiscLvlPf
 public import Development.EtaleCohomology.EtaleSheaves.LeafSSCut
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -73,18 +74,7 @@ theorem finite_of_iso {A B : Shv R} (e : A ≅ B) (F : Shv R) (n : ℤ)
   finite_of_retract _ _ (((HomologicalComplex.single (Shv R) (ComplexShape.up ℤ) 0).mapIso e).hom_inv_id) F n hB
 
 theorem d_const_zero (P : PSh) : ((chains R).obj (disc.obj P)).d (-1) 0 = 0 := by
-  have h := HomologicalComplex.extend_d_eq ((chainsN R).obj (disc.obj P)) ComplexShape.embeddingDownNat
-    (i := 1) (j := 0) (i' := -1) (j' := 0) rfl rfl
-  change (((chainsN R).obj (disc.obj P)).extend ComplexShape.embeddingDownNat).d (-1) 0 = 0
-  rw [h]
-  have : ((chainsN R).obj (disc.obj P)).d 1 0 = 0 := by
-    simp [chainsN, Fin.sum_univ_two, SimplicialObject.δ, disc]
-    all_goals first
-      | (erw [neg_one_smul, one_smul, add_neg_cancel])
-      | (simp only [one_smul, neg_smul]; exact add_neg_cancel _)
-      | abel
-    all_goals rfl
-  rw [this]; simp
+  apply @LateralTheory.E.DiscLvlPf.d_zero <;> assumption
 
 def proj0 (P : PSh) : (chains R).obj (disc.obj P) ⟶
     (HomologicalComplex.single (Shv R) (ComplexShape.up ℤ) 0).obj (((chains R).obj (disc.obj P)).X 0) :=

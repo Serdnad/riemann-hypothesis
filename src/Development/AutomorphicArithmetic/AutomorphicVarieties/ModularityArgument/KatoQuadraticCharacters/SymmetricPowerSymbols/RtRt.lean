@@ -16,6 +16,7 @@ public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityA
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.KatoQuadraticCharacters.SymmetricPowerSymbols.KumCongr
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.KatoQuadraticCharacters.SymmetricPowerSymbols.PtOfDif
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.KatoQuadraticCharacters.SymmetricPowerSymbols.SiegelAdmissibleToRat
+import all Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.KatoQuadraticCharacters.SymmetricPowerSymbols.SiegelAdmissibleToRat
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.KatoQuadraticCharacters.SymmetricPowerSymbols.Square
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -491,31 +492,7 @@ open GlobalTheory.KZ GlobalTheory.K4 UpperTheory.V.Z.Kato.Sym
 
 private theorem siegel_admissible_to_rat (c M : ℕ) (hc : 1 < c) (h6 : Nat.Coprime c 6) (hM : 0 < M) (hcM : Nat.Coprime c M)
     (x : Row M) (hx : x ≠ 0) : GlobalTheory.Sieg.admitted c (toQ M x) := by
-  haveI : NeZero M := ⟨hM.ne'⟩
-  refine ⟨hc, h6, ?_⟩
-  rintro ⟨⟨n0, hn0⟩, ⟨n1, hn1⟩⟩
-  apply hx
-  have hMq : (M : ℚ) ≠ 0 := by exact_mod_cast hM.ne'
-  have key : ∀ i : Fin 2, ∀ n : ℤ, (n : ℚ) = c * toQ M x i → x i = 0 := by
-    intro i n hn
-    have hlt := ZMod.val_lt (x i)
-    have e : (n : ℚ) * M = (c * (x i).val : ℕ) := by
-      rw [hn, toQ]
-      push_cast
-      field_simp
-    have e' : n * (M : ℤ) = ((c * (x i).val : ℕ) : ℤ) := by exact_mod_cast e
-    have hd : (M : ℤ) ∣ ((c * (x i).val : ℕ) : ℤ) := ⟨n, by rw [← e', mul_comm]⟩
-    have hd' : M ∣ c * (x i).val := by exact_mod_cast hd
-    have hv : M ∣ (x i).val := (Nat.Coprime.symm hcM).dvd_of_dvd_mul_left hd'
-    have hv0 : (x i).val = 0 := by
-      rcases Nat.eq_zero_or_pos (x i).val with h | h
-      · exact h
-      · exact absurd (Nat.le_of_dvd h hv) (not_le.mpr hlt)
-    exact (ZMod.val_eq_zero _).mp hv0
-  funext i
-  fin_cases i
-  · exact key 0 n0 hn0
-  · exact key 1 n1 hn1
+  apply _root_.siegel_admissible_to_rat <;> assumption
 
 private theorem add_mul_lt_mul {k M a v : ℕ} (ha : a < k) (hv : v < M) : v + a * M < k * M := by
   have h1 : v + a * M < (a + 1) * M := by nlinarith

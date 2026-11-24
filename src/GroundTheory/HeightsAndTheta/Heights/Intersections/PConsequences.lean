@@ -7,6 +7,7 @@ public import GroundTheory.HeightsAndTheta.Heights.Intersections.ConservationDeg
 import Mathlib.Tactic.TypeStar
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.InterBridgeA
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.InterFib
+import GroundTheory.HeightsAndTheta.Heights.Intersections.PtsIntegralLogNormRat
 
 @[expose] public section
 
@@ -88,17 +89,7 @@ theorem ae_eval_ne_zero {K : Type} [Fintype K] {ι : K → Type} [∀ k, Fintype
     (hhP : h ∉ P) :
     ∀ᵐ y : Fin e → ℂ, ∀ z ∈ mcPts P, Ψ (segre z) = Fin.cons 1 y →
       eval z (map (Int.castRingHom ℂ) h) ≠ 0 := by
-  have hJ : IsMultiHomogIdeal (Ideal.span {h} : Ideal (MRing ι)) :=
-    ⟨{h}, fun f hf ↦ by rw [Set.mem_singleton_iff.mp hf]; exact hh, rfl⟩
-  have hJP : ¬ (Ideal.span {h} : Ideal (MRing ι)) ≤ P := by
-    rwa [Ideal.span_singleton_le_iff_mem]
-  have hnull := projB_null Ψ hP hΨ hJ hJP
-  refine ae_iff.mpr (measure_mono_null (fun y hy ↦ ?_) hnull)
-  simp only [Set.mem_ofPred_eq, not_forall, not_not] at hy
-  obtain ⟨z, hz, hzy, hz0⟩ := hy
-  refine ⟨z, hz, ⟨hz.1, fun q hq ↦ ?_⟩, hzy⟩
-  obtain ⟨c, rfl⟩ := Ideal.mem_span_singleton'.mp hq
-  simp [hz0]
+  apply _root_.GroundTheory.Heights₂.Heights.Inter.ArithmeticIntersectionIntegral.ae_eval_ne_zero <;> assumption
 
 theorem RatR.proof (hInt : PtsIntegrableStatement) : RatR.Statement := by
   intro K _ ι _ I hI P n L A f g hP hL hA ⟨α, β, hf, hg, hfP, hgP, hαβ⟩

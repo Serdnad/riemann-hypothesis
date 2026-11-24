@@ -1,5 +1,6 @@
 module
 
+import all Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.LeviSmoothLocalization.PrincipalSeriesMatching.PolFacts
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.LeviSmoothLocalization.WinUpDown
 import Development.AbelianVarietyTheory.Definitions.Divisors.EqOfHasValueAtInfinite
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.UnramifiedPrincipalSeriesNoInvariant
@@ -62,23 +63,7 @@ section Loc
 variable {k : Type} [Field k] [ValuativeRel k] [TopologicalSpace k] [IsNonarchimedeanLocalField k]
 
 private theorem unif_valuation : valuation k (unif k : k) = uniformizer k := by
-  obtain ⟨ϖ, hϖ⟩ := GlobalTheory.PrinTwo.NoFix.exists_unif k
-  have hex : ∃ p : kˣ, valuation k (p : k) < 1 ∧
-      ∀ x : k, valuation k x < 1 → valuation k x ≤ valuation k (p : k) := by
-    refine ⟨ϖ, ?_, ?_⟩
-    · rw [hϖ]
-      exact uniformizer_lt_one (R := k)
-    · intro x hx
-      rw [hϖ]
-      exact le_uniformizer_iff.mpr hx
-  have hs := Classical.epsilon_spec hex
-  unfold unif
-  apply le_antisymm
-  · exact le_uniformizer_iff.mpr hs.1
-  · rw [← hϖ]
-    refine hs.2 _ ?_
-    rw [hϖ]
-    exact uniformizer_lt_one (R := k)
+  apply _root_.val_unif <;> assumption
 
 private theorem absPow_neg_one_unif :
     (((absPow k (-1)) (unif k) : ℂˣ) : ℂ) = (GroundTheory.LocalField.residueCard k : ℂ) := by

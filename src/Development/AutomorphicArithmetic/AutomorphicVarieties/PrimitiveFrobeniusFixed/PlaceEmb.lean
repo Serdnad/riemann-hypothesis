@@ -20,6 +20,7 @@ public import Mathlib.RingTheory.DedekindDomain.Factorization
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.GaloisLibrary.KummerTheory.PlaceDict
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.PrimitiveFrobeniusFixed.PlaceBasic
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.PrimitiveFrobeniusFixed.ValuationKummerElementAtConjugatePrime
+import all Development.AutomorphicArithmetic.AutomorphicVarieties.PrimitiveFrobeniusFixed.ValuationKummerElementAtConjugatePrime
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -1008,21 +1009,7 @@ private theorem val_count_int {K : Type} [Field K] [NumberField K] (v : HeightOn
 private theorem val_count {K : Type} [Field K] [NumberField K] (v : HeightOneSpectrum (𝓞 K)) (x : K) (hx : x ≠ 0) :
     v.valuation K x = WithZero.exp (-FractionalIdeal.count K v
       (FractionalIdeal.spanSingleton (𝓞 K)⁰ x)) := by
-  obtain ⟨a, b, hb, e⟩ := IsFractionRing.div_surjective (𝓞 K) x
-  have hb0 : b ≠ 0 := nonZeroDivisors.ne_zero hb
-  have hbK : (b : K) ≠ 0 := by exact_mod_cast hb0
-  have ha0 : a ≠ 0 := by
-    rintro rfl
-    apply hx
-    simp [← e]
-  have e' : x * (b : K) = (a : K) := by
-    rw [← e]; exact div_mul_cancel₀ _ hbK
-  have h1 := val_count_int v a ha0
-  have h2 := val_count_int v b hb0
-  rw [← e', map_mul, h2, ← FractionalIdeal.spanSingleton_mul_spanSingleton,
-    FractionalIdeal.count_mul K v (FractionalIdeal.spanSingleton_ne_zero_iff.mpr hx)
-      (FractionalIdeal.spanSingleton_ne_zero_iff.mpr hbK), neg_add, WithZero.exp_add] at h1
-  exact mul_right_cancel₀ WithZero.exp_ne_zero h1
+  apply _root_.val_count <;> assumption
 
 theorem UpperTheory.valuation_kummerElement_eq_one_of_not_over :
     ∀ (M : ℕ) [NeZero M] (K : Type) [Field K] [NumberField K] [IsCyclotomicExtension {M} ℚ K] (b r : ℕ) (v w : HeightOneSpectrum (𝓞 K)) (X : K), IsX M K b v.asIdeal X → (r : 𝓞 K) ∈ v.asIdeal → (r : 𝓞 K) ∉ w.asIdeal → w.valuation K X = 1 := by

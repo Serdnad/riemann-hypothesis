@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.RingOfIntegersAutCommHostConjugation
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.PullLinInjective
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.SysExOfPol
 import Mathlib.Algebra.Order.Floor.Extended
@@ -51,17 +52,7 @@ namespace Tw
 
 theorem bar_comm {E : Type} [Field E] [NumberField E] [IsCMField E] (H : Host E) (σ : 𝓞 E ≃+* 𝓞 E) (a : 𝓞 E) :
     σ (H.bar a) = H.bar (σ a) := by
-  let τ : E ≃+* E := IsFractionRing.ringEquivOfRingEquiv σ
-  have hτ : ∀ x : 𝓞 E, τ (x : E) = ((σ x : 𝓞 E) : E) := fun x =>
-    IsFractionRing.ringEquivOfRingEquiv_algebraMap σ x
-  let φ : E →+* ℂ := Classical.choice inferInstance
-  apply RingOfIntegers.ext
-  rw [H.bar_eq, ← hτ, H.bar_eq, ← hτ]
-  apply φ.injective
-  have h1 := IsCMField.complexEmbedding_complexConj E (φ.comp τ.toRingHom) (a : E)
-  have h2 := IsCMField.complexEmbedding_complexConj E φ (τ (a : E))
-  simp only [RingHom.comp_apply, RingEquiv.toRingHom_eq_coe, RingHom.coe_coe] at h1
-  rw [h1, h2]
+  first | exact _root_.GlobalTheory.ringOfIntegers_equiv_bar_comm | exact @_root_.GlobalTheory.ringOfIntegers_equiv_bar_comm | apply _root_.GlobalTheory.ringOfIntegers_equiv_bar_comm <;> assumption
 
 end Tw
 

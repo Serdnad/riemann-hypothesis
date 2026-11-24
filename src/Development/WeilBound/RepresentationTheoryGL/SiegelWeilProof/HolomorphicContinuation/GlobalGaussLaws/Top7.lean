@@ -1,5 +1,8 @@
 module
 
+import Development.AbelianVarietyTheory.PublishedTheorems.TwistedTraceFormula.WeilSiegelFormulaUnitary
+import Development.WeilBound.CoreStatements.AutomorphicKernels.SiegelWeilFormula.FockSpaces.EvXTemperate
+import Formalism.SharpRestriction.CuspSpanNormBounds.SGauge
 public import Development.AbelianVarietyTheory.Definitions.Foundations.AestronglyMeasurableQuotMeasureIffLift
 public import Development.AbelianVarietyTheory.BlockTheory.TwistedDiscreteSeries.ModerateGrowthSchwartz
 public import Development.AbelianVarietyTheory.BlockTheory.TwistedDiscreteSeries.SphericalZero
@@ -254,17 +257,8 @@ theorem shiftPt (V : HSp D) (x k : GA D V) (y : Mx D V.rank n) :
   rw [mul_inv_rev, inv_inv, _root_.GlobalTheory.BesselCompare.mt_mul, Matrix.mul_assoc]
 
 theorem leftInv_absTheta (V : HSp D) (φ : Mx D V.rank n → ℂ) : LeftInv (GQ V) (GlobalTheory.SiegelFormula.absTheta V φ) := by
-  intro γ hγ h
-  obtain ⟨u, hu⟩ : ∃ u : GL (Fin V.rank) D.host.E, mt V γ⁻¹ = rat u.1 := by
-    obtain ⟨u, -, hu⟩ := (GQ V).inv_mem hγ
-    exact ⟨u, (congrArg Units.val hu).symm⟩
-  let e : Matrix (Fin V.rank) (Fin n) D.host.E ≃ Matrix (Fin V.rank) (Fin n) D.host.E :=
-    ⟨fun ξ => u.1 * ξ, fun ξ => (u⁻¹).1 * ξ, fun ξ => by simp [← Matrix.mul_assoc],
-      fun ξ => by simp [← Matrix.mul_assoc]⟩
-  refine (tsum_congr fun ξ => ?_).trans (e.tsum_eq _)
-  have : mt V (γ * h)⁻¹ = mt V h⁻¹ * mt V γ⁻¹ := by rw [mul_inv_rev]; rfl
-  show ‖φ (HMul.hMul (mt V (γ * h)⁻¹) (rat ξ))‖ₑ = ‖φ (HMul.hMul (mt V h⁻¹) (rat (u.1 * ξ)))‖ₑ
-  rw [this, hu, Matrix.mul_assoc, ← rat_mul]
+  intros
+  apply _root_.GlobalTheory.SiegelFormula.leftInv_absTheta <;> assumption
 
 section Quot
 
@@ -729,22 +723,7 @@ theorem contDiff_A (X : Matrix (Fin m) (Fin m) ℂ) :
   exact (LinearMap.toContinuousLinearMap Lm).contDiff.comp hexp
 
 theorem exists_gs (c : ℝ) (hc : 0 < c) : ∃ g : SchwartzMap (Fin m → Fin n → ℂ) ℂ, ∀ u, g u = gs c u := by
-  obtain ⟨g0, hg0⟩ := GlobalTheory.CompanionTheory.PolyGaussSchwartz.exists_gauss (m := m) (n := n)
-  set s : ℝ := Real.sqrt (c / (2 * Real.pi)) with hs
-  have hs0 : s ≠ 0 := (Real.sqrt_pos.2 (by positivity)).ne'
-  let L : (Fin m → Fin n → ℂ) ≃L[ℝ] (Fin m → Fin n → ℂ) :=
-    (LinearEquiv.smulOfNeZero ℝ (Fin m → Fin n → ℂ) s hs0).toContinuousLinearEquiv
-  refine ⟨SchwartzMap.compCLMOfContinuousLinearEquiv ℂ L g0, fun u => ?_⟩
-  rw [SchwartzMap.compCLMOfContinuousLinearEquiv_apply, Function.comp_apply, hg0]
-  have key : 2 * Real.pi * ∑ a, ∑ i, ‖(L u) a i‖ ^ 2 = c * ∑ a, ∑ i, ‖u a i‖ ^ 2 := by
-    have h1 : ∀ a i, ‖(L u) a i‖ ^ 2 = s ^ 2 * ‖u a i‖ ^ 2 := fun a i => by
-      change ‖(s • u) a i‖ ^ 2 = _
-      rw [Pi.smul_apply, Pi.smul_apply, norm_smul, mul_pow, Real.norm_eq_abs, sq_abs]
-    simp only [h1, ← Finset.mul_sum]
-    rw [hs, Real.sq_sqrt (by positivity)]
-    field_simp
-  unfold gs
-  rw [key]
+  apply _root_.PositivityTheory.SiegelWeilFormula.KFock.gsSch <;> assumption
 
 theorem exists_fP (c : ℝ) (hc : 0 < c) (P : PX m n) :
     ∃ φ : SchwartzMap (Fin m → Fin n → ℂ) ℂ, ∀ u, φ u = fP c P u := by

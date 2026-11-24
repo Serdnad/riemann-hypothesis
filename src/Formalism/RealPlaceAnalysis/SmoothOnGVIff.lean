@@ -1,5 +1,6 @@
 module
 
+import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.MeasureDecomposition.InstAll
 public import Formalism.RealPlaceAnalysis.SmoothVectorGrowthBound
 public import Formalism.RealPlaceAnalysis.RealPlaceTaylor.MemUnitaryGroupIffMulConjTranspose
 import Formalism.RealPlaceAnalysis.RealPlaceTaylor.KoszulLowersPower
@@ -79,13 +80,7 @@ lemma Kset_mul {n : ℕ} (ε : Fin n → Bool) {g h : Matrix (Fin n) (Fin n) ℂ
 
 lemma Kset_star {n : ℕ} (ε : Fin n → Bool) {g : Matrix (Fin n) (Fin n) ℂ} (hg : g ∈ Kset ε) :
     star g ∈ Kset ε := by
-  have hJ : star (Jm ε) = Jm ε := by
-    rw [Jm, Matrix.star_eq_conjTranspose, Matrix.diagonal_conjTranspose]
-    congr 1; funext a; by_cases ha : ε a <;> simp [ha]
-  refine ⟨Unitary.star_mem hg.1, ?_⟩
-  have h := congrArg star hg.2
-  rw [star_mul, star_mul, hJ] at h
-  exact h.symm
+  apply _root_.PI.ScMuExists.UnitaryGroupMassFormula.inst_Kset_star <;> assumption
 
 def KG {n : ℕ} (ε : Fin n → Bool) : Subgroup (UJ ε) where
   carrier := {g | toM g ∈ Kset ε}

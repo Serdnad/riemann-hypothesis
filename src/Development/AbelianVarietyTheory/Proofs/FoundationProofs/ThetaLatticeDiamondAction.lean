@@ -1,5 +1,6 @@
 module
 
+import all Development.AbelianVarietyTheory.Proofs.FoundationProofs.HeckeLetterPreservesBasisSet
 public import Development.AbelianVarietyTheory.Definitions.Foundations.ThNSpec
 public import Mathlib.RingTheory.Flat.FaithfullyFlat.Basic
 public import Mathlib.RingTheory.Flat.TorsionFree
@@ -77,21 +78,7 @@ theorem kmap_SL_A (X : Tower Ω ε) (l : ℕ) [Fact l.Prime] (σ : SL(2, ℤ)) :
 
 private theorem exists_isDiam_of_coprime {N l d : ℕ} (hNl : Nat.Coprime N l) (hd : Nat.Coprime d N) :
     ∃ γ : SL(2, ℤ), IsDiam N l d γ := by
-  obtain ⟨e, heN, hel⟩ := Nat.chineseRemainder hNl d 1
-  have hcop : Nat.Coprime e (N * l) := by
-    apply Nat.Coprime.mul_right
-    · rw [Nat.Coprime, Nat.ModEq.gcd_eq heN]; exact hd
-    · rw [Nat.Coprime, Nat.ModEq.gcd_eq hel]; simp
-  have hbez := Nat.gcd_eq_gcd_ab e (N * l)
-  rw [hcop.gcd_eq_one] at hbez
-  refine ⟨⟨!![Nat.gcdA e (N * l), -Nat.gcdB e (N * l); ((N * l : ℕ) : ℤ), (e : ℤ)], ?_⟩, ?_, ?_⟩
-  · rw [Matrix.det_fin_two_of]; push_cast at hbez ⊢; linear_combination -hbez
-  · refine Subgroup.mem_inf.mpr ⟨CongruenceSubgroup.Gamma0_mem.mpr ?_, CongruenceSubgroup.Gamma0_mem.mpr ?_⟩
-    · simp
-    · simp
-  · simp only [en]
-    simp only [Matrix.of_apply, Matrix.cons_val', Matrix.cons_val_one, Matrix.cons_val_fin_one, Int.cast_natCast]
-    exact (ZMod.natCast_eq_natCast_iff _ _ _).mpr heN
+  apply _root_.GlobalTheory.KZ.exists_isDiam_of_coprime <;> assumption
 
 private theorem conj_mem_Gamma1_of_mem_Gamma0 {N : ℕ} {σ γ : SL(2, ℤ)} (hσ : σ ∈ CongruenceSubgroup.Gamma0 N)
     (hγ : γ ∈ CongruenceSubgroup.Gamma1 N) : σ * γ * σ⁻¹ ∈ CongruenceSubgroup.Gamma1 N := by

@@ -13,6 +13,7 @@ public import Development.WeilBound.ThetaLifts.Reductions.WeilPairs.LatRepBS
 public import Mathlib.Analysis.Fourier.FiniteAbelian.Orthogonality
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.ThetaParseval.HalfIndexLattices.IsLatRepL
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.ThetaParseval.HalfIndexLattices.IdxSign
+import all Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.ThetaParseval.HalfIndexLattices.IdxSign
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.ThetaParseval.ThetaKernels.TPWDatumK
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -498,26 +499,6 @@ section Local
 
 variable {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E]
 
-private theorem infPart_lift (w : Af F ⊗[F] E) : infPartF F E (PositivityTheory.ThKW.LatB.liftF F E w) = 0 := by
-  induction w using TensorProduct.induction_on with
-  | zero => simp
-  | tmul a t =>
-    rw [PositivityTheory.ThKW.LatB.liftF_tmul]
-    simp only [infPartF, fstA, pairA, AlgHom.toRingHom_eq_coe, RingHom.coe_coe]
-    erw [Algebra.TensorProduct.map_tmul]
-    exact TensorProduct.zero_tmul _ _
-  | add x y hx hy => simp [map_add (f := _), hx, hy]
-
-private theorem finPart_lift (w : Af F ⊗[F] E) : finPartF F E (PositivityTheory.ThKW.LatB.liftF F E w) = w := by
-  induction w using TensorProduct.induction_on with
-  | zero => simp
-  | tmul a t =>
-    rw [PositivityTheory.ThKW.LatB.liftF_tmul]
-    simp only [finPartF, sndA, pairA, AlgHom.toRingHom_eq_coe, RingHom.coe_coe]
-    erw [Algebra.TensorProduct.map_tmul]
-    rfl
-  | add x y hx hy => simp [map_add (f := _), hx, hy]
-
 private theorem finPart_rI : finPartF F E (rI F E) = 0 := by
   simp only [finPartF, rI, sndA, pairA, AlgHom.toRingHom_eq_coe, RingHom.coe_coe]
   erw [Algebra.TensorProduct.algebraMap_apply, Algebra.TensorProduct.map_tmul]
@@ -525,46 +506,7 @@ private theorem finPart_rI : finPartF F E (rI F E) = 0 := by
 
 private theorem exists_local (P : HeightOneSpectrum (𝓞 E)) :
     ∃ z : (AEF F E)ˣ, wv F E P z = WithZero.exp (-1 : ℤ) ∧ ∀ Q, Q ≠ P → wv F E Q z = 1 := by
-  obtain ⟨u0, hu0⟩ : ∃ u0 : (HeightOneSpectrum.adicCompletion E P)ˣ,
-      Valued.v (u0 : HeightOneSpectrum.adicCompletion E P) = WithZero.exp (-1 : ℤ) :=
-    ⟨_, Formalism.L2.Host.unif_spec P⟩
-  set a1 := Neutral.B1.finiteSingle E P (u0 : HeightOneSpectrum.adicCompletion E P) with ha1
-  set a2 := Neutral.B1.finiteSingle E P ((u0⁻¹ : (HeightOneSpectrum.adicCompletion E P)ˣ) :
-    HeightOneSpectrum.adicCompletion E P) with ha2
-  have ha : a1 * a2 = 1 := by
-    rw [ha1, ha2, ← map_mul, Units.mul_inv, map_one]
-  set b1 := (finAdEquiv F E).symm a1 with hb1
-  set b2 := (finAdEquiv F E).symm a2 with hb2
-  have hb : b1 * b2 = 1 := by
-    rw [hb1, hb2, ← map_mul, ha, map_one]
-  have key : ∀ c : Af F ⊗[F] E, infPartF F E (rI F E + PositivityTheory.ThKW.LatB.liftF F E c) = 1 ∧
-      finPartF F E (rI F E + PositivityTheory.ThKW.LatB.liftF F E c) = c := fun c =>
-    ⟨by rw [map_add (f := _), infPart_rI, infPart_lift, add_zero], by rw [map_add (f := _), finPart_rI, finPart_lift, zero_add]⟩
-  have h12 : (rI F E + PositivityTheory.ThKW.LatB.liftF F E b1) * (rI F E + PositivityTheory.ThKW.LatB.liftF F E b2) = 1 := by
-    apply sub_eq_zero.mp
-    apply GlobalTheory.SplitDetCharF.adele_tensor_ext
-    · rw [map_sub, map_mul, (key b1).1, (key b2).1, map_one, mul_one, sub_self]
-    · rw [map_sub, map_mul, (key b1).2, (key b2).2, hb, map_one, sub_self]
-  have hev : ∀ Q, ev F E Q (rI F E + PositivityTheory.ThKW.LatB.liftF F E b1) = evalV E Q a1 := by
-    intro Q
-    show evalV E Q (finAdEquiv F E (finPartF F E (rI F E + PositivityTheory.ThKW.LatB.liftF F E b1))) = _
-    rw [(key b1).2, hb1, RingEquiv.apply_symm_apply]
-  refine ⟨⟨rI F E + PositivityTheory.ThKW.LatB.liftF F E b1, rI F E + PositivityTheory.ThKW.LatB.liftF F E b2, h12,
-    by rw [mul_comm, h12]⟩, ?_, ?_⟩
-  · rw [wv_apply]
-    show Valued.v (ev F E P (rI F E + PositivityTheory.ThKW.LatB.liftF F E b1)) = _
-    rw [hev, ha1]
-    show Valued.v ((RestrictedProduct.mulSingle (fun w => HeightOneSpectrum.adicCompletionIntegers E w) P
-      (u0 : HeightOneSpectrum.adicCompletion E P)) P) = _
-    rw [RestrictedProduct.mulSingle_eq_same]
-    exact hu0
-  · intro Q hQ
-    rw [wv_apply]
-    show Valued.v (ev F E Q (rI F E + PositivityTheory.ThKW.LatB.liftF F E b1)) = _
-    rw [hev, ha1]
-    show Valued.v ((RestrictedProduct.mulSingle (fun w => HeightOneSpectrum.adicCompletionIntegers E w) P
-      (u0 : HeightOneSpectrum.adicCompletion E P)) Q) = _
-    rw [RestrictedProduct.mulSingle_eq_of_ne (h := hQ), map_one]
+  apply _root_.exists_idele <;> assumption
 
 end Local
 

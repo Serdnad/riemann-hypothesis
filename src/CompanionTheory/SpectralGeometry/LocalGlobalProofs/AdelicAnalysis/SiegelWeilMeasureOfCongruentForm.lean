@@ -212,18 +212,18 @@ def gramEquiv (σ : E →ₐ[F] E) {M n : ℕ} (J : Matrix (Fin M) (Fin M) E) (g
     change ratAct _ (ratAct _ Y.1) = Y.1
     rw [ratAct_mul, Units.mul_inv, ratAct_one]
 
-theorem theta_map (σ : E →ₐ[F] E) (hCM : IsCMExt F E σ) {M n : ℕ} (J : Matrix (Fin M) (Fin M) E)
+theorem theta_map_of_equiv (σ : E →ₐ[F] E) (hCM : IsCMExt F E σ) {M n : ℕ} (J : Matrix (Fin M) (Fin M) E)
     (hJ : IsHermND σ J) (g : GL (Fin M) E)
     [LocallyCompactSpace (AF F)] [SecondCountableTopology (AF F)] [T2Space (AF F)]
     (He : HA (AF F) σ (cT (σ : E →+* E) (g : Matrix (Fin M) (Fin M) E) * J * (g : Matrix (Fin M) (Fin M) E)) ≃ᵐ
       HA (AF F) σ J)
     (hmat : ∀ u, HA.mat (AF F) σ J (He u) =
       bc (inclR (AF F)) g * HA.mat (AF F) σ _ u * (bc (inclR (AF F)) g)⁻¹)
-    (μ : Measure (HA (AF F) σ J)) (𝓕 : Set (HA (AF F) σ J)) (T : Matrix (Fin n) (Fin n) E) :
-    (thetaMeas σ _ (μ.map He.symm) (He ⁻¹' 𝓕)
-      {X | gramE σ (cT (σ : E →+* E) (g : Matrix (Fin M) (Fin M) E) * J * (g : Matrix (Fin M) (Fin M) E)) X = T}).map
-        (actTup (AF F) (bc (inclR (AF F)) g)) =
-      thetaMeas σ J μ 𝓕 {X | gramE σ J X = T} := by
+    (μ : Measure (HA (AF F) σ J)) (𝓕 : Set (HA (AF F) σ J))
+    (S U : Set (Fin n → Fin M → E)) (e : S ≃ U)
+    (he : ∀ X : S, (e X : Fin n → Fin M → E) = ratAct (g : Matrix (Fin M) (Fin M) E) X) :
+    (thetaMeas σ _ (μ.map He.symm) (He ⁻¹' 𝓕) S).map (actTup (AF F) (bc (inclR (AF F)) g)) =
+      thetaMeas σ J μ 𝓕 U := by
   have hJ' := isHermND_conj σ hCM J hJ g
   obtain ⟨tg, -, -, -, bs, hact⟩ := _root_.GlobalTheory.CompanionTheory.SW.TopH.topH_props F E σ hCM M J hJ (AF F)
   obtain ⟨tg', -, -, -, bs', hact'⟩ := _root_.GlobalTheory.CompanionTheory.SW.TopH.topH_props F E σ hCM M _ hJ' (AF F)
@@ -250,21 +250,34 @@ theorem theta_map (σ : E →ₐ[F] E) (hCM : IsCMExt F E σ) {M n : ℕ} (J : M
     rw [← He.restrict_map, Measure.map_map He.measurable He.symm.measurable]
     simp
   unfold thetaMeas
-  rw [Measure.map_smul, hmass] <;> try exact hmG.aemeasurable
+  rw [Measure.map_smul _ hmG.aemeasurable, hmass]
   congr 1
 
-  rw [Measure.map_sum hmG.aemeasurable, ← sum_reindex (gramEquiv σ J g T)]
+  rw [Measure.map_sum hmG.aemeasurable, ← sum_reindex e]
   congr 1
   funext X
   rw [Measure.map_map hmG (hmf' _)]
   have hcomp : (actTup (AF F) G ∘ fun h => actW (AF F) σ _ h⁻¹ (ratTup (AF F) (X : Fin n → Fin M → E))) =
-      (fun h => actW (AF F) σ J h⁻¹ (ratTup (AF F) ((gramEquiv σ J g T X : _) : Fin n → Fin M → E))) ∘ He := by
+      (fun h => actW (AF F) σ J h⁻¹ (ratTup (AF F) ((e X : _) : Fin n → Fin M → E))) ∘ He := by
     funext h
     have := act_conj (AF F) σ G He hmat h (ratTup (AF F) (X : Fin n → Fin M → E))
     simp only [Function.comp]
-    rw [this, ← ratTup_ratAct]
-    rfl
+    rw [this, ← ratTup_ratAct, he]
   rw [hcomp, ← Measure.map_map (hmf _) He.measurable, hrest]
+
+theorem theta_map (σ : E →ₐ[F] E) (hCM : IsCMExt F E σ) {M n : ℕ} (J : Matrix (Fin M) (Fin M) E)
+    (hJ : IsHermND σ J) (g : GL (Fin M) E)
+    [LocallyCompactSpace (AF F)] [SecondCountableTopology (AF F)] [T2Space (AF F)]
+    (He : HA (AF F) σ (cT (σ : E →+* E) (g : Matrix (Fin M) (Fin M) E) * J * (g : Matrix (Fin M) (Fin M) E)) ≃ᵐ
+      HA (AF F) σ J)
+    (hmat : ∀ u, HA.mat (AF F) σ J (He u) =
+      bc (inclR (AF F)) g * HA.mat (AF F) σ _ u * (bc (inclR (AF F)) g)⁻¹)
+    (μ : Measure (HA (AF F) σ J)) (𝓕 : Set (HA (AF F) σ J)) (T : Matrix (Fin n) (Fin n) E) :
+    (thetaMeas σ _ (μ.map He.symm) (He ⁻¹' 𝓕)
+      {X | gramE σ (cT (σ : E →+* E) (g : Matrix (Fin M) (Fin M) E) * J * (g : Matrix (Fin M) (Fin M) E)) X = T}).map
+        (actTup (AF F) (bc (inclR (AF F)) g)) =
+      thetaMeas σ J μ 𝓕 {X | gramE σ J X = T} := by
+  exact theta_map_of_equiv σ hCM J hJ g He hmat μ 𝓕 _ _ (gramEquiv σ J g T) (fun _ => rfl)
 
 end Theta
 

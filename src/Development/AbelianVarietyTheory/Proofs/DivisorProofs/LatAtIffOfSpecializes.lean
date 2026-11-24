@@ -1,5 +1,6 @@
 module
 
+import all Development.AbelianVarietyTheory.Proofs.HomogeneousIdeals.GenericExistsUniqueOActOfIsGrpPullback
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsTorPartTorusExtension
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsTraitNonlocalTorusExtension
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExtendSplitTorusHomOverDvr
@@ -979,22 +980,7 @@ theorem exists_spMap {A B : Type} [CommRing A] [CommRing B] (s : Sp B ⟶ Sp A) 
 
 private theorem isGrpPullback_pullback_fst {S S' : Scheme.{0}} (f : S' ⟶ S) (G : Over S) [GrpObj G] :
     IsGrpPullback ((Over.pullback f).obj G) G f (pullback.fst G.hom f) := by
-  refine ⟨IsPullback.of_hasPullback _ _, ?_⟩
-  intro T x y x₀ y₀ hx hy
-  have key : ∀ (z : T ⟶ (Over.pullback f).obj G) (z₀ : (Over.map f).obj T ⟶ G),
-      z₀.left = z.left ≫ pullback.fst G.hom f → z = (Over.mapPullbackAdj f).unit.app T ≫ (Over.pullback f).map z₀ := by
-    intro z z₀ hz
-    ext
-    apply pullback.hom_ext
-    · simp only [Over.pullback_obj_left, Over.mapPullbackAdj_unit_app, Over.comp_left, Over.pullback_map_left,
-        Category.assoc, pullback.lift_fst, hz, Over.homMk_left]
-      erw [pullback.lift_fst_assoc, Category.id_comp]
-    · simp only [Over.pullback_obj_left, Over.mapPullbackAdj_unit_app, Over.comp_left, Over.pullback_map_left,
-        Category.assoc, pullback.lift_snd, Over.homMk_left]
-      erw [pullback.lift_snd]
-      exact Over.w z
-  rw [key x x₀ hx, key y y₀ hy, ← MonObj.comp_mul, ← Functor.map_mul]
-  simp
+  apply _root_.GlobalTheory.IsGenericPointHom.isGrpPullback_pullback_fst <;> assumption
 
 theorem exists_common_pullback {Y : Scheme.{0}} {G : Over Y} [GrpObj G] {κ κ' : Type} [Field κ] [Field κ'] {s : Sp κ ⟶ Y}
     {s' : Sp κ' ⟶ Y} (hs : s (closedPoint κ) = s' (closedPoint κ')) {G₀ : Over (Sp κ)} [GrpObj G₀] {φ : G₀.left ⟶ G.left}

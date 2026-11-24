@@ -1,5 +1,6 @@
 module
 
+import Formalism.SharpRestriction.LevelLetterCocycles.DvrLatticeRank.ExistsInfFilVEqBot
 public import Formalism.SharpRestriction.LevelLetterCocycles.QuotientImageDivisibility.SmulSAddLeft
 public import Mathlib.LinearAlgebra.FiniteDimensional.Defs
 import Mathlib.Algebra.Order.Floor.Extended
@@ -149,48 +150,7 @@ theorem indep_of_span (a₀ a₁ : ℤ) (h₀ : D ≤ Fil a₀) (h₁ : D ⊓ Fi
       (∀ j < k, ∑ m, c m • e m j ∈ Fil (-j + 1)) ∧ ∑ m, c m • e m k - w ∈ Fil (-k + 1))
     (hr : r ≤ finrank LL ↥D) (c : Fin r → LL) (hc : ∀ j, ∑ m, c m • e m j ∈ Fil (-j + 1)) :
     c = 0 := by
-  let H : ℤ → ℕ := fun j => finrank LL ↥(Ub Fil e j) + finrank LL ↥(D ⊓ Fil (-j + 1))
-  have hstep : ∀ j, H (j + 1) = H j := by
-    intro j
-    have := count_step hFa D he hS j
-    simp only [H]
-    rw [show -(j + 1) + 1 = -j by ring]
-    exact this
-  have hiter : ∀ (j : ℤ) (N : ℕ), H (j + N) = H j := by
-    intro j N
-    induction N with
-    | zero => simp
-    | succ N ih =>
-      rw [show j + ((N + 1 : ℕ) : ℤ) = (j + N) + 1 by push_cast; ring, hstep, ih]
-  have hzero : ∀ m i, i < 1 - a₁ → e m i = 0 := by
-    intro m i hi
-    have h := he m i
-    have h' : e m i ∈ D ⊓ Fil a₁ := ⟨(Submodule.mem_inf.1 h).1, hFa (by omega) (Submodule.mem_inf.1 h).2⟩
-    rw [h₁] at h'
-    exact (Submodule.mem_bot LL).1 h'
-  have htop : Ub Fil e (1 - a₁) = ⊤ := by
-    refine eq_top_iff.2 fun c _ => (mem_Ub Fil e _ c).2 fun i hi => ?_
-    rw [Finset.sum_eq_zero fun m _ => by rw [hzero m i hi, smul_zero]]
-    exact Submodule.zero_mem _
-  have hUr : finrank LL ↥(Ub Fil e (1 - a₁)) = r := by
-    rw [htop, finrank_top, Module.finrank_fin_fun]
-  have hH0 : H (1 - a₁) = r := by
-    simp only [H]
-    rw [show -(1 - a₁) + 1 = a₁ by ring, h₁, finrank_bot, hUr, add_zero]
-  let N : ℕ := (a₁ - a₀).toNat
-  have hJ : -((1 - a₁) + (N : ℤ)) + 1 ≤ a₀ := by
-    have := Int.self_le_toNat (a₁ - a₀)
-    omega
-  have hD : D ⊓ Fil (-((1 - a₁) + (N : ℤ)) + 1) = D := inf_eq_left.2 (h₀.trans (hFa hJ))
-  have hHJ := hiter (1 - a₁) N
-  rw [hH0] at hHJ
-  simp only [H] at hHJ
-  rw [hD] at hHJ
-  have hU : finrank LL ↥(Ub Fil e ((1 - a₁) + (N : ℤ))) = 0 := by omega
-  rw [Submodule.finrank_eq_zero] at hU
-  have hcU : c ∈ Ub Fil e ((1 - a₁) + (N : ℤ)) := (mem_Ub Fil e _ c).2 fun i _ => hc i
-  rw [hU] at hcU
-  exact (Submodule.mem_bot LL).1 hcU
+  apply +allowSynthFailures _root_.Formalism.MainNotions.N.Ln34.CrystallineExponents.indep_of_span <;> assumption
 
 
 include hFa in

@@ -1,5 +1,7 @@
 module
 
+import Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange.ArchimedeanBaseChangeProof.ArchimedeanGelfandKernels.ReproOf
+import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.IsContAutRTrans
 public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.SplitLastBlockActX
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.MapFnOfEqValC
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.RowActCoefPolyAndUnitaryDense
@@ -369,16 +371,7 @@ theorem fnOf_inj {n : ℕ} (G : ι → Matrix (Fin n) (Fin n) ℂ) (s : ι → �
 
 theorem rowAct_mem {N : ℕ} (lam : DomWeight N) (g : Matrix (Fin N) (Fin N) ℂ) (hg : IsUnit g.det)
     (f : MvPolynomial (Fin N × Fin N) ℂ) (hf : f ∈ delSq ℂ N lam) : Formalism.GradedWeylDivisibility.rowAct ℂ g f ∈ delSq ℂ N lam := by
-  have hgt : IsUnit gᵀ.det := by rwa [Matrix.det_transpose]
-  have h := (Formalism.BasicNotions.factSqStable ℂ N lam (Matrix.nonsingInvUnit gᵀ hgt)).2 f hf
-  rw [sqAct] at h
-  have hne : detPow ℂ N (Matrix.nonsingInvUnit gᵀ hgt) lam.detShift ≠ 0 := by
-    rw [detPow]; exact Units.ne_zero _
-  rw [Submodule.smul_mem_iff _ hne] at h
-  have hv : ((Matrix.nonsingInvUnit gᵀ hgt : (Matrix (Fin N) (Fin N) ℂ)ˣ) : Matrix (Fin N) (Fin N) ℂ)ᵀ = g :=
-    Matrix.transpose_transpose g
-  rw [← hv]
-  simpa using h
+  apply _root_.GlobalTheory.ValueSpaceCoordinates.rowAct_mem_delSq <;> assumption
 
 def actL {N : ℕ} (lam : DomWeight N) (c : ℤ) (g : Matrix (Fin N) (Fin N) ℂ) : delSq ℂ N lam →ₗ[ℂ] delSq ℂ N lam :=
   if h : ∀ f ∈ delSq ℂ N lam, Formalism.GradedWeylDivisibility.rowAct ℂ g f ∈ delSq ℂ N lam then
@@ -698,15 +691,7 @@ theorem eq_blk {n : ℕ} {A' : Matrix (Fin (n + 1)) (Fin (n + 1)) ℂ} {A : Matr
     | cast b => rw [blk_castSucc]; exact h.1 a b
 
 theorem cptU (m : ℕ) : CompactSpace (Matrix.unitaryGroup (Fin m) ℂ) := by
-  apply isCompact_iff_compactSpace.mp
-  have hK : IsCompact (Set.pi Set.univ fun _ : Fin m => Set.pi Set.univ fun _ : Fin m =>
-      Metric.closedBall (0 : ℂ) 1) :=
-    isCompact_univ_pi fun _ => isCompact_univ_pi fun _ => isCompact_closedBall 0 1
-  refine IsCompact.of_isClosed_subset (t := ((Matrix.unitaryGroup (Fin m) ℂ : Submonoid _) :
-      Set (Matrix (Fin m) (Fin m) ℂ))) hK isClosed_unitary ?_
-  intro U hU
-  exact Set.mem_univ_pi.2 fun i => Set.mem_univ_pi.2 fun j =>
-    mem_closedBall_zero_iff.2 (entry_norm_bound_of_unitary hU i j)
+  apply _root_.PositivityTheory.Rg.BcB.CG.ReproL.csUN <;> assumption
 
 theorem cont_val {ι : Type} [Fintype ι] {X : Type} [TopologicalSpace X] {a : ℕ} {G : ι → Matrix (Fin a) (Fin a) ℂ}
     {lam : ι → DomWeight a} {Φ : Frames G → ℂ} (hΦ : Φ ∈ ValC G lam) (M : X → ι → Matrix (Fin a) (Fin a) ℂ)
@@ -933,22 +918,7 @@ theorem trc_apply {V : HSp D} (e : GA D V →₀ ℂ) (f : GA D V → ℂ) (x : 
 
 theorem isContAut_multT {V : HSp D} {S : D.what₂.Tau → SPar} {θ : InfFam D} {M : DSModel V S} {J : Set (GA D V)}
     {χ : GA D V → ℂ} {G : SmT M →ₗ[ℂ] (GA D V → ℂ)} (hG : G ∈ MultT θ M J χ) (x : SmT M) : IsContAut V (G x) := by
-  have h0 : IsContAut V (0 : GA D V → ℂ) := ⟨fun _ _ _ => rfl, continuous_const⟩
-  have hadd : ∀ {f g : GA D V → ℂ}, IsContAut V f → IsContAut V g → IsContAut V (f + g) := fun hf hg =>
-    ⟨fun γ hγ x => by simp only [Pi.add_apply, hf.1 γ hγ x, hg.1 γ hγ x], hf.2.add hg.2⟩
-  have hsm : ∀ {f : GA D V → ℂ}, IsContAut V f → ∀ c : ℂ, IsContAut V (c • f) := fun hf c =>
-    ⟨fun γ hγ x => by simp only [Pi.smul_apply, hf.1 γ hγ x], hf.2.const_smul c⟩
-  obtain ⟨T, hT, rfl⟩ := hG
-  induction hT using Submodule.span_induction generalizing x with
-  | mem T hT =>
-    induction x using PiTensorProduct.induction_on with
-    | smul_tprod r v =>
-      rw [map_smul, LinearEquiv.coe_coe, PiTensorProduct.lift.tprod]
-      exact hsm ⟨(hT.aut v).left, (hT.aut v).cont⟩ r
-    | add x y hx hy => rw [map_add (f := _)]; exact hadd hx hy
-  | zero => simpa using h0
-  | add T₁ T₂ _ _ h₁ h₂ => rw [map_add (f := _), LinearMap.add_apply]; exact hadd (h₁ x) (h₂ x)
-  | smul c T _ h => rw [map_smul, LinearMap.smul_apply]; exact hsm (h x) c
+  apply _root_.GlobalTheory.Core.Mi.BotPin.isContAut_multT <;> assumption
 
 theorem ontoUni_of_reindex {ι K : Type} [Group K] [TopologicalSpace K] {a b : ℕ} (hab : a = b)
     (r : K → ι → Matrix (Fin a) (Fin a) ℂ)

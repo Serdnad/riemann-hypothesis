@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.FrameUniformEmbeddingSecond
 public import Development.AbelianVarietyTheory.Definitions.ExistenceOfLattices.Hat1
 public import Formalism.LocalToGlobal.ProjectiveLattices.FamilyUniformisationBasePointOrthogonalBis
 public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.AdelicCompletionFractionalIdealDivisibleEqZero
@@ -155,15 +156,7 @@ theorem comp_adelic_of_tower (F E : Type) [Field F] [NumberField F] [Field E] [N
     · rw [nsmul_eq_mul, mul_inv_cancel_left₀ hN', add_sub_cancel]
 
 theorem comp_AA_ne_zero (D : D7) : D.host.AA ≠ 0 := by
-  refine mul_ne_zero ?_ (inv_ne_zero ?_)
-  · rw [FractionalIdeal.coeIdeal_ne_zero]
-    intro h
-    exact D.host.ccK_ne_bot ((Ideal.map_eq_bot_iff_of_injective (RingOfIntegers.algebraMap.injective _ _)).1 h)
-  · rw [FractionalIdeal.coeIdeal_ne_zero]
-    intro h
-    have h1 := D.host.𝔟_spec.1
-    rw [h, Ideal.bot_mul] at h1
-    exact differentIdeal_ne_bot h1
+  apply _root_.GlobalTheory.MarkCoset.AA_ne_zero <;> assumption
 
 attribute [local instance] Formalism.BasicNotions.Host.cmStar
 

@@ -1,5 +1,6 @@
 module
 
+import all Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.PAdicWittLattices.PNuInt
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.FiniteEtaleModels.GalOfKer
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.DualLatticeDegreeNeg
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsIntIntCast
@@ -421,16 +422,7 @@ private theorem mult_form (D : Datum p) (g : ℤ) (hg : ∀ x y, g ∣ D.EF x y)
     exact Mult.neg h
 
 private theorem form_ne (D : Datum p) : ∃ x y, D.EF x y ≠ 0 := by
-  haveI := D.freeLa
-  haveI := D.finLa
-  have hrank : 0 < Module.finrank ℤ D.La := by
-    rw [D.rankLa]
-    exact Nat.mul_pos (Nat.mul_pos D.m_pos D.n_pos) Module.finrank_pos
-  haveI : Nontrivial D.La := Module.nontrivial_of_finrank_pos hrank
-  obtain ⟨x, hx⟩ := exists_ne (0 : D.La)
-  have hne : D.EF x ≠ 0 := fun h => hx (D.nondeg (by rw [h, map_zero]))
-  obtain ⟨y, hy⟩ := DFunLike.ne_iff.mp hne
-  exact ⟨x, y, by simpa using hy⟩
+  apply _root_.UpperTheory.Gal.G3.exists_form_ne <;> assumption
 
 private theorem int_of_sim (D : Datum p) (h₀ : Module.End (AfP p) (AfP p ⊗[ℚ] VQ D)) (mu : AfP p)
     (hint : ∀ v ∈ LaHat D, h₀ v ∈ LaHat D) (hsim : ∀ v w, fAf D (h₀ v) (h₀ w) = mu * fAf D v w) : IsIntAf mu := by

@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.SpreadLamOfLe
 public import Formalism.LocalRingCardinality.DataParams₂
 public import Formalism.SharpRestriction.ElevenLe
 public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.RecHeightSWith
@@ -642,49 +643,7 @@ namespace GlobalTheory.CoreHt.SpreadBound
 
 theorem spread_lamOf_le {R : Ranks} (p : HCParam R) (j : ℕ) (hj : j ≤ R.m) (hk : 0 < R.k) (hm : R.m - 1 < R.m) :
     (((Formalism.BasicNotions.Examples₂.lamOf p j).spread : ℤ) : ℚ) ≤ p.u ⟨0, hk⟩ + p.e ⟨R.m - 1, hm⟩ + R.N R.m := by
-  have hN : 0 < R.N j := by unfold Ranks.N; omega
-  have hNm := Formalism.BasicNotions.Examples₂.N_mono (R := R) hj
-  have h2 := R.two_le_m
-  unfold DomWeight.spread
-  rw [dite_eq_left hN]
-  push_cast
-  rw [Formalism.BasicNotions.Examples₂.lamOf_eq p j hj, Formalism.BasicNotions.Examples₂.lamOf_eq p j hj, Formalism.BasicNotions.Examples₂.wtQ_eq_wtN, Formalism.BasicNotions.Examples₂.wtQ_eq_wtN]
-  have a1 : Formalism.BasicNotions.Examples₂.wtN p (R.N R.m - 1) ≤ Formalism.BasicNotions.Examples₂.wtN p (R.N j - 1) :=
-    Formalism.BasicNotions.Examples₂.wtN_anti p (by omega) (by omega)
-  have hmul : R.m * (R.t + 1) = (R.m - 1) * (R.t + 1) + (R.t + 1) := by
-    obtain ⟨n, hn⟩ : ∃ n, R.m = n + 1 := ⟨R.m - 1, by omega⟩
-    rw [hn, Nat.add_sub_cancel]; ring
-  have hb : Formalism.BasicNotions.Examples₂.blkN R (R.N R.m - 1) = R.m - 1 := by
-    unfold Formalism.BasicNotions.Examples₂.blkN Ranks.N
-    have : R.k + R.m * (R.t + 1) - 1 - R.k = R.t + (R.t + 1) * (R.m - 1) := by
-      rw [hmul, mul_comm (R.t + 1)]; omega
-    rw [this, Nat.add_mul_div_left _ _ (by omega), Nat.div_eq_of_lt (by omega), zero_add]
-  have a2 : -p.e ⟨R.m - 1, hm⟩ ≤ Formalism.BasicNotions.Examples₂.wtN p (R.N R.m - 1) := by
-    have c1 : ¬ R.N R.m - 1 < R.k := by unfold Ranks.N; omega
-    have c2 : Formalism.BasicNotions.Examples₂.blkN R (R.N R.m - 1) < R.m := by omega
-    unfold Formalism.BasicNotions.Examples₂.wtN
-    rw [dite_eq_right c1, dite_eq_left c2]
-    have e : (⟨Formalism.BasicNotions.Examples₂.blkN R (R.N R.m - 1), c2⟩ : Fin R.m) = ⟨R.m - 1, hm⟩ := Fin.ext hb
-    rw [e]
-    unfold wG
-    push_cast
-    have : (0 : ℚ) ≤ (2 * ((Formalism.BasicNotions.Examples₂.blkN R (R.N R.m - 1) : ℚ) + 1) - 1) * ((R.t : ℚ) + 1) / 2 := by
-      have : (0 : ℚ) ≤ 2 * ((Formalism.BasicNotions.Examples₂.blkN R (R.N R.m - 1) : ℚ) + 1) - 1 := by
-        have : (0 : ℚ) ≤ (Formalism.BasicNotions.Examples₂.blkN R (R.N R.m - 1) : ℚ) := by positivity
-        linarith
-      positivity
-    have : (0 : ℚ) ≤ (R.k : ℚ) / 2 := by positivity
-    linarith
-  have a3 : Formalism.BasicNotions.Examples₂.wtN p 0 ≤ p.u ⟨0, hk⟩ := by
-    unfold Formalism.BasicNotions.Examples₂.wtN
-    rw [dite_eq_left hk]
-    unfold hcToWeightQ rhoVec
-    have : (1 : ℚ) ≤ R.k := by exact_mod_cast hk
-    simp only [Nat.cast_zero]
-    linarith
-  have a4 : (R.N j : ℚ) ≤ R.N R.m := by exact_mod_cast hNm
-  simp only
-  linarith
+  apply _root_.GlobalTheory.Mem.Top.spread_lamOf_le <;> assumption
 
 end GlobalTheory.CoreHt.SpreadBound
 

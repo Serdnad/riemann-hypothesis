@@ -1,5 +1,6 @@
 module
 
+import Formalism.SharpRestriction.LevelLetterCocycles.JInvJumpGen
 public import Formalism.SharpRestriction.LevelLetterCocycles.BaseChangePreservesUnitaryOf
 public import Formalism.SharpRestriction.LevelLetterCocycles.CrystallineMapLemmas
 import Mathlib.Algebra.Module.StablyFree.Basic
@@ -172,22 +173,7 @@ private theorem fil_le_lemma_4 (a : ℤ) (k : ℕ) : PD.Fil (a + (k : ℤ)) ≤ 
     exact le_trans (PD.Fil_anti (a + k)) ih
 
 private theorem fil_one_lemma_5 (h1 : (1 : BdR) ∈ PD.Fil 1) (a : ℤ) : (1 : BdR) ∈ PD.Fil a := by
-  have hn : ∀ m : ℕ, (1 : BdR) ∈ PD.Fil (m : ℤ) := by
-    intro m
-    induction m with
-    | zero => simpa using PD.one_mem
-    | succ m ih =>
-      have h := PD.Fil_mul 1 (m : ℤ) 1 1 h1 ih
-      rw [mul_one, show (1 : ℤ) + (m : ℤ) = ((m + 1 : ℕ) : ℤ) by push_cast; ring] at h
-      exact h
-  rcases le_or_gt a 0 with ha | ha
-  · have hle := fil_le_lemma_4 PD a (Int.toNat (-a))
-    have e : a + ((Int.toNat (-a) : ℕ) : ℤ) = 0 := by
-      rw [Int.toNat_of_nonneg (by omega)]; omega
-    rw [e] at hle
-    exact hle PD.one_mem
-  · rw [← Int.toNat_of_nonneg ha.le]
-    exact hn _
+  apply _root_.Formalism.MainNotions.N.JsetEmb.inv_one_mem_all <;> assumption
 
 private theorem fil_const_lemma_6 (u : ℤ) (hu : 1 ≤ u) (k : K) (hk : algebraMap K BdR k ∈ PD.Fil u) :
     algebraMap K BdR k = 0 := by

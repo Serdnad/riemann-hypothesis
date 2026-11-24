@@ -164,18 +164,19 @@ theorem exists_psiE_ne_one {ψ : AddChar (AF D.host.F) ℂ} (hψ : IsStdChar D �
 end GlobalTheory.ThLaws
 
 open GlobalTheory.ThLaws in
-theorem GlobalTheory.th_isTh : ∀ (D : D7) (ψ : AddChar (AF D.host.F) ℂ), IsStdChar D ψ (-1) → ∀ (σ : ℕ) (J : JacLev D (σ + 1))
-    (B : BesLev D σ) (y : WO J.W₀ B.L → ℂ), Quasi ψ J.W₀ B.L y →
-    ∀ x₀ : Matrix (Fin B.V.rank) (Fin (σ + 1)) D.host.E, (rat x₀ : Mx D B.V.rank (σ + 1)) = x0 B →
-      IsTh ψ J.d B.V x₀ (th J ψ B y) := by
-  intro D ψ hψ σ J B y hy x₀ hx₀
-  obtain ⟨hcont, -, hleft, hcen, -, -⟩ := GlobalTheory.T.fourierBesselThetaCharIntegrand_laws D ψ hψ σ J B y hy
-  obtain ⟨x₁, hx₁, -, -, hlast, hq⟩ := GlobalTheory.T.fourierBesselBasePoint_isUnfoldingBasePoint_spec D σ B
-  have e : x₁ = x₀ := rat_injective (hx₁.trans hx₀.symm)
-  refine ⟨hcont.comp continuous_subtype_val, fun γ hγQ hγN n hn => hleft γ hγN hγQ n hn, fun c n hn => ?_, ?_⟩
-  · rw [hcen c n hn, hx₀, hq]
-  intro j a ha1 ha0 hg
-  have hl : a (Fin.last σ) = 0 := hlast a (by rw [e]; exact hg)
+theorem GlobalTheory.exists_transvection_character_of_last_zero {D : D7} {σ : ℕ} {W W₀ : HSp D}
+    (ψ : AddChar (AF D.host.F) ℂ) (hψ : IsStdChar D ψ (-1))
+    (d : HypDec W W₀ (σ + 1)) (L : HSp D) (ζ : Fin L.rank → D.host.E) (y : WO W₀ L → ℂ)
+    (j : Fin (σ + 1)) (a : Fin (σ + 1) → D.host.E) (ha1 : a j = 1)
+    (ha0 : ∀ i, j < i → a i = 0) (hl : a (Fin.last σ) = 0) :
+    let Th := fun n => star (jacS ψ d L (zEll L (σ + 1) ζ) n y 0) * star (psiFlag ψ d n)
+    let w := GlobalTheory.IndefiniteRowSideFullHecke.TransvectionAction.vecX d
+      (GlobalTheory.IndefiniteRowSideFullHecke.TransvectionAction.ratVec a)
+    ∃ (v : GlobalTheory.IndefiniteRowSideFullHecke.TransvectionAction.VA W) (u : GA D W) (c : ℂ),
+      GlobalTheory.IndefiniteRowSideFullHecke.TransvectionAction.form W w v = 0 ∧
+      GlobalTheory.IndefiniteRowSideFullHecke.TransvectionAction.IsTransv W w v u ∧
+      u ∈ Nfix d j ∧ c ≠ 1 ∧
+      ∀ n ∈ flagN d, ∀ n' ∈ flagN d, Th (n * u * n') = c * Th (n * n') := by
   have hj : j.1 < σ := by
     by_contra hc
     have : j = Fin.last σ := Fin.ext (by have := j.2; simp only [Fin.val_last]; omega)
@@ -206,7 +207,7 @@ theorem GlobalTheory.th_isTh : ∀ (D : D7) (ψ : AddChar (AF D.host.F) ℂ), Is
     · rw [tvGL_val, Matrix.add_apply, Matrix.one_apply_eq, tvN_apply,
         hN i i fun h => absurd (h.2 ▸ h.1) (not_le.2 hjj), add_zero]
   have hUX : tvGL A Bv hAB ∈ UX D (σ + 1) := mem_UX.2 hupper
-  have hu : J.d.levi (tvGL A Bv hAB) ∈ flagN J.d := J.d.levi_mem_NFlag hupper
+  have hu : d.levi (tvGL A Bv hAB) ∈ flagN d := d.levi_mem_NFlag hupper
   have hup : upSum (tvN A Bv) = t := by
     unfold upSum
     rw [Finset.sum_eq_single j, Finset.sum_eq_single j']
@@ -226,16 +227,16 @@ theorem GlobalTheory.th_isTh : ∀ (D : D7) (ψ : AddChar (AF D.host.F) ℂ), Is
         exact Fin.ext (by simp [j'] at h; omega)
       · rw [tvN_apply, hB0 k hk, map_zero, mul_zero, ite_self]
     · intro h; exact absurd (Finset.mem_univ _) h
-  refine ⟨J.d.jY *ᵥ Bv, J.d.levi (tvGL A Bv hAB), star (psiE ψ t), ?_, levi_isTransv J.d A Bv hAB,
+  refine ⟨d.jY *ᵥ Bv, d.levi (tvGL A Bv hAB), star (psiE ψ t), ?_, levi_isTransv d A Bv hAB,
     Subgroup.mem_inf.2 ⟨hu, Subgroup.mem_iInf.2 fun i => ?_⟩, ?_, ?_⟩
-  · show GlobalTheory.IndefiniteRowSideFullHecke.TransvectionAction.form J.W (J.d.jX *ᵥ A) (J.d.jY *ᵥ Bv) = 0
-    rw [form_mulVec, ← J.d.pX_eq, Matrix.mulVec_mulVec, J.d.pX_jX, Matrix.one_mulVec, hAB]
+  · show GlobalTheory.IndefiniteRowSideFullHecke.TransvectionAction.form W (d.jX *ᵥ A) (d.jY *ᵥ Bv) = 0
+    rw [form_mulVec, ← d.pX_eq, Matrix.mulVec_mulVec, d.pX_jX, Matrix.one_mulVec, hAB]
   · rw [mem_fixer]
     have hcol : ∀ m, (tvGL A Bv hAB).1 m i.1 = (1 : Mx D (σ + 1) (σ + 1)) m i.1 := fun m => by
       rw [tvGL_val, Matrix.add_apply, tvN_apply,
         hN m i.1 fun h => absurd (h.2 ▸ i.2) (not_le.2 hjj), add_zero]
     ext k l
-    have h1 := congrFun (congrFun (J.d.levi_jX (tvGL A Bv hAB)) k) i.1
+    have h1 := congrFun (congrFun (d.levi_jX (tvGL A Bv hAB)) k) i.1
     simp only [Matrix.mul_apply, Matrix.submatrix_apply, id] at h1 ⊢
     rw [h1]
     simp only [hcol, Matrix.one_apply, mul_ite, mul_one, mul_zero, Finset.sum_ite_eq', Finset.mem_univ, if_true]
@@ -243,15 +244,30 @@ theorem GlobalTheory.th_isTh : ∀ (D : D7) (ψ : AddChar (AF D.host.F) ℂ), Is
     apply ht
     rw [← star_star (psiE ψ t), h1, star_one]
   · intro n hn n' hn'
-    have hx : ∀ u ∈ UX D (σ + 1), zl B ⬝ u.1 = zl B := fun u hu => zEll_mul B.L B.ζ hu
-    have hJu : jacS ψ J.d B.L (zl B) (J.d.levi (tvGL A Bv hAB)) = id := by
-      have := jacS_levi_mul ψ J.d B.L (zl B) (hx _ hUX) 1
+    have hx : ∀ u ∈ UX D (σ + 1), zEll L (σ + 1) ζ ⬝ u.1 = (zEll L (σ + 1) ζ) := fun u hu => zEll_mul L ζ hu
+    have hJu : jacS ψ d L (zEll L (σ + 1) ζ) (d.levi (tvGL A Bv hAB)) = id := by
+      have := jacS_levi_mul ψ d L (zEll L (σ + 1) ζ) (hx _ hUX) 1
       rwa [mul_one, jacS_one] at this
-    have hpu : psiFlag ψ J.d (J.d.levi (tvGL A Bv hAB)) = psiE ψ t := by
+    have hpu : psiFlag ψ d (d.levi (tvGL A Bv hAB)) = psiE ψ t := by
       rw [psiFlag, blockX_levi, tvGL_val, upSum_add, upSum_one, zero_add, hup]
-    simp only [th]
-    rw [GlobalTheory.JacHom.jacS_mul J.d hx ψ (mul_mem hn hu) hn', GlobalTheory.JacHom.jacS_mul J.d hx ψ hn hu, hJu,
-      GlobalTheory.JacHom.jacS_mul J.d hx ψ hn hn', psiFlag_mul J.d ψ (mul_mem hn hu) hn', psiFlag_mul J.d ψ hn hu,
-      psiFlag_mul J.d ψ hn hn', hpu]
+    dsimp only
+    rw [GlobalTheory.JacHom.jacS_mul d hx ψ (mul_mem hn hu) hn', GlobalTheory.JacHom.jacS_mul d hx ψ hn hu, hJu,
+      GlobalTheory.JacHom.jacS_mul d hx ψ hn hn', psiFlag_mul d ψ (mul_mem hn hu) hn', psiFlag_mul d ψ hn hu,
+      psiFlag_mul d ψ hn hn', hpu]
     simp only [id, star_mul']
     ring
+
+open GlobalTheory.ThLaws in
+theorem GlobalTheory.th_isTh : ∀ (D : D7) (ψ : AddChar (AF D.host.F) ℂ), IsStdChar D ψ (-1) → ∀ (σ : ℕ) (J : JacLev D (σ + 1))
+    (B : BesLev D σ) (y : WO J.W₀ B.L → ℂ), Quasi ψ J.W₀ B.L y →
+    ∀ x₀ : Matrix (Fin B.V.rank) (Fin (σ + 1)) D.host.E, (rat x₀ : Mx D B.V.rank (σ + 1)) = x0 B →
+      IsTh ψ J.d B.V x₀ (th J ψ B y) := by
+  intro D ψ hψ σ J B y hy x₀ hx₀
+  obtain ⟨hcont, -, hleft, hcen, -, -⟩ := GlobalTheory.T.fourierBesselThetaCharIntegrand_laws D ψ hψ σ J B y hy
+  obtain ⟨x₁, hx₁, -, -, hlast, hq⟩ := GlobalTheory.T.fourierBesselBasePoint_isUnfoldingBasePoint_spec D σ B
+  have e : x₁ = x₀ := rat_injective (hx₁.trans hx₀.symm)
+  refine ⟨hcont.comp continuous_subtype_val, fun γ hγQ hγN n hn => hleft γ hγN hγQ n hn, fun c n hn => ?_, ?_⟩
+  · rw [hcen c n hn, hx₀, hq]
+  intro j a ha1 ha0 hg
+  have hl : a (Fin.last σ) = 0 := hlast a (by rw [e]; exact hg)
+  exact GlobalTheory.exists_transvection_character_of_last_zero ψ hψ J.d B.L B.ζ y j a ha1 ha0 hl

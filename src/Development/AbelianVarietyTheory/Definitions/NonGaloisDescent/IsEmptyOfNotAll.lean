@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ChosenPlacesAdmissibleGoodSetup
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.NonzeroPlacesOverPrimes
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.UnivChar
 public import Formalism.LocalToGlobal.NormalizedHeckeFactors.WittCoreInclusionMulVecMemLatticeCompletionAtPla
@@ -112,18 +113,7 @@ theorem low_of_tied {Fr : TwFrame D} (h : NTwTied D Fr) (hq : D.host.q ∣ (Numb
 
 theorem conj_of_lev {P P' : HeightOneSpectrum (𝓞 D.host.E)}
     (h : Formalism.IndefR.Lev.IsConjPl P P') : Formalism.BasicNotions.IsConjPl D.host P P' := by
-  have hs : ∀ x : D.host.E, star x = D.host.conj x := bridge_star_holds D.R D.host
-  let φ : 𝓞 D.host.E →+* 𝓞 D.host.E := RingOfIntegers.mapRingHom (D.host.conj : D.host.E →+* D.host.E)
-  have hφ : ∀ x : 𝓞 D.host.E, ((φ x : 𝓞 D.host.E) : D.host.E) = D.host.conj x := fun _ => rfl
-  have le : P.asIdeal ≤ P'.asIdeal.comap φ := fun c hc => by
-    obtain ⟨c', h1, h2⟩ := h c hc
-    have : φ c = c' := RingOfIntegers.ext (by rw [hφ, h2, hs])
-    exact Ideal.mem_comap.2 (this ▸ h1)
-  have e := P.isMaximal.eq_of_le (Ideal.comap_ne_top φ P'.isPrime.ne_top) le
-  intro x y hxy
-  have : y = φ x := RingOfIntegers.ext (by rw [hφ, hxy])
-  rw [this, e]
-  rfl
+  apply _root_.GlobalTheory.ChoiceAdm.isConjPl_of_lev <;> assumption
 
 theorem baseTup_of {X : RealSide D} {E : IntegralHeckeForms.XD D} (Y : SerSide X E) (i : D.ntw.Tw)
     (t : X.T) (ht : X.R.xiH t = X.R.C.delAt (D.ntw.l i)) : BaseTup Y i := fun j b => by

@@ -45,6 +45,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
+import Development.WeilBound.ThetaLifts.FrameEstimates.ContinuousMixedSymm
 
 @[expose] public section
 
@@ -86,41 +87,13 @@ theorem pairA_split (x : AF F) : x = pairA F x.1 0 + pairA F 0 x.2 := by
 
 theorem norm_psi_fin {ψ : AddChar (AF F) ℂ} (hψ : GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.IsStd ψ) (y : Af F) :
     ‖ψ (pairA F 0 y)‖ = 1 := by
-  have hc : Continuous fun y : Af F => ‖ψ (pairA F 0 y)‖ :=
-    (hψ.1.comp (continuous_const.prodMk continuous_id)).norm
-  have hcl : IsClosed {y : Af F | ‖ψ (pairA F 0 y)‖ = 1} := isClosed_eq hc continuous_const
-  have hrange : Set.range (algebraMap F (Af F)) ⊆ {y : Af F | ‖ψ (pairA F 0 y)‖ = 1} := by
-    rintro _ ⟨a, rfl⟩
-    have h1 := hψ.2.1 a
-    rw [GlobalTheory.AdeleCharTwist.algebraMap_eq_pairA, AddChar.map_add_eq_mul] at h1
-    have h2 := congrArg norm h1
-    rw [norm_mul, norm_psi_inf hψ, one_mul, norm_one] at h2
-    exact h2
-  have := hcl.closure_subset_iff.2 hrange
-  rw [GlobalTheory.AdeleCharTwist.denseRange_fin.closure_range] at this
-  exact this (Set.mem_univ y)
+  apply _root_.PositivityTheory.ThKEst.W.norm_psi_fin <;> assumption
 
 theorem norm_psi {ψ : AddChar (AF F) ℂ} (hψ : GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.IsStd ψ) (x : AF F) : ‖ψ x‖ = 1 := by
   rw [pairA_split x, AddChar.map_add_eq_mul, norm_mul, norm_psi_inf hψ, norm_psi_fin hψ, one_mul]
 
 theorem exists_ne_one {ψ : AddChar (AF F) ℂ} (hψ : GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.IsStd ψ) : ∃ x, ψ x ≠ 1 := by
-  set n : ℕ := Module.finrank ℝ (mixedEmbedding.mixedSpace F)
-  have hn : 0 < n := Module.finrank_pos
-  set t : ℝ := 1 / (2 * n)
-  refine ⟨pairA F ((InfiniteAdeleRing.ringEquiv_mixedSpace F).symm (algebraMap ℝ _ t)) 0, ?_⟩
-  rw [psi_pairA hψ, RingEquiv.apply_symm_apply, Algebra.trace_algebraMap]
-  have hn' : (n : ℝ) ≠ 0 := by exact_mod_cast hn.ne'
-  have eR : (n • t : ℝ) = 1 / 2 := by
-    rw [nsmul_eq_mul]
-    simp only [t]
-    rw [mul_one_div, div_eq_div_iff (by positivity) two_ne_zero]
-    ring
-  have e : ((n • t : ℝ) : ℂ) = 1 / 2 := by
-    rw [eR]; push_cast; ring
-  rw [e]
-  have : -(2 * (Real.pi : ℂ) * Complex.I) * (1 / 2) = -(Real.pi * Complex.I) := by ring
-  rw [this, Complex.exp_neg, Complex.exp_pi_mul_I]
-  norm_num
+  apply _root_.PositivityTheory.ThKEst.W.exists_ne_one <;> assumption
 
 theorem isCharAF {ψ : AddChar (AF F) ℂ} (hψ : GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.IsStd ψ) : IsCharAF F ψ :=
   ⟨hψ.1, norm_psi hψ, hψ.2.1, exists_ne_one hψ⟩

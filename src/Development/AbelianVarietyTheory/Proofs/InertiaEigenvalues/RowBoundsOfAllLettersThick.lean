@@ -1,5 +1,6 @@
 module
 
+import Formalism.SharpRestriction.LevelLetterCocycles.MemPrimesOverOfMem
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.BoundAtTwoAndThreeForFamily
 public import Development.AbelianVarietyTheory.Counterexamples.HeckeCharacterExamples.InertPlacesGoodSet
 import Mathlib.Algebra.Order.Floor.Extended
@@ -166,20 +167,7 @@ theorem Lg_ge_one : 1 ≤ TwistedPlaces.large₂ L := by
   exact Real.one_le_rpow L.sc.one_lt_alt.le L.sc.eps_pos.le
 
 theorem placeWeight_nonneg : 0 ≤ TwistedPlaces.wP L := by
-  have hx : 0 < L.sc.x := by linarith [L.sc.one_lt_alt]
-  have hb' : 0 < L.sc.b' := by
-    unfold Scale.b' Scale.a Scale.X'
-    have := one_le_b L
-    positivity
-  have hw : 0 ≤ L.sc.w'' D.R.n := by
-    unfold Scale.w''
-    positivity
-  have hB : 0 ≤ TwistedPlaces.wB L := by
-    unfold TwistedPlaces.wB
-    have := L.etaSz_pos
-    exact le_max_of_le_left (by linarith)
-  unfold TwistedPlaces.wP
-  positivity
+  first | exact _root_.Formalism.MainNotions.ExportFamilies.placeWeight_nonneg | exact @_root_.Formalism.MainNotions.ExportFamilies.placeWeight_nonneg | apply _root_.Formalism.MainNotions.ExportFamilies.placeWeight_nonneg <;> assumption
 
 theorem one_le_hB : 1 ≤ TwistedPlaces.hB L := by
   unfold TwistedPlaces.hB

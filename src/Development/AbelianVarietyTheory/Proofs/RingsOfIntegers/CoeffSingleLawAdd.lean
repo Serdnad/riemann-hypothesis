@@ -48,6 +48,7 @@ import Mathlib.Tactic.ReduceModChar
 import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
+import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.FormalGroupLawCompMulNZero
 
 @[expose] public section
 
@@ -104,14 +105,7 @@ theorem coeff_single_ev_two {n : ℕ} (p q : Pt R n d) (hp : ∀ i, constantCoef
     coeff (Finsupp.single j 1) (ev ![p, q] f) =
       ∑ l, coeff (Finsupp.single ((0 : Fin 2), l) 1) f * coeff (Finsupp.single j 1) (p l) +
       ∑ l, coeff (Finsupp.single ((1 : Fin 2), l) 1) f * coeff (Finsupp.single j 1) (q l) := by
-  have h0 : ∀ s : Fin 2 × Fin d, constantCoeff ((![p, q] : Fin 2 → Pt R n d) s.1 s.2) = 0 := by
-    rintro ⟨b, i⟩
-    fin_cases b
-    · exact hp i
-    · exact hq i
-  unfold ev
-  rw [coeff_single_subst h0, Fintype.sum_prod_type, Fin.sum_univ_two]
-  all_goals rfl
+  apply _root_.GlobalTheory.FormalMulN.lin_ev_two <;> assumption
 
 theorem coeff_single_X {σ : Type*} [DecidableEq σ] (s t : σ) :
     coeff (Finsupp.single s 1) (X t : MvPowerSeries σ R) = if s = t then 1 else 0 := by

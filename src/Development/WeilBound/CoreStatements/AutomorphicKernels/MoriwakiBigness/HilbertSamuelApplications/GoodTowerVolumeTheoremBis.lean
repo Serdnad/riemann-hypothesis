@@ -1066,15 +1066,7 @@ theorem lie_pack (X : Scheme.{0}) (G : Over X) [GrpObj G] [IsCommMonObj G] [Smoo
 
 theorem isIso_spMap_fracToField {Ω : Type} [Field Ω] {O : Type} [CommRing O] [Algebra O Ω] (R : Subalgebra O Ω)
     [IsFractionRing R Ω] : IsIso (spMap (fracToField R)) := by
-  have hs : Function.Surjective (fracToField R) := fun z => by
-    obtain ⟨a, b, hb, rfl⟩ := IsFractionRing.div_surjective (A := R) z
-    refine ⟨algebraMap R (FractionRing R) a / algebraMap R (FractionRing R) b, ?_⟩
-    have h : ∀ r : R, fracToField R (algebraMap R (FractionRing R) r) = algebraMap R Ω r := fun r =>
-      IsFractionRing.lift_algebraMap _ r
-    rw [map_div₀, h, h]
-  have : IsIso (CommRingCat.ofHom (fracToField R)) :=
-    (ConcreteCategory.isIso_iff_bijective _).2 ⟨(fracToField R).injective, hs⟩
-  infer_instance
+  apply _root_.GlobalTheory.CompanionTheory.Ar.Num.FamEx.Idemp.frac_epi <;> assumption
 
 theorem finite_torsT (E : Type) [Field E] [NumberField E] (N n : ℕ) (hn : n ≠ 0) : Finite (TorsT E N n) := by
   have hI : Ideal.span {(n : 𝓞 E)} ≠ ⊥ := by

@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.ModuliProofs.PrincipalOfFieldExtension
 public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ClsLinCombSingle
 public import Development.AbelianVarietyTheory.Definitions.ModuliSpaces.ExistsArBaseAway
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.SecBaseChangeAnySt
@@ -134,18 +135,7 @@ theorem lift_square {S S' : Scheme.{0}} {C : Over S} {C' : Over S'} {ψ : C'.lef
     {ψ₂ : (C' ⊗ C').left ⟶ (C ⊗ C).left} (hsq : IsSquare ψ ψ₂) {T : Over S} {T' : Over S'} (φ : T'.left ⟶ T.left)
     {x y : T ⟶ C} {x' y' : T' ⟶ C'} (hx : x'.left ≫ ψ = φ ≫ x.left) (hy : y'.left ≫ ψ = φ ≫ y.left) :
     (lift x' y').left ≫ ψ₂ = φ ≫ (lift x y).left := by
-  obtain ⟨h1, h2⟩ := hsq
-  have e1 : (lift x' y').left ≫ ψ₂ ≫ (fst C C).left = x'.left ≫ ψ := by
-    rw [h1, ← Category.assoc, ← Over.comp_left, lift_fst]
-  have e2 : (lift x' y').left ≫ ψ₂ ≫ (snd C C).left = y'.left ≫ ψ := by
-    rw [h2, ← Category.assoc, ← Over.comp_left, lift_snd]
-  have e3 : φ ≫ (lift x y).left ≫ (fst C C).left = φ ≫ x.left := by
-    rw [← Over.comp_left, lift_fst]
-  have e4 : φ ≫ (lift x y).left ≫ (snd C C).left = φ ≫ y.left := by
-    rw [← Over.comp_left, lift_snd]
-  apply Over.tensorObj_ext
-  · rw [Category.assoc, Category.assoc]; exact e1.trans (hx.trans e3.symm)
-  · rw [Category.assoc, Category.assoc]; exact e2.trans (hy.trans e4.symm)
+  first | exact _root_.GlobalTheory.SiegelDescent.lift_comp_square | exact @_root_.GlobalTheory.SiegelDescent.lift_comp_square | apply _root_.GlobalTheory.SiegelDescent.lift_comp_square <;> assumption
 
 private theorem exists_monoidHom_points_of_isGrpPullback {S S' : Scheme.{0}} {G' : Over S'} {G : Over S} [GrpObj G'] [GrpObj G] {f : S' ⟶ S}
     {φ : G'.left ⟶ G.left} (hφ : IsGrpPullback G' G f φ) (T : Over S') :

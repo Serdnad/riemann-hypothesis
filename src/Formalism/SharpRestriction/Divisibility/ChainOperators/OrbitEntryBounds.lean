@@ -20,6 +20,7 @@ public import Formalism.LocalRingCardinality.DataForced
 public import Formalism.SharpRestriction.Divisibility.OrbitPlaces
 public import Development.AutomorphicArithmetic.OrbitLabellings.FInertSubEatILeOrbitAverageSubErrors
 public import Development.AutomorphicArithmetic.OrbitLabellings.KvalGeThetaOfShape
+import all Development.AutomorphicArithmetic.OrbitLabellings.KvalGeThetaOfShape
 public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.EntAtD
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -951,12 +952,7 @@ theorem applyAt0_add_left (T T' : MvPowerSeries (Lt × Fin N0 × Fin N1) ℂ_[l]
 theorem applyAt0_smul_left (c : ℂ_[l]) (T : MvPowerSeries (Lt × Fin N0 × Fin N1) ℂ_[l])
     (P : MvPolynomial (XZ Lt N0 N1) ℤ) :
     applyAt0 N0 N1 l (c • T) P = c • applyAt0 N0 N1 l T P := by
-  unfold OJ.applyAt0
-  rw [Finset.smul_sum]
-  refine Finset.sum_congr rfl fun μ _ => ?_
-  rw [MvPowerSeries.coeff_smul, MvPolynomial.smul_monomial, smul_eq_mul]
-  congr 1
-  ring
+  apply _root_.PI.OrbJet.OJ.applyAt0_smulT <;> assumption
 
 theorem applyAt0_sum_left {ι : Type*} (S : Finset ι) (c : ι → ℂ_[l]) (T : ι → MvPowerSeries (Lt × Fin N0 × Fin N1) ℂ_[l])
     (P : MvPolynomial (XZ Lt N0 N1) ℤ) :
@@ -1209,15 +1205,7 @@ theorem size_ge {L : SizeData₂ D} {X : Inst D L} {E : Formalism.MainNotions.Or
     linarith
 
 theorem NN_le (i : ℕ) (hi : i < D.R.m) : (D.R.N i : ℝ) * (D.R.N (i + 1) : ℝ) ≤ Nm D ^ 2 := by
-  have h1 : D.R.N i ≤ D.R.N D.R.m := by
-    unfold Formalism.BasicNotions.Ranks.N
-    exact Nat.add_le_add_left (Nat.mul_le_mul hi.le le_rfl) _
-  have h2 : D.R.N (i + 1) ≤ D.R.N D.R.m := by
-    unfold Formalism.BasicNotions.Ranks.N
-    exact Nat.add_le_add_left (Nat.mul_le_mul (Nat.succ_le_of_lt hi) le_rfl) _
-  unfold Formalism.MainNotions.G.Nm
-  rw [sq]
-  exact mul_le_mul (by exact_mod_cast h1) (by exact_mod_cast h2) (by positivity) (by positivity)
+  apply _root_.UpperTheory.OrbitRadiiBounds.NN_le <;> assumption
 
 theorem sumOrbC (D : D7) (L : SizeData₂ D) (X : Inst D L) (K : Consts) (ce : ErrC) (E : Formalism.MainNotions.OrbitPlaces.Ent D) (C6 C : ℝ)
     (hS : Formalism.MainNotions.OrbitPlaces.Shape D L X E) (hC : Formalism.MainNotions.OrbitPlaces.CLarge C6 C K ce) : Formalism.MainNotions.OrbitPlaces.ValuationSumBound E L ce C := by
@@ -1303,17 +1291,14 @@ theorem entry_divisor_bound_holds (D : D7) (E : OrbitPlaces.Ent D) (Dx : DivX D)
   intro u μ w hL hc i hi L L'
   exact _root_.jet_bound_ramified_prime D Dx E.nu E.nu_row E.nu_rows E.Th hs u μ w hL hc i hi L L'
 
-private theorem entry_number_bound_holds (D : D7) (L : SizeData₂ D) (X : Inst D L) (K : Consts) (E : OrbitPlaces.Ent D) (ce : ErrC) (C6 C : ℝ)
-    (hS : OrbitPlaces.Shape D L X E) (hC : OrbitPlaces.CLarge C6 C K ce) : OrbitPlaces.ScaledGeneratorsInSup E L K ce := by
-  intro p hp h5 hcs hpX u i hi
-  exact ⟨fun Th hTh => UpperTheory.kvalGe_theta_of_shape D L X E hS p h5 hcs.1 hcs.2.2 hpX u i hi Th hTh,
-    fun hL => UpperTheory.fInert_sub_eatI_le_orbit_average_sub_errors D L X K E ce C6 C hS hC hL p hp.out h5 hcs hpX i hi⟩
-
 theorem orbit_entry_bounds_of_family (D : D7) (L : SizeData₂ D) (X : Inst D L) (K : Consts) (Dx : DivX D) (E : OrbitPlaces.Ent D) (ce : ErrC) (C6 C : ℝ)
     (hF : OrbitPlaces.OrbitValuationBound E X K ce) (hs : OrbitPlaces.ThetaKernelShapeAtD E Dx) (hS : OrbitPlaces.Shape D L X E) (hC : OrbitPlaces.CLarge C6 C K ce) :
     OrbitPlaces.Core D L X K Dx E ce C :=
   ⟨addition_bound_holds D E, orbitsAddAtConjugate_ent D E, hF, entry_divisor_bound_holds D E Dx hs,
-    PI.SumOrbC D L X K ce E C6 C hS hC, entry_number_bound_holds D L X K E ce C6 C hS hC⟩
+    PI.SumOrbC D L X K ce E C6 C hS hC, by
+      intro p hp h5 hcs hpX u i hi
+      exact ⟨fun Th hTh => UpperTheory.kvalGe_theta_of_shape D L X E hS p h5 hcs.1 hcs.2.2 hpX u i hi Th hTh,
+        fun hL => UpperTheory.fInert_sub_eatI_le_orbit_average_sub_errors D L X K E ce C6 C hS hC hL p hp.out h5 hcs hpX i hi⟩⟩
 
 theorem orbit_entry_bounds_hold (D : D7) (L : SizeData₂ D) (X : Inst D L) (K : Consts) (Dx : DivX D) (E : OrbitPlaces.Ent D) (ce : ErrC) (C6 C : ℝ)
     (hA : OrbitPlaces.OrbitLetterBoundsAll C6 C) (hs : OrbitPlaces.ThetaKernelShapeAtD E Dx) (hS : OrbitPlaces.Shape D L X E) (hC : OrbitPlaces.CLarge C6 C K ce) :

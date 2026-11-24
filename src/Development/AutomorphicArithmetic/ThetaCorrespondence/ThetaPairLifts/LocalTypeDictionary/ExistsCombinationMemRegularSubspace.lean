@@ -568,13 +568,6 @@ theorem ideal_map_smul_isLattice (F E : Type) [Field F] [NumberField F] [Field E
     have h1 : algebraMap (𝓞 F) (𝓞 E) d = 0 := by exact_mod_cast h
     exact (FaithfulSMul.algebraMap_injective (𝓞 F) (𝓞 E)) (by simpa using h1)
   set u : Eˣ := Units.mk0 _ hdE
-  have hsub : (u • L : Submodule (𝓞 E) (Fin n → E)) ≤ I.map (algebraMap (𝓞 F) (𝓞 E)) • L := by
-    intro x hx
-    obtain ⟨y, hy, rfl⟩ := (Submodule.mem_smul_pointwise_iff_exists _ _ _).mp hx
-    have : (u • y : Fin n → E) = (algebraMap (𝓞 F) (𝓞 E) d) • y := by
-      rw [Units.smul_def, Units.val_mk0, ← algebraMap_smul E (algebraMap (𝓞 F) (𝓞 E) d) y]
-    rw [this]
-    exact Submodule.smul_mem_smul (Ideal.mem_map_of_mem _ hdI) hy
   exact Submodule.IsLattice.of_fg E (Submodule.FG.of_le hL.fg hle)
 
 end GlobalTheory

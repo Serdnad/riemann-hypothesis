@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.ExistsIsPrimeIdemOfComp
 public import Formalism.UnipotentAdelicQuotients.ThmBInHecke
 public import Development.AbelianVarietyTheory.BlockTheory.AdelicCMFields.UnitaryHeckeCharacterIdele
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsHeckeCharacterOfUnitaryTensorIdeles
@@ -306,17 +307,7 @@ theorem cA_cA (h : IsCMExt F E σ) (z : AE F E) : cA σ (cA σ z) = z := by
   | tmul a x => exact congrArg (a ⊗ₜ[F] ·) (sig_sig h x)
 
 theorem finPart_cA_mem {z : AE F E} (hz : finPart F E z ∈ intAE F E) : finPart F E (cA σ z) ∈ intAE F E := by
-  have e : ∀ z : AE F E, finPart F E (cA σ z) = sigR (Af F) σ (finPart F E z) := fun z => by
-    induction z using TensorProduct.induction_on with
-    | zero => simp only [RingHom.map_zero]
-    | add x y hx hy => simp only [RingHom.map_add (f := _), hx, hy]
-    | tmul a x => rfl
-  rw [e]
-  have : intAE F E ≤ (intAE F E).comap (sigR (Af F) σ).toAddMonoidHom := by
-    refine (AddSubgroup.closure_le _).2 ?_
-    rintro _ ⟨a, ha, x, rfl⟩
-    exact AddSubgroup.subset_closure ⟨a, ha, cO σ x, rfl⟩
-  exact this hz
+  first | exact _root_.GlobalTheory.CMPrimeIdele.finPart_cA_mem | exact @_root_.GlobalTheory.CMPrimeIdele.finPart_cA_mem | apply _root_.GlobalTheory.CMPrimeIdele.finPart_cA_mem <;> assumption
 
 theorem fst_cA (h : IsCMExt F E σ) {z : AE F E} (hz : (toAdele F E z).1 = 0) : (toAdele F E (cA σ z)).1 = 0 := by
   obtain ⟨_, rfl⟩ := (isCMExt_iff σ).1 h
@@ -603,16 +594,7 @@ theorem isUnifIdele_iff (P : HeightOneSpectrum (𝓞 E)) (x : (AE F E)ˣ) : IsUn
     exact (mix_eq_localIdele (of_isPrimeIdem h hp).1 _ _ hr).symm
 
 theorem exists_isUnifIdele (P : HeightOneSpectrum (𝓞 E)) : ∃ x, IsUnifIdele σ P x := by
-  obtain ⟨r, hr⟩ := P.intValuation_exists_uniformizer
-  have hv : Valued.v (algebraMap E (P.adicCompletion E) r) = WithZero.exp (-1 : ℤ) := by
-    rw [Formalism.UG.P.levelaf_valued_algebraMap, ← hr]
-    exact P.valuation_of_algebraMap r
-  have h0 : algebraMap E (P.adicCompletion E) r ≠ 0 := fun h0 => by
-    rw [h0, map_zero] at hv
-    exact WithZero.exp_ne_zero hv.symm
-  obtain ⟨x, hx⟩ := (ideleEquiv h).surjective (localIdele P (Units.mk0 _ h0))
-  rw [ideleEquiv_apply] at hx
-  exact ⟨x, (isUnifIdele_iff h P x).2 ⟨Units.mk0 _ h0, hv, ⟨r, rfl⟩, hx⟩⟩
+  first | exact _root_.GlobalTheory.CMPrimeIdele.exists_isUnifIdele | exact @_root_.GlobalTheory.CMPrimeIdele.exists_isUnifIdele | apply _root_.GlobalTheory.CMPrimeIdele.exists_isUnifIdele <;> assumption
 
 theorem isUnramAt_iff (χ : UnitaryHeckeChar E) (P : HeightOneSpectrum (𝓞 E)) :
     IsUnramAt σ (pull F χ) P ↔ χ.IsUnramifiedAt P := by

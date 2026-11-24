@@ -495,7 +495,6 @@ open Formalism.CohomologicalDescent.Symmetrization Formalism.CohomologicalDescen
 theorem lca_content_lt {q : ℕ} (κ : Fin q → ℕ) (h : Antitone κ) {a b : Fin q} (hab : a < b) :
     (κ b : ℤ) - (b.val : ℤ) < (κ a : ℤ) - (a.val : ℤ) := by
   have h1 : κ b ≤ κ a := h hab.le
-  have h2 : a.val < b.val := hab
   omega
 
 theorem lca_content_inj {q : ℕ} (κ : Fin q → ℕ) (h : Antitone κ) {a b : Fin q}
@@ -533,7 +532,6 @@ theorem lca_single_eq {q : ℕ} (r : Fin q) (A : Fin q → ℕ) :
 theorem lca_rows_lt {q n : ℕ} {lam2 tau : Fin q → ℕ} {κ : ℕ → Fin q → ℕ} {ρ : Fin n → Fin q}
     (H : IsPath n lam2 tau κ ρ) (j j' : Fin n) (hv : j'.val = j.val + 1) (hle : colSeq κ ρ j' ≤ colSeq κ ρ j) :
     ρ j < ρ j' ∧ colSeq κ ρ j' = κ j.val (ρ j') := by
-  have hjn := j'.isLt
   have s1 := H.step j
   have d1 := H.dom (j.val + 1) (by omega)
   have hle' : κ (j.val + 1) (ρ j') ≤ κ j.val (ρ j) := by
@@ -555,7 +553,6 @@ theorem lca_swap {q n : ℕ} {lam2 tau : Fin q → ℕ} {κ : ℕ → Fin q → 
         cseq κ' (ρ ∘ Equiv.swap j j') = cseq κ ρ ∘ Equiv.swap j j' ∧
         colSeq κ' (ρ ∘ Equiv.swap j j') = colSeq κ ρ ∘ Equiv.swap j j' := by
   obtain ⟨hr, hc⟩ := lca_rows_lt H j j' hv hlt.le
-  have hjn := j'.isLt
   have s1 := H.step j
   have s2 := H.step j'
   rw [hv] at s2
@@ -564,7 +561,6 @@ theorem lca_swap {q n : ℕ} {lam2 tau : Fin q → ℕ} {κ : ℕ → Fin q → 
   have hA : κ j.val (ρ j') < κ j.val (ρ j) := by rw [← hc]; exact hlt
   have hc' : cseq κ ρ j' = (κ j.val (ρ j') : ℤ) - ((ρ j').val : ℤ) := by
     have := hc; unfold colSeq at this; unfold cseq; rw [this]
-  have hr' : (ρ j).val < (ρ j').val := hr
   refine ⟨by rw [hc']; unfold cseq; omega, ?_⟩
   obtain ⟨κ', hκ'⟩ : ∃ κ' : ℕ → Fin q → ℕ,
       ∀ l, κ' l = if l = j.val + 1 then κ j.val + Pi.single (ρ j') 1 else κ l := ⟨_, fun _ => rfl⟩
@@ -635,7 +631,6 @@ theorem lca_same {q n : ℕ} {lam2 tau : Fin q → ℕ} {κ : ℕ → Fin q → 
     (H : IsPath n lam2 tau κ ρ) (j j' : Fin n) (hv : j'.val = j.val + 1) (heq : colSeq κ ρ j' = colSeq κ ρ j) :
     cseq κ ρ j' = cseq κ ρ j - 1 ∧ ¬ IsContentSeq lam2 (cseq κ ρ ∘ Equiv.swap j j') := by
   obtain ⟨hr, hc⟩ := lca_rows_lt H j j' hv heq.le
-  have hjn := j'.isLt
   have s1 := H.step j
   have s2 := H.step j'
   rw [hv] at s2
@@ -644,11 +639,9 @@ theorem lca_same {q n : ℕ} {lam2 tau : Fin q → ℕ} {κ : ℕ → Fin q → 
   have hA : κ j.val (ρ j') = κ j.val (ρ j) := by rw [← hc]; exact heq
   have hc' : cseq κ ρ j' = (κ j.val (ρ j') : ℤ) - ((ρ j').val : ℤ) := by
     have := hc; unfold colSeq at this; unfold cseq; rw [this]
-  have hr' : (ρ j).val < (ρ j').val := hr
   constructor
   · have hrow : (ρ j').val = (ρ j).val + 1 := by
       by_contra hcon
-      have hq := (ρ j').isLt
       obtain ⟨a, ha⟩ : ∃ a : Fin q, a.val = (ρ j).val + 1 := ⟨⟨(ρ j).val + 1, by omega⟩, rfl⟩
       have ha1 : ρ j < a := by show (ρ j).val < a.val; omega
       have ha2 : a < ρ j' := by show a.val < (ρ j').val; omega
@@ -1531,10 +1524,6 @@ private lemma cShort6_le_cCoarse (l k j t q h N' ecl : ℕ) (xm xp mB : ℤ) (I 
     Formalism.CohomologicalDescent.ShortWeightBounds.cShort6 l k j t q h N' ecl xm xp mB I ≤
       Formalism.CohomologicalDescent.UnitNormBounds.cCoarse l k j t q h N' ecl xm xp mB I := by
   unfold Formalism.CohomologicalDescent.ShortWeightBounds.cShort6 Formalism.CohomologicalDescent.UnitNormBounds.cCoarse
-  have e : ((q : ℝ) + 2 * (j : ℝ)) * (((h : ℝ) + (N' : ℝ)) / ((l : ℝ) - 1) + 6) =
-      ((q : ℝ) + 2 * (j : ℝ)) * (((h : ℝ) + (N' : ℝ)) / ((l : ℝ) - 1)) +
-        ((q : ℝ) + 2 * (j : ℝ)) * 6 := by ring
-  have hq : (0 : ℝ) ≤ ((q : ℝ) + 2 * (j : ℝ)) * 6 := by positivity
   linarith
 
 private lemma JW_le_coarseWeightBound {ι : Type} [Fintype ι] [DecidableEq ι] (W : Formalism.CohomologicalDescent.ShortWeightBounds.Wts ι)

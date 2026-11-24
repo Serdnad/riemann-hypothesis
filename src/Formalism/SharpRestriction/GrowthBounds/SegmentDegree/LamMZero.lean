@@ -40,6 +40,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
+import Formalism.SharpRestriction.GrowthBounds.PathWeight.GeOldest
 
 @[expose] public section
 
@@ -68,19 +69,7 @@ private theorem fr_le_fr_of_index_le {n' r : ℕ} [NeZero n'] (F : Frames n' r) 
 private theorem exists_index_eq_fr_of_between {n' r : ℕ} [NeZero n'] (F : Frames n' r) {L₁ N₁ : ℕ} (hV : F.Valid L₁ N₁)
     (j x : ℤ) (hx : posOf n' x ∈ F.TT) :
     ∀ k, k < r → F.fr j 0 ≤ x → x ≤ F.fr j k → ∃ i ≤ k, x = F.fr j i := by
-  intro k
-  induction k with
-  | zero =>
-    intro _ h1 h2
-    exact ⟨0, le_refl _, le_antisymm h2 h1⟩
-  | succ k ih =>
-    intro hk h1 h2
-    rcases le_or_gt x (F.fr j k) with h | h
-    · obtain ⟨i, hi, hxi⟩ := ih (by omega) h1 h
-      exact ⟨i, by omega, hxi⟩
-    · rcases lt_or_eq_of_le h2 with h' | h'
-      · exact absurd hx (hV.2.2.2.2.2.1 j k x hk h h')
-      · exact ⟨k + 1, le_refl _, h'⟩
+  intros; apply _root_.Formalism.MainNotions.G.symbolGeneratorData.ge_frame <;> assumption
 
 theorem lam_W_late {n' r : ℕ} [NeZero n'] [NeZero r] (X : Dat n' r) {L₁ N₁ : ℕ} (hV : X.F.Valid L₁ N₁) (j x : ℤ)
     (hx : x ∈ X.F.letters j) (hW : X.F.IsW j x) : x ∈ X.toLate (j - 1) ∧ ∃ i < r, x = X.F.fr (j - 1) i := by
@@ -105,10 +94,6 @@ theorem lam_W_late {n' r : ℕ} [NeZero n'] [NeZero r] (X : Dat n' r) {L₁ N₁
     exact ⟨⟨by omega, hmi⟩, hxT⟩
   · unfold Frames.IsW
     omega
-
-private theorem fr_last_lt_fr_last_succ {n' r : ℕ} [NeZero n'] [NeZero r] (F : Frames n' r) {L₁ N₁ : ℕ}
-    (hV : F.Valid L₁ N₁) (a : ℤ) : F.fr a (r - 1) < F.fr (a + 1) (r - 1) :=
-  eFr_strictMono hV (lt_add_one a)
 
 private theorem fr_last_monotone {n' r : ℕ} [NeZero n'] [NeZero r] (F : Frames n' r) {L₁ N₁ : ℕ}
     (hV : F.Valid L₁ N₁) (a b : ℤ) (h : a ≤ b) : F.fr a (r - 1) ≤ F.fr b (r - 1) :=
@@ -253,7 +238,7 @@ theorem restLamGeo (C₀ : ℝ) : RestLamGeo C₀ := by
     have hj := j.isLt
     have hj' := j'.isLt
     have hTT : X.F.fr (((j : ℕ) : ℤ) - 1) (r - 1) < X.F.fr ((j : ℕ) : ℤ) (r - 1) := by
-      have h := fr_last_lt_fr_last_succ X.F hV (((j : ℕ) : ℤ) - 1)
+      have h := eFr_strictMono hV (lt_add_one (((j : ℕ) : ℤ) - 1))
       rwa [sub_add_cancel] at h
     have hf1 := fr_le_fr_of_index_le X.F hV (((j : ℕ) : ℤ) - 1) (r - 1) (by omega) 0 (Nat.zero_le _)
     have hf2 := fr_le_fr_of_index_le X.F hV (((j : ℕ) : ℤ) - 1 - 1) (r - 1) (by omega) 0 (Nat.zero_le _)

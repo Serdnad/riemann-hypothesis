@@ -1,5 +1,7 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.FlagMeasures.MassGenusCyclicDiscriminantSplitPrime
+import Development.AbelianVarietyTheory.Proofs.FlagMeasures.DefiniteHermitianIsometricOfSameBadPrimes
 public import Development.AbelianVarietyTheory.PublishedTheorems.DiscreteSeriesUnitary₂.MaxMass
 public import Mathlib.Analysis.SpecialFunctions.Log.Base
 public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.ChartGen
@@ -67,43 +69,13 @@ namespace GlobalTheory.Mass.SpaceMass
 
 theorem nondeg_of_PD {K V : Type} [Field K] [NumberField K] [StarRing K] [AddCommGroup V] [Module K V]
     (h : V →ₗ⋆[K] V →ₗ[K] K) (hp : PD h) : h.Nondegenerate := by
-  obtain ⟨τ⟩ : Nonempty (K →+* ℂ) := inferInstance
-  refine ⟨fun x hx => ?_, fun x hx => ?_⟩
-  · by_contra h0
-    have := hp τ x h0
-    rw [hx x] at this
-    simp at this
-  · by_contra h0
-    have := hp τ x h0
-    rw [hx x] at this
-    simp at this
+  first | exact _root_.GlobalTheory.Mass.SameBad.nondeg_of_PD | exact @_root_.GlobalTheory.Mass.SameBad.nondeg_of_PD | apply _root_.GlobalTheory.Mass.SameBad.nondeg_of_PD <;> assumption
 
 theorem PD_of_ortho {K V : Type} [Field K] [NumberField K] [StarRing K] [AddCommGroup V] [Module K V]
     [Module (𝓞 K) V] (h : V →ₗ⋆[K] V →ₗ[K] K) (hK : IsCMUnram K) (I : Submodule (𝓞 K) V) (n : ℕ)
     (hI : IsOrthoLattice h I n) : PD h := by
-  obtain ⟨e, -, hsp, -, hort⟩ := hI
-  intro τ x hx
-  have hx' : x ∈ Submodule.span K (Set.range e) := by rw [hsp]; trivial
-  obtain ⟨a, rfl⟩ := (Submodule.mem_span_range_iff_exists_fun K).1 hx'
-  have e1 : h (∑ i, a i • e i) (∑ i, a i • e i) = ∑ i, star (a i) * a i := by
-
-    simp only [map_sum, LinearMap.sum_apply, map_smul, LinearMap.map_smulₛₗ, LinearMap.smul_apply,
-    hort, smul_eq_mul, starRingEnd_apply]
-    refine Finset.sum_congr rfl fun i _ => ?_
-    simp [mul_comm]
-  have e2 : (τ (∑ i, star (a i) * a i)).re = ∑ i, Complex.normSq (τ (a i)) := by
-
-    rw [map_sum, Complex.re_sum]
-    refine Finset.sum_congr rfl fun i _ => ?_
-    rw [map_mul, hK.2.1, Complex.normSq_eq_conj_mul_self.symm]
-    simp
-  rw [e1, e2]
-  obtain ⟨i, hi⟩ : ∃ i, a i ≠ 0 := by
-    by_contra hc
-    push Not at hc
-    exact hx (by simp [hc])
-  refine Finset.sum_pos' (fun j _ => Complex.normSq_nonneg _) ⟨i, Finset.mem_univ _, ?_⟩
-  exact Complex.normSq_pos.2 ((map_ne_zero τ).2 hi)
+  intros
+  apply _root_.GlobalTheory.Mass.CyclicDisc.pd_of_ortho <;> assumption
 
 theorem mem_genus_self {K V : Type} [Field K] [NumberField K] [StarRing K] [AddCommGroup V] [Module K V]
     [Module (𝓞 K) V] [IsScalarTower (𝓞 K) K V] (h : V →ₗ⋆[K] V →ₗ[K] K) (M : Submodule (𝓞 K) V)

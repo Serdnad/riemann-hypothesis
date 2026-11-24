@@ -1,5 +1,7 @@
 module
 
+
+import Development.AbelianVarietyTheory.Proofs.SatakeParameters.IsAlgClosedResidueFieldOfAic
 public import Development.EtaleCohomology.EtaleSheaves.LineHigh
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -42,7 +44,6 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.AlgebraicGeometry.Modules.Sheaf
 import Mathlib.RingTheory.RegularLocalRing.Defs
 import Mathlib.RingTheory.SimpleRing.Principal
-
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.EtaleCohomology.EtaleSheaves.FibClosed, Development.EtaleCohomology.EtaleSheaves.FibClosedPf, Development.EtaleCohomology.EtaleSheaves.FibStalkPf
 
@@ -316,12 +317,7 @@ theorem aic_root {R : Type} [CommRing R] [IsLocalRing R] (h : AIC R) : ∀ (n : 
       exact ⟨a, by rw [IsRoot, ← hf, eval_mul, ha.eq_zero, mul_zero], ha'⟩
 
 theorem sh_of_aic {R : Type} [CommRing R] [IsLocalRing R] (h : AIC R) : SH R := by
-  refine ⟨{ is_henselian := fun f hf a₀ h0 _ => aic_root h _ f hf rfl a₀ h0 }, ?_⟩
-  refine IsSepClosed.of_exists_root _ fun p hpm hpi _ => ?_
-  obtain ⟨P, hP, hdeg, hPm⟩ := lifts_and_natDegree_eq_and_monic
-    ((lifts_iff_coeff_lifts p).2 fun n => residue_surjective _) hpm
-  obtain ⟨x, hx⟩ := h P hPm (by have := hpi.natDegree_pos; omega)
-  exact ⟨residue R x, by rw [← hP, Polynomial.eval_map, eval₂_at_apply, hx]; simp⟩
+  apply @GlobalTheory.GenusTwoPureComparison.Cmp.sh_of_aic <;> assumption
 
 theorem stalkSHS_of (hA : StalkAIC) : StalkSHS := fun S hS x => sh_of_aic (hA S hS x)
 

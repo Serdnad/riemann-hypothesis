@@ -1,5 +1,6 @@
 module
 
+import all Formalism.SharpRestriction.Divisibility.GeneratorPowers.ExpChartJet
 public import Formalism.LocalToGlobal.ProjectiveLattices.IsChartIff
 public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.FBIdJet
 public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.FBIdSy
@@ -171,16 +172,7 @@ theorem mk_rename {κ κ' : Type} (m : ℕ) (ρ : κ → κ') (P : MvPolynomial 
 
 theorem cc_psTrunc {κ : Type} [Fintype κ] [DecidableEq κ] (m : ℕ) (f : MvPowerSeries κ S) :
     constantCoeff (psTrunc m f) = MvPowerSeries.constantCoeff f := by
-  unfold psTrunc
-
-  rw [map_sum]
-  simp only [MvPolynomial.constantCoeff_monomial]
-  rw [Finset.sum_ite_eq']
-  rw [if_pos]
-  · first
-      | exact MvPowerSeries.coeff_zero_eq_constantCoeff_apply f
-  · simp [degLE]
-    exact ⟨fun _ => 0, by ext; simp⟩
+  apply _root_.Formalism.MainNotions.ModuliIntegralCharts.H1.ExpChartJet.cc_psTrunc_lemma <;> assumption
 
 theorem cc_psIn {n n' : ℕ} (m : ℕ) (r : Fin n → Fin n') (f : PS S n d) :
     constantCoeff (psIn d m r f) = MvPowerSeries.constantCoeff f := by

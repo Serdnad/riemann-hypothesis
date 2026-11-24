@@ -317,15 +317,7 @@ theorem shift_comm (G : Geo F) (u v : Fin G.N → F) : shift G u * shift G v = s
 
 theorem shift_single (G : Geo F) (j : ℕ) (u : Fin G.N → F) (m : G.Sec j) :
     shift G u (Pi.single j m) = Pi.single (j + 1) (G.mulW j u m) := by
-  funext l
-  rcases l with _ | l
-  · rw [Pi.single_eq_of_ne (Nat.succ_ne_zero j).symm]
-    rfl
-  · change G.mulW l u ((Pi.single j m : Tot G) l) = _
-    by_cases h : l = j
-    · subst h
-      rw [Pi.single_eq_same, Pi.single_eq_same]
-    · rw [Pi.single_eq_of_ne h, Pi.single_eq_of_ne (fun e => h (Nat.succ_injective e)), map_zero]
+  apply _root_.GlobalTheory.HSShort.GlobWord.shift_single <;> assumption
 
 variable (X : Data F)
 
@@ -465,15 +457,7 @@ theorem ht_pow (hM : HtMul) {F : Type} [Field F] [NumberField F] {B N n : ℕ} {
     {A : (F →+* ℂ) → Matrix (Fin N) (Fin N) ℂ} {Λ : ℝ} (hL : Lat w A Λ) {a : Fin B → ℕ}
     {f : MvPolynomial (Fin B × Fin N) F} (hf : f ≠ 0) (ha : IsMultiHomogeneous a f) (e : ℕ) :
     ht w A (f ^ e) = e * ht w A f := by
-  induction e with
-  | zero =>
-    have := (hM F B N n w A Λ hL).2 1 one_ne_zero
-    simpa using this
-  | succ k ih =>
-    have hk : IsMultiHomogeneous (k • a) (f ^ k) :=
-      isMultiHomogeneous_iff_block.2 ((isMultiHomogeneous_iff_block.1 ha).pow k)
-    rw [pow_succ, (hM F B N n w A Λ hL).1 (k • a) a _ _ (pow_ne_zero k hf) hf hk ha, ih]
-    push_cast; ring
+  apply _root_.GlobalTheory.HSShort.SlopeTop.ht_pow <;> assumption
 
 theorem heightTie : HtMul → HeightTie := by
   intro hM F _ _ T Λ hL h hh d e f c hf he hc

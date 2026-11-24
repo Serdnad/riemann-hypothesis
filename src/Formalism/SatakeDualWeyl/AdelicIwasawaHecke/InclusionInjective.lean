@@ -1,5 +1,6 @@
 module
 
+import Formalism.SatakeDualWeyl.KpqSubgroupCompact
 public import Formalism.SatakeDualWeyl.Statement
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -82,13 +83,6 @@ theorem inclE_injective (F E : Type) [Field F] [CommRing E] [Algebra F E]
   exact hxy
 
 theorem UG_inclusion_injective : Formalism.UG.InclInj := by
-  intro F E _ _ _ n _ _ R _ _ hR
-  haveI := hR
-  intro g g' hgg
-  apply Units.ext
-  have h1 := congrArg Units.val hgg
-  rw [bc_coe, bc_coe] at h1
-  ext i j
-  exact inclE_injective F E R (congrFun (congrFun h1 i) j)
+  apply _root_.Formalism.UG.Final.InclInj <;> assumption
 
 end Formalism.UG.P

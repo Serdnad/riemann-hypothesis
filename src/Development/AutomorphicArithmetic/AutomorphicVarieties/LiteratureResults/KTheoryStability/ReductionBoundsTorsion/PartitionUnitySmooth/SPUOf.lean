@@ -22,7 +22,7 @@ public import Development.AutomorphicArithmetic.AutomorphicVarieties.LiteratureR
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.LiteratureResults.KTheoryStability.ReductionBoundsTorsion.PartitionUnitySmooth.PfGRLip
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.LiteratureResults.KTheoryStability.ReductionBoundsTorsion.PartitionUnitySmooth.RhoNonnegBis
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.LiteratureResults.KTheoryStability.ReductionBoundsTorsion.PartitionUnitySmooth.TransZ
-import Development.AutomorphicArithmetic.AutomorphicVarieties.HermiteNormalForms.LowbdSmul
+import all Development.AutomorphicArithmetic.AutomorphicVarieties.HermiteNormalForms.LowbdSmul
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -571,26 +571,11 @@ namespace PositivityTheory.KB.SmoothPartitionUnityBasic
 
 private theorem qR_smul_VR {L : Type} [Field L] [NumberField L] {N : ℕ} (h : HS L N) (c : ℝ)
     (z : VR L N) : qR h (c • z) = c ^ 2 * qR h z := by
-  show ∑ w, (star ((c • z) w) ⬝ᵥ mat h w *ᵥ (c • z) w).re =
-    c ^ 2 * ∑ w, (star (z w) ⬝ᵥ mat h w *ᵥ z w).re
-  rw [Finset.mul_sum]
-  refine Finset.sum_congr rfl fun w _ => ?_
-  have e : (c • z) w = (c : ℂ) • z w := by
-    ext i; simp [Complex.real_smul]
-  rw [e, star_smul, Matrix.mulVec_smul, smul_dotProduct, dotProduct_smul]
-  simp [smul_eq_mul, Complex.conj_ofReal]
-  ring
+  apply _root_.lowbd_smul <;> assumption
 
 private theorem qR_pos_of_mem_Pos_of_VR_ne_zero {L : Type} [Field L] [NumberField L] {N : ℕ} (h : HS L N)
     (hp : h ∈ Pos L N) (z : VR L N) (hz : z ≠ 0) : 0 < qR h z := by
-  obtain ⟨w0, hw0⟩ : ∃ w, z w ≠ 0 := by
-    by_contra hc; push_neg at hc; exact hz (funext hc)
-  show 0 < ∑ w, (star (z w) ⬝ᵥ mat h w *ᵥ z w).re
-  have hnn : ∀ w, 0 ≤ (star (z w) ⬝ᵥ mat h w *ᵥ z w).re := fun w => by
-    have := (hp w).posSemidef.dotProduct_mulVec_nonneg (z w)
-    exact (Complex.nonneg_iff.mp this).1
-  have hpos : 0 < (star (z w0) ⬝ᵥ mat h w0 *ᵥ z w0).re := (hp w0).re_dotProduct_pos hw0
-  exact Finset.sum_pos' (fun w _ => hnn w) ⟨w0, Finset.mem_univ _, hpos⟩
+  apply _root_.PositivityTheory.KB.SmoothPartitionUnityBasic.b_qR_pos <;> assumption
 
 private theorem continuous_qR_comp {L : Type} [Field L] [NumberField L] {N : ℕ} {X : Type*}
     [TopologicalSpace X] {f : X → HS L N} {g : X → VR L N} (hf : Continuous f)

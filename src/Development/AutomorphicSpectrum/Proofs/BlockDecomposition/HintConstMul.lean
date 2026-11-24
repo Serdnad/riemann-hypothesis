@@ -1,5 +1,6 @@
 module
 
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.LocMIterateDiag
 public import Development.AbelianVarietyTheory.Definitions.Divisors.IsUnifAt
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.FinsumOutOfLe
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.LevelFamInf
@@ -59,20 +60,8 @@ variable {Γ Γ' : Type} [Group Γ] [Group Γ']
 
 theorem hint_const_mul (K : Subgroup Γ) (u : Γ → ℂ) (c : ℂ) :
     hint K (fun x => c * u x) = c * hint K u := by
-  by_cases hc : c = 0
-  · subst hc
-    simp [GlobalTheory.CompanionTheory.FamClP.hint_zero]
-  · have hs : rStab (fun x => c * u x) = rStab u := by
-      ext r
-      simp only [GlobalTheory.CompanionTheory.FamClP.mem_rStab']
-      constructor
-      · intro h x
-        exact mul_left_cancel₀ hc (h x)
-      · intro h x
-        rw [h x]
-    unfold hint
-    rw [hs, mul_left_comm, ← smul_eq_mul c (∑ᶠ _ : Γ ⧸ (rStab u ⊓ K), _), smul_finsum]
-    rfl
+  intros
+  apply _root_.GlobalTheory.CompanionTheory.TailLocPow.hint_smul <;> assumption
 
 variable [TopologicalSpace Γ] [IsTopologicalGroup Γ] [TopologicalSpace Γ'] [IsTopologicalGroup Γ']
 

@@ -1,5 +1,6 @@
 module
 
+import Formalism.EllipticTorsion.EllipticTorsionProofs.NDeriv
 public import Formalism.FormalGroupWitt.SubstInjectiveV
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -54,12 +55,7 @@ variable {K : Type u} [NormedField K] [IsUltrametricDist K] {τ : Type w}
 
 theorem integral_mul {A B : MvPowerSeries τ K} (hA : IntegralMv A) (hB : IntegralMv B) :
     IntegralMv (A * B) := by
-  classical
-  intro d
-  rw [MvPowerSeries.coeff_mul]
-  refine IsUltrametricDist.norm_sum_le_of_forall_le_of_nonneg zero_le_one fun p _ => ?_
-  rw [norm_mul]
-  exact mul_le_one₀ (hA _) (norm_nonneg _) (hB _)
+  apply _root_.Formalism.ELL.SubstitutionCoefficientCongruence.integral_mul <;> assumption
 
 theorem integral_one : IntegralMv (1 : MvPowerSeries τ K) := by
   classical

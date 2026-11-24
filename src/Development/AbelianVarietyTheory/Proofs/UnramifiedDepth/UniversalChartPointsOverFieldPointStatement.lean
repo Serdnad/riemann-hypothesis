@@ -1,5 +1,6 @@
 module
 
+import Development.WeilBound.CoreStatements.HodgeTatePoints.CdUniv
 public import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.CubWeilOfInjective
 public import Development.AbelianVarietyTheory.Definitions.Jets.JetsOnCopiesCompatibleFrames
 public import Development.AbelianVarietyTheory.Proofs.FormalGroupCharts.GermEvalOneStandardPointSelf
@@ -91,16 +92,7 @@ theorem aug_X (m : ℕ) (i : κ) :
   simp
 
 theorem ker_aug_pow (m : ℕ) : RingHom.ker (jetAug : Jet V κ m →ₐ[V] V) ^ (m + 1) = ⊥ := by
-  have hle : RingHom.ker (jetAug : Jet V κ m →ₐ[V] V) ≤ (orig V κ).map (Ideal.Quotient.mk _) := fun z hz => by
-    obtain ⟨p, rfl⟩ := Ideal.Quotient.mk_surjective z
-    have h0 : MvPolynomial.aeval (fun _ : κ => (0 : V)) p = 0 := hz
-    have h1 : MvPolynomial.constantCoeff p = 0 := by simpa using h0
-    have h2 := sub_const_mem_orig p
-    rw [h1, map_zero, sub_zero] at h2
-    exact Ideal.mem_map_of_mem _ h2
-  rw [eq_bot_iff]
-  refine (Ideal.pow_right_mono hle _).trans ?_
-  rw [← Ideal.map_pow, Ideal.map_quotient_self]
+  first | exact _root_.PositivityTheory.HtPt.Cd.ker_aug_pow | exact @_root_.PositivityTheory.HtPt.Cd.ker_aug_pow | apply _root_.PositivityTheory.HtPt.Cd.ker_aug_pow <;> assumption
 
 def toSp {A : Type} [CommRing A] [Algebra V A] (y : overAt (𝟙 (Sp V)) A ⟶ G) : Chart.sp (R₀ := V) A ⟶ G :=
   Over.homMk y.left ((Over.w y).trans (Category.comp_id _))

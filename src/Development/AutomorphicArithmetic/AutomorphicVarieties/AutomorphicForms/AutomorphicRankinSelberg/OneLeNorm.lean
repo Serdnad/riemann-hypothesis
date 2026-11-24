@@ -1,5 +1,6 @@
 module
 
+import all Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.AutomorphicRankinSelberg.KerDiff
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.AutomorphicRankinSelberg.StripInt
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -51,14 +52,7 @@ open Set
 namespace UpperTheory.V.Af.Rs
 
 private lemma one_le_norm {x : Fin 2 → ℤ} (hx : x ≠ 0) : 1 ≤ ‖x‖ := by
-  obtain ⟨i, hi⟩ : ∃ i, x i ≠ 0 := by
-    by_contra h
-    push_neg at h
-    exact hx (funext h)
-  have h1 : (1 : ℝ) ≤ ‖x i‖ := by
-    rw [Int.norm_eq_abs]
-    exact_mod_cast Int.one_le_abs hi
-  exact h1.trans (norm_le_pi_norm x i)
+  apply _root_.UpperTheory.V.Af.Rs.kd_one <;> assumption
 
 private lemma ker_le (hB : KerBd) {s : ℝ} (hs : s ∈ Icc (1 : ℝ) 2) {z : UpperHalfPlane}
     (hz : z ∈ ModularGroup.fd) (x : Fin 2 → ℤ) :

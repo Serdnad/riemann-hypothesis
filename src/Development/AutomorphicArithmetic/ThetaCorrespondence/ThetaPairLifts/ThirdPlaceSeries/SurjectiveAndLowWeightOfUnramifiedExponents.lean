@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.GlDetEqOneOfMemUnip
 public import Formalism.LocalToGlobal.IndefiniteReal.LinksChar
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.LiftWeightComplexPointEqTwist
 public import Development.AbelianVarietyTheory.Definitions.Divisors.NormNegCmConstantEqAtAllEmbeddings
@@ -118,17 +119,7 @@ variable {D : D7} {G : Type} [Group G] [Fintype G] {Pl0 T0 : Type} {A : FamIn D.
   {Ks : Type} [Field Ks] [NumberField Ks] [Algebra Ks D.what₂.LL] {R : RealDat D A Ks} {F : Face D A}
 
 theorem chi_eq_one (hG : R.IsGrp F) (i : Fin D.R.m) {g : G} (hg : g ∈ F.P0) : (R.FW i).chi g = 1 := by
-  obtain ⟨u, hu, rfl⟩ := (OntoChain.mem_base_iff hG.levels g).1 hg
-  have h1 := (OntoChain.mem_pi_unip_iff R _).2 ⟨u, hu, rfl⟩
-  refine Units.ext (D.what₂.embLL.injective ?_)
-  rw [hG.chiW, Units.val_one, map_one, OntoChain.eG_mirIncl]
-  refine Finset.prod_eq_one fun v _ => ?_
-  have h2 := h1 v (Set.mem_univ v)
-  have h3 : Matrix.GeneralLinearGroup.det (mirToGL R u v) = 1 := by
-    refine Units.ext ?_
-    rw [Matrix.GeneralLinearGroup.val_det_apply, Matrix.det_of_isUpperTriangular h2.1]
-    exact Finset.prod_eq_one fun k _ => h2.2 k
-  rw [h3, map_one, Units.val_one]
+  first | exact _root_.GlobalTheory.TraceIncl.chi_eq_one_of_mem_base | exact @_root_.GlobalTheory.TraceIncl.chi_eq_one_of_mem_base | apply _root_.GlobalTheory.TraceIncl.chi_eq_one_of_mem_base <;> assumption
 
 end Real
 

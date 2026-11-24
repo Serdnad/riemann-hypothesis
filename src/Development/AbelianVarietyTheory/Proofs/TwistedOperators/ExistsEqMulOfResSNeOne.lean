@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.ToEAfMulIncAMemOfIsIdemSum
 public import Formalism.LocalToGlobal.IndefiniteReal.DatumVec
 public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.MemRangeOfOneTmulMem
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.IdempotentMulEqZeroOfOrthogonal
@@ -87,15 +88,7 @@ theorem exists_eq_mul_of_resS_ne_one {F E : Type} [Field F] [NumberField F] [Fie
 
 theorem toEAf_mem_of_finPart {D : D7} {w : AE D} (hw : finPart D w ∈ intAE D) :
     toEAf D w ∈ Formalism.L2.Herm.intAf D.host.F D.host.E := by
-  change Algebra.TensorProduct.comm D.host.F (Af D.host.F) D.host.E (finPart D w) ∈ _
-  generalize finPart D w = z at hw
-  induction hw using AddSubgroup.closure_induction with
-  | mem y hy =>
-    obtain ⟨a, ha, x, rfl⟩ := hy
-    exact GlobalTheory.PlaceDatum.tmul_mem_int ⟨x, rfl⟩ ha
-  | zero => rw [map_zero]; exact zero_mem _
-  | add a b _ _ ha hb => rw [map_add]; exact add_mem ha hb
-  | neg a _ ha => rw [map_neg]; exact neg_mem ha
+  apply _root_.GlobalTheory.IdemIntegral.toEAf_mem_of_finPart_mem <;> assumption
 
 theorem resS_idem_eq_one : ∀ (D : D7) (e : AE D) (P : Formalism.L2.DIV.Pl D.host.E), Formalism.L2.NTheta.IsIdemAt e P →
     ∃ h : toEAf D e ∈ Formalism.L2.Herm.intAf D.host.F D.host.E, Formalism.L2.DIV.resS D.host.F P ⟨toEAf D e, h⟩ = 1 := by
