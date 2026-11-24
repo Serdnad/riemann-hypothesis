@@ -1,6 +1,5 @@
 module
 
-import Development.WeilBound.CoreStatements.FlagImmersions.SumFundOnRoot
 public import Development.AutomorphicSpectrum.Definitions.DivisibilityTowers.Proportional
 public import Development.AutomorphicSpectrum.Definitions.DivisibilityTowers.Birational
 public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.MonomialLinesPermutation
@@ -596,8 +595,16 @@ namespace GlobalTheory.CompanionTheory.Ar.TieOfOrigin
 theorem sum_fundOnRoot {Ψ : Type} [Fintype Ψ] [DecidableEq Ψ] {N : ℕ} {G : Type} [AddCommGroup G]
     (f : Ψ × Fin N → G) (a : Ψ × Fin N) :
     ∑ r, fundOnRoot a r • f r = -∑ k ∈ Finset.Iic a.2, f (a.1, k) := by
-  intros
-  apply _root_.RootFieldNumerics.Sq.sum_fundOnRoot <;> assumption
+  rw [Fintype.sum_prod_type, Finset.sum_eq_single a.1]
+  · rw [← Finset.sum_neg_distrib, ← Finset.sum_subset (Finset.subset_univ (Finset.Iic a.2))]
+    · refine Finset.sum_congr rfl fun k hk => ?_
+      simp [fundOnRoot, Finset.mem_Iic.mp hk]
+    · intro k _ hk
+      have hk' : ¬ k ≤ a.2 := fun h => hk (Finset.mem_Iic.mpr h)
+      simp [fundOnRoot, hk']
+  · intro τ _ hτ
+    simp [fundOnRoot, hτ]
+  · simp
 
 theorem log_combLine {K : Type} [Fintype K] {ι : K → Type} [∀ k, Fintype (ι k)] {J : Type} [Fintype J]
     (ℓ : J → HermLine ι) (n : J → ℤ) (z : (Σ k, ι k) → ℂ) (hz : ∀ k, ∃ i, z ⟨k, i⟩ ≠ 0) :

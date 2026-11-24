@@ -1,6 +1,5 @@
 module
 
-import Formalism.FormalGroupWitt.FormalGroupWittProofs.WittTeichmullerRoot
 public import Formalism.LocalToGlobal.InertKernelTheory.StatementLoc
 public import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.EnInParamKProd
 public import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.FacEmbDomain
@@ -51,7 +50,6 @@ import Formalism.LocalToGlobal.KernelLattices.KernelLocalFactors.SelfDualLattice
 import Formalism.LocalToGlobal.KernelLattices.KernelLocalFactors.StdOK
 import Mathlib.RingTheory.PiTensorProduct
 import Formalism.LocalToGlobal.InertKernelTheory.InertCoprimeLemmas.LocalLevelIsKOneAtT
-import Development.AbelianVarietyTheory.Proofs.SatakeParameters.IteratedFDerivConstSmulOfNe
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Formalism.LocalToGlobal.InertKernelTheory.InertCoprimeLemmas.AdmissibleThirdOfSecondEleventh, Formalism.LocalToGlobal.InertKernelTheory.InertCoprimeLemmas.AlgebraicTranslatesAllData, Formalism.LocalToGlobal.InertKernelTheory.InertCoprimeLemmas.FirstKernelLawGlobal, Formalism.LocalToGlobal.InertKernelTheory.InertCoprimeLemmas.ConstantCoeffFormalSum, Formalism.LocalToGlobal.InertKernelTheory.InertCoprimeLemmas.RepAsm, Formalism.LocalToGlobal.PairingIndexBounds.PendingAdmissibility.LocalFDerivAdmissibility.IteratedFDerivConstSmul, Formalism.LocalToGlobal.InertKernelTheory.InertCoprimeLemmas.RepScal, Formalism.LocalToGlobal.InertKernelTheory.InertCoprimeLemmas.K1RepresentativesLTOfDictionary, Formalism.LocalToGlobal.InertKernelTheory.InertCoprimeLemmas.FirstKernelSmallOfFrameTwist
@@ -529,7 +527,20 @@ section Char
 variable (p : ℕ) [Fact p.Prime]
 
 theorem charZero_WW : CharZero (WW p) := by
-  apply _root_.Formalism.FG.witt_char_zero <;> assumption
+  obtain ⟨q, hq⟩ := CharP.exists (WW p)
+  rcases CharP.char_is_prime_or_zero (WW p) q with h | h
+  · exfalso
+    have h0 : ((q : ℕ) : WW p) = 0 := CharP.cast_eq_zero (WW p) q
+    have h1 : ((q : ℕ) : kb p) = 0 := by
+      have := congrArg (WittVector.constantCoeff (p := p) (R := kb p)) h0
+      rw [map_natCast, map_zero] at this
+      exact this
+    have h2 : p ∣ q := (CharP.cast_eq_zero_iff (kb p) p q).mp h1
+    have h3 : p = q := (Nat.prime_dvd_prime_iff_eq (Fact.out : p.Prime) h).mp h2
+    have h4 : ((p : ℕ) : WW p) = ((q : ℕ) : WW p) := congrArg (Nat.cast) h3
+    exact WittVector.p_nonzero p (kb p) (h4.trans h0)
+  · subst h
+    exact CharP.charP_to_charZero (WW p)
 
 instance charZero_K0k1 : CharZero (K0 p) :=
   haveI := charZero_WW p
@@ -1306,7 +1317,17 @@ namespace Formalism.L2.PairingIndexBounds.PowerSeriesNecessity
 theorem iteratedFDeriv_const_smul' {E F : Type} [NormedAddCommGroup E] [NormedSpace ℂ E] [NormedAddCommGroup F]
     [NormedSpace ℂ F] (c : ℂ) (hc : c ≠ 0) (f : E → F) (n : ℕ) :
     iteratedFDeriv ℂ n (fun y => c • f y) = c • iteratedFDeriv ℂ n f := by
-  apply _root_.GlobalTheory.TwU.LawAll.iteratedFDeriv_const_smul_of_ne <;> assumption
+  let _ : Invertible c := invertibleOfNonzero hc
+  induction n with
+  | zero =>
+    ext x m
+    simp [iteratedFDeriv_zero_apply]
+  | succ n ih =>
+    rw [iteratedFDeriv_succ_eq_comp_left, iteratedFDeriv_succ_eq_comp_left, ih]
+    funext x
+    simp only [Function.comp_apply]
+    rw [fderiv_const_smul_of_invertible c, map_smul]
+    rfl
 
 theorem taylor_const_mul (D : D7) {N N' : ℕ} (s : ℂ) (hs : s ≠ 0) (G : TaylorLogMetric.VC D N N' → ℂ) (α : TaylorLogMetric.Mono D N N') :
     TaylorLogMetric.taylor D (fun z => s * G z) α = s * TaylorLogMetric.taylor D G α := by

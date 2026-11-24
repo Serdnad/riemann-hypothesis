@@ -1,6 +1,5 @@
 module
 
-import Development.AutomorphicArithmetic.AutomorphicVarieties.HeckeAlgebras.OrdinaryHeckeCharacters.FreeOfNeat
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.ThresholdArguments.DenseThresholdCases.TypesNZeroCDefs
 public import PositivityTheory.AutomorphicForms.PublishedInputs.NonzeroTypes.JacNeZero
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.ThresholdArguments.DenseThresholdCases.TypesNZeroCJDefs
@@ -1198,8 +1197,20 @@ private theorem te_loc (P : _root_.GlobalTheory.Mem.LiteralAutomorphy.Literature
 private theorem te_root {O : Type} [CommRing O] [IsDomain O] [IsLocalRing O] [Finite (ResidueField O)] {a b : Oˣ}
     (ha : a ^ (Nat.card (ResidueField O) - 1) = 1) (hb : b ^ (Nat.card (ResidueField O) - 1) = 1)
     (h : residue O a = residue O b) : a = b := by
-  intros
-  apply _root_.UpperTheory.V.Hi.LvR.teich_ext <;> assumption
+  letI := Fintype.ofFinite (ResidueField O)
+  have hu : ((a * b⁻¹ : Oˣ) : O) ^ (Nat.card (ResidueField O) - 1) = 1 := by
+    rw [← Units.val_pow_eq_pow_val, mul_pow, inv_pow, ha, hb]; simp
+  have hr : residue O (a * b⁻¹ : Oˣ) = 1 := by
+    rw [Units.val_mul, map_mul, h, ← map_mul, Units.mul_inv, map_one]
+  have h1 := geom_sum_mul ((a * b⁻¹ : Oˣ) : O) (Nat.card (ResidueField O) - 1)
+  rw [hu, sub_self] at h1
+  rcases mul_eq_zero.1 h1 with h2 | h2
+  · have h3 := congrArg (residue O) h2
+
+    simp only [map_sum, map_pow, hr, one_pow, Finset.sum_const, Finset.card_range, map_zero, nsmul_eq_mul, mul_one] at h3
+    rw [Nat.cast_sub Nat.card_pos, Nat.card_eq_fintype_card, FiniteField.cast_card_eq_zero] at h3
+    simp at h3
+  · exact mul_inv_eq_one.1 (Units.ext (sub_eq_zero.1 h2))
 theorem UpperTheory.V.Z.Desc.P.exists_integral_type_for_residual_rep :
     _root_.GlobalTheory.Mem.LiteralAutomorphy.LiteratureRankNHypothesis → _root_.UpperTheory.NonzeroTypeTheory.NonzeroTypes → ∀ (l : ℕ) [Fact l.Prime] (L Ω : Type) [Field L] [NumberField L] [IsCMField L] [Field Ω] [Algebra L Ω] [IsAlgClosure L Ω] (s : HidaSetting l L Ω) (n : ℕ), 1 ≤ n →
     ∀ (V : s.Lev) (Q : QData V) (c : Coef l), ∀ (r : Resid V.frame c.O n) (ι : Qbar l ≃+* ℂ), ∃ (m : ℕ) (τ₀ : KT n (wt s) →* GL (Fin m) c.O), _root_.UpperTheory.V.Hi.CaseU.TypeForAlt r ι τ₀ := by

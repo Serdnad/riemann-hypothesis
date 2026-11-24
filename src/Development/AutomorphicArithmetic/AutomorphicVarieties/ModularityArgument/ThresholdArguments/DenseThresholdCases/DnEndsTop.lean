@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.TeichmullerInertiaLabelCondition
 import Mathlib
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.AutomorphyLifting.AutomorphyDescent.Across2
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.UpperTriangularPlaces.PtLawsOf
@@ -550,8 +549,17 @@ namespace UpperTheory.V.Br.CharacterEquality
 private theorem normV_inj : Function.Injective fun w : Pl ℚ => normV w := fun v w h =>
   HeightOneSpectrum.ext (by rw [(places v).2.1, (places w).2.1, show normV v = normV w from h])
 private theorem normV_surj {p : ℕ} (hp : p.Prime) : ∃ w : Pl ℚ, normV w = p := by
-  intros
-  apply _root_.GlobalTheory.WeilDeligne.exists_normV_eq <;> assumption
+  have h0 : Prime ((p : ℕ) : 𝓞 ℚ) := by
+    have h : Prime ((p : ℕ) : ℤ) := Nat.prime_iff_prime_int.mp hp
+    have e : ((p : ℕ) : 𝓞 ℚ) = Rat.ringOfIntegersEquiv.symm ((p : ℕ) : ℤ) := by simp
+    rw [e]
+    exact (MulEquiv.prime_iff Rat.ringOfIntegersEquiv.symm.toMulEquiv).mpr h
+  let w : Pl ℚ := ⟨Ideal.span {((p : ℕ) : 𝓞 ℚ)}, (Ideal.span_singleton_prime h0.ne_zero).mpr h0,
+    by rw [Ne, Ideal.span_singleton_eq_bot]; exact h0.ne_zero⟩
+  refine ⟨w, (places w).2.2.1.symm.trans ?_⟩
+  change Ideal.absNorm (Ideal.span {((p : ℕ) : 𝓞 ℚ)}) = p
+  rw [Ideal.absNorm_span_natCast, RingOfIntegers.rank]
+  simp
 private theorem tr_det {K : Type} [Field K] (ι : K ≃+* ℂ) {A : Matrix (Fin 2) (Fin 2) K} {a d : ℂ}
     (h : A.charpoly.map ι.toRingHom = X ^ 2 - C a * X + C d) : ι A.trace = a ∧ ι A.det = d := by
   rw [Matrix.charpoly_fin_two] at h

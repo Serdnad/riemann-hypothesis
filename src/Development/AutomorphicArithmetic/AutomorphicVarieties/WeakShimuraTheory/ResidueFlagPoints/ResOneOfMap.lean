@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsPrincipallyPolarizedCMExtensionDvr
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.WeakShimuraTheory.ResidueFlagPoints.ResLeMemDec
 import Development.AutomorphicArithmetic.AutomorphicVarieties.GaloisLibrary.SelmerTransport.DvrFacts
 import Mathlib.Algebra.Order.Floor.Extended
@@ -45,8 +44,17 @@ open NumberField IsDedekindDomain Formalism.ConjugateSelfDual Formalism.HC Recip
 
 private theorem eq_one_of_res {R : Type} [CommRing R] [IsDomain R] [IsLocalRing R] {x : R} {m : ℕ} (hm : IsUnit (m : R))
     (h1 : residue R x = 1) (hx : x ^ m = 1) : x = 1 := by
-  intros
-  apply _root_.GlobalTheory.GoodPol.eq_one_of_pow_eq_one <;> assumption
+  have hs : IsUnit (∑ i ∈ Finset.range m, x ^ i) := by
+    have h0 : residue R (∑ i ∈ Finset.range m, x ^ i) = residue R (m : R) := by
+      set_option synthInstance.maxHeartbeats 100000 in
+        simp [map_sum, map_pow, h1]
+    by_contra hn
+    have hmem : (∑ i ∈ Finset.range m, x ^ i) ∈ maximalIdeal R := hn
+    rw [← residue_eq_zero_iff, h0] at hmem
+    exact (residue_eq_zero_iff _).mp hmem hm
+  have hg := geom_sum_mul x m
+  rw [hx, sub_self] at hg
+  exact sub_eq_zero.mp ((hs.mul_right_eq_zero).mp hg)
 
 private theorem res_one_of_map {R S : Type} [CommRing R] [IsLocalRing R] [CommRing S] [IsLocalRing S] (f : R →+* S) {x : R}
     (h : residue S (f x) = 1) : residue R x = 1 := by

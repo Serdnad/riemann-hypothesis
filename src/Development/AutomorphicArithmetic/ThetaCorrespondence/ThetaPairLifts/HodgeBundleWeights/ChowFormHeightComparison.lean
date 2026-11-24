@@ -1,7 +1,5 @@
 module
 
-import Development.AutomorphicSpectrum.Proofs.GeometryProofs.TorsionValueUniqueBaseChange
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsUnitaryOfFrameNormConj
 public import Development.AbelianVarietyTheory.Definitions.Divisors.IsHeightIffOfDegreeEq
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.BlockSphereMeanEqOfFrameNormEq
 public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.IsHomOpenPart
@@ -1002,7 +1000,15 @@ private theorem top_le_map_fromSpecStalk_genericPoint (X : Scheme.{0}) [IsIntegr
 private theorem valF_spMap_comp' {K L : Type} [Field K] [Field L] (σ : K →+* L) {Y : Scheme.{0}}
     (y : Sp K ⟶ Y) (U : Y.Opens) (hy : ⊤ ≤ (Opens.map y.base).obj U) (f : Γ(Y, U)) :
     valF (spMap σ ≫ y) U f = σ (valF y U f) := by
-  apply _root_.GlobalTheory.CompanionTheory.Ar.Sl.TorsExist.valF_spMap <;> assumption
+  have h2 : ⊤ ≤ (Opens.map (spMap σ ≫ y).base).obj U := fun w _ => hy (Opens.mem_top ((spMap σ).base w))
+  have k2 : Scheme.Hom.appLE (spMap σ) ⊤ ⊤ (fun _ _ => trivial) ≫ (Scheme.ΓSpecIso (CommRingCat.of L)).hom =
+      (Scheme.ΓSpecIso (CommRingCat.of K)).hom ≫ CommRingCat.ofHom σ := by
+    have hn := Scheme.ΓSpecIso_naturality (CommRingCat.ofHom σ)
+    convert hn using 2
+    exact Scheme.Hom.appLE_eq_app (spMap σ) (U := ⊤)
+  unfold valF
+  rw [dite_eq_left h2, dite_eq_left hy, ← Scheme.Hom.appLE_comp_appLE (spMap σ) y U ⊤ ⊤ hy (fun _ _ => trivial)]
+  exact congrArg (fun φ => CommRingCat.Hom.hom φ (CommRingCat.Hom.hom (Scheme.Hom.appLE y U ⊤ hy) f)) k2
 
 theorem exists_pt {o Ω : Type} [CommRing o] [Field Ω] [Algebra o Ω] {X : Scheme.{0}} [IsIntegral X] (p : X ⟶ Sp o)
     (ψ : Ω →+* X.functionField) (hψ : Function.Bijective ψ)
@@ -1105,7 +1111,22 @@ theorem unitary_of_norm {N : ℕ} (W : Matrix (Fin N) (Fin N) ℂ)
 theorem exists_unitary {N : ℕ} (A B : Matrix (Fin N) (Fin N) ℂ) (hA : A.det ≠ 0) (hB : B.det ≠ 0)
     (h : ∀ x : Fin N → ℂ, GlobalTheory.ChowHt.frameNorm B (fun j => (starRingEnd ℂ) (x j)) = GlobalTheory.ChowHt.frameNorm A x) :
     ∃ U ∈ Matrix.unitaryGroup (Fin N) ℂ, B = A.map (starRingEnd ℂ) * U := by
-  apply _root_.GlobalTheory.exists_unitary_of_frameNorm_conj <;> assumption
+  have hW : B⁻¹ * A.map (starRingEnd ℂ) ∈ Matrix.unitaryGroup (Fin N) ℂ := by
+    refine unitary_of_norm _ fun y => ?_
+    have := h (A.mulVec fun j => (starRingEnd ℂ) (y j))
+    unfold GlobalTheory.ChowHt.frameNorm at this
+    rw [Matrix.mulVec_mulVec, Matrix.nonsing_inv_mul _ hA.isUnit, Matrix.one_mulVec] at this
+    have e : (fun j => (starRingEnd ℂ) (A.mulVec (fun j => (starRingEnd ℂ) (y j)) j)) =
+        (A.map (starRingEnd ℂ)).mulVec y := by
+      funext j
+      simp [Matrix.mulVec, dotProduct]
+    rw [e, Matrix.mulVec_mulVec] at this
+    simpa using this
+  refine ⟨star (B⁻¹ * A.map (starRingEnd ℂ)), Unitary.star_mem hW, ?_⟩
+  have h1 := Matrix.mem_unitaryGroup_iff.1 hW
+  calc B = B * ((B⁻¹ * A.map (starRingEnd ℂ)) * star (B⁻¹ * A.map (starRingEnd ℂ))) := by rw [h1, mul_one]
+    _ = _ := by
+      rw [← Matrix.mul_assoc, ← Matrix.mul_assoc, Matrix.mul_nonsing_inv _ hB.isUnit, Matrix.one_mul]
 
 theorem exists_P {K : Type} [Field K] {N m : ℕ} (g : Matrix (Fin N) (Fin m) K)
     (hg : Submodule.span K (Set.range g.col) = ⊤) :

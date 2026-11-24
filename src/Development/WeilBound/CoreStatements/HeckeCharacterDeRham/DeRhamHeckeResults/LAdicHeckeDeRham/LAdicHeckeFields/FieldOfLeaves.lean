@@ -1,6 +1,5 @@
 module
 
-import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.ReducedCoefficients
 public import Formalism.SharpRestriction.LevelLetterCocycles.DataNLoc
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.EvalMod
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.HasPeriods
@@ -104,8 +103,18 @@ open Polynomial
 variable {l : ℕ} [Fact l.Prime]
 
 theorem isIntegral_of_norm_le_one (z : Om l) (h : ‖z‖ ≤ 1) : IsIntegral ℤ_[l] z := by
-  intros
-  apply _root_.UpperTheory.padicAlgCl_isIntegral_of_norm_le_one <;> assumption
+  have hz : IsIntegral ℚ_[l] z := Algebra.IsIntegral.isIntegral z
+  rw [← PadicAlgCl.spectralNorm_eq] at h
+  unfold spectralNorm at h
+  rw [spectralValue_le_one_iff (minpoly.monic hz)] at h
+  have hlift : minpoly ℚ_[l] z ∈ lifts (algebraMap ℤ_[l] ℚ_[l]) := by
+    rw [lifts_iff_coeff_lifts]
+    intro n
+    exact ⟨⟨_, h n⟩, rfl⟩
+  obtain ⟨q, hq, -, hqm⟩ := lifts_and_natDegree_eq_and_monic hlift (minpoly.monic hz)
+  refine ⟨q, hqm, ?_⟩
+  rw [IsScalarTower.algebraMap_eq ℤ_[l] ℚ_[l] (Om l), ← eval₂_map, hq, ← aeval_def]
+  exact minpoly.aeval ℚ_[l] z
 
 theorem mem_OL_of_norm_le_one (K : FinExt l) (x : ↥K.1) (h : ‖((x : ↥K.1) : Om l)‖ ≤ 1) :
     x ∈ OL K := by

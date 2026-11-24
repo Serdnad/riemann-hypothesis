@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.FinrankH1fDeRham
 public import Formalism.SharpRestriction.LevelLetterCocycles.InvariantsGenerators
 public import Development.AbelianVarietyTheory.BlockTheory.NonGaloisCusps.DiagonalQuotientEigen
 public import Development.AbelianVarietyTheory.BlockTheory.NonGaloisCusps.GradedSeries
@@ -803,8 +802,15 @@ variable {G : Type} [Group G] {Qp K₀ K : Type} [Field Qp] [Field K₀] [Field 
 
 theorem coboundary_mem_blochKatoCocycles (ρ : Representation LL G V) (hc : ∀ x, Continuous fun g => ρ g x) (x : V) :
     cob ρ x ∈ finiteCocycles PD ρ := by
-  intros
-  apply _root_.GlobalTheory.SeqDim.coboundary_mem_blochKatoCocycles <;> assumption
+  have hcob : ∀ g, cob ρ x g = ρ g x - x := fun g => rfl
+  refine ⟨⟨?_, fun g h => ?_⟩, x ⊗ₜ[Qp] (1 : B), fun g => ?_⟩
+  · have : (cob ρ x : G → V) = fun g => ρ g x + (-x) := funext fun g => by rw [hcob, sub_eq_add_neg]
+    rw [this]
+    exact (hc x).add continuous_const
+  · simp only [hcob, map_mul, Module.End.mul_apply, map_sub]
+    abel
+  · rw [hcob, sub_tmul]
+    simp [actVB]
 
 theorem mem_H1fT_of_smul (ρ : Representation LL G V) (L : Lattice (O := O) ρ)
     (hc : ∀ x, Continuous fun g => ρ g x) (κ : LatticeCohomology L) (a : O) (ha : algebraMap O LL a ≠ 0)

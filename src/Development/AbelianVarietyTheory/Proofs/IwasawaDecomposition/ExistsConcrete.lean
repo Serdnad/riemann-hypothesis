@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.SatakeParameters.ChartsReadingStepMoveBasePointsOneOffLevelPrime
 public import Formalism.LocalToGlobal.GroupLattices.TiedFamilies.TiePsi
 public import Formalism.LocalToGlobal.GroupLattices.TiedFamilies.ChiMemSubfield
 public import Formalism.LocalToGlobal.GroupLattices.PerfectRings.ExtWRec
@@ -127,14 +126,38 @@ variable {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algeb
 
 theorem adelic_ext {n : ℕ} (g h : GL (Fin n) (E ⊗[F] FiniteAdeleRing (𝓞 F) F))
     (H : ∀ v : HeightOneSpectrum (𝓞 F), bc (prV (E := E) v) g = bc (prV (E := E) v) h) : g = h := by
-  first | exact _root_.Formalism.L2.GlobalTheoryTheory.LocalLatticeBases.S0.adelic_GL_ext_local | exact @_root_.Formalism.L2.GlobalTheoryTheory.LocalLatticeBases.S0.adelic_GL_ext_local | apply _root_.Formalism.L2.GlobalTheoryTheory.LocalLatticeBases.S0.adelic_GL_ext_local <;> assumption
+  apply Units.ext
+  ext i j
+  rw [← sub_eq_zero]
+  apply Formalism.UG.P.afsplit_inj
+  intro w
+  rw [map_sub]
+  have h1 := congrArg Units.val (H w)
+  rw [Formalism.UG.P.afsplit_coe_bc_prV, Formalism.UG.P.afsplit_coe_bc_prV] at h1
+  have := congrFun (congrFun h1 i) j
+  simp only [Matrix.map_apply] at this
+  rw [this, sub_self]
 
 theorem exists_trivial_on {n : ℕ} (σ : E →ₐ[F] E) (J : Matrix (Fin n) (Fin n) E) (s : Finset (HeightOneSpectrum (𝓞 F)))
     (g : GL (Fin n) (E ⊗[F] FiniteAdeleRing (𝓞 F) F)) (hg : g ∈ UPts σ J (FiniteAdeleRing (𝓞 F) F)) :
     ∃ k ∈ UPts σ J (FiniteAdeleRing (𝓞 F) F), (∀ v ∈ s, bc (prV (E := E) v) k = 1) ∧
       ∀ v ∉ s, bc (prV (E := E) v) k = bc (prV (E := E) v) g := by
-  intros
-  apply _root_.GlobalTheory.TwU.MoveOff.exists_one_on <;> assumption
+  classical
+  induction s using Finset.induction_on with
+  | empty => exact ⟨g, hg, by simp, fun _ _ => rfl⟩
+  | insert v s hv ih =>
+    obtain ⟨k, hk, h1, h2⟩ := ih
+    have hne : ∀ w, w ≠ v → bc (prV (E := E) w) (Formalism.UG.P.afsplitU v 1 k) = bc (prV (E := E) w) k := by
+      intro w hw
+      apply Units.ext
+      rw [Formalism.UG.P.afsplit_coe_bc_prV, Formalism.UG.P.afsplitU_coe, Formalism.UG.P.afsplitC_prV_ne v w hw]
+      rfl
+    refine ⟨Formalism.UG.P.afsplitU v 1 k, Formalism.UG.P.afsplitU_mem v σ J 1 k (one_mem _) hk, fun w hw => ?_, fun w hw => ?_⟩
+    · by_cases h : w = v
+      · subst h; exact Formalism.UG.P.afsplit_right1 w 1 k
+      · rw [hne w h]; exact h1 w ((Finset.mem_insert.1 hw).resolve_left h)
+    · rw [Finset.mem_insert, not_or] at hw
+      rw [hne w hw.1]; exact h2 w hw.2
 
 theorem finite_over (p : ℕ) (hp : p ≠ 0) : {v : HeightOneSpectrum (𝓞 F) | ((p : ℕ) : 𝓞 F) ∈ v.asIdeal}.Finite := by
   have h0 : Ideal.span {((p : ℕ) : 𝓞 F)} ≠ 0 := by

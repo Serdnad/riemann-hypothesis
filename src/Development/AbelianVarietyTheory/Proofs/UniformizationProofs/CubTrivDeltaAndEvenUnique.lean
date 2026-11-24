@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.BiTrivLiftOfIsNilpotent
 public import Development.AbelianVarietyTheory.Definitions.Uniformization.PointEqOfSubsingleton
 public import Development.AbelianVarietyTheory.Proofs.HomogeneousIdeals.HomBaseChangeBijectiveOfLeNilradical
 public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.ExistsUniqueCharacterOfMul
@@ -230,8 +229,20 @@ theorem prod_cubTriv {T : Over S} (x : T ⟶ H) {U : Type} [CommGroup U] (h : (T
 theorem prod_biTriv {T : Over S} (t : T ⟶ H) (x : T ⟶ G) {U : Type} [CommGroup U] (h : (T.left ⟶ G.left) → U) :
     ∏ k : Fin 4, h ((lift t x).left ≫ lamφ i k) ^ Oε k =
       h ((t ≫ i) * x).left * (h (t ≫ i).left)⁻¹ * (h x.left)⁻¹ * h (1 : T ⟶ G).left := by
-  intros
-  apply _root_.GlobalTheory.UU.BiTransport.prod_lam <;> assumption
+  have e1 : (lift t x).left ≫ ((fst H G ≫ i) * snd H G).left = ((t ≫ i) * x).left := by
+    rw [← Over.comp_left, MonObj.comp_mul, lift_fst_assoc, lift_snd]
+  have e2 : (lift t x).left ≫ (fst H G ≫ i).left = (t ≫ i).left := by
+    rw [← Over.comp_left, lift_fst_assoc]
+  have e3 : (lift t x).left ≫ (snd H G).left = x.left := by
+    rw [← Over.comp_left, lift_snd]
+  have e4 : (lift t x).left ≫ (1 : H ⊗ G ⟶ G).left = (1 : T ⟶ G).left := by
+    rw [← Over.comp_left, MonObj.comp_one]
+  rw [Fin.prod_univ_four]
+  change h ((lift t x).left ≫ ((fst H G ≫ i) * snd H G).left) ^ (1 : ℤ) *
+      h ((lift t x).left ≫ (fst H G ≫ i).left) ^ (-1 : ℤ) * h ((lift t x).left ≫ (snd H G).left) ^ (-1 : ℤ) *
+      h ((lift t x).left ≫ (1 : H ⊗ G ⟶ G).left) ^ (1 : ℤ) = _
+  rw [e1, e2, e3, e4]
+  simp only [zpow_one, zpow_neg]
 
 variable {i} [IsMonHom i] {L : RigLB G} {c : CubicalStr G L}
 
