@@ -25,7 +25,6 @@ public import Development.AutomorphicArithmetic.AutomorphicVarieties.PatchingMod
 public import Mathlib.Order.Filter.Ultrafilter.Defs
 public import Mathlib.Order.Filter.Ultrafilter.Basic
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.HidaCompleteRings.FinCompl
-import all Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.HidaCompleteRings.FinCompl
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.Imports
 public import Mathlib.RingTheory.MvPowerSeries.Basic
 public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.MemSpanVariable
@@ -191,7 +190,7 @@ private theorem tf_mem_smul_top_pi {R : Type} [CommRing R] (J : Ideal R) {r : �
 
 private theorem tf_isPrecomplete_pi {R : Type} [CommRing R] (I : Ideal R) [IsPrecomplete I R]
     (r : ℕ) : IsPrecomplete I (Fin r → R) := by
-  apply _root_.isPrecomplete_pi <;> assumption
+  exact _root_.Formalism.SharedLemmas.isPrecomplete_fin_pi I r
 
 private theorem tf_key {R F : Type} [CommRing R] [AddCommGroup F] [Module R F] (a : Ideal R)
     [IsPrecomplete a F] (K : ℕ → Submodule R F) (hK : Antitone K)

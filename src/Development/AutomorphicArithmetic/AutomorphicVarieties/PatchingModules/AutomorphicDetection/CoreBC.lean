@@ -1,6 +1,6 @@
 module
 
-import all Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.HidaCompleteRings.FinCompl
+import Formalism.SharedLemmas.PrecompleteFinite
 public import Mathlib.RingTheory.Finiteness.Defs
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.PatchingModules.PatchingBaseChange.AlgebraMapEq
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.CaSuppBc
@@ -1246,14 +1246,6 @@ section -- clump:auto
 open IsLocalRing UpperTheory.V.Alg UpperTheory.V.W UpperTheory.V.Pa
 open scoped TensorProduct
 
-private theorem op_mem_smul_top_pi {R : Type} [CommRing R] (J : Ideal R) {r : ℕ} (x : Fin r → R) :
-    x ∈ J • (⊤ : Submodule R (Fin r → R)) ↔ ∀ i, x i ∈ J := by
-  apply _root_.mem_smul_top_pi <;> assumption
-
-private theorem op_isPrecomplete_pi {R : Type} [CommRing R] (I : Ideal R) [IsPrecomplete I R] (r : ℕ) :
-    IsPrecomplete I (Fin r → R) := by
-  apply _root_.isPrecomplete_pi <;> assumption
-
 private theorem op_localHom (O : Type) [CommRing O] [IsDomain O] [IsDiscreteValuationRing O]
     (K : Type) [Field K] [Finite K] [Algebra O K] : IsLocalHom (algebraMap O K) := by
   have hne : RingHom.ker (algebraMap O K) ≠ ⊥ := by
@@ -1369,7 +1361,8 @@ theorem UpperTheory.V.Pa.BC.oprime :
     rw [Ideal.smul_top_eq_map, smul_eq_mul, Ideal.mul_top, ← hMeq, hM, Ideal.map_pow]
     rfl
   haveI : IsPrecomplete (maximalIdeal O) O := (IsCoef.complete (l := l) (O := O)).toIsPrecomplete
-  have hpre : IsPrecomplete (maximalIdeal O) (AdjoinRoot P) := _root_.isPrecomplete_finite (maximalIdeal O)
+  have hpre : IsPrecomplete (maximalIdeal O) (AdjoinRoot P) :=
+    _root_.Formalism.SharedLemmas.isPrecomplete_of_moduleFinite (maximalIdeal O)
   have hcomp : IsAdicComplete (maximalIdeal (AdjoinRoot P)) (AdjoinRoot P) := by
     refine { haus' := ?_, prec' := ?_ }
     · intro x hx

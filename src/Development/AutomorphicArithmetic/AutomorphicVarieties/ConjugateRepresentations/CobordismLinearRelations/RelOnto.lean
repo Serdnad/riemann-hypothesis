@@ -542,23 +542,13 @@ noncomputable section
 open NumberField Matrix GlobalTheory.CuspRep GlobalTheory.GKCoh UpperTheory.V.Af UpperTheory.V.Lit.Dr
 open UpperTheory.V.Lit.Geo UpperTheory.V.Lit.Geo.Cs
 
-section
-
-variable {E : Type} [Field E] [NumberField E] {a : ℕ}
-
-private theorem exists_unitary {g h : GL (Fin a) (Cinf E)} (e : sand g (hOne E a) = sand h (hOne E a)) :
-    ∃ k : Kinf E a, h = g * Unitary.toUnits k := by
-  apply _root_.unitary_of_eq <;> assumption
-
-end
-
 theorem UpperTheory.V.Lit.Geo.Cs.descEx :
     DescEx := by
   classical
   intro E _ _ _ a U f Y C c f₀ hf
   refine ⟨fun s p => if h : p ∈ cone E a then f (pt h.choose s.out) else 0, fun g x => ?_⟩
   have hp : sand g (hOne E a) ∈ cone E a := ⟨g, rfl⟩
-  obtain ⟨k, hk⟩ := exists_unitary hp.choose_spec.symm
+  obtain ⟨k, hk⟩ := _root_.unitary_of_eq hp.choose_spec.symm
   obtain ⟨u, hu⟩ := QuotientGroup.mk_out_eq_mul U x
   beta_reduce
   rw [dite_eq_left hp, hk, pt_mul, hf.f_cpt, hu, pt, pt, map_mul (finGL E a), ← mul_assoc, hf.f_lev _ u.2]
