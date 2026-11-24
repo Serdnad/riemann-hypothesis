@@ -57,7 +57,7 @@ theorem rep_add {y : (Σ k, ι k) → Ω} {a : K → ℤ} {n : ℕ} {s t : Ω} {
     GroundTheory.Heights₂.Heights.HilbertSamuel.PowerBlockMetric.IsRep y a n (s + t) (g₁ * h₂ + g₂ * h₁) (h₁ * h₂) := by
   obtain ⟨dg₁, dh₁, hg₁, hh₁, hd₁, hy₁⟩ := r₁
   obtain ⟨dg₂, dh₂, hg₂, hh₂, hd₂, hy₂⟩ := r₂
-  refine ⟨dg₁ + dh₂, dh₁ + dh₂, GroundTheory.Heights₂.Heights.HilbertSamuel.PowerBlockMetric.homog_add (GroundTheory.Heights₂.Heights.HilbertSamuel.PowerBlockMetric.homog_mul hg₁ hh₂) (GroundTheory.Heights₂.Heights.HilbertSamuel.PowerBlockMetric.homog_congr (GroundTheory.Heights₂.Heights.HilbertSamuel.PowerBlockMetric.homog_mul hg₂ hh₁) fun k => ?_),
+  refine ⟨dg₁ + dh₂, dh₁ + dh₂, GroundTheory.Heights₂.Heights.HilbertSamuel.PowerBlockMetric.homog_add (GroundTheory.Heights₂.Heights.HilbertSamuel.PowerBlockMetric.homog_mul hg₁ hh₂) (GroundTheory.Heights₂.Heights.HilbertSamuel.SectionBounded.homog_congr (GroundTheory.Heights₂.Heights.HilbertSamuel.PowerBlockMetric.homog_mul hg₂ hh₁) fun k => ?_),
     GroundTheory.Heights₂.Heights.HilbertSamuel.PowerBlockMetric.homog_mul hh₁ hh₂, fun k => ?_, ?_⟩
   · simp only [Pi.add_apply]
     zify
@@ -106,12 +106,12 @@ theorem exists_chartData [DecidableEq K] (y : (Σ k, ι k) → Ω) (A : HermLine
   classical
   by_cases hc : ∀ k, y ⟨k, c k⟩ ≠ 0
   · choose Nn δ G hG hdeg hGv using fun j =>
-      GroundTheory.Heights₂.Heights.HilbertSamuel.PowerBlockMetric.exists_chartForm y c hc (fun k => (m : ℤ) * A.a k) (hv j c hc)
+      GroundTheory.Heights₂.Heights.HilbertSamuel.SectionBounded.exists_chartForm y c hc (fun k => (m : ℤ) * A.a k) (hv j c hc)
     have hN : ∀ j k, Nn j k ≤ ∑ i, Nn i k := fun j k =>
       Finset.single_le_sum (f := fun i => Nn i k) (fun _ _ => Nat.zero_le _) (Finset.mem_univ j)
     set L : K → ℕ := fun k => ∑ i, Nn i k + ((m : ℤ) * A.a k).natAbs with hL
     refine ⟨L, fun k => ((L k : ℤ) + m * A.a k).toNat, fun j => G j * GroundTheory.Heights₂.Heights.HilbertSamuel.PowerBlockMetric.chartMon c (L - Nn j), fun k => ?_,
-      fun j => GroundTheory.Heights₂.Heights.HilbertSamuel.PowerBlockMetric.homog_congr (GroundTheory.Heights₂.Heights.HilbertSamuel.PowerBlockMetric.homog_mul (hG j) (GroundTheory.Heights₂.Heights.HilbertSamuel.PowerBlockMetric.homog_chartMon c _)) fun k => ?_, fun j => ?_⟩
+      fun j => GroundTheory.Heights₂.Heights.HilbertSamuel.SectionBounded.homog_congr (GroundTheory.Heights₂.Heights.HilbertSamuel.PowerBlockMetric.homog_mul (hG j) (GroundTheory.Heights₂.Heights.HilbertSamuel.PowerBlockMetric.homog_chartMon c _)) fun k => ?_, fun j => ?_⟩
     · simp only [hL]
       generalize ∑ i, Nn i k = S
       generalize (m : ℤ) * A.a k = q
@@ -133,7 +133,7 @@ theorem exists_chartData [DecidableEq K] (y : (Σ k, ι k) → Ω) (A : HermLine
   · push Not at hc
     obtain ⟨k0, hk0⟩ := hc
     refine ⟨fun k => 1 + ((m : ℤ) * A.a k).natAbs, fun k => (((1 + ((m : ℤ) * A.a k).natAbs : ℕ) : ℤ) +
-      m * A.a k).toNat, fun _ => 0, fun k => ?_, fun _ => GroundTheory.Heights₂.Heights.HilbertSamuel.PowerBlockMetric.homog_zero _, fun j => ?_⟩
+      m * A.a k).toNat, fun _ => 0, fun k => ?_, fun _ => GroundTheory.Heights₂.Heights.HilbertSamuel.SectionBounded.homog_zero _, fun j => ?_⟩
     · dsimp only
       generalize (m : ℤ) * A.a k = q
       omega
@@ -253,7 +253,7 @@ theorem exists_G_ne {y : (Σ k, ι k) → Ω} {A : HermLine ι} {m N : ℕ} {v :
   set L : K → ℕ := fun k => ∑ i, δ i k with hL
   set F : MRing ι := ∑ j, U j * GroundTheory.Heights₂.Heights.HilbertSamuel.PowerBlockMetric.chartMon c (L - δ j) * G j - GroundTheory.Heights₂.Heights.HilbertSamuel.PowerBlockMetric.chartMon c (L + e) with hF
   have hFh : IsMultiHomog F (L + e) := by
-    refine GroundTheory.Heights₂.Heights.HilbertSamuel.PowerBlockMetric.homog_sub (GroundTheory.Heights₂.Heights.HilbertSamuel.PowerBlockMetric.homog_sum _ fun j _ => GroundTheory.Heights₂.Heights.HilbertSamuel.PowerBlockMetric.homog_congr (GroundTheory.Heights₂.Heights.HilbertSamuel.PowerBlockMetric.homog_mul (GroundTheory.Heights₂.Heights.HilbertSamuel.PowerBlockMetric.homog_mul (hU j) (GroundTheory.Heights₂.Heights.HilbertSamuel.PowerBlockMetric.homog_chartMon c _))
+    refine GroundTheory.Heights₂.Heights.HilbertSamuel.PowerBlockMetric.homog_sub (GroundTheory.Heights₂.Heights.HilbertSamuel.SectionBounded.homog_sum _ fun j _ => GroundTheory.Heights₂.Heights.HilbertSamuel.SectionBounded.homog_congr (GroundTheory.Heights₂.Heights.HilbertSamuel.PowerBlockMetric.homog_mul (GroundTheory.Heights₂.Heights.HilbertSamuel.PowerBlockMetric.homog_mul (hU j) (GroundTheory.Heights₂.Heights.HilbertSamuel.PowerBlockMetric.homog_chartMon c _))
       (hG j)) fun k => ?_) (GroundTheory.Heights₂.Heights.HilbertSamuel.PowerBlockMetric.homog_chartMon c _)
     have := hδ j k
     simp only [Pi.add_apply, Pi.sub_apply, hL] at this ⊢
@@ -288,7 +288,7 @@ theorem exists_G_ne {y : (Σ k, ι k) → Ω} {A : HermLine ι} {m N : ℕ} {v :
     rw [hF, map_sub, map_sum, Finset.sum_congr rfl fun j _ => e1 j, ← Finset.sum_mul, hsum, one_mul,
     GroundTheory.Heights₂.Heights.HilbertSamuel.PowerBlockMetric.aeval_chartMon]
     simp only [Pi.add_apply, sub_self]
-  have hFx := GroundTheory.Heights₂.Heights.HilbertSamuel.PowerBlockMetric.vanish hx hFh hFy
+  have hFx := GroundTheory.Heights₂.Heights.HilbertSamuel.SectionBounded.vanish hx hFh hFy
   by_contra hne
   push Not at hne
   rw [hF] at hFx

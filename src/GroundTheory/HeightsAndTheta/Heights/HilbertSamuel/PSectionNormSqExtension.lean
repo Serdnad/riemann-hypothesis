@@ -5,6 +5,7 @@ public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.SectionNormSqua
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsSectionNormSqExtension
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsSectionNormSqLevi
 public import Mathlib.Topology.Algebra.MvPolynomial
+import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PSectionBounded
 import GroundTheory.HeightsAndTheta.Heights.Intersections.PBlockGenFinite
 import Mathlib.Algebra.Order.Star.Real
 import Mathlib.Analysis.InnerProductSpace.Calculus
@@ -393,7 +394,7 @@ theorem numer_mem {Ω : Type} [Field Ω] {y : (Σ k, ι k) → Ω} {A : HermLine
     (hGy : ∀ c j, aeval y (G c j) = v j * aeval y (GroundTheory.Heights₂.Heights.HilbertSamuel.PowerBlockMetric.chartMon c (d c))) (c₀ c : ∀ k, ι k) (j : Fin N) :
     G c j * GroundTheory.Heights₂.Heights.HilbertSamuel.PowerBlockMetric.chartMon c₀ (d c₀) - G c₀ j * GroundTheory.Heights₂.Heights.HilbertSamuel.PowerBlockMetric.chartMon c (d c) ∈ mCoordIdeal y := by
   refine mem_of_homog (GroundTheory.Heights₂.Heights.HilbertSamuel.PowerBlockMetric.homog_sub (GroundTheory.Heights₂.Heights.HilbertSamuel.PowerBlockMetric.homog_mul (hG c j) (GroundTheory.Heights₂.Heights.HilbertSamuel.PowerBlockMetric.homog_chartMon c₀ (d c₀)))
-    (GroundTheory.Heights₂.Heights.HilbertSamuel.PowerBlockMetric.homog_congr (GroundTheory.Heights₂.Heights.HilbertSamuel.PowerBlockMetric.homog_mul (hG c₀ j) (GroundTheory.Heights₂.Heights.HilbertSamuel.PowerBlockMetric.homog_chartMon c (d c))) fun k => ?_)) ?_
+    (GroundTheory.Heights₂.Heights.HilbertSamuel.SectionBounded.homog_congr (GroundTheory.Heights₂.Heights.HilbertSamuel.PowerBlockMetric.homog_mul (hG c₀ j) (GroundTheory.Heights₂.Heights.HilbertSamuel.PowerBlockMetric.homog_chartMon c (d c))) fun k => ?_)) ?_
   · simp only [Pi.add_apply]
     zify
     linarith [he c k, he c₀ k]
