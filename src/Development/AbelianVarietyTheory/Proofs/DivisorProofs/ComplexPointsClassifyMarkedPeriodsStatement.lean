@@ -1,5 +1,6 @@
 module
 
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.PrincipalNearBoundary
 public import Mathlib.Analysis.CStarAlgebra.Classes
 public import Mathlib.Analysis.InnerProductSpace.Basic
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsAHOfIsFactorAH
@@ -233,26 +234,7 @@ theorem exists_int_sub_eq_mul_of_exp_neg_two_pi_I_div_eq (x y : ℝ) (k : ℕ) (
 theorem real_eq_of_exp_neg_two_pi_I_div_eq : ∀ x y : ℝ, (∀ k : ℕ, 0 < k →
     Complex.exp (-(2 * Real.pi * Complex.I) * (x : ℂ) / k) = Complex.exp (-(2 * Real.pi * Complex.I) * (y : ℂ) / k)) →
     x = y := by
-  intro x y h
-  obtain ⟨m, hm⟩ := exists_int_sub_eq_mul_of_exp_neg_two_pi_I_div_eq x y 1 one_pos (h 1 one_pos)
-  simp only [Nat.cast_one, mul_one] at hm
-  obtain ⟨n, hn⟩ := exists_int_sub_eq_mul_of_exp_neg_two_pi_I_div_eq x y (m.natAbs + 1) (Nat.succ_pos _)
-    (h _ (Nat.succ_pos _))
-  generalize hK : m.natAbs + 1 = K at hn
-  have hmn : m = n * (K : ℤ) := by
-    have : ((m : ℤ) : ℝ) = ((n * (K : ℤ) : ℤ) : ℝ) := by push_cast; rw [← hm, hn]
-    exact_mod_cast this
-  have hm0 : m = 0 := by
-    by_contra hne
-    have hn0 : n ≠ 0 := by
-      rintro rfl
-      exact hne (by simpa using hmn)
-    have h1 : m.natAbs = n.natAbs * K := by
-      rw [hmn, Int.natAbs_mul]; simp
-    have h2 : 1 ≤ n.natAbs := Int.natAbs_pos.mpr hn0
-    nlinarith
-  have : y - x = 0 := by rw [hm, hm0]; simp
-  linarith
+  apply _root_.GlobalTheory.CompanionTheory.Ar.QuotLoc.eq_of_forall_exp <;> assumption
 
 end GlobalTheory
 end -- clump:auto

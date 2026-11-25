@@ -1,5 +1,7 @@
 module
 
+import Formalism.LocalToGlobal.CharacterGerms.ConstantZeroDoubleMultiplicationPair
+import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.SumEqOfIsHomogeneous
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.MvIsIntMapMap
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.DetFactorDepthInChartChartIndependent
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.WeightedSumBounds.TangentEqLcZero
@@ -555,15 +557,8 @@ private theorem mfact_eq_prod_factorial [Fintype σ] (α : σ →₀ ℕ) :
 
 theorem mfact_add_single [Fintype σ] [DecidableEq σ] (α : σ →₀ ℕ) (l : σ) :
     (mfact (α + Finsupp.single l 1) : K) = mfact α * ((α l : K) + 1) := by
-  rw [mfact_eq_prod_factorial, mfact_eq_prod_factorial, ← Finset.mul_prod_erase _ _ (Finset.mem_univ l),
-    ← Finset.mul_prod_erase _ _ (Finset.mem_univ l)]
-  have hrest : ∏ x ∈ Finset.univ.erase l, (((α + Finsupp.single l 1 : σ →₀ ℕ) x).factorial : K) =
-      ∏ x ∈ Finset.univ.erase l, ((α x).factorial : K) := by
-    refine Finset.prod_congr rfl fun x hx => ?_
-    rw [Finsupp.add_apply, Finsupp.single_apply, if_neg (Ne.symm (Finset.ne_of_mem_erase hx)), add_zero]
-  rw [hrest, Finsupp.add_apply, Finsupp.single_eq_same, Nat.factorial_succ, Nat.cast_mul]
-  push_cast
-  ring
+  intros
+  apply _root_.GlobalTheory.OddBlock.ExpShift.fact_add_single <;> assumption
 
 theorem derivAt0_add' (P Q : MvPolynomial σ K) (g : MvPowerSeries σ K) :
     derivAt0 (P + Q) g = derivAt0 P g + derivAt0 Q g := by
@@ -1219,18 +1214,8 @@ variable {C : Type} [Field C] [CharZero C] {σ : Type}
 theorem expU_add (s t : MvPowerSeries σ C) (hs : constantCoeff s = 0) (ht : constantCoeff t = 0) :
     PowerSeries.subst (s + t) (PowerSeries.exp C) =
       PowerSeries.subst s (PowerSeries.exp C) * PowerSeries.subst t (PowerSeries.exp C) := by
-  have hst : MvPowerSeries.HasSubst ![s, t] :=
-    MvPowerSeries.hasSubst_of_constantCoeff_zero (by intro i; fin_cases i <;> simp [hs, ht])
-  have comp : ∀ p : MvPowerSeries (Fin 2) C, constantCoeff p = 0 →
-      MvPowerSeries.subst ![s, t] (PowerSeries.subst p (PowerSeries.exp C)) =
-        PowerSeries.subst (MvPowerSeries.subst ![s, t] p) (PowerSeries.exp C) := by
-    intro p hp
-    unfold PowerSeries.subst
-    rw [MvPowerSeries.subst_comp_subst_apply (PowerSeries.HasSubst.of_constantCoeff_zero hp).const hst]
-  have H := congrArg (MvPowerSeries.subst ![s, t]) (ReciprocityTheory.ChartRestriction.G.TB.WickVanishing.exp_subst_add_two_vars C)
-  rw [MvPowerSeries.subst_mul hst, comp _ (by simp), comp _ (by simp), comp _ (by simp),
-    MvPowerSeries.subst_add hst, MvPowerSeries.subst_X hst, MvPowerSeries.subst_X hst] at H
-  simpa using H
+  intros
+  apply _root_.Formalism.L2.FormalSeriesBounds.FirstUnitSeriesIntegrality.ex_add <;> assumption
 
 theorem cc_expU (s : MvPowerSeries σ C) (hs : constantCoeff s = 0) :
     constantCoeff (PowerSeries.subst s (PowerSeries.exp C)) = 1 := by

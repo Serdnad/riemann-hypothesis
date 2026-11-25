@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.IsAbelianSchemeThick
 public import Mathlib.Combinatorics.Quiver.ReflQuiver
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.SemiabelianSchemes.AbelianSchemeQuotients.IsAbelianScheme
 public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.ExistsSplitTorusPointsMulEquiv
@@ -313,15 +314,7 @@ variable {R : Type} [CommRing R] [IsDomain R] {I : Ideal R} {D : DegPre R} {e : 
   {G : Over (Sp R)} [GrpObj G] [IsCommMonObj G]
 
 theorem isAbelianScheme_thick (D : DegPre R) (e : ℕ) : IsAbelianScheme (thickObj R I e D.P.A) := by
-  have : IsProper D.P.A.hom := D.P.isAb.proper
-  exact
-    { comm := inferInstance
-      smooth := by have := D.P.isAb.smooth; show Smooth (pullback.snd _ _); infer_instance
-      proper := by show IsProper (pullback.snd _ _); infer_instance
-      geomConnected := by
-        have := D.P.isAb.geomConnected
-        show GeometricallyConnected (pullback.snd _ _)
-        infer_instance }
+  apply _root_.GlobalTheory.CoordToExt.isAbelianScheme_thick <;> assumption
 
 theorem eq_of_q_of_i (g : GtCoord I D e G) (b₁ b₂ : thickObj R I e G ⟶ thickObj R I e G)
     [IsMonHom b₁] [IsMonHom b₂] (aB : thickObj R I e D.P.A ⟶ thickObj R I e D.P.A)

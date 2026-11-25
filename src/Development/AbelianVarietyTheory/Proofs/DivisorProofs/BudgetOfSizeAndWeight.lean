@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ClassSumDenominatorBoundOfCmThetaHypothesesStatement
 public import Mathlib.Analysis.SpecialFunctions.Log.Basic
 public import Development.AbelianVarietyTheory.Definitions.Divisors.DividedWeightUnique
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.DividedWeightEntriesSignsSizes
@@ -298,20 +299,8 @@ namespace GlobalTheory.MeanTop
 
 theorem sum_padicValNat_mul_log_le_log (n : ℕ) (S : Finset ℕ) (hS : ∀ p ∈ S, p.Prime) :
     ∑ p ∈ S, (padicValNat p n : ℝ) * Real.log p ≤ Real.log n := by
-  classical
-  rw [Real.log_nat_eq_sum_factorization, Finsupp.sum]
-  have h1 : ∑ p ∈ S, (padicValNat p n : ℝ) * Real.log p
-      = ∑ p ∈ S, (n.factorization p : ℝ) * Real.log p :=
-    Finset.sum_congr rfl fun p hp => by rw [Nat.factorization_def n (hS p hp), Nat.padicValNat_def]
-  rw [h1]
-  have h2 : ∑ p ∈ S ∪ n.factorization.support, (n.factorization p : ℝ) * Real.log p
-      = ∑ p ∈ n.factorization.support, (n.factorization p : ℝ) * Real.log p := by
-    symm
-    refine Finset.sum_subset Finset.subset_union_right fun p _ hp => ?_
-    rw [Finsupp.notMem_support_iff.1 hp]; simp
-  rw [← h2]
-  exact Finset.sum_le_sum_of_subset_of_nonneg Finset.subset_union_left
-    fun p _ _ => mul_nonneg (Nat.cast_nonneg _) (Real.log_natCast_nonneg p)
+  intros
+  apply _root_.GlobalTheory.NormSum.DenomBound.sum_val_log_le <;> assumption
 
 theorem sum_vDiff_mul_log_le :
     ∀ (D : D7) (S : Finset ℕ), (∀ p ∈ S, p.Prime) → (∀ p, 0 ≤ vDiff D p) ∧ ∑ p ∈ S, vDiff D p * Real.log p ≤ Real.log D.host.rdE := by

@@ -1,5 +1,6 @@
 module
 
+import Formalism.LocalToGlobal.GroupLattices.TrivialTransfer.OneAddPowOfSq
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.OneMemKAt
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.InertPlaceLocalFieldDataExists
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.FinPartIdemMulMemIff
@@ -271,25 +272,7 @@ theorem evT_mem_latV {d : ℕ} {W : Spc F E d} {v : Pl (F := F)} {z : Fin d → 
 
 theorem natCast_mem_maximalIdeal (v : Pl (F := F)) {p : ℕ} (hp : (p : 𝓞 F) ∈ v.asIdeal) :
     (p : v.adicCompletionIntegers F) ∈ IsLocalRing.maximalIdeal (v.adicCompletionIntegers F) := by
-  rw [IsLocalRing.mem_maximalIdeal, mem_nonunits_iff]
-  intro hu
-  obtain ⟨w, hw⟩ := hu.exists_right_inv
-  have hval : Valued.v (algebraMap F (Fv F v) ((p : 𝓞 F) : F)) = v.valuation F ((p : 𝓞 F) : F) :=
-    HeightOneSpectrum.valuedAdicCompletion_eq_valuation' v _
-  have hlt : v.valuation F ((p : 𝓞 F) : F) < 1 := (v.valuation_lt_one_iff_mem _).2 hp
-  have hpF : algebraMap F (Fv F v) ((p : 𝓞 F) : F) = ((p : v.adicCompletionIntegers F) : Fv F v) := by
-    push_cast
-    rfl
-  rw [hpF] at hval
-  have h1 : ((p : v.adicCompletionIntegers F) : Fv F v) * (w : Fv F v) = 1 := by
-    rw [← Subring.coe_mul, hw]
-    rfl
-  have h2 : Valued.v (w : Fv F v) ≤ 1 := w.2
-  have h3 := congrArg Valued.v h1
-  rw [map_mul, map_one, hval] at h3
-  have h4 : v.valuation F ((p : 𝓞 F) : F) * Valued.v (w : Fv F v) < 1 :=
-    lt_of_le_of_lt (mul_le_of_le_one_right' h2) hlt
-  exact absurd h3 h4.ne
+  apply _root_.Formalism.L2.G.Triv.natCast_mem_max <;> assumption
 
 theorem latV_le {d : ℕ} {W : Spc F E d} {v : Pl (F := F)} {p : ℕ} (hp : (p : 𝓞 F) ∈ v.asIdeal) (hfg : (latV W v).FG)
     (M : Matrix (Fin d) (Fin d) (AE F E))

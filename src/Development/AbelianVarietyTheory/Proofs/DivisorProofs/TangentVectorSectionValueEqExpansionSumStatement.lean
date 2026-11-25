@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.HeightProofs.IsValLineLogNormAtIffEmbedding
 public import Development.AbelianVarietyTheory.Definitions.Divisors.IsPolAVSectionInverseImage
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.TopLeWchart
 public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.ExistsUnitCharts
@@ -461,15 +462,8 @@ private theorem pre_lemma {Z Y X : Scheme.{0}} (x : Z ⟶ Y) (y : Y ⟶ X) (U : 
 
 private theorem norm_natCast_le_one_kummer_theta_logarithms {A B : Type} [CommRing A] [CommRing B] (φ : A →+* B) {X : Scheme.{0}} (x : Sp A ⟶ X)
     (U : X.Opens) (f : Γ(X, U)) (h : ⊤ ≤ x ⁻¹ᵁ U) : valR (spMap φ ≫ x) U f = φ (valR x U f) := by
-  have h' : ⊤ ≤ (spMap φ ≫ x) ⁻¹ᵁ U := pre_lemma _ _ _ h
-  unfold valR
-  rw [dite_eq_left h, dite_eq_left h']
-  rw [← Scheme.Hom.appLE_comp_appLE (spMap φ) x U ⊤ ⊤ h (by intro _ _; trivial)]
-  have e2 := Scheme.ΓSpecIso_naturality (CommRingCat.ofHom φ)
-  have e5 := fun w => congrArg (fun g => CommRingCat.Hom.hom g w) e2
-  simp only [Scheme.Hom.appTop, CommRingCat.hom_comp, RingHom.comp_apply, CommRingCat.hom_ofHom] at e5
-  simp only [spMap, CommRingCat.hom_comp, RingHom.comp_apply, ← e5]
-  congr 1
+  intros
+  apply _root_.GlobalTheory.FormalValue.valR_spMap <;> assumption
 
 private theorem univ_le_preimage_inf_of_univ_le {Z X : Scheme.{0}} (y : Z ⟶ X) (U V : X.Opens) (h1 : ⊤ ≤ y ⁻¹ᵁ U) (h2 : ⊤ ≤ y ⁻¹ᵁ V) :
     ⊤ ≤ y ⁻¹ᵁ (U ⊓ V) := by
@@ -1033,17 +1027,7 @@ noncomputable section
 namespace GlobalTheory.MBLow.TanVal
 
 theorem subsingleton_dual (K : Type) [Field K] : Subsingleton (PrimeSpectrum (DualNumber K)) := by
-  have key : ∀ P : PrimeSpectrum (DualNumber K), P.asIdeal = Ideal.span {DualNumber.eps} := by
-    intro P
-    have hm : (DualNumber.eps : DualNumber K) ∈ P.asIdeal :=
-      P.isPrime.mem_of_pow_mem 2 (by rw [pow_two, DualNumber.eps_mul_eps]; exact zero_mem _)
-    rcases DualNumber.ideal_trichotomy P.asIdeal with h | h | h
-    · rw [h, Ideal.mem_bot] at hm
-      have := congrArg TrivSqZeroExt.snd hm
-      simp at this
-    · exact h
-    · exact absurd h P.isPrime.ne_top
-  exact ⟨fun P Q ↦ PrimeSpectrum.ext ((key P).trans (key Q).symm)⟩
+  apply _root_.GlobalTheory.ArchMetricCompare.subsingleton_dual <;> assumption
 
 theorem sp_comp {A B B' : Type} [CommRing A] [CommRing B] [CommRing B'] (a : A →+* B) (b : B' →+* A) :
     spMap a ≫ spMap b = spMap (a.comp b) := by

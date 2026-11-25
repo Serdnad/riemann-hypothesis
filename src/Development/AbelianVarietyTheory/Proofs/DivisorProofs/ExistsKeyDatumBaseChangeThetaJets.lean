@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.ExistsRigidificationPullbackCompatibleIso
 public import Development.AbelianVarietyTheory.Definitions.Divisors.IsPolAVSectionInverseImage
 public import Development.AbelianVarietyTheory.Proofs.ThetaFamilyOrigin.IsThetaPtOverMove
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.CocycleIdentityIso
@@ -84,18 +85,8 @@ theorem valR_congr {B : Type} [CommRing B] {X X' : Scheme.{0}} {x : Sp B ⟶ X} 
 theorem val_rigT' {S : Scheme.{0}} (A : Over S) [GrpObj A] (L : LB A.left) (rig : LB.Gen (L.pull (eSec A)))
     (T : Over S) (k : ℤ) {Z : Scheme.{0}} (r : Z ⟶ T.left) (z : Z) (J : (Z ⟶ A.left) → L.ι) (hJ : Good L z J) :
     val (rigT A L rig T k) r z J = val rig (r ≫ T.hom) z J ^ k := by
-  have hm2 : T.hom (r z) ∈ LB.wchart L (fun _ : PUnit => eSec A) (fun _ => J (r ≫ T.hom ≫ eSec A)) :=
-    Set.mem_iInter.2 fun _ => hJ (r ≫ T.hom ≫ eSec A)
-  have key := gm_pull r T.hom z (LB.wchart L (fun _ : PUnit => eSec A) fun _ => J (r ≫ T.hom ≫ eSec A)) hm2
-    (rig.s fun _ => J (r ≫ T.hom ≫ eSec A))
-  have hm' : r z ∈ LB.wchart L (fun _ : Fin 1 => T.hom ≫ eSec A) (fun k => J (r ≫ T.hom ≫ eSec A)) :=
-    hJ.mem (fun _ : Fin 1 => T.hom ≫ eSec A) r
-  rw [val_of rig (r ≫ T.hom) z J (fun _ => J (r ≫ T.hom ≫ eSec A)) (fun _ => by rw [Category.assoc])]
-  unfold val rigT
-  rw [map_zpow]
-  congr 1
-  rw [gm_res r z _ hm']
-  exact key
+  intros
+  apply _root_.GlobalTheory.Ex.OneGen.val_rigT <;> assumption
 
 def Chartwise {X X' : Scheme.{0}} {L₀ : LB X} {L₁ : LB X'} {φ : X' ⟶ X} (w : LB.Iso L₁ (L₀.pull φ))
     (c : L₁.ι → L₀.ι) : Prop :=

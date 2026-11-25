@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.CharacterTheory.RootsCharpolyPowEqMapPow
 public import Mathlib.FieldTheory.IsAlgClosed.Basic
 public import Mathlib.LinearAlgebra.Charpoly.Basic
 public import Mathlib.LinearAlgebra.FreeModule.PID
@@ -103,27 +104,7 @@ theorem det_aeval_X_sub_C {Ω : Type} [Field Ω] [IsAlgClosed Ω] {n : ℕ}
 theorem det_aeval_eq_prod_roots {Ω : Type} [Field Ω] [IsAlgClosed Ω] {n : ℕ}
     (N : Matrix (Fin n) (Fin n) Ω) (G : Polynomial Ω) :
     (aeval N G).det = (N.charpoly.roots.map fun a => G.eval a).prod := by
-  have hs := IsAlgClosed.splits N.charpoly
-  have hR : Multiset.card N.charpoly.roots = n := by
-    rw [← hs.natDegree_eq_card_roots, Matrix.charpoly_natDegree_eq_dim, Fintype.card_fin]
-  have key : ∀ (c : Ω) (s : Multiset Ω),
-      (aeval N (C c * (s.map fun r => Polynomial.X - C r).prod)).det
-        = (N.charpoly.roots.map fun a =>
-            (C c * (s.map fun r => Polynomial.X - C r).prod).eval a).prod := by
-    intro c s
-    induction s using Multiset.induction_on with
-    | empty =>
-      simp [Matrix.algebraMap_eq_diagonal, Matrix.det_diagonal, hR]
-    | cons r s ih =>
-      have e : C c * ((r ::ₘ s).map fun r => Polynomial.X - C r).prod
-          = (Polynomial.X - C r) * (C c * (s.map fun r => Polynomial.X - C r).prod) := by
-        rw [Multiset.map_cons, Multiset.prod_cons]; ring
-      rw [e, map_mul, Matrix.det_mul, ih, det_aeval_X_sub_C, ← Multiset.prod_map_mul]
-      simp only [eval_mul]
-  have hG := C_leadingCoeff_mul_prod_multiset_X_sub_C
-    ((IsAlgClosed.splits G).natDegree_eq_card_roots).symm
-  rw [← hG]
-  exact key _ _
+  apply _root_.GlobalTheory.CharpolyPow.det_aeval <;> assumption
 
 end GlobalTheory.DetAevalRoots
 

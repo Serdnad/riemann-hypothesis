@@ -1,5 +1,7 @@
 module
 
+
+import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.ExistsPullEndo
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.PushInvertible
 public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.ExistsProjectiveModel
 import Mathlib.Algebra.Order.Floor.Extended
@@ -51,7 +53,6 @@ import Development.AbelianVarietyTheory.Definitions.Divisors.IsUnimodMod
 import Development.AbelianVarietyTheory.Definitions.Divisors.SharpOverIff
 import Development.AbelianVarietyTheory.Definitions.ModuliSpaces.AuxiliaryInertOddPrime
 import Mathlib.CategoryTheory.Monoidal.Opposite.Mon
-
 @[expose] public section
 
 open AlgebraicGeometry CategoryTheory Limits MonoidalCategory CartesianMonoidalCategory IsLocalRing NumberField
@@ -74,32 +75,7 @@ variable {S S' : Scheme.{0}} {G : Over S} {G' : Over S'} [GrpObj G] [GrpObj G'] 
 
 theorem exists_lift_end (h : IsGrpPullback G' G f φ) (u : G ⟶ G) [IsMonHom u] :
     ∃ v : G' ⟶ G', IsMonHom v ∧ v.left ≫ φ = φ ≫ u.left := by
-  let v : G' ⟶ G' := Over.homMk (h.1.lift (φ ≫ u.left) G'.hom (by rw [Category.assoc, Over.w u, h.1.w]))
-    (h.1.lift_snd _ _ _)
-  have hv : v.left ≫ φ = φ ≫ u.left := h.1.lift_fst _ _ _
-  have inj : ∀ (T : Over S') (x y : T ⟶ G'), pushPt h.1.w x = pushPt h.1.w y → x = y := fun T x y e =>
-    Over.OverMorphism.ext (h.1.hom_ext (congrArg (fun z => z.left) e) (by rw [Over.w x, Over.w y]))
-  have pa : ∀ (T : Over S') (x : T ⟶ G'), pushPt h.1.w (x ≫ v) = pushPt h.1.w x ≫ u := fun T x =>
-    Over.OverMorphism.ext (by
-      show (x.left ≫ _) ≫ _ = (x.left ≫ _) ≫ _
-      rw [Category.assoc, hv, Category.assoc])
-  have pm : ∀ (T : Over S') (x y : T ⟶ G'), pushPt h.1.w (x * y) = pushPt h.1.w x * pushPt h.1.w y := fun T x y =>
-    Over.OverMorphism.ext (h.2 T x y _ _ rfl rfl).symm
-  have p1 : ∀ (T : Over S'), pushPt h.1.w (1 : T ⟶ G') = 1 := fun T => by
-    have := pm T 1 1
-    rw [_root_.mul_one] at this
-    exact left_eq_mul.1 this
-  have hm : ∀ (T : Over S') (x y : T ⟶ G'), (x * y) ≫ v = (x ≫ v) * (y ≫ v) := fun T x y => inj T _ _ (by
-    rw [pa, pm, pm, pa, pa, MonObj.mul_comp])
-  have h1 : ∀ (T : Over S'), (1 : T ⟶ G') ≫ v = 1 := fun T => inj T _ _ (by
-    rw [pa, p1, MonObj.one_comp])
-  refine ⟨v, ⟨?_, ?_⟩, hv⟩
-  · have := h1 (𝟙_ _)
-    simpa [Hom.one_def] using this
-  · have := hm (G' ⊗ G') (fst _ _) (snd _ _)
-    rw [Hom.mul_def, Hom.mul_def, lift_fst_snd, Category.id_comp] at this
-    rw [this]
-    congr 1
+  apply _root_.GlobalTheory.Ex.Arch.exists_pull_endo <;> assumption
 
 end
 

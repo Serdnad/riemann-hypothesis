@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.ZetaSeriesLeafMainTermCurveSystem
 public import Development.AbelianVarietyTheory.Definitions.Foundations.IsSatFrame
 public import ReciprocityTheory.DualLattices.VEqZeroOfPowEqOne
 public import Mathlib.RingTheory.PowerSeries.Substitution
@@ -374,19 +375,7 @@ theorem ordGe_one : OrdGe v ρ (1 : MvPowerSeries (Fin M) C) 0 := by
 
 theorem ordGe_mul {g h : MvPowerSeries (Fin M) C} {r s : ℝ} (hg : OrdGe v ρ g r)
     (hh : OrdGe v ρ h s) : OrdGe v ρ (g * h) (r + s) := by
-  intro α
-  rw [MvPowerSeries.coeff_mul]
-  apply AddValuation.map_le_sum
-  rintro ⟨β, γ⟩ hβγ
-  rw [Finset.HasAntidiagonal.mem_antidiagonal] at hβγ
-  rw [AddValuation.map_mul]
-  have e : r + s - ∑ m, ρ m * ((α m : ℕ) : ℝ) =
-      (r - ∑ m, ρ m * ((β m : ℕ) : ℝ)) + (s - ∑ m, ρ m * ((γ m : ℕ) : ℝ)) := by
-    rw [← hβγ]
-    simp only [Finsupp.coe_add, Pi.add_apply, Nat.cast_add, mul_add, Finset.sum_add_distrib]
-    ring
-  rw [e, WithTop.coe_add]
-  exact add_le_add (hg β) (hh γ)
+  apply _root_.GlobalTheory.zetaSeries_ordGe_mul <;> assumption
 
 theorem ordGe_pow {g : MvPowerSeries (Fin M) C} {r : ℝ} (hg : OrdGe v ρ g r) (N : ℕ) :
     OrdGe v ρ (g ^ N) ((N : ℝ) * r) := by
@@ -1666,11 +1655,7 @@ namespace GlobalTheory.DepthLow
 variable {C : Type} [Field C] {v : AddValuation C (WithTop ℝ)}
 
 theorem radius_nonneg {p : ℕ} (hp : 3 ≤ p) (k : ℤ) : 0 ≤ radius p k := by
-  have h3 : (3 : ℝ) ≤ p := by exact_mod_cast hp
-  unfold radius
-  refine div_nonneg ?_ (by linarith [pow_le_pow_left₀ (by norm_num : (0 : ℝ) ≤ 3) h3 2])
-  have : (0 : ℝ) < (p : ℝ) ^ (-(2 * k + 1)) := zpow_pos (by linarith) _
-  linarith
+  apply _root_.GlobalTheory.DepthRadii.radius_pos <;> assumption
 
 theorem ordGe_mono {M : ℕ} {ρ : Fin M → ℝ} {g : MvPowerSeries (Fin M) C} {r r' : ℝ}
     (h : OrdGe v ρ g r) (hr : r' ≤ r) : OrdGe v ρ g r' := fun α =>
@@ -1714,13 +1699,7 @@ theorem ordGe_lin {M : ℕ} (ρ : Fin M → ℝ) (x : Fin M → C) (r : ℝ) (hx
 
 theorem det_int {n : ℕ} (M : Matrix (Fin n) (Fin n) C) (hM : ∀ a b, IsIntV v (M a b)) :
     IsIntV v M.det := by
-  let M' : Matrix (Fin n) (Fin n) (PTb.intRing v) := Matrix.of fun a b => ⟨M a b, hM a b⟩
-  have hMM : (PTb.intRing v).subtype.mapMatrix M' = M := by
-    ext a b; rfl
-  have := RingHom.map_det (PTb.intRing v).subtype M'
-  rw [hMM] at this
-  rw [← this]
-  exact (M'.det).2
+  apply _root_.GlobalTheory.GlueBlocks.isIntV_det <;> assumption
 
 theorem isSatFrame_of_mul {i d : ℕ} {x u : Fin i → Fin d → C} {T : Matrix (Fin d) (Fin d) C}
     (hx : ∀ a b, IsIntV v (x a b)) (hT : ∀ a b, IsIntV v (T a b))

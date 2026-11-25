@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.NonemptyKodairaSpencerIdentificationOffBoundary
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsChartPtChartPt
 public import Development.AbelianVarietyTheory.Definitions.Divisors.IsKSValueOneOfRetraction
 public import Development.AbelianVarietyTheory.Definitions.Divisors.ExistsChartOfIsLocalRing
@@ -400,31 +401,8 @@ theorem fst_comp_transl_eq : ∀ {K : Type} [Field K] {A : Over (Sp K)} [GrpObj 
   exact h2
 
 theorem top_le_preimage_of_fst : ∀ {B : Type} [CommRing B] {Z : Scheme.{0}} (z : Sp (DualNumber B) ⟶ Z) (V : Z.Opens),
-    ⊤ ≤ (spMap (TrivSqZeroExt.fstHom B B B).toRingHom ≫ z) ⁻¹ᵁ V → ⊤ ≤ z ⁻¹ᵁ V := by
-  intro B _ Z z V h p _
-  have hp : (spMap (TrivSqZeroExt.fstHom B B B).toRingHom) ((spMap (algebraMap B (DualNumber B))) p) = p := by
-    show PrimeSpectrum.comap _ (PrimeSpectrum.comap _ p) = p
-    ext y
-    show (algebraMap B (DualNumber B)) (TrivSqZeroExt.fst y) ∈ p.asIdeal ↔ y ∈ p.asIdeal
-    rw [TrivSqZeroExt.algebraMap_eq_inl]
-    have hy : y = TrivSqZeroExt.inl y.fst + TrivSqZeroExt.inr y.snd := (TrivSqZeroExt.inl_fst_add_inr_snd_eq y).symm
-    have hn : TrivSqZeroExt.inr y.snd ∈ p.asIdeal := by
-      apply p.isPrime.mem_of_pow_mem 2
-      rw [pow_two, TrivSqZeroExt.inr_mul_inr]
-      exact p.asIdeal.zero_mem
-    constructor
-    · intro h1
-      rw [hy]
-      exact p.asIdeal.add_mem h1 hn
-    · intro h1
-      have : TrivSqZeroExt.inl y.fst = y - TrivSqZeroExt.inr y.snd :=
-        eq_sub_of_add_eq (TrivSqZeroExt.inl_fst_add_inr_snd_eq y)
-      rw [this]
-      exact p.asIdeal.sub_mem h1 hn
-  have := h (Set.mem_univ ((spMap (algebraMap B (DualNumber B))) p))
-  show z p ∈ V
-  rw [← hp]
-  exact this
+    ⊤ ≤ (spMap (TrivSqZeroExt.fstHom B B B).toRingHom ≫ z) ⁻¹ᵁ V → ⊤ ≤ z ⁻¹ᵁ V :=
+  _root_.GlobalTheory.CompHS.le_preimage_of_fst
 
 theorem comp_hom_of_isTransl {K : Type} [Field K] {A : Over (Sp K)} [GrpObj A] {B : Type} [CommRing B] (φ : K →+* B)
     (x : Sp B ⟶ A.left) (v : epsR K ⟶ A) (w : Sp (DualNumber B) ⟶ A.left) (hw : IsTransl φ x v w) :

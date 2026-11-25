@@ -1,5 +1,6 @@
 module
 
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.CoordsStatement
 public import Development.AbelianVarietyTheory.Definitions.Divisors.IsProperToroidalModelStructureMap
 public import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.DenseInterior
 import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FramesExist
@@ -68,19 +69,8 @@ theorem mem_vanishingIdeal_ideal_iff {X : Scheme.{0}} (Z : Closeds X) (U : X.aff
 
 theorem rsp_ringEquiv {R S : Type} [CommRing R] [IsLocalRing R] [CommRing S] [IsLocalRing S] (e : R ≃+* S)
     {n : ℕ} {x : Fin n → R} (h : ReciprocityTheory.AnForm.R.FinalTheorems.Rsp R n x) : ReciprocityTheory.AnForm.R.FinalTheorems.Rsp S n (fun i => e (x i)) := by
-  obtain ⟨h1, h2⟩ := h
-  refine ⟨?_, h2.trans (ringKrullDim_eq_of_ringEquiv e)⟩
-  have hr : Set.range (fun i => e (x i)) = e '' Set.range x := by
-    rw [← Set.range_comp]; rfl
-  rw [hr, ← Ideal.map_span, h1]
-  ext y
-  rw [Ideal.mem_map_of_equiv, IsLocalRing.mem_maximalIdeal, mem_nonunits_iff]
-  constructor
-  · rintro ⟨z, hz, rfl⟩ hu
-    exact (IsLocalRing.mem_maximalIdeal _).1 hz ((isUnit_map_iff e z).1 hu)
-  · intro hy
-    refine ⟨e.symm y, (IsLocalRing.mem_maximalIdeal _).2 fun hu => hy ?_, e.apply_symm_apply y⟩
-    simpa using (isUnit_map_iff e (e.symm y)).2 hu
+  intros
+  apply _root_.GlobalTheory.CompanionTheory.ResKCoords.rsp_of_ringEquiv <;> assumption
 
 theorem snc_vanishingIdeal_of_isIso {A B : Scheme.{0}} (f : A ⟶ B) [IsIso f] (Z : Closeds B) (Z' : Closeds A)
     (hZ : ∀ a : A, a ∈ Z' ↔ f a ∈ Z) (h : ReciprocityTheory.AnForm.R.FinalTheorems.Snc (Scheme.IdealSheafData.vanishingIdeal Z)) :

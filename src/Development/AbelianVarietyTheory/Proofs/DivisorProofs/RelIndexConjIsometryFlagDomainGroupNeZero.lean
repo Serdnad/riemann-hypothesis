@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.AlgebraicDirectionScaledEmbedding
 public import Mathlib.NumberTheory.NumberField.Basic
 public import Mathlib.GroupTheory.FiniteAbelian.Basic
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.FundamentalDomains.Signature
@@ -193,19 +194,7 @@ open NumberField
 
 theorem den_exists {E : Type} [Field E] [NumberField E] (c : E) :
     ∃ d : ℕ, 0 < d ∧ IsIntegral ℤ ((d : E) * c) := by
-  have hc : IsAlgebraic ℤ c :=
-    (IsFractionRing.isAlgebraic_iff ℤ ℚ E).mpr (Algebra.IsAlgebraic.isAlgebraic c)
-  obtain ⟨y, hy, hint⟩ := hc.exists_integral_multiple
-  refine ⟨y.natAbs, Int.natAbs_pos.mpr hy, ?_⟩
-  rcases Int.natAbs_eq y with h | h
-  · have h' : (y.natAbs : ℤ) = y := by omega
-    have h2 : ((y.natAbs : ℤ) : E) = (y : E) := congrArg _ h'
-    rw [Int.cast_natCast] at h2
-    rw [h2, ← zsmul_eq_mul]; exact hint
-  · have h' : (y.natAbs : ℤ) = -y := by omega
-    have h2 : ((y.natAbs : ℤ) : E) = ((-y : ℤ) : E) := congrArg _ h'
-    rw [Int.cast_natCast, Int.cast_neg] at h2
-    rw [h2, neg_mul, ← zsmul_eq_mul]; exact hint.neg
+  apply _root_.GlobalTheory.AlgDirMom.exists_nat_mul_isIntegral <;> assumption
 
 theorem main {E : Type} [Field E] [NumberField E] {r : ℕ}
     (Λ Λ' : Submodule (RingOfIntegers E) (Fin r → E)) (hfg : Λ'.FG)

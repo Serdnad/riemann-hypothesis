@@ -1,5 +1,6 @@
 module
 
+import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.PHilbDegBound
 public import Development.AbelianVarietyTheory.Definitions.Divisors.IsTorsionFreeOfForallExists
 import Development.AbelianVarietyTheory.Proofs.CoherentCohomologyProofs.EventuallySubsingletonCohTwistZOfIsProjOver
 import Development.AbelianVarietyTheory.Proofs.CoherentCohomologyProofs.ExistsLinearMapMultilinearMapBaseChange
@@ -56,18 +57,7 @@ namespace GlobalTheory.VB
 
 theorem lt_of_add_one_le_natCast {a : WithBot ℕ∞} {n : ℕ} (h : a + 1 ≤ (n : WithBot ℕ∞)) :
     a < (n : WithBot ℕ∞) := by
-  induction a using WithBot.recBotCoe with
-  | bot => exact WithBot.bot_lt_coe _
-  | coe m =>
-    induction m using ENat.recTopCoe with
-    | top =>
-      exfalso
-      rw [← WithBot.coe_one, ← WithBot.coe_add, top_add, ← WithBot.coe_natCast, WithBot.coe_le_coe] at h
-      exact absurd h (not_le.mpr (ENat.coe_lt_top n))
-    | coe m =>
-      have h' : ((m + 1 : ℕ) : WithBot ℕ∞) ≤ (n : WithBot ℕ∞) := by exact_mod_cast h
-      have : m + 1 ≤ n := by exact_mod_cast h'
-      exact_mod_cast (show m < n by omega)
+  apply _root_.GroundTheory.Heights₂.Heights.NumbersDVR.HilbDegBound.lt_of_add_one_le_natCast <;> assumption
 
 variable {Z : Scheme.{0}} [IsIntegral Z]
 

@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.ESecCompOfIsGrpPullback
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.Clauses
 public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.ExistsProjectiveModel
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsLineBundleExtensionOfGenericFibreDvr
@@ -80,18 +81,8 @@ theorem isPullback_sq {A : Over S'} {G : Over S} {b : S' ⟶ S} {f : A.left ⟶ 
 
 theorem unit_comp {A : Over S'} {G : Over S} [GrpObj A] [GrpObj G] {f : S' ⟶ S} {a : A.left ⟶ G.left}
     (ha : IsGrpPullback A G f a) : η[A].left ≫ a = f ≫ η[G].left := by
-  let p : (𝟙_ (Over S') ⟶ A) → (Over.mk ((𝟙_ (Over S')).hom ≫ f) ⟶ G) := fun x =>
-    Over.homMk (x.left ≫ a) (by
-      rw [Category.assoc, ha.1.w, ← Category.assoc, Over.w x]; rfl)
-  have hp : p 1 * p 1 = p 1 := by
-    apply Over.OverMorphism.ext
-    rw [ha.2 _ 1 1 (p 1) (p 1) rfl rfl, _root_.mul_one]; rfl
-  have h1 : p 1 = 1 := by simpa using hp
-  have e := congrArg (fun z => z.left) h1
-  have e₁ : (1 : 𝟙_ (Over S') ⟶ A) = η[A] := by rw [Hom.one_def]; simp
-  simp only [p, e₁, Hom.one_def] at e
-  refine e.trans ?_
-  simp
+  intros
+  apply _root_.GlobalTheory.UU.eSec_comp_of_isGrpPullback <;> assumption
 
 theorem one_comm {A : Over S'} {G : Over S} [GrpObj A] [GrpObj G] {f : S' ⟶ S} {a : A.left ⟶ G.left}
     (ha : IsGrpPullback A G f a) : (1 : A ⟶ A).left ≫ a = a ≫ (1 : G ⟶ G).left := by

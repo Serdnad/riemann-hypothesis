@@ -1,5 +1,6 @@
 module
 
+import Development.EtaleCohomology.EtaleSheaves.TwFBijPf
 public import Development.AbelianVarietyTheory.Definitions.Divisors.PullHlComp
 public import Development.AbelianVarietyTheory.Definitions.Divisors.SecClass
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.DegreeZeroSectionClassProperties
@@ -63,33 +64,8 @@ namespace GlobalTheory.EtC.CyclotomicGlobalSections
 
 theorem exists_cyclotomic_root (q : ℕ) [NeZero q] (A : Type) [CommRing A] (hA : SH A) (hq : IsUnit (q : A)) :
     ∃ ζ : A, Polynomial.aeval ζ (Polynomial.cyclotomic q ℤ) = 0 := by
-  obtain ⟨hH, hsep⟩ := hA
-  haveI := hH
-  have hqk : (q : IsLocalRing.ResidueField A) ≠ 0 := by
-    have := hq.map (IsLocalRing.residue A)
-    simpa using this.ne_zero
-  have hsepk : (Polynomial.cyclotomic q (IsLocalRing.ResidueField A)).Separable :=
-    (Polynomial.separable_X_pow_sub_C 1 hqk one_ne_zero).of_dvd (Polynomial.cyclotomic.dvd_X_pow_sub_one q _)
-  have hdeg : (Polynomial.cyclotomic q (IsLocalRing.ResidueField A)).degree ≠ 0 := by
-    rw [Polynomial.degree_cyclotomic]
-    exact_mod_cast (Nat.totient_pos.2 (Nat.pos_of_ne_zero (NeZero.ne q))).ne'
-  obtain ⟨a0, ha0⟩ := IsSepClosed.exists_root _ hdeg hsepk
-  obtain ⟨b0, rfl⟩ := IsLocalRing.residue_surjective a0
-  have hred : ∀ p : Polynomial A, IsLocalRing.residue A (p.eval b0) =
-      (p.map (IsLocalRing.residue A)).eval (IsLocalRing.residue A b0) := fun p => by
-    rw [Polynomial.eval_map, Polynomial.eval₂_hom]
-  have h1 : (Polynomial.cyclotomic q A).eval b0 ∈ IsLocalRing.maximalIdeal A := by
-    rw [← IsLocalRing.residue_eq_zero_iff, hred, Polynomial.map_cyclotomic]
-    all_goals exact ha0
-  have h2 : IsUnit ((Polynomial.derivative (Polynomial.cyclotomic q A)).eval b0) := by
-    rw [← IsLocalRing.residue_ne_zero_iff_isUnit, hred, ← Polynomial.derivative_map, Polynomial.map_cyclotomic]
-    have := hsepk.aeval_derivative_ne_zero (x := IsLocalRing.residue A b0) (by simpa [Polynomial.aeval_def] using ha0)
-    simpa [Polynomial.aeval_def] using this
-  obtain ⟨a, ha, -⟩ := HenselianLocalRing.is_henselian (Polynomial.cyclotomic q A)
-    (Polynomial.cyclotomic.monic q A) b0 h1 h2
-  refine ⟨a, ?_⟩
-  rw [Polynomial.aeval_def, Polynomial.eval₂_eq_eval_map, Polynomial.map_cyclotomic]
-  exact ha
+  intros
+  apply _root_.LateralTheory.E.TwFBijPf.exists_root <;> assumption
 
 end GlobalTheory.EtC.CyclotomicGlobalSections
 

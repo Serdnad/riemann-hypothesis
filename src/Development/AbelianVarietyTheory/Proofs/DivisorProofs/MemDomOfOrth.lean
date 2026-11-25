@@ -1,5 +1,6 @@
 module
 
+import all Development.AbelianVarietyTheory.Proofs.TorusHaarMeasure.ExistsLeNormDev
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovVolumes.UpperBounds.PoinStatementPfD
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.FundamentalDomains.ProdCastLESucc
 import Mathlib.Algebra.Order.Floor.Extended
@@ -99,12 +100,7 @@ theorem det_ne_of_orth (X : Data E r) {x : Frame X.Ψ r} (hx : IsOrth X x) (τ :
   exact_mod_cast PoinPf.sgn_ne _ _
 
 theorem mem_dom_of_orth (X : Data E r) {x : Frame X.Ψ r} (hx : IsOrth X x) : x ∈ X.dom := by
-  intro τ
-  refine ⟨det_ne_of_orth X hx τ, fun i => ?_⟩
-  have h := PoinPf.dmin_cpt_orth X hx 0 τ i
-  rw [PoinPf.cpt_zero, PoinPf.Gw_zero, PoinPf.lminor_Jd] at h
-  rw [h, Complex.ofReal_re]
-  exact mul_self_pos.2 (PoinPf.psgn_ne _ _)
+  apply _root_.GlobalTheory.mem_dom_of_isOrth <;> assumption
 
 theorem exists_ball (X : Data E r) {x : Frame X.Ψ r} (hx : IsOrth X x) :
     ∃ R > 0, ∀ w ∈ Metric.ball (0 : V (nd X)) R, cpt X x w ∈ X.dom := by

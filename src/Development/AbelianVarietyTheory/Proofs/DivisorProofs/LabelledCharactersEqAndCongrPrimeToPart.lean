@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ThetaOfPow
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LabelsCharOne
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -110,15 +111,7 @@ variable {p : ℕ} [Fact p.Prime]
 
 theorem thetaOf_gen (L : GlobalTheory.GLq.LabelDatum p) {d : ℕ} (hd : 0 < d) {x : Fbar p} (hx : x ^ (p ^ d - 1) = 1)
     (n : ℕ) : GlobalTheory.GLq.thetaOf L d x (L.gen d ^ n) = L.teich x ^ n := by
-  have h : ∃ m : ℕ, L.gen d ^ n = L.gen d ^ m := ⟨n, rfl⟩
-  have hp : 0 < p ^ d - 1 := Nat.sub_pos_of_lt (Nat.one_lt_pow hd.ne' (Fact.out : p.Prime).one_lt)
-  have hfin : IsOfFinOrder (L.gen d) := by
-    rw [← orderOf_pos_iff, L.gen_order d hd]; exact hp
-  unfold GlobalTheory.GLq.thetaOf
-  rw [dite_eq_left h]
-  have h1 := hfin.pow_eq_pow_iff_modEq.1 h.choose_spec
-  rw [L.gen_order d hd] at h1
-  exact (pow_eq_pow_of_modEq h1 (by rw [← map_pow, hx, map_one])).symm
+  apply _root_.GlobalTheory.GLq.LabelModel.thetaOf_pow <;> assumption
 
 theorem pow_eq_iff (L : GlobalTheory.GLq.LabelDatum p) {d : ℕ} (hd : 0 < d) {θ θ' : Tor p d →* ℂˣ} {x x' : Fbar p}
     (h : LabelsChar L θ x) (h' : LabelsChar L θ' x') (m : ℕ) : θ ^ m = θ' ^ m ↔ x ^ m = x' ^ m := by

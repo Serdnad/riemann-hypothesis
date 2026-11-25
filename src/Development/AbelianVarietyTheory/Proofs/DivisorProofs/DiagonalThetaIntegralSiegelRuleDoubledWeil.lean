@@ -1,5 +1,7 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.RationalSourceActsOnOrientedThetaBySubstitution
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.DoubledDarbouxCoordsRationalOfRational
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.BlkGLEpsPairMem
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsDblCoordDblD
 public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.WeilTensorModels
@@ -299,17 +301,7 @@ theorem ddr_rat : ∀ (D : D7) (S T : HSp D) (JA : Matrix (Fin T.rank) (Fin T.ra
     ∀ x : Matrix (Fin T.rank) (Fin (dblSp S).rank) D.host.E, ∃ y z : κ ⊕ κ → D.host.F,
       (GlobalTheory.DblSchr.ddr co).e (incM D.host.F x) =
         (fun i => algebraMap D.host.F (AF D.host.F) (y i), fun i => algebraMap D.host.F (AF D.host.F) (z i)) := by
-  intro D S T JA JB ξ κ _ co hco x
-  obtain ⟨y₁, z₁, h₁⟩ := hco ((x.submatrix id finSumFinEquiv).toCols₁)
-  obtain ⟨y₂, z₂, h₂⟩ := hco ((x.submatrix id finSumFinEquiv).toCols₂)
-  refine ⟨Sum.elim y₁ y₂, Sum.elim z₁ (-z₂), ?_⟩
-  have e : (GlobalTheory.DblSchr.ddr co).e (incM D.host.F x) =
-      (Sum.elim (co.e (incM D.host.F (x.submatrix id finSumFinEquiv).toCols₁)).1
-          (co.e (incM D.host.F (x.submatrix id finSumFinEquiv).toCols₂)).1,
-        Sum.elim (co.e (incM D.host.F (x.submatrix id finSumFinEquiv).toCols₁)).2
-          (-(co.e (incM D.host.F (x.submatrix id finSumFinEquiv).toCols₂)).2)) := rfl
-  rw [e, h₁, h₂]
-  ext (i | i) <;> simp
+  apply _root_.GlobalTheory.DblSchr.ddr_rat <;> assumption
 
 theorem actO_epsD_lagr : ∀ (D : D7) (S T : HSp D) (w : WO S T),
     actO (dblSp S) T (epsD S)⁻¹ 1 (GlobalTheory.IndefiniteRowSideFullHecke.SphericalZero.lagr S T w) = GlobalTheory.DiagSiegel.diagMat w := by
@@ -336,20 +328,8 @@ theorem epsD_mem_GQ : ∀ (D : D7) (S : HSp D), epsD S ∈ GQ (dblSp S) := by
 theorem rat_act : ∀ (D : D7) (ψ : AddChar (AF D.host.F) ℂ) (V T : HSp D) (χV χT : (AE D)ˣ →* Circle)
     (ω : GA D V × GA D T →* Module.End ℂ (WO V T → ℂ)), IsWeilDatumO ψ V T χV χT ω →
     ∀ γ ∈ GQ V, ∀ f, IsThetaFunO ψ V T f → ∀ x, ω (γ, 1) f x = f (actO V T γ⁻¹ 1 x) := by
-  intro D ψ V T χV χT ω hW γ hγ f hf x
-  have hx : actO V T γ 1 (actO V T γ⁻¹ 1 x) = x := by
-    simp only [actO, Formalism.L2.Theta.mt, map_one, Units.val_one, Matrix.one_mul, inv_inv, Matrix.mul_assoc,
-      ← Units.val_mul, ← map_mul, mul_inv_cancel, Matrix.mul_one]
-  have e1 : ∀ (g : WO V T → ℂ) (y : WO V T), heisO ψ V T y g 0 = g y := by
-    intro g y
-    have h0 : symplOH V T 0 y = 0 := by simp [symplOH, symplO, hO]
-    simp only [heisO, zero_add, h0, AddChar.map_zero_eq_one, one_mul]
-  calc ω (γ, 1) f x = heisO ψ V T x (ω (γ, 1) f) 0 := (e1 _ _).symm
-    _ = heisO ψ V T (actO V T γ 1 (actO V T γ⁻¹ 1 x)) (ω (γ, 1) f) 0 := by rw [hx]
-    _ = ω (γ, 1) (heisO ψ V T (actO V T γ⁻¹ 1 x) f) 0 := by rw [← hW.om_heis γ 1 _ f hf]
-    _ = heisO ψ V T (actO V T γ⁻¹ 1 x) f 0 :=
-      hW.om_aut γ hγ 1 (one_mem _) _ (GlobalTheory.ThetaClosed.isThetaFunO_heisO_all hW.std hf _)
-    _ = f (actO V T γ⁻¹ 1 x) := e1 _ _
+  intros
+  apply _root_.GlobalTheory.RatSubst.om_rat_left_apply <;> assumption
 
 theorem chi_conj : ∀ (D : D7) (χ : (AE D)ˣ →* Circle) (n : ℕ), ResEta D χ n → ∀ z : (AE D)ˣ,
     χ (conjUnit D.sp.cm.sig z) = (χ z)⁻¹ := by

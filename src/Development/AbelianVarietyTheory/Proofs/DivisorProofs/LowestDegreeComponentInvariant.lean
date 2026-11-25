@@ -43,6 +43,7 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
+import CompanionTheory.HarishChandraModules.LowKTypeMultiplicity.EigenspaceCyclicDensity.CreationOperators.GeneralizedVermaModulePolynomial
 
 @[expose] public section
 
@@ -56,22 +57,7 @@ namespace GlobalTheory.KFixIrr.LowStable
 
 theorem deg_X_pderiv {σ : Type} (a b : σ) (P : MvPolynomial σ ℂ) :
     (X a * pderiv b P).totalDegree ≤ P.totalDegree := by
-  classical
-  set_option synthInstance.maxHeartbeats 100000 in
-    conv_lhs => rw [P.as_sum, map_sum, Finset.mul_sum]
-  refine (totalDegree_finsetSum _ _).trans (Finset.sup_le fun s hs => ?_)
-  rw [pderiv_monomial]
-  by_cases h : s b = 0
-  · simp [h]
-  · refine le_trans ?_ (le_totalDegree hs)
-    rw [X, monomial_mul]
-    refine (totalDegree_monomial_le _ _).trans (le_of_eq ?_)
-    have h1 : s = Finsupp.single b 1 + (s - Finsupp.single b 1) := by
-      rw [add_tsub_cancel_of_le]
-      exact Finsupp.single_le_iff.2 (Nat.one_le_iff_ne_zero.2 h)
-    conv_rhs => rw [h1]
-    rw [Finsupp.sum_add_index' (by simp) (by simp), Finsupp.sum_add_index' (by simp) (by simp)]
-    simp [Function.id_def]
+  apply _root_.CompanionTheory.D.LK.deg_X_pderiv <;> assumption
 
 theorem deg_pderiv_X {σ : Type} (a b : σ) (P : MvPolynomial σ ℂ) :
     (pderiv b (X a * P)).totalDegree ≤ P.totalDegree := by

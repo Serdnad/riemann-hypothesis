@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.NonemptyGtCoordOfIsGt
 public import Mathlib.AlgebraicGeometry.Morphisms.Smooth
 public import Mathlib.Combinatorics.Quiver.ReflQuiver
 public import Mathlib.AlgebraicGeometry.Pullbacks
@@ -427,17 +428,7 @@ namespace GlobalTheory
 
 theorem overPullback_unit_comp_fst {S S' : Scheme.{0}} (p : S' ⟶ S) (G : Over S) [GrpObj G] :
     (η[(Over.pullback p).obj G]).left ≫ pullback.fst G.hom p = p ≫ (η[G]).left := by
-  have hmap : ((Over.pullback p).map η[G]).left ≫ pullback.fst G.hom p =
-      pullback.fst (𝟙_ (Over S)).hom p ≫ (η[G]).left := by
-    simp
-  have hε : (Functor.LaxMonoidal.ε (Over.pullback p)).left ≫ pullback.fst (𝟙_ (Over S)).hom p = p := by
-    have h1 : pullback.fst (𝟙_ (Over S)).hom p = pullback.snd (𝟙_ (Over S)).hom p ≫ p := by
-      rw [← pullback.condition]; rfl
-    have h2 : (Functor.LaxMonoidal.ε (Over.pullback p)).left ≫ pullback.snd (𝟙_ (Over S)).hom p = 𝟙 _ :=
-      Over.w (Functor.LaxMonoidal.ε (Over.pullback p))
-    rw [h1, ← Category.assoc, h2, Category.id_comp]
-  show (Functor.LaxMonoidal.ε (Over.pullback p) ≫ (Over.pullback p).map η[G]).left ≫ pullback.fst G.hom p = _
-  rw [Over.comp_left, Category.assoc, hmap, ← Category.assoc, hε]
+  apply _root_.GlobalTheory.WeightGen.unit_fst <;> assumption
 
 theorem mem_unitComponent_mul_mem :
     ∀ (S : Scheme.{0}) (G : Over S) [GrpObj G], Smooth G.hom → ∀ (U : G.left.Opens) (y : G.left),

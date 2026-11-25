@@ -1,5 +1,7 @@
 module
 
+import Development.WeilBound.RepresentationTheoryGL.RegularisedSiegelWeil.SingularNullSets.LNullSing
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.WeilOperatorLatticeStabiliserLeftPreservesVacuum
 public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.WeilTensorModels
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.HermitianLatticeSelfDualEverywhere
 public import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.IsPrincipalIdealRingLoc
@@ -770,15 +772,7 @@ theorem exists_nhds_translate_eq {V : Type} [AddCommGroup V] [TopologicalSpace V
     rw [image_eq_zero_of_notMem_tsupport h1, image_eq_zero_of_notMem_tsupport h2]
 
 theorem nhdsNE_neBot {F : Type} [Field F] [NumberField F] (v : Pl (F := F)) : (nhdsWithin (0 : Fv F v) {0}ᶜ).NeBot := by
-  refine ⟨fun h => ?_⟩
-  have hopen : IsOpen ({0} : Set (Fv F v)) := (isOpen_singleton_iff_punctured_nhds _).2 h
-  haveI := discreteTopology_of_isOpen_singleton_zero hopen
-  haveI := GlobalTheory.AdelicUnitaryTop.compactSpace_adicCompletionIntegers F v
-  have hO : IsCompact ((v.adicCompletionIntegers F : Set (Fv F v))) := isCompact_iff_compactSpace.2 inferInstance
-  haveI : CharZero (Fv F v) := charZero_of_injective_algebraMap (algebraMap F (Fv F v)).injective
-  have hinf : ((v.adicCompletionIntegers F : Set (Fv F v))).Infinite :=
-    Set.infinite_of_injective_forall_mem (Nat.cast_injective (R := Fv F v)) fun n => natCast_mem _ n
-  exact hinf (hO.finite_of_discrete)
+  apply _root_.GlobalTheory.CompanionTheory.NullFr.FieldDec.neBot_fin <;> assumption
 
 end GlobalTheory.SchrSuppFin
 
@@ -1502,45 +1496,12 @@ variable {σ : E →ₐ[F] E}
 theorem vecMulVec_mem_latAtV_left {n d : ℕ} (X : Spc F E n) (W : Spc F E d) (v : Pl (F := F)) {y : Fin d → E} (hy : y ∈ W.L)
     {z : Fin n → AE F E} (hz : z ∈ latAt X v) :
     Matrix.vecMulVec z (fun i => inclR (F := F) (AF F) (y i)) ∈ latAtV X W v := by
-  let f : (Fin n → AE F E) →+ Matrix (Fin n) (Fin d) (AE F E) :=
-    { toFun := fun z => Matrix.vecMulVec z (fun i => inclR (F := F) (AF F) (y i))
-      map_zero' := by ext i j; simp [Matrix.vecMulVec_apply]
-      map_add' := fun z z' => by ext i j; simp [Matrix.vecMulVec_apply, add_mul] }
-  have : latAt X v ≤ (latAtV X W v).comap f := by
-    refine (AddSubgroup.closure_le _).2 ?_
-    rintro z ⟨a, ha, hai, x, hx, rfl⟩
-    refine AddSubgroup.subset_closure ⟨a, ha, hai, x, hx, y, hy, ?_⟩
-    ext i j
-    simp only [f, AddMonoidHom.coe_mk, ZeroHom.coe_mk, Matrix.vecMulVec_apply, Matrix.smul_apply, incM,
-      Matrix.map_apply, map_mul, Algebra.smul_def, Pi.mul_apply, Pi.algebraMap_apply]
-    ring
-  exact this hz
+  apply _root_.GlobalTheory.VacTransportLeft.vecMulVec_mem_left <;> assumption
 
 theorem mul_left_inv_mem_latAtV {n d : ℕ} (X : Spc F E n) (W : Spc F E d) (v : Pl (F := F)) {g : UA σ X.J}
     (hg : g ∈ KAt σ X v) {γ : Matrix (Fin n) (Fin d) (AE F E)} (hγ : γ ∈ latAtV X W v) :
     mat g⁻¹ * γ ∈ latAtV X W v := by
-  let f : Matrix (Fin n) (Fin d) (AE F E) →+ Matrix (Fin n) (Fin d) (AE F E) :=
-    { toFun := fun γ => mat g⁻¹ * γ
-      map_zero' := by simp
-      map_add' := fun γ γ' => by simp [Matrix.mul_add] }
-  have : latAtV X W v ≤ (latAtV X W v).comap f := by
-    refine (AddSubgroup.closure_le _).2 ?_
-    rintro z ⟨a, ha, hai, x, hx, y, hy, rfl⟩
-    show mat g⁻¹ * (a • incM F (Matrix.vecMulVec x y)) ∈ latAtV X W v
-    have hz : (a • fun i => inclR (F := F) (AF F) (x i)) ∈ latAt X v :=
-      AddSubgroup.subset_closure ⟨a, ha, hai, x, hx, rfl⟩
-    have e : mat g⁻¹ * (a • incM F (Matrix.vecMulVec x y)) =
-        Matrix.vecMulVec (mat g⁻¹ *ᵥ (a • fun i => inclR (F := F) (AF F) (x i)))
-          (fun j => inclR (F := F) (AF F) (y j)) := by
-      ext i j
-      simp only [Matrix.mul_apply, Matrix.vecMulVec_apply, Matrix.smul_apply, Matrix.mulVec,
-        dotProduct, incM, Matrix.map_apply, map_mul, Algebra.smul_def, Pi.mul_apply, Pi.algebraMap_apply,
-        Finset.sum_mul]
-      refine Finset.sum_congr rfl fun l _ => ?_
-      ring
-    rw [e]
-    exact vecMulVec_mem_latAtV_left X W v hy (hg.2 _ hz).2
-  exact this hγ
+  apply _root_.GlobalTheory.VacTransportLeft.inv_mul_mem <;> assumption
 
 theorem acts_vacCond_of_mem_KAt_left : ∀ (F E : Type) [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] (σ : E →ₐ[F] E) (B : Base F E)
     (a a' : ℕ) (G : Geo σ a a') (X : Chars F E) (om : Rep σ G.V G.W) (om' : Rep σ G.V' G.W), IsTriple B G X om om' →

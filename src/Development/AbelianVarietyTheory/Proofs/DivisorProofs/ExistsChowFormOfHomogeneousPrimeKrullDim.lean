@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.CoherentCohomologyProofs.RingKrullDimQuotientEqOfMemMinimalPrimes
 public import Development.AbelianVarietyTheory.Definitions.ThetaMetrics.WeightedHomogeneousComponentMemElimIdeal
 public import Mathlib.RingTheory.AlgebraicIndependent.Basic
 public import Mathlib.RingTheory.FiniteType
@@ -94,28 +95,13 @@ section Dimension
 theorem ringKrullDim_eq_of_isIntegral (R S : Type*) [CommRing R] [CommRing S] [IsDomain S]
     [Algebra R S] [FaithfulSMul R S] [Algebra.IsIntegral R S] :
     ringKrullDim S = ringKrullDim R := by
-  refine le_antisymm (Order.krullDim_le_of_strictMono (PrimeSpectrum.comap (algebraMap R S))
-    fun P Q h => Ideal.IsIntegral.comap_lt_comap (R := R) h) (iSup_le fun l => ?_)
-  obtain ⟨P, hP, hPl⟩ := Ideal.exists_ideal_over_prime_of_isIntegral_of_isDomain (S := S)
-    l.head.asIdeal (by simp [(RingHom.injective_iff_ker_eq_bot _).1
-      (FaithfulSMul.algebraMap_injective R S)])
-  have : P.LiesOver l.head.asIdeal := ⟨hPl.symm⟩
-  obtain ⟨L, hL, -⟩ := Ideal.exists_ltSeries_of_hasGoingUp l P
-  rw [← hL]
-  exact Order.LTSeries.length_le_krullDim L
+  intros
+  apply _root_.GlobalTheory.ringKrullDim_eq_of_isIntegral <;> assumption
 
 theorem exists_ringKrullDim_eq_and_trdeg_eq (K A : Type u) [Field K] [CommRing A] [IsDomain A]
     [Algebra K A] [Algebra.FiniteType K A] :
     ∃ s : ℕ, ringKrullDim A = s ∧ Algebra.trdeg K A = s := by
-  obtain ⟨s, g, hg, hg'⟩ := exists_integral_inj_algHom_of_fg K A
-  algebraize [g.toRingHom]
-  have : FaithfulSMul (MvPolynomial (Fin s) K) A :=
-    (faithfulSMul_iff_algebraMap_injective _ _).2 hg
-  have : IsScalarTower K (MvPolynomial (Fin s) K) A :=
-    IsScalarTower.of_algebraMap_eq fun x => (g.commutes x).symm
-  refine ⟨s, ?_, ?_⟩
-  · simp [ringKrullDim_eq_of_isIntegral (MvPolynomial (Fin s) K) A, ringKrullDim_eq_zero_of_field]
-  · simp [← trdeg_add_eq K (MvPolynomial (Fin s) K) (A := A), trdeg_eq_zero]
+  apply _root_.GlobalTheory.exists_ringKrullDim_eq_and_trdeg_eq <;> assumption
 
 end Dimension
 

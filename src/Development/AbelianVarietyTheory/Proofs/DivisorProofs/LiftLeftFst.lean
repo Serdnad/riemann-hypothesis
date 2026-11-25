@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.FramedPointsLiftToLevelCover
 public import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.IsAdditiveOfUniversal
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -85,15 +86,8 @@ theorem mul_left_comp (hφ : IsGrpPullback G' G b φ) {X : Scheme.{0}} {s : X �
 
 theorem one_left_comp (hφ : IsGrpPullback G' G b φ) {X : Scheme.{0}} {s : X ⟶ S'} {s₀ : X ⟶ S}
     (hs : s ≫ b = s₀) : (1 : Over.mk s ⟶ G').left ≫ φ = (1 : Over.mk s₀ ⟶ G).left := by
-  let x₀ : Over.mk s₀ ⟶ G := Over.homMk ((1 : Over.mk s ⟶ G').left ≫ φ) (by
-    show _ ≫ G.hom = s₀
-    rw [Category.assoc, hφ.1.w, ← Category.assoc, Over.w (1 : Over.mk s ⟶ G')]
-    exact hs)
-  have e : x₀ = x₀ * x₀ := Over.OverMorphism.ext (by
-    have := mul_left_comp hφ hs (x := 1) (y := 1) (x₀ := x₀) (y₀ := x₀) rfl rfl
-    rw [_root_.mul_one] at this
-    exact this)
-  exact congrArg (fun z ↦ z.left) (left_eq_mul.1 e)
+  intros
+  apply _root_.GlobalTheory.FrameLift.one_push <;> assumption
 
 end Pt
 

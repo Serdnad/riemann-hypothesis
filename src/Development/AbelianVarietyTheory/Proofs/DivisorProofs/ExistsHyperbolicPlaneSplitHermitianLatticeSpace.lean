@@ -1,5 +1,6 @@
 module
 
+import Development.WeilBound.ThetaLifts.TowerModels.PlaneSkew
 public import Mathlib.NumberTheory.NumberField.Basic
 public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.WeilTensorModels
 public import Mathlib.RingTheory.FractionalIdeal.Basic
@@ -764,119 +765,8 @@ end Help2
 theorem exists_hyperbolic_split : ∀ (F E : Type) [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] (σ : E →ₐ[F] E)
     (B : Base F E), B.IsGood σ → ∀ (n n₁ : ℕ), n = n₁ + 2 → 1 ≤ n₁ → ∀ (Y : Spc F E n) (r s : ℕ), 1 ≤ r → 1 ≤ s →
     Y.IsHerm σ B r s → ∀ i₀ i₁ : ℕ, i₀ < i₁ → i₁ < n → ∃ (Y' : Spc F E n) (Y₁ : Spc F E n₁) (H : Plane E n n₁),
-      (GlobalTheory.ThK.reS Y Y').IsHerm σ B r s ∧ Y₁.IsHerm σ B (r - 1) (s - 1) ∧ H.IsAdapted σ B (GlobalTheory.ThK.reS Y Y') Y₁ i₀ i₁ := by
-  intro F E _ _ _ _ _ σ B hB n n₁ hn hn₁ Y r s hr hs hY i₀ i₁ h01 h1n
-  classical
-  have hcm : IsCMExt F E σ := hB.cm
-  obtain ⟨x₀, hx₀, hx₀x₀⟩ := _root_.GlobalTheory.HermIso.exists_isotropic F E σ B hB n Y r s (by omega) hr hs hY
-  obtain ⟨x, y, hxx, hyy, hxy, hL, hP⟩ := _root_.GlobalTheory.HypPairLat.exists_pair F E σ B hB n Y r s hY x₀ hx₀ hx₀x₀
-  obtain ⟨ι, P, hPι, horth, hcomp⟩ := _root_.GlobalTheory.exists_orthCompl_hypPair F E σ n n₁ Y.J x y hn hY.herm hxx hyy hxy
-  have hyx : form σ Y.J y x = 1 := by rw [form_swap hcm hY.herm, hxy, map_one]
-  have hsplit : ∀ z ∈ Y.L, ∃ u, ι *ᵥ u ∈ Y.L ∧ z = form σ Y.J z y • x + ι *ᵥ u + form σ Y.J z x • y := by
-    intro z hz
-    obtain ⟨u, hu⟩ := hcomp (z - form σ Y.J z y • x - form σ Y.J z x • y) (by
-        rw [form_sub_left, form_sub_left, form_smul_left, form_smul_left, hxx, hyx]; ring) (by
-        rw [form_sub_left, form_sub_left, form_smul_left, form_smul_left, hxy, hyy]; ring)
-    refine ⟨u, ?_, ?_⟩
-    · rw [← hu]; exact Y.L.sub_mem (Y.L.sub_mem hz (hL z hz).1) (hL z hz).2
-    · rw [← hu]; abel
-  set L₁ := Y.L.comap ((Matrix.mulVecLin ι).restrictScalars (𝓞 E)) with hL₁def
-  have hlat₁ : L₁.IsFullLattice E := by
-    refine { toIsLattice := GlobalTheory.T.isLattice_comap_mulVecLin_of_leftInverse_matrix E n n₁ Y.L ι P hPι hY.lat.toIsLattice, span_eq_top := ?_ }
-    refine eq_top_iff.2 fun u _ => ?_
-    have hu : ι *ᵥ u ∈ Submodule.span E (Y.L : Set (Fin n → E)) :=
-      hY.lat.span_eq_top ▸ Submodule.mem_top
-    obtain ⟨z, hz, d, hd⟩ := (IsLocalization.mem_span_iff (M := nonZeroDivisors (𝓞 E))).1 hu
-    have hdu : (d : 𝓞 E) • u ∈ L₁ := by
-      change ι *ᵥ ((d : 𝓞 E) • u) ∈ Y.L
-      rw [Matrix.mulVec_smul, hd, ← IsScalarTower.algebraMap_smul E (d : 𝓞 E), smul_smul,
-        IsLocalization.mk'_spec', map_one, one_smul]
-      simpa only [Submodule.span_eq] using hz
-    have h := (Submodule.span E (L₁ : Set (Fin n₁ → E))).smul_mem
-      (IsLocalization.mk' E 1 d) (Submodule.subset_span hdu)
-    rwa [← IsScalarTower.algebraMap_smul E (d : 𝓞 E), smul_smul,
-      IsLocalization.mk'_spec, map_one, one_smul] at h
-  have hx0 : x ≠ 0 := by rintro rfl; simp [form] at hxy
-  obtain ⟨𝔟, h𝔟⟩ := _root_.GlobalTheory.latticeLine_fractionalIdeal E n Y.L hY.lat.toIsLattice x hx0
-  set J₁ := ιᵀ * Y.J * ι.map σ with hJ₁
-  have hform₁ : ∀ u u', form σ J₁ u u' = form σ Y.J (ι *ᵥ u) (ι *ᵥ u') := form_gram Y.J ι
-  let e : InfinitePlace F → E →+* ℂ := fun w => (B.emb w).1
-  have hMh : ∀ w, (Y.J.map (e w))ᴴ = Y.J.map (e w) := fun w => map_herm hcm _ hY.herm
-  have cxx : ∀ w, (fun i => e w (x i)) ⬝ᵥ Y.J.map (e w) *ᵥ star (fun i => e w (x i)) = 0 := fun w => by
-    rw [← map_form hcm, hxx, map_zero]
-  have cyy : ∀ w, (fun i => e w (y i)) ⬝ᵥ Y.J.map (e w) *ᵥ star (fun i => e w (y i)) = 0 := fun w => by
-    rw [← map_form hcm, hyy, map_zero]
-  have cxy : ∀ w, (fun i => e w (x i)) ⬝ᵥ Y.J.map (e w) *ᵥ star (fun i => e w (y i)) = 1 := fun w => by
-    rw [← map_form hcm, hxy, map_one]
-  have cox : ∀ w, (ι.map (e w))ᵀ *ᵥ (Y.J.map (e w) *ᵥ star (fun i => e w (x i))) = 0 := fun w =>
-    map_orth hcm _ Y.J ι x (fun u => (horth u).1)
-  have coy : ∀ w, (ι.map (e w))ᵀ *ᵥ (Y.J.map (e w) *ᵥ star (fun i => e w (y i))) = 0 := fun w =>
-    map_orth hcm _ Y.J ι y (fun u => (horth u).2)
-  have cP : ∀ w, P.map (e w) * ι.map (e w) = 1 := fun w => by
-    rw [← Matrix.map_mul, hPι, Matrix.map_one _ (map_zero _) (map_one _)]
-  have cg : ∀ w, (ι.map (e w))ᵀ * Y.J.map (e w) * (ι.map (e w)).map star = J₁.map (e w) := fun w =>
-    map_gram hcm _ Y.J ι
-  have hsig₁ : ∀ w, HasSig (J₁.map (e w)) (r - 1) (s - 1) := fun w => by
-    rw [← cg w]
-    exact _root_.GlobalTheory.PlaneSig.hasSig_complement_plane n n₁ _ _ _ _ _ r s hn (hMh w) (cxx w) (cyy w) (cxy w) (cox w) (coy w) (cP w) (hY.sig w)
-  have hθ₁ : ∀ w, ∃ θ, IsCartan (J₁.map (e w)) θ := fun w => _root_.GlobalTheory.CartanEx.exists_isCartan n₁ _ _ _ (hsig₁ w)
-  choose θ₁ hθ₁ using hθ₁
-  have hθ : ∀ w, ∃ θ, IsCartan (Y.J.map (e w)) θ ∧ θ * ι.map (e w) = ι.map (e w) * θ₁ w ∧
-      θ *ᵥ (fun i => e w (x i)) = fun i => e w (y i) := fun w =>
-    _root_.GlobalTheory.CartanPlane.extend_swap n n₁ _ _ _ _ _ _ hn (hMh w) (cxx w) (cyy w) (cxy w) (cox w) (coy w) (cP w) (by rw [cg w]; exact hθ₁ w)
-  choose θ hθ using hθ
-  haveI := hlat₁
-  have hb₁ : ∀ v : B.P, ∃ β, IsSplitBasis (B.τ v) L₁ β := fun v => exists_isSplitBasis (B.τ v) L₁ hcm
-  choose β₁ hβ₁ using hb₁
-  let bas₁ : ∀ v : Pl (F := F), GL (Fin n₁) (Fv F v) := fun v => if h : v ∈ B.P then β₁ ⟨v, h⟩ else 1
-  have hbas₁ : ∀ v : B.P, bas₁ v = β₁ v := fun v => by simp only [bas₁, dif_pos v.2]
-  have hb : ∀ v : B.P, ∃ β : GL (Fin n) (Fv F v), (∀ i : Fin n, (i.1 = i₀ → ∀ r, β.1 r i = B.τ v (x r)) ∧
-      (i.1 = i₁ → ∀ r, β.1 r i = B.τ v (y r)) ∧
-      ∀ j : Fin n₁, i.1 = skip i₀ i₁ j → ∀ r, β.1 r i = (ι.map (B.τ v) * (β₁ v).1) r j) ∧
-      IsSplitBasis (B.τ v) Y.L β := fun v =>
-    GlobalTheory.PlaneBasis.exists_isSplitBasis_plane F E σ hcm v (B.τ v) n n₁ Y.L x y ι (β₁ v) i₀ i₁ hn h01 h1n hY.lat
-      (fun z hz => by
-        obtain ⟨u, hu, hz'⟩ := hsplit z hz
-        exact ⟨_, _, u, (hL z hz).1, (hL z hz).2, hu, hz'⟩) (hP v).1 (hP v).2 (hβ₁ v)
-  choose β hβ using hb
-  let bas : ∀ v : Pl (F := F), GL (Fin n) (Fv F v) := fun v => if h : v ∈ B.P then β ⟨v, h⟩ else Y.bas v
-  have hbas : ∀ v : B.P, bas v = β v := fun v => by simp only [bas, dif_pos v.2]
-  let Y₁ : Spc F E n₁ := ⟨J₁, L₁, θ₁, bas₁⟩
-  let Y' : Spc F E n := ⟨Y.J, Y.L, θ, bas⟩
-  refine ⟨Y', Y₁, ⟨x, y, ι, 𝔟⟩, ?_, ?_, ?_⟩
-  · exact { herm := hY.herm, sig := hY.sig, lat := hY.lat, dual := hY.dual, cartan := fun w => (hθ w).1
-            bas := fun v => by
-              rw [show (GlobalTheory.ThK.reS Y Y').bas v = β v from hbas v]
-              exact (hβ v).2 }
-  · exact { herm := fun i j => by
-              show σ (J₁ j i) = J₁ i j
-              rw [← form_single (σ := σ) J₁ j i, ← form_single (σ := σ) J₁ i j, hform₁, hform₁,
-                form_swap hcm hY.herm (ι *ᵥ Pi.single j 1) (ι *ᵥ Pi.single i 1)]
-            sig := hsig₁
-            lat := hlat₁
-            dual := fun u => by
-              show u ∈ L₁ ↔ ∀ u' ∈ L₁, IsIntegral ℤ (form σ J₁ u u')
-              refine ⟨fun hu u' hu' => ?_, fun H => ?_⟩
-              · rw [hform₁]; exact (hY.dual _).1 hu _ hu'
-              · show ι *ᵥ u ∈ Y.L
-                refine (hY.dual _).2 fun z hz => ?_
-                obtain ⟨u', hu', hz'⟩ := hsplit z hz
-                rw [hz', form_add_right, form_add_right, form_smul_right, form_smul_right, (horth u).1,
-                  (horth u).2, mul_zero, mul_zero, zero_add, add_zero, ← hform₁]
-                exact H u' hu'
-            cartan := hθ₁
-            bas := fun v => by
-              rw [show Y₁.bas v = β₁ v from hbas₁ v]
-              exact hβ₁ v }
-  · exact { rank := hn, xx := hxx, yy := hyy, xy := hxy, orth := horth, gram := rfl, low := fun u => Iff.rfl
-            split := fun z hz => by
-              obtain ⟨u, hu, hz'⟩ := hsplit z hz
-              exact ⟨_, _, u, (hL z hz).1, (hL z hz).2, hu, hz'⟩
-            ideal := h𝔟
-            cartan := fun w => ⟨(hθ w).2.1, 1, one_ne_zero, by rw [one_smul]; exact (hθ w).2.2.symm⟩
-            bas := fun v i => by
-              rw [show (GlobalTheory.ThK.reS Y Y').bas v = β v from hbas v, show Y₁.bas v = β₁ v from hbas₁ v]
-              exact (hβ v).1 i }
+      (GlobalTheory.ThK.reS Y Y').IsHerm σ B r s ∧ Y₁.IsHerm σ B (r - 1) (s - 1) ∧ H.IsAdapted σ B (GlobalTheory.ThK.reS Y Y') Y₁ i₀ i₁ :=
+  _root_.PositivityTheory.ThKG.Tow.planeHerm
 
 end GlobalTheory.KTowerPlane
 end -- clump:auto

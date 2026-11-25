@@ -58,6 +58,7 @@ import Mathlib.Tactic.Basify
 import Mathlib.Tactic.ENatToNat
 import Mathlib.Tactic.Linter.HaveILetI
 import Std.Tactic.BVDecide.Normalize.Prop
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.IsSmoothAutomorphicRightTranslateFinite
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.Proofs.DivisorProofs.DcOpCommOfCommute, Development.AbelianVarietyTheory.Proofs.DivisorProofs.CoeffHeckePolyOfComplex
@@ -192,20 +193,7 @@ theorem foldr_rTr {α : Type} (F : α → (GA D V → ℂ) → (GA D V → ℂ))
 
 theorem gelf_rTr (hκ : κ ∈ GfC V) (τ : D.what₂.Tau) (k : ℕ) (φ : GA D V → ℂ) :
     gelf θ V τ k (rTr V κ φ) = rTr V κ (gelf θ V τ k φ) := by
-  have h : ∀ (l : List (Matrix (Fin V.rank) (Fin V.rank) ℂ)),
-      (l.map (RderC θ V τ)).foldr (fun f acc => f acc) (rTr V κ φ) =
-        rTr V κ ((l.map (RderC θ V τ)).foldr (fun f acc => f acc) φ) := by
-    intro l
-    rw [List.foldr_map, List.foldr_map]
-    refine foldr_rTr (fun Z acc => RderC θ V τ Z acc) (fun Z ψ => ?_) l φ
-    simp only [RderC, Rder_rTr hκ]
-    rfl
-  funext g
-  simp only [gelf, rTr, Finset.sum_apply]
-  refine Finset.sum_congr rfl fun idx _ => ?_
-  have := congrFun (h (List.ofFn fun a : Fin (k + 1) => Matrix.single (idx a) (idx (a + 1)) 1)) g
-  rw [List.map_ofFn] at this
-  exact this
+  apply _root_.GlobalTheory.FinTranslate.gelf_rTr <;> assumption
 
 theorem isAutFunSm_rTr (hκ : κ ∈ GfC V) {φ : GA D V → ℂ} (h : IsAutFunSm θ V φ) : IsAutFunSm θ V (rTr V κ φ) := by
   haveI : IsTopologicalGroup (GA D V) := Formalism.L2.GlobalTheoryTheory.GenusMassVolumes.Unfold.topGroupHA _ _

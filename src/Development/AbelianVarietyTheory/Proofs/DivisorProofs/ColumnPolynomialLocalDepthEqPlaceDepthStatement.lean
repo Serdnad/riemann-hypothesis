@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.SumEqOfIsHomogeneous
 public import Development.AbelianVarietyTheory.Definitions.Foundations.IsSatFrame
 public import Development.AbelianVarietyTheory.Definitions.Divisors.NonemptyValExtOfOverLa
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.DetFactorDepthInChartChartIndependent
@@ -646,22 +647,7 @@ theorem mfact_eq_prod [Fintype σ] (α : σ →₀ ℕ) : (mfact α : C) = ∏ s
 
 theorem mfact_add_single [Fintype σ] (α : σ →₀ ℕ) (l : σ) :
     (mfact (α + Finsupp.single l 1) : C) = mfact α * ((α l : C) + 1) := by
-  classical
-  first
-  | (have h : ∀ s, (((α + Finsupp.single l 1 : σ →₀ ℕ) s).factorial : C) =
-        ((α s).factorial : C) * (if s = l then ((α l : C) + 1) else 1) := by
-      intro s
-      by_cases hs : s = l
-      · rw [if_pos hs]
-        subst hs
-        rw [Finsupp.add_apply, Finsupp.single_eq_same, Nat.factorial_succ]
-        push_cast
-        ring
-      · rw [if_neg hs, mul_one]
-        simp [Ne.symm hs]
-     rw [mfact_eq_prod, mfact_eq_prod, Finset.prod_congr rfl (fun s _ => h s), Finset.prod_mul_distrib]
-     simp
-     done)
+  apply _root_.GlobalTheory.OddBlock.ExpShift.fact_add_single <;> assumption
 
 theorem derivAt0_monomial (α : σ →₀ ℕ) (a : C) (S : MvPowerSeries σ C) :
     derivAt0 (MvPolynomial.monomial α a) S = a * mfact α * coeff α S := by

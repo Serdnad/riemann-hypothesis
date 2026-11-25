@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.DoubledVacuumLatticeStabilizerBigCellFactorizati
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.OneMemKAt
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -58,19 +59,7 @@ theorem evFin_invTwo_mem {F : Type} [Field F] [NumberField F] (v : Pl (F := F)) 
   exact hvm.le
 
 theorem invTwo_smul_mem_latAt : ∀ (F E : Type) [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] (d : ℕ) (W : Spc F E d)
-    (v : Pl (F := F)), (2 : 𝓞 F) ∉ v.asIdeal → ∀ z ∈ GlobalTheory.InertSph.latAt W v, (⅟(2 : AF F)) • z ∈ GlobalTheory.InertSph.latAt W v := by
-  intro F E _ _ _ _ _ d W v h2 z hz
-  induction hz using AddSubgroup.closure_induction with
-  | mem z hz =>
-    obtain ⟨a, ha, hv, y, hy, rfl⟩ := hz
-    rw [smul_smul]
-    refine AddSubgroup.subset_closure ⟨⅟(2 : AF F) * a, ?_, ?_, y, hy, rfl⟩
-    · intro u hu
-      rw [smul_eq_mul, mul_left_comm, ← smul_eq_mul u a, ha u hu, mul_zero]
-    · rw [map_mul]
-      exact mul_mem (evFin_invTwo_mem v h2) hv
-  | zero => rw [smul_zero]; exact zero_mem _
-  | add x y _ _ hx hy => rw [smul_add]; exact add_mem hx hy
-  | neg x _ hx => rw [smul_neg]; exact neg_mem hx
+    (v : Pl (F := F)), (2 : 𝓞 F) ∉ v.asIdeal → ∀ z ∈ GlobalTheory.InertSph.latAt W v, (⅟(2 : AF F)) • z ∈ GlobalTheory.InertSph.latAt W v :=
+  @_root_.GlobalTheory.DblVacFactor.half_smul_mem
 
 end GlobalTheory.InertSph

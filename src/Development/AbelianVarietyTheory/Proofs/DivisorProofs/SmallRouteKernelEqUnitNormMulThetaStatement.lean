@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Zact
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ThetaSquareProductRouteBEqExternalProduct
 public import Development.AbelianVarietyTheory.Definitions.Divisors.ExistsNotRelZero
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.BigRouteSeesawArrowKernelsProduct
@@ -110,24 +111,7 @@ theorem data_theta_small {D : D7} {T : Type} {L : LevCh D T} {sc : Consts} {G : 
     (hΘ : IsMatched B t ρ i j Θ Θ') : ∀ d ∈ Θ'.support,
       IsThetaFunO W.ψ (G.pS (.mu t i j)) (G.pT (.mu t i j)) d.1.2 ∧
       IsThetaFunO W.ψ (G.pS (.chi i j)) (G.pT (.chi i j)) d.2 := by
-  classical
-  obtain ⟨a, b, τ, τ', n, Φ, -, -, ⟨e, -, ⟨φ₁, φ₂, hloc, -⟩, -⟩, -, rfl⟩ := hΘ
-  intro d hd
-  have hsupp := Finsupp.support_sum hd
-  simp only [Finset.mem_biUnion] at hsupp
-  obtain ⟨P, -, hP⟩ := hsupp
-  have hsupp2 := Finsupp.support_sum hP
-  simp only [Finset.mem_biUnion] at hsupp2
-  obtain ⟨d', hd', hd'2⟩ := hsupp2
-  have hdd := Finset.mem_singleton.1 (Finsupp.support_single_subset hd'2)
-  subst hdd
-  obtain ⟨h1, h2⟩ := hloc d' hd'
-  have v1 := (ρ.vT_is t (i : ℕ) (j : ℕ) i.2.le j.2).2.theta
-  have v2 := (ρ.vX_is (i : ℕ) (j : ℕ) i.2 j.2.le).2.theta
-  have t1 := GlobalTheory.JointHarm.isThetaFunO_of_isThetaAt W.ψ_std W.θ_is h1.2 v1
-  have t2 := GlobalTheory.JointHarm.isThetaFunO_of_isThetaAt W.ψ_std W.θ_is h2.2 v2
-  exact ⟨GlobalTheory.Chain.InnerSteps.theta_pureTensorO W.ψ_std W.θ_is _ _ _ _ t1 _,
-    GlobalTheory.Chain.InnerSteps.theta_pureTensorO W.ψ_std W.θ_is _ _ _ _ t2 _⟩
+  apply _root_.GlobalTheory.SquareDict.isThetaFunO_small_of_isMatched <;> assumption
 
 
 

@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ThetaEmbeddingSectionsBaseChangeAffine
 public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.RangeSubsetOfGeom
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.IsGrpPullback
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.SemiabelianSchemes.AbelianSchemeQuotients.IsAbelianScheme
@@ -990,20 +991,7 @@ open AlgebraicGeometry CategoryTheory Limits MonoidalCategory CartesianMonoidalC
 
 private lemma UpperTheory.isPullback_whisker_fst {S : Scheme.{0}} {T T' G : Over S} (y : T' ⟶ T) :
     IsPullback (y ▷ G).left (fst T' G).left (fst T G).left y.left := by
-  have h : IsPullback (y ▷ G) (fst T' G) (fst T G) y := by
-    refine ⟨⟨by simp⟩, ⟨PullbackCone.IsLimit.mk _ (fun s => lift s.snd (s.fst ≫ snd _ _)) ?_ ?_ ?_⟩⟩
-    · intro s
-      apply CartesianMonoidalCategory.hom_ext
-      · simp [s.condition]
-      · simp
-    · intro s
-      simp
-    · intro s m h1 h2
-      apply CartesianMonoidalCategory.hom_ext
-      · simpa using h2
-      · simp only [lift_snd]
-        rw [← h1, Category.assoc, whiskerRight_snd]
-  exact h.map (Over.forget S)
+  apply _root_.GlobalTheory.EmbPull.isPullback_whisker <;> assumption
 
 theorem UpperTheory.clopProj_finrank_pullback :
     ∀ {S : Scheme.{0}} {T T' G : Over S} (y : T' ⟶ T) (V : (T ⊗ G).left.Opens), IsFinite G.hom → Etale G.hom → IsClosed (V : Set (T ⊗ G).left) → ∀ t : T'.left, (UpperTheory.RepresentationRank.proj ((y ▷ G).left ⁻¹ᵁ V)).finrank t = (UpperTheory.RepresentationRank.proj V).finrank (y.left t) := by
@@ -1028,16 +1016,7 @@ variable {S : Scheme.{0}}
 
 private lemma sq {T T' G : Over S} (y : T' ⟶ T) :
     IsPullback (y ▷ G).left (fst T' G).left (fst T G).left y.left := by
-  refine IsPullback.of_right (h₁₂ := (snd T G).left) (h₂₂ := T.hom) (v₁₃ := G.hom) ?_ ?_ ?_
-  · have h := (IsPullback.of_hasPullback T'.hom G.hom).flip
-    convert h using 1
-    all_goals first
-      | rfl
-      | exact Over.w y
-      | simp [Over.whiskerRight_left]
-  · rw [Over.whiskerRight_left]
-    exact pullback.lift_fst _ _ _
-  · exact (IsPullback.of_hasPullback T.hom G.hom).flip
+  apply _root_.GlobalTheory.EmbPull.isPullback_whisker <;> assumption
 
 private lemma preim_comp {A B C G : Over S} (a : A ⟶ B) (b : B ⟶ C)
     (W : (C ⊗ G).left.Opens) :

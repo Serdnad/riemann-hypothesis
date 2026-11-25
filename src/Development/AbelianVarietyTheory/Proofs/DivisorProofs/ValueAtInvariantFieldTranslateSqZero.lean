@@ -42,6 +42,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Development.AbelianVarietyTheory.Definitions.Divisors.HasRigidChart
 import Development.AbelianVarietyTheory.Definitions.Divisors.IsProperToroidalModelStructureMap
+import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.MemNonzeroLocusVia
 
 @[expose] public section
 
@@ -62,25 +63,7 @@ namespace GlobalTheory.VertCoeffRing
 
 theorem spMap_fstHom_surjective (B : Type) [CommRing B] :
     Function.Surjective (spMap (TrivSqZeroExt.fstHom B B B).toRingHom) := by
-  intro p
-  haveI := p.isPrime
-  refine ⟨(⟨p.asIdeal.comap (algebraMap B (DualNumber B)), Ideal.IsPrime.comap _⟩ : PrimeSpectrum B), ?_⟩
-  refine PrimeSpectrum.ext (Ideal.ext fun x => ?_)
-  change (algebraMap B (DualNumber B)) x.fst ∈ p.asIdeal ↔ x ∈ p.asIdeal
-  have hx : x = algebraMap B (DualNumber B) x.fst + TrivSqZeroExt.inr x.snd := by
-    ext <;> simp [TrivSqZeroExt.algebraMap_eq_inl]
-  have hn : (TrivSqZeroExt.inr x.snd : DualNumber B) ∈ p.asIdeal := by
-    apply p.isPrime.mem_of_pow_mem 2
-    rw [pow_two, TrivSqZeroExt.inr_mul_inr]
-    exact zero_mem _
-  constructor
-  · intro h
-    rw [hx]
-    exact add_mem h hn
-  · intro h
-    have h2 := sub_mem h hn
-    rwa [show x - TrivSqZeroExt.inr x.snd = algebraMap B (DualNumber B) x.fst by
-      rw [sub_eq_iff_eq_add]; exact hx] at h2
+  apply _root_.GlobalTheory.KeyKa.EtBaseChange.fst_surjective <;> assumption
 
 theorem evalPt_tvE_mul : ∀ {R : Type} [CommRing R] {G : Over (Sp R)} [GrpObj G] [IsCommMonObj G] {u : TanM (𝟙 (Sp R)) G} {dd : Fld G.left}, IsInv G u dd → ∀ {B : Type} [CommRing B] [Algebra R B]
     (e : B) (he : e * e = 0) (z : ReciprocityTheory.ChartRestriction.G.Chart.sp (R₀ := R) B ⟶ G) (O : G.left.Opens) (h : ⊤ ≤ z.left ⁻¹ᵁ O),

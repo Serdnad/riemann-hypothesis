@@ -1,5 +1,6 @@
 module
 
+import Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.CaSuppBc
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ComapBcComp
 public import Mathlib.RingTheory.Spectrum.Prime.FreeLocus
 public import Mathlib.Combinatorics.Quiver.ReflQuiver
@@ -445,22 +446,8 @@ theorem mem_support_baseChange {R A M : Type} [CommRing R] [CommRing A] [Algebra
     [AddCommGroup M] [Module R M] [Module.Finite R M] (p : PrimeSpectrum A) :
     p ∈ Module.support A (A ⊗[R] M) ↔
       PrimeSpectrum.comap (algebraMap R A) p ∈ Module.support R M := by
-
-  rw [Module.mem_support_iff_nontrivial_residueField_tensorProduct,
-    Module.mem_support_iff_nontrivial_residueField_tensorProduct]
-  let Kp := p.asIdeal.ResidueField
-  let Kq := (PrimeSpectrum.comap (algebraMap R A) p).asIdeal.ResidueField
-  have hq : (PrimeSpectrum.comap (algebraMap R A) p).asIdeal = p.asIdeal.comap (algebraMap R A) := rfl
-  let _ : Algebra Kq Kp :=
-    (Ideal.ResidueField.map (PrimeSpectrum.comap (algebraMap R A) p).asIdeal p.asIdeal (algebraMap R A) hq).toAlgebra
-  have : IsScalarTower R Kq Kp := IsScalarTower.of_algebraMap_eq fun r => by
-    change algebraMap R Kp r = Ideal.ResidueField.map (PrimeSpectrum.comap (algebraMap R A) p).asIdeal
-      p.asIdeal (algebraMap R A) hq (algebraMap R Kq r)
-    rw [Ideal.ResidueField.map_algebraMap]
-    exact IsScalarTower.algebraMap_apply R A Kp r
-  rw [(AlgebraTensorModule.cancelBaseChange R A Kp Kp M).nontrivial_congr,
-    ← (AlgebraTensorModule.cancelBaseChange R Kq Kp Kp M).nontrivial_congr]
-  exact Module.FaithfullyFlat.nontrivial_tensorProduct_iff_right Kq Kp
+  intros
+  apply _root_.UpperTheory.V.AlgebraTools.mem_support_baseChange <;> assumption
 
 theorem nonempty_quotient_equiv {R A M N ι : Type} [CommRing R] [CommRing A] [Algebra R A]
     [AddCommGroup M] [Module R M] [AddCommGroup N] [Module R N] [Module A N]

@@ -42,6 +42,7 @@ import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.WeilTensorModels
 import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ToGAdMat
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ContDiffDerivSnoc
 
 @[expose] public section
 
@@ -64,24 +65,7 @@ theorem prod_ofFn_snoc {G : Type} [Monoid G] {m : ℕ} (δ : Fin m → ℝ → G
 
 theorem contDiff_partial_last {m : ℕ} {H : (Fin (m + 1) → ℝ) → ℂ} (hH : ContDiff ℝ ∞ H) :
     ContDiff ℝ ∞ fun s : Fin m → ℝ => deriv (fun t => H (Fin.snoc (α := fun _ => ℝ) s t)) 0 := by
-  let v : Fin (m + 1) → ℝ := Pi.single (Fin.last m) 1
-  let L : (Fin m → ℝ) →L[ℝ] (Fin (m + 1) → ℝ) :=
-    ContinuousLinearMap.pi fun i => Fin.lastCases 0 (fun j => ContinuousLinearMap.proj j) i
-  have hL : ∀ s t, Fin.snoc (α := fun _ => ℝ) s t = L s + t • v := fun s t => by
-    funext i
-    refine Fin.lastCases ?_ (fun j => ?_) i
-    · simp [L, v]
-    · simp [L, v, Fin.castSucc_ne_last]
-  have hd : ∀ s, deriv (fun t => H (Fin.snoc (α := fun _ => ℝ) s t)) 0 = fderiv ℝ H (L s) v := fun s => by
-    simp only [hL]
-    have h1 : HasDerivAt (fun t : ℝ => L s + t • v) v 0 := by
-      simpa using ((hasDerivAt_id (0 : ℝ)).smul_const v).const_add (L s)
-    have h2 := (hH.differentiable (by simp)).differentiableAt (x := L s + (0 : ℝ) • v)
-    rw [zero_smul, add_zero] at h2
-    have h3 := h2.hasFDerivAt.comp_hasDerivAt_of_eq (0 : ℝ) h1 (by simp)
-    exact h3.deriv
-  simp only [hd]
-  exact ((hH.fderiv_right (m := ∞) (by simp)).comp L.contDiff).clm_apply contDiff_const
+  apply _root_.GlobalTheory.MultMem.contDiff_deriv_snoc <;> assumption
 
 theorem contDiff_foldr_lineDer {f : GAd σ J → ℂ} (hf : GlobalTheory.UAut.IsSm σ J f) :
     ∀ l : List (ℝ → GAd σ J), (∀ γ ∈ l, IsRealLine σ J γ) → ∀ (m : ℕ) (δ : Fin m → ℝ → GAd σ J),

@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.ZeroMemLatOf
 public import Development.AbelianVarietyTheory.Definitions.ExistenceOfLattices.CoeSelfDualLatticeInFrameCoordinatesEq
 public import Development.AbelianVarietyTheory.Definitions.ExistenceOfLattices.Hat1
 public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.AdelicElementLatticeFullAndCompletion
@@ -59,19 +60,7 @@ namespace GlobalTheory.CovolCong
 theorem smul_mem_hat (F : Type) {E : Type} [Field F] [NumberField F] [Field E] [Algebra F E] {n : ℕ}
     (S T : Set (Fin n → E)) (b : E) (hb : ∀ x ∈ S, b • x ∈ T) :
     ∀ z ∈ GlobalTheory.AdLat.hat F S, ((1 : FiniteAdeleRing (𝓞 F) F) ⊗ₜ[F] b) • z ∈ GlobalTheory.AdLat.hat F T := by
-  intro z hz
-  let φ : (Fin n → GlobalTheory.AdLat.RA F E) →+ (Fin n → GlobalTheory.AdLat.RA F E) :=
-    DistribSMul.toAddMonoidHom _ ((1 : FiniteAdeleRing (𝓞 F) F) ⊗ₜ[F] b)
-  have hle : GlobalTheory.AdLat.hat F S ≤ (GlobalTheory.AdLat.hat F T).comap φ := by
-    unfold GlobalTheory.AdLat.hat
-    rw [AddSubgroup.closure_le]
-    rintro _ ⟨a, ha, x, hx, rfl⟩
-    rw [SetLike.mem_coe, AddSubgroup.mem_comap]
-    refine AddSubgroup.subset_closure ⟨a, ha, b • x, hb x hx, ?_⟩
-    funext i
-    simp only [φ, DistribSMul.toAddMonoidHom_apply, Pi.smul_apply, smul_eq_mul,
-      Algebra.TensorProduct.tmul_mul_tmul, one_mul]
-  exact hle hz
+  apply _root_.GlobalTheory.AdLat.Scale.smul_mem_hat <;> assumption
 
 theorem inv_smul_mem {D : D7} (V : HSp D) (I : Ideal (𝓞 D.host.E)) (b : D.host.E)
     (hb : b ∈ (D.host.AA⁻¹ : FractionalIdeal (nonZeroDivisors (𝓞 D.host.E)) D.host.E))

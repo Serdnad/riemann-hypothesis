@@ -1,5 +1,6 @@
 module
 
+import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.AdelicUnimodularity.ExistsNatLocal
 public import Development.AbelianVarietyTheory.Definitions.Divisors.EntireEqOfHalfPlane
 public import Mathlib.NumberTheory.NumberField.CMField
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FiniteRingClassGroupOfConductorNeZero
@@ -80,27 +81,7 @@ theorem integral_natCast (n : ℕ) (w : HeightOneSpectrum (𝓞 E)) :
 
 theorem exists_nat_mul_integral (z : Af E) :
     ∃ d : ℕ, 0 < d ∧ ∀ w : HeightOneSpectrum (𝓞 E), ((d : Af E) * z) w ∈ w.adicCompletionIntegers E := by
-  obtain ⟨x, a, ha, h⟩ := (GlobalTheory.AdLat.strong_approximation_mod_nat E 1 one_pos).1 z
-  obtain ⟨m, hm0, hm⟩ := IsAlgebraic.exists_integral_multiple
-    ((IsFractionRing.isAlgebraic_iff ℤ ℚ E).mpr (Algebra.IsAlgebraic.isAlgebraic x))
-  have hint : IsIntegral ℤ ((m.natAbs : E) * x) := by
-    rcases Int.natAbs_eq m with h1 | h1
-    · have : ((m.natAbs : E) * x) = m • x := by
-        rw [zsmul_eq_mul, ← Int.cast_natCast, ← h1]
-      rw [this]; exact hm
-    · have h1' : (m.natAbs : ℤ) = -m := by omega
-      have : ((m.natAbs : E) * x) = -(m • x) := by
-        rw [zsmul_eq_mul, ← Int.cast_natCast, h1', Int.cast_neg, neg_mul]
-      rw [this]; exact hm.neg
-  refine ⟨m.natAbs, Int.natAbs_pos.2 hm0, fun w => ?_⟩
-  have e : (m.natAbs : Af E) * z =
-      algebraMap E (Af E) (algebraMap (𝓞 E) E ⟨_, hint⟩) + (m.natAbs : Af E) * a := by
-    rw [h, one_smul, mul_add]
-    congr 1
-    show _ = algebraMap E (Af E) ((m.natAbs : E) * x)
-    rw [map_mul, map_natCast]
-  rw [e, _root_.GlobalTheory.CMVal.Euler.add_coord, _root_.GlobalTheory.CMVal.Euler.mul_coord]
-  exact add_mem (integral_of_int _ w) (mul_mem (integral_natCast _ w) (ha w))
+  apply _root_.PI.WAU.B.exists_nat_adele <;> assumption
 
 theorem integral_of_mem_hatO [IsCMField E] {c : Ideal (OF E)} (hc : c ≠ ⊥) {z : Af E} (hz : z ∈ hatO c)
     (w : HeightOneSpectrum (𝓞 E)) : z w ∈ w.adicCompletionIntegers E := by

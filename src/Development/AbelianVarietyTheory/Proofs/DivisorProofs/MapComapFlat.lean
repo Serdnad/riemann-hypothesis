@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.FlatOfIsSchemeTheoreticallyDominantOfFractionRing
 public import Mathlib.AlgebraicGeometry.Morphisms.SchemeTheoreticallyDominant
 public import Mathlib.Combinatorics.Quiver.ReflQuiver
 import Mathlib.Algebra.Order.Floor.Extended
@@ -54,16 +55,7 @@ namespace GlobalTheory.FlatBaseChangeIdeal
 
 theorem toImage_std {X Y : Scheme.{0}} (f : X ⟶ Y) [QuasiCompact f] :
     IsSchemeTheoreticallyDominant f.toImage := by
-  rw [isSchemeTheoreticallyDominant_iff]
-  refine Scheme.IdealSheafData.ext_of_iSup_eq_top
-    (fun U : Y.affineOpens ↦ ⟨f.imageι ⁻¹ᵁ U.1, U.2.preimage f.imageι⟩) ?_ ?_
-  · have := f.imageι.preimage_iSup (fun U : Y.affineOpens ↦ U.1)
-    rw [← this, iSup_affineOpens_eq_top]
-    simp
-  · intro U
-    rw [Scheme.Hom.ker_apply, Scheme.IdealSheafData.ideal_bot, Pi.bot_apply,
-      ← RingHom.injective_iff_ker_eq_bot]
-    exact f.toImage_app_injective U
+  apply _root_.GlobalTheory.isSchemeTheoreticallyDominant_toImage <;> assumption
 
 theorem ker_comap_flat {X Y V : Scheme.{0}} (h : X ⟶ Y) [QuasiCompact h] (g : V ⟶ Y) [Flat g] :
     h.ker.comap g = (pullback.fst g h).ker := by

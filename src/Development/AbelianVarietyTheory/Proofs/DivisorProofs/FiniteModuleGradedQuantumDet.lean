@@ -1,5 +1,6 @@
 module
 
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.CapelliConstantTermVanishing
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.CapelliDetBlockLeviCongrModUpperBlockIdeal
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -67,16 +68,8 @@ variable {A A' : Type} [Ring A] [Algebra ℂ A] [Ring A'] [Algebra ℂ A']
 
 theorem qdet_mem (S : Subalgebra ℂ A) {n : ℕ} {E : Fin n → Fin n → A} (h : ∀ a b, E a b ∈ S) (u : ℂ) :
     Formalism.REAL.qdet E u ∈ S := by
-  unfold Formalism.REAL.qdet Formalism.REAL.qminor
-  refine Subalgebra.sum_mem _ fun σ _ =>
-    Subalgebra.mul_mem _ (Subalgebra.intCast_mem _ _) (Subalgebra.list_prod_mem _ ?_)
-  intro x hx
-  obtain ⟨k, rfl⟩ := List.mem_ofFn.1 hx
-  unfold Formalism.REAL.Tm
-  refine Subalgebra.add_mem _ ?_ (h _ _)
-  split_ifs
-  · exact Subalgebra.algebraMap_mem _ _
-  · exact Subalgebra.zero_mem _
+  intros
+  apply _root_.GlobalTheory.CompanionTheory.CTFin.CapStable.qdet_mem <;> assumption
 
 end Alg
 

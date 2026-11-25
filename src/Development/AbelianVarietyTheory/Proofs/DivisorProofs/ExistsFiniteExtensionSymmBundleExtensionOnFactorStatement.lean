@@ -1,5 +1,7 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.ExistsSmoothOfRelativeDimensionSpreadFromGeneric
+import Development.WeilBound.CoreStatements.HodgeTatePoints.GcIncl
 public import Mathlib.RingTheory.Flat.FaithfullyFlat.Basic
 public import Mathlib.RingTheory.Ideal.Height
 public import Mathlib.RingTheory.IntegralClosure.IntegrallyClosed
@@ -113,18 +115,7 @@ namespace GlobalTheory.Mum
 theorem dvd_of_forall_height_one_exists_dvd_mul {A : Type} [CommRing A] [IsDomain A] [IsNoetherianRing A]
     [IsIntegrallyClosed A] {h z : A} (hh : h ≠ 0)
     (H : ∀ P : Ideal A, P.IsPrime → P.height = 1 → ∃ s ∉ P, h ∣ s * z) : h ∣ z := by
-  let K := FractionRing A
-  have hhK : algebraMap A K h ≠ 0 := fun h0 =>
-    hh (IsFractionRing.injective A K (by rw [h0, map_zero]))
-  have hmem : algebraMap A K z / algebraMap A K h ∈ (algebraMap A K).range := by
-    refine ReciprocityTheory.ChartRestriction.G.Out.KrullAlg.mem_range_of_forall_height_one (A := A) _ ?_
-    intro P hP h1
-    obtain ⟨s, hs, t, ht⟩ := H P hP h1
-    refine ⟨s, hs, t, ?_⟩
-    rw [← mul_div_assoc, eq_div_iff hhK, ← map_mul, ← map_mul, ht, mul_comm]
-  obtain ⟨c, hc⟩ := hmem
-  refine ⟨c, IsFractionRing.injective A K ?_⟩
-  rw [map_mul, hc, mul_div_assoc', eq_div_iff hhK, mul_comm]
+  apply _root_.PositivityTheory.HtPt.Gc.dvd_of_height_one <;> assumption
 
 section SquareIdeal
 
@@ -1370,15 +1361,7 @@ theorem exists_of_atPrime {C S : Type} [CommRing C] [CommRing S] [Algebra C S] (
 
 theorem isIso_stalkMap {X Y : Scheme.{0}} (φ : X ⟶ Y) [Flat φ] [SurjectiveOnStalks φ] (x : X) :
     IsIso (φ.stalkMap x) := by
-  have h1 := Flat.stalkMap φ x
-  have h2 := φ.stalkMap_surjective x
-  algebraize [(φ.stalkMap x).hom]
-  have : IsLocalHom (algebraMap (Y.presheaf.stalk (φ x)) (X.presheaf.stalk x)) :=
-    inferInstanceAs (IsLocalHom (φ.stalkMap x).hom)
-  have := Module.FaithfullyFlat.of_flat_of_isLocalHom (A := Y.presheaf.stalk (φ x))
-    (B := X.presheaf.stalk x)
-  exact (ConcreteCategory.isIso_iff_bijective _).2
-    ⟨FaithfulSMul.algebraMap_injective (Y.presheaf.stalk (φ x)) (X.presheaf.stalk x), h2⟩
+  apply _root_.GlobalTheory.GenSpread.isIso_stalkMap_of_flat <;> assumption
 
 theorem exists_of_stalk {X Y : Scheme.{0}} (f : Y ⟶ X) (x : X) (q : Spec (X.presheaf.stalk x)) (y : Y)
     [IsIso (f.stalkMap y)] (hy : X.fromSpecStalk x q = f y) (U : X.Opens) (hx : x ∈ U) (hyU : f y ∈ U)

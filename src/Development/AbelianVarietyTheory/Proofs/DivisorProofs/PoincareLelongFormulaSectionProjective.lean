@@ -33,6 +33,7 @@ public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.IsHol
 public import Development.AbelianVarietyTheory.Definitions.Divisors.ExistsIsClosedImmersionGenericPoint
 public import ReciprocityTheory.AnalyticForms.RegularLocalRings.Monomial
 public import ReciprocityTheory.AnalyticForms.RegularLocalRings.WMultA
+import all ReciprocityTheory.AnalyticForms.RegularLocalRings.WMultA
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.ToroidalBoundaryMetricData
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IdealSheafEqSpanOnBasicOpensOfStalkPrincipal
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsSncCoordinatesComplexPointSmoothVariety
@@ -583,13 +584,7 @@ namespace GlobalTheory.OrdPush
 
 theorem ord_ringEquiv {T T' : Type*} [CommRing T] [CommRing T'] (e : T ≃+* T') (x : T) :
     Ring.ord T' (e x) = Ring.ord T x := by
-  let _ : Algebra T T' := e.toRingHom.toAlgebra
-  let e' : T ≃ₐ[T] T' := { e with commutes' := fun _ => rfl }
-  unfold Ring.ord
-  rw [← Module.length_eq_of_surjective (S := T) (R := T') e.surjective]
-  refine (Ideal.quotientEquivAlg (Ideal.span {x}) (Ideal.span {e x}) e' ?_).toLinearEquiv.length_eq.symm
-  rw [Ideal.map_span, Set.image_singleton]
-  rfl
+  apply _root_.ReciprocityTheory.AnForm.R.WMult.ring_ord_ringEquiv_apply <;> assumption
 
 theorem ord_isLocalization {S : Type*} [CommRing S] (M : Submonoid S) (T T' : Type*) [CommRing T]
     [CommRing T'] [Algebra S T] [Algebra S T'] [IsLocalization M T] [IsLocalization M T'] (s : S) :

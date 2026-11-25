@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsIndependentAdmissibleCocyclesResidue
 public import Mathlib.GroupTheory.GroupAction.Defs
 public import Mathlib.SetTheory.Cardinal.Finite
 public import Mathlib.Algebra.BigOperators.Ring.Finset
@@ -856,15 +857,7 @@ theorem pow_apply_mem {F V : Type} [Field F] [AddCommGroup V] [Module F V]
 theorem aeval_apply_mem {F V : Type} [Field F] [AddCommGroup V] [Module F V]
     (g : Module.End F V) (W : Submodule F V) (hW : ∀ x ∈ W, g x ∈ W) (p : Polynomial F) :
     ∀ x ∈ W, (Polynomial.aeval g p) x ∈ W := by
-  induction p using Polynomial.induction_on' with
-  | add p q hp hq =>
-    intro x hx
-    rw [map_add (f := _), LinearMap.add_apply]
-    exact W.add_mem (hp x hx) (hq x hx)
-  | monomial n a =>
-    intro x hx
-    rw [Polynomial.aeval_monomial, Module.End.mul_apply, Module.algebraMap_end_apply]
-    exact W.smul_mem a (pow_apply_mem g W hW n x hx)
+  apply _root_.GlobalTheory.PowerMembershipInertiaEigenvalues.main <;> assumption
 
 end GlobalTheory.PolynomialEvaluationMembership
 end -- clump:auto

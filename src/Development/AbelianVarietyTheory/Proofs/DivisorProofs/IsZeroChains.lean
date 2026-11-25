@@ -39,6 +39,7 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
+import Development.EtaleCohomology.TateTwists.EtaleChainCochainExistsOfEvalData
 
 @[expose] public section
 
@@ -60,20 +61,7 @@ theorem free_ext {P : PSh} {G : Shv R} (a b : (free R).obj P ⟶ G)
 theorem free_exists (P : PSh) (F : Shv R) (a : ∀ U : Scheme.{0}, P.obj (op U) → Sec F U)
     (ha : ∀ (V U : Scheme.{0}) (g : V ⟶ U) x, Sec.res g (a U x) = a V (P.map g.op x)) :
     ∃ φ : (free R).obj P ⟶ F, ∀ U x, Sec.map φ (freeGen R P U x) = a U x := by
-  let η : (freeP R).obj P ⟶ F.obj :=
-    { app := fun U => ModuleCat.freeDesc (TypeCat.ofHom fun x => a U.unop x.down)
-      naturality := fun U V g => by
-        apply ModuleCat.free_hom_ext
-        intro x
-        change (ModuleCat.freeDesc _) ((ModuleCat.free _).map _ (ModuleCat.freeMk x)) =
-          (F.obj.map g) ((ModuleCat.freeDesc _) (ModuleCat.freeMk x))
-        rw [ModuleCat.free_map_apply, ModuleCat.freeDesc_apply, ModuleCat.freeDesc_apply]
-        exact (ha V.unop U.unop g.unop x.down).symm }
-  refine ⟨((sheafificationAdjunction Scheme.etaleTopology.{0} (ModuleCat.{1} (ULift.{1} R))).homEquiv _ _).symm η,
-    fun U x => ?_⟩
-  have h := ((sheafificationAdjunction Scheme.etaleTopology.{0} (ModuleCat.{1} (ULift.{1} R))).homEquiv _ F).apply_symm_apply η
-  have h2 := ConcreteCategory.congr_hom (congrArg (fun φ => NatTrans.app φ (op U)) h) (ModuleCat.freeMk (ULift.up x))
-  exact h2.trans (ModuleCat.freeDesc_apply _ _)
+  apply _root_.LateralTheory.EtaleFoundations.EvMkPf.free_hom_exists <;> assumption
 
 theorem freeGen_res (P : PSh) {V U : Scheme.{0}} (g : V ⟶ U) (x : P.obj (op U)) :
     Sec.res g (freeGen R P U x) = freeGen R P V (P.map g.op x) := by

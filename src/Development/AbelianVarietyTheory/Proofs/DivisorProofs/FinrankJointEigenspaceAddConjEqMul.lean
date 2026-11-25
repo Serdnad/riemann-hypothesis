@@ -1,5 +1,6 @@
 module
 
+import all Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsThetaHolomorphic
 public import Mathlib.LinearAlgebra.Matrix.Charpoly.Basic
 public import Mathlib.FieldTheory.IsAlgClosed.Spectrum
 public import Mathlib.LinearAlgebra.Matrix.Charpoly.Eigs
@@ -231,16 +232,7 @@ namespace GlobalTheory.UPel.HT.LieType.DimSum
 theorem finrank_eq_two_mul_of_period {La : Type} [AddCommGroup La] [Module.Free ℤ La] [Module.Finite ℤ La] {g : ℕ}
     (Q : La →+ (Fin g → ℂ)) (hinj : Function.Injective Q) (hdisc : DiscreteTopology Q.range)
     (hspan : Submodule.span ℝ (Set.range Q) = ⊤) : Module.finrank ℤ La = 2 * g := by
-  let L : Submodule ℤ (Fin g → ℂ) := AddSubgroup.toIntSubmodule Q.range
-  haveI : DiscreteTopology L := hdisc
-  haveI : IsZLattice ℝ L := ⟨by
-    have : (L : Set (Fin g → ℂ)) = Set.range Q := by ext x; simp [L]
-    rw [this]; exact hspan⟩
-  have h1 := ZLattice.rank ℝ L
-  have e : La ≃ₗ[ℤ] L := LinearEquiv.ofInjective Q.toIntLinearMap hinj |>.trans
-    (LinearEquiv.ofEq _ _ (by ext x; simp [L]))
-  rw [e.finrank_eq, h1, Module.finrank_pi_fintype]
-  simp [Complex.finrank_real_complex, Finset.sum_const, mul_comm]
+  apply _root_.GlobalTheory.HolTheta.finrank_eq_two_mul_of_discrete_spanning_embedding <;> assumption
 
 theorem trace_real_restrict (g : ℕ) (M : Matrix (Fin g) (Fin g) ℂ) :
     LinearMap.trace ℝ (Fin g → ℂ) ((Matrix.toLin' M).restrictScalars ℝ) = 2 * M.trace.re := by

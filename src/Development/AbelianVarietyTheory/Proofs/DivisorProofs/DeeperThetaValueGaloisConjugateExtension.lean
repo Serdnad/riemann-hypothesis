@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ValRSpMapFromSpecStalk
 public import Development.AbelianVarietyTheory.Definitions.Divisors.LamRange
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -58,16 +59,7 @@ open GlobalTheory.Points GlobalTheory.ZH
 theorem valR_spMap_fromSpecStalk {X : Scheme.{0}} {x : X} {C : Type} [CommRing C] (ψ : X.presheaf.stalk x →+* C)
     {U : X.Opens} (hU : x ∈ U) (a : Γ(X, U)) :
     valR (spMap ψ ≫ X.fromSpecStalk x) U a = ψ (X.presheaf.germ U x hU a) := by
-  have h : ⊤ ≤ X.fromSpecStalk x ⁻¹ᵁ U := fun w _ => by
-    have : X.fromSpecStalk x w ∈ Set.range (X.fromSpecStalk x) := ⟨w, rfl⟩
-    rw [Scheme.range_fromSpecStalk] at this
-    exact Specializes.mem_open (x := X.fromSpecStalk x w) this U.isOpen hU
-  have e : (X.fromSpecStalk x).appLE U ⊤ h = X.presheaf.germ U x hU ≫ (Scheme.ΓSpecIso _).inv := by
-    rw [Scheme.Hom.appLE, Scheme.fromSpecStalk_app hU, Category.assoc, Category.assoc, ← Functor.map_comp]
-    exact congrArg (_ ≫ ·) ((congrArg (_ ≫ ·) ((Spec (X.presheaf.stalk x)).presheaf.map_id _)).trans (Category.comp_id _))
-  refine (valR_appLE (spMap ψ) (X.fromSpecStalk x) h (le_preimage_top _) a).symm.trans ?_
-  rw [e]
-  exact valR_specMap (CommRingCat.ofHom ψ) _
+  apply _root_.GlobalTheory.FlagBundle.valR_spMap_fromSpecStalk <;> assumption
 
 theorem jK_spMap {V' : Type} [CommRing V'] [IsDomain V'] {X : Scheme.{0}} (z : X) (ev : X.presheaf.stalk z →+* V') :
     jK V' ≫ spMap ev = spMap ((algebraMap V' (FractionRing V')).comp ev) := by

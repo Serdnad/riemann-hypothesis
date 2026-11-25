@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsIsLocCompAndIsLocLoc
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.GrowthOfTame
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.CentreCompMemKinfEquivariantAutomorphicMaps
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.ExpoConjOfIsCsd
@@ -109,15 +110,8 @@ theorem isContRep_sub {E : Type} [Field E] [NumberField E] [NumberField.IsTotall
     (hW : ∀ (k : GlobalTheory.CuspRep.Kinf E a), ∀ w ∈ W, GlobalTheory.CuspRep.cptRep E a k w ∈ W)
     [FiniteDimensional ℂ W] :
     GlobalTheory.Published.AutFin.IsContRep (GlobalTheory.PRep.sub (GlobalTheory.CuspRep.cptRep E a) W hW) := by
-  intro ℓ w
-  refine continuous_coeff_of_separating
-    (fun g : GlobalTheory.CuspRep.GA E a =>
-      (LinearMap.proj g : (GlobalTheory.CuspRep.GA E a → ℂ) →ₗ[ℂ] ℂ) ∘ₗ
-        (GlobalTheory.CuspRep.Sm E a).subtype ∘ₗ W.subtype) ?_ _ ?_ ℓ
-  · intro v hv
-    exact Subtype.ext (Subtype.ext (funext hv))
-  · intro g
-    exact continuous_translate w.1 g
+  intros
+  apply _root_.GlobalTheory.CuspRep.LocEx.isContRep_sub <;> assumption
 
 end GlobalTheory.ContinuousRepresentationCoefficients
 end -- clump:auto

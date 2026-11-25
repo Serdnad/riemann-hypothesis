@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.IntersectionNumberFinitePushforward
 public import Development.AbelianVarietyTheory.Definitions.Divisors.ExistsIsClosedImmersionGenericPoint
 public import Development.AbelianVarietyTheory.Definitions.Divisors.DetJacMatCoordsEqTransitionJacobianDet
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.EncardComplexPointFibreEqEncardRingHomExtensions
@@ -189,15 +190,7 @@ private theorem isFractionRing_evaluation (X : Scheme.{0}) [IsIntegral X] {U : X
     (hU : IsAffineOpen U) {x : X} (hx : x = genericPoint X) (hxU : x ∈ U) :
     letI := (X.evaluation U x hxU).hom.toAlgebra
     IsFractionRing Γ(X, U) (X.residueField x) := by
-  subst hx
-  letI := (X.evaluation U _ hxU).hom.toAlgebra
-  haveI : Nonempty U := ⟨⟨_, hxU⟩⟩
-  have := functionField_isFractionRing_of_isAffineOpen X U hU
-  let φ : X.functionField →+* X.residueField (genericPoint X) := (X.residue _).hom
-  let e : X.functionField ≃ₐ[Γ(X, U)] X.residueField (genericPoint X) :=
-    { RingEquiv.ofBijective φ ⟨φ.injective, X.residue_surjective _⟩ with
-      commutes' := fun _ => rfl }
-  exact IsLocalization.isLocalization_of_algEquiv _ e
+  apply _root_.GlobalTheory.ProjFin.isFractionRing_evaluation <;> assumption
 
 private theorem inj_alg_rank {X Y : Scheme.{0}} [IsIntegral X] [IsIntegral Y] (f : Y ⟶ X)
     (h : f (genericPoint Y) = genericPoint X) (hδ : f.residueDegree (genericPoint Y) ≠ 0)

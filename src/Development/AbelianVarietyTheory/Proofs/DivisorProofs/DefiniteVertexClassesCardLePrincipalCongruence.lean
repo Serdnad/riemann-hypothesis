@@ -1,5 +1,7 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ActPMemLocPDelStdOfIsBasisAt
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsLatticeOfAdelicPoint
 public import Development.AbelianVarietyTheory.Definitions.Divisors.InvVolConjLevelOne
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FiniteClPlusAndExistsCoords
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FrConjApply
@@ -421,29 +423,7 @@ namespace GlobalTheory.FrameTransport
 
 theorem colLat_inv_mulVec_int {K : Type} [Field K] [NumberField K] {n : ℕ} (fr : GL (Fin n) K)
     (x : Fin n → K) (hx : x ∈ colLat fr) : ∀ i, (fr⁻¹.val *ᵥ x) i ∈ Formalism.UG.intOE K := by
-  let M : Submodule (𝓞 K) (Fin n → K) :=
-    { carrier := {x | ∀ i, (fr⁻¹.val *ᵥ x) i ∈ Formalism.UG.intOE K}
-      add_mem' := fun {a b} ha hb i => by
-        simp only [Set.mem_setOf_eq, Matrix.mulVec_add, Pi.add_apply] at ha hb ⊢
-        exact add_mem (ha i) (hb i)
-      zero_mem' := fun i => by simp
-      smul_mem' := fun c a ha i => by
-        simp only [Set.mem_setOf_eq] at ha ⊢
-        have : fr⁻¹.val *ᵥ (c • a) = (algebraMap (𝓞 K) K c) • (fr⁻¹.val *ᵥ a) := by
-          rw [← Matrix.mulVec_smul, algebraMap_smul]
-        rw [this, Pi.smul_apply, smul_eq_mul]
-        exact mul_mem ⟨c, rfl⟩ (ha i) }
-  have hle : colLat fr ≤ M := by
-    refine Submodule.span_le.2 ?_
-    rintro _ ⟨j, rfl⟩ i
-    have hcol : (fun a : Fin n => (fr : Matrix (Fin n) (Fin n) K) a j) = fr.val *ᵥ Pi.single j 1 := by
-      rw [Matrix.mulVec_single_one]; rfl
-    show (fr⁻¹.val *ᵥ (fun a : Fin n => (fr : Matrix (Fin n) (Fin n) K) a j)) i ∈ _
-    rw [hcol, Matrix.mulVec_mulVec, ← Units.val_mul, inv_mul_cancel, Units.val_one, Matrix.one_mulVec]
-    by_cases h : i = j
-    · subst h; simp only [Pi.single_eq_same]; exact one_mem _
-    · rw [Pi.single_eq_of_ne h]; exact zero_mem _
-  exact hle hx
+  apply _root_.GlobalTheory.TestLat.WeylLocal.coord_of_mem_colLat <;> assumption
 
 theorem inclEAf_intOE_mem {D : D7} (e : D.host.E) (he : e ∈ Formalism.UG.intOE D.host.E) :
     inclEAf D e ∈ Formalism.L2.Herm.intAf D.host.F D.host.E :=
@@ -763,29 +743,7 @@ theorem adSwap_inc (e : D.host.E) : adSwap D (StandardLatticesGL3.inc D e) = inc
   rfl
 
 theorem intG_entries {n : ℕ} (k : StandardLatticesGL3.GA D n) (hk : k ∈ GlobalTheory.NormSum.intG D n) : StandardLatticesGL3.IntG D k.1 := by
-  have hmul : ∀ a b : GL (Fin n) (StandardLatticesGL3.AE D), (∀ i j, a.val i j ∈ StandardLatticesGL3.OhE D) → (∀ i j, b.val i j ∈ StandardLatticesGL3.OhE D) →
-      ∀ i j, (a * b).val i j ∈ StandardLatticesGL3.OhE D := fun a b ha hb i j => by
-    rw [Units.val_mul, Matrix.mul_apply]
-    exact Subring.sum_mem _ fun l _ => Subring.mul_mem _ (ha i l) (hb l j)
-  let H : Subgroup (StandardLatticesGL3.GA D n) :=
-    { carrier := {k | StandardLatticesGL3.IntG D k.1}
-      mul_mem' := fun {a b} ha hb i j => by
-        refine ⟨hmul a.1 b.1 (fun i j => (ha i j).1) (fun i j => (hb i j).1) i j, ?_⟩
-        have e : ((a * b : StandardLatticesGL3.GA D n) : GL (Fin n) (StandardLatticesGL3.AE D))⁻¹ = b.1⁻¹ * a.1⁻¹ := by
-          rw [Subgroup.coe_mul, _root_.mul_inv_rev]
-        rw [e]
-        exact hmul _ _ (fun i j => (hb i j).2) (fun i j => (ha i j).2) i j
-      one_mem' := fun i j => by
-        have h1 : ∀ i j : Fin n, (1 : Matrix (Fin n) (Fin n) (StandardLatticesGL3.AE D)) i j ∈ StandardLatticesGL3.OhE D := fun i j => by
-          rw [Matrix.one_apply]
-          split_ifs
-          exacts [Subring.one_mem _, Subring.zero_mem _]
-        exact ⟨h1 i j, by rw [Subgroup.coe_one, inv_one]; exact h1 i j⟩
-      inv_mem' := fun {a} ha i j => by
-        refine ⟨(ha i j).2, ?_⟩
-        rw [Subgroup.coe_inv, inv_inv]
-        exact (ha i j).1 }
-  exact (Subgroup.closure_le H).2 (fun k hk => hk) hk
+  apply _root_.GlobalTheory.NormSum.AdLattice.intG_of_mem <;> assumption
 
 theorem col_mem_hatL {n : ℕ} (fr : GL (Fin n) D.host.E) (j : Fin n) :
     (fun i => inclEAf D (fr.val i j)) ∈ Formalism.L2.Herm.hatL (F := D.host.F) (colLat fr) :=

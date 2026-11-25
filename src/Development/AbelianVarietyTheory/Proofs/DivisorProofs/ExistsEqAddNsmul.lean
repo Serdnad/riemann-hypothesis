@@ -1,5 +1,6 @@
 module
 
+import all Development.AbelianVarietyTheory.Proofs.DegenerationProofs.DegenerationRecognitionOfAbelianPartsIsoLabelsStatement
 public import Development.AbelianVarietyTheory.Definitions.Divisors.TorMatch
 public import Development.AbelianVarietyTheory.Definitions.Divisors.ExistsToricRankOne
 import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.IsoFreePerpLabelKernelWeights
@@ -66,18 +67,7 @@ attribute [local instance] GlobalTheory.TorusExt.gtGroup
 
 theorem eq_zero_of_forall_dvd {X : Type} [AddCommGroup X] [Module.Free ℤ X] [Module.Finite ℤ X] {l : ℕ} (hl : 2 ≤ l)
     (v : X) (h : ∀ n : ℕ, ∃ z : X, v = (l ^ n) • z) : v = 0 := by
-  let b := Module.Free.chooseBasis ℤ X
-  refine b.repr.injective ?_
-  rw [map_zero]
-  ext i
-  rw [Finsupp.zero_apply]
-  obtain ⟨N, hN⟩ : ∃ N, N = (b.repr v i).natAbs := ⟨_, rfl⟩
-  obtain ⟨z, hz⟩ := h N
-  have hd : ((l ^ N : ℕ) : ℤ) ∣ b.repr v i :=
-    ⟨b.repr z i, by rw [hz, ← natCast_zsmul, map_zsmul, Finsupp.smul_apply, smul_eq_mul]⟩
-  refine Int.eq_zero_of_dvd_of_natAbs_lt_natAbs hd ?_
-  rw [Int.natAbs_natCast, ← hN]
-  exact Nat.lt_pow_self (by omega)
+  apply _root_.GlobalTheory.eq_zero_of_forall_pow_nsmul_dvd <;> assumption
 
 theorem exists_eq_add_nsmul {X : Type} [AddCommGroup X] [Module.Free ℤ X] [Module.Finite ℤ X] {F : Type} [Field F]
     {k : ℕ} {ζ : Fˣ} (hζ : IsPrimitiveRoot ζ k) {u v : X}

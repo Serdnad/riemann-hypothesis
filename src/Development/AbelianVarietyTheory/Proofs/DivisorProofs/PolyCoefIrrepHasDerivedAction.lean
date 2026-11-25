@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.FlagMeasures.NotCdomAdd
 public import Development.AbelianVarietyTheory.Definitions.Divisors.DatumEquiv
 public import ReciprocityTheory.ReductiveGroups.SymplecticTraces.WeylCharacters.Statement
 import Mathlib.Algebra.Order.Archimedean.Real.Hom
@@ -66,33 +67,7 @@ variable {n : ℕ} {ε : Fin n → Bool}
 
 lemma not_cdom {Λ : Fin n → ℝ} {a b : Fin n} (hab : a < b) :
     ¬ Formalism.MainNotions.S.CDom ε (Λ + Pi.single a 1 - Pi.single b 1) Λ := by
-  rintro ⟨c, hc, he⟩
-  let ψ : (Fin n → ℝ) →ₗ[ℝ] ℝ :=
-    { toFun := fun f => ∑ j : Fin n, ((j : ℕ) : ℝ) * f j
-      map_add' := by
-        intro f g
-        simp [mul_add, Finset.sum_add_distrib]
-      map_smul' := by
-        intro r f
-        simp [Finset.mul_sum, mul_left_comm] }
-  have hψ : ∀ x : Fin n, ψ (Pi.single x 1) = ((x : ℕ) : ℝ) := by
-    intro x
-    simp [ψ, Pi.single_apply]
-  have hl : Λ - (Λ + Pi.single a 1 - Pi.single b 1) = Pi.single b 1 - Pi.single a 1 := by
-    abel
-  rw [hl] at he
-  have h := congrArg ψ he
-
-  simp only [map_sum, map_smul, Formalism.REAL.root, map_sub, hψ, smul_eq_mul] at h
-  have hr : ∑ x, ∑ y, (c x y : ℝ) * (((x : ℕ) : ℝ) - ((y : ℕ) : ℝ)) ≤ 0 := by
-    refine Finset.sum_nonpos fun x _ => Finset.sum_nonpos fun y _ => ?_
-    by_cases h0 : c x y = 0
-    · simp [h0]
-    · have hxy := (hc x y h0).1
-      have : ((x : ℕ) : ℝ) < ((y : ℕ) : ℝ) := by exact_mod_cast hxy
-      exact mul_nonpos_of_nonneg_of_nonpos (Nat.cast_nonneg _) (by linarith)
-  have hab' : ((a : ℕ) : ℝ) < ((b : ℕ) : ℝ) := by exact_mod_cast hab
-  linarith
+  apply _root_.GlobalTheory.Jet.KType.not_cdom_add <;> assumption
 
 section Der
 
