@@ -1,6 +1,5 @@
 module
 
-import Formalism.LocalToGlobal.GlobalTheory.GL6.PBwLocInd
 public import Formalism.LocalToGlobal.GlobalTheory.GL6.DiagonalSlopes.CharacterFiniteLevelZeroOfForms
 public import Formalism.LocalToGlobal.GlobalTheory.GL6.DiagonalSlopes.ComplexSpanBlockActionStable
 public import Formalism.LocalToGlobal.GlobalTheory.GL6.DiagonalSlopes.SlopeRamifiedInducedPrimeField
@@ -55,7 +54,17 @@ theorem norm_form_smul_smul (lam : ι → DomWeight n) (c : ℂ) (p : MvPolynomi
 
 theorem substitution_comp (o N : ι → Matrix (Fin n) (Fin n) ℂ) (Q : MvPolynomial (ι × Fin n × Fin n) ℂ) :
     subP o (subP N Q) = subP (fun τ => N τ * o τ) Q := by
-  apply _root_.Formalism.L2.GlobalTheoryTheory.LocalLatticeBases.substitution_substitution <;> assumption
+  have h : (subP o).comp (subP N) = subP (fun τ => N τ * o τ) := by
+    apply MvPolynomial.algHom_ext
+    intro x
+
+    simp only [AlgHom.comp_apply, subP, MvPolynomial.aeval_X, map_sum, map_mul, MvPolynomial.aeval_C,
+    Matrix.mul_apply, Finset.mul_sum, MvPolynomial.algebraMap_eq, Finset.sum_mul]
+    rw [Finset.sum_comm]
+    refine Finset.sum_congr rfl fun a _ => Finset.sum_congr rfl fun b _ => ?_
+    ring
+  show ((subP o).comp (subP N)) Q = _
+  rw [h]
 
 variable {K : Type} [Field K]
 
@@ -78,10 +87,6 @@ end Gen
 section Transport
 
 variable {D : D7} {u : D.what₂.Word}
-
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
-
-
 
 theorem diamond_value_root_of_unity (Tf : Forms0 D u) (hC : ChiFin0 Tf) (v : (D.mem u).A.vT) (a : ((D.mem u).A.Fv v)ˣ)
     (c : (D.mem u).C.cls 0) :
@@ -118,8 +123,6 @@ end Transport
 section Reps
 
 variable {D : D7} {u : D.what₂.Word}
-
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 
 def t2iM (γ : GL (Fin (D.R.N 0)) D.host.E) : D.what₂.Tau → Matrix (Fin (D.R.N 0)) (Fin (D.R.N 0)) D.what₂.LL :=
   fun τ => (γ : Matrix (Fin (D.R.N 0)) (Fin (D.R.N 0)) D.host.E).map
@@ -180,8 +183,6 @@ end Reps
 section Norms
 
 variable {D : D7} {u : D.what₂.Word}
-
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 
 theorem polynomial_translate_map (φ : D.what₂.LL →+* ℂ) (γ : GL (Fin (D.R.N 0)) D.host.E) (r : D.what₂.LL)
     (P : MvPolynomial (D.what₂.Tau × Fin (D.R.N 0) × Fin (D.R.N 0)) D.what₂.LL) :
@@ -246,8 +247,6 @@ section Iso
 
 variable {D : D7} {u : D.what₂.Word}
 
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
-
 def t2iRes (Tf : Forms0 D u) (hS : Formalism.MainNotions.product_first_zeroth_parts.admS D u) (x : ((D.fm u).lat 0).V) (c : (D.mem u).C.cls 0) :
     ((D.fm u).lat 0).V :=
   (restriction_rational_form Tf hS x (fun c' => c' = c)).choose
@@ -269,13 +268,13 @@ theorem polynomial_rep_residue_eval (Tf : Forms0 D u) (hS : Formalism.MainNotion
   · rw [Finset.sum_eq_single c]
     · simp only; rfl
     · intro c' _ hc
-      simp only [hc, if_false, map_zero, norm_form_zero, Complex.zero_re, mul_zero]
+      simp only [hc, ite_false, map_zero, norm_form_zero, Complex.zero_re, mul_zero]
     · intro h; exact absurd (Finset.mem_univ c) h
   · intro c' z
     rw [t2iRes_spec]
     by_cases h : c' = c
     · subst h; simp only; exact hP z
-    · simp only [h, if_false, map_zero, Pi.zero_apply]
+    · simp only [h, ite_false, map_zero, Pi.zero_apply]
 
 def t2iDil (v : (D.mem u).A.vT) (a : ((D.mem u).A.Fv v)ˣ) : (D.mem u).C.cls 0 ≃ (D.mem u).C.cls 0 where
   toFun := (D.fm u).dil 0 v a

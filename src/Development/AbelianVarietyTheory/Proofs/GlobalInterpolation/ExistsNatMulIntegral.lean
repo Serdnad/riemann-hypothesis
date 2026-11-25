@@ -1,54 +1,14 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsLatticeBasisHermitianSpace
 public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.EmbHInjective
 public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.IsSdLatTwOExpS
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Topology.Sheaves.Init
 import Formalism.HermitianLattices.HermitianLatticesProofs.DualBasic
 import Mathlib.LinearAlgebra.Matrix.FiniteDimensional
 import Mathlib.RingTheory.Coalgebra.IsFrobenius
 import Mathlib.RingTheory.Etale.Weakly
 import Mathlib.RingTheory.HopfAlgebra.Basic
 import Mathlib.RingTheory.TotallySplit
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.ReduceModChar
 import Development.AbelianVarietyTheory.BlockTheory.GlobalSignature.IndexExponentDegree
 
 -- This file was produced by scripts/clump.py from the modules listed below.
@@ -101,7 +61,20 @@ section
 variable {E : Type} [Field E] [NumberField E] {W : Type} [AddCommGroup W] [Module (𝓞 E) W] [Module E W] [IsScalarTower (𝓞 E) E W]
 
 theorem exists_nat_mul_integral (a : E) : ∃ n : ℕ, 0 < n ∧ ∃ r : 𝓞 E, (n : E) * a = algebraMap (𝓞 E) E r := by
-  first | exact _root_.GlobalTheory.CoordinateBasisBounds.nat_mul_integral | exact @_root_.GlobalTheory.CoordinateBasisBounds.nat_mul_integral | apply _root_.GlobalTheory.CoordinateBasisBounds.nat_mul_integral <;> assumption
+  have ha : IsAlgebraic ℤ a := (IsFractionRing.isAlgebraic_iff ℤ ℚ E).2 (Algebra.IsAlgebraic.isAlgebraic a)
+  obtain ⟨y, hy, hint⟩ := ha.exists_integral_multiple
+  refine ⟨y.natAbs, Int.natAbs_pos.2 hy, ?_⟩
+  have h2 : IsIntegral ℤ ((y.natAbs : E) * a) := by
+    rw [zsmul_eq_mul] at hint
+    rcases Int.natAbs_eq y with h | h
+    · have := congrArg (Int.cast : ℤ → E) h
+      rw [Int.cast_natCast] at this
+      rwa [this] at hint
+    · have := congrArg (Int.cast : ℤ → E) h
+      rw [Int.cast_neg, Int.cast_natCast] at this
+      rw [this, neg_mul] at hint
+      simpa using hint.neg
+  exact ⟨⟨_, h2⟩, rfl⟩
 
 theorem full_of_span {M : Submodule (𝓞 E) W} (hM : Submodule.span E (M : Set W) = ⊤) : Full M := by
   intro x

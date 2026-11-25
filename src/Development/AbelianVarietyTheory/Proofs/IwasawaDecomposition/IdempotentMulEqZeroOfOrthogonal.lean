@@ -1,7 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.FlagMeasures.IntegralExtensionFiniteAdelesBasicProperties
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsNsmulIntMemLatO
 public import Formalism.LocalToGlobal.IndefiniteReal.DatumVec
 public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.IsSelfDualCLatFrame
 public import Development.AbelianVarietyTheory.Definitions.ExistenceOfLattices.Hat1
@@ -60,7 +58,6 @@ noncomputable section
 
 open Formalism.BasicNotions Formalism.BasicNotions.TH Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes Formalism.MainNotions.StandardLattice Formalism.L2.Theta Formalism.IndefR.Datum MeasureTheory IsDedekindDomain NumberField Matrix
 open scoped TensorProduct
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 
 namespace GlobalTheory.PlaceDatum
 
@@ -198,7 +195,17 @@ theorem mem_waveSpan {G : Type} [AddCommGroup G] {χ : G → G → ℂ} {X Y L L
     (hfin : ∀ k : ℕ, 0 < k → ∃ R : Set G, R.Finite ∧ ∀ t ∈ L, ∃ r ∈ R, ∃ u ∈ L, t = r + k • u)
     (Φ : G → ℂ) (h1 : ∀ t, Φ t ≠ 0 → t ∈ X) (k : ℕ) (hk : 0 < k) (h2 : ∀ u ∈ L, ∀ t, Φ (t + k • u) = Φ t)
     (h3 : ∀ t, Φ t ≠ 0 → k • t ∈ L) : Φ ∈ waveSpan χ X Y L := by
-  first | exact _root_.GlobalTheory.PlaceVec.mem_waveSpan | exact @_root_.GlobalTheory.PlaceVec.mem_waveSpan | apply _root_.GlobalTheory.PlaceVec.mem_waveSpan <;> assumption
+  obtain ⟨R, hR, hR'⟩ := hfin k hk
+  obtain ⟨R2, hR2, hR2'⟩ := hfin (k * k) (Nat.mul_pos hk hk)
+  have hP : ((fun t : G => k • t) ⁻¹' R2).Finite := hR2.preimage (tf k hk).injOn
+  refine mem_of_finite_cosets (K := L.map (nsmulAddMonoidHom k))
+    (ind_nsmul_mem h hL hL' hLL' hX (dX k hk) (dY k hk) R hR hR') hP.toFinset Φ h1 ?_ fun t ht => ?_
+  · rintro _ ⟨u, hu, rfl⟩
+    exact h2 u hu
+  · obtain ⟨r, hr, u, hu, e⟩ := hR2' _ (h3 t ht)
+    refine ⟨t - k • u, hP.mem_toFinset.2 ?_, k • u, ⟨u, hu, rfl⟩, by abel⟩
+    change k • (t - k • u) ∈ R2
+    rwa [smul_sub, e, smul_smul, add_sub_cancel_right]
 
 variable {S T : HSp D}
 
@@ -306,7 +313,25 @@ theorem natCast_mul_tmul (N : ℕ) (b : E) (α : Af F) :
   rw [← nsmul_eq_mul, ← nsmul_eq_mul, TensorProduct.smul_tmul']
 
 theorem exists_den_adele (z : E ⊗[F] Af F) : ∃ N : ℕ, 0 < N ∧ (N : E ⊗[F] Af F) * z ∈ Formalism.L2.Herm.intAf F E := by
-  apply _root_.GlobalTheory.St.G.IntAd.exists_nat_denom <;> assumption
+  have hadd : ∀ x y : E ⊗[F] Af F, (∃ N : ℕ, 0 < N ∧ (N : E ⊗[F] Af F) * x ∈ Formalism.L2.Herm.intAf F E) →
+      (∃ N : ℕ, 0 < N ∧ (N : E ⊗[F] Af F) * y ∈ Formalism.L2.Herm.intAf F E) →
+      ∃ N : ℕ, 0 < N ∧ (N : E ⊗[F] Af F) * (x + y) ∈ Formalism.L2.Herm.intAf F E := by
+    rintro x y ⟨N, hN, hx⟩ ⟨M, hM, hy⟩
+    refine ⟨N * M, Nat.mul_pos hN hM, ?_⟩
+    convert add_mem (mul_mem (natCast_mem _ M) hx) (mul_mem (natCast_mem _ N) hy) using 1
+    push_cast
+    ring
+  have hp : ∀ (b : E) (α : Af F), α ∈ Formalism.UG.intAd F →
+      ∃ N : ℕ, 0 < N ∧ (N : E ⊗[F] Af F) * (b ⊗ₜ[F] α) ∈ Formalism.L2.Herm.intAf F E := fun b α hα => by
+    obtain ⟨d, hd, h⟩ := GlobalTheory.AdIdem.exists_nat_mul_integral E b
+    exact ⟨d, hd, by rw [natCast_mul_tmul]; exact tmul_mem_int h hα⟩
+  induction z using TensorProduct.induction_on with
+  | zero => exact ⟨1, one_pos, by simp⟩
+  | add x y hx hy => exact hadd _ _ hx hy
+  | tmul b α =>
+    obtain ⟨x, β, hβ, rfl⟩ := GlobalTheory.AdLat.exists_eq_algebraMap_add_nsmul F 1 one_pos α
+    rw [one_smul, TensorProduct.tmul_add, Algebra.algebraMap_eq_smul_one, ← TensorProduct.smul_tmul]
+    exact hadd _ _ (hp _ _ (one_mem _)) (hp _ _ hβ)
 
 theorem comm_symm_mem {r : E ⊗[F] Af F} (hr : r ∈ Formalism.L2.Herm.intAf F E) :
     (Algebra.TensorProduct.comm F (Af F) E).symm r ∈ GlobalTheory.AdLat.hat1 F (Set.range (algebraMap (𝓞 E) E)) := by
@@ -362,7 +387,17 @@ end General
 
 theorem finPart_mem_of_toEAf {w : AE D} (hw : toEAf D w ∈ Formalism.L2.Herm.intAf D.host.F D.host.E) :
     finPart D w ∈ intAE D := by
-  first | exact _root_.GlobalTheory.PlaceVec.finPart_mem_intAE | exact @_root_.GlobalTheory.PlaceVec.finPart_mem_intAE | apply _root_.GlobalTheory.PlaceVec.finPart_mem_intAE <;> assumption
+  have h : intAE D = GlobalTheory.AdLat.hat1 D.host.F (Set.range (algebraMap (𝓞 D.host.E) D.host.E)) := by
+    unfold intAE GlobalTheory.AdLat.hat1
+    congr 1
+    ext z
+    constructor
+    · rintro ⟨a, ha, x, rfl⟩
+      exact ⟨a, ha, _, ⟨x, rfl⟩, rfl⟩
+    · rintro ⟨a, ha, _, ⟨x, rfl⟩, rfl⟩
+      exact ⟨a, ha, x, rfl⟩
+  rw [h, ← (Algebra.TensorProduct.comm D.host.F (Af D.host.F) D.host.E).symm_apply_apply (finPart D w)]
+  exact comm_symm_mem hw
 
 variable {ΛS : Submodule (𝓞 D.host.E) (Fin S.rank → D.host.E)} {ΛT : Submodule (𝓞 D.host.E) (Fin T.rank → D.host.E)}
 
@@ -479,8 +514,8 @@ theorem redM_add {a b : ℕ} (PP : Formalism.L2.DIV.Pl D.host.E) (X Y Z : Matrix
   funext i j
   have hY : Y i j ∈ Formalism.L2.Herm.intAf D.host.F D.host.E := by
     rw [h]; exact add_mem (hX i j) (mul_mem (natCast_mem _ _) (hZ i j))
-  have e : redM PP X i j = Formalism.L2.DIV.resS D.host.F PP ⟨X i j, hX i j⟩ := dif_pos (hX i j)
-  exact (dif_pos hY).trans ((resS_add PP (hX i j) hY (hZ i j) (h i j)).trans e.symm)
+  have e : redM PP X i j = Formalism.L2.DIV.resS D.host.F PP ⟨X i j, hX i j⟩ := dite_eq_left (hX i j)
+  exact (dite_eq_left hY).trans ((resS_add PP (hX i j) hY (hZ i j) (h i j)).trans e.symm)
 
 
 open Classical in
@@ -499,7 +534,7 @@ theorem isSBHalf_of_red {a b : ℕ} (e : AE D) (Λ : AddSubgroup (WO S T)) (fr :
   refine ⟨fun t ht => ?_, K * ((∏ PP ∈ P, Ideal.absNorm PP.asIdeal) * M), by positivity, fun u hu hh t => ?_,
     fun t ht => ?_⟩
   · by_contra h
-    exact ht (if_neg fun h' => h h'.1)
+    exact ht (ite_eq_right fun h' => h h'.1)
   · have hi : ∀ i j, ((K * ((∏ PP ∈ P, Ideal.absNorm PP.asIdeal) * M) : ℕ) : EAf D) * fr u i j ∈
         Formalism.L2.Herm.intAf D.host.F D.host.E := fun i j => by
       rw [← mul_assoc, Nat.cast_mul, mul_assoc]
@@ -512,17 +547,17 @@ theorem isSBHalf_of_red {a b : ℕ} (e : AE D) (Λ : AddSubgroup (WO S T)) (fr :
       rw [hadd]
       exact add_mem_cancel_right (hi i j)
     by_cases ht : IsHalf e t ∧ IsIntM (fr t)
-    · simp only [if_pos ht, if_pos (And.intro (h1.2 ht.1) (h2.2 ht.2))]
+    · simp only [ite_eq_left ht, ite_eq_left (And.intro (h1.2 ht.1) (h2.2 ht.2))]
       refine hω _ _ fun PP hPP => redM_add PP _ _
         (fun i j => ((K * (∏ PP ∈ P.erase PP, Ideal.absNorm PP.asIdeal) : ℕ) : EAf D) * ((M : EAf D) * fr u i j))
         ht.2 (fun i j => mul_mem (natCast_mem _ _) (hB u hu i j)) fun i j => ?_
       rw [hadd, ← Finset.mul_prod_erase P _ hPP]
       simp only [Nat.cast_mul]
       ring
-    · simp only [if_neg ht, if_neg fun h : _ ∧ _ => ht ⟨h1.1 h.1, h2.1 h.2⟩]
+    · simp only [ite_eq_right ht, ite_eq_right fun h : _ ∧ _ => ht ⟨h1.1 h.1, h2.1 h.2⟩]
   · have h : IsHalf e t ∧ IsIntM (fr t) := by
       by_contra h
-      exact ht (if_neg h)
+      exact ht (ite_eq_right h)
     rw [mul_nsmul]
     exact nsmul_mem (hC t h.1 h.2) _
 
@@ -535,7 +570,7 @@ theorem omegaQ_congr {a b : ℕ} (Q : Finset (Formalism.L2.DIV.Pl D.host.E)) (r 
     forall₂_congr fun PP hPP => by rw [h PP hPP]
   unfold omegaQ
   by_cases hy : ∀ PP ∈ Q, LowZero r (y PP) ∧ IsUnit (topL r (y PP)).det
-  · rw [dif_pos hy, dif_pos (hiff.1 hy)]
+  · rw [dite_eq_left hy, dite_eq_left (hiff.1 hy)]
     refine Finset.prod_congr rfl fun PP _ => ?_
     congr 3
     exact Units.ext (by rw [IsUnit.unit_spec, IsUnit.unit_spec, h PP.1 PP.2])

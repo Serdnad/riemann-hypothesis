@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.SatakeParameters.ExistsVectorPrescribedCosetsBadPrimesFramesStatement
 public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.UnderTie
 public import Development.AbelianVarietyTheory.Definitions.GlobalTwisting.RedPEqZeroOfDiv
 public import Development.AbelianVarietyTheory.Definitions.GlobalTwisting.RedPDivOfUnit
@@ -8,50 +7,11 @@ public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.Exists
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.BaseCosetRepIntegralAfterScalingAtBadPrime
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.FiniteOrderValuation.WeakApprox
 import Formalism.LocalRingCardinality.SpanPowerMembership.LocAtA
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Topology.Sheaves.Init
 import Development.AbelianVarietyTheory.Proofs.SatakeParameters.XiTopEqProd
 
 @[expose] public section
 
 open NumberField IsDedekindDomain Formalism.BasicNotions Formalism.L2.DIV Formalism.L2.Col Formalism.MainNotions Formalism.L2.Ker GlobalTheory.TwU GlobalTheory.TwV GlobalTheory.TwTop GlobalTheory.TopStep
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 
 noncomputable section
 
@@ -77,7 +37,35 @@ theorem lin_apply_eq_sum {n : ℕ} (g : (Fin n → E) →ₗ[E] (Fin n → E)) (
 theorem exists_approx_at (T : Finset (HeightOneSpectrum (𝓞 E))) {n : ℕ} (g : T → (Fin n → E) →ₗ[E] (Fin n → E))
     (c : T → E) (t : T → Fin n → E) :
     ∃ d : Fin n → E, ∀ P : T, ∀ l, (P.1).valuation E (c P * g P (d - t P) l) ≤ 1 := by
-  first | exact _root_.GlobalTheory.CosetApprox.exists_approx | exact @_root_.GlobalTheory.CosetApprox.exists_approx | apply _root_.GlobalTheory.CosetApprox.exists_approx <;> assumption
+  classical
+  have hb : ∀ P : T, ∃ b : WithZero (Multiplicative ℤ), 1 ≤ b ∧
+      ∀ l k, (P.1).valuation E (c P * g P (Pi.single k 1) l) ≤ b := by
+    intro P
+    obtain ⟨b, hb⟩ := (Set.finite_range fun lk : Fin n × Fin n =>
+      (P.1).valuation E (c P * g P (Pi.single lk.2 1) lk.1)).bddAbove
+    exact ⟨max b 1, le_max_right _ _, fun l k => (hb ⟨(l, k), rfl⟩).trans (le_max_left _ _)⟩
+  choose B hB1 hBle using hb
+  have hB0 : ∀ P, B P ≠ 0 := fun P => (lt_of_lt_of_le zero_lt_one (hB1 P)).ne'
+  have hk : ∀ k : Fin n, ∃ a : E, ∀ P : T, (P.1).valuation E (a - t P k) < (B P)⁻¹ := by
+    intro k
+    obtain ⟨a, -, ha, -⟩ := PI.FinOrdValD.WA.weakApprox T
+      (fun v => if h : v ∈ T then algebraMap E (v.adicCompletion E) (t ⟨v, h⟩ k) else 0)
+      (fun v => if h : v ∈ T then (B ⟨v, h⟩)⁻¹ else 1)
+      (fun v hv => by simp only [dite_eq_left hv]; exact inv_ne_zero (hB0 _))
+    refine ⟨a, fun P => ?_⟩
+    have h := ha P.1 P.2
+    simp only [dite_eq_left P.2, Subtype.coe_eta] at h
+    rw [← map_sub, PI.FinOrdValD.WA.val_alg] at h
+    exact h
+  choose a ha using hk
+  refine ⟨a, fun P l => ?_⟩
+  rw [lin_apply_eq_sum, Finset.mul_sum]
+  refine Valuation.map_sum_le _ fun k _ => ?_
+  rw [show c P * ((a - t P) k * g P (Pi.single k 1) l) = (a - t P) k * (c P * g P (Pi.single k 1) l) by ring,
+    map_mul, Pi.sub_apply]
+  calc (P.1).valuation E (a k - t P k) * (P.1).valuation E (c P * g P (Pi.single k 1) l)
+      ≤ (B P)⁻¹ * B P := mul_le_mul' (ha k P).le (hBle P l k)
+    _ = 1 := inv_mul_cancel₀ (hB0 P)
 
 end Gen
 
@@ -185,17 +173,17 @@ theorem cosetOf_frames_vG : UnderTie (fun {D L hT Gi Gl Kc Y cX ex t u μ St} A 
     exact Classical.epsilon_spec (p := fun y => y ∈ cosetOf A (t.m2 + 1) hi β q) ⟨y, hy⟩
   have hyy : y0At A (t.m2 + 1) hi β P = A.y0 β P := by
     unfold y0At
-    rw [dif_pos rfl]
+    rw [dite_eq_left rfl]
   have hloc : ∀ q : ChPt (R := D.R) t.sel (t.tup μ) (t.word u) (t.m2 + 1), ∀ l,
       IntAt P.1 (((qOf P.1 : t.X.E) ^ 0)⁻¹ * ((frsF t.sel (t.tup μ) q P).symm (repY (cosetOf A (t.m2 + 1) hi β q)) - A.y0 β P) l) := by
     intro q
     have h := hne q P
     unfold SameCoset at h
-    simpa only [hP, if_true, hyy] using h
+    simpa only [hP, ite_true, hyy] using h
   have hy₀ : ∀ l, IntAt P.1 ((qOf P.1 : t.X.E) ^ 1 * A.y0 β P l) := by
     intro l
     have h := _root_.GlobalTheory.TwU.BaseCosetInt.baseCosetRep_integral_after_scaling_at_bad_prime D L hT Gi Gl Kc Y cX ex t u μ St A dtU a hPin H β P l
-    simpa only [hP, if_true] using h
+    simpa only [hP, ite_true] using h
   have hqI : IntAt P.1 (qOf P.1 : t.X.E) := by
     simpa using IntAt.coe P.1 ((qOf P.1 : ℕ) : 𝓞 t.X.E)
   have hint : ∀ q : ChPt (R := D.R) t.sel (t.tup μ) (t.word u) (t.m2 + 1), ∀ l,
@@ -213,7 +201,7 @@ theorem cosetOf_frames_vG : UnderTie (fun {D L hT Gi Gl Kc Y cX ex t u μ St} A 
   have hgy : ∀ l, IntAt P.1 (((qOf P.1 : t.X.E) ^ 0)⁻¹ * (Gg.1 (A.y0 β P) - A.y0 β P) l) := by
     have h := hrel.2
     unfold SameCoset at h
-    simpa only [hP, if_true] using h
+    simpa only [hP, ite_true] using h
   have hj : Gg⁻¹ * k ∈ prinCong _ P.1 1 := by
     refine mem_prinCong_one_of_redGL (qOf_notMem_sq hPin.fields.ok t.pr_ok hP) _ ?_
     rw [map_mul, map_inv, hred, inv_mul_cancel]

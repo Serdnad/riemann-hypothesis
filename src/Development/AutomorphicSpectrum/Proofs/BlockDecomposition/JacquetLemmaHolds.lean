@@ -54,7 +54,6 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.IsCuspidalIffCompositions
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AutomorphicSpectrum.Proofs.BlockDecomposition.JacquetVectorLiftDominant, Development.AutomorphicSpectrum.Proofs.BlockDecomposition.JacquetProjectionSurjectiveHolds, Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ProjMemFixedPiN, Development.AutomorphicSpectrum.Proofs.BlockDecomposition.JacquetLemmaHolds
@@ -77,7 +76,14 @@ theorem pi_mul (π : Representation ℂ G V) (a b : G) (v : V) : π a (π b v) =
 
 theorem mem_fixed_iff (π : Representation ℂ G V) (H : Subgroup G) (v : V) :
     v ∈ fixed π H ↔ ∀ h ∈ H, π h v = v := by
-  apply _root_.GlobalTheory.Parabolic.mem_fixed <;> assumption
+  constructor
+  · intro hv h hh
+    have h1 : ∀ h : H, π (h : G) v = (((1 : H →* ℂˣ) h : ℂˣ) : ℂ) • v := hv
+    simpa using h1 ⟨h, hh⟩
+  · intro hv
+    show ∀ h : H, π (h : G) v = (((1 : H →* ℂˣ) h : ℂˣ) : ℂ) • v
+    intro h
+    simpa using hv h h.2
 
 theorem mkQ_avg (W : Submodule ℂ V) (r : ℕ) (hr : 0 < r) (f : Fin r → V) (m : V ⧸ W)
     (h : ∀ i, W.mkQ (f i) = m) : W.mkQ (((r : ℂ)⁻¹) • ∑ i, f i) = m := by
@@ -121,7 +127,7 @@ theorem exists_avg (K : Subgroup G) (hK : IsCompact (K : Set G)) (π : Represent
   have hH' : IsOpen (H' : Set K) := (hπ u).preimage continuous_subtype_val
   have hcomp : IsCompact (((⊤ : Subgroup K)) : Set K) := by
     simpa using (isCompact_univ : IsCompact (Set.univ : Set K))
-  obtain ⟨r, hr, x, hxA, hx⟩ := _root_.GlobalTheory.CompanionTheory.CosetReps.exists_fin_coset_reps K ⊤ H' (A.subgroupOf K) hcomp hH' le_top le_top (by
+  obtain ⟨r, hr, x, hxA, hx⟩ := _root_.GlobalTheory.CompanionTheory.CosetReps.exists_fin_coset_reps K ⊤ H' (A.subgroupOf K) hcomp hH' (by
     intro y _
     obtain ⟨a, ha, hau⟩ := hc y y.2
     refine ⟨⟨a, hA ha⟩, Subgroup.mem_subgroupOf.2 ha, ?_⟩

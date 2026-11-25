@@ -1,52 +1,10 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.LawOfSquaresSelfDualSplitLattice
 public import Development.AbelianVarietyTheory.BlockTheory.JetGauges.ThetaSpanAdjoint
 public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.ExistsIndexIdeal
 public import Development.AbelianVarietyTheory.Definitions.SpanningFamilies.FirstCoordinateAdmissible
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
 import Mathlib.RingTheory.Henselian
-import Mathlib.RingTheory.Radical.NatInt
 import Mathlib.RingTheory.RegularLocalRing.Defs
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
 import Development.AbelianVarietyTheory.Definitions.SpanningFamilies.IntMIffInt
 import Development.AbelianVarietyTheory.Definitions.SpanningFamilies.IsStabForm
 public import Development.AbelianVarietyTheory.Definitions.SpanningFamilies.IsSystem
@@ -54,8 +12,6 @@ import Development.AbelianVarietyTheory.Definitions.ThetaValues.PolyDerivSmulLet
 import Formalism.LocalToGlobal.ProjectiveLattices.JFDFree
 
 @[expose] public section
-
-set_option autoImplicit false
 
 noncomputable section
 
@@ -69,8 +25,53 @@ theorem exists_index_ideal_pair (A B : Submodule (𝓞 E) (Fin n → E)) (hA : A
     (ht : ∀ m ∈ A, ∃ a : 𝓞 E, a ≠ 0 ∧ a • m ∈ B) :
     ∃ 𝔞 : Ideal (𝓞 E), 𝔞 ≠ ⊥ ∧ detSpan (A ⊓ B) = 𝔞 • detSpan A ∧ detSpan B = 𝔞 • detSpan (B ⊔ A) ∧
       Ideal.absNorm 𝔞 = (A ⊓ B).toAddSubgroup.relIndex A.toAddSubgroup := by
-  intros
-  apply _root_.GlobalTheory.BetaEx.exists_index_ideal_inf_sup <;> assumption
+  classical
+  have key : ∀ s : Finset (Fin n → E), (∀ x ∈ s, x ∈ A) →
+      ∃ 𝔞 : Ideal (𝓞 E), 𝔞 ≠ ⊥ ∧
+        detSpan (A ⊓ B) = 𝔞 • detSpan (A ⊓ B ⊔ Submodule.span (𝓞 E) (s : Set (Fin n → E))) ∧
+        detSpan B = 𝔞 • detSpan (B ⊔ Submodule.span (𝓞 E) (s : Set (Fin n → E))) ∧
+        Ideal.absNorm 𝔞 = (A ⊓ B).toAddSubgroup.relIndex
+          (A ⊓ B ⊔ Submodule.span (𝓞 E) (s : Set (Fin n → E))).toAddSubgroup := by
+    intro s
+    induction s using Finset.induction_on with
+    | empty => intro _; exact ⟨⊤, by simp, by simp, by simp, by simp⟩
+    | insert m s _ ih =>
+      intro hs
+      obtain ⟨𝔞, h0, h1, h1', h2⟩ := ih fun x hx => hs x (Finset.mem_insert_of_mem hx)
+      have hsA : Submodule.span (𝓞 E) (s : Set (Fin n → E)) ≤ A :=
+        Submodule.span_le.2 fun x hx => hs x (Finset.mem_insert_of_mem hx)
+      have hm : m ∈ A := hs m (Finset.mem_insert_self _ _)
+      have hmA : Submodule.span (𝓞 E) {m} ≤ A := (Submodule.span_singleton_le_iff_mem _ _).2 hm
+      have e : ∀ X : Submodule (𝓞 E) (Fin n → E),
+          X ⊔ Submodule.span (𝓞 E) ((insert m s : Finset (Fin n → E)) : Set (Fin n → E)) =
+          (X ⊔ Submodule.span (𝓞 E) (s : Set (Fin n → E))) ⊔ Submodule.span (𝓞 E) {m} := fun X => by
+        rw [Finset.coe_insert, Submodule.span_insert, sup_assoc, sup_comm (Submodule.span _ {m})]
+      rw [e, e]
+      generalize Submodule.span (𝓞 E) (s : Set (Fin n → E)) = T at *
+      have hmod : A ⊓ B ⊔ T = A ⊓ (B ⊔ T) := by
+        rw [sup_comm B T, inf_comm A (T ⊔ B), sup_inf_assoc_of_le B hsA, sup_comm, inf_comm]
+      have hc : ((B ⊔ T).comap (LinearMap.toSpanSingleton (𝓞 E) _ m) : Ideal (𝓞 E)) =
+          (A ⊓ B ⊔ T).comap (LinearMap.toSpanSingleton (𝓞 E) _ m) := by
+        rw [hmod]
+        ext a
+        exact ⟨fun h => ⟨A.smul_mem a hm, h⟩, fun h => h.2⟩
+      obtain ⟨k, hk, h⟩ := hb
+      have hb1 : Bdd ((A ⊓ B ⊔ T) ⊔ Submodule.span (𝓞 E) {m}) :=
+        ⟨k, hk, fun v hv => h v (((sup_le (sup_le inf_le_left hsA) hmA).trans le_sup_right) hv)⟩
+      have hb2 : Bdd ((B ⊔ T) ⊔ Submodule.span (𝓞 E) {m}) :=
+        ⟨k, hk, fun v hv => h v ((sup_le (sup_le_sup_left hsA B) (hmA.trans le_sup_right)) hv)⟩
+      refine ⟨𝔞 * ((A ⊓ B ⊔ T).comap (LinearMap.toSpanSingleton (𝓞 E) _ m) : Ideal (𝓞 E)), ?_, ?_, ?_, ?_⟩
+      · refine mul_ne_zero h0 ?_
+        obtain ⟨a, ha, ham⟩ := ht m hm
+        exact (Submodule.ne_bot_iff _).2 ⟨a, (le_sup_left : A ⊓ B ≤ A ⊓ B ⊔ T) ⟨A.smul_mem a hm, ham⟩, ha⟩
+      · rw [h1, Submodule.mul_smul, ← detSpan_cyclic _ m hb1]
+      · rw [h1', Submodule.mul_smul, ← hc, ← detSpan_cyclic _ m hb2]
+      · rw [map_mul, h2, index_cyclic]
+        exact AddSubgroup.relIndex_mul_relIndex _ _ _ (Submodule.toAddSubgroup_mono le_sup_left)
+          (Submodule.toAddSubgroup_mono le_sup_left)
+  obtain ⟨s, rfl⟩ := hA
+  have := key s fun x hx => Submodule.subset_span hx
+  rwa [sup_eq_right.2 inf_le_left] at this
 
 theorem fg_of_bdd {M : Submodule (𝓞 E) (Fin n → E)} (hb : Bdd M) : M.FG := by
   obtain ⟨k, hk, h⟩ := hb
@@ -98,7 +99,15 @@ theorem single_mem_std (i : Fin n) : (Pi.single i 1 : Fin n → E) ∈ stdLat E 
 
 omit [NumberField E] in
 theorem detSpan_std : detSpan (stdLat E n) = 1 := by
-  apply _root_.GlobalTheory.LawOfSquares.detSpan_std <;> assumption
+  apply le_antisymm
+  · refine Submodule.span_le.2 fun d hd => ?_
+    obtain ⟨v, hv, rfl⟩ := (mem_detSet _ d).1 hd
+    exact det_mem_one v fun i j => hv i j trivial
+  · rw [Submodule.one_le, ← Matrix.det_one (n := Fin n)]
+    refine det_mem _ fun i => ?_
+    convert single_mem_std (E := E) i using 1
+    ext j
+    simp [Matrix.one_apply, Pi.single_apply, eq_comm]
 
 def bdual (S : Submodule (𝓞 E) (Fin n → E)) : Submodule (𝓞 E) (Fin n → E) where
   carrier := {w | ∀ v ∈ S, w ⬝ᵥ v ∈ (1 : Submodule (𝓞 E) E)}
@@ -306,7 +315,6 @@ open ReciprocityTheory.ChartRestriction.G.Geo.Tor hiding Level
 open GlobalTheory.SW hiding Level
 open Formalism.L2.Pj Formalism.L2.PjFree
 open scoped ComplexConjugate Classical
-attribute [local instance] Over.cartesianMonoidalCategory
 open GlobalTheory.Dict GlobalTheory.Phase GlobalTheory.IndefiniteRowSideFullHecke.UnitaryAdjointCongruence
 
 theorem GlobalTheory.DetIdeal.detIdeal_selfDual : ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (n : ℕ) (Λ : GenLat E n), Λ.Unimod → ∃ J : Ideal (𝓞 E), J ≠ ⊥ ∧ Ideal.absNorm J = (Λ.Ln.toAddSubgroup.addSubgroupOf Λ.La.toAddSubgroup).index ∧ Submodule.span (𝓞 E) (detSet Λ.Ln) = J • Submodule.span (𝓞 E) (detSet Λ.La) ∧ Submodule.span (𝓞 E) (detSet Λ.Ln) = Submodule.map (Algebra.linearMap (𝓞 E) E) (conjI J) ∧ ∀ h : Matrix (Fin n) (Fin n) E, Submodule.span (𝓞 E) (detSet (actLat h Λ).La) = Submodule.map (LinearMap.mulLeft (𝓞 E) h.det) (Submodule.span (𝓞 E) (detSet Λ.La)) := by

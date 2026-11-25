@@ -256,7 +256,7 @@ theorem conv_at_one (a b : F[X] → ℂ) : conv a b 1 = a 1 * b 1 := by
   rw [this, finsum_mem_singleton]
 
 theorem additive_mul_eq_conv (F : Type) [Field F] (q : ℕ) (hq : 2 ≤ q) (s m : F[X] → ℂ)
-    (hs : IsAdditive s) (_hm1 : m 1 = 1)
+    (hs : IsAdditive s)
     (hm : ∀ P : F[X], P.Monic → (q : ℂ) ^ P.natDegree * m P = conv (fun _ => 1) m P)
     (P : F[X]) (hP : P.Monic) :
     s P * m P = conv (fun D => mangoldt s D / ((q : ℂ) ^ D.natDegree - 1)) m P := by
@@ -621,8 +621,13 @@ namespace GlobalTheory.CuspGL.ConvCancel
 
 theorem finite_pairs {F : Type} [Field F] (P : F[X]) (hP : P ≠ 0) :
     {x : F[X] × F[X] | x.1.Monic ∧ x.2.Monic ∧ x.1 * x.2 = P}.Finite := by
-  intros
-  apply _root_.GlobalTheory.CuspGL.finite_monic_factorisations <;> assumption
+  classical
+  have hfin : {g : F[X] | g.Monic ∧ g ∣ P}.Finite := by
+    have h := Polynomial.fintypeSubtypeMonicDvd P hP
+    exact @Finite.of_fintype _ h
+  refine (hfin.prod hfin).subset ?_
+  rintro ⟨D, E⟩ ⟨hD, hE, h⟩
+  exact ⟨⟨hD, Dvd.intro _ h⟩, ⟨hE, Dvd.intro_left _ h⟩⟩
 
 theorem conv_cancel : ∀ (F : Type) [Field F] (a b m : F[X] → ℂ), m 1 = 1 →
     (∀ P : F[X], P.Monic → conv a m P = conv b m P) → ∀ P : F[X], P.Monic → a P = b P := by
@@ -691,7 +696,7 @@ theorem mass_psi_eq_glCard_mul_mangoldt_div :
   have hiso := _root_.GlobalTheory.CuspGL.psi_conj F s
   have hq : 2 ≤ Nat.card F := Finite.one_lt_card
   have hmu1 : mu (1 : F[X]) = 1 := (_root_.GlobalTheory.CuspGL.mu_rec F 1 monic_one).2
-  have hlog := _root_.GlobalTheory.CuspGL.LogDeriv.additive_mul_eq_conv F (Nat.card F) hq s mu hs hmu1 (fun Q hQ => (_root_.GlobalTheory.CuspGL.mu_rec F Q hQ).1)
+  have hlog := _root_.GlobalTheory.CuspGL.LogDeriv.additive_mul_eq_conv F (Nat.card F) hq s mu hs (fun Q hQ => (_root_.GlobalTheory.CuspGL.mu_rec F Q hQ).1)
   have hmul : ∀ Q : F[X], Q.Monic → s Q * mu Q =
       conv (fun D => mass (psi s (Fin D.natDegree → F)) D / glCard F D.natDegree) mu Q := by
     intro Q hQ

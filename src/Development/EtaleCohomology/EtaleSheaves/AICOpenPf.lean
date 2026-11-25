@@ -1,46 +1,6 @@
 module
 
 public import Development.EtaleCohomology.EtaleSheaves.SteinPf
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.AlgebraicGeometry.Modules.Sheaf
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
 
 @[expose] public section
 
@@ -80,19 +40,22 @@ theorem gtf_res_hom {Z : Scheme.{0}} [IsIntegral Z] {U W : Z.Opens} (i : U ⟶ W
     (Z.germToFunctionField U).hom.comp (Z.presheaf.map i.op).hom = (Z.germToFunctionField W).hom := by
   ext s; exact gtf_res i s
 
-theorem aic_of_local_cover {Z : Scheme.{0}} [IsIntegral Z]
-    (hloc : ∀ (W : Z.Opens) (y : Z), y ∈ W → ∃ U : Z.Opens, y ∈ U ∧ U ≤ W ∧ AIC Γ(Z, U))
-    (W : Z.Opens) (hW : (W : Set Z).Nonempty) : AIC Γ(Z, W) := by
-  intro p hm hd
+theorem AICOpen_of : AICOpen := by
+  intro Z hZ W hW p hm hd
+  have : IsIntegral Z := hZ.1
   have : Nonempty W := ⟨⟨_, hW.some_mem⟩⟩
-  have hcov : ∀ x : W, ∃ U : Z.Opens, (x : Z) ∈ U ∧ U ≤ W ∧ AIC Γ(Z, U) := fun x => hloc W x x.2
-  choose U hxU hUW hUa using hcov
+  have hcov : ∀ x : W, ∃ U : Z.Opens, IsAffineOpen U ∧ (x : Z) ∈ U ∧ U ≤ W := by
+    intro x
+    obtain ⟨_, ⟨U, hU, rfl⟩, hxU, hUW⟩ := Z.isBasis_affineOpens.exists_subset_of_mem_open x.2 W.isOpen
+    exact ⟨U, hU, hxU, hUW⟩
+  choose U hUa hxU hUW using hcov
   have hne : ∀ x : W, Nonempty (U x) := fun x => ⟨⟨_, hxU x⟩⟩
   let ψ := Z.germToFunctionField W
+
   have hroot : ∀ x : W, ∃ β : Z.functionField, (p.map ψ.hom).eval β = 0 := by
     intro x
     have := hne x
-    have hA : AIC Γ(Z, U x) := hUa x
+    have hA : AIC Γ(Z, U x) := hZ.2 _ (hUa x) ⟨_, hxU x⟩
     let ρ := (Z.presheaf.map (homOfLE (hUW x)).op).hom
     obtain ⟨r, hr⟩ := hA (p.map ρ) (hm.map ρ) (by rw [hm.natDegree_map]; exact hd)
     refine ⟨Z.germToFunctionField (U x) r, ?_⟩
@@ -101,7 +64,7 @@ theorem aic_of_local_cover {Z : Scheme.{0}} [IsIntegral Z]
   have hsec : ∀ x : W, ∃ t : Γ(Z, U x), Z.germToFunctionField (U x) t = β := by
     intro x
     have := hne x
-    have hA : AIC Γ(Z, U x) := hUa x
+    have hA : AIC Γ(Z, U x) := hZ.2 _ (hUa x) ⟨_, hxU x⟩
     let ρ := (Z.presheaf.map (homOfLE (hUW x)).op).hom
     exact roots_in (Z.germToFunctionField (U x)).hom hA _ (p.map ρ) rfl (hm.map ρ) β
       (by rw [Polynomial.map_map, gtf_res_hom]; exact hβ)
@@ -130,14 +93,5 @@ theorem aic_of_local_cover {Z : Scheme.{0}} [IsIntegral Z]
   change ψ.hom (p.eval t) = 0
   rw [key]; change (p.map ψ.hom).eval (ψ t) = 0
   rw [ht]; exact hβ
-
-theorem AICOpen_of : AICOpen := by
-  intro Z hZ W hW
-  have : IsIntegral Z := hZ.1
-  apply aic_of_local_cover _ W hW
-  intro V y hy
-  obtain ⟨_, ⟨U, hU, rfl⟩, hyU, hUV⟩ :=
-    Z.isBasis_affineOpens.exists_subset_of_mem_open hy V.isOpen
-  exact ⟨U, hyU, hUV, hZ.2 U hU ⟨y, hyU⟩⟩
 
 end LateralTheory.E.AICOpenPf

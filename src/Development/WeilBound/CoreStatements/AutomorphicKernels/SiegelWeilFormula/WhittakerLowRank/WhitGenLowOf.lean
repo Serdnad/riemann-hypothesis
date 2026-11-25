@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsUniqueSelfDualHaarMeasureInfiniteAdeles
 public import Formalism.UnipotentAdelicQuotients.SWXSDefs
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsSelfDualOfDualSubgroups
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.FourierMatch
@@ -14,70 +13,10 @@ public import Mathlib.Analysis.Fourier.FourierTransform
 public import Development.WeilBound.CoreStatements.AutomorphicKernels.SiegelWeilFormula.WhitGenLowOf
 public import Development.WeilBound.CoreStatements.AutomorphicKernels.SiegelWeilFormula.WhittakerGlobalFactors.UnrPDifferentiable
 public import Development.WeilBound.CoreStatements.AutomorphicKernels.SiegelWeilFormula.WhittakerGlobalFactors.ExistsFinsetOfCofinite
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Algebra.Order.Star.Int
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.Order.CompletePartialOrder
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
-import Mathlib.Algebra.Module.StablyFree.Basic
-import Mathlib.Algebra.Order.Star.Real
-import Mathlib.RingTheory.Henselian
-import Mathlib.RingTheory.PiTensorProduct
-import Mathlib.RingTheory.RegularLocalRing.Defs
-import Mathlib.RingTheory.SimpleRing.Principal
 import Mathlib.Tactic.Linter.HaveILetI
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Topology.Connected.Separation
-import Mathlib.Topology.MetricSpace.Ultra.TotallySeparated
-import Mathlib.Algebra.Ring.IsFormallyReal
-import Mathlib.Analysis.LocallyConvex.AbsConvexOpen
-import Mathlib.Analysis.Convex.Contractible
-import Mathlib.Analysis.SpecialFunctions.Complex.Circle
-import Mathlib.Topology.Homotopy.Lifting
-import Mathlib.RingTheory.TensorProduct.Nontrivial
-import Mathlib.Tactic.TypeStar
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsUniqueSelfDualHaarMeasureInfiniteAdeles
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AutomorphicSpectrum.Proofs.HermitianForms.IndicatorInSchrodingerSpan, Development.AutomorphicSpectrum.Proofs.HermitianForms.ExistsSdWSdHerm, Development.AutomorphicSpectrum.Proofs.HermitianForms.BijectiveLinearCombinationOfRankAtStalk, Development.AutomorphicSpectrum.Proofs.HermitianForms.HasCoordOfFiniteDimensional, Development.WeilBound.CoreStatements.AutomorphicKernels.SiegelWeilFormula.WhittakerLowRank.AnalyticAtUpdateZero, Development.WeilBound.CoreStatements.AutomorphicKernels.SiegelWeilFormula.WhittakerLowRank.WhitGenLowOf
@@ -1170,14 +1109,14 @@ theorem det_mul_eq_zero_of_lt {R : Type*} [CommRing R] {M n : ℕ} (h : M < n)
   have he : e * eᵀ = 1 := by
     ext i j
     simp only [e, Matrix.mul_apply, Matrix.transpose_apply, Matrix.of_apply, Matrix.one_apply, ite_mul, one_mul,
-      zero_mul, Finset.sum_ite_eq, Finset.mem_univ, if_true, Fin.castLE_inj, eq_comm (a := j)]
+      zero_mul, Finset.sum_ite_eq, Finset.mem_univ, ite_true, Fin.castLE_inj, eq_comm (a := j)]
   have : X * Y = (X * e) * (eᵀ * Y) := by
     rw [Matrix.mul_assoc, ← Matrix.mul_assoc e, he, Matrix.one_mul]
   rw [this, Matrix.det_mul, Matrix.det_eq_zero_of_column_eq_zero (A := X * e) ⟨M, h⟩, zero_mul]
   intro a
   simp only [Matrix.mul_apply, e, Matrix.of_apply]
   refine Finset.sum_eq_zero fun i _ => ?_
-  rw [if_neg, mul_zero]
+  rw [ite_eq_right, mul_zero]
   intro hh
   have := congrArg Fin.val hh
   simp at this
@@ -1225,14 +1164,14 @@ theorem count (c d M n : ℕ) (hd : 1 ≤ d) (h : M < n) :
   | zero =>
     rw [Nat.add_zero, Finset.sum_range_succ, Finset.sum_eq_zero fun i hi => by
       have := Finset.mem_range.1 hi
-      rw [if_pos (by omega)]]
-    rw [if_neg (by omega), if_pos (by omega)]
+      rw [ite_eq_left (by omega)]]
+    rw [ite_eq_right (by omega), ite_eq_left (by omega)]
     have : M + 1 - M = 1 := by omega
     rw [this, mul_one]
     omega
   | succ r ih =>
     rw [show M + 1 + (r + 1) = M + 1 + r + 1 by ring, Finset.sum_range_succ, add_right_comm, ih]
-    rw [if_neg (by omega), if_neg (by omega)]
+    rw [ite_eq_right (by omega), ite_eq_right (by omega)]
     have : M + 1 + r + 1 - M = (M + 1 + r - M) + 1 := by omega
     rw [this, Nat.mul_succ]
     ring
@@ -1246,8 +1185,8 @@ theorem analyticAt_update_zero {G A : ℂ → ℂ} {s₀ c : ℂ} {K N : ℕ} (h
   filter_upwards [eventually_nhdsWithin_iff.1 h] with z hz
   by_cases hzs : z = s₀
   · subst hzs
-    rw [if_pos rfl, sub_self, zero_pow (by omega), zero_mul, mul_zero]
-  · rw [if_neg hzs]
+    rw [ite_eq_left rfl, sub_self, zero_pow (by omega), zero_mul, mul_zero]
+  · rw [ite_eq_right hzs]
     have hx : z - s₀ ≠ 0 := sub_ne_zero.2 hzs
     have h1 := hz hzs
     have hN : (z - s₀) ^ N = (z - s₀) ^ K * (z - s₀) ^ (N - K) := by
@@ -1441,11 +1380,11 @@ theorem whitGenLowOf : WhitGenLowOf := by
     by_cases hx : x = s₀
     · subst hx
       filter_upwards [self_mem_nhdsWithin] with z hz
-      exact (if_neg hz).symm
+      exact (ite_eq_right hz).symm
     · filter_upwards [nhdsWithin_le_nhds (eventually_ne_nhds hx)] with z hz
-      exact (if_neg hz).symm
+      exact (ite_eq_right hz).symm
   · show (if z = s₀ then 0 else G z) = _
-    rw [if_neg (hne z hz)]
+    rw [ite_eq_right (hne z hz)]
     exact hright z hz
 
 end PositivityTheory.SiegelWeilFormula.Gen.WL

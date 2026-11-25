@@ -7,43 +7,6 @@ public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.InertIntegra
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IntegralConjEtaleMemCentralizerMulIntegralGLStatement
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LocalTwistContinuousInvolutionIntegralProperties
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.MemMaxCompactGLOfCommuteEtaleCharpolyBoundedStatement
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Topology.Connected.Separation
-import Mathlib.Topology.MetricSpace.Ultra.TotallySeparated
-import Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange.ArchimedeanBaseChangeProof.ThetaNormCommutation.LocalComparisonSplitting.EulerFactorLevels.PUnitAE
 
 @[expose] public section
 
@@ -82,12 +45,12 @@ theorem eventually_one (hU : Unr E) (n : ℕ) (δ : GL (Fin n) E)
     split_ifs with hs
     · exact hy
     · have h2 : thetaGL n (cj w) (locEl n w δ) = thL n w (locEl n w δ) := by
-        unfold thL; rw [if_neg hs]
+        unfold thL; rw [ite_eq_right hs]
       rw [h2]; exact mul_mem hy (hKθ _ hy)
   refine ⟨hy, fun g hg => ?_, fun t ht hc => ?_⟩
   · by_cases hs : IsSplitAt w
-    · have hθ1 : thL n w = MonoidHom.id _ := by unfold thL; rw [if_pos hs]
-      have hn1 : nrmL n w (locEl n w δ) = locEl n w δ := by unfold nrmL; rw [if_pos hs]
+    · have hθ1 : thL n w = MonoidHom.id _ := by unfold thL; rw [ite_eq_left hs]
+      have hn1 : nrmL n w (locEl n w δ) = locEl n w δ := by unfold nrmL; rw [ite_eq_left hs]
       rw [hn1] at hgood'
       rw [hθ1] at hg ⊢
       obtain ⟨t, ht, k, hk, rfl⟩ := GlobalTheory.T.integral_conj_etale_mem_centralizer_mul_integralGL E n w _ g hy hgood' hg
@@ -97,11 +60,11 @@ theorem eventually_one (hU : Unr E) (n : ℕ) (δ : GL (Fin n) E)
   · refine GlobalTheory.T.mem_maxCompactGL_of_commute_etale_charpoly_bounded E n w (nrmL n w (locEl n w δ)) t hNK hgood' ?_ hc
     have ht' : t * locEl n w δ = locEl n w δ * thL n w t := ht
     by_cases hs : IsSplitAt w
-    · have hθ1 : thL n w = MonoidHom.id _ := by unfold thL; rw [if_pos hs]
-      have hn1 : nrmL n w (locEl n w δ) = locEl n w δ := by unfold nrmL; rw [if_pos hs]
+    · have hθ1 : thL n w = MonoidHom.id _ := by unfold thL; rw [ite_eq_left hs]
+      have hn1 : nrmL n w (locEl n w δ) = locEl n w δ := by unfold nrmL; rw [ite_eq_left hs]
       rw [hn1]; rw [hθ1] at ht'; simpa using ht'
     · have hn1 : nrmL n w (locEl n w δ) = locEl n w δ * thL n w (locEl n w δ) := by
-        unfold nrmL; rw [if_neg hs]; unfold thL; rw [if_neg hs]
+        unfold nrmL; rw [ite_eq_right hs]; unfold thL; rw [ite_eq_right hs]
       rw [hn1]
       calc t * (locEl n w δ * thL n w (locEl n w δ))
           = locEl n w δ * thL n w t * thL n w (locEl n w δ) := by rw [← mul_assoc, ht']
@@ -125,7 +88,24 @@ theorem isCompact_snd {A B : Type} [Group A] [TopologicalSpace A] [Group B] [Top
   rintro _ ⟨k, rfl⟩
   exact ⟨t ^ k, subset_closure ⟨k, rfl⟩, by simp⟩
 
-theorem main : PositivityTheory.Rg.BcB.G8.Fin.UnitAE := @_root_.PositivityTheory.Rg.BcB.G8.Fin.unitAE_holds
+theorem main : PositivityTheory.Rg.BcB.G8.Fin.UnitAE := by
+  intro E _ _ _ hU a b S _ δ₁ δ₂ h₁ h₂
+  have e₁ := eventually_one hU a δ₁ h₁.2.2.1
+  have e₂ := eventually_one hU b δ₂ h₂.2.2.1
+  have hT : Tendsto (Subtype.val : {w : Pl E // w ∈ S} → Pl E) cofinite cofinite :=
+    Subtype.val_injective.tendsto_cofinite
+  filter_upwards [hT.eventually e₁, hT.eventually e₂] with w hw₁ hw₂ y hy
+  subst hy
+  obtain ⟨i₁, u₁, c₁⟩ := hw₁
+  obtain ⟨i₂, u₂, c₂⟩ := hw₂
+  refine ⟨⟨i₁, i₂⟩, fun g hg => ?_, (Subgroup.closure_le _).2 ?_⟩
+  · obtain ⟨t₁, ht₁, k₁⟩ := u₁ g.1 hg.1
+    obtain ⟨t₂, ht₂, k₂⟩ := u₂ g.2 hg.2
+    refine ⟨(t₁, t₂), ?_, ⟨k₁, k₂⟩⟩
+    exact Prod.ext ht₁ ht₂
+  · rintro t ⟨ht, hc⟩
+    have ht' : t * _ = _ * _ := ht
+    exact ⟨c₁ t.1 (congrArg Prod.fst ht') (isCompact_fst t hc), c₂ t.2 (congrArg Prod.snd ht') (isCompact_snd t hc)⟩
 
 end GlobalTheory.CompanionTheory.UnitAEPair
 

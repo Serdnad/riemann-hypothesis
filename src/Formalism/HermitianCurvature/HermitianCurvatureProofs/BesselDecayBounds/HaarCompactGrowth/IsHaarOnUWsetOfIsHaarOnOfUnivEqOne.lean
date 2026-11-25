@@ -12,47 +12,8 @@ public import Formalism.HermitianCurvature.HermitianCurvatureProofs.ConjugationI
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.UnipotentHeisenbergDecomposition
 public import Formalism.SharpRestriction.CuspSpanNormBounds.BridgeLemma3
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.ConjugationContinuousOnInvertible
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Topology.Sheaves.Init
 import Mathlib.LinearAlgebra.Matrix.FiniteDimensional
-import Mathlib.Tactic.ReduceModChar
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.OppositeWeylSubgroupClosed
-import Mathlib.Tactic.Linter.HaveILetI
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Formalism.HermitianCurvature.HermitianCurvatureProofs.BesselDecayBounds.BesselIntegrability.LieNUpper, Formalism.HermitianCurvature.HermitianCurvatureProofs.BesselDecayBounds.HaarCompactGrowth.ExpUpper, Formalism.HermitianCurvature.HermitianCurvatureProofs.BesselDecayBounds.HaarCompactGrowth.IsHaarOnUWsetOfIsHaarOnOfUnivEqOne
@@ -98,16 +59,16 @@ theorem lieNUpper : LieNUpper := by
   simp only [Matrix.add_apply, Matrix.mul_apply, Matrix.zero_apply, Matrix.conjTranspose_apply] at e
   have s1 : ∑ l, star (X l p) * Hpk k r l j = star (X b p) := by
     rw [Finset.sum_eq_single b]
-    · rw [hpk_col_f _ _ hj2, if_pos (by omega), mul_one]
+    · rw [hpk_col_f _ _ hj2, ite_eq_left (by omega), mul_one]
     · intro l _ hl
-      rw [hpk_col_f _ _ hj2, if_neg, mul_zero]
+      rw [hpk_col_f _ _ hj2, ite_eq_right, mul_zero]
       intro h; apply hl; ext; omega
     · simp
   have s2 : ∑ l, Hpk k r p l * X l j = X i j := by
     rw [Finset.sum_eq_single i]
-    · rw [hpk_row_e _ _ (by omega), if_pos (by omega), one_mul]
+    · rw [hpk_row_e _ _ (by omega), ite_eq_left (by omega), one_mul]
     · intro l _ hl
-      rw [hpk_row_e _ _ (by omega), if_neg, zero_mul]
+      rw [hpk_row_e _ _ (by omega), ite_eq_right, zero_mul]
       intro h; apply hl; ext; omega
     · simp
   have hz : X b p = 0 := hA1 ⟨p.val, by omega⟩ b (by simp only; omega)

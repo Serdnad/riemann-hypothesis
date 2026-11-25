@@ -1,59 +1,11 @@
 module
 
-import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.ValuationLatticeMatrixReduction
-import Formalism.CoboundaryTransfers.GammaStableTransfers.TorsionKilledCriterionHolds
 public import Formalism.LagrangeIdealLifts.Statement
 public import Mathlib.Algebra.Polynomial.Roots
 public import Formalism.WindowSums.AnnihilatorPolynomials.ZpowVal
 public import Formalism.WindowSums.AnnihilatorPolynomials.ValProd
 public import Mathlib.Algebra.Polynomial.Div
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Topology.Sheaves.Init
-import Mathlib.Tactic.Basify
-import Std.Tactic.BVDecide.Normalize.Prop
-import Mathlib.Tactic.ENatToNat
 import Mathlib.Tactic.Lemma
-import Mathlib.Tactic.Linter.Style
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Formalism.LagrangeIdealLifts.CocyclePolynomialDivision.Graded, Formalism.LagrangeIdealLifts.CocyclePolynomialDivision.LagrangeIdeal, Formalism.LagrangeIdealLifts.CocyclePolynomialDivision.LagrangeIdealCyc, Formalism.LagrangeIdealLifts.CocyclePolynomialDivision.UChase, Formalism.LagrangeIdealLifts.CocyclePolynomialDivision.UClaim, Formalism.LagrangeIdealLifts.LiftLagrangeIdealInt
@@ -238,8 +190,21 @@ open Polynomial
 theorem prod_X_sub_C_dvd_of_injOn {R : Type} [CommRing R] [IsDomain R] {ι : Type}
     (S : Finset ι) (c : ι → R) (hc : Set.InjOn c S) (G : R[X])
     (hG : ∀ a ∈ S, G.eval (c a) = 0) : (∏ a ∈ S, (X - C (c a))) ∣ G := by
-  intros
-  apply _root_.GlobalTheory.EigenSubFree.prod_X_sub_C_dvd <;> assumption
+  classical
+  by_cases hG0 : G = 0
+  · rw [hG0]
+    exact dvd_zero _
+  have hle : S.val.map c ≤ G.roots := by
+    rw [Multiset.le_iff_subset (Multiset.Nodup.map_on (fun a ha b hb hab => hc ha hb hab) S.nodup)]
+    intro x hx
+    obtain ⟨a, ha, rfl⟩ := Multiset.mem_map.mp hx
+    exact (Polynomial.mem_roots hG0).mpr (hG a ha)
+  calc (∏ a ∈ S, (X - C (c a))) = ((S.val.map c).map fun x => X - C x).prod := by
+        rw [Multiset.map_map]
+        rfl
+    _ ∣ (G.roots.map fun x => X - C x).prod :=
+        Multiset.prod_dvd_prod_of_le (Multiset.map_le_map hle)
+    _ ∣ G := Polynomial.prod_multiset_X_sub_C_dvd G
 
 theorem lagrangian_ideal_holds : LagrangeIdeal := by
   intro R _ _ ℓ ι _ S₁ S₂ c w hdisj hw
@@ -745,7 +710,21 @@ namespace CocyclePolynomialSubmodules
 theorem aeval_pres {R E : Type} [CommRing R] [AddCommGroup E] [Module R E] (f : E →ₗ[R] E)
     (S : Submodule R E) (hf : ∀ y ∈ S, f y ∈ S) (p : Polynomial R) :
     ∀ y ∈ S, Polynomial.aeval f p y ∈ S := by
-  apply _root_.Formalism.CoboundaryTransfers.aeval_stable <;> assumption
+  intro y hy
+  induction p using Polynomial.induction_on' with
+  | add p q hp hq =>
+    rw [map_add (f := _), LinearMap.add_apply]
+    exact S.add_mem hp hq
+  | monomial n a =>
+    rw [Polynomial.aeval_monomial, Module.End.mul_apply, Module.algebraMap_end_apply]
+    apply S.smul_mem
+    induction n with
+    | zero =>
+      rw [pow_zero, Module.End.one_apply]
+      exact hy
+    | succ n ih =>
+      rw [pow_succ', Module.End.mul_apply]
+      exact hf _ ih
 
 variable {ℓ : ℕ} [Fact ℓ.Prime] {A : Type} [CommRing A] [Algebra ℤ_[ℓ] A]
   {B : Base ℓ A} {M : ℕ} {D : Type} [AddCommGroup D] [Module A D] [Module ℤ_[ℓ] D]
@@ -910,7 +889,7 @@ theorem main (P : Polynomial ℤ_[ℓ]) (cG : ℤ_[ℓ]) (hcG : cG ≠ 0)
 
 end CocyclePolynomialSubmodules
 
-theorem uClaim_of (hU : UGraded) (_hG : GradedStep) : UClaim := by
+theorem uClaim_of (hU : UGraded) : UClaim := by
   intro ℓ _ A _ _ B M D _ _ _ _ W s J hs hs2 hv hJ h1 h2 h3 h4
   have hcG : (∏ i ∈ Finset.Icc 1 M, ((B.u : ℤ_[ℓ]) ^ i - 1)) ≠ 0 := by
     rw [Finset.prod_ne_zero_iff]
@@ -941,7 +920,7 @@ section -- clump:auto
 namespace Formalism.LIFT
 
 theorem lift_WBTail : WBTail := wBTail_of gammaGradedStep_holds (lagrangeIdealCyc_of lagrangian_ideal_holds)
-theorem lift_LemmaU : LemmaU := lemmaU_of (uClaim_of (uGraded_of gammaGradedStep_holds) gammaGradedStep_holds) uChase_proof
+theorem lift_LemmaU : LemmaU := lemmaU_of (uClaim_of (uGraded_of gammaGradedStep_holds)) uChase_proof
 
 end Formalism.LIFT
 end -- clump:auto

@@ -223,8 +223,7 @@ theorem UpperTheory.addChar_inverseDifferent_and_residue_sum_eq_zero :
     have e : a = b + (a - b) := by ring
     rw [e, hadd, hker _ hab, mul_one]
   obtain ⟨b0, hb0⟩ : ∃ b0 : 𝓞 F, ψ b0 ≠ 1 := by
-    by_contra hcon
-    push_neg at hcon
+    by_contra! hcon
     have hdual := (UpperTheory.mem_dual_one_iff_trace_mul_int F η).mpr (fun b => (key _).mpr (hcon b))
     exact UpperTheory.false_of_mem_dual_of_valuation_eq_different_succ F η w hdual hw
   have hsum : ψ b0 * ∑ r, ψ (s r) = ∑ r, ψ (s r) := by
@@ -532,13 +531,9 @@ private theorem aff_mul {R : Type} [CommRing R] (y z : Rˣ) (x t : R) : aff y x 
   ext i j
   fin_cases i <;> fin_cases j <;> simp [aff, Matrix.mul_apply, Fin.sum_univ_succ, add_comm]
 
-private theorem aff_one {R : Type} [CommRing R] : aff (1 : Rˣ) (0 : R) = 1 := by
-  ext i j
-  fin_cases i <;> fin_cases j <;> simp [aff]
-
 private theorem aff_inv {R : Type} [CommRing R] (y : Rˣ) : (aff y (0 : R))⁻¹ = aff y⁻¹ 0 := by
   rw [inv_eq_iff_mul_eq_one, aff_mul]
-  simp [aff_one]
+  simp [aff_zero']
 
 private theorem exists_idele (w : Pl F) (x : (w.adicCompletion F)ˣ) : ∃ u : (Af F)ˣ, pLoc F w u = x ∧
     (∀ v, v ≠ w → pLoc F v u = 1) ∧ ∀ t, locGL F 2 w (aff x t) = aff u (sLoc F w t) := by
@@ -557,7 +552,7 @@ private theorem exists_idele (w : Pl F) (x : (w.adicCompletion F)ˣ) : ∃ u : (
     rw [pLoc_locGL, pLoc_sLoc]
     congr 1
     exact Units.ext h1.symm
-  · rw [pLoc_locGL_of_ne hv, ← aff_one, pLoc_sLoc_of_ne hv]
+  · rw [pLoc_locGL_of_ne hv, ← aff_zero', pLoc_sLoc_of_ne hv]
     congr 1
     exact Units.ext (h2 v hv).symm
 

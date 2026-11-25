@@ -1,8 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsPlacewiseSeesawTripleOverHermitianStatement
-import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsWeilRepOrientedPairRationalSchrodingerStatement
-import Development.AutomorphicArithmetic.ThetaCorrespondence.ThetaPairLifts.LocalTypeDictionary.WeilProjectionKInftyInvariant
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.IsPairReading
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.GramHspOf
 public import Formalism.LocalToGlobal.Columns.BrpStarLatLattice
@@ -130,7 +127,6 @@ open Formalism.IndefR Formalism.IndefR.Links Formalism.IndefR.Mult Formalism.Ind
 open GlobalTheory.Grid GlobalTheory.Doubling GlobalTheory.ChainFr GlobalTheory.IndefiniteRowSideFullHecke.MatchingAdjoints
 open scoped TensorProduct
 
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 open GlobalTheory.SquareComm
 open scoped ComplexConjugate
 open NumberField IsDedekindDomain Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes GlobalTheory.WeilM GlobalTheory.AdelicU GlobalTheory.LFun
@@ -158,8 +154,16 @@ theorem actE_eq_of_conj_related {R : Type} [CommRing R] {n m k : ℕ} (e : Fin k
   rw [hu]
 
 theorem unit_aux {R : Type} [CommRing R] {n : ℕ} (c : R →+* R) (P P' K G : Matrix (Fin n) (Fin n) R)
-    (hPP : P * P' = 1) (hK : Kᵀ = -G) (h : (P.map c)ᵀ * K * P = K) : Pᵀ * G = G * P'.map c :=
-  _root_.GlobalTheory.SquareAgree.unit_aux c P P' K G hPP hK h
+    (hPP : P * P' = 1) (hK : Kᵀ = -G) (h : (P.map c)ᵀ * K * P = K) : Pᵀ * G = G * P'.map c := by
+  have h' := congrArg Matrix.transpose h
+  rw [Matrix.transpose_mul, Matrix.transpose_mul, Matrix.transpose_transpose, ← Matrix.mul_assoc, hK,
+    Matrix.mul_neg, Matrix.neg_mul, neg_inj] at h'
+  have hc : P.map c * P'.map c = 1 := by
+    rw [← Matrix.map_mul, hPP]
+    exact Matrix.map_one _ (map_zero _) (map_one _)
+  calc Pᵀ * G = Pᵀ * G * (P.map c * P'.map c) := by rw [hc, Matrix.mul_one]
+    _ = (Pᵀ * G * P.map c) * P'.map c := by simp only [Matrix.mul_assoc]
+    _ = G * P'.map c := by rw [h']
 
 theorem eq_submatrix_symm {α : Type} {a b : ℕ} (f : Fin a ≃ Fin b) (M : Matrix (Fin b) (Fin b) α)
     (N : Matrix (Fin a) (Fin a) α) (h : M.submatrix f f = N) : M = N.submatrix f.symm f.symm := by
@@ -238,8 +242,29 @@ theorem conj_herm {D : D7} (V : HSp D) :
 
 theorem isCartan_conj {n : ℕ} {G S : Matrix (Fin n) (Fin n) ℂ} {κ : ℝ} (hκ : 0 < κ) (h : IsCartanInv G S) :
     GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.IsCartan ((κ : ℂ) • G) (S.map (starRingEnd ℂ)) := by
-  intros
-  apply _root_.GlobalTheory.PlaceSpaces.isCartan_smul_conj <;> assumption
+  obtain ⟨hSS, hSGS, hGS⟩ := h
+  have hSG : Sᴴ * G = G * S := by
+    calc Sᴴ * G = Sᴴ * G * (S * S) := by rw [hSS, Matrix.mul_one]
+      _ = (Sᴴ * G * S) * S := by simp only [Matrix.mul_assoc]
+      _ = G * S := by rw [hSGS]
+  have hT : (S.map (starRingEnd ℂ))ᵀ = Sᴴ := by
+    ext i j; simp [Matrix.conjTranspose_apply]
+  have hMM : (S.map (starRingEnd ℂ)).map star = S := by
+    ext i j; simp
+  refine ⟨?_, ?_, ?_⟩
+  · rw [← Matrix.map_mul, hSS, Matrix.map_one _ (map_zero _) (map_one _)]
+  · rw [hT, hMM, Matrix.mul_smul, Matrix.smul_mul, hSGS]
+  · intro x hx
+    have hy : star x ≠ 0 := by simpa using hx
+    have hv : S.map (starRingEnd ℂ) *ᵥ x = star (S *ᵥ star x) := by
+      ext i; simp [Matrix.mulVec, dotProduct, star_sum, Pi.star_apply, mul_comm]
+    have hpos : ((κ : ℂ) • (G * S)).PosDef := hGS.smul (by exact_mod_cast hκ)
+    have key : (S.map (starRingEnd ℂ) *ᵥ x) ⬝ᵥ ((κ : ℂ) • G) *ᵥ star x =
+        star (star x) ⬝ᵥ (((κ : ℂ) • (G * S)) *ᵥ star x) := by
+      rw [hv, Matrix.star_mulVec, ← Matrix.dotProduct_mulVec, Matrix.mulVec_mulVec, Matrix.mul_smul, hSG]
+    rw [key]
+    have := hpos.dotProduct_mulVec_pos hy
+    exact (Complex.lt_def.1 this).1
 
 theorem isVac_of_bot {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] {σ : E →ₐ[F] E}
     {n d : ℕ} {Y : GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.Spc F E n} {Z : GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.Spc F E d} (Mo : GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.Model σ Y Z)
@@ -263,8 +288,6 @@ theorem isVac_of_bot {F E : Type} [Field F] [NumberField F] [Field E] [NumberFie
     funext x
     simp [GlobalTheory.WeilM.Darboux.rho, GlobalTheory.WeilM.schr, GlobalTheory.WeilM.symp, GlobalTheory.WeilM.hTens]
 
-
-
 theorem exists_weil_transp {D : D7} (ψ : AddChar (AF D.host.F) ℂ) (ε : Bool) (S X : HSp D)
     (Vs : GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.Spc D.host.F D.host.E S.rank) (Ws : GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.Spc D.host.F D.host.E X.rank)
     (hJ : Vs.J = GlobalTheory.RealDict.sgE (D := D) ε • S.gram)
@@ -277,7 +300,6 @@ theorem exists_weil_transp {D : D7} (ψ : AddChar (AF D.host.F) ℂ) (ε : Bool)
     ∃ om : GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.Rep D.sp.cm.sig Vs Ws, M.IsWeil ψ χ χ' om ∧
       GlobalTheory.TripleRead.IsTransp ψ ε M om ω (Equiv.refl (Fin X.rank)) (GlobalTheory.IndefiniteRowSideFullHecke.UnitaryConjugation.conjU S (GlobalTheory.RealDict.sgE (D := D) ε) hJ)
         (GlobalTheory.TripleRead.toUX X (Equiv.refl (Fin X.rank)) hJW) := by
-  set_option backward.isDefEq.respectTransparency false in
     have hω' : IsWeilDatumO ψ (sgn ε S) X χ χ' (ω.toSgn ε) := hω
     obtain ⟨h1, h2, L0, hL0, h3⟩ := conj_herm (neg (sgn ε S))
     let Th : HSp D := GlobalTheory.WeilSchrodinger.hspOf D (k := S.rank) (neg (sgn ε S)).gramᵀ h1 h2 L0 hL0 h3 (fun _ => (0, 0))
@@ -320,7 +342,7 @@ theorem exists_weil_transp {D : D7} (ψ : AddChar (AF D.host.F) ℂ) (ε : Bool)
       have hu := unit_aux (cA D) _ _ _ _ hPP hTinc (GlobalTheory.IndefiniteRowSideFullHecke.UnitaryConjugation.mt_gram Th h)
       exact (hLx _).trans (actE_eq_of_conj_related e _ x _ _ _ _ _ _ (hLx x) hg hh hu)
 
-    obtain ⟨ω', hω'', hrel⟩ := GlobalTheory.T.isWeilDatum_comp_group_swapping_symplectic_equiv D ψ (sgn ε S) X Sh Th rfl rfl L φ.toMonoidHom φ'.toMonoidHom hLc hLc' hLQ
+    obtain ⟨ω', hω'', hrel⟩ := GlobalTheory.SwapWeil.isWeilDatumO_swap D ψ (sgn ε S) X Sh Th rfl rfl L φ.toMonoidHom φ'.toMonoidHom hLc hLc' hLQ
       (fun x y => by rw [hL1, hL1]; exact hsy x y) hLi hLf hφc hφ'c hφQ hφ'Q hact hφS hφ'S hφd hφ'd χ χ' (ω.toSgn ε) hω'
     have hA : Vs.J = Th.gramᵀ := (gram_neg_sgn ε S hJ).trans hT'.symm
     have hB : (-1 : AF D.host.F ⊗[D.host.F] D.host.E) • GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.incM D.host.F Ws.J =
@@ -328,7 +350,7 @@ theorem exists_weil_transp {D : D7} (ψ : AddChar (AF D.host.F) ℂ) (ε : Bool)
       rw [hS', hJW]
       funext i j
       simp [GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.incM, e]
-    obtain ⟨om, hom⟩ := GlobalTheory.T.exists_weilDatum_transport_adelicSchwartz_thetaTransform D ψ hω'.std Sh Th χ' χ hω''.hecS hω''.hecT hω''.resS hω''.resT Vs.J Ws.J (-1) hA hB
+    obtain ⟨om, hom⟩ := GlobalTheory.ThetaTransform.exists_isTransport D ψ hω'.std Sh Th χ' χ hω''.hecS hω''.hecT hω''.resS hω''.resT Vs.J Ws.J (-1) hA hB
       (Fin S.rank × Fin X.rank) M.co hrat ω' hω''
     have h2 := GlobalTheory.T.transportedWeil_preserves_schwartz_heisenberg_equivariant D ψ hω'.std Sh Th χ' χ hω''.hecS hω''.hecT hω''.resS hω''.resT Vs.J Ws.J (-1) hA hB
       (Fin S.rank × Fin X.rank) M.co hrat ω' hω'' om hom
@@ -336,11 +358,11 @@ theorem exists_weil_transp {D : D7} (ψ : AddChar (AF D.host.F) ℂ) (ε : Bool)
       (Fin S.rank × Fin X.rank) M.co hrat ω' hω'' om hom
     have h4 := GlobalTheory.T.transportedWeilDatum_isUnitary_adelicSchwartz D ψ hω'.std Sh Th χ' χ hω''.hecS hω''.hecT hω''.resS hω''.resT Vs.J Ws.J (-1) hA hB
       (Fin S.rank × Fin X.rank) M.co hrat ω' hω'' om hom
-    have h5 := GlobalTheory.T.continuous_transported_weilDatum_adelicSchwartz D ψ hω'.std Sh Th χ' χ hω''.hecS hω''.hecT hω''.resS hω''.resT Vs.J Ws.J (-1) hA hB
+    have h5 := _root_.GlobalTheory.WeilCont.continuous_transport D ψ hω'.std Sh Th χ' χ hω''.hecS hω''.hecT hω''.resS hω''.resT Vs.J Ws.J (-1) hA hB
       (Fin S.rank × Fin X.rank) M.co hrat ω' hω'' om hom
-    have h6 := GlobalTheory.T.exists_doubledWeil_blockEmbedding_acts_on_first_boxFactor D ψ hω'.std Sh Th χ' χ hω''.hecS hω''.hecT hω''.resS hω''.resT Vs.J Ws.J (-1) hA hB
+    have h6 := _root_.GlobalTheory.DblSchr.doubledModel D ψ hω'.std Sh Th χ' χ hω''.hecS hω''.hecT hω''.resS hω''.resT Vs.J Ws.J (-1) hA hB
       (Fin S.rank × Fin X.rank) M.co hrat ω' hω'' om hom
-    have h7 := GlobalTheory.T.exists_doubled_schrodingerModel_transposed_siegelRule D ψ hω'.std Sh Th χ' χ hω''.hecS hω''.hecT hω''.resS hω''.resT Vs.J Ws.J (-1) hA hB
+    have h7 := _root_.GlobalTheory.WeilSchrodinger.DblTarget.exists_dbl_target D ψ hω'.std Sh Th χ' χ hω''.hecS hω''.hecT hω''.resS hω''.resT Vs.J Ws.J (-1) hA hB
       (Fin S.rank × Fin X.rank) M.co hrat ω' hω'' om hom
     have hsp : GlobalTheory.WeilM.IsUSplitting (GlobalTheory.WeilM.adeleClass D.host.F) ψ M.co
         (GlobalTheory.WeilM.actAB (GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.cA D.sp.cm.sig)) om := ⟨⟨h2.1, h2.2, h3⟩, h4, h5⟩
@@ -396,7 +418,6 @@ open Formalism.L2.Theta Formalism.L2.DIV Formalism.L2.Indef Formalism.DivisionVa
 open Formalism.IndefR Formalism.IndefR.Links Formalism.IndefR.Mult Formalism.IndefR.Datum
 open GlobalTheory.Grid GlobalTheory.Doubling GlobalTheory.ChainFr GlobalTheory.IndefiniteRowSideFullHecke.MatchingAdjoints
 open scoped TensorProduct
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 open GlobalTheory.SquareComm
 open scoped ComplexConjugate
 open NumberField IsDedekindDomain Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes GlobalTheory.WeilM GlobalTheory.AdelicU GlobalTheory.LFun
@@ -502,7 +523,6 @@ open Formalism.L2.Theta Formalism.L2.DIV Formalism.L2.Indef Formalism.DivisionVa
 open Formalism.IndefR Formalism.IndefR.Links Formalism.IndefR.Mult Formalism.IndefR.Datum
 open GlobalTheory.Grid GlobalTheory.Doubling GlobalTheory.ChainFr GlobalTheory.IndefiniteRowSideFullHecke.MatchingAdjoints
 open scoped TensorProduct
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 open GlobalTheory.SquareComm
 open scoped ComplexConjugate
 open NumberField IsDedekindDomain Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes GlobalTheory.WeilM GlobalTheory.AdelicU GlobalTheory.LFun
@@ -547,7 +567,6 @@ open Formalism.IndefR Formalism.IndefR.Links Formalism.IndefR.Mult Formalism.Ind
 open GlobalTheory.Grid GlobalTheory.Doubling GlobalTheory.ChainFr GlobalTheory.IndefiniteRowSideFullHecke.MatchingAdjoints
 open scoped TensorProduct
 
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 open GlobalTheory.SquareComm
 open scoped ComplexConjugate
 open NumberField IsDedekindDomain Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes GlobalTheory.WeilM GlobalTheory.AdelicU GlobalTheory.LFun
@@ -595,8 +614,7 @@ theorem restTr : ∀ {F : Type} [Field F] [NumberField F] {κ : Type} [Fintype �
     rw [hrg x]
 
   obtain ⟨x₀, hx₀⟩ : ∃ x₀, f x₀ ≠ 0 := by
-    by_contra h
-    push_neg at h
+    by_contra! h
     exact hf (SchwartzMap.ext h)
   let a : κ → InfiniteAdeleRing F := fun i => (InfiniteAdeleRing.ringEquiv_mixedSpace F).symm (x₀ i)
   let Λ : ((κ → AF F) → ℂ) →ₗ[ℂ] ((κ → FiniteAdeleRing (𝓞 F) F) → ℂ) :=
@@ -642,13 +660,11 @@ open Formalism.IndefR Formalism.IndefR.Links Formalism.IndefR.Mult Formalism.Ind
 open GlobalTheory.Grid GlobalTheory.Doubling GlobalTheory.ChainFr GlobalTheory.IndefiniteRowSideFullHecke.MatchingAdjoints
 open scoped TensorProduct
 
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 open GlobalTheory.SquareComm
 open scoped ComplexConjugate
 open NumberField IsDedekindDomain Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes GlobalTheory.WeilM GlobalTheory.AdelicU GlobalTheory.LFun
 
 open scoped GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels
-
 
 theorem _root_.GlobalTheory.T.complementaryAdelicSchwartz_archimedean_replace : ∀ {F : Type} [Field F] [NumberField F] {κ : Type} [Fintype κ] (f f₁ : GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.SInf F κ) (r : (κ → AF F) → ℂ),
     GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.Rest (GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.evI F) f r → f ≠ 0 → GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.Rest (GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.evI F) f₁ r := by
@@ -668,7 +684,6 @@ open Formalism.L2.Theta Formalism.L2.DIV Formalism.L2.Indef Formalism.DivisionVa
 open Formalism.IndefR Formalism.IndefR.Links Formalism.IndefR.Mult Formalism.IndefR.Datum
 open GlobalTheory.Grid GlobalTheory.Doubling GlobalTheory.ChainFr GlobalTheory.IndefiniteRowSideFullHecke.MatchingAdjoints
 open scoped TensorProduct
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 open GlobalTheory.SquareComm
 open scoped ComplexConjugate
 open NumberField IsDedekindDomain Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes GlobalTheory.WeilM GlobalTheory.AdelicU GlobalTheory.LFun
@@ -717,7 +732,6 @@ open Formalism.L2.Theta Formalism.L2.DIV Formalism.L2.Indef Formalism.DivisionVa
 open Formalism.IndefR Formalism.IndefR.Links Formalism.IndefR.Mult Formalism.IndefR.Datum
 open GlobalTheory.Grid GlobalTheory.Doubling GlobalTheory.ChainFr GlobalTheory.IndefiniteRowSideFullHecke.MatchingAdjoints
 open scoped TensorProduct
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 open GlobalTheory.SquareComm
 open scoped ComplexConjugate
 open NumberField IsDedekindDomain Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes GlobalTheory.WeilM GlobalTheory.AdelicU GlobalTheory.LFun
@@ -756,7 +770,7 @@ theorem lie_derivative_mem_coinvariants : _root_.GlobalTheory.FunPr.ThetaLocalIn
     · change (-M.gram).det ≠ 0
       rw [Matrix.det_neg]
       exact mul_ne_zero (pow_ne_zero _ (by norm_num)) hGM
-  obtain ⟨T, hT, hTinj⟩ := GlobalTheory.T.thetaTransform_darbouxModel_linear_injective D Mo ψ' (sgn ε M).gram (Equiv.refl _) hR.good hstd hdetX hdetW hG
+  obtain ⟨T, hT, hTinj⟩ := GlobalTheory.ThetaTransformInj.linear_injective D Mo ψ' (sgn ε M).gram (Equiv.refl _) hR.good hstd hdetX hdetW hG
   have hΦ1 : Φ 1 ≠ 0 := fun h => one_ne_zero (hinj (h.trans (map_zero Φ).symm))
   have hRf₁ : GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.Rest (GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.evI D.host.F) f₁ r := GlobalTheory.T.complementaryAdelicSchwartz_archimedean_replace _ f₁ r (hFr 1).1 hΦ1
   have hRQ := (hFr Q).1
@@ -793,8 +807,7 @@ theorem lie_derivative_mem_coinvariants : _root_.GlobalTheory.FunPr.ThetaLocalIn
     rw [e1, map_sub, hT _ hRf₁.2, hT _ hRQ.2, funext key, sub_self]
   have hz := hTinj _ hmem hT0
   have hr : ∃ x₀, r x₀ ≠ 0 := by
-    by_contra hcon
-    push_neg at hcon
+    by_contra! hcon
     have h0 : GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.tens (GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.evI D.host.F) (Φ 1) r = 0 := funext fun x => by
       simp [GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.tens, hcon]
     have h2 := (hFr 1).2
@@ -848,7 +861,6 @@ open Formalism.IndefR Formalism.IndefR.Links Formalism.IndefR.Mult Formalism.Ind
 open GlobalTheory.Grid GlobalTheory.Doubling GlobalTheory.ChainFr GlobalTheory.IndefiniteRowSideFullHecke.MatchingAdjoints
 open scoped TensorProduct
 
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 open GlobalTheory.SquareComm
 open scoped ComplexConjugate
 open NumberField IsDedekindDomain Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes GlobalTheory.WeilM GlobalTheory.AdelicU GlobalTheory.LFun
@@ -859,8 +871,18 @@ namespace GlobalTheory.CompactStable
 
 theorem hasDerivAt_linear {X E : Type} [NormedAddCommGroup E] [NormedSpace ℂ E] (U : Submodule ℂ (X → ℂ))
     [FiniteDimensional ℂ U] (φ : (X → ℂ) →ₗ[ℂ] E) {u : ℝ → X → ℂ} {u' : X → ℂ} {t : ℝ} (hu : ∀ s, u s ∈ U) (hu' : u' ∈ U)
-    (hd : ∀ z, HasDerivAt (fun s => u s z) (u' z) t) : HasDerivAt (fun s => φ (u s)) (φ u') t :=
-  _root_.GlobalTheory.KInvData.hasDerivAt_linear U φ hu hu' hd
+    (hd : ∀ z, HasDerivAt (fun s => u s z) (u' z) t) : HasDerivAt (fun s => φ (u s)) (φ u') t := by
+  rw [hasDerivAt_iff_tendsto_slope]
+  have h1 : Filter.Tendsto (slope u t) (nhdsWithin t {t}ᶜ) (nhds u') := by
+    rw [tendsto_pi_nhds]
+    intro z
+    exact hasDerivAt_iff_tendsto_slope.1 (hd z)
+  have hm : ∀ s, slope u t s ∈ U := fun s => U.smul_of_tower_mem _ (U.sub_mem (hu s) (hu t))
+  have h2 : Filter.Tendsto (fun s => (⟨slope u t s, hm s⟩ : U)) (nhdsWithin t {t}ᶜ) (nhds ⟨u', hu'⟩) :=
+    tendsto_subtype_rng.2 h1
+  have h3 := ((φ ∘ₗ U.subtype).continuous_of_finiteDimensional.tendsto _).comp h2
+  refine h3.congr fun s => ?_
+  simp [slope, LinearMap.map_smul_of_tower]
 
 theorem oneParam_stable {X Q : Type} [AddCommGroup Q] [Module ℂ Q] (ι : Q →ₗ[ℂ] (X → ℂ)) (hι : Function.Injective ι)
     (V N : Submodule ℂ Q) [FiniteDimensional ℂ V] (ρ : ℝ → Module.End ℂ (X → ℂ)) (h0 : ρ 0 = 1)
@@ -960,8 +982,8 @@ theorem mem_closure_elt {V : HSp D} (B : Fr V) {a : GA D V} (ha : a ∈ GinfC V)
   have hu : ∀ s : Finset D.what₂.Tau, Eqv.IsUnitFam D V (fun τ => if τ ∈ s then gs τ else 1) := by
     intro s τ
     by_cases hτ : τ ∈ s
-    · simp only [hτ, if_true]; exact hgs τ
-    · simp only [hτ, if_false]; simp
+    · simp only [hτ, ite_true]; exact hgs τ
+    · simp only [hτ, ite_false]; simp
   have key : ∀ s : Finset D.what₂.Tau, Eqv.famH D V _ (hu s) ∈
       Submonoid.closure {x | ∃ τ, ∃ k ∈ Formalism.REAL.Kset (B.ε τ), x = B.elt (Eqv.thetaC D) τ k} := by
     intro s
@@ -1129,8 +1151,26 @@ theorem tens_inj {F : Type} [Field F] [NumberField F] {κ : Type} {r : (κ → A
     (hr : ∀ x z, GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.At (GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.evI F) z → r (x + z) = r x) (h0 : r ≠ 0)
     {f g : (κ → mixedEmbedding.mixedSpace F) → ℂ}
     (h : GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.tens (GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.evI F) f r = GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.tens (GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.evI F) g r) : f = g := by
-  intros
-  apply _root_.GlobalTheory.RealDict.CompactCoinv.eq_of_tens <;> assumption
+  obtain ⟨x, hx⟩ := Function.ne_iff.1 h0
+  funext y
+  let z : κ → AF F := fun i => ((InfiniteAdeleRing.ringEquiv_mixedSpace F).symm (y i) - (x i).1, 0)
+  have hz : GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.At (GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.evI F) z := by
+    intro u hu
+    have hu1 : u.1 = 0 := (map_eq_zero_iff _ (InfiniteAdeleRing.ringEquiv_mixedSpace F).injective).1 hu
+    funext i
+    refine Prod.ext ?_ ?_
+    · show u.1 * _ = 0
+      rw [hu1, zero_mul]
+    · show u.2 * 0 = 0
+      rw [mul_zero]
+  have he : (fun i => GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.evI F ((x + z) i)) = y := by
+    funext i
+    show InfiniteAdeleRing.ringEquiv_mixedSpace F ((x i).1 + ((InfiniteAdeleRing.ringEquiv_mixedSpace F).symm (y i) - (x i).1)) = _
+    rw [add_sub_cancel, RingEquiv.apply_symm_apply]
+  have := congrFun h (x + z)
+  simp only [GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.tens] at this
+  rw [he, hr x z hz] at this
+  exact mul_right_cancel₀ hx this
 
 end GlobalTheory.CompactStable
 
@@ -1150,7 +1190,6 @@ open Formalism.L2.Theta Formalism.L2.DIV Formalism.L2.Indef Formalism.DivisionVa
 open Formalism.IndefR Formalism.IndefR.Links Formalism.IndefR.Mult Formalism.IndefR.Datum
 open GlobalTheory.Grid GlobalTheory.Doubling GlobalTheory.ChainFr GlobalTheory.IndefiniteRowSideFullHecke.MatchingAdjoints
 open scoped TensorProduct
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 open GlobalTheory.SquareComm
 open scoped ComplexConjugate
 open NumberField IsDedekindDomain Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes GlobalTheory.WeilM GlobalTheory.AdelicU GlobalTheory.LFun
@@ -1177,7 +1216,7 @@ theorem maximal_compact_stable_theta_subspace : _root_.GlobalTheory.FunPr.ThetaL
   obtain ⟨f₀, r, hv, hv0, hP⟩ := hF
   obtain rfl := hR.psi
   obtain rfl := Eqv.eq_thetaC D hθ
-  obtain ⟨T, hT, hTi⟩ := GlobalTheory.T.thetaTransform_darbouxModel_linear_injective D Mo ψ' (sgn ε M).gram (Equiv.refl (Fin X.rank)) hR.good hstd hdX hdW
+  obtain ⟨T, hT, hTi⟩ := GlobalTheory.ThetaTransformInj.linear_injective D Mo ψ' (sgn ε M).gram (Equiv.refl (Fin X.rank)) hR.good hstd hdX hdW
     (gram_det_ne (sgn ε M))
   have hinj : ∀ a ∈ schA D.host.F (Fin M.rank × Fin X.rank), ∀ b ∈ schA D.host.F (Fin M.rank × Fin X.rank),
       GlobalTheory.TripleRead.thO Mo ψ' (sgn ε M).gram (Equiv.refl (Fin X.rank)) a =
@@ -1238,7 +1277,6 @@ open Formalism.L2.Theta Formalism.L2.DIV Formalism.L2.Indef Formalism.DivisionVa
 open Formalism.IndefR Formalism.IndefR.Links Formalism.IndefR.Mult Formalism.IndefR.Datum
 open GlobalTheory.Grid GlobalTheory.Doubling GlobalTheory.ChainFr GlobalTheory.IndefiniteRowSideFullHecke.MatchingAdjoints
 open scoped TensorProduct
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 open GlobalTheory.SquareComm
 open scoped ComplexConjugate
 open NumberField IsDedekindDomain Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes GlobalTheory.WeilM GlobalTheory.AdelicU GlobalTheory.LFun
@@ -1305,7 +1343,6 @@ open Formalism.L2.Theta Formalism.L2.DIV Formalism.L2.Indef Formalism.DivisionVa
 open Formalism.IndefR Formalism.IndefR.Links Formalism.IndefR.Mult Formalism.IndefR.Datum
 open GlobalTheory.Grid GlobalTheory.Doubling GlobalTheory.ChainFr GlobalTheory.IndefiniteRowSideFullHecke.MatchingAdjoints
 open scoped TensorProduct
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 open GlobalTheory.SquareComm
 open NumberField IsDedekindDomain Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes GlobalTheory.WeilM GlobalTheory.AdelicU GlobalTheory.LFun
 namespace GlobalTheory.HoweFockReal

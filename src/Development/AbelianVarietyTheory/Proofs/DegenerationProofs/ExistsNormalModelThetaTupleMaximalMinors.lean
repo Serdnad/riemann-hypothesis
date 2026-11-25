@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.ImmByWeightZeroStatement
 public import Development.AbelianVarietyTheory.Definitions.Degenerations.ArithBase
 public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.SpanEqSpanMinor
 public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.ExistsAdaptedBasisTestLattice
@@ -762,8 +761,16 @@ theorem norm_det_le_of_comb {C J I : Type*} [NormedField C] [IsUltrametricDist C
 
 theorem pos_of_tendsto {X : Type} [AddCommGroup X] [Module.Free ℤ X] (q : QuadraticMap ℤ X ℝ)
     (h : Filter.Tendsto q Filter.cofinite Filter.atTop) {x : X} (hx0 : x ≠ 0) : 0 < q x := by
-  intros
-  apply _root_.GlobalTheory.ZH.ClosedImm.pos_of_tendsto <;> assumption
+  by_contra! hx
+  have hfin : {v | ¬ (0 : ℝ) < q v}.Finite := Filter.eventually_cofinite.1 (h.eventually_gt_atTop 0)
+  have hinj : Function.Injective fun n : ℕ => ((n : ℤ) + 1) • x := by
+    intro a b hab
+    have := smul_left_injective ℤ hx0 hab
+    omega
+  refine Set.infinite_of_injective_forall_mem hinj (fun n => ?_) hfin
+  simp only [Set.mem_setOf_eq, not_lt, QuadraticMap.map_smul, zsmul_eq_mul]
+  refine mul_nonpos_of_nonneg_of_nonpos ?_ hx
+  positivity
 
 theorem exists_eStd_eq (g n : ℕ) (φ : (Fin g ⊕ Fin g → ZMod n) →+ ZMod n) :
     ∃ a, ∀ b, eStd g n a b = φ b := by
@@ -874,8 +881,7 @@ theorem minors_dual_testLattice : ∀ (o Ω : Type) [CommRing o] [Field Ω] [Alg
       simp
     have hMu : IsUnit M.det := by
       rw [isUnit_iff_ne_zero, ← norm_ne_zero_iff, hMe]; exact one_ne_zero
-    by_contra hne
-    push_neg at hne
+    by_contra! hne
     obtain ⟨ν, hν0, hν1, hν2⟩ : ∃ ν : ℝ, 0 ≤ ν ∧ ν < ρ₀ ^ Fintype.card S.J ∧
         ∀ k : S.J → Fin n, ‖Matrix.det (Matrix.of fun i j => g (k i) j)‖ ≤ ν := by
       rcases isEmpty_or_nonempty (S.J → Fin n) with he | he

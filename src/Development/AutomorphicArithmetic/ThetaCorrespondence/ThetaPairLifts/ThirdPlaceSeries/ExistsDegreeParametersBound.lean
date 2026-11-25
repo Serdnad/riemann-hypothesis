@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ShareStatementOfKnownTheorems
 public import Development.AbelianVarietyTheory.Definitions.Divisors.CuspIso
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.DivLeSubMulDiv
 public import Development.AbelianVarietyTheory.BlockTheory.TorsionBlocks.LevelCarrying
@@ -85,7 +84,6 @@ import Development.AbelianVarietyTheory.Definitions.Divisors.TupleReadBaseTupleE
 import Mathlib.Tactic.Linter.Style
 import Development.AbelianVarietyTheory.Definitions.Divisors.ExistsChartOfIsLocalRing
 import Development.AbelianVarietyTheory.Definitions.Divisors.IsLocalRingTrivSqZeroExt
-import Development.AutomorphicArithmetic.ThetaCorrespondence.ThetaPairLifts.ThirdPlaceSeries.WeightsAtPointStatement
 import Mathlib.Tactic.Basify
 import Std.Tactic.BVDecide.Normalize.Prop
 import Development.AbelianVarietyTheory.Definitions.Divisors.IsoOverOfIsOpenImmersion
@@ -125,8 +123,6 @@ open GlobalTheory.LevDesc (TypeFrame grpHR grpGHR latN levDet secRing transl pul
 open GlobalTheory.IndefiniteRowSideFullHecke.LevelStructureAutomorphisms (LevelAut)
 open GlobalTheory.BadCount
 open scoped TensorProduct
-
-set_option autoImplicit false
 
 namespace GlobalTheory.HSShortRun
 
@@ -187,10 +183,6 @@ theorem antitone_of_gap_nonneg {N : ℕ} {v : Fin N → ℤ} (h : ∀ k, k + 1 <
 
 end GlobalTheory.FrameBerg
 
-namespace GlobalTheory.FrameBerg
-
-
-end GlobalTheory.FrameBerg
 end -- clump:auto
 end -- clump:auto
 end -- clump:auto
@@ -278,9 +270,6 @@ open GlobalTheory.IndefiniteRowSideFullHecke.LevelStructureAutomorphisms (LevelA
 open GlobalTheory.BadCount
 open scoped TensorProduct
 noncomputable section
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
-namespace GlobalTheory.FrameBerg
-end GlobalTheory.FrameBerg
 open scoped GlobalTheory.CompHt
 namespace GlobalTheory.FrameBerg
 
@@ -456,8 +445,6 @@ open GlobalTheory.IndefiniteRowSideFullHecke.LevelStructureAutomorphisms (LevelA
 open GlobalTheory.BadCount
 open scoped TensorProduct
 
-set_option autoImplicit false
-
 noncomputable section
 
 namespace GlobalTheory.CovTop.DgShare
@@ -468,10 +455,42 @@ variable {E : Type} [Field E] [NumberField E] [IsCMField E] {H : ReciprocityTheo
 
 theorem antitone_of_gapGe (hp : 1 ≤ Dw.p) (hq : 1 ≤ Dw.q) {la : AllWt.Weight Dw} (h : GapGe 1 la) :
     (∀ τ, Antitone (la τ)) ∧ ∀ τ, 1 ≤ gap (la τ) (Dw.p - 1) := by
-  apply _root_.GlobalTheory.CovTop.ShareRowsNef.antitone_of_gapGe <;> assumption
+  refine ⟨fun τ => ?_, fun τ => h τ _ (by omega)⟩
+  have key : ∀ (n : ℕ) (a b : Fin (Dw.p + Dw.q)), (b : ℕ) = a + n → la τ b ≤ la τ a := by
+    intro n
+    induction n with
+    | zero => intro a b e; rw [show b = a from Fin.ext e]
+    | succ n ih =>
+      intro a b e
+      have hb := b.2
+      have h1 := ih a ⟨a + n, by omega⟩ rfl
+      have h2 := h τ (a + n) (by omega)
+      rw [gap_eq (la τ) (i := ⟨a + n, by omega⟩) (j := b) e] at h2
+      omega
+  intro a b hab
+  exact key (b - a) a b (by have : (a : ℕ) ≤ b := hab; omega)
 
 theorem gapGe_of_wtBig {P : WtPar Dw} (h : WtBig P) : GapGe 1 P.u₁ ∧ GapGe 1 P.u₂ ∧ ∀ j, GapGe 1 (P.wt j) := by
-  apply _root_.GlobalTheory.CovTop.ShareRowsNef.gapGe_of_wtBig <;> assumption
+  have h3 : GapGe 3 P.u₁ := h.gaps.mono (by
+    have : 3 * 1 ≤ (FlagTan.dimFlag Dw + 3) * ((FlagTan.dimFlag Dw + 1).choose 2 + 4 * (Dw.p + Dw.q) + FlagTan.dimFlag Dw + 3) :=
+      Nat.mul_le_mul (by omega) (by omega)
+    exact_mod_cast this)
+  have h2 : ∀ τ k, k + 1 < Dw.p + Dw.q → 3 ≤ gap (P.u₂ τ) k := fun τ k hk => by
+    have a := h3 τ k hk
+    have b := (P.gap_rem τ k).1
+    simp only [gap, dite_eq_left hk, WtPar.u₂, Pi.add_apply] at a b ⊢
+    omega
+  refine ⟨h3.mono (by norm_num), fun τ k hk => le_trans (by norm_num) (h2 τ k hk), fun j τ k hk => ?_⟩
+  have a := h3 τ k hk
+  have b := h2 τ k hk
+  have c : -2 ≤ gap (FlagTan.kap Dw τ) k := by
+    simp only [gap, dite_eq_left hk, FlagTan.kap]
+    split_ifs <;> push_cast <;> omega
+  simp only [gap, dite_eq_left hk, WtPar.wt, WtPar.uc, Pi.add_apply, Pi.smul_apply] at a b c ⊢
+  simp only [nsmul_eq_mul]
+  have e1 := mul_nonneg (Int.natCast_nonneg (FlagTan.dimFlag Dw)) (le_trans (by norm_num) a)
+  have e2 := mul_nonneg (Int.natCast_nonneg j) (le_trans (by norm_num) a)
+  nlinarith
 
 end Weights
 
@@ -497,7 +516,6 @@ open GlobalTheory.LevDesc (TypeFrame grpHR grpGHR latN levDet secRing transl pul
 open GlobalTheory.IndefiniteRowSideFullHecke.LevelStructureAutomorphisms (LevelAut)
 open GlobalTheory.BadCount
 open scoped TensorProduct
-set_option autoImplicit false
 noncomputable section
 namespace GlobalTheory.CovTop.DgShare
 section Weights
@@ -559,7 +577,6 @@ open GlobalTheory.LevDesc (TypeFrame grpHR grpGHR latN levDet secRing transl pul
 open GlobalTheory.IndefiniteRowSideFullHecke.LevelStructureAutomorphisms (LevelAut)
 open GlobalTheory.BadCount
 open scoped TensorProduct
-set_option autoImplicit false
 noncomputable section
 namespace GlobalTheory.CovTop.DgShare
 section Weights
@@ -595,7 +612,6 @@ open GlobalTheory.LevDesc (TypeFrame grpHR grpGHR latN levDet secRing transl pul
 open GlobalTheory.IndefiniteRowSideFullHecke.LevelStructureAutomorphisms (LevelAut)
 open GlobalTheory.BadCount
 open scoped TensorProduct
-set_option autoImplicit false
 noncomputable section
 namespace GlobalTheory.CovTop.DgShare
 theorem choose_mul_compDeg_le_alt_alt : GlobalTheory.CovTop.HypothesesX → _root_.GlobalTheory.CovTop.PublishedHodgeBundleTheorems → GlobalTheory.Published.GrothendieckDeformation → GlobalTheory.HSCore.Quoted →
@@ -639,8 +655,6 @@ open GlobalTheory.LevDesc (TypeFrame grpHR grpGHR latN levDet secRing transl pul
 open GlobalTheory.IndefiniteRowSideFullHecke.LevelStructureAutomorphisms (LevelAut)
 open GlobalTheory.BadCount
 open scoped TensorProduct
-
-set_option autoImplicit false
 
 noncomputable section
 
@@ -718,7 +732,6 @@ open GlobalTheory.LevDesc (TypeFrame grpHR grpGHR latN levDet secRing transl pul
 open GlobalTheory.IndefiniteRowSideFullHecke.LevelStructureAutomorphisms (LevelAut)
 open GlobalTheory.BadCount
 open scoped TensorProduct
-set_option autoImplicit false
 noncomputable section
 open scoped GlobalTheory.CompHt
 namespace GlobalTheory.CovTop.DimLogTop
@@ -816,12 +829,7 @@ open GlobalTheory.LevDesc (TypeFrame grpHR grpGHR latN levDet secRing transl pul
 open GlobalTheory.IndefiniteRowSideFullHecke.LevelStructureAutomorphisms (LevelAut)
 open GlobalTheory.BadCount
 open scoped TensorProduct
-set_option autoImplicit false
 noncomputable section
-namespace GlobalTheory.CovTop.DgLog
-end GlobalTheory.CovTop.DgLog
-namespace GlobalTheory.CovTop.DgLog
-end GlobalTheory.CovTop.DgLog
 namespace GlobalTheory.CovTop.DgLog
 theorem log_degree_le_of_covering_range_alt : GlobalTheory.CovTop.HypothesesX → _root_.GlobalTheory.CovTop.PublishedHodgeBundleTheorems → GlobalTheory.Published.GrothendieckDeformation → GlobalTheory.HSCore.Quoted → GlobalTheory.Published.ToroidalForFanKS → GlobalTheory.Published.SemiAbelianLieSeminegative → _root_.GlobalTheory.CovTop.DeepGoodness → _root_.GlobalTheory.CovTop.SizeCondition → _root_.GlobalTheory.CovTop.FlatDegreeCondition → _root_.GlobalTheory.CovTop.CoversCondition fun Fm x _ ι p i Y PP _ => ∀ Z, Real.log (Y.dg (⟨uW p i, cZero (Fm.D x ι) ((i : ℕ) + 1), (Fm.D x ι).R.k - 2, lenT p i PP⟩ : WtPar (dat p i)).u₁ Z) ≤ PP := by
   intro hX hP hG hQ hFan hSA hDG hSz hFD
@@ -1083,7 +1091,6 @@ open GlobalTheory.BadCount
 open scoped TensorProduct
 
 noncomputable section
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 
 open scoped GlobalTheory.CompHt
 namespace GlobalTheory.CovTop.ShortSpanUnitCover
@@ -1176,8 +1183,7 @@ theorem log_sum_le {S k fr L : ℝ} (hS0 : 0 ≤ S) (hSk : S ≤ (fr * L) ^ 2 * 
   · rw [← h, Real.log_zero]; linarith
   have hZ : 0 < fr * L := by positivity
   have hk0 : 0 < k := by
-    by_contra hk0
-    push_neg at hk0
+    by_contra! hk0
     have : (fr * L) ^ 2 * k ≤ 0 := mul_nonpos_of_nonneg_of_nonpos (by positivity) hk0
     linarith
   have hlogL : Real.log L ≤ L := (Real.log_le_sub_one_of_pos (by linarith)).trans (by linarith)
@@ -1188,10 +1194,6 @@ theorem log_sum_le {S k fr L : ℝ} (hS0 : 0 ≤ S) (hSk : S ≤ (fr * L) ^ 2 * 
 
 end GlobalTheory.CovTop.ShortSpanUnitCover
 
-namespace GlobalTheory.CovTop.ShortSpanUnitCover
-
-
-end GlobalTheory.CovTop.ShortSpanUnitCover
 end -- clump:auto
 end -- clump:auto
 end -- clump:auto
@@ -1217,11 +1219,6 @@ open GlobalTheory.BadCount
 open scoped TensorProduct
 
 noncomputable section
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
-namespace GlobalTheory.CovTop.ShortSpanUnitCover
-end GlobalTheory.CovTop.ShortSpanUnitCover
-namespace GlobalTheory.CovTop.ShortSpanUnitCover
-end GlobalTheory.CovTop.ShortSpanUnitCover
 open scoped GlobalTheory.CompHt
 namespace GlobalTheory.CovTop.ShortSpanUnitCover
 
@@ -1340,7 +1337,6 @@ open GlobalTheory.LevDesc (TypeFrame grpHR grpGHR latN levDet secRing transl pul
 open GlobalTheory.IndefiniteRowSideFullHecke.LevelStructureAutomorphisms (LevelAut)
 open GlobalTheory.BadCount
 open scoped TensorProduct
-set_option autoImplicit false
 namespace GlobalTheory.HSShortRun
 open GlobalTheory.Vanishing GlobalTheory.Adelic GlobalTheory.HilbertSamuel GlobalTheory.HSCore
 variable {D : D7} {T : Core D} {j : ℕ} {Y : Deep T j}

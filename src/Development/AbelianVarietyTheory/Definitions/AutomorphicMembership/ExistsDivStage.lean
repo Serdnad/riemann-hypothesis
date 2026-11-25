@@ -1,51 +1,8 @@
 module
 
-import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.BetaModuloX.IotaSurjectiveHolds
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.NuInRange
-import Mathlib.Algebra.Module.StablyFree.Basic
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Coalgebra.IsFrobenius
-import Mathlib.RingTheory.HopfAlgebra.Basic
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.HaveILetI
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Topology.Sheaves.Init
-import Mathlib.RingTheory.PicardGroup
 
 @[expose] public section
 
@@ -278,7 +235,33 @@ def subLat (A : HLat K) (S : Submodule K A.V)
 theorem exists_smul_mem {K : Type} [Field K] [NumberField K] {V : Type} [AddCommGroup V] [Module K V]
     [Module (𝓞 K) V] [IsScalarTower (𝓞 K) K V] (L : Submodule (𝓞 K) V)
     (hL : Submodule.span K (L : Set V) = ⊤) (x : V) : ∃ c : 𝓞 K, c ≠ 0 ∧ c • x ∈ L := by
-  first | exact _root_.PI.UnitaryGroupMassFormula.BetaModX.Iota.exists_smul_mem | exact @_root_.PI.UnitaryGroupMassFormula.BetaModX.Iota.exists_smul_mem | apply _root_.PI.UnitaryGroupMassFormula.BetaModX.Iota.exists_smul_mem <;> assumption
+  have hx : x ∈ Submodule.span K (L : Set V) := hL ▸ Submodule.mem_top
+  induction hx using Submodule.span_induction with
+  | mem y hy => exact ⟨1, one_ne_zero, by simpa using hy⟩
+  | zero => exact ⟨1, one_ne_zero, by simp⟩
+  | add y z _ _ hy hz =>
+    obtain ⟨a, ha, hya⟩ := hy
+    obtain ⟨b, hb, hzb⟩ := hz
+    refine ⟨a * b, mul_ne_zero ha hb, ?_⟩
+    rw [smul_add]
+    refine L.add_mem ?_ ?_
+    · rw [mul_comm, mul_smul]; exact L.smul_mem b hya
+    · rw [mul_smul]; exact L.smul_mem a hzb
+  | smul k y _ hy =>
+    obtain ⟨c, hc, hyc⟩ := hy
+    obtain ⟨a, b, hb, rfl⟩ := IsFractionRing.div_surjective (A := 𝓞 K) k
+    have hb0 : algebraMap (𝓞 K) K b ≠ 0 := IsFractionRing.to_map_ne_zero_of_mem_nonZeroDivisors hb
+    refine ⟨b * c, mul_ne_zero (nonZeroDivisors.ne_zero hb) hc, ?_⟩
+    have e1 : (b * c) • ((algebraMap (𝓞 K) K a / algebraMap (𝓞 K) K b) • y)
+        = (algebraMap (𝓞 K) K (b * c) * (algebraMap (𝓞 K) K a / algebraMap (𝓞 K) K b)) • y := by
+      simp only [map_mul, mul_smul, algebraMap_smul]
+    have e2 : a • (c • y) = (algebraMap (𝓞 K) K a * algebraMap (𝓞 K) K c) • y := by
+      simp only [mul_smul, algebraMap_smul]
+    have e3 : algebraMap (𝓞 K) K (b * c) * (algebraMap (𝓞 K) K a / algebraMap (𝓞 K) K b)
+        = algebraMap (𝓞 K) K a * algebraMap (𝓞 K) K c := by
+      rw [map_mul]; field_simp
+    rw [e1, e3, ← e2]
+    exact L.smul_mem a hyc
 
 theorem subLat_good (A : HLat K) (hA : A.Good) (S : Submodule K A.V) (X) (hX : ∀ v, IsUnit (X v).det) :
     (subLat A S X).Good := by

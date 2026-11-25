@@ -19,54 +19,11 @@ public import Mathlib.Analysis.Complex.ExponentialBounds
 public import Formalism.SharpRestriction.GrowthBounds.MonomialFactorials.RestPlusOf
 public import Formalism.SharpRestriction.GrowthBounds.MonomialFactorials.BlockValuationOverZpHolds
 public import Formalism.SharpRestriction.GrowthBounds.MonomialFactorials.RestRankLProved
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Topology.Sheaves.Init
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
 import Mathlib.Tactic.TypeStar
 import Formalism.SharpRestriction.GrowthBounds.MonomialFactorials.KappaZeroNonneg
 import Mathlib.Algebra.Order.Star.Rat
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Data.Nat.Choose.Multinomial
 import Mathlib.RingTheory.TotallySplit
-import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.RingTheory.LocalProperties.Reduced
-import Mathlib.Tactic.Linter.Style
 import Mathlib.Topology.Sheaves.Presheaf
 
 -- This file was produced by scripts/clump.py from the modules listed below.
@@ -568,7 +525,7 @@ theorem nv_irr' {w : O} (hw : Irreducible w) : dvrOrderNat w = 1 := by
 
 theorem vK_int_form (x : KK O) (hx : x ≠ 0) : ∃ k : ℤ, vK p x = (((k : ℚ) / (ramE p O : ℚ) : ℚ) : WithTop ℚ) := by
   unfold vK ordW
-  rw [if_neg hx]
+  rw [ite_eq_right hx]
   exact ⟨_, rfl⟩
 
 theorem vK_le_zero_of_not_int (S : UniformizedDVR p O) (a : KK O)
@@ -592,15 +549,14 @@ theorem vK_le_zero_of_not_int (S : UniformizedDVR p O) (a : KK O)
       nv_irr' S.w_irr]
     simp [dvrOrderNat]
   rw [valuation_mul_alt, hk, hwinv, ← WithTop.coe_add, ← WithTop.coe_zero, WithTop.coe_le_coe] at h
-  push_neg at h
+  push Not at h
   refine ⟨(k : ℚ) / (ramE p O : ℚ), hk, ?_⟩
   have h2 : ((k : ℚ) - 1) / (ramE p O : ℚ) < 0 := by
     rw [sub_div]
     rw [neg_div] at h
     linarith
   have h3 : (k : ℚ) - 1 < 0 := by
-    by_contra hc
-    push_neg at hc
+    by_contra! hc
     exact absurd h2 (not_lt.2 (div_nonneg hc hepos.le))
   have h4 : k < 1 := by exact_mod_cast (by linarith : (k : ℚ) < 1)
   have h5 : (k : ℚ) ≤ 0 := by exact_mod_cast (by omega : k ≤ 0)
@@ -671,7 +627,7 @@ theorem goodSub_of_dual (S : UniformizedDVR p O) (be : V → V → KK O)
         intro i _
         rw [ht i, mul_smul, algebraMap_smul, algebraMap_smul]
       exact S.w_irr.not_isUnit (hprim S.w _ hx' hu')
-    · push_neg at hall
+    · push Not at hall
       obtain ⟨j, hj⟩ := hall
       obtain ⟨q, hq, hq0⟩ := vK_le_zero_of_not_int S (t j) (not_le.2 hj)
       obtain ⟨qc, hqc, hqcD⟩ := hc
@@ -1073,8 +1029,7 @@ theorem Yl_bound (hFree : RestFree C0 CE1 CE2 X) {dl : DCl X} (hdl : dl ∈ clSe
   rw [hdlo] at hx1
   have hvv : vlo < vhi := by omega
   have hqq : qlo ≤ qhi := by
-    by_contra hc
-    push_neg at hc
+    by_contra! hc
     have : P * qhi < P * qlo := Nat.mul_lt_mul_of_pos_left hc hPpos
     omega
   obtain ⟨d, rfl⟩ := Nat.exists_eq_add_of_le hqq

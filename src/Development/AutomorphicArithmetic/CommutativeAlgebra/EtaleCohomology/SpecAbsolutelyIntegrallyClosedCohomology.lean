@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.SatakeParameters.IsAlgClosedResidueFieldOfAic
 public import Development.EtaleCohomology.EtaleSheaves.AugBijPf
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.EtaleLocalPrimitiveRootAndRootsOfUnity
 public import Development.EtaleCohomology.EtaleSheaves.MayerVietorisSequence
@@ -104,47 +103,7 @@ public import Development.EtaleCohomology.EtaleSheaves.TowerFinPf
 public import Development.EtaleCohomology.EtaleSheaves.TruncBijPf
 public import Development.EtaleCohomology.EtaleSheaves.Truncation
 public import Development.EtaleCohomology.EtaleSheaves.ZCovPf
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
 import Mathlib.AlgebraicGeometry.Modules.Sheaf
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Linter.HaveILetI
 import Mathlib.CategoryTheory.Limits.FunctorCategory.Shapes.Products
 import Mathlib.AlgebraicGeometry.QuasiAffine
@@ -160,7 +119,6 @@ import Mathlib.RingTheory.SimpleRing.Principal
 import Std.Tactic.BVDecide.Normalize.Prop
 import Mathlib.AlgebraicGeometry.ProjectiveSpectrum.Proper
 import Mathlib.RingTheory.TotallySplit
-import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.RingTheory.PiTensorProduct
 import Development.EtaleCohomology.EtaleSheaves.AICOpenPf
 
@@ -839,7 +797,11 @@ namespace LateralTheory.E.IdemSecPf
 
 theorem phi_injective {P : Scheme.{0}} [CompactSpace P] [QuasiSeparatedSpace P] {W : Type} [CommRing W]
     (w : Spec (CommRingCat.of W) ⟶ P) : Function.Injective (phi w) := by
-  apply @LateralTheory.E.FMrangePf.phi_injective <;> assumption
+  have h1 : Function.Injective (w.toNormalization.app ⊤) := w.toNormalization.app_injective ⊤
+  have h2 : Function.Injective (Scheme.ΓSpecIso (CommRingCat.of W)).hom :=
+    ((ConcreteCategory.bijective_of_isIso (Scheme.ΓSpecIso (CommRingCat.of W)).hom)).1
+  intro a b h
+  exact h1 (h2 h)
 
 theorem phi_idem {P : Scheme.{0}} [CompactSpace P] [QuasiSeparatedSpace P] {W : Type} [CommRing W]
     (w : Spec (CommRingCat.of W) ⟶ P) (e : W) (he : IsIdempotentElem e) : ∃ s, phi w s = e := by
@@ -910,9 +872,6 @@ theorem aic_field (K : Type) [Field K] [IsAlgClosed K] : GlobalTheory.EtC.AIC K 
   intro p _ hd
   exact IsAlgClosed.exists_root p (by rw [degree_eq_natDegree (ne_zero_of_natDegree_gt hd)]; exact_mod_cast hd.ne')
 
-theorem aic_subsingleton (R : Type) [CommRing R] [Subsingleton R] : GlobalTheory.EtC.AIC R :=
-  fun _ _ _ => ⟨0, Subsingleton.elim _ _⟩
-
 theorem aic_specK (K : Type) [Field K] [IsAlgClosed K] (V : (Spec (CommRingCat.of K)).Opens) :
     GlobalTheory.EtC.AIC Γ(Spec (CommRingCat.of K), V) := by
   by_cases hV : (V : Set (Spec (CommRingCat.of K))).Nonempty
@@ -929,7 +888,7 @@ theorem aic_specK (K : Type) [Field K] [IsAlgClosed K] (V : (Spec (CommRingCat.o
       simp only [TopologicalSpace.Opens.coe_bot, Set.mem_empty_iff_false, iff_false]
       exact fun hx => hV ⟨x, hx⟩
     subst h
-    exact aic_subsingleton _
+    exact LateralTheory.E.NormACPf.aic_of_subsingleton _
 
 theorem affAIC : AICPf.AffAIC := by
   intro K _ _ W g _ _ U hU
@@ -956,8 +915,20 @@ namespace LateralTheory.E.IterBCPf
 
 theorem iterLine_of_isPullback {S P : Scheme.{0}} {q : P ⟶ S} (hq : IterLine q) :
     ∀ {X P' : Scheme.{0}} {a : P' ⟶ P} {q' : P' ⟶ X} {g : X ⟶ S}, IsPullback a q' q g → IterLine q' := by
-  intros
-  apply _root_.LateralTheory.E.ProdPf.iterLine_of_isPullback <;> assumption
+  induction hq with
+  | iso e he =>
+    intro X P' a q' g w
+    exact IterLine.iso _ (w.isIso_snd_of_isIso he)
+  | comp l k hl hk ih =>
+    intro X P' a q' g w
+    have hb : IsPullback (pullback.fst k g) (pullback.snd k g) k g := IsPullback.of_hasPullback k g
+    let m : P' ⟶ pullback k g := pullback.lift (a ≫ l) q' (by rw [Category.assoc]; exact w.w)
+    have hm : q' = m ≫ pullback.snd k g := (pullback.lift_snd _ _ _).symm
+    have ht : IsPullback a m l (pullback.fst k g) := by
+      refine IsPullback.of_bot ?_ (pullback.lift_fst _ _ _).symm hb
+      rw [← hm]; exact w
+    rw [hm]
+    exact IterLine.comp m _ (IsLine.bc hl ht) (ih hb)
 
 theorem IterBC_of : IterBC := by
   intro P S X q g hq
@@ -1172,8 +1143,40 @@ open Polynomial GlobalTheory.EtC
 namespace LateralTheory.E.LocalizationIntegralClosure
 
 theorem aic_loc (B : Type) [CommRing B] [IsDomain B] (M : Submonoid B) (hB : AIC B) :
-    AIC (Localization M) :=
-  LateralTheory.E.BaseAICPf.Loc.aic_loc M hB
+    AIC (Localization M) := by
+  classical
+  intro p hp hd
+  set L := Localization M
+  obtain ⟨s, hs⟩ := IsLocalization.exist_integer_multiples_of_finset (R := B) M
+    ((Finset.range (p.natDegree + 1)).image p.coeff) (S := L)
+  set t : L := algebraMap B L (s : B) with ht
+  have hlift : scaleRoots p t ∈ lifts (algebraMap B L) := by
+    rw [lifts_iff_coeff_lifts]
+    intro i
+    rw [coeff_scaleRoots]
+    rcases lt_or_ge i p.natDegree with hi | hi
+    · obtain ⟨c, hc⟩ := hs (p.coeff i) (Finset.mem_image.2 ⟨i, Finset.mem_range.2 (by omega), rfl⟩)
+      obtain ⟨k, hk⟩ : ∃ k, p.natDegree - i = k + 1 := ⟨p.natDegree - i - 1, by omega⟩
+      refine ⟨c * (s : B) ^ k, ?_⟩
+      rw [hk, map_mul, map_pow, hc, pow_succ, Algebra.smul_def, ← ht]
+      ring
+    · rcases eq_or_lt_of_le hi with h | h
+      · subst h; rw [hp.coeff_natDegree]; exact ⟨1, by simp⟩
+      · rw [coeff_eq_zero_of_natDegree_lt h]; exact ⟨0, by simp⟩
+  obtain ⟨q, hq, hqd, hqm⟩ := lifts_and_natDegree_eq_and_monic hlift ((monic_scaleRoots_iff t).2 hp)
+  obtain ⟨b, hb⟩ := hB q hqm (by rw [hqd, natDegree_scaleRoots]; exact hd)
+  obtain ⟨u, hu⟩ := IsLocalization.map_units L s
+  refine ⟨algebraMap B L b * ((u⁻¹ : Lˣ) : L), ?_⟩
+  have h1 : (scaleRoots p t).eval (algebraMap B L b) = 0 := by
+    rw [← hq, eval_map, eval₂_at_apply, hb, map_zero]
+  have h2 : (scaleRoots p t).eval (t * (algebraMap B L b * ((u⁻¹ : Lˣ) : L))) =
+      t ^ p.natDegree * p.eval (algebraMap B L b * ((u⁻¹ : Lˣ) : L)) :=
+    scaleRoots_eval₂_mul (p := p) (RingHom.id L) (algebraMap B L b * ((u⁻¹ : Lˣ) : L)) t
+  have h3 : t * (algebraMap B L b * ((u⁻¹ : Lˣ) : L)) = algebraMap B L b := by
+    rw [ht, ← hu, mul_comm (algebraMap B L b), ← mul_assoc, Units.mul_inv, one_mul]
+  rw [h3, h1] at h2
+  have hunit : IsUnit (t ^ p.natDegree) := (hu ▸ u.isUnit).pow _
+  exact (hunit.mul_right_eq_zero).1 h2.symm
 
 theorem LocAIC_of : LateralTheory.E.HensCut.LocAIC := by
   intro B _ _ M h0 hB
@@ -1199,8 +1202,24 @@ namespace LateralTheory.E.MonicSplitsPf
 theorem selfDualLattice_projection_mem_of_unit_length (R : Type) [CommRing R] [IsDomain R] (hA : GlobalTheory.EtC.AIC R) :
     ∀ n : ℕ, ∀ p : Polynomial R, p.Monic → p.natDegree = n →
       ∃ s : Multiset R, p = (s.map fun a => X - C a).prod := by
-  intros
-  apply _root_.GlobalTheory.GenusTwoPureComparison.Cmp.monic_eq_prod_of_aic <;> assumption
+  intro n
+  induction n with
+  | zero =>
+    intro p hp hn
+    refine ⟨0, ?_⟩
+    simpa using hp.natDegree_eq_zero.mp hn
+  | succ n ih =>
+    intro p hp hn
+    obtain ⟨a, ha⟩ := hA p hp (by omega)
+    have hroot : IsRoot p a := ha
+    have hmul := (mul_divByMonic_eq_iff_isRoot (p := p) (a := a)).mpr hroot
+    set q := p /ₘ (X - C a) with hq
+    have hqm : q.Monic := Polynomial.Monic.of_mul_monic_left (monic_X_sub_C a) (by rw [hmul]; exact hp)
+    have hqd : q.natDegree = n := by
+      rw [hq, natDegree_divByMonic _ (monic_X_sub_C a), natDegree_X_sub_C, hn]; omega
+    obtain ⟨s, hs⟩ := ih q hqm hqd
+    refine ⟨a ::ₘ s, ?_⟩
+    rw [Multiset.map_cons, Multiset.prod_cons, ← hs, hmul]
 
 theorem MonicSplits_of : LateralTheory.E.HensCut.MonicSplits := by
   intro R _ _ hA p hp
@@ -1224,7 +1243,15 @@ namespace LateralTheory.E.PartBPf
 theorem comp_mem {B : Type} [CommRing B] (I : Ideal B) (P : PartDiagCut.Part (B ⧸ I)) (x : PiLocalization₂ I P)
     (hx : x ∈ I.map (βP I P)) (e : P.1) :
     x e ∈ I.map (algebraMap B (Localization (S I e.1))) := by
-  apply @LateralTheory.E.PartAPf.comp_mem <;> assumption
+  have h1 : (Pi.evalRingHom (fun e : P.1 => Localization (S I e.1)) e) x ∈
+      (I.map (βP I P)).map (Pi.evalRingHom (fun e : P.1 => Localization (S I e.1)) e) :=
+    Ideal.mem_map_of_mem _ hx
+  rw [Ideal.map_map] at h1
+  have h2 : (Pi.evalRingHom (fun e : P.1 => Localization (S I e.1)) e).comp (βP I P) =
+      algebraMap B (Localization (S I e.1)) := by
+    ext b; rfl
+  rw [h2] at h1
+  exact h1
 
 theorem comp_unit {B : Type} [CommRing B] (I : Ideal B) (e : B ⧸ I) (y : Localization (S I e))
     (hy : y ∈ I.map (algebraMap B (Localization (S I e)))) : IsUnit (1 + y) := by
@@ -1409,16 +1436,12 @@ open CategoryTheory Limits AlgebraicGeometry Polynomial GlobalTheory.EtC Lateral
 
 namespace LateralTheory.E.StalkAICRingPf
 
-theorem aic_loc {R S : Type} [CommRing R] [CommRing S] [Algebra R S] (M : Submonoid R) [IsLocalization M S]
-    (hR : AIC R) : AIC S :=
-  LateralTheory.E.BaseAICPf.Loc.aic_loc M hR
-
 theorem StalkAICRing_of : _root_.LateralTheory.E.FibStalkPf.StalkAIC := by
   intro S hS x
   obtain ⟨U, hU, hxU, -⟩ := exists_isAffineOpen_mem_and_subset (x := x) (U := ⊤) trivial
   let _ := TopCat.Presheaf.algebra_section_stalk S.presheaf (⟨x, hxU⟩ : U)
   have := hU.isLocalization_stalk ⟨x, hxU⟩
-  exact aic_loc (hU.primeIdealOf ⟨x, hxU⟩).asIdeal.primeCompl (hS.2 U hU ⟨x, hxU⟩)
+  exact LateralTheory.E.SpecAICPf.aic_localization (hU.primeIdealOf ⟨x, hxU⟩).asIdeal.primeCompl (hS.2 U hU ⟨x, hxU⟩)
 
 end LateralTheory.E.StalkAICRingPf
 end -- clump:auto
@@ -1453,10 +1476,10 @@ theorem germs (S : Scheme.{0}) (x : S) (c : ℕ → S.presheaf.stalk x) (s : Fin
        else (S.presheaf.map (homOfLE (hWUV.trans inf_le_left)).op).hom (f i), ?_⟩
     intro i hi
     rcases Finset.mem_insert.mp hi with rfl | hi
-    · simp only [if_true]
+    · simp only [ite_true]
       rw [← hg, ← CommRingCat.comp_apply, TopCat.Presheaf.germ_res]
     · have : i ≠ a := fun h => ha (h ▸ hi)
-      simp only [this, if_false]
+      simp only [this, ite_false]
       rw [← hf i hi, ← CommRingCat.comp_apply, TopCat.Presheaf.germ_res]
 
 theorem stalkAIC : StalkAIC := by
@@ -1572,7 +1595,7 @@ theorem n95 : LateralTheory.E.PartDiagCut.PartC := LateralTheory.E.PartCPfSplit.
 
 theorem n87 : LateralTheory.E.HensCut.PartDiag := LateralTheory.E.PartDiagCut.goal_of _root_.LateralTheory.E.PartDirectedPf.PartDirected_of _root_.LateralTheory.E.DiagIdPf.DiagId_of _root_.LateralTheory.E.DiagCompPf.DiagComp_of _root_.LateralTheory.E.DiagNatPf.DiagNat_of n92 _root_.LateralTheory.E.PartAPf.PartA_of _root_.LateralTheory.E.PartBPf.PartB_of n95
 
-theorem n82 : LateralTheory.E.QuotAcycCut.Hens := LateralTheory.E.HensCut.goal_of _root_.LateralTheory.E.LocalizationIntegralClosure.LocAIC_of _root_.LateralTheory.E.MonicSplitsPf.MonicSplits_of _root_.LateralTheory.E.IdemPartPf.IdemPart_of _root_.LateralTheory.E.ColimHensPf.ColimHens_of n87
+theorem n82 : LateralTheory.E.QuotAcycCut.Hens := LateralTheory.E.HensCut.goal_of _root_.LateralTheory.E.ColimHensPf.ColimHens_of n87
 
 theorem n78 : LateralTheory.E.t_E2Cut.QuotAcyc := LateralTheory.E.QuotAcycCut.goal_of n79 n82
 

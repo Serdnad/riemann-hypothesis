@@ -77,7 +77,6 @@ import Mathlib.RingTheory.WittVector.IsPoly
 import Mathlib.Tactic.Linter.Style
 import Mathlib.Algebra.Order.Star.Real
 import Formalism.LocalToGlobal.Columns.BaseLemmas
-import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.StarDetMulDetMem
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.CrdSurjective, Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.IsTransvSurjInv, Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.LatSumReindexOfLeSup, Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.RelIndexEqProdLocP, Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.SignedLiftWEq, Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.XiIndEqInter, Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.MemMulLatIff, Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.MoveStepOfFamily
@@ -549,6 +548,35 @@ theorem signed_eq {V : Type} [AddCommGroup V] [Module ℂ V] {H : Sesq V} {α : 
 theorem alV_neg {ι : Type} [Fintype ι] {a b : ℕ} (d : ℕ) (sc : ℝ) (x : VV ι a b) : alV d sc (-x) = alV d sc x := by
   simp [alV, alphaQ, Formalism.L2.Th1.H.qOf]
 
+private theorem sdLat_span_local {E : Type} [Field E] [NumberField E] [StarRing E] {n : ℕ}
+    (L : Submodule (𝓞 E) (Sp E n)) (hL : IsSdLat L) :
+    Submodule.span E (L : Set (Sp E n)) = ⊤ := by
+  let W := Submodule.span E (L : Set (Sp E n))
+  change W = ⊤
+  by_contra h
+  let e : Sp E n ≃ₗ⋆[E] Sp E n := starLinearEquiv E
+  let g : Sp E n →ₗ[E] Module.Dual E W :=
+    (LinearMap.domRestrict' W).comp ((hStd E n).comp e.toLinearMap)
+  have hdim : Module.finrank E (Module.Dual E W) < Module.finrank E (Sp E n) := by
+    rw [Subspace.dual_finrank_eq]
+    exact Submodule.finrank_lt h
+  obtain ⟨x, hx, hx₀⟩ :=
+    Submodule.exists_mem_ne_zero_of_ne_bot (LinearMap.ker_ne_bot_of_finrank_lt (f := g) hdim)
+  have hsmul (a : E) : a • e x ∈ L := by
+    rw [← hL.2, dualBasic_mem_dual]
+    intro y hy
+    apply hStd_mem_one_symm
+    have hxy : hStd E n (e x) y = 0 :=
+      congrArg (fun f : Module.Dual E W => f ⟨y, Submodule.subset_span hy⟩) (LinearMap.mem_ker.mp hx)
+    simp [LinearMap.map_smulₛₗ, LinearMap.smul_apply, hxy]
+  let i : E →ₗ[𝓞 E] L :=
+    ((LinearMap.toSpanSingleton E _ (e x)).restrictScalars (𝓞 E)).codRestrict L hsmul
+  let : Module.Finite (𝓞 E) L := Module.Finite.iff_fg.mpr hL.1.fg
+  let : Module.Finite (𝓞 E) E := Module.Finite.of_injective i fun a b hab =>
+    smul_left_injective E (fun hzero => hx₀ (e.map_eq_zero_iff.mp hzero)) (congrArg Subtype.val hab)
+  exact RingOfIntegers.not_isField E
+    (isField_of_isIntegral_of_isField (IsFractionRing.injective (𝓞 E) E) (Field.toIsField E))
+
 section Loc
 
 variable {E : Type} [Field E] [NumberField E] [StarRing E] {a b : ℕ}
@@ -565,7 +593,7 @@ theorem off_le (S : Finset (HeightOneSpectrum (𝓞 E))) (M : Submodule (𝓞 E)
   rw [halfAO, mem_localization_twist M hc' (fun Q => by have := expS_bound S Q; omega)] at hy
   rw [mem_localization_twist M hc (expS_bound S)]
   unfold expS at hy ⊢
-  rw [if_neg hQ] at hy ⊢
+  rw [ite_eq_right hQ] at hy ⊢
   split_ifs at hy ⊢
   · have h1 := nat_smul_mem c' hy
     rw [neg_neg, zpow_one, smul_smul, mul_inv_cancel₀ hcE, one_smul] at h1
@@ -581,7 +609,7 @@ theorem mem_mulLat_iff (S : Finset (HeightOneSpectrum (𝓞 E))) (AA : Submodule
   have key : ∀ P ∈ S, (y ∈ localization₂ P.asIdeal (twist₂ (perO AA N N') c (expS S)) ↔ (c : E)⁻¹ • y ∈ homAt {P} N N') := by
     intro P hP
     rw [mem_localization_twist _ hc (expS_bound S), (GlobalTheory.ThetaMove.PeriodComp.perO_components E a b AA).2.1 P N N' hN (hAA P hP), expS,
-      if_pos hP, zpow_one]
+      ite_eq_left hP, zpow_one]
   have hsm : ∀ w : HomE E a b, (c : 𝓞 E) • w = (c : E) • w := fun w => by
     rw [Nat.cast_smul_eq_nsmul, Nat.cast_smul_eq_nsmul]
   constructor
@@ -610,7 +638,7 @@ theorem signed_liftW_eq : ∀ (X : Fields) (A : Amb X) (a b : ℕ) (S : Finset (
   have fullSd {n : ℕ} (L : Submodule (𝓞 X.E) (Sp X.E n)) (hL : IsSdLat L) :
       Submodule.IsFullLattice X.E L := by
     letI : Submodule.IsLattice X.E L := hL.1
-    exact ⟨_root_.GlobalTheory.DetSelfDual.span_eq_top_of_isSdLat hL⟩
+    exact ⟨sdLat_span_local L hL⟩
   have fB : Full (twist₂ (perO A.AA N N') c (expS S)) := eB ▸ per.2.2 N _ hfg (fullSd _ sdB) hA0
   have fA : ∀ c' : ℕ, 0 < c' → Full (halfAO S (perO A.AA N N') c') := fun c' hc' => by
     rw [eA c' hc']; exact per.2.2 N _ hfg (fullSd _ (sdA c' hc')) hA0
@@ -623,7 +651,7 @@ theorem signed_liftW_eq : ∀ (X : Fields) (A : Amb X) (a b : ℕ) (S : Finset (
     refine ⟨s, ⟨c', hc', mem_of_locP fun Q => ?_⟩, (hmul _).2 fun P hP => (h1 P hP).2⟩
     by_cases hQ : Q ∈ S
     · have h3 : x ∈ localization₂ Q.asIdeal (halfAO S (perO A.AA N N') c') := by
-        rw [halfAO, mem_localization_twist _ hc' (fun Q => by have := expS_bound S Q; omega), expS, if_pos hQ, zpow_neg, inv_inv, zpow_one,
+        rw [halfAO, mem_localization_twist _ hc' (fun Q => by have := expS_bound S Q; omega), expS, ite_eq_left hQ, zpow_neg, inv_inv, zpow_one,
           Nat.cast_smul_eq_nsmul, ← Nat.cast_smul_eq_nsmul (𝓞 X.E)]
         exact mem_localization_of_mem Q hx
       simpa using add_mem (h1 Q hQ).1 h3
@@ -844,9 +872,9 @@ theorem nat_smul_mem {M : Submodule (𝓞 E) W} (c : ℕ) {x : W} (hx : x ∈ M)
 theorem dom_tw (M : Submodule (𝓞 E) W) {c : ℕ} (hc : 0 < c) : Dom S M (twist₂ M c (expS S)) := by
   have hcE : (c : E) ≠ 0 := by exact_mod_cast hc.ne'
   refine ⟨fun P hP x hx => ?_, fun Q hQ x hx => ?_⟩
-  · rw [mem_localization_twist M hc (expS_bound S), expS, if_pos hP, zpow_one] at hx
+  · rw [mem_localization_twist M hc (expS_bound S), expS, ite_eq_left hP, zpow_one] at hx
     simpa [smul_smul, hcE] using nat_smul_mem c hx
-  · rw [mem_localization_twist M hc (expS_bound S), expS, if_neg hQ]
+  · rw [mem_localization_twist M hc (expS_bound S), expS, ite_eq_right hQ]
     split_ifs
     · simpa using nat_smul_mem c hx
     · simpa using hx
@@ -858,9 +886,9 @@ theorem negS_bound (Q : HeightOneSpectrum (𝓞 E)) : -1 ≤ -expS S Q ∧ -expS
 theorem tw_dom (M : Submodule (𝓞 E) W) {c : ℕ} (hc : 0 < c) : Dom S (twist₂ M c fun Q => -expS S Q) M := by
   have hcE : (c : E) ≠ 0 := by exact_mod_cast hc.ne'
   refine ⟨fun P hP x hx => ?_, fun Q hQ x hx => ?_⟩
-  · rw [mem_localization_twist M hc negS_bound, expS, if_pos hP]
+  · rw [mem_localization_twist M hc negS_bound, expS, ite_eq_left hP]
     simpa using nat_smul_mem c hx
-  · rw [mem_localization_twist M hc negS_bound, expS, if_neg hQ] at hx
+  · rw [mem_localization_twist M hc negS_bound, expS, ite_eq_right hQ] at hx
     split_ifs at hx
     · simpa [smul_smul, hcE] using nat_smul_mem c hx
     · simpa using hx
@@ -989,7 +1017,7 @@ theorem mem_mulLat_iff {N : Submodule (𝓞 E) (Sp E a)} {N' : Submodule (𝓞 E
       exact ⟨_, hx, by simp [e, smul_smul, hcE]⟩
   rw [h1, mem_homAt_iff hU h, ← GlobalTheory.ThetaMove.PeriodTwist.twO_perO E a b AA N N' c _ h.1.fg hc (expS_bound S)]
   refine forall₂_congr fun P hP => ?_
-  rw [mem_localization_twist _ hc (expS_bound S), expS, if_pos hP, zpow_one]
+  rw [mem_localization_twist _ hc (expS_bound S), expS, ite_eq_left hP, zpow_one]
 
 theorem mem_divLat_iff {N : Submodule (𝓞 E) (Sp E a)} {N' : Submodule (𝓞 E) (Sp E b)}
     (hU : ∀ P ∈ S, localization₂ P.asIdeal AA = localization₂ P.asIdeal (1 : Submodule (𝓞 E) E)) (h : IsSdLat N) {c : ℕ} (hc : 0 < c) (x : HomE E a b) :
@@ -999,7 +1027,7 @@ theorem mem_divLat_iff {N : Submodule (𝓞 E) (Sp E a)} {N' : Submodule (𝓞 E
     rw [← algebraMap_smul E, map_natCast]
   rw [h1, mem_homAt_iff hU h, ← GlobalTheory.ThetaMove.PeriodTwist.twO_perO E a b AA N N' c _ h.1.fg hc negS_bound]
   refine forall₂_congr fun P hP => ?_
-  rw [mem_localization_twist _ hc negS_bound, expS, if_pos hP]
+  rw [mem_localization_twist _ hc negS_bound, expS, ite_eq_left hP]
   simp
 
 end Lattices
@@ -1294,7 +1322,7 @@ theorem kerOf_eq {X : Fields} (A : Amb X) {a b : ℕ} (Sa SB : Finset (HeightOne
     rw [Nat.cast_mul, mul_comm, mul_smul]
     exact Submodule.smul_mem _ _ x.2
   simp only [thDistC]
-  rw [if_pos ⟨Dvd.intro_left _ rfl, hx⟩, smul_comm]
+  rw [ite_eq_left ⟨Dvd.intro_left _ rfl, hx⟩, smul_comm]
 
 end Final
 

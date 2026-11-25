@@ -1,49 +1,8 @@
 module
 
 public import Mathlib.MeasureTheory.Integral.IntervalIntegral.Basic
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
 import Mathlib.Analysis.CStarAlgebra.Classes
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Lemma
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Topology.Sheaves.Init
 public import Mathlib.Analysis.SpecialFunctions.Integrability.Basic
 public import Mathlib.Analysis.SpecialFunctions.Integrals.Basic
 
@@ -59,38 +18,50 @@ namespace ComplexPowerDifferenceIntegral
 
 lemma cpow_sub_eq_integral' {x y : ℝ} (hx : 0 < x) (hxy : x ≤ y) {s : ℂ} (hs : s ≠ 0) :
     (x : ℂ) ^ (-s) - (y : ℂ) ^ (-s) = s * ∫ t in x..y, (t : ℂ) ^ (-s - 1) := by
-  have h0 : (0 : ℝ) ∉ Set.uIcc x y := by rw [Set.uIcc_of_le hxy]; intro h; linarith [h.1]
-  have hr : (-s - 1) ≠ -1 := fun h => hs (by linear_combination -h)
-  rw [integral_cpow (Or.inr ⟨hr, h0⟩), show -s - 1 + 1 = -s by ring, mul_div_assoc',
-    eq_div_iff (neg_ne_zero.mpr hs)]
+  have h0 : (0:ℝ) ∉ Set.uIcc x y := Set.notMem_uIcc_of_lt hx (hx.trans_le hxy)
+  have hr : (-s - 1) ≠ -1 := by intro h; apply hs; linear_combination -h
+  have hs' : -s ≠ 0 := neg_ne_zero.mpr hs
+  rw [integral_cpow (Or.inr ⟨hr, h0⟩)]
+  have e : -s - 1 + 1 = -s := by ring
+  rw [e, mul_div_assoc', eq_div_iff hs']
   ring
 
 lemma norm_cpow_sub_le_point {a x : ℝ} (ha : 0 < a) (hax : a ≤ x) (hxa : x ≤ a + 1) {s : ℂ}
     (hs : 0 < s.re) :
     ‖(x : ℂ) ^ (-s) - ((a + 1 : ℝ) : ℂ) ^ (-s)‖ ≤ ‖s‖ * a ^ (-s.re - 1) := by
   have hs0 : s ≠ 0 := by rintro rfl; simp at hs
-  rw [cpow_sub_eq_integral' (lt_of_lt_of_le ha hax) hxa hs0, norm_mul]
+  have hxpos : 0 < x := lt_of_lt_of_le ha hax
+  rw [cpow_sub_eq_integral' hxpos hxa hs0, norm_mul]
   refine mul_le_mul_of_nonneg_left ?_ (norm_nonneg _)
-  have hC : ∀ t ∈ Set.uIoc x (a + 1), ‖(t : ℂ) ^ (-s - 1)‖ ≤ a ^ (-s.re - 1) := fun t ht => by
+  have hC : ∀ t ∈ Set.uIoc x (a + 1), ‖(t : ℂ) ^ (-s - 1)‖ ≤ a ^ (-s.re - 1) := by
+    intro t ht
     rw [Set.uIoc_of_le hxa] at ht
-    have hta : a ≤ t := hax.trans ht.1.le
-    rw [Complex.norm_cpow_eq_rpow_re_of_pos (ha.trans_le hta), show (-s - 1).re = -s.re - 1 by simp]
+    have hta : a ≤ t := le_trans hax ht.1.le
+    have ht0 : 0 < t := lt_of_lt_of_le ha hta
+    rw [Complex.norm_cpow_eq_rpow_re_of_pos ht0]
+    have hre : (-s - 1).re = -s.re - 1 := by simp
+    rw [hre]
     exact Real.rpow_le_rpow_of_nonpos ha hta (by linarith)
   calc ‖∫ t in x..(a + 1), (t : ℂ) ^ (-s - 1)‖ ≤ a ^ (-s.re - 1) * |a + 1 - x| :=
         intervalIntegral.norm_integral_le_of_norm_le_const hC
-    _ ≤ a ^ (-s.re - 1) * 1 := mul_le_mul_of_nonneg_left (by rw [abs_of_nonneg (by linarith)]; linarith) (by positivity)
+    _ ≤ a ^ (-s.re - 1) * 1 := by
+        refine mul_le_mul_of_nonneg_left ?_ (Real.rpow_nonneg ha.le _)
+        rw [abs_of_nonneg (by linarith)]; linarith
     _ = a ^ (-s.re - 1) := mul_one _
 
 def eint (s : ℂ) (a : ℝ) : ℂ := ∫ x in a..(a + 1), ((x : ℂ) ^ (-s) - ((a + 1 : ℝ) : ℂ) ^ (-s))
 
 lemma norm_eint_le {a : ℝ} (ha : 0 < a) {s : ℂ} (hs : 0 < s.re) :
     ‖eint s a‖ ≤ ‖s‖ * a ^ (-s.re - 1) := by
+  unfold eint
   have hC : ∀ x ∈ Set.uIoc a (a + 1),
-      ‖((x : ℂ) ^ (-s) - ((a + 1 : ℝ) : ℂ) ^ (-s))‖ ≤ ‖s‖ * a ^ (-s.re - 1) := fun x hx => by
+      ‖((x : ℂ) ^ (-s) - ((a + 1 : ℝ) : ℂ) ^ (-s))‖ ≤ ‖s‖ * a ^ (-s.re - 1) := by
+    intro x hx
     rw [Set.uIoc_of_le (by linarith)] at hx
     exact norm_cpow_sub_le_point ha hx.1.le hx.2 hs
-  unfold eint
-  simpa using intervalIntegral.norm_integral_le_of_norm_le_const hC
+  calc _ ≤ ‖s‖ * a ^ (-s.re - 1) * |a + 1 - a| :=
+        intervalIntegral.norm_integral_le_of_norm_le_const hC
+    _ = _ := by rw [show a + 1 - a = 1 by ring, abs_one, mul_one]
 
 lemma d_eq {a : ℝ} (ha : 0 < a) (s : ℂ) :
     (a : ℂ) ^ (1 - s) - ((a + 1 : ℝ) : ℂ) ^ (1 - s) - (s - 1) * ((a + 1 : ℝ) : ℂ) ^ (-s) =
@@ -98,12 +69,19 @@ lemma d_eq {a : ℝ} (ha : 0 < a) (s : ℂ) :
   unfold eint
   by_cases hs1 : s = 1
   · subst hs1; simp
-  have h0 : (0 : ℝ) ∉ Set.uIcc a (a + 1) := by rw [Set.uIcc_of_le (by linarith)]; intro h; linarith [h.1]
-  have hr : -s ≠ -1 := fun h => hs1 (by linear_combination -h)
-  rw [intervalIntegral.integral_sub (intervalIntegral.intervalIntegrable_cpow (Or.inr h0)) intervalIntegrable_const,
-    integral_cpow (Or.inr ⟨hr, h0⟩), intervalIntegral.integral_const, show -s + 1 = 1 - s by ring, Complex.real_smul]
+  have h0 : (0:ℝ) ∉ Set.uIcc a (a + 1) := Set.notMem_uIcc_of_lt ha (by linarith)
+  have hr : -s ≠ -1 := by intro h; apply hs1; linear_combination -h
+  have hint1 : IntervalIntegrable (fun x : ℝ => (x : ℂ) ^ (-s)) MeasureTheory.volume a (a + 1) :=
+    intervalIntegral.intervalIntegrable_cpow (Or.inr h0)
+  rw [intervalIntegral.integral_sub hint1 intervalIntegrable_const,
+    integral_cpow (Or.inr ⟨hr, h0⟩), intervalIntegral.integral_const]
+  have e : -s + 1 = 1 - s := by ring
+  rw [e]
   have hs' : (1 - s) ≠ 0 := sub_ne_zero.mpr (Ne.symm hs1)
-  push_cast; field_simp; ring
+  rw [Complex.real_smul]
+  push_cast
+  field_simp
+  ring
 
 end ComplexPowerDifferenceIntegral
 

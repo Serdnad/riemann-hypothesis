@@ -1,6 +1,5 @@
 module
 
-import Formalism.LocalToGlobal.Columns.StdLatUnimodular
 public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.PhiTopAgree
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -122,8 +121,7 @@ theorem mem_P_iff (h : IsCompl P q ι ϖ) (hu : GlobalTheory.IndefiniteRowSideFu
     · intro a b hab
       rw [mem_vI, mem_vI, ← hu, ← hu] at *
       rw [coe_mul', map_mul, map_mul] at hab
-      by_contra hn
-      push_neg at hn
+      by_contra! hn
       have ha : valuation k (ι (a : E)) = 1 := le_antisymm (v_int_le_one h a) hn.1
       have hb : valuation k (ι (b : E)) = 1 := le_antisymm (v_int_le_one h b) hn.2
       rw [ha, hb, one_mul] at hab; exact lt_irrefl _ hab
@@ -165,7 +163,7 @@ theorem q_not_mem_sq (h : IsCompl P q ι ϖ) (hu : GlobalTheory.IndefiniteRowSid
 
 theorem reduction_spec {a : E} {r s : 𝓞 E} (hs : s ∉ P.asIdeal) (hsa : algebraMap (𝓞 E) E s * a = algebraMap (𝓞 E) E r) :
     Ideal.Quotient.mk P.asIdeal s * redP P a = Ideal.Quotient.mk P.asIdeal r := by
-  first | exact _root_.Formalism.L2.Col.reduction_spec | exact @_root_.Formalism.L2.Col.reduction_spec | apply _root_.Formalism.L2.Col.reduction_spec <;> assumption
+  exact Formalism.L2.Col.reduction_spec P hs hsa
 
 theorem v_div_q (h : IsCompl P q ι ϖ) (hu : GlobalTheory.IndefiniteRowSideFullHecke.FramePositiveSum.IsUnif ϖ) (a : E) :
     valuation k (ι a) < 1 ↔ IntAt P (a / (q : E)) := by

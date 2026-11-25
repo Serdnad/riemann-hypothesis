@@ -25,7 +25,6 @@ public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityA
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.SymmetricPowerTransfer.GlobalUnitaryForms.ScalarTuples.HsCast
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.SymmetricPowerTransfer.GlobalUnitaryForms.ScalarTuples.ModelMap
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.SymmetricPowerTransfer.GlobalUnitaryForms.ScalarTuples.QuoMulInv
-import all Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.SymmetricPowerTransfer.GlobalUnitaryForms.ScalarTuples.QuoMulInv
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -172,7 +171,7 @@ private theorem hasse {F : Type} [Field F] [NumberField F] {Δ : F} (D : Dat Δ)
       have hf : ∀ x : F, KStar.Choice.complMap v w (cv v x) = cv w (algebraMap F E x) :=
         KStar.Choice.complMap_algebraMap v w
       unfold hs
-      rw [if_pos]
+      rw [ite_eq_left]
       by_cases hv : v ∈ D.Sg
       · obtain ⟨s, hs⟩ := h.split v hv
         have e := congrArg (KStar.Choice.complMap v w) hs
@@ -193,7 +192,7 @@ private theorem hasse {F : Type} [Field F] [NumberField F] {Δ : F} (D : Dat Δ)
         rw [hf, ← map_pow, ha, map_sub, map_mul, map_one]
   unfold hs at key
   by_contra hn
-  rw [if_neg hn] at key
+  rw [ite_eq_right hn] at key
   norm_num at key
 
 private theorem d_ex {F : Type} [Field F] [NumberField F] {Δ : F} (D : Dat Δ) (h : D.Ok) (τ : F) (hτ : IsCM τ)
@@ -396,7 +395,7 @@ theorem UpperTheory.V.Z.Sym.Loc.kappa : UpperTheory.V.Z.Sym.Loc.Kappa := by
       HL.2.1 Δ _ L.even (ev_unit hXu), show -2 * c = 2 * -c by ring, hsMul O K Δ L _ _ _ hreg L.two_ne (neg_ne_zero.2 hc0)]
     have e2 : hs (τ ^ 2 - 4) 2 * hs (τ ^ 2 - 4) (algebraMap O K (r * (r + 2))) = 1 := by
       rw [← hsMul O K Δ L _ _ _ hreg L.two_ne hX0]
-      exact if_pos ⟨algebraMap O K w, 0, by rw [← map_pow, hw, map_mul, map_ofNat]; ring⟩
+      exact ite_eq_left ⟨algebraMap O K w, 0, by rw [← map_pow, hw, map_mul, map_ofNat]; ring⟩
     linear_combination (hs (τ ^ 2 - 4) (-c) * gOrb O j χ a) * e2
   · by_cases he : EvenVal O (2 + τ)
     · obtain ⟨ε, s, hs0, e⟩ := id he
@@ -435,7 +434,7 @@ theorem UpperTheory.V.Z.Sym.Loc.kappa : UpperTheory.V.Z.Sym.Loc.Kappa := by
         2 + τ + QuadraticAlgebra.trace l₁ = algebraMap O K X →
         kapSum O c (dLam lam z) 1 = eps τ lam * (hs (τ ^ 2 - 4) (-c) * gOrb O j χ z) := fun l₁ X i1 n1 hXu eX => by
       refine red l₁ n1 (eX ▸ (hXu.map _).ne_zero) _ ?_
-      rw [val l₁ n1 1 1 (caseG O K Δ τ L hD c hce l₁ i1 n1 z hz) ⟨1, if_pos ⟨1, 0, by simp⟩⟩, eps, eX, GV.1 ⟨h1.unit, ep⟩, GV.2.1 hD,
+      rw [val l₁ n1 1 1 (caseG O K Δ τ L hD c hce l₁ i1 n1 z hz) ⟨1, ite_eq_left ⟨1, 0, by simp⟩⟩, eps, eX, GV.1 ⟨h1.unit, ep⟩, GV.2.1 hD,
         HL.2.1 _ _ hDe (ev_unit hXu), HL.2.1 _ _ L.even (ev_unit hXu), HL.2.1 _ _ hDe (ev_neg hce)]
       simp
     by_cases hu : IsUnit (2 + τ₀ + 2 * x)
@@ -495,17 +494,17 @@ private theorem hs_sq {K : Type} [Field K] (h2 : (2 : K) ≠ 0) {d : K} (hd : d 
   obtain ⟨r, rfl⟩ := hs'
   have hr : r ≠ 0 := fun h => hd (by simp [h])
   unfold hs
-  rw [if_pos]
+  rw [ite_eq_left]
   exact ⟨(x + 1) / 2, (x - 1) / (2 * r), by field_simp; ring⟩
 
 private theorem hs_pos (d x : ℝ) (hx : 0 < x) : hs d x = 1 := by
   unfold hs
-  rw [if_pos]
+  rw [ite_eq_left]
   exact ⟨Real.sqrt x, 0, by rw [Real.sq_sqrt hx.le]; ring⟩
 
 private theorem hs_neg (d x : ℝ) (hd : d < 0) (hx : x < 0) : hs d x = -1 := by
   unfold hs
-  rw [if_neg]
+  rw [ite_eq_right]
   rintro ⟨a, b, h⟩
   nlinarith [sq_nonneg a, sq_nonneg b]
 
@@ -515,7 +514,7 @@ private theorem normL {K : Type} [Field K] (Δ : K) (x : Lsq K Δ) : QuadraticAl
 private theorem hs_iff {K : Type} [Field K] (Δ x : K) : (∃ lam : Lsq K Δ, QuadraticAlgebra.norm lam = x) → hs Δ x = 1 := by
   rintro ⟨lam, hl⟩
   unfold hs
-  rw [if_pos ⟨lam.re, lam.im, by rw [← normL, hl]⟩]
+  rw [ite_eq_left ⟨lam.re, lam.im, by rw [← normL, hl]⟩]
 
 private theorem hs_iff' {K : Type} [Field K] (Δ x : K) (h : hs Δ x = 1) : ∃ lam : Lsq K Δ, QuadraticAlgebra.norm lam = x := by
   unfold hs at h
@@ -597,8 +596,7 @@ private theorem posF_one {F : Type} [Field F] [NumberField F] {Δ τ : F} (hΔ :
   set p2 := σ x.2.re.im with hp2
   set q1 := σ x.2.im.re with hq1
   set q2 := σ x.2.im.im with hq2
-  by_contra hle
-  push_neg at hle
+  by_contra! hle
   have t1 := sq_nonneg a1
   have t2 : 0 ≤ (-D) * b1 ^ 2 := mul_nonneg (by linarith) (sq_nonneg _)
   have t3 : 0 ≤ (2 * p1 + T * q1) ^ 2 := sq_nonneg _
@@ -645,7 +643,25 @@ private theorem posF_one {F : Type} [Field F] [NumberField F] {Δ τ : F} (hΔ :
 
 private theorem ae_unit {F : Type} [Field F] [NumberField F] {x : F} (hx : x ≠ 0) :
     ∀ᶠ v : Pl F in Filter.cofinite, ∃ u : (Ov v)ˣ, algebraMap (Ov v) (Kv v) u = cv v x := by
-  apply _root_.UpperTheory.V.Z.Sym.Glob.GP.ae_unit <;> assumption
+  have integ : ∀ y : F, ∀ᶠ v : Pl F in Filter.cofinite,
+      cv v y ∈ HeightOneSpectrum.adicCompletionIntegers F v := by
+    intro y
+    simp only [Filter.eventually_cofinite, HeightOneSpectrum.mem_adicCompletionIntegers, not_le]
+    refine (HeightOneSpectrum.Support.finite (𝓞 F) y).subset fun v hv => ?_
+    simp only [Set.mem_setOf_eq] at hv
+    show 1 < v.valuation F y
+    have e : Valued.v (cv v y) = v.valuation F y :=
+      HeightOneSpectrum.valuedAdicCompletion_eq_valuation' v y
+    rw [← e]
+    exact hv
+  filter_upwards [integ x, integ x⁻¹] with v h1 h2
+  refine ⟨⟨⟨cv v x, h1⟩, ⟨cv v x⁻¹, h2⟩, ?_, ?_⟩, rfl⟩
+  · apply Subtype.ext
+    show cv v x * cv v x⁻¹ = 1
+    rw [← map_mul, mul_inv_cancel₀ hx, map_one]
+  · apply Subtype.ext
+    show cv v x⁻¹ * cv v x = 1
+    rw [← map_mul, inv_mul_cancel₀ hx, map_one]
 
 private theorem fp_mul {I : Type} (S : Finset I) (a b c g k : I → ℂ) (ha : {v | a v ≠ 1}.Finite) (hb : {v | b v ≠ 1}.Finite)
     (hc : {v | c v ≠ 1}.Finite) (hg : ∀ᶠ v in Filter.cofinite, g v = 1) (hS : ∀ v ∈ S, a v = 1 ∧ b v = 1 ∧ c v = 1)
@@ -846,8 +862,7 @@ theorem UpperTheory.V.Z.Sym.Glob.basePt :
       rw [map_add (f := _), map_ofNat]
       nlinarith [hTb σ]
     obtain ⟨v, hv⟩ : ∃ v : Pl F, hs (cv v Δ) (cv v (2 + τ)) ≠ 1 := by
-      by_contra hcon
-      push_neg at hcon
+      by_contra! hcon
       exact hnot (hsHasse F Δ (2 + τ) hΔ0 h2τ hreal hcon)
     have hvS : v ∉ D.Sg := fun hvS => hv (hs_sq (two_ne v) ((map_ne_zero _).mpr hΔ0) (hD.split v hvS) _)
     have hnl : ¬ ∃ lam : Lsq (Kv v) (cv v Δ), QuadraticAlgebra.norm lam = 2 + cv v τ := by

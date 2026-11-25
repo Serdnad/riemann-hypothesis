@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.WeilOperatorIdempotentSumVacuumNormalisedSum
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.FinPartAlgebraMap
 public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.IsSumFrame
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.EqSumFiniteCoordsOfInfinitePartZero
@@ -51,7 +50,6 @@ import Development.AbelianVarietyTheory.Definitions.LatticeFrames.JointSmooth
 open Formalism.BasicNotions Formalism.BasicNotions.TH Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes Formalism.MainNotions.StandardLattice Formalism.L2.Theta Formalism.IndefR.Datum MeasureTheory Matrix ValuativeRel GlobalTheory.MixModel GlobalTheory.MixPer GlobalTheory.Unf GlobalTheory.SeeSaw GlobalTheory.FinPl
 open IsDedekindDomain NumberField
 open scoped TensorProduct
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 
 noncomputable section
 
@@ -77,7 +75,16 @@ alias cA_algebraMap := _root_.GlobalTheory.LocWeil.cA_algebraMap
 
 theorem cut_exists (V : HSp D) (g : GA D V) (ε : AE D) (hεε : ε * ε = ε) (hε : cA D ε = ε) :
     ∃ k : GA D V, mt V k = ε • mt V g + (1 - ε) • (1 : Matrix (Fin V.rank) (Fin V.rank) (AE D)) := by
-  first | exact _root_.GlobalTheory.SumHecke.cut_exists | exact @_root_.GlobalTheory.SumHecke.cut_exists | apply _root_.GlobalTheory.SumHecke.cut_exists <;> assumption
+  set M := mt V g with hM
+  have hinv : M * ((matHom V g)⁻¹).1 = 1 := (matHom V g).mul_inv
+  have hinv' : ((matHom V g)⁻¹).1 * M = 1 := (matHom V g).inv_mul
+  let K : GL (Fin V.rank) (AE D) := ⟨ε • M + (1 - ε) • 1, ε • ((matHom V g)⁻¹).1 + (1 - ε) • 1,
+    GlobalTheory.GfCut.idem_mul ε hεε _ _ hinv, GlobalTheory.GfCut.idem_mul ε hεε _ _ hinv'⟩
+  have hgU : Formalism.UG.cT (cA D) M * V.gram.map (incA D) * M = V.gram.map (incA D) :=
+    (show HR (AF D.host.F) D.sp.cm.sig V.gram from g).2
+  have hKU : K ∈ HR (AF D.host.F) D.sp.cm.sig V.gram :=
+    GlobalTheory.GfCut.idem_unitary (cA D) ε hε hεε _ M hgU
+  exact ⟨(⟨K, hKU⟩ : HR (AF D.host.F) D.sp.cm.sig V.gram), rfl⟩
 
 theorem entry_mem (V : HSp D) (P : Pl D → Prop) (g : GA D V) (hg : g ∈ grpOff V P) (i j : Fin V.rank) (u : Pl D) (hu : P u) :
     compAt D u ((mt V g - 1) i j) = 0 := by
@@ -128,11 +135,9 @@ theorem c_mul {W : Type} [Fintype W] (v : W → Pl D) (hv : Function.Injective v
   have hp1 : fstA D.host.F (pairA D.host.F 1 0) = 1 := rfl
   have hp2 : sndA D.host.F (pairA D.host.F 1 0) = 0 := rfl
   refine baseAdele_ext_infinite_finite ?_ ?_
-  · set_option synthInstance.maxHeartbeats 100000 in
-      rw [map_mul, map_zero, map_sub, map_sub, map_sum, map_one, hp1]
+  · rw [map_mul, map_zero, map_sub, map_sub, map_sum, map_one, hp1]
     simp [hf]
-  · set_option synthInstance.maxHeartbeats 100000 in
-      rw [map_mul, map_zero, map_sub, map_sub, map_sum, map_one, hp2]
+  · rw [map_mul, map_zero, map_sub, map_sub, map_sum, map_one, hp2]
     simp only [hs, sub_zero]
     refine af_ext _ fun u => ?_
 

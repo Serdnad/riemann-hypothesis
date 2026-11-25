@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.TorusHaarMeasure.NmatZeroMemBor
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovVolumes.UpperBounds.BasePsiLeviLowerBound
 public import Mathlib.Analysis.Calculus.FDeriv.WithLp
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovVolumes.ArakelovInstances.KappaStatementHolds
@@ -176,7 +175,7 @@ theorem ae_simple_col {n N : ℕ} (U : Set (EuclideanSpace ℂ (Fin n))) (hU : I
     have : S (A y) y = S t y + (y - colProj j0 t) := by
       ext k
       simp only [hS, hA, Pi.add_apply, colInc_apply, add_mul, Finset.sum_add_distrib, ite_mul, zero_mul,
-        Finset.sum_ite_eq', Finset.mem_univ, if_true, PiLp.add_apply]
+        Finset.sum_ite_eq', Finset.mem_univ, ite_true, PiLp.add_apply]
       field_simp
     simp only [hG, hπA, this]
     simp only [hA, map_add (f := _)]
@@ -807,9 +806,6 @@ namespace GlobalTheory.FiniteZeroOrbits
 
 variable {E : Type} [Field E] [NumberField E] [IsCMField E]
 
-theorem cpt_origin {r : ℕ} (X : Data E r) (x : Frame X.Ψ r) : cpt X x 0 = x := by
-  apply _root_.GlobalTheory.LeadJets.cpt_zero <;> assumption
-
 theorem eventually_split {r : ℕ} (X : Data E r) {x : Frame X.Ψ r} (hx : x ∈ X.dom) {δ : ℝ} (hδ : 0 < δ) :
     ∀ᶠ y in 𝓝 x, y ∈ X.dom ∧ ∃ z ∈ Metric.closedBall (0 : V (nd X)) δ, ∃ b ∈ Bor X.Ψ r,
       y = rmul (cpt X x z) b := by
@@ -840,7 +836,7 @@ theorem eventually_split {r : ℕ} (X : Data E r) {x : Frame X.Ψ r} (hx : x ∈
   have hb : ∀ᶠ y in 𝓝 x, LUPf.zF X x y ∈ Metric.closedBall (0 : V (nd X)) δ :=
     hc.preimage_mem_nhds (by rw [hz0]; exact Metric.closedBall_mem_nhds _ hδ)
   filter_upwards [hn, hb] with y hy hyb
-  refine ⟨hy.1, _, hyb, _, LUPf.bF_mem hy.1 hy.2, ?_⟩
+  refine ⟨hy.1, _, hyb, _, LUPf.bF_mem hy.2, ?_⟩
   funext τ
   show y τ = (mat x τ * mat (nmat X (LUPf.zF X x y)) τ *
     (LUPf.Lm (LUPf.Mx X x y τ) * LUPf.Mx X x y τ) : Matrix (Fin r) (Fin r) ℂ)
@@ -899,14 +895,14 @@ theorem finite_orbits : ∀ (r : ℕ) (X : Data E r) (L : Wt X.Ψ r) (w0 : Frame
     intro x hx h0
     obtain ⟨δ, hδ, hiso⟩ := isolated_of_det (hsimp x hx h0).2 (by
       ext k
-      simp [cpt_origin, h0 k])
+      simp [ReciprocityTheory.ChartRestriction.G.AR.Up.IW.cpt_zero, h0 k])
     filter_upwards [eventually_split X hx hδ] with y ⟨hy, z, hz, b, hb, he⟩ hy0
     have hR : S.r (cpt X x z) y := ⟨1, X.Γ.one_mem, b, hb, by rw [FundSetPf.lact_one]; exact he⟩
     have h1 := (hstab _ _ (S.iseqv.symm hR) ⟨hy, hy0⟩).2
     have hz0 : z = 0 := hiso z hz (by
       ext k
       simp [h1 k])
-    rwa [hz0, cpt_origin] at hR
+    rwa [hz0, ReciprocityTheory.ChartRestriction.G.AR.Up.IW.cpt_zero] at hR
   have hK : IsCompact (C ∩ {x | ∀ k, s k x = 0}) := by
     have hcont : ContinuousOn (fun x k => s k x) C :=
       continuousOn_pi.2 fun k => (hs k).1.continuousOn.mono hCd

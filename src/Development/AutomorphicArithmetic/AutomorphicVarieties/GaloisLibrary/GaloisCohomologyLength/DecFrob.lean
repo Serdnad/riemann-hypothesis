@@ -3,66 +3,18 @@ module
 import Formalism.LocalRingCardinality.SpanPowerMembership.NDLocA
 public import ReciprocityTheory.GaloisValuations.Global
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.GaloisLibrary.GaloisCohomologyLength.IneFixRoots
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Topology.Sheaves.Init
 import Development.AutomorphicArithmetic.AutomorphicVarieties.GaloisLibrary.GaloisCohomologyLength.LevelInertiaLeLevelDec
 import Formalism.GaloisCohomology.Statement
 
 @[expose] public section
 
 open NumberField IsDedekindDomain ReciprocityTheory.Gal Formalism.ConjugateSelfDual Formalism.GaloisCohomology UpperTheory.V.LDataCardLeFinrank
+open Formalism.BasicNotions.Examples₂.LB (vQ isPlaceOver_vQ)
 
 namespace UpperTheory.V.LDataCardLeFinrank.DecompositionFrobenius
 
 variable (l : ℕ) [hl : Fact l.Prime]
-
-private theorem prime_l : Prime ((l : ℕ) : 𝓞 ℚ) := by
-  rw [← MulEquiv.prime_iff Rat.ringOfIntegersEquiv, map_natCast]
-  exact Nat.prime_iff_prime_int.mp hl.out
-
-private noncomputable def vQ : HeightOneSpectrum (𝓞 ℚ) where
-  asIdeal := Ideal.span {((l : ℕ) : 𝓞 ℚ)}
-  isPrime := (Ideal.span_singleton_prime (prime_l l).ne_zero).mpr (prime_l l)
-  ne_bot := by rw [Ne, Ideal.span_singleton_eq_bot]; exact (prime_l l).ne_zero
 
 private theorem normV_vQ : normV (vQ l) = l := by
   show Nat.card (𝓞 ℚ ⧸ Ideal.span {((l : ℕ) : 𝓞 ℚ)}) = l
@@ -72,26 +24,9 @@ private theorem normV_vQ : normV (vQ l) = l := by
 
 variable {l} {Ω : Type} [Field Ω]
 
-private theorem intCast_mem_vQ (n : ℤ) : ((n : ℤ) : 𝓞 ℚ) ∈ (vQ l).asIdeal ↔ ((l : ℕ) : ℤ) ∣ n := by
-  show _ ∈ Ideal.span _ ↔ _
-  rw [Ideal.mem_span_singleton, ← map_dvd_iff Rat.ringOfIntegersEquiv]
-  simp
-
-private theorem val_intCast_le_one (A : ValuationSubring Ω) (n : ℤ) : A.valuation (n : Ω) ≤ 1 := by
-  rw [ValuationSubring.valuation_le_one_iff]
-  exact intCast_mem A n
-
 private theorem val_intCast_lt_one_iff (A : ValuationSubring Ω) (hA : A.valuation ((l : ℕ) : Ω) < 1) (n : ℤ) :
     A.valuation (n : Ω) < 1 ↔ ((l : ℕ) : ℤ) ∣ n := by
   apply _root_.Formalism.BasicNotions.Examples₂.LB.val_intCast_lt_one_iff <;> assumption
-
-private theorem isPlaceOver_vQ [Algebra ℚ Ω] (A : ValuationSubring Ω) (hA : A.valuation ((l : ℕ) : Ω) < 1) :
-    IsPlaceOver (F := ℚ) A (vQ l) := by
-  intro x
-  obtain ⟨n, rfl⟩ : ∃ n : ℤ, x = (n : 𝓞 ℚ) :=
-    ⟨Rat.ringOfIntegersEquiv x, Rat.ringOfIntegersEquiv.injective (by simp)⟩
-  rw [intCast_mem_vQ, ← val_intCast_lt_one_iff A hA n]
-  simp
 
 end UpperTheory.V.LDataCardLeFinrank.DecompositionFrobenius
 

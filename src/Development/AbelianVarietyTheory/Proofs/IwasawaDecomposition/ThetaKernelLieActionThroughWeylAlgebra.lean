@@ -56,7 +56,6 @@ noncomputable section
 open Formalism.BasicNotions Formalism.BasicNotions.TH Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes Formalism.MainNotions.StandardLattice Formalism.L2.Theta GlobalTheory.Mem.Th MeasureTheory IsDedekindDomain NumberField Matrix
 open Formalism.IndefR.Datum GlobalTheory.Mem.AutSpace GlobalTheory.IndefiniteRowSideFullHecke.LieAlgebraExponentialFamilies GlobalTheory.CuspDecay GlobalTheory.Mem.Lift
 open scoped TensorProduct ContDiff Topology
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 open scoped Classical
 
 namespace GlobalTheory.Mem.Lift.WeylAction
@@ -92,7 +91,7 @@ theorem sum_left {A : Type} [AddCommGroup A] [Module ℂ A] (X : Matrix (Fin m) 
       ∑ i, ∑ j, X i j • ∑ a, y ((i, a), τ) ((j, a), τ) := by
   rw [sum_blk _ _ τ fun τ' h => Or.inl (Pi.single_eq_of_ne h _)]
   simp only [Fintype.sum_prod_type, Pi.single_eq_same, Matrix.one_apply, mul_ite, mul_one, mul_zero, ite_smul,
-    zero_smul, Finset.sum_ite_eq', Finset.mem_univ, if_true, Finset.smul_sum]
+    zero_smul, Finset.sum_ite_eq', Finset.mem_univ, ite_true, Finset.smul_sum]
   exact Finset.sum_congr rfl fun i _ => Finset.sum_comm
 
 theorem sum_right {A : Type} [AddCommGroup A] [Module ℂ A] (Y : Matrix (Fin n) (Fin n) ℂ) (τ : O)

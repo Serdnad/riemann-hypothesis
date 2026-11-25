@@ -15,49 +15,8 @@ public import Formalism.SharpRestriction.LevelLetterCocycles.AnnihilatorGeneralO
 public import Formalism.SharpRestriction.LevelLetterCocycles.RepresentationCongruences.ArcPropositionAlternative
 public import Formalism.SharpRestriction.LevelLetterCocycles.RepresentationCongruences.ArcStructuresThreeHold
 public import Formalism.SharpRestriction.LevelLetterCocycles.RepresentationCongruences.IsAdicCompleteOfIdealPowLe
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Topology.Sheaves.Init
 import Formalism.SharpRestriction.LevelLetterCocycles.RepresentationCongruences.Pi0MemADelta
-import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
 import Mathlib.Algebra.Order.Star.Rat
-import Mathlib.Tactic.Basify
-import Std.Tactic.BVDecide.Normalize.Prop
 import Mathlib.Algebra.Order.Star.Real
 import Mathlib.Order.Interval.Finset.Box
 import Mathlib.RingTheory.PiTensorProduct
@@ -67,7 +26,6 @@ import Formalism.SharpRestriction.LevelLetterCocycles.RepresentationCongruences.
 import Mathlib.Algebra.Order.Star.Int
 import Mathlib.Data.Finset.Functor
 import Mathlib.Tactic.Lemma
-import Mathlib.Tactic.Linter.HaveILetI
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Formalism.SharpRestriction.LevelLetterCocycles.RepresentationCongruences.ArcLenLeOneOfNoThick, Formalism.SharpRestriction.LevelLetterCocycles.RepresentationCongruences.IsRhoZeroOfPi0, Formalism.SharpRestriction.LevelLetterCocycles.RepresentationCongruences.InIOfMemPi0Lattice, Formalism.SharpRestriction.LevelLetterCocycles.RepresentationCongruences.RepVVAeval, Formalism.SharpRestriction.LevelLetterCocycles.RepresentationCongruences.ArcLengthBoundTheorem, Formalism.SharpRestriction.LevelLetterCocycles.RepresentationCongruences.ArcSetupTheorem, Formalism.SharpRestriction.LevelLetterCocycles.RepresentationCongruences.CocycleClassesExponent, Formalism.SharpRestriction.LevelLetterCocycles.RepresentationCongruences.JumpsOfSurjectiveLatticeMap, Formalism.SharpRestriction.LevelLetterCocycles.RepresentationCongruences.SumPadicValIntWindowLe, Formalism.SharpRestriction.LevelLetterCocycles.RepresentationCongruences.LogbHBNonneg
@@ -827,7 +785,7 @@ theorem arc_length_bound_theorem [Fintype (K →ₐ[Qp] LL)] (W : LocWach PD LL 
   obtain ⟨x₁, hx₁f, hx₁⟩ := LV_galois hA hc hRelay hArc hcase hl hW₁ hW₂ hb he₁ hLV u'' hu''I hu''P hu''R
     x'' hx''
 
-  obtain ⟨o, g, hgNL, hog⟩ := hJspan _ hfrFr (fun k hk => if_neg hk) hInvr
+  obtain ⟨o, g, hgNL, hog⟩ := hJspan _ hfrFr (fun k hk => ite_eq_right hk) hInvr
   obtain ⟨x₀, hx₀N, hx₀R⟩ := hNLx g hgNL
   have hsumI : InI W T₂ c (∑ i, o i • uJ i) := InI_sum W _ _ fun i _ => InI_smulO W _ (huJI i)
   have hsumR := RepVV_sum W h00 Finset.univ (fun i => o i • uJ i)
@@ -1150,8 +1108,7 @@ theorem padicValNat_eq_card_dvd_pows (l : ℕ) (hl : 2 ≤ l) (N b : ℕ) (hN : 
     exact hfin.pow_dvd_iff_le_multiplicity
   have hv : padicValNat l N < b := by
     have h1 : l ^ padicValNat l N ≤ N := Nat.le_of_dvd hN0 ((key _).2 le_rfl)
-    by_contra hc
-    push_neg at hc
+    by_contra! hc
     have : l ^ b ≤ l ^ padicValNat l N := Nat.pow_le_pow_right (by omega) hc
     omega
   have hset : (Ico 1 b).filter (fun i => l ^ i ∣ N) = Icc 1 (padicValNat l N) := by
@@ -1400,7 +1357,7 @@ theorem kappa_bound_of_length {n : ℕ} [NeZero n] (l : ℕ) (hl : 11 ≤ l) (b 
     intro i hi
     simp only [Formalism.MainNotions.ArcLiftingSetup.ArcP.JS, Finset.mem_union] at hi
     rcases hi with hi | hi
-    · rw [if_neg] at hi
+    · rw [ite_eq_right] at hi
       · simp at hi
       rintro ⟨s, -, hs⟩
       rw [hty] at hs

@@ -40,8 +40,7 @@ theorem move_left (hM : MidP k) (hR : RefineP k) (hS : SwapP k) (hJ : JuxtP k) (
         · exact ih hA' Δ b (_ :: B) e hb (by simpa using hR x σ A _ B h4 h3)
     · exact ih hA' Δ b (a :: B) e hb (by simpa using hS x a b A B _ Δ (single_spec ha).2.1 hb hl h2)
 
-theorem exhaustion_at {k : Type} [Field k] [ValuativeRel k] [TopologicalSpace k]
-    [IsNonarchimedeanLocalField k] (hM : MidP k) (hR : RefineP k) (hS : SwapP k) (hC : CuspEmbP k) (hP : SuppP k) (hJ : JuxtP k)
+theorem exh_at (hM : MidP k) (hR : RefineP k) (hS : SwapP k) (hC : CuspEmbP k) (hP : SuppP k) (hJ : JuxtP k)
     (hL : LinkP k) (hm : MinP k) (hG : Zc.PeelGoodP k) (x : IrrGL (k := k)) : ∃ 𝔪 : Multiset (Segment k), IsL 𝔪 x.rep := by
   suffices H : ∀ n : ℕ, ∀ x : IrrGL (k := k), x.1 = n → ∃ 𝔪 : Multiset (Segment k), IsL 𝔪 x.rep from H _ x rfl
   intro n
@@ -76,8 +75,7 @@ theorem exhaustion_of_steps
     GlobalTheory.Published.LanglandsExhaustionGL := by
   intro k _ _ _ _ _ x
   obtain ⟨hM, hR, hS, hC, hP, hJ, hL, hm, hG⟩ := H k
-  exact exhaustion_at hM hR hS hC hP hJ hL hm hG x
-
+  exact exh_at hM hR hS hC hP hJ hL hm hG x
 end CompanionTheory.Exh
 
 end

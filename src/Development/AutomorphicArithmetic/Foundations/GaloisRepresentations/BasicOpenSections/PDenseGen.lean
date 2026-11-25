@@ -1,47 +1,8 @@
 module
 
-import all Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.TranscendenceTraces.PGenBasic
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.BasicOpenSections.BaseFacts
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.HaveILetI
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
 
 @[expose] public section
 
@@ -57,7 +18,25 @@ private theorem mem_basicOpen_fn {O : Type} [CommRing O] {Y : Scheme.{0}} (g : Y
   rfl
 
 private theorem exists_min {S : Scheme.{0}} (x : S) : ∃ x' : S, x' ⤳ x ∧ ∀ t : S, t ⤳ x' → t = x' := by
-  apply _root_.genPt_exists_spec <;> assumption
+  obtain ⟨Z, hZ, hxZ⟩ := exists_mem_irreducibleComponents_subset_of_isIrreducible _
+    (isIrreducible_singleton (x := x)).closure
+  have hZc : IsClosed Z := isClosed_of_mem_irreducibleComponents Z hZ
+  have hZi : IsIrreducible Z := hZ.1
+  set η := hZi.genericPoint with hη
+  have hgen : closure {η} = Z := (hZi.isGenericPoint_genericPoint_closure).trans hZc.closure_eq
+  refine ⟨η, ?_, ?_⟩
+  · rw [specializes_iff_mem_closure, hgen]
+    exact hxZ (subset_closure rfl)
+  · intro t ht
+    have h1 : Z ⊆ closure {t} := by
+      rw [← hgen]
+      exact closure_minimal (Set.singleton_subset_iff.mpr (specializes_iff_mem_closure.mp ht))
+        isClosed_closure
+    have h2 : closure {t} = Z := subset_antisymm (hZ.2 isIrreducible_singleton.closure h1) h1
+    have h3 : η ⤳ t := by
+      rw [specializes_iff_mem_closure, hgen, ← h2]
+      exact subset_closure rfl
+    exact (ht.antisymm h3).eq
 
 private theorem dense_generic_points {O A k : Type} [CommRing O] [Field A] [Field k] (q : O →+* A) (hq : Function.Surjective q)
     (β₀ : A →+* k) (ϖ : O) (hϖ : RingHom.ker q = Ideal.span {ϖ}) (Y S : Scheme.{0}) (g : Y ⟶ Spec (CommRingCat.of O))

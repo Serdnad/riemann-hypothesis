@@ -1,8 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ContinuousInfIdele
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.QuadraticCharacterTrivialUnitIdelesStatement
-import Development.AbelianVarietyTheory.Proofs.SatakeParameters.QuadraticHeckeCharUnramifiedOfIsUnramifiedAt
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.SubsingletonRankZero
 public import Formalism.SatakeDualWeyl.StatementE
 public import Development.AbelianVarietyTheory.Definitions.Foundations.IsSatVecUOfIsSphericalU
@@ -27,54 +24,9 @@ public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.SplitPrim
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.CommGroupDivEqMulDivMulInvDiv
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.UnitaryHeckeCharCMInfinityComponentGlobalUnit
 public import ReciprocityTheory.NeutralLocalFields.Reciprocity
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Topology.Sheaves.Init
-import Mathlib.Algebra.Ring.IsFormallyReal
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.Polynomial.Basic
 import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.IdeleCharacterTrivialOnLocalUnits
 import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.UnitOpenAndCongrOpen
-import Mathlib.Tactic.Lemma
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Data.Nat.Choose.Multinomial
 import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.IsOpenKerFinIdele
 import Formalism.LocalToGlobal.UnitaryNorms.IsUnitaryNormOf
 import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsCmAdeleUnitCharacterReadingHeckeChar
@@ -154,7 +106,7 @@ private theorem logNorm_diag {E : Type} [Field E] [NumberField E] [IsCMField E] 
     (GlobalTheory.Mem.Chr.CharModel.infDiag_parts k).2, GlobalTheory.Mem.Chr.CharModel.logFin_one, sub_zero,
     GlobalTheory.Mem.Chr.CharModel.logInf_principal, ← h, Real.log_prod (fun v _ => pow_ne_zero _ (hp v))]
   refine Finset.sum_congr rfl fun v _ => ?_
-  rw [Real.log_pow, InfinitePlace.mult, if_neg (InfinitePlace.not_isReal_iff_isComplex.2 (IsTotallyComplex.isComplex v))]
+  rw [Real.log_pow, InfinitePlace.mult, ite_eq_right (InfinitePlace.not_isReal_iff_isComplex.2 (IsTotallyComplex.isComplex v))]
   norm_num
 
 theorem UpperTheory.Gal.TP.Chr.absFacts :
@@ -408,14 +360,7 @@ section -- clump:auto
 
 open NumberField IsDedekindDomain Matrix Polynomial Filter GlobalTheory.CuspRep GlobalTheory.PRep Formalism.UG Formalism.BasicNotions GlobalTheory.UnitaryBC Formalism.L2.Host GlobalTheory.BCT
 open scoped Classical TensorProduct
-attribute [local instance] GlobalTheory.LocalData.complRel GlobalTheory.LocalData.isLocalField
 
-theorem _root_.GlobalTheory.T.heckeCharCM_eta_local_eq_neg_one_pow_val_inert : ∀ (E : Type) [Field E] [NumberField E] [IsCMField E], Unr E → ∀ μ : HChar E,
-    (∀ x, μ.1 (GlobalTheory.IndefiniteRowSideFullHecke.UnitaryHeckeCharacterIdele.ideleMap (maximalRealSubfield E) E x) = (GlobalTheory.GalOfCusp.quadChar E).1 x) →
-    (∀ (w : HeightOneSpectrum (𝓞 E)) (u : (w.adicCompletion E)ˣ), ¬ IsSplitAt w → Valued.v (u : w.adicCompletion E) = 1 →
-      μ.1 (Neutral.B1.localIdele E w u) = 1) →
-    ∀ w : Pl E, ¬ IsSplitAt w → μ.loc w = GlobalTheory.SmGL.unrChar (w.adicCompletion E) (-1) := by
-  first | exact @GlobalTheory.MuInert.loc_eq_unrChar_neg_one
 end -- clump:auto
 end -- clump:auto
 -- ===== end clump member: Development.AbelianVarietyTheory.Proofs.DivisorProofs.HeckeCharCMEtaLocalEqNegOnePowValInertStatement =====
@@ -426,8 +371,6 @@ section -- clump:auto
 @[expose] public section
 
 open NumberField IsDedekindDomain GlobalTheory.CuspRep GlobalTheory.UnitaryBC Formalism.L2.Host
-
-attribute [local instance] GlobalTheory.LocalData.complRel GlobalTheory.LocalData.isLocalField
 
 namespace UpperTheory.ConvolutionTheory.D.MultiplierQuotient
 
@@ -584,12 +527,35 @@ private theorem psi_ideleMap (e : InfinitePlace E → ℤ) (he : ∀ v, Odd (e v
 private theorem quadChar_unr (w : HeightOneSpectrum (𝓞 E))
     (hw : Algebra.IsUnramifiedAt (𝓞 (maximalRealSubfield E)) w.asIdeal) :
     (GlobalTheory.GalOfCusp.quadChar E).UnrAt (w.under (𝓞 (maximalRealSubfield E))) := by
-  apply _root_.GlobalTheory.QuadCharUnr.quadChar_unrAt_of_isUnramifiedAt <;> assumption
+  have h2 : Module.finrank (maximalRealSubfield E) E = 2 := Algebra.IsQuadraticExtension.finrank_eq_two _ _
+  have hu : Formalism.MainNotions.SchurIrreducible.IsUnram (E := E) (w.under (𝓞 (maximalRealSubfield E))) := by
+    by_cases hs : Formalism.MainNotions.SchurIrreducible.IsSplit (E := E) (w.under (𝓞 (maximalRealSubfield E)))
+    · exact GlobalTheory.LFun.isUnram_of_isSplit h2 hs
+    · refine GlobalTheory.LFun.isUnram_iff.2 fun u hu => ?_
+      obtain rfl := GlobalTheory.LFun.eq_of_not_isSplit hs hu rfl
+      have := u.isPrime
+      exact Algebra.isUnramifiedAt_iff_of_isDedekindDomain.1 hw
+  intro x hx
+  have hn := GlobalTheory.LFun.mem_normGroup_of_isUnram h2 hu hx
+  change Units.map _ (GlobalTheory.IdeleNormChar.normSign E (localIdele _ _ x)) = 1
+  rw [GlobalTheory.LFun.normSign_localIdele, GlobalTheory.QuadSymbol.eta_eq_one_iff.2 hn, map_one]
 
 private theorem quadChar_finPart (hU : GlobalTheory.BCT.Unr E) (b : Ideles (maximalRealSubfield E))
     (hb : b ∈ GlobalTheory.Mem.Chr.unitIdl (maximalRealSubfield E)) :
     (GlobalTheory.GalOfCusp.quadChar E).1 (GlobalTheory.Mem.Chr.finPartI (maximalRealSubfield E) b) = 1 := by
-  apply _root_.GlobalTheory.EtaFinUnit.quadChar_finPartI_eq_one <;> assumption
+  have hs : ∀ v : HeightOneSpectrum (𝓞 (maximalRealSubfield E)), ∃ w : HeightOneSpectrum (𝓞 E),
+      w.under (𝓞 (maximalRealSubfield E)) = v := fun v => by
+    have := v.isPrime
+    obtain ⟨⟨P, hP, hP'⟩⟩ := (inferInstance : Nonempty (v.asIdeal.primesOver (𝓞 E)))
+    exact ⟨⟨P, hP, Ideal.ne_bot_of_liesOver_of_ne_bot v.ne_bot P⟩, HeightOneSpectrum.ext hP'.over.symm⟩
+  refine GlobalTheory.Mem.LocTriv.eq_one_of_local (maximalRealSubfield E) (GlobalTheory.GalOfCusp.quadChar E).1
+    (GlobalTheory.GalOfCusp.quadChar E).2.1 (GlobalTheory.Mem.Chr.finPartI (maximalRealSubfield E) b)
+    (GlobalTheory.Mem.Chr.finPartI_mem_unitIdl.2 hb) (fun w => by rw [GlobalTheory.Mem.Chr.finPartI_fst]; rfl) ?_
+  intro v x hx
+  rw [GlobalTheory.Mem.Chr.finPartI_snd] at hx
+  have hxu : Valued.v (x : v.adicCompletion (maximalRealSubfield E)) = 1 := by rw [hx]; exact hb v
+  obtain ⟨w, rfl⟩ := hs v
+  exact quadChar_unr w (hU w) x hxu
 
 private theorem infSign_finPart (b : Ideles (maximalRealSubfield E)) :
     infSign E (ideleMap (maximalRealSubfield E) E (GlobalTheory.Mem.Chr.finPartI _ b)) = 1 := by
@@ -643,12 +609,12 @@ private theorem consistent (hU : GlobalTheory.BCT.Unr E) (w₀ : HeightOneSpectr
     (GlobalTheory.GalOfCusp.quadChar E).1 b = psi e (diagUnits E k * ideleMap (maximalRealSubfield E) E b * u) := by
   obtain ⟨⟨hx1, hx2⟩, hx3⟩ := hx
   have hu1 := offUnits_le_unitIdl w₀ hu
-  have hCu := GlobalTheory.T.cmExtensionIdeleConj_mem_finiteUnitIdeles E u hu1
+  have hCu := _root_.GlobalTheory.ConjUnit.ideleConj_mem_unitIdl E u hu1
   set C := ideleConj (maximalRealSubfield E) E with hCdef
   set I := ideleMap (maximalRealSubfield E) E b with hI
   set c : Eˣ →* Eˣ := Units.map (conj (maximalRealSubfield E) E).toRingEquiv.toRingHom.toMonoidHom with hc
   have hCx : C (diagUnits E k * I * u) = diagUnits E (c k) * I * C u := by
-    rw [map_mul, map_mul, hI, GlobalTheory.T.cmExtensionIdeleConj_ideleMap_maxRealSubfield]
+    rw [map_mul, map_mul, hI, _root_.GlobalTheory.ConjIdeleReal.ideleConj_ideleMap]
     congr 2
     exact GlobalTheory.IndefiniteRowSideFullHecke.UnitaryHeckeCharacterIdele.ideleConj_principalIdele (maximalRealSubfield E) E k
   set x := diagUnits E k * I * u with hxdef
@@ -689,7 +655,7 @@ private theorem consistent (hU : GlobalTheory.BCT.Unr E) (w₀ : HeightOneSpectr
   have hb'E : ideleMap (maximalRealSubfield E) E b' ∈ GlobalTheory.Mem.Chr.unitIdl E := by
     have : ideleMap (maximalRealSubfield E) E b' = x * u⁻¹ := by rw [hxb, mul_inv_cancel_right]
     rw [this]; exact mul_mem hx1 (inv_mem hu1)
-  rw [hηb, eta_eq_infSign hU b' (GlobalTheory.T.mem_finiteUnitIdeles_of_map_maxRealSubfield E b' hb'E), hxb, (psi e).map_mul _ u, psi_off e w₀ hu, mul_one,
+  rw [hηb, eta_eq_infSign hU b' (_root_.GlobalTheory.UnitDown.unit_down E b' hb'E), hxb, (psi e).map_mul _ u, psi_off e w₀ hu, mul_one,
     psi_ideleMap e he]
 
 private theorem quadChar_norm (b : Ideles (maximalRealSubfield E)) :
@@ -756,7 +722,7 @@ theorem UpperTheory.ConvolutionTheory.D.muEx :
       ∀ z : (Cinf E)ˣ, (chiInf μ z : ℂ) = ∏ v, (z.1 v / (‖z.1 v‖ : ℂ)) ^ e v) ∧ ∀ w ∈ S, μ.UnrAt w := by
   intro E _ _ _ hU S hS e he
   obtain ⟨w₀, hw₀, hSw⟩ := exists_split_avoid S hS
-  obtain ⟨V, hVo, hV⟩ := GlobalTheory.T.exists_isOpen_subgroup_adicUnits_no_rootsOfUnity E w₀
+  obtain ⟨V, hVo, hV⟩ := _root_.GlobalTheory.RootOpen.exists_open_subgroup_no_roots E w₀
   let α : Eˣ × (Neutral.B1.Ideles (maximalRealSubfield E) × offUnits w₀) →* Neutral.B1.Ideles E :=
     (Neutral.B1.diagUnits E).coprod ((GlobalTheory.IndefiniteRowSideFullHecke.UnitaryHeckeCharacterIdele.ideleMap (maximalRealSubfield E) E).coprod (offUnits w₀).subtype)
   let a : Eˣ × (Neutral.B1.Ideles (maximalRealSubfield E) × offUnits w₀) →* ℂˣ :=
@@ -788,7 +754,7 @@ theorem UpperTheory.ConvolutionTheory.D.muEx :
   have hns : ∀ (w : HeightOneSpectrum (𝓞 E)) (u : (w.adicCompletion E)ˣ), ¬ IsSplitAt w →
       Valued.v (u : w.adicCompletion E) = 1 → μ.1 (Neutral.B1.localIdele E w u) = 1 := fun w u hw hu =>
     hoff w u (fun h => hw (GlobalTheory.ConsEta.isSplitAt_of_under_eq hw₀ h)) hu
-  refine ⟨μ, ⟨hχu, hres, GlobalTheory.T.heckeCharCM_eta_local_eq_neg_one_pow_val_inert E hU μ hres hns, he, fun z => ?_⟩, fun w hw x hx => hoff w x (hSw w hw) hx⟩
+  refine ⟨μ, ⟨hχu, hres, GlobalTheory.MuInert.loc_eq_unrChar_neg_one E hU μ hres hns, he, fun z => ?_⟩, fun w hw x hx => hoff w x (hSw w hw) hx⟩
   have h := hχU _ (infId_mem w₀ V z)
   change ((χ (infId E z) : ℂˣ) : ℂ) = _
   rw [h, psi_infId]
@@ -844,7 +810,7 @@ theorem muEmb : MuEmb := by
   have hmk := mk_emb_eq emb v
   have hor := InfinitePlace.mk_eq_iff.1 (hmk.trans (InfinitePlace.mk_embedding v).symm)
   by_cases h : v.embedding = (emb (v.comap (algebraMap (maximalRealSubfield E) E))).1
-  · simp only [e, if_pos h]
+  · simp only [e, ite_eq_left h]
     rw [← h]
   · have hc : (emb (v.comap (algebraMap (maximalRealSubfield E) E))).1 =
         ComplexEmbedding.conjugate v.embedding := by
@@ -853,7 +819,7 @@ theorem muEmb : MuEmb := by
       · rw [← h']
         exact (star_star _).symm
     have hz : v.embedding (k : E) ≠ 0 := (map_ne_zero _).2 k.ne_zero
-    simp only [e, if_neg h]
+    simp only [e, ite_eq_right h]
     rw [hc, ComplexEmbedding.conjugate_coe_eq, conj_div_norm hz, inv_zpow']
 
 end UpperTheory.Gal.TP.Chr
@@ -916,7 +882,7 @@ private lemma dense_emb (emb : ∀ w : InfinitePlace (maximalRealSubfield E), Em
     refine ⟨fun v => if h : ∃ w, InfinitePlace.mk (emb w).1 = v then h.choose_spec ▸ g h.choose else 0, ?_⟩
     funext w
     have hex : ∃ w', InfinitePlace.mk (emb w').1 = InfinitePlace.mk (emb w).1 := ⟨w, rfl⟩
-    simp only [T, dif_pos hex]
+    simp only [T, dite_eq_left hex]
     rw [hcast w _ hex.choose_spec, hg]
   have hd := hTs.denseRange.comp (InfiniteAdeleRing.denseRange_algebraMap E) hT
   convert hd using 1
@@ -1000,7 +966,6 @@ section -- clump:auto
 
 open NumberField IsDedekindDomain Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes Formalism.L2.Host Formalism.ConjugateSelfDual Neutral.B1 ReciprocityTheory.Gal
 open GlobalTheory.WeilM GlobalTheory.AdelicU GlobalTheory.LFun GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels GlobalTheory.HeckeGal GlobalTheory.CuspRep UpperTheory.Gal.TP.Chr
-
 
 theorem UpperTheory.Gal.TP.Chr.readEx :
     UpperTheory.Gal.TP.Chr.ReadEx := by
@@ -1091,7 +1056,17 @@ namespace UpperTheory.Gal.TP.Chr
 private theorem exists_read {E : Type} [Field E] [NumberField E] (φ : E →+* ℂ) :
     ∃ ρ : (InfinitePlace.mk φ).Completion →+* ℂ, Continuous ρ ∧
       ∀ x : E, ρ (algebraMap E (InfinitePlace.mk φ).Completion x) = φ x := by
-  apply _root_.GlobalTheory.InfTypeLocal.exists_ext <;> assumption
+  have hc := (InfinitePlace.Completion.isometry_extensionEmbedding (InfinitePlace.mk φ)).continuous
+  have he : ∀ x : E, InfinitePlace.Completion.extensionEmbedding (InfinitePlace.mk φ)
+      (algebraMap E (InfinitePlace.mk φ).Completion x) = (InfinitePlace.mk φ).embedding x := fun x =>
+    by
+      rw [InfinitePlace.Completion.algebraMap_apply]
+      exact InfinitePlace.Completion.extensionEmbedding_coe (InfinitePlace.mk φ) (WithAbs.toAbs _ x)
+  rcases InfinitePlace.embedding_mk_eq φ with h | h
+  · exact ⟨_, hc, fun x => (he x).trans (by rw [h])⟩
+  · refine ⟨(starRingEnd ℂ).comp (InfinitePlace.Completion.extensionEmbedding (InfinitePlace.mk φ)),
+      Complex.continuous_conj.comp hc, fun x => ?_⟩
+    rw [RingHom.comp_apply, he, h, ComplexEmbedding.conjugate_coe_eq, Complex.conj_conj]
 
 private theorem inf_formula {E ι : Type} [Field E] [NumberField E] [Fintype ι] (μ : HChar E) (φ : ι → E →+* ℂ)
     (m : ι → ℤ) (ρ : ∀ i, (InfinitePlace.mk (φ i)).Completion →+* ℂ) (hc : ∀ i, Continuous (ρ i))
@@ -1419,10 +1394,10 @@ theorem typVal : TypVal := by
   constructor
   · unfold typ
     rw [h1]
-    exact if_pos rfl
+    exact ite_eq_left rfl
   · unfold typ
     rw [h2]
-    exact if_neg (conj_ne _)
+    exact ite_eq_right (conj_ne _)
 
 end UpperTheory.Gal.TP.Chr
 

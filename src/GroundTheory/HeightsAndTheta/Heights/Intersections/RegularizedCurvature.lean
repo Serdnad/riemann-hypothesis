@@ -1,6 +1,5 @@
 module
 
-import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PLeviHolPerturb
 import GroundTheory.HeightsAndTheta.Heights.Intersections.PSemiPosTwist
 public import Mathlib.Analysis.InnerProductSpace.Laplacian
 public import ReciprocityTheory.AnalyticForms.MaIntEmpty
@@ -91,7 +90,26 @@ variable {J : Type} [Fintype J]
 
 theorem deriv_deriv_line {f : (J → ℂ) → ℝ} {z : J → ℂ} (hf : ContDiffAt ℝ 2 f z) (e : J → ℂ) :
     deriv (deriv fun s : ℝ => f (z + s • e)) 0 = fderiv ℝ (fderiv ℝ f) z e e := by
-  apply _root_.GroundTheory.Heights₂.Heights.HilbertSamuel.LeviHolPerturb.deriv_deriv_line <;> assumption
+  have hline : ∀ s : ℝ, HasDerivAt (fun s : ℝ => z + s • e) e s := fun s =>
+    (((hasDerivAt_id s).smul_const e).const_add z).congr_deriv (one_smul ℝ e)
+  have hz0 : z + (0 : ℝ) • e = z := by rw [zero_smul, add_zero]
+  have hcont : Tendsto (fun s : ℝ => z + s • e) (𝓝 0) (𝓝 z) := by
+    have h := (hline 0).continuousAt.tendsto
+    rwa [hz0] at h
+  have hfe : ∀ᶠ y in 𝓝 z, ContDiffAt ℝ 2 f y := hf.eventually (by simp)
+  have hev : deriv (fun s : ℝ => f (z + s • e)) =ᶠ[𝓝 0] fun s => fderiv ℝ f (z + s • e) e := by
+    filter_upwards [hcont.eventually hfe] with s hs
+    have h := (hs.differentiableAt (by norm_num)).hasFDerivAt.comp_hasDerivAt s (hline s)
+    exact h.deriv
+  have hH : HasFDerivAt (fderiv ℝ f) (fderiv ℝ (fderiv ℝ f) z) z :=
+    ((hf.fderiv_right (m := 1) (by norm_num)).differentiableAt (by norm_num)).hasFDerivAt
+  have hA : HasFDerivAt (fun y => fderiv ℝ f y e) ((fderiv ℝ (fderiv ℝ f) z).flip e) z := by
+    have h := hH.clm_apply (hasFDerivAt_const e z)
+    simpa using h
+  have hd : HasDerivAt (fun s : ℝ => fderiv ℝ f (z + s • e) e) (fderiv ℝ (fderiv ℝ f) z e e) 0 :=
+    hA.comp_hasDerivAt_of_eq (0 : ℝ) (hline 0) hz0.symm
+  rw [hev.deriv_eq]
+  exact hd.deriv
 
 theorem sndDeriv_nonneg_of_isLocalMin {f : (J → ℂ) → ℝ} {z : J → ℂ} (hf : ContDiffAt ℝ 2 f z)
     (hmin : IsLocalMin f z) (e : J → ℂ) : 0 ≤ fderiv ℝ (fderiv ℝ f) z e e := by
@@ -252,13 +270,8 @@ section Blocks
 
 variable {K : Type} [Fintype K] {ι : K → Type} [∀ k, Fintype (ι k)]
 
-theorem isOpen_noZeroBlock : IsOpen {z : (Σ k, ι k) → ℂ | ∀ k, ∃ i, z ⟨k, i⟩ ≠ 0} := by
-  have h : {z : (Σ k, ι k) → ℂ | ∀ k, ∃ i, z ⟨k, i⟩ ≠ 0} = ⋂ k, ⋃ i, {z | z ⟨k, i⟩ ≠ 0} := by
-    ext z
-    simp
-  rw [h]
-  exact isOpen_iInter_of_finite fun k => isOpen_iUnion fun i =>
-    isOpen_ne_fun (continuous_apply _) continuous_const
+theorem isOpen_noZeroBlock : IsOpen {z : (Σ k, ι k) → ℂ | ∀ k, ∃ i, z ⟨k, i⟩ ≠ 0} :=
+  SemipositiveTwist.isOpen_noZeroBlock
 
 def blk (k : K) : ((Σ k, ι k) → ℂ) →L[ℂ] (ι k → ℂ) :=
   ContinuousLinearMap.pi fun i =>
@@ -272,24 +285,12 @@ theorem rho_pos {z : (Σ k, ι k) → ℂ} (hz : ∀ k, ∃ i, z ⟨k, i⟩ ≠ 
   (fsMetric (ι := ι k)).pos _ (GroundTheory.Heights₂.Heights.Inter.SemipositiveTwist.blk_ne hz k)
 
 theorem contDiffAt_F {z : (Σ k, ι k) → ℂ} (hz : ∀ k, ∃ i, z ⟨k, i⟩ ≠ 0) (k : K) :
-    ContDiffAt ℝ 2 (F k) z := by
-  have hρ : ContDiffAt ℝ 2 (fsMetric (ι := ι k)).ρ (blk (ι := ι) k z) :=
-    ((GroundTheory.Heights₂.Heights.HilbertSamuel.ProjLine.isSmoothMetric_fs (J := ι k)).contDiffAt
-      (isOpen_ne.mem_nhds (GroundTheory.Heights₂.Heights.Inter.SemipositiveTwist.blk_ne hz k))).of_le (WithTop.coe_le_coe.2 le_top)
-  have hφ := hρ.log (rho_pos hz k).ne'
-  have hFk : F k = (fun u => Real.log ((fsMetric (ι := ι k)).ρ u)) ∘ blk (ι := ι) k := rfl
-  rw [hFk]
-  exact hφ.comp z ((blk (ι := ι) k).restrictScalars ℝ).contDiff.contDiffAt
+    ContDiffAt ℝ 2 (F k) z :=
+  SemipositiveTwist.contDiffAt_F hz k
 
 theorem levi_F_nonneg {z : (Σ k, ι k) → ℂ} (hz : ∀ k, ∃ i, z ⟨k, i⟩ ≠ 0) (k : K)
-    (w : (Σ k, ι k) → ℂ) : 0 ≤ ReciprocityTheory.AnForm.levi (F k) z w := by
-  have hρ : ContDiffAt ℝ 2 (fsMetric (ι := ι k)).ρ (blk (ι := ι) k z) :=
-    ((GroundTheory.Heights₂.Heights.HilbertSamuel.ProjLine.isSmoothMetric_fs (J := ι k)).contDiffAt
-      (isOpen_ne.mem_nhds (GroundTheory.Heights₂.Heights.Inter.SemipositiveTwist.blk_ne hz k))).of_le (WithTop.coe_le_coe.2 le_top)
-  have hφ := hρ.log (rho_pos hz k).ne'
-  have hFk : F k = (fun u => Real.log ((fsMetric (ι := ι k)).ρ u)) ∘ blk (ι := ι) k := rfl
-  rw [hFk, ReciprocityTheory.AnForm.levi_comp w ((blk (ι := ι) k).analyticAt z) hφ]
-  exact GroundTheory.Heights₂.Heights.HilbertSamuel.ProjLine.leviForm_log_fs_nonneg (GroundTheory.Heights₂.Heights.Inter.SemipositiveTwist.blk_ne hz k) _
+    (w : (Σ k, ι k) → ℂ) : 0 ≤ ReciprocityTheory.AnForm.levi (F k) z w :=
+  SemipositiveTwist.levi_F_nonneg hz k w
 
 end Blocks
 

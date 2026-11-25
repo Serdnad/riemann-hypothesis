@@ -11,7 +11,6 @@ import Mathlib.LinearAlgebra.Matrix.FiniteDimensional
 import Mathlib.RingTheory.Coalgebra.CoassocSimps
 import Mathlib.RingTheory.Coalgebra.IsFrobenius
 import Mathlib.RingTheory.HopfAlgebra.Basic
-import Development.AbelianVarietyTheory.Counterexamples.HeightSurvey.EmbRelExistsUnique
 
 @[expose] public section
 
@@ -21,8 +20,6 @@ open NumberField Formalism.BasicNotions Formalism.BasicNotions.TH Formalism.Main
 open scoped Matrix
 
 namespace Formalism.IndefR.Eqv.UI
-
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 
 variable (D : D7) (V : HSp D)
 
@@ -51,7 +48,26 @@ theorem J_herm : Formalism.UG.IsHerm (starRingEnd D.host.E) V.gram := by
   exact V.herm.eq _ _
 
 theorem J_det : V.gram.det ≠ 0 := by
-  apply _root_.GlobalTheory.AutFunCounterexample.gram_det_ne <;> assumption
+  intro h
+  obtain ⟨y, hy0, hy⟩ := Matrix.exists_mulVec_eq_zero_iff.mpr h
+  apply hy0
+  have hrow : ∀ i, V.hT (V.frame i) (∑ j, y j • V.frame j) = 0 := by
+    intro i
+    have hi := congrFun hy i
+    simp only [Matrix.mulVec, dotProduct, Formalism.BasicNotions.HSpace.gram, Pi.zero_apply] at hi
+
+    simp only [map_sum, map_smul, smul_eq_mul]
+    rw [← hi]
+    exact Finset.sum_congr rfl fun j _ => mul_comm _ _
+  have hw : (∑ j, y j • V.frame j) = 0 := by
+    refine V.nondeg.2 _ fun v => ?_
+    generalize (∑ j, y j • V.frame j) = w at hrow ⊢
+
+    rw [← V.frame.sum_repr v, map_sum, LinearMap.sum_apply]
+    refine Finset.sum_eq_zero fun i _ => ?_
+    rw [map_smulₛₗ, LinearMap.smul_apply, hrow, smul_zero]
+  funext i
+  exact Fintype.linearIndependent_iff.mp V.frame.linearIndependent y hw i
 
 theorem Lv_eq_map : Lv D V = V.L0.map ((crd D V).symm.toLinearMap.restrictScalars (𝓞 D.host.E)) := by
   ext x

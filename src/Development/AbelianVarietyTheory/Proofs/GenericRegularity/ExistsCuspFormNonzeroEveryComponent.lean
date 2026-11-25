@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.GenericRegularity.CurveModelExistsAllPrimesAllPoints
 public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.ThExprUniqOfChartIndep2
 public import Formalism.LocalToGlobal.ProjectiveLattices.RecPJThAllNeBot
 public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.ExistsThetaGeneratorReadingNeZeroAtFrameStatement
@@ -74,7 +73,7 @@ theorem exists_theta_ne_zero_record : Formalism.MainNotions.ModuliIntegralCharts
   intro hC D T h j hj w hn hM σ hσ k x hx
   obtain ⟨_, _, _, _, hr1, hxi, hDF, _, hc, _⟩ := _root_.GlobalTheory.SupDict.record_dictionary D T h j hj w
   obtain ⟨st, hnab⟩ := h.nabPin j hj
-  obtain ⟨f, hf, hne⟩ := GlobalTheory.T.exists_thetaGenerator_reading_ne_zero_at_frame hC _ _ _ _ (T.Q.Xo j) T.Q.c σ D.R.r (Formalism.L2.PjFree.Unf.ofPj (T.U j σ))
+  obtain ⟨f, hf, hne⟩ := _root_.GlobalTheory.ThetaNoZero.exists_thGen_rdU_ne_zero hC _ _ _ _ (T.Q.Xo j) T.Q.c σ D.R.r (Formalism.L2.PjFree.Unf.ofPj (T.U j σ))
     ((Formalism.L2.PjFree.goodEmb_iff σ).2 hσ) ((Formalism.L2.PjFree.isUnf_ofPj _).2 (h.toLawsCore.unf j hj σ hσ)) hr1
     (2 * xiR D) (mul_pos two_pos hxi) (hc σ hσ) (wtA w) w.n (dom_wtA w) hn (by omega) st (T.nab j) hnab k x hx
   refine ⟨f, hf, ?_⟩
@@ -101,7 +100,17 @@ theorem eval_ne_zero_of_nonZeroComp {D : D7} {B : WeightFamilies.Prov D} {P : Mo
     (hinj : ∀ (u : WeightFamilies.Wt D j) (F : B.Cusp j u), (∀ Z, gF Z (X.inc u F) = 0) → F = 0)
     {u v : WeightFamilies.Wt D j} (g : B.Cusp j u) (hg : X.NonZeroComp u g) (Z : ι) (g' : B.Cusp j v)
     (h1 : gF Z (X.inc v g') ≠ 0) (h2 : ∀ Z', Z' ≠ Z → gF Z' (X.inc v g') = 0) : gF Z (X.inc u g) ≠ 0 := by
-  apply _root_.GlobalTheory.CurveRecord.ev_ne_zero_of_nonZeroComp <;> assumption
+  intro h0
+  obtain ⟨H, hH⟩ := X.inc_mul u v g g'
+  have hz : H = 0 := by
+    refine hinj _ H fun Z' => ?_
+    rw [← hH, map_mul]
+    by_cases e : Z' = Z
+    · subst e
+      rw [h0, zero_mul]
+    · rw [h2 Z' e, mul_zero]
+  have hg0 : g' = 0 := hg v g' (by rw [hH, hz, map_zero])
+  exact h1 (by rw [hg0, map_zero, map_zero])
 
 section Record
 
@@ -124,7 +133,6 @@ theorem generic_ne_zero_of_nonZeroComp (hG : GenFrEx (T.Q.Xo j) T.Q.c) {v u : We
   exact fun h0 => this ((formsEvR_inc h j hj hG hT Z u g).trans h0)
 
 
-set_option maxHeartbeats 4000000 in
 set_option synthInstance.maxHeartbeats 400000 in
 theorem exists_cusp_reading_ne_zero (w : WeightFamilies.Wt D j) (σ : T.Q.c.F →+* ℂ)
     (hN : ∀ k : (T.U j σ).Comp, ∃ x ∈ ((T.U j σ).X k).dom, ∃ f ∈ cutR T.C j w, rdU (T.U j σ) f k x ≠ 0) :

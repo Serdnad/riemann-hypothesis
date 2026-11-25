@@ -316,7 +316,21 @@ private theorem orderAt_balancedTunedIdeal_le_tunedMult_of_nonempty (htune : Tun
     (hne : (orderAtLeastLocus T.ideal T.mult).Nonempty) :
     ∀ x : ↥T.scheme,
       orderAt (MaxContactCoverData.balancedTunedIdeal T hv) x ≤ ((MaxContactCoverData.tunedMult T : ℕ) : ℕ∞) := by
-  apply _root_.FunctorialResolution.EmbeddedResolution.MaxContactCoverData.orderAt_balancedTunedIdeal_le_tunedMult <;> assumption
+  have := hv.charZero
+  have := hv.smooth
+  have := hv.locallyOfFiniteType
+  have hmax : MaxOrderEq T.ideal T.mult :=
+    ⟨(orderLE_iff T.ideal T.mult).mpr hord, hne⟩
+  have hkey := htune.coSupport_tunedSheaf_eq_and_orderLE.orderLE T.base T.scheme T.structMap
+    T.ideal T.mult hv.one_le_mult hmax (tuningExponent T.mult) (one_le_tuningExponent T.mult)
+  have he0 : MaxContactCoverData.balancedTunedIdeal T hv = balancedTunedSheaf T.base T.structMap T.ideal T.mult := rfl
+  have he : MaxContactCoverData.balancedTunedIdeal T hv
+      = tunedSheaf T.base T.structMap T.ideal T.mult (tuningExponent T.mult) := by
+    rw [he0, balancedTunedSheaf_eq]
+  have hm : MaxContactCoverData.tunedMult T = tuningExponent T.mult := rfl
+  intro x
+  rw [he, hm]
+  exact (orderLE_iff _ _).mp hkey x
 
 theorem coverMap_surjective (htune : TunedSheafProperties.{u}) (T : MarkedIdealWithBoundary.{u}) (h : OrderReductionHypotheses P T) :
     AlgebraicGeometry.Surjective (MaxContactCoverData.coverMap T h.valid) :=
@@ -611,6 +625,16 @@ theorem forall_isAdmissible_dropTrivialBoundary : MaxContactFunctoriality.DropTr
   funext D
   by_cases hD : D = ⊤ <;> simp [hD]
 
+private theorem filterNeTop_cons_top {X : Scheme.{u}}
+    (L : List X.IdealSheafData) :
+    FunctorialResolution.EmbeddedResolution.filterNeTop ((⊤ : X.IdealSheafData) :: L) = FunctorialResolution.EmbeddedResolution.filterNeTop L := by
+  simp [FunctorialResolution.EmbeddedResolution.filterNeTop]
+
+private theorem filterNeTop_cons_of_ne_top {X : Scheme.{u}}
+    {D : X.IdealSheafData} (hD : D ≠ ⊤) (L : List X.IdealSheafData) :
+    FunctorialResolution.EmbeddedResolution.filterNeTop (D :: L) = D :: FunctorialResolution.EmbeddedResolution.filterNeTop L := by
+  simp [FunctorialResolution.EmbeddedResolution.filterNeTop, hD]
+
 private theorem filterNeTop_map_filter_append {X Y : Scheme.{u}}
     (f : X.IdealSheafData → Y.IdealSheafData) (hf : f ⊤ = ⊤)
     (p : X.IdealSheafData → Bool)
@@ -618,17 +642,20 @@ private theorem filterNeTop_map_filter_append {X Y : Scheme.{u}}
     (R : List Y.IdealSheafData) (L : List X.IdealSheafData) :
     FunctorialResolution.EmbeddedResolution.filterNeTop (List.map f (List.filter p L) ++ R)
       = FunctorialResolution.EmbeddedResolution.filterNeTop (List.map f L ++ R) := by
-  classical
-  simp only [FunctorialResolution.EmbeddedResolution.filterNeTop, List.filter_append,
-    List.filter_map, List.filter_filter, Function.comp_apply]
-  have hpred : (fun D : X.IdealSheafData => @decide (f D ≠ ⊤) (Classical.propDecidable _) && p D) =
-      (fun D : X.IdealSheafData => @decide (f D ≠ ⊤) (Classical.propDecidable _)) := by
-    funext D
-    cases hD : p D with
-    | false => simp [hp D hD, hf]
-    | true => simp
-  rw [hpred]
-  rfl
+  induction L with
+  | nil => rfl
+  | cons D L ih =>
+      by_cases hpD : p D = true
+      · rw [List.filter_cons, ite_eq_left hpD, List.map_cons, List.map_cons,
+          List.cons_append, List.cons_append]
+        by_cases hfD : f D = ⊤
+        · rw [hfD, filterNeTop_cons_top, filterNeTop_cons_top]
+          exact ih
+        · rw [filterNeTop_cons_of_ne_top hfD, filterNeTop_cons_of_ne_top hfD, ih]
+      · have hDtop : D = ⊤ := hp D (by simpa using hpD)
+        rw [List.filter_cons, ite_eq_right hpD, List.map_cons, List.cons_append, hDtop, hf,
+          filterNeTop_cons_top]
+        exact ih
 
 private theorem filterNeTop_boundary_filter {X : Scheme.{u}}
     (d : BlowupSequenceData X) (p : X.IdealSheafData → Bool)

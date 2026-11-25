@@ -1,57 +1,11 @@
 module
 
-import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.AdicCompactDensity.ExistsNatLocal
 public import CompanionTheory.SpectralGeometry.CountingDefinitions.AdelicEulerProducts.HypJ
 public import Mathlib.Tactic.Linter.HaveILetI
 public import CompanionTheory.SpectralGeometry.LocalGlobalProofs.AdelicAnalysis.AdelicTupleLocalGlobalProperties
 public import CompanionTheory.SpectralGeometry.LocalGlobalProofs.AdelicAnalysis.ContDiffOnChartGlobalWhittakerCoefficient
 public import CompanionTheory.SpectralGeometry.LocalGlobalProofs.AdelicAnalysis.TotallyRealContinuousEmbeddingInfiniteAdeles
 public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Levelaf
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Henselian
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.RingTheory.RegularLocalRing.Defs
-import Mathlib.RingTheory.SimpleRing.Principal
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Topology.Sheaves.Init
 
 @[expose] public section
 
@@ -94,11 +48,8 @@ theorem topRing : IsTopologicalRing (R ⊗[F] E) := by
   exact IsModuleTopology.isTopologicalRing R _
 
 theorem cont_repr {d : ℕ} (b : Module.Basis (Fin d) F E) (k : Fin d) :
-    Continuous fun y : R ⊗[F] E => (Algebra.TensorProduct.basis R b).repr y k := by
-  have : IsModuleTopology R (R ⊗[F] E) := ⟨rfl⟩
-  have : IsTopologicalRing (R ⊗[F] E) := topRing R
-  exact IsModuleTopology.continuous_of_linearMap
-    ((Finsupp.lapply k).comp (Algebra.TensorProduct.basis R b).repr.toLinearMap)
+    Continuous fun y : R ⊗[F] E => (Algebra.TensorProduct.basis R b).repr y k :=
+  Glue.continuous_repr R b k
 
 def coordH {d : ℕ} (b : Module.Basis (Fin d) F E) : R ⊗[F] E ≃ₜ (Fin d → R) := by
   haveI : IsModuleTopology R (R ⊗[F] E) := ⟨rfl⟩
@@ -162,7 +113,18 @@ theorem intS_open (N : ℕ) : IsOpen (intS (F := F) N) := by
 
 theorem exists_nat_v (v : HeightOneSpectrum (𝓞 F)) (a : Fv F v) :
     ∃ N : ℕ, 0 < N ∧ (N : Fv F v) * a ∈ v.adicCompletionIntegers F := by
-  apply _root_.PI.AdCpctDenWork.exists_nat_local <;> assumption
+  obtain ⟨β, hβ, h⟩ := HeightOneSpectrum.adicCompletion.mul_nonZeroDivisor_mem_adicCompletionIntegers v a
+  have hb0 : β ≠ 0 := nonZeroDivisors.ne_zero hβ
+  obtain ⟨c, hc⟩ := Ideal.mem_span_singleton'.1 (Ideal.absNorm_mem (Ideal.span {β}))
+  refine ⟨Ideal.absNorm (Ideal.span {β}), Nat.pos_of_ne_zero ?_, ?_⟩
+  · intro h0
+    rw [Ideal.absNorm_eq_zero_iff, Ideal.span_singleton_eq_bot] at h0
+    exact hb0 h0
+  · have e : ((Ideal.absNorm (Ideal.span {β}) : ℕ) : Fv F v) =
+        algebraMap (𝓞 F) (Fv F v) c * algebraMap (𝓞 F) (Fv F v) β := by
+      rw [← map_mul, hc, map_natCast]
+    rw [e, mul_assoc, mul_comm (algebraMap (𝓞 F) (Fv F v) β) a]
+    exact mul_mem (Formalism.UG.P.levelaf_int_mem_v v c) h
 
 theorem exists_nat_Af (y : Af F) : ∃ N : ℕ, 0 < N ∧ y ∈ intS (F := F) N := by
   classical

@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.ExpandsAtTranslateTorsion
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.PhiGenPf
 public import Development.AbelianVarietyTheory.Definitions.Uniformization.TXFrame
 public import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.ProdSumReindex
@@ -63,7 +62,6 @@ import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRin
 open CategoryTheory CategoryTheory.Limits MonoidalCategory CartesianMonoidalCategory MonObj AlgebraicGeometry IsLocalRing
 open ReciprocityTheory.ChartRestriction.G ReciprocityTheory.ChartRestriction.G.Semi ReciprocityTheory.ChartRestriction.G.Out ReciprocityTheory.ChartRestriction.G.Geo.Tor ReciprocityTheory.ChartRestriction.G.DVR
 open scoped CategoryTheory.Obj
-attribute [local instance] Over.cartesianMonoidalCategory
 open GlobalTheory.UT
 
 noncomputable section
@@ -94,7 +92,16 @@ theorem prod_coord_inv {T : Over (Spec (CommRingCat.of R))} (p : T ⟶ D.P.A) (�
 theorem prod_comp {T : Over (Spec (CommRingCat.of R))} (ρ : T ⟶ D.P.A) (χ : D.X) (k : ℕ) {U : Type} [CommGroup U]
     (h : (T.left ⟶ D.P.A.left) → U) : ∏ i, h (ρ.left ≫ D.famφB χ i) ^ DegPre.famε k i =
       h ρ.left ^ ((k : ℤ) - 1) * h (cP D T χ * ρ).left * (h (cP D T χ).left)⁻¹ * h (1 : T ⟶ D.P.A).left := by
-  apply _root_.GlobalTheory.TorsionTranslate.prod_famB <;> assumption
+  have e₀ : ρ.left ≫ D.famφB χ 0 = ρ.left := Category.comp_id _
+  have e₁ : ρ.left ≫ D.famφB χ 1 = (cP D T χ * ρ).left :=
+    congrArg (fun q => q.left) ((MonObj.comp_mul ρ (𝟙 D.P.A) (cP D _ χ)).trans
+      (by rw [comp_cP, Category.comp_id, mul_comm]))
+  have e₂ : ρ.left ≫ D.famφB χ 2 = (cP D T χ).left := congrArg (fun q => q.left) (comp_cP D ρ χ)
+  have e₃ : ρ.left ≫ D.famφB χ 3 = (1 : T ⟶ D.P.A).left :=
+    congrArg (fun q : T ⟶ D.P.A => q.left) (MonObj.comp_one (M := D.P.A) ρ)
+  rw [Fin.prod_univ_four, e₀, e₁, e₂, e₃]
+  show _ ^ ((k : ℤ) - 1) * _ ^ (1 : ℤ) * _ ^ (-1 : ℤ) * _ ^ (1 : ℤ) = _
+  rw [zpow_one, zpow_one, zpow_neg_one]
 
 def cubB (a b : D.X) := LB.pullGen D.P.L (thφ D.P.A (x3 D.P.A)) thε D.cub.t
   (lift (cP D D.P.A a) (lift (cP D D.P.A b) (𝟙 D.P.A))).left

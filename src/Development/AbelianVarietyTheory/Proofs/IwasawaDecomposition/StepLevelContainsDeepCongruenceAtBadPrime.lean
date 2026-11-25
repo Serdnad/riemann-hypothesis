@@ -49,7 +49,6 @@ import Mathlib.Tactic.ReduceModChar
 @[expose] public section
 
 open NumberField IsDedekindDomain Formalism.BasicNotions Formalism.MainNotions Formalism.L2.Col Formalism.L2.DIV Formalism.L2.Ker Formalism.UG Formalism.L2.Forms GlobalTheory.Mem GlobalTheory.Mem.Chr GlobalTheory.Mem.Col2 GlobalTheory.Mem.Col2.TC GlobalTheory.Mem.Col2.AdT Matrix
-attribute [local instance] GlobalTheory.Mem.Col2.starE Formalism.BasicNotions.Host.cmStar
 
 noncomputable section
 
@@ -64,16 +63,7 @@ theorem tendsto_fact_loc (F : Type) [Field F] [NumberField F] (v : HeightOneSpec
 
 theorem tendsto_fact (F : Type) [Field F] [NumberField F] :
     Tendsto (fun n : ℕ => ((n.factorial : ℕ) : FiniteAdeleRing (𝓞 F) F)) atTop (𝓝 0) := by
-  have h1 : Tendsto (fun n : ℕ => fun v : HeightOneSpectrum (𝓞 F) =>
-      ((n.factorial : ℕ) : v.adicCompletionIntegers F)) atTop (𝓝 0) := by
-    refine tendsto_pi_nhds.2 fun v => ?_
-    rw [tendsto_subtype_rng]
-    simpa using tendsto_fact_loc F v
-  have h2 := ((RestrictedProduct.isEmbedding_structureMap
-    (R := fun v : HeightOneSpectrum (𝓞 F) => v.adicCompletion F)
-    (A := fun v : HeightOneSpectrum (𝓞 F) => (v.adicCompletionIntegers F : Set (v.adicCompletion F)))
-    (𝓕 := cofinite)).continuous.tendsto _).comp h1
-  exact h2
+  exact GlobalTheory.AdelicFactorial.tendsto_factorial_finiteAdele F
 
 theorem val_inv_le {K Γ : Type} [CommRing K] [LinearOrderedCommGroupWithZero Γ] (w : Valuation K Γ) {n : ℕ}
     (X Y : Matrix (Fin n) (Fin n) K) (h : (1 + X) * (1 + Y) = 1) (ε : Γ) (hε : ε < 1) (hY : ∀ a b, w (Y a b) ≤ ε) (a b : Fin n) :

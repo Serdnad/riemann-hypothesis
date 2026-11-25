@@ -49,7 +49,6 @@ import Development.AbelianVarietyTheory.Definitions.Divisors.ExistsBplusNeZero
 
 open Formalism.BasicNotions Formalism.BasicNotions.TH Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes Formalism.MainNotions.StandardLattice Formalism.L2.Theta Formalism.IndefR Formalism.IndefR.Datum Formalism.IndefR.Links Formalism.L2.DIV
 open IsDedekindDomain NumberField MeasureTheory GlobalTheory.ChiGrid GlobalTheory.FunObj GlobalTheory.RowTest GlobalTheory.StdFrames GlobalTheory.RowClaim GlobalTheory.FlipRun
-attribute [local instance] Formalism.BasicNotions.Host.cmStar GlobalTheory.LocalData.complRel GlobalTheory.LocalData.isLocalField borelKw borelSpaceKw
 
 noncomputable section
 
@@ -62,10 +61,6 @@ theorem measLevW_unique {D : D7} (V : HSp D) (K : Subgroup (GL (Fin V.rank) (Lev
   apply _root_.GlobalTheory.FunObjModel.isMeasLevW_unique <;> assumption
 
 theorem vol_nu_eq_of_isAt : ∀ {D : D7} {T : Type} {L : LevCh D T} {sc : Consts} {G : GridData L sc} (M M' : Vol G) (X : Node) (K : Subgroup (GL (Fin (G.V X).rank) (Lev.EAf D))), M.IsAt X K → M'.IsAt X K → M.ν X = M'.ν X := by
-  intro D T L sc G M M' X K h h'
-  unfold GlobalTheory.FunObj.Vol.IsAt at h h'
-  split_ifs at h h'
-  · exact measLevW_unique _ _ _ (fun _ _ hm => hm.1) h.1 h'.1
-  · exact measLevW_unique _ _ _ (fun _ _ hm => hm.1) h.1 h'.1
+  apply GlobalTheory.FunObjModel.isAt_unique
 
 end GlobalTheory.HaarNorm

@@ -3,50 +3,6 @@ module
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.AxiomsFromFamilies
 public import Formalism.HermitianCurvature.ThetaExistenceInductiveFromPieces
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.FirstKernelPropertiesOfHypotheses
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Topology.Sheaves.Init
 
 @[expose] public section
 
@@ -399,9 +355,9 @@ theorem thxSum_core (hL : LocalDatum K R ψ) {L₁ : AddSubgroup K} (hle : L₁ 
     simp only [e]
     by_cases hbb : b = b'
     · subst hbb
-      rw [if_pos rfl]
+      rw [ite_eq_left rfl]
       simp [hTcard]
-    · rw [if_neg hbb]
+    · rw [ite_eq_right hbb]
       have hc : b' - b ∈ R := R.sub_mem (hB.1 b' hb') (hB.1 b hb)
       have hnot : b' - b ∉ perp ψ (perp ψ L₁) := by
         rw [hpp]
@@ -422,11 +378,11 @@ theorem thxSum_core (hL : LocalDatum K R ψ) {L₁ : AddSubgroup K} (hle : L₁ 
       ∑ x ∈ Tf, thx R ψ m cr A B τ (Quotient.out x) h h' := by
     rw [finsum_eq_sum_of_support_subset (s := Tf)]
     · refine Finset.sum_congr rfl fun x hx => ?_
-      rw [if_pos ((hTf x).mp hx)]
+      rw [ite_eq_left ((hTf x).mp hx)]
     · intro x hx
       rw [Finset.mem_coe, hTf]
       by_contra hcon
-      exact hx (if_neg hcon)
+      exact hx (ite_eq_right hcon)
   rw [hS]
   unfold thx
   rw [← Finset.mul_sum, Finset.sum_comm, mul_inv, mul_assoc, Finset.mul_sum (a := (B.card : ℂ)⁻¹)]
@@ -447,7 +403,7 @@ theorem thxSum_core (hL : LocalDatum K R ψ) {L₁ : AddSubgroup K} (hle : L₁ 
       intro b' hb'
       rw [← Finset.sum_mul, hO b hb b' hb']
       split_ifs <;> simp
-    rw [Finset.sum_congr rfl h2, Finset.sum_ite_eq, if_pos hb]
+    rw [Finset.sum_congr rfl h2, Finset.sum_ite_eq, ite_eq_left hb]
   rw [Finset.sum_congr rfl h1, ← Finset.mul_sum, ← mul_assoc]
   congr 1
   field_simp

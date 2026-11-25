@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.JetHarmonics.IsIsoGmOfMap
 public import Formalism.TorsionNormIteration.InvIntegralOfClass
 public import Mathlib.RingTheory.PowerSeries.Derivative
 public import ReciprocityTheory.ReductiveGroups.UnramifiedIntegrals.KurDefs
@@ -229,7 +228,7 @@ theorem divBy_expand_iff (x : K) (n : ℕ) (hn : n ≠ 0) (f : PowerSeries K) :
   constructor
   · intro h m
     have := h (n * m)
-    rwa [coeff_subst_X_pow_eq_ite_dvd' f hn, if_pos (dvd_mul_right n m),
+    rwa [coeff_subst_X_pow_eq_ite_dvd' f hn, ite_eq_left (dvd_mul_right n m),
       Nat.mul_div_cancel_left m (Nat.pos_of_ne_zero hn)] at this
   · intro h m
     rw [coeff_subst_X_pow_eq_ite_dvd' f hn]
@@ -251,7 +250,7 @@ theorem divByMv_expand_iff {ι : Type} (x : K) (n : ℕ) (hn : n ≠ 0) (F : MvP
         simp [Nat.mul_div_cancel' (hd i)]
       rw [e, MvPowerSeries.coeff_expand_smul]
       exact h _
-    · push_neg at hd
+    · push Not at hd
       obtain ⟨i, hi⟩ := hd
       rw [MvPowerSeries.coeff_expand_of_not_dvd n hn F hi, norm_zero]
       exact norm_nonneg _
@@ -416,7 +415,37 @@ theorem FrobField.integralMv_map (h : FrobField K l σ) {F : MvPowerSeries ι K}
 
 theorem norm_natCast_of_coprime (hl : l.Prime) (hl1 : ‖(l : K)‖ < 1) (m : ℕ) (hm : ¬ l ∣ m) :
     ‖(m : K)‖ = 1 := by
-  apply GlobalTheory.ConvSer.TowerNorm.norm_natCast_eq_one <;> assumption
+  have hint : ∀ a : ℤ, ‖(a : K)‖ ≤ 1 := by
+    intro a
+    rcases Int.eq_nat_or_neg a with ⟨n, rfl | rfl⟩
+    · push_cast
+      exact norm_natCast_le_one_unramified_integrals n
+    · push_cast
+      rw [norm_neg]
+      exact norm_natCast_le_one_unramified_integrals n
+  have hcop : Nat.gcd m l = 1 := ((Nat.Prime.coprime_iff_not_dvd hl).mpr hm).symm
+  have hb := Nat.gcd_eq_gcd_ab m l
+  rw [hcop] at hb
+  have hbK : (1 : K) = (m : K) * (Nat.gcdA m l : K) + (l : K) * (Nat.gcdB m l : K) := by
+    have := congrArg (fun z : ℤ => (z : K)) hb
+    push_cast at this
+    exact this
+  refine le_antisymm (norm_natCast_le_one_unramified_integrals m) ?_
+  by_contra! hlt
+  have h1 := IsUltrametricDist.norm_add_le_max ((m : K) * (Nat.gcdA m l : K))
+    ((l : K) * (Nat.gcdB m l : K))
+  rw [← hbK, norm_one] at h1
+  have h2 : ‖(m : K) * (Nat.gcdA m l : K)‖ < 1 := by
+    rw [norm_mul]
+    calc ‖(m : K)‖ * ‖((Nat.gcdA m l : ℤ) : K)‖ ≤ ‖(m : K)‖ * 1 :=
+          mul_le_mul_of_nonneg_left (hint _) (norm_nonneg _)
+      _ < 1 := by rw [mul_one]; exact hlt
+  have h3 : ‖(l : K) * (Nat.gcdB m l : K)‖ < 1 := by
+    rw [norm_mul]
+    calc ‖(l : K)‖ * ‖((Nat.gcdB m l : ℤ) : K)‖ ≤ ‖(l : K)‖ * 1 :=
+          mul_le_mul_of_nonneg_left (hint _) (norm_nonneg _)
+      _ < 1 := by rw [mul_one]; exact hl1
+  exact lt_irrefl _ (lt_of_le_of_lt h1 (max_lt h2 h3))
 theorem FrobField.funEqSetting [CharZero K] (h : FrobField K l σ) : FunctionalEquationSetting K l l σ := by
   refine ⟨h.prime, ⟨1, one_pos, (pow_one l).symm⟩, h.norm_l, ?_⟩
   exact h.frob

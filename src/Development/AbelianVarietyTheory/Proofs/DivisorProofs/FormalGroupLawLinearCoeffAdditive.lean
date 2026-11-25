@@ -1,6 +1,5 @@
 module
 
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.WeightedSumBounds.TangentEqLcZero
 public import Development.AbelianVarietyTheory.Definitions.Divisors.FormalCoboundarySmul
 public import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.CoeffSingleLawAdd
 import Mathlib.Algebra.Order.Floor.Extended
@@ -46,15 +45,25 @@ import Std.Tactic.BVDecide.Normalize.Prop
 
 @[expose] public section
 
-set_option autoImplicit false
-
 open CategoryTheory TensorProduct MvPowerSeries GlobalTheory GlobalTheory.PDiv GlobalTheory.PDivGroup GlobalTheory.Katz
 
 namespace GlobalTheory.Katz.LowLaw
 
 theorem eq_single_of_degree_eq_one {σ : Type} {e : σ →₀ ℕ} (h : e.degree = 1) :
     ∃ j, e = Finsupp.single j 1 := by
-  apply _root_.ReciprocityTheory.ChartRestriction.G.Sh.PTb.degree_eq_one <;> assumption
+  classical
+  have hne : e ≠ 0 := by rintro rfl; simp at h
+  obtain ⟨j, hj⟩ := Finsupp.support_nonempty_iff.mpr hne
+  have hle : Finsupp.single j 1 ≤ e := by
+    rw [Finsupp.single_le_iff]; exact Nat.one_le_iff_ne_zero.mpr (Finsupp.mem_support_iff.mp hj)
+  refine ⟨j, ?_⟩
+  have hsum : e = (e - Finsupp.single j 1) + Finsupp.single j 1 := (tsub_add_cancel_of_le hle).symm
+  have hd : (e - Finsupp.single j 1).degree = 0 := by
+    have h2 := congrArg Finsupp.degree hsum
+    rw [map_add (f := _), Finsupp.degree_single, h] at h2
+    omega
+  rw [Finsupp.degree_eq_zero_iff] at hd
+  rw [hsum, hd, zero_add]
 
 theorem coeff_addLaw (R : Type) [CommRing R] (d : ℕ) (i : Fin d) (α : Fin d ⊕ Fin d →₀ ℕ) :
     coeff α (addLaw R d i) =
@@ -65,11 +74,11 @@ theorem coeff_addLaw (R : Type) [CommRing R] (d : ℕ) (i : Fin d) (α : Fin d �
   · have h2 : α ≠ Finsupp.single (Sum.inr i) 1 := by
       rw [h1]; intro h
       exact Sum.inl_ne_inr ((Finsupp.single_left_inj one_ne_zero).1 h)
-    rw [if_pos h1, if_neg h2, if_pos (Or.inl h1), add_zero]
-  · rw [if_neg h1, zero_add]
+    rw [ite_eq_left h1, ite_eq_right h2, ite_eq_left (Or.inl h1), add_zero]
+  · rw [ite_eq_right h1, zero_add]
     by_cases h2 : α = Finsupp.single (Sum.inr i) 1
-    · rw [if_pos h2, if_pos (Or.inr h2)]
-    · rw [if_neg h2, if_neg (by tauto)]
+    · rw [ite_eq_left h2, ite_eq_left (Or.inr h2)]
+    · rw [ite_eq_right h2, ite_eq_right (by tauto)]
 
 variable {k : Type} [CommRing k] {d : ℕ}
 
@@ -105,7 +114,7 @@ theorem coeff_law_of_degree_le_one (p : ℕ) [Fact p.Prime] (k : Type) [Field k]
   have h1 : coeff α (μ i) = coeff α (addLaw k d i) := by
     rcases Nat.le_one_iff_eq_zero_or_eq_one.1 hα with h0 | h1
     · rw [(Finsupp.degree_eq_zero_iff α).1 h0, coeff_zero_eq_constantCoeff_apply, h.const,
-        coeff_addLaw, if_neg]
+        coeff_addLaw, ite_eq_right]
       rintro (h | h) <;> exact Finsupp.single_ne_zero.2 one_ne_zero h.symm
     · obtain ⟨s, rfl⟩ := eq_single_of_degree_eq_one h1
       rcases s with j | j

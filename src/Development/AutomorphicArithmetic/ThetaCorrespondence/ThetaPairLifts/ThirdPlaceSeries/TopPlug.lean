@@ -115,8 +115,7 @@ private theorem UpperTheory.Top.boundedTw_key (ψ : PChar) (φ : Frame) (H : Hos
   obtain ⟨ξ, hξ, i, j, hiod, heq⟩ := htw θ htriv
   have hNc : ψ.N ∣ H.condN := Dvd.dvd.mul_right (Dvd.dvd.mul_right hdiv _) _
   refine ⟨ξ, i, j, ?_, hχ'.1, ?_⟩
-  · by_contra hij
-    push_neg at hij
+  · by_contra! hij
     obtain ⟨rfl, rfl⟩ := hij
     rcases hθ' with ⟨-, hnk⟩ | hm
     · apply hnk
@@ -320,25 +319,38 @@ private theorem xiW_eq_one {M : ℕ} [NeZero M] (χ : DirichletCharacter ℂ M) 
   change QuotientGroup.mk' _ (ZMod.unitsMap (Nat.dvd_lcm_right (2 ^ (e + 2)) M) u) = 1 ↔ _
   rw [QuotientGroup.mk'_apply, QuotientGroup.eq_one_iff, ann_zpowers]
 
-/-- A primitive character forces the cyclic host modulus to contain its entire conductor. -/
-theorem UpperTheory.Top.QS_eq_lcm_of_isPrimitive {M : ℕ} [NeZero M] (χ : DirichletCharacter ℂ M)
-    (hχ : χ.IsPrimitive) (e : ℕ) :
-    EvenGrp.QS (Subgroup.zpowers χ) e = Nat.lcm (2 ^ (e + 2)) M := by
+private theorem dvd_QS {M : ℕ} [NeZero M] (χ : DirichletCharacter ℂ M) (hχ : χ.IsPrimitive) (e : ℕ) :
+    M ∣ EvenGrp.QS (Subgroup.zpowers χ) e := by
   obtain ⟨hQL, h2Q, hgood⟩ := EvenGrp.good_QS (Subgroup.zpowers χ) e
-  let hM := Nat.dvd_lcm_right (2 ^ (e + 2)) M
-  let χL := DirichletCharacter.changeLevel hM χ
-  have hf : χL.FactorsThrough (EvenGrp.QS (Subgroup.zpowers χ) e) := by
-    refine (DirichletCharacter.factorsThrough_iff_ker_unitsMap hQL).2 fun u hu => ?_
-    have hξ := hgood u ((unitsMap_eq_one_iff hQL u).1 hu)
-    change (DirichletCharacter.changeLevel hM χ).toUnitHom u = 1
-    rw [DirichletCharacter.changeLevel_toUnitHom, MonoidHom.comp_apply,
-      Units.ext_iff, MulChar.coe_toUnitHom, Units.val_one]
-    exact (xiW_eq_one χ e u).1 hξ
-  have hcd := (DirichletCharacter.mem_conductorSet_iff_conductor_dvd χL hQL).1 hf
-  change (DirichletCharacter.changeLevel hM χ).conductor ∣ _ at hcd
+  set Q := EvenGrp.QS (Subgroup.zpowers χ) e with hQ
+  haveI : NeZero ((2 ^ (e + 2)).lcm M) := ⟨Nat.lcm_ne_zero (by positivity) (NeZero.ne M)⟩
+  have hf : χ.FactorsThrough (Q.gcd M) := by
+    refine (DirichletCharacter.factorsThrough_iff_ker_unitsMap (Nat.gcd_dvd_right Q M)).mpr ?_
+    intro x hx
+    rw [MonoidHom.mem_ker, unitsMap_eq_one_iff] at hx
+    obtain ⟨z, hz1, hz2⟩ := Nat.chineseRemainder' hx.symm
+    have hzM : z.Coprime M := hz2.gcd_eq.trans (ZMod.val_coe_unit_coprime x)
+    have hzQ : z.Coprime Q := hz1.gcd_eq.trans (Nat.gcd_one_left Q)
+    have hz2e : z.Coprime (2 ^ (e + 2)) := hzQ.coprime_dvd_right h2Q
+    have hzL : z.Coprime ((2 ^ (e + 2)).lcm M) :=
+      (Nat.Coprime.mul_right hz2e hzM).coprime_dvd_right (Nat.lcm_dvd_mul _ _)
+    have hw := hgood (ZMod.unitOfCoprime z hzL) (by
+      rw [ZMod.coe_unitOfCoprime, ZMod.val_natCast]
+      exact ((Nat.mod_modEq z _).of_dvd hQL).trans hz1)
+    rw [xiW_eq_one, unitsMap_unitOfCoprime] at hw
+    rw [MonoidHom.mem_ker, Units.ext_iff, MulChar.coe_toUnitHom, Units.val_one]
+    have hx' : ((ZMod.unitOfCoprime z (hzL.coprime_dvd_right (Nat.dvd_lcm_right _ _)) : (ZMod M)ˣ) : ZMod M) = x := by
+      rw [ZMod.coe_unitOfCoprime, ← ZMod.natCast_zmod_val (x : ZMod M)]
+      exact (ZMod.natCast_eq_natCast_iff _ _ _).mpr hz2
+    rw [← hx']
+    exact hw
+  have hc0 : χ.conductor ≤ Q.gcd M := Nat.sInf_le hf
   have hχ' : χ.conductor = M := hχ
-  rw [DirichletCharacter.conductor_changeLevel, hχ'] at hcd
-  exact Nat.dvd_antisymm hQL (Nat.lcm_dvd h2Q hcd)
+  rw [hχ'] at hc0
+  have hg : Q.gcd M = M :=
+    le_antisymm (Nat.le_of_dvd (Nat.pos_of_ne_zero (NeZero.ne M)) (Nat.gcd_dvd_right _ _)) hc0
+  have h := Nat.gcd_dvd_left Q M
+  rwa [hg] at h
 
 private theorem hcl_nat (e a : ℕ) (h : a.Coprime (2 ^ (e + 2))) :
     hcl e (ZMod.unitOfCoprime a h) = 1 ↔ (a ≡ 1 [MOD 2 ^ (e + 2)] ∨ a + 1 ≡ 0 [MOD 2 ^ (e + 2)]) := by
@@ -389,9 +401,7 @@ theorem UpperTheory.Top.kerChiAny :
   intro ψ e q d hH hc he hs
   haveI := ψ.ne
   set D := AnyGrp.data (Subgroup.zpowers ψ.χ) e with hD
-  have hL : (2 ^ (e + 2)).lcm ψ.N ∣ D.m :=
-    dvd_of_eq (QS_eq_lcm_of_isPrimitive ψ.χ ψ.prim e).symm
-  have hM : ψ.N ∣ D.m := (Nat.dvd_lcm_right _ _).trans hL
+  have hM : ψ.N ∣ D.m := dvd_QS ψ.χ ψ.prim e
   refine ⟨hM, fun a h => ?_⟩
   have h' : a.Coprime (D.m * q * d) := h
   change D.art hH (ZMod.unitOfCoprime a h') = 1 ↔
@@ -401,6 +411,7 @@ theorem UpperTheory.Top.kerChiAny :
   have h1 : a.Coprime D.m := h'.coprime_dvd_right (D.m_dvd q d)
   have hT : 2 ^ (e + 2) ∣ D.m := D.tower
   have h2 : a.Coprime (2 ^ (e + 2)) := h1.coprime_dvd_right hT
+  have hL : (2 ^ (e + 2)).lcm ψ.N ∣ D.m := Nat.lcm_dvd hT hM
   have hcL : a.Coprime ((2 ^ (e + 2)).lcm ψ.N) := h1.coprime_dvd_right hL
   have hcl1 : D.cl (ZMod.unitOfCoprime a h1) = hcl e (ZMod.unitOfCoprime a h2) := by
     rw [ModData.cl, MonoidHom.comp_apply, unitsMap_unitOfCoprime]
@@ -612,10 +623,11 @@ theorem UpperTheory.Top.twistAny :
   obtain ⟨j, hj1, hj⟩ := exSign f2
   refine ⟨χ, hχ, i, j, ?_, fun a h => ?_⟩
   · exact hj1
+  have hM : ψ.N ∣ D.m := dvd_QS ψ.χ ψ.prim e
   have h' : a.Coprime (D.m * q * d) := h
   have h1 : a.Coprime D.m := h'.coprime_dvd_right (D.m_dvd q d)
-  have hL : (2 ^ (e + 2)).lcm ψ.N ∣ D.m :=
-    dvd_of_eq (QS_eq_lcm_of_isPrimitive ψ.χ ψ.prim e).symm
+  have hT : 2 ^ (e + 2) ∣ D.m := D.tower
+  have hL : (2 ^ (e + 2)).lcm ψ.N ∣ D.m := Nat.lcm_dvd hT hM
   have hcL : a.Coprime ((2 ^ (e + 2)).lcm ψ.N) := h1.coprime_dvd_right hL
   have hv : ((ZMod.unitOfCoprime a h' : ZMod (D.m * q * d)).val) ≡ a [MOD D.m * q * d] := by
     rw [ZMod.coe_unitOfCoprime, ZMod.val_natCast]
@@ -977,8 +989,7 @@ theorem UpperTheory.T3.supplyOfAdmOf :
       linarith
     linarith
   have he : e ≥ e0 := by
-    by_contra hlt
-    push_neg at hlt
+    by_contra! hlt
     have h1 : (2 : ℝ) ^ e ≤ 2 ^ e0 := pow_le_pow_right₀ (by norm_num) hlt.le
     have h2 : s.x ≤ s.x ^ (2 + 8 * eps) := by
       calc s.x = s.x ^ (1 : ℝ) := (Real.rpow_one _).symm
@@ -1217,8 +1228,6 @@ end -- clump:auto
 section -- clump:auto
 @[expose] public section
 
-
-
 section
 open Formalism.BasicNotions Formalism.MainNotions GlobalTheory.Fc
 
@@ -1238,8 +1247,6 @@ end -- clump:auto
 -- clump-header: {"m": "Development.AutomorphicArithmetic.ThetaCorrespondence.ThetaPairLifts.ThirdPlaceSeries.TopPlug", "h": "module\n\npublic import Development.AutomorphicArithmetic.CharacterBoxes.EveryCharacter\npublic import Development.AutomorphicArithmetic.ThetaCorrespondence.ThetaPairLifts.ThirdPlaceSeries.Hyps\npublic import Development.AutomorphicArithmetic.ThetaCorrespondence.ThetaPairLifts.ThirdPlaceSeries.DefiniteSideCondition\npublic import Development.AutomorphicArithmetic.CharacterBoxes.Imprimitive\npublic import Development.AutomorphicArithmetic.CharacterBoxes.SupplyChi\npublic import Development.AutomorphicArithmetic.ThetaCorrespondence.ThetaPairLifts.ThirdPlaceSeries.ShapeOf\npublic import Development.AutomorphicArithmetic.ThetaCorrespondence.ThetaPairLifts.ThirdPlaceSeries.TopShape\nimport Mathlib.Algebra.Order.Floor.Extended\nimport Mathlib.Algebra.Order.Floor.Semifield\nimport Mathlib.Algebra.Order.Interval.Basic\nimport Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp\nimport Mathlib.Combinatorics.Enumerative.DyckWord\nimport Mathlib.Combinatorics.SimpleGraph.Triangle.Removal\nimport Mathlib.Data.NNRat.Floor\nimport Mathlib.Geometry.Euclidean.Volume.Basic\nimport Mathlib.NumberTheory.Chebyshev\nimport Mathlib.NumberTheory.Height.NumberField\nimport Mathlib.NumberTheory.Height.Projectivization\nimport Mathlib.NumberTheory.LucasLehmer\nimport Mathlib.NumberTheory.SelbergSieve\nimport Mathlib.RingTheory.Radical.NatInt\nimport Mathlib.Tactic.Echelon.Zsqrtd\nimport Mathlib.Tactic.Inclusion.Extension.Core.Core\nimport Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit\nimport Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp\nimport Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses\nimport Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic\nimport Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses\nimport Mathlib.Tactic.NormNum.Irrational\nimport Mathlib.Tactic.NormNum.IsCoprime\nimport Mathlib.Tactic.NormNum.IsSquare\nimport Mathlib.Tactic.NormNum.LegendreSymbol\nimport Mathlib.Tactic.NormNum.ModEq\nimport Mathlib.Tactic.NormNum.NatFib\nimport Mathlib.Tactic.NormNum.NatLog\nimport Mathlib.Tactic.NormNum.NatSqrt\nimport Mathlib.Tactic.NormNum.Ordinal\nimport Mathlib.Tactic.NormNum.Prime\nimport Mathlib.Tactic.NormNum.RealSqrt\npublic import Development.AutomorphicArithmetic.CharacterBoxes.ZeroFreeAllOfTopG\n\n"}
 section -- clump:auto
 @[expose] public section
-
-
 
 section
 open Formalism.BasicNotions Formalism.MainNotions GlobalTheory.Fc

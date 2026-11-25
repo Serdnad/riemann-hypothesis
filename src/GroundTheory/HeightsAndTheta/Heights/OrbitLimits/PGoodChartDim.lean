@@ -1,6 +1,5 @@
 module
 
-import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PGeneratedNefGeneric
 public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.StGoodChartDim
 public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.StConeVanishingHomog
 public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.StConeSliceIdeal

@@ -47,8 +47,6 @@ import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.T
 
 @[expose] public section
 
-set_option autoImplicit false
-
 noncomputable section
 
 open CategoryTheory AlgebraicGeometry TopologicalSpace Filter Topology Set
@@ -65,10 +63,7 @@ theorem isClosed_of_ne (hd : topologicalKrullDim Z = 1) {z : Z} (hz : z ≠ gene
   apply _root_.GlobalTheory.HtSelfInter.isClosed_of_ne_genericPoint <;> assumption
 
 theorem eq_genericPoint (hZ : IsArithVar q 0) {z : Z} (h : CharZero (Z.residueField z)) :
-    z = genericPoint Z := by
-  by_contra hz
-  have := hZ.finite_residueField (isClosed_of_ne hZ.dim_eq hz)
-  exact not_finite (Z.residueField z)
+    z = genericPoint Z := GlobalTheory.HtSelfInter.eq_genericPoint hZ h
 
 theorem apply_closedPoint (hZ : IsArithVar q 0) (y : Sp ℂ ⟶ Z) :
     y (IsLocalRing.closedPoint ℂ) = genericPoint Z :=

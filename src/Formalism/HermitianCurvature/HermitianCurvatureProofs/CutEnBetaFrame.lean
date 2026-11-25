@@ -9,46 +9,7 @@ public import Formalism.HermitianCurvature.HermitianCurvatureProofs.CutEnFibMem
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.CutEnTrSmooth
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.OrbitalIntegralAeConvergenceContinuity
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.SquareIntegrableGammaZetabarInv
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
 import Mathlib.Algebra.Order.Star.Real
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Topology.Sheaves.Init
 
 @[expose] public section
 
@@ -113,21 +74,8 @@ theorem jgq_contDiffOn {E : Type} [Field E] [NumberField E] [IsCMField E] {Wp Wq
     hF.comp (hgq.mono fun x hx => hx.2.1) fun x hx => hx.2.2
   exact hc.congr fun x hx => hJF _ hx.2.2 (hGl x hx.2.1).1
 
-theorem trace_pairing_integral {E : Type} [Field E] [NumberField E] [IsCMField E] {Wp Wq : InfinitePlace E → Type}
-    [∀ x, NormedAddCommGroup (Wp x)] [∀ x, InnerProductSpace ℂ (Wp x)]
-    [∀ x, NormedAddCommGroup (Wq x)] [∀ x, InnerProductSpace ℂ (Wq x)]
-    [∀ x, FiniteDimensional ℂ (Wp x)] [∀ x, FiniteDimensional ℂ (Wq x)]
-    (S : C.HidaSetting E Wp Wq) (T : ∀ v : Fin S.f, D.LevTower S.G.k S.G.r (Wp (S.pl v)) (Wq (S.pl v)))
-    (v : Fin S.f) (hplace : Q.IsPlace (D.parOf S v) (T v).base.z (T v).base.z' (T v).base.π (T v).base.π')
-    (e : M.Ty (D.parOf S v) → ℂ → (Wq (S.pl v) →L[ℂ] Wp (S.pl v))) (hFr : IsFrame S T v e)
-    {J₁ J₂ : Q.Mx S.G.k S.G.r → (Wq (S.pl v) →L[ℂ] Wp (S.pl v))}
-    (hJ₁ : J₁ ∈ Q.FFl S.G.k S.G.r (T v).base.z (T v).base.z' (T v).base.π (T v).base.π' 0 (OmP S T v))
-    (hJ₂ : J₂ ∈ Q.FFl S.G.k S.G.r (T v).base.z (T v).base.z' (T v).base.π (T v).base.π' 0 (OmP S T v)) :
-    ∀ ρ, MA.ip0 (trJ S T v e J₁ ρ) (trJ S T v e J₂ ρ) =
-      ∫ x in MA.Qset (D.parOf S v).r (D.parOf S v).TT,
-        (bcWeight S.G.k S.G.r (Tz S.G.k S.G.r (T v).base.z) (Tz S.G.k S.G.r (T v).base.z') x : ℂ) *
-          (inner ℂ (B.hsVec (e ρ x.2)) (B.hsVec (J₁ (B.gq (T v).base x))) *
-            conj (inner ℂ (B.hsVec (e ρ x.2)) (B.hsVec (J₂ (B.gq (T v).base x))))) := by
+theorem beta_frame_identity_holds : BetaFrame := by
+  intro E _ _ _ Wp Wq _ _ _ _ _ _ S T v hplace e hFr J₁ hJ₁ J₂ hJ₂ hN₁ hN₂
   set Db := (T v).base with hDb
   have hT : Tz S.G.k S.G.r Db.z = S.T := hplace.2.2.2.1
   have hT' : Tz S.G.k S.G.r Db.z' = S.T' := hplace.2.2.2.2.1
@@ -135,13 +83,15 @@ theorem trace_pairing_integral {E : Type} [Field E] [NumberField E] [IsCMField E
   set Qs := MA.Qset (D.parOf S v).r (D.parOf S v).TT with hQs
   have hQm : MeasurableSet Qs := (MA.Qset_open _ _).measurableSet
   set W : (Fin S.G.r → ℂ) × ℂ → ℝ := bcWeight S.G.k S.G.r (Tz S.G.k S.G.r Db.z) (Tz S.G.k S.G.r Db.z') with hWdef
+  have hW0 : ∀ x, 0 ≤ W x := fun x => Formalism.FourierDecayAlt.P.JCTx2.bcWeight_nonneg' _ _ x
+
   have hW : ∀ x ∈ Qs, W x = Formalism.FourierDecayAlt.P.MAx2.Adj.dR x * MA.wq S.G.k x (D.parOf S v).TT := by
     intro x hx
     have hle : Tz S.G.k S.G.r Db.z * Tz S.G.k S.G.r Db.z' ≤ Complex.normSq x.2 := by
       rw [hTT]; exact le_of_lt hx.2
     rw [hWdef]
     unfold bcWeight
-    rw [if_pos hle]
+    rw [ite_eq_left hle]
     unfold Formalism.FourierDecayAlt.P.MAx2.Adj.dR MA.wq
     rw [hTT, ← mul_assoc, ← Finset.prod_mul_distrib]
     congr 1
@@ -161,46 +111,33 @@ theorem trace_pairing_integral {E : Type} [Field E] [NumberField E] [IsCMField E
           inner ℂ (B.hsVec (e ρ q.1.2)) (B.hsVec (J (B.gq Db q.1))) := fun J hJ ρ =>
     toSm_val_of_mem (D.parOf S v) (trace_smoothness E Wp Wq S T v hplace e hFr J hJ ρ)
 
-  show ∀ ρ, MA.ip0 (trJ S T v e J₁ ρ) (trJ S T v e J₂ ρ) =
+  have hR : ∀ ρ, MA.ip0 (trJ S T v e J₁ ρ) (trJ S T v e J₂ ρ) =
       ∫ x in Qs, ((W x : ℝ) : ℂ) * (inner ℂ (B.hsVec (e ρ x.2)) (B.hsVec (J₁ (B.gq Db x))) *
-        conj (inner ℂ (B.hsVec (e ρ x.2)) (B.hsVec (J₂ (B.gq Db x)))))
-  intro ρ
-  unfold MA.ip0
-  rw [Formalism.FourierDecayAlt.P.MAx2.Adj.integral_base_measure]
-  have hz : ∀ x, x ∉ Qs → ((Formalism.FourierDecayAlt.P.MAx2.Adj.dR x : ℝ) : ℂ) *
-      MA.ext (r := (D.parOf S v).r) (TT := (D.parOf S v).TT)
-        (fun q : MA.Qp (D.parOf S v).r (D.parOf S v).TT =>
-          ((trJ S T v e J₁ ρ : MA.SmQ (D.parOf S v).r (D.parOf S v).TT) : MA.Qp (D.parOf S v).r (D.parOf S v).TT → ℂ) q *
-          conj (((trJ S T v e J₂ ρ : MA.SmQ (D.parOf S v).r (D.parOf S v).TT) :
-            MA.Qp (D.parOf S v).r (D.parOf S v).TT → ℂ) q)) x = 0 := by
-    intro x hx
-    rw [Formalism.FourierDecayAlt.P.MAx2.Adj.ext_out _ hx, mul_zero]
-  rw [← setIntegral_eq_integral_of_forall_compl_eq_zero hz]
-  refine setIntegral_congr_fun hQm fun x hx => ?_
-  simp only [MA.ext, hval J₁ hJ₁, hval J₂ hJ₂]
-  rw [dite_eq_left (show x ∈ MA.Qset S.G.r (D.parOf S v).TT from hx)]
-  rw [hW x hx, map_mul, Complex.conj_ofReal]
-  have hw := wq_pos (k := S.G.k) hx
-  have hs : ((Real.sqrt (MA.wq S.G.k x (D.parOf S v).TT) : ℝ) : ℂ) *
-      ((Real.sqrt (MA.wq S.G.k x (D.parOf S v).TT) : ℝ) : ℂ) = ((MA.wq S.G.k x (D.parOf S v).TT : ℝ) : ℂ) := by
-    rw [← Complex.ofReal_mul, Real.mul_self_sqrt hw.le]
-  push_cast
-  linear_combination ((Formalism.FourierDecayAlt.P.MAx2.Adj.dR x : ℝ) : ℂ) *
-    inner ℂ (B.hsVec (e ρ x.2)) (B.hsVec (J₁ (B.gq Db x))) *
-      conj (inner ℂ (B.hsVec (e ρ x.2)) (B.hsVec (J₂ (B.gq Db x)))) * hs
-
-
-theorem beta_frame_identity_holds : BetaFrame := by
-  intro E _ _ _ Wp Wq _ _ _ _ _ _ S T v hplace e hFr J₁ hJ₁ J₂ hJ₂ hN₁ hN₂
-  set Db := (T v).base with hDb
-  have hT : Tz S.G.k S.G.r Db.z = S.T := hplace.2.2.2.1
-  have hT' : Tz S.G.k S.G.r Db.z' = S.T' := hplace.2.2.2.2.1
-  have hTT : Tz S.G.k S.G.r Db.z * Tz S.G.k S.G.r Db.z' = (D.parOf S v).TT := by rw [hT, hT']; rfl
-  set Qs := MA.Qset (D.parOf S v).r (D.parOf S v).TT with hQs
-  have hQm : MeasurableSet Qs := (MA.Qset_open _ _).measurableSet
-  set W : (Fin S.G.r → ℂ) × ℂ → ℝ := bcWeight S.G.k S.G.r (Tz S.G.k S.G.r Db.z) (Tz S.G.k S.G.r Db.z') with hWdef
-  have hW0 : ∀ x, 0 ≤ W x := fun x => Formalism.FourierDecayAlt.P.JCTx2.bcWeight_nonneg' _ _ x
-  have hR := trace_pairing_integral S T v hplace e hFr hJ₁ hJ₂
+        conj (inner ℂ (B.hsVec (e ρ x.2)) (B.hsVec (J₂ (B.gq Db x))))) := by
+    intro ρ
+    unfold MA.ip0
+    rw [Formalism.FourierDecayAlt.P.MAx2.Adj.integral_base_measure]
+    have hz : ∀ x, x ∉ Qs → ((Formalism.FourierDecayAlt.P.MAx2.Adj.dR x : ℝ) : ℂ) *
+        MA.ext (r := (D.parOf S v).r) (TT := (D.parOf S v).TT)
+          (fun q : MA.Qp (D.parOf S v).r (D.parOf S v).TT =>
+            ((trJ S T v e J₁ ρ : MA.SmQ (D.parOf S v).r (D.parOf S v).TT) : MA.Qp (D.parOf S v).r (D.parOf S v).TT → ℂ) q *
+            conj (((trJ S T v e J₂ ρ : MA.SmQ (D.parOf S v).r (D.parOf S v).TT) :
+              MA.Qp (D.parOf S v).r (D.parOf S v).TT → ℂ) q)) x = 0 := by
+      intro x hx
+      rw [Formalism.FourierDecayAlt.P.MAx2.Adj.ext_out _ hx, mul_zero]
+    rw [← setIntegral_eq_integral_of_forall_compl_eq_zero hz]
+    refine setIntegral_congr_fun hQm fun x hx => ?_
+    simp only [MA.ext, hval J₁ hJ₁, hval J₂ hJ₂]
+    rw [dite_eq_left (show x ∈ MA.Qset S.G.r (D.parOf S v).TT from hx)]
+    rw [hW x hx, map_mul, Complex.conj_ofReal]
+    have hw := wq_pos (k := S.G.k) hx
+    have hs : ((Real.sqrt (MA.wq S.G.k x (D.parOf S v).TT) : ℝ) : ℂ) *
+        ((Real.sqrt (MA.wq S.G.k x (D.parOf S v).TT) : ℝ) : ℂ) = ((MA.wq S.G.k x (D.parOf S v).TT : ℝ) : ℂ) := by
+      rw [← Complex.ofReal_mul, Real.mul_self_sqrt hw.le]
+    push_cast
+    linear_combination ((Formalism.FourierDecayAlt.P.MAx2.Adj.dR x : ℝ) : ℂ) *
+      inner ℂ (B.hsVec (e ρ x.2)) (B.hsVec (J₁ (B.gq Db x))) *
+        conj (inner ℂ (B.hsVec (e ρ x.2)) (B.hsVec (J₂ (B.gq Db x)))) * hs
 
   have hcont : ∀ J ∈ Q.FFl S.G.k S.G.r Db.z Db.z' Db.π Db.π' 0 (OmP S T v),
       ContinuousOn (fun x => B.hsVec (J (B.gq Db x))) Qs := fun J hJ =>

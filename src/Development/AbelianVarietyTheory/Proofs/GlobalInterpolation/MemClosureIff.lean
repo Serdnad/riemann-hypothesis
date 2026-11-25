@@ -52,7 +52,6 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ContinuousActP
 
 @[expose] public section
 
@@ -98,7 +97,14 @@ theorem blk_roundAct (lam : ι → DomWeight n) (g : ι → GL (Fin n) ℂ) :
 
 theorem map_actP {K : Type} [Field K] (σ : K →+* ℂ) (lam : ι → DomWeight n) (g : ι → GL (Fin n) K) (F : Pol K ι n) :
     MvPolynomial.map σ (actP lam g F) = actP lam (fun τ => Formalism.UG.bc σ (g τ)) (MvPolynomial.map σ F) := by
-  apply _root_.GlobalTheory.CoefSpace.map_actP <;> assumption
+  have e2 : σ (detTwK lam g) = detTwK lam (fun τ => Formalism.UG.bc σ (g τ)) := by
+    rw [detTwK, detTwK, map_prod]
+    refine Finset.prod_congr rfl fun τ _ => ?_
+    simp only [detPow, Units.val_zpow_eq_zpow_val, map_zpow₀, Matrix.GeneralLinearGroup.val_det_apply, RingHom.map_det]
+    rfl
+  simp only [actP, trAct, LinearMap.smul_apply, AlgHom.toLinearMap_apply, MvPolynomial.smul_eq_C_mul, map_mul,
+    MvPolynomial.map_C, map_blockAct, transpose_map, e2]
+  rfl
 
 theorem map_ten_int {K : Type} [Field K] (σ : K →+* ℂ) (f : ι → MvPolynomial (Fin n × Fin n) ℤ) :
     MvPolynomial.map σ (ten fun τ => MvPolynomial.map (Int.castRingHom K) (f τ)) =
@@ -303,74 +309,6 @@ theorem exists_sepElt (h : ∀ P ∈ ST, ∀ Q ∈ ST, Q ≠ conjPrime₂ P) : �
   · exact (mem_conjP P.1 _).1 (Ideal.mem_of_dvd _ (Finset.dvd_prod_of_mem a (Finset.mem_univ P)) (ha P))
   · obtain ⟨Q, -, hQ⟩ := (Ideal.IsPrime.prod_mem_iff (hp := P.1.isPrime)).1 hm
     exact ha' Q P hQ
-
-theorem locP_Lsh_off {d : Deco E n ST ∅} (hd : d.Ok) {T : ℕ} (hT : ∀ P ∈ ST, (T : 𝓞 E) ∈ P.asIdeal)
-    {Q : HeightOneSpectrum (𝓞 E)} (hQ : (T : 𝓞 E) ∉ Q.asIdeal) : localization₂ Q.asIdeal d.Lsh = localization₂ Q.asIdeal d.N :=
-  le_antisymm (localization_le_of_smul_mem hQ fun _ hx => hd.smul_Lsh_mem_N (fun P => by rw [map_natCast]; exact hT P.1 P.2) hx)
-    (localization_le_of_smul_mem (one_notMem Q) fun x hx => by rw [one_smul]; exact hd.N_le_Lsh hx)
-
-theorem delAtr_off {K ι : Type} [Field K] [NumberField K] [Fintype ι] (emb : ι → E →+* K) (lam : ι → DomWeight n)
-    {d d' : Deco E n ST ∅} (hd : d.Ok) (hd' : d'.Ok) {T : ℕ} (hT : ∀ P ∈ ST, (T : 𝓞 E) ∈ P.asIdeal)
-    (h : SameOff ST d.N d'.N) {w : HeightOneSpectrum (𝓞 K)} (hw : (T : 𝓞 K) ∉ w.asIdeal) :
-    localization₂ w.asIdeal (delAtr emb lam d.Lsh) = localization₂ w.asIdeal (delAtr emb lam d'.Lsh) := by
-  have full : ∀ {d : Deco E n ST ∅}, d.Ok → Submodule.IsFullLattice E d.Lsh := by
-    intro d hd
-    have hn : Submodule.IsFullLattice E d.N := by
-      let := hd.lat
-      refine { span_eq_top := ?_ }
-      let W := Submodule.span E (d.N : Set (Sp E n))
-      change W = ⊤
-      by_contra h
-      let e : Sp E n ≃ₗ⋆[E] Sp E n := starLinearEquiv E
-      let g : Sp E n →ₗ[E] Module.Dual E W :=
-        (LinearMap.domRestrict' W).comp ((hStd E n).comp e.toLinearMap)
-      have hdim : Module.finrank E (Module.Dual E W) < Module.finrank E (Sp E n) := by
-        rw [Subspace.dual_finrank_eq]
-        exact Submodule.finrank_lt h
-      obtain ⟨x, hx, hx₀⟩ :=
-        Submodule.exists_mem_ne_zero_of_ne_bot (LinearMap.ker_ne_bot_of_finrank_lt (f := g) hdim)
-      have hsmul (a : E) : a • e x ∈ d.N := by
-        rw [← hd.uni, mem_dual]
-        intro y hy
-        apply hStd_mem_one_symm
-        have hxy : hStd E n (e x) y = 0 :=
-          congrArg (fun k : Module.Dual E W => k ⟨y, Submodule.subset_span hy⟩) (LinearMap.mem_ker.mp hx)
-        simp [LinearMap.map_smulₛₗ, LinearMap.smul_apply, hxy]
-      let i : E →ₗ[𝓞 E] d.N :=
-        ((LinearMap.toSpanSingleton E _ (e x)).restrictScalars (𝓞 E)).codRestrict d.N hsmul
-      let : Module.Finite (𝓞 E) d.N := Module.Finite.iff_fg.mpr hd.lat.fg
-      let : Module.Finite (𝓞 E) E := Module.Finite.of_injective i fun a b hab =>
-        smul_left_injective E (fun hzero => hx₀ (e.map_eq_zero_iff.mp hzero)) (congrArg Subtype.val hab)
-      exact RingOfIntegers.not_isField E
-        (isField_of_isIntegral_of_isField (IsFractionRing.injective (𝓞 E) E) (Field.toIsField E))
-    letI : Submodule.IsFullLattice E d.N := hn
-    letI : Submodule.IsLattice E d.Lsh := hd.Lsh_lattice
-    exact Submodule.IsFullLattice.of_le E hd.N_le_Lsh
-  refine (round_locP_congr emb lam w (full hd) (full hd') fun τ => ?_).1
-  have hQ : (T : 𝓞 E) ∉ (bcBelow (emb τ) w).asIdeal := by rwa [bc_mem_below, map_natCast]
-  have e : localization₂ (bcBelow (emb τ) w).asIdeal d.Lsh = localization₂ (bcBelow (emb τ) w).asIdeal d'.Lsh := by
-    rw [locP_Lsh_off hd hT hQ, locP_Lsh_off hd' hT hQ]
-    refine h _ fun P hP => ⟨?_, ?_⟩
-    · rintro e
-      exact hQ (e ▸ hT P hP)
-    · rintro e
-      apply hQ
-      rw [e, mem_conjP, map_natCast]
-      exact hT P hP
-  constructor
-  · intro x hx
-    exact (mem_locP _ _ _).1 (e ▸ le_locP _ _ hx)
-  · intro x hx
-    exact (mem_locP _ _ _).1 (e ▸ le_locP _ _ hx)
-
-theorem localization_kerAt_eq {d : Deco E n ST ∅} (hd : d.Ok) (P : ST) : localization₂ P.1.asIdeal (d.kerAt P) = localization₂ P.1.asIdeal d.L := by
-  apply le_antisymm
-  · refine localization_le_of_le_localization _ fun x hx => ?_
-    obtain ⟨h1, h2⟩ := (hd.mem_kerAt P x).1 hx
-    exact (hd.mem_locP_L P x).2 ⟨le_locP _ _ h1, h2⟩
-  · refine localization_mono _ fun x hx => ?_
-    obtain ⟨h1, h2⟩ := (hd.mem_L x).1 hx
-    exact (hd.mem_kerAt P x).2 ⟨h1, h2 P⟩
 
 end Deco
 

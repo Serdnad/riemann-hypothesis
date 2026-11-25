@@ -1,44 +1,8 @@
 module
 
-import Development.AutomorphicSpectrum.Proofs.GeometryProofs.IotaMultiChangeOfBasisDet
 public import Development.AbelianVarietyTheory.Definitions.Divisors.PointShiftSt
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
 
 @[expose] public section
-
-set_option autoImplicit false
 
 noncomputable section
 
@@ -55,7 +19,22 @@ variable {K V : Type} [Field K] [NumberField K] [AddCommGroup V] [Module K V] [M
 omit [NumberField K] [Module (𝓞 K) V] [IsScalarTower (𝓞 K) K V] in
 theorem ιMulti_comb {m : ℕ} (b : Fin m → V) (c : Matrix (Fin m) (Fin m) K) :
     exteriorPower.ιMulti K m (fun i => ∑ j, c i j • b j) = c.det • exteriorPower.ιMulti K m b := by
-  first | exact _root_.GlobalTheory.CompanionTheory.Ar.Lat.wedge_matrix_mul_family | exact @_root_.GlobalTheory.CompanionTheory.Ar.Lat.wedge_matrix_mul_family | apply _root_.GlobalTheory.CompanionTheory.Ar.Lat.wedge_matrix_mul_family <;> assumption
+  have h : (exteriorPower.ιMulti K m).compLinearMap (Fintype.linearCombination K b) =
+      (Matrix.detRowAlternating : (Fin m → K) [⋀^Fin m]→ₗ[K] K).smulRight (exteriorPower.ιMulti K m b) := by
+    refine (Pi.basisFun K (Fin m)).ext_alternating fun v hv => ?_
+    let s : Equiv.Perm (Fin m) := Equiv.ofBijective v (Finite.injective_iff_bijective.1 hv)
+    have e : (fun i => Pi.basisFun K (Fin m) (v i)) = (fun i => Pi.basisFun K (Fin m) i) ∘ s := rfl
+    rw [e, AlternatingMap.map_perm, AlternatingMap.map_perm]
+    congr 1
+    have e1 : (Matrix.detRowAlternating : (Fin m → K) [⋀^Fin m]→ₗ[K] K) (fun i => Pi.basisFun K (Fin m) i) = 1 := by
+      change Matrix.det (Matrix.of fun i => Pi.basisFun K (Fin m) i) = 1
+      rw [show (Matrix.of fun i => Pi.basisFun K (Fin m) i) = 1 from by
+        ext i j; simp [Matrix.one_apply, Pi.single_apply, eq_comm], Matrix.det_one]
+    rw [AlternatingMap.smulRight_apply, e1, one_smul, AlternatingMap.compLinearMap_apply]
+    congr 1
+    funext i
+    simp [Pi.basisFun_apply, Fintype.linearCombination_apply_single]
+  exact AlternatingMap.congr_fun h c
 
 
 omit [NumberField K] in

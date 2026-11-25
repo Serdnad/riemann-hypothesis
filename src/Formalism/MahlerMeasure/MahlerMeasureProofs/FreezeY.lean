@@ -1,57 +1,8 @@
 module
 
 public import Formalism.MahlerMeasure.IsFrozenInv
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.PiTensorProduct
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Tactic.TypeStar
-import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
-import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.CommuteRowOpRightMixedOp
-import Formalism.MahlerMeasure.MahlerMeasureProofs.FreezeInto
-import Formalism.MahlerMeasure.MahlerMeasureProofs.GamDeg
 
 @[expose] public section
 
@@ -95,8 +46,10 @@ noncomputable def comb (b : Fin r →₀ ℕ) (m : Fin N × Fin r →₀ ℕ) : 
   ext c
   simp
 
-private theorem fin_castSucc_ne_last (i : Fin N) : Fin.castSucc i ≠ Fin.last N :=
-  (Fin.castSucc_lt_last i).ne
+private theorem fin_eq_last_or_exists_castSucc (i : Fin (N + 1)) : i = Fin.last N ∨ ∃ j : Fin N, i = Fin.castSucc j := by
+  refine Fin.lastCases ?_ (fun j => ?_) i
+  · exact Or.inl rfl
+  · exact Or.inr ⟨j, rfl⟩
 
 private theorem llPart_add (m m' : Fin (N + 1) × Fin r →₀ ℕ) : llPart (m + m') = llPart m + llPart m' := by
   ext x
@@ -124,7 +77,7 @@ private theorem llPart_single_castSucc (i : Fin N) (c : Fin r) (k : ℕ) :
 private theorem etaPart_single_castSucc (i : Fin N) (c : Fin r) (k : ℕ) :
     etaPart (Finsupp.single (Fin.castSucc i, c) k) = 0 := by
   ext c'
-  simp [fin_castSucc_ne_last i]
+  simp [Fin.castSucc_ne_last i]
 
 private theorem llPart_single_last (c : Fin r) (k : ℕ) :
     llPart (Finsupp.single (Fin.last N, c) k) = 0 := by
@@ -139,7 +92,7 @@ private theorem etaPart_single_last (c : Fin r) (k : ℕ) :
 theorem parts_inj {m m' : Fin (N + 1) × Fin r →₀ ℕ} (h1 : etaPart m = etaPart m')
     (h2 : llPart m = llPart m') : m = m' := by
   ext ⟨i, c⟩
-  refine Fin.lastCases ?_ (fun j => ?_) i
+  rcases fin_eq_last_or_exists_castSucc i with rfl | ⟨j, rfl⟩
   · simpa using DFunLike.congr_fun h1 c
   · simpa using DFunLike.congr_fun h2 (j, c)
 
@@ -158,12 +111,18 @@ noncomputable def coeffη (b : Fin r →₀ ℕ) :
     ((Fin (N + 1) × Fin r →₀ ℕ) →₀ K) →ₗ[K] MvPolynomial (Fin N × Fin r) K) ∘ₗ
     (AddMonoidAlgebra.coeffLinearEquiv K).toLinearMap
 
+private theorem coeffLinearEquiv_monomial {σ : Type*} (m : σ →₀ ℕ) (a : K) :
+    AddMonoidAlgebra.coeffLinearEquiv K (monomial m a : MvPolynomial σ K) = Finsupp.single m a := by
+  rfl
+
+private theorem coeffη_eq_lsum (b : Fin r →₀ ℕ) (F : MvPolynomial (Fin (N + 1) × Fin r) K) :
+    coeffη b F = Finsupp.lsum K (fun m : Fin (N + 1) × Fin r →₀ ℕ =>
+      if etaPart m = b then (monomial (llPart m) : K →ₗ[K] MvPolynomial (Fin N × Fin r) K) else 0)
+      (AddMonoidAlgebra.coeffLinearEquiv K F) := rfl
+
 theorem coeffη_monomial (b : Fin r →₀ ℕ) (m : Fin (N + 1) × Fin r →₀ ℕ) (a : K) :
     coeffη b (monomial m a) = if etaPart m = b then monomial (llPart m) a else 0 := by
-  change Finsupp.lsum K (fun n : Fin (N + 1) × Fin r →₀ ℕ =>
-    if etaPart n = b then (monomial (llPart n) : K →ₗ[K] MvPolynomial (Fin N × Fin r) K) else 0)
-    (Finsupp.single m a) = _
-  rw [Finsupp.lsum_single]
+  rw [coeffη_eq_lsum, coeffLinearEquiv_monomial, Finsupp.lsum_single]
   by_cases h : etaPart m = b <;> simp [h]
 
 private theorem coeff_coeffη_eq_coeff_comb (b : Fin r →₀ ℕ) (m : Fin N × Fin r →₀ ℕ)
@@ -175,9 +134,9 @@ private theorem coeff_coeffη_eq_coeff_comb (b : Fin r →₀ ℕ) (m : Fin N ×
     · have key : llPart n = m ↔ n = comb b m :=
         ⟨fun h' => by rw [← h, ← h', comb_parts],
          fun h' => by rw [h', llPart_comb]⟩
-      rw [if_pos h, coeff_monomial, coeff_monomial]
+      rw [ite_eq_left h, coeff_monomial, coeff_monomial]
       exact if_congr key rfl rfl
-    · rw [if_neg h, AddMonoidAlgebra.coeff_zero, Finsupp.zero_apply, coeff_monomial, if_neg]
+    · rw [ite_eq_right h, AddMonoidAlgebra.coeff_zero, Finsupp.zero_apply, coeff_monomial, ite_eq_right]
       rintro rfl
       exact h (etaPart_comb b m)
   · simp only [map_add (f := _), MvPolynomial.coeff_add, hp, hq]
@@ -241,7 +200,7 @@ theorem coeffη_shift_zero (b : Fin r →₀ ℕ) (ρ : Fin r) (k : ℕ) (hb : �
     (G : MvPolynomial (Fin (N + 1) × Fin r) K) :
     coeffη b (X (Fin.last N, ρ) ^ k * G) = 0 := by
   refine MvPolynomial.induction_on' G (fun n a => ?_) (fun p q hp hq => ?_)
-  · rw [coeffη_Xlast_pow_mul_monomial, if_neg]
+  · rw [coeffη_Xlast_pow_mul_monomial, ite_eq_right]
     intro h
     exact hb (by rw [← h]; exact le_add_self)
   · simp only [mul_add, map_add (f := _), hp, hq, add_zero]
@@ -255,9 +214,9 @@ theorem coeffη_pderiv_last (b : Fin r →₀ ℕ) (c : Fin r) (G : MvPolynomial
     · have hc : n (Fin.last N, c) = b c + 1 := by
         have := DFunLike.congr_fun h1 c
         simpa using this
-      rw [if_pos h1, if_pos (show etaPart n - Finsupp.single c 1 = b by rw [h1, add_tsub_cancel_right]),
+      rw [ite_eq_left h1, ite_eq_left (show etaPart n - Finsupp.single c 1 = b by rw [h1, add_tsub_cancel_right]),
         smul_monomial, hc, smul_eq_mul, mul_comm]
-    · rw [if_neg h1, smul_zero]
+    · rw [ite_eq_right h1, smul_zero]
       split_ifs with h2
       · by_cases h3 : n (Fin.last N, c) = 0
         · simp [h3]
@@ -308,7 +267,7 @@ theorem coeffη_glAct (LL : Letters N) (n j : ℕ) (hj : j ≤ N) (c d : Fin r) 
     coeffη b (glAct p (LL.snoc n) j c d F) = glAct p LL j c d (coeffη b F) := by
 
   rw [glAct_apply, glAct_apply, Fin.sum_univ_castSucc, map_add (f := _), map_sum,
-  if_neg (show ¬ ((Fin.last N : ℕ) < j) by rw [Fin.val_last]; omega), map_zero, add_zero]
+  ite_eq_right (show ¬ ((Fin.last N : ℕ) < j) by rw [Fin.val_last]; omega), map_zero, add_zero]
   refine Finset.sum_congr rfl (fun i _ => ?_)
   simp only [Fin.coe_castSucc, snoc_vec_castSucc]
   split_ifs <;> simp [coeffη_X_castSucc_mul, coeffη_pderiv_castSucc]
@@ -316,7 +275,7 @@ theorem coeffη_glAct (LL : Letters N) (n j : ℕ) (hj : j ≤ N) (c d : Fin r) 
 theorem wt_snoc (LL : Letters N) (n j : ℕ) (hj : j ≤ N) (c : Fin r) (m : Fin (N + 1) × Fin r →₀ ℕ) :
     wt (LL.snoc n) j c m = wt LL j c (llPart m) := by
   unfold Formalism.GM.M.wt
-  rw [Fin.sum_univ_castSucc, if_neg (show ¬ ((Fin.last N : ℕ) < j) by rw [Fin.val_last]; omega), add_zero]
+  rw [Fin.sum_univ_castSucc, ite_eq_right (show ¬ ((Fin.last N : ℕ) < j) by rw [Fin.val_last]; omega), add_zero]
   refine Finset.sum_congr rfl (fun i _ => ?_)
   simp only [Fin.coe_castSucc, snoc_vec_castSucc, llPart_apply]
 
@@ -441,7 +400,7 @@ theorem supp_X_mul_pderiv (a b : σ) (F : MvPolynomial σ K) (m : σ →₀ ℕ)
   apply mem_support_iff.1 hm
   rw [X_mul_pderiv_eq_sum, coeff_sum]
   refine Finset.sum_eq_zero (fun m0 hm0 => ?_)
-  rw [coeff_monomial, if_neg]
+  rw [coeff_monomial, ite_eq_right]
   intro heq
   obtain ⟨x, hxa, hxb, hx⟩ := hcon m0 hm0
   apply hx
@@ -462,8 +421,8 @@ private theorem mvPolynomial_pderiv_X_eq_ite [DecidableEq σ] (x y : σ) :
 theorem op_comm (x y x' y' : σ) (h1 : y ≠ x') (h2 : y' ≠ x) (F : MvPolynomial σ K) :
     X x * pderiv y (X x' * pderiv y' F) = X x' * pderiv y' (X x * pderiv y F) := by
   classical
-  have e1 : pderiv y (X x' : MvPolynomial σ K) = 0 := by rw [mvPolynomial_pderiv_X_eq_ite, if_neg h1]
-  have e2 : pderiv y' (X x : MvPolynomial σ K) = 0 := by rw [mvPolynomial_pderiv_X_eq_ite, if_neg h2]
+  have e1 : pderiv y (X x' : MvPolynomial σ K) = 0 := by rw [mvPolynomial_pderiv_X_eq_ite, ite_eq_right h1]
+  have e2 : pderiv y' (X x : MvPolynomial σ K) = 0 := by rw [mvPolynomial_pderiv_X_eq_ite, ite_eq_right h2]
   simp only [Derivation.leibniz, e1, e2, smul_eq_mul]
   rw [pderiv_comm y y' F]
   ring
@@ -530,7 +489,7 @@ theorem glAct_full_split (LL : Letters N) (j : ℕ) (c d : Fin r) :
     glAct p LL N c d = glAct p LL j c d + restAct p LL j c d := by
   rw [glAct_eq_top, glAct_eq_top, restAct, ← Finset.sum_add_distrib]
   refine Finset.sum_congr rfl (fun i _ => ?_)
-  rw [if_pos i.isLt]
+  rw [ite_eq_left i.isLt]
   split_ifs with h1 h2 h2
   · exfalso; omega
   · simp
@@ -645,7 +604,21 @@ theorem glAct_full_C (LL : Letters N) (c d : Fin r) (a : ℚ_[p]) : glAct p LL N
 theorem glAct_full_X (LL : Letters N) (c ρ : Fin r) (b : Fin N) (d : Fin r) :
     glAct p LL N c ρ (X (b, d)) =
       if LL.vec b then (if d = ρ then X (b, c) else 0) else (if d = c then -X (b, ρ) else 0) := by
-  apply _root_.Formalism.GM.FrozenVariableLemmas.glAct_full_X <;> assumption
+  rw [glAct_apply, Finset.sum_eq_single b]
+  · rw [ite_eq_left b.isLt]
+    cases hv : LL.vec b
+    · by_cases h2 : d = c
+      · subst h2
+        simp
+      · simp [h2]
+    · by_cases h1 : d = ρ
+      · subst h1
+        simp
+      · simp [h1]
+  · intro i _ hib
+    simp [hib]
+  · intro h
+    exact absurd (Finset.mem_univ b) h
 
 theorem freezeSub_apply (LL : Letters N) (ρ : Fin r) (i : Fin N) (c : Fin r) :
     freezeSub p LL ρ (i, c) =
@@ -660,7 +633,7 @@ theorem diff_gen (LL : Letters N) (ρ c : Fin r) (hc : c ≠ ρ) (x : Fin N × F
     X (Fin.last N, ρ) * pderiv (Fin.last N, c) (freezeSub p LL ρ x) =
       aeval (freezeSub p LL ρ) (glAct p LL N c ρ (X x)) := by
   obtain ⟨b, d⟩ := x
-  have n1 : Fin.last N ≠ Fin.castSucc b := (fin_castSucc_ne_last b).symm
+  have n1 : Fin.last N ≠ Fin.castSucc b := (Fin.castSucc_ne_last b).symm
   rw [glAct_full_X, freezeSub_apply]
   split_ifs <;> (try (exfalso; exact hc ((‹d = c›).symm.trans ‹d = ρ›))) <;>
     (try (have hcd : c ≠ d := Ne.symm ‹¬d = c›)) <;>
@@ -716,7 +689,7 @@ private theorem kill_monomial_eq_ite (ρ : Fin r) (m : Fin (N + 1) × Fin r →�
     refine congrArg (fun z => algebraMap ℚ_[p] (MvPolynomial (Fin (N + 1) × Fin r) ℚ_[p]) a * z) ?_
     refine Finset.prod_congr rfl (fun w hw => ?_)
     try dsimp only
-    rw [if_neg]
+    rw [ite_eq_right]
     rintro ⟨h1, h2⟩
     apply Finsupp.mem_support_iff.1 hw
     have h3 := h w.2 h2
@@ -728,7 +701,7 @@ private theorem kill_monomial_eq_ite (ρ : Fin r) (m : Fin (N + 1) × Fin r →�
     try dsimp only
     have hw : ((Fin.last N, c) : Fin (N + 1) × Fin r).1 = Fin.last N ∧
         ((Fin.last N, c) : Fin (N + 1) × Fin r).2 ≠ ρ := ⟨rfl, hc⟩
-    rw [if_pos hw, zero_pow hm]
+    rw [ite_eq_left hw, zero_pow hm]
 
 theorem coeffη_kill (ρ : Fin r) (t : ℕ) (G : MvPolynomial (Fin (N + 1) × Fin r) ℚ_[p]) :
     coeffη (Finsupp.single ρ t) (kill p ρ G) = coeffη (Finsupp.single ρ t) G := by
@@ -736,7 +709,7 @@ theorem coeffη_kill (ρ : Fin r) (t : ℕ) (G : MvPolynomial (Fin (N + 1) × Fi
   · rw [kill_monomial_eq_ite]
     split_ifs with h
     · rfl
-    · rw [map_zero, coeffη_monomial, if_neg]
+    · rw [map_zero, coeffη_monomial, ite_eq_right]
       intro hm
       apply h
       intro c hc
@@ -751,7 +724,7 @@ theorem kill_freezeSub (LL : Letters N) (ρ : Fin r) :
   apply MvPolynomial.algHom_ext
   rintro ⟨i, c⟩
   rw [AlgHom.comp_apply, aeval_X, aeval_X, freezeSub_apply]
-  have n2 : ∀ i : Fin N, Fin.castSucc i ≠ Fin.last N := fun i => fin_castSucc_ne_last i
+  have n2 : ∀ i : Fin N, Fin.castSucc i ≠ Fin.last N := fun i => Fin.castSucc_ne_last i
   cases hv : LL.vec i <;> by_cases hc : c = ρ <;>
     simp [kill, emb, hc, n2, mul_ite, Finset.sum_ite_eq'] <;> ring
 
@@ -784,7 +757,7 @@ private theorem etaPart_mapDomain_emb (m : Fin N × Fin r →₀ ℕ) :
   rw [etaPart_apply]
   apply Finsupp.mapDomain_notin_range
   rintro ⟨⟨i, c'⟩, h⟩
-  simp [emb, fin_castSucc_ne_last i] at h
+  simp [emb, Fin.castSucc_ne_last i] at h
 
 theorem coeffη_base (LL : Letters N) (ρ : Fin r) (t : ℕ) (f : MvPolynomial (Fin N × Fin r) ℚ_[p]) :
     coeffη (Finsupp.single ρ t) (aeval (freezeSub p LL ρ) f) = homogeneousComponent t f := by
@@ -819,7 +792,7 @@ theorem freeze_coeff_mem (LL : Letters N) (ρ : Fin r) (j : ℕ) (M : WithTop �
       by_cases hc : c = ρ
       · subst hc
         simp
-      · rw [Finsupp.single_apply, if_neg (Ne.symm hc)]
+      · rw [Finsupp.single_apply, ite_eq_right (Ne.symm hc)]
         exact (Finset.sum_eq_zero_iff.1 hb) c (Finset.mem_erase.2 ⟨hc, Finset.mem_univ c⟩)
     rw [hb', coeffη_base]
     exact ycond_hc p LL j M _ g hg
@@ -836,9 +809,9 @@ theorem freeze_coeff_mem (LL : Letters N) (ρ : Fin r) (j : ℕ) (M : WithTop �
         (tsub_add_cancel_of_le (Finsupp.single_le_iff.2 (Nat.one_le_iff_ne_zero.2 hbc))).symm⟩
     have e1 : ∑ c' ∈ Finset.univ.erase ρ, (b0 + Finsupp.single ρ 1 : Fin r →₀ ℕ) c' = ∑ c' ∈ Finset.univ.erase ρ, b0 c' :=
       Finset.sum_congr rfl (fun c' hc' => by
-        rw [Finsupp.add_apply, Finsupp.single_apply, if_neg (Ne.symm (Finset.mem_erase.1 hc').1), add_zero])
+        rw [Finsupp.add_apply, Finsupp.single_apply, ite_eq_right (Ne.symm (Finset.mem_erase.1 hc').1), add_zero])
     have e3 : ∑ c' ∈ Finset.univ.erase ρ, (Finsupp.single c 1 : Fin r →₀ ℕ) c' = 1 := by
-      rw [Finset.sum_eq_single c (fun c' _ hc' => by rw [Finsupp.single_apply, if_neg (Ne.symm hc')])
+      rw [Finset.sum_eq_single c (fun c' _ hc' => by rw [Finsupp.single_apply, ite_eq_right (Ne.symm hc')])
           (fun h => absurd hc h), Finsupp.single_eq_same]
     have e2 : ∑ c' ∈ Finset.univ.erase ρ, (b0 + Finsupp.single c 1 : Fin r →₀ ℕ) c' =
         ∑ c' ∈ Finset.univ.erase ρ, b0 c' + 1 := by
@@ -870,6 +843,9 @@ private theorem isWeightedHomogeneous_finset_sum {τ ι : Type*} {w : τ → ℕ
   rw [coeff_sum] at hd
   obtain ⟨i, hi, hne⟩ := Finset.exists_ne_zero_of_sum_ne_zero hd
   exact h i hi hne
+
+private theorem isWeightedHomogeneous_of_eq_deg {τ : Type*} {w : τ → ℕ} {φ : MvPolynomial τ K} {a b : ℕ}
+    (h : IsWeightedHomogeneous w φ a) (e : a = b) : IsWeightedHomogeneous w φ b := e ▸ h
 
 private theorem isWeightedHomogeneous_one' {τ : Type*} (w : τ → ℕ) : IsWeightedHomogeneous w (1 : MvPolynomial τ K) 0 := by
   first
@@ -912,11 +888,19 @@ theorem hom_aeval {σ τ : Type*} (w : τ → ℕ) (v : σ → ℕ) (g : σ → 
     first
     | (rw [zero_add, ← hmd, Finsupp.weight_apply, Finsupp.sum]; simp only [smul_eq_mul])
   rw [aeval_monomial, Finsupp.prod]
-  exact e ▸ h1
+  exact isWeightedHomogeneous_of_eq_deg h1 e
 
 theorem weight_row {N r : ℕ} (i' : Fin N) (m : Fin N × Fin r →₀ ℕ) :
     Finsupp.weight (fun x : Fin N × Fin r => if x.1 = i' then 1 else 0) m = ∑ c, m (i', c) := by
-  apply _root_.Formalism.GM.GammaExpansion.weight_ind <;> assumption
+  rw [Finsupp.weight_apply, Finsupp.sum_fintype]
+  · rw [Fintype.sum_prod_type, Finset.sum_eq_single i']
+    · simp
+    · intro b _ hb
+      simp [hb]
+    · intro h
+      exact absurd (Finset.mem_univ _) h
+  · intro i
+    simp
 
 private theorem isWeightedHomogeneous_sub {τ : Type*} {w : τ → ℕ} {φ ψ : MvPolynomial τ K} {n : ℕ}
     (hφ : IsWeightedHomogeneous w φ n) (hψ : IsWeightedHomogeneous w ψ n) :
@@ -957,20 +941,69 @@ theorem freezeSub_hom (LL : Letters N) (ρ : Fin r) (i' : Fin (N + 1)) (x : Fin 
   obtain ⟨i, c⟩ := x
   rw [freezeSub_apply]
   by_cases hv : LL.vec i = true <;> by_cases hc : c = ρ
-  · rw [if_pos hv, if_pos hc]
+  · rw [ite_eq_left hv, ite_eq_left hc]
     exact isWeightedHomogeneous_finset_sum _ _ (fun c' _ => hX2 p _ _ _ _ (by rfl))
-  · rw [if_pos hv, if_neg hc]
+  · rw [ite_eq_left hv, ite_eq_right hc]
     exact hX2 p _ _ _ _ (by exact add_comm _ _)
-  · rw [if_neg hv, if_pos hc]
+  · rw [ite_eq_right hv, ite_eq_left hc]
     exact hX2 p _ _ _ _ (by exact add_comm _ _)
-  · rw [if_neg hv, if_neg hc]
+  · rw [ite_eq_right hv, ite_eq_right hc]
     exact isWeightedHomogeneous_sub (hX2 p _ _ _ _ (by exact add_comm _ _))
       (hX2 p _ _ _ _ (by rfl))
 
 theorem freeze_pol (LL : Letters N) (ρ : Fin r) (n : ℕ) (hn : LL.total ≤ n)
     (f : MvPolynomial (Fin N × Fin r) ℚ_[p]) (hf : f ∈ Pol p r LL) :
     freeze p LL ρ n f ∈ Pol p r (LL.snoc n) := by
-  apply _root_.Formalism.GM.FrozenVariableLemmas.freeze_mem_pol <;> assumption
+  unfold Formalism.GM.M.Pol at hf ⊢
+  rw [mem_restrictSupport_iff] at hf ⊢
+  have hf' : ∀ m ∈ f.support, Formalism.GM.M.MultiDeg LL m := fun m hm => hf (Finset.mem_coe.2 hm)
+  have key : ∀ i' : Fin (N + 1), IsWeightedHomogeneous (fun y : Fin (N + 1) × Fin r => if y.1 = i' then 1 else 0)
+      (Formalism.GM.M.freeze p LL ρ n f) ((LL.snoc n).deg i') := by
+    intro i'
+    unfold Formalism.GM.M.freeze
+    rcases fin_eq_last_or_exists_castSucc i' with rfl | ⟨i0, rfl⟩
+    · have hfv : IsWeightedHomogeneous (fun x : Fin N × Fin r =>
+          (if Fin.castSucc x.1 = Fin.last N then 1 else 0) + (if Fin.last N = Fin.last N then 1 else 0)) f LL.total := by
+        intro m hm
+        have e : (fun x : Fin N × Fin r =>
+            (if Fin.castSucc x.1 = Fin.last N then 1 else 0) + (if Fin.last N = Fin.last N then 1 else 0)) =
+            fun _ => 1 := by
+          funext x
+          simp
+        rw [e, weight_one']
+        unfold Formalism.GM.M.Letters.total
+        exact Finset.sum_congr rfl (fun i _ => hf' m (mem_support_iff.2 hm) i)
+      have hA := hom_aeval _ _ (Formalism.GM.M.freezeSub p LL ρ)
+        (fun x => freezeSub_hom p LL ρ (Fin.last N) x) f _ hfv
+      have hX := isWeightedHomogeneous_pow (fun y : Fin (N + 1) × Fin r => if y.1 = Fin.last N then 1 else 0) _ _
+        (isWeightedHomogeneous_X' (K := ℚ_[p]) (fun y : Fin (N + 1) × Fin r => if y.1 = Fin.last N then 1 else 0) (Fin.last N, ρ))
+        (n - LL.total)
+      refine isWeightedHomogeneous_of_eq_deg (hX.mul hA) ?_
+      (simp [snoc_deg_last]) <;> omega
+    · have hfv : IsWeightedHomogeneous (fun x : Fin N × Fin r =>
+          (if Fin.castSucc x.1 = Fin.castSucc i0 then 1 else 0) +
+            (if Fin.last N = Fin.castSucc i0 then 1 else 0)) f (LL.deg i0) := by
+        intro m hm
+        have e : (fun x : Fin N × Fin r =>
+            (if Fin.castSucc x.1 = Fin.castSucc i0 then 1 else 0) +
+              (if Fin.last N = Fin.castSucc i0 then 1 else 0)) =
+            fun x => if x.1 = i0 then 1 else 0 := by
+          funext x
+          simp [(Fin.castSucc_ne_last i0).symm]
+        rw [e, weight_row]
+        exact hf' m (mem_support_iff.2 hm) i0
+      have hA := hom_aeval _ _ (Formalism.GM.M.freezeSub p LL ρ)
+        (fun x => freezeSub_hom p LL ρ (Fin.castSucc i0) x) f _ hfv
+      have hX := isWeightedHomogeneous_pow (fun y : Fin (N + 1) × Fin r => if y.1 = Fin.castSucc i0 then 1 else 0) _ _
+        (isWeightedHomogeneous_X' (K := ℚ_[p]) (fun y : Fin (N + 1) × Fin r => if y.1 = Fin.castSucc i0 then 1 else 0) (Fin.last N, ρ))
+        (n - LL.total)
+      refine isWeightedHomogeneous_of_eq_deg (hX.mul hA) ?_
+      (simp [snoc_deg_castSucc, (Fin.castSucc_ne_last i0).symm])
+  intro m hm
+  show Formalism.GM.M.MultiDeg (LL.snoc n) m
+  intro i'
+  have h := key i' (mem_support_iff.1 (Finset.mem_coe.1 hm))
+  rwa [weight_row] at h
 
 end Pol2
 
@@ -995,7 +1028,7 @@ theorem extendWeightBounded : M.FreezeY := by
     unfold Formalism.GM.M.Letters.total
     exact Finset.sum_congr rfl (fun i _ => hf' m (mem_support_iff.2 hm) i)
   have hcomp : homogeneousComponent LL.total f = f := by
-    rw [homogeneousComponent_of_mem ((mem_homogeneousSubmodule _ _).2 hhom), if_pos rfl]
+    rw [homogeneousComponent_of_mem ((mem_homogeneousSubmodule _ _).2 hhom), ite_eq_left rfl]
   have hext := Formalism.GM.FrozenVariableComponents.freeze_pol p LL ρ n hn f hf
   unfold Formalism.GM.M.Y
   simp only [Submodule.mem_inf, Submodule.mem_iInf]

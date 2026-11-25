@@ -202,10 +202,10 @@ theorem ptEntry_monomial {K : Type} [Field K] (bs : List (K × ℕ)) (hbs : ∀ 
     simp only [Formalism.L2.SG.RealObj.blkOf, ptEntry]
     by_cases h1 : a < m
     · have h2 : m - 1 - a < m := by omega
-      simp only [h1, h2, if_true]
+      simp only [h1, h2, ite_true]
       refine ⟨by omega, by omega, trivial, ht0, fun b hb => ?_⟩
       by_cases h3 : b < m
-      · simp only [h3, if_true, and_self]
+      · simp only [h3, ite_true, and_self]
         refine ⟨fun _ => le_refl _, fun _ => by omega, ?_⟩
         have : a + b + 1 = m ↔ b = m - 1 - a := by omega
         simp [this]
@@ -215,7 +215,7 @@ theorem ptEntry_monomial {K : Type} [Field K] (bs : List (K × ℕ)) (hbs : ∀ 
     · obtain ⟨e1, e2, e3, e0, e4⟩ := h (a - m) (by omega)
       have h2 : ¬ σ (a - m) + m < m := by omega
       have h4 : m ≤ a := by omega
-      simp only [h1, h2, if_false, Nat.add_sub_cancel, e2, e3]
+      simp only [h1, h2, ite_false, Nat.add_sub_cancel, e2, e3]
       refine ⟨by omega, by omega, trivial, e0, fun b hb => ?_⟩
       by_cases h3 : b < m
       · have h5 : ¬ m ≤ b := by omega
@@ -225,7 +225,7 @@ theorem ptEntry_monomial {K : Type} [Field K] (bs : List (K × ℕ)) (hbs : ∀ 
       · obtain ⟨f1, f2, f3⟩ := e4 (b - m) (by omega)
         have h5 : m ≤ b := by omega
         have h6 : b = σ (a - m) + m ↔ b - m = σ (a - m) := by omega
-        simp only [h3, h5, h4, if_false, h6, f3, and_self]
+        simp only [h3, h5, h4, ite_false, h6, f3, and_self]
         refine ⟨fun hab => ?_, fun hab => ?_, by simp⟩
         · have := f1 (by omega); omega
         · have := f2 (by omega); omega
@@ -355,7 +355,6 @@ section -- clump:auto
 
 open MeasureTheory NumberField Formalism.BasicNotions Formalism.MainNotions.S Formalism.MainNotions.S.Lat Formalism.MainNotions.S.LocalSplitGroups Formalism.L2.SG.HidaSetting Formalism.L2.SG.TermOp Formalism.L2.SG.Full Formalism.L2.SG.RowsConc Formalism.L2.SG.NGData Formalism.L2.SG.TermLoc GlobalTheory.HL GlobalTheory.LocOver
 open scoped Pointwise ENNReal Classical
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 
 namespace GlobalTheory.HL.StCoord
 
@@ -412,10 +411,7 @@ section -- clump:auto
 
 open MeasureTheory NumberField Formalism.BasicNotions Formalism.MainNotions.S Formalism.MainNotions.S.Lat Formalism.MainNotions.S.LocalSplitGroups Formalism.L2.SG.HidaSetting Formalism.L2.SG.TermOp Formalism.L2.SG.Full Formalism.L2.SG.RowsConc Formalism.L2.SG.NGData Formalism.L2.SG.TermLoc GlobalTheory.HL GlobalTheory.LocOver
 open scoped Pointwise ENNReal Classical
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 
-theorem _root_.GlobalTheory.T.rationalCommonStabiliser_unitriangular_coords : ∀ (D : D7) (X : HidaSetting D) (Y : Full X) (u u' : D.what₂.Word), Formalism.MainNotions.S.Cnt.Stand D u u' → 4 * D.R.rS + 7 ≤ D.R.k → ∀ (w : Point D.host.E (D.R.rS + 1)) (F00 : LFlag (D.sp.Y 0) D.R.rS (((D.mem u).A.T : ℕ) : D.host.E)) (F'0 : LFlag (D.sp.Y 0) D.R.rS (((D.mem u').A.T : ℕ) : D.host.E)) (FP : ∀ p : PlF D, LocNG.FPair (locH (⟨Y.δ, Y.M, Y.agree⟩ : LocDat D) p) D.R.rS), ZhatOM (ZhatL F00 F'0) = ptMat w → Gval F00 F'0 ≠ 0 → (∀ p, AtBase (⟨Y.δ, Y.M, Y.agree⟩ : LocDat D) p F00 F'0 (Tu D u) (Tu D u') (FP p) ∧ (FP p).RelG (LocNG.theta (Y.M p))) → ∀ (G : GFrames (placesOf (⟨Y.δ, Y.M, Y.agree⟩ : LocDat D)) D.R.rS D.R.k) (c : GCoord (⟨Y.δ, Y.M, Y.agree⟩ : LocDat D) F00 F'0 FP G), (∀ x ∈ G.St, ∃ B : Formalism.L2.SG.PairVal.MatR D, IsUpUni B ∧ (∀ b, x (G.f' b) = ∑ a, B a b • G.f' a) ∧ ∀ a b : Fin (D.R.rS + 1), Formalism.L2.SG.RealObj.blkOf w.1 a.1 ≠ Formalism.L2.SG.RealObj.blkOf w.1 b.1 → B a b = 0) ∧ ∀ B : Formalism.L2.SG.PairVal.MatR D, IsUpUni B → (∀ a b : Fin (D.R.rS + 1), Formalism.L2.SG.RealObj.blkOf w.1 a.1 ≠ Formalism.L2.SG.RealObj.blkOf w.1 b.1 → B a b = 0) → ∃! x, x ∈ G.St ∧ ∀ b, x (G.f' b) = ∑ a, B a b • G.f' a := by
-  first | exact @GlobalTheory.HL.StCoord.stab_coords
 end -- clump:auto
 end -- clump:auto
 -- ===== end clump member: Development.AbelianVarietyTheory.Proofs.FlagMeasures.RationalCommonStabiliserUnitriangularCoordsStatement =====

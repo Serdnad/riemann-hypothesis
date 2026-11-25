@@ -1,6 +1,5 @@
 module
 
-import Formalism.LocalToGlobal.InertKernelTheory.InertCoprimeLemmas.GenusOneWittExistsOf
 public import Formalism.LocalToGlobal.InertKernelTheory.DefsBeW
 public import Formalism.LocalToGlobal.InertKernelTheory.DefsSigma
 public import Formalism.LocalToGlobal.InertKernelTheory.StatementIota
@@ -99,7 +98,7 @@ variable {p : ℕ} [Fact p.Prime]
 theorem mulBy_g (g : G1 p) (hOk : g.Ok) (c : ℂ_[p]) :
     (g.mulBy c (Xv ()) : MvPowerSeries Unit ℂ_[p]) =
       Formalism.L2.Th1.C.mulBy (Formalism.L2.Th1.A.logSer g.W) (Formalism.L2.Th1.A.expSer g.W) c := by
-  apply _root_.Formalism.L2.KerInert.ModelP.mulBy_g <;> assumption
+  exact Formalism.L2.KerInert.ModelP.mulBy_g g hOk c
 
 theorem coeffIn_g (g : G1 p) (hOk : g.Ok) : Formalism.L2.Th1.C.CoeffIn (RB p) g.W := by
   obtain ⟨⟨h1, h2, h3, h4, h6, -⟩, -⟩ := hOk
@@ -224,7 +223,7 @@ theorem endInt_omega (hInv : Formalism.L2.KerInert.Sigma.InvAlg) (D : D7) (p : �
   obtain ⟨hu, hui, hr, hs, ht⟩ := vc_params h5 (Formalism.L2.Th1.A.shortW g2' g3') rfl rfl rfl hΔ0 (g.C * Cε⁻¹) j1 j2 j3 jΔ
   refine ⟨ι, hι, ?_⟩
   rw [hgW]
-  exact Formalism.L2.KerInert.VC.endInt_varChange _ hcoef0 _ hu.le hui.le hr hs ht _ hE0
+  exact Formalism.L2.KerInert.MC.endInt_varChange _ hcoef0 _ hu.le hui.le hr hs ht _ hE0
 
 
 open Formalism.L2.Th1.C.Pts in

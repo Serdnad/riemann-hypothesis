@@ -578,7 +578,7 @@ theorem weber_congruences : ∀ (K : IntermediateField ℚ ℂ) [NumberField K] 
   · have hx := t1 (c * t) (s1 t ht) ((H t).not.mpr ht')
     refine ⟨mul_mem (mul_mem hg hh) hx, c2 _ _ hx ?_⟩
     rw [mul_left_comm]
-    exact a4 m (c * t) hm im (s1 t ht) ((H t).not.mpr ht')
+    exact a4 m (c * t) hm.pos im (s1 t ht) ((H t).not.mpr ht')
   · have n3 : L'.g₂ ∉ W.nonunits := fun h ↦ n1 (by
       simpa [pow_succ'] using mul_mem_nonunits W h (pow_mem hg 2))
     have n4 : L'.g₃ ∉ W.nonunits := fun h ↦ n2 (by
@@ -604,9 +604,6 @@ open NumberField IsDedekindDomain Polynomial GlobalTheory.FieldSize
 open scoped IntermediateField
 
 namespace GlobalTheory.EisensteinCongruence
-
-theorem weierstrassP_mul_congr_pow_of_pos : ∀ (L : PeriodPair) (W : ValuationSubring ℂ) (α : ℂ) (p : ℕ), (2 : ℂ)⁻¹ ∈ W → (3 : ℂ)⁻¹ ∈ W → L.g₂ ∈ W → L.g₃ ∈ W → (L.g₂ ^ 3 - 27 * L.g₃ ^ 2)⁻¹ ∈ W → p.Prime → (p : ℂ) ∈ W.nonunits → α ∈ W.nonunits → (∀ l ∈ L.lattice, α * l ∈ L.lattice) → ‖α‖ ^ 2 = p → ∃ a : ℂ, a ∈ W ∧ a⁻¹ ∈ W ∧ a ≠ 0 ∧ L.g₂ - a ^ 2 * L.g₂ ^ p ∈ W.nonunits ∧ L.g₃ - a ^ 3 * L.g₃ ^ p ∈ W.nonunits ∧ ∀ (m : ℕ) (t : ℂ), 0 < m → (m : ℂ)⁻¹ ∈ W → (m : ℂ) * t ∈ L.lattice → t ∉ L.lattice → L.weierstrassP (α * t) - a * L.weierstrassP t ^ p ∈ W.nonunits := by
-  exact _root_.GlobalTheory.EisensteinCongruence.weierstrassP_mul_congr_pow_of_positive
 
 end GlobalTheory.EisensteinCongruence
 end -- clump:auto
@@ -670,7 +667,7 @@ theorem weber_congruences : ∀ (K : IntermediateField ℚ ℂ) [NumberField K] 
     convert this using 1
     linear_combination (-1 / 27 : ℂ) * hΔ'
   have hD : (L'.g₂ ^ 3 - 27 * L'.g₃ ^ 2)⁻¹ ∈ W := by rw [hΔ', inv_one]; exact one_mem W
-  obtain ⟨a, ha, -, -, a2, a3, a4⟩ := _root_.GlobalTheory.EisensteinCongruence.weierstrassP_mul_congr_pow_of_pos L' W ((π : K) : ℂ) p i2 i3 hg hh hD hp hpW hπ
+  obtain ⟨a, ha, -, -, a2, a3, a4⟩ := _root_.GlobalTheory.EisensteinCongruence.weierstrassP_mul_congr_pow L' W ((π : K) : ℂ) p i2 i3 hg hh hD hp hpW hπ
     (fun l hl ↦ by
       obtain ⟨z, rfl⟩ : ∃ z, l = c * z := ⟨c⁻¹ * l, by field_simp⟩
       rw [mul_left_comm]

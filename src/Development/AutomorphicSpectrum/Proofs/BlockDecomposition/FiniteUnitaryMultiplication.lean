@@ -1,6 +1,5 @@
 module
 
-import Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange.ArchimedeanBaseChangeProof.SatakeExponents.UniformizerValuations.InertEigenvalues.EigInert
 public import Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange.ArchimedeanBaseChangeProof.SatakeExponents.UniformizerValuations.MatchT
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.IwahoriAndMaximalCompactCriteria
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.TwistedIwahoriContractionHolds
@@ -9,44 +8,7 @@ public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.UnitaryI
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.VLtOneOfOrdLEqOne
 import Development.AbelianVarietyTheory.Definitions.Divisors.SimpleTwistedTraceFormulaStable
 import Development.AbelianVarietyTheory.Proofs.DivisorProofs.PlaceConjugationPropertiesCmField
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
-import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.MatchingTransferOf
 
 @[expose] public section
 
@@ -55,8 +17,6 @@ noncomputable section
 open NumberField IsDedekindDomain Matrix Polynomial
 open GlobalTheory.BCT GlobalTheory.UnitaryBC PositivityTheory.Rg.Bc.ArchbcB.B PositivityTheory.Rg.BcB.F.MT Formalism.UG
 open scoped Classical
-
-attribute [local instance] GlobalTheory.LocalData.complRel GlobalTheory.LocalData.isLocalField
 
 namespace GlobalTheory.CompanionTheory.FUMulPf
 
@@ -127,9 +87,9 @@ theorem hint_ind (K : Subgroup H) (hIK : I ≤ K) (g : H) (u : H → ℂ)
     constructor
     · rintro ⟨h, -⟩
       have h1 : u (g * k) = u g := h g
-      rw [hu, hu, inv_mul_cancel_left, inv_mul_cancel, if_pos I.one_mem] at h1
+      rw [hu, hu, inv_mul_cancel_left, inv_mul_cancel, ite_eq_left I.one_mem] at h1
       by_contra hk
-      rw [if_neg hk] at h1
+      rw [ite_eq_right hk] at h1
       exact zero_ne_one h1
     · intro hk
       refine ⟨fun x => ?_, hIK hk⟩
@@ -141,10 +101,10 @@ theorem hint_ind (K : Subgroup H) (hIK : I ≤ K) (g : H) (u : H → ℂ)
   rw [hS]
   have hsum : ∑ᶠ q : H ⧸ I, u q.out = 1 := by
     rw [finsum_eq_single (fun q : H ⧸ I => u q.out) (QuotientGroup.mk g)]
-    · rw [hu, if_pos]
+    · rw [hu, ite_eq_left]
       exact QuotientGroup.eq.1 (QuotientGroup.out_eq' (QuotientGroup.mk g : H ⧸ I)).symm
     · intro q hq
-      rw [hu, if_neg]
+      rw [hu, ite_eq_right]
       intro h
       apply hq
       rw [← QuotientGroup.out_eq' q]
@@ -155,21 +115,21 @@ theorem hint_dc (K : Subgroup H) (hIK : I ≤ K) (hF : Fac I B M) {t t' : H} (ht
     (ht' : Dom I B M t') (y : H) :
     hint K (fun z => dc I t z * dc I t' (z⁻¹ * y)) = ((I.relIndex K : ℕ) : ℂ)⁻¹ * dc I (t * t') y := by
   by_cases hy : ∃ x ∈ I, ∃ c ∈ I, y = x * (t * t') * c
-  · rw [dc, if_pos hy, mul_one]
+  · rw [dc, ite_eq_left hy, mul_one]
     obtain ⟨a, ha, c, hc, rfl⟩ := hy
     refine hint_ind K hIK (a * t) _ fun z => ?_
     by_cases hz : (a * t)⁻¹ * z ∈ I
-    · rw [if_pos hz, dc, dc, if_pos, if_pos, mul_one]
+    · rw [ite_eq_left hz, dc, dc, ite_eq_left, ite_eq_left, mul_one]
       · exact ⟨((a * t)⁻¹ * z)⁻¹, I.inv_mem hz, c, hc, by group⟩
       · exact ⟨a, ha, _, hz, by group⟩
-    · rw [if_neg hz]
+    · rw [ite_eq_right hz]
       by_contra hne
       have h1 : ∃ x ∈ I, ∃ c ∈ I, z = x * t * c := by
         by_contra h
-        exact hne (by rw [dc, if_neg h, zero_mul])
+        exact hne (by rw [dc, ite_eq_right h, zero_mul])
       have h2 : ∃ x ∈ I, ∃ c' ∈ I, z⁻¹ * (a * (t * t') * c) = x * t' * c' := by
         by_contra h
-        exact hne (by rw [dc, dc, if_neg h, mul_zero])
+        exact hne (by rw [dc, dc, ite_eq_right h, mul_zero])
       obtain ⟨x, hx, d, hd, e⟩ := h1
       obtain ⟨x₂, hx₂, d₂, hd₂, e₂⟩ := h2
       apply hz
@@ -180,16 +140,16 @@ theorem hint_dc (K : Subgroup H) (hIK : I ≤ K) (hF : Fac I B M) {t t' : H} (ht
       have h5 : (a * t)⁻¹ * z = t⁻¹ * (a⁻¹ * z) := by group
       rw [h5]
       exact h3
-  · rw [dc, if_neg hy, mul_zero]
+  · rw [dc, ite_eq_right hy, mul_zero]
     have hu : (fun z => dc I t z * dc I t' (z⁻¹ * y)) = fun _ => 0 := by
       funext z
       by_contra hne
       have h1 : ∃ x ∈ I, ∃ c ∈ I, z = x * t * c := by
         by_contra h
-        exact hne (by rw [dc, if_neg h, zero_mul])
+        exact hne (by rw [dc, ite_eq_right h, zero_mul])
       have h2 : ∃ x ∈ I, ∃ c ∈ I, z⁻¹ * y = x * t' * c := by
         by_contra h
-        exact hne (by rw [dc, dc, if_neg h, mul_zero])
+        exact hne (by rw [dc, dc, ite_eq_right h, mul_zero])
       apply hy
       have := dc_mul hF ht ht' h1 h2
       simpa using this
@@ -402,7 +362,23 @@ section Exponents
 variable {n : ℕ}
 
 theorem cone_anti {m : ℕ} {l : Fin m → ℤ} (hl : Cone l) : Antitone l := by
-  apply _root_.GlobalTheory.CompanionTheory.MatchPow.cone_anti <;> assumption
+  have key : ∀ d : ℕ, ∀ i j : Fin m, j.val = i.val + d → l j ≤ l i := by
+    intro d
+    induction d with
+    | zero =>
+      intro i j h
+      rw [show j = i from Fin.ext (by simpa using h)]
+    | succ d ih =>
+      intro i j h
+      have hlt : i.val + d < m := by
+        have := j.2
+        omega
+      have h1 := ih i ⟨i.val + d, hlt⟩ rfl
+      have h2 := hl.1 ⟨i.val + d, hlt⟩ j (by simp only; omega)
+      omega
+  intro i j hij
+  have h : i.val ≤ j.val := hij
+  exact key (j.val - i.val) i j (by omega)
 
 theorem wexp_add (l l' : Fin (n / 2) → ℤ) : wexp n (l + l') = wexp n l + wexp n l' := by
   funext i
@@ -410,10 +386,51 @@ theorem wexp_add (l l' : Fin (n / 2) → ℤ) : wexp n (l + l') = wexp n l + wex
   split_ifs <;> simp <;> ring
 
 theorem wexp_rev (l : Fin (n / 2) → ℤ) (i : Fin n) : wexp n l i.rev = - wexp n l i := by
-  apply _root_.PositivityTheory.Rg.BcB.F.Eig.GluingInclusion.wexp_rev <;> assumption
+  have hi := i.2
+  have hv : i.rev.val = n - 1 - i.val := by
+    rw [Fin.val_rev]
+    omega
+  have hv2 : n - 1 - i.rev.val = i.val := by omega
+  unfold wexp
+  by_cases h1 : i.val < n / 2
+  · rw [dite_eq_left h1, dite_eq_right (show ¬ i.rev.val < n / 2 by omega), dite_eq_left (show n - 1 - i.rev.val < n / 2 by omega)]
+    exact congrArg (fun x => - l x) (Fin.ext hv2)
+  · rw [dite_eq_right h1]
+    by_cases h2 : n - 1 - i.val < n / 2
+    · rw [dite_eq_left h2, dite_eq_left (show i.rev.val < n / 2 by omega), neg_neg]
+      exact congrArg l (Fin.ext hv)
+    · rw [dite_eq_right h2, dite_eq_right (show ¬ i.rev.val < n / 2 by omega),
+        dite_eq_right (show ¬ n - 1 - i.rev.val < n / 2 by omega), neg_zero]
 
 theorem wexp_anti {l : Fin (n / 2) → ℤ} (hl : Cone l) : Antitone (wexp n l) := by
-  apply _root_.PositivityTheory.Rg.BcB.F.Eig.IndexUAAux.wexp_anti <;> assumption
+  have ha := cone_anti hl
+  have hp := hl.2
+  intro i j hij
+  have hij' : i.val ≤ j.val := hij
+  unfold wexp
+  by_cases h1 : i.val < n / 2
+  · rw [dite_eq_left h1]
+    by_cases h2 : j.val < n / 2
+    · rw [dite_eq_left h2]
+      exact ha (show (⟨i.val, h1⟩ : Fin (n / 2)) ≤ ⟨j.val, h2⟩ from hij')
+    · rw [dite_eq_right h2]
+      have h5 := hp ⟨i.val, h1⟩
+      split_ifs with h3
+      · have := hp ⟨_, h3⟩
+        omega
+      · omega
+  · rw [dite_eq_right h1, dite_eq_right (show ¬ j.val < n / 2 by omega)]
+    by_cases h3 : n - 1 - i.val < n / 2
+    · have h4 : n - 1 - j.val < n / 2 := by omega
+      rw [dite_eq_left h3, dite_eq_left h4]
+      have := ha (show (⟨n - 1 - j.val, h4⟩ : Fin (n / 2)) ≤ ⟨n - 1 - i.val, h3⟩ from
+        show n - 1 - j.val ≤ n - 1 - i.val by omega)
+      omega
+    · rw [dite_eq_right h3]
+      split_ifs with h4
+      · have := hp ⟨_, h4⟩
+        omega
+      · exact le_rfl
 
 end Exponents
 

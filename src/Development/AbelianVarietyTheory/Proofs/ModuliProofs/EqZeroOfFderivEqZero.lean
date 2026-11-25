@@ -74,13 +74,6 @@ section Tangent
 
 variable {A : Over (Sp ℂ)} [GrpObj A] {L : LB A.left} {g : ℕ} (u : HolUnif A L g)
 
-theorem fderiv_eq_zero_at (w : Fin g → ℂ)
-    (hw : ∀ (U : A.left.Opens) (f : Γ(A.left, U)), ⊤ ≤ (u.ex 0).left ⁻¹ᵁ U →
-      fderiv ℂ (fun z => valAt' (u.ex z).left U f) 0 w = 0)
-    (z₀ : Fin g → ℂ) (U : A.left.Opens) (f : Γ(A.left, U)) (h : ⊤ ≤ (u.ex z₀).left ⁻¹ᵁ U) :
-    fderiv ℂ (fun z => valAt' (u.ex z).left U f) z₀ w = 0 := by
-  first | exact _root_.GlobalTheory.UnifTangent.fderiv_eq_zero_of_origin | exact @_root_.GlobalTheory.UnifTangent.fderiv_eq_zero_of_origin | apply _root_.GlobalTheory.UnifTangent.fderiv_eq_zero_of_origin <;> assumption
-
 theorem eq_zero_of_fderiv_eq_zero (w : Fin g → ℂ)
     (hw : ∀ (U : A.left.Opens) (f : Γ(A.left, U)), ⊤ ≤ (u.ex 0).left ⁻¹ᵁ U →
       fderiv ℂ (fun z => valAt' (u.ex z).left U f) 0 w = 0) : w = 0 := by
@@ -88,9 +81,7 @@ theorem eq_zero_of_fderiv_eq_zero (w : Fin g → ℂ)
 
 theorem tangent_bijective (hs : SmoothOfRelativeDimension g A.hom) :
     (∀ v, IsTangent v → ∃! w, u.IsDiff w v) ∧ (∀ w, ∃! v, IsTangent v ∧ u.IsDiff w v) :=
-  TangentOrigin.tangent_bijection_of_values valAt'_rules A L g u
-    (exists_coord_adapted (HolChart.exists_holomorphic_chart valAt'_rules existsUnique_point_of_ringHom
-      exists_holomorphic_section_of_etale) A L g u hs (eq_zero_of_fderiv_eq_zero u))
+  GlobalTheory.UnifTangent.tangent_bijection u hs
 
 end Tangent
 

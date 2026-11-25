@@ -29,8 +29,6 @@ namespace Formalism.L2.S.Pv.MSOrdP
 
 open Formalism.L2.SG.LocVol Formalism.L2.SG.Pf.Carrier.EnergyConst Formalism.L2.SG.Pf.Carrier.EnergyMS
 
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
-
 theorem three_dvd (r : ℕ) : 3 ∣ (r + 1) * (8 * r ^ 2 + 10 * r + 3) := by
   apply _root_.Formalism.L2.SG.Pf.Carrier.EnergyKM.three_dvd <;> assumption
 
@@ -85,8 +83,6 @@ open MeasureTheory NumberField Formalism.BasicNotions Formalism.MainNotions.S Is
 namespace Formalism.L2.S.Pv.MSTypP
 
 open Formalism.L2.SG.LocVol Formalism.L2.SG.TypedSets Formalism.L2.SG.Pf.Carrier.EnergyConst Formalism.L2.SG.Pf.Carrier.EnergyMS
-
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 
 theorem T_cong {D : D7} (u u' : D.what₂.Word) :
     (D.mem u).A.T ≡ (D.mem u').A.T [MOD (Formalism.MainNotions.S.Lat.gS D) ^ 2] := by

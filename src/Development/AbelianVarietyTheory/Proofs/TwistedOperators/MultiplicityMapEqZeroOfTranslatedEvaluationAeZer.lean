@@ -65,7 +65,6 @@ section -- clump:auto
 
 open NumberField IsDedekindDomain Matrix Formalism.BasicNotions Formalism.MainNotions Formalism.BasicNotions.TH Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes Formalism.L2.Theta Formalism.L2.Pj Formalism.IndefR.Mult
 open scoped TensorProduct
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 
 namespace GlobalTheory.SmoothCyclic
 
@@ -96,7 +95,6 @@ section -- clump:auto
 
 open Formalism.BasicNotions Formalism.BasicNotions.TH Formalism.MainNotions.S Formalism.L2.Theta Formalism.L2.DIV Formalism.IndefR.Links Formalism.IndefR.Lev Formalism.IndefR.Mult Formalism.IndefR.AutomorphicEvaluation Formalism.L2.SG.RowDict Formalism.L2.SG.RowsJoinPinned Formalism.L2.SG.RowLevelMatch Formalism.L2.SG.PoincareInHH.PoincareSetting MeasureTheory NumberField IsDedekindDomain
 open scoped InnerProductSpace
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 
 noncomputable section
 
@@ -104,7 +102,6 @@ namespace GlobalTheory.TranslatedEvalInj
 
 section Count
 
-open Formalism.MainNotions.S
 
 theorem gfset_countable (I : AutInst) : I.GFset.Countable := by
   first | exact _root_.GlobalTheory.RatDiscrete.countable_GFset | exact @_root_.GlobalTheory.RatDiscrete.countable_GFset | apply _root_.GlobalTheory.RatDiscrete.countable_GFset <;> assumption
@@ -182,7 +179,7 @@ theorem eq_zero_of_value {T : MMap M} (hT : IsMultMap θ M J χ T) (v₀ : M.Vec
       simpa using h0
     · intro a s ha ih w
       have hne : ((if a ∈ s then w a else v₀ a : M.sm a) : M.H a) ≠ 0 := by
-        simp only [ha, if_false]
+        simp only [ha, ite_false]
         exact hv₀ a
       have h3 := step _ a (ih w) hne (w a)
       convert h3 using 2

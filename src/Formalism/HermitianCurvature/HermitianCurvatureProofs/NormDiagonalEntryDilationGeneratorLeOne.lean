@@ -10,60 +10,9 @@ public import Formalism.HermitianCurvature.HermitianCurvatureProofs.AdjointnessP
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.DilationUnipotentWeylMeasure
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.IntegralZeroFrequencyInvariant
 import Formalism.RealPlaceAnalysis.RealPlaceTaylor.CartanInvolutionConjTransposeMul
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Algebra.Order.Star.Real
-import Mathlib.Algebra.Ring.IsFormallyReal
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
 public import Mathlib.Analysis.InnerProductSpace.Calculus
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.Normed.Algebra.MatrixExponential
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
 import Mathlib.MeasureTheory.Order.Group.Lattice
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.Order.CompletePartialOrder
-import Mathlib.RingTheory.PiTensorProduct
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.RingTheory.SimpleRing.Principal
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Tactic.TypeStar
-import Mathlib.Topology.Sheaves.Init
-import Mathlib.Topology.UniformSpace.Uniformizable
 import Std.Tactic.BVDecide.Normalize.Prop
 public import Mathlib.Analysis.Calculus.ParametricIntegral
 public import Mathlib.Analysis.SpecialFunctions.Log.Deriv
@@ -79,7 +28,7 @@ namespace Formalism.FourierDecayAlt.P.B6
 
 open Formalism.REAL Formalism.QuantumDeterminants Formalism.FourierDecayAlt.B
 
-attribute [local instance] Matrix.normedAddCommGroup Matrix.normedSpace
+open scoped Matrix.Norms.Elementwise
 
 def X0 (k r : ℕ) : Mat k r := Matrix.diagonal fun i =>
   if i.val < r then ((((r - i.val : ℕ) : ℝ) / ((r : ℝ) + 1) : ℝ) : ℂ)
@@ -168,14 +117,14 @@ theorem hermitian_entry_zero_or_weights_cancel (k r : ℕ) (i j : Fin (2 * r + k
     have h1 : ¬ j.val < r := by omega
     have h2 : ¬ j.val ≤ r + k := by omega
     have h3 : j.val - (r + k) = r - i.val := by omega
-    simp only [dilationGeneratorDiagonal, c1.1, h1, h2, if_true, if_false, h3]
+    simp only [dilationGeneratorDiagonal, c1.1, h1, h2, ite_true, ite_false, h3]
     push_cast; ring
   · by_cases c2 : j.val < r ∧ i.val + j.val = 2 * r + k
     · right
       have h1 : ¬ i.val < r := by omega
       have h2 : ¬ i.val ≤ r + k := by omega
       have h3 : i.val - (r + k) = r - j.val := by omega
-      simp only [dilationGeneratorDiagonal, c2.1, h1, h2, if_true, if_false, h3]
+      simp only [dilationGeneratorDiagonal, c2.1, h1, h2, ite_true, ite_false, h3]
       push_cast; ring
     · by_cases c3 : r ≤ i.val ∧ i.val ≤ r + k ∧ i = j
       · right
@@ -437,9 +386,9 @@ theorem lam_continuous (k r : ℕ) (z : Fin (2 * r + k + 1) → ℂ) : Continuou
   refine Complex.continuous_re.comp (continuous_const.mul ?_)
   refine continuous_finsetSum _ fun a _ => ?_
   by_cases h : a.val + 1 < r
-  · simp only [h, dif_pos]
+  · simp only [h, dite_eq_left]
     exact continuous_id.matrix_elem _ _
-  · simp only [h, dif_neg, not_false_iff]
+  · simp only [h, dite_eq_right, not_false_iff]
     have h2 : Continuous fun n : Mat k r => n *ᵥ z := continuous_id.matrix_mulVec continuous_const
     exact (continuous_apply (eI k r a)).comp h2
 

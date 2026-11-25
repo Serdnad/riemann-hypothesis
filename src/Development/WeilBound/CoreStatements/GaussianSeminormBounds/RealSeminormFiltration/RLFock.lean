@@ -1,10 +1,6 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.GaussianIsSchwartzFunction
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.PolyMulGaussianBounded
-import Development.WeilBound.ThetaLifts.LeviDeterminants.NormIteratedFDerivIdLeOneAdd
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.MemOfClosedSubmoduleGaussianConvolution
-import Development.AutomorphicSpectrum.Proofs.TwistedProofs.EqZeroOfPiInf
+public import Development.WeilBound.ThetaLifts.LeviDeterminants.NormIteratedFDerivIdLeOneAdd
 public import Mathlib.Analysis.Complex.Exponential
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsFockMap
 public import Mathlib.RingTheory.PiTensorProduct
@@ -63,23 +59,10 @@ import Mathlib.Topology.Separation.CompletelyRegular
 import Std.Tactic.BVDecide.Normalize.Prop
 
 -- This file was produced by scripts/clump.py from the modules listed below.
--- Members: Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.ExistsBoundPolyMulExp, Development.WeilBound.CoreStatements.GaussianSeminormBounds.RealSeminormFiltration.RLFock
-
--- ===== clump member: Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.ExistsBoundPolyMulExp =====
--- clump-header: {"m": "Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.ExistsBoundPolyMulExp", "h": "module\n\npublic import Mathlib.Analysis.Complex.Exponential\nimport Mathlib.Algebra.Order.Floor.Extended\nimport Mathlib.Algebra.Order.Floor.Semifield\nimport Mathlib.Algebra.Order.Interval.Basic\nimport Mathlib.Algebra.Order.Star.Real\nimport Mathlib.Analysis.Complex.UpperHalfPlane.Basic\nimport Mathlib.Analysis.Normed.Algebra.GelfandRadius\nimport Mathlib.Analysis.SpecialFunctions.Bernstein\nimport Mathlib.Analysis.SpecialFunctions.Gamma.Basic\nimport Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp\nimport Mathlib.Combinatorics.Enumerative.DyckWord\nimport Mathlib.Combinatorics.SimpleGraph.Triangle.Removal\nimport Mathlib.Data.NNRat.Floor\nimport Mathlib.Data.Nat.Choose.Multinomial\nimport Mathlib.Geometry.Euclidean.Volume.Basic\nimport Mathlib.NumberTheory.Chebyshev\nimport Mathlib.NumberTheory.Height.NumberField\nimport Mathlib.NumberTheory.Height.Projectivization\nimport Mathlib.NumberTheory.LucasLehmer\nimport Mathlib.NumberTheory.SelbergSieve\nimport Mathlib.RingTheory.Radical.NatInt\nimport Mathlib.Tactic.Echelon.Zsqrtd\nimport Mathlib.Tactic.Inclusion.Extension.Core.Core\nimport Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit\nimport Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp\nimport Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses\nimport Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic\nimport Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses\nimport Mathlib.Tactic.NormNum.Irrational\nimport Mathlib.Tactic.NormNum.IsCoprime\nimport Mathlib.Tactic.NormNum.IsSquare\nimport Mathlib.Tactic.NormNum.LegendreSymbol\nimport Mathlib.Tactic.NormNum.ModEq\nimport Mathlib.Tactic.NormNum.NatFib\nimport Mathlib.Tactic.NormNum.NatLog\nimport Mathlib.Tactic.NormNum.NatSqrt\nimport Mathlib.Tactic.NormNum.Ordinal\nimport Mathlib.Tactic.NormNum.Parity\nimport Mathlib.Tactic.NormNum.Prime\nimport Mathlib.Tactic.NormNum.RealSqrt\nimport Mathlib.Topology.Sheaves.Init\n\n"}
-section -- clump:auto
-@[expose] public section
-
-theorem UpperTheory.Reformulated.B.Rc4.exists_bound_poly_mul_exp :
-    ∀ (c : ℝ),
-    (0 : ℝ) < c →
-      ∀ (N : ℕ), ∃ (C : ℝ), ∀ (r : ℝ), (0 : ℝ) ≤ r → ((1 : ℝ) + r) ^ N * Real.exp (-(c * r ^ (2 : ℕ))) ≤ C := @_root_.GlobalTheory.PolynomialGaussianBounded.poly_mul_gaussian_bounded
-end -- clump:auto
-end -- clump:auto
--- ===== end clump member: Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.ExistsBoundPolyMulExp =====
+-- Members: Development.WeilBound.CoreStatements.GaussianSeminormBounds.RealSeminormFiltration.RLFock
 
 -- ===== clump member: Development.WeilBound.CoreStatements.GaussianSeminormBounds.RealSeminormFiltration.RLFock =====
--- clump-header: {"m": "Development.WeilBound.CoreStatements.GaussianSeminormBounds.RealSeminormFiltration.RLFock", "h": "module\n\nimport Development.WeilBound.CoreStatements.GaussianSeminormBounds.RealSeminormFiltration.RLLines\npublic import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsFockMap\npublic import Mathlib.RingTheory.PiTensorProduct\npublic import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.ExistsBoundPolyMulExp\npublic import Development.WeilBound.CoreStatements.GaussianSeminormBounds.RealSeminormFiltration.RLActs\nimport Mathlib.Algebra.Order.Floor.Extended\nimport Mathlib.Algebra.Order.Floor.Semifield\nimport Mathlib.Algebra.Order.Interval.Basic\npublic import Mathlib.Analysis.Calculus.ContDiff.Bounds\npublic import Mathlib.Analysis.Calculus.FDeriv.Symmetric\nimport Mathlib.Analysis.Complex.UpperHalfPlane.Basic\nimport Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp\nimport Mathlib.Combinatorics.Enumerative.DyckWord\nimport Mathlib.Combinatorics.SimpleGraph.Triangle.Removal\nimport Mathlib.Data.NNRat.Floor\nimport Mathlib.Geometry.Euclidean.Volume.Basic\nimport Mathlib.NumberTheory.Chebyshev\nimport Mathlib.NumberTheory.Height.NumberField\nimport Mathlib.NumberTheory.Height.Projectivization\nimport Mathlib.NumberTheory.LucasLehmer\nimport Mathlib.NumberTheory.SelbergSieve\nimport Mathlib.RingTheory.Radical.NatInt\nimport Mathlib.RingTheory.TotallySplit\nimport Mathlib.Tactic.Basify\nimport Mathlib.Tactic.ENatToNat\nimport Mathlib.Tactic.Echelon.Zsqrtd\nimport Mathlib.Tactic.Inclusion.Extension.Core.Core\nimport Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit\nimport Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp\nimport Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses\nimport Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic\nimport Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses\nimport Mathlib.Tactic.Linter.HaveILetI\nimport Mathlib.Tactic.Linter.Style\nimport Mathlib.Tactic.NormNum.Irrational\nimport Mathlib.Tactic.NormNum.IsCoprime\nimport Mathlib.Tactic.NormNum.IsSquare\nimport Mathlib.Tactic.NormNum.LegendreSymbol\nimport Mathlib.Tactic.NormNum.ModEq\nimport Mathlib.Tactic.NormNum.NatFib\nimport Mathlib.Tactic.NormNum.NatLog\nimport Mathlib.Tactic.NormNum.NatSqrt\nimport Mathlib.Tactic.NormNum.Ordinal\nimport Mathlib.Tactic.NormNum.Parity\nimport Mathlib.Tactic.NormNum.Prime\nimport Mathlib.Tactic.NormNum.RealSqrt\nimport Mathlib.Tactic.Polynomial.Basic\nimport Mathlib.Tactic.ReduceModChar\nimport Mathlib.Topology.Separation.CompletelyRegular\nimport Mathlib.Topology.Sheaves.Init\nimport Std.Tactic.BVDecide.Normalize.Prop\n\n"}
+-- clump-header: {"m": "Development.WeilBound.CoreStatements.GaussianSeminormBounds.RealSeminormFiltration.RLFock", "h": "module\n\nimport Development.WeilBound.CoreStatements.GaussianSeminormBounds.RealSeminormFiltration.RLLines\npublic import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsFockMap\npublic import Development.WeilBound.ThetaLifts.LeviDeterminants.NormIteratedFDerivIdLeOneAdd\npublic import Mathlib.RingTheory.PiTensorProduct\npublic import Development.WeilBound.CoreStatements.GaussianSeminormBounds.RealSeminormFiltration.RLActs\nimport Mathlib.Algebra.Order.Floor.Extended\nimport Mathlib.Algebra.Order.Floor.Semifield\nimport Mathlib.Algebra.Order.Interval.Basic\npublic import Mathlib.Analysis.Calculus.ContDiff.Bounds\npublic import Mathlib.Analysis.Calculus.FDeriv.Symmetric\nimport Mathlib.Analysis.Complex.UpperHalfPlane.Basic\nimport Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp\nimport Mathlib.Combinatorics.Enumerative.DyckWord\nimport Mathlib.Combinatorics.SimpleGraph.Triangle.Removal\nimport Mathlib.Data.NNRat.Floor\nimport Mathlib.Geometry.Euclidean.Volume.Basic\nimport Mathlib.NumberTheory.Chebyshev\nimport Mathlib.NumberTheory.Height.NumberField\nimport Mathlib.NumberTheory.Height.Projectivization\nimport Mathlib.NumberTheory.LucasLehmer\nimport Mathlib.NumberTheory.SelbergSieve\nimport Mathlib.RingTheory.Radical.NatInt\nimport Mathlib.RingTheory.TotallySplit\nimport Mathlib.Tactic.Basify\nimport Mathlib.Tactic.ENatToNat\nimport Mathlib.Tactic.Echelon.Zsqrtd\nimport Mathlib.Tactic.Inclusion.Extension.Core.Core\nimport Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit\nimport Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp\nimport Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses\nimport Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic\nimport Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses\nimport Mathlib.Tactic.Linter.HaveILetI\nimport Mathlib.Tactic.Linter.Style\nimport Mathlib.Tactic.NormNum.Irrational\nimport Mathlib.Tactic.NormNum.IsCoprime\nimport Mathlib.Tactic.NormNum.IsSquare\nimport Mathlib.Tactic.NormNum.LegendreSymbol\nimport Mathlib.Tactic.NormNum.ModEq\nimport Mathlib.Tactic.NormNum.NatFib\nimport Mathlib.Tactic.NormNum.NatLog\nimport Mathlib.Tactic.NormNum.NatSqrt\nimport Mathlib.Tactic.NormNum.Ordinal\nimport Mathlib.Tactic.NormNum.Parity\nimport Mathlib.Tactic.NormNum.Prime\nimport Mathlib.Tactic.NormNum.RealSqrt\nimport Mathlib.Tactic.Polynomial.Basic\nimport Mathlib.Tactic.ReduceModChar\nimport Mathlib.Topology.Separation.CompletelyRegular\nimport Mathlib.Topology.Sheaves.Init\nimport Std.Tactic.BVDecide.Normalize.Prop\n\n"}
 section -- clump:auto
 @[expose] public section
 
@@ -95,39 +78,6 @@ section Gauss
 open scoped Nat
 
 variable {E : Type} [NormedAddCommGroup E] [NormedSpace ℝ E]
-
-theorem norm_iteratedFDeriv_id_le_one_add (j : ℕ) (x : E) :
-    ‖iteratedFDeriv ℝ j (id : E → E) x‖ ≤ 1 + ‖x‖ := by
-  rcases j with _ | n
-  · rw [norm_iteratedFDeriv_zero]; simp
-  · rw [← norm_iteratedFDeriv_fderiv,
-      show fderiv ℝ (id : E → E) = fun _ => ContinuousLinearMap.id ℝ E from funext fun _ => fderiv_id]
-    rcases n with _ | n
-    · rw [norm_iteratedFDeriv_zero]
-      exact (ContinuousLinearMap.norm_id_le).trans (by linarith [norm_nonneg x])
-    · rw [iteratedFDeriv_const_of_ne (Nat.succ_ne_zero n)]
-      simp only [Pi.zero_apply, norm_zero]
-      positivity
-
-theorem norm_iteratedFDeriv_diag_le (B : E →L[ℝ] E →L[ℝ] ℝ) (n : ℕ) (x : E) :
-    ‖iteratedFDeriv ℝ n (fun y => B y y) x‖ ≤ ‖B‖ * (2 ^ n * (1 + ‖x‖) ^ 2) :=
-  _root_.GlobalTheory.GaussDerivBound.norm_iteratedFDeriv_diag_le' B n x
-
-theorem norm_iteratedFDeriv_rexp (i : ℕ) (y : ℝ) : ‖iteratedFDeriv ℝ i Real.exp y‖ = Real.exp y := by
-  rw [norm_iteratedFDeriv_eq_norm_iteratedDeriv]
-  have h := congrFun (iteratedDeriv_exp_const_mul i 1) y
-  simp only [one_mul, one_pow] at h
-  rw [show (fun s => Real.exp s) = Real.exp from rfl] at h
-  rw [h, Real.norm_eq_abs, abs_of_pos (Real.exp_pos y)]
-
-theorem exists_coercive [FiniteDimensional ℝ E] (B : E →L[ℝ] E →L[ℝ] ℝ) (hB : ∀ x, x ≠ 0 → B x x < 0) :
-    ∃ c > 0, ∀ x, B x x ≤ -(c * ‖x‖ ^ 2) :=
-  _root_.PositivityTheory.ThKF0.Lib.exists_coercive B hB
-
-theorem exists_schwartz_exp_diag [FiniteDimensional ℝ E] (B : E →L[ℝ] E →L[ℝ] ℝ)
-    (hB : ∀ x, x ≠ 0 → B x x < 0) :
-    ∃ f : SchwartzMap E ℂ, ∀ x, f x = ((Real.exp (B x x) : ℝ) : ℂ) := by
-  apply _root_.GlobalTheory.GaussSchwartz.exists_schwartz_exp_diag <;> assumption
 
 theorem cos_temperate : Real.cos.HasTemperateGrowth :=
   ⟨Real.contDiff_cos, fun n => ⟨0, 1, fun t => by
@@ -147,7 +97,7 @@ theorem cis_temperate : Function.HasTemperateGrowth (fun t : ℝ => cexp (I * t)
 
 theorem exists_schwartz_cexp [FiniteDimensional ℝ E] (B B' : E →L[ℝ] E →L[ℝ] ℝ) (hB : ∀ x, x ≠ 0 → B x x < 0) :
     ∃ f : SchwartzMap E ℂ, ∀ x, f x = cexp ((B x x : ℝ) + I * (B' x x : ℝ)) := by
-  obtain ⟨f, hf⟩ := exists_schwartz_exp_diag B hB
+  obtain ⟨f, hf⟩ := PositivityTheory.ThKF0.Lib.exists_schwartz_exp_diag B hB
   have hq : (fun x => B' x x).HasTemperateGrowth := by
     have := B'.bilinear_hasTemperateGrowth (Function.HasTemperateGrowth.id (E := E)) (Function.HasTemperateGrowth.id (E := E))
     exact this
@@ -456,7 +406,7 @@ theorem exists_sec : ∃ s : V →L[ℝ] (L → ℂ), (∀ y, H.v (s y) = 0) ∧
   let T : LinearMap.ker H.v →ₗ[ℝ] V := (H.v.comp (mulI L)).comp (LinearMap.ker H.v).subtype
   have hT : ∀ k, T k = H.v (I • k.1) := fun k => rfl
   have hi : Function.Injective T := by
-    set_option backward.isDefEq.respectTransparency.instanceSearchTypes false in rw [injective_iff_map_eq_zero]
+    rw [injective_iff_map_eq_zero]
     intro k hk
     by_contra hne
     have := H.lam_neg k.2 (fun e => hne (Subtype.ext e))
@@ -643,23 +593,25 @@ variable {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algeb
 
 alias exists_moved := _root_.GlobalTheory.AdelicU.exists_cm_conj_ne
 
-theorem im_ne_zero {σ : E →ₐ[F] E} (h : IsCMExt F E σ) {β : E} (hβ : σ β ≠ β) (τ : E →+* ℂ) : (τ β).im ≠ 0 := by
-  intro h0
-  apply hβ
-  apply τ.injective
-  rw [h.2.2.2 τ β]
-  exact Complex.conj_eq_iff_im.2 h0
-
 theorem exists_basis {σ : E →ₐ[F] E} (h : IsCMExt F E σ) {β : E} (hβ : σ β ≠ β) :
-    ∃ B : Module.Basis (Fin 2) F E, B 0 = 1 ∧ B 1 = β :=
-  _root_.GlobalTheory.CompanionTheory.CMAdele.exists_basis h hβ
-
-omit [NumberField E] in
-theorem eq_add_tmul (B : Module.Basis (Fin 2) F E) (x : AF F ⊗[F] E) :
-    x = (Algebra.TensorProduct.basis (AF F) B).repr x 0 ⊗ₜ[F] B 0 +
-      (Algebra.TensorProduct.basis (AF F) B).repr x 1 ⊗ₜ[F] B 1 := by
-  conv_lhs => rw [← (Algebra.TensorProduct.basis (AF F) B).sum_repr x]
-  simp [Fin.sum_univ_two, Algebra.TensorProduct.basis_apply, TensorProduct.smul_tmul']
+    ∃ B : Module.Basis (Fin 2) F E, B 0 = 1 ∧ B 1 = β := by
+  have hfin : FiniteDimensional F E := Module.finite_of_finrank_pos (by rw [h.2.2.1]; omega)
+  have hli : LinearIndependent F ![(1 : E), β] := by
+    rw [LinearIndependent.pair_iff]
+    intro s t hst
+    have ht : t = 0 := by
+      by_contra ht
+      apply hβ
+      have e : β = algebraMap F E (-(s / t)) := by
+        have ht' : algebraMap F E t ≠ 0 := by simpa using ht
+        rw [Algebra.smul_def, Algebra.smul_def, mul_one] at hst
+        rw [map_neg, map_div₀]
+        field_simp
+        linear_combination hst
+      rw [e, AlgHom.commutes]
+    subst ht
+    simpa using hst
+  refine ⟨basisOfLinearIndependentOfCardEqFinrank hli (by simp [h.2.2.1]), ?_, ?_⟩ <;> simp
 
 omit [NumberField E] in
 theorem piInf_tmul {w : InfinitePlace F} (τ : EmbOver E w) (a : AF F) (y : E) :
@@ -783,12 +735,9 @@ def evIh : AF F →+* mixedEmbedding.mixedSpace F :=
 
 theorem evIh_apply (a : AF F) : evIh F a = evI F a := rfl
 
-theorem evI_realAd (t : ℝ) : evI F (realAd F t) = algebraMap ℝ _ t :=
-  (InfiniteAdeleRing.ringEquiv_mixedSpace F).apply_symm_apply _
-
 theorem piInf_realAd (hF : IsTotallyReal F) {w : InfinitePlace F} (τ : EmbOver E w) (t : ℝ) (z : AE F E) :
     piInf τ (realAd F t • z) = t * piInf τ z := by
-  rw [Algebra.smul_def, map_mul, piInf_algebraMap, emb_evI _ (IsTotallyReal.isReal w), evI_realAd]
+  rw [Algebra.smul_def, map_mul, piInf_algebraMap, emb_evI _ (IsTotallyReal.isReal w), PositivityTheory.ThKF0.Lib.evI_realAd]
   rfl
 
 end Trace
@@ -941,7 +890,7 @@ theorem exists_heis (hD : DerEx) {ψ : AddChar (AF F) ℂ} {τ : ∀ w : Infinit
         funext i
         rw [hsmul, map_smul]
         refine (evI_mul _ _).trans ?_
-        rw [evI_realAd, ← Algebra.smul_def]
+        rw [PositivityTheory.ThKF0.Lib.evI_realAd, ← Algebra.smul_def]
         rfl }
   let y : (InfinitePlace F × Ln P Q R S → ℂ) →ₗ[ℝ] (κ → mixedEmbedding.mixedSpace F) :=
     { toFun := fun z i => evI F ((d.e (U z)).2 i)
@@ -953,7 +902,7 @@ theorem exists_heis (hD : DerEx) {ψ : AddChar (AF F) ℂ} {τ : ∀ w : Infinit
         funext i
         rw [hsmul, map_smul]
         refine (evI_mul _ _).trans ?_
-        rw [evI_realAd, ← Algebra.smul_def]
+        rw [PositivityTheory.ThKF0.Lib.evI_realAd, ← Algebra.smul_def]
         rfl }
   have hform : ∀ c c', trB F κ (y c') (v c) - trB F κ (y c) (v c') = -2 * (∑ l, c l * star (c' l)).im := fun c c' => by
     have e1 : trB F κ (y c') (v c) - trB F κ (y c) (v c') =

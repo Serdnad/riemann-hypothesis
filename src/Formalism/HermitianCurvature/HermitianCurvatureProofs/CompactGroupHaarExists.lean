@@ -4,53 +4,9 @@ import ReciprocityTheory.ReductiveGroups.DiscreteSeries.TailIntegrals.MatExtBvec
 import ReciprocityTheory.ReductiveGroups.DiscreteSeries.TailIntegrals.RankOneLeviComm
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.OppositeWeylSubgroupClosed
 public import Formalism.HermitianCurvature.WeylElementCommutesLevelOne
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Algebra.Order.Star.Real
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.HaveILetI
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Tactic.TypeStar
 public import Mathlib.Topology.Algebra.Group.Units
-import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
 public import Mathlib.MeasureTheory.Measure.Haar.Unique
 
@@ -139,9 +95,9 @@ theorem closedN : ClosedN := by
       simp
     · intro l _ hlc
       by_cases hl : min c.val r ≤ l.val
-      · rw [hz c hc l hl, if_neg hlc, mul_zero]
+      · rw [hz c hc l hl, ite_eq_right hlc, mul_zero]
       · have hjl : j ≠ l := fun h => by rw [h] at hj; exact hl hj
-        rw [hy l (by omega) j (by omega), if_neg hjl, zero_mul]
+        rw [hy l (by omega) j (by omega), ite_eq_right hjl, zero_mul]
     · intro h
       exact absurd (Finset.mem_univ c) h
   have invQ : ∀ y : Mat k r, IsUnit y.det → (∀ c : Fin (2 * r + k + 1), c.val ≤ r + k → ∀ j : Fin (2 * r + k + 1), min c.val r ≤ j.val →
@@ -160,9 +116,9 @@ theorem closedN : ClosedN := by
         simpa using h1
       · intro l _ hlc
         by_cases hl : min c.val r ≤ l.val
-        · rw [hy c hc l hl, if_neg hlc, mul_zero]
+        · rw [hy c hc l hl, ite_eq_right hlc, mul_zero]
         · have hjl : j ≠ l := fun h => by rw [h] at hj; exact hl hj
-          rw [ih l.val (by omega) l rfl (by omega) j (by omega), if_neg hjl, zero_mul]
+          rw [ih l.val (by omega) l rfl (by omega) j (by omega), ite_eq_right hjl, zero_mul]
       · intro h
         exact absurd (Finset.mem_univ c) h
     intro c hc j hj
@@ -225,7 +181,7 @@ theorem shellInt : ShellInt := by
         linarith
       · obtain ⟨n, hn⟩ : ∃ n, m0 = n + 1 := ⟨m0 - 1, by omega⟩
         have hmin := Nat.find_min hex (show n < m0 by omega)
-        push_neg at hmin
+        push Not at hmin
         rw [hn, pow_succ]
         linarith
     calc ENNReal.ofReal (N x ^ (-A)) ≤ ENNReal.ofReal (((2:ℝ) ^ m0 / 2) ^ (-A)) :=

@@ -1,50 +1,7 @@
 module
 
-import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.LefschetzSigmaSums.PSchWEq
 public import Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange.ArchimedeanBaseChangeProof.SatakeExponents.UniformizerValuations.FrameReading.LimitbDefs
 public import Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange.ArchimedeanBaseChangeProof.HeckeFubiniCompatibility.CompatFub
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Etale.Weakly
-import Mathlib.RingTheory.Finiteness.ModuleFinitePresentation
-import Mathlib.RingTheory.PiTensorProduct
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.RingTheory.TotallySplit
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.BitVec
 import Std.Tactic.BVDecide.Normalize.Prop
 
@@ -65,8 +22,21 @@ open PositivityTheory.Rg.BcB.F PositivityTheory.Rg.BcB.F.Rd
 
 theorem perm_of_map_eq {n : ℕ} (f g : Fin n → ℂ)
     (h : Multiset.map f Finset.univ.val = Multiset.map g Finset.univ.val) :
-    ∃ σ : Equiv.Perm (Fin n), ∀ a, g (σ a) = f a :=
-  _root_.UpperTheory.Reformulated.B.Qh57.exists_perm_of_map_eq f g h
+    ∃ σ : Equiv.Perm (Fin n), ∀ a, g (σ a) = f a := by
+  have hc : ∀ c : ℂ, Fintype.card {a // f a = c} = Fintype.card {b // g b = c} := by
+    intro c
+    have h1 := congrArg (Multiset.count c) h
+    rw [Multiset.count_map, Multiset.count_map] at h1
+    rw [Fintype.card_subtype, Fintype.card_subtype]
+    have e1 : (Finset.univ.filter fun a => f a = c) = (Finset.univ.filter fun a => c = f a) := by
+      ext a; simp [eq_comm]
+    have e2 : (Finset.univ.filter fun a => g a = c) = (Finset.univ.filter fun a => c = g a) := by
+      ext a; simp [eq_comm]
+    rw [e1, e2]
+    exact_mod_cast h1
+  let e : ∀ c, {a // f a = c} ≃ {b // g b = c} := fun c => Fintype.equivOfCardEq (hc c)
+  refine ⟨Equiv.ofFiberEquiv e, fun a => ?_⟩
+  exact Equiv.ofFiberEquiv_map e a
 
 theorem herm_of_realSym {E : Type} [Field E] [NumberField E] [IsCMField E] {n : ℕ} (χ : InfinitePlace E → Inf n)
     (h : RealSym (mOf χ)) (v : InfinitePlace E) : IsHerm (χ v) := by
@@ -119,7 +89,7 @@ theorem mclose_of (hIC : InfConv) {E : Type} [Field E] [NumberField E] [IsCMFiel
   unfold MClose mOf
   exact hIC n _ _ (h _ _) ε hε
 
-attribute [local instance] Matrix.normedAddCommGroup Matrix.normedSpace
+open scoped Matrix.Norms.Elementwise
 
 theorem isKer_smul_rank {n : ℕ} [MeasurableSpace (G n)] (μ : Measure (G n)) (M : KMod n) (g : ℝ → ℝ)
     (k : Mat n → (M.V →L[ℂ] M.V)) (s : Bool) (hk : IsKer μ M [] g k) : IsKer μ M [(s, 0)] g ((n : ℂ) • k) := by
@@ -129,7 +99,7 @@ theorem isKer_smul_rank {n : ℕ} [MeasurableSpace (G n)] (μ : Measure (G n)) (
   · have e := h4 u hu x hx
     simp only [PositivityTheory.RgBcC.act, Pi.smul_apply, _root_.smul_apply] at e ⊢
     rw [integral_smul, e]
-    simp only [zOp, gel, Epow, id, if_true, Finset.sum_apply, Finset.sum_const, Finset.card_univ, Fintype.card_fin]
+    simp only [zOp, gel, Epow, id, ite_true, Finset.sum_apply, Finset.sum_const, Finset.card_univ, Fintype.card_fin]
     rw [Nat.cast_smul_eq_nsmul]
 
 theorem isKer_zero_rank {n : ℕ} (hn : n = 0) [MeasurableSpace (G n)] (μ : Measure (G n)) (M : KMod n) (g : ℝ → ℝ)
@@ -152,7 +122,7 @@ theorem tens_update_smul {E : Type} [Field E] [NumberField E] [IsCMField E] {a b
     by_cases h : w = v
     · subst h; simp [ent_smul]
     · simp [h]
-  simp only [e, Finset.prod_mul_distrib, Finset.prod_ite_eq', Finset.mem_univ, if_true]
+  simp only [e, Finset.prod_mul_distrib, Finset.prod_ite_eq', Finset.mem_univ, ite_true]
   simp only [Matrix.smul_apply, Pi.smul_apply, smul_eq_mul, tens, entA]
   ring
 
@@ -167,7 +137,7 @@ theorem tens_update_smul_b {E : Type} [Field E] [NumberField E] [IsCMField E] {a
     by_cases h : w = v
     · subst h; simp [ent_smul]
     · simp [h]
-  simp only [e, Finset.prod_mul_distrib, Finset.prod_ite_eq', Finset.mem_univ, if_true]
+  simp only [e, Finset.prod_mul_distrib, Finset.prod_ite_eq', Finset.mem_univ, ite_true]
   simp only [Matrix.smul_apply, Pi.smul_apply, smul_eq_mul, tens, entA]
   ring
 

@@ -51,8 +51,8 @@ theorem hvec_smul (a : ℂ) (f : Fin n → D) : hvec (a • f) = a • hvec f :=
 
 theorem mx_mem {M : Submodule ℂ D} (dual : Bool) (X : Matrix (Fin n) (Fin n) ℂ)
     (hst : ∀ a b, ∀ f ∈ tensSub M, tensF dual E a b f ∈ tensSub M) {f : Fin n → D} (hf : f ∈ tensSub M) :
-    mx (tensF dual E) X f ∈ tensSub M := by
-  simp only [mx, LinearMap.sum_apply, LinearMap.smul_apply]
+    ReciprocityTheory.ChartRestriction.DS.actM (tensF dual E) X f ∈ tensSub M := by
+  simp only [ReciprocityTheory.ChartRestriction.DS.actM, LinearMap.sum_apply, LinearMap.smul_apply]
   exact Submodule.sum_mem _ fun a _ => Submodule.sum_mem _ fun b _ =>
     Submodule.smul_mem _ _ (hst a b f hf)
 
@@ -64,10 +64,12 @@ theorem mat_decomp2 (Y Z : Matrix (Fin n) (Fin n) ℂ) :
 
 end SlopeTestRemainingChoices
 
-theorem tens_unitarize_of_memLp (dual : Bool) {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℂ H] [CompleteSpace H] {ε : Fin n → Bool}
+theorem tens_unitarize (dual : Bool) {lam : Fin n → ℝ} {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℂ H] [CompleteSpace H] {ε : Fin n → Bool}
     {σ : Matrix (Fin n) (Fin n) ℂ → (H →L[ℂ] H)} {D : Submodule ℂ H} {E : Fin n → Fin n → Module.End ℂ D}
     (hσ : IsURepOn (UJset ε) σ) (hD : IsDerivedOn ε σ D E)
-    {V : Submodule ℂ D} (hfin : FiniteDimensional ℂ V) (hW : ∀ v ∈ genSub E V, ∀ w ∈ genSub E V, MemLp (fun g : Formalism.REAL.UJ ε =>
+    {V : Submodule ℂ D} (hgap : StdGap ε lam) (hV : IsKIrrHW ε E (lowK ε lam) V)
+    (hc : ∀ v ∈ V, casimir E v = (casVal lam : ℂ) • v)
+    (hVK : ∀ k ∈ Kset ε, ∀ v ∈ V, ∃ w ∈ V, (w : H) = σ k v) (hW : ∀ v ∈ genSub E V, ∀ w ∈ genSub E V, MemLp (fun g : Formalism.REAL.UJ ε =>
       ((Real.sqrt (S7.hs (Formalism.MainNotions.S.umat g)) : ℝ) : ℂ) * inner ℂ ((w : D) : H) (σ (Formalism.MainNotions.S.umat g) ((v : D) : H)))
       2 (Formalism.REAL.muG ε)) :
     ∃ Q : (Fin n → D) →ₗ⋆[ℂ] (Fin n → D) →ₗ[ℂ] ℂ,
@@ -81,7 +83,7 @@ theorem tens_unitarize_of_memLp (dual : Bool) {H : Type*} [NormedAddCommGroup H]
           (fun c => ((g' c : D) : H)) = kDiag dual σ k (fun c => ((g c : D) : H)) → Q f' g' = Q f g := by
   classical
   haveI : (Formalism.REAL.muG ε).IsMulRightInvariant := ⟨fun g => Formalism.REAL.indefinite_unitary_unimodular n ε g⟩
-  haveI : FiniteDimensional ℂ V := hfin
+  haveI : FiniteDimensional ℂ V := hV.1
   let bV := Module.finBasis ℂ V
   let ys : Fin (Module.finrank ℂ V) → H := fun j => (((bV j : V) : D) : H)
   have hVM : V ≤ genSub E V := le_sInf fun T hT => hT.1
@@ -124,7 +126,7 @@ theorem tens_unitarize_of_memLp (dual : Bool) {H : Type*} [NormedAddCommGroup H]
     intro f hf g hg
     simp only [Q, LinearMap.mk₂'ₛₗ_apply, Q0, hPid f hf, hPid g hg]
   have hskew : ∀ X (hX : inG ε X), ∀ f ∈ tensSub (n := n) (genSub E V), ∀ g ∈ tensSub (genSub E V),
-      Q (mx (tensF dual E) X f) g = -Q f (mx (tensF dual E) X g) := by
+      Q (ReciprocityTheory.ChartRestriction.DS.actM (tensF dual E) X f) g = -Q f (ReciprocityTheory.ChartRestriction.DS.actM (tensF dual E) X g) := by
     intro X hX f hf g hg
     have hXf := mx_mem dual X hst hf
     have hXg := mx_mem dual X hst hg
@@ -150,8 +152,7 @@ theorem tens_unitarize_of_memLp (dual : Bool) {H : Type*} [NormedAddCommGroup H]
     simp only [Complex.re_sum, hre]
     have hnn : ∀ j ξ, 0 ≤ ∫ x, ‖u j ξ f x‖ ^ 2 ∂(Formalism.REAL.muG ε) := fun j ξ =>
       integral_nonneg fun x => by positivity
-    by_contra hneg
-    push_neg at hneg
+    by_contra! hneg
     have h0 : ∑ j, ∑ ξ, ∫ x, ‖u j ξ f x‖ ^ 2 ∂(Formalism.REAL.muG ε) = 0 :=
       le_antisymm hneg (Finset.sum_nonneg fun j _ => Finset.sum_nonneg fun ξ _ => hnn j ξ)
     have hz : ∀ j ξ, ∫ x, ‖u j ξ f x‖ ^ 2 ∂(Formalism.REAL.muG ε) = 0 := by
@@ -187,19 +188,19 @@ theorem tens_unitarize_of_memLp (dual : Bool) {H : Type*} [NormedAddCommGroup H]
     obtain ⟨Z, hZ⟩ : ∃ Z, Z = Jm ε * (Matrix.single a b (1 : ℂ))ᴴ * Jm ε := ⟨_, rfl⟩
     have hX1 : inG ε (Matrix.single a b 1 - Z) := by rw [hZ]; exact inG_sub _
     have hX2 : inG ε (Complex.I • (Matrix.single a b 1 + Z)) := by rw [hZ]; exact inG_add _
-    have hTab : tensF dual E a b = (1 / 2 : ℂ) • mx (tensF dual E) (Matrix.single a b 1 - Z) +
-        (-(Complex.I / 2)) • mx (tensF dual E) (Complex.I • (Matrix.single a b 1 + Z)) := by
+    have hTab : tensF dual E a b = (1 / 2 : ℂ) • ReciprocityTheory.ChartRestriction.DS.actM (tensF dual E) (Matrix.single a b 1 - Z) +
+        (-(Complex.I / 2)) • ReciprocityTheory.ChartRestriction.DS.actM (tensF dual E) (Complex.I • (Matrix.single a b 1 + Z)) := by
       rw [← mx_smul, ← mx_smul, ← mx_add, ← mat_decomp, mx_single]
-    have hTba : (1 / 2 : ℂ) • mx (tensF dual E) (Matrix.single a b 1 - Z) +
-        (Complex.I / 2) • mx (tensF dual E) (Complex.I • (Matrix.single a b 1 + Z)) =
+    have hTba : (1 / 2 : ℂ) • ReciprocityTheory.ChartRestriction.DS.actM (tensF dual E) (Matrix.single a b 1 - Z) +
+        (Complex.I / 2) • ReciprocityTheory.ChartRestriction.DS.actM (tensF dual E) (Complex.I • (Matrix.single a b 1 + Z)) =
         -(adjSign ε a b • tensF dual E b a) := by
       rw [← mx_smul, ← mx_smul, ← mx_add, mat_decomp2, hZ, single_conj, ← neg_smul, mx_smul, mx_single,
         neg_smul]
     have s1 : star (1 / 2 : ℂ) = 1 / 2 := by simp
     have s2 : star (-(Complex.I / 2)) = Complex.I / 2 := by simp [Complex.conj_I, neg_div]
     have e1 : Q (tensF dual E a b f) g =
-        (1 / 2 : ℂ) * Q (mx (tensF dual E) (Matrix.single a b 1 - Z) f) g +
-        (Complex.I / 2) * Q (mx (tensF dual E) (Complex.I • (Matrix.single a b 1 + Z)) f) g := by
+        (1 / 2 : ℂ) * Q (ReciprocityTheory.ChartRestriction.DS.actM (tensF dual E) (Matrix.single a b 1 - Z) f) g +
+        (Complex.I / 2) * Q (ReciprocityTheory.ChartRestriction.DS.actM (tensF dual E) (Complex.I • (Matrix.single a b 1 + Z)) f) g := by
       rw [hTab]
       simp only [LinearMap.add_apply, LinearMap.smul_apply, map_add (f := _), map_smulₛₗ, smul_eq_mul,
         starRingEnd_apply, s1, s2]
@@ -220,25 +221,6 @@ theorem tens_unitarize_of_memLp (dual : Bool) {H : Type*} [NormedAddCommGroup H]
       rw [show hvec h' = kDiag dual σ (Formalism.MainNotions.S.umat (toG k hkU)) (hvec h) from hh]
       exact cf_kDiag hσ dual _ ξ _ (toG k hkU) hk.2 x
     rw [e f f' hff, e g g' hgg, pr_rt]
-
-theorem tens_unitarize (dual : Bool) {lam : Fin n → ℝ} {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℂ H] [CompleteSpace H] {ε : Fin n → Bool}
-    {σ : Matrix (Fin n) (Fin n) ℂ → (H →L[ℂ] H)} {D : Submodule ℂ H} {E : Fin n → Fin n → Module.End ℂ D}
-    (hσ : IsURepOn (UJset ε) σ) (hD : IsDerivedOn ε σ D E)
-    {V : Submodule ℂ D} (hgap : StdGap ε lam) (hV : IsKIrrHW ε E (lowK ε lam) V)
-    (hc : ∀ v ∈ V, casimir E v = (casVal lam : ℂ) • v)
-    (hVK : ∀ k ∈ Kset ε, ∀ v ∈ V, ∃ w ∈ V, (w : H) = σ k v) (hW : ∀ v ∈ genSub E V, ∀ w ∈ genSub E V, MemLp (fun g : Formalism.REAL.UJ ε =>
-      ((Real.sqrt (S7.hs (Formalism.MainNotions.S.umat g)) : ℝ) : ℂ) * inner ℂ ((w : D) : H) (σ (Formalism.MainNotions.S.umat g) ((v : D) : H)))
-      2 (Formalism.REAL.muG ε)) :
-    ∃ Q : (Fin n → D) →ₗ⋆[ℂ] (Fin n → D) →ₗ[ℂ] ℂ,
-      (∀ f ∈ tensSub (genSub E V), ∀ g ∈ tensSub (genSub E V), Q g f = star (Q f g)) ∧
-      (∀ f ∈ tensSub (genSub E V), f ≠ 0 → 0 < (Q f f).re) ∧
-      (∀ a b, ∀ f ∈ tensSub (genSub E V), ∀ g ∈ tensSub (genSub E V),
-        Q (tensF dual E a b f) g = adjSign ε a b * Q f (tensF dual E b a g)) ∧
-      ∀ k ∈ Kset ε, ∀ f ∈ tensSub (genSub E V), ∀ g ∈ tensSub (genSub E V),
-        ∀ f' ∈ tensSub (genSub E V), ∀ g' ∈ tensSub (genSub E V),
-          (fun c => ((f' c : D) : H)) = kDiag dual σ k (fun c => ((f c : D) : H)) →
-          (fun c => ((g' c : D) : H)) = kDiag dual σ k (fun c => ((g c : D) : H)) → Q f' g' = Q f g :=
-  tens_unitarize_of_memLp dual hσ hD hV.1 hW
 
 end ReciprocityTheory.ChartRestriction.DS
 end -- clump:auto

@@ -3,66 +3,16 @@ module
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.ValCalc
 public import Mathlib.Tactic.ENatToNat
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.GlobalSectionsRankAlgClosed
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.AlgebraicGeometry.Modules.Sheaf
-import Mathlib.AlgebraicGeometry.Morphisms.SchemeTheoreticallyDominant
-import Mathlib.AlgebraicGeometry.Morphisms.WeaklyEtale
-import Mathlib.AlgebraicGeometry.Sites.Fpqc
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.CategoryTheory.ExtremalEpi
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
 public import Mathlib.LinearAlgebra.Eigenspace.Triangularizable
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Coalgebra.IsFrobenius
-import Mathlib.RingTheory.Henselian
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.RingTheory.RegularLocalRing.Defs
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.HaveILetI
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.SabPull
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.LBPull
-import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.ExistsIsGenOfInvariant
 
 @[expose] public section
 
 open CategoryTheory CategoryTheory.Limits MonoidalCategory CartesianMonoidalCategory MonObj AlgebraicGeometry
 open ReciprocityTheory.ChartRestriction.G ReciprocityTheory.ChartRestriction.G.Out ReciprocityTheory.ChartRestriction.G.Semi
-attribute [local instance] Over.cartesianMonoidalCategory
 
 noncomputable section
 
@@ -147,7 +97,19 @@ theorem exists_twist_gen (hL : L.IsLB) (hc : c.IsGen) {φ' : K → (Y' ⟶ X)} (
 
 theorem exists_gen_pull (M : LB X) (t : LB.Gen M) (ht : t.IsGen) (f : Y ⟶ X) :
     ∃ u : LB.Gen (M.pull f), u.IsGen := by
-  apply _root_.GlobalTheory.exists_isGen_pull <;> assumption
+  refine ⟨⟨fun j => res (LB.wchart_le M (fun _ : PUnit => f) j PUnit.unit) (pullU f _ (t.s (j PUnit.unit)))⟩,
+    isGen_of_germs _ fun y j j' hj hj' => ?_⟩
+  have v : ∀ j : PUnit → M.ι, y ∈ LB.wchart M (fun _ : PUnit => f) j →
+      gm (𝟙 Y) y (LB.wchart M (fun _ : PUnit => f) j)
+        (res (LB.wchart_le M (fun _ : PUnit => f) j PUnit.unit) (pullU f _ (t.s (j PUnit.unit)))) =
+      gm (𝟙 Y ≫ f) y _ (t.s (j PUnit.unit)) := fun j hj =>
+    (gm_res _ y _ hj _).trans (gm_pull _ f y _ (Set.mem_iInter.1 hj PUnit.unit) _)
+  refine (v j hj).trans (Eq.trans ?_ (congrArg _ (v j' hj')).symm)
+  have hm : (𝟙 Y ≫ f) y ∈ M.U (j PUnit.unit) ⊓ M.U (j' PUnit.unit) :=
+    ⟨Set.mem_iInter.1 hj PUnit.unit, Set.mem_iInter.1 hj' PUnit.unit⟩
+  rw [trF, Fintype.prod_unique, zpow_one]
+  exact (gm_res _ y _ hm _).symm.trans ((congrArg (gm _ y _) (ht _ _)).trans ((map_mul _ _ _).trans
+    (congrArg _ (gm_res _ y _ hm _))))
 
 theorem isUnit_gs_iff {Z : Scheme.{0}} (r : Z ⟶ Y) (z : Z) (U : Y.Opens) (h : r z ∈ U) (a : Γ(Y, U)) :
     IsUnit (gs r z U a) ↔ r z ∈ Y.basicOpen a := by

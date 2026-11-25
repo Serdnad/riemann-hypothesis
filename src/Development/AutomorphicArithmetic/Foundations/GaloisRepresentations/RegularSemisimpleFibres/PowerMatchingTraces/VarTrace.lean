@@ -1,6 +1,5 @@
 module
 
-import all Development.AutomorphicArithmetic.Foundations.Convolution.TraceSplitting.FdFixed
 public import Development.AutomorphicArithmetic.Foundations.Convolution.GeneralizedMeasures.LocHeckeInert
 public import Development.AutomorphicArithmetic.Foundations.Convolution.GeneralizedMeasures.GmOfBcfl
 public import Development.WeilBound.RepresentationTheoryGL.TwistedFactors.IntegralUnitBaseChange.BcflUnit
@@ -32,7 +31,6 @@ public import Development.AutomorphicArithmetic.Foundations.Convolution.Integrab
 public import Development.AutomorphicArithmetic.Foundations.Convolution.PowerSumTraces.ExistsPowerSums
 public import Development.AutomorphicArithmetic.Foundations.Convolution.PowerSumTraces.LocGalEx
 public import Development.AutomorphicArithmetic.Foundations.Convolution.PowerSumTraces.TermEV
-import all Development.AutomorphicArithmetic.Foundations.Convolution.PowerSumTraces.TermEV
 public import Development.AutomorphicArithmetic.Foundations.Convolution.TraceSplitting.CoreDescOf
 public import Development.AutomorphicArithmetic.Foundations.Convolution.TraceSplitting.CoreLift
 public import Development.AutomorphicArithmetic.Foundations.Convolution.TraceSplitting.FamParts
@@ -48,59 +46,16 @@ public import Development.AutomorphicArithmetic.Foundations.Convolution.TraceSpl
 public import Development.WeilBound.RepresentationTheoryGL.JacquetShalikaBounds.AbsoluteRigidity.SatakeTwists.SatakeTwistHolds
 public import Development.AutomorphicArithmetic.Foundations.Convolution.TraceSplitting.PowTwist
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.RegularSemisimpleFibres.PowerMatchingTraces.MatchPow
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Topology.Sheaves.Init
 import Mathlib.Tactic.Linter.Style
 import Development.AutomorphicArithmetic.AutomorphicVarieties.PublishedTheorems.GelfandKazhdanReal
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Tactic.Polynomial.Basic
 import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.LatticeIndices.CharZeroAdicCompletion
 import GroundTheory.GlobalFields.IdeleGroups.GaloisOnAdeles.Action
 import GroundTheory.GlobalFields.NormResidueSymbol.FunctorialFinite
-import Mathlib.Algebra.CharP.Pi
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.TypeStar
-import Mathlib.Tactic.ENatToNat
 import Development.AbelianVarietyTheory.Definitions.Divisors.T2SpaceGeneralLinearGroup
 import Development.AutomorphicArithmetic.Foundations.Convolution.TraceSplitting.GoodEx
 import Development.AutomorphicArithmetic.Foundations.Convolution.TraceSplitting.UnitTrace
 import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.StabilizerOrbitVolume.DetAdmA
 import GroundTheory.AutomorphicForms.LocallyProfinite
-import Mathlib.Algebra.Module.StablyFree.Basic
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AutomorphicArithmetic.Foundations.Convolution.GeneralizedMeasures.Outright, Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.RegularSemisimpleFibres.PowerMatchingTraces.BaseTw, Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.RegularSemisimpleFibres.PowerMatchingTraces.FibTrace, Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.RegularSemisimpleFibres.PowerMatchingTraces.LevEx, Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.RegularSemisimpleFibres.PowerMatchingTraces.NormLoc, Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.RegularSemisimpleFibres.PowerMatchingTraces.NormOpen, Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.RegularSemisimpleFibres.PowerMatchingTraces.MatchCutAlt, Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.RegularSemisimpleFibres.PowerMatchingTraces.PowNe, Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.RegularSemisimpleFibres.PowerMatchingTraces.TrEx, Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.RegularSemisimpleFibres.PowerMatchingTraces.FdFixed, Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.RegularSemisimpleFibres.PowerMatchingTraces.WeakPow, Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.RegularSemisimpleFibres.PowerMatchingTraces.VarTrace
@@ -146,14 +101,38 @@ variable {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algeb
 
 private theorem cmp_surj {v : Pl F} (w : PlacesOver E v) (h : ∀ u : PlacesOver E v, u = w) :
     Function.Surjective (GM.cmp (n := n) w) := by
-  apply _root_.UpperTheory.ConvolutionTheory.C.TraceVanishing.cmp_surj <;> assumption
+  have hev : Function.Bijective (Pi.evalRingHom (fun w : PlacesOver E v => w.1.adicCompletion E) w) := by
+    letI : Unique (PlacesOver E v) := ⟨⟨w⟩, h⟩
+    constructor
+    · intro a b e
+      funext u
+      obtain rfl := h u
+      exact e
+    · intro z
+      refine ⟨fun u => (h u).symm ▸ z, ?_⟩
+      show ((h w).symm ▸ z : (w.1.adicCompletion E)) = z
+      rfl
+  let e := RingEquiv.ofBijective _ hev
+  intro y
+  refine ⟨mapGL n (e.symm : _ →+* _) y, ?_⟩
+  exact Units.ext (Matrix.ext fun a b => e.apply_symm_apply _)
 
 variable [IsGalois F E] {σ : E ≃ₐ[F] E} {q : Pl F} {w₀ : PlacesOver E q}
 
 private theorem stabV (T : Ty σ n q w₀) (v : Pl F) (h : ∀ u : PlacesOver E v, u = T.mk' v)
     {a : Gw n (T.mk' v).1 →* Gw n (T.mk' v).1} (ha : IsLocGal σ (T.mk' v) a) (x : Gw n (T.mk' v).1) (hx : x ∈ T.J (T.mk' v).1) :
     a x ∈ T.J (T.mk' v).1 ∧ T.χ (T.mk' v).1 (a x) = T.χ (T.mk' v).1 x := by
-  apply _root_.UpperTheory.ConvolutionTheory.C.TraceVanishing.stabV <;> assumption
+  obtain ⟨g, rfl⟩ := cmp_surj (T.mk' v) h x
+  letI : Unique (PlacesOver E v) := ⟨⟨T.mk' v⟩, h⟩
+  have hall : ∀ u : PlacesOver E v, GM.cmp u g ∈ T.J u.1 := fun u => by
+    obtain rfl := h u
+    exact hx
+  obtain ⟨h1, h2⟩ := T.stable v g hall
+  rw [finprod_unique, finprod_unique] at h2
+  have e : (default : PlacesOver E v) = T.mk' v := rfl
+  rw [e] at h2
+  rw [← ha]
+  exact ⟨h1 _, h2⟩
 
 end Loc
 
@@ -285,7 +264,7 @@ theorem UpperTheory.Gal.InertialTypesAlt.G.levEx :
     rw [r1] at e1
     rw [r2] at e2
     rw [e1, e2]
-  · push_neg at hg
+  · push Not at hg
     rw [hz g hg, hz (u * g)]
     intro x hx hm
     apply hg x hx
@@ -606,7 +585,21 @@ private theorem fd_fixed {G V : Type} [Group G] [MeasurableSpace G] [AddCommGrou
     (m : Measure G) (ρ : Representation ℂ G V) (J : Subgroup G) (hJ : MeasurableSet (J : Set G))
     (h1 : m (J : Set G) = 1) (A : V →ₗ[ℂ] V) (hA : IsIntegralOp m ρ ((J : Set G).indicator 1) A)
     (hf : FiniteDimensional ℂ (LinearMap.range A)) : FiniteDimensional ℂ (fixedVectors ρ J) := by
-  apply _root_.fd_fixed <;> assumption
+  refine Submodule.finiteDimensional_of_le (S₂ := LinearMap.range A) fun x hx => ?_
+  have hAx : A x = x := by
+    rw [← sub_eq_zero, ← Module.forall_dual_apply_eq_zero_iff ℂ]
+    intro l
+    rw [map_sub, (hA x l).2, sub_eq_zero]
+    have e : (fun g => ((J : Set G).indicator (1 : G → ℂ)) g * l (ρ g x)) =
+        (J : Set G).indicator fun _ => l x := by
+      funext g
+      by_cases hg : g ∈ (J : Set G)
+      · have hgx : ρ g x = x := hx g hg
+        simp [Set.indicator_of_mem hg, hgx]
+      · simp [Set.indicator_of_notMem hg]
+    rw [e, integral_indicator hJ]
+    simp [Measure.real, h1]
+  exact ⟨x, hAx⟩
 
 private theorem under_eq {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E]
     {v : HeightOneSpectrum (𝓞 F)} (w : PlacesOver E v) : w.1.under (𝓞 F) = v :=

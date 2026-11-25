@@ -545,7 +545,7 @@ theorem pl_good (A : FinHolAtlas (e + 1) X) (L : LocPot X) (s : X → X → ℂ)
   congr 1
   cases hσ : σ k with
   | none =>
-    simp only [reduceCtorEq, if_false, Finset.sum_const_zero]
+    simp only [reduceCtorEq, ite_false, Finset.sum_const_zero]
     have hv0 (p : W k) : v p.1 = 0 := by
       by_contra hne
       have hp : p.1 ∈ tsupport v := subset_tsupport _ hne
@@ -557,7 +557,7 @@ theorem pl_good (A : FinHolAtlas (e + 1) X) (L : LocPot X) (s : X → X → ℂ)
       exact absurd hi (by simp)
     exact (mInt_zero_fun (B k) _ (g := v ∘ Subtype.val) hv0).symm
   | some i =>
-    simp only [Option.some.injEq, Finset.sum_ite_eq, Finset.mem_univ, if_true]
+    simp only [Option.some.injEq, Finset.sum_ite_eq, Finset.mem_univ, ite_true]
     haveI : CompactSpace (W k) :=
       isCompact_iff_compactSpace.1 (SimpleNormalCrossingSliceCharts.isClosed_divisorComponent A L s m W hSNC k).isCompact
     have hWψ' : W k ∩ ψ.source = {p ∈ ψ.source | ψ p i = 0} := by
@@ -595,9 +595,15 @@ theorem restrOpen_source' (ψ : OpenPartialHomeomorph X (Fin e → ℂ)) {V : Se
 omit [T2Space X] [CompactSpace X] in
 theorem isCompatChart_restrOpen {A : FinHolAtlas e X} {ψ : OpenPartialHomeomorph X (Fin e → ℂ)}
     (hψ : IsCompatChart A ψ) {V : Set X} (hV : IsOpen V) : IsCompatChart A (ψ.restrOpen V hV) := by
-  first
-    | exact _root_.ReciprocityTheory.AnForm.M.pa_compat_restr
-    | apply _root_.ReciprocityTheory.AnForm.M.pa_compat_restr <;> first | assumption | rfl | infer_instance
+  intro j
+  obtain ⟨h1, h2⟩ := hψ j
+  refine ⟨h1.mono ?_, h2.mono ?_⟩
+  · rintro y ⟨hy1, hy2⟩
+    have h' : (A.chart j).symm y ∈ ψ.source ∩ V := hy2
+    exact ⟨hy1, h'.1⟩
+  · rintro y ⟨hy1, hy2⟩
+    have h' : y ∈ ψ.target ∩ ψ.symm ⁻¹' V := hy1
+    exact ⟨h'.1, hy2⟩
 
 theorem pl_exists_chart (A : FinHolAtlas (e + 1) X) (L : LocPot X) (s : X → X → ℂ) {r : ℕ}
     (m : Fin r → ℕ) (W : Fin r → Set X) (B : ∀ k, FinHolAtlas e (W k)) (hL : IsPotential A L)
@@ -643,7 +649,7 @@ theorem pl_exists_chart (A : FinHolAtlas (e + 1) X) (L : LocPot X) (s : X → X 
     intro hp hpW
     rw [hVdef] at hp
     have := Set.mem_iInter.1 hp.2 k
-    rw [if_neg hk] at this
+    rw [ite_eq_right hk] at this
     exact this hpW
 
 theorem pl_global : PoincareLelongStatement := by

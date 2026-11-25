@@ -568,11 +568,11 @@ open Classical in
 def idemF (P : HeightOneSpectrum (𝓞 F) → Prop) : Af F :=
   ⟨fun v => if P v then 1 else 0, Filter.Eventually.of_forall fun v => by
     by_cases h : P v
-    · simp only [if_pos h]; exact (v.adicCompletionIntegers F).one_mem
-    · simp only [if_neg h]; exact (v.adicCompletionIntegers F).zero_mem⟩
+    · simp only [ite_eq_left h]; exact (v.adicCompletionIntegers F).one_mem
+    · simp only [ite_eq_right h]; exact (v.adicCompletionIntegers F).zero_mem⟩
 
-theorem idemF_pos {P : HeightOneSpectrum (𝓞 F) → Prop} {v} (h : P v) : evalV F v (idemF P) = 1 := if_pos h
-theorem idemF_neg {P : HeightOneSpectrum (𝓞 F) → Prop} {v} (h : ¬ P v) : evalV F v (idemF P) = 0 := if_neg h
+theorem idemF_pos {P : HeightOneSpectrum (𝓞 F) → Prop} {v} (h : P v) : evalV F v (idemF P) = 1 := ite_eq_left h
+theorem idemF_neg {P : HeightOneSpectrum (𝓞 F) → Prop} {v} (h : ¬ P v) : evalV F v (idemF P) = 0 := ite_eq_right h
 
 def idem (P : HeightOneSpectrum (𝓞 F) → Prop) : AF F := pairA F 0 (idemF P)
 
@@ -694,12 +694,6 @@ theorem eps_stable (V : HSp D) (P : Pl D → Prop) (x : GA D V) :
     ∃ x', matHom V x' = Units.map (cutHom (eps_sq P)) (matHom V x) :=
   ⟨⟨_, cut_mem (eps_sq P) (by simp [sigR, eps]) x.2⟩, rfl⟩
 
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
-
-private lemma selfDual_isFullLattice (V : HSp D) (Λ : Submodule (𝓞 D.host.E) (Fin V.rank → D.host.E))
-    (hΛ : Formalism.IndefR.Datum.IsSelfDualC V Λ) : Submodule.IsFullLattice D.host.E Λ := by
-  exact Formalism.IndefR.Datum.IsSelfDualC.isFullLattice V Λ hΛ
-
 theorem exists_level (D : D7) (V : HSp D) (N : Lat V) (A B : Finset (Pl D)) (JA JB : Subgroup (GA D V)) (b : GA D V)
     (hAB : Disjoint B A) (hN : Formalism.IndefR.Datum.IsSelfDualC V N) (_ : b ∈ GfC V)
     (lA : JA ≤ grpAt V fun x => x ∈ A) (cA : IsCompact (JA : Set (GA D V)))
@@ -719,7 +713,7 @@ theorem exists_level (D : D7) (V : HSp D) (N : Lat V) (A B : Finset (Pl D)) (JA 
   have hd : ∀ v, v ∈ A → ¬ v ∈ B := fun v hv h => Finset.disjoint_left.1 hAB h hv
   have hU : {a : AF D.host.F | sndA _ a ∈ intAf _} ∈ nhds 0 :=
     ((open_compact_hat D.host.F).1.preimage continuous_snd).mem_nhds fun v => zero_mem _
-  obtain ⟨l1, l2, l3, l4⟩ := lattice (selfDual_isFullLattice V N hN) (intOn fun p => p ∉ A ∧ p ∉ B) (compact_intOn _)
+  obtain ⟨l1, l2, l3, l4⟩ := lattice (Formalism.IndefR.Datum.IsSelfDualC.isFullLattice V N hN) (intOn fun p => p ∉ A ∧ p ∉ B) (compact_intOn _)
     (e := idem fun p => p ∉ A ∧ p ∉ B) ⟨rfl, idemF_int _, fun _ hv => idemF_neg hv⟩
     (fun a ha => (idem_mul_eq_iff _ a).2 ⟨ha.1, ha.2.2⟩) hU
     (fun a ha => ⟨by rw [map_mul, fst_idem, zero_mul],
@@ -757,7 +751,6 @@ section -- clump:auto
 open Formalism.BasicNotions Formalism.BasicNotions.TH Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes Formalism.MainNotions.StandardLattice Formalism.L2.Theta Formalism.IndefR Formalism.IndefR.Links Formalism.IndefR.Mult Formalism.IndefR.Datum MeasureTheory IsDedekindDomain NumberField Matrix
 open GlobalTheory.MixModel GlobalTheory.MixPer GlobalTheory.Grow GlobalTheory.Unf GlobalTheory.SeeSaw GlobalTheory.FinPl
 open scoped TensorProduct
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 
 namespace GlobalTheory.FirstCells
 
@@ -785,27 +778,10 @@ theorem comb_smul' {ψ : AddChar (AF D.host.F) ℂ} {S T : HSp D} (c : WO S T �
   simp only [comb, heisO, Finset.sum_apply, Pi.smul_apply, smul_eq_mul, Finset.mul_sum]
   exact Finset.sum_congr rfl fun _ _ => by ring
 
-theorem mem_cong {V : HSp D} {I : Ideal (AE D)} {g : GA D V} :
-    g ∈ congGrp V I ↔ ∀ i j, Formalism.L2.Theta.mt V g i j - (1 : Matrix (Fin V.rank) (Fin V.rank) (AE D)) i j ∈ I := by
-  unfold congGrp
-  rw [MonoidHom.mem_ker]
-  constructor
-  · intro h i j
-    have := congrArg (fun x : GL (Fin V.rank) (AE D ⧸ I) => x.1 i j) h
-    rw [← Ideal.Quotient.eq]
-    simp [Formalism.L2.Theta.mt, Matrix.one_apply] at this ⊢
-    exact this
-  · intro h
-    ext i j
-    have := h i j
-    rw [← Ideal.Quotient.eq] at this
-    simp [Formalism.L2.Theta.mt, Matrix.one_apply] at this ⊢
-    exact this
-
 theorem real_le_off (V : HSp D) (P : Pl D → Prop) : GinfC V ≤ grpOff V P := by
   intro a ha
   rw [GinfC, MonoidHom.mem_ker] at ha
-  rw [grpOff, mem_cong]
+  rw [grpOff, GlobalTheory.FinPl.PlacesAdeles.mem_congGrp]
   intro i j
   have h2 : finPart D (Formalism.L2.Theta.mt V a i j) = (1 : Matrix (Fin V.rank) (Fin V.rank) _) i j :=
     congrArg (fun x : GL (Fin V.rank) _ => x.1 i j) ha
@@ -821,7 +797,7 @@ theorem grpOff_inf_le (V : HSp D) (P P' : Pl D → Prop) :
     grpOff V P ⊓ grpOff V P' ≤ grpOff V (fun p => P p ∨ P' p) := by
   intro g hg
   obtain ⟨h1, h2⟩ := Subgroup.mem_inf.1 hg
-  rw [grpOff, mem_cong] at h1 h2 ⊢
+  rw [grpOff, GlobalTheory.FinPl.PlacesAdeles.mem_congGrp] at h1 h2 ⊢
   intro i j
   have a1 := h1 i j
   have a2 := h2 i j
@@ -1066,7 +1042,6 @@ section -- clump:auto
 open Formalism.BasicNotions Formalism.BasicNotions.TH Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes Formalism.MainNotions.StandardLattice Formalism.L2.Theta Formalism.IndefR Formalism.IndefR.Links Formalism.IndefR.Mult Formalism.IndefR.Datum MeasureTheory IsDedekindDomain NumberField Matrix
 open GlobalTheory.MixModel GlobalTheory.MixPer GlobalTheory.Grow GlobalTheory.Unf GlobalTheory.SeeSaw GlobalTheory.FinPl
 open scoped TensorProduct
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 
 theorem _root_.GlobalTheory.T.locally_finite_of_tuple_conditions : ∀ (D : D7) (c : Comm D) (v : VCom c) (t : Tup c) (w : VTup t), c.Is → v.Is → t.Is → VForm v w → OffLaw v w → GSupp (t := t) v → QFin v w → t.LocFin := by
   first | exact @GlobalTheory.FirstCells.locFin
@@ -1082,7 +1057,6 @@ section -- clump:auto
 open Formalism.BasicNotions Formalism.BasicNotions.TH Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes Formalism.MainNotions.StandardLattice Formalism.L2.Theta Formalism.IndefR Formalism.IndefR.Links Formalism.IndefR.Mult Formalism.IndefR.Datum MeasureTheory IsDedekindDomain NumberField Matrix
 open GlobalTheory.MixModel GlobalTheory.MixPer GlobalTheory.Grow GlobalTheory.Unf GlobalTheory.SeeSaw GlobalTheory.FinPl
 open scoped TensorProduct
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 
 theorem _root_.GlobalTheory.T.seeSawLastTwoSteps_doubleLiftPeriod_value : ∀ (D : D7) (c : Comm D) (v : VCom c) (𝒯 : Type) (t : 𝒯 → Tup c) (w : ∀ s, VTup (t s)), c.Is → c.VolLast → v.Is → (∀ s, (t s).Is) → (∀ s, PlaceLaws v (w s)) → LastLaw D → SeeLast D → FlatLaw D → BiAct D → ValLastX t := by
   first | exact @GlobalTheory.SeeSawLastValue.valLast
@@ -1098,7 +1072,6 @@ section -- clump:auto
 open Formalism.BasicNotions Formalism.BasicNotions.TH Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes Formalism.MainNotions.StandardLattice Formalism.L2.Theta Formalism.IndefR Formalism.IndefR.Links Formalism.IndefR.Mult Formalism.IndefR.Datum MeasureTheory IsDedekindDomain NumberField Matrix
 open GlobalTheory.MixModel GlobalTheory.MixPer GlobalTheory.Grow GlobalTheory.Unf GlobalTheory.SeeSaw GlobalTheory.FinPl
 open scoped TensorProduct
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 
 namespace GlobalTheory.SeeSaw
 
@@ -1125,10 +1098,7 @@ section -- clump:auto
 open Formalism.BasicNotions Formalism.BasicNotions.TH Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes Formalism.MainNotions.StandardLattice Formalism.L2.Theta Formalism.IndefR Formalism.IndefR.Links Formalism.IndefR.Mult Formalism.IndefR.Datum MeasureTheory IsDedekindDomain NumberField Matrix
 open GlobalTheory.MixModel GlobalTheory.MixPer GlobalTheory.Grow GlobalTheory.Unf GlobalTheory.SeeSaw GlobalTheory.FinPl
 open scoped TensorProduct
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 
-theorem _root_.GlobalTheory.T.seesaw_place_laws_give_finite_integral_laws : ∀ (D : D7) (c : Comm D) (v : VCom c) (𝒯 : Type) (t : 𝒯 → Tup c) (w : ∀ s, VTup (t s)), c.Is → c.VolLast → v.Is → (∀ s, (t s).Is) → (∀ s, PlaceLaws v (w s)) → (∀ s, (t s).LocFin) ∧ ValX t ∧ ValLastX t := by
-  first | exact @GlobalTheory.SeeSaw.placeLaws_finiteIntegrals
 end -- clump:auto
 end -- clump:auto
 -- ===== end clump member: Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.SeesawPlaceLawsGiveFiniteIntegralLawsStatement =====

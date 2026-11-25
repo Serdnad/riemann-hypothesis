@@ -15,47 +15,11 @@ public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Invarian
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.NormalisedCuspFormL2Bounded
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LieDerivativeL2InnerProduct
 import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ContinuousOfIsOpenStab
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Topology.Sheaves.Init
 import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.ExistsIsOpenIsCompact
 import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.CuspidalConvolutionCompact
 import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.CuspidalKTypeFinite
 import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ExistsNonnegBump
 import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.IrreducibleCuspidalFormL2Mem
-import Development.WeilBound.CoreStatements.RegularisedThetaMirabolic.KFiniteCuspForms.CuspSp
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AutomorphicSpectrum.Proofs.BlockDecomposition.CuspFiniteVectorsHolds, Development.AutomorphicSpectrum.Proofs.BlockDecomposition.MemOfToL2MemIrreducible, Development.WeilBound.CoreStatements.PublishedTheorems.SmoothVectorEstimates.FinitePartOfMeet
@@ -99,7 +63,39 @@ namespace GlobalTheory.CompanionTheory.Published
 
 
 open GlobalTheory.CompanionTheory.CuspFinite in
-theorem cuspFiniteVectorsGL : GlobalTheory.Published.CuspFiniteVectorsGL := @_root_.RfCs.cuspFiniteVectorsGL
+theorem cuspFiniteVectorsGL : GlobalTheory.Published.CuspFiniteVectorsGL := by
+  intro E _ _ _ a μ _ _ H hH hi
+  obtain ⟨V, hV, hs⟩ := _root_.GlobalTheory.CompanionTheory.StableMod.exists_stable E a μ H hH hi
+  have hkf : ∀ F ∈ H, IsKFinL2 μ F → F ∈ classes V μ := fun F hF hk => by
+    obtain ⟨φ, e, h1, h2, h3⟩ := exists_cusp_form_of_K_finite hH hi hF hk
+    exact ⟨φ, (hV φ).2 ⟨h1, h2, h3⟩, e⟩
+  have hcl : classes V μ ≤ H := by
+    rintro F ⟨φ, hφ, e⟩
+    obtain ⟨-, -, h, hH'⟩ := (hV φ).1 hφ
+    have : F = h.toL2 := l2DiscreteQuotient_ext_iff_lift_ae_eq.2 (e.trans h.lift_toL2_ae_eq.symm)
+    exact this ▸ hH'
+  have hdense : H ≤ (classes V μ).topologicalClosure :=
+    (_root_.GlobalTheory.CompanionTheory.DenseKFin.le_closure_span_K_finite E a μ H hi.1).trans (Submodule.topologicalClosure_mono
+      (Submodule.span_le.2 fun F hF => hkf F hF.1 hF.2))
+  have hne : V ≠ ⊥ := by
+    intro hb
+    refine hi.2.1 (eq_bot_iff.2 (hdense.trans (Submodule.topologicalClosure_minimal _ ?_ ?_)))
+    · rintro F ⟨φ, hφ, e⟩
+      rw [hb, Submodule.mem_bot] at hφ
+      have h0 : φ.1 = 0 := by rw [hφ]; rfl
+      rw [h0] at e
+      exact (Submodule.mem_bot ℂ).2 (l2DiscreteQuotient_ext_iff_lift_ae_eq.2 (e.trans (show lift (latticeGL E a) (0 : L2 (latticeGL E a) μ) =ᵐ[μ] 0 from
+        ae_quotMeasure_iff.1 (Lp.coeFn_zero ℂ 2 _)).symm))
+    · rw [Submodule.bot_coe]
+      exact isClosed_singleton
+  have hirr : ∀ W ≤ V, _root_.GlobalTheory.CuspRep.IsStable W → W = ⊥ ∨ W = V := fun W hWV hWs => by
+    by_cases h0 : W = ⊥
+    · exact Or.inl h0
+    · exact Or.inr (le_antisymm hWV fun φ hφ =>
+        mem_of_stable hH hi W hWs h0 (fun ψ hψ => (hV ψ).1 (hWV hψ)) φ ((hV φ).1 hφ))
+  let π : CuspSub E a := ⟨V, fun φ hφ => ((hV φ).1 hφ).1, hs, hne, hirr⟩
+  exact ⟨π, fun φ hφ => ((hV φ).1 hφ).2.1, fun φ hφ => ((hV φ).1 hφ).2.2.1,
+    le_antisymm (Submodule.topologicalClosure_minimal _ hcl hi.1.1) hdense, hkf⟩
 
 end GlobalTheory.CompanionTheory.Published
 

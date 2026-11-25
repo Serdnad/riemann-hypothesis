@@ -53,21 +53,17 @@ import Mathlib.CategoryTheory.Monoidal.Opposite.Mon
 
 @[expose] public section
 
-set_option autoImplicit false
-
 open AlgebraicGeometry CategoryTheory Limits MonoidalCategory CartesianMonoidalCategory MonObj NumberField IsLocalRing
 open ReciprocityTheory.ChartRestriction.G ReciprocityTheory.ChartRestriction.G.Semi ReciprocityTheory.ChartRestriction.G.Out ReciprocityTheory.ChartRestriction.G.Geo.Tor Formalism.L2.Pj
 open ReciprocityTheory.ChartRestriction.G.DVR ReciprocityTheory.ChartRestriction.G.DVR.QForm Formalism.MainNotions.ModuliIntegralCharts.H1 Formalism.MainNotions.ModuliIntegralCharts.H1.ExpBijectiveUniformisation Formalism.MainNotions.ModuliIntegralCharts.H1.GSt
 open ReciprocityTheory.ChartRestriction.G.Geo.Tor.Germ
-attribute [local instance] Over.cartesianMonoidalCategory
 open GlobalTheory GlobalTheory.PowGerm GlobalTheory.PtTie
 open ReciprocityTheory.ChartRestriction.G.TB (colM dAct)
 
 namespace GlobalTheory.PtTie
 
 theorem addVal_eq_zero_of_pow_eq_one {F : Type} [Field F] (v : AddValuation F (WithTop ℚ)) (u : F) (m : ℕ) (hm : 0 < m)
-    (hu : u ^ m = 1) : v u = 0 := by
-  first | exact _root_.GlobalTheory.ColumnSplit.val_eq_zero_of_pow_eq_one | exact @_root_.GlobalTheory.ColumnSplit.val_eq_zero_of_pow_eq_one | apply _root_.GlobalTheory.ColumnSplit.val_eq_zero_of_pow_eq_one <;> assumption
+    (hu : u ^ m = 1) : v u = 0 := GlobalTheory.ColumnSplit.val_eq_zero_of_pow_eq_one v hm hu
 
 theorem addVal_prod_eq_zero {F : Type} [Field F] (v : AddValuation F (WithTop ℚ)) {K : Type} (s : Finset K) (u : K → F)
     (hu : ∀ i, v (u i) = 0) : v (∏ i ∈ s, u i) = 0 := by

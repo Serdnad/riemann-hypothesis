@@ -1,61 +1,20 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.CyclotomicTowerTraceAlmostSurjective
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.TraceAlmostOntoOfLevels
 public import Development.AbelianVarietyTheory.Definitions.Foundations.HTBasis
 public import Formalism.SharpRestriction.LevelLetterCocycles.DataNLoc
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IntegersEqSumZetaPow
 public import Mathlib.Analysis.Normed.Module.FiniteDimension
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
 import Mathlib.Algebra.Order.Star.Real
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
 import Mathlib.NumberTheory.Padics.LocalField
-import Mathlib.NumberTheory.SelbergSieve
 import Mathlib.RingTheory.Henselian
 import Mathlib.RingTheory.PiTensorProduct
-import Mathlib.RingTheory.Radical.NatInt
 import Mathlib.RingTheory.RegularLocalRing.Defs
 import Mathlib.RingTheory.RootsOfUnity.AlgebraicallyClosed
 import Mathlib.RingTheory.SimpleRing.Principal
-import Mathlib.Tactic.Basify
 import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.HaveILetI
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Algebra.Nonarchimedean.Completion
-import Mathlib.Topology.Sheaves.Init
 
 @[expose] public section
 
@@ -99,7 +58,16 @@ theorem root_mem_Ks (K : FinExt l) {i : ℕ} {x : Om l} (hx : x ^ (l ^ i) = 1) :
   (le_sup_right : _ ≤ Ks K i) (IntermediateField.subset_adjoin _ _ hx)
 
 theorem exists_level (K : FinExt l) {x : Om l} (hx : x ∈ Kinf K) : ∃ i, x ∈ Ks K i := by
-  first | exact _root_.GlobalTheory.Cyc.AlmostTrace.exists_mem_Ks | exact @_root_.GlobalTheory.Cyc.AlmostTrace.exists_mem_Ks | apply _root_.GlobalTheory.Cyc.AlmostTrace.exists_mem_Ks <;> assumption
+  have h : Kinf K ≤ ⨆ i, Ks K i := by
+    refine sup_le (le_trans (le_sup_left : _ ≤ Ks K 0) (le_iSup (Ks K) 0)) ?_
+    rw [IntermediateField.adjoin_le_iff]
+    rintro y ⟨i, hy⟩
+    exact le_iSup (Ks K) i (root_mem_Ks K hy)
+  have h2 := h hx
+  have hd : Directed (· ≤ ·) (Ks K) := Monotone.directed_le fun _ _ h => Ks_mono K h
+  have h3 : x ∈ ((⨆ i, Ks K i : IntermediateField ℚ_[l] (Om l)) : Set (Om l)) := h2
+  rw [IntermediateField.coe_iSup_of_directed hd] at h3
+  simpa using h3
 
 alias exists_prim := _root_.GlobalTheory.Cyc.exists_primRoot_pow
 
@@ -192,7 +160,19 @@ theorem act_Xj {act : GQ l →* (PadicComplex l ≃+* PadicComplex l)} (ha : IsA
   exact ⟨g v, gal_Ks hg _ hv, (ha.1 g v).symm⟩
 
 theorem finite_Ks (K : FinExt l) (j : ℕ) : FiniteDimensional ℚ_[l] (Ks K j) := by
-  first | exact _root_.GlobalTheory.Cyc.DiffSmall.finite_Ks | exact @_root_.GlobalTheory.Cyc.DiffSmall.finite_Ks | apply _root_.GlobalTheory.Cyc.DiffSmall.finite_Ks <;> assumption
+  haveI := K.2
+  haveI : FiniteDimensional ℚ_[l] (K0 K) :=
+    Module.Finite.of_injective
+      (IntermediateField.inclusion (inf_le_left : K0 K ≤ K.1)).toLinearMap
+      (IntermediateField.inclusion_injective (inf_le_left : K0 K ≤ K.1))
+  have hf : {x : Om l | x ^ (l ^ j) = 1}.Finite := by
+    refine (Polynomial.nthRootsFinset (l ^ j) (1 : Om l)).finite_toSet.subset fun x hx => ?_
+    exact Finset.mem_coe.2 ((Polynomial.mem_nthRootsFinset
+      (pow_pos (Fact.out : l.Prime).pos _) _).2 hx)
+  haveI := hf.to_subtype
+  haveI : FiniteDimensional ℚ_[l] (IntermediateField.adjoin ℚ_[l] {x : Om l | x ^ (l ^ j) = 1}) :=
+    IntermediateField.finiteDimensional_adjoin fun x _ => Algebra.IsIntegral.isIntegral x
+  exact IntermediateField.finiteDimensional_sup _ _
 
 theorem isCompact_intC (F : IntermediateField ℚ_[l] (Om l)) [FiniteDimensional ℚ_[l] F] :
     IsCompact (intC F) := by

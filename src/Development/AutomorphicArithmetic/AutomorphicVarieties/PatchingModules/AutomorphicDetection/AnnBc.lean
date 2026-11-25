@@ -25,57 +25,11 @@ public import Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTool
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.CaCplSpec
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.CaCplEx
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.PatchingModules.AnnihilatorBaseChange.PmodEx
-import all Development.AutomorphicArithmetic.AutomorphicVarieties.PatchingModules.AnnihilatorBaseChange.PmodEx
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
 import Mathlib.RingTheory.AdicCompletion.Noetherian
-import Mathlib.RingTheory.Coalgebra.IsFrobenius
-import Mathlib.RingTheory.HopfAlgebra.Basic
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.HaveILetI
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Topology.Sheaves.Init
 import Mathlib.Tactic.Linter.Style
 import Development.AbelianVarietyTheory.Proofs.CoherentCohomologyProofs.IsWeaklyRegularIffIsQuasiRegularSeqOfIsLocalRing
-import Mathlib.Order.CompletePartialOrder
 import Mathlib.RingTheory.AdicCompletion.AsTensorProduct
-import Mathlib.Tactic.Lemma
 import Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.CaCplLift
 import Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.CaCplMap
 import Development.AutomorphicArithmetic.AutomorphicVarieties.CommutativeAlgebra.ResMapBijective
@@ -461,11 +415,32 @@ open UpperTheory.V.AlgebraTools
 
 private lemma mem_smul_top_pi {L : Type} [CommRing L] (I : Ideal L) {n : ℕ} (x : Fin n → L) :
     x ∈ (I • ⊤ : Submodule L (Fin n → L)) ↔ ∀ i, x i ∈ I := by
-  apply _root_.tf_mem_smul_top_pi <;> assumption
+  constructor
+  · intro hx i
+    refine Submodule.smul_induction_on (p := fun y : Fin n → L => y i ∈ I) hx ?_ ?_
+    · intro r hr y _
+      exact I.mul_mem_right _ hr
+    · intro y z hy hz
+      exact I.add_mem hy hz
+  · intro h
+    rw [pi_eq_sum_univ x]
+    exact Submodule.sum_mem _ fun i _ => Submodule.smul_mem_smul (h i) Submodule.mem_top
 
 private lemma precomplete_pi {L : Type} [CommRing L] (I : Ideal L) [IsPrecomplete I L] (n : ℕ) :
     IsPrecomplete I (Fin n → L) := by
-  apply _root_.tf_isPrecomplete_pi <;> assumption
+  refine ⟨fun f hf => ?_⟩
+  have h : ∀ i, ∃ x : L, ∀ k, f k i ≡ x [SMOD (I ^ k • ⊤ : Submodule L L)] := by
+    intro i
+    refine IsPrecomplete.prec' (fun k => f k i) ?_
+    intro a b hab
+    have := (mem_smul_top_pi _ _).1 (SModEq.sub_mem.1 (hf hab)) i
+    rw [SModEq.sub_mem]
+    simpa using this
+  choose x hx using h
+  refine ⟨x, fun k => ?_⟩
+  rw [SModEq.sub_mem, mem_smul_top_pi]
+  intro i
+  simpa using SModEq.sub_mem.1 (hx i k)
 
 private lemma map_eq_max {R : Type} [CommRing R] {q : Ideal R} {B : Type} [CommRing B]
     [IsLocalRing B] [Algebra R B] (h : IsCplAt R q B) :
@@ -537,7 +512,7 @@ private lemma flat_of_isCplAt {R : Type} [CommRing R] [IsNoetherianRing R] {q : 
     exact hsa
   have hinj : Function.Injective
       (AdicCompletion.map (maximalIdeal S) (Algebra.linearMap S B)) := by
-    set_option backward.isDefEq.respectTransparency.instanceSearchTypes false in rw [injective_iff_map_eq_zero]
+    rw [injective_iff_map_eq_zero]
     intro x hx
     ext n
     have h1 := AdicCompletion.map_val_apply (maximalIdeal S) (Algebra.linearMap S B) (n := n) x
@@ -752,7 +727,7 @@ private lemma free_of_flat {Λ L N : Type} [CommRing Λ] [CommRing L] [IsLocalRi
     | zero => simp
     | add x y hx hy => simp only [map_add (f := _), hx, hy]
     | tmul x n => rw [hψ]; simp
-  set_option backward.isDefEq.respectTransparency.instanceSearchTypes false in rw [injective_iff_map_eq_zero]
+  rw [injective_iff_map_eq_zero]
   intro z hz
   obtain ⟨y, rfl⟩ := hsurj z
   have h0 := hcomp y
@@ -833,7 +808,6 @@ section -- clump:auto
 @[expose] public section
 
 open IsLocalRing UpperTheory.V.AlgebraTools
-
 
 end -- clump:auto
 end -- clump:auto

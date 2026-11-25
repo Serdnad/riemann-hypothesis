@@ -13,47 +13,7 @@ import Development.AbelianVarietyTheory.Proofs.TwistedOperators.JhMultSubAddQuot
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.JordanHolderMultiplicityJacquetEqBorelJacquetOfS
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.SocleOfMultiplicityOne
 import GroundTheory.LocalFields.PadicLogSeries
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Topology.Sheaves.Init
-import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.JacquetMultiplicityTransitiveLe
 
 @[expose] public section
 
@@ -84,7 +44,19 @@ private theorem sum_castLE_add_le_lemma_2 {s : ℕ} (d : Fin s → ℕ) {a b : F
 
 theorem stdBlocks_lt (d : Fin s → ℕ) (h : ∑ a, d a = N) {p q : Σ a, Fin (d a)} (hpq : toLex p < toLex q) :
     stdBlocks d h p < stdBlocks d h q := by
-  apply _root_.GlobalTheory.CompanionTheory.CsStages.stdBlocks_lt <;> assumption
+  have h' : Sigma.Lex (· < ·) (fun _ => (· < ·)) p q := hpq
+  obtain ⟨a, i⟩ := p
+  obtain ⟨b, j⟩ := q
+  rw [Fin.lt_def, stdBlocks_val, stdBlocks_val]
+  rcases Sigma.lex_iff.1 h' with hab | ⟨hab, hij⟩
+  · dsimp only at hab
+    have key := sum_castLE_add_le_lemma_2 d hab
+    have hi := i.2
+    omega
+  · dsimp only at hab hij
+    subst hab
+    have hij' : (i : ℕ) < j := hij
+    omega
 
 variable {y : Fin s → ℕ} {c : Fin s → ℕ} {x : ∀ a, Fin (c a) → ℕ}
 

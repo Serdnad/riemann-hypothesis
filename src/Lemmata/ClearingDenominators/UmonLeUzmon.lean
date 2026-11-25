@@ -3,7 +3,7 @@ module
 public import Formalism.SharpRestriction.GrowthBounds.ObjPol
 import Mathlib.Tactic.Lemma
 import Mathlib.Tactic.TypeStar
-import Mathlib.RingTheory.Localization.Submodule
+import Mathlib.RingTheory.Localization.Finiteness
 
 @[expose] public section
 
@@ -27,12 +27,8 @@ private lemma clear_den {O K V : Type*} [CommRing O] [IsDomain O] [Field K] [Alg
     [IsFractionRing O K] [AddCommGroup V] [Module K V] [Module O V] [IsScalarTower O K V]
     (D : Submodule O V) (S : Set V) (hS : S ⊆ D) (y : V) (hy : y ∈ Submodule.span K S) :
     ∃ o : O, o ≠ 0 ∧ o • y ∈ D := by
-  obtain ⟨x, hx, d, rfl⟩ :=
-    (IsLocalization.mem_span_iff (M := nonZeroDivisors O) (S := K)).mp hy
-  refine ⟨(d : O), nonZeroDivisors.coe_ne_zero d, ?_⟩
-  rw [← IsScalarTower.algebraMap_smul K (d : O), smul_smul, IsLocalization.mk'_spec',
-    map_one, one_smul]
-  exact Submodule.span_le.mpr hS hx
+  obtain ⟨t, ht⟩ := multiple_mem_span_of_mem_localization_span (nonZeroDivisors O) K S y hy
+  exact ⟨t, nonZeroDivisors.ne_zero t.2, (Submodule.span_le.mpr hS) ht⟩
 
 open Formalism.MainNotions.G in
 theorem goal1

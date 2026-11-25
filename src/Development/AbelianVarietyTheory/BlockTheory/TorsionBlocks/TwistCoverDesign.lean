@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.ScaledMatrixMemRationalLattice
 public import Formalism.LocalToGlobal.ProjectiveLattices.PartitionExtendByZeroAntitone
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -55,8 +54,5 @@ abbrev Place (D : D7) : Type := HeightOneSpectrum (𝓞 D.host.E)
 abbrev ModHost (D : D7) : Type := ReciprocityTheory.ChartRestriction.G.Geo.Tor.Host D.host.E
 
 def PrimeToAA (D : D7) (P : Place D) : Prop := FractionalIdeal.count D.host.E P D.host.AA = 0
-
-theorem AA_ne_zero (D : D7) : D.host.AA ≠ 0 := by
-  first | exact _root_.GlobalTheory.LatVacFull.AA_ne_zero | exact @_root_.GlobalTheory.LatVacFull.AA_ne_zero | apply _root_.GlobalTheory.LatVacFull.AA_ne_zero <;> assumption
 
 end GlobalTheory.IndefiniteRowSideFullHecke.TwistCoverDesign

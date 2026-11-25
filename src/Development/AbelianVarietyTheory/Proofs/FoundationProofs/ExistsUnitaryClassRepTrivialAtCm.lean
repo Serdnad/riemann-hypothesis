@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.ExistsRootNear
 public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.AfsplitB
 public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Levelaf
 public import Formalism.SharpRestriction.GlobalSchurBounds.StandardLatticesGL3
@@ -11,46 +10,7 @@ public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.CsGlob
 import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.CsGlobApprox
 public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.CsScale
 public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.ConjugateMinimaInstance
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.HaveILetI
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Topology.Sheaves.Init
 
 @[expose] public section
 
@@ -63,7 +23,18 @@ open scoped TensorProduct Matrix
 
 theorem unit_of_integral {A R : Type} [CommRing A] [CommRing R] (φ : A →+* R) (hφ : φ.IsIntegral)
     (a : A) (ha : ∀ c, IsUnit (1 + a * c)) (x : R) : IsUnit (1 + φ a * x) := by
-  first | exact _root_.GlobalTheory.AdLat.RootNear.unit_of_integral | exact @_root_.GlobalTheory.AdLat.RootNear.unit_of_integral | apply _root_.GlobalTheory.AdLat.RootNear.unit_of_integral <;> assumption
+  by_contra h
+  obtain ⟨m, hm, hle⟩ := Ideal.exists_le_maximal (Ideal.span {1 + φ a * x})
+    (fun h' => h (Ideal.span_singleton_eq_top.1 h'))
+  have h1 : 1 + φ a * x ∈ m := hle (Ideal.mem_span_singleton_self _)
+  have hm' : (m.comap φ).IsMaximal := Ideal.isMaximal_comap_of_isIntegral_of_isMaximal' φ hφ m
+  have h2 : a ∈ m.comap φ := by
+    by_contra hn
+    obtain ⟨y, i, hi, e⟩ := hm'.exists_inv hn
+    have : i = 1 + a * (-y) := by linear_combination e
+    exact hm'.ne_top (Ideal.eq_top_of_isUnit_mem _ hi (this ▸ ha _))
+  have h3 : φ a * x ∈ m := m.mul_mem_right _ h2
+  exact hm.ne_top ((Ideal.eq_top_iff_one _).2 (by simpa using sub_mem h1 h3))
 
 theorem exists_unit_det {K B : Type} [Field K] [CommRing B] [IsArtinianRing B] (ι : K →+* B) {n : ℕ}
     (h : Matrix (Fin n) (Fin n) B) (Z : Set K) (hZ : Z.Infinite) :

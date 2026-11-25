@@ -1,7 +1,5 @@
 module
 
-import all Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.SphericalCoordinates.PBaseC
-import all Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.SphericalCoordinates.PFForm
 public import Development.AbelianVarietyTheory.Definitions.Divisors.HasDivPlace
 public import Development.AbelianVarietyTheory.Definitions.Divisors.Uniformised
 public import Development.AutomorphicArithmetic.RealSpanData.RealData
@@ -28,86 +26,22 @@ public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.HermitianTri
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.QuotMkEqIffPositiveScalarFormIsomorphic
 public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.ExistsEquivOfFinrank
 public import Development.AutomorphicArithmetic.PAdicLatticeApproximation.ExistsRealPeriodIsoOfPolarizedLattice
-import all Development.AutomorphicArithmetic.PAdicLatticeApproximation.ExistsRealPeriodIsoOfPolarizedLattice
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Algebra.Order.Star.Int
-import Mathlib.Algebra.Order.Star.Rat
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.LinearAlgebra.Matrix.FiniteDimensional
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
 import Development.AbelianVarietyTheory.Definitions.Divisors.ExistsDimEqOne
 import Development.AbelianVarietyTheory.Definitions.Divisors.PointsNonemptyUnitaryRankOne
-import Mathlib.CategoryTheory.Monoidal.Opposite.Mon
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.RingTheory.Coalgebra.IsFrobenius
-import Mathlib.RingTheory.Etale.Weakly
-import Mathlib.RingTheory.Finiteness.ModuleFinitePresentation
-import Mathlib.RingTheory.HopfAlgebra.Basic
-import Mathlib.RingTheory.TotallySplit
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Topology.Sheaves.Init
 import Development.AbelianVarietyTheory.Definitions.Divisors.ExistsRootSelectionUnitaryRankOne
 import Development.AbelianVarietyTheory.Definitions.Divisors.IsHolPeriods
 import Development.AbelianVarietyTheory.Definitions.Divisors.NotCompactOfMEqOne
 import Development.AbelianVarietyTheory.Definitions.Divisors.RedSurjective
 import Development.AbelianVarietyTheory.Definitions.Divisors.ToSpanSingletonConstGenInjective
 import Development.AbelianVarietyTheory.Definitions.Divisors.TwOrbMEqTwOrbUOfNormal
-import Mathlib.Topology.Sheaves.Presheaf
 import ReciprocityTheory.ClassFieldTheory.LocalClassField.HerbrandA
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.CocycleRightZeroThd
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.SemiabelianSchemes.CubicalStructures.CubeSymmetricSwapFirst
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.SymplecticGenerators.StTransl
-import Mathlib.Algebra.Order.Archimedean.Real.Hom
-import Mathlib.Algebra.Order.Star.Real
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.RingTheory.SimpleRing.Principal
 import Mathlib.Tactic.Linter.HaveILetI
 import Std.Tactic.BVDecide.Normalize.Prop
 import GroundTheory.Brauer.TensorSimple
-import Mathlib.Algebra.Module.StablyFree.Basic
-import Mathlib.RingTheory.Coalgebra.CoassocSimps
-import Mathlib.RingTheory.Henselian
-import Mathlib.RingTheory.PiTensorProduct
-import Mathlib.RingTheory.RegularLocalRing.Defs
-import Mathlib.Tactic.Lemma
-import Mathlib.Tactic.Polynomial.Basic
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AutomorphicArithmetic.CommutativeAlgebra.ExistsUnitaryUnitHermitianFormOfCmLattice, Development.AutomorphicArithmetic.CommutativeAlgebra.HermitianCongruentAndPositiveEigenvectorOfSignat, Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.PzIffPos, Development.AutomorphicArithmetic.CommutativeAlgebra.PositivityIffGramPosDef, Development.AbelianVarietyTheory.Proofs.DivisorProofs.TraceRestrictScalarsField, Development.AutomorphicArithmetic.CommutativeAlgebra.TraceActionEqSumPlaces, Development.AutomorphicArithmetic.CommutativeAlgebra.TraceComplexStructurePlaces, Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.SphericalCoordinates.PPlaceEx
@@ -116,8 +50,6 @@ import Mathlib.Tactic.Polynomial.Basic
 -- clump-header: {"m": "Development.AutomorphicArithmetic.CommutativeAlgebra.ExistsUnitaryUnitHermitianFormOfCmLattice", "h": "module\n\npublic import Development.AbelianVarietyTheory.Definitions.Divisors.HasDivPlace\npublic import Development.AbelianVarietyTheory.Definitions.Divisors.Uniformised\nimport Mathlib.Algebra.Order.Floor.Extended\nimport Mathlib.Algebra.Order.Floor.Semifield\nimport Mathlib.Algebra.Order.Interval.Basic\nimport Mathlib.Algebra.Order.Star.Int\nimport Mathlib.Algebra.Order.Star.Rat\nimport Mathlib.Analysis.Complex.UpperHalfPlane.Basic\nimport Mathlib.Analysis.Normed.Algebra.GelfandRadius\nimport Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp\nimport Mathlib.Combinatorics.Enumerative.DyckWord\nimport Mathlib.Combinatorics.SimpleGraph.Triangle.Removal\nimport Mathlib.Data.NNRat.Floor\nimport Mathlib.Geometry.Euclidean.Volume.Basic\nimport Mathlib.LinearAlgebra.Matrix.FiniteDimensional\nimport Mathlib.NumberTheory.Chebyshev\nimport Mathlib.NumberTheory.Height.NumberField\nimport Mathlib.NumberTheory.Height.Projectivization\nimport Mathlib.NumberTheory.LucasLehmer\nimport Mathlib.NumberTheory.SelbergSieve\nimport Mathlib.RingTheory.Radical.NatInt\nimport Mathlib.Tactic.Basify\nimport Mathlib.Tactic.ENatToNat\nimport Mathlib.Tactic.Echelon.Zsqrtd\nimport Mathlib.Tactic.Inclusion.Extension.Core.Core\nimport Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit\nimport Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp\nimport Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses\nimport Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic\nimport Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses\nimport Mathlib.Tactic.Linter.Style\nimport Mathlib.Tactic.NormNum.Irrational\nimport Mathlib.Tactic.NormNum.IsCoprime\nimport Mathlib.Tactic.NormNum.IsSquare\nimport Mathlib.Tactic.NormNum.LegendreSymbol\nimport Mathlib.Tactic.NormNum.ModEq\nimport Mathlib.Tactic.NormNum.NatFib\nimport Mathlib.Tactic.NormNum.NatLog\nimport Mathlib.Tactic.NormNum.NatSqrt\nimport Mathlib.Tactic.NormNum.Ordinal\nimport Mathlib.Tactic.NormNum.Parity\nimport Mathlib.Tactic.NormNum.Prime\nimport Mathlib.Tactic.NormNum.RealSqrt\nimport Development.AbelianVarietyTheory.Definitions.Divisors.ExistsDimEqOne\nimport Development.AbelianVarietyTheory.Definitions.Divisors.PointsNonemptyUnitaryRankOne\nimport Development.AutomorphicArithmetic.RealSpanData.RealData\nimport Mathlib.CategoryTheory.Monoidal.Opposite.Mon\n\n"}
 section -- clump:auto
 @[expose] public section
-
-set_option autoImplicit false
 
 noncomputable section
 
@@ -174,13 +106,27 @@ private theorem adj_bc {Λ : Type} [AddCommGroup Λ] (B : LinearMap.BilinForm �
 
 private theorem anti_bc {Λ : Type} [AddCommGroup Λ] (B : LinearMap.BilinForm ℤ Λ) (h : ∀ x, B x x = 0)
     (u w : ℚ ⊗[ℤ] Λ) : B.baseChange ℚ u w = - B.baseChange ℚ w u := by
-  apply _root_.bc_skew <;> assumption
+  have anti : ∀ x y, B x y = - B y x := fun x y => by
+    have := h (x + y)
+    simp only [map_add (f := _), LinearMap.add_apply, h, zero_add, add_zero] at this
+    linarith
+  induction u using TensorProduct.induction_on with
+  | zero => simp
+  | add a b ha hb => simp only [map_add (f := _), LinearMap.add_apply, ha, hb]; ring
+  | tmul q x =>
+    induction w using TensorProduct.induction_on with
+    | zero => simp
+    | add a b ha hb => simp only [map_add (f := _), LinearMap.add_apply, ha, hb]; ring
+    | tmul r y =>
+      simp only [LinearMap.BilinForm.baseChange_tmul]
+      rw [anti x y]
+      rw [mul_comm q r, neg_smul]
 
 private theorem exists_rep {V : Type} [AddCommGroup V] [Module ℚ V] [FiniteDimensional ℚ V]
     (E F : LinearMap.BilinForm ℚ V) (hE : ∀ a, (∀ w, E a w = 0) → a = 0) :
     ∃ b : Module.End ℚ V, ∀ u w, F u w = 2 * E (b u) w := by
   have inj : Function.Injective (E : V →ₗ[ℚ] Module.Dual ℚ V) := by
-    set_option backward.isDefEq.respectTransparency.instanceSearchTypes false in rw [injective_iff_map_eq_zero]
+    rw [injective_iff_map_eq_zero]
     intro a ha
     exact hE a fun w => by rw [ha]; rfl
   let Φ : V ≃ₗ[ℚ] Module.Dual ℚ V :=
@@ -206,7 +152,7 @@ theorem UpperTheory.exists_unitary_unit_hermitian_form_of_cm_lattice :
   have hF : ∀ u w, F u w = Y.EF.baseChange ℚ (j.symm u) (j.symm w) := fun u w => rfl
   obtain ⟨b, hb⟩ := exists_rep E F sepE
   have hinj : Function.Injective b := by
-    set_option backward.isDefEq.respectTransparency.instanceSearchTypes false in rw [injective_iff_map_eq_zero]
+    rw [injective_iff_map_eq_zero]
     intro u hu
     have : j.symm u = 0 := sepY _ fun w => by
       have h := hb u (j w)
@@ -294,8 +240,6 @@ end -- clump:auto
 -- clump-header: {"m": "Development.AutomorphicArithmetic.CommutativeAlgebra.HermitianCongruentAndPositiveEigenvectorOfSignat", "h": "module\n\npublic import Development.AbelianVarietyTheory.Definitions.Divisors.IsCyclotomicExtensionQI\npublic import Development.AbelianVarietyTheory.Proofs.DivisorProofs.HermitianCongrOfPositiveIndexEq\nimport Mathlib.Algebra.Order.Floor.Extended\nimport Mathlib.Algebra.Order.Floor.Semifield\nimport Mathlib.Algebra.Order.Interval.Basic\nimport Mathlib.Analysis.Complex.UpperHalfPlane.Basic\npublic import Mathlib.Analysis.Matrix.PosDef\nimport Mathlib.Analysis.Normed.Algebra.GelfandRadius\nimport Mathlib.Analysis.SpecialFunctions.Bernstein\nimport Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp\npublic import Mathlib.CategoryTheory.Monoidal.Cartesian.Over\nimport Mathlib.Combinatorics.Enumerative.DyckWord\nimport Mathlib.Combinatorics.SimpleGraph.Triangle.Removal\nimport Mathlib.Data.NNRat.Floor\nimport Mathlib.Data.Nat.Choose.Multinomial\nimport Mathlib.Geometry.Euclidean.Volume.Basic\nimport Mathlib.NumberTheory.Chebyshev\nimport Mathlib.NumberTheory.Height.NumberField\nimport Mathlib.NumberTheory.Height.Projectivization\nimport Mathlib.NumberTheory.LucasLehmer\nimport Mathlib.NumberTheory.SelbergSieve\nimport Mathlib.RingTheory.Coalgebra.IsFrobenius\nimport Mathlib.RingTheory.Etale.Weakly\nimport Mathlib.RingTheory.Finiteness.ModuleFinitePresentation\nimport Mathlib.RingTheory.HopfAlgebra.Basic\nimport Mathlib.RingTheory.Radical.NatInt\nimport Mathlib.RingTheory.TotallySplit\nimport Mathlib.RingTheory.WittVector.IsPoly\nimport Mathlib.Tactic.Echelon.Zsqrtd\nimport Mathlib.Tactic.Inclusion.Extension.Core.Core\nimport Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit\nimport Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp\nimport Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses\nimport Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic\nimport Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses\nimport Mathlib.Tactic.Linter.Style\nimport Mathlib.Tactic.NormNum.Irrational\nimport Mathlib.Tactic.NormNum.IsCoprime\nimport Mathlib.Tactic.NormNum.IsSquare\nimport Mathlib.Tactic.NormNum.LegendreSymbol\nimport Mathlib.Tactic.NormNum.ModEq\nimport Mathlib.Tactic.NormNum.NatFib\nimport Mathlib.Tactic.NormNum.NatLog\nimport Mathlib.Tactic.NormNum.NatSqrt\nimport Mathlib.Tactic.NormNum.Ordinal\nimport Mathlib.Tactic.NormNum.Parity\nimport Mathlib.Tactic.NormNum.Prime\nimport Mathlib.Tactic.NormNum.RealSqrt\nimport Mathlib.Tactic.ReduceModChar\nimport Mathlib.Topology.Sheaves.Init\nimport Development.AbelianVarietyTheory.Definitions.Divisors.ExistsDimEqOne\nimport Development.AbelianVarietyTheory.Definitions.Divisors.ExistsRootSelectionUnitaryRankOne\nimport Development.AbelianVarietyTheory.Definitions.Divisors.HasDivPlace\nimport Development.AbelianVarietyTheory.Definitions.Divisors.IsHolPeriods\nimport Development.AbelianVarietyTheory.Definitions.Divisors.NotCompactOfMEqOne\nimport Development.AbelianVarietyTheory.Definitions.Divisors.PointsNonemptyUnitaryRankOne\nimport Development.AbelianVarietyTheory.Definitions.Divisors.RedSurjective\nimport Development.AbelianVarietyTheory.Definitions.Divisors.ToSpanSingletonConstGenInjective\nimport Development.AbelianVarietyTheory.Definitions.Divisors.TwOrbMEqTwOrbUOfNormal\nimport Development.AutomorphicArithmetic.RealSpanData.RealData\nimport Mathlib.Topology.Sheaves.Presheaf\nimport ReciprocityTheory.ClassFieldTheory.LocalClassField.HerbrandA\nimport ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.CocycleRightZeroThd\nimport ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.SemiabelianSchemes.CubicalStructures.CubeSymmetricSwapFirst\nimport ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.SymplecticGenerators.StTransl\nimport Mathlib.CategoryTheory.Monoidal.Opposite.Mon\n\n"}
 section -- clump:auto
 @[expose] public section
-
-set_option autoImplicit false
 
 noncomputable section
 
@@ -568,8 +512,6 @@ end -- clump:auto
 section -- clump:auto
 @[expose] public section
 
-set_option autoImplicit false
-
 noncomputable section
 
 open CategoryTheory Limits MonoidalCategory CartesianMonoidalCategory MonObj AlgebraicGeometry NumberField Matrix
@@ -633,7 +575,7 @@ private theorem actOn_tmul {C V : Type} [Ring C] [Algebra ℚ C] [AddCommGroup V
 private theorem actOn_inj {C V : Type} [Ring C] [Algebra ℚ C] [AddCommGroup V] [Module ℚ V]
     (rep : C →ₐ[ℚ] Module.End ℚ V) (hrep : Function.Injective rep) :
     Function.Injective (actOn rep ℝ) := by
-  set_option backward.isDefEq.respectTransparency.instanceSearchTypes false in rw [injective_iff_map_eq_zero]
+  rw [injective_iff_map_eq_zero]
   intro x hx
   let B := Module.Free.chooseBasis ℚ ℝ
   obtain ⟨c, rfl⟩ := TensorProduct.eq_repr_basis_left B x
@@ -656,7 +598,16 @@ private theorem actOn_inj {C V : Type} [Ring C] [Algebra ℚ C] [AddCommGroup V]
 private theorem bc_anti {R A M : Type} [CommRing R] [CommRing A] [AddCommGroup M] [Algebra R A]
     [Module R M] (B : LinearMap.BilinForm R M) (h : ∀ x y, B x y = -B y x) (x y : A ⊗[R] M) :
     B.baseChange A x y = -B.baseChange A y x := by
-  apply _root_.bc_anti <;> assumption
+  induction x using TensorProduct.induction_on with
+  | zero => simp
+  | add a b ha hb => simp only [map_add (f := _), LinearMap.add_apply, ha, hb]; ring
+  | tmul a m =>
+    induction y using TensorProduct.induction_on with
+    | zero => simp
+    | add c d hc hd => simp only [map_add (f := _), LinearMap.add_apply, hc, hd]; ring
+    | tmul a' m' =>
+      rw [LinearMap.BilinForm.baseChange_tmul, LinearMap.BilinForm.baseChange_tmul, h m m', neg_smul,
+        mul_comm]
 
 private theorem E_anti {p : ℕ} [Fact p.Prime] (D : Datum p) (x y : ℝ ⊗[ℚ] VQ D) :
     (D.EF.baseChange ℚ).baseChange ℝ x y = -(D.EF.baseChange ℚ).baseChange ℝ y x := by
@@ -671,7 +622,25 @@ private theorem E_adj {p : ℕ} [Fact p.Prime] {D : Datum p} {G : HTGroup p} (L 
     (b : ℝ ⊗[ℚ] G.C) (x y : ℝ ⊗[ℚ] VQ D) :
     (D.EF.baseChange ℚ).baseChange ℝ (actOn L.rep ℝ b x) y =
       (D.EF.baseChange ℚ).baseChange ℝ x (actOn L.rep ℝ (starT G.star ℝ b).unop y) := by
-  apply _root_.E_adj <;> assumption
+  induction b using TensorProduct.induction_on with
+  | zero => simp
+  | add b b' h h' => simp only [map_add (f := _), LinearMap.add_apply, MulOpposite.unop_add, h, h']
+  | tmul r c =>
+    rw [starT_tmul]
+    induction x using TensorProduct.induction_on with
+    | zero => simp
+    | add x x' h h' => simp only [map_add (f := _), LinearMap.add_apply, h, h']
+    | tmul s v =>
+      induction y using TensorProduct.induction_on with
+      | zero => simp
+      | add y y' h h' => simp only [map_add (f := _), h, h']
+      | tmul t w =>
+        have h := L.adj c v w
+        rw [show sh G c = (G.star c).unop from rfl] at h
+        rw [actOn_tmul, actOn_tmul, LinearMap.BilinForm.baseChange_tmul,
+          LinearMap.BilinForm.baseChange_tmul, h]
+        congr 1
+        ring
 
 private theorem herm_conj {n : ℕ} (A : Matrix (Fin n) (Fin n) ℂ) (hA : A.IsHermitian)
     (x y : Fin n → ℂ) : star (star x ⬝ᵥ A *ᵥ y) = star y ⬝ᵥ A *ᵥ x := by
@@ -795,7 +764,6 @@ end -- clump:auto
 section -- clump:auto
 @[expose] public section
 
-set_option autoImplicit false
 noncomputable section
 
 namespace GlobalTheory.QTrace
@@ -1025,8 +993,6 @@ end -- clump:auto
 section -- clump:auto
 @[expose] public section
 
-set_option autoImplicit false
-
 noncomputable section
 
 open CategoryTheory Limits MonoidalCategory CartesianMonoidalCategory MonObj AlgebraicGeometry NumberField Matrix
@@ -1076,10 +1042,10 @@ private theorem sum_psiE {p : ℕ} [Fact p.Prime] (G : HTGroup p) (c : G.C) :
   rw [hf, Finset.sum_pair hne.symm]
   have h1 : psiE G v.embedding = G.psi v := by
     unfold psiE
-    rw [InfinitePlace.mk_embedding, if_pos rfl]
+    rw [InfinitePlace.mk_embedding, ite_eq_left rfl]
   have h2 : psiE G (ComplexEmbedding.conjugate v.embedding) = ((starRingEnd ℂ).mapMatrix).comp (G.psi v) := by
     unfold psiE
-    rw [InfinitePlace.mk_conjugate_eq, InfinitePlace.mk_embedding, if_neg hne.symm]
+    rw [InfinitePlace.mk_conjugate_eq, InfinitePlace.mk_embedding, ite_eq_right hne.symm]
   rw [h1, h2, RingHom.comp_apply]
   have h3 : Matrix.trace (((starRingEnd ℂ).mapMatrix) (G.psi v c)) = (starRingEnd ℂ) (Matrix.trace (G.psi v c)) := by
 
@@ -1147,8 +1113,6 @@ end -- clump:auto
 section -- clump:auto
 @[expose] public section
 
-set_option autoImplicit false
-
 noncomputable section
 
 open CategoryTheory Limits MonoidalCategory CartesianMonoidalCategory MonObj AlgebraicGeometry NumberField Matrix
@@ -1205,7 +1169,7 @@ private theorem jt_indep {E F : Type} [Field E] [NumberField E] [Field F] [Numbe
       have hc : w.IsComplex := IsTotallyComplex.isComplex w
       exact (InfinitePlace.isComplex_iff.mp hc) (ComplexEmbedding.isReal_iff.mpr h)
     simp only [B, InfinitePlace.mk_conjugate_eq, InfinitePlace.mk_embedding]
-    rw [if_neg hne]
+    rw [ite_eq_right hne]
   have key : ∀ c : 𝓞 E, ∑ σ : E →+* ℂ, (a σ - B (r.symm σ)) * σ (c : E) = 0 := by
     intro c
     simp only [sub_mul, Finset.sum_sub_distrib]
@@ -1222,7 +1186,16 @@ private theorem jt_indep {E F : Type} [Field E] [NumberField E] [Field F] [Numbe
   exact sub_eq_zero.mp h0
 
 private theorem jt_ne {p : ℕ} [Fact p.Prime] (D : Datum p) : (starRingEnd ℂ) D.ρc ≠ D.ρc := by
-  apply _root_.UpperTheory.Gal.W2.rho_ne_conj <;> assumption
+  intro h
+  have him : D.ρc.im = 0 := Complex.conj_eq_iff_im.mp h
+  have hre : D.ρc = (D.ρc.re : ℂ) := by
+    apply Complex.ext <;> simp [him]
+  have h0 := D.ρc_root
+  rw [hre] at h0
+  have h1 : D.ρc.re ^ 2 - (D.tr : ℝ) * D.ρc.re + (D.nm : ℝ) = 0 := by exact_mod_cast h0
+  have h2 : ((D.tr ^ 2 - 4 * D.nm : ℤ) : ℝ) < 0 := by exact_mod_cast D.disc_neg
+  push_cast at h2
+  nlinarith [sq_nonneg (2 * D.ρc.re - (D.tr : ℝ))]
 
 private theorem jt_root {p : ℕ} [Fact p.Prime] (D : Datum p) (τ : D.F →+* ℂ) :
     τ (D.ω : D.F) = D.ρc ∨ τ (D.ω : D.F) = (starRingEnd ℂ) D.ρc := by
@@ -1275,9 +1248,9 @@ private theorem jt_S {p : ℕ} [Fact p.Prime] (D : Datum p) (c : 𝓞 D.F) :
     sub_eq_add_neg, ← Finset.sum_neg_distrib]
   congr 1
   · refine Finset.sum_congr rfl fun τ h => ?_
-    rw [if_pos (Finset.mem_filter.mp h).2]; ring
+    rw [ite_eq_left (Finset.mem_filter.mp h).2]; ring
   · refine Finset.sum_congr rfl fun τ h => ?_
-    rw [if_neg (Finset.mem_filter.mp h).2]; ring
+    rw [ite_eq_right (Finset.mem_filter.mp h).2]; ring
 
 private theorem jt_lhs {p : ℕ} [Fact p.Prime] (D : Datum p) (τ₁ : D.F →+* ℂ) (c : 𝓞 D.F) :
     ∑ σ : D.F →+* ℂ, (Complex.I * (D.m : ℂ) * ((if σ = τ₁ then 2 else 0) -
@@ -1431,18 +1404,18 @@ theorem UpperTheory.trace_complex_structure_places :
       exact jt_ne D (h3.symm.trans hε)
     by_cases hw : v' = v
     · have h1' : σ' = τ₁ := (hvv.mp hw).resolve_right h2'
-      rw [hdiv, if_pos h1', if_neg h2', if_pos hε, if_pos hw, if_neg (not_not.mpr hε)]
+      rw [hdiv, ite_eq_left h1', ite_eq_right h2', ite_eq_left hε, ite_eq_left hw, ite_eq_right (not_not.mpr hε)]
       ring
     · have h1' : σ' ≠ τ₁ := fun h => hw (hvv.mpr (Or.inl h))
-      rw [hdiv, if_neg h1', if_neg h2', if_pos hε, if_neg hw, if_neg (not_not.mpr hε)]
+      rw [hdiv, ite_eq_right h1', ite_eq_right h2', ite_eq_left hε, ite_eq_right hw, ite_eq_right (not_not.mpr hε)]
       ring
   · have h1' : σ' ≠ τ₁ := fun h => hε (by rw [h, hτω])
     by_cases hw : v' = v
     · have h2' : σ' = (starRingEnd ℂ).comp τ₁ := (hvv.mp hw).resolve_left h1'
-      rw [hdiv, if_neg h1', if_pos h2', if_neg hε, if_pos hw, if_pos hε]
+      rw [hdiv, ite_eq_right h1', ite_eq_left h2', ite_eq_right hε, ite_eq_left hw, ite_eq_left hε]
       ring
     · have h2' : σ' ≠ (starRingEnd ℂ).comp τ₁ := fun h => hw (hvv.mpr (Or.inr h))
-      rw [hdiv, if_neg h1', if_neg h2', if_neg hε, if_neg hw, if_pos hε]
+      rw [hdiv, ite_eq_right h1', ite_eq_right h2', ite_eq_right hε, ite_eq_right hw, ite_eq_left hε]
       ring
 end -- clump:auto
 end -- clump:auto
@@ -1530,7 +1503,20 @@ private theorem typeAt_of {p : ℕ} [Fact p.Prime] (D : Datum p) (ha : D.a = 1) 
 
 private theorem tens_int (M : Type) [AddCommGroup M] (t : ℚ ⊗[ℤ] M) :
     ∃ (m : ℕ) (u : M), m ≠ 0 ∧ m • t = (1 : ℚ) ⊗ₜ[ℤ] u := by
-  apply _root_.exists_pure <;> assumption
+  induction t using TensorProduct.induction_on with
+  | zero => exact ⟨1, 0, one_ne_zero, by simp⟩
+  | tmul q u =>
+    refine ⟨q.den, q.num • u, q.den_nz, ?_⟩
+    rw [TensorProduct.smul_tmul', TensorProduct.tmul_smul, TensorProduct.smul_tmul']
+    congr 1
+    rw [nsmul_eq_mul, zsmul_eq_mul, _root_.mul_one, _root_.mul_comm]
+    exact Rat.mul_den_eq_num q
+  | add a b ha hb =>
+    obtain ⟨m, u, hm, hu⟩ := ha
+    obtain ⟨n, w, hn, hw⟩ := hb
+    refine ⟨m * n, n • u + m • w, Nat.mul_ne_zero hm hn, ?_⟩
+    rw [smul_add, TensorProduct.tmul_add, TensorProduct.tmul_smul, TensorProduct.tmul_smul, ← hu, ← hw,
+      mul_smul, smul_comm m n a, mul_smul]
 
 private theorem tmul_inj (M : Type) [AddCommGroup M] [Module.Free ℤ M] :
     Function.Injective (fun u : M => (1 : ℚ) ⊗ₜ[ℤ] u) := by
@@ -1712,7 +1698,7 @@ theorem UpperTheory.Gal.W2.placeEx_of :
       by_cases hvv : v' = v
       · subst hvv
         simpa using hv
-      · rw [if_neg hvv]
+      · rw [ite_eq_right hvv]
         exact sig_zero L ha v v' hv hvv
     refine (UpperTheory.hermitian_congruent_and_positive_eigenvector_of_signature G.n (if v' = v then 1 else 0) (G.gram v' * G.psi v' ((β⁻¹ : G.Cˣ) : G.C))
       (G.gram v') (G.psiR v' Jc) (if v'.embedding (L.e D.ω) = D.ρc then Complex.I else -Complex.I) hH

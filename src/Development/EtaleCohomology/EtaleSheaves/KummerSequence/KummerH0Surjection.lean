@@ -1,49 +1,9 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.HypercohomologyCoefficientMapFunctorialAdditive
 public import Development.EtaleCohomology.EtaleSheaves.KummerSequence.LeafKumSeqPf
 public import Mathlib.Algebra.Homology.Embedding.ExtendHomotopy
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.AlgebraicGeometry.Modules.Sheaf
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
 import Mathlib.CategoryTheory.Abelian.GrothendieckCategory.EnoughInjectives
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
 
 @[expose] public section
 
@@ -65,7 +25,14 @@ theorem resMap_comp_homotopy (R : Type) [CommRing R] {F G L : Shv R} (f : F ⟶ 
 
 theorem post_comp (R : Type) [CommRing R] (K : Cx R) {F G L : Shv R} (f : F ⟶ G) (g : G ⟶ L) (n : ℤ)
     (x : HK R K F n) : HK.post R K (f ≫ g) n x = HK.post R K g n (HK.post R K f n x) := by
-  apply @GlobalTheory.EtC.PostFun.post_comp <;> assumption
+  obtain ⟨H⟩ := resMap_comp_homotopy R f g
+  obtain ⟨a, rfl⟩ := CohomologyClass.mk_surjective x
+  show CohomologyClass.mk _ = CohomologyClass.mk _
+  rw [← sub_eq_zero, ← CohomologyClass.mk_sub, CohomologyClass.mk_eq_zero_iff,
+    mem_coboundaries_iff _ (n - 1) (by omega)]
+  refine ⟨a.1.comp (Cochain.ofHomotopy H) (by omega), ?_⟩
+  rw [δ_comp _ _ _ (n + 1) 0 n (by omega) rfl (by omega), δ_ofHomotopy, Cocycle.δ_eq_zero]
+  simp [zcomp, Cochain.comp_sub, Cochain.ofHom_comp]
 
 def kumM (q : ℕ) : (kumSC q).X₃ ⟶ Gm := cokernel.desc (kernel.ι (powGm q)) (powGm q) (kernel.condition _)
 

@@ -55,65 +55,21 @@ import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsPushEquiv
 import Development.AbelianVarietyTheory.Proofs.ModuliProofs.IsMonHomIffOfIsGrpPullback
 import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.MorphismDescendsToSubring
 import Development.AbelianVarietyTheory.Statements.HyperbolicHypotheses.HypothesesInhabitedHyperbolic
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
 import Mathlib.Algebra.Order.Star.Real
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
 import Mathlib.RingTheory.Algebraic.Cardinality
 import Mathlib.RingTheory.Henselian
-import Mathlib.RingTheory.Radical.NatInt
 import Mathlib.RingTheory.RegularLocalRing.Defs
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.ReduceModChar
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.BCTools
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.ThetaCore
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.ExistsRosatiGen
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
 import Mathlib.RingTheory.SimpleRing.Principal
 import Mathlib.Tactic.Linter.HaveILetI
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Topology.Sheaves.Init
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.OneArc
 import Mathlib.Algebra.Order.Star.Rat
 import Mathlib.Algebra.QuadraticAlgebra.Basic
 import Mathlib.Analysis.CStarAlgebra.Classes
-import Mathlib.Data.Nat.Choose.Multinomial
 import Mathlib.RingTheory.PicardGroup
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Polynomial.Basic
 import Std.Tactic.BVDecide.Normalize.Prop
 import Development.AbelianVarietyTheory.Proofs.GenericRegularity.ExistsValuationSubringComapEqNonunits
 import Development.AbelianVarietyTheory.Proofs.ModuliProofs.CompactifiedModuliPartOne
@@ -458,10 +414,9 @@ theorem isFibreOf_trans {R R' R'' : Type} [CommRing R] [CommRing R'] [CommRing R
 
 variable {E : Type} [Field E] [NumberField E] [IsCMField E] {H : Host E}
 
-theorem exists_isFibreOf_pull_of_nonzero_over_closedPoint {R R' R'' : Type} [CommRing R] [CommRing R'] [IsLocalRing R'] [CommRing R'']
-    {f : R →+* R'} {f' : R' →+* R''} {t : SAB H (Sp R)} {t' : SAB H (Sp R')} (m : SABMap t' t (spMap f))
-    {θ : t.PP.L.Sec} {n : ℕ} {v : Fin n → (epsR R ⟶ t.G)} (hθ : ∃ y : t.G.left, t.G.hom y = spMap f (closedPoint R') ∧ y ∈ Out.nonzeroLocus θ)
-    (hv : IsLieBasis v)
+theorem exists_isFibreOf_pull {R R' R'' : Type} [CommRing R] [IsLocalRing R] [CommRing R'] [IsLocalRing R'] [CommRing R'']
+    {f : R →+* R'} [IsLocalHom f] {f' : R' →+* R''} {t : SAB H (Sp R)} {t' : SAB H (Sp R')} (m : SABMap t' t (spMap f))
+    {θ : t.PP.L.Sec} {n : ℕ} {v : Fin n → (epsR R ⟶ t.G)} (hθ : NonzeroClosed (X := t.G) θ) (hv : IsLieBasis v)
     {x : KeyIn R''} (hx : IsFibreOf x t.G t.PP.L t.PP.rig θ v (f'.comp f)) :
     ∃ (θ' : t'.PP.L.Sec) (v' : Fin n → (epsR R' ⟶ t'.G)), NonzeroClosed (X := t'.G) θ' ∧ IsLieBasis v' ∧
       IsFibreOf x t'.G t'.PP.L t'.PP.rig θ' v' f' := by
@@ -481,7 +436,8 @@ theorem exists_isFibreOf_pull_of_nonzero_over_closedPoint {R R' R'' : Type} [Com
   rw [hrig] at hr
   refine ⟨θ', v', ?_, hv', ?_⟩
   · obtain ⟨z, hz, hz'⟩ := hθ
-    obtain ⟨y, rfl, hy⟩ := Scheme.exists_preimage_of_isPullback m.cart.1 z (closedPoint R') hz
+    obtain ⟨y, rfl, hy⟩ := Scheme.exists_preimage_of_isPullback m.cart.1 z (closedPoint R')
+      (hz.trans (IsLocalRing.comap_closedPoint f).symm)
     obtain ⟨k, hb⟩ := TopologicalSpace.Opens.mem_iSup.1 hz'
     have hk : m.φ y ∈ t.PP.L.U k := t.G.left.basicOpen_le _ hb
     obtain ⟨l, hl⟩ := exists_chart t'.PP.isLB y
@@ -538,16 +494,6 @@ theorem exists_isFibreOf_pull_of_nonzero_over_closedPoint {R R' R'' : Type} [Com
       rw [← Spec.map_comp, ← Spec.map_comp, ← CommRingCat.ofHom_comp, ← CommRingCat.ofHom_comp]
       congr 2
       ext a <;> simp [Chart.dualMapR, TrivSqZeroExt.algebraMap_eq_inl]
-
-theorem exists_isFibreOf_pull {R R' R'' : Type} [CommRing R] [IsLocalRing R] [CommRing R'] [IsLocalRing R'] [CommRing R'']
-    {f : R →+* R'} [IsLocalHom f] {f' : R' →+* R''} {t : SAB H (Sp R)} {t' : SAB H (Sp R')} (m : SABMap t' t (spMap f))
-    {θ : t.PP.L.Sec} {n : ℕ} {v : Fin n → (epsR R ⟶ t.G)} (hθ : NonzeroClosed (X := t.G) θ) (hv : IsLieBasis v)
-    {x : KeyIn R''} (hx : IsFibreOf x t.G t.PP.L t.PP.rig θ v (f'.comp f)) :
-    ∃ (θ' : t'.PP.L.Sec) (v' : Fin n → (epsR R' ⟶ t'.G)), NonzeroClosed (X := t'.G) θ' ∧ IsLieBasis v' ∧
-      IsFibreOf x t'.G t'.PP.L t'.PP.rig θ' v' f' := by
-  obtain ⟨z, hz, hz'⟩ := hθ
-  exact exists_isFibreOf_pull_of_nonzero_over_closedPoint m
-    ⟨z, hz.trans (IsLocalRing.comap_closedPoint f).symm, hz'⟩ hv hx
 
 theorem exists_pat_of_isFibreOf {R R' : Type} [CommRing R] [CommRing R'] {f : R →+* R'} {t : SAB H (Sp R)}
     {t' : SAB H (Sp R')} (m : SABMap t' t (spMap f)) {θ : t.PP.L.Sec} {n : ℕ} {v : Fin n → (epsR R ⟶ t.G)}
@@ -1381,7 +1327,6 @@ theorem exists_point {D : Datum H} {l : Level H} (hA : l.A = 1) (Xo : Moduli D l
           congrArg CommRingCat.Hom.hom (Spec.map_injective ((Spec.map_comp _ _).trans hx))
         obtain ⟨ψ, rfl⟩ : ∃ ψ : AlgebraicClosure K →+* k, ψ.comp i = φ := by
           letI := φ.toAlgebra
-          set_option synthInstance.maxHeartbeats 400000 in
           exact ⟨(IsAlgClosed.lift (R := K') (S := AlgebraicClosure K) (M := k)).toRingHom,
             RingHom.ext fun z => (IsAlgClosed.lift (R := K') (S := AlgebraicClosure K) (M := k)).commutes z⟩
         have hx' : spMap (ψ.comp i) = spMap ψ ≫ spMap i := Spec.map_comp (CommRingCat.ofHom i) (CommRingCat.ofHom ψ)

@@ -15,49 +15,7 @@ public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeo
 public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LatticeRegularAtLocalPoint
 import Development.AutomorphicSpectrum.Proofs.GeometryProofs.HodgeCptInteriorGeneric
 import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LieLatticeEvalAtLocalRing
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.RingTheory.RegularLocalRing.Defs
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.AbProj
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.OneArc
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.SabPull
@@ -144,7 +102,7 @@ theorem frame_change (A : Subring Ω) {b b' : Fin r → E} (hb : LinearIndepende
     rw [Finset.sum_comm]
     exact Finset.sum_congr rfl fun l _ => Finset.sum_congr rfl fun m _ => by rw [smul_comm]
   have e' := congrFun e k
-  simp only [if_true] at e'
+  simp only [ite_true] at e'
   rw [Finset.sum_eq_single k] at e'
   · have : P k k * Q k k = 1 := Subtype.ext e'
     exact IsUnit.of_mul_eq_one _ this
@@ -170,7 +128,7 @@ theorem leadMinor_conj (Γ C : Matrix (Fin r) (Fin r) ℂ) (hC : ∀ l k, k < l 
     leadMinor (Cᴴ * Γ * C) n =
       (∏ a : Fin n, Complex.normSq (C (Fin.castLE hn a) (Fin.castLE hn a))) * leadMinor Γ n := by
   unfold leadMinor
-  rw [dif_pos hn, dif_pos hn]
+  rw [dite_eq_left hn, dite_eq_left hn]
   set ic := Fin.castLE hn with hι2
   have hz : ∀ (a : Fin n) (l : Fin r), n ≤ l → C l (ic a) = 0 := fun a l hl =>
     hC l (ic a) (Fin.lt_def.2 (lt_of_lt_of_le (show ((ic a : Fin r) : ℕ) < n by simp [hι2]) hl))
@@ -555,7 +513,7 @@ theorem exists_norm : ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (H 
     simpa using this.map eA
 
   let val : 𝔐.Li → Vz := fun e => if he : e ∈ 𝔐.M.lat q then ev ⟨e, he⟩ else 0
-  have hval : ∀ e (he : e ∈ 𝔐.M.lat q), val e = ev ⟨e, he⟩ := fun e he => dif_pos he
+  have hval : ∀ e (he : e ∈ 𝔐.M.lat q), val e = ev ⟨e, he⟩ := fun e he => dite_eq_left he
   have h0 : val 0 = 0 := by
     rw [hval 0 (zero_mem _)]
     exact map_zero ev

@@ -1,58 +1,9 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.FormalGroupCharts.EqCOfPderivZero
-import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.ConstantCoeffSubstSame
 public import Formalism.FormalGroupWitt.FormalGroupWittProofs.SolveV
 public import Mathlib.RingTheory.MvPowerSeries.Derivative
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Algebra.Order.Star.Rat
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.MvPolynomial.IrreducibleQuadratic
-import Mathlib.RingTheory.PiTensorProduct
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Topology.Sheaves.Init
 
 @[expose] public section
-
-set_option autoImplicit false
 
 noncomputable section
 
@@ -142,7 +93,7 @@ theorem pderiv_aeval [Fintype σ] (a : σ → MvPowerSeries τ k) (p : MvPolynom
     simp only [Derivation.leibniz, MvPolynomial.pderiv_X, Pi.single_apply, smul_eq_mul, map_add (f := _), map_mul,
       MvPolynomial.aeval_X, add_mul, Finset.sum_add_distrib, mul_ite, mul_one, mul_zero]
     simp only [apply_ite (MvPolynomial.aeval a), map_zero, ite_mul, zero_mul, Finset.sum_ite_eq,
-      Finset.mem_univ, if_true, mul_assoc]
+      Finset.mem_univ, ite_true, mul_assoc]
     try ring
 
 private theorem pderiv_coe_mvPolynomial (s : σ) (p : MvPolynomial σ k) :
@@ -173,7 +124,7 @@ theorem pderiv_subst [Fintype σ] {a : σ → MvPowerSeries τ k} (ha : ∀ s, c
     intro M
     refine ⟨MvPowerSeries.trunc' k (Finsupp.equivFunOnFinite.symm fun _ => M) f, ?_⟩
     intro m hm
-    rw [map_sub, MvPolynomial.coeff_coe, MvPowerSeries.coeff_trunc', if_pos, sub_self]
+    rw [map_sub, MvPolynomial.coeff_coe, MvPowerSeries.coeff_trunc', ite_eq_left, sub_self]
     rw [Finsupp.le_def]
     intro s
     have h1 := finsupp_apply_le_degree' m s
@@ -206,6 +157,24 @@ theorem pderiv_comm (u v : τ) (g : MvPowerSeries τ k) : pderiv u (pderiv v g) 
 
 theorem eq_C_of_pderiv_zero [Algebra ℚ k] {g : MvPowerSeries τ k} (h : ∀ v, pderiv v g = 0) :
     g = C (constantCoeff g) := by
-  apply GlobalTheory.FormalLog.eq_C_of_pderiv_zero <;> assumption
+  classical
+  ext n
+  rw [MvPowerSeries.coeff_C]
+  split_ifs with hn
+  · subst hn
+    simp
+  · obtain ⟨v, hv⟩ : ∃ v, n v ≠ 0 := by
+      by_contra! hcon
+      exact hn (Finsupp.ext fun i => by simpa using hcon i)
+    set m := n - Finsupp.single v 1 with hm
+    have hnm : n = m + Finsupp.single v 1 :=
+      (tsub_add_cancel_of_le (Finsupp.single_le_iff.mpr (Nat.one_le_iff_ne_zero.mpr hv))).symm
+    have h0 := congrArg (MvPowerSeries.coeff m) (h v)
+    rw [MvPowerSeries.coeff_pderiv, ← hnm, map_zero] at h0
+    have hu : IsUnit ((m v : k) + 1) := by
+      have e : ((m v : k) + 1) = algebraMap ℚ k ((m v : ℚ) + 1) := by simp
+      rw [e]
+      exact (IsUnit.mk0 _ (by positivity)).map _
+    exact (hu.mul_left_eq_zero).mp h0
 
 end ReciprocityTheory.ChartRestriction.G.TB.LogPf

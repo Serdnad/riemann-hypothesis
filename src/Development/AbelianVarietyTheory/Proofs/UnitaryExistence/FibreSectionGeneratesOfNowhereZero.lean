@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.FibreSectionGeneratesOfNowhereZeroNoetherianBase
 public import Development.AbelianVarietyTheory.Definitions.ExistenceOfLattices.UnivFrame
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.GlobalSectionsRankAlgClosed
 public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.ExistsLocalGeneratorStableBaseChange
@@ -140,4 +139,4 @@ end GlobalTheory.Frames.NonzeroGenerates
 open GlobalTheory.Frames.NonzeroGenerates in
 theorem GlobalTheory.Frames.secGen_of_secNZ : Out.SecBaseChangeSt → ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (H : Host E) (Dw : Datum H) (l : Level H) (Xo : Moduli Dw l) (S : Type) [CommRing S] (x : Sp S ⟶ Xo.X) (s : LB.Sec (PPx x)), SecNZ x s → SecGen x s := by
   intros
-  apply _root_.GlobalTheory.FrameGenerator.secGen_of_secNZ <;> assumption
+  apply GlobalTheory.FrameGenerator.secGen_of_secNZ <;> assumption

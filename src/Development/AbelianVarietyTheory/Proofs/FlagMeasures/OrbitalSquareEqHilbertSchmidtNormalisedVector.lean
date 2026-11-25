@@ -1,6 +1,5 @@
 module
 
-import Formalism.HermitianCurvature.HermitianCurvatureProofs.ExistsPlaceWithVectors
 public import Formalism.SharpRestriction.CuspSpanNormBounds.LeadMinorK
 public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.Admissible
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.UnipotentCoordinatesMeasurePreserving
@@ -166,10 +165,10 @@ theorem block_iff : ∀ (bs : List (ℂ × ℕ)) (a b : ℕ), a < b → b < D.pt
     simp only [blockIdx, D.ptPartner]
     by_cases h1 : a < s
     · by_cases h2 : b < s
-      · simp only [h1, h2, if_true, true_iff]; omega
-      · simp only [h1, h2, if_true, if_false]; omega
+      · simp only [h1, h2, ite_true, true_iff]; omega
+      · simp only [h1, h2, ite_true, ite_false]; omega
     · have h2 : ¬ b < s := by omega
-      simp only [h1, h2, if_false]
+      simp only [h1, h2, ite_false]
       have := block_iff bs (a - s) (b - s) (by omega) (by omega)
       omega
 
@@ -311,9 +310,6 @@ open Formalism.FourierDecayAlt.P Formalism.FourierDecayAlt.P.Dx2 Formalism.Fouri
 variable {k r : ℕ} {Wp Wq : Type} [NormedAddCommGroup Wp] [InnerProductSpace ℂ Wp] [NormedAddCommGroup Wq]
   [InnerProductSpace ℂ Wq]
 
-theorem closed_SS (D : B.RealPlaceData k r Wp Wq) : IsClosed {p | D.inSS p} := by
-  first | exact _root_.Formalism.FourierDecayAlt.P.B6.setting_support_closed | exact @_root_.Formalism.FourierDecayAlt.P.B6.setting_support_closed | apply _root_.Formalism.FourierDecayAlt.P.B6.setting_support_closed <;> assumption
-
 theorem integrand_contOn (D : B.RealPlaceData k r Wp Wq) {γ : B.Mat k r} (hγ : γ ∈ B.GV k r)
     {F : B.Mat k r → (Wq →L[ℂ] Wp)} (hF : ContinuousOn F (B.GV k r)) :
     ContinuousOn (Formalism.FourierDecayAlt.D.orbIntegrand D γ F) {p | D.inSS p} := by
@@ -371,7 +367,18 @@ theorem hsNormSq_hsVec [FiniteDimensional ℂ Wq] (X : Wq →L[ℂ] Wp) : hsNorm
 
 theorem haar_smul {U : Set (B.Mat k r)} {μ : Measure (Mt k r)} (h : B.IsHaarOn U μ) {c : ENNReal} (h0 : c ≠ 0)
     (h1 : c ≠ ⊤) : B.IsHaarOn U (c • μ) := by
-  first | exact _root_.Formalism.FourierDecayAlt.P.HaarMassHermitianCurvature.haarSmul | exact @_root_.Formalism.FourierDecayAlt.P.HaarMassHermitianCurvature.haarSmul | apply _root_.Formalism.FourierDecayAlt.P.HaarMassHermitianCurvature.haarSmul <;> assumption
+  refine ⟨?_, fun a ha => ?_, fun a ha => ?_, fun K hK => ?_, ?_⟩
+  · rw [Measure.smul_apply, h.conc, smul_zero]
+  · rw [Measure.map_smul, h.left a ha]
+    exact (show Continuous (lmulM a : Mt k r → Mt k r) from
+      continuous_const.matrix_mul continuous_id).measurable.aemeasurable
+  · rw [Measure.map_smul, h.right a ha]
+    exact (show Continuous (B.rmulF a : Mt k r → Mt k r) from
+      continuous_id.matrix_mul continuous_const).measurable.aemeasurable
+  · rw [Measure.smul_apply, smul_eq_mul]; exact ENNReal.mul_lt_top h1.lt_top (h.finite_compact K hK)
+  · intro e
+    have e2 : c * μ Set.univ = 0 := congrArg (fun m : Measure (Mt k r) => m Set.univ) e
+    exact (mul_eq_zero.1 e2).elim h0 fun e3 => h.ne_zero (Measure.measure_univ_eq_zero.1 e3)
 
 end cont
 
@@ -388,7 +395,7 @@ theorem orbInt_eq {μsec : ℂ → Matrix (Fin (k + 1)) (Fin (k + 1)) ℂ} (hS :
     {θ : B.SS k r → ℝ} (hθ : D.IsNormCut Bs g μ θ) :
     OrbInt L F g ν = ((L.κN.toReal * cN) ^ 2 * a) • ∫ p, θ p • D.orbIntegrand Bs g F p ∂Bs.μSS := by
   classical
-  have hcl := closed_SS Bs
+  have hcl := Formalism.FourierDecayAlt.P.B6.setting_support_closed Bs
   have hco := integrand_contOn Bs hrel.1 hF
   borelize (L.Wq →L[ℂ] L.Wp)
   have ha0 : ENNReal.ofReal a⁻¹ ≠ 0 := by simpa using ha

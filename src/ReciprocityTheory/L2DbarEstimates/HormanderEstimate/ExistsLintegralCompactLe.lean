@@ -1,6 +1,5 @@
 module
 
-import ReciprocityTheory.L2DbarEstimates.Localization.Choice
 public import ReciprocityTheory.L2DbarEstimates.IsLocalHomeomorph
 import Mathlib.Algebra.Order.Star.Real
 import Mathlib.Tactic.TypeStar
@@ -18,8 +17,17 @@ noncomputable section
 
 theorem continuous_of_smoothR (n : ℕ) {M : Type*} [TopologicalSpace M] (z : M → V n)
     (hz : IsLocalHomeomorph z) (ψ : M → ℝ) (hψ : SmoothR n z ψ) : Continuous ψ := by
-  intros
-  apply _root_.ReciprocityTheory.L2DbarEstimates.F.smoothReal_continuous <;> assumption
+  rw [continuous_iff_continuousAt]
+  intro x
+  obtain ⟨e, hxe, he⟩ := hz x
+  have hc : IsChart n z e := fun y _ => by rw [he]
+  have hf := (hψ e hc).continuousOn.continuousAt (e.open_target.mem_nhds (e.map_source hxe))
+  have h2 := hf.comp (e.continuousAt hxe)
+  have h3 : ContinuousAt (fun y => (ψ y : ℂ)) x := by
+    refine h2.congr (Filter.eventually_of_mem (e.open_source.mem_nhds hxe) (fun y hy => ?_))
+    simp [Function.comp, e.left_inv hy]
+  have h4 : ContinuousAt (fun y => ((ψ y : ℂ)).re) x := Complex.continuous_re.continuousAt.comp h3
+  simpa using h4
 
 theorem exists_lintegral_compact_le (n : ℕ) {M : Type*} [TopologicalSpace M] [T2Space M]
     [MeasurableSpace M] [BorelSpace M] (z : M → V n) (ψ : M → ℝ) (hψ : Continuous ψ)
@@ -55,16 +63,21 @@ theorem exists_lintegral_compact_le (n : ℕ) {M : Type*} [TopologicalSpace M] [
 private theorem chart_symm_eventuallyEq_of_mem_sources (n : ℕ) {M : Type*} [TopologicalSpace M] (z : M → V n)
     {e e' : OpenPartialHomeomorph M (V n)} (he : IsChart n z e) (he' : IsChart n z e') {x : M}
     (hx : x ∈ e.source) (hx' : x ∈ e'.source) : e.symm =ᶠ[𝓝 (z x)] e'.symm := by
-  first
-    | exact _root_.ReciprocityTheory.L2DbarEstimates.chart_symm_eventuallyEq
-    | apply _root_.ReciprocityTheory.L2DbarEstimates.chart_symm_eventuallyEq <;> first | assumption | rfl | infer_instance
-
-private theorem db_eq_wdb_of_mem_chart_source (n : ℕ) {M : Type*} [TopologicalSpace M] (z : M → V n)
-    {e : OpenPartialHomeomorph M (V n)} (he : IsChart n z e) (j : Fin n) (f : M → ℂ) {x : M}
-    (hx : x ∈ e.source) : db n z j f x = wdb n j (f ∘ e.symm) (z x) := by
-  first
-    | exact _root_.ReciprocityTheory.L2DbarEstimates.db_eq_wdb
-    | apply _root_.ReciprocityTheory.L2DbarEstimates.db_eq_wdb <;> first | assumption | rfl | infer_instance
+  have h1 : e'.target ∈ 𝓝 (z x) := by
+    rw [he' hx']
+    exact e'.open_target.mem_nhds (e'.map_source hx')
+  have h2 : ∀ᶠ w in 𝓝 (z x), e'.symm w ∈ e.source := by
+    have hc := e'.continuousAt_symm (e'.map_source hx')
+    rw [← he' hx'] at hc
+    have hs : e.source ∈ 𝓝 (e'.symm (z x)) := by
+      rw [he' hx', e'.left_inv hx']
+      exact e.open_source.mem_nhds hx
+    exact hc hs
+  filter_upwards [h1, h2] with w hw1 hw2
+  have h3 : e (e'.symm w) = w := by
+    rw [← he hw2, he' (e'.map_target hw1), e'.right_inv hw1]
+  calc e.symm w = e.symm (e (e'.symm w)) := by rw [h3]
+    _ = e'.symm w := e.left_inv hw2
 
 private theorem continuous_db_of_smooth (n : ℕ) {M : Type*} [TopologicalSpace M] (z : M → V n)
     (hz : IsLocalHomeomorph z) (j : Fin n) (φ : M → ℂ) (hφ : Smooth n z φ) :
@@ -84,14 +97,14 @@ private theorem continuous_db_of_smooth (n : ℕ) {M : Type*} [TopologicalSpace 
     (hw.continuousAt (e.open_target.mem_nhds (e.map_source hxe))).comp (e.continuousAt hxe)
   refine hat.congr ?_
   filter_upwards [e.open_source.mem_nhds hxe] with y hy
-  rw [db_eq_wdb_of_mem_chart_source n z hc j φ hy, hc hy]
+  rw [db_eq_wdb n z _ hc j φ _ hy, hc hy]
 
 private theorem db_eq_zero_of_not_mem_tsupport (n : ℕ) {M : Type*} [TopologicalSpace M] (z : M → V n)
     (hz : IsLocalHomeomorph z) (j : Fin n) (φ : M → ℂ) {x : M} (hx : x ∉ tsupport φ) :
     db n z j φ x = 0 := by
   obtain ⟨e, hxe, he⟩ := hz x
   have hc : IsChart n z e := fun y _ => by rw [he]
-  rw [db_eq_wdb_of_mem_chart_source n z hc j φ hxe]
+  rw [db_eq_wdb n z _ hc j φ _ hxe]
   have h0 : (φ ∘ e.symm) =ᶠ[𝓝 (z x)] fun _ => (0 : ℂ) := by
     have h1 : φ =ᶠ[𝓝 x] 0 := notMem_tsupport_iff_eventuallyEq.mp hx
     have hcont : Filter.Tendsto e.symm (𝓝 (e x)) (𝓝 x) := by

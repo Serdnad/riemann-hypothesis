@@ -1,7 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.TwistedOperators.NablaUnipotentMemIntegralDoubledUnipotent
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.InertPlaceDoubledFirstFactorMemSiegelClosure
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.OneMemKAt
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.XmApply
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.TensorLatticeInertPlaceSelfDual
@@ -175,7 +173,17 @@ theorem mul_incl_mem {v : Pl (F := F)} {s : AE F E} (hs : s ∈ AddSubgroup.clos
 theorem smul_latAt_mem {n : ℕ} (X : Spc F E n) {v : Pl (F := F)} {a : AF F} (ha : At (evFin F v) a)
     (hev : evFin F v a ∈ v.adicCompletionIntegers F) {z : Fin n → AE F E} (hz : z ∈ GlobalTheory.InertSph.latAt X v) :
     a • z ∈ GlobalTheory.InertSph.latAt X v := by
-  apply _root_.GlobalTheory.SplitDblNab.smul_mem_latAt_of_int <;> assumption
+  unfold GlobalTheory.InertSph.latAt at hz ⊢
+  induction hz using AddSubgroup.closure_induction with
+  | mem x hx =>
+    obtain ⟨a', ha', hev', y, hy, rfl⟩ := hx
+    refine AddSubgroup.subset_closure ⟨a * a', fun u hu => ?_, ?_, y, hy, by rw [smul_smul]⟩
+    · have h0 : u * a = 0 := ha u hu
+      rw [smul_eq_mul, ← mul_assoc, h0, zero_mul]
+    · rw [map_mul]; exact mul_mem hev hev'
+  | zero => simp
+  | add x y _ _ hx hy => rw [smul_add]; exact add_mem hx hy
+  | neg x _ hx => rw [smul_neg]; exact neg_mem hx
 
 theorem mul_incl_latAt {n : ℕ} (X : Spc F E n) {v : Pl (F := F)} {s : AE F E}
     (hs : s ∈ AddSubgroup.closure (genAt F E v)) {y : Fin n → E} (hy : y ∈ X.L) :
@@ -706,7 +714,6 @@ theorem key (σL : L →+* L) (ι : L →+ _root_.GlobalTheory.IndefiniteRowSide
     (hJ : ((JS⁻¹ : GL (Fin n) L) : Matrix (Fin n) (Fin n) L) = gram σL ι P J)
     (hg : Formalism.UG.cT σL (g : Matrix (Fin n) (Fin n) L) * (JS : Matrix (Fin n) (Fin n) L) * g = JS) :
     (Am P g)ᵀ * tJ ι J * (Am P g).map σL = tJ ι J := by
-  have hpp : ((P⁻¹ : GL (Fin n) L) : Matrix (Fin n) (Fin n) L) * (P : Matrix (Fin n) (Fin n) L) = 1 := Units.inv_mul P
   have hpp' : (P : Matrix (Fin n) (Fin n) L) * ((P⁻¹ : GL (Fin n) L) : Matrix (Fin n) (Fin n) L) = 1 := Units.mul_inv P
   have hσp' : (P : Matrix (Fin n) (Fin n) L).map σL * ((P⁻¹ : GL (Fin n) L) : Matrix (Fin n) (Fin n) L).map σL = 1 := by
     rw [← Matrix.map_mul, hpp', Matrix.map_one _ (map_zero σL) (map_one σL)]
@@ -757,7 +764,6 @@ theorem mem (σ : E →ₐ[F] E) (v : Pl (F := F)) (σL : L →+* L) (ι : L →
     (hJ : ((JS⁻¹ : GL (Fin n) L) : Matrix (Fin n) (Fin n) L) = gram σL ι P J)
     (hg : Formalism.UG.cT σL (g : Matrix (Fin n) (Fin n) L) * (JS : Matrix (Fin n) (Fin n) L) * g = JS) :
     (Mg ι P g)ᵀ * incM F J * (Mg ι P g).map (cA σ) = incM F J := by
-  have hce : cA σ (ι 1) = ι 1 := by rw [← hσ, map_one]
   have hMT : (Mg ι P g)ᵀ = (1 - ι 1) • (1 : Matrix (Fin n) (Fin n) (_root_.GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.AE (F := F) (E := E))) + (Am P g)ᵀ.map ι := by
     simp [Mg, Matrix.transpose_add, Matrix.transpose_smul, Matrix.transpose_map]
   have hMc : (Mg ι P g).map (cA σ) =
@@ -1414,7 +1420,17 @@ variable {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algeb
 
 theorem latAt_entry_at {n : ℕ} (X : Spc F E n) (v : Pl (F := F)) {z : Fin n → _root_.GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.AE (F := F) (E := E)}
     (hz : z ∈ GlobalTheory.InertSph.latAt X v) (i : Fin n) : At (evFin F v) (z i) := by
-  apply _root_.GlobalTheory.InertSph.Invert.at_of_mem <;> assumption
+  induction hz using AddSubgroup.closure_induction with
+  | mem x hx =>
+    obtain ⟨a, ha, -, y, -, rfl⟩ := hx
+    intro u hu
+    have h0 := ha u hu
+    rw [smul_eq_mul] at h0
+    simp only [Pi.smul_apply]
+    rw [smul_smul, h0, zero_smul]
+  | zero => intro u _; simp
+  | add x y _ _ hx hy => intro u hu; simp [smul_add, hx u hu, hy u hu]
+  | neg x _ hx => intro u hu; simp [smul_neg, hx u hu]
 
 theorem mulVec_mem_latAt {n : ℕ} (X : Spc F E n) (v : Pl (F := F)) {L : Type} [Field L]
     [Valued L (WithZero (Multiplicative ℤ))] (ι : L →+ _root_.GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.AE (F := F) (E := E))

@@ -1,57 +1,9 @@
 module
 
-import Development.AbelianVarietyTheory.Definitions.SpanningFamilies.FirstCoordinateAdmissible
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.SquareIntegrability.ActEMemSpanOmega
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.SquareIntegrability.TiledBoundaries.ETSymmApply
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.FundamentalDomains.Signature
 public import ReciprocityTheory.GeometryOfNumbers.LatticeCovolumes.InhabSt
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Coalgebra.IsFrobenius
-import Mathlib.RingTheory.HopfAlgebra.Basic
-import Mathlib.RingTheory.PiTensorProduct
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Tactic.TypeStar
-import Mathlib.Topology.Sheaves.Init
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.SquareIntegrability.SplitA
 import Std.Tactic.BVDecide.Normalize.Prop
 import ReciprocityTheory.GeometryOfNumbers.LatticeCovolumes.ConjSymm
@@ -170,9 +122,6 @@ theorem actE_sum_right {κ : Type*} (s : Finset κ) (α : E) (v : κ → Vsp dim
     actE α (∑ j ∈ s, v j) = ∑ j ∈ s, actE α (v j) := by
 
   simp only [← actL_apply, map_sum]
-
-theorem actE_neg_left (α : E) (v : Vsp dim) : actE (-α) v = -actE α v := by
-  ext i; simp
 
 theorem actE_comm (α β : E) (v : Vsp dim) : actE α (actE β v) = actE β (actE α v) := by
   rw [← actE_mul, ← actE_mul, mul_comm]
@@ -373,7 +322,19 @@ theorem mem_tensorLat_span {S : Set (Fin n → E)} {γ : Fin n → Vsp X.dim} :
 
 omit [IsCMField E] in
 theorem mem_stdLat {v : Fin n → E} : v ∈ stdLat E n ↔ ∀ k, IsIntegral ℤ (v k) := by
-  apply _root_.GlobalTheory.SW.Base.mem_stdL <;> assumption
+  rw [stdLat, Submodule.mem_span_range_iff_exists_fun]
+  constructor
+  · rintro ⟨c, rfl⟩ k
+    have : (∑ j, c j • (Pi.single j 1 : Fin n → E)) k = (c k : E) := by
+      simp [Finset.sum_apply, Pi.single_apply, Algebra.smul_def]
+    rw [this]
+    exact (c k).isIntegral_coe
+  · intro h
+    have hc : ∀ k, ∃ c : 𝓞 E, algebraMap (𝓞 E) E c = v k := fun k => ⟨⟨v k, h k⟩, rfl⟩
+    choose c hc using hc
+    refine ⟨c, ?_⟩
+    funext k
+    simp [Finset.sum_apply, Pi.single_apply, Algebra.smul_def, hc]
 
 
 omit [IsCMField E] in

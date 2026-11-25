@@ -1,48 +1,9 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsPowEqOfIsAlgClosed
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.AnnihilatorModels.IdealSplit
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.AbelianSchemeMulNFiniteFlatSurjective
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsBirigidifiedKthRootPullbackBundle
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.FirstCohomology.SectionDivision
-import Mathlib.CategoryTheory.Monoidal.Opposite.Mon
 
 @[expose] public section
 
@@ -93,8 +54,24 @@ private theorem eq_one_of_killed (o : Obj b N s) {I J : Ideal (𝓞 D.F)} (h : I
 private theorem exists_pow_eq (A : Over S) [GrpObj A] (hA : IsAbelianScheme A) {c : ℕ} (hc : 0 < c)
     {k : Type} [Field k] [IsAlgClosed k] (x : Sp k ⟶ S) (g : Over.mk x ⟶ A) :
     ∃ v : Over.mk x ⟶ A, v ^ c = g := by
-  intros
-  apply _root_.GlobalTheory.AbDivPt.exists_pow_eq_of_isAlgClosed <;> assumption
+  obtain ⟨hfin, -, hsurj⟩ := GlobalTheory.KthRoot.finite_flat_surjective_mulN_any S A hA c hc
+  obtain ⟨t, ht⟩ := ReciprocityTheory.ChartRestriction.G.H1.SectionDivision.exists_section (pullback.fst g.left (mulN A c).left)
+  have hsq : pullback.fst g.left (mulN A c).left ≫ g.left = pullback.snd g.left (mulN A c).left ≫ (mulN A c).left :=
+    pullback.condition
+  have hw : (t ≫ pullback.snd g.left (mulN A c).left) ≫ A.hom = x := by
+    have e1 := Over.w (mulN A c)
+    have e2 := Over.w g
+    calc (t ≫ pullback.snd g.left (mulN A c).left) ≫ A.hom
+        = t ≫ pullback.snd g.left (mulN A c).left ≫ (mulN A c).left ≫ A.hom := by rw [e1, Category.assoc]
+      _ = t ≫ pullback.fst g.left (mulN A c).left ≫ g.left ≫ A.hom := by
+          rw [← Category.assoc (pullback.snd _ _), ← hsq, Category.assoc]
+      _ = x := by rw [e2, ← Category.assoc, ht, Category.id_comp]; rfl
+  refine ⟨Over.homMk (t ≫ pullback.snd g.left (mulN A c).left) hw, ?_⟩
+  rw [← Category.comp_id (Over.homMk _ hw), ← MonObj.comp_pow, ← GlobalTheory.MulFlatSurj.mulN_eq_pow]
+  ext1
+  simp only [Over.comp_left, Over.homMk_left, Category.assoc]
+  rw [← hsq, ← Category.assoc, ht]
+  exact Category.id_comp _
 
 end
 

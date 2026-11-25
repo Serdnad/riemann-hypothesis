@@ -1,52 +1,12 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.DiscreteTopologyRationalUnitary
 public import Development.WeilBound.ThetaLifts.CartanFactorisation.CartanConj
 public import Development.AbelianVarietyTheory.BlockTheory.GlobalSignature.AdelicUnitaryHaarMeasure
 public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.AdelicUnitaryGroupStabilisersUnimodular
 public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.UnitaryRationalPointsCountableDiscreteFundDomain
 import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.DiscreteTopologyRationalPointsHermitianSpace
 public import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.IsSmoothModerateOfIsAutFunSm
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.HaveILetI
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Topology.Sheaves.Init
 import Development.AbelianVarietyTheory.Definitions.Divisors.MatchingOfParts
 
 @[expose] public section
@@ -119,7 +79,23 @@ theorem inclR_inj : Function.Injective (inclR (F := F) (E := E) (AF F)) :=
 
 theorem discrete_ratU (h : IsCMExt F E σ) {n : ℕ} {J : Matrix (Fin n) (Fin n) E} {ε : ℤˣ}
     (hJ : ∀ i j, σ (J j i) = ((ε : ℤ) : E) * J i j) (hd : J.det ≠ 0) : DiscreteTopology (ratU σ J) := by
-  apply _root_.GlobalTheory.RatUDiscrete.discreteTopology_ratU <;> assumption
+  obtain ⟨J', -, e⟩ := exists_hr h hJ hd
+  haveI : DiscreteTopology (HFinIn (AF F) σ J') := GlobalTheory.RationalDiscrete.discreteTopology_HFinIn σ J'
+  have mem : ∀ γ : ratU σ J, γ.1.1 ∈ HFin (AF F) σ J' := fun γ => by
+    obtain ⟨u, hu⟩ := Subgroup.mem_subgroupOf.1 γ.2
+    have h1 : γ.1.1 ∈ HR (AF F) σ J' := e ▸ γ.1.2
+    refine Subgroup.mem_map.2 ⟨u, ?_, hu⟩
+    rw [← show _ = γ.1.1 from hu] at h1
+    change Formalism.UG.cT (sigR (AF F) σ) (u.1.map (inclR (AF F))) * J'.map (inclR (AF F)) * u.1.map (inclR (AF F)) =
+      J'.map (inclR (AF F)) at h1
+    change Formalism.UG.cT (σ : E →+* E) u.1 * J' * u.1 = J'
+    apply Matrix.map_injective (inclR_inj (F := F))
+    simp only [Matrix.map_mul]
+    exact h1
+  let f : ratU σ J → HFinIn (AF F) σ J' := fun γ => ⟨⟨γ.1.1, e ▸ γ.1.2⟩, Subgroup.mem_subgroupOf.2 (mem γ)⟩
+  have hc : Continuous f := ((continuous_subtype_val.comp continuous_subtype_val).subtype_mk _).subtype_mk _
+  exact DiscreteTopology.of_continuous_injective hc fun a b hab =>
+    Subtype.ext (Subtype.ext (congrArg (fun z : HFinIn (AF F) σ J' => z.1.1) hab))
 
 theorem sigmaFinite_of_lc {G : Type} [Group G] [TopologicalSpace G] [MeasurableSpace G]
     (h : GlobalTheory.IndefiniteRowSideFullHecke.AdelicUnitaryHaarMeasure.IsUnimodularLC G) (μ : Measure G) [μ.IsHaarMeasure] : SigmaFinite μ := by

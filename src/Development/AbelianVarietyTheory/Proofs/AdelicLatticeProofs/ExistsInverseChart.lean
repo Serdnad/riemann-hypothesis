@@ -44,13 +44,11 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-import Formalism.LocalToGlobal.IndefiniteReal.LevelTypeEquivalence.ContinuousSplitInv
 
 @[expose] public section
 
 open Formalism.BasicNotions Formalism.BasicNotions.TH Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes Formalism.MainNotions.StandardLattice Formalism.L2.Theta Formalism.IndefR.Datum MeasureTheory IsDedekindDomain NumberField Matrix
 open scoped TensorProduct
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 
 noncomputable section
 
@@ -74,15 +72,37 @@ def ray {ι : Type} (τ : ι) (c : ℂ) : ℝ →+ (ι → ℂ) where
 theorem continuous_ray {ι : Type} (τ : ι) (c : ℂ) : Continuous (ray τ c) := by
   refine continuous_pi fun τ' => ?_
   by_cases h : τ' = τ
-  · have : (fun t : ℝ => ray τ c t τ') = fun t : ℝ => (t : ℂ) * c := funext fun t => if_pos h
+  · have : (fun t : ℝ => ray τ c t τ') = fun t : ℝ => (t : ℂ) * c := funext fun t => ite_eq_left h
     rw [this]
     exact Complex.continuous_ofReal.mul continuous_const
-  · have : (fun t : ℝ => ray τ c t τ') = fun _ : ℝ => (0 : ℂ) := funext fun t => if_neg h
+  · have : (fun t : ℝ => ray τ c t τ') = fun _ : ℝ => (0 : ℂ) := funext fun t => ite_eq_right h
     rw [this]
     exact continuous_const
 
 theorem lineAt_exists (D : D7) : LineAtExists D := by
-  apply _root_.Formalism.IndefR.Eqv.lineAtExists_holds <;> assumption
+  intro θ hθ m n τ z
+  obtain ⟨σ, hσ⟩ := exists_inverse_chart hθ
+  let L : ℝ →+ Mx D m n :=
+    { toFun := fun t => Matrix.of fun i j => σ (ray τ (z i j) t)
+      map_zero' := by
+        funext i j
+        show σ (ray τ (z i j) 0) = 0
+        rw [(ray τ (z i j)).map_zero, σ.map_zero]
+      map_add' := fun s t => by
+        funext i j
+        show σ (ray τ (z i j) (s + t)) = σ (ray τ (z i j) s) + σ (ray τ (z i j) t)
+        rw [map_add, map_add] }
+  refine ⟨L, ?_, fun t => ?_, fun t τ' => ?_⟩
+  · exact continuous_pi fun i => continuous_pi fun j => hσ.cont.comp (continuous_ray τ (z i j))
+  · funext i j
+    exact hσ.fin _
+  · funext i j
+    refine (hσ.comp (ray τ (z i j) t) τ').trans ?_
+    by_cases h : τ' = τ
+    · rw [ite_eq_left h]
+      exact ite_eq_left h
+    · rw [ite_eq_right h]
+      exact ite_eq_right h
 
 theorem lineAt_unique (D : D7) : LineAtUnique D := by
   intro θ hθ m n τ z L L' hL hL'

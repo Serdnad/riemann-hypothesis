@@ -1,48 +1,8 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.SatakeParameters.SpanRangeEmb4EqTop
 public import Formalism.SharpRestriction.GlobalSchurBounds.FlipTwoThree
 public import Formalism.SharpRestriction.GlobalSchurBounds.StandardLatticesGL3
 import Formalism.LocalRingCardinality.SpanPowerMembership.ExampleLayerExistsGenerators
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Topology.Sheaves.Init
 import Formalism.SharpRestriction.GlobalSchurBounds.QuadraticLogDerivCongr
 public import Mathlib.RingTheory.MvPolynomial
 
@@ -53,12 +13,6 @@ noncomputable section
 namespace Formalism.MainNotions.GlobalTheoryTheory.Inhab
 
 open Formalism.BasicNotions NumberField
-
-section PosSec
-
-open Formalism.FrobeniusOrbits
-
-end PosSec
 
 section Std
 
@@ -84,39 +38,49 @@ theorem star_mem_range (x : D.host.E) (h : x ∈ (algebraMap (𝓞 D.host.E) D.h
   exact (IsIntegralClosure.isIntegral_iff (A := 𝓞 D.host.E)).1 h2
 
 theorem stdL_isSD (N : ℕ) : (letI := D.host.cmStar; IsSDLat D.host.E N (Formalism.MainNotions.StandardLatticesGL3.stdL D N)) := by
-  apply +allowSynthFailures _root_.GlobalTheory.FourthRootStd.stdL_isSD <;> assumption
+  let _ := D.host.cmStar
+  refine ⟨?_, ?_, ?_⟩
+  · have : Formalism.MainNotions.StandardLatticesGL3.stdL D N =
+        Submodule.span (𝓞 D.host.E) (Set.range fun a : Fin N => (Pi.single a 1 : Fin N → D.host.E)) := by
+      apply le_antisymm
+      · intro x hx
+        rw [mem_stdL] at hx
+        choose c hc using hx
+        have : x = ∑ a, c a • (Pi.single a 1 : Fin N → D.host.E) := by
+          funext i
+          simp [Finset.sum_apply, Pi.single_apply, Algebra.smul_def, hc]
+        rw [this]
+        exact Submodule.sum_mem _ fun a _ => Submodule.smul_mem _ _ (Submodule.subset_span ⟨a, rfl⟩)
+      · rw [Submodule.span_le]
+        rintro _ ⟨a, rfl⟩
+        exact single_mem_stdL D a
+    rw [this]
+    exact Submodule.fg_span (Set.finite_range _)
+  · rw [Submodule.eq_top_iff']
+    intro x
+    have : x = ∑ a, x a • (Pi.single a 1 : Fin N → D.host.E) := by
+      funext i
+      simp [Finset.sum_apply, Pi.single_apply]
+    rw [this]
+    exact Submodule.sum_mem _ fun a _ => Submodule.smul_mem _ _ (Submodule.subset_span (single_mem_stdL D a))
+  · intro y
+    constructor
+    · intro hy x hx
+      rw [mem_stdL] at hx hy
+      unfold stdH
+      exact Subring.sum_mem _ fun i _ => Subring.mul_mem _ (star_mem_range D _ (hx i)) (hy i)
+    · intro h
+      rw [mem_stdL]
+      intro i
+      have := h _ (single_mem_stdL D i)
+      unfold stdH at this
+      simpa [Pi.single_apply, apply_ite star] using this
 
 theorem Adm_std (N N' : ℕ) (h : Even N) (h' : Even N') :
     Formalism.MainNotions.TaylorLogMetric.admitted D N N' (Formalism.MainNotions.StandardLatticesGL3.stdL D N) (Formalism.MainNotions.StandardLatticesGL3.stdL D N') :=
   ⟨h, h', stdL_isSD D N, stdL_isSD D N'⟩
 
 end Std
-
-section KernelEntryData
-
-variable (p : ℕ) [Fact p.Prime]
-
-end KernelEntryData
-
-section ReadsSec
-
-open Formalism.MainNotions.Lnk Formalism.D5 Formalism.FrobeniusOrbits Formalism.LFunctionChainParameters.LHost Formalism.RankGapBounds.WeightedMeanData Formalism.LFunctionChainParameters.WeightedSlopeBounds Formalism.LFunctionChainParameters.characterSumData Formalism.LFunctionChainParameters.ThickSetMeanBounds
-  Formalism.LFunctionChainParameters.LErr Formalism.LFunctionChainParameters.LChain
-
-end ReadsSec
-
-section FrobSec
-
-open Formalism.FrobeniusOrbits
-open scoped Pointwise
-
-end FrobSec
-
-section Junk
-
-open Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes
-
-end Junk
 
 end Formalism.MainNotions.GlobalTheoryTheory.Inhab
 
@@ -126,8 +90,6 @@ namespace Formalism.MainNotions.GlobalTheoryTheory.Inhab
 
 open Formalism.BasicNotions Formalism.MainNotions.flipTwoThree NumberField
 
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
-
 end Formalism.MainNotions.GlobalTheoryTheory.Inhab
 
 noncomputable section
@@ -135,8 +97,6 @@ noncomputable section
 namespace Formalism.MainNotions.GlobalTheoryTheory.Inhab
 
 open Formalism.BasicNotions NumberField Formalism.MainNotions.flipTwoThree
-
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 
 structure ColBase (D : D7) (u : D.what₂.Word) where
   rho : D.what₂.Tau → (D.host.E →+* D.what₂.LL)
@@ -306,12 +266,6 @@ theorem host_emb_star (D : D7) (σ : D.host.E →+* ℂ) (a : D.host.E) : σ (st
   have := D.host.isCMField_hostE
   exact NumberField.IsCMField.complexEmbedding_complexConj D.host.E σ a
 
-section LocB
-
-variable {LL : Type} [Field LL] (Pl : Rows.Places LL) (w : Pl.Pl) {V : Type} [AddCommGroup V] [Module LL V]
-
-end LocB
-
 end Formalism.MainNotions.GlobalTheoryTheory.Inhab
 
 noncomputable section
@@ -319,7 +273,5 @@ noncomputable section
 namespace Formalism.MainNotions.GlobalTheoryTheory.Inhab
 
 open Formalism.BasicNotions Formalism.MainNotions
-
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 
 end Formalism.MainNotions.GlobalTheoryTheory.Inhab

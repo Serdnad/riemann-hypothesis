@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.SplitPlaceHeckeOperatorScalarOnSpherical
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.UnitLemmaGroup
 public import Development.AbelianVarietyTheory.Definitions.Divisors.SimpleTwistedTraceFormulaStable
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.MulMat
@@ -152,7 +151,7 @@ theorem nrmL_dlt : ∀ (E : Type) [Field E] [NumberField E] [IsCMField E], Unr E
   have hGG : (G⁻¹)ᵀ * Gᵀ = 1 := by
     rw [← Matrix.transpose_mul, Matrix.mul_nonsing_inv G hGd, Matrix.transpose_one]
   have hss : s * s = 1 := by rw [hs, ← mul_pow, neg_one_mul, neg_neg, one_pow]
-  rw [nrmL, if_neg hw, Units.val_mul, hθ, hdi, Matrix.map_mul, hΦ, GlobalTheory.GramTwistNorm.phi_map, ← hΦ,
+  rw [nrmL, ite_eq_right hw, Units.val_mul, hθ, hdi, Matrix.map_mul, hΦ, GlobalTheory.GramTwistNorm.phi_map, ← hΦ,
     Matrix.transpose_mul, Matrix.transpose_map, Matrix.transpose_transpose, hGc, hd]
   calc (G⁻¹)ᵀ * Φᵀ * (Φ * (s • (Gᵀ * P) * Φᵀ) * Φᵀ)
       = s • (((G⁻¹)ᵀ * Gᵀ) * P * (Φᵀ * Φᵀ)) + (0 : Matrix (Fin m) (Fin m) (w.adicCompletion E)) := by
@@ -696,7 +695,7 @@ theorem clSum_eq_finsum_param : ∀ (G : Type) [Group G] [TopologicalSpace G] (�
     have hmem : TwCl.rep (θ := θ) (φ c) ∈ S := by
       show TwCl.rep (θ := θ) (Quot.mk _ (ι c)) ∈ S
       rw [hg, hSinv]; exact hιS c
-    simp only [F, if_pos hmem, one_mul]
+    simp only [F, ite_eq_left hmem, one_mul]
     show twOrb θ Kg (TwCl.rep (θ := θ) (Quot.mk _ (ι c))) f = N c
     rw [hg, horb, hN]
   unfold clSum
@@ -739,7 +738,7 @@ theorem dlt_eq_iff (hw : ¬ IsSplitAt w) (β β' : B.A) (hβ : IsUnit (GlobalThe
   unfold GlobalTheory.TwLat.dlt
   rw [dite_eq_left hβ, dite_eq_left hβ']
   have hth : thL m w g = PhiU m _ * invT m _ (GeneralLinearGroup.map (cj w) g) * (PhiU m _)⁻¹ := by
-    simp only [thL, if_neg hw]; rfl
+    simp only [thL, ite_eq_right hw]; rfl
   have hinv : g⁻¹ = invT m _ (invT m _ g⁻¹) := (invT_invT _).symm
   have key : g⁻¹ * (invT m _ hβ.unit * (PhiU m _)⁻¹) * thL m w g =
       invT m _ (invT m _ g⁻¹ * hβ.unit * GeneralLinearGroup.map (cj w) g) * (PhiU m _)⁻¹ := by
@@ -930,8 +929,28 @@ namespace Unimod
 
 theorem mem_GLint_iff' {L : Type} [Field L] (O : Subring L) {m : ℕ} (M : GL (Fin m) L) :
     M ∈ GLint (Fin m) O ↔ (∀ i j, M.val i j ∈ O) ∧ (∀ i j, (M⁻¹).val i j ∈ O) := by
-  intros
-  apply _root_.GlobalTheory.HeckeScalarSph.mem_GLint_iff <;> assumption
+  constructor
+  · rintro ⟨k, rfl⟩
+    refine ⟨fun i j => ?_, fun i j => ?_⟩
+    · simp [bc]
+    · rw [← map_inv]
+      simp [bc]
+  · rintro ⟨h1, h2⟩
+    let A : Matrix (Fin m) (Fin m) O := Matrix.of fun i j => ⟨M.val i j, h1 i j⟩
+    let B : Matrix (Fin m) (Fin m) O := Matrix.of fun i j => ⟨(M⁻¹).val i j, h2 i j⟩
+    have hA : A.map O.subtype = M.val := by ext i j; rfl
+    have hB : B.map O.subtype = (M⁻¹).val := by ext i j; rfl
+    have inj : Function.Injective (fun X : Matrix (Fin m) (Fin m) O => X.map O.subtype) :=
+      Matrix.map_injective Subtype.val_injective
+    have hAB : A * B = 1 := inj (by
+      simp only
+      rw [Matrix.map_mul, hA, hB, Units.mul_inv, Matrix.map_one _ (map_zero _) (map_one _)])
+    have hBA : B * A = 1 := inj (by
+      simp only
+      rw [Matrix.map_mul, hA, hB, Units.inv_mul, Matrix.map_one _ (map_zero _) (map_one _)])
+    refine ⟨⟨A, B, hAB, hBA⟩, Units.ext ?_⟩
+    change A.map O.subtype = M.val
+    exact hA
 
 section HermLemmas
 variable {K : GlobalTheory.UnitLemma.UQ} (B : GlobalTheory.UnitLemma.InvAlg K)
@@ -1099,7 +1118,7 @@ theorem unimodular_iff : ∀ (E : Type) [Field E] [NumberField E] [IsCMField E],
   set M : GLw m w := invT m _ g⁻¹ * hG.unit * Matrix.GeneralLinearGroup.map (cj w) g with hMdef
 
   have hX : g⁻¹ * dlt e b β * thL m w g = invT m _ M * (PhiU m _)⁻¹ := by
-    rw [dlt, dite_eq_left hG, thL, if_neg hw, hMdef, map_mul, map_mul, invT_invT]
+    rw [dlt, dite_eq_left hG, thL, ite_eq_right hw, hMdef, map_mul, map_mul, invT_invT]
     simp only [thetaGL, MonoidHom.comp_apply, MulEquiv.coe_toMonoidHom, MulAut.conj_apply]
     group
 
@@ -1340,8 +1359,8 @@ theorem twOrb_eq_N : ∀ (K : GlobalTheory.UnitLemma.UQ) (B : GlobalTheory.UnitL
   refine finsum_congr fun d => ?_
   rw [havg, hidx, finsum_eq_if]
   rcases h01 ((Quotient.out d)⁻¹ * δ * θ (Quotient.out d)) with h | h
-  · rw [h, mul_zero, if_neg (by norm_num)]
-  · rw [h, mul_one, if_pos rfl]
+  · rw [h, mul_zero, ite_eq_right (by norm_num)]
+  · rw [h, mul_one, ite_eq_left rfl]
 
 end GlobalTheory.LatTransfer
 end -- clump:auto
@@ -1509,7 +1528,7 @@ theorem twOrb_level_eq_stSum : ∀ (E : Type) [Field E] [NumberField E] [IsCMFie
     have hf0 : ∀ y ∈ S, ∀ q : GLw m w, f (q⁻¹ * y * thL m w q) = 0 := by
       intro y hy q
       simp only [hf]
-      rw [if_neg]
+      rw [ite_eq_right]
       rintro ⟨-, hn, -⟩
       exact hui (_root_.GlobalTheory.TwLat.isIntegral_of_charpoly_intGL E hE w hw K e hc hint hval B m b u Q hQm hQu _ hn ((hSinv y q).2 hy))
     have hst : B.stSum = 0 := by

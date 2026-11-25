@@ -11,7 +11,6 @@ public import Mathlib.Analysis.Matrix.PosDef
 public import Mathlib.Algebra.BigOperators.Field
 public import Mathlib.Algebra.Star.UnitaryStarAlgAut
 public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.ExistsRealTranslateIsMinNormTensorInOrbit
-import all Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.ExistsRealTranslateIsMinNormTensorInOrbit
 public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.SiegelCover
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -318,9 +317,6 @@ theorem act_one' {ι : Type} [Fintype ι] [DecidableEq ι] {m : ℕ} (d : Fin m 
   simp only [act]
   rw [tpow_one', Matrix.vecMul_one]
 
-theorem norm_sq_le_nsq {κ : Type} [Fintype κ] (v : κ → ℂ) (k : κ) : ‖v k‖ ^ 2 ≤ nsq v :=
-  Finset.single_le_sum (f := fun k => ‖v k‖ ^ 2) (fun _ _ => by positivity) (Finset.mem_univ k)
-
 theorem continuous_nsq {κ : Type} [Fintype κ] : Continuous (nsq : (κ → ℂ) → ℝ) := by
   unfold nsq
   fun_prop
@@ -335,7 +331,7 @@ theorem exists_isMinVec_of_isClosed (ι : Type) [Fintype ι] [DecidableEq ι] (m
     intro w hw
     rw [mem_closedBall_zero_iff, pi_norm_le_iff_of_nonneg (Real.sqrt_nonneg _)]
     intro k
-    exact Real.le_sqrt_of_sq_le ((norm_sq_le_nsq w k).trans hw.2)
+    exact Real.le_sqrt_of_sq_le ((GlobalTheory.ClassFin.SiegelBound.sq_le_nsq w k).trans hw.2)
   have hcomp : IsCompact K := Metric.isCompact_of_isClosed_isBounded hKc hKb
   obtain ⟨w, hwK, hmin⟩ := hcomp.exists_isMinOn ⟨v, hv, le_refl (nsq v)⟩ continuous_nsq.continuousOn
   refine ⟨w, hwK.1, ?_⟩
@@ -367,7 +363,23 @@ private lemma posDef_det_one_exists_unitary_exp_diagonal_sum_zero {ι : Type} [F
     (P : Matrix ι ι ℂ) (hP : P.PosDef) (hdet : P.det = 1) :
     ∃ (U : Matrix ι ι ℂ) (δ : ι → ℝ), U * Uᴴ = 1 ∧ ∑ i, δ i = 0 ∧
       P = (U * diagonal fun i => ((Real.exp (2 * δ i) : ℝ) : ℂ)) * Uᴴ := by
-  apply _root_.GlobalTheory.ClassFin.posDef_det_one_eq_unitary_conj_exp_diagonal <;> assumption
+  refine ⟨(hP.1.eigenvectorUnitary : Matrix ι ι ℂ), fun i => Real.log (hP.1.eigenvalues i) / 2,
+    ?_, ?_, ?_⟩
+  · rw [← Matrix.star_eq_conjTranspose]
+    exact Unitary.mul_star_self_of_mem hP.1.eigenvectorUnitary.2
+  · have h := hP.1.det_eq_prod_eigenvalues
+    rw [hdet] at h
+    have hprod' : ((∏ i, hP.1.eigenvalues i : ℝ) : ℂ) = 1 := by push_cast; exact h.symm
+    have hprod : ∏ i, hP.1.eigenvalues i = 1 := by exact_mod_cast hprod'
+    rw [← Finset.sum_div, ← Real.log_prod (fun i _ => (hP.eigenvalues_pos i).ne'), hprod,
+      Real.log_one, zero_div]
+  · conv_lhs => rw [hP.1.spectral_theorem]
+    rw [Unitary.conjStarAlgAut_apply, Matrix.star_eq_conjTranspose]
+    congr 3
+    funext i
+    change (hP.1.eigenvalues i : ℂ) = (Real.exp (2 * (Real.log (hP.1.eigenvalues i) / 2)) : ℂ)
+    rw [show 2 * (Real.log (hP.1.eigenvalues i) / 2) = Real.log (hP.1.eigenvalues i) by ring,
+      Real.exp_log (hP.eigenvalues_pos i)]
 
 open Matrix in
 open scoped Kronecker ComplexOrder TensorProduct MatrixOrder in
@@ -400,8 +412,28 @@ private lemma exists_unitary_exp_diagonal_fixing_of_nsq_eq {ι : Type} [Fintype 
       g * gᴴ = (U * diagonal fun i => ((Real.exp (2 * δ i) : ℝ) : ℂ)) * Uᴴ ∧
       ∀ s : ℝ, _root_.GlobalTheory.ClassFin.act d v
         ((U * diagonal fun i => ((Real.exp (s * δ i) : ℝ) : ℂ)) * Uᴴ) = v := by
-  apply _root_.GlobalTheory.ClassFin.exists_unitary_exp_diagonal_fixing_of_nsq_eq <;> assumption
-
+  have hdetP : (g * gᴴ).det = 1 := by simp [hg]
+  have hP : (g * gᴴ).PosDef :=
+    (posSemidef_self_mul_conjTranspose g).posDef_iff_isUnit.mpr
+      ((isUnit_iff_isUnit_det _).mpr (by rw [hdetP]; exact isUnit_one))
+  obtain ⟨U, δ, hU, hδ, hgP⟩ := posDef_det_one_exists_unitary_exp_diagonal_sum_zero _ hP hdetP
+  refine ⟨U, δ, hU, hδ, hgP, ?_⟩
+  obtain ⟨-, hactmul, -⟩ := (_root_.GlobalTheory.ClassFin.tpow_act_algebra ι ℂ).2 m d v
+  have hgu : IsUnit g.det := by rw [hg]; exact isUnit_one
+  have hhh : ((U * diagonal fun i => ((Real.exp (1 * δ i) : ℝ) : ℂ)) * Uᴴ) *
+      ((U * diagonal fun i => ((Real.exp (1 * δ i) : ℝ) : ℂ)) * Uᴴ)ᴴ = g * gᴴ := by
+    rw [unitary_conj_exp_diagonal_conjTranspose, unitary_conj_exp_diagonal_mul_add_exponents hU, hgP]
+    norm_num
+  set h : Matrix ι ι ℂ := (U * diagonal fun i => ((Real.exp (1 * δ i) : ℝ) : ℂ)) * Uᴴ with hh
+  have hk : (g⁻¹ * h) * (g⁻¹ * h)ᴴ = 1 := by
+    rw [conjTranspose_mul, Matrix.mul_assoc, ← Matrix.mul_assoc h, hhh, ← Matrix.mul_assoc,
+      ← Matrix.mul_assoc, nonsing_inv_mul _ hgu, Matrix.one_mul, conjTranspose_nonsing_inv,
+      mul_nonsing_inv _ (by simp [hg])]
+  have hgk : h = g * (g⁻¹ * h) := by rw [← Matrix.mul_assoc, mul_nonsing_inv _ hgu, Matrix.one_mul]
+  have hnh : _root_.GlobalTheory.ClassFin.nsq (_root_.GlobalTheory.ClassFin.act d v h) = _root_.GlobalTheory.ClassFin.nsq v := by
+    rw [hgk, hactmul, (_root_.GlobalTheory.ClassFin.ActNorm.act_norm_continuity ι m d).1 _ _ hk, hn]
+  rw [hh] at hnh
+  exact _root_.GlobalTheory.ClassFin.act_exp_eq_of_isMinVec ι m d v U δ hv hU hδ (by simpa only [one_mul] using hnh)
 
 open Matrix in
 open scoped Kronecker ComplexOrder TensorProduct MatrixOrder in
@@ -433,31 +465,13 @@ namespace GlobalTheory.ClassFin.OrbitProper
 
 variable {ι : Type} [Fintype ι] [DecidableEq ι]
 
-omit [DecidableEq ι] in
-lemma tpow_mul' (n : ℕ) (y z : Matrix ι ι ℂ) : tpow n (y * z) = tpow n y * tpow n z := by
-  classical
-  ext a b
-  simp only [tpow, Matrix.mul_apply, Matrix.of_apply]
-  rw [Finset.prod_univ_sum]
-  simp [Finset.prod_mul_distrib]
-
-lemma tpow_one' (n : ℕ) : tpow n (1 : Matrix ι ι ℂ) = 1 := by
-  ext a b
-  simp only [tpow, Matrix.of_apply, Matrix.one_apply]
-  rw [Finset.prod_ite_zero]
-  simp [funext_iff]
-
 variable {m : ℕ} (d : Fin m → ℕ)
 
 omit [DecidableEq ι] in
 lemma act_mul' (t : TIdx ι d → ℂ) (y z : Matrix ι ι ℂ) :
     act d t (y * z) = act d (act d t y) z := by
   funext k
-  simp only [act, tpow_mul', ← Matrix.vecMul_vecMul]
-
-lemma act_one' (t : TIdx ι d → ℂ) : act d t 1 = t := by
-  funext k
-  simp [act, tpow_one']
+  simp only [act, GlobalTheory.ClassFin.MinVec.tpow_mul', ← Matrix.vecMul_vecMul]
 
 omit [DecidableEq ι] in
 lemma continuous_act_right (t : TIdx ι d → ℂ) : Continuous (act d t) := by
@@ -544,7 +558,7 @@ lemma locally_box (v : TIdx ι d → ℂ) (hX : IsClosed (orb d v)) (w : TIdx ι
       by rw [Matrix.det_mul, Matrix.det_mul, det_adj hy, hy₀, hz]; simp, (act_mul' d v _ _).symm⟩
     refine ⟨_, hM a ha, ?_⟩
     simp only at hav
-    rw [act_mul', hav, ← act_mul', mul_assoc, ← mul_assoc y₀, mul_adj hy₀, one_mul, adj_mul hy, act_one']
+    rw [act_mul', hav, ← act_mul', mul_assoc, ← mul_assoc y₀, mul_adj hy₀, one_mul, adj_mul hy, GlobalTheory.ClassFin.MinVec.act_one']
 
 lemma isCompact_nsq {κ : Type} [Fintype κ] (C : ℝ) : IsCompact {w : κ → ℂ | nsq w ≤ C} := by
   refine Metric.isCompact_of_isClosed_isBounded ?_ ?_
@@ -558,7 +572,6 @@ lemma isCompact_nsq {κ : Type} [Fintype κ] (C : ℝ) : IsCompact {w : κ → �
     exact Finset.single_le_sum (f := fun k => ‖w k‖ ^ 2) (fun _ _ => by positivity) (Finset.mem_univ k)
 
 end GlobalTheory.ClassFin.OrbitProper
-
 
 open GlobalTheory.ClassFin.OrbitProper in
 theorem GlobalTheory.ClassFin.orbit_proper_of_isClosed : ∀ (ι : Type) [Fintype ι] [DecidableEq ι] (m : ℕ) (d : Fin m → ℕ) (v : TIdx ι d → ℂ), IsClosed (orb d v) → ∀ C : ℝ, ∃ C' : ℝ, ∀ y : Matrix ι ι ℂ, y.det = 1 → nsq (act d v y) ≤ C → ∃ h : Matrix ι ι ℂ, h.det = 1 ∧ act d v h = v ∧ ∀ i j, ‖(h * y) i j‖ ≤ C' := by
@@ -578,7 +591,7 @@ theorem GlobalTheory.ClassFin.orbit_proper_of_isClosed : ∀ (ι : Type) [Fintyp
   refine ⟨N, fun y hy hC => ?_⟩
   obtain ⟨a, ha, hav⟩ := hN (a := act d v y) ⟨⟨y, hy, rfl⟩, hC⟩
   refine ⟨a * y.adjugate, by rw [Matrix.det_mul, ha.1, det_adj hy, one_mul], ?_, ?_⟩
-  · rw [act_mul', hav, ← act_mul', mul_adj hy, act_one']
+  · rw [act_mul', hav, ← act_mul', mul_adj hy, GlobalTheory.ClassFin.MinVec.act_one']
   · rw [mul_assoc, adj_mul hy, mul_one]
     exact ha.2
 end -- clump:auto

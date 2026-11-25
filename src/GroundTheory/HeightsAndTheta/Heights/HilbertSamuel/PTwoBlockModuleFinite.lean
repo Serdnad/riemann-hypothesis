@@ -12,7 +12,6 @@ import Mathlib.RingTheory.SimpleRing.Principal
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovGeometry.IsHomogeneousGrL
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovGeometry.TwoLeKrullDimOfRelevantPrime
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.InterRed
-import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.MemMinimalPrimesOfDivCycleNeZero
 
 @[expose] public section
 
@@ -58,8 +57,8 @@ theorem mem_twoBlockIdeal (x x' : Ix κ → Ω) (f : MRing (FinTwoTypeFamily κ)
   RingHom.mem_ker
 
 theorem le_of_add_one_le' {a : WithBot ℕ∞} {n : ℕ} (h : a + 1 ≤ ((n + 1 : ℕ) : WithBot ℕ∞)) :
-    a ≤ ((n : ℕ) : WithBot ℕ∞) := by
-  apply _root_.GroundTheory.Heights₂.Heights.NumbersDVR.withBot_le_of_add_one_le <;> assumption
+    a ≤ ((n : ℕ) : WithBot ℕ∞) :=
+  ENat.WithBot.add_le_add_one_right_iff.mp (by simpa [Nat.cast_add, Nat.cast_one] using h)
 
 end TwoBlockModuleFinite
 

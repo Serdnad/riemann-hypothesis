@@ -1,48 +1,7 @@
 module
 
-import Formalism.SharpRestriction.GrowthBounds.PathWeight.MdWeightMapDomain
 public import Formalism.SharpRestriction.GrowthBounds.PathWeight.GeneratorImageIsSymbol
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
 import Mathlib.Algebra.Order.Sub.Prod
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Topology.Sheaves.Init
 
 @[expose] public section
 
@@ -60,7 +19,18 @@ variable {R : Type} [CommRing R] {ι : Type} [Fintype ι] {n : ℕ}
 
 theorem dv_pol_iff (F : MvPolynomial (ι × Fin n) R) (d : ι → ℕ) :
     F ∈ Pol R n d ↔ IsWeightedHomogeneous (letterWeight (ι := ι) (n := n)) F d := by
-  apply _root_.Formalism.MainNotions.G.symbolGeneratorData.md_pol_iff <;> assumption
+  unfold Pol
+  rw [mem_restrictSupport_iff]
+  constructor
+  · intro h m hm
+    have h' : ∀ i, multideg m i = d i := h (Finset.mem_coe.2 (mem_support_iff.2 hm))
+    rw [weight_eq_multidegree_fun]; funext i; exact h' i
+  · intro h m hm
+    show ∀ i, multideg m i = d i
+    intro i
+    have := h (mem_support_iff.1 (Finset.mem_coe.1 hm))
+    rw [weight_eq_multidegree_fun] at this
+    exact congrFun this i
 
 theorem dv_comp_zero (ψ : MvPolynomial (ι × Fin n) R) (d : ι → ℕ)
     (h : ∀ m ∈ ψ.support, (fun i => multideg m i) ≠ d) : multidegreeComponent d ψ = 0 := by
@@ -312,7 +282,6 @@ theorem dv_Arow_newer (hV : F.Valid L₁ N₁) (hn : Even n') (hr : 1 ≤ r) (x 
 theorem dv_Arow_ge (hV : F.Valid L₁ N₁) (hn : Even n') (hr : 1 ≤ r) (j x : ℤ) (hx : F.fr (j - 1) (r - 1) < x)
     (l : ℕ) (hl : l < r) : F.fr (j - 1) 0 ≤ Arow F x l := by
   by_contra hc
-  have hc' : Arow F x l < F.fr (j - 1) 0 := not_le.1 hc
   have hex : ∀ i : Fin r, ∃ l' : Fin l, F.fr (j - 1) i.val = Arow F x l'.val := by
     intro i
     have h1 := frame_row_monotone F L₁ N₁ hV (j - 1) i.val i.2
@@ -547,7 +516,7 @@ theorem dv_segment (hE : FieldMultidegreeDivisibility) (hV : F.Valid L₁ N₁) 
         unfold otherVectorDegree
         apply Finset.sum_eq_zero
         intro a _
-        rw [if_neg]
+        rw [ite_eq_right]
         rintro ⟨h1, _, h3⟩
         apply h3
         have h4 : eL F j a < (nonW F j).min' hne := by rw [← hi0]; exact (dv_eL_lt F j a i0).2 h1
@@ -592,7 +561,7 @@ theorem dv_segment (hE : FieldMultidegreeDivisibility) (hV : F.Valid L₁ N₁) 
 
 end SegDiv
 
-theorem restDivM_of_degree_bound (degreeBound : ℝ → ℝ → Prop) (hE : FieldMultidegreeDivisibility) : ∃ C : ℝ, 1 ≤ C ∧ (RestGeomWith degreeBound → RestDivMWith degreeBound C (C + 1) C) := by
+theorem restDivM (hE : FieldMultidegreeDivisibility) : ∃ C : ℝ, 1 ≤ C ∧ (RestGeom → RestDivM C (C + 1) C) := by
   obtain ⟨C, hC, H⟩ := numeric_symbol_bound_real
   refine ⟨C, hC, fun hGeom => ?_⟩
   intro p n' r K _ _ _ _ O _ _ _ _ X deg a Y c0 c'' cStar Dd hII j dd hdd P hP
@@ -630,8 +599,5 @@ theorem restDivM_of_degree_bound (degreeBound : ℝ → ℝ → Prop) (hE : Fiel
         (mStar p X.Fr (r + K) X.N₁ (p ^ X.G') (cPrime n' r X.Fr.TT.card c0 c'' cStar) : ℝ) ≤ (z : ℝ) := by
       linarith
     exact WithTop.coe_le_coe.2 (by exact_mod_cast h4)
-
-theorem restDivM (hE : FieldMultidegreeDivisibility) : ∃ C : ℝ, 1 ≤ C ∧ (RestGeom → RestDivM C (C + 1) C) := by
-  exact restDivM_of_degree_bound (fun d l => |d - l| ≤ l / 100) hE
 
 end Formalism.MainNotions.G.symbolGeneratorData

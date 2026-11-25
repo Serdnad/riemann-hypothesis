@@ -1,50 +1,9 @@
 module
 
-import Development.AutomorphicSpectrum.Proofs.GeometryProofs.HodgeCptInteriorGeneric
 public import Formalism.LocalToGlobal.ProjectiveLattices.IsCombAt
 public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.TowerOrigin
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Algebra.Order.Star.Real
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.HaveILetI
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.ReduceModChar
 
 @[expose] public section
 
@@ -65,7 +24,20 @@ def labelC : CMType H ⊕ CMType H → (E →+* ℂ)
   | .inr τ => conjEmb τ.1
 
 theorem rt0_conj_neg_ne_zero (H : Host E) : starRingEnd ℂ H.rt0 = -H.rt0 := by
-  apply _root_.GlobalTheory.CompanionTheory.Ar.HodgeBasic.rt0_conj_neg_ne_zero <;> assumption
+  have h := H.sqrt_neg_disc_sq
+  have hd : (0 : ℝ) < H.d := by exact_mod_cast H.d_prime.pos
+  have hre := congrArg Complex.re h
+  have him := congrArg Complex.im h
+  simp only [sq, Complex.mul_re, Complex.mul_im, Complex.neg_re, Complex.neg_im, Complex.natCast_re,
+    Complex.natCast_im, neg_zero] at hre him
+  have h0 : H.rt0.re = 0 := by
+    by_contra hne
+    have : H.rt0.im = 0 := by
+      have : H.rt0.re * H.rt0.im = 0 := by linarith
+      exact (mul_eq_zero.1 this).resolve_left hne
+    rw [this] at hre
+    nlinarith [mul_self_nonneg H.rt0.re]
+  apply Complex.ext <;> simp [h0]
 
 theorem rt0_ne_zero (H : Host E) : H.rt0 ≠ 0 := by
   intro h
@@ -109,8 +81,8 @@ def labelEquiv (H : Host E) : CMType H ⊕ CMType H ≃ (E →+* ℂ) := Equiv.o
 
 theorem mult_labelC (D : Datum H) (s : CMType H ⊕ CMType H) : D.mult (labelC s) = labelRk D s := by
   rcases s with τ | τ
-  · exact if_pos τ.2
-  · exact if_neg (conjEmb_rt_ne τ)
+  · exact ite_eq_left τ.2
+  · exact ite_eq_right (conjEmb_rt_ne τ)
 
 theorem embK_labelC (c : Coeff l) (s : CMType H ⊕ CMType H) : embK c (labelC s) = labelEmb c s := by
   rcases s with τ | τ
@@ -254,7 +226,7 @@ theorem exists_spread : letI := cstAlg Or
     ∃ (p : TRing c.F) (φ : p.R →ₐ[c.F] RM.Ω) (y : FrPt Xo c p.R), FrMap φ y Fr.y₀ ∧ ∀ f, Fr.rd f = φ (f p y) := by
   letI := cstAlg Or
   refine ⟨_, _, _, Fr.test.choose_spec.choose_spec.choose_spec, fun f => ?_⟩
-  exact dif_pos Fr.test
+  exact dite_eq_left Fr.test
 
 theorem rd_eq_of_frMap (hWD : EvalWD (K := c.F) (fun S _ _ => FrPt Xo c S) (fun φ y z => FrMap φ y z))
     {f : Rul Xo c} (hf : IsNatural (K := c.F) (fun S _ _ => FrPt Xo c S) (fun φ y z => FrMap φ y z) f)

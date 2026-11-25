@@ -21,63 +21,11 @@ public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.HolomorphicA
 public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.LieModel
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.TwoWeightEqOneAddRoot
 public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LieModelPushAlongMap
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.FieldTheory.PurelyInseparable.Exponent
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Coalgebra.IsFrobenius
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.RingTheory.RegularLocalRing.Defs
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.HaveILetI
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.Topology.Sheaves.Init
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Tactic.TypeStar
 import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsArith
 import Std.Tactic.BVDecide.Normalize.Prop
 import Development.AutomorphicSpectrum.Definitions.MetricPeriods.PairRelationOfScaledRatio
-import Mathlib.CategoryTheory.Monoidal.Cartesian.Basic
-import Mathlib.CategoryTheory.Monoidal.Category
-import Mathlib.CategoryTheory.Monoidal.Mon
-import Mathlib.Topology.Sheaves.Presheaf
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArithmeticIntersection.CompRightEqZero
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.InterGoodD
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.IsCompletedStrictHens
@@ -500,8 +448,7 @@ theorem exists_finset_at [CharZero Ω] (k₀ : K) (hy : ∀ k, ∃ j, y ⟨k, j�
   obtain ⟨T, hT, rfl⟩ := Finset.subset_set_image_iff.1 hs
   refine ⟨T, hT, ?_⟩
   intro L _ _ z hz hzi
-  by_contra hall
-  push_neg at hall
+  by_contra! hall
   have key : ∀ b ∈ Ideal.span ((T.image fun f => aeval (ratioA y k₀ i) f :
       Finset (chartSub y k₀ i)) : Set (chartSub y k₀ i)),
       ∃ (N : ℕ) (G : MvPolynomial (J k₀) ℤ), N ≠ 0 ∧ (N : Ω) * (b : Ω) = aeval (ratio y k₀ i) G ∧
@@ -731,7 +678,7 @@ theorem ampleQ_of_forms (y : (Σ k, J k) → Ω) (k₀ : K) (a : K → ℤ) (ha�
     Ht.AmpleQ y a := by
   by_cases hy : ∀ k, ∃ j, y ⟨k, j⟩ ≠ 0
   swap
-  · push_neg at hy
+  · push Not at hy
     obtain ⟨k, hk⟩ := hy
     refine ⟨0, 0, Fin.elim0, fun i => i.elim0, fun L _ _ z hz => ?_⟩
     exfalso
@@ -1097,10 +1044,10 @@ theorem stepLine_a {G : RefGeo Y} (A : G.An) (t : ℝ) (r : RootIx D) :
     simp [Finset.sum_apply]
   simp only [stepLine, PB.combLine_a, Fin.sum_univ_two]
   by_cases h : (i : ℕ) = 0
-  · simp only [prevLine, dif_pos h]
+  · simp only [prevLine, dite_eq_left h]
     simp [Top.trivLine, hl, Iic_zero i h]
   · have hi : 0 < (i : ℕ) := Nat.pos_of_ne_zero h
-    simp only [prevLine, dif_neg h]
+    simp only [prevLine, dite_eq_right h]
     simp only [Matrix.cons_val_zero, Matrix.cons_val_one, hl]
     rw [Iic_pred i hi, Finset.sum_insert (not_mem_Iic_pred i hi)]
     simp
@@ -1133,10 +1080,10 @@ theorem log_line_eq {G : RefGeo Y} (A : G.An) (t : ℝ) (τ : CMType H) (i : Fin
       -∑ k ∈ Finset.Iic i, Real.log ((stepLine A t (τ, k)).h z) := by
   have := sum_Iic_step (fun i' : Fin (D.p + D.q) => Real.log ((A.Re.line (some (τ, i')) t).h z))
     (fun k => Real.log ((stepLine A t (τ, k)).h z)) (fun k hk => by
-      simp only [stepLine_h, prevLine, dif_pos hk, Top.trivLine]
+      simp only [stepLine_h, prevLine, dite_eq_left hk, Top.trivLine]
       rw [Real.log_div one_ne_zero ((A.Re.line _ t).pos z hz).ne']
       simp) (fun k hk => by
-      simp only [stepLine_h, prevLine, dif_neg hk.ne']
+      simp only [stepLine_h, prevLine, dite_eq_right hk.ne']
       rw [Real.log_div ((A.Re.line _ t).pos z hz).ne' ((A.Re.line _ t).pos z hz).ne']) i
   rw [this, neg_neg]
 

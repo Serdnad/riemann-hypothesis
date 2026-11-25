@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.LcscAdelicUnitaryGroup
 public import Formalism.LocalRingCardinality.DataLevel
 public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.SplitUnitaryGroupIso
 public import Formalism.LocalToGlobal.GlobalTheory.GL5.Statement
@@ -42,15 +41,6 @@ namespace Formalism.L2.G.Triv
 def IwProG : Prop :=
   ∀ (F : Type) [Field F] [NumberField F] (k : ℕ) (v : HeightOneSpectrum (𝓞 F)) (g : ℕ), g.Prime → (g : 𝓞 F) ∈ v.asIdeal →
     IsProGrp g (iwU F k v)
-
-section Level
-
-variable {R : Ranks} {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E]
-    [StarRing E] [Algebra F E] {sp : Spaces R F E} {gp : Fin 2 → ℕ}
-    {ι' : Type} [Fintype ι'] {hc : ι' → HCParam R} {C : ColumnChain R ι' hc} {A : ColumnsAtT R C}
-    {clsLat : ∀ i, C.cls i → Submodule (𝓞 E) (sp.X i).V}
-
-end Level
 
 end Formalism.L2.G.Triv
 
@@ -209,7 +199,13 @@ section Iw
 variable {F : Type} [Field F] [NumberField F]
 
 theorem compactOv (v : HeightOneSpectrum (𝓞 F)) : CompactSpace (v.adicCompletionIntegers F) := by
-  apply _root_.GlobalTheory.AdelicUnitaryTop.compactSpace_adicCompletionIntegers <;> assumption
+  have h1 : Finite (IsLocalRing.ResidueField (v.adicCompletionIntegers F)) :=
+    Formalism.UG.P.glint_finite_residueField v
+  have h2 : IsClosed ((v.adicCompletionIntegers F : Set (v.adicCompletion F))) :=
+    Valued.isClosed_valuationSubring _
+  have h3 : CompleteSpace (v.adicCompletionIntegers F) := h2.completeSpace_coe
+  exact Valued.integer.compactSpace_iff_completeSpace_and_isDiscreteValuationRing_and_finite_residueField.2
+    ⟨h3, (inferInstance : IsDiscreteValuationRing (v.adicCompletionIntegers F)), h1⟩
 
 theorem iwProG : Formalism.L2.G.Triv.IwProG := by
   intro F _ _ k v g hg hgv
@@ -302,7 +298,6 @@ theorem iwProG : Formalism.L2.G.Triv.IwProG := by
 
 end Iw
 
-open Formalism.UG.P
 
 theorem isProGrp_transfer {G₁ G₂ : Type} [Group G₁] [TopologicalSpace G₁] [Group G₂] [TopologicalSpace G₂]
     (g : ℕ) (θ : G₁ →* G₂) (hθ : Continuous θ) (ψ : G₂ → G₁) (hψ : Continuous ψ)
@@ -530,8 +525,6 @@ theorem split_cont_of_homeo (hE : LocalEndHomeo) (F E : Type) [Field F] [NumberF
           rw [Algebra.smul_def, Algebra.smul_def, map_mul, hsym] }
     exact IsModuleTopology.continuous_of_linearMapₛₗ hτ'c L
 
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
-
 theorem colProG (hE : LocalEndHomeo) {R : Ranks} {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E]
     [StarRing E] [Algebra F E] {sp : Spaces R F E} {gp : Fin 2 → ℕ}
     {ι' : Type} [Fintype ι'] {hc : ι' → HCParam R} {C : ColumnChain R ι' hc} {A : ColumnsAtT R C}
@@ -548,10 +541,6 @@ theorem levels_pro_g_of_continuity (hE : LocalEndHomeo) : Link4p :=
 end Link
 
 end Formalism.L2.GlobalTheoryTheory.GenusMassVolumes.ProGW
-
-namespace Formalism.L2.GlobalTheoryTheory.GenusMassVolumes
-
-end Formalism.L2.GlobalTheoryTheory.GenusMassVolumes
 
 end
 end -- clump:auto

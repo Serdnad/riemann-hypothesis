@@ -7,13 +7,9 @@ import Mathlib.AlgebraicGeometry.Modules.Sheaf
 
 @[expose] public section
 
-set_option autoImplicit false
-
 noncomputable section
 
 open CategoryTheory CategoryTheory.Limits AlgebraicGeometry MonoidalCategory CartesianMonoidalCategory MonObj
-
-attribute [local instance] Over.cartesianMonoidalCategory
 
 namespace ReciprocityTheory.ChartRestriction.G.DVR
 
@@ -34,25 +30,5 @@ theorem hr_gs_zero (f : Z ⟶ Y) (z : Z) (U : Y.Opens) : gs f z U 0 = 0 := by
   split_ifs <;> simp
 
 end HrelGen
-
-section HrelInj
-
-variable {V : Type} [CommRing V] [IsDomain V] [IsDiscreteValuationRing V] (D : DegData V (maximalIdeal V))
-
-end HrelInj
-
-section HrelForm
-
-variable {V : Type} [CommRing V] [IsDomain V] [IsDiscreteValuationRing V] {D : DegData V (maximalIdeal V)}
-  {O : Type} [CommRing O] [StarRing O] [Module O D.toPre.X]
-
-end HrelForm
-
-section HrelMain
-
-variable {V : Type} [CommRing V] [IsDomain V] [IsDiscreteValuationRing V]
-variable (D : DegData V (maximalIdeal V)) {O : Type} [CommRing O] [StarRing O] [Module O D.toPre.X]
-
-end HrelMain
 
 end ReciprocityTheory.ChartRestriction.G.DVR

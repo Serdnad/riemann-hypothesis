@@ -1,6 +1,5 @@
 module
 
-import all ReciprocityTheory.ReductiveGroups.DiscreteSeries.AnalyticVectors.ConjTransposeEqOfInG
 public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.DefsRep
 import Mathlib.Analysis.CStarAlgebra.ContinuousFunctionalCalculus.Basic
 public import Mathlib.Analysis.CStarAlgebra.ContinuousFunctionalCalculus.Commute
@@ -21,7 +20,12 @@ namespace ReciprocityTheory.ChartRestriction.DS
 variable {n : ℕ}
 
 lemma kExp_Jm_conjTranspose (ε : Fin n → Bool) : (Jm ε)ᴴ = Jm ε := by
-  apply _root_.ReciprocityTheory.ChartRestriction.DS.Jm_conjTranspose <;> assumption
+  unfold Jm
+  rw [Matrix.diagonal_conjTranspose]
+  congr 1
+  funext i
+  simp only [Pi.star_apply]
+  split_ifs <;> simp
 
 section L2
 open scoped Matrix.Norms.L2Operator

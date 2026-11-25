@@ -1,53 +1,11 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.DifferentialOperatorDepthRestrictColumns
 public import Formalism.LocalToGlobal.CharacterGerms.IntSubst
 public import Formalism.LocalToGlobal.CharacterGerms.RowTieDefs
 public import Mathlib.RingTheory.PowerSeries.Substitution
 public import Formalism.FormalGroupWitt.FormalGroupWittProofs.SolveV
 public import Formalism.LocalToGlobal.CharacterGerms.AbstractGermZeroCondition
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.CocycleRightZeroThd
 
@@ -91,8 +49,7 @@ private theorem cs_prod_lemma_2 {σ τ : Type} (a : σ → MvPowerSeries τ C)
     (ha0 : ∀ s, MvPowerSeries.constantCoeff (a s) = 0) (e : σ →₀ ℕ) (he : e ≠ 0) :
     MvPowerSeries.constantCoeff (e.prod fun s n => a s ^ n) = 0 := by
   obtain ⟨s, hs⟩ : ∃ s, e s ≠ 0 := by
-    by_contra h
-    push_neg at h
+    by_contra! h
     exact he (Finsupp.ext h)
   rw [map_finsuppProd]
   simp only [map_pow, ha0, Finsupp.prod]
@@ -106,8 +63,7 @@ private theorem cs_prod_lemma_3 {σ τ : Type} (a : σ → MvPowerSeries τ C)
     rintro rfl
     simp at he
   obtain ⟨s, hs⟩ : ∃ s, e s ≠ 0 := by
-    by_contra h
-    push_neg at h
+    by_contra! h
     exact hne (Finsupp.ext h)
   have hle : Finsupp.single s 1 ≤ e := by
     rw [Finsupp.single_le_iff]
@@ -155,7 +111,17 @@ theorem coeff_single_subst_lin {σ τ : Type} [Finite σ] (a : σ → MvPowerSer
 theorem subst_zero_of_const {σ τ : Type} [Finite σ] (f : MvPowerSeries σ C)
     (hf : MvPowerSeries.constantCoeff f = 0) :
     MvPowerSeries.subst (0 : σ → MvPowerSeries τ C) f = 0 := by
-  apply _root_.GlobalTheory.FGDepth.subst_zero_of_constantCoeff <;> assumption
+  ext μ
+  rw [MvPowerSeries.coeff_subst (MvPowerSeries.hasSubst_of_constantCoeff_zero (fun _ => by simp)), map_zero]
+  rw [finsum_eq_single _ 0]
+  · simp [hf]
+  · intro e he
+    obtain ⟨s, hs⟩ : ∃ s, e s ≠ 0 := by
+      by_contra! h
+      exact he (Finsupp.ext h)
+    simp only [Pi.zero_apply, Finsupp.prod]
+    rw [Finset.prod_eq_zero (Finsupp.mem_support_iff.mpr hs) (zero_pow hs)]
+    simp
 
 theorem intS_X {V : VF C} {τ : Type} (c : τ) : IntS V (MvPowerSeries.X c : MvPowerSeries τ C) := by
   rw [AbstractGermZero.intS_iff_alt]
@@ -200,10 +166,10 @@ theorem coeff_single_substX_tyS {τ : Type} {l : ℕ} (hl : 2 ≤ l) (a : ℕ �
   · rw [Finsupp.mapDomain_single]
     by_cases h : c'' = c
     · subst h
-      rw [if_pos rfl, if_pos rfl, hcoef]
-    · rw [if_neg (fun h' => h ((Finsupp.single_left_injective one_ne_zero h').symm)), if_neg h]
+      rw [ite_eq_left rfl, ite_eq_left rfl, hcoef]
+    · rw [ite_eq_right (fun h' => h ((Finsupp.single_left_injective one_ne_zero h').symm)), ite_eq_right h]
   · intro d hd
-    rw [if_neg]
+    rw [ite_eq_right]
     intro h'
     apply hd
     rw [Finsupp.unique_single d, Finsupp.mapDomain_single] at h'
@@ -240,7 +206,7 @@ theorem isT_sum {V : VF C} {d : ℕ} {I₁ J₁ : Type} [Fintype I₁] [Fintype 
         · intro s _ hs
           rw [Finset.mem_range] at hs
           have : s < V.l ^ s := Nat.lt_pow_self (by omega)
-          rw [if_neg (by omega)]
+          rw [ite_eq_right (by omega)]
       rw [Finset.sum_congr rfl e1, Finset.sum_comm]
       refine Finset.sum_congr rfl fun s _ => ?_
       simp only [Finset.sum_ite_eq]
@@ -258,21 +224,6 @@ theorem isT_sum {V : VF C} {d : ℕ} {I₁ J₁ : Type} [Fintype I₁] [Fintype 
   simp only [key]
   rw [Finset.sum_comm, MvPowerSeries.coeff_X]
   exact ht.2 x μ
-
-section Law
-
-variable {dd : ℕ}
-
-variable [CharZero C] {V : VF C} {O : Type} [CommRing O] [StarRing O]
-
-end Law
-
-section Sys1
-
-variable [CharZero C] {V : VF C} {O : Type} [CommRing O] [StarRing O] {dd : ℕ} {d : ℕ} {I : Fin 2 → Type}
-  [∀ g, Fintype (I g)]
-
-end Sys1
 
 end FormalGermZero
 

@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.SatakeParameters.UnramifiedAtValueHeckeCharCompIdeleNorm
 public import Development.AutomorphicArithmetic.Foundations.Convolution.SplitEigenfunctions.Entire
 public import Development.AutomorphicArithmetic.Foundations.Convolution.RealGroupAnalysis.UnramifiedSplitting.SplitAt
 public import CompanionTheory.AutomorphicTheory.UnitriangularMeasure.AdeleCoordinateMeasure.EllipticTorusNorm
@@ -8,52 +7,11 @@ public import Development.AutomorphicArithmetic.Foundations.Convolution.RealGrou
 public import Development.AutomorphicArithmetic.Foundations.Convolution.RealGroupAnalysis.UnramifiedSplitting.LcLaws
 public import GroundTheory.GlobalFields.NormResidueSymbol.FunctorialFinite
 public import Mathlib.RingTheory.PowerSeries.Expand
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Lemma
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.ReduceModChar
 import Formalism.LocalToGlobal.Columns.StdLatUnimodular
-import Mathlib.LinearAlgebra.FreeModule.IdealQuotient
 import Mathlib.Tactic.Linter.HaveILetI
 import Development.AutomorphicArithmetic.Foundations.Convolution.SplitEigenfunctions.ConjInv
 import Formalism.SatakeDualWeyl.KpqSubgroupCompact
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Algebra.Order.Star.Int
-import Mathlib.RingTheory.PowerSeries.NoZeroDivisors
 import Std.Tactic.BVDecide.Normalize.Prop
 
 -- This file was produced by scripts/clump.py from the modules listed below.
@@ -360,8 +318,7 @@ theorem UpperTheory.good_prime_split_or_inert_of_quadratic :
   · subst hw
     by_cases hn : normV w = normV (w.under (𝓞 ℚ))
     · refine Or.inl ⟨hn, ?_⟩
-      by_contra hu
-      push_neg at hu
+      by_contra! hu
       exact no_ram D w hG (fun w' h => by_contra fun hne => hu w' hne h) hn
     · exact Or.inr (norm_sq h2 hn)
 end -- clump:auto
@@ -386,7 +343,23 @@ private theorem val_of_norm {K L : Type} [Field K] [NumberField K] [Field L] [Nu
     (v : HeightOneSpectrum (𝓞 K)) (w : HeightOneSpectrum (𝓞 L)) (y : (v.adicCompletion K)ˣ) (x : (w.adicCompletion L)ˣ)
     (h : ‖(y : v.adicCompletion K)‖ = ‖(x : w.adicCompletion L)‖) (f : ℕ) (hf : normV w = normV v ^ f) :
     Valued.v (y : v.adicCompletion K) = Valued.v (x : w.adicCompletion L) ^ f := by
-  apply _root_.GlobalTheory.NormValGen.valuation_eq_pow_of_norm_eq <;> assumption
+  have hn : ∀ {F : Type} [Field F] [NumberField F] (u : HeightOneSpectrum (𝓞 F)),
+      normV u = Ideal.absNorm u.asIdeal := by
+    intro F _ _ u
+    rw [normV, Ideal.absNorm_apply, Submodule.cardQuot_apply]
+  have hf' : Ideal.absNorm w.asIdeal = Ideal.absNorm v.asIdeal ^ f := by
+    simpa only [hn] using hf
+  have hy : Valued.v (y : v.adicCompletion K) ≠ 0 := (Valuation.ne_zero_iff _).2 y.ne_zero
+  have hx : Valued.v (x : w.adicCompletion L) ≠ 0 := (Valuation.ne_zero_iff _).2 x.ne_zero
+  rw [FinitePlace.norm_def, FinitePlace.norm_def] at h
+  rw [WithZeroMulInt.toNNReal_neg_apply _ hy, WithZeroMulInt.toNNReal_neg_apply _ hx, NNReal.coe_inj, hf',
+    Nat.cast_pow, ← zpow_natCast, ← _root_.zpow_mul] at h
+  have h1 := HeightOneSpectrum.one_lt_absNorm_nnreal v
+  have h2 := zpow_right_injective₀ (zero_lt_one.trans h1) h1.ne' h
+  rw [← WithZero.coe_unzero hy, ← WithZero.coe_unzero hx, ← WithZero.coe_pow]
+  refine congrArg _ (Multiplicative.toAdd.injective ?_)
+  rw [toAdd_pow, nsmul_eq_mul, WithZero.toAdd_unzero_eq_log hy,
+    WithZero.toAdd_unzero_eq_log hx, h2]
 
 private theorem norm_loc {E : Type} [Field E] [NumberField E] (w : H.P E) (x : (H.Kv w)ˣ) (f : ℕ)
     (hf : normV w = normV (w.under (𝓞 ℚ)) ^ f) :
@@ -689,7 +662,7 @@ private theorem serInert {α β c : ℂ} {S S' : PowerSeries ℂ} (h1 : starRing
     split_ifs
     · simpa [Gs] using Complex.zero_le_real.2 (gg_nonneg τ (k / 2))
     · exact le_rfl
-  · rw [coeff_expand, if_pos (by norm_num)]
+  · rw [coeff_expand, ite_eq_left (by norm_num)]
     have := one_le_gg τ
     simp only [Gs, coeff_mk, show 4 / 2 = 2 from rfl]
     rw [← Complex.ofReal_one, Complex.real_le_real]
@@ -725,7 +698,7 @@ theorem UpperTheory.ConvolutionTheory.RankTwoDescent.lan_of :
     rw [hw, pow_one] at hab
     have hetav : η.val v = 1 := by
       have := hη w hnw
-      rw [hw, if_pos hn] at this
+      rw [hw, ite_eq_left hn] at this
       exact this
     have hval' : ((ω * η)⁻¹).val v = (ω.val v)⁻¹ := by
       rw [HChar.val_inv, HChar.val_mul, hetav, mul_one]
@@ -747,7 +720,7 @@ theorem UpperTheory.ConvolutionTheory.RankTwoDescent.lan_of :
       nlinarith
     have hetav : η.val v = -1 := by
       have := hη w hnw
-      rw [hw, if_neg hne1] at this
+      rw [hw, ite_eq_right hne1] at this
       exact this
     have hval' : ((ω * η)⁻¹).val v = -(ω.val v)⁻¹ := by
       rw [HChar.val_inv, HChar.val_mul, hetav]; simp

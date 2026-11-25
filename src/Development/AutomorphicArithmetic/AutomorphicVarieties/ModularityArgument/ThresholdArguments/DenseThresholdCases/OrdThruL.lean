@@ -1,7 +1,5 @@
 module
 
-import all Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.AutomorphyLifting.PolarizedLinkage.ThruAway
-import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.SymmetricPowerTransfer.WeilDeligneUnramified.WeilCharpolySupport.ExistsInjectiveSection
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.ThresholdArguments.DenseThresholdCases.LitAut
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.OrdinaryJacquetModules.CoreOrdAlt
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.LocalArtinExistsHolds
@@ -100,7 +98,6 @@ open NumberField IsDedekindDomain Formalism.ConjugateSelfDual ReciprocityTheory.
 open GlobalTheory.LocLanglands GlobalTheory.LocGL GlobalTheory.GalOfCusp GlobalTheory.SmGL GlobalTheory.SplitWeil GlobalTheory.UnitaryBC GlobalTheory.PRep UpperTheory.V UpperTheory.V.Hi UpperTheory.V.Hi.CaseU
 open UpperTheory.V.W (Plc Lp HidaSetting Vl Resid LamObj UniversalOrdinaryDeterminantRing Pair)
 open UpperTheory.V.HV (Coef)
-attribute [local instance] GlobalTheory.LocalData.complRel GlobalTheory.LocalData.isLocalField
 open UpperTheory.V.Z UpperTheory.V.Z.Ord
 namespace UpperTheory.V.Z.Ord.ExtensionCharacterAlt
 section Poly
@@ -544,7 +541,6 @@ open GlobalTheory.LocLanglands GlobalTheory.LocGL GlobalTheory.GalOfCusp GlobalT
 open GlobalTheory.Pst GlobalTheory.TripleGal Module
 open UpperTheory.V.W (Plc Lp HidaSetting Vl Resid LamObj UniversalOrdinaryDeterminantRing Pair)
 open UpperTheory.V.HV (Coef)
-attribute [local instance] GlobalTheory.LocalData.complRel GlobalTheory.LocalData.isLocalField
 open UpperTheory.V.Z UpperTheory.V.Z.Ord
 namespace UpperTheory.V.Z.Ord.OrdinaryPolarizedFromFlag
 section Tri
@@ -606,8 +602,16 @@ end Tri
 section Loc
 variable {L Ω : Type} [Field L] [NumberField L] [Field Ω] [Algebra L Ω] [IsAlgClosure L Ω] {l : ℕ} [Fact l.Prime]
   {A : ValuationSubring Ω} {w : HeightOneSpectrum (𝓞 L)}
-private theorem emb_norm (j : W.Emb l w) (x : 𝓞 L) : ‖j.1.comp (algebraMap L _) (x : L)‖ < 1 ↔ x ∈ w.asIdeal :=
-  _root_.UpperTheory.V.Z.Sym.AboveWeight.emb_place j x
+private theorem emb_norm (j : W.Emb l w) (x : 𝓞 L) : ‖j.1.comp (algebraMap L _) (x : L)‖ < 1 ↔ x ∈ w.asIdeal := by
+  have h1 : w.asIdeal ≤ (GlobalTheory.EvExtend.placeOf (j.1.comp (algebraMap L _))).asIdeal := fun y hy => by
+    rw [GlobalTheory.EvExtend.mem_placeOf, ← tendsto_pow_atTop_nhds_zero_iff_norm_lt_one]
+    have h2 : Valued.v (algebraMap L (w.adicCompletion L) (y : L)) < 1 := by
+      rw [show Valued.v (algebraMap L (w.adicCompletion L) (y : L)) = w.valuation L (algebraMap (𝓞 L) L y) from
+        HeightOneSpectrum.valuedAdicCompletion_eq_valuation' w _]
+      exact (HeightOneSpectrum.valuation_lt_one_iff_mem w _).2 hy
+    have h3 := (j.2.tendsto 0).comp (Valued.tendsto_zero_pow_of_v_lt_one h2)
+    simpa [Function.comp_def] using h3
+  rw [w.isMaximal.eq_of_le (GlobalTheory.EvExtend.placeOf _).isPrime.ne_top h1, GlobalTheory.EvExtend.mem_placeOf]
 private theorem cont_of_flag {n : ℕ} {Γ : Type} [Group Γ] [TopologicalSpace Γ] [IsTopologicalGroup Γ] {r : Γ →* GL (Fin n) (Qbar l)}
     (hr : Continuous r) {ψ : Fin n → Γ →* (Qbar l)ˣ} (hf : W.HasFlag r ψ) (i : Fin n) : Continuous (ψ i) := by
   obtain ⟨g, hg⟩ := hf
@@ -638,7 +642,7 @@ private theorem ord_of_flag (N : _root_.GlobalTheory.Mem.LiteralAutomorphy.Liter
     if hx : ∃ b, IsJumpsAt (Loc.PP l) Bw (rk1 (ψ i)) τ {b} then hx.choose else 0
   have hs : ∀ (i : Fin n) (j : W.Emb l w),
       IsJumpsAt (Loc.PP l) Bw (rk1 (ψ i)) (j.1.comp (algebraMap L _)) {hh i (j.1.comp (algebraMap L _))} := fun i j => by
-    simp only [hh, dif_pos (hone i j)]
+    simp only [hh, dite_eq_left (hone i j)]
     exact (hone i j).choose_spec
   have hc := cont_of_flag hr hf'
   have hla := fun i => UpperTheory.V.Loc.laConv art art.heckeLAdicCharacter hD N.aut.berger h (ψ i) (hc i) O Bw hj
@@ -661,7 +665,12 @@ private theorem pol_of_flag (N : _root_.GlobalTheory.Mem.LiteralAutomorphy.Liter
 end Loc
 private theorem mem_of_prod {M : Type} [Monoid M] {n : ℕ} (f g : Fin n → (M →* ℂ))
     (h : ∀ x, ∏ j, (X - C (f j x)) = ∏ j, (X - C (g j x))) (j : Fin n) : ∃ i, g i = f j := by
-  apply _root_.UpperTheory.V.Z.Win.exists_eq_of_prod <;> assumption
+  have hc := GlobalTheory.CharDeg.card_fiber_eq_of_sum_eq f g (fun x => GlobalTheory.CharDeg.sum_eq_of_prod_eq _ _ (h x)) (f j)
+  haveI : Nonempty {i // f i = f j} := ⟨⟨j, rfl⟩⟩
+  haveI : Finite {i // g i = f j} := inferInstance
+  have hpos : 0 < Nat.card {i // g i = f j} := hc ▸ Nat.card_pos
+  obtain ⟨⟨i, hi⟩⟩ := (Nat.card_pos_iff.1 hpos).1
+  exact ⟨i, hi⟩
 end UpperTheory.V.Z.Ord.OrdinaryPolarizedFromFlag
 open UpperTheory.V.Z.Ord.OrdinaryPolarizedFromFlag GroundTheory.Global.SemiLocal UpperTheory.V.Z.Win UpperTheory.V.Z.Gam UpperTheory.Zero.LLC UpperTheory.V.Af in
 theorem UpperTheory.V.Z.Ord.thruL_alt :

@@ -1,7 +1,7 @@
 module
 
-import Development.AutomorphicArithmetic.Foundations.Convolution.EndomorphismSlices.StableBlockG
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.MultiplicityOne.StableBlockGA
+import Development.AutomorphicArithmetic.Foundations.Convolution.EndomorphismSlices.StableBlockG
 public import Development.AutomorphicArithmetic.Foundations.Convolution.EndomorphismSlices.CommStar
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.TraceFormula.GlobalTraceComparison.TraceAsymptotics.Places
 public import Development.AutomorphicArithmetic.Foundations.Convolution.EndomorphismSlices.FiniteAdelicEstimates.EntEmpty
@@ -64,8 +64,6 @@ open UpperTheory.V.Z.Tf.GlobalTraceComparison
 open UpperTheory.V.Af.Bc (cPl)
 open scoped Classical
 
-set_option synthInstance.maxHeartbeats 200000
-
 namespace UpperTheory.Zero.ConvolutionTheory.EB
 
 attribute [local instance] borelG borelF borelA borelH
@@ -91,14 +89,13 @@ theorem cmbPiA : UpperTheory.V.Z.Mult.PiTermA → TwTrSum → CmbPiA := by
   obtain ⟨c₁, hc₁, hP⟩ := hPi E hU n hn l u₁ hu₁ A.μa D.μ A.ha hμ
   obtain ⟨S₀, hS₀⟩ := (UpperTheory.V.Z.Tf.GlobalTraceComparison.Asm.places E).1
   have hvol : A.blk.vol ≠ 0 := (ffAlg E n 0 l l₂ D A S₀ hS₀).1
-  have hm := haarMeasure_zero_rank_real_univ_ne_zero A.μb
+  have hm := real_univ_ne A.μb
   generalize hmdef : (A.μb.real Set.univ : ℂ) = m at hm
   refine ⟨c₁ * ‖A.blk.vol⁻¹‖ * ‖(m⁻¹) ^ Fintype.card (InfinitePlace E)‖,
     mul_pos (mul_pos hc₁ (norm_pos_iff.2 (inv_ne_zero hvol))) (norm_pos_iff.2 (pow_ne_zero _ (inv_ne_zero hm))), ?_⟩
   intro π hreg hdual hl S hS Z hZ B τ hB hτ
   obtain ⟨c₀, hc₀, hc⟩ := hP π hreg hdual hl S hS Z hZ B τ hB hτ
   refine ⟨c₀ * A.blk.vol⁻¹ * (m⁻¹) ^ Fintype.card (InfinitePlace E), by rw [norm_mul, norm_mul, hc₀], ?_⟩
-  simpa only [← hmdef] using
-    combined_trace_of_product_trace hSum E n π l l₂ D A S Z hZ B τ u₁ u₂ c₀ hc
+  exact cmbPi_core hSum E n l l₂ D A u₁ u₂ π S Z hZ B τ c₀ m hm hmdef hc
 
 end UpperTheory.Zero.ConvolutionTheory.EB

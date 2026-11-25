@@ -9,6 +9,7 @@ import Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms₂.Ex
 import Development.AutomorphicArithmetic.AutomorphicVarieties.GaloisLibrary.SelmerTransport.RestrictionMemInvariantH1
 import Development.AutomorphicArithmetic.AutomorphicVarieties.IdeleGenerators.ConstSmall
 import Development.AutomorphicArithmetic.AutomorphicVarieties.PublishedTheorems.GelfandKazhdanReal
+import PositivityTheory.AutomorphicForms.PublishedInputs.JacquetLanglands.TorusKernels.FinalH
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: PositivityTheory.AutomorphicForms.PublishedInputs.HilbertEisenstein.AbsPInfModuleSection, PositivityTheory.AutomorphicForms.PublishedInputs.HilbertEisenstein.PFinInvModuleSectionMul, PositivityTheory.AutomorphicForms.PublishedInputs.HilbertEisenstein.EisensteinGrowth, PositivityTheory.AutomorphicForms.PublishedInputs.HilbertEisenstein.SGrowth
@@ -140,7 +141,7 @@ theorem summable_beta (D : 𝓞 F) (hD : D ≠ 0) : ∃ m : ℕ, Summable (fun x
       positivity
     · exact le_rfl
   · by_cases hx : ∃ r : 𝓞 F, (D : F) * x = r
-    · rw [if_pos hx, if_pos ((hmem x).2 hx)]
+    · rw [ite_eq_left hx, ite_eq_left ((hmem x).2 hx)]
       set P := ∏ v, (1 + sig v x ^ 2) with hP
       have hP1 : ∀ v, 1 + sig v x ^ 2 ≤ P := by
         intro v
@@ -167,7 +168,7 @@ theorem summable_beta (D : 𝓞 F) (hD : D ≠ 0) : ∃ m : ℕ, Summable (fun x
       rw [inv_le_iff_one_le_mul₀ hPn]
       rw [← div_eq_mul_inv, div_mul_eq_mul_div, le_div_iff₀ hpos, one_mul]
       linarith
-    · rw [if_neg hx, if_neg (fun h => hx ((hmem x).1 h))]
+    · rw [ite_eq_right hx, ite_eq_right (fun h => hx ((hmem x).1 h))]
 
 
 omit [IsTotallyReal F] in
@@ -198,7 +199,7 @@ theorem abs_pInf_moduleSection (t : {r : ℝ // 0 < r}) (v : InfinitePlace F) :
   rw [abs_pInf, norm_moduleSection_apply]
   split_ifs with h
   · have h1 := norm_posRealElem_pow (w0 F) t.2.le
-    rwa [InfinitePlace.mult, if_pos (IsTotallyReal.isReal _), pow_one] at h1
+    rwa [InfinitePlace.mult, ite_eq_left (IsTotallyReal.isReal _), pow_one] at h1
   · rfl
 
 end UpperTheory.HilbertEisensteinWeightOne.eisensteinGrowth
@@ -347,8 +348,20 @@ theorem mn_mul_le_left (A B : Matrix (Fin 2) (Fin 2) (Ad F)) (H : ℝ)
 
 theorem mn_mul_le_right (A B : Matrix (Fin 2) (Fin 2) (Ad F)) (H : ℝ)
     (hB : ∀ k j, ‖UpperTheory.V.TR.pInf F (B k j)‖ ≤ H) : mn (A * B) ≤ 8 * H * mn A := by
-  simpa only [← Matrix.transpose_mul, mn_transpose] using
-    mn_mul_le_left B.transpose A.transpose H (fun i k => hB k i)
+  have hH : 0 ≤ H := (norm_nonneg _).trans (hB 0 0)
+  have h : ∀ i j, ‖UpperTheory.V.TR.pInf F ((A * B) i j)‖ ≤ 2 * H * mn A := by
+    intro i j
+
+    rw [Matrix.mul_apply, map_sum]
+    refine (norm_sum_le _ _).trans ?_
+    calc ∑ k, ‖UpperTheory.V.TR.pInf F (A i k * B k j)‖ ≤ ∑ _k : Fin 2, H * mn A :=
+          Finset.sum_le_sum fun k _ => by
+            rw [map_mul, mul_comm H]
+            exact (norm_mul_le _ _).trans (mul_le_mul (entry_le_mn A i k) (hB k j) (norm_nonneg _) (mn_nonneg A))
+      _ = 2 * H * mn A := by simp [Finset.sum_const]; try ring
+  calc mn (A * B) ≤ ∑ _i : Fin 2, ∑ _j : Fin 2, 2 * H * mn A :=
+        Finset.sum_le_sum fun i _ => Finset.sum_le_sum fun j _ => h i j
+    _ = 8 * H * mn A := by simp [Finset.sum_const]; try ring
 
 theorem norm_pInf_infGL_le (y : GL (Fin 2) (UpperTheory.V.TR.Rinf F)) (i k : Fin 2) :
     ‖UpperTheory.V.TR.pInf F (((UpperTheory.V.TR.infGL F 2 y : GA F 2) : Matrix (Fin 2) (Fin 2) (Ad F)) i k)‖ ≤
@@ -644,8 +657,8 @@ theorem core {Ψ : (Fin 2 → Ad F) → ℂ} {e : HeightOneSpectrum (𝓞 F) →
     split_ifs with hbox
     · have hint := hfin a ha t ξ.1 M M' hM hM' hbox
       have hT := term_bound hD'0 m₁ hB1 hCa ξ.1 ξ.2 hint a (fun v => (hB a ha v).2) t ht M M' hM
-      have e0 : β (ξ.1 0) = ((∏ v, (1 + sig v (ξ.1 0) ^ 2)) ^ m₁)⁻¹ := if_pos (hint 0)
-      have e1 : β (ξ.1 1) = ((∏ v, (1 + sig v (ξ.1 1) ^ 2)) ^ m₁)⁻¹ := if_pos (hint 1)
+      have e0 : β (ξ.1 0) = ((∏ v, (1 + sig v (ξ.1 0) ^ 2)) ^ m₁)⁻¹ := ite_eq_left (hint 0)
+      have e1 : β (ξ.1 1) = ((∏ v, (1 + sig v (ξ.1 1) ^ 2)) ^ m₁)⁻¹ := ite_eq_left (hint 1)
       rw [mul_one, e0, e1, hc]
       calc _ ≤ _ := hT
         _ = _ := by ring
@@ -793,7 +806,7 @@ theorem UpperTheory.HilbertEisensteinWeightOne.moderate_growth_holds : SPois →
     have hnorm : ‖eisInt ω (Phi c) h t u‖ = ‖thetaS (Phi c) (Matrix.GeneralLinearGroup.scalar (Fin 2)
         (moduleSection (w0 F) t * (u : Ideles F)) * h)‖ * t * absD h ^ ((1 : ℝ) / 2) := by
       unfold eisInt
-      rw [norm_mul, norm_mul, norm_mul, norm_inv, norm_omega_eq_one hyp.fin, inv_one, mul_one,
+      rw [norm_mul, norm_mul, norm_mul, norm_inv, UpperTheory.Esk.HyperbolicKernelContinuity.norm_omega hyp.fin, inv_one, mul_one,
         Complex.norm_real, Complex.norm_real, Real.norm_eq_abs, Real.norm_eq_abs, abs_of_pos ht0,
         abs_of_nonneg (Real.rpow_nonneg hpos.le _)]
     rw [hnorm]

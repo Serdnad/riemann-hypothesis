@@ -76,9 +76,6 @@ theorem mk_le_pow_aleph0_of_denseRange {D X : Type} [TopologicalSpace X] [FirstC
     [T2Space X] (f : D → X) (hf : DenseRange f) : #X ≤ #D ^ ℵ₀ := by
   first | exact _root_.ReciprocityTheory.ChartRestriction.T1.lat_mk_le_of_denseRange | exact @_root_.ReciprocityTheory.ChartRestriction.T1.lat_mk_le_of_denseRange | apply _root_.ReciprocityTheory.ChartRestriction.T1.lat_mk_le_of_denseRange <;> assumption
 
-theorem mk_padic_le (l : ℕ) [Fact l.Prime] : #ℚ_[l] ≤ 𝔠 := by
-  simpa using mk_le_pow_aleph0_of_denseRange _ (Padic.denseRange_ratCast l)
-
 theorem mk_padicComplex (l : ℕ) [Fact l.Prime] : #ℂ_[l] = 𝔠 := by
   refine le_antisymm ?_ (continuum_le_cardinal_of_nontriviallyNormedField ℂ_[l])
   calc #ℂ_[l] ≤ #(PadicAlgCl l) ^ ℵ₀ :=

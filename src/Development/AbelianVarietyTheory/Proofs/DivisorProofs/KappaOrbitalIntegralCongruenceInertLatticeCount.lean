@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.UnitLemmaSelfAdjointLieOfCountLimitDescent
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ConjRelEquiv
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.LeftMulMatrixTransfer
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ReducedFreeAlgebraTraceFormPerfect
@@ -13,64 +12,11 @@ public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.GramMatrixTr
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.UnramifiedQuadraticNormsTraceUniformizerFacts
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.LinearDescent
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.TwistedOrbitalIntegralCongruenceLevelEqCount
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
 import Mathlib.LinearAlgebra.Charpoly.ToMatrix
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Coalgebra.IsFrobenius
-import Mathlib.RingTheory.HopfAlgebra.Basic
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.RingTheory.TotallySplit
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Topology.Sheaves.Init
-import Mathlib.LinearAlgebra.Matrix.FiniteDimensional
 import Mathlib.RingTheory.Artinian.Instances
-import Mathlib.RingTheory.PiTensorProduct
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.TypeStar
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.RingTheory.WittVector.IsPoly
 import Development.AbelianVarietyTheory.Definitions.Divisors.SimpleTwistedTraceFormulaStable
 import Development.AbelianVarietyTheory.PublishedTheorems.GaloisCohomology₂.BaseChangeDefiniteUnitary
-import Mathlib.RingTheory.Henselian
-import Mathlib.RingTheory.RegularLocalRing.Defs
-import Mathlib.RingTheory.SimpleRing.Principal
-import Mathlib.Tactic.ENatToNat
 import Mathlib.RingTheory.Etale.Weakly
 
 -- This file was produced by scripts/clump.py from the modules listed below.
@@ -244,7 +190,7 @@ theorem models_conj : ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (w 
     rw [hψh, hψ'h]
   refine ⟨y, ?_, ?_⟩
   · unfold UL
-    rw [if_neg hw]
+    rw [ite_eq_right hw]
     change Formalism.UG.cT (cj w) (y : Matrix (Fin n) (Fin n) (w.adicCompletion E)) * 1 *
       (y : Matrix (Fin n) (Fin n) (w.adicCompletion E)) = 1
     set M : Matrix (Fin n) (Fin n) (w.adicCompletion E) := (y : Matrix (Fin n) (Fin n) (w.adicCompletion E)) with hM
@@ -419,7 +365,7 @@ theorem exists_isModel : ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] 
   subst hQ
   have hU : cT (cj w) γ.val * 1 * γ.val = 1 := by
     have h := hγU
-    simp only [UL, hsplit, if_false] at h
+    simp only [UL, hsplit, ite_false] at h
     exact h
   set Q' : K.E[X] := (γ.val.charpoly).map e.symm.toRingHom with hQ'
   have hQm : Q'.Monic := (charpoly_monic _).map _
@@ -612,9 +558,9 @@ theorem herm_eq_sum {n : ℕ} (x : B.A) (b : Module.Basis (Fin n) K.E B.A)
   rw [herm_sum_left]
   refine Finset.sum_congr rfl fun k _ => ?_
   rw [herm_sum_right, Finset.sum_eq_single k]
-  · rw [GlobalTheory.UnitLemma.Basic.herm_smul_left, GlobalTheory.UnitLemma.Basic.herm_smul_right, hb, if_pos rfl]; ring
+  · rw [GlobalTheory.UnitLemma.Basic.herm_smul_left, GlobalTheory.UnitLemma.Basic.herm_smul_right, hb, ite_eq_left rfl]; ring
   · intro l _ hl
-    rw [GlobalTheory.UnitLemma.Basic.herm_smul_left, GlobalTheory.UnitLemma.Basic.herm_smul_right, hb, if_neg (Ne.symm hl)]; ring
+    rw [GlobalTheory.UnitLemma.Basic.herm_smul_left, GlobalTheory.UnitLemma.Basic.herm_smul_right, hb, ite_eq_right (Ne.symm hl)]; ring
   · intro h; exact absurd (Finset.mem_univ k) h
 
 end GlobalTheory.KapLat.ModelOfBasis
@@ -660,12 +606,12 @@ theorem GlobalTheory.KapLat.exists_model_of_orthonormal_basis :
     rw [Finset.sum_congr rfl fun k _ => mul_comm _ _, h]
     by_cases hij : i = j
     · subst hij; simp
-    · rw [if_neg (Ne.symm hij), if_neg hij, map_zero]
+    · rw [ite_eq_right (Ne.symm hij), ite_eq_right hij, map_zero]
   have hunit' : M * cT (cj w) M = 1 := mul_eq_one_comm.mp hunit
   let γ : GLw n w := ⟨M, cT (cj w) M, hunit', hunit⟩
   refine ⟨γ, ?_, ψ, ?_, hM, hstd⟩
   · unfold UL
-    rw [if_neg hw]
+    rw [ite_eq_right hw]
     show cT (cj w) M * 1 * M = 1
     rw [Matrix.mul_one, hunit]
   · intro c y
@@ -694,8 +640,7 @@ theorem UQ.norm_of_fixed_unit {F E : Type} [NontriviallyNormedField F] [Nontrivi
   have hprod : ‖w‖ * ‖w'‖ = 1 := by rw [← norm_mul, hww, norm_one]
   have hwn : ‖w‖ = 1 := by
     refine le_antisymm h1 ?_
-    by_contra h
-    push_neg at h
+    by_contra! h
     have : ‖w‖ * ‖w'‖ < 1 :=
       calc ‖w‖ * ‖w'‖ ≤ ‖w‖ * 1 := by gcongr
         _ < 1 := by simpa using h
@@ -821,8 +766,7 @@ theorem selfDual_orthogonal_unit_step : ∀ (K : GlobalTheory.UnitLemma.UQ) (V :
     rw [Set.finrank, htop, finrank_top, Fintype.card_fin] at h1
     omega
   obtain ⟨l, hl, hlnot⟩ : ∃ l ∈ L, l ∉ Submodule.span K.E (Set.range f) := by
-    by_contra hcon
-    push_neg at hcon
+    by_contra! hcon
     apply hspan
     rw [eq_top_iff, ← hLspan]
     exact Submodule.span_le.2 (fun x hx => hcon x hx)
@@ -832,8 +776,7 @@ theorem selfDual_orthogonal_unit_step : ∀ (K : GlobalTheory.UnitLemma.UQ) (V :
     rw [hb] at hpM
     exact hp0 hlnot ((Submodule.mem_bot _).1 hpM)
 
-  by_contra hno
-  push_neg at hno
+  by_contra! hno
   let Q : Submodule K.O K.E := Submodule.map (Algebra.linearMap K.O K.E) (IsLocalRing.maximalIdeal K.O)
   have hQsmul : ∀ (o : K.O) x, x ∈ Q → algebraMap K.O K.E o * x ∈ Q := by
     intro o x hx
@@ -981,11 +924,11 @@ theorem exists_orthonormal_of_selfDual (K : GlobalTheory.UnitLemma.UQ) (V : Type
     simp only [g, hsmul, hsmul2]
     by_cases hij : i = j
     · subst hij
-      rw [if_pos rfl, hft, ← hv i, map_inv₀]
+      rw [ite_eq_left rfl, hft, ← hv i, map_inv₀]
       have : K.c (v i) ≠ 0 := by simpa using hv0 i
       field_simp
       exact div_self (hv0 i)
-    · rw [if_neg hij, hfo i j hij, mul_zero, mul_zero]
+    · rw [ite_eq_right hij, hfo i j hij, mul_zero, mul_zero]
   let φ : V → V →ₗ[K.E] K.E := fun z =>
     { toFun := fun y => h y z
       map_add' := fun y y' => hadd y y' z
@@ -1003,7 +946,15 @@ theorem exists_orthonormal_of_selfDual (K : GlobalTheory.UnitLemma.UQ) (V : Type
 
 theorem X_nonempty_of_N_ne_zero {K : GlobalTheory.UnitLemma.UQ} (B : GlobalTheory.UnitLemma.InvAlg K) (x : B.A) (hN : B.N x ≠ 0) :
     (B.X x).Nonempty := by
-  apply _root_.GlobalTheory.UnitLemma.LieEnd.nonempty_of_N_ne_zero <;> assumption
+  by_contra hX
+  rw [Set.not_nonempty_iff_eq_empty] at hX
+  apply hN
+  haveI : IsEmpty (GlobalTheory.UnitLemma.Orb K.O B.T (B.X x)) :=
+    ⟨fun o => by
+      induction o using Quot.ind with
+      | mk L => exact Set.eq_empty_iff_forall_notMem.1 hX L.1 L.2⟩
+  unfold GlobalTheory.UnitLemma.InvAlg.N GlobalTheory.UnitLemma.orbSum
+  exact finsum_of_isEmpty _
 
 theorem exists_model_of_N_ne_zero : ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (w : Pl E), ¬ IsSplitAt w → ∀ (K : GlobalTheory.UnitLemma.UQ) (e : K.E ≃+* w.adicCompletion E), Bridge w K e → ∀ (n : ℕ) (Q : (w.adicCompletion E)[X]) (B : GlobalTheory.UnitLemma.InvAlg K) (u x : B.A), Fits w e B Q u → Q.natDegree = n → B.σ x = x → IsUnit x → B.N x ≠ 0 → ∃ γ : GLw n w, γ ∈ UL n w ∧ IsModel w e B u x γ := by
   intro E _ _ _ w hw K e hB n Q B u x hF hn hσx _ hN
@@ -1241,7 +1192,7 @@ theorem kapSign_eq_eta_gramDet : ∀ (E : Type) [Field E] [NumberField E] [IsCMF
     · intro h
       exact Prod.ext h0 (by rw [h1, h, mul_zero]; rfl)
   unfold kapSign
-  rw [if_neg hns]
+  rw [ite_eq_right hns]
   dsimp only
   set V₁ := LinearMap.ker (Matrix.toLin' (aeval γ.val Q₁)) with hV₁
   set m := Module.finrank (w.adicCompletion E) V₁ with hm
@@ -1488,7 +1439,7 @@ theorem kapOrb_eq_kapSum_of_fits {E : Type} [Field E] [NumberField E] [IsCMField
   have hrep : ∀ c ∈ S', IsModel w e (B₁.prod B₂) (u₁, u₂) (GlobalTheory.UnitLemma.InvAlg.Cl.rep (Φ c)) c.rep.1 := by
     intro c hc
     have h := hex c hc
-    have hΦ : Φ c = Quot.mk _ ⟨h.choose_spec.2.1.unit, by simpa using h.choose_spec.1⟩ := dif_pos h
+    have hΦ : Φ c = Quot.mk _ ⟨h.choose_spec.2.1.unit, by simpa using h.choose_spec.1⟩ := dite_eq_left h
     have hq := Quot.eqvGen_exact ((Quot.out_eq (Φ c)).trans hΦ)
     obtain ⟨v, hv⟩ := hcl.symm (hcl.eqvGen_iff.1 hq)
     have hr : GlobalTheory.UnitLemma.InvAlg.Cl.rep (Φ c) = h.choose * ((v : (B₁.prod B₂).A) * (B₁.prod B₂).σ (v : (B₁.prod B₂).A)) := by
@@ -1540,9 +1491,9 @@ theorem kapOrb_eq_kapSum_of_fits {E : Type} [Field E] [NumberField E] [IsCMField
   calc _ = ∑ᶠ c, S'.indicator (fun c => G (Φ c)) c := finsum_congr fun c => by
           by_cases hc : c ∈ S'
           · rw [Set.indicator_of_mem hc, ← hterm c hc]
-            exact if_pos hc
+            exact ite_eq_left hc
           · rw [Set.indicator_of_notMem hc]
-            exact if_neg hc
+            exact ite_eq_right hc
     _ = ∑ᶠ c ∈ S', G (Φ c) := (finsum_mem_def _ _).symm
     _ = ∑ᶠ κ ∈ Φ '' S', G κ := (finsum_mem_image hinj).symm
     _ = ∑ᶠ κ, G κ := by

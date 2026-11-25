@@ -1,6 +1,5 @@
 module
 
-import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.TwistBundleToSubSystem
 public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.SectionCountDropFiltStepSt
 public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.TwistAlg
 import Mathlib.RingTheory.SimpleRing.Principal
@@ -26,7 +25,21 @@ variable {S : Type u} [CommRing S] {Ω : Type w} [Field Ω] [Algebra S Ω] {N : 
 theorem exists_frac_of_mem_idealMod {J : Ideal (Poly S N)} {I : Chart x} {z : Ω}
     (hz : z ∈ idealMod J I) : ∃ (h t : Poly S N) (d : ℕ), h ∈ J ∧ t ∈ monos I.1 ∧
       h.IsHomogeneous d ∧ t.IsHomogeneous d ∧ z = aeval x h / aeval x t := by
-  apply _root_.GroundTheory.Heights₂.Heights.Kleiman.idealMod_mem_form <;> assumption
+  refine Submodule.span_induction (p := fun z _ ↦ ∃ (h t : Poly S N) (d : ℕ), h ∈ J ∧
+      t ∈ monos I.1 ∧ h.IsHomogeneous d ∧ t.IsHomogeneous d ∧ z = aeval x h / aeval x t)
+    ?_ ?_ ?_ ?_ hz
+  · rintro _ ⟨f, s, e, hf, hs, hfe, hse, rfl⟩
+    exact ⟨f, s, e, hf, hs, hfe, hse, rfl⟩
+  · exact ⟨0, 1, 0, J.zero_mem, one_mem _, isHomogeneous_zero _ _ _, isHomogeneous_one _ _, by simp⟩
+  · rintro _ _ _ _ ⟨h, t, d, hh, ht, hhd, htd, rfl⟩ ⟨h', t', d', hh', ht', hhd', htd', rfl⟩
+    refine ⟨h * t' + t * h', t * t', d + d', J.add_mem (J.mul_mem_right _ hh) (J.mul_mem_left _ hh'),
+      mul_mem ht ht', (hhd.mul htd').add (htd.mul hhd'), htd.mul htd', ?_⟩
+    rw [div_add_div _ _ (eval_ne_zero_of_mem_monos I ht) (eval_ne_zero_of_mem_monos I ht')]
+    simp only [map_add (f := _), map_mul]
+  · rintro a _ _ ⟨h, t, d, hh, ht, hhd, htd, rfl⟩
+    obtain ⟨f, s, e, hs, hf, hse, ha⟩ := a.2
+    refine ⟨f * h, s * t, e + d, J.mul_mem_left _ hh, mul_mem hs ht, hf.mul hhd, hse.mul htd, ?_⟩
+    rw [chartRing_smul_def, ha, map_mul, map_mul, div_mul_div_comm]
 
 theorem idealMod_sup_span_le {J₁ : Ideal (Poly S N)}
     (hJ : ∀ f ∈ J₁, ∀ d : ℕ, homogeneousComponent d f ∈ J₁) {g : Poly S N} {e : ℕ}
@@ -42,7 +55,7 @@ theorem idealMod_sup_span_le {J₁ : Ideal (Poly S N)}
   obtain ⟨c, rfl⟩ := Ideal.mem_span_singleton'.mp hcg
   have hf' : f = homogeneousComponent d j + homogeneousComponent d (c * g) := by
     rw [← map_add (f := _), hjc, homogeneousComponent_of_mem ((mem_homogeneousSubmodule _ _).mpr hfd),
-      if_pos rfl]
+      ite_eq_left rfl]
   rw [SetLike.mem_coe, hf', map_add (f := _), add_div]
   refine Submodule.add_mem_sup (Submodule.subset_span ⟨_, s, d, hJ j hj d, hs,
     homogeneousComponent_isHomogeneous d j, hsd, rfl⟩) ?_

@@ -1,55 +1,11 @@
 module
 
-import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.InducedFunctionKFiniteStatement
-import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.InducedFunctionDerivativeAtOneStatement
 public import Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange.ArchimedeanBaseChangeProof.ArchimedeanGelfandKernels.IsMultZero
 public import Mathlib.Analysis.LocallyConvex.AbsConvexOpen
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.EventuallyLineUnit
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.OrderedCechToCatCochainsOneApplyValueAtSubset
 public import Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange.ArchimedeanBaseChangeProof.RealDescent.RealLeviDescent.IsCoreMod
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.InducedFunctionAtOne
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Topology.Sheaves.Init
-import Mathlib.RingTheory.PiTensorProduct
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Tactic.TypeStar
 import Std.Tactic.BVDecide.Normalize.Prop
 
 -- This file was produced by scripts/clump.py from the modules listed below.
@@ -80,10 +36,10 @@ theorem Eu_of_differentiableAt {f : Mat n → ℂ} {z : Mat n} (hf : Differentia
     rw [← Matrix.mul_smul, Matrix.smul_single, smul_eq_mul, mul_one]
   have hII : Complex.I * Complex.I = -1 := Complex.I_mul_I
   constructor
-  · simp only [Eu, Rd, Pi.smul_apply, Pi.add_apply, if_true, hR,
+  · simp only [Eu, Rd, Pi.smul_apply, Pi.add_apply, ite_true, hR,
       ContinuousLinearMap.coe_restrictScalars', hI, map_smul, smul_eq_mul]
     linear_combination (-(1 / 2 : ℂ) * fderiv ℂ f z (z * Matrix.single a b (1 : ℂ))) * hII
-  · simp only [Eu, Rd, Pi.smul_apply, Pi.add_apply, hR, Bool.false_eq_true, if_false,
+  · simp only [Eu, Rd, Pi.smul_apply, Pi.add_apply, hR, Bool.false_eq_true, ite_false,
       ContinuousLinearMap.coe_restrictScalars', hI, map_smul, smul_eq_mul]
     linear_combination ((1 / 2 : ℂ) * fderiv ℂ f z (z * Matrix.single a b (1 : ℂ))) * hII
 
@@ -143,13 +99,23 @@ theorem sum_range_ite (w : ℕ → ℤ) (a : ℕ) (N : ℕ) (h : a ≤ N) :
   induction N, h using Nat.le_induction with
   | base =>
     rw [sub_self]
-    exact Finset.sum_eq_zero fun i hi => if_neg (by simpa using Finset.mem_range.1 hi)
+    exact Finset.sum_eq_zero fun i hi => ite_eq_right (by simpa using Finset.mem_range.1 hi)
   | succ N hN ih =>
-    rw [Finset.sum_range_succ, ih, if_pos hN]
+    rw [Finset.sum_range_succ, ih, ite_eq_left hN]
     ring
 
 theorem sum_dif (v : Fin n → ℤ) (a : Fin n) : ∑ j, (if a ≤ j then dif v j else 0) = v a := by
-  apply _root_.GlobalTheory.CompanionTheory.ModelS.FDer.sum_dif <;> assumption
+  set w : ℕ → ℤ := fun i => if h : i < n then v ⟨i, h⟩ else 0 with hw
+  have e : ∀ j : Fin n, (if a ≤ j then dif v j else 0) =
+      (fun i : ℕ => if (a : ℕ) ≤ i then w i - w (i + 1) else 0) j := by
+    intro j
+    have : dif v j = w j - w (j + 1) := by
+      delta dif
+      simp [hw]
+    simp only [Fin.le_def, this]
+  rw [Finset.sum_congr rfl fun j _ => e j, Fin.sum_univ_eq_sum_range
+    (fun i : ℕ => if (a : ℕ) ≤ i then w i - w (i + 1) else 0) n, sum_range_ite w a n a.isLt.le]
+  simp [hw]
 
 theorem zpow_sum {u : ℂ} (hu : u ≠ 0) {ι : Type*} (s : Finset ι) (f : ι → ℤ) :
     u ^ (∑ i ∈ s, f i) = ∏ i ∈ s, u ^ f i := by
@@ -160,8 +126,27 @@ theorem zpow_sum {u : ℂ} (hu : u ≠ 0) {ι : Type*} (s : Finset ι) (f : ι �
 
 open scoped ComplexOrder in
 theorem gm_ne {g : Mat n} (hg : g ∈ GLs n) (j : Fin n) : gm j g ≠ 0 := by
-  intros
-  apply _root_.GlobalTheory.CompanionTheory.ModelS.FFin.gm_ne_zero <;> assumption
+  have hu : IsUnit g := (Matrix.isUnit_iff_isUnit_det g).2 (isUnit_iff_ne_zero.2 hg)
+  have key : ∀ v : Fin (j + 1) → ℂ, Function.extend (ini j) v 0 ᵥ* g = v ᵥ* g.submatrix (ini j) id := by
+    intro v
+    funext c
+    simp only [Matrix.vecMul, dotProduct, submatrix_apply, id]
+    symm
+    refine Finset.sum_of_injOn (ini j) (ini_injective j).injOn (fun _ _ => Finset.mem_coe.2 (Finset.mem_univ _)) ?_ ?_
+    · intro i _ hi
+      rw [Function.extend_apply', Pi.zero_apply, zero_mul]
+      rintro ⟨r, rfl⟩
+      exact hi ⟨r, by simp, rfl⟩
+    · intro i _
+      rw [(ini_injective j).extend_apply]
+  have inj : Function.Injective fun v : Fin (j + 1) → ℂ => v ᵥ* g.submatrix (ini j) id := by
+    intro v w h
+    simp only [← key] at h
+    have := Matrix.vecMul_injective_of_isUnit hu h
+    funext r
+    have h2 := congrFun this (ini j r)
+    rwa [(ini_injective j).extend_apply, (ini_injective j).extend_apply] at h2
+  exact (PosDef.mul_conjTranspose_self _ inj).det_pos.ne'
 
 theorem diffAt_prod {𝕜 E ι : Type} [NontriviallyNormedField 𝕜] [NormedAlgebra 𝕜 ℂ] [NormedAddCommGroup E]
     [NormedSpace 𝕜 E] (u : Finset ι) (f : ι → E → ℂ) {x : E} (h : ∀ i ∈ u, DifferentiableAt 𝕜 (f i) x) :
@@ -265,7 +250,7 @@ theorem lm_line_eq (g : Mat n) (a : Fin n) (t : ℂ) (j : Fin n) :
       · have : ini j c ≠ a := fun h => hc ((ini_injective j) (h.trans hia.symm))
         simp [this, Matrix.updateCol_ne hc]
     delta lm
-    rw [e, det_updateCol_smul, if_pos hb]
+    rw [e, det_updateCol_smul, ite_eq_left hb]
     congr 2
     ext r c
     by_cases hc : c = a'
@@ -286,7 +271,7 @@ theorem lm_line_eq (g : Mat n) (a : Fin n) (t : ℂ) (j : Fin n) :
         omega
       simp [this]
     delta lm
-    rw [e, if_neg hb, one_mul]
+    rw [e, ite_eq_right hb, one_mul]
 
 def Pf (d : Fin n → ℤ) (x : Mat n) : ℂ := ∏ j, lm j x ^ d j
 
@@ -424,7 +409,7 @@ theorem Qf_kill (y : Fin n → ℤ) {g : Mat n} (hg : g ∈ GLs n) (a b : Fin n)
   have h2 := Qf_skew y hg s2
   rw [Matrix.mul_sub, map_sub] at h1
   rw [Matrix.mul_add, map_add (f := _)] at h2
-  simp only [Eu, Rd, Pi.smul_apply, Pi.add_apply, smul_eq_mul, if_true, Bool.false_eq_true, if_false]
+  simp only [Eu, Rd, Pi.smul_apply, Pi.add_apply, smul_eq_mul, ite_true, Bool.false_eq_true, ite_false]
   linear_combination (1 / 2 : ℂ) * h1 - (Complex.I / 2) * h2
 
 theorem Kf_apply (a b : Fin n) (h : SmF n) {g : Mat n} (hg : g ∈ GLs n) :

@@ -1,7 +1,5 @@
 module
 
-import Formalism.LocalToGlobal.SiegelLatticeTheory.CasimirReductionTheory.OneParameterDerivatives.TauReduction.BlockGramReduction.MemIntegersOfMemIntAd
-import Development.AbelianVarietyTheory.Proofs.TwistedOperators.SplitPlaceColumnMemCompletedLatticeIffFrameInteg
 public import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.PlaceS
 public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.ImportsFurtherLast
 public import Formalism.LocalToGlobal.BesselHermitianTheta.LemmasWeil
@@ -24,8 +22,6 @@ open Formalism.IndefR.Datum
 open scoped TensorProduct ComplexOrder
 
 namespace Formalism.IndefR.Fin
-
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 
 def PlaceLatDualIv (D : D7) : Prop :=
   ∀ (ψ : AddChar (AF D.host.F) ℂ), IsStdChar D ψ (-1) → ∀ (S T : HSp D)
@@ -68,37 +64,52 @@ open Formalism.BasicNotions Formalism.BasicNotions.TH Formalism.MainNotions.Glob
 open Formalism.IndefR.Datum
 open scoped TensorProduct
 
-
-
 namespace Formalism.IndefR.Fin.PDB
-
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 
 variable {D : D7}
 
 theorem exists_nat_eq_mul {K : Type} [Field K] [NumberField K] (b : 𝓞 K) (hb : b ≠ 0) :
-    ∃ m : ℕ, 1 ≤ m ∧ ∃ c : 𝓞 K, (m : 𝓞 K) = b * c := by
-  refine ⟨Ideal.absNorm (Ideal.span {b}), ?_, ?_⟩
-  · have : Ideal.absNorm (Ideal.span {b}) ≠ 0 := by
-      rw [Ne, Ideal.absNorm_eq_zero_iff, Ideal.span_singleton_eq_bot]; exact hb
-    omega
-  · obtain ⟨c, hc⟩ := Ideal.mem_span_singleton'.1 (Ideal.absNorm_mem (Ideal.span {b}))
-    exact ⟨c, by rw [← hc, mul_comm]⟩
+    ∃ m : ℕ, 1 ≤ m ∧ ∃ c : 𝓞 K, (m : 𝓞 K) = b * c :=
+  _root_.Formalism.IndefR.Fin.PDA.exists_nat_eq_mul b hb
 
 theorem exists_nat_mul_mem {K : Type} [Field K] [NumberField K] (e : K) :
-    ∃ m : ℕ, 1 ≤ m ∧ (m : K) * e ∈ (algebraMap (𝓞 K) K).range := by
-  obtain ⟨⟨a, b⟩, h⟩ := IsLocalization.surj (nonZeroDivisors (𝓞 K)) e
-  obtain ⟨m, hm, c, hc⟩ := exists_nat_eq_mul (b : 𝓞 K) (nonZeroDivisors.ne_zero b.2)
-  refine ⟨m, hm, a * c, ?_⟩
-  have h1 : (m : K) = algebraMap (𝓞 K) K b * algebraMap (𝓞 K) K c := by
-    rw [← map_mul, ← hc, map_natCast]
-  simp only at h
-  rw [map_mul, h1, ← h]
-  ring
+    ∃ m : ℕ, 1 ≤ m ∧ (m : K) * e ∈ (algebraMap (𝓞 K) K).range :=
+  _root_.Formalism.IndefR.Fin.PDA.exists_nat_mul_mem e
 
 theorem exists_nat_mul_intAf {F : Type} [Field F] [NumberField F] (t : Af F) :
     ∃ m : ℕ, 1 ≤ m ∧ (m : Af F) * t ∈ intAf F := by
-  apply _root_.Formalism.L2.SG.Pf.Tau.TraceIntegralityAlt.exists_nat_mul_intAd <;> assumption
+  classical
+  have hfin : {v : HeightOneSpectrum (𝓞 F) | t v ∉ v.adicCompletionIntegers F}.Finite :=
+    Filter.eventually_cofinite.1 t.2
+  have hloc : ∀ v : HeightOneSpectrum (𝓞 F), ∃ m : ℕ, 1 ≤ m ∧
+      (m : v.adicCompletion F) * t v ∈ v.adicCompletionIntegers F := by
+    intro v
+    obtain ⟨b, hb, hbt⟩ := HeightOneSpectrum.adicCompletion.mul_nonZeroDivisor_mem_adicCompletionIntegers v (t v)
+    obtain ⟨m, hm, c, hc⟩ := exists_nat_eq_mul b (nonZeroDivisors.ne_zero hb)
+    refine ⟨m, hm, ?_⟩
+    have h1 : (m : v.adicCompletion F) = algebraMap (𝓞 F) (v.adicCompletion F) b *
+        algebraMap (𝓞 F) (v.adicCompletion F) c := by
+      rw [← map_mul, ← hc, map_natCast]
+    rw [h1, show algebraMap (𝓞 F) (v.adicCompletion F) b * algebraMap (𝓞 F) (v.adicCompletion F) c * t v
+      = t v * algebraMap (𝓞 F) (v.adicCompletion F) b * algebraMap (𝓞 F) (v.adicCompletion F) c by ring]
+    exact mul_mem hbt ((HeightOneSpectrum.coe_mem_adicCompletionIntegers (v := v) c))
+  choose mv hmv hmt using hloc
+  refine ⟨∏ v ∈ hfin.toFinset, mv v, Finset.one_le_prod' fun v _ => hmv v, fun v => ?_⟩
+  have hev : evalV F v (((∏ w ∈ hfin.toFinset, mv w : ℕ) : Af F) * t) =
+      ((∏ w ∈ hfin.toFinset, mv w : ℕ) : v.adicCompletion F) * t v := by
+    rw [map_mul, map_natCast]
+    rfl
+  rw [hev]
+  by_cases hv : v ∈ hfin.toFinset
+  · rw [← Finset.mul_prod_erase _ _ hv]
+    push_cast
+    have e1 : ((mv v : v.adicCompletion F) * ∏ i ∈ hfin.toFinset.erase v, (mv i : v.adicCompletion F)) *
+        t v = (∏ i ∈ hfin.toFinset.erase v, (mv i : v.adicCompletion F)) *
+          ((mv v : v.adicCompletion F) * t v) := by ring
+    rw [e1]
+    exact mul_mem (prod_mem fun w _ => natCast_mem _ _) (hmt v)
+  · have ht : t v ∈ v.adicCompletionIntegers F := by simpa using hv
+    exact mul_mem (natCast_mem _ _) ht
 
 lemma exists_nat_mem_AA : ∃ N : ℕ, 0 < N ∧ ((N : D.host.E)) ∈ (D.host.AA : Submodule (𝓞 D.host.E) D.host.E) := by
   have hne : D.host.ccK ≠ ⊥ := D.host.ccK_ne_bot
@@ -285,13 +296,6 @@ section Sandwich
 variable {S T : HSp D} {ΛS : Submodule (𝓞 D.host.E) (Fin S.rank → D.host.E)}
   {ΛT : Submodule (𝓞 D.host.E) (Fin T.rank → D.host.E)}
 
-lemma intAf_mul' {a a' : Af D.host.F} (ha : a ∈ intAf D.host.F) (ha' : a' ∈ intAf D.host.F) :
-    a * a' ∈ intAf D.host.F := fun w => by rw [map_mul]; exact mul_mem (ha w) (ha' w)
-
-lemma intAE_mul' {z z' : Af D.host.F ⊗[D.host.F] D.host.E} (hz : z ∈ intAE D) (hz' : z' ∈ intAE D) :
-    z * z' ∈ intAE D := by
-  apply _root_.GlobalTheory.SplitFrameColumn.intAE_mul <;> assumption
-
 def IntF (y : AE D) : Prop := y * fI D = y ∧ finPart D y ∈ intAE D
 
 lemma intF_zero : IntF (0 : AE D) := ⟨zero_mul _, by rw [map_zero]; exact zero_mem _⟩
@@ -303,7 +307,7 @@ lemma intF_neg {y : AE D} (h : IntF y) : IntF (-y) :=
   ⟨by rw [neg_mul, h.1], by rw [map_neg]; exact neg_mem h.2⟩
 
 lemma intF_mul {y y' : AE D} (h : IntF y) (h' : IntF y') : IntF (y * y') :=
-  ⟨by rw [mul_assoc, h'.1], by rw [map_mul]; exact intAE_mul' h.2 h'.2⟩
+  ⟨by rw [mul_assoc, h'.1], by rw [map_mul]; exact Formalism.IndefR.Fin.intAE_mul h.2 h'.2⟩
 
 lemma intF_sum {ι : Type*} (s : Finset ι) (f : ι → AE D) (h : ∀ i ∈ s, IntF (f i)) : IntF (∑ i ∈ s, f i) :=
   Finset.sum_induction _ IntF (fun _ _ => intF_add) intF_zero h
@@ -349,14 +353,8 @@ lemma exists_nat_intF {y : AE D} (hy : y * fI D = y) : ∃ k : ℕ, 0 < k ∧ In
   exact ⟨k, hk, by rw [smul_mul_assoc, hy], by rw [map_nsmul]; exact h⟩
 
 lemma uniform_nat {ι : Type*} [Fintype ι] (P : ι → ℕ → Prop) (hP : ∀ i k m, P i k → P i (m * k))
-    (h : ∀ i, ∃ k, 0 < k ∧ P i k) : ∃ k, 0 < k ∧ ∀ i, P i k := by
-  classical
-  choose k hk hPk using h
-  refine ⟨∏ i, k i, Finset.prod_pos fun i _ => hk i, fun i => ?_⟩
-  rw [← Finset.prod_erase_mul _ _ (Finset.mem_univ i)]
-  exact hP i _ _ (hPk i)
-
-
+    (h : ∀ i, ∃ k, 0 < k ∧ P i k) : ∃ k, 0 < k ∧ ∀ i, P i k :=
+  _root_.Formalism.IndefR.Fin.PDA.uniform_nat P hP h
 
 lemma lower (hS : IsSelfDualC S ΛS) (hT : IsSelfDualC T ΛT) :
     ∃ c : ℕ, 0 < c ∧ ∀ Z : WO S T, (∀ i j, IntF (Z i j)) → c • Z ∈ latAll S T ΛS ΛT := by
@@ -469,8 +467,6 @@ lemma matrix_denom {m n : ℕ} (G : Matrix (Fin m) (Fin n) D.host.E) :
 lemma intF_gen {α : Af D.host.F} (hα : α ∈ intAf D.host.F) (o : 𝓞 D.host.E) :
     IntF (pairA D.host.F 0 α ⊗ₜ[D.host.F] ((o : 𝓞 D.host.E) : D.host.E)) :=
   ⟨by rw [tmul_fI]; rfl, AddSubgroup.subset_closure ⟨α, hα, o, rfl⟩⟩
-
-
 
 lemma upper (hS : IsSelfDualC S ΛS) (hT : IsSelfDualC T ΛT) :
     ∃ c : ℕ, 0 < c ∧ ∀ t ∈ latAll S T ΛS ΛT, ∀ i j, IntF ((c • t) i j) := by

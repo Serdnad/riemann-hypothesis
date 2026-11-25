@@ -238,11 +238,6 @@ theorem exists_inv_extension : ∀ C : Core, C.HasTests → SmoothOfRelativeDime
   let e := C.a.isoOpensRange
   have he : e.inv ≫ C.a = C.a.opensRange.ι := C.a.isoOpensRange_inv_comp
   have he' : e.hom ≫ C.a.opensRange.ι = C.a := C.a.isoOpensRange_hom_ι
-  have existsUnique_extension_of_finite_specializations :
-      ∀ (X : Scheme.{0}) [IsIntegral X] (π : X ⟶ Sp ℤ) [Flat π] [LocallyOfFiniteType π] [QuasiCompact π], IsNormalScheme X → ∀ (Z P : Scheme.{0}) (s : X ⟶ Z) (t : P ⟶ Z) [IsProper t] (G : P.Opens) (U : X.Opens) (φ : U.toScheme ⟶ P), (U : Set X).Nonempty → φ ≫ t = U.ι ≫ s → (∀ σ : X, IsClosed ({σ} : Set X) → ∃ F : Set P, F.Finite ∧ F ⊆ G ∧ ∀ (p : ℕ) [Fact p.Prime] (a : Sp (OO p) ⟶ X) (a₀ : Sp (PadicAlgCl p) ⟶ U.toScheme) (b : Sp (OO p) ⟶ P), a (cPt p) = σ → a₀ ≫ U.ι = gPt p ≫ a → gPt p ≫ b = a₀ ≫ φ → b ≫ t = a ≫ s → b (cPt p) ∈ F) → ∃! Φ : X ⟶ G.toScheme, U.ι ≫ Φ ≫ G.ι = φ ∧ Φ ≫ G.ι ≫ t = s := by
-    first
-    | exact _root_.GlobalTheory.existsUnique_extension_of_finite_specializations
-    | apply _root_.GlobalTheory.existsUnique_extension_of_finite_specializations <;> assumption
   obtain ⟨Φ, ⟨h1, h2⟩, -⟩ := @existsUnique_extension_of_finite_specializations C.G.toScheme hI
     (C.GG.hom ≫ C.π) inferInstance inferInstance inferInstance
     (forall_isDomain_and_isIntegrallyClosed_stalk_of_smooth C.GG.hom C.normal)

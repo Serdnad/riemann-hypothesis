@@ -12,7 +12,6 @@ import Mathlib.RingTheory.Henselian
 import Mathlib.RingTheory.RegularLocalRing.Defs
 import Mathlib.RingTheory.SimpleRing.Principal
 public import GroundTheory.ProfiniteCohomology.GaloisCohomology.Brauer
-import GroundTheory.ProfiniteCohomology.Procyclic
 
 @[expose] public section
 
@@ -31,7 +30,17 @@ variable {k G : Type u} [CommRing k] [Group G]
 theorem inhomogeneousCochains_d_one_apply (A : Rep.{u} k G) (f : (Fin 1 → G) → A) (g : Fin 2 → G) :
     (inhomogeneousCochains.d A 1).hom f g =
       A.ρ (g 0) (f (fun _ => g 1)) - f (fun _ => g 0 * g 1) + f (fun _ => g 0) := by
-  apply _root_.GroundTheory.ProfCoh.inhomogeneousD_one_apply <;> assumption
+  have e1 : (fun i : Fin 1 => g i.succ) = fun _ => g 1 := by
+    funext i; rw [Fin.fin_one_eq_zero i]; rfl
+  have e2 : Fin.contractNth 0 (· * ·) g = fun _ => g 0 * g 1 := by
+    funext i; rw [Fin.fin_one_eq_zero i]; simp [Fin.contractNth]
+  have e3 : Fin.contractNth 1 (· * ·) g = fun _ => g 0 := by
+    funext i; rw [Fin.fin_one_eq_zero i]; simp [Fin.contractNth]
+  simp only [inhomogeneousCochains.d_hom_apply]
+  simp only [e1]
+  simp
+  rw [e2, e3]
+  abel
 
 variable [TopologicalSpace G] [IsTopologicalGroup G]
 
@@ -101,7 +110,7 @@ theorem galUnits_inflation_two_injective (U : OpenNormalSubgroup Gal(L/K)) :
 
 theorem galUnitsZ_inflation_two_injective (U : OpenNormalSubgroup Gal(L/K)) :
     Function.Injective (inflation (galUnitsZ K L) U 2).hom := by
-  set_option backward.isDefEq.respectTransparency.instanceSearchTypes false in rw [injective_iff_map_eq_zero]
+  rw [injective_iff_map_eq_zero]
   intro x hx
   induction x using H2_induction_on with
   | h z =>

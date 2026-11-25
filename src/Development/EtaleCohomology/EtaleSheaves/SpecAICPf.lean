@@ -1,52 +1,9 @@
 module
 
-import Development.EtaleCohomology.EtaleSheaves.AlgebraicIntegralClosure
-import Development.EtaleCohomology.EtaleSheaves.AicschOfImm
 public import Development.EtaleCohomology.EtaleSheaves.FibreEqvPf
 public import Mathlib.RingTheory.SimpleRing.Principal
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.AlgebraicGeometry.Modules.Sheaf
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.Order.CompletePartialOrder
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.HaveILetI
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
 
 @[expose] public section
 
@@ -55,8 +12,15 @@ open Polynomial GlobalTheory.EtC
 
 namespace LateralTheory.E.SpecAICPf
 
-theorem aic_equiv {A A' : Type} [CommRing A] [CommRing A'] (e : A ≃+* A') (h : AIC A) : AIC A' :=
-  LateralTheory.E.CovPf.aic_equiv e h
+theorem aic_equiv {A A' : Type} [CommRing A] [CommRing A'] (e : A ≃+* A') (h : AIC A) : AIC A' := by
+  intro p hp hd
+  obtain ⟨a, ha⟩ := h (p.map e.symm.toRingHom) (hp.map _) (by rwa [natDegree_map_eq_of_injective e.symm.injective])
+  refine ⟨e a, ?_⟩
+  have := congrArg e ha
+  rw [eval_map, ← coe_eval₂RingHom, map_zero] at this
+  rw [← this]
+
+  simp [eval₂_eq_sum_range, eval_eq_sum_range, map_sum]
 
 theorem card_roots_of_aic {A : Type} [CommRing A] [IsDomain A] (h : AIC A) :
     ∀ (n : ℕ) (p : A[X]), p.Monic → p.natDegree = n → Multiset.card p.roots = n := by
@@ -76,8 +40,23 @@ theorem card_roots_of_aic {A : Type} [CommRing A] [IsDomain A] (h : AIC A) :
     simp; omega
 
 theorem aic_localization {B S : Type} [CommRing B] [CommRing S] [Algebra B S] (M : Submonoid B)
-    [IsLocalization M S] (h : AIC B) : AIC S :=
-  LateralTheory.E.BaseAICPf.Loc.aic_loc M h
+    [IsLocalization M S] (h : AIC B) : AIC S := by
+  classical
+  intro p hp hd
+  let b := IsLocalization.commonDenom M p.support p.coeff
+  set r : S := algebraMap B S b
+  have hl : p.scaleRoots r ∈ lifts (algebraMap B S) :=
+    IsLocalization.scaleRoots_commonDenom_mem_lifts M p (hp.leadingCoeff ▸ one_mem _)
+  obtain ⟨q, hq, hqd, hqm⟩ := lifts_and_natDegree_eq_and_monic hl ((monic_scaleRoots_iff r).2 hp)
+  obtain ⟨β, hβ⟩ := h q hqm (by rw [hqd, natDegree_scaleRoots]; exact hd)
+  have hru : IsUnit r := IsLocalization.map_units S b
+  refine ⟨algebraMap B S β * hru.unit⁻¹, ?_⟩
+  have h1 := scaleRoots_eval₂_mul (p := p) (RingHom.id S) (algebraMap B S β * hru.unit⁻¹) r
+  simp only [eval₂_id, RingHom.id_apply] at h1
+  have h2 : r * (algebraMap B S β * hru.unit⁻¹) = algebraMap B S β := by
+    rw [mul_comm, mul_assoc, IsUnit.val_inv_mul, mul_one]
+  rw [h2, ← hq, eval_map, eval₂_hom, hβ, map_zero] at h1
+  exact (hru.pow _).mul_right_eq_zero.1 h1.symm
 
 end LateralTheory.E.SpecAICPf
 

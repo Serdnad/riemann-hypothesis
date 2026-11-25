@@ -1,51 +1,10 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.CoherentCohomologyProofs.ExistsUniqueLbIsoPullEqOfCoheightLeOne
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.DivCalc
 public import Development.AbelianVarietyTheory.Proofs.HomogeneousIdeals.IsIsoAppTopOfIsPullbackOfSurjective
 public import Development.AbelianVarietyTheory.Proofs.ToricGeometry.IsReducedSchemeOfSmoothOfIsIntegrallyClosed
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
 import Mathlib.AlgebraicGeometry.Modules.Sheaf
 import Mathlib.AlgebraicGeometry.QuasiAffine
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
 
 @[expose] public section
 
@@ -210,8 +169,15 @@ theorem exists_spread (H : IsPullback φ π p (spMap (algebraMap R K))) [Flat p]
 
 theorem res_mem_secOn {L : LB X} (θ : L.Sec) (V : X.Opens) :
     (fun i => resG X (inf_le_right : V ⊓ L.U i ≤ L.U i) (θ.f i)) ∈ secOn L V := by
-  intros
-  apply _root_.GlobalTheory.res_sec_mem_secOn <;> assumption
+  intro i j
+  refine fn_ext fun x hx => ?_
+  have hx' : (𝟙 X : X ⟶ X) x ∈ V ⊓ L.U i ⊓ L.U j := hx
+  have hm : (𝟙 X : X ⟶ X) x ∈ L.U i ⊓ L.U j := ⟨hx.1.2, hx.2⟩
+  have e := congrArg (gs (𝟙 X) x _) (θ.compat i j)
+  rw [gs_mul _ x _ hm, gs_res _ x _ hm, gs_res _ x _ hm] at e
+  rw [gs_mul _ x _ hx', gs_res _ x _ hx', gs_res _ x _ hx', gs_res _ x _ hx', gs_res _ x _ hx'.1,
+    gs_res _ x (V := V ⊓ L.U j) _ ⟨hx.1.1, hx.2⟩]
+  exact e
 
 theorem main : ∀ (R : Type) [CommRing R] [IsDomain R] (G : Over (Sp R)) [GrpObj G], IsSemiAbelian G → ∀ (L : LB G.left), L.IsLB → ∀ (K : Type) [Field K] [Algebra R K] [IsFractionRing R K] (G' : Scheme.{0}) (φ : G' ⟶ G.left) (π : G' ⟶ Sp K), IsPullback φ π G.hom (spMap (algebraMap R K)) → (∃ (s : (L.pull φ).Sec) (j : (L.pull φ).ι), s.f j ≠ 0) → ∃ h : R, h ≠ 0 ∧ ∃ θ ∈ secOn L (G.hom ⁻¹ᵁ PrimeSpectrum.basicOpen h), ∀ y : Sp R, y ∈ PrimeSpectrum.basicOpen h → ∃ (g : G.left) (i : L.ι), G.hom g = y ∧ g ∈ G.left.basicOpen (θ i) := by
   intro R _ _ G _ hG L hL K _ _ _ G' φ π H ⟨s, j, hj⟩

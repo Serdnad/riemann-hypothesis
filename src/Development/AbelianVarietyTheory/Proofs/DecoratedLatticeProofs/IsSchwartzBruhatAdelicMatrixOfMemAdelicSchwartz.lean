@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.AdelicSchwartzFixedBySchroedingerOpenFiniteSubgr
 public import Development.AbelianVarietyTheory.BlockTheory.TwistedDiscreteSeries.SchwartzBruhatMixedFamilies
 public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.RealSizeNonneg
 public import Development.AbelianVarietyTheory.BlockTheory.TwistedDiscreteSeries.ModerateGrowthSchwartz
@@ -57,7 +56,6 @@ open GlobalTheory.AutomorphicL2Unitary GlobalTheory.Cusp GlobalTheory.AdelicU Gl
 open GlobalTheory.IndefiniteRowSideFullHecke.SphericalVolumeLift (FinPl RealMat Lat IsFockVec IsSphOff HidaSetting volQ)
 open GlobalTheory.IndefiniteRowSideFullHecke.SphericalZero (ip delta swSec sZero IsKFinVec ThetaClause SectionClause CoefClause)
 open GlobalTheory.Mem.Th (CptF)
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 open GlobalTheory.Core.Rk.IP GlobalTheory.Core.Rk.SWLaw
 open GlobalTheory.Core.Rk.SW
 open scoped ContDiff
@@ -73,7 +71,23 @@ variable {D : D7} {m n : ℕ}
 
 theorem eventually_invariant {M : Type} [AddCommGroup M] [TopologicalSpace M] [IsTopologicalAddGroup M] {Φ : M → ℂ}
     (h1 : IsLocallyConstant Φ) (h2 : HasCompactSupport Φ) : ∀ᶠ u in 𝓝 (0 : M), ∀ x, Φ (x + u) = Φ x := by
-  first | exact _root_.GlobalTheory.WeilLevel.eventually_invariant | exact @_root_.GlobalTheory.WeilLevel.eventually_invariant | apply _root_.GlobalTheory.WeilLevel.eventually_invariant <;> assumption
+  have h : ∀ᶠ u in 𝓝 (0 : M), ∀ x ∈ tsupport Φ, Φ (x + u) = Φ x ∧ Φ (x - u) = Φ x := by
+    apply h2.isCompact.eventually_forall_of_forall_eventually
+    intro x _
+    have a1 := (h1.comp_continuous (show Continuous fun z : M × M => z.2 + z.1 by fun_prop)).eventually_eq (0, x)
+    have a2 := (h1.comp_continuous (show Continuous fun z : M × M => z.2 - z.1 by fun_prop)).eventually_eq (0, x)
+    have a3 := (h1.comp_continuous (show Continuous fun z : M × M => z.2 by fun_prop)).eventually_eq (0, x)
+    filter_upwards [a1, a2, a3] with z b1 b2 b3
+    simp only [Function.comp, add_zero, sub_zero] at b1 b2 b3
+    exact ⟨b1.trans b3.symm, b2.trans b3.symm⟩
+  filter_upwards [h] with u hu x
+  by_cases hx : x ∈ tsupport Φ
+  · exact (hu x hx).1
+  · by_cases hx' : x + u ∈ tsupport Φ
+    · have := (hu _ hx').2
+      rw [add_sub_cancel_right] at this
+      exact this.symm
+    · rw [image_eq_zero_of_notMem_tsupport hx, image_eq_zero_of_notMem_tsupport hx']
 
 def periods {M : Type} [AddCommGroup M] (Φ : M → ℂ) : AddSubgroup M where
   carrier := {u | ∀ x, Φ (x + u) = Φ x}
@@ -131,8 +145,6 @@ def realVec {k : ℕ} (θ : InfFam D) (L : (Fin k → ℝ) →+ Mx D m n) : (Fin
 theorem realSize_nonneg (θ : InfFam D) (x : Mx D m n) : 0 ≤ GlobalTheory.Unf.realSize θ x :=
   Finset.sum_nonneg fun _ _ => Finset.sum_nonneg fun _ _ => Finset.sum_nonneg fun _ _ => norm_nonneg _
 
-alias realSize_le := _root_.GlobalTheory.RealParamSize.realSize_le
-
 theorem realSize_zero (θ : InfFam D) : GlobalTheory.Unf.realSize θ (0 : Mx D m n) = 0 := by
   simp [GlobalTheory.Unf.realSize, compAt]
 
@@ -179,7 +191,7 @@ theorem pure (θ : InfFam D) (hθ : IsInfFam θ) (f : SchwartzMap (D.what₂.Tau
       have h0 : realVec θ L t = 0 := by rw [← hAlt]; exact ht
       have h1 := hC₂ 0 t
       rw [zero_add, realSize_zero, add_zero] at h1
-      have h2 := realSize_le θ (L t)
+      have h2 := GlobalTheory.RealParamSize.realSize_le θ (L t)
       have h3 : (fun τ i j => compAt θ τ (L t) i j : D.what₂.Tau → Fin m → Fin n → ℂ) = 0 := h0
       rw [h3, norm_zero, mul_zero] at h2
       have h4 : GlobalTheory.Unf.realSize θ (L t) = 0 := le_antisymm h2 (realSize_nonneg θ _)

@@ -1,6 +1,5 @@
 module
 
-import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.PSnapper
 public import GroundTheory.HeightsAndTheta.Heights.Intersections.StHorizNotMem
 import Mathlib.Order.CompletePartialOrder
 public import Mathlib.RingTheory.KrullDimension.NonZeroDivisors
@@ -20,8 +19,11 @@ open MvPolynomial ReciprocityTheory.ChartRestriction.G.Geo
 theorem HorizNotMem.ringKrullDim_quotient_add_one_le {R : Type*} [CommRing R] {W₀ W : Ideal R}
     [hW₀ : W₀.IsPrime] [hW : W.IsPrime] (hlt : W₀ < W) :
     ringKrullDim (R ⧸ W) + 1 ≤ ringKrullDim (R ⧸ W₀) := by
-  intros
-  apply _root_.GroundTheory.Heights₂.Heights.Kleiman.ringKrullDim_quotient_succ_le_of_lt <;> assumption
+  have e : ∀ (P : Ideal R) [hP : P.IsPrime], Set.Ici (⟨P, hP⟩ : PrimeSpectrum R) =
+      PrimeSpectrum.zeroLocus (R := R) (P : Set R) := fun _ _ => Set.ext fun _ => Iff.rfl
+  rw [ringKrullDim_quotient, ringKrullDim_quotient, ← e W, ← e W₀,
+    ← Order.coheight_eq_krullDim_Ici, ← Order.coheight_eq_krullDim_Ici]
+  exact_mod_cast Order.coheight_add_one_le ((PrimeSpectrum.asIdeal_lt_asIdeal _ _).mp hlt)
 
 theorem HorizNotMem.proof : HorizNotMem.Statement := by
   intro K _ ι _ P d s s' W hP hsP hs'P hnc hW hWh hs'W

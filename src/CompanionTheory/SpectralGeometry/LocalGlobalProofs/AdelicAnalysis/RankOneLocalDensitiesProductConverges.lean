@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsLatticeBasisHermitianSpace
 public import CompanionTheory.SpectralGeometry.CountingDefinitions.AdelicEulerProducts.IsEulerProd
 public import CompanionTheory.SpectralGeometry.LocalGlobalProofs.AdelicAnalysis.EulerProductLocalDensitiesConverges
 public import CompanionTheory.SpectralGeometry.LocalGlobalProofs.AdelicAnalysis.HermitianOneByOneIsScalar
@@ -8,56 +7,7 @@ public import CompanionTheory.SpectralGeometry.LocalGlobalProofs.AdelicAnalysis.
 public import CompanionTheory.SpectralGeometry.LocalGlobalProofs.AdelicAnalysis.LocalRankOneDensityUniformizerPower
 public import CompanionTheory.SpectralGeometry.LocalGlobalProofs.AdelicAnalysis.RankOneLocalDensityAlmostAll
 public import Mathlib.Algebra.FiniteSupport.Basic
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Topology.Sheaves.Init
 import CompanionTheory.SpectralGeometry.LocalGlobalProofs.AdelicAnalysis.AdelicBoxesCompactExhaust
-import Mathlib.RingTheory.Henselian
-import Mathlib.RingTheory.RegularLocalRing.Defs
-import Mathlib.RingTheory.SimpleRing.Principal
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Linter.HaveILetI
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Topology.Sheaves.Presheaf
-import Std.Tactic.BVDecide.Normalize.Prop
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: CompanionTheory.SpectralGeometry.LocalGlobalProofs.LocalMassSeries.HermitianRankOneLocalVolume, CompanionTheory.SpectralGeometry.LocalGlobalProofs.AdelicAnalysis.RankOneLocalDensitiesProductConverges
@@ -95,11 +45,6 @@ namespace GlobalTheory.CompanionTheory.SW.Growth
 
 section Place
 variable {F : Type} [Field F] [NumberField F]
-
-theorem val_lt_one_of_mem (v : HeightOneSpectrum (𝓞 F)) {r : 𝓞 F} (h : r ∈ v.asIdeal) :
-    Valued.v ((algebraMap F (Fv F v)) (algebraMap (𝓞 F) F r)) < 1 := by
-  rw [_root_.GlobalTheory.CompanionTheory.SW.GoodInt.valued_algebraMap]
-  exact (v.valuation_lt_one_iff_mem r).2 h
 
 theorem val_le_one (v : HeightOneSpectrum (𝓞 F)) (r : 𝓞 F) :
     Valued.v ((algebraMap F (Fv F v)) (algebraMap (𝓞 F) F r)) ≤ 1 := by
@@ -159,8 +104,24 @@ theorem exists_exponents (a : ℕ) (ha : 0 < a) :
     rw [h3, Algebra.norm_algebraMap, RingOfIntegers.rank, Int.natAbs_pow, Int.natAbs_natCast]
     push_cast; rfl
 
-theorem exists_den (β : F) : ∃ D : ℕ, 0 < D ∧ ∃ x : 𝓞 F, (D : F) * β = algebraMap (𝓞 F) F x :=
-  CoordinateBasisBounds.nat_mul_integral β
+theorem exists_den (β : F) : ∃ D : ℕ, 0 < D ∧ ∃ x : 𝓞 F, (D : F) * β = algebraMap (𝓞 F) F x := by
+  have halg : IsAlgebraic ℤ β :=
+    (IsFractionRing.isAlgebraic_iff ℤ ℚ F).2 (Algebra.IsAlgebraic.isAlgebraic β)
+  obtain ⟨y, hy0, hy⟩ := halg.exists_integral_multiple
+  refine ⟨y.natAbs, Int.natAbs_pos.2 hy0, ?_⟩
+  let x' : 𝓞 F := ⟨y • β, hy⟩
+  have hx' : algebraMap (𝓞 F) F x' = (y : F) * β := by
+    change y • β = _
+    rw [zsmul_eq_mul]
+  rcases Int.natAbs_eq y with h1 | h1
+  · refine ⟨x', ?_⟩
+    rw [hx']
+    conv_rhs => rw [h1]
+    simp
+  · refine ⟨-x', ?_⟩
+    rw [map_neg, hx']
+    conv_rhs => rw [h1]
+    simp
 end Place
 
 section Tuples

@@ -1,53 +1,8 @@
 module
 
-import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.PChartChoiceAlgClosed
 public import GroundTheory.HeightsAndTheta.Heights.ChowForms.StatementsSectionOrder
 public import GroundTheory.HeightsAndTheta.Heights.ChowForms.PChowFormSection
-import Mathlib.Algebra.AffineMonoid.UniqueSums
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
 public import Mathlib.Combinatorics.Nullstellensatz
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.RingTheory.SimpleRing.Principal
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Topology.Sheaves.Init
 
 @[expose] public section
 
@@ -100,21 +55,46 @@ theorem specFirst_rename_shiftVar (q : MvPolynomial (Fin e × Fin n) F) :
 
 theorem specFirst_zero_of_isMultiHomog {δ : ℕ} (hδ : 1 ≤ δ) {f : MvPolynomial (Fin (e + 1) × Fin n) F}
     (hf : Heights.IsMultiHomog δ f) : specFirst f 0 = 0 := by
-  apply _root_.GroundTheory.Heights₂.Heights.ChartChoiceAlgClosed.specFirst_zero_of_isMultiHomog <;> assumption
+  classical
+  unfold specFirst
+  conv_lhs => rw [f.as_sum]
+
+  rw [map_sum]
+  refine Finset.sum_eq_zero fun s hs => ?_
+  rw [bind₁_monomial]
+  obtain ⟨i, hi, h0⟩ : ∃ i ∈ s.support, i.1 = 0 := by
+    by_contra hno
+    push Not at hno
+    have hw := congrFun (hf (mem_support_iff.mp hs)) 0
+    rw [Finsupp.weight_apply, Finsupp.sum, Finset.sum_apply] at hw
+    have : ∑ c ∈ s.support, (s c • groupWeight (e + 1) n c) 0 = 0 := by
+      refine Finset.sum_eq_zero fun c hc => ?_
+      simp [groupWeight, Ne.symm (hno c hc)]
+    omega
+  rw [Finset.prod_eq_zero hi, mul_zero]
+  obtain ⟨a, m⟩ := i
+  simp only at h0
+  subst h0
+  simp [specFirstVar, zero_pow (Finsupp.mem_support_iff.mp hi)]
 
 theorem eval_map_splitFirst (J : Ideal (MvPolynomial (Fin e × Fin n) F)) (t : Fin n → F)
     (f : MvPolynomial (Fin (e + 1) × Fin n) F) :
     eval (fun m => Ideal.Quotient.mk J (C (t m))) (map (Ideal.Quotient.mk J) (splitFirst F e n f)) =
       Ideal.Quotient.mk J (specFirst f t) := by
-  apply _root_.GroundTheory.Heights₂.Heights.ChartChoiceAlgClosed.eval_map_splitFirst <;> assumption
+  rw [eval_map]
+  have h : (eval₂Hom (Ideal.Quotient.mk J) (fun m => Ideal.Quotient.mk J (C (t m)))).comp
+      (splitFirst F e n).toRingHom = (Ideal.Quotient.mk J).comp (bind₁ (specFirstVar t)).toRingHom := by
+    apply MvPolynomial.ringHom_ext
+    · intro a
+      simp [splitFirst, MvPolynomial.algebraMap_eq]
+    · rintro ⟨i, m⟩
+      induction i using Fin.cases <;> simp [splitFirst, specFirstVar, bind₁_X_right]
+  exact RingHom.congr_fun h f
 
-end ChartChoice
-
-
-open ChartChoice in
-theorem ChartChoice.proof (h₁ : IncIdealPrime.Statement) (h₂ : ChowFormMultiHomog.Statement) :
-    ChartChoice.Statement := by
-  intro F _ _ n e I f q hI hf hq
+theorem exists_not_dvd [Infinite F] (h₁ : IncIdealPrime.Statement) (h₂ : ChowFormMultiHomog.Statement)
+    (I : Ideal (MvPolynomial (Fin n) F)) (f : MvPolynomial (Fin (e + 1) × Fin n) F)
+    (q : MvPolynomial (Fin e × Fin n) F) (hI : IsProjPrime I) (hf : IsChowForm I (e + 1) f)
+    (hq : Prime q) : ∃ t : Fin n → F, ¬ q ∣ specFirst f t := by
   classical
   obtain ⟨hf0, hspan⟩ := isChowForm_iff.mp hf
   have hfp : Prime f := by
@@ -122,7 +102,6 @@ theorem ChartChoice.proof (h₁ : IncIdealPrime.Statement) (h₂ : ChowFormMulti
     rw [hspan] at this
     exact (Ideal.span_singleton_prime hf0).mp this
   obtain ⟨δ, hδ, hhom⟩ := h₂ F n (e + 1) I f hI hf
-
   have hndvd : ¬ rename (shiftVar e n) q ∣ f := by
     rintro ⟨g, hg⟩
     rcases hfp.2.2 (rename (shiftVar e n) q) g (hg ▸ dvd_refl f) with ⟨h, hh⟩ | ⟨h, hh⟩
@@ -156,23 +135,29 @@ theorem ChartChoice.proof (h₁ : IncIdealPrime.Statement) (h₂ : ChowFormMulti
     apply hndvd
     have := map_dvd (joinFirst F e n) hmem
     rwa [joinFirst_splitFirst, joinFirst_C] at this
-  have : CharZero (MvPolynomial (Fin e × Fin n) F ⧸ J) :=
-    charZero_of_injective_algebraMap (algebraMap F _).injective
+  let g : ℕ ↪ F := Infinite.natEmbedding F
+  have hinj : Function.Injective fun k : ℕ => Ideal.Quotient.mk J (C (g k)) := fun a b hab =>
+    g.injective ((algebraMap F (MvPolynomial (Fin e × Fin n) F ⧸ J)).injective hab)
   by_contra hall
   push Not at hall
   apply hP0
   refine eq_zero_of_eval_zero_at_prod_finset P
-    (fun _ => (Finset.range (P.totalDegree + 1)).image (fun k : ℕ => (k : MvPolynomial (Fin e × Fin n) F ⧸ J)))
+    (fun _ => (Finset.range (P.totalDegree + 1)).image fun k : ℕ => Ideal.Quotient.mk J (C (g k)))
     (fun i => ?_) (fun x hx => ?_)
-  · rw [Finset.card_image_of_injective _ Nat.cast_injective, Finset.card_range]
+  · rw [Finset.card_image_of_injective _ hinj, Finset.card_range]
     exact Nat.lt_succ_of_le (degreeOf_le_totalDegree P i)
   · choose k _ hk using fun i => Finset.mem_image.mp (hx i)
-    have hx' : x = fun m => Ideal.Quotient.mk J (C ((k m : ℕ) : F)) := by
-      funext m
-      rw [← hk m]
-      simp
+    have hx' : x = fun m => Ideal.Quotient.mk J (C (g (k m))) := funext fun m => (hk m).symm
     rw [hx', hP, eval_map_splitFirst]
     exact Ideal.Quotient.eq_zero_iff_mem.mpr (Ideal.mem_span_singleton.mpr (hall _))
+
+end ChartChoice
+
+
+open ChartChoice in
+theorem ChartChoice.proof (h₁ : IncIdealPrime.Statement) (h₂ : ChowFormMultiHomog.Statement) :
+    ChartChoice.Statement :=
+  fun _ _ _ _ _ I f q hI hf hq => exists_not_dvd h₁ h₂ I f q hI hf hq
 
 end
 

@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.TwistedOperators.FlipOfWeilConvergenceAndTheta
 public import Formalism.DoubleCosetMeasures.StatementZ
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsSBArgs
 public import Development.AbelianVarietyTheory.Definitions.Divisors.InvVolConjLevelOne
@@ -32,8 +31,6 @@ open scoped TensorProduct nonZeroDivisors
 namespace GlobalTheory.FunObj
 
 open GlobalTheory.ChiGrid GlobalTheory.SplitFlip GlobalTheory.SplitWeil GlobalTheory.StepData GlobalTheory.StdFrames Formalism.L2.Host Formalism.L2.DIV
-
-attribute [local instance] Formalism.BasicNotions.Host.cmStar GlobalTheory.LocalData.complRel GlobalTheory.LocalData.isLocalField borelKw borelSpaceKw
 
 attribute [local instance high] GlobalTheory.SplitWeil.matrixMeasurableSpace
 
@@ -73,8 +70,39 @@ theorem squareFlip_zero {A A' Dd : Type} [Fintype A] [DecidableEq A] [Fintype A'
 
 theorem isNatDatum_sliceB {ϖ : kˣ} {e : ℕ} {γ : List Edge} {T : G.Args → ℂ} (hT : G.IsTensor ϖ e γ T) {i j : ℕ}
     (h1 : Edge.theta i j ∈ γ) (h2 : Edge.ex i j ∈ γ) (x : G.Args) : IsNatDatum ϖ e (G.sliceB i j T x) := by
-  intros
-  apply _root_.GlobalTheory.FlipRun.isNatDatum_small <;> assumption
+  have hne : Edge.theta i j ≠ Edge.ex i j := by simp
+  refine ⟨fun Z hZ => ?_, fun Z Z₀ hZ₀ => ?_⟩
+  · rw [mem_matLat_stdLat] at hZ
+    push Not at hZ
+    obtain ⟨r, c, hc⟩ := hZ
+    rcases c with c | c
+    · refine hT.2.1 _ _ h1 fun H => hc ?_
+      have := mem_matLat_stdLat.1 H r c
+      simpa [Function.update_of_ne hne, Matrix.toCols₁] using this
+    · refine hT.2.1 _ _ h2 fun H => hc ?_
+      have := mem_matLat_stdLat.1 H c r
+      simpa [Matrix.toCols₂] using this
+  · have key : (Function.update (Function.update x (.theta i j) (Z + Z₀).toCols₁) (.ex i j) (Z + Z₀).toCols₂ᵀ : G.Args) =
+        Function.update (Function.update x (.theta i j) Z.toCols₁) (.ex i j) Z.toCols₂ᵀ +
+          Function.update (Function.update (0 : G.Args) (.theta i j) Z₀.toCols₁) (.ex i j) Z₀.toCols₂ᵀ := by
+      funext b
+      by_cases hb : b = .ex i j
+      · subst hb
+        ext r s; simp [Matrix.toCols₂]
+      · by_cases hb' : b = .theta i j
+        · subst hb'
+          ext r s; simp [Matrix.toCols₁]
+        · simp [Function.update_of_ne hb, Function.update_of_ne hb']
+    have hZ' := FourierDepth.mem_matLat_smul_stdLat.1 hZ₀
+    refine (congrArg T key).trans (hT.2.2 _ _ fun b => ?_)
+    rw [FourierDepth.mem_matLat_smul_stdLat]
+    by_cases hb : b = .ex i j
+    · subst hb
+      intro r s; simpa [Matrix.toCols₂] using hZ' s (Sum.inr r)
+    · by_cases hb' : b = .theta i j
+      · subst hb'
+        intro r s; simpa [Function.update_of_ne hne, Matrix.toCols₁] using hZ' r (Sum.inl s)
+      · intro r s; simp [Function.update_of_ne hb, Function.update_of_ne hb']
 
 end Flip
 
@@ -311,7 +339,7 @@ theorem sum_reps_eq (SA : ∀ j, A j → Prop) (SB : ∀ i, B i → Prop) (BA : 
   by_cases hex : ∃ q : (∀ j, R j) × (∀ i, R' i), (∀ j, SA j (x j - (q.1 j).1)) ∧ ∀ i, SB i (y i - (q.2 i).1)
   · obtain ⟨q₀, hx, hy⟩ := hex
     rw [Finset.sum_eq_single q₀]
-    · rw [Finset.prod_eq_one fun j _ => if_pos (hx j), Finset.prod_eq_one fun i _ => if_pos (hy i), mul_one, mul_one]
+    · rw [Finset.prod_eq_one fun j _ => ite_eq_left (hx j), Finset.prod_eq_one fun i _ => ite_eq_left (hy i), mul_one, mul_one]
       have h := hper (fun j => (q₀.1 j).1) (fun i => (q₀.2 i).1) (x - fun j => (q₀.1 j).1) (y - fun i => (q₀.2 i).1) hx hy
       rw [add_sub_cancel, add_sub_cancel] at h
       exact h.symm
@@ -321,11 +349,11 @@ theorem sum_reps_eq (SA : ∀ j, A j → Prop) (SB : ∀ i, B i → Prop) (BA : 
       have h1 : ∀ j, SA j (x j - (q.1 j).1) := fun j => by
         by_contra h0
         apply hz
-        rw [Finset.prod_eq_zero (Finset.mem_univ j) (if_neg h0)]; ring
+        rw [Finset.prod_eq_zero (Finset.mem_univ j) (ite_eq_right h0)]; ring
       have h2 : ∀ i, SB i (y i - (q.2 i).1) := fun i => by
         by_contra h0
         apply hz
-        rw [Finset.prod_eq_zero (Finset.mem_univ i) (if_neg h0)]; ring
+        rw [Finset.prod_eq_zero (Finset.mem_univ i) (ite_eq_right h0)]; ring
       refine Prod.ext (funext fun j => Subtype.ext ?_) (funext fun i => Subtype.ext ?_)
       · have := hSA j _ _ (hx j) (h1 j)
         rw [sub_sub_sub_cancel_left] at this
@@ -348,10 +376,10 @@ theorem sum_reps_eq (SA : ∀ j, A j → Prop) (SB : ∀ i, B i → Prop) (BA : 
       refine ⟨q, fun j => ?_, fun i => ?_⟩
       · by_contra h0
         apply hz
-        rw [Finset.prod_eq_zero (Finset.mem_univ j) (if_neg h0)]; ring
+        rw [Finset.prod_eq_zero (Finset.mem_univ j) (ite_eq_right h0)]; ring
       · by_contra h0
         apply hz
-        rw [Finset.prod_eq_zero (Finset.mem_univ i) (if_neg h0)]; ring
+        rw [Finset.prod_eq_zero (Finset.mem_univ i) (ite_eq_right h0)]; ring
 
 end Abstract
 
@@ -392,7 +420,7 @@ theorem IsSmall.neg {x : Mx D b a} (h : IsSmall P β' β n x) : IsSmall P β' β
 alias IsSmall.sub := _root_.GlobalTheory.FunObj.CosSB.isSmall_sub
 
 theorem cosLoc_self {e : AE D} {r : Mx D b a} (hr : IsHalf e r) : cosLoc P e β' β n r r = 1 := by
-  rw [cosLoc, if_pos ⟨hr, by rw [sub_self]; exact isSmall_zero⟩]
+  rw [cosLoc, ite_eq_left ⟨hr, by rw [sub_self]; exact isSmall_zero⟩]
 
 theorem cosLoc_of_ne_zero {e : AE D} {r x : Mx D b a} (h : cosLoc P e β' β n r x ≠ 0) :
     IsHalf e x ∧ IsSmall P β' β n (x - r) := by
@@ -423,24 +451,6 @@ end Expand
 section Lat
 
 variable {D : D7} {T : Type} {L : LevCh D T} {sc : Consts}
-
-theorem isLattice_top (G : GridData L sc) {j : ℕ} (hj : j ≤ D.R.m) : Submodule.IsLattice D.host.E (G.Λ (.top j)) :=
-  (G.isV (X := .top j) hj fun _ e => by cases e).sd.1
-
-theorem isLattice_grid_succ (G : GridData L sc) {i : ℕ} (hi : i + 1 ≤ D.R.m) :
-    Submodule.IsLattice D.host.E (G.Λ (.grid (i + 1) D.R.m)) :=
-  (G.isV (X := .grid (i + 1) D.R.m) ⟨hi, le_rfl⟩ fun j e => by injection e with h1; omega).sd.1
-
-theorem isLattice_X {μ₀ : T} (hL : L.Is μ₀) : Submodule.IsLattice D.host.E L.ΛX := by
-  obtain ⟨c, hc⟩ := hL.βX
-  obtain ⟨h1, h2⟩ := GlobalTheory.ParahoricLift.base_lattice hc
-  exact Submodule.IsLattice.of_fg D.host.E h1
-
-theorem isLattice_grid_zero {μ₀ : T} (hL : L.Is μ₀) (G : GridData L sc) :
-    Submodule.IsLattice D.host.E (G.Λ (.grid 0 D.R.m)) := by
-  have key : ∀ X : LSp D, X = ⟨D.sp.X', L.ΛX⟩ → Submodule.IsLattice D.host.E X.lat := by
-    rintro _ rfl; exact isLattice_X hL
-  exact key (columnBlock L D.R.m) (colY_m L)
 
 theorem isFullLattice_top (G : GridData L sc) {j : ℕ} (hj : j ≤ D.R.m) :
     Submodule.IsFullLattice D.host.E (G.Λ (.top j)) :=

@@ -1,6 +1,5 @@
 module
 
-import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.PHilbDegBound
 public import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.DivisorIdealBotUniformiser
 public import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.PDimStrictDrop
 public import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.PDivCycleFiniteSupport
@@ -37,7 +36,7 @@ theorem localizedQuot_nontrivial_of_le (J W : Ideal A) [W.IsPrime] (h : J ≤ W)
 
 theorem withBot_lt_natCast_of_add_one_le (x : WithBot ℕ∞) (N : ℕ) (h : x + 1 ≤ (N : WithBot ℕ∞)) :
     x < (N : WithBot ℕ∞) := by
-  apply _root_.GroundTheory.Heights₂.Heights.NumbersDVR.HilbDegBound.lt_of_add_one_le_natCast <;> assumption
+  exact ENat.WithBot.add_one_le_natCast_iff.mp h
 
 end General
 

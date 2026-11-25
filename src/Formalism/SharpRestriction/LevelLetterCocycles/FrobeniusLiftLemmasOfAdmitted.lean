@@ -39,51 +39,11 @@ public import Formalism.SharpRestriction.LevelLetterCocycles.QuotientImageDivisi
 public import Formalism.SharpRestriction.LevelLetterCocycles.UniformizerClauseOfAdmitted
 public import Formalism.SharpRestriction.LevelLetterCocycles.UniformizerClauseOfAdmittedAlt
 public import Formalism.LocalRingCardinality.SpanPowerMembership.NDLocE
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Topology.Sheaves.Init
-import Mathlib.GroupTheory.Nilpotent
 import Mathlib.Tactic.Linter.HaveILetI
 import Formalism.SharpRestriction.LevelLetterCocycles.QuotientImageDivisibility.JumpsLetExists
 import Formalism.SharpRestriction.LevelLetterCocycles.QuotientImageDivisibility.SmulSDivMem
 import Formalism.SharpRestriction.LevelLetterCocycles.RelayGeneralCaseOfAdmissible
-import Mathlib.RingTheory.PowerSeries.Inverse
 import Formalism.SharpRestriction.LevelLetterCocycles.QuotientImageDivisibility.FrobeniusUniformizerPowDvd
 import Formalism.SharpRestriction.LevelLetterCocycles.AnnihilatorGeneralOfRingCondition
 import Formalism.SharpRestriction.LevelLetterCocycles.LocalClauseOfFrobeniusHyps
@@ -723,7 +683,7 @@ theorem lemGA_x_of [NeZero n] (W : LocWach PD LL O v n)
   have hJ2 := hJ d T₁ T₂ F b S η m hS
   have hp5 := h5 T₂ (MiW d b S η) (hiW d b S η) hT hJ2
   have hpar1 := lemGAx_parity hn d i hi
-  have hMi : MiW d b S η i = η := by unfold MiW; rw [if_neg (by omega)]
+  have hMi : MiW d b S η i = η := by unfold MiW; rw [ite_eq_right (by omega)]
   have hM2 : MiW d b S η (i - 1 + 1) = η := by rw [sub_add_cancel]; exact hMi
   have hbH : b i ≤ hpar n b S := by
     unfold hpar; exact le_trans (Finset.le_sup (Finset.mem_univ i)) (Nat.le_add_right _ _)
@@ -810,7 +770,7 @@ theorem lemGA_x_of [NeZero n] (W : LocWach PD LL O v n)
   have hc00 : ∀ r : ℕ, r < η →
       PowerSeries.coeff r (W.lev i ζ (Formalism.MainNotions.LiftingTheory.qp W ^ η * Formalism.MainNotions.LiftingTheory.pk W 1 ^ h₂)) = 0 := by
     intro r hr
-    rw [hlevk, PowerSeries.coeff_X_pow_mul', if_neg (by omega)]
+    rw [hlevk, PowerSeries.coeff_X_pow_mul', ite_eq_right (by omega)]
 
   have hg : ∀ k : ℤ, smulS (u ^ (b i + η)) dx k ∈
       lemGAx_F (R := LL) (b i : ℤ) (((2 * H : ℕ) : ℤ) - (b i : ℤ)) c0 k := by
@@ -992,10 +952,10 @@ theorem frobenius_sq_bound_of_local [NeZero n] (h3 : Formalism.MainNotions.Delta
     rw [sub_add_cancel] at this
     omega
   have hc2m : c - 1 - 1 ∈ evens n d := Finset.mem_filter.2 ⟨Finset.mem_univ _, hc2⟩
-  have hMc : boxM d b S η c = b c + S := if_pos hcD
-  have hMc1 : boxM d b S η (c - 1) = η := if_neg (by omega)
-  have hHc1 : boxH d b S η (c - 1) = b (c - 1) + S := if_neg (by omega)
-  have hMc2 : boxM d b S η (c - 1 - 1) = b (c - 1 - 1) + S := if_pos hc2
+  have hMc : boxM d b S η c = b c + S := ite_eq_left hcD
+  have hMc1 : boxM d b S η (c - 1) = η := ite_eq_right (by omega)
+  have hHc1 : boxH d b S η (c - 1) = b (c - 1) + S := ite_eq_right (by omega)
+  have hMc2 : boxM d b S η (c - 1 - 1) = b (c - 1 - 1) + S := ite_eq_left hc2
   have hM₁ : ∀ z ∈ W.Nl T₁ (c - 1), W.Q ^ (b c + S) • W.φD T₁ z ∈ W.N T₁ := by
     rw [← hMc]; exact h5₁.1 c
   have hM₂ : ∀ z ∈ W.Nl T₂ (c - 1), W.Q ^ (b c + S) • W.φD T₂ z ∈ W.N T₂ := by
@@ -1127,7 +1087,7 @@ theorem rhoLift_of [NeZero n] (W : LocWach PD LL O v n) (hT2 : Formalism.MainNot
     intro c' hc' a ha
     have hpar' := Formalism.MainNotions.RamifiedCoefficientChains.S9.parity_succ hn d c'
     unfold Formalism.MainNotions.RamifiedCoefficientChains.JumpWinS at ha
-    rw [if_neg (by omega)] at ha
+    rw [ite_eq_right (by omega)] at ha
     simp only [Set.mem_union, Set.mem_Icc] at ha
     push_cast at ha
     omega
@@ -1326,9 +1286,6 @@ section Rec
 variable (D : D7) (HW : HWOf D.loc) (F : FonOf D.loc D.locA HW) (Cm : CmpOf D.loc D.locA HW F)
 
 variable {CR CA CB CK : ℝ}
-
-theorem crystalline_clause_of_admitted (hA : admitted D HW F Cm CR CA CB CK) : Formalism.MainNotions.DeltaInvariantLattices.P3 D HW F Cm :=
-  fun l _ K s LL h => (hA.1 l K s LL h).2.2.1
 
 theorem truncation_clause_of_admitted (hA : admitted D HW F Cm CR CA CB CK) : Formalism.MainNotions.CrystallineLiftingInputs.adm15 D HW F Cm := by
   refine ⟨Formalism.MainNotions.CrystallineLiftingInputs.TToolAlg_holds, fun l _ K LL hg _ => ?_⟩

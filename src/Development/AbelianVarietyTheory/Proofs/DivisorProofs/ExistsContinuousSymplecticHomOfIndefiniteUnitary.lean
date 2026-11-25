@@ -3,47 +3,7 @@ module
 public import Development.AbelianVarietyTheory.PublishedTheorems.TwistedTraceFormula.RealMetaplecticRepresentation
 public import Formalism.LocalRingCardinality.DataTheta
 public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Upqcpt
-import Mathlib.Algebra.Order.Archimedean.Real.Hom
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.LinearAlgebra.Matrix.FiniteDimensional
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Topology.Sheaves.Init
 import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsFockMap
 
 @[expose] public section
@@ -118,10 +78,9 @@ theorem exists_symplectic_hom_of_unitary_dep : ∀ (ι l : Type) [Fintype ι] [D
     obtain ⟨c, rfl⟩ := φ.surjective u
     obtain ⟨c', rfl⟩ := φ.surjective v
     rw [hT, hT, hφ, hφ]
-    simp only [GlobalTheory.ColAction.signed_sum_mul_transpose _ _ _ (hkJ g _)]
+    simp only [signed_sum_mul_transpose _ _ _ (hkJ g _)]
   have hmem : ∀ g, LinearMap.toMatrix' (T g) ∈ Matrix.symplecticGroup l ℝ := fun g =>
-    GlobalTheory.ColAction.mem_symplecticGroup_of_sympl _
-      (fun u v => by simpa only [LinearMap.toMatrix'_mulVec] using hsy g u v)
+    mem_symplecticGroup_of_sympl _ (fun u v => by simpa only [LinearMap.toMatrix'_mulVec] using hsy g u v)
   have hTmul : ∀ g h, T (g * h) = T g ∘ₗ T h := by
     intro g h
     apply LinearMap.ext
@@ -166,8 +125,7 @@ theorem exists_symplectic_hom_of_unitary : ∀ (ι l : Type) [Fintype ι] [Decid
     ∀ (G : Type) [Group G] [TopologicalSpace G] (k : G →* (ι → Mat R S)), Continuous k →
     (∀ g w, (k g w)ᴴ * Jm R S * k g w = Jm R S) →
     ∃ s : G →* Matrix.symplecticGroup l ℝ, Continuous s ∧
-      ∀ g c, (s g : Matrix (l ⊕ l) (l ⊕ l) ℝ) *ᵥ φ c = φ fun w => c w * (k g w)ᵀ := by
-  intro ι l _ _ _ _ P Q R S φ
-  exact exists_symplectic_hom_of_unitary_dep ι l (fun _ => P) (fun _ => Q) (fun _ => R) (fun _ => S) φ
+      ∀ g c, (s g : Matrix (l ⊕ l) (l ⊕ l) ℝ) *ᵥ φ c = φ fun w => c w * (k g w)ᵀ :=
+  fun ι l _ _ _ _ P Q R S => exists_symplectic_hom_of_unitary_dep ι l (fun _ => P) (fun _ => Q) (fun _ => R) (fun _ => S)
 
 end GlobalTheory.ColAction

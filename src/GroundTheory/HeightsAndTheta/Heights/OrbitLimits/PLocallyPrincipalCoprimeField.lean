@@ -16,6 +16,7 @@ namespace GroundTheory.Heights₂.Heights.Targets
 open GroundTheory.Heights₂.Heights GroundTheory.Heights₂.Heights.LocallyPrincipalCoprimeAlt
 
 theorem LocallyPrincipalCoprimeField.proof : LocallyPrincipalCoprimeField.Statement :=
-  LocallyPrincipalCoprime.exists_coprime_rep
+  fun _ _ _ B M ι _ a hfin hBM haM hden hloc hM s hs =>
+    LocallyPrincipalCoprime.proof_of_charZero B M ι a hfin hBM haM hden hloc hM s hs
 
 end GroundTheory.Heights₂.Heights.Targets

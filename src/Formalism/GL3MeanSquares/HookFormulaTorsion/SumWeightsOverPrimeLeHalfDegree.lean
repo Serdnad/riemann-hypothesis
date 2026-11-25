@@ -1,59 +1,11 @@
 module
 
 public import Formalism.GL3MeanSquares.RankMulPowThreeHalvesLeFourthPower
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Algebra.Order.Star.Int
-import Mathlib.Algebra.Order.Star.Real
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
 public import Mathlib.Analysis.PSeries
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
 public import Mathlib.Analysis.SpecialFunctions.Log.Summable
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
 public import Mathlib.NumberTheory.EulerProduct.Basic
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Henselian
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.RingTheory.RegularLocalRing.Defs
-import Mathlib.RingTheory.SimpleRing.Principal
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.Lemma
 import Mathlib.Tactic.Linter.HaveILetI
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Topology.Sheaves.Init
 
 @[expose] public section
 
@@ -80,6 +32,10 @@ private lemma residue_characteristic_prime (P : Ideal (𝓞 K)) (hP : P.IsMaxima
   unfold residueCharacteristic
   exact (CharP.char_is_prime_or_zero (𝓞 K ⧸ P) (ringChar (𝓞 K ⧸ P))).resolve_right
     (CharP.char_ne_zero_of_finite (𝓞 K ⧸ P) (ringChar (𝓞 K ⧸ P)))
+
+private lemma residue_characteristic_mem (P : Ideal (𝓞 K)) : ((residueCharacteristic K P : ℕ) : 𝓞 K) ∈ P := by
+  rw [← Ideal.Quotient.eq_zero_iff_mem, map_natCast]
+  exact ringChar.Nat.cast_ringChar
 
 private lemma prod_norm_dvd_prime_pow_degree (p : ℕ) (T : Finset (Ideal (𝓞 K)))
     (hT : ∀ P ∈ T, P.IsMaximal ∧ (p : 𝓞 K) ∈ P) :
@@ -143,8 +99,7 @@ private lemma inert_prime_norm_ge_sq (P : Ideal (𝓞 K)) (hP : P.IsMaximal)
     (hc : Formalism.HermitianLatticesTheory.conjIdeal (K := K) P = P)
     (hu : ∃ θ t : 𝓞 K, algebraMap (𝓞 K) K t = star (algebraMap (𝓞 K) K θ) ∧ θ - t ∉ P) :
     residueCharacteristic K P ^ 2 ≤ Ideal.absNorm P := by
-  by_contra hlt
-  push_neg at hlt
+  by_contra! hlt
   obtain ⟨θ, t, ht, hθt⟩ := hu
   obtain ⟨k, hk1, hk⟩ := abs_norm_eq_prime_pow K P hP
   have hp := residue_characteristic_prime K P hP
@@ -176,6 +131,12 @@ private noncomputable def invPowMonoidHomReal (M : ℕ) : ℕ →* ℝ where
 
 private lemma summable_inv_pow_real (M : ℕ) (hM : 2 ≤ M) : Summable (fun n : ℕ => ((n : ℝ)⁻¹) ^ M) := by
   simpa [inv_pow] using Real.summable_nat_pow_inv.mpr (by omega : 1 < M)
+
+private lemma tsum_inv_pow_eq_zeta_real (M : ℕ) (hM : 2 ≤ M) : ∑' n : ℕ, ((n : ℝ)⁻¹) ^ M = zetaR M := by
+  rw [(summable_inv_pow_real M hM).tsum_eq_zero_add]
+  rw [Nat.cast_zero, inv_zero, zero_pow (by omega), zero_add]
+  show _ = ∑' n : ℕ, 1 / ((n : ℝ) + 1) ^ M
+  simp only [Nat.cast_add, Nat.cast_one, one_div, inv_pow]
 
 private lemma inv_prime_pow_lt_one' (M : ℕ) (hM : 1 ≤ M) (p : ℕ) (hp : p.Prime) :
     ((p : ℝ)⁻¹) ^ M < 1 := by
@@ -218,11 +179,7 @@ private lemma euler_product_le_zeta (M : ℕ) (hM : 2 ≤ M) (S : Finset ℕ) (h
         le_mul_of_one_le_left hSpos hrest
     _ = ∏ p ∈ N.primesBelow, (1 - invPowMonoidHomReal M p)⁻¹ := hsplit
     _ ≤ ∑' n : ℕ, invPowMonoidHomReal M n := key
-    _ = zetaR M := by
-      simp only [hfv]
-      rw [(summable_inv_pow_real M hM).tsum_eq_zero_add, Nat.cast_zero, inv_zero,
-        zero_pow (by omega), zero_add]
-      simp only [zetaR, Nat.cast_add, Nat.cast_one, one_div, inv_pow]
+    _ = zetaR M := by simp only [hfv]; exact tsum_inv_pow_eq_zeta_real M hM
 
 private noncomputable def negLogOneSubInvPow (M p : ℕ) : ℝ := -Real.log (1 - ((p : ℝ)⁻¹) ^ M)
 
@@ -303,8 +260,6 @@ variable (K : Type) [Field K] [NumberField K]
 private noncomputable def idealPrimeWeight (P : Ideal (𝓞 K)) : ℝ :=
   Real.log (Ideal.absNorm P : ℝ) / (2 * Real.log (residueCharacteristic K P : ℝ))
 
-private lemma log_prime_pos (p : ℕ) (hp : p.Prime) : 0 < Real.log (p : ℝ) := Real.log_pos (by exact_mod_cast hp.one_lt)
-
 private lemma sum_weights_over_prime_le_half_degree (p : ℕ) (T : Finset {P : Ideal (𝓞 K) // P.IsMaximal})
     (hT : ∀ P ∈ T, residueCharacteristic K P.1 = p) :
     ∑ P ∈ T, idealPrimeWeight K P.1 ≤ (Module.finrank ℚ K : ℝ) / 2 := by
@@ -312,14 +267,14 @@ private lemma sum_weights_over_prime_le_half_degree (p : ℕ) (T : Finset {P : I
   rcases T.eq_empty_or_nonempty with rfl | ⟨P0, hP0⟩
   · simp only [Finset.sum_empty]; positivity
   have hp : p.Prime := by rw [← hT P0 hP0]; exact residue_characteristic_prime K P0.1 P0.2
-  have hlp := log_prime_pos p hp
+  have hlp := Nat.Prime.log_pos hp
   have hdvd : ∏ P ∈ T, Ideal.absNorm P.1 ∣ p ^ Module.finrank ℚ K := by
     have := prod_norm_dvd_prime_pow_degree K p (T.map (Function.Embedding.subtype _)) (by
       intro P hP
       obtain ⟨Q, hQ, rfl⟩ := Finset.mem_map.mp hP
       refine ⟨Q.2, ?_⟩
-      rw [← hT Q hQ, ← Ideal.Quotient.eq_zero_iff_mem, map_natCast]
-      exact ringChar.Nat.cast_ringChar)
+      have := residue_characteristic_mem K Q.1
+      rwa [hT Q hQ] at this)
     simpa [Finset.prod_map] using this
   have hpos : ∀ P ∈ T, 0 < Ideal.absNorm P.1 := fun P _ => Nat.pos_of_ne_zero (by
     rw [Ne, Ideal.absNorm_eq_zero_iff]; exact maximal_ideal_ne_bot K P.1 P.2)
@@ -345,7 +300,7 @@ private lemma euler_factor_log_bound (hK : Formalism.HermitianLatticesTheory.IsC
     |Real.log (Formalism.HermitianLatticesTheory.eulerFac K M P)| ≤ idealPrimeWeight K P * negLogOneSubInvPow M (residueCharacteristic K P) := by
   have hp := residue_characteristic_prime K P hP
   obtain ⟨k, hk1, hk⟩ := abs_norm_eq_prime_pow K P hP
-  have hlp := log_prime_pos _ hp
+  have hlp := Nat.Prime.log_pos hp
   have hlne := hlp.ne'
   have hc : idealPrimeWeight K P = (k : ℝ) / 2 := by
     rw [idealPrimeWeight, hk, Nat.cast_pow, Real.log_pow]; field_simp
@@ -411,13 +366,13 @@ private lemma partial_sums_log_euler_factor_le (hK : Formalism.HermitianLattices
 
 end main
 
-theorem log_l_value_field_bound_of_two_le :
-  ∀ (K : Type) [Field K] [NumberField K] [StarRing K], Formalism.HermitianLatticesTheory.IsCMUnram K → ∀ M : ℕ, 2 ≤ M →
+theorem log_l_value_field_bound_ge_two (K : Type) [Field K] [NumberField K] [StarRing K]
+    (hK : Formalism.HermitianLatticesTheory.IsCMUnram K) (M : ℕ) (hM2 : 2 ≤ M) :
     Multipliable (fun P : {P : Ideal (NumberField.RingOfIntegers K) // P.IsMaximal} =>
       Formalism.HermitianLatticesTheory.eulerFac K M P.1) ∧
     0 < Formalism.HermitianLatticesTheory.lValEta K M ∧
-    |Real.log (Formalism.HermitianLatticesTheory.lValEta K M)| ≤ (Formalism.HermitianLatticesTheory.fDeg K : ℝ) * Real.log (zetaR M) := by
-  intro K _ _ _ hK M hM2
+    |Real.log (Formalism.HermitianLatticesTheory.lValEta K M)| ≤
+      (Formalism.HermitianLatticesTheory.fDeg K : ℝ) * Real.log (zetaR M) := by
   have hpos : ∀ P : {P : Ideal (𝓞 K) // P.IsMaximal}, 0 < Formalism.HermitianLatticesTheory.eulerFac K M P.1 :=
     fun P => (euler_factor_log_bound K hK M (by omega) P.1 P.2).1
   have habs : Summable
@@ -438,8 +393,7 @@ theorem log_l_value_field_bound_of_two_le :
     simp only [Real.norm_eq_abs] at hn
     exact hn.trans (habs.tsum_le_of_sum_le (partial_sums_log_euler_factor_le K hK M hM2))
 
-theorem log_l_value_field_bound : LogLFunctionEulerBound := by
-  intro K _ _ _ hK M hM
-  exact log_l_value_field_bound_of_two_le K hK M (by omega)
+theorem log_l_value_field_bound : LogLFunctionEulerBound :=
+  fun K _ _ _ hK M hM => log_l_value_field_bound_ge_two K hK M (by omega)
 
 end Formalism.HermitianLattices.GenusMassVolumes

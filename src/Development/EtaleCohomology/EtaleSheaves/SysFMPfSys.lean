@@ -1,49 +1,8 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsClopenOfIsLocallyNoetherian
 public import Development.EtaleCohomology.EtaleSheaves.BuildCut
 public import Development.EtaleCohomology.EtaleSheaves.SysFMPf
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.AlgebraicGeometry.Modules.Sheaf
 import Mathlib.AlgebraicGeometry.Morphisms.Immersion
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.Linter.HaveILetI
 import Mathlib.Tactic.Linter.Style
 
@@ -59,7 +18,7 @@ namespace LateralTheory.E.SysFMPfAlg
 
 open LateralTheory.E.BuildCut
 
-theorem prime_of_filter {W : Type} [CommRing W] (hW : ProdACF W) (F : Set W) (hF : ∀ e ∈ F, IsIdempotentElem e)
+theorem prime_of_filter {W : Type} [CommRing W] (hW : ProdACF W) (F : Set W)
     (h0 : (0 : W) ∉ F) (hu : ∀ e, IsIdempotentElem e → e ∈ F ∨ 1 - e ∈ F) (hm : ∀ e ∈ F, ∀ f ∈ F, e * f ∈ F) :
     ∃ q : PrimeSpectrum W, ∀ e, IsIdempotentElem e → (e ∉ q.asIdeal ↔ e ∈ F) := by
   have h1 : (1 : W) ∈ F := by
@@ -116,7 +75,19 @@ theorem prime_of_filter {W : Type} [CommRing W] (hW : ProdACF W) (F : Set W) (hF
 open AlgebraicGeometry in
 theorem isClosed_basicOpen_idem {X : Scheme.{0}} {s : Γ(X, ⊤)} (hs : IsIdempotentElem s) :
     IsClosed (X.basicOpen s : Set X) := by
-  apply @GlobalTheory.PairingLocus.isClosed_basicOpen <;> assumption
+  have : (X.basicOpen s : Set X)ᶜ = (X.basicOpen (1 - s) : Set X) := by
+    ext x
+    simp only [Set.mem_compl_iff, SetLike.mem_coe, Scheme.mem_basicOpen_top, map_sub, map_one]
+    have he : IsIdempotentElem (X.presheaf.germ ⊤ x trivial s) := hs.map _
+    constructor
+    · intro h
+      exact (IsLocalRing.isUnit_or_isUnit_one_sub_self _).resolve_left h
+    · intro h h'
+      have hz : X.presheaf.germ ⊤ x trivial s * (1 - X.presheaf.germ ⊤ x trivial s) = 0 := by
+        rw [mul_sub, mul_one, he.eq, sub_self]
+      exact not_isUnit_zero (hz ▸ h'.mul h)
+  rw [← isOpen_compl_iff, this]
+  exact (X.basicOpen (1 - s)).isOpen
 
 open AlgebraicGeometry in
 theorem isClosedImmersion_basicOpen_idem {X : Scheme.{0}} {s : Γ(X, ⊤)} (hs : IsIdempotentElem s) :
@@ -173,7 +144,7 @@ theorem Sys_of (hI : IdemSec) : Sys := by
   have hFm : ∀ e ∈ F, ∀ f ∈ F, e * f ∈ F := by
     rintro e ⟨he, s, rfl, hs⟩ f ⟨hf, t, rfl, ht⟩
     exact ⟨he.mul hf, s * t, map_mul _ _ _, by rw [Scheme.basicOpen_mul]; exact ⟨hs, ht⟩⟩
-  obtain ⟨q, hq⟩ := prime_of_filter hW F (fun e h => h.1) hF0 hFu hFm
+  obtain ⟨q, hq⟩ := prime_of_filter hW F hF0 hFu hFm
   let J : Type := {s : Γ(w.normalization, ⊤) // IsIdempotentElem (phi w s) ∧ phi w s ∉ q.asIdeal}
   letI : Preorder J := Preorder.lift (fun s : J => w.normalization.basicOpen s.1)
   have hmono : Monotone (fun s : J => w.normalization.basicOpen s.1) := fun _ _ h => h

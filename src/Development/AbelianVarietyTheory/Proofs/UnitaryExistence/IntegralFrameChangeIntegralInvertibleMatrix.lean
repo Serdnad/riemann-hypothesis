@@ -1,7 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.GlobalBasisAlgebra
-import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.ExistsTangentModuleUniversalGroup
 public import Formalism.LocalToGlobal.ProjectiveLattices.IntAllProofFree
 public import Formalism.LocalToGlobal.ProjectiveLattices.IsChartIff
 public import Formalism.LocalToGlobal.ProjectiveLattices.IntFrames
@@ -56,8 +54,6 @@ import Mathlib.Tactic.ReduceModChar
 
 @[expose] public section
 
-set_option autoImplicit false
-
 noncomputable section
 
 namespace GlobalTheory.IntRebase
@@ -69,8 +65,6 @@ section Tan
 
 open AlgebraicGeometry CategoryTheory Limits MonoidalCategory CartesianMonoidalCategory MonObj
 open ReciprocityTheory.ChartRestriction.G.Geo.Tor
-
-attribute [local instance] Over.cartesianMonoidalCategory
 
 variable {X0 : Scheme.{0}} {S : Type} [CommRing S] (x0 : Sp S ⟶ X0)
 
@@ -238,8 +232,6 @@ section TanSAB
 open AlgebraicGeometry CategoryTheory Limits MonoidalCategory CartesianMonoidalCategory MonObj NumberField
 open ReciprocityTheory.ChartRestriction.G.Geo.Tor
 
-attribute [local instance] Over.cartesianMonoidalCategory
-
 variable {E : Type} [Field E] [NumberField E] [IsCMField E] {H : Host E} {X0 : Scheme.{0}} (t : SAB H X0)
 variable {S : Type} [CommRing S] (x0 : Sp S ⟶ X0)
 
@@ -271,7 +263,25 @@ theorem smT_zero_ovT {v : Sp (DualNumber S) ⟶ t.G.left} (hv : IsTanAtG t x0 v)
   rw [he, ← spMap_comp', Category.assoc, hv.2]
 
 theorem isTanAtG_of (W : tEpsG x0 ⟶ t.G) (h : smT x0 0 W = 1) : IsTanAtG t x0 W.left := by
-  first | exact _root_.GlobalTheory.FrameTangent.isTanAtG_of | exact @_root_.GlobalTheory.FrameTangent.isTanAtG_of | apply _root_.GlobalTheory.FrameTangent.isTanAtG_of <;> assumption
+  refine ⟨Over.w W, ?_⟩
+  have hid : (TrivSqZeroExt.fstHom S S S).toRingHom.comp (algebraMap S (DualNumber S)) = RingHom.id S := by
+    apply RingHom.ext
+    intro r
+    simp
+  let ψ : Over.mk x0 ⟶ tEpsG x0 := Over.homMk (spMap (TrivSqZeroExt.fstHom S S S).toRingHom) (by
+    show spMap (TrivSqZeroExt.fstHom S S S).toRingHom ≫ spMap (algebraMap S (DualNumber S)) ≫ x0 = x0
+    rw [← Category.assoc, spMap_comp', hid]
+    simp [spMap])
+  have h1 : ψ ≫ W = 1 := by
+    refine tan_pull x0 ψ ?_ W h
+    apply Over.OverMorphism.ext
+    simp only [Over.comp_left, ψ, Over.homMk_left, homAt]
+    rw [spMap_comp']
+    congr 1
+    apply RingHom.ext
+    intro r
+    simp
+  exact congrArg (fun φ => φ.left) h1
 
 end TanSAB
 
@@ -279,8 +289,6 @@ section Sat
 
 open AlgebraicGeometry CategoryTheory Limits MonoidalCategory CartesianMonoidalCategory MonObj NumberField
 open ReciprocityTheory.ChartRestriction.G.Geo.Tor
-
-attribute [local instance] Over.cartesianMonoidalCategory
 
 section Gen
 
@@ -364,8 +372,6 @@ section Reb
 
 open AlgebraicGeometry CategoryTheory Limits MonoidalCategory CartesianMonoidalCategory MonObj NumberField
 open ReciprocityTheory.ChartRestriction.G.Geo.Tor
-
-attribute [local instance] Over.cartesianMonoidalCategory
 
 section GenA
 

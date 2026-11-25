@@ -1,13 +1,12 @@
 module
 
-import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PBlockGraphFibreRatio
-import GroundTheory.HeightsAndTheta.Heights.MultihomogeneousPolynomials
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsPowerHeightsirational
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsChartDenominator
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsGeneratedNefGeneric
 import Mathlib.RingTheory.Henselian
 import Mathlib.RingTheory.RegularLocalRing.Defs
 import Mathlib.RingTheory.SimpleRing.Principal
+import GroundTheory.HeightsAndTheta.Heights.HeightComparison.IsMultiHomogIdealIff
 
 @[expose] public section
 
@@ -72,8 +71,19 @@ theorem inLat_prod (y : (Σ k, ι k) → Ω) (f : ∀ k, ι k) : InLat y 1 (∏ 
 
 theorem aeval_scale {d : K → ℕ} {g : MRing ι} (hg : IsMultiHomog g d) (lam : K → Ω) (z : (Σ k, ι k) → Ω) :
     aeval (fun p => lam p.1 * z p) g = (∏ k, lam k ^ d k) * aeval z g := by
-  intros
-  apply _root_.GroundTheory.Heights₂.Heights.HilbertSamuel.BlockGraphFibreRatio.aeval_smul_of_isMultiHomog <;> assumption
+  classical
+  rw [aeval_def, aeval_def, eval₂_eq', eval₂_eq', Finset.mul_sum]
+  refine Finset.sum_congr rfl fun m hm => ?_
+  have hm' : ∏ p, lam p.1 ^ m p = ∏ k, lam k ^ d k := by
+    rw [Fintype.prod_sigma]
+    refine Finset.prod_congr rfl fun k _ => ?_
+    show ∏ i, lam k ^ m ⟨k, i⟩ = lam k ^ d k
+    rw [Finset.prod_pow_eq_pow_sum, hg m hm k]
+  have hsplit : ∏ p, (lam p.1 * z p) ^ m p = (∏ p, lam p.1 ^ m p) * ∏ p, z p ^ m p := by
+    rw [← Finset.prod_mul_distrib]
+    exact Finset.prod_congr rfl fun p _ => mul_pow _ _ _
+  rw [hsplit, hm']
+  ring
 
 theorem exists_chart {y : (Σ k, ι k) → Ω} {d : ℕ} (hV : IsArithVar (mCoordIdeal y) d) :
     ∃ c : ∀ k, ι k, ∀ k, y ⟨k, c k⟩ ≠ 0 := by
@@ -91,25 +101,22 @@ section Forms
 
 variable {K : Type} [Fintype K] [DecidableEq K] {ι : K → Type} [∀ k, Fintype (ι k)] {Ω : Type} [Field Ω]
 
-theorem homog_zero (a : K → ℕ) : IsMultiHomog (0 : MRing ι) a := by
-  intro m hm
-  simp at hm
+theorem homog_zero (a : K → ℕ) : IsMultiHomog (0 : MRing ι) a :=
+  GroundTheory.Heights₂.Heights.Bridge.isMultiHomog_zero a
 
-theorem homog_one : IsMultiHomog (1 : MRing ι) 0 := by
-  apply _root_.GroundTheory.Heights₂.Heights.MultiHomogeneous.one <;> assumption
+theorem homog_one : IsMultiHomog (1 : MRing ι) 0 :=
+  GroundTheory.Heights₂.Heights.Bridge.isMultiHomog_one
 
 theorem homog_add {f g : MRing ι} {a : K → ℕ} (hf : IsMultiHomog f a) (hg : IsMultiHomog g a) :
-    IsMultiHomog (f + g) a := by
-  apply _root_.GroundTheory.Heights₂.Heights.MultiHomogeneous.add <;> assumption
+    IsMultiHomog (f + g) a :=
+  GroundTheory.Heights₂.Heights.Bridge.isMultiHomog_add hf hg
 
-theorem homog_neg {f : MRing ι} {a : K → ℕ} (hf : IsMultiHomog f a) : IsMultiHomog (-f) a := by
-  intro m hm
-  rw [MvPolynomial.support_neg] at hm
-  exact hf m hm
+theorem homog_neg {f : MRing ι} {a : K → ℕ} (hf : IsMultiHomog f a) : IsMultiHomog (-f) a :=
+  GroundTheory.Heights₂.Heights.Bridge.isMultiHomog_neg hf
 
 theorem homog_mul {f g : MRing ι} {a b : K → ℕ} (hf : IsMultiHomog f a) (hg : IsMultiHomog g b) :
-    IsMultiHomog (f * g) (a + b) := by
-  apply _root_.GroundTheory.Heights₂.Heights.MultiHomogeneous.mul <;> assumption
+    IsMultiHomog (f * g) (a + b) :=
+  GroundTheory.Heights₂.Heights.Bridge.isMultiHomog_mul hf hg
 
 theorem blockDeg_zero (k₀ : K) : blockDeg k₀ 0 = 0 := by
   funext k
@@ -128,8 +135,7 @@ theorem homog_one_block (k₀ : K) : IsMultiHomog (1 : MRing ι) (blockDeg k₀ 
   (blockDeg_zero k₀).symm ▸ homog_one
 
 theorem homog_X_block (k₀ : K) (i₀ : ι k₀) : IsMultiHomog (X ⟨k₀, i₀⟩ : MRing ι) (blockDeg k₀ 1) := by
-  intros
-  apply _root_.GroundTheory.Heights₂.Heights.HilbertSamuel.BlockGraphFibreRatio.isMultiHomog_X <;> assumption
+  classical exact GroundTheory.Heights₂.Heights.Bridge.isMultiHomog_X_ite ⟨k₀, i₀⟩
 
 def blockFrac (Y : (Σ k, ι k) → Ω) (k₀ : K) : Subfield Ω where
   carrier := {s | ∃ (t : ℕ) (g h : MRing ι), IsMultiHomog g (blockDeg k₀ t) ∧ IsMultiHomog h (blockDeg k₀ t) ∧

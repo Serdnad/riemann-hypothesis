@@ -808,7 +808,7 @@ theorem gram_density : ∀ (F E : Type) [Field F] [NumberField F] [Field E] [Num
       · exact continuous_snd
     obtain ⟨s, hs⟩ : ∃ s, IsSec R σ J x s :=
       ⟨fun y => if h : ∃ g : HA R σ J, g • ratTup (F := F) R x = y then h.choose else 1,
-        fun y h => by simp only [dif_pos h]; exact h.choose_spec⟩
+        fun y h => by simp only [dite_eq_left h]; exact h.choose_spec⟩
     rw [← lintegral_indicator (hgc.measurable hS), lintegral_tup_two lam _ _ hFi,
       Polar.polar F E σ R hR _ J lam ν α m hl hν hα hm W₁ ρ₁ hW₁.measurableSet hρ₁
         (fun y => ∫⁻ z, (gram3 R σ J ⁻¹' S).indicator (fun X => ENNReal.ofReal (φ X)) ![y 0, z]
@@ -975,20 +975,6 @@ theorem conj_conj (h : IsCMExt F E σ) (e : E) : σ (σ e) = e := by
   obtain ⟨τ⟩ : Nonempty (E →+* ℂ) := inferInstance
   apply τ.injective
   rw [h.2.2.2, h.2.2.2, star_star]
-
-theorem exists_of_conj_eq (h : IsCMExt F E σ) (e : E) (he : σ e = e) :
-    ∃ f, algebraMap F E f = e := by
-  apply GlobalTheory.SelfDualLatticeCompare.exists_of_conj_eq <;> assumption
-
-theorem trace_field (h : IsCMExt F E σ) (e : E) :
-    algebraMap F E (Algebra.trace F E e) = e + σ e := by
-  have hσ := conj_conj h
-  obtain ⟨a, ha⟩ := exists_of_conj_eq h (e + σ e) (by rw [map_add (f := _), hσ, add_comm])
-  have h1 : Algebra.trace F E (σ e) = Algebra.trace F E e :=
-    Algebra.trace_eq_of_algEquiv (AlgEquiv.ofAlgHom σ σ (AlgHom.ext hσ) (AlgHom.ext hσ)) e
-  have h3 := congrArg (Algebra.trace F E) ha
-  rw [Algebra.trace_algebraMap, h.2.2.1, map_add (f := _), h1, two_smul, ← two_mul, ← two_mul] at h3
-  rw [← ha, mul_left_cancel₀ two_ne_zero h3]
 
 variable (R : Type) [CommRing R] [Algebra F R]
 

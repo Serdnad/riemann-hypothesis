@@ -1,6 +1,5 @@
 module
 
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.PullbackSections.WtFieldPfA
 public import Formalism.LocalToGlobal.ProjectiveLattices.IntAllProofFree
 public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.AbelianSchemeLawsUnconditional
 public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.ExistsFramedPointBaseChangeAlgebraMap
@@ -148,69 +147,8 @@ theorem exists_overLa {K : Type} [Field K] [NumberField K] (T : CDVR) (io : K �
   simp only [vV, smul_eq_mul] at h2 ⊢
   linarith
 
-theorem exists_testRing_factor {K : Type} [Field K] (p : TRing K) {S : Type} [Field S] [Algebra K S]
-    (φ : p.R →ₐ[K] S) {J : Type} [Fintype J] (g : J → S) :
-    ∃ (r : TRing K) (α : p.R →ₐ[K] r.R) (χ : r.R →ₐ[K] S) (gr : J → r.R),
-      Function.Injective χ ∧ χ.comp α = φ ∧ ∀ j, χ (gr j) = g j := by
-  first | exact _root_.ReciprocityTheory.ChartRestriction.G.PullbackSections.wtfA_tring | exact @_root_.ReciprocityTheory.ChartRestriction.G.PullbackSections.wtfA_tring | apply _root_.ReciprocityTheory.ChartRestriction.G.PullbackSections.wtfA_tring <;> assumption
-
 variable {E : Type} [Field E] [NumberField E] [IsCMField E] {H : Host E} {Dw : Datum H} {l : Level H}
 variable {Xo : Moduli Dw l} {c : Coeff l}
-
-theorem exists_baseChange {S T : Type} [CommRing S] [Algebra c.F S] [CommRing T] [Algebra c.F T] (φ : S →ₐ[c.F] T)
-    (y : FrPt Xo c S) : ∃ z : FrPt Xo c T, FrMap φ y z :=
-  FramedBaseChange.exists_frMap GlobalTheory.abelianSchemeLaws_all.1.secBaseChange E H Dw l Xo c S T φ y
-
-theorem fromTest_of_same_point {S : Type} [Field S] [Algebra c.F S] {y y' : FrPt Xo c S} (hx : y'.x = y.x)
-    (hy : FromTest (K := c.F) (fun S _ _ => FrPt Xo c S) (fun φ y z => FrMap φ y z) y) :
-    FromTest (K := c.F) (fun S _ _ => FrPt Xo c S) (fun φ y z => FrMap φ y z) y' := by
-  classical
-  obtain ⟨p, φ, y₀, h₀⟩ := hy
-  obtain ⟨g, a, hg, hc⟩ := (frChg_exists_unique E H Dw l Xo c S y y').1 hx
-  obtain ⟨r, α, χ, gr, hχ, hα, hgr⟩ := exists_testRing_factor p φ
-    (J := (Σ τ : E →+* ℂ, Option (Fin (Dw.mult τ) × Fin (Dw.mult τ))) ⊕ Bool)
-    (Sum.elim (fun q => q.2.elim (g q.1).det⁻¹ fun ij => g q.1 ij.1 ij.2) fun b => cond b (a : S) (a⁻¹ : Sˣ))
-  let g₀ : ∀ τ : E →+* ℂ, Matrix (Fin (Dw.mult τ)) (Fin (Dw.mult τ)) r.R :=
-    fun τ => Matrix.of fun i j => gr (.inl ⟨τ, some (i, j)⟩)
-  have hg₀ : ∀ τ, (g₀ τ).map χ = g τ := fun τ => Matrix.ext fun i j => hgr (.inl ⟨τ, some (i, j)⟩)
-  have hd : ∀ τ, IsUnit (g₀ τ).det := fun τ => by
-    refine IsUnit.of_mul_eq_one (gr (.inl ⟨τ, none⟩)) (hχ ?_)
-    rw [map_mul, map_one, hgr, AlgHom.map_det, AlgHom.mapMatrix_apply, hg₀]
-    exact mul_inv_cancel₀ (hg τ).ne_zero
-  have h1 : gr (.inr true) * gr (.inr false) = 1 := hχ (by rw [map_mul, map_one, hgr, hgr]; simp)
-  let a₀ : r.Rˣ := ⟨gr (.inr true), gr (.inr false), h1, (mul_comm _ _).trans h1⟩
-  obtain ⟨z, hz⟩ := exists_baseChange α y₀
-  have hzy : FrMap χ z y := frMap_cancel (Xo := Xo) (c := c) _ _ _ α χ y₀ z y hz (hα ▸ h₀)
-  obtain ⟨z', hz', -⟩ := existsUnique_frChg E H Dw l Xo c r.R z g₀ a₀ hd
-  refine ⟨r, χ, z', (ChgBC.frChg_baseChange E H Dw l Xo c r.R S χ z z' y y' g₀ a₀ hz' hzy).2 ?_⟩
-  have ha : χ (a₀ : r.R) = (a : S) := hgr (.inr true)
-  simp only [hg₀, ha]
-  exact hc
-
-theorem reFrame : Formalism.L2.PjFree.ReFrame Xo c := by
-  refine Formalism.L2.PjFree.reFrame_of
-    (fun S _ x _ v hv _ w A N w' hw hw' => GlobalTheory.TangentLinear.isCombAt_mulVec E H Dw l Xo S x v hv w A N w' hw hw') ?_
-  intro T io
-  let _ := io.toAlgebra
-  intro y0 z hx k hk
-  have hK : ∀ τ, IsUnit ((k τ).map (algebraMap T.V T.Fr)).det := fun τ => by
-    have e : ((k τ).map (algebraMap T.V T.Fr)).det = algebraMap T.V T.Fr (k τ).det :=
-      (RingHom.map_det _ _).symm
-    rw [e]
-    exact (hk τ).map _
-  obtain ⟨zx, zo, zu, zt, ze, zb, zs, zg⟩ := z
-  simp only at hx
-  subst hx
-  obtain ⟨u0, hu0⟩ := _root_.GlobalTheory.Frames.ChgOf.gen_unit' (x := y0.1.x) zs y0.1.s zg y0.1.gen
-  refine ⟨⟨IntRebase.rebase₂ y0.1 _ hK, fromTest_of_same_point (y := y0.1) rfl y0.2.1,
-    IntRebase.integral_reb T io y0.1 y0.2.2 k hk hK⟩, u0, rfl, fun τ i => ?_,
-    𝟙 _, Category.id_comp _, Category.id_comp _, ?_⟩
-  · exact (IntRebase.isCombAtG_iff Xo.univ.t y0.1.x
-      (fun j => IntRebase.ovT (t := Xo.univ.t) (y0.1.tan τ j)) _ _).2 rfl
-  · intro i h
-    show ((𝟙 _ : Gx y0.1.x ⟶ Gx y0.1.x).appLE _ _ h).hom (scal y0.1.x (u0 : T.Fr) i * zs.f i) = y0.1.s.f i
-    rw [← hu0 i]
-    exact IntRebase.id_appLE_apply _ _ h _
 
 variable (Xo c)
 

@@ -1,12 +1,7 @@
 module
 
-import all Development.AutomorphicArithmetic.CommutativeAlgebra.LeafH0Holds
-import Development.EtaleCohomology.CohomologicalPurity.LeafFreeCovPf
 public import Development.AbelianVarietyTheory.Definitions.Divisors.GalMapMul
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.EtaleSpaceChainsMayerVietorisShortExactStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.HypercohomologyLongExactFirstOfInjectiveStatement
 public import Development.AbelianVarietyTheory.Definitions.Divisors.SecClass
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.HypercohomologyPullbackBiprodInlInrBijective
 public import Development.EtaleCohomology.EtaleSheaves.H0TwistOverClosedField
 public import Mathlib.Order.CompletePartialOrder
 public import Development.AbelianVarietyTheory.Definitions.Divisors.DivisorSupportCondition
@@ -51,141 +46,14 @@ public import Development.AutomorphicArithmetic.CommutativeAlgebra.IsCurvePullba
 public import Development.AutomorphicArithmetic.CommutativeAlgebra.IsDedekindDomainAffineSectionsOfIsCurve
 public import Development.AutomorphicArithmetic.CommutativeAlgebra.SurjectiveOfIsPullbackSpecFieldExt
 public import GroundTheory.ArithmeticGeometry.SchemeCohomology.CurveFunctionField
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
 import Development.EtaleCohomology.EtaleTrace.LDblPf
-import Mathlib.AlgebraicGeometry.Modules.Sheaf
-import Mathlib.CategoryTheory.Limits.Types.Pushouts
-import Mathlib.CategoryTheory.Presentable.Type
 import Mathlib.Tactic.Linter.HaveILetI
-import Mathlib.Tactic.Lemma
-import Mathlib.Tactic.Basify
 import Development.AutomorphicArithmetic.CommutativeAlgebra.ExistsUnitEqMultiplicativeGroupSection
-import Mathlib.Algebra.Order.Star.Int
 import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsUnitKummerEqOfPicardTorsionFree
-import Mathlib.AlgebraicGeometry.QuasiAffine
-import Mathlib.RingTheory.RegularLocalRing.Defs
-import Mathlib.RingTheory.SimpleRing.Principal
 import Mathlib.Tactic.Linter.Style
-import Mathlib.CategoryTheory.EffectiveEpi.Comp
-import Mathlib.CategoryTheory.ExtremalEpi
-import Mathlib.RingTheory.Henselian
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Topology.Sheaves.Init
-import Mathlib.Topology.Sheaves.Presheaf
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.TypeStar
 
 -- This file was produced by scripts/clump.py from the modules listed below.
--- Members: Development.AutomorphicArithmetic.Foundations.EtaleClopenDescent.ExistsMayerVietorisConnectingExact, Development.AutomorphicArithmetic.CommutativeAlgebra.H1PlEqZeroOfLeISupOfLocalZero, Development.AutomorphicArithmetic.CommutativeAlgebra.EtalePurityFreeCover, Development.AutomorphicArithmetic.Foundations.EtaleClopenDescent.OffDiagonalContinuationInductive, Development.EtaleCohomology.EtaleTrace.LCoprodInjPf, Development.EtaleCohomology.WeilConjectures.EmptyVan2, Development.AutomorphicArithmetic.CommutativeAlgebra.ExistsH1MuGlueOfCompatible, Development.AutomorphicArithmetic.CommutativeAlgebra.ExistsH1MuOfLocallyUnitTimesPower, Development.AutomorphicArithmetic.Foundations.EtaleClopenDescent.ExistsUnitKummerEqOfPicardTorsionFree, Development.EtaleCohomology.KummerTheory.FinAlgExt, Development.AutomorphicArithmetic.CommutativeAlgebra.BaseChangeCurveFunctionFieldCompOfNormal, Development.AutomorphicArithmetic.CommutativeAlgebra.BaseChangeFunctionFieldHomGenericPointComp, Development.AutomorphicArithmetic.CommutativeAlgebra.ExistsFiniteNonemptyAffineCoverOfIntegral, Development.AutomorphicArithmetic.CommutativeAlgebra.ExistsFunctionFieldHomGermOfSurjective, Development.AutomorphicArithmetic.CommutativeAlgebra.ExistsSubalgebraEqRangeGermToFunctionField, Development.AutomorphicArithmetic.CommutativeAlgebra.IsChartAffineSectionsOfIsCurve, Development.AutomorphicArithmetic.CommutativeAlgebra.IsFunctionFieldOfDedekindFiniteTypeFractionRing, Development.AutomorphicArithmetic.CommutativeAlgebra.TensorFractionRingExistsMulEqOfDenominator, Development.AutomorphicArithmetic.CommutativeAlgebra.IsFunctionFieldAndChartCoverOfIsCurve, Development.AutomorphicArithmetic.CommutativeAlgebra.IsFunctionFieldAndChartsOfIsCurveOfIsUnit
-
--- ===== clump member: Development.AutomorphicArithmetic.Foundations.EtaleClopenDescent.ExistsMayerVietorisConnectingExact =====
--- clump-header: {"m": "Development.AutomorphicArithmetic.Foundations.EtaleClopenDescent.ExistsMayerVietorisConnectingExact", "h": "module\n\npublic import Development.AbelianVarietyTheory.Definitions.Divisors.GalMapMul\npublic import Development.AbelianVarietyTheory.Proofs.DivisorProofs.EtaleSpaceChainsMayerVietorisShortExactStatement\npublic import Development.AbelianVarietyTheory.Proofs.DivisorProofs.HypercohomologyLongExactFirstOfInjectiveStatement\npublic import Development.AbelianVarietyTheory.Definitions.Divisors.SecClass\npublic import Development.AbelianVarietyTheory.Proofs.DivisorProofs.HypercohomologyPullbackBiprodInlInrBijective\nimport Mathlib.Algebra.Order.Floor.Extended\nimport Mathlib.Algebra.Order.Floor.Semifield\nimport Mathlib.Algebra.Order.Interval.Basic\nimport Mathlib.Analysis.Complex.UpperHalfPlane.Basic\nimport Mathlib.Analysis.Normed.Algebra.GelfandRadius\nimport Mathlib.Analysis.SpecialFunctions.Bernstein\nimport Mathlib.Analysis.SpecialFunctions.Gamma.Basic\nimport Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp\nimport Mathlib.Combinatorics.Enumerative.DyckWord\nimport Mathlib.Combinatorics.SimpleGraph.Triangle.Removal\nimport Mathlib.Data.NNRat.Floor\nimport Mathlib.Data.Nat.Choose.Multinomial\nimport Mathlib.Geometry.Euclidean.Volume.Basic\nimport Mathlib.NumberTheory.Chebyshev\nimport Mathlib.NumberTheory.Height.NumberField\nimport Mathlib.NumberTheory.Height.Projectivization\nimport Mathlib.NumberTheory.LucasLehmer\nimport Mathlib.NumberTheory.SelbergSieve\nimport Mathlib.RingTheory.Radical.NatInt\nimport Mathlib.Tactic.Echelon.Zsqrtd\nimport Mathlib.Tactic.Inclusion.Extension.Core.Core\nimport Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit\nimport Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp\nimport Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses\nimport Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic\nimport Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses\nimport Mathlib.Tactic.NormNum.Irrational\nimport Mathlib.Tactic.NormNum.IsCoprime\nimport Mathlib.Tactic.NormNum.IsSquare\nimport Mathlib.Tactic.NormNum.LegendreSymbol\nimport Mathlib.Tactic.NormNum.ModEq\nimport Mathlib.Tactic.NormNum.NatFib\nimport Mathlib.Tactic.NormNum.NatLog\nimport Mathlib.Tactic.NormNum.NatSqrt\nimport Mathlib.Tactic.NormNum.Ordinal\nimport Mathlib.Tactic.NormNum.Parity\nimport Mathlib.Tactic.NormNum.Prime\nimport Mathlib.Tactic.NormNum.RealSqrt\n\n"}
-section -- clump:auto
-@[expose] public section
-
-open CategoryTheory Limits AlgebraicGeometry Opposite CochainComplex CochainComplex.HomComplex GlobalTheory.EtC
-
-namespace UpperTheory.Cb.MV
-
-variable {R : Type} [CommRing R]
-
-private theorem cpull_comp' {K L M I : Cx R} (a : K ⟶ L) (b : L ⟶ M) (n : ℤ)
-    (x : CohomologyClass M I n) : cpull (a ≫ b) I n x = cpull a I n (cpull b I n x) := by
-  obtain ⟨x, rfl⟩ := x.mk_surjective
-  refine congrArg CohomologyClass.mk (Cocycle.ext ?_)
-  simp [zcomp, Cochain.ofHom_comp]
-
-private theorem cpull_add' {K L I : Cx R} (a b : K ⟶ L) (n : ℤ)
-    (x : CohomologyClass L I n) : cpull (a + b) I n x = cpull a I n x + cpull b I n x := by
-  obtain ⟨x, rfl⟩ := x.mk_surjective
-  rw [cpre_mk, cpre_mk, cpre_mk, ← CohomologyClass.mk_add]
-  refine congrArg CohomologyClass.mk (Cocycle.ext ?_)
-  simp [zcomp, Cochain.ofHom_add]
-
-private theorem cpull_neg' {K L I : Cx R} (a : K ⟶ L) (n : ℤ)
-    (x : CohomologyClass L I n) : cpull (-a) I n x = - cpull a I n x := by
-  have h : cpull (-a + a) I n x = 0 := by
-    rw [neg_add_cancel]
-    obtain ⟨x, rfl⟩ := x.mk_surjective
-    rw [cpre_mk]
-    have : zcomp (Cocycle.ofHom (0 : K ⟶ L)) x (zero_add n) = 0 := by
-      refine Cocycle.ext ?_
-      simp [zcomp]
-    rw [this]
-    exact CohomologyClass.mk_zero _ _ _
-  rw [cpull_add'] at h
-  exact eq_neg_of_add_eq_zero_left h
-
-private noncomputable def mvS {U V E : Spc} (f : U ⟶ E) (g : V ⟶ E) : ShortComplex (Cx R) :=
-  ShortComplex.mk (biprod.lift ((chains R).map (pullback.fst f g)) (-(chains R).map (pullback.snd f g)))
-    (biprod.desc ((chains R).map f) ((chains R).map g)) (by
-      rw [biprod.lift_desc, Preadditive.neg_comp, ← Functor.map_comp, ← Functor.map_comp,
-        pullback.condition, add_neg_cancel])
-
-private theorem mvS_exact {U V E : Spc} (f : U ⟶ E) (g : V ⟶ E) (h : Cover2 R f g) :
-    (mvS (R := R) f g).ShortExact := by
-  obtain ⟨w, hw⟩ := _root_.GlobalTheory.EtC.mv_shortExact R f g h
-  exact hw
-
-private theorem cpull_inl_desc {K L M I : Cx R} (a : K ⟶ M) (b : L ⟶ M) (n : ℤ) (x : CohomologyClass M I n) :
-    cpull (biprod.inl : K ⟶ K ⊞ L) I n (cpull (biprod.desc a b) I n x) = cpull a I n x := by
-  rw [← cpull_comp', biprod.inl_desc]
-
-private theorem cpull_inr_desc {K L M I : Cx R} (a : K ⟶ M) (b : L ⟶ M) (n : ℤ) (x : CohomologyClass M I n) :
-    cpull (biprod.inr : L ⟶ K ⊞ L) I n (cpull (biprod.desc a b) I n x) = cpull b I n x := by
-  rw [← cpull_comp', biprod.inr_desc]
-
-private theorem cpull_lift {K L P I : Cx R} (a : P ⟶ K) (b : P ⟶ L) (n : ℤ) (y : CohomologyClass (K ⊞ L) I n) :
-    cpull (biprod.lift a b) I n y =
-      cpull a I n (cpull (biprod.inl : K ⟶ K ⊞ L) I n y) + cpull b I n (cpull (biprod.inr : L ⟶ K ⊞ L) I n y) := by
-  rw [biprod.lift_eq, cpull_add', cpull_comp', cpull_comp']
-
-end UpperTheory.Cb.MV
-
-theorem UpperTheory.Cb.exists_mayerVietoris_connecting_exact :
-    ∀ (R : Type) [CommRing R] (F : Shv R), ∃ d : ∀ {U V E : Spc} (f : U ⟶ E) (g : V ⟶ E), Cover2 R f g → ∀ n : ℤ, H R (pullback f g) F n →+ H R E F (n + 1), (∀ {U V E : Spc} (f : U ⟶ E) (g : V ⟶ E) (h : Cover2 R f g) (n : ℤ), (∀ a b, pull R (pullback.fst f g) F n a = pull R (pullback.snd f g) F n b ↔ ∃ x, pull R f F n x = a ∧ pull R g F n x = b) ∧ (∀ c, d f g h n c = 0 ↔ ∃ a b, c = pull R (pullback.fst f g) F n a - pull R (pullback.snd f g) F n b) ∧ ∀ x, (pull R f F (n + 1) x = 0 ∧ pull R g F (n + 1) x = 0) ↔ ∃ c, d f g h n c = x) ∧ ∀ {U V E U' V' E' : Spc} (f : U ⟶ E) (g : V ⟶ E) (f' : U' ⟶ E') (g' : V' ⟶ E') (p : E ⟶ E') (u : U ⟶ U') (v : V ⟶ V') (hu : f ≫ p = u ≫ f') (hv : g ≫ p = v ≫ g') (h : Cover2 R f g) (h' : Cover2 R f' g') (n : ℤ) c, pull R p F (n + 1) (d f' g' h' n c) = d f g h n (pull R (pullback.map f g f' g' u v p hu hv) F n c) :=
-  _root_.GlobalTheory.EtC.mayerVietoris
-end -- clump:auto
-end -- clump:auto
--- ===== end clump member: Development.AutomorphicArithmetic.Foundations.EtaleClopenDescent.ExistsMayerVietorisConnectingExact =====
+-- Members: Development.AutomorphicArithmetic.CommutativeAlgebra.H1PlEqZeroOfLeISupOfLocalZero, Development.AutomorphicArithmetic.CommutativeAlgebra.EtalePurityFreeCover, Development.AutomorphicArithmetic.Foundations.EtaleClopenDescent.OffDiagonalContinuationInductive, Development.EtaleCohomology.EtaleTrace.LCoprodInjPf, Development.EtaleCohomology.WeilConjectures.EmptyVan2, Development.AutomorphicArithmetic.CommutativeAlgebra.ExistsH1MuGlueOfCompatible, Development.AutomorphicArithmetic.CommutativeAlgebra.ExistsH1MuOfLocallyUnitTimesPower, Development.AutomorphicArithmetic.Foundations.EtaleClopenDescent.ExistsUnitKummerEqOfPicardTorsionFree, Development.EtaleCohomology.KummerTheory.FinAlgExt, Development.AutomorphicArithmetic.CommutativeAlgebra.BaseChangeCurveFunctionFieldCompOfNormal, Development.AutomorphicArithmetic.CommutativeAlgebra.BaseChangeFunctionFieldHomGenericPointComp, Development.AutomorphicArithmetic.CommutativeAlgebra.ExistsFiniteNonemptyAffineCoverOfIntegral, Development.AutomorphicArithmetic.CommutativeAlgebra.ExistsFunctionFieldHomGermOfSurjective, Development.AutomorphicArithmetic.CommutativeAlgebra.ExistsSubalgebraEqRangeGermToFunctionField, Development.AutomorphicArithmetic.CommutativeAlgebra.IsChartAffineSectionsOfIsCurve, Development.AutomorphicArithmetic.CommutativeAlgebra.IsFunctionFieldOfDedekindFiniteTypeFractionRing, Development.AutomorphicArithmetic.CommutativeAlgebra.TensorFractionRingExistsMulEqOfDenominator, Development.AutomorphicArithmetic.CommutativeAlgebra.IsFunctionFieldAndChartCoverOfIsCurve, Development.AutomorphicArithmetic.CommutativeAlgebra.IsFunctionFieldAndChartsOfIsCurveOfIsUnit
 
 -- ===== clump member: Development.AutomorphicArithmetic.CommutativeAlgebra.H1PlEqZeroOfLeISupOfLocalZero =====
 -- clump-header: {"m": "Development.AutomorphicArithmetic.CommutativeAlgebra.H1PlEqZeroOfLeISupOfLocalZero", "h": "module\n\npublic import Development.EtaleCohomology.EtaleSheaves.H0TwistOverClosedField\npublic import Mathlib.Order.CompletePartialOrder\npublic import Development.AbelianVarietyTheory.Definitions.Divisors.DivisorSupportCondition\npublic import Development.AbelianVarietyTheory.Proofs.DivisorProofs.EtaleCohomologyNegativeVanishingDegreeZero\npublic import Development.AbelianVarietyTheory.Proofs.DivisorProofs.TateTwistSectionsLocallyGeneratedStatement\npublic import Development.AutomorphicArithmetic.CommutativeAlgebra.TwistedSectionEqNsmulGeneratorOfConnected\npublic import Development.AutomorphicArithmetic.Foundations.EtaleClopenDescent.ExistsMayerVietorisConnectingExact\npublic import Development.EtaleCohomology.EtaleSheaves.LeafAffCoverVanishPfEmpty\npublic import Development.EtaleCohomology.EtaleTrace.LocalSplitting.Cover2\nimport Development.EtaleCohomology.EtaleTrace.LDblPf\nimport Mathlib.Algebra.Order.Floor.Extended\nimport Mathlib.Algebra.Order.Floor.Semifield\nimport Mathlib.Algebra.Order.Interval.Basic\nimport Mathlib.AlgebraicGeometry.Modules.Sheaf\nimport Mathlib.Analysis.Complex.UpperHalfPlane.Basic\nimport Mathlib.Analysis.Normed.Algebra.GelfandRadius\nimport Mathlib.Analysis.SpecialFunctions.Bernstein\nimport Mathlib.Analysis.SpecialFunctions.Gamma.Basic\nimport Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp\nimport Mathlib.CategoryTheory.Limits.Types.Pushouts\nimport Mathlib.CategoryTheory.Presentable.Type\nimport Mathlib.Combinatorics.Enumerative.DyckWord\nimport Mathlib.Combinatorics.SimpleGraph.Triangle.Removal\nimport Mathlib.Data.NNRat.Floor\nimport Mathlib.Data.Nat.Choose.Multinomial\nimport Mathlib.Geometry.Euclidean.Volume.Basic\nimport Mathlib.NumberTheory.Chebyshev\nimport Mathlib.NumberTheory.Height.NumberField\nimport Mathlib.NumberTheory.Height.Projectivization\nimport Mathlib.NumberTheory.LucasLehmer\nimport Mathlib.NumberTheory.SelbergSieve\nimport Mathlib.RingTheory.Radical.NatInt\nimport Mathlib.Tactic.Echelon.Zsqrtd\nimport Mathlib.Tactic.Inclusion.Extension.Core.Core\nimport Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit\nimport Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp\nimport Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses\nimport Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic\nimport Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses\nimport Mathlib.Tactic.Linter.HaveILetI\nimport Mathlib.Tactic.NormNum.Irrational\nimport Mathlib.Tactic.NormNum.IsCoprime\nimport Mathlib.Tactic.NormNum.IsSquare\nimport Mathlib.Tactic.NormNum.LegendreSymbol\nimport Mathlib.Tactic.NormNum.ModEq\nimport Mathlib.Tactic.NormNum.NatFib\nimport Mathlib.Tactic.NormNum.NatLog\nimport Mathlib.Tactic.NormNum.NatSqrt\nimport Mathlib.Tactic.NormNum.Ordinal\nimport Mathlib.Tactic.NormNum.Parity\nimport Mathlib.Tactic.NormNum.Prime\nimport Mathlib.Tactic.NormNum.RealSqrt\nimport Development.AutomorphicArithmetic.CommutativeAlgebra.EtaleCohomology.IsChart\nimport GroundTheory.FunctionField.PlaceDefs\n\n"}
@@ -219,7 +87,7 @@ private theorem exists_h0_restriction_eq_of_le_open {q : ℕ} [NeZero q] {X E : 
 private theorem two {q : ℕ} [NeZero q] {X E : Scheme.{0}} [IsIntegral X] (ζ : Prim q Γ(X, ⊤))
     (j : E ⟶ X) [IsOpenImmersion j] (O₁ O₂ : E.Opens) (hcov : O₁ ⊔ O₂ = ⊤) (y : Ht q (sch.obj E) 1 1)
     (h₁ : pl q 1 O₁.ι 1 y = 0) (h₂ : pl q 1 O₂.ι 1 y = 0) : y = 0 := by
-  obtain ⟨d, hd, -⟩ := UpperTheory.Cb.exists_mayerVietoris_connecting_exact (ZMod q) (tw q 1)
+  obtain ⟨d, hd, -⟩ := GlobalTheory.EtC.mayerVietoris (ZMod q) (tw q 1)
   have hc : Cover2 (ZMod q) (sch.map O₁.ι) (sch.map O₂.ι) := LateralTheory.EtaleTrace.LSplitPf.Sch.cover2 (ZMod q) O₁ O₂ hcov
   have : PreservesLimitsOfShape WalkingCospan sch := by
     unfold sch
@@ -291,15 +159,77 @@ section -- clump:auto
 
 open CategoryTheory Limits AlgebraicGeometry Opposite GlobalTheory.EtC
 
-private lemma sec_map_comp {R : Type} [CommRing R] {F G H : Shv R} (a : F ⟶ G) (b : G ⟶ H)
-    {U : Scheme.{0}} (x : Sec F U) : Sec.map (a ≫ b) x = Sec.map b (Sec.map a x) := rfl
-
-private lemma sec_map_zero {R : Type} [CommRing R] {F G : Shv R} {U : Scheme.{0}} (x : Sec F U) :
-    Sec.map (0 : F ⟶ G) x = 0 := rfl
+private lemma res_univ_eq_zero {R : Type} [CommRing R] {A W : Scheme.{0}} (i : A ⟶ W) {Z : Shv R}
+    (h : (free R).obj (yoneda.obj W) ⟶ Z) (h0 : (free R).map (yoneda.map i) ≫ h = 0) :
+    Sec.res i (Sec.map h (freeGen R (yoneda.obj W) W (𝟙 W))) = 0 := by
+  rw [_root_.GlobalTheory.EtC.CupSpec.map_res, CupSpec.freeGen_res]
+  have e : (ConcreteCategory.hom ((yoneda.obj W).map i.op)) (𝟙 W) =
+      (ConcreteCategory.hom ((yoneda.map i).app (op A))) (𝟙 A) := by simp
+  rw [e, ← CupSpec.freeGen_map, ← GlobalTheory.EtC.exactIff_map_comp, h0, GlobalTheory.EtC.KumCoker.sec_map_zero]
 
 theorem UpperTheory.etale_purity_free_cover :
-    LateralTheory.CohomologicalPurity.Thom.LeafFreeCov :=
-  _root_.LateralTheory.CohomologicalPurity.FreeCovPf.LeafFreeCov_of
+    LateralTheory.CohomologicalPurity.Thom.LeafFreeCov := by
+  intro R _ X U V
+  apply Preadditive.epi_of_cancel_zero
+  intro Z g hg
+  let ι := {O : X.Opens // O = U ∨ O = V}
+  have hle : ∀ i : ι, i.1 ≤ U ⊔ V := by
+    rintro ⟨O, rfl | rfl⟩
+    · exact le_sup_left
+    · exact le_sup_right
+  have gz : ∀ i : ι, (free R).map (yoneda.map (X.homOfLE (hle i))) ≫ g = 0 := by
+    rintro ⟨O, rfl | rfl⟩
+    · have := congrArg (biprod.inl ≫ ·) hg
+      simpa using this
+    · have := congrArg (biprod.inr ≫ ·) hg
+      simpa using this
+  have cover : ∀ (O : X.Opens) (hO : O ≤ U ⊔ V) (y : (U ⊔ V : X.Opens).toScheme),
+      (U ⊔ V).ι y ∈ O → ∃ z, X.homOfLE hO z = y := by
+    intro O hO y hy
+    have hy' : (U ⊔ V).ι y ∈ Set.range O.ι := by
+      rw [Scheme.Opens.range_ι]
+      exact hy
+    obtain ⟨z, hz⟩ := hy'
+    refine ⟨z, (U ⊔ V).ι.isOpenEmbedding.injective ?_⟩
+    change (X.homOfLE hO ≫ (U ⊔ V).ι) z = _
+    rw [Scheme.homOfLE_ι, hz]
+  refine CupSpec.free_ext g 0 (fun T x => ?_)
+  change Sec.map g (freeGen R _ T x) = 0
+  let xx : T ⟶ (U ⊔ V : X.Opens).toScheme := x
+  obtain ⟨hsep, -⟩ := sec_sep_glue_of_points R Z T ι (fun i => pullback x (X.homOfLE (hle i)))
+    (fun i => pullback.fst x (X.homOfLE (hle i))) (fun i => inferInstance) (by
+      intro t
+      have hy : (U ⊔ V).ι (xx t) ∈ ((U ⊔ V : X.Opens) : Set X) := by
+        rw [← Scheme.Opens.range_ι]
+        exact ⟨xx t, rfl⟩
+      rw [TopologicalSpace.Opens.coe_sup] at hy
+      rcases hy with hU | hV
+      · obtain ⟨z, hz⟩ := cover U le_sup_left (xx t) hU
+        have ht : t ∈ Set.range (pullback.fst x (X.homOfLE (hle ⟨U, Or.inl rfl⟩))) := by
+          rw [Scheme.Pullback.range_fst]
+          exact ⟨z, hz⟩
+        obtain ⟨v, hv⟩ := ht
+        exact ⟨⟨U, Or.inl rfl⟩, v, hv⟩
+      · obtain ⟨z, hz⟩ := cover V le_sup_right (xx t) hV
+        have ht : t ∈ Set.range (pullback.fst x (X.homOfLE (hle ⟨V, Or.inr rfl⟩))) := by
+          rw [Scheme.Pullback.range_fst]
+          exact ⟨z, hz⟩
+        obtain ⟨v, hv⟩ := ht
+        exact ⟨⟨V, Or.inr rfl⟩, v, hv⟩)
+  apply hsep
+  intro i
+  have z : Sec.map g (freeGen R (yoneda.obj (U ⊔ V : X.Opens).toScheme) i.1.toScheme (X.homOfLE (hle i))) = 0 := by
+    have := res_univ_eq_zero (X.homOfLE (hle i)) g (gz i)
+    rwa [_root_.GlobalTheory.EtC.CupSpec.map_res, CupSpec.freeGen_res, show (ConcreteCategory.hom ((yoneda.obj (U ⊔ V : X.Opens).toScheme).map
+      (X.homOfLE (hle i)).op)) (𝟙 _) = X.homOfLE (hle i) by simp] at this
+  rw [_root_.GlobalTheory.EtC.CupSpec.map_res, CupSpec.freeGen_res]
+  have e : (ConcreteCategory.hom ((yoneda.obj (U ⊔ V : X.Opens).toScheme).map
+      (pullback.fst x (X.homOfLE (hle i))).op)) x =
+      (ConcreteCategory.hom ((yoneda.obj (U ⊔ V : X.Opens).toScheme).map
+      (pullback.snd x (X.homOfLE (hle i))).op)) (X.homOfLE (hle i)) := by
+    simp [pullback.condition]
+  rw [e, ← CupSpec.freeGen_res, ← _root_.GlobalTheory.EtC.CupSpec.map_res, z]
+  exact map_zero _
 end -- clump:auto
 end -- clump:auto
 -- ===== end clump member: Development.AutomorphicArithmetic.CommutativeAlgebra.EtalePurityFreeCover =====
@@ -571,9 +501,6 @@ noncomputable section
 open CategoryTheory Limits AlgebraicGeometry Opposite GlobalTheory.EtC CochainComplex.HomComplex
 
 namespace LateralTheory.EWeil.EmptyVan₂
-
-instance isEmpty_bot : IsEmpty (⊥_ Scheme.{0}) := by
-  infer_instance
 
 theorem sec_subsingleton {R : Type} [CommRing R] (G : Shv R) {U : Scheme.{0}} (f : U ⟶ ⊥_ Scheme.{0}) :
     Subsingleton (G.obj.obj (op U)) := by
@@ -968,15 +895,8 @@ noncomputable section
 
 namespace UpperTheory.Kum1
 
-abbrev II (q : ℕ) [NeZero q] : Cx (ZMod q) := res _ (tw q 1)
-
-abbrev JJ : Cx ℤ := res ℤ Gm
-
 end UpperTheory.Kum1
 
-theorem UpperTheory.Cb.exists_unit_kummer_eq_of_picard_torsionFree :
-    ∀ (q : ℕ) [NeZero q] (A : Type) [CommRing A], IsUnit (q : A) → (∀ c : CommRing.Pic A, c ^ q = 1 → c = 1) → ∀ x : Ht q (sp A) 1 1, ∃ u : (Γ(Spec (CommRingCat.of A), ⊤))ˣ, kum q u = x :=
-  GlobalTheory.EtC.kum_surjective
 end -- clump:auto
 end -- clump:auto
 end -- clump:auto
@@ -1014,7 +934,14 @@ namespace UpperTheory.PicRigid
 
 private lemma exists_prim (q : ℕ) [NeZero q] (L : Type) [Field L] [IsAlgClosed L] (hq : IsUnit (q : L)) :
     Nonempty (Prim q L) := by
-  apply _root_.exists_prim <;> assumption
+  have hdeg : (Polynomial.cyclotomic q L).degree ≠ 0 := by
+    rw [Polynomial.degree_cyclotomic]
+    have := Nat.totient_pos.mpr (NeZero.pos q)
+    exact_mod_cast this.ne'
+  obtain ⟨z, hz⟩ := IsAlgClosed.exists_root _ hdeg
+  refine ⟨⟨z, hq, ?_⟩⟩
+  rw [Polynomial.aeval_def, Polynomial.eval₂_eq_eval_map, Polynomial.map_cyclotomic]
+  exact hz
 
 private lemma pl_id (q : ℕ) (i : ℤ) {X : Scheme.{0}} (m : ℤ) (y : Ht q (sch.obj X) m i) :
     pl q i (𝟙 X) m y = y := by
@@ -1051,7 +978,7 @@ private lemma main (hA : LateralTheory.KummerTheory.AlgExt) : Hyps → ∀ (q : 
     simpa using hqA.map (Scheme.ΓSpecIso C.functionField).inv.hom
   have hqT : IsUnit (q : Γ(Spec X.functionField, ⊤)) := by
     simpa using hqK.map (Scheme.ΓSpecIso X.functionField).inv.hom
-  obtain ⟨w, hw⟩ := UpperTheory.Cb.exists_unit_kummer_eq_of_picard_torsionFree q C.functionField hqA (fun c _ => Subsingleton.elim _ _) (pl q 1 gC 1 x₀)
+  obtain ⟨w, hw⟩ := GlobalTheory.EtC.kum_surjective q C.functionField hqA (fun c _ => Subsingleton.elim _ _) (pl q 1 gC 1 x₀)
   have K1 := (GlobalTheory.T.kummerClassOfUnit_cocycle_natural_additive q).2.1 (Spec.map (CommRingCat.ofHom φ)) w hqS
   have K2 : kum q (X := Spec X.functionField) (Units.map (Scheme.ΓSpecIso X.functionField).inv.hom.toMonoidHom F) =
       kum q (Units.map (Spec.map (CommRingCat.ofHom φ)).appTop.hom.toMonoidHom w) := by
@@ -1462,7 +1389,7 @@ private theorem core (k L : Type) [Field k] [Field L] [Algebra k L] {C X : Schem
     ext a
     simp [Algebra.TensorProduct.includeRight_apply, hθ]
   have hinj : Function.Injective θ := by
-    set_option backward.isDefEq.respectTransparency.instanceSearchTypes false in rw [injective_iff_map_eq_zero]
+    rw [injective_iff_map_eq_zero]
     intro t ht
     obtain ⟨hV0, e0, he0⟩ := chart ⟨0, hn⟩
     haveI := hne' ⟨0, hn⟩

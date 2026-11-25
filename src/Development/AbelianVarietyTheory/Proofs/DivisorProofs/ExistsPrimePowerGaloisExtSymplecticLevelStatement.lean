@@ -1,6 +1,5 @@
 module
 
-import Development.AutomorphicArithmetic.ThetaCorrespondence.GoodReduction.CMGood
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.TwoWeightEqOneAddRoot
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.BaseOver
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.ThickTransComp
@@ -74,7 +73,6 @@ open ReciprocityTheory.ChartRestriction.G ReciprocityTheory.ChartRestriction.G.S
 open GlobalTheory.Toroidal GlobalTheory.LocM GlobalTheory.PolFan GlobalTheory.ZM GlobalTheory.SiegelTor GlobalTheory.TorRef GlobalTheory.PolDeg
 open scoped CategoryTheory.Obj
 open ReciprocityTheory.AnForm.R GlobalTheory.ZH GlobalTheory.Poinc GlobalTheory.Poinc.Sep
-attribute [local instance] Over.cartesianMonoidalCategory
 open GlobalTheory.UT ReciprocityTheory.ChartRestriction.G.DVR
 
 noncomputable section
@@ -83,7 +81,28 @@ namespace GlobalTheory.LevelPrimePower
 
 theorem iterate_fixes {A : Type} [CommGroup A] (f : A →* A) (ℓ : ℕ) (hf : ∀ x, x ^ ℓ = 1 → f x = x) (e : ℕ) :
     ∀ x : A, x ^ ℓ ^ (e + 1) = 1 → f^[ℓ ^ e] x = x := by
-  apply _root_.GlobalTheory.InertiaTate.pow_fix_of_fix <;> assumption
+  induction e with
+  | zero => intro x hx; simpa using hf x (by simpa using hx)
+  | succ e ih =>
+    intro x hx
+    let h : A →* A := ((show Monoid.End A from f) ^ ℓ ^ e : Monoid.End A)
+    have hh : ∀ a, h a = f^[ℓ ^ e] a := fun a => congrFun (Monoid.End.coe_pow A f _) a
+    have h1 : h x ^ ℓ = x ^ ℓ := by
+      rw [← map_pow, hh]
+      exact ih _ (by rw [← pow_mul, ← pow_succ', hx])
+    have hy : (h x / x) ^ ℓ = 1 := by rw [div_pow, h1, div_self']
+    have h2 : h (h x / x) = h x / x := by
+      rw [hh]
+      exact ih _ (by rw [pow_succ', pow_mul, hy, one_pow])
+    have h3 : ∀ n : ℕ, h^[n] x = x * (h x / x) ^ n := by
+      intro n
+      induction n with
+      | zero => simp
+      | succ n ihn =>
+        rw [Function.iterate_succ_apply', ihn, map_mul, map_pow, h2, pow_succ', ← _root_.mul_assoc,
+          mul_div_cancel]
+    have h4 : (h : A → A) = f^[ℓ ^ e] := funext hh
+    rw [pow_succ, Function.iterate_mul, ← h4, h3, hy, _root_.mul_one]
 
 theorem exists_normal {G A : Type} [Group G] [CommGroup A] (ρ : G → A →* A) (h1 : ∀ x, ρ 1 x = x)
     (hm : ∀ σ τ x, ρ (σ * τ) x = ρ σ (ρ τ x)) (ℓ e : ℕ) (hf : ∀ σ x, x ^ ℓ = 1 → ρ σ x = x) :
@@ -292,8 +311,6 @@ attribute [local instance] Over.cartesianMonoidalCategory
 open GlobalTheory.UT ReciprocityTheory.ChartRestriction.G.DVR
 
 
-theorem _root_.GlobalTheory.T.exists_primePower_galois_ext_symplecticLevel : ∀ {Ω₁ : Type} [Field Ω₁] [CharZero Ω₁] {R₁ : Type} [CommRing R₁] (emb : R₁ →+* Ω₁) (P₁ : PolAV (Sp R₁)) (ℓ M K : ℕ), ℓ.Prime → 0 < M → ℓ ∣ M → (∃ e, K = ℓ ^ e) → (∃ ζ₀ : Ω₁, IsPrimitiveRoot ζ₀ M) → (∀ (E : Type) [Field E] [IsAlgClosed E] (x : Sp E ⟶ Sp R₁) (z : Over.mk x ⟶ P₁.A), z ^ M = 1 → ∃ y : baseOver (Sp R₁) ⟶ P₁.A, (Over.homMk x (by simp) : Over.mk x ⟶ baseOver (Sp R₁)) ≫ y = z) → ∃ (Ω₂ : Type) (_ : Field Ω₂) (_ : Algebra Ω₁ Ω₂) (Q : PolAV (Sp Ω₂)) (φ : Q.A.left ⟶ P₁.A.left) (ζ : Ω₂ˣ), FiniteDimensional Ω₁ Ω₂ ∧ IsGalois Ω₁ Ω₂ ∧ (∃ e, Module.finrank Ω₁ Ω₂ = ℓ ^ e) ∧ IsPrimitiveRoot ζ K ∧ Q.g = P₁.g ∧ IsGrpPullback Q.A P₁.A (spMap ((algebraMap Ω₁ Ω₂).comp emb)) φ ∧ LBIso Q.L (P₁.L.pull φ) ∧ Nonempty (Out.Level Q K (unitOn ζ)) := by
-  first | exact @GlobalTheory.LevelPrimePower.exists_level_primePower
 end -- clump:auto
 end -- clump:auto
 -- ===== end clump member: Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsPrimePowerGaloisExtSymplecticLevelStatement =====

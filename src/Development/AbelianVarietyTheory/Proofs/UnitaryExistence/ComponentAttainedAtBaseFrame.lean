@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.FrameUniformEmbeddingSecond
 public import Development.AbelianVarietyTheory.Definitions.ExistenceOfLattices.Hat1
 public import Formalism.LocalToGlobal.ProjectiveLattices.FamilyUniformisationBasePointOrthogonalBis
 public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.AdelicCompletionFractionalIdealDivisibleEqZero
@@ -156,9 +155,15 @@ theorem comp_adelic_of_tower (F E : Type) [Field F] [NumberField F] [Field E] [N
     · rw [nsmul_eq_mul, mul_inv_cancel_left₀ hN', add_sub_cancel]
 
 theorem comp_AA_ne_zero (D : D7) : D.host.AA ≠ 0 := by
-  apply _root_.GlobalTheory.MarkCoset.AA_ne_zero <;> assumption
-
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
+  refine mul_ne_zero ?_ (inv_ne_zero ?_)
+  · rw [FractionalIdeal.coeIdeal_ne_zero]
+    intro h
+    exact D.host.ccK_ne_bot ((Ideal.map_eq_bot_iff_of_injective (RingOfIntegers.algebraMap.injective _ _)).1 h)
+  · rw [FractionalIdeal.coeIdeal_ne_zero]
+    intro h
+    have h1 := D.host.𝔟_spec.1
+    rw [h, Ideal.bot_mul] at h1
+    exact differentIdeal_ne_bot h1
 
 theorem comp_latG (D : D7) (V : HSp D) :
     (latG V 1).FG ∧ Submodule.span D.host.E (latG V 1 : Set (Fin V.rank → D.host.E)) = ⊤ ∧ ∀ g : GA D V,
@@ -245,7 +250,7 @@ theorem comp_mem_HR (F E : Type) [Field F] [NumberField F] [Field E] [NumberFiel
     Matrix.transpose_apply, TensorProduct.tmul_neg, mul_neg, neg_mul, Finset.sum_neg_distrib, neg_inj] at h
   simp only [Pi.single_apply, apply_ite (Algebra.TensorProduct.map (AlgHom.id F (FiniteAdeleRing (𝓞 F) F)) σ),
     map_one, map_zero, mul_ite, ite_mul, mul_one, mul_zero, one_mul, zero_mul,
-    Finset.sum_ite_eq', Finset.mem_univ, if_true] at h
+    Finset.sum_ite_eq', Finset.mem_univ, ite_true] at h
   simp only [Matrix.mul_apply, Formalism.UG.cT, JR, Matrix.transpose_apply, Matrix.map_apply, Finset.sum_mul]
   refine Eq.trans ?_ h
   refine Finset.sum_congr rfl fun a _ => Finset.sum_congr rfl fun b _ => ?_

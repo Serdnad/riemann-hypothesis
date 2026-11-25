@@ -1,6 +1,5 @@
 module
 
-import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.DeRhamFiniteAndFiltrationBounded
 public import Development.WeilBound.CoreStatements.PadicHodgeComparison.EtaleCohomologyComparison.PerfectoidPullbacks.GlobalSerreRelations.GlobSerreSt
 public import Development.WeilBound.CoreStatements.PadicHodgeComparison.EtaleCohomologyComparison.PerfectoidPullbacks.InclStd
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.FilteredCohomologyRestrictionBijective
@@ -24,55 +23,11 @@ public import Mathlib.RingTheory.Flat.TorsionFree
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.LiftPOfBounds
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.PdPBotPos
 import Development.WeilBound.CoreStatements.PadicHodgeComparison.EtaleCohomologyComparison.CechPairings.MapHComp
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Order.Interval.Finset.Box
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.TypeStar
 import Std.Tactic.BVDecide.Normalize.Prop
 import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ExistsLocalFrameOfCoords
 import Development.WeilBound.CoreStatements.PadicHodgeComparison.EtaleCohomologyComparison.CechPairings.MemBoundariesZeroIff
-import Mathlib.Algebra.Module.StablyFree.Basic
-import Mathlib.RingTheory.RegularLocalRing.Defs
 import Mathlib.Tactic.Linter.HaveILetI
-import Mathlib.Tactic.Polynomial.Basic
 import Development.WeilBound.CoreStatements.PadicHodgeComparison.EtaleCohomologyComparison.CechPairings.FaceMapCompSuccAboveCastSucc
-import Mathlib.RingTheory.Coalgebra.CoassocSimps
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AutomorphicSpectrum.Proofs.BlockDecomposition.QuotientFiltrationBijectiveOfCover, Development.AutomorphicSpectrum.Proofs.BlockDecomposition.SmoothPullBasisFiltration, Development.AutomorphicSpectrum.Proofs.BlockDecomposition.BasisBOfBcOn, Development.AutomorphicSpectrum.Proofs.BlockDecomposition.StableFamilyProperties, Development.AutomorphicSpectrum.Proofs.BlockDecomposition.CapOAffine, Development.AutomorphicSpectrum.Proofs.BlockDecomposition.GradedSplittingOverLatticeBase, Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ExistsFgPullSqC, Development.AutomorphicSpectrum.Proofs.BlockDecomposition.TensTransportSymm, Development.WeilBound.CoreStatements.PadicHodgeComparison.EtaleCohomologyComparison.PerfectoidPullbacks.SplittingFieldLattices.SplitField
@@ -92,7 +47,17 @@ variable {R : Type} [CommRing R] {C : Type 1} [Category.{0} C] {A : C ⥤ CommAl
 
 theorem toSq_bijective_of_bot (a₀ b : IdF A) (h0 : ∀ T, a₀.S T = ⊤) (hb : ∀ T, b.S T = ⊥) (j : ℕ) :
     Function.Bijective ((toSq a₀ b h0).pull j) := by
-  apply _root_.GlobalTheory.CompanionTheory.KFin.toSq_bijective <;> assumption
+  refine CrystallineSemistableComparison.P.mapH_bij (toSq a₀ b h0).hom (fun n => ⟨fun f f' h => ?_, fun y => ?_⟩) j
+  · funext s
+    have h1 := congrArg Subtype.val (congrFun h s)
+    have h2 := Ideal.Quotient.eq.1 h1
+    rw [hb] at h2
+    exact sub_eq_zero.1 h2
+  · have hm : ∀ s : ComposableArrows C n, ∃ t : A.obj (s.obj (Fin.last n)),
+        Ideal.Quotient.mk _ t = (show sqM a₀ b _ from y s).1 :=
+      fun s => Ideal.Quotient.mk_surjective _
+    choose t ht using hm
+    exact ⟨t, funext fun s => Subtype.ext (ht s)⟩
 
 end Abstract
 
@@ -176,7 +141,6 @@ section -- clump:auto
 set_option backward.isDefEq.respectTransparency false
 open CategoryTheory AlgebraicGeometry TensorProduct GlobalTheory.LogCris DividedPowers CrystallineSemistableComparison CrystallineSemistableComparison.Pb
 
-set_option autoImplicit false
 noncomputable section
 
 namespace GlobalTheory.CompanionTheory.BasisBase
@@ -410,15 +374,6 @@ theorem dividedPowerFiltration_dividedPowersBot_of_one_le' {K : Type} [Field K] 
   rw [e]
   exact (dividedPowersBot K).dpow_eval_zero h0
 
-theorem tfbase_K {K : Type} [Field K] [CharZero K] {s : ℕ} (hs : 1 ≤ s) : TFBase (dividedPowersBot K) 1 s := by
-  refine { nil := dividedPowerFiltration_dividedPowersBot_of_one_le' hs, tf := ?_, dv := ?_ }
-  · intro r x h
-    simpa using h
-  · intro n hn
-    exact ⟨0, (n : K)⁻¹, by
-      have : (n : K) ≠ 0 := Nat.cast_ne_zero.2 hn
-      simp [this]⟩
-
 theorem tfbase_B {K B : Type} [Field K] [CharZero K] [CommRing B] [Algebra K B] {I : Ideal B} (γ : DividedPowers I) {s : ℕ}
     (h : pdP γ s = ⊥) : TFBase γ 1 s := by
   refine { nil := h, tf := ?_, dv := ?_ }
@@ -445,7 +400,7 @@ theorem main : BcOn False → KH.KIso → BasisB := by
   obtain ⟨S⟩ := _root_.GlobalTheory.CompanionTheory.GrSplitField.nonempty_grSplit (K := K) γ m hm
   have hs : 1 ≤ s := hm0.trans_le hms
   have hsB : pdP γ s = ⊥ := le_bot_iff.1 (hm ▸ Ideal.span_mono fun _ ⟨l, hl, hr, hz⟩ => ⟨l, hl, hms.trans hr, hz⟩)
-  have hO : TFBase (dividedPowersBot K) 1 s := tfbase_K hs
+  have hO : TFBase (dividedPowersBot K) 1 s := GlobalTheory.CompanionTheory.ConeLocal.tfBase_dpBot hs
   have hA : TFBase γ 1 s := tfbase_B (K := K) γ hsB
   have hd : ∀ α, U.d α < s := fun α => by have := hU α; omega
   have LC := fun (i : Fin m) n r => _root_.GlobalTheory.CompanionTheory.LecShift.leC_shift (O := K) γ q 1 s 𝒱 i (S.ν i n) (S.mem i n) r
@@ -558,7 +513,6 @@ end -- clump:auto
 section -- clump:auto
 @[expose] public section
 
-set_option autoImplicit false
 set_option backward.isDefEq.respectTransparency false
 set_option linter.unusedVariables false
 
@@ -626,8 +580,23 @@ theorem tau_comp (T : C) (y : (sq c b).obj T) :
 theorem sq_exact (j : ℕ) :
     Function.Exact ((sqLe (a := c) (b := b) (a' := a) (b' := b) hca (fun _ => le_rfl)).pull j)
       ((sqLe (a := a) (b := b) (a' := a) (b' := c) (fun _ => le_rfl) hbc).pull j) := by
-  intros
-  apply _root_.GlobalTheory.CompanionTheory.KFin.sq_les <;> assumption
+  have inj : ∀ n, Function.Injective ((sqLe (a := c) (b := b) (a' := a) (b' := b) hca (fun _ => le_rfl)).hom.f n) :=
+    fun n f g h => funext fun s => tau_inj a c b hca _ _ _ (congrFun h s)
+  have surj : ∀ n, Function.Surjective ((sqLe (a := a) (b := b) (a' := a) (b' := c) (fun _ => le_rfl) hbc).hom.f n) := by
+    intro n f
+    choose y hy using fun s : ComposableArrows C n => tau_surj a c b hbc _ (f s)
+    exact ⟨y, funext hy⟩
+  have ex : ∀ n, Function.Exact ((sqLe (a := c) (b := b) (a' := a) (b' := b) hca (fun _ => le_rfl)).hom.f n)
+      ((sqLe (a := a) (b := b) (a' := a) (b' := c) (fun _ => le_rfl) hbc).hom.f n) := by
+    intro n f
+    constructor
+    · intro h
+      choose y hy using fun s : ComposableArrows C n => tau_ex a c b hbc hca _ (f s) (congrFun h s)
+      exact ⟨y, funext hy⟩
+    · rintro ⟨g, rfl⟩
+      exact funext fun s => tau_comp a c b hbc hca _ (g s)
+  obtain ⟨δ, -, -, e1, -, -⟩ := CrystallineSemistableComparison.P.les _ _ inj ex surj
+  exact e1 j
 
 end Les
 
@@ -690,7 +659,6 @@ theorem capO_affine {X : Scheme.{0}} {q : X ⟶ Spec (CommRingCat.of O)} (U : Co
     · obtain ⟨a, -, rfl⟩ := Finset.mem_image.1 hα
       exact capO_le U.U i a
   rwa [e] at h
-
 
 theorem gr_range [IsNoetherianRing O] (hLoc : KH.LocGr) (hPoly : KH.PolyTf) (hSer : KH.GlobSerreSt) (hCech : KH.GrCechFin)
     (l s : ℕ) (hb : TFBase (dividedPowersBot O) l s) {X : Scheme.{0}} (q : X ⟶ Spec (CommRingCat.of O)) [IsProper q]
@@ -1503,7 +1471,6 @@ end -- clump:auto
 section -- clump:auto
 @[expose] public section
 
-set_option autoImplicit false
 set_option backward.isDefEq.respectTransparency false
 
 noncomputable section

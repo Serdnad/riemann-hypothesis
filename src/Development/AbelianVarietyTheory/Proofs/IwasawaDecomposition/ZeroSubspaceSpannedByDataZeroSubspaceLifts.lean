@@ -1,6 +1,5 @@
 module
 
-import Formalism.LocalToGlobal.Divisibility.FramesLemmas
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.StableIffCarrierEq
 public import Formalism.SharpRestriction.Divisibility.LiftErrorLocal
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.LiftCuspFormSpaceThetaMapEqDataStatement
@@ -48,7 +47,6 @@ import Mathlib.Tactic.ReduceModChar
 
 open Formalism.BasicNotions Formalism.MainNotions Formalism.BasicNotions.TH Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes Formalism.MainNotions.StandardLattice Formalism.MainNotions.S MeasureTheory IsDedekindDomain NumberField Matrix Formalism.L2.Theta Formalism.L2.DIV Formalism.L2.Indef Formalism.IndefR Formalism.IndefR.Links Formalism.IndefR.Mult Formalism.IndefR.Datum Formalism.IndefR.Cx
 open scoped TensorProduct InnerProductSpace
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 open Formalism.IndefR.RecTie Formalism.IndefR.Lev Formalism.L2.Rows GlobalTheory.Mem GlobalTheory.Mem.R3
 
 noncomputable section
@@ -63,8 +61,7 @@ variable {K : Type} [Field K] [NumberField K] [StarRing K] {σ : K →+* ℂ} {M
 
 omit [NumberField K] [StarRing K] in
 theorem mulVec_map_injective {a b : ℕ} (Θ : Matrix (Fin a) (Fin b) K) (hΘ : Function.Injective Θ.mulVec) :
-    Function.Injective (Θ.map σ).mulVec := by
-  apply _root_.Formalism.L2.DIV.map_inj <;> assumption
+    Function.Injective (Θ.map σ).mulVec := Formalism.L2.DIV.map_inj σ Θ hΘ
 
 theorem orth_ker_inf_range {n d e : ℕ} (J : (Fin n → K) →ₛₗ[σ] M)
     (hsp : Submodule.span ℂ (Set.range fun k => J (Pi.single k 1)) = ⊤)

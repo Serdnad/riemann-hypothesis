@@ -57,7 +57,7 @@ noncomputable section
 
 namespace GlobalTheory.GivenXi
 
-attribute [local instance] Matrix.normedAddCommGroup Matrix.normedSpace
+open scoped Matrix.Norms.Elementwise
 
 section sesq
 
@@ -82,7 +82,8 @@ theorem formLev_norm_le (hΞ : B.XiExists) {Wp Wq : Type} [NormedAddCommGroup Wp
       (∀ b, CCle (A - 1) (5 + (2 * (P0.r - (j : ℕ)) + P0.k + 1) * w.length) (u b) cu) →
       (∀ a, CCle (A - 1 - 2 * (w.length : ℝ)) 5 (v a) cv) →
       ‖D.formLev T s j w u v‖ ≤ Cf * cu * cv := by
-  exact _root_.Formalism.FourierDecayAlt.P.JCx4.formLev_bound_mm P0 T s j w A hA
+  let _ := hΞ
+  exact formLev_bound_mm P0 T s j w A hA
 
 theorem formLev_sesquilinear_finiteReg (hΞ : B.XiExists) : Formalism.FourierDecayAlt.JC.FormLevSesqMM := by
   intro Wp Wq _ _ _ _ _ _ P0 T s j w A mm ε _ hA hmm x x' y c hx hx' hy
@@ -117,7 +118,8 @@ theorem formLev_tendsto (hΞ : B.XiExists) {Wp Wq : Type} [NormedAddCommGroup Wp
     (hdy : ∀ n e, JC.CCCoefM (T.bs j) (P5.Auser P0 N + 1) (P5.mmUser P0 N) ε₀ (yn n e - y e) ∧
       B.CCle (P5.Auser P0 N + 1) (P5.mmUser P0 N) (yn n e - y e) (dn n)) :
     Tendsto (fun n => D.formLev T s j w (xn n) (yn n)) atTop (𝓝 (D.formLev T s j w x y)) := by
-  exact _root_.Formalism.FourierDecayAlt.P.PBE.formLev_limit P0 T s j w N hw ε₀ hε₀ x y xn yn Bd dn hdn hx hy hxn hyn hdx hdy
+  let _ := hΞ
+  exact formLev_limit P0 T s j w N hw ε₀ hε₀ x y xn yn Bd dn hdn hx hy hxn hyn hdx hdy
 
 theorem levelForm_cutoff_tendsto_below (hΞ : B.XiExists) : ∃ Cl : ℝ, 0 ≤ Cl ∧ ∀ Cc : ℝ, Cl ≤ Cc →
     ∀ (Wp Wq : Type) [NormedAddCommGroup Wp] [InnerProductSpace ℂ Wp] [NormedAddCommGroup Wq]

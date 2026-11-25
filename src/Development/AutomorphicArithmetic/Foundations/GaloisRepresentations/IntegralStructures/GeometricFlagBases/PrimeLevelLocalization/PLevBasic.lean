@@ -1,44 +1,7 @@
 module
 
-import all Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.IntegralStructures.GeometricFlagBases.CovMain
-import Development.AutomorphicArithmetic.CommutativeAlgebra.TraceIdentityOfTjElement
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.IntegralStructures.GeometricFlagBases.PrimeLevelLocalization.PrimeProj
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
 
 @[expose] public section
 
@@ -50,7 +13,6 @@ open GlobalTheory.LFun (KGL satEig)
 open UpperTheory.Gal.CertificateRingHomMap (GUf Gam0 Plc GLw AfQ sim mat comp rat loc lev SameK IsCen Shape IsForm IsKap mOf)
 open UpperTheory.Gal.W2.Seed (Arith Setup)
 open scoped TensorProduct Classical
-attribute [local instance] GlobalTheory.LocalData.complRel GlobalTheory.LocalData.isLocalField
 
 namespace UpperTheory.Gal.Int.Geo.Pl
 
@@ -91,8 +53,20 @@ theorem mulF_one (v) : mulF D 1 v = v := by
   rw [map_one, one_smul]
 
 theorem actG_mulF (g : G.GAf) (x : 𝓞 D.F) (v) : L.actG g (mulF D x v) = mulF D x (L.actG g v) := by
- intros
- apply @_root_.UpperTheory.TorsionCardinalitySetup.actG_mulF <;> assumption
+  have key : ∀ c : AfP p ⊗[ℚ] G.C, actOn L.rep (AfP p) c * mulF D x = mulF D x * actOn L.rep (AfP p) c := by
+    intro c
+    induction c using TensorProduct.inductionOn with
+    | add a b ha hb => rw [map_add (f := _), add_mul, mul_add, ha, hb]
+    | tmul a y =>
+      have h := (L.rep_range (L.rep y)).1 ⟨y, rfl⟩ (algebraMap (𝓞 D.F) D.O x)
+      have h2 : (L.rep y).baseChange (AfP p) * mulF D x = mulF D x * (L.rep y).baseChange (AfP p) := by
+        unfold mulF
+        rw [← LinearMap.baseChange_mul, ← LinearMap.baseChange_mul, h]
+      have h3 : actOn L.rep (AfP p) (a ⊗ₜ y) = a • (L.rep y).baseChange (AfP p) := by
+        rw [Algebra.smul_def]
+        rfl
+      rw [h3, smul_mul_assoc, mul_smul_comm, h2]
+  exact LinearMap.congr_fun (key _) v
 
 theorem mem_idHat_nat (N : ℕ) (z) : z ∈ idHat D (Ideal.span {(N : 𝓞 D.F)}) ↔ ∃ w ∈ LaHat D, z = N • w := by
   constructor
@@ -115,7 +89,13 @@ theorem mem_idHat_nat (N : ℕ) (z) : z ∈ idHat D (Ideal.span {(N : 𝓞 D.F)}
     rw [mulF_nat_mul, mulF_one]
 
 theorem Integ_idHat {g : G.GAf} (hg : Integ L g) {𝔟 : Ideal (𝓞 D.F)} {z} (hz : z ∈ idHat D 𝔟) : L.actG g z ∈ idHat D 𝔟 := by
-  apply _root_.UpperTheory.Gal.Int.Geo.actG_idHat <;> assumption
+  induction hz using AddSubgroup.closure_induction with
+  | mem z hz =>
+    obtain ⟨x, hx, v, hv, rfl⟩ := hz
+    exact AddSubgroup.subset_closure ⟨x, hx, _, hg v hv, actG_mulF L g x v⟩
+  | zero => rw [map_zero]; exact zero_mem _
+  | add a b _ _ ha hb => rw [map_add (f := _)]; exact add_mem ha hb
+  | neg a _ ha => rw [map_neg]; exact neg_mem ha
 
 theorem actG_mul (g h : G.GAf) (v) : L.actG (g * h) v = L.actG g (L.actG h v) := by
   rw [map_mul, mul_apply_eq_comp]

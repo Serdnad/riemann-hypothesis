@@ -344,7 +344,14 @@ namespace GlobalTheory.Ord2.Kill
 variable {l : ℕ} [Fact l.Prime]
 
 theorem mem_of_memE (c : Coef l) {x : Qbar l} (hE : MemE c x) (hx : ‖x‖ ≤ 1) : x ∈ c.O := by
-  apply _root_.GlobalTheory.Ord2.DivChain.mem_of_memE <;> assumption
+  obtain ⟨k, hk⟩ := hE
+  have hl0 : ((l : ℕ) : Qbar l) ≠ 0 := Nat.cast_ne_zero.2 (Fact.out : l.Prime).ne_zero
+  have hn : ‖(l : Qbar l) ^ k * x‖ ≤ ‖((l : ℕ) : Qbar l) ^ k‖ := by
+    rw [norm_mul]
+    exact mul_le_of_le_one_right (norm_nonneg _) hx
+  obtain ⟨w, hw, e⟩ := Rec.exists_eq_pow_mul_of_norm_le hk hn
+  have : x = w := mul_left_cancel₀ (pow_ne_zero k hl0) e
+  rw [this]; exact hw
 
 theorem adj_mem (c : Coef l) {M : Matrix (Fin 2) (Fin 2) (Qbar l)} (hM : ∀ i j, M i j ∈ c.O) (i j : Fin 2) :
     M.adjugate i j ∈ c.O := by
@@ -442,11 +449,6 @@ section -- clump:auto
 @[expose] public section
 
 namespace GlobalTheory.IntegralElementNorm
-
-theorem norm_algebraMap_le_one {l : ℕ} [Fact l.Prime] (a : ℤ_[l]) :
-    ‖algebraMap ℤ_[l] (PadicAlgCl l) a‖ ≤ 1 := by
-  rw [IsScalarTower.algebraMap_apply ℤ_[l] ℚ_[l] (PadicAlgCl l)]
-  exact (PadicAlgCl.norm_extends (p := l) _).trans_le (PadicInt.norm_le_one a)
 
 theorem norm_le_one_of_isIntegral {l : ℕ} [Fact l.Prime] {x : PadicAlgCl l} (hx : IsIntegral ℤ_[l] x) :
     ‖x‖ ≤ 1 := by
@@ -625,8 +627,7 @@ lemma exists_preimage {l : ℕ} (hfin : Finite {x : X // l • x = 0}) {y : X} (
   obtain ⟨z0, hz0⟩ := hy 1
   rw [pow_one] at hz0
   haveI := finite_fiber hfin y z0 hz0
-  by_contra hcon
-  push_neg at hcon
+  by_contra! hcon
   have hm : ∀ z : {z : X // l • z = y}, ∃ m : ℕ, ∀ w : X, l ^ m • w ≠ z.1 := by
     intro z
     have := hcon z.1 z.2
@@ -651,8 +652,7 @@ lemma exists_last {l : ℕ} {z : X} (hz : z ≠ 0) :
 lemma exists_start {l : ℕ} (htors : ∀ x : X, ∃ n : ℕ, l ^ n • x = 0)
     (hfin : Finite {x : X // l • x = 0}) (hunb : ∀ m : ℕ, ∃ x : X, l ^ m • x ≠ 0) :
     ∃ y : X, y ≠ 0 ∧ l • y = 0 ∧ DivAll l y := by
-  by_contra hcon
-  push_neg at hcon
+  by_contra! hcon
   have hm : ∀ y : {x : X // l • x = 0}, ∃ m : ℕ, y.1 ≠ 0 → ∀ w : X, l ^ m • w ≠ y.1 := by
     intro y
     by_cases hy0 : y.1 = 0

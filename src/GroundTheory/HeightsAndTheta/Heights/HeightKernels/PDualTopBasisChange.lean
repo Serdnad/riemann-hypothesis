@@ -1,11 +1,11 @@
 module
 
-import GroundTheory.HeightsAndTheta.Heights.HeightKernels.PIntCoordChange
 public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.StatementsDualTopBasisChange
 public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.StatementsIntCoordChange
 public import Mathlib.RingTheory.SimpleRing.Principal
 public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.Assembly
 import GroundTheory.HeightsAndTheta.Heights.HeightKernels.PDualLineSemipositive
+import GroundTheory.HeightsAndTheta.Heights.HeightKernels.PIntCoordChange
 
 @[expose] public section
 
@@ -20,20 +20,16 @@ noncomputable section
 namespace TopDualBasisChange
 
 theorem hermLine_ext {ι : Unit → Type} [∀ k, Fintype (ι k)] {A B : ReciprocityTheory.ChartRestriction.G.Geo.HermLine ι}
-    (ha : A.a = B.a) (hh : A.h = B.h) : A = B := by
-  cases A
-  cases B
-  cases ha
-  cases hh
-  rfl
+    (ha : A.a = B.a) (hh : A.h = B.h) : A = B :=
+  IntegralCoordinateChange.hermLine_ext ha hh
 
 variable {T T₂ : Type} [Fintype T] [DecidableEq T] [Fintype T₂] [DecidableEq T₂]
 
 
 omit [DecidableEq T₂] in
 theorem subst_subst {A : Matrix T T₂ ℤ} {B : Matrix T₂ T ℤ} (hAB : A * B = 1) (f : MRing (dualBlocks T)) :
-    intCoordSubst A (intCoordSubst B f) = f := by
-  apply _root_.GroundTheory.Heights₂.Heights.IntegralCoordinateChange.subst_subst <;> assumption
+    intCoordSubst A (intCoordSubst B f) = f :=
+  IntegralCoordinateChange.subst_subst hAB f
 
 variable {K : Type} [Field K] [NumberField K] {i : ℕ} {F : HermLattice K i}
 

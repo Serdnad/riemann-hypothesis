@@ -1,66 +1,20 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.ThetaFamilyOrigin.IsThetaPtOverOfSubsingleton
 public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.WeilIsIffCommIsOfAndLiftSubsingleton
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.PushInvertible
 import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.ExistsUniqueWeilIs
 public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.ThetaGrpActsLinearly
 public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.IsLocallyNoetherian
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
 import Mathlib.AlgebraicGeometry.Modules.Sheaf
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
 import Formalism.LocalToGlobal.ProjectiveLattices.SubConstMemOrig
 
 @[expose] public section
-
-set_option autoImplicit false
 
 noncomputable section
 
 open AlgebraicGeometry CategoryTheory Limits MonoidalCategory CartesianMonoidalCategory MonObj NumberField
 open ReciprocityTheory.ChartRestriction.G ReciprocityTheory.ChartRestriction.G.Semi ReciprocityTheory.ChartRestriction.G.Out ReciprocityTheory.ChartRestriction.G.Geo.Tor Formalism.L2.Pj
-attribute [local instance] Over.cartesianMonoidalCategory
 
 namespace GlobalTheory.SymLiftMul
 
@@ -204,8 +158,17 @@ theorem sym_val' (hG : GlobalFnsSt) (hA : IsAbelianScheme A) (hL : L.IsLB) {θ :
     (hJ : Good L z J) (y : T' ⟶ A) :
     tval θ (lift σ ((σ ≫ x)⁻¹ * y)).left z J * nval ν (lift σ y).left z J *
       (tval θ (lift σ y⁻¹).left z J * (nval ν (lift σ ((σ ≫ x)⁻¹ * y)).left z J)⁻¹) = 1 := by
-  intros
-  apply _root_.GlobalTheory.ThetaCoord.sym_tval <;> assumption
+  obtain ⟨hpt, -, nu, hnu, hsym⟩ := h
+  have hv := val_corr hJ hsym (lift σ y).left
+  rw [val_symGen θ nu _ hJ, val_one] at hv
+  have hd : nval ν (lift σ y).left z J * (nval nu (lift σ y).left z J)⁻¹ =
+      nval ν ((lift σ y).left ≫ (translT A θ.pt⁻¹).left) z J *
+        (nval nu ((lift σ y).left ≫ (translT A θ.pt⁻¹).left) z J)⁻¹ :=
+    GlobalTheory.CommPairing.val_div_eq hL (fst T A).left (GlobalTheory.CommPairing.surj_fst hG hA T) hν hnu _ _
+      (by rw [Category.assoc, GlobalTheory.CommPairing.translT_fst]) z J hJ
+  rw [lift_translT, lift_negT, comp_inv_cusp_form_evaluations, hpt] at hv
+  rw [lift_translT, comp_inv_cusp_form_evaluations, hpt] at hd
+  exact exp_le_qw_div_le_exp_of_far_letters _ _ _ _ _ _ hv hd
 
 theorem tval_trans (θ : ThetaGrp A L k T) (σ : T' ⟶ T) {z : T'.left} {J J'} (hJ : Good L z J) (hJ' : Good L z J')
     (y : T' ⟶ A) : tval θ (lift σ y).left z J =

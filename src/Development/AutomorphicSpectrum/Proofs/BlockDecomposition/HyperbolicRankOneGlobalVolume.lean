@@ -1,7 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.EventuallyLocalDensityStandardLatticeBound
-import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.UnramifiedQuadraticConditionFive
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.IsCovolOne
 public import Mathlib.Order.CompletePartialOrder
 public import CompanionTheory.SpectralGeometry.LocalGlobalProofs.AdelicAnalysis.EulerProductMeasureZero
@@ -30,57 +28,11 @@ public import GroundTheory.HeightsAndTheta.Theta.AdelicFourier
 public import CompanionTheory.SpectralGeometry.LocalGlobalProofs.AdelicAnalysis.SummableOneDivAbsNormSq
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.EventuallyMeasurableSetPrimV
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.GlobalVolumeRankOneProduct
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.HaveILetI
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Tactic.TypeStar
-import Mathlib.Topology.Sheaves.Init
 import Development.AbelianVarietyTheory.Proofs.HeightProofs.QuadraticExtNormFormOverAlgebra
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
 import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.HypOneZeroZero
 import CompanionTheory.SpectralGeometry.LocalGlobalProofs.AdelicAnalysis.TensorLocallyCompactRing
-import Mathlib.RingTheory.PiTensorProduct
-import Mathlib.Tactic.Polynomial.Basic
 import Std.Tactic.BVDecide.Normalize.Prop
 
 -- This file was produced by scripts/clump.py from the modules listed below.
@@ -217,7 +169,7 @@ theorem pureL_phi (σ : E →ₐ[F] E) {M d : ℕ} (J : Matrix (Fin M) (Fin M) E
         (h2 v (Finset.mem_sdiff.1 hv).1 (Finset.mem_sdiff.1 hv).2) _
     · have hy : y ∉ cut σ J b S T := fun h => h2 h.2
       rw [Set.indicator_of_notMem hy]
-      push_neg at h2
+      push Not at h2
       obtain ⟨v, hvT, hvS, hv⟩ := h2
       rw [Finset.prod_eq_zero (Finset.mem_sdiff.2 ⟨hvT, hvS⟩) (Set.indicator_of_notMem hv _)]
       simp
@@ -301,7 +253,7 @@ theorem finite_case (σ : E →ₐ[F] E) (hσ : IsCMExt F E σ) {M d : ℕ} (J :
       exact iInf_const
     · rw [Set.indicator_of_notMem (show y ∉ {y : Fin 1 → Fin (M + 2) → AF F ⊗[F] E |
         ∀ v, v ∉ S → projV v (projFin y) ∈ primV σ J b v} from hy)]
-      push_neg at hy
+      push Not at hy
       obtain ⟨v, hvS, hv⟩ := hy
       obtain ⟨k, hk⟩ := (hut.eventually_ge_atTop ({v} : Finset _)).exists
       have hvk : v ∈ T k := Finset.mem_union_right _ (hk (Finset.mem_singleton_self v))
@@ -593,7 +545,7 @@ theorem exists_gens (hδ : δ * δ = ι D) (hsp : ∀ y : O, ∃ p q : R, y = ι
     rcases hP.isPrime.mem_or_mem hprod with h | h
     · exact Or.inl (eq_span_of_factor ι δ D hδ hsp e _ _ hm f1 hP h)
     · exact Or.inr (eq_span_of_factor ι δ D hδ hsp (-e) _ _ hm f2 hP h)
-  · push_neg at hsq
+  · push Not at hsq
     exact ⟨ι ϖ, ι ϖ, ϖ, hϖ0, dvd_rfl, dvd_rfl, fun P hP =>
       Or.inl (eq_span_of_nonsquare ι δ D hδ hsp ϖ hϖ hsq hP)⟩
 
@@ -695,7 +647,16 @@ theorem maximal_ideals : ∀ (F E : Type) [Field F] [NumberField F] [Field E] [N
     apply τ.injective
     rw [h.2.2.2, h.2.2.2, star_star]
   have hne : ∃ x, σ x ≠ x := by
-    apply _root_.GlobalTheory.CompanionTheory.GunrInert.sig_moves <;> assumption
+    by_contra! hc
+    obtain ⟨w⟩ := (inferInstance : Nonempty (NumberField.InfinitePlace E))
+    have hreal : w.IsReal := by
+      rw [← NumberField.InfinitePlace.mk_embedding w, NumberField.InfinitePlace.isReal_mk_iff,
+        NumberField.ComplexEmbedding.isReal_iff]
+      refine RingHom.ext fun x ↦ ?_
+      rw [NumberField.ComplexEmbedding.conjugate_coe_eq]
+      change star (w.embedding x) = w.embedding x
+      rw [← h.2.2.2, hc]
+    exact NumberField.InfinitePlace.not_isReal_iff_isComplex.2 (h.2.1.isComplex w) hreal
   obtain ⟨D, b₂, hsq, hb0, hσ1, hD⟩ := GlobalTheory.QuadNormBase.exists_basis F E σ h.2.2.1 hinv hne
   have hD0 : D ≠ 0 := fun h0 => hsq (h0 ▸ IsSquare.zero)
   have I := _root_.GlobalTheory.CompanionTheory.SW.GoodInt.rational_integral_units F E σ h
@@ -905,7 +866,19 @@ theorem fibre_zero_image_mul (F E : Type) [Field F] [NumberField F] [Field E] [N
 
 theorem val_eq_one_eventually {F : Type} [Field F] [NumberField F] (a : F) (ha : a ≠ 0) :
     ∀ᶠ v : HeightOneSpectrum (𝓞 F) in Filter.cofinite, Valued.v (algebraMap F (Fv F v) a) = 1 := by
-  apply _root_.GlobalTheory.GaugeDensity.eventually_valued_eq_one <;> assumption
+  have h1 := HeightOneSpectrum.Support.finite (𝓞 F) a
+  have h2 := HeightOneSpectrum.Support.finite (𝓞 F) a⁻¹
+  refine Filter.eventually_cofinite.2 ((h1.union h2).subset ?_)
+  intro v hv
+  by_contra hc
+  have hc1 : ¬ 1 < v.valuation F a := fun h => hc (Or.inl h)
+  have hc2 : ¬ 1 < v.valuation F a⁻¹ := fun h => hc (Or.inr h)
+  apply hv
+  rw [_root_.GlobalTheory.CompanionTheory.SW.GoodInt.valued_algebraMap]
+  have hne : v.valuation F a ≠ 0 := (Valuation.ne_zero_iff _).2 ha
+  rw [not_lt] at hc1 hc2
+  rw [map_inv₀] at hc2
+  exact le_antisymm hc1 ((inv_le_one₀ (zero_lt_iff.2 hne)).1 hc2)
 
 theorem norm_le_of_nonunit (F E : Type) [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E]
     (σ : E →ₐ[F] E) (hσ : IsCMExt F E σ) (d : ℕ) (b : Module.Basis (Fin d) F E) :
@@ -918,8 +891,7 @@ theorem norm_le_of_nonunit (F E : Type) [Field F] [NumberField F] [Field E] [Num
     intro h
     exact one_ne_zero (b.repr.map_eq_zero_iff.1 h)
   obtain ⟨k0, hk0⟩ : ∃ k, b.repr 1 k ≠ 0 := by
-    by_contra hcon
-    push_neg at hcon
+    by_contra! hcon
     exact hb1 (Finsupp.ext hcon)
   filter_upwards [GlobalTheory.CompanionTheory.SW.GoodRing.good_ring F E σ hσ d b, val_eq_one_eventually _ hk0]
     with v hgood hv O hO c hc hcu
@@ -1071,8 +1043,7 @@ theorem exists_u_local {A : Type} [CommRing A] (σ : A →+* A) {M : ℕ}
       | succ j => exact ⟨j, rfl⟩
   set w : Fin M → A := fun i => x i.succ.succ with hw
   have hex : ∃ k, (J *ᵥ w) k ∉ P := by
-    by_contra hc
-    push_neg at hc
+    by_contra! hc
     have e : w = Ji *ᵥ (J *ᵥ w) := by
       rw [Matrix.mulVec_mulVec, mul_eq_one_comm.1 hJi, one_mulVec]
     apply hi
@@ -1137,7 +1108,7 @@ theorem exists_u {A : Type} [CommRing A] (σ : A →+* A) (hσ : ∀ a, σ (σ a
         rcases hQ.isPrime.mem_or_mem h3 with h4 | h4
         · exact hp1 h4
         · exact h h4
-  · push_neg at hdist
+  · push Not at hdist
     by_cases hex : ∃ P : Ideal A, P.IsMaximal
     · obtain ⟨P, hP⟩ := hex
       obtain ⟨u, hu⟩ := hloc P hP
@@ -1147,8 +1118,7 @@ theorem exists_u {A : Type} [CommRing A] (σ : A →+* A) (hσ : ∀ a, σ (σ a
 theorem exists_mu {A : Type} [CommRing A] (P₁ P₂ : Ideal A)
     (hmax : ∀ P : Ideal A, P.IsMaximal → P = P₁ ∨ P = P₂) (h2 : IsUnit (2 : A)) (a b : A)
     (hab : ∀ P : Ideal A, P.IsMaximal → b ∉ P ∨ a ∉ P) : ∃ μ : ℤ, IsUnit (a - (μ : A) * b) := by
-  by_contra hc
-  push_neg at hc
+  by_contra! hc
   have pair : ∀ P : Ideal A, P.IsMaximal → ∀ m n : ℤ, IsUnit ((n : A) - m) →
       a - (m : A) * b ∈ P → a - (n : A) * b ∈ P → False := by
     intro P hP m n hu h1 h3
@@ -1484,7 +1454,7 @@ theorem cover_pt (σ : E →ₐ[F] E) {M d : ℕ} (J Ji : Matrix (Fin M) (Fin M)
     rw [Fin.fin_one_eq_zero a]
     exact hgx
   · right
-    push_neg at hp
+    push Not at hp
     obtain ⟨P, hPm, hP⟩ := hp
     have aux : ∀ c : O, P = Ideal.span {c} → ¬ IsUnit c ∧
         X ∈ (fun (Y : Fin 1 → Fin (M + 2) → Fv F v ⊗[F] E) a i => (c : Fv F v ⊗[F] E) * Y a i) ''

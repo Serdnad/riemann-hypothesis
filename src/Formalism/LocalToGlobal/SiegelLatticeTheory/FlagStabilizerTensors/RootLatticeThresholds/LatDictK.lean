@@ -15,8 +15,6 @@ open Matrix NumberField Formalism.BasicNotions Formalism.MainNotions.S Formalism
 
 namespace Formalism.L2.SG.Pf
 
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
-
 namespace LatDictK
 
 section DictK

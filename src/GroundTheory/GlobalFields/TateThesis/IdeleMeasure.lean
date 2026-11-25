@@ -129,8 +129,20 @@ section Borel
 theorem isSigmaCompact_of_isOpen {X : Type*} [TopologicalSpace X]
     [SecondCountableTopology X] [LocallyCompactSpace X] {U : Set X} (hU : IsOpen U) :
     IsSigmaCompact U := by
-  have : LocallyCompactSpace U := hU.locallyCompactSpace
-  exact isSigmaCompact_iff_sigmaCompactSpace.mpr inferInstance
+  have h : ∀ x ∈ U, ∃ t ∈ 𝓝 x, t ⊆ U ∧ IsCompact t := fun x hx ↦
+    local_compact_nhds (hU.mem_nhds hx)
+  choose! t ht using h
+  obtain ⟨T, hTU, hTc, hT⟩ := isOpen_biUnion_countable U (fun x ↦ interior (t x))
+    fun _ _ ↦ isOpen_interior
+  have hcov : ⋃ x ∈ T, t x = U := by
+    refine subset_antisymm (Set.iUnion₂_subset fun x hx ↦ (ht x (hTU hx)).2.1) fun y hy ↦ ?_
+    have hy' : y ∈ ⋃ x ∈ U, interior (t x) :=
+      Set.mem_biUnion hy (mem_interior_iff_mem_nhds.2 (ht y hy).1)
+    rw [← hT] at hy'
+    obtain ⟨x, hx, hyx⟩ := Set.mem_iUnion₂.1 hy'
+    exact Set.mem_biUnion hx (interior_subset hyx)
+  rw [← hcov]
+  exact isSigmaCompact_biUnion hTc fun x hx ↦ (ht x (hTU hx)).2.2.isSigmaCompact
 
 theorem comap_eq_borel_of_continuous_injective {X Y : Type*}
     [TopologicalSpace X] [SecondCountableTopology X] [LocallyCompactSpace X]
@@ -142,10 +154,12 @@ theorem comap_eq_borel_of_continuous_injective {X Y : Type*}
     rw [← BorelSpace.measurable_eq (α := Y)] at h
     exact h.comap_le
   · refine MeasurableSpace.generateFrom_le fun U hU ↦ ?_
-    refine ⟨f '' U, ?_, hinj.preimage_image U⟩
-    obtain ⟨k, hk, hkU⟩ := (isSigmaCompact_of_isOpen hU).image hf
-    rw [← hkU]
-    exact MeasurableSet.iUnion fun n ↦ (hk n).isClosed.measurableSet
+    obtain ⟨k, hk, hkU⟩ := isSigmaCompact_of_isOpen hU
+    have : U = f ⁻¹' ⋃ n, f '' k n := by
+      rw [Set.preimage_iUnion, ← hkU]
+      exact Set.iUnion_congr fun n ↦ (hinj.preimage_image _).symm
+    rw [this]
+    exact ⟨_, MeasurableSet.iUnion fun n ↦ ((hk n).image hf).isClosed.measurableSet, rfl⟩
 
 theorem borelSpace_units {M : Type*} [Monoid M] [TopologicalSpace M]
     [T2Space M] [MeasurableSpace M] [BorelSpace M] [SecondCountableTopology Mˣ]
@@ -287,7 +301,7 @@ def infinitePlaceMeasure (w : InfinitePlace K) : Measure w.Completion :=
 omit [NumberField K] in
 theorem infinitePlaceMeasure_of_isReal {w : InfinitePlace K} (hw : w.IsReal) :
     infinitePlaceMeasure w = Measure.map (isometryEquivRealOfIsReal hw).symm volume :=
-  dif_pos hw
+  dite_eq_left hw
 
 omit [NumberField K] in
 theorem infinitePlaceMeasure_of_isComplex {w : InfinitePlace K} (hw : w.IsComplex) :
@@ -342,7 +356,7 @@ theorem map_mul_left_infinitePlaceMeasure (w : InfinitePlace K) {a : w.Completio
       Real.map_volume_mul_left hea, Measure.map_smul _ e.symm.continuous.measurable.aemeasurable]
     congr 2
     have h0 : e 0 = 0 := map_zero (ringEquivRealOfIsReal hw)
-    rw [abs_inv, ← Real.norm_eq_abs, e.isometry.norm_map_of_map_zero h0, mult, if_pos hw,
+    rw [abs_inv, ← Real.norm_eq_abs, e.isometry.norm_map_of_map_zero h0, mult, ite_eq_left hw,
       pow_one]
   · have hc := not_isReal_iff_isComplex.1 hw
     rw [infinitePlaceMeasure_of_isComplex hc]
@@ -364,7 +378,7 @@ theorem map_mul_left_infinitePlaceMeasure (w : InfinitePlace K) {a : w.Completio
       Measure.map_smul _ e.symm.continuous.measurable.aemeasurable]
     congr 2
     have h0 : e 0 = 0 := map_zero (ringEquivComplexOfIsComplex hc)
-    rw [e.isometry.norm_map_of_map_zero h0, mult, if_neg hw]
+    rw [e.isometry.norm_map_of_map_zero h0, mult, ite_eq_right hw]
 
 def infinitePlaceUnitsMeasure (w : InfinitePlace K) : Measure (w.Completion)ˣ :=
   unitsMeasure (infinitePlaceMeasure w) w.mult

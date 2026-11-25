@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.SatakeParameters.StabCardOfStabTie
 public import Formalism.LocalToGlobal.Columns.FiniteSumNonzeroLargeDepth
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.MemDivsOfMem
 import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.UnderEqIffConjPl
@@ -58,47 +57,6 @@ noncomputable section
 namespace GlobalTheory.Proof.NarrowJetMoments
 
 open Formalism.BasicNotions Formalism.HermitianLatticesTheory Formalism.MainNotions Formalism.L2.DIV Formalism.L2.Col Formalism.L2.Ker GlobalTheory.IndefiniteRowSideFullHecke
-
-section Notions
-
-variable {E : Type} [Field E] [NumberField E] [StarRing E] {a b : ℕ}
-
-
-variable {ST SG SG' : Finset (HeightOneSpectrum (𝓞 E))}
-
-end Notions
-
-section Closure
-
-variable {p : ℕ} [Fact p.Prime]
-
-variable {X : Fields} {a b : ℕ}
-
-end Closure
-
-section Data
-
-variable {E : Type} [Field E] [NumberField E] [StarRing E] {a b : ℕ}
-  {N : Submodule (𝓞 E) (Sp E a)} {N' : Submodule (𝓞 E) (Sp E b)}
-
-end Data
-
-section Datum
-
-variable {X : Fields} {a b : ℕ} {SB Sall : Finset (HeightOneSpectrum (𝓞 X.E))} {T cA cB' : ℕ}
-  {N : Submodule (𝓞 X.E) (Sp X.E a)} {N' : Submodule (𝓞 X.E) (Sp X.E b)} {w : HeightOneSpectrum (𝓞 X.K)}
-
-variable (A : Amb X)
-
-end Datum
-
-section Clause
-
-variable {X : Fields} (A : Amb X) (Pr : Primes X) (u : Pr.Word) {p : ℕ} [Fact p.Prime] (w : HeightOneSpectrum (𝓞 X.K))
-  (ι : X.K →+* ℂ_[p]) (uu : X.Tau → ℂ_[p]) {a b : ℕ} (SB Sall : Finset (HeightOneSpectrum (𝓞 X.E)))
-  {SG SG' : Finset (HeightOneSpectrum (𝓞 X.E))} (d : DecoSet (E := X.E) (n := a) (ST := Pr.vT u) (SG := SG)) (d' : DecoSet (E := X.E) (n := b) (ST := Pr.vT u) (SG := SG'))
-
-end Clause
 
 section Bad
 
@@ -162,8 +120,21 @@ theorem good_of_mem_QE {P : HeightOneSpectrum (𝓞 X.E)} (h : P ∈ QE sel (mu 
 
 theorem notMem_of_mem_QE (hsel : IsSel X sel) {P : HeightOneSpectrum (𝓞 X.E)} (h : P ∈ QE sel (mu : Chr X.F X.E X.K))
     {l : ℕ} (hl : l.Prime) (hS : l ∈ S) : (l : 𝓞 X.E) ∉ P.asIdeal := by
-  intros
-  apply _root_.GlobalTheory.KFormsCmp.notMem_of_QE <;> assumption
+  intro hm
+  obtain ⟨v, hgood, e⟩ := good_of_mem_QE h
+  have h5 : (l : 𝓞 X.F) ∈ v.asIdeal := by
+    rw [← hsel v, e, Ideal.under_def, Ideal.mem_comap, map_natCast]
+    exact hm
+  apply hgood.2.2
+  have h6 : ringChar (𝓞 X.F ⧸ v.asIdeal) ∣ l := by
+    rw [← ringChar.spec, ← map_natCast (Ideal.Quotient.mk v.asIdeal), Ideal.Quotient.eq_zero_iff_mem]
+    exact h5
+  haveI := v.isPrime
+  rcases (Nat.dvd_prime hl).1 h6 with h7 | h7
+  · exact absurd h7 CharP.ringChar_ne_one
+  · change ringChar (𝓞 X.F ⧸ v.asIdeal) ∈ S
+    rw [h7]
+    exact hS
 
 theorem mem_vGs_iff {P : HeightOneSpectrum (𝓞 X.E)} : P ∈ Pr.vGs ↔ ∃ i, P ∈ Pr.vG i := by
   classical

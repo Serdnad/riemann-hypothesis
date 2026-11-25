@@ -1,6 +1,5 @@
 module
 
-import GroundTheory.HeightsAndTheta.Heights.HeightKernels.PVertPointSurj
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PSectionBounded
 public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.StatementsLogCardLength
 public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.StatementsPointVertRSteps
@@ -199,7 +198,21 @@ theorem le_of_minimal {Ω : Type} [Field Ω] (y : (Σ k, ι k) → Ω) (c : ∀ 
 
 theorem locLen_quot_eq_zero {R : Type*} [CommRing R] (m : Ideal R) [m.IsPrime] {a : R} (ha : a ∉ m) :
     locLen m (R ⧸ Ideal.span {a}) = 0 := by
-  apply _root_.GroundTheory.Heights₂.Heights.VerticalPointSurjective.locLen_quot_eq_zero <;> assumption
+  have key : ∀ w : LocalizedModule m.primeCompl (R ⧸ Ideal.span {a}), w = 0 := by
+    intro w
+    induction w using LocalizedModule.induction_on with
+    | h x t =>
+      rw [← LocalizedModule.zero_mk t, LocalizedModule.mk_eq]
+      refine ⟨⟨a, ha⟩, ?_⟩
+      obtain ⟨x', rfl⟩ := Ideal.Quotient.mk_surjective x
+      rw [smul_zero, smul_zero, Submonoid.smul_def, Submonoid.smul_def, Algebra.smul_def,
+        Algebra.smul_def, Ideal.Quotient.algebraMap_eq, ← map_mul, ← map_mul,
+        Ideal.Quotient.eq_zero_iff_mem]
+      exact Ideal.mul_mem_right _ _ (Ideal.mem_span_singleton_self a)
+  have hsub : Subsingleton (LocalizedModule m.primeCompl (R ⧸ Ideal.span {a})) :=
+    ⟨fun u v => by rw [key u, key v]⟩
+  rw [locLen, dite_eq_left ‹m.IsPrime›, Module.length_eq_zero_iff.mpr hsub]
+  rfl
 
 end CurveVerticalPointSurjective
 
@@ -225,13 +238,19 @@ noncomputable section
 
 
 open CurveVerticalPointSurjective in
-theorem CurveVertPointSurj.proof (hFin : CurveRingFinite.Statement) (hC : CurveClosedPointChart.Statement) :
-    CurveVertPointSurj.Statement := by
+theorem CurveVertPointSurj.of_single {K : Type} [Fintype K] {ι : K → Type} [∀ k, Fintype (ι k)]
+    {Ω : Type} [Field Ω] (y : (Σ k, ι k) → Ω) (s : MRing ι) (d : K → ℕ)
+    (hs : IsMultiHomog s d) (hsP : s ∉ mCoordIdeal y)
+    (m : Ideal (curveRing y)) (hm : m.IsMaximal)
+    (hfin : Module.Finite ℤ (curveRing y))
+    (c : ∀ k, ι k) (hyc : ∀ k, y ⟨k, c k⟩ ≠ 0)
+    (hrat : ∀ p : Σ k, ι k, ∃ α β : curveRing y, β ∉ m ∧
+      (β : Ω) * (y p / y ⟨p.1, c p.1⟩) = α)
+    (hloc : ∀ (a : curveRing y) (b : m.primeCompl),
+      ((b : curveRing y) : Ω) * aeval y s = (a : Ω) * ∏ k, y ⟨k, c k⟩ ^ d k →
+      locLen m (curveRing y ⧸ Ideal.span {a}) ≠ 0) :
+    ∃ Q ∈ divSupp (mCoordIdeal y) s, curvePtIdeal y Q = m := by
   classical
-  intro K _ ι _ Ω _ y s d hP hs hsP m hm hlen
-  have hfin := hFin K ι Ω y hP
-  obtain ⟨c, hyc, hrat⟩ := hC K ι Ω y hP m hm
-  have hrat' := hrat
   have : m.IsPrime := hm.isPrime
   have hYne : ∀ e : K → ℕ, ∏ k, y ⟨k, c k⟩ ^ e k ≠ 0 := fun e =>
     Finset.prod_ne_zero_iff.mpr fun k _ => pow_ne_zero _ (hyc k)
@@ -303,8 +322,7 @@ theorem CurveVertPointSurj.proof (hFin : CurveRingFinite.Statement) (hC : CurveC
     have h1 := hφev hs
     rw [← hab] at h1
     rw [(hφmk a b _).mp h1, mul_assoc, inv_mul_cancel_right₀ (hYne d)]
-  have hlenA : locLen m (curveRing y ⧸ Ideal.span {a}) ≠ 0 := by
-    rwa [← CurveSectionQuotLocal.proof K ι Ω y s d hP hs hsP m c hm.isPrime hyc hrat' a b b.2 hbx]
+  have hlenA : locLen m (curveRing y ⧸ Ideal.span {a}) ≠ 0 := hloc a b hbx
   have ham : a ∈ m := by
     by_contra h
     exact hlenA (locLen_quot_eq_zero m h)
@@ -374,6 +392,14 @@ theorem CurveVertPointSurj.proof (hFin : CurveRingFinite.Statement) (hC : CurveC
   have hmp : mCoordIdeal r ∈ (mCoordIdeal y ⊔ Ideal.span {s}).minimalPrimes :=
     ⟨⟨hWprime, hJW⟩, fun Q hQ hQW => hmin Q hQ.1 hQ.2 hQW⟩
   exact ⟨mCoordIdeal r, ⟨hmp, fun k => ⟨c k, hXc k⟩⟩, hcurve⟩
+
+theorem CurveVertPointSurj.proof (hFin : CurveRingFinite.Statement) (hC : CurveClosedPointChart.Statement) :
+    CurveVertPointSurj.Statement := by
+  intro K _ ι _ Ω _ y s d hP hs hsP m hm hlen
+  have hfin := hFin K ι Ω y hP
+  obtain ⟨c, hyc, hrat⟩ := hC K ι Ω y hP m hm
+  exact CurveVertPointSurj.of_single y s d hs hsP m hm hfin c hyc hrat fun a b hbx => by
+    rwa [← CurveSectionQuotLocal.proof K ι Ω y s d hP hs hsP m c hm.isPrime hyc hrat a b b.2 hbx]
 
 end
 

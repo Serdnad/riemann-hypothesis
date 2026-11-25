@@ -1,7 +1,5 @@
 module
 
-import Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange.ArchimedeanBaseChangeProof.SatakeExponents.UniformizerValuations.AdelicHeckeBlocks.DoubleSumFinprodFactor
-import all Development.AutomorphicArithmetic.Foundations.Convolution.PowerSumTraces.LocGalEx
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.RegularSemisimpleFibres.FrobeniusLocalPairs.FrobFactsAlt
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.RegularSemisimpleFibres.FrobeniusLocalPairs.LiftFactorization
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.BoundedOfIsIntegral
@@ -23,62 +21,11 @@ public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentation
 public import Development.WeilBound.CoreStatements.AutomorphicKernels.LanglandsExhaustion.IrreducibleAdmissibleGL
 public import Development.WeilBound.CuspidalAdmissibility.OccursIff
 import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.LatticeIndices.CharZeroAdicCompletion
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.Lemma
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.TypeStar
-import Mathlib.Topology.Sheaves.Init
 import Development.AutomorphicArithmetic.AutomorphicVarieties.PublishedTheorems.GelfandKazhdanReal
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
 import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.TwistedCentralizerIsNormOneTorus
-import Mathlib.RingTheory.Valuation.Integral
-import Mathlib.Tactic.Monotonicity.Lemmas
-import Mathlib.Topology.Sheaves.Presheaf
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
 import Std.Tactic.BVDecide.Normalize.Prop
-import Mathlib.RingTheory.Coalgebra.IsFrobenius
-import Mathlib.RingTheory.HopfAlgebra.Basic
-import Mathlib.Algebra.Module.StablyFree.Basic
 import GroundTheory.AutomorphicForms.MeasuresModulus
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Data.Nat.Choose.Multinomial
 import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.NonemptyEquivOfRangeEq
 import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.LeviEmbMemNormalizerLower
 import Development.WeilBound.CoreStatements.TemperedRepresentationTheory.MirabolicDerivatives.CuspGenericWhittaker.CuspGeneric
@@ -119,7 +66,14 @@ private lemma galOf_mul' {F E : Type} [Field F] [NumberField F] [Field E] [Numbe
 private lemma galOf_one' {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E]
     {A B : Type*} [CommRing A] [Algebra F A] [CommRing B] [Algebra E B] (e : TensorProduct F E A ≃ₐ[E] B)
     (y : B) : PositivityTheory.Rg.Tf.Geo.galOf e (1 : E ≃ₐ[F] E) y = y := by
-  apply _root_.galOf_one' <;> assumption
+  have h : ∀ z : TensorProduct F E A,
+      Algebra.TensorProduct.map ((1 : E ≃ₐ[F] E) : E →ₐ[F] E) (AlgHom.id F A) z = z := by
+    intro z
+    induction z using TensorProduct.induction_on with
+    | zero => simp
+    | tmul x c => simp
+    | add x c hx hc => simp only [map_add (f := _), hx, hc]
+  simp [PositivityTheory.Rg.Tf.Geo.galOf, h]
 
 private lemma galFin_mul' {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E]
     (a b : E ≃ₐ[F] E) (v : Pl F) (y : CompletionsOver E v) :
@@ -867,7 +821,7 @@ theorem UpperTheory.Gal.InertialTypesAlt.L.sumCoset :
     · simp
     · intro b _ hb
       simp only [Set.indicator_apply, Set.mem_setOf_eq]
-      rw [if_neg (fun h => hb h.symm)]
+      rw [ite_eq_right (fun h => hb h.symm)]
     · intro hn
       exact absurd (hfin.mem_toFinset.2 (hkey g hg)) hn
 end -- clump:auto
@@ -892,8 +846,16 @@ open PositivityTheory.Rg.Tf.Loc UpperTheory.V.Z.Tf.Orb
 private theorem continuous_of_rightInv {G : Type} [Group G] [TopologicalSpace G] [IsTopologicalGroup G]
     (U : Subgroup G) (hU : IsOpen (U : Set G)) (F : G → ℂ) (h : ∀ u ∈ U, ∀ x, F (x * u) = F x) :
     Continuous F := by
-  intros
-  apply _root_.PositivityTheory.Rg.BcB.F.Fm.cont_of_level <;> assumption
+  refine continuous_iff_continuousAt.2 fun x => ?_
+  have hev : F =ᶠ[nhds x] fun _ => F x := by
+    have hop : IsOpen ((fun y => x⁻¹ * y) ⁻¹' (U : Set G)) :=
+      hU.preimage (continuous_const.mul continuous_id)
+    have hx : x ∈ (fun y => x⁻¹ * y) ⁻¹' (U : Set G) := by
+      simp [U.one_mem]
+    filter_upwards [hop.mem_nhds hx] with y hy
+    have h1 := h (x⁻¹ * y) hy x
+    simpa using h1
+  exact continuousAt_const.congr hev.symm
 
 private theorem cptPart_le {G : Type} [Group G] [TopologicalSpace G] (T : Subgroup G) :
     GlobalTheory.BCT.cptPart T ≤ T :=
@@ -1223,8 +1185,7 @@ private theorem op_eq_sum {G V : Type} [Group G] [TopologicalSpace G] [IsTopolog
   intro l
   rw [map_sub, sub_eq_zero, (hB w l).2, finsum_eq_sum_of_support_subset _ hsupp]
   rw [GlobalTheory.HaarSum.integral_eq_sum_cosets μ U hUo hUfin (fun g => f g * l (ρ g w)) ?_ hfs.toFinset ?_]
-  · set_option synthInstance.maxHeartbeats 100000 in
-      rw [hUr, map_smul, map_sum, smul_eq_mul]
+  · rw [hUr, map_smul, map_sum, smul_eq_mul]
     congr 1
     apply Finset.sum_congr rfl
     intro q _

@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.TwistedThetaGeneratorEqClassSumIntegralForm
 public import Development.AbelianVarietyTheory.Definitions.Divisors.LevelOfOfSameBut
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsInvOfRoot
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.ToUnitsCompToCircle
@@ -48,7 +47,6 @@ import Mathlib.Tactic.Polynomial.Basic
 
 @[expose] public section
 
-set_option autoImplicit false
 noncomputable section
 open NumberField IsDedekindDomain
 open Formalism.BasicNotions Formalism.MainNotions Formalism.MainNotions.DIV.Cons Formalism.L2.Pj Formalism.L2.DIV Formalism.L2.Indef Formalism.L2.Indef.Tree Formalism.IndefR Formalism.IndefR.Links Formalism.IndefR.Cx
@@ -56,8 +54,6 @@ open Formalism.IndefR.FWT GlobalTheory.BigTop GlobalTheory.OntoChain GlobalTheor
 open GlobalTheory.BigOn GlobalTheory.BigOn.Exp Formalism.L2.Theta GlobalTheory.ExportSeries
 open scoped TensorProduct
 
-
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 
 namespace GlobalTheory.BigOn.Exp.TwConj
 
@@ -240,8 +236,16 @@ end Coord
 
 theorem mem_GfC_of_suppAt {D : D7} {V : TH.HSp D} {Q : Finset (Pl D.host.E)} (hQ : SplitSet Q) {g : GA D V}
     (hg : SuppAt (idem Q) V g) : g ∈ GfC V := by
-  intros
-  apply _root_.GlobalTheory.TwTraceCx.mem_GfC_of_suppAt <;> assumption
+  have h0 := GlobalTheory.PlaceVec.idemSum_infPart hQ.isIdemSum
+  have hf : infPart D (idem Q + cA D (idem Q)) = 0 := by rw [map_add (f := _), h0, GlobalTheory.PlaceVec.infPart_cA h0, add_zero]
+  refine Units.ext (Matrix.ext fun a c => ?_)
+  have h := congrArg (infPart D) (hg a c)
+  rw [map_mul, hf, zero_mul, Matrix.sub_apply, map_sub, eq_comm, sub_eq_zero] at h
+  change infPart D (Formalism.L2.Theta.mt V g a c) = (1 : Matrix _ _ _) a c
+  rw [h, Matrix.one_apply, Matrix.one_apply]
+  split_ifs
+  · exact map_one _
+  · exact map_zero _
 
 section Point
 

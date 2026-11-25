@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.CohenStructureFiniteOverNormalCompleteSubring
 public import Mathlib.RingTheory.Henselian
 public import Mathlib.RingTheory.MvPolynomial.Homogeneous
 public import Mathlib.RingTheory.MvPowerSeries.Inverse
@@ -32,64 +31,13 @@ public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.IsIntegra
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.PadicHodgeTheory.RingKrullDimMvPowerSeriesFinField
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.PadicHodgeTheory.IsInertiaInfiniteCyclotomic
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.CommutativeAlgebra.CoQuot
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.Order.CompletePartialOrder
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
 import Mathlib.Tactic.Linter.HaveILetI
-import Mathlib.RingTheory.MvPolynomial.IrreducibleQuadratic
 import Mathlib.RingTheory.AdicCompletion.Noetherian
-import Mathlib.RingTheory.Coalgebra.IsFrobenius
-import Mathlib.RingTheory.HopfAlgebra.Basic
 import Mathlib.RingTheory.KrullDimension.NonZeroDivisors
-import Mathlib.Topology.Sheaves.Presheaf
 import Mathlib.RingTheory.IntegralClosure.GoingDown
 import Mathlib.RingTheory.MvPowerSeries.Equiv
-import Mathlib.RingTheory.RegularLocalRing.Defs
-import Mathlib.RingTheory.PiTensorProduct
 import Mathlib.RingTheory.AdicCompletion.Completeness
 
 -- This file was produced by scripts/clump.py from the modules listed below.
@@ -732,8 +680,33 @@ open IsLocalRing UpperTheory.V.Alg
 
 private theorem finite_quotient_of_pow_le {A S : Type} [CommRing A] [CommRing S] [Algebra A S]
     [IsNoetherianRing S] {I J : Ideal S} (h : ∀ s : S, ∃ a : A, s - algebraMap A S a ∈ I) {N : ℕ}
-    (hN : I ^ N ≤ J) : Module.Finite A (S ⧸ J) :=
-  _root_.GlobalTheory.CohenStructure.finite_quotient_of_pow_le h hN
+    (hN : I ^ N ≤ J) : Module.Finite A (S ⧸ J) := by
+  have key : ∀ N : ℕ, ∃ F : Submodule A S, F.FG ∧ F ⊔ (I ^ N).restrictScalars A = ⊤ := by
+    intro N
+    induction N with
+    | zero => exact ⟨⊥, Submodule.fg_bot, by simp⟩
+    | succ N ih =>
+      obtain ⟨F, hF, hF'⟩ := ih
+      obtain ⟨G, hG⟩ : (I ^ N).FG := IsNoetherian.noetherian _
+      refine ⟨F ⊔ Submodule.span A (G : Set S), hF.sup (Submodule.fg_span G.finite_toSet), ?_⟩
+      rw [eq_top_iff, ← hF', sup_assoc]
+      refine sup_le_sup_left (fun x hx => ?_) _
+      have hx' : x ∈ Submodule.span S (G : Set S) := hG.ge hx
+      obtain ⟨c, -, rfl⟩ := Submodule.mem_span_finset.1 hx'
+      refine sum_mem fun y hy => ?_
+      obtain ⟨a, ha⟩ := h (c y)
+      have : c y • y = a • y + y * (c y - algebraMap A S a) := by
+        rw [Algebra.smul_def a, smul_eq_mul]; ring
+      rw [this]
+      refine Submodule.add_mem_sup (Submodule.smul_mem _ _ (Submodule.subset_span hy)) ?_
+      rw [pow_succ]
+      exact Ideal.mul_mem_mul (hG.le (Ideal.subset_span hy)) ha
+  obtain ⟨F, hF, hF'⟩ := key N
+  have : Module.Finite A F := Module.Finite.iff_fg.2 hF
+  refine Module.Finite.of_surjective ((Ideal.Quotient.mkₐ A J).toLinearMap ∘ₗ F.subtype) fun s => ?_
+  obtain ⟨s, rfl⟩ := Ideal.Quotient.mk_surjective s
+  obtain ⟨y, hy, z, hz, rfl⟩ := Submodule.mem_sup.1 (hF'.ge (Submodule.mem_top (x := s)))
+  exact ⟨⟨y, hy⟩, Ideal.Quotient.eq.2 (by simpa using hN hz)⟩
 
 private theorem injective_of_ringKrullDim_eq {A S : Type} [CommRing A] [IsDomain A] [CommRing S]
     [Algebra A S] [Module.Finite A S] {n : ℕ} (hA : ringKrullDim A = n) (hS : ringKrullDim S = n) :

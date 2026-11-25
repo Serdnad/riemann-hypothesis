@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.LengthCyclotomicBlockCocyclesLeSha
 public import Formalism.AdmissibleDesigns.BlockTwistedCyclotomic
 public import Formalism.AdmissibleDesigns.HigherColumnInvariantsBound
 public import ReciprocityTheory.GaloisValuations.ArithOfA
@@ -9,47 +8,7 @@ public import Formalism.AdmissibleDesigns.CharacterTrivialWhereLattice
 public import Formalism.AdmissibleDesigns.SelmerInequalityOfInputs
 public import Formalism.AdmissibleDesigns.TrCMemZ1D
 public import Formalism.AdmissibleDesigns.GlobalIndexTheoremPlacesOfRNAdm
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Topology.Sheaves.Init
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
 import Std.Tactic.BVDecide.Normalize.Prop
 import Formalism.WachLatticeTwists.SplitClassesAll.Statement
 
@@ -225,7 +184,7 @@ theorem coc_ine (c : coZ1s (qzE i e)) (hx : Submodule.Quotient.mk c ∈ selZ i d
     have hwP : idx i dc v ∈ Pall i dc := Finset.mem_union_left _ (Finset.mem_union_right _ hwq)
     have h1 := hP _ hwP
     unfold Fsha at h1
-    rw [if_pos hwq] at h1
+    rw [ite_eq_left hwq] at h1
     intro g hg
     have hgD : g ∈ decs D.host.E (Aw i dc) (idx i dc v) := by
       show g ∈ (Aw i dc (idx i dc v)).decompositionSubgroup D.host.E
@@ -269,7 +228,7 @@ theorem coc_loc (c : coZ1s (qzE i e)) (hx : Submodule.Quotient.mk c ∈ selZ i d
   obtain ⟨-, -, -, hP⟩ := selZ_mem i dc e hx
   have h1 := hP _ hwP
   unfold Fsha at h1
-  rw [if_neg hnq, Submodule.mem_bot] at h1
+  rw [ite_eq_right hnq, Submodule.mem_bot] at h1
   obtain ⟨m0, hm0⟩ := (Submodule.Quotient.mk_eq_zero _).1 h1
   have hAw : Aw i dc (idx i dc v.1) = D.nd.plOm.1 v.1 := by unfold Aw; rw [plOf_idx i dc hvP]
   have hcob : ∀ k ∈ Dec (F := D.host.E) (D.nd.plOm.1 v.1),
@@ -522,8 +481,29 @@ theorem smul_eq_zero_of_mem_max (hl : ((l : ℕ) : O) = 0) {a : ℤ_[l]} (ha : a
   rw [Algebra.smul_def, map_mul, map_natCast, hl, mul_zero, zero_mul]
 
 theorem alg_inj : Function.Injective (algebraMap ℤ_[l] O) := by
-  intros
-  apply _root_.GlobalTheory.Cut.ShaBound.algebraMap_inj <;> assumption
+  by_contra hni
+  have hl : ((l : ℕ) : O) = 0 := by
+    rw [injective_iff_map_eq_zero] at hni
+    push Not at hni
+    obtain ⟨a, hfa, ha⟩ := hni
+    have h := congrArg (algebraMap ℤ_[l] O) (PadicInt.unitCoeff_spec ha)
+    rw [hfa, map_mul, map_pow, map_natCast] at h
+    have hu : IsUnit (algebraMap ℤ_[l] O (PadicInt.unitCoeff ha : ℤ_[l])) := (Units.isUnit _).map _
+    by_contra hl0
+    exact pow_ne_zero _ hl0 ((hu.mul_right_eq_zero).mp h.symm)
+  have : NeZero l := ⟨(Fact.out : l.Prime).ne_zero⟩
+  obtain ⟨k, s, hs⟩ := Module.Finite.exists_fin (R := ℤ_[l]) (M := O)
+  have hsurj : Function.Surjective (fun v : Fin k → ZMod l => ∑ i, ((v i).cast : ℤ_[l]) • s i) := by
+    intro x
+    have hx : x ∈ Submodule.span ℤ_[l] (Set.range s) := hs ▸ Submodule.mem_top
+    obtain ⟨c, rfl⟩ := (Submodule.mem_span_range_iff_exists_fun ℤ_[l]).mp hx
+    refine ⟨fun i => PadicInt.toZMod (c i), Finset.sum_congr rfl fun i _ => ?_⟩
+    have h := smul_eq_zero_of_mem_max l O hl (PadicInt.toZMod_spec (c i)) (s i)
+    rw [sub_smul, sub_eq_zero] at h
+    exact h.symm
+  have : Finite O := Finite.of_surjective _ hsurj
+  exact IsDiscreteValuationRing.not_a_field O
+    ((IsLocalRing.isField_iff_maximalIdeal_eq).mp (Finite.isField_of_domain O))
 
 theorem faithful : FaithfulSMul ℤ_[l] O := (faithfulSMul_iff_algebraMap_injective _ _).mpr (alg_inj l O)
 
@@ -545,8 +525,32 @@ theorem dvd_pow_l [IsLocalHom (algebraMap ℤ_[l] O)] {t : O} (ht : t ≠ 0) : �
 
 theorem len_quot_l [Module.Free ℤ_[l] O] :
     Module.length ℤ_[l] (O ⧸ Ideal.span {((l : ℕ) : O)}) = Module.finrank ℤ_[l] O := by
-  intros
-  apply _root_.GlobalTheory.Cut.ShaBound.length_quot <;> assumption
+  let b := Module.finBasis ℤ_[l] O
+  have hmap : (Submodule.restrictScalars ℤ_[l] (Ideal.span {((l : ℕ) : O)})).map b.equivFun.toLinearMap =
+      Submodule.pi Set.univ (fun _ => maximalIdeal ℤ_[l]) := by
+    ext v
+    simp only [Submodule.mem_map, Submodule.restrictScalars_mem, Ideal.mem_span_singleton', Submodule.mem_pi,
+      Set.mem_univ, true_implies, PadicInt.maximalIdeal_eq_span_p]
+    constructor
+    · rintro ⟨x, ⟨y, rfl⟩, rfl⟩ j
+      refine ⟨b.equivFun y j, ?_⟩
+      have : y * ((l : ℕ) : O) = (l : ℤ_[l]) • y := by rw [Algebra.smul_def, map_natCast, mul_comm]
+      rw [LinearEquiv.coe_coe, this, map_smul, Pi.smul_apply, smul_eq_mul, mul_comm]
+    · intro hv
+      choose w hw using hv
+      refine ⟨b.equivFun.symm w * ((l : ℕ) : O), ⟨_, rfl⟩, ?_⟩
+      have : b.equivFun.symm w * ((l : ℕ) : O) = (l : ℤ_[l]) • b.equivFun.symm w := by
+        rw [Algebra.smul_def, map_natCast, mul_comm]
+      rw [LinearEquiv.coe_coe, this, map_smul, LinearEquiv.apply_symm_apply]
+      funext j
+      rw [Pi.smul_apply, smul_eq_mul, mul_comm, hw j]
+  rw [((Submodule.Quotient.restrictScalarsEquiv ℤ_[l] (Ideal.span {((l : ℕ) : O)})).symm.trans
+    ((Submodule.Quotient.equiv _ _ b.equivFun hmap).trans
+      (Submodule.quotientPi (fun _ => maximalIdeal ℤ_[l])))).length_eq, Module.length_pi_of_fintype]
+  have h1 : Module.length ℤ_[l] (ℤ_[l] ⧸ maximalIdeal ℤ_[l]) = 1 := by
+    have := IsDiscreteValuationRing.length_quotient_pow_maximalIdeal ℤ_[l] 1
+    rwa [pow_one, Nat.cast_one] at this
+  simp only [h1, Finset.sum_const, Finset.card_univ, Fintype.card_fin, nsmul_eq_mul, mul_one]
 
 end Ring
 
@@ -786,7 +790,6 @@ variable {D : D7} (i : D.nd.Loc) (r : D.nd.X i → (GE D.nd →* GL (Fin D.R.nV)
   (hc : TruncatedSeriesCountingIdentities.FamilyContinuous (D := D) i r) (cB : ℕ)
 
 
-set_option maxHeartbeats 4000000 in
 set_option synthInstance.maxHeartbeats 400000 in
 def ClauseTB : Prop :=
   ∀ c : Fin (D.R.t + 1), 1 ≤ (c : ℕ) → ∀ w ∈ rowsN i dc,

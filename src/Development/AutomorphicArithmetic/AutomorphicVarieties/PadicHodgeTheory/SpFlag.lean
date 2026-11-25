@@ -1,49 +1,7 @@
 module
 
-import all Development.AutomorphicArithmetic.AutomorphicVarieties.WeakShimuraTheory.SymplecticIwahori.TriIwa
-import all Development.AutomorphicArithmetic.AutomorphicVarieties.WeakShimuraTheory.CompactIntegralFields.SpaceEx
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.PadicHodgeTheory.IsFirstOrderDeformationOfRZero
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.HaveILetI
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
 import Std.Tactic.BVDecide.Normalize.Prop
 
 @[expose] public section
@@ -157,7 +115,7 @@ theorem sandwich {X : M4 R} {h : (M4 R)ˣ} {c : Fin 4 → R} (hd : ∀ i j, i �
     by_cases ha : a = j
     · by_cases hb : b = i
       · subst ha hb
-        rw [if_pos rfl, if_pos rfl, h0, mul_zero, zero_mul, Matrix.zero_apply]
+        rw [ite_eq_left rfl, ite_eq_left rfl, h0, mul_zero, zero_mul, Matrix.zero_apply]
       · simp [hb]
     · simp [ha]
 
@@ -217,7 +175,14 @@ theorem exists_diag (π : R →+* E) (hπ : ∀ a, π a = 1 → IsUnit a) {X : M
     rw [IsUnit.unit_spec, hK, Matrix.of_apply, htri hT b hab, mul_zero]
 
 theorem adj_mul (A B : M4 R) : adj (A * B) = adj B * adj A := by
-  apply _root_.adj_mul <;> assumption
+  ext i j
+  have hs : ∀ k : Fin 4, (sgn k : R) * sgn k = 1 := fun k => by
+    have : sgn k * sgn k = 1 := by revert k; decide
+    rw [← Int.cast_mul, this, Int.cast_one]
+  simp only [adj_apply, Matrix.mul_apply, zsmul_eq_mul, Int.cast_mul, Finset.mul_sum]
+  exact Fintype.sum_equiv Fin.revPerm _ _ (fun k => by
+    simp only [Fin.revPerm_apply, Fin.rev_rev]
+    linear_combination (-((sgn i : R) * sgn j * A j.rev k * B k i.rev)) * hs k.rev)
 
 theorem adj_adj (A : M4 R) : adj (adj A) = A := by
   ext i j
@@ -228,7 +193,15 @@ theorem adj_adj (A : M4 R) : adj (adj A) = A := by
   linear_combination (A i j * sgn j.rev * sgn j) * hr i - A i j * hr j
 
 theorem adj_diagonal (c : Fin 4 → R) : adj (Matrix.diagonal c) = Matrix.diagonal fun i => c i.rev := by
-  apply _root_.adj_diag <;> assumption
+  ext i j
+  have hs : ∀ k : Fin 4, (sgn k : R) * sgn k = 1 := fun k => by
+    have : sgn k * sgn k = 1 := by revert k; decide
+    rw [← Int.cast_mul, this, Int.cast_one]
+  simp only [adj_apply, Matrix.diagonal_apply, Fin.rev_inj, zsmul_eq_mul, Int.cast_mul]
+  by_cases h : j = i
+  · subst h
+    simp [hs]
+  · simp [h, Ne.symm h]
 
 theorem adj_map (π : R →+* E) (A : M4 R) : (adj A).map π = adj (A.map π) := by
   ext i j
@@ -304,12 +277,12 @@ theorem exists_symp (π : R →+* E) (hπ : ∀ a, π a = 1 → IsUnit a) {X : M
     · have hr : ¬ ((a.rev : ℕ) < 2) := by
         rw [Fin.val_rev]
         omega
-      rw [if_neg hr, if_pos ha, one_mul, mul_comm, hw1]
+      rw [ite_eq_right hr, ite_eq_left ha, one_mul, mul_comm, hw1]
     · have hr : (a.rev : ℕ) < 2 := by
         rw [Fin.val_rev]
         have := a.isLt
         omega
-      rw [if_pos hr, if_neg ha, mul_one, ← hdiag a, hw1]
+      rw [ite_eq_left hr, ite_eq_right ha, mul_one, ← hdiag a, hw1]
   have hHu : IsUnit ((k : M4 R) * Matrix.diagonal d) :=
     k.isUnit.mul (Matrix.isUnit_diagonal.mpr (Pi.isUnit_iff.mpr hdu))
   refine ⟨hHu.unit, ?_, ?_, ?_⟩

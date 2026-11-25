@@ -1,7 +1,5 @@
 module
 
-
-import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.ExistsRootStalk
 public import Development.AbelianVarietyTheory.Definitions.Uniformization.TXFrame
 public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.ExpBijFAndExpandsFLin
 public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.SymmetricLiftOddOrderActsAsExpansionOperator
@@ -84,6 +82,7 @@ import Mathlib.Tactic.Basify
 import Mathlib.Tactic.ENatToNat
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.TWMain
 import Std.Tactic.BVDecide.Normalize.Prop
+
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.Proofs.DegenerationProofs.EigensectionSupport, Development.AbelianVarietyTheory.Proofs.DegenerationProofs.ExistsEquivYEqZero, Development.AbelianVarietyTheory.Proofs.DegenerationProofs.NuGeTranslatePullSmul, Development.AbelianVarietyTheory.Proofs.DegenerationProofs.WeightSpaceValuesIntegralTorsionBoundShortestVec
 
@@ -95,7 +94,6 @@ section -- clump:auto
 open CategoryTheory CategoryTheory.Limits MonoidalCategory CartesianMonoidalCategory MonObj AlgebraicGeometry IsLocalRing
 open ReciprocityTheory.ChartRestriction.G ReciprocityTheory.ChartRestriction.G.Semi ReciprocityTheory.ChartRestriction.G.Out ReciprocityTheory.ChartRestriction.G.Geo.Tor ReciprocityTheory.ChartRestriction.G.DVR
 open scoped CategoryTheory.Obj
-attribute [local instance] Over.cartesianMonoidalCategory
 open GlobalTheory.UT GlobalTheory.ZH
 
 namespace GlobalTheory.UT
@@ -128,7 +126,6 @@ section -- clump:auto
 open CategoryTheory CategoryTheory.Limits MonoidalCategory CartesianMonoidalCategory MonObj AlgebraicGeometry IsLocalRing
 open ReciprocityTheory.ChartRestriction.G ReciprocityTheory.ChartRestriction.G.Semi ReciprocityTheory.ChartRestriction.G.Out ReciprocityTheory.ChartRestriction.G.Geo.Tor ReciprocityTheory.ChartRestriction.G.DVR
 open scoped CategoryTheory.Obj
-attribute [local instance] Over.cartesianMonoidalCategory
 open GlobalTheory.UT GlobalTheory.ZH
 
 namespace GlobalTheory.ZH
@@ -152,7 +149,6 @@ section -- clump:auto
 open CategoryTheory CategoryTheory.Limits MonoidalCategory CartesianMonoidalCategory MonObj AlgebraicGeometry IsLocalRing
 open ReciprocityTheory.ChartRestriction.G ReciprocityTheory.ChartRestriction.G.Semi ReciprocityTheory.ChartRestriction.G.Out ReciprocityTheory.ChartRestriction.G.Geo.Tor ReciprocityTheory.ChartRestriction.G.DVR
 open scoped CategoryTheory.Obj
-attribute [local instance] Over.cartesianMonoidalCategory
 open GlobalTheory.UT GlobalTheory.ZH
 
 namespace GlobalTheory.ZH
@@ -216,7 +212,6 @@ section -- clump:auto
 open CategoryTheory CategoryTheory.Limits MonoidalCategory CartesianMonoidalCategory MonObj AlgebraicGeometry IsLocalRing
 open ReciprocityTheory.ChartRestriction.G ReciprocityTheory.ChartRestriction.G.Semi ReciprocityTheory.ChartRestriction.G.Out ReciprocityTheory.ChartRestriction.G.Geo.Tor ReciprocityTheory.ChartRestriction.G.DVR
 open scoped CategoryTheory.Obj
-attribute [local instance] Over.cartesianMonoidalCategory
 open GlobalTheory.UT GlobalTheory.ZH
 
 noncomputable section
@@ -283,7 +278,19 @@ theorem pt_pow (Φ : u.Geom) (a : S.Gam) : Φ.pt (S.r • a) ^ S.N = 1 := by
 
 theorem isUnit_level (u : ρ.UTest p y₀) (hint : ∀ a : o, ‖y₀ (algebraMap o S.R a)‖ ≤ 1) :
     IsUnit ((S.r * S.N : ℕ) : u.V) := by
-  first | exact _root_.GlobalTheory.ZH.TestVal.isUnit_level | exact @_root_.GlobalTheory.ZH.TestVal.isUnit_level | apply _root_.GlobalTheory.ZH.TestVal.isUnit_level <;> assumption
+  obtain ⟨b, hb⟩ := S.unit.exists_right_inv
+  have e : ((S.r * S.N : ℕ) : PadicAlgCl p) * y₀ (algebraMap o S.R b) = 1 := by
+    have := congrArg (fun a => y₀ (algebraMap o S.R a)) hb
+    simpa only [map_mul, map_natCast, map_one] using this
+  have hf : ∀ x, algebraMap (FractionRing u.V) (PadicAlgCl p) (u.yK x) = y₀ x := fun x => RingHom.congr_fun u.fac x
+  have e' : ((S.r * S.N : ℕ) : FractionRing u.V) * u.yK (algebraMap o S.R b) = 1 := by
+    apply (algebraMap (FractionRing u.V) (PadicAlgCl p)).injective
+    rw [map_mul, map_natCast, map_one, hf, e]
+  obtain ⟨w, hw⟩ := (u.norm_le (u.yK (algebraMap o S.R b))).1 (by
+    rw [hf]
+    exact hint b)
+  refine IsUnit.of_mul_eq_one w (IsFractionRing.injective u.V (FractionRing u.V) ?_)
+  rw [map_mul, map_natCast, hw, e', map_one]
 
 theorem exists_wt_ne (l : u.Lab) [ArithBase o Ω] (β : u.D.toPre.X) (hβ : ∀ z, β ≠ S.N • z) : ∃ a, l.wt β a ≠ 0 := by
   by_contra! H
@@ -382,10 +389,10 @@ theorem nuGe_basis (r : ℚ) (hrc : (r : WithTop ℚ) ≤ v c) (j : S.J) (σ : F
       pow_mul, S.prim.pow_eq_one, one_pow]
   have hcomb : IsComb (fun _ : Unit => t) (fun _ => y₀ (algebraMap o S.R (S.ζ ^ (e * ((S.r * S.N) ^ 2 - 1))))) (Φ.s j) :=
     (isComb_iff _ _ _).2 fun m => by
-      rw [Fintype.sum_unique, (isComb_iff _ _ _).1 ht m, Finset.sum_eq_single j, hae, if_pos rfl, ← _root_.mul_assoc,
+      rw [Fintype.sum_unique, (isComb_iff _ _ _).1 ht m, Finset.sum_eq_single j, hae, ite_eq_left rfl, ← _root_.mul_assoc,
         ← map_mul, ← map_mul, ← map_mul, hz, map_one, map_one, map_one, _root_.one_mul]
       · intro b _ hb
-        rw [hae, if_neg hb, map_zero, map_zero, map_zero, zero_mul]
+        rw [hae, ite_eq_right hb, map_zero, map_zero, map_zero, zero_mul]
       · exact fun h => absurd (Finset.mem_univ _) h
   have := hnu Unit _ _ _ 0 r hcomb (fun _ => val_nonneg hnv hint _)
     (fun _ σ' hσ' => GlobalTheory.ZH.nuGe_translate_pull_smul hLL hT hVR hTW hUU u.V u.complete ϖ hϖ u.D Q hQ (PadicAlgCl p) v hv u.A u.G

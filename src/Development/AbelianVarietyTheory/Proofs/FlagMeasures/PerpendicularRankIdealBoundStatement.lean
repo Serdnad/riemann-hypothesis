@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.FlagMeasures.NormalFormTerminalDeterminant
 public import Mathlib.Algebra.Module.Lattice.Full
 public import Mathlib.NumberTheory.NumberField.Basic
 public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.RowMinor
@@ -105,10 +104,24 @@ theorem span_inf_eq {K : Type} [Field K] [NumberField K] {V : Type} [AddCommGrou
     [Module K V] [Module (RingOfIntegers K) V] [IsScalarTower (RingOfIntegers K) K V]
     (L : Submodule (RingOfIntegers K) V) (hL : Submodule.IsFullLattice K L) (T : Submodule K V) :
     Submodule.span K (↑(L ⊓ Submodule.restrictScalars (RingOfIntegers K) T) : Set V) = T := by
-  intros
-  apply _root_.GlobalTheory.DegCnt.SplitIdx.span_inf <;> assumption
-
-alias main := _root_.GlobalTheory.SpanInfEq.span_inf_eq
+  apply le_antisymm
+  · rw [Submodule.span_le]
+    intro x hx
+    exact (Submodule.mem_inf.mp hx).2
+  · intro v hv
+    obtain ⟨d, hd, h⟩ := exists_smul_mem L hL v
+    have hd' : algebraMap (RingOfIntegers K) K d ≠ 0 := by
+      intro h0
+      exact hd ((map_eq_zero_iff _ (IsFractionRing.injective (RingOfIntegers K) K)).mp h0)
+    have hdT : d • v ∈ Submodule.restrictScalars (RingOfIntegers K) T := by
+      rw [← algebraMap_smul K d v]
+      exact T.smul_mem _ hv
+    have hmem : d • v ∈ L ⊓ Submodule.restrictScalars (RingOfIntegers K) T :=
+      Submodule.mem_inf.mpr ⟨h, hdT⟩
+    have : v = (algebraMap (RingOfIntegers K) K d)⁻¹ • (d • v) := by
+      rw [← algebraMap_smul K d v, smul_smul, inv_mul_cancel₀ hd', one_smul]
+    rw [this]
+    exact Submodule.smul_mem _ _ (Submodule.subset_span hmem)
 
 end GlobalTheory.SpanInfEq
 end -- clump:auto
@@ -258,11 +271,6 @@ theorem isCompl_perp (h : V →ₗ⋆[K] V →ₗ[K] K) (ha : ∀ x, h x x = 0 �
   have h5 := (A ⊔ T).finrank_le
   refine ⟨hd, codisjoint_iff.2 (Submodule.eq_top_of_finrank_eq (by omega))⟩
 
-omit [StarRing K] [FiniteDimensional K V] in
-theorem span_inf (L : Submodule (𝓞 K) V) (hL : Submodule.IsFullLattice K L) (T : Submodule K V) :
-    Submodule.span K ((L ⊓ T.restrictScalars (𝓞 K) : Submodule (𝓞 K) V) : Set V) = T := by
-  exact _root_.GlobalTheory.SpanInfEq.main L hL T
-
 theorem key (h : V →ₗ⋆[K] V →ₗ[K] K) (hs : h.IsSymm) (hn : h.Nondegenerate) (ha : ∀ x, h x x = 0 → x = 0)
     (L P : Submodule (𝓞 K) V) (hL : Submodule.IsFullLattice K L) (hi : Formalism.HermitianLatticesTheory.IsIntegralLat h L)
     (hP : P ≤ L) (I₁ I₂ : Ideal (𝓞 K)) (h1 : I₁ • dualInH h L ≤ L)
@@ -310,7 +318,7 @@ theorem key (h : V →ₗ⋆[K] V →ₗ[K] K) (hs : h.IsSymm) (hn : h.Nondegene
   rw [← hdd, mem_dual]
   intro y hy
   have hspan : Submodule.span K (L : Set V) = ⊤ := by
-    simpa using span_inf L hL (⊤ : Submodule K V)
+    simpa using GlobalTheory.SpanInfEq.span_inf_eq L hL (⊤ : Submodule K V)
   have hy' : y ∈ dualInH h L := ⟨hy, by change y ∈ Submodule.span K _; rw [hspan]; trivial⟩
   have hay : a • y ∈ I₂ • L := by
     have := Submodule.smul_mem_smul haI hy'
@@ -322,9 +330,6 @@ theorem key (h : V →ₗ⋆[K] V →ₗ[K] K) (hs : h.IsSymm) (hn : h.Nondegene
   exact this
 
 end General
-
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
-
 
 theorem base_full (D : D7) (u u' : D.what₂.Word) (F0 : Fb D u) (Λ : LatV D)
     (hStand : Stand D u u') (hB : IsBase D u F0) (hR : IsRowLat D F0 Λ) :
@@ -434,7 +439,6 @@ section -- clump:auto
 
 open NumberField Module Matrix Formalism.BasicNotions Formalism.MainNotions.S Formalism.MainNotions.S.Lat Formalism.MainNotions.S.Cnt GlobalTheory.LoopC
 open scoped ENNReal Classical
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 
 theorem _root_.GlobalTheory.T.perpendicular_rank_ideal_bound : ∀ (D : D7) (u u' : D.what₂.Word) (F0 : Fb D u) (Λ : LatV D), Stand D u u' → IsBase D u F0 → IsRowLat D F0 Λ → ∀ (P : LatW D) (s : ℕ) (Q : ℝ), s ≤ D.R.k → SubOK D (L0X D Λ (lf D F0)) P s Q → rkW D (perpW D (L0X D Λ (lf D F0)) P) = s ∧ ∃ I : Ideal (𝓞 D.host.E), I ≠ ⊥ ∧ (Ideal.absNorm I : ℝ) ≤ Q ^ 2 * NT D u ^ 2 ∧ I • dualInH (D.sp.X 0).hT (perpW D (L0X D Λ (lf D F0)) P) ≤ perpW D (L0X D Λ (lf D F0)) P := by
   first | exact @GlobalTheory.LoopC.PerpDisc.main

@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.HeightProofs.ExistsPsiTieOfValues
 public import Development.AbelianVarietyTheory.Definitions.HeightFunctions.XiValIffXiAt
 public import Development.AbelianVarietyTheory.Definitions.ExistenceOfLattices.Hat1
 public import Formalism.LocalToGlobal.ProjectiveLattices.CompHt
@@ -16,47 +15,11 @@ public import Formalism.LocalToGlobal.ProjectiveLattices.UnFree
 public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.ExistsWeightZeroSectionOfPeriodSpaceFunction
 import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.LiftDatumAlternatingFormSignEqOne
 import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.RelabelEmbeddingsGoodBijectiveConjCompat
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.ReduceModChar
 
 @[expose] public section
 
 open NumberField IsDedekindDomain ReciprocityTheory.ChartRestriction.G.Geo.Tor Formalism.BasicNotions Formalism.MainNotions Formalism.BasicNotions.TH Formalism.L2.Theta Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes Formalism.L2.Pj GlobalTheory.FinalJoin GlobalTheory.CompRat
 open scoped TensorProduct Matrix
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 
 namespace GlobalTheory.XiFun
 
@@ -99,7 +62,7 @@ theorem exists_sec_char_val (D : D7) (H : ReciprocityTheory.ChartRestriction.G.G
     exact ⟨v i, hf2 y i P hP hx.symm⟩
   · obtain ⟨Pm, -, hP, hx, -⟩ := hD.1.2 (dict h).1 ⟨(dict h).2, hdom h⟩
     rw [← hv2 _ h γ hm rfl, ← hf2 _ _ Pm hP hx]
-    exact dif_pos (hdom h)
+    exact dite_eq_left (hdom h)
 
 theorem evR_ne_zero_of_pow {E : Type} [Field E] [NumberField E] [IsCMField E] {H : ReciprocityTheory.ChartRestriction.G.Geo.Tor.Host E}
     {Dw : Datum H} {l : Level H} (Xo : Moduli Dw l) (c : Coeff l) (f f' : Rul Xo c) (m : ℕ) (hm : 0 < m)
@@ -117,11 +80,30 @@ theorem evR_ne_zero_of_pow {E : Type} [Field E] [NumberField E] [IsCMField E] {H
 variable {D : D7}
 
 theorem normOne_det (V : HSp D) (h : GA D V) : NormOne (D := D) (Matrix.GeneralLinearGroup.det (finHom V h)) := by
-  apply _root_.GlobalTheory.TwistTie.normOne_det <;> assumption
+  have h1 := GlobalTheory.RecDict.det_finHom_norm V h
+  have h2 : ∀ z : AfE D, barF D z = sigR (Af D.host.F) D.sp.cm.sig z := by
+    intro z
+    induction z using TensorProduct.induction_on with
+    | zero => simp only [map_zero]
+    | tmul a b => rfl
+    | add x y hx hy => simp only [map_add (f := _), hx, hy]
+  unfold NormOne
+  rw [h2, Matrix.GeneralLinearGroup.val_det_apply]
+  exact h1
 
 theorem det_rat (V : HSp D) (γ : GA D V) (hγ : γ ∈ GQ V) :
     ∃ a : D.host.E, ((Matrix.GeneralLinearGroup.det (finHom V γ) : (AfE D)ˣ) : AfE D) = 1 ⊗ₜ a := by
-  apply _root_.GlobalTheory.TwistTie.det_rational <;> assumption
+  obtain ⟨γ', h⟩ := exists_isRat_of_mem_GQ V hγ
+  refine ⟨γ'.1.det, ?_⟩
+  unfold IsRat at h
+  have : (finHom V γ).1 = ((Algebra.TensorProduct.map (sndA D.host.F) (AlgHom.id D.host.F D.host.E)).toRingHom.comp
+      (incA D)).mapMatrix γ'.1 := by
+    unfold finHom
+    rw [MonoidHom.comp_apply, h]
+    rfl
+  change (finHom V γ).1.det = _
+  rw [this, ← RingHom.map_det]
+  rfl
 
 theorem FO_le_of_pins (Q : Par D) (h : Q.Pins) : FO D ≤ Q.c.F := by
   rw [FO, IntermediateField.adjoin_le_iff]

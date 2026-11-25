@@ -1,7 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsStalkElementsApproxLeadingTermQuotients
-import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.OneSubTwoOmegaSq
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.LinkedUnramifiedChains.RedDefs
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.FrobeniusSmoothVectors.ArtinRees
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.FrobeniusSmoothVectors.CoB
@@ -414,18 +412,40 @@ private theorem ext_inj {R S K : Type} [CommRing R] [CommRing S] [IsDomain S]
   haveI : FaithfulSMul R S := (faithfulSMul_iff_algebraMap_injective _ _).mpr hf
   haveI : FaithfulSMul R K := (faithfulSMul_iff_algebraMap_injective _ _).mpr hg
   haveI : Algebra.IsIntegral R S := ⟨hfi⟩
-  haveI : Module.IsTorsionFree R S := Module.isTorsionFree_iff_algebraMap_injective.mpr hf
-  haveI : Module.IsTorsionFree R K := Module.isTorsionFree_iff_algebraMap_injective.mpr hg
-  haveI : Nontrivial R := IsDomain.toNontrivial
-  haveI : Algebra.IsAlgebraic R S := Algebra.IsIntegral.isAlgebraic
-  let l :=IsAlgClosed.lift (R := R) (S := S) (M := K)
+  let l := IsAlgClosed.lift (R := R) (S := S) (M := K)
   exact ⟨(l : S →+* K), RingHom.ext fun x => l.commutes x⟩
 
 private theorem ext_integral {R S K : Type} [CommRing R] [CommRing S] [IsDomain S]
     [Field K] [IsAlgClosed K] (f : R →+* S) (hinj : Function.Injective f) (hfi : f.IsIntegral)
     (y : R →+* K) :
     ∃ ξ : S →+* K, ξ.comp f = y := by
-  apply _root_.GlobalTheory.CoverElements.exists_extend_algClosed <;> assumption
+  letI : Algebra R S := f.toAlgebra
+  haveI : Algebra.IsIntegral R S := ⟨hfi⟩
+  haveI hp : (RingHom.ker y).IsPrime := RingHom.ker_isPrime y
+  obtain ⟨Q, -, hQp, hQc⟩ := Ideal.exists_ideal_over_prime_of_isIntegral (S := S)
+    (RingHom.ker y) (⊥ : Ideal S) (by
+      intro x hx
+      have h0 : algebraMap R S x = 0 := Ideal.mem_bot.mp (Ideal.mem_comap.mp hx)
+      have hx0 : x = 0 := hinj (h0.trans (map_zero f).symm)
+      simp [hx0])
+  have hQc' : Q.comap f = RingHom.ker y := hQc
+  let q : (R ⧸ Q.comap f) →+* (S ⧸ Q) := Ideal.quotientMap Q f le_rfl
+  have hq : Function.Injective q := Ideal.quotientMap_injective
+  have hqi : q.IsIntegral := RingHom.IsIntegral.quotient f hfi
+  let g : (R ⧸ Q.comap f) →+* K := Ideal.Quotient.lift _ y (fun a ha => by
+    have : a ∈ RingHom.ker y := hQc' ▸ ha
+    exact this)
+  have hg : Function.Injective g := by
+    set_option backward.isDefEq.respectTransparency.instanceSearchTypes false in rw [injective_iff_map_eq_zero]
+    intro a
+    obtain ⟨x, rfl⟩ := Ideal.Quotient.mk_surjective a
+    intro h
+    have hx : x ∈ RingHom.ker y := h
+    exact Ideal.Quotient.eq_zero_iff_mem.mpr (hQc' ▸ hx)
+  obtain ⟨l, hl⟩ := ext_inj q hq hqi g hg
+  refine ⟨l.comp (Ideal.Quotient.mk Q), RingHom.ext fun x => ?_⟩
+  have h := RingHom.congr_fun hl (Ideal.Quotient.mk _ x)
+  exact h
 
 private theorem gen_alg {A B K : Type} [CommRing A] [IsDomain A] [CommRing B] [IsDomain B]
     [Algebra B A] [Field K] [IsAlgClosed K]
@@ -433,9 +453,6 @@ private theorem gen_alg {A B K : Type} [CommRing A] [IsDomain A] [CommRing B] [I
     (f : B[X]) (hf : f ≠ 0) (hft : aeval t f = 0) (y : B →+* K) (hy : y f.leadingCoeff ≠ 0) :
     ∃ ξ : A →+* K, ξ.comp (algebraMap B A) = y := by
   have hc : f.leadingCoeff ≠ 0 := leadingCoeff_ne_zero.mpr hf
-  haveI : Nontrivial A := IsDomain.toNontrivial
-  haveI : Nontrivial B := IsDomain.toNontrivial
-  haveI : FaithfulSMul B A := (faithfulSMul_iff_algebraMap_injective _ _).mpr hinj
   let M : Submonoid B := Submonoid.powers f.leadingCoeff
   have hM : M ≤ nonZeroDivisors B := powers_le_nonZeroDivisors_of_noZeroDivisors hc
   let M' : Submonoid A := M.map (algebraMap B A)
@@ -616,10 +633,6 @@ set_option linter.overlappingInstances false
 
 open NumberField Formalism.ConjugateSelfDual ReciprocityTheory.Gal GlobalTheory.GalOfCusp IsLocalRing UpperTheory.V UpperTheory.V.HV UpperTheory.V.U3 UpperTheory.V.Base UpperTheory.V.Af UpperTheory.V.Pr UpperTheory.V.Alg UpperTheory.V.J
 
-namespace UpperTheory.V.J.ChevalleyRestriction
-
-end UpperTheory.V.J.ChevalleyRestriction
-
 theorem UpperTheory.V.J.chev :
     ∀ (B A : Type) [CommRing B] [IsDomain B] [CommRing A] [IsDomain A] [Algebra B A] [Algebra.FiniteType B A], Function.Injective (algebraMap B A) →
         ∀ a : A, a ≠ 0 → ∃ b : B, b ≠ 0 ∧ ∀ (K : Type) [Field K] [IsAlgClosed K] (y : B →+* K), y b ≠ 0 →
@@ -666,8 +679,7 @@ private theorem chev_prime (B A : Type) [CommRing B] [CommRing A] [Algebra B A] 
 
 private theorem gen_out {R : Type} [CommRing R] {s : Set R} {P : Ideal R} (h : ¬ Ideal.span s ≤ P) :
     ∃ x ∈ s, x ∉ P := by
-  by_contra hc
-  push_neg at hc
+  by_contra! hc
   exact h (Ideal.span_le.2 hc)
 
 set_option synthInstance.maxHeartbeats 200000 in
@@ -1244,7 +1256,19 @@ open NumberField Formalism.ConjugateSelfDual ReciprocityTheory.Gal GlobalTheory.
 
 private theorem int_of_norm {l : ℕ} [Fact l.Prime] (z : Qbar l) (hz : ‖z‖ ≤ 1) :
     ∃ f : Polynomial ℤ_[l], f.Monic ∧ Polynomial.aeval z f = 0 := by
-  apply _root_.GlobalTheory.ResidueUnr.exists_monic <;> assumption
+  have hi : IsIntegral ℚ_[l] z := Algebra.IsIntegral.isIntegral z
+  have hm : (minpoly ℚ_[l] z).Monic := minpoly.monic hi
+  have h1 : spectralValue (minpoly ℚ_[l] z) ≤ 1 := by
+    rw [← PadicAlgCl.spectralNorm_eq l z] at hz
+    exact hz
+  have h2 := (spectralValue_le_one_iff hm).1 h1
+  have hl : minpoly ℚ_[l] z ∈ Polynomial.lifts (algebraMap ℤ_[l] ℚ_[l]) := by
+    rw [Polynomial.lifts_iff_coeff_lifts]
+    intro n
+    exact ⟨⟨_, h2 n⟩, rfl⟩
+  obtain ⟨f, hf, -, hfm⟩ := Polynomial.lifts_and_natDegree_eq_and_monic hl hm
+  refine ⟨f, hfm, ?_⟩
+  rw [← Polynomial.aeval_map_algebraMap ℚ_[l], hf, minpoly.aeval]
 
 private theorem int_pt {l : ℕ} [Fact l.Prime] {D : Type} [CommRing D] (ξ : D →+* Qbar l) (h : ∀ a, ‖ξ a‖ ≤ 1)
     (φ : ℤ_[l] →+* D) (hφ : ∀ t, ξ (φ t) = algebraMap ℤ_[l] (Qbar l) t) (a : D) :
@@ -1466,8 +1490,7 @@ theorem UpperTheory.V.J.redCrit :
     ∀ (A : Type) [CommRing A] [IsNoetherianRing A] (q : Ideal A), q.IsPrime → (∀ P ∈ associatedPrimes A A, P ≤ q → P ∈ minimalPrimes A) →
         (∀ P ∈ minimalPrimes A, P ≤ q → ∀ a ∈ P, ∃ s ∉ P, s * a = 0) → ∀ a : A, (∀ P : Ideal A, P.IsPrime → P ≤ q → a ∈ P) → ∃ s ∉ q, s * a = 0 := by
   intro A _ _ q hq h1 h2 a ha
-  by_contra hcon
-  push_neg at hcon
+  by_contra! hcon
   let N : Submodule A A := Submodule.span A {a}
   have hann : ∀ x, x ∈ Module.annihilator A N ↔ x * a = 0 := by
     intro x
@@ -1656,7 +1679,7 @@ private theorem rank_ge [Algebra O T] [IsScalarTower O A T] [IsNoetherianRing T]
       map_add' := fun _ _ => rfl
       map_smul' := fun _ _ => rfl }
   have hinj : Function.Injective Ψ := by
-    set_option backward.isDefEq.respectTransparency.instanceSearchTypes false in rw [injective_iff_map_eq_zero]
+    rw [injective_iff_map_eq_zero]
     intro φ h0
     have h1 : ∀ x, φ (r (algebraMap A T x)) = 0 := fun x =>
       congrArg (fun D : PtDer ξ K => (D : A →ₗ[O] K) x) h0

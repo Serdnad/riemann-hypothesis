@@ -60,10 +60,12 @@ lemma thetaZero_periodLattice_eq (L : PeriodPair) (t z : ℂ) :
 
 lemma exp_pi_int (k : ℤ) :
     Complex.exp (-((Real.pi : ℂ) * Complex.I * (k : ℂ))) = Complex.exp ((Real.pi : ℂ) * Complex.I * (k : ℂ)) := by
+  have h : Complex.exp ((Real.pi : ℂ) * Complex.I * (k : ℂ)) * Complex.exp ((Real.pi : ℂ) * Complex.I * (k : ℂ)) = 1 := by
+    rw [← Complex.exp_add]
+    convert Complex.exp_int_mul_two_pi_mul_I k using 2
+    ring
   rw [Complex.exp_neg]
-  apply inv_eq_of_mul_eq_one_right
-  rw [← Complex.exp_add]
-  convert Complex.exp_int_mul_two_pi_mul_I k using 2 <;> ring
+  exact inv_eq_of_mul_eq_one_right h
 
 end ThetaZeroHermitianLemmas
 
@@ -98,7 +100,7 @@ theorem th0Basic_of (hb : SgStarBasic) (hq : SgStarQuasi) (hi : AltEInt) : Theta
   rw [h2] at hn ⊢
   have hs : sgStar L t ≠ 0 := fun h0 => hn (((hb L).2.2.1 t).1 h0)
   have hχ : semiChar L (t + t) = -1 := by
-    rw [semiChar, if_neg (by rw [h2]; exact hn)]
+    rw [semiChar, ite_eq_right (by rw [h2]; exact hn)]
   refine ⟨?_, ?_, ?_, ?_, ?_⟩
   · have hd := (hb L).1
     show Differentiable ℂ (fun z => opU L t (sgStar L) z / opU L t (sgStar L) 0)
@@ -341,7 +343,7 @@ theorem sigmaTaylorLow_of (he : SigmaEntire) (hs : SigmaSummable) :
     intro n hn hn1
     have h0 := iteratedDeriv_eq_zero_of_bound hd hr hb n hn
     rw [iteratedDeriv_fun_sub ((he L).contDiff.contDiffAt) (contDiff_fun_id.contDiffAt),
-      iteratedDeriv_fun_id_zero, if_neg hn1, sub_zero] at h0
+      iteratedDeriv_fun_id_zero, ite_eq_right hn1, sub_zero] at h0
     exact h0
   exact ⟨key 2 (by norm_num) (by norm_num), key 3 (by norm_num) (by norm_num)⟩
 

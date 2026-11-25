@@ -1,9 +1,9 @@
 module
 
-import GroundTheory.HeightsAndTheta.Heights.MultihomogeneousPolynomials
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.IsIntersectionFamily
 import Mathlib.Algebra.Order.Sub.Prod
 import Mathlib.Tactic.TypeStar
+import GroundTheory.HeightsAndTheta.Heights.HeightComparison.IsMultiHomogIdealIff
 
 @[expose] public section
 
@@ -20,23 +20,23 @@ open MvPolynomial ReciprocityTheory.ChartRestriction.G.Geo
 variable {K : Type*} [Fintype K] {ι : K → Type*} [∀ k, Fintype (ι k)] {R : Type*} [CommRing R]
 
 theorem isMultiHomog_mul {f g : MRingOver R ι} {a b : K → ℕ} (hf : IsMultiHomog f a)
-    (hg : IsMultiHomog g b) : IsMultiHomog (f * g) (a + b) := by
-  apply _root_.GroundTheory.Heights₂.Heights.MultiHomogeneous.mul <;> assumption
+    (hg : IsMultiHomog g b) : IsMultiHomog (f * g) (a + b) :=
+  GroundTheory.Heights₂.Heights.Bridge.isMultiHomog_mul hf hg
 
-theorem isMultiHomog_one : IsMultiHomog (1 : MRingOver R ι) 0 := by
-  apply _root_.GroundTheory.Heights₂.Heights.MultiHomogeneous.one <;> assumption
+theorem isMultiHomog_one : IsMultiHomog (1 : MRingOver R ι) 0 :=
+  GroundTheory.Heights₂.Heights.Bridge.isMultiHomog_one
 
 theorem isMultiHomog_X [DecidableEq K] (k : K) (i : ι k) :
-    IsMultiHomog (X ⟨k, i⟩ : MRingOver R ι) (Pi.single k 1) := by
-  apply _root_.GroundTheory.Heights₂.Heights.MultiHomogeneous.variableForm <;> assumption
+    IsMultiHomog (X ⟨k, i⟩ : MRingOver R ι) (Pi.single k 1) :=
+  GroundTheory.Heights₂.Heights.Bridge.isMultiHomog_X ⟨k, i⟩
 
 theorem isMultiHomog_pow {f : MRingOver R ι} {a : K → ℕ} (hf : IsMultiHomog f a) (n : ℕ) :
-    IsMultiHomog (f ^ n) (n • a) := by
-  apply _root_.GroundTheory.Heights₂.Heights.MultiHomogeneous.pow <;> assumption
+    IsMultiHomog (f ^ n) (n • a) :=
+  GroundTheory.Heights₂.Heights.Bridge.isMultiHomog_pow hf n
 
 theorem isMultiHomog_coordProd (c : ∀ k, ι k) (d : K → ℕ) :
-    IsMultiHomog (∏ k, (X ⟨k, c k⟩ : MRingOver R ι) ^ d k) d := by
-  apply _root_.GroundTheory.Heights₂.Heights.MultiHomogeneous.coordinateProduct <;> assumption
+    IsMultiHomog (∏ k, (X ⟨k, c k⟩ : MRingOver R ι) ^ d k) d :=
+  GroundTheory.Heights₂.Heights.Bridge.isMultiHomog_chartMono c d
 
 theorem coordProd_not_mem {V : Ideal (MRingOver R ι)} (hV : V.IsPrime) (c : ∀ k, ι k)
     (hc : ∀ k, (X ⟨k, c k⟩ : MRingOver R ι) ∉ V) (d : K → ℕ) :
@@ -46,12 +46,12 @@ theorem coordProd_not_mem {V : Ideal (MRingOver R ι)} (hV : V.IsPrime) (c : ∀
   exact hc k (hV.mem_of_pow_mem _ hk)
 
 theorem isMultiHomog_sum {β : Type*} (s : Finset β) (f : β → MRingOver R ι) {a : K → ℕ}
-    (h : ∀ b ∈ s, IsMultiHomog (f b) a) : IsMultiHomog (∑ b ∈ s, f b) a := by
-  apply _root_.GroundTheory.Heights₂.Heights.MultiHomogeneous.sum <;> assumption
+    (h : ∀ b ∈ s, IsMultiHomog (f b) a) : IsMultiHomog (∑ b ∈ s, f b) a :=
+  GroundTheory.Heights₂.Heights.Bridge.isMultiHomog_sum s f h
 
 theorem isMultiHomog_prod {β : Type*} (s : Finset β) (f : β → MRingOver R ι) (a : β → K → ℕ)
-    (h : ∀ b ∈ s, IsMultiHomog (f b) (a b)) : IsMultiHomog (∏ b ∈ s, f b) (∑ b ∈ s, a b) := by
-  apply _root_.GroundTheory.Heights₂.Heights.MultiHomogeneous.prod <;> assumption
+    (h : ∀ b ∈ s, IsMultiHomog (f b) (a b)) : IsMultiHomog (∏ b ∈ s, f b) (∑ b ∈ s, a b) :=
+  GroundTheory.Heights₂.Heights.Bridge.isMultiHomog_prod s f a h
 
 theorem exists_form_avoid (S : Set (Ideal (MRingOver R ι))) (hS : S.Finite)
     (hS' : ∀ W ∈ S, IsMultiProjPrime W) :
@@ -104,11 +104,11 @@ theorem exists_form_avoid (S : Set (Ideal (MRingOver R ι))) (hS : S.Finite)
     with hm
   have hmH : ∀ W ∈ T, IsMultiHomog (m W) (d - δ W) := by
     intro W hW
-    simp only [hm, dif_pos (hrel W hW)]
+    simp only [hm, dite_eq_left (hrel W hW)]
     exact isMultiHomog_coordProd _ _
   have hmNot : ∀ W ∈ T, m W ∉ W := by
     intro W hW
-    simp only [hm, dif_pos (hrel W hW)]
+    simp only [hm, dite_eq_left (hrel W hW)]
     exact coordProd_not_mem (hS' W (hTS W hW)).1 _ (fun k => ((hrel W hW) k).choose_spec) _
   refine ⟨∑ W ∈ T, a W * m W, ?_, ?_⟩
   · apply isMultiHomog_sum

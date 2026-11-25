@@ -1,6 +1,5 @@
 module
 
-import ReciprocityTheory.AnalyticForms.PlurisubharmonicFunctions.PartsAlg
 public import ReciprocityTheory.AnalyticForms.AnalyticCharts.MaDensCompEqZeroOfRankLt
 public import ReciprocityTheory.AnalyticForms.PotentialTheory.IsPotentialOfFun
 public import Mathlib.Analysis.Calculus.FDeriv.Symmetric
@@ -19,10 +18,8 @@ noncomputable section
 theorem leviC_conj_of_symm {e : ℕ} (H : (Fin e → ℂ) →L[ℝ] (Fin e → ℂ) →L[ℝ] ℝ)
     (hs : ∀ v w, H v w = H w v) (a b : Fin e → ℂ) :
     starRingEnd ℂ (leviC H a b) = leviC H b a := by
-  simp only [leviC, map_div₀, map_add (f := _), map_mul, Complex.conj_ofReal, Complex.conj_I, map_ofNat]
-  rw [hs b a, hs (I • b) (I • a), hs b (I • a), hs (I • b) a]
-  push_cast
-  ring
+  have hflip : H.flip = H := by ext v w; exact hs w v
+  simpa only [hflip] using conj_leviC_flip H a b
 
 theorem leviC_self_of_symm {e : ℕ} (H : (Fin e → ℂ) →L[ℝ] (Fin e → ℂ) →L[ℝ] ℝ)
     (hs : ∀ v w, H v w = H w v) (a : Fin e → ℂ) :
@@ -34,7 +31,30 @@ theorem leviC_self_of_symm {e : ℕ} (H : (Fin e → ℂ) →L[ℝ] (Fin e → �
 
 theorem hessC_posSemidef_of_levi {e : ℕ} (f : (Fin e → ℂ) → ℝ) (z : Fin e → ℂ)
     (hf : ContDiffAt ℝ 2 f z) (hl : ∀ w, 0 ≤ levi f z w) : (hessC f z).PosSemidef := by
-  apply ReciprocityTheory.AnForm.A.hessC_posSemidef_of_levi <;> assumption
+  have hH := hf.isSymmSndFDerivAt (by simp [minSmoothness_of_isRCLikeNormedField])
+  have hs : ∀ v w, fderiv ℝ (fderiv ℝ f) z v w = fderiv ℝ (fderiv ℝ f) z w v := fun v w => hH v w
+  have hM : ∀ i j, hessC f z i j =
+      leviC (fderiv ℝ (fderiv ℝ f) z) (Pi.single i 1) (Pi.single j 1) := hessC_eq_leviC f z
+  refine Matrix.PosSemidef.of_dotProduct_mulVec_nonneg (Matrix.IsHermitian.ext fun i j => ?_) fun x => ?_
+  · rw [hM, hM]
+    exact leviC_conj_of_symm _ hs _ _
+  · have h1 : ∀ i, ∑ j, hessC f z i j * x j =
+        leviC (fderiv ℝ (fderiv ℝ f) z) (Pi.single i 1) (star x) := by
+      intro i
+
+      rw [← leviC_conj_of_symm _ hs (star x) (Pi.single i 1),
+      ← sum_mul_leviC (fderiv ℝ (fderiv ℝ f) z) (star x) (Pi.single i 1), map_sum]
+      refine Finset.sum_congr rfl fun j _ => ?_
+      rw [hM, map_mul, leviC_conj_of_symm _ hs]
+      simp [mul_comm]
+    have h2 : star x ⬝ᵥ (hessC f z *ᵥ x) =
+        leviC (fderiv ℝ (fderiv ℝ f) z) (star x) (star x) := by
+      rw [← sum_mul_leviC (fderiv ℝ (fderiv ℝ f) z) (star x) (star x)]
+      refine Finset.sum_congr rfl fun i _ => ?_
+      rw [← h1 i]
+      rfl
+    rw [h2, leviC_self_of_symm _ hs]
+    exact_mod_cast hl (star x)
 
 theorem pot_contDiffAt_two {e : ℕ} {X : Type} [TopologicalSpace X] {A : FinHolAtlas e X}
     {P : LocPot X} (hP : IsPotential A P) (x : X) (j : Fin A.n) {y : Fin e → ℂ}

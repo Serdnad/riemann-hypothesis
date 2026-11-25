@@ -1,5 +1,6 @@
 module
 
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ThetaReadingWithoutEta
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.RowsRestWordColumnUnitBaseTupleAlt
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.HasLab
 public import Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms₂.DsExistsOfDiscreteSeriesExists
@@ -80,155 +81,12 @@ noncomputable section
 
 open Formalism.BasicNotions Formalism.MainNotions Formalism.BasicNotions.TH Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes Formalism.MainNotions.StandardLattice Formalism.MainNotions.S MeasureTheory IsDedekindDomain NumberField Matrix Formalism.L2.Theta Formalism.L2.DIV Formalism.L2.Indef Formalism.IndefR Formalism.IndefR.Links Formalism.IndefR.Mult Formalism.IndefR.Datum Formalism.IndefR.Cx
 open scoped TensorProduct InnerProductSpace
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 open Formalism.IndefR.RecTie Formalism.IndefR.Lev Formalism.L2.Rows GlobalTheory.Mem GlobalTheory.Mem.R3
 open Classical
 open GlobalTheory.Mem.R3.HasLabelling
 open GlobalTheory.Hk3 (Core Good IsSF SchurAll EEc Wcc IsLab SphOp hyp)
 open GlobalTheory.StdFrame (StdPsi)
 attribute [local instance] Formalism.IndefR.principalLevelFrame.instCMHostI
-
-namespace GlobalTheory.Mem.ThetaRead3.L0
-
-
-
-theorem thetaP_read : ∀ (D : D7) (G : Type) [Group G] [Fintype G] (Pl0 I0 T : Type) (A3 : FamIn3 D.what₂.LL G Pl0 I0 (List ℕ) T D.R.m) (Ks : Type) [Field Ks] [NumberField Ks] [Algebra Ks D.what₂.LL] (R : RealDat3 D A3 Ks) (F : Face3 D A3) (cG : G0 R.Pg D.R.r ≃* G0g D.nd) (X0 : BaseLevelRowSide D) (Y : Read (A3 := A3) R.toRealDat F.lv2 X0) (Z : GlobalTheory.Mem.R3.Rw.RationalReadingWithoutCongruence R F X0 Y), Pins R F cG → Holds R F → ∀ (i : Fin D.R.m) (t : T) x, Y.mj.eW i (D.what₂.thetaP (Y.tup t) ((i : ℕ) + 1) (D.what₂.jMt (Y.tup t) ((i : ℕ) + 1) (Y.eMt i t x))) = R.thG i t (R.jV i t (liftForm A3.A F.P0 F.ψ0 i t x)) := by
-  intro D G _ _ Pl0 I0 T A3 Ks _ _ _ R F cG X0 Y Z hP hH i t x
-  have hE : R.toRealDat.IsThP := RealDat.thP_of_weak hP.char.base.thP hH.aux.ex
-  have hM := hP.char.base.models
-  have hμ : Used0 D (Y.tup t) := by
-    rcases hP.char.tup.mu_used t with h | ⟨w, hw⟩
-    · left
-      rw [h, Y.tup0]
-    · right
-      refine ⟨D.plEq.symm w, ?_⟩
-      rw [Y.muAt, Equiv.apply_symm_apply, hw]
-  set xM := D.what₂.jMt (Y.tup t) ((i : ℕ) + 1) (Y.eMt i t x) with hxM
-  set zt := R.jV i t (liftForm A3.A F.P0 F.ψ0 i t x) with hzt
-  obtain ⟨w, hwM, hwK, hwW⟩ := GlobalTheory.T.thetaAdjoint_at_lift_eq_lowestKType_restriction R.toRealDat F.lv2 Y.tupT Y.hm Y.hTop Y.hinj hP.char.base.lev
-    hP.char.base.grp hM hE R.hv0 Y.IL (Y.tup t) hμ i xM
-  have hth := Y.tied.lift.theta (Y.tup t) hμ i xM w
-    (GlobalTheory.ThetaPRead.isThetaP_toLiftReal R.toRealDat F.lv2 Y.tupT Y.hm Y.hTop Y.hinj hE.thF (Y.tup t) i) hwM hwK hwW
-
-  set u := Y.tupT (Y.tup t) with hu
-  set a := Y.IL.jMt (Y.tup t) hμ i xM with ha
-  set z' : (R.HV i u).H := (LinearEquiv.ofInjective (R.extV i u) (Y.hinj i u)).symm
-    (Submodule.inclusion inf_le_left a) with hz'
-  have hz'1 : R.extV i u z' = R.extV i t zt := by
-    rw [hz', ofInjective_symm_eq]
-    exact Y.mtRead i t hμ x
-  have hzz : R.thF i u z' = R.thF i t zt := thF_congr R.toRealDat Y.hinj i t u (Y.tupT_tup t) zt z' hz'1
-  let w' : (⨂[ℂ] τ, (R.MW i (sg0 D A3.A)).sm τ) →ₗ[ℂ] (GA D (Wc D i) → ℂ) := w
-  let U : MMap (R.MW i (sg0 D A3.A)) := PiTensorProduct.lift.symm w'
-  have hU : U ∈ R.Wall i (sg0 D A3.A) :=
-    GlobalTheory.HeckeParts.mult_le_triv _ ((Mult.mem_multT _ _ _ _ w').1 hwM)
-  have hlow : ∀ v : ∀ ρ, lowT (R.MW i (sg0 D A3.A)) ρ, U (fun ρ => v ρ) = R.thF i u z' (fun ρ => v ρ) := by
-    intro v
-    have e := LinearMap.congr_fun hwK (PiTensorProduct.tprod ℂ v)
-    have e2 : w' (PiTensorProduct.map (fun τ => (lowT (R.MW i (sg0 D A3.A)) τ).subtype) (PiTensorProduct.tprod ℂ v)) =
-        PiTensorProduct.lift (R.thF i u z')
-          (PiTensorProduct.map (fun τ => (lowT (R.MW i (sg0 D A3.A)) τ).subtype) (PiTensorProduct.tprod ℂ v)) := e
-    rw [PiTensorProduct.map_tprod, PiTensorProduct.lift.tprod] at e2
-    exact e2
-  have hw0 : U - R.thF i t zt = 0 :=
-    GlobalTheory.LowTypeDetermined.eq_zero_of_lowT D _ _ (R.MW i (sg0 D A3.A)) R.θ hM.inf
-      (GlobalTheory.LowTypeRestriction.lowT_ne_bot _) _ _ _ (Submodule.sub_mem _ hU (hE.thF_mem i t zt)) (fun v => by
-        show U (fun ρ => v ρ) - R.thF i t zt (fun ρ => v ρ) = 0
-        rw [hlow v, hzz, sub_self])
-  have hUw : PiTensorProduct.lift U = w' := LinearEquiv.apply_symm_apply _ w'
-  have h1 := (Y.mjRead i (D.what₂.thetaP (Y.tup t) ((i : ℕ) + 1) xM)).symm.trans hth
-  change PiTensorProduct.lift _ = R.eWf i (sg0 D A3.A) ∘ₗ w' at h1
-  rw [← hUw, sub_eq_zero.1 hw0, ← _root_.GlobalTheory.ThetaFireLift.lift_postOn, ← hE.thG i t zt] at h1
-  exact (hM.HW i (sg0 D A3.A)).1 (PiTensorProduct.lift.injective h1)
-
-end GlobalTheory.Mem.ThetaRead3.L0
-
-namespace GlobalTheory.Mem.ThOrth.L0
-open Formalism.IndefR.CxPass.LevelOperators
-open Formalism.IndefR.CxPass.LevelOperators
-
-
-
-theorem thG_eq_zero_of_orth : ∀ (D : D7) (G : Type) [Group G] [Fintype G] (Pl0 I0 T : Type) (A3 : FamIn3 D.what₂.LL G Pl0 I0 (List ℕ) T D.R.m) (Ks : Type) [Field Ks] [NumberField Ks] [Algebra Ks D.what₂.LL] (R : RealDat3 D A3 Ks) (F : Face3 D A3) (cG : G0 R.Pg D.R.r ≃* G0g D.nd) (X0 : BaseLevelRowSide D) (Y : Read (A3 := A3) R.toRealDat F.lv2 X0) (Z : GlobalTheory.Mem.R3.Rw.RationalReadingWithoutCongruence R F X0 Y), Pins R F cG → Holds R F → ∀ (i : Fin D.R.m) (t : T) (x : Fin (lDim D A3.A F.P0 F.ψ0 i t) → D.what₂.LL), (∀ z, Formalism.DivisionValues.hform (lH D A3.A F.P0 F.ψ0 i t) (lZ0 D A3.A F.P0 F.ψ0 (A3.fam3.toSub2 (zsOf R F)) i t *ᵥ z) x = 0) → R.thG i t (R.jV i t (liftForm A3.A F.P0 F.ψ0 i t x)) = 0 := by
-  intro D G _ _ Pl0 I0 T A3 Ks _ _ _ R F cG X0 Y _Z hP hH i t x hx
-  have hok := hH.ok
-  have hc := Formalism.IndefR.Links.RealDat3.characterisation_of_weak hP.char hH.aux.ex
-  have hM := hc.models
-  have hCore : GlobalTheory.Hk3.Core R.toRealDat F.lv2 := ⟨hc.lev, hc.grp, hc.fam, hc.models, hc.chain, hc.thP⟩
-  have hL := GlobalTheory.Hk3.eH_laws R.toRealDat F.lv2 hCore hok.ok2.irr i
-  have hK : (R.toCx3 F).KFormL := Formalism.IndefR.Links.RealDat3.kFormL_of (F := F) hM
-  have hJ : (R.toCx3 F).JIsoL F.cv := Formalism.IndefR.Links.RealDat3.jIsoL_of (F := F) hM
-  have hRZ : (R.toCx3 F).RatZ := (complex_data_conditions_base_level_of_primitive_links hok hH.sep hP.char hH.prim).ratZ
-  have H := Formalism.IndefR.CxPass.lift_hypotheses_of_unitary hok hK F.cv (fun _ _ _ _ => rfl) hJ hH.prim.gUnit.2 hH.prim.gEquiv.2 i t
-  have hB : BlockHyp (A3.A.fam.L i t) (A3.A.fam.lvlA F.P0 F.ψ0) A3.A.v0 1 := ⟨hok.ok2.conj, hok.ok2.irr, hok.ok2.lifts i t⟩
-
-  have hopE : opV A3.fam3.base3.v0.embedding (fun g => R.gWx F i g) (idemOf A3.A.X) =
-      Tw.map (twAt D.what₂.embLL A3.A.v0) (GlobalTheory.Hk3.eH R.toRealDat i) := by
-    let mA : ((R.HW i (sg0 D A3.A)).H →ₗ[ℂ] (R.HW i (sg0 D A3.A)).H) →+
-        (Tw (twAt D.what₂.embLL A3.A.v0) (R.HW i (sg0 D A3.A)).H →ₗ[ℂ] Tw (twAt D.what₂.embLL A3.A.v0) (R.HW i (sg0 D A3.A)).H) :=
-      { toFun := Tw.map (twAt D.what₂.embLL A3.A.v0), map_zero' := LinearMap.ext fun _ => rfl,
-        map_add' := fun _ _ => LinearMap.ext fun _ => rfl }
-    rw [show Tw.map (twAt D.what₂.embLL A3.A.v0) (GlobalTheory.Hk3.eH R.toRealDat i) = mA (GlobalTheory.Hk3.eH R.toRealDat i) from rfl]
-    unfold opV GlobalTheory.Hk3.eH
-
-    rw [map_sum]
-    refine Finset.sum_congr rfl fun g _ => LinearMap.ext fun y => ?_
-    show cj (twAt D.what₂.embLL A3.A.v0) (A3.A.v0.embedding ((idemOf A3.A.X).coeff g)) •
-        R.gW i (sg0 D A3.A) g (Tw.out (s := (twAt D.what₂.embLL A3.A.v0)) (E := (R.HW i (sg0 D A3.A)).H) y) =
-      RealDat.eC (A := A3.A) (sg0 D A3.A) g •
-        R.gW i (sg0 D A3.A) g (Tw.out (s := (twAt D.what₂.embLL A3.A.v0)) (E := (R.HW i (sg0 D A3.A)).H) y)
-    rw [Formalism.IndefR.Links.emb_eq D.what₂.embLL A3.A.v0, cj_cj]
-    rfl
-  have hθ : ∀ (u : (R.toCx3 F).FLC i t),
-      Tw.out (s := (twAt D.what₂.embLL A3.A.v0)) (E := (R.HW i (sg0 D A3.A)).H) ((R.toCx3 F).θ' i t u) =
-        cj (twAt D.what₂.embLL A3.A.v0) (R.phs i) • R.thG i t (Tw.out (s := (twAt D.what₂.embLL A3.A.v0)) (E := (R.HV i t).H) u) :=
-    fun u => rfl
-  have hfix : ∀ y ∈ LinearMap.range ((R.toCx3 F).θ' i t),
-      opV A3.fam3.base3.v0.embedding (fun g => R.gWx F i g) (idemOf A3.A.X) y = y := by
-    rintro _ ⟨u, rfl⟩
-    rw [hopE]
-    change Tw.mk (twAt D.what₂.embLL A3.A.v0) (GlobalTheory.Hk3.eH R.toRealDat i
-      (Tw.out (s := (twAt D.what₂.embLL A3.A.v0)) (E := (R.HW i (sg0 D A3.A)).H) ((R.toCx3 F).θ' i t u))) =
-      (R.toCx3 F).θ' i t u
-    rw [hθ, map_smul, hL.2.2.2, ← hθ]
-    rfl
-
-  set ℓ := A3.A.fam.lvlA F.P0 F.ψ0 with hℓ
-  set f0 := liftForm A3.A F.P0 F.ψ0 i t x with hf0
-  have hf0l : f0 = GlobalTheory.Mem.LiftForms.lvlForm (A3.A.fam.L i t).S (A3.A.fam.L i t).r ℓ.P ℓ.ψ x := rfl
-  have hlev : f0 ∈ lvlForms (A3.A.fam.L i t).S (A3.A.fam.L i t).r ℓ.P ℓ.ψ := by
-    rw [← GlobalTheory.Mem.LiftForms.range_lvlForm]
-    exact ⟨x, hf0l.symm⟩
-  have hfix0 : opF (A3.A.fam.L i t).r (lvlIdem ℓ.P ℓ.ψ) f0 = f0 := by
-    exact opF_lvlIdem_fix (A3.A.fam.L i t).r ℓ.P ℓ.ψ f0 hlev
-  have hea : opF (A3.A.fam.L i t).r (goodAt ℓ.X ℓ.P ℓ.ψ) f0 = opF (A3.A.fam.L i t).r (idemOf A3.A.X) f0 := by
-    rw [goodAt, opF_mul, LinearMap.comp_apply, hfix0]
-    rfl
-  have horth : ∀ z ∈ ((LinearMap.range (LinearMap.adjoint ((R.toCx3 F).θ' i t))).comap ((R.toCx3 F).jL i t) ⊓
-      LinearMap.range (opF (A3.A.fam.L i t).r (goodAt ℓ.X ℓ.P ℓ.ψ)) : Submodule _ _),
-      ⟪(R.toCx3 F).jL i t z, (R.toCx3 F).jL i t f0⟫_ℂ = 0 := by
-    intro z hz
-    have hZeq : (((LinearMap.range (LinearMap.adjoint ((R.toCx3 F).θ' i t))).comap ((R.toCx3 F).jL i t)) ⊓
-        LinearMap.range (opF (A3.A.fam.L i t).r (goodAt ℓ.X ℓ.P ℓ.ψ)) : Submodule _ _) =
-        LinearMap.range ((A3.A.fam.L i t).toF ℓ ((R.toCx3 F).Zl i t)) := by
-      refine Eq.trans ?_ (Formalism.IndefR.CxPass.LevelOperators.range_toF (A3.A.fam.L i t) ℓ _).symm
-      rw [Formalism.IndefR.CxPass.LevelOperators.goodR_eq]
-      rfl
-    have hz' : z ∈ LinearMap.range ((A3.A.fam.L i t).toF ℓ ((R.toCx3 F).Zl i t)) := hZeq ▸ hz
-    obtain ⟨c, rfl⟩ := hz'
-    rw [← GlobalTheory.Mem.LiftForms.lvlForm_lE hB c]
-    refine (hJ i t _ _).trans ?_
-    have h0 : Formalism.DivisionValues.hform ((A3.A.fam.L i t).S.lvlH (A3.A.fam.L i t).r ℓ.P ℓ.ψ)
-        ((A3.A.fam.L i t).lE ℓ ((R.toCx3 F).Zl i t) *ᵥ c) x = 0 := hx c
-    show A3.fam3.base3.v0.embedding (CSDForm.csumForm (A3.A.fam.L i t).S _ _) = 0
-    rw [CSDForm.csumForm_apply, hf0l, GlobalTheory.Mem.LiftForms.csum_lvlForm, h0, mul_zero, map_zero]
-  have key := theta_eq_zero_of_orth H (hRZ.2 i t) (goodAt ℓ.X ℓ.P ℓ.ψ) (idemOf A3.A.X)
-    (opF_goodAt_idem _ _ hok.ok2.irr _ _) hfix f0 hea horth
-  have h2 := congrArg (Tw.out (s := twAt D.what₂.embLL A3.A.v0) (E := (R.HW i (sg0 D A3.A)).H)) key
-  rw [hθ, hP.phs i, map_one, one_smul] at h2
-  exact h2
-
-end GlobalTheory.Mem.ThOrth.L0
 
 namespace GlobalTheory.Mem.R3.LabEig.L0
 
@@ -251,12 +109,9 @@ end GlobalTheory.Mem.R3.LabEig.L0
 namespace GlobalTheory.Mem.R3.LabCarry.L0
 variable {D : D7} {G : Type} [Group G] [Fintype G] {Pl0 I0 T : Type} {A3 : FamIn3 D.what₂.LL G Pl0 I0 (List ℕ) T D.R.m}
 
-
-
 theorem carried : GlobalTheory.Published.WeilRepresentationUnitaryPair → GlobalTheory.Published.DiscreteSeriesExists → GlobalTheory.Published.HarishChandraFinite → GlobalTheory.Published.CuspRapidDecay → ∀ (D : D7) (G : Type) [Group G] [Fintype G] (Pl0 I0 T : Type) (A3 : FamIn3 D.what₂.LL G Pl0 I0 (List ℕ) T D.R.m) (Ks : Type) [Field Ks] [NumberField Ks] [Algebra Ks D.what₂.LL] (R : RealDat3 D A3 Ks) (F : Face3 D A3) (cG : G0 R.Pg D.R.r ≃* G0g D.nd) (X0 : BaseLevelRowSide D) (Y : Read (A3 := A3) R.toRealDat F.lv2 X0) (Z : GlobalTheory.Mem.R3.Rw.RationalReadingWithoutCongruence R F X0 Y), Pins R F cG → Holds R F → HostHyp D → ∀ (c : Pl D.host.E → List ℤ → ℂ) (b : Bool) (x : R.HE.H), x ≠ 0 → x ∈ R.EEc c → R.HE.e x ∈ R.toRealDat.EEat (R.toRealDat.levR F.lv2 b) → ∃ p, R.Carries p c := by
   intro hWe hDs hHC hCu D G _ _ Pl0 I0 T A3 Ks _ _ _ R F cG X0 Y Z hP hHo hHost c b x hx0 hxc hxb
-  by_contra hno
-  push_neg at hno
+  by_contra! hno
   obtain ⟨hcore, hSF, -, -, hEEc, -, -⟩ := GlobalTheory.CoreThree.heckeCharacterisation_places_parts_of_weak R F hP.char
   obtain ⟨h, -, hN, -, hev, hchar⟩ := GlobalTheory.T.exists_sphericalOperators_rows_normal_eigenspaces R.toRealDat F.lv2 (hcore hHo.aux.ex)
     (GlobalTheory.Hk3.schurAll_of_cuspRapidDecay hCu R.toRealDat) R.SF hSF
@@ -273,8 +128,7 @@ theorem carried : GlobalTheory.Published.WeilRepresentationUnitaryPair → Globa
     intro c' hne y hy
     have hex : ∃ P d, GlobalTheory.Hk3.Good R.toRealDat A3.A.μ0 P ∧ GlobalTheory.Hk3.IsLab (Yc D 0) P d ∧
         c' P (dualLab d) ≠ c P (dualLab d) := by
-      by_contra hall
-      push_neg at hall
+      by_contra! hall
       apply hne
       ext z
       constructor
@@ -396,8 +250,6 @@ end GlobalTheory.Mem.R3.RatSpan.L0
 
 namespace GlobalTheory.Mem.R3.IsotIndep.L0
 
-
-
 theorem isot_iSupIndep : GlobalTheory.Published.WeilRepresentationUnitaryPair → GlobalTheory.Published.DiscreteSeriesExists → GlobalTheory.Published.HarishChandraFinite → GlobalTheory.Published.CuspRapidDecay → ∀ (D : D7) (G : Type) [Group G] [Fintype G] (Pl0 I0 T : Type) (A3 : FamIn3 D.what₂.LL G Pl0 I0 (List ℕ) T D.R.m) (Ks : Type) [Field Ks] [NumberField Ks] [Algebra Ks D.what₂.LL] (R : RealDat3 D A3 Ks) (F : Face3 D A3) (cG : G0 R.Pg D.R.r ≃* G0g D.nd) (X0 : BaseLevelRowSide D) (Y : Read (A3 := A3) R.toRealDat F.lv2 X0) (Z : GlobalTheory.Mem.R3.Rw.RationalReadingWithoutCongruence R F X0 Y), Pins R F cG → Holds R F → HostHyp D → ∀ i : Fin D.R.m, iSupIndep (fun σ : D.what₂.FT => D.what₂.isot ((i : ℕ) + 1) σ) := by
   intro hW hDS hHC hCR D G _ _ Pl0 I0 T A3 Ks _ _ _ R F cG X0 Y Z hP hH hHost i
   have hI : Inputs D := GlobalTheory.T.linksAnalyticHypotheses_of_weilRep_harishChandra hW hDS hHC hCR D
@@ -405,7 +257,7 @@ theorem isot_iSupIndep : GlobalTheory.Published.WeilRepresentationUnitaryPair �
   have hT := Y.tied.lift
   have h0 := hB.models.νW i
   have hs := GlobalTheory.HilbertLevels.scaled (inv_pos.2 (GlobalTheory.HilbertLevels.nP_pos F.lv2 false)) h0.1.1 h0.2
-  have hO := (GlobalTheory.T.rowFiniteTypes_isotypicParts_span_orthogonal D (Wc D i) _ R.θ (R.MW i (sg0 D A3.A)) (Y.PW i) Y.hF (R.βW i)
+  have hO := (GlobalTheory.FinTypesRows.isotL_span_orth D (Wc D i) _ R.θ (R.MW i (sg0 D A3.A)) (Y.PW i) Y.hF (R.βW i)
     (R.datWp i (R.levL F.lv2 false (sg0 D A3.A))) (R.eWf i (sg0 D A3.A)) _ (R.fdW i) hI (D.sp.W_sig _)
     hB.models.inf (Y.stdPsi.2 i) hs.1 hs.2 (gaL_finSum _ _ _ _ _)).2
   apply OrthogonalFamily.independent
@@ -431,7 +283,6 @@ theorem isot_iSupIndep : GlobalTheory.Published.WeilRepresentationUnitaryPair �
   · exact LinearEquiv.symm_apply_apply _ b
 
 end GlobalTheory.Mem.R3.IsotIndep.L0
-
 
 open GlobalTheory.Mem.R3.LamDim in
 
@@ -481,8 +332,80 @@ theorem GlobalTheory.Mem.R3.L0.finrank_liftLabel_eq_finrank_face3 : GlobalTheory
 namespace GlobalTheory.Mem.R3.LabCount.L0
 
 theorem cnt : GlobalTheory.Published.WeilRepresentationUnitaryPair → GlobalTheory.Published.DiscreteSeriesExists → GlobalTheory.Published.HarishChandraFinite → GlobalTheory.Published.CuspRapidDecay → ∀ (D : D7) (G : Type) [Group G] [Fintype G] (Pl0 I0 T : Type) (A3 : FamIn3 D.what₂.LL G Pl0 I0 (List ℕ) T D.R.m) (Ks : Type) [Field Ks] [NumberField Ks] [Algebra Ks D.what₂.LL] (R : RealDat3 D A3 Ks) (F : Face3 D A3) (cG : G0 R.Pg D.R.r ≃* G0g D.nd) (X0 : BaseLevelRowSide D) (Y : Read (A3 := A3) R.toRealDat F.lv2 X0) (Z : GlobalTheory.Mem.R3.Rw.RationalReadingWithoutCongruence R F X0 Y), Pins R F cG → Holds R F → HostHyp D → ∀ cOf : D.what₂.FT → A3.fam3.base3.Ix, (∀ σ, HasLab Y σ (cOf σ)) → ∀ p : A3.fam3.base3.Ix, ∑ σ ∈ Finset.univ.filter (fun σ => cOf σ = p), D.what₂.nRows0 σ = Module.finrank D.what₂.LL ((s0Of R F).Ep p) := by
-  intro hWe hDs hHC hCu D G _ _ Pl0 I0 T A3 Ks _ _ _ R F cG X0 Y _ hP hHo hHost cOf hLab p
-  exact _root_.GlobalTheory.Mem.R3.LabCount.sum_rows_eq_finrank_base_part hWe hDs hHC hCu D G Pl0 I0 T A3 Ks R F cG X0 Y hP hHo hHost cOf hLab p
+  intro hWe hDs hHC hCu D G _ _ Pl0 I0 T A3 Ks _ _ _ R F cG X0 Y Z hP hHo hHost cOf hLab p
+  have hR := complex_data_conditions_base_level_of_primitive_links hHo.ok hHo.sep hP.char hHo.prim
+  have hRow := hR.rowHyp false
+  have hE : (R.toCx3 F).PartsE false := hHo.prim.sumE false
+  have hinj : Function.Injective R.HE.e := hP.char.base.models.HE.1
+  set L : Submodule ℂ R.HE.H := (R.toRealDat.EEat (R.toRealDat.levR F.lv2 false)).comap R.HE.e with hL
+  have hpart : ∀ q, Module.finrank ℂ ((R.toCx3 F).EEp q ⊓ (R.toCx3 F).EEl false : Submodule ℂ (R.toCx3 F).EE) =
+      Module.finrank ℂ (R.EEp3 q ⊓ L : Submodule ℂ R.HE.H) := by
+    intro q
+    rw [← finrank_twSub (twAt D.what₂.embLL A3.A.v0) (R.EEp3 q ⊓ L : Submodule ℂ R.HE.H), twSub_inf]
+    rfl
+  have hEp : Module.finrank D.what₂.LL ((s0Of R F).Ep p) = Module.finrank ℂ (R.EEp3 p ⊓ L : Submodule ℂ R.HE.H) := by
+    rw [← hpart p]
+    exact (R.toCx3 F).finrank_Ep F.cr false hRow.wf hRow.h2 hRow.h3 hE p
+  let C := toChainReal R.toRealDat F.lv2 Y.tupT Y.hm Y.hTop
+  let lf : Mult.MMap (R.MY 0) ≃ₗ[ℂ] C.Amb 0 := PiTensorProduct.lift
+  let φ : R.HE.H →ₗ[ℂ] C.Amb 0 := lf.toLinearMap ∘ₗ R.HE.e
+  have hφ : Function.Injective φ := lf.injective.comp hinj
+  have hmemL : ∀ y : R.HE.H, φ y ∈ C.EEc false → y ∈ L := by
+    intro y hy
+    obtain ⟨z, hz, hzy⟩ := Submodule.mem_map.1 hy
+    have : z = R.HE.e y := lf.injective hzy
+    subst this
+    exact hz
+  choose x hxP hxe using fun k => (hLab (D.what₂.ft0 k)).2 k rfl
+  have hxφ : ∀ k, φ (x k) = (Y.Iz.jE (D.what₂.onb0 k)).1 := fun k => (hxe k).symm
+  have hli0 : LinearIndependent ℂ (fun k => ((Y.Iz.jE (D.what₂.onb0 k)).1 : C.Amb 0)) := by
+    have h1 := D.what₂.onb0.toBasis.linearIndependent.map' Y.Iz.jE.toLinearMap Y.Iz.jE.ker
+    have h2 := h1.map' (C.EEc false).subtype (Submodule.ker_subtype _)
+    exact h2
+  have hli : LinearIndependent ℂ x := by
+    apply LinearIndependent.of_comp φ
+    convert hli0 using 1
+    funext k
+    exact hxφ k
+  have hxL : ∀ k, x k ∈ L := fun k => hmemL _ (by rw [hxφ k]; exact (Y.Iz.jE (D.what₂.onb0 k)).2)
+
+  have hDim : Module.finrank ℂ L ≤ Fintype.card (Fin D.what₂.D0) := by
+    let g0 : L →ₗ[ℂ] C.EEc false :=
+      (φ.domRestrict L).codRestrict (C.EEc false) (fun y => Submodule.mem_map_of_mem (f := lf.toLinearMap) y.2)
+    let g : L →ₗ[ℂ] D.what₂.EE0 := Y.Iz.jE.symm.toLinearMap ∘ₗ g0
+    have hg : Function.Injective g := by
+      intro a b h
+      have h1 : g0 a = g0 b := Y.Iz.jE.symm.injective h
+      have h2 : φ a = φ b := congrArg Subtype.val h1
+      exact Subtype.ext (hφ h2)
+    calc Module.finrank ℂ L ≤ Module.finrank ℂ D.what₂.EE0 := LinearMap.finrank_le_finrank_of_injective hg
+      _ = Fintype.card (Fin D.what₂.D0) := Module.finrank_eq_card_basis D.what₂.onb0.toBasis
+  have hsum : ∑ q, Module.finrank ℂ (R.EEp3 q ⊓ L : Submodule ℂ R.HE.H) ≤ Fintype.card (Fin D.what₂.D0) := by
+    calc ∑ q, Module.finrank ℂ (R.EEp3 q ⊓ L : Submodule ℂ R.HE.H)
+        = ∑ q, Module.finrank ℂ ((R.toCx3 F).EEp q ⊓ (R.toCx3 F).EEl false : Submodule ℂ (R.toCx3 F).EE) :=
+          Finset.sum_congr rfl fun q _ => (hpart q).symm
+      _ = Module.finrank ℂ (⨆ q, (R.toCx3 F).EEp q ⊓ (R.toCx3 F).EEl false : Submodule ℂ (R.toCx3 F).EE) :=
+          (Formalism.IndefR.Cx.finrank_iSup_eq_sum _ (CxData.indep_of_orth _ hE.1)).symm
+      _ ≤ Module.finrank ℂ ((R.toCx3 F).EEl false) := Submodule.finrank_mono (iSup_le fun q => inf_le_right)
+      _ = Module.finrank ℂ L := finrank_twSub _ L
+      _ ≤ Fintype.card (Fin D.what₂.D0) := hDim
+  have hcard := card_filter_eq_finrank x hli (fun k => cOf (D.what₂.ft0 k)) (fun q => (R.EEp3 q ⊓ L : Submodule ℂ R.HE.H))
+    (fun k => ⟨hxP k, hxL k⟩) hsum p
+  have hcount : ∑ σ ∈ Finset.univ.filter (fun σ => cOf σ = p), D.what₂.nRows0 σ =
+      (Finset.univ.filter (fun k => cOf (D.what₂.ft0 k) = p)).card := by
+    rw [Finset.card_eq_sum_card_fiberwise (f := D.what₂.ft0) (t := Finset.univ.filter (fun σ => cOf σ = p))
+      (fun k hk => by simpa using hk)]
+    refine Finset.sum_congr rfl fun σ hσ => ?_
+    rw [Finset.mem_filter] at hσ
+    rw [Formalism.BasicNotions.Rows.Data.nRows0, Fintype.card_subtype, Finset.filter_filter]
+    congr 1
+    ext k
+    simp only [Finset.mem_filter, Finset.mem_univ, true_and]
+    constructor
+    · intro h; exact ⟨h ▸ hσ.2, h⟩
+    · intro h; exact h.2
+  rw [hEp, ← hcard]
+  exact hcount
 
 end GlobalTheory.Mem.R3.LabCount.L0
 

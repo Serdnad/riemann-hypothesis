@@ -4,53 +4,8 @@ import Formalism.HermitianCurvature.HermitianCurvatureProofs.SymmetricScalarBloc
 public import Formalism.HermitianCurvature.StatementU
 public import Formalism.FormalDegreeBessel.FormalDegreeRatio.GroupFactorizationHolds
 public import Formalism.FormalDegreeBessel.FinalG
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
 import Mathlib.RingTheory.SimpleRing.Principal
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
 import Mathlib.Tactic.TypeStar
-import Mathlib.Topology.Sheaves.Init
-import Std.Tactic.BVDecide.Normalize.Prop
 
 @[expose] public section
 
@@ -151,12 +106,12 @@ theorem hpk_row (k r : ℕ) (a : ℕ) (ha : a < r) (c : Fin (2 * r + k + 1)) :
     Hpk k r ⟨a, by omega⟩ c = if c = ⟨2 * r + k - a, by omega⟩ then 1 else 0 := by
   unfold Hpk
   by_cases hc : c = ⟨2 * r + k - a, by omega⟩
-  · rw [if_pos hc, if_pos]
+  · rw [ite_eq_left hc, ite_eq_left]
     subst hc
     refine ⟨ha, ?_⟩
     show a + (2 * r + k - a) = 2 * r + k
     omega
-  · rw [if_neg hc]
+  · rw [ite_eq_right hc]
     have hv : c.val ≠ 2 * r + k - a := fun h => hc (Fin.ext h)
     have e1 : ¬ ((⟨a, by omega⟩ : Fin (2 * r + k + 1)).val < r ∧ (⟨a, by omega⟩ : Fin (2 * r + k + 1)).val + c.val = 2 * r + k) := by
       rintro ⟨_, h⟩; exact hv (by simp only at h; omega)
@@ -165,7 +120,7 @@ theorem hpk_row (k r : ℕ) (a : ℕ) (ha : a < r) (c : Fin (2 * r + k + 1)) :
     have e3 : ¬ (r ≤ (⟨a, by omega⟩ : Fin (2 * r + k + 1)).val ∧ (⟨a, by omega⟩ : Fin (2 * r + k + 1)).val ≤ r + k ∧
         (⟨a, by omega⟩ : Fin (2 * r + k + 1)) = c) := by
       rintro ⟨h, _⟩; simp only at h; omega
-    rw [if_neg e1, if_neg e2, if_neg e3]
+    rw [ite_eq_right e1, ite_eq_right e2, ite_eq_right e3]
 
 theorem zhat_apply_low (k r : ℕ) (z z' : Fin (2 * r + k + 1) → ℂ) (g : Matrix (Fin (2 * r + k + 1)) (Fin (2 * r + k + 1)) ℂ)
     (a b : Fin (r + 1)) (ha : a.val < r) (hb : b.val < r) :
@@ -324,12 +279,12 @@ theorem fm_eq (z : Fin (2 * (j + ρ) + k + 1) → ℂ) (hz : inWb k (j + ρ) z) 
   rcases x with ((x | x) | x) <;> rcases y with (y | y)
   · rw [fvec_apply_lt z hz _ _ (by rw [block_index_first_val]; omega), block_index_first_val, column_index_first_val]
     simp [Matrix.one_apply, Fin.ext_iff, eq_comm]
-  · rw [fvec_apply_lt z hz _ _ (by rw [block_index_first_val]; omega), block_index_first_val, column_index_second_val, if_neg (by omega)]
+  · rw [fvec_apply_lt z hz _ _ (by rw [block_index_first_val]; omega), block_index_first_val, column_index_second_val, ite_eq_right (by omega)]
     simp
   · by_cases hlt : j + x.val < j + ρ
-    · rw [fvec_apply_lt z hz _ _ (by rw [block_index_middle_val]; omega), block_index_middle_val, column_index_first_val, if_neg (by omega)]
+    · rw [fvec_apply_lt z hz _ _ (by rw [block_index_middle_val]; omega), block_index_middle_val, column_index_first_val, ite_eq_right (by omega)]
       simp
-    · rw [fvec_apply_ge z _ _ (by rw [block_index_middle_val]; omega), column_index_first_val, if_neg (by omega)]
+    · rw [fvec_apply_ge z _ _ (by rw [block_index_middle_val]; omega), column_index_first_val, ite_eq_right (by omega)]
       simp
   · simp only [Matrix.fromRows_apply_inl, Matrix.fromBlocks_apply₂₂, Matrix.of_apply]
     unfold fvec
@@ -338,8 +293,8 @@ theorem fm_eq (z : Fin (2 * (j + ρ) + k + 1) → ℂ) (hz : inWb k (j + ρ) z) 
     · rw [dite_eq_left (by omega), dite_eq_left hc]
       simp only [bvec, eI, Pi.single_apply, Fin.ext_iff, block_index_middle_val]
       by_cases hxy : x.val = y.val
-      · rw [if_pos (by omega), if_pos hxy]
-      · rw [if_neg (by omega), if_neg hxy]
+      · rw [ite_eq_left (by omega), ite_eq_left hxy]
+      · rw [ite_eq_right (by omega), ite_eq_right hxy]
     · rw [dite_eq_right (by omega), dite_eq_right hc]
       simp only [lowV]
       congr 1

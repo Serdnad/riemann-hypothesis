@@ -1,53 +1,11 @@
 module
 
-import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.EisensteinSeriesConvergent
 public import Development.WeilBound.ThetaLifts.LatticeBasics.HypothesesE
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ContinuousUnitaryOneParameterRealPlaceComponent
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ModerateGrowthOfHasCompactSupport
 import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.LcscAdelicUnitaryGroup
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.CStarAlgebra.ContinuousLinearMap
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.HaveILetI
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
-import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.LocalJacobianType.ContinuousTrESymm
 
 @[expose] public section
 
@@ -63,7 +21,21 @@ open GlobalTheory.Doubling (absE)
 variable {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E]
 
 theorem exists_intBasis : ∃ b : Module.Basis (Fin (Module.finrank F E)) F E, ∀ i, IsIntegral ℤ (b i) := by
-  apply _root_.PI.UnitaryGroupMassFormula.LocJacTyp.Sd.exists_intBasis <;> assumption
+  haveI : FiniteDimensional F E := Module.Finite.of_restrictScalars_finite ℚ F E
+  have h : ∀ x : E, ∃ m : ℤ, m ≠ 0 ∧ IsIntegral ℤ (m • x) := fun x => by
+    obtain ⟨m, hm, hi⟩ := ((IsFractionRing.isAlgebraic_iff ℤ ℚ E).2
+      (Algebra.IsAlgebraic.isAlgebraic x)).exists_integral_multiple
+    exact ⟨m, hm, hi⟩
+  choose m hm hi using h
+  let b := Module.finBasis F E
+  let u : Fin (Module.finrank F E) → Fˣ := fun i => Units.mk0 (m (b i) : F) (by exact_mod_cast hm _)
+  refine ⟨b.unitsSMul u, fun i => ?_⟩
+  rw [Module.Basis.unitsSMul_apply]
+  have e : u i • b i = m (b i) • b i := by
+    change ((m (b i) : F)) • b i = _
+    exact Int.cast_smul_eq_zsmul F _ _
+  rw [e]
+  exact hi _
 
 theorem isOpen_intAd : IsOpen {a : AF F | ∀ v, evFin F v a ∈ v.adicCompletionIntegers F} := by
   have h : IsOpen {f : FiniteAdeleRing (𝓞 F) F | ∀ v, f v ∈ v.adicCompletionIntegers F} :=
@@ -100,12 +72,9 @@ theorem isOpen_finInt : IsOpen (finInt F E : Set (AE F E)) := by
   let e := (Algebra.TensorProduct.basis (AF F) b).equivFun
   have he : Continuous e := IsModuleTopology.continuous_of_linearMap e.toLinearMap
   have hS : IsOpen {z : AE F E | ∀ i, ∀ v, evFin F v (e z i) ∈ v.adicCompletionIntegers F} := by
-    have e0 : {z : AE F E | ∀ i, ∀ v, evFin F v (e z i) ∈ v.adicCompletionIntegers F} =
-        ⋂ i, (fun z => e z i) ⁻¹' {a : AF F | ∀ v, evFin F v a ∈ v.adicCompletionIntegers F} := by
-      ext z
-      simp only [Set.mem_setOf_eq, Set.mem_iInter, Set.mem_preimage]
-    rw [e0]
-    exact isOpen_iInter_of_finite fun i => (isOpen_intAd (F := F)).preimage ((continuous_apply i).comp he)
+    rw [Set.ofPred_forall]
+    exact isOpen_iInter_of_finite fun i =>
+      (isOpen_intAd (F := F)).preimage ((continuous_apply i).comp he)
   refine AddSubgroup.isOpen_of_mem_nhds _ (g := 0) (Filter.mem_of_superset (hS.mem_nhds ?_) ?_)
   · intro i v
     simp
@@ -133,7 +102,21 @@ theorem compFin_finOne_smul (v : HeightOneSpectrum (𝓞 F)) (z : AE F E) :
 
 theorem absFin_le_one_of_mem {z : AE F E} (hz : z ∈ intHat F E) (v : HeightOneSpectrum (𝓞 F)) :
     absFin F v (compFin F E v z) ≤ 1 := by
-  apply _root_.GlobalTheory.CompanionTheory.GodementH.StdInt.absFin_compFin_le_one <;> assumption
+  induction hz using AddSubgroup.closure_induction with
+  | mem z hz =>
+    obtain ⟨a, -, ha, o, rfl⟩ := hz
+    have e : compFin F E v (a • inclR (F := F) (E := E) (AF F) (o : E)) = evFin F v a ⊗ₜ[F] (o : E) := by
+      simp [compFin, inclR, TensorProduct.smul_tmul']
+    rw [e]
+    refine (absFin_tmul_le F v _ o).trans ?_
+    exact_mod_cast Valued.toNormedField.norm_le_one_iff.2 (ha v)
+  | zero => simp
+  | add x y _ _ hx hy =>
+    rw [map_add (f := _)]
+    exact (absFin_add_le F v _ _).trans (max_le hx hy)
+  | neg x _ hx =>
+    rw [map_neg, absFin_neg]
+    exact hx
 
 theorem opNorm_le_one {ι : Type} [Fintype ι] [DecidableEq ι] {M : Matrix ι ι ℂ} (h : M * Mᴴ = 1) : opNorm M ≤ 1 := by
   have e : Matrix.toEuclideanCLM (n := ι) (𝕜 := ℂ) M * star (Matrix.toEuclideanCLM (n := ι) (𝕜 := ℂ) M) = 1 := by

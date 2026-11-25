@@ -47,7 +47,6 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-import Development.AbelianVarietyTheory.Proofs.FormalGroupCharts.PderivSecondEvFirstPointEqZero
 import Mathlib.Tactic.Linter.Style
 import Mathlib.Tactic.Polynomial.Basic
 
@@ -58,8 +57,6 @@ import Mathlib.Tactic.Polynomial.Basic
 -- clump-header: {"m": "ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.TaylorDiscriminants.WickVanishing.LogPoinc", "h": "module\n\npublic import Mathlib.RingTheory.MvPowerSeries.Derivative\nimport Mathlib.Algebra.Order.Floor.Extended\nimport Mathlib.Algebra.Order.Floor.Semifield\nimport Mathlib.Algebra.Order.Interval.Basic\nimport Mathlib.Analysis.Complex.UpperHalfPlane.Basic\nimport Mathlib.Analysis.Normed.Algebra.GelfandRadius\nimport Mathlib.Analysis.SpecialFunctions.Bernstein\nimport Mathlib.Analysis.SpecialFunctions.Gamma.Basic\nimport Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp\nimport Mathlib.Combinatorics.Enumerative.DyckWord\nimport Mathlib.Combinatorics.SimpleGraph.Triangle.Removal\nimport Mathlib.Data.NNRat.Floor\nimport Mathlib.Data.Nat.Choose.Multinomial\nimport Mathlib.Geometry.Euclidean.Volume.Basic\nimport Mathlib.NumberTheory.Chebyshev\nimport Mathlib.NumberTheory.Height.NumberField\nimport Mathlib.NumberTheory.Height.Projectivization\nimport Mathlib.NumberTheory.LucasLehmer\nimport Mathlib.NumberTheory.SelbergSieve\nimport Mathlib.RingTheory.Radical.NatInt\nimport Mathlib.RingTheory.WittVector.IsPoly\nimport Mathlib.Tactic.Basify\nimport Mathlib.Tactic.ENatToNat\nimport Mathlib.Tactic.Echelon.Zsqrtd\nimport Mathlib.Tactic.Inclusion.Extension.Core.Core\nimport Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit\nimport Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp\nimport Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses\nimport Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic\nimport Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses\nimport Mathlib.Tactic.NormNum.Irrational\nimport Mathlib.Tactic.NormNum.IsCoprime\nimport Mathlib.Tactic.NormNum.IsSquare\nimport Mathlib.Tactic.NormNum.LegendreSymbol\nimport Mathlib.Tactic.NormNum.ModEq\nimport Mathlib.Tactic.NormNum.NatFib\nimport Mathlib.Tactic.NormNum.NatLog\nimport Mathlib.Tactic.NormNum.NatSqrt\nimport Mathlib.Tactic.NormNum.Ordinal\nimport Mathlib.Tactic.NormNum.Parity\nimport Mathlib.Tactic.NormNum.Prime\nimport Mathlib.Tactic.NormNum.RealSqrt\nimport Mathlib.Tactic.ReduceModChar\nimport Mathlib.Topology.Sheaves.Init\n\n"}
 section -- clump:auto
 @[expose] public section
-
-set_option autoImplicit false
 
 noncomputable section
 
@@ -88,7 +85,51 @@ theorem degree_eq_sum (n : τ →₀ ℕ) : n.degree = ∑ w, n w := by
 
 theorem pderiv_prim (ω : τ → MvPowerSeries τ k)
     (hω : ∀ a c, pderiv (R := k) c (ω a) = pderiv (R := k) a (ω c)) (v : τ) : pderiv (R := k) v (prim ω) = ω v := by
-  apply _root_.GlobalTheory.FormalLog.pderiv_prim <;> assumption
+  ext m
+  rw [coeff_pderiv, coeff_prim]
+  set n := m + Finsupp.single v 1 with hn
+  have key : ∀ w, (if n w = 0 then 0 else coeff (n - Finsupp.single w 1) (ω w)) * ((m v : k) + 1)
+      = (n w : k) * coeff m (ω v) := by
+    intro w
+    by_cases hw : w = v
+    · subst hw
+      have h1 : n w = m w + 1 := by simp [hn]
+      have h2 : n - Finsupp.single w 1 = m := by rw [hn]; exact add_tsub_cancel_right _ _
+      rw [ite_eq_right (by omega), h2, h1]
+      push_cast
+      ring
+    · have h1 : n w = m w := by simp [hn, hw]
+      by_cases hm : m w = 0
+      · rw [ite_eq_left (by rw [h1, hm]), h1, hm]
+        simp
+      · rw [ite_eq_right (by rw [h1]; exact hm), h1]
+        have hle : Finsupp.single w 1 ≤ m := Finsupp.single_le_iff.mpr (Nat.one_le_iff_ne_zero.mpr hm)
+        have hc := congrArg (coeff (m - Finsupp.single w 1)) (hω w v)
+        rw [coeff_pderiv, coeff_pderiv] at hc
+        have e1 : m - Finsupp.single w 1 + Finsupp.single v 1 = n - Finsupp.single w 1 := by
+          rw [hn]; exact tsub_add_eq_add_tsub hle
+        have e2 : m - Finsupp.single w 1 + Finsupp.single w 1 = m := tsub_add_cancel_of_le hle
+        have e3 : (m - Finsupp.single w 1 : τ →₀ ℕ) v = m v := by
+          simp [Ne.symm hw]
+        have e4' : (m - Finsupp.single w 1 : τ →₀ ℕ) w + 1 = m w := by
+          rw [Finsupp.tsub_apply, Finsupp.single_eq_same]; omega
+        have e4 : ((m - Finsupp.single w 1 : τ →₀ ℕ) w : k) + 1 = (m w : k) := by
+          rw [← e4', Nat.cast_add, Nat.cast_one]
+        rw [e1, e2, e3, e4] at hc
+        rw [hc]
+        ring
+  have hsum : (∑ w, if n w = 0 then 0 else coeff (n - Finsupp.single w 1) (ω w)) * ((m v : k) + 1)
+      = (n.degree : k) * coeff m (ω v) := by
+    rw [Finset.sum_mul, Finset.sum_congr rfl (fun w _ => key w), ← Finset.sum_mul, degree_eq_sum,
+      Nat.cast_sum]
+  have hnv : n v = m v + 1 := by simp [hn]
+  have hD : (n.degree : ℚ) ≠ 0 := by
+    have : n v ≤ n.degree := by
+      rw [degree_eq_sum]
+      exact Finset.single_le_sum (fun _ _ => Nat.zero_le _) (Finset.mem_univ v)
+    exact_mod_cast (show n.degree ≠ 0 by omega)
+  rw [mul_assoc, hsum, ← mul_assoc, ← map_natCast (algebraMap ℚ k) n.degree, ← map_mul,
+    inv_mul_cancel₀ hD, map_one, one_mul]
 
 end ReciprocityTheory.ChartRestriction.G.TB.LogPf
 end -- clump:auto
@@ -97,11 +138,9 @@ end -- clump:auto
 -- ===== end clump member: ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.TaylorDiscriminants.WickVanishing.LogPoinc =====
 
 -- ===== clump member: ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.TaylorDiscriminants.WickVanishing.PderivSecondEvFirstPointEqZero =====
--- clump-header: {"m": "ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.TaylorDiscriminants.WickVanishing.PderivSecondEvFirstPointEqZero", "h": "module\n\nimport Development.AbelianVarietyTheory.Proofs.FormalGroupCharts.PderivSecondEvFirstPointEqZero\npublic import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.TaylorDiscriminants.WickVanishing.LogClosed\npublic import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.TaylorDiscriminants.WickVanishing.LogPoinc\npublic import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.TaylorDiscriminants.ChartChg\nimport Mathlib.Algebra.Order.Floor.Extended\nimport Mathlib.Algebra.Order.Floor.Semifield\nimport Mathlib.Algebra.Order.Interval.Basic\nimport Mathlib.Analysis.Complex.UpperHalfPlane.Basic\nimport Mathlib.Analysis.Normed.Algebra.GelfandRadius\nimport Mathlib.Analysis.SpecialFunctions.Bernstein\nimport Mathlib.Analysis.SpecialFunctions.Gamma.Basic\nimport Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp\nimport Mathlib.Combinatorics.Enumerative.DyckWord\nimport Mathlib.Combinatorics.SimpleGraph.Triangle.Removal\nimport Mathlib.Data.NNRat.Floor\nimport Mathlib.Geometry.Euclidean.Volume.Basic\nimport Mathlib.NumberTheory.Chebyshev\nimport Mathlib.NumberTheory.Height.NumberField\nimport Mathlib.NumberTheory.Height.Projectivization\nimport Mathlib.NumberTheory.LucasLehmer\nimport Mathlib.NumberTheory.SelbergSieve\nimport Mathlib.RingTheory.Radical.NatInt\nimport Mathlib.Tactic.Basify\nimport Mathlib.Tactic.ENatToNat\nimport Mathlib.Tactic.Echelon.Zsqrtd\nimport Mathlib.Tactic.Inclusion.Extension.Core.Core\nimport Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit\nimport Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp\nimport Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses\nimport Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic\nimport Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses\nimport Mathlib.Tactic.Linter.Style\nimport Mathlib.Tactic.NormNum.Irrational\nimport Mathlib.Tactic.NormNum.IsCoprime\nimport Mathlib.Tactic.NormNum.IsSquare\nimport Mathlib.Tactic.NormNum.LegendreSymbol\nimport Mathlib.Tactic.NormNum.ModEq\nimport Mathlib.Tactic.NormNum.NatFib\nimport Mathlib.Tactic.NormNum.NatLog\nimport Mathlib.Tactic.NormNum.NatSqrt\nimport Mathlib.Tactic.NormNum.Ordinal\nimport Mathlib.Tactic.NormNum.Parity\nimport Mathlib.Tactic.NormNum.Prime\nimport Mathlib.Tactic.NormNum.RealSqrt\nimport Mathlib.Tactic.Polynomial.Basic\nimport Mathlib.Tactic.ReduceModChar\nimport Mathlib.Topology.Sheaves.Init\npublic import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.TaylorDiscriminants.WickVanishing.LogChain\n\n"}
+-- clump-header: {"m": "ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.TaylorDiscriminants.WickVanishing.PderivSecondEvFirstPointEqZero", "h": "module\n\npublic import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.TaylorDiscriminants.WickVanishing.LogClosed\npublic import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.TaylorDiscriminants.WickVanishing.LogPoinc\npublic import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.TaylorDiscriminants.ChartChg\nimport Mathlib.Algebra.Order.Floor.Extended\nimport Mathlib.Algebra.Order.Floor.Semifield\nimport Mathlib.Algebra.Order.Interval.Basic\nimport Mathlib.Analysis.Complex.UpperHalfPlane.Basic\nimport Mathlib.Analysis.Normed.Algebra.GelfandRadius\nimport Mathlib.Analysis.SpecialFunctions.Bernstein\nimport Mathlib.Analysis.SpecialFunctions.Gamma.Basic\nimport Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp\nimport Mathlib.Combinatorics.Enumerative.DyckWord\nimport Mathlib.Combinatorics.SimpleGraph.Triangle.Removal\nimport Mathlib.Data.NNRat.Floor\nimport Mathlib.Geometry.Euclidean.Volume.Basic\nimport Mathlib.NumberTheory.Chebyshev\nimport Mathlib.NumberTheory.Height.NumberField\nimport Mathlib.NumberTheory.Height.Projectivization\nimport Mathlib.NumberTheory.LucasLehmer\nimport Mathlib.NumberTheory.SelbergSieve\nimport Mathlib.RingTheory.Radical.NatInt\nimport Mathlib.Tactic.Basify\nimport Mathlib.Tactic.ENatToNat\nimport Mathlib.Tactic.Echelon.Zsqrtd\nimport Mathlib.Tactic.Inclusion.Extension.Core.Core\nimport Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit\nimport Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp\nimport Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses\nimport Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic\nimport Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses\nimport Mathlib.Tactic.Linter.Style\nimport Mathlib.Tactic.NormNum.Irrational\nimport Mathlib.Tactic.NormNum.IsCoprime\nimport Mathlib.Tactic.NormNum.IsSquare\nimport Mathlib.Tactic.NormNum.LegendreSymbol\nimport Mathlib.Tactic.NormNum.ModEq\nimport Mathlib.Tactic.NormNum.NatFib\nimport Mathlib.Tactic.NormNum.NatLog\nimport Mathlib.Tactic.NormNum.NatSqrt\nimport Mathlib.Tactic.NormNum.Ordinal\nimport Mathlib.Tactic.NormNum.Parity\nimport Mathlib.Tactic.NormNum.Prime\nimport Mathlib.Tactic.NormNum.RealSqrt\nimport Mathlib.Tactic.Polynomial.Basic\nimport Mathlib.Tactic.ReduceModChar\nimport Mathlib.Topology.Sheaves.Init\npublic import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.TaylorDiscriminants.WickVanishing.LogChain\n\n"}
 section -- clump:auto
 @[expose] public section
-
-set_option autoImplicit false
 
 noncomputable section
 
@@ -151,12 +190,12 @@ theorem d_evY (h : PS k 1 d) (b : Fin d) :
     | exact MvPowerSeries.constantCoeff_X _
   rw [pderiv_ev hcz, Fintype.sum_eq_single ((0 : Fin 1), b)]
   · show ev _ (pderiv (R := k) ((0 : Fin 1), b) h) * pderiv (R := k) ((1 : Fin 2), b) (X ((1 : Fin 2), b)) = _
-    rw [hXd, if_pos rfl, mul_one]
+    rw [hXd, ite_eq_left rfl, mul_one]
   · rintro ⟨j, i⟩ hne
     have hj : j = 0 := Subsingleton.elim _ _
     subst hj
     show ev _ _ * pderiv (R := k) ((1 : Fin 2), b) (X ((1 : Fin 2), i)) = 0
-    rw [hXd, if_neg, mul_zero]
+    rw [hXd, ite_eq_right, mul_zero]
     intro heq
     apply hne
     rw [(Prod.mk.inj heq).2]
@@ -178,12 +217,12 @@ theorem d_evX (h : PS k 1 d) (a : Fin d) :
     | exact MvPowerSeries.constantCoeff_X _
   rw [pderiv_ev hcz, Fintype.sum_eq_single ((0 : Fin 1), a)]
   · show ev _ (pderiv (R := k) ((0 : Fin 1), a) h) * pderiv (R := k) ((0 : Fin 2), a) (X ((0 : Fin 2), a)) = _
-    rw [hXd, if_pos rfl, mul_one]
+    rw [hXd, ite_eq_left rfl, mul_one]
   · rintro ⟨j, i⟩ hne
     have hj : j = 0 := Subsingleton.elim _ _
     subst hj
     show ev _ _ * pderiv (R := k) ((0 : Fin 2), a) (X ((0 : Fin 2), i)) = 0
-    rw [hXd, if_neg, mul_zero]
+    rw [hXd, ite_eq_right, mul_zero]
     intro heq
     apply hne
     rw [(Prod.mk.inj heq).2]
@@ -208,7 +247,7 @@ theorem pderiv_first_ev_second_point_eq_zero (h : PS k 1 d) (a : Fin d) : pderiv
   have hj : j = 0 := Subsingleton.elim _ _
   subst hj
   show ev _ _ * pderiv (R := k) ((0 : Fin 2), a) (X ((1 : Fin 2), i)) = 0
-  rw [hXd, if_neg, mul_zero]
+  rw [hXd, ite_eq_right, mul_zero]
   intro heq
   exact absurd (Prod.mk.inj heq).1 (by decide)
 
@@ -232,7 +271,7 @@ theorem pderiv_second_ev_first_point_eq_zero (h : PS k 1 d) (b : Fin d) : pderiv
   have hj : j = 0 := Subsingleton.elim _ _
   subst hj
   show ev _ _ * pderiv (R := k) ((1 : Fin 2), b) (X ((0 : Fin 2), i)) = 0
-  rw [hXd, if_neg, mul_zero]
+  rw [hXd, ite_eq_right, mul_zero]
   intro heq
   exact absurd (Prod.mk.inj heq).1 (by decide)
 
@@ -251,7 +290,25 @@ theorem pderiv_logOf (i a : Fin d) : pderiv (R := k) ((0 : Fin 1), a) (logOf G i
 
 theorem logOf_add (i : Fin d) :
     ev (n := 2) ![G.F] (logOf G i) = ev (n := 2) ![pt k d 0] (logOf G i) + ev (n := 2) ![pt k d 1] (logOf G i) := by
-  apply _root_.GlobalTheory.FormalLog.logOf_add <;> assumption
+  rw [← sub_eq_zero]
+  set g := ev (n := 2) ![G.F] (logOf G i) - (ev (n := 2) ![pt k d 0] (logOf G i) + ev (n := 2) ![pt k d 1] (logOf G i))
+  have hd : ∀ v, pderiv (R := k) v g = 0 := by
+    rintro ⟨j, c⟩
+    fin_cases j
+    · simp only [Fin.zero_eta]
+      simp only [g, map_sub, map_add (f := _), d_evF, pderiv_logOf, pderiv_first_ev_second_point_eq_zero, d_evX]
+      rw [om_P G i c]; ring
+    · simp only [Fin.mk_one]
+      simp only [g, map_sub, map_add (f := _), pderiv_second_ev_first_point_eq_zero, d_evY]
+      rw [d_evF G]
+      simp only [pderiv_logOf G]
+      have := om_Q G i c
+      simp only [Ar] at this
+      rw [this]; ring
+  have hc : constantCoeff g = 0 := by
+    simp only [g, map_sub, map_add (f := _), cc_ev (czFF G), cc_ev czX, cc_ev czY, logOf, constantCoeff_prim]
+    ring
+  rw [eq_C_of_pderiv_zero hd, hc, map_zero]
 
 theorem addPt : (![G.add (pt k (n := 2) d 0) (pt k d 1)] : Fin 1 → Pt k 2 d) = ![G.F] := by
   have hid : ∀ f : PS k 2 d, ev (n := 2) ![pt k d 0, pt k d 1] f = f := by
@@ -271,7 +328,20 @@ theorem addPt : (![G.add (pt k (n := 2) d 0) (pt k d 1)] : Fin 1 → Pt k 2 d) =
   exact hid (G.F i)
 
 theorem logSt : LogSt := by
-  apply GlobalTheory.FormalLog.logSt
+  intro k _ _ d G
+  refine ⟨fun i => logOf G i, fun i => constantCoeff_prim _, ?_, ?_⟩
+  · refine Matrix.ext fun i j => ?_
+    show coeff (Finsupp.single ((0 : Fin 1), j) 1) (logOf G i) = (1 : Matrix (Fin d) (Fin d) k) i j
+    have h := congrArg constantCoeff (pderiv_logOf G i j)
+    rw [← coeff_zero_eq_constantCoeff_apply, coeff_pderiv, zero_add] at h
+    have h2 := congrFun (congrFun (cc_om G) i) j
+    simp only [Matrix.map_apply] at h2
+    simpa [h2] using h
+  · funext i
+    show ev (n := 2) ![G.add (pt k d 0) (pt k d 1)] (logOf G i) =
+      ev (n := 2) ![pt k d 0] (logOf G i) + ev (n := 2) ![pt k d 1] (logOf G i)
+    rw [addPt]
+    exact logOf_add G i
 
 omit [Algebra ℚ k] in
 theorem ez_y (h : PS k 1 d) : ev (n := 1) ![pt k d 0, 0] (ev (n := 2) ![pt k d 1] h) = C (constantCoeff h) := by

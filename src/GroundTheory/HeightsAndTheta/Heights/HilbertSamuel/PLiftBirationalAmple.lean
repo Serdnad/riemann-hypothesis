@@ -1,6 +1,5 @@
 module
 
-import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PPerturbMonomial
 import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ReferenceGeometryMultihomogForm
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsLiftBirationalAmple
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsGeneratedNonzeroSection
@@ -39,8 +38,19 @@ variable {y}
 
 theorem chartLat_mul {a b : K → ℤ} {s u : Ω} (hs : s ∈ chartLat y a 1) (hu : u ∈ chartLat y b 1) :
     s * u ∈ chartLat y (a + b) 1 := by
-  intros
-  apply _root_.GroundTheory.Heights₂.Heights.HilbertSamuel.SmallGenTwist.mul_mem_chartLat <;> assumption
+  rw [mem_chartLat_one] at hs hu ⊢
+  intro c hc
+  have e : s * u * ∏ k, y ⟨k, c k⟩ ^ (-(a + b) k) =
+      (s * ∏ k, y ⟨k, c k⟩ ^ (-a k)) * (u * ∏ k, y ⟨k, c k⟩ ^ (-b k)) := by
+    rw [mul_mul_mul_comm, ← Finset.prod_mul_distrib]
+    congr 1
+    refine Finset.prod_congr rfl fun k _ => ?_
+    rw [← zpow_add₀ (hc k)]
+    congr 1
+    simp only [Pi.add_apply]
+    ring
+  rw [e]
+  exact mul_mem (hs c hc) (hu c hc)
 
 theorem chartLat_one_mem : (1 : Ω) ∈ chartLat y 0 1 := by
   rw [mem_chartLat_one]
@@ -166,12 +176,12 @@ theorem LiftBirationalAmple.proof (h : GeneratedNonzeroSection.Statement) : Lift
       by_cases hk : k = p.1
       · rw [hk] at hs1 ⊢
         rw [Pi.add_apply, Pi.add_apply, hs1]
-        simp only [Pi.smul_apply, Pi.sub_apply, Pi.single_eq_same, E, if_true]
+        simp only [Pi.smul_apply, Pi.sub_apply, Pi.single_eq_same, E, ite_true]
         simp only [nsmul_eq_mul]
         push_cast [Nat.cast_sub hm]
         ring
       · rw [Pi.add_apply, Pi.add_apply, hs1]
-        simp only [Pi.smul_apply, Pi.sub_apply, Pi.single_eq_of_ne hk, E, if_neg hk]
+        simp only [Pi.smul_apply, Pi.sub_apply, Pi.single_eq_of_ne hk, E, ite_eq_right hk]
         simp only [nsmul_eq_mul]
         push_cast
         ring

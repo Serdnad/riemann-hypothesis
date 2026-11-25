@@ -97,15 +97,6 @@ variable {n : ℕ}
 
 attribute [local instance] Matrix.normedAddCommGroup Matrix.normedSpace
 
-theorem inG_mul {x y : M2 n} (hx : InG x) (hy : InG y) : InG (x * y) := by
-  unfold InG at *
-  rw [Matrix.conjTranspose_mul]
-  calc yᴴ * xᴴ * JJ n * (x * y) = yᴴ * (xᴴ * JJ n * x) * y := by simp only [Matrix.mul_assoc]
-    _ = JJ n := by rw [hx, hy]
-
-theorem det_ne_zero_of_inG {x : M2 n} (hx : InG x) : x.det ≠ 0 := by
-  apply _root_.PositivityTheory.Rg.Sw.HSt.L3.det_ne_of_inG <;> assumption
-
 def toGR (x : M2 n) (hx : InG x) : GR n := ⟨(Matrix.isUnit_iff_isUnit_det _ |>.2 (isUnit_iff_ne_zero.2
   (det_ne_zero_of_inG hx))).unit, hx⟩
 
@@ -173,7 +164,7 @@ theorem crLem_of (hsec : LocSec) (hfib : Fib) (ha : CauchyRiemannFacts) : CRLem 
   have hH : ∀ y : GR n, φ y = F0 m 0 e y * H (zOfE (mR y)) := by
     intro y
     have hex : ∃ y' : GR n, zOfE (mR y') = zOfE (mR y) := ⟨y, rfl⟩
-    simp only [hHdef, dif_pos hex]
+    simp only [hHdef, dite_eq_left hex]
     have hz : zOfE (mR hex.choose) = zOfE (mR y) := hex.choose_spec
     have hk := hfib n hex.choose y hz
     have hkK : (hex.choose⁻¹ * y) ∈ AbsSt.KR n := hk
@@ -227,7 +218,7 @@ theorem crLem_of (hsec : LocSec) (hfib : Fib) (ha : CauchyRiemannFacts) : CRLem 
     set g : M2 n → ℂ := fun x => holomorphicScalarSection m e x * H (zOfE x) with hg
     have hcurve : ∀ E : M2 n, sig E = E → ∀ t : ℝ, Φ (x0 * II.cE E t) = g (x0 * II.cE E t) := by
       intro E hE t
-      have hp : InG (x0 * II.cE E t) := inG_mul hxG (inG_cE hE t)
+      have hp : InG (x0 * II.cE E t) := PositivityTheory.Rg.Sw.LVs.HolB.inG_mul hxG (inG_cE hE t)
       have := hH (toGR _ hp)
       rw [mR_toGR, ha.1, mR_toGR] at this
       rw [← hΦφ (toGR _ hp), mR_toGR] at this
@@ -470,24 +461,16 @@ theorem fderiv_zOfE_raise (x : M2 n) (h : (u1 x).det ≠ 0) (S : Matrix (Fin n) 
         rw [Matrix.mul_assoc, Matrix.mul_nonsing_inv _ hu1, Matrix.mul_one]
     _ = WM x * S * (u1 x)⁻¹ := congrArg (fun M => M * (u1 x)⁻¹) key
 
-theorem toBlocks₁₁_mul' (A B : M2 n) :
-    (A * B).toBlocks₁₁ = A.toBlocks₁₁ * B.toBlocks₁₁ + A.toBlocks₁₂ * B.toBlocks₂₁ := by
-  conv_lhs => rw [← fromBlocks_toBlocks A, ← fromBlocks_toBlocks B, fromBlocks_multiply]
-  simp
-
 theorem toBlocks₁₂_mul' (A B : M2 n) :
     (A * B).toBlocks₁₂ = A.toBlocks₁₁ * B.toBlocks₁₂ + A.toBlocks₁₂ * B.toBlocks₂₂ := by
   conv_lhs => rw [← fromBlocks_toBlocks A, ← fromBlocks_toBlocks B, fromBlocks_multiply]
   simp
 
 theorem mul_cm₁₁ (x : M2 n) : (x * Cm n).toBlocks₁₁ = Nm x := by
-  simp [toBlocks₁₁_mul', Cm, Nm]
+  simp [PositivityTheory.Rg.Sw.HSt.LoweringDerivative.upper_left_block_mul_eq, Cm, Nm]
 
 theorem mul_cm₁₂ (x : M2 n) : (x * Cm n).toBlocks₁₂ = Nm' x := by
   simp [toBlocks₁₂_mul', Cm, Nm']
-
-theorem det_ne_of_inG {x : M2 n} (hx : InG x) : x.det ≠ 0 := by
-  apply _root_.PositivityTheory.Rg.Sw.HSt.L3.det_ne_of_inG <;> assumption
 
 theorem det_cm_ne : (Cm n).det ≠ 0 := by
   intro h
@@ -511,7 +494,7 @@ theorem wm_det (x : M2 n) (hx : InG x) (h : (u1 x).det ≠ 0) : (WM x).det ≠ 0
         Matrix.one_mul, neg_add_cancel]
     rw [e1, e2, hv]
     funext i; cases i <;> simp
-  have hdet : (x * Cm n).det ≠ 0 := by rw [Matrix.det_mul]; exact mul_ne_zero (det_ne_of_inG hx) det_cm_ne
+  have hdet : (x * Cm n).det ≠ 0 := by rw [Matrix.det_mul]; exact mul_ne_zero (PositivityTheory.Rg.Sw.LVs.det_ne_zero_of_inG hx) det_cm_ne
   have h0 := Matrix.eq_zero_of_mulVec_eq_zero hdet hM
   exact hv0 (funext fun i => by simpa using congrFun h0 (Sum.inr i))
 
@@ -983,20 +966,17 @@ private theorem conjTranspose_I_smul_add_sub_eq_two_I (a b c d : Matrix (Fin n) 
   simp only [smul_add]
   module
 
-private theorem det_u1_ne_zero_of_inG (M : M2 n) (h : InG M) : (u1 M).det ≠ 0 := by
-  apply _root_.PositivityTheory.Rg.Sw.HSt.L3.det_first_cayley_block_ne_group <;> assumption
-
 private theorem det_u2_ne_zero_of_inG (M : M2 n) (h : InG M) : (u2 M).det ≠ 0 := by
   have e : u2 M = u1 (epsM n * M * epsM n) := by
     rw [u1, u2, eps_conj_blocks]
     simp
   rw [e]
-  exact det_u1_ne_zero_of_inG _ (inG_eps_conj h)
+  exact PositivityTheory.Rg.Sw.HSt.L3.det_first_cayley_block_ne_group _ (inG_eps_conj h)
 
 theorem zOf_c (y : GR n) : zOf (cHom n y) = -(zOf y)ᴴ := by
   have hy : InG (mR y) := y.2
   obtain ⟨h11, h12, h22⟩ := card_fromBlocks_cayley_eq_mul (mR y) hy
-  have hU1 := det_u1_ne_zero_of_inG (mR y) hy
+  have hU1 := PositivityTheory.Rg.Sw.HSt.L3.det_first_cayley_block_ne_group (mR y) hy
   have hU2 := det_u2_ne_zero_of_inG (mR y) hy
   have zk := zkey (mR y).toBlocks₁₁ (mR y).toBlocks₁₂ (mR y).toBlocks₂₁ (mR y).toBlocks₂₂
     (by rw [sub_eq_neg_add]; exact h11) (by rw [sub_eq_neg_add]; exact h12)

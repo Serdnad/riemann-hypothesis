@@ -21,7 +21,6 @@ import Mathlib.RingTheory.PiTensorProduct
 import Mathlib.Tactic.TypeStar
 import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.MeasureDecomposition.HJMulVecGen
 import Formalism.SharpRestriction.CuspSpanNormBounds.UnimodularSchurMeasures.RightRegularIsometricMultiplicative
-import Formalism.LocalToGlobal.SiegelLatticeTheory.FlagStabilizerTensors.RootLatticeThresholds.Rescale
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Formalism.LocalToGlobal.SiegelLatticeTheory.TraceIntegralEstimates.FolnerG2, Formalism.LocalToGlobal.SiegelLatticeTheory.TraceIntegralEstimates.IsFolnerOfEquiv, Formalism.LocalToGlobal.SiegelLatticeTheory.TraceIntegralEstimates.FolnerJ2, Formalism.LocalToGlobal.SiegelLatticeTheory.TraceIntegralEstimates.HaarSubSH, Formalism.LocalToGlobal.SiegelLatticeTheory.TraceIntegralEstimates.HaarSubSF, Formalism.PeriodIntegrals.UnitaryGroupMassFormula.MeasureInverseContraction.ConjSubMulVec, Formalism.PeriodIntegrals.UnitaryGroupMassFormula.MeasureInverseContraction.MeasureContractionFormula, Formalism.PeriodIntegrals.OrbitalBoundsConclusion.NMeasInv, Formalism.PeriodIntegrals.QuotNuSigma, Formalism.PeriodIntegrals.UnitaryGroupMassFormula.QuotientSigmaFiniteness.SigmaFiniteOfWeil, Formalism.PeriodIntegrals.OrbitalBoundsConclusion.QuotNuSigma, Formalism.LocalToGlobal.SiegelLatticeTheory.TraceIntegralEstimates.HaarSubSWire
@@ -387,8 +386,7 @@ theorem finite_bi {H : Set G} (hHm : MeasurableSet H) (hinvH : ∀ h ∈ H, h⁻
     by_contra hinf
     rw [not_lt, top_le_iff] at hinf
     obtain ⟨i, hi⟩ : ∃ i, μ (spanningSets μ i) ≠ 0 := by
-      by_contra hall
-      push_neg at hall
+      by_contra! hall
       have h0 : μ Set.univ = 0 := by
         rw [← iUnion_spanningSets μ]
         exact measure_iUnion_null hall
@@ -432,8 +430,6 @@ theorem finite_bi {H : Set G} (hHm : MeasurableSet H) (hinvH : ∀ h ∈ H, h⁻
 end Abs
 
 section Glob
-
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 
 def HuSub (hD : SDecomp) {D : D7} (X : Formalism.L2.SG.HidaSetting.HidaSetting D) (u : D.what₂.Word) :
     Subgroup X.B.I.Ginf where
@@ -513,8 +509,6 @@ theorem isFolner_Sinf_gen {n r k : ℕ} (hn : n = 2 * r + k + 1) {ι : Type} [Fi
   subst hn
   exact Formalism.L2.S.Pv.FolnerJ.isFolner_Sinf ev fv wv zv T hT
     (fun v => ⟨hee v, hff v, hef v, hez v, hfz v, hzz v, hww v, hew v, hfw v, hzw v⟩) μS hμ
-
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 
 theorem hermitian_scaled_right {n : ℕ} (ε : Fin n → Bool) (T : ℝ) (x z : Fin n → ℂ) :
     hJ ε x (z0v T z) = (((Real.sqrt T)⁻¹ : ℝ) : ℂ) * hJ ε x z := by
@@ -651,7 +645,7 @@ theorem span_facts (k : ℕ) {v : Fin n → ℂ} (hv : v ∈ spanLt e k) :
   | mem x hx =>
     obtain ⟨d, hd, rfl⟩ := hx
     refine ⟨fun b hb => ?_, fun b => hG.ee b d, Pw_e hG d⟩
-    rw [fe hG, if_neg]
+    rw [fe hG, ite_eq_right]
     rintro rfl
     exact (not_lt.2 hb) hd
   | zero => exact ⟨fun b _ => hJ_zero ε _, fun b => hJ_zero ε _, Pw_zero⟩
@@ -1120,14 +1114,21 @@ open MeasureTheory NumberField Formalism.BasicNotions Formalism.MainNotions.S Fo
 open scoped InnerProductSpace TensorProduct Classical ENNReal
 open Matrix
 
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
-
 namespace Formalism.L2.S.Pv.HaarSubS
 
 theorem hform_crdX {D : D7} (X : HidaSetting D) (v w : (VS D).V) :
     X.ιE (Formalism.UG.hform (starRingEnd X.B.I.E) X.B.I.J (crdOf X.B.I X.ιE X.bas v) (crdOf X.B.I X.ιE X.bas w)) =
       (VS D).hT v w := by
-  apply _root_.Formalism.L2.SG.Pf.Rescale.hform_crdX <;> assumption
+  conv_rhs => rw [← X.bas.sum_repr v, ← X.bas.sum_repr w]
+  unfold Formalism.UG.hform crdOf
+
+  simp only [map_sum, map_mul, X.ιE_conj, X.J_eq, RingEquiv.apply_symm_apply, LinearMap.map_smulₛₗ,
+  LinearMap.sum_apply, LinearMap.smul_apply, smul_eq_mul, starRingEnd_apply, RingHom.id_apply, Finset.mul_sum]
+  have hst : ∀ x : D.host.E, star x = D.host.conj x := fun x => Formalism.MainNotions.S.Inh.tie_star D x
+  simp only [hst]
+  rw [Finset.sum_comm]
+  refine Finset.sum_congr rfl fun i _ => Finset.sum_congr rfl fun j _ => ?_
+  ring
 
 theorem hform_eqX {D : D7} (X : HidaSetting D) (v w : (VS D).V) :
     Formalism.UG.hform (starRingEnd X.B.I.E) X.B.I.J (crdOf X.B.I X.ιE X.bas v) (crdOf X.B.I X.ιE X.bas w) =

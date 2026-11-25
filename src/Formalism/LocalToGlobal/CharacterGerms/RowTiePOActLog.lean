@@ -1,6 +1,5 @@
 module
 
-import Formalism.LocalToGlobal.CharacterGerms.GermEvalOneStandardPointSelf
 public import Formalism.LocalToGlobal.CharacterGerms.RowTiePLogExSt
 public import Formalism.FormalGroupLog.FormalGroupLogProofs.ChainRule
 public import Formalism.LocalToGlobal.CharacterGerms.RowTiePLogSt
@@ -23,7 +22,13 @@ open PartialDerivEval LogEx
 variable {C : Type} [Field C] [CharZero C] {d : ℕ}
 
 theorem ev_zero_pt {n : ℕ} (g : PS C 1 d) : ev (n := n) ![(0 : Pt C n d)] g = MvPowerSeries.C (constantCoeff g) := by
-  apply _root_.Formalism.L2.FormalSeriesBounds.MulLFrob.ev_zero_pt <;> assumption
+  have hz : (fun p : Fin 1 × Fin d => (![0] : Fin 1 → Pt C n d) p.1 p.2) = 0 := by
+    funext p
+    obtain ⟨k, b⟩ := p
+    fin_cases k
+    rfl
+  rw [ev, hz, subst_zero_eq_C_constantCoeff, map_C]
+  simp
 
 theorem cc_pderiv {σ : Type} (i : σ) (f : MvPowerSeries σ C) :
     constantCoeff (pderiv (R := C) i f) = coeff (Finsupp.single i 1) f := by
@@ -114,7 +119,7 @@ theorem linN_coeff {lg : Pt C 1 d} (hlin : LinN lg) (j b : Fin d) :
   rw [hlin j _ (by rw [Finsupp.degree_single]), coeff_X]
   by_cases h : b = j
   · subst h; simp
-  · rw [if_neg h, if_neg]
+  · rw [ite_eq_right h, ite_eq_right]
     intro e
     exact h (congrArg Prod.snd ((Finsupp.single_left_inj one_ne_zero).mp e))
 
@@ -171,7 +176,7 @@ theorem log_endo (G : FGLaw C d) (lg : Pt C 1 d) (hlin : LinN lg)
 
       rw [map_sub, map_sum]
       simp only [coeff_C_mul, linN_coeff hlin, mul_ite, mul_one, mul_zero, Finset.sum_ite_eq, Finset.sum_ite_eq',
-        Finset.mem_univ, if_true]
+        Finset.mem_univ, ite_true]
 
       rw [← cc_pderiv, show comp1 lg φ i = ev ![φ] (lg i) from rfl]
       have hchain :
@@ -186,7 +191,7 @@ theorem log_endo (G : FGLaw C d) (lg : Pt C 1 d) (hlin : LinN lg)
 
       rw [hchain, map_sum]
       simp only [map_mul, constantCoeff_ev hφ1, cc_pderiv, linN_coeff hlin, ite_mul, one_mul, zero_mul,
-        Finset.sum_ite_eq', Finset.mem_univ, if_true]
+        Finset.sum_ite_eq', Finset.mem_univ, ite_true]
       unfold linM
       ring)
     (by

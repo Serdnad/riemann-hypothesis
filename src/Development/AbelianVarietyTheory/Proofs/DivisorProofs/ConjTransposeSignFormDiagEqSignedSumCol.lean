@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.LowestKTypeValuesKilledByLoweringPart
 public import Development.AbelianVarietyTheory.Definitions.Divisors.RangeShape
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.IsMulCommutativeCentRealUJ
 import Mathlib.Algebra.Order.Floor.Extended
@@ -254,7 +253,16 @@ theorem signMatrix_mul_apply (g : Matrix (Fin n) (Fin n) ℂ) (a b : Fin n) :
 
 theorem entry_eq_zero_of_commute_signMatrix_diffSign {g : Matrix (Fin n) (Fin n) ℂ} (h : g * Jm ε = Jm ε * g) (a b : Fin n) (hab : ε a ≠ ε b) :
     g a b = 0 := by
-  apply _root_.GlobalTheory.DefLift.LowerKill.entry_eq_zero <;> assumption
+  have h1 := congrFun (congrFun h a) b
+  rw [mul_signMatrix_apply, signMatrix_mul_apply] at h1
+  have h2 : g a b * ((if ε b then (1 : ℂ) else -1) - (if ε a then 1 else -1)) = 0 := by
+    rw [mul_sub, h1]; ring
+  rcases mul_eq_zero.1 h2 with h3 | h3
+  · exact h3
+  · exfalso
+    cases ha : ε a <;> cases hb : ε b <;> first
+      | exact absurd (ha.trans hb.symm) hab
+      | (rw [ha, hb] at h3; norm_num at h3)
 
 theorem rM_of_mem_K (g : UJ ε) (h : g ∈ KG ε) : rM ε (toM g) = 0 := by
   rw [Formalism.REAL.mem_KG] at h
@@ -282,10 +290,10 @@ theorem offDiagonalBlockSqNorm_eq_sum_columns (g : Matrix (Fin n) (Fin n) ℂ) :
   rw [offDiagonalBlockSqNorm_eq_sum_ite, Finset.sum_comm]
   refine Finset.sum_congr rfl fun j _ => ?_
   by_cases hj : ε j = false
-  · rw [if_pos hj]
+  · rw [ite_eq_left hj]
     refine Finset.sum_congr rfl fun i _ => ?_
     by_cases hi : ε i = true <;> simp [hi, hj]
-  · rw [if_neg hj]
+  · rw [ite_eq_right hj]
     exact Finset.sum_eq_zero fun i _ => by simp [hj]
 
 theorem rM_mul_left (t x : UJ ε) (ht : t ∈ KG ε) : rM ε (toM (t * x)) = rM ε (toM x) := by
@@ -346,7 +354,7 @@ theorem mem_K_of_rM (g : UJ ε) (h : rM ε (toM g) = 0) : g ∈ KG ε := by
     rw [offDiagonalBlockSqNorm_eq_sum_ite] at h
     have h1 := (Finset.sum_eq_zero_iff_of_nonneg (fun i _ => by positivity)).1 h a (Finset.mem_univ _)
     have h2 := (Finset.sum_eq_zero_iff_of_nonneg (fun j _ => by positivity)).1 h1 b (Finset.mem_univ _)
-    rw [if_pos ⟨ha, hb⟩] at h2
+    rw [ite_eq_left ⟨ha, hb⟩] at h2
     simpa using h2
   have hcol : ∀ c, ∑ i, (if ε i = true then (1 : ℝ) else -1) * ‖toM g i c‖ ^ 2
       = if ε c = true then 1 else -1 := by
@@ -367,7 +375,7 @@ theorem mem_K_of_rM (g : UJ ε) (h : rM ε (toM g) = 0) : g ∈ KG ε := by
   have hc1 : ∀ c, ε c = false → ∑ i, (if ε i = false then ‖toM g i c‖ ^ 2 else 0) = 1 := by
     intro c hc
     have e := hcol c
-    rw [hsplit (fun i => ‖toM g i c‖ ^ 2), if_neg (by simp [hc])] at e
+    rw [hsplit (fun i => ‖toM g i c‖ ^ 2), ite_eq_right (by simp [hc])] at e
     have e0 : ∑ i, (if ε i = true then ‖toM g i c‖ ^ 2 else 0) = 0 :=
       Finset.sum_eq_zero fun i _ => by
         by_cases hi : ε i = true
@@ -378,7 +386,7 @@ theorem mem_K_of_rM (g : UJ ε) (h : rM ε (toM g) = 0) : g ∈ KG ε := by
       - ∑ c, (if ε c = false then ‖toM g a c‖ ^ 2 else 0) = -1 := by
     intro a ha
     have e := hrow a
-    rw [hsplit (fun c => ‖toM g a c‖ ^ 2), if_neg (by simp [ha])] at e
+    rw [hsplit (fun c => ‖toM g a c‖ ^ 2), ite_eq_right (by simp [ha])] at e
     exact e
   have e1 : ∑ a, (if ε a = false then ∑ c, (if ε c = false then ‖toM g a c‖ ^ 2 else 0) else 0)
       = ∑ a, (if ε a = false then (1 : ℝ) else 0) := by
@@ -387,10 +395,10 @@ theorem mem_K_of_rM (g : UJ ε) (h : rM ε (toM g) = 0) : g ∈ KG ε := by
       Finset.sum_congr rfl fun a _ => by by_cases ha : ε a = false <;> simp [ha], Finset.sum_comm]
     refine Finset.sum_congr rfl fun c _ => ?_
     by_cases hc : ε c = false
-    · rw [if_pos hc, ← hc1 c hc]
+    · rw [ite_eq_left hc, ← hc1 c hc]
       refine Finset.sum_congr rfl fun a _ => ?_
       by_cases ha : ε a = false <;> simp [ha, hc]
-    · rw [if_neg hc]
+    · rw [ite_eq_right hc]
       exact Finset.sum_eq_zero fun a _ => by by_cases ha : ε a = false <;> simp [ha, hc]
   have e2 : ∑ a, (if ε a = false then ∑ c, (if ε c = true then ‖toM g a c‖ ^ 2 else 0) else 0)
       - ∑ a, (if ε a = false then ∑ c, (if ε c = false then ‖toM g a c‖ ^ 2 else 0) else 0)
@@ -398,7 +406,7 @@ theorem mem_K_of_rM (g : UJ ε) (h : rM ε (toM g) = 0) : g ∈ KG ε := by
     rw [← Finset.sum_sub_distrib]
     refine Finset.sum_congr rfl fun a _ => ?_
     by_cases ha : ε a = false
-    · simp only [if_pos ha]; exact hr1 a ha
+    · simp only [ite_eq_left ha]; exact hr1 a ha
     · simp [ha]
   have e3 : ∑ a, (if ε a = false then (-1 : ℝ) else 0) = -∑ a, (if ε a = false then (1 : ℝ) else 0) := by
     rw [← Finset.sum_neg_distrib]
@@ -409,9 +417,9 @@ theorem mem_K_of_rM (g : UJ ε) (h : rM ε (toM g) = 0) : g ∈ KG ε := by
   have hlow : ∀ a c, ε a = false → ε c = true → toM g a c = 0 := by
     intro a c ha hc
     have h1 := (Finset.sum_eq_zero_iff_of_nonneg (fun a _ => by positivity)).1 hsum a (Finset.mem_univ _)
-    rw [if_pos ha] at h1
+    rw [ite_eq_left ha] at h1
     have h2 := (Finset.sum_eq_zero_iff_of_nonneg (fun c _ => by positivity)).1 h1 c (Finset.mem_univ _)
-    rw [if_pos hc] at h2
+    rw [ite_eq_left hc] at h2
     simpa using h2
   have hcomm : toM g * Jm ε = Jm ε * toM g := by
     ext a b
@@ -636,8 +644,7 @@ theorem stConjLow : GlobalTheory.PsCo.Pc3.StConjLow := by
       rw [e, hconj t ht]
   rcases (C ∩ {x : UJ ε | δ ≤ rM ε (toM x)}).eq_empty_or_nonempty with hDe | hDn
   · refine ⟨1, one_pos, fun x hx => ?_⟩
-    by_contra hc
-    push_neg at hc
+    by_contra! hc
     obtain ⟨y, hy, -⟩ := key x hx hc
     rw [hDe] at hy
     exact hy
@@ -652,8 +659,7 @@ theorem stConjLow : GlobalTheory.PsCo.Pc3.StConjLow := by
         have h4 : δ ≤ rM ε (toM x0) := hx0.2
         linarith
     refine ⟨min 1 (rM ε (toM (x0⁻¹ * s * x0)) / 2), by positivity, fun x hx => ?_⟩
-    by_contra hc
-    push_neg at hc
+    by_contra! hc
     obtain ⟨y, hy, hyx⟩ := key x (hx.trans (min_le_left _ _)) hc
     have h1 : rM ε (toM (x0⁻¹ * s * x0)) ≤ rM ε (toM (y⁻¹ * s * y)) := hmin hy
     have h2 := min_le_right 1 (rM ε (toM (x0⁻¹ * s * x0)) / 2)

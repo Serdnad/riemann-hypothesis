@@ -1,6 +1,5 @@
 module
 
-import Development.WeilBound.RepresentationTheoryGL.CasimirAlgebra.TensorRelationsGL.PStepChar
 public import CompanionTheory.RealGroups.DiscreteSeries.DiscreteSeriesClassification.DiscreteSeriesExhaustion.HeckeAlgebraActions.BackStable
 public import CompanionTheory.SpectralGeometry.LocalGlobalProofs.StableLattices.CayleyHamiltonStatement
 import CompanionTheory.SpectralGeometry.LocalGlobalProofs.StableLattices.QuantumDeterminantTensor
@@ -88,9 +87,9 @@ theorem polyFn_tm {n : ℕ} (E : Fin n → Fin n → A) (c : ℂ) (a b : Fin n) 
     PolyFn (fun u : ℂ => Tm E (u - c) a b) := by
   unfold Tm
   by_cases h : a = b
-  · simp only [h, if_true, map_sub]
+  · simp only [h, ite_true, map_sub]
     exact (PolyFn.alg.sub (PolyFn.const _)).add (PolyFn.const _)
-  · simp only [h, if_false]
+  · simp only [h, ite_false]
     exact (PolyFn.const _).add (PolyFn.const _)
 
 theorem polyFn_qdet {n : ℕ} (E : Fin n → Fin n → A) : PolyFn (fun u : ℂ => qdet E u) := by
@@ -101,8 +100,15 @@ theorem polyFn_qdet {n : ℕ} (E : Fin n → Fin n → A) : PolyFn (fun u : ℂ 
 
 theorem commute_qdet {n : ℕ} {E : Fin n → Fin n → A} (O : A) (h : ∀ a b, Commute O (E a b)) (u : ℂ) :
     Commute O (qdet E u) := by
-  intros
-  apply _root_.PositivityTheory.Rg.Cz.CharacterRelations.qdet_comm <;> assumption
+  unfold qdet qminor
+  refine Commute.sum_right _ _ _ fun σ _ => ?_
+  refine (Int.cast_commute _ O).symm.mul_right (Commute.list_prod_right _ _ fun T hT => ?_)
+  obtain ⟨k, rfl⟩ := (List.mem_ofFn' _ _).1 hT
+  unfold Tm
+  refine Commute.add_right ?_ (h _ _)
+  split_ifs
+  · exact (Algebra.commutes _ _).symm
+  · exact Commute.zero_right _
 
 theorem PolyFn.vanish {V : Type*} [AddCommGroup V] [Module ℂ V] {F : ℂ → Module.End ℂ V}
     (hF : PolyFn F) (u₀ : ℂ) (h : ∀ u, u ≠ u₀ → F u = 0) : F u₀ = 0 := by

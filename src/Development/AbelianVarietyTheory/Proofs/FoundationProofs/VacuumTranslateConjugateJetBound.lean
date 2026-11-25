@@ -1,8 +1,5 @@
 module
 
-
-import Development.AbelianVarietyTheory.Proofs.FoundationProofs.CmThetaComplexConjugationCompatible
-import Development.AbelianVarietyTheory.Proofs.FoundationProofs.MeanSquareEvenThetaConjugateLattice
 public import Development.AbelianVarietyTheory.Definitions.ThetaMetrics.ExistsLinearIndependentNormLeSuccMin
 public import Formalism.SharpRestriction.GlobalSchurBounds.StandardLatticesGL3
 public import Mathlib.Analysis.SpecialFunctions.Elliptic.Weierstrass
@@ -20,56 +17,17 @@ public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Intertwin
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.OddThetaNormUnimodularLattice
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.SumCoeffMonomial
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.TaylorCoeffConjugateSeries
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
 import Mathlib.Algebra.Order.Star.Real
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
 import Mathlib.Dynamics.Ergodic.Action.Regular
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
 import Mathlib.RingTheory.Coalgebra.IsFrobenius
 import Mathlib.RingTheory.HopfAlgebra.Basic
 import Mathlib.RingTheory.PiTensorProduct
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.HaveILetI
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
 import Mathlib.Tactic.TypeStar
-import Mathlib.Topology.Sheaves.Init
 import Development.AbelianVarietyTheory.Proofs.FoundationProofs.OddThetaFunctionExistenceUniqueness
 import Mathlib.Algebra.Ring.IsFormallyReal
 import Std.Tactic.BVDecide.Normalize.Prop
+
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.Proofs.FoundationProofs.SupLeEuclidean, Development.AbelianVarietyTheory.Proofs.FoundationProofs.VacuumTranslateConjugateJetBound
 
@@ -572,8 +530,43 @@ end Perm
 theorem discrete_of_int (D : D7) (T : Tor D) {N N' : ℕ} (A : AddSubgroup (VC D N N'))
     (ha : 0 < area T.abelian₂) (hd : 0 < D.host.d) (h : ∀ x ∈ A, ∃ m : ℤ, qH D T x = m) :
     DiscreteTopology A := by
-  intros
-  apply _root_.GlobalTheory.ThetaConj.discrete_of_qH_int <;> assumption
+  have hc : Continuous (fun x : VC D N N' => qH D T x) := by
+    simp only [qH, Hf_re]
+    fun_prop
+  refine discreteTopology_of_isOpen_singleton_zero ?_
+  have : ({0} : Set A) = Subtype.val ⁻¹' ((fun x : VC D N N' => qH D T x) ⁻¹' Set.Iio 1) := by
+    ext x
+    simp only [Set.mem_singleton_iff, Set.mem_preimage, Set.mem_Iio]
+    constructor
+    · rintro rfl
+      simp [qH, Hf_re]
+    · intro hx
+      obtain ⟨m, hm⟩ := h x x.2
+      have hs : 0 < Real.sqrt D.host.d := Real.sqrt_pos.2 (by exact_mod_cast hd)
+      have h0 : 0 ≤ qH D T (x : VC D N N') := by
+        simp only [qH, Hf_re]
+        positivity
+      have hm0 : m = 0 := by
+        rw [hm] at hx h0
+        have h1 : m < 1 := by exact_mod_cast hx
+        have h2 : 0 ≤ m := by exact_mod_cast h0
+        omega
+      rw [hm0] at hm
+      simp only [qH, Hf_re, Int.cast_zero, mul_eq_zero, div_eq_zero_iff] at hm
+      have hz : ∑ τ, ∑ i, ∑ j, ‖(x : VC D N N') τ i j‖ ^ 2 = 0 := by
+        rcases hm with (h1 | h1) | h1 | h1
+        · exact absurd h1 hs.ne'
+        · norm_num at h1
+        · exact h1
+        · exact absurd h1 ha.ne'
+      apply Subtype.ext
+      funext τ i j
+      have h1 := (Finset.sum_eq_zero_iff_of_nonneg (fun _ _ => by positivity)).1 hz τ (Finset.mem_univ _)
+      have h2 := (Finset.sum_eq_zero_iff_of_nonneg (fun _ _ => by positivity)).1 h1 i (Finset.mem_univ _)
+      have h3 := (Finset.sum_eq_zero_iff_of_nonneg (fun _ _ => by positivity)).1 h2 j (Finset.mem_univ _)
+      simpa using h3
+  rw [this]
+  exact (isOpen_Iio.preimage hc).preimage continuous_subtype_val
 
 theorem area_pos (D : D7) (hg : admG1 D) (cc : Ideal (𝓞 D.host.K)) (δ : ℂ) (hc : Crv D cc δ) :
     0 < area (lamOf D cc δ) := by
@@ -663,7 +656,18 @@ theorem cj_bar (M : IntermediateField ℚ ℂ) (ρ : M →ₐ[ℚ] ℂ) (x : ℂ
 
 theorem area_conj (Λ : AddSubgroup ℂ) :
     area (Λ.map (starRingEnd ℂ).toAddMonoidHom) = area Λ := by
-  first | exact _root_.GlobalTheory.MeanSquareConj.area_conj | exact @_root_.GlobalTheory.MeanSquareConj.area_conj | apply _root_.GlobalTheory.MeanSquareConj.area_conj <;> assumption
+  unfold area
+  congr 1
+  ext a
+  have key : ∀ u v : ℂ, |((starRingEnd ℂ) ((starRingEnd ℂ) u) * (starRingEnd ℂ) v).im| =
+      |((starRingEnd ℂ) u * v).im| := by
+    intro u v
+    rw [← map_mul, Complex.conj_im, abs_neg]
+  constructor
+  · rintro ⟨h0, _, ⟨u, hu, rfl⟩, _, ⟨v, hv, rfl⟩, h⟩
+    exact ⟨h0, u, hu, v, hv, h.trans (key u v)⟩
+  · rintro ⟨h0, u, hu, v, hv, h⟩
+    exact ⟨h0, _, ⟨u, hu, rfl⟩, _, ⟨v, hv, rfl⟩, h.trans (key u v).symm⟩
 
 theorem jet_bound_fix (D : D7) (hI : Inp D) (cc : Ideal (𝓞 D.host.K)) (δ : ℂ) (t0 : ℂ)
     (hc : Crv D cc δ) (ht : GL3Theta.IsTwoTorsionPointUnkilled D (lamOf D cc δ) t0) (a d : ℕ) (L L')

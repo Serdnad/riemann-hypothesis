@@ -1,50 +1,11 @@
 module
 
-import Development.AbelianVarietyTheory.Definitions.Foundations.NotIsSelfDualAtScaled
 public import Formalism.LocalToGlobal.IndefiniteReal.ScalarOnPartsFull
 public import Development.AbelianVarietyTheory.Definitions.Foundations.NonemptyAlgHomOfNotIsField
 public import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.ExistsSplitIdempotentsOfRelTraceOneModTwo
 import Development.AbelianVarietyTheory.Counterexamples.HeightSurvey.EmbRelExistsUnique
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.EvalVAlgebraMapMem
 import Development.AbelianVarietyTheory.Proofs.HeightProofs.MemAdelicLatticeIffLocalSelfDualCompletion
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
 
 @[expose] public section
 
@@ -66,7 +27,17 @@ theorem tens_map_map {R R' R'' : Type} [CommRing R] [Algebra F R] [CommRing R'] 
 
 omit [NumberField E] in
 theorem adTens_eq_one' {y : AF F ⊗[F] E} (h1 : ∀ w, compInf F E w y = 1) (h2 : ∀ v, compFin F E v y = 1) : y = 1 := by
-  first | exact _root_.GlobalTheory.AdelicU.Model.adTens_eq_one | exact @_root_.GlobalTheory.AdelicU.Model.adTens_eq_one | apply _root_.GlobalTheory.AdelicU.Model.adTens_eq_one <;> assumption
+  have := GlobalTheory.AutFunCounterexample.tens_inj (F := F) (E := E) (A := Ainf F) (B := Af F) (n := 1) (Matrix.of fun _ _ => y)
+    (by
+      ext i j
+      rw [Subsingleton.elim i j, Matrix.one_apply_eq]
+      exact GlobalTheory.AutFunCompare.infTens_ext fun w => (tens_map_map _ _ y).trans ((h1 w).trans (map_one _).symm))
+    (by
+      ext i j
+      rw [Subsingleton.elim i j, Matrix.one_apply_eq]
+      exact GlobalTheory.LatticeLocalGlobal.ext_components _ _ fun v =>
+        (tens_map_map _ _ y).trans ((h2 v).trans (map_one _).symm))
+  exact congrFun (congrFun this 0) 0
 
 omit [NumberField E] in
 theorem mul_idem_iff_mem_range_emb {n : ℕ} (J : Matrix (Fin n) (Fin n) E) (v : HeightOneSpectrum (𝓞 F)) (ε : AF F)
@@ -171,7 +142,6 @@ theorem splitIdemAd_mul (h : IsCMExt F E σ) {v : HeightOneSpectrum (𝓞 F)} (�
 section Record
 
 open Formalism.BasicNotions Formalism.BasicNotions.TH Formalism.L2.Theta Formalism.L2.NTheta Formalism.IndefR.Mult GlobalTheory.IdemModTwo
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 
 variable {D : D7} (V : HSp D) {v : HeightOneSpectrum (𝓞 D.host.F)}
 

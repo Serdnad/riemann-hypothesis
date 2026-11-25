@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsIdempotentPlaceChartFiniteAdeles
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.UnivOfNotLinearIndependent
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.IsIntOv
 public import Formalism.LocalToGlobal.Columns.AdelicLemmas
@@ -11,49 +10,12 @@ import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.IdempotentMu
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.CardInversePrimeRepsIntegralRightMulHecke
 import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsEqMulOfResSNeOne
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsIdempotentMulNatPowOfMul
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
 
 @[expose] public section
 
 open Formalism.BasicNotions Formalism.BasicNotions.TH Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes Formalism.MainNotions.StandardLattice Formalism.L2.Theta Formalism.L2.DIV Formalism.IndefR Formalism.IndefR.Datum IsDedekindDomain NumberField Matrix GlobalTheory.ExportSeries
 open Formalism.L2.NTheta (IsIdemAt IsHeckeElt)
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 
 noncomputable section
 
@@ -111,7 +73,28 @@ variable {D : D7} {v : HeightOneSpectrum (𝓞 D.host.F)}
 
 theorem residue_eq_zero_iff (x : GlobalTheory.SplitHecke.Ov D v) :
     IsLocalRing.residue (GlobalTheory.SplitHecke.Ov D v) x = 0 ↔ Valued.v (x : Fv D.host.F v) < 1 := by
-  first | exact _root_.GlobalTheory.DownLift.SplitCoef.residue_eq_zero_iff_val_lt | exact @_root_.GlobalTheory.DownLift.SplitCoef.residue_eq_zero_iff_val_lt | apply _root_.GlobalTheory.DownLift.SplitCoef.residue_eq_zero_iff_val_lt <;> assumption
+  rw [IsLocalRing.residue_eq_zero_iff, IsLocalRing.mem_maximalIdeal, mem_nonunits_iff]
+  have hx : Valued.v (x : Fv D.host.F v) ≤ 1 := (HeightOneSpectrum.mem_adicCompletionIntegers _ _ _).1 x.2
+  constructor
+  · intro hnu
+    refine lt_of_le_of_ne hx fun h1 => hnu ?_
+    have h0 : (x : Fv D.host.F v) ≠ 0 := fun h => by
+      rw [h, map_zero] at h1
+      exact zero_ne_one h1
+    have hmem : (x : Fv D.host.F v)⁻¹ ∈ v.adicCompletionIntegers D.host.F :=
+      (HeightOneSpectrum.mem_adicCompletionIntegers _ _ _).2 (by rw [map_inv₀, h1, inv_one])
+    refine IsUnit.of_mul_eq_one (a := x) ⟨_, hmem⟩ (Subtype.ext ?_)
+    show (x : Fv D.host.F v) * (x : Fv D.host.F v)⁻¹ = 1
+    exact mul_inv_cancel₀ h0
+  · intro hlt hu
+    obtain ⟨w, hw⟩ := hu.exists_right_inv
+    have h2 := congrArg (fun t : GlobalTheory.SplitHecke.Ov D v => Valued.v (t : Fv D.host.F v)) hw
+    have hw1 : Valued.v (w : Fv D.host.F v) ≤ 1 := (HeightOneSpectrum.mem_adicCompletionIntegers _ _ _).1 w.2
+    simp only [MulMemClass.coe_mul, map_mul, OneMemClass.coe_one, map_one] at h2
+    have : Valued.v (x : Fv D.host.F v) * Valued.v (w : Fv D.host.F v) < 1 :=
+      (mul_le_of_le_one_right' hw1).trans_lt hlt
+    rw [h2] at this
+    exact lt_irrefl _ this
 
 theorem resS_surjective (PP : Pl D.host.E) : Function.Surjective (resS D.host.F PP) := by
   rw [resS, RingHom.coe_comp]
@@ -125,8 +108,8 @@ theorem prim_map_eq {k₁ k₂ : Type} [Field k₁] [Field k₂] (ι : k₁ →+
     (y : Matrix (Fin m) (Fin n) k₁) : prim (y.map ι) = prim y := by
   unfold prim
   by_cases h : LinearIndependent k₁ y.row
-  · rw [if_pos h, if_pos ((linIndep_rows_iff_map ι y).1 h)]
-  · rw [if_neg h, if_neg (mt (linIndep_rows_iff_map ι y).2 h)]
+  · rw [ite_eq_left h, ite_eq_left ((linIndep_rows_iff_map ι y).1 h)]
+  · rw [ite_eq_right h, ite_eq_right (mt (linIndep_rows_iff_map ι y).2 h)]
 
 theorem gl_map_inv_val {R S : Type} [CommRing R] [CommRing S] (f : R →+* S) {n : ℕ} (β : GL (Fin n) R) :
     ((Matrix.GeneralLinearGroup.map f β)⁻¹).1 = (β⁻¹).1.map f := by
@@ -189,7 +172,7 @@ theorem chart_levels : ∀ (D : D7) (e : AE D) (P : Pl D.host.E) (v : HeightOneS
     have e1 : z.map (IsLocalRing.residue (GlobalTheory.SplitHecke.Ov D v)) = (redM P N).map ι := by
       ext i j
       have hzij : z i j = φR ⟨N i j, hN i j⟩ := Subtype.ext (congrFun (congrFun hz i) j)
-      simp only [Matrix.map_apply, redM, dif_pos (hN i j), hι, hzij]
+      simp only [Matrix.map_apply, redM, dite_eq_left (hN i j), hι, hzij]
       rfl
     rw [e1]
     exact (prim_map_eq ι _).symm

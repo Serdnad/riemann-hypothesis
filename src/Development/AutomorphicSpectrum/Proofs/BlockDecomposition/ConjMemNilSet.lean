@@ -1,56 +1,10 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.TwistedOperators.IsUnimodularBlockUpperTriangularSymmetricLevels
 public import Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange.ArchimedeanBaseChangeProof.ArchimedeanGelfandKernels.LeftEquivariantFunctions.SymZeroCommFrame
 public import Mathlib.MeasureTheory.Group.ModularCharacter
 public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.QuotientIntegrationFormulaDiscreteSubgroupLeft
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Algebra.Order.Star.Real
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Coalgebra.IsFrobenius
-import Mathlib.RingTheory.HopfAlgebra.Basic
-import Mathlib.RingTheory.PiTensorProduct
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.HaveILetI
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Topology.Algebra.Group.Units
-import Mathlib.Topology.Sheaves.Init
 
 @[expose] public section
 
@@ -74,7 +28,28 @@ theorem map_mul_right (μ : Measure H) [μ.IsHaarMeasure] (g : H) :
 
 theorem modular_comp (φ : H ≃* H) (h1 : Continuous φ) (h2 : Continuous φ.symm) (g : H) :
     Measure.modularCharacter (φ g) = Measure.modularCharacter g := by
-  apply _root_.GlobalTheory.LevelUnimod.modular_aut <;> assumption
+  let ν : Measure H := Measure.haar
+  have hm : Measurable φ := h1.measurable
+  haveI : (Measure.map φ ν).IsHaarMeasure := MulEquiv.isHaarMeasure_map ν φ h1 h2
+  have e : Measure.map (· * φ g) (Measure.map φ ν) =
+      Measure.modularCharacter g • Measure.map φ ν := by
+    rw [Measure.map_map (measurable_mul_const _) hm]
+    have : (fun x => x * φ g) ∘ φ = φ ∘ (fun x => x * g) := by
+      funext x
+      simp
+    rw [this, ← Measure.map_map hm (measurable_mul_const _), map_mul_right ν g,
+      Measure.map_smul]
+    exact hm.aemeasurable
+  show Measure.modularCharacterFun (φ g) = Measure.modularCharacter g
+  have hs : ∀ (m : Measure H) [IsFiniteMeasureOnCompacts m] [m.IsMulLeftInvariant],
+      m = Measure.modularCharacter g • Measure.map φ ν →
+        Measure.haarScalarFactor m (Measure.map φ ν) = Measure.modularCharacter g := by
+    intro m _ _ h
+    subst h
+    rw [Measure.haarScalarFactor_smul, Measure.haarScalarFactor_self]
+    simp
+  rw [Measure.modularCharacterFun_eq_haarScalarFactor (Measure.map φ ν) (φ g)]
+  exact hs _ e
 
 theorem modular_lower : ∃ c : ℝ≥0, 0 < c ∧ ∃ K ∈ 𝓝 (1 : H), ∀ g ∈ K,
     c ≤ Measure.modularCharacter g := by

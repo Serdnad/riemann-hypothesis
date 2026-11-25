@@ -1,6 +1,5 @@
 module
 
-import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.ProjFrameGraphChart
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsProjFrameBasePtFree
 public import Mathlib.RingTheory.MvPolynomial.Ideal
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.LemCone
@@ -19,8 +18,15 @@ namespace ProjFrameBasePtFree
 
 theorem linForm_projMat {κ : Type} [Fintype κ] {D : ℕ} (e : Fin (D + 1) → Ix κ) (k : Fin (D + 1)) :
     linForm (ι := GlobalTheory κ) (ι₂ := GlobalTheory (Fin (D + 1))) (projMat e) ⟨(), k⟩ = X (e k) := by
-  intros
-  apply _root_.GroundTheory.Heights₂.Heights.HilbertSamuel.ProjFrameGraph.linForm_projMat <;> assumption
+  classical
+  simp only [linForm, projMat]
+  generalize e k = q
+  obtain ⟨⟨⟩, j⟩ := q
+  rw [Finset.sum_eq_single j]
+  · simp
+  · intro i _ hi
+    simp [Ne.symm hi]
+  · simp
 
 theorem rename_mem_span {κ : Type} {D : ℕ} (e : Fin (D + 1) → Ix κ) {h : MvPolynomial (Fin (D + 1)) ℤ} {n : ℕ}
     (hh : h.IsHomogeneous n) (hn : 0 < n) :
@@ -64,12 +70,12 @@ theorem pow_mem (D : ℕ) (Ω : Type) [Field Ω] [CharZero Ω] (κ : Type) (x : 
 
     rw [← h0, hFdef, map_add (f := _), map_sum]
     congr 1
-    · rw [Polynomial.eval₂_X_pow, mul_pow, ← Polynomial.C_pow, Polynomial.coeff_C_mul_X_pow, if_pos rfl,
+    · rw [Polynomial.eval₂_X_pow, mul_pow, ← Polynomial.C_pow, Polynomial.coeff_C_mul_X_pow, ite_eq_left rfl,
         map_pow, aeval_X]
     · refine Finset.sum_congr rfl fun j hj => ?_
       have hjN : j ≤ N := (Finset.mem_range.mp hj).le
       rw [Polynomial.eval₂_mul, Polynomial.eval₂_C, Polynomial.eval₂_X_pow, mul_pow, ← Polynomial.C_pow,
-        ← mul_assoc, Polynomial.coeff_mul_X_pow', if_pos hjN, Polynomial.coeff_mul_C]
+        ← mul_assoc, Polynomial.coeff_mul_X_pow', ite_eq_left hjN, Polynomial.coeff_mul_C]
       rw [map_mul, map_pow, aeval_X, aeval_rename]
       have : algebraMap (coneRing ℤ (x ∘ e)) (Polynomial Ω) (q.coeff j) = coneMap ℤ (x ∘ e) (f j) := (hf j).symm
       rw [this, coeff_coneMap]

@@ -5,48 +5,7 @@ public import Formalism.SharpRestriction.LevelLetterCocycles.FiltrationSaturatio
 public import Formalism.SharpRestriction.LevelLetterCocycles.CoordHomMapTrace
 public import Formalism.SharpRestriction.LevelLetterCocycles.JumpsLetOfWin
 public import Formalism.SharpRestriction.LevelLetterCocycles.SaturationPullbackOfRingCondition
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Algebra.Order.Star.Rat
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Topology.Sheaves.Presheaf
 
 @[expose] public section
 
@@ -275,7 +234,6 @@ end Formalism.MainNotions.UnusedSlot80.Relay2
 
 noncomputable section
 
-open Classical
 
 namespace Formalism.MainNotions.UnusedSlot80.Relay2
 
@@ -453,7 +411,6 @@ end Formalism.MainNotions.UnusedSlot80.Relay2
 
 noncomputable section
 
-open Classical
 
 namespace Formalism.MainNotions.UnusedSlot80.Relay2
 
@@ -665,7 +622,6 @@ end Formalism.MainNotions.UnusedSlot80.Relay2
 
 noncomputable section
 
-open Classical
 
 namespace Formalism.MainNotions.UnusedSlot80.Relay2
 
@@ -792,7 +748,6 @@ end Formalism.MainNotions.UnusedSlot80.Relay2
 
 noncomputable section
 
-open Classical
 
 namespace Formalism.MainNotions.UnusedSlot80.Relay2
 
@@ -819,7 +774,7 @@ theorem piPow_dvd (hO : ∀ c : O, ((PD.p : ℕ) : O) * c = 0 → c = 0) {e m : 
     have h1 := congrArg (fun z : LetA O n => PowerSeries.coeff k (z i)) h
     simp only [Pi.mul_apply, Pi.pow_apply, Pi.natCast_apply, letπ] at h1
     rw [← map_natCast (PowerSeries.C (R := O)), ← map_pow, PowerSeries.coeff_C_mul,
-      PowerSeries.coeff_X_pow_mul', if_neg (by omega)] at h1
+      PowerSeries.coeff_X_pow_mul', ite_eq_right (by omega)] at h1
     exact hpow e _ h1
   choose q hq using hi
   exact ⟨q, funext fun i => by simp [hq i, letπ]⟩
@@ -873,7 +828,6 @@ end Formalism.MainNotions.UnusedSlot80.Relay2
 
 noncomputable section
 
-open Classical
 
 namespace Formalism.MainNotions.UnusedSlot80.Relay2
 
@@ -888,21 +842,14 @@ variable {G : Type} [Group G] [TopologicalSpace G] {Qp K₀ K : Type} [Field Qp]
     {LL O : Type} [Field LL] [Algebra Qp LL] [TopologicalSpace LL] [CommRing O] [Algebra O LL]
     {v : AddValuation LL (WithTop ℚ)} {n : ℕ} (W : LocWach PD LL O v n)
 
-theorem tau_data_of_solution [IsDomain O] (T : LocLat G Qp LL O) (hC : Ctx W T) (h9 : Formalism.MainNotions.LiftingTheory.UniformizerRingClause W)
-    (hp2 : PD.p ≠ 2) (A : Formalism.MainNotions.ArcLiftingSetup.ArcP n) (hj : 1 ≤ A.j) (c : ZMod n) (Z : W.DD T)
+theorem tau_exists [IsDomain O] (T : LocLat G Qp LL O) (hC : Ctx W T) (h9 : Formalism.MainNotions.LiftingTheory.UniformizerRingClause W)
+    (hp2 : PD.p ≠ 2) (A : Formalism.MainNotions.ArcLiftingSetup.ArcP n) (hj : 1 ≤ A.j)
+    (hM : 2 * A.G₀ ≤ (PD.p - 1) * A.M PD.p) (c : ZMod n) (w : W.DD T)
     {d : ℕ} (b : Fin d → W.DD T) (cf : ℕ → Fin d → LL) (hb : Formalism.MainNotions.LiftingTheory.IsFrameΔ W T c b)
-    (hsol : Formalism.MainNotions.LiftingTheory.IsSol W T c b Z cf) (hc0 : cf 0 = 0)
+    (hsol : Formalism.MainNotions.LiftingTheory.IsSol W T c b (W.γ T w - w) cf) (hc0 : cf 0 = 0)
     (hbd : ∀ r m, Formalism.MainNotions.LiftingTheory.Bd W r (cf r m))
     (h4 : ∀ r : ℕ, ((r + padicValNat PD.p r.factorial : ℕ) : ℚ) ≤ r * PD.p / ((PD.p : ℚ) - 1)) :
-    ∃ (τ : W.DD T) (κ : ℕ) (y : ℕ → Fin d → O) (S : W.DD T),
-      Formalism.MainNotions.ArcLiftingSetup.InFP W T c A.j W.π₀ τ ∧
-      (∀ r < A.M PD.p, ∀ m, algebraMap O LL (y r m) = (PD.p : LL) ^ κ * cf r m) ∧
-      SolOK W T c (A.M PD.p) Z κ S ∧
-      Formalism.MainNotions.ArcLiftingSetup.InFP W T c A.j
-        (Formalism.MainNotions.LiftingTheory.JJ W A.j (2 * A.G₀) (A.M PD.p))
-        (Formalism.MainNotions.ArcLiftingSetup.lA W ^ 0 •
-          (Formalism.MainNotions.ArcLiftingSetup.lA W ^ κ • τ -
-            Formalism.MainNotions.ArcLiftingSetup.lA W ^ (A.σ PD.p) • ((W.φD T) ^ A.j) S)) := by
+    ∃ τ, Formalism.MainNotions.ArcLiftingSetup.IsTr W A T c w τ := by
   have hl : 2 ≤ PD.p := PD.hp.two_le
   have hO := SatW.p_nzd_O W hC.inj
   have hg : ∀ r m, ∃ o : O, algebraMap O LL o = (PD.p : LL) ^ Ex PD.p r * cf r m :=
@@ -973,30 +920,19 @@ theorem tau_data_of_solution [IsDomain O] (T : LocLat G Qp LL O) (hC : Ctx W T) 
       (σ - sg) sg (κ - Ex PD.p r) (Ex PD.p r) κ σ (by omega) (by omega) (heq r m)
     rw [hyA]
     linear_combination this
-  refine ⟨τ, κ, y, S, hτ, hy, hS, ?_⟩
-  rw [key]
-  refine inMultiple_of_mem W T c A.j _ (AddSubgroup.sum_mem _ fun r _ => AddSubgroup.sum_mem _ fun m _ =>
-    Pp_smul W T c A.j ?_ _ (hβ m))
-  exact W.AΔ.neg_mem (W.AΔ.mul_mem (W.AΔ.mul_mem (W.AΔ.mul_mem (W.AΔ.pow_mem (lA_mem W) _)
-    (W.AΔ.pow_mem (lA_mem W) _)) (W.AΔ.algebraMap_mem _)) (hB r))
-
-theorem tau_exists [IsDomain O] (T : LocLat G Qp LL O) (hC : Ctx W T) (h9 : Formalism.MainNotions.LiftingTheory.UniformizerRingClause W)
-    (hp2 : PD.p ≠ 2) (A : Formalism.MainNotions.ArcLiftingSetup.ArcP n) (hj : 1 ≤ A.j)
-    (hM : 2 * A.G₀ ≤ (PD.p - 1) * A.M PD.p) (c : ZMod n) (w : W.DD T)
-    {d : ℕ} (b : Fin d → W.DD T) (cf : ℕ → Fin d → LL) (hb : Formalism.MainNotions.LiftingTheory.IsFrameΔ W T c b)
-    (hsol : Formalism.MainNotions.LiftingTheory.IsSol W T c b (W.γ T w - w) cf) (hc0 : cf 0 = 0)
-    (hbd : ∀ r m, Formalism.MainNotions.LiftingTheory.Bd W r (cf r m))
-    (h4 : ∀ r : ℕ, ((r + padicValNat PD.p r.factorial : ℕ) : ℚ) ≤ r * PD.p / ((PD.p : ℚ) - 1)) :
-    ∃ τ, Formalism.MainNotions.ArcLiftingSetup.IsTr W A T c w τ := by
-  obtain ⟨τ, κ, y, S, hτ, hy, hS, hRem⟩ :=
-    tau_data_of_solution W T hC h9 hp2 A hj c (W.γ T w - w) b cf hb hsol hc0 hbd h4
-  exact ⟨τ, isTr_of W T hC A c hM hτ ⟨κ, 0, S, hS, hRem⟩ b cf hb hsol hc0 κ y hy⟩
+  have hGood : Good W T c A.j (2 * A.G₀) M σ w τ := by
+    refine ⟨κ, 0, S, hS, ?_⟩
+    rw [key]
+    refine inMultiple_of_mem W T c A.j _ (AddSubgroup.sum_mem _ fun r _ => AddSubgroup.sum_mem _ fun m _ =>
+      Pp_smul W T c A.j ?_ _ (hβ m))
+    exact W.AΔ.neg_mem (W.AΔ.mul_mem (W.AΔ.mul_mem (W.AΔ.mul_mem (W.AΔ.pow_mem (lA_mem W) _)
+      (W.AΔ.pow_mem (lA_mem W) _)) (W.AΔ.algebraMap_mem _)) (hB r))
+  exact ⟨τ, isTr_of W T hC A c hM hτ hGood b cf hb hsol hc0 κ y hy⟩
 
 end Formalism.MainNotions.UnusedSlot80.Relay2
 
 noncomputable section
 
-open Classical
 
 namespace Formalism.MainNotions.UnusedSlot80.Relay2
 
@@ -1132,7 +1068,6 @@ end Formalism.MainNotions.UnusedSlot80.Relay2
 
 noncomputable section
 
-open Classical
 
 namespace Formalism.MainNotions.UnusedSlot80.Relay2
 
@@ -1244,7 +1179,6 @@ end Formalism.MainNotions.UnusedSlot80.Relay2
 
 noncomputable section
 
-open Classical
 
 namespace Formalism.MainNotions.UnusedSlot80.Relay2
 

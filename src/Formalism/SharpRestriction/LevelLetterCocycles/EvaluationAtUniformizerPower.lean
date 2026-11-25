@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsPowMulIntegralBis
 public import Formalism.SharpRestriction.LevelLetterCocycles.ExpRules
 public import Formalism.SharpRestriction.LevelLetterCocycles.CardBasisEq
 public import Formalism.SharpRestriction.LevelLetterCocycles.CoordHomMapTrace
@@ -15,50 +14,7 @@ public import Formalism.SharpRestriction.LevelLetterCocycles.QuotientImageDivisi
 public import Formalism.SharpRestriction.LevelLetterCocycles.QuotientImageDivisibility.QpEqUnit
 import Formalism.SharpRestriction.LevelLetterCocycles.QuotientImageDivisibility.RkMultVOfNotJump
 import Formalism.SharpRestriction.LevelLetterCocycles.SaturationPullbackOfRingCondition
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Algebra.Order.Star.Int
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.PowerSeries.Inverse
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.RingTheory.TensorProduct.IsBaseChangeFree
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.HaveILetI
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
 
 @[expose] public section
@@ -177,8 +133,36 @@ theorem invariant_letter_eq_evaluation (hR : Ring9 W) {a : LetA O n} (ha : a ∈
 
 theorem EE_p_nzd (hO : ∀ c : O, ((PD.p : ℕ) : O) * c = 0 → c = 0) (y : W.EE)
     (hy : ((PD.p : ℕ) : W.EE) * y = 0) : y = 0 := by
-  intros
-  apply _root_.GlobalTheory.WachSat.ee_torsionFree <;> assumption
+  have hk : ∀ k : ℕ, ((PD.p : ℕ) : W.EE) ^ k ∣ y := by
+    intro k
+    obtain ⟨a, m, hm⟩ := W.EE_dense y k
+    obtain ⟨z, hz⟩ := Ideal.mem_span_singleton'.1 hm
+    have h1 : algebraMap (LetA O n) W.EE (((PD.p : ℕ) : LetA O n) * a) ∈
+        Ideal.span {((PD.p : ℕ) : W.EE) ^ (k + 1)} := by
+      rw [Ideal.mem_span_singleton']
+      refine ⟨-z, ?_⟩
+      rw [map_mul, map_natCast]
+      linear_combination (-((PD.p : ℕ) : W.EE)) * hz +
+        (-(algebraMap (LetA O n) W.EE (letπ ^ m))) * hy
+    obtain ⟨b, hb⟩ := W.EE_sat _ (k + 1) h1
+    have hab : a = ((PD.p : ℕ) : LetA O n) ^ k * b :=
+      Formalism.MainNotions.UnusedSlot80.SatW.p_cancel hO (by rw [hb]; ring)
+    obtain ⟨u, hu⟩ := W.EE_π
+    have e1 : y * (u : W.EE) ^ m = ((PD.p : ℕ) : W.EE) ^ k * (z + algebraMap (LetA O n) W.EE b) := by
+      rw [hu]
+      rw [hab] at hz
+      simp only [map_mul, map_pow, map_natCast] at hz
+      linear_combination (-1 : W.EE) * hz
+    refine ⟨(z + algebraMap (LetA O n) W.EE b) * ((u⁻¹ : W.EEˣ) : W.EE) ^ m, ?_⟩
+    calc y = y * (u : W.EE) ^ m * ((u⁻¹ : W.EEˣ) : W.EE) ^ m := by
+          rw [mul_assoc, ← mul_pow, Units.mul_inv, one_pow, mul_one]
+      _ = _ := by rw [e1, mul_assoc]
+  apply W.EE_complete.toIsHausdorff.haus y
+  intro k
+  rw [SModEq.sub_mem, sub_zero]
+  obtain ⟨c, hc⟩ := hk k
+  rw [hc, ← smul_eq_mul]
+  exact Submodule.smul_mem_smul (Ideal.pow_mem_pow (Ideal.mem_span_singleton_self _) k) trivial
 
 theorem EE_p_pow_nzd (hO : ∀ c : O, ((PD.p : ℕ) : O) * c = 0 → c = 0) (s : ℕ) (y : W.EE)
     (hy : ((PD.p : ℕ) : W.EE) ^ s * y = 0) : y = 0 := by
@@ -229,7 +213,58 @@ theorem span_phi_top (T : LocLat G Qp LL O) (hT : IsCrys PD T.ρ) (hs : W.s = 1)
     (huniq : ∀ x ∈ W.N T, ∃! a : Fin r → LetA O n, x = ∑ j, a j • b j)
     (hq : IsUnit (algebraMap (LetA O n) W.EE W.q)) (e : ℕ) :
     Submodule.span W.EE (Set.range fun j => ((W.φD T) ^ e) (b j)) = ⊤ := by
-  exact (span_and_linInd_φ_pow W T hT hs b hb huniq hq e).1
+  have hli : LinearIndependent (LetA O n) (fun j => (⟨b j, (hb j).1⟩ : W.N T)) := by
+    refine Fintype.linearIndependent_iff.2 fun g hg => ?_
+    have h1 : (∑ j, g j • b j) = 0 := by
+      have := congrArg Subtype.val hg
+      simpa using this
+    obtain ⟨a0, _, hu⟩ := huniq 0 (W.N T).zero_mem
+    have e1 := hu g h1.symm
+    have e2 := hu 0 (by simp)
+    intro i
+    rw [e1, ← e2]
+    rfl
+  have hsp : ⊤ ≤ Submodule.span (LetA O n) (Set.range fun j => (⟨b j, (hb j).1⟩ : W.N T)) := by
+    rintro ⟨x, hx⟩ _
+    obtain ⟨a, ha, _⟩ := huniq x hx
+    have : (⟨x, hx⟩ : W.N T) = ∑ j, a j • (⟨b j, (hb j).1⟩ : W.N T) := by
+      apply Subtype.ext
+      simp [ha]
+    rw [this]
+    exact Submodule.sum_mem _ fun j _ => Submodule.smul_mem _ _ (Submodule.subset_span ⟨j, rfl⟩)
+  let bN : Module.Basis (Fin r) (LetA O n) (W.N T) := Module.Basis.mk hli hsp
+  let bD : Module.Basis (Fin r) W.EE (W.DD T) := IsBaseChange.basis bN (W.N_base T hT)
+  have hbD : ∀ j, bD j = b j := fun j => by
+    simp [bD, IsBaseChange.basis_apply, bN]
+  have hspan : Submodule.span W.EE (Set.range b) = ⊤ := by
+    rw [← bD.span_eq]
+    congr 1
+    ext x
+    simp [hbD]
+  have hφ : ∀ j, b j ∈ Submodule.span W.EE (Set.range fun i => W.φD T (b i)) := by
+    intro j
+    obtain ⟨k, hk⟩ := W.N_φinv T (b j) (hb j).1
+    have hQ : ((letφ (n := n) W.φ₀ ^ (W.s - 1)) (fun _ => W.q₀)) = W.q := by
+      rw [hs]; rfl
+    rw [hQ] at hk
+    have hA : Submodule.span (LetA O n) (W.φD T '' (W.N T : Set (W.DD T))) ≤
+        (Submodule.span W.EE (Set.range fun i => W.φD T (b i))).restrictScalars (LetA O n) := by
+      rw [Submodule.span_le]
+      rintro _ ⟨y, hy, rfl⟩
+      obtain ⟨a, ha, _⟩ := huniq y hy
+
+      rw [ha, map_sum]
+      refine Submodule.sum_mem _ fun i _ => ?_
+      rw [φD_smulA, ← algebraMap_smul W.EE]
+      rw [Submodule.restrictScalars_mem]
+      exact Submodule.smul_mem _ _ (Submodule.subset_span (Set.mem_range_self i))
+    have h1 := hA hk
+    obtain ⟨u, hu⟩ := hq.pow k
+    have h2 : b j = ((u⁻¹ : W.EEˣ) : W.EE) • (W.q ^ k • b j) := by
+      rw [← algebraMap_smul W.EE (W.q ^ k), smul_smul, map_pow, ← hu, Units.inv_mul, one_smul]
+    rw [h2]
+    exact Submodule.smul_mem _ _ h1
+  exact span_φ_pow W T b hspan hφ e
 
 end SpanCopy
 
@@ -661,7 +696,7 @@ theorem flag_basis [FiniteDimensional K V] (F : ℤ → Submodule K V) (hF : Ant
       | mem g hg =>
         have hgN : g ∈ (S N).s := hmono j N (by omega) hg
         have : g = B0 ⟨g, hgN⟩ := by simp [B0, Module.Basis.mk_apply]
-        rw [this, Module.Basis.repr_self, Finsupp.single_apply, if_neg]
+        rw [this, Module.Basis.repr_self, Finsupp.single_apply, ite_eq_right]
         intro heq
         apply hkj
         rw [← hmem_iff, ← heq]
@@ -1130,7 +1165,7 @@ theorem cv_mem (S : Submodule L M) (g : PowerSeries L) (y : ℤ → M) (m : ℤ)
   exact Submodule.sum_mem _ fun j _ => S.smul_mem _ (hS _)
 
 theorem coeff_X_pow_mul_lt (e j : ℕ) (hj : j < e) (f : PowerSeries L) : coeff j (X ^ e * f) = 0 := by
-  rw [PowerSeries.coeff_X_pow_mul', if_neg (by omega)]
+  rw [PowerSeries.coeff_X_pow_mul', ite_eq_right (by omega)]
 
 end CV
 
@@ -1167,7 +1202,6 @@ theorem lev_Q_pow (hs : W.s = 1) (i : ZMod n) (ζ : LL) (hζ : IsPrimitiveRoot �
   exact ⟨u ^ k, by rw [hQq, map_pow, hu, mul_pow]⟩
 
 theorem lead_F (hR : BT.Ring9 W) (hA : Formalism.MainNotions.LiftingTheory.CaseA W) (T : LocLat G Qp LL O) (i : ZMod n) (ζ : LL)
-    (_hζ : IsPrimitiveRoot ζ PD.p)
     (hA1 : ∀ (x : ↥(W.N T)) (k : ℕ) (hk : W.Q ^ k • W.φD T x ∈ W.N T) (j : ℤ),
       W.levN T i ζ ⟨_, hk⟩ j ∈ Formalism.MainNotions.DeltaInvariantLattices.ιDi W T i ∧ (j < k → W.levN T i ζ ⟨_, hk⟩ j = 0))
     {r : ℕ} (e' : Fin r → W.DD T) (he' : ∀ k, e' k ∈ W.N T) (M : ℕ)
@@ -1243,14 +1277,14 @@ theorem lead_F_span (hR : BT.Ring9 W) (hA : Formalism.MainNotions.LiftingTheory.
   rw [cv_lead _ _ (k' : ℤ) (fun j hj => (hv j).2 hj) M (fun j hj => by
     rw [map_pow, hlqp, mul_pow, mul_comm]; exact coeff_X_pow_mul_lt M j hj _)] at c4
   have hcoef : coeff M (W.lev i ζ (Formalism.MainNotions.LiftingTheory.qp W ^ M)) = constantCoeff uq ^ M := by
-    rw [map_pow, hlqp, mul_pow, mul_comm, PowerSeries.coeff_X_pow_mul', if_pos le_rfl, Nat.sub_self,
+    rw [map_pow, hlqp, mul_pow, mul_comm, PowerSeries.coeff_X_pow_mul', ite_eq_left le_rfl, Nat.sub_self,
       PowerSeries.coeff_zero_eq_constantCoeff_apply, map_pow]
   rw [hcoef] at c4
   beta_reduce at c4
   have hrhs : ∑ k, cv (W.lev i ζ (W.Q ^ k' * W.φA (β k))) (W.levN T i ζ ⟨_, hmem k⟩) ((k' : ℤ) + M) ∈ Sp := by
     refine Submodule.sum_mem _ fun k _ => ?_
     obtain ⟨u', hu'⟩ := lev_Q_pow W hs i ζ hζ k'
-    rw [add_comm, cv_lead _ _ (M : ℤ) (fun j hj => (lead_F W hR hA T i ζ hζ hA1 e' (fun k => (he'.1 k).1)
+    rw [add_comm, cv_lead _ _ (M : ℤ) (fun j hj => (lead_F W hR hA T i ζ hA1 e' (fun k => (he'.1 k).1)
       M hmem k j).1 hj) k' (fun j hj => by rw [map_mul, hu', mul_assoc]; exact coeff_X_pow_mul_lt k' j hj _)]
     exact Sp.smul_mem _ (Submodule.subset_span ⟨k, rfl⟩)
   rw [← c4] at hrhs
@@ -1407,7 +1441,7 @@ theorem exponent (hR : BT.Ring9 W) (hA : Formalism.MainNotions.LiftingTheory.Cas
     simp only [hFn, hEn]
     rw [hsub, levN_sum_smul]
     simp_rw [hlevA]
-  have hFlead := fun k j => lead_F W hR hA T i ζ hζ hA1 e' (fun k => (he'.1 k).1) M hmem k j
+  have hFlead := fun k j => lead_F W hR hA T i ζ hA1 e' (fun k => (he'.1 k).1) M hmem k j
 
   let Em : Matrix (Fin r) (Fin r) (PowerSeries LL) := Matrix.of fun ℓ m => ser (κ ℓ) s₀ (En m)
   let E0 : Matrix (Fin r) (Fin r) (PowerSeries LL) :=
@@ -1530,7 +1564,7 @@ theorem exponent (hR : BT.Ring9 W) (hA : Formalism.MainNotions.LiftingTheory.Cas
           Matrix.one_apply]
         by_cases hll : ℓ = ℓ'
         · subst hll; simp
-        · rw [if_neg hll, if_neg]
+        · rw [ite_eq_right hll, ite_eq_right]
           intro hq
           exact hll (congrArg Subtype.val hq).symm
       have hdetM : M'.det = 1 := by

@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ModularTowerUnitsFiniteModPowersAtLevel
 public import Development.AbelianVarietyTheory.Definitions.Foundations.ExpUpper
 public import Mathlib.Analysis.Analytic.Order
 public import Mathlib.Order.CompletePartialOrder
@@ -150,8 +149,30 @@ theorem eqOn_of_pow_eq {D : Set ℂ} (hD : IsOpen D) (hc : IsPreconnected D) {m 
     {f g : ℂ → ℂ} (hf : DifferentiableOn ℂ f D) (hg : DifferentiableOn ℂ g D)
     {z0 : ℂ} (hz0 : z0 ∈ D) (hfg0 : f z0 = g z0) (hne : f z0 ≠ 0)
     (hpow : ∀ z ∈ D, f z ^ m = g z ^ m) : Set.EqOn f g D := by
-  intros
-  apply _root_.GlobalTheory.RootHs.rootUnique <;> assumption
+  have hfc : ContinuousAt f z0 := (hf.differentiableAt (hD.mem_nhds hz0)).continuousAt
+  have hgc : ContinuousAt g z0 := (hg.differentiableAt (hD.mem_nhds hz0)).continuousAt
+  set S : ℂ → ℂ := fun z => ∑ i ∈ Finset.range m, f z ^ i * g z ^ (m - 1 - i) with hS
+  have hSc : ContinuousAt S z0 := by
+    simp only [hS]; fun_prop
+  have hS0 : S z0 ≠ 0 := by
+    have : S z0 = (m : ℂ) * f z0 ^ (m - 1) := by
+      simp only [hS, ← hfg0]
+      rw [Finset.sum_congr rfl (g := fun _ => f z0 ^ (m - 1))]
+      · simp
+      · intro i hi
+        rw [← pow_add]
+        congr 1
+        have := Finset.mem_range.1 hi
+        omega
+    rw [this]
+    exact mul_ne_zero (by exact_mod_cast hm.ne') (pow_ne_zero _ hne)
+  have hev : f =ᶠ[nhds z0] g := by
+    filter_upwards [hSc.eventually_ne hS0, hD.mem_nhds hz0] with z hz hzD
+    have key : S z * (f z - g z) = f z ^ m - g z ^ m := by
+      simp only [hS]; exact geom_sum₂_mul (f z) (g z) m
+    rw [hpow z hzD, sub_self] at key
+    exact sub_eq_zero.1 ((mul_eq_zero.1 key).resolve_left hz)
+  exact (hf.analyticOnNhd hD).eqOn_of_preconnected_of_eventuallyEq (hg.analyticOnNhd hD) hc hz0 hev
 
 end GlobalTheory.UHPRoot
 
@@ -211,12 +232,12 @@ theorem GlobalTheory.KZ.H3.uhp_root : ∀ (h : ℂ → ℂ) (m : ℕ), 0 < m →
     have hev : R =ᶠ[nhds z] r' (N z hz) := by
       filter_upwards [Metric.isOpen_ball.mem_nhds hzk] with w hw
       have hwH : w ∈ Hs := closedBall_sub _ (Metric.ball_subset_closedBall hw)
-      simp only [R, dif_pos hwH]
+      simp only [R, dite_eq_left hwH]
       exact agree _ _ w (hN w hwH) hw
     exact (((hr'd _).differentiableAt (Metric.isOpen_ball.mem_nhds hzk)).congr_of_eventuallyEq
       hev).differentiableWithinAt
   · intro z hz
-    simp only [R, dif_pos hz]
+    simp only [R, dite_eq_left hz]
     exact hr'p _ z (hN z hz)
 end -- clump:auto
 end -- clump:auto
@@ -435,7 +456,7 @@ theorem kum_of_isRoot : ∀ (Ω : Type) [Field Ω] [Algebra ℚ Ω] (ε : Ω →
     if h : δ ∈ CongruenceSubgroup.Gamma M then ((key δ h).choose : ZMod (l ^ n)) else 0
   refine ⟨χ, f, a, b, M, hM, hx, ⟨ha, hb, hb0, hab0⟩, fun δ hδ z hz => ?_⟩
   have hc : ((l : ℂ) ^ n) = ((l ^ n : ℕ) : ℂ) := by push_cast; rfl
-  simp only [χ, dif_pos hδ]
+  simp only [χ, dite_eq_left hδ]
   rw [hc, exp_val_natCast (l ^ n) _ hm]
   exact (key δ hδ).choose_spec z hz
 
@@ -653,7 +674,14 @@ namespace KumUniq
 
 theorem gamma_mem_of_dvd {M N : ℕ} (h : M ∣ N) {δ : SL(2, ℤ)} (hδ : δ ∈ CongruenceSubgroup.Gamma N) :
     δ ∈ CongruenceSubgroup.Gamma M := by
-  apply _root_.GlobalTheory.KZ.H3.KumAdd.gamma_of_dvd <;> assumption
+  rw [CongruenceSubgroup.Gamma_mem] at hδ ⊢
+  obtain ⟨h1, h2, h3, h4⟩ := hδ
+  have e : ∀ x : ℤ, ZMod.castHom h (ZMod M) (x : ZMod N) = (x : ZMod M) := fun x => map_intCast _ x
+  refine ⟨?_, ?_, ?_, ?_⟩
+  · rw [← e, h1, map_one]
+  · rw [← e, h2, map_zero]
+  · rw [← e, h3, map_zero]
+  · rw [← e, h4, map_one]
 
 end KumUniq
 
@@ -674,8 +702,7 @@ theorem kum_near : ∀ (Ω : Type) [Field Ω] [Algebra ℚ Ω] (ε : Ω →+* �
 
   have nz : ∀ u : ℂ → ℂ, DifferentiableOn ℂ u Hs → (u : Mero) ≠ 0 → ∃ z ∈ Hs, u z ≠ 0 := by
     intro u hu hu0
-    by_contra hc
-    push_neg at hc
+    by_contra! hc
     exact hu0 (((G1 u (fun _ => 0) hu (differentiableOn_const 0)).2 hc).trans Filter.Germ.coe_zero)
 
   have unz : ∀ (h : X.Kˣ) (u : ℂ → ℂ) (v : Mero) (k : ℕ), k ≠ 0 → X.an (h : X.K) * (u : Mero) ^ k = v →
@@ -696,8 +723,7 @@ theorem kum_near : ∀ (Ω : Type) [Field Ω] [Algebra ℚ Ω] (ε : Ω →+* �
   have nzmul : ∀ u v : ℂ → ℂ, DifferentiableOn ℂ u Hs → DifferentiableOn ℂ v Hs → (∃ z ∈ Hs, u z ≠ 0) →
       (∃ z ∈ Hs, v z ≠ 0) → ∃ z ∈ Hs, u z * v z ≠ 0 := by
     rintro u v hu hv ⟨z1, hz1, h1⟩ ⟨z2, hz2, h2⟩
-    by_contra hc
-    push_neg at hc
+    by_contra! hc
     rcases G2 u v hu hv hc with h | h
     · exact h1 (h z1 hz1)
     · exact h2 (h z2 hz2)

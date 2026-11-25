@@ -1,7 +1,5 @@
 module
 
-
-import Formalism.LocalToGlobal.SiegelLatticeTheory.FlagStabilizerTensors.RootLatticeThresholds.AllRowsRedKerA
 public import Formalism.SharpRestriction.GlobalSchurBounds.ProductFirstZerothParts
 public import Formalism.LocalToGlobal.GlobalTheory.GL6.DiamondPreservesRationalFormZero
 public import Formalism.LocalToGlobal.GlobalTheory.GL6.FrameTranslate
@@ -24,6 +22,7 @@ import Formalism.LocalToGlobal.HermitianForms.IsLocBasis
 import Mathlib.RingTheory.PiTensorProduct
 import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.RationalPointsLeHolds
 import Formalism.LocalToGlobal.GlobalTheory.GL6.PKerAtP
+
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Formalism.LocalToGlobal.GlobalTheory.GL6.CongruenceNoKernelOfLevelZeroIdentities, Formalism.LocalToGlobal.GlobalTheory.GL6.AdelicFunctionExtendsFromClasses, Formalism.LocalToGlobal.GlobalTheory.GL6.DiagonalSlopes.NaturalTranslateAdelicFunction
 
@@ -182,12 +181,6 @@ theorem adelic_function_extends_from_classes (S : StepLevel F E σ J T f bad) (e
     · intro h; exact absurd (Finset.mem_univ c) h
 
 end Gen
-
-section Tied
-
-variable {D : D7} {u : D.what₂.Word}
-
-end Tied
 
 end Formalism.L2.GlobalTheoryTheory.LocalLatticeBases
 end -- clump:auto
@@ -663,7 +656,16 @@ section DiaLat
 theorem hermitian_form_unitary_mul {A : Type} [CommRing A] {n : Type} [Fintype n] [DecidableEq n] (σ : A →+* A)
     (J M : Matrix n n A) (hM : Formalism.UG.cT σ M * J * M = J) (x y : n → A) :
     Formalism.UG.hform σ J (M *ᵥ x) (M *ᵥ y) = Formalism.UG.hform σ J x y := by
-  apply _root_.Formalism.L2.SG.Pf.AllRowsRedKerA.hform_unit <;> assumption
+  have hdot : ∀ x y : n → A, Formalism.UG.hform σ J x y = (fun i => σ (x i)) ⬝ᵥ (J *ᵥ y) := by
+    intro x y
+    simp only [Formalism.UG.hform, dotProduct, mulVec, Finset.mul_sum, mul_assoc]
+  have hσ : (fun i => σ ((M *ᵥ x) i)) = (M.map σ) *ᵥ (fun i => σ (x i)) := by
+    funext i
+
+    simp [mulVec, dotProduct, map_sum, map_mul]
+  rw [hdot, hdot, hσ, ← vecMul_transpose, ← dotProduct_mulVec]
+  simp only [mulVec_mulVec, ← Matrix.mul_assoc]
+  rw [show (M.map σ)ᵀ * J * M = J from hM]
 
 theorem mem_mul_lattice_iff {E : Type} [Field E] [NumberField E] {n : ℕ} (g : GL (Fin n) E)
     (L : Submodule (𝓞 E) (Fin n → E)) (x : Fin n → E) :
@@ -767,8 +769,6 @@ private theorem local_value_eq_of_stabiliser {n A R M : Type} [Fintype n] [Decid
       congrArg (fun g : GL n A => g.val *ᵥ x) hgroup
   exact (congrArg (fun a : L => f a) (Subtype.ext hvec)).trans (hfix ⟨_, h₁⟩)
 
-set_option maxHeartbeats 20000000 in
-set_option synthInstance.maxHeartbeats 400000 in
 theorem diamond_class_function (T : Forms0 D u) (v v' : (D.mem u).A.vT) (hvv : v ≠ v') (k : ℤ)
     (δ : UPts (sigD D) (gramN D 0 (Nat.zero_le _)) (FiniteAdeleRing (𝓞 D.host.F) D.host.F))
     (hδ : IsDia T.cls0.lev (T.atT.eV v').1 (T.atT.eV v').2 k δ) (c c2 : (D.mem u).C.cls 0)

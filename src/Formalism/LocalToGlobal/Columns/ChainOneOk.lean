@@ -59,24 +59,7 @@ theorem ookSupp (c : LocCst X (rowSG Pr sel mu)) (hs : c.sharp = true) {m2 i : �
       IntAt P.1 (ocbBEnt (R.N i) (R.N (i + 1)) (qOf P.1) y l s) := by
   intro y hy
   rw [ookOmPhi_eq Ch sel mu c hs i P hP] at hy
-  have hPhiSupp {E K : Type} [Field E] [NumberField E] [StarRing E] [Field K]
-      {P : HeightOneSpectrum (𝓞 E)} {q : ℕ} (ψ₀ : AddChar (𝓞 E ⧸ P.asIdeal) K) (χ : ℕ → (𝓞 E ⧸ P.asIdeal)ˣ →* Kˣ) {k₀ m t j n' c' c n : ℕ}
-      (hr : ocbRanks k₀ m t j n' c n) (hc' : c' = c + 1) (y : HomE E (n' + c') (n + c))
-      (h : LocE.PhiGS q ψ₀ χ k₀ (m / 2 - 1) (k₀ + m - 1) t j c' n' c n y ≠ 0) :
-      ∀ l s, l < n + c → s < n' + c' → IntAt P (ocbBEnt n' n q y l s) := by
-    intro l s hl hs
-    obtain ⟨hk', hk, -, hsrc, -, -⟩ := ocbPhi_ranks hr
-    subst hc'
-    unfold LocE.PhiGS at h
-    dsimp only at h
-    split_ifs at h with hc
-    · have hp := ocbPhi_fPos_lt hk hl
-      have hp' := ocbPhi_fPos_lt hk' hs
-      have e := hc.1 (LocE.fPos k₀ c n l) (LocE.fPos k₀ (c + 1) n' s) hp (by omega)
-      rw [ocbBEnt_entB, ocbPhi_fIdx_fPos hk hl, ocbPhi_fIdx_fPos hk' hs] at e
-      exact e
-    · exact absurd rfl h
-  exact hPhiSupp (psi0P Ch P.1) (chiP Ch P.1) (ocbRanks_step hm hi) (ookC hm hi) y (right_ne_zero_of_mul hy)
+  exact ocbPhiGS_supp (psi0P Ch P.1) (chiP Ch P.1) (ocbRanks_step hm hi) (ookC hm hi) y (right_ne_zero_of_mul hy)
 
 theorem ookRedPsi (hX : X.Ok) (hPr : Pr.Ok) (c : LocCst X (rowSG Pr sel mu)) (hs : c.sharp = true) {m2 i : ℕ} (hm : R.m = m2 + 2)
     (hi : i < m2) (P : rowSG Pr sel mu) (hP : P.1 ∈ Pr.vGs) (σ : X.K →+* ℂ) :
@@ -322,14 +305,5 @@ theorem ookXiUnit (hCh : Ch.Ok) {σ₀ : X.K →+* ℂ} {xi0 : X.E} (hW : Ch.Wei
   exact ⟨intAt_of_redP_ne_zero₂ hne, hne⟩
 
 end Cst
-
-section Ok
-
-variable {X : Fields} {Pr : Primes X} {R : Ranks} (Ch : Chars X Pr R.m)
-  (sel : HeightOneSpectrum (𝓞 X.F) → HeightOneSpectrum (𝓞 X.E)) (S : Set ℕ)
-
-variable {Ch}
-
-end Ok
 
 end Formalism.L2.Col

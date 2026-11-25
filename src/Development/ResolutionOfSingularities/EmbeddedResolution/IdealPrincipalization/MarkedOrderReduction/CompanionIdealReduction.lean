@@ -1,8 +1,6 @@
 module
 
-import all Development.ResolutionOfSingularities.EmbeddedResolution.IdealPrincipalization.MonomialCase.MonomialInvariantDecrease
 public import Development.ResolutionOfSingularities.EmbeddedResolution.IdealPrincipalization.MarkedOrderReduction.MonomialFactorTransform
-import all Development.ResolutionOfSingularities.EmbeddedResolution.IdealPrincipalization.MarkedOrderReduction.MonomialFactorTransform
 public import Development.ResolutionOfSingularities.EmbeddedResolution.IdealPrincipalization.MarkedOrderReduction.OrderAlongBlowupSequence
 public import Development.ResolutionOfSingularities.EmbeddedResolution.IdealPrincipalization.MarkedOrderReduction.NonMonomialOrderReduction
 public import Development.ResolutionOfSingularities.EmbeddedResolution.IdealPrincipalization.MonomialCase.LocallyMonomial
@@ -11,48 +9,7 @@ import Development.ResolutionOfSingularities.EmbeddedResolution.DerivativeIdeal.
 import Development.ResolutionOfSingularities.EmbeddedResolution.IdealPrincipalization.MarkedOrderReduction.MaxOrder
 import Development.ResolutionOfSingularities.EmbeddedResolution.StrictTransformCharts.ControlledTransform
 import Development.ResolutionOfSingularities.Foundations.Schemes.IdealSheafData
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
 import Development.ResolutionOfSingularities.EmbeddedResolution.IdealPrincipalization.MarkedOrderReduction.MonomialSplittingFunctoriality
 
 -- This file was produced by scripts/clump.py from the modules listed below.
@@ -437,7 +394,15 @@ private theorem controlledTransform_eq_ofMarkedSequence_controlledTransform {k :
     (s : MarkedSequenceOfBlowups p J μ E) (I : X.IdealSheafData) (m i : ℕ) :
     MarkedSequenceOfBlowups.controlledTransform s I m i
       = ((MarkedBlowupSequenceData.ofMarkedSequence s).toBlowupSequenceData).controlledTransform I m i := by
-  apply _root_.FunctorialResolution.EmbeddedResolution.controlledTransform_eq_sequenceData <;> assumption
+  induction i with
+  | zero =>
+      exact (BlowupSequenceData.controlledTransform_zero ((MarkedBlowupSequenceData.ofMarkedSequence s).toBlowupSequenceData) I m).symm
+  | succ n ih =>
+      have h2 := BlowupSequenceData.controlledTransform_succ ((MarkedBlowupSequenceData.ofMarkedSequence s).toBlowupSequenceData) I m n
+      refine Eq.trans ?_ h2.symm
+      exact congrArg
+        (fun Jj : (s.schemeAt n).IdealSheafData =>
+          residualByPow (Jj.comap (s.transitionMapSucc n)) (s.exceptionalDivisor n) m) ih
 
 private theorem comap_controlledTransform_eq_comap_ofMarkedSequence {k : Type u} [Field k] {X : Scheme.{u}}
     {p : X ⟶ Spec (CommRingCat.of k)} {J : X.IdealSheafData} {μ : ℕ} {E : List X.IdealSheafData}
@@ -579,9 +544,6 @@ private theorem orderAtLeastLocus_eq_empty_of_comap_iso {k : Type u} [Field k] [
     {X Y : Scheme.{u}} (p : X ⟶ Spec (CommRingCat.of k)) [AlgebraicGeometry.Smooth p]
     (e : Y ≅ X) (J : X.IdealSheafData) (c : ℕ)
     (hJ : orderAtLeastLocus (J.comap e.hom) c = ∅) : orderAtLeastLocus J c = ∅ := by
-  have hhom : AlgebraicGeometry.Smooth e.hom := inferInstance
-  have hinv : AlgebraicGeometry.Smooth e.inv := inferInstance
-  have hp : AlgebraicGeometry.Smooth (e.hom ≫ p) := inferInstance
   have hcomp : (J.comap e.hom).comap e.inv = J := by
     rw [← Scheme.IdealSheafData.comap_comp, Iso.inv_hom_id, Scheme.IdealSheafData.comap_id]
   have key := image_orderAtLeastLocus_comap_subset k (e.hom ≫ p) e.inv (J.comap e.hom) c
@@ -933,7 +895,13 @@ theorem orderAt_lastNonMonomialPart_companionIdealReduction_eq_zero (hG : Princi
 private theorem foldr_ofFn_mul_eq_prod {X : Scheme.{u}} (m : ℕ)
     (g : Fin m → X.IdealSheafData) :
     (List.ofFn g).foldr (· * ·) ⊤ = ∏ i, g i := by
-  apply _root_.FunctorialResolution.EmbeddedResolution.foldr_mul_ofFn_eq_prod <;> assumption
+  induction m with
+  | zero =>
+      have h1 : List.ofFn g = [] := by simp
+      rw [h1, List.foldr_nil, Fin.prod_univ_zero]
+      exact Scheme.IdealSheafData.one_eq_top.symm
+  | succ p ih =>
+      rw [List.ofFn_succ, List.foldr_cons, ih, Fin.prod_univ_succ]
 
 theorem isLocallyMonomialTriple_tripleAtLength_companionIdealReduction (hG : PrincipalizationGeometryHypotheses.{u}) (hinv : ComapIsoInvariance.{u})
     {n : ℕ} {A B : PrincipalizationAssignment.{u}} (hspec : IsOrderReduction (fun d => d ≤ n) A B)

@@ -1,6 +1,5 @@
 module
 
-import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.MCoordIdealGenericPointEq
 public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.StSheetLift
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.InterSheetA
 
@@ -22,8 +21,17 @@ variable {K : Type} [Fintype K] {ι : K → Type} [∀ k, Fintype (ι k)]
 
 theorem bsmul_mem {P : Ideal (MRing ι)} (hP : IsMultiHomogIdeal P) {c : K → ℂ} (hc : ∀ k, c k ≠ 0)
     {z : (Σ k, ι k) → ℂ} (hz : z ∈ mcPts P) : bsmul c z ∈ mcPts P := by
-  intros
-  apply _root_.GroundTheory.Heights₂.Heights.LowerBoundFree.ComponentDataEquivalence.mcPts_torus <;> assumption
+  refine ⟨fun k => ?_, fun f hf => ?_⟩
+  · obtain ⟨i, hi⟩ := hz.1 k
+    exact ⟨i, mul_ne_zero (hc k) hi⟩
+  · obtain ⟨S, hS, hPS⟩ := hP
+    have hle : P ≤ RingHom.ker ((eval (bsmul c z)).comp (map (Int.castRingHom ℂ))) := by
+      rw [hPS, Ideal.span_le]
+      intro g hg
+      obtain ⟨a, ha⟩ := hS g hg
+      rw [SetLike.mem_coe, RingHom.mem_ker, RingHom.comp_apply, eval_bsmul_of_isMultiHomog ha c z,
+        hz.2 g (by rw [hPS]; exact Ideal.subset_span hg), mul_zero]
+    exact hle hf
 
 
 omit [∀ k, Fintype (ι k)] in
@@ -59,7 +67,7 @@ theorem lift_spec [DecidableEq K] {P : Ideal (MRing ι)} (hP : IsMultiHomogIdeal
   rw [lift_segre i0 k0 hne]
   refine ⟨bsmul_mem hP (fun k => div_ne_zero (by split_ifs <;> simp [hne]) (h0 k)) hz, ?_⟩
   have hprod : ∏ k, (if k = k0 then segre z i0 else 1) / z ⟨k, i0 k⟩ = 1 := by
-    rw [Finset.prod_div_distrib, Finset.prod_ite_eq' Finset.univ k0, if_pos (Finset.mem_univ _)]
+    rw [Finset.prod_div_distrib, Finset.prod_ite_eq' Finset.univ k0, ite_eq_left (Finset.mem_univ _)]
     exact div_self hne
   rw [segre_bsmul, hprod]
   funext i
@@ -75,9 +83,9 @@ theorem differentiableAt_lift [DecidableEq K] {e : ℕ} (i0 : (k : K) → ι k) 
   simp only [lift, div_eq_mul_inv]
   refine DifferentiableAt.mul ?_ ((hc (Function.update i0 p.1 p.2)).mul ((hc i0).inv hne))
   by_cases hp : p.1 = k0
-  · simp only [hp, if_true]
+  · simp only [hp, ite_true]
     exact hc i0
-  · simp only [hp, if_false]
+  · simp only [hp, ite_false]
     exact differentiableAt_const _
 
 theorem proof : SheetLift.Statement := by

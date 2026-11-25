@@ -1,55 +1,10 @@
 module
 
-import all Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.LocalMaximality.PLCupRel
-import all Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.LocalMaximality.PDtPull
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.LocalMaximality.ResidueOfTraceIsFiberSum
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsLaurentConstantTermFormFunctionFieldStatement
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsTopDegreeCoefficientFormAndEqOnTopFormsStatement
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.KahlerFormsOverSubalgebraClosurePropertiesStatement
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.Lemma
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.ReduceModChar
 import Std.Tactic.BVDecide.Normalize.Prop
 
 @[expose] public section
@@ -93,7 +48,20 @@ private lemma rgt_mono' {ι κ : Type} [LinearOrder ι] [LinearOrder κ] {s t : 
 
 private lemma card_split' {ι : Type} [LinearOrder ι] (u : Finset ι) {j : ι} (hj : j ∈ u) :
     (u.filter (· ≤ j)).card + (u.filter (j ≤ ·)).card = u.card + 1 := by
-  apply _root_.card_split <;> assumption
+  have h1 := Finset.card_filter_add_card_filter_not (s := u) (fun i => i ≤ j)
+  have h2 : u.filter (j ≤ ·) = insert j (u.filter (fun i => ¬ i ≤ j)) := by
+    ext i
+    simp only [Finset.mem_filter, Finset.mem_insert, not_le]
+    constructor
+    · rintro ⟨hi, hji⟩
+      rcases hji.eq_or_lt with h | h
+      · exact Or.inl h.symm
+      · exact Or.inr ⟨hi, h⟩
+    · rintro (rfl | ⟨hi, h⟩)
+      · exact ⟨hj, le_rfl⟩
+      · exact ⟨hi, h.le⟩
+  rw [h2, Finset.card_insert_of_notMem (by simp)]
+  omega
 
 private lemma cechC_iff' {ι E : Type} [LinearOrder ι] [AddCommGroup E] [Module ℂ E] {A : Finset ι → Submodule ℂ E}
     {n : ℤ} {c : Finset ι → E} :
@@ -122,23 +90,23 @@ private lemma cupE_mem' {ι E E' E'' : Type} [LinearOrder ι] [AddCommGroup E] [
     by_cases c1 : (u.filter (· ≤ j)).Nonempty ∧ ((u.filter (· ≤ j)).card : ℤ) = q + 1
     · have c2 : ¬ ((u.filter (j ≤ ·)).Nonempty ∧ ((u.filter (j ≤ ·)).card : ℤ) = p + 1) :=
         fun c2 => hc ⟨c1.1, c1.2, c2.1, c2.2⟩
-      rw [if_neg c2, Submodule.mem_bot] at h2
+      rw [ite_eq_right c2, Submodule.mem_bot] at h2
       rw [h2, map_zero]
-    · rw [if_neg c1, Submodule.mem_bot] at h1
+    · rw [ite_eq_right c1, Submodule.mem_bot] at h1
       rw [h1, map_zero, LinearMap.zero_apply]
   by_cases hu : u.Nonempty ∧ (u.card : ℤ) = n + 1
-  · rw [if_pos hu]
+  · rw [ite_eq_left hu]
     refine Submodule.sum_mem _ fun j hj => ?_
     by_cases c : (u.filter (· ≤ j)).Nonempty ∧ ((u.filter (· ≤ j)).card : ℤ) = q + 1 ∧
         (u.filter (j ≤ ·)).Nonempty ∧ ((u.filter (j ≤ ·)).card : ℤ) = p + 1
     · have h1 := cechC_iff'.1 ha (u.filter (· ≤ j))
       have h2 := cechC_iff'.1 hb (u.filter (j ≤ ·))
-      rw [if_pos ⟨c.1, c.2.1⟩] at h1
-      rw [if_pos c.2.2] at h2
+      rw [ite_eq_left ⟨c.1, c.2.1⟩] at h1
+      rw [ite_eq_left c.2.2] at h2
       exact hH _ _ _ c.1 c.2.2.1 (Finset.filter_subset _ _) (Finset.filter_subset _ _) _ h1 _ h2
     · rw [zero j hj c]
       exact Submodule.zero_mem _
-  · rw [if_neg hu, Submodule.mem_bot]
+  · rw [ite_eq_right hu, Submodule.mem_bot]
     refine Finset.sum_eq_zero fun j hj => zero j hj fun c => hu (key j hj ⟨c.1, c.2.1⟩ c.2.2)
 
 private lemma alt_trace' (hTL : TrLin) {M : Type} [AddCommGroup M] [Module ℂ M] (C : Cx ℂ M)
@@ -199,12 +167,27 @@ private lemma edge_id' {ι κ E : Type} [LinearOrder ι] [LinearOrder κ] [AddCo
   funext s
   simp only [Pi.sub_apply, Finset.sum_apply, Pi.smul_apply, edge1, Finset.sum_sub_distrib]
   by_cases hs : (rgt s).card = 1
-  · simp only [hs, if_true]
+  · simp only [hs, ite_true]
     abel
   · simp [hs]
 
 section Forms
 variable {K L : Type} [Field K] [Field L] [Algebra ℂ K] [Algebra ℂ L] [Algebra K L] [IsScalarTower ℂ K L]
+
+private lemma mapDR_ιMulti' (q : ℕ) (v : Fin q → K) :
+    mapDR ℂ K L (ExteriorAlgebra.ιMulti K q fun j => D ℂ K (v j)) =
+      ExteriorAlgebra.ιMulti L q fun j => D ℂ L (algebraMap K L (v j)) := by
+  induction q with
+  | zero => rw [ExteriorAlgebra.ιMulti_zero_apply, ExteriorAlgebra.ιMulti_zero_apply, map_one]
+  | succ q ih =>
+    rw [ExteriorAlgebra.ιMulti_succ_apply, ExteriorAlgebra.ιMulti_succ_apply, map_mul]
+    have ht : Matrix.vecTail (fun j => D ℂ K (v j)) = fun j => D ℂ K (v j.succ) := rfl
+    have ht' : Matrix.vecTail (fun j => D ℂ L (algebraMap K L (v j))) =
+        fun j => D ℂ L (algebraMap K L (v j.succ)) := rfl
+    rw [ht, ht', ih (fun j => v j.succ)]
+    congr 1
+    simp only [mapDR, ExteriorAlgebra.lift_ι_apply]
+    simp [map1, KaehlerDifferential.map_D]
 
 private lemma mapL_mem' (B : Subalgebra ℂ K) (B' : Subalgebra ℂ L) (h : ∀ y ∈ B, algebraMap K L y ∈ B') (n : ℕ) :
     ∀ y ∈ omB ℂ K B n, mapL K L y ∈ omB ℂ L B' n := by
@@ -213,7 +196,7 @@ private lemma mapL_mem' (B : Subalgebra ℂ K) (B' : Subalgebra ℂ L) (h : ∀ 
     rintro _ ⟨b, hb, v, hv, rfl⟩
     refine Submodule.subset_span ⟨algebraMap K L b, h b hb, fun j => algebraMap K L (v j), fun j => h _ (hv j), ?_⟩
     show mapDR ℂ K L (b • _) = _
-    rw [map_smul, _root_.mapDR_iM, algebraMap_smul]
+    rw [map_smul, mapDR_ιMulti', algebraMap_smul]
   exact fun y hy => hle hy
 
 private lemma mapC_Z' {ι : Type} [LinearOrder ι] (B : Finset ι → Subalgebra ℂ K) (B' : Finset ι → Subalgebra ℂ L)
@@ -223,9 +206,9 @@ private lemma mapC_Z' {ι : Type} [LinearOrder ι] (B : Finset ι → Subalgebra
   refine Submodule.mem_inf.2 ⟨cechC_iff'.2 fun s => ?_, ?_⟩
   · have h1 := cechC_iff'.1 hC s
     by_cases hs : s.Nonempty ∧ (s.card : ℤ) = n + 1
-    · rw [if_pos hs] at h1 ⊢
+    · rw [ite_eq_left hs] at h1 ⊢
       exact mapL_mem' _ _ (h s) q _ h1
-    · rw [if_neg hs, Submodule.mem_bot] at h1 ⊢
+    · rw [ite_eq_right hs, Submodule.mem_bot] at h1 ⊢
       rw [h1, map_zero]
   · have hD' : GlobalTheory.DI.delta c = 0 := hD
     show GlobalTheory.DI.delta (fun I => mapDR ℂ K L (c I)) = 0
@@ -279,14 +262,14 @@ theorem UpperTheory.Gal.productCup_of_system.fieldLe_of :
     · have c : (uni I (∅ : Finset (Fin (d + 1)))).Nonempty ∧
           ((uni I (∅ : Finset (Fin (d + 1)))).card : ℤ) = p k + 1 :=
         ⟨Finset.card_pos.1 (by rw [hcard]; exact Finset.card_pos.2 hI.1), by rw [hcard]; exact hI.2⟩
-      rw [if_pos c, lft_uni', rgt_uni', hRI] at h1
-      rw [if_pos hI]
+      rw [ite_eq_left c, lft_uni', rgt_uni', hRI] at h1
+      rw [ite_eq_left hI]
       exact h1
     · have c : ¬ ((uni I (∅ : Finset (Fin (d + 1)))).Nonempty ∧
           ((uni I (∅ : Finset (Fin (d + 1)))).card : ℤ) = p k + 1) := fun c =>
         hI ⟨Finset.card_pos.1 (by rw [← hcard]; exact Finset.card_pos.2 c.1), by rw [← hcard]; exact c.2⟩
-      rw [if_neg c] at h1
-      rw [if_neg hI]
+      rw [ite_eq_right c] at h1
+      rw [ite_eq_right hI]
       exact h1
   have hcond : ∀ (I J I' : Finset (Fin (d + 1))) (s : Finset (Two d)), J.Nonempty → I'.Nonempty → s.Nonempty → I' ⊆ I →
       s ⊆ uni I J → ∀ y ∈ omB ℂ K' (rB ℂ K' (xv x) I') (d - a), ∀ y' ∈ omB ℂ K' (RY (xv x) j2 (lft s) (rgt s)) a,

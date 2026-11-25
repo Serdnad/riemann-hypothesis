@@ -1,6 +1,5 @@
 module
 
-import all Development.AutomorphicArithmetic.Foundations.Convolution.BlockHeckeSlices.CuspidalNormBounds.AmpRep
 public import Development.AutomorphicArithmetic.Foundations.Convolution.CentreSplitting.DefsObj
 public import Development.AutomorphicArithmetic.Foundations.Convolution.CentreSplitting.CapZcMemOfE
 public import GroundTheory.AutomorphicForms.GKModules.Garding
@@ -17,48 +16,6 @@ public import Development.AutomorphicArithmetic.Foundations.Convolution.CentreSp
 public import Development.AutomorphicArithmetic.Foundations.Convolution.CentreSplitting.DiracSep
 public import Development.AutomorphicArithmetic.Foundations.Convolution.CentreSplitting.FormsIrr
 public import Development.AutomorphicArithmetic.Foundations.Convolution.ConvolutionKernels.KernelTransforms.ExpGen
-import Mathlib.Algebra.Module.StablyFree.Basic
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Tactic.TypeStar
-import Mathlib.Topology.Sheaves.Init
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Data.Nat.Choose.Multinomial
 import Mathlib.Tactic.Linter.Style
 import GroundTheory.AutomorphicForms.AutomorphicFormSpaces.Archimedean
 
@@ -90,7 +47,30 @@ private theorem UpperTheory.ConvolutionTheory.Dp.infZc_prod {n : ℕ} {m : Multi
 
 private theorem UpperTheory.ConvolutionTheory.Dp.infZc_coeff {M : Type*} [AddCommGroup M] [Module ℂ M] {n : ℕ} (v : Fin n → M)
     (h : ∀ u : ℂ, ∑ i : Fin n, u ^ (n - (i + 1)) • v i = 0) (i : Fin n) : v i = 0 := by
-  apply _root_.UpperTheory.polynomial_identity_coefficients_zero <;> assumption
+  rw [← Module.forall_dual_apply_eq_zero_iff ℂ]
+  intro f
+  have hp : (∑ j : Fin n, Polynomial.monomial (n - (j + 1)) (f (v j)) : Polynomial ℂ) = 0 := by
+    apply Polynomial.funext
+    intro u
+    have := congrArg f (h u)
+
+    simp only [map_sum, map_smul, map_zero, smul_eq_mul] at this
+    simp only [Polynomial.eval_finsetSum, Polynomial.eval_monomial, Polynomial.eval_zero]
+    rw [← this]
+    exact Finset.sum_congr rfl fun j _ => mul_comm _ _
+  have := congrArg (fun p => _root_.AddMonoidAlgebra.coeff (M := ℕ) p (n - (i + 1))) hp
+  simp only [Polynomial.finsetSum_coeff, Polynomial.coeff_monomial, Polynomial.coeff_zero] at this
+  rw [Finset.sum_eq_single i] at this
+  · simpa using this
+  · intro j _ hj
+    simp only [Finsupp.single_apply]
+    rw [ite_eq_right]
+    intro e
+    apply hj
+    have := j.2
+    have := i.2
+    exact Fin.ext (by omega)
+  · simp
 
 theorem UpperTheory.ConvolutionTheory.Dp.infZc :
     UpperTheory.ConvolutionTheory.Dp.InfZc := by

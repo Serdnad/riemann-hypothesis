@@ -1,50 +1,12 @@
 module
 
-
-import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.WeightVariableFormula
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FlatFrameApply
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.TopPairDForm
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.DetBlockChangeOfBasisViaTwoFamiliesImplicit
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.PiTensorProduct
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
 import Std.Tactic.BVDecide.Normalize.Prop
 import Development.AbelianVarietyTheory.Definitions.Divisors.NormNegCmConstantEqAtAllEmbeddings
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.PullbackSections.HolomorphicFamilies.CmHostUnitAddConjEqOne
+
 @[expose] public section
 
 open CategoryTheory AlgebraicGeometry TopologicalSpace Limits NumberField
@@ -59,7 +21,6 @@ open GlobalTheory.IndefiniteRowSideFullHecke.LevelStructureAutomorphisms (LevelA
 open GlobalTheory.OrbitSep
 open scoped GlobalTheory.CompHt
 
-set_option autoImplicit false
 noncomputable section
 namespace GlobalTheory.LogKSDiv.DetChange
 
@@ -74,7 +35,23 @@ theorem sandwich {ι κ K : Type} [Fintype ι] [DecidableEq ι] [CommRing K] (B 
 variable {E : Type} [Field E] [NumberField E] [IsCMField E]
 
 theorem hostRoot_conj_eq_neg_and_ne_zero (H : ReciprocityTheory.ChartRestriction.G.Geo.Tor.Host E) : starRingEnd ℂ H.rt0 = -H.rt0 ∧ H.rt0 ≠ 0 := by
-  apply _root_.GlobalTheory.WeightOrderLemmas.rt0_conj_neg_ne_zero <;> assumption
+  have hd : (0 : ℝ) < H.d := by exact_mod_cast H.d_prime.pos
+  have h := H.sqrt_neg_disc_sq
+  have hre := congrArg Complex.re h
+  have him := congrArg Complex.im h
+  simp [pow_two] at hre him
+  have hre0 : H.rt0.re = 0 := by
+    by_contra hne
+    have : H.rt0.im = 0 := by
+      have : H.rt0.re * H.rt0.im = 0 := by linarith
+      exact (mul_eq_zero.1 this).resolve_left hne
+    rw [this] at hre
+    nlinarith [mul_self_nonneg H.rt0.re]
+  refine ⟨Complex.ext (by simp [hre0]) (by simp), ?_⟩
+  intro h0
+  rw [h0] at hre
+  simp at hre
+  exact H.d_prime.ne_zero hre
 
 theorem conj_off (H : ReciprocityTheory.ChartRestriction.G.Geo.Tor.Host E) (τ : E →+* ℂ) (h : τ (H.rt : E) = H.rt0) :
     ((starRingEnd ℂ).comp τ) (H.rt : E) ≠ H.rt0 := by
@@ -169,7 +146,7 @@ theorem prod_pairs (f : (E →+* ℂ) → K) :
   rw [← Fintype.prod_subtype_mul_prod_subtype (fun τ : E →+* ℂ => τ (H.rt : E) = H.rt0), Finset.prod_mul_distrib]
   congr 1
   · refine Finset.prod_congr (by convert rfl) fun τ _ => ?_
-    rw [if_pos τ.2, Datum.mult, if_neg (conj_off H τ.1 τ.2)]
+    rw [ite_eq_left τ.2, Datum.mult, ite_eq_right (conj_off H τ.1 τ.2)]
   · symm
     refine Fintype.prod_equiv
       { toFun := fun τ => ⟨(starRingEnd ℂ).comp τ.1, conj_off H τ.1 τ.2⟩
@@ -177,7 +154,7 @@ theorem prod_pairs (f : (E →+* ℂ) → K) :
         left_inv := fun τ => Subtype.ext (conj_conj_emb τ.1)
         right_inv := fun σ => Subtype.ext (conj_conj_emb σ.1) } _ _ (fun τ => ?_)
     simp only [Equiv.coe_fn_mk]
-    rw [if_neg (conj_off H τ.1 τ.2), Datum.mult, if_pos τ.2]
+    rw [ite_eq_right (conj_off H τ.1 τ.2), Datum.mult, ite_eq_left τ.2]
 
 end GlobalTheory.LogKSDiv.DetChange
 

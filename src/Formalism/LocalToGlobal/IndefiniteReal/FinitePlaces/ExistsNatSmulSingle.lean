@@ -24,37 +24,19 @@ namespace Formalism.IndefR.Fin.PDA
 
 open Formalism.IndefR.Fin Formalism.IndefR.Datum
 
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
-
 variable {D : D7}
 
 theorem exists_nat_eq_mul {K : Type} [Field K] [NumberField K] (b : 𝓞 K) (hb : b ≠ 0) :
-    ∃ m : ℕ, 1 ≤ m ∧ ∃ c : 𝓞 K, (m : 𝓞 K) = b * c := by
-  refine ⟨Ideal.absNorm (Ideal.span {b}), ?_, ?_⟩
-  · have : Ideal.absNorm (Ideal.span {b}) ≠ 0 := by
-      rw [Ne, Ideal.absNorm_eq_zero_iff, Ideal.span_singleton_eq_bot]; exact hb
-    omega
-  · obtain ⟨c, hc⟩ := Ideal.mem_span_singleton'.1 (Ideal.absNorm_mem (Ideal.span {b}))
-    exact ⟨c, by rw [← hc, mul_comm]⟩
+    ∃ m : ℕ, 1 ≤ m ∧ ∃ c : 𝓞 K, (m : 𝓞 K) = b * c :=
+  _root_.GlobalTheory.HalfAdjLattice.exists_nat_eq_mul b hb
 
 theorem exists_nat_mul_mem {K : Type} [Field K] [NumberField K] (e : K) :
-    ∃ m : ℕ, 1 ≤ m ∧ (m : K) * e ∈ (algebraMap (𝓞 K) K).range := by
-  obtain ⟨⟨a, b⟩, h⟩ := IsLocalization.surj (nonZeroDivisors (𝓞 K)) e
-  obtain ⟨m, hm, c, hc⟩ := exists_nat_eq_mul (b : 𝓞 K) (nonZeroDivisors.ne_zero b.2)
-  refine ⟨m, hm, a * c, ?_⟩
-  have h1 : (m : K) = algebraMap (𝓞 K) K b * algebraMap (𝓞 K) K c := by
-    rw [← map_mul, ← hc, map_natCast]
-  simp only at h
-  rw [map_mul, h1, ← h]
-  ring
+    ∃ m : ℕ, 1 ≤ m ∧ (m : K) * e ∈ (algebraMap (𝓞 K) K).range :=
+  _root_.GlobalTheory.HalfAdjLattice.exists_nat_mul_mem e
 
 lemma uniform_nat {ι : Type*} [Fintype ι] (P : ι → ℕ → Prop) (hP : ∀ i k m, P i k → P i (m * k))
-    (h : ∀ i, ∃ k, 0 < k ∧ P i k) : ∃ k, 0 < k ∧ ∀ i, P i k := by
-  classical
-  choose k hk hPk using h
-  refine ⟨∏ i, k i, Finset.prod_pos fun i _ => hk i, fun i => ?_⟩
-  rw [← Finset.prod_erase_mul _ _ (Finset.mem_univ i)]
-  exact hP i _ _ (hPk i)
+    (h : ∀ i, ∃ k, 0 < k ∧ P i k) : ∃ k, 0 < k ∧ ∀ i, P i k :=
+  _root_.GlobalTheory.HalfAdjLattice.uniform_nat P hP h
 
 lemma selfDual_isFullLattice (V : HSp D) (Λ : Submodule (𝓞 D.host.E) (Fin V.rank → D.host.E))
     (hΛ : IsSelfDualC V Λ) : Submodule.IsFullLattice D.host.E Λ := by
@@ -81,7 +63,16 @@ lemma exists_nat_denom {n : ℕ} (v : Fin n → D.host.E) :
 
 theorem lattice_projective {n : ℕ} {Λ : Submodule (𝓞 D.host.E) (Fin n → D.host.E)}
     (hΛ : Submodule.IsLattice D.host.E Λ) : Module.Projective (𝓞 D.host.E) Λ := by
-  apply _root_.GlobalTheory.HalfAdjLattice.lattice_projective <;> assumption
+  have : Module.Finite (𝓞 D.host.E) Λ := Module.Finite.iff_fg.2 hΛ.fg
+  have : Module.Flat (𝓞 D.host.E) Λ := by
+    rw [IsDedekindDomain.flat_iff_torsion_eq_bot, eq_bot_iff]
+    intro x hx
+    obtain ⟨a, ha⟩ := (Submodule.mem_torsion_iff x).1 hx
+    rw [Submodule.mem_bot]
+    rw [Submonoid.smul_def] at ha
+    exact (smul_eq_zero.1 ha).resolve_left (nonZeroDivisors.coe_ne_zero a)
+  have : Module.FinitePresentation (𝓞 D.host.E) Λ := Module.finitePresentation_of_finite _ _
+  exact Module.Flat.projective_of_finitePresentation
 
 theorem hF_eq_dot (S : HSp D) (x y : Fin S.rank → D.host.E) :
     hF S x y = (fun a => star (x a)) ⬝ᵥ (S.gram *ᵥ y) := by

@@ -1,6 +1,5 @@
 module
 
-import all Development.ResolutionOfSingularities.EmbeddedResolution.StrictTransformCharts.StrictTransformFlatBaseChange
 public import Development.ResolutionOfSingularities.EmbeddedResolution.StrictTransformCharts.BlowupSmoothness
 public import Development.ResolutionOfSingularities.EmbeddedResolution.StrictTransformCharts.ControlledTransform
 public import Development.ResolutionOfSingularities.EmbeddedResolution.DerivativeIdeal.DerivativeIdealSheaf
@@ -16,47 +15,7 @@ import Development.ResolutionOfSingularities.EmbeddedResolution.StrictTransformC
 import Development.ResolutionOfSingularities.EmbeddedResolution.StrictTransformCharts.BlowupChartComputations
 import Development.ResolutionOfSingularities.Foundations.Blowup.BlowupIsoOffCenter
 import Development.ResolutionOfSingularities.Foundations.Schemes.IdealSheafData
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.AlgebraicGeometry.Modules.Sheaf
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Development.ResolutionOfSingularities.EmbeddedResolution.StrictTransformCharts.StrictTransformSubscheme
 
 @[expose] public section
 
@@ -71,34 +30,59 @@ private theorem presheaf_map_eq {X : Scheme.{u}} {A B : (X.Opens)ᵒᵖ} (f g : 
   have h : f = g := Quiver.Hom.unop_inj (Subsingleton.elim f.unop g.unop)
   rw [h]
 
-private theorem idealSheafData_mul_le_mul {Y : Scheme.{u}} {A B C D : Y.IdealSheafData}
-    (h1 : A ≤ B) (h2 : C ≤ D) : A * C ≤ B * D := by
-  refine Scheme.IdealSheafData.le_def.mpr fun U => ?_
-  rw [Scheme.IdealSheafData.ideal_mul, Scheme.IdealSheafData.ideal_mul]
-  exact Ideal.mul_mono (Scheme.IdealSheafData.le_def.mp h1 U)
-    (Scheme.IdealSheafData.le_def.mp h2 U)
-
-private theorem idealSheafData_mul_le_left {Y : Scheme.{u}} (A B : Y.IdealSheafData) :
-    A * B ≤ A := by
-  refine Scheme.IdealSheafData.le_def.mpr fun U => ?_
-  rw [Scheme.IdealSheafData.ideal_mul]
-  exact Ideal.mul_le.mpr fun r hr s _ => Ideal.mul_mem_right _ _ hr
-
-private theorem idealSheafData_pow_le_pow_of_le {Y : Scheme.{u}} (A : Y.IdealSheafData) {i j : ℕ}
-    (h : j ≤ i) : A ^ i ≤ A ^ j := by
-  obtain ⟨d, rfl⟩ := Nat.exists_eq_add_of_le h
-  calc A ^ (j + d) = A ^ j * A ^ d := by rw [pow_add]
-    _ ≤ A ^ j := idealSheafData_mul_le_left _ _
+private theorem appLE_ι_bijective {Y : Scheme.{u}} (V : Y.Opens)
+    (e : (⊤ : V.toScheme.Opens) ≤ V.ι ⁻¹ᵁ V) :
+    Function.Bijective (V.ι.appLE V ⊤ e).hom := by
+  have h : V.ι.appLE V ⊤ e = V.topIso.inv := by
+    simp
+    exact presheaf_map_eq _ _
+  rw [h]
+  exact ConcreteCategory.bijective_of_isIso _
 
 private theorem ideal_eq_of_comap_ι_eq {Y : Scheme.{u}} {A B : Y.IdealSheafData}
     (V : Y.affineOpens) (h : A.comap (V : Y.Opens).ι = B.comap (V : Y.Opens).ι) :
     A.ideal V = B.ideal V := by
-  apply _root_.FunctorialResolution.EmbeddedResolution.ideal_eq_of_restrictIdeal_eq <;> assumption
+  have : IsAffine (V : Y.Opens).toScheme := V.2
+  have e : (⊤ : (V : Y.Opens).toScheme.Opens) ≤ (V : Y.Opens).ι ⁻¹ᵁ (V : Y.Opens) := by simp
+  have h1 := A.comap_ideal_eq_map_appLE (V : Y.Opens).ι V ⟨⊤, isAffineOpen_top _⟩ e
+  have h2 := B.comap_ideal_eq_map_appLE (V : Y.Opens).ι V ⟨⊤, isAffineOpen_top _⟩ e
+  rw [h, h2] at h1
+  have hbij := appLE_ι_bijective (V : Y.Opens) e
+  have hbot : Ideal.comap ((V : Y.Opens).ι.appLE (V : Y.Opens) ⊤ e).hom
+      (⊥ : Ideal Γ((V : Y.Opens).toScheme, ⊤)) = ⊥ :=
+    (RingHom.injective_iff_ker_eq_bot _).mp hbij.1
+  have h3 := congrArg (Ideal.comap ((V : Y.Opens).ι.appLE (V : Y.Opens) ⊤ e).hom) h1
+  rw [Ideal.comap_map_of_surjective _ hbij.2, Ideal.comap_map_of_surjective _ hbij.2, hbot,
+    sup_bot_eq, sup_bot_eq] at h3
+  exact h3.symm
 
 private theorem exists_affineOpen_le {X : Scheme.{u}} (x : ↥X) (W : X.Opens)
     (hx : x ∈ W) : ∃ V : X.affineOpens, x ∈ V.1 ∧ V.1 ≤ W := by
   obtain ⟨U, hU, hxU, hUW⟩ := AlgebraicGeometry.exists_isAffineOpen_mem_and_subset hx
   exact ⟨⟨U, hU⟩, hxU, hUW⟩
+
+private theorem exists_pow_mul_mem_of_map_mem_basicOpen {Y : Scheme.{u}} (U : Y.affineOpens)
+    (f : Γ(Y, U.1)) (J : Ideal Γ(Y, U.1)) (x : Γ(Y, U.1))
+    (hx : (Y.presheaf.map (homOfLE (Y.basicOpen_le f)).op).hom x ∈
+      J.map (Y.presheaf.map (homOfLE (Y.basicOpen_le f)).op).hom) :
+    ∃ n : ℕ, f ^ n * x ∈ J := by
+  have := U.2.isLocalization_basicOpen f
+  have halg : (algebraMap Γ(Y, U.1) Γ(Y, Y.basicOpen f)) =
+      (Y.presheaf.map (homOfLE (Y.basicOpen_le f)).op).hom := rfl
+  rw [← halg] at hx
+  obtain ⟨⟨⟨y, hy⟩, ⟨m, hm⟩⟩, hxy⟩ :=
+    (IsLocalization.mem_map_algebraMap_iff (Submonoid.powers f) Γ(Y, Y.basicOpen f)).mp hx
+  simp only at hxy
+  rw [← map_mul] at hxy
+  obtain ⟨⟨c, hc⟩, hcc⟩ :=
+    (IsLocalization.eq_iff_exists (Submonoid.powers f) Γ(Y, Y.basicOpen f)).mp hxy
+  obtain ⟨a, rfl⟩ := hm
+  obtain ⟨b, rfl⟩ := hc
+  refine ⟨b + a, ?_⟩
+  simp only at hcc
+  have h2 : f ^ (b + a) * x = f ^ b * y := by rw [← hcc]; ring
+  rw [h2]
+  exact J.mul_mem_left _ hy
 
 theorem le_of_forall_exists_affineOpen {Y : Scheme.{u}} {A B : Y.IdealSheafData}
     (h : ∀ y : ↥Y, ∃ U : Y.affineOpens, y ∈ U.1 ∧ A.ideal U ≤ B.ideal U) :
@@ -121,7 +105,7 @@ theorem le_of_forall_exists_affineOpen {Y : Scheme.{u}} {A B : Y.IdealSheafData}
       refine hs ⟨f, Finset.mem_coe.mp hf⟩ ?_
       rw [← A.map_ideal_basicOpen W f]
       exact Ideal.mem_map_of_mem _ hxA
-    obtain ⟨n, hn⟩ := _root_.FunctorialResolution.EmbeddedResolution.exists_pow_mul_mem_of_mem_map_basicOpen W f (B.ideal W) x hmem
+    obtain ⟨n, hn⟩ := exists_pow_mul_mem_of_map_mem_basicOpen W f (B.ideal W) x hmem
     exact ⟨n, by simpa [smul_eq_mul] using hn⟩
   · intro y
     exact (h y).choose_spec.2
@@ -131,15 +115,14 @@ theorem derivIdealSheaf_pow_succ_mul_le (k : Type u) [Field k] [CharZero k] {Y :
     (F J : Y.IdealSheafData) (n : ℕ) :
     derivIdealSheaf k q (F ^ (n + 1) * J) ≤ F ^ n * derivIdealSheaf k q J := by
   refine le_trans (derivIdealSheaf_mul_le k q (F ^ (n + 1)) J) (sup_le ?_ ?_)
-  · exact idealSheafData_mul_le_mul (idealSheafData_pow_le_pow_of_le F (Nat.le_succ n)) le_rfl
+  · exact mul_le_mul_of_nonneg_right (pow_le_pow_of_le_one bot_le le_top (Nat.le_succ n)) bot_le
   · calc J * derivIdealSheaf k q (F ^ (n + 1))
         ≤ J * (F ^ n * derivIdealSheaf k q F) :=
-          idealSheafData_mul_le_mul le_rfl (derivIdealSheaf_pow_succ_le k q F n)
+          mul_le_mul_of_nonneg_left (derivIdealSheaf_pow_succ_le k q F n) bot_le
       _ = F ^ n * (J * derivIdealSheaf k q F) := mul_left_comm _ _ _
       _ ≤ F ^ n * derivIdealSheaf k q J :=
-          idealSheafData_mul_le_mul le_rfl
-            (le_trans (idealSheafData_mul_le_left J (derivIdealSheaf k q F))
-              (le_derivIdealSheaf k q J))
+          mul_le_mul_of_nonneg_left
+            (le_trans (mul_le_of_le_one_right bot_le le_top) (le_derivIdealSheaf k q J)) bot_le
 
 theorem derivIdealSheafIterate_pow_mul_le (k : Type u) [Field k] [CharZero k] {Y : Scheme.{u}}
     (q : Y ⟶ Spec (CommRingCat.of k)) [AlgebraicGeometry.Smooth q]
@@ -180,7 +163,6 @@ theorem exists_affineOpen_comap_derivIdealSheafIterate_eq (k : Type u) [Field k]
       = X₁.homOfLE hVW ≫ (AlgebraicGeometry.morphismRestrict π W ≫ W.ι) := by
     rw [morphismRestrict_ι, ← Category.assoc, Scheme.homOfLE_ι]
   have : IsOpenImmersion ((V : X₁.Opens).ι ≫ π) := by rw [hfac]; infer_instance
-  have : AlgebraicGeometry.Smooth ((V : X₁.Opens).ι ≫ π) := inferInstance
   have hcomp : ∀ A : X.IdealSheafData,
       A.comap ((V : X₁.Opens).ι ≫ π) = (A.comap π).comap (V : X₁.Opens).ι := by
     intro A

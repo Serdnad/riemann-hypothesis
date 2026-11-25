@@ -1,7 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.HasInfExpMulZero
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsNonvanishingFiniteDatumDefiniteLift
 public import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.IsStepWeil
 public import Development.AbelianVarietyTheory.Definitions.Foundations.RootOfUnityEightQMemCoeffGaloisSubfield
 public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.DifferentiableOfChar
@@ -61,7 +59,6 @@ noncomputable section
 
 open Formalism.BasicNotions Formalism.BasicNotions.TH Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes Formalism.L2.Theta Formalism.L2.DIV Formalism.L2.Indef Formalism.IndefR Formalism.IndefR.Links Formalism.IndefR.Mult Formalism.IndefR.Datum Formalism.IndefR.Cx GlobalTheory.Chain NumberField
 open scoped TensorProduct
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 
 namespace GlobalTheory.Chain.StepVac
 
@@ -91,16 +88,30 @@ theorem res_ite {R κ : Type} [CommRing R] [CommRing κ] (A : Subring R) (f : A 
 
 theorem res_idemSum {e : AE D} {P : Finset (Pl D.host.E)} (he : IsIdemSum e P) :
     ∃ h : toEAf D e ∈ Formalism.L2.Herm.intAf D.host.F D.host.E, ∀ PP ∈ P, resS D.host.F PP ⟨toEAf D e, h⟩ = 1 := by
-  first | exact _root_.GlobalTheory.AdjDatumNe.idemSum_res | exact @_root_.GlobalTheory.AdjDatumNe.idemSum_res | apply _root_.GlobalTheory.AdjDatumNe.idemSum_res <;> assumption
+  have hee := idemSum_mul_self he
+  obtain ⟨⟨es, hes, hs⟩, hc⟩ := he
+  choose hi h1 using fun PP hP => GlobalTheory.IdemRes.resS_idem_eq_one D (es PP) PP (hes PP hP)
+  have h : toEAf D e ∈ Formalism.L2.Herm.intAf D.host.F D.host.E := by
+    rw [hs]; exact map_sum_mem (toEAf D) _ es P hi
+  refine ⟨h, fun PP hP => ?_⟩
+  have hcross := cross_eq_zero (R := AE D) isUnit_natCast (cA D) es P (fun i hi => (hes i hi).1.1) (hs ▸ hc)
+  have hm : e * es PP = es PP := by
+    rw [hs, Finset.sum_mul, Finset.sum_eq_single PP (fun j hj hji =>
+      idemAt_mul (hes j hj) (hes PP hP) (hcross j hj PP hP) (hcross PP hP j hj) hji.symm) (fun h => absurd hP h)]
+    exact (hes PP hP).1.1
+  have : (⟨toEAf D e, h⟩ : Formalism.L2.Herm.intAf D.host.F D.host.E) * ⟨toEAf D (es PP), hi PP hP⟩ =
+      ⟨toEAf D (es PP), hi PP hP⟩ := Subtype.ext ((RingHom.map_mul _ _ _).symm.trans (congrArg _ hm))
+  have h2 := congrArg (resS D.host.F PP) this
+  rwa [RingHom.map_mul, h1 PP hP, mul_one] at h2
 
 def rectOne (κ : Type) [Zero κ] [One κ] (b a : ℕ) : Matrix (Fin b) (Fin a) κ := fun i j => if i.val = j.val then 1 else 0
 
 theorem lowZero_rectOne (κ : Type) [Zero κ] [One κ] (b a k : ℕ) : LowZero k (rectOne κ b a) :=
-  fun i j hi hj => if_neg (by omega)
+  fun i j hi hj => ite_eq_right (by omega)
 
 theorem topL_rectOne (κ : Type) [Zero κ] [One κ] {b a k : ℕ} (ha : k ≤ a) (hb : k ≤ b) : topL k (rectOne κ b a) = 1 := by
   ext i j
-  rw [topL, dif_pos ⟨by omega, by omega⟩, rectOne, Matrix.one_apply]
+  rw [topL, dite_eq_left ⟨by omega, by omega⟩, rectOne, Matrix.one_apply]
   simp only [Fin.ext_iff]
 
 theorem frame_cancel {A : Type} [CommRing A] {a b : ℕ} (βS : GL (Fin a) A) (βT : GL (Fin b) A) (c : A)
@@ -111,12 +122,31 @@ theorem frame_cancel {A : Type} [CommRing A] {a b : ℕ} (βS : GL (Fin a) A) (�
 theorem exists_point (S T : HSp D) (βS : GL (Fin S.rank) (EAf D)) (βT : GL (Fin T.rank) (EAf D)) {e : AE D}
     {P : Finset (Pl D.host.E)} (he : IsIdemSum e P) : ∃ x : WO S T, IsHalf e x ∧ IsIntM (frMapO S T βS βT x) ∧
       ∀ PP ∈ P, redM PP (frMapO S T βS βT x) = rectOne _ _ _ := by
-  apply _root_.GlobalTheory.InnerSteps.exists_rect <;> assumption
+  obtain ⟨h, h1⟩ := res_idemSum he
+  choose s hs using toEAf_surjective (D := D)
+  obtain ⟨M, hM⟩ : ∃ M : Matrix (Fin T.rank) (Fin S.rank) (EAf D), ∀ c : EAf D,
+      HMul.hMul (HMul.hMul (βT⁻¹).val (c • M)) βS.val = c • rectOne (EAf D) T.rank S.rank := ⟨_, fun c => frame_cancel βS βT c _⟩
+  let x : WO S T := fun i j => e * s (M i j)
+  have hx : frMapO S T βS βT x = toEAf D e • rectOne (EAf D) T.rank S.rank := by
+    rw [← hM]
+    unfold frMapO
+    congr 2
+    ext i j
+    exact (RingHom.map_mul _ _ _).trans (congrArg _ (hs _))
+  have hx' : ∀ i j, frMapO S T βS βT x i j = if i.val = j.val then toEAf D e else 0 := fun i j => by
+    rw [hx, Matrix.smul_apply, rectOne, smul_eq_mul, mul_ite, mul_one, mul_zero]
+  have hi : IsIntM (frMapO S T βS βT x) := fun i j => by
+    rw [hx']
+    split_ifs
+    exacts [h, zero_mem _]
+  refine ⟨x, fun i j => by rw [← mul_assoc, idemSum_mul_self he], hi, fun PP hP => ?_⟩
+  ext i j
+  exact (dite_eq_left (hi i j)).trans (res_ite _ (resS D.host.F PP) h (hi i j) (h1 PP hP) _ (hx' i j))
 
 theorem omegaG_rectOne {a b : ℕ} (hab : a ≤ b) (L : LevDat D.host.E ℂ a) (χj : ∀ PP : Pl D.host.E, (kP PP)ˣ →* ℂˣ) :
     omegaG L χj (fun PP => rectOne (kP PP) b a) ≠ 0 := by
   unfold omegaG
-  rw [dif_pos]
+  rw [dite_eq_left]
   · refine mul_ne_zero (mul_ne_zero (Units.ne_zero _) ?_) ?_
     · exact Finset.prod_ne_zero_iff.2 fun _ _ => Finset.prod_ne_zero_iff.2 fun _ _ => Units.ne_zero _
     · exact Finset.prod_ne_zero_iff.2 fun _ _ => inv_ne_zero (Units.ne_zero _)
@@ -129,7 +159,7 @@ theorem omegaG_rectOne {a b : ℕ} (hab : a ≤ b) (L : LevDat D.host.E ℂ a) (
 theorem omegaQ_rectOne {a b r : ℕ} (ha : r ≤ a) (hb : r ≤ b) (Q : Finset (Pl D.host.E))
     (ξ : ∀ PP : Pl D.host.E, (kP PP)ˣ →* ℂˣ) (k : ℤ) : omegaQ Q r ξ k (fun PP => rectOne (kP PP) b a) ≠ 0 := by
   unfold omegaQ
-  rw [dif_pos]
+  rw [dite_eq_left]
   · exact Finset.prod_ne_zero_iff.2 fun _ _ => zpow_ne_zero _ (Units.ne_zero _)
   · intro PP _
     refine ⟨lowZero_rectOne _ _ _ _, ?_⟩
@@ -167,7 +197,7 @@ theorem stepVec_vac {ψ : AddChar (AF D.host.F) ℂ} {θ : InfFam D} {S T : HSp 
     simp [nrm2] at this
   · obtain ⟨x, a1, a2, a3⟩ := exists_point S T βS βT he
     have := congrFun hz x
-    rw [if_pos ⟨a1, a2⟩, omegaG_congr LS χj _ (fun PP => rectOne (kP PP) _ _) fun PP hP =>
+    rw [ite_eq_left ⟨a1, a2⟩, omegaG_congr LS χj _ (fun PP => rectOne (kP PP) _ _) fun PP hP =>
       a3 PP (Finset.mem_union_left _ hP), omegaQ_congr Q LS.r ξ 1 _ (fun PP => rectOne (kP PP) _ _) fun PP hP =>
       a3 PP (Finset.mem_union_right _ hP)] at this
     exact mul_ne_zero (omegaG_rectOne hr LS χj) (omegaQ_rectOne LS.hr (LS.hr.trans hr) Q ξ 1) this
@@ -218,9 +248,9 @@ theorem chrStep_exp {T : Type} {L : LevCh D T} {μ0 : T} (hL : L.Is μ0) {θ : I
   have h3 := hasInfExp_mul h1 (hasInfExp_inv h2)
   unfold Lift.chrStep expS expT
   by_cases hk : Even (k : ℕ)
-  · rw [if_pos hk.add_one, if_pos hk, if_pos hk, sub_zero, sub_eq_add_neg]
+  · rw [ite_eq_left hk.add_one, ite_eq_left hk, ite_eq_left hk, sub_zero, sub_eq_add_neg]
     exact ⟨h3, h1⟩
-  · rw [if_neg (by rwa [Nat.odd_add_one, Nat.not_odd_iff_even]), if_neg hk, if_neg hk, sub_zero, sub_eq_add_neg]
+  · rw [ite_eq_right (by rwa [Nat.odd_add_one, Nat.not_odd_iff_even]), ite_eq_right hk, ite_eq_right hk, sub_zero, sub_eq_add_neg]
     exact ⟨h1, h3⟩
 
 theorem rank_Yc {j : ℕ} (hj : j ≤ D.R.m) : (Yc D j).rank = D.R.r + j * D.R.t := by

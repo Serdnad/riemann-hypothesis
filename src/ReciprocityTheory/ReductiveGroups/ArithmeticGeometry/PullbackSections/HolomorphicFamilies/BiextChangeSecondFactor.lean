@@ -2,11 +2,9 @@ module
 
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.TaylorDiscriminants.WickVanishing.ConstantCoeffEv
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.TaylorDiscriminants.WickVanishing.LogChain
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.TaylorDiscriminants.WickVanishing.LogClosed
 
 @[expose] public section
 
-set_option autoImplicit false
 set_option linter.unusedSimpArgs false
 
 noncomputable section
@@ -63,18 +61,13 @@ theorem mapPoint_zero {n : ℕ} : mP φ (0 : Pt R n d) = 0 := by
 theorem cc_pt' {n : ℕ} (j : Fin n) (i : Fin d) : constantCoeff (pt R d j i) = 0 := by
   simp only [pt, MvPowerSeries.constantCoeff_X]
 
-private theorem cc_ev_lemma {m n : ℕ} {a : Fin m → Pt R n d} (ha : CZ a) (f : PS R m d) :
-    constantCoeff (ev a f) = constantCoeff f := by
-  apply _root_.ReciprocityTheory.ChartRestriction.G.TB.LogPf.cc_ev <;> assumption
-
 theorem cc_comp1' {n : ℕ} {ψ : Pt R 1 d} {x : Pt R n d} (hψ : ∀ i, constantCoeff (ψ i) = 0)
     (hx : ∀ i, constantCoeff (x i) = 0) (i : Fin d) : constantCoeff (comp1 ψ x i) = 0 := by
   have hcz : CZ ![x] := by
     intro j i
     refine Fin.cases ?_ (fun j => Fin.elim0 j) j
     simpa using hx i
-  show constantCoeff (ev ![x] (ψ i)) = 0
-  rw [cc_ev_lemma hcz, hψ]
+  exact constantCoeff_ev hcz (hψ i)
 
 theorem cc_addOf' {n : ℕ} {F : Fin d → PS R 2 d} {x y : Pt R n d} (hF : ∀ i, constantCoeff (F i) = 0)
     (hx : ∀ i, constantCoeff (x i) = 0) (hy : ∀ i, constantCoeff (y i) = 0) (i : Fin d) :
@@ -85,8 +78,7 @@ theorem cc_addOf' {n : ℕ} {F : Fin d → PS R 2 d} {x y : Pt R n d} (hF : ∀ 
     · simpa using hx i
     · refine Fin.cases ?_ (fun j => Fin.elim0 j) j
       simpa using hy i
-  show constantCoeff (ev ![x, y] (F i)) = 0
-  rw [cc_ev_lemma hcz, hF]
+  exact constantCoeff_ev hcz (hF i)
 
 theorem cz_cons_iff {m n : ℕ} {p : Pt R n d} {a : Fin m → Pt R n d} :
     CZ (Matrix.vecCons p a) ↔ (∀ i, constantCoeff (p i) = 0) ∧ CZ a := by

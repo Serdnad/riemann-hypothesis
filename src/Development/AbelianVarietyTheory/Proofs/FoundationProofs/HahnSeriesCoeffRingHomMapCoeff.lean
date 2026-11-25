@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsEqExpOfRat
 public import Development.AbelianVarietyTheory.Definitions.Foundations.ExpUpper
 public import Mathlib.FieldTheory.IsAlgClosed.Basic
 public import Mathlib.RingTheory.Flat.FaithfullyFlat.Basic
@@ -116,12 +115,12 @@ theorem coeff_pow_char (p : ℕ) [hp : Fact p.Prime] [CharP R p] (x : HahnSeries
   set b := x - a - c with hb_def
   have hx : x = a + c + b := by rw [hb_def]; abel
   have ha : ∀ t, a.coeff t ≠ 0 → t < N := by
-    intro t ht; by_contra h; push_neg at h; exact ht (HahnSeries.coeff_truncLT_of_le h x)
+    intro t ht; by_contra h; push Not at h; exact ht (HahnSeries.coeff_truncLT_of_le h x)
   have hb : ∀ t, b.coeff t ≠ 0 → N < t := by
-    intro t ht; by_contra h; push_neg at h; apply ht
+    intro t ht; by_contra h; push Not at h; apply ht
     rw [hb_def, HahnSeries.coeff_sub, HahnSeries.coeff_sub, ha_def, hc_def, HahnSeries.coeff_truncLT]
     rcases h.lt_or_eq with h | h
-    · rw [if_pos h, HahnSeries.coeff_single_of_ne h.ne]; simp
+    · rw [ite_eq_left h, HahnSeries.coeff_single_of_ne h.ne]; simp
     · subst h; simp
   rw [show x ^ p = (a + c + b) ^ p by rw [← hx], add_pow_char, add_pow_char, HahnSeries.coeff_add, HahnSeries.coeff_add]
   have h1 : (a ^ p).coeff n = 0 := by
@@ -146,7 +145,22 @@ variable {Ω : Type} [Field Ω] [Algebra ℚ Ω] [IsAlgClosure ℚ Ω] {ε : Ω 
 
 theorem eOm_spec (hε : Function.Injective ε) (y : ℚ) :
     ε (eOm ε y) = Complex.exp (2 * Real.pi * Complex.I * (y : ℂ)) := by
-  first | exact _root_.GlobalTheory.KZ.eOm_spec | exact @_root_.GlobalTheory.KZ.eOm_spec | apply _root_.GlobalTheory.KZ.eOm_spec <;> assumption
+  haveI : IsAlgClosed Ω := IsAlgClosure.isAlgClosed ℚ
+  haveI : CharZero Ω := (RingHom.charZero_iff hε).2 inferInstance
+  have hn : 0 < y.den := y.den_pos
+  haveI : NeZero y.den := ⟨hn.ne'⟩
+  obtain ⟨ω, hω⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot Ω y.den
+  have hεω := hω.map_of_injective hε
+  have hz : (Complex.exp (2 * Real.pi * Complex.I * (y : ℂ))) ^ y.den = 1 := by
+    rw [← Complex.exp_nat_mul, Complex.exp_eq_one_iff]
+    refine ⟨y.num, ?_⟩
+    have e : (y.den : ℂ) * (y : ℂ) = (y.num : ℂ) := by
+      have := Rat.mul_den_eq_num y
+      exact_mod_cast (by rw [mul_comm]; exact this)
+    linear_combination (2 * Real.pi * Complex.I) * e
+  obtain ⟨i, -, hi⟩ := hεω.eq_pow_of_pow_eq_one hz
+  have hr : ∃ w, ε w = Complex.exp (2 * Real.pi * Complex.I * (y : ℂ)) := ⟨ω ^ i, by rw [map_pow, hi]⟩
+  exact Function.invFun_eq hr
 
 theorem eOm_zero (hε : Function.Injective ε) : eOm ε 0 = 1 := by
   apply hε; rw [eOm_spec hε, map_one]; simp
@@ -201,8 +215,7 @@ theorem map_liftV (x : HahnSeries ℚ Ω) (h : ∀ r, x.coeff r ∈ V) : hahnSer
 
 theorem mem_of_pow_eq_one {w : Ω} {n : ℕ} (hn : n ≠ 0) (hw : w ^ n = 1) : w ∈ V := by
   rw [← ValuationSubring.valuation_le_one_iff]
-  by_contra h
-  push_neg at h
+  by_contra! h
   have := one_lt_pow₀ h hn
   rw [← map_pow, hw, map_one] at this
   exact lt_irrefl _ this

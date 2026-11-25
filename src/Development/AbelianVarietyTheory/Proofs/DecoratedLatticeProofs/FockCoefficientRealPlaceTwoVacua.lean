@@ -1,6 +1,5 @@
 module
 
-import all Development.AbelianVarietyTheory.Proofs.TwistedOperators.SignCompatibleNumberingOfWittTowerLower
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.L2UnitaryRepresentationData
 import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ContinuousOnAtTau
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.EqZeroOfPderivStable
@@ -62,7 +61,6 @@ import Development.AbelianVarietyTheory.Proofs.TwistedOperators.CartFrSgn
 open Formalism.BasicNotions Formalism.BasicNotions.TH Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes Formalism.MainNotions.S Formalism.L2.Theta Formalism.IndefR Formalism.IndefR.Links Formalism.IndefR.Mult Formalism.IndefR.Datum MeasureTheory NumberField Matrix
 open GlobalTheory.Chain GlobalTheory.ChainFr GlobalTheory.PairLift GlobalTheory.Chain.RealIt
 open scoped TensorProduct InnerProductSpace ComplexConjugate
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 
 noncomputable section
 
@@ -112,7 +110,13 @@ theorem polar {Y : Type} [AddCommGroup Y] [Module ℂ Y] {vac : Y → Prop}
   linear_combination (-1 / 2 : ℂ) * e1 + (Complex.I / 2) * e2 + ((E x y - E y x) / 2) * Complex.I_sq
 
 theorem exists_signCompat {n : ℕ} (ε : Fin n → Bool) : ∃ (p q : ℕ) (e : Ix p q ≃ Fin n), SignCompat ε e := by
-  apply _root_.GlobalTheory.WittSign.exists_numbering_signCompat <;> assumption
+  classical
+  refine ⟨Fintype.card {a : Fin n // ε a = true}, Fintype.card {a : Fin n // ¬ ε a = true},
+    (Equiv.sumCongr (Fintype.equivFin _).symm (Fintype.equivFin _).symm).trans (Equiv.sumCompl _), ?_⟩
+  intro a
+  rcases a with a | a
+  · simpa using ((Fintype.equivFin {a : Fin n // ε a = true}).symm a).2
+  · simpa using ((Fintype.equivFin {a : Fin n // ¬ ε a = true}).symm a).2
 
 theorem fockIp_one {ι : Type} : fockIp (1 : MvPolynomial ι ℂ) 1 = 1 := by
   classical
@@ -167,7 +171,7 @@ theorem exists_cov {p q n : ℕ} (T : GrpData p q) {fr G : Mn n} {ε : Fin n →
   obtain ⟨x, hx, -⟩ := T.bij gZ hmem (Units.mk0 w h0) hw
   refine ⟨x, ?_⟩
   have hc : ((T.cov x : GL (Ix p q) ℂ) : Mat p q) = Z := by rw [hx.1]; rfl
-  rw [hc, phiFr, phi, if_pos rfl]
+  rw [hc, phiFr, phi, ite_eq_left rfl]
   have hb : barMat e Z = h := by
     ext a b; simp [barMat, hZ, hY]
   rw [hb, hh, ← Matrix.mul_assoc, ← Matrix.mul_assoc, e2, Matrix.one_mul, Matrix.mul_assoc, e2, Matrix.mul_one]

@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.FlagMeasures.ExistsReductionActionChosenPlaces
 import Development.AbelianVarietyTheory.Proofs.SatakeParameters.AbsNormCoprimeOfSup
 public import Formalism.LocalToGlobal.Divisibility.DefGroup
 public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Afsplit
@@ -583,16 +582,16 @@ open Classical in
 def idemAd (P : HeightOneSpectrum (𝓞 F) → Prop) : intAd F :=
   mkAd (fun v => if P v then 1 else 0) (fun v => by
     by_cases h : P v
-    · simp only [h, if_true]; exact one_mem _
-    · simp only [h, if_false]; exact zero_mem _)
+    · simp only [h, ite_true]; exact one_mem _
+    · simp only [h, ite_false]; exact zero_mem _)
 
 theorem idemAd_pos {P : HeightOneSpectrum (𝓞 F) → Prop} {v : HeightOneSpectrum (𝓞 F)} (h : P v) :
     ((idemAd P : intAd F) : Af F) v = 1 := by
-  unfold idemAd; rw [mkAd_apply, if_pos h]
+  unfold idemAd; rw [mkAd_apply, ite_eq_left h]
 
 theorem idemAd_neg {P : HeightOneSpectrum (𝓞 F) → Prop} {v : HeightOneSpectrum (𝓞 F)} (h : ¬ P v) :
     ((idemAd P : intAd F) : Af F) v = 0 := by
-  unfold idemAd; rw [mkAd_apply, if_neg h]
+  unfold idemAd; rw [mkAd_apply, ite_eq_right h]
 
 theorem resS_idemAd_neg (PP : Pl E) (v : HeightOneSpectrum (𝓞 F))
     (hv : v.asIdeal = PP.asIdeal.comap (algebraMap (𝓞 F) (𝓞 E))) {P : HeightOneSpectrum (𝓞 F) → Prop}
@@ -611,7 +610,14 @@ theorem resS_idemAd_pos (PP : Pl E) (v : HeightOneSpectrum (𝓞 F))
   exact h0.symm
 
 theorem isUnit_intAd (a : intAd F) (h : ∀ v, Valued.v ((a : Af F) v) = 1) : IsUnit a := by
-  apply _root_.GlobalTheory.RowLev.isUnit_intAd <;> assumption
+  have h0 : ∀ v, (a : Af F) v ≠ 0 := fun v h0 => by
+    have := h v; rw [h0, map_zero] at this; exact zero_ne_one this
+  refine IsUnit.of_mul_eq_one (mkAd (fun v => ((a : Af F) v)⁻¹) (fun v => ?_)) ?_
+  · rw [HeightOneSpectrum.mem_adicCompletionIntegers, map_inv₀, h v, inv_one]
+  · apply Subtype.ext
+    refine FiniteAdeleRing.ext _ fun v => ?_
+    show (a : Af F) v * ((a : Af F) v)⁻¹ = 1
+    exact mul_inv_cancel₀ (h0 v)
 
 def underPl (F : Type) [Field F] [NumberField F] [Algebra F E] (PP : Pl E) : HeightOneSpectrum (𝓞 F) where
   asIdeal := PP.asIdeal.comap (algebraMap (𝓞 F) (𝓞 E))
@@ -1109,12 +1115,12 @@ theorem exists_selector (F : Type) {E : Type} [Field F] [NumberField F] [Field E
   refine ⟨adS F E (idemAd P) * oToS F E c0, ?_, ?_⟩
   · intro QQ hQ
     have h1 := hc0 QQ (mem_primesOf.2 ⟨hD0E, hDT QQ hQ⟩)
-    rw [if_pos hQ, ← Ideal.Quotient.eq_zero_iff_mem, map_sub, map_one, sub_eq_zero] at h1
+    rw [ite_eq_left hQ, ← Ideal.Quotient.eq_zero_iff_mem, map_sub, map_one, sub_eq_zero] at h1
     rw [map_mul, resS_idemAd_pos QQ (underPl F QQ) rfl ((hPiff QQ).2 (hDT QQ hQ)), resS_oToS, h1, one_mul]
   · intro QQ hQ
     by_cases hDQ : (D : 𝓞 E) ∈ QQ.asIdeal
     · have h1 := hc0 QQ (mem_primesOf.2 ⟨hD0E, hDQ⟩)
-      rw [if_neg hQ, sub_zero, ← Ideal.Quotient.eq_zero_iff_mem] at h1
+      rw [ite_eq_right hQ, sub_zero, ← Ideal.Quotient.eq_zero_iff_mem] at h1
       rw [map_mul, resS_oToS, h1, mul_zero]
     · rw [map_mul, resS_idemAd_neg QQ (underPl F QQ) rfl (fun h => hDQ ((hPiff QQ).1 h)), zero_mul]
 
@@ -1130,7 +1136,7 @@ theorem exists_matrix_lift (F : Type) {E : Type} [Field F] [NumberField F] [Fiel
   ext i j
   show resS F PP.1 (oToS F E (M0 i j)) = _
   have h1 := hM0 i j PP.1 PP.2
-  rw [dif_pos PP.2, ← Ideal.Quotient.eq_zero_iff_mem, map_sub, hlift, sub_eq_zero] at h1
+  rw [dite_eq_left PP.2, ← Ideal.Quotient.eq_zero_iff_mem, map_sub, hlift, sub_eq_zero] at h1
   rw [resS_oToS, h1]
 
 section Surj
@@ -1243,36 +1249,15 @@ theorem reduction_surjective_bis : RedSurj := by
   rw [redFn_frGL]
   exact hzy PP
 
-section Emb
-
-variable {κ : Type} [CommRing κ] {r n : ℕ}
-
-end Emb
-
 section FrAlg
 
 variable {R K : Type} [CommRing R] [IsDedekindDomain R] [Field K] [Algebra R K] [IsFractionRing R K]
-
-theorem fr_li {S V V' V'' : Type} [CommRing S] [Algebra R S] [AddCommGroup V] [Module R V] [Module K V]
-    [IsScalarTower R K V] [AddCommGroup V'] [Module R V'] [Module S V'] [IsScalarTower R S V'] [AddCommGroup V'']
-    [Module R V''] (hRS : RingHom.ker (algebraMap R S) ≠ ⊤) (f : V'' →ₗ[R] V) (hf : Function.Injective f)
-    (f' : V'' →ₗ[R] V') {ι : Type} {b : ι → V''} (hb' : LinearIndependent S (f' ∘ b)) :
-    LinearIndependent K (f ∘ b) := by
-  apply (config := { allowSynthFailures := true }) GlobalTheory.latticeFrame.modLI_li <;> assumption
-
-theorem fr_gen_mod (P : Ideal R) [hP : P.IsMaximal] {n : ℕ} (L : Submodule R (Fin n → K)) (hfg : L.FG) :
-    ∃ g : Fin n → (Fin n → K), (∀ i, g i ∈ L) ∧ L ≤ Submodule.span R (Set.range g) ⊔ P • L := by
-  apply GlobalTheory.latticeFrame.modLI_gen <;> assumption
 
 end FrAlg
 
 section FrNF
 
 variable {E : Type} [Field E] [NumberField E] {n : ℕ}
-
-theorem fr_coprime (I : Ideal (𝓞 E)) (hI : I ≠ ⊥) (D : ℕ) (h : I ⊔ Ideal.span {(D : 𝓞 E)} = ⊤) :
-    Nat.Coprime (Ideal.absNorm I) D := by
-  apply GlobalTheory.latticeFrame.absNorm_coprime_of_sup <;> assumption
 
 theorem fr_good_basis (L : Submodule (𝓞 E) (Fin n → E)) (hfg : L.FG) (D : ℕ) (hD : D ≠ 0) (P0 : Pl E)
     (hP0 : (D : 𝓞 E) ∈ P0.asIdeal) :
@@ -1318,7 +1303,86 @@ theorem fr_glue (L : Submodule (𝓞 E) (Fin n → E)) (B C : Matrix (Fin n) (Fi
     (hlow : ∀ v : Fin n → 𝒜, (∀ i, v i ∈ intAf F E) → (fun i => γ * v i) ∈ hatL (F := F) L)
     (hup : ∀ v ∈ hatL (F := F) L, ∀ i, κ * v i ∈ intAf F E) :
     ∃ β : GL (Fin n) 𝒜, IsFrame β L := by
-  exact _root_.GlobalTheory.latticeFrame.frame_of_glue L B C hBC hB ε ω κ γ hε hω hidem hεκ hκγ d hdω hdL hlow hup
+  have hCB : C * B = 1 := mul_eq_one_comm.1 hBC
+  set B' : Matrix (Fin n) (Fin n) 𝒜 := B.map ιA with hB'
+  set C' : Matrix (Fin n) (Fin n) 𝒜 := C.map ιA with hC'
+  have hBC' : B' * C' = 1 := by
+    rw [hB', hC', ← Matrix.map_mul, hBC, Matrix.map_one _ (map_zero _) (map_one _)]
+  have hs3 : (1 - ε) * γ * ε = 0 := by
+    have : (1 - ε) * γ * ε = γ * (ε - ε * ε) := by ring
+    rw [this, hidem, sub_self, mul_zero]
+  have hs4 : (1 - ε) * γ * κ = 1 - ε := by
+    have : (1 - ε) * γ * κ = (1 - ε) * (κ * γ) := by ring
+    rw [this, hκγ]
+    linear_combination hidem
+  have h1 : (ε • B' + ((1 - ε) * γ) • (1 : Matrix (Fin n) (Fin n) 𝒜)) *
+      (ε • C' + κ • (1 : Matrix (Fin n) (Fin n) 𝒜)) = 1 := by
+    simp only [add_mul, mul_add, Matrix.smul_mul, Matrix.mul_smul, smul_smul, Matrix.mul_one, Matrix.one_mul]
+    rw [hidem, mul_comm ε ((1 - ε) * γ), hs3, mul_comm κ ε, hεκ, mul_comm κ ((1 - ε) * γ), hs4, hBC', zero_smul,
+      zero_smul, add_zero, zero_add, ← add_smul, add_sub_cancel, one_smul]
+  have h2 := mul_eq_one_comm.1 h1
+  have hinv : ∀ (x : Fin n → 𝒜) (i : Fin n),
+      ((ε • C' + κ • (1 : Matrix (Fin n) (Fin n) 𝒜)) *ᵥ x) i = ε * (C' *ᵥ x) i + κ * x i := by
+    intro x i
+    rw [Matrix.add_mulVec, Matrix.smul_mulVec, Matrix.smul_mulVec, Matrix.one_mulVec]
+    rfl
+  have key1 : ∀ x ∈ hatL (F := F) L, ∀ i, ε * (C' *ᵥ x) i ∈ intAf F E := by
+    intro x hx
+    unfold hatL latS at hx
+    induction hx using Submodule.span_induction with
+    | mem x hx =>
+      obtain ⟨l, hl, rfl⟩ := hx
+      intro i
+      obtain ⟨a, ha⟩ := hdL l hl
+      have e1 : (C' *ᵥ fun i => ιA (l i)) i = ιA ((C *ᵥ l) i) := by
+
+        simp only [Matrix.mulVec, dotProduct, hC', Matrix.map_apply, map_sum, map_mul]
+      have e2 : algebraMap (𝓞 E) E d * (C *ᵥ l) i = algebraMap (𝓞 E) E (a i) := by
+        have h3 : C *ᵥ (d • l) = fun j => algebraMap (𝓞 E) E (a j) := by
+          rw [ha, Matrix.mulVec_mulVec, hCB, Matrix.one_mulVec]
+        have h4 := congrFun h3 i
+        rw [Matrix.mulVec_smul, Pi.smul_apply, Algebra.smul_def] at h4
+        exact h4
+      rw [e1, ← hdω, mul_right_comm, ← map_mul, e2]
+      exact mul_mem (Formalism.UG.CS.incl_int (a i)) hω
+    | zero =>
+      intro i
+      rw [Matrix.mulVec_zero, Pi.zero_apply, mul_zero]
+      exact zero_mem _
+    | add x y _ _ hx hy =>
+      intro i
+      rw [Matrix.mulVec_add, Pi.add_apply, mul_add]
+      exact add_mem (hx i) (hy i)
+    | smul s x _ hx =>
+      intro i
+      have e : (C' *ᵥ (s • x)) i = (s : 𝒜) * (C' *ᵥ x) i := by
+        rw [Matrix.mulVec_smul]; rfl
+      rw [e, mul_left_comm]
+      exact mul_mem s.2 (hx i)
+  refine ⟨⟨_, _, h1, h2⟩, fun x => ?_⟩
+  show x ∈ hatL (F := F) L ↔ ∀ i, ((ε • C' + κ • (1 : Matrix (Fin n) (Fin n) 𝒜)) *ᵥ x) i ∈ intAf F E
+  constructor
+  · intro hx i
+    rw [hinv]
+    exact add_mem (key1 x hx i) (hup x hx i)
+  · intro hy
+    set y := (ε • C' + κ • (1 : Matrix (Fin n) (Fin n) 𝒜)) *ᵥ x with hydef
+    have hxy : x = (ε • B' + ((1 - ε) * γ) • (1 : Matrix (Fin n) (Fin n) 𝒜)) *ᵥ y := by
+      rw [hydef, Matrix.mulVec_mulVec, h1, Matrix.one_mulVec]
+    have e3 : (ε • B' + ((1 - ε) * γ) • (1 : Matrix (Fin n) (Fin n) 𝒜)) *ᵥ y =
+        (⟨ε, hε⟩ : intAf F E) • (∑ j, (⟨y j, hy j⟩ : intAf F E) • (fun i => ιA (B i j))) +
+          (⟨1 - ε, sub_mem (one_mem _) hε⟩ : intAf F E) • (fun i => γ * y i) := by
+      funext i
+      rw [Matrix.add_mulVec, Matrix.smul_mulVec, Matrix.smul_mulVec, Matrix.one_mulVec]
+      simp only [Pi.add_apply, Pi.smul_apply, Finset.sum_apply, Subring.smul_def, smul_eq_mul, Matrix.mulVec,
+        dotProduct, hB', Matrix.map_apply]
+      congr 1
+      · congr 1
+        exact Finset.sum_congr rfl fun j _ => mul_comm _ _
+      · ring
+    rw [hxy, e3]
+    exact Submodule.add_mem _ (Submodule.smul_mem _ _ (Submodule.sum_mem _ fun j _ =>
+      Submodule.smul_mem _ _ (fr_mem_hat (hB j)))) (Submodule.smul_mem _ _ (hlow y hy))
 
 end FrGlue
 
@@ -1585,14 +1649,6 @@ theorem reduction_local : RedLocal := by
 
 end LocalA
 
-section LocalB
-
-variable {E : Type} [Field E] [NumberField E] [StarRing E]
-
-variable {gp : Fin 2 → ℕ} {pb : Fin 2 → 𝓞 E}
-
-end LocalB
-
 section LocalC
 
 variable {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] {n : ℕ}
@@ -1725,18 +1781,6 @@ theorem lc_one_coe (i j : Fin n) :
 
 end LocalD
 
-section TypeD
-
-variable {E : Type} [Field E] [NumberField E] [StarRing E]
-
-end TypeD
-
-section TypeE
-
-variable {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [StarRing E] [Algebra F E]
-
-end TypeE
-
 section Tests
 
 def gT : GL (Fin 3) (ZMod 5) :=
@@ -1744,11 +1788,6 @@ def gT : GL (Fin 3) (ZMod 5) :=
 
 def gB : GL (Fin 3) (ZMod 5) :=
   ⟨!![2, 1, 1; 0, 3, 0; 0, 0, 4], !![3, 4, 3; 0, 2, 0; 0, 0, 4], by decide, by decide⟩
-
-theorem gB_mem : gB ∈ blockTri (blkOf 1 1) :=
-  mem_blockTri.2 (by
-    intro i j h
-    fin_cases i <;> fin_cases j <;> first | rfl | exact absurd h (by decide))
 
 end Tests
 

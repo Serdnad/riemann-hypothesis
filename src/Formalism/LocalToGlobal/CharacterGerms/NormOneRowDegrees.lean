@@ -1,6 +1,5 @@
 module
 
-import Development.WeilBound.RepresentationTheoryGL.CasimirAlgebra.TensorRelationsGL.PKType
 public import Formalism.LocalToGlobal.CharacterGerms.BiadditiveInSingleVariables
 public import Formalism.LocalToGlobal.ProjectiveLattices.RowDeg
 public import Formalism.LocalToGlobal.CharacterGerms.BlockMembershipNormOne
@@ -64,7 +63,16 @@ theorem isWH_minorK_gen {N N' k : ℕ} {w : Fin N × Fin N' → ℕ} (v : Fin N'
   rw [MvPolynomial.coeff_smul, h0, smul_zero]
 
 theorem sum_fin_ite (k c0 : ℕ) : (∑ c : Fin k, if (c : ℕ) = c0 then 1 else 0) = if c0 < k then 1 else 0 := by
-  apply _root_.PositivityTheory.Rg.Cz.KTy.sumFin <;> assumption
+  split_ifs with h
+  · rw [Finset.sum_eq_single ⟨c0, h⟩]
+    · simp
+    · intro b _ hb; rw [ite_eq_right]; intro hc; exact hb (Fin.ext hc)
+    · simp
+  · apply Finset.sum_eq_zero
+    intro c _
+    rw [ite_eq_right]
+    intro hc
+    exact h (by rw [← hc]; exact c.2)
 
 theorem isWH_minorK_row {N N' k : ℕ} {w : Fin N × Fin N' → ℕ} (P : Prop) [Decidable P] (c0 : ℕ)
     (hw : ∀ x, w x = if P ∧ (x.2 : ℕ) = c0 then 1 else 0) :
@@ -78,7 +86,7 @@ theorem isWH_minorK_row {N N' k : ℕ} {w : Fin N × Fin N' → ℕ} (P : Prop) 
       simp [h.1, h.2]
     · simp [hP]
   · unfold minorK
-    rw [dite_eq_right h, if_neg (fun hc => h ⟨hc.1, hc.2.1⟩)]
+    rw [dite_eq_right h, ite_eq_right (fun hc => h ⟨hc.1, hc.2.1⟩)]
     exact isWeightedHomogeneous_one R w
 
 end WH
@@ -118,29 +126,12 @@ theorem wLet_mk (σ : T) (c0 : Fin (r σ)) (τ : T) (c : Fin (r τ)) (ρ : Fin n
   unfold wLet
   simp only [letEq]
   by_cases h : (⟨τ, c⟩ : Σ σ, Fin (r σ)) = ⟨σ, c0⟩
-  · simp only [h, true_and, if_true]
+  · simp only [h, true_and, ite_true]
     rw [Finset.sum_ite_eq]
     simp
   · simp [h]
 
 end Let
-
-section Block
-
-variable {C : Type} [Field C] {V : VF C} {d : ℕ} [NeZero d] {T : Type} {r : T → ℕ}
-  {Orb : Type} {tau : Orb → Fin 2 → ZMod d → T} {o0 : Orb} {J0 : Fin 2 → Type} [∀ g, Fintype (J0 g)]
-
-variable (X : RowData C V d (IIof r tau o0) J0) (F : Flag X)
-  (hty : ∀ g (x : IIof r tau o0 g), (X.G g).ty (Sum.inl x) = x.1)
-  (std : ∀ g t (c : Fin (X.rkF g t)), ((F.en g t c).2 : ℕ) = c.val)
-
-
-
-
-
-
-
-end Block
 
 end WeightHomogeneousMinors
 

@@ -10,47 +10,6 @@ public import Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange
 public import Development.AbelianVarietyTheory.Definitions.Divisors.SimpleTwistedTraceFormulaStable
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.NontrivialInfinitePlaceOfUnramified
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.SetLIntegralLeMulFd
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Calculus.BumpFunction.FiniteDimension
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Analysis.CStarAlgebra.ContinuousLinearMap
-import Mathlib.RingTheory.PiTensorProduct
 public import Development.DiscreteGroups.PiInvariants.CasimirInfinity.CasInfOfIm
 
 -- This file was produced by scripts/clump.py from the modules listed below.
@@ -77,27 +36,6 @@ namespace PositivityTheory.Rg.BcB.F.F0
 open PositivityTheory.Rg.BcB.F
 
 attribute [local instance] borelG borelF borelA
-
-theorem cosh_im_zero (c : ℂ) (hc : c.im = 0) (t : ℝ) : (Complex.cosh (t * c ^ (1 / 2 : ℂ))).im = 0 := by
-  set s := c ^ (1 / 2 : ℂ) with hs
-  have hsq : s ^ 2 = c := by
-    have := Complex.cpow_nat_inv_pow c (n := 2) (by norm_num)
-    simpa [hs, one_div] using this
-  have him : s.re * s.im = 0 := by
-    have h := congrArg Complex.im hsq
-    rw [hc, pow_two, Complex.mul_im] at h
-    linarith
-  rcases mul_eq_zero.1 him with h | h
-  · have e : (t : ℂ) * s = ((t * s.im : ℝ) : ℂ) * Complex.I := by
-      apply Complex.ext <;> simp [h]
-    rw [e, Complex.cosh_mul_I, ← Complex.ofReal_cos, Complex.ofReal_im]
-  · have e : (t : ℂ) * s = ((t * s.re : ℝ) : ℂ) := by
-      apply Complex.ext <;> simp [h]
-    rw [e, ← Complex.ofReal_cosh, Complex.ofReal_im]
-
-theorem bump_one' (ι : Type) [Fintype ι] (c : ι → ℂ) (hc : ∀ i, (c i).im = 0) :
-    ∃ (g : ℝ → ℝ) (T : ℝ), 0 ≤ T ∧ IsBump g T ∧ ∏ i, coshT g (c i) = 1 :=
-  _root_.PositivityTheory.Rg.BcB.F.F0.bump_one ι c hc
 
 end PositivityTheory.Rg.BcB.F.F0
 
@@ -128,17 +66,6 @@ open PositivityTheory.Rg.BcB.F
 
 attribute [local instance] borelG borelF borelA
 
-theorem im_pow_entry {n : ℕ} (A : Matrix (Fin n) (Fin n) ℂ) (hA : ∀ i j, (A i j).im = 0) (k : ℕ) (i j : Fin n) :
-    ((A ^ k) i j).im = 0 := by
-  have hAe : A = (A.map Complex.re).map (Complex.ofRealHom : ℝ →+* ℂ) := by
-    ext i j
-    apply Complex.ext <;> simp [hA i j]
-  rw [hAe, ← RingHom.mapMatrix_apply, ← map_pow, RingHom.mapMatrix_apply]
-  simp
-
-theorem cas_infOf_im' {n : ℕ} (lam : Fin n → ℤ) : (cas (infOf lam)).im = 0 :=
-  _root_.PositivityTheory.Rg.BcB.F.F0.cas_infOf_im lam
-
 end PositivityTheory.Rg.BcB.F.F0
 
 end
@@ -168,58 +95,11 @@ open PositivityTheory.Rg.BcB.F
 
 attribute [local instance] borelG borelF borelA
 
-theorem entry_le_of_lg {n : ℕ} {y : Mat n} {R : ℝ} (h : lg y ≤ R) (a b : Fin n) :
-    ‖y a b‖ ≤ Real.exp R ∧ ‖y⁻¹ a b‖ ≤ Real.exp R := by
-  have hterm : ‖y a b‖ ^ 2 + ‖y⁻¹ a b‖ ^ 2 ≤ ∑ a, ∑ b, (‖y a b‖ ^ 2 + ‖y⁻¹ a b‖ ^ 2) := by
-    have h1 : ‖y a b‖ ^ 2 + ‖y⁻¹ a b‖ ^ 2 ≤ ∑ b', (‖y a b'‖ ^ 2 + ‖y⁻¹ a b'‖ ^ 2) :=
-      Finset.single_le_sum (f := fun b' => ‖y a b'‖ ^ 2 + ‖y⁻¹ a b'‖ ^ 2) (fun _ _ => by positivity)
-        (Finset.mem_univ b)
-    exact h1.trans (Finset.single_le_sum (f := fun a' => ∑ b', (‖y a' b'‖ ^ 2 + ‖y⁻¹ a' b'‖ ^ 2))
-      (fun _ _ => by positivity) (Finset.mem_univ a))
-  have hS0 : 0 ≤ ∑ a, ∑ b, (‖y a b‖ ^ 2 + ‖y⁻¹ a b‖ ^ 2) := by positivity
-  have hE : 1 + ∑ a, ∑ b, (‖y a b‖ ^ 2 + ‖y⁻¹ a b‖ ^ 2) ≤ Real.exp R := by
-    have hl : Real.log (1 + ∑ a, ∑ b, (‖y a b‖ ^ 2 + ‖y⁻¹ a b‖ ^ 2)) ≤ R := h
-    calc 1 + ∑ a, ∑ b, (‖y a b‖ ^ 2 + ‖y⁻¹ a b‖ ^ 2)
-        = Real.exp (Real.log (1 + ∑ a, ∑ b, (‖y a b‖ ^ 2 + ‖y⁻¹ a b‖ ^ 2))) :=
-          (Real.exp_log (by linarith)).symm
-      _ ≤ Real.exp R := Real.exp_le_exp.2 hl
-  have k1 : ∀ x : ℝ, x ≤ 1 + x ^ 2 := fun x => by nlinarith [sq_nonneg (x - 1 / 2)]
-  constructor
-  · nlinarith [k1 ‖y a b‖, sq_nonneg ‖y⁻¹ a b‖]
-  · nlinarith [k1 ‖y⁻¹ a b‖, sq_nonneg ‖y a b‖]
-
-theorem isCompact_entries {n : ℕ} (r : ℝ) :
-    IsCompact {y : G n | (∀ a b, ‖(y : Mat n) a b‖ ≤ r) ∧ ∀ a b, ‖((y⁻¹ : G n) : Mat n) a b‖ ≤ r} := by
-  let B : Set (Mat n) := Set.pi Set.univ fun _ => Set.pi Set.univ fun _ => Metric.closedBall (0 : ℂ) r
-  have hB : IsCompact B := isCompact_univ_pi fun _ => isCompact_univ_pi fun _ => isCompact_closedBall _ _
-  have hC : IsCompact (B ×ˢ (MulOpposite.op '' B)) := hB.prod (hB.image MulOpposite.continuous_op)
-  have h := (Units.isClosedEmbedding_embedProduct (α := Mat n)).isCompact_preimage hC
-  convert h using 1
-  ext y
-  change _ ↔ ((y : Mat n) ∈ B ∧ MulOpposite.op ((y⁻¹ : G n) : Mat n) ∈ MulOpposite.op '' B)
-  rw [MulOpposite.op_injective.mem_set_image]
-  constructor
-  · rintro ⟨h1, h2⟩
-    exact ⟨fun a _ b _ => mem_closedBall_zero_iff.2 (h1 a b), fun a _ b _ => mem_closedBall_zero_iff.2 (h2 a b)⟩
-  · rintro ⟨h1, h2⟩
-    exact ⟨fun a b => mem_closedBall_zero_iff.1 (h1 a trivial b trivial),
-      fun a b => mem_closedBall_zero_iff.1 (h2 a trivial b trivial)⟩
-
 section SlopeTestRemainingChoices
 
 attribute [local instance] Matrix.normedAddCommGroup Matrix.normedSpace
 
-theorem multiplier_function_continuous_compact {n : ℕ} [MeasurableSpace (G n)] (μ : Measure (G n)) (M : KMod n) (Tθ : M.V →L[ℂ] M.V)
-    (k : Mat n → (M.V →L[ℂ] M.V)) (val : Inf n → ℂ) (T : ℝ) (h : IsMult μ M k val T) :
-    Continuous (phiOf M Tθ k) ∧ HasCompactSupport (phiOf M Tθ k) :=
-  _root_.PositivityTheory.Rg.BcB.F.F0.phiOf_cs μ M Tθ k val T h
-
 end SlopeTestRemainingChoices
-
-theorem phiOf_cs' {n : ℕ} [MeasurableSpace (G n)] (μ : Measure (G n)) (M : KMod n) (Tθ : M.V →L[ℂ] M.V)
-    (k : Mat n → (M.V →L[ℂ] M.V)) (val : Inf n → ℂ) (T : ℝ) (h : IsMult μ M k val T) :
-    Continuous (phiOf M Tθ k) ∧ HasCompactSupport (phiOf M Tθ k) :=
-  multiplier_function_continuous_compact μ M Tθ k val T h
 
 end PositivityTheory.Rg.BcB.F.F0
 

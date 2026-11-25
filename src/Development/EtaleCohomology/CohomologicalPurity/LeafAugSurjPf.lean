@@ -1,50 +1,8 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SchClsCocycleSec
 public import Development.EtaleCohomology.CohomologicalPurity.LeafAugLocalPf
 public import Mathlib.Order.CompletePartialOrder
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
 import Std.Tactic.BVDecide.Normalize.Prop
 
 @[expose] public section
@@ -55,7 +13,17 @@ open CategoryTheory Limits AlgebraicGeometry Opposite GlobalTheory.EtC
 namespace LateralTheory.CohomologicalPurity.TubeCut
 
 theorem altSum (m : ℕ) : ∑ i : Fin (m + 2), (-1 : ℤ) ^ (i : ℕ) = if Even m then 0 else 1 := by
-  apply @GlobalTheory.EtC.SchCls.sum_neg_one_pow <;> assumption
+  rw [Fin.sum_univ_eq_sum_range (fun i => (-1 : ℤ) ^ i) (m + 2)]
+  induction m with
+  | zero => simp [Finset.sum_range_succ]
+  | succ m ih =>
+    rw [Finset.sum_range_succ, ih]
+    rcases Nat.even_or_odd m with h | h
+    · have h' : ¬ Even (m + 1) := by simpa [Nat.even_add_one] using h
+      simp [h, h', pow_succ, h.neg_one_pow]
+    · have h' : Even (m + 1) := by simpa [Nat.even_add_one, Nat.not_even_iff_odd] using h
+      have hn : ¬ Even m := Nat.not_even_iff_odd.2 h
+      simp [hn, h', pow_succ, h.neg_one_pow]
 
 theorem dL {R : Type} [CommRing R] (Y : PSh) (m : ℕ) (T : Scheme.{0}ᵒᵖ) (z : ((((chainsP R).obj (disc.obj Y)).X (m + 1)).obj T)) :
     ((((chainsP R).obj (disc.obj Y)).d (m + 1) m).app T).hom z = (∑ i : Fin (m + 2), (-1 : ℤ) ^ (i : ℕ)) • z := by
@@ -75,12 +43,12 @@ theorem bdyL (Y : PSh) (n : ℕ) (T : Scheme.{0}ᵒᵖ) (x : ((((chainsP R).obj 
     (hx : Cyc ((chainsP R).obj (disc.obj Y)) (n + 1) T x) : Bdy ((chainsP R).obj (disc.obj Y)) (n + 1) T x := by
   by_cases h : Even (n + 1)
   · have h0 := hx n
-    rw [dL, altSum, if_neg (by simpa [Nat.even_add_one] using h)] at h0
+    rw [dL, altSum, ite_eq_right (by simpa [Nat.even_add_one] using h)] at h0
     simp only [one_smul] at h0
     exact ⟨0, by rw [map_zero]; exact h0.symm⟩
   · refine ⟨x, ?_⟩
     have e := dL (R := R) Y (n + 1) T x
-    rw [altSum, if_neg h] at e
+    rw [altSum, ite_eq_right h] at e
     exact e.trans (one_smul ℤ _)
 
 def imSv {K L : PCx R} (φ : K ⟶ L) (n : ℕ) {T : Scheme.{0}} (y : (L.X n).obj (op T)) : Sieve T where

@@ -25,7 +25,7 @@ namespace IsExpLieAlgebra
 variable (h : IsExpLieAlgebra G 𝔤) [MeasurableSpace G] [BorelSpace G] (μ : Measure G)
   [μ.IsHaarMeasure]
 
-theorem exists_smooth_density_prodExp_with_tsupport {d : ℕ} (b : Module.Basis (Fin d) ℝ 𝔤) :
+theorem exists_smooth_density_prodExp_tsupport {d : ℕ} (b : Module.Basis (Fin d) ℝ 𝔤) :
     ∃ ε > 0, ∀ K : (Fin d → ℝ) → ℂ, ContDiff ℝ ∞ K → tsupport K ⊆ closedBall 0 ε →
       ∃ κ : G → ℂ, (letI := h.chartedSpace; ContMDiff 𝓘(ℝ, 𝔤) 𝓘(ℝ, ℂ) ∞ κ) ∧
         HasCompactSupport κ ∧ tsupport κ ⊆ h.prodExp (⇑b) '' tsupport K ∧
@@ -109,15 +109,16 @@ theorem exists_smooth_density_prodExp_with_tsupport {d : ℕ} (b : Module.Basis 
       simp [this]]
   refine setIntegral_congr_fun measurableSet_ball fun z hz => ?_
   rw [mul_right_comm, hκW z hz]
+
 theorem exists_smooth_density_prodExp {d : ℕ} (b : Module.Basis (Fin d) ℝ 𝔤) :
     ∃ ε > 0, ∀ K : (Fin d → ℝ) → ℂ, ContDiff ℝ ∞ K → tsupport K ⊆ closedBall 0 ε →
       ∃ κ : G → ℂ, (letI := h.chartedSpace; ContMDiff 𝓘(ℝ, 𝔤) 𝓘(ℝ, ℂ) ∞ κ) ∧
         HasCompactSupport κ ∧
         ∀ φ : G → ℂ, Continuous φ → ∫ y, κ y * φ y ∂μ = ∫ t, K t * φ (h.prodExp (⇑b) t) := by
-  obtain ⟨ε, hε, hκ⟩ := h.exists_smooth_density_prodExp_with_tsupport μ b
+  obtain ⟨ε, hε, hdens⟩ := h.exists_smooth_density_prodExp_tsupport μ b
   refine ⟨ε, hε, fun K hK hKs => ?_⟩
-  obtain ⟨κ, hsmooth, hcompact, _, hint⟩ := hκ K hK hKs
-  exact ⟨κ, hsmooth, hcompact, hint⟩
+  obtain ⟨κ, hsm, hcs, -, hint⟩ := hdens K hK hKs
+  exact ⟨κ, hsm, hcs, hint⟩
 
 end IsExpLieAlgebra
 

@@ -187,7 +187,7 @@ theorem ccr_of_sign {κ A : Type} [DecidableEq κ] [Ring A] [Algebra ℂ A] (x y
     {a b : κ → A} (ha : ∀ k, a k = (s k)⁻¹ • if p k then x k else y k)
     (hb : ∀ k, b k = -(s k)⁻¹ • if p k then y k else x k) :
     (∀ k l, a k * a l = a l * a k) ∧ ∀ k l, b k * a l = a l * b k + (if k = l then (1 : ℂ) else 0) • 1 := by
-  have c4 : ∀ k l, k ≠ l → y k * x l = x l * y k := fun k l h => by rw [c3, if_neg h, zero_smul, add_zero]
+  have c4 : ∀ k l, k ≠ l → y k * x l = x l * y k := fun k l h => by rw [c3, ite_eq_right h, zero_smul, add_zero]
   refine ⟨fun k l => ?_, fun k l => ?_⟩
   · by_cases h : k = l
     · rw [h]
@@ -203,13 +203,13 @@ theorem ccr_of_sign {κ A : Type} [DecidableEq κ] [Ring A] [Algebra ℂ A] (x y
     · subst h
       have := hs k
       have e := c3 k k
-      simp only [eq_self, if_true] at e ⊢
+      simp only [eq_self, ite_true] at e ⊢
       split_ifs at e ⊢
       · rw [e]
         match_scalars <;> field_simp
       · rw [e]
         match_scalars <;> field_simp <;> ring
-    · rw [if_neg h, zero_smul, add_zero, smul_comm]
+    · rw [ite_eq_right h, zero_smul, add_zero, smul_comm]
       split_ifs
       · rw [c4 k l h]
       · rw [c2]
@@ -218,7 +218,7 @@ theorem ccr_of_sign {κ A : Type} [DecidableEq κ] [Ring A] [Algebra ℂ A] (x y
 
 
 open Formalism.IndefR.Datum in
-theorem exists_lift_for {ι X : Type} [DecidableEq ι] (M : Submodule ℂ (X → ℂ)) (A : ι → (X → ℂ) → (X → ℂ))
+theorem exists_lift {ι X : Type} [DecidableEq ι] (M : Submodule ℂ (X → ℂ)) (A : ι → (X → ℂ) → (X → ℂ))
     (a b : ι → Module.End ℂ M) (hA : ∀ i (g : M), A i g = a i g) (haa : ∀ i j, a i * a j = a j * a i)
     (hba : ∀ i j, b i * a j = a j * b i + (if i = j then (1 : ℂ) else 0) • 1) (f : M) (S : Set ι)
     (hf : ∀ i ∈ S, b i f = 0) :
@@ -242,21 +242,12 @@ theorem exists_lift_for {ι X : Type} [DecidableEq ι] (M : Submodule ℂ (X →
   | C r => rw [MvPolynomial.pderiv_C, map_zero, MvPolynomial.C_eq_smul_one, map_smul, map_smul, h0, hf i hi, smul_zero]
   | add p q hp hq => simp only [map_add (f := _), hp, hq]
   | mul_X p j hp =>
-    rw [mul_comm, hE, ← Module.End.mul_apply, hba, LinearMap.add_apply, Module.End.mul_apply, hp,
+    rw [mul_comm, hE, ← mul_apply_eq_comp, hba, LinearMap.add_apply, mul_apply_eq_comp, hp,
       MvPolynomial.pderiv_mul, map_add, hE, add_comm]
     congr 1
     split_ifs with h
-    · rw [h, MvPolynomial.pderiv_X_self, one_mul, one_smul, Module.End.one_apply]
+    · rw [h, MvPolynomial.pderiv_X_self, one_mul, one_smul, one_apply_eq_self]
     · rw [MvPolynomial.pderiv_X_of_ne (Ne.symm h), zero_mul, map_zero, zero_smul, LinearMap.zero_apply]
-
-open Formalism.IndefR.Datum in
-theorem exists_lift {ι X : Type} [DecidableEq ι] (M : Submodule ℂ (X → ℂ)) (A : ι → (X → ℂ) → (X → ℂ))
-    (a b : ι → Module.End ℂ M) (hA : ∀ i (g : M), A i g = a i g) (haa : ∀ i j, a i * a j = a j * a i)
-    (hba : ∀ i j, b i * a j = a j * b i + (if i = j then (1 : ℂ) else 0) • 1) (f : M) (hf : ∀ i, b i f = 0) :
-    ∃ E : MvPolynomial ι ℂ →ₗ[ℂ] M, (∀ Q, pureTensorL A (f : X → ℂ) Q = E Q) ∧
-      (∀ v Q, E (MvPolynomial.X v * Q) = a v (E Q)) ∧ ∀ v Q, E (MvPolynomial.pderiv v Q) = b v (E Q) := by
-  obtain ⟨E, hf0, hf1, hf2⟩ := exists_lift_for M A a b hA haa hba f Set.univ (fun i _ => hf i)
-  exact ⟨E, hf0, hf1, fun i => hf2 i (Set.mem_univ _)⟩
 
 end Abstract
 
@@ -354,7 +345,6 @@ end Mat
 open Formalism.BasicNotions Formalism.BasicNotions.TH Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes Formalism.L2.Theta Formalism.IndefR Formalism.IndefR.Links Formalism.IndefR.Mult Formalism.IndefR.Datum MeasureTheory NumberField Matrix
 open GlobalTheory.RealWeil GlobalTheory.Mem.Lift GlobalTheory.ChainFr GlobalTheory.IndefiniteRowSideFullHecke.RaisingLoweringOperators Complex
 open scoped Classical Real ComplexOrder
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 
 variable {D : D7} {V W : HSp D} (A : Fr V) (B : Fr W)
 
@@ -402,10 +392,11 @@ theorem cplxO_unit (τ : D.what₂.Tau) (i : Fin W.rank) (j : Fin V.rank) :
 
 variable {θ : InfFam D} {ψ : AddChar (AF D.host.F) ℂ} {σ : (D.what₂.Tau → ℂ) →+ Formalism.L2.Theta.AE D}
 
-theorem exists_raise_lower_at_place (h : GlobalTheory.FockCompare.Chart θ σ) (hψ : IsStdChar D ψ (-1)) (τ : D.what₂.Tau) :
+theorem exists_raise_lower (h : GlobalTheory.FockCompare.Chart θ σ) (hψ : IsStdChar D ψ (-1)) (τ : D.what₂.Tau) :
     ∃ (R L : Fin W.rank → Fin V.rank → Module.End ℂ (thetaSub ψ V W))
       (w : Ix V W → Ix V W → Module.End ℂ (thetaSub ψ V W)),
-      (∀ f, IsThetaFunO ψ V W f → IsFockVacAt (heisO ψ V W) θ τ (cplxO (A.cart τ) (B.cart τ)) f → ∃ E : PolF D W.rank V.rank →ₗ[ℂ] thetaSub ψ V W, (∀ P, ptF ψ θ A B f P = E P) ∧
+      (∀ f, IsThetaFunO ψ V W f → IsFockVacAt (heisO ψ V W) θ τ (cplxO (A.cart τ) (B.cart τ)) f →
+        ∃ E : PolF D W.rank V.rank →ₗ[ℂ] thetaSub ψ V W, (∀ P, ptF ψ θ A B f P = E P) ∧
         (∀ i j P, E (raiO τ (A.ε τ) (B.ε τ) i j P) = R i j (E P)) ∧
         ∀ i j P, E (lowO τ (A.ε τ) (B.ε τ) i j P) = L i j (E P)) ∧
       (∀ i j l k, w ((i, j), τ) ((l, k), τ) = (sgn (A.ε τ j) * sgn (A.ε τ k)) • (R i j * L l k)) ∧
@@ -447,9 +438,9 @@ theorem exists_raise_lower_at_place (h : GlobalTheory.FockCompare.Chart θ σ) (
       rw [e, uM_gram, diagonal_apply]
       by_cases hkl : k = l
       · subst hkl
-        rw [if_pos rfl, if_pos rfl, s2, map_mul, map_mul, cs, conj_sgn, conj_sgn, mul_assoc (cc D _), sgn_mul]
+        rw [ite_eq_left rfl, ite_eq_left rfl, s2, map_mul, map_mul, cs, conj_sgn, conj_sgn, mul_assoc (cc D _), sgn_mul]
         ring
-      · rw [if_neg hkl, if_neg fun e : (l.2, l.1) = (k.2, k.1) => hkl (Prod.swap_injective e).symm, map_zero, mul_zero])
+      · rw [ite_eq_right hkl, ite_eq_right fun e : (l.2, l.1) = (k.2, k.1) => hkl (Prod.swap_injective e).symm, map_zero, mul_zero])
     (a := a) (b := b) (fun _ => rfl) fun _ => rfl
   have hdJ : ∀ (k : FVar D W.rank V.rank) (g : thetaSub ψ V W),
       Datum.dRho (heisO ψ V W) θ k.1 (unitMap (A.onb k.1) (B.onb k.1) k.2.1 k.2.2) g = d (u k) g ∧
@@ -468,7 +459,7 @@ theorem exists_raise_lower_at_place (h : GlobalTheory.FockCompare.Chart θ σ) (
     fun k l => x (uM A B *ᵥ Pi.single k 1) * (-(1 / (4 * π)) : ℂ) • y ((uM A B * diagonal fun k =>
       (cc D k.2)⁻¹ * sgn (B.ε k.2 k.1.1) * sgn (A.ε k.2 k.1.2)) *ᵥ Pi.single l 1),
     fun f hf hv => ?_, fun i j l k => ?_, fun X X' hX g => ?_⟩
-  · obtain ⟨E, h1, h2, h3'⟩ := exists_lift_for (thetaSub ψ V W)
+  · obtain ⟨E, h1, h2, h3'⟩ := exists_lift (thetaSub ψ V W)
       (aPlusAll (heisO ψ V W) θ (fun τ => cplxO (A.cart τ) (B.cart τ)) A.onb B.onb) a b (fun k g => by
         rw [aPlusAll, aPlus, crea, (hdJ k g).1, (hdJ k g).2]
         simp only [a]
@@ -495,17 +486,17 @@ theorem exists_raise_lower_at_place (h : GlobalTheory.FockCompare.Chart θ σ) (
     refine ⟨E, h1, fun i j P => ?_, fun i j P => ?_⟩
     · unfold raiO
       by_cases hp : B.ε τ i = A.ε τ j
-      · simp only [if_pos hp, LinearMap.smul_apply, map_smul, LinearMap.mulLeft_apply, h2, a, p, smul_smul]
-      · simp only [if_neg hp, LinearMap.smul_apply, map_smul, LinearMap.neg_apply, map_neg, Derivation.coeFn_coe, h3,
+      · simp only [ite_eq_left hp, LinearMap.smul_apply, map_smul, LinearMap.mulLeft_apply, h2, a, p, smul_smul]
+      · simp only [ite_eq_right hp, LinearMap.smul_apply, map_smul, LinearMap.neg_apply, map_neg, Derivation.coeFn_coe, h3,
           b, p, smul_smul, neg_smul, neg_neg]
     · unfold lowO
       by_cases hp : B.ε τ i = A.ε τ j
-      · simp only [if_pos hp, LinearMap.smul_apply, map_smul, Derivation.coeFn_coe, h3, b, p, smul_smul]
+      · simp only [ite_eq_left hp, LinearMap.smul_apply, map_smul, Derivation.coeFn_coe, h3, b, p, smul_smul]
         rw [hp, neg_mul, mul_neg]
       · have e : sgn (A.ε τ j) = -sgn (B.ε τ i) := by
           revert hp
           cases B.ε τ i <;> cases A.ε τ j <;> simp [sgn]
-        simp only [if_neg hp, LinearMap.smul_apply, map_smul, LinearMap.mulLeft_apply, h2, a, p, smul_smul, e]
+        simp only [ite_eq_right hp, LinearMap.smul_apply, map_smul, LinearMap.mulLeft_apply, h2, a, p, smul_smul, e]
   · beta_reduce
     rw [← mulVec_mulVec, diagonal_mulVec_single, ← smul_eq_mul _ (1 : ℂ), Pi.single_smul',
       mulVec_smul, map_smulₛₗ, map_mul, map_mul, map_inv₀, cs, conj_sgn, conj_sgn]
@@ -523,18 +514,6 @@ theorem exists_raise_lower_at_place (h : GlobalTheory.FockCompare.Chart θ σ) (
     rw [← quad_basis x y _ hX, ← HM_inv]
     exact (congrArg (fun F : BB ψ V W => (F.1 : WO V W → ℂ)) (hN X g)).trans (hc _)
 
-theorem exists_raise_lower (h : GlobalTheory.FockCompare.Chart θ σ) (hψ : IsStdChar D ψ (-1)) (τ : D.what₂.Tau) :
-    ∃ (R L : Fin W.rank → Fin V.rank → Module.End ℂ (thetaSub ψ V W))
-      (w : Ix V W → Ix V W → Module.End ℂ (thetaSub ψ V W)),
-      (∀ f, IsVacF ψ θ A B f → ∃ E : PolF D W.rank V.rank →ₗ[ℂ] thetaSub ψ V W, (∀ P, ptF ψ θ A B f P = E P) ∧
-        (∀ i j P, E (raiO τ (A.ε τ) (B.ε τ) i j P) = R i j (E P)) ∧
-        ∀ i j P, E (lowO τ (A.ε τ) (B.ε τ) i j P) = L i j (E P)) ∧
-      (∀ i j l k, w ((i, j), τ) ((l, k), τ) = (sgn (A.ε τ j) * sgn (A.ε τ k)) • (R i j * L l k)) ∧
-      ∀ X X' : Matrix (Ix V W) (Ix V W) ℂ, X * uM A B = uM A B * X' → ∀ g : thetaSub ψ V W,
-        ((nOp (rhoV hψ σ V W) (HM V W) X (toB hψ g.1 g.2)).1 : WO V W → ℂ) = ((∑ k, ∑ l, X' k l • w k l) g).1 := by
-  obtain ⟨R, L, w, hF, hrest⟩ := exists_raise_lower_at_place A B h hψ τ
-  exact ⟨R, L, w, fun f hf => hF f hf.1 (hf.2 τ), hrest⟩
-
 theorem blk_single_congr {O : Type} [DecidableEq O] {n : ℕ} (F : O → Matrix (Fin n) (Fin n) ℂ) (hF : ∀ t, IsUnit (F t).det)
     (τ t : O) (X : Matrix (Fin n) (Fin n) ℂ) :
     F t * (Pi.single τ X : O → Matrix (Fin n) (Fin n) ℂ) t =
@@ -550,13 +529,17 @@ theorem lift_quad {M N ι κ : Type} [AddCommGroup M] [Module ℂ M] [AddCommGro
     E ((∑ i, ∑ k, Y i k • ∑ j, (r i j * l k j + if i = k then (1 / 2 : ℂ) • 1 else 0)) P) =
       (∑ i, ∑ k, Y i k • ∑ j, R i j * L k j) (E P) +
         (∑ i, ∑ k, Y i k * ∑ _j : κ, if i = k then (1 / 2 : ℂ) else 0) • E P := by
-
-  simp only [LinearMap.sum_apply, LinearMap.smul_apply, LinearMap.add_apply, Module.End.mul_apply, map_sum, map_smul,
-  map_add, hr, hl, Finset.sum_smul, mul_smul, ← Finset.sum_add_distrib, ← smul_add]
+  simp only [LinearMap.sum_apply, LinearMap.smul_apply, LinearMap.add_apply, mul_apply_eq_comp, map_sum, map_smul,
+    map_add, hr, hl, Finset.sum_smul, mul_smul, ← Finset.sum_add_distrib, ← smul_add]
   refine Finset.sum_congr rfl fun i _ => Finset.sum_congr rfl fun k _ => congrArg _ (Finset.sum_congr rfl fun j _ => ?_)
   split_ifs <;> simp
 
-theorem lieFockUpTo : ∀ D : D7, GlobalTheory.ChainFr.LieFockUpTo D := by
+theorem lieFockUpTo_at : ∀ (D : D7) (V W : HSp D) (A : GlobalTheory.ChainFr.Fr V) (B : GlobalTheory.ChainFr.Fr W) (θ : InfFam D)
+    (ψ : AddChar (AF D.host.F) ℂ) (χS χT : (AE D)ˣ →* Circle) (ω : GA D V × GA D W →* Module.End ℂ (WO V W → ℂ))
+    (τ : D.what₂.Tau), IsInfFam θ → IsWeilDatumO ψ V W χS χT ω →
+    ∃ (κS : Matrix (Fin V.rank) (Fin V.rank) ℂ → ℂ) (κT : Matrix (Fin W.rank) (Fin W.rank) ℂ → ℂ), ∀ f,
+      IsThetaFunO ψ V W f → IsFockVacAt (heisO ψ V W) θ τ (cplxO (A.cart τ) (B.cart τ)) f →
+        GlobalTheory.ChainFr.LieFockWith ψ θ A B ω f τ κS κT := by
   intro D V W A B θ ψ χS χT ω τ hθ hω
   have hψ := hω.std
   obtain ⟨σ, h⟩ := GlobalTheory.RealLineAt.exists_inverse_chart hθ
@@ -572,10 +555,11 @@ theorem lieFockUpTo : ∀ D : D7, GlobalTheory.ChainFr.LieFockUpTo D := by
     refine ⟨lam, fun g z => ?_⟩
     have e := coe_toB hψ g.1 g.2
     have h6 := hl (toB hψ g.1 g.2) (e.symm ▸ g.2) 1 z
-    simp only [one_mul, map_one, Module.End.one_apply] at h6
+    simp only [one_mul, map_one, one_apply_eq_self] at h6
     rw [← GlobalTheory.DefLift.Gen.coe_add_smul, hN X X' h5, e] at h6
     exact h6
-  have hS : ∀ X, ∃ κ : ℂ, X ∈ lieAt V τ → ∀ f, IsVacF ψ θ A B f → ∀ (P : PolF D W.rank V.rank) (z : WO V W),
+  have hS : ∀ X, ∃ κ : ℂ, X ∈ lieAt V τ → ∀ f, IsThetaFunO ψ V W f →
+      IsFockVacAt (heisO ψ V W) θ τ (cplxO (A.cart τ) (B.cart τ)) f → ∀ (P : PolF D W.rank V.rank) (z : WO V W),
       HasDerivAt (fun t : ℝ => ω (oneP θ V τ X t, 1) (ptF ψ θ A B f P) z)
         (ptF ψ θ A B f (fockS τ (A.ε τ) (B.ε τ) ((A.fr τ * X * (A.fr τ)⁻¹).map (starRingEnd ℂ)) P + κ • P) z) 0 := by
     intro X
@@ -596,8 +580,8 @@ theorem lieFockUpTo : ∀ D : D7, GlobalTheory.ChainFr.LieFockUpTo D := by
         · rw [Matrix.one_mul, Matrix.mul_one]
         · rw [blk_single_congr A.fr (fr_det A), Matrix.mul_neg, Matrix.neg_mul])
     refine ⟨lam - ∑ i, ∑ k, (A.fr τ * X * (A.fr τ)⁻¹).map (starRingEnd ℂ) i k *
-      ∑ _j : Fin W.rank, if i = k then (1 / 2 : ℂ) else 0, fun _ f hf P z => ?_⟩
-    obtain ⟨E, h1, h2, h3⟩ := hE f hf
+      ∑ _j : Fin W.rank, if i = k then (1 / 2 : ℂ) else 0, fun _ f hf hv P z => ?_⟩
+    obtain ⟨E, h1, h2, h3⟩ := hE f hf hv
     have e : ∑ k, ∑ l, blk (fun _ => 1) (Pi.single τ (-(A.fr τ * X * (A.fr τ)⁻¹))) k l • w k l =
         ∑ j, ∑ k, (A.fr τ * X * (A.fr τ)⁻¹).map (starRingEnd ℂ) j k • ∑ i, R i j * L i k := by
       rw [WeylAction.sum_right, Finset.sum_comm]
@@ -609,7 +593,8 @@ theorem lieFockUpTo : ∀ D : D7, GlobalTheory.ChainFr.LieFockUpTo D := by
       (fun j i => lowO τ (A.ε τ) (B.ε τ) i j) (fun j i => R i j) (fun j i => L i j) (fun j i => h2 i j)
       (fun j i => h3 i j), add_assoc, ← add_smul, add_sub_cancel, ← e]
     exact hl (E P) z
-  have hT : ∀ Y, ∃ κ : ℂ, Y ∈ lieAt W τ → ∀ f, IsVacF ψ θ A B f → ∀ (P : PolF D W.rank V.rank) (z : WO V W),
+  have hT : ∀ Y, ∃ κ : ℂ, Y ∈ lieAt W τ → ∀ f, IsThetaFunO ψ V W f →
+      IsFockVacAt (heisO ψ V W) θ τ (cplxO (A.cart τ) (B.cart τ)) f → ∀ (P : PolF D W.rank V.rank) (z : WO V W),
       HasDerivAt (fun t : ℝ => ω (1, oneP θ W τ Y t) (ptF ψ θ A B f P) z)
         (ptF ψ θ A B f (fockT τ (A.ε τ) (B.ε τ) (B.fr τ * Y * (B.fr τ)⁻¹) P + κ • P) z) 0 := by
     intro Y
@@ -630,8 +615,8 @@ theorem lieFockUpTo : ∀ D : D7, GlobalTheory.ChainFr.LieFockUpTo D := by
             blk_single_congr B.fr (fr_det B), mul_nonsing_inv_cancel_right _ _ (fr_det B t)]
         · rw [Matrix.one_mul, Matrix.mul_one])
     refine ⟨lam - ∑ i, ∑ k, (B.fr τ * Y * (B.fr τ)⁻¹) i k *
-      ∑ _j : Fin V.rank, if i = k then (1 / 2 : ℂ) else 0, fun _ f hf P z => ?_⟩
-    obtain ⟨E, h1, h2, h3⟩ := hE f hf
+      ∑ _j : Fin V.rank, if i = k then (1 / 2 : ℂ) else 0, fun _ f hf hv P z => ?_⟩
+    obtain ⟨E, h1, h2, h3⟩ := hE f hf hv
     have e : ∑ k, ∑ l, blk (Pi.single τ (B.fr τ * Y * (B.fr τ)⁻¹)) (fun _ => 1) k l • w k l =
         ∑ i, ∑ k, (B.fr τ * Y * (B.fr τ)⁻¹) i k • ∑ j, R i j * L k j := by
       rw [WeylAction.sum_left]
@@ -640,7 +625,12 @@ theorem lieFockUpTo : ∀ D : D7, GlobalTheory.ChainFr.LieFockUpTo D := by
     exact hl (E P) z
   choose κS hS using hS
   choose κT hT using hT
-  exact ⟨κS, κT, fun f hf => ⟨fun X hX => hS X hX f hf, fun Y hY => hT Y hY f hf⟩⟩
+  exact ⟨κS, κT, fun f hf hv => ⟨fun X hX => hS X hX f hf hv, fun Y hY => hT Y hY f hf hv⟩⟩
+
+theorem lieFockUpTo : ∀ D : D7, GlobalTheory.ChainFr.LieFockUpTo D := by
+  intro D V W A B θ ψ χS χT ω τ hθ hω
+  obtain ⟨κS, κT, h⟩ := lieFockUpTo_at D V W A B θ ψ χS χT ω τ hθ hω
+  exact ⟨κS, κT, fun f hf => h f hf.1 (hf.2 τ)⟩
 
 end GlobalTheory.LieFock
 

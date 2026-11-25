@@ -1,6 +1,5 @@
 module
 
-import GroundTheory.HeightsAndTheta.Heights.MultihomogeneousPolynomials
 public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.CellMeets
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovGeometry.KleimanNefness.ModelSt
 import Mathlib.RingTheory.Henselian
@@ -32,11 +31,18 @@ theorem isMultiHomog_zero (a : K → ℕ) : IsMultiHomog (0 : MRingOver S ι) a 
   simp at hm
 
 theorem isMultiHomog_C (r : S) : IsMultiHomog (C r : MRingOver S ι) 0 := by
-  apply _root_.GroundTheory.Heights₂.Heights.MultiHomogeneous.constant <;> assumption
+  intro m hm k
+  rw [C_apply] at hm
+  rw [Finset.mem_singleton.mp (support_monomial_subset hm)]
+  simp
 
 theorem isMultiHomog_add {p q : MRingOver S ι} {a : K → ℕ} (hp : IsMultiHomog p a)
     (hq : IsMultiHomog q a) : IsMultiHomog (p + q) a := by
-  apply _root_.GroundTheory.Heights₂.Heights.MultiHomogeneous.add <;> assumption
+  classical
+  intro m hm k
+  rcases Finset.mem_union.mp (support_add hm) with h | h
+  · exact hp m h k
+  · exact hq m h k
 
 theorem isMultiHomog_smul {p : MRingOver S ι} {a : K → ℕ} (s : S) (hp : IsMultiHomog p a) :
     IsMultiHomog (s • p) a :=
@@ -44,7 +50,10 @@ theorem isMultiHomog_smul {p : MRingOver S ι} {a : K → ℕ} (s : S) (hp : IsM
 
 theorem isMultiHomog_mul {p q : MRingOver S ι} {a b : K → ℕ} (hp : IsMultiHomog p a)
     (hq : IsMultiHomog q b) : IsMultiHomog (p * q) (a + b) := by
-  apply _root_.GroundTheory.Heights₂.Heights.MultiHomogeneous.mul <;> assumption
+  classical
+  intro m hm k
+  obtain ⟨m₁, h₁, m₂, h₂, rfl⟩ := Finset.mem_add.mp (support_mul p q hm)
+  simp only [Finsupp.add_apply, Finset.sum_add_distrib, Pi.add_apply, hp m₁ h₁ k, hq m₂ h₂ k]
 
 end Homog
 

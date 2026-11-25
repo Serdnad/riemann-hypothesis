@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.TwistedOperators.LowestKTypeLieWordNormBound
 public import Formalism.LocalToGlobal.IndefiniteReal.SobolevIteration.ArvOSobPfSt
 public import Formalism.LocalToGlobal.IndefiniteReal.SobolevIteration.ArvOSobPfA
 import Mathlib.RingTheory.PiTensorProduct
@@ -30,7 +29,11 @@ variable {n : ℕ}
 def cay (g : Matrix (Fin n) (Fin n) ℂ) : Matrix (Fin n) (Fin n) ℂ := (1 + 1) * Ring.inverse (g + 1) * (g - 1)
 
 theorem isUnit_two : IsUnit (1 + 1 : Matrix (Fin n) (Fin n) ℂ) := by
-  apply _root_.GlobalTheory.SmChart.isUnit_two <;> assumption
+  refine ⟨⟨1 + 1, (1 / 2 : ℂ) • 1, ?_, ?_⟩, rfl⟩
+  · rw [add_mul, one_mul, ← add_smul]
+    norm_num
+  · rw [mul_add, mul_one, ← add_smul]
+    norm_num
 
 theorem cay_eq (g : Matrix (Fin n) (Fin n) ℂ) (hg : IsUnit (g + 1)) :
     cay g = (1 + 1) - (1 + 1) * Ring.inverse (g + 1) * (1 + 1) := by
@@ -41,7 +44,15 @@ theorem cay_eq (g : Matrix (Fin n) (Fin n) ℂ) (hg : IsUnit (g + 1)) :
 
 theorem cay_inj {a b : Matrix (Fin n) (Fin n) ℂ} (ha : IsUnit (a + 1)) (hb : IsUnit (b + 1))
     (h : cay a = cay b) : a = b := by
-  apply _root_.GlobalTheory.SmChart.cay_inj <;> assumption
+  rw [cay_eq a ha, cay_eq b hb] at h
+  have h2 := sub_right_inj.1 h
+  have h3 : Ring.inverse (a + 1) = Ring.inverse (b + 1) :=
+    isUnit_two.mul_left_cancel (isUnit_two.mul_right_cancel h2)
+  calc a = (a + 1) - 1 := by abel
+    _ = (a + 1) * (Ring.inverse (b + 1) * (b + 1)) - 1 := by rw [Ring.inverse_mul_cancel _ hb, mul_one]
+    _ = ((a + 1) * Ring.inverse (a + 1)) * (b + 1) - 1 := by
+        rw [h3, mul_assoc (a + 1) (Ring.inverse (b + 1)) (b + 1)]
+    _ = b := by rw [Ring.mul_inverse_cancel _ ha, one_mul]; abel
 
 theorem cay_mem (G g : Matrix (Fin n) (Fin n) ℂ) (hg : g ∈ Formalism.QuantumDeterminants.UH G) (hu : IsUnit (g + 1)) :
     cay g ∈ lieG G := by
@@ -72,7 +83,24 @@ theorem cay_mem (G g : Matrix (Fin n) (Fin n) ℂ) (hg : g ∈ Formalism.Quantum
 theorem hasStrictFDerivAt_cay :
     HasStrictFDerivAt (cay : Matrix (Fin n) (Fin n) ℂ → Matrix (Fin n) (Fin n) ℂ)
       (1 : Matrix (Fin n) (Fin n) ℂ →L[ℝ] Matrix (Fin n) (Fin n) ℂ) 1 := by
-  apply _root_.GlobalTheory.SmChart.hasStrictFDerivAt_cay <;> assumption
+  have hT : HasStrictFDerivAt (fun g : Matrix (Fin n) (Fin n) ℂ => g + 1)
+      (ContinuousLinearMap.id ℝ (Matrix (Fin n) (Fin n) ℂ)) 1 :=
+    (hasStrictFDerivAt_id (𝕜 := ℝ) (1 : Matrix (Fin n) (Fin n) ℂ)).add_const 1
+  have hI := (hasStrictFDerivAt_ringInverse (𝕜 := ℝ) (isUnit_two (n := n)).unit).comp
+    (1 : Matrix (Fin n) (Fin n) ℂ) hT
+  have ha := hI.const_mul (1 + 1 : Matrix (Fin n) (Fin n) ℂ)
+  have hb : HasStrictFDerivAt (fun g : Matrix (Fin n) (Fin n) ℂ => g - 1)
+      (ContinuousLinearMap.id ℝ (Matrix (Fin n) (Fin n) ℂ)) 1 :=
+    (hasStrictFDerivAt_id (𝕜 := ℝ) (1 : Matrix (Fin n) (Fin n) ℂ)).sub_const 1
+  have hm := ha.mul' hb
+  show HasStrictFDerivAt (fun g : Matrix (Fin n) (Fin n) ℂ => (1 + 1) * Ring.inverse (g + 1) * (g - 1)) _ _
+  refine hm.congr_fderiv ?_
+  refine ContinuousLinearMap.ext fun h => ?_
+  simp only [ContinuousLinearMap.add_apply, ContinuousLinearMap.smul_apply, sub_self, smul_eq_mul]
+  rw [Ring.mul_inverse_cancel _ isUnit_two]
+  simp
+  first
+    | exact one_mul h
 
 end Chart
 

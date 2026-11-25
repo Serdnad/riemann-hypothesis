@@ -13,54 +13,9 @@ public import Formalism.SharpRestriction.LevelLetterCocycles.EqZeroOfMemSum
 public import Formalism.SharpRestriction.LevelLetterCocycles.QuotientImageDivisibility.RkDcrisLSumZero
 public import Formalism.SharpRestriction.LevelLetterCocycles.QuotientImageDivisibility.RkMulVBFilCris
 public import Formalism.SharpRestriction.LevelLetterCocycles.QuotientImageDivisibility.RkMultVNonneg
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Topology.Sheaves.Init
-import Mathlib.RingTheory.Henselian
-import Mathlib.RingTheory.RegularLocalRing.Defs
-import Mathlib.RingTheory.SimpleRing.Principal
 import Mathlib.Tactic.Linter.HaveILetI
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
 import Formalism.SharpRestriction.LevelLetterCocycles.EqZeroOfPowDvd
 import Formalism.SharpRestriction.LevelLetterCocycles.QuotientImageDivisibility.RkMultVOfNotJump
-import Mathlib.Tactic.Basify
 import Mathlib.Tactic.Linter.Style
 
 -- This file was produced by scripts/clump.py from the modules listed below.
@@ -433,7 +388,7 @@ theorem jumps_le (hE : Formalism.MainNotions.RamifiedCoefficientChains.DcrisExac
   have := fd_DdRE W hQ hS i τ hτ
   intro a ha
   have hw := Formalism.MainNotions.N.Pv.LocalLengthBound.rk_jumps₂ W hE hC hQ hS i τ hτ a ha
-  simp only [JumpWinS, hi, if_true, Set.mem_union, Set.mem_Icc] at hw
+  simp only [JumpWinS, hi, ite_true, Set.mem_union, Set.mem_Icc] at hw
   rcases hw with ⟨-, h2⟩ | ⟨h1, h2⟩
   · exact h2
   · exfalso
@@ -527,7 +482,7 @@ theorem Q_eq_q (hs : W.s = 1) : W.Q = W.q := by
 theorem coeff_Xpow_mul_lt (k j : ℕ) (hj : j < k) (f : PowerSeries LL) :
     PowerSeries.coeff j (PowerSeries.X ^ k * f) = 0 := by
   first
-    | (rw [PowerSeries.coeff_X_pow_mul']; exact if_neg (by omega))
+    | (rw [PowerSeries.coeff_X_pow_mul']; exact ite_eq_right (by omega))
 
 theorem lead_indep [IsDomain O] [IsFractionRing O LL] (Pt : ZMod n → LL → (K →ₐ[Qp] LL) → Prop)
     (hK : Function.Bijective (algebraMap K₀ K)) (hQ : Formalism.MainNotions.RamifiedCoefficientChains.DdREqDcris PD LL)
@@ -562,7 +517,7 @@ theorem lead_indep [IsDomain O] [IsFractionRing O LL] (Pt : ZMod n → LL → (K
         (fun j hj => by rw [hlevQ]; exact coeff_Xpow_mul_lt M j hj _)
       rw [add_comm] at this
       unfold Formalism.MainNotions.RamifiedCoefficientChains.S9.Conv.conv at this
-      rw [this, hlevQ, PowerSeries.coeff_X_pow_mul', if_pos le_rfl, Nat.sub_self,
+      rw [this, hlevQ, PowerSeries.coeff_X_pow_mul', ite_eq_left le_rfl, Nat.sub_self,
         PowerSeries.coeff_zero_eq_constantCoeff_apply, map_pow]
 
     have hsum : (letE i : LetA O n) • (W.Q ^ M • (W.Q ^ k • W.φD T x)) =
@@ -911,7 +866,7 @@ theorem ninQbP_of [IsLocalRing O] [IsAdicComplete (IsLocalRing.maximalIdeal O) O
   have h5 := hP5 T₂ Mf hf hT hJL
   have hxNl : x ∈ W.Nl T₂ i := ⟨x, hx.1, by simpa using hx.2.1⟩
   have h52 := h5.2.1 i x hxNl
-  simp only [hf, if_true, pow_zero, one_smul] at h52
+  simp only [hf, ite_true, pow_zero, one_smul] at h52
   obtain ⟨g, hg⟩ := (Submodule.mem_span_range_iff_exists_fun _).mp (phispan_le W T₂ i bb huniq h52)
   have hpa : ∀ a, W.Q ^ (Mf i) • W.φD T₂ ((letE (i - 1) : LetA O n) • bb a) ∈ W.N T₂ :=
     fun a => h5.1 i _ ⟨bb a, hbN a, rfl⟩

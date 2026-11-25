@@ -61,12 +61,6 @@ namespace GlobalTheory.SphLoc
 section Alg
 variable {G V X : Type} [Group G] [AddCommGroup V] [Module ℂ V] [AddCommGroup X] [Module ℂ X]
 
-theorem fixed_ne_bot_of_mem_iSup {ι : Type} [Finite ι] {σ : Representation ℂ G V} (hσ : σ.IsIrreducible)
-    {ρ : Representation ℂ G X} (T : ι → σ.IntertwiningMap ρ) (K : Subgroup G) {f : X}
-    (hf : f ∈ ⨆ j, LinearMap.range (T j).toLinearMap) (hf0 : f ≠ 0) (hK : ∀ k ∈ K, ρ k f = f) :
-    GlobalTheory.PRep.fixed σ K ≠ ⊥ :=
-  _root_.GlobalTheory.UnrLoc.fixed_ne_bot_of_mem_iSup_range hσ T K hf hf0 hK
-
 end Alg
 
 section Val
@@ -101,7 +95,6 @@ theorem le_one_of_map (i : K →+* K') (hi : Continuous i) {y : K} (h : valuatio
 end Val
 
 section
-attribute [local instance] GlobalTheory.LocalData.complRel GlobalTheory.LocalData.isLocalField
 
 variable {L : Type} [Field L] [NumberField L] [IsCMField L] {n : ℕ}
 
@@ -171,10 +164,5 @@ theorem isSpherical_of_sphAt (π : NG.AutRep L n) (s : SplitPlace L)
 end
 
 end GlobalTheory.SphLoc
-
-end
-
-section
-attribute [local instance] GlobalTheory.LocalData.complRel GlobalTheory.LocalData.isLocalField
 
 end

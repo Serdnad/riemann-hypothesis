@@ -530,7 +530,7 @@ theorem rootCoord_one (v : InfinitePlace X.B.I.F) (a : Fin D.R.rS) :
   rw [Matrix.one_mulVec]
   split_ifs with h
   · show hJ _ (rv X.B.I v (X.crd (X.fY a))) (rv X.B.I v (X.crd (X.eX ⟨a.1 + 1, h⟩))) = 0
-    rw [Formalism.L2.SG.PoincareInHH.Cut.hJ_crd, Formalism.L2.SG.PoincareInHH.Cut.hT_f_e, if_neg, map_zero]
+    rw [Formalism.L2.SG.PoincareInHH.Cut.hJ_crd, Formalism.L2.SG.PoincareInHH.Cut.hT_f_e, ite_eq_right, map_zero]
     exact fun hc => Nat.succ_ne_self a.1 (congrArg Fin.val hc)
   · show hJ _ (rv X.B.I v (X.crd (X.fY a))) (rv X.B.I v (X.crd (X.zu u))) = 0
     rw [Formalism.L2.SG.PoincareInHH.Cut.hJ_crd, (X.zu_orth u a).2, map_zero]
@@ -667,14 +667,6 @@ def LocUniqStep : Prop :=
       (μS νl : ∀ v, Measure (Formalism.REAL.UJ (X.B.I.ε v))) (C : ℝ≥0∞), QuotWit X u μS νl C →
       ∀ v (W : Formalism.REAL.UJ (X.B.I.ε v) → X.Vloc u v), Continuous W → LocEquivW X u v W → LocReprodW X u v W →
         ∫⁻ y, ‖W y‖ₑ ^ 2 ∂(νl v) ≠ 0 → ∫⁻ y, ‖W y‖ₑ ^ 2 ∂(νl v) ≠ ⊤ → LocConcl X u v (νl v) W
-
-theorem locDecayStep_of (hB : BesselNVGap) (hC : CoefWeightedLoc) (hW : WlocExists)
-    (hBW : Formalism.L2.SG.LocWSOf.BesselOfW) (hM1 : Formalism.L2.SG.LitS.BesselMultOne)
-    (hR : LocReprodStep) (hU : LocUniqStep) : LocDecayStep := by
-  intro D hG X u μS νl C hQ v
-  exact hU hB hC hW hBW hM1 D hG X u μS νl C hQ v (X.Wloc u v) (X.Wloc_cont u v)
-    (fun m hm h hh x => locEquiv X u v m hm h hh x) (hR D hG X u μS νl C hQ v)
-    (localRepresentationL2 X u hQ v).1 (localRepresentationL2 X u hQ v).2
 
 theorem wuDecayOfGap_of_steps (hC : CoefWeightedLoc) (hQ : QuotAll) (hL : LocDecayStep) :
     Formalism.L2.SG.Pf.WuDecayOfGap := by
@@ -987,9 +979,3 @@ theorem locReprodStep_of (hS : LocScalarStep) : LocReprodStep := by
   exact fun xv => ⟨(hc xv).1, by rw [(hc xv).2, h1, one_smul]⟩
 
 end Formalism.L2.SG.Pf.WuDec
-
-namespace Formalism.L2.SG.Pf
-
-open Formalism.L2.SG.SplitPrimeNormLemmas Formalism.L2.SG.Pf.WuDec
-
-end Formalism.L2.SG.Pf

@@ -6,45 +6,8 @@ public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Discret
 import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.CommuteCapOfCommuteEop
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.CapelliLeviFactorizationSum
 import Formalism.RealPlaceAnalysis.ThirdArithmeticHolds
-import Mathlib.Algebra.Module.StablyFree.Basic
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Topology.Sheaves.Init
 import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.UfamConst
 import Development.WeilBound.RepresentationTheoryGL.ResidualSpectrum.ExponentialNegativity.GapAbsOf
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.CoeffMemSubmoduleOfComplexPolyValuesMem
 
 @[expose] public section
 
@@ -59,7 +22,27 @@ namespace GlobalTheory.CompanionTheory.CapCoeff
 
 theorem coeff_mem_of_values {A : Type} [AddCommGroup A] [Module ℂ A] (W : Submodule ℂ A) (n : ℕ) (c : ℕ → A)
     (h : ∀ u : ℂ, ∑ k ∈ Finset.range n, u ^ k • c k ∈ W) : ∀ k < n, c k ∈ W := by
-  apply _root_.GlobalTheory.coeff_mem_of_poly_values_mem <;> assumption
+  intro k hk
+  rw [← Submodule.Quotient.mk_eq_zero W]
+  refine (Module.forall_dual_apply_eq_zero_iff ℂ _).1 fun f => ?_
+  let p : ℂ[X] := ∑ i ∈ Finset.range n, Polynomial.C (f (Submodule.Quotient.mk (c i))) * Polynomial.X ^ i
+  have hp : p = 0 := by
+    refine Polynomial.funext fun u => ?_
+    have h0 : (Submodule.Quotient.mk (∑ i ∈ Finset.range n, u ^ i • c i) : A ⧸ W) = 0 :=
+      (Submodule.Quotient.mk_eq_zero W).2 (h u)
+    have h1 := congrArg f h0
+
+    rw [← Submodule.mkQ_apply, map_sum, map_sum, map_zero] at h1
+    simp only [p, Polynomial.eval_finsetSum, Polynomial.eval_mul, Polynomial.eval_C, Polynomial.eval_pow,
+      Polynomial.eval_X, Polynomial.eval_zero]
+    rw [← h1]
+    refine Finset.sum_congr rfl fun i _ => ?_
+    rw [map_smul, map_smul, smul_eq_mul, mul_comm]
+    rfl
+  have hc := congrArg (fun q : ℂ[X] => q.coeff k) hp
+  simp only [p, Polynomial.finsetSum_coeff, Polynomial.coeff_C_mul_X_pow, Polynomial.coeff_zero] at hc
+  rw [Finset.sum_ite_eq] at hc
+  simpa [Finset.mem_range, hk] using hc
 
 theorem qdet_coeffs {A : Type} [Ring A] [Algebra ℂ A] (W : Subalgebra ℂ A) (m : ℕ)
     (X : Fin (m + 1) → Fin (m + 1) → A) (s : ℂ) (hW : ∀ u, Formalism.REAL.qdet X u ∈ W) :
@@ -72,15 +55,15 @@ theorem qdet_coeffs {A : Type} [Ring A] [Algebra ℂ A] (W : Subalgebra ℂ A) (
       exact hW _
   refine ⟨fun k => if k < m + 1 + 1 then c k else 0, t, fun k => ?_, ?_, ?_, fun u => ?_⟩
   · by_cases hk : k < m + 1 + 1
-    · simp only [if_pos hk]
+    · simp only [ite_eq_left hk]
       exact hm k hk
-    · simp only [if_neg hk]
+    · simp only [ite_eq_right hk]
       exact W.zero_mem
-  · simpa only [if_pos (Nat.lt_succ_self (m + 1))] using h1
-  · simpa only [if_pos (show m < m + 1 + 1 by omega)] using h2
+  · simpa only [ite_eq_left (Nat.lt_succ_self (m + 1))] using h1
+  · simpa only [ite_eq_left (show m < m + 1 + 1 by omega)] using h2
   · rw [h3 u]
     refine Finset.sum_congr rfl fun k hk => ?_
-    simp only [if_pos (Finset.mem_range.1 hk)]
+    simp only [ite_eq_left (Finset.mem_range.1 hk)]
 
 theorem qdet_commute_of {A : Type} [Ring A] [Algebra ℂ A] {n p : ℕ} (X : Fin n → Fin n → A) (Y : Fin p → Fin p → A)
     (h : ∀ i j k l, X i j * Y k l = Y k l * X i j) (u v : ℂ) :

@@ -3,49 +3,11 @@ module
 import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.ArchimedeanOrbitMeasures.PushLF
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.LocalMassOrder.Development
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.AdelicLocalCompactness.AdeleLC
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
 import Mathlib.RingTheory.PiTensorProduct
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.Linter.HaveILetI
-import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Compactness.Paracompact
 import Mathlib.Topology.Connected.Separation
 import Mathlib.Topology.MetricSpace.Ultra.TotallySeparated
 import Mathlib.Topology.Separation.CompletelyRegular
-import Mathlib.Topology.Sheaves.Init
 
 @[expose] public section
 
@@ -121,46 +83,22 @@ def LIP (R : Type) [CommRing R] : Prop :=
     (∀ c, W *ᵥ c = 0 → c = 0) → ∃ P : Matrix n m R, P * W = 1
 
 theorem lip_field (K : Type) [Field K] : LIP K := by
-  apply _root_.PI.AprimeInfW.lip_field <;> assumption
-
-theorem inj_of_isUnit {R : Type} [CommRing R] {m n : Type} [Fintype m] [Fintype n]
-    [DecidableEq n] (W : Matrix m n R) (P : Matrix n m R) (hP : IsUnit (P * W).det)
-    (c : n → R) (hc : W *ᵥ c = 0) : c = 0 := by
-  have h1 : (P * W) *ᵥ c = 0 := by
-    rw [← Matrix.mulVec_mulVec, hc, Matrix.mulVec_zero]
-  obtain ⟨u, hu⟩ := (Matrix.isUnit_iff_isUnit_det _).mpr hP
-  calc c = ((↑u⁻¹ : Matrix n n R) * (P * W)) *ᵥ c := by
-        rw [← hu, Units.inv_mul, Matrix.one_mulVec]
-    _ = 0 := by rw [← Matrix.mulVec_mulVec, h1, Matrix.mulVec_zero]
+  intro m n _ _ _ _ W hW
+  have hker : LinearMap.ker (Matrix.mulVecLin W) = ⊥ := by
+    rw [LinearMap.ker_eq_bot']
+    intro c hc
+    exact hW c hc
+  obtain ⟨g, hg⟩ := LinearMap.exists_leftInverse_of_injective (Matrix.mulVecLin W) hker
+  refine ⟨LinearMap.toMatrix' g, ?_⟩
+  have h1 : LinearMap.toMatrix' (g ∘ₗ Matrix.mulVecLin W) = 1 := by
+    rw [hg, LinearMap.toMatrix'_id]
+  rwa [LinearMap.toMatrix'_comp,
+    show LinearMap.toMatrix' (Matrix.mulVecLin W) = W from LinearMap.toMatrix'_toLin' W] at h1
 
 variable {F E : Type} [Field F] [Field E] [Algebra F E] {d : ℕ} (b : Module.Basis (Fin d) F E)
 
 def crd (R : Type) [CommRing R] [Algebra F R] (y : R ⊗[F] E) (k : Fin d) : R :=
   (Algebra.TensorProduct.basis R b).repr y k
-
-def wMat (R : Type) [CommRing R] [Algebra F R] {a M : ℕ} (X : Fin a → Fin M → R ⊗[F] E) :
-    Matrix (Fin M × Fin d) (Fin a × Fin d) R :=
-  fun p q => crd b R (((1 : R) ⊗ₜ[F] b q.2) * X q.1 p.1) p.2
-
-theorem wMat_mulVec (R : Type) [CommRing R] [Algebra F R] {a M : ℕ}
-    (X : Fin a → Fin M → R ⊗[F] E) (c : Fin a × Fin d → R) (j : Fin M) (l : Fin d) :
-    (wMat b R X *ᵥ c) (j, l) =
-      crd b R (∑ i, (∑ k, c (i, k) • ((1 : R) ⊗ₜ[F] b k)) * X i j) l := by
-
-  simp only [Matrix.mulVec, dotProduct, wMat, crd, Finset.sum_mul, smul_mul_assoc, map_sum, map_smul,
-  Finsupp.coe_finsetSum, Finset.sum_apply, Finsupp.smul_apply, smul_eq_mul, Fintype.sum_prod_type]
-  refine Finset.sum_congr rfl fun i _ => Finset.sum_congr rfl fun k _ => ?_
-  ring
-
-theorem wMat_mulVec_eq_zero (R : Type) [CommRing R] [Algebra F R] {a M : ℕ}
-    (X : Fin a → Fin M → R ⊗[F] E) (c : Fin a × Fin d → R) :
-    wMat b R X *ᵥ c = 0 ↔ ∀ j, ∑ i, (∑ k, c (i, k) • ((1 : R) ⊗ₜ[F] b k)) * X i j = 0 := by
-  apply _root_.PI.AprimeInfW.wMat_mulVec_eq_zero <;> assumption
-
-theorem linIndep_iff (R : Type) [CommRing R] [Algebra F R] {a M : ℕ}
-    (X : Fin a → Fin M → R ⊗[F] E) :
-    LinearIndependent (R ⊗[F] E) X ↔ ∀ c, wMat b R X *ᵥ c = 0 → c = 0 := by
-  apply _root_.PI.AprimeInfW.linIndep_iff <;> assumption
 
 variable [FiniteDimensional F E] (R : Type) [CommRing R] [Algebra F R] [TopologicalSpace R]
   [IsTopologicalRing R]
@@ -169,12 +107,6 @@ attribute [local instance] isModTop_tens isTopRing_tens
 
 theorem continuous_crd (k : Fin d) : Continuous (fun y : R ⊗[F] E => crd b R y k) :=
   IsModuleTopology.continuous_of_linearMap ((Algebra.TensorProduct.basis R b).coord k)
-
-theorem continuous_wMat {a M : ℕ} :
-    Continuous (fun X : Fin a → Fin M → R ⊗[F] E => wMat b R X) := by
-  refine continuous_matrix fun p q => ?_
-  exact (continuous_crd b R p.2).comp
-    (continuous_const.mul ((continuous_apply p.1).comp (continuous_apply q.1)))
 
 include b in
 theorem isOpen_linIndep (hU : IsOpen {r : R | IsUnit r}) (hL : LIP R) {a M : ℕ} :

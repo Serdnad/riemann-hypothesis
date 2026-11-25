@@ -1,51 +1,13 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.LengthCyclotomicBlockCocyclesLeSha
 public import Formalism.AdmissibleDesigns.NonemptyPl
 public import Formalism.CharacterColumnKernels.IdempotentNormalForms.GlobalConcreteOf
 public import Formalism.WachLatticeTwists.RealClassMaps.RealClassMapTheorem
 public import Formalism.WachLatticeTwists.RealClassMaps.StatClassMapReal
 public import Formalism.WachLatticeTwists.SplitLocalLifts.Statement
 public import Formalism.WeaklyAdmissibleFiltrations.CrystallineStableLifts.Galois
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.HaveILetI
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Topology.Sheaves.Init
 
 @[expose] public section
 
@@ -68,8 +30,24 @@ variable {l : ℕ} [Fact l.Prime] {E Ω : Type} [Field E] [Field Ω] [Algebra E 
   (Bw : LocBridge l E Ω Gw O)
 
 theorem toLLK_surj : Function.Surjective (Br.toLLK Bw) := by
-  intros
-  apply _root_.GlobalTheory.Cut.ShaBound.toLLK_surj <;> assumption
+  intro y
+  have halg : IsAlgebraic ℚ_[l] y := Algebra.IsAlgebraic.isAlgebraic y
+  have halg' : IsAlgebraic ℤ_[l] y := (IsFractionRing.isAlgebraic_iff ℤ_[l] ℚ_[l] (Br.LLw Bw)).mpr halg
+  obtain ⟨n, hn, hint⟩ := IsAlgebraic.exists_integral_multiple halg'
+  let x : Formalism.BasicNotions.Loc.OL Bw.LL := ⟨n • y, hint⟩
+  have hn' : algebraMap ℤ_[l] (Br.LLw Bw) n ≠ 0 := by
+    intro h0
+    apply hn
+    have : algebraMap ℚ_[l] (Br.LLw Bw) (algebraMap ℤ_[l] ℚ_[l] n) = 0 := by
+      rw [← IsScalarTower.algebraMap_apply]; exact h0
+    have h2 := (algebraMap ℚ_[l] (Br.LLw Bw)).injective (this.trans (map_zero _).symm)
+    exact (IsFractionRing.injective ℤ_[l] ℚ_[l]) (h2.trans (map_zero _).symm)
+  refine ⟨algebraMap O (FractionRing O) (Bw.eO.symm x) /
+    algebraMap O (FractionRing O) (Bw.eO.symm (algebraMap ℤ_[l] (Formalism.BasicNotions.Loc.OL Bw.LL) n)), ?_⟩
+  rw [map_div₀, Br.toLLK_alg, Br.toLLK_alg, RingEquiv.apply_symm_apply, RingEquiv.apply_symm_apply]
+  rw [← IsScalarTower.algebraMap_apply, div_eq_iff hn']
+  change n • y = y * _
+  rw [Algebra.smul_def, mul_comm]
 
 def eK : FractionRing O ≃+* Br.LLw Bw :=
   RingEquiv.ofBijective (Br.toLLK Bw) ⟨(Br.toLLK Bw).injective, toLLK_surj Bw⟩
@@ -305,7 +283,7 @@ variable {n : ℕ} {V : Type} [AddCommGroup V] [Module (FractionRing (D.nd.O i))
 
 theorem fZ_pos (hn : K.plOf i dc n ∈ placesOver D.host.E (D.nd.l i)) :
     fZ i dc n ρ = finZ (eK (D.nbr i _ hn)) (Br.PD D.loc D.nbr i _ hn) ρ (Br.iota D.nbr i _ hn) :=
-  dif_pos hn
+  dite_eq_left hn
 
 
 variable (n) in

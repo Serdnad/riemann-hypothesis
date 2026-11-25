@@ -33,9 +33,6 @@ noncomputable section
 
 variable {n : ℕ}
 
-private theorem I_pow_three' : I ^ 3 = -I := by
-  rw [pow_succ, I_sq, neg_one_mul]
-
 private theorem eq_sum_coord_smul_basis (w : V n) : w = ∑ j, w j • bas n j := by
   conv_lhs => rw [← (EuclideanSpace.basisFun (Fin n) ℂ).sum_repr w]
   simp [bas]
@@ -71,7 +68,7 @@ private theorem wdb_comp_holomorphic_eq_sum_conj {U : V n → ℂ} {G : V n → 
   refine Finset.sum_congr rfl fun b _ => ?_
   simp only [PiLp.smul_apply, smul_eq_mul, map_mul, Complex.conj_I]
   ring_nf
-  simp only [Complex.I_sq, I_pow_three']
+  simp only [Complex.I_sq, Complex.I_pow_three]
   ring
 
 private theorem wd_comp_holomorphic_eq_sum {U : V n → ℂ} {G : V n → V n} {y : V n}
@@ -85,7 +82,7 @@ private theorem wd_comp_holomorphic_eq_sum {U : V n → ℂ} {G : V n → V n} {
   refine Finset.sum_congr rfl fun b _ => ?_
   simp only [PiLp.smul_apply, smul_eq_mul, map_mul, Complex.conj_I]
   ring_nf
-  simp only [Complex.I_sq, I_pow_three']
+  simp only [Complex.I_sq, Complex.I_pow_three]
   ring
 
 private theorem differentiableAt_fderiv_basis_coord_of_contDiffAt {G : V n → V n} {y : V n} (hG : ContDiffAt ℂ 2 G y) (k b : Fin n) :
@@ -243,9 +240,15 @@ theorem cmpa_wdb_log {g : V n → ℂ} {y : V n} (hg : ContDiffAt ℂ 2 g y) (hy
 
 private theorem wd_conj_of_complex_differentiableAt_eq_zero {h : V n → ℂ} {y : V n} (hh : DifferentiableAt ℂ h y) (j : Fin n) :
     wd n j (fun v => (starRingEnd ℂ) (h v)) y = 0 := by
-  first
-    | exact _root_.ReciprocityTheory.L2DbarEstimates.Y.wd_conj_holomorphic_eq_zero
-    | apply _root_.ReciprocityTheory.L2DbarEstimates.Y.wd_conj_holomorphic_eq_zero <;> first | assumption | rfl | infer_instance
+  have H := (hh.hasFDerivAt.restrictScalars ℝ).star
+  have H2 : fderiv ℝ (fun v => (starRingEnd ℂ) (h v)) y =
+      ((starL' ℝ : ℂ ≃L[ℝ] ℂ) : ℂ →L[ℝ] ℂ).comp ((fderiv ℂ h y).restrictScalars ℝ) := H.fderiv
+  simp only [wd, H2, ContinuousLinearMap.comp_apply, ContinuousLinearMap.coe_restrictScalars',
+    map_smul, smul_eq_mul, ContinuousLinearEquiv.coe_coe, starL'_apply, star_mul', Complex.star_def,
+    Complex.conj_I]
+  ring_nf
+  try simp only [Complex.I_sq]
+  try ring
 
 theorem cmpa_hess_log {g : V n → ℂ} {x : V n} {U : Set (V n)} (hU : IsOpen U) (hxU : x ∈ U)
     (hg : DifferentiableOn ℂ g U) (hne : ∀ v ∈ U, g v ≠ 0) (j k : Fin n) :

@@ -1,43 +1,8 @@
 module
 
-import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.SymmetricPowerTransfer.GeneralizedEigenspaces.WeightKernels.TwistRatios.AutIso
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.ThetaParseval.SplitLineSubtraction.SubtractOf
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.EigencharacterOfSummandCharZero
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.ReduceModChar
 import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.TripleAtt
 
 @[expose] public section
@@ -47,7 +12,6 @@ open GlobalTheory.CuspRep GlobalTheory.WeilDeligne GlobalTheory.Pst GlobalTheory
 open Formalism.MainNotions.SumRepresentations.At (sumRep)
 open GlobalTheory.TripleGal (rk1)
 open UpperTheory.V.Af (FrobEig algSat RepIso tw)
-attribute [local instance] GlobalTheory.LocalData.complRel GlobalTheory.LocalData.isLocalField
 open UpperTheory.Gal.TP.Sub
 
 section
@@ -127,7 +91,27 @@ private theorem ss_left {a b : ℕ} (r : Γ →* GL (Fin a) k) (s : Γ →* GL (
 
 private theorem ss_of_iso {n : ℕ} (r r' : Γ →* GL (Fin n) k) (h : RepIso r r') (hr : IsSSRep r) :
     IsSSRep r' := by
-  apply _root_.UpperTheory.V.Z.Sym.Ga.AutomorphyInvariantUnderRepIso.ss_iso <;> assumption
+  obtain ⟨g, hg⟩ := h
+  let e : (Fin n → k) ≃ₗ[k] (Fin n → k) := Matrix.toLin'OfInv
+    (M := ((g⁻¹ : GL (Fin n) k) : Matrix (Fin n) (Fin n) k)) (M' := (g : Matrix (Fin n) (Fin n) k))
+    (Units.inv_mul g) (Units.mul_inv g)
+  have he : ∀ v, e v = (g : Matrix (Fin n) (Fin n) k) *ᵥ v := fun v => rfl
+  have key : ∀ s v, e ((r s : Matrix (Fin n) (Fin n) k) *ᵥ v) = (r' s : Matrix (Fin n) (Fin n) k) *ᵥ e v := by
+    intro s v
+    rw [he, he, hg, Matrix.mulVec_mulVec, Matrix.mulVec_mulVec, ← Units.val_mul, ← Units.val_mul,
+      inv_mul_cancel_right]
+  intro W hW
+  obtain ⟨C, hC, hc⟩ := hr (W.comap (e : (Fin n → k) →ₗ[k] (Fin n → k))) (by
+    intro s v hv
+    show e _ ∈ W
+    rw [key]
+    exact hW s _ hv)
+  refine ⟨C.map (e : (Fin n → k) →ₗ[k] (Fin n → k)), ?_, ?_⟩
+  · rintro s _ ⟨u, hu, rfl⟩
+    exact ⟨_, hC s u hu, key s u⟩
+  · have h2 : IsCompl ((W.comap (e : (Fin n → k) →ₗ[k] (Fin n → k))).map (e : (Fin n → k) →ₗ[k] (Fin n → k)))
+        (C.map (e : (Fin n → k) →ₗ[k] (Fin n → k))) := (Submodule.orderIsoMapComap e).isCompl hc
+    rwa [Submodule.map_comap_eq_of_surjective e.surjective] at h2
 
 private theorem ss_tw {n : ℕ} (r : Γ →* GL (Fin n) k) (c : Γ →* kˣ) (hr : IsSSRep r) :
     IsSSRep (tw r c) := by

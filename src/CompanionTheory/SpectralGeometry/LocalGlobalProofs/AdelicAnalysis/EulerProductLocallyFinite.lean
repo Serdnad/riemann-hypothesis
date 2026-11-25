@@ -118,8 +118,8 @@ theorem finprod_eq_indicator {F E : Type} [Field F] [NumberField F] [Field E] [A
 
 end GlobalTheory.CompanionTheory.SW.EulerInt
 
-theorem GlobalTheory.CompanionTheory.SW.EulerInt.euler_int_of_integrable_or_compact : ∀ (F E : Type) [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] (σ : E →ₐ[F] E), IsCMExt F E σ → ∀ (d : ℕ) (b : Module.Basis (Fin d) F E) (n M : ℕ) (I : Measure (Fin n → Fin M → AF F ⊗[F] E)) (minf : Measure (Fin n → Fin M → Ainf F ⊗[F] E)) (m : ∀ v : HeightOneSpectrum (𝓞 F), Measure (Fin n → Fin M → Fv F v ⊗[F] E)), IsEulerProd b I 1 minf m → IsLocallyFiniteMeasure minf → (∀ v, IsLocallyFiniteMeasure (m v)) → ∀ (Φ : (Fin n → Fin M → AF F ⊗[F] E) → ℂ) (Φinf : (Fin n → Fin M → Ainf F ⊗[F] E) → ℂ) (Φf : (Fin n → Fin M → Af F ⊗[F] E) → ℂ) (Φv : ∀ v : HeightOneSpectrum (𝓞 F), (Fin n → Fin M → Fv F v ⊗[F] E) → ℂ), Continuous Φinf → (Integrable Φinf minf ∨ HasCompactSupport Φinf) → IsPureFin b Φf Φv → IsProdInfFin Φ Φinf Φf → Measurable Φ ∧ Integrable Φ I ∧ Multipliable (fun v => ∫ X, Φv v X ∂(m v)) ∧ ∫ X, Φ X ∂I = (∫ X, Φinf X ∂minf) * ∏' v, ∫ X, Φv v X ∂(m v) := by
-  intro F E _ _ _ _ _ σ hCM d b n M I minf m hEu hminf hm Φ Φinf Φf Φv hc hinfData hpure hprod
+theorem GlobalTheory.CompanionTheory.SW.EulerInt.euler_int : ∀ (F E : Type) [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] (σ : E →ₐ[F] E), IsCMExt F E σ → ∀ (d : ℕ) (b : Module.Basis (Fin d) F E) (n M : ℕ) (I : Measure (Fin n → Fin M → AF F ⊗[F] E)) (minf : Measure (Fin n → Fin M → Ainf F ⊗[F] E)) (m : ∀ v : HeightOneSpectrum (𝓞 F), Measure (Fin n → Fin M → Fv F v ⊗[F] E)), IsEulerProd b I 1 minf m → IsLocallyFiniteMeasure minf → (∀ v, IsLocallyFiniteMeasure (m v)) → ∀ (Φ : (Fin n → Fin M → AF F ⊗[F] E) → ℂ) (Φinf : (Fin n → Fin M → Ainf F ⊗[F] E) → ℂ) (Φf : (Fin n → Fin M → Af F ⊗[F] E) → ℂ) (Φv : ∀ v : HeightOneSpectrum (𝓞 F), (Fin n → Fin M → Fv F v ⊗[F] E) → ℂ), Continuous Φinf → HasCompactSupport Φinf → IsPureFin b Φf Φv → IsProdInfFin Φ Φinf Φf → Measurable Φ ∧ Integrable Φ I ∧ Multipliable (fun v => ∫ X, Φv v X ∂(m v)) ∧ ∫ X, Φ X ∂I = (∫ X, Φinf X ∂minf) * ∏' v, ∫ X, Φv v X ∂(m v) := by
+  intro F E _ _ _ _ _ σ hCM d b n M I minf m hEu hminf hm Φ Φinf Φf Φv hc hcs hpure hprod
   classical
   obtain ⟨hpi, hpf, hpv, hlat, hint, hae, -, -, -⟩ := _root_.GlobalTheory.CompanionTheory.SW.MeasProj.proj_props F E σ hCM d b n M
   obtain ⟨⟨lcA, scA, t2A⟩, -⟩ := _root_.GlobalTheory.CompanionTheory.AdeleTop.adele_top F
@@ -193,7 +193,7 @@ theorem GlobalTheory.CompanionTheory.SW.EulerInt.euler_int_of_integrable_or_comp
       by_cases h : v ∈ S
       · rw [hφS ⟨v, h⟩]
         exact measurable_one.indicator (hB _)
-      · simp only [φ, dif_neg h]
+      · simp only [φ, dite_eq_right h]
         exact measurable_const
     have e := hEP S hSS φinf φ (measurable_one.indicator hA) hφm
     have hPm : MeasurableSet (P ⁻¹' (A ×ˢ Set.univ.pi B)) :=
@@ -232,7 +232,7 @@ theorem GlobalTheory.CompanionTheory.SW.EulerInt.euler_int_of_integrable_or_comp
     rw [Measure.restrict_apply hPm, e]
     simp only [ENNReal.coe_one, one_mul]
     exact mul_comm _ _
-  have hinf : Integrable Φinf minf := hinfData.elim id hc.integrable_of_hasCompactSupport
+  have hinf : Integrable Φinf minf := hc.integrable_of_hasCompactSupport hcs
   have hvi : ∀ v, Integrable (Φv v) (m v) := fun v =>
     (hcv v).integrable_of_hasCompactSupport (hpure.1 v).2
   obtain ⟨hI, hInt⟩ := GlobalTheory.CompanionTheory.SW.EulerInt.integral_box
@@ -274,8 +274,3 @@ theorem GlobalTheory.CompanionTheory.SW.EulerInt.euler_int_of_integrable_or_comp
     have hcc : ((c : ℝ) : ℂ) = ((∏' v : {v // v ∉ S}, a v.1 : ℝ) : ℂ) := rfl
     rw [hcc]
     ring
-
-theorem GlobalTheory.CompanionTheory.SW.EulerInt.euler_int : ∀ (F E : Type) [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] (σ : E →ₐ[F] E), IsCMExt F E σ → ∀ (d : ℕ) (b : Module.Basis (Fin d) F E) (n M : ℕ) (I : Measure (Fin n → Fin M → AF F ⊗[F] E)) (minf : Measure (Fin n → Fin M → Ainf F ⊗[F] E)) (m : ∀ v : HeightOneSpectrum (𝓞 F), Measure (Fin n → Fin M → Fv F v ⊗[F] E)), IsEulerProd b I 1 minf m → IsLocallyFiniteMeasure minf → (∀ v, IsLocallyFiniteMeasure (m v)) → ∀ (Φ : (Fin n → Fin M → AF F ⊗[F] E) → ℂ) (Φinf : (Fin n → Fin M → Ainf F ⊗[F] E) → ℂ) (Φf : (Fin n → Fin M → Af F ⊗[F] E) → ℂ) (Φv : ∀ v : HeightOneSpectrum (𝓞 F), (Fin n → Fin M → Fv F v ⊗[F] E) → ℂ), Continuous Φinf → HasCompactSupport Φinf → IsPureFin b Φf Φv → IsProdInfFin Φ Φinf Φf → Measurable Φ ∧ Integrable Φ I ∧ Multipliable (fun v => ∫ X, Φv v X ∂(m v)) ∧ ∫ X, Φ X ∂I = (∫ X, Φinf X ∂minf) * ∏' v, ∫ X, Φv v X ∂(m v) := by
-  intro F E _ _ _ _ _ σ hCM d b n M I minf m hEu hminf hm Φ Φinf Φf Φv hc hcs hpure hprod
-  exact GlobalTheory.CompanionTheory.SW.EulerInt.euler_int_of_integrable_or_compact
-    F E σ hCM d b n M I minf m hEu hminf hm Φ Φinf Φf Φv hc (.inr hcs) hpure hprod

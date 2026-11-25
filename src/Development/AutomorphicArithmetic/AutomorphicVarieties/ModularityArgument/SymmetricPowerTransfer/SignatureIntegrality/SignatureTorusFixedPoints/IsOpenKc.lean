@@ -1,6 +1,5 @@
 module
 
-import all Development.AutomorphicArithmetic.AutomorphicVarieties.HeckeAlgebras.OrdinaryHeckeCharacters.GlBridge
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.SymmetricPowerTransfer.SignatureIntegrality.UnitaryHyperbolicOrbitCount
 import Development.AbelianVarietyTheory.Definitions.Divisors.LineOppositeParabolicUnitaryLeviSectionEq
 import Development.AbelianVarietyTheory.Definitions.Divisors.T2SpaceGeneralLinearGroup
@@ -54,7 +53,20 @@ section
 variable {k : Type} [Field k] [ValuativeRel k] [TopologicalSpace k] [IsNonarchimedeanLocalField k] {n : ℕ}
 
 theorem UpperTheory.V.Z.Sym.Sig.isOpen_Kc (c : ℕ) : IsOpen (Kc k n c : Set (GL (Fin n) k)) := by
-  apply _root_.br_Kc_open <;> assumption
+  have ho : IsOpen {x : k | valuation k x ≤ uniformizer k ^ (c : ℤ)} := by
+    have h0 : IsOpen ((valuation k).integer : Set k) := Valuation.isOpen_integer
+    convert h0.preimage (continuous_mul_const ((unif k ^ (-(c : ℤ)) : kˣ) : k)) using 1
+    ext x
+    change _ ↔ valuation k _ ≤ 1
+    rw [map_mul, GlAx.val_zpow, _root_.zpow_neg, mul_inv_le_iff₀ (zpow_pos GlAx.unif_pos _), one_mul]
+    rfl
+  have h : ∀ f : GL (Fin n) k → GL (Fin n) k, Continuous f → IsOpen {g | GlAx.Bd c (f g)} := fun f hf => by
+    simp only [GlAx.Bd, Set.setOf_forall]
+    exact isOpen_iInter_of_finite fun i => isOpen_iInter_of_finite fun j =>
+      ho.preimage (((Units.continuous_val.comp hf).sub continuous_const).matrix_elem i j)
+  have : (Kc k n c : Set (GL (Fin n) k)) = {g | GlAx.Bd c (id g)} ∩ {g | GlAx.Bd c g⁻¹} := Set.ext fun g => GlAx.mem_Kc
+  rw [this]
+  exact (h _ continuous_id).inter (h _ continuous_inv)
 
 theorem UpperTheory.V.Z.Sym.Sig.kc_sep {g : GL (Fin n) k} (h : ∀ m, g ∈ Kc k n m) : g = 1 := by
   refine Units.ext (sub_eq_zero.1 (Matrix.ext fun i j => ?_))
@@ -65,8 +77,7 @@ theorem UpperTheory.V.Z.Sym.Sig.kc_sep {g : GL (Fin n) k} (h : ∀ m, g ∈ Kc k
   omega
 
 theorem UpperTheory.V.Z.Sym.Sig.kc_basis {S : Set (GL (Fin n) k)} (hS : S ∈ nhds (1 : GL (Fin n) k)) : ∃ m, (Kc k n m : Set (GL (Fin n) k)) ⊆ S := by
-  by_contra hc
-  push_neg at hc
+  by_contra! hc
   have hcl : ∀ m, IsClosed ((Kc k n m : Set (GL (Fin n) k)) \ interior S) := fun m =>
     ((Kc k n m).isClosed_of_isOpen (isOpen_Kc m)).sdiff isOpen_interior
   obtain ⟨a, ha⟩ := IsCompact.nonempty_iInter_of_sequence_nonempty_isCompact_isClosed (fun m => (Kc k n m : Set (GL (Fin n) k)) \ interior S)

@@ -1,7 +1,5 @@
 module
 
-import Development.AutomorphicArithmetic.AutomorphicVarieties.LiteratureResults.KTheoryStability.ReductionBoundsTorsion.IteratedHeckeBounds.HkIterContOn
-import Development.AutomorphicArithmetic.AutomorphicVarieties.LiteratureResults.KTheoryStability.ReductionBoundsTorsion.IteratedHeckeBounds.Lemmas
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.LiteratureResults.KTheoryStability.ReductionBoundsTorsion.CompactLocalSets.OverlapG
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.HermiteNormalForms.LowbdSmul
 public import Mathlib.Analysis.Matrix.Hermitian
@@ -16,59 +14,10 @@ public import Mathlib.MeasureTheory.Group.Measure
 public import Mathlib.Topology.Algebra.Group.Matrix
 public import Mathlib.Analysis.Matrix.PosDef
 public import Mathlib.Algebra.Star.UnitaryStarAlgAut
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Algebra.Order.Star.Real
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.RingTheory.SimpleRing.Principal
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Topology.Sheaves.Init
 import Development.AutomorphicArithmetic.AutomorphicVarieties.TensorHomCubes.StabDirectedSystem
 import Mathlib.Tactic.Linter.HaveILetI
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.Polynomial.Basic
 import Aesop.Main
-import Mathlib.Algebra.Ring.IsFormallyReal
-import Mathlib.Analysis.LocallyConvex.AbsConvexOpen
-import Mathlib.Tactic.Lemma
-import Mathlib.Tactic.ENatToNat
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AutomorphicArithmetic.AutomorphicVarieties.LiteratureResults.KTheoryStability.ReductionBoundsTorsion.CompactLocalSets.MeasurableSetSimplex, Development.AutomorphicArithmetic.AutomorphicVarieties.LiteratureResults.KTheoryStability.ReductionBoundsTorsion.CompactLocalSets.Assemble, Development.AutomorphicArithmetic.AutomorphicVarieties.LiteratureResults.KTheoryStability.ReductionBoundsTorsion.CompactLocalSets.DiscrHolds, Development.AutomorphicArithmetic.AutomorphicVarieties.LiteratureResults.KTheoryStability.ReductionBoundsTorsion.CompactLocalSets.MargInt, Development.AutomorphicArithmetic.AutomorphicVarieties.LiteratureResults.KTheoryStability.ReductionBoundsTorsion.CompactLocalSets.Overlap, Development.AutomorphicArithmetic.AutomorphicVarieties.LiteratureResults.KTheoryStability.ReductionBoundsTorsion.CompactLocalSets.SimpBdM, Development.AutomorphicArithmetic.AutomorphicVarieties.LiteratureResults.KTheoryStability.ReductionBoundsTorsion.CompactLocalSets.SimpBd, Development.AutomorphicArithmetic.AutomorphicVarieties.LiteratureResults.KTheoryStability.ReductionBoundsTorsion.CompactLocalSets.UnfoldM, Development.AutomorphicArithmetic.AutomorphicVarieties.LiteratureResults.KTheoryStability.ReductionBoundsTorsion.CompactLocalSets.Unfold, Development.AutomorphicArithmetic.AutomorphicVarieties.LiteratureResults.KTheoryStability.ReductionBoundsTorsion.CompactLocalSets.SLocOf
@@ -100,8 +49,14 @@ def actEq (x : Gp L N) : HS L N ≃L[ℝ] HS L N where
 
 @[simp] theorem actEq_apply (x : Gp L N) (h : HS L N) : actEq x h = actL x h := rfl
 
-theorem pos_convex : Convex ℝ (Pos L N) :=
-  _root_.PositivityTheory.KB.JoinReconstruction.pos_convex
+theorem pos_convex : Convex ℝ (Pos L N) := by
+  intro h hh k hk a b ha hb hab w
+  rw [mat_add, mat_smul, mat_smul]
+  rcases ha.eq_or_lt with rfl | ha'
+  · rw [zero_add] at hab
+    subst hab
+    simpa using hk w
+  · exact ((hh w).smul ha').add_posSemidef ((hk w).posSemidef.smul hb)
 
 theorem kset_sub {q : ℕ} (x : Fin (q + 1) → Gp L N) {B : Set (HS L N)} (hB : B ⊆ Pos L N) :
     Kset (fun j => actL (x j)) B ⊆ Pos L N := by
@@ -154,10 +109,24 @@ theorem measurableSet_simplex (q : ℕ) :
 
 theorem intP_inv {q : ℕ} (ω : Form (HS L N) q) (g : Gp L N) (hg : FInv ω g)
     (y : Fin (q + 1) → Pos L N) : intP ω (fun j => g • y j) = intP ω y := by
-  apply _root_.PositivityTheory.KB.JoinReconstruction.intP_inv <;> assumption
+  simp only [intP, intS]
+  refine setIntegral_congr_fun (measurableSet_simplex q) fun t ht => ?_
+  have hv : ∀ j, ((g • y j : Pos L N) : HS L N) = actL g (y j).1 := fun j => rfl
+
+  simp only [hv, ← map_sub, ← map_smul, ← map_sum, ← map_add (f := _)]
+  have hp := simplex_pos (fun j => (y j).1) (fun j => (y j).2) t ht
+  have := congrArg (fun f => f (fun j => (y j.succ).1 - (y 0).1)) (hg _ hp)
+  simpa [Function.comp_def, map_sub] using this
 
 theorem cont_actL_apply (v : HS L N) : Continuous fun x : Gp L N => actL x v := by
-  apply _root_.PositivityTheory.KB.JoinReconstruction.actL_cont <;> assumption
+  refine continuous_induced_rng.2 ?_
+  change Continuous fun x : Gp L N => fun w i j =>
+    ((((x w)⁻¹ : GL (Fin N) ℂ) : Matrix (Fin N) (Fin N) ℂ)ᴴ * mat v w *
+      ((x w)⁻¹ : GL (Fin N) ℂ)) i j
+  refine continuous_pi fun w => continuous_pi fun i => continuous_pi fun j => ?_
+  have hi : Continuous fun x : Gp L N => (((x w)⁻¹ : GL (Fin N) ℂ) : Matrix (Fin N) (Fin N) ℂ) :=
+    Units.continuous_coe_inv.comp (continuous_apply w)
+  exact ((hi.matrix_conjTranspose.matrix_mul continuous_const).matrix_mul hi).matrix_elem i j
 
 theorem cont_actL : Continuous fun x : Gp L N => actL x :=
   continuous_clm_apply.2 fun v => cont_actL_apply v
@@ -372,7 +341,7 @@ theorem sLoc_of_parts (hA : AvgS) (hS : SimpBd) (hU : Unfold) (hDi : Discr) (hO 
     rw [actEq_apply]
     show _ = actL (h j) ((if b j = true then e (x j) else one L N : ↑(Pos L N)) : HS L N)
     by_cases hb : b j = true
-    · simp only [hb, if_true, hcoe _ (hrP (hx j))]
+    · simp only [hb, ite_true, hcoe _ (hrP (hx j))]
     · simp only [hb]
       rfl
   have hev := hA (Gm L N) (Gp L N) ↑(Pos L N) (HS L N) (emb L N) k (intP ω) (nrm μ B) e
@@ -632,7 +601,7 @@ theorem overlapG_holds : OverlapG := by
         _ = ∑' γ : Γ, (K * K⁻¹).indicator (fun _ => (1 : ℝ≥0∞)) (γ : G) :=
             (Equiv.mulRight γ₀⁻¹).tsum_eq (fun γ : Γ => (K * K⁻¹).indicator (fun _ => (1 : ℝ≥0∞)) (γ : G))
         _ ≤ _ := hsum
-    · push_neg at hS
+    · push Not at hS
       calc ∑' γ : Γ, K.indicator (fun _ => (1 : ℝ≥0∞)) (γ • x) = ∑' _γ : Γ, (0 : ℝ≥0∞) :=
             tsum_congr fun γ => Set.indicator_of_notMem (hS γ) _
         _ ≤ _ := by simp
@@ -910,8 +879,7 @@ lemma pt_eqA {q : ℕ} (A : Fin (q + 1) → V ≃L[ℝ] V) (t : Fin q → ℝ) (
   pt_eq t (fun j => A j (y j))
 
 lemma exists_big {q : ℕ} (τ : Fin (q + 1) → ℝ) (hs : ∑ j, τ j = 1) : ∃ i, 1 / ((q : ℝ) + 1) ≤ τ i := by
-  by_contra h
-  push_neg at h
+  by_contra! h
   have hlt : ∑ j, τ j < ∑ _j : Fin (q + 1), 1 / ((q : ℝ) + 1) :=
     Finset.sum_lt_sum_of_nonempty Finset.univ_nonempty fun j _ => h j
   rw [hs, Finset.sum_const, Finset.card_univ, Fintype.card_fin, nsmul_eq_mul] at hlt
@@ -928,7 +896,7 @@ private theorem exists_ne_zero_smul_mem_of_mem_span' (μ : Measure V) [μ.IsAddH
   have hw : Continuous fun y : Fin (q + 1) → V => fun j => if b j then y j else y₀ := by
     refine continuous_pi fun j => ?_
     by_cases h : b j = true
-    · simp only [h, if_true]
+    · simp only [h, ite_true]
       exact continuous_apply j
     · simp only [h]
       exact continuous_const
@@ -936,7 +904,7 @@ private theorem exists_ne_zero_smul_mem_of_mem_span' (μ : Measure V) [μ.IsAddH
       (fun j => if b j then y j else y₀) ∈ Set.univ.pi fun _ : Fin (q + 1) => B := by
     intro y hy j _
     by_cases h : b j = true
-    · simp only [h, if_true]
+    · simp only [h, ite_true]
       exact hy j (Set.mem_univ j)
     · simp only [h]
       exact hy₀

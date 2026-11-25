@@ -1,6 +1,5 @@
 module
 
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.HeightTheory.IsUnitOfValEqZero
 public import Mathlib.RingTheory.DiscreteValuationRing.Basic
 public import Mathlib.RingTheory.IntegralClosure.IsIntegral.Defs
 public import Mathlib.RingTheory.Valuation.Integral
@@ -38,7 +37,14 @@ theorem nonneg_of_isIntegral {y : F} (hy : IsIntegral ℤ y) : 0 ≤ v y := by
   exact h2
 
 theorem withTop_add_pos {x y : WithTop ℤ} (hx : 0 ≤ x) (hy : 0 < y) : 0 < x + y := by
-  apply _root_.ReciprocityTheory.ChartRestriction.G.T0.ValuationResidueLemmas.wt_pos <;> assumption
+  induction x using WithTop.recTopCoe with
+  | top => simp
+  | coe a =>
+    induction y using WithTop.recTopCoe with
+    | top => simp
+    | coe b =>
+      norm_cast at hx hy ⊢
+      omega
 
 theorem val_prime_eq_zero {l p : ℕ} (hl : l.Prime) (hp : p.Prime) (hne : p ≠ l) (hvl : 0 < v (l : F)) :
     v (p : F) = 0 := by
@@ -80,14 +86,6 @@ theorem mem_range_of_isRoot (P : (FractionRing O)[X]) (hm : P.Monic)
   exact ⟨y, hy⟩
 
 end DVR
-
-section Away
-
-variable {R : Type*} [CommRing R]
-
-variable {q : R}
-
-end Away
 
 end Formalism.L2.NCov
 end -- clump:auto

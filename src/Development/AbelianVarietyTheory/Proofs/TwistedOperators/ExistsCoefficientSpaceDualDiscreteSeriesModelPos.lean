@@ -1,6 +1,5 @@
 module
 
-import Formalism.LocalToGlobal.IndefiniteReal.SchurOrthogonality
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ColLieApply
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsCompactAdele
 public import Development.AbelianVarietyTheory.Proofs.HeightProofs.AdelicUnitaryActionAtRealPlace
@@ -127,7 +126,7 @@ theorem exists_contragredient {G X κ : Type} [Group G] [TopologicalSpace G] [Ad
           refine Finset.sum_congr rfl fun q _ => ?_
           ring
       _ = ∑ p, y p * starRingEnd ℂ (x p) := by
-          simp only [horth, mul_ite, mul_one, mul_zero, Finset.sum_ite_eq, Finset.mem_univ, if_true]
+          simp only [horth, mul_ite, mul_one, mul_zero, Finset.sum_ite_eq, Finset.mem_univ, ite_true]
           exact Finset.sum_congr rfl fun p _ => mul_comm _ _
   · intro x
     have hfun : (fun g => ρ g x) = fun g => WithLp.toLp 2 (fun q => ∑ p, x p * starRingEnd ℂ (B.repr (T g (B p)) q)) := by
@@ -239,13 +238,25 @@ open Formalism.L2.Theta Formalism.L2.DIV Formalism.L2.Indef Formalism.DivisionVa
 open Formalism.IndefR.Lev Formalism.IndefR.Mult Formalism.IndefR.Cx Formalism.IndefR.Links
 open Formalism.IndefR.Datum (InfFam)
 open GlobalTheory.DefFree GlobalTheory.DefLift Matrix
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 
 variable {D : D7} {θ : InfFam D} {V : HSp D} {S : D.what₂.Tau → SPar}
 
 theorem frame_mem (M : DSModel V S) (τ : D.what₂.Tau) {g : Matrix (Fin V.rank) (Fin V.rank) ℂ}
     (hg : g ∈ Formalism.QuantumDeterminants.UH (gramAt D V τ)) : M.fr τ * g * (M.fr τ)⁻¹ ∈ UJset (M.ε τ) := by
-  first | exact _root_.Formalism.IndefR.SchurOrthogonalityAlt.conj_mem | exact @_root_.Formalism.IndefR.SchurOrthogonalityAlt.conj_mem | apply _root_.Formalism.IndefR.SchurOrthogonalityAlt.conj_mem <;> assumption
+  have hdet : IsUnit (M.fr τ).det := (Matrix.isUnit_iff_isUnit_det _).mp (M.fr_unit τ)
+  have hg' : gᴴ * gramAt D V τ * g = gramAt D V τ := hg
+  have hJ : Formalism.REAL.Jm (M.ε τ) = ((M.fr τ)⁻¹)ᴴ * gramAt D V τ * (M.fr τ)⁻¹ := by
+    rw [← M.fr_gram τ]
+    simp only [Matrix.mul_assoc]
+    rw [Matrix.mul_nonsing_inv _ hdet, Matrix.mul_one, ← Matrix.mul_assoc, ← Matrix.conjTranspose_mul,
+      Matrix.mul_nonsing_inv _ hdet, Matrix.conjTranspose_one, Matrix.one_mul]
+  show (M.fr τ * g * (M.fr τ)⁻¹)ᴴ * Formalism.REAL.Jm (M.ε τ) * (M.fr τ * g * (M.fr τ)⁻¹) = Formalism.REAL.Jm (M.ε τ)
+  rw [Matrix.conjTranspose_mul, Matrix.conjTranspose_mul]
+  calc ((M.fr τ)⁻¹)ᴴ * (gᴴ * (M.fr τ)ᴴ) * Formalism.REAL.Jm (M.ε τ) * (M.fr τ * g * (M.fr τ)⁻¹)
+      = ((M.fr τ)⁻¹)ᴴ * (gᴴ * ((M.fr τ)ᴴ * Formalism.REAL.Jm (M.ε τ) * M.fr τ) * g) * (M.fr τ)⁻¹ := by
+        simp only [Matrix.mul_assoc]
+    _ = Formalism.REAL.Jm (M.ε τ) := by
+        rw [M.fr_gram τ, hg', hJ]
 
 theorem rep_one (M : DSModel V S) (τ : D.what₂.Tau) : M.rep τ 1 = 1 := by
   have hdet : IsUnit (M.fr τ).det := (Matrix.isUnit_iff_isUnit_det _).mp (M.fr_unit τ)

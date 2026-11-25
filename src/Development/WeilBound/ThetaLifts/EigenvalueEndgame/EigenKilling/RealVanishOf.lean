@@ -1,61 +1,14 @@
 module
 
-
-import Development.WeilBound.CoreStatements.GaussianSeminormBounds.RealSeminormFiltration.KRealAsm
 public import Formalism.LocalRingCardinality.DataTheta
 public import Development.WeilBound.ThetaLifts.EigenvalueEndgame.EigenKilling.ConeIntegralFactorisation
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsFockMap
 public import Development.WeilBound.ThetaLifts.ConeHypotheses.PolDense
 public import Development.WeilBound.ThetaLifts.CartanFactorisation.ExistsCharNe
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Coalgebra.IsFrobenius
-import Mathlib.RingTheory.Etale.Weakly
-import Mathlib.RingTheory.Finiteness.ModuleFinitePresentation
-import Mathlib.RingTheory.HopfAlgebra.Basic
-import Mathlib.RingTheory.PiTensorProduct
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.RingTheory.TotallySplit
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Bool
 import Std.Tactic.BVDecide.Normalize.Prop
 import Development.AbelianVarietyTheory.Definitions.Divisors.MatchingOfParts
+
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.WeilBound.ThetaLifts.EigenvalueEndgame.EigenKilling.FockActionFirstEq, Development.WeilBound.ThetaLifts.EigenvalueEndgame.EigenKilling.RealVanishOf
 
@@ -133,9 +86,9 @@ theorem der_lin (p : C → Bool) (v w : I → ℂ) (u : I × C → ℂ) : der p 
     simp only [pderiv_lin, mul_smul_comm, mul_one]
     cases p c
     · rw [Finset.sum_comm]
-      simp only [Bool.false_eq_true, if_false, Finset.mul_sum, ← Finset.sum_neg_distrib, Finset.sum_smul, smul_neg, neg_smul, smul_smul]
+      simp only [Bool.false_eq_true, ite_false, Finset.mul_sum, ← Finset.sum_neg_distrib, Finset.sum_smul, smul_neg, neg_smul, smul_smul]
       exact Finset.sum_congr rfl fun a _ => Finset.sum_congr rfl fun b _ => by congr 2; ring
-    · simp only [if_true, Finset.mul_sum, Finset.sum_smul, smul_smul, mul_assoc]
+    · simp only [ite_true, Finset.mul_sum, Finset.sum_smul, smul_smul, mul_assoc]
   rw [der_apply]
   refine Eq.trans ?_ (((Finset.sum_congr rfl fun c _ => e c).trans (Fintype.sum_prod_type_right' _).symm).trans (lin_apply _).symm)
   rw [Finset.sum_comm (γ := C)]
@@ -151,12 +104,12 @@ theorem core_pos (p : C → Bool) (S : I → Prop) (k : ℝ) (hk : 0 < k) (hc : 
   let w : I → ℂ := fun a => if h : S a then w₀ ⟨a, h⟩ else 0
   let v : I → ℂ := Pi.single a₀.1 (w₀ a₀)⁻¹
   have hvw : ∑ a, v a * w a = 1 := by
-    simp only [v, Pi.single_apply, ite_mul, zero_mul, Finset.sum_ite_eq', Finset.mem_univ, if_true, w, dif_pos a₀.2]
+    simp only [v, Pi.single_apply, ite_mul, zero_mul, Finset.sum_ite_eq', Finset.mem_univ, ite_true, w, dite_eq_left a₀.2]
     exact inv_mul_cancel₀ ha₀
   have hwu : ∀ c, p c → ∑ b, w b * u (b, c) = 0 := fun c hc => by
     have := congrFun hw₀ ⟨c, hc⟩
     rw [← Fintype.sum_subtype_add_sum_subtype S, Finset.sum_eq_zero (s := Finset.univ) fun (b : {b // ¬ S b}) _ => by simp [w, b.2], add_zero]
-    refine Eq.trans (Finset.sum_congr rfl (g := fun a => w₀ a * u (a.1, c)) fun a _ => by simp only [w, dif_pos a.2]) ?_
+    refine Eq.trans (Finset.sum_congr rfl (g := fun a => w₀ a * u (a.1, c)) fun a _ => by simp only [w, dite_eq_left a.2]) ?_
     simpa [A, Matrix.vecMul, dotProduct] using this
   let u' : I × C → ℂ := fun x => if p x.2 then 0 else w x.1 * ∑ a, v a * u (a, x.2)
   have d1 : der p v w (lin u) = -lin u' := by
@@ -170,9 +123,9 @@ theorem core_pos (p : C → Bool) (S : I → Prop) (k : ℝ) (hk : 0 < k) (hc : 
     funext x
     by_cases hx : p x.2
     · simp [u', hx]
-    · simp only [u', hx, Bool.false_eq_true, if_false, ← mul_assoc, ← Finset.sum_mul, hvw, one_mul, Pi.neg_apply]
+    · simp only [u', hx, Bool.false_eq_true, ite_false, ← mul_assoc, ← Finset.sum_mul, hvw, one_mul, Pi.neg_apply]
   have d3 : der p v w (lin u - lin u') = 0 := by rw [map_sub, d1, d2, sub_self]
-  have hl := h v w (fun a ha => ⟨Pi.single_eq_of_ne (fun e => ha (by rw [e]; exact a₀.2)) _, dif_neg ha⟩) hvw
+  have hl := h v w (fun a ha => ⟨Pi.single_eq_of_ne (fun e => ha (by rw [e]; exact a₀.2)) _, dite_eq_right ha⟩) hvw
   have key : ∀ i j : ℕ, l ((lin u - lin u') ^ i * lin u' ^ j) = 0 := fun i j => by
     have e : der p v w ((lin u - lin u') ^ i * lin u' ^ j) = -(j : ℂ) • ((lin u - lin u') ^ i * lin u' ^ j) := by
       rw [Derivation.leibniz, Derivation.leibniz_pow, Derivation.leibniz_pow, d3, d2]
@@ -230,7 +183,7 @@ theorem fockAction_first_eq (t : Bool) (v w : Ix P Q → ℂ) (h : ∀ a, ¬ a.i
   rw [e, der_apply]
   simp only [e2, Finset.sum_add_distrib, ← Finset.sum_smul]
   congr 2
-  simp only [Finset.sum_comm (γ := Ix P Q) (α := Ix R S), Finset.sum_ite_eq, Finset.mem_univ, if_true, ← Finset.mul_sum, ← Finset.sum_mul, h1]
+  simp only [Finset.sum_comm (γ := Ix P Q) (α := Ix R S), Finset.sum_ite_eq, Finset.mem_univ, ite_true, ← Finset.mul_sum, ← Finset.sum_mul, h1]
   cases t <;> simp <;> ring
 
 theorem noForm (m : ℤ) (hm : ((R + S : ℕ) : ℤ) < |m|) (hr : min R S < min P Q) (l : Pol P Q R S →ₗ[ℂ] ℂ)
@@ -300,8 +253,25 @@ theorem map_piInf {n m : Type} (J : Matrix n m E) {w : InfinitePlace F} (τ : Em
   ext i j
   simp [incM, piInf, compInf, inclR, infEmb_tmul]
 
-theorem upq_span {P Q : ℕ} (Y : Mat P Q) : ∃ Y₁ ∈ upq P Q, ∃ Y₂ ∈ upq P Q, Y = Y₁ + Complex.I • Y₂ :=
-  _root_.GlobalTheory.TensIrr.upq_decomp Y
+theorem upq_span {P Q : ℕ} (Y : Mat P Q) : ∃ Y₁ ∈ upq P Q, ∃ Y₂ ∈ upq P Q, Y = Y₁ + Complex.I • Y₂ := by
+  have h1 : Jm P Q * Jm P Q = 1 := by
+    simp [Jm, Formalism.UG.Jpq, Matrix.fromBlocks_multiply]
+  have h2 : (Jm P Q)ᴴ = Jm P Q := by
+    simp [Jm, Formalism.UG.Jpq, Matrix.fromBlocks_conjTranspose]
+  have h3 : ∀ A : Mat P Q, Jm P Q * (Jm P Q * A) = A := fun A => by rw [← Matrix.mul_assoc, h1, Matrix.one_mul]
+  refine ⟨(1 / 2 : ℂ) • (Y - Jm P Q * Yᴴ * Jm P Q), ?_, (-Complex.I / 2) • (Y + Jm P Q * Yᴴ * Jm P Q), ?_, ?_⟩
+  · simp only [upq, Set.mem_ofPred_eq, Matrix.conjTranspose_smul, Matrix.conjTranspose_sub, Matrix.conjTranspose_mul,
+      Matrix.conjTranspose_conjTranspose, h2, Matrix.smul_mul, Matrix.mul_smul, Matrix.sub_mul, Matrix.mul_sub, Matrix.mul_assoc, h1, h3,
+      Matrix.mul_one]
+    rw [show star (1 / 2 : ℂ) = 1 / 2 by simp]
+    module
+  · simp only [upq, Set.mem_ofPred_eq, Matrix.conjTranspose_smul, Matrix.conjTranspose_add, Matrix.conjTranspose_mul,
+      Matrix.conjTranspose_conjTranspose, h2, Matrix.smul_mul, Matrix.mul_smul, Matrix.add_mul, Matrix.mul_add, Matrix.mul_assoc, h1, h3,
+      Matrix.mul_one]
+    rw [show star (-Complex.I / 2 : ℂ) = Complex.I / 2 by simp]
+    module
+  · rw [smul_smul, show Complex.I * (-Complex.I / 2) = 1 / 2 by linear_combination (-1 / 2 : ℂ) * Complex.I_mul_I]
+    module
 
 theorem sumPl_single {ι V : Type} [Fintype ι] [DecidableEq ι] [AddCommGroup V] [Module ℂ V] (L : ι → Module.End ℂ V) (w : ι)
     (h : ∀ i ≠ w, L i = 0) (g : ι → V) :

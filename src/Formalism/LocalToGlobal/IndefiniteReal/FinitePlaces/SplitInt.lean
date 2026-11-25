@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.SatakeParameters.MemHomLatticeIffIntegralMatrixSplitChart
 public import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.IdemElt
 public import Formalism.LocalToGlobal.IndefiniteReal.LocalNewformFunction
 public import Formalism.LocalRingCardinality.SpanPowerMembership.ExampleLayerExistsGenerators
@@ -10,45 +9,7 @@ public import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.LatMod
 import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.TwoSplit
 import Formalism.LocalToGlobal.SiegelLatticeTheory.TraceIntegralEstimates.PsiTrCoreApprox
 import Formalism.SharpRestriction.GlobalSchurBounds.GlobalRankLatticeProofs.EqOfLeOfAbsNormEq
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.PicardGroup
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Topology.Sheaves.Init
 
 @[expose] public section
 
@@ -60,8 +21,6 @@ open scoped TensorProduct
 
 
 namespace Formalism.IndefR.Fin
-
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 
 open Formalism.IndefR.Datum
 
@@ -264,7 +223,19 @@ theorem plOf_split {w : HeightOneSpectrum (𝓞 D.host.F)} (ι : D.host.E →ₐ
 
 
 theorem splitIdem_int {e : AE D} (he : IsSplitIdem D e) : finPart D e ∈ intAE D := by
-  apply _root_.GlobalTheory.SplitHomLattice.idem_int <;> assumption
+  obtain ⟨h1, h2, w, ε, hpl, hsε⟩ := he
+  rw [placeIdem_eq hpl] at hsε
+  change e + cA D e = phiE w 1 at hsε
+  obtain ⟨s, ι, hs, hι⟩ := split_emb h1 h2 hsε
+  have hsp := plOf_split ι s hs hι
+  have hle : w.asIdeal ≤ (belowPl (plOf ι)).asIdeal := fun f hf => algebraMap_mem_valIdeal ι hf
+  have hbel : belowPl (plOf ι) = w :=
+    (HeightOneSpectrum.ext (w.isMaximal.eq_of_le (belowPl (plOf ι)).isPrime.ne_top hle)).symm
+  rw [← hbel] at hsε
+  obtain ⟨e₀, ι₀, he₀, -, hs₀, hz, hκ⟩ := idem_data (plOf ι) hsp (belowPl (plOf ι)) rfl
+  rcases idem_class (plOf ι) hsp e₀ ι₀ hs₀ hz hκ he₀.1.1 he₀.1.2.1 e h1 h2 hsε with h | h
+  · rw [h]; exact idemAt_int he₀
+  · rw [h, finPart_cA]; exact cF_int (idemAt_int he₀)
 
 theorem latO_map_splitIdem (S T : HSp D) (ΛS : Submodule (𝓞 D.host.E) (Fin S.rank → D.host.E))
     (ΛT : Submodule (𝓞 D.host.E) (Fin T.rank → D.host.E)) {e : AE D} (he : IsSplitIdem D e) {u : WO S T}

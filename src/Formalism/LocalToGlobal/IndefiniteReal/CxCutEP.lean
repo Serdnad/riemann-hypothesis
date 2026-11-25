@@ -285,8 +285,15 @@ theorem cx_eig_orth (hA : A.PosDef) (adj : ∀ i, ∃ i', A * N i = (N i')ᴴ * 
     (hc : Col.PairComm (linF N)) (hs : Col.SplitOver (linF N)) {C C' : (I → ℂ) → Prop} (hCC : ∀ y, C' y → ¬ C y)
     {f g : Fin n → ℂ} (hf : f ∈ Col.eigSum (linF N) C) (hg : g ∈ Col.eigSum (linF N) C') :
     star f ⬝ᵥ A *ᵥ g = 0 := by
-  intros
-  apply _root_.Formalism.IndefR.Cx.EigenprojectionMatrices.dotProduct_mulVec_eigSum_eq_zero_of_disjoint <;> assumption
+  have hadj := cx_proj_adj N A hA adj hc hs C
+  have hf2 : LinearMap.toMatrix' (Col.eigProj hc hs C) *ᵥ f = f := by
+    rw [LinearMap.toMatrix'_mulVec]; exact Col.eigProj_apply_of_mem hc hs hf
+  have hg2 : LinearMap.toMatrix' (Col.eigProj hc hs C) *ᵥ g = 0 := by
+    rw [LinearMap.toMatrix'_mulVec]
+    exact Col.eigProj_apply_of_mem_not hc hs (Col.eigSum_mono (fun y hy => hCC y hy) hg)
+  rw [← hf2, Matrix.star_mulVec, ← Matrix.dotProduct_mulVec, Matrix.mulVec_mulVec, hadj,
+    ← Matrix.mulVec_mulVec, hg2]
+  simp
 
 end Cx
 
@@ -653,16 +660,5 @@ theorem Pq_tV (h : BlockHyp B ℓ v0 s) (hH : B.OkH) (hZ : ∀ i, Z ≤ Z.comap 
   exact h3.trans (by simp only [Matrix.mul_assoc])
 
 end EigenprojectionMatrices
-
-section Main
-
-variable {K : Type} [Field K] [NumberField K] [StarRing K]
-variable {G : Type} [Group G] [Fintype G] {Pl0 T : Type} {m : ℕ}
-variable (A : FamIn K G Pl0 T m) (X : CxData A.fam.amb)
-variable (P0 : Subgroup G) (ψ0 : P0 →* Kˣ) (P1 : Subgroup G) (ψ1 : P1 →* Kˣ)
-  (Dc : ∀ Zs : DefSub A.fam.amb, DefCols (A.side P1 ψ1 Zs)) (Sp : ∀ Zs : DefSub A.fam.amb, SPer (Dc Zs))
-  (Zsc : DefSub A.fam.amb → IndefScale A.fam.base)
-
-end Main
 
 end Formalism.IndefR.Cx

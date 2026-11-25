@@ -1,57 +1,10 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FirstOrderPointIffRingHomAffineOpenSections
-import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsLieBasisOfHolUnif
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.IsLieBasis
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.ChartPullbacks.UniversalCharts.RestrictDiagCompInclFst
 public import Development.AbelianVarietyTheory.Proofs.HomogeneousIdeals.ExistsChartOfMemRedKer
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.AlgebraicGeometry.Modules.Sheaf
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Henselian
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.RingTheory.RegularLocalRing.Defs
-import Mathlib.RingTheory.SimpleRing.Principal
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
 
 @[expose] public section
-
-set_option autoImplicit false
 
 noncomputable section
 
@@ -63,8 +16,6 @@ open GlobalTheory.SqZero
 open TrivSqZeroExt (inl inr)
 
 namespace GlobalTheory.UnifDifferential
-
-attribute [local instance] Over.cartesianMonoidalCategory
 
 section Pull
 
@@ -111,8 +62,19 @@ end Pull
 
 theorem subsingleton_primeSpectrum (K M : Type) [Field K] [AddCommGroup M] [Module K M] [Module Kᵐᵒᵖ M]
     [IsCentralScalar K M] : Subsingleton (PrimeSpectrum (TrivSqZeroExt K M)) := by
-  intros
-  apply _root_.GlobalTheory.SchRing.subsingleton_primeSpectrum_trivSqZeroExt <;> assumption
+  have h : ∀ z : PrimeSpectrum (TrivSqZeroExt K M), ∀ a, a ∈ z.asIdeal ↔ a.fst = 0 := fun z a => by
+    constructor
+    · intro ha
+      by_contra h0
+      exact z.2.ne_top (z.asIdeal.eq_top_of_isUnit_mem ha
+        (TrivSqZeroExt.isUnit_iff_isUnit_fst.2 (Ne.isUnit h0)))
+    · intro ha
+      refine z.2.mem_of_pow_mem 2 ?_
+      rw [show a ^ 2 = 0 by ext <;> simp [pow_two, ha]]
+      exact z.asIdeal.zero_mem
+  refine ⟨fun x y => ?_⟩
+  ext a
+  rw [h, h]
 
 variable {K : Type} [Field K] {A : Over (Spec (CommRingCat.of K))} [GrpObj A]
 
@@ -184,7 +146,18 @@ theorem isDiff_one : u.IsDiff 0 (1 : epsR ℂ ⟶ A) := by
 theorem isDiff_prod : ∀ {n : ℕ} (W : Fin n → Fin g → ℂ) (v : Fin n → (epsR ℂ ⟶ A)),
     (∀ i, IsTan (v i)) → (∀ i, u.IsDiff (W i) (v i)) →
       IsTan (List.ofFn v).prod ∧ u.IsDiff (∑ i, W i) (List.ofFn v).prod := by
-  first | exact _root_.GlobalTheory.UnifLieBasis.isDiff_list_prod | exact @_root_.GlobalTheory.UnifLieBasis.isDiff_list_prod | apply _root_.GlobalTheory.UnifLieBasis.isDiff_list_prod <;> assumption
+  intro n
+  induction n with
+  | zero =>
+      intro W v _ _
+      rw [List.ofFn_zero, List.prod_nil, Finset.univ_eq_empty, Finset.sum_empty]
+      exact ⟨isTan_one, isDiff_one u⟩
+  | succ n ih =>
+      intro W v hv h
+      obtain ⟨h₁, h₂⟩ := ih (fun i => W i.succ) (fun i => v i.succ)
+        (fun i => hv i.succ) (fun i => h i.succ)
+      rw [List.ofFn_succ, List.prod_cons, Fin.sum_univ_succ]
+      exact ⟨isTan_mul (hv 0) h₁, isDiff_mul u (hv 0) h₁ (h 0) h₂⟩
 
 end Unif
 

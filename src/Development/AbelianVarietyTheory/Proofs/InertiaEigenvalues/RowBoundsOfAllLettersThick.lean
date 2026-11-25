@@ -1,46 +1,7 @@
 module
 
-import Formalism.SharpRestriction.LevelLetterCocycles.MemPrimesOverOfMem
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.BoundAtTwoAndThreeForFamily
 public import Development.AbelianVarietyTheory.Counterexamples.HeckeCharacterExamples.InertPlacesGoodSet
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Topology.Sheaves.Init
 import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.BoundAtTwoThreeFamily
 
 @[expose] public section
@@ -167,7 +128,20 @@ theorem Lg_ge_one : 1 ≤ TwistedPlaces.large₂ L := by
   exact Real.one_le_rpow L.sc.one_lt_alt.le L.sc.eps_pos.le
 
 theorem placeWeight_nonneg : 0 ≤ TwistedPlaces.wP L := by
-  first | exact _root_.Formalism.MainNotions.ExportFamilies.placeWeight_nonneg | exact @_root_.Formalism.MainNotions.ExportFamilies.placeWeight_nonneg | apply _root_.Formalism.MainNotions.ExportFamilies.placeWeight_nonneg <;> assumption
+  have hx : 0 < L.sc.x := by linarith [L.sc.one_lt_alt]
+  have hb' : 0 < L.sc.b' := by
+    unfold Scale.b' Scale.a Scale.X'
+    have := one_le_b L
+    positivity
+  have hw : 0 ≤ L.sc.w'' D.R.n := by
+    unfold Scale.w''
+    positivity
+  have hB : 0 ≤ TwistedPlaces.wB L := by
+    unfold TwistedPlaces.wB
+    have := L.etaSz_pos
+    exact le_max_of_le_left (by linarith)
+  unfold TwistedPlaces.wP
+  positivity
 
 theorem one_le_hB : 1 ≤ TwistedPlaces.hB L := by
   unfold TwistedPlaces.hB

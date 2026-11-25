@@ -1,6 +1,5 @@
 module
 
-import Development.WeilBound.ThetaLifts.TowerModels.LeviAlg
 public import Mathlib.Data.Matrix.ColumnRowPartitioned
 public import Mathlib.LinearAlgebra.Matrix.Determinant.Basic
 import Mathlib.Algebra.Order.Floor.Extended
@@ -124,8 +123,20 @@ omit [DecidableEq d] [DecidableEq e] in
 theorem cols_of_mul {m : Matrix d d R} {g : Matrix e e R} {b : Matrix e (Fin 2) R} {a : Matrix (Fin 2) e R}
     {s : Matrix (Fin 2) (Fin 2) R} (h : m * fr ι x y = fr ι x y * fromBlocks g b a s) :
     m * ι = ι * g + of (fun i j => ![x i, y i] j) * a ∧
-      m *ᵥ x = ι *ᵥ (fun j => b j 0) + s 0 0 • x + s 1 0 • y ∧ m *ᵥ y = ι *ᵥ (fun j => b j 1) + s 0 1 • x + s 1 1 • y :=
-  _root_.PositivityTheory.ThKG.Tow.Levi.cols_of_mul h
+      m *ᵥ x = ι *ᵥ (fun j => b j 0) + s 0 0 • x + s 1 0 • y ∧ m *ᵥ y = ι *ᵥ (fun j => b j 1) + s 0 1 • x + s 1 1 • y := by
+  refine ⟨?_, ?_, ?_⟩
+  · ext i j
+    have := congrFun (congrFun h i) (Sum.inl j)
+    simp [fr, Matrix.mul_apply, Fintype.sum_sum_type, Fin.sum_univ_two] at this ⊢ <;>
+      linear_combination this
+  · ext i
+    have := congrFun (congrFun h i) (Sum.inr 0)
+    simp [fr, Matrix.mul_apply, Matrix.mulVec, dotProduct, Fintype.sum_sum_type, Fin.sum_univ_two] at this ⊢ <;>
+      linear_combination this
+  · ext i
+    have := congrFun (congrFun h i) (Sum.inr 1)
+    simp [fr, Matrix.mul_apply, Matrix.mulVec, dotProduct, Fintype.sum_sum_type, Fin.sum_univ_two] at this ⊢ <;>
+      linear_combination this
 
 theorem IsFr.levi (h : IsFr c ε J J₁ ι x y A') (hcc : ∀ a, c (c a) = a) {t t' : R} (ht : t * t' = 1) {g g' : Matrix e e R}
     (hg' : g * g' = 1) (hg : gᵀ * J₁ * g.map c = J₁) :
@@ -178,14 +189,15 @@ theorem IsFr.levi (h : IsFr c ε J J₁ ι x y A') (hcc : ∀ a, c (c a) = a) {t
   · rw [c1]
     simp
 
-private theorem fr_mulVec_sum_elim (u : e → R) (s t : R) :
+omit [DecidableEq d] [DecidableEq e] in
+theorem fr_mulVec (u : e → R) (s t : R) :
     fr ι x y *ᵥ Sum.elim u ![s, t] = ι *ᵥ u + s • x + t • y := by
   ext i
   simp [fr, Matrix.mulVec, dotProduct, Fintype.sum_sum_type, Fin.sum_univ_two] <;> ring
 
 private theorem eq_of_iota_mulVec_add_smul_eq (h : IsFr c ε J J₁ ι x y A') {u u' : e → R} {s t s' t' : R}
     (e1 : ι *ᵥ u + s • x + t • y = ι *ᵥ u' + s' • x + t' • y) : u = u' ∧ s = s' ∧ t = t' := by
-  rw [← fr_mulVec_sum_elim, ← fr_mulVec_sum_elim] at e1
+  rw [← fr_mulVec, ← fr_mulVec] at e1
   have h2 := congrArg (fun v => A' *ᵥ v) e1
   simp only [Matrix.mulVec_mulVec, h.inv2, Matrix.one_mulVec] at h2
   exact ⟨funext fun j => by simpa using congrFun h2 (Sum.inl j), by simpa using congrFun h2 (Sum.inr 0),
@@ -256,11 +268,6 @@ theorem IsFr.ext (h : IsFr c ε J J₁ ι x y A') {m m' : Matrix d d R} (h1 : m 
   calc m = m * (fr ι x y * A') := by rw [h.inv1, Matrix.mul_one]
     _ = m' * (fr ι x y * A') := by rw [← Matrix.mul_assoc, hf, Matrix.mul_assoc]
     _ = m' := by rw [h.inv1, Matrix.mul_one]
-
-omit [DecidableEq d] [DecidableEq e] in
-theorem fr_mulVec (u : e → R) (s t : R) : fr ι x y *ᵥ Sum.elim u ![s, t] = ι *ᵥ u + s • x + t • y := by
-  ext i
-  simp [fr, Matrix.mulVec, dotProduct, Fintype.sum_sum_type, Fin.sum_univ_two] <;> ring
 
 theorem IsFr.span (h : IsFr c ε J J₁ ι x y A') (z : d → R) : ∃ (u : e → R) (s t : R), z = ι *ᵥ u + s • x + t • y := by
   refine ⟨fun j => (A' *ᵥ z) (Sum.inl j), (A' *ᵥ z) (Sum.inr 0), (A' *ᵥ z) (Sum.inr 1), ?_⟩

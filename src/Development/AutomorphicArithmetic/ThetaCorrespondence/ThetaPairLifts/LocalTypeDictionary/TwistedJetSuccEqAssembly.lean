@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.TwistedOperators.EqMulProdOfPartial
 public import Development.AbelianVarietyTheory.Statements.HeckeThetaIntegrals.StepUnfold
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ContinuousReGLSymm
 public import Development.AbelianVarietyTheory.PublishedTheorems.PublishedFoundations.FiniteIntertwining
@@ -106,8 +105,6 @@ open IsDedekindDomain NumberField MeasureTheory GlobalTheory.ChiGrid GlobalTheor
 
 namespace GlobalTheory.RowClaim.StepsModel
 
-attribute [local instance] Formalism.BasicNotions.Host.cmStar GlobalTheory.LocalData.complRel GlobalTheory.LocalData.isLocalField borelKw borelSpaceKw
-
 variable {D : D7} {T : Type}
 
 variable {Γ : Type} [Group Γ] [Fintype Γ] {Pl0 : Type} {A : FamIn D.what₂.LL Γ Pl0 T D.R.m}
@@ -157,8 +154,6 @@ open Formalism.BasicNotions Formalism.BasicNotions.TH Formalism.MainNotions.Glob
 open IsDedekindDomain NumberField MeasureTheory GlobalTheory.ChiGrid GlobalTheory.FunObj GlobalTheory.RowTest GlobalTheory.StdFrames GlobalTheory.RowClaim
 
 namespace GlobalTheory.RowClaim.JetsAssembly
-
-attribute [local instance] Formalism.BasicNotions.Host.cmStar GlobalTheory.LocalData.complRel GlobalTheory.LocalData.isLocalField borelKw borelSpaceKw
 
 variable {D : D7} {T : Type}
 
@@ -263,14 +258,14 @@ theorem partCoord_bVV {n : ℕ} (lam : ι → DomWeight n) (τ₀ : ι) (j j' : 
     rw [Finset.sum_eq_single (j' τ₀)]
     · rw [← hj]; simp
     · intro l _ hl
-      rw [if_neg, zero_smul]
+      rw [ite_eq_right, zero_smul]
       intro e
       apply hl
       have := congrFun e τ₀
       simpa using this.symm
     · simp
   · refine Finset.sum_eq_zero fun l _ => ?_
-    rw [if_neg, zero_smul]
+    rw [ite_eq_right, zero_smul]
     intro e
     apply hc
     intro τ h
@@ -320,15 +315,15 @@ theorem partCoord_rhoK {n : ℕ} (lam : ι → DomWeight n) (τ₀ : ι) (j : VV
     have hc : ∀ l, ((∀ τ, τ ≠ τ₀ → Function.update j' τ₀ l τ = j τ) ↔ (∀ τ, τ ≠ τ₀ → j' τ = j τ)) := fun l =>
       forall_congr' fun τ => imp_congr_right fun h => by rw [Function.update_of_ne h]
     by_cases h : ∀ τ, τ ≠ τ₀ → j' τ = j τ
-    · rw [if_pos h]
+    · rw [ite_eq_left h]
       have e : ∀ l, (if (∀ τ, τ ≠ τ₀ → Function.update j' τ₀ l τ = j τ) then
           bSq (lam τ₀) (Function.update j' τ₀ l τ₀) else 0) = bSq (lam τ₀) l := fun l => by
-        rw [if_pos ((hc l).2 h), Function.update_self]
+        rw [ite_eq_left ((hc l).2 h), Function.update_self]
       simp only [e]
       exact (bSq (lam τ₀)).sum_repr _
-    · rw [if_neg h, map_zero]
+    · rw [ite_eq_right h, map_zero]
       refine Finset.sum_eq_zero fun l _ => ?_
-      rw [if_neg (fun h' => h ((hc l).1 h')), smul_zero]
+      rw [ite_eq_right (fun h' => h ((hc l).1 h')), smul_zero]
   exact LinearMap.congr_fun key v
 
 def factorIncl {n : ℕ} (lam : ι → DomWeight n) (τ₀ : ι) (i : VVIdx lam) : nablaSq ℂ n (lam τ₀) →ₗ[ℂ] VV ℂ lam :=
@@ -372,7 +367,49 @@ variable {ι : Type} [Fintype ι] [DecidableEq ι]
 theorem eq_mul_prod_of_slices {X : ι → Type} (m : ∀ τ, X τ → ℂ) (M : (∀ τ, X τ) → ℂ)
     (h : ∀ τ ω, ∃ c, ∀ x, M (Function.update ω τ x) = c * m τ x) :
     ∃ C, ∀ ω, M ω = C * ∏ τ, m τ (ω τ) := by
-  first | exact _root_.GlobalTheory.Chain.RealLine.eq_mul_prod_of_partial | exact @_root_.GlobalTheory.Chain.RealLine.eq_mul_prod_of_partial | apply _root_.GlobalTheory.Chain.RealLine.eq_mul_prod_of_partial <;> assumption
+  by_cases hz : ∃ τ, ∀ x, m τ x = 0
+  · obtain ⟨τ, hτ⟩ := hz
+    refine ⟨0, fun ω => ?_⟩
+    obtain ⟨c, hc⟩ := h τ ω
+    have := hc (ω τ)
+    rw [Function.update_eq_self, hτ, mul_zero] at this
+    rw [this, zero_mul]
+  push Not at hz
+  choose xs hxs using hz
+  have hP : (∏ τ, m τ (xs τ)) ≠ 0 := Finset.prod_ne_zero_iff.2 fun τ _ => hxs τ
+  have hp : ∀ (ω : ∀ τ, X τ) (a : ι) (y : X a),
+      ∏ τ, m τ (Function.update ω a y τ) = m a y * ∏ τ ∈ Finset.univ.erase a, m τ (ω τ) := by
+    intro ω a y
+    rw [← Finset.mul_prod_erase Finset.univ _ (Finset.mem_univ a), Function.update_self]
+    congr 1
+    refine Finset.prod_congr rfl fun τ hτ => ?_
+    rw [Function.update_of_ne (Finset.ne_of_mem_erase hτ)]
+  refine ⟨M xs / ∏ τ, m τ (xs τ), ?_⟩
+  suffices H : ∀ s : Finset ι, ∀ ω : (∀ τ, X τ), (∀ τ, τ ∉ s → ω τ = xs τ) →
+      M ω = M xs / (∏ τ, m τ (xs τ)) * ∏ τ, m τ (ω τ) from fun ω => H Finset.univ ω (by simp)
+  intro s
+  refine Finset.induction_on s ?_ ?_
+  · intro ω hω
+    have : ω = xs := funext fun τ => hω τ (by simp)
+    subst this
+    field_simp
+  · intro a s ha ih ω hω
+    have h1 : M (Function.update ω a (xs a)) =
+        M xs / (∏ τ, m τ (xs τ)) * ∏ τ, m τ (Function.update ω a (xs a) τ) := ih _ fun τ hτ => by
+      by_cases e : τ = a
+      · subst e; simp
+      · rw [Function.update_of_ne e]; exact hω τ (by simp [e, hτ])
+    obtain ⟨c, hc⟩ := h a ω
+    have h2 : M ω = c * m a (ω a) := by simpa using hc (ω a)
+    have h3 := hc (xs a)
+    rw [h1, hp] at h3
+    have hω_eq : ∏ τ, m τ (ω τ) = m a (ω a) * ∏ τ ∈ Finset.univ.erase a, m τ (ω τ) := by
+      simpa using hp ω a (ω a)
+    have hc' : c = M xs / (∏ τ, m τ (xs τ)) * ∏ τ ∈ Finset.univ.erase a, m τ (ω τ) := by
+      apply mul_right_cancel₀ (hxs a)
+      rw [← h3]; ring
+    rw [h2, hω_eq, hc']
+    ring
 
 variable {N n : ℕ}
 
@@ -809,7 +846,6 @@ open IsDedekindDomain NumberField MeasureTheory GlobalTheory.ChiGrid GlobalTheor
 open GlobalTheory.AutMult (toFin toInf)
 open GlobalTheory.IndefiniteRowSideFullHecke.ClassFunctionSumIntegral (IsOpenCompactLevel IsDefiniteSpace)
 open scoped ComplexOrder
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 
 noncomputable section
 
@@ -907,10 +943,10 @@ private theorem isBlock_embGL' {n N : ℕ} (hN : N = n + 1) (g : GL (Fin n) ℂ)
   · rw [GlobalTheory.Branching.embGL_apply, dite_eq_left ⟨a.2, b.2⟩]
     rfl
   · rw [GlobalTheory.Branching.embGL_apply, dite_eq_right (fun h => absurd h.2 (lt_irrefl _)),
-      if_neg (fun h => (ne_of_lt a.2) (congrArg Fin.val h))]
+      ite_eq_right (fun h => (ne_of_lt a.2) (congrArg Fin.val h))]
   · rw [GlobalTheory.Branching.embGL_apply, dite_eq_right (fun h => absurd h.1 (lt_irrefl _)),
-      if_neg (fun h => (ne_of_lt a.2) (congrArg Fin.val h).symm)]
-  · rw [GlobalTheory.Branching.embGL_apply, dite_eq_right (fun h => absurd h.1 (lt_irrefl _)), if_pos rfl]
+      ite_eq_right (fun h => (ne_of_lt a.2) (congrArg Fin.val h).symm)]
+  · rw [GlobalTheory.Branching.embGL_apply, dite_eq_right (fun h => absurd h.1 (lt_irrefl _)), ite_eq_left rfl]
 
 variable {θ : InfFam D} (hθ : IsInfFam θ) (N : Std G U)
 include hθ
@@ -1013,8 +1049,6 @@ noncomputable section
 open Formalism.BasicNotions Formalism.BasicNotions.TH Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes Formalism.MainNotions.StandardLattice Formalism.L2.Theta Formalism.IndefR Formalism.IndefR.Datum Formalism.IndefR.Links Formalism.L2.DIV
 open IsDedekindDomain NumberField MeasureTheory GlobalTheory.ChiGrid GlobalTheory.FunObj GlobalTheory.RowTest
 open GlobalTheory.IndefiniteRowSideFullHecke.LevelPlusSubgroup (coefPlus posDef_dual)
-
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 
 namespace GlobalTheory.RowClaim.RealTypeOf
 
@@ -1290,8 +1324,6 @@ open IsDedekindDomain NumberField MeasureTheory GlobalTheory.ChiGrid GlobalTheor
 open GlobalTheory.IndefiniteRowSideFullHecke.ClassFunctionSumIntegral (IsOpenCompactLevel IsDefiniteSpace)
 open scoped ComplexOrder Topology
 
-attribute [local instance] Formalism.BasicNotions.Host.cmStar GlobalTheory.LocalData.complRel GlobalTheory.LocalData.isLocalField borelKw borelSpaceKw
-
 namespace GlobalTheory.JetsOne
 
 variable {D : D7} {Γ : Type} [Group Γ] [Fintype Γ] {Pl0 T : Type} {A : FamIn D.what₂.LL Γ Pl0 T D.R.m}
@@ -1384,7 +1416,6 @@ section -- clump:auto
 section
 open Formalism.BasicNotions Formalism.BasicNotions.TH Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes Formalism.MainNotions.StandardLattice Formalism.L2.Theta Formalism.IndefR Formalism.IndefR.Datum Formalism.IndefR.Links Formalism.L2.DIV
 open IsDedekindDomain NumberField MeasureTheory GlobalTheory.ChiGrid GlobalTheory.FunObj GlobalTheory.RowTest GlobalTheory.StdFrames GlobalTheory.RowClaim
-attribute [local instance] Formalism.BasicNotions.Host.cmStar GlobalTheory.LocalData.complRel GlobalTheory.LocalData.isLocalField borelKw borelSpaceKw
 section
 open GlobalTheory.DefStep GlobalTheory.JetsOne GlobalTheory.ExpansionInvariance
 private theorem last_functional_compatible {D : D7} {T : Type} {L : LevCh D T} {sc : Consts} {G : GridData L sc} {W : G.Weil} {U : Set T}
@@ -1491,7 +1522,6 @@ noncomputable section
 open Formalism.BasicNotions Formalism.BasicNotions.TH Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes Formalism.MainNotions.StandardLattice Formalism.L2.Theta Formalism.IndefR Formalism.IndefR.Datum Formalism.IndefR.Links Formalism.L2.DIV
 open IsDedekindDomain NumberField MeasureTheory GlobalTheory.ChiGrid GlobalTheory.FunObj GlobalTheory.RowTest GlobalTheory.StdFrames GlobalTheory.RowClaim
 namespace GlobalTheory.RowClaim.JetsAssembly
-attribute [local instance] Formalism.BasicNotions.Host.cmStar GlobalTheory.LocalData.complRel GlobalTheory.LocalData.isLocalField borelKw borelSpaceKw
 variable {D : D7} {T : Type}
 variable {Γ : Type} [Group Γ] [Fintype Γ] {Pl0 : Type} {A : FamIn D.what₂.LL Γ Pl0 T D.R.m}
   {Ks : Type} [Field Ks] [NumberField Ks] [Algebra Ks D.what₂.LL] {R : RealDat D A Ks}
@@ -1505,13 +1535,6 @@ theorem twistedJet_succ_eq_assembly : _root_.GlobalTheory.FunPr.ThetaLocalInputs
     jetsAt_of_one ch s.core.lev (H D large₂ e hx Γ Pl0 T A Ks R F s ch i j)⟩
 end GlobalTheory.RowClaim.JetsAssembly
 end
-end
-
-section
-open GlobalTheory.RowClaim
-
-theorem _root_.GlobalTheory.T.twisted_jets_assemble : _root_.GlobalTheory.FunPr.ThetaLocalInputs → SumOKK → StepJets := by
-  first | exact @_root_.GlobalTheory.RowClaim.JetsAssembly.twistedJet_succ_eq_assembly
 end
 end -- clump:auto
 end -- clump:auto

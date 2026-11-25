@@ -2,48 +2,7 @@ module
 
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.TprodMemTensSpan
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FockActDualPairCommutingLieActions
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
-import CompanionTheory.HarishChandraModules.LowKTypeMultiplicity.EigenspaceCyclicDensity.CreationOperators.GeneralizedVermaModulePolynomial
 
 @[expose] public section
 
@@ -57,7 +16,22 @@ namespace GlobalTheory.KFixIrr.LowStable
 
 theorem deg_X_pderiv {σ : Type} (a b : σ) (P : MvPolynomial σ ℂ) :
     (X a * pderiv b P).totalDegree ≤ P.totalDegree := by
-  apply _root_.CompanionTheory.D.LK.deg_X_pderiv <;> assumption
+  classical
+  set_option synthInstance.maxHeartbeats 100000 in
+    conv_lhs => rw [P.as_sum, map_sum, Finset.mul_sum]
+  refine (totalDegree_finsetSum _ _).trans (Finset.sup_le fun s hs => ?_)
+  rw [pderiv_monomial]
+  by_cases h : s b = 0
+  · simp [h]
+  · refine le_trans ?_ (le_totalDegree hs)
+    rw [X, monomial_mul]
+    refine (totalDegree_monomial_le _ _).trans (le_of_eq ?_)
+    have h1 : s = Finsupp.single b 1 + (s - Finsupp.single b 1) := by
+      rw [add_tsub_cancel_of_le]
+      exact Finsupp.single_le_iff.2 (Nat.one_le_iff_ne_zero.2 h)
+    conv_rhs => rw [h1]
+    rw [Finsupp.sum_add_index' (by simp) (by simp), Finsupp.sum_add_index' (by simp) (by simp)]
+    simp [Function.id_def]
 
 theorem deg_pderiv_X {σ : Type} (a b : σ) (P : MvPolynomial σ ℂ) :
     (pderiv b (X a * P)).totalDegree ≤ P.totalDegree := by
@@ -79,13 +53,13 @@ theorem mem_nonRaising {σ : Type} {L : Module.End ℂ (MvPolynomial σ ℂ)} :
 theorem rl_pos {P Q R S : ℕ} (l l' : Ln P Q R S) (hl : linePos l = true) (hl' : linePos l' = true) :
     raiB l * lowB l' ∈ nonRaising (Ln P Q R S) := by
   refine mem_nonRaising.2 fun g => ?_
-  rw [Module.End.mul_apply, raiB, lowB, if_pos hl, if_pos hl', LinearMap.mulLeft_apply, Derivation.coeFn_coe]
+  rw [Module.End.mul_apply, raiB, lowB, ite_eq_left hl, ite_eq_left hl', LinearMap.mulLeft_apply, Derivation.coeFn_coe]
   exact deg_X_pderiv _ _ _
 
 theorem rl_neg {P Q R S : ℕ} (l l' : Ln P Q R S) (hl : linePos l = false) (hl' : linePos l' = false) :
     raiB l * lowB l' ∈ nonRaising (Ln P Q R S) := by
   refine mem_nonRaising.2 fun g => ?_
-  rw [Module.End.mul_apply, raiB, lowB, if_neg (by simp [hl]), if_neg (by simp [hl']), LinearMap.mulLeft_apply,
+  rw [Module.End.mul_apply, raiB, lowB, ite_eq_right (by simp [hl]), ite_eq_right (by simp [hl']), LinearMap.mulLeft_apply,
     LinearMap.neg_apply, Derivation.coeFn_coe, totalDegree_neg]
   exact deg_pderiv_X _ _ _
 

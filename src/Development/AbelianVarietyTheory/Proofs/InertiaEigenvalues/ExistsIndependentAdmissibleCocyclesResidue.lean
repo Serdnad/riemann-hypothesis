@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.SenMultiplicityShiftLatticeVariablePow
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.PowerSeriesOneAddConstMulXMulInv
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.NabBijectiveWindow
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.SubIdBijOfContracting
@@ -21,65 +20,11 @@ public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsP
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.MemCoboundariesOfHerrPairCoboundary
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.SmulAdd
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.GoodCoefficientRingPadicIntegersFinExt
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Algebra.Order.Star.Int
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Topology.Sheaves.Init
-import Mathlib.RingTheory.Henselian
-import Mathlib.RingTheory.RegularLocalRing.Defs
-import Mathlib.RingTheory.SimpleRing.Principal
-import Mathlib.Topology.Sheaves.Presheaf
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.RingTheory.Coalgebra.IsFrobenius
-import Mathlib.RingTheory.HopfAlgebra.Basic
-import Mathlib.RingTheory.PowerSeries.Ideal
 import Mathlib.Tactic.Linter.HaveILetI
-import Mathlib.Tactic.Basify
 import Std.Tactic.BVDecide.Normalize.Prop
 import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.GmultEqZeroOfInj
-import Mathlib.Algebra.Module.StablyFree.Basic
-import Mathlib.Tactic.ENatToNat
 import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.MapAevalNab
-import Mathlib.RingTheory.TotallySplit
-import Mathlib.Tactic.Polynomial.Basic
 import ReciprocityTheory.BasicDefinitions.ExistsUnique
 
 -- This file was produced by scripts/clump.py from the modules listed below.
@@ -422,19 +367,13 @@ theorem rank_nullity {W : Type} [AddCommGroup W] [Module k W] (A : Submodule k U
   rw [LinearMap.range_domRestrict, LinearMap.ker_domRestrict] at h
   rw [← h, ← Submodule.map_comap_subtype, Submodule.finrank_map_subtype_eq]
 
-theorem finrank_quot (A B : Submodule k U) :
-    finrank k (↥A ⧸ B.submoduleOf A) = finrank k (A.map B.mkQ) := by
-  have h := (LinearMap.quotKerEquivRange (B.mkQ.domRestrict A)).finrank_eq
-  rw [LinearMap.range_domRestrict, LinearMap.ker_domRestrict, Submodule.ker_mkQ] at h
-  exact h
-
 theorem count (T : Module.End k U) (F L N Z S S' : Submodule k U) [FiniteDimensional k S]
     [FiniteDimensional k S'] (hLN : L ≤ N) (hNF : N ≤ F) (hTL : L ≤ L.comap T) (hF' : F ≤ S' ⊔ L)
     (hF : F ≤ S ⊔ F.map T ⊔ L) (he : ∀ x ∈ N, (∃ m : ℕ, (T ^ m) x ∈ L) → T x ∈ L)
     (hZ : ∀ x ∈ Z, x ∈ F ∧ T x ∈ L) :
     finrank k (↥Z ⧸ N.submoduleOf Z) + gmult T N L 0 ≤ finrank k S := by
   unfold gmult
-  rw [finrank_quot, finrank_quot]
+  rw [GlobalTheory.PhiGam.PolarKernel.finrank_quot, GlobalTheory.PhiGam.PolarKernel.finrank_quot]
   rw [map_zero (algebraMap k (Module.End k U)), sub_zero]
   set Tb : (U ⧸ L) →ₗ[k] (U ⧸ L) := L.mapQ L T hTL with hTb
   set h : (U ⧸ L) →ₗ[k] (U ⧸ N) := Submodule.factor hLN with hh
@@ -486,9 +425,6 @@ end lin
 variable {k : Type} [Field k] {V : Type} [AddCommGroup V] [Module k⸨X⸩ V] [Module k⟦X⟧ V] [Module k V]
   [IsScalarTower k⟦X⟧ k⸨X⸩ V] [IsScalarTower k k⸨X⸩ V] [IsScalarTower k k⟦X⟧ V]
 
-theorem vv_ne : vv k ≠ 0 := by
-  unfold vv; exact HahnSeries.single_ne_zero one_ne_zero
-
 alias mem_sh := _root_.GlobalTheory.PhiGam.Window.mem_sh_iff
 
 theorem smul_mem_sh {a : ℤ} (b : ℤ) {N : Submodule k⟦X⟧ V} {x : V} (h : x ∈ sh a N) :
@@ -525,14 +461,37 @@ theorem nab_apply (g : V →ₗ[k] V) (x : V) : nab g x = vv k ^ (-1 : ℤ) • 
 
 theorem span_le {ι : Type} (e : ι → V) (P : Submodule k⟦X⟧ V) (hP : Submodule.span k⟦X⟧ (Set.range e) = P) :
     P.restrictScalars k ≤ Submodule.span k (Set.range e) ⊔ (sh 1 P).restrictScalars k := by
-  intros
-  apply _root_.GlobalTheory.PhiGam.PolarKernel.le_span_sup <;> assumption
+  intro x hx
+  rw [Submodule.restrictScalars_mem, ← hP, Finsupp.mem_span_range_iff_exists_finsupp] at hx
+  obtain ⟨c, rfl⟩ := hx
+  refine Submodule.sum_mem _ fun i _ => ?_
+  show c i • e i ∈ _
+  have he : e i ∈ P := hP ▸ Submodule.subset_span ⟨i, rfl⟩
+  obtain ⟨d, hd⟩ : ∃ d : k⟦X⟧, c i = algebraMap k k⟦X⟧ (PowerSeries.constantCoeff (c i)) + PowerSeries.X * d :=
+    ⟨_, by rw [add_comm]; exact PowerSeries.eq_X_mul_shift_add_const (c i)⟩
+  rw [hd, add_smul, algebraMap_smul]
+  refine Submodule.add_mem_sup (Submodule.smul_mem _ _ (Submodule.subset_span ⟨i, rfl⟩)) ?_
+  refine mem_sh.2 ⟨d • e i, P.smul_mem _ he, ?_⟩
+  rw [zpow_one, _root_.GlobalTheory.PhiGam.Window.vv_coe, _root_.GlobalTheory.PhiGam.Window.coe_smul_eq, mul_smul]
 
 theorem fin_quot (N : Submodule k⟦X⟧ V) (hN : N.FG) (a : ℤ) (m : ℕ) :
     ∃ S : Submodule k V, FiniteDimensional k S ∧
       (sh a N).restrictScalars k ≤ S ⊔ (sh (a + m) N).restrictScalars k := by
-  intros
-  apply _root_.GlobalTheory.PhiGam.PolarKernel.exists_finite_le_sup <;> assumption
+  induction m with
+  | zero => exact ⟨⊥, inferInstance, by simp⟩
+  | succ m ih =>
+    obtain ⟨S, hS, h⟩ := ih
+    have hfg : (sh (a + m) N).FG := hN.map _
+    obtain ⟨n, e, he⟩ := Submodule.fg_iff_exists_fin_generating_family.1 hfg
+    have h2 := span_le e _ he
+    rw [sh_sh] at h2
+    have : FiniteDimensional k (Submodule.span k (Set.range e)) :=
+      FiniteDimensional.span_of_finite k (Set.finite_range e)
+    refine ⟨S ⊔ Submodule.span k (Set.range e), inferInstance, h.trans ?_⟩
+    rw [sup_assoc]
+    refine sup_le_sup_left ?_ _
+    rw [Nat.cast_succ, ← add_assoc]
+    exact h2
 
 theorem gens [FiniteDimensional k⸨X⸩ V] (N : Submodule k⟦X⟧ V) (hN : N.FG) :
     ∃ (n : ℕ) (e : Fin n → V), n ≤ finrank k⸨X⸩ V ∧ Submodule.span k⟦X⟧ (Set.range e) = N := by
@@ -573,7 +532,7 @@ theorem psi_mem (f ψ : V →ₗ[k] V) (ψ0 : k⸨X⸩ →ₗ[k] k⸨X⸩) (h : 
 theorem main : ∀ {k : Type} [Field k] {l : ℕ} [Fact l.Prime] [CharP k l] (R : RingPG k l) {n : ℕ} [NeZero n] {V : Type} [AddCommGroup V] [Module k⸨X⸩ V] [Module k⟦X⟧ V] [Module k V] [IsScalarTower k⟦X⟧ k⸨X⸩ V] [IsScalarTower k k⸨X⸩ V] [IsScalarTower k k⟦X⟧ V] [FiniteDimensional k⸨X⸩ V] (D : ModPG R n V), ∀ (ψ : ZMod n → V →ₗ[k] V) (ψ0 : k⸨X⸩ →ₗ[k] k⸨X⸩), (∀ i a x, ψ i (a • D.φ i x) = ψ0 a • x) → (∀ a b, ψ0 (R.φ a * b) = a * ψ0 b) → ψ0 1 = 1 → (∀ i x, ψ i (D.γ i x) = D.γ (i - 1) (ψ i x)) → (∀ a : ℤ, 2 - (l : ℤ) ≤ a → a ≤ 1 → ψ0 '' {x | ∃ b : k⟦X⟧, x = vv k ^ a * (b : k⸨X⸩)} = Set.range (fun b : k⟦X⟧ => (b : k⸨X⸩))) → ∀ (i : ZMod n) (N₀ N : Submodule k⟦X⟧ V) (ws s : ℕ) (w : ℤ), IsLat N₀ → IsLat N → CondC (D.γ (i - 1)) N₀ → CondC (D.γ i) N → 1 ≤ ws → ws + 7 ≤ l → sh ws N ≤ pull (D.φ i) N₀ → pull (D.φ i) N₀ ≤ sh (-w) N → (ws : ℤ) + 2 ≤ l * (s + 3) - w → (∀ a : ℕ, a ≤ s + 1 → sen (D.γ (i - 1)) N₀ (a : k) = 0) → (∀ y ∈ sh (1 - ws) (pull (D.φ i) N₀), ψ i y = 0 → ∃ x ∈ sh (-ws) (pull (D.φ i) N₀), ψ i x = 0 ∧ D.γ i x - x = y) → (∀ x ∈ N, (∃ m : ℕ, ((nab (D.γ i)) ^ m) x ∈ sh (ws + 1) N) → nab (D.γ i) x ∈ sh (ws + 1) N) → ∀ Z : Submodule k V, (∀ x ∈ Z, x ∈ sh (-ws) (pull (D.φ i) N₀) ∧ D.γ i x - x ∈ sh (ws + 2) N) → Module.finrank k (↥Z ⧸ (N.restrictScalars k).submoduleOf Z) + ∑ a ∈ Finset.range (ws + 1), sen (D.γ i) N (a : k) ≤ Module.finrank k⸨X⸩ V := by
   intro k _ l _ _ R n _ V _ _ _ _ _ _ _ _ D ψ ψ0 hψ _ hψ1 _ hP i N₀ N ws s w hN₀ hN hC₀ hC hws hl hb ha hd hs
     hPSI he Z hZ
-  have hv : vv k ≠ 0 := vv_ne
+  have hv : vv k ≠ 0 := GlobalTheory.PhiGam.Window.vv_ne_zero
   have hr := _root_.GlobalTheory.PhiGam.Range.qmult_sh_range R (D.γ i) (D.γ_semi i) N hN hC 0 (ws + 1) 0
   simp only [zero_add, Int.cast_natCast, sh_zero] at hr
   rw [← hr, Nat.cast_succ]
@@ -1087,8 +1046,51 @@ theorem gmult_transport (T T' : Module.End k U) (e : U ≃ₗ[k] U) (P Q P' Q' :
     (hTP : ∀ p ∈ P, T p ∈ P) (hTQ : ∀ p ∈ Q, T p ∈ Q) (hTQ' : ∀ p ∈ Q', T' p ∈ Q') (x y : k)
     (h : ∀ p ∈ P, (T' (e p) - x • e p) - e (T p - y • p) ∈ Q') :
     gmult T' P' Q' x = gmult T P Q y := by
-  intros
-  apply _root_.GlobalTheory.PhiGam.SenShift.gmult_transport <;> assumption
+  set S := T - algebraMap k (Module.End k U) y with hS
+  set S' := T' - algebraMap k (Module.End k U) x with hS'
+  have hSa : ∀ p, S p = T p - y • p := fun p => by simp [hS, Module.algebraMap_end_apply]
+  have hSa' : ∀ p, S' p = T' p - x • p := fun p => by simp [hS', Module.algebraMap_end_apply]
+  have hSP : ∀ p ∈ P, S p ∈ P := fun p hp => by rw [hSa]; exact P.sub_mem (hTP p hp) (P.smul_mem _ hp)
+  have hSQ : ∀ p ∈ Q, S p ∈ Q := fun p hp => by rw [hSa]; exact Q.sub_mem (hTQ p hp) (Q.smul_mem _ hp)
+  have hSQ' : ∀ p ∈ Q', S' p ∈ Q' := fun p hp => by
+    rw [hSa']; exact Q'.sub_mem (hTQ' p hp) (Q'.smul_mem _ hp)
+  have key : ∀ p ∈ P, ∀ m : ℕ, (S ^ m) p ∈ P ∧ (S' ^ m) (e p) - e ((S ^ m) p) ∈ Q' := by
+    intro p hp m
+    induction m with
+    | zero => simpa using hp
+    | succ m ih =>
+      rw [pow_succ', pow_succ', Module.End.mul_apply, Module.End.mul_apply]
+      refine ⟨hSP _ ih.1, ?_⟩
+      have h1 := hSQ' _ ih.2
+      have h2 := h _ ih.1
+      rw [← hSa, ← hSa'] at h2
+      have h3 := Q'.add_mem h1 h2
+      rwa [map_sub, sub_add_sub_cancel] at h3
+  have hmem : ∀ p, e p ∈ (P' ⊓ ⨆ m : ℕ, Q'.comap (S' ^ m)) ↔ p ∈ (P ⊓ ⨆ m : ℕ, Q.comap (S ^ m)) := by
+    intro p
+    rw [Submodule.mem_inf, Submodule.mem_inf, _root_.GlobalTheory.PhiGam.GmultAdd.mem_gen S Q hSQ, _root_.GlobalTheory.PhiGam.GmultAdd.mem_gen S' Q' hSQ', hP']
+    refine and_congr_right fun hp => exists_congr fun m => ?_
+    rw [← hQ']
+    have := (key p hp m).2
+    constructor
+    · intro h1; simpa using Q'.sub_mem h1 this
+    · intro h1; simpa using Q'.add_mem this h1
+  unfold gmult
+  rw [← hS, ← hS']
+  set A := P ⊓ ⨆ m : ℕ, Q.comap (S ^ m)
+  set A' := P' ⊓ ⨆ m : ℕ, Q'.comap (S' ^ m)
+  have hA : A.map (e : U →ₗ[k] U) = A' := by
+    ext z
+    obtain ⟨w, rfl⟩ := e.surjective z
+    rw [hmem]
+    exact Submodule.map_equiv_eq_comap_symm e A ▸ by simp
+  let e' : A ≃ₗ[k] A' := e.ofSubmodules A A' hA
+  refine (Submodule.Quotient.equiv (Q.submoduleOf A) (Q'.submoduleOf A') e' ?_).finrank_eq.symm
+  ext z
+  obtain ⟨w, rfl⟩ := e'.surjective z
+  have : (e' w ∈ Q'.submoduleOf A') ↔ w ∈ Q.submoduleOf A := hQ' w
+  rw [this]
+  exact Submodule.map_equiv_eq_comap_symm e' _ ▸ by simp
 
 theorem fin_of_le {A B C : Submodule k U} (h : C ≤ B) (hf : FiniteDimensional k (A.map C.mkQ)) :
     FiniteDimensional k (A.map B.mkQ) := by
@@ -1098,18 +1100,21 @@ theorem fin_of_le {A B C : Submodule k U} (h : C ≤ B) (hf : FiniteDimensional 
 
 theorem fin_trans {A B C : Submodule k U} (h : C ≤ B) (h1 : FiniteDimensional k (A.map B.mkQ))
     (h2 : FiniteDimensional k (B.map C.mkQ)) : FiniteDimensional k (A.map C.mkQ) := by
-  apply _root_.GlobalTheory.PhiGam.Range.finite_map_trans <;> assumption
+  have e : A.map B.mkQ = (A.map C.mkQ).map (Submodule.factor h) := by
+    rw [← Submodule.map_comp]; rfl
+  rw [e] at h1
+  have hle : A.map C.mkQ ⊓ LinearMap.ker (Submodule.factor h) ≤ B.map C.mkQ := by
+    rintro _ ⟨⟨a, -, rfl⟩, ha⟩
+    exact ⟨a, (Submodule.Quotient.mk_eq_zero B).1 ha, rfl⟩
+  have h3 := Submodule.finiteDimensional_of_le hle
+  exact Module.Finite.iff_fg.2 (Submodule.fg_of_fg_map_of_fg_inf_ker (Submodule.factor h)
+    (Module.Finite.iff_fg.1 h1) (Module.Finite.iff_fg.1 h3))
 
 theorem fin_quot {A B : Submodule k U} (h : FiniteDimensional k (A.map B.mkQ)) :
     FiniteDimensional k (↥A ⧸ B.submoduleOf A) := by
   have e := LinearMap.quotKerEquivRange (B.mkQ.domRestrict A)
   rw [LinearMap.range_domRestrict, LinearMap.ker_domRestrict, Submodule.ker_mkQ] at e
   exact e.symm.finiteDimensional
-
-theorem gmult_self (T : Module.End k U) (P : Submodule k U) (x : k) : gmult T P P x = 0 := by
-  unfold gmult
-  rw [Submodule.submoduleOf_eq_top.2 inf_le_left]
-  exact Module.finrank_zero_of_subsingleton
 
 end lin
 
@@ -1177,7 +1182,7 @@ theorem shift_of_le {l : ℕ} (R : RingPG k l) {g : V →ₗ[k] V} (hg : Semi R.
   | zero =>
     intro P Q _ _ hle _ _ h
     rw [Nat.cast_zero, sh_zero_eq] at h
-    rw [le_antisymm hle h, qmult, qmult, gmult_self, gmult_self]
+    rw [le_antisymm hle h, qmult, qmult, GlobalTheory.PhiGam.Range.gmult_self, GlobalTheory.PhiGam.Range.gmult_self]
   | succ m ih =>
     intro P Q hP hQ hle cP cQ h
     have hle' : Q ⊔ sh 1 P ≤ P := sup_le hle (sh_one_le P)
@@ -1395,25 +1400,25 @@ theorem sum_resCount {k : Type} [Field k] (U : Multiset ℤ) (w a : ℤ) (L : �
       push_cast
       exact sub_left_inj
     by_cases hp : p u
-    · rw [if_pos hp, Multiset.card_singleton]
+    · rw [ite_eq_left hp, Multiset.card_singleton]
       obtain ⟨ha, hb⟩ := hu.1 hp
       rw [Finset.sum_eq_single (u - a).toNat]
-      · rw [if_pos]
+      · rw [ite_eq_left]
         rw [tr]
         congr 1
         omega
       · intro j _ hj
-        rw [if_neg]
+        rw [ite_eq_right]
         intro hc
         have := (hu.2 (a + j) (by omega) (by have := Finset.mem_range.mp ‹j ∈ Finset.range L›; omega) ((tr j).mp hc)).1
         omega
       · intro hn
         exfalso
         exact hn (Finset.mem_range.mpr (by omega))
-    · rw [if_neg hp, Multiset.card_zero]
+    · rw [ite_eq_right hp, Multiset.card_zero]
       apply Finset.sum_eq_zero
       intro j hj
-      rw [if_neg]
+      rw [ite_eq_right]
       intro hc
       have hj' := Finset.mem_range.mp hj
       exact hp (hu.2 (a + j) (by omega) (by omega) ((tr j).mp hc)).2
@@ -1841,6 +1846,7 @@ theorem exists_independent_admissible_cocycles_residue {Qp K₀ K : Type} [Field
   obtain ⟨L, hL⟩ := hmod E _ _ e (hadm a) he
   exact ⟨E, L, hE, hL⟩
 
+set_option synthInstance.maxHeartbeats 400000 in
 theorem resBound_dsum : GlobalTheory.IndefiniteRowSideFullHecke.OnePlusPowerCharacters.LemmaPsi → ∀ {l : ℕ} [Fact l.Prime] {P : LocPrime l} (S : TopSit P),
     S.Real → S.Lem0 S.Γ.W₀ → S.ResBound S.Γ.W₀ S.D.dsum := by
   intro hψ l _ P S hR h0 s c hc hi

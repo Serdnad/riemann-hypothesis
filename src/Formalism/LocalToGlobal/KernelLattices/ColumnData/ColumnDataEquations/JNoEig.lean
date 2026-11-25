@@ -1,6 +1,5 @@
 module
 
-import Formalism.LocalToGlobal.PairingIndexBounds.SplitPairEquations.IntegralSquareRoots.LineOfSpans
 public import Formalism.LocalToGlobal.KernelLattices.ColumnData
 public import Formalism.LocalToGlobal.KernelLattices.ColumnData.IsAdmissibleFlagPairOfUnitriangularLeftAutomorph
 public import Formalism.LocalToGlobal.KernelLattices.ColumnData.ColumnDataEquations.GMConjTranspose
@@ -39,8 +38,6 @@ namespace Formalism.L2.Ker.Cd.PairingIndexBounds.Eq.J
 open Formalism.L2.PairingIndexBounds.Eq.J Formalism.L2.PairingIndexBounds.Eq Formalism.L2.PairingIndexBounds
 
 open Formalism.MainNotions Formalism.L2.Th1.H Formalism.L2.Ker.Cd.PairingIndexBounds.Eq Formalism.L2.PairingIndexBounds.Eq
-
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 
 variable {D : Car}
 
@@ -81,7 +78,29 @@ theorem form_col (A : ℝ) (N N' : ℕ) (x y : TaylorLogMetric.VC D N N') :
   exact Finset.sum_congr rfl fun τ _ => Finset.sum_comm
 
 theorem formV_pos {A : ℝ} (hA : 0 < A) (n : Type) [Fintype n] (N N' : ℕ) : IsPosDef (Ker.formV A n N N') := by
-  apply +allowSynthFailures _root_.Formalism.L2.PairingIndexBounds.Eq.J.formV_pos <;> assumption
+  intro x hx
+  have e : (Ker.formV A n N N' x x).re = (∑ τ, ∑ i, ∑ j, Complex.normSq (x τ i j)) / A := by
+    simp only [Ker.formV, LinearMap.mk₂'ₛₗ_apply, Complex.mul_conj]
+    rw [← Complex.ofReal_re ((∑ τ, ∑ i, ∑ j, Complex.normSq (x τ i j)) / A)]
+    push_cast
+    rfl
+  rw [e]
+  refine div_pos ?_ hA
+  obtain ⟨τ, i, j, h⟩ : ∃ τ i j, x τ i j ≠ 0 := by
+    by_contra hno
+    push Not at hno
+    exact hx (funext fun τ => funext fun i => funext fun j => hno τ i j)
+  calc 0 < Complex.normSq (x τ i j) := Complex.normSq_pos.mpr h
+    _ ≤ ∑ j, Complex.normSq (x τ i j) :=
+        Finset.single_le_sum (f := fun j => Complex.normSq (x τ i j)) (fun _ _ => Complex.normSq_nonneg _)
+          (Finset.mem_univ j)
+    _ ≤ ∑ i, ∑ j, Complex.normSq (x τ i j) :=
+        Finset.single_le_sum (f := fun i => ∑ j, Complex.normSq (x τ i j))
+          (fun _ _ => Finset.sum_nonneg fun _ _ => Complex.normSq_nonneg _) (Finset.mem_univ i)
+    _ ≤ ∑ τ, ∑ i, ∑ j, Complex.normSq (x τ i j) :=
+        Finset.single_le_sum (f := fun τ => ∑ i, ∑ j, Complex.normSq (x τ i j))
+          (fun _ _ => Finset.sum_nonneg fun _ _ => Finset.sum_nonneg fun _ _ => Complex.normSq_nonneg _)
+          (Finset.mem_univ τ)
 
 variable {cc : Ideal (𝓞 D.host.K)} {δ : ℂ} (B : Cd.Base D cc δ)
 
@@ -157,8 +176,6 @@ namespace Formalism.L2.Ker.Cd.PairingIndexBounds.Eq.J
 open Formalism.L2.PairingIndexBounds.Eq.J Formalism.L2.PairingIndexBounds.Eq Formalism.L2.PairingIndexBounds
 
 open Formalism.MainNotions Formalism.L2.Th1.H Formalism.L2.Ker.Cd.PairingIndexBounds.Eq Formalism.L2.PairingIndexBounds.Eq
-
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 
 variable {D : Car}
 
@@ -379,8 +396,6 @@ open Formalism.L2.PairingIndexBounds.Eq.J Formalism.L2.PairingIndexBounds.Eq For
 
 open Formalism.MainNotions Formalism.L2.Th1.H Formalism.L2.Ker.Cd.PairingIndexBounds.Eq Formalism.L2.PairingIndexBounds.Eq
 
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
-
 variable {D : Car} {cc : Ideal (𝓞 D.host.K)} {δ : ℂ}
 
 def GaussRow (B : Cd.Base D cc δ) : Prop :=
@@ -570,11 +585,7 @@ theorem J1at_of_ne (hS : B.StdOK) (hL : B.LatAll) (hG : GaussRow B) {N N' : ℕ}
     set g := gaussC (Ker.formV (TaylorLogMetric.area (TaylorLogMetric.tor0 D cc δ).abelian₂) D.what₂.Tau N 1) (TaylorLogMetric.al D (TaylorLogMetric.tor0 D cc δ)) Ae₁ S₁ with hgdef
     have key : ((‖a‖ : ℂ) / a * g) ^ 2 = ∏ τ : D.what₂.Tau, (TaylorLogMetric.embT D τ) (star (γ : Matrix (Fin N) (Fin N) D.host.E).det) := by
       rw [mul_pow, div_pow, hg, mul_one]
-      have hn : ((‖a‖ : ℂ)) ^ 2 = a * (starRingEnd ℂ) a := by
-        rw [Complex.mul_conj, Complex.normSq_eq_norm_sq]
-        push_cast
-        ring
-      rw [hn, hconj]
+      rw [← Complex.ofReal_pow, ← Complex.normSq_eq_norm_sq, ← Complex.mul_conj, hconj]
       field_simp
     obtain ⟨m, hm⟩ := hN'
     subst hm
@@ -659,11 +670,7 @@ theorem J2at_of_ne (hS : B.StdOK) (hL : B.LatAll) (hG : GaussRow B) {N N' : ℕ}
     set g := gaussC (Ker.formV (TaylorLogMetric.area (TaylorLogMetric.tor0 D cc δ).abelian₂) D.what₂.Tau N' 1) (TaylorLogMetric.al D (TaylorLogMetric.tor0 D cc δ)) Ae₁ S₁ with hgdef
     have key : ((‖a‖ : ℂ) / a * g) ^ 2 = ∏ τ : D.what₂.Tau, (TaylorLogMetric.embT D τ) (γ' : Matrix (Fin N') (Fin N') D.host.E).det := by
       rw [mul_pow, div_pow, hg, mul_one]
-      have hn : ((‖a‖ : ℂ)) ^ 2 = a * (starRingEnd ℂ) a := by
-        rw [Complex.mul_conj, Complex.normSq_eq_norm_sq]
-        push_cast
-        ring
-      rw [hn, hconj]
+      rw [← Complex.ofReal_pow, ← Complex.normSq_eq_norm_sq, ← Complex.mul_conj, hconj]
       field_simp
     obtain ⟨m, hm⟩ := hN
     subst hm

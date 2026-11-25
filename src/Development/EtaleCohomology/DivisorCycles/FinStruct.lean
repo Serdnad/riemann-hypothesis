@@ -1,7 +1,5 @@
 module
 
-import Lemmata.PowMulVecEigen.PowMulVecEig
-import Development.EtaleCohomology.DivisorCycles.FinKey
 public import Development.EtaleCohomology.DivisorCycles.CycleCount
 public import Development.EtaleCohomology.DivisorCycles.OpenCoset
 public import Development.EtaleCohomology.DivisorCycles.CycleCountPf
@@ -22,63 +20,10 @@ public import Development.EtaleCohomology.DivisorCycles.ExpVanPf
 public import Development.EtaleCohomology.DivisorCycles.SemisPf
 public import Development.EtaleCohomology.DivisorCycles.TangentDegree
 public import Development.EtaleCohomology.DivisorCycles.TangentFieldExtension
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Topology.Sheaves.Init
-import Mathlib.Tactic.Basify
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.RingTheory.Coalgebra.IsFrobenius
-import Mathlib.RingTheory.Henselian
-import Mathlib.RingTheory.HopfAlgebra.Basic
-import Mathlib.RingTheory.RegularLocalRing.Defs
 import Mathlib.RingTheory.RootsOfUnity.AlgebraicallyClosed
-import Mathlib.RingTheory.SimpleRing.Principal
-import Mathlib.Tactic.Lemma
 import Mathlib.Tactic.Linter.HaveILetI
-import Mathlib.RingTheory.TotallySplit
 import Mathlib.RingTheory.Etale.Weakly
-import Mathlib.RingTheory.Finiteness.ModuleFinitePresentation
-import Mathlib.RingTheory.PiTensorProduct
-import Mathlib.Tactic.ENatToNat
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.EtaleCohomology.DivisorCycles.AlgStruct2, Development.EtaleCohomology.DivisorCycles.CoeMulInv, Development.EtaleCohomology.DivisorCycles.CycSpecQzkPf, Development.EtaleCohomology.DivisorCycles.DiagScalar2, Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.AevalEig, Development.EtaleCohomology.DivisorCycles.FixScalOf, Development.EtaleCohomology.DivisorCycles.GradePf, Development.EtaleCohomology.DivisorCycles.ProjPf, Development.EtaleCohomology.DivisorCycles.StructPf, Development.EtaleCohomology.DivisorCycles.TanLiePf, Development.EtaleCohomology.DivisorCycles.FinStruct
@@ -361,7 +306,11 @@ variable {C : Type} [Field C] {N n : ℕ}
 
 lemma iter {p : Fin n → Mat C N} {y : Mat C N} {π : Equiv.Perm (Fin n)}
     (h : ∀ j, y * p j = p (π j) * y) (m : ℕ) (r : Fin n) : y ^ m * p r = p ((π ^ m) r) * y ^ m := by
-  apply @LateralTheory.DivDb.CycleCount₂.intertw <;> assumption
+  induction m with
+  | zero => simp
+  | succ m ih =>
+    have e1 : (π ^ (m + 1)) r = π ((π ^ m) r) := by rw [pow_succ', Equiv.Perm.mul_apply]
+    rw [e1, pow_succ' y, mul_assoc, ih, ← mul_assoc, h, mul_assoc]
 
 lemma eig [IsAlgClosed C] (A P : Mat C N) (hP : P * P = P) (hP0 : P ≠ 0) (hA : A * P = P * A) :
     ∃ (β : C) (v : Fin N → C), v ≠ 0 ∧ P *ᵥ v = v ∧ A *ᵥ v = β • v := by
@@ -413,7 +362,7 @@ lemma key {p : Fin n → Mat C N} {y : Mat C N} {π : Equiv.Perm (Fin n)} (hp : 
       · simp [S, hv]
       · intro m hm hm0
         simp only [S, Matrix.mulVec_smul, comp hp h r v hv]
-        rw [if_neg, smul_zero]
+        rw [ite_eq_right, smul_zero]
         intro hr
         have hper : Function.IsPeriodicPt π m r := by
           show (⇑π)^[m] r = r
@@ -440,7 +389,7 @@ lemma key {p : Fin n → Mat C N} {y : Mat C N} {π : Equiv.Perm (Fin n)} (hp : 
   · intro q hq
     rw [Matrix.mulVec_sum]
     refine Finset.sum_eq_zero fun m _ => ?_
-    simp only [S, Matrix.mulVec_smul, comp hp h r v hv, if_neg (hq m), smul_zero]
+    simp only [S, Matrix.mulVec_smul, comp hp h r v hv, ite_eq_right (hq m), smul_zero]
 
 theorem CycSpec_of : LateralTheory.DivDb.CycleCountPf.CycSpec := by
   intro C _ _ _ N n p y π hp hy hyp hd
@@ -661,8 +610,19 @@ theorem UpperTheory.Reformulated.B.Qp10.aeval_eig :
       Matrix.mulVec y v = μ • v →
         ∀ (Q : Polynomial C),
           Matrix.mulVec ((Polynomial.aeval y : Polynomial C → UpperTheory.Reformulated.B.Qp10.Mat C N) Q) v = Polynomial.eval μ Q • v := by
-  intros
-  apply _root_.Bl.PowMulVecEigen.goal1 <;> assumption
+  intro C _ N y μ v h Q
+  have hpow : ∀ n : ℕ, Matrix.mulVec (y ^ n) v = μ ^ n • v := by
+    intro n
+    induction n with
+    | zero => rw [pow_zero, pow_zero, Matrix.one_mulVec, one_smul]
+    | succ n ih =>
+      rw [pow_succ, ← Matrix.mulVec_mulVec, h, Matrix.mulVec_smul, ih, smul_smul, pow_succ']
+  induction Q using Polynomial.induction_on' with
+  | add p q hp hq =>
+    rw [map_add (f := _), Matrix.add_mulVec, hp, hq, Polynomial.eval_add, add_smul]
+  | monomial n a =>
+    rw [Polynomial.aeval_monomial, Polynomial.eval_monomial, ← Algebra.smul_def,
+      Matrix.smul_mulVec, hpow, smul_smul]
 end -- clump:auto
 end -- clump:auto
 -- ===== end clump member: Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.AevalEig =====

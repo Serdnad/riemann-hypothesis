@@ -5,51 +5,8 @@ public import Formalism.SharpRestriction.LevelLetterCocycles.KillWinFromCut
 public import Formalism.SharpRestriction.LevelLetterCocycles.LocalInputsFromLiterature
 public import Formalism.SharpRestriction.LevelLetterCocycles.UniversalGeneratorsOfUnits
 import Formalism.SharpRestriction.LevelLetterCocycles.RingConditionOfDeltaInvariants
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
 import Mathlib.Order.Interval.Finset.Box
 import Mathlib.RingTheory.PowerSeries.NoZeroDivisors
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.Linter.HaveILetI
-import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Topology.Sheaves.Init
-import Std.Tactic.BVDecide.Normalize.Prop
 import Formalism.SharpRestriction.LevelLetterCocycles.AnnihilatorGeneralOfRingCondition
 import Formalism.SharpRestriction.LevelLetterCocycles.IsobaricMultiplicityOne
 import Formalism.SharpRestriction.LevelLetterCocycles.PsCoprimeOf
@@ -159,10 +116,10 @@ theorem level_form (hπ : W.π₀ ∈ W.AΔ) {a : ZMod n} {e s : ℕ} (hs : s �
   simp only [Function.update_apply] at hg
   have e1 : (∏ t ∈ (Finset.range e).erase s, ps W t ^ (if t = s then x else α t).toNat) =
       ∏ t ∈ (Finset.range e).erase s, ps W t ^ (α t).toNat :=
-    Finset.prod_congr rfl fun t ht => by rw [if_neg (Finset.ne_of_mem_erase ht)]
+    Finset.prod_congr rfl fun t ht => by rw [ite_eq_right (Finset.ne_of_mem_erase ht)]
   have e2 : (∏ t ∈ (Finset.range e).erase s, ps W t ^ (-(if t = s then x else α t)).toNat) =
       ∏ t ∈ (Finset.range e).erase s, ps W t ^ (-α t).toNat :=
-    Finset.prod_congr rfl fun t ht => by rw [if_neg (Finset.ne_of_mem_erase ht)]
+    Finset.prod_congr rfl fun t ht => by rw [ite_eq_right (Finset.ne_of_mem_erase ht)]
   rw [e1, e2] at hg
   have h1 := inFr_num_drop W (prod_ps_mem' W hπ _ _) hg
   have h2 := inFr_den_mul W (prod_ps_mem' W hπ ((Finset.range e).erase s) (fun t => H t - (-α t).toNat)) h1
@@ -431,7 +388,7 @@ theorem inId_αk_iff {a : ZMod n} {e s : ℕ} (hs : s ∈ Finset.range e) (d : �
     · simp [αk]
     · intro t ht
       have ht' := Finset.ne_of_mem_erase ht
-      have h0 : (αk e s d k t).toNat = 0 := by simp only [αk, if_neg ht']; omega
+      have h0 : (αk e s d k t).toNat = 0 := by simp only [αk, ite_eq_right ht']; omega
       rw [h0, pow_zero]
   have hd : (∏ t ∈ Finset.range e, ps W t ^ (-(αk e s d k t)).toNat) =
       ∏ t ∈ (Finset.range e).erase s, ps W t ^ d t := by
@@ -442,7 +399,7 @@ theorem inId_αk_iff {a : ZMod n} {e s : ℕ} (hs : s ∈ Finset.range e) (d : �
     rw [h1, pow_zero, one_mul]
     refine Finset.prod_congr rfl fun t ht => ?_
     have ht' := Finset.ne_of_mem_erase ht
-    have h2 : (-(αk e s d k t)).toNat = d t := by simp only [αk, if_neg ht']; omega
+    have h2 : (-(αk e s d k t)).toNat = d t := by simp only [αk, ite_eq_right ht']; omega
     rw [h2]
   simp only [InId]
   rw [hn, hd]
@@ -500,7 +457,7 @@ theorem mem_JS_thin (A : ArcP n) {c : ZMod n} {s : ℕ} (hs : s < A.len c)
     i ∈ A.JS c := by
   unfold ArcP.JS
   apply Finset.mem_union_left
-  rw [if_pos ⟨s, hs, hth⟩]
+  rw [ite_eq_left ⟨s, hs, hth⟩]
   exact Finset.mem_Icc.2 ⟨hi1, hi2⟩
 
 theorem mem_JS_up (A : ArcP n) {c : ZMod n} {s : ℕ} (hs : s < A.len c) {b : ℕ}

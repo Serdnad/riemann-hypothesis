@@ -23,45 +23,6 @@ section VVMap
 
 variable {K L : Type} [Field K] [Field L] (ι : K →+* L) {σ : Type} [Fintype σ] {n : ℕ} (lam : σ → DomWeight n)
 
-theorem hfs_map_blockEmb (s : σ) (f : MvPolynomial (Fin n × Fin n) K) :
-    MvPolynomial.map ι (Formalism.GradedWeylDivisibility.blockEmb K s f) = Formalism.GradedWeylDivisibility.blockEmb L s (MvPolynomial.map ι f) := by
-  unfold Formalism.GradedWeylDivisibility.blockEmb
-  exact MvPolynomial.map_rename _ _ _
-
-private lemma map_aeval_eq_aeval_map' {α β : Type} (g : α → MvPolynomial β K) (g' : α → MvPolynomial β L)
-    (hg : ∀ v, MvPolynomial.map ι (g v) = g' v) (F : MvPolynomial α K) :
-    MvPolynomial.map ι (MvPolynomial.aeval g F) = MvPolynomial.aeval g' (MvPolynomial.map ι F) := by
-  induction F using MvPolynomial.induction_on with
-  | C a =>
-    simp only [MvPolynomial.aeval_C, MvPolynomial.map_C, MvPolynomial.algebraMap_eq]
-  | add p q hp hq =>
-    simp only [map_add (f := _), hp, hq]
-  | mul_X p v hp =>
-    simp only [map_mul, MvPolynomial.aeval_X, MvPolynomial.map_X, hp, hg]
-
-private lemma map_mem_dualWeyl' {r m : ℕ} {ν : Fin m → ℕ} {f : MvPolynomial (Fin r × Fin m) K}
-    (hf : f ∈ Formalism.GradedWeylDivisibility.dualWeyl K r m ν) : MvPolynomial.map ι f ∈ Formalism.GradedWeylDivisibility.dualWeyl L r m ν := by
-  unfold Formalism.GradedWeylDivisibility.dualWeyl at hf ⊢
-  rw [Submodule.mem_inf] at hf ⊢
-  obtain ⟨h1, h2⟩ := hf
-  constructor
-  · rw [MvPolynomial.mem_weightedHomogeneousSubmodule] at h1 ⊢
-    intro d hd
-    apply h1
-    rw [MvPolynomial.coeff_map] at hd
-    intro h0
-    apply hd
-    rw [h0, map_zero]
-  · simp only [Submodule.mem_iInf] at h2 ⊢
-    intro l j hlj
-    have h3 := h2 l j hlj
-    rw [LinearMap.mem_ker, LinearMap.sub_apply, sub_eq_zero] at h3 ⊢
-    simp only [AlgHom.toLinearMap_apply] at h3 ⊢
-    rw [← MvPolynomial.map_rename, ← h3]
-    unfold Formalism.GradedWeylDivisibility.colAddGen
-    refine (map_aeval_eq_aeval_map' ι _ _ (fun v => ?_) f).symm
-    split_ifs <;> simp
-
 theorem hfs_map_mem_VV {F : Pol K σ n} (hF : F ∈ VV K lam) : MvPolynomial.map ι F ∈ VV L lam := by
   apply _root_.Formalism.L2.Ker.map_mem_VV <;> assumption
 
@@ -121,8 +82,9 @@ variable {K L : Type} [Field K] [Field L] (ι : K →+* L) {σ : Type} [Fintype 
 theorem hfs_map_trAct (g : σ → GL (Fin n) K) (F : Pol K σ n) :
     MvPolynomial.map ι (trAct g F) = trAct (fun τ => Formalism.UG.bc ι (g τ)) (MvPolynomial.map ι F) := by
   unfold trAct Formalism.GradedWeylDivisibility.blockAct
-  refine map_aeval_eq_aeval_map' ι _ _ (fun v => ?_) F
-
+  rw [MvPolynomial.map_aeval_eq_aeval_map ι (MvPolynomial.map ι)
+    (by ext x; simp [MvPolynomial.algebraMap_eq])]
+  refine congrArg (fun g => MvPolynomial.aeval g _) (funext fun v => ?_)
   simp [map_sum, Formalism.UG.bc, Matrix.transpose_apply]
 
 theorem hfs_detPow_bc (g : GL (Fin n) K) (c : ℤ) : detPow L n (Formalism.UG.bc ι g) c = ι (detPow K n g c) := by
@@ -173,14 +135,15 @@ theorem hfs_invTrK (g : σ → GL (Fin n) K) : invTrK (fun τ => Formalism.UG.bc
 
 theorem hfs_rhoV (emb : σ → E →+* K) (γ : GL (Fin n) E) (v : VV K lam) :
     rhoV (fun τ => ι.comp (emb τ)) lam γ (hfsJ ι lam v) = hfsJ ι lam (rhoV emb lam γ v) := by
-  show rhoK lam (embGL (fun τ => ι.comp (emb τ)) γ) (hfsJ ι lam v) = hfsJ ι lam (rhoK lam (embGL emb γ) v)
+  show DIV.rhoK lam (embGL (fun τ => ι.comp (emb τ)) γ) (hfsJ ι lam v) =
+    hfsJ ι lam (DIV.rhoK lam (embGL emb γ) v)
   rw [hfs_embGL]
   exact hfs_rhoK ι lam _ v
 
 theorem hfs_rhoVr (emb : σ → E →+* K) (γ : GL (Fin n) E) (v : VV K lam) :
     rhoVr (fun τ => ι.comp (emb τ)) lam γ (hfsJ ι lam v) = hfsJ ι lam (rhoVr emb lam γ v) := by
-  show rhoK lam (invTrK (embGL (fun τ => ι.comp (emb τ)) γ)) (hfsJ ι lam v) =
-    hfsJ ι lam (rhoK lam (invTrK (embGL emb γ)) v)
+  show DIV.rhoK lam (invTrK (embGL (fun τ => ι.comp (emb τ)) γ)) (hfsJ ι lam v) =
+    hfsJ ι lam (DIV.rhoK lam (invTrK (embGL emb γ)) v)
   rw [hfs_embGL, hfs_invTrK]
   exact hfs_rhoK ι lam _ v
 

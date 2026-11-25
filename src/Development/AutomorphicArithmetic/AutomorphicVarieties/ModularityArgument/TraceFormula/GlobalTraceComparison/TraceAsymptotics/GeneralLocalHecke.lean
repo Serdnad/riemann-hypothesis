@@ -1,6 +1,5 @@
 module
 
-import all Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.TraceFormula.GlobalTraceComparison.TraceAsymptotics.EvaluationCombinedTestFunction
 public import Development.AbelianVarietyTheory.Definitions.Divisors.SimpleTwistedTraceFormulaStable
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LevOpMemFixed
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.RelIndexNeZeroOfIsOpen
@@ -61,7 +60,6 @@ section -- clump:auto
 
 open NumberField IsDedekindDomain Matrix Polynomial Filter GlobalTheory.CuspRep GlobalTheory.PRep Formalism.UG Formalism.BasicNotions GlobalTheory.UnitaryBC Formalism.L2.Host GlobalTheory.BCT
 open scoped Classical TensorProduct
-attribute [local instance] GlobalTheory.LocalData.complRel GlobalTheory.LocalData.isLocalField
 
 noncomputable section
 
@@ -411,13 +409,40 @@ private theorem trc_eq {V : Type} [AddCommGroup V] [Module ℂ V] (ρ : Represen
 end Gen
 
 private theorem hint_sub {H : Type} [Group H] [Subsingleton H] (K : Subgroup H) (u : H → ℂ) : hint K u = u 1 := by
-  apply _root_.UpperTheory.V.Z.Tf.GlobalTraceComparison.Asm.hint_subsingleton <;> assumption
+  unfold hint
+  have h1 : (rStab u ⊓ K).relIndex K = 1 :=
+    Subgroup.relIndex_eq_one.2 fun x _ => by
+      rw [Subsingleton.elim x 1]
+      exact one_mem _
+  haveI : Unique (H ⧸ (rStab u ⊓ K)) :=
+    { default := QuotientGroup.mk 1
+      uniq := fun q => by
+        induction q using QuotientGroup.induction_on with
+        | H x => rw [Subsingleton.elim x 1] }
+  have hu : ∀ x : H, u x = u 1 := fun x => by rw [Subsingleton.elim x 1]
+  rw [h1, finsum_unique, hu]
+  simp
 
 variable {E : Type} [Field E] [NumberField E] [IsCMField E]
 
 private theorem blk_zero {n : ℕ} (w : Pl E) (g : GLw n w) (m : GLw 0 w) (X : Matrix (Fin n) (Fin 0) (w.adicCompletion E)) :
     blk (Nat.add_zero n) w (g, m) X = g := by
-  apply _root_.UpperTheory.V.Z.Tf.GlobalTraceComparison.Asm.blk_right <;> assumption
+  have e : ∀ i : Fin n, (finSumFinEquiv.trans (finCongr (Nat.add_zero n))).symm i = Sum.inl i := by
+    intro i
+    rw [Equiv.symm_apply_eq]
+    ext
+    simp
+    rfl
+  have hM : Matrix.reindex (finSumFinEquiv.trans (finCongr (Nat.add_zero n))) (finSumFinEquiv.trans (finCongr (Nat.add_zero n)))
+      (Matrix.fromBlocks g.val (g.val * X) 0 m.val) = g.val := by
+    ext i j
+    simp only [Matrix.reindex_apply, Matrix.submatrix_apply, e, Matrix.fromBlocks_apply₁₁]
+  have key : ∀ (M : Matrix (Fin n) (Fin n) (w.adicCompletion E)), M = g.val →
+      (if hM : IsUnit M then hM.unit else (1 : GLw n w)) = g := by
+    rintro _ rfl
+    rw [dite_eq_left g.isUnit]
+    exact Units.ext rfl
+  exact key _ hM
 
 private theorem constant_term_parabolic_average {n : ℕ} (w : Pl E) (hw : IsSplitAt w) (μ : HChar E) (f : ∀ w : Pl E, GLw n w → ℂ) (g : GLw n w) :
     ct0 μ (Nat.add_zero n) f w (g, 1) = avg fun k : KGL w (n := n) => f w ((k : GLw n w)⁻¹ * g * k) := by
@@ -425,7 +450,7 @@ private theorem constant_term_parabolic_average {n : ℕ} (w : Pl E) (hw : IsSpl
     ⟨fun a b => Multiplicative.toAdd.injective (by ext i j; exact j.elim0)⟩
   have hU : ∀ y : GLw n w, y ∈ UL n w := fun y => by
     unfold UL
-    rw [if_pos hw]
+    rw [ite_eq_left hw]
     trivial
   have hs : ∀ y : GLw n w, (toSub (UL n w) y : GLw n w) = y := fun y => by
     unfold toSub

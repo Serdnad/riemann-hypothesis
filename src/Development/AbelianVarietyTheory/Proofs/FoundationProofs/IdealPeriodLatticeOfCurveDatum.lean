@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsPeriodPairIdealCurveLattice
 import Development.AbelianVarietyTheory.Proofs.FoundationProofs.AreaBoundedOfDiscrEqOne
 public import Formalism.SharpRestriction.GlobalSchurBounds.StandardLatticesGL3
 public import Mathlib.Analysis.SpecialFunctions.Elliptic.Weierstrass
@@ -62,7 +61,7 @@ open scoped UpperHalfPlane nonZeroDivisors Real
 
 theorem eisG_eq_G (L : PeriodPair) (Λ : AddSubgroup ℂ) (h : ∀ z, z ∈ Λ ↔ z ∈ L.lattice)
     {k : ℕ} (hk : k ≠ 0) : eisG Λ k = L.G (2 * k) := by
-  first | exact _root_.GlobalTheory.LatticeAreaBound.eisG_eq_G | exact @_root_.GlobalTheory.LatticeAreaBound.eisG_eq_G | apply _root_.GlobalTheory.LatticeAreaBound.eisG_eq_G <;> assumption
+  exact GlobalTheory.LatticeAreaBound.eisG_eq_G L Λ h hk
 
 section
 
@@ -106,7 +105,19 @@ end
 
 theorem mem_lamOf (D : D7) (cc : Ideal (𝓞 D.host.K)) (δ w : ℂ) :
     w ∈ lamOf D cc δ ↔ ∃ c ∈ cc, w = δ * D.host.φ₀ (((c : D.host.K) : D.host.E)) := by
-  first | exact _root_.GlobalTheory.CurveLattice.mem_lamOf_iff | exact @_root_.GlobalTheory.CurveLattice.mem_lamOf_iff | apply _root_.GlobalTheory.CurveLattice.mem_lamOf_iff <;> assumption
+  constructor
+  · intro hw
+    induction hw using AddSubgroup.closure_induction with
+    | mem x hx => exact hx
+    | zero => exact ⟨0, cc.zero_mem, by simp⟩
+    | add x y _ _ hx hy =>
+      obtain ⟨c, hc, rfl⟩ := hx
+      obtain ⟨c', hc', rfl⟩ := hy
+      exact ⟨c + c', cc.add_mem hc hc', by simp [mul_add]⟩
+    | neg x _ hx =>
+      obtain ⟨c, hc, rfl⟩ := hx
+      exact ⟨-c, cc.neg_mem hc, by simp⟩
+  · exact fun hw => AddSubgroup.subset_closure hw
 
 theorem finrank_hostK (D : D7) : Module.finrank ℚ D.host.K = 2 :=
   Formalism.FrobeniusOrbits.SplitK.finrank_K D.host.hyp.2.1.pos (D.host.sqd_sq)

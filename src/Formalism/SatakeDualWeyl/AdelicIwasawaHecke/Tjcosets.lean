@@ -1,64 +1,15 @@
 module
 
-
-import Development.AbelianVarietyTheory.Proofs.SatakeParameters.GlMapStandardLatticeEqIffMemGLintAdic
-import Development.AbelianVarietyTheory.Proofs.SatakeParameters.IntegralWittTheoremModUniformizerPow
 public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.TjcosetsFF
 public import Formalism.SatakeDualWeyl.Statement
 public import Formalism.SatakeDualWeyl.StatementE
 public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.GlintPrincRelIndexNeZero
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
 import Mathlib.RingTheory.Henselian
-import Mathlib.RingTheory.Radical.NatInt
 import Mathlib.RingTheory.RegularLocalRing.Defs
 import Mathlib.RingTheory.SimpleRing.Principal
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Topology.Sheaves.Init
 import Mathlib.Algebra.Order.Star.Int
 import Mathlib.Algebra.Ring.IsFormallyReal
-import Mathlib.Tactic.Linter.HaveILetI
-import Std.Tactic.BVDecide.Normalize.Prop
+
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Formalism.SatakeDualWeyl.AdelicIwasawaHecke.TjcosetsLoc, Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Tjcosets
 
@@ -185,8 +136,31 @@ theorem tjcosets_conj_apply (n j : ℕ) (ϖ : L) (hϖ : ϖ ≠ 0) (g : GL (Fin n
 theorem tjcosets_mem_K_iff (n : ℕ) (U : GL (Fin n) L) :
     U ∈ GLint (Fin n) O ↔ (∀ a b, (U : Matrix (Fin n) (Fin n) L) a b ∈ O) ∧
       (∀ a b, ((U⁻¹ : GL (Fin n) L) : Matrix (Fin n) (Fin n) L) a b ∈ O) := by
-  intros
-  apply _root_.GlobalTheory.LatHecke.mem_GLint_iff_entry <;> assumption
+  unfold GLint
+  rw [MonoidHom.mem_range]
+  constructor
+  · rintro ⟨g, rfl⟩
+    refine ⟨fun a b => ?_, fun a b => ?_⟩
+    · exact ((g : Matrix (Fin n) (Fin n) O) a b).2
+    · rw [← map_inv]
+      exact (((g⁻¹ : GL (Fin n) O) : Matrix (Fin n) (Fin n) O) a b).2
+  · rintro ⟨h1, h2⟩
+    let M : Matrix (Fin n) (Fin n) O := fun a b => ⟨(U : Matrix (Fin n) (Fin n) L) a b, h1 a b⟩
+    let N : Matrix (Fin n) (Fin n) O :=
+      fun a b => ⟨((U⁻¹ : GL (Fin n) L) : Matrix (Fin n) (Fin n) L) a b, h2 a b⟩
+    have hM : M.map O.subtype = (U : Matrix (Fin n) (Fin n) L) := by ext a b; rfl
+    have hN : N.map O.subtype = ((U⁻¹ : GL (Fin n) L) : Matrix (Fin n) (Fin n) L) := by ext a b; rfl
+    have inj : Function.Injective (fun P : Matrix (Fin n) (Fin n) O => P.map O.subtype) :=
+      fun P Q h => by ext a b; exact congrFun (congrFun h a) b
+    have hMN : M * N = 1 := inj (by
+      show (M * N).map O.subtype = (1 : Matrix (Fin n) (Fin n) O).map O.subtype
+      rw [Matrix.map_mul, hM, hN, U.mul_inv]
+      exact (map_one (RingHom.mapMatrix O.subtype)).symm)
+    have hNM : N * M = 1 := inj (by
+      show (N * M).map O.subtype = (1 : Matrix (Fin n) (Fin n) O).map O.subtype
+      rw [Matrix.map_mul, hM, hN, U.inv_mul]
+      exact (map_one (RingHom.mapMatrix O.subtype)).symm)
+    exact ⟨⟨M, N, hMN, hNM⟩, Units.ext hM⟩
 
 theorem tjcosets_entries (n j : ℕ) (ϖ : L) (hϖ : ϖ ≠ 0)
     (hmax : ∀ x : O, ϖ⁻¹ * (x : L) ∈ O ↔ IsLocalRing.residue O x = 0)
@@ -198,21 +172,21 @@ theorem tjcosets_entries (n j : ℕ) (ϖ : L) (hϖ : ϖ ≠ 0)
   constructor
   · intro hall a b ha hb
     have h1 := hall a b
-    rw [if_pos ha, if_neg (not_lt.2 hb), mul_one] at h1
+    rw [ite_eq_left ha, ite_eq_right (not_lt.2 hb), mul_one] at h1
     rw [tjcosets_bc_apply]
     exact (hmax _).1 h1
   · intro hpar a b
     by_cases ha : (a : ℕ) < j <;> by_cases hb : (b : ℕ) < j
-    · rw [if_pos ha, if_pos hb, mul_comm ϖ⁻¹, mul_assoc, inv_mul_cancel₀ hϖ, mul_one]
+    · rw [ite_eq_left ha, ite_eq_left hb, mul_comm ϖ⁻¹, mul_assoc, inv_mul_cancel₀ hϖ, mul_one]
       exact ((h : Matrix (Fin n) (Fin n) O) a b).2
-    · rw [if_pos ha, if_neg hb, mul_one]
+    · rw [ite_eq_left ha, ite_eq_right hb, mul_one]
       apply (hmax _).2
       have := hpar a b ha (not_lt.1 hb)
       rw [tjcosets_bc_apply] at this
       exact this
-    · rw [if_neg ha, if_pos hb, one_mul]
+    · rw [ite_eq_right ha, ite_eq_left hb, one_mul]
       exact O.mul_mem ((h : Matrix (Fin n) (Fin n) O) a b).2 hϖO
-    · rw [if_neg ha, if_neg hb, one_mul, mul_one]
+    · rw [ite_eq_right ha, ite_eq_right hb, one_mul, mul_one]
       exact ((h : Matrix (Fin n) (Fin n) O) a b).2
 
 theorem tjcosets_stab (n j : ℕ) (ϖ : L) (hϖO : ϖ ∈ O) (hϖ : ϖ ≠ 0)
@@ -352,7 +326,12 @@ theorem tjcosets_finite : Finite (IsLocalRing.ResidueField (Ov F v)) := glint_fi
 
 theorem tjcosets_lt_one_iff (x : ℤᵐ⁰) :
     x < 1 ↔ x ≤ ((Multiplicative.ofAdd (-1 : ℤ) : Multiplicative ℤ) : ℤᵐ⁰) := by
-  apply _root_.GlobalTheory.Hk3.ResWitt.lt_one_iff_le <;> assumption
+  induction x using WithZero.recZeroCoe with
+  | zero => simp
+  | coe a =>
+    rw [← WithZero.coe_one, WithZero.coe_lt_coe, WithZero.coe_le_coe]
+    change Multiplicative.toAdd a < 0 ↔ Multiplicative.toAdd a ≤ -1
+    omega
 
 theorem tjcosets_mem_max (x : Ov F v) :
     IsLocalRing.residue (Ov F v) x = 0 ↔ Valued.v (x : v.adicCompletion F) < 1 := by

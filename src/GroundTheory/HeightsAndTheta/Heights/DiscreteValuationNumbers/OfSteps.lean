@@ -87,7 +87,17 @@ variable {O : Type*} [CommRing O] [IsDomain O] [IsDiscreteValuationRing O]
 
 theorem vNum_vecCons_zero (W : Ideal (MRing ι O)) {d : ℕ} (L : Fin d → K → ℤ) :
     vNum W (Matrix.vecCons (0 : K → ℤ) L) = 0 := by
-  apply _root_.GroundTheory.Heights₂.Heights.NumbersDVR.vNum_cons_zero <;> assumption
+  unfold vNum intNum
+  have hm : mixedDiff (Matrix.vecCons (0 : K → ℤ) L) (hilbFn (specialIdeal W)) = fun _ => 0 := by
+    funext m
+    simp [mixedDiff, List.ofFn_succ, diffStep]
+  rw [hm]
+  unfold eventualValue
+  have hex : ∃ c, ∀ᶠ m in Filter.atTop, (fun _ : K → ℤ => (0 : ℤ)) m = c :=
+    ⟨0, Filter.Eventually.of_forall fun _ => rfl⟩
+  rw [dite_eq_left hex]
+  obtain ⟨m, hm'⟩ := hex.choose_spec.exists
+  exact hm'.symm
 
 end VNum
 
@@ -139,9 +149,9 @@ theorem ShiftByUniformiser.proof (h₁ : DivCycleMul.Statement.{u})
         else cycEval (fun G => vNum G L) (ratDiv W (C ϖ) 1)) (divCycle P s) := by
     refine cycEval_eq_add_mul_of_fun (n : ℤ) (hfin P s) fun W hW => ?_
     by_cases hϖW : (C ϖ : MRing ι O) ∈ W
-    · simp only [if_pos hϖW, vNum_vecCons_zero]
+    · simp only [ite_eq_left hϖW, vNum_vecCons_zero]
       ring
-    · simp only [if_neg hϖW]
+    · simp only [ite_eq_right hϖW]
       have hV := hH W hW hϖW
       have hWp : W.IsPrime := by
         unfold divCycle at hW
@@ -358,20 +368,6 @@ open MvPolynomial GroundTheory.Heights₂.Heights.FieldNumbers
 
 universe u
 
-private lemma mixedDiff_eventually_zero {K : Type*} (h : (K → ℤ) → ℤ)
-    (hh : ∀ᶠ m in Filter.atTop, h m = 0) {n : ℕ} (bs : Fin n → K → ℤ) :
-    ∀ᶠ m in Filter.atTop, mixedDiff bs h m = 0 := by
-  intros
-  apply _root_.GroundTheory.Heights₂.Heights.FieldNumbers.mixedDiff_eventually_zero <;> assumption
-
-private lemma eventualValue_of_eventually_zero {K : Type*} (f : (K → ℤ) → ℤ)
-    (hf : ∀ᶠ m in Filter.atTop, f m = 0) : eventualValue f = 0 := by
-  classical
-  have hex : ∃ c, ∀ᶠ m in Filter.atTop, f m = c := ⟨0, hf⟩
-  rw [eventualValue, dite_eq_left hex]
-  obtain ⟨m, h1, h2⟩ := (hex.choose_spec.and hf).exists
-  rw [← h1, h2]
-
 theorem IntNumAddFirst.proof (h1 : FieldNumbers.IntNumAdd.Statement.{u})
     (h2 : FieldNumbers.IntNumZeroSlot.Statement.{u})
     (h3 : FieldNumbers.HilbDegreeBound.Statement.{u}) : IntNumAddFirst.Statement.{u} := by
@@ -408,7 +404,7 @@ theorem IntNumAddFirst.proof (h1 : FieldNumbers.IntNumAdd.Statement.{u})
       exact h1 F K ι G hGh hrel (n + 1) heq (Matrix.vecCons 0 L) 0 b₁ b₂
     · simp only [(h2 F K ι G).2 hGh (n + 1) _ hlt, add_zero]
   · have hz := (h3 F K ι G hGh).2 hrel
-    simp only [intNum, eventualValue_of_eventually_zero _ (mixedDiff_eventually_zero _ hz _),
+    simp only [intNum, eventualValue_eq_zero (mixedDiff_eventually_zero _ hz),
       add_zero]
 
 end GroundTheory.Heights₂.Heights.NumbersDVR

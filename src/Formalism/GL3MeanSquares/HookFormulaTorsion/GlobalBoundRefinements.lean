@@ -1,60 +1,12 @@
 module
 
-import Formalism.GL3MeanSquares.HookFormulaTorsion.SumWeightsOverPrimeLeHalfDegree
 public import Formalism.GL3MeanSquares.SmoothedRemainderRealIntegralFormula
+import Formalism.GL3MeanSquares.HookFormulaTorsion.SumWeightsOverPrimeLeHalfDegree
 public import Formalism.HermitianLattices.StatementMass
 public import Formalism.LogVandermondeBounds.LogRatioLowerBound
 public import Mathlib.Analysis.SpecialFunctions.Log.Summable
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Topology.Sheaves.Init
-import Mathlib.Algebra.Order.Star.Int
-import Mathlib.Algebra.Order.Star.Real
-import Mathlib.Analysis.LocallyConvex.AbsConvexOpen
-import Mathlib.RingTheory.Henselian
-import Mathlib.RingTheory.RegularLocalRing.Defs
-import Mathlib.RingTheory.SimpleRing.Principal
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Lemma
 import Mathlib.Tactic.Linter.HaveILetI
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.ReduceModChar
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Formalism.GL3MeanSquares.InvNormSqConjRatioPowIdentities, Formalism.GL3MeanSquares.HookFormulaTorsion.GlobalBoundRefinements
@@ -157,6 +109,11 @@ private lemma exists_adjusted_exceptional_exponent {cb B β X : ℝ} {θ : ℤ} 
       field_simp
     rw [e]
     exact mul_le_mul h3 hcbX (mul_nonneg (div_nonneg (by norm_num) hcb.le) hlogB.le) (by linarith)
+
+private lemma mul_log_le_log_of_rpow_le {B K X : ℝ} (hB : 4 ≤ B) (h : B ^ K ≤ X) : K * Real.log B ≤ Real.log X := by
+  have hB0 : 0 < B := by linarith
+  have h1 := Real.log_le_log (Real.rpow_pos_of_pos hB0 K) h
+  rwa [Real.log_rpow hB0] at h1
 
 
 private lemma gl2a4_le_of_deriv {f f' : ℝ → ℝ} {a b : ℝ} (hab : a ≤ b)
@@ -442,6 +399,12 @@ private lemma gl2a4_E_nonneg {θ : ℤ} (hθ : θ = -1 ∨ θ = 0 ∨ θ = 1) {�
         (Real.log_nonneg (by linarith [hx.1])))
   linarith
 
+private lemma gl2a4_rho_pos {C c B X : ℝ} (hC : 0 < C) : 0 < rhoErr C c B X := by
+  unfold rhoErr
+  have h1 := mul_pos hC (Real.exp_pos (-c * Real.log X / Real.log B))
+  have h2 := mul_pos hC (Real.exp_pos (-c * Real.sqrt (Real.log X)))
+  linarith
+
 private lemma gl2a4_rho_mono {C c B X X' : ℝ} (hC : 0 < C) (hc : 0 < c) (hB : 1 < B) (hX : 1 ≤ X)
     (h : X ≤ X') : rhoErr C c B X' ≤ rhoErr C c B X := by
   unfold rhoErr
@@ -572,9 +535,7 @@ private lemma exceptional_zero_estimates {B β X : ℝ} {θ : ℤ}
     norm_num at hu2; linarith
   have hX1 : 1 < X := by linarith
   have hL : 0 < Real.log X := Real.log_pos hX1
-  have hh0 : 0 < h := by
-    have hρpos : 0 < rhoErr Cr cr B X := by unfold rhoErr; positivity
-    linarith
+  have hh0 : 0 < h := by linarith [gl2a4_rho_pos (c := cr) (B := B) (X := X) hCr]
   set X' := X * (1 + h) with hX'
   have hXX' : X ≤ X' := by rw [hX']; exact le_mul_of_one_le_right hX0.le (by linarith)
   have hX'2 : X' ≤ 2 * X := by
@@ -751,9 +712,7 @@ theorem shortIntervalLowerBound : ShortIntervalLowerBound := by
   have hθ' : θ = -1 ∨ θ = 0 ∨ θ = 1 := by simpa using hθ
   have hB1 : (1 : ℝ) ≤ B := by linarith
   have hlogB : 0 < Real.log B := Real.log_pos (by linarith)
-  have hB0 : 0 < B := by linarith
-  have hK := Real.log_le_log (Real.rpow_pos_of_pos hB0 Cm) hX
-  rw [Real.log_rpow hB0] at hK
+  have hK := mul_log_le_log_of_rpow_le hB hX
   have hX60 : B ^ (60 : ℝ) ≤ X := le_trans (Real.rpow_le_rpow_of_exponent_le hB1 hC60) hX
   have hXC₀ : B ^ C₀ ≤ X := le_trans (Real.rpow_le_rpow_of_exponent_le hB1 hC0m) hX
   have hcbX : 2 / cb * Real.log B ≤ Real.log X :=
@@ -807,8 +766,7 @@ theorem shortIntervalImpliesProgressions_statement : ShortIntervalImpliesProgres
   have hY13 : 0 ≤ Y ^ ((1 : ℝ) / 3) := Real.rpow_nonneg hYpos.le _
   have h47 : 0 < (4 * (m : ℝ)) ^ (7 : ℝ) := Real.rpow_pos_of_pos (by linarith) _
   have hpos : 0 < h := by
-    by_contra hneg
-    push_neg at hneg
+    by_contra! hneg
     linarith [mul_nonpos_of_nonpos_of_nonneg hneg hY13]
   have hfl1 : 1 ≤ ⌊Y⌋₊ := Nat.le_floor (by exact_mod_cast hY1)
   have hfl2 : ⌊Y⌋₊ ≤ ⌊Y * (1 + h)⌋₊ := Nat.floor_mono (le_mul_of_one_le_right hYpos.le (by linarith))
@@ -843,8 +801,8 @@ section T2
 open NumberField
 open Formalism.LogVandermondeBounds.StandardLattice
 
-theorem log_l_value_field_bound : LogLFunctionEulerBound := by
-  exact _root_.Formalism.HermitianLattices.GenusMassVolumes.log_l_value_field_bound_of_two_le
+theorem log_l_value_field_bound : LogLFunctionEulerBound :=
+  fun K _ _ _ hK M hM => Formalism.HermitianLattices.GenusMassVolumes.log_l_value_field_bound_ge_two K hK M hM
 
 end T2
 

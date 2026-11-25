@@ -1,7 +1,5 @@
 module
 
-
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.LocalCountDirectLiftingProof
 public import Formalism.SharpRestriction.LevelLetterCocycles.LocCoh
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.CentralIdemCoeff
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IsSummandTw
@@ -23,65 +21,15 @@ public import Mathlib.LinearAlgebra.Span.Defs
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.SplitOfClosure
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.StepJumpDirect
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.LengthModuloSpanLeOfForallFinset
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Coalgebra.IsFrobenius
-import Mathlib.RingTheory.Henselian
-import Mathlib.RingTheory.HopfAlgebra.Basic
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.RingTheory.RegularLocalRing.Defs
-import Mathlib.RingTheory.SimpleRing.Principal
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.HaveILetI
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Topology.Sheaves.Init
 import Formalism.ConjugateSelfDual.Statement
 import Formalism.SharpRestriction.LevelLetterCocycles.DataNLoc
 import ReciprocityTheory.GaloisValuations.GlobalA
 import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.PotentiallyCrystallineModuleEqCrystallineRestric
 import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.TwistedDualFamiliesContinuous
-import Mathlib.RingTheory.Etale.Weakly
-import Mathlib.RingTheory.TotallySplit
 import Formalism.LocalRingCardinality.SpanPowerMembership.NDLocE
+
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsDualLatticeIsOpenPerfectPairing, Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IsComplementedSubrepLocalMatrixRepTwistedSum, Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.TateDualTwistedSumSummandIsDeRham, Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.CrystallinePotentialFamily, Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.LiftAllSubSumsOfLiftFamilyMatrixFamily, Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.CutCocFinsetCommon, Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.EOsurjOneX, Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ComplementedSup, Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsStableComplActK, Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.FinrankSpanVecSLe, Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IsTopRingLL, Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.LocalIntegerSpanOfImageIsStableLattice, Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.LocalCocyclesMemSpanPushoutSummandLattice, Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.LocalCountDualLiftingProof
 
@@ -1688,13 +1636,25 @@ namespace GlobalTheory.Pass.LocDual
 
 theorem T2 {O M : Type} [CommRing O] [AddCommGroup M] [Module O M] {S S' : Submodule O M} (H : Submodule O M)
     (h : S ≤ S') : BlochKatoDuality.lenMod S H ≤ BlochKatoDuality.lenMod S' H := by
-  first | exact _root_.GlobalTheory.lenMod_mono_left | exact @_root_.GlobalTheory.lenMod_mono_left | apply _root_.GlobalTheory.lenMod_mono_left <;> assumption
+  unfold BlochKatoDuality.lenMod
+  have hle : S ⊔ H ≤ S' ⊔ H := sup_le_sup_right h H
+  let f : ↥(S ⊔ H) ⧸ H.comap (S ⊔ H).subtype →ₗ[O] ↥(S' ⊔ H) ⧸ H.comap (S' ⊔ H).subtype :=
+    Submodule.mapQ _ _ (Submodule.inclusion hle) (fun x hx => hx)
+  refine Module.length_le_of_injective f ?_
+  rw [← LinearMap.ker_eq_bot, eq_bot_iff]
+  intro z hz
+  obtain ⟨x, rfl⟩ := Submodule.Quotient.mk_surjective _ z
+  rw [LinearMap.mem_ker] at hz
+  rw [Submodule.mem_bot, Submodule.Quotient.mk_eq_zero]
+  have := (Submodule.Quotient.mk_eq_zero _).1 hz
+  exact this
 
 
 
 theorem main : StepLocDual := by
   intro D hLOC hBK hFont hPot i r hr Xs w hw hdeg n e hPF hLF k M hSub
   unfold LocBoundP
+  set_option synthInstance.maxHeartbeats 200000 in
   apply _root_.GlobalTheory.Pass.LocDual.lenMod_span_le_of_finset
   intro F hF
   obtain ⟨X, hX, hle⟩ := _root_.GlobalTheory.Pass.LocDual.OneX.main D hFont i r hr Xs w hw n hPF k M hSub F hF

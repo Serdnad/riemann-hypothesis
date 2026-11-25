@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.ExistsFlagModelBaseChangeIntegralFramedPoint
 public import Development.AbelianVarietyTheory.Definitions.SpanningFamilies.IsStabForm
 public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.VerticalDerivativeInCoordinates
 public import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.ExistsLiftOfProjective
@@ -8,48 +7,7 @@ import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.Hermiti
 import Development.AbelianVarietyTheory.Proofs.ToricGeometry.TopLePreimageOfValAtNeZero
 import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.IsDerivAt0OfIsPullback
 public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.IsHolToFibPtAndCompFibre
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
 import Mathlib.AlgebraicGeometry.Modules.Sheaf
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.ReduceModChar
 
 @[expose] public section
 
@@ -59,7 +17,6 @@ open ReciprocityTheory.ChartRestriction.G.Geo.Tor hiding Level
 open GlobalTheory.SW hiding Level
 open Formalism.L2.Pj Formalism.L2.PjFree
 open scoped ComplexConjugate Classical
-attribute [local instance] Over.cartesianMonoidalCategory
 open GlobalTheory.Dict
 
 namespace GlobalTheory.Dict.Lift
@@ -192,7 +149,24 @@ variable {S S' : Scheme.{0}} {G : Over S} {G' : Over S'} [GrpObj G] [GrpObj G']
 theorem exists_mulEquiv {f : S' ⟶ S} {φ : G'.left ⟶ G.left} (h : IsGrpPullback G' G f φ) {T : Scheme.{0}}
     (x' : T ⟶ S') (x : T ⟶ S) (hx : x' ≫ f = x) :
     ∃ Φ : (Over.mk x' ⟶ G') ≃* (Over.mk x ⟶ G), ∀ a, (Φ a).left = a.left ≫ φ := by
-  first | exact _root_.GlobalTheory.Exist.FlagBaseChange.exists_pointEquiv | exact @_root_.GlobalTheory.Exist.FlagBaseChange.exists_pointEquiv | apply _root_.GlobalTheory.Exist.FlagBaseChange.exists_pointEquiv <;> assumption
+  subst hx
+  let F : (Over.mk x' ⟶ G') → (Over.mk (x' ≫ f) ⟶ G) := fun a =>
+    Over.homMk (a.left ≫ φ) (by
+      change (a.left ≫ φ) ≫ G.hom = x' ≫ f
+      rw [Category.assoc, h.1.w, ← Category.assoc, Over.w a]
+      rfl)
+  let I : (Over.mk (x' ≫ f) ⟶ G) → (Over.mk x' ⟶ G') := fun y =>
+    Over.homMk (h.1.lift y.left x' (Over.w y)) (h.1.lift_snd _ _ _)
+  have hF : ∀ x, (F x).left = x.left ≫ φ := fun _ => rfl
+  refine ⟨⟨⟨F, I, fun x => ?_, fun y => ?_⟩, fun x y => ?_⟩, hF⟩
+  · apply Over.OverMorphism.ext
+    apply h.1.hom_ext
+    · exact h.1.lift_fst _ _ _
+    · exact (h.1.lift_snd _ _ _).trans (Over.w x).symm
+  · apply Over.OverMorphism.ext
+    exact h.1.lift_fst _ _ _
+  · apply Over.OverMorphism.ext
+    exact (h.2 (Over.mk x') x y (F x) (F y) rfl rfl).symm
 
 theorem toUnit_left {T : Scheme.{0}} (x : T ⟶ S) : (toUnit (Over.mk x)).left = x := by
   have := Over.w (toUnit (Over.mk x))
@@ -380,9 +354,9 @@ theorem anFib_lift_ex : ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (
     refine ⟨u, hu', ?_⟩
     rw [← hinj e4, ← Nat.cast_smul_eq_nsmul E, ← smul_sub, smul_smul, mul_inv_cancel₀ hM0, one_smul, add_sub_cancel]
 
-theorem anFib_lift : ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (H : Host E) (Dw : Datum H) (l : Geo.Tor.Level H) (Xo : Moduli Dw l) (c : Coeff l) (n : ℕ) (d : DeltaDat Xo c n) [Algebra c.F ℂ] [Algebra d.c₂.F ℂ], (∀ t : c.F, algebraMap d.c₂.F ℂ (d.eF t) = algebraMap c.F ℂ t) → d.IsLev → ∀ (r g : ℕ) (X : Data E r) (bas : (Fin g ⊕ Fin g → ℤ) ≃ₗ[ℤ] X.Λ) (idx : Fin g ≃ X.Ψ × Fin r) (e : Fin g ≃ Lt1 Dw) (x : Frame X.Ψ r) (L : Lt E r) (y : FrPt Xo c ℂ) (A : AnFib X bas idx e x L y), IsSympl X bas → x ∈ X.dom → SelfD X L → ∀ y₂ : FrPt d.Xo₂ d.c₂ ℂ, FrOver d y₂ y → ∀ mk : Dw.La →ₗ[𝓞 E] (Fin r → E), A.Marked mk → ∃ A₂ : AnFib X bas idx e x L y₂, (∀ θ, A.Reads 1 y.s θ → A₂.Reads 1 y₂.s θ) ∧ ∃ mk₂ : Dw.La →ₗ[𝓞 E] (Fin r → E), IsMark d.l₂ L mk₂ ∧ A₂.Marked mk₂ ∧ MarkOver l d.l₂ L mk mk₂ := by
-  intro E _ _ _ H Dw l Xo c n d _ _ hF hlev r g X bas idx e x L y A hsym hx hL y₂ hover mk hmk
-  obtain ⟨A₂, -, hreads, hmarked⟩ := anFib_lift_ex E H Dw l Xo c n d hF hlev r g X bas idx e x L y A hsym hx hL y₂ hover mk hmk
-  exact ⟨A₂, hreads, hmarked⟩
+theorem anFib_lift : ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (H : Host E) (Dw : Datum H) (l : Geo.Tor.Level H) (Xo : Moduli Dw l) (c : Coeff l) (n : ℕ) (d : DeltaDat Xo c n) [Algebra c.F ℂ] [Algebra d.c₂.F ℂ], (∀ t : c.F, algebraMap d.c₂.F ℂ (d.eF t) = algebraMap c.F ℂ t) → d.IsLev → ∀ (r g : ℕ) (X : Data E r) (bas : (Fin g ⊕ Fin g → ℤ) ≃ₗ[ℤ] X.Λ) (idx : Fin g ≃ X.Ψ × Fin r) (e : Fin g ≃ Lt1 Dw) (x : Frame X.Ψ r) (L : Lt E r) (y : FrPt Xo c ℂ) (A : AnFib X bas idx e x L y), IsSympl X bas → x ∈ X.dom → SelfD X L → ∀ y₂ : FrPt d.Xo₂ d.c₂ ℂ, FrOver d y₂ y → ∀ mk : Dw.La →ₗ[𝓞 E] (Fin r → E), A.Marked mk → ∃ A₂ : AnFib X bas idx e x L y₂, (∀ θ, A.Reads 1 y.s θ → A₂.Reads 1 y₂.s θ) ∧ ∃ mk₂ : Dw.La →ₗ[𝓞 E] (Fin r → E), IsMark d.l₂ L mk₂ ∧ A₂.Marked mk₂ ∧ MarkOver l d.l₂ L mk mk₂ :=
+  fun E _ _ _ H Dw l Xo c n d _ _ hF hlev r g X bas idx e x L y A hsym hx hL y₂ hover mk hmk =>
+    let ⟨A₂, _, hreads, hmk₂⟩ := anFib_lift_ex E H Dw l Xo c n d hF hlev r g X bas idx e x L y A hsym hx hL y₂ hover mk hmk
+    ⟨A₂, hreads, hmk₂⟩
 
 end GlobalTheory.Dict.Lift

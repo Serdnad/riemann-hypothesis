@@ -6,55 +6,10 @@ public import Formalism.MahlerMeasure.StatementD
 public import Mathlib.LinearAlgebra.Dimension.Constructions
 public import Mathlib.LinearAlgebra.Matrix.Basis
 public import Mathlib.LinearAlgebra.Matrix.NonsingularInverse
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Topology.Sheaves.Init
-import Mathlib.RingTheory.Coalgebra.IsFrobenius
-import Mathlib.RingTheory.HopfAlgebra.Basic
-import Mathlib.RingTheory.TotallySplit
-import Mathlib.Tactic.Polynomial.Basic
 
 -- This file was produced by scripts/clump.py from the modules listed below.
--- Members: Formalism.SmithDeterminants.DivisibilityChains.SmithExists, Formalism.SmithDeterminants.TruncationChainBoundNonnegExponents, Formalism.MahlerMeasure.MahlerMeasureProofs.SmithZp
+-- Members: Formalism.SmithDeterminants.DivisibilityChains.SmithExists, Formalism.MahlerMeasure.MahlerMeasureProofs.SmithZp
 
 -- ===== clump member: Formalism.SmithDeterminants.DivisibilityChains.SmithExists =====
 -- clump-header: {"m": "Formalism.SmithDeterminants.DivisibilityChains.SmithExists", "h": "module\n\npublic import Formalism.SmithDeterminants.StatementDVR\nimport Mathlib.Algebra.Order.Floor.Extended\nimport Mathlib.Algebra.Order.Floor.Semifield\nimport Mathlib.Algebra.Order.Interval.Basic\nimport Mathlib.Analysis.Complex.UpperHalfPlane.Basic\nimport Mathlib.Analysis.Normed.Algebra.GelfandRadius\nimport Mathlib.Analysis.SpecialFunctions.Bernstein\nimport Mathlib.Analysis.SpecialFunctions.Gamma.Basic\nimport Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp\nimport Mathlib.Combinatorics.Enumerative.DyckWord\nimport Mathlib.Combinatorics.SimpleGraph.Triangle.Removal\nimport Mathlib.Data.NNRat.Floor\nimport Mathlib.Data.Nat.Choose.Multinomial\nimport Mathlib.Geometry.Euclidean.Volume.Basic\nimport Mathlib.NumberTheory.Chebyshev\nimport Mathlib.NumberTheory.Height.NumberField\nimport Mathlib.NumberTheory.Height.Projectivization\nimport Mathlib.NumberTheory.LucasLehmer\nimport Mathlib.NumberTheory.SelbergSieve\nimport Mathlib.RingTheory.Radical.NatInt\nimport Mathlib.RingTheory.WittVector.IsPoly\nimport Mathlib.Tactic.Echelon.Zsqrtd\nimport Mathlib.Tactic.Inclusion.Extension.Core.Core\nimport Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit\nimport Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp\nimport Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses\nimport Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic\nimport Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses\nimport Mathlib.Tactic.Linter.Style\nimport Mathlib.Tactic.NormNum.Irrational\nimport Mathlib.Tactic.NormNum.IsCoprime\nimport Mathlib.Tactic.NormNum.IsSquare\nimport Mathlib.Tactic.NormNum.LegendreSymbol\nimport Mathlib.Tactic.NormNum.ModEq\nimport Mathlib.Tactic.NormNum.NatFib\nimport Mathlib.Tactic.NormNum.NatLog\nimport Mathlib.Tactic.NormNum.NatSqrt\nimport Mathlib.Tactic.NormNum.Ordinal\nimport Mathlib.Tactic.NormNum.Parity\nimport Mathlib.Tactic.NormNum.Prime\nimport Mathlib.Tactic.NormNum.RealSqrt\nimport Mathlib.Tactic.ReduceModChar\nimport Mathlib.Topology.Sheaves.Init\npublic import Mathlib.LinearAlgebra.FreeModule.PID\n\n"}
@@ -80,32 +35,58 @@ theorem nonempty_smith_normal_form {R M : Type} [CommRing R] [IsDomain R] [IsPri
   have hys : y ∘ₗ s = (LinearMap.range y).subtype := by
     refine snf.bN.ext fun i => ?_
     simp [s, hx]
-  have hyS (z : LinearMap.range y) : y (s z) = z := LinearMap.congr_fun hys z
-  let lift : (LinearMap.ker y × LinearMap.range y) →ₗ[R] M := (LinearMap.ker y).subtype.coprod s
-  have hlift (p : LinearMap.ker y × LinearMap.range y) : lift p = (p.1 : M) + s p.2 := rfl
-  have hlift_apply (p : LinearMap.ker y × LinearMap.range y) : y (lift p) = p.2 := by
-    rw [hlift, map_add, LinearMap.mem_ker.mp p.1.2, zero_add, hyS]
-  have hbij : Function.Bijective lift := by
-    constructor
-    · intro p q hpq
-      have hright : p.2 = q.2 := Subtype.ext (by simpa only [hlift_apply] using congrArg y hpq)
-      have hleft : p.1 = q.1 := by
-        apply Subtype.ext
-        rw [hlift, hlift, hright] at hpq
-        exact add_right_cancel hpq
-      exact Prod.ext hleft hright
-    · intro m
-      let z := y.rangeRestrict m
-      have hm : m - s z ∈ LinearMap.ker y := by
-        rw [LinearMap.mem_ker, map_sub, hyS]
-        exact sub_self _
-      exact ⟨(⟨m - s z, hm⟩, z), sub_add_cancel _ _⟩
-  let e := LinearEquiv.ofBijective lift hbij
+  have hyS : ∀ z : LinearMap.range y, y (s z) = z := fun z => by
+    simpa using LinearMap.congr_fun hys z
+  have hrr : ∀ m : M, (y.rangeRestrict m : M) = y m := fun m => rfl
+  let pK : M →ₗ[R] M := LinearMap.id - s ∘ₗ y.rangeRestrict
+  have hpK : ∀ m : M, pK m = m - s (y.rangeRestrict m) := fun m => rfl
+  have hker : ∀ m : M, pK m ∈ LinearMap.ker y := by
+    intro m
+    rw [LinearMap.mem_ker, hpK, map_sub, hyS, hrr, sub_self]
+  have hrz : ∀ (c : LinearMap.ker y) (z : LinearMap.range y),
+      y.rangeRestrict ((c : M) + s z) = z := by
+    intro c z
+    apply Subtype.ext
+    rw [hrr, map_add (f := _), LinearMap.mem_ker.mp c.2, zero_add, hyS]
+
+  let fwd : (LinearMap.ker y × LinearMap.range y) →ₗ[R] M := (LinearMap.ker y).subtype.coprod s
+  let bwd : M →ₗ[R] (LinearMap.ker y × LinearMap.range y) :=
+    LinearMap.prod (LinearMap.codRestrict (LinearMap.ker y) pK hker)
+      y.rangeRestrict
+  have hf : ∀ (c : LinearMap.ker y) (z : LinearMap.range y), fwd (c, z) = (c : M) + s z := by
+    intro c z
+    simp [fwd]
+  have h1 : fwd ∘ₗ bwd = LinearMap.id := by
+    refine LinearMap.ext fun m => ?_
+    show fwd (bwd m) = m
+    have hb : bwd m = (⟨m - s (y.rangeRestrict m), hker m⟩, y.rangeRestrict m) := rfl
+    rw [hb, hf]
+    exact sub_add_cancel m _
+  have h2 : bwd ∘ₗ fwd = LinearMap.id := by
+    refine LinearMap.ext fun p => ?_
+    obtain ⟨c, z⟩ := p
+    show bwd (fwd (c, z)) = (c, z)
+    rw [hf]
+    refine Prod.ext ?_ ?_
+    · apply Subtype.ext
+      show (c : M) + s z - s (y.rangeRestrict ((c : M) + s z)) = c
+      rw [hrz]
+      exact add_sub_cancel_right _ _
+    · exact hrz c z
+  let e : (LinearMap.ker y × LinearMap.range y) ≃ₗ[R] M := LinearEquiv.ofLinear fwd bwd h1 h2
+
   let B : Module.Basis (Fin k ⊕ Fin n) R M := (bK.prod snf.bN).map e
-  have hB1 (l : Fin k) : y (B (Sum.inl l)) = 0 := by
-    simp [B, e, hlift_apply]
-  have hB2 (i : Fin n) : y (B (Sum.inr i)) = snf.a i • snf.bM (snf.f i) := by
-    simpa [B, e, hlift_apply] using snf.snf i
+  have hB1 : ∀ l, y (B (Sum.inl l)) = 0 := by
+    intro l
+    have : B (Sum.inl l) = bK l := by
+      simp [B, e, hf]
+    rw [this]
+    exact LinearMap.mem_ker.mp (bK l).2
+  have hB2 : ∀ i, y (B (Sum.inr i)) = snf.a i • snf.bM (snf.f i) := by
+    intro i
+    have : B (Sum.inr i) = s (snf.bN i) := by
+      simp [B, e, hf]
+    rw [this, hyS, snf.snf i]
 
   have hcard : k + n = Module.finrank R M := by
     simpa using (Module.finrank_eq_card_basis B).symm
@@ -137,20 +118,8 @@ end -- clump:auto
 end -- clump:auto
 -- ===== end clump member: Formalism.SmithDeterminants.DivisibilityChains.SmithExists =====
 
--- ===== clump member: Formalism.SmithDeterminants.TruncationChainBoundNonnegExponents =====
--- clump-header: {"m": "Formalism.SmithDeterminants.TruncationChainBoundNonnegExponents", "h": "module\n\npublic import Formalism.SmithDeterminants.StatementDVR\npublic import Formalism.SmithDeterminants.DivisibilityChains.SmithExists\nimport Mathlib.Algebra.Order.Floor.Extended\nimport Mathlib.Algebra.Order.Floor.Semifield\nimport Mathlib.Algebra.Order.Interval.Basic\nimport Mathlib.Analysis.Complex.UpperHalfPlane.Basic\nimport Mathlib.Analysis.Normed.Algebra.GelfandRadius\nimport Mathlib.Analysis.SpecialFunctions.Bernstein\nimport Mathlib.Analysis.SpecialFunctions.Gamma.Basic\nimport Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp\nimport Mathlib.Combinatorics.Enumerative.DyckWord\nimport Mathlib.Combinatorics.SimpleGraph.Triangle.Removal\nimport Mathlib.Data.NNRat.Floor\nimport Mathlib.Data.Nat.Choose.Multinomial\nimport Mathlib.Geometry.Euclidean.Volume.Basic\nimport Mathlib.NumberTheory.Chebyshev\nimport Mathlib.NumberTheory.Height.NumberField\nimport Mathlib.NumberTheory.Height.Projectivization\nimport Mathlib.NumberTheory.LucasLehmer\nimport Mathlib.NumberTheory.SelbergSieve\nimport Mathlib.RingTheory.Radical.NatInt\nimport Mathlib.Tactic.Echelon.Zsqrtd\nimport Mathlib.Tactic.Inclusion.Extension.Core.Core\nimport Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit\nimport Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp\nimport Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses\nimport Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic\nimport Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses\nimport Mathlib.Tactic.NormNum.Irrational\nimport Mathlib.Tactic.NormNum.IsCoprime\nimport Mathlib.Tactic.NormNum.IsSquare\nimport Mathlib.Tactic.NormNum.LegendreSymbol\nimport Mathlib.Tactic.NormNum.ModEq\nimport Mathlib.Tactic.NormNum.NatFib\nimport Mathlib.Tactic.NormNum.NatLog\nimport Mathlib.Tactic.NormNum.NatSqrt\nimport Mathlib.Tactic.NormNum.Ordinal\nimport Mathlib.Tactic.NormNum.Parity\nimport Mathlib.Tactic.NormNum.Prime\nimport Mathlib.Tactic.NormNum.RealSqrt\nimport Mathlib.Topology.Sheaves.Init\n\n"}
-section -- clump:auto
-@[expose] public section
-
-namespace Formalism.A
-
-end Formalism.A
-end -- clump:auto
-end -- clump:auto
--- ===== end clump member: Formalism.SmithDeterminants.TruncationChainBoundNonnegExponents =====
-
 -- ===== clump member: Formalism.MahlerMeasure.MahlerMeasureProofs.SmithZp =====
--- clump-header: {"m": "Formalism.MahlerMeasure.MahlerMeasureProofs.SmithZp", "h": "module\n\npublic import Formalism.MahlerMeasure.StatementD\npublic import Formalism.SmithDeterminants.TruncationChainBoundNonnegExponents\nimport Mathlib.Algebra.Order.Floor.Extended\nimport Mathlib.Algebra.Order.Floor.Semifield\nimport Mathlib.Algebra.Order.Interval.Basic\nimport Mathlib.Analysis.Complex.UpperHalfPlane.Basic\nimport Mathlib.Analysis.Normed.Algebra.GelfandRadius\nimport Mathlib.Analysis.SpecialFunctions.Bernstein\nimport Mathlib.Analysis.SpecialFunctions.Gamma.Basic\nimport Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp\nimport Mathlib.Combinatorics.Enumerative.DyckWord\nimport Mathlib.Combinatorics.SimpleGraph.Triangle.Removal\nimport Mathlib.Data.NNRat.Floor\nimport Mathlib.Data.Nat.Choose.Multinomial\nimport Mathlib.Geometry.Euclidean.Volume.Basic\nimport Mathlib.NumberTheory.Chebyshev\nimport Mathlib.NumberTheory.Height.NumberField\nimport Mathlib.NumberTheory.Height.Projectivization\nimport Mathlib.NumberTheory.LucasLehmer\nimport Mathlib.NumberTheory.SelbergSieve\nimport Mathlib.RingTheory.Coalgebra.IsFrobenius\nimport Mathlib.RingTheory.HopfAlgebra.Basic\nimport Mathlib.RingTheory.Radical.NatInt\nimport Mathlib.RingTheory.TotallySplit\nimport Mathlib.RingTheory.WittVector.IsPoly\nimport Mathlib.Tactic.Echelon.Zsqrtd\nimport Mathlib.Tactic.Inclusion.Extension.Core.Core\nimport Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit\nimport Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp\nimport Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses\nimport Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic\nimport Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses\nimport Mathlib.Tactic.NormNum.Irrational\nimport Mathlib.Tactic.NormNum.IsCoprime\nimport Mathlib.Tactic.NormNum.IsSquare\nimport Mathlib.Tactic.NormNum.LegendreSymbol\nimport Mathlib.Tactic.NormNum.ModEq\nimport Mathlib.Tactic.NormNum.NatFib\nimport Mathlib.Tactic.NormNum.NatLog\nimport Mathlib.Tactic.NormNum.NatSqrt\nimport Mathlib.Tactic.NormNum.Ordinal\nimport Mathlib.Tactic.NormNum.Parity\nimport Mathlib.Tactic.NormNum.Prime\nimport Mathlib.Tactic.NormNum.RealSqrt\nimport Mathlib.Tactic.Polynomial.Basic\nimport Mathlib.Tactic.ReduceModChar\nimport Mathlib.Topology.Sheaves.Init\npublic import Formalism.SmithDeterminants.StatementDVR\npublic import Mathlib.LinearAlgebra.Dimension.Constructions\npublic import Mathlib.LinearAlgebra.Matrix.Basis\npublic import Mathlib.LinearAlgebra.Matrix.NonsingularInverse\n\n"}
+-- clump-header: {"m": "Formalism.MahlerMeasure.MahlerMeasureProofs.SmithZp", "h": "module\n\npublic import Formalism.MahlerMeasure.StatementD\nimport Mathlib.Algebra.Order.Floor.Extended\nimport Mathlib.Algebra.Order.Floor.Semifield\nimport Mathlib.Algebra.Order.Interval.Basic\nimport Mathlib.Analysis.Complex.UpperHalfPlane.Basic\nimport Mathlib.Analysis.Normed.Algebra.GelfandRadius\nimport Mathlib.Analysis.SpecialFunctions.Bernstein\nimport Mathlib.Analysis.SpecialFunctions.Gamma.Basic\nimport Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp\nimport Mathlib.Combinatorics.Enumerative.DyckWord\nimport Mathlib.Combinatorics.SimpleGraph.Triangle.Removal\nimport Mathlib.Data.NNRat.Floor\nimport Mathlib.Data.Nat.Choose.Multinomial\nimport Mathlib.Geometry.Euclidean.Volume.Basic\nimport Mathlib.NumberTheory.Chebyshev\nimport Mathlib.NumberTheory.Height.NumberField\nimport Mathlib.NumberTheory.Height.Projectivization\nimport Mathlib.NumberTheory.LucasLehmer\nimport Mathlib.NumberTheory.SelbergSieve\nimport Mathlib.RingTheory.Coalgebra.IsFrobenius\nimport Mathlib.RingTheory.HopfAlgebra.Basic\nimport Mathlib.RingTheory.Radical.NatInt\nimport Mathlib.RingTheory.TotallySplit\nimport Mathlib.RingTheory.WittVector.IsPoly\nimport Mathlib.Tactic.Echelon.Zsqrtd\nimport Mathlib.Tactic.Inclusion.Extension.Core.Core\nimport Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit\nimport Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp\nimport Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses\nimport Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic\nimport Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses\nimport Mathlib.Tactic.NormNum.Irrational\nimport Mathlib.Tactic.NormNum.IsCoprime\nimport Mathlib.Tactic.NormNum.IsSquare\nimport Mathlib.Tactic.NormNum.LegendreSymbol\nimport Mathlib.Tactic.NormNum.ModEq\nimport Mathlib.Tactic.NormNum.NatFib\nimport Mathlib.Tactic.NormNum.NatLog\nimport Mathlib.Tactic.NormNum.NatSqrt\nimport Mathlib.Tactic.NormNum.Ordinal\nimport Mathlib.Tactic.NormNum.Parity\nimport Mathlib.Tactic.NormNum.Prime\nimport Mathlib.Tactic.NormNum.RealSqrt\nimport Mathlib.Tactic.Polynomial.Basic\nimport Mathlib.Tactic.ReduceModChar\nimport Mathlib.Topology.Sheaves.Init\npublic import Formalism.SmithDeterminants.StatementDVR\npublic import Mathlib.LinearAlgebra.Dimension.Constructions\npublic import Mathlib.LinearAlgebra.Matrix.Basis\npublic import Mathlib.LinearAlgebra.Matrix.NonsingularInverse\n\n"}
 section -- clump:auto
 @[expose] public section
 

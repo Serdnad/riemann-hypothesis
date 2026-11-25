@@ -20,22 +20,17 @@ variable {E : Type} [Field E] [NumberField E] [IsCMField E] {r : ℕ}
 
 theorem gram_eq (τ : E →+* ℂ) (G : Matrix (Fin r) (Fin r) E) (P : Matrix (Fin r) (Fin r) ℂ) :
     gram τ G P = Pᵀ * G.map τ * P.map (starRingEnd ℂ) := by
-  ext a b
-  simp only [gram, hermC, col, Matrix.of_apply, Matrix.mul_apply, Matrix.transpose_apply,
-    Matrix.map_apply, Finset.sum_mul]
-  exact Finset.sum_comm
+  exact ReciprocityTheory.ChartRestriction.G.FD.FrameDegreeData.gram_eq τ G P
 
 theorem gram_mul (τ : E →+* ℂ) (G : Matrix (Fin r) (Fin r) E) (P Q : Matrix (Fin r) (Fin r) ℂ) :
     gram τ G (P * Q) = Qᵀ * gram τ G P * Q.map (starRingEnd ℂ) := by
-  rw [gram_eq, gram_eq, Matrix.transpose_mul, Matrix.map_mul]
-  simp only [Matrix.mul_assoc]
+  exact ReciprocityTheory.ChartRestriction.G.FD.FrameDegreeData.gram_mul τ G P Q
 
 theorem sum_castLE {R : Type} [AddCommMonoid R] {i n : ℕ} (h : i ≤ n) (f : Fin n → R)
     (hf : ∀ c : Fin n, i ≤ (c : ℕ) → f c = 0) : ∑ c, f c = ∑ c : Fin i, f (Fin.castLE h c) := by
   refine (Fintype.sum_of_injective (Fin.castLE h) (Fin.castLE_injective h)
     (fun c => f (Fin.castLE h c)) f (fun c hc => hf c ?_) (fun _ => rfl)).symm
-  by_contra hlt
-  push_neg at hlt
+  by_contra! hlt
   exact hc ⟨⟨c, hlt⟩, rfl⟩
 
 theorem sub_mul_tri {i : ℕ} (h : i ≤ r) (Q A : Matrix (Fin r) (Fin r) ℂ) (hQ : Q.IsUpperTriangular) :

@@ -47,7 +47,6 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Development.AbelianVarietyTheory.Definitions.ModuliSpaces.AuxiliaryInertOddPrime
-import Development.AbelianVarietyTheory.Proofs.ModuliProofs.CompEqIdOfTwists
 
 @[expose] public section
 
@@ -66,7 +65,15 @@ variable {E : Type} [Field E] [NumberField E] [IsCMField E] {H : _root_.Reciproc
   (l : _root_.ReciprocityTheory.ChartRestriction.G.Geo.Tor.Level H) in
 theorem _root_.GlobalTheory.SimMb.mem_of_modN {x : D.La} (hx : D.ModN l.M x) :
     x ∈ l.Mb • (⊤ : Submodule (𝓞 E) D.La) := by
-  apply _root_.GlobalTheory.Moduli.LevelAction.mem_of_modN <;> assumption
+  obtain ⟨b, rfl⟩ := hx
+  have hM : ((l.M : ℕ) : 𝓞 E) ∈ l.Mb := by
+    have h1 : ((l.M : ℕ) : 𝓞 E) ∈ l.Mb * Ideal.map (H.bar : 𝓞 E →+* 𝓞 E) l.Mb := by
+      rw [l.prod]
+      exact Ideal.mem_span_singleton_self _
+    exact (Ideal.mul_le.2 fun r hr s _ => Ideal.mul_mem_right s _ hr) h1
+  have hb : l.M • b = ((l.M : ℕ) : 𝓞 E) • b := (Nat.cast_smul_eq_nsmul (𝓞 E) l.M b).symm
+  rw [hb]
+  exact Submodule.smul_mem_smul hM Submodule.mem_top
 
 open AlgebraicGeometry CategoryTheory Limits MonoidalCategory CartesianMonoidalCategory MonObj NumberField in
 open scoped CategoryTheory.Obj TensorProduct Pointwise in
@@ -131,12 +138,6 @@ open AlgebraicGeometry CategoryTheory Limits MonoidalCategory CartesianMonoidalC
 open scoped CategoryTheory.Obj TensorProduct Pointwise in
 variable {E : Type} [Field E] [NumberField E] [IsCMField E] {H : _root_.ReciprocityTheory.ChartRestriction.G.Geo.Tor.Host E} (D : _root_.ReciprocityTheory.ChartRestriction.G.Geo.Tor.Datum H)
   (l : _root_.ReciprocityTheory.ChartRestriction.G.Geo.Tor.Level H) in
-private theorem conjO_conjO_unimodular_class_representatives (a : 𝓞 E) : H.bar (H.bar a) = a := by
-  apply RingOfIntegers.coe_injective
-  show ((H.bar (H.bar a) : 𝓞 E) : E) = (a : E)
-  rw [H.bar_eq, H.bar_eq]
-  simp
-
 open AlgebraicGeometry CategoryTheory Limits MonoidalCategory CartesianMonoidalCategory MonObj NumberField in
 open scoped CategoryTheory.Obj TensorProduct Pointwise in
 variable {E : Type} [Field E] [NumberField E] [IsCMField E] {H : _root_.ReciprocityTheory.ChartRestriction.G.Geo.Tor.Host E} (D : _root_.ReciprocityTheory.ChartRestriction.G.Geo.Tor.Datum H)
@@ -209,7 +210,7 @@ theorem _root_.GlobalTheory.exists_sim_of_aut_mod : ∀ (E : Type) [Field E] [Nu
     Ideal.mem_map_of_mem _ he
   have hbe' : H.bar e' ∈ l.Mb := by
     obtain ⟨y, hy, rfl⟩ := (Ideal.mem_map_of_equiv H.bar e').1 he'
-    rw [conjO_conjO_unimodular_class_representatives]
+    rw [HostModel.bar_bar]
     exact hy
   set f1 : D.La →ₗ[NumberField.RingOfIntegers E] D.La := e' • g + e • u with hf1
 

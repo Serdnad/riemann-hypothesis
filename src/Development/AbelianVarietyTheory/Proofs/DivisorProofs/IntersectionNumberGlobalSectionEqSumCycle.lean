@@ -55,8 +55,6 @@ import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.CoheightEqOneOf
 
 open CategoryTheory AlgebraicGeometry TopologicalSpace ReciprocityTheory.ChartRestriction.G ReciprocityTheory.ChartRestriction.G.Semi ReciprocityTheory.ChartRestriction.G.Geo.Tor GlobalTheory GlobalTheory.ArInt GlobalTheory.Cartier GlobalTheory.CxPts GlobalTheory.Points GlobalTheory.FibreProj
 
-set_option autoImplicit false
-
 noncomputable section
 
 namespace GlobalTheory.SecCycle
@@ -75,17 +73,8 @@ theorem mult_divOfSec_eq_length_cut {X : Scheme.{0}} [IsIntegral X] [IsLocallyNo
     {M : LB X} (hM : M.IsLB) (s : M.Sec) (hs : genericPoint X ∈ nonzeroLocus s) {w : X}
     (hw : Order.coheight w = 1) :
     (divOfSec hM s hs).mult w = ((Module.length (X.presheaf.stalk w)
-      ((cut (structureModule X) hM s).presheaf.stalk w :)).toNat : ℤ) := by
-  obtain ⟨i, hi⟩ := exists_chart hM w
-  obtain ⟨q⟩ := CutDegree.nonempty_stalk_cut_equiv (structureModule X) hM s i hi
-  set g := X.presheaf.germ _ w hi (s.f i)
-  have e1 : Module.length (X.presheaf.stalk w) (X.presheaf.stalk w ⧸ Ideal.span {g}) =
-      Module.length (X.presheaf.stalk w) (QuotSMulTop g (X.presheaf.stalk w)) := by
-    refine (Submodule.quotEquivOfEq (Ideal.span {g}) (g • (⊤ : Submodule (X.presheaf.stalk w)
-      (X.presheaf.stalk w))) ?_).length_eq
-    rw [← Submodule.ideal_span_singleton_smul, Ideal.smul_eq_mul, Ideal.mul_top]
-  rw [mult_divOfSec hw hi, ← q.length_eq,
-    (QuotSMulTop.congr g (structureModuleStalkEquiv w)).length_eq, ← e1]
+      ((cut (structureModule X) hM s).presheaf.stalk w :)).toNat : ℤ) :=
+  _root_.GlobalTheory.CompanionTheory.Ar.IntersectionMultiplicitySection.mult_divOfSec_eq_length_cut hM s hs hw
 
 theorem mult_divOfSec_ne_zero {X : Scheme.{0}} [IsIntegral X] [IsLocallyNoetherian X]
     {M : LB X} (hM : M.IsLB) (s : M.Sec) (hs : genericPoint X ∈ nonzeroLocus s) {w : X}

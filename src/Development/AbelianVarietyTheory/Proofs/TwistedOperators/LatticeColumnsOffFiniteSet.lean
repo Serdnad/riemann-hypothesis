@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.TwistedOperators.FractionalIdealCompletionMulModulusOffExceptiona
 public import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.IsAuxiliaryVectorWittDec
 public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.LineLatAt
 public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.FinitePartTraceCharacterIdempotentInverseDiffere
@@ -51,7 +50,6 @@ noncomputable section
 open Formalism.BasicNotions Formalism.BasicNotions.TH Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes Formalism.MainNotions.StandardLattice Formalism.L2.Theta Formalism.IndefR Formalism.IndefR.Datum Formalism.IndefR.Links MeasureTheory IsDedekindDomain NumberField Matrix
 open GlobalTheory.MixModel GlobalTheory.MixPer GlobalTheory.Grow GlobalTheory.Unf GlobalTheory.ChiGrid GlobalTheory.FunObj GlobalTheory.SepRows GlobalTheory.Asc
 open scoped TensorProduct
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 open GlobalTheory.FinPl (Lat idAt idOff intAt grpAt grpOff MxAt latV latA InK MonoAt OrthAt PrimAt ColsAt)
 open scoped nonZeroDivisors ContDiff
 open GlobalTheory.AscFin
@@ -104,7 +102,7 @@ theorem exists_coord {A B : HSp D} {c : ℕ} {ε : D.host.E} (d : HermitianOrtho
         rw [Fin.val_rev]
         have := p.isLt
         omega
-      rw [if_pos hc, if_neg hp, if_pos rfl]
+      rw [ite_eq_left hc, ite_eq_right hp, ite_eq_left rfl]
     · have hne : ¬ (p.rev.1 + q.1 + 1 = c) := by
         intro hs
         apply hq
@@ -113,7 +111,7 @@ theorem exists_coord {A B : HSp D} {c : ℕ} {ε : D.host.E} (d : HermitianOrtho
         have := p.isLt
         have := q.isLt
         omega
-      rw [if_neg hne, if_neg hq]
+      rw [ite_eq_right hne, ite_eq_right hq]
 
 theorem coord_apply {A B : HSp D} {c : ℕ} {ε : D.host.E} (d : HermitianOrthogonalExtensionData A B c ε) (p : Fin c) (l : Fin B.rank → D.host.E)
     (h0 : ∀ i, ∑ k, l k * frameMat B A d.ι k i = 0) (h1 : ∀ q, ∑ k, l k * d.a k q = if q = p then 1 else 0)
@@ -128,11 +126,11 @@ theorem coord_apply {A B : HSp D} {c : ℕ} {ε : D.host.E} (d : HermitianOrthog
     refine Finset.sum_congr rfl fun j _ => Finset.sum_congr rfl fun k _ => ?_
     ring
   simp only [Pi.add_apply, mul_add, Finset.sum_add_distrib, swap, h0, h1, zero_mul,
-    Finset.sum_const_zero, zero_add, ite_mul, one_mul, Finset.sum_ite_eq', Finset.mem_univ, if_true]
+    Finset.sum_const_zero, zero_add, ite_mul, one_mul, Finset.sum_ite_eq', Finset.mem_univ, ite_true]
 
 theorem mulVec_single_apply {m n : ℕ} (M : Matrix (Fin m) (Fin n) D.host.E) (p : Fin n) (w : D.host.E) (k : Fin m) :
     (M *ᵥ Pi.single p w) k = M k p * w := by
-  simp only [Matrix.mulVec, dotProduct, Pi.single_apply, mul_ite, mul_zero, Finset.sum_ite_eq', Finset.mem_univ, if_true]
+  simp only [Matrix.mulVec, dotProduct, Pi.single_apply, mul_ite, mul_zero, Finset.sum_ite_eq', Finset.mem_univ, ite_true]
 
 theorem incA_mul_tmul (e : D.host.E) (x : AF D.host.F) (b : D.host.E) :
     incA D e * (x ⊗ₜ[D.host.F] b) = x ⊗ₜ[D.host.F] (e * b) := by
@@ -168,7 +166,7 @@ theorem col_mem_imp {A B : HSp D} {c : ℕ} {ε : D.host.E} (d : HermitianOrthog
 
   have hread : ∑ k, incA D (l k) * (t * incA D (d.a k p)) = t := by
     have hl := h1 p
-    rw [if_pos rfl] at hl
+    rw [ite_eq_left rfl] at hl
     calc ∑ k, incA D (l k) * (t * incA D (d.a k p)) = t * incA D (∑ k, l k * d.a k p) := by
 
           rw [map_sum, Finset.mul_sum]
@@ -273,7 +271,47 @@ theorem idV_inv_mul (I : Ideal (𝓞 D.host.E)) (v : GlobalTheory.FinPl.Pl D) (c
 
 theorem exists_mem_modulBar {T : Type} {L : LevCh D T} (P : Places L) (sc : Consts) {v : GlobalTheory.FinPl.Pl D} (hv : v ∉ P.S0) :
     ∃ c : 𝓞 D.host.F, c ∉ v.asIdeal ∧ algebraMap (𝓞 D.host.F) (𝓞 D.host.E) c ∈ P.modulBar sc := by
-  apply _root_.GlobalTheory.ModulUnit.exists_mem_modulBar <;> assumption
+  classical
+
+  have hsep : ∀ u ∈ P.S0, ∃ c : 𝓞 D.host.F, c ∈ u.asIdeal ∧ c ∉ v.asIdeal := by
+    intro u hu
+    have hne : u ≠ v := fun h => hv (h ▸ hu)
+    by_contra! hcon
+    apply hne
+    have hle : u.asIdeal ≤ v.asIdeal := fun c hc => hcon c hc
+    exact HeightOneSpectrum.ext (u.isMaximal.eq_of_le v.isPrime.ne_top hle)
+  choose! f hfu hfv using hsep
+  refine ⟨∏ u ∈ P.S0, f u ^ P.depth sc u, ?_, ?_⟩
+  ·
+    intro hmem
+    obtain ⟨u, hu, hpow⟩ := (Ideal.IsPrime.prod_mem_iff (hp := v.isPrime)).1 hmem
+    exact hfv u hu (v.isPrime.mem_of_pow_mem _ hpow)
+  ·
+    have hmod : algebraMap (𝓞 D.host.F) (𝓞 D.host.E) (∏ u ∈ P.S0, f u ^ P.depth sc u) ∈ P.modul sc := by
+      rw [map_prod]
+      show _ ∈ ∏ u ∈ P.S0, (P.w u).asIdeal ^ P.depth sc u
+      apply Ideal.prod_mem_prod
+      intro u hu
+      rw [map_pow]
+      apply Ideal.pow_mem_pow
+      have hover := P.w_over u hu
+      have h1 : f u ∈ ((P.w u).under (𝓞 D.host.F)).asIdeal := by
+        rw [hover]
+        exact hfu u hu
+      exact h1
+    have hsm := Ideal.smul_mem_pointwise_smul D.host.conj _ _ hmod
+    have hcoe : ∀ x : 𝓞 D.host.F,
+        ((algebraMap (𝓞 D.host.F) (𝓞 D.host.E) x : 𝓞 D.host.E) : D.host.E) = ((x : D.host.F) : D.host.E) :=
+      fun _ => rfl
+    have hfix : ∀ x : 𝓞 D.host.F,
+        D.host.conj • algebraMap (𝓞 D.host.F) (𝓞 D.host.E) x = algebraMap (𝓞 D.host.F) (𝓞 D.host.E) x := by
+      intro x
+      apply RingOfIntegers.ext
+      show D.host.conj ((algebraMap (𝓞 D.host.F) (𝓞 D.host.E) x : 𝓞 D.host.E) : D.host.E) = _
+      rw [hcoe x]
+      exact GlobalTheory.IdeleAA.conj_F x
+    rw [hfix] at hsm
+    exact hsm
 
 theorem wittDecompositionColumns_auxiliaryVectors {A B B₀ : HSp D} {c ρ : ℕ} {a : HermitianOrthogonalExtensionData A B c (-1)} {d : HypDec B B₀ ρ} (h : IsAuxiliaryVectorWittDec a d) (i : Fin ρ) :
     ∃ p : Fin c, p.1 = i.1 ∧ p.rev ≠ p ∧

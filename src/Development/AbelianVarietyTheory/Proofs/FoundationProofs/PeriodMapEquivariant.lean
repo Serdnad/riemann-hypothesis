@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.FoundationProofs.HeckeTSlashInvariant
 public import Development.AbelianVarietyTheory.Definitions.Foundations.IsDCReps
 public import Mathlib.Analysis.CStarAlgebra.Classes
 public import Mathlib.Analysis.Complex.UpperHalfPlane.Manifold
@@ -132,7 +131,7 @@ lemma slash_toGL (k : ℤ) (g : Matrix (Fin 2) (Fin 2) ℤ) (h : 0 < g.det) (f :
     (f ∣[k] toGL g) τ = f (toGL g • τ) * ((g.det : ℤ) : ℂ) ^ (k - 1) *
       (((g 1 0 : ℤ) : ℂ) * τ + ((g 1 1 : ℤ) : ℂ)) ^ (-k) := by
   have hpos := toGL_det_pos g h
-  rw [ModularForm.slash_apply, σ, if_pos hpos, abs_of_pos hpos, toGL_det g h.ne', denom_toGL g h.ne']
+  rw [ModularForm.slash_apply, σ, ite_eq_left hpos, abs_of_pos hpos, toGL_det g h.ne', denom_toGL g h.ne']
   simp
 
 lemma eichler_I (w : ℕ) (h : ℍ → ℂ) : eichler w h UpperHalfPlane.I = 0 := by
@@ -441,8 +440,26 @@ theorem exists_rep {N l q : ℕ} (hq : q.Prime) (hqN : ¬ q ∣ N * l) {σ : SL(
 
 theorem tqFam_inj {q : ℕ} (hq : q.Prime) (σ h : SL(2, ℤ)) {i k : Fin (q + 1)}
     (e : tqFam q σ i = mat h * tqFam q σ k) : i = k := by
-  intros
-  apply _root_.GlobalTheory.tqFam_cosets_distinct <;> assumption
+  have hp : Prime (q : ℤ) := Nat.prime_iff_prime_int.1 hq
+  have hd := sl_det h
+  have e00 := congrFun (congrFun e 0) 0
+  have e01 := congrFun (congrFun e 0) 1
+  have e10 := congrFun (congrFun e 1) 0
+  have hi := i.2
+  have hk := k.2
+  by_cases a : (i : ℕ) < q <;> by_cases b : (k : ℕ) < q
+  · simp [tqFam, a, b, Matrix.mul_apply, Fin.sum_univ_two] at e00 e01
+    have hdv : (q : ℤ) ∣ ((i : ℕ) : ℤ) - ((k : ℕ) : ℤ) := ⟨mat h 0 1, by linear_combination e01 - ((k : ℕ) : ℤ) * e00⟩
+    have := Int.eq_zero_of_abs_lt_dvd hdv (by rw [abs_lt]; constructor <;> omega)
+    exact Fin.ext (by omega)
+  · exfalso
+    simp [tqFam, a, b, dg, Matrix.mul_apply, Fin.sum_univ_two] at e00
+    exact hp.not_dvd_one ⟨mat h 0 0 * mat σ 0 0 + mat h 0 1 * mat σ 1 0, by linear_combination e00⟩
+  · exfalso
+    simp [tqFam, a, b, dg, Matrix.mul_apply, Fin.sum_univ_two] at e00 e10
+    exact hp.not_dvd_one ⟨mat σ 0 0 * mat h 1 1 - mat h 0 1 * mat σ 1 0,
+      by linear_combination -hd - mat h 1 1 * e00 + mat h 0 1 * e10⟩
+  · exact Fin.ext (by omega)
 
 theorem tqFam_perm : ∀ (N l q : ℕ), 5 ≤ N → l.Prime → ¬ l ∣ N → q.Prime → ¬ q ∣ N * l → ∀ σ : SL(2, ℤ),
     IsDiam N l (q : ZMod N) σ → ∀ γ : Lev N l, ∃ π : Equiv.Perm (Fin (q + 1)), ∀ i, ∃ γ' : Lev N l,
@@ -642,7 +659,7 @@ theorem hecke_eqv (Γ : Subgroup SL(2, ℤ)) (k : ℕ) (hk2 : 2 ≤ k) (f : Modu
   obtain ⟨hex⟩ : Nonempty (∃ π : Equiv.Perm ι, ∀ i, ∃ γ' : Γ, δ i * mat γ = mat γ' * δ (π i)) := ⟨hπ γ⟩
   have e2 : hk Γ w δ (per Γ w ⇑f) γ =
       ∑ i, slP w (δ (hex.choose i)) (per Γ w ⇑f (hex.choose_spec i).choose) := by
-    simp only [hk, LinearMap.pi_apply, dif_pos hex, LinearMap.sum_apply, LinearMap.comp_apply,
+    simp only [hk, LinearMap.pi_apply, dite_eq_left hex, LinearMap.sum_apply, LinearMap.comp_apply,
       LinearMap.proj_apply]
   have e1 : per Γ w (hkF (k : ℤ) δ ⇑f) γ =
       ∑ i, (slP w (δ i * mat γ) (F (toGL (δ i * mat γ) • UpperHalfPlane.I)) - slP w (mat γ) (c i)) := by

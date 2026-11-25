@@ -1,6 +1,5 @@
 module
 
-import Mathlib.RingTheory.MvPolynomial.Homogeneous
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsResolutionImageSup
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsNonvanishingDense
 import Mathlib.Tactic.TypeStar
@@ -20,8 +19,8 @@ noncomputable section
 namespace ResolutionSupBound
 
 theorem eval_smul_homog {ι : Type*} {f : MvPolynomial ι ℂ} {n : ℕ} (hf : f.IsHomogeneous n) (c : ℂ)
-    (z : ι → ℂ) : eval (c • z) f = c ^ n * eval z f := by
-  exact hf.eval_smul c z
+    (z : ι → ℂ) : eval (c • z) f = c ^ n * eval z f :=
+  hf.eval_smul c z
 
 theorem ptNorm_smul {ι : Type*} (m : ConeMetric ℂ ι) {n : ℕ} {f : MvPolynomial ι ℂ} (hf : f.IsHomogeneous n)
     {c : ℂ} (hc : c ≠ 0) (z : ι → ℂ) :

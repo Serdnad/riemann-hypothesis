@@ -9,7 +9,6 @@ import Mathlib.RingTheory.RegularLocalRing.Defs
 import Mathlib.RingTheory.SimpleRing.Principal
 import Mathlib.RingTheory.TotallySplit
 public import Mathlib.Algebra.Algebra.ZMod
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.InterGoodA
 
 @[expose] public section
 
@@ -20,7 +19,17 @@ namespace GroundTheory.Heights₂.Heights
 open MvPolynomial NumberField ReciprocityTheory.ChartRestriction.G
 
 theorem int_isJacobsonRing : IsJacobsonRing ℤ := by
-  apply _root_.ReciprocityTheory.ChartRestriction.G.Geo.int_isJacobsonRing <;> assumption
+  refine isJacobsonRing_iff_prime_eq.mpr fun P hP ↦ ?_
+  by_cases h : P = ⊥
+  · subst h
+    refine le_antisymm (fun a ha ↦ ?_) Ideal.le_jacobson
+    rw [Ideal.mem_jacobson_bot] at ha
+    have h1 := Int.isUnit_iff.mp (ha 1)
+    have h2 := Int.isUnit_iff.mp (ha (-1))
+    rw [Ideal.mem_bot]
+    omega
+  · have := hP.isMaximal h
+    exact Ideal.jacobson_eq_self_of_isMaximal
 
 theorem natCard_eq_pow_length_of_finiteType (F : Type) [Field F] [Algebra.FiniteType ℤ F]
     (q : ℕ) [CharP F q] :
@@ -84,7 +93,7 @@ theorem OrbitChartResidue.proof (hM : OrbitChartMax.Statement) (hQ : OrbitChartQ
     (by convert hft using 1 <;> rfl) (Geo.charOf V) _
   have hgeo : Geo.geoNum (ι := blockIdx n) 0 V Fin.elim0 =
       ((Module.length ℤ (MvPolynomial (Coord n) ℤ ⧸ J)).toNat : ℤ) := by
-    simp only [Geo.geoNum, dif_pos hrel]
+    simp only [Geo.geoNum, dite_eq_left hrel]
     rfl
   rw [hgeo, Nat.card_congr e.toEquiv, hcard, Nat.cast_pow, Real.log_pow]
   push_cast

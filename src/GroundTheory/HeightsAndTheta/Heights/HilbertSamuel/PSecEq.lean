@@ -1,6 +1,5 @@
 module
 
-import GroundTheory.HeightsAndTheta.Heights.MultihomogeneousPolynomials
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsSecEq
 public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.Objects
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PSectionBounded
@@ -57,7 +56,13 @@ theorem homog_monPoly {a : K → ℕ} (μ : Mono ι a) : IsMultiHomog (monPoly �
 
 theorem homog_prod {J : Type} (s : Finset J) (f : J → MRing ι) (d : J → K → ℕ)
     (h : ∀ j ∈ s, IsMultiHomog (f j) (d j)) : IsMultiHomog (∏ j ∈ s, f j) (∑ j ∈ s, d j) := by
-  apply _root_.GroundTheory.Heights₂.Heights.MultiHomogeneous.prod <;> assumption
+  classical
+  induction s using Finset.induction_on with
+  | empty => simpa using SectionBounded.homog_one (ι := ι)
+  | insert j s hj ih =>
+    rw [Finset.prod_insert hj, Finset.sum_insert hj]
+    exact SectionBounded.homog_mul (h j (Finset.mem_insert_self _ _))
+      (ih fun i hi => h i (Finset.mem_insert_of_mem hi))
 
 theorem homog_bind₁ {a : K → ℕ} {N : ℕ} (φ : Fin (N + 1) → MRing ι) (hφ : ∀ j, IsMultiHomog (φ j) a)
     {f : MvPolynomial (Fin (N + 1)) ℤ} {n : ℕ} (hf : f.IsHomogeneous n) :
@@ -93,9 +98,9 @@ theorem swap_mem {a : K → ℕ} (μ : Mono ι a) (k : K) (i₀ i : ι k) (h : �
   intro i' _
   by_cases hq : (⟨k, i₀⟩ : Σ k, ι k) = ⟨k', i'⟩
   · cases hq
-    rw [if_pos rfl]
+    rw [ite_eq_left rfl]
     omega
-  · rw [if_neg hq]
+  · rw [ite_eq_right hq]
     exact Nat.zero_le _
 
 theorem monVal_swap (y : (Σ k, ι k) → Ω) (μ : (Σ k, ι k) → ℕ) (q p : Σ k, ι k) (h : μ q ≠ 0) :
@@ -107,9 +112,9 @@ theorem monVal_swap (y : (Σ k, ι k) → Ω) (μ : (Σ k, ι k) → ℕ) (q p :
   rw [← pow_add, ← pow_add, swap, Nat.sub_add_cancel]
   by_cases h1 : q = r
   · subst h1
-    rw [if_pos rfl]
+    rw [ite_eq_left rfl]
     omega
-  · rw [if_neg h1]
+  · rw [ite_eq_right h1]
     exact Nat.zero_le _
 
 def pure (c : ∀ k, ι k) (a : K → ℕ) : Mono ι a :=

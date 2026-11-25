@@ -1,7 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.SatakeParameters.HeckeElementComponentMemStandardDoubleCoset
-import Development.AbelianVarietyTheory.Proofs.SatakeParameters.IsUnitarySphericalSatakeMultisetMapInv
 public import Formalism.LocalToGlobal.HeckeThetaElements.IsHeckeElt
 public import Formalism.SatakeDualWeyl.StatementE
 public import Development.AbelianVarietyTheory.Proofs.HeightProofs.MemAdelicLatticeIffLocalSelfDualCompletion
@@ -48,12 +46,12 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import Formalism.LocalToGlobal.IndefiniteReal.ScalarOnPartsFull
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IntAEMulMem
 
 @[expose] public section
 
 open Formalism.BasicNotions Formalism.BasicNotions.TH Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes Formalism.MainNotions.StandardLattice Formalism.MainNotions.S MeasureTheory IsDedekindDomain NumberField Formalism.L2.Theta Formalism.L2.NTheta Formalism.IndefR.Mult
 open scoped TensorProduct
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 
 namespace GlobalTheory.SplitLatBasis
 
@@ -61,11 +59,38 @@ theorem exists_matrix_of_isLattice {R K : Type} [CommRing R] [IsDomain R] [IsPri
     [Algebra R K] [IsFractionRing R K] {n : ℕ} (M : Submodule R (Fin n → K)) [Submodule.IsFullLattice K M] :
     ∃ B : GL (Fin n) K, ∀ x : Fin n → K, x ∈ M ↔
       ∀ i, ((B⁻¹ : GL (Fin n) K) : Matrix (Fin n) (Fin n) K).mulVec x i ∈ (algebraMap R K).range := by
-  first | exact _root_.GlobalTheory.SatakeInv.exists_matrix_of_isLattice' | exact @_root_.GlobalTheory.SatakeInv.exists_matrix_of_isLattice' | apply _root_.GlobalTheory.SatakeInv.exists_matrix_of_isLattice' <;> assumption
-
-theorem mul_mem_intAE (D : D7) {x y : Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes.Af D.host.F ⊗[D.host.F] D.host.E} (hx : x ∈ intAE D)
-    (hy : y ∈ intAE D) : x * y ∈ intAE D := by
-  first | exact _root_.GlobalTheory.SplitHecke.HeckeComp.mul_mem_intAE | exact @_root_.GlobalTheory.SplitHecke.HeckeComp.mul_mem_intAE | apply _root_.GlobalTheory.SplitHecke.HeckeComp.mul_mem_intAE <;> assumption
+  have := Submodule.IsLattice.finite K M
+  have := Submodule.IsLattice.free K M
+  have hr : Module.finrank R M = n := by
+    rw [((Submodule.IsFullLattice.finrank_eq K M).trans (Module.finrank_fintype_fun_eq_card K)), Fintype.card_fin]
+  let b : Module.Basis (Fin n) R M := Module.finBasisOfFinrankEq R M hr
+  let c : Module.Basis (Fin n) K (Fin n → K) := b.extendOfIsFullLattice K
+  let p := Pi.basisFun K (Fin n)
+  let B : GL (Fin n) K := ⟨p.toMatrix c, c.toMatrix p, by simp, by simp⟩
+  have hB : ∀ x i, ((B⁻¹ : GL (Fin n) K) : Matrix (Fin n) (Fin n) K).mulVec x i = c.repr x i := by
+    intro x i
+    have := congrFun (Module.Basis.toMatrix_mulVec_repr p c x) i
+    exact this
+  refine ⟨B, fun x => ?_⟩
+  simp only [hB]
+  constructor
+  · intro hx i
+    refine ⟨b.repr ⟨x, hx⟩ i, ?_⟩
+    have h1 : x = ∑ j, algebraMap R K (b.repr ⟨x, hx⟩ j) • c j := by
+      have := congrArg Subtype.val (b.sum_repr ⟨x, hx⟩)
+      rw [Submodule.coe_sum] at this
+      simp only [c, Module.Basis.extendOfIsFullLattice_apply, algebraMap_smul]
+      exact this.symm
+    have h2 := congrFun (c.repr_sum_self fun j => algebraMap R K (b.repr ⟨x, hx⟩ j)) i
+    rw [← h1] at h2
+    exact h2.symm
+  · intro h
+    choose r hr using h
+    rw [← c.sum_repr x]
+    refine sum_mem fun j _ => ?_
+    rw [← hr, algebraMap_smul]
+    refine M.smul_mem _ ?_
+    simp [c]
 
 theorem section_mem {A K ι κ : Type} [CommRing A] [Field K] (O : ValuationSubring K) (π : A →+* K) (σ : K → A) (ε : A)
     (I : Set A) (L : AddSubgroup (ι → A)) (h1 : ∀ a, π (σ a) = a) (h2 : ∀ x, σ (π x) = ε * x)
@@ -183,7 +208,7 @@ theorem exists_basis : ∀ {D : D7} (V : HSp D) (e : Formalism.L2.Theta.AE D) (v
     | mem y hy =>
       obtain ⟨a, ha, u, hu, rfl⟩ := hy
       have ha' : π (a ⊗ₜ[D.host.F] (1 : D.host.E)) ∈ Formalism.UG.Ov D.host.F v :=
-        (h3 _).1 (mul_mem_intAE D hε (AddSubgroup.subset_closure ⟨a, ha, 1, rfl⟩))
+        (h3 _).1 (GlobalTheory.IntegralAdeleProducts.intAE_mul_mem (F := D.host.F) (E := D.host.E) hε (AddSubgroup.subset_closure ⟨a, ha, 1, rfl⟩))
       have hu' := M.smul_mem ⟨_, ha'⟩ (hL _ hu)
       convert hu' using 1
       funext i

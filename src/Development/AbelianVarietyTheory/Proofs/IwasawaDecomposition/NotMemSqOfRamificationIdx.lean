@@ -1,6 +1,5 @@
 module
 
-import all Development.AbelianVarietyTheory.Proofs.FlagMeasures.CmFieldSplitCompletelyPlaceStructure
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ValuationPowSubPowLt
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.CmQuadraticFormEqAlternatingForm
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.AbsNormPrimeIffInertiaDegEqOneAndFiniteRamified
@@ -8,43 +7,7 @@ public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.HostC
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ResCharConj
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ToMapSurj
 import Formalism.LocalToGlobal.UnitaryNorms.CharUniq
-import Mathlib.Algebra.AffineMonoid.Basic
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.HaveILetI
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Topology.Sheaves.Init
 
 @[expose] public section
 
@@ -111,7 +74,22 @@ end Roots
 theorem not_mem_sq_of_ramificationIdx {E : Type} [Field E] [NumberField E] {l : ℕ} (hl : l.Prime)
     (v : HeightOneSpectrum (𝓞 E)) (hv : ((l : ℕ) : 𝓞 E) ∈ v.asIdeal) (he : v.asIdeal.ramificationIdx ℤ = 1) :
     ((l : ℕ) : 𝓞 E) ∉ v.asIdeal ^ 2 := by
-  apply _root_.GlobalTheory.St.G.SplitPrime.natCast_not_mem_sq_of_ramificationIdx_eq_one <;> assumption
+  have hp : Prime (l : ℤ) := Nat.prime_iff_prime_int.mp hl
+  have hmax : (Ideal.span {(l : ℤ)}).IsMaximal :=
+    PrincipalIdealRing.isMaximal_of_irreducible hp.irreducible
+  have hmap : Ideal.map (algebraMap ℤ (𝓞 E)) (Ideal.span {(l : ℤ)}) = Ideal.span {((l : ℕ) : 𝓞 E)} := by
+    rw [Ideal.map_span]; simp
+  have hle : Ideal.map (algebraMap ℤ (𝓞 E)) (Ideal.span {(l : ℤ)}) ≤ v.asIdeal := by
+    rw [hmap, Ideal.span_le]; simpa using hv
+  have := v.isPrime
+  have : v.asIdeal.LiesOver (Ideal.span {(l : ℤ)}) :=
+    ⟨hmax.eq_of_le (Ideal.comap_ne_top _ v.isPrime.ne_top) (Ideal.map_le_iff_le_comap.mp hle)⟩
+  have hb : Ideal.span {(l : ℤ)} ≠ ⊥ := by simpa using hl.ne_zero
+  rw [← Ideal.ramificationIdx'_eq_ramificationIdx (Ideal.span {(l : ℤ)}) v.asIdeal hb] at he
+  intro h
+  refine (Ideal.ramificationIdx'_ne_one_iff hle).2 ?_ he
+  rw [hmap, Ideal.span_le]
+  simpa using h
 
 theorem isPsi_of_isHeckeOf {R : Ranks} {H : Formalism.BasicNotions.Host R} {Ω : Type} [Field Ω] [Algebra H.E Ω] [IsAlgClosure H.E Ω]
     {cc : Ω ≃+* Ω} (hcc : IsCMConjOm H.E Ω cc) {art : Ideles H.E →* Gab H.E Ω} (ha : IsGlobalArtin art)
@@ -401,13 +379,13 @@ def ofFamilyOn (B : Base) (pl : Finset ℕ) (Wt : Set B.places.Pl) (hsub : ∀ w
   Q_l w := by
     split_ifs with hw
     exacts [(h w hw).2.2.2, fun _ h => absurd h (Finset.notMem_empty _)]
-  off w hw := ⟨if_neg fun h => hw (hsub w h), if_neg fun h => hw (hsub w h)⟩
+  off w hw := ⟨ite_eq_right fun h => hw (hsub w h), ite_eq_right fun h => hw (hsub w h)⟩
   conj w := by
     by_cases hw : w ∈ Wt
     · have hw' := (hc w).2 hw
-      simp only [if_pos hw, if_pos hw', hs w hw, and_self]
+      simp only [ite_eq_left hw, ite_eq_left hw', hs w hw, and_self]
     · have hw' := mt (hc w).1 hw
-      simp only [if_neg hw, if_neg hw', and_self]
+      simp only [ite_eq_right hw, ite_eq_right hw', and_self]
 
 theorem exists_twDat_stagesOn (X : Stages) (f : Fr X.B.toPre) (pl : Finset ℕ) (Wt : Set X.B.places.Pl)
     (hsub : ∀ w ∈ Wt, X.B.places.resChar w ∈ pl) (hc : ∀ w, X.B.places.conj w ∈ Wt ↔ w ∈ Wt)
@@ -446,14 +424,14 @@ theorem exists_twDat_stagesOn (X : Stages) (f : Fr X.B.toPre) (pl : Finset ℕ) 
     rw [← hl w]
     exact ⟨a, b, c, fun v hv => (pick_not_over (hψ w hw) hv).1⟩
   refine ⟨h1, ofFamilyOn X.B pl Wt hsub hc s Q k (settingChar ha A Q k ψ ι) h2 hs, rfl, fun w v hv hm => ?_,
-    fun w hw => ⟨if_pos hw, if_pos hw, if_pos hw⟩, fun w hw => ⟨if_neg hw, if_neg hw, if_neg hw⟩, fun S hS => ?_⟩
+    fun w hw => ⟨ite_eq_left hw, ite_eq_left hw, ite_eq_left hw⟩, fun w hw => ⟨ite_eq_right hw, ite_eq_right hw, ite_eq_right hw⟩, fun S hS => ?_⟩
   · by_cases hw : w ∈ Wt
     · have hv' : v ∈ Q (s w) :=
-        (if_pos hw : (ofFamilyOn X.B pl Wt hsub hc s Q k (settingChar ha A Q k ψ ι) h2 hs).Q w = _) ▸ hv
+        (ite_eq_left hw : (ofFamilyOn X.B pl Wt hsub hc s Q k (settingChar ha A Q k ψ ι) h2 hs).Q w = _) ▸ hv
       have hp := ((GlobalTheory.absNorm_prime_iff_inertiaDeg_eq_one_and_finite_ramified X.toD7.host.E).1 v).2 ((hψ w hw).1 v hv').2.1
       exact (pick_not_over (hψ w hw) hv').2 (hA (s w) _ (Or.inr (hl w ▸ hm)) hp (Ideal.absNorm_mem _))
     · exact Finset.notMem_empty v
-        ((if_neg hw : (ofFamilyOn X.B pl Wt hsub hc s Q k (settingChar ha A Q k ψ ι) h2 hs).Q w = _) ▸ hv)
+        ((ite_eq_right hw : (ofFamilyOn X.B pl Wt hsub hc s Q k (settingChar ha A Q k ψ ι) h2 hs).Q w = _) ▸ hv)
   · obtain ⟨B', h, a, b⟩ := exists_enl_roots (ofFamilyOn X.B pl Wt hsub hc s Q k (settingChar ha A Q k ψ ι) h2 hs) S hS
     exact ⟨B', h, a, fun w z hz => b (plUnder h w) z (by rwa [resChar_plUnder]), set_pull h _ f⟩
 

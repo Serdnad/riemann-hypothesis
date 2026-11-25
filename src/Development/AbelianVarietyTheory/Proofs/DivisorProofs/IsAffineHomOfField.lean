@@ -1,6 +1,5 @@
 module
 
-import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LocalHolomorphicExponentialChart
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsChartPtChartPt
 public import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.DenseInterior
 import Development.AbelianVarietyTheory.Proofs.DivisorProofs.DualMapCompDualMap
@@ -59,21 +58,33 @@ open GlobalTheory.LogPole
 open scoped Classical
 open GlobalTheory.CechKS
 
-set_option autoImplicit false
-
 namespace GlobalTheory.CechKS
 
 theorem valR_comp_app {Y Z : Scheme.{0}} {S : Type} [CommRing S] (z : Sp S ⟶ Y) (m : Y ⟶ Z) (O : Z.Opens)
     (f : Γ(Z, O)) : valR (z ≫ m) O f = valR z (m ⁻¹ᵁ O) ((m.app O).hom f) := by
   by_cases h : ⊤ ≤ z ⁻¹ᵁ (m ⁻¹ᵁ O)
   · rw [valR_eq_ev _ _ h, valR_eq_ev (z ≫ m) O h, ← GlobalTheory.FlagMod.ev_appLE z m le_rfl h h, Scheme.Hom.appLE_eq_app]
-  · rw [valR, valR, dif_neg h]
-    exact dif_neg h
+  · rw [valR, valR, dite_eq_right h]
+    exact dite_eq_right h
 
 theorem le_preimage_of_red {Y : Scheme.{0}} {B : Type} [CommRing B] {x : Sp B ⟶ Y} {w : Sp (DualNumber B) ⟶ Y}
     (hw : spMap (TrivSqZeroExt.fstHom B B B).toRingHom ≫ w = x) {O : Y.Opens} (h : ⊤ ≤ x ⁻¹ᵁ O) : ⊤ ≤ w ⁻¹ᵁ O := by
-  intros
-  apply _root_.GlobalTheory.CompanionTheory.Ar.Flat.ExpChart.Coords.le_dual <;> assumption
+  intro p _
+  have hs : Function.Surjective (spMap (TrivSqZeroExt.fstHom B B B).toRingHom) := by
+    intro q
+    refine ⟨spMap (algebraMap B (DualNumber B)) q, ?_⟩
+    refine PrimeSpectrum.ext (Ideal.ext fun c ↦ ?_)
+    change algebraMap B (DualNumber B) c.fst ∈ q.asIdeal ↔ c ∈ q.asIdeal
+    have hn : c - algebraMap B (DualNumber B) c.fst ∈ q.asIdeal := by
+      refine q.isPrime.mem_of_pow_mem 2 ?_
+      have : (c - algebraMap B (DualNumber B) c.fst) ^ 2 = 0 := by
+        ext <;> simp [pow_two, TrivSqZeroExt.algebraMap_eq_inl]
+      rw [this]; exact zero_mem _
+    exact ⟨fun hc ↦ by simpa using add_mem hn hc, fun hc ↦ by simpa using sub_mem hc hn⟩
+  obtain ⟨q, rfl⟩ := hs p
+  have := h (Set.mem_univ q)
+  rw [← hw] at this
+  exact this
 
 theorem valR_resG {Z : Scheme.{0}} {S : Type} [CommRing S] (z : Sp S ⟶ Z) {U V : Z.Opens} (e : V ≤ U)
     (h : ⊤ ≤ z ⁻¹ᵁ V) (a : Γ(Z, U)) : valR z V (resG Z e a) = valR z U a := by

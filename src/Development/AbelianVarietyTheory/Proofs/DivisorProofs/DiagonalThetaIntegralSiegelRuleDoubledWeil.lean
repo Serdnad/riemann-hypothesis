@@ -1,7 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.RationalSourceActsOnOrientedThetaBySubstitution
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.DoubledDarbouxCoordsRationalOfRational
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.BlkGLEpsPairMem
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsDblCoordDblD
 public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.WeilTensorModels
@@ -15,44 +13,8 @@ public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Sie
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.DoubledGramSatisfiesXiRelation
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsThetaFunctionThetaTransformRationalDarbouxStatement
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ModulusOfNormEqAbs
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Topology.Sheaves.Init
 import Development.AbelianVarietyTheory.Proofs.TwistedOperators.InfPartOneSubEInfSmul
-import Mathlib.Tactic.ReduceModChar
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsSiegelParabolicConjInvTranspose, Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsSiegelParabolicConjInvTransposeStatement, Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsUnitaryInvTransposeOfScaledInverseGram, Development.AbelianVarietyTheory.Proofs.DivisorProofs.DiagonalThetaIntegralSiegelRuleDoubledWeil
@@ -66,8 +28,6 @@ open Formalism.BasicNotions Formalism.BasicNotions.TH Formalism.MainNotions.Glob
 open IsDedekindDomain NumberField
 open scoped TensorProduct GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels Matrix
 open GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels (Base Spc Model Chr incM)
-
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 
 noncomputable section
 
@@ -130,7 +90,6 @@ theorem epsD_mul_self {D : D7} (S : HSp D) : epsD S * epsD S = 1 := by
   show Formalism.L2.Theta.mt (dblSp S) (epsD S) * Formalism.L2.Theta.mt (dblSp S) (epsD S) = 1
   rw [mt_epsD, blkMat_mul, neg_mul_neg, Matrix.one_mul, blkMat_one]
 
-
 open GlobalTheory.DiagThetaRule in
 theorem exists_siegel_conj (D : D7) (S : HSp D) (JB : Matrix (Fin S.rank) (Fin S.rank) D.host.E)
     (p : GlobalTheory.WeilM.UG (GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.cA D.sp.cm.sig) (GlobalTheory.WeilM.dbl (incM D.host.F JB)))
@@ -176,9 +135,6 @@ open IsDedekindDomain NumberField
 open scoped TensorProduct GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels Matrix
 open GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels (Base Spc Model Chr incM)
 
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
-
-
 end -- clump:auto
 end -- clump:auto
 -- ===== end clump member: Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsSiegelParabolicConjInvTransposeStatement =====
@@ -192,8 +148,6 @@ open Formalism.BasicNotions Formalism.BasicNotions.TH Formalism.MainNotions.Glob
 open IsDedekindDomain NumberField
 open scoped TensorProduct GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels Matrix
 open GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels (Base Spc Model Chr incM)
-
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 
 noncomputable section
 
@@ -285,8 +239,6 @@ open IsDedekindDomain NumberField
 open scoped TensorProduct GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels Matrix
 open GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels (Base Spc Model Chr incM)
 
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
-
 noncomputable section
 
 namespace GlobalTheory.DiagThetaRule
@@ -301,7 +253,17 @@ theorem ddr_rat : ∀ (D : D7) (S T : HSp D) (JA : Matrix (Fin T.rank) (Fin T.ra
     ∀ x : Matrix (Fin T.rank) (Fin (dblSp S).rank) D.host.E, ∃ y z : κ ⊕ κ → D.host.F,
       (GlobalTheory.DblSchr.ddr co).e (incM D.host.F x) =
         (fun i => algebraMap D.host.F (AF D.host.F) (y i), fun i => algebraMap D.host.F (AF D.host.F) (z i)) := by
-  apply _root_.GlobalTheory.DblSchr.ddr_rat <;> assumption
+  intro D S T JA JB ξ κ _ co hco x
+  obtain ⟨y₁, z₁, h₁⟩ := hco ((x.submatrix id finSumFinEquiv).toCols₁)
+  obtain ⟨y₂, z₂, h₂⟩ := hco ((x.submatrix id finSumFinEquiv).toCols₂)
+  refine ⟨Sum.elim y₁ y₂, Sum.elim z₁ (-z₂), ?_⟩
+  have e : (GlobalTheory.DblSchr.ddr co).e (incM D.host.F x) =
+      (Sum.elim (co.e (incM D.host.F (x.submatrix id finSumFinEquiv).toCols₁)).1
+          (co.e (incM D.host.F (x.submatrix id finSumFinEquiv).toCols₂)).1,
+        Sum.elim (co.e (incM D.host.F (x.submatrix id finSumFinEquiv).toCols₁)).2
+          (-(co.e (incM D.host.F (x.submatrix id finSumFinEquiv).toCols₂)).2)) := rfl
+  rw [e, h₁, h₂]
+  ext (i | i) <;> simp
 
 theorem actO_epsD_lagr : ∀ (D : D7) (S T : HSp D) (w : WO S T),
     actO (dblSp S) T (epsD S)⁻¹ 1 (GlobalTheory.IndefiniteRowSideFullHecke.SphericalZero.lagr S T w) = GlobalTheory.DiagSiegel.diagMat w := by
@@ -328,8 +290,20 @@ theorem epsD_mem_GQ : ∀ (D : D7) (S : HSp D), epsD S ∈ GQ (dblSp S) := by
 theorem rat_act : ∀ (D : D7) (ψ : AddChar (AF D.host.F) ℂ) (V T : HSp D) (χV χT : (AE D)ˣ →* Circle)
     (ω : GA D V × GA D T →* Module.End ℂ (WO V T → ℂ)), IsWeilDatumO ψ V T χV χT ω →
     ∀ γ ∈ GQ V, ∀ f, IsThetaFunO ψ V T f → ∀ x, ω (γ, 1) f x = f (actO V T γ⁻¹ 1 x) := by
-  intros
-  apply _root_.GlobalTheory.RatSubst.om_rat_left_apply <;> assumption
+  intro D ψ V T χV χT ω hW γ hγ f hf x
+  have hx : actO V T γ 1 (actO V T γ⁻¹ 1 x) = x := by
+    simp only [actO, Formalism.L2.Theta.mt, map_one, Units.val_one, Matrix.one_mul, inv_inv, Matrix.mul_assoc,
+      ← Units.val_mul, ← map_mul, mul_inv_cancel, Matrix.mul_one]
+  have e1 : ∀ (g : WO V T → ℂ) (y : WO V T), heisO ψ V T y g 0 = g y := by
+    intro g y
+    have h0 : symplOH V T 0 y = 0 := by simp [symplOH, symplO, hO]
+    simp only [heisO, zero_add, h0, AddChar.map_zero_eq_one, one_mul]
+  calc ω (γ, 1) f x = heisO ψ V T x (ω (γ, 1) f) 0 := (e1 _ _).symm
+    _ = heisO ψ V T (actO V T γ 1 (actO V T γ⁻¹ 1 x)) (ω (γ, 1) f) 0 := by rw [hx]
+    _ = ω (γ, 1) (heisO ψ V T (actO V T γ⁻¹ 1 x) f) 0 := by rw [← hW.om_heis γ 1 _ f hf]
+    _ = heisO ψ V T (actO V T γ⁻¹ 1 x) f 0 :=
+      hW.om_aut γ hγ 1 (one_mem _) _ (GlobalTheory.ThetaClosed.isThetaFunO_heisO_all hW.std hf _)
+    _ = f (actO V T γ⁻¹ 1 x) := e1 _ _
 
 theorem chi_conj : ∀ (D : D7) (χ : (AE D)ˣ →* Circle) (n : ℕ), ResEta D χ n → ∀ z : (AE D)ˣ,
     χ (conjUnit D.sp.cm.sig z) = (χ z)⁻¹ := by
@@ -367,7 +341,6 @@ theorem scalar_rule (D : D7) (S T : HSp D) (χT : (AE D)ˣ →* Circle) (hrT : R
 end GlobalTheory.DiagThetaRule
 
 namespace GlobalTheory.DiagThetaRule
-
 
 theorem thetaDiagInt_omdOf : ∀ (D : D7) (ψ : AddChar (AF D.host.F) ℂ), IsStdChar D ψ (-1) →
     ∀ (S T : HSp D) (JA : Matrix (Fin T.rank) (Fin T.rank) D.host.E) (JB : Matrix (Fin S.rank) (Fin S.rank) D.host.E)
@@ -409,7 +382,7 @@ theorem thetaDiagInt_omdOf : ∀ (D : D7) (ψ : AddChar (AF D.host.F) ℂ), IsSt
     (GlobalTheory.DblSchr.incM_JBd S JB) p) from rfl, key.2]
   have hf : Formalism.IndefR.Datum.IsThetaFunO ψ (GlobalTheory.Doubling.dblSp S) T
       (GlobalTheory.WeilSchrodinger.thetaTr D.host.F (GlobalTheory.DblSchr.ddr co) ψ Φ) :=
-    GlobalTheory.T.isThetaFunction_thetaTransform_rationalDarboux D ψ hψ (GlobalTheory.Doubling.dblSp S) T JA (GlobalTheory.DblSchr.JBd S JB) ξ hA hBd (κ ⊕ κ) (GlobalTheory.DblSchr.ddr co)
+    GlobalTheory.ThetaTransformTheta.isThetaFunO_thetaTr D ψ hψ (GlobalTheory.Doubling.dblSp S) T JA (GlobalTheory.DblSchr.JBd S JB) ξ hA hBd (κ ⊕ κ) (GlobalTheory.DblSchr.ddr co)
       (ddr_rat D S T JA JB ξ κ co hco) Φ hΦ
   have hdiag : ∀ F, Formalism.IndefR.Datum.IsThetaFunO ψ (GlobalTheory.Doubling.dblSp S) T F →
       GlobalTheory.DiagSiegel.thetaDiagInt ν 𝓕 F = GlobalTheory.IndefiniteRowSideFullHecke.SphericalZero.swSec S T ωd ν 𝓕 F (epsD S) := by

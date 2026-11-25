@@ -92,8 +92,8 @@ variable (v0 : InfinitePlace X.K) (TU : Finset (Tup X.F X.E X.K S))
 def colFam : DefFam X.K (Col.G0 X.E Pr.vGs R.r) (Col.LevOff ∅ Pr.vGs S0) (TupF TU) (Fin R.m) :=
   (colIn W Ch sel hX v0 TU Xg S0 xiVal).fam
 
-theorem twistPrimes_trivialTuple_empty : Col.QE sel ((mu0 X.F X.E X.K S : Tup X.F X.E X.K S) : Chr X.F X.E X.K) = ∅ := by
-  apply _root_.Formalism.L2.Col.twistPrimes_trivialTuple_empty <;> assumption
+theorem twistPrimes_trivialTuple_empty : Col.QE sel ((mu0 X.F X.E X.K S : Tup X.F X.E X.K S) : Chr X.F X.E X.K) = ∅ :=
+  by apply _root_.Formalism.L2.Col.twistPrimes_trivialTuple_empty
 
 end Inst
 

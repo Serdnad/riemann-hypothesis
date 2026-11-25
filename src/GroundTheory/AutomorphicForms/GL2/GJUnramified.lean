@@ -9,11 +9,7 @@ public import GroundTheory.AutomorphicForms.GL2.GJLeviZeta
 public import GroundTheory.AutomorphicForms.Satake
 import Mathlib.RingTheory.Henselian
 import Mathlib.Tactic.TypeStar
-import GroundTheory.AutomorphicForms.AdmissibleInduction
-import GroundTheory.AutomorphicForms.GL2.GJInducedCoeff
-import GroundTheory.AutomorphicForms.GL2.GJInducedZeta
 import GroundTheory.AutomorphicForms.GL2.GJZetaCore
-import GroundTheory.AutomorphicForms.JacquetAdmissible
 import GroundTheory.AutomorphicForms.SmoothRepContragredient
 import Mathlib.CategoryTheory.Countable
 import Mathlib.Topology.Separation.CompletelyRegular
@@ -290,7 +286,7 @@ theorem exists_reduce_row (l : Fin n → ℕ) {h : GL (Fin n) F} (hB : h ∈ Iwa
     · simp
   have hEd : ∀ a, E a a = 1 := fun a => by
     simp only [hE, hA, Matrix.add_apply, Matrix.of_apply, Matrix.one_apply_eq]
-    rw [if_neg (fun h => by obtain ⟨rfl, h2⟩ := h; exact lt_irrefl _ h2), add_zero]
+    rw [ite_eq_right (fun h => by obtain ⟨rfl, h2⟩ := h; exact lt_irrefl _ h2), add_zero]
   have hEO : ∀ a b, E a b ∈ 𝒪[F] := fun a b => by
     simp only [hE, hA, Matrix.add_apply, Matrix.of_apply]
     refine Subring.add_mem _ ?_ ?_
@@ -318,12 +314,12 @@ theorem exists_reduce_row (l : Fin n → ℕ) {h : GL (Fin n) F} (hB : h ∈ Iwa
     rw [Units.val_mul, hEg, hE, Matrix.mul_add, Matrix.mul_one, Matrix.add_apply, Matrix.mul_apply]
     congr 1
     by_cases hib : i < b
-    · rw [if_pos hib, Finset.sum_eq_single i]
+    · rw [ite_eq_left hib, Finset.sum_eq_single i]
       · simp [hA, hib]
       · intro m _ hm
         simp [hA, hm]
       · simp
-    · rw [if_neg hib]
+    · rw [ite_eq_right hib]
       exact Finset.sum_eq_zero fun m _ => by simp [hA, hib]
   refine ⟨Eg, hEgK, (Iwasawa.borel F n).mul_mem hB (unipotent_le_borel F n hEgN), fun a => ?_,
     fun a b => ?_, fun a b hia => ?_, fun j hij => ⟨e j, ?_⟩⟩
@@ -334,7 +330,7 @@ theorem exists_reduce_row (l : Fin n → ℕ) {h : GL (Fin n) F} (hB : h ∈ Iwa
     · exact Subring.mul_mem _ (hO a i) (Subring.neg_mem _ (hyO b))
     · exact (𝒪[F]).zero_mem
   · rw [hmul, hBU hia, zero_mul, ite_self, add_zero]
-  · rw [hmul, if_pos hij, hd]
+  · rw [hmul, ite_eq_left hij, hd]
     linear_combination hxy j
 
 theorem exists_normalGL {g : GL (Fin n) F} (hg : ∀ i j, g i j ∈ 𝒪[F]) :
@@ -634,173 +630,12 @@ namespace GodementJacquet
 variable {F : Type*} [Field F] [ValuativeRel F] [TopologicalSpace F] [IsNonarchimedeanLocalField F]
   {n : ℕ}
 
-section Levi
-
-open Matrix GLnLocal Parabolic MeasureTheory Polynomial ValuativeRel
-open scoped NNReal ENNReal
-
-variable {α : Type*} [LinearOrder α] {β : Fin n → α}
-  {W : Type*} [AddCommGroup W] [Module ℂ W] {σ : Representation ℂ (levi F n β) W}
-  [MeasurableSpace (levi F n β)] [BorelSpace (levi F n β)]
-
-theorem exists_leviZeta_natDegree (hσ : IsSmooth σ) [σ.IsIrreducible] (hc : IsCuspidal σ)
-    (θ : levi F n β →* ℝ≥0) (hθ : Continuous θ) (μM : Measure (levi F n β)) [μM.IsHaarMeasure] :
-    ∃ s₀ : ℝ, ∃ D : ℂ[X], D.eval 0 = 1 ∧ D.natDegree ≤ n ∧
-      ∀ Ψ : Matrix (Fin n) (Fin n) F → ℂ, IsLeviSchwartz β Ψ → ∀ w : W,
-        ∀ ℓ ∈ smoothVectors (Representation.dual σ),
-          (∀ s : ℂ, s₀ < s.re → Integrable (leviIntegrand σ θ Ψ w ℓ s) μM) ∧
-          ∃ (N : ℕ) (P : ℂ[X]), ∀ s : ℂ, s₀ < s.re →
-            D.eval (qs F s) * ∫ m, leviIntegrand σ θ Ψ w ℓ s m ∂μM =
-              P.eval (qs F s) / qs F s ^ N :=
-  exists_leviZeta_with_degree_bound hσ hc θ hθ μM
-
-end Levi
-
-section Induced
-
-open Matrix GLnLocal Parabolic Iwasawa Measures MeasureTheory Polynomial ValuativeRel Topology
-open scoped NNReal ENNReal Pointwise
-
-variable {α : Type*} [LinearOrder α] {β : Fin n → α}
-  {W : Type*} [AddCommGroup W] [Module ℂ W] {σ : Representation ℂ (levi F n β) W}
-  [MeasurableSpace (GL (Fin n) F)] [BorelSpace (GL (Fin n) F)]
-
-theorem exists_inducedZeta_natDegree (hσ : IsSmooth σ) [σ.IsIrreducible] (hc : IsCuspidal σ)
-    (μG : Measure (GL (Fin n) F)) [μG.IsHaarMeasure] :
-    ∃ s₀ : ℝ, ∃ D : ℂ[X], D.eval 0 = 1 ∧ D.natDegree ≤ n ∧
-      ∀ Φ : Matrix (Fin n) (Fin n) F → ℂ, IsSchwartzBruhat Φ →
-        ∀ φ ∈ parabolicIndSpace F n β σ, ∀ ℓ ∈ smoothVectors (Representation.dual σ),
-          (∀ s : ℂ, s₀ < s.re → Integrable (fun g : GL (Fin n) F =>
-            Φ (g : Matrix (Fin n) (Fin n) F) * detPow g s * ℓ (φ g)) μG) ∧
-          ∃ (N : ℕ) (P : ℂ[X]), ∀ s : ℂ, s₀ < s.re →
-            D.eval (qs F s) * ∫ g, Φ (g : Matrix (Fin n) (Fin n) F) * detPow g s * ℓ (φ g) ∂μG =
-              P.eval (qs F s) / qs F s ^ N :=
-  exists_inducedZeta_with_degree_bound hσ hc μG
-
-end Induced
-
-section Core
-
-open Matrix GLnLocal Parabolic Iwasawa MeasureTheory Polynomial
-open scoped NNReal ENNReal
-
-variable [MeasurableSpace (GL (Fin n) F)] [BorelSpace (GL (Fin n) F)]
-  {V : Type*} [AddCommGroup V] [Module ℂ V] {π : Representation ℂ (GL (Fin n) F) V}
-
-theorem exists_zeta_core_natDegree [π.IsIrreducible] (hπ : IsAdmissible π)
-    (μ : Measure (GL (Fin n) F)) [μ.IsHaarMeasure] :
-    ∃ s₀ : ℝ, ∃ D : ℂ[X], D.eval 0 = 1 ∧ D.natDegree ≤ n ∧
-      ∀ Φ : Matrix (Fin n) (Fin n) F → ℂ, IsSchwartzBruhat Φ → ∀ (v : V) (ℓ : Module.Dual ℂ V),
-        ℓ ∈ smoothVectors (Representation.dual π) →
-        (∀ s : ℂ, s₀ < s.re → Integrable (fun g : GL (Fin n) F =>
-          Φ (g : Matrix (Fin n) (Fin n) F) * matrixCoeff π v ℓ g * detPow g s) μ) ∧
-        ∃ (N : ℕ) (P : ℂ[X]), ∀ s : ℂ, s₀ < s.re →
-          D.eval (qs F s) * ∫ g, Φ (g : Matrix (Fin n) (Fin n) F) * matrixCoeff π v ℓ g *
-            detPow g s ∂μ = P.eval (qs F s) / qs F s ^ N :=
-  exists_zeta_core_with_degree_bound hπ μ
-
-end Core
-
 section Ideal
 
 open Matrix GLnLocal Parabolic MeasureTheory Polynomial
 
 variable [MeasurableSpace (GL (Fin n) F)] [BorelSpace (GL (Fin n) F)]
   {V : Type*} [AddCommGroup V] [Module ℂ V] {π : Representation ℂ (GL (Fin n) F) V}
-
-theorem exists_zeta_rat_natDegree [π.IsIrreducible] (hπ : IsAdmissible π) (μ : Measure (GL (Fin n) F))
-    [μ.IsHaarMeasure] :
-    ∃ s₀ : ℝ, ∃ D : ℂ[X], D.eval 0 = 1 ∧ D.natDegree ≤ n ∧ (∀ s : ℂ, s₀ < s.re → D.eval (qs F s) ≠ 0) ∧
-      ∀ Φ : Matrix (Fin n) (Fin n) F → ℂ, IsSchwartzBruhat Φ → ∀ (v : V) (ℓ : Module.Dual ℂ V),
-        ℓ ∈ smoothVectors (Representation.dual π) →
-        (∀ s : ℂ, s₀ < s.re → Integrable (fun g : GL (Fin n) F =>
-          Φ (g : Matrix (Fin n) (Fin n) F) * matrixCoeff π v ℓ g *
-            detPow g (s + ((n : ℂ) - 1) / 2)) μ) ∧
-        ∃ (N : ℕ) (P : ℂ[X]), ∀ s : ℂ, s₀ < s.re →
-          zetaIntegral μ Φ (matrixCoeff π v ℓ) s =
-            (algebraMap ℂ[X] (RatFunc ℂ) P / algebraMap ℂ[X] (RatFunc ℂ) (X ^ N * D)).eval
-              (RingHom.id ℂ) (qs F s) := by
-  obtain ⟨s₀, D, hD0, hDn, hcore⟩ := exists_zeta_core_natDegree hπ μ
-  set c : ℂ := qs F (((n : ℂ) - 1) / 2) with hcdef
-  have hc : c ≠ 0 := qs_ne_zero _
-  set D' : ℂ[X] := D.comp (C c * X) with hD'def
-  have hD'0 : D'.eval 0 = 1 := by simp [D', hD0]
-  have hD'ne : D' ≠ 0 := fun h => by rw [h, eval_zero] at hD'0; exact zero_ne_one hD'0
-  obtain ⟨ε, hε, hεD⟩ := exists_eval_ne_zero hD'ne
-  obtain ⟨s₁, hs₁⟩ := exists_re_of_norm_qs_lt (F := F) hε
-  have hre : ∀ s : ℂ, max (s₀ - ((n : ℝ) - 1) / 2) s₁ < s.re →
-      s₀ < (s + ((n : ℂ) - 1) / 2).re := fun s hs => by
-    have := (le_max_left _ _).trans_lt hs
-    rw [re_shift]
-    linarith
-  have hDs : ∀ s : ℂ, max (s₀ - ((n : ℝ) - 1) / 2) s₁ < s.re → D'.eval (qs F s) ≠ 0 :=
-    fun s hs => hεD _ (qs_ne_zero s) (hs₁ s ((le_max_right _ _).trans_lt hs))
-  have hD'n : D'.natDegree ≤ n := by
-    refine natDegree_comp_le.trans ?_
-    calc D.natDegree * (C c * X).natDegree ≤ D.natDegree * 1 :=
-          Nat.mul_le_mul_left _ ((natDegree_C_mul_le c X).trans natDegree_X_le)
-      _ ≤ n := by rw [mul_one]; exact hDn
-  refine ⟨max (s₀ - ((n : ℝ) - 1) / 2) s₁, D', hD'0, hD'n, hDs, fun Φ hΦ v ℓ hℓ => ?_⟩
-  obtain ⟨hint, N, P, hP⟩ := hcore Φ hΦ v ℓ hℓ
-  refine ⟨fun s hs => hint _ (hre s hs), N, C (c ^ N)⁻¹ * P.comp (C c * X), fun s hs => ?_⟩
-  have hx : qs F s ≠ 0 := qs_ne_zero s
-  have hDx := hDs s hs
-  have hQ : (X ^ N * D').eval (qs F s) ≠ 0 := by
-    rw [eval_mul, eval_pow, eval_X]
-    exact mul_ne_zero (pow_ne_zero _ hx) hDx
-  rw [eval_div_algebraMap _ _ hQ]
-  have h1 := hP _ (hre s hs)
-  rw [qs_add, ← hcdef] at h1
-  have hDx' : D.eval (qs F s * c) ≠ 0 := by
-    rw [mul_comm]
-    rw [hD'def, eval_comp, eval_mul, eval_C, eval_X] at hDx
-    exact hDx
-  have h2 := eq_div_of_mul_eq hDx' ((mul_comm _ _).trans h1)
-  rw [zetaIntegral, h2]
-  simp only [D', eval_mul, eval_comp, eval_C, eval_X, eval_pow]
-  rw [mul_comm c (qs F s), mul_pow]
-  field_simp
-
-theorem exists_zetaSet_eq_natDegree [π.IsIrreducible] (hπ : IsAdmissible π) (μ : Measure (GL (Fin n) F))
-    [μ.IsHaarMeasure] :
-    ∃ D : ℂ[X], D.eval 0 = 1 ∧ D.natDegree ≤ n ∧ ∀ R ∈ zetaSet π μ, ∃ (N : ℕ) (P : ℂ[X]),
-      R = algebraMap ℂ[X] (RatFunc ℂ) P / algebraMap ℂ[X] (RatFunc ℂ) (X ^ N * D) := by
-  obtain ⟨s₀, D, hD0, hDn, -, h⟩ := exists_zeta_rat_natDegree hπ μ
-  refine ⟨D, hD0, hDn, fun R hR => ?_⟩
-  obtain ⟨Φ, v, ℓ, hΦ, hℓ, s₁, hZ⟩ := hR
-  obtain ⟨-, N, P, hP⟩ := h Φ hΦ v ℓ hℓ
-  refine ⟨N, P, ?_⟩
-  obtain ⟨ε, hε, hεs⟩ := exists_qs_of_small (F := F) (max s₀ s₁)
-  refine eq_of_eval_eq hε fun x hx hxε => ?_
-  obtain ⟨s, hs, rfl⟩ := hεs x hx hxε
-  rw [← hZ s ((le_max_right _ _).trans_lt hs), hP s ((le_max_left _ _).trans_lt hs)]
-
-theorem exists_denominator_zetaIdeal_natDegree [π.IsIrreducible] (hπ : IsAdmissible π)
-    (μ : Measure (GL (Fin n) F)) [μ.IsHaarMeasure] :
-    ∃ D : ℂ[X], D.eval 0 = 1 ∧ D.natDegree ≤ n ∧
-      ∀ R ∈ zetaIdeal π μ, algebraMap ℂ[X] (RatFunc ℂ) D * R ∈ laurentSubalgebra := by
-  obtain ⟨D, hD0, hDn, hD⟩ := exists_zetaSet_eq_natDegree hπ μ
-  have hDne : algebraMap ℂ[X] (RatFunc ℂ) D ≠ 0 := by
-    rw [Ne, map_eq_zero_iff _ (IsFractionRing.injective ℂ[X] (RatFunc ℂ))]
-    intro h
-    rw [h, eval_zero] at hD0
-    exact zero_ne_one hD0
-  refine ⟨D, hD0, hDn, fun R hR => ?_⟩
-  refine Submodule.span_induction
-    (p := fun R _ => algebraMap ℂ[X] (RatFunc ℂ) D * R ∈ laurentSubalgebra) ?_ ?_ ?_ ?_ hR
-  · intro R hR
-    obtain ⟨N, P, rfl⟩ := hD R hR
-    refine mem_laurentSubalgebra_iff.2 ⟨P, N, ?_⟩
-    rw [map_mul, map_pow, RatFunc.algebraMap_X]
-    have hX : (RatFunc.X : RatFunc ℂ) ≠ 0 := RatFunc.X_ne_zero
-    field_simp
-  · simp
-  · intro x y _ _ hx hy
-    rw [mul_add]
-    exact add_mem hx hy
-  · intro c x _ hx
-    rw [mul_smul_comm]
-    exact Subalgebra.smul_mem _ hx c
 
 theorem LPolynomial_dvd [NeZero n] [π.IsIrreducible] (hπ : IsAdmissible π)
     (μ : Measure (GL (Fin n) F)) [μ.IsHaarMeasure] {D : ℂ[X]} (hD0 : D ≠ 0)
@@ -816,7 +651,7 @@ theorem LPolynomial_dvd [NeZero n] [π.IsIrreducible] (hπ : IsAdmissible π)
 theorem natDegree_LPolynomial_le [NeZero n] [π.IsIrreducible] (hπ : IsAdmissible π) :
     (LPolynomial π).natDegree ≤ n := by
   obtain ⟨D, hD0, hDn, hD⟩ :=
-    exists_denominator_zetaIdeal_natDegree hπ (Measure.haar : Measure (GL (Fin n) F))
+    exists_denominator_zetaIdeal hπ (Measure.haar : Measure (GL (Fin n) F))
   have hDne : D ≠ 0 := fun h => by rw [h, eval_zero] at hD0; exact zero_ne_one hD0
   exact (natDegree_le_of_dvd (LPolynomial_dvd hπ Measure.haar hDne hD) hDne).trans hDn
 

@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.ExistsSabMapOfIsAH
 public import Mathlib.Algebra.Module.ZLattice.Basic
 public import Mathlib.Analysis.Analytic.Basic
 public import Mathlib.Analysis.CStarAlgebra.Classes
@@ -100,7 +99,6 @@ import Std.Tactic.BVDecide.Normalize.Prop
 import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.HermitianFormAtFrameLaws
 import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.TensorLatticeSelfDualSemicharacterIndex
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.SquareIntegrability.ContDiffOfDifferentiableFd
-import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.DeterminantBlockProductRenameTorusPolynomial
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.Proofs.UnitaryExistence.DifferentiableFderivApply, Development.AbelianVarietyTheory.Proofs.UnitaryExistence.ImFormApply, Development.AbelianVarietyTheory.Proofs.UnitaryExistence.ThetaFunctionIsogenyRestriction, Development.AbelianVarietyTheory.Proofs.UnitaryExistence.MemPerGrpOfIntegral
@@ -517,8 +515,7 @@ theorem eq_exp_of_ode {h h₁ h₂ : ℂ → ℂ} (hd : ∀ t, HasDerivAt h (h�
       (fun t ht => (hq t ht).deriv) ht (mem_ball_self hε)
     simpa using this
   have h1 : ∀ t, h₁ t - (α + c * t) * h t = 0 := by
-    by_contra hn
-    push_neg at hn
+    by_contra! hn
     refine not_eventually_zero (by fun_prop) hn 0 ?_
     filter_upwards [ball_mem_nhds 0 hε] with t ht
     rw [← hc t ht, sub_add_cancel, div_mul_cancel₀ _ (hb t ht), sub_self]
@@ -560,8 +557,7 @@ theorem eq_zero_of_tendsto (L : Submodule ℤ (Fin g → ℂ)) [DiscreteTopology
 
 theorem exists_zero_fderiv_ne_zero : ∀ (g : ℕ) (Hm : Matrix (Fin g) (Fin g) ℂ), Hm.PosDef → ∀ (Λ : AddSubgroup (Fin g → ℂ)), DiscreteTopology Λ → (∀ v, (∀ a ∈ Λ, ∃ k : ℤ, (star v ⬝ᵥ Hm.mulVec a).im = k) ↔ v ∈ Λ) → ∀ (χ θ : (Fin g → ℂ) → ℂ), Differentiable ℂ θ → θ ≠ 0 → (∀ a ∈ Λ, ‖χ a‖ = 1) → (∀ a ∈ Λ, ∀ z, θ (z + a) = χ a * Complex.exp (Real.pi * (star a ⬝ᵥ Hm.mulVec z) + Real.pi / 2 * (star a ⬝ᵥ Hm.mulVec a)) * θ z) → ∀ v : Fin g → ℂ, v ≠ 0 → ∃ a, θ a = 0 ∧ fderiv ℂ θ a v ≠ 0 := by
   intro g Hm hH Λ hd hΛ χ θ hθ h0 hχ hθt v hv
-  by_contra hm
-  push_neg at hm
+  by_contra! hm
   have hD := differentiable_fderiv_apply hθ v
   obtain ⟨ψ, hψ, hψ'⟩ := exists_fderiv_sq_quot hθ h0 v hD hm
   set D : (Fin g → ℂ) → ℂ := fun z => fderiv ℂ θ z v with hDdef
@@ -705,7 +701,6 @@ theorem imForm_apply (x y : EuclideanSpace ℂ ι) : imForm x y = (Hf x y).im :=
 
 theorem imForm_swap (x y : EuclideanSpace ℂ ι) : imForm y x = -imForm x y := by
   have h : Hf y x = starRingEnd ℂ (Hf x y) := by
-    set_option synthInstance.maxHeartbeats 100000 in
       simp [Hf, map_sum, mul_comm]
   rw [imForm_apply, imForm_apply, h, Complex.conj_im]
 
@@ -728,10 +723,10 @@ theorem upper_sub (b : Module.Basis (Fin n) ℝ (EuclideanSpace ℂ ι)) (x y : 
     · simp [h, lt_asymm h]
     · subst h
       have := imForm_swap (b i) (b i)
-      simp only [lt_irrefl, if_false, sub_zero]
+      simp only [lt_irrefl, ite_false, sub_zero]
       linarith
     · have := imForm_swap (b j) (b i)
-      simp only [h, lt_asymm h, if_true, if_false, zero_sub]
+      simp only [h, lt_asymm h, ite_true, ite_false, zero_sub]
       linarith
   rw [key]
   simp only [LinearMap.sub_apply, LinearMap.flip_apply]
@@ -1240,7 +1235,6 @@ open ReciprocityTheory.ChartRestriction.G.Geo.Tor hiding Level
 open GlobalTheory.SW hiding Level
 open Formalism.L2.Pj Formalism.L2.PjFree
 open scoped ComplexConjugate Classical
-attribute [local instance] Over.cartesianMonoidalCategory
 open GlobalTheory.Dict
 
 namespace GlobalTheory.ThetaNeZero
@@ -1270,8 +1264,26 @@ theorem eq_zero_of_im (hpos : ∀ z, z ≠ 0 → 0 < (hermForm Hm z z).re) {S : 
 theorem discrete_of_integral (hpos : ∀ z, z ≠ 0 → 0 < (hermForm Hm z z).re) (Λ : AddSubgroup (Fin g → ℂ))
     (hS : Submodule.span ℝ (Λ : Set (Fin g → ℂ)) = ⊤)
     (hint : ∀ a ∈ Λ, ∀ v ∈ Λ, ∃ k : ℤ, (hermForm Hm a v).im = k) : DiscreteTopology Λ := by
-  intros
-  apply _root_.GlobalTheory.Dict.SameFibre.discrete_of_im_int <;> assumption
+  obtain ⟨b, hb, hsp, hli⟩ := exists_linearIndependent ℝ (Λ : Set (Fin g → ℂ))
+  have hfin : b.Finite := hli.setFinite
+  have hop : IsOpen (⋂ a ∈ b, {v : Fin g → ℂ | |(hermForm Hm a v).im| < 1}) := by
+    refine hfin.isOpen_biInter fun a _ => isOpen_lt ?_ continuous_const
+    unfold hermForm
+    fun_prop
+  rw [discreteTopology_iff_isOpen_singleton_zero]
+  convert hop.preimage (continuous_subtype_val (p := fun v => v ∈ Λ)) using 1
+  ext v
+  simp only [Set.mem_singleton_iff, Set.mem_preimage, Set.mem_iInter, Set.mem_setOf_eq]
+  constructor
+  · rintro rfl a _
+    simp [hermForm]
+  · intro h
+    refine Subtype.ext (eq_zero_of_im Hm hpos (hsp.trans hS) fun a ha => ?_)
+    obtain ⟨k, hk⟩ := hint a (hb ha) v v.2
+    have h1 := h a ha
+    rw [hk] at h1 ⊢
+    have h2 : |k| < 1 := by exact_mod_cast h1
+    rw [Int.abs_lt_one_iff.1 h2, Int.cast_zero]
 
 end Forms
 
@@ -1283,7 +1295,17 @@ variable {V : Type} [NormedAddCommGroup V] [NormedSpace ℂ V]
 
 theorem contDiffAt_of_entire [FiniteDimensional ℂ V] {F : V → ℂ} (hF : Differentiable ℂ F) (x : V) :
     ContDiffAt ℂ ω F x := by
-  apply _root_.GlobalTheory.BlockRen.contDiffAt_of_diff <;> assumption
+  let e : V ≃L[ℂ] (Fin (Module.finrank ℂ V) → ℂ) :=
+    (Module.finBasis ℂ V).equivFun.toContinuousLinearEquiv
+  have h1 : Differentiable ℂ (F ∘ e.symm) := hF.comp e.symm.differentiable
+  have h2 : AnalyticOnNhd ℂ (F ∘ e.symm) Set.univ :=
+    ReciprocityTheory.AnForm.Osgood.osgood _ _ _ isOpen_univ h1.differentiableOn
+  have h3 : ContDiff ℂ ω (F ∘ e.symm) := by
+    rw [← contDiffOn_univ]
+    exact h2.contDiffOn uniqueDiffOn_univ
+  have : F = (F ∘ e.symm) ∘ e := by ext y; simp
+  rw [this]
+  exact (h3.comp e.contDiff).contDiffAt
 
 theorem polyDeriv_rename [FiniteDimensional ℂ V] {θ : V → ℂ} (hθ : Differentiable ℂ θ) (x : V) {T₁ T₂ : Type}
     (ρ : T₁ → T₂) (hρ : Function.Injective ρ) (P : MvPolynomial T₁ ℂ) (v : T₂ → V) :

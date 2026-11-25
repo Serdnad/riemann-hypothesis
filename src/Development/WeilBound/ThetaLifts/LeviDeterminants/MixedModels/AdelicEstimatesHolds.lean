@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.MulRealAdEqZero
 public import Development.WeilBound.ThetaLifts.LeviDeterminants.MixedModels.PureSt
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LatAtVAtStable
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.StandardAddCharSymplecticLocalLatticeEqOne
@@ -13,54 +12,8 @@ public import Development.WeilBound.ThetaLifts.LeviDeterminants.MixedModels.Real
 public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.ExistsNhdsInvariant
 public import Development.WeilBound.CoreStatements.LocallyConstantCoinvariants.IndicatorMem
 public import Development.WeilBound.ThetaLifts.LeviDeterminants.MixedModels.MCPure
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Etale.Weakly
-import Mathlib.RingTheory.Finiteness.ModuleFinitePresentation
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.RingTheory.TotallySplit
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Topology.Sheaves.Init
 import Development.AbelianVarietyTheory.Definitions.Divisors.MatchingOfParts
-import Mathlib.RingTheory.PiTensorProduct
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
 import Std.Tactic.BVDecide.Normalize.Prop
-import Mathlib.Algebra.Order.Archimedean.Real.Hom
-import Mathlib.Algebra.Ring.IsFormallyReal
-import Mathlib.Algebra.Module.Torsion.Prod
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.WeilBound.ThetaLifts.LeviDeterminants.MixedModels.FiniteAdelicEstimatesHolds, Development.WeilBound.ThetaLifts.LeviDeterminants.MixedModels.MCGlue, Development.WeilBound.ThetaLifts.LeviDeterminants.MixedModels.MCReal, Development.WeilBound.ThetaLifts.LeviDeterminants.MixedModels.TraceNondeg, Development.WeilBound.ThetaLifts.LeviDeterminants.MixedModels.AdelicEstimatesHolds
@@ -76,8 +29,6 @@ namespace PositivityTheory.Mix
 
 open NumberField IsDedekindDomain Filter Topology Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes GlobalTheory.WeilM GlobalTheory.AdelicU GlobalTheory.LFun GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels GlobalTheory.ThK PositivityTheory.KCo
   GlobalTheory.LatVac
-
-attribute [local instance] GlobalTheory.LocalData.complRel GlobalTheory.LocalData.isLocalField
 
 variable {F : Type} [Field F] [NumberField F] {κ : Type} [Fintype κ] {v : Pl F}
 
@@ -190,8 +141,7 @@ theorem eq_std {ψ : AddChar (AF F) ℂ} (hψ : PsiUnr ψ v) {Φ : (κ → Fv F 
   · rw [Pi.smul_apply, Set.indicator_of_notMem (show x ∉ {x : κ → Fv F v | ∀ i, x i ∈ v.adicCompletionIntegers F} from hx), smul_zero]
     obtain ⟨i, hi⟩ := not_forall.1 hx
     obtain ⟨y, hy, hne⟩ : ∃ y ∈ v.adicCompletionIntegers F, psiLoc ψ v (x i * y) ≠ 1 := by
-      by_contra hc
-      push_neg at hc
+      by_contra! hc
       exact hi ((hψ _).1 hc)
     have := congrFun (h (0, Pi.single i y) ⟨fun _ => zero_mem _, fun j => by
       by_cases e : j = i
@@ -245,7 +195,7 @@ theorem finite_adelic_estimates_holds : FinSt := by
         fun i => zero_mem _)] at this
       exact one_ne_zero this
     change c v • ι v (s v) = _
-    rw [show c v = (ι v (s v) 0)⁻¹ from if_neg h0, inv_smul_eq_iff₀ h0]
+    rw [show c v = (ι v (s v) 0)⁻¹ from ite_eq_right h0, inv_smul_eq_iff₀ h0]
     exact h
 
 end PositivityTheory.Mix
@@ -357,7 +307,7 @@ theorem rel_fin (ev : ∀ v : Pl F, ((κ → Fv F v) → ℂ) →ₗ[ℂ] ((κ �
           unfold tens r GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.pure
           rw [funext hprod, finprod_mul_distrib ht hsupport,
             finprod_eq_single t v (fun w e => ite_eq_right e)]
-          simp only [t, if_true]
+          simp only [t, ite_true]
           ac_rfl
         funext x
         have hs : (fun y => pure g θ (repl v x y)) = r x • θ v := by
@@ -736,8 +686,19 @@ theorem pr_dot (x y : κ → AF F) : (fun i => rho F (x i)) ⬝ᵥ (fun i => rho
 
   simp [dotProduct, map_sum]
 
-theorem trace_nondeg (a : mixedSpace F) (h : ∀ b, Algebra.trace ℝ (mixedSpace F) (a * b) = 0) : a = 0 :=
-  _root_.GlobalTheory.ArchUniq.Coord.eq_zero_of_trace a h
+theorem trace_nondeg (a : mixedSpace F) (h : ∀ b, Algebra.trace ℝ (mixedSpace F) (a * b) = 0) : a = 0 := by
+  let b : mixedSpace F := (fun w => (a.1 w)⁻¹, fun w => (a.2 w)⁻¹)
+  have h1 : a * b * a = a := Prod.ext (funext fun w => mul_inv_mul_cancel (a.1 w)) (funext fun w => mul_inv_mul_cancel (a.2 w))
+  have h2 : IsIdempotentElem (Algebra.lmul ℝ (mixedSpace F) (a * b)) := by
+    unfold IsIdempotentElem
+    rw [← map_mul, ← mul_assoc, h1]
+  have h3 := (LinearMap.IsIdempotentElem.isProj_range _ h2).trace
+  have h4 : LinearMap.trace ℝ _ (Algebra.lmul ℝ (mixedSpace F) (a * b)) = 0 := h b
+  rw [h4] at h3
+  have h5 : LinearMap.range (Algebra.lmul ℝ (mixedSpace F) (a * b)) = ⊥ :=
+    Submodule.finrank_eq_zero.1 (by exact_mod_cast h3.symm)
+  have h6 : a * b * a ∈ LinearMap.range (Algebra.lmul ℝ (mixedSpace F) (a * b)) := ⟨a, rfl⟩
+  rwa [h5, h1, Submodule.mem_bot] at h6
 
 def betaL (F : Type) [Field F] [NumberField F] (κ : Type) [Fintype κ] : (κ → mixedSpace F) →ₗ[ℝ] (κ → mixedSpace F) →ₗ[ℝ] ℝ :=
   LinearMap.mk₂ ℝ (beta F κ) (fun x y z => by simp only [beta, add_dotProduct, map_add (f := _)]) (fun c x y => by simp [beta, smul_dotProduct])

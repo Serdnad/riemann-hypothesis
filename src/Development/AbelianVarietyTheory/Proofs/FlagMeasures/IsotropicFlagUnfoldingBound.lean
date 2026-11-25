@@ -667,14 +667,9 @@ namespace GlobalTheory.FlagMeas.SatModel
 
 open Formalism.MainNotions.S GlobalTheory.Count
 
-theorem volU_pos (i : ℕ) : 0 < volU i := by
-  unfold volU sphV
-  have := Real.pi_pos
-  refine mul_pos (Finset.prod_pos fun l _ => by positivity) (by positivity)
-
 theorem cIw_pos (p q : ℕ) {a : ℕ} (j : Fin a → ℕ) : 0 < cIw p q j := by
   unfold cIw
-  have := volU_pos
+  have := GlobalTheory.UnitaryVolume.volU_pos
   refine div_pos (mul_pos (by positivity) (mul_pos (this _) (this _)))
     (mul_pos (mul_pos (Finset.prod_pos fun i _ => mul_pos (this _) (by positivity)) (this _)) (this _))
 
@@ -1479,7 +1474,7 @@ theorem bound : ∀ (I I₀ : AutInst) (e : I₀.E ≃+* I.E) (xf : I.Gf) (a : �
     rw [this, mul_zero]
     exact zero_le
   obtain ⟨g₀, hg₀⟩ := Set.nonempty_iff_ne_empty.2 hA
-  have hsat := _root_.GlobalTheory.FlagBase.AdSat.isSatFlag_of_isAdapted I I₀ e xf a j S Λ x₀ T T' T₀ hj had
+  have hsat := _root_.GlobalTheory.FlagBase.AdSat.isSatFlag_of_isAdapted I I₀ e xf a j S Λ x₀ T T' T₀ had
   have hiso := _root_.GlobalTheory.FlagMeas.isIsoFlag_flagAt_of_isSatFlag I _ a j S hsat
   obtain ⟨-, hrd, hrd1, hf, hcard, -⟩ := _root_.GlobalTheory.FlagMeas.instance_numbers I
   have hf0 : I.f ≠ 0 := by omega

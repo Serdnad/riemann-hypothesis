@@ -1,6 +1,5 @@
 module
 
-import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.PDivCycleFiniteSupport
 public import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.StatementsBundles
 public import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.IsMultiHomogIdealSpanSingleton
 public import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.Statements
@@ -60,7 +59,7 @@ theorem polyVal_monomial (A : List (K → ℤ) → ℤ) (cls : σ → K → ℤ)
     polyVal A cls (monomial μ c) = c * A (classList cls μ) := by
   classical
   rw [polyVal_eq_sum_of_subset A cls support_monomial_subset, Finset.sum_singleton, coeff_monomial,
-    if_pos rfl]
+    ite_eq_left rfl]
 
 theorem polyVal_fun_sub (A₁ A₂ : List (K → ℤ) → ℤ) (cls : σ → K → ℤ) (H : MvPolynomial σ ℤ) :
     polyVal (fun l => A₁ l - A₂ l) cls H = polyVal A₁ cls H - polyVal A₂ cls H := by
@@ -297,7 +296,14 @@ section Models
 universe u
 
 theorem divCycleFiniteSupport : DivCycleFiniteSupport.Statement.{u} := by
-  apply _root_.GroundTheory.Heights₂.Heights.NumbersDVR.DivCycleFiniteSupport.proof <;> assumption
+  intro R _ _ K _ ι _ P f
+  refine (Ideal.finite_minimalPrimes_of_isNoetherianRing _ (P ⊔ Ideal.span {f})).subset ?_
+  intro W hW
+  rw [Function.mem_support] at hW
+  unfold divCycle at hW
+  split_ifs at hW with h
+  · exact h.1
+  · exact absurd rfl hW
 
 variable {K : Type} [DecidableEq K] {ι : K → Type}
 
@@ -402,11 +408,11 @@ theorem listNum_commute (hC2 : VerticalDivisorsCommute.Statement.{0}) {ϖ : O} (
   unfold listNum
   simp only [List.length_cons, List.cons_append]
   by_cases h : l.length + 1 + Q.length = d
-  · simp only [if_pos h]
+  · simp only [ite_eq_left h]
     obtain rfl : d = (l ++ Q).length + 1 := by simp only [List.length_append]; omega
     simp only [vNumL_cons]
     exact hC2 O ϖ hϖ K ι P (l ++ Q).length hP b b' f g f' g' hD hD' (l ++ Q).get
-  · simp [if_neg h, cycEval]
+  · simp [ite_eq_right h, cycEval]
 
 
 omit [DecidableEq K] in
@@ -560,7 +566,7 @@ theorem classNum_eq_polyVal {σ : Type*} (cls : σ → K → ℤ) {H : MvPolynom
     (W : Ideal (MRing ι O)) : classNum cls H Q W = polyVal (listNum W Q d) cls H := by
   unfold classNum polyVal listNum
   refine Finset.sum_congr rfl fun μ hμ => ?_
-  rw [if_pos]
+  rw [ite_eq_left]
   have h1 := hH (mem_support_iff.mp hμ)
   rw [← hn, ← h1]
   congr 1

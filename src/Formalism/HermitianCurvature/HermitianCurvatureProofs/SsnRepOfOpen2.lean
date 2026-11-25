@@ -27,51 +27,7 @@ public import Formalism.HermitianCurvature.HermitianCurvatureProofs.CutJAGaugeLi
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.CutJASSnRepThtFacts
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.LevelCoordinatesCommute
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.RestrictionIrrelevantDoubleLevelOperator
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Topology.Sheaves.Init
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.CutGaugeVLem
-import Mathlib.Tactic.Linter.HaveILetI
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
-import Std.Tactic.BVDecide.Normalize.Prop
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.NFRadRedF
 import Mathlib.RingTheory.SimpleRing.Principal
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.BigCellInversePair
@@ -79,7 +35,6 @@ import Formalism.HermitianCurvature.HermitianCurvatureProofs.NFRadRedA
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.NormalFormOrderZeroOfParts
 import Mathlib.RingTheory.RegularLocalRing.Defs
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.BetaCutoffLimit
-import Mathlib.Tactic.ENatToNat
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.LiftMemMatrixAlgebra
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.SumPairAtStarMul
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.InvariantOperatorUnderJacquet
@@ -357,12 +312,12 @@ private theorem ne_and_unique_index_of_up {l : ℕ} (hl : l ∈ Finset.Icc 1 (P.
   rw [Finset.mem_Icc] at hl
   obtain ⟨i, hi⟩ : ∃ i : Fin (P.k - 1), (i : ℕ) + 1 = l := ⟨⟨l - 1, by omega⟩, show l - 1 + 1 = l by omega⟩
   have h1 := hU i
-  rw [if_pos hi] at h1
+  rw [ite_eq_left hi] at h1
   refine ⟨fun h => ?_, fun j hj h2 => ?_⟩
   · subst h
     omega
   · have h3 := h2 i
-    rw [if_neg (by omega)] at h3
+    rw [ite_eq_right (by omega)] at h3
     omega
 
 theorem projected_block_lower_sum (hR : Rai κ S) {B : A} (hB : ∀ f, Commute (κ f) B) {l : ℕ} (hl : l ∈ Finset.Icc 1 (P.k - 1))
@@ -972,12 +927,12 @@ theorem mat_gen {Ty : Type} [Fintype Ty] [DecidableEq Ty] (Qd : Ty → (Wq →L[
     B.hsInner (∑ π', ∑ ρ', c π' ρ' • Qd ρ' (T0 (Qd π' (e π)))) (e ρ) = c π ρ * B.hsInner (T0 (e π)) (e ρ) := by
   rw [kap_hsInner_sum_left, Finset.sum_eq_single π]
   · rw [kap_hsInner_sum_left, Finset.sum_eq_single ρ]
-    · rw [_root_.Formalism.FourierDecayAlt.P5.hsInner_smul_left, hQadj, hline π π, hline ρ ρ, if_pos rfl, if_pos rfl]
+    · rw [_root_.Formalism.FourierDecayAlt.P5.hsInner_smul_left, hQadj, hline π π, hline ρ ρ, ite_eq_left rfl, ite_eq_left rfl]
     · intro ρ' _ hne
-      rw [_root_.Formalism.FourierDecayAlt.P5.hsInner_smul_left, hQadj, hline ρ' ρ, if_neg hne, hsInner_zero_r, mul_zero]
+      rw [_root_.Formalism.FourierDecayAlt.P5.hsInner_smul_left, hQadj, hline ρ' ρ, ite_eq_right hne, hsInner_zero_r, mul_zero]
     · intro h; exact absurd (Finset.mem_univ ρ) h
   · intro π' _ hne
-    rw [hline π' π, if_neg hne, map_zero]
+    rw [hline π' π, ite_eq_right hne, map_zero]
     simp only [map_zero, smul_zero, Finset.sum_const_zero]
     exact _root_.Formalism.FourierDecayAlt.P5.HerA.hsInner_zero_left _
   · intro h; exact absurd (Finset.mem_univ π) h
@@ -1120,7 +1075,7 @@ theorem theta_gauge_constancy_holds : ThtGaugeConstOfCore := by
   have hSSF := hA (Wp (S.pl v)) (Wq (S.pl v)) (D.parOf S v) (T v).base hk X d hAct e hFrB hGQ
   refine ⟨θ, fun ζ hζ π ρ hup => ?_⟩
   have hent := hE (Wp (S.pl v)) (Wq (S.pl v)) (D.parOf S v) (T v).base hk X d hAct e hFrB hSSF l hl SS hSS ζ hζ π ρ
-  rw [if_pos hup] at hent
+  rw [ite_eq_left hup] at hent
   obtain ⟨hP1, hH1, -, -⟩ := hDU Cc E Wp Wq S T f χ ν' m₀ top A₀ hB v ζ hζ
   set n0 := SSn.nu0 S.G.k S.G.r (T v).base.z (T v).base.z' (T v).base.μsec ζ with hn0
   have hN0 : PRho.nrmW S.G.k S.G.r (T v).base.z n0 = 1 := by
@@ -1333,7 +1288,7 @@ theorem theta_constancy_assembly_scalar : ThConstOfCutS := by
   intro ζ hζ π ρ hup Xf hXf hfix
   have hex : ∃ ρ, M.Up P l π ρ := ⟨ρ, hup⟩
   have hρ : hex.choose = ρ := tc_up_unique hex.choose_spec hup
-  simp only [dif_pos hex]
+  simp only [dite_eq_left hex]
   have := (main π hex.choose hex.choose_spec).choose_spec ζ hζ Xf hXf hfix
   subst hρ
   exact this

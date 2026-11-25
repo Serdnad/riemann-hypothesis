@@ -25,15 +25,10 @@ theorem hint_mpSplit (D n : ℕ) (hn : 0 < n) :
   unfold blockSphereProb
   exact measurePreserving_piFinSuccAbove (fun _ : Fin (D + 1) => sphereProb n) 0
 
-private theorem isProbabilityMeasure_sphereProb' (n : ℕ) (hn : 0 < n) : IsProbabilityMeasure (sphereProb n) := by
-  first
-    | exact _root_.ReciprocityTheory.MultiplicativeHeights.sphereMeasure_isProbability
-    | apply _root_.ReciprocityTheory.MultiplicativeHeights.sphereMeasure_isProbability <;> first | assumption | rfl | infer_instance
-
 theorem hint_mpTail (D n : ℕ) (hn : 0 < n) :
     MeasurePreserving (fun z : BlockSphere (D + 1) n => fun i : Fin D => z i.succ)
       (blockSphereProb (D + 1) n) (blockSphereProb D n) := by
-  haveI := isProbabilityMeasure_sphereProb' n hn
+  haveI := sphereMeasure_isProbability hn
   haveI : SFinite (blockSphereProb D n) := by
     unfold blockSphereProb
     infer_instance

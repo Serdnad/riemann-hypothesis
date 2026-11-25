@@ -1,11 +1,11 @@
 module
 
-import GroundTheory.HeightsAndTheta.Heights.MultihomogeneousPolynomials
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsSmallSectionsSeparated
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsGridSeparation
 public import GroundTheory.HeightsAndTheta.Heights.WeightedHomogeneous.PConeTrdeg
 import Mathlib.Algebra.Order.Star.Int
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovGeometry.ProjDefs
+import GroundTheory.HeightsAndTheta.Heights.HeightComparison.IsMultiHomogIdealIff
 
 @[expose] public section
 
@@ -24,16 +24,16 @@ namespace SmallSectionsSeparated
 variable {K : Type} [Fintype K] {ι : K → Type} [∀ k, Fintype (ι k)] {Ω : Type} [Field Ω]
 
 theorem isMultiHomog_mul {f g : MRing ι} {a b : K → ℕ} (hf : IsMultiHomog f a) (hg : IsMultiHomog g b) :
-    IsMultiHomog (f * g) (a + b) := by
-  apply _root_.GroundTheory.Heights₂.Heights.MultiHomogeneous.mul <;> assumption
+    IsMultiHomog (f * g) (a + b) :=
+  GroundTheory.Heights₂.Heights.Bridge.isMultiHomog_mul hf hg
 
 theorem isMultiHomog_sub {f g : MRing ι} {a : K → ℕ} (hf : IsMultiHomog f a) (hg : IsMultiHomog g a) :
-    IsMultiHomog (f - g) a := by
-  apply _root_.GroundTheory.Heights₂.Heights.MultiHomogeneous.sub <;> assumption
+    IsMultiHomog (f - g) a :=
+  GroundTheory.Heights₂.Heights.Bridge.isMultiHomog_sub hf hg
 
 theorem isMultiHomog_add {f g : MRing ι} {a : K → ℕ} (hf : IsMultiHomog f a) (hg : IsMultiHomog g a) :
-    IsMultiHomog (f + g) a := by
-  apply _root_.GroundTheory.Heights₂.Heights.MultiHomogeneous.add <;> assumption
+    IsMultiHomog (f + g) a :=
+  GroundTheory.Heights₂.Heights.Bridge.isMultiHomog_add hf hg
 
 theorem mem_mCoordIdeal_of_homog (y : (Σ k, ι k) → Ω) {f : MRing ι} {d : K → ℕ} (hf : IsMultiHomog f d)
     (h0 : aeval y f = 0) : f ∈ mCoordIdeal y := by

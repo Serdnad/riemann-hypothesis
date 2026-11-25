@@ -1,6 +1,5 @@
 module
 
-import Development.AutomorphicArithmetic.AutomorphicVarieties.LiteratureResults.KTheoryStability.ReductionBoundsTorsion.CompactLocalSets.SLocOf
 public import Mathlib.Analysis.Complex.Norm
 public import Mathlib.Data.Matrix.Mul
 public import Mathlib.Analysis.Normed.Ring.Basic
@@ -71,7 +70,16 @@ section -- clump:auto
 namespace GlobalTheory.LatticeFactsFlagMeasures
 
 theorem main : ∀ {n : ℕ} (A B : Matrix (Fin n) (Fin n) ℂ) (a b : ℝ), (∀ (i j : Fin n), ‖A i j‖ ≤ a) → (∀ (i j : Fin n), ‖B i j‖ ≤ b) → ∀ (i j : Fin n), ‖(A * B) i j‖ ≤ (↑n : ℝ) * (a * b) := by
-  apply _root_.PositivityTheory.KB.LocalOverlapAverage.entry_mul_le <;> assumption
+  intro n A B a b hA hB i j
+  rw [Matrix.mul_apply]
+  calc ‖∑ k, A i k * B k j‖ ≤ ∑ k, ‖A i k * B k j‖ := norm_sum_le _ _
+    _ ≤ ∑ _k : Fin n, a * b := by
+        apply Finset.sum_le_sum
+        intro k _
+        rw [norm_mul]
+        have ha : 0 ≤ a := le_trans (norm_nonneg _) (hA i k)
+        exact mul_le_mul (hA i k) (hB k j) (norm_nonneg _) ha
+    _ = (n : ℝ) * (a * b) := by simp
 
 end GlobalTheory.LatticeFactsFlagMeasures
 end -- clump:auto
@@ -117,13 +125,13 @@ theorem det_minor {n : ℕ} (L R : Matrix (Fin n) (Fin n) ℂ) (hL : IsLoUni L)
       · simp
       · intro b _ hb
         have : b.1 ≠ j := fun h => hb (Subtype.ext h)
-        simp only [Matrix.submatrix_apply, if_neg this]
+        simp only [Matrix.submatrix_apply, ite_eq_right this]
         exact (hL _ _).2 rfl
       · simp
     · intro a b hab
       have hab' : a.1 < b.1 := hab
       have : a.1 ≠ j := ne_of_lt (lt_of_lt_of_le hab' b.2)
-      simp only [Matrix.submatrix_apply, if_neg this]
+      simp only [Matrix.submatrix_apply, ite_eq_right this]
       exact (hL _ _).1 hab'
   · rw [Matrix.det_of_upperTriangular]
     · simp only [Matrix.submatrix_apply]
@@ -395,9 +403,6 @@ theorem continuous_opn {N : ℕ} : Continuous fun x : Matrix (Fin N) (Fin N) ℂ
   (LinearMap.continuous_of_finiteDimensional
     (Matrix.toEuclideanCLM (𝕜 := ℂ) (n := Fin N)).toAlgEquiv.toLinearMap).norm
 
-theorem one_le_opn {k r : ℕ} {x : Mat k r} (hx : x ∈ GG k r) : 1 ≤ opn x := by
-  apply GlobalTheory.SgInf.OpNormU.one_le_opn <;> assumption
-
 theorem eucl_le_sum {N : ℕ} (v : Fin N → ℂ) : eucl v ≤ ∑ i, ‖v i‖ := by
   unfold eucl
   rw [Real.sqrt_le_left (Finset.sum_nonneg fun i _ => norm_nonneg _)]
@@ -497,7 +502,7 @@ theorem frame_image_bound : ∀ (k r : ℕ) (z z' : Fin (2 * r + k + 1) → ℂ)
   obtain ⟨hu', Q, hQ, eQ⟩ := exists_S k r z' hz' s' hs'
   set x : Mat k r := s * γ * s'⁻¹ with hx
   have hxG : x ∈ GG k r := g2 _ (g2 _ hu _ (hreg hγ).1) _ (g3 s' hu').2
-  have hx1 : 1 ≤ opn x := one_le_opn hxG
+  have hx1 : 1 ≤ opn x := GlobalTheory.SgInf.OpNormU.one_le_opn hxG
   have hxs : x * s' = s * γ := by
     rw [hx, Matrix.mul_assoc, nonsing_inv_mul _ (g3 s' hu').1, Matrix.mul_one]
   have eZ : Pᴴ * Zhat k r z z' x * Q = Zhat k r z z' γ := by

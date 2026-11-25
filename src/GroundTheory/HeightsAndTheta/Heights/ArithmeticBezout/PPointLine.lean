@@ -1,6 +1,5 @@
 module
 
-import Mathlib.RingTheory.MvPolynomial.Homogeneous
 public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.Statements
 
 @[expose] public section
@@ -18,8 +17,8 @@ namespace PointLine
 variable {n : ℕ}
 
 theorem eval_smul_of_isHomogeneous {φ : MvPolynomial (Fin n) ℂ} {m : ℕ} (hφ : φ.IsHomogeneous m)
-    (t : ℂ) (x : Fin n → ℂ) : eval (t • x) φ = t ^ m * eval x φ := by
-  exact hφ.eval_smul t x
+    (t : ℂ) (x : Fin n → ℂ) : eval (t • x) φ = t ^ m * eval x φ :=
+  hφ.eval_smul t x
 
 theorem smul_mem_zeroSet {W : Ideal (MvPolynomial (Fin n) ℂ)} (hW : IsHomogIdeal W)
     {x : Fin n → ℂ} (hx : ∀ q ∈ W, eval x q = 0) (t : ℂ) : ∀ q ∈ W, eval (t • x) q = 0 := by

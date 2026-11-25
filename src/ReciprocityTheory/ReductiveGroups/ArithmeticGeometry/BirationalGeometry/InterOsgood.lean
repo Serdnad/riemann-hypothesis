@@ -14,7 +14,7 @@ public import Mathlib.Analysis.SpecialFunctions.Complex.Log
 
 namespace ReciprocityTheory.ChartRestriction.G.Geo
 
-theorem osgood : _root_.ReciprocityTheory.AnForm.Osgood.OsgoodStatement := by
-  apply _root_.ReciprocityTheory.AnForm.Osgood.osgood <;> assumption
+theorem osgood : _root_.ReciprocityTheory.AnForm.Osgood.OsgoodStatement :=
+  _root_.ReciprocityTheory.AnForm.Osgood.osgood
 
 end ReciprocityTheory.ChartRestriction.G.Geo

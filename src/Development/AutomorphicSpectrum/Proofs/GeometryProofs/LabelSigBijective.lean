@@ -7,43 +7,7 @@ public import Development.AutomorphicSpectrum.Statements.GeometryStatements.Read
 public import Formalism.LocalToGlobal.ProjectiveLattices.PlaceBelow
 public import Development.AutomorphicSpectrum.Statements.GeometryStatements.ExistsAlgPtOff
 public import Formalism.LocalToGlobal.ProjectiveLattices.CrudeVal
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovGeometry.IsHomogeneousGrL
 import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.DefiniteFormStabilizerFiniteAwayFromP
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovGeometry.ExistsPrimeFiltrationOfIsMultiHomogIdeal
@@ -56,7 +20,6 @@ open NumberField IsDedekindDomain MeasureTheory Filter Topology
 open Formalism.L2.Pj ReciprocityTheory.ChartRestriction.G ReciprocityTheory.ChartRestriction.G.Geo ReciprocityTheory.ChartRestriction.G.Geo.Tor ReciprocityTheory.ChartRestriction.G.FD ReciprocityTheory.ChartRestriction.G.AR.Up ReciprocityTheory.ChartRestriction.G.AR.Inst Formalism.BasicNotions Formalism.BasicNotions.TH Formalism.L2.Theta
 open GlobalTheory.CompanionTheory.Ar GlobalTheory.CompanionTheory.Ar.Rec
 open scoped Matrix
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 
 noncomputable section
 
@@ -193,10 +156,10 @@ theorem labelSig_bijective : Function.Bijective (labelSig Dw) := by
     exact ⟨⟨s, k⟩, hk⟩
 
 theorem rootIdx_lt {τ : CMType H} {n : Fin (Dw.p + Dw.q)} (h : (n : ℕ) < Dw.p) :
-    HodgeCpt.rootIdx Dw (τ, n) = ⟨.inl τ, ⟨n, h⟩⟩ := dif_pos h
+    HodgeCpt.rootIdx Dw (τ, n) = ⟨.inl τ, ⟨n, h⟩⟩ := dite_eq_left h
 
 theorem rootIdx_ge {τ : CMType H} {n : Fin (Dw.p + Dw.q)} (h : ¬ (n : ℕ) < Dw.p) :
-    HodgeCpt.rootIdx Dw (τ, n) = ⟨.inr τ, ⟨Dw.p + Dw.q - 1 - n, by have := n.2; show _ < Dw.q; omega⟩⟩ := dif_neg h
+    HodgeCpt.rootIdx Dw (τ, n) = ⟨.inr τ, ⟨Dw.p + Dw.q - 1 - n, by have := n.2; show _ < Dw.q; omega⟩⟩ := dite_eq_right h
 
 theorem rootVal_lt {τ : CMType H} {n : Fin (Dw.p + Dw.q)} (h : (n : ℕ) < Dw.p) :
     ((HodgeCpt.rootIdx Dw (τ, n)).2 : ℕ) = n :=
@@ -302,7 +265,7 @@ theorem ram_pos {p : ℕ} [hp : Fact p.Prime] {la : HeightOneSpectrum (𝓞 c.F)
 theorem tOf_pos {p : ℕ} [hp : Fact p.Prime] (la : HeightOneSpectrum (𝓞 c.F)) (T : CDVR) (e : ℕ) (t : Ix Dw → T.Frˣ)
     (j : Ix Dw) : 0 < tOf p la T e t j := by
   unfold tOf absT
-  rw [if_neg (t j).ne_zero]
+  rw [ite_eq_right (t j).ne_zero]
   exact inv_pos.2 (Real.rpow_pos_of_pos (by exact_mod_cast hp.out.pos) _)
 
 theorem read_of_reads {Fr : Small.GenFrame Or} {p : ℕ} [hp : Fact p.Prime]

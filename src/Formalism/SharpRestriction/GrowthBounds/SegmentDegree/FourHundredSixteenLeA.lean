@@ -2,45 +2,8 @@ module
 
 import Formalism.SharpRestriction.GrowthBounds.SegmentDegree.CardFinRange
 public import Formalism.SharpRestriction.GrowthBounds.SegmentDegree.GoodPathWeight
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
 import Mathlib.Algebra.Ring.IsFormallyReal
 public import Mathlib.Analysis.Complex.ExponentialBounds
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Presheaf
 import Formalism.SharpRestriction.GrowthBounds.SegmentDegree.AtypicalPathSmallWeight
 import Formalism.SharpRestriction.GrowthBounds.ValuationLowestDegreeMapFractionField
@@ -174,7 +137,7 @@ theorem c_bounds (hX : X.Hyp p K) (h41 : ∀ t ∈ X.F.TT, (9 / 10 : ℝ) * (X.d
   have ha'le : (X.a' p K (posOf n' y) : ℝ) ≤ X.deg (posOf n' y) := by
     have h0 : X.a' p K (posOf n' y) ≤ X.deg (posOf n' y) := by
       unfold Dat.a' Dat.d
-      rw [if_pos hyT]
+      rw [ite_eq_left hyT]
       omega
     exact_mod_cast h0
   refine ⟨?_, by linarith [hdeg.1], by linarith [hdeg.2]⟩
@@ -250,8 +213,7 @@ theorem c_bounds (hX : X.Hyp p K) (h41 : ∀ t ∈ X.F.TT, (9 / 10 : ℝ) * (X.d
           ring
   linarith [hdeg.1, h41y]
 
-theorem Bdeg_bounds (hX : X.Hyp p K) (hk : 1088 ≤ X.Ck)
-    (h41 : ∀ t ∈ X.F.TT, (9 / 10 : ℝ) * (X.deg t : ℝ) ≤ (X.a' p K t : ℝ))
+theorem Bdeg_bounds (hX : X.Hyp p K)
     (j : ℤ) (b : ℤ → ℕ) (hA : X.AdmLL p K j b) (x : ℤ) (hx : x ∈ X.F.letters j) (hlt : x < X.F.fr j 0) :
     (X.a' p K (posOf n' x) : ℝ) / (p : ℝ) ^ (X.F.dist j x + X.Rj p K j) - 2 * Dat.k (r := r) K * (X.Ns : ℝ) ≤
         (X.Bdeg p K j (X.restr j b) x : ℝ) ∧
@@ -267,7 +229,7 @@ theorem Bdeg_bounds (hX : X.Hyp p K) (hk : 1088 ≤ X.Ck)
   have hP0 : (0 : ℝ) < (p : ℝ) ^ (X.F.dist j x + X.Rj p K j) := by rw [← hPc]; exact_mod_cast hpp
   unfold Dat.Bdeg
   by_cases hW : X.F.IsW j x
-  · rw [if_pos hW]
+  · rw [ite_eq_left hW]
     unfold Dat.Bw Dat.m0
     set A := X.a' p K (posOf n' x) with hAdef
     set pp := p ^ (X.F.dist j x + X.Rj p K j) with hppdef
@@ -315,7 +277,7 @@ theorem Bdeg_bounds (hX : X.Hyp p K) (hk : 1088 ≤ X.Ck)
           linarith
         · exact hApos
       linarith
-  · rw [if_neg hW]
+  · rw [ite_eq_right hW]
     have hxl := hx
     simp only [Frames.letters, Finset.mem_filter, Finset.mem_Icc] at hxl
     have hlate : x ∈ X.toLate j := by
@@ -323,11 +285,11 @@ theorem Bdeg_bounds (hX : X.Hyp p K) (hk : 1088 ≤ X.Ck)
       simp only [Finset.mem_filter]
       exact ⟨hx, hW⟩
     unfold Dat.restr
-    rw [if_pos hlate]
+    rw [ite_eq_left hlate]
     have hLL : x ∈ X.F.LLset j := by
       simp only [Frames.LLset, Finset.mem_filter, Finset.mem_Ioo]
       unfold Frames.IsW at hW
-      push_neg at hW
+      push Not at hW
       exact ⟨⟨hW, hlt⟩, hxl.2⟩
     obtain ⟨h1, h2⟩ := hA x hLL
     have hPz : ((X.Pz p K j x : ℕ) : ℝ) = (p : ℝ) ^ (X.F.dist j x + X.Rj p K j) := by

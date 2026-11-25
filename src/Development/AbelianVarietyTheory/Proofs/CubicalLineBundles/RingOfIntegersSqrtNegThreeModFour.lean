@@ -1,58 +1,7 @@
 module
 
-import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.DyadicStableLattices.ExistsNormEqTwoPow
 public import Mathlib.NumberTheory.NumberField.InfinitePlace.Embeddings
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Algebra.Order.Star.Rat
-import Mathlib.Analysis.CStarAlgebra.Classes
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Henselian
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.RingTheory.RegularLocalRing.Defs
-import Mathlib.RingTheory.SimpleRing.Principal
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Tactic.TypeStar
-import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
 import Development.AbelianVarietyTheory.Proofs.HomogeneousIdeals.ExistsIsKroneckerCharOfDiscr
 
@@ -126,6 +75,27 @@ private theorem exists_int_eq_of_isIntegral_rat {K : Type*} [Field K] [CharZero 
   obtain ⟨z, hz⟩ := IsIntegrallyClosed.isIntegral_iff.mp hq
   exact ⟨z, by simpa using hz.symm⟩
 
+private theorem exists_int_eq_of_squarefree_mul_sq_eq_int {d : ℕ} (hsq : Squarefree d) (q : ℚ) (M : ℤ)
+    (h : (d : ℚ) * q ^ 2 = M) : ∃ z : ℤ, q = z := by
+  have hden : q.den = 1 := by
+    have hq := Rat.num_div_den q
+    have hpos : (q.den : ℚ) ≠ 0 := by positivity
+    have key : (d : ℤ) * q.num ^ 2 = M * q.den ^ 2 := by
+      have h' : (d : ℚ) * ((q.num : ℚ) / q.den) ^ 2 = M := by rw [hq]; exact h
+      field_simp at h'
+      have h'' : (d : ℤ) * q.num ^ 2 = ((q.den ^ 2 : ℕ) : ℤ) * M := by exact_mod_cast h'
+      push_cast at h''
+      linear_combination h''
+    have key' : d * q.num.natAbs ^ 2 = M.natAbs * q.den ^ 2 := by
+      have := congrArg Int.natAbs key
+      simpa [Int.natAbs_mul, Int.natAbs_pow] using this
+    have hdvd : q.den ^ 2 ∣ d * q.num.natAbs ^ 2 := ⟨M.natAbs, by rw [key']; ring⟩
+    have hcop : Nat.Coprime (q.den ^ 2) (q.num.natAbs ^ 2) := Nat.Coprime.pow 2 2 q.reduced.symm
+    have h3 : q.den ^ 2 ∣ d := hcop.dvd_of_dvd_mul_right hdvd
+    have hu := hsq q.den (by simpa [sq] using h3)
+    simpa using hu
+  exact ⟨q.num, (Rat.coe_int_num_of_den_eq_one hden).symm⟩
+
 theorem exists_integer_generator_of_sq_eq_neg {K : Type*} [Field K] [NumberField K] {d : ℕ}
     (h2 : finrank ℚ K = 2) (hsq : Squarefree d) (hd : d % 4 = 3) {r : K} (hr : r ^ 2 = -d) :
     ∃ w : 𝓞 K, 2 * (w : K) = 1 + r ∧ ∀ c : 𝓞 K, ∃ m n : ℤ, c = m + n * w := by
@@ -166,7 +136,7 @@ theorem exists_integer_generator_of_sq_eq_neg {K : Type*} [Field K] [NumberField
       exact h
     obtain ⟨A, hA⟩ := exists_int_eq_of_isIntegral_rat _ hsum
     obtain ⟨N, hN⟩ := exists_int_eq_of_isIntegral_rat _ hprod
-    obtain ⟨B, hB⟩ := _root_.PI.GoodTwo.AlgebraicValuationTrichotomy.sqfree_rat _ hsq (2 * b) (4 * N - A ^ 2) (by
+    obtain ⟨B, hB⟩ := exists_int_eq_of_squarefree_mul_sq_eq_int hsq (2 * b) (4 * N - A ^ 2) (by
       push_cast
       rw [← hN, ← hA]
       ring)

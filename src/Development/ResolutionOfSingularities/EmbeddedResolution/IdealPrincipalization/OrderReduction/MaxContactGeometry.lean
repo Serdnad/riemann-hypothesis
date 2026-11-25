@@ -16,57 +16,14 @@ public import Development.ResolutionOfSingularities.EmbeddedResolution.Resolutio
 public import Development.ResolutionOfSingularities.EmbeddedResolution.IdealPrincipalization.MarkedBlowupSequence.IrreducibleComponentsAlongSequence
 import Development.ResolutionOfSingularities.EmbeddedResolution.DerivativeIdeal.DerivativeIdealSheafOrderDecrease
 import Development.ResolutionOfSingularities.EmbeddedResolution.IteratedBlowups.BlowupSequenceBasic
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.AlgebraicGeometry.QuasiAffine
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.ReduceModChar
 import Development.ResolutionOfSingularities.Foundations.Blowup.AffineBlowupUniversal
 import Development.ResolutionOfSingularities.Foundations.Blowup.BlowupExistence
 import Development.ResolutionOfSingularities.Foundations.Blowup.BlowupOpenCover
 import Development.ResolutionOfSingularities.Foundations.Schemes.AffineOpens
 import Development.ResolutionOfSingularities.Foundations.Schemes.IdealSheafData
-import Mathlib.AlgebraicGeometry.Modules.Sheaf
 import Development.ResolutionOfSingularities.EmbeddedResolution.IdealPrincipalization.MarkedBlowupSequence.IsoInvariance
 import Development.ResolutionOfSingularities.EmbeddedResolution.IdealPrincipalization.MarkedBlowupSequence.SupportsAlongSequence
-import Development.ResolutionOfSingularities.EmbeddedResolution.IdealPrincipalization.OrderReduction.IndependenceOfHypersurface
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.ResolutionOfSingularities.EmbeddedResolution.IdealPrincipalization.OrderReduction.WeakTransform, Development.ResolutionOfSingularities.EmbeddedResolution.IdealPrincipalization.OrderReduction.BlowupChartCongruence, Development.ResolutionOfSingularities.EmbeddedResolution.IdealPrincipalization.OrderReduction.BlowupLiftCongruence, Development.ResolutionOfSingularities.EmbeddedResolution.IdealPrincipalization.OrderReduction.MaxContactGeometry
@@ -297,8 +254,6 @@ theorem existsMaxContactControlledTransforms_of_comapLeControlled (h : MaxContac
     | zero =>
       intro hi
       have := sm 0 hi
-      have : AlgebraicGeometry.Smooth u.isoZero.hom := inferInstance
-      have : AlgebraicGeometry.Smooth (u.isoZero.hom ≫ q) := inferInstance
       show strictTransformMaxContactIdeal u hN 0 ≤ maxContactIdeal k (u.projectionToBase 0 ≫ q) (u.ideal 0) μ
       have e1 : maxContactIdeal k (u.projectionToBase 0 ≫ q) (u.ideal 0) μ =
           maxContactIdeal k (u.isoZero.hom ≫ q) (A'.comap u.isoZero.hom) μ :=
@@ -979,7 +934,6 @@ private theorem mul_le_right {X : Scheme.{u}} (I J : X.IdealSheafData) :
 
 private theorem eq_of_comp_ι_eq {X : Scheme.{u}} (U : X.Opens) {W : Scheme.{u}}
     {a b : W ⟶ U.toScheme} (h : a ≫ U.ι = b ≫ U.ι) : a = b := by
-  have : Mono U.ι := inferInstance
   exact (cancel_mono U.ι).mp h
 
 private theorem hom_ext_of_comp_ι_eq_of_opens_cover {X Y : Scheme.{u}} {ι : Type u} (W : ι → X.Opens)
@@ -1007,7 +961,16 @@ private theorem exists_isoSpec_of_isAffineOpen {P : Scheme.{u}} {U : P.Opens}
 theorem comap_mul_of_isOpenImmersion {X U : Scheme.{u}} (f : U ⟶ X) [IsOpenImmersion f]
     (I J : X.IdealSheafData) :
     (I * J).comap f = I.comap f * J.comap f := by
-  apply _root_.AlgebraicGeometry.Scheme.IdealSheafData.comap_mul <;> assumption
+  refine Scheme.IdealSheafData.ext (funext fun V => ?_)
+  have hV : IsAffineOpen (f ''ᵁ (V : U.Opens)) := V.2.image_of_isOpenImmersion f
+  have he : (V : U.Opens) ≤ f ⁻¹ᵁ (f ''ᵁ (V : U.Opens)) := by
+    simp [Scheme.Hom.preimage_image_eq]
+  simp only [Scheme.IdealSheafData.ideal_mul, Pi.mul_apply]
+  rw [Scheme.IdealSheafData.comap_ideal_eq_map_appLE I f ⟨_, hV⟩ V he,
+    Scheme.IdealSheafData.comap_ideal_eq_map_appLE J f ⟨_, hV⟩ V he,
+    Scheme.IdealSheafData.comap_ideal_eq_map_appLE (I * J) f ⟨_, hV⟩ V he]
+  simp only [Scheme.IdealSheafData.ideal_mul, Pi.mul_apply]
+  rw [Ideal.map_mul]
 
 theorem exists_specIdealSheaf_eq (R : Type u) [CommRing R]
     (I : (Spec (CommRingCat.of R)).IdealSheafData) :
@@ -1025,7 +988,15 @@ theorem exists_specIdealSheaf_eq (R : Type u) [CommRing R]
 theorem subschemeι_comap_comp_eq_of_subschemeι_comp_eq {X Y P : Scheme.{u}} (f : X ⟶ Y) (u v : Y ⟶ P)
     (𝔟 : Y.IdealSheafData) (hagree : 𝔟.subschemeι ≫ u = 𝔟.subschemeι ≫ v) :
     (𝔟.comap f).subschemeι ≫ f ≫ u = (𝔟.comap f).subschemeι ≫ f ≫ v := by
-  apply _root_.FunctorialResolution.EmbeddedResolution.DivisorReductionIndependence.subschemeι_comap_comp_comp_eq <;> assumption
+  obtain ⟨t, ht⟩ : ∃ t : (𝔟.comap f).subscheme ⟶ 𝔟.subscheme,
+      (𝔟.comap f).subschemeι ≫ f = t ≫ 𝔟.subschemeι :=
+    ⟨(𝔟.comapIso f).hom ≫ Limits.pullback.snd f 𝔟.subschemeι, by
+      rw [Category.assoc, ← Limits.pullback.condition, ← Category.assoc,
+        Scheme.IdealSheafData.comapIso_hom_fst]⟩
+  calc (𝔟.comap f).subschemeι ≫ f ≫ u
+      = t ≫ 𝔟.subschemeι ≫ u := by rw [← Category.assoc, ht, Category.assoc]
+    _ = t ≫ 𝔟.subschemeι ≫ v := by rw [hagree]
+    _ = (𝔟.comap f).subschemeι ≫ f ≫ v := by rw [← Category.assoc, ← ht, Category.assoc]
 
 theorem subschemeι_comp_eq_of_mul_comap {V V₁ P : Scheme.{u}} (f : V₁ ⟶ V) (u v : V ⟶ P)
     (𝔟 : V.IdealSheafData) (hagree : 𝔟.subschemeι ≫ u = 𝔟.subschemeι ≫ v)

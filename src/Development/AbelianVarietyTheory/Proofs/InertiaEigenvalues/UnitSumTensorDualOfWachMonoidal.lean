@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.FinrankDcrisLetterDeRhamComponentEqDim
 public import Formalism.SharpRestriction.LevelLetterCocycles.DataNLoc
 public import Development.AbelianVarietyTheory.BlockTheory.NonGaloisCusps.CrystallineSubrepresentation
 import Mathlib.Algebra.Order.Floor.Extended
@@ -62,14 +61,6 @@ namespace GlobalTheory.IndefiniteRowSideFullHecke.TensorLatticeUnitPart
 
 open Formalism.WeaklyAdmissibleFiltrations Formalism.BasicNotions Formalism.BasicNotions.Loc TensorProduct
 
-section Bilinear
-
-variable {O : Type} [CommRing O] (R : Type) [CommRing R] [Algebra O R]
-  {M M' M'' : Type} [AddCommGroup M] [AddCommGroup M'] [AddCommGroup M'']
-  [Module O M] [Module O M'] [Module O M'']
-
-end Bilinear
-
 section Generic
 
 variable {G : Type} [Group G] [TopologicalSpace G] {Qp K₀ K : Type} [Field Qp] [Field K₀] [Field K]
@@ -109,14 +100,6 @@ namespace GlobalTheory.Cmp.WachMonoidal
 
 open Formalism.WeaklyAdmissibleFiltrations Formalism.BasicNotions Formalism.BasicNotions.Loc TensorProduct Module
 open GlobalTheory.IndefiniteRowSideFullHecke
-
-section Ext
-
-variable {O : Type} [CommRing O] (R : Type) [CommRing R] [Algebra O R]
-  {M M' M'' : Type} [AddCommGroup M] [AddCommGroup M'] [AddCommGroup M'']
-  [Module O M] [Module O M'] [Module O M'']
-
-end Ext
 
 section Crys
 
@@ -168,7 +151,18 @@ theorem isCrys_of_equiv {ρ : Representation LL G V} {ρ' : Representation LL G 
 
 theorem finite_Dcris [FiniteDimensional LL V] {ρ : Representation LL G V} (h : IsCrys PD ρ) :
     Module.Finite LL ↥(Dcris PD ρ) := by
-  apply _root_.GlobalTheory.Per.LetterDim.finite_Dcris <;> assumption
+  rcases Nat.eq_zero_or_pos (finrank LL ↥(Dcris PD ρ)) with h0 | h0
+  · have := PD.finK₀
+    have hK : 0 < finrank Qp K₀ := Module.finrank_pos
+    unfold IsCrys at h
+    have hV : finrank LL V = 0 := by
+      rw [h0] at h
+      rcases Nat.mul_eq_zero.mp h.symm with h | h
+      · omega
+      · exact h
+    have : Subsingleton V := Module.finrank_zero_iff.mp hV
+    infer_instance
+  · exact Module.finite_of_finrank_pos h0
 
 theorem isCrys_prod [FiniteDimensional LL V] [FiniteDimensional LL V']
     {ρ : Representation LL G V} {ρ' : Representation LL G V'}

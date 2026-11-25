@@ -1,6 +1,5 @@
 module
 
-import Formalism.LocalToGlobal.UnitaryNorms.CharShare
 public import Formalism.LocalToGlobal.IndefiniteReal.FWExist
 public import Development.AbelianVarietyTheory.Definitions.Foundations.AbsCharNotUnitary
 import Mathlib.Algebra.Order.Floor.Extended
@@ -55,7 +54,22 @@ theorem productRule (χ : HChar L) : χ.ProductRule :=
   GlobalTheory.Mem.Chr.CharModel.productRule (F := L) ⟨χ.1, χ.2⟩
 
 theorem inf_eq_one [_root_.NumberField.IsTotallyComplex L] (χ : HChar L) {n : ℕ} (hn : 0 < n) (h : χ.OrderDvd n) (k : Lˣ) : χ.inf k = 1 := by
-  apply _root_.Formalism.L2.Host.HChar.inf_eq_one_of_order <;> assumption
+  have hpow : ∀ x, χ.1 x ^ n = 1 := fun x => by
+    have h1 : (χ ^ n).1 x = 1 := by rw [show χ ^ n = 1 from h]; rfl
+    simpa using h1
+  show χ.1 (infDiag k) = 1
+  rw [infDiag, MonoidHom.finsetProd_apply, map_prod]
+  refine Finset.prod_eq_one fun w _ => ?_
+  let e := InfinitePlace.Completion.ringEquivComplexOfIsComplex (IsTotallyComplex.isComplex w)
+  obtain ⟨z, hz⟩ := IsAlgClosed.exists_pow_nat_eq (e (atInf w k : w.Completion)) hn
+  have hz0 : e.symm z ≠ 0 := by
+    intro h0
+    have h1 : z = 0 := by simpa using congrArg e h0
+    rw [h1, zero_pow hn.ne'] at hz
+    exact (atInf w k).ne_zero (e.injective (by rw [← hz, map_zero]))
+  have hk : atInf w k = Units.mk0 _ hz0 ^ n := Units.ext (e.injective (by
+    rw [← hz, Units.val_pow_eq_pow_val, map_pow, Units.val_mk0, RingEquiv.apply_symm_apply]))
+  rw [MonoidHom.comp_apply, hk, map_pow, map_pow, hpow]
 
 theorem val_atFin (v : HeightOneSpectrum (𝓞 L)) (k : Lˣ) (a : 𝓞 L) (hk : (k : L) = a) :
     Valued.v ((atFin v k : (v.adicCompletion L)ˣ) : v.adicCompletion L) = v.intValuation a := by
@@ -92,7 +106,7 @@ theorem exists_lift_mem (χ : HChar L) (Λ : Subgroup ℂˣ) (S : Finset (Height
     (fun v _ => v.prime) (fun v _ w _ h h' => h (HeightOneSpectrum.ext h')) (fun v => if v.1 = P then b else 1)
   have hua : (u : 𝓞 L ⧸ P.asIdeal) = Ideal.Quotient.mk _ a := by
     have h1 := ha P hP
-    rw [if_pos rfl, pow_one] at h1
+    rw [ite_eq_left rfl, pow_one] at h1
     rw [← hb]
     exact (Ideal.Quotient.eq.2 h1).symm
   have : Nontrivial (𝓞 L ⧸ P.asIdeal) := Ideal.Quotient.nontrivial_iff.2 P.isPrime.ne_top
@@ -104,7 +118,7 @@ theorem exists_lift_mem (χ : HChar L) (Λ : Subgroup ℂˣ) (S : Finset (Height
   have h := productRule χ S hu (Units.mk0 _ ha0)
   rw [hi, one_mul, Finset.prod_eq_single_of_mem P hP (fun v hvS hvP => locK_eq_one (ht v) _ a rfl (by
     have h1 := ha v hvS
-    rwa [if_neg hvP, pow_one] at h1))] at h
+    rwa [ite_eq_right hvP, pow_one] at h1))] at h
   rw [eq_inv_of_mul_eq_one_left h]
   refine Λ.inv_mem (finprod_induction (· ∈ Λ) Λ.one_mem (fun _ _ => Λ.mul_mem) fun v => ?_)
   exact finprod_induction (· ∈ Λ) Λ.one_mem (fun _ _ => Λ.mul_mem) fun hvS => Λ.zpow_mem (hv v hvS) _
@@ -197,8 +211,6 @@ namespace GlobalTheory.RationalValues
 
 open Formalism.BasicNotions Formalism.MainNotions Formalism.BasicNotions.TH Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes Formalism.MainNotions.StandardLattice Formalism.L2.Theta Formalism.L2.DIV Formalism.IndefR Formalism.IndefR.Links Formalism.IndefR.FWT
   Formalism.L2.Host Formalism.L2.Col
-
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 
 variable {D : D7} {G : Type} [Group G] [Fintype G] {Pl0 T0 : Type} {A : FamIn D.what₂.LL G Pl0 T0 D.R.m}
   {Ks : Type} [Field Ks] [NumberField Ks] [Algebra Ks D.what₂.LL] (R : RealDat D A Ks)

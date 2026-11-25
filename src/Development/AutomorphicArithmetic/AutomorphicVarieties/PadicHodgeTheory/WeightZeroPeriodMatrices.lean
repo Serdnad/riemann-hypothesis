@@ -1,7 +1,5 @@
 module
 
-import all Development.AutomorphicArithmetic.AutomorphicVarieties.BuildingsResidueChars.DeRhamLeFiltrationShift
-import Development.AutomorphicArithmetic.AutomorphicVarieties.BuildingsResidueChars.FrobeniusIterateMatrixForm
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.PadicHodgeTheory.FiniteCohomology
 import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.DeRhamComparisonIsFiltered
 import Development.AutomorphicArithmetic.AutomorphicVarieties.PadicHodgeTheory.ExistsMonicUnitCoeffZeroAnnihilatingOfSpectrumNo
@@ -45,12 +43,36 @@ private theorem coord_sum (c : Fin d → BdR) (i : Fin d) :
 
 private theorem sum_mem_fil_iff (a : ℤ) (c : Fin d → BdR) :
     ∑ j, e j ⊗ₜ[Qp] c j ∈ FilV PD (LL := Qp) (V := V) a ↔ ∀ i, c i ∈ PD.Fil a := by
-  apply _root_.sum_mem_fil_iff <;> assumption
+  constructor
+  · rintro ⟨z, hz⟩ i
+    rw [← coord_sum e c i, ← hz]
+    clear hz
+    induction z using TensorProduct.induction_on with
+    | zero => simp
+    | tmul v x =>
+      have := ((PD.Fil a).restrictScalars Qp).smul_mem (e.coord i v) x.2
+      simpa using this
+    | add x y hx hy =>
+      simp only [map_add (f := _)]
+      exact Submodule.add_mem _ hx hy
+  · intro h
+    exact Submodule.sum_mem _ fun j _ => ⟨e j ⊗ₜ ⟨c j, h j⟩, rfl⟩
 
 private theorem sum_mem_DdR (c : Fin d → BdR)
     (h : ∀ g, ((LinearMap.toMatrix e e (ρ g)).map (algebraMap Qp BdR)).mulVec (fun j => PD.actdR g (c j)) = c) :
     ∑ j, e j ⊗ₜ[Qp] c j ∈ DdR PD ρ := by
-  apply _root_.sum_mem_DdR <;> assumption
+  simp only [DdR, Submodule.mem_iInf, LinearMap.mem_ker, LinearMap.sub_apply, LinearMap.id_apply, sub_eq_zero]
+  intro g
+  conv_rhs => rw [← h g]
+
+  simp only [map_sum, Matrix.mulVec, dotProduct, tmul_sum, Matrix.map_apply, LinearMap.toMatrix_apply]
+  rw [Finset.sum_comm]
+  refine Finset.sum_congr rfl fun j _ => ?_
+  change ρ g (e j) ⊗ₜ[Qp] PD.actdR g (c j) = _
+  conv_lhs => rw [← e.sum_repr (ρ g (e j))]
+  rw [sum_tmul]
+  refine Finset.sum_congr rfl fun i _ => ?_
+  rw [smul_tmul, Algebra.smul_def]
 
 /-- If the invariant vectors lie in filtration zero and meet filtration one trivially,
 a period matrix and its inverse both have entries in filtration zero. -/
@@ -200,28 +222,20 @@ private theorem wt_iter (K : FinExt l) {d : ℕ} (M : Matrix (Fin d) (Fin d) (Bc
     (h : M.map (PP l).φB = M * A.map (algebraMap ↥(K0 K) (Bcr l))) (k : ℕ) :
     ∃ F : Matrix (Fin d) (Fin d) ↥(K0 K), IsUnit F.det ∧
       M.map (((PP l).φB)^[k]) = M * F.map (algebraMap ↥(K0 K) (Bcr l)) := by
-  apply _root_.UpperTheory.frobenius_iterate_matrix_form <;> assumption
-
-private theorem wt_spec {L : Type} [Field L] {d : ℕ} (G : Matrix (Fin d) (Fin d) L) (hG : IsUnit G.det) {a : L}
-    (ha : a ∈ spectrum L G) : a ≠ 0 ∧ a⁻¹ ∈ spectrum L (G⁻¹).transpose := by
-  rw [spectrum.mem_iff] at ha
-  have h0 : a ≠ 0 := by
-    rintro rfl
-    apply ha
-    rw [map_zero, zero_sub]
-    exact ((Matrix.isUnit_iff_isUnit_det _).2 hG).neg
-  refine ⟨h0, spectrum.mem_iff.2 fun hu => ha ?_⟩
-  have e : (algebraMap L (Matrix (Fin d) (Fin d) L) a⁻¹ - (G⁻¹).transpose).transpose * ((-a) • G) =
-      algebraMap L (Matrix (Fin d) (Fin d) L) a - G := by
-    rw [Algebra.algebraMap_eq_smul_one, Algebra.algebraMap_eq_smul_one, Matrix.transpose_sub,
-      Matrix.transpose_smul, Matrix.transpose_one, Matrix.transpose_transpose, Matrix.mul_smul, Matrix.sub_mul,
-      Matrix.smul_mul, Matrix.one_mul, Matrix.nonsing_inv_mul _ hG, smul_sub, smul_smul, neg_mul,
-      mul_inv_cancel₀ h0, neg_smul, neg_smul, one_smul]
-    abel
-  rw [← e]
-  refine ((Matrix.isUnit_transpose _).2 hu).mul ?_
-  rw [Matrix.isUnit_iff_isUnit_det, Matrix.det_smul]
-  exact ((IsUnit.mk0 _ (neg_ne_zero.2 h0)).pow _).mul hG
+  induction k with
+  | zero => exact ⟨1, by simp, by simp⟩
+  | succ k ih =>
+    obtain ⟨F, hF, e⟩ := ih
+    refine ⟨A * F.map ((PP l).PD K).σ, ?_, ?_⟩
+    · rw [Matrix.det_mul]
+      refine hA.mul ?_
+      have := hF.map (((PP l).PD K).σ : ↥(K0 K) →+* ↥(K0 K))
+      rw [RingHom.map_det] at this
+      exact this
+    · rw [Function.iterate_succ', ← Matrix.map_map, e, Matrix.map_mul, h, Matrix.map_mul, Matrix.mul_assoc]
+      congr 2
+      ext i j
+      exact wt_phi K _
 
 private theorem wt_aeval (K : FinExt l) (ψ : Bcr l →ₐ[ℚ_[l]] Bcr l)
     (hψ : ∀ c : ↥(K0 K), ψ (algebraMap ↥(K0 K) (Bcr l) c) = algebraMap ↥(K0 K) (Bcr l) c) {d : ℕ}
@@ -311,7 +325,11 @@ theorem inertia_fixes_crystalline_period_matrix (K : FinExt l) {d : ℕ} (M M' :
       have := (hF f).map (algebraMap ↥(K0 K) (Om l))
       rw [RingHom.map_det] at this
       exact this
-    obtain ⟨h0, ha'⟩ := wt_spec _ hu ha
+    let u := Matrix.nonsingInvUnit ((F f).map (algebraMap ↥(K0 K) (Om l))) hu
+    have h0 : a ≠ 0 := spectrum.ne_zero_of_mem_of_unit (a := u) ha
+    have ha' : a⁻¹ ∈ spectrum (Om l) (((F f).map (algebraMap ↥(K0 K) (Om l)))⁻¹).transpose := by
+      rw [Matrix.spectrum_transpose]
+      exact spectrum.inv₀_mem_inv (a := u) ha
     have e : ((F f).map (algebraMap ↥(K0 K) (Om l)))⁻¹ = ((F f)⁻¹).map (algebraMap ↥(K0 K) (Om l)) := by
       apply Matrix.inv_eq_right_inv
       rw [← Matrix.map_mul, Matrix.mul_nonsing_inv _ (hF f), Matrix.map_one _ (map_zero _) (map_one _)]
@@ -330,7 +348,7 @@ theorem inertia_fixes_crystalline_period_matrix (K : FinExt l) {d : ℕ} (M M' :
   rw [Polynomial.map_map, hPF, Matrix.map_zero _ (map_zero _), Matrix.mul_zero] at h4
   intro g hg
   ext i j
-  refine UpperTheory.inertia_fixes_of_frobenius_annihilated_mem_fil_zero (expand ℤ_[l] f P) (hP.expand hf) (by rwa [coeff_expand hf, if_pos (dvd_zero _), Nat.zero_div])
+  refine UpperTheory.inertia_fixes_of_frobenius_annihilated_mem_fil_zero (expand ℤ_[l] f P) (hP.expand hf) (by rwa [coeff_expand hf, ite_eq_left (dvd_zero _), Nat.zero_div])
     (M i j) ?_ (fun k => hS M (F k) k hM (hMF k) i j) g hg
   have e : ((PP l).φB.toLinearMap : Module.End ℚ_[l] (Bcr l)) ^ f = ((PP l).φB ^ f).toLinearMap := by
     ext x

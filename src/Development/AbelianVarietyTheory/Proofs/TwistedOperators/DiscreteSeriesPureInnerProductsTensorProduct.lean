@@ -1,6 +1,5 @@
 module
 
-import Formalism.LocalToGlobal.IndefiniteReal.SchurOrthogonality
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ChosenSeries
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -48,7 +47,6 @@ import Mathlib.Topology.Sheaves.Init
 
 open Formalism.BasicNotions Formalism.BasicNotions.TH Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes Formalism.L2.Theta Formalism.IndefR Formalism.IndefR.Links Formalism.IndefR.Mult Formalism.IndefR.Datum Matrix GlobalTheory.Chain GlobalTheory.Chain.RealIt
 open scoped TensorProduct InnerProductSpace
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 
 noncomputable section
 
@@ -110,7 +108,7 @@ theorem ellT_separates (M : DSModel V S) (x : ⨂[ℂ] τ, M.H τ) (hx : ∀ w, 
 
 theorem inclT_injective (M : DSModel V S) : Function.Injective (inclT M) := by
   unfold inclT
-  set_option backward.isDefEq.respectTransparency.instanceSearchTypes false in rw [injective_iff_map_eq_zero]
+  rw [injective_iff_map_eq_zero]
   intro y hy
   obtain ⟨F, hF, hy'⟩ := exists_finite_support y
   obtain ⟨z, rfl⟩ := LinearMap.mem_range.mp (hy' F fun _ => le_rfl)
@@ -122,7 +120,19 @@ theorem inclT_injective (M : DSModel V S) : Function.Injective (inclT M) := by
 
 theorem fr_conj_mem (M : DSModel V S) (τ : D.what₂.Tau) {g : Matrix (Fin V.rank) (Fin V.rank) ℂ}
     (hg : g ∈ Formalism.QuantumDeterminants.UH (gramAt D V τ)) : M.fr τ * g * (M.fr τ)⁻¹ ∈ Formalism.MainNotions.S.UJset (M.ε τ) := by
-  first | exact _root_.Formalism.IndefR.SchurOrthogonalityAlt.conj_mem | exact @_root_.Formalism.IndefR.SchurOrthogonalityAlt.conj_mem | apply _root_.Formalism.IndefR.SchurOrthogonalityAlt.conj_mem <;> assumption
+  have hd : IsUnit (M.fr τ).det := (Matrix.isUnit_iff_isUnit_det _).mp (M.fr_unit τ)
+  have hPQ : M.fr τ * (M.fr τ)⁻¹ = 1 := Matrix.mul_nonsing_inv _ hd
+  have hg' : gᴴ * gramAt D V τ * g = gramAt D V τ := hg
+  rw [← M.fr_gram τ] at hg'
+  show Formalism.REAL.inUJ (M.ε τ) _
+  unfold Formalism.REAL.inUJ
+  calc (M.fr τ * g * (M.fr τ)⁻¹)ᴴ * Formalism.REAL.Jm (M.ε τ) * (M.fr τ * g * (M.fr τ)⁻¹)
+      = ((M.fr τ)⁻¹)ᴴ * (gᴴ * ((M.fr τ)ᴴ * Formalism.REAL.Jm (M.ε τ) * M.fr τ) * g) * (M.fr τ)⁻¹ := by
+        simp only [Matrix.conjTranspose_mul, Matrix.mul_assoc]
+    _ = ((M.fr τ)⁻¹)ᴴ * ((M.fr τ)ᴴ * Formalism.REAL.Jm (M.ε τ) * M.fr τ) * (M.fr τ)⁻¹ := by rw [hg']
+    _ = (M.fr τ * (M.fr τ)⁻¹)ᴴ * Formalism.REAL.Jm (M.ε τ) * (M.fr τ * (M.fr τ)⁻¹) := by
+        simp only [Matrix.conjTranspose_mul, Matrix.mul_assoc]
+    _ = Formalism.REAL.Jm (M.ε τ) := by rw [hPQ]; simp
 
 open Classical in
 theorem actT_pure (M : DSModel V S) (τ : D.what₂.Tau) (g : Matrix (Fin V.rank) (Fin V.rank) ℂ) (v : ∀ ρ, M.H ρ) :

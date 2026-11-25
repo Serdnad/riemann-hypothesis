@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.CoverFormRationalDescentToBaseStatement
 public import Development.AbelianVarietyTheory.Definitions.Divisors.HtValOnSubset
 public import Development.AbelianVarietyTheory.Definitions.Divisors.MulSmulIdemMem
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsCuspOnRestrict
@@ -82,8 +81,6 @@ import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.PullbackSections.Hol
 section -- clump:auto
 @[expose] public section
 
-set_option autoImplicit false
-
 open NumberField IsDedekindDomain Module Formalism.BasicNotions Formalism.L2.Pj ReciprocityTheory.ChartRestriction.G.Geo.Tor ReciprocityTheory.ChartRestriction.G.FD GlobalTheory.AllWt GlobalTheory.FlatLine GlobalTheory.CompHt GlobalTheory.FlatCore
 
 namespace GlobalTheory.ScalarCuspTwist
@@ -100,11 +97,11 @@ theorem cuspW_congr {U : ∀ σ : c.F →+* ℂ, Unf Xo c σ r} (hU : ∀ σ, Go
 theorem wtOf_four_fst (τ : E →+* ℂ) (i : ℕ) (hi : i < Dw.mult τ) : (wtOf Dw 0 4).1 (τ, i) = -4 := by
   unfold Datum.mult at hi
   by_cases h : τ (H.rt : E) = H.rt0
-  · rw [if_pos h] at hi
-    simp only [wtOf, dif_pos h, dif_pos hi, Pi.zero_apply, zero_sub]
-  · rw [if_neg h] at hi
+  · rw [ite_eq_left h] at hi
+    simp only [wtOf, dite_eq_left h, dite_eq_left hi, Pi.zero_apply, zero_sub]
+  · rw [ite_eq_right h] at hi
     have h' : conjEmb τ (H.rt : E) = H.rt0 := conj_mem h
-    simp only [wtOf, dif_neg h, dif_pos h', dif_pos hi, Pi.zero_apply, neg_zero, zero_sub]
+    simp only [wtOf, dite_eq_right h, dite_eq_left h', dite_eq_left hi, Pi.zero_apply, neg_zero, zero_sub]
 
 theorem exZ_four_add (n : ℕ) :
     exZ Dw (wtZ (fun _ => 4) n + wtOf Dw 0 4) = exZ Dw (wtZ 0 (n + 8)) := by
@@ -175,7 +172,7 @@ theorem exists_scalar_of_four {U : ∀ σ : c.F →+* ℂ, Unf Xo c σ r} {x : �
   have h2 := hs0 σ hσ z hz
   obtain ⟨hy, hlies⟩ := hz
   have e : rdU (U σ) (g : Rul Xo c) z.1 z.2 = rdU (U σ) f z.1 z.2 := by
-    simp only [rdU, LinearMap.coe_mk, AddHom.coe_mk, dif_pos hy]
+    simp only [rdU, LinearMap.coe_mk, AddHom.coe_mk, dite_eq_left hy]
     rw [hg _ _ hlies]
   rw [AllWt.rdU_mul, Pi.mul_apply, Pi.mul_apply, e]
   exact mul_ne_zero hne h2
@@ -279,7 +276,6 @@ section -- clump:auto
 
 open AlgebraicGeometry CategoryTheory Limits MonoidalCategory CartesianMonoidalCategory MonObj NumberField
 open ReciprocityTheory.ChartRestriction.G ReciprocityTheory.ChartRestriction.G.Semi ReciprocityTheory.ChartRestriction.G.Geo.Tor ReciprocityTheory.ChartRestriction.G.FD Formalism.L2.Pj Formalism.L2.PjFree GlobalTheory.EtaForm GlobalTheory.EtaAn GlobalTheory.ArcQ
-attribute [local instance] Over.cartesianMonoidalCategory
 
 namespace GlobalTheory.RunParametersBound
 
@@ -292,13 +288,11 @@ theorem real_bounds (f r m ρ w q : ℝ) (hf : 1 ≤ f) (hr : 1 ≤ r) (hm : 1 �
     4 * (7 + Real.log q) + 2 * f * m + 1 ≤ q * 2 ∧
     f * r * Real.log 2 + 2 * (2 * f * m) + 3 + (1 + 1) * (r * Real.log r + 3 * r + 3) ≤ q := by
   have hρ1 : (1 : ℝ) ≤ ρ := by linarith
-  have hρ0 : (0 : ℝ) < ρ := by linarith
   have hN : r ≤ f * r := by nlinarith
   have hN1 : 1 ≤ f * r := by linarith
   have hfρ : f ≤ ρ := by nlinarith
   have hfm : f * m ≤ ρ := by nlinarith
   have hm2 : m ^ 2 ≤ ρ := by nlinarith
-  have hd0 : 0 ≤ 2 * f * m := by positivity
   have hd : 2 * f * m ≤ 2 * ρ := by linarith
   have hd2 : (2 * f * m) ^ 2 ≤ (2 * ρ) ^ 2 := by gcongr
   have hB : 0 < 135 * (f * r) * (ρ ^ 7) ^ 4 := by positivity
@@ -318,16 +312,12 @@ theorem real_bounds (f r m ρ w q : ℝ) (hf : 1 ≤ f) (hr : 1 ≤ r) (hm : 1 �
         (2 * ρ) ^ 2 * (2 * ρ * ρ) * (ρ * (135 * (f * r)) * (ρ ^ 7) ^ 3) := by
       have hwρ : w ≤ ρ := hw.trans hf2
       gcongr
-    have h2 : (2 * ρ) ^ 2 * (2 * ρ * ρ) * (ρ * (135 * (f * r)) * (ρ ^ 7) ^ 3) =
-        8 * (135 * (f * r) * ρ ^ 26) := by ring
-    have h3 : 135 * (f * r) * (ρ ^ 7) ^ 4 = ρ ^ 2 * (135 * (f * r) * ρ ^ 26) := by ring
     have h4 : 0 < 135 * (f * r) * ρ ^ 26 := by positivity
     have h5 : 8 * (135 * (f * r) * ρ ^ 26) ≤ ρ ^ 2 * (135 * (f * r) * ρ ^ 26) :=
       mul_le_mul_of_nonneg_right (by nlinarith) h4.le
     linarith
   · rw [le_div_iff₀ hB]; linarith
   · have h1 : 90 * m ^ 2 * (2 * f * m) ^ 2 * ρ ≤ 90 * ρ * (2 * ρ) ^ 2 * ρ := by gcongr
-    have h2 : 90 * ρ * (2 * ρ) ^ 2 * ρ = 360 * ρ ^ 4 := by ring
     linarith
   · have h1 : Real.log q = Real.log (q / 4) + Real.log 4 := by
       rw [Real.log_div hq0.ne' (by norm_num)]; ring
@@ -347,7 +337,6 @@ theorem real_bounds (f r m ρ w q : ℝ) (hf : 1 ≤ f) (hr : 1 ≤ r) (hm : 1 �
     have h6 : (f * r) * 1 * r ≤ (f * r) * ρ * r := by gcongr
     have h7 : 1 * ρ ≤ (f * r) * ρ := by gcongr
     have h8 : (f * r) * 16 ≤ (f * r) * ρ := by gcongr
-    have h9 : 0 ≤ (f * r) * r := by positivity
     nlinarith
 
 theorem exists_run_bound : ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (r m : ℕ), 2 ≤ I2.PT.f E * r → 1 ≤ m → m ^ 4 ≤ I2.PT.f E → (I2.PT.f E : ℝ) ^ 2 ≤ I2.PT.rd E → 16 ≤ I2.PT.rd E → ∃ (q : ℕ) (R0 : ℝ), 1 ≤ q ∧ Real.log q ≤ 28 * Real.log (I2.PT.rd E) + 2 * Real.log (I2.PT.f E * r) + 7 ∧ RunOK E r 1 q R0 m := by
@@ -370,7 +359,6 @@ theorem exists_run_bound : ∀ (E : Type) [Field E] [NumberField E] [IsCMField E
   have hw : (I2.PT.f E : ℝ) ^ ((3 : ℝ) / 2) ≤ (I2.PT.f E : ℝ) ^ 2 := by
     rw [← Real.rpow_natCast]
     exact Real.rpow_le_rpow_of_exponent_le hfR (by norm_num)
-  have hρ0 : 0 < I2.PT.rd E := by linarith
   set S : ℝ := 135 * ((I2.PT.f E : ℝ) * r) with hS
   have hS0 : 0 < S := by positivity
   have hsq : Real.sqrt S ^ 2 = S := Real.sq_sqrt hS0.le
@@ -449,8 +437,34 @@ namespace GlobalTheory.ScalarCusp
 theorem bdd_of_definite {E : Type} [Field E] [NumberField E] [IsCMField E] {r : ℕ} (X : Data E r)
     (hp : X.p0 = 0 ∨ X.p0 = r) (la : Wt X.Ψ r) (P : Frame X.Ψ r → ℂ) (hP : X.IsSec la P) :
     ∃ C : ℝ, ∀ x ∈ X.dom, X.pnorm la P x ≤ C := by
-  intros
-  apply _root_.GlobalTheory.BpfUniform.bounded_of_definite <;> assumption
+  obtain ⟨R, hR⟩ := GlobalTheory.orthonormal_frames_bounded_of_definite r X hp
+  let K : Set (Frame X.Ψ r) := {x | X.IsOrtho x}
+  have hKd : K ⊆ X.dom := fun x hx => PIW.FdPA.orthonormal_domain r X x hx
+  have hKc : IsClosed K := by
+    have e : K = ⋂ τ : X.Ψ, {x : Frame X.Ψ r | gram τ.1 X.Gm (mat x τ) =
+        Matrix.diagonal fun a : Fin r => ((sgn X.p0 (a : ℕ) : ℝ) : ℂ)} := by
+      ext x; simp [K, Data.IsOrtho]
+    rw [e]
+    refine isClosed_iInter fun τ => isClosed_eq ?_ continuous_const
+    unfold gram hermC col mat
+    refine continuous_pi fun a => continuous_pi fun b => ?_
+    simp only [Matrix.of_apply]
+    fun_prop
+  have hKb : Bornology.IsBounded K := by
+    rw [Metric.isBounded_iff_subset_closedBall 0]
+    refine ⟨max R 0, fun x hx => ?_⟩
+    rw [mem_closedBall_zero_iff]
+    refine (pi_norm_le_iff_of_nonneg (le_max_right _ _)).2 fun τ => ?_
+    refine (pi_norm_le_iff_of_nonneg (le_max_right _ _)).2 fun a => ?_
+    refine (pi_norm_le_iff_of_nonneg (le_max_right _ _)).2 fun b => ?_
+    exact (hR x hx τ a b).trans (le_max_left _ _)
+  obtain ⟨C, hC⟩ := (Metric.isCompact_of_isClosed_isBounded hKc hKb).exists_bound_of_continuousOn
+    (hP.1.continuousOn.mono hKd)
+  refine ⟨C, fun x hx => ?_⟩
+  obtain ⟨b, hb, ho⟩ := (orthonormalFlagTranslate_holds r X).1 x hx
+  rw [← (orthonormalFlagTranslate_holds r X).2.1 la P hP.2.1 x hx b hb,
+    ReciprocityTheory.ChartRestriction.G.PullbackSections.PfSupAtUnit.pnorm_unit X la P (ReciprocityTheory.ChartRestriction.G.PullbackSections.PfSupAtUnit.dmin_ortho X ho)]
+  exact hC _ ho
 
 end GlobalTheory.ScalarCusp
 
@@ -480,10 +494,10 @@ theorem exists_scalar_cusp_ne_zero : ∀ (E : Type) [Field E] [NumberField E] [I
       have hp0 : ((U σ').X j).p0 = 0 ∨ ((U σ').X j).p0 = r := by
         rw [(hU'.2.1 j).1]; omega
       exact GlobalTheory.BoundedCusp.mem_SS_of_definite _ _ τ0 hp0 _ ⟨hs, bdd_of_definite _ hp0 _ _ hs⟩
-    · have e : rdU (U σ) f z.1 z.2 = toC (evR Xo c f ((U σ).un z.1 ⟨z.2, hz'.2⟩)) := dif_pos hz'.2
+    · have e : rdU (U σ) f z.1 z.2 = toC (evR Xo c f ((U σ).un z.1 ⟨z.2, hz'.2⟩)) := dite_eq_left hz'.2
       rw [e]
       exact hne
-  · push_neg at hdef
+  · push Not at hdef
     have hp : 1 ≤ Dw.p := Nat.one_le_iff_ne_zero.2 hdef.1
     have hq : 1 ≤ Dw.q := Nat.one_le_iff_ne_zero.2 hdef.2
     by_cases hrun : ∃ m : ℕ, 1 ≤ m ∧ m ^ 4 ≤ ReciprocityTheory.ChartRestriction.G.I2.PT.f E ∧ (ReciprocityTheory.ChartRestriction.G.I2.PT.f E : ℝ) ^ 2 ≤ ReciprocityTheory.ChartRestriction.G.I2.PT.rd E ∧ 16 ≤ ReciprocityTheory.ChartRestriction.G.I2.PT.rd E ∧ (Dw.p ≤ m ∨ Dw.q ≤ m)

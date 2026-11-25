@@ -1,11 +1,11 @@
 module
 
-import GroundTheory.HeightsAndTheta.Heights.MultihomogeneousPolynomials
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovGeometry.KleimanNefness.AlgDefs
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PGenSESStep
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PGenTwistGenerated
 import Mathlib.Tactic.TypeStar
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.GeneratedModOfSubsingleton
+import GroundTheory.HeightsAndTheta.Heights.HeightComparison.IsMultiHomogIdealIff
 
 @[expose] public section
 
@@ -56,23 +56,15 @@ theorem chartMon_mem (c : ∀ k, ι k) (e : K → ℕ) : chartMon (S := S) c e �
       exact ⟨k, c k, Finset.mem_singleton_self _, rfl⟩) _
 
 theorem isMultiHomog_pow {p : MRingOver S ι} {a : K → ℕ} (hp : IsMultiHomog p a) (n : ℕ) :
-    IsMultiHomog (p ^ n) (n • a) := by
-  apply _root_.GroundTheory.Heights₂.Heights.MultiHomogeneous.pow <;> assumption
+    IsMultiHomog (p ^ n) (n • a) :=
+  GroundTheory.Heights₂.Heights.Bridge.isMultiHomog_pow hp n
 
 theorem isMultiHomog_prod {β : Type} (s : Finset β) (f : β → MRingOver S ι) (a : β → K → ℕ)
-    (h : ∀ i ∈ s, IsMultiHomog (f i) (a i)) : IsMultiHomog (∏ i ∈ s, f i) (∑ i ∈ s, a i) := by
-  apply _root_.GroundTheory.Heights₂.Heights.MultiHomogeneous.prod <;> assumption
+    (h : ∀ i ∈ s, IsMultiHomog (f i) (a i)) : IsMultiHomog (∏ i ∈ s, f i) (∑ i ∈ s, a i) :=
+  GroundTheory.Heights₂.Heights.Bridge.isMultiHomog_prod s f a h
 
-theorem isMultiHomog_chartMon (c : ∀ k, ι k) (e : K → ℕ) : IsMultiHomog (chartMon (S := S) c e) e := by
-  classical
-  have h := isMultiHomog_prod (S := S) Finset.univ (fun k => (X ⟨k, c k⟩ : MRingOver S ι) ^ e k)
-    (fun k => e k • fun l => if l = k then 1 else 0)
-    (fun k _ => isMultiHomog_pow (GenSESStep.isMultiHomog_X k (c k)) (e k))
-  have he : (∑ k, e k • fun l : K => if l = k then (1 : ℕ) else 0) = e := by
-    funext l
-    simp [Finset.sum_apply]
-  rw [he] at h
-  exact h
+theorem isMultiHomog_chartMon (c : ∀ k, ι k) (e : K → ℕ) : IsMultiHomog (chartMon (S := S) c e) e :=
+  GroundTheory.Heights₂.Heights.Bridge.isMultiHomog_chartMono c e
 
 theorem exists_chartMon {c : ∀ k, ι k} {v : MRingOver S ι} (hv : v ∈ KH.cellMon S (chart c).1) :
     ∃ e, v = chartMon c e := by
@@ -239,7 +231,7 @@ theorem res_eq_of_pair {M : Type*} [AddCommGroup M] [Module (MRingOver S ι) M] 
     have : i = c k ∨ i = j := by rw [hIk] at hi; simpa using hi
     tauto
   · intro l _ hl
-    refine Finset.sum_eq_zero fun i hi => dif_neg fun h' => ?_
+    refine Finset.sum_eq_zero fun i hi => dite_eq_right fun h' => ?_
     have := h'.1 l
     rw [Function.update_self, ← Finset.card_pos, Finset.card_erase_of_mem hi, hother l hl] at this
     omega

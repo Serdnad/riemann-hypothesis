@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.IsIntegralGaugedFormalGroupLawSelfConjugateSquar
 public import Formalism.LocalToGlobal.CharacterGerms.RowTieAxes
 public import Formalism.LocalToGlobal.CharacterGerms.ConstMemTypeSetOfNonneg
 public import Formalism.LocalToGlobal.CharacterGerms.RowTieCartFB
@@ -118,19 +117,19 @@ theorem coeff_mul_van_two {T1 T2 : Set τ} {F G : MvPowerSeries τ C} (hF : Van 
           by_cases hx : x = s
           · subst hx; simp; omega
           · by_cases hx' : x = s'
-            · subst hx'; rw [Finsupp.single_apply, if_neg (Ne.symm hx)]; omega
+            · subst hx'; rw [Finsupp.single_apply, ite_eq_right (Ne.symm hx)]; omega
             · have := hs x
               rw [elementary_pair_eq_zero_of_ne hx hx'] at this
-              rw [Finsupp.single_apply, if_neg (Ne.symm hx)]; omega
+              rw [Finsupp.single_apply, ite_eq_right (Ne.symm hx)]; omega
         have eb : b = Finsupp.single s' 1 := by
           ext x
           by_cases hx' : x = s'
           · subst hx'; simp; omega
           · by_cases hx : x = s
-            · subst hx; rw [Finsupp.single_apply, if_neg (Ne.symm hx')]; omega
+            · subst hx; rw [Finsupp.single_apply, ite_eq_right (Ne.symm hx')]; omega
             · have := hs x
               rw [elementary_pair_eq_zero_of_ne hx hx'] at this
-              rw [Finsupp.single_apply, if_neg (Ne.symm hx')]; omega
+              rw [Finsupp.single_apply, ite_eq_right (Ne.symm hx')]; omega
         rw [ea, eb]
   · intro h
     refine absurd ?_ h
@@ -261,7 +260,7 @@ theorem coeff_expS_bil {T : Set (Fin n × Fin dd)} {f : PS C n dd} (hf : Van T f
   · simp [PowerSeries.coeff_exp]
   · intro m hm
     rcases m with _ | _ | k
-    · rw [pow_zero, coeff_one, if_neg he0, smul_zero]
+    · rw [pow_zero, coeff_one, ite_eq_right he0, smul_zero]
     · exact absurd rfl hm
     · have e2 : f ^ (k + 1 + 1) = f * (f * f ^ k) := by ring
       rw [e2, coeff_mul_van_van hf (hf.mul_right _) e P he hP, smul_zero]
@@ -276,7 +275,7 @@ def Tg (dd : ℕ) (g : Fin 2) : Set (Fin 2 × Fin dd) := {s | s.1 = g}
 
 theorem van_X {τ : Type} {T : Set τ} {s : τ} (hs : s ∈ T) : Van T (X s : MvPowerSeries τ C) := by
   intro ν hν
-  rw [coeff_X, if_neg]
+  rw [coeff_X, ite_eq_right]
   intro h
   exact hν s (by rw [h]; simp) hs
 
@@ -348,7 +347,7 @@ theorem coeff_single_X (g : Fin 2) (j k : Fin dd) :
   rw [coeff_X]
   by_cases h : j = k
   · subst h; simp
-  · rw [if_neg h, if_neg]
+  · rw [ite_eq_right h, ite_eq_right]
     intro e
     exact h (Prod.mk.inj ((Finsupp.single_left_inj one_ne_zero).1 e)).2.symm
 
@@ -452,7 +451,15 @@ theorem fin_two_eq_zero_or_eq_one : ∀ x : Fin 2, x = 0 ∨ x = 1 := by decide
 
 theorem FBChart.axisAll (Y : FBChart C V O dd) (g : Fin 2) (e : Fin 2 × Fin dd →₀ ℕ)
     (he : ∀ s ∈ e.support, s.1 ≠ g) : coeff e Y.h = 0 := by
-  apply _root_.GlobalTheory.RowLawSquare.h_axes <;> assumption
+  rcases fin_two_eq_zero_or_eq_one g with rfl | rfl
+  · refine coeff_of_ev_zero Y.h 0 ![0, pt C dd 0] rfl ?_ Y.gauge.ax0 e he
+    intro g' hg'
+    rw [fin_two_eq_one_sub_of_ne' 0 g' hg']
+    rfl
+  · refine coeff_of_ev_zero Y.h 1 ![pt C dd 0, 0] rfl ?_ Y.gauge.ax1 e he
+    intro g' hg'
+    rw [fin_two_eq_one_sub_of_ne' 1 g' hg']
+    rfl
 
 theorem van_ev_left {h : PS C 2 dd}
     (hh : ∀ (g : Fin 2) (e : Fin 2 × Fin dd →₀ ℕ), (∀ s ∈ e.support, s.1 ≠ g) → coeff e h = 0)

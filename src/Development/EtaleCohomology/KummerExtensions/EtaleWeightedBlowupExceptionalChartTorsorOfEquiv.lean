@@ -1,48 +1,8 @@
 module
 
-import Development.EtaleCohomology.CohomologicalPurity.LeafWLocPf
 public import Development.EtaleCohomology.CohomologicalPurity.LeafWEqvLPf
 public import Development.EtaleCohomology.CohomologicalPurity.LeafWCechPf
 public import Development.EtaleCohomology.CohomologicalPurity.LeafWCechRec
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.AlgebraicGeometry.Modules.Sheaf
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
 
 @[expose] public section
 
@@ -395,7 +355,11 @@ abbrev evF (n : SimplexCategoryᵒᵖ) (T : Scheme.{0}ᵒᵖ) : Spc ⥤ Type :=
 theorem prod_ext {A B : Spc} {n : SimplexCategoryᵒᵖ} {T : Scheme.{0}ᵒᵖ} {w w' : ((A ⨯ B).obj n).obj T}
     (h1 : ((prod.fst : A ⨯ B ⟶ A).app n).app T w = ((prod.fst : A ⨯ B ⟶ A).app n).app T w')
     (h2 : ((prod.snd : A ⨯ B ⟶ B).app n).app T w = ((prod.snd : A ⨯ B ⟶ B).app n).app T w') : w = w' := by
-  apply @LateralTheory.CohomologicalPurity.Thom.ExcP.Chart.prod_ext_app <;> assumption
+  have hl := mapIsLimitOfPreservesOfIsLimit (evF n T) (prod.fst : A ⨯ B ⟶ A) prod.snd (prodIsProd A B)
+  let f1 : PUnit ⟶ (evF n T).obj (A ⨯ B) := TypeCat.ofHom fun _ => w
+  let f2 : PUnit ⟶ (evF n T).obj (A ⨯ B) := TypeCat.ofHom fun _ => w'
+  have : f1 = f2 := BinaryFan.IsLimit.hom_ext hl (by ext _; exact h1) (by ext _; exact h2)
+  exact ConcreteCategory.congr_hom this PUnit.unit
 
 theorem prod_mk {A B : Spc} {n : SimplexCategoryᵒᵖ} {T : Scheme.{0}ᵒᵖ} (a : (A.obj n).obj T) (b : (B.obj n).obj T) :
     ∃ w : ((A ⨯ B).obj n).obj T, ((prod.fst : A ⨯ B ⟶ A).app n).app T w = a ∧

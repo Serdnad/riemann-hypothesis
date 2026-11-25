@@ -1,58 +1,9 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.AdicCompletionPrincipalPerfect
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.ConnPhiExtensionGeneratorEqZeta
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.InstTameDescentExponentDataPadicThree
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.AlgebraMapMemNonZeroDivisorsAdicCompletion
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Algebra.Order.Star.Real
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
 public import Mathlib.RingTheory.AdicCompletion.Completeness
-import Mathlib.RingTheory.Henselian
-import Mathlib.RingTheory.PowerSeries.NoZeroDivisors
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.RingTheory.RegularLocalRing.Defs
-import Mathlib.RingTheory.SimpleRing.Principal
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Topology.Sheaves.Init
 
 @[expose] public section
 
@@ -130,8 +81,18 @@ theorem exists_eq_algebraMap_add_pow_mul {B : Type} [CommRing B] (s : B) (n : �
     (x : AdicCompletion (Ideal.span {s}) B) :
     ∃ (g : B) (x' : AdicCompletion (Ideal.span {s}) B),
       x = algebraMap B _ g + algebraMap B _ s ^ n * x' := by
-  intros
-  apply _root_.GlobalTheory.PerfectCompletion.dense <;> assumption
+  obtain ⟨g, hg⟩ := Submodule.Quotient.mk_surjective _ (AdicCompletion.eval (Ideal.span {s}) B n x)
+  have h : x - AdicCompletion.of (Ideal.span {s}) B g ∈
+      Ideal.span {s} ^ n • (⊤ : Submodule B (AdicCompletion (Ideal.span {s}) B)) := by
+    rw [AdicCompletion.pow_smul_top_eq_ker_eval (Submodule.fg_span_singleton _), LinearMap.mem_ker,
+      map_sub, ← hg, sub_eq_zero]
+    rfl
+  rw [Ideal.span_singleton_pow, Submodule.ideal_span_singleton_smul,
+    Submodule.mem_smul_pointwise_iff_exists] at h
+  obtain ⟨x', -, hx'⟩ := h
+  refine ⟨g, x', ?_⟩
+  rw [Algebra.smul_def, map_pow, eq_sub_iff_add_eq'] at hx'
+  exact hx'.symm
 
 theorem toHat_derivative (f : Rpi O K l e) :
     toHat O K l e ⟨_, derivative_mem_R l f.2⟩ = dHat O K l e (toHat O K l e f) := by

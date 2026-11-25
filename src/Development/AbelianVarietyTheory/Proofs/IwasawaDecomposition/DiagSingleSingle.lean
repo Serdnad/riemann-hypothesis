@@ -1,59 +1,10 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.FlagMeasures.T2SpaceOfNonarchimedeanLocalField
 public import Formalism.LocalRingCardinality.SpanPowerMembership.Spaces
 public import Formalism.LocalRingCardinality.DataSpaces
 public import Mathlib.RingTheory.Henselian
 public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.FiniteResidueFieldAdicCompletionIntegers
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Topology.Sheaves.Init
 import Development.AbelianVarietyTheory.Definitions.Foundations.RootOfUnityEightQMemCoeffGaloisSubfield
-import Mathlib.RingTheory.RegularLocalRing.Defs
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Tactic.TypeStar
-import Mathlib.RingTheory.SimpleRing.Principal
-import Mathlib.RingTheory.PiTensorProduct
-import Std.Tactic.BVDecide.Normalize.BitVec
 import Std.Tactic.BVDecide.Normalize.Prop
 
 -- This file was produced by scripts/clump.py from the modules listed below.
@@ -286,7 +237,18 @@ theorem cm_exists_unit_disc (cm : CMData F E) (M : Ideal (𝓞 F)) (hM : M.IsMax
 
 theorem cm_exists_coords (cm : CMData F E) (θ : E) (hθ : θ - star θ ≠ 0) (x : E) :
     ∃ p q : F, x = algebraMap F E p + algebraMap F E q * θ := by
-  first | exact _root_.GlobalTheory.LocSpan.exists_coord | exact @_root_.GlobalTheory.LocSpan.exists_coord | apply _root_.GlobalTheory.LocSpan.exists_coord <;> assumption
+  have hθ' : star θ - θ ≠ 0 := fun h => hθ (by linear_combination -h)
+  have hq : star ((x - star x) / (θ - star θ)) = (x - star x) / (θ - star θ) := by
+    rw [star_div₀, star_sub, star_sub, star_star, star_star]
+    field_simp
+    ring
+  obtain ⟨q, hq'⟩ := (cm.fixed _).1 hq
+  have hp : star (x - (x - star x) / (θ - star θ) * θ) = x - (x - star x) / (θ - star θ) * θ := by
+    rw [star_sub, star_mul, hq]
+    field_simp
+    ring
+  obtain ⟨p, hp'⟩ := (cm.fixed _).1 hp
+  exact ⟨p, q, by rw [hp', hq']; ring⟩
 
 theorem cm_local_neg_one (cm : CMData F E) (θ : 𝓞 E) (t n : 𝓞 F)
     (ht : (θ : E) + star (θ : E) = algebraMap F E t) (hn : (θ : E) * star (θ : E) = algebraMap F E n)
@@ -489,10 +451,10 @@ theorem ortho_sign (N : ℕ) (b : Bool) : Formalism.HermitianLatticesTheory.IsOr
     (Pi.basisFun E (Fin N)).span_eq, rfl, fun i j => ?_⟩
   rw [Pi.basisFun_apply, Pi.basisFun_apply]
   cases b
-  · simp only [Bool.false_eq_true, if_false]
+  · simp only [Bool.false_eq_true, ite_false]
     rw [diagForm_single]
     simp [sgn]
-  · simp only [if_true, LinearMap.neg_apply]
+  · simp only [ite_true, LinearMap.neg_apply]
     rw [diagForm_single]
     split_ifs <;> simp [sgn]
 
@@ -579,14 +541,14 @@ theorem hypVec_hypVec (a b c d : E) (i j : Fin R.rS) :
   have hj := j.isLt
   have e1 : ¬ ((idxP R i : ℕ) = idxM R j) := by simp only [idxP, idxM]; omega
   have e2 : ¬ ((idxM R i : ℕ) = idxP R j) := by simp only [idxP, idxM]; omega
-  rw [if_neg e1, if_neg e2]
+  rw [ite_eq_right e1, ite_eq_right e2]
   by_cases h : i = j
   · subst h
     simp [sgn, sub_eq_add_neg]
   · have h' : (i : ℕ) ≠ j := fun e => h (Fin.ext e)
     have e3 : ¬ ((idxP R i : ℕ) = idxP R j) := by simp only [idxP]; omega
     have e4 : ¬ ((idxM R i : ℕ) = idxM R j) := by simp only [idxM]; omega
-    rw [if_neg e3, if_neg e4, if_neg h]
+    rw [ite_eq_right e3, ite_eq_right e4, ite_eq_right h]
     simp
 
 theorem ext_hypVec (x : Fin (R.N 0) → E) (a b : E) (i : Fin R.rS) :
@@ -598,7 +560,7 @@ theorem ext_hypVec (x : Fin (R.N 0) → E) (a b : E) (i : Fin R.rS) :
 theorem z_hypVec (c a b : E) (i : Fin R.rS) :
     diagForm _ (cut _ (pY R 0)) (Pi.single (idxZ R) c) (hypVec R a b i) = 0 := by
   have hi := i.isLt
-  rw [hypVec, map_add (f := _), diag_single_single, diag_single_single, if_neg, if_neg, add_zero]
+  rw [hypVec, map_add (f := _), diag_single_single, diag_single_single, ite_eq_right, ite_eq_right, add_zero]
   · simp only [idxM, idxZ]; omega
   · simp only [idxP, idxZ]; omega
 
@@ -659,7 +621,7 @@ def spacesStd : Spaces R F E where
   zm := Pi.single (idxZ R) pz
   zm_norm := by
     refine (diag_single_single _ (cut _ (pY R 0)) _ _ pz pz).trans ?_
-    rw [if_pos rfl, cut_idxZ, ← hpz]
+    rw [ite_eq_left rfl, cut_idxZ, ← hpz]
     simp [sgn]
   zm_orth := fun x => diag_ext_single _ _ (cut _ (pY R 0)) x _ pz (by simp only [idxZ, N_zero]; omega)
   hypE := hypVec R 1 1

@@ -54,8 +54,6 @@ section -- clump:auto
 
 open CategoryTheory TensorProduct MvPowerSeries GlobalTheory GlobalTheory.PDiv GlobalTheory.PDivGroup GlobalTheory.Katz
 
-set_option autoImplicit false
-
 noncomputable section
 
 namespace GlobalTheory
@@ -108,7 +106,7 @@ theorem subst_mem_quasiInt : ∀ (p : ℕ) [Fact p.Prime] (k : Type) [Field k] [
       intro t
       by_cases ht : t = j
       · subst ht; simp only [Finsupp.single_eq_same]; omega
-      · rw [Finsupp.single_apply, if_neg (Ne.symm ht)]; exact Nat.zero_le _
+      · rw [Finsupp.single_apply, ite_eq_right (Ne.symm ht)]; exact Nat.zero_le _
     set δ := γ - Finsupp.single j 1 with hδ
     have hδγ : δ + Finsupp.single j 1 = γ := tsub_add_cancel_of_le hle
     have hδj : (δ j : Fr p k) + 1 = γ j := by
@@ -152,8 +150,6 @@ section -- clump:auto
 
 open CategoryTheory TensorProduct MvPowerSeries GlobalTheory GlobalTheory.PDiv GlobalTheory.PDivGroup GlobalTheory.Katz
 
-theorem _root_.GlobalTheory.T.subst_mem_integralDifferentialSubmodule : ∀ (p : ℕ) [Fact p.Prime] (k : Type) [Field k] [CharP k p] [PerfectRing k p] (σ τ : Type) [Finite σ] (u : σ → MvPowerSeries (τ) (Fr p k)) (f : MvPowerSeries (σ) (Fr p k)), (∀ i, constantCoeff (u i) = 0) → (∀ i, u i ∈ intBy p k τ 1) → f ∈ quasiInt p k σ → subst u f ∈ quasiInt p k τ := by
-  first | exact @GlobalTheory.Katz.subst_mem_quasiInt
 end -- clump:auto
 end -- clump:auto
 -- ===== end clump member: Development.AbelianVarietyTheory.Proofs.DivisorProofs.SubstMemIntegralDifferentialSubmoduleStatement =====

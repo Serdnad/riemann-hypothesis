@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Definitions.ArchimedeanThetaValues.ArcVarZpowInjective
 public import Mathlib.Analysis.Normed.Ring.Lemmas
 public import Mathlib.LinearAlgebra.Matrix.PosDef
 public import CompanionTheory.SpectralGeometry.LocalGlobalProofs.ConvexCones.RatFormPosOfIntPos
@@ -62,6 +61,6 @@ theorem sublevel_finite : ∀ (X : Type) [AddCommGroup X] [Module.Finite ℤ X] 
     (β : LinearMap.BilinForm ℤ X), (∀ y z, β y z = β z y) → (∀ y, y ≠ 0 → 0 < β y y) →
     ∀ c : ℤ, {y : X | β y y ≤ c}.Finite := by
   intros
-  apply _root_.GlobalTheory.ToricData.finite_form_le <;> assumption
+  apply GlobalTheory.ToricData.finite_form_le <;> assumption
 
 end GlobalTheory.CompanionTheory.Ar.Fan

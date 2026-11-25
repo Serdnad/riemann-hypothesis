@@ -9,8 +9,6 @@ import Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms₂.Ex
 import Development.AutomorphicArithmetic.AutomorphicVarieties.GaloisLibrary.SelmerTransport.RestrictionMemInvariantH1
 import Development.AutomorphicArithmetic.AutomorphicVarieties.IdeleGenerators.ConstSmall
 import Development.AutomorphicArithmetic.AutomorphicVarieties.PublishedTheorems.GelfandKazhdanReal
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IdeleModuleInfId
-import PositivityTheory.AutomorphicForms.PublishedInputs.HilbertEisenstein.InvMulVecScalarMul
 
 @[expose] public section
 
@@ -30,10 +28,6 @@ variable {F : Type} [Field F] [NumberField F] [IsTotallyReal F]
 
 def boxP (e : HeightOneSpectrum (𝓞 F) → ℤ) (v : Fin 2 → Ad F) : Prop :=
   ∀ w, ∀ i, Valued.v (pLoc F w (pFin F (v i))) ≤ WithZero.exp (e w)
-
-theorem norm_omega_eq_one {ω : HChar F} (h : IsOfFinOrder ω) (x : Ideles F) :
-    ‖((ω.1 x : ℂˣ) : ℂ)‖ = 1 := by
-  apply _root_.UpperTheory.HilbertEisensteinWeightOne.EisensteinIntegrability.norm_omega_eq_one <;> assumption
 
 theorem absD_scalar_mul (t : {r : ℝ // 0 < r}) (u : normOneSubgroup F) (h : GA F 2) :
     absD (Matrix.GeneralLinearGroup.scalar (Fin 2) (moduleSection (w0 F) t * (u : Ideles F)) * h) =
@@ -78,7 +72,18 @@ theorem infId_snd (d : (UpperTheory.V.TR.Rinf F)ˣ) :
 
 theorem ideleModule_infId (d : (UpperTheory.V.TR.Rinf F)ˣ) :
     (IdeleGroup.ideleModule F (UpperTheory.V.TR.infId F d) : ℝ) = ∏ w, |d.val w| := by
-  apply _root_.GlobalTheory.HenQ.DetSplit.ideleModule_infId <;> assumption
+  rw [ideleModule_eq]
+  have hfin : ∏ᶠ v : HeightOneSpectrum (𝓞 F), ‖((UpperTheory.V.TR.infId F d : Ideles F) : Ad F).2 v‖ = 1 := by
+    rw [infId_snd]
+    simp
+  rw [hfin, mul_one]
+  refine Finset.prod_congr rfl fun w _ => ?_
+  have hm : w.mult = 1 := by
+    unfold InfinitePlace.mult
+    rw [ite_eq_left (IsTotallyReal.isReal w)]
+  have e : ((UpperTheory.V.TR.infId F d : Ideles F) : Ad F).1 w = (UpperTheory.V.TR.infEq F d.val) w := by
+    rw [infId_fst]
+  rw [hm, pow_one, e, norm_infEq_apply]
 
 theorem abs_apply_le_height (y : GL (Fin 2) (UpperTheory.V.TR.Rinf F)) (i j : Fin 2) (w : InfinitePlace F) :
     |(y : Matrix (Fin 2) (Fin 2) (UpperTheory.V.TR.Rinf F)) i j w| ≤ UpperTheory.V.TR.height y := by

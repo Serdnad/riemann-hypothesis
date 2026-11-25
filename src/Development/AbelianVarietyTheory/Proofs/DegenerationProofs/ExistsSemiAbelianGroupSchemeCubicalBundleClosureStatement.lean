@@ -173,7 +173,20 @@ theorem exists_point_norm_valF_eq {X : Scheme.{0}} {p : ℕ} [Fact p.Prime]
       valF (gPt p ≫ y') U φ = (((Scheme.ΓSpecIso (.of K)).hom
         ((Spec.map (CommRingCat.ofHom (algebraMap (integralClosure ℤ_[p] K) K)) ≫ y).appLE
           U ⊤ hy φ) : K) : PadicAlgCl p) := by
-  first | exact _root_.GlobalTheory.BoundedRegular.exists_point_norm_valF_eq | exact @_root_.GlobalTheory.BoundedRegular.exists_point_norm_valF_eq | apply _root_.GlobalTheory.BoundedRegular.exists_point_norm_valF_eq <;> assumption
+  haveI := isLocalHom_integralClosureToPadicAlgClIntegers K
+  have e : gPt p ≫ spMap (integralClosureToPadicAlgClIntegers K) ≫ y =
+      spMap K.val.toRingHom ≫
+        Spec.map (CommRingCat.ofHom (algebraMap (integralClosure ℤ_[p] K) K)) ≫ y := by
+    rw [← Category.assoc, ← Category.assoc, ← Spec.map_comp, ← Spec.map_comp]
+    rfl
+  refine ⟨spMap (integralClosureToPadicAlgClIntegers K) ≫ y, ?_, ?_, ?_⟩
+  · refine (Scheme.Hom.comp_apply _ _ _).trans (congrArg y ?_)
+    exact IsLocalRing.comap_closedPoint (integralClosureToPadicAlgClIntegers K)
+  · rw [e]
+    rintro _ ⟨q, rfl⟩
+    exact hy (Set.mem_univ (spMap K.val.toRingHom q))
+  · rw [e, BoundedRegular.valF_spMap_comp_eq _ _ U hy]
+    rfl
 
 theorem existsUnique_resG_eq {X : Scheme.{0}} [IsIntegral X] (π : X ⟶ Sp ℤ) [Flat π]
     [LocallyOfFiniteType π] (hX : ReciprocityTheory.ChartRestriction.G.Geo.Tor.IsNormalScheme X) {U W : X.Opens}
@@ -1665,7 +1678,6 @@ open CategoryTheory Limits MonoidalCategory CartesianMonoidalCategory MonObj Alg
 open scoped CategoryTheory.Obj
 open ReciprocityTheory.ChartRestriction.G ReciprocityTheory.ChartRestriction.G.Semi ReciprocityTheory.ChartRestriction.G.Geo.Tor
 open GlobalTheory.ZH ReciprocityTheory.ChartRestriction.G.Out Classical
-attribute [local instance] Over.cartesianMonoidalCategory
 
 noncomputable section
 namespace GlobalTheory.ClosureGroup
@@ -1852,7 +1864,6 @@ open CategoryTheory Limits MonoidalCategory CartesianMonoidalCategory MonObj Alg
 open scoped CategoryTheory.Obj
 open ReciprocityTheory.ChartRestriction.G ReciprocityTheory.ChartRestriction.G.Semi ReciprocityTheory.ChartRestriction.G.Geo.Tor
 open GlobalTheory.ZH ReciprocityTheory.ChartRestriction.G.Out Classical
-attribute [local instance] Over.cartesianMonoidalCategory
 
 theorem _root_.GlobalTheory.T.exists_semiAbelian_groupScheme_cubical_bundle_closure : Laws → Laws2 → ThmUSt → ∀ (o Ω : Type) [CommRing o] [Field Ω] [Algebra o Ω] [ArithBase o Ω] (S : ThetaSys o Ω) (ρ : S.Real) (M : RatModel o Ω) (U₀ : M.Z.Opens) (EE : M.Lat S.J) (Q : Clos ρ M U₀ EE) (ex : Q.Ext), S.Big → ex.core.HasTests → ex.core.Indep → ex.core.HasCharts → ex.core.TorsSec (S.r * S.N) → (∃ T : ex.core.Theta, LBIso T.L.L (ρ.P.L.pull (pullback.fst ρ.P.A.hom Q.u₀))) → ∃ Z : ZHPre ρ M U₀, (∃ e : Z.G.left ≅ Q.G.toScheme, e.hom ≫ Q.G.ι ≫ Q.P.hom = Z.G.hom ∧ Z.u₀ = Q.u₀ ∧ HEq (Z.φ ≫ e.hom) ex.a) ∧ Z.LocTheta ∧ Nonempty ex.core.Law := by
   first | exact @GlobalTheory.ClosureGroup.exists_pre

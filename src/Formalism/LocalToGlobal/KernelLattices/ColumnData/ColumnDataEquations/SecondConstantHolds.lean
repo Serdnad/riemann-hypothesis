@@ -1,62 +1,21 @@
 module
 
-import Formalism.LocalToGlobal.PairingIndexBounds.SplitPairEquations.IntegralSquareRoots.NormOne
-import Formalism.LocalToGlobal.PairingIndexBounds.SplitPairEquations.IntegralSquareRoots.OneEntryMem
 public import Formalism.LocalToGlobal.KernelLattices.ColumnData.ColumnDataEquations.Reduction
 public import Formalism.LocalToGlobal.KernelLattices.ColumnData.ColumnDataEquations.MemSmulLat
 public import Formalism.LocalToGlobal.KernelLattices.ColumnData.ColumnDataEquations.NormOneUnitIdeal
 public import Formalism.LocalToGlobal.KernelLattices.ColumnData.ColumnDataEquations.ReductionOf
 public import Formalism.LocalToGlobal.PairingIndexBounds.SplitPairEquations.IntegralSquareRoots.HenselQuad
+public import Formalism.LocalToGlobal.PairingIndexBounds.SplitPairEquations.IntegralSquareRoots.OneEntryMem
 public import Formalism.LocalToGlobal.KernelLattices.ColumnData.ColumnDataEquations.ZeroInjectionMemFourthPower
 public import Formalism.LocalToGlobal.KernelLattices.ColumnData
 public import Formalism.LocalToGlobal.KernelLattices.ColumnData.ColumnDataEquations.JNoEig
 public import Formalism.LocalToGlobal.KernelLattices.ColumnData.ColumnDataEquations.JArith
 public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.StarSqrtNeg
 import Formalism.LocalToGlobal.KernelLattices.ColumnData.IsAdmissibleFlagPairOfUnitriangularLeftAutomorph
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Topology.Sheaves.Init
-import Mathlib.RingTheory.Coalgebra.IsFrobenius
-import Mathlib.RingTheory.HopfAlgebra.Basic
-import Mathlib.Tactic.Basify
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
 import Std.Tactic.BVDecide.Normalize.Prop
 import Formalism.LocalToGlobal.KernelLattices.KernelLocalFactors.IsAdmissibleFlagPairOfUnitriangularLeftAutomorph
 import Formalism.LocalRingCardinality.SpanPowerMembership.ExampleLayerExistsGenerators
-import Mathlib.Tactic.ENatToNat
 import Mathlib.Tactic.Linter.HaveILetI
 import Formalism.LocalToGlobal.KernelLattices.ColumnData.ColumnDataEquations.CharacterFactorUnitaryAction
 
@@ -110,68 +69,17 @@ open Formalism.L2.PairingIndexBounds.Eq.J Formalism.L2.PairingIndexBounds.Eq For
 
 open Formalism.MainNotions Formalism.L2.Th1.H Formalism.L2.Ker.Cd.PairingIndexBounds.Eq Formalism.L2.PairingIndexBounds.Eq Formalism.L2.Ker
 
-section Gen
-
-variable {n : Type} [Fintype n] [DecidableEq n] {N N' : ℕ}
-
-def ent (k : Fin N' × Fin N) (z : n → Fin N' → Fin N → ℂ) : n → ℂ := fun τ => z τ k.1 k.2
-
-def setE (z : n → Fin N' → Fin N → ℂ) (k : Fin N' × Fin N) (w : n → ℂ) : n → Fin N' → Fin N → ℂ :=
-  fun τ i j => if (i, j) = k then w τ else z τ i j
-
-def repl (a : n → ℂ) (s : Finset (Fin N' × Fin N)) (z : n → Fin N' → Fin N → ℂ) : n → Fin N' → Fin N → ℂ :=
-  fun τ i j => if (i, j) ∈ s then a τ else z τ i j
-
-omit [Fintype n] [DecidableEq n] in
-theorem ent_putL (k p : Fin N' × Fin N) (x : n → ℂ) : ent p (putL n N N' k x) = if p = k then x else 0 := by
-  funext τ
-  by_cases h : p = k
-  · subst h
-    simp [ent, putL]
-  · simp [ent, putL, h]
-
-omit [Fintype n] [DecidableEq n] in
-theorem ent_setE (z : n → Fin N' → Fin N → ℂ) (k : Fin N' × Fin N) (w : n → ℂ) : ent k (setE z k w) = w := by
-  funext τ
-  simp [ent, setE]
-
-omit [Fintype n] [DecidableEq n] in
-theorem setE_ent (z : n → Fin N' → Fin N → ℂ) (k : Fin N' × Fin N) : setE z k (ent k z) = z := by
-  funext τ i j
-  unfold setE ent
-  split_ifs with h
-  · rw [← h]
-  · rfl
-
-omit [Fintype n] [DecidableEq n] in
-theorem setE_add (z : n → Fin N' → Fin N → ℂ) (k : Fin N' × Fin N) (w x : n → ℂ) :
-    setE z k w + putL n N N' k x = setE z k (w + x) := by
-  funext τ i j
-  by_cases h : (i, j) = k <;> simp [setE, putL, h]
-
-theorem form_put (L : PeriodPair) (y : n → Fin N' → Fin N → ℂ) (k : Fin N' × Fin N) (x : n → ℂ) :
-    formV (Formalism.L2.Th1.F.area L) n N N' y (putL n N N' k x) = matH (hOne L n) (ent k y) x := by
-  apply _root_.Formalism.L2.PairingIndexBounds.Eq.J.form_put <;> assumption
-
-theorem alphaQ_put (c : ℝ) (L : PeriodPair) (k : Fin N' × Fin N) (x : n → ℂ) :
-    alphaQ c (formV (Formalism.L2.Th1.F.area L) n N N') (putL n N N' k x) = alphaQ c (matH (hOne L n)) x := by
-  unfold alphaQ qOf
-  rw [form_put, ent_putL, if_pos rfl]
-
-theorem oneEntry_mem (c : ℝ) (L : PeriodPair) (ΛM : AddSubgroup (n → ℂ)) {F : (n → Fin N' → Fin N → ℂ) → ℂ}
-    (hF : F ∈ Formalism.L2.Th1.H.Th (formV (Formalism.L2.Th1.F.area L) n N N') (alphaQ c (formV (Formalism.L2.Th1.F.area L) n N N'))
-      (powLat ΛM N N')) (z : n → Fin N' → Fin N → ℂ) (k : Fin N' × Fin N) :
-    (fun w => F (setE z k w)) ∈ Formalism.L2.Th1.H.Th (matH (hOne L n)) (alphaQ c (matH (hOne L n))) ΛM := by
-  apply _root_.Formalism.L2.PairingIndexBounds.Eq.J.oneEntry_mem <;> assumption
-
-theorem tens_spans (c : ℝ) (L : PeriodPair) (ΛM : AddSubgroup (n → ℂ)) {θ : (n → ℂ) → ℂ} (hθ0 : θ ≠ 0)
-    (hline : ∀ G ∈ Formalism.L2.Th1.H.Th (matH (hOne L n)) (alphaQ c (matH (hOne L n))) ΛM, ∃ a : ℂ, G = a • θ)
-    (N N' : ℕ) :
-    ∀ F ∈ Formalism.L2.Th1.H.Th (formV (Formalism.L2.Th1.F.area L) n N N') (alphaQ c (formV (Formalism.L2.Th1.F.area L) n N N'))
-      (powLat ΛM N N'), ∃ a : ℂ, F = a • tensPow θ N N' := by
-  apply _root_.Formalism.L2.PairingIndexBounds.Eq.J.tens_spans <;> assumption
-
-end Gen
+alias ent := Formalism.L2.PairingIndexBounds.Eq.J.ent
+alias setE := Formalism.L2.PairingIndexBounds.Eq.J.setE
+alias repl := Formalism.L2.PairingIndexBounds.Eq.J.repl
+alias ent_putL := Formalism.L2.PairingIndexBounds.Eq.J.ent_putL
+alias ent_setE := Formalism.L2.PairingIndexBounds.Eq.J.ent_setE
+alias setE_ent := Formalism.L2.PairingIndexBounds.Eq.J.setE_ent
+alias setE_add := Formalism.L2.PairingIndexBounds.Eq.J.setE_add
+alias form_put := Formalism.L2.PairingIndexBounds.Eq.J.form_put
+alias alphaQ_put := Formalism.L2.PairingIndexBounds.Eq.J.alphaQ_put
+alias oneEntry_mem := Formalism.L2.PairingIndexBounds.Eq.J.oneEntry_mem
+alias tens_spans := Formalism.L2.PairingIndexBounds.Eq.J.tens_spans
 
 variable {D : Car} {cc : Ideal (𝓞 D.host.K)} {δ : ℂ} {B : Cd.Base D cc δ}
 
@@ -241,7 +149,19 @@ theorem cay_norm (s : E) (hs : star s = -s) (t : ℕ) : star (cay s t) * cay s t
   ring
 
 theorem cay_inj (s : E) (hs : star s = -s) (hs0 : s ≠ 0) : Function.Injective (cay s) := by
-  apply _root_.Formalism.L2.PairingIndexBounds.Eq.J.cay_inj <;> assumption
+  intro a b hab
+  unfold cay at hab
+  have ha1 := one_sub_ne s hs a
+  have hb1 := one_sub_ne s hs b
+  rw [div_eq_div_iff ha1 hb1] at hab
+  have h0 : ((a:E) - b) * s * 2 = 0 := by linear_combination hab
+  have hab' : ((a:E) - b) = 0 := by
+    rcases mul_eq_zero.mp h0 with h | h
+    · rcases mul_eq_zero.mp h with h | h
+      · exact h
+      · exact absurd h hs0
+    · exact absurd h two_ne_zero
+  exact_mod_cast sub_eq_zero.mp hab'
 
 theorem exists_norm_one (s : E) (hs : star s = -s) (hs0 : s ≠ 0) (p : E[X]) (hp : p ≠ 0) :
     ∃ z : E, star z * z = 1 ∧ z ≠ 1 ∧ p.eval z ≠ 0 := by
@@ -422,7 +342,7 @@ end -- clump:auto
 -- ===== end clump member: Formalism.LocalToGlobal.KernelLattices.ColumnData.ColumnDataEquations.JFinal =====
 
 -- ===== clump member: Formalism.LocalToGlobal.KernelLattices.ColumnData.ColumnDataEquations.SecondConstantHolds =====
--- clump-header: {"m": "Formalism.LocalToGlobal.KernelLattices.ColumnData.ColumnDataEquations.SecondConstantHolds", "h": "module\n\npublic import Formalism.LocalToGlobal.KernelLattices.ColumnData.ColumnDataEquations.JArith\npublic import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.StarSqrtNeg\npublic import Formalism.LocalToGlobal.KernelLattices.ColumnData.ColumnDataEquations.JFinal\npublic import Formalism.LocalToGlobal.PairingIndexBounds.SplitPairEquations.IntegralSquareRoots.HenselQuad\nimport Mathlib.Algebra.Order.Floor.Extended\nimport Mathlib.Algebra.Order.Floor.Semifield\nimport Mathlib.Algebra.Order.Interval.Basic\nimport Mathlib.Analysis.Normed.Algebra.GelfandRadius\nimport Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp\nimport Mathlib.Combinatorics.Enumerative.DyckWord\nimport Mathlib.Combinatorics.SimpleGraph.Triangle.Removal\nimport Mathlib.Data.NNRat.Floor\nimport Mathlib.Geometry.Euclidean.Volume.Basic\nimport Mathlib.NumberTheory.Chebyshev\nimport Mathlib.NumberTheory.Height.NumberField\nimport Mathlib.NumberTheory.Height.Projectivization\nimport Mathlib.NumberTheory.LucasLehmer\nimport Mathlib.NumberTheory.SelbergSieve\nimport Mathlib.RingTheory.Radical.NatInt\nimport Mathlib.Tactic.Echelon.Zsqrtd\nimport Mathlib.Tactic.Inclusion.Extension.Core.Core\nimport Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit\nimport Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp\nimport Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses\nimport Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic\nimport Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses\nimport Mathlib.Tactic.Linter.Style\nimport Mathlib.Tactic.NormNum.Irrational\nimport Mathlib.Tactic.NormNum.IsCoprime\nimport Mathlib.Tactic.NormNum.IsSquare\nimport Mathlib.Tactic.NormNum.LegendreSymbol\nimport Mathlib.Tactic.NormNum.ModEq\nimport Mathlib.Tactic.NormNum.NatFib\nimport Mathlib.Tactic.NormNum.NatLog\nimport Mathlib.Tactic.NormNum.NatSqrt\nimport Mathlib.Tactic.NormNum.Ordinal\nimport Mathlib.Tactic.NormNum.Prime\nimport Mathlib.Tactic.NormNum.RealSqrt\nimport Mathlib.Topology.Sheaves.Init\n\n"}
+-- clump-header: {"m": "Formalism.LocalToGlobal.KernelLattices.ColumnData.ColumnDataEquations.SecondConstantHolds", "h": "module\n\npublic import Formalism.LocalToGlobal.KernelLattices.ColumnData.ColumnDataEquations.JArith\npublic import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.StarSqrtNeg\npublic import Formalism.LocalToGlobal.KernelLattices.ColumnData.ColumnDataEquations.JFinal\npublic import Formalism.LocalToGlobal.PairingIndexBounds.SplitPairEquations.IntegralSquareRoots.HenselQuad
 section -- clump:auto
 @[expose] public section
 

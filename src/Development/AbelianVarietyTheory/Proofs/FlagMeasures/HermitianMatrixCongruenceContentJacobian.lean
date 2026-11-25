@@ -54,7 +54,6 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
-import Development.AbelianVarietyTheory.Proofs.FlagMeasures.MatrixCongruentOneModUniformizerPowGroupAndOrbit
 
 @[expose] public section
 
@@ -85,18 +84,18 @@ def coord (m : ℕ) (ω ω' e : E) (h : (ω - ω') * e = 1) :
   left_inv v := by
     funext ⟨i, j⟩
     rcases lt_trichotomy i j with hij | rfl | hij
-    · simp only [Matrix.of_apply, hij, hij.not_gt, if_true, if_false]
+    · simp only [Matrix.of_apply, hij, hij.not_gt, ite_true, ite_false]
       linear_combination (-ω * v (j, i)) * h
     · simp
-    · simp only [Matrix.of_apply, hij, hij.not_gt, if_true, if_false]
+    · simp only [Matrix.of_apply, hij, hij.not_gt, ite_true, ite_false]
       linear_combination (v (i, j)) * h
   right_inv X := by
     ext i j
     rcases lt_trichotomy i j with hij | rfl | hij
-    · simp only [Matrix.of_apply, hij, hij.not_gt, if_true, if_false]
+    · simp only [Matrix.of_apply, hij, hij.not_gt, ite_true, ite_false]
       ring
     · simp
-    · simp only [Matrix.of_apply, hij, hij.not_gt, if_true, if_false]
+    · simp only [Matrix.of_apply, hij, hij.not_gt, ite_true, ite_false]
       linear_combination (X i j - X j i) * h
 
 theorem coord_apply (ω ω' e : E) (h : (ω - ω') * e = 1) (v : Fin m × Fin m → E) (i j : Fin m) :
@@ -163,7 +162,17 @@ theorem isHerm_iff (L : LocE F E) {m : ℕ} (X : Matrix (Fin m) (Fin m) E) :
 
 theorem mem_hermLat_iff (L : LocE F E) (m : ℕ) (X : Matrix (Fin m) (Fin m) E) :
     X ∈ hermLat L m ↔ IsHerm L X ∧ IsIntM L X := by
-  apply _root_.GlobalTheory.CongGrp.mem_hermLat <;> assumption
+  refine ⟨fun h => ?_, fun h => AddSubgroup.subset_closure h⟩
+  induction h using AddSubgroup.closure_induction with
+  | mem x hx => exact hx
+  | zero => exact ⟨(isHerm_iff L _).2 (by simp), fun i j => L.O.zero_mem⟩
+  | add x y _ _ hx hy =>
+    refine ⟨(isHerm_iff L _).2 fun i j => ?_, fun i j => L.O.add_mem (hx.2 i j) (hy.2 i j)⟩
+    rw [Matrix.add_apply, Matrix.add_apply, map_add (f := _), (isHerm_iff L _).1 hx.1,
+      (isHerm_iff L _).1 hy.1]
+  | neg x _ hx =>
+    refine ⟨(isHerm_iff L _).2 fun i j => ?_, fun i j => L.O.neg_mem (hx.2 i j)⟩
+    rw [Matrix.neg_apply, Matrix.neg_apply, map_neg, (isHerm_iff L _).1 hx.1]
 
 theorem cT_mul (L : LocE F E) {m : ℕ} (X Y : Matrix (Fin m) (Fin m) E) :
     cT L (X * Y) = cT L Y * cT L X := by
@@ -205,10 +214,10 @@ theorem exists_coord (L : LocE F E) {m : ℕ} {ω e : E} (h : (ω - L.cj ω) * e
   have h2 := (isHerm_iff L X).1 hX j i
   rw [coord_symm_apply]
   rcases lt_trichotomy i j with hij | rfl | hij
-  · simp only [hij, if_true, map_sub, map_mul, hce, h1, h2]
+  · simp only [hij, ite_true, map_sub, map_mul, hce, h1, h2]
     linear_combination (X i j - X j i) * h
   · simp [h1]
-  · simp only [hij, hij.not_gt, if_true, if_false, map_sub, map_mul, hce, h1, h2]
+  · simp only [hij, hij.not_gt, ite_true, ite_false, map_sub, map_mul, hce, h1, h2]
     ring
 
 theorem cont_congr : ∀ {F : Type} [Field F] [ValuativeRel F] [TopologicalSpace F] [IsNonarchimedeanLocalField F] [CharZero F] {E : Type} [CommRing E] [Algebra F E] [TopologicalSpace E] (L : LocE F E), ∀ (ϖ : 𝒪[F]), Irreducible ϖ → ∀ (m : ℕ) (A : Matrix (Fin m) (Fin m) E), IsUnit A.det → (∀ X, X ∈ hermLat L m ↔ IsHerm L X ∧ IsIntM L X) ∧ ∀ B, IsCO (hermLat L m) B → IsCO (hermLat L m) ((fun X => cT L A * X * A) '' B) ∧ cont (hermLat L m) ((fun X => cT L A * X * A) '' B) = (resQ ϖ : ℝ) ^ (-(vE L ϖ (A.det * L.cj A.det) * m)) * cont (hermLat L m) B := by

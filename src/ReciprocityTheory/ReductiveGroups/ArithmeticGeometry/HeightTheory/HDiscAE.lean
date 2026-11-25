@@ -4,8 +4,8 @@ public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.HeightTheory.
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.HeightTheory.AlgebraMapOLInjective
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.HeightTheory.HDiscAC
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.HeightTheory.OpIsDVR
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.HeightTheory.HHINDA
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.HeightTheory.ValNorm
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.HeightTheory.HPlaces
 
 @[expose] public section
 
@@ -24,16 +24,6 @@ namespace Data
 
 variable (d : Data K ι Ω WT A)
 
-private theorem op_isFractionRing' (D N : ℕ) (la : HeightOneSpectrum (𝓞 K)) :
-    letI := (OpToKT D N la).toAlgebra
-    IsFractionRing (Op D N la) (KTf K D N) := by
-  apply _root_.PI.HtPlacesSumWork.gauss_frac <;> assumption
-
-private theorem isDedekindDomain_Op (D N : ℕ) (la : HeightOneSpectrum (𝓞 K)) :
-    IsDedekindDomain (Op D N la) := by
-  letI := Op_isDVR D N la
-  infer_instance
-
 theorem comp_facts (hd : d.AxH 𝒜) (h : d.S1) (la : HeightOneSpectrum (𝓞 K)) (c : ι) :
     letI : Algebra (KTf K d.D d.N) (OmS (Ω c) d.D d.N) := (d.KTtoS h c).toAlgebra
     letI : Algebra (Op d.D d.N la) (OmS (Ω c) d.D d.N) := d.algOp h la c
@@ -48,7 +38,7 @@ theorem comp_facts (hd : d.AxH 𝒜) (h : d.S1) (la : HeightOneSpectrum (𝓞 K)
   letI iKS : Algebra (KTf K d.D d.N) (OmS (Ω c) d.D d.N) := (d.KTtoS h c).toAlgebra
   letI iOS : Algebra (Op d.D d.N la) (OmS (Ω c) d.D d.N) := d.algOp h la c
   letI iOK : Algebra (Op d.D d.N la) (KTf K d.D d.N) := algOpKT (K := K) d.D d.N la
-  haveI hF : IsFractionRing (Op d.D d.N la) (KTf K d.D d.N) := op_isFractionRing' d.D d.N la
+  haveI hF : IsFractionRing (Op d.D d.N la) (KTf K d.D d.N) := NPA.op_isFractionRing d.D d.N la
   haveI hT : IsScalarTower (Op d.D d.N la) (KTf K d.D d.N) (OmS (Ω c) d.D d.N) :=
     IsScalarTower.of_algebraMap_eq (fun _ => rfl)
   haveI : CharZero (KTf K d.D d.N) :=
@@ -82,7 +72,7 @@ theorem comp_facts (hd : d.AxH 𝒜) (h : d.S1) (la : HeightOneSpectrum (𝓞 K)
     rw [hyy]
     exact Submodule.sum_mem _ fun k _ => Submodule.smul_mem _ _ (Submodule.subset_span (by simp))
   haveI hsep : Algebra.IsSeparable (KTf K d.D d.N) (OmS (Ω c) d.D d.N) := inferInstance
-  haveI : IsDedekindDomain (Op d.D d.N la) := isDedekindDomain_Op d.D d.N la
+  haveI : IsDiscreteValuationRing (Op d.D d.N la) := Op_isDVR d.D d.N la
   refine ⟨hF, hT, hFD, hsep, ?_, ?_⟩
   · first
       | exact integralClosure.isDedekindDomain (A := Op d.D d.N la) (K := KTf K d.D d.N)
@@ -95,44 +85,13 @@ theorem plOver_eq (h : d.S1) (la : HeightOneSpectrum (𝓞 K)) (c : ι) :
     letI : Algebra (Op d.D d.N la) (OmS (Ω c) d.D d.N) := d.algOp h la c
     d.PlOver la c = ValPl.PlacesOver (Op d.D d.N la) (OmS (Ω c) d.D d.N) := by
   letI : Algebra (Op d.D d.N la) (OmS (Ω c) d.D d.N) := d.algOp h la c
-  have hOS : ∀ x : OT K d.D d.N, algebraMap (Op d.D d.N la) (OmS (Ω c) d.D d.N)
-      (algebraMap (OT K d.D d.N) (Op d.D d.N la) x) = d.OTtoS c x := by
-    intro x
-    show d.KTtoS h c (OpToKT d.D d.N la (algebraMap _ _ x)) = _
-    unfold OpToKT Data.KTtoS Data.OTtoS
-    rw [IsLocalization.lift_eq, RingHom.comp_apply, IsFractionRing.lift_algebraMap]
-    all_goals rfl
+  letI : Algebra (OT K d.D d.N) (OmS (Ω c) d.D d.N) := (d.OTtoS c).toAlgebra
+  haveI : IsScalarTower (OT K d.D d.N) (Op d.D d.N la) (OmS (Ω c) d.D d.N) :=
+    IsScalarTower.of_algebraMap_eq fun x => (d.opToS_alg h la c x).symm
   ext w
-  simp only [Data.PlOver, ValPl.PlacesOver, Set.mem_setOf_eq]
-  constructor
-  · rintro ⟨hnd, hw⟩
-    refine ⟨hnd, fun y => ?_⟩
-    obtain ⟨⟨a, s⟩, rfl⟩ := IsLocalization.mk'_surjective (laT d.D d.N la).primeCompl y
-    have hs0 : w (d.OTtoS c s) = 0 := by
-      have h1 := (hw s).1
-      have h2 : ¬ 0 < w (d.OTtoS c s) := fun hlt =>
-        (show (s : OT K d.D d.N) ∉ laT d.D d.N la from s.2) ((hw s).2.mp hlt)
-      exact le_antisymm (not_lt.mp h2) h1
-    have hmul : w (algebraMap _ (OmS (Ω c) d.D d.N) (IsLocalization.mk' (Op d.D d.N la) a s)) =
-        w (d.OTtoS c a) := by
-      have e : algebraMap _ (OmS (Ω c) d.D d.N) (IsLocalization.mk' (Op d.D d.N la) a s) *
-          d.OTtoS c s = d.OTtoS c a := by
-        rw [← hOS, ← hOS, ← map_mul, IsLocalization.mk'_spec]
-      have := congrArg w e
-      rw [AddValuation.map_mul, hs0, add_zero] at this
-      exact this
-    rw [hmul, IsLocalization.AtPrime.mk'_mem_maximal_iff (S := Op d.D d.N la) (I := laT d.D d.N la)]
-    exact hw a
-  · rintro ⟨hnd, hw⟩
-    refine ⟨hnd, fun x => ?_⟩
-    have := hw (algebraMap _ (Op d.D d.N la) x)
-    have key : algebraMap (OT K d.D d.N) (Op d.D d.N la) x ∈ IsLocalRing.maximalIdeal (Op d.D d.N la) ↔
-        x ∈ laT d.D d.N la := by
-      first
-        | exact IsLocalization.AtPrime.to_map_mem_maximal_iff (S := Op d.D d.N la)
-            (I := laT d.D d.N la) x
-    rw [hOS, key] at this
-    exact this
+  simp only [ValPl.PlacesOver, Data.PlOver, Set.mem_setOf_eq]
+  rw [← ValPl.placesOver_iff_loc (R := OT K d.D d.N) (laT d.D d.N la) w]
+  rfl
 
 theorem comp_g (hd : d.AxH 𝒜) (h : d.S1) (la : HeightOneSpectrum (𝓞 K)) (c : ι)
     (n : AddValuation (OmS (Ω c) d.D d.N) (WithTop ℤ) → ℤ) :

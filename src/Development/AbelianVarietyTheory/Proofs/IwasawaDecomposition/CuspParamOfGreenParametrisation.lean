@@ -1,6 +1,5 @@
 module
 
-import Development.WeilBound.CoreStatements.FiniteTypeHarishChandra.GreenCuspLabels.GreenCuspidal
 public import Development.AbelianVarietyTheory.PublishedTheorems.GaloisCohomology₂.GreenCuspidalIff
 public import Formalism.LocalToGlobal.NormalizedHeckeFactors.CoeffZeroNeOfMonicIrr
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.CuspidalCharacterLabelUniqueGLn
@@ -8,45 +7,7 @@ public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Cuspi
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.LabelDatum
 public import Formalism.PadicSubsetSums.CentralIdempotents.IsConstituent
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.IsCuspidalCharacterIffIsCuspidalGLnFiniteField
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.HaveILetI
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Topology.Sheaves.Init
 
 @[expose] public section
 
@@ -76,7 +37,15 @@ theorem mem_rootsBar_of_aeval {P : (ZMod g)[X]} (hP : P ≠ 0) {x : Formalism.Cy
 
 theorem isPrimeLab_iff (d : ℕ) (P : (ZMod g)[X]) :
     IsPrimeLab d P ↔ P.Monic ∧ Irreducible P ∧ P ≠ X ∧ P.natDegree = d := by
-  apply _root_.PositivityTheory.GreenCharacters.isPrimeLab_iff <;> assumption
+  constructor
+  · rintro ⟨h1, h2, h3, h4⟩
+    refine ⟨h1, h2, ?_, h4⟩
+    rintro rfl
+    exact h3 (by simp)
+  · rintro ⟨h1, h2, h3, h4⟩
+    refine ⟨h1, h2, fun h0 => h3 ?_, h4⟩
+    have hd : (X : (ZMod g)[X]) ∣ P := X_dvd_iff.2 h0
+    exact (eq_of_monic_of_associated monic_X h1 (irreducible_X.associated_of_dvd h2 hd)).symm
 
 theorem isPrimeLab_charpoly {d : ℕ} (y : Gn g d) (hy : Irreducible (y : Mt g d).charpoly) :
     IsPrimeLab d (y : Mt g d).charpoly := by
@@ -133,9 +102,9 @@ theorem nonempty_iso_of_character {G : Type} [Group G] [Fintype G] (V W : FDRep 
   haveI : Invertible (Fintype.card G : ℂ) := invertibleOfNonzero (by exact_mod_cast Fintype.card_pos.ne')
   have h1 := FDRep.char_orthonormal V W
   have h2 := FDRep.char_orthonormal V V
-  rw [← h, h2, if_pos ⟨Iso.refl V⟩] at h1
+  rw [← h, h2, ite_eq_left ⟨Iso.refl V⟩] at h1
   by_contra h3
-  rw [if_neg h3] at h1
+  rw [ite_eq_right h3] at h1
   exact one_ne_zero h1
 
 theorem cuspParam_of_green : GlobalTheory.Published.GreenCuspidal → ∀ (g : ℕ) [Fact g.Prime] (t : Formalism.CyclotomicNorms.Fbar g →* ℂ)

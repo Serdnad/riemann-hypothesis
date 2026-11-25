@@ -1,7 +1,5 @@
 module
 
-
-import ReciprocityTheory.ReductiveGroups.DiscreteSeries.FormalDegree.HaarVolumes.VolUMeasurableSetTriPos
 public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.FormalDegree.HaarVolumes.TriDens
 public import Formalism.LocalRingCardinality.DataCD
 public import Mathlib.Analysis.SpecialFunctions.Gaussian.GaussianIntegral
@@ -15,6 +13,7 @@ import Mathlib.RingTheory.SimpleRing.Principal
 import Mathlib.RingTheory.TotallySplit
 import Mathlib.Tactic.Lemma
 import Mathlib.LinearAlgebra.Matrix.FiniteDimensional
+
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: ReciprocityTheory.ReductiveGroups.DiscreteSeries.FormalDegree.HaarVolumes.OmegaA, ReciprocityTheory.ReductiveGroups.DiscreteSeries.FormalDegree.HaarVolumes.IntegralGaussEOmPhiOmE, ReciprocityTheory.ReductiveGroups.DiscreteSeries.FormalDegree.HaarVolumes.BridgeA
 
@@ -53,26 +52,13 @@ theorem skMat_low_om (x : UCo N) (l : {ab : Fin N × Fin N // ab.2 < ab.1}) :
     skMat x l.1.1 l.1.2 = x.2 l := by
   obtain ⟨⟨a, b⟩, h⟩ := l
   show skMat x a b = x.2 ⟨(a, b), h⟩
-  simp only [skMat, if_neg (ne_of_gt h), dif_pos h]
+  simp only [skMat, ite_eq_right (ne_of_gt h), dite_eq_left h]
 
 theorem skMat_up_om (x : UCo N) (l : {ab : Fin N × Fin N // ab.2 < ab.1}) :
     skMat x l.1.2 l.1.1 = -star (x.2 l) := by
   obtain ⟨⟨a, b⟩, h⟩ := l
   show skMat x b a = -star (x.2 ⟨(a, b), h⟩)
-  simp only [skMat, if_neg (ne_of_lt h), dif_neg (not_lt.2 h.le), dif_pos h]
-
-theorem skMat_conjTranspose_om (x : UCo N) : (skMat x)ᴴ = -skMat x := by
-  ext a b
-  rw [Matrix.conjTranspose_apply, Matrix.neg_apply]
-  rcases lt_trichotomy a b with h | rfl | h
-  · have h1 : skMat x b a = x.2 ⟨(b, a), h⟩ := skMat_low_om x ⟨(b, a), h⟩
-    have h2 : skMat x a b = -star (x.2 ⟨(b, a), h⟩) := skMat_up_om x ⟨(b, a), h⟩
-    rw [h1, h2, neg_neg]
-  · rw [skMat_diag_om]
-    simp [Complex.conj_ofReal]
-  · have h1 : skMat x a b = x.2 ⟨(a, b), h⟩ := skMat_low_om x ⟨(a, b), h⟩
-    have h2 : skMat x b a = -star (x.2 ⟨(a, b), h⟩) := skMat_up_om x ⟨(a, b), h⟩
-    rw [h1, h2, star_neg, star_star]
+  simp only [skMat, ite_eq_right (ne_of_lt h), dite_eq_right (not_lt.2 h.le), dite_eq_left h]
 
 theorem skMat_add_om (x y : UCo N) : skMat (x + y) = skMat x + skMat y := by
   ext a b
@@ -314,7 +300,7 @@ theorem uToLieMat_apply (x : UCo N) (i j : Fin N ⊕ Fin 0) :
 theorem uToLieMat_mem (x : UCo N) : uToLieMat x ∈ Formalism.BasicNotions.lieU N 0 := by
   rw [mem_lieU_zero_iff_om]
   ext i j
-  have h := congrFun (congrFun (skMat_conjTranspose_om x) (Equiv.sumEmpty (Fin N) (Fin 0) i))
+  have h := congrFun (congrFun (ReciprocityTheory.ChartRestriction.DS.volU_skMat_conjTranspose x) (Equiv.sumEmpty (Fin N) (Fin 0) i))
     (Equiv.sumEmpty (Fin N) (Fin 0) j)
   simp only [Matrix.conjTranspose_apply, Matrix.neg_apply] at h ⊢
   rw [uToLieMat_apply, uToLieMat_apply]
@@ -490,7 +476,12 @@ variable {N : ℕ}
 abbrev eN (N : ℕ) : Fin N ⊕ Fin 0 ≃ Fin N := Equiv.sumEmpty (Fin N) (Fin 0)
 
 lemma Jpq_zero (N : ℕ) : Formalism.UG.Jpq N 0 = 1 := by
-  apply _root_.ReciprocityTheory.ChartRestriction.DS.jpq_N_zero_om <;> assumption
+  ext i j
+  rcases i with i | i
+  · rcases j with j | j
+    · simp [Formalism.UG.Jpq, Matrix.one_apply]
+    · exact j.elim0
+  · exact i.elim0
 
 lemma cT_eq {m : Type} [Fintype m] (M : Matrix m m ℂ) : Formalism.UG.cT (starRingEnd ℂ) M = Mᴴ := by
   ext i j
@@ -664,8 +655,8 @@ lemma toM_preimage_exp_ball_eq_upqT_exp_ball (N : ℕ) (r : ℝ) :
 
 alias volU_pos := _root_.ReciprocityTheory.ChartRestriction.DS.volU_pos'
 
-lemma continuous_skMat (N : ℕ) : Continuous (skMat : UCo N → Matrix (Fin N) (Fin N) ℂ) := by
-  apply ReciprocityTheory.ChartRestriction.DS.volU_continuous_skMat <;> assumption
+lemma continuous_skMat (N : ℕ) : Continuous (skMat : UCo N → Matrix (Fin N) (Fin N) ℂ) :=
+  _root_.ReciprocityTheory.ChartRestriction.DS.volU_continuous_skMat
 
 lemma continuous_uToLie (N : ℕ) : Continuous (uToLie (N := N)) := by
   show Continuous fun x : UCo N => (⟨uToLieMat x, uToLieMat_mem x⟩ : Formalism.BasicNotions.lieU N 0)

@@ -72,7 +72,6 @@ import Mathlib.Algebra.Order.Star.Real
 import Mathlib.RingTheory.Etale.Weakly
 import Mathlib.RingTheory.TotallySplit
 import Mathlib.Topology.Compactification.OnePoint.ProjectiveLine
-import Development.AbelianVarietyTheory.Proofs.FoundationProofs.TowerPadicCompletionMapEvalDependsOnLevel
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.Proofs.FoundationProofs.EichlerShimuraPotentialSubmoduleAndBaseChange, Development.AbelianVarietyTheory.Proofs.FoundationProofs.Gamma1CapGamma0LevelActsFreelyUpperHalfPlane, Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsEichlerShimuraPotentialOfHomogeneousPolyCo, Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsKummerPotentialRelationPadic, Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsEichlerShimuraPotentialOfMemKummer, Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsEichlerShimuraPotentialOfMemVB, Development.AbelianVarietyTheory.Proofs.FoundationProofs.KummerPotentialSpanHeckeLetterStable, Development.AbelianVarietyTheory.Proofs.FoundationProofs.KummerClassEvalEqZeroOfVanishingOnCongruence, Development.AbelianVarietyTheory.Proofs.FoundationProofs.KummerPotentialRelationTrivialEqZero, Development.AbelianVarietyTheory.Proofs.FoundationProofs.TrivialEigenvalueCongruenceVanishes, Development.AbelianVarietyTheory.Proofs.FoundationProofs.KummerRelatedPairFstEqZeroOfTrivial, Development.AbelianVarietyTheory.Proofs.FoundationProofs.SemisimpleHeckePolyTransportRingEquiv, Development.AbelianVarietyTheory.Proofs.FoundationProofs.SemisimpleTensorOfSemisimplePotentials
@@ -269,7 +268,7 @@ def gel (Γ : Subgroup SL(2, ℤ)) (τ : ℂ) : SL(2, ℤ) :=
 
 theorem gel_spec (Γ : Subgroup SL(2, ℤ)) {τ : ℂ} (h : τ ∈ Hs) :
     gel Γ τ ∈ Γ ∧ mob (ofSL (gel Γ τ)) (rep Γ ⟨τ, h⟩).1 = τ := by
-  simp only [gel, dif_pos h]
+  simp only [gel, dite_eq_left h]
   exact (rep_rel Γ ⟨τ, h⟩).choose_spec
 
 theorem rep_eq (Γ : Subgroup SL(2, ℤ)) {δ : SL(2, ℤ)} (hδ : δ ∈ Γ) {τ : ℂ} (h : τ ∈ Hs)
@@ -324,7 +323,7 @@ theorem GlobalTheory.KZ.H3.exists_pot_of_isCoc : ∀ (R : Type) [CommRing R] (w 
   refine ⟨potOf Γ z, ⟨fun τ => ?_, fun γ hγ => ⟨z γ, key γ hγ⟩⟩, key⟩
   by_cases hτ : τ ∈ Hs
   · exact polySlash_isHomogeneous _ (hz.1 _ (gel_spec Γ hτ).1)
-  · have : gel Γ τ = 1 := by simp [gel, dif_neg hτ]
+  · have : gel Γ τ = 1 := by simp [gel, dite_eq_right hτ]
     unfold potOf
     rw [this]
     exact polySlash_isHomogeneous _ (hz.1 _ Γ.one_mem)
@@ -547,7 +546,12 @@ namespace GlobalTheory.KZ.H3.LamStab
 
 theorem polySlash_map {R S : Type} [CommRing R] [CommRing S] (φ : R →+* S) (m : Matrix (Fin 2) (Fin 2) ℤ)
     (p : MvPolynomial (Fin 2) R) : slP m (MvPolynomial.map φ p) = MvPolynomial.map φ (slP m p) := by
-  apply _root_.GlobalTheory.KZ.H3.polySlash_map <;> assumption
+  induction p using MvPolynomial.induction_on with
+  | C a => simp [slP]
+  | add p q hp hq => simp [hp, hq]
+  | mul_X p i hp =>
+    simp only [map_mul, hp, MvPolynomial.map_X, Betti.slP_X, map_add (f := _)]
+    simp [MvPolynomial.smul_eq_C_mul]
 
 theorem opP_map {R S : Type} [CommRing R] [CommRing S] (φ : R →+* S) (m : Matrix (Fin 2) (Fin 2) ℤ)
     (F : ℂ → MvPolynomial (Fin 2) R) :
@@ -616,8 +620,7 @@ theorem eventually_ne_zero {b : ℂ → ℂ} (hb : DifferentiableOn ℂ b Hs) (h
     ∀ᶠ z in Filter.codiscreteWithin Hs, b z ≠ 0 := by
   have hA : AnalyticOnNhd ℂ b Hs := hb.analyticOnNhd isOpen_Hs
   obtain ⟨z0, hz0, hbz0⟩ : ∃ z0 ∈ Hs, b z0 ≠ 0 := by
-    by_contra h
-    push_neg at h
+    by_contra! h
     exact hb0 (Filter.Germ.coe_eq.2 (Filter.eventually_of_mem (Filter.self_mem_codiscreteWithin Hs) h))
   have h0 : analyticOrderAt b z0 ≠ ⊤ := by
     rw [(hA z0 hz0).analyticOrderAt_eq_zero.2 hbz0]; exact ENat.zero_ne_top
@@ -728,7 +731,14 @@ namespace GlobalTheory.KZ.H3
 
 theorem relTriv_gamma_of_dvd {N M : ℕ} (h : N ∣ M) {δ : SL(2, ℤ)} (hδ : δ ∈ CongruenceSubgroup.Gamma M) :
     δ ∈ CongruenceSubgroup.Gamma N := by
-  apply _root_.GlobalTheory.KZ.H3.KumAdd.gamma_of_dvd <;> assumption
+  rw [CongruenceSubgroup.Gamma_mem] at hδ ⊢
+  obtain ⟨a, b, c, d⟩ := hδ
+  have e : ∀ x : ℤ, ((x : ZMod M).cast : ZMod N) = (x : ZMod N) := fun x => ZMod.cast_intCast h x
+  refine ⟨?_, ?_, ?_, ?_⟩
+  · rw [← e, a]; simp [ZMod.cast_one h]
+  · rw [← e, b]; simp
+  · rw [← e, c]; simp
+  · rw [← e, d]; simp [ZMod.cast_one h]
 
 theorem toZModPow_eval_mulVec {l : ℕ} [Fact l.Prime] (n : ℕ) {δ : SL(2, ℤ)}
     (hδ : δ ∈ CongruenceSubgroup.Gamma (l ^ n)) (u : Fin 2 → ℤ_[l]) (q : MvPolynomial (Fin 2) ℤ_[l]) :
@@ -832,7 +842,7 @@ theorem exists_basis (hinj : Function.Injective (algebraMap ℤ_[l] E)) (S : Fin
     have h2 : ((∑ i, (b.repr ⟨x, hxL⟩) i • b i : L) : E) = x := congrArg Subtype.val (b.sum_repr _)
     rw [Submodule.coe_sum] at h2
     simp only [Submodule.coe_smul] at h2
-    simp only [dif_pos hxL]
+    simp only [dite_eq_left hxL]
     exact h2.symm
 
 theorem poly_decomp {k : ℕ} (v : Fin k → E) (r : E → Fin k → ℤ_[l]) (P : MvPolynomial (Fin 2) E)
@@ -845,11 +855,11 @@ theorem poly_decomp {k : ℕ} (v : Fin k → E) (r : E → Fin k → ℤ_[l]) (P
   simp only [MvPolynomial.coeff_sum, MvPolynomial.coeff_smul, MvPolynomial.coeff_map, MvPolynomial.coeff_monomial,
   smul_eq_mul, map_sum]
   by_cases hn : n ∈ P.support
-  · simp only [apply_ite (algebraMap ℤ_[l] E), map_zero, Finset.sum_ite_eq', if_pos hn]
+  · simp only [apply_ite (algebraMap ℤ_[l] E), map_zero, Finset.sum_ite_eq', ite_eq_left hn]
     refine (hr n hn).trans ?_
     simp [Algebra.smul_def, mul_comm]
   · rw [MvPolynomial.notMem_support_iff.1 hn]
-    simp only [apply_ite (algebraMap ℤ_[l] E), map_zero, Finset.sum_ite_eq', if_neg hn, mul_zero,
+    simp only [apply_ite (algebraMap ℤ_[l] E), map_zero, Finset.sum_ite_eq', ite_eq_right hn, mul_zero,
       Finset.sum_const_zero]
 
 end GlobalTheory.KZ.H3.LamZero
@@ -982,7 +992,7 @@ namespace GlobalTheory.KZ.H3.LamInj
 
 theorem algebraMap_injective (l : ℕ) [Fact l.Prime] (E : Type) [Field E] [Algebra ℤ_[l] E] [CharZero E] :
     Function.Injective (algebraMap ℤ_[l] E) := by
-  set_option backward.isDefEq.respectTransparency.instanceSearchTypes false in rw [injective_iff_map_eq_zero]
+  rw [injective_iff_map_eq_zero]
   intro x hx
   by_contra h0
   have e := PadicInt.unitCoeff_spec h0
@@ -993,7 +1003,15 @@ theorem algebraMap_injective (l : ℕ) [Fact l.Prime] (E : Type) [Field E] [Alge
   · exact pow_ne_zero _ hl h
 
 theorem gamma_le_of_dvd {N M : ℕ} (h : N ∣ M) : CongruenceSubgroup.Gamma M ≤ CongruenceSubgroup.Gamma N := by
-  apply _root_.GlobalTheory.KZ.LevelRed.gamma_le_of_dvd <;> assumption
+  intro δ hδ
+  rw [CongruenceSubgroup.Gamma_mem] at hδ ⊢
+  obtain ⟨a, b, c, d⟩ := hδ
+  have e : ∀ x : ℤ, ((x : ZMod M).cast : ZMod N) = (x : ZMod N) := fun x => ZMod.cast_intCast h x
+  refine ⟨?_, ?_, ?_, ?_⟩
+  · rw [← e, a]; simp [ZMod.cast_one h]
+  · rw [← e, b]; simp
+  · rw [← e, c]; simp
+  · rw [← e, d]; simp [ZMod.cast_one h]
 
 theorem gamma_le_gam (N l : ℕ) : CongruenceSubgroup.Gamma (N * l) ≤ Gam N l := by
   intro δ hδ
@@ -1039,7 +1057,11 @@ theorem map_smul' (φ : R →+* S) (c : R) (p : MvPolynomial (Fin 2) R) :
 
 theorem map_slP (φ : R →+* S) (m : Matrix (Fin 2) (Fin 2) ℤ) (p : MvPolynomial (Fin 2) R) :
     MvPolynomial.map φ (slP m p) = slP m (MvPolynomial.map φ p) := by
-  apply _root_.GlobalTheory.KZ.H3.LamZero.map_slP <;> assumption
+  induction p using MvPolynomial.induction_on with
+  | C a => simp [slP]
+  | add p q hp hq => simp [hp, hq]
+  | mul_X p i hp =>
+    simp only [map_mul, hp, Betti.slP_X, MvPolynomial.map_X, map_add (f := _), map_smul', map_intCast]
 
 theorem mapF_add (φ : R →+* S) (F G : ℂ → MvPolynomial (Fin 2) R) : mapF φ (F + G) = mapF φ F + mapF φ G := by
   funext z; simp [mapF]

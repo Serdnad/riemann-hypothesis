@@ -87,7 +87,6 @@ import Development.AbelianVarietyTheory.Proofs.TwistedOperators.UnipotentRadical
 import Development.AbelianVarietyTheory.Proofs.TwistedOperators.WeilFormulaRootExchangeParabolicIntersection
 import Mathlib.Order.CompletePartialOrder
 import Mathlib.Topology.Algebra.Group.Units
-import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.ExistsLinearIsQuotIntTInt
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsHeisenbergSubgroupFourierJacobiCommutator, Development.AbelianVarietyTheory.Proofs.TwistedOperators.IsUnimodularBlockUpperTriangularSymmetricLevelsStatement, Development.AbelianVarietyTheory.Proofs.TwistedOperators.QuotientIntegralWhittakerTwist, Development.AbelianVarietyTheory.Proofs.TwistedOperators.RootExchangeHeisenbergVariableSign, Development.AbelianVarietyTheory.Proofs.TwistedOperators.IntegralMulOfSupport
@@ -225,12 +224,12 @@ theorem mem_N_of_val {g : GL (n ⊕ Fin c) k} {β : n → k} {t : k} (hg : g.val
   · simp [Matrix.one_apply]
   · simp only [lev, Sum.elim_inl, Sum.elim_inr] at hrs
     simp only [Matrix.fromBlocks_apply₁₂, ExchangeSupport.colM, Matrix.of_apply]
-    rw [if_neg (by omega)]
+    rw [ite_eq_right (by omega)]
     simp
   · simp
   · simp only [lev, Sum.elim_inr] at hrs
     simp only [Matrix.fromBlocks_apply₂₂, Matrix.add_apply, zM, Matrix.of_apply]
-    rw [if_neg (by omega)]
+    rw [ite_eq_right (by omega)]
     simp [Matrix.one_apply]
 
 private theorem eMat_mem_N_succ (u : n → k) : rowE c p u ∈ N k n c (p + 1) := by
@@ -243,7 +242,7 @@ private theorem eMat_mem_N_succ (u : n → k) : rowE c p u ∈ N k n c (p + 1) :
   · simp
   · simp only [lev, Sum.elim_inl, Sum.elim_inr] at hrs
     simp only [Matrix.fromBlocks_apply₂₁, ExchangeSupport.rowM, Matrix.of_apply]
-    rw [if_neg (by omega)]
+    rw [ite_eq_right (by omega)]
     simp
   · simp [Matrix.one_apply]
 
@@ -291,8 +290,6 @@ section -- clump:auto
 
 open MeasureTheory ValuativeRel Matrix GlobalTheory.SplitWeil GlobalTheory.RootEx GlobalTheory.IndefiniteRowSideFullHecke.FourierJacobiAverage
 
-theorem _root_.GlobalTheory.T.isUnimodular_blockUpperTriangular_symmetricLevels : ∀ (k : Type) [Field k] [ValuativeRel k] [TopologicalSpace k] [IsNonarchimedeanLocalField k] [MeasurableSpace k] [BorelSpace k] (n : Type) [Fintype n] [DecidableEq n] (c l : ℕ) (L : Fin c → ℕ) (_ : ∀ i, L (Fin.rev i) + L i = 2 * l) (S : Subgroup (GL (n ⊕ Fin c) k)) (_ : ∀ g : GL (n ⊕ Fin c) k, g ∈ S ↔ ∀ r s : n ⊕ Fin c, (r.isRight ∨ s.isRight) → Sum.elim (fun _ => l) L s ≤ Sum.elim (fun _ => l) L r → g.val r s = (1 : Matrix (n ⊕ Fin c) (n ⊕ Fin c) k) r s) (m : Measure S), m.IsHaarMeasure → m.IsMulRightInvariant := by
-  first | exact @GlobalTheory.LevelUnimod.unimodular
 end -- clump:auto
 end -- clump:auto
 -- ===== end clump member: Development.AbelianVarietyTheory.Proofs.TwistedOperators.IsUnimodularBlockUpperTriangularSymmetricLevelsStatement =====
@@ -306,6 +303,18 @@ open MeasureTheory ValuativeRel Matrix GlobalTheory.SplitWeil GlobalTheory.RootE
 open scoped Topology
 
 namespace GlobalTheory.RootEx
+
+private theorem exists_open_translations {M : Type*} [AddCommGroup M] [TopologicalSpace M]
+    [IsTopologicalAddGroup M] {Φ : M → ℂ} (hΦ : Φ ∈ SB M) :
+    ∃ Λ : AddSubgroup M, IsOpen (Λ : Set M) ∧ ∀ x, ∀ y ∈ Λ, Φ (x + y) = Φ x := by
+  obtain ⟨K, hKo, hK⟩ := GlobalTheory.QuotInt.exists_open_stab (G := Multiplicative M)
+    (F := fun x => Φ (Multiplicative.toAdd x)) hΦ
+  refine ⟨{ carrier := {y | Multiplicative.ofAdd y ∈ K}
+            add_mem' := fun hy hz => K.mul_mem hy hz
+            zero_mem' := K.one_mem
+            neg_mem' := fun hy => K.inv_mem hy }, hKo, ?_⟩
+  intro x y hy
+  exact hK (Multiplicative.ofAdd x) (Multiplicative.ofAdd y) hy
 
 theorem exists_isQuotInt_unfolding : ∀ (k : Type) [Field k] [ValuativeRel k] [TopologicalSpace k] [IsNonarchimedeanLocalField k] [MeasurableSpace k] [BorelSpace k] (n n' : Type) [Fintype n] [DecidableEq n] [Fintype n'] [DecidableEq n'] (c p : ℕ) (_ : 1 ≤ p) (_ : p ≤ c) (ψ : AddChar k Circle) (_ : Continuous ψ) (_ : ψ ≠ 1) (ν : Measure k) [ν.IsAddHaarMeasure] (μ : kˣ →* ℂˣ) (_ : IsOpen (μ.ker : Set kˣ)) (μX : Measure (GL n k)) [μX.IsHaarMeasure] (μG : Measure (GL (n ⊕ Fin c) k)) [μG.IsHaarMeasure] (A : Type) [AddCommGroup A] [Module ℂ A] (σ : Representation ℂ (GL (n ⊕ Fin c) k) A) (_ : IsSmoothRep σ) (P P' : Type) [AddCommGroup P] [Module ℂ P] [AddCommGroup P'] [Module ℂ P'] (π : Representation ℂ (GL n k) P) (π' : Representation ℂ (GL n' k) P') (θ : P' →ₗ[ℂ] SB (Matrix n n' k) →ₗ[ℂ] P) (_ : ∀ g h φ Ψ Ψ', Ψ'.1 = om μ g h Ψ.1 → θ (π' g φ) Ψ' = π h (θ φ Ψ)) (b : P →ₗ[ℂ] A →ₗ[ℂ] ℂ) (_ : IsPos ψ p π σ b) (φ : P') (F : A) (Φ : SB (Matrix (n ⊕ Fin c) (n' ⊕ Fin (c + 1)) k)) (f : GL (n ⊕ Fin c) k → ℂ) (_ : ∀ h Ψ, Ψ.1 = opE ψ ν p (om μ 1 h Φ.1) → f h = b (θ φ Ψ) (σ h F)), ∃ z, IsQuotInt ν μX μG p f z := by
   intro k _ _ _ _ _ _ n n' _ _ _ _ c p hp1 hpc ψ hψc hψ1 ν _ μ hμ μX _ μG _ A _ _ σ hσ P P' _ _ _ _
@@ -346,7 +355,7 @@ theorem exists_isQuotInt_unfolding : ∀ (k : Type) [Field k] [ValuativeRel k] [
     have hσz : σ (x * z) F = σ x F := by
       rw [map_mul, Module.End.mul_apply, h1]
     rw [hf (x * z) ⟨_, hmemΨ x⟩ (by rw [e1]), hf x ⟨_, hmemΨ x⟩ rfl, hσz]
-  obtain ⟨Λ, hΛo, hΛ⟩ := _root_.GlobalTheory.PosOne.RrLin.exists_open_translations (M := Matrix (n ⊕ Fin c) (n' ⊕ Fin (c + 1)) k) Φ.2
+  obtain ⟨Λ, hΛo, hΛ⟩ := exists_open_translations (M := Matrix (n ⊕ Fin c) (n' ⊕ Fin (c + 1)) k) Φ.2
   obtain ⟨Ω, hΩ, hΩR⟩ := opE_support_compact_mod_R k n n' c p hp1 hpc ψ hψc hψ1 ν (tsupport Φ.1) hΦ.2
     Λ hΛo
   have hsupp : ∀ h, f h ≠ 0 → ∃ r ∈ R k n c p, ∃ w ∈ Ω, h = r * w := by
@@ -378,7 +387,7 @@ theorem exists_isQuotInt_unfolding : ∀ (k : Type) [Field k] [ValuativeRel k] [
       simpa using this
     rw [hf _ _ hkey, hf h ⟨_, hmemΨ h⟩ rfl, map_smul, hθΨ, map_smul, LinearMap.smul_apply, map_mul,
       map_mul, Module.End.mul_apply, Module.End.mul_apply, hb.2 x, hb.1 _ u hu, smul_eq_mul]
-    have hN : 0 < nabs k (Matrix.GeneralLinearGroup.det x) := GlobalTheory.RootEx.OpELevi.nabs_pos _
+    have hN : 0 < nabs k (Matrix.GeneralLinearGroup.det x) := GlobalTheory.SplitWeil.nabs_pos' _
     have hpow : (nabs k (Matrix.GeneralLinearGroup.det x) ^ ((c : ℝ) + 1 - 2 * p) : ℝ) =
         nabs k (Matrix.GeneralLinearGroup.det x) ^ (((c : ℝ) + 1) / 2 - p) *
           nabs k (Matrix.GeneralLinearGroup.det x) ^ (((c : ℝ) + 1) / 2 - p) := by
@@ -719,7 +728,7 @@ theorem localSign : LocalSign k := by
   intro n n' _ _ _ _ c ρ h1 hc
   have h2 : ρ < c := by omega
   refine ⟨(_root_.GlobalTheory.RootEx.FourierJacobiGroup.mem_RFJ_iff k n c ρ h1 h2).1,
-    GlobalTheory.T.isUnimodular_blockUpperTriangular_symmetricLevels k n c _ _ (fun i => ?_) _ ((_root_.GlobalTheory.RootEx.ParabolicEntries.mem_R_iff_and_mem_RFJ_iff k n c ρ).2 h1 h2),
+    GlobalTheory.LevelUnimod.unimodular k n c _ _ (fun i => ?_) _ ((_root_.GlobalTheory.RootEx.ParabolicEntries.mem_R_iff_and_mem_RFJ_iff k n c ρ).2 h1 h2),
     (_root_.GlobalTheory.RootEx.HeisenbergSign.sign k n n' c ρ h1 h2).1, fun ψ ν hψ _ hν => ?_⟩
   · have := i.2
     simp only [Fin.val_rev]
@@ -842,7 +851,7 @@ theorem source : Source k := by
       have := hϑ (rowE (c + 1) ρ u) 1 F Φ (omR μ (rowE (c + 1) ρ u, 1) Φ) rfl
       rw [map_one, Module.End.one_apply] at this
       simp only [T, LinearMap.comp_apply, map_smul, smul_eq_mul, this]
-  refine ⟨GlobalTheory.T.isUnimodular_blockUpperTriangular_symmetricLevels k n c _ _ (fun i => ?_) _ (_root_.GlobalTheory.RootEx.ParabolicEntries.mem_R_iff_and_mem_RFJ_iff k n c ρ).1, fun Φ Φ₀ => ?_, fun H Φ => ?_,
+  refine ⟨GlobalTheory.LevelUnimod.unimodular k n c _ _ (fun i => ?_) _ (_root_.GlobalTheory.RootEx.ParabolicEntries.mem_R_iff_and_mem_RFJ_iff k n c ρ).1, fun Φ Φ₀ => ?_, fun H Φ => ?_,
     fun H Φ Φ₀ => ?_⟩
   · have := i.2
     simp only [Fin.val_rev]

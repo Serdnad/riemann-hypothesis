@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ValuationDetEqOne
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.SmoothRepresentationsGL.SphDefs
 import Development.AbelianVarietyTheory.Definitions.Divisors.T2SpaceGeneralLinearGroup
 import GroundTheory.AutomorphicForms.HaarCosets
@@ -8,41 +7,7 @@ public import GroundTheory.AutomorphicForms.MacdonaldHecke
 public import GroundTheory.AutomorphicForms.MacdonaldWhittakerHecke
 import GroundTheory.GlobalFields.LocalAtPlace
 import GroundTheory.LocalFields.LocalFourierHaar
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.HaveILetI
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Separation.Connected
 public import GroundTheory.AutomorphicForms.MacdonaldAlternant
 
@@ -89,15 +54,68 @@ variable [MeasurableSpace (GL (Fin n) F)] [BorelSpace (GL (Fin n) F)]
 private theorem central_of_top (z : Fin n → ℂˣ) {f : GL (Fin n) F → ℂ}
     (hf : ∀ g, ∀ k ∈ integralGL F n, f (g * k) = f g)
     (hT : minusculeHecke μ n ∈ eigenSubalgebra μ z f hf) : centralHecke μ ∈ eigenSubalgebra μ z f hf := by
-  apply _root_.GlobalTheory.HenQ.ShellOp.central_mem_of_top <;> assumption
+  classical
+  have hK : (μ.real (integralGL F n : Set (GL (Fin n) F)) : ℂ) ≠ 0 :=
+    Complex.ofReal_ne_zero.2
+      (measureReal_compactOpen_pos μ (isCompact_integralGL F n) (isOpen_integralGL F n)).ne'
+  have hp : (Finset.univ : Finset (Fin n)).powersetCard n = {Finset.univ} := by
+    have := Finset.powersetCard_self (Finset.univ : Finset (Fin n))
+    rwa [Finset.card_univ, Fintype.card_fin] at this
+  have h1 : ∀ g, f (g * torusPow F n (fun _ => 1)) = monomialChar (fun _ : Fin n => 1) z * f g := by
+    intro g
+    have h := hT g
+    haveI : IsEmpty (Pairs (Finset.univ : Finset (Fin n))) := ⟨fun p => p.2.2.1 (Finset.mem_univ _)⟩
+    have hc (I : Fintype (Pairs (Finset.univ : Finset (Fin n)) → 𝓀[F])) :
+        (@Finset.univ _ I).card = 1 :=
+      @Fintype.card_unique _ inferInstance I
+    rw [integral_minusculeHecke_mul hf, evalAt_satakeTransform_minusculeHecke z le_rfl, evalAt_esymmL, hp,
+      Finset.sum_singleton, Finset.sum_singleton, Finset.sum_congr rfl (fun c _ => by rw [gMat_univ c]),
+      Finset.sum_const, hc, one_smul, lamS_univ, Nat.sub_self, mul_zero,
+      pow_zero, mul_one, mul_assoc] at h
+    exact mul_left_cancel₀ hK h
+  have h2 : ∀ g, f (g * torusPow F n (fun _ => -1)) = monomialChar (fun _ : Fin n => -1) z * f g := by
+    intro g
+    have h := h1 (g * torusPow F n (fun _ => -1))
+    have e : (fun _ : Fin n => (-1 : ℤ)) + (fun _ => 1) = 0 := by funext i; simp
+    have e' : torusPow F n (fun _ => -1) * torusPow F n (fun _ => 1) = 1 := by
+      have : (fun _ : Fin n => (-1 : ℤ)) = -(fun _ => 1) := rfl
+      rw [this, torusPow_neg, inv_mul_cancel]
+    rw [mul_assoc, e', mul_one] at h
+    rw [h, ← mul_assoc, ← monomialChar_add, e, monomialChar_zero, one_mul]
+  intro g
+  set g₀ := torusPow F n (fun _ : Fin n => (-1 : ℤ))
+  have e := integral_mul_left_eq_self (μ := μ)
+    (fun x => (centralHecke μ : HeckeAlgebra μ) x * f (g * x)) g₀
+  rw [← e]
+  have hpt : (fun y => (centralHecke μ : HeckeAlgebra μ) (g₀ * y) *
+      f (g * (g₀ * y))) = (integralGL F n : Set (GL (Fin n) F)).indicator (fun _ => f (g * g₀)) := by
+    funext y
+    rw [centralHecke_apply]
+    have hiff : g₀ * y ∈ centralSet F n ↔ y ∈ (integralGL F n : Set (GL (Fin n) F)) := by
+      rw [mem_centralSet, inv_mul_cancel_left]
+      rfl
+    by_cases hy : y ∈ (integralGL F n : Set (GL (Fin n) F))
+    · rw [Set.indicator_of_mem (hiff.2 hy), Set.indicator_of_mem hy, one_mul, ← mul_assoc, hf _ _ hy]
+    · rw [Set.indicator_of_notMem (mt hiff.1 hy), Set.indicator_of_notMem hy, zero_mul]
+  rw [hpt, integral_indicator (isOpen_integralGL F n).measurableSet, setIntegral_const,
+    Complex.real_smul, h2, satakeTransform_centralHecke, map_smul,
+    Spherical.monomial, evalAt_single, one_mul, smul_eq_mul]
+  ring
 
 private theorem minuscule_mem (z : Fin n → ℂˣ) {f : GL (Fin n) F → ℂ}
     (hf : ∀ g, ∀ k ∈ integralGL F n, f (g * k) = f g) {r : ℕ} (hr : r ≤ n)
     (h : ∀ g, ∑ᶠ c : GL (Fin n) F ⧸ integralGL F n,
       (minusculeSet F n r).indicator (fun _ => (1 : ℂ)) c.out * f (g * c.out) =
         sqrtQ F ^ (r * (n - r)) * evalAt z (esymmL n r) * f g) :
-    minusculeHecke μ r ∈ eigenSubalgebra μ z f hf :=
-  _root_.GlobalTheory.HenQ.ShellOp.minuscule_mem_of z hf hr h
+    minusculeHecke μ r ∈ eigenSubalgebra μ z f hf := by
+  intro g
+  have hcs : HasCompactSupport fun x => (minusculeHecke μ r : HeckeAlgebra μ) x * f (g * x) := by
+    refine HasCompactSupport.intro (isCompact_minusculeSet r) fun x hx => ?_
+    simp only [minusculeHecke_apply, Set.indicator_of_notMem hx, zero_mul]
+  rw [integral_eq_smul_finsum_coset μ (integralOpen F n) (isCompact_integralGL F n) hcs (fun x k hk => by
+      rw [(HeckeAlgebraLevel.val_mem _ _ (minusculeHecke μ r) k hk x).2, ← mul_assoc, hf _ k hk]),
+    Complex.real_smul, evalAt_satakeTransform_minusculeHecke z hr, mul_assoc, mul_assoc, ← mul_assoc (sqrtQ F ^ _), ← h g]
+  rfl
 
 end General
 

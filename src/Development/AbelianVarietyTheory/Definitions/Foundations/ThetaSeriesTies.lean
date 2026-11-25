@@ -1,52 +1,14 @@
 module
 
-import Development.AbelianVarietyTheory.Counterexamples.LevelGroupExamples.ZeroNotAdmissibleOfRankPos
 public import Development.AbelianVarietyTheory.Definitions.Jets.EmbShortThLeThetaPlain
 public import Formalism.LocalToGlobal.ProjectiveLattices.FullExists
 public import Formalism.LocalToGlobal.IndefiniteReal.FWTie
 public import Formalism.LocalToGlobal.IndefiniteReal.OneMapT
 public import Formalism.LocalToGlobal.ProjectiveLattices.RecPJThAllNeBot
 public import Formalism.LocalToGlobal.Divisibility.ProjLemmas
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.HaveILetI
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Std.Tactic.BVDecide.Normalize.BitVec
 
 @[expose] public section
-
-set_option autoImplicit false
 
 noncomputable section
 
@@ -58,7 +20,6 @@ open ReciprocityTheory.ChartRestriction.G.Geo.Tor (Datum Level Moduli Coeff)
 open GlobalTheory.FormTies
 open scoped TensorProduct Matrix
 
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 -- Prefer the same-scalar module instance for the submodules underlying recB.Cusp.
 attribute [local instance 2000] Submodule.module
 
@@ -305,7 +266,18 @@ variable {E : Type} [Field E] [NumberField E] [IsCMField E] {H : ReciprocityTheo
 
 theorem dvd_pair_of_mem (x : Dw.La) {q : Dw.La} (hq : q ∈ l.Mb • (⊤ : Submodule (𝓞 E) Dw.La)) :
     (l.M : ℤ) ∣ Dw.EF x (cSep l • q) := by
-  first | exact _root_.GlobalTheory.LevelPairing.dvd_right | exact @_root_.GlobalTheory.LevelPairing.dvd_right | apply _root_.GlobalTheory.LevelPairing.dvd_right <;> assumption
+  have hc : cSep l ∈ Mfr l := by
+    unfold cSep
+    split_ifs with h
+    · exact h.choose_spec.1
+    · exact zero_mem _
+  have h1 : cSep l • q ∈ (Ideal.span {(l.M : 𝓞 E)}) • (⊤ : Submodule (𝓞 E) Dw.La) := by
+    rw [← l.prod, mul_comm, Submodule.mul_smul]
+    exact Submodule.smul_mem_smul hc hq
+  rw [Submodule.ideal_span_singleton_smul] at h1
+  obtain ⟨y, -, hy⟩ := (Submodule.mem_smul_pointwise_iff_exists _ _ _).1 h1
+  rw [← hy, Nat.cast_smul_eq_nsmul, map_nsmul, nsmul_eq_mul]
+  exact dvd_mul_right _ _
 
 theorem IsRightMul.mul {γ δ : LaMod Dw l ≃ₗ[𝓞 E] LaMod Dw l} {n : ℕ} {x x' x'' : Fin n → Dw.La} (h : IsRightMul γ x x')
     (h' : IsRightMul δ x' x'') : IsRightMul (γ * δ) x x'' := by
@@ -345,12 +317,6 @@ theorem sub_orthProj_mem_perpOf {K : Type} [Field K] [StarRing K] {n : ℕ} (Hm 
   have h1 : ∀ u y : Fin n → K, Formalism.DivisionValues.hform Hm u y = star u ⬝ᵥ Hm.mulVec y := fun u y => by
     simp [Formalism.DivisionValues.hform, Matrix.toLinearMapₛₗ₂'_apply, dotProduct, Matrix.mulVec, Finset.mul_sum, starRingEnd_apply, mul_assoc, mul_comm]
   rw [h1, Matrix.mulVecLin_apply, Matrix.star_mulVec, ← Matrix.dotProduct_mulVec, Matrix.mulVec_mulVec, h0, dotProduct_zero]
-
-section
-
-variable {Ks : Type} [Field Ks] [NumberField Ks] [Algebra Ks D.what₂.LL] {R : RealDat D A Ks} {i : Fin D.R.m}
-
-end
 
 variable {T : Full D} [inst : Algebra T.J.Q.c.F D.what₂.LL] {R : RealDat D A T.J.Q.c.F}
   {κ : ∀ i : Fin D.R.m, WeightFamilies.Wt D ((i : ℕ) + 1)} {v₀ : ∀ (i : Fin D.R.m) (σ : D.what₂.LL →+* ℂ), (R.MW i σ).Vec}
@@ -430,7 +396,7 @@ def charInt {K : Type} [Field K] [NumberField K] {P : Type} [Group P] (inc : P �
 
 theorem charInt_coe {K : Type} [Field K] [NumberField K] {P : Type} [Group P] (inc : P →* G) (U : Subgroup G) (ψ : U →* Kˣ)
     (g : P) (hg : inc g ∈ U) : ((charInt inc U ψ g : 𝓞 K) : K) = (ψ ⟨inc g, hg⟩ : Kˣ) :=
-  congrArg (fun a : 𝓞 K => (a : K)) (dif_pos hg)
+  congrArg (fun a : 𝓞 K => (a : K)) (dite_eq_left hg)
 
 theorem exists_onTie (h : LawsP T.toTop) (fw : FWTie T.J R κ v₀) (hinj : Function.Injective D.what₂.OtoLL) (EX : ErrX D)
     {Bs : DefBase D.what₂.LL} {Df : DefSide Bs} {S : IndefData Df} {P : Type} [Group P] [Finite P] {oc : OnConst}
@@ -479,7 +445,7 @@ theorem exists_onTie (h : LawsP T.toTop) (fw : FWTie T.J R κ v₀) (hinj : Func
       θ'_eq := fun hr x => ?_, eX_eq := rfl, pr_eq := ?_ }⟩
   · exact charInt_coe inc U ψ g hg
   · change adForm R (ι i) (toForms h fw (ι i) (z i) (θ v i x)) = _
-    simp only [θ, dif_pos hr]
+    simp only [θ, dite_eq_left hr]
     exact (congrArg (adForm R (ι i)) (hw i _)).trans (hr.choose_spec x)
   · change orthProj _ (perpOf _ (LinearMap.ker (θ v i))) = orthProj _ (perpOf _ ((LinearMap.ker (θ v i)).map LinearMap.id))
     rw [Submodule.map_id]

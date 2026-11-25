@@ -1,7 +1,5 @@
 module
 
-import Formalism.SharpRestriction.CuspSpanNormBounds.BridgeLemVR
-import Development.AbelianVarietyTheory.Proofs.FlagMeasures.PrimitiveHermitianSublatticeDiscriminantGenerato
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.MaximalHermitianLatticeBadPrimesIffGramDet
 public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.ChartGen
 public import Formalism.HermitianLattices.StatementMass
@@ -81,11 +79,6 @@ variable {K : Type} [Field K] [NumberField K] [StarRing K]
 def NormUnit (P : Ideal (𝓞 K)) (x : K) : Prop :=
   ∃ c : K, c ≠ 0 ∧ star c * c * x ∈ locR (K := K) P ∧ (star c * c * x)⁻¹ ∈ locR (K := K) P
 
-theorem star_mem_locR {P : Ideal (𝓞 K)} (hP : P.IsMaximal) (hc : conjIdeal (K := K) P = P) {a : K}
-    (ha : a ∈ locR (K := K) P) : star a ∈ locR (K := K) P := by
-  intros
-  apply _root_.Formalism.MainNotions.BridgeLemVR.star_mem_locR <;> assumption
-
 theorem normUnit_iff (v : IsDedekindDomain.HeightOneSpectrum (𝓞 K))
     (hc : conjIdeal (K := K) v.asIdeal = v.asIdeal) {x : K} {m : ℤ}
     (hx : v.valuation K x = WithZero.exp m) : NormUnit v.asIdeal x ↔ Even m := by
@@ -136,7 +129,16 @@ section Ext
 variable {K V : Type} [Field K] [NumberField K] [StarRing K] [AddCommGroup V] [Module K V]
 
 theorem nondeg_of_PD (h : V →ₗ⋆[K] V →ₗ[K] K) (hp : PD h) : h.Nondegenerate := by
-  apply _root_.GlobalTheory.Mass.PrimDisc.nondeg <;> assumption
+  obtain ⟨τ⟩ : Nonempty (K →+* ℂ) := inferInstance
+  refine ⟨fun x hx => ?_, fun x hx => ?_⟩
+  · by_contra h0
+    have := hp τ x h0
+    rw [hx x] at this
+    simp at this
+  · by_contra h0
+    have := hp τ x h0
+    rw [hx x] at this
+    simp at this
 
 def ext (h : V →ₗ⋆[K] V →ₗ[K] K) (β : K) : (V × K) →ₗ⋆[K] (V × K) →ₗ[K] K :=
   LinearMap.mk₂'ₛₗ (starRingEnd K) (RingHom.id K) (fun x y => h x.1 y.1 + β * (star x.2 * y.2))
@@ -325,7 +327,7 @@ theorem cancel {W : Type} [AddCommGroup W] [Module K W] [FiniteDimensional K V] 
     rw [ext_apply, ext_apply, z y] at this
     simpa [f] using this
   have inj : Function.Injective f := by
-    set_option backward.isDefEq.respectTransparency.instanceSearchTypes false in rw [injective_iff_map_eq_zero]
+    rw [injective_iff_map_eq_zero]
     intro x hx
     refine (nondeg_of_PD h hh).1 x fun y => ?_
     rw [← hf, hx]; simp

@@ -8,55 +8,11 @@ public import Formalism.LocalToGlobal.TorsionIntegrality.GaussSumParity.KurCompl
 public import Formalism.LocalToGlobal.TorsionIntegrality.GaussSumParity.TransportFirstLevel
 import Formalism.ThetaLogCoordinates.UniformThetaSubstitution.FinalS
 import Formalism.ThetaLogCoordinates.UniformThetaSubstitution.FrobeniusLiftNorms.CoeffSubstLgFOfDegreeOne
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Algebra.Order.Star.Int
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Topology.Sheaves.Init
 import Formalism.LocalToGlobal.TorsionIntegrality.FrobeniusFibreCurves.FinalB
 import Formalism.LocalToGlobal.TorsionIntegrality.WeierstrassTwoTorsion.CubeThreeR
 import Formalism.LocalToGlobal.TorsionIntegrality.WeierstrassTwoTorsion.TwoTorsionU
 import Formalism.LocalToGlobal.TorsionIntegrality.GaussSumParity.KummerThetaLogarithms.TraceDualExists
 public import Formalism.LocalToGlobal.TorsionIntegrality.GaussSumParity.KummerThetaLogarithms.LubinTateLogIsArtinHasse
-import ReciprocityTheory.ReductiveGroups.UnramifiedIntegrals.CoeffOneSubstOfConstantCoeffEqZero
 
 @[expose] public section
 
@@ -77,18 +33,44 @@ section Maps
 variable {K K' : Type} [Field K] [Field K'] (φ : K →+* K')
 
 theorem cW_map (g2 g3 : K) (k : ℕ) : φ (cW g2 g3 k) = cW (φ g2) (φ g3) k := by
-  apply _root_.ReciprocityTheory.ChartRestriction.L1.cW_map <;> assumption
+  induction k using Nat.strong_induction_on with
+  | _ k ih =>
+    rw [_root_.Formalism.L2.Th1.A.BridgeK.cW_eq, _root_.Formalism.L2.Th1.A.BridgeK.cW_eq (φ g2) (φ g3) k]
+    split_ifs with h2 h3 h4
+    · rw [map_div₀, map_ofNat]
+    · rw [map_div₀, map_ofNat]
+    · set_option synthInstance.maxHeartbeats 100000 in
+        simp only [map_mul, map_div₀, map_add, map_sub, map_natCast, map_one, map_ofNat, map_sum]
+      congr 1
+      refine Finset.sum_congr rfl fun m _ => ?_
+      have hm := m.isLt
+      rw [ih (m.val + 2) (by omega), ih (k - (m.val + 2)) (by omega)]
+    · exact map_zero φ
 
 theorem wpNum_map (g2 g3 : K) : PowerSeries.map φ (wpNum g2 g3) = wpNum (φ g2) (φ g3) := by
-  apply _root_.ReciprocityTheory.ChartRestriction.L1.wpNum_map <;> assumption
+  ext n
+  rw [PowerSeries.coeff_map]
+  unfold wpNum
+  rw [PowerSeries.coeff_mk, PowerSeries.coeff_mk]
+  split_ifs
+  · exact map_one φ
+  · exact cW_map φ g2 g3 _
+  · exact map_zero φ
 
 theorem wpDen_map (g2 g3 : K) : PowerSeries.map φ (wpDen g2 g3) = wpDen (φ g2) (φ g3) := by
-  apply _root_.ReciprocityTheory.ChartRestriction.L1.wpDen_map <;> assumption
+  ext n
+  rw [PowerSeries.coeff_map]
+  unfold wpDen
+  rw [PowerSeries.coeff_mk, PowerSeries.coeff_mk]
+  split_ifs
+  · exact map_one φ
+  · rw [map_mul, map_neg, map_sub, map_natCast, map_one, cW_map]
+  · exact map_zero φ
 
 theorem cc_wpDen (g2 g3 : K) : PowerSeries.constantCoeff (wpDen g2 g3) = 1 := by
   rw [← PowerSeries.coeff_zero_eq_constantCoeff_apply]
   unfold wpDen
-  rw [PowerSeries.coeff_mk, if_pos rfl]
+  rw [PowerSeries.coeff_mk, ite_eq_left rfl]
 
 variable [CharZero K] [CharZero K']
 

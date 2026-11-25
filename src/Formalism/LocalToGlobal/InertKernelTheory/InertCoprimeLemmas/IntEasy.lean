@@ -1,6 +1,5 @@
 module
 
-import Formalism.LocalToGlobal.InertKernelTheory.InertCoprimeLemmas.IntPull
 public import Formalism.LocalToGlobal.InertKernelTheory.DefsInt
 public import Formalism.LocalRingCardinality.SpanPowerMembership.ExampleLayerExistsGenerators
 import Mathlib.RingTheory.PiTensorProduct
@@ -83,7 +82,7 @@ theorem ie_taylor_lin {m : ℕ} (c : Fin m → ℂ) (G : Fin m → VC D N N' →
 
 variable {p : ℕ} [Fact p.Prime]
 
-theorem ie_lamC_of_mem (lam : Qbar →+* ℂ_[p]) {x : ℂ} (h : x ∈ Qbar) : lamC lam x = lam ⟨x, h⟩ := dif_pos h
+theorem ie_lamC_of_mem (lam : Qbar →+* ℂ_[p]) {x : ℂ} (h : x ∈ Qbar) : lamC lam x = lam ⟨x, h⟩ := dite_eq_left h
 
 theorem ie_lamC_mul (lam : Qbar →+* ℂ_[p]) {x y : ℂ} (hx : x ∈ Qbar) (hy : y ∈ Qbar) :
     lamC lam (x * y) = lamC lam x * lamC lam y := by
@@ -185,7 +184,16 @@ theorem ie_tPull_embV (γ : Matrix (Fin N) (Fin N) D.host.E) (γ' : Matrix (Fin 
     (A : Matrix (Fin N') (Fin N) D.host.E) :
     tPull D (tor0 D cc δ) γ γ' (embV D (tor0 D cc δ) A) =
       embV D (tor0 D cc δ) (letI := D.host.cmStar; star γ' * A * γ) := by
-  apply _root_.Formalism.L2.KerInert.PullbackComparison.tPull_embV <;> assumption
+  letI := D.host.cmStar
+  funext τ
+  have e1 : (star γ').map (embT D τ) = Matrix.conjTranspose (γ'.map (embT D τ)) := by
+    ext i j
+    simp only [Matrix.map_apply, Matrix.star_apply, Matrix.conjTranspose_apply]
+    exact ie_emb_star (embT D τ) (γ' j i)
+  have e2 : (star γ' * A * γ).map (embT D τ) =
+      Matrix.conjTranspose (γ'.map (embT D τ)) * A.map (embT D τ) * γ.map (embT D τ) := by
+    rw [Matrix.map_mul, Matrix.map_mul, e1]
+  exact e2.symm
 
 theorem ie_La_pull (γ : Matrix (Fin N) (Fin N) D.host.E) (γ' : Matrix (Fin N') (Fin N') D.host.E)
     (h1' : (letI := D.host.cmStar; star γ' * γ') = 1) (M : Submodule (𝓞 D.host.E) (Fin N → D.host.E))

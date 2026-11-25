@@ -1,7 +1,6 @@
 module
 
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.ThresholdArguments.DenseThresholdCases.AfDesc
-import PositivityTheory.AutomorphicForms.PublishedInputs.JacquetLanglands.TorusKernels.PfHRep
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.IdeleGenerators.WeightChange
 import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.CapCommuteRtInfGL
 import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsFixedOfMemISup
@@ -56,6 +55,7 @@ import Mathlib.Tactic.ReduceModChar
 import Std.Tactic.BVDecide.Normalize.Prop
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.RChar2
 import Development.AutomorphicArithmetic.AutomorphicVarieties.IdeleGenerators.ConstSmall
+import PositivityTheory.AutomorphicForms.PublishedInputs.JacquetLanglands.TorusKernels.PfHRep
 
 @[expose] public section
 
@@ -66,6 +66,7 @@ section
 noncomputable section
 open NumberField IsDedekindDomain Neutral.B1 Formalism.L2.Host Formalism.ConjugateSelfDual Polynomial UpperTheory.V UpperTheory.V.Af UpperTheory.V.Sd Matrix
 open GlobalTheory.CuspRep (SmIrr Af invT finId pFin locGL finGL GA chiDet)
+open UpperTheory.Esk.HeckeRepresentationSatake
 section Proj
 variable {F : Type} [Field F] [NumberField F] [IsTotallyReal F] {a : ℕ}
 private theorem exists_sat (P : _root_.UpperTheory.V.Af.Hypotheses') (π : TR.CuspSub F a) (w : HeightOneSpectrum (𝓞 F))
@@ -79,9 +80,6 @@ private theorem exists_sat (P : _root_.UpperTheory.V.Af.Hypotheses') (π : TR.Cu
     (GlobalTheory.LFun.KGL w (n := a) : Set _) x hx0 hx (hi.2 ▸ Submodule.mem_top))
   exact ⟨B, (h4 _ _ hi B).2 hB⟩
 end Proj
-
-open UpperTheory.Esk.HeckeRepresentationSatake
-  (cap_all expo_abs fin_scalar iwahori_level_zero_eq proj sat_two sign_abs sign_hol unit_det uop_map) in
 theorem UpperTheory.V.Sd.holRep_alt :
     _root_.UpperTheory.V.Af.HypothesesH' → UpperTheory.V.Sd.HolRep := by
   intro P F _ _ _ k hk c ω hω φ lam hφ hcusp
@@ -161,8 +159,7 @@ theorem UpperTheory.V.Sd.holRep_alt :
       change (ω.locInf v (-1) * ν.locInf v (-1)) * ν.locInf v (-1) = _
       rw [hν, sign_abs, mul_one, mul_one]
     rw [hs v, hs v']
-    have hHol := UpperTheory.Esk.isHolV_of hφ.hol
-    exact Units.ext ((sign_hol hHol hφ.ne v).trans (sign_hol hHol hφ.ne v').symm)
+    exact Units.ext ((sign_hol (UpperTheory.Esk.isHolV_of hφ.hol) hφ.ne v).trans (sign_hol (UpperTheory.Esk.isHolV_of hφ.hol) hφ.ne v').symm)
   · obtain ⟨B, hl, hr, hf, hc, hX⟩ := P.gkR F 2 π
     refine TR.CuspSub.isSelfDualBy_of_iso B hl hr hf hc hX (P.smoR F 2 one_le_two _ _ ?_)
     filter_upwards [GlobalTheory.CuspRep.LocSph.eventually_mem ((π.isSmooth_finPart (T x₀)).mem_nhds

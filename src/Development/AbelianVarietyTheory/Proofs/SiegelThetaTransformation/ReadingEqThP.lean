@@ -1,7 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.IteratedFDerivSmulAll
-import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.VacuumMultiplierEqOneOnStabiliserStatement
 public import Development.AbelianVarietyTheory.Definitions.SpanningFamilies.IsBaseClassLevelAdapted
 public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.ThExprUniqOfChartIndep2
 public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.LawsFieldsSeparately
@@ -21,46 +19,8 @@ public import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.
 import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.UniformisationComponentLatticesMarkings
 import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.AllSixAbelianSchemeLawsHold
 public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.FramedPointReducedFromTestRing
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
 import Mathlib.Algebra.Order.Star.Real
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.ReduceModChar
 
 @[expose] public section
 
@@ -70,21 +30,53 @@ open ReciprocityTheory.ChartRestriction.G.Geo.Tor hiding Level
 open GlobalTheory.SW hiding Level
 open Formalism.L2.Pj Formalism.L2.PjFree
 open scoped ComplexConjugate Classical
-attribute [local instance] Over.cartesianMonoidalCategory
 open GlobalTheory.Dict
 
 namespace GlobalTheory.Dict.ThRead
 
 theorem cmHost_idempotent_trace_eq_one {E : Type} [Field E] [NumberField E] [IsCMField E] (H : Host E) :
     (H.w0 : E) + cc (H.w0 : E) = 1 := by
-  first | exact _root_.GlobalTheory.VacMult.hostHalfRoot_add_conj_eq_one | exact @_root_.GlobalTheory.VacMult.hostHalfRoot_add_conj_eq_one | apply _root_.GlobalTheory.VacMult.hostHalfRoot_add_conj_eq_one <;> assumption
+  have h2 : 2 * (H.w0 : E) = 1 + (H.rt : E) := by
+    simpa [map_ofNat] using congrArg (algebraMap (𝓞 E) E) H.two_weight_eq_one_add_root
+  have hs : (H.rt : E) ^ 2 = -(H.d : E) := by
+    simpa using congrArg (algebraMap (𝓞 E) E) H.rt_sq
+  have hc : cc (H.rt : E) = -(H.rt : E) := by
+    obtain ⟨τ⟩ : Nonempty (E →+* ℂ) := inferInstance
+    apply τ.injective
+    have h1 : τ (H.rt : E) ^ 2 = -(H.d : ℂ) := by rw [← map_pow, hs]; simp
+    have hre : (τ (H.rt : E)).re = 0 := by
+      have a1 := congrArg Complex.re h1
+      have a2 := congrArg Complex.im h1
+      simp [pow_two] at a1 a2
+      have hd : (0 : ℝ) < H.d := by exact_mod_cast H.d_prime.pos
+      by_contra hne
+      have : (τ (H.rt : E)).im = 0 := by
+        have : (τ (H.rt : E)).re * (τ (H.rt : E)).im = 0 := by linarith
+        exact (mul_eq_zero.1 this).resolve_left hne
+      rw [this] at a1
+      nlinarith [mul_self_nonneg (τ (H.rt : E)).re]
+    rw [cc, IsCMField.complexEmbedding_complexConj, map_neg]
+    apply Complex.ext <;> simp [hre]
+  have h3 : 2 * cc (H.w0 : E) = 1 + cc (H.rt : E) := by
+    have := congrArg (IsCMField.complexConj E) h2
+    simpa [cc, map_ofNat] using this
+  have : 2 * ((H.w0 : E) + cc (H.w0 : E)) = 2 * 1 := by linear_combination h2 + h3 + hc
+  exact mul_left_cancel₀ two_ne_zero this
 
 theorem theta_smul₂ {E : Type} [Field E] [NumberField E] [IsCMField E] {r g q0 n : ℕ} (X : Data E r)
     (hr : X.p0 + q0 = r) (bas : (Fin g ⊕ Fin g → ℤ) ≃ₗ[ℤ] X.Λ) (idx : Fin g ≃ X.Ψ × Fin r) (C : ℂ) (φ : TF n g)
     (P : Harm.Poly ℂ X.Ψ q0 X.p0 (Fin n)) (x : Frame X.Ψ r)
     (h : AnalyticOnNhd ℂ (thA X bas idx φ x) Set.univ) :
     thP X hr bas idx (C • φ) P x = C * thP X hr bas idx φ P x := by
-  apply _root_.GlobalTheory.Dict.ShortPt.theta_smul₂ <;> assumption
+  have e : thA X bas idx (C • φ) x = C • thA X bas idx φ x := by
+    funext z
+    simp only [thA, SW.thS, Pi.smul_apply, smul_eq_mul, _root_.mul_assoc, tsum_mul_left]
+    ring
+  rw [thP, thP, e, I2.polyDeriv, I2.polyDeriv, Finset.mul_sum]
+  refine Finset.sum_congr rfl fun m _ => ?_
+  rw [iteratedFDeriv_const_smul_apply ((h 0 trivial).contDiffAt)]
+  simp only [ContinuousMultilinearMap.smul_apply, smul_eq_mul]
+  ring
 
 theorem isSB_smul {n g : ℕ} (C : ℂ) {φ : TF n g} (h : IsSB φ) : IsSB (C • φ) := by
   obtain ⟨R, hR, h1, h2⟩ := h

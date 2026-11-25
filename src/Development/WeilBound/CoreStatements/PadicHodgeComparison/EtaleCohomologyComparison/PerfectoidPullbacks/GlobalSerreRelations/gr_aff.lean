@@ -1,6 +1,5 @@
 module
 
-import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.AffineCoverCohomologyFinite
 public import GroundTheory.ArithmeticGeometry.SchemeCohomology.CechSeparated
 public import Development.AbelianVarietyTheory.Definitions.Divisors.IsFrameOfForallExists
 public import Development.WeilBound.CoreStatements.PadicHodgeComparison.EtaleCohomologyComparison.PerfectoidPullbacks.CapOComp
@@ -26,49 +25,7 @@ public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.GradedFo
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.GradedFormVectorBundle
 public import Development.WeilBound.CoreStatements.PadicHodgeComparison.EtaleCohomologyComparison.PerfectoidPullbacks.GlobalSerreRelations.GlobSerreStH
 import Development.AbelianVarietyTheory.Proofs.CoherentCohomologyProofs.SubsingletonOfSheafPullback
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.PiTensorProduct
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.HaveILetI
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.AlgebraicGeometry.Modules.Sheaf
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
 import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.InOpenFiniteInfIff
 
 -- This file was produced by scripts/clump.py from the modules listed below.
@@ -79,7 +36,6 @@ import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.InOpenFiniteInf
 section -- clump:auto
 @[expose] public section
 
-set_option autoImplicit false
 set_option backward.isDefEq.respectTransparency false
 
 noncomputable section
@@ -202,7 +158,46 @@ def secPresheaf : TopCat.Presheaf Ab.{0} X where
     exact (rs_rs _ _ _).symm
 
 theorem isSheaf_secPresheaf : (secPresheaf U κ g).IsSheaf := by
-  apply _root_.GlobalTheory.CompanionTheory.VBGlue.isSheaf_secPresheaf <;> assumption
+  rw [TopCat.Presheaf.isSheaf_iff_isSheafUniqueGluing]
+  intro J C sf hsf
+  let sf' (j : J) : secGroup U κ g (C j) := sf j
+  have hsf' (j l : J) (α : ι) (k : κ α) (D : X.Opens) (hj : D ≤ C j ⊓ U α) (hl : D ≤ C l ⊓ U α) :
+      rs hj ((sf' j).1 α k) = rs hl ((sf' l).1 α k) := by
+    have e : secRes U κ g (inf_le_left : C j ⊓ C l ≤ C j) (sf' j) =
+      secRes U κ g (inf_le_right : C j ⊓ C l ≤ C l) (sf' l) := hsf j l
+    have e' := congrArg (fun s => s.1 α k) e
+    simp only [secRes_val] at e'
+    have hD : D ≤ (C j ⊓ C l) ⊓ U α :=
+      le_inf (le_inf (hj.trans inf_le_left) (hl.trans inf_le_left)) (hj.trans inf_le_right)
+    have e'' := congrArg (rs hD) e'
+    simpa only [rs_rs] using e''
+  have hcov (α : ι) : iSup C ⊓ U α ≤ ⨆ j, C j ⊓ U α := by
+    rw [iSup_inf_eq]
+  have hC (α : ι) (j : J) : C j ⊓ U α ≤ iSup C ⊓ U α := inf_le_inf_right _ (le_iSup C j)
+  choose b hb using fun (α : ι) (k : κ α) => exists_glue (fun j => C j ⊓ U α) (hC α) (hcov α)
+    (fun j => (sf' j).1 α k) fun j l D hj hl => hsf' j l α k D hj hl
+  have hbc : Compat U κ g (iSup C) b := fun α β k => by
+    have hle : iSup C ⊓ U α ⊓ U β ≤ ⨆ j, C j ⊓ U α ⊓ U β := by
+      rw [iSup_inf_eq, iSup_inf_eq]
+    refine eq_of_cover (fun j => C j ⊓ U α ⊓ U β) (fun j => inf_le_inf_right _ (hC α j)) hle
+      fun j => ?_
+
+    simp only [map_sum, map_mul, rs_rs]
+    have h1 := (sf' j).2.on α β k (T := C j ⊓ U α ⊓ U β) inf_le_left
+      (inf_le_inf_right _ inf_le_right) (inf_le_inf_right _ inf_le_left)
+    rw [← hb α k j, rs_rs] at h1
+    rw [h1]
+    refine Finset.sum_congr rfl fun k' _ => ?_
+    rw [← hb β k' j, rs_rs]
+  refine ⟨(⟨b, hbc⟩ : secGroup U κ g (iSup C)), fun j => ?_, fun t ht => ?_⟩
+  · refine Subtype.ext <| funext fun α => funext fun k => ?_
+    exact hb α k j
+  · let t' : secGroup U κ g (iSup C) := t
+    refine Subtype.ext <| funext fun α => funext fun k => ?_
+    refine eq_of_cover (fun j => C j ⊓ U α) (hC α) (hcov α) fun j => ?_
+    have e : secRes U κ g (le_iSup C j) t' = sf' j := ht j
+    rw [hb α k j]
+    exact congrArg (fun s => s.1 α k) e
 
 def toMod : X.Modules :=
   letI : ∀ V, Module (X.ringCatSheaf.obj.obj V) ((secPresheaf U κ g).obj V) :=
@@ -347,7 +342,7 @@ theorem mul_g_tuple {n : ℕ} (a b c : Fin (n + 1)) (i : Fin (n + 1) → ι) (k 
   have h2 := V.e_chg n a b x i k
   rw [h2] at h1
   simp only [fun k' => V.e_chg n b c x i k', hxi, Pi.single_apply, mul_ite, mul_one, mul_zero,
-    Finset.sum_ite_eq', Finset.mem_univ, if_true] at h1
+    Finset.sum_ite_eq', Finset.mem_univ, ite_true] at h1
   exact h1
 
 
@@ -361,7 +356,7 @@ theorem g_self_tuple {n : ℕ} (a : Fin (n + 1)) (i : Fin (n + 1) → ι) (k m :
     simp
   have h1 := V.e_chg n a a x i k
   simp only [hxi, Pi.single_apply, mul_ite, mul_one, mul_zero, Finset.sum_ite_eq', Finset.mem_univ,
-    if_true] at h1
+    ite_true] at h1
   exact h1.symm
 
 theorem isCoc : IsCoc U V.κ V.g := by
@@ -375,7 +370,7 @@ theorem isCoc : IsCoc U V.κ V.g := by
       simp only [rs_rs] at this
       rw [this]
       split_ifs <;> simp
-    simp only [e, ite_mul, one_mul, zero_mul, Finset.sum_ite_eq, Finset.mem_univ, if_true]
+    simp only [e, ite_mul, one_mul, zero_mul, Finset.sum_ite_eq, Finset.mem_univ, ite_true]
   · intro α β γ T h₁ h₂ h₃ k f
     let i : Fin 3 → ι := ![α, β, γ]
     have hT : T ≤ capO U i := le_iInf fun a => by
@@ -754,8 +749,7 @@ theorem dividedPowerFiltration_bot {K : Type} [CommRing K] {s : ℕ} (hs : 0 < s
   refine le_bot_iff.1 (Ideal.span_le.2 ?_)
   rintro _ ⟨l, hl, hr, rfl⟩
   have : ∃ p ∈ l, p.1 ≠ 0 := by
-    by_contra hc
-    push_neg at hc
+    by_contra! hc
     have : (l.map Prod.fst).sum = 0 := List.sum_eq_zero (by
       intro x hx
       obtain ⟨p, hp, rfl⟩ := List.mem_map.1 hx
@@ -861,7 +855,6 @@ end -- clump:auto
 section -- clump:auto
 @[expose] public section
 
-set_option autoImplicit false
 set_option backward.isDefEq.respectTransparency false
 
 noncomputable section

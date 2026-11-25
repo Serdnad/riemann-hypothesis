@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.PublishedTheorems.GaloisCohomology₂.PoitouTateNineTermTransgressionZeroApply
 import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.TateDecompositionCompletedCyclotomicIntegers
 public import Formalism.SharpRestriction.LevelLetterCocycles.LocalSituation
 public import Development.AbelianVarietyTheory.Definitions.Foundations.HTBasis
@@ -9,51 +8,14 @@ public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsC
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.GalExtCContinuous
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IsCycCycChar
 import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.PadicNormZpowSubOnePadicValInt
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
 import Mathlib.Algebra.Order.Star.Real
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
 import Mathlib.FieldTheory.Galois.Profinite
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
 import Mathlib.NumberTheory.Padics.LocalField
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Basify
 import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.HaveILetI
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Connected.Separation
 import Mathlib.Topology.MetricSpace.Ultra.TotallySeparated
-import Mathlib.Topology.Sheaves.Init
 
 @[expose] public section
 
@@ -223,7 +185,15 @@ theorem redChar_apply (χ : G →* ℤ_[l]ˣ) (r : ℕ) (g : G) :
 
 theorem continuous_toZModPow (r : ℕ) :
     Continuous (PadicInt.toZModPow r : ℤ_[l] → ZMod (l ^ r)) := by
-  apply _root_.GlobalTheory.Published.PoitouTate.continuous_toZModPow <;> assumption
+  have hl : l.Prime := Fact.out
+  rw [continuous_iff_continuousAt]
+  intro x
+  refine (continuousAt_const (y := PadicInt.toZModPow r x)).congr ?_
+  have hpos : (0 : ℝ) < (l : ℝ) ^ (-(r : ℤ)) := zpow_pos (by exact_mod_cast hl.pos) _
+  filter_upwards [Metric.closedBall_mem_nhds x hpos] with y hy
+  rw [Metric.mem_closedBall, dist_eq_norm, PadicInt.norm_le_pow_iff_mem_span_pow,
+    ← PadicInt.ker_toZModPow, RingHom.mem_ker, map_sub, sub_eq_zero] at hy
+  exact hy.symm
 
 theorem step_of_duality (χ ψ : G →* ℤ_[l]ˣ) (N : ℕ)
     (hinj : Function.Injective
@@ -399,7 +369,7 @@ theorem lift_cocycle_of_duality (hT : Formalism.GaloisCohomology.LocalTateDualit
           Eventually.of_forall fun g => (Φ.symm g).2⟩
       exact h2.eventually h1)
   let z' : GQ l → ℚ_[l] := fun σ => if h : σ ∈ L.fixingSubgroup then z (Φ ⟨σ, h⟩) else 0
-  have hz' : ∀ σ (h : σ ∈ Gj K s), z' σ = z (Φ ⟨σ, h⟩) := fun σ h => dif_pos h
+  have hz' : ∀ σ (h : σ ∈ Gj K s), z' σ = z (Φ ⟨σ, h⟩) := fun σ h => dite_eq_left h
   refine ⟨z', ⟨?_, fun _ _ => trivial, fun σ hσ τ hτ => ?_⟩, fun σ hσ => ?_⟩
   · rw [continuousOn_iff_continuous_restrict]
     exact (hz1.comp hΦ2).congr fun σ => (hz' σ.1 σ.2).symm

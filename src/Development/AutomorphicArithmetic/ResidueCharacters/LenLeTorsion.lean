@@ -2,43 +2,7 @@ module
 
 import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.LocalBlochKatoConditionOfWachModules
 public import Formalism.SharpRestriction.LevelLetterCocycles.JointConditionsZpowers.JointConditionTameBound
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Topology.Sheaves.Init
 
 @[expose] public section
 
@@ -60,13 +24,6 @@ variable {G : Type} [Group G] [TopologicalSpace G] {Qp K₀ K : Type} [Field Qp]
     [TopologicalSpace V] [ContinuousAdd V] [ContinuousConstSMul LL V]
 
 theorem bd_le_hf (L : Lattice (O := O) ρ) : BD L ≤ HfD PD L := le_sup_right
-
-theorem len_le_torsion (L : Lattice (O := O) ρ) (c : O) :
-    Module.length O (↥(divisibleCocycles L ⊓ (HfD PD L).comap (c • LinearMap.id)) ⧸
-        (divisibleCocycles L ⊓ HfD PD L).comap (divisibleCocycles L ⊓ (HfD PD L).comap (c • LinearMap.id)).subtype) ≤
-      Module.length O ↥(Submodule.torsionBy O (DivisibleCohomology L ⧸ divisibleFiniteCohomology PD L) c) := by
- intros
- apply @_root_.GlobalTheory.TBLocal.len_le_torsion <;> assumption
 
 end Len
 
@@ -95,8 +52,26 @@ theorem tbe_clauses (L : Lattice (O := O) ρ) (I J : Subgroup G) (hIJ : I = J) (
     Module.length O (↥(divisibleCocycles L ⊓ (HfD PD L).comap ((((PD.p : ℕ) : O) ^ cB) • LinearMap.id)) ⧸
         (divisibleCocycles L ⊓ HfD PD L).comap (divisibleCocycles L ⊓ (HfD PD L).comap ((((PD.p : ℕ) : O) ^ cB) • LinearMap.id)).subtype) ≤
       ((Module.finrank Qp K : ℕ∞) + 1) * (cB : ℕ∞) * lenOl PD (O := O) := by
- intros
- apply @_root_.GlobalTheory.TBLocal.tbe_clauses <;> assumption
+  subst hIJ
+  refine ⟨fun he => inf_le_right.trans (h2 he).le, fun he => ?_, ?_⟩
+  · apply le_antisymm
+    · intro c hc
+      rw [Submodule.mem_inf] at hc ⊢
+      refine ⟨hc.1, Submodule.mem_sup_left ?_⟩
+      exact ((h3 he c).mp hc.2).2
+    · intro c hc
+      rw [Submodule.mem_inf] at hc ⊢
+      obtain ⟨hcZ, hc⟩ := hc
+      refine ⟨hcZ, (h3 he c).mpr ⟨hcZ, ?_⟩⟩
+      obtain ⟨u, hu, b, hb, rfl⟩ := Submodule.mem_sup.mp hc
+      obtain ⟨x, hx⟩ := hu
+      obtain ⟨y, rfl⟩ := hb
+      refine ⟨x + y, fun g hg => ?_⟩
+      simp only [Pi.add_apply, hx g hg, LinearMap.pi_apply, LinearMap.sub_apply, LinearMap.id_apply, map_add (f := _)]
+      abel
+  · calc _ ≤ _ := GlobalTheory.TBLocal.len_le_torsion PD L _
+      _ ≤ _ := hlen
+      _ = _ := by push_cast; ring
 end Clauses
 end UpperTheory.N.TBLoc
 
@@ -108,51 +83,6 @@ variable (S : Sit) [IsTopologicalRing S.LL] [IsDomain S.O] [IsPrincipalIdealRing
   (Yt : LocLat S.G S.Qp S.LL S.O) (p : Yt.V →ₗ[S.LL] S.LL) (e₀ : Yt.V) (hpe : p e₀ = 1)
   (hp : ∀ g v, p (Yt.ρ g v) = p v) (hint : ∀ v ∈ Yt.L.T, p v ∈ Set.range (algebraMap S.O S.LL))
   (he₀ : e₀ ∈ Yt.L.T) (hinj : Function.Injective (algebraMap S.O S.LL))
-
-def incL : (kerY Yt p e₀ hpe hp hint he₀).V →ₗ[S.LL] Yt.V := (LinearMap.ker p).subtype
-
-theorem incL_cont : Continuous (incL S Yt p e₀ hpe hp hint he₀) :=
-  IsModuleTopology.continuous_of_linearMap _
-
-def projL : Yt.V →ₗ[S.LL] (trivZ S.G S.Qp S.LL S.O hinj).V := p
-
-theorem projL_cont : Continuous (projL S Yt p hinj) :=
-  IsModuleTopology.continuous_of_linearMap _
-
-def incHom : LatHom (kerY Yt p e₀ hpe hp hint he₀).L Yt.L :=
-  { f := incL S Yt p e₀ hpe hp hint he₀
-    equiv := fun _ _ => rfl
-    cont := incL_cont S Yt p e₀ hpe hp hint he₀
-    T_le := fun _ hx => hx }
-
-def projHom : LatHom Yt.L (trivZ S.G S.Qp S.LL S.O hinj).L :=
-  { f := projL S Yt p hinj
-    equiv := fun g x => hp g x
-    cont := projL_cont S Yt p hinj
-    T_le := fun x hx => by
-      obtain ⟨a, ha⟩ := hint x hx
-      exact ⟨a, ha⟩ }
-
-theorem ses : IsSESLat (Qp := S.Qp) (incHom S Yt p e₀ hpe hp hint he₀) (projHom S Yt p hp hint hinj) := by
-  refine ⟨?_, ?_, ?_, ?_, ?_⟩
-  · intro a b h
-    exact Subtype.ext h
-  · intro t
-    let s : S.LL := t
-    refine ⟨s • e₀, ?_⟩
-    change p (s • e₀) = s
-    rw [map_smul, hpe, smul_eq_mul, mul_one]
-  · rintro y ⟨a, rfl⟩
-    exact ⟨a • e₀, Yt.L.T.smul_mem a he₀, GlobalTheory.TBLocal.p_smul S Yt p e₀ hpe a⟩
-  · intro x
-    change p x = 0 ↔ ∃ y : LinearMap.ker p, (y : Yt.V) = x
-    constructor
-    · intro h
-      exact ⟨⟨x, h⟩, rfl⟩
-    · rintro ⟨y, rfl⟩
-      exact y.2
-  · intro y hy
-    exact hy
 
 include hinj in
 theorem tb_part1 (E : S.Comparison₂) (hTB : TBat S E) (e M0 h0 cB : ℕ) (Ve : LocLat S.G S.Qp S.LL S.O)

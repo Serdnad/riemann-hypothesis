@@ -86,7 +86,7 @@ theorem QX_out (a : W) : ∃ l ∈ L ⊓ X, (QuotientAddGroup.mk a : QX L X).out
   exact QuotientAddGroup.eq.mp h.symm
 
 theorem QY_out (y : W) : ∃ μ ∈ L ⊓ Y, (QuotientAddGroup.mk y : QY L Y).out = y + μ := by
-  apply _root_.Formalism.IndefR.Fin.Four.QX_out <;> assumption
+  exact Formalism.IndefR.Fin.Four.QX_out y
 
 end Rep
 

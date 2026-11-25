@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.DefNodeIsV
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.RowBesZeroE
 public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.WeilRepRankZeroWittEmbeddingValueAtZero
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.MeasureToRealEqMass
@@ -12,46 +11,8 @@ public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Vac
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ThetaGridLastRowColumnCharactersDiffer
 import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.AdelicUnitaryTopology
 import Development.AbelianVarietyTheory.Proofs.SatakeParameters.LevelHyperspecialTrivialCharacterSplitsOffPlaces
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.HaveILetI
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
 import Development.AbelianVarietyTheory.Proofs.TwistedOperators.FlagGenDiag
 import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.WittHyperbolicRankZeroProjMulEmb
@@ -70,7 +31,6 @@ section -- clump:auto
 
 open Formalism.BasicNotions Formalism.BasicNotions.TH Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes Formalism.MainNotions.StandardLattice Formalism.L2.Theta Formalism.IndefR.Datum MeasureTheory IsDedekindDomain NumberField Matrix
 open Formalism.IndefR Formalism.IndefR.Links GlobalTheory.MixModel GlobalTheory.MixPer GlobalTheory.Grow GlobalTheory.ChiGrid GlobalTheory.Unf GlobalTheory.FunObj GlobalTheory.RowUnf GlobalTheory.RowChain
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 
 noncomputable section
 namespace GlobalTheory.RowVolZero
@@ -143,7 +103,21 @@ theorem hatL_mulVec_rect {F E : Type} [Field F] [NumberField F] [Field E] [Numbe
     (Λ' : Submodule (𝓞 E) (Fin m → E)) (h : ∀ y ∈ Λ, M *ᵥ y ∈ Λ')
     (x : Fin n → TensorProduct F E (Formalism.L2.Herm.Af F)) (hx : x ∈ Formalism.L2.Herm.hatL (F := F) Λ) :
     M.map (Formalism.UG.inclE (F := F) (Formalism.L2.Herm.Af F)) *ᵥ x ∈ Formalism.L2.Herm.hatL (F := F) Λ' := by
-  first | exact _root_.GlobalTheory.TopExt.hat_mulVec | exact @_root_.GlobalTheory.TopExt.hat_mulVec | apply _root_.GlobalTheory.TopExt.hat_mulVec <;> assumption
+  unfold Formalism.L2.Herm.hatL Formalism.UG.latS at *
+  induction hx using Submodule.span_induction with
+  | mem y hy =>
+    obtain ⟨z, hz, rfl⟩ := hy
+    apply Submodule.subset_span
+    refine ⟨M *ᵥ z, h z hz, ?_⟩
+    funext i
+
+    simp [Matrix.mulVec, dotProduct, map_sum]
+  | zero => simp
+  | add y z _ _ hy hz =>
+    rw [Matrix.mulVec_add]; exact Submodule.add_mem _ hy hz
+  | smul c y _ hy =>
+    rw [Subring.smul_def, Matrix.mulVec_smul]
+    exact Submodule.smul_mem _ c hy
 
 theorem inclusion_mulVec_projection_mulVec {D : D7} {S S₀ : HSp D} (d : HypDec S S₀ 0) (y : Fin S.rank → Lev.EAf D) :
     d.i₀.map (Formalism.UG.inclE (F := D.host.F) (Formalism.L2.Herm.Af D.host.F)) *ᵥ
@@ -219,8 +193,8 @@ theorem vol_rankZero : ∀ {D : D7} {T : Type} {L : LevCh D T} {sc : Consts} (G 
   have hneg : Node.neg D.R.m (.grid D.R.m (j + 1)) = 0 := by
     show (D.R.m - (j + 1)) / 2 = 0
     omega
-  rw [Vol.IsAt, if_pos hneg] at hg0
-  rw [Vol.IsAt, if_pos (show Node.neg D.R.m (.top (j + 1)) = 0 from rfl)] at ht0
+  rw [Vol.IsAt, ite_eq_left hneg] at hg0
+  rw [Vol.IsAt, ite_eq_left (show Node.neg D.R.m (.top (j + 1)) = 0 from rfl)] at ht0
   obtain ⟨hgm, hgf⟩ := hg0
   obtain ⟨htm, htf⟩ := ht0
   obtain ⟨_, _, _, _, _, _, _⟩ := GlobalTheory.Mem.AdelicGroupTop.adelic_unitary_topology D (G.V (.grid D.R.m (j + 1)))
@@ -271,7 +245,6 @@ section -- clump:auto
 
 open Formalism.BasicNotions Formalism.BasicNotions.TH Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes Formalism.MainNotions.StandardLattice Formalism.L2.Theta Formalism.IndefR.Datum MeasureTheory IsDedekindDomain NumberField Matrix
 open Formalism.IndefR Formalism.IndefR.Links GlobalTheory.MixModel GlobalTheory.MixPer GlobalTheory.Grow GlobalTheory.ChiGrid GlobalTheory.Unf GlobalTheory.FunObj GlobalTheory.RowUnf GlobalTheory.RowChain
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 
 noncomputable section
 

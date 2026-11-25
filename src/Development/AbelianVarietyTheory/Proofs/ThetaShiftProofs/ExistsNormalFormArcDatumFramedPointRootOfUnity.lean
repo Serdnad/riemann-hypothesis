@@ -1,7 +1,5 @@
 module
 
-
-import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.ExistsConstantLieBasisArcGroup
 public import Development.AbelianVarietyTheory.Definitions.ArchimedeanThetaValues.IsFramedPointChangedByLetters
 public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.IsIntegralElemOfIsAlgebraicInt
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.SecBaseChangeAnySt
@@ -67,6 +65,7 @@ import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.T
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.ThetaCore
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.LBPull
 import Formalism.LocalToGlobal.ProjectiveLattices.ArchimedeanQuadraticData.ArcLineFunctions.ArcSPin
+
 @[expose] public section
 
 noncomputable section
@@ -87,12 +86,6 @@ namespace ExFr
 
 variable {E : Type} [Field E] [NumberField E] [IsCMField E] {H : Host E} {Dw : Datum H} {l : Level H}
   {Xo : Moduli Dw l} {S : Type} [CommRing S] {x : Sp S ⟶ Xo.X} {t' : SAB H (Sp S)} (m : SABMap t' Xo.univ.t x)
-
-theorem one_eq : η[t'.G].left ≫ m.φ = (1 : Over.mk x ⟶ Xo.univ.t.G).left := by
-  rw [one_left_eq]
-  have := m.cm.e_comm
-  rw [m.base] at this
-  exact this
 
 theorem tan_iff (w : epsR S ⟶ t'.G) : IsTanAt x (w.left ≫ m.φ) ↔ IsTangent w := by
   apply GlobalTheory.ArcQ.ExFr.tan_iff
@@ -125,8 +118,8 @@ open ReciprocityTheory.ChartRestriction.G.Out ReciprocityTheory.ChartRestriction
 
 variable {R : Type} [CommRing R] [IsDomain R] {D : DegPre R} {T T' : Over (Spec (CommRingCat.of R))}
 
-theorem exists_isAdd (g g' : GtPt D T) : ∃ g'', g.IsAdd g' g'' := by
-  first | exact _root_.GlobalTheory.ConstLie.exists_isAdd | exact @_root_.GlobalTheory.ConstLie.exists_isAdd | apply _root_.GlobalTheory.ConstLie.exists_isAdd <;> assumption
+theorem exists_isAdd (g g' : GtPt D T) : ∃ g'', g.IsAdd g' g'' :=
+  _root_.GlobalTheory.ConstLie.exists_isAdd g g'
 
 theorem exists_isPull (k : T' ⟶ T) (g : GtPt D T) : ∃ g' : GtPt D T', GtPt.IsPull k.left g g' := by
   have vv : ∀ χ y J, Good D.P.L y J → val (LB.pullGen D.P.L _ _ (g.s χ) k.left) (𝟙 _) y J =

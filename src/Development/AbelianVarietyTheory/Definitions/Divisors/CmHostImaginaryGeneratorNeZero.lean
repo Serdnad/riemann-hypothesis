@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.BlockTheory.HeightDefect.BesselDatum
 public import Formalism.LocalToGlobal.BesselHermitianTheta.TiedBessel
 public import Formalism.LocalToGlobal.Divisibility.DefGroup
 public import Formalism.LocalToGlobal.IndefiniteReal.LocalNewformFunction
@@ -58,12 +57,22 @@ open scoped TensorProduct nonZeroDivisors Pointwise
 
 namespace GlobalTheory.ChiGrid
 
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
-
 variable {D : D7}
 
 theorem cmHost_imaginaryGenerator_ne_zero : D.host.xi0 ≠ 0 := by
-  first | exact _root_.GlobalTheory.IndefiniteRowSideFullHecke.BesselData.embedding_xi_zero_ne_zero | exact @_root_.GlobalTheory.IndefiniteRowSideFullHecke.BesselData.embedding_xi_zero_ne_zero | apply _root_.GlobalTheory.IndefiniteRowSideFullHecke.BesselData.embedding_xi_zero_ne_zero <;> assumption
+  have h1 : (Ideal.absNorm D.host.ccK : D.host.E) ≠ 0 := by
+    exact_mod_cast (Ideal.absNorm_eq_zero_iff.not.2 D.host.ccK_ne_bot)
+  have h2 : D.host.sqrtMinusD ≠ 0 := by
+    intro h
+    have := D.host.sqrtMinusD_sq
+    rw [h] at this
+    have hd : (D.host.d : D.host.E) ≠ 0 := by
+      have := D.host.qd_big.2
+      exact_mod_cast (by omega : D.host.d ≠ 0)
+    apply hd
+    linear_combination this
+  unfold Formalism.BasicNotions.Host.xi0
+  exact div_ne_zero (by norm_num) (mul_ne_zero h1 h2)
 
 @[reducible] def negSp (V : HSp D) : HSp D where
   V := V.V
@@ -221,7 +230,7 @@ theorem isIsoSub_iso (ρ : ℕ) (h : 2 * ρ ≤ c) : IsIsoSub B (d.iso ρ h) := 
     refine Matrix.ext fun p q => ?_
     have := p.2; have := q.2
     simp only [submatrix_apply, antiDiagonalSignGramMatrix, Fin.val_castLE, Matrix.zero_apply]
-    rw [if_neg (by omega)]
+    rw [ite_eq_right (by omega)]
 
 def besDat (hε : ε ≠ 0) (ρ : ℕ) (h : c = 2 * ρ + 1) : BesDat A B d.ι where
   ρ := ρ
@@ -241,11 +250,11 @@ def besDat (hε : ε ≠ 0) (ρ : ℕ) (h : c = 2 * ρ + 1) : BesDat A B d.ι wh
     refine h1.trans ?_
     have := i.2
     simp only [antiDiagonalSignGramMatrix, Fin.val_castLE, Pi.zero_apply]
-    rw [if_neg (by omega)]
+    rw [ite_eq_right (by omega)]
   z_ne := by
     have h1 := congrFun (congrFun d.gram ⟨ρ, by omega⟩) ⟨ρ, by omega⟩
-    simp only [antiDiagonalSignGramMatrix, if_true] at h1
-    rw [if_pos (by omega)] at h1
+    simp only [antiDiagonalSignGramMatrix, ite_true] at h1
+    rw [ite_eq_left (by omega)] at h1
     intro h0
     apply hε
     rw [← h1, ← h0, Formalism.UG.hform, Finset.sum_comm]

@@ -29,61 +29,8 @@ public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.PPrimeFiltra
 public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.PSerreOnto
 public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.PStepThreeAway
 public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.PSubvarDrop
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Topology.Sheaves.Init
-import Mathlib.Tactic.TypeStar
-import Mathlib.RingTheory.Coalgebra.IsFrobenius
-import Mathlib.RingTheory.HopfAlgebra.Basic
-import Mathlib.RingTheory.WittVector.IsPoly
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Algebra.Order.Star.Real
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
 import Std.Tactic.BVDecide.Normalize.Prop
-import Mathlib.Algebra.Order.Star.Int
-import Mathlib.RingTheory.Henselian
-import Mathlib.RingTheory.RegularLocalRing.Defs
-import Mathlib.RingTheory.SimpleRing.Principal
-import Mathlib.Tactic.Monotonicity.Lemmas
-import Mathlib.Topology.Sheaves.Presheaf
 import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.PCechCone
 import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.PCechTransport
 import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.PGenerated
@@ -520,8 +467,31 @@ theorem exists_homogeneous_generators {S : Type u} [CommRing S] {N : ℕ} {M : T
     (𝓜 : GradedPMod S N M) (hfin : Module.Finite (Poly S N) M) :
     ∃ (r : ℕ) (m : Fin r → M) (d : Fin r → ℤ), (∀ j, m j ∈ 𝓜.piece (d j)) ∧
       Submodule.span (Poly S N) (Set.range m) = ⊤ := by
-  intros
-  apply _root_.GroundTheory.Heights₂.Heights.Kleiman.GradedPMod.exists_gens <;> assumption
+  classical
+  let H : Set M := ⋃ c, (𝓜.piece c : Set M)
+  have hH : Submodule.span (Poly S N) H = ⊤ := by
+    rw [eq_top_iff]
+    intro x _
+    have hx : x ∈ ⨆ c, 𝓜.piece c := by
+      rw [𝓜.isInternal.submodule_iSup_eq_top]
+      trivial
+    refine Submodule.iSup_induction _ (motive := fun y => y ∈ Submodule.span (Poly S N) H) hx
+      (fun c y hy => Submodule.subset_span (Set.mem_iUnion.mpr ⟨c, hy⟩)) (zero_mem _)
+      (fun a b ha hb => add_mem ha hb)
+  have hcomp := (Submodule.fg_iff_compact (⊤ : Submodule (Poly S N) M)).mp hfin.fg_top
+  have hle : (⊤ : Submodule (Poly S N) M) ≤ ⨆ h : H, Submodule.span (Poly S N) {(h : M)} := by
+    rw [← hH, Submodule.span_le]
+    intro y hy
+    exact Submodule.mem_iSup_of_mem (⟨y, hy⟩ : H) (Submodule.mem_span_singleton_self y)
+  obtain ⟨t, ht⟩ := hcomp.exists_finset_of_le_iSup _ hle
+  let e := t.equivFin
+  refine ⟨t.card, fun j => ((e.symm j : H) : M),
+    fun j => Classical.choose (Set.mem_iUnion.mp (e.symm j : H).2),
+    fun j => Classical.choose_spec (Set.mem_iUnion.mp (e.symm j : H).2), ?_⟩
+  rw [eq_top_iff]
+  refine ht.trans (iSup₂_le fun h hh => ?_)
+  rw [Submodule.span_le, Set.singleton_subset_iff]
+  exact Submodule.subset_span ⟨e ⟨h, hh⟩, by simp⟩
 
 end GradedPres
 
@@ -822,7 +792,7 @@ theorem SectionCount.Drop.proof (hF : SectionCount.Drop.Filt.Statement.{u, w})
     · rw [Finset.sum_comm]
       refine Finset.sum_congr rfl (fun j _ => ?_)
       by_cases hd : e j = d
-      · simp only [hd, true_and, if_true]
+      · simp only [hd, true_and, ite_true]
         rw [Finset.sum_ite_eq]
         simp
       · simp [hd]

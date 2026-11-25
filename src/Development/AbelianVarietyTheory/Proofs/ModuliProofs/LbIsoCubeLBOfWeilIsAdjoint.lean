@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.ModuliProofs.LamIsoOfPairings
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.ValCalc
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.GlobalSectionsRankAlgClosed
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.RosatiAdj
@@ -58,8 +57,6 @@ import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRin
 
 @[expose] public section
 
-set_option autoImplicit false
-
 noncomputable section
 
 open AlgebraicGeometry CategoryTheory Limits MonoidalCategory CartesianMonoidalCategory MonObj NumberField
@@ -96,8 +93,24 @@ theorem exists_gen_pairing (hG : GlobalFnsSt) (hA : IsAbelianScheme A) {L : RigL
       u.IsGen ∧ ∀ (y : T ⟶ A) (c : Γ(T.left, ⊤)ˣ), y ^ n = 1 → WeilIs A L.L n x y c →
         ∀ (Z : Over S) (t : Z ⟶ T) (w : Z ⟶ A) (z : Z.left) (J), Good L.L z J →
           val u (lift t ((t ≫ y) * w)).left z J = val u (lift t w).left z J * gm t.left z ⊤ c := by
-  intros
-  apply _root_.GlobalTheory.PairingDetermines.exists_gen_transl <;> assumption
+  obtain ⟨θx, rfl, -⟩ := exists_theta cb p₀ hT n x hx
+  obtain ⟨u, hu, vu⟩ := exists_triv cb p₀ hT n θx
+  refine ⟨u, hu, fun y c hy hc Z t w z J hJ => ?_⟩
+  obtain ⟨θy, rfl, vy⟩ := exists_theta cb p₀ hT n y hy
+  have hcm := (commIsOf_iff L.isLB θx θy c).1 ((GlobalLift.weilIs_iff_commIsOf hG hA L.isLB θx θy c).1 hc)
+  obtain ⟨s, hs⟩ := vu _ t z J hJ
+  obtain ⟨s', hs'⟩ := vy _ t z J hJ
+  have k₁ := hcm _ t w z J hJ
+  have k₂ := cubN_transl (isCub_cubV cb hJ) n (t ≫ θy.pt) w (t ≫ θx.pt)
+    ((map_pow (preHom t) θy.pt n).symm.trans (by rw [hy]; exact map_one _))
+  refine (hs _).trans (Eq.trans ?_ (congrArg₂ (· * ·) (hs _) k₁.symm).symm)
+  have t₁ := hs' w
+  have t₂ := hs' ((t ≫ θx.pt) * w)
+  apply Additive.ofMul.injective
+  have E := fun {p q : (Z.left.presheaf.stalk z)ˣ} (e : p = q) => congrArg Additive.ofMul e
+  have a₁ := E t₁; have a₂ := E t₂; have a₃ := E k₂
+  simp only [commVal, ofMul_mul, ofMul_inv] at a₁ a₂ a₃ ⊢
+  linear_combination (norm := abel) a₃ + a₁ - a₂
 
 
 omit [IsCommMonObj A] in
@@ -179,7 +192,3 @@ theorem exists_gen_fibre (hl : Laws) {k : Type} [Field k] [IsAlgClosed k] (P : P
     mul_inv, _root_.mul_mul_mul_comm, mul_inv_cancel, _root_.mul_one]
 
 end GlobalTheory.AdjointOfPairing
-
-namespace GlobalTheory
-
-end GlobalTheory

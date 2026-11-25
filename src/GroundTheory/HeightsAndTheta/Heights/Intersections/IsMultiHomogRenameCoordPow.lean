@@ -1,51 +1,7 @@
 module
 
-import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PLocalRep
 public import GroundTheory.HeightsAndTheta.Heights.Intersections.IsFieldIntersectionNoBlockFam
 public import GroundTheory.HeightsAndTheta.Heights.Intersections.StatementsArith
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
 
 @[expose] public section
@@ -106,7 +62,17 @@ theorem wh_prod_X_pow {K₀ : Type} [Fintype K₀] (q : K₀ → Σ k, ι k) (α
 
 theorem isMultiHomog_coordPow (i : ∀ k, ι k) (α : K → ℕ) :
     IsMultiHomog (∏ k, (X ⟨k, i k⟩ : MRing ι) ^ α k) α := by
-  apply _root_.GroundTheory.Heights₂.Heights.HilbertSamuel.LocalRep.isMultiHomog_chartMono <;> assumption
+  have h := wh_prod_X_pow (ι := ι) (fun k => ⟨k, i k⟩) α
+  have e : (∑ k, α k • blkW (ι := ι) ⟨k, i k⟩) = α := by
+    funext k
+    simp only [blkW, Finset.sum_apply]
+    rw [Finset.sum_eq_single k]
+    · simp
+    · intro b _ hb
+      simp [Ne.symm hb]
+    · simp
+  rw [e] at h
+  exact isMultiHomog_of_wh h
 
 
 omit [∀ k, Fintype (ι k)] in
@@ -131,21 +97,8 @@ theorem coordPow_not_mem {V : Ideal (MRing ι)} (hV : V.IsPrime) (i : ∀ k, ι 
 
 theorem isSmoothHerm_pull {κ : K → K'} {v : (Σ k, ι k) → (Σ k', ι' k')} (hv : IsBlockMap κ v)
     {A : HermLine ι} {A' : HermLine ι'} (hA : IsSmoothHerm A) (h : IsPullHerm κ v A A') :
-    IsSmoothHerm A' := by
-  have e : A'.h = A.h ∘ fun z' p => z' (v p) := funext h.2
-  unfold IsSmoothHerm
-  rw [e]
-  refine hA.comp (contDiff_pi.2 fun p => contDiff_apply ℝ (fun _ => ℂ) (v p)).contDiffOn ?_
-  intro z' hz'
-  simp only [Set.mem_ofPred_eq] at hz' ⊢
-  intro k
-  obtain ⟨i', hi'⟩ := hz' (κ k)
-  obtain ⟨p, hp⟩ := hv.2.2.2 ⟨κ k, i'⟩ ⟨k, rfl⟩
-  have h2 : p.1 = k := hv.1 (by rw [← hv.2.2.1 p, hp])
-  obtain ⟨pk, pi⟩ := p
-  simp only at h2
-  subst h2
-  exact ⟨pi, by rw [hp]; exact hi'⟩
+    IsSmoothHerm A' :=
+  IsPullHerm.isSmoothHerm hv h hA
 
 theorem genDegAt_zero (h0 : ArithVarZeroStatement) (I : AllFam) : GenDegAt I 0 := by
   intro K _ ι _ K' _ ι' _ κ v P' G J L L' _ hP'

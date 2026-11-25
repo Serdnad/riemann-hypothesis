@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.UnimodularAndLintegralUnfoldOfLattice
 public import Development.AutomorphicArithmetic.Foundations.Convolution.SplitEigenfunctions.OrbitMeasurability.PerCont
 public import Development.AutomorphicArithmetic.Foundations.Convolution.RealGroupAnalysis.ReductionDomains.ContinuousEntry
 public import Development.AutomorphicArithmetic.Foundations.Convolution.RealGroupAnalysis.ThetaBounds.WtBound
@@ -17,45 +16,7 @@ public import Development.AutomorphicArithmetic.Foundations.Convolution.RealGrou
 public import Development.AutomorphicArithmetic.Foundations.Convolution.RealGroupAnalysis.UnitaryActions.ContinuousQuaternaryQuadraticForm
 public import Development.AutomorphicArithmetic.Foundations.Convolution.SplitEigenfunctions.DiagInvVal
 public import Development.AutomorphicArithmetic.Foundations.Convolution.SplitEigenfunctions.ThetaLiftEqAnisotropicPart
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Dynamics.Ergodic.Action.Regular
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.MeasureTheory.Measure.HasOuterApproxClosedProd
 import Development.AutomorphicArithmetic.Foundations.Convolution.SplitEigenfunctions.UnitsCpt
-import Mathlib.Algebra.Ring.IsFormallyReal
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AutomorphicArithmetic.Foundations.Convolution.SplitEigenfunctions.OrbitMeasurability.Fub3, Development.AutomorphicArithmetic.Foundations.Convolution.SplitEigenfunctions.OrbitMeasurability.PerContAlt, Development.AutomorphicArithmetic.Foundations.Convolution.SplitEigenfunctions.OrbitMeasurability.AbsUnf, Development.AutomorphicArithmetic.Foundations.Convolution.SplitEigenfunctions.OrbitMeasurability.GaloisBaseChangeSchemeActionCompSnd, Development.AutomorphicArithmetic.Foundations.Convolution.SplitEigenfunctions.OrbitMeasurability.SwapInt, Development.AutomorphicArithmetic.Foundations.Convolution.SplitEigenfunctions.CoefPer
@@ -237,7 +198,33 @@ namespace UpperTheory.ConvolutionTheory.RankTwoDescent.Cp
 private theorem invInvariant {H : Type} [Group H] [TopologicalSpace H] [IsTopologicalGroup H] [LocallyCompactSpace H]
     [SecondCountableTopology H] [MeasurableSpace H] [BorelSpace H] (ν : Measure H) [ν.IsHaarMeasure]
     [ν.IsMulRightInvariant] : ν.IsInvInvariant := by
-  apply _root_.GlobalTheory.ResLine.RightUnfold.isInvInvariant_of_right <;> assumption
+  constructor
+  obtain ⟨c, hc⟩ : ∃ c : ℝ≥0∞, ν.inv = c • ν :=
+    ⟨haarScalarFactor ν.inv ν, by
+      have := isMulLeftInvariant_eq_smul ν.inv ν
+      rwa [ENNReal.smul_def] at this⟩
+  obtain ⟨K⟩ : Nonempty (TopologicalSpace.PositiveCompacts H) := inferInstance
+  have hpos : ν K ≠ 0 := (measure_pos_of_nonempty_interior _ K.interior_nonempty).ne'
+  have hfin : ν K ≠ ⊤ := K.isCompact.measure_lt_top.ne
+  have hsq : ν = (c * c) • ν := by
+    conv_lhs => rw [← Measure.inv_inv ν, hc]
+    rw [Measure.inv_def (c • ν), Measure.map_smul _ measurable_inv.aemeasurable, ← Measure.inv_def, hc, smul_smul]
+  have h1 : c * c = 1 := by
+    have : (c * c) * ν K = 1 * ν K := by
+      rw [one_mul]; conv_rhs => rw [hsq]
+      simp
+    exact (ENNReal.mul_left_inj hpos hfin).1 this
+  have h2 : c = 1 := by
+    rcases lt_trichotomy c 1 with h | h | h
+    · exact absurd h1 (ne_of_lt (by
+        calc c * c ≤ c * 1 := by gcongr
+          _ < 1 := by simpa using h))
+    · exact h
+    · exact absurd h1 (ne_of_gt (by
+        calc 1 < c := h
+          _ = 1 * c := by simp
+          _ ≤ c * c := by gcongr))
+  rw [hc, h2, one_smul]
 
 private theorem unf {G H ι : Type} [Group G] [TopologicalSpace G] [IsTopologicalGroup G] [LocallyCompactSpace G]
     [SecondCountableTopology G] [MeasurableSpace G] [BorelSpace G] [Group H] [TopologicalSpace H]
@@ -575,7 +562,10 @@ private theorem swap_int {Z X T : Type} [MeasurableSpace Z] [MeasurableSpace X] 
         (norm_integral_le_of_norm_le_const (ae_of_all _ fun g => hB p.1 hp p.2 h0 g)) (norm_nonneg _)
 
 private theorem cont_em {E : Type} [Field E] [NumberField E] : Continuous (em E) := by
-  apply _root_.UpperTheory.ConvolutionTheory.RankTwoDescent.Cp.continuous_em <;> assumption
+  have hM : Continuous ((AdeleBaseChange.adeleMap ℚ E).mapMatrix.toMonoidHom :
+      Matrix (Fin 2) (Fin 2) (A ℚ) → Matrix (Fin 2) (Fin 2) (A E)) :=
+    continuous_id.matrix_map AdeleBaseChange.continuous_adeleMap
+  exact Continuous.units_map _ hM
 
 end UpperTheory.ConvolutionTheory.RankTwoDescent.Cp
 

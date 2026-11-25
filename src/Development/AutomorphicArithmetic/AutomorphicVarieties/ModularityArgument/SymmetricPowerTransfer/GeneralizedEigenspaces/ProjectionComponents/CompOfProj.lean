@@ -49,7 +49,6 @@ open NumberField IsDedekindDomain ValuativeRel GlobalTheory.CuspRep GlobalTheory
 open UpperTheory.V.W (Plc Lp)
 open UpperTheory.V.Z.Sym UpperTheory.V.Z.Sym.Dict
 
-attribute [local instance] GlobalTheory.LocalData.complRel GlobalTheory.LocalData.isLocalField
 open UpperTheory.V.Z.Sym.Al
 
 private theorem comp_of_proj {L : Type} [Field L] [NumberField L] [IsCMField L] {n : ℕ}
@@ -111,15 +110,3 @@ theorem UpperTheory.V.Z.Sym.U.finFamU :
   have := h3 k u (T i ⟨φ, hφ⟩)
   rw [e] at this
   exact congrArg Subtype.val this.symm
-
-
-
-private theorem pigeon {X I : Type} (A : Set X) (hA : A.Finite) (P : X → I → Prop)
-    (h : ∀ S : Finset I, ∃ x ∈ A, ∀ i ∈ S, P x i) : ∃ x ∈ A, ∀ i, P x i := by
-  classical
-  by_contra hn
-  push Not at hn
-  choose f hf using fun x : A => hn x.1 x.2
-  haveI := hA.fintype
-  obtain ⟨x, hx, h1⟩ := h (Finset.univ.image f)
-  exact hf ⟨x, hx⟩ (h1 _ (Finset.mem_image_of_mem f (Finset.mem_univ _)))

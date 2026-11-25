@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.PowEqOneOfChrEq
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.NegIdxOfIsStd
 public import Development.AbelianVarietyTheory.Definitions.Divisors.IsUnitaryOnTheta
 public import Mathlib.Algebra.AffineMonoid.Basic
@@ -63,7 +62,6 @@ open GlobalTheory.IndefiniteRowSideFullHecke.UnitCharTriangle (Tri)
 open GlobalTheory.SqTop
 open GlobalTheory.ConstRatio (NegIdx Factor)
 
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 open scoped TensorProduct
 
 noncomputable section
@@ -87,7 +85,15 @@ private theorem unrAt_pow {E : Type} [Field E] [NumberField E] {χ : HChar E} {v
 
 private theorem chrEq_pow {D : D7} {c : (AE D)ˣ →* Circle} {χ : HChar D.host.E} (h : ChrEq c χ) (a : ℕ) :
     ChrEq (c ^ a) (χ ^ a) := by
-  apply _root_.GlobalTheory.ConjExt.chrEq_pow <;> assumption
+  refine ⟨⟨?_, fun x => ?_⟩, fun P e he k x hx => ?_⟩
+  · have : ((c ^ a : (AE D)ˣ →* Circle) : (AE D)ˣ → Circle) = fun x => c x ^ a := by
+      funext x; simp
+    rw [this]
+    exact h.1.1.pow a
+  · have h1 := h.1.2 x
+    simp only [MonoidHom.pow_apply, h1, one_pow]
+  · rw [MonoidHom.pow_apply, locK_pow, Units.val_pow_eq_pow_val, ← h.2 P e he k x hx]
+    exact map_pow Circle.coeHom _ _
 
 private theorem not_nonSplitAt_of_emb {D : D7} {v : HeightOneSpectrum (𝓞 D.host.F)} {ε : AF D.host.F}
     (hε : IsPlaceIdem D v ε) (τ : D.host.E →ₐ[D.host.F] Fv D.host.F v) : ¬ GlobalTheory.WeilParts.NonSplitAt D v ε := by
@@ -107,15 +113,6 @@ private theorem not_nonSplitAt_of_emb {D : D7} {v : HeightOneSpectrum (𝓞 D.ho
 private theorem levelLe_one_of_unrAt {L : Type} [Field L] [NumberField L] {χ : HChar L} {w : HeightOneSpectrum (𝓞 L)}
     (h : χ.UnrAt w) : χ.LevelLe w 1 :=
   fun x hx _ => h x hx
-
-private theorem natCast_mem_of_card {E : Type} [Field E] [NumberField E] {P : HeightOneSpectrum (𝓞 E)} {ℓ : ℕ}
-    (hℓ : ℓ.Prime) (h : Nat.card (𝓞 E ⧸ P.asIdeal) = ℓ) : (ℓ : 𝓞 E) ∈ P.asIdeal := by
-  have : Finite (𝓞 E ⧸ P.asIdeal) := Nat.finite_of_card_ne_zero (h ▸ hℓ.ne_zero)
-  letI := Fintype.ofFinite (𝓞 E ⧸ P.asIdeal)
-  have h0 : ((Fintype.card (𝓞 E ⧸ P.asIdeal) : ℕ) : 𝓞 E ⧸ P.asIdeal) = 0 := Nat.cast_card_eq_zero _
-  rw [← Nat.card_eq_fintype_card, h] at h0
-  rw [← Ideal.Quotient.eq_zero_iff_mem, map_natCast]
-  exact h0
 
 
 open Classical in
@@ -190,7 +187,8 @@ theorem _root_.GlobalTheory.T.towerStage_finitePlaces_unramified_or_split : GBig
         · exact GlobalTheory.DiffSOne.not_dvd_differentIdeal large₂ hR v h1
         · obtain ⟨PP, hP, hPv⟩ := hS.resolve_left fun h => (G.pl.mem_S0_of_sum_eq.1 h).elim h0 h1
           obtain ⟨⟨ℓ, hℓ, hcard, hℓ2, -⟩, -⟩ := hL.Q_pl t PP hP
-          have hℓP : ((ℓ : ℕ) : 𝓞 D.host.E) ∈ PP.asIdeal := natCast_mem_of_card hℓ hcard
+          have hℓP : ((ℓ : ℕ) : 𝓞 D.host.E) ∈ PP.asIdeal :=
+            (Ideal.absNorm_eq_natCard PP.asIdeal).trans hcard ▸ Ideal.absNorm_mem PP.asIdeal
           have hle : v.asIdeal.map (algebraMap (𝓞 D.host.F) (𝓞 D.host.E)) ≤ PP.asIdeal := by
             rw [← hPv]
             exact Ideal.map_comap_le
@@ -203,7 +201,7 @@ theorem _root_.GlobalTheory.T.towerStage_finitePlaces_unramified_or_split : GBig
             rw [Ideal.map_pow, map_natCast] at h'
             exact hℓ2 (Ideal.pow_right_mono hle 2 h')
   · left
-    push_neg at hS
+    push Not at hS
     obtain ⟨hS0, hQ⟩ := hS
     have hS1 : v ∉ S1 D := fun h => hS0 (G.pl.mem_S0_of_sum_eq.2 (Or.inr h))
     refine ⟨GlobalTheory.T.isUnramifiedAtPlaceIdempotent_of_heckeChar_unramified_above D _ _ hα v e he fun P hP => ?_, GlobalTheory.T.isUnramifiedAtPlaceIdempotent_of_heckeChar_unramified_above D _ _ hβ v e he fun P hP => ?_⟩

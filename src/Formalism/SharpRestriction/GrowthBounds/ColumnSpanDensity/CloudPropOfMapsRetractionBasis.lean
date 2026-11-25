@@ -15,58 +15,11 @@ public import Mathlib.LinearAlgebra.Matrix.SchurComplement
 public import Mathlib.RingTheory.LocalRing.ResidueField.Basic
 public import Formalism.SharpRestriction.GrowthBounds.ColumnSpanDensity.CloudBoundOfPropAndWeylDimension
 public import Formalism.SharpRestriction.GrowthBounds.ColumnSpanDensity.FactorizationBoundMonoLattices
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Topology.Sheaves.Init
 import Formalism.SharpRestriction.GrowthBounds.ColumnSpanDensity.RhoLowerBoundOfEdgeCount
 import Formalism.SharpRestriction.GrowthBounds.ColumnSpanDensity.RhoSumBoundOfMapsSplitting
 import Mathlib.Tactic.Linter.HaveILetI
-import Mathlib.Tactic.Polynomial.Basic
 import Formalism.PolynomialDimension.WeylDim
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.RingTheory.Henselian
-import Mathlib.RingTheory.RegularLocalRing.Defs
-import Mathlib.RingTheory.SimpleRing.Principal
-import Mathlib.RingTheory.WittVector.IsPoly
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Formalism.SharpRestriction.GrowthBounds.ColumnSpanDensity.NLeDAll, Formalism.SharpRestriction.GrowthBounds.ColumnSpanDensity.CloudCount, Formalism.SharpRestriction.GrowthBounds.ColumnSpanDensity.LemmaSMat, Formalism.SharpRestriction.GrowthBounds.ColumnSpanDensity.CloudPropOfMapsRetractionBasis
@@ -87,7 +40,105 @@ theorem nLeD_all {p n' : ℕ} (R : RS p n') {m : ℕ} (lam0 : Fin n' → Fin (m 
     (hfac : ∀ e, IsEdge p n' 1 e →
       FactorsLE p (be (Kf := R.Kf) p 1 lam0) (CCL R lam0 t c e) (Re' p R.ι R.σ R.w 1 lam0 e) n D) :
     (n : ℝ) ≤ dL R lam0 := by
-  exact nLeD_of_edge_count restEdgeCountSrc R lam0 hDom t c n D hD0 hDc hfac
+  classical
+  have hcnt := restEdgeCountSrc
+  have hdnn := dL_nonneg R lam0
+  by_cases hn0 : n = 0
+  · subst hn0; simpa using hdnn
+  have hL : IsLattice R.W (colSpan R.W (1 : Matrix (Fin (m + 1)) (Fin (m + 1)) R.Qq)) := ⟨1, by simp, rfl⟩
+  obtain ⟨Ne, es, hinj, hes, hNe⟩ := hcnt p n' R (m + 1) (by omega) _ hL
+  have hc1 : 1 ≤ c := by
+    have : (0 : ℝ) < c := by linarith
+    exact_mod_cast this
+  have hdata : ∀ i : Fin Ne, ∃ (x : Fin n → Vsp R.Kf lam0)
+      (y : Fin n → Module.Dual R.Kf (Vsp R.Kf lam0)) (z z' : R.O), z ≠ 0 ∧
+      (∀ a, x a ∈ CCL R lam0 t c (es i)) ∧ (∀ a, y a ∈ Re' p R.ι R.σ R.w 1 lam0 (es i)) ∧
+      z' * z = R.w ^ (c - 1) ∧
+      ∀ a b, be p 1 lam0 (x a) (y b) = if a = b then algebraMap R.O R.Kf z else 0 := by
+    intro i
+    rcases hfac (es i) (hes i).1 with h0 | ⟨x, y, hx, hy, z, Mx, hz, hv, hM⟩
+    · exact absurd h0 hn0
+    · obtain ⟨z', hz'⟩ := dvd_w_pow_of_vLEO R.std.2.1 R.std.1.w_sq hz hDc hv
+      refine ⟨x, fun b => ∑ l, Mx l b • y l, z, z', hz, hx,
+        fun b => Submodule.sum_mem _ (fun l _ => Submodule.smul_mem _ _ (hy l)), by rw [hz']; ring, fun a b => ?_⟩
+      rw [be_sum]
+      exact hM a b
+  choose x y z z' hz0 hx hy hzz hxy using hdata
+  have hβ : ∀ i l : Fin Ne × Fin n, ∃ β : R.O, β ∈ IsLocalRing.maximalIdeal R.O ∧
+      be p 1 lam0 (x i.1 i.2) (y l.1 l.2) =
+        algebraMap R.O R.Kf (((1 : Matrix (Fin Ne × Fin n) (Fin Ne × Fin n) R.O) i l + β) * z l.1) := by
+    rintro ⟨i, a⟩ ⟨l, b⟩
+    by_cases hil : i = l
+    · subst hil
+      refine ⟨0, Submodule.zero_mem _, ?_⟩
+      simp only
+      rw [hxy, Matrix.one_apply]
+      by_cases hab : a = b
+      · subst hab; simp
+      · have : ((i, a) : Fin Ne × Fin n) ≠ (i, b) := fun h => hab (Prod.mk.inj h).2
+        rw [ite_eq_right hab, ite_eq_right this]; simp
+    · have hne : es l ≠ es i := fun h => hil (hinj h).symm
+      have hXs := CCL_other R lam0 t c (es i) (es l) (hes _).1 ((hes _).2.trans (hes _).2.symm) hne (hx i a)
+      obtain ⟨b', hb⟩ := be_scale_Re R lam0 (es l) c hXs (hy l b)
+      have h2 : ((i, a) : Fin Ne × Fin n) ≠ (l, b) := fun h => hil (Prod.mk.inj h).1
+      refine ⟨R.w * b' * z' l, Ideal.mul_mem_right _ _ (Ideal.mul_mem_right _ _ R.w_mem), ?_⟩
+      simp only
+      rw [hb, Matrix.one_apply_ne h2, zero_add]
+      congr 1
+      have h3 : R.w ^ c = R.w * R.w ^ (c - 1) := by
+        rw [← pow_succ']
+        congr 1
+        omega
+      rw [h3, ← hzz l]
+      ring
+  choose β hβm hβe using hβ
+  let P : Matrix (Fin Ne × Fin n) (Fin Ne × Fin n) R.O := Matrix.of fun i l => (1 : Matrix _ _ R.O) i l + β i l
+  have hP : IsUnit P.det := by
+    apply isUnit_det_of_one_add'
+    intro i l
+    simpa [P] using hβm i l
+  have hinjK : Function.Injective (algebraMap R.O R.Kf) := by
+    have hfr : IsFractionRing R.O R.Kf := R.std.1.frac_O
+    exact IsFractionRing.injective R.O R.Kf
+  have hPK : ((algebraMap R.O R.Kf).mapMatrix P).det ≠ 0 := by
+    rw [← RingHom.map_det]
+    intro h0
+    have : P.det = 0 := hinjK (by rw [h0, map_zero])
+    rw [this] at hP
+    exact not_isUnit_zero hP
+  have hli : LinearIndependent R.Kf (fun i : Fin Ne × Fin n => x i.1 i.2) := by
+    rw [Fintype.linearIndependent_iff]
+    intro g hg
+    have h1 : ∀ l : Fin Ne × Fin n, ∑ i, g i * algebraMap R.O R.Kf (P i l) = 0 := by
+      intro l
+      have h2 : be p 1 lam0 (∑ i, g i • x i.1 i.2) (y l.1 l.2) = 0 := by
+        rw [hg]; simp [be]
+      rw [be_sum_left] at h2
+      have h3 : (∑ i, g i * algebraMap R.O R.Kf (P i l)) * algebraMap R.O R.Kf (z l.1) = 0 := by
+        rw [← h2, Finset.sum_mul]
+        refine Finset.sum_congr rfl fun i _ => ?_
+        rw [hβe i l, map_mul, mul_assoc]
+        rfl
+      have hz : algebraMap R.O R.Kf (z l.1) ≠ 0 := fun h => hz0 l.1 (hinjK (by rw [h, map_zero]))
+      exact (mul_eq_zero.1 h3).resolve_right hz
+    have h4 : Matrix.vecMul g ((algebraMap R.O R.Kf).mapMatrix P) = 0 := by
+      funext l
+      simpa [Matrix.vecMul, dotProduct] using h1 l
+    have h5 := Matrix.eq_zero_of_vecMul_eq_zero hPK h4
+    intro i
+    rw [h5]; rfl
+  have hpos : 0 < dimV R.Kf lam0 := Formalism.MainNotions.G.LatticeSystems.kp_dimV_pos R.Kf lam0 hDom
+  have hfin : Module.Finite R.Kf (Vsp R.Kf lam0) := Module.finite_of_finrank_pos hpos
+  have hcard : Ne * n ≤ dimV R.Kf lam0 := by
+    have := hli.fintype_card_le_finrank
+    simpa [dimV] using this
+  have hNpos := gaussianNumber_prime_pow_pos R (m + 1) (by omega)
+  unfold dL
+  rw [le_div_iff₀ hNpos]
+  have h6 : ((Ne * n : ℕ) : ℝ) ≤ (dimV R.Kf lam0 : ℝ) := by exact_mod_cast hcard
+  have h7 : (n : ℝ) * gaussianNumber (p ^ n') (m + 1) ≤ (n : ℝ) * Ne := mul_le_mul_of_nonneg_left hNe (Nat.cast_nonneg _)
+  push_cast at h6
+  linarith
 
 theorem nEdge {p n' : ℕ} (R : RS p n') {m : ℕ} (lam0 : Fin n' → Fin (m + 1) → ℤ) (hDom : IsDominant lam0)
     (t c n : ℕ) (D : ℝ) (e e' : Edge R.W R.Qq (m + 1)) (he : IsEdge p n' 1 e) (he' : IsEdge p n' 1 e')
@@ -345,16 +396,16 @@ theorem cloud_count (hS : LemmaSMat) (hRet : LatRetract) (hBP : BePerfect) (hD3 
   rw [be_smul, be_pull, h24]
   by_cases hab : a = b
   · subst hab
-    rw [if_pos rfl, be_smulK_left, hFgg]
+    rw [ite_eq_left rfl, be_smulK_left, hFgg]
     by_cases hij : i = j
     · subst hij
-      rw [if_pos rfl, if_pos rfl]
+      rw [ite_eq_left rfl, ite_eq_left rfl]
       simp only [map_mul, map_pow, map_natCast]
       rw [← mul_assoc, ← pow_add, Nat.sub_add_cancel (hka a)]
     · have : ((a, i) : Fin nb × Fin r) ≠ (a, j) := fun h => hij (Prod.mk.inj h).2
-      rw [if_neg hij, if_neg this, mul_zero, mul_zero]
+      rw [ite_eq_right hij, ite_eq_right this, mul_zero, mul_zero]
   · have : ((b, i) : Fin nb × Fin r) ≠ (a, j) := fun h => hab (Prod.mk.inj h).1.symm
-    rw [if_neg hab, if_neg this]
+    rw [ite_eq_right hab, ite_eq_right this]
     simp [be]
 
 end Formalism.MainNotions.flipOneThree.Pf
@@ -488,7 +539,7 @@ theorem lemmaSMat {O : Type} [CommRing O] [IsDomain O] [IsDiscreteValuationRing 
         have hne : i0 ≠ i0.succAbove k' := Fin.ne_succAbove i0 k'
         have hne' : i0.succAbove k' ≠ i0 := Fin.succAbove_ne i0 k'
         simp only [S, Em, Matrix.mul_apply, Matrix.of_apply, sub_mul, Finset.sum_sub_distrib, ite_mul,
-          one_mul, zero_mul, Finset.sum_ite_eq', Finset.mem_univ, if_true, Matrix.one_apply]
+          one_mul, zero_mul, Finset.sum_ite_eq', Finset.mem_univ, ite_true, Matrix.one_apply]
         simp [hne]
       have hrow : Ei * N = (z1 * z2) • dd := by
         ext i l

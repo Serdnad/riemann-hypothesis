@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.SatakeParameters.DiagUniformiserConjTransposeInvMemUpperParahoric
 public import Development.AbelianVarietyTheory.Definitions.Divisors.IsUnifAt
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.SplitPlaceUnitaryLocalPointsEquivGL
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IdelesCompactOfLocalBounds
@@ -49,7 +48,6 @@ import Mathlib.Tactic.NormNum.RealSqrt
 
 open NumberField IsDedekindDomain Matrix Polynomial Filter GlobalTheory.CuspRep GlobalTheory.PRep Formalism.UG Formalism.BasicNotions GlobalTheory.UnitaryBC Formalism.L2.Host GlobalTheory.BCT
 open scoped Classical TensorProduct
-attribute [local instance] GlobalTheory.LocalData.complRel GlobalTheory.LocalData.isLocalField
 
 noncomputable section
 
@@ -120,8 +118,15 @@ variable {E : Type} [Field E] [NumberField E] [IsCMField E] {n : ℕ}
 
 theorem mem_GLint_of_entries' {K : Type} [Field K] (O : Subring K) (g : GL (Fin n) K)
     (h1 : ∀ a b, g.val a b ∈ O) (h2 : ∀ a b, (g⁻¹).val a b ∈ O) : g ∈ Formalism.UG.GLint (Fin n) O := by
-  intros
-  apply _root_.GlobalTheory.BlockConj.mem_GLint_of <;> assumption
+  have inj : Function.Injective (O.subtype.mapMatrix (m := Fin n)) :=
+    fun A B h => by ext i j; exact congrFun (congrFun h i) j
+  let A : Matrix (Fin n) (Fin n) O := fun i j => ⟨g.val i j, h1 i j⟩
+  let B : Matrix (Fin n) (Fin n) O := fun i j => ⟨(g⁻¹).val i j, h2 i j⟩
+  have hA : O.subtype.mapMatrix A = g.val := rfl
+  have hB : O.subtype.mapMatrix B = (g⁻¹).val := rfl
+  refine ⟨⟨A, B, inj ?_, inj ?_⟩, Units.ext rfl⟩
+  · rw [map_mul, hA, hB, map_one, Units.mul_inv]
+  · rw [map_mul, hA, hB, map_one, Units.inv_mul]
 
 theorem mem_or_conj_mem {S : Set (Pl E)} (hS : IsSection S) (w : Pl E) :
     w ∈ S ∨ conjSrc (GlobalTheory.SplitPts.conjE E) w ∈ S := by
@@ -163,17 +168,17 @@ theorem GlobalTheory.BCT.LocCpt.loc_cpt : ∀ (E : Type) [Field E] [NumberField 
   have hD : ∀ w, IsCompact (D w) := by
     intro w
     by_cases hw : w ∈ S
-    · simp only [D, if_pos hw]; exact (hC w).image continuous_subtype_val
-    · simp only [D, if_neg hw]; exact ((hC _).image continuous_subtype_val).image (hφ w)
+    · simp only [D, ite_eq_left hw]; exact (hC w).image continuous_subtype_val
+    · simp only [D, ite_eq_right hw]; exact ((hC _).image continuous_subtype_val).image (hφ w)
   have hDK : ∀ᶠ w in cofinite, D w ⊆ GlobalTheory.LFun.KGL w (n := n) := by
     have h1 : ∀ᶠ w in cofinite, C (conjSrc c w) = KL n (conjSrc c w) :=
       (conjSrc_injective c).tendsto_cofinite.eventually hCK
     filter_upwards [hCK, h1] with w hw hw'
     by_cases hwS : w ∈ S
-    · simp only [D, if_pos hwS, hw]
+    · simp only [D, ite_eq_left hwS, hw]
       rintro _ ⟨k, hk, rfl⟩
       exact Subgroup.mem_subgroupOf.1 hk
-    · simp only [D, if_neg hwS, hw']
+    · simp only [D, ite_eq_right hwS, hw']
       rintro _ ⟨_, ⟨k, hk, rfl⟩, rfl⟩
       have hk' : (k : GL (Fin n) _) ∈ GlobalTheory.LFun.KGL (conjSrc c w) (n := n) := Subgroup.mem_subgroupOf.1 hk
       have hO : ∀ y, y ∈ ((conjSrc c w).adicCompletionIntegers E : Set _) →
@@ -218,9 +223,9 @@ theorem GlobalTheory.BCT.LocCpt.loc_cpt : ∀ (E : Type) [Field E] [NumberField 
         cLoc u (x : UA E n) := fun u => Units.ext rfl
     rw [e]
     by_cases hwS : w ∈ S
-    · simp only [D, if_pos hwS]
+    · simp only [D, ite_eq_left hwS]
       exact (hmem x w).1 (hx w hwS)
-    · simp only [D, if_neg hwS]
+    · simp only [D, ite_eq_right hwS]
       have hw' := (mem_or_conj_mem hS w).resolve_left hwS
       refine ⟨cLoc (conjSrc c w) (x : UA E n), (hmem x _).1 (hx _ hw'), ?_⟩
       exact (cLoc_eq_invT (x : UA E n) w).symm

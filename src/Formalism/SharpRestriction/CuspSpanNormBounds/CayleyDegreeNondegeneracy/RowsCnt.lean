@@ -5,44 +5,8 @@ public import Formalism.SharpRestriction.CuspSpanNormBounds.CongruenceAtSplitFro
 public import Formalism.SharpRestriction.CuspSpanNormBounds.AbsoluteAmplitudeSecondOfSource
 public import Formalism.SharpRestriction.CuspSpanNormBounds.AutLzFiniteOfLoop
 public import Formalism.SharpRestriction.CuspSpanNormBounds.LatticeGluingRadicals
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Topology.Sheaves.Init
 import Formalism.SharpRestriction.CuspSpanNormBounds.BruhatCellsKronecker.OwnEvIntro
-import Formalism.SharpRestriction.CuspSpanNormBounds.CayleyDegreeNondegeneracy.RowsSiz
 
 @[expose] public section
 
@@ -52,8 +16,6 @@ namespace Formalism.MainNotions.BridgeLemma₂
 
 open Formalism.BasicNotions Formalism.MainNotions Formalism.MainNotions.S Formalism.MainNotions.S.Lat Formalism.MainNotions.S.Cnt Formalism.HermitianLatticeCounting Formalism.MainNotions.BridgeLemma
 open scoped ENNReal
-
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 
 section Count
 
@@ -65,7 +27,17 @@ def pairToTriple (p : D.s.Pair u u') : Trip D ((Tu D u' : ℕ) : D.host.E) :=
 variable {X}
 
 theorem rows_isTermF (t : D.s.Term u u') (hG : D.s.Gterm t ≠ 0) : IsTermF D (X.abelian₂ t) (lf D Y.F0) (X.fl' t) := by
-  apply _root_.Formalism.MainNotions.BridgeLemma₂.rows_isTermF' <;> assumption
+  have hfl := Y.fl_eq t
+  unfold IsTermF IsTerm
+  refine ⟨⟨X.lift' t, ?_, ?_⟩, Y.frame_ok t⟩
+  · rw [← hfl]
+    exact X.adm t
+  · rw [← hfl]
+    intro h0
+    apply hG
+    have h := X.G_eq t
+    rw [h0] at h
+    exact (algebraMap _ _).injective (h.trans (map_zero _).symm)
 
 def wordSublatticeTripleBound (D : D7) (large₂ : SizeData₂ D) (u : D.what₂.Word) (C : ℝ) (Z' Z'' : GramM D) (s : ℕ) (De : ℝ) : ℝ :=
   (De / NT D u) ^ D.R.k * XiS D u (HHZ D large₂.sc.b C Z' * HHZ D large₂.sc.b C Z'') C s *

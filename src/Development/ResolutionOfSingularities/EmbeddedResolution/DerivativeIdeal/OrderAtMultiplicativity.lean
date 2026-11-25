@@ -16,58 +16,7 @@ public import Development.ResolutionOfSingularities.EmbeddedResolution.Derivativ
 public import Development.ResolutionOfSingularities.EmbeddedResolution.EtaleCoordinates.ChartRing
 public import Development.ResolutionOfSingularities.EmbeddedResolution.EtaleCoordinates.EtaleChartExistence
 public import Mathlib.RingTheory.Derivation.Lie
-import Development.ResolutionOfSingularities.EmbeddedResolution.EtaleCoordinates.SmoothCenterChart
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Tactic.TypeStar
-import Mathlib.Topology.Sheaves.Init
-import Mathlib.RingTheory.PiTensorProduct
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.RingTheory.Henselian
-import Mathlib.RingTheory.RegularLocalRing.Defs
-import Mathlib.RingTheory.SimpleRing.Principal
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.AlgebraicGeometry.Modules.Sheaf
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.ResolutionOfSingularities.EmbeddedResolution.DerivativeIdeal.MultiIndexDerivation, Development.ResolutionOfSingularities.EmbeddedResolution.DerivativeIdeal.LeadingForm, Development.ResolutionOfSingularities.EmbeddedResolution.EtaleCoordinates.AdaptedParameters, Development.ResolutionOfSingularities.EmbeddedResolution.DerivativeIdeal.OrderAtMultiplicativity
@@ -1254,6 +1203,46 @@ private theorem exists_local_parameters (k : Type*) [CommRing k] (A : Type*) [Co
     exact Submodule.le_of_le_smul_of_le_jacobson_bot (IsNoetherian.noetherian _)
       (IsLocalRing.jacobson_eq_maximalIdeal (⊥ : Ideal A) hbotne).ge hstep
 
+private theorem residue_det_ne_zero_of_basis_tmul {A : Type*} [CommRing A] [IsLocalRing A]
+    {M : Type*} [AddCommGroup M] [Module A M] {ι : Type*} [Fintype ι] [DecidableEq ι]
+    (bA : Module.Basis ι A M) (G : ι → M)
+    (B' : Module.Basis ι (IsLocalRing.ResidueField A) (IsLocalRing.ResidueField A ⊗[A] M))
+    (hB' : ∀ i, B' i = (1 : IsLocalRing.ResidueField A) ⊗ₜ[A] G i) :
+    IsLocalRing.residue A (bA.det G) ≠ 0 := by
+  classical
+  obtain ⟨bk, hbk⟩ : ∃ bk : Module.Basis ι (IsLocalRing.ResidueField A)
+      (IsLocalRing.ResidueField A ⊗[A] M),
+      ∀ i, bk i = (1 : IsLocalRing.ResidueField A) ⊗ₜ[A] bA i :=
+    ⟨Algebra.TensorProduct.basis (IsLocalRing.ResidueField A) bA, fun i => by simp⟩
+  have hkey : ∀ (c : A) (m : M), (1 : IsLocalRing.ResidueField A) ⊗ₜ[A] (c • m)
+      = IsLocalRing.residue A c • ((1 : IsLocalRing.ResidueField A) ⊗ₜ[A] m) := by
+    intro c m
+    have hA1 : (1 : IsLocalRing.ResidueField A) ⊗ₜ[A] (c • m)
+        = (c • (1 : IsLocalRing.ResidueField A)) ⊗ₜ[A] m := (TensorProduct.smul_tmul c 1 m).symm
+    have hA2 : c • (1 : IsLocalRing.ResidueField A) = IsLocalRing.residue A c := by
+      rw [Algebra.smul_def, mul_one, IsLocalRing.ResidueField.algebraMap_eq]
+    have hA3 : IsLocalRing.residue A c • ((1 : IsLocalRing.ResidueField A) ⊗ₜ[A] m)
+        = (IsLocalRing.residue A c * 1) ⊗ₜ[A] m := rfl
+    rw [hA1, hA2, hA3, mul_one]
+  have hmat : ∀ i j : ι, bk.repr (B' j) i = IsLocalRing.residue A (bA.toMatrix G i j) := by
+    intro i j
+    have hGj : B' j = ∑ l : ι, IsLocalRing.residue A (bA.repr (G j) l) • bk l := by
+      rw [hB' j]
+      conv_lhs => rw [← bA.sum_repr (G j)]
+      rw [TensorProduct.tmul_sum]
+      refine Finset.sum_congr rfl fun l _ => ?_
+      rw [hkey, hbk l]
+    rw [hGj, Module.Basis.toMatrix_apply]
+    simp only [Module.Basis.repr_sum_self]
+  have hdet : bk.det (⇑B') = IsLocalRing.residue A (bA.det G) := by
+    rw [Module.Basis.det_apply, Module.Basis.det_apply, RingHom.map_det]
+    congr 1
+    ext i j
+    simp only [Module.Basis.toMatrix_apply]
+    exact hmat i j
+  rw [← hdet]
+  exact (bk.isUnit_det B').ne_zero
+
 theorem exists_adapted_parameters (k : Type*) [CommRing k] (ι : Type*) [Fintype ι] [DecidableEq ι]
     (S : Type*) [CommRing S] [Algebra k S] [Algebra (MvPolynomial ι k) S]
     [IsScalarTower k (MvPolynomial ι k) S] [Algebra.FormallyEtale (MvPolynomial ι k) S]
@@ -1317,8 +1306,8 @@ theorem exists_adapted_parameters (k : Type*) [CommRing k] (ι : Type*) [Fintype
       (∀ x : {j : ι // ¬ (j ∈ Jst)}, w (x : ι) = s (e x)) := by
     refine ⟨fun j => if hj : j ∈ Jst then coord k ι S j else s (e ⟨j, hj⟩),
       fun j hj => ?_, fun x => ?_⟩
-    · exact dif_pos hj
-    · exact dif_neg x.2
+    · exact dite_eq_left hj
+    · exact dite_eq_right x.2
   have hbasisApply : ∀ x : Fin h ⊕ {j : ι // j ∈ Jst},
       B x = (1 : IsLocalRing.ResidueField A) ⊗ₜ[A]
         KaehlerDifferential.D k A (algebraMap S A (w (τ x))) := by
@@ -1330,7 +1319,7 @@ theorem exists_adapted_parameters (k : Type*) [CommRing k] (ι : Type*) [Fintype
       KaehlerDifferential.D k A (algebraMap S A (w i)) := by
     intro i
     rw [Module.Basis.reindex_apply, hbasisApply (τ.symm i), Equiv.apply_symm_apply]
-  have hdetne := residue_det_ne_zero_of_tmul_eq_basis (basisKaehler k ι A)
+  have hdetne := residue_det_ne_zero_of_basis_tmul (basisKaehler k ι A)
     (fun i : ι => KaehlerDifferential.D k A (algebraMap S A (w i))) (B.reindex τ) hB'G
   have hdetA : algebraMap S A ((basisKaehler k ι S).det
       (fun i : ι => KaehlerDifferential.D k S (w i)))

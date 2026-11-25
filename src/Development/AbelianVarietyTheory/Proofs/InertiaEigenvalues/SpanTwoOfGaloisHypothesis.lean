@@ -1,54 +1,10 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.CocycleFormsSpanOddResidueChar
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.IsDualDualRep
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IsPlaceOverMoveValCc
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.TameInertiaElementActsByScalar
 public import Development.AutomorphicArithmetic.CyclotomicBounds.CyclotomicOrders.ExistsCycZPowNeOne
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.PiTensorProduct
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.RingTheory.TotallySplit
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Topology.Sheaves.Init
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ContinuousAndResidualTrivComplexConj
 
 @[expose] public section
 
@@ -65,8 +21,17 @@ variable {G K : Type} [Group G] [Field K] {r : ℕ} (T : G →* Matrix (Fin r) (
 theorem coboundary_of_vanish (L : Subgroup G) (hL : ∀ h ∈ L, T h = 1) (z : G) (d : K) (hd : d ≠ 1)
     (hz : T z = d • (1 : Matrix (Fin r) (Fin r) K)) (hc : ∀ g, g * z * g⁻¹ * z⁻¹ ∈ L) (f : G → Fin r → K)
     (hf : ∀ g h, f (g * h) = f g + T g *ᵥ f h) (h0 : ∀ h ∈ L, f h = 0) : ∃ m, ∀ g, f g = T g *ᵥ m - m := by
-  intros
-  apply _root_.GlobalTheory.ResSel.SpanOddPf.cob_of_vanish <;> assumption
+  have hd' : d - 1 ≠ 0 := sub_ne_zero.mpr hd
+  refine ⟨(d - 1)⁻¹ • f z, fun g => ?_⟩
+  have e1 : f (g * z) = f (z * g) := by
+    have : g * z = (g * z * g⁻¹ * z⁻¹) * (z * g) := by group
+    rw [this, hf, h0 _ (hc g), hL _ (hc g), one_mulVec, zero_add]
+  rw [hf, hf, hz, smul_mulVec, one_mulVec] at e1
+  rw [mulVec_smul, ← smul_sub]
+  have e2 : T g *ᵥ f z - f z = (d - 1) • f g := by
+    rw [sub_smul, one_smul]
+    linear_combination (exp := 1) e1
+  rw [e2, smul_smul, inv_mul_cancel₀ hd', one_smul]
 
 theorem cocycle_conj (f : G → Fin r → K) (hf : ∀ g h, f (g * h) = f g + T g *ᵥ f h) (g h : G) (hh : T h = 1) :
     f (g * h * g⁻¹) = T g *ᵥ f h := by
@@ -223,7 +188,14 @@ theorem red_apply (i : X.Tw) (K : Type) [Field K] [Algebra (X.O0 i) K] (ρ : GE 
   simp [repOn, matAct, mulVec, dotProduct]
 
 theorem eps_cj (i : X.Tw) (g : GE N) : eps0 X i (cConj X g) = eps0 X i g := by
-  apply _root_.GlobalTheory.ResConjTriv.auxiliaryCharacter_complexConj_invariant <;> assumption
+  have e : MulSemiringAction.toRingAut (GE N) N.Om (cConj X g) =
+      (X.cc : RingAut N.Om) * MulSemiringAction.toRingAut (GE N) N.Om g * (X.cc : RingAut N.Om)⁻¹ := by
+    ext x; exact cConj_apply X g x
+  have : cycZ D.host.E N.Om (X.l i) (cConj X g) = cycZ D.host.E N.Om (X.l i) g := by
+    simp only [cycZ, MonoidHom.comp_apply]
+    rw [e, map_mul, map_mul, map_inv, mul_inv_cancel_comm]
+  simp only [eps0, MonoidHom.comp_apply]
+  rw [this]
 
 theorem spanTwo_of_galHyp : ∀ (D : Formalism.BasicNotions.D7) (N : NData D.R D.host D.what₂) (X : NTw D.R D.host D.what₂ D.LL0 N)
     (bkP : BKPh X) (i : X.Tw) (s : X.Sig i), GalHyp bkP i s → SpanTwo i s := by

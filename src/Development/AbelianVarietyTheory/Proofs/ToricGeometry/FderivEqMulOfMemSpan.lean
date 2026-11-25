@@ -50,7 +50,6 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.ThetaCore
 import Std.Tactic.BVDecide.Normalize.Prop
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.TaylorDiscriminants.ValAtLem
 
 @[expose] public section
 
@@ -80,7 +79,14 @@ theorem IsHolFamily.differentiableAt (h : IsHolFamily ex) {U : X.Opens} {z : E} 
 private theorem valAt'_resG {Y : Scheme.{0}} (x : Sp ℂ ⟶ Y) {U' V' : Y.Opens} (hle : V' ≤ U')
     (hx : ⊤ ≤ x ⁻¹ᵁ V') (g : Γ(Y, U')) :
     valAt' x V' (Y.presheaf.map (homOfLE hle).op g) = valAt' x U' g := by
-  apply _root_.ReciprocityTheory.ChartRestriction.G.TB.ValAt.valAt'_res <;> assumption
+  have hx' : ⊤ ≤ x ⁻¹ᵁ U' := hx.trans (fun p hp => hle hp)
+  unfold valAt'
+  rw [dite_eq_left hx, dite_eq_left hx']
+  unfold valAt
+  have key : Y.presheaf.map (homOfLE hle).op ≫ x.appLE V' ⊤ hx = x.appLE U' ⊤ hx' := by
+    exact Scheme.Hom.map_appLE x _ _
+  rw [← key]
+  rfl
 
 theorem IsHolFamily.fderiv_eq_zero (h : IsHolFamily ex) {U V : X.Opens} (hU : IsAffineOpen U) {z ξ : E}
     (hz : ⊤ ≤ ex z ⁻¹ᵁ U) (hV : ⊤ ≤ ex z ⁻¹ᵁ V)
@@ -135,17 +141,12 @@ theorem IsHolFamily.der_mul (h : IsHolFamily ex) {U : X.Opens} {z : E} (hz : ⊤
   rw [e]
   rw [fderiv_fun_mul (h.differentiableAt hz f) (h.differentiableAt hz f')]
   simp only [_root_.add_apply, _root_.smul_apply, smul_eq_mul]
-private theorem valAt'_constFn_of_section {Y : Scheme.{0}} (x : Sp ℂ ⟶ Y) (p : Y ⟶ Sp ℂ) (U : Y.Opens) (a : ℂ)
-    (hx : ⊤ ≤ x ⁻¹ᵁ U) (hp : x ≫ p = 𝟙 _) : valAt' x U (constFn p U a) = a := by
-  intros
-  apply _root_.GlobalTheory.valAt'_constFn <;> assumption
-
 theorem IsHolFamily.der_constFn (h : IsHolFamily ex) {U : X.Opens} {z : E} (hz : ⊤ ≤ ex z ⁻¹ᵁ U) (ξ : E)
     (p : X ⟶ Sp ℂ) (hp : ∀ w, ex w ≫ p = 𝟙 _) (a : ℂ) : h.der hz ξ (constFn p U a) = 0 := by
   rw [h.der_apply]
   have hev : (fun w => valAt' (ex w) U (constFn p U a)) =ᶠ[𝓝 z] fun _ => a := by
     filter_upwards [h.eventually hz] with w hw
-    exact valAt'_constFn_of_section (ex w) p U a hw (hp w)
+    exact GlobalTheory.valAt'_constFn (ex w) p (hp w) U a hw
   rw [hev.fderiv_eq]
   simp
 

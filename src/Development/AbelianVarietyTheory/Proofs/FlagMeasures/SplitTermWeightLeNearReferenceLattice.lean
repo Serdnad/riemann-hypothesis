@@ -5,7 +5,6 @@ public import Formalism.HermitianLattices.StatementMass
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.ExistsIntegerAddStarEqOneOfIsCMUnram
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.FlagPairDefiniteThetaLatticeLeFixedIndexBound
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.HermFramePairCommonUnipotentStabiliserSummary
-import all Development.AbelianVarietyTheory.Proofs.FlagMeasures.HermFramePairCommonUnipotentStabiliserSummary
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.InvVolEqInfMulSupAndMono
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.HermFramePairInnerLatticesUnimodularPrimitive
 public import Mathlib.NumberTheory.NumberField.Basic
@@ -867,7 +866,7 @@ omit [FiniteDimensional K V] [Module (𝓞 K) V] [IsScalarTower (𝓞 K) K V] in
 theorem ist_orth_Xa {n : ℕ} {b : Fin r} (hb : N.j ≤ b.val) (hn : n ≤ b.val) {x : V} (hx : x ∈ N.F.Xa n) :
     H.B (N.ist b) x = 0 := by
   have h : ∀ u ∈ N.F.Xa n, H.B u (N.ist b) = 0 := Formalism.HermitianLatticeCounting.P.perp_Xa N.F (fun c hc => by
-    rw [N.ist_e c b hb, if_neg]
+    rw [N.ist_e c b hb, ite_eq_right]
     rintro rfl
     omega)
   rw [← H.herm, h x hx, star_zero]
@@ -893,13 +892,13 @@ theorem exists_lead {Λ : Submodule (𝓞 K) V} (hF : IsFrame N.F Λ N.aa) {a : 
     rw [hy']
     exact sub_mem (Submodule.smul_mem _ _ (Formalism.HermitianLatticeCounting.P.e_mem_X N.F a)) (Formalism.HermitianLatticeCounting.P.Xa_le_X N.F _ hzX)
   · rw [hy', map_sub, map_smulₛₗ, ist_orth_Xa N ha le_rfl hzX, ← H.herm (N.F.e a.castSucc),
-      N.ist_e a a ha, if_pos rfl]
+      N.ist_e a a ha, ite_eq_left rfl]
     simp only [star_one, smul_eq_mul, mul_one, sub_zero]
     rw [starRingEnd_apply, star_star]
   · intro b hab
     have hb := ha.trans (hab' b hab)
     rw [hy', map_sub, map_smulₛₗ, ist_orth_Xa N hb (hab' b hab) hzX, ← H.herm (N.F.e a.castSucc),
-      N.ist_e a b hb, if_neg (ne_of_lt hab)]
+      N.ist_e a b hb, ite_eq_right (ne_of_lt hab)]
     simp
 private theorem exists_ne_zero_smul_mem_of_mem_span' {K V : Type} [Field K] [NumberField K] [StarRing K] [AddCommGroup V] [Module K V]
     [FiniteDimensional K V] [Module (𝓞 K) V] [IsScalarTower (𝓞 K) K V] {H : HermSpace K V} {r : ℕ}
@@ -1225,9 +1224,6 @@ theorem line_le {A : Submodule (𝓞 K) K} {v : V} {S : Submodule K V} (h : v �
   exact S.smul_mem t h
 
 omit [NumberField K] [Module (𝓞 K) V] [IsScalarTower (𝓞 K) K V] in
-alias e_mem_X := _root_.GlobalTheory.UnipStab.e_mem_X
-
-omit [NumberField K] [Module (𝓞 K) V] [IsScalarTower (𝓞 K) K V] in
 theorem lastVector_mem_jointSpan_left (F F' : FlagD H r) : F.z ∈ V0 F F' :=
   Submodule.mem_sup_right (Submodule.subset_span (by simp))
 
@@ -1235,8 +1231,8 @@ theorem normalForm_baseLattice_le_dualSpan_sup_line (N : NF H r) : N.P0 ≤ rs (
   unfold NF.P0
   refine sup_le (sup_le (sup_le (iSup_le fun a => line_le ?_) (iSup_le fun a => iSup_le fun _ => line_le ?_))
     (line_le ?_)) (iSup_le fun a => iSup_le fun ha => line_le ?_)
-  · exact Submodule.mem_sup_left (Submodule.mem_sup_left (Submodule.mem_sup_left (e_mem_X _ a)))
-  · exact Submodule.mem_sup_left (Submodule.mem_sup_left (Submodule.mem_sup_right (e_mem_X _ a)))
+  · exact Submodule.mem_sup_left (Submodule.mem_sup_left (Submodule.mem_sup_left (GlobalTheory.UnipStab.e_mem_X _ a)))
+  · exact Submodule.mem_sup_left (Submodule.mem_sup_left (Submodule.mem_sup_right (GlobalTheory.UnipStab.e_mem_X _ a)))
   · exact Submodule.mem_sup_left (lastVector_mem_jointSpan_left _ _)
   · exact Submodule.mem_sup_right (Submodule.subset_span ⟨a, ha, rfl⟩)
 
@@ -1353,7 +1349,16 @@ theorem inN_map_mem_of_le (F : FlagD H r) {g : V →ₗ[K] V} (hg : F.InN g) {S 
 
 theorem unipotent_map_mem_V0 (F F' : FlagD H r) {g : V →ₗ[K] V} (hg : F.InN g) (hg' : F'.InN g) :
     ∀ x ∈ V0 F F', g x ∈ V0 F F' := by
-  apply _root_.GlobalTheory.UnipStab.hermFramePairCommonUnipotent_maps_span_lemma_9 <;> assumption
+  have h1 := inN_map_mem_of_le F hg (S := V0 F F') (le_sup_left.trans le_sup_left)
+    (Submodule.mem_sup_right (Submodule.subset_span (by simp)))
+  have h2 := inN_map_mem_of_le F' hg' (S := V0 F F') (le_sup_right.trans le_sup_left)
+    (Submodule.mem_sup_right (Submodule.subset_span (by simp)))
+  have : V0 F F' ≤ (V0 F F').comap g := by
+    refine sup_le (sup_le h1.1 h2.1) (Submodule.span_le.2 ?_)
+    rintro _ (rfl | rfl)
+    · exact h1.2
+    · exact h2.2
+  exact fun x hx => this hx
 
 end
 

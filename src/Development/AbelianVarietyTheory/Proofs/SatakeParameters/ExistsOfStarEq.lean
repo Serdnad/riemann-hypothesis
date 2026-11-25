@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.TameCharacterValuesEqHeckeCharLocalValues
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ContinuousOfCongSet
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.MemDivsOfMem
 public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.CharacterValueAtT
@@ -8,47 +7,7 @@ public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.FinAf
 import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.HeckeCharacterUnramifiedAeAndExistsLevel
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.LocalIdeleSndSelf
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.MemZmuOfPowPred
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
 import ReciprocityTheory.NeutralLocalFields.LocalFieldComparison.HCFFromRecipA
 
@@ -465,7 +424,25 @@ theorem evP_toRInt (P : HeightOneSpectrum (𝓞 E)) (b : 𝓞 E) :
 
 theorem valued_lt_of_mem {P : HeightOneSpectrum (𝓞 E)} {w : RInt F E} (h : w ∈ P.asIdeal.map (toRInt F E)) :
     Valued.v (evP F P (w : AfE F E)) < 1 := by
-  first | exact _root_.GlobalTheory.TwistVal.valued_lt_of_mem | exact @_root_.GlobalTheory.TwistVal.valued_lt_of_mem | apply _root_.GlobalTheory.TwistVal.valued_lt_of_mem <;> assumption
+  have key : ∀ z ∈ P.asIdeal.map (toRInt F E), Valued.v (evP F P (z : AfE F E)) < 1 := by
+    intro z hz
+    induction hz using Submodule.span_induction with
+    | mem x hx =>
+      obtain ⟨p, hp, rfl⟩ := hx
+      rw [evP_toRInt, IsDedekindDomain.HeightOneSpectrum.algebraMap_adicCompletion, Function.comp_apply,
+        IsDedekindDomain.HeightOneSpectrum.valuedAdicCompletion_eq_valuation']
+      exact (IsDedekindDomain.HeightOneSpectrum.valuation_lt_one_iff_mem P p).mpr hp
+    | zero => simp
+    | add x y _ _ hx hy =>
+      rw [Subring.coe_add, map_add (f := _)]
+      exact lt_of_le_of_lt (Valued.v.map_add _ _) (max_lt hx hy)
+    | smul r x _ hx =>
+      rw [smul_eq_mul, Subring.coe_mul, map_mul, map_mul]
+      have hr : Valued.v (evP F P (r : AfE F E)) ≤ 1 := (mem_rInt_iff F E _).mp r.2 P
+      calc Valued.v (evP F P (r : AfE F E)) * Valued.v (evP F P (x : AfE F E))
+          ≤ 1 * Valued.v (evP F P (x : AfE F E)) := by gcongr
+        _ < 1 := by rw [one_mul]; exact hx
+  exact key w h
 
 theorem val_eq_one {P : HeightOneSpectrum (𝓞 E)} {b : 𝓞 E} (hb : b ∉ P.asIdeal) : P.valuation E (b : E) = 1 := by
   exact (IsDedekindDomain.HeightOneSpectrum.valuation_eq_one_iff_notMem P).mpr hb
@@ -737,7 +714,7 @@ theorem resChar_eq (h : Reads σ μ ξ) (ht : ∀ P, ξ.TameAt P) (P : HeightOne
   have hex := exists_isResChar h ht P
   have hIs := hex.choose_spec (P.under (𝓞 F)) rfl u a b hb hs hA hB
   have hv := (value_of_congr h ht (u := Units.map (RInt F E).subtype.toMonoidHom u) (y := (u : RInt F E)) rfl hbP hx hA hB).2
-  rw [Formalism.L2.DIV.resChar, dif_pos hex, ← hIs]
+  rw [Formalism.L2.DIV.resChar, dite_eq_left hex, ← hIs]
   exact hv
 
 theorem inf_eq_one (h : Reads σ μ ξ) (x : Eˣ) : ξ.inf x = 1 := by
@@ -931,7 +908,7 @@ theorem prod_twist (hX : X.Ok) (hsel : IsSel X sel)
     have hs : sel (P.under (𝓞 X.F)) ∈ QE sel (mu : Chr X.F X.E X.K) := by
       classical
       unfold QE
-      rw [dif_pos hfin]
+      rw [dite_eq_left hfin]
       exact Finset.mem_image.mpr ⟨_, hfin.mem_toFinset.mpr hq, rfl⟩
     have hu' : (sel (P.under (𝓞 X.F))).under (𝓞 X.F) = P.under (𝓞 X.F) := by
       exact HeightOneSpectrum.ext (hsel _)
@@ -965,7 +942,7 @@ theorem prod_muAt : ∀ {X : Fields} {Pr : Primes X} {R : Ranks} (Ch : Chars X P
     unfold muAt
     rw [GlobalTheory.LastSteps.locChar_unit _ _ (hunit P.1)]
     unfold LocE.unitV
-    rw [dif_pos (hunit P.1)]
+    rw [dite_eq_left (hunit P.1)]
   have hdis := disjoint_vGs_QE mu hPr hsel hS
   have hsplit : σ₀ (∏ P : rowSG Pr sel mu, muAt Ch sel mu cs j.1 P z) =
       (∏ w ∈ Pr.vGs, σ₀ ((chiP Ch w j.1 (hunit w).unit : X.Kˣ) : X.K)) *
@@ -976,8 +953,8 @@ theorem prod_muAt : ∀ {X : Fields} {Pr : Primes X} {R : Ranks} (Ch : Chars X P
       else (resChar (mu : Chr X.F X.E X.K) P)⁻¹) (hunit P).unit : X.Kˣ) : X.K)))]
     rw [show rowSG Pr sel mu = Pr.vGs ∪ QE sel (mu : Chr X.F X.E X.K) from rfl, Finset.prod_union hdis]
     congr 1
-    · exact Finset.prod_congr rfl (fun w hw => by rw [if_pos hw])
-    · exact Finset.prod_congr rfl (fun P hP => by rw [if_neg (Finset.disjoint_right.mp hdis hP)])
+    · exact Finset.prod_congr rfl (fun w hw => by rw [ite_eq_left hw])
+    · exact Finset.prod_congr rfl (fun P hP => by rw [ite_eq_right (Finset.disjoint_right.mp hdis hP)])
   have hzu : z * star z = 1 := hz
   let zu : X.Eˣ := ⟨z, star z, hz, (mul_comm _ _).trans hz⟩
   have hmu0 := hT.mu0 j
@@ -987,7 +964,7 @@ theorem prod_muAt : ∀ {X : Fields} {Pr : Primes X} {R : Ranks} (Ch : Chars X P
     have ha := hmu0.atg ⟨w, hw⟩ zu ⟨z, hzi⟩ (hunit w).unit rfl
       (by rw [IsUnit.unit_spec]; exact reduction_coe w ⟨z, hzi⟩)
     rw [ha]
-    simp only [chiP, chiAt, extChi, dif_pos hw, dif_pos j.2, Fin.eta, Units.val_inv_eq_inv_val, map_inv₀, inv_inv]
+    simp only [chiP, chiAt, extChi, dite_eq_left hw, dite_eq_left j.2, Fin.eta, Units.val_inv_eq_inv_val, map_inv₀, inv_inv]
   have hbP : ∀ P : HeightOneSpectrum (𝓞 X.E), (⟨z, hzi⟩ : 𝓞 X.E) ∉ P.asIdeal := fun P hb =>
     P.isPrime.ne_top (Ideal.eq_top_of_isUnit_mem _ hb ⟨⟨_, _, hbb, (mul_comm _ _).trans hbb⟩, rfl⟩)
   have hzv : ∀ P : HeightOneSpectrum (𝓞 X.E), P.valuation X.E (zu : X.E) = 1 := fun P =>

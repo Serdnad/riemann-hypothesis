@@ -1,6 +1,5 @@
 module
 
-import Development.WeilBound.ThetaLifts.LocalTheory.ConeShifts.PureCancel
 public import Development.WeilBound.ThetaLifts.LocalTheory.StandardValuations.SplitProd
 public import Development.WeilBound.ThetaLifts.LocalTheory.IsArchimedeanLocalEquivariantMap
 public import Development.WeilBound.CoreStatements.CompactAveragingSplitting.EigenvectorLifting.SplitDict
@@ -16,49 +15,10 @@ public import Development.WeilBound.ThetaLifts.LocalTheory.StandardValuations.Va
 public import Development.WeilBound.CoreStatements.LocallyConstantCoinvariants.LmOfLinBar
 import Development.WeilBound.CoreStatements.LocalThetaKernels.EvlLoc
 import GroundTheory.LocalFields.PadicLogSeries
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
 import Development.AbelianVarietyTheory.Definitions.Divisors.MatchingOfParts
 import Development.WeilBound.CoreStatements.CompactAveragingSplitting.EigenvectorLifting.VaceigenDual
-import Mathlib.Tactic.ENatToNat
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.WeilBound.ThetaLifts.LocalTheory.StandardValuations.LocalSplittingLinearSkew, Development.WeilBound.ThetaLifts.LocalTheory.StandardValuations.AdelicInclusionMapPlaceSection
@@ -79,8 +39,6 @@ open PositivityTheory.KCo PositivityTheory.ThK.SplitDict PositivityTheory.ThKG.L
 open GlobalTheory.Doubling (absE)
 open scoped TensorProduct
 
-attribute [local instance] GlobalTheory.LocalData.complRel GlobalTheory.LocalData.isLocalField
-
 variable {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] {σ : E →ₐ[F] E} {v : Pl F}
   {t : E →ₐ[F] Fv F v} {sec : Fv F v × Fv F v → AE F E}
 
@@ -91,8 +49,33 @@ open Classical Filter in
 theorem pure_cancel {κ : Type} [Fintype κ] {w : ∀ v : Pl F, (κ → Fv F v) → ℂ} (hne : ∀ v, w v ≠ 0)
     (hstd : ∀ᶠ v in cofinite, w v = Set.indicator {x | ∀ i, x i ∈ v.adicCompletionIntegers F} 1) (v : Pl F) {g : SInf F κ}
     (hg : g ≠ 0) {a b : (κ → Fv F v) → ℂ}
-    (h : GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.pure g (Function.update w v a) = GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.pure g (Function.update w v b)) : a = b :=
-  _root_.PositivityTheory.ThKG.Loc.Cone.Fin.pure_cancel hne hstd v hg h
+    (h : GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.pure g (Function.update w v a) = GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.pure g (Function.update w v b)) : a = b := by
+  have := PositivityTheory.ThKF.tensInj F κ w hne hstd {v} 2 ![1, -1] ![g, g] ![Function.update w v a, Function.update w v b]
+    (fun i u hu => by
+      have : u ≠ v := fun e => hu (Finset.mem_singleton.2 e)
+      fin_cases i <;> simp [Function.update_of_ne this]) (by simp [Fin.sum_univ_two, h])
+  obtain ⟨z, hz⟩ : ∃ z, g z ≠ 0 := by
+    by_contra hn
+    push Not at hn
+    exact hg (SchwartzMap.ext hn)
+  funext y
+  let y' : ∀ u : ({v} : Finset (Pl F)), κ → Fv F u := fun u => (Finset.mem_singleton.1 u.2).symm ▸ y
+  let m : MultilinearMap (RingHom.id ℂ) (fun u : ({v} : Finset (Pl F)) => (κ → Fv F u) → ℂ) ℂ :=
+    (MultilinearMap.mkPiAlgebra ℂ _ ℂ).compLinearMap fun u => LinearMap.proj (y' u)
+  let ez : SInf F κ →ₗ[ℂ] ℂ := ⟨⟨fun f => f z, fun _ _ => rfl⟩, fun _ _ => rfl⟩
+  have h2 := congrArg (TensorProduct.lift ((LinearMap.mul ℂ ℂ).compl₁₂ ez (PiTensorProduct.lift m))) this
+  have hm : ∀ c : (κ → Fv F v) → ℂ, m (fun u => Function.update w v c u) = c y := fun c => by
+    simp only [m, MultilinearMap.compLinearMap_apply, MultilinearMap.mkPiAlgebra_apply, LinearMap.proj_apply]
+    rw [Fintype.prod_eq_single (⟨v, Finset.mem_singleton_self v⟩ : ({v} : Finset (Pl F)))
+      fun u hu => absurd (Subtype.ext (Finset.mem_singleton.1 u.2)) hu]
+    simp [y']
+  simp only [Fin.sum_univ_two, map_add (f := _), map_smul, TensorProduct.lift.tmul, LinearMap.compl₁₂_apply, PiTensorProduct.lift.tprod,
+    Matrix.cons_val_zero, Matrix.cons_val_one, map_zero, LinearMap.mul_apply', hm] at h2
+  have h3 : g z * (a y - b y) = 0 := by
+    change (1 : ℂ) • (g z * a y) + (-1 : ℂ) • (g z * b y) = 0 at h2
+    simp only [smul_eq_mul] at h2
+    linear_combination h2
+  exact sub_eq_zero.1 ((mul_eq_zero.1 h3).resolve_left hz)
 
 theorem opF_eq {κ : Type} [Fintype κ] {T} {φ φ₁ : (κ → Fv F v) → ℂ} (hφ : φ ∈ SB _) (h₁ : φ₁ ∈ SB _) (h : Acts (evFin F v) T φ φ₁) :
     opF v T φ = φ₁ := by
@@ -286,9 +269,9 @@ theorem ext_single {k : Type} [Field k] (jr : Fin n₁ → Fin n) (jc : Fin d₁
     emb k jr * single i j s * (emb k jc)ᵀ = single (jr i) (jc j) s := by
   ext p q
   simp only [emb, Matrix.mul_apply, single_apply, ite_and, of_apply, transpose_apply, mul_ite, ite_mul, mul_one, one_mul, mul_zero, zero_mul,
-    Finset.sum_ite_eq, Finset.mem_univ, if_true]
+    Finset.sum_ite_eq, Finset.mem_univ, ite_true]
   rw [Finset.sum_eq_single j (fun x _ hx => by simp [hx.symm]) (by simp)]
-  simp only [eq_comm, if_true]
+  simp only [eq_comm, ite_true]
   split_ifs <;> rfl
 
 theorem ev_model [SecondCountableTopology (Fv F v)] [MeasurableSpace (Fv F v)] [BorelSpace (Fv F v)] {m : Measure (Fv F v)}
@@ -400,8 +383,6 @@ open PositivityTheory.KCo PositivityTheory.ThK.SplitDict PositivityTheory.ThKG.L
 open GlobalTheory.Doubling (absE)
 open scoped TensorProduct
 
-attribute [local instance] GlobalTheory.LocalData.complRel GlobalTheory.LocalData.isLocalField
-
 variable {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] {σ : E →ₐ[F] E} {v : Pl F}
   {t : E →ₐ[F] Fv F v} {sec : Fv F v × Fv F v → AE F E}
 
@@ -459,7 +440,7 @@ theorem plane {B : Base F E} (hσ : IsCMExt F E σ) {H : Plane E n n₁} {i₀ i
       have := congrArg t (hq (Pi.single k 1))
 
       simpa only [form, dotProduct, mulVec, transpose_apply, map_sum, map_mul, map_apply, map_zero, Pi.single_apply, mul_ite, mul_one,
-      mul_zero, Finset.sum_ite_eq', Finset.mem_univ, if_true] using this
+      mul_zero, Finset.sum_ite_eq', Finset.mem_univ, ite_true] using this
     have : ((b.1 * emb (Fv F w.1) sk)ᵀ *ᵥ (X.J.map t *ᵥ fun r => t (σ (q r)))) j = 0 := by
       rw [e1, transpose_mul, ← mulVec_mulVec, show (H.ι.map t)ᵀ *ᵥ _ = 0 from funext a, mulVec_zero]; rfl
     rw [transpose_mul, ← mulVec_mulVec, mulVec_mulVec _ b.1ᵀ] at this

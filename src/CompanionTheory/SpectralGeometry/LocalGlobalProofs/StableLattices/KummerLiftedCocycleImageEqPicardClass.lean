@@ -23,12 +23,12 @@ theorem sum_nc {R : Type} [AddCommMonoid R] (d b : Fin n) (g : Fin n → Fin n �
   · rw [Finset.sum_eq_single (⟨(d, b), h⟩ : NC ε)]
     · simp
     · intro j _ hj
-      rw [if_neg]
+      rw [ite_eq_right]
       rintro ⟨h1, h2⟩
       exact hj (Subtype.ext (Prod.ext h1.symm h2.symm))
     · simp
   · refine Finset.sum_eq_zero fun j _ => ?_
-    rw [if_neg]
+    rw [ite_eq_right]
     rintro ⟨h1, h2⟩
     exact h (by rw [h1, h2]; exact j.2)
 
@@ -148,26 +148,15 @@ theorem dd_yy (a c : Fin n) (j : NC ε) :
   · exact absurd (by rw [h2.1, h2.2]; exact j.2) h1
   · simp
 
-def vermaAction {n : ℕ} (ε : Fin n → Bool) :
-    Fin n → Fin n → Module.End ℂ (MvPolynomial (NC ε) ℂ) :=
+theorem verma : CompanionTheory.D.DSIC.Verma := by
+  intro n ε
   let u : Fin n → Fin n → Module.End ℂ (MvPolynomial (NC ε) ℂ) := fun a c => (if a = c then 1 else 0) - dd ε a c
   let v : Fin n → Fin n → Module.End ℂ (MvPolynomial (NC ε) ℂ) := fun a c => (if a = c then 1 else 0) + dd ε a c
-  fun c d => ∑ i : NC ε, yy i * (u i.1.1 c * v d i.1.2)
-
-theorem vermaAction_properties (n : ℕ) (ε : Fin n → Bool) :
-    GlRel (vermaAction ε) ∧
-      (∀ (i : NC ε) (f : MvPolynomial (NC ε) ℂ), vermaAction ε i.1.1 i.1.2 f = MvPolynomial.X i * f) ∧
-      ∀ a b f, MvPolynomial.constantCoeff (vermaAction ε a b f) = 0 := by
-  let u : Fin n → Fin n → Module.End ℂ (MvPolynomial (NC ε) ℂ) := fun a c => (if a = c then 1 else 0) - dd ε a c
-  let v : Fin n → Fin n → Module.End ℂ (MvPolynomial (NC ε) ℂ) := fun a c => (if a = c then 1 else 0) + dd ε a c
-  let M := fun c d => ∑ i : NC ε, yy i * (u i.1.1 c * v d i.1.2)
-  change GlRel M ∧ (∀ (i : NC ε) (f : MvPolynomial (NC ε) ℂ), M i.1.1 i.1.2 f = MvPolynomial.X i * f) ∧
-    ∀ a b f, MvPolynomial.constantCoeff (M a b f) = 0
   have hδ : ∀ (a c : Fin n) (T : Module.End ℂ (MvPolynomial (NC ε) ℂ)),
       Commute (if a = c then 1 else 0) T := by
     intro a c T
     split_ifs <;> simp
-  refine ⟨?_, ?_, ?_⟩
+  refine ⟨fun c d => ∑ i : NC ε, yy i * (u i.1.1 c * v d i.1.2), ?_, ?_, ?_⟩
   · intro c d e f
     refine glRel_abstract yy u v ?_ ?_ ?_ ?_ ?_ ?_ ?_ c d e f
     · intro i j
@@ -188,7 +177,7 @@ theorem vermaAction_properties (n : ℕ) (ε : Fin n → Bool) :
       simp only [v, add_mul, mul_add, (hδ a c (yy j)).eq]
       abel
     · intro d e
-      have h0 : ¬(ε d = true ∧ ε e = false) → dd ε d e = 0 := fun h => dif_neg h
+      have h0 : ¬(ε d = true ∧ ε e = false) → dd ε d e = 0 := fun h => dite_eq_right h
       simp only [u, v]
       generalize dd ε d e = T at *
       by_cases hde : d = e
@@ -196,7 +185,6 @@ theorem vermaAction_properties (n : ℕ) (ε : Fin n → Bool) :
         cases h : ε d <;> simp_all
       · cases h : ε d <;> cases h' : ε e <;> simp_all
   · intro i f
-    dsimp only [M]
     have hu : ∀ j : NC ε, u j.1.1 i.1.1 = if j.1.1 = i.1.1 then 1 else 0 := by
       intro j
       simp [u, dd, i.2.1]
@@ -212,10 +200,7 @@ theorem vermaAction_properties (n : ℕ) (ε : Fin n → Bool) :
       all_goals simp
     · simp
   · intro a b f
-    dsimp only [M]
-    simp [yy, LinearMap.sum_apply, map_sum]
 
-theorem verma : CompanionTheory.D.DSIC.Verma :=
-  fun n ε => ⟨vermaAction ε, vermaAction_properties n ε⟩
+    simp [yy, LinearMap.sum_apply, map_sum]
 
 end GlobalTheory.CompanionTheory.DSVerma

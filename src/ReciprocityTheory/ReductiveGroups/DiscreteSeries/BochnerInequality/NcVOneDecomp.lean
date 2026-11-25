@@ -24,7 +24,6 @@ import Mathlib.RingTheory.SimpleRing.Principal
 import Mathlib.Tactic.Lemma
 import Mathlib.Tactic.Linter.HaveILetI
 import ReciprocityTheory.ReductiveGroups.DiscreteSeries.BochnerInequality.BigRep
-import ReciprocityTheory.ReductiveGroups.DiscreteSeries.BochnerInequality.IsKUnitaryOfIsInfUnitary
 import Mathlib.Algebra.Order.Star.Real
 import Mathlib.RingTheory.WittVector.IsPoly
 import Mathlib.Tactic.ReduceModChar
@@ -46,12 +45,6 @@ namespace ReciprocityTheory.ChartRestriction.DS.BigCasimir
 open ReciprocityTheory.ChartRestriction.DS
 
 variable {n : ℕ}
-
-section AlgGen
-
-variable {X : Type*} [AddCommGroup X] [Module ℂ X] {ε : Fin n → Bool}
-
-end AlgGen
 
 section Slots
 
@@ -151,52 +144,36 @@ section OneBAux
 variable {M : Type*} [NormedAddCommGroup M] [InnerProductSpace ℂ M] {ε : Fin n → Bool}
   {E : Fin n → Fin n → Module.End ℂ M} {V : Submodule ℂ M} {lam : Fin n → ℝ}
 
-theorem crossOp_eig_gap_of_lt (hE : IsGlRep E) (hU : IsInfUnitary ε E) (hV : IsKIrrHW ε E (lowK ε lam) V)
+theorem crossOp_eig_gap_of (hE : IsGlRep E) (hU : IsInfUnitary ε E) (hV : IsKIrrHW ε E (lowK ε lam) V)
     (hmono : StrictAnti lam) {h : ℝ} (hh : GapAtLeast ε lam h)
-    (hbig : ∀ {r s : Fin n}, ε r ≠ ε s → (n : ℝ) - 1 < h) {θ : ℝ} {y : Big n 1 M}
+    (hgap : ∀ {r s : Fin n}, ε r ≠ ε s → (n : ℝ) - 1 < h) {θ : ℝ} {y : Big n 1 M}
     (hy : y ∈ Module.End.eigenspace (crossOp ε E 1 0) (θ : ℂ) ⊓ ncV ε V 1) (hy0 : y ≠ 0) :
     (0 < h - n + 1 ∧ h - n + 1 ≤ θ) ∨ (θ ≤ -h - 1 ∧ -h - 1 < 0) := by
   classical
   set S : Submodule ℂ (Big n 1 M) :=
     Module.End.eigenspace (crossOp ε E 1 0) (θ : ℂ) ⊓ ncV ε V 1 with hSdef
-  haveI hfdN : FiniteDimensional ℂ (ncV ε V 1) :=
-    finiteDimensional_ncV hV.1 1
-  haveI hfd : FiniteDimensional ℂ S :=
-    Submodule.finiteDimensional_of_le (inf_le_right : S ≤ ncV ε V 1)
-
+  have hfdN : FiniteDimensional ℂ (ncV ε V 1) := finiteDimensional_ncV hV.1 1
+  have hfd : FiniteDimensional ℂ S := Submodule.finiteDimensional_of_le (inf_le_right : S ≤ ncV ε V 1)
   have hS : IsKStableSub ε (bAct E 1) S := by
     intro a b hab v hv
     rw [Submodule.mem_inf] at hv ⊢
     refine ⟨?_, ncV_kStable hV.2.1 1 a b hab v hv.2⟩
     rw [Module.End.mem_eigenspace_iff] at hv ⊢
-    have hc : crossOp ε E 1 0 (bAct E 1 a b v) =
-        bAct E 1 a b (crossOp ε E 1 0 v) :=
+    have hc : crossOp ε E 1 0 (bAct E 1 a b v) = bAct E 1 a b (crossOp ε E 1 0 v) :=
       LinearMap.congr_fun (crossOp_comm hE 1 0 hab) v
     rw [hc, hv.1, map_smul]
-  have hne : S ≠ ⊥ := by
-    intro h0
-    apply hy0
-    have hyS : y ∈ S := hy
-    rw [h0] at hyS
-    exact (Submodule.mem_bot ℂ).1 hyS
-
+  have hne : S ≠ ⊥ := fun h0 => hy0 ((Submodule.mem_bot ℂ).1 (h0 ▸ hy))
   obtain ⟨w, hwS, hw0, μ, hμ⟩ :=
-    exists_khw (bAct_isGlRep hE 1)
-      (bAct_isKUnitary hU 1) hfd hS hne
+    exists_khw (bAct_isGlRep hE 1) (bAct_isKUnitary hU 1) hfd hS hne
   have hwS' := Submodule.mem_inf.1 hwS
-  obtain ⟨r, s, hrs, hμeq, h2⟩ :=
-    crossOp_khw hE hU hV hwS'.2 hw0 hμ
+  obtain ⟨r, s, hrs, hμeq, h2⟩ := crossOp_khw hE hU hV hwS'.2 hw0 hμ
   have hθw : crossOp ε E 1 0 w = (θ : ℂ) • w := Module.End.mem_eigenspace_iff.1 hwS'.1
   rw [hθw, smul_smul] at h2
   have hc : ((2 : ℂ) * (θ : ℂ)) =
-      ((casValK ε μ - n -
-        casValK ε (lowK ε lam) : ℝ) : ℂ) :=
-    smul_left_injective ℂ hw0 h2
-  have hcR : 2 * θ = casValK ε μ - n -
-      casValK ε (lowK ε lam) := by
-    exact_mod_cast hc
+      ((casValK ε μ - n - casValK ε (lowK ε lam) : ℝ) : ℂ) := smul_left_injective ℂ hw0 h2
+  have hcR : 2 * θ = casValK ε μ - n - casValK ε (lowK ε lam) := by exact_mod_cast hc
   subst hμeq
-  have hgap := hbig hrs
+  have hgap' := hgap hrs
   have hn0 : (0 : ℝ) ≤ n := Nat.cast_nonneg n
   have hne' : r ≠ s := fun h => hrs (congrArg ε h)
   rcases lt_or_gt_of_ne hne' with hlt | hgt
@@ -212,7 +189,7 @@ theorem crossOp_eig_gap (hE : IsGlRep E) (hU : IsInfUnitary ε E) (hV : IsKIrrHW
     (hbig : (n : ℝ) * (pOf ε : ℝ) * (qOf ε : ℝ) + 1 < h) {θ : ℝ} {y : Big n 1 M}
     (hy : y ∈ Module.End.eigenspace (crossOp ε E 1 0) (θ : ℂ) ⊓ ncV ε V 1) (hy0 : y ≠ 0) :
     (0 < h - n + 1 ∧ h - n + 1 ≤ θ) ∨ (θ ≤ -h - 1 ∧ -h - 1 < 0) :=
-  crossOp_eig_gap_of_lt hE hU hV hmono hh (fun hrs => (gap_gt hrs hbig).2) hy hy0
+  crossOp_eig_gap_of hE hU hV hmono hh (fun hrs => (gap_gt hrs hbig).2) hy hy0
 
 end OneBAux
 
@@ -240,11 +217,11 @@ section OneB
 variable {M : Type*} [NormedAddCommGroup M] [InnerProductSpace ℂ M] {ε : Fin n → Bool}
   {E : Fin n → Fin n → Module.End ℂ M} {V : Submodule ℂ M} {lam : Fin n → ℝ}
 
-theorem ncV_one_decomp_of_lt (hE : IsGlRep E) (hU : IsInfUnitary ε E) (hV : IsKIrrHW ε E (lowK ε lam) V)
+theorem ncV_one_decomp_of (hE : IsGlRep E) (hU : IsInfUnitary ε E) (hV : IsKIrrHW ε E (lowK ε lam) V)
     (hmono : StrictAnti lam) {h : ℝ} (hh : GapAtLeast ε lam h)
-    (hbig : ∀ {r s : Fin n}, ε r ≠ ε s → (n : ℝ) - 1 < h) {x : Big n 1 M} (hx : x ∈ ncV ε V 1) :
+    (hgap : ∀ {r s : Fin n}, ε r ≠ ε s → (n : ℝ) - 1 < h) {x : Big n 1 M} (hx : x ∈ ncV ε V 1) :
     ∃ xm ∈ Wm ε E V, ∃ xp ∈ Wp ε E V, x = xm + xp := by
-  haveI : FiniteDimensional ℂ (ncV ε V 1) := finiteDimensional_ncV hV.1 1
+  have : FiniteDimensional ℂ (ncV ε V 1) := finiteDimensional_ncV hV.1 1
   have hstab : ∀ y ∈ ncV ε V 1, crossOp ε E 1 0 y ∈ ncV ε V 1 :=
     fun y hy => crossOp_mem_ncV hV.2.1 1 0 hy
   let T : Module.End ℂ (ncV ε V 1) := (crossOp ε E 1 0).restrict hstab
@@ -269,7 +246,7 @@ theorem ncV_one_decomp_of_lt (hE : IsGlRep E) (hU : IsInfUnitary ε E) (hV : IsK
     have hyN : (y : Big n 1 M) ∈ Module.End.eigenspace (crossOp ε E 1 0) ((μ.re : ℝ) : ℂ) ⊓ ncV ε V 1 :=
       ⟨Module.End.mem_eigenspace_iff.2 hCy, y.2⟩
     have hy0' : (y : Big n 1 M) ≠ 0 := fun h => hy0 (Subtype.ext h)
-    rcases crossOp_eig_gap_of_lt hE hU hV hmono hh hbig hyN hy0' with ⟨h1, h2⟩ | ⟨h1, h2⟩
+    rcases crossOp_eig_gap_of hE hU hV hmono hh hgap hyN hy0' with ⟨h1, h2⟩ | ⟨h1, h2⟩
     · refine ⟨0, zero_mem _, y, ?_, by simp⟩
       unfold Wp
       exact Submodule.mem_iSup_of_mem μ.re (Submodule.mem_iSup_of_mem (by linarith) hyN)
@@ -285,11 +262,12 @@ theorem ncV_one_decomp (hE : IsGlRep E) (hU : IsInfUnitary ε E) (hV : IsKIrrHW 
     (hmono : StrictAnti lam) {h : ℝ} (hh : GapAtLeast ε lam h)
     (hbig : (n : ℝ) * (pOf ε : ℝ) * (qOf ε : ℝ) + 1 < h) {x : Big n 1 M} (hx : x ∈ ncV ε V 1) :
     ∃ xm ∈ Wm ε E V, ∃ xp ∈ Wp ε E V, x = xm + xp :=
-  ncV_one_decomp_of_lt hE hU hV hmono hh (fun hrs => (gap_gt hrs hbig).2) hx
+  ncV_one_decomp_of hE hU hV hmono hh
+    (fun hrs => (gap_gt hrs hbig).2) hx
 
-theorem Wm_khw_of_lt (hE : IsGlRep E) (hU : IsInfUnitary ε E) (hV : IsKIrrHW ε E (lowK ε lam) V)
+theorem Wm_khw_of (hE : IsGlRep E) (hU : IsInfUnitary ε E) (hV : IsKIrrHW ε E (lowK ε lam) V)
     (hmono : StrictAnti lam) {h : ℝ} (hh : GapAtLeast ε lam h)
-    (hbig : ∀ {r s : Fin n}, ε r ≠ ε s → (n : ℝ) - 1 < h) {x : Big n 1 M} (hx : x ∈ Wm ε E V) (hx0 : x ≠ 0) {ν : Fin n → ℝ}
+    (hgap : ∀ {r s : Fin n}, ε r ≠ ε s → (n : ℝ) - 1 < h) {x : Big n 1 M} (hx : x ∈ Wm ε E V) (hx0 : x ≠ 0) {ν : Fin n → ℝ}
     (hν : IsKHWVec ε (bAct E 1) ν x) :
     ∃ a b : Fin n, a < b ∧ ε a ≠ ε b ∧ ν = lowK ε lam - root a b := by
   have hxN := Wm_le_ncV hx
@@ -297,7 +275,7 @@ theorem Wm_khw_of_lt (hE : IsGlRep E) (hU : IsInfUnitary ε E) (hV : IsKIrrHW ε
   have hne : r ≠ s := fun h => hrs (h ▸ rfl)
   rcases lt_or_gt_of_ne hne with hlt | hlt
   · exfalso
-    have hgap := hbig hrs
+    have hgap' := hgap hrs
     have hcpos := crossVal_pos hmono hh hlt hrs
     rw [← hν'] at hcpos
     have hCx : crossOp ε E 1 0 x =
@@ -305,10 +283,17 @@ theorem Wm_khw_of_lt (hE : IsGlRep E) (hU : IsInfUnitary ε E) (hV : IsKIrrHW ε
       calc crossOp ε E 1 0 x = (1 / 2 : ℂ) • ((2 : ℂ) • crossOp ε E 1 0 x) := by
             rw [smul_smul]; norm_num
         _ = _ := by rw [hC2, smul_smul]; congr 1; push_cast; ring
-    have hxP : x ∈ Wp ε E V :=
-      Submodule.mem_iSup_of_mem _ (Submodule.mem_iSup_of_mem (by linarith)
-        (Submodule.mem_inf.2 ⟨Module.End.mem_eigenspace_iff.2 hCx, hxN⟩))
-    exact hx0 (inner_self_eq_zero.1 (Wm_perp_Wp hU hx hxP))
+    have horth : ∀ y ∈ Wm ε E V, inner ℂ y x = 0 := by
+      intro y hy
+      unfold Wm at hy
+      refine Submodule.iSup_induction _ (motive := fun y => inner ℂ y x = 0) hy ?_ (inner_zero_left _)
+        (fun a b ha hb => by rw [inner_add_left, ha, hb, add_zero])
+      intro θ y hy
+      refine Submodule.iSup_induction _ (motive := fun y => inner ℂ y x = 0) hy ?_ (inner_zero_left _)
+        (fun a b ha hb => by rw [inner_add_left, ha, hb, add_zero])
+      intro hθ y hy
+      exact inner_crossOp_eig_eq_zero hU (ne_of_lt (by linarith)) (Module.End.mem_eigenspace_iff.1 hy.1) hCx
+    exact hx0 (inner_self_eq_zero.1 (horth x hx))
   · refine ⟨s, r, hlt, fun h => hrs h.symm, ?_⟩
     rw [hν']
     unfold root
@@ -319,11 +304,12 @@ theorem Wm_khw (hE : IsGlRep E) (hU : IsInfUnitary ε E) (hV : IsKIrrHW ε E (lo
     (hbig : (n : ℝ) * (pOf ε : ℝ) * (qOf ε : ℝ) + 1 < h) {x : Big n 1 M} (hx : x ∈ Wm ε E V) (hx0 : x ≠ 0) {ν : Fin n → ℝ}
     (hν : IsKHWVec ε (bAct E 1) ν x) :
     ∃ a b : Fin n, a < b ∧ ε a ≠ ε b ∧ ν = lowK ε lam - root a b :=
-  Wm_khw_of_lt hE hU hV hmono hh (fun hrs => (gap_gt hrs hbig).2) hx hx0 hν
+  Wm_khw_of hE hU hV hmono hh
+    (fun hrs => (gap_gt hrs hbig).2) hx hx0 hν
 
-theorem Wp_bound_of_lt (hE : IsGlRep E) (hU : IsInfUnitary ε E) (hV : IsKIrrHW ε E (lowK ε lam) V)
+theorem Wp_bound_of (hE : IsGlRep E) (hU : IsInfUnitary ε E) (hV : IsKIrrHW ε E (lowK ε lam) V)
     (hmono : StrictAnti lam) {h : ℝ} (hh : GapAtLeast ε lam h)
-    (hbig : ∀ {r s : Fin n}, ε r ≠ ε s → (n : ℝ) - 1 < h) {x : Big n 1 M} (hx : x ∈ Wp ε E V) :
+    (hgap : ∀ {r s : Fin n}, ε r ≠ ε s → (n : ℝ) - 1 < h) {x : Big n 1 M} (hx : x ∈ Wp ε E V) :
     2 * (h - n + 1) * ‖x‖ ^ 2 ≤ 2 * RCLike.re (inner ℂ (crossOp ε E 1 0 x) x) := by
   have key : ∀ s : Finset ℝ, ∀ x ∈ ⨆ θ ∈ s, ⨆ (_ : 0 < θ),
       Module.End.eigenspace (crossOp ε E 1 0) (θ : ℂ) ⊓ ncV ε V 1,
@@ -363,7 +349,7 @@ theorem Wp_bound_of_lt (hE : IsGlRep E) (hU : IsInfUnitary ε E) (hV : IsKIrrHW 
         have hy' : (h - n + 1) * ‖y‖ ^ 2 ≤ a * ‖y‖ ^ 2 := by
           by_cases hy0 : y = 0
           · simp [hy0]
-          · rcases crossOp_eig_gap_of_lt hE hU hV hmono hh hbig hy hy0 with ⟨-, h2⟩ | ⟨h2, h3⟩
+          · rcases crossOp_eig_gap_of hE hU hV hmono hh hgap hy hy0 with ⟨-, h2⟩ | ⟨h2, h3⟩
             · exact mul_le_mul_of_nonneg_right h2 (sq_nonneg _)
             · exfalso; linarith
         rw [hnorm, hre]
@@ -380,7 +366,8 @@ theorem Wp_bound (hE : IsGlRep E) (hU : IsInfUnitary ε E) (hV : IsKIrrHW ε E (
     (hmono : StrictAnti lam) {h : ℝ} (hh : GapAtLeast ε lam h)
     (hbig : (n : ℝ) * (pOf ε : ℝ) * (qOf ε : ℝ) + 1 < h) {x : Big n 1 M} (hx : x ∈ Wp ε E V) :
     2 * (h - n + 1) * ‖x‖ ^ 2 ≤ 2 * RCLike.re (inner ℂ (crossOp ε E 1 0 x) x) :=
-  Wp_bound_of_lt hE hU hV hmono hh (fun hrs => (gap_gt hrs hbig).2) hx
+  Wp_bound_of hE hU hV hmono hh
+    (fun hrs => (gap_gt hrs hbig).2) hx
 
 end OneB
 

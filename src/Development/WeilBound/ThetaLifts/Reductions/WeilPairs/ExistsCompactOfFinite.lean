@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.TwistedOperators.AdjEqZeroOfSymplO
 public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.WeilTensorModels
 public import Formalism.LocalToGlobal.IndefiniteReal.DatumF
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.DoubledDarbouxCoordsCompat
@@ -12,48 +11,9 @@ public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsHalfAb
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.RationalMatricesDiscreteCocompactAdelicMatrixSpa
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SplitPlaceThetaFunctionVacuumConjugatePlace
 public import Mathlib.Topology.Baire.LocallyCompactRegular
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.HaveILetI
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Topology.Sheaves.Init
 import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ThetaFunctionHeisenbergInvariant
 import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.LcscAdelicUnitaryGroup
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
 import Mathlib.Tactic.Linter.Style
 import Mathlib.Topology.Algebra.Group.OpenMapping
 import Mathlib.Topology.MetricSpace.Ultra.Pi
@@ -83,15 +43,35 @@ theorem trace_one_tmul {F E R : Type} [Field F] [Field E] [Algebra F E] [FiniteD
 
 theorem eq_zero_of_trace_mul {F E R : Type} [Field F] [Field E] [Algebra F E] [FiniteDimensional F E] [Algebra.IsSeparable F E] [CommRing R]
     [Algebra F R] (m : R ⊗[F] E) (h : ∀ z : R ⊗[F] E, Algebra.trace R (R ⊗[F] E) (m * z) = 0) : m = 0 := by
-  apply _root_.GlobalTheory.UnipMean.eq_zero_of_trace_mul <;> assumption
+  let b := Module.finBasis F E
+  let d := (Algebra.traceForm F E).dualBasis (traceForm_nondegenerate F E) b
+  let bA := Algebra.TensorProduct.basis R b
+  have key : ∀ j, bA.repr m j = 0 := by
+    intro j
+    have hj := h ((1 : R) ⊗ₜ[F] d j)
+
+    rw [← bA.sum_repr m, Finset.sum_mul, map_sum] at hj
+    rw [← hj, Finset.sum_eq_single j]
+    · rw [Algebra.TensorProduct.basis_apply, smul_mul_assoc, map_smul, Algebra.TensorProduct.tmul_mul_tmul, one_mul,
+        trace_one_tmul, smul_eq_mul]
+      have := (Algebra.traceForm F E).apply_dualBasis_left (traceForm_nondegenerate F E) b j j
+      rw [Algebra.traceForm_apply, mul_comm] at this
+      rw [this]; simp
+    · intro i _ hij
+      rw [Algebra.TensorProduct.basis_apply, smul_mul_assoc, map_smul, Algebra.TensorProduct.tmul_mul_tmul, one_mul,
+        trace_one_tmul, smul_eq_mul]
+      have := (Algebra.traceForm F E).apply_dualBasis_left (traceForm_nondegenerate F E) b j i
+      rw [Algebra.traceForm_apply, mul_comm] at this
+      rw [this, ite_eq_right hij, map_zero, mul_zero]
+    · intro hj'; exact absurd (Finset.mem_univ j) hj'
+  exact bA.repr.injective (by ext j; simp [key j])
 
 theorem trace_pairing_nondeg : ∀ (F E : Type) [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] (ψ : AddChar (AF F) ℂ),
     IsStd ψ → ∀ m : AEF F E, m ≠ 0 → ∃ z : AEF F E, ψ (Algebra.trace (AF F) (AEF F E) (m * z)) ≠ 1 := by
   intro F E _ _ _ _ _ ψ hψ m hm
   haveI : FiniteDimensional F E := Module.Finite.of_restrictScalars_finite ℚ F E
   haveI : Algebra.IsSeparable F E := Algebra.IsAlgebraic.isSeparable_of_perfectField
-  by_contra hne
-  push_neg at hne
+  by_contra! hne
   apply hm
   refine eq_zero_of_trace_mul m fun z => ?_
   apply GlobalTheory.DiagNonvan.eq_zero_of_psi_mul hψ
@@ -277,7 +257,7 @@ theorem exists_compact_of_finite {Y T : Type} [AddCommGroup Y] [TopologicalSpace
   let r : T → Y := fun t => if ht : t ∈ φ '' A then Classical.choose ht else 0
   have hr : ∀ t ∈ φ '' A, φ (r t) = t := by
     intro t ht
-    simp only [r, dif_pos ht]
+    simp only [r, dite_eq_left ht]
     exact (Classical.choose_spec ht).2
   refine ⟨⋃ t ∈ φ '' A, (fun k => r t + k) '' K₀, hfin.isCompact_biUnion fun t _ => hK.image (continuous_const.add continuous_id), ?_⟩
   intro y hy

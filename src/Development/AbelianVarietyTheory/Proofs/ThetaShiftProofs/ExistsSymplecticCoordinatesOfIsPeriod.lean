@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Statements.ThetaLevelCharacters.MemThetaLevelCharDimZero
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.IsHolPeriods
 public import ReciprocityTheory.ThetaQuasiPeriods.PeriodLattice
 public import Development.AbelianVarietyTheory.Proofs.CovolumeBounds.DualRestrictSurjectiveOfIsTorsionFreeQuotient
@@ -9,51 +8,9 @@ public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.ExistsEqC
 public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.HolomorphicHomDetermined
 public import Development.AbelianVarietyTheory.Proofs.ToricGeometry.LevelThreeSeparatesPoints
 public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.DifferentiableOnLeftInverse
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
 import Mathlib.AlgebraicTopology.FundamentalGroupoid.SimplyConnected
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
 import Mathlib.Analysis.Convex.Contractible
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
 import Mathlib.RingTheory.TotallySplit
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
 import ReciprocityTheory.ThetaQuasiPeriods.Transl
 
 @[expose] public section
@@ -125,8 +82,18 @@ variable {g : ℕ}
 theorem thetaChar_eq_theta_re (τ : Matrix (Fin g) (Fin g) ℂ) {a b : Fin g → ℂ} (ha : ∀ i, a i = 0 ∨ a i = 1 / 2)
     (hb : ∀ i, b i = 0 ∨ b i = 1 / 2) :
     thetaChar τ a b = fun z => theta (fun i => (a i).re) (fun i => (b i).re) z τ := by
-  intros
-  apply _root_.GlobalTheory.TorusAlg.thetaChar_eq_theta <;> assumption
+  have hre : ∀ {a : Fin g → ℂ}, (∀ i, a i = 0 ∨ a i = 1 / 2) → ofRealVec (fun i => (a i).re) = a := fun {a} ha => by
+    funext i
+    rcases ha i with h | h <;> simp [ofRealVec, h]
+  have key : ∀ a b : Fin g → ℝ, thetaChar τ (ofRealVec a) (ofRealVec b) = fun z => theta a b z τ := fun a b => by
+    funext z
+    unfold thetaChar theta thetaTerm eC
+    refine tsum_congr fun n => ?_
+    have e1 : ((fun i => (n i : ℂ)) + ofRealVec a) = shiftVec a n := rfl
+    rw [e1]
+    congr 1
+    ring
+  rw [← key, hre ha, hre hb]
 
 theorem apply_eq_of_period_matrix (Q : (Fin g ⊕ Fin g → ℤ) →+ (Fin g → ℂ)) (τ : Matrix (Fin g) (Fin g) ℂ)
     (hQ : ∀ k, Q (Pi.single (.inl k) 1) = Pi.single k 1 ∧ Q (Pi.single (.inr k) 1) = τ *ᵥ Pi.single k 1)

@@ -1,6 +1,5 @@
 module
 
-import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ExistsGermSystemStatement
 public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.FBIdAd
 public import Development.AutomorphicSpectrum.Definitions.CommutativeAlgebra.GermComp1ZeroPointLeft
 public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.ToFirst
@@ -9,46 +8,7 @@ public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.FrRatio
 public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.GermBPf
 import Formalism.SharpRestriction.Divisibility.GeneratorPowers.GermDJet
 import Formalism.SharpRestriction.Divisibility.GeneratorPowers.ThetaSwapFirstTwo
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.CubicalLawRight
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.LBPull
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.PullFEPf
@@ -62,7 +22,6 @@ namespace PositivityTheory.HtPt.Cd
 open AlgebraicGeometry CategoryTheory Limits MonoidalCategory CartesianMonoidalCategory MonObj NumberField
 open ReciprocityTheory.ChartRestriction.G ReciprocityTheory.ChartRestriction.G.Semi ReciprocityTheory.ChartRestriction.G.Geo.Tor Formalism.L2.Pj Formalism.MainNotions.ModuliIntegralCharts.H1 GlobalTheory.CompanionTheory.Ar.Crv GlobalTheory.CompanionTheory.Ar.Conj
 open scoped CategoryTheory.Obj
-attribute [local instance] Over.cartesianMonoidalCategory
 
 section Gen
 open ReciprocityTheory.ChartRestriction.G.Out ReciprocityTheory.ChartRestriction.G.DVR ReciprocityTheory.ChartRestriction.G.TB.Canon Formalism.MainNotions.ModuliIntegralCharts.H1.GermD Formalism.MainNotions.ModuliIntegralCharts.H1.FBIdAd
@@ -104,7 +63,29 @@ theorem PP_inj {u v : Q S d n} (h : ∀ m, PP m g.x u = PP m g.x v) : u = v := b
   rwa [jQ_X, jQ_X] at e
 
 theorem exists_coord : ∃ φ : Q S d 1, ∀ m, g₂.x m = PP m g.x φ := by
-  apply _root_.PositivityTheory.Xgn.GermSystem.exists_coord <;> assumption
+  choose χ hχ using fun m => (coord_aug g (jetAug : Jet S (Fin 1 × Fin d) m →ₐ[S] S) (ker_aug_pow _ m) (g₂.x m)
+    (g₂.chart.zero m)).exists
+  have tr : ∀ m, (jetAug : Jet S (Fin 1 × Fin d) m →ₐ[S] S).comp jetTrunc = jetAug := fun m =>
+    jet_hom_ext fun s => by rw [AlgHom.comp_apply, jetTrunc_mk, GermB.jetAug_X, GermB.jetAug_X]
+  have hc : ∀ m, (jetTrunc : Jet S (Fin 1 × Fin d) (m + 1) →ₐ[S] _).comp (χ (m + 1)) = (χ m).comp jetTrunc := fun m => by
+    refine (coord_aug g (m := m + 1) (jetAug : Jet S (Fin 1 × Fin d) m →ₐ[S] S)
+      (le_bot_iff.1 ((Ideal.pow_le_pow_right (Nat.le_succ _)).trans (ker_aug_pow _ m).le)) (g₂.x m) (g₂.chart.zero m)).unique ⟨?_, ?_⟩ ⟨?_, ?_⟩
+    · rw [← AlgHom.comp_assoc, tr, (hχ (m + 1)).1]
+    · rw [← homAt_comp, Category.assoc, ← (hχ (m + 1)).2, g₂.chart.trunc]
+    · rw [← AlgHom.comp_assoc, (hχ m).1, tr]
+    · rw [← homAt_comp, Category.assoc, g.chart.trunc, ← (hχ m).2]
+  choose φ hφ using fun i : Fin d => exists_ps_of_jets
+    (fun m => χ m (Ideal.Quotient.mk _ (MvPolynomial.X ((0 : Fin 1), i)))) (fun m => AlgHom.congr_fun (hc m) _)
+  have h0 : ∀ i, MvPowerSeries.constantCoeff (φ i) = 0 := fun i => by
+    rw [← aug_psJet 0, hφ, ← AlgHom.comp_apply, (hχ 0).1, GermB.jetAug_X]
+  refine ⟨⟨φ, h0⟩, fun m => (hχ m).2.trans ?_⟩
+  rw [PP]
+  congr 2
+  refine jet_hom_ext fun s => ?_
+  obtain ⟨j, s⟩ := s
+  obtain rfl := Subsingleton.elim j 0
+  rw [jQ_X]
+  exact (hφ s m).symm
 
 variable {g g₂} {φ : Q S d 1} (hφ : ∀ m, g₂.x m = PP m g.x φ)
 include hφ
@@ -179,7 +160,20 @@ theorem exists_dA (hs : ∀ a : 𝓞 E, star a = H.bar a) (g : GermAt t x d) (a 
         (val₂ wL y J (PP m g.x u) (PP m g.x v) * ee g.x g.e y J (ac (AQ g.B.A a) u) v *
           (ee g.x g.e y J u (ac (AQ g.B.A (star a)) v))⁻¹).val) ∧
       ∀ {n m} {y : (jOG x d m n).left} {J}, Good t.PP.L y J → val₂ wL y J (1 : jOG x d m n ⟶ t.G) 1 = 1 := by
-  apply _root_.PositivityTheory.Xgn.GermSystem.exists_dA <;> assumption
+  obtain ⟨wL, hw, hU⟩ := g.frame.ad a
+  have dA : ∀ {n m} {y : (jOG x d m n).left} {J}, Good t.PP.L y J → ∀ u v : Q S d n, VV m y (E2 (g.B.ad a) u v) =
+        (val₂ wL y J (PP m g.x u) (PP m g.x v) * ee g.x g.e y J (ac (AQ g.B.A a) u) v *
+          (ee g.x g.e y J u (ac (AQ g.B.A (star a)) v))⁻¹).val := fun {n m y J} hJ u v => by
+    obtain ⟨U, h₁, h₂⟩ := hU m
+    rw [hs]; exact dict_ad hJ a wL U h₁ h₂ u v
+  refine ⟨wL, hw, dA, fun {n m y J} hJ => ?_⟩
+  have k := dA hJ 0 0
+  have z : E2 (g.B.ad a) (0 : Q S d n) 0 = 1 := by
+    have e : E2 (g.B.ad a) (0 : Q S d 1) (gen 0) = 1 := (formalSeriesValueAtTwoPoints_eq_ev _ _ _).trans (g.B.adjoint_zero_fst a)
+    have := congrArg (sb ![(0 : Q S d n)]) e
+    rwa [formalPointSubstitutionSeries_valueAtTwoPoints, map_one, map_zero, sq_gen] at this
+  rw [z, VV_one, ac0, ac0, mul_inv_cancel_right, PP_zero g.chart] at k
+  exact Units.ext k.symm
 
 omit hφ in
 theorem val₂_eq (hp : PowFns t) {K : Type} [Fintype K] {ξ : K → ((t.G ⊗ t.G).left ⟶ t.G.left)} {ε : K → ℤ}

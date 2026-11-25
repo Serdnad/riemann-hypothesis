@@ -7,48 +7,7 @@ public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.EqZeroOfF
 public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.HolomorphicHomDetermined
 public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.DerivativeAlongTangentCombinationModuli
 public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.IsDerivAt0OfIsPullback
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
 import Mathlib.AlgebraicGeometry.Modules.Sheaf
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
-import Development.AbelianVarietyTheory.Definitions.ThetaMetrics.MemRangeCompIffOfIsClosedImmersion
 
 @[expose] public section
 
@@ -183,7 +142,14 @@ variable {A : Type} [CommRing A] {X : Scheme.{0}}
 
 theorem le_basicOpen_iff_isUnit (x : Sp A ⟶ X) {U : X.Opens} (h : ⊤ ≤ x ⁻¹ᵁ U) (f : Γ(X, U)) :
     ⊤ ≤ x ⁻¹ᵁ X.basicOpen f ↔ IsUnit (valR x U f) := by
-  apply _root_.GlobalTheory.Points.le_preimage_basicOpen_iff <;> assumption
+  have h1 := Scheme.basicOpen_appLE x ⊤ U h f
+  rw [top_inf_eq] at h1
+  rw [← h1, valR_eq _ _ h, top_le_iff]
+  have h2 : IsUnit (evalHom x U h f) ↔ IsUnit ((x.appLE U ⊤ h).hom f) :=
+    MulEquiv.isUnit_map (Scheme.ΓSpecIso (CommRingCat.of A)).commRingCatIsoToRingEquiv
+  rw [h2]
+  exact ⟨fun H => (Sp A).toRingedSpace.isUnit_of_isUnit_germ _ _ fun p hp =>
+    ((Sp A).mem_basicOpen _ p hp).1 (H.ge hp), fun H => (Sp A).basicOpen_of_isUnit H⟩
 
 theorem exists_frac (W : Sp A ⟶ X) (V : X.Opens) (f : Γ(X, V)) {K : Type} [Field K] (φ : A →+* K)
     (h : ⊤ ≤ (spMap φ ≫ W) ⁻¹ᵁ V) : ∃ H r : A, φ H ≠ 0 ∧ ∀ (B : Type) [CommRing B] (ψ : A →+* B), IsUnit (ψ H) →

@@ -42,7 +42,6 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-import Formalism.LocalToGlobal.IndefiniteReal.SobolevIteration.ArvOSobPfA
 
 @[expose] public section
 
@@ -52,8 +51,6 @@ open Formalism.BasicNotions Formalism.BasicNotions.TH Formalism.MainNotions.Glob
 open scoped TensorProduct
 
 namespace GlobalTheory.SmoothAutCheck
-
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 
 section Lin
 variable {n : ℕ} {H : Matrix (Fin n) (Fin n) ℂ}
@@ -95,8 +92,15 @@ theorem im_mem (hH : Hᴴ = H) (hu : IsUnit H.det) (Z : Matrix (Fin n) (Fin n) �
 
 theorem exp_mem_UH (hu : IsUnit H.det) {X : Matrix (Fin n) (Fin n) ℂ} (hX : Xᴴ * H + H * X = 0) (t : ℝ) :
     NormedSpace.exp (t • X) ∈ Formalism.QuantumDeterminants.UH H := by
-  apply _root_.Formalism.IndefR.Tow.SobPf.expS_mem_UH
-  assumption
+  have hu' : IsUnit H := (isUnit_iff_isUnit_det H).2 hu
+  have e : (t • X)ᴴ = H * (-(t • X)) * H⁻¹ := by
+    have h1 : Xᴴ * H = -(H * X) := eq_neg_of_add_eq_zero_left hX
+    have h2 : Xᴴ = -(H * X) * H⁻¹ := by rw [← h1, mul_assoc, mul_nonsing_inv _ hu, mul_one]
+    rw [conjTranspose_smul, h2]
+    simp
+  show (NormedSpace.exp (t • X))ᴴ * H * NormedSpace.exp (t • X) = H
+  rw [← Matrix.exp_conjTranspose, e, Matrix.exp_conj _ _ hu', mul_assoc _ H⁻¹, nonsing_inv_mul _ hu, mul_one, mul_assoc,
+    ← Matrix.exp_add_of_commute _ _ (Commute.refl (t • X)).neg_left, neg_add_cancel, NormedSpace.exp_zero, mul_one]
 
 end Lin
 

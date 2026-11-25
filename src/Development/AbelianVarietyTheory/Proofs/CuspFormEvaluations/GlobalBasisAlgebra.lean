@@ -1,56 +1,15 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.ExistsTangentModuleUniversalGroup
 public import Formalism.LocalToGlobal.ProjectiveLattices.IsChartIff
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.IntegralFrameChangeIntegralInvertibleMatrix
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.ExistsTangentModuleUniversalGroup
 public import Mathlib.AlgebraicGeometry.Morphisms.SchemeTheoreticallyDominant
 import Mathlib.AlgebraicGeometry.Morphisms.WeaklyEtale
 import Mathlib.AlgebraicGeometry.Sites.Fpqc
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
 import Mathlib.CategoryTheory.ExtremalEpi
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
 
 @[expose] public section
-
-set_option autoImplicit false
 
 noncomputable section
 
@@ -58,8 +17,6 @@ namespace GlobalTheory.FrameTangent
 
 open AlgebraicGeometry CategoryTheory Limits MonoidalCategory CartesianMonoidalCategory MonObj NumberField
 open ReciprocityTheory.ChartRestriction.G ReciprocityTheory.ChartRestriction.G.Semi ReciprocityTheory.ChartRestriction.G.Out ReciprocityTheory.ChartRestriction.G.Geo.Tor Formalism.L2.Pj
-
-attribute [local instance] Over.cartesianMonoidalCategory
 
 section Alg
 
@@ -138,7 +95,7 @@ theorem global_basis_algebra {E : Type} [Field E] [NumberField E] {K S M : Type}
             rw [Finset.sum_comm]
             simp only [Finset.mul_sum]
         _ = (b.repr y j : K) := by
-            simp only [hBA, mul_ite, _root_.mul_one, mul_zero, Finset.sum_ite_eq, Finset.mem_univ, if_true]
+            simp only [hBA, mul_ite, _root_.mul_one, mul_zero, Finset.sum_ite_eq, Finset.mem_univ, ite_true]
     calc ρ y V = ρ (∑ j, b.repr y j • b j) V := by rw [b.sum_repr y]
       _ = ∑ j, κ (b.repr y j : K) • ρ (b j) V := by
 
@@ -164,10 +121,10 @@ theorem global_basis_algebra {E : Type} [Field E] [NumberField E] {K S M : Type}
           exact Finset.sum_congr rfl fun k _ => by congr 2; ring
       _ = algebraMap K S (χ σ (a : E)) • P σ V := by
           rw [Finset.sum_eq_single σ]
-          · rw [hAB, if_pos rfl, _root_.mul_one]
+          · rw [hAB, ite_eq_left rfl, _root_.mul_one]
             rfl
           · intro ν _ hν
-            rw [hAB, if_neg hν, mul_zero, map_zero, zero_smul]
+            rw [hAB, ite_eq_right hν, mul_zero, map_zero, zero_smul]
           · intro h
             exact absurd (Finset.mem_univ σ) h
   have hPZ : ∀ σ τ (Z : M), (∀ a : 𝓞 E, ρ a Z = algebraMap K S (χ σ (a : E)) • Z) →
@@ -193,9 +150,9 @@ theorem global_basis_algebra {E : Type} [Field E] [NumberField E] {K S M : Type}
       ∀ τ, ∑ i, a ⟨τ, i⟩ • U ⟨τ, i⟩ = P τ W := by
     intro a ha τ
     rw [← ha, Fintype.sum_sigma, hPadd, Finset.sum_eq_single τ]
-    · rw [hPZ τ τ _ (hYeig a τ), if_pos rfl]
+    · rw [hPZ τ τ _ (hYeig a τ), ite_eq_left rfl]
     · intro σ _ hστ
-      rw [hPZ σ τ _ (hYeig a σ), if_neg hστ]
+      rw [hPZ σ τ _ (hYeig a σ), ite_eq_right hστ]
     · intro h
       exact absurd (Finset.mem_univ τ) h
   have hex : ∀ σ, ∃! c : Fin (mult σ) → S, ∑ i, c i • U ⟨σ, i⟩ = P σ W := fun σ => hb σ (P σ W) (hPeig σ W)
@@ -214,78 +171,25 @@ theorem global_basis_algebra {E : Type} [Field E] [NumberField E] {K S M : Type}
 end Alg
 
 theorem spMap_comp' {A B C : Type} [CommRing A] [CommRing B] [CommRing C] (f : A →+* B) (g : B →+* C) :
-    spMap g ≫ spMap f = spMap (g.comp f) := by
-  exact (Spec.map_comp _ _).symm
+    spMap g ≫ spMap f = spMap (g.comp f) :=
+  Formalism.L2.PjFree.spMap_comp' f g
 
 theorem spec_ext_two {R A : Type} [CommRing R] [CommRing A] (p1 p2 : R →+* A)
     (hs : Function.Surjective p1) (hn : ∀ x, p1 x = 0 → x * x = 0)
     (hk : ∀ x, p1 x = 0 → p2 x = 0 → x = 0) {X : Scheme.{0}} (f g : Sp R ⟶ X)
-    (h1 : spMap p1 ≫ f = spMap p1 ≫ g) (h2 : spMap p2 ≫ f = spMap p2 ≫ g) : f = g := by
-  classical
-  have hinj : Function.Injective (p1.prod p2) := by
-    intro a b hab
-    have e1 : p1 a = p1 b := congrArg Prod.fst hab
-    have e2 : p2 a = p2 b := congrArg Prod.snd hab
-    exact sub_eq_zero.mp (hk (a - b) (by rw [map_sub, e1, sub_self]) (by rw [map_sub, e2, sub_self]))
-  have : IsSchemeTheoreticallyDominant (spMap (p1.prod p2)) := by
-    refine ⟨le_bot_iff.mp (Scheme.IdealSheafData.le_of_isAffine ?_)⟩
-    refine ((spMap (p1.prod p2)).ideal_ker_le _).trans fun z hz => ?_
-    have hz' : (Spec.map (CommRingCat.ofHom (p1.prod p2))).appTop.hom z = 0 := RingHom.mem_ker.mp hz
-    have e := congrArg (fun h => h.hom z) (Scheme.ΓSpecIso_naturality (CommRingCat.ofHom (p1.prod p2)))
-    simp only [CommRingCat.hom_comp, RingHom.comp_apply, CommRingCat.hom_ofHom, hz', map_zero] at e
-    have h0 : (Scheme.ΓSpecIso (CommRingCat.of R)).hom.hom z = 0 :=
-      hinj (e.symm.trans (map_zero (p1.prod p2)).symm)
-    have hz0 : z = 0 := by
-      have := congrArg (Scheme.ΓSpecIso (CommRingCat.of R)).inv.hom h0
-      simpa using this
-    rw [hz0]
-    exact zero_mem _
-  have hπ : spMap (p1.prod p2) ≫ f = spMap (p1.prod p2) ≫ g := by
-    have e1 : Spec.map (CommRingCat.ofHom (RingHom.fst A A)) ≫ spMap (p1.prod p2) = spMap p1 :=
-      (spMap_comp' (p1.prod p2) (RingHom.fst A A)).trans (congrArg spMap (RingHom.ext fun _ => rfl))
-    have e2 : Spec.map (CommRingCat.ofHom (RingHom.snd A A)) ≫ spMap (p1.prod p2) = spMap p2 :=
-      (spMap_comp' (p1.prod p2) (RingHom.snd A A)).trans (congrArg spMap (RingHom.ext fun _ => rfl))
-    rw [← cancel_epi (coprodSpec A A)]
-    apply coprod.hom_ext
-    · rw [coprodSpec_inl_assoc, coprodSpec_inl_assoc, reassoc_of% e1, reassoc_of% e1, h1]
-    · rw [coprodSpec_inr_assoc, coprodSpec_inr_assoc, reassoc_of% e2, reassoc_of% e2, h2]
-  have hsurj : ∀ x : PrimeSpectrum R, ∃ y : PrimeSpectrum A, PrimeSpectrum.comap p1 y = x := by
-    intro x
-    have hker : RingHom.ker p1 ≤ x.asIdeal := fun m hm =>
-      x.isPrime.mem_of_pow_mem 2 (by rw [pow_two, hn m (RingHom.mem_ker.mp hm)]; exact zero_mem _)
-    have := x.isPrime
-    refine ⟨⟨Ideal.map p1 x.asIdeal, Ideal.map_isPrime_of_surjective hs hker⟩, PrimeSpectrum.ext ?_⟩
-    change Ideal.comap p1 (Ideal.map p1 x.asIdeal) = x.asIdeal
-    rw [Ideal.comap_map_of_surjective p1 hs, ← RingHom.ker_eq_comap_bot, sup_eq_left.mpr hker]
-  have hbase : f.base = g.base := by
-    ext x
-    obtain ⟨y, rfl⟩ := hsurj x
-    exact congrArg (fun h : Sp A ⟶ X => h.base y) h1
-  refine Scheme.Hom.ext hbase fun U => ?_
-  have : Mono ((spMap (p1.prod p2)).app (g ⁻¹ᵁ U)) :=
-    ConcreteCategory.mono_of_injective _ ((spMap (p1.prod p2)).app_injective _)
-  rw [← cancel_mono ((spMap (p1.prod p2)).app (g ⁻¹ᵁ U)), Category.assoc, Scheme.Hom.naturality,
-    ← Category.assoc, ← Scheme.Hom.comp_app, ← Scheme.Hom.comp_app, Scheme.Hom.congr_app hπ U]
-  have hid : ∀ {V : (TopologicalSpace.Opens ↥(Sp (A × A)))ᵒᵖ} (k : V ⟶ V), (Sp (A × A)).presheaf.map k = 𝟙 _ :=
-    fun k => by rw [show k = 𝟙 _ from Quiver.Hom.unop_inj (Subsingleton.elim _ _), CategoryTheory.Functor.map_id]
-  simp [← Functor.map_comp]
-  erw [hid, Category.comp_id]
+    (h1 : spMap p1 ≫ f = spMap p1 ≫ g) (h2 : spMap p2 ≫ f = spMap p2 ≫ g) : f = g :=
+  _root_.GlobalTheory.TanMod.spec_ext_two p1 p2 hs hn hk f g h1 h2
 
 section Scal
 
 variable {X0 : Scheme.{0}} {S : Type} [CommRing S] (x0 : Sp S ⟶ X0)
 
 theorem homAt_comp {A B C : Type} [CommRing A] [Algebra S A] [CommRing B] [Algebra S B] [CommRing C] [Algebra S C]
-    (f : A →ₐ[S] B) (g : B →ₐ[S] C) : homAt x0 g ≫ homAt x0 f = homAt x0 (g.comp f) := by
-  ext1
-  simp only [Formalism.L2.Pj.homAt, Over.comp_left, Over.homMk_left]
-  rw [spMap_comp']
-  rfl
+    (f : A →ₐ[S] B) (g : B →ₐ[S] C) : homAt x0 g ≫ homAt x0 f = homAt x0 (g.comp f) :=
+  _root_.GlobalTheory.TanMod.homAt_comp x0 f g
 
-theorem homAt_id {A : Type} [CommRing A] [Algebra S A] : homAt x0 (AlgHom.id S A) = 𝟙 _ := by
-  ext1
-  simp only [Formalism.L2.Pj.homAt, Over.homMk_left, Over.id_left]
-  exact Spec.map_id _
+theorem homAt_id {A : Type} [CommRing A] [Algebra S A] : homAt x0 (AlgHom.id S A) = 𝟙 _ :=
+  _root_.GlobalTheory.TanMod.homAt_id x0
 
 abbrev tm {M N : Type} [AddCommGroup M] [Module S M] [AddCommGroup N] [Module S N]
     [Module Sᵐᵒᵖ M] [IsCentralScalar S M] [Module Sᵐᵒᵖ N] [IsCentralScalar S N] (L : M →ₗ[S] N) :
@@ -298,27 +202,21 @@ def smT (a : S) (v : overAt x0 (DualNumber S) ⟶ G) : overAt x0 (DualNumber S) 
 
 theorem smT_left (a : S) (v : overAt x0 (DualNumber S) ⟶ G) : (smT x0 a v).left = spMap (epsMul a) ≫ v.left := rfl
 
-theorem smT_mul (a : S) (u w : overAt x0 (DualNumber S) ⟶ G) : smT x0 a (u * w) = smT x0 a u * smT x0 a w := by
-  simp only [smT, MonObj.comp_mul]
+theorem smT_mul (a : S) (u w : overAt x0 (DualNumber S) ⟶ G) : smT x0 a (u * w) = smT x0 a u * smT x0 a w :=
+  MonObj.comp_mul _ _ _
 
-theorem smT_one' (a : S) : smT x0 a (1 : overAt x0 (DualNumber S) ⟶ G) = 1 := by
-  simp only [smT, MonObj.comp_one]
+theorem smT_one' (a : S) : smT x0 a (1 : overAt x0 (DualNumber S) ⟶ G) = 1 :=
+  MonObj.comp_one _
 
-theorem smT_smT (a b : S) (v : overAt x0 (DualNumber S) ⟶ G) : smT x0 a (smT x0 b v) = smT x0 (a * b) v := by
-  unfold smT
-  rw [← Category.assoc, homAt_comp]
-  congr 2
-  refine AlgHom.ext fun z => TrivSqZeroExt.ext ?_ ?_ <;> (simp [tm] <;> ring)
+theorem smT_smT (a b : S) (v : overAt x0 (DualNumber S) ⟶ G) : smT x0 a (smT x0 b v) = smT x0 (a * b) v :=
+  _root_.GlobalTheory.IntRebase.smT_smT x0 a b v
 
-theorem smT_unit (v : overAt x0 (DualNumber S) ⟶ G) : smT x0 1 v = v := by
-  unfold smT
-  have e : tm ((1 : S) • (LinearMap.id : S →ₗ[S] S)) = AlgHom.id S (DualNumber S) :=
-    AlgHom.ext fun z => TrivSqZeroExt.ext (by simp [tm]) (by simp [tm])
-  rw [e, homAt_id, Category.id_comp]
+theorem smT_unit (v : overAt x0 (DualNumber S) ⟶ G) : smT x0 1 v = v :=
+  _root_.GlobalTheory.IntRebase.smT_unit x0 v
 
 theorem smT_add (v : overAt x0 (DualNumber S) ⟶ G) (h0 : smT x0 0 v = 1) (a b : S) :
-    smT x0 (a + b) v = smT x0 a v * smT x0 b v := by
-  first | exact _root_.GlobalTheory.TanMod.smT_add | exact @_root_.GlobalTheory.TanMod.smT_add | apply _root_.GlobalTheory.TanMod.smT_add <;> assumption
+    smT x0 (a + b) v = smT x0 a v * smT x0 b v :=
+  _root_.GlobalTheory.IntRebase.smT_add x0 v h0 a b
 
 section Comb
 

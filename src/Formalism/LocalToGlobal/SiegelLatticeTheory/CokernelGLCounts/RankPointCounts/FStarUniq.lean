@@ -1,6 +1,5 @@
 module
 
-import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.CountingFormula.JordanDecompositionExists
 public import Formalism.LocalToGlobal.SiegelLatticeTheory.CokernelGLCounts.RankPointCounts.UnipotentFrameFixers
 import Mathlib.Tactic.TypeStar
 
@@ -14,24 +13,14 @@ open NumberField Formalism.BasicNotions Formalism.MainNotions.S Formalism.MainNo
 
 namespace Formalism.L2.SG.Pf.FrameGlobalPatching.FStar.Uniq
 
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
-
 section Generic
 
 variable {K : Type*} [Field K]
 
 theorem adjugate_last (r : ℕ) (M : Matrix (Fin (r + 1)) (Fin (r + 1)) K) :
     M.adjugate (Fin.last r) (Fin.last r) = (M.submatrix Fin.castSucc Fin.castSucc).det := by
-  rw [adjugate_apply, det_succ_row _ (Fin.last r), Finset.sum_eq_single (Fin.last r)]
-  · have hsub : ((M.updateRow (Fin.last r) (Pi.single (Fin.last r) 1)).submatrix
-        (Fin.last r).succAbove (Fin.last r).succAbove) = M.submatrix Fin.castSucc Fin.castSucc := by
-      ext i j
-      simp [Fin.succAbove_last]
-    rw [hsub]
-    simp [← two_mul, pow_mul]
-  · intro j _ hj
-    simp [hj]
-  · simp
+  rw [Matrix.adjugate_fin_succ_eq_det_submatrix, Fin.succAbove_last, Fin.val_last, ← two_mul, pow_mul,
+    neg_one_sq, one_pow, one_mul]
 
 theorem det_sub_single (r : ℕ) (W : Matrix (Fin (r + 1)) (Fin (r + 1)) K) (c : K) :
     (W - single (Fin.last r) (Fin.last r) c).det =
@@ -65,7 +54,46 @@ theorem single_map {L M : Type*} [Ring L] [Ring M] (f : L →+* M) (r : ℕ) (c 
 theorem det_blocks (r : ℕ) (Z W : Matrix (Fin (r + 1)) (Fin (r + 1)) K) (a b : K) :
     (fromBlocks Z (single (Fin.last r) (Fin.last r) a) (single (Fin.last r) (Fin.last r) b) W).det =
       Z.det * W.det - a * b * Z.adjugate (Fin.last r) (Fin.last r) * W.adjugate (Fin.last r) (Fin.last r) := by
-  apply +allowSynthFailures _root_.PI.UnitaryGroupMassFormula.CntFormula.R6.det_blocks <;> assumption
+  set P : Matrix (Fin (r + 1)) (Fin (r + 1)) K[X] := charmatrix (-Z) with hPdef
+  have hP : P.det ≠ 0 := (charpoly_monic (-Z)).ne_zero
+  set φ : K[X] →+* RatFunc K := algebraMap K[X] (RatFunc K)
+  have hinj : Function.Injective φ := IsFractionRing.injective K[X] (RatFunc K)
+  have hPφ : (P.map φ).det ≠ 0 := by
+    rw [← RingHom.mapMatrix_apply, ← RingHom.map_det]
+    exact (map_ne_zero_iff φ hinj).mpr hP
+  have key := det_blocks_of_ne r (P.map φ) ((W.map C).map φ) (φ (C a)) (φ (C b)) hPφ
+  have key2 : (fromBlocks P (single (Fin.last r) (Fin.last r) (C a)) (single (Fin.last r) (Fin.last r) (C b))
+      (W.map C)).det = P.det * (W.map C).det - C a * C b * P.adjugate (Fin.last r) (Fin.last r) *
+        (W.map C).adjugate (Fin.last r) (Fin.last r) := by
+    apply hinj
+    rw [RingHom.map_det, RingHom.mapMatrix_apply, fromBlocks_map, single_map, single_map]
+    rw [key]
+    simp only [map_sub, map_mul, RingHom.map_det, RingHom.mapMatrix_apply]
+    congr 3
+    · exact (congrFun (congrFun (RingHom.map_adjugate φ P) _) _).symm
+    · exact (congrFun (congrFun (RingHom.map_adjugate φ (W.map C)) _) _).symm
+  set ψ : K[X] →+* K := Polynomial.evalRingHom 0
+  have hPψ : P.map ψ = Z := by
+    ext i j
+    by_cases h : i = j
+    · subst h; simp [hPdef, ψ]
+    · simp [hPdef, ψ, h]
+  have hWψ : (W.map C).map ψ = W := by
+    ext i j; simp [ψ]
+  have key3 := congrArg ψ key2
+  have hCa : ψ (C a) = a := by simp [ψ]
+  have hCb : ψ (C b) = b := by simp [ψ]
+  rw [RingHom.map_det, RingHom.mapMatrix_apply, fromBlocks_map, single_map, single_map, hPψ, hWψ, hCa, hCb] at key3
+  rw [key3]
+  simp only [map_sub, map_mul, RingHom.map_det, RingHom.mapMatrix_apply, hPψ, hWψ]
+  have e1 : ψ (P.adjugate (Fin.last r) (Fin.last r)) = Z.adjugate (Fin.last r) (Fin.last r) := by
+    rw [← hPψ]; exact congrFun (congrFun (RingHom.map_adjugate ψ P) _) _
+  have e2 : ψ ((W.map C).adjugate (Fin.last r) (Fin.last r)) = W.adjugate (Fin.last r) (Fin.last r) := by
+    have e := congrFun (congrFun (RingHom.map_adjugate ψ (W.map C)) (Fin.last r)) (Fin.last r)
+    rw [RingHom.mapMatrix_apply, RingHom.mapMatrix_apply, hWψ] at e
+    exact e
+  rw [e1, e2]
+  simp [ψ]
 
 end Generic
 
@@ -148,7 +176,6 @@ theorem mem_orth_of_span {ι : Type*} (v : ι → (VS D).V) (w : (VS D).V) (hw :
 
 theorem hT_sum {ι : Type*} [Fintype ι] (x : (VS D).V) (c : ι → D.host.E) (v : ι → (VS D).V) :
     (VS D).hT x (∑ i, c i • v i) = ∑ i, c i * (VS D).hT x (v i) := by
-  set_option synthInstance.maxHeartbeats 100000 in
     simp [map_sum, map_smul]
 
 theorem eq_zero_of_gram {ι : Type*} [Fintype ι] [DecidableEq ι] (v : ι → (VS D).V)

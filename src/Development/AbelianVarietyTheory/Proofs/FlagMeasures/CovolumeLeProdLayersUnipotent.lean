@@ -1,6 +1,5 @@
 module
 
-import Formalism.RealPlaceAnalysis.RealPlaceTaylor.RightDerivativeZeroOutsideSupport
 public import Formalism.SharpRestriction.CuspSpanNormBounds.GlobAut
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.IpLEqZeroOfMemSpan
 public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.DefClassNum
@@ -179,7 +178,7 @@ theorem exists_continuous_section (n d m : ℕ) (ε : Fin n → Bool)
     refine Finset.sum_congr rfl fun i _ => ?_
     have := jInv_smul ε (x i) (E i)
     unfold jInv at this
-    rw [this, inv_eq_neg_of_inG (hG i).2, smul_neg]
+    rw [this, Formalism.REAL.lie_algebra_signature_conj (hG i).2, smul_neg]
   let X : (Fin d → ℝ) → Matrix (Fin n) (Fin n) ℂ := fun x => iter ε (Y x) m
   have hXc : Continuous X := (continuous_iter ε m).comp hYc
   have hfix : ∀ x, X x = Y x - (1 / 2 : ℝ) • (jInv ε (X x) * X x) := fun x => by
@@ -270,21 +269,21 @@ theorem measurePreserving_triangular_shear (d : ℕ) (deg : Fin d → ℕ)
     funext x i
     by_cases hin : deg i = n
     · have hfx : f (U (n + 1) x) i = f x i :=
-        h _ _ i (fun k hk => by simp only [U]; rw [if_neg (by omega)])
+        h _ _ i (fun k hk => by simp only [U]; rw [ite_eq_right (by omega)])
       simp only [Function.comp_apply, hfx]
       simp only [U]
-      rw [if_pos (by omega), if_neg (by omega), if_neg (by omega)]
+      rw [ite_eq_left (by omega), ite_eq_right (by omega), ite_eq_right (by omega)]
     · simp only [Function.comp_apply, U]
-      rw [if_pos hin]
+      rw [ite_eq_left hin]
       by_cases h2 : n ≤ deg i
-      · rw [if_pos h2, if_pos (by omega)]
-      · rw [if_neg h2, if_neg (by omega)]
+      · rw [ite_eq_left h2, ite_eq_left (by omega)]
+      · rw [ite_eq_right h2, ite_eq_right (by omega)]
   have hN : ∀ n, Finset.univ.sup deg < n → U n = id := by
     intro n hn
     funext x i
     have hi : deg i ≤ Finset.univ.sup deg := Finset.le_sup (Finset.mem_univ i)
     simp only [U, id]
-    rw [if_neg (by omega)]
+    rw [ite_eq_right (by omega)]
   have hU : ∀ k n, Finset.univ.sup deg < n + k → MeasurePreserving (U n) volume volume := by
     intro k
     induction k with
@@ -422,6 +421,23 @@ private theorem hs_eq_ipL (X : Matrix (Fin n) (Fin n) ℂ) : hs X = ipL X X := b
   refine Finset.sum_congr rfl fun i _ => Finset.sum_congr rfl fun j _ => ?_
   rw [Complex.star_def, Complex.mul_conj, Complex.ofReal_re, Complex.normSq_eq_norm_sq]
 
+private theorem hs_mul_le (A B : Matrix (Fin n) (Fin n) ℂ) : hs (A * B) ≤ hs A * hs B := by
+
+  have key : ∀ i j, ‖∑ k, A i k * B k j‖ ^ 2 ≤ (∑ k, ‖A i k‖ ^ 2) * ∑ k, ‖B k j‖ ^ 2 := by
+    intro i j
+    calc ‖∑ k, A i k * B k j‖ ^ 2 ≤ (∑ k, ‖A i k‖ * ‖B k j‖) ^ 2 := by
+          gcongr
+          exact (norm_sum_le _ _).trans (le_of_eq (by simp only [norm_mul]))
+      _ ≤ (∑ k, ‖A i k‖ ^ 2) * ∑ k, ‖B k j‖ ^ 2 := Finset.sum_mul_sq_le_sq_mul_sq _ _ _
+  simp only [Formalism.REAL.hs, Matrix.mul_apply]
+  calc ∑ i, ∑ j, ‖∑ k, A i k * B k j‖ ^ 2
+        ≤ ∑ i, ∑ j, (∑ k, ‖A i k‖ ^ 2) * ∑ k, ‖B k j‖ ^ 2 :=
+          Finset.sum_le_sum fun i _ => Finset.sum_le_sum fun j _ => key i j
+    _ = (∑ i, ∑ k, ‖A i k‖ ^ 2) * ∑ j, ∑ k, ‖B k j‖ ^ 2 := by
+          rw [Finset.sum_mul]
+          exact Finset.sum_congr rfl fun i _ => (Finset.mul_sum _ _ _).symm
+    _ = (∑ i, ∑ k, ‖A i k‖ ^ 2) * ∑ k, ∑ j, ‖B k j‖ ^ 2 := by congr 1; exact Finset.sum_comm
+
 private theorem hs_neg' (X : Matrix (Fin n) (Fin n) ℂ) : hs (-X) = hs X := by
   simp only [Formalism.REAL.hs, Matrix.neg_apply, norm_neg]
 
@@ -471,7 +487,7 @@ theorem sum_coord_sq_le_hs_and_hs_le (n d : ℕ) (ε : Fin n → Bool) (E : Fin 
     have hYX : X + Y = -(Y * X) := add_inv_eq g
     have hYn : hs Y = hs X := hs_inv_eq X
     rw [hYX, hs_neg', sq]
-    calc hs (Y * X) ≤ hs Y * hs X := _root_.Formalism.REAL.frobenius_mul_le Y X
+    calc hs (Y * X) ≤ hs Y * hs X := hs_mul_le Y X
       _ = hs X * hs X := by rw [hYn]
   have hpara := hs_sub_add_hs_add_eq_parallelogram X Y
   have hYn : hs Y = hs X := hs_inv_eq X

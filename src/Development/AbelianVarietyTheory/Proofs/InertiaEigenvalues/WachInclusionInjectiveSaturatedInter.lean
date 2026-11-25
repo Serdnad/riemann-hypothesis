@@ -3,54 +3,9 @@ module
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.ExistsOfLayers
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IntegersCompleteDVR
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.TiltWittEqZeroOfPrimeMulEqZero
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Algebra.Order.Star.Int
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Henselian
 public import Mathlib.RingTheory.PowerSeries.Inverse
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.HaveILetI
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Topology.Sheaves.Init
 public import Mathlib.RingTheory.Flat.FaithfullyFlat.Basic
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.FrobeniusConstantsPiAdicFiltrationModEll
 
 @[expose] public section
 
@@ -66,7 +21,7 @@ theorem series_form {O : Type} [CommRing O] (ϖ : O) (hO : ∀ a, IsUnit a ∨ �
     choose d hd using h
     exact ⟨mk d, by ext n; simp [hd]⟩
   · right
-    push_neg at h
+    push Not at h
     have h1 := Nat.find_spec h
     have h2 : ∀ n, ∃ d, n < Nat.find h → coeff n a = ϖ * d := by
       intro n
@@ -82,8 +37,8 @@ theorem series_form {O : Type} [CommRing O] (ϖ : O) (hO : ∀ a, IsUnit a ∨ �
     · ext n
       rw [map_add (f := _), coeff_C_mul, coeff_X_pow_mul', coeff_mk]
       by_cases hn : n < Nat.find h
-      · rw [if_pos hn, if_neg (by omega), hd n hn, add_zero]
-      · rw [if_neg hn, if_pos (by omega), coeff_mk, Nat.sub_add_cancel (by omega), mul_zero, zero_add]
+      · rw [ite_eq_left hn, ite_eq_right (by omega), hd n hn, add_zero]
+      · rw [ite_eq_right hn, ite_eq_left (by omega), coeff_mk, Nat.sub_add_cancel (by omega), mul_zero, zero_add]
 
 theorem letter_form {O ι : Type} [CommRing O] [DecidableEq ι] (ϖ : O) (hO : ∀ a, IsUnit a ∨ ϖ ∣ a)
     (a : ι → O⟦X⟧) (i : ι) :
@@ -349,7 +304,18 @@ open Formalism.BasicNotions Formalism.BasicNotions.Loc Formalism.WeaklyAdmissibl
 
 theorem not_isUnit_εroot_sub_one {l : ℕ} [Fact l.Prime] {P : LocPrime l} (AI : LocAinf l P) (s : ℕ) :
     ¬ IsUnit (AI.εroot s - 1) := by
-  apply _root_.GlobalTheory.DecomplFrob.not_isUnit_root_sub_one <;> assumption
+  induction s with
+  | zero =>
+    intro h
+    have h1 := h.map (PreTilt.coeff (O := OC l) (p := l) 0)
+    rw [map_sub, map_one, LocAinf.εroot, Function.iterate_zero_apply, AI.ε_coeff, AI.ζ_zero, map_one,
+      sub_self] at h1
+    exact not_isUnit_zero h1
+  | succ s ih =>
+    intro h
+    apply ih
+    have h1 := h.pow l
+    rwa [sub_pow_char, one_pow, LocAinf.εroot, Function.iterate_succ_apply', frobeniusEquiv_symm_pow_p] at h1
 
 theorem letφ_letE {O : Type} [CommRing O] {n : ℕ} (φ₀ : O⟦X⟧ →ₐ[O] O⟦X⟧) (i : ZMod n) :
     letφ φ₀ (Pi.single i 1 : LetA O n) = Pi.single (i + 1) 1 := by
@@ -378,9 +344,8 @@ theorem idem_ne_zero {O E W : Type} [CommRing O] [CommRing E] [CommRing W] [Nont
   rwa [ZMod.natCast_zmod_val, add_sub_cancel] at this
 
 
-set_option maxHeartbeats 1000000 in
 theorem ioE_injective_saturated_inter (l : ℕ) [Fact l.Prime] (P : LocPrime l) (AI : LocAinf l P) (K : FinExt l)
-    (s : ℕ) (LL : FinExt l) (_h : Good K s LL) (Γ : GamS P K s LL) (R : WSer Γ) (I : IoS AI R) (_hI : IoW I) :
+    (s : ℕ) (LL : FinExt l) (Γ : GamS P K s LL) (R : WSer Γ) (I : IoS AI R) :
     Function.Injective I.ioE ∧ (∀ x : R.EE, IsUnit (I.ioE x) → IsUnit x) ∧
       (∀ (x : R.EE) (y : RW LL), I.ioE x = ((l : ℕ) : RW LL) * y → ∃ x', x = ((l : ℕ) : R.EE) * x') ∧
       ∀ x : R.EE, (∃ y, inclR LL y = I.ioE x) →

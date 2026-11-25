@@ -53,7 +53,6 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.BCTools
-import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.SubmoduleEqTopOfSupSmulOfIsNilpotent
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.Proofs.DegenerationProofs.ExistsPowSection, Development.AbelianVarietyTheory.Proofs.DegenerationProofs.ExistsPowSectionStatement, Development.AbelianVarietyTheory.Proofs.DegenerationProofs.RelAmpleLiftSquareZeroThickening
@@ -66,7 +65,6 @@ section -- clump:auto
 open CategoryTheory CategoryTheory.Limits MonoidalCategory CartesianMonoidalCategory MonObj AlgebraicGeometry
 open ReciprocityTheory.ChartRestriction.G ReciprocityTheory.ChartRestriction.G.Semi ReciprocityTheory.ChartRestriction.G.Out ReciprocityTheory.ChartRestriction.G.Geo.Tor GlobalTheory.AbLaw
 open scoped CategoryTheory.Obj
-attribute [local instance] Over.cartesianMonoidalCategory
 
 noncomputable section
 namespace GlobalTheory.SecPow
@@ -89,9 +87,7 @@ theorem eq_of_preimage_eq (β : X' ⟶ X) [Surjective β] {U V : X.Opens} (h : �
 
 theorem app_rs (β : X' ⟶ X) {U V : X.Opens} (h : V ≤ U) (x : Γ(X, U)) :
     (β.app V).hom (rs X h x) = rs X' (β.preimage_mono h) ((β.app U).hom x) := by
-  have := GlobalTheory.LB.appLE_resG β h le_rfl x
-  rw [Scheme.Hom.appLE_eq_app] at this
-  exact this
+  exact GlobalTheory.SectionKernel.app_rs β h x
 
 theorem exists_lift_pow (β : X' ⟶ X) [IsClosedImmersion β] [Surjective β]
     (hsq : ∀ (W : X.Opens) (x y : Γ(X, W)), (β.app W).hom x = 0 → (β.app W).hom y = 0 → x * y = 0)
@@ -245,7 +241,6 @@ section -- clump:auto
 open CategoryTheory CategoryTheory.Limits MonoidalCategory CartesianMonoidalCategory MonObj AlgebraicGeometry
 open ReciprocityTheory.ChartRestriction.G ReciprocityTheory.ChartRestriction.G.Semi ReciprocityTheory.ChartRestriction.G.Out ReciprocityTheory.ChartRestriction.G.Geo.Tor GlobalTheory.AbLaw
 open scoped CategoryTheory.Obj
-attribute [local instance] Over.cartesianMonoidalCategory
 
 theorem _root_.GlobalTheory.T.exists_pow_section' : ∀ (X X' : Scheme.{0}) (β : X' ⟶ X) [IsClosedImmersion β] [Surjective β] [CompactSpace X] [QuasiSeparatedSpace X], (∀ (W : X.Opens) (x y : Γ(X, W)), (β.app W).hom x = 0 → (β.app W).hom y = 0 → x * y = 0) → ∀ H : LB X, H.IsLB → ∀ (s₀ : LB.Sec (H.pull β)) (D : X.Opens), β ⁻¹ᵁ D = nonzeroLocus s₀ → ∀ t : SecOn H D, SecOn.pull H β D t = GlobalTheory.LB.ofSec s₀ (β ⁻¹ᵁ D) → ∃ n : ℕ, 1 ≤ n ∧ ∃ σ : LB.Sec (pw H n), nonzeroLocus σ = D := by
   first | exact @GlobalTheory.SecPow.exists_pow_section
@@ -261,14 +256,23 @@ section -- clump:auto
 open CategoryTheory CategoryTheory.Limits MonoidalCategory CartesianMonoidalCategory MonObj AlgebraicGeometry
 open ReciprocityTheory.ChartRestriction.G ReciprocityTheory.ChartRestriction.G.Semi ReciprocityTheory.ChartRestriction.G.Out ReciprocityTheory.ChartRestriction.G.Geo.Tor GlobalTheory.AbLaw
 open scoped CategoryTheory.Obj
-attribute [local instance] Over.cartesianMonoidalCategory
 
 namespace GlobalTheory.AmpleThickening
 
 theorem surjective_spec_of_isNilpotent_ker {A A' : Type} [CommRing A] [CommRing A'] (g : A →+* A')
     (hg : Function.Surjective g) (hn : IsNilpotent (RingHom.ker g)) :
     Surjective (Spec.map (CommRingCat.ofHom g)) := by
-  apply _root_.GlobalTheory.AbLaw.surjective_specMap_of_isNilpotent <;> assumption
+  refine ⟨fun (x : PrimeSpectrum A) ↦ ?_⟩
+  have : x ∈ Set.range (PrimeSpectrum.comap g) := by
+    rw [range_comap_of_surjective _ _ hg]
+    obtain ⟨n, hn⟩ := hn
+    intro a ha
+    apply x.isPrime.mem_of_pow_mem n
+    have : a ^ n ∈ RingHom.ker g ^ n := Ideal.pow_mem_pow ha n
+    rw [hn] at this
+    rw [show a ^ n = 0 from this]
+    exact zero_mem _
+  exact this
 
 theorem exists_sec_lbPow_of_pw {X : Scheme.{0}} {H : LB X} {n : ℕ} (σ : LB.Sec (pw H n)) :
     ∃ s : (lbPow H n).Sec, nonzeroLocus s = nonzeroLocus σ :=

@@ -48,7 +48,6 @@ import Mathlib.Topology.Sheaves.Init
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.FundamentalDomains.DetSubUpper
 import Std.Tactic.BVDecide.Normalize.Prop
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovVolumes.UpperBounds.ExhaustFStatementPfC
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovVolumes.UpperBounds.InterpStatementPfH
 
 @[expose] public section
 
@@ -87,7 +86,15 @@ open scoped ContDiff ENNReal Matrix in
 variable {E : Type} [Field E] [NumberField E] [IsCMField E] in
 private lemma mem_dom_of_isOrth {r : ℕ} (X : _root_.ReciprocityTheory.ChartRestriction.G.FD.Data E r) {x0 : _root_.ReciprocityTheory.ChartRestriction.G.FD.Frame X.Ψ r}
     (h : _root_.ReciprocityTheory.ChartRestriction.G.AR.Up.IsOrth X x0) : x0 ∈ X.dom := by
-  apply _root_.ReciprocityTheory.ChartRestriction.G.AR.Up.IW.orth_mem_dom <;> assumption
+  unfold _root_.ReciprocityTheory.ChartRestriction.G.FD.Data.dom _root_.ReciprocityTheory.ChartRestriction.G.FD.GG
+  refine fun τ => ⟨_root_.ReciprocityTheory.ChartRestriction.G.AR.Up.ExF.det_ne_of_orth X h τ, fun i => ?_⟩
+  unfold _root_.ReciprocityTheory.ChartRestriction.G.FD.dmin _root_.ReciprocityTheory.ChartRestriction.G.FD.lminor
+  rw [h τ, Matrix.submatrix_diagonal _ _ (Fin.castLE_injective _), Matrix.det_diagonal]
+  simp only [Function.comp_apply, Fin.coe_castLE]
+  rw [← Complex.ofReal_prod, Complex.ofReal_re,
+    Fin.prod_univ_eq_prod_range (fun j => _root_.ReciprocityTheory.ChartRestriction.G.FD.sgn X.p0 j) i]
+  unfold _root_.ReciprocityTheory.ChartRestriction.G.FD.psgn
+  exact mul_self_pos.mpr (Finset.prod_ne_zero_iff.mpr fun a _ => sgn_ne_zero_torus_haar_measure X.p0 a)
 
 open NumberField MeasureTheory Topology in
 open scoped ContDiff ENNReal Matrix in
@@ -179,8 +186,7 @@ theorem _root_.GlobalTheory.grpSep : ∀ (r : ℕ) (X : _root_.ReciprocityTheory
       rw [← shift_dev_eq_lact x0 hdet, rmul_oneF']
       exact (congrArg (_root_.GlobalTheory.GrpSep.shift x0) h0).trans (shift_zero_torus_haar_measure x0))
   refine ⟨min ε δ, lt_min hε hδ, fun γ hγ h1 => ?_⟩
-  by_contra hcon
-  push_neg at hcon
+  by_contra! hcon
   have hlt : ‖(_root_.GlobalTheory.GrpSep.dev x0 γ : X.Ψ → Fin r → Fin r → ℂ)‖ < min ε δ := by
     refine (pi_norm_lt_iff (lt_min hε hδ)).mpr fun τ => (pi_norm_lt_iff (lt_min hε hδ)).mpr
       fun a => (pi_norm_lt_iff (lt_min hε hδ)).mpr fun b => hcon τ a b

@@ -349,7 +349,7 @@ theorem smooth_rdWord_functional : ∀ (k r : ℕ) {H : Type} [NormedAddCommGrou
       have e : (fun t : ℝ => rdWord w (fun g : Mat k r => Λ (σ g v)) (x * NormedSpace.exp ((t : ℂ) • X))) =
           (⇑((Λ.comp (σ x)).restrictScalars ℝ) ∘ fun t : ℝ => σ (NormedSpace.exp ((t : ℂ) • X)) (dsigW σ w v)) := by
         funext t
-        have ht := Formalism.MainNotions.LowestKTypeMultiplicity.exp_mem_UH hX t
+        have ht := PI.WUN.exp_mem_UH hX t
         rw [ih hw _ (GlobalTheory.SgInfDD.gg_mul hx ht)]
         simp only [Function.comp, ContinuousLinearMap.coe_restrictScalars', ContinuousLinearMap.comp_apply]
         rw [hσ.1.2 x hx _ ht]
@@ -809,7 +809,7 @@ theorem sobolev_at_one_G : ∀ (k r : ℕ) (μG : Measure (Mt k r)), IsHaarOn (G
   have hfin : IsFiniteMeasureOnCompacts μG := by
     obtain ⟨hG, -⟩ := closedSub_groups k r (bvec (wI k r (Fin.last k))) (fun i hi => by
       simp only [bvec, wI]
-      rw [Pi.single_apply, if_neg]
+      rw [Pi.single_apply, ite_eq_right]
       intro h; rw [h] at hi; simp at hi) (by
       have h : herm (Hpk k r) (bvec (wI k r (Fin.last k))) (bvec (wI k r (Fin.last k))) =
           Hpk k r (wI k r (Fin.last k)) (wI k r (Fin.last k)) := by

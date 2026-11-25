@@ -51,11 +51,7 @@ namespace Formalism.MainNotions.S.Pv.HH
 
 open Finset NumberField Formalism.BasicNotions Formalism.MainNotions Formalism.MainNotions.S Formalism.MainNotions.S.Lat Formalism.MainNotions.S.Cnt
 
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
-
 variable (D : D7)
-
-def Gbd (b C β : ℝ) (Z : GramM D) : ℝ := (2 * β ^ 2 * (b ^ (C * (D.R.m : ℝ) ^ 2)) ^ 2) ^ D.R.f * sizeZ D b C Z ^ 2
 
 theorem embS_star (τ : D.what₂.Tau) (x : D.host.E) : embS D τ (star x) = starRingEnd ℂ (embS D τ x) := by
   unfold embS
@@ -117,8 +113,6 @@ namespace Formalism.MainNotions.GramProductBounds
 open NumberField Module IsDedekindDomain Formalism.BasicNotions Formalism.MainNotions Formalism.MainNotions.S Formalism.MainNotions.S.Lat Formalism.MainNotions.S.Cnt Formalism.MainNotions.LatticeGluingRadicals
   Formalism.MainNotions.BridgeLemma₂
 
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
-
 theorem NE_pow (D : D7) : NE (E := D.host.E) (gS D) ^ (D.R.rS + 1) = (gS D : ℝ) ^ (D.R.m * D.R.f) := by
   unfold NE
   rw [j_finrank D, ← pow_mul]
@@ -150,8 +144,6 @@ open NumberField Formalism.BasicNotions Formalism.MainNotions Formalism.MainNoti
   Formalism.L2.SG.TermTieOf Formalism.L2.SG.LoopTieOf Formalism.L2.SG.LoopsFinal Formalism.L2.SG.NGCut.LeadingMinorIntegrality
 
 namespace Formalism.L2.SG.LoopsTies
-
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 
 section Entry
 
@@ -481,22 +473,6 @@ theorem gramDeterminant_of_unipotent_det (h : DetUUC) : GramDeterminantCount :=
 
 end G0
 
-section Cor
-
-open Formalism.L2.SG.LoopsEv
-
-variable {eps : ℝ} (Fm : FamP eps) (C1 : ℝ)
-  (X : ∀ x, Fm.x1 < x → ∀ i : Fm.Ix x, HidaSetting (Fm.D x i))
-  (Y : ∀ x (hx : Fm.x1 < x) (i : Fm.Ix x), Full (X x hx i))
-  (hF : ∀ x (hx : Fm.x1 < x) (i : Fm.Ix x), FinX (Y x hx i))
-  (hI : ∀ x (hx : Fm.x1 < x) (i : Fm.Ix x), SIso (Fm.D x i).s (sOf (hF x hx i)))
-  (W : ∀ x (hx : Fm.x1 < x) (i : Fm.Ix x), WittDat (X x hx i))
-  (H : ∀ x (hx : Fm.x1 < x) (i : Fm.Ix x), TieHyp (W x hx i) (hI x hx i))
-  (A : ∀ x (hx : Fm.x1 < x) (i : Fm.Ix x), AmpDat (X x hx i))
-  (hV : ∀ x (hx : Fm.x1 < x) (i : Fm.Ix x), PvalForm (W x hx i) (hI x hx i) (A x hx i))
-
-end Cor
-
 end Formalism.L2.SG.LoopsTies
 end -- clump:auto
 end -- clump:auto
@@ -647,8 +623,6 @@ section Conc
 open NumberField Formalism.BasicNotions Formalism.MainNotions Formalism.MainNotions.S Formalism.MainNotions.S.Lat Formalism.L2.SG.HidaSetting Formalism.L2.SG.Full Formalism.L2.SG.PackageTie2 Formalism.L2.SG.TermTieOf
   Formalism.L2.SG.LoopsFinal Formalism.L2.SG.LoopsTies Formalism.L2.SG.NGCut.LeadingMinorIntegrality
 
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
-
 variable {D : D7}
 
 def pseudoLat {ι : Type} (u : ι → (hS D).V) (I : ι → FractionalIdeal (nonZeroDivisors (𝓞 D.host.E)) D.host.E) :
@@ -669,23 +643,17 @@ def aaF (D : D7) (a : Fin (D.R.rS + 1)) : FractionalIdeal (nonZeroDivisors (𝓞
 
 theorem aaF_castSucc (a : Fin D.R.rS) : aaF D (Fin.castSucc a) = ddS D ^ (-((D.R.rS : ℤ) - (a : ℕ))) := by
   unfold aaF
-  rw [if_pos (by simp)]
+  rw [ite_eq_left (by simp)]
   simp
 
 theorem aaF_last : aaF D (Fin.last D.R.rS) = 1 := by
   unfold aaF
-  rw [if_neg (by simp)]
-
-theorem ddS_ne_zero : ddS D ≠ 0 := by
-  unfold ddS
-  rw [Ne, FractionalIdeal.coeIdeal_eq_zero, Ideal.map_eq_bot_iff_of_injective
-    (FaithfulSMul.algebraMap_injective (𝓞 D.host.F) (𝓞 D.host.E))]
-  exact differentIdeal_ne_bot
+  rw [ite_eq_right (by simp)]
 
 theorem aaF_ne_zero (a : Fin (D.R.rS + 1)) : aaF D a ≠ 0 := by
   unfold aaF
   split_ifs
-  · exact zpow_ne_zero _ ddS_ne_zero
+  · exact zpow_ne_zero _ Formalism.L2.SG.Pf.Level.ddS_ne
   · exact one_ne_zero
 
 theorem aaF_star (a : Fin (D.R.rS + 1)) : ∀ x ∈ aaF D a, star x ∈ aaF D a := by
@@ -777,8 +745,6 @@ section Final
 
 open NumberField Formalism.BasicNotions Formalism.MainNotions Formalism.MainNotions.S Formalism.MainNotions.S.Lat Formalism.L2.SG.HidaSetting Formalism.L2.SG.Full Formalism.L2.SG.PackageTie2
   Formalism.L2.SG.TermTieOf Formalism.L2.SG.LoopsFinal Formalism.L2.SG.LoopsTies Formalism.L2.SG.NGCut.LeadingMinorIntegrality
-
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 
 variable {D : D7}
 
@@ -1140,8 +1106,7 @@ theorem coords_psL {u : Fin e → S.V} (hu : LinearIndependent E u) (I : Fin e �
   exact Submodule.comap_map_eq_of_injective (f := j_iotaO u) (j_iota_inj hu) _
 
 theorem exists_ne_mem {J : FractionalIdeal (𝓞 E)⁰ E} (hJ : J ≠ 0) : ∃ x ∈ J, x ≠ 0 := by
-  by_contra h
-  push_neg at h
+  by_contra! h
   apply hJ
   ext x
   constructor
@@ -1298,8 +1263,6 @@ section Inst
 
 open Formalism.MainNotions.S Formalism.L2.SG.DetUU
 
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
-
 theorem genIdxPseudo_holds : GenIdxPseudo := by
   intro D ι _ _ u I hu hI hs hH
   let σ := Fintype.equivFin ι
@@ -1345,8 +1308,6 @@ open MeasureTheory NumberField Formalism.BasicNotions Formalism.MainNotions Form
   Formalism.L2.SG.ThmSOwn
 
 namespace Formalism.L2.SG.LoopsTies
-
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 
 section BM
 
@@ -1401,7 +1362,6 @@ theorem tiesR (hyF : YFOK sel yF) (C1f : List ℝ → ℝ)
     ⟨(tiesAt ((sel Fm hc).2 x (raise_lt hx) (h0R sel yF hx) i).X ((sel Fm hc).2 x (raise_lt hx) (h0R sel yF hx) i).Y (hyF Fm hc x (raise_lt hx) (h0R sel yF hx) (hyR sel yF hx) i).1 (((sel Fm hc).2 x (raise_lt hx) (h0R sel yF hx) i).hI (hyF Fm hc x (raise_lt hx) (h0R sel yF hx) (hyR sel yF hx) i).1) (hyF Fm hc x (raise_lt hx) (h0R sel yF hx) (hyR sel yF hx) i).2 u u').1,
       (tiesAt ((sel Fm hc).2 x (raise_lt hx) (h0R sel yF hx) i).X ((sel Fm hc).2 x (raise_lt hx) (h0R sel yF hx) i).Y (hyF Fm hc x (raise_lt hx) (h0R sel yF hx) (hyR sel yF hx) i).1 (((sel Fm hc).2 x (raise_lt hx) (h0R sel yF hx) i).hI (hyF Fm hc x (raise_lt hx) (h0R sel yF hx) (hyR sel yF hx) i).1) (hyF Fm hc x (raise_lt hx) (h0R sel yF hx) (hyR sel yF hx) i).2 u u').2.1,
       (tiesAt ((sel Fm hc).2 x (raise_lt hx) (h0R sel yF hx) i).X ((sel Fm hc).2 x (raise_lt hx) (h0R sel yF hx) i).Y (hyF Fm hc x (raise_lt hx) (h0R sel yF hx) (hyR sel yF hx) i).1 (((sel Fm hc).2 x (raise_lt hx) (h0R sel yF hx) i).hI (hyF Fm hc x (raise_lt hx) (h0R sel yF hx) (hyR sel yF hx) i).1) (hyF Fm hc x (raise_lt hx) (h0R sel yF hx) (hyR sel yF hx) i).2 u u').2.2, hTI x hx i u u'⟩, hTI⟩
-
 
 end BM
 

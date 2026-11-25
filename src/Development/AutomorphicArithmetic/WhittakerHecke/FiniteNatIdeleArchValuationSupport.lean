@@ -1,44 +1,8 @@
 module
 
-import all Development.AutomorphicArithmetic.WhittakerHecke.ExistsFactorizationOfIdeleCongruenceDivisorLevel
 public import Development.AutomorphicArithmetic.Foundations.Convolution.SplitEigenfunctions.CharacterNorms.FacDefs
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.CharpolySmulMap
 public import Development.AutomorphicArithmetic.Foundations.Convolution.RealGroupAnalysis.UnramifiedSplitting.SgLaws
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
 
 @[expose] public section
 
@@ -52,7 +16,13 @@ open scoped ComplexOrder
 
 private theorem cp_pv (v w : H.P ℚ) :
     H.cp v ((pv w : (A ℚ)ˣ) : A ℚ) = if w = v then ((atFin v (unif v) : (H.Kv v)ˣ) : H.Kv v) else 1 := by
-  apply _root_.cp_pv <;> assumption
+  obtain ⟨-, -, h3, h4, -, -, -, h8, -⟩ := UpperTheory.ConvolutionTheory.R2.H.sgLaws ℚ w
+  rw [pv, h4, map_add (f := _), map_one]
+  split_ifs with h
+  · subst h
+    rw [h3, add_sub_cancel]
+  · have : H.cp v (H.sg w (((atFin w (unif w) : (H.Kv w)ˣ) : H.Kv w) - 1)) = 0 := (h8 _).2 v (Ne.symm h)
+    rw [this, add_zero]
 
 private theorem fin_supp {n : ℕ} : (Function.mulSupport fun v : H.P ℚ => pv v ^ n.factorization (normV v)).Finite := by
   refine (n.factorization.support.finite_toSet.preimage GlobalTheory.TwAtt.normV_injective.injOn).subset fun v hv => ?_
@@ -60,7 +30,14 @@ private theorem fin_supp {n : ℕ} : (Function.mulSupport fun v : H.P ℚ => pv 
 
 private theorem cp_pin (n : ℕ) (v : H.P ℚ) :
     H.cp v ((pin n : (A ℚ)ˣ) : A ℚ) = ((atFin v (unif v) : (H.Kv v)ˣ) : H.Kv v) ^ n.factorization (normV v) := by
-  apply _root_.cp_pin <;> assumption
+  have h := ((H.cp v).toMonoidHom.comp (Units.coeHom (A ℚ))).map_finprod (fin_supp (n := n))
+  refine h.trans ((finprod_eq_single _ v fun w hw => ?_).trans ?_)
+  · rw [map_pow]
+    change H.cp v ((pv w : (A ℚ)ˣ) : A ℚ) ^ _ = 1
+    rw [cp_pv, ite_eq_right hw, one_pow]
+  · rw [map_pow]
+    change H.cp v ((pv v : (A ℚ)ˣ) : A ℚ) ^ _ = _
+    rw [cp_pv, ite_eq_left rfl]
 
 private theorem val_nat (v : H.P ℚ) (n : ℕ) : Valued.v (n : H.Kv v) = v.intValuation (n : 𝓞 ℚ) := by
   have h1 := HeightOneSpectrum.valuedAdicCompletion_eq_valuation (K := ℚ) v (n : 𝓞 ℚ)

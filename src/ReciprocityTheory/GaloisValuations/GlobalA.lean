@@ -4,57 +4,7 @@ public import Mathlib.FieldTheory.KrullTopology
 public import Mathlib.NumberTheory.NumberField.Basic
 public import Mathlib.RingTheory.DedekindDomain.Ideal.Lemmas
 public import Mathlib.RingTheory.Valuation.ValuationSubring
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Henselian
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.RingTheory.RegularLocalRing.Defs
-import Mathlib.RingTheory.SimpleRing.Principal
 public import Mathlib.RingTheory.Valuation.LocalSubring
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.Linter.HaveILetI
-import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Tactic.TypeStar
-import Mathlib.Topology.Sheaves.Init
 public import Mathlib.RingTheory.LocalRing.LocalSubring
 
 @[expose] public section
@@ -152,24 +102,57 @@ variable {F Ω : Type*} [Field F] [NumberField F] [Field Ω] [Algebra F Ω]
 theorem exists_valuationSubring_over (v : HeightOneSpectrum (𝓞 F)) :
     ∃ A : ValuationSubring Ω, ∀ x : 𝓞 F,
       A.valuation (algebraMap F Ω (x : F)) < 1 ↔ x ∈ v.asIdeal := by
-  let R := Localization.AtPrime v.asIdeal
+  classical
   let φ : 𝓞 F →+* Ω := (algebraMap F Ω).comp (algebraMap (𝓞 F) F)
   have hφ : Function.Injective φ :=
     (algebraMap F Ω).injective.comp (IsFractionRing.injective (𝓞 F) F)
-  have hu (y : v.asIdeal.primeCompl) : IsUnit (φ y) := by
-    refine isUnit_iff_ne_zero.mpr fun hz => y.2 ?_
-    exact (hφ (hz.trans (map_zero φ).symm)).symm ▸ v.asIdeal.zero_mem
-  let f : R →+* Ω := IsLocalization.lift (M := v.asIdeal.primeCompl) hu
-  obtain ⟨A, hA, hlocal⟩ := IsLocalRing.exists_factor_valuationRing f
-  let g := f.codRestrict A.toSubring hA
-  have : IsLocalHom g := hlocal
-  refine ⟨A, fun x => ?_⟩
-  have hg : (g (algebraMap (𝓞 F) R x) : Ω) = algebraMap F Ω (x : F) :=
-    IsLocalization.lift_eq hu x
-  rw [← hg, ← ValuationSubring.valuation_lt_one_iff, IsLocalRing.mem_maximalIdeal,
-    mem_nonunits_iff, isUnit_map_iff g]
-  simpa only [Ideal.mem_primeCompl_iff, not_not] using
-    not_congr (IsLocalization.AtPrime.isUnit_to_map_iff R v.asIdeal x)
+  have hu : ∀ y : v.asIdeal.primeCompl, IsUnit (φ y) := by
+    intro y
+    refine isUnit_iff_ne_zero.2 ?_
+    intro h0
+    apply y.2
+    have h1 : (y : 𝓞 F) = 0 := hφ (h0.trans (map_zero φ).symm)
+    rw [h1]
+    exact v.asIdeal.zero_mem
+  let f : (Localization.AtPrime v.asIdeal) →+* Ω := IsLocalization.lift (M := v.asIdeal.primeCompl) hu
+  have hf : ∀ z : 𝓞 F, f (algebraMap (𝓞 F) (Localization.AtPrime v.asIdeal) z) = φ z := fun z => IsLocalization.lift_eq hu z
+  have hfi : Function.Injective f := by
+    rw [IsLocalization.lift_injective_iff]
+    intro a b
+    constructor
+    · intro hab
+      rw [IsLocalization.injective (M := v.asIdeal.primeCompl) (S := (Localization.AtPrime v.asIdeal))
+        (Ideal.primeCompl_le_nonZeroDivisors _) hab]
+    · intro hab
+      rw [hφ hab]
+  obtain ⟨B, hB⟩ := LocalSubring.exists_le_valuationSubring (LocalSubring.range f)
+  rw [LocalSubring.le_def] at hB
+  obtain ⟨hle, hloc⟩ := hB
+  haveI := hloc
+  refine ⟨B, fun x => ?_⟩
+  have hmem : φ x ∈ B := hle ⟨algebraMap (𝓞 F) (Localization.AtPrime v.asIdeal) x, hf x⟩
+  let bx : B := ⟨φ x, hmem⟩
+  have hv : B.valuation (algebraMap F Ω (x : F)) = B.valuation (bx : Ω) := rfl
+  rw [hv, ← ValuationSubring.valuation_lt_one_iff, IsLocalRing.mem_maximalIdeal, mem_nonunits_iff]
+  constructor
+  · intro hnu
+    by_contra hx
+    apply hnu
+    have h1 : IsUnit (algebraMap (𝓞 F) (Localization.AtPrime v.asIdeal) x) :=
+      IsLocalization.map_units (Localization.AtPrime v.asIdeal) (⟨x, hx⟩ : v.asIdeal.primeCompl)
+    have h3 := (h1.map f.rangeRestrict).map (Subring.inclusion hle)
+    rw [show f.rangeRestrict (algebraMap (𝓞 F) (Localization.AtPrime v.asIdeal) x) =
+      (⟨φ x, ⟨_, hf x⟩⟩ : f.range) from Subtype.ext (hf x)] at h3
+    exact h3
+  · intro hx hu'
+    have h1 := isUnit_of_map_unit (Subring.inclusion hle) ⟨φ x, ⟨_, hf x⟩⟩ hu'
+    obtain ⟨w, hw⟩ := h1.exists_right_inv
+    obtain ⟨r, hr⟩ := w.2
+    have h4 : f (algebraMap (𝓞 F) (Localization.AtPrime v.asIdeal) x * r) = f 1 := by
+      rw [map_mul, hf, hr, map_one]
+      exact congrArg Subtype.val hw
+    have h5 : IsUnit (algebraMap (𝓞 F) (Localization.AtPrime v.asIdeal) x) := ⟨⟨_, r, hfi h4, (mul_comm _ _).trans (hfi h4)⟩, rfl⟩
+    exact (IsLocalization.AtPrime.isUnit_to_map_iff (Localization.AtPrime v.asIdeal) v.asIdeal x).1 h5 hx
 
 end exists_place
 

@@ -1,6 +1,5 @@
 module
 
-import Development.WeilBound.ThetaLifts.LatticeBasics.IsCompactIntV
 public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.WeilTensorModels
 public import Mathlib.Analysis.CStarAlgebra.Classes
 public import Mathlib.NumberTheory.NumberField.CanonicalEmbedding.Basic
@@ -64,22 +63,7 @@ open Classical
 open scoped TensorProduct ComplexConjugate GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels
 open GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels (Base Spc Model HasExp SplitsFully Chars)
 
-attribute [local instance] GlobalTheory.LocalData.complRel GlobalTheory.LocalData.isLocalField
-
 noncomputable section
-
-namespace Tw.LatVac
-open _root_.GlobalTheory
-
-variable {F : Type} [Field F] [NumberField F]
-
-def liftV (v : GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.Pl (F := F)) : Fv F v →ₗ[F] AF F :=
-  (LinearMap.inr F (Ainf F) (Af F)).comp (GlobalTheory.AdelicU.singleFin v)
-
-theorem evFin_liftV (v : GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.Pl (F := F)) (a : Fv F v) : GlobalTheory.AdelicU.evFin F v (liftV v a) = a :=
-  GlobalTheory.AdelicU.evalV_singleFin_self v a
-
-end Tw.LatVac
 
 namespace Tw.LatVac
 open _root_.GlobalTheory
@@ -89,21 +73,8 @@ theorem symp_smul_smul {F E : Type} [Field F] [NumberField F] [Field E] [NumberF
     (JB : Matrix (Fin d) (Fin d) (GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.AE (F := F) (E := E))) (ξ : GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.AE (F := F) (E := E)) (a a' : AF F)
     (x y : Matrix (Fin n) (Fin d) (GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.AE (F := F) (E := E))) :
     GlobalTheory.WeilM.symp (R := AF F) (GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.cA σ) ξ JA JB (a • x) (a' • y) =
-      a * a' * GlobalTheory.WeilM.symp (R := AF F) (GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.cA σ) ξ JA JB x y := by
-  unfold GlobalTheory.WeilM.symp GlobalTheory.WeilM.hTens
-  have h : ξ * ∑ i, ∑ j, ∑ k, ∑ l, (a • x) i j * JA i k * JB j l * (GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.cA σ) ((a' • y) k l)
-      = (a * a') • (ξ * ∑ i, ∑ j, ∑ k, ∑ l, x i j * JA i k * JB j l * (GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.cA σ) (y k l)) := by
-    simp only [Matrix.smul_apply, map_smul, Finset.mul_sum, Finset.smul_sum]
-    refine Finset.sum_congr rfl fun _ _ => Finset.sum_congr rfl fun _ _ =>
-      Finset.sum_congr rfl fun _ _ => Finset.sum_congr rfl fun _ _ => ?_
-    simp only [Algebra.smul_def, map_mul]
-    ring
-  rw [h, map_smul, smul_eq_mul]
-
-end Tw.LatVac
-
-namespace Tw.LatVac
-open _root_.GlobalTheory
+      a * a' * GlobalTheory.WeilM.symp (R := AF F) (GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.cA σ) ξ JA JB x y :=
+  by apply _root_.GlobalTheory.LatVac.symp_smul_smul
 
 end Tw.LatVac
 end -- clump:auto
@@ -120,7 +91,15 @@ theorem UpperTheory.Reformulated.B.TraceMixedEmbedding.trace_mixedEmbedding :
     ∀ {F : Type} [inst : Field F] [inst_1 : NumberField F] (y : F),
     (Algebra.trace ℝ (NumberField.mixedEmbedding.mixedSpace F) : NumberField.mixedEmbedding.mixedSpace F → ℝ)
         ((NumberField.mixedEmbedding F : F → NumberField.mixedEmbedding.mixedSpace F) y) =
-      (↑((Algebra.trace ℚ F : F → ℚ) y) : ℝ) := @_root_.GlobalTheory.ThK.Dbl.Dense.trace_emb
+      (↑((Algebra.trace ℚ F : F → ℚ) y) : ℝ) := by
+  intro F _ _ y
+  classical
+  rw [Algebra.trace_eq_matrix_trace (NumberField.mixedEmbedding.latticeBasis F),
+    Algebra.trace_eq_matrix_trace (NumberField.integralBasis F)]
+  simp only [Matrix.trace, Matrix.diag_apply, Algebra.leftMulMatrix_eq_repr_mul, Rat.cast_sum]
+  refine Finset.sum_congr rfl fun i _ => ?_
+  rw [NumberField.mixedEmbedding.latticeBasis_apply, ← map_mul,
+    NumberField.mixedEmbedding.latticeBasis_repr_apply]
 end -- clump:auto
 end -- clump:auto
 -- ===== end clump member: Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.TraceMixedEmbedding =====
@@ -135,8 +114,6 @@ open IsDedekindDomain NumberField MeasureTheory Matrix
 open Classical
 open scoped TensorProduct ComplexConjugate GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels
 open GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels (Base Spc Model HasExp SplitsFully Chars)
-
-attribute [local instance] GlobalTheory.LocalData.complRel GlobalTheory.LocalData.isLocalField
 
 noncomputable section
 
@@ -257,30 +234,8 @@ theorem psi_symp_latAtV : ∀ {F E : Type} [Field F] [NumberField F] [Field E] [
     GlobalTheory.AdelicU.evFin F v b ∈ v.adicCompletionIntegers F →
     ∀ γ ∈ GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.latAtV X Y v, ∀ γ' ∈ GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.latAtV X Y v,
       B.ψ (b * GlobalTheory.WeilM.symp (R := AF F) (GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.cA σ) (inclR (F := F) (AF F) (θ : E))
-        (GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.incM F X.J) (GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.incM F Y.J) γ γ') = 1 := by
-  intro F E _ _ _ _ _ σ B n d X Y r s r' s' hB hX hY v θ b hb γ hγ γ' hγ'
-  have step : ∀ z' ∈ {z | ∃ a : AF F, At (GlobalTheory.AdelicU.evFin F v) a ∧ GlobalTheory.AdelicU.evFin F v a ∈ v.adicCompletionIntegers F ∧
-      ∃ x ∈ X.L, ∃ y ∈ Y.L, z = a • GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.incM F (Matrix.vecMulVec x y)},
-      ∀ γ ∈ GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.latAtV X Y v, B.ψ (b * GlobalTheory.WeilM.symp (R := AF F) (GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.cA σ) (inclR (F := F) (AF F) (θ : E))
-        (GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.incM F X.J) (GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.incM F Y.J) γ z') = 1 := by
-    intro z' hz' γ hγ
-    obtain ⟨a', -, ha', x', hx', y', hy', rfl⟩ := hz'
-    induction hγ using AddSubgroup.closure_induction with
-    | mem z hz =>
-      obtain ⟨a, ha, hav, x, hx, y, hy, rfl⟩ := hz
-      exact psi_gen σ B X Y hX hY hB.std v θ b hb ha hav ha' hx hx' hy hy'
-    | zero => rw [symp_zero_left, mul_zero, AddChar.map_zero_eq_one]
-    | add x y _ _ hx hy =>
-      rw [symp_add_left, mul_add, AddChar.map_add_eq_mul, hx, hy, one_mul]
-    | neg x _ hx =>
-      rw [symp_neg_left, mul_neg, AddChar.map_neg_eq_inv, hx, inv_one]
-  induction hγ' using AddSubgroup.closure_induction with
-  | mem z hz => exact step z hz γ hγ
-  | zero => rw [symp_zero_right, mul_zero, AddChar.map_zero_eq_one]
-  | add x y _ _ hx hy =>
-    rw [symp_add_right, mul_add, AddChar.map_add_eq_mul, hx, hy, one_mul]
-  | neg x _ hx =>
-    rw [symp_neg_right, mul_neg, AddChar.map_neg_eq_inv, hx, inv_one]
+        (GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.incM F X.J) (GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.incM F Y.J) γ γ') = 1 :=
+  _root_.GlobalTheory.LatVacArith.psi_symp_latAtV
 
 end Final
 

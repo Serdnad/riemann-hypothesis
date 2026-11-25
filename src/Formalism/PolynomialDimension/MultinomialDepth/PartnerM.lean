@@ -1,66 +1,20 @@
 module
 
-import Formalism.MahlerMeasure.MahlerMeasureProofs.RemoveS
-import Formalism.MahlerMeasure.MahlerMeasureProofs.WeightSpaceDimensionMonotone
 public import Formalism.MahlerMeasure.MahlerMeasureProofs.FockBlocks
 public import Formalism.MahlerMeasure.StatementTM
 public import Mathlib.LinearAlgebra.FiniteDimensional.Defs
 public import Formalism.MahlerMeasure.MahlerMeasureProofs.TheoremM
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
 import Mathlib.Algebra.Order.Star.Int
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
 import Mathlib.Data.Finsupp.Interval
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
 import Mathlib.RingTheory.Etale.Weakly
 import Mathlib.RingTheory.Henselian
 import Mathlib.RingTheory.PiTensorProduct
-import Mathlib.RingTheory.Radical.NatInt
 import Mathlib.RingTheory.RegularLocalRing.Defs
 import Mathlib.RingTheory.SimpleRing.Principal
 import Mathlib.RingTheory.TotallySplit
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.HaveILetI
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
 import Mathlib.Tactic.TypeStar
-import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
 public import Mathlib.LinearAlgebra.FiniteDimensional.Basic
 public import Mathlib.LinearAlgebra.FiniteDimensional.Lemmas
@@ -167,7 +121,35 @@ theorem finrank_lattice {N r : ℕ} (LL : Letters N) (S : Submodule ℚ_[p] (MvP
   rw [this, Submodule.span_image, b.span_eq, Submodule.map_subtype_top]
 
 theorem pol_finiteDimensional {N r : ℕ} (LL : Letters N) : FiniteDimensional ℚ_[p] (Pol p r LL) := by
-  apply +allowSynthFailures _root_.Formalism.GM.DimensionMonotonicity.pol_fd <;> assumption
+  classical
+  let bnd : Fin N × Fin r →₀ ℕ := Finsupp.equivFunOnFinite.symm (fun _ => LL.total)
+  have hfin : ({m | MultiDeg LL m} : Set (Fin N × Fin r →₀ ℕ)).Finite := by
+    refine (Set.finite_Iic bnd).subset ?_
+    intro m hm
+    rw [Set.mem_Iic, Finsupp.le_def]
+    intro a
+    have h1 : m a ≤ ∑ c, m (a.1, c) :=
+      Finset.single_le_sum (f := fun c => m (a.1, c)) (fun _ _ => Nat.zero_le _) (mem_univ a.2)
+    have h2 : LL.deg a.1 ≤ LL.total :=
+      Finset.single_le_sum (f := fun i => LL.deg i) (fun _ _ => Nat.zero_le _) (mem_univ a.1)
+    have h3 : bnd a = LL.total := by simp [bnd]
+    rw [h3]
+    rw [hm a.1] at h1
+    omega
+  have hle : Pol p r LL ≤ Submodule.span ℚ_[p] ((fun m => (monomial m (1 : ℚ_[p]) : MvPolynomial (Fin N × Fin r) ℚ_[p])) ''
+      {m | MultiDeg LL m}) := by
+    intro x hx
+    rw [Pol, mem_restrictSupport_iff] at hx
+    rw [x.as_sum]
+    refine Submodule.sum_mem _ fun m hm => ?_
+    have : monomial m (x.coeff m) = x.coeff m • (monomial m (1 : ℚ_[p])) := by
+      rw [MvPolynomial.smul_monomial, smul_eq_mul, mul_one]
+    rw [this]
+    exact Submodule.smul_mem _ _ (Submodule.subset_span ⟨m, hx (Finset.mem_coe.mpr hm), rfl⟩)
+  have : FiniteDimensional ℚ_[p] (Submodule.span ℚ_[p] ((fun m => (monomial m (1 : ℚ_[p]) :
+      MvPolynomial (Fin N × Fin r) ℚ_[p])) '' {m | MultiDeg LL m})) :=
+    FiniteDimensional.span_of_finite ℚ_[p] (hfin.image _)
+  exact Submodule.finiteDimensional_of_le hle
 
 end Lat
 
@@ -470,12 +452,6 @@ namespace Formalism.CountingSumsFrames
 
 open Formalism.GM Formalism.GM.TM M MvPolynomial Finset
 
-end Formalism.CountingSumsFrames
-
-namespace Formalism.CountingSumsFrames
-
-open Formalism.GM Formalism.GM.TM M MvPolynomial Finset
-
 section XD
 variable {k σ : Type} [Field k]
 
@@ -749,7 +725,17 @@ variable {k σ : Type} [Field k]
 
 private theorem pderiv_pderiv_lemma [DecidableEq σ] (i j : σ) (g : MvPolynomial σ k) :
     pderiv i (pderiv j g) = pderiv j (pderiv i g) := by
-  apply _root_.Formalism.GM.ProjS.pderiv_comm <;> assumption
+  have hX : ∀ (l i : σ) (n : σ), pderiv l (pderiv i (X n : MvPolynomial σ k)) = 0 := by
+    intro l i n
+    by_cases h : n = i
+    · subst h; simp
+    · rw [pderiv_X_of_ne h, map_zero]
+  apply MvPolynomial.induction_on g
+  · intro a; simp
+  · intro p q hp hq; simp only [map_add (f := _), hp, hq]
+  · intro p n hp
+    simp only [Derivation.leibniz, smul_eq_mul, map_add (f := _), hp, hX, mul_zero, zero_add]
+    ring
 
 theorem comm_XD [DecidableEq σ] (u v u' v' : σ) (g : MvPolynomial σ k) :
     X u * pderiv v (X u' * pderiv v' g) - X u' * pderiv v' (X u * pderiv v g) =
@@ -861,7 +847,21 @@ theorem tm_comm_eq (LL : Letters N) (j : ℕ) (i : Fin N) (c d a b : Fin r)
 theorem glAct_comm (LL : Letters N) (j : ℕ) (c d a b : Fin r) (x : MvPolynomial (Fin N × Fin r) ℚ_[p]) :
     glAct p LL j c d (glAct p LL j a b x) - glAct p LL j a b (glAct p LL j c d x) =
       (if d = a then glAct p LL j c b x else 0) - (if b = c then glAct p LL j a d x else 0) := by
-  apply +allowSynthFailures _root_.Formalism.GM.DimensionMonotonicity.glAct_comm <;> assumption
+
+  simp only [glAct_eq_sum, LinearMap.sum_apply, map_sum]
+  rw [Finset.sum_comm (s := Finset.univ) (t := Finset.univ)
+      (f := fun o n => tm (p := p) LL j n c d (tm (p := p) LL j o a b x)), ← Finset.sum_sub_distrib]
+  have hrow : ∀ i : Fin N, (∑ i', tm (p := p) LL j i c d (tm (p := p) LL j i' a b x)) -
+      ∑ i', tm (p := p) LL j i' a b (tm (p := p) LL j i c d x) =
+      (if d = a then tm (p := p) LL j i c b x else 0) - (if b = c then tm (p := p) LL j i a d x else 0) := by
+    intro i
+    rw [← Finset.sum_sub_distrib, Finset.sum_eq_single i, tm_comm_eq]
+    · intro i' _ hi'
+      rw [tm_comm_ne LL j i i' (Ne.symm hi') c d a b x, sub_self]
+    · intro h
+      exact absurd (Finset.mem_univ i) h
+  rw [Finset.sum_congr rfl (fun i _ => hrow i)]
+  split_ifs <;> simp [Finset.sum_sub_distrib]
 
 end Terms
 
@@ -1271,7 +1271,20 @@ theorem wcomp_mem (LL : Letters N) (j : ℕ) (S : Submodule ℚ_[p] (MvPolynomia
   exact key Finset.univ x hx
 
 theorem multiDeg_finite (LL : Letters N) : ({m | MultiDeg (r := r) LL m} : Set (Fin N × Fin r →₀ ℕ)).Finite := by
-  apply +allowSynthFailures _root_.Formalism.GM.DimensionMonotonicity.pol_finite <;> assumption
+  classical
+  let bnd : Fin N × Fin r →₀ ℕ := Finsupp.equivFunOnFinite.symm (fun _ => LL.total)
+  refine (Set.finite_Iic bnd).subset ?_
+  intro m hm
+  rw [Set.mem_Iic, Finsupp.le_def]
+  intro a
+  have h1 : m a ≤ ∑ c, m (a.1, c) :=
+    Finset.single_le_sum (f := fun c => m (a.1, c)) (fun _ _ => Nat.zero_le _) (mem_univ a.2)
+  have h2 : LL.deg a.1 ≤ LL.total :=
+    Finset.single_le_sum (f := fun i => LL.deg i) (fun _ _ => Nat.zero_le _) (mem_univ a.1)
+  have h3 : bnd a = LL.total := by simp [bnd]
+  rw [h3]
+  rw [hm a.1] at h1
+  omega
 
 theorem exists_hw (LL : Letters N) (j : ℕ) (S : Submodule ℚ_[p] (MvPolynomial (Fin N × Fin r) ℚ_[p]))
     (hSP : S ≤ Pol p r LL) (hS : ∀ c d, ∀ x ∈ S, glAct p LL j c d x ∈ S) (x : MvPolynomial (Fin N × Fin r) ℚ_[p])
@@ -1522,11 +1535,5 @@ theorem lcomp_int {p : ℕ} [Fact p.Prime] {N r : ℕ} {ι : Type*} [LinearOrder
     exact (Pol p r LL).smul_mem _ (hpol a _ (Submodule.mem_inf.mp ih).1)
 
 end E3
-
-end Formalism.CountingSumsFrames
-
-namespace Formalism.CountingSumsFrames
-
-open Formalism.GM Formalism.GM.TM
 
 end Formalism.CountingSumsFrames

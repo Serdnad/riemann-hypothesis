@@ -9,7 +9,6 @@ public import GroundTheory.AutomorphicForms.UnitaryAdmissible.CuspCentral
 public import GroundTheory.AutomorphicForms.AutomorphicFormSpaces.GKStableLaplacian
 public import GroundTheory.AutomorphicForms.SmoothRep
 import Mathlib.Tactic.TypeStar
-import ReciprocityTheory.ReductiveGroups.DiscreteSeries.TensorRepresentations.DecompA
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: GroundTheory.AutomorphicForms.TensorProductTheorem.PeterssonComplement, GroundTheory.AutomorphicForms.TensorProductTheorem.CentralCuspSplit
@@ -34,7 +33,19 @@ variable {ι}
 
 theorem aeval_mem {T : Module.End ℂ V} {Z : Submodule ℂ V} (hZ : ∀ z ∈ Z, T z ∈ Z) (q : ℂ[X]) :
     ∀ z ∈ Z, aeval T q z ∈ Z := by
-  apply _root_.ReciprocityTheory.ChartRestriction.DS.dc_aeval_mem <;> assumption
+  induction q using Polynomial.induction_on with
+  | C a =>
+    intro z hz
+    rw [aeval_C, Module.algebraMap_end_apply]
+    exact Z.smul_mem a hz
+  | add p q hp hq =>
+    intro z hz
+    rw [map_add (f := _), LinearMap.add_apply]
+    exact Z.add_mem (hp z hz) (hq z hz)
+  | monomial k a ih =>
+    intro z hz
+    rw [pow_succ, ← mul_assoc, map_mul, aeval_X, Module.End.mul_apply]
+    exact ih _ (hZ z hz)
 
 theorem apply_aeval_comm (T : Module.End ℂ V) (q : ℂ[X]) (z : V) : T (aeval T q z) = aeval T q (T z) := by
   have h := (Commute.all (X : ℂ[X]) q).map (aeval T)
@@ -63,8 +74,6 @@ namespace AutomorphicForm
 open NumberField MeasureTheory Filter Topology CuspidalSpectrum Polynomial UnitaryAdmissible
 
 set_option linter.unusedSectionVars false
-
-attribute [local instance 100] LieRing.ofAssociativeRing
 
 variable {K : Type*} [Field K] [NumberField K] {n : ℕ}
 
@@ -330,6 +339,75 @@ theorem map_mem_orthRel {ι : M →ₗ[ℂ] H} {Vc U : Submodule ℂ M} {A A' : 
 
 end Relative
 
+theorem sup_orthRel_of_finite_of_hHC {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℂ H]
+    (ι : cuspForms K n →ₗ[ℂ] H)
+    (hinj : ∀ a ∈ centralCuspForms K n, ι a = 0 → a = 0)
+    (hτ : ∀ g, ∀ a ∈ centralCuspForms K n, ∀ c ∈ centralCuspForms K n,
+      inner ℂ (ι (finRepCusp K n g a)) (ι (finRepCusp K n g c)) = inner ℂ (ι a) (ι c))
+    (hρ : ∀ X, ∀ a ∈ centralCuspForms K n, ∀ c ∈ centralCuspForms K n,
+      inner ℂ (ι ((gkModuleCusp K n).ρ X a)) (ι c) + inner ℂ (ι a) (ι ((gkModuleCusp K n).ρ X c)) = 0)
+    {d : ℕ} (b : Module.Basis (Fin d) ℝ (isExpLieAlgebra K n).lieSubalgebra)
+    (hΔ : ∀ φ : cuspForms K n, ∃ P : ℂ[X], P.Monic ∧ 0 < P.natDegree ∧
+      aeval (uActionCusp K n (laplacianU K n b)) P φ = 0)
+    (hHC : ∀ U₀ : OpenSubgroup (AdelicGLn.FiniteAdelicGL K n),
+      (U₀ : Set (AdelicGLn.FiniteAdelicGL K n)) ⊆ AdelicGLn.integralFiniteGL K n →
+      ∀ P : ℂ[X], P.Monic → 0 < P.natDegree → ∀ S : Submodule ℂ (cuspForms K n),
+        (∀ φ ∈ S, aeval (uActionCusp K n (laplacianU K n b)) P φ = 0 ∧
+          (gkModuleCusp K n).ρ (centralZ K n) φ = 0 ∧ ∀ u ∈ U₀, finRepCusp K n u φ = φ) →
+        FiniteDimensional ℂ S)
+    (U : Submodule ℂ (cuspForms K n)) (hU : U ≤ centralCuspForms K n)
+    (hUρ : ∀ X, ∀ φ ∈ U, (gkModuleCusp K n).ρ X φ ∈ U)
+    (hUτ : ∀ g, ∀ φ ∈ U, finRepCusp K n g φ ∈ U) :
+    U ⊔ orthRel ι (centralCuspForms K n) U = centralCuspForms K n := by
+  classical
+  let Δ := uActionCusp K n (laplacianU K n b)
+  have hΔsum : ∀ φ : cuspForms K n, Δ φ = ∑ i, (gkModuleCusp K n).ρ (b i) ((gkModuleCusp K n).ρ (b i) φ) := by
+    intro φ
+    simp only [Δ, laplacianU, map_sum, map_mul, LinearMap.sum_apply, Module.End.mul_apply]
+    rfl
+  have hΔV : ∀ φ ∈ centralCuspForms K n, Δ φ ∈ centralCuspForms K n :=
+    fun φ hφ => uActionCusp_mem_centralCuspForms _ hφ
+  have hXX : ∀ X, ∀ a ∈ centralCuspForms K n, ∀ c ∈ centralCuspForms K n,
+      inner ℂ (ι ((gkModuleCusp K n).ρ X ((gkModuleCusp K n).ρ X a))) (ι c) =
+      inner ℂ (ι a) (ι ((gkModuleCusp K n).ρ X ((gkModuleCusp K n).ρ X c))) := by
+    intro X a ha c hc
+    have h1 := hρ X _ (ρ_mem_centralCuspForms X ha) c hc
+    have h2 := hρ X a ha _ (ρ_mem_centralCuspForms X hc)
+    linear_combination h1 - h2
+  have hT : ∀ x ∈ centralCuspForms K n, ∀ y ∈ centralCuspForms K n,
+      inner ℂ (ι (Δ x)) (ι y) = inner ℂ (ι x) (ι (Δ y)) := by
+    intro x hx y hy
+    rw [hΔsum, hΔsum, map_sum, map_sum, sum_inner, inner_sum]
+    exact Finset.sum_congr rfl fun i _ => hXX (b i) x hx y hy
+  have hUΔ : ∀ φ ∈ U, Δ φ ∈ U := fun φ hφ => by
+    rw [hΔsum]
+    exact U.sum_mem fun i _ => hUρ _ _ (hUρ _ _ hφ)
+  refine sup_orthRel_eq_of_symmetric (ι := ι) hU hinj hΔV hT hUΔ (fun v hv => ?_)
+  obtain ⟨U₀, hU₀sub, hU₀⟩ := exists_openSubgroup_rightInvariant v.2.1.isSmooth v.2.1.isKFinite
+  let V₀ : Submodule ℂ (cuspForms K n) :=
+    { carrier := {x | x ∈ centralCuspForms K n ∧ ∀ h ∈ U₀, finRepCusp K n h x = x}
+      zero_mem' := ⟨Submodule.zero_mem _, fun h _ => map_zero _⟩
+      add_mem' := fun {x y} hx hy => ⟨Submodule.add_mem _ hx.1 hy.1, fun h hh => by
+        rw [map_add (f := _), hx.2 h hh, hy.2 h hh]⟩
+      smul_mem' := fun c x hx => ⟨Submodule.smul_mem _ c hx.1, fun h hh => by
+        rw [map_smul, hx.2 h hh]⟩ }
+  refine ⟨V₀, fun x hx => hx.1, ⟨hv, fun h hh => Subtype.ext (funext fun g => hU₀ g h hh)⟩,
+    fun z hz => ⟨hΔV z hz.1, fun h hh => ?_⟩, fun x hx => ?_, fun u hu => ?_⟩
+  · show finRepCusp K n h (uActionCusp K n (laplacianU K n b) z) = uActionCusp K n (laplacianU K n b) z
+    rw [← uActionCusp_finRepCusp, hz.2 h hh]
+  · obtain ⟨P, hPm, hPd, hP⟩ := hΔ x
+    obtain ⟨p, hp⟩ := exists_map_eq_mul_map_conj P
+    have hQm : (p.map (algebraMap ℝ ℂ)).Monic := hp ▸ hPm.mul (hPm.map _)
+    have hQd : 0 < (p.map (algebraMap ℝ ℂ)).natDegree := by
+      rw [hp, hPm.natDegree_mul (hPm.map _)]
+      omega
+    refine ⟨p, ?_, hHC U₀ hU₀sub _ hQm hQd _ fun φ hφ =>
+      ⟨hφ.2, ρ_centralZ_eq_zero hφ.1.1, hφ.1.2⟩⟩
+    show aeval Δ (p.map (algebraMap ℝ ℂ)) x = 0
+    rw [hp, mul_comm, map_mul, Module.End.mul_apply, hP, map_zero]
+  · obtain ⟨e, heU, hefix, he⟩ := exists_average ι hτ U hU hUτ U₀ hU₀sub hu
+    exact ⟨e, ⟨heU, hU heU, hefix⟩, fun w hw => he w hw.1 hw.2⟩
+
 theorem exists_isCompl_of_finite {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℂ H]
     (ι : cuspForms K n →ₗ[ℂ] H)
     (hinj : ∀ a ∈ centralCuspForms K n, ι a = 0 → a = 0)
@@ -355,56 +433,7 @@ theorem exists_isCompl_of_finite {H : Type*} [NormedAddCommGroup H] [InnerProduc
     ∃ C : Submodule ℂ (cuspForms K n), C ≤ centralCuspForms K n ∧
       (∀ X, ∀ φ ∈ C, (gkModuleCusp K n).ρ X φ ∈ C) ∧ (∀ k, ∀ φ ∈ C, (gkModuleCusp K n).σ k φ ∈ C) ∧
       (∀ g, ∀ φ ∈ C, finRepCusp K n g φ ∈ C) ∧ U ⊓ C = ⊥ ∧ U ⊔ C = centralCuspForms K n := by
-  classical
-  let Δ := uActionCusp K n (laplacianU K n b)
-  have hΔsum : ∀ φ : cuspForms K n, Δ φ = ∑ i, (gkModuleCusp K n).ρ (b i) ((gkModuleCusp K n).ρ (b i) φ) := by
-    intro φ
-
-    simp only [Δ, laplacianU, map_sum, map_mul, LinearMap.sum_apply, Module.End.mul_apply]
-    rfl
-  have hΔV : ∀ φ ∈ centralCuspForms K n, Δ φ ∈ centralCuspForms K n :=
-    fun φ hφ => uActionCusp_mem_centralCuspForms _ hφ
-  have hXX : ∀ X, ∀ a ∈ centralCuspForms K n, ∀ c ∈ centralCuspForms K n,
-      inner ℂ (ι ((gkModuleCusp K n).ρ X ((gkModuleCusp K n).ρ X a))) (ι c) =
-      inner ℂ (ι a) (ι ((gkModuleCusp K n).ρ X ((gkModuleCusp K n).ρ X c))) := by
-    intro X a ha c hc
-    have h1 := hρ X _ (ρ_mem_centralCuspForms X ha) c hc
-    have h2 := hρ X a ha _ (ρ_mem_centralCuspForms X hc)
-    linear_combination h1 - h2
-  have hT : ∀ x ∈ centralCuspForms K n, ∀ y ∈ centralCuspForms K n,
-      inner ℂ (ι (Δ x)) (ι y) = inner ℂ (ι x) (ι (Δ y)) := by
-    intro x hx y hy
-
-    rw [hΔsum, hΔsum, map_sum, map_sum, sum_inner, inner_sum]
-    exact Finset.sum_congr rfl fun i _ => hXX (b i) x hx y hy
-  have hUΔ : ∀ φ ∈ U, Δ φ ∈ U := fun φ hφ => by
-    rw [hΔsum]
-    exact U.sum_mem fun i _ => hUρ _ _ (hUρ _ _ hφ)
-  have hsup := sup_orthRel_eq_of_symmetric (ι := ι) hU hinj hΔV hT hUΔ (fun v hv => by
-    obtain ⟨U₀, hU₀sub, hU₀⟩ := exists_openSubgroup_rightInvariant v.2.1.isSmooth v.2.1.isKFinite
-    let V₀ : Submodule ℂ (cuspForms K n) :=
-      { carrier := {x | x ∈ centralCuspForms K n ∧ ∀ h ∈ U₀, finRepCusp K n h x = x}
-        zero_mem' := ⟨Submodule.zero_mem _, fun h _ => map_zero _⟩
-        add_mem' := fun {x y} hx hy => ⟨Submodule.add_mem _ hx.1 hy.1, fun h hh => by
-          rw [map_add (f := _), hx.2 h hh, hy.2 h hh]⟩
-        smul_mem' := fun c x hx => ⟨Submodule.smul_mem _ c hx.1, fun h hh => by
-          rw [map_smul, hx.2 h hh]⟩ }
-    refine ⟨V₀, fun x hx => hx.1, ⟨hv, fun h hh => Subtype.ext (funext fun g => hU₀ g h hh)⟩,
-      fun z hz => ⟨hΔV z hz.1, fun h hh => ?_⟩, fun x hx => ?_, fun u hu => ?_⟩
-    · show finRepCusp K n h (uActionCusp K n (laplacianU K n b) z) = uActionCusp K n (laplacianU K n b) z
-      rw [← uActionCusp_finRepCusp, hz.2 h hh]
-    · obtain ⟨P, hPm, hPd, hP⟩ := hΔ x
-      obtain ⟨p, hp⟩ := exists_map_eq_mul_map_conj P
-      have hQm : (p.map (algebraMap ℝ ℂ)).Monic := hp ▸ hPm.mul (hPm.map _)
-      have hQd : 0 < (p.map (algebraMap ℝ ℂ)).natDegree := by
-        rw [hp, hPm.natDegree_mul (hPm.map _)]
-        omega
-      refine ⟨p, ?_, hHC U₀ hU₀sub _ hQm hQd _ fun φ hφ =>
-        ⟨hφ.2, ρ_centralZ_eq_zero hφ.1.1, hφ.1.2⟩⟩
-      show aeval Δ (p.map (algebraMap ℝ ℂ)) x = 0
-      rw [hp, mul_comm, map_mul, Module.End.mul_apply, hP, map_zero]
-    · obtain ⟨e, heU, hefix, he⟩ := exists_average ι hτ U hU hUτ U₀ hU₀sub hu
-      exact ⟨e, ⟨heU, hU heU, hefix⟩, fun w hw => he w hw.1 hw.2⟩)
+  have hsup := sup_orthRel_of_finite_of_hHC ι hinj hτ hρ b hΔ hHC U hU hUρ hUτ
   refine ⟨orthRel ι (centralCuspForms K n) U, orthRel_le _ _ _, fun X φ hφ => ?_, fun k φ hφ => ?_,
     fun g φ hφ => ?_, inf_orthRel_eq_bot hU hinj, hsup⟩
   · refine map_mem_orthRel (A := (gkModuleCusp K n).ρ X) (A' := fun y => -(gkModuleCusp K n).ρ X y)

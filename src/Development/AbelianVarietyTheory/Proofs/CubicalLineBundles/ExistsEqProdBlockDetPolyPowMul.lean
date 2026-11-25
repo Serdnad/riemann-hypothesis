@@ -1,7 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.MeanLogSupNormLowerBoundCmFrameNonvanishing
-import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.ExistsPolyDivDet
 public import Development.AbelianVarietyTheory.Definitions.CMLattices.IntegralOf
 public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.LawsFieldsSeparately
 public import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.ChartCoverFOfSecBaseChange
@@ -12,47 +10,6 @@ import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.FrameChangeByMat
 import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.FrameChangeCommBaseChange
 import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.FramedPointBaseChangeUniqueReflIff
 import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.LowerTriIsUnitDet
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Henselian
-import Mathlib.RingTheory.PiTensorProduct
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.RingTheory.RegularLocalRing.Defs
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
 import Std.Tactic.BVDecide.Normalize.Prop
 
 @[expose] public section
@@ -89,7 +46,57 @@ theorem exists_eq_prod_blockDetPoly_pow_mul (K : Type) [Field K] [Infinite K] (B
         (∀ b', (X b').det ≠ 0) → t.det ≠ 0 → t.BlockTriangular id →
         evalFr P (Function.update X b (X b * t)) = (∏ i, t i i ^ (a b i + n b)) * evalFr P X) →
       ∃ G : MvPolynomial (FrVar m) K, P = (∏ b, blockDetPoly K m b ^ n b) * G := by
-  first | exact _root_.GlobalTheory.LamT.exists_eq_prod_blockDetPoly_pow_mul | exact @_root_.GlobalTheory.LamT.exists_eq_prod_blockDetPoly_pow_mul | apply _root_.GlobalTheory.LamT.exists_eq_prod_blockDetPoly_pow_mul <;> assumption
+  induction s with
+  | zero =>
+    intro n hn P _
+    have h0 : ∀ b, n b = 0 := fun b =>
+      (Finset.sum_eq_zero_iff.1 hn) b (Finset.mem_univ b)
+    exact ⟨P, by simp [h0]⟩
+  | succ s ih =>
+    intro n hn P hP
+    obtain ⟨b₀, -, hb₀⟩ : ∃ b ∈ (Finset.univ : Finset B), n b ≠ 0 :=
+      Finset.exists_ne_zero_of_sum_ne_zero (by omega)
+    obtain ⟨Q, hQ⟩ := GlobalTheory.FrameDet.det_dvd_of_equivariant K B m P (fun b i => a b i + n b) hP b₀ (fun i => by omega)
+    change P = blockDetPoly K m b₀ * Q at hQ
+    set n' : B → ℕ := Function.update n b₀ (n b₀ - 1) with hn'
+    have hn'0 : n' b₀ + 1 = n b₀ := by simp only [hn', Function.update_self]; omega
+    have hn'1 : ∀ b, b ≠ b₀ → n' b = n b := fun b hb => by
+      simp only [hn', Function.update_of_ne hb]
+    have hsum : ∑ b, n' b = s := by
+      rw [← Finset.add_sum_erase _ _ (Finset.mem_univ b₀)] at hn ⊢
+      have : ∑ b ∈ Finset.univ.erase b₀, n' b = ∑ b ∈ Finset.univ.erase b₀, n b :=
+        Finset.sum_congr rfl fun b hb => hn'1 b (Finset.ne_of_mem_erase hb)
+      omega
+    have hev : ∀ X : ∀ b, Matrix (Fin (m b)) (Fin (m b)) K,
+        evalFr P X = (X b₀).det * evalFr Q X := fun X => by
+      rw [← evalFr_blockDetPoly m b₀ X, hQ]
+      simp only [evalFr, map_mul]
+    obtain ⟨G, hG⟩ := ih n' hsum Q (by
+      intro X b t hX ht htri
+      have h := hP X b t hX ht htri
+      rw [hev, hev] at h
+      by_cases hb : b = b₀
+      · subst hb
+        rw [Function.update_self, Matrix.det_mul] at h
+        have hd : t.det = ∏ i, t i i := Matrix.det_of_upperTriangular htri
+        have hp : (∏ i, t i i ^ (a b i + n b)) = t.det * ∏ i, t i i ^ (a b i + n' b) := by
+          rw [hd, ← Finset.prod_mul_distrib]
+          refine Finset.prod_congr rfl fun i _ => ?_
+          rw [← hn'0]; ring
+        rw [hp] at h
+        apply mul_left_cancel₀ (mul_ne_zero (hX b) ht)
+        rw [h]; ring
+      · rw [Function.update_of_ne (Ne.symm hb)] at h
+        rw [hn'1 b hb]
+        apply mul_left_cancel₀ (hX b₀)
+        rw [h]; ring)
+    refine ⟨G, ?_⟩
+    rw [hQ, hG, ← Finset.mul_prod_erase _ _ (Finset.mem_univ b₀),
+      ← Finset.mul_prod_erase _ (fun b => blockDetPoly K m b ^ n b) (Finset.mem_univ b₀)]
+    have : ∏ b ∈ Finset.univ.erase b₀, blockDetPoly K m b ^ n' b
+        = ∏ b ∈ Finset.univ.erase b₀, blockDetPoly K m b ^ n b :=
+      Finset.prod_congr rfl fun b hb => by rw [hn'1 b (Finset.ne_of_mem_erase hb)]
+    rw [this, ← hn'0]; ring
 
 theorem evalFr_eq_prod_det_pow_mul : ∀ (K : Type) [Field K] [Infinite K] (B : Type) [Fintype B] [DecidableEq B] (m : B → ℕ) (P : MvPolynomial (FrVar m) K) (a : ∀ b, Fin (m b) → ℕ) (N : ℕ), (∀ (X : ∀ b, Matrix (Fin (m b)) (Fin (m b)) K) (b : B) (t : Matrix (Fin (m b)) (Fin (m b)) K), (∀ b', (X b').det ≠ 0) → t.det ≠ 0 → t.BlockTriangular id → evalFr P (Function.update X b (X b * t)) = (∏ i, t i i ^ (a b i + N)) * evalFr P X) → ∃ G : MvPolynomial (FrVar m) K, ∀ (S : Type) [CommRing S] (φ : K →+* S) (X : ∀ b, Matrix (Fin (m b)) (Fin (m b)) S), evalFr (MvPolynomial.map φ P) X = (∏ b, (X b).det) ^ N * evalFr (MvPolynomial.map φ G) X := by
   intro K _ _ B _ _ m P a N hP
@@ -105,7 +112,52 @@ theorem exists_genericRing (F K : Type) [Field F] [Field K] [Algebra F K] (B : T
         ∀ (S : Type) [CommRing S] [Algebra F S] (φ : K →ₐ[F] S) (Y : ∀ b, Matrix (Fin (m b)) (Fin (m b)) S),
           (∀ b, IsUnit (Y b).det) → ∃ k : A →ₐ[F] S, k.comp π = φ ∧ (∀ b, (X b).map k = Y b) ∧
             (∏ b, (Y b).det) ^ N * k t = evalFr (MvPolynomial.map φ.toRingHom P) Y := by
-  first | exact _root_.GlobalTheory.LamT.RatFn.exists_genericRing | exact @_root_.GlobalTheory.LamT.RatFn.exists_genericRing | apply _root_.GlobalTheory.LamT.RatFn.exists_genericRing <;> assumption
+  classical
+  let X₀ : ∀ b, Matrix (Fin (m b)) (Fin (m b)) (MvPolynomial (FrVar m) K) :=
+    fun b => Matrix.of fun i j => MvPolynomial.X ⟨b, (j, i)⟩
+  let d : MvPolynomial (FrVar m) K := ∏ b, (X₀ b).det
+  let A := Localization.Away d
+  let jA : MvPolynomial (FrVar m) K →ₐ[F] A := IsScalarTower.toAlgHom F _ A
+  have hd : IsUnit (algebraMap (MvPolynomial (FrVar m) K) A d) := IsLocalization.Away.algebraMap_isUnit d
+  refine ⟨A, inferInstance, inferInstance, jA.comp (IsScalarTower.toAlgHom F K _),
+    fun b => (X₀ b).map (algebraMap _ A), inferInstance, fun b => ?_, fun t => ?_⟩
+  · beta_reduce
+    rw [← RingHom.mapMatrix_apply, ← RingHom.map_det]
+    exact isUnit_of_dvd_unit (map_dvd _ (Finset.dvd_prod_of_mem (fun b => (X₀ b).det) (Finset.mem_univ b))) hd
+  · obtain ⟨N, P, hP⟩ := IsLocalization.Away.surj d t
+    refine ⟨P, N, fun S _ _ φ Y hY => ?_⟩
+    let e : MvPolynomial (FrVar m) K →+* S :=
+      MvPolynomial.eval₂Hom φ.toRingHom (fun v : FrVar m => Y v.1 v.2.2 v.2.1)
+    have heX : ∀ b, (X₀ b).map e = Y b := fun b => by
+      ext i j
+      simp [e, X₀]
+    have hed : e d = ∏ b, (Y b).det := by
+      simp only [d, map_prod]
+      refine Finset.prod_congr rfl fun b _ => ?_
+      rw [RingHom.map_det, RingHom.mapMatrix_apply, heX]
+    have hu : IsUnit (e d) := by
+      rw [hed]
+      exact IsUnit.prod_univ_iff.2 hY
+    let k₀ : A →+* S := IsLocalization.Away.lift d hu
+    have hk : ∀ p, k₀ (algebraMap _ A p) = e p := fun p => IsLocalization.Away.lift_eq d hu p
+    have hC : ∀ x : K, e (algebraMap K _ x) = φ x := fun x => by simp [e]
+    let k : A →ₐ[F] S :=
+      { k₀ with
+        commutes' := fun r => by
+          change k₀ (algebraMap F A r) = _
+          rw [IsScalarTower.algebraMap_apply F (MvPolynomial (FrVar m) K) A, hk,
+            IsScalarTower.algebraMap_apply F K (MvPolynomial (FrVar m) K), hC, φ.commutes] }
+    refine ⟨k, ?_, fun b => ?_, ?_⟩
+    · ext x
+      exact (hk _).trans (hC x)
+    · rw [← heX b]
+      ext i j
+      exact hk _
+    · have h := congrArg k₀ hP
+      rw [map_mul, map_pow, hk, hk, hed] at h
+      change _ * k₀ t = _
+      rw [mul_comm, h, evalFr, MvPolynomial.eval_map]
+      rfl
 
 theorem evR_frChg_mul_triangular (E : Type) [Field E] [NumberField E] [IsCMField E] (H : Host E) (Dw : Datum H)
     (l : Level H) (Xo : Moduli Dw l) (c : Coeff l) (K : Type) [Field K] [Algebra c.F K] (a : (E →+* ℂ) × ℕ → ℕ) (n : ℕ)

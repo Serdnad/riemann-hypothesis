@@ -628,26 +628,29 @@ theorem sum_log_nonneg (M : IntermediateField ℚ ℂ) [FiniteDimensional ℚ M]
   rw [← (RingHom.equivRatAlgHom M ℂ).sum_comp]
   exact h
 
-theorem bounds_of_conjugate_lattice_data (hN : JacobiThetaHalfCharacteristic.NormTheta0) (hP : PeriodLatticeAgreement.LatticePeriodEta) {C₀ : ℝ}
-    (hth : ∀ (a b : Fin 2) (τ : ℂ), 1 / 2 ≤ τ.im → ‖JacobiThetaHalfCharacteristic.thetaChar a b 0 τ‖ ≤ C₀)
-    (D : D7) (cc : Ideal (𝓞 D.host.K)) (δ : ℂ) (M : IntermediateField ℚ ℂ)
-    [FiniteDimensional ℚ M] (t : (M →ₐ[ℚ] ℂ) → ℂ) (hS : SignedLogMeans.HidaSetting D cc δ M t)
-    (hArea : (∑ ρ : M →ₐ[ℚ] ℂ, Real.log (area (lamConj M ρ (lamOf D cc δ)))) / (Module.finrank ℚ M : ℝ) =
+/-- The signed and positive-part theta means depend on the conjugate lattice
+data and the total logarithm of the theta-to-eta ratios. -/
+theorem mean_bounds_of_conjugate_data (hN : JacobiThetaHalfCharacteristic.NormTheta0)
+    (hP : PeriodLatticeAgreement.LatticePeriodEta) {C₀ : ℝ} (hC₀ : 0 < C₀)
+    (hth : ∀ (a b : Fin 2) (τ : ℂ), 1 / 2 ≤ τ.im →
+      ‖JacobiThetaHalfCharacteristic.thetaChar a b 0 τ‖ ≤ C₀)
+    (D : D7) (M : IntermediateField ℚ ℂ) [FiniteDimensional ℚ M] (Λ : AddSubgroup ℂ)
+    (t : (M →ₐ[ℚ] ℂ) → ℂ)
+    (hT0 : ∀ ρ, IsTwoTorsionPointUnkilled D (lamConj M ρ Λ) (t ρ))
+    (hArea : (∑ ρ, Real.log (area (lamConj M ρ Λ))) / (Module.finrank ℚ M : ℝ) =
       Real.log Real.pi + ClassMeanPeriods.classMeanValue D)
-    (hIntRatio : ∃ X : M, X ≠ 0 ∧ IsIntegral ℤ (X : ℂ) ∧ ∀ (ρ : M →ₐ[ℚ] ℂ) (ω₁ τ : ℂ), ω₁ ≠ 0 → 0 < τ.im →
-      JacobiThetaHalfCharacteristic.IsPeriodLattice (lamConj M ρ (lamOf D cc δ)) ω₁ τ → ∀ a b : Fin 2,
-      JacobiThetaHalfCharacteristic.IsEvenChar a b → JacobiThetaHalfCharacteristic.thetaChar a b (t ρ / ω₁) τ = 0 →
-      ‖ρ X‖ = (‖JacobiThetaHalfCharacteristic.thetaChar a b 0 τ‖ / ‖ModularForm.eta τ‖) ^ 12)
-    (hB : ∀ ρ : M →ₐ[ℚ] ℂ, discr (lamConj M ρ (lamOf D cc δ)) = 1 ∧
-      ∃ c : Ideal (𝓞 D.host.K), c ≠ ⊥ ∧ ∃ x : ℂ, x ≠ 0 ∧ lamConj M ρ (lamOf D cc δ) = lamOf D c x) :
-    SignedLogMeans.meanLog M (lamOf D cc δ) t ≤ SignedLogMeans.bound D ∧
-      SignedLogMeans.meanPosLog M (lamOf D cc δ) t ≤
-        SignedLogMeans.meanLog M (lamOf D cc δ) t + ((1 / 4) * Real.log D.host.d + max 0 (2 * Real.log C₀)) := by
+    (hB : ∀ ρ, discr (lamConj M ρ Λ) = 1 ∧
+      ∃ c : Ideal (𝓞 D.host.K), c ≠ ⊥ ∧ ∃ x : ℂ, x ≠ 0 ∧ lamConj M ρ Λ = lamOf D c x)
+    (ratios : (M →ₐ[ℚ] ℂ) → ℝ) (hRatios : 0 ≤ ∑ ρ, Real.log (ratios ρ))
+    (hRatio : ∀ (ρ : M →ₐ[ℚ] ℂ) (ω₁ τ : ℂ), ω₁ ≠ 0 → 0 < τ.im →
+      JacobiThetaHalfCharacteristic.IsPeriodLattice (lamConj M ρ Λ) ω₁ τ →
+      ∀ a b : Fin 2, JacobiThetaHalfCharacteristic.IsEvenChar a b →
+        JacobiThetaHalfCharacteristic.thetaChar a b (t ρ / ω₁) τ = 0 →
+        ratios ρ = (‖JacobiThetaHalfCharacteristic.thetaChar a b 0 τ‖ / ‖ModularForm.eta τ‖) ^ 12) :
+    SignedLogMeans.meanLog M Λ t ≤ SignedLogMeans.bound D ∧
+      SignedLogMeans.meanPosLog M Λ t ≤
+        SignedLogMeans.meanLog M Λ t + ((1 / 4) * Real.log D.host.d + max 0 (2 * Real.log C₀)) := by
   classical
-  obtain ⟨X, hX0, hXi, hXρ⟩ := hIntRatio
-  have hInt := sum_log_nonneg M X hX0 hXi
-  have hT0 := hS.2.2.2
-  set Λ := lamOf D cc δ with hΛ
   choose hdisc c hc x hx hΛeq using hB
   have hA := fun ρ => lemA D (c ρ) (hc ρ) (x ρ) (hx ρ)
   choose hstab ω τ hω hτ hLat hy1 hy2 using hA
@@ -668,9 +671,9 @@ theorem bounds_of_conjugate_lattice_data (hN : JacobiThetaHalfCharacteristic.Nor
       -(1 / 2) * Real.log 2 - (1 / 2) * Real.log (τ ρ).im - 2 * Real.log (th ρ) :=
     fun ρ => log_normSq (hNρ ρ).2.1 (hτ ρ) ((hNρ ρ).2.2 _ _ (hab0 ρ) (hab1 ρ))
   have F2 := fun ρ => log_area hP (hω ρ) (hτ ρ) (hLat' ρ) (hdisc ρ)
-  have F3 : ∀ ρ, Real.log ‖ρ X‖ = 12 * (Real.log (th ρ) - Real.log (et ρ)) := by
+  have F3 : ∀ ρ, Real.log (ratios ρ) = 12 * (Real.log (th ρ) - Real.log (et ρ)) := by
     intro ρ
-    rw [hXρ ρ (ω ρ) (τ ρ) (hω ρ) (hτ ρ) (hLat' ρ) _ _ (hab0 ρ) (hab1 ρ), Real.log_pow,
+    rw [hRatio ρ (ω ρ) (τ ρ) (hω ρ) (hτ ρ) (hLat' ρ) _ _ (hab0 ρ) (hab1 ρ), Real.log_pow,
       Real.log_div (F1 ρ).1.ne' (F2 ρ).1.ne']
     push_cast; ring
 
@@ -690,9 +693,9 @@ theorem bounds_of_conjugate_lattice_data (hN : JacobiThetaHalfCharacteristic.Nor
     simp only [Finset.sum_add_distrib, ← Finset.mul_sum, Finset.sum_const, hcard, nsmul_eq_mul]
     rw [hn]; ring
   have e3 : 0 ≤ St - Se := by
-    have : ∑ ρ : M →ₐ[ℚ] ℂ, Real.log ‖ρ X‖ = 12 * (St - Se) := by
+    have : ∑ ρ : M →ₐ[ℚ] ℂ, Real.log (ratios ρ) = 12 * (St - Se) := by
       rw [Finset.sum_congr rfl fun ρ _ => F3 ρ, ← Finset.mul_sum, Finset.sum_sub_distrib]
-    linarith
+    linarith [hRatios]
   rw [e2] at hArea
   have hA2 : (Real.log 4 + 2 * Real.log Real.pi) * n + Sy + 4 * Se = (Real.log Real.pi + ClassMeanPeriods.classMeanValue D) * n := by
     rw [← hArea]; field_simp
@@ -748,8 +751,10 @@ theorem core (hN : JacobiThetaHalfCharacteristic.NormTheta0) (hC : ClassMeanPeri
     SignedLogMeans.meanLog M (lamOf D cc δ) t ≤ SignedLogMeans.bound D ∧
       SignedLogMeans.meanPosLog M (lamOf D cc δ) t ≤
         SignedLogMeans.meanLog M (lamOf D cc δ) t + ((1 / 4) * Real.log D.host.d + max 0 (2 * Real.log C₀)) := by
-  exact bounds_of_conjugate_lattice_data hN hP hth D cc δ M t hS
-    (mean_log_area hC hG hP D cc δ M t hS) (lemC hG hP hW D hJ cc δ M t hS) (lemB hG hP D cc δ M t hS)
+  obtain ⟨X, hX0, hXi, hXρ⟩ := lemC hG hP hW D hJ cc δ M t hS
+  exact mean_bounds_of_conjugate_data hN hP hC₀ hth D M (lamOf D cc δ) t hS.2.2.2
+    (mean_log_area hC hG hP D cc δ M t hS) (lemB hG hP D cc δ M t hS)
+    (fun ρ => ‖ρ X‖) (sum_log_nonneg M X hX0 hXi) hXρ
 
 theorem log_sqrt_le_log_v (D : D7) : Real.log (Real.sqrt D.host.d) ≤ Real.log D.host.v := by
   have h1 := GlobalTheory.Theta0MeanCompare.two_sqrt_le_rd D
@@ -784,27 +789,38 @@ theorem log_d_le (D : D7) {L : ℝ} (hL : Real.log D.host.v + |logDerivativeAtOn
     rw [Real.log_sqrt (by positivity)]; ring
   linarith
 
-theorem theta0Mean (hN : JacobiThetaHalfCharacteristic.NormTheta0) (hC : ClassMeanPeriods.ClassMean) (hG : EquidistributedConjugates.ConjugatesEquidistributed)
-    (hP : PeriodLatticeAgreement.LatticePeriodEta) (hJ : ∀ D : D7, Formalism.MainNotions.GL3Theta.admJ D) (hW : ThetaConstantWeber.ThetaWeberStatement) :
+/-- Package uniform signed and positive-part bounds as the theta mean statement. -/
+theorem theta0Mean_of_mean_bounds (C₀ : ℝ)
+    (hBounds : ∀ (D : D7) (cc : Ideal (𝓞 D.host.K)) (δ : ℂ) (M : IntermediateField ℚ ℂ)
+      [FiniteDimensional ℚ M] (t : (M →ₐ[ℚ] ℂ) → ℂ) (hS : SignedLogMeans.HidaSetting D cc δ M t),
+      SignedLogMeans.meanLog M (lamOf D cc δ) t ≤ SignedLogMeans.bound D ∧
+        SignedLogMeans.meanPosLog M (lamOf D cc δ) t ≤
+          SignedLogMeans.meanLog M (lamOf D cc δ) t + ((1 / 4) * Real.log D.host.d + max 0 (2 * Real.log C₀))) :
     SignedLogMeans.Theta0Mean := by
-  obtain ⟨C₀, hC₀, hth⟩ := lemD
   set C := max 0 (2 * Real.log C₀) with hCdef
   have hC0 : 0 ≤ C := le_max_left _ _
-  refine ⟨⟨fun D cc δ M _ t hS => (core hN hC hG hP hW hC₀ hth D (hJ D) cc δ M t hS).1,
+  refine ⟨⟨fun D cc δ M _ t hS => (hBounds D cc δ M t hS).1,
     fun D cc δ M _ t hS L hL => ?_, ⟨1 / 2, by norm_num, fun D cc δ M _ t hS L hL => ?_⟩⟩,
     ⟨C, hC0, fun D cc δ M _ t hS => ?_⟩, ⟨1 + 2 * C, by linarith, fun D cc δ M _ t hS L hL => ?_⟩⟩
-  · have := (core hN hC hG hP hW hC₀ hth D (hJ D) cc δ M t hS).1
+  · have := (hBounds D cc δ M t hS).1
     rw [GlobalTheory.Theta0MeanCompare.bound_eq] at this
     exact this.trans (GlobalTheory.Theta0MeanCompare.kronBound_le D hL)
-  · exact (core hN hC hG hP hW hC₀ hth D (hJ D) cc δ M t hS).1.trans (bound_le_half D hL)
-  · obtain ⟨h1, h2⟩ := core hN hC hG hP hW hC₀ hth D (hJ D) cc δ M t hS
+  · exact (hBounds D cc δ M t hS).1.trans (bound_le_half D hL)
+  · obtain ⟨h1, h2⟩ := hBounds D cc δ M t hS
     linarith
-  · obtain ⟨h1, h2⟩ := core hN hC hG hP hW hC₀ hth D (hJ D) cc δ M t hS
+  · obtain ⟨h1, h2⟩ := hBounds D cc δ M t hS
     have a1 := bound_le_half D hL
     have a2 := log_d_le D hL
     have a3 : 1 / 2 ≤ L := by have := half_le_log_v D; have := abs_nonneg (logDerivativeAtOne D); linarith
     have a4 : C ≤ 2 * C * L := by nlinarith
     linarith
+
+theorem theta0Mean (hN : JacobiThetaHalfCharacteristic.NormTheta0) (hC : ClassMeanPeriods.ClassMean) (hG : EquidistributedConjugates.ConjugatesEquidistributed)
+    (hP : PeriodLatticeAgreement.LatticePeriodEta) (hJ : ∀ D : D7, Formalism.MainNotions.GL3Theta.admJ D) (hW : ThetaConstantWeber.ThetaWeberStatement) :
+    SignedLogMeans.Theta0Mean := by
+  obtain ⟨C₀, hC₀, hth⟩ := lemD
+  exact theta0Mean_of_mean_bounds C₀ fun D cc δ M _ t hS =>
+    core hN hC hG hP hW hC₀ hth D (hJ D) cc δ M t hS
 
 end GlobalTheory.Theta0MeanProof
 end -- clump:auto
@@ -1098,7 +1114,7 @@ namespace GlobalTheory.Theta0MeanCore
 
 open NumberField Formalism.BasicNotions Formalism.MainNotions.TaylorLogMetric GlobalTheory.Glob.IntegralWittCoefficients GlobalTheory.IndefiniteRowSideFullHecke
 open scoped nonZeroDivisors
-open GlobalTheory.Theta0MeanProof (lemA lemD log_normSq log_area sum_log_nonneg bound_le_half log_d_le half_le_log_v)
+open GlobalTheory.Theta0MeanProof (lemD sum_log_nonneg mean_bounds_of_conjugate_data theta0Mean_of_mean_bounds)
 
 theorem core (hP : PeriodLatticeAgreement.LatticePeriodEta) (hW : ThetaConstantWeber.ThetaWeberStatement) {C₀ : ℝ} (hC₀ : 0 < C₀)
     (hth : ∀ (a b : Fin 2) (τ : ℂ), 1 / 2 ≤ τ.im → ‖JacobiThetaHalfCharacteristic.thetaChar a b 0 τ‖ ≤ C₀)
@@ -1107,33 +1123,19 @@ theorem core (hP : PeriodLatticeAgreement.LatticePeriodEta) (hW : ThetaConstantW
     SignedLogMeans.meanLog M (lamOf D cc δ) t ≤ SignedLogMeans.bound D ∧
       SignedLogMeans.meanPosLog M (lamOf D cc δ) t ≤
         SignedLogMeans.meanLog M (lamOf D cc δ) t + ((1 / 4) * Real.log D.host.d + max 0 (2 * Real.log C₀)) := by
-  exact _root_.GlobalTheory.Theta0MeanProof.bounds_of_conjugate_lattice_data _root_.GlobalTheory.ThetaNullNormSquares.normTheta0 hP hth D cc δ M t hS
-    (_root_.GlobalTheory.MeanLogArea.mean_log_area D cc δ M t hS)
-    (_root_.GlobalTheory.IntegralXCore.exists_integral_theta_ratio hP hW D hJ cc δ M t hS)
+  obtain ⟨X, hX0, hXi, hXρ⟩ := _root_.GlobalTheory.IntegralXCore.exists_integral_theta_ratio hP hW D hJ cc δ M t hS
+  exact mean_bounds_of_conjugate_data _root_.GlobalTheory.ThetaNullNormSquares.normTheta0 hP hC₀ hth
+    D M (lamOf D cc δ) t hS.2.2.2 (_root_.GlobalTheory.MeanLogArea.mean_log_area D cc δ M t hS)
     (_root_.GlobalTheory.ConjLatticeCore.conj_lattice_core D cc δ M t hS)
+    (fun ρ => ‖ρ X‖) (sum_log_nonneg M X hX0 hXi) hXρ
 
 theorem theta0Mean (hP : PeriodLatticeAgreement.LatticePeriodEta) (hW : ThetaConstantWeber.ThetaWeberStatement) :
     SignedLogMeans.Theta0Mean := by
   have hJ : ∀ D : D7, Formalism.MainNotions.GL3Theta.admJ D := fun D =>
     (GlobalTheory.CurveAlgebraic.integral_j_and_algebraic_data D ⟨GlobalTheory.InducedType.restrict_K D, GlobalTheory.InducedType.sum_eq_trace D⟩).1
   obtain ⟨C₀, hC₀, hth⟩ := lemD
-  set C := max 0 (2 * Real.log C₀) with hCdef
-  have hC0 : 0 ≤ C := le_max_left _ _
-  refine ⟨⟨fun D cc δ M _ t hS => (core hP hW hC₀ hth D (hJ D) cc δ M t hS).1,
-    fun D cc δ M _ t hS L hL => ?_, ⟨1 / 2, by norm_num, fun D cc δ M _ t hS L hL => ?_⟩⟩,
-    ⟨C, hC0, fun D cc δ M _ t hS => ?_⟩, ⟨1 + 2 * C, by linarith, fun D cc δ M _ t hS L hL => ?_⟩⟩
-  · have := (core hP hW hC₀ hth D (hJ D) cc δ M t hS).1
-    rw [GlobalTheory.Theta0MeanCompare.bound_eq] at this
-    exact this.trans (GlobalTheory.Theta0MeanCompare.kronBound_le D hL)
-  · exact (core hP hW hC₀ hth D (hJ D) cc δ M t hS).1.trans (bound_le_half D hL)
-  · obtain ⟨h1, h2⟩ := core hP hW hC₀ hth D (hJ D) cc δ M t hS
-    linarith
-  · obtain ⟨h1, h2⟩ := core hP hW hC₀ hth D (hJ D) cc δ M t hS
-    have a1 := bound_le_half D hL
-    have a2 := log_d_le D hL
-    have a3 : 1 / 2 ≤ L := by have := half_le_log_v D; have := abs_nonneg (logDerivativeAtOne D); linarith
-    have a4 : C ≤ 2 * C * L := by nlinarith
-    linarith
+  exact theta0Mean_of_mean_bounds C₀ fun D cc δ M _ t hS =>
+    core hP hW hC₀ hth D (hJ D) cc δ M t hS
 
 end GlobalTheory.Theta0MeanCore
 end -- clump:auto

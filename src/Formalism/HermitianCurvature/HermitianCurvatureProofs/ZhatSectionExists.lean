@@ -1,55 +1,12 @@
 module
 
+import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.RootSubgroupHaar.ContinuousGS
 public import Formalism.HermitianCurvature.FiniteOrderIntersectionInSmooth
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.FlagSpanVanishing
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.HermitianFormFlagVector
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.HermitianXiVector
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.UnipotentSums
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Lemma
-import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Topology.Sheaves.Init
-import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.RootSubgroupHaar.ContinuousGS
 
 @[expose] public section
 
@@ -68,9 +25,9 @@ private lemma dite_lt_eq_sum_smul_bvec {k r : ℕ} (g : Fin r → ℂ) :
   simp only [Pi.smul_apply, bvec, smul_eq_mul, Pi.single_apply]
   split_ifs with hp
   · rw [Finset.sum_eq_single ⟨p.val, hp⟩]
-    · rw [if_pos (show p = eI k r ⟨p.val, hp⟩ from Fin.ext rfl), mul_one]
+    · rw [ite_eq_left (show p = eI k r ⟨p.val, hp⟩ from Fin.ext rfl), mul_one]
     · intro c _ hc
-      rw [if_neg, mul_zero]
+      rw [ite_eq_right, mul_zero]
       intro h
       apply hc
       apply Fin.ext
@@ -81,7 +38,7 @@ private lemma dite_lt_eq_sum_smul_bvec {k r : ℕ} (g : Fin r → ℂ) :
   · symm
     apply Finset.sum_eq_zero
     intro c _
-    rw [if_neg, mul_zero]
+    rw [ite_eq_right, mul_zero]
     intro h
     apply hp
     rw [h]
@@ -113,14 +70,14 @@ theorem c2_tau_mem : C2.TauMem := by
         simp only [Matrix.mulVec, dotProduct]
         rw [Finset.sum_eq_single p]
         · by_cases hp : r ≤ p.val ∧ p.val ≤ r + k
-          · rw [unipotent_apply_middle_column vX p p hp.1 hp.2, if_pos rfl, one_mul]
+          · rw [unipotent_apply_middle_column vX p p hp.1 hp.2, ite_eq_left rfl, one_mul]
           · have : z p = 0 := by
               apply hz.1
               omega
             rw [this, mul_zero]
         · intro j _ hj
           by_cases hjW : r ≤ j.val ∧ j.val ≤ r + k
-          · rw [unipotent_apply_middle_column vX p j hjW.1 hjW.2, if_neg (Ne.symm hj), zero_mul]
+          · rw [unipotent_apply_middle_column vX p j hjW.1 hjW.2, ite_eq_right (Ne.symm hj), zero_mul]
           · have : z j = 0 := by
               apply hz.1
               omega

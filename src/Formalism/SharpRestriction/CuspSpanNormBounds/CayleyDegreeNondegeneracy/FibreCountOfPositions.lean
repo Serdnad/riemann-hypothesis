@@ -1,47 +1,7 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.FlagMeasures.EncardBiUnionLe
-import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.FlagClassConstancy.FlagOfInSFRight
-import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.ScalarEquivalenceGeneral.ScalarFactorEqOneOfLe
 public import Formalism.SharpRestriction.CuspSpanNormBounds.IsPrimitiveSub
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
 public import Formalism.SharpRestriction.CuspSpanNormBounds.CntPartners
 import Formalism.SharpRestriction.CuspSpanNormBounds.LatticeGluingRadicals
@@ -55,8 +15,6 @@ open scoped Classical
 namespace Formalism.MainNotions.BridgeLemma₂
 
 open NumberField Module Formalism.BasicNotions Formalism.MainNotions Formalism.MainNotions.S Formalism.MainNotions.S.Lat Formalism.MainNotions.S.Cnt
-
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 
 section Gen
 
@@ -93,11 +51,20 @@ theorem c3eqv_symm_mem (n : S.V ≃ₗ[E] S.V) (U : Submodule E S.V) (h : ∀ x 
   simpa using hy
 
 theorem c3eqv_isom_symm {n : S.V ≃ₗ[E] S.V} (h : n ∈ Formalism.HermitianLatticesTheory.isom S.hT) : n.symm ∈ Formalism.HermitianLatticesTheory.isom S.hT := by
-  apply _root_.PI.UnitaryGroupMassFormula.ScalEquivGen.isomSymmQ <;> assumption
+  have hiso : ∀ x y, S.hT (n x) (n y) = S.hT x y := h
+  show ∀ x y, S.hT (n.symm x) (n.symm y) = S.hT x y
+  intro x y
+  have := hiso (n.symm x) (n.symm y)
+  simp only [LinearEquiv.apply_symm_apply] at this
+  exact this.symm
 
 theorem c3eqv_isom_trans {n m : S.V ≃ₗ[E] S.V} (h : n ∈ Formalism.HermitianLatticesTheory.isom S.hT) (h' : m ∈ Formalism.HermitianLatticesTheory.isom S.hT) :
     n.trans m ∈ Formalism.HermitianLatticesTheory.isom S.hT := by
-  apply _root_.PI.UnitaryGroupMassFormula.ScalEquivGen.isomTransQ <;> assumption
+  have hiso : ∀ x y, S.hT (n x) (n y) = S.hT x y := h
+  have hiso' : ∀ x y, S.hT (m x) (m y) = S.hT x y := h'
+  show ∀ x y, S.hT ((n.trans m) x) ((n.trans m) y) = S.hT x y
+  intro x y
+  simp only [LinearEquiv.trans_apply, hiso', hiso]
 
 theorem c3eqv_orth_map {n : S.V ≃ₗ[E] S.V} (h : n ∈ Formalism.HermitianLatticesTheory.isom S.hT) (U₁ U₂ : Submodule E S.V)
     (hU : ∀ v ∈ U₂, n.symm v ∈ U₁) {x : S.V} (hx : x ∈ orth S U₁) : n x ∈ orth S U₂ := by
@@ -120,16 +87,25 @@ theorem c3eqv_Xflag_zero : Xflag F 0 = ⊥ := by
   simp
 
 theorem c3eqv_Xsp_eq : Xsp F = Xflag F r := by
-  unfold Xsp Xflag Formalism.MainNotions.S.FlagG.X Formalism.MainNotions.S.FlagG.Xa
-  congr 1
-  ext v
-  simp only [Set.mem_range, Set.mem_image, Set.mem_setOf_eq, Fin.is_lt, true_and]
+  exact (Formalism.MainNotions.LatticeGluingRadicals.c_Xflag_r F).symm
 
 variable {F} {Λ : Submodule (𝓞 E) S.V}
 
 theorem c3eqv_N_flag {n : S.V ≃ₗ[E] S.V} (hn : n ∈ NLam Λ F) (j : ℕ) : ∀ x ∈ Xflag F j, n x ∈ Xflag F j := by
-  intros
-  apply _root_.PI.InSClassConstW.map_mem_Xflag <;> assumption
+  unfold NLam at hn
+  simp only [Set.mem_setOf_eq] at hn
+  obtain ⟨_, h1, _⟩ := hn
+  intro x hx
+  cases j with
+  | zero =>
+    rw [c3eqv_Xflag_zero] at hx ⊢
+    rw [(Submodule.mem_bot E).1 hx, map_zero]
+    exact Submodule.zero_mem _
+  | succ j =>
+    have h2 := c3eqv_Xflag_mono F j (h1 j x hx)
+    have e : n x = (n x - x) + x := by abel
+    rw [e]
+    exact Submodule.add_mem _ h2 hx
 
 theorem c3eqv_N_X {n : S.V ≃ₗ[E] S.V} (hn : n ∈ NLam Λ F) : ∀ x ∈ Xsp F, n x ∈ Xsp F := by
   rw [c3eqv_Xsp_eq]
@@ -172,8 +148,29 @@ theorem c3eqv_NLam_trans {n m : S.V ≃ₗ[E] S.V} (hn : n ∈ NLam Λ F) (hm : 
     exact Submodule.add_mem _ (hm2 _ (hno x hx)) (hn2 x hx)
 
 theorem c3eqv_NLam_symm {n : S.V ≃ₗ[E] S.V} (hn : n ∈ NLam Λ F) : n.symm ∈ NLam Λ F := by
-  intros
-  apply _root_.GlobalTheory.LoopC.FrEqv.symm_mem_NLam <;> assumption
+  have hnf := c3eqv_N_flag hn
+  have hno := c3eqv_N_orth hn
+  have hn' := hn
+  unfold NLam at hn' ⊢
+  simp only [Set.mem_setOf_eq] at hn' ⊢
+  unfold IsAutLam at hn' ⊢
+  obtain ⟨⟨hni, hng⟩, hn1, hn2⟩ := hn'
+  refine ⟨⟨c3eqv_isom_symm hni, ?_⟩, ?_, ?_⟩
+  · rw [c3eqv_gmap_iff] at hng ⊢
+    rw [LinearEquiv.symm_symm]
+    exact ⟨hng.2, hng.1⟩
+  · intro j x hx
+    have hy := c3eqv_symm_mem n _ (hnf (j + 1)) x hx
+    have e : n.symm x - x = -(n (n.symm x) - n.symm x) := by
+      rw [LinearEquiv.apply_symm_apply]; abel
+    rw [e]
+    exact Submodule.neg_mem _ (hn1 j _ hy)
+  · intro x hx
+    have hy := c3eqv_symm_mem n _ hno x hx
+    have e : n.symm x - x = -(n (n.symm x) - n.symm x) := by
+      rw [LinearEquiv.apply_symm_apply]; abel
+    rw [e]
+    exact Submodule.neg_mem _ (hn2 _ hy)
 
 end Gen
 

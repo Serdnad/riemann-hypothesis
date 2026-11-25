@@ -38,7 +38,6 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
-import Development.WeilBound.ThetaLifts.LatticeBasics.IsCompactIntV
 
 @[expose] public section
 
@@ -48,7 +47,6 @@ open Formalism.IndefR Formalism.IndefR.Links Formalism.IndefR.Mult Formalism.Ind
 open GlobalTheory.Grid GlobalTheory.Doubling GlobalTheory.ChainFr GlobalTheory.IndefiniteRowSideFullHecke.MatchingAdjoints
 open scoped TensorProduct GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels
 
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 open GlobalTheory.SquareComm GlobalTheory.SquareAgree
 
 noncomputable section
@@ -58,7 +56,20 @@ namespace GlobalTheory.SquareAgree
 theorem hTens_eq_trace {R A : Type} [CommRing R] [CommRing A] [Algebra R A] (c : A →ₐ[R] A) {α β : Type} [Fintype α]
     [Fintype β] (JA : Matrix α α A) (JB : Matrix β β A) (x y : Matrix α β A) :
     GlobalTheory.WeilM.hTens c JA JB x y = (xᵀ * JA * y.map c * JBᵀ).trace := by
-  apply _root_.GlobalTheory.ThK.Dbl.Dense.hTens_tr <;> assumption
+  simp only [GlobalTheory.WeilM.hTens, Matrix.trace, Matrix.diag, Matrix.mul_apply, Matrix.transpose_apply,
+    Matrix.map_apply, Finset.sum_mul]
+  conv_lhs => rw [Finset.sum_comm]
+  refine Finset.sum_congr rfl fun j _ => ?_
+  calc ∑ i, ∑ k, ∑ l, x i j * JA i k * JB j l * c (y k l)
+      = ∑ i, ∑ l, ∑ k, x i j * JA i k * JB j l * c (y k l) :=
+        Finset.sum_congr rfl fun i _ => Finset.sum_comm
+    _ = ∑ l, ∑ i, ∑ k, x i j * JA i k * JB j l * c (y k l) := Finset.sum_comm
+    _ = ∑ l, ∑ k, ∑ i, x i j * JA i k * JB j l * c (y k l) :=
+        Finset.sum_congr rfl fun l _ => Finset.sum_comm
+    _ = _ := by
+        refine Finset.sum_congr rfl fun l _ => Finset.sum_congr rfl fun k _ =>
+          Finset.sum_congr rfl fun i _ => ?_
+        ring
 
 theorem hTens_transpose_mul {R A : Type} [CommRing R] [CommRing A] [Algebra R A] (c : A →ₐ[R] A) {α β γ : Type}
     [Fintype α] [Fintype β] [Fintype γ] [DecidableEq β] (e : α ≃ γ) (K : Matrix α α A) {G H : Matrix β β A} (x : A)
@@ -144,7 +155,7 @@ theorem exists_darboux_transport : ∀ (D : D7) (ψ : AddChar (AF D.host.F) ℂ)
     ∀ (ε : Bool) (S X : HSp D) (A : Fr S) (B : Fr X) {d : ℕ} (e : Fin X.rank ≃ Fin d)
       (Bs : GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.Base D.host.F D.host.E), Bs.IsGood D.sp.cm.sig → Bs.ψ = ψ →
     ∀ (Vs : GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.Spc D.host.F D.host.E S.rank) (Ws : GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.Spc D.host.F D.host.E d) (r s r' s' : ℕ)
-      (hJ : Vs.J = (if ε then 1 else -1 : D.host.E) • S.gram) (hJW : Ws.J = D.host.xi0 • reindex e e X.gramᵀ),
+      (_ : Vs.J = (if ε then 1 else -1 : D.host.E) • S.gram) (_ : Ws.J = D.host.xi0 • reindex e e X.gramᵀ),
       Vs.IsHerm D.sp.cm.sig Bs r s → Ws.IsSkew D.sp.cm.sig Bs r' s' →
       (∀ w, ∃ τ, (∀ x, (Bs.emb w).1 x = starRingEnd ℂ (tauE D τ x)) ∧ Vs.θ w = (if ε then 1 else -1 : ℂ) • A.cart τ ∧
         Ws.θ w = (reindex e e (B.cart τ)).map (starRingEnd ℂ)) →

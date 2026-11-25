@@ -2,43 +2,7 @@ module
 
 import Formalism.SharpRestriction.GrowthBounds.HermitianTensor.LamPolySmulRight
 public import Formalism.SharpRestriction.GrowthBounds.TableLineDegreeFive
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.TypeStar
-import Mathlib.Topology.Sheaves.Init
 
 @[expose] public section
 
@@ -106,14 +70,14 @@ theorem V_mul (Kf : Type*) [Field Kf] {n' m : ℕ} {lam mu nu : Fin n' → Fin (
     · have hab : Antitone (lamAt (lam + mu) s) := by
         rw [hs]
         exact ha.add hb
-      rw [if_pos ha] at hF
-      rw [if_pos hb] at hG
-      rw [if_pos hab, hs, nuOf_add ha hb]
+      rw [ite_eq_left ha] at hF
+      rw [ite_eq_left hb] at hG
+      rw [ite_eq_left hab, hs, nuOf_add ha hb]
       exact dualWeyl_mul Kf (m + 1) (m + 1) _ _ hF hG
-    · rw [if_neg hb, Submodule.mem_bot] at hG
+    · rw [ite_eq_right hb, Submodule.mem_bot] at hG
       rw [hG, mul_zero]
       exact Submodule.zero_mem _
-  · rw [if_neg ha, Submodule.mem_bot] at hF
+  · rw [ite_eq_right ha, Submodule.mem_bot] at hF
     rw [hF, zero_mul]
     exact Submodule.zero_mem _
 

@@ -1,6 +1,5 @@
 module
 
-import all Development.AutomorphicArithmetic.Foundations.Convolution.BlockHeckeSlices.CuspidalNormBounds.Langlands
 public import Development.AutomorphicArithmetic.Foundations.Convolution.SplitEigenfunctions.OrbitMeasurability.PerCont
 public import Development.AutomorphicArithmetic.Foundations.Convolution.RealGroupAnalysis.UnitaryActions.ContinuousAdelicGL2OfContinuousEntries
 public import GroundTheory.AutomorphicForms.GL2Classical.EigenformTranslates
@@ -18,49 +17,9 @@ public import Development.AutomorphicArithmetic.Foundations.Convolution.SplitEig
 public import Development.AutomorphicArithmetic.Foundations.Convolution.SplitEigenfunctions.ThetaLiftEqAnisotropicPart
 import GroundTheory.AutomorphicForms.GL2Classical.ConstantTerm
 import GroundTheory.GlobalFields.TateThesis.AdeleScaling
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Dynamics.Ergodic.Action.Regular
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
 import Std.Tactic.BVDecide.Normalize.Prop
 import GroundTheory.AutomorphicForms.CuspidalDiscreteness.CuspFormsSiegel
 import Development.AutomorphicArithmetic.Foundations.Convolution.RealGroupAnalysis.ThetaBounds.UnfoldedThetaIntegralConvergesSimilitudeOne
-import Mathlib.Tactic.Lemma
-import Mathlib.Tactic.TypeStar
 import Development.AbelianVarietyTheory.Definitions.Foundations.MeasurePreservingRmulQuotMeas
 import Development.AutomorphicArithmetic.AdelicSL2.IsOpenEmbeddingProjection
 import GroundTheory.AutomorphicForms.Reduction
@@ -282,12 +241,6 @@ private theorem nU_rat (c : ℚ) : ∃ γ, nU (algebraMap ℚ (A ℚ) c) = ratS 
   ext i j
   fin_cases i <;> fin_cases j <;> simp
 
-private theorem nU_plus (b c : A ℚ) : nU (b + c) = nU b * nU c := by
-  refine Subtype.ext ?_
-  change !![1, b + c; 0, 1] = !![1, b; 0, 1] * !![1, c; 0, 1]
-  ext i j
-  fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_two, add_comm]
-
 private theorem rat_sl (γ : GL (Fin 2) ℚ) (h : Dt γ = 1) : ∃ g, ratGL ℚ 2 γ = gl (ratS ℚ g) :=
   ⟨⟨γ.val, congrArg Units.val h⟩, Units.ext rfl⟩
 
@@ -376,7 +329,7 @@ theorem ext : Ext := by
     · exact hu.cusp _
     · obtain ⟨γ, hγ⟩ := nU_rat c
       change u (nU (algebraMap ℚ (A ℚ) c + b) * sl x) = u (nU b * sl x)
-      rw [nU_plus, hγ, mul_assoc]
+      rw [nU_add, hγ, mul_assoc]
       exact hu.left γ _
 
 end UpperTheory.ConvolutionTheory.RankTwoDescent.Cp
@@ -402,7 +355,16 @@ namespace UpperTheory.ConvolutionTheory.RankTwoDescent.Cp
 private theorem exists_form0 {K : Type} [Field K] [NumberField K] {n : ℕ} (μ : Measure (normOneGL (K := K) (n := n))) [μ.IsHaarMeasure]
     {v : LL μ} (hv : v ∈ cuspidalL2 μ) (h0 : v ≠ 0) :
     ∃ V, IsSummand μ V ∧ ∃ f ∈ formsIn μ V, inner ℂ v (clsL μ f) ≠ 0 := by
-  apply _root_.UpperTheory.ConvolutionTheory.BW.exists_form0 <;> assumption
+  by_contra hc
+  push Not at hc
+  have h1 : (⨆ V : {V // IsSummand μ V}, V.1) ≤ (ℂ ∙ v)ᗮ := iSup_le fun V => by
+    rw [← (formsIrr K n μ V.1 V.2).2.2.2]
+    refine Submodule.topologicalClosure_minimal _ ?_ (Submodule.isClosed_orthogonal _)
+    rintro _ ⟨f, hf, rfl⟩
+    exact Submodule.mem_orthogonal_singleton_iff_inner_right.2 (hc _ V.2 f hf)
+  have h2 := Submodule.topologicalClosure_minimal _ h1 (Submodule.isClosed_orthogonal _)
+  rw [summandsSpan K n μ] at h2
+  exact h0 (inner_self_eq_zero.1 (Submodule.mem_orthogonal_singleton_iff_inner_right.1 (h2 hv)))
 
 private theorem oneInt (f : (AutomorphicForm.UPos 2 1 → A ℚ) → ℂ) :
     ∫ y in GroundTheory.Global.fundamentalSet ℚ, f (fun _ => y) ∂GroundTheory.Global.adeleMeasure ℚ =

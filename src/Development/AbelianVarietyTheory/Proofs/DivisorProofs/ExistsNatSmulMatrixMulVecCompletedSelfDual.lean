@@ -1,6 +1,5 @@
 module
 
-import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.PlaceDualB
 public import Development.AbelianVarietyTheory.Definitions.ExistenceOfLattices.CoeSelfDualLatticeInFrameCoordinatesEq
 public import Formalism.LocalToGlobal.HeckeThetaElements.IsHeckeElt
 public import Development.AbelianVarietyTheory.Proofs.HeightProofs.UnitaryReductionPolynomialHeightBound
@@ -59,10 +58,8 @@ open Formalism.BasicNotions Formalism.BasicNotions.TH Formalism.MainNotions.Glob
 open Formalism.L2.Theta Formalism.L2.DIV Formalism.L2.Indef Formalism.DivisionValues Polynomial
 open Formalism.IndefR Formalism.IndefR.Links Formalism.IndefR.Lev Formalism.IndefR.Mult Formalism.IndefR.Datum Formalism.IndefR.Cx
 open scoped TensorProduct InnerProductSpace
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 open GlobalTheory.Hk3 (Core Good IsSF SchurAll TwoSided FixAll EEc Wcc eH IsLab HoweUnram SphOp hyp)
 open GlobalTheory.StdFrame (StdPsi)
-attribute [local instance] Formalism.IndefR.principalLevelFrame.instCMHostI
 
 noncomputable section
 
@@ -78,7 +75,25 @@ theorem exists_nat_mul_intAf' {F : Type} [Field F] [NumberField F] (t : Formalis
 
 theorem exists_nat_smul_intAE {D : D7} (w : Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes.Af D.host.F ⊗[D.host.F] D.host.E) :
     ∃ k : ℕ, 0 < k ∧ k • w ∈ intAE D := by
-  apply _root_.Formalism.IndefR.Fin.PDB.exists_nat_mul_intAE <;> assumption
+  induction w using TensorProduct.induction_on with
+  | zero => exact ⟨1, one_pos, by rw [smul_zero]; exact zero_mem _⟩
+  | tmul β z =>
+    obtain ⟨m, hm, hβ⟩ := exists_nat_mul_intAf' β
+    obtain ⟨M, hM, o, ho⟩ := Formalism.L2.SG.Pf.Tau.TraceIntegralityAlt.exists_nat_mul_mem z
+    refine ⟨m * M, Nat.mul_pos hm hM, ?_⟩
+    have e : (m * M) • (β ⊗ₜ[D.host.F] z) = ((m : Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes.Af D.host.F) * β) ⊗ₜ[D.host.F] ((o : 𝓞 D.host.E) : D.host.E) := by
+      have ho' : ((o : 𝓞 D.host.E) : D.host.E) = (M : D.host.E) * z := ho
+      rw [ho', mul_smul, ← TensorProduct.tmul_smul, TensorProduct.smul_tmul', nsmul_eq_mul, nsmul_eq_mul]
+    rw [e]
+    exact AddSubgroup.subset_closure ⟨_, hβ, o, rfl⟩
+  | add w w' h h' =>
+    obtain ⟨k, hk, m⟩ := h
+    obtain ⟨k', hk', m'⟩ := h'
+    refine ⟨k * k', Nat.mul_pos hk hk', ?_⟩
+    have e : (k * k') • (w + w') = k' • (k • w) + k • (k' • w') := by
+      rw [smul_add, ← mul_smul, ← mul_smul, mul_comm k' k]
+    rw [e]
+    exact add_mem (nsmul_mem m k') (nsmul_mem m' k)
 
 theorem exists_nat_smul_single {D : D7} (V : HSp D) :
     ∃ b : ℕ, 0 < b ∧ ∀ j : Fin V.rank, (Pi.single j (b : D.host.E) : Fin V.rank → D.host.E) ∈ GlobalTheory.Member.latC V := by

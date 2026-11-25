@@ -7,7 +7,6 @@ public import Formalism.LocalToGlobal.CharacterGerms.RowTieCartAdd
 import Formalism.LocalToGlobal.CharacterGerms.ConstMemTypeSetOfNonneg
 import Formalism.LocalToGlobal.CharacterGerms.RowTieCartFB
 import Formalism.LocalToGlobal.CharacterGerms.RowTiePAxesSelfSt
-import Formalism.LocalToGlobal.CharacterGerms.RowTiePHStabSelf
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Formalism.LocalToGlobal.CharacterGerms.RowTieGermI, Formalism.LocalToGlobal.CharacterGerms.RowTiePAddCvSelf
@@ -45,7 +44,16 @@ variable {C : Type} [Field C]
 theorem coeff_rename_zero {σ τ : Type} [Finite σ] (φ : σ → τ) (F : MvPowerSeries σ C) (e : τ →₀ ℕ) (s : τ)
     (hs : e s ≠ 0) (hsr : ∀ a, φ a ≠ s) :
     coeff e (subst (fun a => (X (φ a) : MvPowerSeries τ C)) F) = 0 := by
-  apply _root_.Formalism.L2.FormalSeriesBounds.coeff_rename_outside <;> assumption
+  have hA : MvPowerSeries.HasSubst (fun a => (MvPowerSeries.X (φ a) : MvPowerSeries τ C)) :=
+    MvPowerSeries.hasSubst_of_constantCoeff_zero (fun a => by simp)
+  rw [MvPowerSeries.coeff_subst hA]
+  refine finsum_eq_zero_of_forall_eq_zero fun d => ?_
+  rw [prod_X_rename, MvPowerSeries.coeff_monomial, ite_eq_right, smul_zero]
+  intro h
+  apply hs
+  rw [h, Finsupp.mapDomain_notin_range]
+  rintro ⟨a, ha⟩
+  exact hsr a ha
 
 variable [CharZero C] {V : VF C} {O : Type} [CommRing O] [StarRing O] {dd : ℕ} (Y : FBChart C V O dd)
 
@@ -125,7 +133,7 @@ theorem FBChart.addCvCol (hG : GermISt Y) : Y.rawCol.AddCvSt V := by
       hev _ hc1, hpa, hp0, hp1] at h
     exact h
   · intro v hv
-    have hsg0 : MvPowerSeries.constantCoeff (Y.rawCol.sg v) = 0 := Y.rawCol.constantCoeff_sg (gauge_axes Y 0) v
+    have hsg0 : MvPowerSeries.constantCoeff (Y.rawCol.sg v) = 0 := Y.rawCol.constantCoeff_sg (Formalism.L2.FormalSeriesBounds.FBChart.axisAll Y 0) v
     refine ⟨?_, ?_⟩
     · rw [map_sub, map_sub]
       have e1 : PowerSeries.constantCoeff (alongCv γ'' (Y.rawCol.sg v)) = 0 := constantCoeff_subst_zero hγ''0 hsg0
@@ -182,7 +190,7 @@ theorem coeff_inCol_sg (c : Fin 2) (v : Fin 2 × Fin dd → C) (μ : Fin 2 × Fi
       exact hc' hq.2.1.symm
     · intro h
       exact absurd (Finset.mem_univ c) h
-  · push_neg at hr
+  · push Not at hr
     obtain ⟨x0, hx0, hx0c⟩ := hr
     rw [coeff_rename_zero (fun x : Fin dd => (c, x)) _ μ x0 hx0 (fun a ha => hx0c (by rw [← ha]))]
     symm
@@ -192,7 +200,7 @@ theorem coeff_inCol_sg (c : Fin 2) (v : Fin 2 × Fin dd → C) (μ : Fin 2 × Fi
     have hne : (μ.mapDomain (fun x => ((0 : Fin 2), x)) + Finsupp.single ((1 : Fin 2), x) 1 : Fin 2 × (Fin 2 × Fin dd) →₀ ℕ)
         ((0 : Fin 2), x0) ≠ 0 := by
       rw [Finsupp.add_apply, Finsupp.mapDomain_apply_of_injective (fun a b h => (Prod.ext_iff.1 h).2), Finsupp.single_apply,
-        if_neg (by simp)]
+        ite_eq_right (by simp)]
       simpa using hx0
     rw [coeff_rename_zero (fun q : Fin 2 × Fin dd => (q.1, (c, q.2))) _ _ ((0 : Fin 2), x0) hne, mul_zero]
     intro q hq
@@ -237,11 +245,9 @@ theorem addCvSelf_of (hG : GermIAllSt) : AddCvSelfSt := by
   · intro v hv
     rw [Y.rawSelf_sg p v, hsum _ hcv, hsum γ hγ, hsum γ' hγ', ← Finset.sum_sub_distrib, ← Finset.sum_sub_distrib]
     refine ⟨?_, fun n => ?_⟩
-    · set_option synthInstance.maxHeartbeats 100000 in
-        rw [map_sum]
+    · rw [map_sum]
       exact Finset.sum_eq_zero fun c _ => (hGsg c _ (fun i => hv (c, i))).1
-    · set_option synthInstance.maxHeartbeats 100000 in
-        rw [map_sum]
+    · rw [map_sum]
       exact VF.Ge.sum fun c _ => (hGsg c _ (fun i => hv (c, i))).2 n
 
 theorem cartesian_self_conj_of_germs (hPT : PTSelfSt) (hG : GermIAllSt) (hStab : HStabSelfSt) : CartSelfSt := cartSelf_of hPT (addCvSelf_of hG) hStab

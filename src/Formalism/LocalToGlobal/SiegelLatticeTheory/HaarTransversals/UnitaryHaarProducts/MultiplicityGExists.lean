@@ -29,8 +29,6 @@ open MeasureTheory NumberField Formalism.BasicNotions Formalism.MainNotions.S Fo
 
 namespace Formalism.L2.SG.MExistsCut
 
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
-
 variable {D : D7}
 
 def toInfI (I : AutInst) (hb : Formalism.L2.SG.AdBridge.AdBridgeIso I) (s : I.Ginf) :
@@ -263,7 +261,6 @@ end Grp
 end Formalism.L2.SG.Pf.Meas
 
 open MeasureTheory NumberField IsDedekindDomain Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes Topology
-open scoped TensorProduct
 
 namespace Formalism.L2.SG.Pf.Meas
 
@@ -304,8 +301,6 @@ end Top
 
 end Formalism.L2.SG.Pf.Meas
 
-open MeasureTheory NumberField IsDedekindDomain Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes Topology
-open scoped TensorProduct
 
 namespace Formalism.L2.SG.Pf.Meas
 
@@ -352,8 +347,6 @@ end Iso
 
 end Formalism.L2.SG.Pf.Meas
 
-open MeasureTheory NumberField IsDedekindDomain Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes Topology
-open scoped TensorProduct
 
 namespace Formalism.L2.SG.Pf.Meas
 
@@ -437,8 +430,6 @@ theorem cross_inf (x : I.Gf) : (splitA I.cm.sig I.J (toHA I hb (1, x))).1 = 1 :=
 
 end Formalism.L2.SG.Pf.Meas
 
-open MeasureTheory NumberField IsDedekindDomain Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes Topology
-open scoped TensorProduct
 
 namespace Formalism.L2.SG.Pf.Meas
 
@@ -521,8 +512,6 @@ theorem Phi_eq : (Phi I hb : I.GA → _) = Prod.map (eInf I hb) (eFin I hb) := b
 
 end Formalism.L2.SG.Pf.Meas
 
-open MeasureTheory NumberField IsDedekindDomain Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes Topology
-open scoped TensorProduct
 
 namespace Formalism.L2.SG.Pf.Meas
 
@@ -595,8 +584,6 @@ end Loc
 
 end Formalism.L2.SG.Pf.Meas
 
-open MeasureTheory NumberField IsDedekindDomain Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes Topology
-open scoped TensorProduct
 
 namespace Formalism.L2.SG.Pf.Meas
 
@@ -675,8 +662,6 @@ open MeasureTheory NumberField Formalism.BasicNotions Formalism.MainNotions.S Fo
 
 namespace Formalism.L2.SG.Pf.Meas
 
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
-
 theorem cmExt (I : AutInst) : Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes.IsCMExt I.F I.E I.cm.sig :=
   ⟨I.cm.totReal, I.cm.cmUnram.1, I.cm.deg2, fun τ x => I.cm.cmUnram.2.1 τ x⟩
 
@@ -730,8 +715,6 @@ theorem frame_std (A : UnitaryGroupInstance D) (L : UnitaryLatticeData D) (u : D
 end Formalism.L2.SG.Pf.Meas
 
 namespace Formalism.L2.SG.Pf
-
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 
 def MWExistsStd : Prop :=
   ∀ (I : AutInst) (hb : Formalism.L2.SG.AdBridge.AdBridgeIso I) (r : ℕ) (e f : Fin r → Fin I.n → I.E) (z : Fin I.n → I.E)

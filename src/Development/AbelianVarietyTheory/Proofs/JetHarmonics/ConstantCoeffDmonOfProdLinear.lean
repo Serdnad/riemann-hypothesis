@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SubstMemIntegralDifferentialSubmoduleStatement
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.CocycleRightZeroThd
 public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.DerivationMemPowOfMemPowSucc
 import Mathlib.Algebra.Order.Floor.Extended
@@ -54,8 +53,6 @@ public import Mathlib.RingTheory.Ideal.BigOperators
 
 @[expose] public section
 
-set_option autoImplicit false
-
 noncomputable section
 
 open MvPowerSeries ReciprocityTheory.ChartRestriction.G.Geo.Tor.Germ ReciprocityTheory.ChartRestriction.G.TB
@@ -102,8 +99,16 @@ theorem sum_update_pred (a : ι → ℕ) (j : ι) (h : a j ≠ 0) :
 omit [Fintype ι] in
 theorem deriv_prod (D : Derivation k A A) (f : ι → A) (s : Finset ι) :
     D (∏ l ∈ s, f l) = ∑ j ∈ s, (∏ l ∈ s.erase j, f l) * D (f j) := by
-  intros
-  apply _root_.GlobalTheory.Katz.derivation_prod_erase <;> assumption
+  induction s using Finset.induction_on with
+  | empty => simp
+  | insert i s hi ih =>
+    rw [Finset.prod_insert hi, Finset.sum_insert hi, Derivation.leibniz, ih, Finset.erase_insert hi,
+      smul_eq_mul, smul_eq_mul, add_comm, Finset.mul_sum]
+    congr 1
+    refine Finset.sum_congr rfl fun j hj => ?_
+    have hij : i ≠ j := fun h => hi (h ▸ hj)
+    rw [Finset.erase_insert_of_ne hij, Finset.prod_insert (fun h => hi (Finset.mem_of_mem_erase h)),
+      mul_assoc]
 
 theorem deriv_prod_pow (D : Derivation k A A) (lam : ι → A) (a : ι → ℕ) :
     D (∏ l, lam l ^ a l) =
@@ -156,9 +161,9 @@ theorem word_value (π : A →ₐ[k] k) (D : ι → Derivation k A A) (lam : ι 
   | nil =>
     simp only [List.foldl_nil, map_mul, map_prod, map_pow, hlam]
     by_cases h : ∀ l, ([] : List ι).count l = a l
-    · rw [if_pos h]
+    · rw [ite_eq_left h]
       simp [← h]
-    · rw [if_neg h]
+    · rw [ite_eq_right h]
       simp only [List.count_nil] at h
       push Not at h
       obtain ⟨l, hl⟩ := h
@@ -176,7 +181,7 @@ theorem word_value (π : A →ₐ[k] k) (D : ι → Derivation k A A) (lam : ι 
       ((∏ l, lam l ^ Function.update a l₀ (a l₀ - 1) l) * E)), word_add, map_add, key2, zero_add,
       word_smul, map_smul]
     by_cases h0 : a l₀ = 0
-    · rw [if_neg]
+    · rw [ite_eq_right]
       · simp [h0]
       · intro h
         have := h l₀
@@ -244,7 +249,7 @@ theorem coeff_law {R : Type} [CommRing R] {d : ℕ} (G : FGLaw R d) (i j : Fin d
   rw [← h]
   by_cases hij : j = i
   · simp [hij]
-  · rw [if_neg hij, if_neg]
+  · rw [ite_eq_right hij, ite_eq_right]
     intro h'
     rw [Finsupp.single_left_inj one_ne_zero] at h'
     exact hij (congrArg Prod.snd h').symm

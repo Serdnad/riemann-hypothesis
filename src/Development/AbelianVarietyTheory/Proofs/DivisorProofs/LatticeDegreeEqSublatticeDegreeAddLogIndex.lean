@@ -1,6 +1,5 @@
 module
 
-import Development.AutomorphicSpectrum.Proofs.GeometryProofs.FlatLineIdempotentSections
 public import Development.AbelianVarietyTheory.Definitions.Divisors.PointShiftSt
 public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.ExistsIndexIdeal
 public import Development.AbelianVarietyTheory.Definitions.Divisors.IsGramOneZero
@@ -46,7 +45,6 @@ public import ReciprocityTheory.GeometryOfNumbers.LatticeCovolumes.ArakelovDegre
 
 @[expose] public section
 
-set_option autoImplicit false
 noncomputable section
 namespace GlobalTheory.LatIndexDeg
 open NumberField IsDedekindDomain ReciprocityTheory.GeometryOfNumbersTheory GlobalTheory.FlatCM
@@ -56,8 +54,21 @@ variable {K V : Type} [Field K] [NumberField K] [AddCommGroup V] [Module K V] [M
 
 theorem ιMulti_ne_zero_of_li {m : ℕ} (v : Fin m → V) (hv : LinearIndependent K v) :
     exteriorPower.ιMulti K m v ≠ 0 := by
-  intros
-  apply _root_.GlobalTheory.CompanionTheory.Ar.LocFn.iotaMulti_ne_zero_of_linearIndependent <;> assumption
+  obtain ⟨g, hg⟩ := LinearMap.exists_leftInverse_of_injective (Fintype.linearCombination K v)
+    (LinearMap.ker_eq_bot.2 (LinearIndependent.fintypeLinearCombination_injective hv))
+  intro h
+  have := congrArg (exteriorPower.alternatingMapLinearEquiv
+    ((Matrix.detRowAlternating : (Fin m → K) [⋀^Fin m]→ₗ[K] K).compLinearMap g)) h
+  rw [exteriorPower.alternatingMapLinearEquiv_apply_ιMulti, map_zero] at this
+  have hgv : ∀ i, g (v i) = Pi.single i 1 := by
+    intro i
+    have : v i = Fintype.linearCombination K v (Pi.single i 1) := by simp
+    rw [this, ← LinearMap.comp_apply, hg, LinearMap.id_apply]
+  have e : (fun i => g (v i)) = fun i => Pi.single i 1 := funext hgv
+  change Matrix.det (Matrix.of fun i => g (v i)) = 0 at this
+  rw [e, show (Matrix.of fun i : Fin m => (Pi.single i 1 : Fin m → K)) = 1 from by
+        ext i j; simp [Matrix.one_apply, Pi.single_apply, eq_comm], Matrix.det_one] at this
+  exact one_ne_zero this
 
 
 omit [IsScalarTower (𝓞 K) K V] [Module (𝓞 K) V] in
@@ -177,12 +188,8 @@ theorem span_eq_of_latRank_eq [FiniteDimensional K V] {N L : Submodule (𝓞 K) 
 
 
 omit [IsScalarTower (𝓞 K) K V] in
-theorem fg_of_le_fg' {N L : Submodule (𝓞 K) V} (hNL : N ≤ L) (hL : L.FG) : N.FG := by
-  have : IsNoetherian (𝓞 K) L := isNoetherian_of_fg_of_noetherian L hL
-  have hfg := IsNoetherian.noetherian (N.comap L.subtype)
-  have e : (N.comap L.subtype).map L.subtype = N := by
-    rw [Submodule.map_comap_subtype, inf_eq_right.2 hNL]
-  exact e ▸ hfg.map _
+theorem fg_of_le_fg' {N L : Submodule (𝓞 K) V} (hNL : N ≤ L) (hL : L.FG) : N.FG :=
+  hL.of_le hNL
 
 theorem relIndex_eq_absNorm_idx [FiniteDimensional K V] {N L : Submodule (𝓞 K) V} (hNL : N ≤ L) (hL : L.FG)
     (hrL : latRank K L = m) (hrN : latRank K N = m) :

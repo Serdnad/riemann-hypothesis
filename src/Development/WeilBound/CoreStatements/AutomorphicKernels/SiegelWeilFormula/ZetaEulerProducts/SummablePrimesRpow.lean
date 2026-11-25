@@ -5,46 +5,6 @@ public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.OneSub
 public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.TsumIdealMulAbsNormCpowEqExpTsum
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.NotInjectiveTwoPrimesEqualNormCofinite
 import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.RayLSeriesEulerProduct
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Topology.Sheaves.Init
-import Development.AbelianVarietyTheory.BlockTheory.AdelicCMFields.UnitaryHeckeCharacterIdele
 
 @[expose] public section
 
@@ -58,7 +18,7 @@ theorem dedekindZeta_eq_exp (K : Type) [Field K] [NumberField K] {s : ℂ} (hs :
   classical
   set X : Ideal (𝓞 K) → ℂ := fun I => if I = ⊥ then 0 else 1 with hX
   have h0 : X ⊥ = 0 := by simp [hX]
-  have h1 : ∀ I, I ≠ ⊥ → X I = 1 := fun I hI => by simp only [hX, if_neg hI]
+  have h1 : ∀ I, I ≠ ⊥ → X I = 1 := fun I hI => by simp only [hX, ite_eq_right hI]
   have hmul : ∀ I J, X (I * J) = X I * X J := by
     intro I J
     by_cases hI : I = ⊥
@@ -92,15 +52,19 @@ theorem dedekindZeta_eq_exp (K : Type) [Field K] [NumberField K] {s : ℂ} (hs :
   rw [GlobalTheory.Mem.ZetaPole.dedekindZeta_eq_tsum_ideal K hs, h]
 
 theorem two_le_absNorm' (K : Type) [Field K] [NumberField K] (P : HeightOneSpectrum (𝓞 K)) :
-    2 ≤ Ideal.absNorm P.asIdeal := by
-  have h0 : Ideal.absNorm P.asIdeal ≠ 0 := fun h => P.ne_bot (Ideal.absNorm_eq_zero_iff.mp h)
-  have h1 : Ideal.absNorm P.asIdeal ≠ 1 := fun h =>
-    P.isPrime.ne_top (Ideal.absNorm_eq_one_iff.mp h)
-  omega
+    2 ≤ Ideal.absNorm P.asIdeal :=
+  NumberField.HeightOneSpectrum.one_lt_absNorm P
 
 theorem summable_primes_rpow (K : Type) [Field K] [NumberField K] (σ : ℝ) (hσ : 1 < σ) :
     Summable fun P : HeightOneSpectrum (𝓞 K) => ((Ideal.absNorm P.asIdeal : ℕ) : ℝ) ^ (-σ) := by
-  apply _root_.GlobalTheory.IndefiniteRowSideFullHecke.UnitaryHeckeCharacterIdele.UnitaryHeckeChar.summable_absNorm_rpow <;> assumption
+  have h := GlobalTheory.Mem.summable_norm_absNorm_cpow K (s := (σ : ℂ)) (by simpa using hσ)
+  have hinj : Function.Injective fun P : HeightOneSpectrum (𝓞 K) => P.asIdeal :=
+    fun P Q hPQ => HeightOneSpectrum.ext hPQ
+  refine (h.comp_injective hinj).congr fun P => ?_
+  have hpos : 0 < Ideal.absNorm P.asIdeal := by have := two_le_absNorm' K P; omega
+  simp only [Function.comp_apply]
+  rw [Complex.norm_natCast_cpow_of_pos hpos]
+  simp
 
 theorem zeta_euler (K : Type) [Field K] [NumberField K] {s : ℂ} (hs : 1 < s.re) :
     HasProd (fun P : HeightOneSpectrum (𝓞 K) => 1 - (Ideal.absNorm P.asIdeal : ℂ) ^ (-s))

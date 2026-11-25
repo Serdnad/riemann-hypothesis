@@ -1,6 +1,5 @@
 module
 
-import Mathlib.RingTheory.MvPolynomial.Homogeneous
 public import GroundTheory.HeightsAndTheta.Heights.FlagBundles.Statements
 import Mathlib.Algebra.Order.Archimedean.Real.Hom
 import Mathlib.MeasureTheory.Measure.RegularityCompacts
@@ -24,8 +23,8 @@ noncomputable section
 namespace FibreIntegralInvariant
 
 theorem eval_smul_of_isHomogeneous {σ : Type*} {φ : MvPolynomial σ ℝ} {n : ℕ}
-    (h : φ.IsHomogeneous n) (s : ℝ) (x : σ → ℝ) : eval (s • x) φ = s ^ n * eval x φ := by
-  exact h.eval_smul s x
+    (h : φ.IsHomogeneous n) (s : ℝ) (x : σ → ℝ) : eval (s • x) φ = s ^ n * eval x φ :=
+  h.eval_smul s x
 
 theorem gKernel_isHomogeneous (k : ℕ) : (gKernel ℝ k).IsHomogeneous (2 * k) := by
   unfold gKernel

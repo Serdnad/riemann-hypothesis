@@ -58,7 +58,6 @@ import Mathlib.Tactic.Basify
 import Mathlib.Tactic.ENatToNat
 import Mathlib.Tactic.Linter.HaveILetI
 import Std.Tactic.BVDecide.Normalize.Prop
-import Development.AbelianVarietyTheory.Proofs.TwistedOperators.IsSmoothAutomorphicRightTranslateFinite
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.Proofs.DivisorProofs.DcOpCommOfCommute, Development.AbelianVarietyTheory.Proofs.DivisorProofs.CoeffHeckePolyOfComplex
@@ -165,7 +164,6 @@ noncomputable section
 open Formalism.BasicNotions Formalism.BasicNotions.TH Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes Formalism.MainNotions.StandardLattice Formalism.MainNotions.S MeasureTheory IsDedekindDomain NumberField
 open Formalism.L2.Theta Formalism.L2.NTheta Formalism.L2.DIV Formalism.IndefR Formalism.IndefR.Links Formalism.IndefR.Lev Formalism.IndefR.Mult Formalism.IndefR.Bridge Polynomial
 open scoped TensorProduct InnerProductSpace
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 
 namespace GlobalTheory.HeckeParts
 
@@ -193,7 +191,20 @@ theorem foldr_rTr {α : Type} (F : α → (GA D V → ℂ) → (GA D V → ℂ))
 
 theorem gelf_rTr (hκ : κ ∈ GfC V) (τ : D.what₂.Tau) (k : ℕ) (φ : GA D V → ℂ) :
     gelf θ V τ k (rTr V κ φ) = rTr V κ (gelf θ V τ k φ) := by
-  apply _root_.GlobalTheory.FinTranslate.gelf_rTr <;> assumption
+  have h : ∀ (l : List (Matrix (Fin V.rank) (Fin V.rank) ℂ)),
+      (l.map (RderC θ V τ)).foldr (fun f acc => f acc) (rTr V κ φ) =
+        rTr V κ ((l.map (RderC θ V τ)).foldr (fun f acc => f acc) φ) := by
+    intro l
+    rw [List.foldr_map, List.foldr_map]
+    refine foldr_rTr (fun Z acc => RderC θ V τ Z acc) (fun Z ψ => ?_) l φ
+    simp only [RderC, Rder_rTr hκ]
+    rfl
+  funext g
+  simp only [gelf, rTr, Finset.sum_apply]
+  refine Finset.sum_congr rfl fun idx _ => ?_
+  have := congrFun (h (List.ofFn fun a : Fin (k + 1) => Matrix.single (idx a) (idx (a + 1)) 1)) g
+  rw [List.map_ofFn] at this
+  exact this
 
 theorem isAutFunSm_rTr (hκ : κ ∈ GfC V) {φ : GA D V → ℂ} (h : IsAutFunSm θ V φ) : IsAutFunSm θ V (rTr V κ φ) := by
   haveI : IsTopologicalGroup (GA D V) := Formalism.L2.GlobalTheoryTheory.GenusMassVolumes.Unfold.topGroupHA _ _
@@ -385,7 +396,7 @@ theorem exists_isMultIP (h : HM.Is U fun T T' => c * ipM M μ 𝓕 T T') (x y : 
       simp
     · by_contra hn
       have := h.2.2 z z
-      simp only [ipM, dif_neg hn, mul_zero] at this
+      simp only [ipM, dite_eq_right hn, mul_zero] at this
       exact hz (inner_self_eq_zero.1 this)
   obtain ⟨a, ha⟩ := hd x
   obtain ⟨b, hb⟩ := hd y

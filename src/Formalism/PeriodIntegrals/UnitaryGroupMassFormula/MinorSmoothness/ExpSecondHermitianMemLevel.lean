@@ -1,59 +1,11 @@
 module
 
-import Formalism.HermitianCurvature.HermitianCurvatureProofs.RestrictionIrrelevantDoubleLevelOperator
 public import Formalism.HermitianCurvature.StatementQ
 public import Mathlib.Analysis.LocallyConvex.AbsConvexOpen
 public import Formalism.FormalDegreeBessel.FormalDegreeRatio.GBasic
 public import Formalism.RealPlaceAnalysis.RealPlaceTaylor.CartanInvolutionConjTransposeMul
 import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.DerivativePreservation.HasDerivAtExt
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.Normed.Algebra.MatrixExponential
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.PiTensorProduct
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.Lemma
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Tactic.TypeStar
-import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
 
 -- This file was produced by scripts/clump.py from the modules listed below.
@@ -77,19 +29,13 @@ attribute [local instance] Matrix.normedAddCommGroup Matrix.normedSpace
 
 variable {k r : ℕ}
 
-lemma hpk_inv : (Hpk k r)⁻¹ = Hpk k r := Matrix.inv_eq_right_inv (Hpk_sq k r)
-
-lemma hpk_unit : IsUnit (Hpk k r) := ⟨⟨Hpk k r, Hpk k r, Hpk_sq k r, Hpk_sq k r⟩, rfl⟩
-
-lemma hpk_hh (A : Mx k r) : Hpk k r * (Hpk k r * A) = A := by rw [← mul_assoc, Hpk_sq, one_mul]
-
 lemma hpart1_skew (Z : Mx k r) :
-    (hpart1 (Hpk k r) Z)ᴴ = -(Hpk k r * hpart1 (Hpk k r) Z * Hpk k r) := by
-  apply _root_.Formalism.FourierDecayAlt.Q.EabLie.hpart1_skew <;> assumption
+    (hpart1 (Hpk k r) Z)ᴴ = -(Hpk k r * hpart1 (Hpk k r) Z * Hpk k r) :=
+  _root_.Formalism.FourierDecayAlt.Q.EabLie.hpart1_skew Z
 
 lemma hpart2_skew (Z : Mx k r) :
-    (hpart2 (Hpk k r) Z)ᴴ = -(Hpk k r * hpart2 (Hpk k r) Z * Hpk k r) := by
-  apply _root_.Formalism.FourierDecayAlt.Q.EabLie.hpart2_skew <;> assumption
+    (hpart2 (Hpk k r) Z)ᴴ = -(Hpk k r * hpart2 (Hpk k r) Z * Hpk k r) :=
+  _root_.Formalism.FourierDecayAlt.Q.EabLie.hpart2_skew Z
 
 lemma skew_real (X : Mx k r) (hX : Xᴴ = -(Hpk k r * X * Hpk k r)) (t : ℝ) :
     ((t : ℂ) • X)ᴴ = -(Hpk k r * ((t : ℂ) • X) * Hpk k r) := by
@@ -97,16 +43,16 @@ lemma skew_real (X : Mx k r) (hX : Xᴴ = -(Hpk k r * X * Hpk k r)) (t : ℝ) :
   simp [Complex.conj_ofReal]
 
 lemma exp_mem_UH (Y : Mx k r) (hY : Yᴴ = -(Hpk k r * Y * Hpk k r)) :
-    NormedSpace.exp Y ∈ UH (Hpk k r) := by
-  apply _root_.Formalism.FourierDecayAlt.Q.EabLie.exp_mem_UH <;> assumption
+    NormedSpace.exp Y ∈ UH (Hpk k r) :=
+  _root_.Formalism.FourierDecayAlt.Q.EabLie.exp_mem_UH Y hY
 
 lemma exp_fix (Y : Mx k r) (c : Fin (2 * r + k + 1)) (hY : ∀ x, Y x c = 0) :
     NormedSpace.exp Y *ᵥ bvec c = bvec c := by
   apply Formalism.FourierDecayAlt.Q.EabLie.exp_fix <;> assumption
 
 lemma glev_mul {i : Fin (r + 1)} {g h : Mx k r} (hg : g ∈ Glev k r i) (hh : h ∈ Glev k r i) :
-    g * h ∈ Glev k r i := by
-  apply _root_.Formalism.FourierDecayAlt.Q.EabLie.glev_mul <;> assumption
+    g * h ∈ Glev k r i :=
+  _root_.Formalism.FourierDecayAlt.Q.EabLie.glev_mul hg hh
 
 lemma exp_mem_glev (i : Fin (r + 1)) (X : Mx k r) (hX : Xᴴ = -(Hpk k r * X * Hpk k r))
     (hc : ∀ a : Fin r, a.val < i.val → ∀ x, X x (eI k r a) = 0 ∧ X x (esI k r a) = 0) (t : ℝ) :
@@ -115,30 +61,6 @@ lemma exp_mem_glev (i : Fin (r + 1)) (X : Mx k r) (hX : Xᴴ = -(Hpk k r * X * H
   refine ⟨exp_mem_UH _ (skew_real X hX t), fun a ha => ⟨exp_fix _ _ fun x => ?_, exp_fix _ _ fun x => ?_⟩⟩
   · rw [Matrix.smul_apply, (hc a ha x).1, smul_zero]
   · rw [Matrix.smul_apply, (hc a ha x).2, smul_zero]
-
-lemma hpk_zero (i : Fin (r + 1)) (p : Fin (mdim k r i)) (a : Fin r) (ha : a.val < i.val) :
-    Hpk k r (posL k r i p) (eI k r a) = 0 ∧ Hpk k r (posL k r i p) (esI k r a) = 0 := by
-  apply _root_.Formalism.FourierDecayAlt.Q.EabLie.hpk_zero <;> assumption
-
-lemma unit_col (i : Fin (r + 1)) (p q : Fin (mdim k r i)) (c : Fin (2 * r + k + 1))
-    (hcq : c ≠ posL k r i q) (hHc : Hpk k r (posL k r i p) c = 0) (x : Fin (2 * r + k + 1)) :
-    (Matrix.single (posL k r i p) (posL k r i q) (1 : ℂ)) x c = 0 ∧
-    (Hpk k r * (Matrix.single (posL k r i p) (posL k r i q) (1 : ℂ))ᴴ * Hpk k r) x c = 0 := by
-  constructor
-  · simp [Ne.symm hcq]
-  · rw [Matrix.mul_apply]
-    refine Finset.sum_eq_zero fun l _ => ?_
-    by_cases hl : l = posL k r i p
-    · rw [hl, hHc, mul_zero]
-    · have h0 : (Hpk k r * (Matrix.single (posL k r i p) (posL k r i q) (1 : ℂ))ᴴ) x l = 0 := by
-        rw [Matrix.mul_apply]
-        refine Finset.sum_eq_zero fun m _ => ?_
-        simp [Matrix.conjTranspose_apply, Ne.symm hl]
-      rw [h0, zero_mul]
-
-lemma posL_ne (i : Fin (r + 1)) (q : Fin (mdim k r i)) (a : Fin r) (ha : a.val < i.val) :
-    eI k r a ≠ posL k r i q ∧ esI k r a ≠ posL k r i q := by
-  apply _root_.Formalism.FourierDecayAlt.Q.EabLie.posL_ne <;> assumption
 
 lemma hpart_cols (i : Fin (r + 1)) (p q : Fin (mdim k r i)) :
     (∀ a : Fin r, a.val < i.val → ∀ x,
@@ -202,7 +124,12 @@ variable {E : Type*} [NormedAddCommGroup E] [NormedSpace ℂ E]
 
 lemma sl_add {f f' : Mx k r → E} (hf : SmoothLev k r i D f) (hf' : SmoothLev k r i D f') :
     SmoothLev k r i D (f + f') := by
-  apply _root_.Formalism.FourierDecayAlt.P.Qx8.smooth_add <;> assumption
+  intro g₀ hg₀
+  obtain ⟨U, F, hU, hgU, hF, hfF⟩ := hf g₀ hg₀
+  obtain ⟨U', F', hU', hgU', hF', hfF'⟩ := hf' g₀ hg₀
+  refine ⟨U ∩ U', fun x => F x + F' x, hU.inter hU', ⟨hgU, hgU'⟩,
+    (hF.mono Set.inter_subset_left).add (hF'.mono Set.inter_subset_right), fun g hg hgG => ?_⟩
+  simp only [Pi.add_apply, hfF g hg.1 hgG, hfF' g hg.2 hgG]
 
 lemma sl_zero : SmoothLev k r i D (0 : Mx k r → E) := by
   intro g₀ _
@@ -272,15 +199,28 @@ variable {E E' : Type*} [NormedAddCommGroup E] [NormedSpace ℂ E] [NormedAddCom
 
 private lemma Glev_mul_mem {g h : Mx k r} (hg : g ∈ Glev k r i) (hh : h ∈ Glev k r i) :
     g * h ∈ Glev k r i := by
-  apply _root_.Formalism.FourierDecayAlt.Q.TPresLie.glev_mul <;> assumption
+  simp only [Glev, UH, Set.mem_setOf_eq] at hg hh ⊢
+  refine ⟨?_, fun a ha => ?_⟩
+  · rw [Matrix.conjTranspose_mul]
+    calc hᴴ * gᴴ * Hpk k r * (g * h) = hᴴ * (gᴴ * Hpk k r * g) * h := by
+          simp only [Matrix.mul_assoc]
+      _ = Hpk k r := by rw [hg.1, hh.1]
+  · obtain ⟨e1, e2⟩ := hg.2 a ha
+    obtain ⟨f1, f2⟩ := hh.2 a ha
+    exact ⟨by rw [← Matrix.mulVec_mulVec, f1, e1], by rw [← Matrix.mulVec_mulVec, f2, e2]⟩
+
+private lemma continuousAt_mul_exp_smul_of_mem_Glev (X : Mx k r) (hX : ∀ t : ℝ, NormedSpace.exp ((t : ℂ) • X) ∈ Glev k r i)
+    {g : Mx k r} (hg : g ∈ Glev k r i) :
+    ContinuousAt (fun t : ℝ => g * NormedSpace.exp ((t : ℂ) • X)) 0 :=
+  (Formalism.FourierDecayAlt.Q.TPresLie.hasDerivAt_ext i X hX (fun x => x) (fun x => x) Set.univ g isOpen_univ
+    (Set.mem_univ _) hg contDiffOn_id (fun _ _ _ => rfl)).continuousAt
 
 lemma rdV_local (X : Mx k r) (hX : ∀ t : ℝ, NormedSpace.exp ((t : ℂ) • X) ∈ Glev k r i)
     (hD : IsOpen D) (f f' : Mx k r → E) (h : ∀ x ∈ Glev k r i ∩ D, f x = f' x)
     (g : Mx k r) (hg : g ∈ Glev k r i ∩ D) : RdV X f g = RdV X f' g := by
   simp only [RdV]
   apply Filter.EventuallyEq.deriv_eq
-  have hc := (Formalism.FourierDecayAlt.Q.TPresLie.hasDerivAt_ext i X hX (fun x => x) (fun x => x)
-    Set.univ g isOpen_univ (Set.mem_univ _) hg.1 contDiffOn_id (fun _ _ _ => rfl)).continuousAt
+  have hc := continuousAt_mul_exp_smul_of_mem_Glev X hX hg.1
   have hD' : (fun t : ℝ => g * NormedSpace.exp ((t : ℂ) • X)) ⁻¹' D ∈ 𝓝 (0 : ℝ) := by
     apply hc.preimage_mem_nhds
     simp only [Complex.ofReal_zero, zero_smul, NormedSpace.exp_zero, mul_one]

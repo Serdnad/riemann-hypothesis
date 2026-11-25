@@ -1,6 +1,5 @@
 module
 
-import Development.WeilBound.CoreStatements.GaussianSeminormBounds.RealSeminormFiltration.RLFock
 public import Development.WeilBound.ThetaLifts.LeviDeterminants.MixedModels.AdaptC
 public import Development.WeilBound.ThetaLifts.TowerModels.TwistedSums.EventuallySelfDualLatticeIndicatorIsVacuum
 public import Development.WeilBound.ThetaLifts.LeviDeterminants.EvFrame
@@ -14,52 +13,9 @@ public import Development.WeilBound.ThetaLifts.LeviDeterminants.EvCone
 import Development.WeilBound.ThetaLifts.TowerModels.TwistedSums.AddCharHalfTraceTensorLatticeHeisenbergCocycle
 import Development.AbelianVarietyTheory.Proofs.DivisorProofs.StandardAddCharSymplecticLocalLatticeEqOne
 import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.AdelicLocalCompactness.AdeleLC
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.PiTensorProduct
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Topology.Connected.Separation
-import Mathlib.Topology.MetricSpace.Ultra.TotallySeparated
-import Mathlib.Topology.Sheaves.Init
 import Development.AbelianVarietyTheory.Definitions.Divisors.MatchingOfParts
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Polynomial.Basic
 import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.ProductFormulaHaar.TrSumOf
-import Mathlib.RingTheory.TotallySplit
 import Mathlib.Tactic.Linter.HaveILetI
 import Std.Tactic.BVDecide.Normalize.Prop
 
@@ -249,7 +205,7 @@ theorem exists_modelS {B : Base F E} {r s r' s' : ℕ} (hB : B.IsGood σ) (hX : 
     (fun u hu => ⟨funext fun k => by simp [p, (hI u hu).1], (hI u hu).2⟩) fun v c => by
       by_cases h : G v
       · show (if G v then S v else φa v) _ = _
-        rw [if_pos h, h.2]
+        rw [ite_eq_left h, h.2]
         refine Set.indicator_eq_indicator ⟨fun hx i => ?_, fun hx i => ?_⟩ rfl
         · simpa using hx (ε.symm (.inr i))
         · obtain ⟨i, rfl⟩ := ε.symm.surjective i
@@ -257,7 +213,7 @@ theorem exists_modelS {B : Base F E} {r s r' s' : ℕ} (hB : B.IsGood σ) (hX : 
           · rw [glue_inl]; exact zero_mem _
           · rw [glue_inr]; exact hx i
       · show (if G v then S v else φa v) _ = _
-        rw [if_neg h, hφb]
+        rw [ite_eq_right h, hφb]
   refine ⟨ε, Ma, e, p, q, ⟨hr, fun v => ?_, ?_, hM.haar, hM.dom⟩, hco, fun z h => funext fun k => by simp [p, h],
     fun z h => funext fun k => by simp [q, h], he⟩
   · show Model.IsVac _ _ _ (if G v then S v else φa v)
@@ -265,7 +221,7 @@ theorem exists_modelS {B : Base F E} {r s r' s' : ℕ} (hB : B.IsGood σ) (hX : 
     · exact h.1
     · exact hφa v
   · filter_upwards [Tw.VacIndic.eventually_isVac_indicator B hB X W r s r' s' hX hW co hr, hM₁.std] with v h1 h2
-    exact if_pos ⟨h1, h2⟩
+    exact ite_eq_left ⟨h1, h2⟩
 
 end PositivityTheory.ThKF0
 end -- clump:auto
@@ -375,7 +331,6 @@ section -- clump:auto
 
 open NumberField IsDedekindDomain MeasureTheory Filter Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes GlobalTheory.WeilM GlobalTheory.AdelicU GlobalTheory.LFun
 open scoped TensorProduct SchwartzMap LineDeriv ContDiff Matrix Classical
-attribute [local instance] GlobalTheory.LocalData.complRel GlobalTheory.LocalData.isLocalField
 open GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels
 
 noncomputable section
@@ -434,12 +389,53 @@ variable {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algeb
 
 theorem tr_evI (h : IsTotallyReal F) (a : AF F) : Algebra.trace ℝ (mixedEmbedding.mixedSpace F) (evI F a) =
     ∑ w : InfinitePlace F, (InfinitePlace.Completion.extensionEmbedding w (a.1 w)).re := by
-  apply _root_.PositivityTheory.RL.Fock.trace_mixed <;> assumption
+  classical
+  haveI : IsEmpty {w : InfinitePlace F // w.IsComplex} :=
+    ⟨fun w => InfinitePlace.not_isReal_iff_isComplex.2 w.2 (h.isReal w.1)⟩
+  rw [evI, Algebra.trace_prod_apply, PI.ProdFormulaE.Tr.trace_pi, PI.ProdFormulaE.Tr.trace_pi,
+    InfiniteAdeleRing.ringEquiv_mixedSpace_apply]
+  refine (congrArg₂ HAdd.hAdd ?_ (Finset.sum_of_isEmpty _)).trans (add_zero _)
+  refine Fintype.sum_equiv (Equiv.subtypeUnivEquiv h.isReal) _ _ fun w => ?_
+  rw [Equiv.subtypeUnivEquiv_apply, ← InfinitePlace.Completion.extensionEmbeddingOfIsReal_apply w.2, Complex.ofReal_re]
+  simp
 
 theorem tr_tr (h : IsCMExt F E σ) (τ : ∀ w : InfinitePlace F, EmbOver E w) (z : AE F E) :
     Algebra.trace ℝ (mixedEmbedding.mixedSpace F) (evI F (Algebra.trace (AF F) (AE F E) z)) =
       ∑ w, 2 * (piInf (τ w) z).re := by
-  apply _root_.PositivityTheory.RL.Fock.trace_trace <;> assumption
+  rw [tr_evI h.1]
+  refine Finset.sum_congr rfl fun w _ => ?_
+  have h1 : algebraMap (AF F) (AE F E) (Algebra.trace (AF F) (AE F E) z) = z + cA σ z := by
+    induction z using TensorProduct.induction_on with
+    | zero => simp
+    | add a b ha hb => simp only [map_add (f := _), ha, hb]; ring
+    | tmul a e =>
+      rw [← Tw.VacIndic.smul_inclR_eq, map_smul (Algebra.trace _ _), map_smul (cA σ), Tw.VacIndic.trace_inclR, Tw.VacIndic.cA_inclR, ← smul_add,
+        ← map_add, ← GlobalTheory.SelfDualLatticeCompare.trace_field h, smul_eq_mul, map_mul, Algebra.smul_def]
+      congr 1
+      generalize Algebra.trace F E e = t
+      show algebraMap F (AF F) t ⊗ₜ[F] (1 : E) = (1 : AF F) ⊗ₜ[F] algebraMap F E t
+      rw [Algebra.algebraMap_eq_smul_one (A := AF F), Algebra.algebraMap_eq_smul_one (A := E), TensorProduct.smul_tmul]
+  have hconj (τ : EmbOver E w) (z : AE F E) : piInf τ (cA σ z) = star (piInf τ z) := by
+    induction z using TensorProduct.induction_on with
+    | zero => simp
+    | add x y hx hy => simp only [map_add (f := _), hx, hy, star_add]
+    | tmul a e =>
+      have hz : cA σ (a ⊗ₜ[F] e) = a ⊗ₜ[F] σ e := by simp [cA]
+      have hr : star (InfinitePlace.Completion.extensionEmbedding w (a.1 w)) =
+          InfinitePlace.Completion.extensionEmbedding w (a.1 w) := by
+        rw [← InfinitePlace.Completion.extensionEmbeddingOfIsReal_apply (h.1.isReal w)]
+        exact Complex.conj_ofReal _
+      rw [hz]
+      change InfinitePlace.Completion.extensionEmbedding w (a.1 w) * τ.1 (σ e) =
+        star (InfinitePlace.Completion.extensionEmbedding w (a.1 w) * τ.1 e)
+      rw [star_mul', hr, h.2.2.2]
+  have h2 := congrArg (piInf (τ w)) h1
+  rw [map_add (f := _), hconj] at h2
+  have h3 : piInf (τ w) (algebraMap (AF F) (AE F E) (Algebra.trace (AF F) (AE F E) z)) =
+      InfinitePlace.Completion.extensionEmbedding w ((Algebra.trace (AF F) (AE F E) z).1 w) * (τ w).1 1 := rfl
+  rw [h3, map_one, mul_one] at h2
+  rw [h2, Complex.add_re, Complex.star_def, Complex.conj_re]
+  ring
 
 abbrev cj : ℂ →ₐ[ℝ] ℂ := Complex.conjAe
 

@@ -1,46 +1,8 @@
 module
 
-import Development.WeilBound.CoreStatements.PublishedTheorems.JacquetShalikaRigidity.UnipotentZeroOfLevel
 public import Development.WeilBound.CoreStatements.PublishedTheorems.JacquetShalikaRigidity.ColumnConjugationMeasure
 import GroundTheory.GlobalFields.LocalAtPlace
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Topology.Sheaves.Init
 
 @[expose] public section
 
@@ -50,8 +12,6 @@ open NumberField IsDedekindDomain MeasureTheory Matrix Topology Filter
 open GlobalTheory.CuspGeneric GlobalTheory.CuspRep GlobalTheory.UnitaryBC GlobalTheory.DiscSpec PositivityTheory.jumpWindows PositivityTheory.RgJS
 open GroundTheory.Automorphic GroundTheory.Automorphic.FourierWhittaker GroundTheory.Automorphic.Reduction GroundTheory.Automorphic.Spherical
 open scoped ENNReal ComplexConjugate
-
-attribute [local instance] GlobalTheory.LocalData.complRel GlobalTheory.LocalData.isLocalField
 
 namespace PositivityTheory.AdelicQuotientData
 
@@ -115,8 +75,21 @@ theorem uu_one : UU 0 (1 : GA E k) :=
   ⟨fun i c h => by rw [Units.val_one, Matrix.one_apply_ne h.ne'], fun i => by rw [Units.val_one, Matrix.one_apply_eq],
     fun i c h => absurd h (Nat.not_lt_zero _)⟩
 
-theorem uu_mul {g h : GA E k} (hg : UU 0 g) (hh : UU 0 h) : UU 0 (g * h) :=
-  _root_.PositivityTheory.AdelicQuotientData.PKLt1.unipotent_zero_mul hg hh
+theorem uu_mul {g h : GA E k} (hg : UU 0 g) (hh : UU 0 h) : UU 0 (g * h) := by
+  refine ⟨fun i c hci => ?_, fun i => ?_, fun i c h => absurd h (Nat.not_lt_zero _)⟩
+  · rw [Units.val_mul, Matrix.mul_apply]
+    refine Finset.sum_eq_zero fun j _ => ?_
+    rcases lt_or_ge j i with hj | hj
+    · rw [hg.1 i j hj, zero_mul]
+    · rw [hh.1 j c (lt_of_lt_of_le hci hj), mul_zero]
+  · rw [Units.val_mul, Matrix.mul_apply, Finset.sum_eq_single i]
+    · rw [hg.2.1, hh.2.1, one_mul]
+    · intro j _ hj
+      rcases lt_or_gt_of_ne hj with hj | hj
+      · rw [hg.1 i j hj, zero_mul]
+      · rw [hh.1 j i hj, mul_zero]
+    · intro h
+      exact absurd (Finset.mem_univ i) h
 
 theorem uu_fl (w : Pl E) {n : GL (Fin k) (w.adicCompletion E)} (hn : n ∈ Iwasawa.unipotent (w.adicCompletion E) k) :
     UU 0 (fl k w n) := by

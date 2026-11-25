@@ -15,61 +15,12 @@ public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ConeFram
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.TorusArchimedeanFrameAction
 public import Development.WeilBound.ThetaLifts.Reductions.SiegelAbs
 public import Development.WeilBound.ThetaLifts.Reductions.SiegelPar
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Topology.Sheaves.Init
 import GroundTheory.AutomorphicForms.LocallyProfinite
 import GroundTheory.HeightsAndTheta.Heights.FiniteCovolume.StatementsTorusIntegral
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.RingTheory.Henselian
-import Mathlib.RingTheory.RegularLocalRing.Defs
-import Mathlib.RingTheory.SimpleRing.Principal
-import Mathlib.RingTheory.WittVector.IsPoly
 import Mathlib.Tactic.Linter.HaveILetI
 import Development.AbelianVarietyTheory.Definitions.Foundations.EventuallyNormFinLeOne
 import Development.WeilBound.ThetaLifts.Reductions.SiegelHaar
-import Mathlib.Analysis.CStarAlgebra.Classes
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
 import Std.Tactic.BVDecide.Normalize.Prop
-import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.EisensteinSeriesConvergent
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AutomorphicSpectrum.Proofs.BlockDecomposition.AdeleSplitSndDiagonal, Development.AutomorphicSpectrum.Proofs.BlockDecomposition.CompactFiniteAdelicDenominator, Development.AutomorphicSpectrum.Proofs.BlockDecomposition.EqZeroOfIsIntegralMulOfSmall, Development.AutomorphicSpectrum.Proofs.BlockDecomposition.FrameBlockZeroStabilizesFlag, Development.AutomorphicSpectrum.Proofs.BlockDecomposition.MinimalParabolicFrameBlockZero, Development.AutomorphicSpectrum.Proofs.BlockDecomposition.SiegelCompactTranslateBound
@@ -99,16 +50,6 @@ theorem projFin_ratEmb_val (σ : E →ₐ[F] E) {n : ℕ} (J : Matrix (Fin n) (F
   simp
 
 end Reduction
-
-section Lattices
-
-open GroundTheory.Automorphic GroundTheory.Heights₂.Heights.FiniteCovolume Module
-open scoped Pointwise
-
-variable {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E]
-  [Algebra.IsQuadraticExtension F E]
-
-end Lattices
 
 end GlobalTheory.CompanionTheory.ClassFin
 end -- clump:auto
@@ -300,7 +241,7 @@ theorem stabilises_flag_span : ∀ (E : Type) [Field E] (S : E →+* E) (n r : �
     have h1 : (∑ α, frameIdem S J X Y α) *ᵥ v = ∑ α, frameIdem S J X Y α *ᵥ v :=
       map_sum (Matrix.mulVec.addMonoidHomLeft v) (fun α => frameIdem S J X Y α) Finset.univ
     rwa [sum_frameIdem, Matrix.one_mulVec] at h1
-  refine ⟨fun m => if m ≤ j then ((cT S Y * J) *ᵥ v) m else 0, ?_, fun m hm => if_neg (not_le.2 hm)⟩
+  refine ⟨fun m => if m ≤ j then ((cT S Y * J) *ᵥ v) m else 0, ?_, fun m hm => ite_eq_right (not_le.2 hm)⟩
   refine hsum.trans ?_
   rw [Fintype.sum_option, Fintype.sum_sum_type, hz none (by simp [frameLev]), zero_add]
   have hinr : ∑ i, frameIdem S J X Y (some (Sum.inr i)) *ᵥ v = 0 := by
@@ -426,7 +367,7 @@ theorem minPar_frame_block_eq_zero : ∀ (F E : Type) [Field F] [NumberField F] 
       · have hj : ¬ j ≤ s := by
           intro h
           change (if j ≤ s then 2 else 1) < 2 at hα
-          rw [if_pos h] at hα
+          rw [ite_eq_left h] at hα
           exact absurd hα (by decide)
         have hij : i < j := lt_of_le_of_lt hi (not_le.mp hj)
         have hBji : (B.map φ) j i = 0 := by
@@ -442,13 +383,13 @@ theorem minPar_frame_block_eq_zero : ∀ (F E : Type) [Field F] [NumberField F] 
         rw [h2]
         simp
     · change (if i ≤ s then 2 else 1) = 2 at hβ
-      rw [if_neg hi] at hβ
+      rw [ite_eq_right hi] at hβ
       exact absurd hβ (by decide)
   · change (if i ≤ s then 0 else 1) = 2 at hβ
     by_cases hi : i ≤ s
-    · rw [if_pos hi] at hβ
+    · rw [ite_eq_left hi] at hβ
       exact absurd hβ (by decide)
-    · rw [if_neg hi] at hβ
+    · rw [ite_eq_right hi] at hβ
       exact absurd hβ (by decide)
 
 end GlobalTheory.CompanionTheory.RapidDecay
@@ -476,7 +417,19 @@ variable {r : ℕ}
 
 theorem exists_embOver (F E : Type) [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E]
     (σ : E →ₐ[F] E) (h : IsCMExt F E σ) (φ : E →+* ℂ) : ∃ (w : InfinitePlace F) (τ : EmbOver E w), τ.1 = φ := by
-  apply _root_.GlobalTheory.CompanionTheory.GodementH.exists_embOver <;> assumption
+  haveI := h.1
+  let ψ : F →+* ℂ := φ.comp (algebraMap F E)
+  let w : InfinitePlace F := InfinitePlace.mk ψ
+  have hr : ComplexEmbedding.IsReal w.embedding := InfinitePlace.isReal_iff.1 (IsTotallyReal.isReal w)
+  have e : ψ = w.embedding := by
+    rcases InfinitePlace.embedding_mk_eq ψ with e | e
+    · exact e.symm
+    · have h2 : ComplexEmbedding.conjugate w.embedding = w.embedding := ComplexEmbedding.isReal_iff.1 hr
+      rw [← h2]
+      change ψ = ComplexEmbedding.conjugate (InfinitePlace.mk ψ).embedding
+      rw [e]
+      exact RingHom.ext fun x => by simp
+  exact ⟨w, ⟨φ, e⟩, rfl⟩
 
 theorem archMat_ratEmb {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] {σ : E →ₐ[F] E}
     {n : ℕ} {J : Matrix (Fin n) (Fin n) E} {w : InfinitePlace F} (τ : EmbOver E w) (γ : GRat σ J) :

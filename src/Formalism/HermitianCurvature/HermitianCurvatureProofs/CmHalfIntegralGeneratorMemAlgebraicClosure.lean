@@ -3,63 +3,12 @@ module
 import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.StabilizerFlagSplitting.MulVecColOfMul
 public import Formalism.HermitianCurvature.WeylElementCommutesLevelOne
 public import Formalism.FormalDegreeBessel.FinalG
-import Mathlib.Algebra.Module.StablyFree.Basic
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.LocallyConvex.AbsConvexOpen
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
 public import Mathlib.Analysis.SpecialFunctions.PolarCoord
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
 public import Mathlib.LinearAlgebra.Complex.Determinant
-import Mathlib.NumberTheory.Chebyshev
 import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.Order.CompletePartialOrder
 public import Mathlib.RingTheory.Complex
 import Mathlib.RingTheory.Etale.Weakly
-import Mathlib.RingTheory.Finiteness.ModuleFinitePresentation
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.RingTheory.SimpleRing.Principal
-import Mathlib.RingTheory.TotallySplit
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.Lemma
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Tactic.TypeStar
-import Mathlib.Topology.Separation.CompletelyRegular
-import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
 public import Mathlib.Analysis.Calculus.Deriv.Inv
 public import Mathlib.Analysis.Calculus.Deriv.Mul
@@ -151,7 +100,7 @@ lemma three_block_middle (a : ℂ) (y : Fin (2 * r' + k + 1) → ℂ) (b : ℂ) 
   have c1 : ¬ ((levPos k 1 r' j).val = 0) := by simp only [levPos, Fin.val_mk]; omega
   have c2 : 1 ≤ (levPos k 1 r' j).val ∧ (levPos k 1 r' j).val < 2 * r' + k + 1 + 1 := by
     simp only [levPos, Fin.val_mk]; omega
-  rw [if_neg c1, dif_pos c2]
+  rw [ite_eq_right c1, dite_eq_left c2]
   exact congrArg y (Fin.ext (by simp only [levPos, Fin.val_mk]; omega))
 lemma three_block_eta (u : Fin (2 * (1 + r') + k + 1) → ℂ) : mk3 k r' (cF u) (mid u) (cL u) = u := by
   funext i
@@ -245,16 +194,16 @@ lemma hermitian_matrix_three_block (a b : ℂ) (y : Fin (2 * r' + k + 1) → ℂ
     have h1 : Hpk k (1 + r') (tkF k r') (tkF k r') = 0 := by
       unfold Hpk tkF
       dsimp only
-      rw [if_neg (by omega), if_neg (by omega), if_neg (by omega)]
+      rw [ite_eq_right (by omega), ite_eq_right (by omega), ite_eq_right (by omega)]
     have h2 : ∀ j, Hpk k (1 + r') (tkF k r') (levPos k 1 r' j) = 0 := by
       intro j; have := j.isLt
       unfold Hpk tkF levPos
       dsimp only
-      rw [if_neg (by omega), if_neg (by omega), if_neg (by omega)]
+      rw [ite_eq_right (by omega), ite_eq_right (by omega), ite_eq_right (by omega)]
     have h3 : Hpk k (1 + r') (tkF k r') (tkL k r') = 1 := by
       unfold Hpk tkF tkL
       dsimp only
-      rw [if_pos (by omega)]
+      rw [ite_eq_left (by omega)]
     simp [h1, h2, h3]
   · intro i
     have hi := i.isLt
@@ -262,7 +211,7 @@ lemma hermitian_matrix_three_block (a b : ℂ) (y : Fin (2 * r' + k + 1) → ℂ
     have h1 : Hpk k (1 + r') (levPos k 1 r' i) (tkF k r') = 0 := by
       unfold Hpk tkF levPos
       dsimp only
-      rw [if_neg (by omega), if_neg (by omega), if_neg (by rw [Fin.ext_iff]; dsimp only; omega)]
+      rw [ite_eq_right (by omega), ite_eq_right (by omega), ite_eq_right (by rw [Fin.ext_iff]; dsimp only; omega)]
     have h2 : ∀ j, Hpk k (1 + r') (levPos k 1 r' i) (levPos k 1 r' j) = Hpk k r' i j := by
       intro j; have := j.isLt
       unfold Hpk levPos
@@ -277,22 +226,22 @@ lemma hermitian_matrix_three_block (a b : ℂ) (y : Fin (2 * r' + k + 1) → ℂ
     have h3 : Hpk k (1 + r') (levPos k 1 r' i) (tkL k r') = 0 := by
       unfold Hpk tkL levPos
       dsimp only
-      rw [if_neg (by omega), if_neg (by omega), if_neg (by rw [Fin.ext_iff]; dsimp only; omega)]
+      rw [ite_eq_right (by omega), ite_eq_right (by omega), ite_eq_right (by rw [Fin.ext_iff]; dsimp only; omega)]
     simp [h1, h2, h3, Matrix.mulVec, dotProduct]
   · rw [tk_mulVec]
     have h1 : Hpk k (1 + r') (tkL k r') (tkF k r') = 1 := by
       unfold Hpk tkF tkL
       dsimp only
-      rw [if_neg (by omega), if_pos (by omega)]
+      rw [ite_eq_right (by omega), ite_eq_left (by omega)]
     have h2 : ∀ j, Hpk k (1 + r') (tkL k r') (levPos k 1 r' j) = 0 := by
       intro j; have := j.isLt
       unfold Hpk tkL levPos
       dsimp only
-      rw [if_neg (by omega), if_neg (by omega), if_neg (by omega)]
+      rw [ite_eq_right (by omega), ite_eq_right (by omega), ite_eq_right (by omega)]
     have h3 : Hpk k (1 + r') (tkL k r') (tkL k r') = 0 := by
       unfold Hpk tkL
       dsimp only
-      rw [if_neg (by omega), if_neg (by omega), if_neg (by omega)]
+      rw [ite_eq_right (by omega), ite_eq_right (by omega), ite_eq_right (by omega)]
     simp [h1, h2, h3]
 
 lemma hermitian_three_block (a a' b b' : ℂ) (y y' : Fin (2 * r' + k + 1) → ℂ) :
@@ -374,27 +323,27 @@ private lemma ιLev_levPos_apply (g : Mat k r') (i : Fin (2 * r' + k + 1)) (q : 
   have c1 : 1 ≤ i.val + 1 ∧ i.val + 1 < 2 * r' + k + 1 + 1 := by omega
   simp only [ιLev, levPos, Fin.val_mk, c1, and_self, ↓reduceDIte]
   by_cases hc : 1 ≤ q.val ∧ q.val < 2 * r' + k + 1 + 1
-  · rw [dif_pos hc, dif_pos hc]
+  · rw [dite_eq_left hc, dite_eq_left hc]
     exact congrFun (congrArg g (Fin.ext (by simp only [Fin.val_mk]; omega))) _
-  · rw [dif_neg hc, dif_neg hc]
+  · rw [dite_eq_right hc, dite_eq_right hc]
 
 private lemma ιLev_levPos_levPos (g : Mat k r') (i j : Fin (2 * r' + k + 1)) :
     ιLev k 1 r' g (levPos k 1 r' i) (levPos k 1 r' j) = g i j := by
   have hj := j.isLt
   have c : 1 ≤ (levPos k 1 r' j).val ∧ (levPos k 1 r' j).val < 2 * r' + k + 1 + 1 := by
     simp only [levPos, Fin.val_mk]; omega
-  rw [ιLev_levPos_apply, dif_pos c]
+  rw [ιLev_levPos_apply, dite_eq_left c]
   exact congrArg (g i) (Fin.ext (by simp only [levPos, Fin.val_mk]; omega))
 
 private lemma ιLev_levPos_tkF_eq_zero (g : Mat k r') (i : Fin (2 * r' + k + 1)) :
     ιLev k 1 r' g (levPos k 1 r' i) (tkF k r') = 0 := by
   have c : ¬ (1 ≤ (tkF k r').val ∧ (tkF k r').val < 2 * r' + k + 1 + 1) := by simp only [tkF, Fin.val_mk]; omega
-  rw [ιLev_levPos_apply, dif_neg c]
+  rw [ιLev_levPos_apply, dite_eq_right c]
 
 private lemma ιLev_levPos_tkL_eq_zero (g : Mat k r') (i : Fin (2 * r' + k + 1)) :
     ιLev k 1 r' g (levPos k 1 r' i) (tkL k r') = 0 := by
   have c : ¬ (1 ≤ (tkL k r').val ∧ (tkL k r').val < 2 * r' + k + 1 + 1) := by simp only [tkL, Fin.val_mk]; omega
-  rw [ιLev_levPos_apply, dif_neg c]
+  rw [ιLev_levPos_apply, dite_eq_right c]
 
 lemma levi_three_block (g₁ : Mat k r') (a b : ℂ) (y : Fin (2 * r' + k + 1) → ℂ) :
     ιLev k 1 r' g₁ *ᵥ mk3 k r' a y b = mk3 k r' a (g₁ *ᵥ y) b := by
@@ -1448,22 +1397,5 @@ theorem isotropic_cone_finite_measure : Formalism.FourierDecayAlt.B2.ConeFinite 
     · exact Or.inr hp
   refine le_trans (measure_mono hsub) (le_trans (measure_union_le _ _) ?_)
   rw [hnull, add_zero]
-
-end Formalism.FourierDecayAlt.P
-
-namespace Formalism.FourierDecayAlt.P.B2x8
-
-open Formalism.REAL Formalism.QuantumDeterminants Formalism.FourierDecayAlt.B Formalism.FourierDecayAlt.B2
-
-section dj
-variable {k r : ℕ}
-
-end dj
-
-end Formalism.FourierDecayAlt.P.B2x8
-
-namespace Formalism.FourierDecayAlt.P
-
-open Formalism.REAL Formalism.QuantumDeterminants Formalism.FourierDecayAlt.B Formalism.FourierDecayAlt.B2 Formalism.FourierDecayAlt.P.B2x8
 
 end Formalism.FourierDecayAlt.P

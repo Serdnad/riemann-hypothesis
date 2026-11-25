@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.ModuliProofs.TorsionPointsFieldExtension
 public import Development.AbelianVarietyTheory.Definitions.Degenerations.CharZeroOfIsPrimitiveRoot
 public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.ExistsPowEqOfBaseChange
 public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.RelationsAreFunctions
@@ -54,7 +53,6 @@ import Mathlib.Tactic.Polynomial.Basic
 open CategoryTheory Limits MonoidalCategory CartesianMonoidalCategory MonObj AlgebraicGeometry NumberField
 open scoped CategoryTheory.Obj BigOperators
 open ReciprocityTheory.ChartRestriction.G ReciprocityTheory.ChartRestriction.G.Semi ReciprocityTheory.ChartRestriction.G.Out ReciprocityTheory.ChartRestriction.G.Geo.Tor
-attribute [local instance] Over.cartesianMonoidalCategory
 open GlobalTheory GlobalTheory.Ex
 
 noncomputable section
@@ -72,7 +70,7 @@ theorem epi_spMap : Epi (spMap f) := by
 theorem valF_ext (t : Sp F ⟶ X) (U : X.Opens) (ht : ⊤ ≤ t ⁻¹ᵁ U) (a : Γ(X, U)) :
     valF (spMap f ≫ t) U a = f (valF t U a) := by
   have h' : ⊤ ≤ (spMap f ≫ t) ⁻¹ᵁ U := fun q _ => ht (Set.mem_univ (spMap f q))
-  rw [valF, dif_pos h', valF, dif_pos ht]
+  rw [valF, dite_eq_left h', valF, dite_eq_left ht]
   have e : (spMap f ≫ t).appLE U ⊤ h' ≫ (Scheme.ΓSpecIso (CommRingCat.of F')).hom =
       t.appLE U ⊤ ht ≫ (Scheme.ΓSpecIso (CommRingCat.of F)).hom ≫ CommRingCat.ofHom f := by
     rw [← Scheme.ΓSpecIso_naturality, ← Scheme.Hom.appLE_comp_appLE (spMap f) t U ⊤ ⊤ ht le_rfl,
@@ -87,7 +85,7 @@ theorem top_le_chart {J : (Sp F ⟶ X) → L.ι} (hJ : ∀ ψ : Sp F ⟶ X, ⊤ 
 theorem vF_ne_zero {J : (Sp F ⟶ X) → L.ι} (hJ : ∀ ψ : Sp F ⟶ X, ⊤ ≤ ψ ⁻¹ᵁ L.U (J ψ)) {φ : K → (Y ⟶ X)} {ε : K → ℤ}
     (t : LB.Gen (LB.LinComb L φ ε)) (r : Sp F ⟶ Y) : vF t r J ≠ 0 := by
   refine fun h => ?_
-  exact (((Units.isUnit _).map _).map _).ne_zero ((dif_pos (top_le_chart hJ φ r)).symm.trans h)
+  exact (((Units.isUnit _).map _).map _).ne_zero ((dite_eq_left (top_le_chart hJ φ r)).symm.trans h)
 
 theorem val_eq_vF {J : (Sp F ⟶ X) → L.ι} (hJ : ∀ ψ : Sp F ⟶ X, ⊤ ≤ ψ ⁻¹ᵁ L.U (J ψ)) {φ : K → (Y ⟶ X)} {ε : K → ℤ}
     (t : LB.Gen (LB.LinComb L φ ε)) (r : Sp F ⟶ Y) (y : Sp F) : (val t r y J).val = stalkConst y (vF t r J) :=
@@ -123,8 +121,22 @@ end Val
 
 theorem card_torsion (hL : Laws) {S : Scheme.{0}} (P : PolAV S) {k : Type} [Field k] [IsAlgClosed k] (t : Sp k ⟶ S)
     {n : ℕ} (hn : (n : k) ≠ 0) : Nat.card {x : Over.mk t ⟶ P.A // x ^ n = 1} = n ^ (2 * P.g) := by
-  intros
-  apply _root_.GlobalTheory.TorsionFieldExt.card_torsion <;> assumption
+  have hn0 : n ≠ 0 := by rintro rfl; exact hn Nat.cast_zero
+  obtain ⟨P', g, hg, hdim, hmul, -⟩ := hL.polBaseChange S _ t P
+  rw [← hdim, ← (hL.mulN _ P' n (Nat.pos_of_ne_zero hn0)).2.2.2.2 k (𝟙 _) hn]
+  let ρ : Over.mk t ⟶ Over.mk (𝟙 _ ≫ t) := Over.homMk (𝟙 _) ((Category.id_comp _).trans (Category.id_comp _))
+  let Φ : (Over.mk (𝟙 (Spec (CommRingCat.of k))) ⟶ P'.A) →* (Over.mk t ⟶ P.A) :=
+    MonoidHom.mk' (fun x => ρ ≫ toBase hg.w x) fun x y => by rw [hmul, MonObj.comp_mul]
+  have hΦ : ∀ x, (Φ x).left = x.left ≫ g := fun x => Category.id_comp _
+  have hb : Function.Bijective Φ := by
+    refine ⟨fun x y e => Over.OverMorphism.ext (hg.hom_ext ?_ ((Over.w x).trans (Over.w y).symm)), fun a => ?_⟩
+    · rw [← hΦ, ← hΦ, e]
+    · exact ⟨Over.homMk (hg.lift a.left (𝟙 _) ((Over.w a).trans (Category.id_comp t).symm)) (hg.lift_snd _ _ _),
+        Over.OverMorphism.ext ((hΦ _).trans (hg.lift_fst _ _ _))⟩
+  let e := MulEquiv.ofBijective Φ hb
+  exact (Nat.card_congr (e.toEquiv.subtypeEquiv fun x => by
+    show _ ↔ e x ^ n = 1
+    rw [← map_pow, EmbeddingLike.map_eq_one_iff])).symm
 
 attribute [local instance] gtGroup
 

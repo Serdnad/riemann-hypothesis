@@ -1,6 +1,5 @@
 module
 
-import Formalism.SharpRestriction.CuspSpanNormBounds.LatticeGluingRadicals
 public import Formalism.SharpRestriction.GlobalSchurBounds.StandardIntegralLatticeExists
 public import Formalism.LocalToGlobal.HermitianForms.FormsTied
 import Formalism.LocalRingCardinality.SpanPowerMembership.ExampleLayerExistsGenerators
@@ -15,8 +14,6 @@ open NumberField Matrix
 namespace Formalism.L2.GlobalTheoryTheory.ColValS
 
 open Formalism.BasicNotions Formalism.UG Formalism.L2.Forms Formalism.MainNotions.GlobalTheoryTheory.Inhab
-
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 
 variable {D : D7}
 
@@ -36,7 +33,14 @@ theorem rhoC_conj (s : D.what₂.LL →+* ℂ) (τ : D.what₂.Tau) (a : D.host.
     | exact NumberField.IsCMField.complexEmbedding_complexConj _ (s.comp D.embE) _
 
 theorem exists_im_ne (φ : D.host.E →+* ℂ) : ∃ t : D.host.E, (φ t).im ≠ 0 := by
-  apply +allowSynthFailures _root_.Formalism.MainNotions.LatticeGluingRadicals.d_exists_nonreal <;> assumption
+  by_contra! h
+  have hr : NumberField.ComplexEmbedding.IsReal φ := by
+    first
+      | (rw [NumberField.ComplexEmbedding.isReal_iff]; ext t; simp [Complex.conj_eq_iff_im, h t])
+  have hc : (NumberField.InfinitePlace.mk φ).IsComplex := by
+    first
+      | exact NumberField.IsTotallyComplex.isComplex _
+  exact (NumberField.InfinitePlace.isComplex_mk_iff.mp hc) hr
 
 def crd (y : (D.sp.X 0).V) : Fin (D.R.N 0) → D.host.E :=
   fun i => (D.sp.X 0).frame.repr y ((finCongr (rankN D 0 (Nat.zero_le _))).symm i)

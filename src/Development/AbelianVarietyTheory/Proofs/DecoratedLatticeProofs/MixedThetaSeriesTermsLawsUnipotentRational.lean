@@ -57,7 +57,6 @@ noncomputable section
 open Formalism.BasicNotions Formalism.BasicNotions.TH Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes Formalism.MainNotions.StandardLattice Formalism.L2.Theta Formalism.IndefR.Datum MeasureTheory IsDedekindDomain NumberField Matrix
 open GlobalTheory.MixModel GlobalTheory.MixPer GlobalTheory.Grow
 open scoped TensorProduct
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 open GlobalTheory.Unf
 
 namespace GlobalTheory.Unf.TermLaw
@@ -219,7 +218,7 @@ theorem term_laws : ∀ (D : D7) (ψ : AddChar (AF D.host.F) ℂ) (V V₀ W : HS
       mixS_nC d (hMS _ hΨ), hx']
     have hxu : rat x ⬝ u.1 ∈ ratMx D W.rank ρ := ratMx_mul (rat_mem x) hru
     have hq : ψ (d.qS W c (rat x ⬝ u.1)) = 1 :=
-      (((GlobalTheory.T.mixedModelCentralTerms_via_gramMatrices D).1 V V₀ W ρ d).2.2 ψ hstd).2.1 _ hxu c hrc
+      (((_root_.GlobalTheory.CentralGram.central D).1 V V₀ W ρ d).2.2 ψ hstd).2.1 _ hxu c hrc
     obtain ⟨β, hβ⟩ := ratMx_mul (rat_mem x) hrub
     have hθ := (hMV Ψ hΨ (rat x ⬝ u.1)).quasi β 0
     rw [add_zero, GlobalTheory.MixModel.symplOH_zero_right, neg_zero, AddChar.map_zero_eq_one, one_mul] at hθ

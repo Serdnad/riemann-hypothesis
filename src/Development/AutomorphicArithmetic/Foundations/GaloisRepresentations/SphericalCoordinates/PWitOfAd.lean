@@ -1,6 +1,5 @@
 module
 
-import all Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.IntegralStructures.GeometricFlagBases.CovMain
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.SphericalCoordinates.WitSys
 public import Development.AutomorphicArithmetic.PAdicLatticeApproximation.PLatticeSaturatedAndCofinite
 public import Development.AutomorphicArithmetic.PAdicLatticeApproximation.ScaledFormDenEqOneOnLattice
@@ -20,60 +19,15 @@ public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.HopfOrderPul
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.SphericalCoordinates.LevelChange
 public import Development.AbelianVarietyTheory.Definitions.Divisors.MemUQptsStarCIff
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsLevelEqKN
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
 import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SimilitudeActionAdelicLattice
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
 import Development.AbelianVarietyTheory.Definitions.Divisors.IsHolPeriods
-import Mathlib.Algebra.Order.Star.Rat
 import Mathlib.Tactic.Linter.Style
 import Std.Tactic.BVDecide.Normalize.Prop
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Tactic.Lemma
-import Mathlib.Topology.Sheaves.Init
 import Development.AbelianVarietyTheory.Definitions.Divisors.ExistsRootSelectionUnitaryRankOne
 import Development.AbelianVarietyTheory.Definitions.Divisors.IsCyclotomicExtensionQI
 import Development.AbelianVarietyTheory.Definitions.Divisors.NotCompactOfMEqOne
 import Development.AbelianVarietyTheory.Definitions.Divisors.TwOrbMEqTwOrbUOfNormal
 import Development.AbelianVarietyTheory.Proofs.CoherentCohomologyProofs.ExistsAddEquivOfSurjectiveOfKerIff
-import Mathlib.Algebra.Order.Star.Int
-import Mathlib.CategoryTheory.Monoidal.Opposite.Mon
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AutomorphicArithmetic.PAdicLatticeApproximation.ExistsDivOfREqSmulCompletedLattice, Development.AutomorphicArithmetic.PAdicLatticeApproximation.ExistsIntBilinFormOfScaledForm, Development.AutomorphicArithmetic.PAdicLatticeApproximation.ExistsLatticeApproxModNCompletedLattice, Development.AutomorphicArithmetic.PAdicLatticeApproximation.ExistsLatticeLiftCongrModCoprime, Development.AutomorphicArithmetic.PAdicLatticeApproximation.ExistsDualVectorOfIntegralFunctional, Development.AutomorphicArithmetic.PAdicLatticeApproximation.ExistsPrimeToPMultipleInRangeOfBilinForm, Development.AutomorphicArithmetic.PAdicLatticeApproximation.IntegralUnitCongrCoprimeIntMod, Development.AutomorphicArithmetic.PAdicLatticeApproximation.ScaledFormCongrModNOfUnitCongr, Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.SphericalCoordinates.WitMain, Development.AutomorphicArithmetic.PAdicLatticeApproximation.DenCoprimeIffOfMulPrimeToPRatio, Development.AutomorphicArithmetic.PAdicLatticeApproximation.ExistsRatUnitFactorizationFiniteAdelesAwayP, Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.SphericalCoordinates.PWitOfAd
@@ -226,7 +180,7 @@ theorem UpperTheory.exists_lattice_lift_congr_mod_coprime :
     obtain ⟨e, he, heq⟩ := (key n hn hc (b i)).choose_spec.2
     refine AddSubgroup.mem_comap.mpr (AddSubgroup.mem_map.mpr ⟨e, he, ?_⟩)
     have hg : g n i = ⟨(key n hn hc (b i)).choose, (key n hn hc (b i)).choose_spec.1⟩ :=
-      dif_pos ⟨hn, hc⟩
+      dite_eq_left ⟨hn, hc⟩
     simp only [φ, AddMonoidHom.sub_apply, AddMonoidHom.comp_apply, LinearMap.toAddMonoidHom_coe,
       Module.Basis.constr_basis, hg, AddSubgroup.coe_subtype, nsmulAddMonoidHom_apply]
     rw [heq, ← AdelicSim.inAf_eq]
@@ -810,7 +764,7 @@ private theorem exists_pos_rat_valuation_one_away {p : ℕ} [Fact p.Prime] (K : 
   intro y hK hy hKy
   by_cases hall : ∀ v : AwayP p, Valued.v (AfP.eval v (y : AfP p)) = 1
   · exact ⟨1, one_pos, fun v => by rw [map_one, one_mul]; exact hall v⟩
-  push_neg at hall
+  push Not at hall
   obtain ⟨v, hv⟩ := hall
   have hvlt : Valued.v (AfP.eval v (y : AfP p)) < 1 :=
     lt_of_le_of_ne ((isIntAf_iff_val _).mp hy v) hv
@@ -965,7 +919,15 @@ open UpperTheory.Gal.W2
 
 private theorem actOn_comm {p : ℕ} [Fact p.Prime] {D : Datum p} {G : HTGroup p} (L : Link D G) (y : AfP p ⊗[ℚ] G.C) (c : D.O) :
     actOn L.rep (AfP p) y * (actQ D c).baseChange (AfP p) = (actQ D c).baseChange (AfP p) * actOn L.rep (AfP p) y := by
-  apply _root_.UpperTheory.Gal.Int.Geo.CRT.actOn_comm <;> assumption
+  induction y using TensorProduct.induction_on with
+  | zero => simp
+  | add u v hu hv => rw [map_add (f := _), add_mul, mul_add, hu, hv]
+  | tmul a d =>
+    have h : L.rep d * actQ D c = actQ D c * L.rep d := (L.rep_range _).1 ⟨d, rfl⟩ c
+    have h2 := congrArg (Module.End.baseChangeHom ℚ (AfP p) (VQ D)) h
+    rw [map_mul, map_mul] at h2
+    rw [GlobalTheory.LKGeo.MultScale.actOn_tmul, smul_mul_assoc, mul_smul_comm]
+    exact congrArg (a • ·) h2
 
 private theorem EFQ_adj {p : ℕ} [Fact p.Prime] (D : Datum p) (c : D.O) (u w : VQ D) :
     D.EF.baseChange ℚ (actQ D c u) w = D.EF.baseChange ℚ u (actQ D (D.inv c) w) := by

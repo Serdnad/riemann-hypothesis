@@ -7,61 +7,9 @@ public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.MulSelfEq
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.EqZeroOfForallDvdPow
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.InvMemDoubleCosetAndComm
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.CayleyTransformTrivialPhaseSkewHermitian
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.RingTheory.SimpleRing.Principal
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Topology.Sheaves.Init
-import Mathlib.RingTheory.Coalgebra.IsFrobenius
-import Mathlib.RingTheory.Henselian
-import Mathlib.RingTheory.HopfAlgebra.Basic
-import Mathlib.RingTheory.RegularLocalRing.Defs
-import Mathlib.RingTheory.WittVector.IsPoly
 import Mathlib.Tactic.Linter.HaveILetI
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.RingTheory.TotallySplit
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Algebra.Order.Star.Int
 import Development.AbelianVarietyTheory.Proofs.SatakeParameters.MatrixLatticeIndexIntegralTranslationInvariance
-import Mathlib.RingTheory.PiTensorProduct
 import Development.AbelianVarietyTheory.Proofs.SatakeParameters.LocalThetaPairExistence
 
 -- This file was produced by scripts/clump.py from the modules listed below.
@@ -245,7 +193,7 @@ theorem exists_not_mem_both (U U' : Submodule K V) (h : finrank K U = finrank K 
   · have hUU : U = U' := Submodule.eq_of_le_of_finrank_eq h1 h
     subst hUU
     obtain ⟨v, hv⟩ : ∃ v, v ∉ U := by
-      by_contra hc; push_neg at hc; exact hU (eq_top_iff.2 fun x _ => hc x)
+      by_contra hc; push Not at hc; exact hU (eq_top_iff.2 fun x _ => hc x)
     exact ⟨v, hv, hv⟩
   by_cases h2 : U' ≤ U
   · exact absurd (Submodule.eq_of_le_of_finrank_eq h2 h.symm ▸ le_rfl) h1
@@ -1316,15 +1264,53 @@ variable {L : Type} [Field L] [Valued L (WithZero (Multiplicative ℤ))]
 
 theorem isUnit_valuationSubring_iff (x : (Valued.v : Valuation L (WithZero (Multiplicative ℤ))).valuationSubring) :
     IsUnit x ↔ Valued.v (x : L) = 1 := by
-  intros
-  apply _root_.GlobalTheory.Hk3.ResWitt.isUnit_iff <;> assumption
+  constructor
+  · rintro ⟨u, rfl⟩
+    have h1 := congrArg (fun y : (Valued.v : Valuation L (WithZero (Multiplicative ℤ))).valuationSubring =>
+      Valued.v (y : L)) u.mul_inv
+    simp only [MulMemClass.coe_mul, map_mul, OneMemClass.coe_one, map_one] at h1
+    have hu : Valued.v ((u : _) : L) ≤ 1 := ((u : (Valued.v : Valuation L (WithZero (Multiplicative ℤ))).valuationSubring)).2
+    have hw : Valued.v ((u⁻¹ : _) : L) ≤ 1 := ((u⁻¹ : _) : (Valued.v : Valuation L (WithZero (Multiplicative ℤ))).valuationSubring).2
+    refine le_antisymm hu ?_
+    calc (1 : WithZero (Multiplicative ℤ)) = _ := h1.symm
+      _ ≤ Valued.v ((u : _) : L) * 1 := by gcongr
+      _ = _ := mul_one _
+  · intro h
+    have hx0 : (x : L) ≠ 0 := by
+      intro h0; rw [h0, map_zero] at h; exact zero_ne_one h
+    let y : (Valued.v : Valuation L (WithZero (Multiplicative ℤ))).valuationSubring :=
+      ⟨(x : L)⁻¹, by
+        show Valued.v (x : L)⁻¹ ≤ 1
+        rw [map_inv₀, h, inv_one]⟩
+    have hxy : x * y = 1 := Subtype.ext (mul_inv_cancel₀ hx0)
+    exact ⟨⟨x, y, hxy, by rw [mul_comm]; exact hxy⟩, rfl⟩
 
 theorem residue_eq_zero_iff_dvdPow {ϖ : L}
     (hϖ : Valued.v ϖ = ((Multiplicative.ofAdd (-1 : ℤ) : Multiplicative ℤ) : WithZero (Multiplicative ℤ)))
     (x : (Valued.v : Valuation L (WithZero (Multiplicative ℤ))).valuationSubring) :
     IsLocalRing.residue _ x = 0 ↔ DvdPow ϖ 1 (x : L) := by
-  intros
-  apply _root_.GlobalTheory.Hk3.ResWitt.residue_eq_zero_iff <;> assumption
+  rw [IsLocalRing.residue_eq_zero_iff, IsLocalRing.mem_maximalIdeal, mem_nonunits_iff,
+    isUnit_valuationSubring_iff]
+  have hx : Valued.v (x : L) ≤ 1 := x.2
+  have hϖ0 : ϖ ≠ 0 := by
+    intro h0; rw [h0, map_zero] at hϖ; exact WithZero.zero_ne_coe hϖ
+  constructor
+  · intro hne
+    have hlt : Valued.v (x : L) < 1 := lt_of_le_of_ne hx hne
+    have hle := le_exp_neg_one_of_lt_one' hlt
+    refine ⟨(x : L) / ϖ, ?_, by field_simp⟩
+    show Valued.v ((x : L) / ϖ) ≤ 1
+    rw [map_div₀, hϖ]
+    have hpos : (0 : WithZero (Multiplicative ℤ)) < ((Multiplicative.ofAdd (-1 : ℤ) : Multiplicative ℤ) : WithZero (Multiplicative ℤ)) :=
+      WithZero.zero_lt_coe _
+    exact (div_le_one₀ hpos).2 hle
+  · rintro ⟨b, hb, hxb⟩ h1
+    have hb' : Valued.v b ≤ 1 := hb
+    rw [hxb, pow_one, map_mul, hϖ] at h1
+    have : ((Multiplicative.ofAdd (-1 : ℤ) : Multiplicative ℤ) : WithZero (Multiplicative ℤ)) * Valued.v b ≤
+        ((Multiplicative.ofAdd (-1 : ℤ) : Multiplicative ℤ) : WithZero (Multiplicative ℤ)) * 1 := by gcongr
+    rw [h1, mul_one] at this
+    exact absurd this (by decide)
 
 theorem exists_dual_of_indepMod : ∀ (L : Type) [Field L] [Valued L (WithZero (Multiplicative ℤ))] (ϖ : L),
     Valued.v ϖ = ((Multiplicative.ofAdd (-1 : ℤ) : Multiplicative ℤ) : WithZero (Multiplicative ℤ)) →
@@ -1694,17 +1680,17 @@ theorem indepMod_sub {ϖ : L} {ι : Type} [Fintype ι] {n : ℕ} {z : ι → Fin
   let d' : ι → L := fun j => if hj : p j then d ⟨j, hj⟩ else 0
   have h1 : ∀ j, d' j ∈ Formalism.UG.intL L := by
     intro j; by_cases hj : p j
-    · simp only [d', dif_pos hj]; exact hd _
-    · simp only [d', dif_neg hj]; exact (Formalism.UG.intL L).zero_mem
+    · simp only [d', dite_eq_left hj]; exact hd _
+    · simp only [d', dite_eq_right hj]; exact (Formalism.UG.intL L).zero_mem
   have h2 : ∀ r, ∑ j, d' j * z j r = ∑ j : {i // p i}, d j * z j.1 r := by
     intro r
     rw [← Fintype.sum_subtype_add_sum_subtype p (fun j => d' j * z j r)]
     have a1 : ∑ j : {i // ¬ p i}, d' j.1 * z j.1 r = 0 :=
-      Finset.sum_eq_zero fun j _ => by simp [d', dif_neg j.2]
+      Finset.sum_eq_zero fun j _ => by simp [d', dite_eq_right j.2]
     rw [a1, add_zero]
-    exact Finset.sum_congr rfl fun j _ => by simp [d', dif_pos j.2]
+    exact Finset.sum_congr rfl fun j _ => by simp [d', dite_eq_left j.2]
   have := hz d' h1 (fun r => by rw [h2]; exact hs r) i.1
-  simpa [d', dif_pos i.2] using this
+  simpa [d', dite_eq_left i.2] using this
 
 end GlobalTheory.Hk3.IntWittMod
 
@@ -1758,7 +1744,7 @@ theorem witt_mod_pow : ∀ (L : Type) [Field L] [Valued L (WithZero (Multiplicat
       by_cases hki : k < a i
       · rw [min_eq_right (Nat.succ_le_of_lt hki)]
         exact hgc ⟨i, hki⟩ r
-      · push_neg at hki
+      · push Not at hki
         rw [min_eq_left (by omega)]
         have h2 := hc i r
         rw [min_eq_left hki] at h2

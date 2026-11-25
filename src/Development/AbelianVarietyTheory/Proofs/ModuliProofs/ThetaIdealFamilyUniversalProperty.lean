@@ -57,7 +57,6 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
-import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.ExistsHomOfThickenings
 
 @[expose] public section
 
@@ -69,9 +68,6 @@ open GlobalTheory.ZM
 noncomputable section
 namespace GlobalTheory.FamRep
 
-theorem spMap_surj {R R' : Type} [CommRing R] [CommRing R'] (x : Sp R' ⟶ Sp R) : ∃ β : R →+* R', spMap β = x :=
-  ⟨(Spec.preimage x).hom, Spec.map_preimage x⟩
-
 alias spMap_comp_eq := _root_.GlobalTheory.ZM.ClosedCoord.spMap_comp_eq
 
 alias spMap_inj := _root_.GlobalTheory.ZM.DenseFib.spMap_inj
@@ -80,7 +76,14 @@ alias spMap_inj := _root_.GlobalTheory.ZM.DenseFib.spMap_inj
 open MvPolynomial in
 theorem eval₂_scale {σ R A : Type} [CommRing R] [CommRing A] (φ : R →+* A) (c : A) (x : σ → A) {F : MvPolynomial σ R}
     {e : ℕ} (hF : F.IsHomogeneous e) : eval₂ φ (fun j => c * x j) F = c ^ e * eval₂ φ x F := by
-  apply _root_.GlobalTheory.MorAlg.eval₂_scale <;> assumption
+  rw [eval₂_eq, eval₂_eq, Finset.mul_sum]
+  refine Finset.sum_congr rfl fun a ha => ?_
+  have hd : ∑ j ∈ a.support, a j = e := by
+    have := hF (mem_support_iff.1 ha)
+    rw [← this, Finsupp.weight_apply, Finsupp.sum]
+    simp
+  simp only [mul_pow, Finset.prod_mul_distrib, Finset.prod_pow_eq_pow_sum, hd]
+  ring
 
 variable {o : Type} [CommRing o] {S : Scheme.{0}} {g N' : ℕ} {J : Type} {b : TBase o (N' ^ 2)} {s : S ⟶ Sp o}
 
@@ -88,7 +91,7 @@ theorem isTM_unique (hL : Out.Laws) (hL2 : Out.Laws2) {m : ℕ} (hm : 2 ≤ m) (
     (t : TObj g (N' ^ 2) J b s) (R : Type) [CommRing R] [IsReduced R] (z : Sp R ⟶ S) (sw : Sp R ⟶ Sp o)
     (e : z ≫ s = sw) (w : TObj g (N' ^ 2) J b sw) (φ φ' : w.A.left ⟶ t.A.left) (h : IsTM w t z φ)
     (h' : IsTM w t z φ') : φ = φ' := by
-  obtain ⟨β, rfl⟩ := spMap_surj sw
+  obtain ⟨β, rfl⟩ := GlobalTheory.ZM.DenseFib.exists_spMap sw
   obtain ⟨w', hw'⟩ := tObj_pull o g _ J b _ _ s _ z t e
   obtain ⟨ψ, hψ⟩ := tMap_iff.1 hw'
   obtain ⟨χ, rfl, hχ⟩ := hψ.cancel (h.congr (Category.id_comp z).symm rfl)
@@ -108,7 +111,7 @@ theorem exists_hasTh_field (hL : Out.Laws) (hL2 : Out.Laws2) (ho : Odd N') (t : 
   have hr : Set.range y ⊆ Set.range x := by
     rintro _ ⟨q, rfl⟩
     rwa [Subsingleton.elim (α := PrimeSpectrum K) q (IsLocalRing.closedPoint K)]
-  obtain ⟨ρ, hρ⟩ := spMap_surj (IsOpenImmersion.lift x y hr)
+  obtain ⟨ρ, hρ⟩ := GlobalTheory.ZM.DenseFib.exists_spMap (IsOpenImmersion.lift x y hr)
   have := _root_.GlobalTheory.hasTh_baseChange hL2 o g N' J b S s t R K ρ x v hv
   rw [hρ, IsOpenImmersion.lift_fac] at this
   exact ⟨_, this⟩
@@ -157,7 +160,7 @@ theorem dense_affine {k : ℕ} {b : TBase o k} {em : o →+* ℂ} {C : TObj g k 
     rintro _ ⟨q', rfl⟩
     rw [Subsingleton.elim (α := PrimeSpectrum K) q' q, hq]
     exact ⟨p, rfl⟩
-  obtain ⟨ρ, hρ⟩ := spMap_surj (IsOpenImmersion.lift x y hr)
+  obtain ⟨ρ, hρ⟩ := GlobalTheory.ZM.DenseFib.exists_spMap (IsOpenImmersion.lift x y hr)
   have e : spMap ρ ≫ x = y := by rw [hρ, IsOpenImmersion.lift_fac]
   refine ⟨K, inferInstance, ρ, ⟨q, x.isOpenEmbedding.injective ?_⟩, by rwa [e]⟩
   rw [← Scheme.Hom.comp_apply, e, hq]
@@ -188,7 +191,7 @@ theorem tMap_affine (hL : Out.Laws) (hL2 : Out.Laws2) {m : ℕ} (hm : 2 ≤ m) (
     {t : TObj g (N' ^ 2) J b s} (hD : Dense (fromSet em C t)) {R : Type} [CommRing R] [IsReduced R] (x : Sp R ⟶ S)
     [IsOpenImmersion x] (y : Sp R ⟶ M) (hxy : y ≫ sM = x ≫ s) (v : Ix g (N' ^ 2) → R) (hv : t.HasTh x v)
     (hv' : u.HasTh y v) (w : TObj g (N' ^ 2) J b (x ≫ s)) (hw : TMap w t x) : TMap w u y := by
-  obtain ⟨β, hβ⟩ := spMap_surj (x ≫ s)
+  obtain ⟨β, hβ⟩ := GlobalTheory.ZM.DenseFib.exists_spMap (x ≫ s)
   obtain ⟨tx, htx⟩ := tObj_pull o g _ J b _ _ s _ x t hβ.symm
   obtain ⟨ux, hux⟩ := tObj_pull o g _ J b _ _ sM _ y u (hxy.trans hβ.symm)
   have key : TMap tx ux (𝟙 _) := by
@@ -231,14 +234,14 @@ theorem family_universal : Out.Laws → Out.Laws2 → ∀ (g : ℕ) (J : Type) [
   have uniq : ∀ (R : Type) [CommRing R] (y y' : Sp R ⟶ Y.MM) (v : Ix g ((n ^ j) ^ 2) → R), y ≫ Y.s = y' ≫ Y.s →
       u.HasTh y v → u.HasTh y' v → y = y' := by
     intro R _ y y' v e h h'
-    obtain ⟨β, hβ⟩ := spMap_surj (y ≫ Y.s)
+    obtain ⟨β, hβ⟩ := GlobalTheory.ZM.DenseFib.exists_spMap (y ≫ Y.s)
     exact (Y.pts R β v (Y.loc R β y v hβ.symm ((hu R y v).1 h))).unique ⟨hβ.symm, (hu R y v).1 h⟩
       ⟨e.symm.trans hβ.symm, (hu R y' v).1 h'⟩
   choose R cR x v hx hp hv using ThetaLocal.exists_hasTh hL hL2 o g _ J b S s' t ho
   have loc : ∀ p, ∃ y : Sp (R p) ⟶ Y.MM, y ≫ Y.s = x p ≫ s' ∧ u.HasTh y (v p) := fun p => by
     have := hx p
     have := hred _ _ (hx p)
-    obtain ⟨β, hβ⟩ := spMap_surj (x p ≫ s')
+    obtain ⟨β, hβ⟩ := GlobalTheory.ZM.DenseFib.exists_spMap (x p ≫ s')
     obtain ⟨y, ⟨h1, h2⟩, -⟩ := Y.pts _ β _ (inMM_of_dense hL hL2 hn.two_le hd1 ho hem.2.2 hD (x p) β hβ.symm _ (hv p))
     exact ⟨y, h1.trans hβ, (hu _ _ _).2 h2⟩
   choose y hy hy' using loc
@@ -265,7 +268,7 @@ theorem family_universal : Out.Laws → Out.Laws2 → ∀ (g : ℕ) (J : Type) [
     have : IsOpenImmersion (a ≫ x i) := by rw [e1]; exact hz
     refine ⟨_, a, a', IsOpenImmersion.of_comp a (x i), ⟨r, (x i).isOpenEmbedding.injective ?_⟩, e1.trans e2.symm, ?_⟩
     · rw [← Scheme.Hom.comp_apply, e1, hr]
-    · obtain ⟨ρ, hρ⟩ := spMap_surj (R' := T) a
+    · obtain ⟨ρ, hρ⟩ := GlobalTheory.ZM.DenseFib.exists_spMap (B := T) a
       have h := _root_.GlobalTheory.hasTh_baseChange hL2 o g _ J b S s' t _ T ρ (x i) (v i) (hv i)
       rw [hρ] at h
       refine uniq T _ _ _ ?_ (tr i T a _ h) (tr i' T a' _ (by rw [e2, ← e1]; exact h))

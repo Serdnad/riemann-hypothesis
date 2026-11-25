@@ -273,64 +273,13 @@ public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.PSegreChartDim
 public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.PSegreCoordGoodProj
 public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.PSegrePartition
 import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.PSheetSumMeasurable
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Algebra.MvPolynomial
-import Mathlib.Topology.Separation.CompletelyRegular
-import Mathlib.Topology.Sheaves.Init
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Algebra.Order.Star.Real
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.ReduceModChar
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Algebra.Order.Star.Int
-import Mathlib.RingTheory.RegularLocalRing.Defs
-import Mathlib.RingTheory.SimpleRing.Principal
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovGeometry.ProjDefs
-import Mathlib.Algebra.Order.Star.Rat
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovGeometry.StepTStB
-import Mathlib.Tactic.Polynomial.Basic
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovGeometry.ABridgeStA
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovGeometry.AParamStA
 import GroundTheory.HeightsAndTheta.Heights.Intersections.Statements
-import Mathlib.Order.CompletePartialOrder
 import GroundTheory.HeightsAndTheta.Heights.FieldsOfNumbers.Assembly
 import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PBergmanDensIntegrable
 import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PBergmanIntegrable
@@ -345,7 +294,6 @@ import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PSupBoundBlock
 import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PTwoBlockFnField
 import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PUniformBergmanBound
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.InterFib
-import Development.AbelianVarietyTheory.Proofs.FoundationProofs.LeadingCoeffNonnegOfEventuallyEvalNat
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.PTubeCollarMass, GroundTheory.HeightsAndTheta.Heights.ElementarySymmetric.PZCombLimit, GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.LerpSelfZero, GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PBlockGraphImage, GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PBlockResolutionFormsIndependent, GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PGeneratedProductNonneg, GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PPointHeightFS, GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PPolyNonnegAtZero, GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PPolySandwich, GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PProjFrameFibreDeg, GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PProjFrameGenPtTransc, GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PProjFrameImage, GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PResolutionFormsIndependent, GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PSegrePrime, GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PShiftIntersectionPolynomial, GroundTheory.HeightsAndTheta.Heights.Intersections.ImportsBisBis, GroundTheory.HeightsAndTheta.Heights.Intersections.ImportsLast, GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.AssemblyBase
@@ -876,7 +824,18 @@ open Polynomial Filter
 
 theorem PolySandwich.leadingCoeff_nonneg_of_eventually (f : ℚ[X])
     (hf : ∀ᶠ n : ℕ in atTop, 0 ≤ f.eval (n : ℚ)) : 0 ≤ f.leadingCoeff := by
-  apply _root_.GlobalTheory.leadingCoeff_nonneg_of_eventually_eval_nat <;> assumption
+  by_contra h
+  push Not at h
+  rcases Nat.eq_zero_or_pos f.natDegree with h0 | hpos
+  · obtain ⟨n, hn⟩ := hf.exists
+    rw [eq_C_of_natDegree_eq_zero h0, eval_C] at hn
+    have : f.leadingCoeff = f.coeff 0 := by rw [leadingCoeff, h0]
+    linarith
+  · have hdeg : 0 < f.degree := natDegree_pos_iff_degree_pos.mp hpos
+    have ht := (f.tendsto_atBot_of_leadingCoeff_nonpos hdeg h.le).comp tendsto_natCast_atTop_atTop
+    obtain ⟨n, hn1, hn2⟩ := (hf.and (ht.eventually (eventually_lt_atBot 0))).exists
+    simp only [Function.comp] at hn2
+    linarith
 
 theorem PolySandwich.coeff_nonneg_of_eventually (f : ℚ[X]) (E : ℕ) (hE : f.natDegree ≤ E)
     (hf : ∀ᶠ n : ℕ in atTop, 0 ≤ f.eval (n : ℚ)) : 0 ≤ f.coeff E := by
@@ -1042,14 +1001,14 @@ theorem proof : ProjFrameGenPtTransc.Statement := by
     by_cases hm : m ∈ q.support
     · have h1 := congrArg (AddMonoidAlgebra.coeff · (Finsupp.single () m)) hFΓ
       rw [coeff_sum, AddMonoidAlgebra.coeff_zero, Finsupp.zero_apply, Finset.sum_eq_single m] at h1
-      · rw [coeff_C_mul, coeff_X_pow, if_pos rfl, mul_one] at h1
+      · rw [coeff_C_mul, coeff_X_pow, ite_eq_left rfl, mul_one] at h1
         have h2 := (mul_eq_zero.1 h1).resolve_right (pow_ne_zero _ hX)
         rw [Ideal.Quotient.eq_zero_iff_mem] at h2
         have h3 := aeval_inl_eq_zero G h2
         rw [hg m] at h3
         exact Subtype.ext h3
       · intro n _ hn
-        rw [coeff_C_mul, coeff_X_pow, if_neg, mul_zero]
+        rw [coeff_C_mul, coeff_X_pow, ite_eq_right, mul_zero]
         intro h
         exact hn (Finsupp.single_injective () h)
       · intro h
@@ -1104,7 +1063,6 @@ theorem coneEval_graphMap (x : Ix κ → Ω) (e : Fin (D + 1) → Ix κ) (f : MR
     coneEval x (graphMap (coordIdeal ℤ x) (ReciprocityTheory.ChartRestriction.G.AI.I4.linForm (ι := GlobalTheory κ) (ι₂ := GlobalTheory (Fin (D + 1))) (projMat e))
         (rename (inrV (ι := GlobalTheory κ) (ι₂ := GlobalTheory (Fin (D + 1)))) f)) =
       coneMap ℤ (x ∘ e) (rename (fun q : Σ _ : Unit, Fin (D + 1) => q.2) f) := by
-  set_option synthInstance.maxHeartbeats 200000 in
   induction f using MvPolynomial.induction_on with
   | C a => simp [graphMap, coneEval, coneMap]
   | add p q hp hq => simp only [map_add, hp, hq]
@@ -1265,8 +1223,8 @@ theorem segreMap_weightedHomogeneousComponent [Nonempty K] (b : Unit → ℕ)
       · rintro rfl; rfl
       · intro h; funext u; cases u; exact congr_fun h (Classical.arbitrary K)
     by_cases h : b = Finsupp.weight (blockWeight (fun _ : Unit => ∀ k, ι k)) d
-    · rw [if_pos h, if_pos (key.mp h)]
-    · rw [if_neg h, if_neg (mt key.mpr h), map_zero]
+    · rw [ite_eq_left h, ite_eq_left (key.mp h)]
+    · rw [ite_eq_right h, ite_eq_right (mt key.mpr h), map_zero]
   | add p p' hp hp' => simp only [map_add (f := _), hp, hp']
 
 theorem SegrePrime.proof : SegrePrime.Statement := by
@@ -1330,10 +1288,10 @@ theorem proof : ShiftIntersectionPolynomial.Statement := by
   · rw [Polynomial.finsetSum_coeff, Finset.sum_eq_single (fun _ => 0)]
     · rw [Polynomial.coeff_C_mul_X_pow]
       have hc : (Finset.univ.filter fun j : Fin n => (fun _ : Fin n => (0 : Fin 2)) j = 0).card = n := by simp
-      rw [if_pos hc.symm]
+      rw [ite_eq_left hc.symm]
       rfl
     · intro s _ hs
-      rw [Polynomial.coeff_C_mul_X_pow, if_neg]
+      rw [Polynomial.coeff_C_mul_X_pow, ite_eq_right]
       intro hc
       apply hs
       have hu : (Finset.univ.filter fun j => s j = 0) = Finset.univ :=
@@ -1359,7 +1317,7 @@ theorem proof : ShiftIntersectionPolynomial.Statement := by
         simpa [e] using h
     have key := ZCombLimit.eq_famExt_of_position (J := II K ι) (P := P) IsSmoothHerm e Z ![(q : ℝ), 1] he hZ hposition
       Finset.univ (fun _ => 0)
-    simp only [Finset.mem_univ, if_true] at key
+    simp only [Finset.mem_univ, ite_true] at key
     rw [key, famExt_apply, Polynomial.eval_finsetSum]
     refine Finset.sum_congr rfl fun s _ => ?_
     rw [prod_weights, Polynomial.eval_mul, Polynomial.eval_C, Polynomial.eval_pow, Polynomial.eval_X]

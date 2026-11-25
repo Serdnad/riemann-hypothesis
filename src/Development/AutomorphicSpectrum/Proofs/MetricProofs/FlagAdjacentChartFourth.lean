@@ -8,49 +8,7 @@ public import Development.AutomorphicSpectrum.Proofs.MetricProofs.FlagAdjacentCh
 public import Development.AutomorphicSpectrum.Proofs.MetricProofs.FlagAdjacentChartThird
 public import Development.AutomorphicSpectrum.Proofs.MetricProofs.IsBlockDiagMapGenBlock
 import Development.AutomorphicSpectrum.Proofs.MetricProofs.FlagModelBaseProjectionPoints
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
 
 @[expose] public section
@@ -70,7 +28,7 @@ variable {N : ℕ}
 theorem minor_self_of_lowerUni {X : Matrix (Fin N) (Fin N) ℂ} (hX : IsLowerUni X) (C : Finset (Fin N)) :
     minorIJ X C C = 1 := by
   unfold minorIJ
-  rw [dif_pos rfl, det_of_lowerTriangular (X.submatrix (C.orderEmbOfFin rfl) (C.orderEmbOfFin rfl)) fun a b e =>
+  rw [dite_eq_left rfl, det_of_lowerTriangular (X.submatrix (C.orderEmbOfFin rfl) (C.orderEmbOfFin rfl)) fun a b e =>
     hX.2 _ _ ((C.orderEmbOfFin rfl).strictMono (show a < b from e))]
   exact Finset.prod_eq_one fun a _ => hX.1 _
 
@@ -106,11 +64,11 @@ theorem mul_elem_lower {L : Matrix (Fin N) (Fin N) ℂ} (hL : IsLowerUni L) (hd 
     · rw [add_zero]
 
 theorem lowMat_lowerUni {Ψ : Type} (c : LowIdx Ψ N j → ℂ) (τ : Ψ) : IsLowerUni (lowMat c τ) :=
-  ⟨fun _ => (dif_neg fun e => lt_irrefl _ e.1).trans (if_pos rfl),
-    fun _ _ h => (dif_neg fun e => lt_asymm h e.1).trans (if_neg h.ne)⟩
+  ⟨fun _ => (dite_eq_right fun e => lt_irrefl _ e.1).trans (ite_eq_left rfl),
+    fun _ _ h => (dite_eq_right fun e => lt_asymm h e.1).trans (ite_eq_right h.ne)⟩
 
 theorem lowMat_blockDiag {Ψ : Type} (c : LowIdx Ψ N j → ℂ) (τ : Ψ) : IsBlockDiag j (lowMat c τ) := fun a b h =>
-  (dif_neg fun e => h e.2).trans (if_neg fun e => h (by rw [e]))
+  (dite_eq_right fun e => h e.2).trans (ite_eq_right fun e => h (by rw [e]))
 
 theorem stepOf_val (N j : ℕ) (c : Fin N) :
     (stepOf N j c : ℕ) = if N - j ≤ (c : ℕ) then (c : ℕ) - (N - j) else (c : ℕ) + j := rfl
@@ -172,12 +130,12 @@ theorem pluck_eq {F : FrameData ι Ψ N M.Ω M.blk} (hF : M.IsFrame F) {zb : (Σ
   simp_rw [hz, Finset.mul_sum]
   rw [Finset.sum_comm, Finset.sum_eq_single I]
   · simp_rw [← mul_assoc]
-    rw [← Finset.sum_mul, rel I hI, if_pos rfl, one_mul]
+    rw [← Finset.sum_mul, rel I hI, ite_eq_left rfl, one_mul]
   · intro I' _ hne
     simp_rw [← mul_assoc]
     rw [← Finset.sum_mul]
     by_cases hs : IsStepRows N j p.2 I'
-    · rw [rel I' hs, if_neg (Ne.symm hne), zero_mul]
+    · rw [rel I' hs, ite_eq_right (Ne.symm hne), zero_mul]
     · rw [minorIJ_block_zero hH hs, mul_zero]
   · simp
 
@@ -276,7 +234,7 @@ theorem chart_reads : ∀ (K : Type) [Fintype K] (ι : K → Type) [∀ k, Finty
         minorIJ (h τ * (lowMat (wL ε w) τ * (1 + Matrix.single cb ca (wT ε w)))) I (stepCols N j a) :=
     fun k hk m => by
       have := (hex τ a).2.2 k hk m
-      rw [hbs, if_pos rfl] at this
+      rw [hbs, ite_eq_left rfl] at this
       rw [this, show h τ * (lowMat (wL ε w) τ * (1 + Matrix.single cb ca (wT ε w))) =
         wH h ε τ w * (1 + Matrix.single cb ca (wT ε w)) from (Matrix.mul_assoc _ _ _).symm]
   have hread1 : ∀ τ' (a' b' : Fin N), b' < a' → ((a' : ℕ) < N - j ↔ (b' : ℕ) < N - j) →
@@ -306,10 +264,10 @@ theorem chart_reads : ∀ (K : Type) [Fintype K] (ι : K → Type) [∀ k, Finty
       rfl
     · show lowRead M F (baseOf M k₀ z) h (fstPt k₀ z) q.1.1 q.1.2.1 q.1.2.2 = w (ε (Sum.inr (Sum.inl q)))
       rw [hbase, hread1 _ _ _ q.2.1 q.2.2]
-      exact dif_pos q.2
+      exact dite_eq_left q.2
     · show lowRead M F (baseOf M k₀ z) h (sndPt k₀ z) τ cb ca - lowRead M F (baseOf M k₀ z) h (fstPt k₀ z) τ cb ca =
         w (ε (Sum.inr (Sum.inr u)))
-      rw [hbase, hread2, hread1 _ _ _ hlt hblk.symm, mul_elem_apply, if_pos rfl, (hL τ).1, one_mul, add_sub_cancel_left]
+      rw [hbase, hread2, hread1 _ _ _ hlt hblk.symm, mul_elem_apply, ite_eq_left rfl, (hL τ).1, one_mul, add_sub_cancel_left]
       rfl
 
 end GlobalTheory.CompanionTheory.Ar.PB.WMan.Read

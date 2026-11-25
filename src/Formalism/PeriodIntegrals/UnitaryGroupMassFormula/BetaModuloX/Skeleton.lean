@@ -1,45 +1,7 @@
 module
 
-import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.RelativeEquivalence.DCRelEquivAllHolds
 public import Formalism.PeriodIntegrals.ScalPairs
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
 import Mathlib.Algebra.Order.Star.Int
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Topology.Sheaves.Init
 
 @[expose] public section
 
@@ -86,17 +48,39 @@ theorem mem_aut_iff {Λ : Submodule (𝓞 E) S.V} {β : S.V ≃ₗ[E] S.V} (h : 
     exact ⟨x, hx, rfl⟩
 
 theorem aut_inv {Λ : Submodule (𝓞 E) S.V} {β : S.V ≃ₗ[E] S.V} (h : IsAutLam S Λ β) : IsAutLam S Λ β⁻¹ := by
-  apply _root_.PI.DCRelEquiv.UnitaryGroupMassFormula.autLam_inv <;> assumption
+  refine ⟨Subgroup.inv_mem _ h.1, ?_⟩
+  unfold Formalism.HermitianLatticesTheory.gmap
+  ext x
+  constructor
+  · rintro ⟨y, hy, rfl⟩
+    rw [← mem_aut_iff h]
+    show β (β.symm y) ∈ Λ
+    simpa using hy
+  · intro hx
+    refine ⟨β x, (mem_aut_iff h x).2 hx, ?_⟩
+    show β.symm (β x) = x
+    exact β.symm_apply_apply x
 
 theorem aut_mul {Λ : Submodule (𝓞 E) S.V} {β β' : S.V ≃ₗ[E] S.V} (h : IsAutLam S Λ β) (h' : IsAutLam S Λ β') :
     IsAutLam S Λ (β * β') := by
-  apply _root_.PI.DCRelEquiv.UnitaryGroupMassFormula.autLam_mul <;> assumption
+  refine ⟨Subgroup.mul_mem _ h.1 h'.1, ?_⟩
+  unfold Formalism.HermitianLatticesTheory.gmap
+  ext x
+  constructor
+  · rintro ⟨y, hy, rfl⟩
+    show β (β' y) ∈ Λ
+    exact (mem_aut_iff h _).2 ((mem_aut_iff h' _).2 hy)
+  · intro hx
+    refine ⟨β'.symm (β.symm x), ?_, ?_⟩
+    · have h1 : β.symm x ∈ Λ := by
+        rw [← mem_aut_iff h]; simpa using hx
+      rw [SetLike.mem_coe, ← mem_aut_iff h']; simpa using h1
+    · show β (β' (β'.symm (β.symm x))) = x
+      simp
 
 end Gen
 
 section D7
-
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 
 def IotaSurj : Prop :=
   ∀ (D : D7) (u u' : D.what₂.Word) (F0 : FlagG (VS D) D.R.rS ((Tu D u : ℕ) : D.host.E))

@@ -1,51 +1,8 @@
 module
 
-import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.PChartMassCompact
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.InterNamed
 public import Development.WeilBound.CoreStatements.FlagImmersions.IntersectionConstantMetricLine
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Tactic.TypeStar
-import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
 import Development.AutomorphicSpectrum.Definitions.DivisibilityTowers.CompactGapsGE
 
@@ -59,7 +16,18 @@ namespace RootFieldNumerics
 
 theorem mixedDisc_eq_zero {D : ℕ} (A : Fin D → Matrix (Fin D) (Fin D) ℂ) (k : Fin D)
     (hk : A k = 0) : mixedDisc A = 0 := by
-  apply _root_.GroundTheory.Heights₂.Heights.ChartMassCompact.mdisc_coord_zero <;> assumption
+  unfold mixedDisc
+  have h : ∑ S : Finset (Fin D), (-1 : ℂ) ^ (D - S.card) * (∑ j ∈ S, A j).det = 0 := by
+    rw [← Finset.powerset_univ, ← Finset.insert_erase (Finset.mem_univ k),
+      Finset.sum_powerset_insert (Finset.notMem_erase k _), ← Finset.sum_add_distrib]
+    refine Finset.sum_eq_zero fun S hS => ?_
+    have hkS : k ∉ S := fun h => Finset.notMem_erase k _ (Finset.mem_powerset.mp hS h)
+    have hc : (insert k S).card ≤ D := by simpa using Finset.card_le_univ (insert k S)
+    rw [Finset.card_insert_of_notMem hkS] at hc
+    rw [Finset.sum_insert hkS, hk, zero_add, Finset.card_insert_of_notMem hkS,
+      show D - S.card = D - (S.card + 1) + 1 by omega, pow_succ]
+    ring
+  rw [h, mul_zero]
 
 theorem maDensity_eq_zero {D : ℕ} (φ : Fin D → (Fin D → ℂ) → ℝ) (k : Fin D) (c : ℝ)
     (hk : φ k = fun _ => c) (z : Fin D → ℂ) : maDensity φ z = 0 := by
@@ -146,14 +114,14 @@ theorem points_integral_section_snoc : ∀ II : IntersectionSystem, IsFullInters
     by_cases hh : IsHorizontal W
     · have hWa := (hDS K ι P (e + 1) A s W hP ⟨a, ha, hsa, hsP⟩ hW).1 hh
       have hh' : IsHorizontal W ↔ True := iff_true_intro hh
-      simp only [hW', hh', and_self, if_true]
+      simp only [hW', hh', and_self, ite_true]
       rw [intersection_constant_metric_line II hIS K ι W e L (-1) hWa hL]
       ring
     · have hh' : IsHorizontal W ↔ False := iff_false_intro hh
-      simp only [hW', hh', and_false, if_true, if_false]
+      simp only [hW', hh', and_false, ite_true, ite_false]
       rw [geoNum_last_zero e W _ (by simp [hO, HermLine.ofWeight])]
       simp
   · have hW' : W ∈ divSupp P s ↔ False := iff_false_intro hW
-    simp only [hW', false_and, if_false]
+    simp only [hW', false_and, ite_false]
 
 end RootFieldNumerics

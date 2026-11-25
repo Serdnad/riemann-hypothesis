@@ -1,7 +1,5 @@
 module
 
-import Formalism.LocalToGlobal.SiegelLatticeTheory.ClosedLocalOrbits.GaugeLatticeShifts.StabilizerIndexVolumes.VolumeIndexBStable
-import Formalism.LocalToGlobal.SiegelLatticeTheory.CokernelGLCounts.RankPointCounts.RowFrameCoherence.SecondNormalTransport
 import Formalism.LocalToGlobal.SiegelLatticeTheory.CokernelGLCounts.RankPointCounts.GflagSwap
 public import Formalism.LocalToGlobal.SiegelLatticeTheory.ClosedLocalOrbits.GaugeLatticeShifts.ScalarFramePfG
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.ScalarPairOrthogonal.MemThPairs
@@ -18,8 +16,6 @@ namespace Formalism.L2.SG.Pf.ScalarFramePf
 open NumberField IsDedekindDomain Module Formalism.BasicNotions Formalism.MainNotions.S Formalism.MainNotions.S.Lat Formalism.MainNotions.S.LocalSplitGroups Formalism.L2.SG.TermLoc
 open PI.ScalarPairDr.W (mem_orth hT_swap orth_orth finrank_orth fvec_castSucc fvec_last mem_orth_Xplus
   X_le_orth_Xplus mem_ThPairs hT_add_left hT_sub_left hT_smul_left)
-
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 
 section Lat
 
@@ -71,11 +67,21 @@ theorem Xflag_top (F : LFlag S r T) : Xflag F r = Xsp F := by
 theorem hT_X_X (F : FlagG S r T) {x y : S.V} (hx : x ∈ F.X) (hy : y ∈ F.X) : S.hT x y = 0 := by
   apply Formalism.L2.SG.NGCut.NormalVectorPairings.hT_X_X <;> assumption
 
-theorem hT_z_X (F : FlagG S r T) {y : S.V} (hy : y ∈ F.X) : S.hT F.z y = 0 := by
-  apply _root_.Formalism.L2.SG.Pf.RowForm.ClassFramePositivePartDecomposition.z_X <;> assumption
-
 theorem hT_X_alt (F : FlagG S r T) {x : S.V} (hx : x ∈ F.X) : S.hT x F.z = 0 := by
-  apply _root_.Formalism.L2.SG.Pf.StabilizerIndexVolumes.hT_span_zero <;> assumption
+  have hx' : x ∈ Submodule.span E (Set.range F.e) := hx
+  clear hx
+  induction hx' using Submodule.span_induction with
+  | mem x h =>
+    obtain ⟨a, rfl⟩ := h
+    exact F.z_orth a
+  | zero =>
+    have h0 := hT_sub_left (S := S) F.z F.z F.z
+    rwa [sub_self, sub_self] at h0
+  | add x y _ _ ihx ihy => rw [hT_add_left, ihx, ihy, add_zero]
+  | smul c x _ ihx => rw [hT_smul_left, ihx, mul_zero]
+
+theorem hT_z_X (F : FlagG S r T) {y : S.V} (hy : y ∈ F.X) : S.hT F.z y = 0 := by
+  rw [hT_swap, hT_X_alt F hy, star_zero]
 
 theorem theta_eq (Λ : Submodule (𝓞 E) S.V) (k : ℕ) (F : LFlag S r T) (F' F'' : LFlag S r T')
     (β : S.V ≃ₗ[E] S.V) (hn : finrank E S.V = k + 2 * r + 1)

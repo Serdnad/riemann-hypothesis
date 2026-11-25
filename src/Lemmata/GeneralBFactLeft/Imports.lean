@@ -1,11 +1,7 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IntegralOrderCentralizerStable
 public import Mathlib.Algebra.Field.Defs
 public import Mathlib.Data.Fintype.Defs
-import Mathlib.RingTheory.Henselian
-import Mathlib.RingTheory.RegularLocalRing.Defs
-import Mathlib.RingTheory.SimpleRing.Principal
 public import Mathlib.Algebra.CharP.Basic
 public import Mathlib.Algebra.Polynomial.Basic
 public import Mathlib.Algebra.Polynomial.Degree.Defs
@@ -17,17 +13,17 @@ public import Mathlib.FieldTheory.Finite.Basic
 
 namespace Bl.general_b_fact_left
 
-theorem goal1 :
-  ∀ {k : Type} [inst : Field.{0} k] [Fintype.{0} k] (t m e : k),
-  Ne.{1} (HSub.hSub.{0, 0, 0} (HPow.hPow.{0, 0, 0} t 2) (HMul.hMul.{0, 0, 0} 4 m)) 0 →
-    Exists.{1} fun (x : k) ↦
-      Exists.{1} fun (y : k) ↦
-        Eq.{1}
-          (HAdd.hAdd.{0, 0, 0}
-            (HAdd.hAdd.{0, 0, 0} (HPow.hPow.{0, 0, 0} x 2) (HMul.hMul.{0, 0, 0} (HMul.hMul.{0, 0, 0} t x) y))
-            (HMul.hMul.{0, 0, 0} m (HPow.hPow.{0, 0, 0} y 2)))
-          e := by
-  intros
-  apply @_root_.GlobalTheory.FieldCaseReduction.field_case <;> assumption
+open Polynomial in
+theorem goal1 {k : Type} [Field k] [Fintype k] (t m e : k) (hd : t ^ 2 - 4 * m ≠ 0) :
+    ∃ x y : k, x ^ 2 + t * x * y + m * y ^ 2 = e := by
+  by_cases hc : ringChar k = 2
+  · obtain ⟨x, hx⟩ := FiniteField.isSquare_of_char_two hc e
+    exact ⟨x, 0, by simpa [pow_two] using hx.symm⟩
+  · obtain ⟨a, b, hab⟩ := FiniteField.exists_root_sum_quadratic (f := X ^ 2 - C e)
+      (by rw [degree_sub_C, degree_X_pow] <;> norm_num)
+      (degree_C_mul_X_pow 2 (sub_ne_zero.mpr (sub_ne_zero.mp hd).symm))
+      (FiniteField.odd_card_of_char_ne_two hc)
+    simp only [eval_sub, eval_pow, eval_X, eval_C, eval_mul] at hab
+    exact ⟨a - t * b, 2 * b, by linear_combination hab⟩
 
 end Bl.general_b_fact_left

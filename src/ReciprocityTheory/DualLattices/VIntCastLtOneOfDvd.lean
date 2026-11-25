@@ -1,6 +1,5 @@
 module
 
-import Development.WeilBound.CoreStatements.HodgeTatePoints.RaTlog
 public import Mathlib.Algebra.Field.ZMod
 public import Mathlib.Basic.NNReal.Defs
 public import Mathlib.FieldTheory.IsAlgClosed.Basic
@@ -57,8 +56,7 @@ theorem v_intCast_eq_one (hv : v.Integers R) (hpv : v (p : C) < 1) {n : ℤ}
           mul_le_mul_of_nonneg_right (v_intCast_le_one hv a) zero_le'
       _ < 1 := by rw [one_mul]; exact hpv
   have hb : 1 ≤ v ((b : C) * (n : C)) := by
-    by_contra hlt
-    push_neg at hlt
+    by_contra! hlt
     have := v.map_add_lt ha hlt
     rw [h1, map_one] at this
     exact lt_irrefl _ this
@@ -69,8 +67,7 @@ theorem v_intCast_eq_one (hv : v.Integers R) (hpv : v (p : C) < 1) {n : ℤ}
     _ = v (n : C) := one_mul _
 
 theorem v_le_one_of_pow_eq {r : C} (hr : r ^ p = r) : v r ≤ 1 := by
-  by_contra h
-  push_neg at h
+  by_contra! h
   have h2 : 2 ≤ p := hp.out.two_le
   have key : v r ^ 1 < v r ^ p := pow_lt_pow_right₀ h (by omega)
   rw [pow_one, ← map_pow, hr] at key
@@ -150,8 +147,7 @@ theorem exists_teich [IsAlgClosed C] (hv : v.Integers R) (hpv : v (p : C) < 1) (
     have := congrArg (Polynomial.eval (n : C)) heq
     rw [Polynomial.eval_multiset_prod, Multiset.map_map] at this
     simpa [Function.comp_def] using this
-  by_contra hno
-  push_neg at hno
+  by_contra! hno
   have hge : 1 ≤ v ((n : C) ^ p - n) := by
     rw [heval, map_multiset_prod, Multiset.map_map]
     apply Multiset.one_le_prod_of_one_le
@@ -203,8 +199,7 @@ theorem exists_teichChar [IsAlgClosed C] (hv : v.Integers R) (hpv : v (p : C) < 
     exact v.map_add_lt (hω2 (a * b)) (v.map_add_lt e4 e5)
   · intro a b hab
     refine le_antisymm ((v.map_sub (ω a) (ω b)).trans (max_le (hω1' a) (hω1' b))) ?_
-    by_contra hlt
-    push_neg at hlt
+    by_contra! hlt
     have h1 : v ((a.val : C) - (b.val : C)) < 1 := by
       have hx : (a.val : C) - b.val = -(ω a - a.val) + (ω a - ω b) + (ω b - b.val) := by ring
       rw [hx]
@@ -239,7 +234,17 @@ theorem val_sub_one_le {α β : C} (hα : IsPrimitiveRoot α p) (hβ : IsPrimiti
   rwa [one_pow] at this
 
 theorem val_prim_root {z : C} (hz : IsPrimitiveRoot z p) : v (z - 1) ^ (p - 1) = v (p : C) := by
-  intros
-  apply _root_.PositivityTheory.HtPt.Ra.val_prim <;> assumption
+  have hcyc := Polynomial.cyclotomic_eq_prod_X_sub_primitiveRoots hz
+  have h1 : (p : C) = ∏ μ ∈ primitiveRoots p C, (1 - μ) := by
+    have := congrArg (Polynomial.eval 1) hcyc
+    rw [Polynomial.eval_one_cyclotomic_prime, Polynomial.eval_prod] at this
+    simpa using this
+  have hc : ∀ μ ∈ primitiveRoots p C, v (1 - μ) = v (z - 1) := by
+    intro μ hμ
+    have hμ' : IsPrimitiveRoot μ p := (mem_primitiveRoots hp.out.pos).mp hμ
+    rw [Valuation.map_sub_swap]
+    exact le_antisymm (val_sub_one_le hμ' hz) (val_sub_one_le hz hμ')
+  rw [h1, map_prod, Finset.prod_congr rfl hc, Finset.prod_const, hz.card_primitiveRoots,
+    Nat.totient_prime hp.out]
 
 end ReciprocityTheory.PGsh.Up.U3

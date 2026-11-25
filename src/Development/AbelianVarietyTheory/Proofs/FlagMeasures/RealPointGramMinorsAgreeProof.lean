@@ -41,7 +41,6 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Sheaves.Init
-import Formalism.SharpRestriction.CuspSpanNormBounds.BruhatCellsKronecker.FamilyPacketOfEquivalentStatement
 
 @[expose] public section
 
@@ -51,8 +50,6 @@ open Matrix NumberField Formalism.BasicNotions Formalism.MainNotions.S Formalism
   Formalism.L2.SG.LocWSOf Formalism.L2.SG.KappaOffDiagonal
 
 namespace GlobalTheory.TypeAsm.GramPf
-
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 
 variable {D : D7} {X : HidaSetting D}
 
@@ -108,7 +105,6 @@ theorem phiV_herm (C : Choice X 1) (τ : D.what₂.Tau) (x y : (VS D).V) :
 end GlobalTheory.TypeAsm.GramPf
 
 namespace GlobalTheory.TypeAsm.GramPf
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 variable {D : D7} {X : HidaSetting D}
 
 theorem phiV_span (C : Choice X 1) (τ : D.what₂.Tau) :
@@ -164,14 +160,13 @@ theorem gamT_act (C : Choice X 1) {Y : Full X} {u : D.what₂.Word} (t : GlobalT
 end GlobalTheory.TypeAsm.GramPf
 
 namespace GlobalTheory.TypeAsm.GramPf
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 variable {D : D7} {X : HidaSetting D}
 
 theorem frq_fvec {Y : Full X} {u : D.what₂.Word} (t : GlobalTheory.TypeAsm.GT Y u) (b : Fin (D.R.rS + 1)) :
     (frq X t.rep).fl.fvec b = t.lin ((X.Fu u).fvec b) := by
   have h : (frq X t.rep).fl = mapFlag t.lin t.rep.2.2.1 (X.Fu u) := by
     unfold frq mapLF
-    simp only [dif_pos t.rep.2.2.1]
+    simp only [dite_eq_left t.rep.2.2.1]
     rfl
   rw [h]
   refine Fin.lastCases ?_ (fun b' => ?_) b
@@ -234,18 +229,27 @@ theorem dmin_gamT (C : Choice X 1) {Y : Full X} {u : D.what₂.Word} (t : Global
     push_cast
     ring
   unfold Formalism.QuantumDeterminants.Dmin Formalism.MainNotions.S.Dl leadMinorE
-  rw [dif_pos (by omega), hZ, ← det_scaled]
+  rw [dite_eq_left (by omega), hZ, ← det_scaled]
   rfl
 
 end GlobalTheory.TypeAsm.GramPf
 
 namespace GlobalTheory.TypeAsm.GramPf
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 variable {D : D7} {X : HidaSetting D}
 
 theorem frameExp_cast (r l : ℕ) (hl : l ≤ r + 1) :
     (frameExp r l : ℝ) = ∑ i : Fin l, ((r : ℝ) - (i : ℕ)) := by
-  apply _root_.Formalism.MainNotions.BridgeLemma.d_frameExp_cast <;> assumption
+  induction l with
+  | zero => simp [frameExp]
+  | succ l ih =>
+    rw [Fin.sum_univ_castSucc]
+    simp only [Fin.coe_castSucc, Fin.val_last]
+    rw [← ih (by omega)]
+    unfold frameExp
+    rw [show Finset.Icc 1 (l + 1) = Finset.Ioc 0 (l + 1) from Finset.val_inj.mp rfl,
+      show Finset.Icc 1 l = Finset.Ioc 0 l from Finset.val_inj.mp rfl, Finset.sum_Ioc_succ_top (Nat.zero_le l)]
+    push_cast
+    rw [Nat.cast_sub (by omega)]
 
 theorem prod_rho (l : ℕ) (hl : l ≤ D.R.rS + 1) :
     ∏ i : Fin l, rhoF D (Fin.castLE hl i) = D.host.rdE ^ (-(frameExp D.R.rS l : ℝ)) := by
@@ -265,8 +269,6 @@ theorem norm_dmin (l : ℕ) (hl : l ≤ D.R.rS + 1) (x : ℂ) :
 end GlobalTheory.TypeAsm.GramPf
 
 namespace GlobalTheory.TypeAsm
-
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 
 theorem gramC_holds : GramC := by
   intro D X Y u C τ

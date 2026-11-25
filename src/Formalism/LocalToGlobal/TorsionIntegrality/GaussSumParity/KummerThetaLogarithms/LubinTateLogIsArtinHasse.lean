@@ -15,7 +15,6 @@ import Formalism.ThetaLogCoordinates.UniformThetaSubstitution.FrobeniusLiftNorms
 import Mathlib.RingTheory.Henselian
 import Mathlib.RingTheory.RegularLocalRing.Defs
 import Mathlib.RingTheory.SimpleRing.Principal
-import ReciprocityTheory.ReductiveGroups.UnramifiedIntegrals.ShortWIntModel
 
 @[expose] public section
 
@@ -224,7 +223,15 @@ theorem norm_two {K : Type} [NormedField K] [IsUltrametricDist K] {l : ℕ} (hp 
 
 theorem intModel {K : Type} [NormedField K] {g2 g3 : K} (h2 : ‖g2‖ ≤ 1) (h3 : ‖g3‖ ≤ 1)
     (ht : ‖(2 : K)‖ = 1) : IntModel (shortW g2 g3) := by
-  apply _root_.ReciprocityTheory.ChartRestriction.L1.shortW_intModel <;> assumption
+  have h4 : ‖(4 : K)‖ = 1 := by
+    have : (4 : K) = 2 * 2 := by norm_num
+    rw [this, norm_mul, ht, mul_one]
+  refine ⟨?_, ?_, ?_, ?_, ?_⟩
+  · simp [shortW]
+  · simp [shortW]
+  · simp [shortW]
+  · simpa [shortW, h4] using h2
+  · simpa [shortW, h4] using h3
 
 end EAux
 

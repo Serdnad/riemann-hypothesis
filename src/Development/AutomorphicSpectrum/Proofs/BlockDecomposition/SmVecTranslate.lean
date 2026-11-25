@@ -1,6 +1,5 @@
 module
 
-import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.IsOpenFixedOfSubgroup
 public import Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange.ArchimedeanBaseChangeProof.SatakeExponents.UniformizerValuations.ReadMod
 public import Development.WeilBound.RepresentationTheoryGL.ResidualSpectrum.SliceTensors.PIndMapA
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.DeltaHalfMulUnrTorus
@@ -64,8 +63,6 @@ open scoped TensorProduct
 open GlobalTheory.CuspRep GlobalTheory.PRep Formalism.UG Formalism.BasicNotions GlobalTheory.UnitaryBC GlobalTheory.BCT GlobalTheory.LFun Formalism.L2.Host GlobalTheory.SmGL GlobalTheory.DiscSpec GlobalTheory.CompanionTheory.CTFin
 open PositivityTheory.Rg.Rs PositivityTheory.Rg.Rs.InducedTensorMap PositivityTheory.Rg.BcB.E PositivityTheory.Rg.BcB.SpectralAccumulation PositivityTheory.Rg.BcB.G8 PositivityTheory.Rg.BcB.F.RS
 open scoped Classical
-
-attribute [local instance] GlobalTheory.LocalData.complRel GlobalTheory.LocalData.isLocalField
 
 noncomputable section
 
@@ -349,8 +346,6 @@ open GlobalTheory.CuspRep GlobalTheory.PRep Formalism.UG Formalism.BasicNotions 
 open GlobalTheory.CompanionTheory.NodeSep PositivityTheory.Rg.Rs PositivityTheory.Rg.Rs.InducedTensorMap PositivityTheory.Rg.BcB.E PositivityTheory.Rg.BcB.SpectralAccumulation PositivityTheory.Rg.BcB.G8 PositivityTheory.Rg.BcB.F.RS
 open scoped Classical
 
-attribute [local instance] GlobalTheory.LocalData.complRel GlobalTheory.LocalData.isLocalField
-
 noncomputable section
 
 namespace GlobalTheory.CompanionTheory.NodeSep
@@ -541,8 +536,17 @@ theorem smVec_translate [IsTopologicalGroup G] (ρ : Representation ℂ G V) {x 
 
 theorem isOpen_fix [IsTopologicalGroup G] (ρ : Representation ℂ G V) {x : V} {U : Subgroup G} (hU : IsOpen (U : Set G))
     (h : ∀ u ∈ U, ρ u x = x) : IsOpen {g | ρ g x = x} := by
-  intros
-  apply _root_.GlobalTheory.CompanionTheory.BZMirOnto.isOpen_fixed_of_subgroup <;> assumption
+  let H : Subgroup G :=
+    { carrier := {g | ρ g x = x}
+      one_mem' := by simp
+      mul_mem' := fun {a b} ha hb => by
+        change ρ (a * b) x = x
+        rw [map_mul, Module.End.mul_apply, hb, ha]
+      inv_mem' := fun {a} ha => by
+        change ρ a⁻¹ x = x
+        conv_lhs => rw [← ha]
+        rw [← Module.End.mul_apply, ← map_mul, inv_mul_cancel, map_one, Module.End.one_apply] }
+  exact H.isOpen_of_mem_nhds (g := 1) (Filter.mem_of_superset (hU.mem_nhds (one_mem U)) fun u hu => h u hu)
 
 end Gen
 

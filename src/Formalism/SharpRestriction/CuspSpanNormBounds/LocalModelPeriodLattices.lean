@@ -6,56 +6,7 @@ public import Formalism.HermitianCurvature.PrimeToDifferent
 public import Formalism.SharpRestriction.CuspSpanNormBounds.LocalGroupInFamilyNontrivial
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.FinrankLeOfMapLe
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.PeriodLatticeFactsSplitOfGeneral
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Topology.Sheaves.Init
 import Formalism.PeriodIntegrals.AlgebraMapMemO
-import Mathlib.Algebra.AffineMonoid.Basic
-import Mathlib.RingTheory.Coalgebra.IsFrobenius
-import Mathlib.RingTheory.HopfAlgebra.Basic
-import Mathlib.RingTheory.Valuation.Extension
-import Mathlib.RingTheory.Valuation.Integral
 import Mathlib.Tactic.Linter.HaveILetI
 import Mathlib.Tactic.Linter.Style
 import Std.Tactic.BVDecide.Normalize.Prop
@@ -264,19 +215,19 @@ theorem ptEntryL_eq : ∀ (bs : List (Eˣ × ℕ+)) (a b : ℕ), a < (bs.map (fu
     simp only [List.map_cons, List.sum_cons] at h
     simp only [ptEntryL, List.map_cons, revIn, blk]
     by_cases ha : a < (s : ℕ)
-    · simp only [ha, true_and, if_true]
+    · simp only [ha, true_and, ite_true]
       by_cases hb : b < (s : ℕ)
-      · simp only [hb, if_true, List.getD_cons_zero]
+      · simp only [hb, ite_true, List.getD_cons_zero]
         congr 1
         exact propext ⟨fun _ => by omega, fun _ => by omega⟩
       · have h1 : ¬ ((s : ℕ) ≤ a ∧ (s : ℕ) ≤ b) := by omega
         have h2 : ¬ (b = (s : ℕ) - 1 - a) := by omega
         simp [hb, h1, h2]
     · have h1 : ¬ (a < (s : ℕ) ∧ b < (s : ℕ)) := by omega
-      simp only [ha, false_and, if_false]
+      simp only [ha, false_and, ite_false]
       by_cases hb : (s : ℕ) ≤ b
       · have h2 : (s : ℕ) ≤ a ∧ (s : ℕ) ≤ b := ⟨by omega, hb⟩
-        simp only [h2, and_self, if_true]
+        simp only [h2, and_self, ite_true]
         rw [ptEntryL_eq bs (a - s) (b - s) (by omega)]
         have h3 : (b - (s : ℕ) = revIn (bs.map (fun b => (b.2 : ℕ))) (a - s)) ↔
             (b = (s : ℕ) + revIn (bs.map (fun b => (b.2 : ℕ))) (a - s)) := by omega
@@ -481,8 +432,7 @@ variable {E : Type} [CommRing E] [Algebra F E] [TopologicalSpace E] [MeasurableS
 
 theorem exists_mul_eq_zero_of_not_isUnit [Module.Finite F E] (y : E) (hy : ¬ IsUnit y) :
     ∃ a : E, a ≠ 0 ∧ y * a = 0 := by
-  by_contra hne
-  push_neg at hne
+  by_contra! hne
   apply hy
   have hinj : Function.Injective (LinearMap.mulLeft F y) := by
     rw [← LinearMap.ker_eq_bot, LinearMap.ker_eq_bot']
@@ -592,17 +542,8 @@ theorem isCompact_OF [IsNonarchimedeanLocalField F] : IsCompact (𝒪[F] : Set F
   IsNonarchimedeanLocalField.isCompact_closedBall F 1
 
 theorem mem_O_of_quad (L : LocE F E) (z : E) (t n : 𝒪[F])
-    (h : z * z - algebraMap F E t * z + algebraMap F E n = 0) : z ∈ L.O := by
-  rw [L.O_def]
-  have ht : algebraMap F E (t : F) = algebraMap 𝒪[F] E t := (IsScalarTower.algebraMap_apply 𝒪[F] F E t).symm
-  have hn : algebraMap F E (n : F) = algebraMap 𝒪[F] E n := (IsScalarTower.algebraMap_apply 𝒪[F] F E n).symm
-  rw [ht, hn] at h
-  refine ⟨Polynomial.X ^ 2 - Polynomial.C t * Polynomial.X + Polynomial.C n, ?_, ?_⟩
-  · first
-      | monicity!
-  · simp only [Polynomial.eval₂_add, Polynomial.eval₂_sub, Polynomial.eval₂_mul, Polynomial.eval₂_X_pow,
-      Polynomial.eval₂_C, Polynomial.eval₂_X]
-    linear_combination h
+    (h : z * z - algebraMap F E t * z + algebraMap F E n = 0) : z ∈ L.O :=
+  _root_.PI.LocHerm.SlopeTestRemainingChoices.mem_O_of_quad L z t n h
 
 theorem algebraMap_mem_O (L : LocE F E) (a : 𝒪[F]) : algebraMap F E a ∈ L.O := by
   rw [L.O_def]
@@ -610,8 +551,8 @@ theorem algebraMap_mem_O (L : LocE F E) (a : 𝒪[F]) : algebraMap F E a ∈ L.O
   rw [h]
   exact isIntegral_algebraMap
 
-theorem mem_OF_of_mem_O [Nontrivial E] (L : LocE F E) (a : F) (h : algebraMap F E a ∈ L.O) : a ∈ 𝒪[F] := by
-  apply +allowSynthFailures _root_.PI.LocHerm.SlopeTestRemainingChoices.mem_OF_of_mem_O <;> assumption
+theorem mem_OF_of_mem_O [Nontrivial E] (L : LocE F E) (a : F) (h : algebraMap F E a ∈ L.O) : a ∈ 𝒪[F] :=
+  _root_.PI.LocHerm.SlopeTestRemainingChoices.mem_OF_of_mem_O L a h
 
 theorem cj_mem_O (L : LocE F E) (x : E) (h : x ∈ L.O) : L.cj x ∈ L.O := by
   rw [L.O_def] at h ⊢
@@ -630,8 +571,8 @@ theorem inv_mem_OF (a : F) (h : a ∉ 𝒪[F]) : a⁻¹ ∈ 𝒪[F] := by
        rw [map_inv₀]
        exact inv_le_one_of_one_le₀ (le_of_lt (not_le.mp h)))
 
-theorem exists_scale (a : F) : ∃ r : 𝒪[F], (r : F) ≠ 0 ∧ (r : F) * a ∈ 𝒪[F] := by
-  apply +allowSynthFailures _root_.PI.LocHerm.SlopeTestRemainingChoices.exists_scale <;> assumption
+theorem exists_scale (a : F) : ∃ r : 𝒪[F], (r : F) ≠ 0 ∧ (r : F) * a ∈ 𝒪[F] :=
+  _root_.PI.LocHerm.SlopeTestRemainingChoices.exists_scale a
 
 theorem exists_pow_mul_mem [IsNonarchimedeanLocalField F] (π : 𝒪[F]) (hπ : Irreducible π) (a : F) :
     ∃ m : ℕ, ∀ k, m ≤ k → (π : F) ^ k * a ∈ 𝒪[F] := by
@@ -686,7 +627,11 @@ variable {E : Type} [CommRing E] [Algebra F E] [TopologicalSpace E]
 theorem decomp (L : LocE F E) (θ : E) (hθc : L.cj θ = -θ) (D : F) (hD : θ * θ = algebraMap F E D) (x : E) :
     ∃ t c : F, algebraMap F E t = x + L.cj x ∧ algebraMap F E c = (x - L.cj x) * θ ∧
       algebraMap F E (2 * D) * x = algebraMap F E (D * t) + algebraMap F E c * θ := by
-  apply +allowSynthFailures _root_.PI.LocHerm.SlopeTestRemainingChoices.decomp <;> assumption
+  obtain ⟨t, ht⟩ := tr_ex L x
+  obtain ⟨c, hc⟩ := (L.cj_fix ((x - L.cj x) * θ)).mp (by rw [map_mul, map_sub, L.cj_cj, hθc]; ring)
+  refine ⟨t, c, ht, hc, ?_⟩
+  rw [map_mul, map_mul, ht, hc, map_ofNat]
+  linear_combination (L.cj x - x) * hD
 
 theorem O_top (L : LocE F E) [IsNonarchimedeanLocalField F] [CharZero F] [IsTopologicalRing E] :
     IsOpen (L.O : Set E) ∧ IsCompact (L.O : Set E) ∧

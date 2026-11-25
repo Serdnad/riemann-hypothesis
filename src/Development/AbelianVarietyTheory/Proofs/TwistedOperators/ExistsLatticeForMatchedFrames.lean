@@ -54,10 +54,8 @@ open Formalism.BasicNotions Formalism.BasicNotions.TH Formalism.MainNotions Form
 open IsDedekindDomain NumberField GlobalTheory.ChiGrid GlobalTheory.FunObj GlobalTheory.RowTest GlobalTheory.RowClaim
 open Formalism.L2.Host (HChar)
 open GlobalTheory.IndefiniteRowSideFullHecke.UnitCharTriangle (Tri)
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 open GlobalTheory.RowEx
 open MeasureTheory GlobalTheory.SplitFlip GlobalTheory.SplitWeil GlobalTheory.StdFrames
-attribute [local instance] GlobalTheory.LocalData.complRel GlobalTheory.LocalData.isLocalField borelKw borelSpaceKw
 
 noncomputable section
 
@@ -97,9 +95,7 @@ theorem idemSum_mul_offP {S T : HSp D} {LS : Set (Fin S.rank → D.host.E)} {LT 
 
 theorem latO_le_true {S T : HSp D} (LS : Set (Fin S.rank → D.host.E)) (LT : Set (Fin T.rank → D.host.E))
     (P : HeightOneSpectrum (𝓞 D.host.F) → Prop) : latO S T LS LT P ≤ latO S T LS LT fun _ => True := by
-  apply AddSubgroup.closure_mono
-  rintro w ⟨α, hα, -, rest⟩
-  exact ⟨α, hα, fun v h => absurd trivial h, rest⟩
+  exact GlobalTheory.PlaceModel.latO_le_top P
 
 end GlobalTheory.SmallKerInv
 

@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.HeightProofs.LeOfFiniteSplitNotSplitBauer
 public import GroundTheory.GlobalFields.SemilocalAlgebras.Galois
 public import Mathlib.RingTheory.Frobenius
 public import GroundTheory.GlobalFields.TateThesis.Chebotarev
@@ -14,58 +13,11 @@ public import Mathlib.Algebra.CharP.IntermediateField
 public import Mathlib.FieldTheory.Galois.Abelian
 public import Mathlib.RingTheory.RootsOfUnity.PrimitiveRoots
 import GroundTheory.GlobalFields.TateThesis.DegreeOneDensity
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Topology.Sheaves.Init
 import Development.AutomorphicArithmetic.AutomorphicVarieties.GaloisLibrary.ClassFieldRamification.IsClassFieldHilbert
 import Development.AutomorphicArithmetic.AutomorphicVarieties.GaloisLibrary.KummerTheory.Mk0IdMapCongr
 import GroundTheory.GlobalFields.SplittingFromInequality.Decomposition
 import Mathlib.NumberTheory.RamificationInertia.Galois
-import Mathlib.Order.CompletePartialOrder
-import Mathlib.RingTheory.RegularLocalRing.Defs
 import Mathlib.Tactic.Linter.HaveILetI
-import Mathlib.RingTheory.Henselian
-import Mathlib.RingTheory.SimpleRing.Principal
-import Mathlib.Tactic.Basify
 import Mathlib.RingTheory.RootsOfUnity.AlgebraicallyClosed
 
 -- This file was produced by scripts/clump.py from the modules listed below.
@@ -131,8 +83,42 @@ private theorem UpperTheory.V.CF.bauer_fix_iff (K M N : Type) [Field K] [NumberF
     [Field N] [NumberField N] [Algebra K M] [Algebra M N] [Algebra K N] [IsScalarTower K M N]
     [IsGalois K N] (P : Ideal (𝓞 N)) [P.IsPrime] (hP : P ≠ ⊥) :
     (∀ σ : N ≃ₐ[K] N, σ • P = P → ∀ x : M, σ (algebraMap M N x) = algebraMap M N x) ↔
-      (P.under (𝓞 M)).ramificationIdx (𝓞 K) * (P.under (𝓞 M)).inertiaDeg (𝓞 K) = 1 :=
-  _root_.GlobalTheory.Bauer.stabilizer_fixes_iff K M N P hP
+      (P.under (𝓞 M)).ramificationIdx (𝓞 K) * (P.under (𝓞 M)).inertiaDeg (𝓞 K) = 1 := by
+  haveI : IsGalois M N := IsGalois.tower_top_of_isGalois K M N
+  haveI : P.IsMaximal := Ideal.IsPrime.isMaximal inferInstance hP
+  have h1 := Ideal.card_stabilizer_eq (G := N ≃ₐ[K] N) (P.under (𝓞 K)) P
+  have h2 := Ideal.card_stabilizer_eq (G := N ≃ₐ[M] N) (P.under (𝓞 M)) P
+  rw [Ideal.ramificationIdxIn_eq_ramificationIdx _ P (N ≃ₐ[K] N),
+    Ideal.inertiaDegIn_eq_inertiaDeg _ P (N ≃ₐ[K] N),
+    Ideal.ramificationIdx_tower (P.under (𝓞 M)) P, Ideal.inertiaDeg_tower (P.under (𝓞 M)) P] at h1
+  rw [Ideal.ramificationIdxIn_eq_ramificationIdx _ P (N ≃ₐ[M] N),
+    Ideal.inertiaDegIn_eq_inertiaDeg _ P (N ≃ₐ[M] N)] at h2
+  have h3 : Nat.card (MulAction.stabilizer (N ≃ₐ[K] N) P) =
+      ((P.under (𝓞 M)).ramificationIdx (𝓞 K) * (P.under (𝓞 M)).inertiaDeg (𝓞 K)) *
+        Nat.card (MulAction.stabilizer (N ≃ₐ[M] N) P) := by
+    rw [h1, h2]; ring
+  let j : MulAction.stabilizer (N ≃ₐ[M] N) P → MulAction.stabilizer (N ≃ₐ[K] N) P :=
+    fun σ => ⟨σ.1.restrictScalars K, σ.2⟩
+  have hj : Function.Injective j := by
+    intro a b e
+    apply Subtype.ext
+    exact AlgEquiv.restrictScalars_injective K (congrArg Subtype.val e)
+  have hpos : 0 < Nat.card (MulAction.stabilizer (N ≃ₐ[M] N) P) := Nat.card_pos
+  constructor
+  · intro h
+    have hs : Function.Surjective j := by
+      rintro ⟨σ, hσ⟩
+      exact ⟨⟨AlgEquiv.ofRingEquiv (f := σ.toRingEquiv) (h σ hσ), hσ⟩, rfl⟩
+    have := Nat.card_eq_of_bijective j ⟨hj, hs⟩
+    rw [h3] at this
+    exact (Nat.eq_of_mul_eq_mul_right hpos (by rw [← this, one_mul])).symm
+  · intro h σ hσ x
+    rw [h, one_mul] at h3
+    have hb := (Nat.bijective_iff_injective_and_card j).2 ⟨hj, h3.symm⟩
+    obtain ⟨τ, hτ⟩ := hb.2 ⟨σ, hσ⟩
+    have : σ = τ.1.restrictScalars K := (congrArg Subtype.val hτ).symm
+    rw [this]
+    exact τ.1.commutes x
 
 private theorem UpperTheory.V.CF.bauer_fix (K A C N : Type) [Field K] [NumberField K] [Field A] [NumberField A]
     [Field C] [NumberField C] [Field N] [NumberField N] [Algebra K A] [Algebra K C] [Algebra K N]
@@ -343,15 +329,6 @@ private theorem exists_prime_mem_of_mem {R : Type} [CommRing R] (I : Ideal R) (h
           exact lt_mul_of_one_lt_left (Nat.pos_of_ne_zero hm0) hp.one_lt
         exact ih m hlt hm0 h
 
-private theorem cyc_adjoin (K : Type) {L : Type} [Field K] [Field L] [Algebra K L] {n : ℕ} [NeZero n] {ζ : L}
-    (hζ : IsPrimitiveRoot ζ n) : IsCyclotomicExtension {n} K K⟮ζ⟯ := by
-  change IsCyclotomicExtension {n} K (IntermediateField.adjoin K {ζ}).toSubalgebra
-  have hi : IsIntegral K ζ := by
-    refine ⟨Polynomial.X ^ n - Polynomial.C 1, Polynomial.monic_X_pow_sub_C 1 (NeZero.ne n), ?_⟩
-    simp [hζ.pow_eq_one]
-  rw [IntermediateField.adjoin_simple_toSubalgebra_of_isAlgebraic hi.isAlgebraic]
-  exact hζ.adjoin_isCyclotomicExtension K
-
 theorem UpperTheory.V.CF.kwRay :
     ∀ (Ω : Type) [Field Ω] [CharZero Ω] [IsAlgClosed Ω] (𝔪 : GroundTheory.Global.Modulus ℚ) (ζ : Ω), IsPrimitiveRoot ζ (Ideal.absNorm 𝔪.ideal) → 𝔪.rayClassField Ω ≤ ℚ⟮ζ⟯ := by
   intro Ω _ _ _ 𝔪 ζ hζ
@@ -360,7 +337,7 @@ theorem UpperTheory.V.CF.kwRay :
     rw [hN, Ne, Ideal.absNorm_eq_zero_iff]
     exact 𝔪.ideal_ne_bot
   haveI : NeZero N := ⟨hN0⟩
-  have hcyc := cyc_adjoin ℚ hζ
+  have hcyc := IsPrimitiveRoot.intermediateField_adjoin_isCyclotomicExtension ℚ hζ
   haveI : NumberField ℚ⟮ζ⟯ := @IsCyclotomicExtension.numberField {N} ℚ ℚ⟮ζ⟯ _ _ _ _ _ hcyc
   have hgal := @IsCyclotomicExtension.isGalois {N} ℚ ℚ⟮ζ⟯ _ _ _ hcyc
   haveI := (GroundTheory.Global.Modulus.isAbelianGalois_rayClassField 𝔪 Ω).toIsGalois

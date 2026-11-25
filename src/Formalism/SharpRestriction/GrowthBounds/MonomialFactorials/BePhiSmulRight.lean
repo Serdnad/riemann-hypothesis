@@ -2,47 +2,8 @@ module
 
 public import Formalism.SharpRestriction.GrowthBounds.MonomialFactorials.RestRankLProved
 import Formalism.PolynomialDimension.MultinomialDepth.PartnerM
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
 import Mathlib.RingTheory.Etale.Weakly
-import Mathlib.RingTheory.Radical.NatInt
 import Mathlib.RingTheory.TotallySplit
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Topology.Sheaves.Init
 
 @[expose] public section
 
@@ -59,8 +20,43 @@ variable (p : ℕ) [Fact p.Prime] {N r : ℕ} [NeZero r] (G : Formalism.GM.M.Blo
 theorem exists_fd_Ljj (j : Fin G.T.t → ℕ) (jp : ℕ) :
     ∃ W : Submodule ℚ_[p] (MvPolynomial (Formalism.GM.M.BVar N r G.T.t) ℚ_[p]), FiniteDimensional ℚ_[p] W ∧
       ∀ x ∈ Ljj p (r := r) G j jp, x ∈ W := by
-  obtain ⟨W, hfd, hsub, _⟩ := exists_fd_Ljj_with_finrank_bound p (r := r) G j jp
-  exact ⟨W, hfd, hsub⟩
+  classical
+  set Yq := Formalism.GM.M.Y p (r := r) (G.lettersAt j jp) G.T.J G.T.thr with hYq
+  have : FiniteDimensional ℚ_[p] (Formalism.GM.M.Pol p r (G.lettersAt j jp)) := Formalism.CountingSumsFrames.pol_finiteDimensional _
+  have : FiniteDimensional ℚ_[p] Yq := Submodule.finiteDimensional_of_le inf_le_left
+  let bY := Module.finBasis ℚ_[p] Yq
+  let Ms := xiMons (r := r) G (G.B - jp)
+  let fam : Fin (Module.finrank ℚ_[p] Yq) × Ms → MvPolynomial (Formalism.GM.M.BVar N r G.T.t) ℚ_[p] :=
+    fun ab => rename (Formalism.GM.M.chainEmb N r G.T.t) ((bY ab.1 : Yq) : _) * monomial (ab.2 : _ →₀ ℕ) 1
+  let W := Submodule.span ℚ_[p] (Set.range fam)
+  have hsub : ∀ x ∈ Ljj p (r := r) G j jp, x ∈ W := by
+    intro x hx
+    have hle : Ljj p (r := r) G j jp ≤ W.restrictScalars ℤ_[p] := by
+      unfold Ljj
+      rw [Submodule.span_le]
+      rintro _ ⟨y, hy, g, hg, rfl⟩
+      have hyY : y ∈ Yq := (Submodule.mem_inf.1 hy).1
+      have hy2 : y ∈ Submodule.span ℚ_[p] (Set.range fun a => ((bY a : Yq) : MvPolynomial _ ℚ_[p])) := by
+        have h3 : (⟨y, hyY⟩ : Yq) ∈ (⊤ : Submodule ℚ_[p] Yq) := Submodule.mem_top
+        rw [← bY.span_eq] at h3
+        have h4 := Submodule.mem_map_of_mem (f := Yq.subtype) h3
+        rw [Submodule.map_span, ← Set.range_comp] at h4
+        exact h4
+      have hg2 := xi_mem_span p G (G.B - jp) g hg
+      show rename (Formalism.GM.M.chainEmb N r G.T.t) y * g ∈ W
+      have hy3 : rename (Formalism.GM.M.chainEmb N r G.T.t) y ∈ Submodule.span ℚ_[p]
+          (Set.range fun a => rename (Formalism.GM.M.chainEmb N r G.T.t) ((bY a : Yq) : MvPolynomial _ ℚ_[p])) := by
+        have := Submodule.mem_map_of_mem (f := (rename (Formalism.GM.M.chainEmb N r G.T.t) :
+          MvPolynomial _ ℚ_[p] →ₐ[ℚ_[p]] MvPolynomial _ ℚ_[p]).toLinearMap) hy2
+        rw [Submodule.map_span, ← Set.range_comp] at this
+        exact this
+      have hmul := Submodule.mul_mem_mul hy3 hg2
+      rw [Submodule.span_mul_span] at hmul
+      refine Submodule.span_mono ?_ hmul
+      rintro _ ⟨u, ⟨a, rfl⟩, v, ⟨m, hm, rfl⟩, rfl⟩
+      exact ⟨(a, ⟨m, hm⟩), rfl⟩
+    exact hle hx
+  exact ⟨W, FiniteDimensional.span_of_finite ℚ_[p] (Set.finite_range fam), hsub⟩
 
 theorem bePhi_smul_left (j : Fin G.T.t → ℕ) (jp : ℕ) (c : ℚ_[p]) (u v : MvPolynomial (Formalism.GM.M.BVar N r G.T.t) ℚ_[p]) :
     bePhi p (r := r) G j jp (c • u) v = c * bePhi p (r := r) G j jp u v := by
@@ -96,7 +92,7 @@ theorem gcL_bdd (j : Fin G.T.t → ℕ) (jp : ℕ) (D : ℤ) :
       simpa using this
     have h1 := congrArg (fun u => bePhi p (r := r) G j jp u (y i)) h0
     simp only [bePhi_sum_left, bePhi_smul_left, hxy] at h1
-    rw [Finset.sum_eq_single i (fun k _ hk => by rw [if_neg hk, mul_zero]) (fun h => absurd hi h), if_pos rfl] at h1
+    rw [Finset.sum_eq_single i (fun k _ hk => by rw [ite_eq_right hk, mul_zero]) (fun h => absurd hi h), ite_eq_left rfl] at h1
     have h2 : bePhi p (r := r) G j jp 0 (y i) = 0 := by
       have := bePhi_smul_left p (r := r) G j jp 0 0 (y i)
       simpa using this
@@ -118,7 +114,7 @@ theorem xiMons_spec (n : ℕ) (m : Formalism.GM.M.BVar N r G.T.t →₀ ℕ) (hm
     rw [Finsupp.finsetSum_apply, Finset.sum_eq_single c]
     · simp
     · intro d _ hd
-      rw [Finsupp.single_apply, if_neg]
+      rw [Finsupp.single_apply, ite_eq_right]
       intro h
       exact hd (xiVar_inj (r := r) G h)
     · intro h; exact absurd (Finset.mem_univ c) h
@@ -128,7 +124,7 @@ theorem xiMons_spec (n : ℕ) (m : Formalism.GM.M.BVar N r G.T.t →₀ ℕ) (hm
     apply Finsupp.mem_support_iff.1 hv
     rw [Finsupp.finsetSum_apply]
     refine Finset.sum_eq_zero fun d _ => ?_
-    rw [Finsupp.single_apply, if_neg]
+    rw [Finsupp.single_apply, ite_eq_right]
     intro h
     exact hne d h.symm
   · have : (∑ d : Fin r, Finsupp.single (Formalism.GM.M.xiVar N r G.T.t d) (e d)).sum (fun _ k => k) = ∑ c, e c := by
@@ -152,9 +148,9 @@ theorem card_xiMons_eq (n : ℕ) : (xiMons (r := r) G n).card = dXi r n := by
     funext c
     have := congrArg (fun f : Formalism.GM.M.BVar N r G.T.t →₀ ℕ => f (Formalism.GM.M.xiVar N r G.T.t c)) h
     simp only [Finsupp.finsetSum_apply] at this
-    rwa [Finset.sum_eq_single c (fun d _ hd => by rw [Finsupp.single_apply, if_neg (fun h => hd (xiVar_inj (r := r) G h))])
+    rwa [Finset.sum_eq_single c (fun d _ hd => by rw [Finsupp.single_apply, ite_eq_right (fun h => hd (xiVar_inj (r := r) G h))])
       (fun h => absurd (Finset.mem_univ c) h), Finset.sum_eq_single c
-      (fun d _ hd => by rw [Finsupp.single_apply, if_neg (fun h => hd (xiVar_inj (r := r) G h))])
+      (fun d _ hd => by rw [Finsupp.single_apply, ite_eq_right (fun h => hd (xiVar_inj (r := r) G h))])
       (fun h => absurd (Finset.mem_univ c) h), Finsupp.single_eq_same, Finsupp.single_eq_same] at this
 
 end Level

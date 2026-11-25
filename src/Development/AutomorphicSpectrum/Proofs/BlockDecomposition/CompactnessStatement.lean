@@ -675,7 +675,7 @@ theorem twist_gam : ∀ (O L : Type) [CommRing O] [IsDomain O] [IsDiscreteValuat
   have hC : ∀ i j, ∃ c, (γ : Matrix (Ix n) (Ix n) O) (Sum.inr i) (Sum.inl j) = ϖ * (ϖ * c) := by
     intro i j
     have h0 := hγ' (Sum.inr i) (Sum.inl j)
-    simp only [Matrix.one_apply, reduceCtorEq, if_false, sub_zero] at h0
+    simp only [Matrix.one_apply, reduceCtorEq, ite_false, sub_zero] at h0
     obtain ⟨c, hc⟩ := Ideal.mem_span_singleton'.1 h0
     exact ⟨c, by rw [← hc]; ring⟩
   choose C hCe using hC
@@ -1159,7 +1159,15 @@ namespace GlobalTheory.CompanionTheory.Jp.RedUnique
 theorem exists_pM_of_low_zero {k : Type} [Field k] {n : ℕ} (g : GL (Ix n) k)
     (hg : g.1.toBlocks₂₁ = 0) :
     ∃ (a d : GL (Fin n) k) (b : Matrix (Fin n) (Fin n) k), g = pM a d b := by
-  apply _root_.GlobalTheory.CompanionTheory.Jp.Dbl.exists_pM <;> assumption
+  have hgb : g.1 = fromBlocks g.1.toBlocks₁₁ g.1.toBlocks₁₂ 0 g.1.toBlocks₂₂ := by
+    rw [← hg, fromBlocks_toBlocks]
+  have hdet : g.1.det ≠ 0 :=
+    ((Matrix.isUnit_iff_isUnit_det _).1 g.isUnit).ne_zero
+  rw [hgb, det_fromBlocks_zero₂₁] at hdet
+  refine ⟨GeneralLinearGroup.mkOfDetNeZero _ (left_ne_zero_of_mul hdet),
+    GeneralLinearGroup.mkOfDetNeZero _ (right_ne_zero_of_mul hdet), g.1.toBlocks₁₂, ?_⟩
+  apply Units.ext
+  exact hgb
 
 theorem low_inv_mul_pM {R : Type} [CommRing R] {n : ℕ} (a₁ d₁ a₂ d₂ : GL (Fin n) R)
     (b₁ b₂ : Matrix (Fin n) (Fin n) R) :
@@ -1280,30 +1288,9 @@ noncomputable section
 open Matrix
 namespace GlobalTheory.CompanionTheory.Jp.Cmp
 
-theorem twist_low : ∀ (O L : Type) [CommRing O] [IsDomain O] [IsDiscreteValuationRing O] [Field L] [Algebra O L] [IsFractionRing O L]
-    (n : ℕ) (ϖ : O), Irreducible ϖ → ∀ w : Lˣ, (w : L) = algebraMap O L ϖ →
-    ∀ x : GL (Ix n) (IsLocalRing.ResidueField O), x.1.toBlocks₁₂ = 0 →
-      ∃ j j' : GL (Ix n) O, inL j * tauM w = tauM w * inL j' ∧ resK j' = x := _root_.GlobalTheory.CompanionTheory.Jp.twist_low
-
 theorem dbl : ∀ (k : Type) [Field k] (n : ℕ) (g₁ g₂ : GL (Ix n) k), iD g₁ = iD g₂ →
     ∃ (a d : GL (Fin n) k) (b : Matrix (Fin n) (Fin n) k) (x : GL (Ix n) k),
       x.1.toBlocks₁₂ = 0 ∧ g₂ = pM a d b * g₁ * x := _root_.GlobalTheory.CompanionTheory.Jp.Dbl.main
-
-theorem avg_res : ∀ (O : Type) [CommRing O] [IsDomain O] [IsDiscreteValuationRing O] [Fintype (IsLocalRing.ResidueField O)]
-    (n : ℕ) (ϖ : O), Irreducible ϖ → ∀ f : GL (Ix n) (IsLocalRing.ResidueField O) → ℂ,
-      avgK ϖ (fun κ => f (resK κ)) = sumG f / (Nat.card (GL (Ix n) (IsLocalRing.ResidueField O)) : ℂ) := _root_.GlobalTheory.CompanionTheory.Jp.AvgRes.avgK_res
-
-theorem cnt_swap : ∀ (k : Type) [Field k] [Fintype k] (n i : ℕ),
-    Nat.card {g : GL (Ix n) k // (lowerLeftBlock g).rank = i} = Nat.card {g : GL (Ix n) k // (dBlk g).rank = i} := _root_.GlobalTheory.CompanionTheory.Jp.CntSwap.card_lower_left_rank_eq_card_lower_right_rank
-
-theorem cnt_half : ∀ (k : Type) [Field k] [Fintype k] (n : ℕ) (D : Matrix (Fin n) (Fin n) k),
-    Nat.card {g : GL (Ix n) k // dBlk g = D} =
-      Nat.card {g : GL (Ix n) k // lowerLeftBlock g = 0 ∧ dBlk g = 1} *
-        Nat.card {C : Matrix (Fin n) (Fin n) k // (Matrix.fromCols C D).rank = n} := _root_.GlobalTheory.CompanionTheory.Jp.CntHalf.card_lowerRightBlock_eq_fibre_formula
-
-theorem cnt_cols : ∀ (k : Type) [Field k] [Fintype k] (n ρ : ℕ) (D : Matrix (Fin n) (Fin n) k), D.rank = ρ →
-    Nat.card {C : Matrix (Fin n) (Fin n) k // (Matrix.fromCols C D).rank = n} =
-      Fintype.card k ^ (n * ρ) * ∏ j ∈ Finset.range (n - ρ), (Fintype.card k ^ n - Fintype.card k ^ j) := _root_.GlobalTheory.CompanionTheory.Jp.CntCols.card_completions
 
 theorem red_mul {O L : Type} [CommRing O] [IsLocalRing O] [Field L] [Algebra O L] {n : ℕ} {w : Lˣ}
     {κ j j' : GL (Ix n) O} {h : GL (Ix n) (IsLocalRing.ResidueField O)} (hr : IsRed (O := O) w κ h)
@@ -1484,7 +1471,7 @@ theorem jpCmp : JpCmp := by
   have hf : ∀ g, Φ g = f (iD g) := by
     intro g
     have h : ∃ g', iD g' = iD g := ⟨g, rfl⟩
-    simp only [f, dif_pos h]
+    simp only [f, dite_eq_left h]
     exact hΦ _ _ h.choose_spec
   have hnum : sumG (fun g => (Fintype.card (IsLocalRing.ResidueField O) : ℂ) ^ (2 * n * iD g) * Ψ g) =
       sumG (fun g => (Fintype.card (IsLocalRing.ResidueField O) : ℂ) ^ (2 * n * iD g) * Φ g) := by

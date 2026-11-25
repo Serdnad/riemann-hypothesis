@@ -1,7 +1,5 @@
 module
 
-
-import Formalism.LocalRingCardinality.PosOfIsomEmb
 public import Formalism.LocalToGlobal.BesselHermitianTheta.DefsReal
 public import Development.AbelianVarietyTheory.BlockTheory.HeightDefect.OmegaUpDownForms
 public import Development.AbelianVarietyTheory.Proofs.HeightProofs.MemberDatumOfFlagTie
@@ -14,47 +12,10 @@ public import Development.AbelianVarietyTheory.Proofs.HeightProofs.IsCuspFunIffC
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.DiagSingleSingle
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsIsInfFamFamily
 public import Development.AbelianVarietyTheory.BlockTheory.HeightDefect.AdelicUnitaryGroups
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Topology.Sheaves.Init
 import Development.AbelianVarietyTheory.Proofs.HeightProofs.ExistsSubmoduleThetaFunctions
 import Formalism.LocalRingCardinality.RankBoundMonotoneInDimension
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.ReduceModChar
 import Std.Tactic.BVDecide.Normalize.Prop
+
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.Counterexamples.HeightSurvey.NotHasInfExpThird, Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.AdelicDataRowMeasureScaleTrivialTuple
 
@@ -69,8 +30,6 @@ open Formalism.BasicNotions Formalism.BasicNotions.TH Formalism.MainNotions.Glob
 open scoped TensorProduct
 
 namespace GlobalTheory.VolHeckeCheck
-
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 
 theorem isWittLower_self (D : D7) (V : HSp D) : IsWittLower V V 0 := by
   refine ⟨rfl, LinearMap.id, fun _ _ => rfl, 0, ⟨linearIndependent_empty_type, ?_⟩, ?_⟩
@@ -95,8 +54,6 @@ open Formalism.BasicNotions Formalism.BasicNotions.TH Formalism.MainNotions.Glob
 open scoped TensorProduct
 
 namespace GlobalTheory.Mem.Th
-
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 
 variable {D : D7}
 
@@ -184,7 +141,7 @@ theorem nonempty_orthDec (h : OrthEx D) : Nonempty (OrthDec D) := by
   classical
   choose A Q h1 h2 h3 h4 using h
   refine ⟨⟨fun V => if hV : V.SigOK then A V hV else 0, fun V hV => ?_, fun V => if hV : V.SigOK then Q V hV else 0,
-    fun V hV => ?_, fun V hV => ?_, fun V hV => ?_⟩⟩ <;> simp only [dif_pos hV]
+    fun V hV => ?_, fun V hV => ?_, fun V hV => ?_⟩⟩ <;> simp only [dite_eq_left hV]
   exacts [h1 V hV, h2 V hV, h3 V hV, h4 V hV]
 
 def KfinS (ψ : AddChar (AF D.host.F) ℂ) (θ : InfF D) (Dc : OrthDec D) (V W : HSp D) : Submodule ℂ (ThS ψ V W) :=
@@ -225,10 +182,6 @@ structure WeilCore.Rules {ψ : AddChar (AF D.host.F) ℂ} (Wc : WeilCore D ψ) :
     ∀ g h (Φ : ThS ψ V W) (Φ' : ThS ψ W V), (∀ x : WA V W, Φ'.1 x.transpose = Φ.1 x) →
       ∀ x : WA V W, (Wc.om W V χ' χ (h, g) Φ').1 x.transpose = (Wc.om V W χ χ' (g, h) Φ).1 x
 
-  om_unr : ∀ (V W : HSp D) χ χ', admitted V W χ χ' → ∀ S, UnramOutside D χ S → UnramOutside D χ' S →
-    ∀ k ∈ KsphC V S, ∀ k' ∈ KsphC W S, ∀ Φ : ThS ψ V W,
-      (∀ u ∈ latVWS V W S, Heisenberg₂ ψ V W u Φ.1 = Φ.1) → Wc.om V W χ χ' (k, k') Φ = Φ
-
 structure WeilFun (D : D7) (ψ : AddChar (AF D.host.F) ℂ) where
   om : ∀ V W : HSp D, IdC D → IdC D → (GA D V × GA D W →* Module.End ℂ (ThS ψ V W))
   om_heis : ∀ (V W : HSp D) χ χ', admitted V W χ χ' → ∀ g h w₀ (Φ Φ' : ThS ψ V W), Φ'.1 = Heisenberg₂ ψ V W w₀ Φ.1 →
@@ -254,9 +207,6 @@ structure WeilFun (D : D7) (ψ : AddChar (AF D.host.F) ℂ) where
   om_swap : ∀ (V W : HSp D) χ χ', admitted V W χ χ' →
     ∀ g h (Φ : ThS ψ V W) (Φ' : ThS ψ W V), (∀ x : WA V W, Φ'.1 x.transpose = Φ.1 x) →
       ∀ x : WA V W, (om W V χ' χ (h, g) Φ').1 x.transpose = (om V W χ χ' (g, h) Φ).1 x
-  om_unr : ∀ (V W : HSp D) χ χ', admitted V W χ χ' → ∀ S, UnramOutside D χ S → UnramOutside D χ' S →
-    ∀ k ∈ KsphC V S, ∀ k' ∈ KsphC W S, ∀ Φ : ThS ψ V W,
-      (∀ u ∈ latVWS V W S, Heisenberg₂ ψ V W u Φ.1 = Φ.1) → om V W χ χ' (k, k') Φ = Φ
 
 def WeilCore.toFun {ψ : AddChar (AF D.host.F) ℂ} (Wc : WeilCore D ψ) (h : Wc.Rules) : WeilFun D ψ where
   om := Wc.om
@@ -268,7 +218,6 @@ def WeilCore.toFun {ψ : AddChar (AF D.host.F) ℂ} (Wc : WeilCore D ψ) (h : Wc
   twW := h.twW
   twV := h.twV
   om_swap := h.om_swap
-  om_unr := h.om_unr
 
 namespace WeilFun
 
@@ -307,7 +256,38 @@ structure Tow (D : D7) where
   iYXm_rec : HEq (iYXm D.R.t) (D.sp.iX'.comp D.sp.eYm.symm.toLinearMap)
 
 theorem X_posDef (D : D7) : ∀ j, j ≤ D.R.m → (D.sp.X j).IsPosDef := by
-  first | exact _root_.Formalism.BasicNotions.D7.X_posDef | exact @_root_.Formalism.BasicNotions.D7.X_posDef | apply _root_.Formalism.BasicNotions.D7.X_posDef <;> assumption
+  intro j hj τ
+  have hτ : ∀ a, τ (star a) = starRingEnd ℂ (τ a) := D.sp.cm.cmUnram.2.1 τ
+  have hk := D.R.m_add_three_le_k
+  rcases D.sp.X_def j hj τ with h | h
+  · exact h
+  exfalso
+  have hsX := D.sp.X_sig j τ
+  rw [h] at hsX
+  rcases hj.lt_or_eq with hlt | rfl
+  · have hw : (Matrix.of fun a b => (D.sp.Y j).hT (D.sp.iXY j ((D.sp.X j).frame a))
+        (D.sp.iXY j ((D.sp.X j).frame b))) = (D.sp.X j).gram := by
+      refine Matrix.ext fun a b => ?_
+      exact D.sp.iXY_isom j hlt _ _
+    rw [← hw] at hsX
+    have hsY := D.sp.Y_sig j τ
+    have hsum := sig_sum _ (D.sp.Y_sig j) τ
+    rw [D.Y_sigval j hj τ] at hsY hsum
+    have key := (sig_family (D.sp.Y j) τ hτ _ hsX hsY).2
+    rw [D.sp.X_rank j hj] at key
+    simp only [sigYD, Ranks.N] at key hsum
+    omega
+  · have hsY := D.sp.Y_sig D.R.m τ
+    rw [D.Y_sigval _ hj τ] at hsY
+    have hw : (Matrix.of fun a b => (D.sp.X D.R.m).hT (D.sp.iX' (D.sp.eYm.symm ((D.sp.Y D.R.m).frame a)))
+        (D.sp.iX' (D.sp.eYm.symm ((D.sp.Y D.R.m).frame b)))) = (D.sp.Y D.R.m).gram := by
+      refine Matrix.ext fun a b => ?_
+      rw [Matrix.of_apply, D.sp.iX'_isom, ← D.sp.eYm_isom]
+      simp [HSpace.gram]
+    rw [← hw] at hsY
+    have key := (sig_family (D.sp.X D.R.m) τ hτ _ hsY hsX).1
+    simp only [sigYD, Ranks.rankY, Ranks.r] at key
+    omega
 
 def WittLowEx (D : D7) : Prop := ∀ (V : HSp D) (i : ℕ), (∃ C : Matrix (Fin V.rank) (Fin i) D.host.E, IsIsoSub V C) →
   ∃ V' : HSp D, IsWittLower V V' i ∧ V'.SigOK
@@ -405,25 +385,15 @@ theorem nonempty_realMeas (D : D7) : Nonempty (RealMeas D) := by
   · split_ifs
     · exact one_pos
     · exact hr p q
-  · rw [if_neg (by omega)]; exact hd p q
+  · rw [ite_eq_right (by omega)]; exact hd p q
 
 def memberBes (D : D7) (u : D.what₂.Word) : BesDat (D.sp.X 0) (D.sp.Y 0) (D.sp.iXY 0) :=
   GlobalTheory.BesselCompare.toBes (GlobalTheory.IndefiniteRowSideFullHecke.BesselData.memberDatum D u)
 
-def PlaceOver (D : D7) (ε : AE D) (𝔭 : Ideal (𝓞 D.host.K)) : Prop :=
-  ∀ π ∈ 𝔭, π ≠ 0 → GlobalTheory.IndefiniteRowSideFullHecke.BesselData.PlaceDivides D ε (algebraMap (𝓞 D.host.K) (𝓞 D.host.E) π)
-
 structure Pos1 (D : D7) where
   piT : D.what₂.Word → 𝓞 D.host.E
-  piT_norm : ∀ u, GlobalTheory.IndefiniteRowSideFullHecke.BesselData.IsNormGen D (piT u) (D.mem u).A.T
   gP : Fin 2 → Ideal (𝓞 D.host.K)
-  gP_prime : ∀ i, (gP i).IsPrime
-  gP_over : ∀ i, (D.host.g i : 𝓞 D.host.K) ∈ gP i
   dat : D.what₂.Word → GlobalTheory.IndefiniteRowSideFullHecke.BesselData.PosDatum (D.sp.X 0) (D.sp.Y 0) (D.sp.iXY 0)
-  dat_bes : ∀ u, (dat u).bes = GlobalTheory.IndefiniteRowSideFullHecke.BesselData.memberDatum D u
-  dat_p : ∀ u a, (dat u).p a = 1
-  dat_places : ∀ u ε, IsSplitIdem D ε →
-    ((∃ a, (dat u).ε a = ε) ↔ (GlobalTheory.IndefiniteRowSideFullHecke.BesselData.PlaceDivides D ε (piT u) ∨ ∃ i, PlaceOver D ε (gP i)))
 
 structure RecFun (D : D7) (θ : InfF D) (ψ : AddChar (AF D.host.F) ℂ) where
   chr : D.what₂.Tup → ℕ → IdC D
@@ -597,24 +567,6 @@ def LiftAut (D : D7) : Prop := ∀ θ : InfF D, IsInfFam θ → ∀ ψ, IsStdCha
     (∀ h, IntegrableOn (fun g => Wf.ker V W χ χ' Φ g h * F g) 𝓕 μ) ∧
     IsAutFunSm θ W fun h => ∫ g in 𝓕, Wf.ker V W χ χ' Φ g h * F g ∂μ
 
-def TypAdd (D : D7) : Prop := ∀ θ : InfF D, IsInfFam θ → ∀ V : HSp D, V.SigOK → ∀ τ S,
-  GoodPar V.rank (V.sig (tauE D τ)).1 (V.sig (tauE D τ)).2 S →
-    IsTypeAt θ V τ S 0 ∧ ∀ φ φ', IsAutFunSm θ V φ → IsAutFunSm θ V φ' →
-      IsTypeAt θ V τ S φ → IsTypeAt θ V τ S φ' → IsTypeAt θ V τ S (φ + φ')
-
-theorem mem_TypS (h : FormSub D) (ht : TypAdd D) {θ : InfF D} (hθ : IsInfFam θ) {V : HSp D} (hV : V.SigOK)
-    {P : D.what₂.Tau → SPar} (hP : ∀ τ, GoodPar V.rank (V.sig (tauE D τ)).1 (V.sig (tauE D τ)).2 (P τ)) {φ : GA D V → ℂ} :
-    φ ∈ TypS θ V P ↔ IsAutFunSm θ V φ ∧ ∀ τ, IsTypeAt θ V τ (P τ) φ := by
-  refine ⟨fun hφ => ?_, fun hφ => Submodule.subset_span hφ⟩
-  induction hφ using Submodule.span_induction with
-  | mem x hx => exact hx
-  | zero => exact ⟨(h θ hθ V 0).1 (zero_mem _), fun τ => (ht θ hθ V hV τ _ (hP τ)).1⟩
-  | add x y _ _ hx hy =>
-    exact ⟨(h θ hθ V _).1 (add_mem ((h θ hθ V x).2 hx.1) ((h θ hθ V y).2 hy.1)),
-      fun τ => (ht θ hθ V hV τ _ (hP τ)).2 x y hx.1 hy.1 (hx.2 τ) (hy.2 τ)⟩
-  | smul c x _ hx =>
-    exact ⟨(h θ hθ V _).1 (Submodule.smul_mem _ c ((h θ hθ V x).2 hx.1)), fun τ => isTypeAt_smul c (hx.2 τ)⟩
-
 def WeilCoreEx (D : D7) : Prop := ∀ ψ, IsStdChar D ψ (-1) → Nonempty (WeilCore D ψ)
 
 def WeilRules (D : D7) : Prop := ∀ ψ, IsStdChar D ψ (-1) → ∀ Wc : WeilCore D ψ, Wc.Rules
@@ -623,15 +575,6 @@ def WeilEx (D : D7) : Prop := ∀ ψ, IsStdChar D ψ (-1) → Nonempty (WeilFun 
 
 theorem weilEx_of (h : WeilCoreEx D) (hr : WeilRules D) : WeilEx D :=
   fun ψ hψ => (h ψ hψ).elim fun Wc => ⟨Wc.toFun (hr ψ hψ Wc)⟩
-
-namespace Realises
-
-variable {θ : InfF D} {X : ThetaX D} {T : ThetaTied D X} {W : WeilTied D X T} {B : BesselTied D X T W}
-  {Wf : WeilFun D W.ψ} {Tw : Tow D} {Rc : RecFun D θ W.ψ} (h : Realises B Wf Tw Rc)
-
-include h
-
-end Realises
 
 end GlobalTheory.Mem.Th
 

@@ -1,6 +1,5 @@
 module
 
-import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.IsGalRepOfOfIso
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.LevelIso
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.SatOfFixed
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.TemperedLocalComponents.GlobFixed
@@ -15,41 +14,22 @@ open GlobalTheory.CuspRep GlobalTheory.WeilDeligne GlobalTheory.Pst GlobalTheory
 
 namespace UpperTheory.V.Af
 
-theorem isSst_of_coord {l : ℕ} [Fact l.Prime] (P : LocPrime l) {K : FinExt l}
-    {LL LL' : Type} [Field LL] [Field LL'] [Algebra ℚ_[l] LL] [Algebra ℚ_[l] LL'] [Algebra LL LL']
-    {V : Type} [AddCommGroup V] [Module LL V] [Module ℚ_[l] V] [IsScalarTower ℚ_[l] LL V]
-    {V' : Type} [AddCommGroup V'] [Module LL V'] [Module ℚ_[l] V'] [IsScalarTower ℚ_[l] LL V']
-    [Module LL' V'] [IsScalarTower ℚ_[l] LL' V'] [IsScalarTower LL LL' V']
-    {ρ : Representation LL ↥(GK K) V} {ρ' : Representation LL' ↥(GK K) V'}
-    {ι : Type} [Fintype ι] [DecidableEq ι] {E : V' ≃ₗ[LL] (ι → V)} (hE : ∀ g x i, E (ρ' g x) i = ρ g (E x i))
-    (hι : finrank LL LL' = Fintype.card ι) [Nonempty ι] (h : IsSst P ρ) : IsSst P ρ' := by
-  unfold IsSst at h ⊢
-  have e : ↥(Dst P ρ') ≃ₗ[LL] (ι → ↥(Dst P ρ)) :=
-    subEquiv (tensCoord E (Bst P)) ((Dst P ρ').restrictScalars LL) _ fun x => by
-      simp only [Submodule.restrictScalars_mem, mem_Dst]
-      rw [forall_comm]
-      refine forall_congr' fun g => ?_
-      rw [← (tensCoord E (Bst P)).injective.eq_iff, funext_iff]
-      simp only [GlobalTheory.PstExt.tensCoord_stRep P hE]
-  have h1 := e.finrank_eq
-  have h2 := E.finrank_eq
-  rw [finrank_fun', ← Module.finrank_mul_finrank LL LL', hι] at h1 h2
-  have hp : 0 < Fintype.card ι := Fintype.card_pos
-  rw [Nat.eq_of_mul_eq_mul_left hp h1, Nat.eq_of_mul_eq_mul_left hp h2, h]
-
-theorem isSstAt_conj {l : ℕ} [Fact l.Prime] (P : LocPrime l) {E Ω : Type} [Field E] [Field Ω] [Algebra E Ω]
-    {O : Type} [CommRing O] [Algebra ℤ_[l] O] [TopologicalSpace O] {Gw : Subgroup (Ω ≃ₐ[E] Ω)} (Bw : LocBridge l E Ω Gw O)
-    {a : ℕ} {r r' : ↥Gw →* GL (Fin a) (Om l)} (A : GL (Fin a) (Om l)) (hc : ∀ g, r' g = A * r g * A⁻¹)
-    (h : IsSstAt P Bw r) : IsSstAt P Bw r' := by
-  intros
-  apply _root_.UpperTheory.V.Af.ExLib.isSstAt_conj <;> assumption
-
 theorem sat_ae_of_smooth (hS : SatLoc) {F : Type} [Field F] [NumberField F] {n : ℕ} {V : Type} [AddCommGroup V] [Module ℂ V]
     [Nontrivial V] (ρ : Representation ℂ (GL (Fin n) (Af F)) V) (hρ : GlobalTheory.PRep.IsSmooth ρ)
     (hi : ∀ w, ∃ σ, LocIsotypic ρ w σ) :
     ∀ᶠ w : HeightOneSpectrum (𝓞 F) in Filter.cofinite, ∃ B, GlobalTheory.LFun.HasSatGL w (ρ.comp (locGL F n w)) B := by
-  intros
-  apply _root_.UpperTheory.V.Af.ExLib.eventually_sat <;> assumption
+  obtain ⟨v, hv⟩ := exists_ne (0 : V)
+  obtain ⟨S, hS'⟩ := GlobalFixedVectors.exists_KAway_subset (M := 1) ((hρ v).mem_nhds (by simp))
+  filter_upwards [S.finite_toSet.eventually_cofinite_notMem] with w hw
+  obtain ⟨σ, hσ⟩ := hi w
+  obtain ⟨h1, h2⟩ := hS F n w σ
+  have hK : IsCompact (GlobalTheory.LFun.KGL w (n := n) : Set (GL (Fin n) (w.adicCompletion F))) :=
+    GlobalTheory.LFun.IntPtsUnitary.isCompact_GLint _ (PI.AdicCompletionValuation.isCompact_adicCompletionIntegers F w)
+  obtain ⟨B, hB⟩ := h1 (hasFixed_of_sum σ.ρ σ.smooth (ρ.comp (locGL F n w)) _ hK hσ.2
+    ⟨v, hv, fun u hu => hS' (GlobalFixedVectors.mem_KAway.2 ⟨locGL_mem_KLev n w
+      (by rw [Nat.cast_one]; exact (Ideal.ne_top_iff_one _).1 w.isPrime.ne_top) hu,
+      fun x hx => pLoc_locGL_of_ne (fun e : x = w => hw (e ▸ hx)) u⟩)⟩)
+  exact ⟨B, (h2 _ _ hσ B).2 hB⟩
 
 end UpperTheory.V.Af
 

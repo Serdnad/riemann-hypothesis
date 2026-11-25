@@ -1,6 +1,5 @@
 module
 
-import Development.WeilBound.ThetaLifts.LeviDeterminants.MixedModels.PlaneAd
 public import Development.WeilBound.CoreStatements.CompactAveragingSplitting.EigenvectorLifting.InertDef
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LatAtVAtStable
 public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.DualLatticeDifferentIndex
@@ -8,52 +7,8 @@ public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.StandardAddC
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.StandardAdelicCharacterNontrivialAtPlaces
 import Development.AbelianVarietyTheory.Proofs.TwistedOperators.SplitPrimeAdditiveCharacterUnramified
 public import Development.WeilBound.CoreStatements.CompactAveragingSplitting.EigenvectorLifting.VaceigenAlg
-import Mathlib.Algebra.Module.StablyFree.Basic
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.LinearAlgebra.Matrix.FiniteDimensional
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Coalgebra.IsFrobenius
-import Mathlib.RingTheory.Etale.Weakly
-import Mathlib.RingTheory.HopfAlgebra.Basic
-import Mathlib.RingTheory.PiTensorProduct
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.RingTheory.TotallySplit
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.HaveILetI
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Topology.Sheaves.Init
 
 @[expose] public section
 
@@ -204,20 +159,12 @@ theorem exists_tr_rep (hσ : ∀ x, σ (σ x) = x) {J : Matrix (Fin d) (Fin d) E
 
   rw [← map_sum, Finset.univ_sum_single]
 
-theorem mem_latW_of_standard_character {B : Base F E} (hcm : IsCMExt F E σ) (hstd : IsStd B.ψ) {W : Spc F E d} {r s : ℕ} (hW : W.IsSkew σ B r s) (v : Pl F)
+theorem mem_latW {B : Base F E} (hB : B.IsGood σ) {W : Spc F E d} {r s : ℕ} (hW : W.IsSkew σ B r s) (v : Pl F)
     {w : Fin d → AE F E} (hw : At (evFin F v) w)
     (h : ∀ y ∈ W.L, ∀ a ∈ v.adicCompletionIntegers F, B.ψ (liftV v a * trF σ W.J y w) = 1) : w ∈ latW W v := by
-  have hσ := sigma_sigma hcm
+  have hσ := sigma_sigma hB.cm
   have : Module.Finite (𝓞 F) (𝓞 E) := Module.Finite.of_restrictScalars_finite ℤ _ _
-  have hsk (x y : Fin d → E) : form σ W.J x y = -σ (form σ W.J y x) := by
-
-    simp only [form, dotProduct, Matrix.mulVec, map_sum, map_mul, Finset.mul_sum, hσ, hW.skew, ← Finset.sum_neg_distrib]
-    rw [Finset.sum_comm]
-    exact Finset.sum_congr rfl fun i _ => Finset.sum_congr rfl fun j _ => by ring
-  have hFull : W.L.IsFullLattice E :=
-    PositivityTheory.Mix.full_of_dual_zero_of_involutive hσ (-1) (by simpa using hW.skew)
-      hW.lat.toIsLattice (fun y hy =>
-        (hW.dual y).2 fun x hx o => by rw [hy x hx, mul_zero, map_zero]; exact isIntegral_zero)
+  have hFull : W.L.IsFullLattice E := hW.lat
   letI := hFull
   obtain ⟨m, g, f, hg, hf, hid⟩ := dual_family (𝓞 F) F (W.L.restrictScalars (𝓞 F)) (hW.lat.fg.restrictScalars) (by
     rw [eq_top_iff]
@@ -250,7 +197,7 @@ theorem mem_latW_of_standard_character {B : Base F E} (hcm : IsCMExt F E σ) (hs
   rw [hdec w]
   refine sum_mem fun i _ => AddSubgroup.subset_closure ⟨_, fun a ha => ?_, ?_, g i, hg i, rfl⟩
   · rw [← map_smul, hw a ha, map_zero]
-  · refine mem_int_of_psi hstd v _ fun t ht a ha => ?_
+  · refine mem_int_of_psi hB.std v _ fun t ht a ha => ?_
     have hm : algebraMap F E t • u i ∈ W.L := (hW.dual _).2 fun x hx o => by
       let o' : 𝓞 E := ⟨σ o, (RingOfIntegers.isIntegral_coe o).map (σ.restrictScalars ℤ)⟩
       obtain ⟨c, hc⟩ := hf i _ (W.L.smul_mem o' hx)
@@ -268,11 +215,6 @@ theorem mem_latW_of_standard_character {B : Base F E} (hcm : IsCMExt F E σ) (hs
       exact isIntegral_algebraMap
     have := h _ hm a ha
     rwa [trF_smul, liftV_mul, map_mul (evFin F v), AlgHom.commutes] at this
-
-theorem mem_latW {B : Base F E} (hB : B.IsGood σ) {W : Spc F E d} {r s : ℕ} (hW : W.IsSkew σ B r s) (v : Pl F)
-    {w : Fin d → AE F E} (hw : At (evFin F v) w)
-    (h : ∀ y ∈ W.L, ∀ a ∈ v.adicCompletionIntegers F, B.ψ (liftV v a * trF σ W.J y w) = 1) : w ∈ latW W v := by
-  exact _root_.PositivityTheory.ThK.Vac.mem_latW_of_standard_character hB.cm hB.std hW v hw h
 
 theorem vecMulVec_mem {X : Spc F E n} {W : Spc F E d} {v : Pl F} {x : Fin n → E} (hx : x ∈ X.L) {w : Fin d → AE F E}
     (hw : w ∈ latW W v) : Matrix.vecMulVec (incV x) w ∈ latAtV X W v := by
@@ -306,14 +248,11 @@ theorem symp_vecMulVec (hσ : ∀ x, σ (σ x) = x) (JA : Matrix (Fin n) (Fin n)
     Finset.sum_congr rfl fun l _ => ?_
   ring
 
-theorem mem_latAtV_of_standard_character {B : Base F E} (hcm : IsCMExt F E σ) (hstd : IsStd B.ψ) {X : Spc F E n} {W : Spc F E d} {r s r' s' : ℕ} (hX : X.IsHerm σ B r s)
+theorem mem_latAtV {B : Base F E} (hB : B.IsGood σ) {X : Spc F E n} {W : Spc F E d} {r s r' s' : ℕ} (hX : X.IsHerm σ B r s)
     (hW : W.IsSkew σ B r' s') (v : Pl F) {z : Matrix (Fin n) (Fin d) (AE F E)} (hz : At (evFin F v) z)
     (h : ∀ γ ∈ latAtV X W v, B.ψ (symp (R := AF F) (cA σ) (-1) (incM F X.J) (incM F W.J) γ z) = 1) : z ∈ latAtV X W v := by
-  have hσ := sigma_sigma hcm
-  have hFull : X.L.IsFullLattice E :=
-    PositivityTheory.Mix.full_of_dual_zero_of_involutive hσ 1 (by simpa using hX.herm)
-      hX.lat.toIsLattice (fun y hy =>
-        (hX.dual y).2 fun x hx => by rw [hy x hx]; exact isIntegral_zero)
+  have hσ := sigma_sigma hB.cm
+  have hFull : X.L.IsFullLattice E := hX.lat
   letI := hFull
   obtain ⟨m, g, f, hg, hf, hid⟩ := dual_family (𝓞 E) E X.L hX.lat.fg (Submodule.IsFullLattice.span_eq_top (A := E) (M := X.L))
   let a : Fin m → Fin n → E := fun i k => f i (Pi.single k 1)
@@ -345,15 +284,10 @@ theorem mem_latAtV_of_standard_character {B : Base F E} (hcm : IsCMExt F E σ) (
     simp only [← Finset.sum_mul, e]
     exact (congrFun (congrFun (Matrix.one_mul z) p) l).symm
   rw [hdec]
-  refine sum_mem fun i _ => vecMulVec_mem (hg i) (mem_latW_of_standard_character hcm hstd hW v (fun c hc => ?_) fun y hy c hc => ?_)
+  refine sum_mem fun i _ => vecMulVec_mem (hg i) (mem_latW hB hW v (fun c hc => ?_) fun y hy c hc => ?_)
   · rw [← Matrix.vecMul_smul, hz c hc, Matrix.vecMul_zero]
   · have := h _ (neg_mem (AddSubgroup.subset_closure ⟨liftV v c, at_liftV v c, by rwa [evFin_liftV], u i, huL i, y, hy, rfl⟩))
     rw [GlobalTheory.LatVacArith.symp_neg_left, ← one_smul (AF F) z, symp_smul_smul, symp_vecMulVec hσ, hu] at this
     simpa only [hσ, mul_one, mul_neg, neg_neg] using this
-
-theorem mem_latAtV {B : Base F E} (hB : B.IsGood σ) {X : Spc F E n} {W : Spc F E d} {r s r' s' : ℕ} (hX : X.IsHerm σ B r s)
-    (hW : W.IsSkew σ B r' s') (v : Pl F) {z : Matrix (Fin n) (Fin d) (AE F E)} (hz : At (evFin F v) z)
-    (h : ∀ γ ∈ latAtV X W v, B.ψ (symp (R := AF F) (cA σ) (-1) (incM F X.J) (incM F W.J) γ z) = 1) : z ∈ latAtV X W v := by
-  exact _root_.PositivityTheory.ThK.Vac.mem_latAtV_of_standard_character hB.cm hB.std hX hW v hz h
 
 end PositivityTheory.ThK.Vac

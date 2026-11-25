@@ -1,51 +1,10 @@
 module
 
-import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.SignatureConjugationInvariant
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.BetaUniqueness.Skeleton
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.BetaUniqueness.Lemmas
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
 import Mathlib.Algebra.Order.Star.Real
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
 import Mathlib.RingTheory.Coalgebra.IsFrobenius
 import Mathlib.RingTheory.HopfAlgebra.Basic
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Topology.Sheaves.Init
 
 @[expose] public section
 
@@ -65,13 +24,24 @@ theorem wa_cT_conj_eq {m k : Type} (M : Matrix m k ℂ) : Formalism.UG.cT (starR
 
 theorem wa_sig_data (J : Matrix n n ℂ) (p q : ℕ) (h : Formalism.UG.HasSignature J p q) :
     Fintype.card n = p + q ∧ ∃ Q : Matrix n (Fin p ⊕ Fin q) ℂ, Qᴴ * J * Q = Formalism.UG.Jpq p q := by
-  apply _root_.Formalism.UG.P.sig_data <;> assumption
+  obtain ⟨e, P, hP⟩ := h
+  refine ⟨by rw [Fintype.card_congr e, Fintype.card_sum, Fintype.card_fin, Fintype.card_fin], ?_⟩
+  refine ⟨(P : Matrix _ _ ℂ).submatrix e id, ?_⟩
+  rw [wa_cT_conj_eq] at hP
+  have hJ : J = (J.reindex e e).submatrix e e := by
+    ext i j; simp
+  rw [hJ, conjTranspose_submatrix, submatrix_mul_equiv, submatrix_mul_equiv]
+  simpa using hP
 
 theorem wa_sig_quad {p q : ℕ} (J : Matrix n n ℂ) (Q : Matrix n (Fin p ⊕ Fin q) ℂ)
     (hQ : Qᴴ * J * Q = Formalism.UG.Jpq p q) (x : Fin p ⊕ Fin q → ℂ) :
     star (Q *ᵥ x) ⬝ᵥ (J *ᵥ (Q *ᵥ x)) =
       (∑ i, star (x (Sum.inl i)) * x (Sum.inl i)) - ∑ j, star (x (Sum.inr j)) * x (Sum.inr j) := by
-  apply _root_.Formalism.UG.P.sig_quad <;> assumption
+  have : star (Q *ᵥ x) ⬝ᵥ (J *ᵥ (Q *ᵥ x)) = star x ⬝ᵥ ((Qᴴ * J * Q) *ᵥ x) := by
+    rw [star_mulVec, mulVec_mulVec, dotProduct_mulVec, vecMul_vecMul, ← dotProduct_mulVec,
+      Matrix.mul_assoc]
+  rw [this, hQ]
+  simp [Formalism.UG.Jpq, fromBlocks_mulVec, dotProduct, Fintype.sum_sum_type, sub_eq_add_neg, neg_mulVec]
 
 theorem wa_neg_dim {p q m : ℕ} (J : Matrix n n ℂ) (Q : Matrix n (Fin p ⊕ Fin q) ℂ)
     (hQ : Qᴴ * J * Q = Formalism.UG.Jpq p q) (hc : Fintype.card n = p + q) (V : Fin m → n → ℂ)
@@ -195,7 +165,7 @@ theorem wa_indep {m : ℕ} (u : Fin m → S.V) (hu : LinearIndependent E u) (x :
     refine Finset.sum_congr rfl (fun k _ => Finset.sum_congr rfl (fun i _ => ?_))
     ring
   rw [h3] at h0
-  simp only [key, mul_ite, mul_one, mul_zero, Finset.sum_ite_eq, Finset.mem_univ, if_true] at h0
+  simp only [key, mul_ite, mul_one, mul_zero, Finset.sum_ite_eq, Finset.mem_univ, ite_true] at h0
   simpa using h0
 
 end Emb
@@ -203,8 +173,6 @@ end Emb
 section D7
 
 open PI.BetaLUniq
-
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 
 theorem weight_space_anisotropic : WAniso := by
   intro D u' F' w hw hww

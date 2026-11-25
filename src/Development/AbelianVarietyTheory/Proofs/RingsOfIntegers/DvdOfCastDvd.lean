@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.JetHarmonics.ExistsLevelPointEqOfKilledByHalfLevelStatement
 public import Formalism.LocalToGlobal.ProjectiveLattices.IsThRule
 import Mathlib.Algebra.AffineMonoid.Basic
 import Mathlib.Algebra.Order.Floor.Extended
@@ -50,13 +49,11 @@ import Mathlib.CategoryTheory.Monoidal.Opposite.Mon
 
 @[expose] public section
 
-set_option autoImplicit false
 noncomputable section
 open AlgebraicGeometry CategoryTheory Limits MonoidalCategory CartesianMonoidalCategory MonObj NumberField IsLocalRing
 open ReciprocityTheory.ChartRestriction.G ReciprocityTheory.ChartRestriction.G.Semi ReciprocityTheory.ChartRestriction.G.Out ReciprocityTheory.ChartRestriction.G.Geo.Tor Formalism.L2.Pj Formalism.MainNotions.ModuliIntegralCharts.H1
 open ReciprocityTheory.ChartRestriction.G.Geo.Tor.Germ GlobalTheory.PtTie
 open ReciprocityTheory.ChartRestriction.G.TB (dAct dLin)
-attribute [local instance] Over.cartesianMonoidalCategory
 open GlobalTheory.PlaceInt
 
 namespace GlobalTheory.TorsFac
@@ -65,7 +62,15 @@ variable {E : Type} [Field E] [NumberField E] [IsCMField E] {H : Host E}
 
 theorem act_nat {S : Scheme.{0}} (t : SAB H S) {T : Over S} (x : T ⟶ t.G) (n : ℕ) :
     x ≫ t.act.act (n : 𝓞 E) = x ^ n := by
-  apply _root_.GlobalTheory.LevelPoints.comp_act_natCast <;> assumption
+  have h0 : t.act.act 0 = 1 := by
+    have h := t.act.add 0 0
+    rw [add_zero] at h
+    have h2 := congrArg (fun f => (t.act.act 0)⁻¹ * f) h
+    simp only [inv_mul_cancel, inv_mul_cancel_left] at h2
+    exact h2.symm
+  induction n with
+  | zero => rw [Nat.cast_zero, pow_zero, h0, MonObj.comp_one]
+  | succ n ih => rw [Nat.cast_succ, t.act.add, MonObj.comp_mul, ih, t.act.one, Category.comp_id, pow_succ]
 
 theorem act_pow {S : Scheme.{0}} (t : SAB H S) {T : Over S} (x : T ⟶ t.G) (b : 𝓞 E) (n : ℕ) :
     (x ≫ t.act.act b) ^ n = x ≫ t.act.act (b * n) := by

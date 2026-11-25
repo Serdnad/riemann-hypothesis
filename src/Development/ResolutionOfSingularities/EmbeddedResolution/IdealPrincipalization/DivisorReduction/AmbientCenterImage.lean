@@ -1,47 +1,8 @@
 module
 
-import all Development.ResolutionOfSingularities.EmbeddedResolution.IdealPrincipalization.MarkedBlowupSequence.Prepend
 public import Development.ResolutionOfSingularities.EmbeddedResolution.IdealPrincipalization.DivisorReduction.AmbientBlowupSequence
 public import Development.ResolutionOfSingularities.EmbeddedResolution.IdealPrincipalization.DivisorReduction.ControlledTransformBasic
 import Development.ResolutionOfSingularities.EmbeddedResolution.IdealPrincipalization.DivisorReduction.ControlledTransformRestriction
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
 
 @[expose] public section
 
@@ -54,7 +15,6 @@ namespace FunctorialResolution.EmbeddedResolution
 theorem support_imageIdealSheaf_eq_image_support {S X : Scheme.{u}} (ι : S ⟶ X)
     [AlgebraicGeometry.IsClosedImmersion ι] (Z : S.IdealSheafData) :
     (↑(_root_.FunctorialResolution.Blowup.schemeImageIdeal ι Z).support : Set ↥X) = ⇑ι '' (↑Z.support : Set ↥S) := by
-  have hqc : AlgebraicGeometry.QuasiCompact (Z.subschemeι ≫ ι) := inferInstance
   have hcl := AlgebraicGeometry.Scheme.Hom.isClosedEmbedding ι
   have hrange : Set.range ⇑Z.subschemeι = (↑Z.support : Set ↥S) :=
     AlgebraicGeometry.Scheme.IdealSheafData.range_subschemeι Z
@@ -89,7 +49,6 @@ theorem smooth_imageIdealSheaf_subschemeι_comp {S X B : Scheme.{u}} (ι : S ⟶
     [AlgebraicGeometry.IsClosedImmersion ι] (Z : S.IdealSheafData) (f : X ⟶ B)
     (h : AlgebraicGeometry.Smooth (Z.subschemeι ≫ ι ≫ f)) :
     AlgebraicGeometry.Smooth ((_root_.FunctorialResolution.Blowup.schemeImageIdeal ι Z).subschemeι ≫ f) := by
-  have : AlgebraicGeometry.IsClosedImmersion (Z.subschemeι ≫ ι) := inferInstance
   obtain ⟨e, he⟩ := exists_iso_ker_subscheme (Z.subschemeι ≫ ι)
   rw [_root_.FunctorialResolution.EmbeddedResolution.imageIdealSheaf_eq_ker ι Z]
   refine smooth_of_smooth_iso_hom_comp e _ ?_
@@ -106,7 +65,28 @@ theorem projectionToBase_prepend_zero {X : Scheme.{u}} (Z : X.IdealSheafData)
 theorem projectionToBase_prepend_succ {X : Scheme.{u}} (Z : X.IdealSheafData)
     (hZ : Blowup.IsBlowupAlongIdealSheaf (CategoryStruct.id X) Z) (d : BlowupSequenceData X) (t : ℕ) :
     (BlowupSequenceData.prepend Z hZ d).projectionToBase (t + 1) = d.projectionToBase t := by
-  apply _root_.FunctorialResolution.EmbeddedResolution.SequenceOfBlowupsPullback.prepend_projectionToBase_succ <;> assumption
+  induction t with
+  | zero =>
+    have e1 : (BlowupSequenceData.prepend Z hZ d).projectionToBase (0 + 1)
+        = (BlowupSequenceData.prepend Z hZ d).map 0 ≫ (BlowupSequenceData.prepend Z hZ d).projectionToBase 0 :=
+      BlowupSequenceData.projectionToBase_succ (BlowupSequenceData.prepend Z hZ d) 0
+    have e2 : (BlowupSequenceData.prepend Z hZ d).projectionToBase 0 = (BlowupSequenceData.prepend Z hZ d).isoZero.hom :=
+      BlowupSequenceData.projectionToBase_zero (BlowupSequenceData.prepend Z hZ d)
+    have e3 : (BlowupSequenceData.prepend Z hZ d).isoZero = Iso.refl X :=
+      BlowupSequenceData.prepend_isoObjZero Z hZ d
+    have e4 : (BlowupSequenceData.prepend Z hZ d).map 0 = d.isoZero.hom :=
+      BlowupSequenceData.prepend_blowupMorphism_zero Z hZ d
+    have e5 : d.projectionToBase 0 = d.isoZero.hom := BlowupSequenceData.projectionToBase_zero d
+    rw [e1, e2, e3, e4, e5]
+    exact Category.comp_id _
+  | succ n ih =>
+    have e1 : (BlowupSequenceData.prepend Z hZ d).projectionToBase (n + 1 + 1)
+        = (BlowupSequenceData.prepend Z hZ d).map (n + 1) ≫ (BlowupSequenceData.prepend Z hZ d).projectionToBase (n + 1) :=
+      BlowupSequenceData.projectionToBase_succ (BlowupSequenceData.prepend Z hZ d) (n + 1)
+    have e2 : (BlowupSequenceData.prepend Z hZ d).map (n + 1) = d.map n :=
+      BlowupSequenceData.prepend_blowupMorphism_succ Z hZ d n
+    rw [e1, e2, ih]
+    exact (BlowupSequenceData.projectionToBase_succ d n).symm
 
 theorem controlledTransform_prepend_succ {X : Scheme.{u}} (Z : X.IdealSheafData)
     (hZ : Blowup.IsBlowupAlongIdealSheaf (CategoryStruct.id X) Z) (d : BlowupSequenceData X)

@@ -1,56 +1,12 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.ExistsTraceZeroAdjustmentOfHermitianLattice
 public import Mathlib.Algebra.Module.Lattice.Full
 public import Mathlib.NumberTheory.NumberField.Basic
 public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.OmAtSmulRight
 public import Formalism.LocalToGlobal.BesselHermitianTheta.LemmasWeil
 import Development.WeilBound.ThetaLifts.Reductions.WeilPairs.RowsStackRight
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
 import Mathlib.RingTheory.SimpleRing.Principal
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Topology.Sheaves.Init
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
 import Std.Tactic.BVDecide.Normalize.Prop
 
 -- This file was produced by scripts/clump.py from the modules listed below.
@@ -65,7 +21,17 @@ namespace GlobalTheory.NatMulIntegralNsmul
 
 theorem exists_nat_mul_integral {E : Type} [Field E] [NumberField E] (a : E) :
     ∃ M : ℕ, 0 < M ∧ IsIntegral ℤ ((M : E) * a) := by
-  first | exact _root_.GlobalTheory.IntegralMultipleClearDenominators.exists_nat_mul_integral | exact @_root_.GlobalTheory.IntegralMultipleClearDenominators.exists_nat_mul_integral | apply _root_.GlobalTheory.IntegralMultipleClearDenominators.exists_nat_mul_integral <;> assumption
+  have halg : IsAlgebraic ℤ a :=
+    (IsFractionRing.isAlgebraic_iff ℤ ℚ E).2 (Algebra.IsAlgebraic.isAlgebraic a)
+  obtain ⟨y, hy, hint⟩ := halg.exists_integral_multiple
+  refine ⟨y.natAbs, Int.natAbs_pos.2 hy, ?_⟩
+  rw [zsmul_eq_mul] at hint
+  have hc : ((y.natAbs : ℕ) : E) = ((y.natAbs : ℤ) : E) := (Int.cast_natCast _).symm
+  rcases Int.natAbs_eq y with h | h
+  · rw [hc, ← h]; exact hint
+  · have h2 : (y.natAbs : ℤ) = -y := by omega
+    rw [hc, h2, Int.cast_neg, neg_mul]
+    exact hint.neg
 
 theorem exists_nsmul_mem {E : Type} [inst : Field E] [NumberField E] {n : ℕ}
     (Λ : Submodule (NumberField.RingOfIntegers E) (Fin n → E)) (h : Submodule.IsFullLattice E Λ)
@@ -84,7 +50,6 @@ section -- clump:auto
 
 open Formalism.BasicNotions Formalism.BasicNotions.TH Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes Formalism.MainNotions.StandardLattice Formalism.L2.Theta Formalism.IndefR.Datum MeasureTheory IsDedekindDomain NumberField Matrix
 open scoped TensorProduct
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 open GlobalTheory.FockCompare GlobalTheory.VacUnique
 
 namespace GlobalTheory.VacUnique.Den
@@ -103,8 +68,7 @@ theorem AA_ne_zero (D : D7) : D.host.AA ≠ 0 := by
 theorem exists_nsmul_finRat_mem : ∀ (D : D7) (S T : HSp D) (ΛS : Submodule (𝓞 D.host.E) (Fin S.rank → D.host.E)) (ΛT : Submodule (𝓞 D.host.E) (Fin T.rank → D.host.E)), Submodule.IsFullLattice D.host.E ΛS → Submodule.IsFullLattice D.host.E ΛT → ∀ γ : Matrix (Fin T.rank) (Fin S.rank) D.host.E, ∃ N : ℕ, 0 < N ∧ N • finRat S T γ ∈ (latO S T (ΛS : Set (Fin S.rank → D.host.E)) (ΛT : Set (Fin T.rank → D.host.E)) fun _ => True) := by
   intro D S T ΛS ΛT hS hT γ
   obtain ⟨a, ha, ha0⟩ : ∃ a ∈ D.host.AA, a ≠ 0 := by
-    by_contra hc
-    push_neg at hc
+    by_contra! hc
     exact AA_ne_zero D (FractionalIdeal.eq_zero_iff.2 hc)
   rw [Matrix.matrix_eq_sum_single γ]
   simp_rw [← Finset.sum_product']

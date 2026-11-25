@@ -1,57 +1,13 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.PartialZetaDenominatorsCMFieldOfSiegelKlingenDel
 public import Development.AutomorphicSpectrum.Definitions.MetricPeriods.MetricsProjectionFormulaNef
 public import GroundTheory.HeightsAndTheta.Heights.Intersections.ProjLineRankTwoPushforwardHypotheses
 public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LogResolutionPotentialPullback
 public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LogResolutionReindexed
 import Development.AutomorphicSpectrum.Proofs.GeometryProofs.MemAbLocusIff
 public import Development.AutomorphicSpectrum.Proofs.MetricProofs.LogResolutionFunctorialHolomorphic
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Algebra.Order.Star.Int
-import Mathlib.Algebra.Ring.IsFormallyReal
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.RingTheory.RegularLocalRing.Defs
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.HaveILetI
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
 import Std.Tactic.BVDecide.Normalize.Prop
 public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.IsSmoothHermTrivLine
 
@@ -293,6 +249,22 @@ end Pull
 
 theorem sum_padicValNat_log {S : Finset ℕ} (hS : ∀ p ∈ S, p.Prime) {n : ℕ} (hn : 0 < n) :
     ∑ p ∈ S, (padicValNat p n : ℝ) * Real.log p ≤ Real.log n := by
-  apply _root_.GlobalTheory.ceSum_val_le <;> assumption
+  have hd : ∏ p ∈ S, p ^ padicValNat p n ∣ n := Finset.prod_dvd_of_isRelPrime
+    (fun p hp q hq hpq =>
+      (Nat.coprime_iff_isRelPrime.1 ((Nat.coprime_primes (hS p hp) (hS q hq)).2 hpq)).pow)
+    fun p _ => _root_.Dvd.intro_left _ (_root_.Nat.divMaxPow_mul_pow_padicValNat p n)
+  have hle : ((∏ p ∈ S, p ^ padicValNat p n : ℕ) : ℝ) ≤ n := by
+    exact_mod_cast Nat.le_of_dvd hn hd
+  have hpos : ∀ p ∈ S, ((p : ℝ) ^ padicValNat p n) ≠ 0 := fun p hp =>
+    pow_ne_zero _ (Nat.cast_ne_zero.2 (hS p hp).ne_zero)
+  calc ∑ p ∈ S, (padicValNat p n : ℝ) * Real.log p
+      = Real.log (∏ p ∈ S, ((p : ℝ) ^ padicValNat p n)) := by
+        rw [Real.log_prod hpos]
+        simp [Real.log_pow]
+    _ ≤ Real.log n := by
+        apply Real.log_le_log
+        · exact Finset.prod_pos fun p hp => pow_pos (Nat.cast_pos.2 (hS p hp).pos) _
+        · push_cast at hle
+          exact hle
 
 end RootFieldNumerics.Ref

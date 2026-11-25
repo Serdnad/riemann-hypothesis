@@ -1,6 +1,5 @@
 module
 
-import Mathlib.FieldTheory.Minpoly.ConjRootClass
 public import Development.AutomorphicArithmetic.CyclotomicBounds.ClassNumberBounds.InertiaRamification.LogRootDiscChar
 public import Mathlib.Data.Nat.GCD.Prime
 public import Mathlib.Algebra.AffineMonoid.Basic
@@ -12,57 +11,13 @@ public import Mathlib.NumberTheory.NumberField.Norm
 public import Development.AutomorphicArithmetic.CyclotomicBounds.ClassNumberBounds.InertiaRamification.FieldDefs
 public import Mathlib.NumberTheory.NumberField.Discriminant.Basic
 public import Development.AutomorphicArithmetic.CyclotomicBounds.ClassNumberBounds.InertiaRamification.CycInertia
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Lemma
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Topology.Sheaves.Init
 import Mathlib.NumberTheory.MulChar.Duality
 import Mathlib.RingTheory.SimpleRing.Principal
 import Mathlib.Tactic.TypeStar
 import Std.Tactic.BVDecide.Normalize.Prop
 import Mathlib.RingTheory.Henselian
 import Mathlib.RingTheory.RegularLocalRing.Defs
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.NumberTheory.DirichletCharacter.Basic
 import Mathlib.Algebra.Order.Star.Rat
 import Mathlib.RingTheory.RootsOfUnity.AlgebraicallyClosed
@@ -284,19 +239,27 @@ private theorem minpoly_map_eq_prod_gal {F L : Type*} [Field F] [Field L] [Algeb
     [FiniteDimensional F L] [IsGalois F L] (x : L) (hx : Algebra.adjoin F {x} = ⊤) :
     (minpoly F x).map (algebraMap F L) = ∏ σ : Gal(L/F), (X - C (σ x)) := by
   classical
-  let c := ConjRootClass.mk F x
-  have hcarrier : c.carrier.toFinset =
-      Finset.univ.image (fun σ : Gal(L/F) => σ x) := by
-    ext y
-    simp [c, ConjRootClass.mem_carrier, ConjRootClass.mk_eq_mk,
-      isConjRoot_iff_exists_algEquiv]
-  rw [← ConjRootClass.minpoly_mk, ConjRootClass.minpoly.map_eq_prod, hcarrier]
-  apply Finset.prod_image
-  intro σ _ τ _ h
-  apply AlgEquiv.coe_toAlgHom_injective
-  apply AlgHom.ext_of_adjoin_eq_top hx
-  rintro y rfl
-  exact h
+  have hint : IsIntegral F x := Algebra.IsIntegral.isIntegral x
+  have hinj : Function.Injective (fun σ : Gal(L/F) => σ x) := by
+    intro σ τ h
+    apply AlgEquiv.coe_toAlgHom_injective
+    apply AlgHom.ext_of_adjoin_eq_top hx
+    rintro y rfl
+    exact h
+  have hm : (∏ σ : Gal(L/F), (X - C (σ x))).Monic :=
+    monic_prod_of_monic _ _ fun σ _ => monic_X_sub_C _
+  have hdvd : (∏ σ : Gal(L/F), (X - C (σ x))) ∣ (minpoly F x).map (algebraMap F L) := by
+    apply Finset.prod_dvd_of_coprime
+    · intro σ _ τ _ hne
+      exact pairwise_coprime_X_sub_C hinj hne
+    · intro σ _
+      rw [dvd_iff_isRoot, IsRoot.def, eval_map_algebraMap, aeval_algEquiv]
+      simp
+  refine eq_of_monic_of_dvd_of_natDegree_le hm ((minpoly.monic hint).map _) hdvd ?_
+  rw [natDegree_map, natDegree_prod_of_monic _ _ (fun σ _ => monic_X_sub_C _)]
+  simp only [natDegree_X_sub_C, Finset.sum_const, Finset.card_univ, smul_eq_mul, mul_one]
+  rw [← Nat.card_eq_fintype_card, IsGalois.card_aut_eq_finrank]
+  exact minpoly.natDegree_le x
 
 open Polynomial Classical in
 private theorem aeval_derivative_minpoly_eq_prod_gal {F L : Type*} [Field F] [Field L]
@@ -587,8 +550,8 @@ theorem avgCondExp_annihilator (H : Subgroup (ZMod N)ˣ) :
       intro t ht
       have := filt_mem_ann l (Finset.mem_range.mp ht).le ψ
       by_cases h : t < condExp l ψ
-      · rw [if_neg (by rw [this]; omega), if_pos h, sub_zero]
-      · rw [if_pos (by rw [this]; omega), if_neg h, sub_self]
+      · rw [ite_eq_right (by rw [this]; omega), ite_eq_left h, sub_zero]
+      · rw [ite_eq_left (by rw [this]; omega), ite_eq_right h, sub_self]
     rw [Finset.sum_congr rfl h1, Finset.sum_boole]
     have : (Finset.range (N.factorization l)).filter (fun t => t < condExp l ψ) =
         Finset.range (condExp l ψ) := by
@@ -746,11 +709,11 @@ theorem padicValNat_absNorm_one_sub {K : Type*} [Field K] [NumberField K] (l : �
       by_cases hpl : p = l
       · subst hpl
         rw [Nat.padicValNat_def, Nat.Prime.multiplicity_self, rootWeight,
-          if_pos ⟨hne, j + 1, rfl⟩]
+          ite_eq_left ⟨hne, j + 1, rfl⟩]
         have ht : ((p ^ (j + 1)).totient : ℚ) ≠ 0 := by
           exact_mod_cast (Nat.totient_pos.mpr (by positivity)).ne'
         rw [Nat.cast_one, mul_one_div, div_self ht]
-      · rw [Nat.padicValNat_def, multiplicity_primes (Ne.symm hpl), rootWeight, if_neg]
+      · rw [Nat.padicValNat_def, multiplicity_primes (Ne.symm hpl), rootWeight, ite_eq_right]
         · simp
         · rintro ⟨-, s, hs⟩
           apply hpl
@@ -768,7 +731,7 @@ theorem padicValNat_absNorm_one_sub {K : Type*} [Field K] [NumberField K] (l : �
         · rw [pow_zero] at hj
           omega
         · exact hpp ⟨p, j, hp, hj.symm⟩
-      rw [h1, rootWeight, if_neg]
+      rw [h1, rootWeight, ite_eq_right]
       · simp [_root_.Nat.padicValNat_def (n := 1)]
       · rintro ⟨-, s, hs⟩
         rcases s with _ | s

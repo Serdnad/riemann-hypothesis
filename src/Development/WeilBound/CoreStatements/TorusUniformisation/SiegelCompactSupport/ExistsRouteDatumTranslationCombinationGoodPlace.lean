@@ -1,11 +1,7 @@
 module
 
-import Development.WeilBound.ThetaLifts.FrameEstimates.ContinuousMixedSymm
-import Development.WeilBound.ThetaLifts.FrameEstimates.IsCompactIntV
-import Development.WeilBound.ThetaLifts.LatticeBasics.IsCompactIntV
 import Development.AutomorphicSpectrum.Proofs.MembershipProofs.DenseHasCompactSupport
 import Development.WeilBound.CoreStatements.GaussianSeminormBounds.RealSeminormFiltration.RLLieD
-import Mathlib.Analysis.Distribution.SchwartzSpace.CompactSupport
 public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.WeilTensorModels
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.FinPartIdemMulMemIff
 public import Development.AbelianVarietyTheory.Definitions.Divisors.ExistsGivenStageEqOne
@@ -14,60 +10,14 @@ public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsLocallyCon
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.LocalComponentsNontrivialAdelicCharacter
 import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.LcscAdelicUnitaryGroup
 import Formalism.LocalRingCardinality.SpanPowerMembership.LocAtA
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Calculus.BumpFunction.FiniteDimension
 public import Mathlib.Analysis.Calculus.ContDiff.Bounds
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.Geometry.Manifold.ContMDiff.NormedSpace
-import Mathlib.LinearAlgebra.Matrix.FiniteDimensional
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.PiTensorProduct
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.HaveILetI
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
 public import Mathlib.Topology.MetricSpace.ProperSpace.Lemmas
-import Mathlib.Topology.Sheaves.Init
-import Mathlib.Topology.UniformSpace.Uniformizable
 import Std.Tactic.BVDecide.Normalize.Prop
 public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.UnitaryConjugation
 public import Mathlib.Analysis.Calculus.BumpFunction.Basic
 public import Mathlib.Analysis.Calculus.ContDiff.Convolution
-import Mathlib.Topology.Connected.Separation
-import Mathlib.Topology.MetricSpace.Ultra.TotallySeparated
 public import Development.WeilBound.ThetaLifts.TowerModels.PlaneReal
 
 @[expose] public section
@@ -100,12 +50,6 @@ include h𝓕 hS hν
 def ch (B : V →L[ℝ] T →L[ℝ] ℝ) (l : V) (t : T) : ℂ := Complex.exp (2 * Real.pi * Complex.I * (B l t : ℝ))
 
 end Torus
-
-section Cube
-
-variable {ι : Type} [Fintype ι]
-
-end Cube
 
 end PositivityTheory.Member.ZakTransform.Z
 end
@@ -239,17 +183,6 @@ namespace S
 section Real
 open Complex
 open scoped Real ContDiff
-
-theorem zero_of_ball (n : ℕ) (T : SchwartzMap (Fin n → ℝ) ℂ →L[ℂ] ℂ)
-    (hχ : ∀ (i : Fin n) (f g : SchwartzMap (Fin n → ℝ) ℂ), (∀ x, g x = cexp (2 * π * I * x i) * f x) → T g = T f)
-    (f : SchwartzMap (Fin n → ℝ) ℂ) (hf : tsupport (f : (Fin n → ℝ) → ℂ) ⊆ Metric.ball 0 1) (h0 : f 0 = 0) : T f = 0 :=
-  PositivityTheory.RL.Delta.zero_of_ball n T hχ f hf h0
-
-theorem eq_delta (n : ℕ) (T : SchwartzMap (Fin n → ℝ) ℂ →L[ℂ] ℂ)
-    (hχ : ∀ (t : ℝ) (i : Fin n) (f g : SchwartzMap (Fin n → ℝ) ℂ),
-      (∀ x, g x = cexp (2 * π * I * (t * x i : ℝ)) * f x) → T g = T f) :
-    ∃ a : ℂ, ∀ f : SchwartzMap (Fin n → ℝ) ℂ, T f = a * f 0 :=
-  PositivityTheory.RL.Delta.eq_delta n T hχ
 
 theorem eq_delta' {V : Type} [NormedAddCommGroup V] [NormedSpace ℝ V] [FiniteDimensional ℝ V]
     (T : SchwartzMap V ℂ →L[ℂ] ℂ)
@@ -399,8 +332,6 @@ open GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels (pure tens SInf ev
 open GlobalTheory.EmbChart (atPlace atPlace_mul_right evFin_atPlace)
 open scoped GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels TensorProduct
 
-attribute [local instance] GlobalTheory.LocalData.complRel GlobalTheory.LocalData.isLocalField
-
 noncomputable section
 namespace PositivityTheory.Member.ZakTransform
 
@@ -450,8 +381,30 @@ theorem stdF_mem (u : HeightOneSpectrum (𝓞 F)) : stdF κ u ∈ SB (κ → Fv 
 theorem good_std : Good (stdF (F := F) κ) := ⟨stdF_mem, .of_forall fun _ => rfl⟩
 
 theorem isCompact_box (C : ∀ u : HeightOneSpectrum (𝓞 F), Set (Fv F u)) (hC : ∀ u, IsCompact (C u))
-    (h : ∀ᶠ u in cofinite, C u ⊆ u.adicCompletionIntegers F) : IsCompact {a : Af F | ∀ u, evalV F u a ∈ C u} :=
-  _root_.PositivityTheory.ThKEst.FiniteAdelicSupportCompactness.isCompact_box C hC h
+    (h : ∀ᶠ u in cofinite, C u ⊆ u.adicCompletionIntegers F) : IsCompact {a : Af F | ∀ u, evalV F u a ∈ C u} := by
+  let S : Set (HeightOneSpectrum (𝓞 F)) := {u | C u ⊆ u.adicCompletionIntegers F}
+  have hS : cofinite ≤ 𝓟 S := le_principal_iff.2 h
+  let P := RestrictedProduct (fun u : HeightOneSpectrum (𝓞 F) => u.adicCompletion F)
+      (fun u => (u.adicCompletionIntegers F : Set (u.adicCompletion F))) (𝓟 S)
+  have h1 : IsCompact {x : P | ∀ u, x u ∈ C u} := by
+    rw [RestrictedProduct.isEmbedding_coe_of_principal.isCompact_iff]
+    convert isCompact_univ_pi hC
+    ext x
+    constructor
+    · rintro ⟨y, hy, rfl⟩ u -
+      exact hy u
+    · intro hx
+      exact ⟨⟨x, fun u hu => hu (hx u trivial)⟩, fun u => hx u trivial, rfl⟩
+  have h2 := h1.image (RestrictedProduct.continuous_inclusion hS)
+  have e : {a : Af F | ∀ u, evalV F u a ∈ C u} = RestrictedProduct.inclusion _ _ hS '' {x : P | ∀ u, x u ∈ C u} := by
+    ext a
+    constructor
+    · intro ha
+      exact ⟨⟨a.1, fun u hu => hu (ha u)⟩, ha, rfl⟩
+    · rintro ⟨y, hy, rfl⟩
+      exact hy
+  rw [e]
+  exact h2
 
 theorem pf_eq_prod {φ : ∀ u : HeightOneSpectrum (𝓞 F), (κ → Fv F u) → ℂ} (S : Finset (HeightOneSpectrum (𝓞 F)))
     (y : κ → Af F) (h : ∀ u ∉ S, φ u = stdF κ u ∧ ∀ i, evalV F u (y i) ∈ u.adicCompletionIntegers F) :
@@ -470,8 +423,36 @@ theorem exists_fin {φ : ∀ u : HeightOneSpectrum (𝓞 F), (κ → Fv F u) →
     by_contra hn
     exact hu (Set.Finite.mem_toFinset _ |>.2 hn)⟩
 
-theorem pf_mem {φ : ∀ u : HeightOneSpectrum (𝓞 F), (κ → Fv F u) → ℂ} (hφ : Good φ) : pf φ ∈ SB (κ → Af F) :=
-  _root_.PositivityTheory.ThKEst.FiniteAdelicSupportCompactness.pf_mem hφ
+theorem pf_mem {φ : ∀ u : HeightOneSpectrum (𝓞 F), (κ → Fv F u) → ℂ} (hφ : Good φ) : pf φ ∈ SB (κ → Af F) := by
+  have hc : ∀ u, Continuous fun (y : κ → Af F) i => evalV F u (y i) := fun u =>
+    continuous_pi fun i => (cont_evalV u).comp (continuous_apply i)
+  constructor
+  · rw [IsLocallyConstant.iff_eventually_eq]
+    intro x
+    obtain ⟨S, hS⟩ := exists_fin hφ.2 x
+    have h1 : ∀ᶠ y in 𝓝 x, ∀ i v, evalV F v (y i - x i) ∈ v.adicCompletionIntegers F :=
+      eventually_all.2 fun i => (isOpen_intAf.preimage (f := fun y : κ → Af F => y i - x i) (by fun_prop)).mem_nhds
+        (by intro v; simp)
+    have h2 : ∀ᶠ y in 𝓝 x, ∀ u ∈ S, φ u (fun i => evalV F u (y i)) = φ u fun i => evalV F u (x i) :=
+      (eventually_all_finset S).2 fun u _ => ((hφ.1 u).1.comp_continuous (hc u)).eventually_eq x
+    filter_upwards [h1, h2] with y h1 h2
+    rw [pf_eq_prod S x hS, pf_eq_prod S y fun u hu => ⟨(hS u hu).1, fun i => ?_⟩]
+    · exact Finset.prod_congr rfl h2
+    · have := add_mem (h1 i u) ((hS u hu).2 i)
+      rwa [map_sub, sub_add_cancel] at this
+  · have hK : ∀ i : κ, IsCompact {a : Af F | ∀ u, evalV F u a ∈ (fun x => x i) '' tsupport (φ u)} := fun i =>
+      isCompact_box _ (fun u => (hφ.1 u).2.isCompact.image (continuous_apply i)) (by
+        filter_upwards [hφ.2] with u hu
+        rintro _ ⟨x, hx, rfl⟩
+        rw [hu] at hx
+        exact closure_minimal Set.support_indicator_subset (isCompact_intV u).isClosed hx i)
+    refine HasCompactSupport.intro (isCompact_univ_pi hK) fun y hy => ?_
+    by_contra h0
+    refine hy fun i _ u => ⟨fun i => evalV F u (y i), subset_tsupport _ (fun h => h0 ?_), rfl⟩
+    obtain ⟨S, hS⟩ := exists_fin hφ.2 y
+    classical
+    rw [pf_eq_prod (insert u S) y fun v hv => hS v fun h => hv (Finset.mem_insert_of_mem h)]
+    exact Finset.prod_eq_zero (Finset.mem_insert_self _ _) h
 
 theorem pure_mem (f : SInf F κ) {φ : ∀ u : HeightOneSpectrum (𝓞 F), (κ → Fv F u) → ℂ} (hφ : Good φ) :
     pure f φ ∈ schA F κ := Submodule.subset_span ⟨f, pf φ, pf_mem hφ, rfl⟩
@@ -505,12 +486,79 @@ def box (K : ∀ u : HeightOneSpectrum (𝓞 F), OpenAddSubgroup (κ → Fv F u)
       (Set.Finite.isOpen_biInter h fun u _ => (K u).isOpen.preimage
         (continuous_pi fun i => (cont_evalV u).comp (continuous_apply i)))
 
-theorem exists_box {W : Set (κ → Af F)} (hW : W ∈ 𝓝 0) : ∃ K h h', ((box (F := F) (κ := κ) K h h' : OpenAddSubgroup (κ → Af F)) : Set (κ → Af F)) ⊆ W :=
-  _root_.GlobalTheory.ThK.Dbl.Dense.exists_box hW
+theorem exists_box {W : Set (κ → Af F)} (hW : W ∈ 𝓝 0) : ∃ K h h', ((box (F := F) (κ := κ) K h h' : OpenAddSubgroup (κ → Af F)) : Set (κ → Af F)) ⊆ W := by
+  classical
+  let j : (∀ u : HeightOneSpectrum (𝓞 F), intV κ u) → κ → Af F := fun x i =>
+    RestrictedProduct.structureMap (fun u : HeightOneSpectrum (𝓞 F) => u.adicCompletion F)
+      (fun u => (u.adicCompletionIntegers F : Set (u.adicCompletion F))) cofinite fun u => ⟨(x u).1 i, (x u).2 i⟩
+  have hj : Continuous j := continuous_pi fun i => RestrictedProduct.isEmbedding_structureMap.continuous.comp
+    (continuous_pi fun u => Continuous.subtype_mk (f := fun x : ∀ u, intV κ u => (x u).1 i) ((continuous_apply i).comp
+      ((continuous_subtype_val (p := fun x => x ∈ intV κ u)).comp (continuous_apply (A := fun u => intV κ u) u))) _)
+  have h0 : j ⁻¹' W ∈ 𝓝 0 := hj.continuousAt.preimage_mem_nhds (by convert hW; rfl)
+  rw [nhds_pi, Filter.mem_pi] at h0
+  obtain ⟨I, hI, t, ht, hs⟩ := h0
+  have : ∀ u, ∃ K : OpenAddSubgroup (κ → Fv F u), ∀ x : intV κ u, x.1 ∈ K → x ∈ t u := fun u => by
+    have := ht u
+    rw [nhds_subtype, mem_comap] at this
+    obtain ⟨s, hs, hst⟩ := this
+    obtain ⟨K, hK⟩ := (nonarch_pi (Fv F u) κ).is_nonarchimedean s hs
+    exact ⟨K, fun x hx => hst (hK hx)⟩
+  choose K hK using this
+  refine ⟨fun u => if u ∈ I then K u ⊓ intV κ u else intV κ u, ?_, fun u => ?_, fun y hy => ?_⟩
+  · filter_upwards [hI.compl_mem_cofinite] with u hu using ite_eq_right hu
+  · simp only
+    split_ifs
+    · exact inf_le_right
+    · exact le_rfl
+  · have h1 : ∀ u, (fun i => evalV F u (y i)) ∈ intV κ u := fun u => by
+      have := hy u
+      simp only at this
+      split_ifs at this
+      · exact this.2
+      · exact this
+    refine hs (a := fun u => ⟨_, h1 u⟩) fun u hu => hK u _ ?_
+    have := hy u
+    simp only [ite_eq_left hu] at this
+    exact this.1
 
 theorem mem_span_pf {g : (κ → Af F) → ℂ} (hg : g ∈ SB (κ → Af F)) :
-    g ∈ Submodule.span ℂ {h | ∃ φ, Good φ ∧ h = pf φ} :=
-  _root_.GlobalTheory.ThK.Dbl.Dense.mem_span_pf hg
+    g ∈ Submodule.span ℂ {h | ∃ φ, Good φ ∧ h = pf φ} := by
+  haveI : NonarchimedeanAddGroup (κ → Af F) := ⟨fun W hW => by
+    obtain ⟨K, h, h', hs⟩ := exists_box hW
+    exact ⟨_, hs⟩⟩
+  obtain ⟨K₀, hK₀⟩ := GlobalTheory.WeilM.HaarUniq.exists_invariant hg
+  obtain ⟨K, h, h', hs⟩ := exists_box K₀.mem_nhds_zero
+  obtain ⟨S, hS⟩ := GlobalTheory.WeilM.HaarUniq.exists_decomp (box K h h') hg.2 fun k hk => hK₀ k (hs hk)
+  rw [hS]
+  refine Submodule.sum_mem _ fun q _ => Submodule.smul_mem _ _ (Submodule.subset_span ?_)
+  generalize q.out = a
+  have hG : Good fun u x => Set.indicator (K u : Set (κ → Fv F u)) (fun _ => (1 : ℂ)) (x + -fun i => evalV F u (a i)) := by
+    constructor
+    · intro u
+      have := GlobalTheory.WeilM.HaarUniq.indicator_mem (K u) ((isCompact_intV u).of_isClosed_subset (K u).isClosed (h' u))
+      exact ⟨this.1.comp_continuous (continuous_add_const _), this.2.comp_homeomorph (Homeomorph.addRight _)⟩
+    · filter_upwards [h, ev_int a] with u hu ha
+      funext x
+      rw [hu]
+      have ha' : (-fun i => evalV F u (a i)) ∈ intV κ u := neg_mem (show _ ∈ intV κ u from ha)
+      by_cases hx : x ∈ intV κ u
+      · rw [Set.indicator_of_mem (add_mem hx ha'), stdF, Set.indicator_of_mem (by exact hx)]; rfl
+      · rw [Set.indicator_of_notMem (by rwa [SetLike.mem_coe, add_mem_cancel_right ha']), stdF,
+          Set.indicator_of_notMem (by exact hx)]
+  refine ⟨_, hG, funext fun y => ?_⟩
+  have e : ∀ u, ((fun i => evalV F u (y i)) + -fun i => evalV F u (a i)) = fun i => evalV F u ((y + -a) i) := fun u => by
+    funext i; simp
+  by_cases hy : y + -a ∈ box K h h'
+  · rw [Set.indicator_of_mem (by exact hy), pf, eq_comm]
+    refine finprod_eq_one_of_forall_eq_one fun u => ?_
+    rw [e, Set.indicator_of_mem (by exact hy u)]
+  · rw [Set.indicator_of_notMem (by exact hy)]
+    obtain ⟨u, hu⟩ := not_forall.1 hy
+    obtain ⟨S, hS⟩ := exists_fin hG.2 y
+    classical
+    rw [pf_eq_prod (insert u S) y fun v hv => hS v fun h => hv (Finset.mem_insert_of_mem h), eq_comm]
+    refine Finset.prod_eq_zero (Finset.mem_insert_self _ _) ?_
+    rw [e, Set.indicator_of_notMem (by exact hu)]
 
 theorem pureA_add (f : (κ → mixedEmbedding.mixedSpace F) → ℂ) (g h : (κ → Af F) → ℂ) :
     pureA F f (g + h) = pureA F f g + pureA F f h := funext fun _ => mul_add _ _ _
@@ -599,13 +647,42 @@ theorem lift_tens (S : Module.End ℂ ((κ → Fv F v) → ℂ)) (φ : (κ → F
 open Classical in
 theorem pure_update (f : SInf F κ) {φ : ∀ u : HeightOneSpectrum (𝓞 F), (κ → Fv F u) → ℂ}
     (hφ : ∀ᶠ u in cofinite, φ u = stdF κ u) (φ' : (κ → Fv F v) → ℂ) :
-    pure f (Function.update φ v φ') = tens (evFin F v) φ' (pure f (Function.update φ v 1)) :=
-  _root_.PositivityTheory.ThKEst.W.pure_update f hφ φ'
+    pure f (Function.update φ v φ') = tens (evFin F v) φ' (pure f (Function.update φ v 1)) := by
+  funext x
+  obtain ⟨S, hS⟩ := exists_fin hφ fun i => sndA F (x i)
+  have key : ∀ φ'' : (κ → Fv F v) → ℂ, pf (Function.update φ v φ'') (fun i => sndA F (x i)) =
+      φ'' (fun i => evFin F v (x i)) * ∏ u ∈ S.erase v, φ u fun i => evFin F u (x i) := fun φ'' => by
+    rw [pf_eq_prod (insert v (S.erase v)) _ fun u hu => ?_, Finset.prod_insert (Finset.notMem_erase _ _),
+      Function.update_self]
+    · congr 1
+      refine Finset.prod_congr rfl fun u hu => ?_
+      rw [Function.update_of_ne (Finset.ne_of_mem_erase hu)]
+      rfl
+    · have h1 : u ≠ v := fun e => hu (e ▸ Finset.mem_insert_self _ _)
+      rw [Function.update_of_ne h1]
+      exact hS u fun h => hu (Finset.mem_insert_of_mem (Finset.mem_erase.2 ⟨h1, h⟩))
+  show f _ * pf _ (fun i => sndA F (x i)) = φ' _ * (f _ * pf _ (fun i => sndA F (x i)))
+  rw [key, key, Pi.one_apply]
+  ring
 
 open Classical in
 theorem indep_pure (f : SInf F κ) (φ : ∀ u : HeightOneSpectrum (𝓞 F), (κ → Fv F u) → ℂ) :
-    Indep v (pure f (Function.update φ v 1)) :=
-  _root_.PositivityTheory.ThKEst.W.indep_pure f φ
+    Indep v (pure f (Function.update φ v 1)) := by
+  intro x t
+  unfold GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.pure
+  congr 1
+  · congr 1
+    funext i
+    show _ = evI F (x i)
+    unfold evI
+    congr 1
+    exact add_zero _
+  · refine finprod_congr fun u => ?_
+    by_cases h : u = v
+    · subst h; simp
+    · refine congrArg _ (funext fun i => ?_)
+      rw [Pi.add_apply, map_add (f := _)]
+      exact add_eq_left.2 (evalV_singleFin_ne h _)
 
 open Classical in
 theorem Good.update {φ : ∀ u : HeightOneSpectrum (𝓞 F), (κ → Fv F u) → ℂ} (hφ : Good φ) {φ' : (κ → Fv F v) → ℂ}
@@ -696,8 +773,27 @@ def offP (w : (κ → AF F) × (κ → AF F)) : (κ → AF F) × (κ → AF F) :
 
 theorem schr_tens (ψ : AddChar (AF F) ℂ) (w : (κ → AF F) × (κ → AF F)) (φ : (κ → Fv F v) → ℂ) {r : (κ → AF F) → ℂ}
     (h : Indep v r) : schr ψ w (tens (evFin F v) φ r) =
-      tens (evFin F v) (schr (psv v ψ) (evP v w) φ) (schr ψ (offP v w) r) :=
-  _root_.PositivityTheory.ThKEst.W.schr_tens ψ w φ h
+      tens (evFin F v) (schr (psv v ψ) (evP v w) φ) (schr ψ (offP v w) r) := by
+  funext x
+  have e1 : r (x + w.1) = r (x + (offP v w).1) := by
+    rw [← h (x + (offP v w).1) fun i => evFin F v (w.1 i)]
+    congr 1
+    ext i
+    simp only [Pi.add_apply, offP, add_assoc, off_add_at]
+  have e2 : ψ (x ⬝ᵥ w.2 + ⅟(2 : AF F) * (w.1 ⬝ᵥ w.2)) =
+      psv v ψ ((fun i => evFin F v (x i)) ⬝ᵥ (evP v w).2 + ⅟(2 : Fv F v) * ((evP v w).1 ⬝ᵥ (evP v w).2)) *
+      ψ (x ⬝ᵥ (offP v w).2 + ⅟(2 : AF F) * ((offP v w).1 ⬝ᵥ (offP v w).2)) := by
+    rw [psv_apply, ← AddChar.map_add_eq_mul, ← off_add_at v (x ⬝ᵥ w.2 + _), add_comm (off v _)]
+    congr 2
+    · rw [map_add (f := _), map_mul, ev_dot, ev_dot]; rfl
+    · rw [off_add, off_mul, off_dot, ← off_off v (w.1 ⬝ᵥ w.2), off_dot v w.1 w.2, dotProduct_comm w.1, off_dot,
+        dotProduct_comm (fun i => off v (w.2 i))]
+      rfl
+  simp only [schr, tens]
+  rw [e1, e2]
+  simp only [Pi.add_apply, map_add (f := _)]
+  show _ = _ * φ (fun i => evFin F v (x i) + evFin F v (w.1 i)) * _
+  ring
 
 theorem Indep.schr (ψ : AddChar (AF F) ℂ) (w : (κ → AF F) × (κ → AF F)) {r : (κ → AF F) → ℂ}
     (h : Indep v r) : Indep v (schr ψ (offP v w) r) := by
@@ -879,8 +975,29 @@ def coB (σ : E →ₐ[F] E) (X : Spc F E n) (W : Spc F E d) (t : E →ₐ[F] Fv
 theorem ev_symp (h : IsCMExt F E σ) (t : E →ₐ[F] Fv F v) (hX : ∀ i j, σ (X.J j i) = X.J i j)
     (hW : ∀ i j, σ (W.J j i) = -W.J i j) (w w' : Matrix (Fin n) (Fin d) (AE F E)) :
     evFin F v (symp (R := AF F) (cA σ) (-1) (incM F X.J) (incM F W.J) w w') =
-      trace (coB σ X W t w * (-w'.map (piW t))ᵀ) - trace (coB σ X W t w' * (-w.map (piW t))ᵀ) :=
-  _root_.PositivityTheory.ThKEst.W.ev_symp h t hX hW w w'
+      trace (coB σ X W t w * (-w'.map (piW t))ᵀ) - trace (coB σ X W t w' * (-w.map (piW t))ᵀ) := by
+  have a : ∀ t : E →ₐ[F] Fv F v, piW t (hTens (cA σ) (incM F X.J) (incM F W.J) w w') =
+      trace ((w.map (piW t))ᵀ * X.J.map t * w'.map (piW (t.comp σ)) * (W.J.map t)ᵀ) := fun t => by
+    rw [hTens_tr, AddMonoidHom.map_trace (piW t), Matrix.map_mul, Matrix.map_mul, Matrix.map_mul, transpose_map, transpose_map,
+      incM_piW, incM_piW, map_cA_piW]
+  have b1 : X.J.map (t.comp σ) = (X.J.map t)ᵀ := Matrix.ext fun i j => congrArg t (hX j i)
+  have b2 : (W.J.map (t.comp σ))ᵀ = -W.J.map t := Matrix.ext fun i j => (congrArg t (hW i j)).trans (map_neg t _)
+  rw [symp, ev_trace h t, map_mul, map_mul, a, a, comp_conj_conj h, b1, b2, coB, coB]
+  generalize w.map (piW t) = A
+  generalize w'.map (piW t) = A'
+  generalize w.map (piW (t.comp σ)) = B
+  generalize w'.map (piW (t.comp σ)) = B'
+  generalize X.J.map t = P
+  generalize W.J.map t = Q
+  have c1 : trace (P * B * Qᵀ * A'ᵀ) = trace (Bᵀ * Pᵀ * A' * Q) := by
+    rw [← trace_transpose, transpose_mul, transpose_mul, transpose_mul, transpose_transpose, transpose_transpose,
+      ← Matrix.mul_assoc, trace_mul_comm]
+    simp only [Matrix.mul_assoc]
+  have c2 : trace (P * B' * Qᵀ * Aᵀ) = trace (Aᵀ * P * B' * Qᵀ) := by
+    rw [trace_mul_comm]
+    simp only [Matrix.mul_assoc]
+  simp only [transpose_neg, Matrix.neg_mul, Matrix.mul_neg, neg_neg, c1, c2, map_neg, map_one, trace_neg]
+  ring
 
 end Split
 
@@ -946,26 +1063,6 @@ theorem evalPoints_add {κ : Type} (w w' : (κ → AF F) × (κ → AF F)) : evP
 
 end PartB
 
-section PartA
-open Formalism.BasicNotions Formalism.BasicNotions.TH Formalism.L2.Theta Formalism.IndefR.Datum Formalism.IndefR.Links Formalism.MainNotions.StandardLattice GlobalTheory.ChiGrid GlobalTheory.FunObj
-open GlobalTheory.IndefiniteRowSideFullHecke.UnitaryConjugation (skewGram mulG colV adjV₁ incM boxB IsDatumB)
-open Formalism.IndefR.Datum.Brg (GG GI cA_inc GG_herm GI_GG)
-open scoped ContDiff
-
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
-
-variable {D : D7}
-
-end PartA
-
-section Datum
-open Formalism.BasicNotions Formalism.BasicNotions.TH Formalism.L2.Theta Formalism.IndefR.Datum Formalism.IndefR.Links Formalism.MainNotions.StandardLattice GlobalTheory.ChiGrid GlobalTheory.FunObj GlobalTheory.StdFrames
-open GlobalTheory.IndefiniteRowSideFullHecke.UnitaryConjugation (boxB IsDatumB)
-
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
-
-end Datum
-
 end PositivityTheory.Member.ZakTransform
 end
 end
@@ -974,5 +1071,3 @@ open Formalism.BasicNotions Formalism.BasicNotions.TH Formalism.MainNotions.Glob
 open IsDedekindDomain NumberField MeasureTheory Matrix
 open scoped TensorProduct
 open GlobalTheory.FunObj GlobalTheory.ChiGrid GlobalTheory.SplitFlip GlobalTheory.SplitWeil GlobalTheory.StdFrames Formalism.L2.DIV
-
-attribute [local instance] Formalism.BasicNotions.Host.cmStar GlobalTheory.LocalData.complRel GlobalTheory.LocalData.isLocalField borelKw borelSpaceKw

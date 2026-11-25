@@ -1,6 +1,5 @@
 module
 
-import Development.ResolutionOfSingularities.EmbeddedResolution.EtaleCoordinates.StrictNormalCrossingsOpenImmersion
 public import Development.ResolutionOfSingularities.EmbeddedResolution.StrictTransformIsolation.VanishingIdealAssignment
 public import Development.ResolutionOfSingularities.EmbeddedResolution.DerivativeIdeal.CoordinateIdealOrderOne
 public import Development.ResolutionOfSingularities.EmbeddedResolution.DerivativeIdeal.OrderPullback
@@ -8,46 +7,7 @@ public import Development.ResolutionOfSingularities.EmbeddedResolution.EtaleCoor
 public import Development.ResolutionOfSingularities.EmbeddedResolution.StrictTransformCharts.CoordinateSubstitution
 import Development.ResolutionOfSingularities.Foundations.Schemes.AffineOpens
 import Development.ResolutionOfSingularities.Foundations.Schemes.IdealSheafData
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.AlgebraicGeometry.Modules.Sheaf
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
 
 @[expose] public section
 
@@ -109,7 +69,6 @@ private theorem radical_ker_eq_of_isReduced {A B : Scheme.{u}} (g : A ⟶ B)
   intro y hy
   obtain ⟨n, hn⟩ := hy
   refine (key y).2 ?_
-  have : _root_.IsReduced Γ(A, g ⁻¹ᵁ (V : B.Opens)) := inferInstance
   refine IsNilpotent.eq_zero ⟨n, ?_⟩
   rw [← map_pow]
   exact (key _).1 hn
@@ -147,8 +106,6 @@ private theorem comap_vanishingIdeal_subschemeι {X : Scheme.{u}} (H : X.IdealSh
   have : IsIso (Limits.pullback.snd H.subschemeι
       (Scheme.IdealSheafData.vanishingIdeal Z).subschemeι) :=
     isIso_pullback_snd_of_le H _ hHJ
-  have : AlgebraicGeometry.IsOpenImmersion (Limits.pullback.snd H.subschemeι
-      (Scheme.IdealSheafData.vanishingIdeal Z).subschemeι) := inferInstance
   have : AlgebraicGeometry.IsReduced (Limits.pullback H.subschemeι
       (Scheme.IdealSheafData.vanishingIdeal Z).subschemeι) :=
     AlgebraicGeometry.isReduced_of_isOpenImmersion (Limits.pullback.snd H.subschemeι
@@ -235,7 +192,19 @@ theorem comap_vanishingIdeal_of_isOpenImmersion {X Y : Scheme.{u}} (f : X ⟶ Y)
     (hS : (S : Set ↥X) = f.base ⁻¹' (T : Set ↥Y)) :
     (Scheme.IdealSheafData.vanishingIdeal T).comap f =
       Scheme.IdealSheafData.vanishingIdeal S := by
-  apply _root_.FunctorialResolution.EmbeddedResolution.comap_vanishingIdeal_of_isOpenImmersion_of_coe_eq <;> assumption
+  have hrad := radical_comap_eq_of_isOpenImmersion f
+    (Scheme.IdealSheafData.vanishingIdeal T) (radical_vanishingIdeal_eq_self T)
+  have hsupp : ((Scheme.IdealSheafData.vanishingIdeal T).comap f).support = S := by
+    apply SetLike.coe_injective
+    rw [Scheme.IdealSheafData.support_comap]
+    show ⇑f ⁻¹' ((Scheme.IdealSheafData.vanishingIdeal T).support : Set ↥Y) = (S : Set ↥X)
+    rw [support_vanishingIdeal_eq_self, hS]
+  calc (Scheme.IdealSheafData.vanishingIdeal T).comap f
+      = ((Scheme.IdealSheafData.vanishingIdeal T).comap f).radical := hrad.symm
+    _ = Scheme.IdealSheafData.vanishingIdeal
+          (((Scheme.IdealSheafData.vanishingIdeal T).comap f).support) :=
+        Scheme.IdealSheafData.vanishingIdeal_support.symm
+    _ = Scheme.IdealSheafData.vanishingIdeal S := by rw [hsupp]
 
 theorem agreeNearVanishingComapSubscheme : AgreeNearVanishingComapSubscheme.{u} := by
   intro W N U H T S x hS hTsubH hN
@@ -273,7 +242,6 @@ theorem smooth_comap_subschemeι_of_isOpenImmersion {X Y S : Scheme.{u}} (f : X 
     [AlgebraicGeometry.IsOpenImmersion f] (I : Y.IdealSheafData) (g : Y ⟶ S)
     (hsm : AlgebraicGeometry.Smooth (I.subschemeι ≫ g)) :
     AlgebraicGeometry.Smooth ((I.comap f).subschemeι ≫ f ≫ g) := by
-  have : AlgebraicGeometry.Smooth (Limits.pullback.snd f I.subschemeι) := inferInstance
   exact smooth_comap_subschemeι_comp_of_smooth_pullback_snd f I g hsm inferInstance
 
 theorem smooth_vanishingIdeal_comap_subschemeι {k : Type u} [Field k] {W : Scheme.{u}}

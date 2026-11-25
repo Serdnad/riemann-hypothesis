@@ -7,54 +7,7 @@ public import Mathlib.Analysis.Normed.Algebra.MatrixExponential
 public import Formalism.RealPlaceAnalysis.FinalF
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.MeasureDecomposition.InstDecomp
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.MeasureDecomposition.AdaptedBasisInstance
-import all Formalism.PeriodIntegrals.UnitaryGroupMassFormula.MeasureDecomposition.AdaptedBasisInstance
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Topology.Sheaves.Init
-import Mathlib.RingTheory.SimpleRing.Principal
-import Mathlib.RingTheory.Etale.Weakly
-import Mathlib.RingTheory.Finiteness.ModuleFinitePresentation
-import Mathlib.RingTheory.TotallySplit
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.Polynomial.Basic
 import Std.Tactic.BVDecide.Normalize.Prop
 
 -- This file was produced by scripts/clump.py from the modules listed below.
@@ -190,7 +143,18 @@ theorem inst_exp_real_entry (l : ℝ) (y : ℂ) :
 private theorem exists_unitary_diagonal_of_isHermitian {n : ℕ} (X : Matrix (Fin n) (Fin n) ℂ) (hX : X.IsHermitian) :
     ∃ (U : Matrix (Fin n) (Fin n) ℂ) (d : Fin n → ℝ), star U * U = 1 ∧ U * star U = 1 ∧
       X = U * diagonal (fun i => (d i : ℂ)) * star U := by
-  apply _root_.PI.ScMuExists.UnitaryGroupMassFormula.exists_unitary_diagonal_of_isHermitian <;> assumption
+  have h1 : star (hX.eigenvectorUnitary : Matrix (Fin n) (Fin n) ℂ) *
+      (hX.eigenvectorUnitary : Matrix (Fin n) (Fin n) ℂ) = 1 := by
+    first
+      | exact hX.eigenvectorUnitary.2.1
+  have h2 : (hX.eigenvectorUnitary : Matrix (Fin n) (Fin n) ℂ) *
+      star (hX.eigenvectorUnitary : Matrix (Fin n) (Fin n) ℂ) = 1 := by
+    first
+      | exact hX.eigenvectorUnitary.2.2
+  refine ⟨hX.eigenvectorUnitary, hX.eigenvalues, h1, h2, ?_⟩
+  first
+    | (conv_lhs => rw [hX.spectral_theorem]); simp [Function.comp_def]
+    | (conv_lhs => rw [hX.spectral_theorem]); simp [Function.comp_def, Unitary.conjStarAlgAut_apply]
 
 theorem exponent_fixed_instance : InstExpFix := by
   intro n X hX w
@@ -408,7 +372,7 @@ theorem placeDecomp_of (hE : InstExpFix) (hAB : InstAdaptBasis) : InstPlaceDecom
     by_cases hr : r ∈ T
     · rw [hrow r hr c]
       by_cases hrc : c = r
-      · subst hrc; simp only [hr, if_true]; split_ifs <;> norm_num
+      · subst hrc; simp only [hr, ite_true]; split_ifs <;> norm_num
       · simp [hrc]
     · by_cases hc : c ∈ T
       · rw [hcol c hc r]

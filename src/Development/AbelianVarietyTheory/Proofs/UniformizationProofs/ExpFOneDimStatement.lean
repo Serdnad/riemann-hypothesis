@@ -47,7 +47,6 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.FiniteExponentBaseChangeField
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.Proofs.UniformizationProofs.ExpFOneDim, Development.AbelianVarietyTheory.Proofs.UniformizationProofs.ExpFOneDimStatement
@@ -60,7 +59,6 @@ section -- clump:auto
 open CategoryTheory CategoryTheory.Limits MonoidalCategory CartesianMonoidalCategory MonObj AlgebraicGeometry
 open ReciprocityTheory.ChartRestriction.G ReciprocityTheory.ChartRestriction.G.Semi ReciprocityTheory.ChartRestriction.G.Out ReciprocityTheory.ChartRestriction.G.Geo.Tor
 open scoped CategoryTheory.Obj
-attribute [local instance] Over.cartesianMonoidalCategory
 open GlobalTheory.UU
 noncomputable section
 namespace GlobalTheory.UU.OneDim
@@ -68,7 +66,7 @@ namespace GlobalTheory.UU.OneDim
 theorem gs_zero {X Y : Scheme.{0}} (f : Y ⟶ X) (y : Y) (U : X.Opens) : gs f y U 0 = 0 := by
   by_cases h : f y ∈ U
   · rw [gs_eq f y U h, map_zero, map_zero]
-  · exact dif_neg h
+  · exact dite_eq_right h
 
 def zeroSec {Y : Scheme.{0}} (M : LB Y) : LB.Sec M :=
   ⟨fun _ => 0, fun i j => by rw [map_zero, map_zero, mul_zero]⟩
@@ -89,7 +87,19 @@ theorem expF_zero (U : PreU I D A G) (F : Type) [Field F] [Algebra (FractionRing
 
 theorem appTop_injective (F : Type) [Field F] [Algebra (FractionRing R) F] :
     Function.Injective (toUnit (TF (R := R) F)).left.appTop.hom := by
-  apply _root_.GlobalTheory.UU.FEDesc.toUnit_injective <;> assumption
+  have e₂ : (toUnit (TF (R := R) F)).left =
+      Spec.map (CommRingCat.ofHom ((algebraMap (FractionRing R) F).comp (algebraMap R (FractionRing R)))) := by
+    have a := Over.w (toUnit (TF (R := R) F))
+    exact ((Category.comp_id _).symm.trans a).trans (Spec.map_comp _ _).symm
+  rw [e₂]
+  have n := Scheme.ΓSpecIso_naturality
+    (CommRingCat.ofHom ((algebraMap (FractionRing R) F).comp (algebraMap R (FractionRing R))))
+  have i : Function.Injective ((Scheme.ΓSpecIso (CommRingCat.of R)).hom ≫
+      CommRingCat.ofHom ((algebraMap (FractionRing R) F).comp (algebraMap R (FractionRing R)))).hom :=
+    ((algebraMap (FractionRing R) F).injective.comp (IsFractionRing.injective R (FractionRing R))).comp
+      (Scheme.ΓSpecIso (CommRingCat.of R)).commRingCatIsoToRingEquiv.injective
+  rw [← n] at i
+  exact Function.Injective.of_comp (f := (Scheme.ΓSpecIso (CommRingCat.of F)).hom.hom) i
 
 theorem eq_zero_of_pullG (U : PreU I D A G) (F : Type) [Field F] [Algebra (FractionRing R) F] (k : ℕ)
     (σ : U.SecGT (𝟙_ _) k) (t : LB.Sec (LPow A.A A.L (k : ℤ) (TFK (R := R) F)))
@@ -168,7 +178,6 @@ section -- clump:auto
 open CategoryTheory CategoryTheory.Limits MonoidalCategory CartesianMonoidalCategory MonObj AlgebraicGeometry
 open ReciprocityTheory.ChartRestriction.G ReciprocityTheory.ChartRestriction.G.Semi ReciprocityTheory.ChartRestriction.G.Out ReciprocityTheory.ChartRestriction.G.Geo.Tor
 open scoped CategoryTheory.Obj
-attribute [local instance] Over.cartesianMonoidalCategory
 open GlobalTheory.UU
 
 end -- clump:auto

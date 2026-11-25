@@ -220,7 +220,6 @@ end GiVal
 section Local
 
 open Formalism.MainNotions.S NumberField IsDedekindDomain IsDedekindDomain.HeightOneSpectrum Formalism.BasicNotions Formalism.L2.SG.HidaSetting
-open scoped TensorProduct
 
 variable (I : AutInst)
 
@@ -312,7 +311,6 @@ end Local
 section Red
 
 open Formalism.MainNotions.S NumberField IsDedekindDomain IsDedekindDomain.HeightOneSpectrum Formalism.BasicNotions Formalism.L2.SG.HidaSetting
-open scoped TensorProduct
 
 variable (I : AutInst) (v : HeightOneSpectrum (𝓞 I.F))
 
@@ -450,7 +448,6 @@ namespace TypedLoc
 section Key
 
 open Formalism.MainNotions.S NumberField IsDedekindDomain IsDedekindDomain.HeightOneSpectrum Formalism.BasicNotions Formalism.L2.SG.HidaSetting
-open scoped TensorProduct
 
 variable (I : AutInst)
 
@@ -533,7 +530,7 @@ theorem trV_nondeg (z : I.E ⊗[I.F] v.adicCompletion I.F)
       have := LinearMap.BilinForm.apply_dualBasis_left hB b j i
       rw [tForm_apply, mul_comm] at this
       exact this
-    simp only [e, ite_smul, one_smul, zero_smul, Finset.sum_ite_eq, Finset.mem_univ, if_true] at h1
+    simp only [e, ite_smul, one_smul, zero_smul, Finset.sum_ite_eq, Finset.mem_univ, ite_true] at h1
     exact h1
   simp [ha]
 
@@ -546,7 +543,6 @@ namespace TypedLoc
 section Lat
 
 open Formalism.MainNotions.S NumberField IsDedekindDomain IsDedekindDomain.HeightOneSpectrum Formalism.BasicNotions Formalism.L2.SG.HidaSetting
-open scoped TensorProduct
 
 variable (I : AutInst)
 
@@ -608,7 +604,6 @@ namespace TypedLoc
 section Key2
 
 open Formalism.MainNotions.S NumberField IsDedekindDomain IsDedekindDomain.HeightOneSpectrum Formalism.BasicNotions Formalism.L2.SG.HidaSetting
-open scoped TensorProduct
 
 variable {D : D7} (X : Formalism.L2.SG.HidaSetting.HidaSetting D) (v : HeightOneSpectrum (𝓞 X.B.I.F))
 
@@ -740,7 +735,6 @@ end TypedLoc
 section Finals
 
 open Formalism.MainNotions.S NumberField IsDedekindDomain IsDedekindDomain.HeightOneSpectrum Formalism.BasicNotions Formalism.L2.SG.HidaSetting TypedLoc
-open scoped TensorProduct
 
 variable {D : D7} (X : Formalism.L2.SG.HidaSetting.HidaSetting D)
 

@@ -1,6 +1,5 @@
 module
 
-import GroundTheory.HeightsAndTheta.Heights.WeightedHomogeneous.Assembly
 public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.StLinearNoetherNormalization
 public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.Assembly
 import Mathlib.Algebra.MvPolynomial.Funext
@@ -23,8 +22,8 @@ noncomputable section
 
 theorem LinearNoetherNormalization.ringKrullDim_quotient_le {R : Type*} [CommRing R] (J : Ideal R)
     (k : WithBot ℕ∞) (h : ∀ W ∈ J.minimalPrimes, ringKrullDim (R ⧸ W) ≤ k) :
-    ringKrullDim (R ⧸ J) ≤ k := by
-  apply _root_.GroundTheory.Heights₂.Heights.ringKrullDim_quotient_le_of_minimalPrimes <;> assumption
+    ringKrullDim (R ⧸ J) ≤ k :=
+  by apply _root_.GroundTheory.Heights₂.Heights.ComplexSets.quotient_dim_le_of_minimalPrimes; assumption
 
 theorem LinearNoetherNormalization.exists_nat_of_le {x : WithBot ℕ∞} {d : ℕ} (h0 : 0 ≤ x)
     (hd : x ≤ d) : ∃ e : ℕ, e ≤ d ∧ x = e := by

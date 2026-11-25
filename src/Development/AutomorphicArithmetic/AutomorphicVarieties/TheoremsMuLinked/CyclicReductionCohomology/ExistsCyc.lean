@@ -169,7 +169,6 @@ section -- clump:auto
 
 open IsLocalRing Matrix Filter NumberField IsDedekindDomain Formalism.ConjugateSelfDual ReciprocityTheory.Gal UpperTheory.V.Alg UpperTheory.V.W UpperTheory.V.Pa UpperTheory.V.HV UpperTheory.V.Th GlobalTheory.GalOfCusp
 
-
 private theorem red_mul' {O : Type} [CommRing O] [IsLocalRing O] {n : ℕ} (m : ℕ) (A B : Matrix (Fin n) (Fin n) O) :
     red m (A * B) = red m A * red m B := Matrix.map_mul
 
@@ -193,7 +192,7 @@ theorem UpperTheory.V.Th.h0qO :
         map_add' := fun a b => by simp [add_mulVec]
         map_smul' := fun c a => by simp [smul_mulVec] }
     have hf : Function.Injective f := by
-      set_option backward.isDefEq.respectTransparency.instanceSearchTypes false in rw [injective_iff_map_eq_zero]
+      rw [injective_iff_map_eq_zero]
       intro Y e
       apply Subtype.ext
       refine hv Y.1 ?_ e

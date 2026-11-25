@@ -175,14 +175,6 @@ open NumberField IsDedekindDomain MeasureTheory Formalism.BasicNotions Formalism
 open GlobalTheory.VolTransport GlobalTheory.IndefiniteRowSideFullHecke.SignatureLatticeIndependence
 open scoped TensorProduct Matrix ENNReal
 
-theorem isFundamentalDomain_map {G H : Type} [Group G] [Group H] [MeasurableSpace G] [MeasurableSpace H]
-    (φ : G ≃* H) (hc : Measurable φ) (hc' : Measurable φ.symm) (Γ : Subgroup G) (Γ' : Subgroup H)
-    (hQ : ∀ g, g ∈ Γ ↔ φ g ∈ Γ') (μ : Measure G) (𝓕 : Set G) :
-    IsFundamentalDomain Γ 𝓕 μ ↔ IsFundamentalDomain Γ' (φ '' 𝓕) (μ.map φ) := by
-  first | exact _root_.GlobalTheory.VolIndepCompare.isFundamentalDomain_iff_image | exact @_root_.GlobalTheory.VolIndepCompare.isFundamentalDomain_iff_image | apply _root_.GlobalTheory.VolIndepCompare.isFundamentalDomain_iff_image <;> assumption
-
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
-
 variable {D : D7}
 
 theorem isoPair_of_isometry (V V' : HSp D) (e : V.V ≃ₗ[D.host.E] V'.V)
@@ -249,7 +241,7 @@ theorem isometryTransport (D : D7) : IsometryTransport D := by
     have := conjA_rat h.symm _ hg
     rwa [← conjA_symm h, MulEquiv.symm_apply_apply] at this⟩
   refine ⟨⟨conjA h, c1, c2⟩, fun g => ?_, hQ, fun μ => ⟨isVolMeas_map V V' h l1 l2 P Q μ, fun hμ => ?_⟩,
-    fun μ _ 𝓕 => isFundamentalDomain_map (conjA h) c1.measurable c2.measurable (GQ V) (GQ V') hQ μ 𝓕⟩
+    fun μ _ 𝓕 => GlobalTheory.VolIndepCompare.isFundamentalDomain_iff_image (conjA h) c1.measurable c2.measurable (GQ V) (GQ V') hQ μ 𝓕⟩
   · have e1 := conjA_mat h g
     have e2 := h.adelic.2.1
     unfold Intertwines pointMatrix baseChange frameMatrix

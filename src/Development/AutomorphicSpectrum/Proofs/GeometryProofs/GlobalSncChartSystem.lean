@@ -57,61 +57,11 @@ public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LatticeTenso
 public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LieLatticeStableUnderAction
 public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ProjectiveModelOverBase
 public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.SncModelBoundaryCoords
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Etale.Weakly
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.RingTheory.RegularLocalRing.Defs
-import Mathlib.RingTheory.SimpleRing.Principal
-import Mathlib.RingTheory.TotallySplit
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.SemiabelianSchemes.CubicalStructures.CubeSymmetricSwapFirst
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.Order.CompletePartialOrder
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
 import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.FrameDefinitions.PermFinTwoUniv
 import Development.AutomorphicSpectrum.Proofs.GeometryProofs.DominatesOfCoordsRegular
-import Mathlib.AlgebraicGeometry.Morphisms.Proper
 import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ExistsProperIntegralModel
-import Mathlib.AlgebraicGeometry.Noetherian
 import Development.AutomorphicSpectrum.Proofs.GeometryProofs.GenericFibreProjectiveEmbedding
 import Development.AutomorphicSpectrum.Proofs.GeometryProofs.GenericPointGenericFibre
 import Development.AutomorphicSpectrum.Proofs.GeometryProofs.GenericPointLiftAlongIso
@@ -119,16 +69,13 @@ import Development.AutomorphicSpectrum.Proofs.GeometryProofs.GenericPointMemDens
 import Development.AutomorphicSpectrum.Proofs.GeometryProofs.HodgeCptInteriorGeneric
 import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LabelEmbeddingInjective
 import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.LieModel
-import Mathlib.NumberTheory.NumberField.Discriminant.Defs
 import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LatticeEigenVectorBundle
 import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LatticeGlueOverPrimes
 import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.EigLat
-import Mathlib.AlgebraicGeometry.Morphisms.Smooth
 import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LieOmegaLatticeVectorBundle
 import Development.AutomorphicSpectrum.Proofs.GeometryProofs.NormalCptIffNormalScheme
 import Development.AutomorphicSpectrum.Proofs.GeometryProofs.NotInFibreOfIsUnit
 import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ProjectiveOverCoordsExist
-import Mathlib.AlgebraicGeometry.Properties
 import Development.AutomorphicSpectrum.Proofs.GeometryProofs.RegAtNoetherianModelNoetherian
 import Development.AutomorphicSpectrum.Proofs.GeometryProofs.RegularRingDeterminesComponent
 import Development.AutomorphicSpectrum.Proofs.GeometryProofs.RegularRingsEqualImagesEqual
@@ -343,13 +290,13 @@ variable {Li : Type} [AddCommGroup Li] [Module Ω Li] {I : Type} [Fintype I] {r 
 
 theorem deltaLat_off {q : Cpt ξ} (hq : ¬ InFibre ξ p q) :
     deltaLat ξ r V W p q = Submodule.span (regAt ξ q) {1} := by
-  simp only [deltaLat, if_neg hq]
+  simp only [deltaLat, ite_eq_right hq]
 
 theorem deltaLat_fibre {q : Cpt ξ} (hq : InFibre ξ p q) {b b' : ∀ i, Fin (r i) → Li}
     {T : ∀ i, Matrix (Fin (r i)) (Fin (r i)) Ω} (hb : ∀ i, (V i).IsFrameAt (b i) q)
     (hb' : ∀ i, (W i).IsFrameAt (b' i) q) (hT : ∀ i k, b' i k = ∑ k', T i k' k • b i k') :
     deltaLat ξ r V W p q = Submodule.span (regAt ξ q) {∏ i, (T i).det} := by
-  simp only [deltaLat, if_pos hq]
+  simp only [deltaLat, ite_eq_left hq]
   apply le_antisymm
   · refine Submodule.span_le.2 ?_
     rintro t ⟨b₂, b₂', T₂, h1, h2, h3, rfl⟩
@@ -808,11 +755,8 @@ theorem exists_patches_of_res (hRes : ResK.ResKStatement)
     (Ω : Type) [Field Ω] [CharZero Ω] (ξ₀ : Sp Ω ⟶ P) (hξ₀ : IsCptGen ξ₀) :
     ∃ (N : ℕ) (x : Fin (N + 1) → Ω) (X : Scheme.{0}) (ξ : Sp Ω ⟶ X) (f : X ⟶ P),
       (∀ q : X, genPt ξ ⤳ q) ∧ CoordTie ℤ ξ x ∧ ξ ≫ f = ξ₀ ∧
-      SncPts ξ e {p | Char0 ξ p ∧ f p.1 ∉ Ab} := by
-  obtain ⟨N, x, X, ξ, f, -, hirr, hx, hf, hpatch⟩ :=
-    _root_.GlobalTheory.CompanionTheory.Ar.SncBase.exists_coord_patches_of_res
-      hRes F P s hp hn U hd e hU Ab hAb Ω ξ₀ hξ₀
-  exact ⟨N, x, X, ξ, f, hirr, hx, hf, hpatch⟩
+      SncPts ξ e {p | Char0 ξ p ∧ f p.1 ∉ Ab} :=
+  GlobalTheory.CompanionTheory.Ar.SncBase.exists_patches_of_res hRes F P s hp hn U hd e hU Ab hAb Ω ξ₀ hξ₀
 
 theorem genPt_comp {X : Scheme.{0}} {Ω₀ Ω : Type} [Field Ω₀] [Field Ω] (φ : Ω₀ →+* Ω) (ξ : Spec (CommRingCat.of Ω₀) ⟶ X) :
     genPt (Spec.map (CommRingCat.ofHom φ) ≫ ξ) = genPt ξ := by

@@ -53,8 +53,6 @@ import Std.Tactic.BVDecide.Normalize.Prop
 public import Mathlib.NumberTheory.Bernoulli
 public import Mathlib.NumberTheory.LSeries.HurwitzZetaValues
 public import Mathlib.NumberTheory.ModularForms.Discriminant
-import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.NonzeroDiscriminants.DiscMain
-import ReciprocityTheory.ReductiveGroups.UnramifiedIntegrals.ModLatTau
 
 @[expose] public section
 
@@ -79,8 +77,7 @@ lemma tendsto_E {k : ℕ} (hk : 3 ≤ k) (hk2 : Even k) : Tendsto (E hk) atImInf
 
 lemma exists_zero (F : ModularForm 𝒮ℒ 12) (c : ℂ) (hc : c ≠ 0)
     (hF : Tendsto F atImInfty (𝓝 c)) : ∃ z, F z = 0 := by
-  by_contra hne
-  push_neg at hne
+  by_contra! hne
 
   have hD0 : Tendsto ModularForm.discriminant atImInfty (𝓝 0) := by
     have h1 := tendsto_coeff_zero (ModularFormClass.modularForm CuspForm.discriminant)
@@ -245,7 +242,17 @@ lemma G_eq (L : PeriodPair) (z : ℍ) (hz : L.ω₁ = L.ω₂ * z) {k : ℕ} (hk
     _ = _ := by rw [hE]; ring
 
 lemma zeta_six : riemannZeta 6 = (Real.pi : ℂ) ^ 6 / 945 := by
-  apply _root_.DiscrNeWork.zeta6 <;> assumption
+  have h5 : bernoulli' 5 = 0 := bernoulli'_eq_zero_of_odd (by decide) (by norm_num)
+  have h6 : bernoulli 6 = 1 / 42 := by
+    rw [bernoulli_eq_bernoulli'_of_ne_one (by norm_num), bernoulli'_def]
+    simp [Finset.sum_range_succ, bernoulli'_zero, bernoulli'_one, bernoulli'_two, bernoulli'_three,
+      bernoulli'_four, h5, Nat.choose]
+    norm_num
+  have h := riemannZeta_two_mul_nat (k := 3) (by norm_num)
+  rw [show (2 : ℂ) * ((3 : ℕ) : ℂ) = 6 by norm_num, h6] at h
+  rw [h]
+  norm_num [Nat.factorial]
+  ring
 
 lemma g_eq (L : PeriodPair) (z : ℍ) (hz : L.ω₁ = L.ω₂ * z) :
     L.g₂ = 4 / 3 * ((Real.pi * L.ω₂⁻¹) ^ 4 * E₄ z) ∧
@@ -267,7 +274,16 @@ lemma ω₂_ne_zero (L : PeriodPair) : L.ω₂ ≠ 0 := by
   simpa using L.indep.ne_zero 1
 
 lemma im_ne_zero (L : PeriodPair) : (L.ω₁ / L.ω₂).im ≠ 0 := by
-  apply _root_.ReciprocityTheory.ChartRestriction.L1.latTau_im_ne <;> assumption
+  intro h
+  have hω := ω₂_ne_zero L
+  set r := (L.ω₁ / L.ω₂).re with hr
+  have hz : L.ω₁ / L.ω₂ = (r : ℂ) := Complex.ext (by simp [hr]) (by simp [h])
+  have h1 : L.ω₁ = (r : ℂ) * L.ω₂ := by rw [← hz]; field_simp
+  have h2 := (LinearIndependent.pair_iff.1 L.indep) 1 (-r) (by
+    rw [one_smul, Complex.real_smul, h1]
+    push_cast
+    ring)
+  exact one_ne_zero h2.1
 
 def swap (L : PeriodPair) : PeriodPair where
   ω₁ := L.ω₂

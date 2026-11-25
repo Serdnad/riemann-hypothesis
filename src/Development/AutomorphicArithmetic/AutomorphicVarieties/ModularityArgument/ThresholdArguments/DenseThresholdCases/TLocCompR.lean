@@ -1,7 +1,7 @@
 module
 
-import all Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.NewformCoefficients.SatOfVec
 import PositivityTheory.AutomorphicForms.PublishedInputs.RealGaloisRepresentations.IwahoriSphericalTransfer.LocCompROfAdmissibleReal
+
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.ThresholdArguments.DenseThresholdCases.AutomorphicFormHyp
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.LocIsotypic
 import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.EquivOfISupRange
@@ -50,35 +50,7 @@ noncomputable section
 open NumberField IsDedekindDomain Formalism.L2.Host Matrix GlobalTheory.PRep GlobalTheory.CuspRep.LocEx
 open GlobalTheory.CuspRep (SmIrr Af locGL pLoc finGL)
 namespace UpperTheory.V.Af.RealLocalComponent
-section Gen
-variable {K V : Type} [Group K] [AddCommGroup V] [Module ℂ V]
-private def orb (κ : Representation ℂ K V) (x : V) : (K →₀ ℂ) →ₗ[ℂ] V := Finsupp.linearCombination ℂ fun k => κ k x
-private theorem orb_comm (κ : Representation ℂ K V) (T : Module.End ℂ V) (hT : ∀ k x, T (κ k x) = κ k (T x)) (x : V)
-    (c : K →₀ ℂ) : orb κ (T x) c = T (orb κ x c) := by
-
-  simp only [orb, Finsupp.linearCombination_apply, Finsupp.sum, map_sum, map_smul, hT]
-private theorem orb_act (κ : Representation ℂ K V) (x : V) (k : K) (c : K →₀ ℂ) :
-    orb κ x (c.mapDomain (k * ·)) = κ k (orb κ x c) := by
-  induction c using Finsupp.induction_linear with
-  | zero => simp
-  | add c c' h h' => rw [Finsupp.mapDomain_add, map_add (f := _), map_add (f := _), map_add (f := _), h, h']
-  | single a b => simp [orb]
-private def annPart (κ : Representation ℂ K V) (φ : V) : Submodule ℂ V where
-  carrier := {x | ∀ c, orb κ φ c = 0 → orb κ x c = 0}
-  add_mem' := fun {x y} hx hy c hc => by
-    have : orb κ (x + y) c = orb κ x c + orb κ y c := by
-      simp only [orb, Finsupp.linearCombination_apply, Finsupp.sum, map_add (f := _), smul_add, Finset.sum_add_distrib]
-    rw [this, hx c hc, hy c hc, add_zero]
-  zero_mem' := fun c _ => by simp [orb, Finsupp.linearCombination_apply, Finsupp.sum]
-  smul_mem' := fun a x hx c hc => by
-    have := orb_comm κ (a • (1 : Module.End ℂ V)) (fun k x => by simp) x c
-    simpa [hx c hc] using this
-private theorem exists_type (κ : Representation ℂ K V) (φ : V)
-    (hφ : FiniteDimensional ℂ (Submodule.span ℂ (Set.range fun k => κ k φ))) :
-    ∃ (d : ℕ) (ξ : K →* Matrix (Fin d) (Fin d) ℂ), ∀ x ∈ annPart κ φ, ∃ f : (Fin d → ℂ) →ₗ[ℂ] V,
-      (∀ k v, f (ξ k *ᵥ v) = κ k (f v)) ∧ x ∈ LinearMap.range f ∧ ∀ v, ∃ c, f v = orb κ x c :=
-  _root_.GlobalTheory.RealGal.LocCompRProof.exists_type κ φ hφ
-end Gen
+open GlobalTheory.RealGal.LocCompRProof (orb orb_comm orb_act annPart exists_type)
 variable {F : Type} [Field F] [NumberField F] [IsTotallyReal F] {n : ℕ}
 private theorem cpt_fin (π : TR.CuspSub F n) (k : TR.Kinf F n) (g : GL (Fin n) (Af F)) (y : π.V) :
     π.op (.cpt k) (π.finPart g y) = π.finPart g (π.op (.cpt k) y) := by
@@ -127,7 +99,48 @@ private def cptPart (π : TR.CuspSub F n) : Representation ℂ (TR.Kinf F n) π.
   sub (TR.cptRep F n) π.V fun k => π.stable (.cpt k)
 private theorem exists_comp (h : UpperTheory.V.Published.AdmissibleReal) (π : TR.CuspSub F n) (w : HeightOneSpectrum (𝓞 F)) :
     ∃ σ, π.IsLocComp w σ := by
-  apply _root_.UpperTheory.V.Af.Nf.LocalComponentIsotypic.exists_comp <;> assumption
+  obtain ⟨φ₀, hφ, h0⟩ := (Submodule.ne_bot_iff _).1 π.ne_bot
+  set φ : π.V := ⟨φ₀, hφ⟩
+  have h0' : φ ≠ 0 := fun e => h0 (congrArg Subtype.val e)
+  set L := stab π.finPart φ
+  have hL : IsOpen (L : Set (GL (Fin n) (Af F))) := _root_.UpperTheory.V.TR.CuspSub.isSmooth_finPart π _
+  obtain ⟨K, ho, hc, hK⟩ := exists_compact_open w _ hL
+  have hfd : FiniteDimensional ℂ (Submodule.span ℂ (Set.range fun k => cptPart π k φ)) := by
+    have := (π.cusp φ₀ hφ).1.kfin
+    refine FiniteDimensional.of_injective ((π.V.subtype ∘ₗ Submodule.subtype _).codRestrict
+      (Submodule.span ℂ (Set.range fun k => TR.cptRep F n k φ₀)) fun v => ?_)
+      fun v v' e => Subtype.ext (Subtype.ext (by have e' := congrArg Subtype.val e; exact e'))
+    refine Submodule.mem_comap.1 ((Submodule.span_le (p := Submodule.comap π.V.subtype _)).2 ?_ v.2)
+    rintro _ ⟨k, rfl⟩
+    exact Submodule.subset_span ⟨k, rfl⟩
+  obtain ⟨d, ξ, hξ⟩ := exists_type (cptPart π) φ hfd
+  have hcomm : ∀ g k x, π.finPart g (cptPart π k x) = cptPart π k (π.finPart g x) := fun g k x => (cpt_fin π k g x).symm
+  let U : Submodule ℂ π.V := annPart (cptPart π) φ ⊓
+    fixed π.finPart (L ⊓ (GeneralLinearGroup.map (n := Fin n) (pLoc F w)).ker)
+  obtain ⟨σ, hσ, -⟩ := exists_irred (_root_.UpperTheory.V.TR.CuspSub.isSmooth_locRep π w) ho (fun W hW e => by
+      rcases bot_or_top π w (nullPart (π.locRep w) K) (fun g x hx => nullPart_act _ K g hx)
+        (fun T hT x hx => nullPart_comm _ K T hT hx) with h2 | h2
+      · exact le_bot_iff.1 (h2 ▸ le_nullPart (_root_.UpperTheory.V.TR.CuspSub.isSmooth_locRep π w) hc W hW e)
+      · exact absurd (eq_zero_of_mem_nullPart (_root_.UpperTheory.V.TR.CuspSub.isSmooth_locRep π w) hc (mem_fix.2 hK) (h2 ▸ Submodule.mem_top)) h0')
+    U (fun g x hx => ⟨fun c hc => by
+        rw [TR.CuspSub.locRep, MonoidHom.comp_apply, orb_comm _ _ (hcomm _), hx.1 c hc, map_zero],
+      mem_fix.2 fun k hk => by rw [fin_loc π w hk.2, mem_fix.1 hx.2 k hk]⟩)
+    ((Submodule.ne_bot_iff _).2 ⟨φ, ⟨fun _ hc => hc, mem_fix.2 fun k hk => hk.1⟩, h0'⟩) (fun K' hK' => by
+      obtain ⟨W, hW, hWf⟩ := h F n π (L ⊓ (K' ⊓ L.comap (locGL F n w)).comap (GeneralLinearGroup.map (pLoc F w)))
+        (hL.inter ((hK'.inter (hL.preimage (GlobalTheory.CuspRep.CuspSub.continuous_locGL w))).preimage
+          (continuous_map_pLoc w))) d ξ
+      refine Submodule.finiteDimensional_of_le (S₂ := W) fun x hx => ?_
+      obtain ⟨f, hf, hx1, hf2⟩ := hξ x hx.1.1
+      refine hWf f hf (fun k hk v => ?_) hx1
+      have h1 := mem_fix.1 hx.1.2 _ ⟨L.mul_mem (L.inv_mem hk.2.2) hk.1, map_pLoc_inv_mul w k⟩
+      have h2 := mem_fix.1 hx.2 _ hk.2.1
+      have h3 : π.finPart k x = x := by
+        rw [← mul_inv_cancel_left (locGL F n w (GeneralLinearGroup.map (pLoc F w) k)) k, map_mul,
+          Module.End.mul_apply, h1]
+        exact h2
+      obtain ⟨c, hc⟩ := hf2 v
+      rw [hc, ← orb_comm _ _ (hcomm k), h3])
+  exact ⟨σ, hσ⟩
 end UpperTheory.V.Af.RealLocalComponent
 theorem UpperTheory.V.Af.local_comp_real_of_printed_results :
     _root_.UpperTheory.V.Af.Hypotheses' → UpperTheory.V.Af.LocCompR := fun P _ _ _ _ _ π w =>

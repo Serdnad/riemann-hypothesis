@@ -90,16 +90,6 @@ noncomputable section
 
 namespace GlobalTheory.PiCoord
 
-theorem lintegral_pi_fin {E : Type*} [MeasurableSpace E] (n : ℕ) (μ : Measure E) [SigmaFinite μ]
-    (f : Fin n → E → ℝ≥0∞) (hf : ∀ i, Measurable (f i)) :
-    ∫⁻ x : Fin n → E, ∏ i, f i (x i) ∂(Measure.pi fun _ => μ) = ∏ i, ∫⁻ t, f i t ∂μ := by
-  apply GlobalTheory.HaarPi.lintegral_pi_fin <;> assumption
-
-theorem lintegral_pi_prod {ι E : Type*} [Fintype ι] [MeasurableSpace E] (μ : Measure E) [SigmaFinite μ]
-    (f : ι → E → ℝ≥0∞) (hf : ∀ i, Measurable (f i)) :
-    ∫⁻ x : ι → E, ∏ i, f i (x i) ∂(Measure.pi fun _ => μ) = ∏ i, ∫⁻ t, f i t ∂μ := by
-  first | exact _root_.GlobalTheory.HaarPi.lintegral_pi_prod | exact @_root_.GlobalTheory.HaarPi.lintegral_pi_prod | apply _root_.GlobalTheory.HaarPi.lintegral_pi_prod <;> assumption
-
 theorem pi_withDensity {ι E : Type*} [Fintype ι] [MeasurableSpace E] (μ : Measure E) [SigmaFinite μ]
     (f : E → ℝ≥0∞) (hf : Measurable f) [SigmaFinite (μ.withDensity f)] :
     (Measure.pi fun _ : ι => μ.withDensity f) =

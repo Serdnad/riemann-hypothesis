@@ -1,57 +1,19 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IsCuspidalOfIsSupercuspidal
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.PrincipalCongruenceFixedVectorsLeSmoothVectors
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.MatrixRegular
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.PadicIsNonarchimedeanLocalField
 import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ReductionActionOnFixK1
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.IsLocallyConstantOrbit
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
 import Mathlib.Algebra.Order.Star.Real
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
 import Mathlib.NumberTheory.Padics.ProperSpace
-import Mathlib.NumberTheory.SelbergSieve
 import Mathlib.RingTheory.PiTensorProduct
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Basify
 import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.HaveILetI
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Connected.Separation
 import Mathlib.Topology.MetricSpace.Ultra.TotallySeparated
-import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
 
 @[expose] public section
@@ -65,7 +27,28 @@ open scoped Classical
 
 theorem exists_dual_frequently {M : Type} [AddCommGroup M] [Module ℂ M] (u : ℕ → M) (hu : ∀ m, u m ≠ 0) :
     ∃ l : Module.Dual ℂ M, {m | l (u m) ≠ 0}.Infinite := by
-  first | exact _root_.GlobalTheory.SuperCusp.exists_dual_infinite | exact @_root_.GlobalTheory.SuperCusp.exists_dual_infinite | apply _root_.GlobalTheory.SuperCusp.exists_dual_infinite <;> assumption
+  obtain ⟨b, hb, hs, hl⟩ := exists_linearIndependent ℂ (Set.range u)
+  by_cases hf : b.Finite
+  · let W := Submodule.span ℂ b
+    haveI : FiniteDimensional ℂ W := FiniteDimensional.span_of_finite ℂ hf
+    have hm : ∀ m, u m ∈ W := fun m => hs.ge (Submodule.subset_span ⟨m, rfl⟩)
+    let β := Module.finBasis ℂ W
+    have : ∀ m, ∃ i, β.coord i ⟨u m, hm m⟩ ≠ 0 := fun m => by
+      by_contra h
+      push Not at h
+      exact hu m (congrArg Subtype.val (β.forall_coord_eq_zero_iff.1 h))
+    choose i hi using this
+    obtain ⟨j, hj⟩ := Finite.exists_infinite_fiber i
+    obtain ⟨l, hl⟩ := LinearMap.exists_extend (β.coord j)
+    refine ⟨l, (Set.infinite_coe_iff.1 hj).mono ?_⟩
+    intro m h
+    change i m = j at h
+    have := LinearMap.congr_fun hl ⟨u m, hm m⟩
+    exact fun e => hi m (h ▸ this.symm.trans e)
+  · obtain ⟨l, hl⟩ := Module.exists_dual_forall_apply_eq_one (K := ℂ) (s := b) (v := id) hl
+    refine ⟨l, Set.Infinite.of_image u (Set.Infinite.mono (fun x hx => ?_) hf)⟩
+    obtain ⟨m, rfl⟩ := hb hx
+    exact ⟨m, by simpa using (hl _ hx).trans_ne one_ne_zero, rfl⟩
 
 variable {g : ℕ} [Fact g.Prime] {n : ℕ} {V : Type} [AddCommGroup V] [Module ℂ V]
 
@@ -278,9 +261,9 @@ theorem isCuspidal_repK {π : Representation ℂ (GL (Fin n) ℚ_[g]) V} (hπ : 
     simp only [FiniteGL.twoBlocks] at hij
     by_cases hi : (i : ℕ) < a
     · by_cases hj : (j : ℕ) < a
-      · rw [← a2, if_pos hj, mul_one, sub_self]
+      · rw [← a2, ite_eq_left hj, mul_one, sub_self]
       · simp [hi, hj] at hij
-    · rw [← a1, if_neg hi, zero_mul]
+    · rw [← a1, ite_eq_right hi, zero_mul]
   by_contra hne
   obtain ⟨l, hl⟩ := exists_dual_frequently (fun m => (twKer π (KOne g n) 1).mkQ (π (dd hP m) v)) fun m h =>
     hne (eq_zero_of_mem_twKer hπ.1 hP m v hv' ((Submodule.Quotient.mk_eq_zero _).1 h))

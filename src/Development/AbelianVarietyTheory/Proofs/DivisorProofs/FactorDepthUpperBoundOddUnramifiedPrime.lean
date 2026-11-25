@@ -1,7 +1,5 @@
 module
 
-
-import Development.AbelianVarietyTheory.Proofs.JetHarmonics.CmTypeFrobeniusOrbitsLabelAtSplitPrime
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.TwoWeightEqOneAddRoot
 public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.TypedPartSplitPrimes
 public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.ExistsCmTypeEmbeddingsIntoValuationRing
@@ -60,6 +58,7 @@ import Mathlib.Tactic.ReduceModChar
 import Development.AbelianVarietyTheory.Definitions.Divisors.EightDvdNCol
 import Development.AbelianVarietyTheory.Proofs.JetHarmonics.NonemptyClosedValuedExtensionOfCDVR
 import Std.Tactic.BVDecide.Normalize.Prop
+
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.Proofs.DivisorProofs.ConjEqNegOfSqEqNegNat, Development.AbelianVarietyTheory.Proofs.DivisorProofs.FrobeniusOrbitOfUnramifiedPrime, Development.AbelianVarietyTheory.Proofs.DivisorProofs.FactorDepthUpperBoundOddUnramifiedPrime
 
@@ -67,8 +66,6 @@ import Std.Tactic.BVDecide.Normalize.Prop
 -- clump-header: {"m": "Development.AbelianVarietyTheory.Proofs.DivisorProofs.ConjEqNegOfSqEqNegNat", "h": "module\n\nimport Development.AutomorphicSpectrum.Proofs.GeometryProofs.GoodPointOrConjugate\npublic import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.TwoWeightEqOneAddRoot\nimport Mathlib.Algebra.Order.Floor.Extended\nimport Mathlib.Algebra.Order.Floor.Semifield\nimport Mathlib.Algebra.Order.Interval.Basic\nimport Mathlib.Algebra.Order.Star.Real\nimport Mathlib.Analysis.Complex.UpperHalfPlane.Basic\nimport Mathlib.Analysis.Normed.Algebra.GelfandRadius\nimport Mathlib.Analysis.SpecialFunctions.Bernstein\nimport Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp\nimport Mathlib.Combinatorics.Enumerative.DyckWord\nimport Mathlib.Combinatorics.SimpleGraph.Triangle.Removal\nimport Mathlib.Data.NNRat.Floor\nimport Mathlib.Data.Nat.Choose.Multinomial\nimport Mathlib.Geometry.Euclidean.Volume.Basic\nimport Mathlib.NumberTheory.Chebyshev\nimport Mathlib.NumberTheory.Height.NumberField\nimport Mathlib.NumberTheory.Height.Projectivization\nimport Mathlib.NumberTheory.LucasLehmer\nimport Mathlib.NumberTheory.SelbergSieve\nimport Mathlib.RingTheory.Radical.NatInt\nimport Mathlib.RingTheory.WittVector.IsPoly\nimport Mathlib.Tactic.Echelon.Zsqrtd\nimport Mathlib.Tactic.Inclusion.Extension.Core.Core\nimport Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit\nimport Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp\nimport Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses\nimport Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic\nimport Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses\nimport Mathlib.Tactic.NormNum.Irrational\nimport Mathlib.Tactic.NormNum.IsCoprime\nimport Mathlib.Tactic.NormNum.IsSquare\nimport Mathlib.Tactic.NormNum.LegendreSymbol\nimport Mathlib.Tactic.NormNum.ModEq\nimport Mathlib.Tactic.NormNum.NatFib\nimport Mathlib.Tactic.NormNum.NatLog\nimport Mathlib.Tactic.NormNum.NatSqrt\nimport Mathlib.Tactic.NormNum.Ordinal\nimport Mathlib.Tactic.NormNum.Parity\nimport Mathlib.Tactic.NormNum.Prime\nimport Mathlib.Tactic.NormNum.RealSqrt\n\n"}
 section -- clump:auto
 @[expose] public section
-
-set_option autoImplicit false
 
 namespace GlobalTheory.ConjugateNegativeSquare
 
@@ -414,8 +411,6 @@ open GlobalTheory.IndefiniteRowSideFullHecke.TypedPartSplitPrimes (IsIntHom IsOr
 open GlobalTheory.IndefiniteRowSideFullHecke.BigBlockCharacters (HasChars)
 open GlobalTheory.IndefiniteRowSideFullHecke.FactorDepthInertBounds (boundAll boundInert boundFine)
 
-set_option autoImplicit false
-
 noncomputable section
 
 namespace GlobalTheory.FacUpOdd
@@ -424,13 +419,41 @@ variable {E : Type} [Field E] [NumberField E] [IsCMField E]
 
 theorem inPsi_conj_iff (H : Host E) (τ : E →+* ℂ) :
     InPsi H (ComplexEmbedding.conjugate τ) ↔ ¬ InPsi H τ := by
-  apply _root_.GlobalTheory.LabSplit.inPsi_conj_iff <;> assumption
+  have hd : (0 : ℝ) < H.d := by exact_mod_cast H.d_prime.pos
+  have hre := congrArg Complex.re H.sqrt_neg_disc_sq
+  have him := congrArg Complex.im H.sqrt_neg_disc_sq
+  simp [pow_two] at hre him
+  have hre0 : H.rt0.re = 0 := by
+    by_contra hne
+    have : H.rt0.im = 0 := by
+      have : H.rt0.re * H.rt0.im = 0 := by linarith
+      exact (mul_eq_zero.1 this).resolve_left hne
+    rw [this] at hre
+    nlinarith [mul_self_nonneg H.rt0.re]
+  have hc : starRingEnd ℂ H.rt0 = -H.rt0 := Complex.ext (by simp [hre0]) (by simp)
+  have h0 : H.rt0 ≠ 0 := by
+    intro h0
+    rw [h0] at hre
+    simp at hre
+    exact H.d_prime.ne_zero (by exact_mod_cast hre)
+  have h3 : ¬ (-H.rt0 = H.rt0) := fun h => h0 (by linear_combination (-1/2 : ℂ) * h)
+  have hsq : (τ (H.rt : E)) ^ 2 = H.rt0 ^ 2 := by
+    rw [H.sqrt_neg_disc_sq, ← map_pow]
+    have : ((H.rt : E)) ^ 2 = -(H.d : E) := by
+      have := congrArg (algebraMap (𝓞 E) E) H.rt_sq
+      simpa using this
+    rw [this]; simp
+  unfold InPsi
+  rw [ComplexEmbedding.conjugate_coe_eq]
+  rcases sq_eq_sq_iff_eq_or_eq_neg.1 hsq with h | h
+  · rw [h, hc]; simp [h3]
+  · rw [h, map_neg, hc, neg_neg]; simp [h3]
 
 theorem mult_of_inPsi {H : Host E} (Dw : Datum H) {τ : E →+* ℂ} (h : InPsi H τ) : Dw.mult τ = Dw.p := by
-  unfold Datum.mult; rw [if_pos (show τ (H.rt : E) = H.rt0 from h)]
+  unfold Datum.mult; rw [ite_eq_left (show τ (H.rt : E) = H.rt0 from h)]
 
 theorem mult_of_not_inPsi {H : Host E} (Dw : Datum H) {τ : E →+* ℂ} (h : ¬ InPsi H τ) : Dw.mult τ = Dw.q := by
-  unfold Datum.mult; rw [if_neg (show ¬ τ (H.rt : E) = H.rt0 from h)]
+  unfold Datum.mult; rw [ite_eq_right (show ¬ τ (H.rt : E) = H.rt0 from h)]
 
 theorem rpow_neg_succ (p : ℕ) (hp : 0 < p) (i : ℕ) :
     (p : ℝ) ^ (-((i : ℝ) + 1)) = ((p : ℝ)⁻¹) ^ (i + 1) := by
@@ -462,17 +485,16 @@ theorem tsum_alt (p : ℕ) (hp : 1 < p) (a b : ℝ) :
   have ge : (fun k => g (2 * k)) = fun k => (r ^ 2) ^ k * (r * a) := by
     funext k
     simp only [hg]
-    rw [rpow_neg_succ p (by omega), if_pos (even_two_mul k), ← hr, pow_succ, pow_mul]; ring
+    rw [rpow_neg_succ p (by omega), ite_eq_left (even_two_mul k), ← hr, pow_succ, pow_mul]; ring
   have go : (fun k => g (2 * k + 1)) = fun k => (r ^ 2) ^ k * (r ^ 2 * b) := by
     funext k
     simp only [hg]
-    rw [rpow_neg_succ p (by omega), if_neg (Nat.not_even_iff_odd.2 (odd_two_mul_add_one k)), ← hr,
+    rw [rpow_neg_succ p (by omega), ite_eq_right (Nat.not_even_iff_odd.2 (odd_two_mul_add_one k)), ← hr,
       show 2 * k + 1 + 1 = 2 * k + 2 by ring, pow_add, pow_mul]; ring
   have hs := summable_geometric_of_lt_one r0 r1
   rw [← tsum_even_add_odd (by rw [ge]; exact hs.mul_right _) (by rw [go]; exact hs.mul_right _), ge, go,
     tsum_mul_right, tsum_mul_right, tsum_geometric_of_lt_one r0 r1]
   have h2 : (p : ℝ) ^ 2 - 1 ≠ 0 := by nlinarith
-  have h3 : (1 : ℝ) - r ^ 2 ≠ 0 := by linarith
   have hp0 : (p : ℝ) ≠ 0 := by linarith
   rw [hr]
   field_simp
@@ -521,11 +543,11 @@ theorem nuFac_le_odd_unram : ∀ (E : Type) [Field E] [NumberField E] [IsCMField
       intro n
       rw [zero_add]
       by_cases hn : Even n
-      · rw [if_pos hn, mult_of_inPsi Dw ((inPsi_conj_iff H _).2 (fun h' => ?_))]
+      · rw [ite_eq_left hn, mult_of_inPsi Dw ((inPsi_conj_iff H _).2 (fun h' => ?_))]
         have := (halt (n + 1)).1 h'
         rw [Nat.even_add_one] at this
         exact this hn
-      · rw [if_neg hn, mult_of_not_inPsi Dw (fun h' => ?_)]
+      · rw [ite_eq_right hn, mult_of_not_inPsi Dw (fun h' => ?_)]
         have := (inPsi_conj_iff H _).1 h'
         rw [halt, Nat.even_add_one, not_not] at this
         exact hn this

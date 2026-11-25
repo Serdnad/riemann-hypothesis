@@ -1,6 +1,5 @@
 module
 
-import Development.AutomorphicArithmetic.AutomorphicVarieties.UnitaryThreeDeformations.HostCount
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.CommutativeAlgebra.FramedTwoCoboundaries
 public import ReciprocityTheory.GaloisValuations.ContinuousConstSMulQuotient
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.CommutativeAlgebra.KrullDimQuotientComapEq
@@ -19,59 +18,11 @@ public import Mathlib.Algebra.Algebra.ZMod
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.UnitaryThreeGroups.KatoUse
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.UnitaryThreeGroups.BoxDefs
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.PadicHodgeTheory.TateFin
-import all Development.AutomorphicArithmetic.AutomorphicVarieties.PadicHodgeTheory.TateFin
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.UnitaryThreeGroups.ExistsDecompositionFieldFrobeniusData
-import Mathlib.Algebra.Module.StablyFree.Basic
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Henselian
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.RingTheory.SimpleRing.Principal
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.HaveILetI
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
-import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Topology.Connected.Separation
-import Mathlib.Topology.Separation.CompletelyRegular
 import Development.AutomorphicArithmetic.AutomorphicVarieties.GaloisLibrary.SelmerTransport.RestrictionMemInvariantH1
 import Development.AutomorphicArithmetic.AutomorphicVarieties.HeightAndVanishing.DirichletPrimeToLPartMulLPowerPart
 import Development.AutomorphicArithmetic.AutomorphicVarieties.UnitaryThreeGroups.UnitaryThreeReflectionRight
@@ -409,6 +360,38 @@ private theorem continuous_of_coset_constant {Γ M : Type} [Group Γ] [Topologic
   refine ⟨{y | x⁻¹ * y ∈ V}, hV.preimage (by fun_prop), by simp, fun y hy => ?_⟩
   rw [← ha x _ hy, mul_inv_cancel_left]
 
+private theorem cocycle_coboundary_averaging {k G M : Type} [Field k] [Group G] [AddCommGroup M] [Module k M]
+    (ρ : Representation k G M) (N : Subgroup G) (hN : (N.index : k) ≠ 0) (f : G → M)
+    (hf : ∀ g h, f (g * h) = f g + ρ g (f h)) (h0 : ∀ n ∈ N, f n = 0) :
+    ∃ m, ∀ g, f g = ρ g m - m := by
+  classical
+  have hfi : N.FiniteIndex := ⟨fun h => hN (by rw [h, Nat.cast_zero])⟩
+  letI : Fintype (G ⧸ N) := Fintype.ofFinite _
+  have hout : ∀ g : G, f (QuotientGroup.mk g : G ⧸ N).out = f g := fun g => by
+    have h1 : ((QuotientGroup.mk g : G ⧸ N).out)⁻¹ * g ∈ N := QuotientGroup.eq.1 (Quotient.out_eq _)
+    have h2 := hf (QuotientGroup.mk g : G ⧸ N).out (((QuotientGroup.mk g : G ⧸ N).out)⁻¹ * g)
+    rw [mul_inv_cancel_left, h0 _ h1, map_zero, add_zero] at h2
+    exact h2.symm
+  let A : M := ∑ x : G ⧸ N, f x.out
+  have hA : ∀ t, A = (N.index : k) • f t + ρ t A := by
+    intro t
+    have e1 : A = ∑ x : G ⧸ N, f (t * x.out) := by
+      simp only [A]
+      rw [← Equiv.sum_comp (MulAction.toPerm t)]
+      refine Finset.sum_congr rfl fun x _ => ?_
+      rw [← hout (t * x.out)]
+      have : (QuotientGroup.mk (t * x.out) : G ⧸ N) = t • x := MulAction.Quotient.mk_smul_out N t x
+      simp only [this, MulAction.toPerm_apply]
+    conv_lhs => rw [e1]
+
+    simp only [hf, A, map_sum]
+    rw [Finset.sum_add_distrib, Finset.sum_const, Finset.card_univ, Subgroup.index, Nat.card_eq_fintype_card,
+      Nat.cast_smul_eq_nsmul]
+  refine ⟨-((N.index : k)⁻¹ • A), fun g => ?_⟩
+  have e : ρ g A = A - (N.index : k) • f g := by rw [eq_sub_iff_add_eq, add_comm]; exact (hA g).symm
+  rw [map_neg, map_smul, e, smul_sub, smul_smul, inv_mul_cancel₀ hN, one_smul]
+  abel
+
 private def powerCocycleSum {k Γ M : Type} [Field k] [Group Γ] [AddCommGroup M] [Module k M]
     (ρ : Representation k Γ M) (x : Γ) (m : M) : ℕ → M
   | 0 => 0
@@ -634,7 +617,7 @@ theorem UpperTheory.cohomology_of_finite_representation :
         have e : f.1 n = ρ n m0 - m0 := hm0 ⟨n, hn⟩
         have hρ : ρ n = 1 := hNρ hn
         rw [e, hρ, Module.End.one_apply, sub_self]
-      obtain ⟨m, hm⟩ := _root_.UpperTheory.Reformulated.B.Qe18.hc_avg (ρ.comp I.subtype) (N.subgroupOf I)
+      obtain ⟨m, hm⟩ := cocycle_coboundary_averaging (ρ.comp I.subtype) (N.subgroupOf I)
         (by rw [Ne, CharP.cast_eq_zero_iff k l]; exact hidx) (fun g => f.1 g) (fun g h => f.2.2 g h)
         (fun n hn => hN0 n hn)
       let b : ReciprocityTheory.Gal.Z1 ρ := ⟨ReciprocityTheory.Gal.d0 ρ m, hd m⟩
@@ -757,15 +740,99 @@ variable {R R' Γ Γ' M : Type} [CommRing R] [CommRing R'] [Group Γ] [Topologic
 
 include h in
 private theorem invariants_equiv : Nonempty (H0 ρ ≃ H0 ρ') := by
-  apply _root_.invariants_equiv <;> assumption
+  refine ⟨Equiv.subtypeEquivRight fun m => ?_⟩
+  rw [mem_riemannRochSpace_iff_regularAt_everywhere, mem_riemannRochSpace_iff_regularAt_everywhere]
+  constructor
+  · intro H g
+    rw [h]
+    exact H _
+  · intro H g
+    have := H (e.symm g)
+    rwa [h, e.apply_symm_apply] at this
 
 include he he' h in
 private theorem first_cohomology_equiv : Nonempty (H1 ρ ≃ H1 ρ') := by
-  apply _root_.first_cohomology_equiv <;> assumption
+  have key : ∀ f : Γ → M, f ∈ Z1 ρ ↔ (fun g => f (e g)) ∈ Z1 ρ' := by
+    intro f
+    show (Continuous f ∧ _) ↔ (Continuous _ ∧ _)
+    constructor
+    · rintro ⟨hc, hf⟩
+      refine ⟨hc.comp he, fun a b => ?_⟩
+      simp only [map_mul, h]
+      exact hf _ _
+    · rintro ⟨hc, hf⟩
+      refine ⟨?_, fun a b => ?_⟩
+      · have := hc.comp he'
+        convert this using 1
+        funext g
+        simp
+      · have := hf (e.symm a) (e.symm b)
+        simpa [map_mul, h] using this
+  have keyB : ∀ f : Γ → M, f ∈ B1 ρ ↔ (fun g => f (e g)) ∈ B1 ρ' := by
+    intro f
+    rw [mem_coboundaries1, mem_coboundaries1]
+    constructor
+    · rintro ⟨m, hm⟩
+      exact ⟨m, fun g => by simp [hm, h]⟩
+    · rintro ⟨m, hm⟩
+      refine ⟨m, fun g => ?_⟩
+      have := hm (e.symm g)
+      simpa [h] using this
+  let φ : Z1 ρ ≃ Z1 ρ' :=
+    { toFun := fun f => ⟨fun g => f.1 (e g), (key f.1).1 f.2⟩
+      invFun := fun f => ⟨fun g => f.1 (e.symm g), (key _).2 (by
+        rw [show (fun g => f.1 (e.symm (e g))) = f.1 from funext fun g => by simp]
+        exact f.2)⟩
+      left_inv := fun f => Subtype.ext (funext fun g => by simp)
+      right_inv := fun f => Subtype.ext (funext fun g => by simp) }
+  refine ⟨Quotient.congr φ fun a b => ?_⟩
+  rw [Submodule.quotientRel_def, Submodule.quotientRel_def, Submodule.mem_comap, Submodule.mem_comap]
+  exact keyB _
 
 include he he' h in
 private theorem second_cohomology_equiv : Nonempty (H2 ρ ≃ H2 ρ') := by
-  apply _root_.second_cohomology_equiv <;> assumption
+  have key : ∀ f : Γ × Γ → M, f ∈ Z2 ρ ↔ (fun p => f (e p.1, e p.2)) ∈ Z2 ρ' := by
+    intro f
+    show (Continuous f ∧ _) ↔ (Continuous _ ∧ _)
+    constructor
+    · rintro ⟨hc, hf⟩
+      refine ⟨hc.comp (he.prodMap he), fun a b c => ?_⟩
+      simp only [map_mul, h]
+      exact hf _ _ _
+    · rintro ⟨hc, hf⟩
+      refine ⟨?_, fun a b c => ?_⟩
+      · have := hc.comp (he'.prodMap he')
+        convert this using 1
+        funext p
+        simp
+      · have := hf (e.symm a) (e.symm b) (e.symm c)
+        simpa [map_mul, h] using this
+  have keyB : ∀ f : Γ × Γ → M, f ∈ B2 ρ ↔ (fun p => f (e p.1, e p.2)) ∈ B2 ρ' := by
+    intro f
+    rw [separated_dvr_second_cohomology_mem, separated_dvr_second_cohomology_mem]
+    constructor
+    · rintro ⟨c, hc, rfl⟩
+      refine ⟨fun g => c (e g), hc.comp he, ?_⟩
+      funext ⟨a, b⟩
+      simp [d1_apply, h, map_mul]
+    · rintro ⟨c, hc, hcf⟩
+      refine ⟨fun g => c (e.symm g), hc.comp he', ?_⟩
+      funext ⟨a, b⟩
+      have := congrFun hcf (e.symm a, e.symm b)
+      rw [d1_apply] at this
+      rw [d1_apply]
+      simpa [h, map_mul] using this
+  let φ : Z2 ρ ≃ Z2 ρ' :=
+    { toFun := fun f => ⟨fun p => f.1 (e p.1, e p.2), (key f.1).1 f.2⟩
+      invFun := fun f => ⟨fun p => f.1 (e.symm p.1, e.symm p.2), (key _).2 (by
+        rw [show (fun p : Γ' × Γ' => f.1 (e.symm (e p.1), e.symm (e p.2))) = f.1 from
+          funext fun p => by simp]
+        exact f.2)⟩
+      left_inv := fun f => Subtype.ext (funext fun p => by simp)
+      right_inv := fun f => Subtype.ext (funext fun p => by simp) }
+  refine ⟨Quotient.congr φ fun a b => ?_⟩
+  rw [Submodule.quotientRel_def, Submodule.quotientRel_def, Submodule.mem_comap, Submodule.mem_comap]
+  exact keyB _
 
 end Transport
 
@@ -886,7 +953,7 @@ theorem UpperTheory.V.U3.box_count (hI : CohInp) (Ω : Type) [Field Ω] [CharZer
   obtain ⟨g1, g2, g3⟩ := UpperTheory.global_euler_char_rat_of_ne_two hI.gf hI.ge Ω l k M hl S hS ρ hc σ hσ
   obtain ⟨l1, l2, l3, -⟩ := Loc.tateFin hI.loc (MonoidHom.id (GQ l)) Topology.IsOpenEmbedding.id k M
     (ρ.comp ((toGS Ω _).comp ι)) (contAction_comp ρ hc _ (hπ.comp hι))
-  rw [if_pos rfl, MonoidHom.range_eq_top.2 Function.surjective_id, Subgroup.index_top, one_mul] at l3
+  rw [ite_eq_left rfl, MonoidHom.range_eq_top.2 Function.surjective_id, Subgroup.index_top, one_mul] at l3
   have hq : ∀ q : {v : S // v ≠ v₀}, _ := fun q => UpperTheory.local_euler_characteristic_of_prime_not_mem hI.loc.lf hI.loc.le Ω l k M (A q) q.1.1 (hA q)
     (fun h => q.2 ((hv q).1 h)) (ρ.comp ((toGS Ω _).comp (Dec (F := ℚ) (A q)).subtype))
     (contAction_comp ρ hc _ (hπ.comp continuous_subtype_val))

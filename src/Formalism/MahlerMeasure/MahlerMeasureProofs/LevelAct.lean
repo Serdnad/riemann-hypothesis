@@ -1,53 +1,9 @@
 module
 
-import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.PolynomialDifferentialWords.PolarizationBihomogeneous
 public import Formalism.MahlerMeasure.LevelSum
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
 import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
 import Mathlib.RingTheory.PiTensorProduct
-import Mathlib.RingTheory.Radical.NatInt
 import Mathlib.RingTheory.SimpleRing.Principal
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Topology.Sheaves.Init
 public import Mathlib.Data.Rat.Cast.Lemmas
 
 @[expose] public section
@@ -69,7 +25,29 @@ theorem tieF_apply' (g : MvPolynomial σ k) :
 
 theorem coeff_X_mul_pderiv' (i : σ) (p : MvPolynomial σ k) (m : σ →₀ ℕ) :
     AddMonoidAlgebra.coeff (X i * pderiv i p) m = AddMonoidAlgebra.coeff p m * (m i : k) := by
-  apply _root_.PI.OpWords.coeff_X_pderiv_self <;> assumption
+  classical
+  refine MvPolynomial.induction_on' p ?_ ?_
+  · intro s a
+    have key : X i * pderiv i (monomial s a : MvPolynomial σ k) = monomial s (a * (s i : k)) := by
+      rw [pderiv_monomial]
+      by_cases hs : s i = 0
+      · simp [hs]
+      · rw [show (X i : MvPolynomial σ k) = monomial (Finsupp.single i 1) 1 from rfl,
+          monomial_mul, one_mul]
+        have hsum : Finsupp.single i 1 + (s - Finsupp.single i 1) = s := by
+          ext j
+          by_cases hij : i = j
+          · subst hij
+            simp only [Finsupp.add_apply, Finsupp.tsub_apply, Finsupp.single_eq_same]
+            omega
+          · simp [hij]
+        rw [hsum]
+    rw [key, coeff_monomial, coeff_monomial]
+    split_ifs with h
+    · subst h; rfl
+    · simp
+  · intro p q hp hq
+    simp only [map_add (f := _), mul_add, MvPolynomial.coeff_add, hp, hq, add_mul]
 
 theorem euler_w_of_biHom {a b : ℕ} {g : MvPolynomial σ k} (h : BiHom w e a b g) :
     (∑ c, X (w c) * pderiv (w c) g) = (a : k) • g := by
@@ -107,9 +85,9 @@ theorem pderiv_X_inj {f : Fin r → σ} (hf : Function.Injective f) (c d : Fin r
     pderiv (f c) (X (f d) : MvPolynomial σ k) = if d = c then 1 else 0 := by
   by_cases h : d = c
   · subst h
-    rw [if_pos rfl]
+    rw [ite_eq_left rfl]
     exact mvPolynomial_pderiv_X_self _
-  · rw [if_neg h]
+  · rw [ite_eq_right h]
     exact mvPolynomial_pderiv_X_of_ne (fun h' => h (hf h'))
 
 theorem pderiv_e_S (he : Function.Injective e) (hwe : ∀ c d, w c ≠ e d)

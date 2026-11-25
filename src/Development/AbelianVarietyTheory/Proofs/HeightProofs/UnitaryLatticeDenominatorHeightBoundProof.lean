@@ -12,7 +12,6 @@ import Mathlib.RingTheory.PicardGroup
 import Mathlib.Algebra.Order.Star.Real
 import Mathlib.Order.CompletePartialOrder
 import Development.AbelianVarietyTheory.Proofs.HeightProofs.IsLieDataCircle
-import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.ExistsPosNatMemFractionalIdeal
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.Proofs.HeightProofs.NatCastMulApply, Development.AbelianVarietyTheory.Proofs.HeightProofs.NormNatCastAdicCompletionLeOne, Development.AbelianVarietyTheory.Proofs.HeightProofs.NormNatCastLe, Development.AbelianVarietyTheory.Proofs.HeightProofs.UnitaryLatticeDenominatorHeightBoundProof
@@ -114,7 +113,15 @@ variable {E : Type} [Field E] [NumberField E]
 
 theorem exists_nat_mem (I : FractionalIdeal (nonZeroDivisors (𝓞 E)) E) (hI : I ≠ 0) :
     ∃ n : ℕ, 0 < n ∧ (n : E) ∈ I := by
-  apply _root_.GlobalTheory.exists_pos_nat_mem_fractionalIdeal <;> assumption
+  obtain ⟨α, hα, hαI⟩ := FractionalIdeal.exists_ne_zero_mem_isInteger hI
+  have hn : Ideal.absNorm (Ideal.span {α}) ≠ 0 := by
+    rw [Ne, Ideal.absNorm_eq_zero_iff, Ideal.span_singleton_eq_bot]; exact hα
+  refine ⟨_, Nat.pos_of_ne_zero hn, ?_⟩
+  obtain ⟨β, hβ⟩ := Ideal.mem_span_singleton'.1 (Ideal.absNorm_mem (Ideal.span {α}))
+  have : ((Ideal.absNorm (Ideal.span {α}) : ℕ) : E) = β • algebraMap (𝓞 E) E α := by
+    rw [Algebra.smul_def, ← map_mul, hβ, map_natCast]
+  rw [this]
+  exact Submodule.smul_mem (I : Submodule (𝓞 E) E) β hαI
 
 theorem exists_nat_smul_mem {W : Type} [AddCommGroup W] [Module E W] [Module (𝓞 E) W] [IsScalarTower (𝓞 E) E W]
     (L : Submodule (𝓞 E) W) (hL : Submodule.span E (L : Set W) = ⊤) (x : W) :
@@ -196,8 +203,6 @@ theorem natCast_mul_apply {F : Type} [Field F] [NumberField F] (N : ℕ) (a : Fi
     ((N : FiniteAdeleRing (𝓞 F) F) * a) v = (N : v.adicCompletion F) * a v := by first | rfl
 
 open Formalism.BasicNotions Formalism.BasicNotions.TH Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes Formalism.L2.Theta
-
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 
 theorem denomBound (D : D7) (θ : D.what₂.Tau → (Ainf D.host.F ⊗[D.host.F] D.host.E →+* ℂ)) (V : HSp D) :
     GlobalTheory.SmoothForms.DenomBound θ V := by
@@ -405,7 +410,6 @@ section -- clump:auto
 open Formalism.BasicNotions Formalism.BasicNotions.TH Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes Formalism.MainNotions.StandardLattice Formalism.L2.Theta GlobalTheory.SmoothForms Matrix
 open NumberField IsDedekindDomain
 open scoped TensorProduct
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 
 namespace GlobalTheory.SmoothForms
 

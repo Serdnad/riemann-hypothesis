@@ -1,7 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.FlagMeasures.IsGenericTermIffNoLocalDefectBaseFrames
-import Development.AbelianVarietyTheory.Proofs.FlagMeasures.GenericMassLeHeightPowMulGluedCountStatement
 public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.AtBase
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.ExistsDatumOfTwoCongruentFrames
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.HermitianDatumOfTermReadOnLattice
@@ -291,8 +289,21 @@ lemma tri_trans {n : ℕ} {f g h : Fin n → V} (h1 : Tri E f g) (h2 : Tri E g h
 
 lemma isTerm_move {r : ℕ} {g : V ≃ₗ[E] V} (hg : IsUnitary H g) {t : Term V M r} (ht : H.IsTerm t) :
     H.IsTerm (move g t) := by
-  intros
-  apply _root_.GlobalTheory.Unfold.GenLoc.isTerm_move <;> assumption
+  obtain ⟨h1, h2, h3, h4, h5, h6⟩ := ht
+  have hZ : H.Zhat (move g t).f (move g t).f' = H.Zhat t.f t.f' := by
+    ext a b
+    simp only [HermSp.Zhat, Matrix.of_apply, move]
+    exact hg _ _
+  have hD : ∀ l, H.Dl (move g t).f (move g t).f' l = H.Dl t.f t.f' l := by
+    intro l; unfold HermSp.Dl; rw [hZ]
+  refine ⟨TermOver.img_selfDual H hg h1, TermOver.img_frame H hg h2, TermOver.img_frame H hg h3,
+    by rw [hD]; exact h4, ?_, fun gs hgs => ?_⟩
+  · unfold HermSp.Gdet; rw [hD, hD]; exact h5
+  · obtain ⟨a, b, c⟩ := h6 gs hgs
+    refine ⟨a, b, fun j => ?_⟩
+    change g (t.f' j) - g (t.f j) ∈ H.smulLat _ (img g t.abelian₂)
+    rw [← map_sub, smulLat_img]
+    exact (TermOver.mem_img g _ _).2 ⟨_, c j, rfl⟩
 
 end GlobalTheory.LocOver.SameDC
 
@@ -498,8 +509,6 @@ noncomputable section
 open NumberField Formalism.BasicNotions Formalism.MainNotions.S Formalism.MainNotions.S.Lat Formalism.MainNotions.S.LocalSplitGroups Formalism.L2.SG.TermLoc Formalism.L2.SG.TermDef GlobalTheory.LocOver
 open scoped Classical
 
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
-
 namespace GlobalTheory.LocSame
 
 section Gen
@@ -529,7 +538,29 @@ theorem tri_symm {f g : Fin n → W} (h : Tri K f g) : Tri K g f := by
         simp only [Finset.sum_smul]
 
 theorem tri_trans {f g h : Fin n → W} (h1 : Tri K f g) (h2 : Tri K g h) : Tri K f h := by
-  first | exact _root_.GlobalTheory.GenMassBound.tri_trans | exact @_root_.GlobalTheory.GenMassBound.tri_trans | apply _root_.GlobalTheory.GenMassBound.tri_trans <;> assumption
+  obtain ⟨A, hA, hc⟩ := h1
+  obtain ⟨B, hB, hd⟩ := h2
+  refine ⟨A * B, ⟨fun a b hab => ?_, fun a => ?_⟩, fun b => ?_⟩
+  · rw [Matrix.mul_apply]
+    refine Finset.sum_eq_zero fun c _ => ?_
+    rcases lt_or_ge c a with hca | hca
+    · rw [hA.1 a c hca, zero_mul]
+    · rw [hB.1 c b (lt_of_lt_of_le hab hca), mul_zero]
+  · rw [Matrix.mul_apply, Finset.sum_eq_single a]
+    · rw [hA.2, hB.2, one_mul]
+    · intro c _ hc
+      rcases lt_or_gt_of_ne hc with hc | hc
+      · rw [hA.1 a c hc, zero_mul]
+      · rw [hB.1 c a hc, mul_zero]
+    · intro h; exact absurd (Finset.mem_univ a) h
+  · rw [hd b]
+    have e1 : ∀ c, B c b • g c = ∑ a, (A a c * B c b) • f a := by
+      intro c; rw [hc c, Finset.smul_sum]
+      refine Finset.sum_congr rfl fun a _ => ?_
+      rw [smul_smul, mul_comm]
+    rw [Finset.sum_congr rfl fun c _ => e1 c, Finset.sum_comm]
+    refine Finset.sum_congr rfl fun a _ => ?_
+    rw [Matrix.mul_apply, Finset.sum_smul]
 
 theorem tri_map {f g : Fin n → W} (h : Tri K f g) (φ : W ≃ₗ[K] W) :
     Tri K (fun a => φ (f a)) (fun a => φ (g a)) := by
@@ -684,7 +715,7 @@ theorem over_same : ∀ (D : D7) (Z : LocDat D), ∀ (u u' : D.what₂.Word) (F0
     (locU Z p Λ (lf D F0) F₁ (Tu D u) (Tu D u')) (locU Z p Λ (lf D F0) F₂ (Tu D u) (Tu D u')) hT₁ hT₂
     rfl rfl rfl gn hn' gm hm' himg (tri_refl _) htri ?_ d hd
   intro hs x' hx' x hx hx'p hxp
-  have key := GlobalTheory.T.identificationCompat_passes_to_local_congruence D Z u u' F0 Λ hΛ F₁ F₂ hP₁ hP₂ (n * m) hnmI hgm hfr hio p (gn * gm) hext hs
+  have key := _root_.GlobalTheory.IotaLoc.iota_typed D Z u u' F0 Λ hΛ F₁ F₂ hP₁ hP₂ (n * m) hnmI hgm hfr hio p (gn * gm) hext hs
     x' hx' x hx (by rw [hX₁]; exact hx'p) hxp
   rw [cong_congr (locH Z p) _ _ hX₁.symm, cong_congr (locH Z p) _ _ hX₂.symm]
   exact key
@@ -702,7 +733,6 @@ section -- clump:auto
 
 open NumberField Formalism.BasicNotions Formalism.MainNotions.S Formalism.MainNotions.S.Lat Formalism.MainNotions.S.LocalSplitGroups Formalism.L2.SG.TermLoc Formalism.L2.SG.TermDef GlobalTheory.LocOver
 open scoped Classical
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 
 theorem _root_.GlobalTheory.T.global_terms_same_doubleCoset_same_local_data : ∀ (D : D7) (Z : LocDat D), ∀ (u u' : D.what₂.Word) (F0 : FlagG (VS D) D.R.rS ((Tu D u : ℕ) : D.host.E)) (Λ : Submodule (𝓞 D.host.E) (VS D).V), IsRowLat D F0 Λ → ∀ F₁ F₂ : LFlag (D.sp.Y 0) D.R.rS (((D.mem u').A.T : ℕ) : D.host.E), PD D Λ (lf D F0) u' F₁ → PD D Λ (lf D F0) u' F₂ → Gval (lf D F0) F₁ ≠ 0 → ∀ n ∈ Formalism.L2.SG.NGData.NRat (lf D F0), ∀ m ∈ Formalism.L2.SG.NGData.NRat F₁, Formalism.HermitianLatticesTheory.gmap (n * m) Λ = Λ → (∀ a, frame F₂ a = (n * m) (frame F₁ a)) → IotaCompat Λ (lf D F0) F₁ F₂ (n * m) (gS D) → ∀ (p : PlF D) (P : LocNG.FPair (locH Z p) D.R.rS), P.RelG (LocNG.theta (Z.M p)) → ∀ d, Over P d (locU Z p Λ (lf D F0) F₁ (Tu D u) (Tu D u')) → Over P d (locU Z p Λ (lf D F0) F₂ (Tu D u) (Tu D u')) := by
   first | exact @GlobalTheory.LocSame.over_same

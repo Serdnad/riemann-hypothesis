@@ -1,6 +1,5 @@
 module
 
-import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.TraceFormula.GlobalTraceComparison.CuspidalContribution.CuspFin
 public import Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange.ArchimedeanBaseChangeProof.InfinitesimalCharacterLimits.TwistStripLimits.BlockTypes
 public import Development.WeilBound.RepresentationTheoryGL.ResidualSpectrum.SliceTensors.PExpTwA
 public import Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange.ArchimedeanBaseChangeProof.InfinitesimalCharacterLimits.AllLeaves
@@ -150,13 +149,8 @@ theorem mulChi_absC_mulChi (n : ℕ) (z z' : ℂ) (φ : Sm E n) :
   congr 2
   ring
 
-theorem tw_tw {n : ℕ} (V : Submodule ℂ (Sm E n)) (a b : ℂ) : tw (tw V a) b = tw V (a + b) := by
-  ext ψ
-  constructor
-  · rintro ⟨_, ⟨φ, hφ, rfl⟩, rfl⟩
-    exact ⟨φ, hφ, (mulChi_absC_mulChi n b a φ).symm⟩
-  · rintro ⟨φ, hφ, rfl⟩
-    exact ⟨_, ⟨φ, hφ, rfl⟩, mulChi_absC_mulChi n b a φ⟩
+theorem tw_tw {n : ℕ} (V : Submodule ℂ (Sm E n)) (a b : ℂ) : tw (tw V a) b = tw V (a + b) :=
+  _root_.PositivityTheory.Rg.BcB.SpectralAccumulation.Cz.TwistConcentration.tw_tw V a b
 
 theorem map_mem_finVec {n : ℕ} {V : Submodule ℂ (Sm E n)} (f : Sm E n →ₗ[ℂ] Sm E n)
     (heq : ∀ o, ∀ φ ∈ V, f (act o φ) = act o (f φ)) {φ : Sm E n} (hφ : φ ∈ V)
@@ -201,15 +195,6 @@ namespace PositivityTheory.Rg.BcB.SpectralAccumulation.Lim5
 
 variable {E : Type} [Field E] [NumberField E] [IsCMField E]
 
-theorem sum_map_add_const (m : Multiset ℂ) (w : ℂ) :
-    (m.map (· + w)).sum = m.sum + (Multiset.card m : ℂ) * w := by
-  induction m using Multiset.induction_on with
-  | empty => simp
-  | cons a m ih =>
-    simp only [Multiset.map_cons, Multiset.sum_cons, Multiset.card_cons, ih]
-    push_cast
-    ring
-
 theorem norm_sum_le_of_le {M m : Multiset ℂ} {R : ℝ} (hle : M ≤ m) (hR : ∀ x ∈ m, ‖x‖ ≤ R) :
     ‖M.sum‖ ≤ Multiset.card M * R := by
   calc ‖M.sum‖ ≤ (M.map (fun x => ‖x‖)).sum := norm_multiset_sum_le M
@@ -228,7 +213,7 @@ theorem side_bound {n : ℕ} (hn : 0 < n) (m m₁ : (E →+* ℂ) → Multiset �
     have h := norm_sum_le_of_le (hle τ) (hR τ)
     rwa [Multiset.card_map, hcard τ] at h
   have h2 : ∑ τ, ((m₁ τ).map (· + w)).sum = ∑ τ, (m₁ τ).sum + ((Fintype.card (E →+* ℂ) * n : ℕ) : ℂ) * w := by
-    simp only [sum_map_add_const, hcard, Finset.sum_add_distrib, Finset.sum_const, Finset.card_univ, nsmul_eq_mul]
+    simp only [GlobalTheory.CompanionTheory.EGlue.LeafB.sum_map_add_const, hcard, Finset.sum_add_distrib, Finset.sum_const, Finset.card_univ, nsmul_eq_mul]
     push_cast
     ring
   have h3 : ‖∑ τ, ((m₁ τ).map (· + w)).sum‖ ≤ Fintype.card (E →+* ℂ) * (n * R) := by
@@ -250,8 +235,7 @@ theorem side_bound {n : ℕ} (hn : 0 < n) (m m₁ : (E →+* ℂ) → Multiset �
   have hwb : ‖w‖ ≤ R + |C| := by
     have hA := abs_nonneg C
     have hB : |C| ≤ ((Fintype.card (E →+* ℂ) * n : ℕ) : ℝ) * |C| := le_mul_of_one_le_left hA hTn
-    by_contra hcon
-    push_neg at hcon
+    by_contra! hcon
     have := mul_lt_mul_of_pos_left hcon (lt_of_lt_of_le one_pos hTn)
     nlinarith
   refine ⟨hwb, fun τ x hx => ?_⟩
@@ -656,7 +640,16 @@ theorem exists_infOf {N : ℕ} (t : Tr E N) (ht : t.Good) (τ : E →+* ℂ) : �
 
 theorem trace_eq {N : ℕ} {V : Submodule ℂ (Sm E N)} {τ : E →+* ℂ} {m : Multiset ℂ} (hm : HasInfCharGL V τ m) :
     ∀ φ ∈ V, (∑ i : Fin N, Eop τ i i) φ = m.sum • φ := by
-  apply _root_.GlobalTheory.CompanionTheory.CentEig.trace_Eop_eq_of_hasInfCharGL <;> assumption
+  intro φ hφ
+  obtain ⟨hc, hu⟩ := hm
+  rcases N with _ | n
+  · obtain rfl : m = 0 := Multiset.card_eq_zero.1 hc
+    simp
+  · obtain ⟨l, rfl⟩ := Quot.exists_rep m
+    refine GlobalTheory.CompanionTheory.CapelliTrace.trace_of_qdet (Eop τ) l (by simpa using hc) φ fun v => ?_
+    have := hu (v - (n : ℂ) / 2) φ hφ
+    rw [cap, show v - (n : ℂ) / 2 + (((n + 1 : ℕ) : ℂ) - 1) / 2 = v by push_cast; ring] at this
+    simpa using this
 
 theorem lie_oneL_eq_zero {N : ℕ} (φ : Sm E N) (h : ∀ t g, φ.1 (splitCentre E N t * g) = φ.1 g) :
     lie E N (oneL E N) φ = 0 := by
@@ -783,7 +776,103 @@ theorem isoV_symm {E : Type} [Field E] [NumberField E] [IsCMField E] {N : ℕ} {
   rw [← h2, LinearEquiv.symm_apply_apply]
 
 theorem finDisc : FinDisc := by
-  apply _root_.GlobalTheory.CompanionTheory.FinDiscP.main <;> assumption
+  intro E _ _ _ N _ _ μ _ K W R ε hK hW hε hRep
+  set D : Submodule ℂ (Sm E N) → Prop := fun V => IsDiscrete V ∧ HasType K W V ∧ InfBdd R V ∧
+    ∀ r, 0 < r → r < N → ∀ c ∈ ExpV r V, pE E N r c ≤ -ε * (r * ((N : ℝ) - r)) with hD
+  by_cases hne : ∃ V, D V
+  swap
+  · exact ⟨∅, fun V h1 h2 h3 h4 => (hne ⟨V, h1, h2, h3, h4⟩).elim⟩
+  obtain ⟨V₁, h₁⟩ := hne
+  obtain ⟨F, hF⟩ := _root_.GlobalTheory.CompanionTheory.FinDisc.exists_isFundamentalDomain_of_isSqInt E N μ _ (h₁.1.sqInt 0 (zero_mem _))
+  obtain ⟨α, δ, hαc, hαs, hδ, hα⟩ := hRep
+  obtain ⟨Ω, hΩ, hconc⟩ := GlobalTheory.CompanionTheory.Conc.conc E N μ K W R ε δ α F hK hW hε hαc hαs hδ hF
+  obtain ⟨B, hB, hbes⟩ := _root_.GlobalTheory.CompanionTheory.FinDisc.bessel_lintegral_le E N μ δ α F Ω hαc hαs hδ hF hΩ
+
+  have key : ∀ (n : ℕ) (Vs : Fin n → Submodule ℂ (Sm E N)), (∀ i, D (Vs i)) →
+      (∀ i j, i ≠ j → ¬ IsoV (Vs i) (Vs j)) → (n : ENNReal) ≤ 2 * B := by
+    intro n Vs hVs hne
+    have hsel : ∀ i, ∃ ψ : Sm E N, ψ ∈ Vs i ∧ TypeB K W ψ ∧ (∫⁻ x in F, ‖ψ.1 x‖ₑ ^ 2 ∂μ) = 1 := by
+      intro i
+      obtain ⟨hd, ⟨φ, hφ, h0, hty⟩, -, -⟩ := hVs i
+      obtain ⟨hT, hZ⟩ := _root_.GlobalTheory.CompanionTheory.FinDisc.sqMass_ne_top_and_ne_zero E N μ F hF φ (hd.aut φ hφ) (hd.sqInt φ hφ) h0
+      set L := ∫⁻ x in F, ‖φ.1 x‖ₑ ^ 2 ∂μ with hL
+      have hLr : 0 < L.toReal := ENNReal.toReal_pos hZ hT
+      set c : ℝ := (Real.sqrt L.toReal)⁻¹ with hc
+      have hc0 : 0 < c := inv_pos.2 (Real.sqrt_pos.2 hLr)
+      refine ⟨(c : ℂ) • φ, (Vs i).smul_mem _ hφ, ⟨fun u hu g => ?_, fun g => ?_⟩, ?_⟩
+      · have := hty.1 u hu g
+        simp only [Submodule.coe_smul, Pi.smul_apply, this]
+      · exact W.smul_mem (c : ℂ) (hty.2 g)
+      · have e : ∀ x, ‖(((c : ℂ) • φ : Sm E N)).1 x‖ₑ ^ 2 = ENNReal.ofReal (c ^ 2) * ‖φ.1 x‖ₑ ^ 2 := by
+          intro x
+          have h2 : ((((c : ℂ) • φ : Sm E N)).1 x) = (c : ℂ) * φ.1 x := rfl
+          rw [h2, enorm_mul, mul_pow]
+          congr 1
+          rw [← ofReal_norm_eq_enorm, Complex.norm_real, Real.norm_eq_abs, abs_of_pos hc0,
+            ENNReal.ofReal_pow hc0.le]
+        simp only [e]
+        rw [lintegral_const_mul' _ _ ENNReal.ofReal_ne_top, ← hL]
+        have : c ^ 2 = (L.toReal)⁻¹ := by
+          rw [hc, inv_pow, Real.sq_sqrt hLr.le]
+        rw [this, ENNReal.ofReal_inv_of_pos hLr, ENNReal.ofReal_toReal hT]
+        exact ENNReal.inv_mul_cancel hZ hT
+    choose ψ hψV hψT hψ1 using hsel
+    have hcont : ∀ i, Continuous (ψ i).1 := fun i =>
+      ContAut.continuous_of_isOpen_stab E N (ψ i) ((hVs i).1.aut _ (hψV i)).level
+    have hleft : ∀ i, ∀ γ ∈ latticeGL E N, ∀ x, (ψ i).1 (γ * x) = (ψ i).1 x := by
+      intro i γ hγ x
+      obtain ⟨ρ, m, rfl⟩ := GlobalTheory.CuspRep.CuspidalL2GL.mem_latticeGL_iff.1 hγ
+      have h1 := ((hVs i).1.sqInt _ (hψV i)).1
+      rw [mul_assoc, ((hVs i).1.aut _ (hψV i)).left, ← GlobalTheory.CuspRep.CuspidalL2GL.splitCentre_intCast, h1]
+    have hs : ∀ i, ∃ s : ℂ, δ ≤ ‖s‖ ∧ ∀ x, ∫ y, α y * (ψ i).1 (x * y) ∂μ = s * (ψ i).1 x := by
+      intro i
+      refine hα (ψ i) ((hVs i).1.aut _ (hψV i)) (hψT i) fun τ => ?_
+      obtain ⟨m, hm, hb⟩ := (hVs i).2.2.1 τ
+      refine ⟨m, ⟨hm.1, fun u φ hφ => ?_⟩, hb⟩
+      obtain ⟨c, rfl⟩ := Submodule.mem_span_singleton.1 hφ
+      rw [map_smul, hm.2 u _ (hψV i), smul_comm]
+    have hcB := hbes n (fun i => (ψ i).1) hcont hleft hs hψ1 (fun i j hij =>
+      _root_.GlobalTheory.CompanionTheory.FinDisc.integral_eq_zero_of_not_isoV E N μ F hF (Vs i) (Vs j) (hVs i).1 (hVs j).1 (hne i j hij) _ (hψV i) _ (hψV j))
+    have h1 : ∀ i, 1 ≤ 2 * ∫⁻ x in Ω, ‖(ψ i).1 x‖ₑ ^ 2 ∂μ := fun i =>
+      hconc (Vs i) (ψ i) (hVs i).1 (hψV i) (hψT i) (hVs i).2.2.1 (hVs i).2.2.2 (hs i) (hψ1 i)
+    calc (n : ENNReal) = ∑ _i : Fin n, (1 : ENNReal) := by simp
+      _ ≤ ∑ i : Fin n, 2 * ∫⁻ x in Ω, ‖(ψ i).1 x‖ₑ ^ 2 ∂μ := Finset.sum_le_sum fun i _ => h1 i
+      _ = 2 * ∑ i : Fin n, ∫⁻ x in Ω, ‖(ψ i).1 x‖ₑ ^ 2 ∂μ := by rw [Finset.mul_sum]
+      _ ≤ 2 * B := by gcongr
+  obtain ⟨n₀, hn₀⟩ : ∃ n₀ : ℕ, 2 * B ≤ (n₀ : ENNReal) := by
+    have h2B : 2 * B ≠ ⊤ := ENNReal.mul_ne_top (by simp) hB
+    exact ENNReal.exists_nat_gt h2B |>.imp fun _ h => h.le
+  set P : ℕ → Prop := fun n => ∃ Vs : Fin n → Submodule ℂ (Sm E N), (∀ i, D (Vs i)) ∧
+    ∀ i j, i ≠ j → ¬ IsoV (Vs i) (Vs j) with hP
+  have hbd : ∀ n, P n → n ≤ n₀ := by
+    rintro n ⟨Vs, h1, h2⟩
+    exact_mod_cast (key n Vs h1 h2).trans hn₀
+  have hP0 : P 0 := ⟨Fin.elim0, fun i => i.elim0, fun i => i.elim0⟩
+  set n := Nat.findGreatest P n₀ with hn
+  obtain ⟨Vs, hVs, hpw⟩ : P n := Nat.findGreatest_spec (P := P) (Nat.zero_le _) hP0
+  refine ⟨Finset.univ.image Vs, fun V h1 h2 h3 h4 => ?_⟩
+  by_contra hno
+  have hDV : D V := ⟨h1, h2, h3, h4⟩
+  have hno' : ∀ i, ¬ IsoV V (Vs i) := fun i hi => hno ⟨Vs i, Finset.mem_image_of_mem _ (Finset.mem_univ i), hi⟩
+  have hnext : P (n + 1) := by
+    refine ⟨Fin.cons V Vs, fun i => ?_, fun i j hij => ?_⟩
+    · refine Fin.cases ?_ (fun i => ?_) i
+      · simpa using hDV
+      · simpa using hVs i
+    · induction i using Fin.cases with
+      | zero =>
+        induction j using Fin.cases with
+        | zero => exact (hij rfl).elim
+        | succ j => simpa using hno' j
+      | succ i =>
+        induction j using Fin.cases with
+        | zero =>
+          simp only [Fin.cons_zero, Fin.cons_succ]
+          exact fun h => hno' i (isoV_symm (hVs i).1.stable h)
+        | succ j =>
+          simpa using hpw i j fun e => hij (by rw [e])
+  have := Nat.le_findGreatest (hbd _ hnext) hnext
+  omega
 
 end PositivityTheory.Rg.BcB.SpectralAccumulation.FiniteDiscreteTypes
 
@@ -1177,12 +1266,8 @@ theorem allLeaves_addTw {N : ℕ} (t : Tr E N) (α : ℕ → ℂ) (P : ∀ M : �
   | leaf V z => exact Iff.rfl
   | node t₁ t₂ ih₁ ih₂ => exact and_congr (ih₁ _) (ih₂ _)
 
-theorem strip_twists_length {N : ℕ} (t : Tr E N) : t.strip.twists.length = t.twists.length := by
-  induction t with
-  | leaf V z => rfl
-  | node t₁ t₂ ih₁ ih₂ =>
-    change (t₁.strip.twists ++ t₂.strip.twists).length = (t₁.twists ++ t₂.twists).length
-    rw [List.length_append, List.length_append, ih₁, ih₂]
+theorem strip_twists_length {N : ℕ} (t : Tr E N) : t.strip.twists.length = t.twists.length :=
+  _root_.PositivityTheory.Rg.BcB.SpectralAccumulation.Lim5.length_twists_strip t
 
 theorem addTw_congr {N : ℕ} (t : Tr E N) {α α' : ℕ → ℂ} (h : ∀ i < t.twists.length, α i = α' i) :
     t.addTw α = t.addTw α' := by

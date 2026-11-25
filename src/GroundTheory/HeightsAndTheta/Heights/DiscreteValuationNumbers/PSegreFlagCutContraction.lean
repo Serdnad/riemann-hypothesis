@@ -1,6 +1,5 @@
 module
 
-import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.PHilbDegBound
 public import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.StatementsSegreFlagCutProjection
 public import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.AssemblyCN
 public import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.OfSteps
@@ -32,7 +31,8 @@ theorem pullDeg_comp_of_eq_zero {K K' : Type*} (j : K ↪ K') (b : K' → ℤ)
 
 theorem withBot_le_of_lt_succ (a : WithBot ℕ∞) (m : ℕ) (h : a < ((m + 1 : ℕ) : WithBot ℕ∞)) :
     a ≤ ((m : ℕ) : WithBot ℕ∞) := by
-  apply _root_.GroundTheory.Heights₂.Heights.NumbersDVR.HilbDegBound.le_natCast_of_lt_natCast_succ <;> assumption
+  rw [Nat.cast_add, Nat.cast_one] at h
+  exact ENat.WithBot.lt_add_one_iff.mp h
 
 variable {O : Type} [CommRing O] [IsDomain O] [IsDiscreteValuationRing O]
   {K' : Type} [Fintype K'] [DecidableEq K'] {ι' : K' → Type} [∀ o, Fintype (ι' o)]

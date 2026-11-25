@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.OneSubTwoOmegaSq
 public import Formalism.LocalToGlobal.TorsionIntegrality.EisensteinTranslationProducts.EndoZInstance
 public import Formalism.LocalToGlobal.TorsionIntegrality.WeierstrassTwoTorsion.StatementK
 public import Formalism.LocalToGlobal.TorsionIntegrality.EisensteinTranslationProducts.IsogenyFormulaInstance
@@ -413,7 +412,7 @@ theorem leadAt_factor {A : PowerSeries K} (hA : IntegralPS A) (hA0 : constantCoe
       · rw [sub_eq_add_neg]
         exact (IsUltrametricDist.norm_add_le_max _ _).trans (max_le (hA n) (by rw [norm_neg]; exact hx))
       · rw [sub_zero]; exact hA n
-    · rw [hc, if_neg (by norm_num), sub_zero, coeff_zero_eq_constantCoeff_apply, hA0, norm_one]
+    · rw [hc, ite_eq_right (by norm_num), sub_zero, coeff_zero_eq_constantCoeff_apply, hA0, norm_one]
   · push Not at hx
     refine ⟨2, le_rfl, ?_⟩
     rw [max_eq_right hx.le]
@@ -424,9 +423,9 @@ theorem leadAt_factor {A : PowerSeries K} (hA : IntegralPS A) (hA0 : constantCoe
       split_ifs with h
       · subst h; exact h2.le
       · rw [sub_zero]; exact (hA n).trans hx.le
-    · rw [hc, if_neg (by omega), sub_zero]
+    · rw [hc, ite_eq_right (by omega), sub_zero]
       exact (hA n).trans_lt hx
-    · rw [hc, if_pos rfl, h2]
+    · rw [hc, ite_eq_left rfl, h2]
 
 theorem leadAt_prod {α : Type} (S : Finset α) (x : α → K) {A : PowerSeries K} (hA : IntegralPS A)
     (hA0 : constantCoeff A = 1) :
@@ -936,8 +935,16 @@ theorem end_not_dvd (d : ℕ) (hd : d % 4 = 3) (l : ℕ) [Fact l.Prime]
 
 theorem end_unit (l : ℕ) [Fact l.Prime] (n : ℕ) (hn : ¬ l ∣ n) (a : ℂ_[l]) (ha : ‖a‖ ≤ 1)
     (hq : a ^ 2 - a + (n : ℂ_[l]) = 0) : ‖a‖ = 1 := by
-  intros
-  apply _root_.GlobalTheory.Honda.norm_eq_one_of_quad_root <;> assumption
+  have hnn : ‖(n : ℂ_[l])‖ = 1 := by
+    simpa using kq_int_unit l (n : ℤ) (by exact_mod_cast hn)
+  have hprod : a * (1 - a) = n := by linear_combination -hq
+  have hb : ‖1 - a‖ ≤ 1 := by
+    have e : 1 - a = 1 + -a := by ring
+    rw [e]
+    exact kq_add_le l _ _ 1 (by simp) (by rwa [norm_neg])
+  refine le_antisymm ha ?_
+  rw [← hnn, ← hprod, norm_mul]
+  exact mul_le_of_le_one_right (norm_nonneg _) hb
 
 theorem end_card (d : ℕ) (hd : d % 4 = 3) (L : PeriodPair) (hCM : HasCMBy d L) (S : Finset ℂ)
     (h0 : omegaK d ≠ 0) (hS : Formalism.L2.Th1.F.IsKerReps L (omegaK d) S) :

@@ -122,8 +122,24 @@ theorem zetaSeries_ordGe_pure {C : Type} [Field C] (v : AddValuation C (WithTop 
     (N : ℕ) (r w : ℝ) (a : Fin M → C) (ha : ∀ j, ((w - r * N : ℝ) : WithTop ℝ) ≤ v (a j)) :
     OrdGe v (fun _ => r)
       (∑ j, MvPowerSeries.C (R := C) (a j) * (MvPowerSeries.X j : MvPowerSeries (Fin M) C) ^ N) w := by
-  intros
-  apply _root_.GlobalTheory.ChainCoord.ord_pure <;> assumption
+  classical
+  intro α
+
+  rw [map_sum]
+  apply v.map_le_sum
+  intro j _
+  rw [MvPowerSeries.coeff_C_mul, MvPowerSeries.coeff_X_pow]
+  split_ifs with h
+  · subst h
+    have : ∑ m, r * ((Finsupp.single j N : Fin M →₀ ℕ) m : ℝ) = r * N := by
+      rw [Finset.sum_eq_single j]
+      · simp
+      · intro m _ hm
+        simp [Ne.symm hm]
+      · simp
+    rw [this, mul_one]
+    exact ha j
+  · simp
 
 theorem zetaSeries_geom (q : ℝ) (n s : ℕ) (hq : (n : ℝ) = q) :
     (q - 1) * ((∑ u ∈ Finset.range s, n ^ u : ℕ) : ℝ) = q ^ s - 1 := by
@@ -259,7 +275,7 @@ theorem zetaSeries_main_term : (∀ (C : Type) [Field C] [CharZero C] (v : AddVa
             linarith
           push_cast
           linarith
-      · push_neg at hc
+      · push Not at hc
         refine le_trans ?_ (zetaSeries_coeff_mul_le v _ (hbe c n)
             (zetaSeries_ordGe_pow v _ (hc2 c hc) (l ^ n)) α)
         rw [WithTop.coe_le_coe]
@@ -301,7 +317,7 @@ theorem zetaSeries_main_term : (∀ (C : Type) [Field C] [CharZero C] (v : AddVa
     · rw [Finset.sum_eq_single 1]
       · simp only [true_and]
         rw [← Finset.sum_subset (Finset.subset_univ (Gs s₀))]
-        · exact Finset.sum_congr rfl fun c hc => by rw [if_pos hc]
+        · exact Finset.sum_congr rfl fun c hc => by rw [ite_eq_left hc]
         · intro c _ hc
           simp [hc]
       · intro n _ hn
@@ -451,7 +467,7 @@ theorem zeta_leaf_main_term : ∀ (C : Type) [Field C] [CharZero C] (V : VF C) (
       exact D.lam_int c e)
     (fun c j => by simpa [VF.Ge] using h.chainMat_int 0 c (em j))
     (fun c hc j => by
-      rw [chainMat_zero, if_neg]
+      rw [chainMat_zero, ite_eq_right]
       rintro rfl
       exact hc ((hGs _ _).2 ⟨hem j, by rw [hDi, hK]; omega⟩))
     (fun s e j => by

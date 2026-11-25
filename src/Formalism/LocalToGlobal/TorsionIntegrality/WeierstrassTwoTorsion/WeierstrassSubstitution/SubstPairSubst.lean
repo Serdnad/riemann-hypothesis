@@ -1,6 +1,5 @@
 module
 
-import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.JetIntegrality.CoeffSubstOfDegreeEqOne
 public import Formalism.LocalToGlobal.TorsionIntegrality.WeierstrassTwoTorsion.WeierstrassSubstitution.FormalGroupEqWSeries
 public import Formalism.LocalToGlobal.TorsionIntegrality.WeierstrassTwoTorsion.StatementC
 public import Formalism.LocalToGlobal.TorsionIntegrality.WeierstrassTwoTorsion.WeierstrassSubstitution.CompInv
@@ -8,49 +7,7 @@ public import Formalism.LocalToGlobal.TorsionIntegrality.WeierstrassTwoTorsion.W
 public import Formalism.LocalToGlobal.TorsionIntegrality.WeierstrassTwoTorsion.WeierstrassSubstitution.EqWSerSubst
 public import Formalism.LocalToGlobal.TorsionIntegrality.WeierstrassTwoTorsion.WeierstrassSubstitution.FlowBasic
 public import Formalism.LocalToGlobal.TorsionIntegrality.WeierstrassTwoTorsion.WeierstrassSubstitution.LogExp
-import Mathlib.Algebra.AffineMonoid.Basic
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Topology.Sheaves.Init
 
 @[expose] public section
 
@@ -118,7 +75,17 @@ theorem cc_subst {g s : R⟦X⟧} (hs : constantCoeff s = 0) :
 
 theorem coeff_one_subst {f s : R⟦X⟧} (hs : constantCoeff s = 0) :
     coeff 1 (f.subst s) = coeff 1 f * coeff 1 s := by
-  apply _root_.PI.JetsPhW.Low.pcoeff1_subst <;> assumption
+  have hs' := HasSubst.of_constantCoeff_zero hs
+  obtain ⟨t, rfl⟩ : X ∣ s := X_dvd_iff.mpr hs
+  erw [PowerSeries.coeff_subst hs', finsum_eq_single _ 1]
+  · simp
+  · intro d hd
+    rcases d with _ | _ | d
+    · simp
+    · exact absurd rfl hd
+    · rw [mul_pow]
+      show coeff (d + 1 + 1) f • coeff 1 (X ^ (d + 1 + 1) * t ^ (d + 1 + 1)) = 0
+      rw [coeff_X_pow_mul', ite_eq_right (show ¬ (d + 1 + 1 ≤ 1) by omega), smul_zero]
 
 end Tools
 
@@ -210,10 +177,10 @@ theorem iSerSpec' : ISerSpec.{u} :=
   iSerSpec_of w_series_spec w_series_factorization invariant_differential_units unit_flow chartFlowNegation
 
 theorem log_cc : constantCoeff (logSer W) = 0 := by
-  rw [logSer, integ, ← coeff_zero_eq_constantCoeff_apply, coeff_mk, if_pos rfl]
+  rw [logSer, integ, ← coeff_zero_eq_constantCoeff_apply, coeff_mk, ite_eq_left rfl]
 
 theorem log_one : coeff 1 (logSer W) = 1 := by
-  rw [logSer, integ, coeff_mk, if_neg one_ne_zero]
+  rw [logSer, integ, coeff_mk, ite_eq_right one_ne_zero]
   simp only [Nat.sub_self, coeff_zero_eq_constantCoeff_apply, CurveSer.om_cc, Nat.cast_one, div_one]
 
 theorem log_inj {a b : K⟦X⟧} (ha : constantCoeff a = 0) (hb : constantCoeff b = 0)

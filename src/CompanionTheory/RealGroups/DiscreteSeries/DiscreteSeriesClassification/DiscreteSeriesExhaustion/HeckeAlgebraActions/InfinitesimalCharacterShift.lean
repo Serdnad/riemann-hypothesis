@@ -1,6 +1,5 @@
 module
 
-import Development.AutomorphicArithmetic.AutomorphicVarieties.BuildingsResidueChars.AlgModOfInjectiveIntertwining
 public import CompanionTheory.RealGroups.DiscreteSeries.DiscreteSeriesClassification.DiscreteSeriesExhaustion.HeckeAlgebraActions.HeckeDuality.GlRelTau
 public import CompanionTheory.RealGroups.DiscreteSeries.DiscreteSeriesClassification.DiscreteSeriesExhaustion.HeckeAlgebraActions.BackStable
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.MapQdetEtr
@@ -721,8 +720,8 @@ theorem phiB_E (hS : ScalChar X χ) (hB : BackStable) (a b : Fin (m + 1)) (v : X
   dsimp only
   by_cases h : c = b
   · subst h
-    rw [if_pos rfl, ← Pr_tensE, tensE_single, if_pos rfl, map_add (f := _), add_sub_cancel_right]
-  · rw [if_neg h, sub_zero, ← Pr_tensE, tensE_single, if_neg (Ne.symm h), add_zero]
+    rw [ite_eq_left rfl, ← Pr_tensE, tensE_single, ite_eq_left rfl, map_add (f := _), add_sub_cancel_right]
+  · rw [ite_eq_right h, sub_zero, ← Pr_tensE, tensE_single, ite_eq_right (Ne.symm h), add_zero]
 
 theorem unit_of_dualFacts (hDF : DualFacts) : Unit := by
   rintro (_ | m) X χ s hB hS hfree hsimp hom
@@ -852,7 +851,7 @@ theorem fwdPath (hQ : QdetEq) (hC : StepChar) (hOS : OmScal) (hF : FwdSimple) (h
       have hI1 := hRefl (step X' (χ s)) hS1' (hC n X' χ s hH') hI
       exact hR n X X' χ s hSc hSc' hf hd hI1
 
-theorem hecke_of' (hQ : QdetEq) (hC : StepChar) (_hCH : CayleyHam) (hV : NonVan) (hNS : NonScal) (hB : Back)
+theorem hecke_of' (hQ : QdetEq) (hC : StepChar) (hV : NonVan) (hNS : NonScal) (hB : Back)
     (hOS : OmScal) (hF : FwdSimple) (hR : Reflect) : Hecke := by
   unfold CompanionTheory.RgExh.Hecke
   intro m X χ ss hG hS hH hSc
@@ -908,8 +907,15 @@ theorem fsb_ofFn_map (f : V →ₗ[ℂ] W) : ∀ (t : ℕ) (g : Fin t → Module
 theorem fsb_qdet_map {E : Fin n → Fin n → Module.End ℂ V} {E' : Fin n → Fin n → Module.End ℂ W}
     (f : V →ₗ[ℂ] W) (hf : ∀ a b v, f (E a b v) = E' a b (f v)) (x : ℂ) (v : V) :
     f (qdet E x v) = qdet E' x (f v) := by
-  intros
-  apply _root_.UpperTheory.algMod_of_injective_intertwining <;> assumption
+
+  simp only [Formalism.REAL.qdet, Formalism.REAL.qminor, LinearMap.sum_apply, map_sum]
+  refine Finset.sum_congr rfl fun σ _ => ?_
+  rw [Module.End.mul_apply, Module.End.mul_apply, Module.End.intCast_apply, Module.End.intCast_apply,
+    map_zsmul]
+  congr 1
+  refine fsb_ofFn_map f n _ _ (fun k w => ?_) v
+  simp only [Formalism.REAL.Tm, LinearMap.add_apply, map_add (f := _), hf]
+  split_ifs <;> simp
 
 theorem fsb_glRel_surj {E : Fin n → Fin n → Module.End ℂ V} {E' : Fin n → Fin n → Module.End ℂ W}
     (f : V →ₗ[ℂ] W) (hs : Function.Surjective f) (hf : ∀ a b v, f (E a b v) = E' a b (f v)) (hE : GlRel E) :
@@ -1883,10 +1889,8 @@ theorem reflection_symmetry : Reflect :=
 theorem forward_simple_module : FwdSimple :=
   forward_simple_of_tensor_facts _root_.GlobalTheory.CompanionTheory.RgExh.qdetTens _root_.GlobalTheory.CompanionTheory.RgHeckeBack.backStable dual_module_facts unitarity
 
-theorem infinitesimal_character_shift : CompanionTheory.RgExh.StepChar := _root_.GlobalTheory.CompanionTheory.RgExhHecke.StepCharPf.stepChar
-
 theorem hecke_algebra_exhaustion : CompanionTheory.RgExh.Hecke :=
-  hecke_of' GlobalTheory.T.QuantumDeterminantEquality _root_.GlobalTheory.CompanionTheory.RgExhHecke.StepCharPf.stepChar _root_.GlobalTheory.CompanionTheory.RgExhHecke.CayleyOm.cayleyHam _root_.GlobalTheory.CompanionTheory.RgExhHecke.NonVanProof.nonVan _root_.GlobalTheory.CompanionTheory.RgExhHecke.NonScalProof.nonScal _root_.GlobalTheory.CompanionTheory.RgExhHecke.BackProof.back _root_.GlobalTheory.CompanionTheory.RgExhHecke.OmScalP.omScal
+  hecke_of' GlobalTheory.T.QuantumDeterminantEquality _root_.GlobalTheory.CompanionTheory.RgExhHecke.StepCharPf.stepChar _root_.GlobalTheory.CompanionTheory.RgExhHecke.NonVanProof.nonVan _root_.GlobalTheory.CompanionTheory.RgExhHecke.NonScalProof.nonScal _root_.GlobalTheory.CompanionTheory.RgExhHecke.BackProof.back _root_.GlobalTheory.CompanionTheory.RgExhHecke.OmScalP.omScal
     forward_simple_module reflection_symmetry
 
 end CompanionTheory.RgExh.Hk

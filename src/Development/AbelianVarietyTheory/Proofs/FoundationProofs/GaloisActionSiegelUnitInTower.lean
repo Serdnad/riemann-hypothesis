@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.FoundationProofs.SmoothedSiegelUnitIndexAddIntVector
 public import Development.AbelianVarietyTheory.Definitions.Divisors.HasQIff
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.SiegelFunctionHolomorphic
 public import Development.AbelianVarietyTheory.Proofs.HomogeneousIdeals.HasQExpansionModularForm
@@ -261,7 +260,17 @@ theorem cj_tprod (hh : 0 < h) {e : ℕ → ℕ} (he : ∀ m, m ≤ e m) (w : ℂ
   simp [map_sum]
 
 theorem geomProd_shift {q : ℂ} (hq : ‖q‖ < 1) (u : ℂ) : geomProd q u = (1 - q * u) * geomProd q (q * u) := by
-  apply _root_.GlobalTheory.Sieg.Per.qp_shift <;> assumption
+  have e : (fun m : ℕ => 1 - q ^ (m + 1 + 1) * u) = fun m : ℕ => 1 - q ^ (m + 1) * (q * u) := by
+    funext m; ring
+  have hs : Summable fun m : ℕ => ‖-(q ^ (m + 1) * (q * u))‖ := by
+    simp only [norm_neg, norm_mul, norm_pow, pow_succ]
+    exact ((summable_geometric_of_lt_one (norm_nonneg _) hq).mul_right _).mul_right _
+  have h : Multipliable fun m : ℕ => (fun m : ℕ => 1 - q ^ (m + 1) * u) (m + 1) := by
+    show Multipliable fun m : ℕ => 1 - q ^ (m + 1 + 1) * u
+    rw [e]; simpa [sub_eq_add_neg] using multipliable_one_add_of_summable hs
+  have := tprod_eq_zero_mul' (f := fun m : ℕ => 1 - q ^ (m + 1) * u) h
+  simp only [e, zero_add, pow_one] at this
+  exact this
 
 theorem rel_geomProd (hh : 0 < h) {M : ℕ} (hM : 0 < M) (w : ℂ) (j : ℤ) :
     Rel σ h (fun τ => geomProd (𝕢 h τ ^ M) (𝕢 h τ ^ j * w)) fun τ => geomProd (𝕢 h τ ^ M) (𝕢 h τ ^ j * σ w) := by
@@ -439,7 +448,7 @@ theorem lc_zero {R : Type} [Zero R] {M : ℕ} {k : ℤ} (A : ℕ → R) {r : ℚ
     lc M k A r = 0 := by
   unfold lc
   rw [dite_eq_right]
-  push_neg
+  push Not
   exact h
 
 theorem lc_map {R S : Type} [Zero R] [Zero S] (M : ℕ) (k : ℤ) (A : ℕ → R) (g : R → S) (hg : g 0 = 0) (r : ℚ) :
@@ -454,7 +463,7 @@ theorem eq_lc {R : Type} [Zero R] {M : ℕ} (hM : 0 < M) {k : ℤ} {A : ℕ → 
   by_cases h : ∃ n : ℕ, r = ((k : ℚ) + n) / M
   · obtain ⟨n, rfl⟩ := h
     rw [h1, lc_eq hM]
-  · push_neg at h
+  · push Not at h
     rw [h2 r h, lc_zero A h]
 
 theorem lc_unique {M : ℕ} (hM : 0 < M) {f : ℍ → ℂ} {k k' : ℤ} {A A' : ℕ → ℂ}
@@ -483,7 +492,7 @@ theorem lc_unique {M : ℕ} (hM : 0 < M) {f : ℍ → ℂ} {k k' : ℤ} {A A' : 
     · rw [← hQ] at h2
       have e2 : (fun n => (if m ≤ n then A' (n - m) else 0) * Q ^ n) ∘ (· + m) = fun i => A' i * Q ^ i * Q ^ m := by
         funext n
-        simp only [Function.comp, le_add_iff_nonneg_left, zero_le, if_true, Nat.add_sub_cancel, pow_add]
+        simp only [Function.comp, le_add_iff_nonneg_left, zero_le, ite_true, Nat.add_sub_cancel, pow_add]
         ring
       rw [e2]; exact h2
   have hA := HasQ.coeff_unique hM h hs
@@ -494,18 +503,18 @@ theorem lc_unique {M : ℕ} (hM : 0 < M) {f : ℍ → ℂ} {k k' : ℤ} {A A' : 
   · obtain ⟨n, rfl⟩ := hr
     rw [lc_eq hM]
     by_cases hmn : m ≤ n
-    · rw [if_pos hmn]
+    · rw [ite_eq_left hmn]
       have : ((k : ℚ) + n) / M = (((k + m : ℤ) : ℚ) + ((n - m : ℕ) : ℚ)) / M := by
         push_cast [Nat.cast_sub hmn]; ring
       rw [this, lc_eq hM]
-    · rw [if_neg hmn, lc_zero]
+    · rw [ite_eq_right hmn, lc_zero]
       intro n' hn'
       rw [div_left_inj' hM'] at hn'
       push_cast at hn'
       have : (n : ℚ) = m + n' := by linarith
       have : n = m + n' := by exact_mod_cast this
       omega
-  · push_neg at hr
+  · push Not at hr
     rw [lc_zero _ hr, lc_zero]
     intro n' hn'
     apply hr (m + n')

@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.AinfEnvelopeModPrimeProperties
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.IsStratHom
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.AinfUnitBoundedTeichmullerFlatDenominators
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.BreuilKisinMemIdealPowOfXPowMulMem
@@ -54,8 +53,17 @@ namespace GlobalTheory.NullOverS
 
 theorem topBasis_c_mem_map {S A ι : Type} [CommRing S] [CommRing A] {s : S →+* A} {I : Ideal S}
     (TB : TopBasis s I ι) (i : ι) (n : ℕ) {x : A} (hx : x ∈ (I ^ n).map s) : TB.c i x ∈ I ^ n := by
-  intros
-  apply _root_.GlobalTheory.BSP.TopBasis.c_mem_of_mem <;> assumption
+  have key : ∀ r : A, TB.c i (r * x) ∈ I ^ n := by
+    refine Submodule.span_induction (p := fun x _ => ∀ r : A, TB.c i (r * x) ∈ I ^ n) ?_ ?_ ?_ ?_ hx
+    · rintro _ ⟨j, hj, rfl⟩ r
+      rw [mul_comm, TB.c_mul]
+      exact Ideal.mul_mem_right _ _ hj
+    · intro r; simp
+    · intro y z _ _ hy hz r
+      rw [mul_add, map_add (f := _)]; exact Ideal.add_mem _ (hy r) (hz r)
+    · intro a y _ hy r
+      rw [smul_eq_mul, ← mul_assoc]; exact hy _
+  simpa using key 1
 
 theorem topBasis_c_i₀ {S A ι : Type} [CommRing S] [CommRing A] {s : S →+* A} {I : Ideal S}
     (TB : TopBasis s I ι) (a : S) : TB.c TB.i₀ (s a) = a := by
@@ -79,8 +87,7 @@ theorem GlobalTheory.NullOverS.null_of_mul_null : ∀ (l : ℕ) [Fact l.Prime] (
   refine (Set.finite_iUnion fun c : Fin d => hσ n' c b).subset ?_
   intro i hi
   simp only [Set.mem_iUnion, Set.mem_setOf_eq] at hi ⊢
-  by_contra hc
-  push_neg at hc
+  by_contra! hc
   apply hi
   apply hn'
   have h1 : (t • adjugate Y * (Y * (σ i).map bk.ev)) a b = t * Y.det * bk.ev (σ i a b) := by

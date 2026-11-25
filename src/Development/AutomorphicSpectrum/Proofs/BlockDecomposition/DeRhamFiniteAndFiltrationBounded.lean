@@ -9,47 +9,6 @@ public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.InOpenFi
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.SheafFiltrationProperty
 public import Development.WeilBound.CoreStatements.PadicHodgeComparison.EtaleCohomologyComparison.CechPairings.MapHComp
 public import Development.WeilBound.CoreStatements.PadicHodgeComparison.EtaleCohomologyComparison.CechPairings.MemBoundariesZeroIff
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.RingTheory.RegularLocalRing.Defs
-import Mathlib.RingTheory.SimpleRing.Principal
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.HodgeFiltrationViaTruncation
 
 @[expose] public section
 
@@ -72,7 +31,7 @@ theorem cx_H_subsingleton (K : Cx.{1} R) (n : ℕ) (h : Subsingleton (K.X n)) : 
 
 theorem H_subsingleton (F : C ⥤ ModuleCat.{0} R) (h : ∀ T, Subsingleton (F.obj T)) (n : ℕ) :
     Subsingleton (CH.H F n) :=
-  cx_H_subsingleton (CH.cx F) n ⟨fun a b => funext fun s => (h _).elim _ _⟩
+  cx_H_subsingleton (CH.cx F) n ⟨fun _ _ => funext fun _ => (h _).elim _ _⟩
 
 theorem sqM_rep (a b : IdF A) (T : C) (x : sqM a b T) :
     ∃ (y : A.obj T) (hy : y ∈ a.S T), x = sqMk a b y hy := by
@@ -164,7 +123,17 @@ def zeroSerre (R : Type) [CommRing R] : Serre.{1} R where
 
 theorem toSq_bijective (a b : IdF A) (ha : ∀ T, a.S T = ⊤) (hb : ∀ T, b.S T = ⊥) (n : ℕ) :
     Function.Bijective ((toSq a b ha).pull n) := by
-  apply _root_.GlobalTheory.CompanionTheory.KIso.toSq_bij_bot <;> assumption
+  refine CrystallineSemistableComparison.P.mapH_bij (toSq a b ha).hom (fun n => ⟨fun x y h => funext fun s => ?_, fun y => ?_⟩) n
+  · have h' := congrArg (fun z : sqM a b _ => z.1) (congrFun h s)
+    have := Ideal.Quotient.eq.1 h'
+    rw [hb] at this
+    have h2 : (show A.obj (s.obj (Fin.last _)) from x s) - (show A.obj (s.obj (Fin.last _)) from y s) = 0 := (Ideal.mem_bot).1 this
+    exact sub_eq_zero.1 h2
+  · have key : ∀ (T : C) (z : (sq a b).obj T), ∃ w : (CH.modF A).obj T, (toSq a b ha).τ T w = z := by
+      intro T z
+      obtain ⟨w, hw, rfl⟩ := sqM_rep a b T z
+      exact ⟨w, rfl⟩
+    exact ⟨fun s => (key _ (y s)).choose, funext fun s => (key _ (y s)).choose_spec⟩
 
 theorem toSq_comp (a b c : IdF A) (ha : ∀ T, a.S T = ⊤) (hcb : ∀ T, c.S T ≤ b.S T) (n : ℕ)
     (y : CH.H (CH.modF A) n) :
@@ -176,7 +145,27 @@ theorem toSq_comp (a b c : IdF A) (ha : ∀ T, a.S T = ⊤) (hcb : ∀ T, c.S T 
 end Gen
 
 theorem tfBase (K : Type) [Field K] [CharZero K] (s : ℕ) (hs : 0 < s) : TFBase (dividedPowersBot K) 1 s := by
-  apply _root_.GlobalTheory.CompanionTheory.KIso.tfBase <;> assumption
+  refine ⟨?_, ?_, ?_⟩
+  · refine Ideal.span_eq_bot.2 ?_
+    rintro _ ⟨l, hl, hr, rfl⟩
+    have : ∃ q ∈ l, q.1 ≠ 0 := by
+      by_contra hc
+      push Not at hc
+      have : (l.map Prod.fst).sum = 0 := by
+        refine List.sum_eq_zero ?_
+        intro x hx
+        obtain ⟨q, hq, rfl⟩ := List.mem_map.1 hx
+        exact hc q hq
+      omega
+    obtain ⟨q, hq, h0⟩ := this
+    refine List.prod_eq_zero (List.mem_map.2 ⟨q, hq, ?_⟩)
+    have e : q.2 = 0 := (Ideal.mem_bot).1 (hl q hq)
+    rw [e]
+    exact DividedPowers.dpow_eval_zero _ h0
+  · intro r x h
+    simpa using h
+  · intro n hn
+    exact ⟨0, (n : K)⁻¹, by simp [Nat.cast_ne_zero.2 hn]⟩
 
 end GlobalTheory.CompanionTheory.KFin
 

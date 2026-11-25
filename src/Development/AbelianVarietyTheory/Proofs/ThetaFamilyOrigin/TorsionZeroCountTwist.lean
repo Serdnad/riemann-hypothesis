@@ -49,11 +49,8 @@ public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValua
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.FirstCohomology.SectionArithmetic
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.FirstCohomology.SectionDivision
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.FirstCohomology.SquareUnits
-import Development.AbelianVarietyTheory.Proofs.ThetaFamilyOrigin.ExistsMulPullSec
 
 @[expose] public section
-
-set_option autoImplicit false
 
 noncomputable section
 
@@ -61,8 +58,6 @@ open AlgebraicGeometry CategoryTheory Limits MonoidalCategory CartesianMonoidalC
   TopologicalSpace Opposite
 open ReciprocityTheory.ChartRestriction.G ReciprocityTheory.ChartRestriction.G.Semi ReciprocityTheory.ChartRestriction.G.Geo.Tor ReciprocityTheory.ChartRestriction.G.Out
   ReciprocityTheory.ChartRestriction.G.H1 ReciprocityTheory.ChartRestriction.G.H1.SectionArithmetic ReciprocityTheory.ChartRestriction.G.H1.SquareUnits
-
-attribute [local instance] Over.cartesianMonoidalCategory
 
 namespace GlobalTheory.TwistZero
 
@@ -100,7 +95,16 @@ theorem triv_of_sec (hL : L.IsLB) {φ : K → (Y ⟶ X)} {ε : K → ℤ} (s : L
 theorem mem_nonzeroLocus_iff {φ : K → (Y ⟶ X)} {ε : K → ℤ} (s : LB.Sec (LB.LinComb L φ ε)) (r : Z ⟶ Y)
     (z : Z) {J : (Z ⟶ X) → L.ι} (hJ : Good L z J) :
     r z ∈ nonzeroLocus s ↔ IsUnit (sval s r z J) := by
-  apply _root_.GlobalTheory.MulPullSec.mem_nonzeroLocus_iff <;> assumption
+  constructor
+  · intro h
+    obtain ⟨k, hk⟩ := Opens.mem_iSup.1 h
+    exact isUnit_sval s r z hJ k hk
+  · intro h
+    have hm := hJ.mem φ r
+    have hu := (congrArg IsUnit (gs_eq r z _ hm (s.f (fun k => J (r ≫ φ k))))).mp h
+    have hz := (Z.mem_basicOpen _ z hm).2 hu
+    exact Opens.mem_iSup.2 ⟨fun k => J (r ≫ φ k),
+      (SetLike.ext_iff.1 (Scheme.preimage_basicOpen r (s.f (fun k => J (r ≫ φ k)))) z).2 hz⟩
 
 theorem sval_eq_zero {φ : K → (Y ⟶ X)} {ε : K → ℤ} (s : LB.Sec (LB.LinComb L φ ε)) (h : ∀ j, s.f j = 0)
     (r : Z ⟶ Y) (z : Z) {J : (Z ⟶ X) → L.ι} (hJ : Good L z J) : sval s r z J = 0 :=
@@ -218,8 +222,7 @@ theorem torsion_zero_count_twist : Out.MulNSt → Out.SquareSt → (∀ (K : Typ
   obtain ⟨b, rfl⟩ := SectionDivision.exists_div hmul P c (N * d) (by omega)
   obtain ⟨s', hs'⟩ := TwistZero.exists_untwist hsq P (N * d) hq b s
   have hs0 : ∃ j, s'.f j ≠ 0 := by
-    by_contra hcon
-    push_neg at hcon
+    by_contra! hcon
     obtain ⟨j, hj⟩ := hs
     refine hj (sec_ext_val P.isLB (s := s) (s' := secZero _) (fun y J hJ => ?_) j)
     obtain ⟨u, hu⟩ := hs' _ (𝟙 _) y J hJ

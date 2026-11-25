@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.IsWeilDatumOOneOfRankZero
 public import Formalism.LocalToGlobal.BesselHermitianTheta.IsAutFunDef
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsIsFundamentalDomain
 import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.LocallyCompactSecondCountableT2
@@ -53,12 +52,20 @@ open Formalism.BasicNotions Formalism.BasicNotions.TH Formalism.MainNotions.Glob
 open ReciprocityTheory.ChartRestriction.G ReciprocityTheory.ChartRestriction.G.FD GlobalTheory GlobalTheory.ThFr GlobalTheory.Ker
 open GlobalTheory.SW hiding Level
 open scoped TensorProduct ComplexConjugate Real Classical
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 
 namespace GlobalTheory.Ker.HypModel
 
 theorem exists_haar_fundDom (D : D7) (V : HSp D) :
     ∃ (ν : Measure (GA D V)) (𝓖 : Set (GA D V)), ν.IsHaarMeasure ∧ IsFundamentalDomain (GQ V) 𝓖 ν := by
-  first | exact _root_.GlobalTheory.RawLift.exists_haar_fundDomain | exact @_root_.GlobalTheory.RawLift.exists_haar_fundDomain | apply _root_.GlobalTheory.RawLift.exists_haar_fundDomain <;> assumption
+  have := (GlobalTheory.MemberAdelicTop.locallyCompact_secondCountable_t2 D V).1
+  have : BorelSpace (GA D V) := ⟨rfl⟩
+  have : IsModuleTopology (AF D.host.F) (AF D.host.F ⊗[D.host.F] D.host.E) := ⟨rfl⟩
+  have : Module.Finite D.host.F D.host.E := Module.Finite.of_restrictScalars_finite ℚ _ _
+  have : IsTopologicalRing (AF D.host.F ⊗[D.host.F] D.host.E) :=
+    IsModuleTopology.isTopologicalRing (AF D.host.F) _
+  have : IsTopologicalGroup (GA D V) :=
+    inferInstanceAs (IsTopologicalGroup (HR (AF D.host.F) D.sp.cm.sig V.gram))
+  obtain ⟨𝓖, h⟩ := GlobalTheory.FundDomDiscrete.exists_fundDom D V Measure.haar inferInstance
+  exact ⟨Measure.haar, 𝓖, inferInstance, h⟩
 
 end GlobalTheory.Ker.HypModel

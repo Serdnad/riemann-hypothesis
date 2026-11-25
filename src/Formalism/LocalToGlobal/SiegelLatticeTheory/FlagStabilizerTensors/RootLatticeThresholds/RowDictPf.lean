@@ -211,12 +211,12 @@ theorem coeff_monicOf {K : Type} [Field K] {N : ℕ} (a : Fin N → K) (i : Fin 
     (Formalism.CyclotomicNorms.monicOf a).coeff i = a i := by
   classical
   unfold Formalism.CyclotomicNorms.monicOf
-  rw [coeff_add, coeff_X_pow, if_neg (Nat.ne_of_lt i.isLt), zero_add, finsetSum_coeff]
+  rw [coeff_add, coeff_X_pow, ite_eq_right (Nat.ne_of_lt i.isLt), zero_add, finsetSum_coeff]
   simp_rw [coeff_C_mul_X_pow]
   rw [Finset.sum_eq_single i]
   · simp
   · intro j _ hj
-    rw [if_neg]
+    rw [ite_eq_right]
     exact fun h => hj (Fin.ext h).symm
   · simp
 
@@ -377,7 +377,6 @@ end Dstar
 
 section Schur
 
-open Formalism.MainNotions.S
 
 def DSSchurOrth : Prop :=
   ∀ (n : ℕ) (ε : Fin n → Bool) (H : Type) [NormedAddCommGroup H] [InnerProductSpace ℂ H] [CompleteSpace H]
@@ -414,7 +413,6 @@ end Formalism.L2.SG.Pf
 
 namespace Formalism.L2.SG.Pf.RowDictPf
 
-open Formalism.MainNotions.S
 
 theorem schur_orthogonality_discrete_series : DSSchurOrth := by
   intro n ε H _ _ _ σ hN hU hI hS

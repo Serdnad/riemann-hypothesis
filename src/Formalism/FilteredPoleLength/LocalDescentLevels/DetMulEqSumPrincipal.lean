@@ -1,60 +1,16 @@
 module
 
-
-import Formalism.FlagUnipotentLattices.MinkowskiFactorialBounds.IntegrableOnIoiTruncatedPowerMoment
 public import Mathlib.Analysis.InnerProductSpace.PiL2
 public import Mathlib.Analysis.Complex.ExponentialBounds
 public import Mathlib.LinearAlgebra.Matrix.Charpoly.Coeff
 public import Mathlib.MeasureTheory.Constructions.BorelSpace.Metric
 public import Mathlib.MeasureTheory.Measure.Lebesgue.EqHaar
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
 import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Topology.Sheaves.Init
 import Mathlib.Analysis.CStarAlgebra.Classes
 import Mathlib.Order.CompletePartialOrder
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
 import Mathlib.Tactic.Lemma
-import Mathlib.Tactic.Linter.HaveILetI
-import Mathlib.Tactic.ReduceModChar
 import Mathlib.Tactic.TypeStar
+
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Formalism.FilteredPoleLength.ReducedBasisBounds.ParameterInequalities, Formalism.FilteredPoleLength.LocalDescentLevels.DetMulEqSumPrincipal
 
@@ -69,13 +25,6 @@ namespace Formalism.LatticeBaseChangeAlt
 
 open Finset Matrix
 open scoped RealInnerProductSpace BigOperators
-
-def CompletingSquare : Prop :=
-  ∀ (V : Type) [AddCommGroup V] [Module ℝ V] (B : LinearMap.BilinForm ℝ V),
-    (∀ x y, B x y = B y x) → (∀ x, 0 ≤ B x x) →
-    ∀ (q : ℝ), 0 < q → ∀ χ : V,
-      (∀ u : V, -(B χ χ / 2) / q ≤ B χ u + q * (B u u / 2)) ∧
-      B χ ((-(1 / q)) • χ) + q * (B ((-(1 / q)) • χ) ((-(1 / q)) • χ) / 2) = -(B χ χ / 2) / q
 
 def PackingCount : Prop :=
   ∀ (n : ℕ) (P : Finset (EuclideanSpace ℝ (Fin n))) (δ R : ℝ), 0 < δ → δ ≤ R →
@@ -133,8 +82,7 @@ theorem detPerturbNumeric : DetPerturbNumeric := by
   have h2 : Real.exp ((ρ:ℝ) * ((ρ : ℝ) ^ (-(3 : ℝ) / 2) / 10)) ≤ Real.exp (1/10) :=
     Real.exp_le_exp.2 hρx
   have h3 : Real.exp (1/10) ≤ 3/2 := by
-    by_contra hc
-    push_neg at hc
+    by_contra! hc
     have h4 : (3/2:ℝ)^10 < Real.exp (1/10) ^ 10 := pow_lt_pow_left₀ hc (by norm_num) (by norm_num)
     rw [← Real.exp_nat_mul] at h4
     norm_num at h4
@@ -202,19 +150,45 @@ theorem detPerturbation : DetPerturbation := by
 
 lemma coeff_top_det {K : Type*} [CommRing K] {i : ℕ} (M : Matrix (Fin i) (Fin i) K) :
     (det (1 + (X : K[X]) • M.map C)).coeff i = M.det := by
-  apply _root_.Formalism.HermitianLatticeCounting.P.ge_coeff_top_det <;> assumption
+  rcases subsingleton_or_nontrivial K with hK | hK
+  · exact Subsingleton.elim _ _
+  · have e : (1 + (X : K[X]) • M.map C) = 1 - (X : K[X]) • (-M).map C := by
+      have hm : (-M).map C = -(M.map C) := by
+        ext a b
+        simp
+      rw [hm, smul_neg, sub_neg_eq_add]
+    rw [e]
+    change (Matrix.charpolyRev (-M)).coeff i = M.det
+    rw [← Matrix.reverse_charpoly, Polynomial.coeff_reverse, Matrix.charpoly_natDegree_eq_dim,
+      Fintype.card_fin, Polynomial.revAt_le (le_refl i), Nat.sub_self]
+    have h := Matrix.det_eq_sign_charpoly_coeff (-M)
+    rw [Fintype.card_fin, Matrix.det_neg, Fintype.card_fin] at h
+    have hu : IsUnit ((-1 : K) ^ i) := (isUnit_one.neg).pow i
+    exact (hu.mul_left_cancel h).symm
 
 lemma det_mul_eq_sum_principal {K : Type*} [CommRing K] {i n : ℕ} (A : Matrix (Fin i) (Fin n) K)
     (B : Matrix (Fin n) (Fin i) K) :
     (A * B).det = ∑ S ∈ (Finset.univ : Finset (Fin n)).powersetCard i,
       ((B * A).submatrix (Subtype.val : S → Fin n) Subtype.val).det := by
-  apply _root_.Formalism.HermitianLatticeCounting.P.ge_det_mul_eq_sum_principal <;> assumption
+  rw [← coeff_top_det (A * B)]
+  have h1 : (1 : Matrix (Fin i) (Fin i) K[X]) + (X : K[X]) • (A * B).map C
+      = 1 + ((X : K[X]) • A.map C) * (B.map C) := by
+    rw [Matrix.map_mul, Matrix.smul_mul]
+  have h2 : (B.map C) * ((X : K[X]) • A.map C) = (X : K[X]) • (B * A).map C := by
+    rw [Matrix.mul_smul]; congr 1; simp [Matrix.map_mul]
+  rw [h1, det_one_add_mul_comm, h2, coeff_det_one_add_X_smul_eq_sum_minors]
 
 lemma principal_minor_factor {K : Type*} [CommRing K] {i n : ℕ} (A : Matrix (Fin i) (Fin n) K)
     (B : Matrix (Fin n) (Fin i) K) (S : Finset (Fin n)) (hS : S.card = i) :
     ((B * A).submatrix (Subtype.val : S → Fin n) Subtype.val).det
       = (B.submatrix (S.orderEmbOfFin hS) id).det * (A.submatrix id (S.orderEmbOfFin hS)).det := by
-  apply _root_.Formalism.HermitianLatticeCounting.P.ge_principal_minor_factor <;> assumption
+  rw [← Matrix.det_submatrix_equiv_self (S.orderIsoOfFin hS).toEquiv]
+  rw [show ((B * A).submatrix (Subtype.val : S → Fin n) Subtype.val).submatrix
+      (S.orderIsoOfFin hS).toEquiv (S.orderIsoOfFin hS).toEquiv
+      = B.submatrix (S.orderEmbOfFin hS) id * A.submatrix id (S.orderEmbOfFin hS) from by
+    ext a b
+    simp [Matrix.mul_apply, Finset.coe_orderIsoOfFin_apply]]
+  rw [Matrix.det_mul]
 
 theorem cauchyBinetMax : CauchyBinetMax := by
   intro i N r M hM hNr
@@ -229,7 +203,7 @@ theorem cauchyBinetMax : CauchyBinetMax := by
     intro S hS
     have hc := (Finset.mem_powersetCard.1 hS).2
     rw [principal_minor_factor M Mᴴ S hc]
-    simp only [g, dif_pos hc]
+    simp only [g, dite_eq_left hc]
     have e : Mᴴ.submatrix (S.orderEmbOfFin hc) id = (M.submatrix id (S.orderEmbOfFin hc))ᴴ := by
       ext a b
       simp [Matrix.conjTranspose_apply]
@@ -239,12 +213,11 @@ theorem cauchyBinetMax : CauchyBinetMax := by
   have h3 : (1 : ℝ) = ∑ S ∈ (Finset.univ : Finset (Fin N)).powersetCard i, g S := by
     have := h1.trans (Finset.sum_congr rfl h2)
     exact_mod_cast this
-  by_contra hcon
-  push_neg at hcon
+  by_contra! hcon
   have hlt : ∀ S ∈ (Finset.univ : Finset (Fin N)).powersetCard i, g S < (2 : ℝ) ^ (-(r : ℝ)) := by
     intro S hS
     have hc := (Finset.mem_powersetCard.1 hS).2
-    simp only [g, dif_pos hc]
+    simp only [g, dite_eq_left hc]
     have h4 := hcon _ (S.orderEmbOfFin hc).strictMono
     have h5 : ‖(M.submatrix id (S.orderEmbOfFin hc)).det‖ ^ 2 < ((2 : ℝ) ^ (-(r : ℝ) / 2)) ^ 2 :=
       pow_lt_pow_left₀ h4 (norm_nonneg _) (by norm_num)

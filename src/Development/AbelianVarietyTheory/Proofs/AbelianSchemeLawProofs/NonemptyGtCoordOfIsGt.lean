@@ -1,55 +1,10 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.HomogeneousIdeals.FormallyUnramifiedOfTangentMapInjective
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.ChartPullbacks.WeightedChartPullback.CancelSecAct
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.ValCalc
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.DegUnif
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.GlobalSectionsRankAlgClosed
 public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.InvariantFunctionsDescend
 public import Development.AbelianVarietyTheory.Proofs.HomogeneousIdeals.HomBaseChangeBijectiveOfLeNilradical
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.AlgebraicGeometry.Modules.Sheaf
-import Mathlib.AlgebraicGeometry.Morphisms.SchemeTheoreticallyDominant
-import Mathlib.AlgebraicGeometry.Morphisms.WeaklyEtale
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.LBPull
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.PhiGenPf
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.CubeVal
@@ -406,7 +361,15 @@ variable {R : Type} [CommRing R] [IsDomain R] (D : DegPre R)
 
 theorem comp_Oφ {T T' : Over (Spec (CommRingCat.of R))} (h : T' ⟶ T) (p : T ⟶ D.P.A) (χ : D.X)
     (k : Fin 4) : h.left ≫ D.Oφ p χ k = D.Oφ (h ≫ p) χ k := by
-  first | exact _root_.ReciprocityTheory.ChartRestriction.G.Out.WeightPf.Oφ_comp | exact @_root_.ReciprocityTheory.ChartRestriction.G.Out.WeightPf.Oφ_comp | apply _root_.ReciprocityTheory.ChartRestriction.G.Out.WeightPf.Oφ_comp <;> assumption
+  have e0 : h ≫ padd D.P.A p (toUnit T ≫ D.c χ) = padd D.P.A (h ≫ p) (toUnit T' ≫ D.c χ) := by
+    simp only [padd]; rw [← Category.assoc, comp_lift, comp_toUnit_assoc]
+  have e1 : h ≫ toUnit T ≫ D.c χ = toUnit T' ≫ D.c χ := by simp
+  have e3 : h ≫ toUnit T ≫ η[D.P.A] = toUnit T' ≫ η[D.P.A] := by simp
+  fin_cases k
+  · exact congrArg (fun g => g.left) e0
+  · exact congrArg (fun g => g.left) e1
+  · rfl
+  · exact congrArg (fun g => g.left) e3
 
 theorem prod_Oφ {T : Over (Spec (CommRingCat.of R))} (p : T ⟶ D.P.A) (χ : D.X) {U : Type}
     [CommGroup U] (h : (T.left ⟶ D.P.A.left) → U) :
@@ -500,7 +463,17 @@ end Coord
 
 theorem unit_fst {S S' : Scheme.{0}} (f : S' ⟶ S) (A : Over S) [GrpObj A] :
     η[(Over.pullback f).obj A].left ≫ pullback.fst A.hom f = f ≫ η[A].left := by
-  first | exact _root_.GlobalTheory.GrpTangent.one_pullback_left_fst | exact @_root_.GlobalTheory.GrpTangent.one_pullback_left_fst | apply _root_.GlobalTheory.GrpTangent.one_pullback_left_fst <;> assumption
+  have h : η[(Over.pullback f).obj A] =
+      Functor.LaxMonoidal.ε (Over.pullback f) ≫ (Over.pullback f).map η[A] := rfl
+  have h₁ : ((Over.pullback f).map η[A]).left ≫ pullback.fst A.hom f =
+      pullback.fst (𝟙_ (Over S)).hom f ≫ η[A].left := pullback.lift_fst _ _ _
+  rw [h, Over.comp_left, Category.assoc, h₁, ← Category.assoc]
+  congr 1
+  have h₂ : pullback.fst (𝟙_ (Over S)).hom f = pullback.snd (𝟙_ (Over S)).hom f ≫ f :=
+    (Category.comp_id _).symm.trans pullback.condition
+  rw [h₂, ← Category.assoc]
+  exact (congrArg (· ≫ f) (Over.w (Functor.LaxMonoidal.ε (Over.pullback f)))).trans
+    (Category.id_comp _)
 
 theorem val_charGen {S Y Z : Scheme.{0}} (X : Type) [AddCommGroup X] (G : Over S) (L : LB Y) (χ : X)
     (r : Z ⟶ (splitTorus S X ⊗ G).left) (z : Z) (J : (Z ⟶ Y) → L.ι) :

@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.FlagMeasures.UnipotentLeviRadicalCoordsHomeomorph
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.IsotropicLeviEmbeddingHomomorphismProperties
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.IsotropicStabilizerRadicalStructure
 public import Mathlib.LinearAlgebra.Eigenspace.Zero
@@ -233,7 +232,16 @@ theorem cont_upper (r : ℕ) : Continuous (upper : (UT r → ℂ) → Matrix (Fi
   split_ifs <;> fun_prop
 
 theorem cont_uEmb (k r : ℕ) : Continuous fun x : UT r → ℂ => uEmb k r (upper x) := by
-  apply _root_.GlobalTheory.Amp.NCoord.cont_uEmb <;> assumption
+  have hi : Continuous fun x : UT r → ℂ => (upper x)⁻¹ := by
+    have : (fun x : UT r → ℂ => (upper x)⁻¹) = fun x => (upper x).adjugate := by
+      funext x; rw [Matrix.inv_def, det_upper]; simp
+    rw [this]; exact (cont_upper r).matrix_adjugate
+  refine continuous_pi fun i => continuous_pi fun j => ?_
+  unfold uEmb
+  split_ifs
+  · exact (cont_upper r).matrix_elem _ _
+  · exact (hi.matrix_elem _ _).star
+  all_goals exact continuous_const
 
 theorem cont_pOf (k r : ℕ) : Continuous (pOf k r) := by
   refine continuous_pi fun i => continuous_pi fun j => ?_
@@ -546,7 +554,6 @@ theorem range_eq_and_injective_parabolic_unipotent_product : ∀ (k r j : ℕ) (
   · rintro rfl
     haveI s3 : SFinite (volume : Measure ((UT r → ℂ) × (Fin r → ℝ))) := Measure.prod.instSFinite
     haveI s4 : SFinite (volume : Measure (PPar k r)) := Measure.prod.instSFinite
-    set_option synthInstance.maxHeartbeats 200000 in
     have hΦ : MeasurePreserving (fun q : (UTin β → ℂ) × PTop k r 0 =>
         ((extZ (fun p : UT r => β p.1.1 = β p.1.2) ℂ q.1, (extR k r 0 q.2.1, extS r 0 q.2.2)) : (UT r → ℂ) × PPar k r))
         volume volume :=

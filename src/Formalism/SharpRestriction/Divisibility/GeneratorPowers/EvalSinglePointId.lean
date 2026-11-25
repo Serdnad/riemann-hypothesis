@@ -1,7 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.FormalGroupCharts.ChartLawActionEqTransportedOfCoordRel
-import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.GermPointsNoConstantTermFirstZero
 public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.CIndFrFix
 public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.GermDJet
 public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.CPfSym
@@ -12,53 +10,11 @@ public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.FBIdLB
 public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.GermDPf
 import Formalism.SharpRestriction.Divisibility.GeneratorPowers.GermFunPf
 public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.JetSubstPSTrunc
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.AlgebraicGeometry.Modules.Sheaf
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.LBCorr
 public import Formalism.LocalToGlobal.ProjectiveLattices.IsChartIff
 
 @[expose] public section
-
-set_option autoImplicit false
 
 noncomputable section
 
@@ -69,14 +25,21 @@ open ReciprocityTheory.ChartRestriction.G ReciprocityTheory.ChartRestriction.G.S
 open Formalism.MainNotions.ModuliIntegralCharts.H1.CIndFrFix
 open ReciprocityTheory.ChartRestriction.G.Geo.Tor.Germ (PS Pt ev pt comp1 FGLaw FB)
 
-attribute [local instance] Over.cartesianMonoidalCategory
-
 section Alg
 
 variable {S : Type} [CommRing S] {d : ℕ}
 
 theorem eval_single_point_id (g : PS S 1 d) : ev (n := 1) ![pt S (n := 1) d 0] g = g := by
-  apply _root_.GlobalTheory.DerivEndo.ev_id <;> assumption
+  have h : (fun p : Fin 1 × Fin d => (![pt S (n := 1) d 0] : Fin 1 → Pt S 1 d) p.1 p.2) =
+      MvPowerSeries.X := by
+    funext p
+    obtain ⟨i, j⟩ := p
+    rw [Fin.fin_one_eq_zero i]
+    rfl
+  unfold ReciprocityTheory.ChartRestriction.G.Geo.Tor.Germ.ev
+  rw [h]
+  first
+  | (rw [MvPowerSeries.subst_self]; rfl)
 
 theorem jet_sL (m : ℕ) (act : Fin d → MvPowerSeries (Fin 1 × Fin d) S)
     (hact : ∀ j, MvPowerSeries.constantCoeff (act j) = 0) (f : PS S 2 d) :
@@ -154,8 +117,22 @@ theorem diag_const (B : FB S d O) (w0 : O) (p : Fin 2) (q : Fin d) :
 private theorem const_ev_lemma {R : Type} [CommRing R] {e m n : ℕ} (a : Fin m → Pt R n e) (f : PS R m e)
     (ha : ∀ p q, MvPowerSeries.constantCoeff (a p q) = 0) (hf : MvPowerSeries.constantCoeff f = 0) :
     MvPowerSeries.constantCoeff (ev a f) = 0 := by
-  intros
-  apply _root_.GlobalTheory.ChartCmp.CoordLaw.cc_ev <;> assumption
+  have hs : MvPowerSeries.HasSubst (fun p : Fin m × Fin e => a p.1 p.2) := by
+    first
+    | exact ⟨fun p => by rw [ha p.1 p.2]; exact IsNilpotent.zero, fun _ => Set.toFinite _⟩
+  unfold ReciprocityTheory.ChartRestriction.G.Geo.Tor.Germ.ev
+  rw [MvPowerSeries.constantCoeff_subst hs]
+  apply finsum_eq_zero_of_forall_eq_zero
+  intro x
+  by_cases hx : x = 0
+  · subst hx
+    simp [hf]
+  · obtain ⟨s, hs'⟩ : ∃ s, x s ≠ 0 := by
+      by_contra! hc
+      exact hx (Finsupp.ext hc)
+    rw [Finsupp.prod, map_prod, Finset.prod_eq_zero (Finsupp.mem_support_iff.2 hs')]
+    · simp
+    · rw [map_pow, ha s.1 s.2, zero_pow hs']
 
 theorem const_diagL (B : FB S d O) (w0 : O) (cc : Fin d → Fin d → S) :
     MvPowerSeries.constantCoeff (diagL B w0 cc) = 0 := by
@@ -362,8 +339,6 @@ namespace Formalism.MainNotions.ModuliIntegralCharts.H1
 
 open AlgebraicGeometry CategoryTheory Limits MonoidalCategory CartesianMonoidalCategory MonObj NumberField
 open ReciprocityTheory.ChartRestriction.G ReciprocityTheory.ChartRestriction.G.Semi ReciprocityTheory.ChartRestriction.G.Out ReciprocityTheory.ChartRestriction.G.Geo.Tor Formalism.L2.Pj
-
-attribute [local instance] Over.cartesianMonoidalCategory
 
 theorem germFix_holds : GermFixSt := by
   intro E _ _ _ H Dw l Xo c _ _ S _ _ _ y C e' hfr hrig cc hT he k F f hf

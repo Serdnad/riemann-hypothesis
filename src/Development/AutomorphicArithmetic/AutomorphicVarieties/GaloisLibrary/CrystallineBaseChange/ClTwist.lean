@@ -1,45 +1,7 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.FoundationProofs.IsCuspFormCoeffSeqDirichletTwistLevelMulSq
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.GaloisLibrary.CrystallineBaseChange.RnStmt
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.HaveILetI
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
 
 @[expose] public section
 
@@ -50,6 +12,21 @@ open scoped MatrixGroups ModularForm Manifold
 
 namespace UpperTheory.V.Br
 
+private theorem tw_coeffs {N : ℕ} [NeZero N] (ψ : DirichletCharacter ℂ N) :
+    ∃ c : ZMod N → ℂ, (∀ n : ZMod N, ∑ u, c u * ZMod.stdAddChar (u * n) = ψ n) ∧
+      ∀ d u : ZMod N, IsUnit d → c u = ψ d * c (d * u) := by
+  refine ⟨fun u => (N : ℂ)⁻¹ * ZMod.dft (fun j => ψ j) u, fun n => ?_, fun d u hd => ?_⟩
+  · have h := ZMod.invDFT_apply (ZMod.dft (fun j => ψ j)) n
+    rw [LinearEquiv.symm_apply_apply] at h
+    rw [h, smul_eq_mul, Finset.mul_sum]
+    refine Finset.sum_congr rfl fun u _ => ?_
+    rw [smul_eq_mul]; ring
+  · obtain ⟨d, rfl⟩ := hd
+    have h := ZMod.dft_comp_unitMul (fun j => ψ j) d (d * u)
+    simp only [map_mul] at h
+    rw [ZMod.dft_const_mul, Units.inv_mul_cancel_left] at h
+    simp only [← h]; ring
+
 private def tG (N : ℕ) (u : ℤ) : GL (Fin 2) ℝ := upperRightHom ((u : ℝ) / N)
 
 private theorem tG_val (N : ℕ) (u : ℤ) : (tG N u).1 = !![1, (u : ℝ) / N; 0, 1] := rfl
@@ -59,7 +36,7 @@ private theorem tG_det (N : ℕ) (u : ℤ) : (tG N u).det.val = 1 := by
 
 private theorem tG_σ (N : ℕ) (u : ℤ) (c : ℂ) : σ (tG N u) c = c := by
   have : 0 < (tG N u).det.val := by rw [tG_det]; exact one_pos
-  rw [σ, if_pos this]; rfl
+  rw [σ, ite_eq_left this]; rfl
 
 private theorem tG_apply (N : ℕ) (u : ℤ) (k : ℤ) (f : ℍ → ℂ) (z : ℍ) :
     (f ∣[k] tG N u) z = f (((u : ℝ) / N) +ᵥ z) := by
@@ -148,7 +125,7 @@ end UpperTheory.V.Br
 theorem UpperTheory.V.Br.clTwist :
     UpperTheory.V.Br.ClTwist := by
   intro N k _ χ ψ f hf
-  obtain ⟨c, hc1, hc2⟩ := _root_.GlobalTheory.EisM.CharTwist.exists_coeffs ψ
+  obtain ⟨c, hc1, hc2⟩ := tw_coeffs ψ
   have hch := tw_char k χ ψ hc2 hf
   haveI : NeZero (N * N) := ⟨mul_ne_zero (NeZero.ne N) (NeZero.ne N)⟩
   have h1 : (1 : ℝ) ∈ (Gamma1 N : Subgroup (GL (Fin 2) ℝ)).strictPeriods := by simp

@@ -1,50 +1,11 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.TwistedOperators.SplitPlaceMatrixCoordinateOnHalf
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.IsPlaceModelPlaceMap
 public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.MemLatOIffExistsActO
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsDenNotMemOfCountEqZero
 import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsNsmulIntMemLatO
 import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.GramMapMulInv
 import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.IdempotentMulEqZeroOfOrthogonal
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.PiTensorProduct
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.ReduceModChar
 
 @[expose] public section
 
@@ -52,7 +13,6 @@ open Formalism.BasicNotions Formalism.BasicNotions.TH Formalism.MainNotions.Glob
 open Formalism.IndefR.Links (PolF)
 open Classical
 open scoped TensorProduct
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 
 
 
@@ -64,7 +24,18 @@ variable {D : D7}
 
 theorem toEAf_mem_of_finPart {w : AE D} (hw : finPart D w ∈ intAE D) :
     toEAf D w ∈ Formalism.L2.Herm.intAf D.host.F D.host.E := by
-  first | exact _root_.GlobalTheory.PlaceCoord.toEAf_mem | exact @_root_.GlobalTheory.PlaceCoord.toEAf_mem | apply _root_.GlobalTheory.PlaceCoord.toEAf_mem <;> assumption
+  have key : ∀ y ∈ intAE D,
+      (Algebra.TensorProduct.comm D.host.F (Af D.host.F) D.host.E) y ∈ Formalism.L2.Herm.intAf D.host.F D.host.E := by
+    intro y hy
+    induction hy using AddSubgroup.closure_induction with
+    | mem y hy =>
+      obtain ⟨a, ha, x, rfl⟩ := hy
+      rw [Algebra.TensorProduct.comm_tmul]
+      exact GlobalTheory.PlaceDatum.tmul_mem_int ⟨x, rfl⟩ ha
+    | zero => rw [map_zero]; exact zero_mem _
+    | add x y _ _ hx hy => rw [map_add]; exact add_mem hx hy
+    | neg x _ hx => rw [map_neg]; exact neg_mem hx
+  exact key _ hw
 
 theorem mul_int_mem {w : Af D.host.F ⊗[D.host.F] D.host.E} (hw : w ∈ intAE D) (o : 𝓞 D.host.E) :
     w * ((1 : Af D.host.F) ⊗ₜ[D.host.F] (o : D.host.E)) ∈ intAE D := by

@@ -123,32 +123,6 @@ theorem blockM_ss {a b n : ℕ} (e0 : Fin a ⊕ Fin b ≃ Fin n) (ρ₁ : Γ →
   show _ = _
   ext i <;> simp [blockM, Matrix.submatrix_mulVec_equiv, Matrix.fromBlocks_mulVec, LinearMap.funLeft] <;> rfl
 
-theorem ss_of_scalar {a : ℕ} (ρ : Γ →* GL (Fin a) k) (c : Γ → k)
-    (h : ∀ g v, (ρ g : Matrix (Fin a) (Fin a) k).mulVec v = c g • v) : IsSSRep ρ := by
-  intro W _
-  obtain ⟨W', hW'⟩ := W.exists_isCompl
-  exact ⟨W', fun g v hv => by rw [h]; exact W'.smul_mem _ hv, hW'⟩
-
-theorem diagM_ss : ∀ {t : ℕ} (χ : Fin t → Γ →* kˣ), IsSSRep (diagM χ).toHomUnits := by
-  intro t
-  induction t with
-  | zero =>
-    intro χ
-    exact ss_of_scalar _ (fun _ => 0) fun g v => funext fun c => c.elim0
-  | succ t ih =>
-    intro χ
-    refine GlobalTheory.Proof.SemisimpleRepresentationIntegralConjugate.isSSRep_of_prod (ρ₁ := (diagM fun c : Fin t => χ (Fin.castAdd 1 c)).toHomUnits)
-      (ρ₂ := (diagM fun c : Fin 1 => χ (Fin.natAdd t c)).toHomUnits)
-      ((LinearEquiv.funCongrLeft k k finSumFinEquiv).trans
-        (LinearEquiv.sumArrowLequivProdArrow _ _ k k)) (fun g v => ?_) (ih _)
-      (ss_of_scalar _ (fun g => ((χ (Fin.last t) g : kˣ) : k)) fun g v => ?_)
-    · show _ = _
-      ext i <;> simp [diagM, Matrix.mulVec_diagonal, LinearMap.funLeft]
-    · funext c
-      obtain rfl : c = 0 := Subsingleton.elim _ _
-      change (Matrix.diagonal fun c : Fin 1 => ((χ (Fin.natAdd t c) g : kˣ) : k)).mulVec v 0 = _
-      exact Matrix.mulVec_diagonal _ _ _
-
 end Rep
 
 end GlobalTheory.SSComplement
@@ -165,12 +139,6 @@ section -- clump:auto
 noncomputable section
 
 namespace GlobalTheory.ResLoc
-
-section
-open Formalism.BasicNotions Formalism.MainNotions Formalism.MainNotions.N Formalism.ConjugateSelfDual ReciprocityTheory.Gal Polynomial NumberField IsDedekindDomain GlobalTheory.PRep GlobalTheory.SmGL GlobalTheory.SplitWeil GlobalTheory.RowTie
-  GlobalTheory.SplitRead GlobalTheory.XiOver Formalism.L2.Host
-
-end
 
 open Formalism.BasicNotions Formalism.MainNotions Formalism.MainNotions.N Formalism.ConjugateSelfDual ReciprocityTheory.Gal Polynomial NumberField IsDedekindDomain GlobalTheory.LocalInv
 open GlobalTheory.IndefiniteRowSideFullHecke.NoLocalInvariantsRankParts GlobalTheory.ParamRep
@@ -224,6 +192,33 @@ theorem continuous_of_iota (i : N.Loc) {Y : Type} [TopologicalSpace Y] (u : Y �
   apply hk
   rw [map_sub]
   exact hx
+
+private theorem diagM_ss_local {Γ k : Type} [Group Γ] [Field k] :
+    ∀ {t : ℕ} (χ : Fin t → Γ →* kˣ), IsSSRep (GlobalTheory.SSComplement.diagM χ).toHomUnits := by
+  have scalar_ss {a : ℕ} (ρ : Γ →* GL (Fin a) k) (c : Γ → k)
+      (h : ∀ g v, (ρ g : Matrix (Fin a) (Fin a) k).mulVec v = c g • v) : IsSSRep ρ := by
+    intro W _
+    obtain ⟨W', hW'⟩ := W.exists_isCompl
+    exact ⟨W', fun g v hv => by rw [h]; exact W'.smul_mem _ hv, hW'⟩
+  intro t
+  induction t with
+  | zero =>
+    intro χ
+    exact scalar_ss _ (fun _ => 0) fun g v => funext fun c => c.elim0
+  | succ t ih =>
+    intro χ
+    refine GlobalTheory.Proof.SemisimpleRepresentationIntegralConjugate.isSSRep_of_prod
+      (ρ₁ := (GlobalTheory.SSComplement.diagM fun c : Fin t => χ (Fin.castAdd 1 c)).toHomUnits)
+      (ρ₂ := (GlobalTheory.SSComplement.diagM fun c : Fin 1 => χ (Fin.natAdd t c)).toHomUnits)
+      ((LinearEquiv.funCongrLeft k k finSumFinEquiv).trans
+        (LinearEquiv.sumArrowLequivProdArrow _ _ k k)) (fun g v => ?_) (ih _)
+      (scalar_ss _ (fun g => ((χ (Fin.last t) g : kˣ) : k)) fun g v => ?_)
+    · show _ = _
+      ext i <;> simp [GlobalTheory.SSComplement.diagM, Matrix.mulVec_diagonal, LinearMap.funLeft]
+    · funext c
+      obtain rfl : c = 0 := Subsingleton.elim _ _
+      change (Matrix.diagonal fun c : Fin 1 => ((χ (Fin.natAdd t c) g : kˣ) : k)).mulVec v 0 = _
+      exact Matrix.mulVec_diagonal _ _ _
 
 theorem lattice_of_point (hLaw : GlobalTheory.ThetaExh.ParamLaws N A) (hO : Formalism.MainNotions.SumRepresentations.At.OLarge N A)
     (hXi : ∀ i : N.Loc, ∃ ξ : G H.E N.Om →* (N.O i)ˣ,
@@ -280,7 +275,7 @@ theorem lattice_of_point (hLaw : GlobalTheory.ThetaExh.ParamLaws N A) (hO : Form
     refine Continuous.matrix_fromBlocks hR1c continuous_const continuous_const ?_
     exact Continuous.matrix_diagonal (continuous_pi fun c => hιc.comp (N.chi_cont a _))
   have hRqs : IsSSRep Rq :=
-    GlobalTheory.SSComplement.blockM_ss _ _ _ (isSSRep_twGL _ _ hs0) (_root_.GlobalTheory.SSComplement.diagM_ss χ)
+    GlobalTheory.SSComplement.blockM_ss _ _ _ (isSSRep_twGL _ _ hs0) (diagM_ss_local χ)
   have hq : Formalism.MainNotions.SumRepresentations.At.IsHeckeGaloisQ N A a x Rq := by
     refine ⟨hRqc, hRqs, fun v hso B g hBv hg => ?_⟩
     have h4 : A.unr (A.locG π v) := hun v fun k hk => hso.2.2.1 ((N.S_def a v).2 ⟨by
@@ -407,9 +402,6 @@ open GlobalTheory.TameLabels GlobalTheory.AntiRamConj GlobalTheory.TwistDet
 open GlobalTheory.TypeLeaf (WildOne FrobDense)
 open GlobalTheory.IndefiniteRowSideFullHecke.RayClassPrimeCounting (OnW IsBaseChange IsGaloisRepOf IsReduction Zbar GaloisReps GalE toFb)
 open scoped Pointwise
-section Wild
-variable {E Ω : Type} [Field E] [NumberField E] [Field Ω] [Algebra E Ω]
-end Wild
 section Row
 variable {D : D7} (Y : NTw D.R D.host D.what₂ D.LL0 D.nd)
 theorem charpoly_cConj_eq_charpoly_inv_of_mem_ine (hD : FrobDense D) {n : ℕ} {π : D.naut.CG n} (hπ : D.naut.csd π) {l : ℕ} [Fact l.Prime]
@@ -425,8 +417,6 @@ theorem charpoly_cConj_eq_charpoly_inv_of_mem_ine (hD : FrobDense D) {n : ℕ} {
   obtain ⟨q, q1, q2⟩ := hρ.2.2 s⁻¹
   rw [← p2, ← q2, Polynomial.map_injective _ Subtype.val_injective (p1.trans (h.trans q1.symm))]
 end Row
-section Triples
-end Triples
 end GlobalTheory.TripleResidual
 end
 end
@@ -445,14 +435,12 @@ section
 noncomputable section
 namespace GlobalTheory.ResLoc
 open Formalism.BasicNotions Formalism.MainNotions Formalism.MainNotions.N Formalism.ConjugateSelfDual ReciprocityTheory.Gal Formalism.L2 Formalism.L2.Host GlobalTheory.HeightCounting NumberField IsDedekindDomain Polynomial
-open GlobalTheory.EigTie (ResTied IsRowPar plRed resTied_of_plSide)
+open GlobalTheory.EigTie (IsRowPar plRed)
 open GlobalTheory.IndefiniteRowSideFullHecke.RayClassPrimeCounting (IsGaloisRepOf Zbar GalE OnW)
 theorem exists_galRep_cast_alt {D : D7} {a p q : ℕ} [Fact p.Prime] [Fact q.Prime] (h : p = q) {ι : Qbar p ≃+* ℂ} {π : D.naut.CG a}
     {r : GalE D →* GL (Fin a) (Qbar p)} (hr : _root_.UpperTheory.GalS.IsGaloisRepOfN D π p ι r) : ∃ r', _root_.UpperTheory.GalS.IsGaloisRepOfN D π q (qCast h ι) r' := by
   subst h
   exact ⟨r, hr⟩
-end GlobalTheory.ResLoc
-namespace GlobalTheory.ResLoc
 end GlobalTheory.ResLoc
 end
 end
@@ -513,21 +501,6 @@ open GlobalTheory.IndefiniteRowSideFullHecke.RayClassPrimeCounting (IsGaloisRepO
 open GlobalTheory.IndefiniteRowSideFullHecke.JumpDictionary (embOver)
 variable {D : D7}
 section API
-end API
-end GlobalTheory.Triple
-end
-end
-section
-section
-namespace GlobalTheory.Triple
-open NumberField IsDedekindDomain Polynomial Neutral.B1 ReciprocityTheory.Neutral.Bridge.HCFR Formalism.ConjugateSelfDual ReciprocityTheory.Gal Formalism.BasicNotions Formalism.MainNotions.N
-open Formalism.L2.Host (HChar CharFrame embLL0 eExp ValLL0)
-open GlobalTheory.HeckeGal (Gab IsGlobalArtin)
-open GlobalTheory.GalChar (IsGal toQ block)
-open GlobalTheory.IndefiniteRowSideFullHecke.RayClassPrimeCounting (IsGaloisRepOf Zbar GalE toFb)
-open GlobalTheory.IndefiniteRowSideFullHecke.JumpDictionary (embOver)
-variable {D : D7}
-section API
 variable {C : CharFrame D} {art : Ideles D.host.E →* Gab D.host.E D.nd.Om} {X : NTw D.R D.host D.what₂ D.LL0 D.nd}
   {i : X.Tw} {b : Bool} {ρ : Reading X i b} {s : X.Sig i} {σ : D.what₂.FT} {π : D.naut.CG D.R.r}
   {r : GalE D →* GL (Fin D.R.r) (Qbar (X.l i))} {ν : GalE D →* (X.O0 i)ˣ} {w : D.what₂.places.Pl}
@@ -559,7 +532,6 @@ section
 open Formalism.BasicNotions Formalism.MainNotions Formalism.MainNotions.N Formalism.ConjugateSelfDual ReciprocityTheory.Gal Formalism.L2 Formalism.L2.Host Formalism.L2.DIV Formalism.L2.Theta Formalism.IndefR Formalism.IndefR.Links Formalism.IndefR.NX GlobalTheory.HeightCounting GlobalTheory.TwInputs GlobalTheory.SeriesTie NumberField IsDedekindDomain Polynomial
 open Formalism.MainNotions.IntegralHeckeForms (TwOK ClsQ HkIdx V0 Fm0)
 open scoped TensorProduct
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 section
 namespace GlobalTheory.TripInhab
 open GlobalTheory.Triple GlobalTheory.EigTie
@@ -572,35 +544,9 @@ end
 end
 section
 section
-namespace GlobalTheory.TripleAdm
-open NumberField IsDedekindDomain Polynomial Formalism.BasicNotions Formalism.MainNotions Formalism.MainNotions.N Formalism.ConjugateSelfDual ReciprocityTheory.Gal
-open Formalism.CyclotomicNorms (Fbar rootsBar IsGood IrredOn BB primeToPart)
-open GlobalTheory.TameLabels GlobalTheory.TripleResidual
-open GlobalTheory.TypeLeaf (WildOne FrobDense)
-open GlobalTheory.IndefiniteRowSideFullHecke.RayClassPrimeCounting (IsGaloisRepOf IsReduction Zbar GalE toFb)
-open GlobalTheory.Triple (IsParam IsResidual Reading IsChars IsTripleWith IsTripleFor IsTripleOf IsTriple muBase hframe jIdx)
-open GlobalTheory.TwistDet GlobalTheory.GalChar Formalism.L2.Host
-variable {D : D7}
-section Row
-variable {σ : D.what₂.FT} {π : D.naut.CG D.R.r} {w : D.what₂.places.Pl}
-end Row
-end GlobalTheory.TripleAdm
-end
-end
-section
-section
 namespace GlobalTheory.ResLoc
 open Formalism.BasicNotions Formalism.MainNotions Formalism.MainNotions.N Formalism.ConjugateSelfDual ReciprocityTheory.Gal Formalism.L2 Formalism.L2.Host GlobalTheory.HeightCounting NumberField IsDedekindDomain Polynomial
-open GlobalTheory.EigTie (ResTied IsRowPar plRed resTied_of_plSide)
-open GlobalTheory.IndefiniteRowSideFullHecke.RayClassPrimeCounting (IsGaloisRepOf Zbar GalE OnW)
-end GlobalTheory.ResLoc
-end
-end
-section
-section
-namespace GlobalTheory.ResLoc
-open Formalism.BasicNotions Formalism.MainNotions Formalism.MainNotions.N Formalism.ConjugateSelfDual ReciprocityTheory.Gal Formalism.L2 Formalism.L2.Host GlobalTheory.HeightCounting NumberField IsDedekindDomain Polynomial
-open GlobalTheory.EigTie (ResTied IsRowPar plRed resTied_of_plSide)
+open GlobalTheory.EigTie (IsRowPar plRed)
 open GlobalTheory.IndefiniteRowSideFullHecke.RayClassPrimeCounting (IsGaloisRepOf Zbar GalE OnW)
 theorem resTied_of_points_alt_alt {D : D7} (hC : GlobalTheory.RowTie.ChebSplit D.nd) (Rw : RowSide D) (Pl : PlSide D) (hI : IotaOk D Pl)
     (hι : ∀ i : D.nd.Loc, D.naut.iotaQC i = qCast (D.nd.w_l i) (Pl.ι (D.nd.w i)))
@@ -645,33 +591,6 @@ theorem resTied_of_points_alt_alt {D : D7} (hC : GlobalTheory.RowTie.ChebSplit D
     congr 4
     exact (Pl.ι (D.nd.w i)).apply_symm_apply _
 end GlobalTheory.ResLoc
-end
-end
-section
-section
-namespace GlobalTheory.TripleResidual
-open NumberField IsDedekindDomain Polynomial Formalism.BasicNotions Formalism.MainNotions Formalism.MainNotions.N Formalism.ConjugateSelfDual ReciprocityTheory.Gal
-open GlobalTheory.TameLabels GlobalTheory.AntiRamConj GlobalTheory.TwistDet
-open GlobalTheory.TypeLeaf (WildOne FrobDense)
-open GlobalTheory.IndefiniteRowSideFullHecke.RayClassPrimeCounting (OnW IsBaseChange IsGaloisRepOf IsReduction Zbar GaloisReps GalE toFb)
-open scoped Pointwise
-section Row
-variable {D : D7} (Y : NTw D.R D.host D.what₂ D.LL0 D.nd)
-end Row
-end GlobalTheory.TripleResidual
-end
-end
-section
-section
-namespace GlobalTheory.Triple
-open NumberField IsDedekindDomain Polynomial Neutral.B1 ReciprocityTheory.Neutral.Bridge.HCFR Formalism.ConjugateSelfDual ReciprocityTheory.Gal Formalism.BasicNotions Formalism.MainNotions.N Formalism.MainNotions.BlochKatoReduction.Gen
-open Formalism.L2.Host (HChar CharFrame)
-open GlobalTheory.HeckeGal (Gab IsGlobalArtin)
-open GlobalTheory.GalChar (IsGal toQ)
-open GlobalTheory.IndefiniteRowSideFullHecke.RayClassPrimeCounting (IsGaloisRepOf Zbar GalE)
-open GlobalTheory.TripleGal (UnrRho HkFrob)
-variable {D : D7} {X : NTw D.R D.host D.what₂ D.LL0 D.nd} {i : X.Tw}
-end GlobalTheory.Triple
 end
 end
 section

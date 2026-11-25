@@ -1,6 +1,5 @@
 module
 
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArithmeticIntersection.LengthTwoGeneratorQuotient
 public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.StNormalModelPlace
 import Mathlib.Tactic.TypeStar
 
@@ -18,7 +17,19 @@ namespace NormalModelPlace
 
 theorem ord_eq_of_ringEquiv {A C : Type*} [CommRing A] [CommRing C] (e : A ≃+* C) (x : A) :
     Ring.ord A x = Ring.ord C (e x) := by
-  apply _root_.ReciprocityTheory.ChartRestriction.G.AI.ord_ringEquiv <;> assumption
+  have hJ : Ideal.span {e x} = (Ideal.span {x}).map e := by
+    rw [Ideal.map_span, Set.image_singleton]
+  let qe := Ideal.quotientEquiv (Ideal.span {x}) (Ideal.span {e x}) e hJ
+  have : RingHomSurjective (e : A →+* C) := ⟨e.surjective⟩
+  let f : (A ⧸ Ideal.span {x}) →ₛₗ[(e : A →+* C)] (C ⧸ Ideal.span {e x}) :=
+    { toFun := qe
+      map_add' := qe.map_add
+      map_smul' := fun a b => by
+        obtain ⟨b, rfl⟩ := Ideal.Quotient.mk_surjective b
+        change Ideal.Quotient.mk _ (e (a * b)) = Ideal.Quotient.mk _ (e a * e b)
+        rw [map_mul] }
+  rw [Ring.ord, Ring.ord, Module.length, Module.length, WithBot.unbot_inj,
+    Order.krullDim_eq_of_orderIso (Submodule.orderIsoMapComapOfBijective f qe.bijective)]
 
 theorem not_isUnit_mk_of_mem_maximalIdeal {L : Type*} [CommRing L] [IsLocalRing L] {I : Ideal L} (hI : I ≠ ⊤)
     {z : L} (hz : z ∈ IsLocalRing.maximalIdeal L) : ¬ IsUnit (Ideal.Quotient.mk I z) := by
@@ -106,7 +117,7 @@ theorem algebraMap_pointLocalRing_eq_zero_iff (hw : w ∈ IndefiniteRowSideFullH
 
 theorem curveToPoint_injective (hw : w ∈ IndefiniteRowSideFullHecke.ComplexSets.zeroSetIn M.ideal) :
     Function.Injective (curveToPoint M w) := by
-  set_option backward.isDefEq.respectTransparency.instanceSearchTypes false in rw [injective_iff_map_eq_zero]
+  rw [injective_iff_map_eq_zero]
   intro x hx
   obtain ⟨y, rfl⟩ := Ideal.Quotient.mk_surjective x
   obtain ⟨⟨a, s⟩, rfl⟩ := IsLocalization.mk'_surjective

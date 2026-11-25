@@ -20,59 +20,19 @@ import Development.WeilBound.ThetaLifts.SmallCones.FourierUniq
 import Formalism.LocalRingCardinality.SpanPowerMembership.LocAtA
 import GroundTheory.GlobalFields.LocalAtPlace
 import GroundTheory.LocalFields.LocalFourierHaar
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
 import Mathlib.RingTheory.Coalgebra.IsFrobenius
 import Mathlib.RingTheory.Etale.Weakly
 import Mathlib.RingTheory.HopfAlgebra.Basic
 import Mathlib.RingTheory.PiTensorProduct
-import Mathlib.RingTheory.Radical.NatInt
 import Mathlib.RingTheory.TotallySplit
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.HaveILetI
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Algebra.Nonarchimedean.TotallyDisconnected
 import Mathlib.Topology.LocallyConstant.Algebra
 import Mathlib.Topology.MetricSpace.Ultra.TotallySeparated
-import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
 public import Development.WeilBound.CoreStatements.LocallyConstantCoinvariants.EqZeroOfLocW
 public import Development.WeilBound.CoreStatements.LocallyConstantCoinvariants.LmOfLinBar
 import Development.AbelianVarietyTheory.Definitions.Divisors.MatchingOfParts
-import Development.WeilBound.ThetaLifts.SmallCones.FormSwapZero
 
 @[expose] public section
 
@@ -86,14 +46,49 @@ open Filter Topology NumberField IsDedekindDomain Matrix GlobalTheory.WeilM Glob
   GlobalTheory.CompanionTheory.Ar.RT.Move GlobalTheory.LatVac PositivityTheory.KCo GlobalTheory.ThK PositivityTheory.ThKCT
 open scoped TensorProduct
 
-attribute [local instance] GlobalTheory.LocalData.complRel GlobalTheory.LocalData.isLocalField Classical.propDecidable
+attribute [local instance] Classical.propDecidable
 
 section
 
 theorem kill_set {X : Type} [TopologicalSpace X] (N : Submodule ℂ (X → ℂ)) (Z : Set X)
     (h : ∀ Y ∉ Z, ∃ (m : X → ℂ) (c : ℂ), IsLocallyConstant m ∧ m Y ≠ c ∧ ∀ Φ ∈ SB X, (fun y => (m y - c) * Φ y) ∈ N) :
     ∀ Φ ∈ SB X, (∀ Y ∈ Z, Φ Y = 0) → Φ ∈ N := by
-  apply _root_.PositivityTheory.ThKCT.So.kill_set <;> assumption
+  classical
+  choose! m c hm hne hN using h
+  have key : ∀ s : Finset X, (∀ Y ∈ s, Y ∉ Z) → ∀ Φ ∈ SB X, (∀ y, Φ y ≠ 0 → ∃ Y ∈ s, m Y y = m Y Y) → Φ ∈ N := by
+    intro s
+    induction s using Finset.induction_on with
+    | empty =>
+      intro _ Φ _ h0
+      have : Φ = 0 := funext fun y => by by_contra e; simpa using h0 y e
+      rw [this]; exact zero_mem _
+    | insert Y s hY ih =>
+      intro hs Φ hΦ h0
+      have hY1 := hs Y (Finset.mem_insert_self _ _)
+      have hU : IsClopen {y | m Y y = m Y Y} := (hm Y hY1).isClopen_fiber _
+      have h1 := hN Y hY1 _ (Submodule.smul_mem _ (m Y Y - c Y)⁻¹ (indicator_mem hU hΦ))
+      have h2 := ih (fun Z hZ => hs Z (Finset.mem_insert_of_mem hZ)) _ (indicator_mem hU.compl hΦ) fun y hy => by
+        have hy1 : y ∈ {y | m Y y = m Y Y}ᶜ := Set.mem_of_indicator_ne_zero hy
+        rw [Set.indicator_of_mem hy1] at hy
+        obtain ⟨Z, hZ, e⟩ := h0 y hy
+        rcases Finset.mem_insert.1 hZ with rfl | hZ
+        · exact (hy1 e).elim
+        · exact ⟨Z, hZ, e⟩
+      convert add_mem h1 h2 using 1
+      funext y
+      by_cases hy : y ∈ {y | m Y y = m Y Y}
+      · have e : m Y y = m Y Y := hy
+        have : y ∉ {y | m Y y = m Y Y}ᶜ := fun h => h hy
+        simp only [Pi.add_apply, Pi.smul_apply, Set.indicator_of_mem hy, Set.indicator_of_notMem this, e, smul_eq_mul]
+        rw [mul_inv_cancel_left₀ (sub_ne_zero.2 (hne Y hY1)), add_zero]
+      · simp [Set.indicator_of_notMem hy, Set.indicator_of_mem (show y ∈ {y | m Y y = m Y Y}ᶜ from hy)]
+  intro Φ hΦ h1
+  have hK : IsCompact {y | Φ y ≠ 0} :=
+    hΦ.2.isCompact.of_isClosed_subset (hΦ.1.isClopen_fiber 0).compl.1 subset_closure
+  obtain ⟨s, hs, hc⟩ := hK.elim_nhds_subcover (fun Y => {y | m Y y = m Y Y}) fun Y hY =>
+    ((hm Y fun e => hY (h1 Y e)).isOpen_fiber _).mem_nhds rfl
+  refine key s (fun Y hY e => hs Y hY (h1 Y e)) Φ hΦ fun y hy => ?_
+  simpa using hc hy
 
 theorem rank_ne_iff {k : Type} [Field k] {n d : ℕ} (C : Matrix (Fin n) (Fin d) k) : C.rank ≠ n ↔ ∃ p, p ≠ 0 ∧ p ᵥ* C = 0 := by
   have h := LinearMap.finrank_range_add_finrank_ker Cᵀ.mulVecLin
@@ -158,10 +153,6 @@ theorem trace_vec {k : Type} [Field k] (C : Matrix (Fin n) (Fin d) k) (p : Fin n
   simp only [Matrix.trace, Matrix.diag, Matrix.mul_apply, Matrix.transpose_apply, vecMulVec_apply, dotProduct, mulVec, Finset.mul_sum]
   rw [Finset.sum_comm]
   exact Finset.sum_congr rfl fun i _ => Finset.sum_congr rfl fun j _ => by ring
-
-theorem piW_inc (t : E →ₐ[F] Fv F v) (x : E) : piW t (inclR (F := F) (AF F) x) = t x := by
-  change evFin F v 1 * t x = t x
-  rw [map_one, one_mul]
 
 theorem at_lift (c : Fv F v) (u : Matrix (Fin n) (Fin d) (AE F E)) : At (evFin F v) (liftV v c • u) := fun a ha => by
   rw [smul_smul, ← smul_eq_mul, at_liftV v c a ha, zero_smul]
@@ -382,7 +373,7 @@ theorem indep_iff (Y : Matrix (Fin n) (Fin d) k) :
       exact (Finset.sum_subset (Finset.subset_univ _) fun j _ hj => by rw [h0 j hj, zero_smul]).trans
         ((vecMul_eq_sum p Y).symm.trans hp)
     · exact h0 j hj
-  · have := h (fun j => if j ∈ S then f j else 0) (fun j hj => if_neg hj) ((vecMul_eq_sum _ Y).trans (Eq.trans (by
+  · have := h (fun j => if j ∈ S then f j else 0) (fun j hj => ite_eq_right hj) ((vecMul_eq_sum _ Y).trans (Eq.trans (by
       simp only [ite_smul, zero_smul, Finset.sum_ite_mem, Finset.univ_inter]) hf))
     simpa [hj] using congrFun this j
 
@@ -554,7 +545,7 @@ namespace PositivityTheory.ThKEnd.Comp.SoL
 open Filter Topology NumberField IsDedekindDomain Matrix GlobalTheory.WeilM GlobalTheory.AdelicU GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes
   GlobalTheory.CompanionTheory.Ar.RT.Move GlobalTheory.LatVac PositivityTheory.KCo GlobalTheory.ThK PositivityTheory.ThKCT PositivityTheory.ThKG.Loc GlobalTheory.LFun
 
-attribute [local instance] GlobalTheory.LocalData.complRel GlobalTheory.LocalData.isLocalField Classical.propDecidable
+attribute [local instance] Classical.propDecidable
 
 variable {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] {σ : E →ₐ[F] E} {v : Pl F} {n d d₁ : ℕ}
   {X : Spc F E n} {W : Spc F E d} {W₁ : Spc F E d₁} {B : Base F E} {M : Model σ X W} {M₁ : Model σ X W₁}
@@ -585,7 +576,7 @@ theorem position_inj (hM : M.IsGood B.ψ) {f : SInf F (Fin n × Fin d)} (hf : f 
     let t : Pl F → ℂ := fun w => if w = v then z (fun i => evFin F v (y i)) else 1
     have ht : (Function.mulSupport t).Finite := (Set.finite_singleton v).subset fun w hw => by
       by_contra hn
-      exact hw (if_neg hn)
+      exact hw (ite_eq_right hn)
     have key : (fun w => Function.update M.vac v z w (fun i => evFin F w (y i))) =
         fun w => t w * Function.update M.vac v 1 w (fun i => evFin F w (y i)) := by
       funext w
@@ -593,8 +584,8 @@ theorem position_inj (hM : M.IsGood B.ψ) {f : SInf F (Fin n × Fin d)} (hf : f 
       · subst w; simp [t]
       · simp [t, hw]
     unfold GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.pure
-    rw [key, finprod_mul_distrib ht hs, finprod_eq_single t v fun w hw => if_neg hw]
-    simp only [t, if_true]
+    rw [key, finprod_mul_distrib ht hs, finprod_eq_single t v fun w hw => ite_eq_right hw]
+    simp only [t, ite_true]
     ring
   have piK_repl' (y : Fin n × Fin d → Fv F v) :
       (fun i => evFin F v (repl v x y i)) = y := by
@@ -671,7 +662,7 @@ theorem map_form (t : E →ₐ[F] Fv F v) (J : Matrix (Fin d) (Fin d) E) (x y : 
   simp [form, dotProduct, mulVec]
 
 theorem map_inc {m m' : ℕ} (t : E →ₐ[F] Fv F v) (A : Matrix (Fin m) (Fin m') E) : (incM F A).map (piW t) = A.map t :=
-  Matrix.ext fun i j => by rw [incM, map_apply, map_apply, map_apply]; exact piW_inc t (A i j)
+  Matrix.ext fun i j => by rw [incM, map_apply, map_apply, map_apply]; exact PositivityTheory.Member.ZakTransform.piW_inc t (A i j)
 
 theorem mid_eq (z : Matrix (Fin n) (Fin d₁) (AE F E)) (A : Matrix (Fin d) (Fin d₁) E) :
     incM F (1 : Matrix (Fin n) (Fin n) E) * z * (incM F A)ᵀ = z * (incM F A)ᵀ := by
@@ -684,7 +675,7 @@ theorem map_mid (t : E →ₐ[F] Fv F v) (z : Matrix (Fin n) (Fin d₁) (AE F E)
 theorem map_vv (t : E →ₐ[F] Fv F v) (a : Fin n → AE F E) (x : Fin d → E) :
     (vecMulVec a (incV F x)).map (piW t) = vecMulVec (fun i => piW t (a i)) fun j => t (x j) := by
   ext i j
-  simp [vecMulVec_apply, incV, piW_inc]
+  simp [vecMulVec_apply, incV, PositivityTheory.Member.ZakTransform.piW_inc]
 
 theorem soLower_of (hMx : PositivityTheory.ThKG.MixW) : SoLower := by
   intro F E _ _ _ _ _ σ B n d d₁ X W W₁ M M₁ χX χW om om₁ r s r' s' r₁ s₁ H i₀ i₁ hp hp₁ hH hn hd hν e ei ev he hl φ hφ
@@ -790,14 +781,14 @@ theorem soLower_of (hMx : PositivityTheory.ThKG.MixW) : SoLower := by
     obtain ⟨ε, ε0, ε1, ε2⟩ := exists_pair hB.cm t 1 0
     have z2 : ∀ {m : ℕ} (c : Fv F B.v₁) (p : Fin n → E) (q : Fin m → E),
         (liftV B.v₁ c • ε • incM F (vecMulVec p q)).map (piW (t.comp σ)) = 0 := fun c p q => by
-      rw [← smul_assoc, map_vec _ _ (piW_inc _), Algebra.smul_def, map_mul, ε2, mul_zero, zero_smul]
+      rw [← smul_assoc, map_vec _ _ (PositivityTheory.Member.ZakTransform.piW_inc _), Algebra.smul_def, map_mul, ε2, mul_zero, zero_smul]
     have ev1 : ∀ {m : ℕ} {Z : Spc F E m} (N : Model σ X Z), (∀ x u : Matrix (Fin n) (Fin m) (AE F E), At (evFin F B.v₁) x →
         x.map (piW t) = 0 → evFin F B.v₁ (sy σ X Z x u) =
           ((X.J.map t * x.map (piW (t.comp σ)) * (Z.J.map t)ᵀ)ᵀ * u.map (piW t)).trace) → ∀ x, At (evFin F B.v₁) x →
         x.map (piW t) = 0 → ∀ c p q, sy σ X Z x (liftV B.v₁ c • ε • incM F (vecMulVec p q)) =
           liftV B.v₁ (-((fun i => t (p i)) ⬝ᵥ coB σ X Z t x *ᵥ fun j => t (q j)) * c) := fun N hN x hx h0 c p q => by
       have k1 := hN x (ε • incM F (vecMulVec p q)) hx h0
-      rw [map_vec _ _ (piW_inc _), ε1, one_smul, trace_vec] at k1
+      rw [map_vec _ _ (PositivityTheory.Member.ZakTransform.piW_inc _), ε1, one_smul, trace_vec] at k1
       rw [sy_smul N, mul_comm (liftV _ _), mul_liftV, k1, coB_eq, Matrix.neg_mul, Matrix.neg_mul, neg_mulVec, dotProduct_neg, neg_neg]
     refine eigen_kill_set M hB.cm hB.std dX dW hι ((LinearMap.proj (coB σ X W₁ t x₁)).comp (ι₁ ∘ₗ ev B.v₁))
       {b | (∃ c p q, b = (liftV B.v₁ c • ε • incM F (vecMulVec p (H.ι *ᵥ q)),

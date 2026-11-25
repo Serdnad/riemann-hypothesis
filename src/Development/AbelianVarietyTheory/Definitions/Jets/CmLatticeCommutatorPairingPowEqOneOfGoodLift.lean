@@ -9,55 +9,10 @@ public import Mathlib.NumberTheory.Padics.Complex
 public import Mathlib.NumberTheory.Padics.MahlerBasis
 public import Mathlib.RingTheory.PowerSeries.Derivative
 public import Development.AbelianVarietyTheory.Proofs.HomogeneousIdeals.ExistsVariableChangeEqLatticeCurve
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Algebra.Order.Star.Rat
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
 public import Mathlib.FieldTheory.IsAlgClosed.Classification
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
 import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
 public import Mathlib.RingTheory.Algebraic.Cardinality
-import Mathlib.RingTheory.Henselian
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.RingTheory.RegularLocalRing.Defs
-import Mathlib.RingTheory.SimpleRing.Principal
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Topology.Connected.Separation
-import Mathlib.Topology.MetricSpace.Ultra.TotallySeparated
-import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
-import ReciprocityTheory.ReductiveGroups.LatticeEmbeddings.IotaPlaceB
 
 @[expose] public section
 
@@ -262,7 +217,23 @@ variable {q : ℕ} [Fact q.Prime] in
 open Filter Topology in
 open Cardinal in
 private theorem cardinal_padicComplex_eq_continuum (q : ℕ) [Fact q.Prime] : #ℂ_[q] = 𝔠 := by
-  apply _root_.ReciprocityTheory.ChartRestriction.T1.lat_mk_Cp
+  have hQ : #ℚ_[q] ≤ 𝔠 := by
+    calc #ℚ_[q] ≤ #(ℕ → ℚ) := cardinal_le_seq_of_denseRange _ (Padic.denseRange_ratCast q)
+      _ = 𝔠 := by rw [← power_def, Cardinal.mk_eq_aleph0 ℚ, Cardinal.mk_nat, aleph0_power_aleph0]
+  have hA : #(PadicAlgCl q) ≤ 𝔠 :=
+    (Algebra.IsAlgebraic.cardinalMk_le_max ℚ_[q] (PadicAlgCl q)).trans
+      (max_le hQ aleph0_le_continuum)
+  apply le_antisymm
+  · calc #ℂ_[q] ≤ #(ℕ → PadicAlgCl q) :=
+          cardinal_le_seq_of_denseRange _ UniformSpace.Completion.denseRange_coe
+      _ = #(PadicAlgCl q) ^ ℵ₀ := by rw [← power_def, Cardinal.mk_nat]
+      _ ≤ 𝔠 ^ ℵ₀ := power_le_power_right hA
+      _ = 𝔠 := continuum_power_aleph0
+  · obtain ⟨f, -, -, hf⟩ := Perfect.exists_nat_bool_injection
+      (PerfectSpace.univ_perfect (α := ℚ_[q])) ⟨0, trivial⟩
+    calc 𝔠 = #(ℕ → Bool) := by rw [← power_def, mk_bool, Cardinal.mk_nat, two_power_aleph0]
+      _ ≤ #ℚ_[q] := mk_le_of_injective hf
+      _ ≤ #ℂ_[q] := mk_le_of_injective (algebraMap ℚ_[q] ℂ_[q]).injective
 
 
 open PowerSeries in

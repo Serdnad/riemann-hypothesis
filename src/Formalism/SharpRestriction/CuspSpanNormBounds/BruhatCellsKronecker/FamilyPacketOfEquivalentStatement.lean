@@ -4,46 +4,6 @@ public import Formalism.SharpRestriction.CuspSpanNormBounds.AmplitudeAndVolumeBo
 public import Formalism.FlagUnipotentLattices.CardSubmodulesAndLinearEquivBounds
 public import Formalism.FlagUnipotentLattices.MinkowskiFactorialBounds.LatticeSumBounds
 public import Formalism.SharpRestriction.CuspSpanNormBounds.BruhatCellsKronecker.OwnEvIntro
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Tactic.TypeStar
-import Mathlib.Topology.Sheaves.Init
 
 @[expose] public section
 
@@ -53,8 +13,6 @@ namespace Formalism.MainNotions.BridgeLemma
 
 open Formalism.BasicNotions Formalism.MainNotions Formalism.MainNotions.S Formalism.MainNotions.S.Lat Formalism.MainNotions.S.Cnt Formalism.HermitianLatticeCounting
 open scoped InnerProductSpace
-
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 
 section HS
 
@@ -140,6 +98,7 @@ theorem d_two_le_b : 2 ≤ large₂.sc.b := by
 
 theorem d_m_eq : D.R.m = 2 * D.R.rS + 2 := by
   have h := dimS_eq D.R
+  have h2 := D.R.two_le_m
   unfold Ranks.r at h
   omega
 
@@ -157,6 +116,8 @@ theorem parameters_of_hypotheses {C' Cl Cg cb Cu cT CT C0 C K₀ : ℝ} (h : Cnt
   obtain ⟨_, _, _, h4, _, _, _, _, _, _, h11, h12, _, h14, _, _, _, _, h19, _, _, _, h23, _, _⟩ := h.1
   have h4' : D.R.f ≤ D.R.k := h4
   have h11' : Real.log D.host.rdE ≤ large₂.sc.L / Cl := h11
+  have h12' : ((D.R.k : ℝ) * large₂.sc.b) ^ 8 ≤ (D.host.g 0 : ℝ) := h12
+  have h14' : ((D.R.k : ℝ) * large₂.sc.b) ^ 8 ≤ (D.host.g 1 : ℝ) := h14
   have h19' : 1 ≤ D.host.v := h19
   have h23' : Tr D u ≤ large₂.sc.b ^ (CT * (D.R.m : ℝ)) := (h23 u).2
   have hL := d_one_le_L D large₂
@@ -217,7 +178,9 @@ theorem xiHyp_of_stX {u u' : D.what₂.Word} {C' Cl Cg cb Cu cT CT C0 A CX cX C 
   have hk1 : (1 : ℝ) ≤ D.R.k := by
     have := D.R.m_add_three_le_k
     exact_mod_cast (by omega : 1 ≤ D.R.k)
+  have hkv : 0 < (D.R.k : ℝ) * D.host.v := by positivity
   have hCX : 0 ≤ |CX| := abs_nonneg _
+  have hcX : 0 ≤ |cX| := abs_nonneg _
   have hCXC : |CX| ≤ C := le_trans (le_mul_of_one_le_right hCX (le_max_left _ _)) hC
   have ev1 : Even (D.R.k * D.R.f) := D.R.k_even.mul_right _
   constructor
@@ -226,7 +189,7 @@ theorem xiHyp_of_stX {u u' : D.what₂.Word} {C' Cl Cg cb Cu cT CT C0 A CX cX C 
     have e1 : ∀ HH Cc : ℝ, XiS D u HH Cc s = massS D s * massS D (D.R.k - s) / massS D D.R.k := by
       intro HH Cc
       unfold XiS Xi
-      rw [if_pos ⟨hs2, hsk'⟩]
+      rw [ite_eq_left ⟨hs2, hsk'⟩]
     refine ⟨?_, ?_⟩
     · unfold XiB; rw [e1]
       unfold massS massU
@@ -282,7 +245,7 @@ theorem xiHyp_of_stX {u u' : D.what₂.Word} {C' Cl Cg cb Cu cT CT C0 A CX cX C 
     have e : XiB D large₂ u C s = (C * D.R.k) ^ (D.R.k * D.R.f) *
         (LatticeSumBounds.bigH C D.R.m D.R.f large₂.sc.b ^ (C * (D.R.m : ℝ)) * NT D u) ^ (C * (D.R.k : ℝ)) := by
       unfold XiB XiS Xi
-      rw [if_neg hn, if_pos hy]
+      rw [ite_eq_right hn, ite_eq_left hy]
       rfl
     rw [e]
     refine ⟨?_, le_refl _⟩
@@ -433,6 +396,7 @@ variable {D : D7} {large₂ : SizeData₂ D} {X : TermTie D} {u u' : D.what₂.W
 
 theorem d_rdE_pos {C' Cl Cg cb Cu cT CT C0 : ℝ} (h : Cnt.Hyp0 D large₂ C' Cl Cg cb Cu cT CT C0) : 0 < D.host.rdE := by
   obtain ⟨_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, h19, _⟩ := h.1
+  have h19' : 1 ≤ D.host.v := h19
   have hrd : D.host.rdE = 2 * D.host.v := by unfold Host.v; ring
   rw [hrd]; linarith
 
@@ -485,6 +449,7 @@ theorem d_nProduct {C' Cl Cg cb Cu cT CT C0 : ℝ} (hH : Cnt.Hyp0 D large₂ C' 
     ∏ τ, nV D (Tu D u) (Tu D u') Z τ =
       LatticeSumBounds.nTot D.R.k D.R.f D.host.v ((∏ τ, Gz D (Tu D u) (Tu D u') Z τ) * ((gS D : ℝ)⁻¹) ^ (D.R.m * D.R.f)) (NT D u) := by
   obtain ⟨_, _, _, _, _, _, _, _, _, _, _, h12, _, h14, _, _, _, _, h19, _⟩ := hH.1
+  have h19' : 1 ≤ D.host.v := h19
   have hk1 : 1 ≤ D.R.k := by have := D.R.m_add_three_le_k; omega
   have hT : (0 : ℝ) < ((Tu D u : ℕ) : ℝ) := by exact_mod_cast (D.mem u).A.T_prime.pos
   have hg : (0 : ℝ) < (gS D : ℝ) := by
@@ -586,14 +551,6 @@ theorem rowBound_relevant {Q : D.s.Pair u u' → Prop}
   exact h _ fun p hp => ⟨hS p (Finset.mem_filter.1 hp).1, (Finset.mem_filter.1 hp).2⟩
 
 end Size
-
-section AuxiliaryNormPrimes
-
-variable {eps : ℝ} (Fm : FamP eps) (C1 : ℝ) (X : ∀ x, Fm.x1 < x → ∀ i : Fm.Ix x, TermTie (Fm.D x i))
-  (Y : ∀ x (hx : Fm.x1 < x) (i : Fm.Ix x) (u u' : (Fm.D x i).what₂.Word),
-    LoopTie (Fm.D x i) (Fm.L x i) (X x hx i) u u' C1)
-
-end AuxiliaryNormPrimes
 
 end Formalism.MainNotions.BridgeLemma
 

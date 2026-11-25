@@ -62,7 +62,7 @@ theorem frMapUniq_chart_le {E : Type} [Field E] [NumberField E] [IsCMField E] {H
     (pm : Gx x' ⟶ Gx x)
     (hs : pm ≫ (snd (Over.mk x) Xo.univ.t.G).left = (snd (Over.mk x') Xo.univ.t.G).left)
     (i : Fin 1 → Xo.univ.t.PP.L.ι) : (PPx x').U i ≤ pm ⁻¹ᵁ (PPx x).U i := by
-  apply _root_.GlobalTheory.FramedBaseChange.chart_le <;> assumption
+  exact GlobalTheory.FramedBaseChange.chart_le pm hs i
 
 theorem frMapUniq_refl {E : Type} [Field E] [NumberField E] [IsCMField E] {H : Host E} {Dw : Datum H}
     {l : Level H} {Xo : Moduli Dw l} {c : Coeff l} {S : Type} [CommRing S] [Algebra c.F S] (y : FrPt Xo c S) :

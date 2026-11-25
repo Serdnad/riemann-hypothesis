@@ -28,51 +28,10 @@ public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeo
 public import Development.AutomorphicSpectrum.Proofs.MetricProofs.ExistsGroupDictionary
 public import Mathlib.NumberTheory.NumberField.Discriminant.Defs
 public import Development.AutomorphicSpectrum.Proofs.MetricProofs.FirstMinimumAndCuspWeightBounds
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
 import Mathlib.Algebra.Order.Star.Real
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.Basify
 import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
-import Mathlib.Topology.Sheaves.Init
 import Development.AutomorphicSpectrum.Definitions.MetricPeriods.ExistsIntSmulIsAdicIntegralInTensorBasis
 import Development.AutomorphicSpectrum.Definitions.MetricPeriods.PairRelationOfScaledRatio
 import GroundTheory.HeightsAndTheta.Heights.FiniteCovolume.PUnipotentModulusMatrix
@@ -474,7 +433,7 @@ theorem finite_short [Module.Free ℤ L] [Module.Finite ℤ L]
 
 theorem period_injective (him : ∀ x y, ((f x y : ℤ) : ℝ) = (inner ℂ (p y) (p x)).im)
     (hi : Function.Injective f) : Function.Injective p := by
-  set_option backward.isDefEq.respectTransparency.instanceSearchTypes false in rw [injective_iff_map_eq_zero]
+  rw [injective_iff_map_eq_zero]
   intro x hx
   apply hi
   rw [map_zero]
@@ -615,12 +574,6 @@ theorem comp_bijective : Function.Bijective (fun s : E →+* ℂ => s.comp (alge
     exact IsFractionRing.lift_algebraMap (K := E) (_root_.LevelTowerAlt.emb_inj s) a
 
 variable [IsCMField E]
-
-theorem conj_comp_injective : Function.Injective (fun s : 𝓞 E →+* ℂ => (starRingEnd ℂ).comp s) := by
-  intro s s' h
-  ext a
-  have := congrArg (fun t : 𝓞 E →+* ℂ => starRingEnd ℂ (t a)) h
-  simpa using this
 
 theorem finrank_eq_two_mul {Ψ : Type} [Fintype Ψ] {σ : Ψ → (𝓞 E →+* ℂ)} (h : IsCMFam σ) :
     Module.finrank ℚ E = 2 * Fintype.card Ψ := by
@@ -766,7 +719,7 @@ theorem exists_subspace (R : RiemLat E g Λ) {Ψ : Type} [Fintype Ψ] [Nonempty 
   let v : Fin r → Λ := fun i => ((e i : T) : Λ)
   have hv_ind : LinearIndependent (𝓞 E) v := hs1.comp e e.injective
   have hv_mem : ∀ i, v i ∈ Submodule.span (𝓞 E) T := fun i => Submodule.subset_span (e i : T).2
-  have hC := (_root_.GlobalTheory.CompanionTheory.Relay.isotropic_eigencomponent_conjugate_form E g Λ Ψ R (Submodule.span (𝓞 E) T) (isIso_span R hI) (σ τ₀)).2 r v hv_mem hv_ind
+  have hC := (_root_.LevelTowerAlt.eigen_projection_conjugate_inner E g Λ Ψ R (Submodule.span (𝓞 E) T) (isIso_span R hI) (σ τ₀)).2 r v hv_mem hv_ind
   have hmem := ((_root_.GlobalTheory.CompanionTheory.Relay.riemann_lattice_eigen_projection E g Λ Ψ R).2.2.1 (σ τ₀)).1
   have hr : r ≤ j' := by
     let w : Fin r → eigSp R.B (σ τ₀) := fun a => ⟨_, hmem (R.P (v a))⟩
@@ -842,8 +795,7 @@ theorem short_vectors : ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (
     rw [Module.finrank_zero_of_subsingleton] at h1
     omega
   have hv₀ : ∃ v₀ : Λ, v₀ ≠ 0 := by
-    by_contra hcon
-    push_neg at hcon
+    by_contra! hcon
     haveI : Subsingleton Λ := ⟨fun x y => by rw [hcon x, hcon y]⟩
     have h1 := R.rank
     rw [Module.finrank_zero_of_subsingleton] at h1
@@ -983,9 +935,6 @@ theorem lintegral_logPlus_le_of_mass {X : Type} [MeasurableSpace X] (μ : Measur
 section Card
 
 variable {E : Type} [Field E] [NumberField E] [IsCMField E]
-
-theorem ringOfIntegers_hom_injective (s : 𝓞 E →+* ℂ) : Function.Injective s := by
-  apply _root_.GlobalTheory.CompanionTheory.Ar.Cusp.FamEx.Lin.emb_injective <;> assumption
 
 theorem finrank_real_eq_card {Ψ : Type} [Fintype Ψ] {σ : Ψ → (𝓞 E →+* ℂ)} (hσ : IsCMFam σ) :
     Module.finrank ℚ (maximalRealSubfield E) = Fintype.card Ψ := by
@@ -1717,7 +1666,17 @@ section Dens
 variable {Ψ : Type} [Fintype Ψ] {j j' n : ℕ}
 
 theorem measurable_ballDens (q : Ψ × Fin j × Fin j' ≃ Fin n) : Measurable (ballDens q) := by
-  apply _root_.GlobalTheory.CompanionTheory.Ar.Cusp.measurable_ballDens <;> assumption
+  have hZ : ∀ τ, Continuous fun t : Fin n → ℂ => ballMat q t τ := fun τ =>
+    continuous_matrix fun a b => continuous_apply _
+  have hdet : ∀ τ, Measurable fun t : Fin n → ℂ =>
+      Real.log (1 - (ballMat q t τ)ᴴ * ballMat q t τ).det.re := fun τ =>
+    Real.measurable_log.comp (Complex.continuous_re.comp
+      (continuous_const.sub ((hZ τ).matrix_conjTranspose.matrix_mul (hZ τ))).matrix_det).measurable
+  have hpot : Measurable (ballPot q) := by
+    unfold ballPot
+    exact (Finset.measurable_sum _ fun τ _ => hdet τ).neg
+  unfold ballDens
+  exact Real.measurable_exp.comp (hpot.const_mul _)
 
 theorem ballDens_pos (q : Ψ × Fin j × Fin j' ≃ Fin n) (t : Fin n → ℂ) : 0 < ballDens q t := Real.exp_pos _
 

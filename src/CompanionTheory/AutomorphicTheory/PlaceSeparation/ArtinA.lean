@@ -1,55 +1,15 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.FiniteGaloisInertiaLiftsAbsoluteInertiaRat
 public import ReciprocityTheory.GaloisValuations.Global
 public import Mathlib.FieldTheory.Galois.IsGaloisGroup
 public import Mathlib.RingTheory.Frobenius
 public import Mathlib.RingTheory.RamificationInertia.Ramification
 public import ReciprocityTheory.GaloisValuations.GlobalB
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
 import Mathlib.FieldTheory.Galois.Profinite
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
 public import Mathlib.NumberTheory.RamificationInertia.Galois
-import Mathlib.NumberTheory.SelbergSieve
 import Mathlib.RingTheory.Invariant.Profinite
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.HaveILetI
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Topology.Sheaves.Init
 
 @[expose] public section
 
@@ -81,8 +41,22 @@ theorem exists_place_between {A : ValuationSubring Ω} {v : HeightOneSpectrum (�
   exact ⟨⟨P, inferInstance, hne⟩, hP, ⟨hu⟩⟩
 
 theorem mem_Ine_of_integral {A : ValuationSubring Ω} {σ : G K Ω} (hσ : σ ∈ Dec (F := K) A)
-    (h : ∀ b : Ω, IsIntegral ℤ b → A.valuation (σ b - b) < 1) : σ ∈ Ine (F := K) A :=
-  _root_.GlobalTheory.InertiaLift.mem_Ine_of_integral hσ h
+    (h : ∀ b : Ω, IsIntegral ℤ b → A.valuation (σ b - b) < 1) : σ ∈ Ine (F := K) A := by
+  refine ⟨hσ, fun x hx => ?_⟩
+  obtain ⟨s, t, hs, ht, hs1, e⟩ := exists_den K A hx
+  have hσx : A.valuation (σ x) ≤ 1 := by
+    rw [A.valuation_le_one_iff, apply_mem_iff_of_mem_Dec hσ, ← A.valuation_le_one_iff]
+    exact hx
+  have he' : σ s * σ x = σ t := by rw [← map_mul, e]
+  have key : s * (σ x - x) = (σ t - t) - (σ s - s) * σ x := by
+    rw [← he', ← e]; ring
+  have hv : A.valuation (s * (σ x - x)) < 1 := by
+    rw [key]
+    apply Valuation.map_sub_lt _ (h t ht)
+    rw [Valuation.map_mul]
+    calc A.valuation (σ s - s) * A.valuation (σ x) ≤ A.valuation (σ s - s) * 1 := mul_le_mul_right hσx _
+      _ < 1 := by rw [mul_one]; exact h s hs
+  rwa [Valuation.map_mul, hs1, one_mul] at hv
 
 variable [IsGalois K L]
 
@@ -149,10 +123,10 @@ theorem exists_lift_dec (hw : IsPlaceOver A w) {τ : L ≃ₐ[K] L}
 def intAut (L : Type) [Field L] [NumberField L] [Algebra L Ω] (σ : G K Ω) : IntCl L Ω ≃+* IntCl L Ω where
   toFun b := ⟨σ b, ((isIntegral_int_of_isIntegral b.2).map (σ.toAlgHom.restrictScalars ℤ)).tower_top⟩
   invFun b := ⟨σ.symm b, ((isIntegral_int_of_isIntegral b.2).map (σ.symm.toAlgHom.restrictScalars ℤ)).tower_top⟩
-  left_inv b := Subtype.ext (σ.symm_apply_apply _)
-  right_inv b := Subtype.ext (σ.apply_symm_apply _)
-  map_mul' a b := Subtype.ext (map_mul σ _ _)
-  map_add' a b := Subtype.ext (map_add σ _ _)
+  left_inv _ := Subtype.ext (σ.symm_apply_apply _)
+  right_inv _ := Subtype.ext (σ.apply_symm_apply _)
+  map_mul' _ _ := Subtype.ext (map_mul σ _ _)
+  map_add' _ _ := Subtype.ext (map_add σ _ _)
 
 theorem exists_lift_ine (hw : IsPlaceOver A w) {τ : L ≃ₐ[K] L} (hτ : τ ∈ w.asIdeal.inertia (L ≃ₐ[K] L)) :
     ∃ σ ∈ Ine (F := K) A, AlgEquiv.restrictNormalHom L σ = τ := by

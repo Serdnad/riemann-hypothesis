@@ -1,7 +1,5 @@
 module
 
-import all Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.ThresholdArguments.DenseThresholdCases.GalUnitaryT
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.EqOfPowEqOneOfValLt
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.BlochKatoSelmerVanishes
 public import Mathlib.RingTheory.Valuation.ValuationSubring
 public import ReciprocityTheory.GaloisValuations.Global
@@ -114,10 +112,6 @@ import Std.Tactic.BVDecide.Normalize.Prop
 import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.CountSys
 import Mathlib.Algebra.Order.Star.Int
 
--- `rulesCommRing` is a high-priority instance on a Pi-type abbrev; it makes searches for
--- `CommRing ?R` with unknown `R` explode.
-attribute [-instance] Formalism.L2.Pj.rulesCommRing
-
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AutomorphicArithmetic.AutomorphicVarieties.BuildingsResidueChars.BlockConjugateRankThreeRep, Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.PowCong, Development.AutomorphicArithmetic.AutomorphicVarieties.BuildingsResidueChars.FrobeniusPowResDegPlaceNorm, Development.AutomorphicArithmetic.AutomorphicVarieties.BuildingsResidueChars.MapTraceEqSumRootsOfCharpolyMap, Development.AutomorphicArithmetic.AutomorphicVarieties.GaloisLibrary.CrystallineBaseChange.FrobEx, Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.ThresholdArguments.DenseThresholdCases.BrCardP, Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.ThresholdArguments.DenseThresholdCases.TConjK, Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.ThresholdArguments.DenseThresholdCases.VConjP, Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.AdmissibleResidues.WinSat, Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.ThresholdArguments.DenseThresholdCases.FrobeniusTraceCountBoundOfCmEigensystemCount
 
@@ -176,12 +170,6 @@ end -- clump:auto
 section -- clump:auto
 @[expose] public section
 
-theorem UpperTheory.Reformulated.B.Qh11.pow_cong :
-    ∀ {Ω : Type} [inst : Field Ω] (A : ValuationSubring Ω) {a b : Ω},
-    (A.valuation : Ω → A.ValueGroup) a ≤ (1 : A.ValueGroup) →
-      (A.valuation : Ω → A.ValueGroup) b ≤ (1 : A.ValueGroup) →
-        (A.valuation : Ω → A.ValueGroup) (a - b) < (1 : A.ValueGroup) →
-          ∀ (m : ℕ), (A.valuation : Ω → A.ValueGroup) (a ^ m - b ^ m) < (1 : A.ValueGroup) := @_root_.GlobalTheory.RootValuationOne.sub_pow_lt_one
 end -- clump:auto
 end -- clump:auto
 -- ===== end clump member: Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.PowCong =====
@@ -204,7 +192,7 @@ private theorem isFrob_pow {K Ω : Type} [Field K] [NumberField K] [Field Ω] [A
   | succ n ih =>
     refine ⟨Subgroup.pow_mem _ hg.1 _, fun x hx => ?_⟩
     have h1 := hg.2 _ (dec_le ih.1 hx)
-    have h2 := _root_.UpperTheory.Reformulated.B.Qh11.pow_cong A (dec_le ih.1 hx) (b := x ^ q ^ n) (by rw [map_pow]; exact pow_le_one' hx _) (ih.2 x hx) q
+    have h2 := _root_.UpperTheory.Reformulated.B.Qf13.pow_cong A (dec_le ih.1 hx) (b := x ^ q ^ n) (by rw [map_pow]; exact pow_le_one' hx _) (ih.2 x hx) q
     have h3 := Valuation.map_add_lt A.valuation h1 h2
     rw [sub_add_sub_cancel, ← pow_mul, ← pow_succ] at h3
     rw [pow_succ' g, AlgEquiv.mul_apply]
@@ -503,9 +491,6 @@ end -- clump:auto
 section -- clump:auto
 @[expose] public section
 
-
-
-
 section
 private theorem klev_three (K : Type) [Field K] [NumberField K] (n M : ℕ) :
     UpperTheory.V.Af.KLev K n (3 * M) ≤ UpperTheory.V.Af.KLev K n M := by
@@ -544,9 +529,6 @@ end -- clump:auto
 section -- clump:auto
 @[expose] public section
 
-
-
-
 open NumberField IsDedekindDomain Formalism.ConjugateSelfDual Formalism.BasicNotions Formalism.MainNotions.N GlobalTheory.CuspRep
 
 noncomputable section
@@ -571,7 +553,36 @@ private theorem fin_cpt (k : GL (Fin a) (Af L)) (u : Kinf L a) :
   exact congrArg _ (infGL_comm _ _)
 
 private theorem phiOp_mul (o : Op L a) : phiOp L a * act (invTOp (conjOp o)) = act (thetaOp o) * phiOp L a := by
-  apply _root_.GuIrrCaseTDualProof.phiOp_mul <;> assumption
+  cases o with
+  | fin k =>
+    simp only [phiOp, conjOp, invTOp, thetaOp]
+    rw [mul_assoc, fin_cpt, ← mul_assoc, ← mul_assoc]
+    congr 1
+    change finRep L a _ * finRep L a _ = finRep L a _ * finRep L a _
+    rw [← map_mul, ← map_mul]
+    congr 1
+    change _ = PhiU a (Af L) * _ * (PhiU a (Af L))⁻¹ * _
+    rw [inv_mul_cancel_right]
+    rfl
+  | cpt k =>
+    simp only [phiOp, conjOp, invTOp, thetaOp, barK_barK]
+    rw [← mul_assoc, fin_cpt, mul_assoc, mul_assoc]
+    congr 1
+    change cptRep L a _ * cptRep L a _ = cptRep L a _ * cptRep L a _
+    rw [← map_mul, ← map_mul, inv_mul_cancel_right]
+  | lie X =>
+    simp only [phiOp, conjOp, invTOp, thetaOp]
+    have h1 := GlobalTheory.CapAdInv.rt_lie (Unitary.toUnits (PhiK L a)) (-(Matrix.of X)ᴴ)
+    have h2 := lie_rt_fin (E := L) (toL (-(GlobalTheory.Tw.Phi a (Cinf L) * (Matrix.of X)ᴴ * (GlobalTheory.Tw.Phi a (Cinf L))ᵀ)))
+      (PhiU a (Af L))
+    have e : Unitary.toUnits (PhiK L a) = PhiU a (Cinf L) := Units.ext rfl
+    have e2 : (Unitary.toUnits (PhiK L a)).val * (-(Matrix.of X)ᴴ) * ((Unitary.toUnits (PhiK L a))⁻¹).val =
+        -(GlobalTheory.Tw.Phi a (Cinf L) * (Matrix.of X)ᴴ * (GlobalTheory.Tw.Phi a (Cinf L))ᵀ) := by
+      rw [e, mul_neg, neg_mul]; rfl
+    rw [e2] at h1
+    rw [mul_assoc, ← mul_assoc (act (Op.lie _))]
+    exact (congrArg (act (.fin (PhiU a (Af L))) * ·) h1).trans ((mul_assoc _ _ _).symm.trans
+      (congrArg (· * _) h2.symm))
 
 private theorem dualIsConj_of_isCsd {π : CuspSub L a} (h : Paired π π invTOp) (hc : π.IsCsd) : DualIsConj π := by
   obtain ⟨B, h1, h2, h3, h4, h5⟩ := h
@@ -663,9 +674,6 @@ end -- clump:auto
 section -- clump:auto
 @[expose] public section
 
-
-
-
 section
 open NumberField IsDedekindDomain Neutral.B1 Formalism.L2.Host Formalism.ConjugateSelfDual ReciprocityTheory.Gal Formalism.MainNotions.N Polynomial GlobalTheory.CuspRep GlobalTheory.HeckeGal GlobalTheory.GalOfCusp UpperTheory.V UpperTheory.V.Af UpperTheory.V.Af.Bc UpperTheory.V.Published
 private theorem regAlg_of_infOf {K : Type} [Field K] [NumberField K] [_root_.NumberField.IsTotallyComplex K] {n : ℕ} {m : Fin n → ℤ}
@@ -745,7 +753,7 @@ theorem UpperTheory.GalN.V.conjP_alt :
   refine ⟨π', ⟨fun φ => ?_, ?_, hs.hasFixed hfix⟩, hsat⟩
   · have e : σ.toRingHom.comp (σ.symm.toRingHom.comp φ) = φ := RingHom.ext fun x => σ.apply_symm_apply _
     exact e ▸ h4 _ _ (hinf _)
-  obtain ⟨a, ha⟩ := GlobalTheory.T.isAlgebraicHeckeChar_of_regularAlgebraic_polarizedPair K n (by omega) π χ hreg hpol
+  obtain ⟨a, ha⟩ := GlobalTheory.RegAlgCharAlg.isAlgPos_of_polarizedPair K n (by omega) π χ hreg hpol
   have hF : Module.finrank ℚ (maximalRealSubfield K) = 1 := by
     have h1 := (letI : Module.Free (maximalRealSubfield K) K := Module.Free.of_divisionRing _ _; Module.finrank_mul_finrank ℚ (maximalRealSubfield K) K)
     rw [Algebra.IsQuadraticExtension.finrank_eq_two (maximalRealSubfield K) K] at h1
@@ -856,7 +864,6 @@ end -- clump:auto
 section -- clump:auto
 @[expose] public section
 
-
 section
 noncomputable section
 open UpperTheory.V UpperTheory.V.Af UpperTheory.V.Br
@@ -869,7 +876,6 @@ open scoped Matrix
 open NumberField IsDedekindDomain Formalism.L2.Host Formalism.ConjugateSelfDual ReciprocityTheory.Gal Formalism.BasicNotions Formalism.BasicNotions.Loc Formalism.MainNotions.N Polynomial
 open GlobalTheory.CuspRep GlobalTheory.WeilDeligne GlobalTheory.Pst GlobalTheory.LocLanglands GlobalTheory.HeckeGal GlobalTheory.LocGL GlobalTheory.GalOfCusp UpperTheory.V UpperTheory.V.Af UpperTheory.V.Published
 open UpperTheory.V.Af.Bc
-open UpperTheory.V UpperTheory.V.Af UpperTheory.V.Br
 def CountKAlt : Prop :=
   ∀ (K : Type) [Field K] [NumberField K] [IsCMField K] (n : ℕ), 2 ≤ n → ∃ c A : ℕ,
     ∀ (m : Fin n → ℤ), StrictAnti m → (∀ i, m i + m i.rev = 1 - n) → ∀ H : ℕ, (∀ i, |m i| ≤ H) → ∀ M : ℕ, 1 ≤ M →
@@ -912,7 +918,7 @@ theorem countK_alt :
   have hsys : ∀ π (v : Wd) B, (CG.mk π).HasSat v.1 B → sys π v = algSat n (normV v.1) B := by
     intro π v B hB
     have h : ∃ B, (CG.mk π).HasSat v.1 B := ⟨B, hB⟩
-    simp only [sys, dif_pos h]
+    simp only [sys, dite_eq_left h]
     rw [h.choose_spec.unique hB]
   have hsat : ∀ π ∈ SigK K m M, ∀ v : Wd, ∃ B, (CG.mk π).HasSat v.1 B := fun π hπ v =>
     _root_.UpperTheory.V.Af.satake_k_of_printed_results hP K n M π hπ.2.2 v.1 v.2
@@ -980,7 +986,7 @@ theorem countP_alt :
   have hsys : ∀ π (v : Wd) B, (CG.mk π).HasSat v.1 B → sys π v = algSat n (normV v.1) B := by
     intro π v B hB
     have h : ∃ B, (CG.mk π).HasSat v.1 B := ⟨B, hB⟩
-    simp only [sys, dif_pos h]
+    simp only [sys, dite_eq_left h]
     rw [h.choose_spec.unique hB]
   have hsat : ∀ π ∈ SigP K m M, ∀ v : Wd, ∃ B, (CG.mk π).HasSat v.1 B := fun π hπ v =>
     _root_.UpperTheory.V.Af.satake_k_of_printed_results hP K n M π hπ.2.2 v.1 v.2

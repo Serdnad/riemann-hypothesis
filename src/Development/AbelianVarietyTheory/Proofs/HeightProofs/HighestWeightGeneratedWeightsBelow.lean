@@ -1,49 +1,8 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.TwistedOperators.EmbedsOfLowestType
 public import Formalism.LocalRingCardinality.DataTheta
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
 import Mathlib.RingTheory.PiTensorProduct
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
 import Mathlib.Tactic.TypeStar
-import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
 import Development.AbelianVarietyTheory.Proofs.HeightProofs.ExistsBlockOrd
 import Formalism.LocalToGlobal.BesselHermitianTheta.NoncompactGapAtLeastRange
@@ -129,7 +88,17 @@ theorem isKC_sub {X Y : Mat p q} (hX : IsKC X) (hY : IsKC Y) : IsKC (X - Y) := b
   simp [hX a b hab, hY a b hab]
 
 theorem sameBlock_cases {a b : Ix p q} (h : sameBlock a b) : a = b ∨ posC a b ∨ posC b a := by
-  first | exact _root_.GlobalTheory.FiltrationEquivalenceRelation.sb_tri | exact @_root_.GlobalTheory.FiltrationEquivalenceRelation.sb_tri | apply _root_.GlobalTheory.FiltrationEquivalenceRelation.sb_tri <;> assumption
+  rcases a with a | a <;> rcases b with b | b
+  · rcases lt_trichotomy a b with x | x | x
+    · exact .inr (.inl x)
+    · exact .inl (by rw [x])
+    · exact .inr (.inr x)
+  · exact h.elim
+  · exact h.elim
+  · rcases lt_trichotomy a b with x | x | x
+    · exact .inr (.inl x)
+    · exact .inl (by rw [x])
+    · exact .inr (.inr x)
 
 theorem bracket_diag (x a b : Ix p q) :
     Eab x x * Eab b a - Eab b a * Eab x x =

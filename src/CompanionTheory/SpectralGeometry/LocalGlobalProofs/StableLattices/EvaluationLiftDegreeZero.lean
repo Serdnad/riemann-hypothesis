@@ -123,7 +123,7 @@ theorem bd_lift_comm (lev : Fin n → ℕ) (E : Fin n → Fin n → Module.End �
   rw [lift_apply, bd_apply, bd_apply, map_add (f := _), map_sum, map_sum]
   congr 1
   · refine Finset.sum_congr rfl fun i _ => ?_
-    rw [if_pos rfl, if_pos rfl]
+    rw [ite_eq_left rfl, ite_eq_left rfl]
     by_cases hi : inU lev i
     · have e : ann i (lift n T x) A = T (ann i x A) := congrFun (lift_ann T i x).symm A
       rw [e]
@@ -292,14 +292,14 @@ theorem acycU (lev : Fin n → ℕ) (E : Fin n → Fin n → Module.End ℂ Z) (
     rw [Pi.sub_apply, bd_apply, e, add_sub_right_comm, ← Finset.sum_sub_distrib]
     refine Submodule.add_mem _ (Submodule.sum_mem _ fun i _ => ?_) (Submodule.sum_mem _ fun i _ =>
       Submodule.sum_mem _ fun j _ => Submodule.sum_mem _ fun k _ => ?_)
-    · rw [if_pos rfl]
+    · rw [ite_eq_left rfl]
       by_cases hi : inU lev i
-      · rw [if_pos hi]
+      · rw [ite_eq_left hi]
         exact hrG i _ _ (ann_mem hy _ _)
       · have e0 : ann i y A = 0 := by
           by_contra h0
           exact hi (hys _ (ann_ne h0).2 i (mem_insert_self _ _))
-        rw [if_neg hi, e0]
+        rw [ite_eq_right hi, e0]
         simp
     · split_ifs
       · exact cre_mem (ann_mem (ann_mem hy _) _) _ _
@@ -414,10 +414,56 @@ theorem coverU (lev : Fin n → ℕ) (E : Fin n → Fin n → Module.End ℂ V) 
       GlRel EY ∧ Function.Surjective π ∧ (∀ a b y, π (EY a b y) = E a b (π y)) ∧
       ∀ (j : ℕ) (x : Cn n Y), SuppIn (inU lev) x → CompanionTheory.RgExh.U.Deg (j + 1) x → bd (allT n) EY x = 0 →
         ∃ t : Cn n Y, SuppIn (inU lev) t ∧ CompanionTheory.RgExh.U.Deg (j + 2) t ∧ bd (allT n) EY t = x := by
-  obtain ⟨Y, _, _, EY, π, a, d, F, hRel, hSurj, hπ, hFilt⟩ :=
-    exists_filtered_tensor_cover (allT n) (inU lev) E (fun a b c d _ _ => hE a b c d)
-  have hG : GlRel EY := fun a b c d => hRel a b c d rfl rfl
-  exact ⟨Y, inferInstance, inferInstance, EY, π, hG, hSurj, hπ, acycU lev EY a d F hG hFilt⟩
+  obtain ⟨Z, _, _, M, χ, z₀, a, d, Fil, hM, h1, h0, hF⟩ := free_all n n
+  let S : ℕ → Set (V ⊗[ℂ] Z) := fun k => {t | ∃ v z, z ∈ Fil k ∧ t = v ⊗ₜ z}
+  have hin : ∀ {k : ℕ} (v : V) {z : Z}, z ∈ Fil k → v ⊗ₜ[ℂ] z ∈ Submodule.span ℂ (S k) :=
+    fun v _ hz => Submodule.subset_span ⟨_, _, hz, rfl⟩
+  have hmap : ∀ (T : Module.End ℂ (V ⊗[ℂ] Z)) (k : ℕ) (Q : Submodule ℂ (V ⊗[ℂ] Z)),
+      (∀ v z, z ∈ Fil k → T (v ⊗ₜ z) ∈ Q) → ∀ t ∈ Submodule.span ℂ (S k), T t ∈ Q := by
+    intro T k Q h
+    refine fun t ht => (Submodule.span_le (p := Q.comap T)).2 ?_ ht
+    rintro _ ⟨v, z, hz, rfl⟩
+    exact h v z hz
+  have hm : Monotone fun k => Submodule.span ℂ (S k) := fun k l hkl =>
+    Submodule.span_mono (by rintro _ ⟨v, z, hz, rfl⟩; exact ⟨v, z, hF.mono hkl hz, rfl⟩)
+  have hG : GlRel fun c e => ((E c e).rTensor Z + (M c e).lTensor V : Module.End ℂ (V ⊗[ℂ] Z)) :=
+    fun a b c d => kRel_tens (ε := allT n) (fun a b c d _ _ => hE a b c d) hM a b c d rfl rfl
+  refine ⟨V ⊗[ℂ] Z, inferInstance, inferInstance, fun c e => (E c e).rTensor Z + (M c e).lTensor V,
+    (TensorProduct.rid ℂ V).toLinearMap ∘ₗ χ.lTensor V, hG, fun v => ⟨v ⊗ₜ z₀, by simp [h1]⟩,
+    fun c e t => ?_, acycU lev _ (fun i => (a i).lTensor V) (fun i => (d i).lTensor V)
+      (fun k => Submodule.span ℂ (S k)) hG ⟨?_, ?_, ?_, hm, ?_, ?_, ?_, ?_, ?_⟩⟩
+  · induction t using TensorProduct.induction_on with
+    | zero => simp
+    | tmul v f => simp [h0]
+    | add p q hp hq => simp only [map_add (f := _), hp, hq]
+  · exact fun i j => (hF.a_comm i j).map (Module.End.lTensorAlgHom ℂ Z V)
+  · exact fun i j => (hF.d_comm i j).map (Module.End.lTensorAlgHom ℂ Z V)
+  · intro i j _
+    have := congrArg (Module.End.lTensorAlgHom ℂ Z V) (hF.da i j i.1.1.2)
+    rw [map_sub, map_mul, map_mul, apply_ite (Module.End.lTensorAlgHom ℂ Z V), map_one, map_zero] at this
+    exact this
+  · intro t
+    induction t using TensorProduct.induction_on with
+    | zero => exact ⟨0, Submodule.zero_mem _⟩
+    | tmul v z =>
+      obtain ⟨k, hk⟩ := hF.exh z
+      exact ⟨_, hin v hk⟩
+    | add p q hp hq =>
+      obtain ⟨k, hk⟩ := hp
+      obtain ⟨l, hl⟩ := hq
+      exact ⟨max k l, Submodule.add_mem _ (hm (le_max_left _ _) hk) (hm (le_max_right _ _) hl)⟩
+  · exact fun i k => hmap _ k _ fun v z hz => hin v (hF.a_mem i _ z hz)
+  · intro i k
+    refine hmap (((E i.1.1 i.1.2).rTensor Z + (M i.1.1 i.1.2).lTensor V) - (a i).lTensor V) k _ fun v z hz => ?_
+    have e : (((E i.1.1 i.1.2).rTensor Z + (M i.1.1 i.1.2).lTensor V) - (a i).lTensor V :
+        Module.End ℂ (V ⊗[ℂ] Z)) (v ⊗ₜ z) = E i.1.1 i.1.2 v ⊗ₜ z + v ⊗ₜ (M i.1.1 i.1.2 z - a i z) := by
+      simp only [LinearMap.sub_apply, LinearMap.add_apply, LinearMap.rTensor_tmul, LinearMap.lTensor_tmul,
+        TensorProduct.tmul_sub]
+      abel
+    rw [e]
+    exact Submodule.add_mem _ (hin _ hz) (hin _ (hF.r_mem i _ z hz))
+  · exact fun i k => hmap _ _ _ fun v z hz => hin v (hF.d_mem i _ z hz)
+  · exact fun i => hmap _ _ ⊥ fun v z hz => by simp [hF.d_zero i z hz]
 
 section Car
 
@@ -537,7 +583,7 @@ theorem sum_root {M : Type} [AddCommMonoid M] (f : Pos n → M) (P : Prop) [Deci
   · rw [dite_eq_left hP, Finset.sum_eq_single ⟨(x, y), h hP⟩]
     · simp [hP]
     · intro j _ hj
-      refine if_neg fun e => hj (Subtype.ext e.2)
+      refine ite_eq_right fun e => hj (Subtype.ext e.2)
     · simp
   · simp [hP]
 
@@ -550,7 +596,7 @@ theorem sum_cU {M : Type} [AddCommGroup M] [Module ℂ M] {lev : Fin n → ℕ} 
     ← sum_root g (l.1.2 = p) l.1.1 q (fun h => hlev.reflect_lt (by rw [← hpq, ← h]; exact hl)),
     ← Finset.sum_sub_distrib]
   refine Finset.sum_congr rfl fun j _ => ?_
-  simp only [cU, if_pos hl, adC, sub_smul, ite_smul, one_smul, zero_smul]
+  simp only [cU, ite_eq_left hl, adC, sub_smul, ite_smul, one_smul, zero_smul]
 
 theorem struct_id {lev : Fin n → ℕ} (hlev : Monotone lev) {p q : Fin n} (hpq : lev p = lev q) (I J κ : Pos n) :
     ∑ k, tU lev I J k * cU lev p q k κ =
@@ -558,13 +604,13 @@ theorem struct_id {lev : Fin n → ℕ} (hlev : Monotone lev) {p q : Fin n} (hpq
   have hlt : ∀ {x y : Fin n}, lev x < lev y → x < y := fun h => hlev.reflect_lt h
   by_cases hI : inU lev I
   swap
-  · have e1 : ∀ j k, tU lev I j k = 0 := fun j k => if_neg fun h => hI h.1
-    have e2 : ∀ k, cU lev p q I k = 0 := fun k => if_neg hI
+  · have e1 : ∀ j k, tU lev I j k = 0 := fun j k => ite_eq_right fun h => hI h.1
+    have e2 : ∀ k, cU lev p q I k = 0 := fun k => ite_eq_right hI
     simp [e1, e2]
   by_cases hJ : inU lev J
   swap
-  · have e1 : ∀ i k, tU lev i J k = 0 := fun i k => if_neg fun h => hJ h.2.1
-    have e2 : ∀ k, cU lev p q J k = 0 := fun k => if_neg hJ
+  · have e1 : ∀ i k, tU lev i J k = 0 := fun i k => ite_eq_right fun h => hJ h.2.1
+    have e2 : ∀ k, cU lev p q J k = 0 := fun k => ite_eq_right hJ
     simp [e1, e2]
   obtain ⟨⟨a, b⟩, hab⟩ := I
   obtain ⟨⟨c, d⟩, hcd⟩ := J
@@ -579,16 +625,16 @@ theorem struct_id {lev : Fin n → ℕ} (hlev : Monotone lev) {p q : Fin n} (hpq
     have e1 : ∀ k : Pos n, tU lev ⟨(a, b), hab⟩ ⟨(c, d), hcd⟩ k * cU lev p q k ⟨(e, f), hef⟩ =
         if b = c ∧ k.1 = (a, d) then cU lev p q k ⟨(e, f), hef⟩ else 0 := fun k => by
       by_cases hc : b = c ∧ k.1 = (a, d)
-      · rw [if_pos hc, tU, if_pos ⟨hI, hJ, hc.1, by simp [hc.2], by simp [hc.2]⟩, one_mul]
-      · rw [if_neg hc, tU, if_neg, zero_mul]
+      · rw [ite_eq_left hc, tU, ite_eq_left ⟨hI, hJ, hc.1, by simp [hc.2], by simp [hc.2]⟩, one_mul]
+      · rw [ite_eq_right hc, tU, ite_eq_right, zero_mul]
         rintro ⟨-, -, h1, h2, h3⟩
         exact hc ⟨h1, Prod.ext h2 h3⟩
     simp only [e1]
     rw [this]
     by_cases hbc : b = c
-    · rw [dite_eq_left hbc, if_pos hbc, cU, if_pos (by show lev a < lev d; rw [hbc] at hI'; omega)]
+    · rw [dite_eq_left hbc, ite_eq_left hbc, cU, ite_eq_left (by show lev a < lev d; rw [hbc] at hI'; omega)]
       simp [adC]
-    · rw [dite_eq_right hbc, if_neg hbc]
+    · rw [dite_eq_right hbc, ite_eq_right hbc]
   have R1 : ∑ j, tU lev ⟨(a, b), hab⟩ j ⟨(e, f), hef⟩ * cU lev p q ⟨(c, d), hcd⟩ j =
       (if q = c ∧ b = p ∧ e = a ∧ f = d then 1 else 0) - (if d = p ∧ b = c ∧ e = a ∧ f = q then 1 else 0) := by
     have := sum_cU hlev hpq (fun j => tU lev ⟨(a, b), hab⟩ j ⟨(e, f), hef⟩) ⟨(c, d), hcd⟩ hJ
@@ -600,16 +646,16 @@ theorem struct_id {lev : Fin n → ℕ} (hlev : Monotone lev) {p q : Fin n} (hpq
       · have hU : lev p < lev d := by rw [hpq, hq]; exact hJ'
         rw [dite_eq_left hq, tU]
         by_cases h : b = p ∧ e = a ∧ f = d
-        · rw [if_pos ⟨hI, hU, h.1, h.2.1, h.2.2⟩, if_pos ⟨hq, h⟩]
-        · rw [if_neg fun h' => h ⟨h'.2.2.1, h'.2.2.2.1, h'.2.2.2.2⟩, if_neg fun h' => h h'.2]
-      · rw [dite_eq_right hq, if_neg fun h => hq h.1]
+        · rw [ite_eq_left ⟨hI, hU, h.1, h.2.1, h.2.2⟩, ite_eq_left ⟨hq, h⟩]
+        · rw [ite_eq_right fun h' => h ⟨h'.2.2.1, h'.2.2.2.1, h'.2.2.2.2⟩, ite_eq_right fun h' => h h'.2]
+      · rw [dite_eq_right hq, ite_eq_right fun h => hq h.1]
     · by_cases hd : d = p
       · have hU : lev c < lev q := by rw [← hpq, ← hd]; exact hJ'
         rw [dite_eq_left hd, tU]
         by_cases h : b = c ∧ e = a ∧ f = q
-        · rw [if_pos ⟨hI, hU, h.1, h.2.1, h.2.2⟩, if_pos ⟨hd, h⟩]
-        · rw [if_neg fun h' => h ⟨h'.2.2.1, h'.2.2.2.1, h'.2.2.2.2⟩, if_neg fun h' => h h'.2]
-      · rw [dite_eq_right hd, if_neg fun h => hd h.1]
+        · rw [ite_eq_left ⟨hI, hU, h.1, h.2.1, h.2.2⟩, ite_eq_left ⟨hd, h⟩]
+        · rw [ite_eq_right fun h' => h ⟨h'.2.2.1, h'.2.2.2.1, h'.2.2.2.2⟩, ite_eq_right fun h' => h h'.2]
+      · rw [dite_eq_right hd, ite_eq_right fun h => hd h.1]
   have R2 : ∑ i, tU lev i ⟨(c, d), hcd⟩ ⟨(e, f), hef⟩ * cU lev p q ⟨(a, b), hab⟩ i =
       (if q = a ∧ b = c ∧ e = p ∧ f = d then 1 else 0) - (if b = p ∧ q = c ∧ e = a ∧ f = d then 1 else 0) := by
     have := sum_cU hlev hpq (fun i => tU lev i ⟨(c, d), hcd⟩ ⟨(e, f), hef⟩) ⟨(a, b), hab⟩ hI
@@ -621,16 +667,16 @@ theorem struct_id {lev : Fin n → ℕ} (hlev : Monotone lev) {p q : Fin n} (hpq
       · have hU : lev p < lev b := by rw [hpq, hq]; exact hI'
         rw [dite_eq_left hq, tU]
         by_cases h : b = c ∧ e = p ∧ f = d
-        · rw [if_pos ⟨hU, hJ, h.1, h.2.1, h.2.2⟩, if_pos ⟨hq, h⟩]
-        · rw [if_neg fun h' => h ⟨h'.2.2.1, h'.2.2.2.1, h'.2.2.2.2⟩, if_neg fun h' => h h'.2]
-      · rw [dite_eq_right hq, if_neg fun h => hq h.1]
+        · rw [ite_eq_left ⟨hU, hJ, h.1, h.2.1, h.2.2⟩, ite_eq_left ⟨hq, h⟩]
+        · rw [ite_eq_right fun h' => h ⟨h'.2.2.1, h'.2.2.2.1, h'.2.2.2.2⟩, ite_eq_right fun h' => h h'.2]
+      · rw [dite_eq_right hq, ite_eq_right fun h => hq h.1]
     · by_cases hb : b = p
       · have hU : lev a < lev q := by rw [← hpq, ← hb]; exact hI'
         rw [dite_eq_left hb, tU]
         by_cases h : q = c ∧ e = a ∧ f = d
-        · rw [if_pos ⟨hU, hJ, h.1, h.2.1, h.2.2⟩, if_pos ⟨hb, h⟩]
-        · rw [if_neg fun h' => h ⟨h'.2.2.1, h'.2.2.2.1, h'.2.2.2.2⟩, if_neg fun h' => h h'.2]
-      · rw [dite_eq_right hb, if_neg fun h => hb h.1]
+        · rw [ite_eq_left ⟨hU, hJ, h.1, h.2.1, h.2.2⟩, ite_eq_left ⟨hb, h⟩]
+        · rw [ite_eq_right fun h' => h ⟨h'.2.2.1, h'.2.2.2.1, h'.2.2.2.2⟩, ite_eq_right fun h' => h h'.2]
+      · rw [dite_eq_right hb, ite_eq_right fun h => hb h.1]
   rw [L, R1, R2]
   by_cases h1 : b = c
   · subst h1
@@ -640,14 +686,14 @@ theorem struct_id {lev : Fin n → ℕ} (hlev : Monotone lev) {p q : Fin n} (hpq
       if_congr (by tauto) rfl rfl
     have e3 : (if b = p ∧ q = b ∧ e = a ∧ f = d then (1 : ℂ) else 0) = if q = b ∧ b = p ∧ e = a ∧ f = d then 1 else 0 :=
       if_congr (by tauto) rfl rfl
-    rw [if_pos rfl, e1, e2, e3]
+    rw [ite_eq_left rfl, e1, e2, e3]
     ring
   · have t : ∀ (P Q : Prop) [Decidable P] [Decidable Q], (P ↔ Q) → ((if P then (1 : ℂ) else 0) - if Q then 1 else 0) = 0 := by
       intro P Q _ _ h; simp [h]
-    simp only [if_neg h1]
+    simp only [ite_eq_right h1]
     have e0 : ¬(d = p ∧ b = c ∧ e = a ∧ f = q) := fun h => h1 h.2.1
     have e1 : ¬(q = a ∧ b = c ∧ e = p ∧ f = d) := fun h => h1 h.2.1
-    rw [if_neg e0, if_neg e1]
+    rw [ite_eq_right e0, ite_eq_right e1]
     have := t (q = c ∧ b = p ∧ e = a ∧ f = d) (b = p ∧ q = c ∧ e = a ∧ f = d) (by tauto)
     rw [sub_zero, zero_sub, ← sub_eq_add_neg, this]
 
@@ -683,7 +729,7 @@ theorem bd_eq {lev : Fin n → ℕ} (E : Fin n → Fin n → Module.End ℂ V) {
   simp only [bd, LU, TU, LinearMap.add_apply, LinearMap.sum_apply, LinearMap.smul_apply, Module.End.mul_apply]
   congr 1
   · refine Finset.sum_congr rfl fun i _ => ?_
-    rw [if_pos trivial]
+    rw [ite_eq_left trivial]
     by_cases hi : inU lev i
     · simp [uI, hi]
     · simp [ann_zero_of hx hi]
@@ -691,20 +737,20 @@ theorem bd_eq {lev : Fin n → ℕ} (E : Fin n → Fin n → Module.End ℂ V) {
     by_cases hi : inU lev i
     · by_cases hj : inU lev j
       · by_cases ht : i.1.2 = j.1.1 ∧ k.1.1 = i.1.1 ∧ k.1.2 = j.1.2
-        · rw [if_pos ⟨trivial, trivial, ht⟩, tU, if_pos ⟨hi, hj, ht⟩, one_smul]
+        · rw [ite_eq_left ⟨trivial, trivial, ht⟩, tU, ite_eq_left ⟨hi, hj, ht⟩, one_smul]
           rfl
-        · rw [if_neg fun h => ht h.2.2, tU, if_neg fun h => ht h.2.2, zero_smul]
+        · rw [ite_eq_right fun h => ht h.2.2, tU, ite_eq_right fun h => ht h.2.2, zero_smul]
           rfl
       · have e : ann j (ann i x) = - ann i (ann j x) := by
           have := LinearMap.congr_fun (ann_ann (V := V) j i) x
           simp only [LinearMap.add_apply, Module.End.mul_apply, LinearMap.zero_apply] at this
           exact eq_neg_of_add_eq_zero_left this
         have e2 : ann j (ann i x) = 0 := by rw [e, ann_zero_of hx hj, map_zero, neg_zero]
-        have e3 : tU lev i j k = 0 := if_neg fun h => hj h.2.1
+        have e3 : tU lev i j k = 0 := ite_eq_right fun h => hj h.2.1
         split_ifs
         · simp [e2, e3]
         · simp [e3]
-    · have e3 : tU lev i j k = 0 := if_neg fun h => hi h.1
+    · have e3 : tU lev i j k = 0 := ite_eq_right fun h => hi h.1
       have e2 : ann i x = 0 := ann_zero_of hx hi
       split_ifs
       · simp [e2, e3]
@@ -786,7 +832,7 @@ theorem comm_U {lev : Fin n → ℕ} (hlev : Monotone lev) {p q : Fin n} (hpq : 
       · have : X * L i - L i * X = lift n (E p q * E i.1.1 i.1.2 - E i.1.1 i.1.2 * E p q) := by
           rw [lift_sub, lift_mul, lift_mul]
         rw [this, gl_ad hlev hpq hE i hi]
-        simp only [uI, if_pos hi, one_smul]
+        simp only [uI, ite_eq_left hi, one_smul]
         have : (lift n (∑ k, cU lev p q i k • E k.1.1 k.1.2) : Module.End ℂ (Cn n V)) =
             ∑ k, cU lev p q i k • L k := by
           refine LinearMap.ext fun y => funext fun B => ?_
@@ -857,7 +903,7 @@ theorem genCOU : GenCOU := by
     have key : ∀ A, w' A ≠ 0 → ∃ i : Pos n, inU lev i ∧ A = {i} := fun A hA => by
       obtain ⟨i, -, hi⟩ := exists_ne_zero_of_sum_ne_zero hA
       by_contra hc
-      exact hi (if_neg fun h => hc ⟨i, h⟩)
+      exact hi (ite_eq_right fun h => hc ⟨i, h⟩)
     have hw1 : SuppIn (inU lev) w' := fun A hA l hl => by
       obtain ⟨i, h1, rfl⟩ := key A hA
       rw [mem_singleton.1 hl]
@@ -872,14 +918,14 @@ theorem genCOU : GenCOU := by
       rw [Pi.sub_apply, lift_apply, lift_apply, hw, bd_apply, Finset.sum_eq_zero (s := univ)
         (f := fun i => ∑ j : Pos n, ∑ k : Pos n, if Tri (allT n) i j k then cre k (ann j (ann i w')) ∅ else 0), add_zero]
       · refine Finset.sum_congr rfl fun i _ => ?_
-        rw [if_pos rfl, ann_apply, if_neg (notMem_empty i)]
+        rw [ite_eq_left rfl, ann_apply, ite_eq_right (notMem_empty i)]
         have e0 : sg i (∅ : Finset (Pos n)) = 1 := by simp [sg]
         have e1 : w' (insert i ∅) = if inU lev i then w i else 0 := by
           simp only [w']
           rw [Finset.sum_eq_single i]
           · simp
           · intro k _ hk
-            refine if_neg fun h => hk ?_
+            refine ite_eq_right fun h => hk ?_
             have := h.2
             simp only [insert_empty_eq, singleton_inj] at this
             exact this.symm
@@ -915,14 +961,14 @@ theorem genCOU : GenCOU := by
       split_ifs at this ⊢ <;> simpa [EK] using this
     classical
     let x' : Cn n Y := fun A => if x A = 0 then 0 else (hsurj (x A)).choose
-    have hz : ∀ A, x A = 0 → x' A = 0 := fun A h => if_pos h
+    have hz : ∀ A, x A = 0 → x' A = 0 := fun A h => ite_eq_left h
     have hx's : SuppIn (inU lev) x' := supp_of hs hz
     have hx'd : CompanionTheory.RgExh.U.Deg (j + 1) x' := deg_of _ hd hz
     have hπx : lift n π x' = x := by
       funext A
       by_cases hA : x A = 0
       · simp [x', hA]
-      · simp only [lift_apply, x', if_neg hA]
+      · simp only [lift_apply, x', ite_eq_right hA]
         exact (hsurj (x A)).choose_spec
     have hy : ∀ A, bd (allT n) EY x' A ∈ LinearMap.ker π := by
       intro A

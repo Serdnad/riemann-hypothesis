@@ -1,6 +1,5 @@
 module
 
-import all ReciprocityTheory.L2DbarEstimates.HormanderEstimate.ExistsLintegralCompactLe
 public import ReciprocityTheory.L2DbarEstimates.Localization.UnweightBackStatement
 public import Mathlib.Analysis.SpecialFunctions.SmoothTransition
 public import Mathlib.Analysis.InnerProductSpace.Calculus
@@ -18,7 +17,6 @@ public import Mathlib.Analysis.Calculus.ContDiff.Basic
 public import Mathlib.Analysis.Calculus.ContDiff.Operations
 public import Mathlib.Analysis.Calculus.FDeriv.Mul
 public import ReciprocityTheory.L2DbarEstimates.Localization.LocalizeA
-import all ReciprocityTheory.L2DbarEstimates.Localization.LocalizeA
 public import ReciprocityTheory.L2DbarEstimates.ChartDerivatives.ExistsChartPartition
 public import ReciprocityTheory.L2DbarEstimates.ChartDerivatives.IntegralFderivApplyEqZero
 public import Mathlib.MeasureTheory.Integral.IntervalIntegral.Basic
@@ -180,7 +178,18 @@ theorem dbar_sq_comp_eq {M : Type*} [TopologicalSpace M] (n : ℕ) (z : M → V 
 
 theorem continuous_of_smoothReal {M : Type*} [TopologicalSpace M] (n : ℕ) (z : M → V n)
     (hz : IsLocalHomeomorph z) (e : M → ℝ) (he : SmoothR n z e) : Continuous e := by
-  apply ReciprocityTheory.L2DbarEstimates.F.smoothReal_continuous <;> assumption
+  rw [continuous_iff_continuousAt]
+  intro x
+  obtain ⟨c, hx, hzc⟩ := hz x
+  have hc : IsChart n z c := fun y _ => by rw [hzc]
+  have hg := (he c hc).continuousOn
+  have h1 : ContinuousAt (((fun y => (e y : ℂ)) ∘ c.symm) ∘ c) x :=
+    (hg.continuousAt (c.open_target.mem_nhds (c.map_source hx))).comp (c.continuousAt hx)
+  have h2 : ((fun y => (e y : ℂ)) ∘ c.symm) ∘ c =ᶠ[𝓝 x] fun y => (e y : ℂ) := by
+    filter_upwards [c.open_source.mem_nhds hx] with y hy
+    simp [c.left_inv hy]
+  have h3 := Complex.continuous_re.continuousAt.comp (h1.congr h2)
+  simpa [Function.comp_def] using h3
 
 theorem psi (n : ℕ) (M : Type*) [TopologicalSpace M] [T2Space M]
     [SecondCountableTopology M] [MeasurableSpace M] [BorelSpace M] : PsiStatement n M := by
@@ -659,7 +668,23 @@ private theorem coe_symm_apply_of_isChart_val {M : Type*} [TopologicalSpace M] (
     (e e' : OpenPartialHomeomorph M (V n)) (he : IsChart n z e) (he' : IsChart n z e')
     (y : M) (hy : y ∈ e.source) (hy' : y ∈ e'.source) :
     e'.symm =ᶠ[𝓝 (z y)] e.symm := by
-  apply _root_.ReciprocityTheory.L2DbarEstimates.F.chart_symm_eventuallyEq_at_chart_point <;> assumption
+
+  have hzy : z y = e' y := he' hy'
+  have hzy2 : z y = e y := he hy
+  have hopen : IsOpen (e.target ∩ (e'.target ∩ e'.symm ⁻¹' e.source)) :=
+    e.open_target.inter (e'.isOpen_inter_preimage_symm e.open_source)
+  have hmem : z y ∈ e.target ∩ (e'.target ∩ e'.symm ⁻¹' e.source) := by
+    refine ⟨by rw [hzy2]; exact e.map_source hy, by rw [hzy]; exact e'.map_source hy', ?_⟩
+    show e'.symm (z y) ∈ e.source
+    rw [hzy, e'.left_inv hy']
+    exact hy
+  filter_upwards [hopen.mem_nhds hmem] with w hw
+  obtain ⟨_, hw2, hw3⟩ := hw
+  have ha : e'.symm w ∈ e'.source := e'.map_target hw2
+  have hea : e (e'.symm w) = w := by
+    rw [← he hw3, he' ha, e'.right_inv hw2]
+  calc e'.symm w = e.symm (e (e'.symm w)) := (e.left_inv hw3).symm
+    _ = e.symm w := by rw [hea]
 
 private theorem wdb_apply_congr_of_eventuallyEq (n : ℕ) (k : Fin n) {F G : V n → ℂ} {p : V n} (h : F =ᶠ[𝓝 p] G) :
     wdb n k F p = wdb n k G p := by
@@ -740,7 +765,7 @@ private theorem wdb_sum_mul_conj_eq_coord (n : ℕ) (k : Fin n) (p : V n) :
   rw [hF.fderiv]
   simp [bas, PiLp.single_apply]
   simp only [apply_ite (starRingEnd ℂ), map_zero, mul_ite, mul_zero, Complex.conj_I,
-    Finset.sum_add_distrib, Finset.sum_ite_eq', Finset.mem_univ, if_true]
+    Finset.sum_add_distrib, Finset.sum_ite_eq', Finset.mem_univ, ite_true]
   linear_combination ((starRingEnd ℂ (p.ofLp k) - p.ofLp k) / 2) * Complex.I_sq
 
 theorem leviNormSq (n : ℕ) (M : Type*) [TopologicalSpace M] [T2Space M]
@@ -1414,7 +1439,20 @@ private lemma chart_symm_eventuallyEq_of_isChart {n : ℕ} {M : Type*} [Topologi
     (e e' : OpenPartialHomeomorph M (V n)) (he : IsChart n z e) (he' : IsChart n z e')
     (p : M) (hp : p ∈ e.source) (hp' : p ∈ e'.source) :
     e.symm =ᶠ[𝓝 (z p)] e'.symm := by
-  apply _root_.ReciprocityTheory.L2DbarEstimates.F.chart_symm_eventuallyEq_of_mem_sources <;> assumption
+  have he0 : Set.EqOn z e e.source := he
+  have he0' : Set.EqOn z e' e'.source := he'
+  have hzp : z p = e' p := he0' hp'
+  have h2 : e'.target ∩ e'.symm ⁻¹' e.source ∈ 𝓝 (z p) := by
+    rw [hzp]
+    refine (e'.isOpen_inter_preimage_symm e.open_source).mem_nhds ⟨e'.map_source hp', ?_⟩
+    rw [Set.mem_preimage, e'.left_inv hp']
+    exact hp
+  filter_upwards [h2] with y hy
+  have hs : e'.symm y ∈ e'.source := e'.map_target hy.1
+  have h3 : e (e'.symm y) = y := by
+    rw [← he0 hy.2, he0' hs, e'.right_inv hy.1]
+  calc e.symm y = e.symm (e (e'.symm y)) := by rw [h3]
+    _ = e'.symm y := e.left_inv hy.2
 
 private lemma db_eq_wdb_comp_chart_symm {n : ℕ} {M : Type*} [TopologicalSpace M] (z : M → V n)
     (e0 : OpenPartialHomeomorph M (V n)) (he0 : IsChart n z e0) (k : Fin n) (g : M → ℂ)
@@ -1539,7 +1577,56 @@ lemma shell_coef (C : ℝ) (hC : 0 ≤ C) (k : ℕ) :
 private lemma vol_lt_infty_of_compact {n : ℕ} {M : Type*} [TopologicalSpace M] [T2Space M] [MeasurableSpace M]
     [BorelSpace M] (z : M → V n) (hz : IsLocalHomeomorph z) {K : Set M} (hK : IsCompact K) :
     vol n z K < ⊤ := by
-  apply _root_.ReciprocityTheory.L2DbarEstimates.F.vol_lt_infty_of_isCompact <;> assumption
+  classical
+  have hKm : MeasurableSet K := hK.isClosed.measurableSet
+  unfold vol
+  split_ifs with h
+  · rw [Measure.ofMeasurable_apply K hKm]
+    unfold volFun
+    have hz' : ∀ x, ∃ e : OpenPartialHomeomorph M (V n), x ∈ e.source ∧ z = e :=
+      fun x => (isLocalHomeomorph_iff_isLocalHomeomorphOn_univ.mp hz) x (Set.mem_univ x)
+    choose e he hze using hz'
+    obtain ⟨t, ht⟩ := hK.elim_finite_subcover (fun x => (e x).source) (fun x => (e x).open_source)
+      (fun x _ => Set.mem_iUnion.mpr ⟨x, he x⟩)
+    have hbound : ∀ y : V n, ((K ∩ z ⁻¹' {y}).encard : ℝ≥0∞) ≤
+        (z '' K).indicator (fun _ => (t.card : ℝ≥0∞)) y := by
+      intro y
+      by_cases hy : y ∈ z '' K
+      · rw [Set.indicator_of_mem hy]
+        have hidx : ∀ p ∈ K ∩ z ⁻¹' {y}, ∃ i ∈ t, p ∈ (e i).source := by
+          intro p hp
+          have := ht hp.1
+          simp only [Set.mem_iUnion] at this
+          obtain ⟨i, hi, hpi⟩ := this
+          exact ⟨i, hi, hpi⟩
+        choose! f hf1 hf2 using hidx
+        have h1 : (K ∩ z ⁻¹' {y}).encard ≤ ((t : Set M)).encard := by
+          refine Set.encard_le_encard_of_injOn (fun p hp => hf1 p hp) ?_
+          intro p hp q hq hpq
+          have hp' := hf2 p hp
+          have hq' := hf2 q hq
+          rw [hpq] at hp'
+          apply (e (f q)).injOn hp' hq'
+          have h3 := congrFun (hze (f q))
+          rw [← h3 p, ← h3 q, Set.mem_singleton_iff.mp hp.2, Set.mem_singleton_iff.mp hq.2]
+        rw [Set.encard_coe_eq_coe_finsetCard] at h1
+        calc ((K ∩ z ⁻¹' {y}).encard : ℝ≥0∞) ≤ ((t.card : ℕ∞) : ℝ≥0∞) := ENat.toENNReal_le.mpr h1
+          _ = t.card := by simp
+      · rw [Set.indicator_of_notMem hy]
+        have : K ∩ z ⁻¹' {y} = ∅ := by
+          ext p
+          simp only [Set.mem_inter_iff, Set.mem_preimage, Set.mem_singleton_iff, Set.mem_empty_iff_false,
+            iff_false, not_and]
+          intro hp hzp
+          exact hy ⟨p, hp, hzp⟩
+        rw [this, Set.encard_empty]
+        simp
+    calc ∫⁻ y, ((K ∩ z ⁻¹' {y}).encard : ℝ≥0∞) ≤ ∫⁻ y, (z '' K).indicator (fun _ => (t.card : ℝ≥0∞)) y :=
+          lintegral_mono hbound
+      _ = t.card * volume (z '' K) :=
+          lintegral_indicator_const (hK.image hz.continuous).isClosed.measurableSet _
+      _ < ⊤ := ENNReal.mul_lt_top (by simp) (hK.image hz.continuous).measure_lt_top
+  · simp
 
 theorem shell (n : ℕ) (M : Type*) [TopologicalSpace M] [T2Space M]
     [SecondCountableTopology M] [MeasurableSpace M] [BorelSpace M] : ShellStatement n M := by
@@ -1589,14 +1676,14 @@ theorem shell (n : ℕ) (M : Type*) [TopologicalSpace M] [T2Space M]
         simp only [hg]
         gcongr
         linarith [hχ0 (e x)]
-      · push_neg at hx
+      · push Not at hx
         have hxS : x ∈ S ⌈e x - a - 2⌉₊ := shell_mem a (e x) hx
         refine le_trans ?_ (le_add_left (ENNReal.le_tsum ⌈e x - a - 2⌉₊))
         rw [Set.indicator_of_mem hxS, ← ENNReal.ofReal_mul (Real.exp_pos _).le]
         apply ENNReal.ofReal_le_ofReal
         have hRx : Real.log (1 + C ⌈e x - a - 2⌉₊) + ⌈e x - a - 2⌉₊ ≤ χ (e x) := by
           have := hχR (e x) hx.le
-          simp only [hR, if_pos hx] at this
+          simp only [hR, ite_eq_left hx] at this
           exact this
         simp only [hg]
         rw [show -(ph x + χ (e x) - ψ x) = -(χ (e x)) + (-ph x + ψ x) by ring, Real.exp_add]
@@ -1669,8 +1756,7 @@ theorem ti_hasCompactSupport {M : Type*} [TopologicalSpace M] (n : ℕ) (z : M �
   have hsub : Function.support f ⊆ ⋃ j, Function.support (fun x => f x j) := by
     intro x hx
     rw [Set.mem_iUnion]
-    by_contra hne
-    push_neg at hne
+    by_contra! hne
     apply hx
     ext j
     simpa [Function.mem_support] using hne j
@@ -1679,12 +1765,6 @@ theorem ti_hasCompactSupport {M : Type*} [TopologicalSpace M] (n : ℕ) (z : M �
     rw [← closure_iUnion_of_finite]
     exact closure_mono hsub
   exact IsCompact.of_isClosed_subset (isCompact_iUnion fun j => h j) (isClosed_tsupport f) hts
-
-private theorem db_eq_wdb_comp_symm_of_isChart {M : Type*} [TopologicalSpace M] {n : ℕ} {z : M → V n}
-    (j : Fin n) (f : M → ℂ) (e : OpenPartialHomeomorph M (V n)) (he : IsChart n z e) {x : M}
-    (hx : x ∈ e.source) : db n z j f x = wdb n j (f ∘ e.symm) (z x) := by
-  intros
-  apply _root_.ReciprocityTheory.L2DbarEstimates.db_eq_wdb <;> assumption
 
 private theorem ck_one_db_of_smooth {M : Type*} [TopologicalSpace M] {n : ℕ} {z : M → V n} {F : M → ℂ}
     (hF : Smooth n z F) (j : Fin n) : Ck n z 1 (fun x => db n z j F x) := by
@@ -1699,7 +1779,7 @@ private theorem ck_one_db_of_smooth {M : Type*} [TopologicalSpace M] {n : ℕ} {
       (contDiffOn_const.mul (hD.clm_apply contDiffOn_const))).div_const _
   refine hW.congr fun y hy => ?_
   show db n z j F (e.symm y) = wdb n j (F ∘ e.symm) y
-  rw [db_eq_wdb_comp_symm_of_isChart j F e he (e.map_target hy), he (e.map_target hy), e.right_inv hy]
+  rw [db_eq_wdb n z e he j F _ (e.map_target hy), he (e.map_target hy), e.right_inv hy]
 
 private theorem smoothR_sub_const_mul {M : Type*} [TopologicalSpace M] {n : ℕ} {z : M → V n}
     {a b : M → ℝ} (ha : SmoothR n z a) (hb : SmoothR n z b) (c : ℝ) :

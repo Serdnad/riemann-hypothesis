@@ -1,6 +1,5 @@
 module
 
-import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.LocMIterateDiag
 public import Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange.ArchimedeanBaseChangeProof.SatakeExponents.UniformizerValuations.LeviOf
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ConstantTermConvolutionHecke
 public import Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange.ArchimedeanBaseChangeProof.SatakeExponents.UniformizerValuations.MatchT
@@ -64,10 +63,6 @@ open NumberField IsDedekindDomain Matrix Polynomial Filter
 open GlobalTheory.CuspRep GlobalTheory.PRep Formalism.UG Formalism.BasicNotions GlobalTheory.UnitaryBC Formalism.L2.Host GlobalTheory.BCT PositivityTheory.Rg.BcN.F2
 open scoped Classical TensorProduct
 
-attribute [local instance] GlobalTheory.LocalData.complRel GlobalTheory.LocalData.isLocalField
-
-theorem _root_.GlobalTheory.T.constant_term_convolution_hecke : ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (n a b : ℕ) (h : a + b = n) (w : Pl E) (K' : Subgroup (GLw n w)), IsOpen (K' : Set (GLw n w)) → K' ≤ GlobalTheory.LFun.KGL w (n := n) → (∀ k ∈ GlobalTheory.LFun.KGL w (n := n), ∀ k' ∈ K', k * k' * k⁻¹ ∈ K') → ∀ X : Finset (GLw n w), (∀ x ∈ X, x ∈ GlobalTheory.LFun.KGL w (n := n)) → (∀ k ∈ GlobalTheory.LFun.KGL w (n := n), ∃! x ∈ X, x⁻¹ * k ∈ K') → ∀ f₁ f₂ : GLw n w → ℂ, IsHk K' f₁ → IsHk K' f₂ → ∀ x ∈ X, ∀ z ∈ X, ∀ m, phi3 h w (gconv f₁ f₂) x z m = ((X.card : ℂ))⁻¹ * ∑ y ∈ X, mconv (phi3 h w f₁ x y) (phi3 h w f₂ y z) m := by
-  first | exact @GlobalTheory.CompanionTheory.ConvMat.constant_term_convolution
 end -- clump:auto
 end -- clump:auto
 -- ===== end clump member: Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ConstantTermConvolutionHeckeStatement =====
@@ -81,8 +76,6 @@ open NumberField IsDedekindDomain Matrix Polynomial Filter
 open GlobalTheory.CuspRep GlobalTheory.PRep Formalism.UG Formalism.BasicNotions GlobalTheory.UnitaryBC Formalism.L2.Host GlobalTheory.BCT PositivityTheory.Rg.BcN.F2
 open PositivityTheory.Rg.Bc.ArchbcB.B PositivityTheory.Rg.BcB.F.MT
 open scoped Classical TensorProduct
-
-attribute [local instance] GlobalTheory.LocalData.complRel GlobalTheory.LocalData.isLocalField
 
 noncomputable section
 
@@ -138,7 +131,18 @@ theorem hint_comp_equiv {H H' : Type} [Group H] [Group H'] (e : H ≃* H') (K : 
 
 theorem hint_const_mul {H : Type} [Group H] (K : Subgroup H) (c : ℂ) (hc : c ≠ 0) (u : H → ℂ) :
     hint K (fun z => c * u z) = c * hint K u := by
-  apply _root_.GlobalTheory.CompanionTheory.TailLocPow.hint_smul <;> assumption
+  have hr : rStab (fun z => c * u z) = rStab u := by
+    ext k
+    constructor
+    · intro hk x
+      exact mul_left_cancel₀ hc (hk x)
+    · intro hk x
+      show c * u (x * k) = c * u x
+      rw [hk x]
+  unfold hint
+  rw [hr, mul_left_comm]
+  congr 1
+  simpa [smul_eq_mul] using (smul_finsum c (fun q : H ⧸ (rStab u ⊓ K) => u q.out)).symm
 
 variable {E : Type} [Field E] [NumberField E] [IsCMField E]
 
@@ -302,14 +306,14 @@ theorem ct_gconv {n a b : ℕ} (h : a + b = n) (w : Pl E) {f₁ f₂ : GLw n w �
     refine ⟨1, ⟨Finset.mem_singleton_self _, by simpa using hk⟩, ?_⟩
     rintro y ⟨hy, -⟩
     exact Finset.mem_singleton.1 hy
-  have hmul := GlobalTheory.T.constant_term_convolution_hecke E n a b h w (GlobalTheory.LFun.KGL w (n := n)) h₁.1 le_rfl hnorm {1} hX1 hX2 f₁ f₂ h₁ h₂ 1
+  have hmul := GlobalTheory.CompanionTheory.ConvMat.constant_term_convolution E n a b h w (GlobalTheory.LFun.KGL w (n := n)) h₁.1 le_rfl hnorm {1} hX1 hX2 f₁ f₂ h₁ h₂ 1
     (Finset.mem_singleton_self _) 1 (Finset.mem_singleton_self _) m
   rw [constant_term_eq_mackey_entry h w (gconv_bi (hbi h₁) (hbi h₂)), constant_term_eq_mackey_entry h w (hbi h₁), constant_term_eq_mackey_entry h w (hbi h₂), hmul]
   simp
 
 theorem ctMul : CtMul := by
   intro E _ _ _ n a ha w hw μ hμ f g hf hg
-  have hU : UL n w = ⊤ := if_pos hw
+  have hU : UL n w = ⊤ := ite_eq_left hw
   funext m
   set h := Nat.add_sub_cancel' ha with hh
   let c : GLw a w × GLw (n - a) w → ℂ := fun m =>

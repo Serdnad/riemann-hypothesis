@@ -76,13 +76,6 @@ open Matrix
 
 variable {k : Type} [Field k] [Finite k] {M a : ℕ}
 
-private theorem fst_ffGram_eq_V1_mul_map_fst (J : Matrix (Fin M) (Fin M) (k × k)) (X : Fin a → Fin M → k × k)
-    (r s : Fin a) :
-    (V1 X * J.map Prod.fst * (U1 X)ᵀ) r s = (ffGram (swapR k) J X r s).1 := by
-  rw [ffGram, ffH_fst]
-  simp only [Matrix.mul_apply, Matrix.map_apply, Matrix.transpose_apply, V1, U1, Finset.sum_mul]
-  exact Finset.sum_comm
-
 end FiniteFieldSplitting
 
 end PI.VolStabSW

@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.SeeSawPeriodsLinearRelationsDoubleStep
 public import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.IsRealFam
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -43,7 +42,6 @@ import Development.AbelianVarietyTheory.Proofs.TwistedOperators.RealLineOfPeriod
 open Formalism.BasicNotions Formalism.BasicNotions.TH Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes Formalism.MainNotions.StandardLattice Formalism.L2.Theta Formalism.IndefR Formalism.IndefR.Datum Formalism.IndefR.Links Formalism.L2.DIV
 open IsDedekindDomain NumberField MeasureTheory Matrix GlobalTheory.ChiGrid GlobalTheory.FunObj GlobalTheory.RowTest GlobalTheory.StdFrames GlobalTheory.RowClaim
 open GlobalTheory.MixModel GlobalTheory.MixPer GlobalTheory.Grow GlobalTheory.RowUnf GlobalTheory.RowChain GlobalTheory.SeeSaw GlobalTheory.RowVal GlobalTheory.RowReal
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 
 noncomputable section
 
@@ -55,7 +53,20 @@ variable {G : Type} [Group G] [MeasurableSpace G] {R : Subgroup G} {μR : Measur
 theorem quot_sum {I : Type} (S : Finset I) (x : I → ℂ) (F : I → G → ℂ) (z : I → ℂ)
     (hF : ∀ n ∈ S, IsQuotIntL1 μR μG (F n) (z n)) :
     IsQuotIntL1 μR μG (fun g => ∑ n ∈ S, x n * F n g) (∑ n ∈ S, x n * z n) := by
-  first | exact _root_.GlobalTheory.SeeSaw.Assemble.quotient_integral_finset_sum_smul | exact @_root_.GlobalTheory.SeeSaw.Assemble.quotient_integral_finset_sum_smul | apply _root_.GlobalTheory.SeeSaw.Assemble.quotient_integral_finset_sum_smul <;> assumption
+  classical
+  induction S using Finset.induction_on with
+  | empty =>
+    have e : (fun g : G => ∑ n ∈ (∅ : Finset I), x n * F n g) = 0 := by funext g; simp
+    rw [e, Finset.sum_empty]
+    exact IsQuotIntL1.zero
+  | insert a s ha ih =>
+    have h1 := (hF a (Finset.mem_insert_self _ _)).smul (x a)
+    have h2 := ih (fun n hn => hF n (Finset.mem_insert_of_mem hn))
+    have h3 := h1.add h2
+    rw [Finset.sum_insert ha]
+    convert h3 using 1
+    funext g
+    simp [Finset.sum_insert ha]
 end
 
 variable {ι : Type} [DecidableEq ι] {H : ι → Type} [∀ i, Group (H i)] [∀ i, MeasurableSpace (H i)]
@@ -75,7 +86,7 @@ theorem lin (l : List ι) : ∀ (h : ∀ i, H i) (I : Type) (S : Finset I) (x z 
     let F : I → H i → ℂ := fun n => if hn : n ∈ S then Classical.choose (hq n hn) else 0
     have hF : ∀ n ∈ S, IsQuotIntL1 (ρ i) (μ i) (F n) (z n) ∧ ∀ g, NIter ρ μ (q n) l (Function.update h i g) (F n g) := by
       intro n hn
-      simp only [F, dif_pos hn]
+      simp only [F, dite_eq_left hn]
       exact Classical.choose_spec (hq n hn)
     refine ⟨fun g => ∑ n ∈ S, x n * F n g, quot_sum S x F z fun n hn => (hF n hn).1, fun g => ?_⟩
     exact ih (Function.update h i g) I S x (fun n => F n g) q fun n hn => (hF n hn).2 g

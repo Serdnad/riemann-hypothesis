@@ -1,6 +1,5 @@
 module
 
-import Formalism.LocalToGlobal.CharacterGerms.RowTiePGmExLem
 public import Formalism.LocalToGlobal.CharacterGerms.RowTiePPTAvg
 public import Formalism.LocalToGlobal.CharacterGerms.Interface
 public import Mathlib.Data.Nat.Choose.Dvd
@@ -12,7 +11,7 @@ import Mathlib.RingTheory.Henselian
 import Mathlib.RingTheory.RegularLocalRing.Defs
 import Mathlib.RingTheory.SimpleRing.Principal
 import Formalism.LocalToGlobal.CharacterGerms.RowTiePGerm
-import all Formalism.LocalToGlobal.CharacterGerms.ConstMemTypeSetOfNonneg
+import Formalism.LocalToGlobal.CharacterGerms.ConstMemTypeSetOfNonneg
 import Formalism.LocalToGlobal.CharacterGerms.ValNonnegLeadingCoeffOfMemTySet
 
 -- This file was produced by scripts/clump.py from the modules listed below.
@@ -75,7 +74,14 @@ private theorem ge_sum_lemma_7 {ι : Type} (s : Finset ι) {f : ι → C} {w : �
     exact ge_add_lemma (h a (Finset.mem_insert_self a s)) (ih fun i hi => h i (Finset.mem_insert_of_mem hi))
 
 private theorem ge0_pow_lemma_8 {a : C} (ha : V.Ge 0 a) (n : ℕ) : V.Ge 0 (a ^ n) := by
-  apply _root_.Formalism.L2.FormalSeriesBounds.RawChart.ge_zero_pow' <;> assumption
+  induction n with
+  | zero =>
+    rw [pow_zero]
+    exact ge_one_lemma_5
+  | succ n ih =>
+    rw [pow_succ]
+    have h := ge_mul_lemma_2 ih ha
+    rwa [add_zero] at h
 
 private theorem ge_l_lemma_9 : V.Ge 1 (V.l : C) := by
   unfold VF.Ge
@@ -265,7 +271,7 @@ theorem cg_one_pow_lk {δ : ℝ} (hδ : 0 < δ) {e : C} (h : Cg V δ e 1) (k : �
     push_cast
     linarith
 
-theorem tendsto_pow_lk {δ : ℝ} (hδ : 0 < δ) {e ε : C} (_he : V.Ge 0 e) (hε : ε = 0 ∨ ε = 1) (h : Cg V δ e ε) :
+theorem tendsto_pow_lk {δ : ℝ} (hδ : 0 < δ) {e ε : C} (hε : ε = 0 ∨ ε = 1) (h : Cg V δ e ε) :
     ∀ K : ℝ, ∃ k0 : ℕ, ∀ k ≥ k0, V.Ge K (ε - e ^ (V.l ^ k)) := by
   have hlt : ∀ k : ℕ, k < V.l ^ k := by
     intro k
@@ -313,7 +319,13 @@ theorem mm_add' {a b : C} (ha : V.MM a) (hb : V.MM b) : V.MM (a + b) := by
   exact lt_of_lt_of_le (lt_min ha hb) (V.v.map_add a b)
 
 theorem mm_mul_int {a b : C} (ha : V.MM a) (hb : V.Ge 0 b) : V.MM (a * b) := by
-  apply _root_.Formalism.L2.FormalSeriesBounds.GmExArith.mm_mul_int <;> assumption
+  unfold VF.MM at *
+  unfold VF.Ge at hb
+  rw [AddValuation.map_mul]
+  have hb' : (0 : WithTop ℝ) ≤ V.v b := by simpa using hb
+  calc (0 : WithTop ℝ) < V.v a := ha
+    _ = V.v a + 0 := (add_zero _).symm
+    _ ≤ V.v a + V.v b := add_le_add le_rfl hb'
 
 theorem mm_of_ge {δ : ℝ} (hδ : 0 < δ) {a : C} (h : V.Ge δ a) : V.MM a := by
   unfold VF.MM
@@ -582,11 +594,11 @@ theorem ind_gen (em : ZMod d → O →+* C) (hint : ∀ a x, V.Ge 0 (em a x))
     simp only [P, mfac, Finset.prod_apply]
   refine hlim (fun k => P ^ (V.l ^ k)) _ (fun k => hpowM P hP _) ?_
   intro K s n
-  obtain ⟨hint0, hcg⟩ := entry_cg em hint xs hδ0 hδ1 hfrob hxs a (ty n) s
+  obtain ⟨-, hcg⟩ := entry_cg em hint xs hδ0 hδ1 hfrob hxs a (ty n) s
   have hε : (if ty n = a + (s : ZMod d) then (1 : C) else 0) = 0 ∨
       (if ty n = a + (s : ZMod d) then (1 : C) else 0) = 1 := by
     split_ifs <;> simp
-  obtain ⟨k0, hk0⟩ := tendsto_pow_lk hδ0 hint0 hε hcg K
+  obtain ⟨k0, hk0⟩ := tendsto_pow_lk hδ0 hε hcg K
   refine ⟨k0, fun k hk => ?_⟩
   simp only [Pi.pow_apply]
   rw [hPsn]
@@ -634,21 +646,6 @@ def LimSelfSt : Prop :=
   AllSelf fun C _ V _ I _ _ X => ∀ (g : Fin 2) (x : ℕ → ℕ → I g ⊕ JJ I g → C) (x' : ℕ → I g ⊕ JJ I g → C),
     (∀ k, x k ∈ X.TySet V g) → VLim V x x' → x' ∈ X.TySet V g
 
-private theorem ge_zero_mul_field {C : Type} [Field C] (V : VF C) {a b : C} (ha : V.Ge 0 a) (hb : V.Ge 0 b) :
-    V.Ge 0 (a * b) := by
-  unfold VF.Ge at *
-  rw [V.v.map_mul]
-  simp only [WithTop.coe_zero] at *
-  exact add_nonneg ha hb
-
-private theorem ge_zero_finset_sum_field {C : Type} [Field C] (V : VF C) {ι : Type} (s : Finset ι) (f : ι → C)
-    (h : ∀ i ∈ s, V.Ge 0 (f i)) : V.Ge 0 (∑ i ∈ s, f i) := by
-  refine Finset.sum_induction f (fun z => V.Ge 0 z) (fun a b ha hb => ?_) ?_ h
-  · exact le_trans (le_min ha hb) (V.v.map_add a b)
-  · show ((0 : ℝ) : WithTop ℝ) ≤ V.v 0
-    rw [AddValuation.map_zero]
-    exact le_top
-
 private theorem tyS_sub_ite_zero_eq_sub_C_mul_X {C : Type} [Field C] (l : ℕ) (a : ℕ → C) (c : C) :
     tyS l (fun s => a s - if s = 0 then c else 0) = tyS l a - PowerSeries.C c * PowerSeries.X := by
   ext m
@@ -691,9 +688,9 @@ theorem ptSelf_of (hEx : PTExSelfSt) (hAvg : PTAvgSelfSt) (hStab : HStabSelfSt) 
     rw [coeff_alongCv_low le_rfl hγ0 (FBChart.self_chart_log_constantCoeff (Y := Y) (p := p) i), map_sum] at h1
     simp only [PowerSeries.coeff_smul, c1, hx0, smul_eq_mul] at h1
     rw [← h1, Finset.sum_eq_single i]
-    · rw [FBChart.rawSelf_lin (Y := Y) (p := p) i _ (hdeg i), MvPowerSeries.coeff_X, if_pos rfl, one_mul]
+    · rw [FBChart.rawSelf_lin (Y := Y) (p := p) i _ (hdeg i), MvPowerSeries.coeff_X, ite_eq_left rfl, one_mul]
     · intro j _ hji
-      rw [FBChart.rawSelf_lin (Y := Y) (p := p) i _ (hdeg j), MvPowerSeries.coeff_X, if_neg, zero_mul]
+      rw [FBChart.rawSelf_lin (Y := Y) (p := p) i _ (hdeg j), MvPowerSeries.coeff_X, ite_eq_right, zero_mul]
       intro h
       exact hji (Finsupp.single_left_injective one_ne_zero h)
     · intro h
@@ -728,12 +725,12 @@ theorem ptSelf_of (hEx : PTExSelfSt) (hAvg : PTAvgSelfSt) (hStab : HStabSelfSt) 
       refine Finset.sum_congr rfl (fun c _ => ?_)
       split_ifs <;> ring
     rw [h3]
-    refine ge_zero_finset_sum_field V _ _ (fun c _ => ?_)
+    refine IndAr.ge_sum_lemma_7 (V := V) _ (fun c _ => ?_)
     split_ifs with hne
     · show ((0 : ℝ) : WithTop ℝ) ≤ V.v 0
       rw [AddValuation.map_zero]
       exact le_top
-    · exact ge_zero_mul_field V (hw c) (hStab C V O dd Y d I0 p g c q hne)
+    · exact IndAr.valuation_ge_mul_of_nonneg (V := V) (hw c) (hStab C V O dd Y d I0 p g c q hne)
   have hyT : (fun s n => Sum.elim (fun c => x s (Sum.inl c))
       (fun q => x s (Sum.inr q) - if s = 0 then x 0 (Sum.inr q) else 0) n : ℕ → I0 ⊕ I0 → C) ∈
       (Y.rawSelf p).TySet V g := by
@@ -750,7 +747,7 @@ theorem ptSelf_of (hEx : PTExSelfSt) (hAvg : PTAvgSelfSt) (hStab : HStabSelfSt) 
           exact key q
         · have h4 : PowerSeries.coeff m (lam q - PowerSeries.C (x 0 (Sum.inr q)) * PowerSeries.X) =
               PowerSeries.coeff m (lam q) := by
-            rw [map_sub, ← pow_one (PowerSeries.X : PowerSeries C), PowerSeries.coeff_C_mul_X_pow, if_neg hm,
+            rw [map_sub, ← pow_one (PowerSeries.X : PowerSeries C), PowerSeries.coeff_C_mul_X_pow, ite_eq_right hm,
               sub_zero]
           rw [h4]
           exact (hlam q).2 m
@@ -804,11 +801,11 @@ theorem ptAvgSelf_of (hAct : OActSelfSt) (hLim : LimSelfSt) : PTAvgSelfSt := by
   · funext n
     simp only [Pi.mul_apply, Nat.cast_zero, add_zero]
     by_cases hn : X.tyC g n = a
-    · rw [if_pos hn, one_mul]
-    · rw [if_neg hn, zero_mul, hx0 n hn]
+    · rw [ite_eq_left hn, one_mul]
+    · rw [ite_eq_right hn, zero_mul, hx0 n hn]
   · intro i n hn
     simp only [Pi.mul_apply]
-    rw [if_neg hn, zero_mul]
+    rw [ite_eq_right hn, zero_mul]
 
 theorem ptSelf_of_act (hEx : PTExSelfSt) (hAct : OActSelfSt) (hLim : LimSelfSt) (hStab : HStabSelfSt) : PTSelfSt :=
   ptSelf_of hEx (ptAvgSelf_of hAct hLim) hStab

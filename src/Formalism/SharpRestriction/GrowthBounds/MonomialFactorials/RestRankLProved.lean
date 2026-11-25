@@ -2,45 +2,8 @@ module
 
 public import Formalism.SharpRestriction.GrowthBounds.MonomialFactorials.RestPlusOf
 import Formalism.PolynomialDimension.MultinomialDepth.PartnerM
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
 import Mathlib.RingTheory.Etale.Weakly
-import Mathlib.RingTheory.Radical.NatInt
 import Mathlib.RingTheory.TotallySplit
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.Linter.HaveILetI
-import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Topology.Sheaves.Init
 
 @[expose] public section
 
@@ -123,7 +86,7 @@ theorem xi_mem_span (n : ℕ) (g : MvPolynomial (Formalism.GM.M.BVar N r G.T.t) 
     rw [Finset.sum_eq_single c]
     · simp
     · intro d _ hd
-      rw [Finsupp.single_apply, if_neg]
+      rw [Finsupp.single_apply, ite_eq_right]
       intro h
       exact hd (xiVar_inj G h)
     · intro h; exact absurd (Finset.mem_univ c) h
@@ -132,14 +95,12 @@ theorem xi_mem_span (n : ℕ) (g : MvPolynomial (Formalism.GM.M.BVar N r G.T.t) 
       exact hv (hsupp v (Finsupp.mem_support_iff.2 hne))
     rw [h0]
     refine Finset.sum_eq_zero fun c _ => ?_
-    rw [Finsupp.single_apply, if_neg]
+    rw [Finsupp.single_apply, ite_eq_right]
     intro h
     exact hv ⟨c, h.symm⟩
 
-theorem exists_fd_Ljj_with_finrank_bound (j : Fin G.T.t → ℕ) (jp : ℕ) :
-    ∃ W : Submodule ℚ_[p] (MvPolynomial (Formalism.GM.M.BVar N r G.T.t) ℚ_[p]),
-      FiniteDimensional ℚ_[p] W ∧ (∀ x ∈ Ljj p (r := r) G j jp, x ∈ W) ∧
-      Module.finrank ℚ_[p] W ≤ dimY p (r := r) G j jp * dXi r (G.B - jp) := by
+theorem finrank_Ljj_le (j : Fin G.T.t → ℕ) (jp : ℕ) :
+    Module.finrank ℤ_[p] (Ljj p (r := r) G j jp) ≤ dimY p (r := r) G j jp * dXi r (G.B - jp) := by
   classical
   set Yq := Formalism.GM.M.Y p (r := r) (G.lettersAt j jp) G.T.J G.T.thr with hYq
   haveI : FiniteDimensional ℚ_[p] (Formalism.GM.M.Pol p r (G.lettersAt j jp)) := Formalism.CountingSumsFrames.pol_finiteDimensional _
@@ -177,16 +138,12 @@ theorem exists_fd_Ljj_with_finrank_bound (j : Fin G.T.t → ℕ) (jp : ℕ) :
       exact ⟨(a, ⟨m, hm⟩), rfl⟩
     exact hle hx
   haveI : FiniteDimensional ℚ_[p] W := FiniteDimensional.span_of_finite ℚ_[p] (Set.finite_range fam)
+  have h1 := finrank_zp_le (Ljj p (r := r) G j jp) W hsub
   have h2 : Module.finrank ℚ_[p] W ≤ Fintype.card (Fin (Module.finrank ℚ_[p] Yq) × Ms) := finrank_range_le_card fam
   rw [Fintype.card_prod, Fintype.card_fin, Fintype.card_coe] at h2
   have h3 := card_xiMons (r := r) G (G.B - jp)
-  exact ⟨W, inferInstance, hsub, h2.trans (Nat.mul_le_mul le_rfl h3)⟩
-
-theorem finrank_Ljj_le (j : Fin G.T.t → ℕ) (jp : ℕ) :
-    Module.finrank ℤ_[p] (Ljj p (r := r) G j jp) ≤ dimY p (r := r) G j jp * dXi r (G.B - jp) := by
-  obtain ⟨W, hfd, hsub, hbound⟩ := exists_fd_Ljj_with_finrank_bound p (r := r) G j jp
-  letI := hfd
-  exact (finrank_zp_le (Ljj p (r := r) G j jp) W hsub).trans hbound
+  calc Module.finrank ℤ_[p] (Ljj p (r := r) G j jp) ≤ Module.finrank ℚ_[p] Yq * Ms.card := h1.trans h2
+    _ ≤ dimY p (r := r) G j jp * dXi r (G.B - jp) := Nat.mul_le_mul le_rfl h3
 
 end Level
 

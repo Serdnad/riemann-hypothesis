@@ -41,17 +41,14 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Std.Tactic.BVDecide.Normalize.Prop
 import Mathlib.CategoryTheory.Monoidal.Opposite.Mon
-import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.GaugeThirdDifferenceSymmetryIntegralExponentials
 
 @[expose] public section
 
-set_option autoImplicit false
 noncomputable section
 open AlgebraicGeometry CategoryTheory Limits MonoidalCategory CartesianMonoidalCategory MonObj NumberField IsLocalRing
 open ReciprocityTheory.ChartRestriction.G ReciprocityTheory.ChartRestriction.G.Semi ReciprocityTheory.ChartRestriction.G.Out ReciprocityTheory.ChartRestriction.G.Geo.Tor Formalism.L2.Pj Formalism.MainNotions.ModuliIntegralCharts.H1
 open ReciprocityTheory.ChartRestriction.G.Geo.Tor.Germ GlobalTheory.PtTie
 open ReciprocityTheory.ChartRestriction.G.TB (dAct dLin)
-attribute [local instance] Over.cartesianMonoidalCategory
 open GlobalTheory.PlaceInt
 open ReciprocityTheory.ChartRestriction.G.TB.WickVanishing
 
@@ -241,7 +238,14 @@ variable (B)
 
 theorem act_addOf (a : O) {n : ℕ} {x y : Pt V n d} (hx : GP x) (hy : GP y) :
     comp1 (B.A.act a) (addOf B.G.F x y) = addOf B.G.F (comp1 (B.A.act a) x) (comp1 (B.A.act a) y) := by
-  apply _root_.GlobalTheory.PlaceInt.ThetaInt.act_addOf <;> assumption
+  have p0 : GP (pt V (n := 2) d 0) := gp_pt 0
+  have p1 : GP (pt V (n := 2) d 1) := gp_pt 1
+  have hA := pair_points_zero_constant hx hy
+  have := congrArg (evP ![x, y]) (B.A.hom a)
+  rw [evP_comp1 _ hA _ _ (gp_addOf _ B.G.const _ _ p0 p1), evP_addOf _ hA _ _ _ p0 p1,
+    evP_addOf _ hA _ _ _ (gp_comp1 _ _ (constantCoeff_act_eq_zero B a) p0) (gp_comp1 _ _ (constantCoeff_act_eq_zero B a) p1),
+    evP_comp1 _ hA _ _ p0, evP_comp1 _ hA _ _ p1, evP_pt _ hA, evP_pt _ hA] at this
+  exact this
 
 theorem add_act (a b : O) {n : ℕ} {x : Pt V n d} (hx : GP x) :
     comp1 (B.A.act (a + b)) x = addOf B.G.F (comp1 (B.A.act a) x) (comp1 (B.A.act b) x) := by

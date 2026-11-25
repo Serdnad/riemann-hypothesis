@@ -1,6 +1,5 @@
 module
 
-import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.PPrimitiveFormMinimalFactorPoints
 public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.StPrimeGermPrimitivePresentation
 public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.StPrimitivePresentationCover
 public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.StSeparateWeierstrassDivision
@@ -9,6 +8,7 @@ import Mathlib.NumberTheory.Height.NumberField
 import Mathlib.RingTheory.PiTensorProduct
 import Mathlib.Tactic.TypeStar
 import Mathlib.RingTheory.SimpleRing.Principal
+import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.PPrimitiveFormMinimalFactorPoints
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.PevEqZeroOfPresentation, GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.PPrimitivePresentationCover
@@ -201,8 +201,8 @@ theorem pev_eq_zero_of_presentation {σ : Type} [Fintype σ] {w : σ → ℂ} {k
 theorem roots_near_of_centred {E : Type*} [TopologicalSpace E] {n : ℕ} (b : Fin n → E → ℂ) (y₀ : E) (u : ℂ)
     (hb : ∀ j, ContinuousAt (b j) y₀) (h0 : ∀ T : ℂ, T ^ n + ∑ j, b j y₀ * T ^ (j : ℕ) = (T - u) ^ n)
     {ε : ℝ} (hε : 0 < ε) :
-    ∀ᶠ y in 𝓝 y₀, ∀ x : ℂ, x ^ n + ∑ j, b j y * x ^ (j : ℕ) = 0 → ‖x - u‖ < ε := by
-  apply _root_.GroundTheory.Heights₂.Heights.IndefiniteRowSideFullHecke.ComplexSets.PrimitiveFormMinimalFactorPoints.roots_near_centred <;> assumption
+    ∀ᶠ y in 𝓝 y₀, ∀ x : ℂ, x ^ n + ∑ j, b j y * x ^ (j : ℕ) = 0 → ‖x - u‖ < ε :=
+  PrimitiveFormMinimalFactorPoints.roots_near_centred b y₀ u hb h0 hε
 
 end
 

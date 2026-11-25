@@ -3,49 +3,8 @@ module
 public import Formalism.AdmissibleDesigns.FiniteClassesContinuousLattice
 public import Formalism.WachLatticeTwists.RamifiedBlockRings.DistinctEigenvalueCornerPerturbation
 public import Formalism.SharpRestriction.LevelLetterCocycles.LargeLevelLemmas
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Coalgebra.IsFrobenius
-import Mathlib.RingTheory.HopfAlgebra.Basic
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.HaveILetI
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Topology.Sheaves.Init
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.EqZeroOfForallMemFilV
-import Formalism.AdmissibleDesigns.FiniteClassesLocalEq
 
 @[expose] public section
 
@@ -330,7 +289,16 @@ theorem filV_mono {a b : ℤ} (h : a ≤ b) : FilV PD (LL := LL) (V := V) b ≤ 
   | add y z hy hz => rw [map_add (f := _)]; exact Submodule.add_mem _ hy hz
 
 theorem exists_filV (x : TensorProduct Qp V BdR) : ∃ a, x ∈ FilV PD (LL := LL) a := by
-  apply _root_.GlobalTheory.DRFil.exists_mem_FilV <;> assumption
+  induction x using TensorProduct.induction_on with
+  | zero => exact ⟨0, Submodule.zero_mem _⟩
+  | tmul v f =>
+    obtain ⟨a, ha⟩ := PD.Fil_exh f
+    exact ⟨a, LinearMap.mem_range.mpr ⟨v ⊗ₜ[Qp] (⟨f, ha⟩ : ↥((PD.Fil a).restrictScalars Qp)), rfl⟩⟩
+  | add x y hx hy =>
+    obtain ⟨a, ha⟩ := hx
+    obtain ⟨b, hb⟩ := hy
+    exact ⟨min a b, Submodule.add_mem _ (filV_mono PD (min_le_left a b) ha)
+      (filV_mono PD (min_le_right a b) hb)⟩
 
 theorem exists_low_finset (s : Finset (TensorProduct Qp V BdR)) :
     ∃ a : ℤ, a ≤ 0 ∧ ∀ x ∈ s, x ∈ FilV PD (LL := LL) a := by
@@ -390,7 +358,16 @@ variable {D : D7} (i : D.nd.Loc) (dc : TruncatedSeriesCountingIdentities.Decl D 
   (ρ : D.nd.X i → (GE D.nd →* GL (Fin D.R.r) (D.nd.O i))) (π : D.nd.X i)
 
 theorem col_over (l : K.Col i dc) : K.plOf i dc (K.colIdx i dc l) ∈ placesOver D.host.E (D.nd.l i) := by
-  apply _root_.Formalism.MainNotions.N.KLift.hnCol <;> assumption
+  have hmem : l.1 ∈ K.plSet i dc := by
+    unfold K.plSet
+    simp only [Finset.mem_union]
+    exact Or.inl (Or.inr l.2)
+  have hidx : K.plOf i dc (K.colIdx i dc l) = l.1 := by
+    unfold K.plOf K.colIdx K.idx
+    rw [dite_eq_left hmem, dite_eq_left ((K.plSet i dc).equivFin ⟨l.1, hmem⟩).isLt]
+    simp
+  rw [hidx]
+  exact (dc.cover l.1).mp (Or.inr l.2)
 
 theorem colD_eq (x' : X') (n : ℕ) :
     letI := evalModO i (R' := R') x'
@@ -484,6 +461,12 @@ private theorem jK_colIdx_eq_finrank_cohomology (l : K.Col i dc) :
   rw [dite_eq_left (col_over i dc l)]
   rfl
 
+private theorem iota_bijective_col (l : K.Col i dc) :
+    Function.Bijective (Br.iota D.nbr i _ (col_over i dc l)) :=
+  (D.nbr i _ (col_over i dc l)).e.symm.bijective
+
+
+
 theorem dimLx_of (rX : D.nd.X i → (GE D.nd →* GL (Fin D.R.nV) (D.nd.O i))) (x' : X') (l : K.Col i dc)
     (hBK : TruncatedSeriesCountingIdentities.admBK i) (hG2 : TruncatedSeriesCountingIdentities.admG2 i rX ρ π)
     (hc : ContX i dc r χ x' l) (hcr : CrysX i dc r χ x' l) (hneg : NegX i dc r χ ρ π x' l)
@@ -492,7 +475,7 @@ theorem dimLx_of (rX : D.nd.X i → (GE D.nd →* GL (Fin D.R.nV) (D.nd.O i))) (
   have hw := col_over i dc l
   letI := evalModO i (R' := R') x'
   haveI := evalTower i (R' := R') x'
-  have hι : Function.Bijective (Br.iota D.nbr i _ hw) := (D.nbr i _ hw).e.symm.bijective
+  have hι := iota_bijective_col i dc l
   unfold DimLx
   rw [lx_col_eq i dc r χ x' l, colD_eq i dc r χ x' (K.colIdx i dc l), jK_colIdx_eq_finrank_cohomology i dc ρ π l,
     rank_finQuot (eK (D.nbr i _ hw)) (Br.PD D.loc D.nbr i _ hw) (repE i dc r χ x' (K.colIdx i dc l)) hι,

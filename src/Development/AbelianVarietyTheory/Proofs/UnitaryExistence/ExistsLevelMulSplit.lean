@@ -91,20 +91,6 @@ private theorem w0_sq_sub_w0_add_eq_zero {E : Type} [Field E] [NumberField E] [I
     linear_combination (2 * H.w0 + H.rt - 1) * H.two_weight_eq_one_add_root + H.rt_sq - hc'
   exact (mul_eq_zero.1 h4).resolve_left (by norm_num)
 
-open NumberField Pointwise in
-private theorem host_bar_rt_of_isCMField {E : Type} [Field E] [NumberField E] [IsCMField E] (H : _root_.ReciprocityTheory.ChartRestriction.G.Geo.Tor.Host E) :
-    H.bar H.rt = -H.rt := by
-  apply _root_.GlobalTheory.HostModel.bar_rt <;> assumption
-
-open NumberField Pointwise in
-private theorem host_bar_w0_of_isCMField {E : Type} [Field E] [NumberField E] [IsCMField E] (H : _root_.ReciprocityTheory.ChartRestriction.G.Geo.Tor.Host E) :
-    H.bar H.w0 = 1 - H.w0 := by
-  have h := congrArg H.bar H.two_weight_eq_one_add_root
-  simp only [map_mul, map_add (f := _), map_one, map_ofNat, host_bar_rt_of_isCMField] at h
-  have h2 : (2 : 𝓞 E) * H.bar H.w0 = 2 * (1 - H.w0) := by
-    linear_combination h + H.two_weight_eq_one_add_root
-  exact mul_left_cancel₀ two_ne_zero h2
-
 
 open NumberField Pointwise in
 theorem _root_.GlobalTheory.exists_level_mul_split : ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (H : _root_.ReciprocityTheory.ChartRestriction.G.Geo.Tor.Host E) (l : _root_.ReciprocityTheory.ChartRestriction.G.Geo.Tor.Level H), (∀ (pd : ℕ) (I : Ideal (𝓞 E)), Odd pd → pd.Coprime l.M → I = Ideal.span {a | a ∈ I ∧ a ∈ Algebra.adjoin ℤ {H.w0}} → I * I.map (H.bar : 𝓞 E →+* 𝓞 E) = Ideal.span {(pd : 𝓞 E)} → I ⊔ I.map (H.bar : 𝓞 E →+* 𝓞 E) = ⊤ → ∃ l₂ : _root_.ReciprocityTheory.ChartRestriction.G.Geo.Tor.Level H, l.Dvd l₂ ∧ l₂.M = l.M * pd ∧ l₂.Mb = l.Mb * I ∧ l₂.A = l.A) ∧ ∀ pd : ℕ, pd.Prime → pd ≠ 2 → jacobiSym (-(H.d : ℤ)) pd = 1 → ∃ I : Ideal (𝓞 E), I = Ideal.span {a | a ∈ I ∧ a ∈ Algebra.adjoin ℤ {H.w0}} ∧ I * I.map (H.bar : 𝓞 E →+* 𝓞 E) = Ideal.span {(pd : 𝓞 E)} ∧ I ⊔ I.map (H.bar : 𝓞 E →+* 𝓞 E) = ⊤ := by

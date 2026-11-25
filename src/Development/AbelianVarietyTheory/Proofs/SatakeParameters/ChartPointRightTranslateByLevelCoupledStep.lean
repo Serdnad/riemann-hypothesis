@@ -1,52 +1,11 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.AdelicMatrixCongruenceMoveRationalFrame
 public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.UnderTie
 public import Development.AbelianVarietyTheory.Definitions.GlobalTwisting.RedPEqZeroOfDiv
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.AbsNormEqOfSplitFactor
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.LatAdXMulLev
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.XiAtCongInvariant
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.PiTensorProduct
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
 
 @[expose] public section
@@ -58,7 +17,6 @@ noncomputable section
 namespace GlobalTheory.CplPt
 open Matrix
 open scoped TensorProduct
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 
 section CongBasic
 
@@ -103,7 +61,24 @@ theorem intAtA_sum {ι : Type} (s : Finset ι) (f : ι → E ⊗[F] FiniteAdeleR
 
 theorem congAt_mul (n : ℕ) {k k' : GL (Fin N) (E ⊗[F] FiniteAdeleRing (𝓞 F) F)} (h : CongAt P n k) (h' : CongAt P n k') :
     CongAt P n (k * k') := by
-  first | exact _root_.GlobalTheory.CongMove.congAt_mul | exact @_root_.GlobalTheory.CongMove.congAt_mul | apply _root_.GlobalTheory.CongMove.congAt_mul <;> assumption
+  intro a b
+  have hq : ((qOf P : ℕ) : E) ≠ 0 := by
+    have : qOf P ≠ 0 := fun h0 => P.ne_bot (Ideal.absNorm_eq_zero_iff.1 h0)
+    exact_mod_cast this
+  set c := iA F E (((qOf P : ℕ) : E) ^ n)⁻¹ with hc
+  set d := iA F E (algebraMap (𝓞 E) E (((qOf P : ℕ) : 𝓞 E) ^ n)) with hd
+  have hcd : d * c = 1 := by
+    rw [hc, hd, ← map_mul, map_pow, map_natCast, mul_inv_cancel₀ (pow_ne_zero _ hq), map_one]
+  have e : ((k * k' : GL (Fin N) _) : Matrix (Fin N) (Fin N) (E ⊗[F] FiniteAdeleRing (𝓞 F) F)) - 1 =
+      ((k : Matrix (Fin N) (Fin N) _) - 1) * ((k' : Matrix (Fin N) (Fin N) _) - 1) + (((k : Matrix (Fin N) (Fin N) _) - 1) + ((k' : Matrix (Fin N) (Fin N) _) - 1)) := by
+    rw [Units.val_mul]; noncomm_ring
+  rw [e, Matrix.add_apply, Matrix.add_apply, mul_add, mul_add, Matrix.mul_apply, Finset.mul_sum]
+  refine intAtA_add (intAtA_sum _ _ fun l _ => ?_) (intAtA_add (h a b) (h' a b))
+  have e2 : ∀ x y : E ⊗[F] FiniteAdeleRing (𝓞 F) F, c * (x * y) = d * ((c * x) * (c * y)) := by
+    intro x y
+    linear_combination (-(c * (x * y))) * hcd
+  rw [e2]
+  exact intAtA_mul (intAtA_int _) (intAtA_mul (h a l) (h' l b))
 
 theorem nearAt_mul (n : ℕ) {x : GL (Fin N) (E ⊗[F] FiniteAdeleRing (𝓞 F) F)} {g k : GL (Fin N) E} (h : NearAt P n x g)
     (hk : CongAt P n (ratA F k)) : NearAt P n x (g * k) := by
@@ -262,18 +237,18 @@ theorem exists_pt_frames (p : ChPt (R := R) sel mu u j) (g : ∀ P : rowSG Pr se
   refine ⟨q, κ, Submodule.map_id _, rfl, fun P => ?_, fun P => ?_⟩
   · unfold frsF
     by_cases hP : P.1 ∈ Pr.vGs
-    · simp only [dif_pos hP, κ]
+    · simp only [dite_eq_left hP, κ]
       show _ = p.deco.1.liftFr ⟨P.1, hP⟩ * ((q.deco.1.liftFr ⟨P.1, hP⟩)⁻¹ * 1 * p.deco.1.liftFr ⟨P.1, hP⟩)⁻¹
       group
-    · simp only [dif_neg hP, κ]
+    · simp only [dite_eq_right hP, κ]
       show 1 * p.fr _ * ((k _)⁻¹).1 = _
       simp [k]
   · by_cases hP : P.1 ∈ Pr.vGs
-    · simp only [κ, dif_pos hP, not_not.2 hP, IsEmpty.forall_iff, and_true]
+    · simp only [κ, dite_eq_left hP, not_not.2 hP, IsEmpty.forall_iff, and_true]
       have e : redGL _ P.1 (t1 ⟨P.1, hP⟩) = h ⟨P.1, hP⟩ := redGL_passFr (d := p.deco.1) (w := ⟨P.1, hP⟩) 1 h (liftFr_spec p.deco.2 _) (hl _)
       rw [map_mul, map_inv, map_inv, e]
       simp only [h, map_inv, inv_inv, inv_mul_cancel]
-    · simp only [κ, dif_neg hP, inv_inv, inv_mul_cancel, map_one]
+    · simp only [κ, dite_eq_right hP, inv_inv, inv_mul_cancel, map_one]
       exact ⟨trivial, fun _ => trivial⟩
 
 end Pt

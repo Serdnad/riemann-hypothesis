@@ -21,27 +21,10 @@ variable {V F : Type} [CommRing V] [IsDomain V] [IsDiscreteValuationRing V] [Fie
   [IsFractionRing V F]
 
 
-variable (V) in
-abbrev valI : Valuation F (WithZero (Multiplicative ℤ)) := (IsDiscreteValuationRing.maximalIdeal V).valuation F
-
-theorem exists_of_valI_le_one {x : F} (h : valI (V := V) x ≤ 1) : ∃ a : V, algebraMap V F a = x := by
-  have hall : ∀ w : IsDedekindDomain.HeightOneSpectrum V, w = IsDiscreteValuationRing.maximalIdeal V := by
-    intro w
-    first
-    | exact IsDedekindDomain.HeightOneSpectrum.ext (IsLocalRing.eq_maximalIdeal w.isMaximal)
-  obtain ⟨a, ha⟩ := IsDedekindDomain.HeightOneSpectrum.mem_integers_of_valuation_le_one F x
-    (fun w => by rw [hall w]; exact h)
-  exact ⟨a, ha⟩
-
-theorem exists_clear_col {n : ℕ} (A : Matrix (Fin (n + 1)) (Fin (n + 1)) F) (hA : A.det ≠ 0) :
-    ∃ Q : Matrix (Fin (n + 1)) (Fin (n + 1)) V, IsUnit Q.det ∧
-      ∀ i : Fin n, (Q.map (algebraMap V F) * A) i.succ 0 = 0 := by
-  exact GlobalTheory.ValIwasawa.exists_clear_col (V := V) A hA
-
 theorem iwasawa : ∀ {n : ℕ} (A : Matrix (Fin n) (Fin n) F), A.det ≠ 0 →
     ∃ (k : Matrix (Fin n) (Fin n) V) (U : Matrix (Fin n) (Fin n) F), IsUnit k.det ∧ U.BlockTriangular id ∧
-      (∀ i, U i i ≠ 0) ∧ A = k.map (algebraMap V F) * U := by
-  apply _root_.GlobalTheory.ValIwasawa.iwasawa_matrix <;> assumption
+      (∀ i, U i i ≠ 0) ∧ A = k.map (algebraMap V F) * U :=
+  fun A hA => GlobalTheory.ValIwasawa.iwasawa_matrix (V := V) A hA
 
 theorem upper_inv {m : ℕ} (U : Matrix (Fin m) (Fin m) F) (hU : U.BlockTriangular id) (hd : ∀ i, U i i ≠ 0) :
     U⁻¹.BlockTriangular id ∧ (∀ i, U⁻¹ i i ≠ 0) ∧ U * U⁻¹ = 1 := by

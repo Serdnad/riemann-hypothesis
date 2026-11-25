@@ -1,8 +1,8 @@
 module
 
-import GroundTheory.HeightsAndTheta.Heights.MultihomogeneousPolynomials
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovGeometry.KleimanNefness.ModelSt
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovGeometry.KleimanNefness.TargetSt
+import Mathlib.RingTheory.MvPolynomial.Localization
 
 @[expose] public section
 
@@ -22,19 +22,14 @@ variable {K : Type} [Fintype K] {ι : K → Type} [∀ k, Fintype (ι k)] {Ω : 
 
 theorem exists_int_of_rat (f : MRingOver ℚ ι) :
     ∃ (m : ℕ) (F : MRing ι), 0 < m ∧ MvPolynomial.map (Int.castRingHom ℚ) F = C (m : ℚ) * f := by
-  induction f using MvPolynomial.induction_on' with
-  | monomial u a =>
-    refine ⟨a.den, monomial u a.num, a.den_pos, ?_⟩
-    rw [map_monomial, C_mul_monomial]
-    congr 1
-    rw [eq_intCast, mul_comm, Rat.mul_den_eq_num]
-  | add p q hp hq =>
-    obtain ⟨m1, F1, hm1, h1⟩ := hp
-    obtain ⟨m2, F2, hm2, h2⟩ := hq
-    refine ⟨m1 * m2, C (m2 : ℤ) * F1 + C (m1 : ℤ) * F2, Nat.mul_pos hm1 hm2, ?_⟩
-    rw [map_add (f := _), map_mul, map_mul, map_C, map_C, h1, h2]
-    simp only [eq_intCast, Int.cast_natCast, Nat.cast_mul, C_mul]
-    ring
+  let := MvPolynomial.algebraMvPolynomial (R := ℤ) (S := ℚ) (σ := Σ k, ι k)
+  obtain ⟨⟨F, _, ⟨d, hd, rfl⟩⟩, h⟩ := IsLocalization.surj ((nonZeroDivisors ℤ).map (C : ℤ →+* MRing ι)) f
+  have h' : MvPolynomial.map (Int.castRingHom ℚ) F = C (d : ℚ) * f := by
+    rw [MvPolynomial.algebraMap_def, algebraMap_int_eq, map_C, mul_comm] at h; exact h.symm
+  rcases Int.natAbs_eq d with h0 | h0
+  · exact ⟨d.natAbs, F, Int.natAbs_pos.mpr (nonZeroDivisors.ne_zero hd), by rw [h', ← Int.cast_natCast, ← h0]⟩
+  · exact ⟨d.natAbs, -F, Int.natAbs_pos.mpr (nonZeroDivisors.ne_zero hd), by
+      rw [map_neg, h', ← Int.cast_natCast, neg_eq_iff_eq_neg.mp h0.symm, Int.cast_neg, map_neg, neg_mul]⟩
 
 theorem mConeMapOver_map (y : (Σ k, ι k) → Ω) (F : MRing ι) :
     KH.mConeMapOver ℚ y (MvPolynomial.map (Int.castRingHom ℚ) F) = mConeMap y F := by
@@ -67,7 +62,22 @@ theorem coord_ne_zero_of_not_mem {y : (Σ k, ι k) → Ω} {p : Σ k, ι k}
 
 theorem aeval_scale {y : (Σ k, ι k) → Ω} (lam : K → Ω) {G : MRing ι} {d : K → ℕ} (hG : IsMultiHomog G d) :
     aeval (fun p => lam p.1 * y p) G = (∏ k, lam k ^ d k) * aeval y G := by
-  apply _root_.GroundTheory.Heights₂.Heights.MultiHomogeneous.aevalCoordinateScale <;> assumption
+  classical
+  conv_lhs => rw [G.as_sum]
+  conv_rhs => rw [G.as_sum]
+
+  rw [map_sum, map_sum, Finset.mul_sum]
+  refine Finset.sum_congr rfl fun m hm => ?_
+  rw [aeval_monomial, aeval_monomial, Finsupp.prod_fintype _ _ (fun _ => pow_zero _),
+    Finsupp.prod_fintype _ _ (fun _ => pow_zero _)]
+  simp_rw [mul_pow, Finset.prod_mul_distrib]
+  have hl : ∏ p : Σ k, ι k, lam p.1 ^ m p = ∏ k, lam k ^ d k := by
+    rw [Fintype.prod_sigma]
+    refine Finset.prod_congr rfl fun k _ => ?_
+    show ∏ i, lam k ^ m ⟨k, i⟩ = lam k ^ d k
+    rw [Finset.prod_pow_eq_pow_sum, hG m hm k]
+  rw [hl]
+  ring
 
 end LiftBirationalNef
 

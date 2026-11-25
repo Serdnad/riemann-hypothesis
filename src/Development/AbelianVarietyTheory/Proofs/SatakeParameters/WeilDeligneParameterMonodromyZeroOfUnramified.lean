@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.SatakeParameters.CharPolLpCharOfUnr
 public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.ExistsReadingLaws
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Mono0OfLpDimEqOne
 import Mathlib.Algebra.Order.Floor.Extended
@@ -54,7 +53,18 @@ namespace GlobalTheory.TameType
 
 theorem irreducible_twist {Γ V : Type} [Group Γ] [AddCommGroup V] [Module ℂ V] {ρ : Representation ℂ Γ V}
     (h : ρ.IsIrreducible) (ν : Γ →* ℂˣ) : (twist ρ ν).IsIrreducible := by
-  first | exact _root_.GlobalTheory.SplitRead.BlockParam.irreducible_twist | exact @_root_.GlobalTheory.SplitRead.BlockParam.irreducible_twist | apply _root_.GlobalTheory.SplitRead.BlockParam.irreducible_twist <;> assumption
+  let f : Subrepresentation (twist ρ ν) → Subrepresentation ρ := fun S =>
+    ⟨S.toSubmodule, fun g v hv => by
+      have h1 := S.toSubmodule.smul_mem ((ν g)⁻¹ : ℂˣ).1 (S.apply_mem_toSubmodule g hv)
+      simpa [smul_smul] using h1⟩
+  have hn : (⊥ : Submodule ℂ V) ≠ ⊤ := fun e =>
+    (bot_ne_top (α := Subrepresentation ρ)) (Subrepresentation.toSubmodule_injective e)
+  have : Nontrivial (Subrepresentation (twist ρ ν)) := ⟨⊥, ⊤, fun e =>
+    hn (congrArg Subrepresentation.toSubmodule e)⟩
+  refine ⟨fun S => ?_⟩
+  rcases eq_bot_or_eq_top (f S) with e | e
+  · exact Or.inl (Subrepresentation.toSubmodule_injective (congrArg Subrepresentation.toSubmodule e :))
+  · exact Or.inr (Subrepresentation.toSubmodule_injective (congrArg Subrepresentation.toSubmodule e :))
 
 theorem charpoly_scalar {V : Type} [AddCommGroup V] [Module ℂ V] [FiniteDimensional ℂ V] (z : ℂ) :
     (z • (1 : Module.End ℂ V)).charpoly = (X - C z) ^ Module.finrank ℂ V := by
@@ -93,8 +103,6 @@ theorem inePol_char_of_unr {a c : WD h} (ha : a.unr) (hc : c.lpDim = 1) {σ : G 
       ((WD.unr_mk _).1 ha).2, h1, TensorProduct.map_smul_right, TensorProduct.map_one, charpoly_scalar]
 
 end WD
-
-attribute [local instance] GlobalTheory.LocalData.complRel GlobalTheory.LocalData.isLocalField
 
 theorem inertialType_of_tame :
     ∀ (R : Ranks) (H : Host R) (what₂ : Rows.Data R) (N : NData R H what₂) (A : NAut N)

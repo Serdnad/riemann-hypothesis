@@ -1,45 +1,6 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.DenBoundCombinePadicPrimeToPStatement
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.SphericalCoordinates.LevelChange
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Algebra.Order.Star.Rat
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.CategoryTheory.Monoidal.Opposite.Mon
 
 @[expose] public section
 
@@ -72,10 +33,6 @@ private theorem formB_zsmul_right {p : ℕ} [Fact p.Prime] {D : Datum p} {G : HT
     (n : ℤ) (a c : VQ D) : formB L β a (n • c) = n * formB L β a c := by
   simp only [formB, map_zsmul, zsmul_eq_mul]
 
-private theorem den_dvd_of_mul_eq_int (q : ℚ) (n : ℕ) (z : ℤ) (h : (n : ℚ) * q = z) : q.den ∣ n := by
-  intros
-  apply _root_.GlobalTheory.den_dvd_of_natCast_mul_eq_int <;> assumption
-
 theorem placeLoc_of : PlaceLoc := by
   intro p _ D G L β D' j hP hH
   obtain ⟨-, hact, hspan, s0, hs0, hform⟩ := hP
@@ -89,14 +46,7 @@ theorem placeLoc_of : PlaceLoc := by
     linarith
   obtain ⟨S, hS⟩ := (Module.Finite.fg_top : (⊤ : Submodule ℤ D'.La).FG)
   have hcl0 : AddSubgroup.closure (S : Set D'.La) = ⊤ := by
-    rw [eq_top_iff]
-    intro u _
-    have hu : u ∈ Submodule.span ℤ (S : Set D'.La) := hS ▸ Submodule.mem_top
-    induction hu using Submodule.span_induction with
-    | mem x hx => exact AddSubgroup.subset_closure hx
-    | zero => exact zero_mem _
-    | add x y _ _ hx hy => exact add_mem (hx trivial) (hy trivial)
-    | smul a x _ hx => exact zsmul_mem (hx trivial) a
+    rw [← Submodule.span_int_eq_addSubgroupClosure, hS]; rfl
   have hcl : AddSubgroup.closure ((S.image j : Finset (VQ D)) : Set (VQ D)) = j.range := by
     rw [Finset.coe_image, ← AddMonoidHom.map_closure, hcl0, AddMonoidHom.range_eq_map]
   let M : AddSubgroup (VQ D) :=
@@ -138,7 +88,13 @@ theorem placeLoc_of : PlaceLoc := by
         rw [hE1, ← ha, ← hb, formB_nsmul_left, formB_nsmul_right]
         push_cast
         ring
-      exact Nat.Coprime.coprime_dvd_left (den_dvd_of_mul_eq_int _ _ _ key) (hm.mul_left hm')
+      refine Nat.Coprime.coprime_dvd_left (Int.natCast_dvd_natCast.1 ?_) (hm.mul_left hm')
+      have hmm : ((m * m' : ℕ) : ℚ) ≠ 0 := fun h =>
+        (Fact.out : p.Prime).ne_one (by simpa [Nat.cast_eq_zero.1 h] using hm.mul_left hm')
+      have hdiv : s0 / 2 * formB L β w u = Rat.divInt (E₁ a b : ℤ) ((m * m' : ℕ) : ℤ) := by
+        rw [Rat.divInt_eq_div, Int.cast_natCast, eq_div_iff hmm, mul_comm]
+        exact key
+      exact hdiv ▸ Rat.den_dvd _ _
     · intro h
       have hden : ∀ x : D'.La, (s0 / 2 * formB L β w (j x)).den.Coprime p := fun x =>
         h (j x) ⟨1, x, Nat.coprime_one_left p, one_smul _ _⟩

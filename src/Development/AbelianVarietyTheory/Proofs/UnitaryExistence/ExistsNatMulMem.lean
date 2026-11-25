@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.ScaledMatrixMemRationalLattice
 import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.AdelicUnimodularity.ExistsNatSmulMem
 public import Mathlib.NumberTheory.NumberField.Basic
 import Mathlib.Algebra.Order.Floor.Extended
@@ -49,10 +48,6 @@ import Mathlib.Topology.Sheaves.Init
 namespace GlobalTheory.NatMulMemUnitaryExistence
 
 open NumberField
-
-theorem exists_nat_mul_mem {E : Type} [Field E] [NumberField E] (c : E) :
-    ∃ k : ℕ, 0 < k ∧ ∃ a : 𝓞 E, (a : E) = (k : E) * c := by
-  apply _root_.GlobalTheory.LatVacFull.exists_nat_integral <;> assumption
 
 theorem main {E : Type} [Field E] [NumberField E] {n : ℕ}
     (L : Submodule (𝓞 E) (Fin n → E))

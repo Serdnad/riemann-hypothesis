@@ -1,6 +1,5 @@
 module
 
-import all Development.AutomorphicArithmetic.Foundations.Convolution.BlockHeckeSlices.CuspidalNormBounds.CompHecke
 public import Development.AutomorphicArithmetic.Foundations.Convolution.BlockHeckeSlices.SliceShift
 public import Development.AutomorphicArithmetic.Foundations.Convolution.PolynomialCoefficientBounds.AbsGrow
 public import Development.WeilBound.RepresentationTheoryGL.TwistedFactors.AffineCharacterGenerators.Generators
@@ -16,62 +15,12 @@ public import Mathlib.Algebra.Polynomial.Basic
 public import Mathlib.Algebra.Polynomial.Coeff
 public import Development.AutomorphicArithmetic.Foundations.Convolution.BlockHeckeSlices.CommuteCenterRtInfGL
 public import Development.AutomorphicArithmetic.Foundations.Convolution.PolynomialCoefficientBounds.ExistsFinMap
-import all Development.AutomorphicArithmetic.Foundations.Convolution.PolynomialCoefficientBounds.ExistsFinMap
 public import Development.AutomorphicArithmetic.Foundations.Convolution.BlockHeckeSlices.CuspidalNormBounds.BandOps
 public import Development.AutomorphicArithmetic.Foundations.Convolution.BlockHeckeSlices.CuspidalNormBounds.CompBound
 public import Development.AutomorphicArithmetic.Foundations.Convolution.BlockHeckeSlices.CuspidalNormBounds.HkApply
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Calculus.Taylor
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Topology.Sheaves.Init
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.RingTheory.MvPolynomial.IrreducibleQuadratic
-import Mathlib.RingTheory.PiTensorProduct
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.ENatToNat
 import Std.Tactic.BVDecide.Normalize.Prop
-import Mathlib.Tactic.Lemma
 import Development.AutomorphicArithmetic.Foundations.Convolution.BlockHeckeSlices.CuspidalNormBounds.UmgOps
 import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.CommuteRtOfMemZalg
-import Mathlib.Tactic.TypeStar
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AutomorphicArithmetic.Foundations.Convolution.PolynomialCoefficientBounds.AbsTaylor, Development.AutomorphicArithmetic.Foundations.Convolution.PolynomialCoefficientBounds.LiftSingle, Development.AutomorphicArithmetic.Foundations.Convolution.BlockHeckeSlices.CuspidalNormBounds.AbsKill, Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.CoeffProdOneAdd, Development.AutomorphicArithmetic.Foundations.Convolution.BlockHeckeSlices.CuspidalNormBounds.KillOne, Development.AutomorphicArithmetic.Foundations.Convolution.BlockHeckeSlices.CuspidalNormBounds.KillComp
@@ -323,7 +272,7 @@ private theorem lift_single {ι A : Type} [CommRing A] [Algebra ℂ A] (x : ι �
 private theorem shift_sum (g : ℕ → ℕ → ℂ) (s : ℕ → ℂ) (d : ℕ) (h0 : ∀ a, d < a → ∀ b, g a b = 0) (h : ∀ a, HasSum (g a) (s a)) :
     HasSum (fun k => ∑ b ∈ Finset.range (k + 1), g (k - b) b) (∑ a ∈ Finset.range (d + 1), s a) := by
   have h1 : ∀ a, HasSum (fun k => if a ≤ k then g a (k - a) else 0) (s a) := fun a => by
-    rw [← hasSum_nat_add_iff' a, Finset.sum_eq_zero fun i hi => if_neg (not_le.2 (Finset.mem_range.1 hi)), sub_zero]
+    rw [← hasSum_nat_add_iff' a, Finset.sum_eq_zero fun i hi => ite_eq_right (not_le.2 (Finset.mem_range.1 hi)), sub_zero]
     simpa using h a
   convert hasSum_sum (s := Finset.range (d + 1)) fun a _ => h1 a using 2 with k
   rw [← Finset.sum_range_reflect, ← Finset.sum_filter]
@@ -448,7 +397,7 @@ private theorem vars_pieceK {ι κ : Type} [Fintype ι] (k : ℕ) (F : KF ι κ)
   unfold pieceK
   rw [coeff_sum]
   refine Finset.sum_eq_zero fun β hβ => ?_
-  rw [coeff_monomial, if_neg]
+  rw [coeff_monomial, ite_eq_right]
   rintro rfl
   exact hn hβ
 
@@ -574,9 +523,25 @@ open GlobalTheory.CuspRep PositivityTheory.Rg.Fx UpperTheory.V.Cm
 private theorem sum_pi {m j : ℕ} (F : (Fin (m + 1) → ℕ) → ℂ) :
     ∑ A ∈ Finset.piAntidiag Finset.univ j, F A =
       ∑ a ∈ Finset.range (j + 1), ∑ A ∈ Finset.piAntidiag Finset.univ (j - a), F (Fin.cons a A) := by
-  apply _root_.UpperTheory.ConvolutionTheory.BW.sum_pi <;> assumption
-
-private theorem esymm_zero' (s : Multiset ℂ) : s.esymm 0 = 1 := by simp [Multiset.esymm]
+  rw [Finset.sum_sigma']
+  refine Finset.sum_bij' (fun A _ => ⟨A 0, Fin.tail A⟩) (fun p _ => Fin.cons p.1 p.2) ?_ ?_ ?_ ?_ ?_
+  · intro A hA
+    simp only [Finset.mem_piAntidiag, Finset.mem_univ, implies_true, and_true, Fin.sum_univ_succ, Finset.mem_sigma,
+      Finset.mem_range] at hA ⊢
+    refine ⟨by omega, ?_⟩
+    change ∑ i : Fin m, A i.succ = _
+    omega
+  · intro p hp
+    simp only [Finset.mem_piAntidiag, Finset.mem_univ, implies_true, and_true, Fin.sum_univ_succ, Finset.mem_sigma,
+      Finset.mem_range, Fin.cons_zero, Fin.cons_succ] at hp ⊢
+    have h2 : ∑ i, p.2 i = j - p.1 := hp.2
+    omega
+  · intro A _
+    exact Fin.cons_self_tail A
+  · intro p _
+    simp
+  · intro A _
+    simp
 
 private theorem esymm_sum : ∀ (m : ℕ) (M : Fin m → Multiset ℂ) (j : ℕ),
     (∑ l, M l).esymm j = ∑ a ∈ Finset.piAntidiag Finset.univ j, ∏ l, (M l).esymm (a l)
@@ -623,7 +588,7 @@ private theorem supp_good {F : KF ((E →+* ℂ) × Fin n) (Pl E × Fin n)}
   by_contra hn
   have h := congrArg (AddMonoidAlgebra.coeff · β) (hG k)
   rw [MvPolynomial.coeff_map, pieceK, MvPolynomial.coeff_sum, Finset.sum_eq_zero fun γ hγ => by
-    rw [MvPolynomial.coeff_monomial, if_neg fun e : γ = β => hn (e ▸ hγ)]] at h
+    rw [MvPolynomial.coeff_monomial, ite_eq_right fun e : γ = β => hn (e ▸ hγ)]] at h
   exact MvPolynomial.mem_support_iff.1 hβ (UpperTheory.ConvolutionTheory.FX.blockE_inj (E →+* ℂ) n (h.trans (map_zero _).symm))
 
 private theorem list_rel {M A ι : Type} [AddCommGroup M] [Module ℂ M] {V : Submodule ℂ M} [CommRing A] [Module A V]
@@ -682,10 +647,55 @@ open NumberField IsDedekindDomain GlobalTheory.CuspRep GroundTheory.Automorphic 
 
 namespace UpperTheory.ConvolutionTheory.BW
 
+private theorem exists_esymm (n : ℕ) (c : Fin n → ℂ) :
+    ∃ y : Fin n → ℂ, ∀ i : Fin n, MvPolynomial.aeval y (MvPolynomial.esymm (Fin n) ℂ ((i : ℕ) + 1)) = c i := by
+  classical
+  let a : Fin n → ℂ := fun k => (-1) ^ (n - (k : ℕ)) * c (Fin.rev k)
+  let q : Polynomial ℂ := ∑ k : Fin n, Polynomial.C (a k) * Polynomial.X ^ (k : ℕ)
+  have hq : q.degree < n := Polynomial.degree_sum_fin_lt a
+  let p : Polynomial ℂ := Polynomial.X ^ n + q
+  have hm : p.Monic := Polynomial.monic_X_pow_add hq
+  have hd : p.natDegree = n := by
+    have h0 : q.degree < (Polynomial.X ^ n : Polynomial ℂ).degree := by rwa [Polynomial.degree_X_pow]
+    simp only [p]
+    rw [Polynomial.natDegree_add_eq_left_of_degree_lt h0, Polynomial.natDegree_X_pow]
+  have hs : Multiset.card p.roots = p.natDegree := (IsAlgClosed.splits p).natDegree_eq_card_roots.symm
+  have hl : p.roots.toList.length = n := by rw [Multiset.length_toList, hs, hd]
+  refine ⟨fun j => p.roots.toList.get (j.cast hl.symm), fun i => ?_⟩
+  have hy : (Finset.univ : Finset (Fin n)).val.map (fun j => p.roots.toList.get (j.cast hl.symm)) = p.roots := by
+    rw [Fin.univ_val_map]
+    conv_rhs => rw [← Multiset.coe_toList p.roots]
+    congr 1
+    refine List.ext_get (by simpa using hl.symm) fun k h1 h2 => ?_
+    simp
+  rw [MvPolynomial.aeval_esymm_eq_multiset_esymm, hy]
+  have hi : ((Fin.rev i : Fin n) : ℕ) + ((i : ℕ) + 1) = n := by
+    have := i.2
+    rw [Fin.val_rev]; omega
+  have hcoef := Polynomial.coeff_eq_esymm_roots_of_card hs (k := ((Fin.rev i : Fin n) : ℕ)) (by omega)
+  have e1 : p.natDegree - ((Fin.rev i : Fin n) : ℕ) = (i : ℕ) + 1 := by omega
+  rw [e1, hm.leadingCoeff, one_mul] at hcoef
+  have e2 : p.coeff ((Fin.rev i : Fin n) : ℕ) = (-1) ^ ((i : ℕ) + 1) * c i := by
+    have h3 : (Polynomial.X ^ n : Polynomial ℂ).coeff ((Fin.rev i : Fin n) : ℕ) = 0 := by
+      rw [Polynomial.coeff_X_pow, ite_eq_right (by omega)]
+    have h4 : q.coeff ((Fin.rev i : Fin n) : ℕ) = a (Fin.rev i) := by
+      simp only [q, Polynomial.finsetSum_coeff, Polynomial.coeff_C_mul, Polynomial.coeff_X_pow]
+      rw [Finset.sum_eq_single (Fin.rev i)]
+      · simp
+      · intro b _ hb
+        rw [ite_eq_right (fun h => hb (Fin.ext h.symm)), mul_zero]
+      · simp
+    simp only [p, Polynomial.coeff_add, h3, zero_add, h4, a, Fin.rev_rev]
+    congr 2
+    omega
+  rw [e2] at hcoef
+  have h5 : ((-1 : ℂ) ^ ((i : ℕ) + 1)) ≠ 0 := pow_ne_zero _ (by norm_num)
+  exact (mul_left_cancel₀ h5 hcoef).symm
+
 private theorem aeval_blockE_injective (τ : Type) (n : ℕ) :
     Function.Injective (MvPolynomial.aeval blockE : MvPolynomial (τ × Fin n) ℂ →ₐ[ℂ] MvPolynomial (τ × Fin n) ℂ) := by
   refine (injective_iff_map_eq_zero _).2 fun P hP => MvPolynomial.funext fun c => ?_
-  choose y hy using fun t : τ => _root_.esymm_surj n fun i => c (t, i)
+  choose y hy using fun t : τ => exists_esymm n fun i => c (t, i)
   let x : τ × Fin n → ℂ := fun p => y p.1 p.2
   have h : (MvPolynomial.aeval x : MvPolynomial (τ × Fin n) ℂ →ₐ[ℂ] ℂ).comp (MvPolynomial.aeval blockE) = MvPolynomial.aeval c := by
     refine MvPolynomial.algHom_ext fun p => ?_
@@ -705,7 +715,7 @@ private theorem vars_of_gen {τ κ : Type} [Fintype τ] {n : ℕ} {F : KF (τ ×
   have h1 : (pieceK k F).coeff β = 0 := by
     rw [pieceK, MvPolynomial.coeff_sum]
     refine Finset.sum_eq_zero fun b hb => ?_
-    rw [MvPolynomial.coeff_monomial, if_neg (fun e : b = β => hF (e ▸ hb))]
+    rw [MvPolynomial.coeff_monomial, ite_eq_right (fun e : b = β => hF (e ▸ hb))]
   rw [← h, MvPolynomial.coeff_map] at h1
   exact MvPolynomial.mem_support_iff.1 hβ ((injective_iff_map_eq_zero _).1 (aeval_blockE_injective τ n) _ h1)
 

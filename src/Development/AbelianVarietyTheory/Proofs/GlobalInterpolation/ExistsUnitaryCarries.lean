@@ -1,52 +1,11 @@
 module
 
-import Development.AbelianVarietyTheory.Counterexamples.PlaceInjectivity.StandardDeterminantUnits
-import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.StandardRankOneLatticeOfLocal
 public import Development.AbelianVarietyTheory.BlockTheory.GlobalSignature.StandardDeterminantUnit
 public import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.StrongApproximationUnitaryCongruence
 import Formalism.HermitianLattices.HermitianLatticesProofs.DualBasic
 public import Formalism.LocalRingCardinality.CoeNeZeroOfNotMem
 import Mathlib.Algebra.Module.StablyFree.Basic
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
 import Mathlib.RingTheory.Coalgebra.IsFrobenius
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
 import Std.Tactic.BVDecide.Normalize.Prop
 
 @[expose] public section
@@ -132,8 +91,42 @@ theorem Carries.eventually [StarRing E] {P : HeightOneSpectrum (𝓞 E)} {N : Su
 
 theorem span_of_self_dual [StarRing E] {L : Submodule (𝓞 E) (Sp E n)} (hLat : IsSdLat L) :
     Submodule.span E (L : Set (Sp E n)) = ⊤ := by
-  intros
-  apply _root_.GlobalTheory.CharValCompare.span_eq_top_of_isSdLat <;> assumption
+  apply Submodule.dualAnnihilator_eq_bot_iff.mp
+  apply le_antisymm ?_ bot_le
+  intro f hf
+  let v : Sp E n := fun i => star (f (Pi.single i 1))
+  have hpair : hStd E n v = f := by
+    apply (Pi.basisFun E (Fin n)).ext
+    intro i
+    rw [Pi.basisFun_apply, hStd_apply, Finset.sum_eq_single i]
+    · simp [v]
+    · intro j _ hj
+      simp [hj]
+    · simp
+  have hline (r : E) : r • v ∈ L := by
+    rw [← show dual (hStd E n) L = L from hLat.2, dualBasic_mem_dual]
+    intro y hy
+    have hy0 : hStd E n v y = 0 := by
+      rw [hpair]
+      exact (Submodule.mem_dualAnnihilator f).mp hf y (Submodule.subset_span hy)
+    have hz : hStd E n y v = 0 := by
+      simpa [hy0] using ((hStd_isSymm (E := E) (n := n)).eq v y).symm
+    simp [hz]
+  have hv : v = 0 := by
+    funext i
+    change v i = 0
+    by_contra hi
+    -- A nonzero coordinate would make the field finite over its ring of integers.
+    let coord := (LinearMap.proj i : Sp E n →ₗ[E] E).restrictScalars (𝓞 E)
+    have htop : L.map coord = ⊤ := by
+      rw [eq_top_iff]
+      intro x _
+      exact ⟨(x / v i) • v, hline _, div_mul_cancel₀ _ hi⟩
+    have : Module.Finite (𝓞 E) E := Module.finite_def.mpr (htop ▸ hLat.1.fg.map coord)
+    exact RingOfIntegers.not_isField E
+      (isField_of_isIntegral_of_isField (IsFractionRing.injective (𝓞 E) E) (Field.toIsField E))
+  rw [Submodule.mem_bot]
+  simpa [hv] using hpair.symm
 
 
 theorem exists_carries [StarRing E] (P : HeightOneSpectrum (𝓞 E)) {N : Submodule (𝓞 E) (Sp E n)}
@@ -211,7 +204,7 @@ theorem tendsto_comb {ST : Finset (HeightOneSpectrum (𝓞 E))} (e : ST → ℕ 
     · subst h
       exact tendsto_iff_norm_sub_tendsto_zero.2 h1
     · exact tendsto_zero_iff_norm_tendsto_zero.2 (h0 P h)
-  simp only [ite_mul, one_mul, zero_mul, Finset.sum_ite_eq', Finset.mem_univ, if_true] at t
+  simp only [ite_mul, one_mul, zero_mul, Finset.sum_ite_eq', Finset.mem_univ, ite_true] at t
   exact tendsto_iff_norm_sub_tendsto_zero.1 t
 
 theorem exists_unitary_carries {ST : Finset (HeightOneSpectrum (𝓞 E))} (hST : GlobalTheory.IndefiniteRowSideFullHecke.StandardDeterminantUnit.SplitNonConj ST)
@@ -296,8 +289,17 @@ theorem localization_conj_le_of_le {P : HeightOneSpectrum (𝓞 E)} {N N' : Subm
 
 theorem val_det_le {P : HeightOneSpectrum (𝓞 E)} {g : Sp E n →ₗ[E] Sp E n}
     (hg : ∀ x ∈ stdAt E n P, g x ∈ stdAt E n P) : P.valuation E (LinearMap.det g) ≤ 1 := by
-  intros
-  apply _root_.GlobalTheory.Survey.StandardDeterminantUnits.val_det_le_one <;> assumption
+  have hM : ∀ i j, LinearMap.toMatrix' g i j ∈ (P.valuation E).integer := by
+    intro i j
+    have h1 := hg (Pi.single j 1) (le_locP P _ (by simpa using single_mem_stdLat (E := E) j 1))
+    obtain ⟨r, s, hs, h⟩ := (mem_localization_standardLattice P _).1 h1 i
+    have h2 : P.valuation E (algebraMap (𝓞 E) E s) = 1 := (P.valuation_eq_one_iff_notMem).2 hs
+    have h3 := congrArg (P.valuation E) h
+    rw [map_mul, h2, one_mul] at h3
+    rw [Valuation.mem_integer_iff, LinearMap.toMatrix'_apply, h3]
+    exact P.valuation_le_one r
+  rw [← LinearMap.det_toMatrix', ← Valuation.mem_integer_iff, det_apply']
+  exact Subring.sum_mem _ fun σ _ => Subring.mul_mem _ (intCast_mem _ _) (Subring.prod_mem _ fun i _ => hM _ _)
 
 theorem val_det_eq {P : HeightOneSpectrum (𝓞 E)} {g : Sp E n ≃ₗ[E] Sp E n}
     (hg : ∀ x, g x ∈ stdAt E n P ↔ x ∈ stdAt E n P) :

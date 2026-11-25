@@ -4,49 +4,10 @@ public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.Normal
 public import Development.AbelianVarietyTheory.Definitions.Divisors.InstCMHostS
 public import Formalism.LocalToGlobal.IndefiniteReal.ConjSubConjSub
 public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.FiniteAdeleStrongApproximationModNat
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
 import Mathlib.LinearAlgebra.FreeModule.IdealQuotient
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.HaveILetI
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Topology.Sheaves.Init
 public import Development.AbelianVarietyTheory.PublishedTheorems.GaloisGeometry₂.HoweUnram
-import Development.AbelianVarietyTheory.Proofs.SatakeParameters.ExistsFiniteClass
 
 @[expose] public section
 
@@ -56,10 +17,8 @@ open Formalism.BasicNotions Formalism.BasicNotions.TH Formalism.MainNotions.Glob
 open Formalism.L2.Theta Formalism.L2.DIV Formalism.L2.Indef Formalism.DivisionValues Polynomial
 open Formalism.IndefR Formalism.IndefR.Links Formalism.IndefR.Lev Formalism.IndefR.Mult Formalism.IndefR.Datum Formalism.IndefR.Cx
 open scoped TensorProduct InnerProductSpace
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 open GlobalTheory.Hk3 (Core Good IsSF SchurAll TwoSided FixAll EEc Wcc eH IsLab HoweUnram SphOp hyp)
 open GlobalTheory.StdFrame (StdPsi)
-attribute [local instance] Formalism.IndefR.principalLevelFrame.instCMHostI
 
 namespace GlobalTheory.IsotSph
 
@@ -162,7 +121,20 @@ theorem exists_approx (N : ℕ) (hN : 0 < N) {x : AL L} (hx : x ∈ ALint L) :
 theorem cong_inv_mul {n N : ℕ} {h h' : Formalism.AUTREP.GAf L n} (hh : h ∈ Umax L n) (hh' : h' ∈ Umax L n)
     (hz : ∀ i j, ∃ z ∈ ALint L, (h'.1 : Matrix (Fin n) (Fin n) (AL L)) i j - (h.1 : Matrix (Fin n) (Fin n) (AL L)) i j =
       (N : AL L) * z) : Formalism.L2.NG.Cong L n N (h⁻¹ * h') := by
-  apply _root_.GlobalTheory.IsotOrth.cong_inv_mul <;> assumption
+  refine ⟨mul_mem (inv_mem hh) hh', fun i j => ?_⟩
+  choose z hz1 hz2 using hz
+  have hinv : ∀ i j, ((h⁻¹ : Formalism.AUTREP.GAf L n).1 : Matrix (Fin n) (Fin n) (AL L)) i j ∈ ALint L := inv_mem hh
+  refine ⟨∑ k, ((h⁻¹ : Formalism.AUTREP.GAf L n).1 : Matrix (Fin n) (Fin n) (AL L)) i k * z k j,
+    Subring.sum_mem _ fun k _ => Subring.mul_mem _ (hinv i k) (hz1 k j), ?_⟩
+  have h1 : ((h⁻¹ : Formalism.AUTREP.GAf L n).1 : Matrix (Fin n) (Fin n) (AL L)) * (h.1 : Matrix (Fin n) (Fin n) (AL L)) = 1 := by
+    have : ((h⁻¹ * h : Formalism.AUTREP.GAf L n).1 : Matrix (Fin n) (Fin n) (AL L)) = 1 := by simp
+    exact this
+  have e : (((h⁻¹ * h' : Formalism.AUTREP.GAf L n)).1 : Matrix (Fin n) (Fin n) (AL L)) =
+      ((h⁻¹ : Formalism.AUTREP.GAf L n).1 : Matrix (Fin n) (Fin n) (AL L)) * (h'.1 : Matrix (Fin n) (Fin n) (AL L)) := rfl
+  rw [e, ← h1, Matrix.mul_apply, Matrix.mul_apply, ← Finset.sum_sub_distrib, Finset.mul_sum]
+  refine Finset.sum_congr rfl fun k _ => ?_
+  rw [← mul_sub, hz2 k j]
+  ring
 
 theorem finite_quot {n : ℕ} (H : Subgroup (Formalism.AUTREP.GAf L n)) (hH : H ≤ Umax L n) {N : ℕ} (hN : 0 < N)
     (S : Subgroup H) (hS : ∀ s : H, Formalism.L2.NG.Cong L n N (s : Formalism.AUTREP.GAf L n) → s ∈ S) : Finite (H ⧸ S) := by

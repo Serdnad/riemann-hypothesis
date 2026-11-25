@@ -1,53 +1,7 @@
 module
 
-import Formalism.HermitianCurvature.HermitianCurvatureProofs.BesselDecayBounds.BesselUnitNorm.BesselNormSteps.BesselLine.ConvGrp
-import Formalism.HermitianCurvature.HermitianCurvatureProofs.LUFactorOrbitBounds
 public import Formalism.HermitianCurvature.StatementB
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Coalgebra.IsFrobenius
-import Mathlib.RingTheory.HopfAlgebra.Basic
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Topology.Sheaves.Init
 import Formalism.HermitianCurvature.FiniteOrderIntersectionInSmooth
 public import Formalism.SharedLemmas.HpkSq
 
@@ -72,7 +26,18 @@ theorem hpk_sq (k r : ℕ) : Hpk k r * Hpk k r = 1 := by
 
 theorem uh_inv {a : B.Mat k r} (ha : a ∈ UH (Hpk k r)) :
     a * a⁻¹ = 1 ∧ a⁻¹ * a = 1 ∧ a⁻¹ ∈ UH (Hpk k r) := by
-  apply _root_.PI.WBL.Cv.uh_inv <;> assumption
+  have ha' : aᴴ * Hpk k r * a = Hpk k r := ha
+  have hl : (Hpk k r * aᴴ * Hpk k r) * a = 1 := by
+    calc Hpk k r * aᴴ * Hpk k r * a = Hpk k r * (aᴴ * Hpk k r * a) := by simp only [Matrix.mul_assoc]
+      _ = 1 := by rw [ha', hpk_sq]
+  have hinv : a⁻¹ = Hpk k r * aᴴ * Hpk k r := Matrix.inv_eq_left_inv hl
+  have h1 : a⁻¹ * a = 1 := by rw [hinv]; exact hl
+  have h2 : a * a⁻¹ = 1 := Matrix.mul_nonsing_inv a (Matrix.isUnit_det_of_left_inverse hl)
+  refine ⟨h2, h1, ?_⟩
+  show (a⁻¹)ᴴ * Hpk k r * a⁻¹ = Hpk k r
+  calc (a⁻¹)ᴴ * Hpk k r * a⁻¹ = (a⁻¹)ᴴ * (aᴴ * Hpk k r * a) * a⁻¹ := by rw [ha']
+    _ = (a * a⁻¹)ᴴ * Hpk k r * (a * a⁻¹) := by simp only [conjTranspose_mul, Matrix.mul_assoc]
+    _ = Hpk k r := by rw [h2]; simp
 
 theorem col_eq (g : B.Mat k r) (j : Fin (2 * r + k + 1)) : g *ᵥ bvec j = fun i => g i j := by
   funext i
@@ -103,7 +68,7 @@ theorem maps_low {n : B.Mat k r} (hn : ∀ (a : Fin r) (i : Fin (2 * r + k + 1))
     have hle : (eI k r ⟨l.val, hlr⟩) = l := Fin.ext rfl
     have := hn ⟨l.val, hlr⟩ i (by simp; omega)
     rw [hle] at this
-    rw [this, if_neg (by intro h; rw [h] at hi; omega), zero_mul]
+    rw [this, ite_eq_right (by intro h; rw [h] at hi; omega), zero_mul]
 
 theorem onto_low {g : B.Mat k r} (hg : g⁻¹ * g = 1) {a : ℕ} (hmaps : ∀ y ∈ lowS k r a, g *ᵥ y ∈ lowS k r a) :
     ∀ y ∈ lowS k r a, ∃ x ∈ lowS k r a, g *ᵥ x = y := by
@@ -120,7 +85,51 @@ theorem onto_low {g : B.Mat k r} (hg : g⁻¹ * g = 1) {a : ℕ} (hmaps : ∀ y 
   exact ⟨x.1, x.2, congrArg Subtype.val hx⟩
 
 theorem n_inv {n : B.Mat k r} (hn : n ∈ Nset k r) : n⁻¹ ∈ Nset k r := by
-  apply _root_.Formalism.FourierDecayAlt.P.WeakDominationMajorants.Orb.n_inv_mem <;> assumption
+  have hu := uh_inv hn.1
+  have hC1 := hn.2.1
+  refine ⟨hu.2.2, ?_, ?_⟩
+  · intro a i hai
+    have hmaps := maps_low hC1 (a := a.val) a.isLt.le
+    have hy : bvec (eI k r a) - n *ᵥ bvec (eI k r a) ∈ lowS k r a.val := by
+      intro l hl
+      rw [col_eq]
+      simp only [Pi.sub_apply]
+      rw [hC1 a l hl]
+      simp [bvec, Pi.single_apply]
+    obtain ⟨x, hx, hgx⟩ := onto_low hu.2.1 hmaps _ hy
+    have hx2 : n *ᵥ (x + bvec (eI k r a)) = bvec (eI k r a) := by
+      rw [Matrix.mulVec_add, hgx]
+      abel
+    have hx3 : n⁻¹ *ᵥ bvec (eI k r a) = x + bvec (eI k r a) := by
+      rw [← hx2, Matrix.mulVec_mulVec, hu.2.1, Matrix.one_mulVec, hx2]
+    have e := congrFun hx3 i
+    rw [col_eq] at e
+    simp only at e
+    rw [e]
+    simp only [Pi.add_apply]
+    rw [hx i hai, zero_add]
+    simp [bvec, Pi.single_apply]
+  · intro i j hj1 hj2 hi
+    have hmaps := maps_low hC1 (a := r) le_rfl
+    have hy : bvec j - n *ᵥ bvec j ∈ lowS k r r := by
+      intro l hl
+      rw [col_eq]
+      simp only [Pi.sub_apply]
+      rw [hn.2.2 l j hj1 hj2 hl]
+      simp [bvec, Pi.single_apply]
+    obtain ⟨x, hx, hgx⟩ := onto_low hu.2.1 hmaps _ hy
+    have hx2 : n *ᵥ (x + bvec j) = bvec j := by
+      rw [Matrix.mulVec_add, hgx]
+      abel
+    have hx3 : n⁻¹ *ᵥ bvec j = x + bvec j := by
+      rw [← hx2, Matrix.mulVec_mulVec, hu.2.1, Matrix.one_mulVec, hx2]
+    have e := congrFun hx3 i
+    rw [col_eq] at e
+    simp only at e
+    rw [e]
+    simp only [Pi.add_apply]
+    rw [hx i hi, zero_add]
+    simp [bvec, Pi.single_apply]
 
 theorem uw_inv {z : Fin (2 * r + k + 1) → ℂ} {h : B.Mat k r} (hh : h ∈ UWset k r z) : h⁻¹ ∈ UWset k r z := by
   have hu := uh_inv hh.1

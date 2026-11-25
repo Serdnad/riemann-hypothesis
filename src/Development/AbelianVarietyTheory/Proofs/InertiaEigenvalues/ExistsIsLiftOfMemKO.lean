@@ -5,53 +5,8 @@ public import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.
 public import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.LeviEmbMemNormalizerLower
 public import Mathlib.Algebra.Field.ZMod
 import Development.AbelianVarietyTheory.Definitions.Divisors.LineOppositeParabolicUnitaryLeviSectionEq
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.GroupTheory.Nilpotent
 public import Mathlib.LinearAlgebra.PiTensorProduct.Basis
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Henselian
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.RingTheory.RegularLocalRing.Defs
-import Mathlib.RingTheory.SimpleRing.Principal
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.HaveILetI
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Topology.Sheaves.Init
 import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.ValuationDetOfMemKO
 import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsContractNeZero
 
@@ -317,8 +272,30 @@ private theorem isOpen_valuation_sub_lt_one (c : F) : IsOpen {x : F | valuation 
 
 private theorem isCompact_KOne' (p : ℕ) [Fact p.Prime] :
     IsCompact (KOne F n : Set (GL n F)) := by
-  intros
-  apply _root_.GlobalTheory.SmGL.DepthZero.isCompact_KOne₁ <;> assumption
+  haveI : CompactSpace (Matrix n n 𝒪[F]) := inferInstanceAs (CompactSpace (n → n → 𝒪[F]))
+  haveI : T1Space (Matrix n n 𝒪[F]) := inferInstanceAs (T1Space (n → n → 𝒪[F]))
+  have hcm : Continuous (GeneralLinearGroup.map (n := n) (algebraMap 𝒪[F] F)) := by
+    have hcs : Continuous (algebraMap 𝒪[F] F) := continuous_subtype_val
+    refine Units.continuous_iff.2 ⟨?_, ?_⟩
+    · change Continuous fun κ : GL n 𝒪[F] => (κ.val).map (algebraMap 𝒪[F] F)
+      exact Continuous.matrix_map Units.continuous_val hcs
+    · change Continuous fun κ : GL n 𝒪[F] => ((κ⁻¹ : GL n 𝒪[F]).val).map (algebraMap 𝒪[F] F)
+      exact Continuous.matrix_map Units.continuous_coe_inv hcs
+  have hKO : IsCompact (KO F n : Set (GL n F)) := by
+    rw [KO, MonoidHom.coe_range]
+    exact isCompact_range hcm
+  have hset : (KOne F n : Set (GL n F)) = {h | IsLift (1 : GL n (ZMod p)) h} := by
+    ext h
+    exact (isLift_one_iff h).symm
+  have hopen : IsOpen (KOne F n : Set (GL n F)) := by
+    rw [hset]
+    simp only [IsLift, Set.setOf_forall]
+    refine isOpen_iInter_of_finite fun a => isOpen_iInter_of_finite fun b => ?_
+    exact (isOpen_valuation_sub_lt_one _).preimage (Units.continuous_val.matrix_elem a b)
+  have hsub : (KOne F n : Set (GL n F)) ⊆ KO F n := by
+    rintro h ⟨κ, -, rfl⟩
+    exact ⟨κ, rfl⟩
+  exact hKO.of_isClosed_subset ((KOne F n).isClosed_of_isOpen hopen) hsub
 
 theorem TypeVec.up {V W : Type} [AddCommGroup V] [Module ℂ V] [AddCommGroup W] [Module ℂ W]
     {τ : Representation ℂ (GL n F) W} {π : Representation ℂ (GL n F) V} (hπ : IsSmooth π) (h : IsSubquotient τ π)
@@ -399,8 +376,7 @@ theorem TypeVec.factor {α : Type} [Fintype α] [DecidableEq α] {m : α → Typ
   set w := z.coeff.sum fun g c =>
     c • ((piTensor ρ).comp (MonoidHom.mulSingle (fun j => GL (m j) F) a)) (ℓ g) y with hw
   obtain ⟨q, hq⟩ : ∃ q, (Basis.piTensorProduct B).repr w q ≠ 0 := by
-    by_contra hq0
-    push_neg at hq0
+    by_contra! hq0
     apply hne
     apply (Basis.piTensorProduct B).repr.injective
     ext r
@@ -506,8 +482,7 @@ theorem exists_eigen_of_map {G V Y : Type} [Group G] [Finite G] [AddCommGroup V]
   classical
   haveI : Fintype G := Fintype.ofFinite G
   obtain ⟨w, hw⟩ : ∃ w, Λ w ≠ 0 := by
-    by_contra hcon
-    push_neg at hcon
+    by_contra! hcon
     exact h0 (LinearMap.ext hcon)
   refine ⟨∑ x : H, ((ψ x : ℂ))⁻¹ • ρ x w, ?_, ?_⟩
   · intro hP

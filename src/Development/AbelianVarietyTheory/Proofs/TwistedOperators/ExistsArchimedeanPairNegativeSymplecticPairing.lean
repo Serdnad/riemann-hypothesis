@@ -43,7 +43,6 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-import Development.WeilBound.ThetaLifts.LocalTheory.ToralCohomology.ExistsTorus
 
 @[expose] public section
 
@@ -59,9 +58,24 @@ variable {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algeb
 theorem piInf_tmul {w : InfinitePlace F} (τ : EmbOver E w) (a : AF F) (e : E) :
     piInf τ (a ⊗ₜ[F] e) = InfinitePlace.Completion.extensionEmbedding w (a.1 w) * τ.1 e := rfl
 
+private theorem star_extensionEmbedding_eq (h : IsCMExt F E σ) {w : InfinitePlace F} (x : w.Completion) :
+    star (InfinitePlace.Completion.extensionEmbedding w x) = InfinitePlace.Completion.extensionEmbedding w x := by
+  have h' := h
+  obtain ⟨hF, -⟩ := h'
+  have hw : w.IsReal := hF.isReal w
+  rw [← InfinitePlace.Completion.extensionEmbeddingOfIsReal_apply hw]
+  exact Complex.conj_ofReal _
+
 theorem piInf_cA (h : IsCMExt F E σ) {w : InfinitePlace F} (τ : EmbOver E w) (z : AE F E) :
     piInf τ (cA σ z) = star (piInf τ z) := by
-  apply _root_.PositivityTheory.ThKG.CayleyTransformDarboux.piInf_cA <;> assumption
+  have hconj := h
+  obtain ⟨-, -, -, hconj⟩ := hconj
+  induction z using TensorProduct.induction_on with
+  | zero => simp
+  | tmul a e =>
+    have hz : cA σ (a ⊗ₜ[F] e) = a ⊗ₜ[F] σ e := by simp [cA]
+    rw [hz, piInf_tmul, piInf_tmul, star_mul', star_extensionEmbedding_eq h, hconj]
+  | add x y hx hy => simp only [map_add (f := _), hx, hy, star_add]
 
 private theorem trace_pi_real_eq_sum {ι : Type} [Fintype ι] [DecidableEq ι] (f : ι → ℝ) :
     Algebra.trace ℝ (ι → ℝ) f = ∑ i, f i := by
@@ -116,7 +130,6 @@ theorem piInf_hTens (h : IsCMExt F E σ) {w : InfinitePlace F} (τ : EmbOver E w
     (J : Matrix (Fin n) (Fin n) E) (K : Matrix (Fin d) (Fin d) E) (u u' : Matrix (Fin n) (Fin d) (AE F E)) :
     piInf τ (GlobalTheory.WeilM.hTens (cA σ) (incM F J) (incM F K) u u') =
       ∑ i, ∑ j, ∑ k, ∑ l, u.map (piInf τ) i j * J.map τ.1 i k * K.map τ.1 j l * star (u'.map (piInf τ) k l) := by
-  set_option synthInstance.maxHeartbeats 100000 in
     simp only [GlobalTheory.WeilM.hTens, incM, Matrix.map_apply, map_sum, map_mul, piInf_cA h, piInf_inclR_twisted_operators]
 
 theorem sum_rank_one {n d : ℕ} (G : Matrix (Fin n) (Fin n) ℂ) (H : Matrix (Fin d) (Fin d) ℂ) (x x' : Fin n → ℂ)
@@ -238,10 +251,10 @@ theorem exists_neg_pair : ∀ {F E : Type} [Field F] [NumberField F] [Field E] [
   have hmain : piInf (B.emb w) (GlobalTheory.WeilM.hTens (cA σ) (incM F X.J) (incM F W.J) u u') =
       (x ⬝ᵥ (X.J.map (B.emb w).1) *ᵥ star (X.θ w *ᵥ x)) *
         (y ⬝ᵥ (Complex.I • W.J.map (B.emb w).1) *ᵥ star (W.θ w *ᵥ y)) := by
-    rw [piInf_hTens h, hu w, hu' w, if_pos rfl, hs, mul_vecMulVec_mul_transpose', sum_rank_one]
+    rw [piInf_hTens h, hu w, hu' w, ite_eq_left rfl, hs, mul_vecMulVec_mul_transpose', sum_rank_one]
   have hzero : ∀ w', w' ≠ w → piInf (B.emb w') (GlobalTheory.WeilM.hTens (cA σ) (incM F X.J) (incM F W.J) u u') = 0 := by
     intro w' hne
-    rw [piInf_hTens h, hu w', if_neg hne]
+    rw [piInf_hTens h, hu w', ite_eq_right hne]
     simp
   simp only [GlobalTheory.WeilM.symp]
   rw [trace_evI_trace h B.emb, Finset.sum_eq_single w]

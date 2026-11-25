@@ -1,6 +1,5 @@
 module
 
-import ReciprocityTheory.ReductiveGroups.DiscreteSeries.DiscreteSeriesExistence.FormulaF
 public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.ExceptionalGroupG2.StdGap
 public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.DiscreteSeriesExistence.DatumEmbeddingMemHlam
 public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.DiscreteSeriesExistence.FormulaFA
@@ -14,6 +13,7 @@ import ReciprocityTheory.ReductiveGroups.DiscreteSeries.DiscreteSeriesExistence.
 import Mathlib.Algebra.Ring.IsFormallyReal
 import Mathlib.Tactic.TypeStar
 import ReciprocityTheory.ReductiveGroups.DiscreteSeries.FormalDegree.KSchur
+import ReciprocityTheory.ReductiveGroups.DiscreteSeries.DiscreteSeriesExistence.FormulaF
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: ReciprocityTheory.ReductiveGroups.DiscreteSeries.ExceptionalGroupG2.ExistenceG2.FormulaFA, ReciprocityTheory.ReductiveGroups.DiscreteSeries.ExceptionalGroupG2.ExistenceG2.FormulaF
@@ -29,16 +29,6 @@ open Finset Matrix MeasureTheory Filter Topology
 
 namespace ReciprocityTheory.ChartRestriction.DS.G2
 variable {n : ℕ} {ε : Fin n → Bool}
-
-section General
-
-section Smooth
-
-attribute [local instance] Matrix.normedAddCommGroup Matrix.normedSpace
-
-end Smooth
-
-end General
 
 section KMap
 
@@ -104,24 +94,14 @@ variable {lam : Fin n → ℝ} {T : S7.KType ε (lowK ε lam)} {Ψ : Matrix (Fin
 
 theorem formulaF (hgap : StdGap ε lam) (hP : IsPsiFor ε lam T Ψ) (hv₀ : v₀ ≠ 0) {g : Matrix (Fin n) (Fin n) ℂ} (hg : g ∈ UJset ε) (v v' : T.V) :
     inner ℂ (uniformisationL2 ε Ψ v₀ v') (rreg ε g (uniformisationL2 ε Ψ v₀ v)) =
-      ((‖uniformisationL2 ε Ψ v₀ T.w‖ ^ 2 : ℝ) : ℂ) * inner ℂ v' (Ψ g v) := by
-  have hσ := rreg_isURepOn ε
-  exact ReciprocityTheory.ChartRestriction.DS.formulaF_of_stable hP hv₀
-    (closGen_stable hgap hσ (isDerivedOn_smE hσ) (datumV_isKIrrHW hP hv₀)
-      (datumV_casimir hP v₀) (datumV_kStable hP v₀))
-    (ffa_kmap_zero hgap hP hv₀) hg v v'
+      ((‖uniformisationL2 ε Ψ v₀ T.w‖ ^ 2 : ℝ) : ℂ) * inner ℂ v' (Ψ g v) :=
+  DS.formulaF_of hP hv₀ hg
+    (closGen_stable hgap (rreg_isURepOn ε) (isDerivedOn_smE (rreg_isURepOn ε))
+      (datumV_isKIrrHW hP hv₀) (datumV_casimir hP v₀) (datumV_kStable hP v₀))
+    (ffa_kmap_zero hgap hP hv₀) v v'
 
 theorem datumEmbedding_highest_ne_zero (hgap : StdGap ε lam) (hP : IsPsiFor ε lam T Ψ) (hv₀ : v₀ ≠ 0) : uniformisationL2 ε Ψ v₀ T.w ≠ 0 :=
-  ReciprocityTheory.ChartRestriction.DS.datumEmbedding_highest_ne_zero_of_isPsiFor hP hv₀
-
-theorem formulaF_sigLam (hgap : StdGap ε lam) (hP : IsPsiFor ε lam T Ψ) (hv₀ : v₀ ≠ 0) {g : Matrix (Fin n) (Fin n) ℂ} (hg : g ∈ UJset ε) (v v' : T.V) :
-    inner ℂ (⟨uniformisationL2 ε Ψ v₀ v', datumEmbedding_mem_Hlam hP v'⟩ : Hlam ε Ψ v₀)
-        (sigLam ε Ψ v₀ g ⟨uniformisationL2 ε Ψ v₀ v, datumEmbedding_mem_Hlam hP v⟩) =
-      ((‖uniformisationL2 ε Ψ v₀ T.w‖ ^ 2 : ℝ) : ℂ) * inner ℂ v' (Ψ g v) := by
-  rw [← formulaF hgap hP hv₀ hg v v']
-  rw [Submodule.coe_inner]
-  exact Submodule.inner_orthogonalProjectionOnto_eq_of_mem_left
-    ⟨_, datumEmbedding_mem_Hlam hP v'⟩ _
+  DS.datumEmbedding_highest_ne_zero_of hP hv₀
 
 end Main
 

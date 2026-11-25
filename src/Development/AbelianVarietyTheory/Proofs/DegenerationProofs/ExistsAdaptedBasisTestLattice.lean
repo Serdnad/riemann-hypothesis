@@ -47,7 +47,6 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
-import Development.AbelianVarietyTheory.Definitions.Degenerations.NormNatCastPadicAlgClOfCoprime
 
 @[expose] public section
 
@@ -77,7 +76,19 @@ theorem exists_eStd_eq_linear (g n : ℕ) (f : (Fin g ⊕ Fin g → ZMod n) →�
 variable {o Ω : Type} [CommRing o] [Field Ω] [Algebra o Ω] (S : ThetaSys o Ω)
 
 theorem perp_perp (H : AddSubgroup S.Gam) : S.perp (S.perp H) = H := by
-  apply _root_.GlobalTheory.ZH.ThetaSys.perp_perp <;> assumption
+  refine le_antisymm (fun x hx => ?_) fun x hx y hy => ?_
+  · by_contra hxH
+    let H' : Submodule (ZMod (S.r * S.N)) S.Gam := AddSubgroup.toZModSubmodule _ H
+    obtain ⟨f, hf⟩ := ZModPerp.exists_dual_ne_zero (n := S.r * S.N) (q := H'.mkQ x)
+      (fun h0 => hxH ((Submodule.Quotient.mk_eq_zero H').mp h0))
+    obtain ⟨b, hb⟩ := exists_eStd_eq_linear _ _ (f ∘ₗ H'.mkQ)
+    have hb' : b ∈ S.perp H := fun y hy => by
+      rw [hb, LinearMap.comp_apply, Submodule.mkQ_apply,
+        (Submodule.Quotient.mk_eq_zero H').mpr hy, map_zero]
+    have h1 : eStd S.g _ x b = 0 := hx b hb'
+    rw [Weights.eStd_swap, neg_eq_zero, hb] at h1
+    exact hf h1
+  · rw [Weights.eStd_swap, hy x hx, neg_zero]
 
 variable {S} {p : ℕ} [Fact p.Prime] {y₀ : S.R →+* PadicAlgCl p} (τ : S.Test p y₀)
 
@@ -170,7 +181,7 @@ theorem exists_adapted_basis_testLattice : ∀ (o Ω : Type) [CommRing o] [Field
     funext j
     have h1 := congrArg (fun a => y₀ (algebraMap o S.R a)) (congrFun (congrFun (hmul (κ i) (κ i)) j) (col i))
 
-    simp only [if_true, Matrix.mul_apply, map_sum, map_mul] at h1
+    simp only [ite_true, Matrix.mul_apply, map_sum, map_mul] at h1
     exact h1
   · refine le_antisymm (Submodule.span_le.2 ?_) (Submodule.span_mono ?_)
     · rintro _ ⟨α, l, i, hα, hl, rfl⟩

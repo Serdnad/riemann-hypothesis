@@ -5,46 +5,7 @@ public import Formalism.SharpRestriction.CuspSpanNormBounds.AbsoluteAmplitudeSec
 public import Formalism.SharpRestriction.CuspSpanNormBounds.CayleyDegreeNondegeneracy.MemSupIsotropicOfDualPairing
 import Formalism.SharpRestriction.CuspSpanNormBounds.CayleyDegreeNondegeneracy.OrthLatticeIsIntegralOfUnimodular
 import Formalism.SharpRestriction.CuspSpanNormBounds.LatticeGluingRadicals
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Topology.Sheaves.Init
 
 @[expose] public section
 
@@ -54,8 +15,6 @@ namespace Formalism.MainNotions.BridgeLemma₂
 
 open NumberField Module Formalism.BasicNotions Formalism.MainNotions Formalism.MainNotions.S Formalism.MainNotions.S.Lat Formalism.MainNotions.S.Cnt Formalism.MainNotions.LatticeGluingRadicals
 open scoped nonZeroDivisors
-
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 
 section Lat
 
@@ -68,47 +27,44 @@ variable {D : D7} {u : D.what₂.Word} (F0 : FlagG (VS D) D.R.rS ((Tu D u : ℕ)
 theorem z_mem_orth_isotropic : F0.z ∈ orth (hS D) (Xsp (lf D F0)) := a_orth_of_frame F0.e F0.z F0.z_orth
 
 
-include hΛ hu in
-private theorem isFullLattice_of_isUnimodular : Submodule.IsFullLattice D.host.E Λ := by
-  classical
-  refine { toIsLattice := hΛ, span_eq_top := ?_ }
-  rw [eq_top_iff]
-  intro v _
-  obtain ⟨S, hSgen⟩ := hΛ.fg
-  obtain ⟨⟨d, hd⟩, hint⟩ := IsLocalization.exist_integer_multiples_of_finset
-    (nonZeroDivisors (𝓞 D.host.E)) (S.image (fun m => (hS D).hT m v))
-  have hd0 : (algebraMap (𝓞 D.host.E) D.host.E d) ≠ 0 :=
-    (IsFractionRing.injective (𝓞 D.host.E) D.host.E).ne (nonZeroDivisors.ne_zero hd)
-  have hv : d • v ∈ Λ := by
-    rw [← hu]
-    apply (i_mem_dual _ _).2
-    intro m hm
-    rw [← hSgen] at hm
-    induction hm using Submodule.span_induction with
-    | mem x hx =>
-      obtain ⟨a, ha⟩ := hint ((hS D).hT x v) (Finset.mem_image.mpr ⟨x, hx, rfl⟩)
-      apply Submodule.mem_one.2
-      refine ⟨a, ?_⟩
-      rw [← algebraMap_smul D.host.E, map_smul, smul_eq_mul]
-      exact ha
-    | zero => simp
-    | add x y hx hy ihx ihy =>
-      rw [map_add (f := _), LinearMap.add_apply]
-      exact Submodule.add_mem _ ihx ihy
-    | smul a x hx ih =>
-      have ea : a • x = (algebraMap (𝓞 D.host.E) D.host.E a) • x := (algebraMap_smul D.host.E a x).symm
-      rw [ea]
-      rw [LinearMap.map_smulₛₗ₂]
-      simp only [smul_eq_mul, starRingEnd_apply]
-      exact mul_mem_one_submodule (star_mem_one_submodule (Submodule.mem_one.2 ⟨a, rfl⟩)) ih
-  have : v = (algebraMap (𝓞 D.host.E) D.host.E d)⁻¹ • (d • v) := by
-    rw [← algebraMap_smul D.host.E d v, smul_smul, inv_mul_cancel₀ hd0, one_smul]
-  rw [this]
-  exact Submodule.smul_mem _ _ (Submodule.subset_span hv)
-
 include he hΛ hu hzΛ hprim hT in
 theorem exists_lattice_vector_inner_z_one : ∃ m ∈ Λ ⊓ toO (hS D) (orth (hS D) (Xsp (lf D F0))), (hS D).hT F0.z m = 1 := by
-  have hfull := isFullLattice_of_isUnimodular Λ hΛ hu
+  have hfull : Submodule.IsFullLattice D.host.E Λ := by
+    classical
+    refine { toIsLattice := hΛ, span_eq_top := ?_ }
+    rw [eq_top_iff]
+    intro v _
+    obtain ⟨S, hSgen⟩ := hΛ.fg
+    obtain ⟨⟨d, hd⟩, hint⟩ := IsLocalization.exist_integer_multiples_of_finset
+      (nonZeroDivisors (𝓞 D.host.E)) (S.image (fun m => (hS D).hT m v))
+    have hd0 : (algebraMap (𝓞 D.host.E) D.host.E d) ≠ 0 :=
+      (IsFractionRing.injective (𝓞 D.host.E) D.host.E).ne (nonZeroDivisors.ne_zero hd)
+    have hv : d • v ∈ Λ := by
+      rw [← hu]
+      apply (i_mem_dual _ _).2
+      intro m hm
+      rw [← hSgen] at hm
+      induction hm using Submodule.span_induction with
+      | mem x hx =>
+        obtain ⟨a, ha⟩ := hint ((hS D).hT x v) (Finset.mem_image.mpr ⟨x, hx, rfl⟩)
+        apply Submodule.mem_one.2
+        refine ⟨a, ?_⟩
+        rw [← algebraMap_smul D.host.E, map_smul, smul_eq_mul]
+        exact ha
+      | zero => simp
+      | add x y hx hy ihx ihy =>
+        rw [map_add (f := _), LinearMap.add_apply]
+        exact Submodule.add_mem _ ihx ihy
+      | smul a x hx ih =>
+        have ea : a • x = (algebraMap (𝓞 D.host.E) D.host.E a) • x := (algebraMap_smul D.host.E a x).symm
+        rw [ea]
+        rw [LinearMap.map_smulₛₗ₂]
+        simp only [smul_eq_mul, starRingEnd_apply]
+        exact mul_mem_one_submodule (star_mem_one_submodule (Submodule.mem_one.2 ⟨a, rfl⟩)) ih
+    have : v = (algebraMap (𝓞 D.host.E) D.host.E d)⁻¹ • (d • v) := by
+      rw [← algebraMap_smul D.host.E d v, smul_smul, inv_mul_cancel₀ hd0, one_smul]
+    rw [this]
+    exact Submodule.smul_mem _ _ (Submodule.subset_span hv)
   set M : LatV D := Λ ⊓ toO (hS D) (orth (hS D) (Xsp (lf D F0))) with hM
   set I : Ideal (𝓞 D.host.E) :=
     (M.map (((hS D).hT F0.z).restrictScalars (𝓞 D.host.E))).comap (Algebra.linearMap (𝓞 D.host.E) D.host.E) with hI
@@ -188,7 +144,42 @@ theorem dual_orthLattice_quotient_cyclic : ∃ w₁ ∈ Formalism.HermitianLatti
     (∀ w ∈ Formalism.HermitianLatticesTheory.dual (D.sp.X 0).hT (L0X D Λ (lf D F0)), ∃ a : 𝓞 D.host.E, w + a • w₁ ∈ L0X D Λ (lf D F0)) ∧
     ∀ a : 𝓞 D.host.E, a • w₁ ∈ L0X D Λ (lf D F0) ↔ ((Tu D u : ℕ) : 𝓞 D.host.E) ∣ a := by
   obtain ⟨m₁, hm₁, hzm⟩ := exists_lattice_vector_inner_z_one F0 he Λ hΛ hu hzΛ hprim hT
-  have hfull := isFullLattice_of_isUnimodular Λ hΛ hu
+  have hfull : Submodule.IsFullLattice D.host.E Λ := by
+    classical
+    refine { toIsLattice := hΛ, span_eq_top := ?_ }
+    rw [eq_top_iff]
+    intro v _
+    obtain ⟨S, hSgen⟩ := hΛ.fg
+    obtain ⟨⟨d, hd⟩, hint⟩ := IsLocalization.exist_integer_multiples_of_finset
+      (nonZeroDivisors (𝓞 D.host.E)) (S.image (fun m => (hS D).hT m v))
+    have hd0 : (algebraMap (𝓞 D.host.E) D.host.E d) ≠ 0 :=
+      (IsFractionRing.injective (𝓞 D.host.E) D.host.E).ne (nonZeroDivisors.ne_zero hd)
+    have hv : d • v ∈ Λ := by
+      rw [← hu]
+      apply (i_mem_dual _ _).2
+      intro m hm
+      rw [← hSgen] at hm
+      induction hm using Submodule.span_induction with
+      | mem x hx =>
+        obtain ⟨a, ha⟩ := hint ((hS D).hT x v) (Finset.mem_image.mpr ⟨x, hx, rfl⟩)
+        apply Submodule.mem_one.2
+        refine ⟨a, ?_⟩
+        rw [← algebraMap_smul D.host.E, map_smul, smul_eq_mul]
+        exact ha
+      | zero => simp
+      | add x y hx hy ihx ihy =>
+        rw [map_add (f := _), LinearMap.add_apply]
+        exact Submodule.add_mem _ ihx ihy
+      | smul a x hx ih =>
+        have ea : a • x = (algebraMap (𝓞 D.host.E) D.host.E a) • x := (algebraMap_smul D.host.E a x).symm
+        rw [ea]
+        rw [LinearMap.map_smulₛₗ₂]
+        simp only [smul_eq_mul, starRingEnd_apply]
+        exact mul_mem_one_submodule (star_mem_one_submodule (Submodule.mem_one.2 ⟨a, rfl⟩)) ih
+    have : v = (algebraMap (𝓞 D.host.E) D.host.E d)⁻¹ • (d • v) := by
+      rw [← algebraMap_smul D.host.E d v, smul_smul, inv_mul_cancel₀ hd0, one_smul]
+    rw [this]
+    exact Submodule.smul_mem _ _ (Submodule.subset_span hv)
   let t : D.host.E := (Tu D u : ℕ)
   have hTE : t ≠ 0 := Nat.cast_ne_zero.2 hT
   set B : LatV D := Λ ⊔ toO (hS D) (Xsp (lf D F0)) with hB

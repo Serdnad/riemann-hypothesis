@@ -7,8 +7,6 @@ public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.TaylorDiscrim
 
 @[expose] public section
 
-set_option autoImplicit false
-
 noncomputable section
 
 open MvPowerSeries ReciprocityTheory.ChartRestriction.G.Geo.Tor.Germ
@@ -172,7 +170,7 @@ theorem action_linear : ActLinSt := by
     rw [h1, Finset.sum_eq_single j0]
     · simp
     · intro j _ hj
-      rw [if_neg, mul_zero]
+      rw [ite_eq_right, mul_zero]
       intro h
       apply hj
       have h2 := (Finsupp.single_left_inj (one_ne_zero : (1 : ℕ) ≠ 0)).mp h
@@ -183,7 +181,7 @@ theorem action_linear : ActLinSt := by
     symm
     apply Finset.sum_eq_zero
     intro j _
-    rw [if_neg, mul_zero]
+    rw [ite_eq_right, mul_zero]
     rintro rfl
     exact hn (Finsupp.degree_single _ _)
 

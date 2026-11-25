@@ -1,51 +1,11 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.CharacterTheory.ImportsAlt
 public import Development.AutomorphicArithmetic.Foundations.LocalLanglands.RecTTransport
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.CharpolyDualTamePart
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.RootsCharpolySmulMatrix
 public import Formalism.LocalToGlobal.NormalizedHeckeFactors.ValLeOneOfIsIntegral
-import Mathlib.Algebra.Module.StablyFree.Basic
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
 public import Mathlib.LinearAlgebra.Matrix.Charpoly.Eigs
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.TypeStar
-import Mathlib.Topology.Sheaves.Init
 
 @[expose] public section
 
@@ -62,8 +22,23 @@ variable {G V V' : Type*} [Group G] [AddCommGroup V] [Module ℂ V] [AddCommGrou
 private theorem irr_iff (ρ : Representation ℂ G V) :
     ρ.IsIrreducible ↔ Nontrivial V ∧
       ∀ S : Submodule ℂ V, (∀ g, ∀ v ∈ S, ρ g v ∈ S) → S = ⊥ ∨ S = ⊤ := by
-  intros
-  apply _root_.GlobalTheory.UnimodularLatticeExistence.main <;> assumption
+  constructor
+  · intro hρ
+    refine ⟨?_, fun S hS => ?_⟩
+    · obtain ⟨x, y, hxy⟩ := hρ.toNontrivial.exists_pair_ne
+      by_contra hV
+      rw [not_nontrivial_iff_subsingleton] at hV
+      exact hxy (Subrepresentation.toSubmodule_injective (Subsingleton.elim _ _))
+    · rcases hρ.eq_bot_or_eq_top ⟨S, fun g v hv => hS g v hv⟩ with h | h
+      · exact Or.inl (congrArg Subrepresentation.toSubmodule h)
+      · exact Or.inr (congrArg Subrepresentation.toSubmodule h)
+  · rintro ⟨hV, H⟩
+    have hne : (⊥ : Subrepresentation ρ) ≠ ⊤ := fun h =>
+      bot_ne_top (α := Submodule ℂ V) (congrArg Subrepresentation.toSubmodule h)
+    refine { exists_pair_ne := ⟨⊥, ⊤, hne⟩, eq_bot_or_eq_top := fun S => ?_ }
+    rcases H S.toSubmodule (fun g v hv => S.apply_mem_toSubmodule g hv) with h | h
+    · exact Or.inl (Subrepresentation.toSubmodule_injective h)
+    · exact Or.inr (Subrepresentation.toSubmodule_injective h)
 
 private theorem irr_of_equiv {ρ : Representation ℂ G V} {ρ' : Representation ℂ G V'} (e : V ≃ₗ[ℂ] V')
     (he : ∀ g v, e (ρ g v) = ρ' g (e v)) (hρ : ρ.IsIrreducible) : ρ'.IsIrreducible := by

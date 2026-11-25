@@ -82,7 +82,7 @@ private theorem cont_sub {Γ S C : Type} [TopologicalSpace Γ] [CommRing S] [IsN
   have hf : f = (fun x => if hx : ∃ g, φ g = x then f hx.choose else 0) ∘ φ := by
     funext g
     have hx : ∃ g', φ g' = φ g := ⟨g, rfl⟩
-    simp only [Function.comp_apply, dif_pos hx]
+    simp only [Function.comp_apply, dite_eq_left hx]
     exact key _ _ hx.choose_spec.symm
   change IsLocallyConstant f
   rw [hf]
@@ -99,8 +99,7 @@ private theorem two_zero {K : Type} [Field K] {x y s t : K} (h : s ≠ t) (h1 : 
 
 private theorem or_zero {G K : Type} [Field K] {a b : G → K} (h : ∀ g g', a g * b g' = 0) :
     (∀ g, a g = 0) ∨ ∀ g, b g = 0 := by
-  by_contra hc
-  push_neg at hc
+  by_contra! hc
   obtain ⟨⟨g, hg⟩, ⟨g', hg'⟩⟩ := hc
   exact mul_ne_zero hg hg' (h g g')
 
@@ -269,7 +268,7 @@ private theorem cyc_mem {l : ℕ} [Fact l.Prime] {k : Type} [Field k] [CharP k l
       simp only [Function.comp_apply]
       rw [← hr]
       exact ht _ _ _ hlt
-    · push_neg at hex
+    · push Not at hex
       exfalso
       obtain ⟨s, hs, hne⟩ := h1
       exact hne (wsum hn L hex h0 s hs)
@@ -279,7 +278,7 @@ private theorem cyc_mem {l : ℕ} [Fact l.Prime] {k : Type} [Field k] [CharP k l
       simp only [Function.comp_apply]
       rw [← hr]
       exact ht _ _ _ hlt
-    · push_neg at hex
+    · push Not at hex
       exfalso
       obtain ⟨s, hs, hne⟩ := h1
       have hL' : ∀ t ∈ L.map (fun s => (s.1, s.2.2, s.2.1)), t.2.1 ≤ t.2.2 := by
@@ -290,12 +289,7 @@ private theorem cyc_mem {l : ℕ} [Fact l.Prime] {k : Type} [Field k] [CharP k l
         have e : ((L.map (fun s => (s.1, s.2.2, s.2.1))).map fun s => w n s.2.1 - w n s.2.2) =
             (L.map fun s => w n s.2.1 - w n s.2.2).map Neg.neg := by
           simp [List.map_map, Function.comp_def]
-        have hneg : ∀ m : List ℤ, (m.map Neg.neg).sum = -m.sum := by
-          intro m
-          induction m with
-          | nil => simp
-          | cons a m ih => simp only [List.map_cons, List.sum_cons, ih]; ring
-        rw [e, hneg, h0, neg_zero]
+        rw [e, ← List.sum_neg, h0, neg_zero]
       exact hne (wsum hn _ hL' h0' (s.1, s.2.2, s.2.1) (List.mem_map.2 ⟨s, hs, rfl⟩)).symm
 
 private theorem lc_lemma {X A B : Type} [TopologicalSpace X] (φ : X → A) (g : X → B)

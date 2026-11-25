@@ -5,44 +5,6 @@ public import Formalism.SharpRestriction.GlobalSchurBounds.TopDensityNGeSixteen
 public import Formalism.SharpRestriction.GlobalSchurBounds.JointsF
 import Formalism.LocalRingCardinality.Lemmas
 import Formalism.SharpRestriction.RamificationFrobenius.TotientGaloisClasses.HostFacts
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Topology.Sheaves.Init
 import Formalism.SharpRestriction.GlobalSchurBounds.FrameCodeOfAdditive
 
 @[expose] public section
@@ -125,11 +87,11 @@ theorem exists_free_prime (D : D7) (u : D.what₂.Word) :
   by_cases hT : (D.mem u).A.T = 2
   · refine ⟨D.host.q, D.host.hyp.1, by rw [hT]; exact hq2, ?_⟩
     unfold DV.InertK Host.cls primeClass
-    rw [if_neg D.host.q_notMem_small, if_pos rfl]
+    rw [ite_eq_right D.host.q_notMem_small, ite_eq_left rfl]
     simp
   · refine ⟨2, Nat.prime_two, fun h => hT h.symm, ?_⟩
     unfold DV.InertK Host.cls primeClass
-    rw [if_pos D.host.two_mem_small]
+    rw [ite_eq_left D.host.two_mem_small]
     simp
 
 theorem nuCommens_of {D : D7} {L : SizeData₂ D} (hNu : DV.NuDef D L) (hT : NuAtT D L) : NuCommens D L := by
@@ -164,8 +126,4 @@ end Formalism.MainNotions.Lnk
 end
 
 end Commens
-
-namespace Formalism.MainNotions
-
-end Formalism.MainNotions
 

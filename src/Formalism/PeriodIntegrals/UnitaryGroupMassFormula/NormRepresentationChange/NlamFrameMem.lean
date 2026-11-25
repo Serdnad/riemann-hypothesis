@@ -1,44 +1,6 @@
 module
 
-import Formalism.LocalToGlobal.SiegelLatticeTheory.ClosedLocalOrbits.GaugeLatticeShifts.StabilizerIndexVolumes.VolumeIndexBStable
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.NormRepresentationChange.Development
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Topology.Sheaves.Init
 import Formalism.LocalToGlobal.SiegelLatticeTheory.ClosedLocalOrbits.TermDef
 
 @[expose] public section
@@ -85,7 +47,15 @@ theorem Xa_le_X (F : FlagG S r T) (j : ℕ) : F.Xa j ≤ F.X :=
   Submodule.span_mono (Set.image_subset_range _ _)
 
 theorem z_mem_orth (F : FlagG S r T) : F.z ∈ orth S F.X := by
-  apply _root_.Formalism.L2.SG.Pf.StabilizerIndexVolumes.z_mem_orth <;> assumption
+  simp only [orth, Submodule.mem_iInf, LinearMap.mem_ker]
+  intro x (hx : x ∈ Submodule.span E (Set.range F.e))
+  induction hx using Submodule.span_induction with
+  | mem x h =>
+    obtain ⟨a, rfl⟩ := h
+    exact F.z_orth a
+  | zero => simp
+  | add x w _ _ hx hw => simp [hx, hw]
+  | smul c x _ hx => simp [hx]
 
 theorem frame_castSucc (G : LFlag S r T) (i : Fin r) : frame G i.castSucc = G.fl.e i := by
   simp only [frame, FlagG.fvec, Fin.snoc_castSucc]
@@ -99,8 +69,6 @@ theorem nlam_frame_mem {Λ : Submodule (𝓞 E) S.V} (G : LFlag S r T) {n : S.V 
   exact ⟨fun i => h1 i.val _ (e_mem_Xa G.fl i), h2 _ (z_mem_orth G.fl)⟩
 
 end Gen
-
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 
 theorem stepExp (D : D7) : StepExp D := by
   unfold StepExp
@@ -135,9 +103,9 @@ theorem stepExp (D : D7) : StepExp D := by
     simp only [fmat, h0, add_zero]
   refine ⟨fun i j => ⟨fun hji => ?_, fun hij => ?_⟩, fun b => ?_⟩
   · have hv := Fin.lt_iff_val_lt_val.1 hji
-    rw [hfm i j (by omega), if_neg (ne_of_gt hji)]
+    rw [hfm i j (by omega), ite_eq_right (ne_of_gt hji)]
   · subst hij
-    rw [hfm i i le_rfl, if_pos rfl]
+    rw [hfm i i le_rfl, ite_eq_left rfl]
   · have hsum := coefX_sum G.fl (hX b)
     have h1 : ∀ i : Fin D.R.rS, fmat D G n i.castSucc b • frame G i.castSucc =
         (if i.castSucc = b then (1 : D.host.E) else 0) • frame G i.castSucc +

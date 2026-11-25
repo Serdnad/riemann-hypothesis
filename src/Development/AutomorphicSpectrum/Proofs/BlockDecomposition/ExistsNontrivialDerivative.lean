@@ -11,62 +11,13 @@ public import Development.WeilBound.CoreStatements.TemperedRepresentationTheory.
 public import Development.WeilBound.CoreStatements.TemperedRepresentationTheory.MirabolicDerivatives.UnipotentDerivatives.DerUnipLeUnipB
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.MirabolicTwistedKernelDerivativeZero
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.TwistedJacquetPhiMinusEquiv
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Henselian
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.RingTheory.RegularLocalRing.Defs
-import Mathlib.RingTheory.SimpleRing.Principal
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.TypeStar
-import Mathlib.Topology.Sheaves.Init
 import Development.AbelianVarietyTheory.Definitions.Foundations.SmoothPartStable
 import GroundTheory.LocalFields.Interface
-import Mathlib.Analysis.CStarAlgebra.Classes
 import Mathlib.Tactic.Linter.HaveILetI
 import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.NonemptyEquivOfRangeEq
 import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.LeviEmbMemNormalizerLower
 import GroundTheory.LocalFields.PadicLogSeries
-import Mathlib.Topology.Algebra.Group.Units
-import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.MirabolicFourierExpansion
-import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.SmoothPhiMinus
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ExistsInvertibleMatrixLastLineGiven, Development.AutomorphicSpectrum.Proofs.BlockDecomposition.MirabolicRestrictionUnipotentSmooth, Development.AutomorphicSpectrum.Proofs.BlockDecomposition.SmoothVectorFixedBySmallBox, Development.AutomorphicSpectrum.Proofs.BlockDecomposition.TwistedInvariantSmallBoxes, Development.AutomorphicSpectrum.Proofs.BlockDecomposition.TwistedKernelOfSmallBoxCharacter, Development.AutomorphicSpectrum.Proofs.BlockDecomposition.UniformTwistedInvarianceOnBall, Development.AutomorphicSpectrum.Proofs.BlockDecomposition.SmoothMirabolicKernelEqZero, Development.AutomorphicSpectrum.Proofs.BlockDecomposition.TwistedActionSmooth, Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ExistsNontrivialDerivative
@@ -80,17 +31,12 @@ open GlobalTheory.PRep GlobalTheory.BZMir GroundTheory.LocalField Matrix GlobalT
 
 namespace GlobalTheory.CompanionTheory.MirFourier
 
-private theorem det_updateRow_one' {n R : Type*} [DecidableEq n] [Fintype n] [CommRing R]
-    (r : n) (b : n → R) : (updateRow (1 : Matrix n n R) r b).det = b r := by
-  rw [← det_transpose, ← updateCol_transpose, transpose_one, ← cramer_apply, cramer_one]
-  rfl
-
 theorem exists_GL_lastRow_eq (k : Type) [Field k] (m : ℕ) (a : Fin (m + 1) → k) (ha : a ≠ 0) :
     ∃ g : GL (Fin (m + 1)) k, ∀ j, (g : Matrix (Fin (m + 1)) (Fin (m + 1)) k) (Fin.last m) j = a j := by
   obtain ⟨i, hi⟩ := Function.ne_iff.mp ha
   have hN : (updateRow (1 : Matrix (Fin (m + 1)) (Fin (m + 1)) k) (Fin.last m)
       (a ∘ Equiv.swap i (Fin.last m))).det ≠ 0 := by
-    rw [det_updateRow_one']
+    rw [← cramer_transpose_apply, transpose_one, cramer_one, one_apply_eq_self]
     simpa using hi
   have hM : ((updateRow (1 : Matrix (Fin (m + 1)) (Fin (m + 1)) k) (Fin.last m)
       (a ∘ Equiv.swap i (Fin.last m))).submatrix id (Equiv.swap i (Fin.last m))).det ≠ 0 := by
@@ -122,7 +68,16 @@ variable {k : Type} [Field k] [ValuativeRel k] [TopologicalSpace k] [IsNonarchim
 
 theorem continuous_colMat_toAdd (n : ℕ) :
     Continuous fun x : Multiplicative (Fin n → k) => colMat k n x.toAdd := by
-  apply _root_.GlobalTheory.CompanionTheory.MirFourier.continuous_colMat <;> assumption
+  refine continuous_pi fun i => continuous_pi fun j => ?_
+  by_cases hj : j = Fin.last n
+  · subst hj
+    induction i using Fin.lastCases with
+    | last => simpa [colMat] using continuous_const
+    | cast i =>
+      have h : Continuous fun a : Multiplicative (Fin n → k) => Multiplicative.toAdd a i :=
+        (continuous_apply i).comp continuous_toAdd
+      simpa [colMat] using h
+  · simpa [colMat, hj] using continuous_const
 
 theorem continuous_unipMir (n : ℕ) : Continuous (unipMir k n) := by
   refine Continuous.subtype_mk (Units.continuous_iff.2 ⟨?_, ?_⟩) _
@@ -379,15 +334,14 @@ theorem exists_chi_ne_one (hψ : Continuous ψ) (hψ1 : ψ ≠ 1) {n : ℕ} {N :
     ∃ l ∈ box k n (addCharConductor ψ - N), chi k ψ (Multiplicative.toAdd l) x ≠ 1 := by
   classical
   have hx' : ∃ i, x.toAdd i ∉ valBall k N := by
-    by_contra hcon
-    push_neg at hcon
+    by_contra! hcon
     exact hx hcon
   obtain ⟨i, hi⟩ := hx'
   have hnt : ¬ IsTrivialOn (ψ.mulShift (x.toAdd i)) (addCharConductor ψ - N) := by
     rw [isTrivialOn_mulShift_iff_mem hψ hψ1, sub_sub_cancel]
     exact hi
   unfold IsTrivialOn at hnt
-  push_neg at hnt
+  push Not at hnt
   obtain ⟨y, hy, hψy⟩ := hnt
   refine ⟨Multiplicative.ofAdd (Pi.single i y : Fin n → k), ?_, ?_⟩
   · show ∀ j, (Multiplicative.toAdd (Multiplicative.ofAdd (Pi.single i y : Fin n → k))) j ∈
@@ -616,8 +570,16 @@ theorem twAct_isSmooth {G M V : Type} [Group G] [TopologicalSpace G] [IsTopologi
     (hsc : Continuous s)
     (hs : ∀ (m : M) (n : N), ∃ h : s m * (n : G) * (s m)⁻¹ ∈ N, θ ⟨_, h⟩ = θ n) :
     IsSmooth (twAct ρ N θ s hs) := by
-  intros
-  apply _root_.GlobalTheory.CompanionTheory.BZMirSmooth.isSmooth_twAct <;> assumption
+  intro x
+  obtain ⟨v, rfl⟩ := Submodule.Quotient.mk_surjective _ x
+  have hle : ((stabSub ρ v).comap s) ≤ stabSub (twAct ρ N θ s hs) (Submodule.Quotient.mk v) := by
+    intro m hm
+    change ρ (s m) v = v at hm
+    change (twAct ρ N θ s hs) m (Submodule.Quotient.mk v) = Submodule.Quotient.mk v
+    exact congrArg (Submodule.Quotient.mk (p := twKer ρ N θ)) hm
+  have hop : IsOpen (((stabSub ρ v).comap s : Subgroup M) : Set M) :=
+    (hρ v).preimage hsc
+  exact Subgroup.isOpen_mono hle hop
 
 end GlobalTheory.CompanionTheory.BZMir
 end -- clump:auto
@@ -672,7 +634,14 @@ section Top
 variable {k : Type} [Field k] [ValuativeRel k] [TopologicalSpace k] [IsNonarchimedeanLocalField k]
 
 theorem continuous_glEmb (n : ℕ) : Continuous (glEmb k n) := by
-  apply _root_.GlobalTheory.CompanionTheory.BZMirSmooth.continuous_glEmb <;> assumption
+  apply Continuous.units_map
+  show Continuous (glEmbMat k n)
+  refine continuous_pi fun i => continuous_pi fun j => ?_
+  induction i using Fin.lastCases with
+  | last => induction j using Fin.lastCases <;> simp [glEmbMat] <;>
+      first | exact continuous_const
+  | cast i => induction j using Fin.lastCases <;> simp [glEmbMat] <;>
+      first | exact continuous_const | exact (continuous_apply _).comp (continuous_apply _)
 
 theorem continuous_levi_comp_subtype (m : ℕ) : Continuous ((levi k (m + 1)).comp (Mir k m).subtype) :=
   continuous_induced_rng.2 ((continuous_glEmb (m + 1)).comp continuous_subtype_val)
@@ -698,8 +667,7 @@ theorem exists_derivative_nontrivial (k : Type) [Field k] [ValuativeRel k] [Topo
     by_cases h1 : v ∈ twKer τ (MirUin k (m + 1)) 1
     · have hex : ∃ g : GL (Fin (m + 1)) k,
           τ (levi k (m + 1) g) v ∉ twKer τ (MirUin k (m + 1)) (mirChar k ψ m) := by
-        by_contra hcon
-        push_neg at hcon
+        by_contra! hcon
         exact hv (_root_.GlobalTheory.CompanionTheory.MirFourier.eq_zero_of_forall_twKer k ψ hψc hψ m V τ hτ v h1 hcon)
       obtain ⟨g, hg⟩ := hex
       haveI := nontrivial_quot_of_not_mem _ _ hg

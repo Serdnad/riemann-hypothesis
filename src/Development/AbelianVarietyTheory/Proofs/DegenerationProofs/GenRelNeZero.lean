@@ -70,7 +70,6 @@ import Mathlib.Tactic.Basify
 import Mathlib.Tactic.Linter.Style
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.OneArc
 import Std.Tactic.BVDecide.Normalize.Prop
-import Development.AbelianVarietyTheory.Counterexamples.ModuliSurvey.MemOfPowEqInt
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.ExistsEqNsmulOfForallAddChar, Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.ExistsIsoPullCancel, Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.ExistsPowEqOneOfPosDefForm, Development.AbelianVarietyTheory.Proofs.DegenerationProofs.GenRelNeZero
@@ -240,7 +239,7 @@ theorem fix_torsion_of_fix_conj_rel (bar : O ≃+* O) (I : Ideal O) (hsup : I �
   let e : G → G → A := fun x y => if h : ∃ c, R x y c then h.choose else 1
   have he : ∀ x y, x ^ M = 1 → y ^ M = 1 → R x y (e x y) := fun x y hx hy => by
     have h : ∃ c, R x y c := (R_ex x y hx hy).exists
-    simp only [e, dif_pos h]
+    simp only [e, dite_eq_left h]
     exact h.choose_spec
   have hu : ∀ x y c, x ^ M = 1 → y ^ M = 1 → R x y c → e x y = c := fun x y c hx hy h =>
     (R_ex x y hx hy).unique (he x y hx hy) h
@@ -359,7 +358,6 @@ section -- clump:auto
 open CategoryTheory CategoryTheory.Limits MonoidalCategory CartesianMonoidalCategory MonObj AlgebraicGeometry NumberField
 open ReciprocityTheory.ChartRestriction.G ReciprocityTheory.ChartRestriction.G.Semi ReciprocityTheory.ChartRestriction.G.Out ReciprocityTheory.ChartRestriction.G.Geo.Tor
 open scoped CategoryTheory.Obj
-attribute [local instance] Over.cartesianMonoidalCategory
 open GlobalTheory.LN
 
 noncomputable section
@@ -584,7 +582,16 @@ variable {E : Type} [Field E] [NumberField E] [IsCMField E] {H : Host E} {D : Da
 
 theorem exists_rt_zeta (c : Coeff l) (W : ValuationSubring ℂ) :
     ∃ r z : c.V W, (((c.V W).subtype r : c.F) : ℂ) = H.rt0 ∧ (((c.V W).subtype z : c.F) : ℂ) = zeta l.A := by
-  apply _root_.GlobalTheory.ArcInTest.exists_values <;> assumption
+  have h₁ : H.rt0 ∈ KA l := IntermediateField.subset_adjoin _ _ (by simp)
+  have h₂ : zeta l.A ∈ KA l := IntermediateField.subset_adjoin _ _ (by simp)
+  have key : ∀ (x : ℂ) (n : ℕ), 0 < n → x ^ n ∈ W → x ∈ W := fun x n hn hx => by
+    rw [← W.valuation_le_one_iff] at hx ⊢
+    rw [map_pow] at hx
+    exact (pow_le_one_iff hn.ne').1 hx
+  have m₁ : H.rt0 ∈ W := key _ 2 two_pos (by rw [H.sqrt_neg_disc_sq]; exact neg_mem (natCast_mem W _))
+  have m₂ : zeta l.A ∈ W := key _ l.A l.A_pos (by
+    rw [show zeta l.A ^ l.A = 1 from (Complex.isPrimitiveRoot_exp l.A l.A_pos.ne').pow_eq_one]; exact one_mem W)
+  exact ⟨⟨⟨_, c.le h₁⟩, m₁⟩, ⟨⟨_, c.le h₂⟩, m₂⟩, rfl, rfl⟩
 
 variable {O : Type} [CommRing O] {β : O →+* c.F} {O' : Type} [CommRing O'] [IsDomain O'] {b : O →+* O'}
   {a : ArcIn D l β O' b} {R : Type} [CommRing R] [IsDomain R] {f : O' →+* R} {u : R}

@@ -1,10 +1,9 @@
 module
 
-
-import Development.AbelianVarietyTheory.Definitions.Divisors.LeastSplitAuxiliaryPrimeThetaChainSpec
 public import Formalism.LocalToGlobal.UnitaryNorms.RealCyclotomicTwoPower
 public import Formalism.SharpRestriction.Divisibility.AbsolutelyIrreducibleSpan
 public import Formalism.LocalRingCardinality.SpanPowerMembership.PlacesOverNcardOfSplitInj
+
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Formalism.LocalToGlobal.UnitaryNorms.ArtGCut, Formalism.LocalToGlobal.UnitaryNorms.LeastSplitAuxiliaryPrimeThetaChainSpec
 
@@ -90,9 +89,6 @@ theorem split_prime_mod_divisor_eq_one {m : ℕ} (hm : m ∣ AbsolutelyIrreducib
 
 theorem q0_mod_eq_one_of_dvd_condE {m : ℕ} (hm : m ∣ LevelStarExponents.condE D) (h2 : 2 ≤ m) : AbsolutelyIrreducibleSpan.q0 D % m = 1 := by
   exact split_prime_mod_divisor_eq_one D (Dvd.dvd.mul_left hm _) h2
-
-theorem leastSplitAuxiliaryPrime_ne_typePrimes : AbsolutelyIrreducibleSpan.q0 D ≠ D.host.pde ∧ AbsolutelyIrreducibleSpan.q0 D ≠ D.host.pde' := by
-  apply _root_.GlobalTheory.ChiGrid.leastSplitAuxiliaryPrime_ne_typePrimes <;> assumption
 
 theorem q0_ne_two_and_ne_q_and_ne_d : AbsolutelyIrreducibleSpan.q0 D ≠ 2 ∧ AbsolutelyIrreducibleSpan.q0 D ≠ D.host.q ∧ AbsolutelyIrreducibleSpan.q0 D ≠ D.host.d := by
   have hb := D.host.qd_big

@@ -49,7 +49,6 @@ import Mathlib.Topology.Sheaves.Init
 import Development.AbelianVarietyTheory.BlockTheory.TorsionBlocks.SelmerCrystallineCocycles
 import Formalism.ConjugateSelfDual.Statement
 import Formalism.SharpRestriction.LevelLetterCocycles.BlochKatoPhases
-import Development.AutomorphicArithmetic.AutomorphicVarieties.IntegralityNearIdentity.IsIntegralOfNormLe
 
 @[expose] public section
 
@@ -62,7 +61,14 @@ section Local
 variable {l : ℕ} [Fact l.Prime]
 
 theorem isIntegral_of_norm_le_one (x : PadicAlgCl l) (h : ‖x‖ ≤ 1) : IsIntegral ℤ_[l] x := by
-  apply _root_.UpperTheory.Reformulated.B.S4.isIntegral_of_norm_le <;> assumption
+  have hx : IsIntegral ℚ_[l] x := Algebra.IsIntegral.isIntegral x
+  rw [← PadicAlgCl.spectralNorm_eq, spectralNorm, spectralValue_le_one_iff (minpoly.monic hx)] at h
+  have hl : minpoly ℚ_[l] x ∈ Polynomial.lifts (algebraMap ℤ_[l] ℚ_[l]) := by
+    rw [Polynomial.lifts_iff_coeff_lifts]
+    exact fun n => ⟨⟨_, h n⟩, rfl⟩
+  obtain ⟨q, hq, -, hqm⟩ := Polynomial.lifts_and_degree_eq_and_monic hl (minpoly.monic hx)
+  refine ⟨q, hqm, ?_⟩
+  rw [← Polynomial.aeval_def, ← Polynomial.aeval_map_algebraMap ℚ_[l], hq, minpoly.aeval]
 
 theorem mem_OL_of_norm_le_one (K : Loc.FinExt l) (x : K.1) (h : ‖(x : PadicAlgCl l)‖ ≤ 1) :
     x ∈ Loc.OL K :=
@@ -100,9 +106,6 @@ theorem exists_pow_mul_mem_OL {X : Type} [TopologicalSpace X] [CompactSpace X] (
 variable {E Ω : Type} [Field E] [Field Ω] [Algebra E Ω]
   {Gw : Subgroup (Ω ≃ₐ[E] Ω)} {O₀ : Type} [CommRing O₀] [Algebra ℤ_[l] O₀] [TopologicalSpace O₀]
   (Bw : LocBridge l E Ω Gw O₀) (P : LocPrime l) {m : ℕ}
-
-theorem toLL_injective : Function.Injective Bw.toLL :=
-  Subtype.val_injective.comp Bw.eO.injective
 
 end Local
 

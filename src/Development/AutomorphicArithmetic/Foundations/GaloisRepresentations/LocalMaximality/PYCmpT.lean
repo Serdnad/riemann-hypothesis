@@ -1,62 +1,12 @@
 module
 
-import all Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.LocalMaximality.DeltaConst
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.LocalMaximality.ResidueOfTraceIsFiberSum
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Henselian
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.RingTheory.RegularLocalRing.Defs
-import Mathlib.RingTheory.SimpleRing.Principal
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.Lemma
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
 
 @[expose] public section
 
 open KaehlerDifferential GlobalTheory.CechDR GlobalTheory.PD GlobalTheory.WH GlobalTheory.W1 UpperTheory.Gal.productCup_of_system
 open scoped TensorProduct
-
-set_option autoImplicit false
 
 namespace UpperTheory.Gal.productCup_of_system
 
@@ -69,7 +19,7 @@ private lemma pk_single {d : ℕ} (i : Fin (d + 1)) : pk ({i} : Finset (Fin (d +
   simp [pk]
 
 private lemma pk_mem' {d : ℕ} {I : Finset (Fin (d + 1))} (h : I.Nonempty) : pk I ∈ I := by
-  simp only [pk, dif_pos h]
+  simp only [pk, dite_eq_left h]
   exact Finset.min'_mem _ _
 
 private lemma r_eq (i j : Fin (d + 1)) (l : Fin d) :
@@ -115,7 +65,17 @@ private lemma omB_mono' {L : Type} [Field L] [Algebra ℂ L] {B B' : Subalgebra 
 
 private lemma omB_smul' {L : Type} [Field L] [Algebra ℂ L] {B : Subalgebra ℂ L} {q : ℕ} {a : L} (ha : a ∈ B)
     {y : DR ℂ L} (hy : y ∈ omB ℂ L B q) : a • y ∈ omB ℂ L B q := by
-  apply _root_.UpperTheory.Gal.productCup_of_system.omB_smul' <;> assumption
+  induction hy using Submodule.span_induction with
+  | mem y hy =>
+    obtain ⟨b, hb, v, hv, rfl⟩ := hy
+    exact Submodule.subset_span ⟨a * b, mul_mem ha hb, v, hv, by rw [smul_smul]⟩
+  | zero => simp
+  | add _ _ _ _ h1 h2 =>
+    rw [smul_add]
+    exact add_mem h1 h2
+  | smul c y _ h1 =>
+    rw [smul_comm]
+    exact Submodule.smul_mem _ c h1
 
 private lemma off_col (hKE : YKE) (hPt : PtT) (hRS : RS) (h0 : Y0 x j2) (hg : (sysY x j2 d).Good)
     {i j : Fin (d + 1)} (hi : i ≠ 0) :

@@ -7,9 +7,9 @@ public import ReciprocityTheory.L2DbarEstimates.WeakHolomorphy.HoloContDiffState
 public import Mathlib.Analysis.Convolution
 public import Mathlib.Analysis.Calculus.ContDiff.Convolution
 import Mathlib.Algebra.Order.Star.Real
+import ReciprocityTheory.L2DbarEstimates.WeakHolomorphy.RegBall
 import Mathlib.RingTheory.SimpleRing.Principal
 import Mathlib.Order.CompletePartialOrder
-import ReciprocityTheory.L2DbarEstimates.WeakHolomorphy.RegBall
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: ReciprocityTheory.L2DbarEstimates.WeakHolomorphy.IntegralMollProfBall, ReciprocityTheory.L2DbarEstimates.WeakHolomorphy.MollifyEqConvolution
@@ -33,8 +33,8 @@ theorem moll_eq_zero_of_lt {n : ℕ} {t : ℝ} (ht : 0 < t) {z : V n} (hz : t / 
   simp only [moll, mollProf, bumpProf, Real.smoothTransition.zero_of_nonpos h1, mul_zero]
 
 theorem holo_eq_mollify {n : ℕ} {f : V n → ℂ} {x : V n} {t : ℝ} (ht : 0 < t)
-    (hf : DifferentiableOn ℂ f (closedBall x t)) : mollify n t f x = f x := by
-  exact _root_.ReciprocityTheory.L2DbarEstimates.C.moll_mean ht (hf.mono ball_subset_closedBall)
+    (hf : DifferentiableOn ℂ f (closedBall x t)) : mollify n t f x = f x :=
+  moll_mean ht (hf.mono ball_subset_closedBall)
 
 end ReciprocityTheory.L2DbarEstimates.C
 end -- clump:auto

@@ -53,8 +53,6 @@ open MeasureTheory NumberField Matrix Finset Formalism.MainNotions.S GlobalTheor
 
 namespace GlobalTheory.FlagMeas.LProd
 
-
-
 theorem tsum_le (M : ℕ) (hM : 3 ≤ M) :
     (∑' n : ℕ, 1 / ((n : ℝ) + 1) ^ M) ≤ 1 + 2 / 2 ^ M := by
   apply Formalism.FourierDecayAlt.P.Sz2.zeta_sub_one_le <;> assumption

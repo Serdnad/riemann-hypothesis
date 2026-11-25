@@ -48,8 +48,6 @@ import Std.Tactic.BVDecide.Normalize.Prop
 
 @[expose] public section
 
-set_option autoImplicit false
-
 noncomputable section
 
 open DividedPowers GlobalTheory.Cris GlobalTheory.PDA PowerSeries
@@ -66,7 +64,6 @@ theorem isExpType_one : IsExpType (1 : PowerSeries B) := by
   rcases Nat.eq_zero_or_pos m with rfl | hm
   · simp
   · have h1 : m ≠ 0 := hm.ne'
-    have h2 : m + n ≠ 0 := by omega
     simp [coeff_one, h1]
 
 theorem isExpType_mul {f g : PowerSeries B} (hf : IsExpType f) (hg : IsExpType g) :

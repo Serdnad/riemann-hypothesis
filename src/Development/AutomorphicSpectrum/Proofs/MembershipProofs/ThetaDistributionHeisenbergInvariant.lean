@@ -1,60 +1,11 @@
 module
 
-import Development.AutomorphicSpectrum.Proofs.MembershipProofs.ThetaDistributionNonzeroAdmissible
 public import GroundTheory.GlobalFields.TateThesis.AdelicCharLocal
 public import Mathlib.Analysis.CStarAlgebra.Classes
 public import Mathlib.NumberTheory.NumberField.AdeleRing
 public import GroundTheory.GlobalFields.TateThesis.AdelicCharDual
 public import GroundTheory.GlobalFields.TateThesis.RootNumberLocalPlace
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Topology.Sheaves.Init
-import Mathlib.Algebra.Order.Star.Real
-import Mathlib.Tactic.Lemma
-import Mathlib.Tactic.TypeStar
-import Mathlib.Algebra.Order.Star.Int
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
 import Mathlib.Tactic.Linter.HaveILetI
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
 import Development.AbelianVarietyTheory.Definitions.Divisors.HilbertNinetyQuotientHomEqIff
 
 -- This file was produced by scripts/clump.py from the modules listed below.
@@ -66,7 +17,7 @@ section -- clump:auto
 @[expose] public section
 
 theorem UpperTheory.Reformulated.B.Rd3.exists_infiniteAdelicChar_ne_one :
-    ∀ {F : Type} [inst : Field F] [inst_1 : NumberField F]
+    ∀ {F : Type} [Field F] [NumberField F]
     (w : NumberField.InfinitePlace F),
     ∃ (z : w.Completion),
       (GroundTheory.Global.infiniteAdelicChar F w : w.Completion → Circle) z ≠
@@ -142,7 +93,7 @@ private lemma UpperTheory.Reformulated.B.AdelicCharacterNormOne.eq_one_of_tendst
       ((tendsto_pow_atTop_atTop_of_one_lt hgt).comp hf) 1)
 
 theorem UpperTheory.Reformulated.B.AdelicCharacterNormOne.norm_eq_one :
-    ∀ {F : Type} [inst : Field F] [inst_1 : NumberField F]
+    ∀ {F : Type} [Field F] [NumberField F]
     (ψ : AddChar (NumberField.AdeleRing (NumberField.RingOfIntegers F) F) ℂ),
     Continuous (⇑ψ : NumberField.AdeleRing (NumberField.RingOfIntegers F) F → ℂ) →
       (∀ (a : F),
@@ -152,7 +103,35 @@ theorem UpperTheory.Reformulated.B.AdelicCharacterNormOne.norm_eq_one :
                 a) =
             (1 : ℂ)) →
         ∀ (x : NumberField.AdeleRing (NumberField.RingOfIntegers F) F),
-          ‖(ψ : NumberField.AdeleRing (NumberField.RingOfIntegers F) F → ℂ) x‖ = (1 : ℝ) := @_root_.GlobalTheory.CompanionTheory.AdelicHeis.norm_eq_one
+          ‖(ψ : NumberField.AdeleRing (NumberField.RingOfIntegers F) F → ℂ) x‖ = (1 : ℝ) := by
+  intro F _ _ ψ hψ htriv
+  let i : InfiniteAdeleRing F → AdeleRing (𝓞 F) F := fun x => (x, 0)
+  let j : FiniteAdeleRing (𝓞 F) F → AdeleRing (𝓞 F) F := fun y => (0, y)
+  have hi : Continuous i := continuous_id.prodMk continuous_const
+  have hj : Continuous j := continuous_const.prodMk continuous_id
+  have hsplit : ∀ x : AdeleRing (𝓞 F) F, x = i x.1 + j x.2 := fun x =>
+    Prod.ext (add_zero x.1).symm (zero_add x.2).symm
+  have hfin : ∀ y, ‖ψ (j y)‖ = 1 := by
+    intro y
+    apply UpperTheory.Reformulated.B.AdelicCharacterNormOne.eq_one_of_tendsto (norm_nonneg _)
+    have h1 := (UpperTheory.Reformulated.B.AdelicCharacterNormOne.finite_tendsto (F := F)).mul_const y
+    rw [zero_mul] at h1
+    have h2 := (((hψ.comp hj).norm).tendsto 0).comp h1
+    have h0 : j 0 = 0 := rfl
+    have hs : ∀ n : ℕ, j ((n : FiniteAdeleRing (𝓞 F) F) * y) = n • j y := fun n =>
+      Prod.ext (nsmul_zero n).symm (nsmul_eq_mul n y).symm
+    simp only [Function.comp_def, h0, hs, AddChar.map_zero_eq_one, norm_one,
+      AddChar.map_nsmul_eq_pow, norm_pow] at h2
+    exact h2
+  have hinf : ∀ x, ‖ψ (i x)‖ = 1 := by
+    intro x
+    refine (InfiniteAdeleRing.denseRange_algebraMap F).induction_on x
+      (isClosed_eq (hψ.comp hi).norm continuous_const) fun a => ?_
+    have h := congrArg norm (htriv a)
+    rw [hsplit (algebraMap F _ a), AddChar.map_add_eq_mul, norm_mul, hfin, mul_one, norm_one] at h
+    exact h
+  intro x
+  rw [hsplit x, AddChar.map_add_eq_mul, norm_mul, hfin, hinf, mul_one]
 end -- clump:auto
 end -- clump:auto
 -- ===== end clump member: Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.FactorialTendstoZero =====
@@ -547,7 +526,7 @@ private theorem adele_bounded (C : Set (AdeleRing (RingOfIntegers F) F)) (hC : I
 end Adele
 
 theorem UpperTheory.Reformulated.B.UnitaryAnnihilator.unitary_and_annihilator_eq :
-    ∀ (F : Type) [inst : Field F] [inst_1 : NumberField F]
+    ∀ (F : Type) [Field F] [NumberField F]
     [LocallyCompactSpace (NumberField.AdeleRing (NumberField.RingOfIntegers F) F)]
     [Invertible (2 : NumberField.AdeleRing (NumberField.RingOfIntegers F) F)]
     (ψ : AddChar (NumberField.AdeleRing (NumberField.RingOfIntegers F) F) ℂ),

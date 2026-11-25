@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.FoundationProofs.NormSqMulGaussianLatticeTranslateEqShifted
 public import Formalism.LocalToGlobal.KernelLattices.LateralTheory
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsIntegerMapEqHalfOneAddSqrt
 import Mathlib.Algebra.Order.Floor.Extended
@@ -55,7 +54,16 @@ variable {D : D7} {cc : Ideal (𝓞 D.host.K)} {δ : ℂ} {N N' : ℕ}
 
 theorem int_mul_mem_lamOf (a : 𝓞 D.host.K) {w : ℂ} (hw : w ∈ TaylorLogMetric.lamOf D cc δ) :
     D.host.φ₀ (((a : D.host.K) : D.host.E)) * w ∈ TaylorLogMetric.lamOf D cc δ := by
-  first | exact _root_.GlobalTheory.Vacuum.Parity.lamOf_stable | exact @_root_.GlobalTheory.Vacuum.Parity.lamOf_stable | apply _root_.GlobalTheory.Vacuum.Parity.lamOf_stable <;> assumption
+  induction hw using AddSubgroup.closure_induction with
+  | mem w hw =>
+    obtain ⟨c, hc, rfl⟩ := hw
+    refine AddSubgroup.subset_closure ⟨a * c, cc.mul_mem_left a hc, ?_⟩
+    push_cast
+    rw [map_mul]
+    ring
+  | zero => simp
+  | add a b _ _ ha hb => rw [mul_add]; exact AddSubgroup.add_mem _ ha hb
+  | neg a _ ha => rw [mul_neg]; exact AddSubgroup.neg_mem _ ha
 
 theorem int_smul_mem_La (L : Submodule (𝓞 D.host.E) (Fin N → D.host.E)) (L' : Submodule (𝓞 D.host.E) (Fin N' → D.host.E))
     (a : 𝓞 D.host.K) {x : TaylorLogMetric.VC D N N'} (hx : x ∈ TaylorLogMetric.La D (TaylorLogMetric.tor0 D cc δ) L L') :
@@ -79,7 +87,6 @@ theorem qIntAll_of_latAll : ∀ (D : D7) (cc : Ideal (𝓞 D.host.K)) (δ : ℂ)
   obtain ⟨m, hm⟩ := hw' x hx
   have him : (TaylorLogMetric.Hf D B.tor x x).im = 0 := by
     have : starRingEnd ℂ (TaylorLogMetric.Hf D B.tor x x) = TaylorLogMetric.Hf D B.tor x x := by
-      set_option synthInstance.maxHeartbeats 100000 in
         simp only [TaylorLogMetric.Hf, map_div₀, map_sum, map_mul, Complex.conj_ofReal, Complex.conj_conj, mul_comm]
     exact Complex.conj_eq_iff_im.1 this
   have h1 : (StandardLatticesGL3.w0 D).re = 1 / 2 := by simp [StandardLatticesGL3.w0]

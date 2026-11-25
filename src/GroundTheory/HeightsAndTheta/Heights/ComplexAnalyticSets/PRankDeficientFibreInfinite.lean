@@ -17,15 +17,12 @@ set_option maxSynthPendingDepth 1
 
 namespace GroundTheory.Heights₂.Heights.IndefiniteRowSideFullHecke.ComplexSets
 
-open Topology Metric
-
 noncomputable section
 
 namespace RankDeficientFibreInfinite
 
-
 theorem proof : RankDeficientFibreInfinite.Statement :=
-  fun _ _ _ _ => HolomorphicFibreInfinite.exists_infinite_fibre_of_derivative_not_injective
+  fun _ _ _ _ hU hUne hf hinj => HolomorphicFibreInfinite.exists_infinite_fibre hU hUne hf hinj
 
 end RankDeficientFibreInfinite
 

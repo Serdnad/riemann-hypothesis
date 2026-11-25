@@ -1,6 +1,5 @@
 module
 
-import all Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsThetaLevelAbelianSchemeGlueAffineCover
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.UniformisationConclusion
 public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.IsNsmulIffEq
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.UniTrait
@@ -58,14 +57,10 @@ import Mathlib.CategoryTheory.Monoidal.Opposite.Mon
 section -- clump:auto
 @[expose] public section
 
-set_option autoImplicit false
-
 noncomputable section
 
 open CategoryTheory CategoryTheory.Limits AlgebraicGeometry MonoidalCategory
   CartesianMonoidalCategory MonObj NumberField
-
-attribute [local instance] Over.cartesianMonoidalCategory
 
 namespace GlobalTheory.DegActCompare
 
@@ -73,13 +68,6 @@ open ReciprocityTheory.ChartRestriction.G ReciprocityTheory.ChartRestriction.G.S
 open GlobalTheory.IndefiniteRowSideFullHecke
 
 variable {R : Type} [CommRing R] [IsDomain R]
-
-section Act
-
-variable {O : Type} [CommRing O] [StarRing O] {D : DegPre R} [Module O D.X]
-variable {F : Type} [Field F] [Algebra (FractionRing R) F]
-
-end Act
 
 section Ext
 
@@ -100,18 +88,6 @@ theorem qkExt_unique {f : F →+* F'} {p : QkPt D F k} {q q' : QkPt D F' k} (h :
 
 end Ext
 
-section Through
-
-variable {O : Type} [CommRing O] [StarRing O] {D : DegPre R} [Module O D.X]
-
-end Through
-
-section Unit
-
-variable (D : DegPre R) (χ : D.X)
-
-end Unit
-
 end GlobalTheory.DegActCompare
 end -- clump:auto
 end -- clump:auto
@@ -128,7 +104,6 @@ noncomputable section
 open AlgebraicGeometry CategoryTheory Limits MonoidalCategory CartesianMonoidalCategory MonObj IsLocalRing NumberField
 open ReciprocityTheory.ChartRestriction.G ReciprocityTheory.ChartRestriction.G.Semi ReciprocityTheory.ChartRestriction.G.Out ReciprocityTheory.ChartRestriction.G.Geo.Tor
 open scoped CategoryTheory.Obj
-attribute [local instance] Over.cartesianMonoidalCategory
 open GlobalTheory.Mum
 
 namespace GlobalTheory.Mum
@@ -136,7 +111,21 @@ namespace GlobalTheory.Mum
 theorem grpPullback_pow_left {S' S : Scheme.{0}} {G' : Over S'} [GrpObj G'] {G : Over S} [GrpObj G] {f : S' ⟶ S}
     {a : G'.left ⟶ G.left} (h : IsGrpPullback G' G f a) {T : Over S'} (x : T ⟶ G') (x₀ : Over.mk (T.hom ≫ f) ⟶ G)
     (hx : x₀.left = x.left ≫ a) : ∀ n : ℕ, (x₀ ^ n).left = (x ^ n).left ≫ a := by
-  apply _root_.GlobalTheory.CoverGlue.pow_left_eq_pow_left_comp_of_isGrpPullback <;> assumption
+  intro n
+  induction n with
+  | zero =>
+    let u : Over.mk (T.hom ≫ f) ⟶ G := Over.homMk ((1 : T ⟶ G').left ≫ a) (by
+      show ((1 : T ⟶ G').left ≫ a) ≫ G.hom = T.hom ≫ f
+      rw [Category.assoc, h.1.w, ← Category.assoc, Over.w])
+    have hm := h.2 T 1 1 u u rfl rfl
+    rw [_root_.mul_one] at hm
+    have hu : u * u = u := Over.OverMorphism.ext hm
+    have hu1 : u = 1 := mul_eq_left.1 hu
+    rw [pow_zero, pow_zero, ← hu1]
+    rfl
+  | succ n ih =>
+    rw [pow_succ, pow_succ]
+    exact h.2 T (x ^ n) x (x₀ ^ n) x₀ ih hx
 
 end GlobalTheory.Mum
 
@@ -248,8 +237,6 @@ open scoped CategoryTheory.Obj
 attribute [local instance] Over.cartesianMonoidalCategory
 open GlobalTheory.Mum
 
-theorem _root_.GlobalTheory.T.exists_torsionLabels_uniformisedDominatingTrait : ∀ (R₁ : Type) [CommRing R₁] [IsDomain R₁] [IsLocalRing R₁], Base R₁ → ∀ (D₁ : DegData R₁ (maximalIdeal R₁)) (A : PolAV (Sp (FractionRing R₁))), UniTrait D₁.toPre A → ∃ lab : Labels D₁.toPre A, OneTrait D₁.toPre A lab := by
-  first | exact @GlobalTheory.Mum.exists_oneTrait
 end -- clump:auto
 end -- clump:auto
 -- ===== end clump member: Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsTorsionLabelsUniformisedDominatingTraitStatement =====

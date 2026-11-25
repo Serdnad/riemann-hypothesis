@@ -91,8 +91,6 @@ end Gen
 
 section Brg
 
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
-
 variable {D : D7} {V : HSp D}
 
 theorem hermitianSpaceBaseLattice_eq_frameLattice : L0c D V = ((Formalism.IndefR.Eqv.UI.Lv D V : Submodule _ _) : Set (Fin V.rank → D.host.E)) := by
@@ -132,8 +130,6 @@ noncomputable section
 open MeasureTheory NumberField Matrix Formalism.BasicNotions Formalism.BasicNotions.TH Formalism.MainNotions.S Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes Formalism.MainNotions.StandardLattice Formalism.L2.Theta
 
 namespace Formalism.L2.S.S7.ZsCovInf
-
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 
 section Grp
 
@@ -308,8 +304,6 @@ open MeasureTheory NumberField Formalism.BasicNotions Formalism.BasicNotions.TH 
 
 namespace Formalism.L2.S.S7.ZsCovMeas
 
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
-
 variable {D : D7} {V : HSp D} (fr : Formalism.IndefR.Eqv.UI.Frames D V)
 
 def cdProd : ENNReal := ∏ v, (D.s.cdScale V.rank (fr.ε v) : ENNReal)
@@ -421,8 +415,6 @@ namespace Formalism.L2.SG.Pf.DstarVolPf
 open MeasureTheory NumberField Formalism.BasicNotions Formalism.MainNotions.S Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes Formalism.MainNotions.StandardLattice Formalism.L2.SG.HidaSetting Formalism.L2.SG.AdBridge
   Formalism.L2.Theta
 open scoped ENNReal
-
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 
 variable (D : D7)
 
@@ -577,7 +569,6 @@ theorem covol_gen (hVM : VolMeasOf D) (hVol : VolTie D) (I : Formalism.MainNotio
     congr 1
     erw [Measure.map_apply hmeas hS]
     rw [Set.preimage_image_eq _ (toHA (IV D) hb).injective, Measure.smul_apply, smul_eq_mul]
-  set_option synthInstance.maxHeartbeats 200000 in
   have hA0 : (IV D).muA μf fund ≠ 0 := by
     haveI : ((IV D).muA μf).IsHaarMeasure := Formalism.L2.SG.PoincareInHH.Cut.muA_isHaar' (IV D) μf
     haveI : ((IV D).muA μf).IsMulLeftInvariant := inferInstance
@@ -593,8 +584,7 @@ theorem covol_gen (hVM : VolMeasOf D) (hVol : VolTie D) (I : Formalism.MainNotio
     exact ENNReal.ofReal_ne_top key.symm
   have hL0 : cdProdI D * (c⁻¹ * (IV D).muA μf fund) ≠ 0 := mul_ne_zero hcd0 (mul_ne_zero hci0 hA0)
   have hvpos : 0 < D.vol (VS D) := by
-    by_contra hle
-    push_neg at hle
+    by_contra! hle
     rw [ENNReal.ofReal_of_nonpos hle] at key
     exact hL0 key
   have hR := congrArg ENNReal.toReal key

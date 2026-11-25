@@ -1,54 +1,7 @@
 module
 
-import all ReciprocityTheory.L2DbarEstimates.PlurisubharmonicCharts.CmpaCHessComp
-import ReciprocityTheory.L2DbarEstimates.PlurisubharmonicCharts.DerivDerivNonposOfIsLocalMax
 public import ReciprocityTheory.L2DbarEstimates.IsLocalHomeomorph
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.LocallyConvex.AbsConvexOpen
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
 public import Mathlib.Analysis.SpecialFunctions.Complex.LogDeriv
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Topology.Sheaves.Init
 public import ReciprocityTheory.L2DbarEstimates.ChartDerivatives.HoloSmooth
 public import ReciprocityTheory.L2DbarEstimates.LeviForms.EventuallyDifferentiableAtOfContDiffAt
 public import Mathlib.Analysis.Calculus.ContDiff.Basic
@@ -80,7 +33,17 @@ theorem flA_apply_sum (D : V n →L[ℂ] V n) (ξ : Fin n → ℂ) (a : Fin n) :
 theorem flA_decomp (D : V n →L[ℝ] ℂ) (w : V n) :
     D w = ∑ b, (w b * ((D (bas n b) - I * D (I • bas n b)) / 2) +
       conj (w b) * ((D (bas n b) + I * D (I • bas n b)) / 2)) := by
-  apply _root_.ReciprocityTheory.L2DbarEstimates.Y.clm_apply_eq_sum_wd_wdb_basis <;> assumption
+  conv_lhs => rw [flA_expand w]
+
+  rw [map_sum]
+  refine Finset.sum_congr rfl fun b _ => ?_
+  have hcb : w b • bas n b = (w b).re • bas n b + (w b).im • (I • bas n b) := by
+    conv_lhs => rw [← Complex.re_add_im (w b)]
+    rw [add_smul, mul_smul, Complex.coe_smul, Complex.coe_smul]
+  rw [hcb, map_add (f := _), map_smul, map_smul]
+  conv_rhs => rw [← Complex.re_add_im (w b)]
+  simp only [Complex.real_smul, map_add (f := _), map_mul, Complex.conj_ofReal, Complex.conj_I]
+  ring_nf; simp only [I_sq]; ring_nf
 
 theorem flA_fderiv_comp {U : V n → ℂ} {G : V n → V n} {y : V n}
     (hU : DifferentiableAt ℝ U (G y)) (hG : DifferentiableAt ℂ G y) (v : V n) :
@@ -90,12 +53,26 @@ theorem flA_fderiv_comp {U : V n → ℂ} {G : V n → V n} {y : V n}
 theorem flA_wdb_comp {U : V n → ℂ} {G : V n → V n} {y : V n}
     (hU : DifferentiableAt ℝ U (G y)) (hG : DifferentiableAt ℂ G y) (k : Fin n) :
     wdb n k (U ∘ G) y = ∑ b, wdb n b U (G y) * conj (fderiv ℂ G y (bas n k) b) := by
-  apply _root_.ReciprocityTheory.L2DbarEstimates.Y.wdb_comp_holomorphic_eq_sum_conj <;> assumption
+  simp only [wdb]
+  rw [flA_fderiv_comp hU hG, flA_fderiv_comp hU hG, map_smul,
+    flA_decomp (fderiv ℝ U (G y)) (fderiv ℂ G y (bas n k)),
+    flA_decomp (fderiv ℝ U (G y)) (I • fderiv ℂ G y (bas n k))]
+  simp only [PiLp.smul_apply, smul_eq_mul, map_mul, Complex.conj_I]
+  rw [Finset.mul_sum, ← Finset.sum_add_distrib, Finset.sum_div]
+  refine Finset.sum_congr rfl fun b _ => ?_
+  ring_nf; simp only [I_sq, Complex.I_pow_three]; ring_nf
 
 theorem flA_wd_comp {U : V n → ℂ} {G : V n → V n} {y : V n}
     (hU : DifferentiableAt ℝ U (G y)) (hG : DifferentiableAt ℂ G y) (k : Fin n) :
     wd n k (U ∘ G) y = ∑ b, wd n b U (G y) * fderiv ℂ G y (bas n k) b := by
-  apply _root_.ReciprocityTheory.L2DbarEstimates.Y.wd_comp_holomorphic_eq_sum <;> assumption
+  simp only [wd]
+  rw [flA_fderiv_comp hU hG, flA_fderiv_comp hU hG, map_smul,
+    flA_decomp (fderiv ℝ U (G y)) (fderiv ℂ G y (bas n k)),
+    flA_decomp (fderiv ℝ U (G y)) (I • fderiv ℂ G y (bas n k))]
+  simp only [PiLp.smul_apply, smul_eq_mul, map_mul, Complex.conj_I]
+  rw [Finset.mul_sum, ← Finset.sum_sub_distrib, Finset.sum_div]
+  refine Finset.sum_congr rfl fun b _ => ?_
+  ring_nf; simp only [I_sq, Complex.I_pow_three]; ring_nf
 
 theorem sum_four_comm_bis (T : Fin n → Fin n → Fin n → Fin n → ℂ) :
     ∑ a, ∑ b, ∑ j, ∑ k, T a b j k = ∑ j, ∑ k, ∑ b, ∑ a, T a b j k := by
@@ -212,7 +189,24 @@ theorem flA_leviV_add {F G : V n → ℝ} {y : V n} (hF : ContDiffAt ℝ 2 F y)
     (hG : ContDiffAt ℝ 2 G y) (ξ : Fin n → ℂ) :
     leviV n (fun v => ((F v + G v : ℝ) : ℂ)) y ξ =
       leviV n (fun v => (F v : ℂ)) y ξ + leviV n (fun v => (G v : ℂ)) y ξ := by
-  apply ReciprocityTheory.L2DbarEstimates.Y.LocalMaximumSecondDerivative.leviV_ofReal_add <;> assumption
+  have hFc : ContDiffAt ℝ 2 (fun v => (F v : ℂ)) y := ofRealCLM.contDiff.contDiffAt.comp y hF
+  have hGc : ContDiffAt ℝ 2 (fun v => (G v : ℂ)) y := ofRealCLM.contDiff.contDiffAt.comp y hG
+  have hfun : (fun v => ((F v + G v : ℝ) : ℂ)) = fun v => (F v : ℂ) + (G v : ℂ) := by
+    funext v; push_cast; rfl
+  have hev : ∀ k, wdb n k (fun v => (F v : ℂ) + (G v : ℂ)) =ᶠ[𝓝 y]
+      fun v => wdb n k (fun v => (F v : ℂ)) v + wdb n k (fun v => (G v : ℂ)) v := by
+    intro k
+    filter_upwards [eventually_differentiableAt_of_contDiffAt hFc,
+      eventually_differentiableAt_of_contDiffAt hGc] with v h1 h2
+    exact wdb_add h1 h2
+  rw [hfun]
+  simp only [leviV]
+  rw [← Finset.sum_add_distrib]
+  refine Finset.sum_congr rfl fun j _ => ?_
+  rw [← Finset.sum_add_distrib]
+  refine Finset.sum_congr rfl fun k _ => ?_
+  rw [wd_congr (hev k), wd_add (differentiableAt_wdb hFc) (differentiableAt_wdb hGc)]
+  ring
 
 end
 

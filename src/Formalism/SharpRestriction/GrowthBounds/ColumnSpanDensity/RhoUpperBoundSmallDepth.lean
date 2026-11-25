@@ -5,49 +5,8 @@ public import Formalism.SharpRestriction.GrowthBounds.ColumnSpanDensity.RhoLower
 public import Formalism.SharpRestriction.GrowthBounds.ColumnSpanDensity.RhoUpperBoundOfEdgeCount
 public import Mathlib.LinearAlgebra.Projectivization.Cardinality
 public import Mathlib.LinearAlgebra.Projectivization.Basic
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Topology.Sheaves.Init
-import Mathlib.RingTheory.PiTensorProduct
-import Mathlib.Tactic.ENatToNat
 import Mathlib.Tactic.Linter.HaveILetI
-import Mathlib.Tactic.TypeStar
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Formalism.SharpRestriction.GrowthBounds.ColumnSpanDensity.MapMDetUnit, Formalism.SharpRestriction.GrowthBounds.ColumnSpanDensity.RhoUpperBoundSmallDepth
@@ -111,6 +70,25 @@ private theorem isEdge_map_mulVecLin_of_isUnit_det (M : Matrix (Fin k) (Fin k) R
         exact hyz
     exact (Nat.card_congr (Submodule.Quotient.equiv _ _ e0 hPQ).toEquiv).symm
 
+private theorem natCast_p_ne_zero_Qq (j : Fin k) : (p : R.Qq) ≠ 0 := by
+  intro h0
+  obtain ⟨g, hg, hgeq⟩ := (baseEdge R j).1
+  have hker : colSpan R.W (dj j (p : R.Qq)) ≤
+      LinearMap.ker ((LinearMap.proj j : (Fin k → R.Qq) →ₗ[R.Qq] R.Qq).restrictScalars R.W) := by
+    rw [colSpan, Submodule.span_le]
+    rintro _ ⟨c, rfl⟩
+    simp [dj, Matrix.diagonal_apply, h0]
+  obtain ⟨c, hc⟩ : ∃ c, g j c ≠ 0 := by
+    by_contra! hall
+    exact hg.ne_zero (Matrix.det_eq_zero_of_row_eq_zero j hall)
+  have hmem : (fun i => g i c) ∈ colSpan R.W (dj j (p : R.Qq)) := by
+    have hgeq' : colSpan R.W (dj j (p : R.Qq)) = colSpan R.W g := hgeq
+    rw [hgeq']
+    exact Submodule.subset_span ⟨c, rfl⟩
+  have h1 := hker hmem
+  simp at h1
+  exact hc h1
+
 theorem edgeT (V : Matrix (Fin k) (Fin k) R.W) (hV : IsUnit V.det) (j : Fin k) :
     IsEdge p n' 1 (⟨colSpan R.W (mapM V * dj j (p : R.Qq)), colSpan R.W (1 : Matrix (Fin k) (Fin k) R.Qq)⟩ :
       Edge R.W R.Qq k) := by
@@ -121,7 +99,7 @@ theorem edgeT (V : Matrix (Fin k) (Fin k) R.W) (hV : IsUnit V.det) (j : Fin k) :
 theorem edgeS (V : Matrix (Fin k) (Fin k) R.W) (hV : IsUnit V.det) (j : Fin k) :
     IsEdge p n' 1 (⟨colSpan R.W (1 : Matrix (Fin k) (Fin k) R.Qq), colSpan R.W (mapM V * dj j (p : R.Qq)⁻¹)⟩ :
       Edge R.W R.Qq k) := by
-  have hp := _root_.Formalism.MainNotions.flipOneThree.Pf.RS.pQ_ne R
+  have hp := natCast_p_ne_zero_Qq R j
   have hdet : IsUnit (mapM V * dj j (p : R.Qq)⁻¹).det := by
     rw [Matrix.det_mul, dj_det]
     exact (mapM_det_unit R V hV).mul (isUnit_iff_ne_zero.2 (inv_ne_zero hp))
@@ -307,7 +285,7 @@ theorem famT (c : Fin k → R.W ⧸ Ideal.span {(p : R.W)}) (j : Fin k) (a : Fin
           apply Finset.sum_eq_zero
           intro l _
           simp [map_mul, R.res_p]
-        · simp only [hc, if_false, mul_one]
+        · simp only [hc, ite_false, mul_one]
           rw [phi_col R c j a c0 hc, ha c0, sub_self]
     | zero =>
       refine ⟨0, ?_, ?_⟩

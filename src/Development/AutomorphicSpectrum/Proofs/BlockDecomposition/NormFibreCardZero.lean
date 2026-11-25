@@ -1,53 +1,8 @@
 module
 
-import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.NormFibreCardNonzero
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ResAlgSplitTwo
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Algebra.Order.Star.Int
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.HaveILetI
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
 
 @[expose] public section
@@ -76,14 +31,35 @@ theorem nontrivial_of_resAlg (h : ResAlg E τ q ε) : Nontrivial E := by
   nlinarith
 
 theorem card_fx (h : ResAlg E τ q ε) : Nat.card (Fx τ) = q := by
-  apply _root_.GlobalTheory.CompanionTheory.UnrDens.NormUnit.card_fixed <;> assumption
+  obtain ⟨u, hu, hb⟩ := h.basis
+  let φ : Fx τ × Fx τ → E := fun p => (p.1 : E) + (p.2 : E) * u
+  have hφ : Function.Bijective φ := by
+    constructor
+    · rintro ⟨⟨x, hx⟩, ⟨y, hy⟩⟩ ⟨⟨x', hx'⟩, ⟨y', hy'⟩⟩ hxy
+      have h1 : x + y * u = x' + y' * u := hxy
+      have h2 : x + y * τ u = x' + y' * τ u := by
+        have := congrArg τ h1
+        simpa [hx, hy, hx', hy'] using this
+      have h3 : (y - y') * (u - τ u) = 0 := by linear_combination h1 - h2
+      have h4 : y = y' := sub_eq_zero.1 (hu.mul_left_eq_zero.1 h3)
+      have h5 : x = x' := by
+        subst h4
+        exact add_right_cancel h1
+      subst h4 h5
+      rfl
+    · intro a
+      obtain ⟨x, y, hx, hy, rfl⟩ := hb a
+      exact ⟨(⟨x, hx⟩, ⟨y, hy⟩), rfl⟩
+  have h1 : Nat.card (Fx τ × Fx τ) = Nat.card E := Nat.card_congr (Equiv.ofBijective φ hφ)
+  rw [Nat.card_prod, h.card] at h1
+  have h2 : Nat.card (Fx τ) ^ 2 = q ^ 2 := by rw [← h1]; ring
+  exact (Nat.pow_left_inj (by norm_num)).1 h2
 
 theorem exists_idem (h : ResAlg E τ q ε) (hf : ¬ IsField E) :
     ∃ e : E, e * e = e ∧ τ e = 1 - e := by
   haveI := nontrivial_of_resAlg h
   obtain ⟨a, ha0, hau⟩ : ∃ a : E, a ≠ 0 ∧ ¬ IsUnit a := by
-    by_contra hc
-    push_neg at hc
+    by_contra! hc
     refine hf ⟨exists_pair_ne E, mul_comm, fun {a} ha => ?_⟩
     obtain ⟨b, hb⟩ := (hc a ha).exists_right_inv
     exact ⟨b, hb⟩

@@ -1,50 +1,8 @@
 module
 
-import GroundTheory.AutomorphicForms.WhittakerGroups
 public import Mathlib.Analysis.Complex.Norm
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
 import Mathlib.Algebra.Order.Star.Real
 import Mathlib.Analysis.CStarAlgebra.Classes
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Topology.Sheaves.Init
 public import Mathlib.Analysis.Normed.Field.Basic
 public import Mathlib.Basic.Complex.BigOperators
 
@@ -64,4 +22,26 @@ private theorem UpperTheory.Reformulated.B.Qk23.half_le_re {w : ℂ} (h : ‖w�
   nlinarith
 
 theorem UpperTheory.Reformulated.B.Qk23.eq_one_of_forall_zpow :
-    ∀ {z : ℂ}, (∀ (k : ℤ), ‖z ^ k - (1 : ℂ)‖ < (1 : ℝ)) → z = (1 : ℂ) := @_root_.GroundTheory.Variant₂.N1.eq_one_of_forall_norm_zpow_sub_one_lt
+    ∀ {z : ℂ}, (∀ (k : ℤ), ‖z ^ k - (1 : ℂ)‖ < (1 : ℝ)) → z = (1 : ℂ) := by
+  intro z h
+  by_contra hz
+  have hd : 0 < ‖z - 1‖ := norm_pos_iff.mpr (sub_ne_zero.mpr hz)
+  have hre : ∀ k : ℕ, (1 / 2 : ℝ) ≤ (z ^ k).re := by
+    intro k
+    apply UpperTheory.Reformulated.B.Qk23.half_le_re
+    have := h (-(k : ℤ))
+    rwa [zpow_neg, zpow_natCast] at this
+  obtain ⟨n, hn⟩ := exists_nat_gt (2 / ‖z - 1‖)
+  rw [div_lt_iff₀ hd] at hn
+  have h1 : (n : ℝ) * (1 / 2) ≤ ‖∑ k ∈ Finset.range n, z ^ k‖ := by
+    refine le_trans ?_ (Complex.re_le_norm _)
+    rw [Complex.re_sum]
+    have := Finset.card_nsmul_le_sum (Finset.range n) (fun k => (z ^ k).re) (1 / 2 : ℝ)
+      (fun k _ => hre k)
+    rwa [Finset.card_range, nsmul_eq_mul] at this
+  have h2 : ‖∑ k ∈ Finset.range n, z ^ k‖ * ‖z - 1‖ < 1 := by
+    rw [← norm_mul, geom_sum_mul]
+    have := h (n : ℤ)
+    rwa [zpow_natCast] at this
+  have h3 := mul_le_mul_of_nonneg_right h1 hd.le
+  linarith

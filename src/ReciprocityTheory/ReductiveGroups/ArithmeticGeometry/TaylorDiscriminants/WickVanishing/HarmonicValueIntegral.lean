@@ -2,59 +2,10 @@ module
 
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.TaylorDiscriminants.WickVanishing.LogChain
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.TaylorDiscriminants.ConnectionKillsSeries
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.MvPolynomial.IrreducibleQuadratic
-import Mathlib.RingTheory.PiTensorProduct
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Topology.Sheaves.Init
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.TaylorDiscriminants.WickVanishing.ConnectionKillsSeries
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.TaylorDiscriminants.WickVanishing.GaugeBilinearTermEqNegDoubleSum
-import Std.Tactic.BVDecide.Normalize.Prop
 
 @[expose] public section
-
-set_option autoImplicit false
 
 noncomputable section
 
@@ -65,11 +16,6 @@ namespace ReciprocityTheory.ChartRestriction.G.TB.WickVanishing.Val
 open ReciprocityTheory.ChartRestriction.G.TB.WickVanishing.Nab
 
 
-private theorem hasSubst_lemma {σ τ k : Type} [CommRing k] [Finite σ] {a : σ → MvPowerSeries τ k}
-    (ha : ∀ s, constantCoeff (a s) = 0) : HasSubst a := by
-  first
-  | exact MvPowerSeries.hasSubst_of_constantCoeff_zero ha
-
 private theorem mvPowerSeries_subst_C {σ τ k : Type} [CommRing k] {a : σ → MvPowerSeries τ k} (hs : HasSubst a) (c : k) :
     subst a (C c : MvPowerSeries σ k) = (C c : MvPowerSeries τ k) := by
   have e : ∀ (ρ : Type), (C c : MvPowerSeries ρ k) = c • (1 : MvPowerSeries ρ k) := fun ρ => by
@@ -79,7 +25,7 @@ private theorem mvPowerSeries_subst_C {σ τ k : Type} [CommRing k] {a : σ → 
 
 theorem const_subst {σ τ k : Type} [CommRing k] [Finite σ] {a : σ → MvPowerSeries τ k}
     (ha : ∀ s, constantCoeff (a s) = 0) (G : MvPowerSeries σ k) : constantCoeff (subst a G) = constantCoeff G := by
-  have hs : HasSubst a := hasSubst_lemma ha
+  have hs : HasSubst a := MvPowerSeries.hasSubst_of_constantCoeff_zero ha
   have h0 : constantCoeff (G - C (constantCoeff G)) = 0 := by simp
   have h1 : constantCoeff (subst a (G - C (constantCoeff G))) = 0 := by
     first
@@ -111,8 +57,8 @@ theorem bE_const (h : PS k 2 d) (hax : ev (n := 1) ![0, pt k d 0] h = 0) : ∀ t
 
 theorem E_liftX (h : PS k 2 d) (hax : ev (n := 1) ![0, pt k d 0] h = 0) (f : PS k 1 d) :
     subst (bE k h) (liftX k f) = f := by
-  have hb : HasSubst (bE k h) := hasSubst_lemma (bE_const k h hax)
-  have hl : HasSubst (fun p : Fin 1 × Fin d => (X (Sum.inl p.2) : AA k d)) := hasSubst_lemma (fun p => by simp)
+  have hb : HasSubst (bE k h) := MvPowerSeries.hasSubst_of_constantCoeff_zero (bE_const k h hax)
+  have hl : HasSubst (fun p : Fin 1 × Fin d => (X (Sum.inl p.2) : AA k d)) := MvPowerSeries.hasSubst_of_constantCoeff_zero (fun p => by simp)
   unfold liftX
   first
   | rw [subst_comp_subst_apply hl hb]
@@ -157,7 +103,7 @@ theorem E_nabla (B : FB R d O) (h : PS k 2 d) (hax : ev (n := 1) ![0, pt k d 0] 
   simp only [Fintype.sum_sum_type, Finset.sum_add_distrib]
   simp only [bE, Sum.elim_inl, Sum.elim_inr, pderiv_X, Pi.single_apply, mul_ite, mul_zero, mul_one]
   simp only [Prod.mk.injEq, true_and]
-  simp only [Finset.sum_ite_eq', Finset.mem_univ, if_true]
+  simp only [Finset.sum_ite_eq', Finset.mem_univ, ite_true]
   congr 1
   rw [Finset.sum_comm]
   refine Finset.sum_congr rfl fun t _ => ?_
@@ -186,7 +132,7 @@ theorem E_foldr (B : FB R d O) (h : PS k 2 d) (hax : ev (n := 1) ![0, pt k d 0] 
 theorem E_nablaPoly (B : FB R d O) (h : PS k 2 d) (hax : ev (n := 1) ![0, pt k d 0] h = 0) (m : ℕ) {ι : Type}
     [Fintype ι] (u : ι → Fin d → k) (P : MvPolynomial ι k) (G : AA k d) :
     subst (bE k h) (nablaPoly k B h m u P G) = DpolyOf (B.FK k) u P (subst (bE k h) G) := by
-  have hb : HasSubst (bE k h) := hasSubst_lemma (bE_const k h hax)
+  have hb : HasSubst (bE k h) := MvPowerSeries.hasSubst_of_constantCoeff_zero (bE_const k h hax)
   unfold nablaPoly DpolyOf DmonOf
 
   rw [← coe_substAlgHom hb, map_sum]

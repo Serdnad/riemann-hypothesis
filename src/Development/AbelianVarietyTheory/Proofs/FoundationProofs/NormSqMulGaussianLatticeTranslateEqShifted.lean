@@ -1,7 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.FoundationProofs.MeanSquareOrthoProductThetaEqProd
-import Development.AbelianVarietyTheory.Proofs.SatakeParameters.PlaceOverPInducedByAlgebraicPadicEmbedding
 public import Formalism.SharpRestriction.GlobalSchurBounds.StandardLatticesGL3
 public import Mathlib.Analysis.SpecialFunctions.Elliptic.Weierstrass
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsIntegerMapEqHalfOneAddSqrt
@@ -190,13 +188,6 @@ theorem lamOf_stable (D : D7) (cc : Ideal (𝓞 D.host.K)) (δ : ℂ) (a : 𝓞 
   | zero => simp
   | add x y _ _ hx hy => rw [mul_add]; exact add_mem hx hy
   | neg x _ hx => rw [mul_neg]; exact neg_mem hx
-
-theorem lamOf_eq_closure (D : D7) (cc : Ideal (𝓞 D.host.K)) (δ : ℂ) (hc : Crv D cc δ) :
-    ∃ w₁ w₂ : ℂ, LinearIndependent ℝ ![w₁, w₂] ∧ lamOf D cc δ = AddSubgroup.closure {w₁, w₂} := by
-  obtain ⟨L, hL⟩ := GlobalTheory.CurveLattice.exists_periodPair_lamOf D cc δ hc
-  refine ⟨L.ω₁, L.ω₂, L.indep, AddSubgroup.ext fun z => ?_⟩
-  rw [hL, AddSubgroup.mem_closure_pair, PeriodPair.mem_lattice]
-  simp only [zsmul_eq_mul]
 
 theorem even_im_hermitian_sub : ∀ (D : D7), admG1 D → ∀ (cc : Ideal (𝓞 D.host.K)) (δ : ℂ), Crv D cc δ → ∀ t0, GL3Theta.IsTwoTorsionPointUnkilled D (lamOf D cc δ) t0 → t0 ∉ (lamOf D cc δ) ∧ ∀ ω ∈ (lamOf D cc δ), ∃ m k : ℤ, q1 D (lamOf D cc δ) ω = m ∧ gl3FieldFirst (lamOf D cc δ) ω (2 * t0) = k ∧ (Even (m + k) ↔ ω / 2 ∈ (lamOf D cc δ)) := by
   intro D _ cc δ hc t0 ht
@@ -601,7 +592,7 @@ theorem evenTheta_properties_curveLattice (D : D7) (cc : Ideal (𝓞 D.host.K)) 
         ∀ z, (-1 : ℂ) ^ m * U1 (lamOf D cc δ) ω (GL3Theta.th0 (lamOf D cc δ) t0) z =
           GL3Theta.th0 (lamOf D cc δ) t0 z := by
   have hG := (GlobalTheory.InducedType.induced_type D).1
-  have hlat := Parity.lamOf_eq_closure D cc δ hC
+  have hlat := GlobalTheory.UnitaryTheta.HalfPeriod.exists_basis_lamOf D cc δ hC
   obtain ⟨⟨hd, -, -, hU⟩, hz, -⟩ := GlobalTheory.OddTheta.sgStar_laws _ hlat
   obtain ⟨hn, hp⟩ := Parity.even_im_hermitian_sub D hG cc δ hC t0 ht
   set Λ := lamOf D cc δ
@@ -630,8 +621,16 @@ theorem evenTheta_properties_curveLattice (D : D7) (cc : Ideal (𝓞 D.host.K)) 
 theorem norm_sq_mul_gaussian_latticeTranslate_eq_shifted (Λ : AddSubgroup ℂ) (ω : ℂ) (G : ℂ → ℂ) (z : ℂ) :
     ‖U1 Λ ω G z‖ ^ 2 * Real.exp (-Real.pi * ‖z‖ ^ 2 / area Λ) =
       ‖G (ω + z)‖ ^ 2 * Real.exp (-Real.pi * ‖ω + z‖ ^ 2 / area Λ) := by
-  intros
-  apply _root_.GlobalTheory.PullNorm.gaussianWeight_thetaTranslate_normSq <;> assumption
+  simp only [U1]
+  rw [norm_mul, mul_pow, Complex.norm_exp, ← Real.exp_nat_mul, mul_assoc, ← Real.exp_add, add_comm z ω]
+  congr 2
+  have h1 : -(Real.pi : ℂ) * z * (starRingEnd ℂ) ω / (area Λ : ℂ) -
+      (Real.pi : ℂ) * ω * (starRingEnd ℂ) ω / (2 * (area Λ : ℂ)) =
+      ((-Real.pi / area Λ : ℝ) : ℂ) * (z * (starRingEnd ℂ) ω + ω * (starRingEnd ℂ) ω / 2) := by
+    push_cast; ring
+  rw [h1, Complex.re_ofReal_mul, Complex.sq_norm, Complex.sq_norm]
+  simp [Complex.normSq_apply]
+  ring
 
 theorem normSq_pullB (D : D7) (cc : Ideal (𝓞 D.host.K)) (δ : ℂ) (hC : Crv D cc δ) {N N' r : ℕ}
     (b : Fin r → Matrix (Fin N') (Fin N) D.host.E) (hb : OnB D b) (g : ℂ → ℂ)
@@ -639,7 +638,7 @@ theorem normSq_pullB (D : D7) (cc : Ideal (𝓞 D.host.K)) (δ : ℂ) (hC : Crv 
     normSq D (tor0 D cc δ) (LaB D (tor0 D cc δ) b) (pullB D (tor0 D cc δ) b g) =
       nrm1Sq (lamOf D cc δ) g ^ r := by
   have hG := (GlobalTheory.InducedType.induced_type D).1
-  have hlat := Parity.lamOf_eq_closure D cc δ hC
+  have hlat := GlobalTheory.UnitaryTheta.HalfPeriod.exists_basis_lamOf D cc δ hC
   obtain ⟨-, -, hpar, hmem, hbij⟩ := _root_.GlobalTheory.OnCoord.coords_of_orthonormal_basis D hG cc δ N N' r b hb
   let e0 : VC D N N' →ₗ[ℝ] (Fin r → ℂ) :=
     { toFun := fun z k => coordB D (tor0 D cc δ) b k z
@@ -685,7 +684,31 @@ theorem mem_Qbar_of_pow {x : ℂ} {n : ℕ} (hn : 0 < n) (h : x ^ n ∈ Qbar) : 
 
 theorem norm_int_le {K : Type} [Field K] [NumberField K] {p : ℕ} [Fact p.Prime] (f : K →+* ℂ_[p]) (c : 𝓞 K) :
     ‖f (c : K)‖ ≤ 1 := by
-  first | exact _root_.GlobalTheory.DatumJets.Place.norm_int_le | exact @_root_.GlobalTheory.DatumJets.Place.norm_int_le | apply _root_.GlobalTheory.DatumJets.Place.norm_int_le <;> assumption
+  obtain ⟨q, hq, h0'⟩ := RingOfIntegers.isIntegral_coe c
+  have h0 : q.eval₂ (Int.castRingHom ℂ_[p]) (f (c : K)) = 0 := by
+    have := congrArg f h0'
+    rwa [Polynomial.hom_eval₂, map_zero, RingHom.ext_int (f.comp _) (Int.castRingHom _)] at this
+  by_contra hlt
+  push Not at hlt
+  set x := f (c : K)
+  rw [Polynomial.eval₂_eq_sum_range, Finset.sum_range_succ, hq.coeff_natDegree, map_one, one_mul] at h0
+  have h1 : x ^ q.natDegree = -∑ i ∈ Finset.range q.natDegree, Int.castRingHom ℂ_[p] (q.coeff i) * x ^ i := by
+    linear_combination h0
+  have h2 : ‖x ^ q.natDegree‖ < ‖x‖ ^ q.natDegree := by
+    rw [h1, norm_neg]
+    rcases Nat.eq_zero_or_pos q.natDegree with hz | hz
+    · simp [hz]
+    refine lt_of_le_of_lt (IsUltrametricDist.norm_sum_le_of_forall_le_of_nonneg
+      (C := ‖x‖ ^ (q.natDegree - 1)) (by positivity) fun i hi => ?_) (pow_lt_pow_right₀ hlt (by omega))
+    rw [norm_mul, norm_pow]
+    have h3 : ‖Int.castRingHom ℂ_[p] (q.coeff i)‖ ≤ 1 := by
+      simpa using IsUltrametricDist.norm_intCast_le_one ℂ_[p] (q.coeff i)
+    have h4 : ‖x‖ ^ i ≤ ‖x‖ ^ (q.natDegree - 1) :=
+      pow_le_pow_right₀ hlt.le (by have := Finset.mem_range.1 hi; omega)
+    calc _ ≤ 1 * ‖x‖ ^ i := by gcongr
+      _ ≤ _ := by rwa [one_mul]
+  rw [norm_pow] at h2
+  exact lt_irrefl _ h2
 
 theorem norm_nat_coprime {p : ℕ} [Fact p.Prime] {s : ℕ} (h : Nat.Coprime s p) : ‖(s : ℂ_[p])‖ = 1 := by
   have h1 : (s : ℂ_[p]) = algebraMap ℚ_[p] ℂ_[p] (s : ℚ_[p]) := by simp

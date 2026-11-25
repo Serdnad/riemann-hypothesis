@@ -25,10 +25,10 @@ theorem AreaMultiplicityWeight.setLIntegral_comp_mul_abs_det₀ {E : Type*} [Nor
     (hs : NullMeasurableSet s μ) (hf' : ∀ x ∈ s, HasFDerivWithinAt f (f' x) s x)
     (hf : InjOn f s) (g : E → ℝ≥0∞) :
     ∫⁻ x in s, g (f x) * ENNReal.ofReal |(f' x).det| ∂μ = ∫⁻ y in f '' s, g y ∂μ :=
-  AreaMultiplicityWeight.setLIntegral_comp_mul_abs_det_of_injective μ hs hf' hf g
+  GroundTheory.Heights₂.Heights.setLIntegral_comp_mul_abs_det₀ μ hs hf' hf g
 
 theorem AreaMultiplicityWeight.proof : AreaMultiplicityWeight.Statement :=
-  AreaMultiplicityWeight.lintegral_eq_lintegral_encard_mul
+  fun _ _ _ _ _ _ μ _ _ _ _ hA hf' => lintegral_comp_mul_abs_det_eq_lintegral_encard μ hA hf'
 
 end
 

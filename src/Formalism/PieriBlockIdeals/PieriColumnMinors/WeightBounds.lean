@@ -7,50 +7,7 @@ public import Formalism.PieriBlockIdeals.PieriColumnMinors.DepthNonnegative
 public import Formalism.PieriBlockIdeals.PieriColumnMinors.HighestWeightProdLeadingMinors
 public import Formalism.PieriBlockIdeals.PieriColumnMinors.ParameterBounds
 public import Formalism.PieriBlockIdeals.PieriColumnMinors.RealLocalDeltaNabla
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Topology.Sheaves.Init
-import Std.Tactic.BVDecide.Normalize.Prop
 import Formalism.PieriBlockIdeals.PieriColumnMinors.UnitNormBounds
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.ReduceModChar
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Formalism.PieriBlockIdeals.PieriColumnMinors.WorkedExample, Formalism.PieriBlockIdeals.PieriColumnMinors.WeightBounds
@@ -324,6 +281,7 @@ theorem depth_nat_le_holds : DepthNatLe := by
 theorem weight_on_block_eq_bot_add (P : Par) (hP : P.Hyp) {ι : Type} (W : Wts ι) (hW : W.Ok P) (τ : ι) (a : ℕ)
     (h1 : kc P + W.j τ ≤ a) (h2 : a < kc P + W.j τ + P.t) :
     W.U P τ a = W.bot P τ + ((kc P + W.j τ + P.t - 1 - a : ℕ) : ℤ) := by
+  have ht := hP.t_ge
   have e1 := hW.block τ a h1 h2
   have e2 := hW.block τ (kc P + W.j τ + P.t - 1) (by omega) (by omega)
   unfold Wts.bot Wts.U UN
@@ -365,6 +323,7 @@ theorem abs_weight_sub_near_translation_le (P : Par) (hP : P.Hyp) {ι : Type} (W
   · have e := weight_on_block_eq_bot_add P hP W hW τ a hb.1 hb.2
     have hc := hW.centre τ
     have ht := hP.t_le
+    have hd0 : (0 : ℝ) ≤ ((kc P + W.j τ + P.t - 1 - a : ℕ) : ℝ) := Nat.cast_nonneg _
     have hd1 : ((kc P + W.j τ + P.t - 1 - a : ℕ) : ℝ) ≤ (P.t : ℝ) - 1 := by
       have : kc P + W.j τ + P.t - 1 - a + 1 ≤ P.t := by omega
       have h3 : ((kc P + W.j τ + P.t - 1 - a + 1 : ℕ) : ℝ) ≤ (P.t : ℝ) := by exact_mod_cast this
@@ -508,6 +467,7 @@ theorem shape_a_real_holds : ShapeAReal := by
 
 theorem weights_have_positive_shape (P : Par) (hP : P.Hyp) {ι : Type} (W : Wts ι) (hW : W.Ok P) (τ : ι) :
     P.Shape (W.Uset P τ) (W.bot P τ) (W.c τ) (W.e τ) 1 := by
+  have hr := rank_fits_block_and_t_ge_six P hP W hW τ
   refine ⟨Or.inl rfl, ?_, ?_⟩
   · have := hW.centre τ
     push_cast
@@ -582,9 +542,9 @@ def placesOfParameters (P : Par) (hP : P.Hyp) {ι : Type} (W : Wts ι) (hW : W.O
   shapeF := by
     intro τ l
     cases h : W.cj l τ
-    · simp only [Wts.UsetF, Wts.botF, h, Bool.false_eq_true, if_false]
+    · simp only [Wts.UsetF, Wts.botF, h, Bool.false_eq_true, ite_false]
       exact weights_have_positive_shape P hP W hW _
-    · simp only [Wts.UsetF, Wts.botF, h, if_true]
+    · simp only [Wts.UsetF, Wts.botF, h, ite_true]
       rw [top_eq_bot_add_t_sub_one P hP W hW]
       exact shape_reflect P _ _ _ _ _ (weights_have_positive_shape P hP W hW _)
   kindF := fun τ l => thick_or_top_or_thin P W hW _
@@ -600,6 +560,7 @@ theorem one_le_h (P : Par) (hH : P.Hyp) : 1 ≤ P.h := by
   have h1 : 0 < P.b := Real.exp_pos _
   have h2 := hH.S_nonneg
   have h3 := hH.t_le
+  have h4 : (0 : ℝ) ≤ (P.t : ℝ) := Nat.cast_nonneg _
   unfold Par.h
   linarith
 
@@ -626,7 +587,9 @@ theorem top_inputs_of_shape_w (hSW : ShapeWReal) : TopInputsReal := by
   intro P hH hL ι _ _ W hW l X hl hu hlJ ϖ n₀ e Λ L _ _ _ _ _ hwt hfin hϖ hA hT hS hI
   have hd := paramsLargePrime_holds P hH hL l hlJ
   have hsq : h0 P < l ^ 2 := by
+    have h1 := hd.2.2.2.2.2.2.2
     have h2 := floor_height_le_height P hH
+    have h3 : (0 : ℝ) ≤ (P.Nr : ℝ) := Nat.cast_nonneg _
     have h4 : (h0 P : ℝ) < (l : ℝ) ^ 2 := by linarith
     exact_mod_cast h4
   have ht : 1 ≤ P.t := by have := hH.t_ge; omega
@@ -676,6 +639,7 @@ theorem weight_in_width_range {ι : Type} {W : Wts ι} {P : Par} (hW : W.Ok P) (
       UN P.Nr (W.lam τ) a ≤ W.U P τ (P.Nr - 1) + ((W.width P τ).toNat : ℤ) := by
   have h1 := hW.anti τ a (P.Nr - 1) (by omega) (by omega)
   have h2 := hW.anti τ 0 a (by omega) ha
+  have h3 := hW.anti τ 0 (P.Nr - 1) (by omega) (by omega)
   unfold Wts.width Wts.U UN
   omega
 
@@ -771,12 +735,12 @@ theorem depth_of_linkage_holds : DepthOfLink := by
     rw [hσ]
     unfold Wts.mwF Wts.botF Wts.UsetF
     by_cases hc : W.cj l τ = true
-    · rw [if_pos hc, if_pos hc, if_pos hc, WorkedExample.weight_letters_holds E _ D σ (h0 P) P.t hRefl, hmw]
+    · rw [ite_eq_left hc, ite_eq_left hc, ite_eq_left hc, WorkedExample.weight_letters_holds E _ D σ (h0 P) P.t hRefl, hmw]
       have e : (h0 P : ℤ) - W.top P (W.fr l τ) = (h0 P : ℤ) - (W.bot P (W.fr l τ) + (P.t : ℤ) - 1) := by
         rw [top_eq_bot_add_t_sub_one P hH W hW]
       rw [e, WorkedExample.weight_reflection_holds]
       rfl
-    · rw [if_neg hc, if_neg hc, if_neg hc, hmw]
+    · rw [ite_eq_right hc, ite_eq_right hc, ite_eq_right hc, hmw]
       rfl
   rw [hmw, hmwF, ← linkage_depth_eq_sum_difference P.Nr (kc P) (W.j τ) P.t (W.q τ) hrows (W.lam τ) w (D.U (inc τ))
     (D.U' (inc τ)) (hU τ) hU'] at hDB
@@ -843,9 +807,9 @@ theorem coarse_le_c_w_holds : CoarseLeCW := by
     exact mul_le_mul (div_le_div_of_nonneg_right hdep hl0) (by linarith)
       (add_nonneg zero_le_one Real.posLog_nonneg) (div_nonneg hdep0 hl0)
   by_cases hc : ((d0 l (W.xm τ - W.top P τ) : ℕ) : ℤ) < W.xm τ - W.top P τ
-  · simp only [if_pos hc] at t4 ⊢
+  · simp only [ite_eq_left hc] at t4 ⊢
     linarith
-  · simp only [if_neg hc] at t4 ⊢
+  · simp only [ite_eq_right hc] at t4 ⊢
     linarith
 
 theorem j_w_seven_le_holds : CoarseWeightBoundLe := by
@@ -864,9 +828,9 @@ theorem j_w_seven_le_holds : CoarseWeightBoundLe := by
     intro τ _
     by_cases hτ : τ ∈ W.T2
     · have hτ' : τ ∈ (W.sizeData₂ P J).T2 := hτ
-      rw [if_pos hτ']
+      rw [ite_eq_left hτ']
       unfold cTau
-      rw [if_pos hτ, Nat.cast_min]
+      rw [ite_eq_left hτ, Nat.cast_min]
       apply min_le_min le_rfl
       have h1 := coarse_le_c_w_holds P hH hL ι W hW J τ hτ l hl
       have h2 := short_bound_nonneg_holds l (kc P) (W.j τ) P.t (W.q τ) (h0 P) P.Nr (W.ecl P τ l) (W.xm τ)
@@ -875,18 +839,18 @@ theorem j_w_seven_le_holds : CoarseWeightBoundLe := by
         (W.xp τ) (W.top P τ) (W.iW P l τ : ℝ)).2
       exact (Nat.floor_le (h2.trans h3)).trans h1
     · have hτ' : τ ∉ (W.sizeData₂ P J).T2 := hτ
-      rw [if_neg hτ']
+      rw [ite_eq_right hτ']
       unfold cTau
-      rw [if_neg hτ]
+      rw [ite_eq_right hτ]
       exact le_rfl
 
 theorem seventh_recursion_eq_a_of_small_prime {ι : Type} [Fintype ι] [DecidableEq ι] (W : Wts ι) (P : Par) (l : ℕ)
     (hc : (l : ℝ) ≤ P.lJ ∨ P.Excl l ∨ l ∈ W.Sp) : W.Jrec7 P l = W.JA P l := by
-  rw [Wts.Jrec7, if_pos hc]
+  rw [Wts.Jrec7, ite_eq_left hc]
 
 theorem seventh_recursion_eq_w_of_large_prime {ι : Type} [Fintype ι] [DecidableEq ι] (W : Wts ι) (P : Par) (l : ℕ)
     (hc : ¬ ((l : ℝ) ≤ P.lJ ∨ P.Excl l ∨ l ∈ W.Sp)) : W.Jrec7 P l = W.coarseWeightBound P l := by
-  rw [Wts.Jrec7, if_neg hc]
+  rw [Wts.Jrec7, ite_eq_right hc]
 
 theorem sizeData_boundW_of_le_seventh_recursion {ι : Type} [Fintype ι] [DecidableEq ι] (W : Wts ι) (P : Par) (hH : P.Hyp)
     (hL : P.Large) (hW : W.Ok P) (J : ℕ → ℕ) (hJ : ∀ l : ℕ, l.Prime → J l ≤ W.Jrec7 P l) :
@@ -902,8 +866,8 @@ theorem sizeData_boundW_of_le_seventh_recursion {ι : Type} [Fintype ι] [Decida
   apply Finset.sum_congr rfl
   intro τ _
   by_cases hτ : τ ∈ (W.sizeData₂ P J).T2
-  · rw [if_pos hτ, if_pos hτ]
-  · rw [if_neg hτ, if_neg hτ]
+  · rw [ite_eq_left hτ, ite_eq_left hτ]
+  · rw [ite_eq_right hτ, ite_eq_right hτ]
 
 end Formalism.CohomologicalDescent.ShortWeightBounds
 end -- clump:auto

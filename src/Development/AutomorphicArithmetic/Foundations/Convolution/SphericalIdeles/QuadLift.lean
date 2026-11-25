@@ -1,6 +1,5 @@
 module
 
-import all Development.AutomorphicArithmetic.Foundations.Convolution.TraceSplitting.OffStable
 public import Development.AutomorphicArithmetic.Foundations.Convolution.SphericalIdeles.RamDefs
 public import Development.AbelianVarietyTheory.PublishedTheorems.GaloisCohomology₂.StrongMultiplicityOne
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.CuspidalTwistRamifiedCharNeSelf
@@ -55,50 +54,9 @@ public import Development.AbelianVarietyTheory.Proofs.CharacterTheory.ExistsChar
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.RegularSemisimpleFibres.FrobeniusLocalPairs.ElemPairJHolds
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.RegularSemisimpleFibres.PowerMatchingTraces.VarEx
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.RegularSemisimpleFibres.PowerMatchingTraces.VarTrace
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.HaveILetI
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Topology.Sheaves.Init
 import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsFixedIff
 import Formalism.SharpRestriction.GrowthBounds.MonomialOrderSegments.BrData
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Algebra.Module.StablyFree.Basic
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Tactic.Polynomial.Basic
 import Formalism.PadicSubsetSums.StableGradedCounts.ZBrauerNesbittAlg
 import Mathlib.Tactic.Linter.Style
 import Development.AbelianVarietyTheory.Definitions.Divisors.T2SpaceGeneralLinearGroup
@@ -109,13 +67,7 @@ import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.StabilizerOrbitVolume.D
 import GroundTheory.AutomorphicForms.TensorProductTheorem.Irreducible
 import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.LatticeIndices.CharZeroAdicCompletion
 import GroundTheory.GlobalFields.SemilocalAlgebras.Galois
-import Mathlib.Tactic.TypeStar
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Tactic.Lemma
 import Development.AbelianVarietyTheory.PublishedTheorems.TwistedTraceFormula.HasFiniteLengthOfIsIrreducible
-import Mathlib.RingTheory.WittVector.IsPoly
 import Std.Tactic.BVDecide.Normalize.Prop
 import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.LocalDoubleCosets.JacSemi
 
@@ -256,7 +208,7 @@ theorem unrNorm : UnrNorm := by
   intro F E _ _ _ _ _ v w σw l N hN hq a
   refine MonoidHom.ext fun x => ?_
   have h := hN.abs x
-  rw [GlobalTheory.LGrp.nabs_eq_zpow, GlobalTheory.LGrp.nabs_eq_zpow, GlobalTheory.T.residue_card_eq_abs_norm F v, GlobalTheory.T.residue_card_eq_abs_norm E w.1, hq] at h
+  rw [GlobalTheory.LGrp.nabs_eq_zpow, GlobalTheory.LGrp.nabs_eq_zpow, GlobalTheory.CompanionTheory.ResCardAbsNorm.resCard_completion_eq_absNorm F v, GlobalTheory.CompanionTheory.ResCardAbsNorm.resCard_completion_eq_absNorm E w.1, hq] at h
   have h' := zpow_inj_of_absNorm v h
   have h'' := neg_injective h'
   simp only [MonoidHom.comp_apply, GlobalTheory.SmGL.unrChar_apply, h'']
@@ -846,7 +798,6 @@ private theorem jacA_refl {k V : Type} [Field k] {n : ℕ} [AddCommGroup V] [Mod
   obtain ⟨v, rfl⟩ := Submodule.Quotient.mk_surjective _ y
   rfl
 
-
 theorem UpperTheory.Gal.Join.coreId (h1 : VarEx) (h2 : VarTrace) (h3 : ElemPairJ) : CoreId := by
   intro F E _ _ _ _ _ _ _ _ σ hσ hp n hn v w hns σw N hs hN π P hP hW τ τ' hτ hτ'
   obtain ⟨s, hs', hI⟩ := h1 F E σ hσ hp n hn P hP v w hns
@@ -992,7 +943,27 @@ variable {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algeb
 private theorem val_gal (v : HeightOneSpectrum (𝓞 F)) (σ : E ≃ₐ[F] E) (w u : HeightOneSpectrum (𝓞 E))
     [w.asIdeal.LiesOver v.asIdeal] [u.asIdeal.LiesOver v.asIdeal] (h : u = σ • w) (y : w.adicCompletion E) :
     Valued.v (galEquiv v σ w u h y) = Valued.v y := by
-  apply _root_.UpperTheory.ConvolutionTheory.T.val_gal <;> assumption
+  subst h
+  have ev : ∀ (u : HeightOneSpectrum (𝓞 E)) (x : E),
+      Valued.v (algebraMap E (u.adicCompletion E) x) = u.valuation E x :=
+    fun u x => HeightOneSpectrum.valuedAdicCompletion_eq_valuation' u x
+  have key : ∀ x : E, Valued.v (galEquiv v σ w (σ • w) rfl (algebraMap E _ x)) =
+      Valued.v (algebraMap E (w.adicCompletion E) x) := by
+    intro x
+    rw [galEquiv_algebraMap, ev, ev]
+    exact valuation_smul σ w x
+  by_cases hy : y = 0
+  · simp [hy]
+  have hy' : galEquiv v σ w (σ • w) rfl y ≠ 0 := by simpa using hy
+  have h1 := Valued.locally_const ((Valuation.ne_zero_iff _).mpr hy)
+  have h2 := (continuous_galEquiv v σ w (σ • w) rfl).continuousAt.preimage_mem_nhds
+    (Valued.locally_const ((Valuation.ne_zero_iff _).mpr hy'))
+  obtain ⟨_, ⟨x, rfl⟩, hx⟩ :=
+    (HeightOneSpectrum.denseRange_algebraMap E w).inter_nhds_nonempty (Filter.inter_mem h1 h2)
+  have e1 : Valued.v (algebraMap E (w.adicCompletion E) x) = Valued.v y := hx.1
+  have e2 : Valued.v (galEquiv v σ w (σ • w) rfl (algebraMap E _ x)) =
+      Valued.v (galEquiv v σ w (σ • w) rfl y) := hx.2
+  rw [← e2, key, e1]
 
 private theorem galFin_eq (σ : E ≃ₐ[F] E) {v : Pl F} (w : PlacesOver E v) (hfix : w.1 = σ • w.1)
     (y : CompletionsOver E v) : galFin σ v y w = galEquiv v σ w.1 w.1 hfix (y w) := by
@@ -1175,8 +1146,7 @@ theorem charDom : CharDom := by
   intro k _ _ _ _ n t₀ E E' c c' hc h
   have hind := indep (domM k n) (fun t => dom_translate t) t₀ E E' c c' hc h
   refine ⟨hind, fun hE => ?_⟩
-  by_contra hne
-  push_neg at hne
+  by_contra! hne
   obtain ⟨μ, hμ⟩ := Multiset.exists_mem_of_ne_zero hE
   have := indep (domM k n) (fun t => dom_translate t) t₀ E 0 1 0 one_ne_zero
     (fun t ht => by rw [one_mul, hne t ht]; simp) μ hμ
@@ -1292,8 +1262,7 @@ theorem UpperTheory.Gal.Join.twExp :
     exact hmaps t₁ t _ key
 
   have hex : ∃ χ : T → ℂ, χ ∘ s = χ ∧ N χ ≠ ⊥ := by
-    by_contra hno
-    push_neg at hno
+    by_contra! hno
     let J := {χ : T → ℂ // χ ∘ s ≠ χ}
     let N' : J → Submodule ℂ P := fun j => N j.1
     have hind' : iSupIndep N' := hind.comp Subtype.val_injective

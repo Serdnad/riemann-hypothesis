@@ -94,7 +94,7 @@ theorem flowMat_isom_real (hiso : hermC τ.1 X.Gm (Data.emb τ.1 ξ) (Data.emb �
     funext i
     show ∑ b, X.flowMat ξ τ t i b * w b = _
     simp only [Data.flowMat, Matrix.of_apply, sub_mul, Finset.sum_sub_distrib, ite_mul, one_mul,
-      zero_mul, Finset.sum_ite_eq, Finset.mem_univ, if_true, Pi.sub_apply, Pi.smul_apply,
+      zero_mul, Finset.sum_ite_eq, Finset.mem_univ, ite_true, Pi.sub_apply, Pi.smul_apply,
       smul_eq_mul, hermC, Data.emb]
     congr 1
     simp only [Finset.mul_sum, Finset.sum_mul]
@@ -158,15 +158,6 @@ private lemma hermC_ppos_lemma_5 (x : Frame X.Ψ r) (u w : Fin r → ℂ) :
   conv_lhs => rw [Finset.sum_comm]
   exact Finset.sum_congr rfl fun a _ => Finset.sum_congr rfl fun b _ => by ring
 
-private lemma hermC_jp_lemma_6 {x : Frame X.Ψ r} (hx : x ∈ X.dom) (u v : Fin r → ℂ) :
-    hermC τ.1 X.Gm (X.jp x τ u) (X.jp x τ v) = hermC τ.1 X.Gm u v := by
-  unfold Data.jp
-  rw [hermC_smul_sub_left_lemma_3, hermC_smul_sub_right_lemma_4, hermC_smul_sub_right_lemma_4,
-    hermC_ppos_lemma_5 X τ x u (X.ppos x τ v), X.ppos_ppos hx τ v, hermC_ppos_lemma_5 X τ x u v]
-  have h2 : conj (2 : ℂ) = 2 := map_ofNat (starRingEnd ℂ) 2
-  rw [h2]
-  ring
-
 private lemma maj_eq_lemma_7 (x : Frame X.Ψ r) (v : Fin r → ℂ) :
     X.maj x τ v = (hermC τ.1 X.Gm (X.jp x τ v) v).re := by
   have hP : hermC τ.1 X.Gm (X.ppos x τ v) v = ∑ a : Fin X.p0, ∑ b : Fin X.p0,
@@ -187,7 +178,7 @@ theorem maj_jp {x : Frame X.Ψ r} (hx : x ∈ X.dom) (v : Fin r → ℂ) :
 
 theorem herm_eq_Hf_jp {x : Frame X.Ψ r} (hx : x ∈ X.dom) (u v : Fin r → ℂ) :
     hermC τ.1 X.Gm u v = X.Hf x τ u (X.jp x τ v) := by
-  exact (hermC_jp_lemma_6 X τ hx u v).symm
+  exact (X.hermC_jp_jp hx τ u v).symm
 
 private lemma flowMat_mulVec_lemma_10 (t : ℝ) (w : Fin r → ℂ) :
     Matrix.mulVec (X.flowMat ξ τ t) w =
@@ -195,7 +186,7 @@ private lemma flowMat_mulVec_lemma_10 (t : ℝ) (w : Fin r → ℂ) :
   funext i
   show ∑ b, X.flowMat ξ τ t i b * w b = _
   simp only [Data.flowMat, Matrix.of_apply, sub_mul, Finset.sum_sub_distrib, ite_mul, one_mul,
-    zero_mul, Finset.sum_ite_eq, Finset.mem_univ, if_true, Pi.sub_apply, Pi.smul_apply,
+    zero_mul, Finset.sum_ite_eq, Finset.mem_univ, ite_true, Pi.sub_apply, Pi.smul_apply,
     smul_eq_mul, hermC, Data.emb]
   congr 1
   simp only [Finset.mul_sum, Finset.sum_mul]

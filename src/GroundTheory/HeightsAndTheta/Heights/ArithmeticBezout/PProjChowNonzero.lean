@@ -1,6 +1,5 @@
 module
 
-import Mathlib.RingTheory.MvPolynomial.Homogeneous
 public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.StatementsProjChowNonzero
 public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.PIncidenceZeroLocus
 import Mathlib.RingTheory.Henselian
@@ -23,7 +22,7 @@ namespace ProjChowNonzero
 theorem aeval_smul_of_isHomogeneous {Ω : Type*} [Field Ω] [Algebra ℂ Ω] {n m : ℕ}
     {φ : MvPolynomial (Fin n) ℂ} (hφ : φ.IsHomogeneous m) (c : Ω) (x : Fin n → Ω) :
     aeval (c • x) φ = c ^ m * aeval x φ := by
-  simpa only [MvPolynomial.aeval_def, MvPolynomial.eval₂_eq_eval_map] using (hφ.map (algebraMap ℂ Ω)).eval_smul c x
+  simpa only [aeval_def, eval₂_eq_eval_map] using (hφ.map (algebraMap ℂ Ω)).eval_smul c x
 
 theorem aeval_smul_eq_zero {Ω : Type*} [Field Ω] [Algebra ℂ Ω] {n : ℕ}
     {W : Ideal (MvPolynomial (Fin n) ℂ)} (hW : IsHomogIdeal W) {x : Fin n → Ω}

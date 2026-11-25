@@ -15,49 +15,6 @@ public import Formalism.LocalToGlobal.Columns.CoefficientsModP.FkPderivBlockEmbN
 public import Formalism.LocalToGlobal.Columns.CoefficientsModP.PairingNondegenerateHolds
 import Formalism.GradedWeylDivisibility.DualWeylDominanceOf
 import Formalism.GradedWeylDivisibility.FinalB
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Topology.Sheaves.Init
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
 import Mathlib.Tactic.TypeStar
 import Std.Tactic.BVDecide.Normalize.Prop
 import Formalism.GradedWeylDivisibility.FockSpaceTableaux.ColSums
@@ -70,10 +27,6 @@ import Mathlib.Tactic.Linter.HaveILetI
 import Development.AbelianVarietyTheory.Definitions.Foundations.IsSelfDualE
 import Formalism.LocalToGlobal.IndefiniteForms.IndefiniteTree.RealCubicMeans.LeafBounds.MeanMaxLeaf.LeafMMFree
 import Formalism.QuotientMetricDivisors.Statement
-import Formalism.GradedWeylDivisibility.FockSpaceTableaux.FockQHW
-import Formalism.GradedWeylDivisibility.FockSpaceTableaux.FockQWordAdj
-import Formalism.PieriBlockIdeals.PieriColumnMinors.LowerTriangularIntegral
-import Formalism.PieriBlockIdeals.PieriColumnMinors.LrfcApplyWordAppendSingle
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.Proofs.FoundationProofs.FockQWordRowActAdj, Development.AbelianVarietyTheory.Proofs.FoundationProofs.LowerTriIntegral, Development.AbelianVarietyTheory.Proofs.FoundationProofs.LowerTriOfInterlaced, Development.AbelianVarietyTheory.Proofs.FoundationProofs.UnitriMonomialOfLowerTri, Development.AbelianVarietyTheory.Proofs.FoundationProofs.StandardWeylLatticesFockDual
@@ -88,7 +41,16 @@ open MvPolynomial Formalism.GradedWeylDivisibility
 namespace GlobalTheory.FockAdj
 
 theorem fockQ_applyWord : Formalism.GradedWeylDivisibility.FockQWordAdj := by
-  exact _root_.Formalism.GradedWeylDivisibility.fock_space_word_adjoint
+  intro r n w
+  induction w with
+  | nil => intro F G; rfl
+  | cons x w ih =>
+    intro F G
+    have h1 : applyWord ℚ (x :: w) F = rowDiv ℚ x.1 x.2.1 x.2.2 (applyWord ℚ w F) := rfl
+    have h2 : applyWord ℚ (transposeWord (x :: w)) G =
+        applyWord ℚ (transposeWord w) (rowDiv ℚ x.2.1 x.1 x.2.2 G) := by
+      simp [applyWord, transposeWord, List.foldr_append]
+    rw [h1, h2, fockQRowDivAdj, ih]
 
 theorem map_rowAct {r n : ℕ} (g : Matrix (Fin r) (Fin r) ℚ) (f : MvPolynomial (Fin r × Fin n) ℚ) :
     map (Rat.castHom ℂ) (rowAct ℚ g f) =
@@ -163,7 +125,47 @@ theorem intQ_bidet {r n K : ℕ} (sz : Fin K → ℕ) (hsz : ∀ k, sz k ≤ n) 
   simp
 
 theorem lowerTriIntegral : Formalism.GradedWeylDivisibility.LowerTriIntegral := by
-  exact _root_.Formalism.CohomologicalDescent.LR.lower_triangular_integral
+  intro r n ν
+  suffices key : ∀ d : (colLex r n).syn, ∀ f ∈ dualWeyl ℚ r n ν,
+      (colLex r n).toSyn ((colLex r n).degree f) = d →
+      (∀ e : Fin r × Fin n →₀ ℕ, LowerTri e → ∃ z : ℤ, AddMonoidAlgebra.coeff f e = z) →
+      ∃ Q' : MvPolynomial (Fin r × Fin n) ℤ, f = intQ r n Q' by
+    intro f hf hint
+    exact key _ f hf rfl hint
+  intro d
+  induction d using WellFoundedLT.induction with
+  | _ d ih =>
+    intro f hf hd hz
+    by_cases hf0 : f = 0
+    · exact ⟨0, by rw [hf0, map_zero]⟩
+    set m := (colLex r n).degree f with hm
+    have hint : Interlaced m := leadInterlaced ℚ r n ν f hf hf0
+    have hcol : ∀ t : Fin n, ∑ a : Fin r, m (a, t) = ν t :=
+      colSums ℚ r n ν f hf m (((colLex r n).degree_mem_support_iff f).mpr hf0)
+    obtain ⟨K, sz, hsz, I, hshape, hmono, hexp⟩ := sSYTExists r n ν m hcol hint
+    obtain ⟨hdeg, hlc⟩ := column_lex_bideterminant ℚ r n K sz hsz I hmono
+    have hmem : bideterminant ℚ sz hsz I ∈ dualWeyl ℚ r n ν := by
+      have := bidetMem ℚ r n K sz hsz I
+      rwa [hshape] at this
+    obtain ⟨z, hzm⟩ := hz m (lowerTri_of_interlaced hint)
+    have hlcf : (colLex r n).leadingCoeff f = (z : ℚ) := hzm
+    set f' := f - (colLex r n).leadingCoeff f • bideterminant ℚ sz hsz I with hf'
+    have hf'mem : f' ∈ dualWeyl ℚ r n ν := Submodule.sub_mem _ hf (Submodule.smul_mem _ _ hmem)
+    have hb : (colLex r n).leadingCoeff f • bideterminant ℚ sz hsz I = intQ r n (z • bideterminant ℤ sz hsz I) := by
+      rw [map_smul, intQ_bidet, hlcf, Int.cast_smul_eq_zsmul]
+    have hdecomp : f = f' + intQ r n (z • bideterminant ℤ sz hsz I) := by
+      rw [hf', ← hb]; abel
+    have hQ : ∃ Q' : MvPolynomial (Fin r × Fin n) ℤ, f' = intQ r n Q' := by
+      by_cases h0 : f' = 0
+      · exact ⟨0, by rw [h0, map_zero]⟩
+      have hlt := lcassem_sub_lt (colLex r n) (f := f) (g := bideterminant ℚ sz hsz I) (hdeg.trans hexp) hlc h0
+      refine ih _ (hd ▸ hlt) f' hf'mem rfl fun e he => ?_
+      obtain ⟨w, hw⟩ := hz e he
+      refine ⟨w - AddMonoidAlgebra.coeff (z • bideterminant ℤ sz hsz I) e, ?_⟩
+      rw [hf', hb, MvPolynomial.coeff_sub, hw, intQ_apply, coeff_map]
+      simp only [Int.cast_sub, eq_intCast]
+    obtain ⟨Q', hQ'⟩ := hQ
+    exact ⟨Q' + z • bideterminant ℤ sz hsz I, by rw [map_add (f := _), ← hQ']; exact hdecomp⟩
 
 end GlobalTheory.WeylInt
 end -- clump:auto
@@ -204,12 +206,12 @@ theorem weight_rowW_diagExp (ν : Fin n → ℕ) :
   · rw [Finset.sum_eq_single ⟨a.val, h⟩]
     · simp
     · intro b _ hb
-      rw [if_neg]
+      rw [ite_eq_right]
       intro e
       exact hb (Fin.ext e.symm)
     · simp
   · refine Finset.sum_eq_zero fun s _ => ?_
-    rw [if_neg]
+    rw [ite_eq_right]
     have := s.2
     omega
 
@@ -228,7 +230,24 @@ theorem eq_diagExp_of_offDiag {ν : Fin n → ℕ} {m : Fin r × Fin n →₀ �
   · exact hoff a s h
 
 theorem lowerTri_of_interlaced {m : Fin r × Fin n →₀ ℕ} (hm : Interlaced m) : LowerTri m := by
-  first | exact _root_.GlobalTheory.WeylInt.lowerTri_of_interlaced | exact @_root_.GlobalTheory.WeylInt.lowerTri_of_interlaced | apply _root_.GlobalTheory.WeylInt.lowerTri_of_interlaced <;> assumption
+  have key : ∀ k : ℕ, ∀ (s : Fin n), s.val = k → ∀ a : Fin r, a.val < s.val → m (a, s) = 0 := by
+    intro k
+    induction k with
+    | zero => intro s hs a ha; omega
+    | succ k ih =>
+      intro s hs a ha
+      have hk : k < n := by have := s.2; omega
+      have h := hm ⟨k, hk⟩ s hs a
+      have h0 : ∑ b : Fin r with b < a, m (b, (⟨k, hk⟩ : Fin n)) = 0 := by
+        refine Finset.sum_eq_zero fun b hb => ?_
+        have hb' : b.val < a.val := (Finset.mem_filter.mp hb).2
+        exact ih ⟨k, hk⟩ rfl b (by simp only; omega)
+      rw [h0] at h
+      have h1 : m (a, s) ≤ ∑ b : Fin r with b ≤ a, m (b, s) :=
+        Finset.single_le_sum (f := fun b => m (b, s)) (fun _ _ => Nat.zero_le _) (by simp)
+      omega
+  intro a s h
+  exact key s.val s rfl a h
 
 theorem eq_diagExp_of_lowerTri (hn : n ≤ r) {ν : Fin n → ℕ} {m : Fin r × Fin n →₀ ℕ} (hm : LowerTri m)
     (hcol : ∀ t : Fin n, ∑ a : Fin r, m (a, t) = ν t)
@@ -307,13 +326,23 @@ theorem component_eq_smul_hw {R : Type} [CommRing R] [IsDomain R] (hn : n ≤ r)
     (colSums R r n ν G hGm _ hd) (hGw (mem_support_iff.mp hd))
   rw [he, mem_support_iff] at hd
   apply hd
-  rw [hGdef, MvPolynomial.coeff_sub, coeff_weightedHomogeneousComponent, if_pos (weight_rowW_diagExp ν), MvPolynomial.coeff_smul,
+  rw [hGdef, MvPolynomial.coeff_sub, coeff_weightedHomogeneousComponent, ite_eq_left (weight_rowW_diagExp ν), MvPolynomial.coeff_smul,
     ← eval_idFrame_eq_coeff (colSums R r n ν F hF), ← eval_idFrame_eq_coeff (colSums R r n ν _ hH),
     eval_idFrame_hw]
   simp
 
 theorem fockQ_hw : Formalism.GradedWeylDivisibility.FockQHW := by
-  exact _root_.Formalism.GradedWeylDivisibility.fock_space_highest_weight
+  classical
+  intro r n hn ν hν F hF
+  have h := component_eq_smul_hw hn hν hF
+  unfold fockQ
+  rw [Finset.mul_sum]
+  refine Finset.sum_congr rfl fun m hm => ?_
+  have hw' := hwRowWeight ℚ r n hn ν hν (mem_support_iff.mp hm)
+  have h2 := congrArg (AddMonoidAlgebra.coeff · m) h
+  rw [coeff_weightedHomogeneousComponent, ite_eq_left hw', MvPolynomial.coeff_smul, smul_eq_mul] at h2
+  rw [h2]
+  ring
 
 end GlobalTheory.FockHighestWeight
 end -- clump:auto
@@ -538,7 +567,23 @@ theorem unitri_monomial_of_not (m : Fin r × Fin n →₀ ℕ) (hm : ¬ LowerTri
   simp [mem_positions, h.ne, h1, h0]
 
 theorem coeffWord : Formalism.GradedWeylDivisibility.CoeffWord := by
-  exact _root_.Formalism.CohomologicalDescent.LR.coefficient_word
+  classical
+  intro R _ r n ν F e hF he hν
+  rw [wordOf_eq, eval_applyWord e _ (fun q hq => (mem_positions q).1 hq) pairwise_positions]
+  conv_lhs => rw [F.as_sum]
+  conv_rhs => rw [F.as_sum]
+
+  rw [map_sum, coeff_sum, coeff_sum]
+  refine Finset.sum_congr rfl fun m hm => ?_
+  have hw : Finsupp.weight (colW r n) m = ν := hF (mem_support_iff.1 hm)
+  by_cases hl : LowerTri m
+  · rw [unitri_monomial_of_lowerTri m hl, coeff_monomial, coeff_monomial]
+    refine if_congr ⟨fun h => by rw [h], fun h => ?_⟩ rfl rfl
+    refine eq_of_filter_eq m e hl he (fun s => by rw [← _root_.Formalism.GradedWeylDivisibility.lccomp_weight_colW_apply, hw, hν]) fun v hv => ?_
+    have := DFunLike.congr_fun h v
+    simpa [Finsupp.filter_apply, mem_positions, hv] using this
+  · rw [unitri_monomial_of_not m hl, coeff_monomial, ite_eq_right (fun h : m = e => hl (h ▸ he)),
+      AddMonoidAlgebra.coeff_zero, Finsupp.zero_apply]
 
 end GlobalTheory.CoeffWord
 end -- clump:auto
@@ -834,10 +879,10 @@ theorem std_dual : ∀ (K : Type) [Field K] [NumberField K] [StarRing K] (ι : T
     simp only [← fockL_apply (f _ _), h]
     split_ifs with hij
     · subst hij
-      simp only [if_true]
+      simp only [ite_true]
       exact div_mul_cancel₀ 1 (Finset.prod_ne_zero_iff.mpr fun τ _ => hne τ)
     · obtain ⟨τ, hτ⟩ := Function.ne_iff.mp hij
-      rw [Finset.prod_eq_zero (Finset.mem_univ τ) (if_neg hτ), mul_zero]
+      rw [Finset.prod_eq_zero (Finset.mem_univ τ) (ite_eq_right hτ), mul_zero]
   have hc : ∀ a ∈ (algebraMap (𝓞 K) K).range, starRingEnd K a ∈ (algebraMap (𝓞 K) K).range := by
     rintro _ ⟨a, rfl⟩
     exact ⟨⟨_, (RingOfIntegers.isIntegral_coe a).map (starRingEnd K).toIntAlgHom⟩, rfl⟩

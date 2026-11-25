@@ -1,10 +1,10 @@
 module
 
-import Mathlib
+public import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.ValuationRamificationIndex
+import Mathlib.Algebra.Category.AlgCat.Monoidal
 import Mathlib.Algebra.Order.Star.Int
 import Mathlib.CategoryTheory.Monoidal.Opposite.Mon
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.Polynomial.Basic
+import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.SecTieBaseChange
 public import Formalism.LocalToGlobal.ProjectiveLattices.ChartDirectionsIntegral
 public import Formalism.LocalToGlobal.ProjectiveLattices.FrameCharts
 public import Formalism.LocalToGlobal.ProjectiveLattices.ArcTheta
@@ -22,8 +22,6 @@ public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsSecUnit
 public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.ExistsSemiAbelianModelPadicPrincipallyPolarised
 public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.ExistsFramedPointBaseChangeAlgHom
 public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ModuliFiniteSurjectiveOverGenericFamily
-import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.SecTieBaseChange
-import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.PolarisationSectionGeneratesOfSpecialFibre
 
 @[expose] public section
 
@@ -33,77 +31,7 @@ noncomputable section
 
 namespace GlobalTheory.IntegralPull
 
-section Valuation
-
-open IsDedekindDomain Formalism.L2.Pj
-
-section Val
-
-variable {V K' : Type} [CommRing V] [IsDomain V] [IsDiscreteValuationRing V] [Field K'] [Algebra V K']
-  [IsFractionRing V K']
-
-theorem vV_unit (u : Vˣ) : vV V (algebraMap V K' u) = 0 := by
-  have : valV V (algebraMap V K' u) = 1 := by
-    rw [valV, HeightOneSpectrum.valuation_of_algebraMap, HeightOneSpectrum.intValuation_eq_one_iff]
-    exact fun h => (IsLocalRing.mem_maximalIdeal _).1 h u.isUnit
-  simp [vV, this]
-
-theorem vV_pow {x : K'} (hx : x ≠ 0) (n : ℕ) : vV V (x ^ n) = n * vV V x := by
-  simp [vV]
-
-theorem vV_pos {a : V} (ha : a ≠ 0) (hu : ¬ IsUnit a) : 0 < vV V (algebraMap V K' a) := by
-  have h0 : algebraMap V K' a ≠ 0 := by simpa using ha
-  have : valV V (algebraMap V K' a) < 1 := by
-    rw [valV, HeightOneSpectrum.valuation_lt_one_iff_mem]
-    exact hu
-  have := (WithZero.log_lt_log (valV_ne_zero (V := V) h0) one_ne_zero).2 this
-  simp only [vV]; simp at this; omega
-
-theorem vV_irr {a : V} (ha : Irreducible a) : vV V (algebraMap V K' a) = 1 := by
-  have : valV V (algebraMap V K' a) = WithZero.exp (-1 : ℤ) := by
-    rw [valV, HeightOneSpectrum.valuation_of_algebraMap]
-    exact HeightOneSpectrum.intValuation_singleton _ ha.ne_zero ha.maximalIdeal_eq
-  simp [vV, this]
-
-theorem exists_index {V' K'' : Type} [CommRing V'] [IsDomain V'] [IsDiscreteValuationRing V'] [Field K'']
-    [Algebra V' K''] [IsFractionRing V' K''] (j : V →+* V') [IsLocalHom j] (i : K' →+* K'')
-    (hi : ∀ v, i (algebraMap V K' v) = algebraMap V' K'' (j v)) :
-    ∃ r : ℕ, 0 < r ∧ ∀ x, vV V' (i x) = (r : ℤ) * vV V x := by
-  obtain ⟨p, hp⟩ := IsDiscreteValuationRing.exists_irreducible V
-  have inj : ∀ v, v ≠ 0 → algebraMap V' K'' (j v) ≠ 0 := fun v hv => by
-    rw [← hi]; simpa using hv
-  have pos : 0 < vV V' (algebraMap V' K'' (j p)) :=
-    vV_pos (fun h => inj p hp.ne_zero (by simp [h])) (fun h => hp.not_isUnit (isUnit_of_map_unit j p h))
-  obtain ⟨r, hr⟩ := Int.eq_ofNat_of_zero_le pos.le
-  have key : ∀ v : V, v ≠ 0 → vV V' (i (algebraMap V K' v)) = (r : ℤ) * vV V (algebraMap V K' v) := by
-    intro v hv
-    obtain ⟨n, u, rfl⟩ := IsDiscreteValuationRing.eq_unit_mul_pow_irreducible hv hp
-    have h1 : algebraMap V K' p ≠ 0 := by simpa using hp.ne_zero
-    have h2 : algebraMap V K' u ≠ 0 := by simp
-    rw [hi, map_mul, map_mul, map_mul, map_pow, map_pow, map_pow,
-      vV_mul (inj _ u.ne_zero) (pow_ne_zero _ (inj p hp.ne_zero)), vV_mul h2 (pow_ne_zero _ h1),
-      vV_pow (inj p hp.ne_zero), vV_pow h1, vV_unit, vV_irr hp, hr]
-    have := vV_unit (K' := K'') (Units.map j.toMonoidHom u)
-    simp only [Units.coe_map, RingHom.toMonoidHom_eq_coe, MonoidHom.coe_coe] at this
-    rw [this]; ring
-  refine ⟨r, by omega, fun x => ?_⟩
-  by_cases hx : x = 0
-  · simp [hx, vV]
-  obtain ⟨a, b, hb, rfl⟩ := IsFractionRing.div_surjective (A := V) x
-  have hb0 : b ≠ 0 := nonZeroDivisors.ne_zero hb
-  have ha0 : a ≠ 0 := by rintro rfl; simp at hx
-  have hb1 : algebraMap V K' b ≠ 0 := by simpa using hb0
-  have e : algebraMap V K' a / algebraMap V K' b * algebraMap V K' b = algebraMap V K' a := div_mul_cancel₀ _ hb1
-  have e1 := vV_mul (V := V) hx hb1
-  have e2 := vV_mul (V := V') ((map_ne_zero i).2 hx) ((map_ne_zero i).2 hb1)
-  rw [← map_mul, e, key a ha0, key b hb0] at e2
-  rw [e] at e1
-  rw [e1] at e2
-  linarith
-
-end Val
-
-end Valuation
+alias exists_index := GlobalTheory.PlaceExtField.exists_index
 
 section Coordinates
 
@@ -223,7 +151,62 @@ theorem generates_of_generic_line {V : Type} [CommRing V] [IsDomain V] [IsDiscre
     (hb : ∀ s : L'.Sec, ∃ a : FractionRing V, ∀ i, s.f i = constFn p' _ a * b.f i)
     (θ : L.Sec) {g : X} (hg : p g = closedPoint V) (hθ : g ∈ Out.nonzeroLocus θ) (σ : L.Sec) :
     ∃! a : V, ∀ i, σ.f i = constFn p _ a * θ.f i := by
-  apply _root_.GlobalTheory.GenDvr.generates_of_generic_line <;> assumption
+  obtain ⟨k₀, hb₀⟩ := TopologicalSpace.Opens.mem_iSup.1 hθ
+  have hk₀ : g ∈ L.U k₀ := X.basicOpen_le _ hb₀
+  have un : IsUnit (gs (𝟙 _) g _ (θ.f k₀)) := by
+    rw [gs_eq (𝟙 _) g _ hk₀]; exact (X.mem_basicOpen _ _ hk₀).1 hb₀
+  obtain ⟨w, gw'⟩ := hw
+  have down := sec_pull_down ((isGen_iff w).1 gw') hL hL'
+  obtain ⟨θ', hθ'⟩ := down θ
+  have : IsDominant (spMap (algebraMap V (FractionRing V))) := ⟨(PrimeSpectrum.denseRange_comap_iff_ker_le_nilRadical _).2
+    (((RingHom.injective_iff_ker_eq_bot _).1 (IsFractionRing.injective V (FractionRing V))).le.trans bot_le)⟩
+  have := IsSchemeTheoreticallyDominant.of_isDominant (spMap (algebraMap V (FractionRing V)))
+  have : IsSchemeTheoreticallyDominant φ := IsSchemeTheoreticallyDominant.of_isPullback hφ.flip
+  have : QuasiCompact φ := MorphismProperty.of_isPullback (P := @QuasiCompact) hφ.flip inferInstance
+
+  have inj : ∀ (σ τ σK τK : _) (r : V), (∀ (Z : Scheme.{0}) (q : Z ⟶ X') (y : Z) j k, φ (q y) ∈ L.U j →
+      q y ∈ L'.U k → gs (q ≫ φ) y _ (LB.Sec.f σ j) = (gw w q y j k).val * gs q y _ (LB.Sec.f σK k)) →
+      (∀ (Z : Scheme.{0}) (q : Z ⟶ X') (y : Z) j k, φ (q y) ∈ L.U j →
+      q y ∈ L'.U k → gs (q ≫ φ) y _ (LB.Sec.f τ j) = (gw w q y j k).val * gs q y _ (LB.Sec.f τK k)) →
+      (∀ k, LB.Sec.f σK k = constFn p' _ (algebraMap V _ r) * LB.Sec.f τK k) →
+      ∀ j, LB.Sec.f σ j = constFn p _ r * LB.Sec.f τ j := by
+    intro σ τ σK τK r h₁ h₂ h₃ j
+    refine φ.app_injective _ (fn_ext fun y hy => ?_)
+    obtain ⟨k, hk⟩ := exists_chart hL' y
+    refine (gs_pull (𝟙 _) φ y _ hy _).trans (Eq.trans ?_ (gs_pull (𝟙 _) φ y _ hy _).symm)
+    rw [gs_mul (𝟙 _ ≫ φ) y _ hy, gs_constFn _ _ (𝟙 _ ≫ φ) y hy, h₁ _ (𝟙 _) y j k hy hk, h₂ _ (𝟙 _) y j k hy hk,
+      (sec_eq_iff _ _ _ _).1 h₃ k y hk, Category.id_comp, hφ.w, cst_comp, mul_left_comm]
+  have mulc : ∀ {s t u : L'.Sec} {a a' : FractionRing V}, (∀ k, s.f k = constFn p' _ a * t.f k) →
+      (∀ k, t.f k = constFn p' _ a' * u.f k) → ∀ k, s.f k = constFn p' _ (a * a') * u.f k :=
+    fun h h' => (sec_eq_iff _ _ _ _).2 fun k y hy => by
+      rw [(sec_eq_iff _ _ _ _).1 h k y hy, (sec_eq_iff _ _ _ _).1 h' k y hy, cst_mul, _root_.mul_assoc]
+  have invc : ∀ {s t : L'.Sec} {a : FractionRing V}, a ≠ 0 → (∀ k, s.f k = constFn p' _ a * t.f k) →
+      ∀ k, t.f k = constFn p' _ a⁻¹ * s.f k := fun ha h => (sec_eq_iff _ _ _ _).2 fun k y hy => by
+    rw [(sec_eq_iff _ _ _ _).1 h k y hy, ← _root_.mul_assoc, ← cst_mul, inv_mul_cancel₀ ha, cst_one, _root_.one_mul]
+  have unit : ∀ (σ : L.Sec) (r : V), (∀ j, θ.f j = constFn p _ r * σ.f j) → IsUnit r := fun σ r h => by
+    by_contra hr
+    rw [(sec_eq_iff _ _ _ _).1 h k₀ g hk₀] at un
+    exact cst_not_isUnit p g hg hr (isUnit_of_mul_isUnit_left un)
+  obtain ⟨a₀, ha₀⟩ := hb θ'
+  have h₀ : a₀ ≠ 0 := fun h => not_isUnit_zero (unit θ 0 (inj θ θ θ' θ' 0 hθ' hθ' ((sec_eq_iff _ _ _ _).2 fun k y hy => by
+    rw [(sec_eq_iff _ _ _ _).1 ha₀ k y hy, h, map_zero, ← _root_.mul_assoc, ← cst_mul, mul_zero])))
+  obtain ⟨σK, hσK⟩ := down σ
+  obtain ⟨a, ha⟩ : ∃ a : FractionRing V, ∀ i, σK.f i = constFn p' _ a * θ'.f i := by
+    obtain ⟨a, ha⟩ := hb σK
+    exact ⟨a * a₀⁻¹, mulc ha (invc h₀ ha₀)⟩
+  obtain ⟨r, hr⟩ : ∃ r : V, ∀ i, σ.f i = constFn p _ r * θ.f i := by
+    by_cases h : IsLocalization.IsInteger V a
+    · obtain ⟨r, rfl⟩ := h
+      exact ⟨r, inj σ θ σK θ' r hσK hθ' ha⟩
+    · have hne : a ≠ 0 := fun e => h (e ▸ IsLocalization.isInteger_zero)
+      obtain ⟨r, hr⟩ := (ValuationRing.isInteger_or_isInteger V a).resolve_left h
+      obtain ⟨u, rfl⟩ := unit σ r (inj θ σ θ' σK r hθ' hσK (hr ▸ invc hne ha))
+      exact absurd ⟨(u⁻¹ : Vˣ), by rw [← inv_inv a, ← hr, map_units_inv]⟩ h
+  refine ⟨r, hr, fun r' hr' => ?_⟩
+  by_contra hne
+  have e : cst p g (r' - r) * gs (𝟙 _) g _ (θ.f k₀) = cst p g (r' - r) * 0 := by
+    rw [cst_sub, sub_mul, ← (sec_eq_iff _ _ _ _).1 hr' k₀ g hk₀, ← (sec_eq_iff _ _ _ _).1 hr k₀ g hk₀, sub_self, mul_zero]
+  exact un.ne_zero (cst_regular p g (sub_ne_zero.2 hne) e)
 
 theorem generates_of_nonzero_on_special_fibre : Out.Laws → Out.Laws2 → ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (H : Host E) (Dw : Datum H) (l : Level H) (Xo : Moduli Dw l) (c : Coeff l) (T : CDVR) (G : SAB H (Sp T.V)) (t' : SAB H (Sp T.Fr)) (x : Sp T.Fr ⟶ Xo.X) (_ : SABMap t' Xo.univ.t x) (_ : SABMap t' G (spMap (algebraMap T.V T.Fr))) (θ : LB.Sec G.PP.L), (∃ g : G.G.left, G.G.hom g = IsLocalRing.closedPoint T.V ∧ g ∈ Out.nonzeroLocus θ) → ∀ σ : LB.Sec G.PP.L, ∃! a : T.V, ∀ i, σ.f i = resG G.G.left le_top ((G.G.hom).appTop.hom (toΓ T.V a)) * θ.f i := by
   intro _ h₂ E _ _ _ H Dw l Xo _ T G t' x m₁ m₂ θ ⟨g, hg, hθ⟩ σ
@@ -360,15 +343,6 @@ theorem flat_of_injective {A V : Type} [CommRing A] [IsDomain A] [IsPrincipalIde
   have : FaithfulSMul A V := (faithfulSMul_iff_algebraMap_injective A V).2 hf
   show Module.Flat A V
   infer_instance
-
-theorem isTan_iff_isTangent {V : Type} [CommRing V] {G : Over (Sp V)} [GrpObj G] (w : epsR V ⟶ G) :
-    IsTan (V := V) (R := V) (G := G) w ↔ IsTangent w := by
-  have : (1 : ptOver V V ⟶ G).left = η[G].left := by
-    show spMap (algebraMap V V) ≫ _ = _
-    rw [show spMap (algebraMap V V) = 𝟙 _ from Spec.map_id _]
-    exact Category.id_comp _
-  unfold IsTan IsTangent
-  rw [this]
 
 variable {E : Type} [Field E] [NumberField E] [IsCMField E] {H : Host E}
 

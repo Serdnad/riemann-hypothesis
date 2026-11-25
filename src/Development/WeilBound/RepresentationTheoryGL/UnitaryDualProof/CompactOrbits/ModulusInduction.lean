@@ -1,6 +1,5 @@
 module
 
-import GroundTheory.AutomorphicForms.TensorProductTheorem.CentralCuspSplit
 public import Development.WeilBound.RepresentationTheoryGL.UnitaryDualProof.CompactOrbits.CentralizerReps
 public import Development.WeilBound.RepresentationTheoryGL.UnitaryDualProof.CompactOrbits.Fourier
 public import Development.WeilBound.RepresentationTheoryGL.UnitaryDualProof.CompactOrbits.ModulusBounds
@@ -28,8 +27,15 @@ theorem pow_mem (K : Submodule ℂ M) (R : Module.End ℂ M) (hK : ∀ m ∈ K, 
 
 theorem aeval_mem (K : Submodule ℂ M) (R : Module.End ℂ M) (hK : ∀ m ∈ K, R m ∈ K) (p : ℂ[X]) :
     ∀ m ∈ K, (aeval R p) m ∈ K := by
-  intros
-  apply _root_.GroundTheory.Automorphic.PeterssonComplement.aeval_mem <;> assumption
+  induction p using Polynomial.induction_on' with
+  | add _ _ hp hq =>
+    intro m hm
+    rw [map_add (f := _), LinearMap.add_apply]
+    exact K.add_mem (hp m hm) (hq m hm)
+  | monomial j _ =>
+    intro m hm
+    rw [aeval_monomial, Algebra.algebraMap_eq_smul_one]
+    exact K.smul_mem _ (pow_mem K R hK j m hm)
 
 theorem isCoprime_list_prod_left {R : Type*} [CommRing R] {ι : Type*} (f : ι → R) (z : R) :
     ∀ l : List ι, (∀ x ∈ l, IsCoprime (f x) z) → IsCoprime (l.map f).prod z
@@ -137,7 +143,7 @@ private theorem scaling_mem_orbit_closure [CharZero k] (hZ : CR Z) {c : Mat k n}
     simp only [mul_add, add_mul, mul_smul_comm, smul_mul_assoc, mul_sub, sub_mul, hq.1 a ha, hZ.1 a ha c hc],
     by simpa using hq.2.smul (t : k)⟩
 
-theorem action_mem_orbit_closure (_hZ : CR Z) {c : Mat k n} (hc : c ∈ Z) {g : GLn k n} (hg : g ∈ Gz Z)
+theorem action_mem_orbit_closure {c : Mat k n} (hc : c ∈ Z) {g : GLn k n} (hg : g ∈ Gz Z)
     {q : Sp k n} (hq : q ∈ C0 Z c) : act g q ∈ C0 Z c := by
   refine ⟨conj_mem_Bz_shared hg hq.1, ?_⟩
   obtain ⟨m, hm⟩ := hq.2
@@ -369,7 +375,7 @@ theorem orbP_of [CharZero k] (h1 : ZNClosed (k := k)) (h2 : FibZN (k := k)) (h3 
     h.1, h.2.1, h.2.2.1, h.2.2.2.1, h.2.2.2.2.1, h.2.2.2.2.2.1, h.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.1,
     h.2.2.2.2.2.2.2.2.1, by rw [h.2.2.2.2.2.2.2.2.2]⟩)
     s.card s le_rfl subset_rfl (C0 Z c) (isClosed_C0 c)
-    (fun _ hh _ hq => action_mem_orbit_closure hZ hc hh hq) (fun _ hq => scaling_mem_orbit_closure hZ hc t hq)
+    (fun _ hh _ hq => action_mem_orbit_closure hc hh hq) (fun _ hq => scaling_mem_orbit_closure hZ hc t hq)
     (fun q ⟨⟨hq1, hqn⟩, hqU⟩ => let ⟨p, hp, hqp⟩ := hcov q.1 hq1 hqn q.2 hqU; Set.mem_iUnion₂.2 ⟨p, hp, hqp⟩)
     ξ hinv (support_in_orbit_closure h1 h2 hZ hc (hcy ▸ hsupp) hkill) _ dvd_rfl
 

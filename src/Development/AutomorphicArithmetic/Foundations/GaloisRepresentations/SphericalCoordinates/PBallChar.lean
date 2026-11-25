@@ -1,52 +1,10 @@
 module
 
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.SphericalCoordinates.RootSumWOff
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.PiTensorProduct
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.HaveILetI
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
 import Std.Tactic.BVDecide.Normalize.Prop
 import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.CoeEqAlgebraMapZeroEquiv
-import Mathlib.CategoryTheory.Monoidal.Opposite.Mon
 
 @[expose] public section
 
@@ -183,7 +141,7 @@ theorem UpperTheory.Gal.W2.ballChar_of :
     have n1 : ComplexEmbedding.conjugate (ty i) ≠ t₀ := fun h => h2 (by rw [← h, hcc])
     have n2 : ComplexEmbedding.conjugate (ty i) ≠ ComplexEmbedding.conjugate t₀ := fun h =>
       h1 (by have := congrArg ComplexEmbedding.conjugate h; rwa [hcc, hcc] at this)
-    simp only [typeMult, h1, h2, n1, n2, if_false] at c1 c2
+    simp only [typeMult, h1, h2, n1, n2, ite_false] at c1 c2
     have a1 : ε (ty i) ≠ 0 := by
       intro h
       rw [h, mul_zero] at c1
@@ -363,6 +321,17 @@ theorem UpperTheory.Gal.W2.ballChar_of :
       rw [hNcol m hm, mul_zero]
     · simp
   have hEb : ∀ j, starRingEnd ℂ (ev j) ≠ 0 := fun j => by simpa using hev j
+  set Eb := Matrix.diagonal fun j => starRingEnd ℂ (ev j) with hEbdef
+  have hEbu : IsUnit Eb.det := by
+    rw [hEbdef, Matrix.det_diagonal]
+    exact isUnit_iff_ne_zero.2 (Finset.prod_ne_zero_iff.2 fun j _ => hEb j)
+  haveI : Invertible Eb := Eb.invertibleOfIsUnitDet hEbu
+  have hEinv : Eb⁻¹ = Matrix.diagonal fun j => (starRingEnd ℂ (ev j))⁻¹ := by
+    apply Matrix.inv_eq_left_inv
+    rw [hEbdef, Matrix.diagonal_mul_diagonal, ← Matrix.diagonal_one]
+    congr 1
+    funext j
+    exact inv_mul_cancel₀ (hEb j)
   have hHbu : IsUnit (H.map star).det := by
     have : (H.map star).det = starRingEnd ℂ H.det := by
       rw [RingHom.map_det]
@@ -373,28 +342,23 @@ theorem UpperTheory.Gal.W2.ballChar_of :
   have h1 : Sb⁻¹ * H = Matrix.diagonal ev * Sb⁻¹ := by
     calc Sb⁻¹ * H = Sb⁻¹ * (H * Sb) * Sb⁻¹ := by simp [Matrix.mul_assoc]
       _ = Matrix.diagonal ev * Sb⁻¹ := by rw [hHS]; simp
-  have h2 : H.map star * P = P * Matrix.diagonal (fun j => starRingEnd ℂ (ev j)) := by
+  have h2 : H.map star * P = P * Eb := by
     have := congrArg (fun M : Matrix (Fin g) (Fin g) ℂ => M.map star) hHS
     simp only [hmapmul, hdiagmap] at this
-    rw [hPdef]
+    rw [hPdef, hEbdef]
     exact this
+  have h3 : (H.map star)⁻¹ * P = P * Eb⁻¹ := by
+    calc (H.map star)⁻¹ * P = (H.map star)⁻¹ * (P * Eb) * Eb⁻¹ := by simp [Matrix.mul_assoc]
+      _ = P * Eb⁻¹ := by rw [← h2, ← Matrix.mul_assoc, Matrix.nonsing_inv_mul _ hHbu, Matrix.one_mul]
   have hTrel : ∀ b j, (Sb⁻¹ * co (T b) * P) i₀ j = mu / starRingEnd ℂ (ev j) * (Sb⁻¹ * co b * P) i₀ j := by
     intro b j
-    have hconj : co (T b) * H.map star = H * co b := by
-      rw [hT b, Matrix.mul_assoc, Matrix.nonsing_inv_mul _ hHbu, Matrix.mul_one]
-    have h :
-        (Sb⁻¹ * co (T b) * P) * Matrix.diagonal (fun j => starRingEnd ℂ (ev j)) =
-          Matrix.diagonal ev * (Sb⁻¹ * co b * P) := by
-      calc
-        _ = Sb⁻¹ * (co (T b) * H.map star) * P := by
-          rw [← Matrix.mul_assoc, Matrix.mul_assoc (Sb⁻¹ * co (T b)) P, ← h2]
-          simp only [Matrix.mul_assoc]
-        _ = (Sb⁻¹ * H) * (co b * P) := by rw [hconj]; simp only [Matrix.mul_assoc]
-        _ = _ := by rw [h1]; simp only [Matrix.mul_assoc]
-    have hj := congrArg (fun M : Matrix (Fin g) (Fin g) ℂ => M i₀ j) h
-    rw [Matrix.mul_diagonal, Matrix.diagonal_mul, hmu0] at hj
-    rw [div_mul_eq_mul_div]
-    exact (eq_div_iff (hEb j)).2 hj
+    rw [hT b]
+    have e : Sb⁻¹ * (H * co b * (H.map star)⁻¹) * P = Matrix.diagonal ev * (Sb⁻¹ * co b * P) * Eb⁻¹ := by
+      calc Sb⁻¹ * (H * co b * (H.map star)⁻¹) * P = (Sb⁻¹ * H) * co b * ((H.map star)⁻¹ * P) := by
+            simp only [Matrix.mul_assoc]
+        _ = _ := by rw [h1, h3]; simp only [Matrix.mul_assoc]
+    rw [e, hEinv, Matrix.mul_diagonal, Matrix.diagonal_mul, hmu0]
+    ring
   let ψ : (Fin d → ℂ) →ₗ[ℂ] ({j // ty j = ComplexEmbedding.conjugate t₀} → ℂ) :=
     { toFun := fun b j => (Sb⁻¹ * co b * P) i₀ j.val
       map_add' := by

@@ -6,54 +6,9 @@ public import Formalism.LocalToGlobal.ProjectiveLattices.ChartDirectionsIntegral
 public import Formalism.LocalToGlobal.ProjectiveLattices.IntAllProof
 public import Formalism.LocalToGlobal.ProjectiveLattices.AllTest
 public import Formalism.LocalToGlobal.ProjectiveLattices.UnifGen
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.AlgebraicGeometry.Modules.Sheaf
-import Mathlib.AlgebraicGeometry.Morphisms.SchemeTheoreticallyDominant
-import Mathlib.AlgebraicGeometry.Morphisms.WeaklyEtale
-import Mathlib.AlgebraicGeometry.Sites.Fpqc
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.CategoryTheory.ExtremalEpi
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Coalgebra.CoassocSimps
-import Mathlib.RingTheory.Coalgebra.IsFrobenius
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
 
 @[expose] public section
-
-set_option autoImplicit false
 
 noncomputable section
 
@@ -328,8 +283,6 @@ section TanSAB
 open AlgebraicGeometry CategoryTheory Limits MonoidalCategory CartesianMonoidalCategory MonObj NumberField
 open ReciprocityTheory.ChartRestriction.G.Geo.Tor
 
-attribute [local instance] Over.cartesianMonoidalCategory
-
 variable {E : Type} [Field E] [NumberField E] [IsCMField E] {H : Host E} {X0 : Scheme.{0}} (t : SAB H X0)
 variable {S : Type} [CommRing S] (x0 : Sp S ⟶ X0)
 
@@ -374,8 +327,6 @@ section Sat
 open AlgebraicGeometry CategoryTheory Limits MonoidalCategory CartesianMonoidalCategory MonObj NumberField
 open ReciprocityTheory.ChartRestriction.G.Geo.Tor
 
-attribute [local instance] Over.cartesianMonoidalCategory
-
 section Gen
 
 variable {X0 : Scheme.{0}} {G : Over X0} [GrpObj G]
@@ -408,11 +359,11 @@ theorem smT_zero_jetTan {S : Type} [CommRing S] (x0 : Sp S ⟶ X0) {κ : Type} [
       Algebra.ofId S (DualNumber S) ((jetAug : Jet S κ (m + 1) →ₐ[S] S) (Ideal.Quotient.mk _ (MvPolynomial.X i)))
     rw [h1, h2, map_zero]
     by_cases h : i = ℓ
-    · rw [if_pos h]
+    · rw [ite_eq_left h]
       show TrivSqZeroExt.map _ (TrivSqZeroExt.inr 1) = 0
       rw [TrivSqZeroExt.map_inr]
       simp
-    · rw [if_neg h, map_zero]
+    · rw [ite_eq_right h, map_zero]
   unfold smT
   rw [← Category.assoc, homAt_comp, e, ← homAt_comp, Category.assoc, hx, MonObj.comp_one]
 
@@ -520,8 +471,6 @@ section Reb
 
 open AlgebraicGeometry CategoryTheory Limits MonoidalCategory CartesianMonoidalCategory MonObj NumberField
 open ReciprocityTheory.ChartRestriction.G.Geo.Tor
-
-attribute [local instance] Over.cartesianMonoidalCategory
 
 section GenA
 

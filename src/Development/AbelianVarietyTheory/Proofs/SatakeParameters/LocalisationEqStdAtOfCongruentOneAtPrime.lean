@@ -8,44 +8,8 @@ public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Adeli
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.DatumJetsTranslate
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.LocalizedLatticeEqOfAdelicMatricesAgreeAtPlace
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.TypePrimeFramesRightTranslateDifferIntegralGL
-import all Formalism.LocalToGlobal.Columns.AdelicLemmas
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Formalism.LocalToGlobal.Columns.AdelicLemmas
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Topology.Sheaves.Init
 
 @[expose] public section
 
@@ -141,8 +105,8 @@ theorem ev_mem_std (i : Fin N) : ev (F := F) (E := E) i ∈ Formalism.L2.Herm.ha
   rw [mem_hatL_std_iff]
   intro j
   by_cases h : i = j
-  · simp only [ev, if_pos h]; exact one_mem _
-  · simp only [ev, if_neg h]; exact zero_mem _
+  · simp only [ev, ite_eq_left h]; exact one_mem _
+  · simp only [ev, ite_eq_right h]; exact zero_mem _
 
 theorem integralAt_stdLattice_iff (z : Fin N → E ⊗[F] 𝔸) :
     HP P (Formalism.L2.Col.stdLat E N) z ↔ ∀ i, IntAtA (F := F) P (z i) := by
@@ -251,7 +215,17 @@ theorem mvL_mulVec_mem_iff (R : GL (Fin N) E) (X : Submodule (𝓞 E) (Fin N →
     exact ⟨v, hv, rfl⟩
 
 theorem span_std : Submodule.span E ((Formalism.L2.Col.stdLat E N : Submodule (𝓞 E) (Fin N → E)) : Set (Fin N → E)) = ⊤ := by
-  apply _root_.Formalism.L2.Col.stdLat_span <;> assumption
+  rw [eq_top_iff]
+  intro x _
+  rw [pi_eq_sum_univ x]
+  refine Submodule.sum_mem _ fun i _ => Submodule.smul_mem _ _ (Submodule.subset_span ?_)
+  show _ ∈ Submodule.pi Set.univ _
+  rw [Submodule.mem_pi]
+  intro j _
+  rw [Submodule.mem_one]
+  by_cases h : i = j
+  · exact ⟨1, by simp [h]⟩
+  · exact ⟨0, by simp [h]⟩
 
 theorem key_iff (y : GL (Fin N) (E ⊗[F] 𝔸)) (R : GL (Fin N) E) (M : Submodule (𝓞 E) (Fin N → E))
     (h : Formalism.HermitianLatticesTheory.localization₂ P.asIdeal (latAd y M) = mvL R (stdAt E N P)) (v : Fin N → E) :

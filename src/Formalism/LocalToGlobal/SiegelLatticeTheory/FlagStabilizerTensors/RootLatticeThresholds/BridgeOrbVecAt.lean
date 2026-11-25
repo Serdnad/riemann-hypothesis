@@ -20,8 +20,6 @@ namespace Formalism.L2.SG.Pf.Carrier
 
 open Formalism.L2.SG.RealObj Formalism.L2.SG.HidaSetting Formalism.L2.SG.RealObj.InfCut Formalism.L2.SG.Pf.Carrier.JointQuot
 
-attribute [local instance] Formalism.BasicNotions.Host.cmStar instCM
-
 section Gen
 
 variable {n : ℕ} {ε : Fin n → Bool} {r : ℕ}
@@ -50,9 +48,8 @@ variable {D : D7} (X : Formalism.L2.SG.HidaSetting.HidaSetting D) (u u' : D.what
   (m₀ : Fin (nfE D) → Formalism.FourierDecayAlt.B.Mat D.R.k D.R.rS)
   (top : ∀ j : Fin (nfE D), (Formalism.FourierDecayAlt.B.Mat D.R.k D.R.rS → (X.Vloc u' (tauE X e j) →L[ℂ] X.Vloc u (tauE X e j))) →
     List Formalism.FourierDecayAlt.C.Letter → Formalism.FourierDecayAlt.C.LPt → Formalism.FourierDecayAlt.C.LPt → ℂ) (A₀ : ℝ)
-  (Mo : ModelsFor (sOf (carrierInOf X u u' e he hv C CA de de' l grid grid1 T hT fc χ sg ν' m₀ top A₀)))
 
-local notation "PP" => CarrierOf (carrierInOf X u u' e he hv C CA de de' l grid grid1 T hT fc χ sg ν' m₀ top A₀) Mo
+local notation "PP" => CarrierOf (carrierInOf X u u' e he hv C CA de de' l grid grid1 T hT fc χ sg ν' m₀ top A₀)
 
 theorem orbVec_data (sc : ℝ) (hsc : 0 < sc) (i0 i0' : ∀ _ : InfinitePlace X.B.I.F, Fin D.R.k)
     (hFX : (PP).FromX) (hB : (PP).Base i0 i0')
@@ -189,8 +186,7 @@ theorem orbVec_data (sc : ℝ) (hsc : 0 < sc) (i0 i0' : ∀ _ : InfinitePlace X.
     have hGd := Bridge.G_diag D.R.rS (ZX X u u' 1 γ v) (Formalism.L2.SG.Pf.CarrierTop.cS D.R.rS D.host.rdE)
       (Formalism.L2.SG.Pf.CarrierTop.cS D.R.rS D.host.rdE) (Tw (D := D) u * Tw (D := D) u') (by rw [hcl]; simp)
     rw [Formalism.L2.SG.Pf.CarrierTop.zx_sc, hGd] at hGX
-    by_contra hle
-    push_neg at hle
+    by_contra! hle
     have : (‖∏ i : Fin D.R.rS, Formalism.L2.SG.Pf.CarrierTop.cS D.R.rS D.host.rdE (Fin.castLE (Nat.le_succ D.R.rS) i)‖ *
         ‖∏ i : Fin D.R.rS, Formalism.L2.SG.Pf.CarrierTop.cS D.R.rS D.host.rdE (Fin.castLE (Nat.le_succ D.R.rS) i)‖) ^ 2 *
         (‖RealObj.Dl (ZX X u u' 1 γ v) (D.R.rS + 1)‖ ^ 2 -
@@ -236,30 +232,6 @@ theorem orbVec_data (sc : ℝ) (hsc : 0 < sc) (i0 i0' : ∀ _ : InfinitePlace X.
   rw [show (Formalism.FourierDecayAlt.D.toStd (PP).S.G.r (PP).S.g 1 (Formalism.FourierDecayAlt.C.loc ((PP).S.emb ((PP).τ.symm v)) p)) =
     Bridge.lptOf σ κ D.R.rS 0 w.1 from hstd]
   exact Bridge.isLocPt_lptOf σ κ D.R.rS hκ0 w
-
-theorem orbVec_vecV (sc : ℝ) (hsc : 0 < sc) (i0 i0' : ∀ _ : InfinitePlace X.B.I.F, Fin D.R.k)
-    (hFX : (PP).FromX) (hB : (PP).Base i0 i0')
-    (hemb : ∀ j x, (PP).S.emb j (X.ιE x) = X.B.I.φ ((PP).τ j) x)
-    (hbase : ∀ v, Formalism.FourierDecayAlt.D.IsBaseFrame ((PP).T ((PP).τ.symm v)).base ((PP).ν' ((PP).τ.symm v))
-      ((PP).m₀ ((PP).τ.symm v)))
-    (p : Formalism.FourierDecayAlt.TB.Pt D.host.E) (w : Formalism.MainNotions.S.Point D.host.E (D.R.rS + 1)) (hp : ptOfL (D := D) (D.R.rS + 1) p = some w)
-    (hw : OkPt X u u' w) (h h' : X.B.I.Ginf) (hD : IsDFrameX X u u' sc i0 i0' (gamW X u u' w) h h')
-    (v : InfinitePlace X.B.I.F)
-    (F : Formalism.FourierDecayAlt.B.Mat (PP).S.G.k (PP).S.G.r →
-      ((PP).Wq ((PP).S.pl ((PP).τ.symm v)) →L[ℂ] (PP).Wp ((PP).S.pl ((PP).τ.symm v))))
-    (hloc : Formalism.FourierDecayAlt.D.IsLocPt (Formalism.FourierDecayAlt.D.toStd (PP).S.G.r (PP).S.g 1
-      (Formalism.FourierDecayAlt.C.loc ((PP).S.emb ((PP).τ.symm v)) p)) ((PP).S.G.r + 1)) :
-    Formalism.FourierDecayAlt.D.vecV ((PP).T ((PP).τ.symm v)).base ((PP).ν' ((PP).τ.symm v)) ((PP).m₀ ((PP).τ.symm v)) F
-              (Formalism.FourierDecayAlt.D.toStd (PP).S.G.r (PP).S.g 1 (Formalism.FourierDecayAlt.C.loc ((PP).S.emb ((PP).τ.symm v)) p)) =
-      Formalism.FourierDecayAlt.D.orbJ ((PP).T ((PP).τ.symm v)).base
-        (trG ((PP).Q v) ((PP).Qi v) ((h v)⁻¹ * (gamW X u u' w) v * h' v))
-        (Formalism.FourierDecayAlt.D.muR ((PP).T ((PP).τ.symm v)).base
-          (trG ((PP).Q v) ((PP).Qi v) ((h v)⁻¹ * (gamW X u u' w) v * h' v)) (hloc.2 ▸ Formalism.FourierDecayAlt.D.ptPerm _)) F := by
-  obtain ⟨hZ, hG, -, hGV⟩ := orbVec_data X u u' e he hv C CA de de' l grid grid1 T hT fc χ sg ν' m₀ top A₀ Mo sc hsc i0 i0' hFX hB hemb hbase p w hp hw h h' hD v
-  have hDF := dFrameBridge_carrierOf X u u' e he hv C CA de de' l grid grid1 T hT fc χ sg ν' m₀ top A₀ Mo sc
-    hsc.ne' i0 i0' hFX hB (gamW X u u' w) h h' hD v
-  exact Formalism.FourierDecayAlt.P.isotropic_vectors_linear_indep D.R.k D.R.rS _ _ _ _ _
-    F _ hloc _ (hbase v) hG hGV hZ hDF
 end AtCarrier
 
 end Formalism.L2.SG.Pf.Carrier

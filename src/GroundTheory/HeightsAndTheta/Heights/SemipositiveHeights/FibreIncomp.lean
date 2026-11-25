@@ -1,6 +1,5 @@
 module
 
-import GroundTheory.HeightsAndTheta.Heights.MultihomogeneousPolynomials
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArithmeticIntersection.MixedFieldContraction.GenericFibreKerTarget
 public import GroundTheory.HeightsAndTheta.Heights.Intersections.StatementsFibreIncomp
 public import GroundTheory.HeightsAndTheta.Heights.Intersections.IsMultiProjPrimeImageZ
@@ -38,7 +37,18 @@ variable {S : Type} [CommRing S]
 theorem aeval_scale {A : Type} [CommRing A] [Algebra S A] {g : MRingOver S ι'} {a : K' → ℕ}
     (hg : IsMultiHomog g a) (c : K' → A) (z : (Σ k, ι' k) → A) :
     aeval (fun p => c p.1 * z p) g = (∏ k, c k ^ a k) * aeval z g := by
-  apply _root_.GroundTheory.Heights₂.Heights.MultiHomogeneous.aevalCoordinateScale <;> assumption
+  simp only [aeval_def, eval₂_eq', Finset.mul_sum]
+  refine Finset.sum_congr rfl fun d hd => ?_
+  have h1 : ∏ p, (c p.1 * z p) ^ d p = (∏ p, c p.1 ^ d p) * ∏ p, z p ^ d p := by
+    rw [← Finset.prod_mul_distrib]
+    simp_rw [mul_pow]
+  have h2 : ∏ p : (Σ k, ι' k), c p.1 ^ d p = ∏ k, c k ^ a k := by
+    rw [Fintype.prod_sigma]
+    refine Finset.prod_congr rfl fun k _ => ?_
+    show ∏ y, c k ^ d ⟨k, y⟩ = _
+    rw [Finset.prod_pow_eq_pow_sum, hg d hd k]
+  rw [h1, h2]
+  ring
 
 theorem coeff_eval₂_scale {σ R A : Type} [Fintype σ] [CommRing R] [CommRing A] (f : R →+* A) (b : σ → A)
     (P : MvPolynomial σ R) (m : σ →₀ ℕ) :
@@ -222,7 +232,7 @@ theorem card_add_card_forgottenBlocks [Fintype K] {κ : K → K'} (hκ : Functio
 omit [Fintype K] [∀ k, Fintype (ι k)] in
 theorem algebraMap_injective_of_horizontal (I : Ideal (MRing ι)) (h : IsHorizontal I) :
     Function.Injective (algebraMap ℤ (MRing ι ⧸ I)) := by
-  set_option backward.isDefEq.respectTransparency.instanceSearchTypes false in rw [injective_iff_map_eq_zero]
+  rw [injective_iff_map_eq_zero]
   intro a ha
   rw [← Ideal.Quotient.mk_algebraMap, MvPolynomial.algebraMap_eq, Ideal.Quotient.eq_zero_iff_mem] at ha
   have h' : a ∈ I.comap (C : ℤ →+* MRing ι) := ha

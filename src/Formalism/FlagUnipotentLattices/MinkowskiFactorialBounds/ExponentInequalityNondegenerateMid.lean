@@ -1,45 +1,8 @@
 module
 
 public import Formalism.FlagUnipotentLattices.CardSubmodulesAndLinearEquivBounds
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
 public import Mathlib.Analysis.Complex.ExponentialBounds
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Lemma
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Topology.Sheaves.Init
 
 @[expose] public section
 
@@ -327,16 +290,22 @@ lemma parameterRange_bounds (C : ℝ) (hC : 1 ≤ C) (k m f : ℕ) (b g v NT Gam
   have hfk' : (f : ℝ) ≤ k := by exact_mod_cast hfk
   have hb0 : 0 < b := by linarith
   have hl2b : Real.log 2 ≤ Real.log b := Real.log_le_log (by norm_num) hb
-  have hlb : 0.69 ≤ Real.log b := by linarith [Real.log_two_gt_d9, hl2b]
+  have hlb : 0.69 ≤ Real.log b := by
+    have := Real.log_two_gt_d9
+    linarith
   have hC0 : 0 < C := by linarith
+  have a1 : (1 : ℝ) ≤ C ^ 32 := one_le_pow₀ hC
   have a2 : (1 : ℝ) ≤ (m : ℝ) ^ 5 := one_le_pow₀ (by linarith)
   have a3 : (1 : ℝ) ≤ (m : ℝ) ^ 5 * f := one_le_mul_of_one_le_of_one_le a2 (by linarith)
   have a4 : 1 * 0.69 ≤ (m : ℝ) ^ 5 * f * Real.log b := mul_le_mul a3 hlb (by norm_num) (by linarith)
+  have a5 : (m : ℝ) ^ 5 * f * Real.log b ≤ C ^ 32 * ((m : ℝ) ^ 5 * f * Real.log b) :=
+    le_mul_of_one_le_left (by linarith) a1
   have hKk : 16 * C ^ 32 * ((m : ℝ) ^ 5 * f * Real.log b) ≤ k := by linarith
   have hk0 : (0 : ℝ) < k := by linarith
   have hlk : 1 ≤ Real.log k := by
+    have he := Real.exp_one_lt_d9
     calc (1 : ℝ) = Real.log (Real.exp 1) := (Real.log_exp 1).symm
-      _ ≤ Real.log k := Real.log_le_log (Real.exp_pos 1) (by linarith [Real.exp_one_lt_d9])
+      _ ≤ Real.log k := Real.log_le_log (Real.exp_pos 1) (by linarith)
   have a6 : C ^ 32 * 1 ≤ C ^ 32 * (16 * ((m : ℝ) ^ 5 * f * Real.log b)) :=
     mul_le_mul_of_nonneg_left (by linarith) (by positivity)
   have hC32k : C ^ 32 ≤ (k : ℝ) := by linarith

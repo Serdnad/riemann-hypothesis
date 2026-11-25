@@ -1,6 +1,5 @@
 module
 
-import Development.WeilBound.ThetaLifts.CartanFactorisation.ExistsBeta
 public import Mathlib.Algebra.Module.LinearMap.End
 public import Mathlib.Basic.Complex.Basic
 public import Mathlib.LinearAlgebra.Span.Defs
@@ -27,54 +26,9 @@ public import Development.WeilBound.ThetaLifts.EigenvalueEndgame.OrthogonalDecom
 public import Development.WeilBound.ThetaLifts.FrameEstimates.HodgeTateFromSandwich
 public import Development.WeilBound.ThetaLifts.TowerModels.PlaneHerm
 public import Development.WeilBound.CoreStatements.LocallyConstantCoinvariants.PfDict
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.HaveILetI
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Topology.Sheaves.Init
 import Formalism.LocalToGlobal.IndefiniteReal.PHeisFC
-import Mathlib.Algebra.Module.StablyFree.Basic
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
 import Development.WeilBound.ThetaLifts.EigenvalueEndgame.OrthogonalDecomposition.RapidBound
-import Mathlib.RingTheory.PiTensorProduct
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.WeilBound.ThetaLifts.EigenvalueEndgame.OrthogonalDecomposition.Imports, Development.WeilBound.ThetaLifts.EigenvalueEndgame.OrthogonalDecomposition.LocDecompOf, Development.WeilBound.ThetaLifts.EigenvalueEndgame.OrthogonalDecomposition.PairLocOf, Development.WeilBound.ThetaLifts.EigenvalueEndgame.OrthogonalDecomposition.SigThConstOf, Development.WeilBound.ThetaLifts.EigenvalueEndgame.OrthogonalDecomposition.SigThConstFin
@@ -171,8 +125,6 @@ open GlobalTheory.WeilM GlobalTheory.AdelicU GlobalTheory.LFun GlobalTheory.Inde
 open PositivityTheory.ThKEst GlobalTheory.SplitFlip PositivityTheory.KCo
 open scoped Classical
 
-attribute [local instance] GlobalTheory.LocalData.complRel GlobalTheory.LocalData.isLocalField
-
 variable {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] {σ : E →ₐ[F] E}
 
 variable {B : Base F E} {n d : ℕ} {X : Spc F E n} {W : Spc F E d} {M : Model σ X W} {χX χW : Chr F E} {om : Rep σ X W}
@@ -214,15 +166,24 @@ theorem exists_op (hD : DictSt) (hp : IsPair B M χX χW om r s r' s') {v : Pl F
       Acts (evFin F v) (om (1, h.1)) φ (a h φ) := by
   obtain ⟨⟨ι, hι⟩, ν, α, -, -, -, hd⟩ := hD F E σ n d B X W M om χX χW hp.base ⟨_, _, hp.herm⟩ ⟨_, _, hp.skew⟩ hp.good hp.weil
     hp.hX hp.hW v t
-  obtain ⟨j, -, j2⟩ := exists_inv' hι.bij
+  obtain ⟨j, -, j2⟩ := PositivityTheory.KCo.kd_exists_inv hι.bij
   choose g hg using fun h : UAt σ W (evFin F v) => (hd ι hι).right h.1 h.2
   exact ⟨fun h => j ∘ₗ (⟨⟨omB ν α 1 (g h), fun _ _ => funext fun _ => mul_add _ _ _⟩, fun _ _ => funext fun _ => mul_left_comm _ _ _⟩ :
     _ →ₗ[ℂ] _) ∘ₗ ι, fun h φ hφ => acts_of_reads (hg h) j2 hφ⟩
 
 theorem I_left (hB : ThetaBasic) (hE : EpsOf) (hU : PositivityTheory.ThKF.Unimod) (hp : IsPair B M χX χW om r s r' s') {Φ : Fn F n d}
     (hΦ : Φ ∈ schA F _) (g₀ : UA σ X.J) : M.I om (om (g₀, 1) Φ) = M.I om Φ := by
-  intros
-  apply _root_.PositivityTheory.ThKF.I_left <;> assumption
+  funext h
+  obtain ⟨h1, -, h2⟩ := hU F E σ hp.base.cm n X.J 1 (fun i j => by simpa using hp.herm.herm i j)
+    (hE F E σ B hp.base n X _ _ (Or.inl hp.herm)).1.2
+  have := hp.good.haar
+  have := h2 _ this
+  have : BorelSpace (UA σ X.J) := ⟨rfl⟩
+  have e : ∀ g, theta om (om (g₀, 1) Φ) g h = theta om Φ (g * g₀) h := fun g => by
+    simp only [theta, ← Module.End.mul_apply, ← map_mul, Prod.mk_mul_mk, mul_one]
+  simp only [Model.I, e]
+  exact PositivityTheory.ThKF.L2.integral_right hp.good.dom (fun g => theta om Φ g h) (fun γ hγ g => by
+    simpa using ((hB F E σ B n d X W M χX χW om r s r' s' hp).1 Φ hΦ).2.1 γ hγ 1 (one_mem _) g h) g₀
 
 theorem I_add (hp : IsPair B M χX χW om r s r' s') {Φ Ψ : Fn F n d} (a : Φ ∈ schA F _ ∧ M.Conv om Φ) (b : Ψ ∈ schA F _ ∧ M.Conv om Ψ) :
     M.I om (Φ + Ψ) = M.I om Φ + M.I om Ψ := funext fun h => by
@@ -356,8 +317,6 @@ open GlobalTheory.WeilM GlobalTheory.AdelicU GlobalTheory.LFun GlobalTheory.Inde
 open PositivityTheory.ThKEst GlobalTheory.SplitFlip PositivityTheory.KCo
 open scoped Classical
 
-attribute [local instance] GlobalTheory.LocalData.complRel GlobalTheory.LocalData.isLocalField
-
 variable {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] {σ : E →ₐ[F] E}
 
 variable {B : Base F E} {n d : ℕ} {X : Spc F E n} {W : Spc F E d} {M : Model σ X W} {χX χW : Chr F E} {om : Rep σ X W}
@@ -375,8 +334,8 @@ theorem inv_loc₂ (hL : LocDist) (e : Fin n ⊕ Fin n' ≃ Fin d) {v : Pl F} {o
     (hh : ∀ h₀, ∃ h, Reads v ι (om (1, h)) (omB ν α 1 h₀) ∧ Reads v ι' (om' (1, h)) (omB ν' α' 1 h₀) ∧
       ∀ φ ∈ SB _, ∀ φ₁ ∈ SB _, Acts (evFin F v) (om' (1, h)) φ φ₁ → ∀ Ψ ∈ schA F _, L φ₁ (om (1, h) Ψ) = L φ Ψ)
     {u g₀} (hu : Reads v ι (om (u, 1)) (omB ν α g₀ 1)) : ∀ φ' ∈ SB _, ∀ Ψ ∈ schA F _, L φ' (om (u, 1) Ψ) = L φ' Ψ := by
-  obtain ⟨j, j1, j2⟩ := exists_inv' b
-  obtain ⟨j', j1', j2'⟩ := exists_inv' b'
+  obtain ⟨j, j1, j2⟩ := PositivityTheory.KCo.kd_exists_inv b
+  obtain ⟨j', j1', j2'⟩ := PositivityTheory.KCo.kd_exists_inv b'
   intro φ' p1' Ψ hΨ
   refine schA_le (LinearMap.eqLocus (L φ' ∘ₛₗ om (u, 1)) (L φ')) (fun f φ p1 p2 => ?_) hΨ
   obtain ⟨T, t1, t2, t3⟩ := intersection_update_fsHerm_neg_one v f p1 p2

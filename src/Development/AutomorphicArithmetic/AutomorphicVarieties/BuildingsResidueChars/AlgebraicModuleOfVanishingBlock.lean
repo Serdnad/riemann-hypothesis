@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.JetHarmonics.FreeAlgebraActionCapelliDeterminantEqOperator
 public import Mathlib.Basic.Complex.Basic
 public import Mathlib.RingTheory.IntegralClosure.IsIntegral.Defs
 public import Mathlib.RingTheory.Polynomial.IsIntegral
@@ -29,7 +28,6 @@ public import GroundTheory.AutomorphicForms.CuspidalDiscreteness.CuspFormsDiff
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.BuildingsResidueChars.AlgModBotOfMemAdjoinCommuting
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.BuildingsResidueChars.GenGlRelationsAndCommuteOfIsLie
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.BuildingsResidueChars.QdetGeneratesUniversalEnvelopingCentre
-import all Development.AutomorphicArithmetic.AutomorphicVarieties.BuildingsResidueChars.QdetGeneratesUniversalEnvelopingCentre
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -100,7 +98,7 @@ private theorem coeff_mem_subalgebra_of_eval_mem {R : Type} [CommRing R] [Algebr
   by_cases hj : F.natDegree + 1 ≤ j
   · rw [Polynomial.coeff_eq_zero_of_natDegree_lt (by omega)]
     exact S.zero_mem
-  push_neg at hj
+  push Not at hj
   let v : Fin (F.natDegree + 1) → ℂ := fun i => ((i : ℕ) : ℂ)
   have hv : Function.Injective v := fun a b hab => Fin.ext (by simpa [v] using hab)
   let V := Matrix.vandermonde v
@@ -158,7 +156,14 @@ open Formalism.REAL Polynomial
 
 private theorem qdet_mem {A : Type} [Ring A] [Algebra ℂ A] {n : ℕ} (S : Subalgebra ℂ A)
     (E : Fin n → Fin n → A) (h : ∀ a b, E a b ∈ S) (u : ℂ) : qdet E u ∈ S := by
-  apply _root_.qdet_mem' <;> assumption
+  unfold qdet qminor
+  refine Subalgebra.sum_mem _ fun σ _ => S.mul_mem (S.intCast_mem _) (S.list_prod_mem fun x hx => ?_)
+  obtain ⟨k, rfl⟩ := List.mem_ofFn.1 hx
+  unfold Tm
+  refine S.add_mem ?_ (h _ _)
+  split_ifs
+  · exact S.algebraMap_mem _
+  · exact S.zero_mem
 
 private theorem map_qdet {A B : Type} [Ring A] [Algebra ℂ A] [Ring B] [Algebra ℂ B] {n : ℕ}
     (φ : A →ₐ[ℂ] B) (E : Fin n → Fin n → A) (u : ℂ) :
@@ -420,14 +425,21 @@ section -- clump:auto
 
 open NumberField NumberField.mixedEmbedding Matrix MeasureTheory GroundTheory.Automorphic GroundTheory.Automorphic.AutomorphicForm UpperTheory.V.Af.Fin
 open scoped TensorProduct
-attribute [local instance 100] LieRing.ofAssociativeRing
 
 namespace UpperTheory.V.QuantumDetLeviBlocks
 
 private theorem map_qdet {A B : Type} [Ring A] [Algebra ℂ A] [Ring B] [Algebra ℂ B] {n : ℕ}
     (φ : A →ₐ[ℂ] B) (E : Fin n → Fin n → A) (u : ℂ) :
-    φ (Formalism.REAL.qdet E u) = Formalism.REAL.qdet (fun a b => φ (E a b)) u :=
-  _root_.GlobalTheory.CapelliFreeAction.map_qdet φ E u
+    φ (Formalism.REAL.qdet E u) = Formalism.REAL.qdet (fun a b => φ (E a b)) u := by
+  unfold Formalism.REAL.qdet Formalism.REAL.qminor
+
+  rw [map_sum]
+  refine Finset.sum_congr rfl fun s _ => ?_
+  rw [map_mul, map_intCast, map_list_prod, List.map_ofFn]
+  congr 3
+  funext k
+  simp only [Function.comp_apply, Formalism.REAL.Tm]
+  split_ifs <;> simp
 
 private def pw (ι V : Type) [AddCommGroup V] [Module ℂ V] :
     Module.End ℂ V →ₐ[ℂ] Module.End ℂ (ι → V) where
@@ -499,7 +511,6 @@ section -- clump:auto
 
 open NumberField NumberField.mixedEmbedding Matrix MeasureTheory GroundTheory.Automorphic GroundTheory.Automorphic.AutomorphicForm UpperTheory.V.Af.Fin
 open scoped TensorProduct
-attribute [local instance 100] LieRing.ofAssociativeRing
 
 open GroundTheory.Automorphic.CuspidalSpectrum in
 private theorem archExp_single (K : Type) [Field K] [NumberField K] (r s : ℕ) (i : Fin r) (j : Fin s)
@@ -515,7 +526,7 @@ private theorem archExp_single (K : Type) [Field K] [NumberField K] (r s : ℕ) 
     intro p
     by_cases hp : p.1 = (Fin.castAdd s i, Fin.natAdd r j)
     · simp [P, hp]
-    · simp only [P, hp, if_false]
+    · simp only [P, hp, ite_false]
       rfl
   have hc := conj_unipGL_eq_archExp (1 : AdelicGLn.AdelicGL K (r + s)) P h0
   simp only [inv_one, one_mul, mul_one] at hc
@@ -529,17 +540,17 @@ private theorem archExp_single (K : Type) [Field K] [NumberField K] (r s : ℕ) 
   · obtain ⟨rfl, rfl⟩ := hab
     have hh : ((Fin.castAdd s i : Fin (r + s)) : ℕ) < r ∧ r ≤ ((Fin.natAdd r j : Fin (r + s)) : ℕ) :=
       ⟨by simp, by simp⟩
-    rw [dite_eq_left hh, if_pos ⟨rfl, rfl⟩]
-    simp only [P, if_pos rfl]
+    rw [dite_eq_left hh, ite_eq_left ⟨rfl, rfl⟩]
+    simp only [P, ite_eq_left rfl]
     exact (e.apply_symm_apply x).symm
-  · rw [if_neg hab]
+  · rw [ite_eq_right hab]
     split_ifs with hh
     · have hne : ¬ ((a, b) : Fin (r + s) × Fin (r + s)) = (Fin.castAdd s i, Fin.natAdd r j) := by
         intro heq
         apply hab
         simp only [Prod.mk.injEq] at heq
         exact ⟨heq.1.symm, heq.2.symm⟩
-      simp only [P, hne, if_false]
+      simp only [P, hne, ite_false]
       exact (map_zero e).symm
     · exact (map_zero e).symm
 
@@ -585,7 +596,6 @@ section -- clump:auto
 
 open NumberField NumberField.mixedEmbedding Matrix MeasureTheory GroundTheory.Automorphic GroundTheory.Automorphic.AutomorphicForm UpperTheory.V.Af.Fin
 open scoped TensorProduct
-attribute [local instance 100] LieRing.ofAssociativeRing
 
 theorem UpperTheory.uAction_mem_unipotentInvariant :
     ∀ (K : Type) [Field K] [NumberField K] (n r : ℕ) (u : UEnv K n), ∀ ψ ∈ NInv K n r, uAction u ψ ∈ NInv K n r := by
@@ -605,7 +615,6 @@ section -- clump:auto
 
 open NumberField NumberField.mixedEmbedding Matrix MeasureTheory GroundTheory.Automorphic GroundTheory.Automorphic.AutomorphicForm UpperTheory.V.Af.Fin
 open scoped TensorProduct
-attribute [local instance 100] LieRing.ofAssociativeRing
 
 private def carry {M : Type} [AddCommGroup M] [Module ℂ M] (W Z : Submodule ℂ M) : Submodule ℂ (Module.End ℂ M) where
   carrier := {T | ∀ x ∈ W, T x ∈ Z}

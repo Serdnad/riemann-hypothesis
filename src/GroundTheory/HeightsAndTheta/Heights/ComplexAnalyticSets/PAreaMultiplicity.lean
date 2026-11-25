@@ -44,7 +44,7 @@ theorem encard_iUnion_nat_eq_tsum {α : Type*} (s : ℕ → Set α) (hs : Pairwi
   rw [← Measure.count_apply (hm _), measure_iUnion hs (fun _ => hm _)]
   simp only [Measure.count_apply (hm _)]
 
-theorem AreaMultiplicityWeight.setLIntegral_comp_mul_abs_det_of_injective {E : Type*} [NormedAddCommGroup E]
+theorem setLIntegral_comp_mul_abs_det₀ {E : Type*} [NormedAddCommGroup E]
     [NormedSpace ℝ E] [FiniteDimensional ℝ E] [MeasurableSpace E] [BorelSpace E]
     (μ : Measure E) [μ.IsAddHaarMeasure] {s : Set E} {f : E → E} {f' : E → E →L[ℝ] E}
     (hs : NullMeasurableSet s μ) (hf' : ∀ x ∈ s, HasFDerivWithinAt f (f' x) s x)
@@ -65,15 +65,14 @@ theorem AreaMultiplicityWeight.setLIntegral_comp_mul_abs_det_of_injective {E : T
   funext x
   exact mul_comm _ _
 
-theorem AreaMultiplicityWeight.lintegral_eq_lintegral_encard_mul :
-  ∀ (E : Type*) [NormedAddCommGroup E] [NormedSpace ℝ E] [FiniteDimensional ℝ E] [MeasurableSpace E]
-    [BorelSpace E] (μ : Measure E) [μ.IsAddHaarMeasure] (A : Set E) (f : E → E)
-    (f' : E → E →L[ℝ] E), MeasurableSet A → (∀ x ∈ A, HasFDerivWithinAt f (f' x) A x) →
-      AEMeasurable (fun y => (({x ∈ A | f x = y}.encard : ℕ∞) : ℝ≥0∞)) μ ∧
-        ∀ g : E → ℝ≥0∞, Measurable g →
-          ∫⁻ x in A, g (f x) * ENNReal.ofReal |(f' x).det| ∂μ =
-            ∫⁻ y, (({x ∈ A | f x = y}.encard : ℕ∞) : ℝ≥0∞) * g y ∂μ := by
-  intro E _ _ _ _ _ μ _ A f f' hA hf'
+theorem lintegral_comp_mul_abs_det_eq_lintegral_encard {E : Type*} [NormedAddCommGroup E]
+    [NormedSpace ℝ E] [FiniteDimensional ℝ E] [MeasurableSpace E] [BorelSpace E]
+    (μ : Measure E) [μ.IsAddHaarMeasure] {A : Set E} {f : E → E} {f' : E → E →L[ℝ] E}
+    (hA : MeasurableSet A) (hf' : ∀ x ∈ A, HasFDerivWithinAt f (f' x) A x) :
+    AEMeasurable (fun y => (({x ∈ A | f x = y}.encard : ℕ∞) : ℝ≥0∞)) μ ∧
+      ∀ g : E → ℝ≥0∞, Measurable g →
+        ∫⁻ x in A, g (f x) * ENNReal.ofReal |(f' x).det| ∂μ =
+          ∫⁻ y, (({x ∈ A | f x = y}.encard : ℕ∞) : ℝ≥0∞) * g y ∂μ := by
   classical
   set B : Set E := {x ∈ A | (f' x).det ≠ 0} with hBdef
   have hBA : B ⊆ A := sep_subset _ _
@@ -120,13 +119,7 @@ theorem AreaMultiplicityWeight.lintegral_eq_lintegral_encard_mul :
     have hr : r (e : E →L[ℝ] E) = (‖(e.symm : E →L[ℝ] E)‖₊ + 1)⁻¹ := by
       simp only [r, ContinuousLinearMap.inverse_equiv]
     rw [hr]
-    have hpos : 0 < ‖(e.symm : E →L[ℝ] E)‖₊ := by
-      rw [pos_iff_ne_zero, ne_eq, nnnorm_eq_zero]
-      intro h0
-      obtain ⟨z, hz⟩ := exists_ne (0 : E)
-      apply hz
-      simpa using congrArg (fun T : E →L[ℝ] E => T (e z)) h0
-    exact (inv_lt_inv₀ (by positivity) hpos).2 (lt_add_one _)
+    exact (inv_lt_inv₀ (by positivity) e.nnNorm_symm_pos).2 (lt_add_one _)
   have hBU : B = ⋃ n, P n := by
     rw [← inter_iUnion]; exact (inter_eq_left.2 hcov).symm
   have himg : ∀ n, NullMeasurableSet (f '' P n) μ := fun n =>
@@ -177,7 +170,7 @@ theorem AreaMultiplicityWeight.lintegral_eq_lintegral_encard_mul :
     _ = ∑' n, ∫⁻ x in P n, g (f x) * ENNReal.ofReal |(f' x).det| ∂μ := by
         rw [hBU]; exact lintegral_iUnion₀ hPm (fun m n hmn => (hPd hmn).aedisjoint) _
     _ = ∑' n, ∫⁻ y in f '' P n, g y ∂μ := tsum_congr fun n =>
-        AreaMultiplicityWeight.setLIntegral_comp_mul_abs_det_of_injective μ (hPm n) (hderP n) (hinj n) g
+        setLIntegral_comp_mul_abs_det₀ μ (hPm n) (hderP n) (hinj n) g
     _ = ∑' n, ∫⁻ y, (f '' P n).indicator g y ∂μ :=
         tsum_congr fun n => (lintegral_indicator₀ (himg n) g).symm
     _ = ∫⁻ y, ∑' n, (f '' P n).indicator g y ∂μ :=
@@ -198,8 +191,7 @@ theorem lintegral_abs_det_eq_lintegral_encard {E : Type*} [NormedAddCommGroup E]
     (hA : MeasurableSet A) (hf' : ∀ x ∈ A, HasFDerivWithinAt f (f' x) A x) :
     ∫⁻ x in A, ENNReal.ofReal |(f' x).det| ∂μ =
       ∫⁻ y, (({x ∈ A | f x = y}.encard : ℕ∞) : ℝ≥0∞) ∂μ := by
-  simpa only [Pi.one_apply, one_mul, mul_one] using
-    (AreaMultiplicityWeight.lintegral_eq_lintegral_encard_mul E μ A f f' hA hf').2 1 measurable_const
+  simpa using (lintegral_comp_mul_abs_det_eq_lintegral_encard μ hA hf').2 (fun _ => 1) measurable_const
 
 theorem AreaMultiplicity.proof : AreaMultiplicity.Statement := by
   intro E F _ _ _ _ _ _ _ _ _ _ k hE hF A f f' hA hf'

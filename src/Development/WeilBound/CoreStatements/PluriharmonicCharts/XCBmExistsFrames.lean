@@ -1,56 +1,13 @@
 module
 
-import Development.AutomorphicSpectrum.Proofs.MetricProofs.IsValueAtOfTorus
 public import Development.AutomorphicSpectrum.Definitions.MetricPeriods.GenericBlockMatrixIsBlockDiag
 public import Development.AutomorphicSpectrum.Definitions.MetricPeriods.FiniteEtaleSurjectiveOfPullback
 public import Development.AutomorphicSpectrum.Proofs.MetricProofs.AevalNeZeroOfNotMem
 public import Development.AutomorphicSpectrum.Proofs.MetricProofs.FlagModelBaseProjectionPoints
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.HaveILetI
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
 public import Mathlib.Topology.Algebra.MvPolynomial
-import Mathlib.Topology.Compactness.Paracompact
-import Mathlib.Topology.Separation.CompletelyRegular
 import Std.Tactic.BVDecide.Normalize.Prop
 import Development.AutomorphicSpectrum.Proofs.MetricProofs.OmHeightslockG
-import Development.WeilBound.CoreStatements.HomogeneousNonvanishing.ContinuousAtOfClosedRel
 
 @[expose] public section
 
@@ -64,14 +21,44 @@ open MvPolynomial Filter Topology
 
 theorem continuousAt_of_holoOn {e : ℕ} {X : Type} [TopologicalSpace X] (A : ReciprocityTheory.AnForm.M.FinHolAtlas e X)
     {U : Set X} {f : X → ℂ} (hf : A.HoloOn U f) {x : X} (hx : x ∈ U) : ContinuousAt f x := by
-  apply _root_.PositivityTheory.UnitarySelfGeneration.HolomorphicMinorCharts.holo_continuousAt <;> assumption
+  obtain ⟨j, hj⟩ := A.cover x
+  have hx' : A.chart j x ∈ (A.chart j).target ∩ (A.chart j).symm ⁻¹' U :=
+    ⟨(A.chart j).map_source hj, by simp [Set.mem_preimage, (A.chart j).left_inv hj, hx]⟩
+  have h1 : ContinuousAt ((f ∘ (A.chart j).symm) ∘ (A.chart j)) x := by
+    refine ContinuousAt.comp ?_ ((A.chart j).continuousAt hj)
+    exact (hf j _ hx').continuousAt
+  refine h1.congr ?_
+  filter_upwards [(A.chart j).open_source.mem_nhds hj] with z hz
+  simp [(A.chart j).left_inv hz]
 
 variable {K : Type} [Fintype K] {ι : K → Type} [∀ k, Fintype (ι k)]
 
 theorem mCoordIdeal_smul (c : K → ℂ) (hc : ∀ k, c k ≠ 0) (z : (Σ k, ι k) → ℂ) :
     mCoordIdeal (fun p : Σ k, ι k => c p.1 * z p) = mCoordIdeal z := by
-  intros
-  apply _root_.GlobalTheory.CompanionTheory.Ar.PB.StepW.TorusAct.mCoordIdeal_torus <;> assumption
+  classical
+  let φ : MvPolynomial K ℂ →ₐ[ℂ] MvPolynomial K ℂ := aeval fun k => C (c k) * X k
+  let ψ : MvPolynomial K ℂ →ₐ[ℂ] MvPolynomial K ℂ := aeval fun k => C (c k)⁻¹ * X k
+  have hψφ : ψ.comp φ = AlgHom.id ℂ _ := by
+    apply MvPolynomial.algHom_ext
+    intro k
+    rw [AlgHom.comp_apply, AlgHom.id_apply]
+    simp only [φ, ψ, aeval_X, map_mul, aeval_C, MvPolynomial.algebraMap_eq]
+    rw [← mul_assoc, ← C_mul, mul_inv_cancel₀ (hc k), C_1, one_mul]
+  have hcomp : (mConeMap (fun p : Σ k, ι k => c p.1 * z p)) = (φ.restrictScalars ℤ).comp (mConeMap z) := by
+    apply MvPolynomial.algHom_ext
+    intro p
+    simp [mConeMap, φ, C_mul]
+    ring
+  ext f
+  simp only [mCoordIdeal, RingHom.mem_ker, hcomp]
+  constructor
+  · intro h
+    have h' := congrArg ψ h
+    have e := AlgHom.congr_fun hψφ (mConeMap z f)
+    simp only [AlgHom.comp_apply, AlgHom.id_apply] at e
+    simpa [e] using h'
+  · intro h
+    simp [h]
 
 theorem X_notMem_iff (w : (Σ k, ι k) → ℂ) (q : Σ k, ι k) :
     (X q : MRing ι) ∉ mCoordIdeal w ↔ w q ≠ 0 := by

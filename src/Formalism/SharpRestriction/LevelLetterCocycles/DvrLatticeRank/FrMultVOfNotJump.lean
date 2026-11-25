@@ -1,54 +1,8 @@
 module
 
-import Formalism.SharpRestriction.LevelLetterCocycles.QuotientImageDivisibility.JumpsLetExists
 public import Formalism.WeaklyAdmissibleFiltrations.Statement
 public import Mathlib.Data.Int.Interval
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Algebra.Order.Star.Int
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.HaveILetI
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
 
 @[expose] public section
@@ -99,14 +53,56 @@ theorem fr_filV_succ (a : ℤ) : FilV PD (LL := LL) (V := V) (a + 1) ≤ FilV PD
 theorem fr_filV_anti : Antitone (fun a : ℤ => FilV PD (LL := LL) (V := V) a) := antitone_int_of_succ_le fun a => fr_filV_succ PD a
 
 theorem fr_filV_exh (x : V ⊗[Qp] BdR) : ∃ a : ℤ, x ∈ FilV PD (LL := LL) (V := V) a := by
-  apply +allowSynthFailures _root_.Formalism.MainNotions.N.Pv.LocalLengthBound.MC.filV_exh <;> assumption
+  induction x using TensorProduct.induction_on with
+  | zero => exact ⟨0, zero_mem _⟩
+  | tmul v b =>
+    obtain ⟨a, ha⟩ := PD.Fil_exh b
+    exact ⟨a, LinearMap.mem_range.2 ⟨v ⊗ₜ ⟨b, ha⟩, by simp⟩⟩
+  | add x y hx hy =>
+    obtain ⟨a, ha⟩ := hx
+    obtain ⟨a', ha'⟩ := hy
+    exact ⟨min a a', add_mem (fr_filV_anti PD (min_le_left a a') ha)
+      (fr_filV_anti PD (min_le_right a a') ha')⟩
 
 theorem fr_filV_fd (U : Submodule LL (V ⊗[Qp] BdR)) [FiniteDimensional LL ↥U] :
     ∃ a : ℤ, U ≤ FilV PD (LL := LL) (V := V) a := by
-  apply +allowSynthFailures _root_.Formalism.MainNotions.N.Pv.LocalLengthBound.MC.exists_le_filV <;> assumption
+  classical
+  have hfin : ∀ s : Finset (V ⊗[Qp] BdR), ∃ a : ℤ, ∀ x ∈ s, x ∈ FilV PD (LL := LL) (V := V) a := by
+    intro s
+    induction s using Finset.induction_on with
+    | empty => exact ⟨0, by simp⟩
+    | insert y s hy ih =>
+      obtain ⟨a, ha⟩ := ih
+      obtain ⟨b, hb⟩ := fr_filV_exh PD (LL := LL) y
+      refine ⟨min a b, fun x hx => ?_⟩
+      rcases Finset.mem_insert.1 hx with rfl | hx
+      · exact fr_filV_anti PD (min_le_right a b) hb
+      · exact fr_filV_anti PD (min_le_left a b) (ha x hx)
+  obtain ⟨s, hs⟩ := (Submodule.fg_iff_finiteDimensional U).2 inferInstance
+  obtain ⟨a, ha⟩ := hfin s
+  exact ⟨a, hs ▸ Submodule.span_le.2 fun x hx => ha x hx⟩
 
 theorem fr_filV_sep (x : V ⊗[Qp] BdR) (hx : ∀ a, x ∈ FilV PD (LL := LL) (V := V) a) : x = 0 := by
-  apply +allowSynthFailures _root_.Formalism.MainNotions.N.Pv.LocalLengthBound.MC.filV_sep <;> assumption
+  classical
+  let bV := Module.Basis.ofVectorSpace Qp V
+  let e := TensorProduct.equivFinsuppOfBasisLeft (N := BdR) bV
+  have hmem : ∀ a (y : V ⊗[Qp] BdR), y ∈ FilV PD (LL := LL) (V := V) a → ∀ i, e y i ∈ PD.Fil a := by
+    intro a y hy i
+    obtain ⟨t, rfl⟩ := LinearMap.mem_range.1 hy
+    clear hy
+    induction t using TensorProduct.induction_on with
+    | zero => simp
+    | tmul v b =>
+      simp only [AlgebraTensorModule.map_tmul, LinearMap.id_apply, Submodule.coe_subtype, e,
+        TensorProduct.equivFinsuppOfBasisLeft_apply_tmul, Finsupp.mapRange_apply]
+      exact Submodule.smul_of_tower_mem _ _ b.2
+    | add s t hs ht =>
+      rw [map_add (f := _), map_add (f := _), Finsupp.add_apply]
+      exact add_mem hs ht
+  have hz : e x = 0 := by
+    ext i
+    exact PD.Fil_sep _ fun a => hmem a x (hx a) i
+  exact e.injective (hz.trans (map_zero e).symm)
 
 variable (ρ : Representation LL G V)
 

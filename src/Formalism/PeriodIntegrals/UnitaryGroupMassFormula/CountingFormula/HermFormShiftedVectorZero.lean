@@ -1,47 +1,6 @@
 module
 
-import all Formalism.PeriodIntegrals.UnitaryGroupMassFormula.CountingFormula.RowSurjective
-import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.CountingFormula.StabilizerSymmMapsOrthogonal
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.CountingFormula.ZMemPerp
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Topology.Sheaves.Init
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Formalism.PeriodIntegrals.UnitaryGroupMassFormula.CountingFormula.StabFSymmMemPerp, Formalism.PeriodIntegrals.UnitaryGroupMassFormula.CountingFormula.RowClassOfSplit, Formalism.PeriodIntegrals.UnitaryGroupMassFormula.CountingFormula.HermFormShiftedVectorZero
@@ -57,8 +16,6 @@ open Classical
 noncomputable section
 
 namespace PI.UnitaryGroupMassFormula.CntFormula.RowsMassW
-
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 
 section Induced
 
@@ -95,11 +52,21 @@ theorem stabF_symm_mem_X {γ : (VS D).V ≃ₗ[D.host.E] (VS D).V} (hγ : γ ∈
 
 theorem stabF_mem_perp {γ : (VS D).V ≃ₗ[D.host.E] (VS D).V} (hγ : γ ∈ stabF D F0) {y : (VS D).V}
     (hy : y ∈ perpS (VS D) F0.X) : γ y ∈ perpS (VS D) F0.X := by
-  apply _root_.PI.UnitaryGroupMassFormula.CntFormula.RowsMassW.RowWeightPf.stabilizer_maps_orthogonal <;> assumption
+  show ∀ x ∈ F0.X, (VS D).hT x (γ y) = 0
+  intro x hx
+  have h1 := stabF_isom hγ (γ.symm x) y
+  rw [LinearEquiv.apply_symm_apply] at h1
+  rw [h1]
+  exact hy _ (stabF_symm_mem_X hγ hx)
 
 theorem stabF_symm_mem_perp {γ : (VS D).V ≃ₗ[D.host.E] (VS D).V} (hγ : γ ∈ stabF D F0) {y : (VS D).V}
     (hy : y ∈ perpS (VS D) F0.X) : γ.symm y ∈ perpS (VS D) F0.X := by
-  apply _root_.PI.UnitaryGroupMassFormula.CntFormula.RowsMassW.RowWeightPf.stabilizer_symm_maps_orthogonal <;> assumption
+  show ∀ x ∈ F0.X, (VS D).hT x (γ.symm y) = 0
+  intro x hx
+  have h1 := stabF_isom hγ x (γ.symm y)
+  rw [LinearEquiv.apply_symm_apply] at h1
+  rw [← h1]
+  exact hy _ (stabF_mem_X hγ hx)
 
 theorem stabF_map_perp {γ : (VS D).V ≃ₗ[D.host.E] (VS D).V} (hγ : γ ∈ stabF D F0) :
     (perpS (VS D) F0.X).map (γ : (VS D).V →ₗ[D.host.E] (VS D).V) = perpS (VS D) F0.X := by
@@ -226,8 +193,6 @@ noncomputable section
 
 namespace PI.UnitaryGroupMassFormula.CntFormula.RowsMassW
 
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
-
 theorem hT_swap (D : D7) (x y : (VS D).V) : (VS D).hT x y = star ((VS D).hT y x) := by
   rw [← (VS D).herm.eq y x, starRingEnd_apply]
 
@@ -255,10 +220,26 @@ def IsDualF (f : Fin D.R.rS → (VS D).V) : Prop :=
 theorem e_mem_X (a : Fin D.R.rS) : F0.e a ∈ F0.X := Submodule.subset_span ⟨a, rfl⟩
 
 theorem mem_perp_of {y : (VS D).V} (hy : ∀ a, (VS D).hT (F0.e a) y = 0) : y ∈ perpS (VS D) F0.X := by
-  apply _root_.PI.UnitaryGroupMassFormula.CntFormula.RowsMassW.mem_perpS_X_of_hT_e_eq_zero <;> assumption
+  intro x hx
+  induction hx using Submodule.span_induction with
+  | mem w hw =>
+    obtain ⟨a, rfl⟩ := hw
+    exact hy a
+  | zero => simp
+  | add w w' _ _ h1 h2 => simp [h1, h2]
+  | smul c w _ h => simp [h]
 
 theorem X_le_perp : F0.X ≤ perpS (VS D) F0.X := by
-  apply _root_.PI.UnitaryGroupMassFormula.CntFormula.RowsMassW.rs_X_le_perp <;> assumption
+  intro y hy
+  apply mem_perp_of F0
+  intro a
+  induction hy using Submodule.span_induction with
+  | mem w hw =>
+    obtain ⟨b, rfl⟩ := hw
+    exact F0.e_iso a b
+  | zero => simp
+  | add w w' _ _ h1 h2 => simp [h1, h2]
+  | smul c w _ h => simp [h]
 
 theorem hX_X {x y : (VS D).V} (hx : x ∈ F0.X) (hy : y ∈ F0.X) : (VS D).hT x y = 0 :=
   X_le_perp F0 hy x hx
@@ -718,8 +699,6 @@ open Classical
 noncomputable section
 
 namespace PI.UnitaryGroupMassFormula.CntFormula.RowsMassW
-
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 
 section Adjust
 

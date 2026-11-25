@@ -1,49 +1,8 @@
 module
 
-import Formalism.ThetaLogCoordinates.FockResolutionOnto.FockMonomialProofs.FirstWeightLeOfSupport
-import Formalism.PolynomialDimension.MultinomialDepth.PartnerM
 public import Formalism.ThetaLogCoordinates.TraceIsometryWeights.StatementC
 public import Formalism.MahlerMeasure.MahlerMeasureProofs.WeightSpaceDimensionMonotone
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
 import Mathlib.RingTheory.SimpleRing.Principal
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Topology.Sheaves.Init
 
 @[expose] public section
 
@@ -68,7 +27,17 @@ theorem hwc_le_isoC (LL : Letters N) (j : ℕ) (Cs : Finset (Fin r)) (la : Fin r
 theorem coeff_glAct_diag (LL : Letters N) (j : ℕ) (c : Fin r) (x : MvPolynomial (Fin N × Fin r) ℚ_[p])
     (m : Fin N × Fin r →₀ ℕ) :
     AddMonoidAlgebra.coeff (glAct p LL j c c x) m = ((wt LL j c m : ℤ) : ℚ_[p]) * AddMonoidAlgebra.coeff x m := by
-  apply _root_.Formalism.CountingSumsFrames.coeff_cartan <;> assumption
+  classical
+  conv_lhs => rw [x.as_sum]
+
+  rw [map_sum, coeff_sum]
+  simp only [glAct_diag_monomial, MvPolynomial.coeff_smul, coeff_monomial, smul_eq_mul]
+  rw [Finset.sum_eq_single m]
+  · rw [ite_eq_left rfl]
+  · intro b _ hb
+    rw [ite_eq_right hb, mul_zero]
+  · intro hm
+    rw [ite_eq_left rfl, notMem_support_iff.mp hm, mul_zero]
 
 theorem wtSpC_iff_eig (LL : Letters N) (j : ℕ) (Cs : Finset (Fin r)) (la : Fin r → ℤ)
     (x : MvPolynomial (Fin N × Fin r) ℚ_[p]) :
@@ -93,15 +62,31 @@ theorem hwc_map_of_comm (LL : Letters N) (j : ℕ) (Cs : Finset (Fin r))
     (A : MvPolynomial (Fin N × Fin r) ℚ_[p] →ₗ[ℚ_[p]] MvPolynomial (Fin N × Fin r) ℚ_[p])
     (hA : ∀ c ∈ Cs, ∀ d ∈ Cs, ∀ x, A (glAct p LL j c d x) = glAct p LL j c d (A x)) (la : Fin r → ℤ) :
     ∀ x ∈ HWC p LL j Cs la, A x ∈ HWC p LL j Cs la := by
-  intros
-  apply _root_.Formalism.InvariantFactorPaths.L4.hwc_keepC <;> assumption
+  intro x hx
+  rw [HWC, Submodule.mem_inf] at hx ⊢
+  refine ⟨?_, ?_⟩
+  · rw [wtSpC_iff_eig]
+    intro c hc
+    rw [← hA c hc c hc, (wtSpC_iff_eig LL j Cs la x).mp hx.1 c hc, map_smul]
+  · have h2 := hx.2
+    simp only [Submodule.mem_iInf, LinearMap.mem_ker] at h2 ⊢
+    intro c d hcd
+    rw [← hA c hcd.1 d hcd.2.1, h2 c d hcd, map_zero]
 
 theorem isoC_map_of_comm (LL : Letters N) (j : ℕ) (Cs : Finset (Fin r))
     (A : MvPolynomial (Fin N × Fin r) ℚ_[p] →ₗ[ℚ_[p]] MvPolynomial (Fin N × Fin r) ℚ_[p])
     (hA : ∀ c ∈ Cs, ∀ d ∈ Cs, ∀ x, A (glAct p LL j c d x) = glAct p LL j c d (A x)) (la : Fin r → ℤ) :
     ∀ x ∈ IsoC p LL j Cs la, A x ∈ IsoC p LL j Cs la := by
-  intros
-  apply _root_.Formalism.InvariantFactorPaths.L4.isoC_keepC <;> assumption
+  have hle : IsoC p LL j Cs la ≤ (IsoC p LL j Cs la).comap A := by
+    conv_lhs => rw [IsoC]
+    refine sInf_le ⟨?_, ?_⟩
+    · intro x hx
+      exact hwc_le_isoC LL j Cs la (hwc_map_of_comm LL j Cs A hA la x hx)
+    · intro c hc d hd x hx
+      rw [Submodule.mem_comap] at hx ⊢
+      rw [hA c hc d hd]
+      exact isoC_stable LL j Cs la c hc d hd _ hx
+  exact fun x hx => hle hx
 
 theorem iSup_isoC_map (LL : Letters N) (j : ℕ) (Cs : Finset (Fin r)) (Q : (Fin r → ℤ) → Prop)
     (A : MvPolynomial (Fin N × Fin r) ℚ_[p] →ₗ[ℚ_[p]] MvPolynomial (Fin N × Fin r) ℚ_[p])

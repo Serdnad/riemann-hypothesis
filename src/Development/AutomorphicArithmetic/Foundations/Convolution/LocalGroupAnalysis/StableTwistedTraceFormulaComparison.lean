@@ -1,6 +1,5 @@
 module
 
-import all Development.AutomorphicArithmetic.Foundations.Convolution.LocalGroupAnalysis.P2TraceFixed
 public import Development.AutomorphicArithmetic.Foundations.Convolution.LocalGroupAnalysis.SelmerRankBoundLaurent
 public import Development.WeilBound.RepresentationTheoryGL.TwistedFactors.SelmerRankBounds.EllipticityFromProductFormula
 public import Development.AutomorphicArithmetic.Foundations.Convolution.LocalGroupAnalysis.SplitEquiv
@@ -18,56 +17,8 @@ public import Development.AutomorphicArithmetic.AdelicQuotients.OrbitalIntegralF
 public import Development.AutomorphicArithmetic.AdelicQuotients.QuotientHaarMeasurePushforward
 public import Development.AutomorphicArithmetic.AdelicQuotients.QuotientMeasureSplit
 public import Development.AutomorphicArithmetic.AdelicQuotients.RestrictedProductExtensionOfBaseRegroup
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Henselian
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.HaveILetI
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Tactic.TypeStar
-import Mathlib.Topology.Sheaves.Init
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Order.CompletePartialOrder
-import Mathlib.Algebra.Order.Star.Real
 import GroundTheory.AutomorphicForms.MeasuresModulus
 import GroundTheory.GlobalFields.Adele.Topology
 import GroundTheory.GlobalFields.LocalAtPlace
@@ -118,11 +69,43 @@ private theorem galAd_cont (σ : E ≃ₐ[F] E) : Continuous (galAd σ) := by
   exact continuous_adeleMap
 
 private theorem galInf_cont (σ : E ≃ₐ[F] E) : Continuous (galInf σ) := by
-  apply _root_.p2_cont_inf <;> assumption
+  haveI : FiniteDimensional F E := Module.Finite.of_restrictScalars_finite ℚ F E
+  refine galOf_cont (GroundTheory.Global.InfinitePlace.tensorInfiniteAdeleRingEquiv (K := F) (L := E)) σ
+    (Module.finBasis F E) (GroundTheory.Global.InfinitePlace.adeleCoord (Module.finBasis F E))
+    (GroundTheory.Global.InfinitePlace.continuous_adeleCoord _) (fun y => ?_) ?_
+  · rw [AlgEquiv.symm_apply_eq]
+    exact (GroundTheory.Global.InfinitePlace.tensorInfiniteAdeleRingEquiv_sum_adeleCoord _ y).symm
+  · have h : (fun a : InfiniteAdeleRing F =>
+        GroundTheory.Global.InfinitePlace.tensorInfiniteAdeleRingEquiv (K := F) (L := E) ((1 : E) ⊗ₜ a)) =
+        GroundTheory.Global.InfinitePlace.infiniteAdeleRingMap (K := F) (L := E) := by
+      funext a
+      rw [GroundTheory.Global.InfinitePlace.tensorInfiniteAdeleRingEquiv_tmul', map_one, one_mul]
+    rw [h]
+    exact GroundTheory.Global.InfinitePlace.continuous_infiniteAdeleRingMap
+
+private theorem galFin_mul (σ : E ≃ₐ[F] E) (v : HeightOneSpectrum (𝓞 F)) (a : v.adicCompletion F)
+    (y : CompletionsOver E v) :
+    galFin σ v (algebraMap (v.adicCompletion F) (CompletionsOver E v) a * y) =
+      algebraMap (v.adicCompletion F) (CompletionsOver E v) a * galFin σ v y := by
+  obtain ⟨t, rfl⟩ := (tensorEquiv' E v).surjective y
+  rw [← tensorEquiv'_tmul_mul]
+  change tensorEquiv' E v (Algebra.TensorProduct.map (σ : E →ₐ[F] E) (AlgHom.id F _)
+      ((tensorEquiv' E v).symm (tensorEquiv' E v ((1 ⊗ₜ a) * t)))) =
+    _ * tensorEquiv' E v (Algebra.TensorProduct.map (σ : E →ₐ[F] E) (AlgHom.id F _)
+      ((tensorEquiv' E v).symm (tensorEquiv' E v t)))
+  rw [AlgEquiv.symm_apply_apply, AlgEquiv.symm_apply_apply, ← tensorEquiv'_tmul_mul, map_mul,
+    Algebra.TensorProduct.map_tmul]
+  simp
 
 private theorem galFin_cont (σ : E ≃ₐ[F] E) (v : HeightOneSpectrum (𝓞 F)) :
     Continuous (galFin σ v) := by
-  apply _root_.p2_cont_fin <;> assumption
+  let L : CompletionsOver E v →ₗ[v.adicCompletion F] CompletionsOver E v :=
+    { toFun := galFin σ v
+      map_add' := map_add _
+      map_smul' := fun a y => by
+        simp only [Algebra.smul_def, RingHom.id_apply]
+        exact galFin_mul σ v a y }
+  exact IsModuleTopology.continuous_of_linearMap L
 
 private theorem mapGL_cont {R S : Type*} [CommRing R] [CommRing S] [TopologicalSpace R]
     [TopologicalSpace S] (n : ℕ) (f : R →+* S) (hf : Continuous f) :
@@ -530,7 +513,7 @@ theorem UpperTheory.euler_product_support_finite :
   have hoff : ∀ g, g ∉ W → ∏ᶠ v, Fv v (p v g) = 0 := by
     intro g hg
     rw [hmem] at hg
-    push_neg at hg
+    push Not at hg
     obtain ⟨v, hv, hx⟩ := hg
     refine finprod_eq_zero _ v ((hS v hv _).2 ?_) (hfin g)
     rintro ⟨t, y, hy, e⟩
@@ -617,16 +600,16 @@ theorem UpperTheory.exists_haarMeasure_adelicGL :
     obtain ⟨g, h1, h2⟩ := hR.surj gi (fun v => if hv : v ∈ S then gv ⟨v, hv⟩ else 1) (by
       filter_upwards [S.finite_toSet.compl_mem_cofinite] with v hv
       have hv' : v ∉ S := by simpa using hv
-      rw [dif_neg hv']
+      rw [dite_eq_right hv']
       exact one_mem _)
     refine ⟨g, ?_, ?_⟩
     · intro v hv
-      rw [h2, dif_neg hv]
+      rw [h2, dite_eq_right hv]
       exact one_mem _
     · rw [prS_apply, h1]
       congr 1
       funext v
-      rw [h2, dif_pos v.2]
+      rw [h2, dite_eq_left v.2]
   obtain ⟨ν, hν⟩ : ∃ ν, ν = (μ.restrict (US p K S : Set G)).map (prS q p S) := ⟨_, rfl⟩
   haveI inv : ν.IsMulLeftInvariant := by
     refine ⟨fun h => ?_⟩
@@ -649,22 +632,22 @@ theorem UpperTheory.exists_haarMeasure_adelicGL :
     have hC : ∀ v, IsCompact (C v) := by
       intro v
       by_cases hv : v ∈ S
-      · simp only [C, dif_pos hv]
+      · simp only [C, dite_eq_left hv]
         exact hD.image (by fun_prop)
-      · simp only [C, dif_neg hv]
+      · simp only [C, dite_eq_right hv]
         exact hR.cpt v
     have hW := hR.prop (Prod.fst '' D) C (hD.image continuous_fst) hC (by
       filter_upwards [S.finite_toSet.compl_mem_cofinite] with v hv
       have hv' : v ∉ S := by simpa using hv
-      simp only [C, dif_neg hv']
+      simp only [C, dite_eq_right hv']
       exact subset_rfl)
     refine lt_of_le_of_lt (measure_mono ?_) hW.measure_lt_top
     rintro g ⟨h1, h2⟩
     refine ⟨⟨_, h1, rfl⟩, fun v => ?_⟩
     by_cases hv : v ∈ S
-    · simp only [C, dif_pos hv]
+    · simp only [C, dite_eq_left hv]
       exact ⟨_, h1, rfl⟩
-    · simp only [C, dif_neg hv]
+    · simp only [C, dite_eq_right hv]
       exact h2 v hv
   have e := Measure.isMulLeftInvariant_eq_smul ν (μi.prod (Measure.pi fun v : S => m v))
   refine ⟨Measure.haarScalarFactor ν (μi.prod (Measure.pi fun v : S => m v)), ?_, ?_⟩
@@ -992,7 +975,7 @@ open scoped ENNReal Pointwise
 
 private theorem inv_map_sub {G P : Type} [Group G] [Group P] [MeasurableSpace G] [MeasurableSpace P]
     [MeasurableInv G] [MeasurableInv P] (μ : Measure G) [μ.IsInvInvariant] (U : Subgroup G)
-    (f : G →* P) (hf : Measurable f) (hU : MeasurableSet (U : Set G)) (E : Set P) (hE : MeasurableSet E) :
+    (f : G →* P) (hf : Measurable f) (E : Set P) (hE : MeasurableSet E) :
     ((μ.restrict (U : Set G)).map f) E⁻¹ = ((μ.restrict (U : Set G)).map f) E := by
   rw [Measure.map_apply hf hE.inv, Measure.map_apply hf hE, Measure.restrict_apply (hf hE.inv),
     Measure.restrict_apply (hf hE)]
@@ -1023,9 +1006,8 @@ theorem UpperTheory.local_unimodular_of_exists_haar_measure :
       have h2 : Measurable fun g : G => fun v : S => p v g :=
         Measurable.of_eval fun v => (hRP.cp v).measurable
       exact h1.prodMk h2
-    have hU : MeasurableSet (US p K S : Set G) := (hRP.opnU S).measurableSet
     have h1 := inv_all ((μ.restrict (US p K S : Set G)).map (prS q p S))
-      (inv_map_sub μ (US p K S) (prS q p S) hf hU) (A ×ˢ Set.pi Set.univ B)
+      (inv_map_sub μ (US p K S) (prS q p S) hf) (A ×ˢ Set.pi Set.univ B)
     have hset : (A ×ˢ Set.pi Set.univ B)⁻¹ = A⁻¹ ×ˢ Set.pi Set.univ (fun v => (B v)⁻¹) := by
       ext ⟨x, y⟩
       simp [Set.mem_prod, Set.mem_pi, Set.mem_inv]

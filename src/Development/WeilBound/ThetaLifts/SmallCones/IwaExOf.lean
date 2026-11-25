@@ -1,6 +1,5 @@
 module
 
-import Development.WeilBound.ThetaLifts.LeviDeterminants.MixedModels.PlaneAd
 public import Development.WeilBound.ThetaLifts.TowerModels.ExistsRefl
 public import Development.WeilBound.CoreStatements.CompactAveragingSplitting.EigenvectorLifting.InertDef
 public import Development.WeilBound.ThetaLifts.LatticeBasics.EulerB
@@ -11,50 +10,7 @@ public import Development.WeilBound.ThetaLifts.SmallCones.MatCancel
 public import Development.WeilBound.ThetaLifts.SmallCones.ThetaUniq
 public import Development.WeilBound.ThetaLifts.LocalTheory.UnramifiedCohomology.MemLatWIff
 import Development.WeilBound.ThetaLifts.TowerModels.LeviAd
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.LinearAlgebra.Matrix.FiniteDimensional
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Coalgebra.IsFrobenius
-import Mathlib.RingTheory.Etale.Weakly
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.RingTheory.TotallySplit
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
 import Development.WeilBound.CoreStatements.CompactAveragingSplitting.EigenvectorLifting.FinSplit
-import Mathlib.Topology.Sheaves.Init
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.WeilBound.ThetaLifts.SmallCones.IwaGlob, Development.WeilBound.ThetaLifts.SmallCones.IwaExOf
@@ -108,16 +64,10 @@ variable {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algeb
   {B : Base F E} {n r s : ℕ} {X : Spc F E n} {x : Fin n → E} {v : Pl F}
 
 theorem compFin_smul (u : Pl F) (a : AF F) (z : AE F E) : compFin F E u (a • z) = evFin F u a • compFin F E u z := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp
-  | tmul b x => exact congrArg (· ⊗ₜ[F] x) (map_mul (evFin F u) a b)
-  | add x y hx hy => simp only [smul_add, map_add (f := _), hx, hy]
+  apply PositivityTheory.ThKG.Loc.Iwa.compFin_smul
 
 theorem compInf_smul (u : InfinitePlace F) (a : AF F) (z : AE F E) : compInf F E u (a • z) = evInf F u a • compInf F E u z := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp
-  | tmul b x => exact congrArg (· ⊗ₜ[F] x) (map_mul (evInf F u) a b)
-  | add x y hx hy => simp only [smul_add, map_add (f := _), hx, hy]
+  apply PositivityTheory.ThKG.Loc.Iwa.compInf_smul
 
 def LocIwa (σ : E →ₐ[F] E) (X : Spc F E n) (x : Fin n → E) : Prop :=
   ∀ (v : Pl F) (g : UA σ X.J), g ∈ UAt σ X (evFin F v) → ∃ p ∈ UAt σ X (evFin F v), ∃ k ∈ KAt σ X v, ∃ t : (AE F E)ˣ,
@@ -257,12 +207,9 @@ theorem iwa_glob {n₁ : ℕ} {H : Plane E n n₁} (hB : B.IsGood σ) (hX : X.Is
     (h0 : form σ X.J H.x H.x = 0) (hl : LocIwa σ X H.x) {K : Subgroup (UA σ X.J)} (hK : IsStab B K) (g : UA σ X.J) :
     ∃ (p k : UA σ X.J) (l : (AE F E)ˣ), k ∈ K ∧ mat p *ᵥ incV F H.x = l.1 • incV F H.x ∧ g = p * k := by
   obtain ⟨q, t, h1, h2⟩ := exists_arch hB hX hx h0 g
-  have hFull : X.L.IsFullLattice E :=
-    PositivityTheory.Mix.full_of_dual_zero hB 1 (by simpa using hX.herm)
-      hX.lat.toIsLattice (fun y hy =>
-        (hX.dual y).2 fun x hx => by rw [hy x hx]; exact isIntegral_zero)
   have hf : ∀ᶠ v in cofinite, IntAt v (q⁻¹ * g) := by
-    filter_upwards [ae_mulVec hFull (mat (q⁻¹ * g)), ae_mulVec hFull (mat (q⁻¹ * g)⁻¹)] with v a b z hz h
+    filter_upwards [ae_mulVec hX.lat (mat (q⁻¹ * g)), ae_mulVec hX.lat (mat (q⁻¹ * g)⁻¹)] with v
+      a b z hz h
     exact ⟨a z hz h, b z hz h⟩
   obtain ⟨p, t', e1, e2, e3⟩ := exists_fin B hl (Set.Finite.toFinset hf) (q⁻¹ * g) fun v hv =>
     not_not.1 fun c => hv ((Set.Finite.mem_toFinset hf).2 c)

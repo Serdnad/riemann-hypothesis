@@ -1,6 +1,5 @@
 module
 
-import GroundTheory.HeightsAndTheta.Heights.HeightKernels.PRootAnchorNonzero
 public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.StatementsGrassHeight
 public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.StatementsGrassHeightNE
 
@@ -30,7 +29,16 @@ theorem isIntegral_det {n : ℕ} (M : Matrix (Fin n) (Fin n) ℂ) (h : ∀ a b, 
 
 theorem isIntegral_rootCoord {f j m : ℕ} {ζ : Fin f → Matrix (Fin j) (Fin m) ℂ} (hζ : IsRootMatrix ζ)
     (p : Σ _ : Fin f, PlIdx j m) : IsIntegral ℤ (rootCoord ζ p) := by
-  apply _root_.GroundTheory.Heights₂.Heights.RootAnchorNonzeroAlt.rootCoord_isIntegral <;> assumption
+  refine isIntegral_det _ fun a b => ?_
+  simp only [colsOf, Matrix.submatrix_apply, id, onePipe, Matrix.of_apply]
+  refine Fin.addCases (fun c => ?_) (fun c => ?_) ((p.2.1.orderEmbOfFin p.2.2) b)
+  · rw [Fin.append_left, Matrix.one_apply]
+    split_ifs
+    · exact isIntegral_one
+    · exact isIntegral_zero
+  · rw [Fin.append_right]
+    obtain ⟨k, hk, hz⟩ := hζ p.1 a c
+    exact isIntegral_of_pow_eq_one hk hz
 
 end RootDivisorSupportEmpty
 

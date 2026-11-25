@@ -1,7 +1,6 @@
 module
 
 public import Formalism.LocalToGlobal.IndefiniteReal.LinksDefs
-import Development.AbelianVarietyTheory.Proofs.TwistedOperators.BlockDetSingleBlockSecondEqOneOfLe
 
 @[expose] public section
 
@@ -14,8 +13,6 @@ open scoped TensorProduct InnerProductSpace
 namespace Formalism.IndefR.Eqv.Act
 
 open Formalism.IndefR.Links Formalism.IndefR.Lev Formalism.IndefR.Mult Formalism.IndefR.Links.RealDat
-
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 
 section Gen
 
@@ -31,7 +28,14 @@ theorem mem_blockTriangular_twoBlockSizes_of_le {r : ℕ} (hn : n ≤ r) (g : GL
   simp [blk2, hi, hj] at hij
 
 theorem block_determinant_empty_eq_one {r : ℕ} (hn : n ≤ r) (g : GL (Fin n) κF) : dBlk (blk2 (n := n) r) 1 g = 1 := by
-  apply _root_.GlobalTheory.blockDet_singleBlock_second_eq_one_of_le <;> assumption
+  unfold dBlk
+  rw [extendOne_of_mem _ (mem_blockTriangular_twoBlockSizes_of_le hn g)]
+  have : IsEmpty {a : Fin n // blk2 r a = 1} :=
+    ⟨fun a => by
+      have ha := a.2
+      simp [blk2, lt_of_lt_of_le a.1.2 hn] at ha⟩
+  ext
+  simp [blkDet]
 
 theorem mem_parLev_datY_noQ (hn : V.rank ≤ r) (hr : r ≤ V.rank) (t j : ℕ) (Pg Q : Finset (Pl D.host.E))
     (P : LevelP Pg r ℂ) (χ : ℕ → ∀ PP : Pl D.host.E, (kP PP)ˣ →* ℂˣ) (ξ ξ' : ∀ PP : Pl D.host.E, (kP PP)ˣ →* ℂˣ) (fr : Formalism.IndefR.Lev.Frm)
@@ -63,24 +67,6 @@ theorem levFn_datY_noQ (hn : V.rank ≤ r) (hr : r ≤ V.rank) (t j : ℕ) (Pg Q
   rfl
 
 end Gen
-
-section Idem
-
-variable {K : Type} [Field K] {G : Type} [Group G] [Fintype G]
-
-end Idem
-
-section GA
-
-variable {D : D7} {V : HSp D} {β : GL (Fin V.rank) (EAf D)} {L : Formalism.L2.DIV.LevDat D.host.E ℂ V.rank}
-
-end GA
-
-section MultLev
-
-variable {D : D7} {V : HSp D} {S : D.what₂.Tau → SPar}
-
-end MultLev
 
 section Real
 

@@ -20,51 +20,9 @@ public import Formalism.LocalRingCardinality.DataForced
 public import Formalism.SharpRestriction.Divisibility.OrbitPlaces
 public import Development.AutomorphicArithmetic.OrbitLabellings.FInertSubEatILeOrbitAverageSubErrors
 public import Development.AutomorphicArithmetic.OrbitLabellings.KvalGeThetaOfShape
-import all Development.AutomorphicArithmetic.OrbitLabellings.KvalGeThetaOfShape
 public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.EntAtD
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Tactic.TypeStar
-import Mathlib.Topology.Sheaves.Init
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
 import Std.Tactic.BVDecide.Normalize.Prop
-import Mathlib.RingTheory.PiTensorProduct
 import Std.Tactic.BVDecide.Normalize.BitVec
 import Mathlib.Tactic.Linter.HaveILetI
 import Formalism.LocalRingCardinality.DataDIV
@@ -182,7 +140,7 @@ theorem coeff_X_Lp (v : τ) (m : τ →₀ ℕ) :
         if m = Finsupp.single v ((p ^ 2) ^ e) then ((p : ℂ_[p]) ^ e)⁻¹ else 0 := by
   by_cases h : ∃ n, m = Finsupp.single v n
   · obtain ⟨n, rfl⟩ := h
-    rw [PowerSeries.coeff_subst_single, if_pos (by simp)]
+    rw [PowerSeries.coeff_subst_single, ite_eq_left (by simp)]
     have hT : Formalism.BasicNotions.JetTdeg (Finsupp.single v n) = n := by
       simp [Formalism.BasicNotions.JetTdeg, Finsupp.sum_single_index]
     simp only [Finsupp.single_eq_same, Lp, PowerSeries.coeff_mk, hT]
@@ -190,10 +148,10 @@ theorem coeff_X_Lp (v : τ) (m : τ →₀ ℕ) :
     have : Finsupp.single v n = Finsupp.single v ((p ^ 2) ^ e) ↔ n = (p ^ 2) ^ e :=
       ⟨fun h => by simpa using congrArg (fun f => f v) h, fun h => h ▸ rfl⟩
     simp only [this]
-  · rw [PowerSeries.coeff_subst_single, if_neg (fun h' => h ⟨_, h'⟩)]
+  · rw [PowerSeries.coeff_subst_single, ite_eq_right (fun h' => h ⟨_, h'⟩)]
     symm
     refine Finset.sum_eq_zero fun e _ => ?_
-    rw [if_neg]
+    rw [ite_eq_right]
     exact fun h' => h ⟨_, h'⟩
 
 theorem jetLogG_one {β : Type*} (v : ZMod 1 × β) :
@@ -387,7 +345,7 @@ theorem hs_logPl (D : D7) (hn : nP D p = 1) (N0 N1 : ℕ) : HasSubst (logPl D p 
   show logPl D p v 0 = 0
   simp only [logPl]
   refine Finset.sum_eq_zero fun e _ => ?_
-  rw [if_neg]
+  rw [ite_eq_right]
   exact fun h => (pow_ne_zero e (pow_ne_zero 2 (Fact.out : p.Prime).ne_zero))
     (Finsupp.single_eq_zero.1 h.symm)
 
@@ -397,7 +355,7 @@ theorem hasSubst_log_jet (N0 N1 : ℕ) : HasSubst (jetLogG p 1 (β := Fin N0 × 
   show jetLogG p 1 v 0 = 0
   simp only [jetLogG]
   refine Finset.sum_eq_zero fun e _ => ?_
-  rw [if_neg]
+  rw [ite_eq_right]
   exact fun h => (pow_ne_zero e (pow_ne_zero 2 (Fact.out : p.Prime).ne_zero))
     (Finsupp.single_eq_zero.1 h.symm)
 
@@ -569,11 +527,11 @@ theorem trunc_split (n : ℕ) (U : MvPowerSeries σ K) :
       rw [MvPowerSeries.coeff_truncTotal_eq_ite]
       split_ifs with h
       · rfl
-      · exact absurd hk (by rw [MvPolynomial.mem_support_iff, MvPowerSeries.coeff_truncTotal_eq_ite, if_neg h]; simp)
+      · exact absurd hk (by rw [MvPolynomial.mem_support_iff, MvPowerSeries.coeff_truncTotal_eq_ite, ite_eq_right h]; simp)
     rw [← hQ]; ring
   · have h1 : ((n + 1 : ℕ) : ℕ∞) ≤ (U - (Q : MvPowerSeries σ K)).order := by
       refine MvPowerSeries.le_order fun d hd => ?_
-      rw [map_sub, MvPolynomial.coeff_coe, MvPowerSeries.coeff_truncTotal_eq_ite, if_pos, sub_self]
+      rw [map_sub, MvPolynomial.coeff_coe, MvPowerSeries.coeff_truncTotal_eq_ite, ite_eq_left, sub_self]
       exact_mod_cast hd
     exact lt_of_lt_of_le (by exact_mod_cast Nat.lt_succ_self n) h1
 
@@ -787,10 +745,10 @@ theorem univ_eq_biUnion {R : Finset (Pl D)} (hR : IsReps D p R) :
     by_cases hs : IsSg D p
     · have h2 : (2 * addOrderOf (2 • hP D p)) • hP D p = 0 := by
         rw [mul_comm, ← smul_smul, addOrderOf_nsmul_eq_zero]
-      simp only [if_pos hs]
+      simp only [ite_eq_left hs]
       rw [key _ _ _ h2]
       simp only [Nat.odd_iff, Nat.mod_mod_of_dvd _ (dvd_mul_right 2 _)]
-    · simp only [if_neg hs]
+    · simp only [ite_eq_right hs]
       rw [key _ _ _ (addOrderOf_nsmul_eq_zero _)]
       simp [hs]
   unfold posPl
@@ -808,7 +766,7 @@ private theorem orbMap_injective (r : Pl D) : Function.Injective (orbMap D p r) 
   have ht_lt := lt_of_lt_of_eq (ZMod.val_lt t) hn
   apply ZMod.val_injective
   by_cases hsg : IsSg D p
-  · rw [if_pos hsg] at hs_lt ht_lt
+  · rw [ite_eq_left hsg] at hs_lt ht_lt
     have hpar : s.val % 2 = t.val % 2 := by
       have h1' : (s.val % 2 = 1 ↔ t.val % 2 = 1) := by
         have hd : decide (IsSg D p) = true := decide_eq_true hsg
@@ -831,7 +789,7 @@ private theorem orbMap_injective (r : Pl D) : Function.Injective (orbMap D p r) 
     have h5 := nsmul_inj_mod.mp hk
     rw [Nat.mod_eq_of_lt (by omega), Nat.mod_eq_of_lt (by omega)] at h5
     omega
-  · rw [if_neg hsg] at hs_lt ht_lt
+  · rw [ite_eq_right hsg] at hs_lt ht_lt
     have h5 := nsmul_inj_mod.mp h2
     rwa [Nat.mod_eq_of_lt hs_lt, Nat.mod_eq_of_lt ht_lt] at h5
 
@@ -952,7 +910,12 @@ theorem applyAt0_add_left (T T' : MvPowerSeries (Lt × Fin N0 × Fin N1) ℂ_[l]
 theorem applyAt0_smul_left (c : ℂ_[l]) (T : MvPowerSeries (Lt × Fin N0 × Fin N1) ℂ_[l])
     (P : MvPolynomial (XZ Lt N0 N1) ℤ) :
     applyAt0 N0 N1 l (c • T) P = c • applyAt0 N0 N1 l T P := by
-  apply _root_.PI.OrbJet.OJ.applyAt0_smulT <;> assumption
+  unfold OJ.applyAt0
+  rw [Finset.smul_sum]
+  refine Finset.sum_congr rfl fun μ _ => ?_
+  rw [MvPowerSeries.coeff_smul, MvPolynomial.smul_monomial, smul_eq_mul]
+  congr 1
+  ring
 
 theorem applyAt0_sum_left {ι : Type*} (S : Finset ι) (c : ι → ℂ_[l]) (T : ι → MvPowerSeries (Lt × Fin N0 × Fin N1) ℂ_[l])
     (P : MvPolynomial (XZ Lt N0 N1) ℤ) :
@@ -1046,9 +1009,9 @@ theorem orbAddUp_main : ∀ (D : Formalism.BasicNotions.D7) (E : PI.OrbJet.Ent D
         exact hdeg
 
       rw [map_sub, map_sum, Finset.sum_eq_single ab.1]
-      · rw [coeff_monomial, if_pos rfl, sub_self, zero_mul]
+      · rw [coeff_monomial, ite_eq_left rfl, sub_self, zero_mul]
       · intro b _ hb
-        rw [coeff_monomial, if_neg (Ne.symm hb)]
+        rw [coeff_monomial, ite_eq_right (Ne.symm hb)]
       · intro h; exact absurd hmem h)
     intro κ hκ
     have := hv κ hκ
@@ -1205,7 +1168,15 @@ theorem size_ge {L : SizeData₂ D} {X : Inst D L} {E : Formalism.MainNotions.Or
     linarith
 
 theorem NN_le (i : ℕ) (hi : i < D.R.m) : (D.R.N i : ℝ) * (D.R.N (i + 1) : ℝ) ≤ Nm D ^ 2 := by
-  apply _root_.UpperTheory.OrbitRadiiBounds.NN_le <;> assumption
+  have h1 : D.R.N i ≤ D.R.N D.R.m := by
+    unfold Formalism.BasicNotions.Ranks.N
+    exact Nat.add_le_add_left (Nat.mul_le_mul hi.le le_rfl) _
+  have h2 : D.R.N (i + 1) ≤ D.R.N D.R.m := by
+    unfold Formalism.BasicNotions.Ranks.N
+    exact Nat.add_le_add_left (Nat.mul_le_mul (Nat.succ_le_of_lt hi) le_rfl) _
+  unfold Formalism.MainNotions.G.Nm
+  rw [sq]
+  exact mul_le_mul (by exact_mod_cast h1) (by exact_mod_cast h2) (by positivity) (by positivity)
 
 theorem sumOrbC (D : D7) (L : SizeData₂ D) (X : Inst D L) (K : Consts) (ce : ErrC) (E : Formalism.MainNotions.OrbitPlaces.Ent D) (C6 C : ℝ)
     (hS : Formalism.MainNotions.OrbitPlaces.Shape D L X E) (hC : Formalism.MainNotions.OrbitPlaces.CLarge C6 C K ce) : Formalism.MainNotions.OrbitPlaces.ValuationSumBound E L ce C := by
@@ -1223,7 +1194,7 @@ theorem sumOrbC (D : D7) (L : SizeData₂ D) (X : Inst D L) (K : Consts) (ce : E
 
   set S := ∑ τ : D.what₂.Tau, wj D (i + 1) τ with hSdef
   have hFI : FInert D (i + 1) p = ((D.R.k : ℝ) - 1) * S / ((p : ℝ) ^ 2 - 1) := by
-    unfold FInert; rw [if_pos ⟨hc0, hh⟩, hSdef, Finset.mul_sum, Finset.sum_div]
+    unfold FInert; rw [ite_eq_left ⟨hc0, hh⟩, hSdef, Finset.mul_sum, Finset.sum_div]
   have hS0 : 0 ≤ S := by
     rw [hSdef, ← sum_wPl D (i + 1)]
     exact Finset.sum_nonneg fun z _ => (hS.wpos i hi z).le
@@ -1278,7 +1249,7 @@ namespace Formalism.MainNotions.DIV.Lemmas.OrbitEntryBounds
 open Formalism.BasicNotions Formalism.MainNotions Formalism.MainNotions.G Formalism.MainNotions.OrbitPlaces
 
 def toEnt {D : D7} (E : OrbitPlaces.Ent D) : PI.OrbJet.Ent D :=
-  ⟨E.nu, E.nu_row, E.nu_rows, E.Th, E.ep, E.be, E.sg⟩
+  ⟨E.nu⟩
 
 theorem addition_bound_holds (D : D7) (E : OrbitPlaces.Ent D) : OrbitPlaces.OrbitsAddLowerBound E := by
   intro p _ h u i hi R hR ep sg be hbe β hβ Th hTh
@@ -1291,14 +1262,17 @@ theorem entry_divisor_bound_holds (D : D7) (E : OrbitPlaces.Ent D) (Dx : DivX D)
   intro u μ w hL hc i hi L L'
   exact _root_.jet_bound_ramified_prime D Dx E.nu E.nu_row E.nu_rows E.Th hs u μ w hL hc i hi L L'
 
+private theorem entry_number_bound_holds (D : D7) (L : SizeData₂ D) (X : Inst D L) (K : Consts) (E : OrbitPlaces.Ent D) (ce : ErrC) (C6 C : ℝ)
+    (hS : OrbitPlaces.Shape D L X E) (hC : OrbitPlaces.CLarge C6 C K ce) : OrbitPlaces.ScaledGeneratorsInSup E L K ce := by
+  intro p hp h5 hcs hpX u i hi
+  exact ⟨fun Th hTh => UpperTheory.kvalGe_theta_of_shape D L X E hS p h5 hcs.1 hcs.2.2 hpX u i hi Th hTh,
+    fun hL => UpperTheory.fInert_sub_eatI_le_orbit_average_sub_errors D L X K E ce C6 C hS hC hL p hp.out h5 hcs hpX i hi⟩
+
 theorem orbit_entry_bounds_of_family (D : D7) (L : SizeData₂ D) (X : Inst D L) (K : Consts) (Dx : DivX D) (E : OrbitPlaces.Ent D) (ce : ErrC) (C6 C : ℝ)
     (hF : OrbitPlaces.OrbitValuationBound E X K ce) (hs : OrbitPlaces.ThetaKernelShapeAtD E Dx) (hS : OrbitPlaces.Shape D L X E) (hC : OrbitPlaces.CLarge C6 C K ce) :
     OrbitPlaces.Core D L X K Dx E ce C :=
   ⟨addition_bound_holds D E, orbitsAddAtConjugate_ent D E, hF, entry_divisor_bound_holds D E Dx hs,
-    PI.SumOrbC D L X K ce E C6 C hS hC, by
-      intro p hp h5 hcs hpX u i hi
-      exact ⟨fun Th hTh => UpperTheory.kvalGe_theta_of_shape D L X E hS p h5 hcs.1 hcs.2.2 hpX u i hi Th hTh,
-        fun hL => UpperTheory.fInert_sub_eatI_le_orbit_average_sub_errors D L X K E ce C6 C hS hC hL p hp.out h5 hcs hpX i hi⟩⟩
+    PI.SumOrbC D L X K ce E C6 C hS hC, entry_number_bound_holds D L X K E ce C6 C hS hC⟩
 
 theorem orbit_entry_bounds_hold (D : D7) (L : SizeData₂ D) (X : Inst D L) (K : Consts) (Dx : DivX D) (E : OrbitPlaces.Ent D) (ce : ErrC) (C6 C : ℝ)
     (hA : OrbitPlaces.OrbitLetterBoundsAll C6 C) (hs : OrbitPlaces.ThetaKernelShapeAtD E Dx) (hS : OrbitPlaces.Shape D L X E) (hC : OrbitPlaces.CLarge C6 C K ce) :

@@ -7,46 +7,10 @@ public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Compactif
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.FlatSectionAndDegree
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.FramePointCombinationMatrix
 public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.LieModel
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
 import Development.AbelianVarietyTheory.Proofs.FoundationProofs.IsAbelianGaloisHost
 import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.GramTransformOfCoordinateChangeImports
-import Development.AbelianVarietyTheory.Proofs.FoundationProofs.IdemAtEqOneIff
 
 @[expose] public section
-
-set_option autoImplicit false
 
 noncomputable section
 
@@ -88,9 +52,9 @@ theorem exists_matrix (F F' : EigFrame Y φ x) (τ : E →+* ℂ) {m : ℕ} (h :
 
 end Frames
 
-theorem mult_big (τ : Psi H) : Dw.p = Dw.mult τ.1 := by rw [Datum.mult, if_pos τ.2]
+theorem mult_big (τ : Psi H) : Dw.p = Dw.mult τ.1 := by rw [Datum.mult, ite_eq_left τ.2]
 
-theorem mult_small (τ : Psi H) : Dw.q = Dw.mult (conjEmb τ.1) := by rw [Datum.mult, if_neg (conj_not_mem τ)]
+theorem mult_small (τ : Psi H) : Dw.q = Dw.mult (conjEmb τ.1) := by rw [Datum.mult, ite_eq_right (conj_not_mem τ)]
 
 theorem prod_flat {G : Type} [CommGroup G] (τ : Psi H) (t : Ix Dw → G) :
     ∏ i, t i ^ exOf Dw (flatWt Dw τ) 0 i =
@@ -249,7 +213,29 @@ end Pts
 
 theorem inv_mem {Z : Comp Xo c} {e : Ix Dw → ℤ} {f g : Rul Xo c} (hf : f ∈ secZ Xo c e) (hg : idem Z * g = g)
     (hfg : f * g = idem Z) : g ∈ secZ Xo c (-e) := by
-  apply _root_.GlobalTheory.FlatLine.Definite.inv_mem_secZ_on <;> assumption
+  have h1 : ∀ p y, f p y * g p y = idem Z p y := fun p y => congrFun (congrFun hfg p) y
+  have h2 : ∀ p y, idem Z p y * g p y = g p y := fun p y => congrFun (congrFun hg p) y
+  refine ⟨fun p q φ y z h => ?_, fun p t y y' h => ?_⟩
+  · have a1 := h1 q z
+    have a2 := congrArg φ (h1 p y)
+    have b1 := h2 q z
+    have b2 := congrArg φ (h2 p y)
+    rw [map_mul, ← (idem_mem_secZ Z).1 p q φ y z h] at a2 b2
+    rw [← hf.1 p q φ y z h] at a2
+    linear_combination φ (g p y) * a1 - g q z * a2 - b1 + b2
+  · have a1 := h1 p y'
+    have a2 := h1 p y
+    have b1 := h2 p y'
+    have b2 := h2 p y
+    have a0 := (idem_mem_secZ Z).2 p t y y' h
+    simp only [Pi.zero_apply, zpow_zero, Finset.prod_const_one, Units.val_one, one_mul] at a0
+    rw [hf.2 p t y y' h] at a1
+    rw [a0] at a1 b1
+    have a3 : ((∏ i, t i ^ (-e) i : (p.R)ˣ) : p.R) * ((∏ i, t i ^ e i : (p.R)ˣ) : p.R) = 1 := by
+      rw [← Units.val_mul, ← Finset.prod_mul_distrib]; simp
+    generalize ((∏ i, t i ^ (-e) i : (p.R)ˣ) : p.R) = A at *
+    generalize ((∏ i, t i ^ e i : (p.R)ˣ) : p.R) = B at *
+    linear_combination (A * g p y) * a1 - (A * B * g p y') * a2 - (idem Z p y * g p y') * a3 - b1 + A * b2
 
 theorem exists_reads : ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (H : ReciprocityTheory.ChartRestriction.G.Geo.Tor.Host E)
     (Dw : Datum H) (l : Level H) (Xo : Moduli Dw l) (c : Coeff l) (Y : Model Xo c (RingHom.id c.F)) (Z : Comp Xo c)
@@ -286,7 +272,7 @@ theorem exists_reads : ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (H
     rw [← hV, h2]
     exact h1
   have h3 : evR Xo c f₀ y = val sig y :=
-    (dif_pos ht).trans (val_map hU hs ht.choose_spec.choose_spec.choose_spec).symm
+    (dite_eq_left ht).trans (val_map hU hs ht.choose_spec.choose_spec.choose_spec).symm
   have h4 := evalAt_mul (K := c.F) (fun S _ _ => FrPt Xo c S) (fun φ y z => FrMap φ y z) (idem Z) f₀ y
   exact h4.trans ((congrArg₂ (· * ·) (evR_idem hon ht) h3).trans ((one_mul _).trans (val_eq hU hs ha)))
 

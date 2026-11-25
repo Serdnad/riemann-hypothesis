@@ -288,38 +288,8 @@ theorem HasGrowth.of_eq_integral [MeasurableSpace (archGroup K n)] [BorelSpace (
     {φ ψ : AdelicGLn.AdelicGL K n → ℂ} {N : ℕ}
     (hφ : HasGrowth φ N) (μ : Measure (archGroup K n)) [μ.IsHaarMeasure]
     {D : archGroup K n → ℂ} (hD : Continuous D) (hDc : HasCompactSupport D)
-    (hψ : ∀ g, ψ g = ∫ y, φ (g * infEmb K n y) * D y ∂μ) : HasGrowth ψ N := by
-  obtain ⟨C, hC⟩ := hφ
-  obtain ⟨M, hM⟩ := exists_height_infEmb_le (K := K) (n := n) hDc.isCompact
-  set M' := max M 1
-  have hc0 : 0 ≤ heightConst K n := le_trans zero_le_one one_le_heightConst
-  refine ⟨|C| * (heightConst K n * M') ^ N * ∫ y, ‖D y‖ ∂μ, fun g => ?_⟩
-  rw [hψ]
-  have hb : ∀ y, ‖φ (g * infEmb K n y) * D y‖ ≤
-      |C| * (heightConst K n * M') ^ N * height g ^ N * ‖D y‖ := by
-    intro y
-    by_cases hy : y ∈ tsupport D
-    · rw [norm_mul]
-      refine mul_le_mul_of_nonneg_right ?_ (norm_nonneg _)
-      have hhg := height_pos g
-      calc ‖φ (g * infEmb K n y)‖ ≤ C * height (g * infEmb K n y) ^ N := hC _
-        _ ≤ |C| * height (g * infEmb K n y) ^ N :=
-            mul_le_mul_of_nonneg_right (le_abs_self C) (pow_nonneg (height_pos _).le _)
-        _ ≤ |C| * (heightConst K n * height g * M') ^ N := by
-            refine mul_le_mul_of_nonneg_left (pow_le_pow_left₀ (height_pos _).le ?_ _) (abs_nonneg _)
-            calc height (g * infEmb K n y)
-                ≤ heightConst K n * height g * height (infEmb K n y) := height_mul_le _ _
-              _ ≤ heightConst K n * height g * M' :=
-                  mul_le_mul_of_nonneg_left ((hM y hy).trans (le_max_left _ _))
-                    (mul_nonneg hc0 hhg.le)
-        _ = |C| * (heightConst K n * M') ^ N * height g ^ N := by ring
-    · rw [image_eq_zero_of_notMem_tsupport hy, mul_zero, norm_zero, mul_zero]
-  have hint : Integrable (fun y => ‖D y‖) μ := hD.norm.integrable_of_hasCompactSupport hDc.norm
-  calc ‖∫ y, φ (g * infEmb K n y) * D y ∂μ‖
-      ≤ ∫ y, |C| * (heightConst K n * M') ^ N * height g ^ N * ‖D y‖ ∂μ :=
-        norm_integral_le_of_norm_le (hint.const_mul _) (Eventually.of_forall hb)
-    _ = |C| * (heightConst K n * M') ^ N * (∫ y, ‖D y‖ ∂μ) * height g ^ N := by
-        rw [integral_const_mul]; ring
+    (hψ : ∀ g, ψ g = ∫ y, φ (g * infEmb K n y) * D y ∂μ) : HasGrowth ψ N :=
+  exists_height_bound_of_eq_integral hφ μ hD hDc hψ
 
 theorem hasGrowth_uAction {N : ℕ} (u : UEnv K n) :
     ∀ {φ : AdelicGLn.AdelicGL K n → ℂ} (hφ : IsSmoothKZ φ), HasGrowth φ N →
@@ -350,16 +320,16 @@ theorem hasGrowth_uAction {N : ℕ} (u : UEnv K n) :
     rw [map_add (f := _), LinearMap.add_apply, Submodule.coe_add]
     exact (ha hφ hN).add (hb hφ hN)
 
-theorem exists_norm_diffSum_le_of_growth {φ : AdelicGLn.AdelicGL K n → ℂ} (hsm : φ ∈ archSmooth K n)
-    (N : ℕ) (hN : ∀ u : UEnv K n, HasGrowth (uAction u ⟨φ, hsm⟩ : AdelicGLn.AdelicGL K n → ℂ) N) :
+theorem exists_norm_diffSum_le {φ : AdelicGLn.AdelicGL K n → ℂ} (hφ : IsAutomorphicForm φ) :
     ∃ N : ℕ, ∀ (k : ℕ) (T : ℝ), ∃ C : ℝ, ∀ (x : AdelicGLn.AdelicGL K n)
       (Y : Fin k → ArchMatrix K n), (∀ i j, Y i * Y j = 0) → (∀ i, ‖Y i‖ ≤ T) →
       ‖diffSum φ x Y‖ ≤ C * (∏ i, ‖Y i‖) * height x ^ N := by
+  obtain ⟨C₀, N, hC₀⟩ := hφ.hasModerateGrowth
   refine ⟨N, fun k T => ?_⟩
   obtain ⟨c, hc0, hc⟩ := exists_abs_archBasis_repr_le (K := K) (n := n)
   have hgrowth : ∀ J : Fin k → Fin (archDim K n),
-      HasGrowth (uAction (uJ k J) ⟨φ, hsm⟩ : AdelicGLn.AdelicGL K n → ℂ) N :=
-    fun J => hN _
+      HasGrowth (uAction (uJ k J) ⟨φ, hφ.isSmooth.1⟩ : AdelicGLn.AdelicGL K n → ℂ) N :=
+    fun J => hasGrowth_uAction (uJ k J) hφ.isSmoothKZ ⟨C₀, hC₀⟩
   choose CJ hCJ using hgrowth
   set T' := (k : ℝ) * max T 0
   set S : Set (archGroup K n) :=
@@ -378,7 +348,7 @@ theorem exists_norm_diffSum_le_of_growth {φ : AdelicGLn.AdelicGL K n → ℂ} (
     have := height_pos x
     have : 0 ≤ Mh' := le_trans zero_le_one (le_max_right _ _)
     positivity
-  have h := norm_diffSum_le hc0 hc k ⟨φ, hsm⟩ x Y hcomm _ hB0 fun J t ht => by
+  have h := norm_diffSum_le hc0 hc k ⟨φ, hφ.isSmooth.1⟩ x Y hcomm _ hB0 fun J t ht => by
     have hZ : ‖∑ i, t i • Y i‖ ≤ T' := by
       refine (norm_sum_le _ _).trans ?_
       calc ∑ i, ‖t i • Y i‖ ≤ ∑ _i : Fin k, max T 0 := Finset.sum_le_sum fun i _ => by
@@ -392,7 +362,7 @@ theorem exists_norm_diffSum_le_of_growth {φ : AdelicGLn.AdelicGL K n → ℂ} (
     have hh : height (x * archExp (∑ i, t i • Y i)) ≤ heightConst K n * height x * Mh' :=
       (height_mul_le _ _).trans (mul_le_mul_of_nonneg_left ((hMh _ hmem).trans (le_max_left _ _))
         (mul_nonneg hc0' (height_pos x).le))
-    calc ‖(uAction (uJ k J) ⟨φ, hsm⟩ : AdelicGLn.AdelicGL K n → ℂ)
+    calc ‖(uAction (uJ k J) ⟨φ, hφ.isSmooth.1⟩ : AdelicGLn.AdelicGL K n → ℂ)
           (x * archExp (∑ i, t i • Y i))‖
         ≤ CJ J * height (x * archExp (∑ i, t i • Y i)) ^ N := hCJ J _
       _ ≤ |CJ J| * (heightConst K n * height x * Mh') ^ N :=
@@ -407,14 +377,6 @@ theorem exists_norm_diffSum_le_of_growth {φ : AdelicGLn.AdelicGL K n → ℂ} (
       _ = Cs * (heightConst K n * Mh') ^ N * height x ^ N := by ring
   refine h.trans (le_of_eq ?_)
   ring
-
-theorem exists_norm_diffSum_le {φ : AdelicGLn.AdelicGL K n → ℂ} (hφ : IsAutomorphicForm φ) :
-    ∃ N : ℕ, ∀ (k : ℕ) (T : ℝ), ∃ C : ℝ, ∀ (x : AdelicGLn.AdelicGL K n)
-      (Y : Fin k → ArchMatrix K n), (∀ i j, Y i * Y j = 0) → (∀ i, ‖Y i‖ ≤ T) →
-      ‖diffSum φ x Y‖ ≤ C * (∏ i, ‖Y i‖) * height x ^ N := by
-  obtain ⟨C, N, hC⟩ := hφ.hasModerateGrowth
-  exact exists_norm_diffSum_le_of_growth hφ.isSmooth.1 N
-    (fun u => hasGrowth_uAction u hφ.isSmoothKZ ⟨C, hC⟩)
 
 end CuspidalSpectrum
 

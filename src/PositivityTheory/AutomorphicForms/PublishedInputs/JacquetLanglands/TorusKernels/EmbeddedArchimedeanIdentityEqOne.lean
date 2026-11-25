@@ -1,6 +1,5 @@
 module
 
-import Development.AutomorphicArithmetic.AutomorphicVarieties.GaussSumFiltrations.ExistsIsHolAdelicLiftOfEvenWeightSystem
 public import PositivityTheory.AutomorphicForms.PublishedInputs.JacquetLanglands.TorusKernels.IsHolVOf
 import Mathlib.Algebra.Order.Archimedean.Real.Hom
 import Development.AutomorphicArithmetic.AutomorphicVarieties.IdeleGenerators.ConstSmall
@@ -33,7 +32,23 @@ theorem key (k : ℕ) (F : ℂ → ℂ) (F' : ℂ) (hF : HasDerivAt F F' Complex
           F (((x 0 0 : ℂ) * Complex.I + x 0 1) * ((x 1 0 : ℂ) * Complex.I + x 1 1)⁻¹)) L x0 ∧
       ∀ v : Fin 2 → Fin 2 → ℝ, L v = (k : ℂ) / 2 * (v 0 0 + v 1 1) * F Complex.I - k * (v 1 0 * Complex.I + v 1 1) * F Complex.I +
         (v 0 0 * Complex.I + v 0 1 + v 1 0 - v 1 1 * Complex.I) * F' := by
-  apply _root_.GlobalTheory.HilbertThetaSeries.ArchLift.key <;> assumption
+  have r : ∀ i j, HasFDerivAt (fun x : Fin 2 → Fin 2 → ℝ => x i j) (cR i j) x0 := fun i j => (cR i j).hasFDerivAt
+  have c : ∀ i j, HasFDerivAt (fun x : Fin 2 → Fin 2 → ℝ => (x i j : ℂ)) (cC i j) x0 := fun i j => (cC i j).hasFDerivAt
+  have hd := ((r 0 0).fun_mul (r 1 1)).fun_sub ((r 0 1).fun_mul (r 1 0))
+  have hd2 := hd.rpow_const (p := (k : ℝ) / 2) (Or.inl (by simp [h00, h01, h10, h11]))
+  have hd3 := Complex.ofRealCLM.hasFDerivAt.comp x0 hd2
+  have hden := ((c 1 0).mul_const Complex.I).fun_add (c 1 1)
+  have hnum := ((c 0 0).mul_const Complex.I).fun_add (c 0 1)
+  have hne : (x0 1 0 : ℂ) * Complex.I + x0 1 1 ≠ 0 := by simp [h10, h11]
+  have hz := (hasDerivAt_zpow (-(k : ℤ)) _ (Or.inl hne)).comp_hasFDerivAt x0 hden
+  have hi := (hasDerivAt_inv hne).comp_hasFDerivAt x0 hden
+  have hq := hnum.fun_mul hi
+  have hF2 : HasDerivAt F F' (((x0 0 0 : ℂ) * Complex.I + x0 0 1) * ((x0 1 0 : ℂ) * Complex.I + x0 1 1)⁻¹) := by
+    simpa [h00, h01, h10, h11] using hF
+  have hc := hF2.comp_hasFDerivAt x0 hq
+  refine ⟨_, (hd3.fun_mul hz).fun_mul hc, fun v => ?_⟩
+  simp [h00, h01, h10, h11, cR_apply, cC_apply]
+  linear_combination (-(v 1 0 : ℂ) * F') * Complex.I_mul_I
 
 variable {F : Type} [Field F] [NumberField F] [IsTotallyReal F]
 
@@ -135,11 +150,11 @@ theorem at_point (hB : B1b) (k : InfinitePlace F → ℕ) (f : X (InfinitePlace 
       rw [hU, hu.unit_spec]
       rfl
     have hU1 : ∀ w, w ≠ v → gv w U = 1 := fun w hw => Units.ext (Matrix.ext fun a b => by
-      rw [hUv, map_embedded_archimedean_matrix, if_neg hw]; rfl)
+      rw [hUv, map_embedded_archimedean_matrix, ite_eq_right hw]; rfl)
     set m := gv v U with hm
-    have hmv : ∀ a b, m.val a b = x a b := fun a b => by rw [hm, hUv, map_embedded_archimedean_matrix, if_pos rfl]; rfl
+    have hmv : ∀ a b, m.val a b = x a b := fun a b => by rw [hm, hUv, map_embedded_archimedean_matrix, ite_eq_left rfl]; rfl
     have hmdet : m.val.det = x 0 0 * x 1 1 - x 0 1 * x 1 0 := by rw [Matrix.det_fin_two, hmv, hmv, hmv, hmv]
-    simp only [TR.chart, dif_pos hu]
+    simp only [TR.chart, dite_eq_left hu]
     rw [← hU]
     have e1 : G * TR.infGL F 2 U = TR.infGL F 2 (g * U) * finGL F 2 xf := by
       rw [← hG, mul_assoc, ← TR.infGL_comm, ← mul_assoc, ← map_mul]
@@ -168,7 +183,7 @@ theorem at_point (hB : B1b) (k : InfinitePlace F → ℕ) (f : X (InfinitePlace 
     have hdenne : (x 1 0 : ℂ) * Complex.I + x 1 1 ≠ 0 := by rw [← hdenm]; exact den_ne m (by simp [iP])
     have hHf : Hf (m • iP).1 = Φ (gw • (m • iP)) / (j1 (k v) gw (m • iP) * C0) := by
       simp only [hHf]
-      rw [ext1, dif_pos (show (num gw (m • iP).1 / den gw (m • iP).1).im ≠ 0 from (gw • (m • iP)).2)]
+      rw [ext1, dite_eq_left (show (num gw (m • iP).1 / den gw (m • iP).1).im ≠ 0 from (gw • (m • iP)).2)]
       rfl
     rw [hτ, hHf, hφG]
     have hj : j1 (k v) m iP = ((x 1 0 : ℂ) * Complex.I + x 1 1) ^ k v *
@@ -219,12 +234,12 @@ theorem UpperTheory.Esk.hyperbolic_orbit_summable_proof : UpperTheory.Esk.Osg �
     obtain ⟨F0, F', h0, hD⟩ := at_point hB k f φ h (fun x => hform.hol x) hrel v G
     change (TR.Eop v 0 1 (⟨φ, h⟩ : TR.Sm F 2)).1 G - (TR.Eop v 1 0 (⟨φ, h⟩ : TR.Sm F 2)).1 G = Complex.I * k v * φ G
     rw [E, E, hD, hD, h0]
-    simp only [sv, eq_false (show (1 : Fin 2) ≠ 0 by decide), eq_false (show (0 : Fin 2) ≠ 1 by decide), and_true, and_false, and_self, if_true, if_false, Complex.ofReal_zero, Complex.ofReal_one]
+    simp only [sv, eq_false (show (1 : Fin 2) ≠ 0 by decide), eq_false (show (0 : Fin 2) ≠ 1 by decide), and_true, and_false, and_self, ite_true, ite_false, Complex.ofReal_zero, Complex.ofReal_one]
     ring
   · refine Subtype.ext (funext fun G => ?_)
     obtain ⟨F0, F', h0, hD⟩ := at_point hB k f φ h (fun x => hform.hol x) hrel v G
     change (TR.Eop v 0 0 (⟨φ, h⟩ : TR.Sm F 2)).1 G - (TR.Eop v 1 1 (⟨φ, h⟩ : TR.Sm F 2)).1 G =
       Complex.I * ((TR.Eop v 0 1 (⟨φ, h⟩ : TR.Sm F 2)).1 G + (TR.Eop v 1 0 (⟨φ, h⟩ : TR.Sm F 2)).1 G)
     rw [E, E, E, E, hD, hD, hD, hD]
-    simp only [sv, eq_false (show (1 : Fin 2) ≠ 0 by decide), eq_false (show (0 : Fin 2) ≠ 1 by decide), and_true, and_false, and_self, if_true, if_false, Complex.ofReal_zero, Complex.ofReal_one]
+    simp only [sv, eq_false (show (1 : Fin 2) ≠ 0 by decide), eq_false (show (0 : Fin 2) ≠ 1 by decide), and_true, and_false, and_self, ite_true, ite_false, Complex.ofReal_zero, Complex.ofReal_one]
     linear_combination (k v * F0) * Complex.I_mul_I

@@ -1,8 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.FlagMeasures.HasSignatureComplement
-import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.ConjugateIntertwinerValuesIsCuspFun
-import Development.AbelianVarietyTheory.Proofs.FlagMeasures.CuspidalFrame
 public import Development.AbelianVarietyTheory.BlockTheory.SiegelWeilLocal.CuspidalFrames
 public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.HermitianFormUnitaryOneOne
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.CompletedTensorDiscreteSeriesIrreducibleFormalDe
@@ -146,11 +143,38 @@ theorem one_mem_Kg (I : AutInst) (g : ℕ) : (1 : I.Gf) ∈ I.Kg g := by
   simp [this]
 
 theorem re_fixed (B : RowsAut) : ∀ k ∈ B.I.Kg B.g, (B.R (1, k)).comp B.Re = B.Re := by
-  apply _root_.GlobalTheory.Dec.CuspFrame.re_fixed <;> assumption
+  intro k hk
+  obtain ⟨hT2, -, hsc, -⟩ := GlobalTheory.CongTop.adelic_topology B.I
+  obtain ⟨R1, Rm, Rn, -⟩ := GlobalTheory.RightRegFund.rightReg_unitary_continuous B
+  obtain ⟨-, -, -, -, -, hinv, -⟩ := B.e_adm
+  obtain ⟨-, hT⟩ := B.Re_spec
+  have p1 : (fun g : B.I.Gf => B.R (1, g)) 1 = 1 := R1
+  have pm : ∀ a b : B.I.Gf, B.R (1, a * b) = B.R (1, a) * B.R (1, b) := by
+    intro a b; rw [← Rm]; simp
+  have pn : ∀ (g : B.I.Gf) v, ‖B.R (1, g) v‖ = ‖v‖ := fun g v => Rn _ v
+  exact GlobalTheory.IdemProj.op_fixed B.μf (fun g => B.R (1, g)) p1 pm pn B.e B.Re hT k
+    (fun x => by simpa using hinv x k hk 1 (one_mem_Kg B.I B.g))
 
 theorem integrable_ph (B : RowsAut) (d : InfinitePlace B.I.F → ℝ) (h : ℝ) (hd : IsDSData B d)
     (hl : LocDec B h) (hb : HBig B 40 h) : Integrable (ph B d) (muInf B.I) := by
-  apply _root_.GlobalTheory.Dec.CuspAll.integrable_ph <;> assumption
+  obtain ⟨hc, hm, hi⟩ := GlobalTheory.Dec.PhMajProof.phMaj B d h hd hl
+  have h0 := hi 0 le_rfl (fun v => by
+    rcases Nat.eq_zero_or_pos (rkR (B.I.ε v)) with hq | hq
+    · exact Or.inl hq
+    · right
+      have hle : rkR (B.I.ε v) ≤ B.I.n := by
+        unfold rkR
+        refine (min_le_left _ _).trans ((Finset.card_filter_le _ _).trans (by simp))
+      have h1 : (0 : ℝ) < rkR (B.I.ε v) := by exact_mod_cast hq
+      have h2 : ((rkR (B.I.ε v) : ℕ) : ℝ) ≤ B.I.n := by exact_mod_cast hle
+      have h3 := Real.sqrt_pos.2 h1
+      have h4 := hb v
+      have h5 : (0 : ℝ) < B.I.n := h1.trans_le h2
+      have h6 : (B.I.n : ℝ) * rkR (B.I.ε v) ≤ (B.I.n : ℝ) ^ 2 := by rw [sq]; exact mul_le_mul_of_nonneg_left h2 h5.le
+      have h7 : 0 < (B.I.n : ℝ) ^ 2 * Real.sqrt (rkR (B.I.ε v)) := by positivity
+      linarith [mul_le_mul_of_nonneg_right h6 h3.le])
+  simp only [zero_mul, Real.exp_zero, mul_one] at h0
+  exact h0.mono' hc.aestronglyMeasurable (Filter.Eventually.of_forall hm)
 
 theorem cuspidal_frame : ∀ (B : RowsAut) (d : InfinitePlace B.I.F → ℝ) (h : ℝ), IsDSData B d → (∀ v, Formalism.MainNotions.S.IsKTypeOf (B.I.ε v) (B.σ v) (Formalism.QuantumDeterminants.lowK (B.I.ε v) (B.lam v)) (Formalism.MainNotions.S.lowKSub (B.I.ε v) (B.lam v) (B.σ v))) → 1 ≤ B.g → (∀ v, 120 * (B.I.n : ℝ) * ((rkR (B.I.ε v) : ℕ) : ℝ) ^ ((3 : ℝ) / 2) ≤ h) → LocDec B h → HBig B 40 h → FiniteDimensional ℂ (B.I.eHom B.σs B.μf B.fund B.R B.Re) → ∃ Rφ : B.I.L2 B.μf B.fund →L[ℂ] B.I.L2 B.μf B.fund, B.I.IsRConv B.μf B.fund B.R (phe B d) Rφ ∧ ∃ T : Fin B.D → (B.Hs →L[ℂ] B.I.L2 B.μf B.fund), GlobalTheory.IndefiniteRowSideFullHecke.CuspidalFrames.IsCuspidalFrame B Rφ T := by
   intro B d h hd hS _ hgap hl hb hfin
@@ -999,16 +1023,16 @@ namespace GlobalTheory.FlagMeas.AbsVol
 
 theorem fDeg_congr {K L : Type} [Field K] [NumberField K] [Field L] [NumberField L] (e : K ≃+* L) :
     Formalism.HermitianLatticesTheory.fDeg K = Formalism.HermitianLatticesTheory.fDeg L := by
-  apply _root_.GlobalTheory.FlagMeas.VolRatio.fDeg_congr <;> assumption
-
-theorem vInv_congr {K L : Type} [Field K] [NumberField K] [Field L] [NumberField L] (e : K ≃+* L) :
-    Formalism.HermitianLatticesTheory.vInv K = Formalism.HermitianLatticesTheory.vInv L := by
-  unfold Formalism.HermitianLatticesTheory.vInv
-  rw [fDeg_congr e, NumberField.discr_eq_discr_of_ringEquiv K e]
-
-theorem volU_nonneg (i : ℕ) : 0 ≤ volU i := by
-  unfold volU sphV
-  positivity
+  unfold Formalism.HermitianLatticesTheory.fDeg
+  refine Fintype.card_congr
+    { toFun := fun w => w.comap (e.symm : L →+* K)
+      invFun := fun w => w.comap (e : K →+* L)
+      left_inv := fun w => ?_
+      right_inv := fun w => ?_ }
+  · ext x
+    simp
+  · ext x
+    simp
 
 theorem absoluteVolume_of_volumeStep : VolumeStep → AbsoluteVolume := by
   intro hstep I p q hsig hq hn X hX hrd hfrd c μf _ _ hc
@@ -1030,14 +1054,14 @@ theorem absoluteVolume_of_volumeStep : VolumeStep → AbsoluteVolume := by
   obtain ⟨e, -⟩ := hsame
   obtain ⟨hf₀, -, -, -, -, -⟩ := _root_.GlobalTheory.FlagMeas.instance_numbers I₀
   rw [← hf₀, fDeg_congr e] at hD
-  rw [fDeg_congr e, vInv_congr e] at hV
+  rw [fDeg_congr e, GlobalTheory.FlagMeas.VolRatio.vInv_congr e] at hV
   have hA := _root_.GlobalTheory.VolArith.volume_bound_arith I.E I.cm.cmUnram I.n X hn hX (hv ▸ hrd) (by rw [hf, hv]; exact hfrd)
   have hv0 : 0 ≤ 2 * Formalism.HermitianLatticesTheory.vInv I.E := by
     unfold Formalism.HermitianLatticesTheory.vInv
     positivity
   have hv1 : 1 ≤ 2 * Formalism.HermitianLatticesTheory.vInv I.E := hv ▸ (_root_.GlobalTheory.FlagMeas.instance_numbers I).2.2.1
   have hlog : 0 ≤ Real.log (2 * Formalism.HermitianLatticesTheory.vInv I.E) := Real.log_nonneg hv1
-  have hU : 0 ≤ volU 2 ^ Formalism.HermitianLatticesTheory.fDeg I.E := pow_nonneg (volU_nonneg 2) _
+  have hU : 0 ≤ volU 2 ^ Formalism.HermitianLatticesTheory.fDeg I.E := pow_nonneg (GlobalTheory.FlagMeas.Bound.volU_nonneg 2) _
   rw [hE, hpq', ← hf]
   refine le_trans ?_ (ENNReal.ofReal_le_ofReal hA)
   rw [ENNReal.ofReal_mul (by positivity), ENNReal.ofReal_mul hU]
@@ -1196,8 +1220,17 @@ namespace GlobalTheory.NonzeroFlag
 
 theorem telescope : ∀ (a : ℕ) (r : Fin (a + 1) → ℕ) (j : Fin a → ℕ),
     (∀ i : Fin a, r i.succ = r i.castSucc + j i) → r (Fin.last a) = r 0 + ∑ i, j i := by
-  intros
-  apply _root_.GlobalTheory.AdaptedExists.telescope <;> assumption
+  intro a
+  induction a with
+  | zero => intro r j _; simp
+  | succ a ih =>
+    intro r j h
+    have h1 := ih (fun i => r i.castSucc) (fun i => j i.castSucc) (fun i => h i.castSucc)
+    have h2 := h (Fin.last a)
+    rw [Fin.sum_univ_castSucc]
+    have h3 : r (Fin.last (a + 1)) = r (Fin.last a).castSucc + j (Fin.last a) := h2
+    have h4 : r (Fin.last a).castSucc = r 0 + ∑ i : Fin a, j i.castSucc := h1
+    omega
 
 theorem exists_composition (a : ℕ) (j : Fin a → ℕ) (hj : ∀ i, 1 ≤ j i) (J : ℕ) (hJ : ∑ i, j i = J)
     (P : ∀ a : ℕ, (Fin a → ℕ) → Prop) (h : P a j) :
@@ -1217,7 +1250,16 @@ theorem exists_composition (a : ℕ) (j : Fin a → ℕ) (hj : ∀ i, 1 ≤ j i)
     rfl
 
 theorem measurableSet_simplexH (a : ℕ) : MeasurableSet (simplexH a) := by
-  apply _root_.GlobalTheory.FlagPush.simplex_meas <;> assumption
+  have : simplexH a = (⋂ i : Fin a, ⋂ k : Fin a, ⋂ _ : i < k, {τ : Fin a → ℝ | τ i < τ k}) ∩
+      ⋂ i : Fin a, ({τ : Fin a → ℝ | 0 < τ i} ∩ {τ : Fin a → ℝ | τ i < 1 / 2}) := by
+    ext τ
+    simp [simplexH, StrictMono]
+  rw [this]
+  refine MeasurableSet.inter ?_ ?_
+  · exact MeasurableSet.iInter fun i => MeasurableSet.iInter fun k => MeasurableSet.iInter fun _ =>
+      measurableSet_lt (measurable_pi_apply i) (measurable_pi_apply k)
+  · exact MeasurableSet.iInter fun i => (measurableSet_lt measurable_const (measurable_pi_apply i)).inter
+      (measurableSet_lt (measurable_pi_apply i) measurable_const)
 
 theorem mem_typeSet (I : AutInst) (p q : ℕ) (hs : HasSig I p q) (x : I.GA) (hx : stepLt I x (1 / 2) ≠ ⊥) :
     ∃ J ∈ Finset.Icc 1 q, ∃ c : Composition J, x ∈ typeSet I c.blocksFun (simplexH c.length) := by
@@ -1347,8 +1389,17 @@ theorem hasType_cast (I : AutInst) (x : I.GA) {a a' : ℕ} (h : a' = a) (j : Fin
 
 theorem sum_diff (a : ℕ) (r : Fin (a + 1) → ℕ) (j : Fin a → ℕ)
     (h : ∀ i, r i.succ = r i.castSucc + j i) : r (Fin.last a) = r 0 + ∑ i, j i := by
-  intros
-  apply _root_.GlobalTheory.AdaptedExists.telescope <;> assumption
+  induction a with
+  | zero => simp
+  | succ a ih =>
+    have key := ih (fun i => r i.castSucc) (fun i => j i.castSucc) (fun i => by
+      have := h i.castSucc
+      rwa [Fin.succ_castSucc] at this)
+    have hl := h (Fin.last a)
+    rw [Fin.succ_last] at hl
+    simp only [Fin.castSucc_zero] at key
+    rw [Fin.sum_univ_castSucc, hl, key]
+    ring
 
 theorem exists_type (B : RowsAut) (p q : ℕ) (hs : SigIs B p q) (hn : 1 ≤ B.I.n) (x : B.I.GA)
     (hx : least B.I x < 1 / 2) :
@@ -1423,8 +1474,7 @@ theorem lintegral_le_sum_types : ∀ (B : RowsAut) (p q : ℕ), SigIs B p q → 
     have hae : ∀ᵐ x ∂((B.I.muA B.μf).restrict Pᶜ), Φ x = 0 := by
       rw [ae_restrict_iff' hPm.compl]
       refine ae_of_all _ fun x hx => hΦ x ?_
-      by_contra hlt
-      push_neg at hlt
+      by_contra! hlt
       obtain ⟨J, hJ, c, τ, hτ⟩ := GlobalTheory.TypeDecomp.exists_type B p q hs hn x hlt
       apply hx
       simp only [hP, Set.mem_iUnion, Set.mem_setOf_eq]

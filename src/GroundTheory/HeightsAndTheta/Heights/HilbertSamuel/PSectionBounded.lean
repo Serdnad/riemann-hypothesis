@@ -1,55 +1,9 @@
 module
 
-
-import GroundTheory.HeightsAndTheta.Heights.MultihomogeneousPolynomials
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.IsIntersectionFamily
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsSectionRing
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Topology.Sheaves.Init
-import Mathlib.Algebra.Order.Star.Int
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Tactic.TypeStar
+
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: GroundTheory.PowerSubgroups.CountableNeighbourhoods.PSectionBoundedCountable, GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PSectionBounded
 
@@ -110,7 +64,11 @@ theorem homog_zero (a : K → ℕ) : IsMultiHomog (0 : MRing ι) a := fun m hm =
 
 theorem homog_add {f g : MRing ι} {a : K → ℕ} (hf : IsMultiHomog f a) (hg : IsMultiHomog g a) :
     IsMultiHomog (f + g) a := by
-  apply _root_.GroundTheory.Heights₂.Heights.MultiHomogeneous.add <;> assumption
+  classical
+  intro m hm
+  rcases Finset.mem_union.mp (support_add hm) with hm | hm
+  · exact hf m hm
+  · exact hg m hm
 
 theorem homog_neg {f : MRing ι} {a : K → ℕ} (hf : IsMultiHomog f a) : IsMultiHomog (-f) a :=
   fun m hm => hf m (by rwa [support_neg] at hm)
@@ -122,24 +80,64 @@ theorem homog_sub {f g : MRing ι} {a : K → ℕ} (hf : IsMultiHomog f a) (hg :
 
 theorem homog_sum {J : Type} (s : Finset J) {f : J → MRing ι} {a : K → ℕ}
     (h : ∀ j ∈ s, IsMultiHomog (f j) a) : IsMultiHomog (∑ j ∈ s, f j) a := by
-  apply _root_.GroundTheory.Heights₂.Heights.MultiHomogeneous.sum <;> assumption
+  classical
+  induction s using Finset.induction_on with
+  | empty => simpa using homog_zero (ι := ι) a
+  | insert j s hj ih =>
+    rw [Finset.sum_insert hj]
+    exact homog_add (h j (Finset.mem_insert_self _ _)) (ih fun i hi => h i (Finset.mem_insert_of_mem hi))
 
 theorem homog_one : IsMultiHomog (1 : MRing ι) 0 := by
-  apply _root_.GroundTheory.Heights₂.Heights.MultiHomogeneous.one <;> assumption
+  classical
+  intro m hm k
+  rw [MvPolynomial.support_one, Finset.mem_singleton] at hm
+  subst hm
+  simp
 
 theorem homog_C (r : ℤ) : IsMultiHomog (C r : MRing ι) 0 := by
-  apply _root_.GroundTheory.Heights₂.Heights.MultiHomogeneous.constant <;> assumption
+  classical
+  intro m hm k
+  rw [mem_support_iff, coeff_C] at hm
+  split_ifs at hm with h
+  · subst h
+    simp
+  · exact absurd rfl hm
 
 theorem homog_mul {f g : MRing ι} {a b : K → ℕ} (hf : IsMultiHomog f a) (hg : IsMultiHomog g b) :
     IsMultiHomog (f * g) (a + b) := by
-  apply _root_.GroundTheory.Heights₂.Heights.MultiHomogeneous.mul <;> assumption
+  classical
+  intro m hm k
+  obtain ⟨m1, hm1, m2, hm2, rfl⟩ := Finset.mem_add.mp (MvPolynomial.support_mul f g hm)
+  simp only [Finsupp.add_apply, Finset.sum_add_distrib, Pi.add_apply, hf m1 hm1 k, hg m2 hm2 k]
 
 theorem homog_X [DecidableEq K] (p : Σ k, ι k) : IsMultiHomog (X p : MRing ι) (Pi.single p.1 1) := by
-  apply _root_.GroundTheory.Heights₂.Heights.MultiHomogeneous.variableForm <;> assumption
+  classical
+  obtain ⟨k, i⟩ := p
+  intro m hm k'
+  rw [MvPolynomial.support_X, Finset.mem_singleton] at hm
+  subst hm
+  by_cases h : k' = k
+  · subst h
+    rw [Pi.single_eq_same, Finset.sum_eq_single i]
+    · simp
+    · intro b _ hb
+      rw [Finsupp.single_apply, ite_eq_right]
+      intro e
+      exact hb (eq_of_heq (Sigma.mk.inj_iff.mp e).2).symm
+    · simp
+  · rw [Pi.single_eq_of_ne h]
+    refine Finset.sum_eq_zero fun j _ => ?_
+    rw [Finsupp.single_apply, ite_eq_right]
+    intro e
+    exact h (congrArg Sigma.fst e).symm
 
 theorem homog_pow {f : MRing ι} {a : K → ℕ} (hf : IsMultiHomog f a) (n : ℕ) :
     IsMultiHomog (f ^ n) (n • a) := by
-  apply _root_.GroundTheory.Heights₂.Heights.MultiHomogeneous.pow <;> assumption
+  induction n with
+  | zero => simpa using (homog_one (ι := ι))
+  | succ n ih =>
+    rw [pow_succ, succ_nsmul]
+    exact homog_mul ih hf
 
 def chartMon (c : ∀ k, ι k) (d : K → ℕ) : MRing ι := ∏ k, (X ⟨k, c k⟩ : MRing ι) ^ d k
 
@@ -391,16 +389,25 @@ theorem exists_lower (y : (Σ k, ι k) → Ω) (A : HermLine ι) (q : ℕ) (w : 
     _ = M * A.h z * (Q * R) := by ring
     _ = M * A.h z := by rw [hQR, mul_one]
 
-end SectionBounded
-
-
-open SectionBounded in
-theorem SectionBounded.proof : SectionBounded.Statement := by
-  intro K _ ι _ Ω _ y A q w hw hgen hsm n s hs
+theorem exists_bound_of_lower (y : (Σ k, ι k) → Ω) (A : HermLine ι) (n : ℕ) {s : Ω}
+    (hs : s ∈ chartLat y A.a n)
+    (hlow : ∀ c : (∀ k, ι k), (∀ k, y ⟨k, c k⟩ ≠ 0) →
+      ∃ M : ℝ, 0 ≤ M ∧ ∀ z : (Σ k, ι k) → ℂ, z ∈ mcPts (mCoordIdeal y) →
+        (∀ k i, ‖z ⟨k, i⟩‖ ≤ ‖z ⟨k, c k⟩‖) → (∀ k, z ⟨k, c k⟩ ≠ 0) →
+        ∏ k, ‖z ⟨k, c k⟩‖ ^ A.a k ≤ M * A.h z) :
+    ∃ S : ℝ, 0 ≤ S ∧ ∀ (dg dh : K → ℕ) (g h : MRing ι) (z : (Σ k, ι k) → ℂ),
+      IsMultiHomog g dg → IsMultiHomog h dh → (∀ k, (dg k : ℤ) = dh k + n * A.a k) →
+      aeval y g = s * aeval y h → z ∈ mcPts (mCoordIdeal y) →
+      ‖eval z (map (Int.castRingHom ℂ) g)‖ ≤
+        S * ‖eval z (map (Int.castRingHom ℂ) h)‖ * A.h z ^ n := by
   classical
-  choose M hM0 hM using fun c hc => exists_lower y A q w hw hgen hsm c hc
+  choose M hM0 hM using hlow
   choose B hB0 hB using fun c hc => exists_upper y A.a n hs c hc
-  refine ⟨∑ c : (∀ k, ι k), if hc : (∀ k, y ⟨k, c k⟩ ≠ 0) then B c hc * M c hc ^ n else 0, ?_⟩
+  refine ⟨∑ c : (∀ k, ι k), if hc : (∀ k, y ⟨k, c k⟩ ≠ 0) then B c hc * M c hc ^ n else 0,
+    Finset.sum_nonneg fun c' _ => by
+      split_ifs with hc'
+      · exact mul_nonneg (hB0 c' hc') (pow_nonneg (hM0 c' hc') n)
+      · exact le_rfl, ?_⟩
   intro dg dh g h z hg hh hdeg hgy hz
   have hmax : ∀ k, ∃ i, ∀ i', ‖z ⟨k, i'⟩‖ ≤ ‖z ⟨k, i⟩‖ := fun k => by
     obtain ⟨i0, _⟩ := hz.1 k
@@ -432,7 +439,7 @@ theorem SectionBounded.proof : SectionBounded.Statement := by
         split_ifs with hc'
         · exact mul_nonneg (hB0 c' hc') (pow_nonneg (hM0 c' hc') n)
         · exact le_rfl) (Finset.mem_univ c)
-    simpa only [dif_pos hyc] using this
+    simpa only [dite_eq_left hyc] using this
   have hAh : 0 ≤ A.h z ^ n := pow_nonneg (A.pos z hz.1).le n
   calc ‖eval z (map (Int.castRingHom ℂ) g)‖
       ≤ B c hyc * ‖eval z (map (Int.castRingHom ℂ) h)‖ * ∏ k, ‖z ⟨k, c k⟩‖ ^ ((n : ℤ) * A.a k) := h1
@@ -440,6 +447,15 @@ theorem SectionBounded.proof : SectionBounded.Statement := by
         mul_le_mul_of_nonneg_left h3 (mul_nonneg (hB0 c hyc) (norm_nonneg _))
     _ = (B c hyc * M c hyc ^ n) * ‖eval z (map (Int.castRingHom ℂ) h)‖ * A.h z ^ n := by ring
     _ ≤ _ := by gcongr
+
+end SectionBounded
+
+
+open SectionBounded in
+theorem SectionBounded.proof : SectionBounded.Statement := by
+  intro K _ ι _ Ω _ y A q w hw hgen hsm n s hs
+  obtain ⟨S, -, hS⟩ := exists_bound_of_lower y A n hs fun c hc => exists_lower y A q w hw hgen hsm c hc
+  exact ⟨S, hS⟩
 
 end
 

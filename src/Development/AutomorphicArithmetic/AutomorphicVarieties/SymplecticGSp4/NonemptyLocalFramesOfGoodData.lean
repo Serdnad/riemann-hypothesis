@@ -84,7 +84,7 @@ section -- clump:auto
 open IsLocalRing MvPowerSeries UpperTheory.V.Alg
 
 theorem UpperTheory.V.Alg.framed_origin :
-    ∀ (O : Type) [CommRing O] [IsLocalRing O] [IsNoetherianRing O] [IsAdicComplete (maximalIdeal O) O] (ι X : Type) [Fintype ι] [DecidableEq ι] [AddCommGroup X] (w : ι → X) (Φ : FormData O w), IsUnit (2 : O) → ∀ (Γ : Type) [Group Γ] [TopologicalSpace Γ] [IsTopologicalGroup Γ] (rbar : Γ →* Matrix ι ι (ResidueField O)) (r0 : Lift O rbar O) (hbar : Φ.Normalises rbar), Φ.Normalises r0.hom → ∀ (F : Frame Γ) (L : ∀ q, Cond O (rbar.comp (F.ψ q))), (∀ q, ∀ n ∈ F.N q, rbar (F.ψ q n) = 1) → (∀ q, Φ.IsLocCond (r0.hom.comp (F.ψ q)) (F.N q) (L q)) → (∀ q, L q O (r0.comap (F.ψ q) (F.hψ q))) →
+    ∀ (O : Type) [CommRing O] [IsLocalRing O] [IsNoetherianRing O] [IsAdicComplete (maximalIdeal O) O] (ι X : Type) [Fintype ι] [DecidableEq ι] [AddCommGroup X] (w : ι → X) (Φ : FormData O w), IsUnit (2 : O) → ∀ (Γ : Type) [Group Γ] [TopologicalSpace Γ] [IsTopologicalGroup Γ] (rbar : Γ →* Matrix ι ι (ResidueField O)) (r0 : Lift O rbar O) (_ : Φ.Normalises rbar), Φ.Normalises r0.hom → ∀ (F : Frame Γ) (L : ∀ q, Cond O (rbar.comp (F.ψ q))), (∀ q, ∀ n ∈ F.N q, rbar (F.ψ q n) = 1) → (∀ q, Φ.IsLocCond (r0.hom.comp (F.ψ q)) (F.N q) (L q)) → (∀ q, L q O (r0.comap (F.ψ q) (F.hψ q))) →
       ∀ (B : Type) [CommRing B] [Algebra O B] [IsCO O B] (ρ : ∀ v, Lift O (rbar.comp (F.φ v)) B), (∀ v, Φ.InH (r0.hom.comp (F.φ v)) B (ρ v)) → ∀ (WB : WPres O X B) (hB : WB.HasOrigin), (∀ v s a b, WB.origin hB ((ρ v).hom s a b) = r0.hom (F.φ v s) a b) →
       ∀ (R : Type) [CommRing R] [Algebra O R] [IsCO O R] (i : B →ₐ[O] R) (r : Lift O rbar R) (α : F.T → Matrix ι ι R), IsUnivFramed Φ r0.hom F L ρ i r α → ∀ (W : WPres O X R) (τ : Type) (e : WB.σ ⊕ τ ≃ W.σ), (∀ s, W.z (e (.inl s)) = i (WB.z s)) →
       (∀ t, ∃ a b, (∃ s, W.z (e (.inr t)) = r.hom s a b - algebraMap O R (r0.hom s a b)) ∨ ∃ v, W.z (e (.inr t)) = (α v - 1) a b) →
@@ -339,13 +339,6 @@ namespace UpperTheory.V.GradeZeroInterpolatingElement.SymplecticFrames
 
 open Matrix
 
-private theorem totDisc_quot {G : Type} [Group G] [TopologicalSpace G] [IsTopologicalGroup G] [CompactSpace G]
-    [TotallyDisconnectedSpace G] (N : Subgroup G) [N.Normal] (hN : IsClosed (N : Set G)) :
-    TotallyDisconnectedSpace (G ⧸ N) := by
-  first
-  | exact _root_.Formalism.SharedLemmas.totDisc_quot
-  | (apply _root_.Formalism.SharedLemmas.totDisc_quot <;> assumption)
-
 section Form
 
 variable {O R : Type} [CommRing O] [CommRing R] [Algebra O R]
@@ -419,7 +412,7 @@ theorem UpperTheory.nonempty_local_frames_of_good_data :
   haveI hcl := isClosed_NS Ω D.SP
   haveI : CompactSpace D.Gam := inferInstance
   haveI : T2Space D.Gam := inferInstance
-  haveI : TotallyDisconnectedSpace D.Gam := totDisc_quot _ hcl
+  haveI : TotallyDisconnectedSpace D.Gam := Formalism.SharedLemmas.totDisc_quot _ hcl
   have hs : Function.Surjective (toGS Ω D.SP) := QuotientGroup.mk_surjective
   have hb' : ∀ g, rb (toGS Ω D.SP g) = D.rbar g := fun g => DFunLike.congr_fun hb g
   have h0' : ∀ g, r0.hom (toGS Ω D.SP g) = D.r0 g := fun g => DFunLike.congr_fun h0 g

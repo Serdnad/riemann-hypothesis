@@ -2,48 +2,7 @@ module
 
 public import Formalism.LocalRingCardinality.DataTheta
 public import Formalism.SharpRestriction.CuspSpanNormBounds.RelevantZeroGramTerms
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Topology.Sheaves.Init
-import Formalism.SharpRestriction.Divisibility.LocalNonemptiness.THProvA
 
 @[expose] public section
 
@@ -175,7 +134,14 @@ theorem BlockOrd.inUJ_iff {e : Ix p q ≃ Fin n} {ε : Fin n → Bool} (h : Bloc
   exact (Matrix.reindex e e).injective.eq_iff
 
 theorem mem_Upq (g : GL (Ix p q) ℂ) : g ∈ Formalism.UG.Upq p q ↔ (g : Mat p q)ᴴ * Jm p q * g = Jm p q := by
-  apply _root_.Formalism.MainNotions.DIV.Inh.mem_Upq_iff <;> assumption
+  unfold Formalism.UG.Upq Formalism.UG.UJ
+  rw [Subgroup.mem_mk]
+  show Formalism.UG.cT (starRingEnd ℂ) (g : Mat p q) * Formalism.UG.Jpq p q * (g : Mat p q) = Formalism.UG.Jpq p q ↔ _
+  have hc : Formalism.UG.cT (starRingEnd ℂ) (g : Mat p q) = (g : Mat p q)ᴴ := by
+    ext i j
+    simp [Formalism.UG.cT, Matrix.conjTranspose_apply]
+  rw [hc]
+  rfl
 
 theorem BlockOrd.cov_mem {e : Ix p q ≃ Fin n} {ε : Fin n → Bool} (h : BlockOrd e ε) (T : GrpData p q) (x : T.G) :
     Matrix.reindex e e ((T.cov x : GL (Ix p q) ℂ) : Mat p q) ∈ UJset ε := by
@@ -218,7 +184,7 @@ theorem exists_factors {T : GrpData p q} (U : URep T) (e : Ix p q ≃ Fin n)
   intro x
   have hM : ∃ y, Matrix.reindex e e ((T.cov y : GL (Ix p q) ℂ) : Mat p q) =
       Matrix.reindex e e ((T.cov x : GL (Ix p q) ℂ) : Mat p q) := ⟨x, rfl⟩
-  simp only [dif_pos hM]
+  simp only [dite_eq_left hM]
   set y := hM.choose with hy
   have hyx : T.cov y = T.cov x := Units.ext ((Matrix.reindex e e).injective hM.choose_spec)
   have h1 : T.cov (y⁻¹ * x) = 1 := by

@@ -31,8 +31,8 @@ theorem finite_of_exact_of_finite {A B C : Type*} [AddCommGroup A] [AddCommGroup
   exact ((Set.finite_range g).subset hsub).to_subtype
 
 theorem exists_natCast_mem_place (K : FiniteSubfield) {ℓ : ℕ} (hℓ : ℓ.Prime) :
-    ∃ v : HeightOneSpectrum (𝓞 K.1), ((ℓ : ℕ) : 𝓞 K.1) ∈ v.asIdeal := by
-  apply _root_.GroundTheory.ProfCoh.exists_place_above <;> assumption
+    ∃ v : HeightOneSpectrum (𝓞 K.1), ((ℓ : ℕ) : 𝓞 K.1) ∈ v.asIdeal :=
+  by apply _root_.GroundTheory.ProfCoh.exists_place_above; assumption
 
 variable {K : FiniteSubfield} (S : Set (HeightOneSpectrum (𝓞 K.1))) (n ℓ k : ℕ) (hℓ : ℓ.Prime)
   (hnk : n = ℓ ^ k) (hS : ∀ v : HeightOneSpectrum (𝓞 K.1), ((ℓ : ℕ) : 𝓞 K.1) ∈ v.asIdeal → v ∈ S)

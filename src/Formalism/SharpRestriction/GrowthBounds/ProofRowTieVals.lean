@@ -16,47 +16,7 @@ import Formalism.LocalToGlobal.CharacterGerms.AbstractGermZeroCondition
 import Formalism.LocalToGlobal.CharacterGerms.CoeffSingleSubstOfLowDegree
 import Formalism.LocalToGlobal.CharacterGerms.ConstMemTypeSetOfNonneg
 import Formalism.LocalToGlobal.CharacterGerms.RowTieCartAdd
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
 import Formalism.LocalToGlobal.CharacterGerms.EndomorphismLimitIntegral
 import Formalism.LocalToGlobal.CharacterGerms.RowTiePLSmallMain
 import Formalism.LocalToGlobal.CharacterGerms.IntSProd
@@ -150,7 +110,7 @@ theorem tcoord_abs {V : VF C} {d : ℕ} {I : Fin 2 → Type} [∀ g, Fintype (I 
       rw [Finset.sum_comm]
       exact Finset.sum_congr rfl fun c' _ => Finset.sum_congr rfl fun j _ => by ring
     rw [e]
-    simp only [hw, mul_ite, mul_one, mul_zero, Finset.sum_ite_eq', Finset.mem_univ, if_true]
+    simp only [hw, mul_ite, mul_one, mul_zero, Finset.sum_ite_eq', Finset.mem_univ, ite_true]
   have hts := MvPowerSeries.hasSubst_of_constantCoeff_zero ht0
   have ht₂s := MvPowerSeries.hasSubst_of_constantCoeff_zero ht₂0
   have heq : ∀ k, MvPowerSeries.subst t (φ k) = MvPowerSeries.subst t₂ (MvPowerSeries.X k : MvPowerSeries (I g) C) := by
@@ -570,7 +530,7 @@ theorem main_cg :
       HK Y p (ind s) (if t = (s.1, 1 - s.2) then lamAct Y p Y.w0 * ind t else 0)) =
       HK Y p (ind s) (lamAct Y p Y.w0 * ind (s.1, 1 - s.2)) := by
     intro s
-    simp only [apply_ite (HK Y p (ind s)), HK_zeroR, Finset.sum_ite_eq', Finset.mem_univ, if_true]
+    simp only [apply_ite (HK Y p (ind s)), HK_zeroR, Finset.sum_ite_eq', Finset.mem_univ, ite_true]
   have e4 : (∑ s : Orb × Fin 2, HK Y p (ind s) (lamAct Y p Y.w0 * ind (s.1, 1 - s.2))) =
       ∑ o : Orb, (HK Y p (ind (o, 0)) (lamAct Y p Y.w0 * ind (o, 1)) +
         HK Y p (ind (o, 1)) (lamAct Y p Y.w0 * ind (o, 0))) := by
@@ -588,7 +548,7 @@ theorem main_cg :
     have hμ : GK Y p (1 * ind (o, 1)) := by rw [one_mul]; exact GK_ind hs hG (o, 1)
     have e := HK_gram hs hG o o 0 1 hμ
     have hc : ((o, (1 : Fin 2)) = (o, 1 - 0)) := by simp
-    rw [if_pos hc] at e
+    rw [ite_eq_left hc] at e
     simp only [one_mul] at e
     exact e
   have e23 := e2
@@ -653,7 +613,7 @@ theorem pullback_exp_column (col : Fin 2) :
   rw [← MvPowerSeries.coe_substAlgHom hb, map_smul, MvPowerSeries.coe_substAlgHom]
   congr 1
   unfold FB.hL
-  rw [VP.eval_two_points_eq_subst _ _ _ rfl]
+  rw [VP.eval_two_points_eq_subst _ _ _]
   change MvPowerSeries.subst _ (VP.hAt Y (pt C dd 0) (comp1 (Y.B.actK C Y.w0) (pt C dd 0))) = _
   rw [VP.hAt_subst (u := pt C dd 0) (v := comp1 (Y.B.actK C Y.w0) (pt C dd 0)) (hA := hb0)
     (hu := fun i => by exact MvPowerSeries.constantCoeff_X _) (hv := fun i => by

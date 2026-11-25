@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Statements.HyperbolicHypotheses.HypothesesInhabitedHyperbolic
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.IsHolPeriods
 public import Development.AbelianVarietyTheory.Proofs.ToricGeometry.ExistsEquivOfSumEq
 public import Development.AbelianVarietyTheory.Definitions.ExistenceOfLattices.PermutesRefl
@@ -76,20 +75,21 @@ open scoped CategoryTheory.Obj in
 variable {E : Type} [Field E] [NumberField E] [IsCMField E] {H : _root_.ReciprocityTheory.ChartRestriction.G.Geo.Tor.Host E} in
 theorem _root_.GlobalTheory.PureTypeModel.exists_isTypeFn (H : _root_.ReciprocityTheory.ChartRestriction.G.Geo.Tor.Host E) (p q : ℕ) :
     ∃ (g : ℕ) (ty : Fin g → (E →+* ℂ)), _root_.ReciprocityTheory.ChartRestriction.G.Geo.Tor.IsTypeFn H p q ty := by
-  first | exact _root_.GlobalTheory.AllClasses.exists_isTypeFn | exact @_root_.GlobalTheory.AllClasses.exists_isTypeFn | apply _root_.GlobalTheory.AllClasses.exists_isTypeFn <;> assumption
-
-section Linear
-
-variable {D : Datum H} {g : ℕ} {ty : Fin g → (E →+* ℂ)} {Pe : D.La →+ (Fin g → ℂ)} (hP : IsPeriod D ty Pe)
-
-end Linear
-
-section Mixed
-
-open HostModel PeriodNonempty
-open scoped TensorProduct
-
-end Mixed
+  classical
+  let n : (E →+* ℂ) → ℕ := fun τ => if τ H.rt = H.rt0 then p else q
+  let e := Fintype.equivFin (Σ τ : E →+* ℂ, Fin (n τ))
+  refine ⟨_, fun i => (e.symm i).1, ?_⟩
+  have hcard : ∀ τ, Nat.card {i // (e.symm i).1 = τ} = n τ := by
+    intro τ
+    rw [Nat.card_congr ((e.symm.subtypeEquiv (p := fun i => (e.symm i).1 = τ)
+      (q := fun s => s.1 = τ) (fun i => Iff.rfl)).trans (Equiv.sigmaSubtype τ)),
+      Nat.card_eq_fintype_card, Fintype.card_fin]
+  intro τ
+  refine ⟨fun h => ?_, fun h => ?_⟩
+  · rw [hcard]
+    simp [n, h]
+  · rw [hcard]
+    simp [n, h]
 
 end GlobalTheory.PureTypeModel
 end -- clump:auto

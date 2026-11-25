@@ -1,6 +1,5 @@
 module
 
-import Formalism.LocalToGlobal.IndefiniteReal.LevelTypeEquivalence.NumFieldHosCountable
 import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.LcscAdelicUnitaryGroup
 public import Mathlib.RingTheory.DedekindDomain.FiniteAdeleRing
 public import Formalism.LocalRingCardinality.DataHost
@@ -24,16 +23,11 @@ namespace Formalism.L2.Fam.ThC
 
 open Formalism.L2.Theta
 
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
-
 section Count
 
 variable (F : Type) [Field F] [NumberField F]
 
 theorem countable_F : Countable F := (Module.finBasis ℚ F).equivFun.injective.countable
-
-theorem countable_primes : Countable (HeightOneSpectrum (𝓞 F)) := by
-  apply _root_.Formalism.IndefR.Eqv.G5.numField_hos_countable <;> assumption
 
 theorem sc_Fv (v : HeightOneSpectrum (𝓞 F)) : SecondCountableTopology (v.adicCompletion F) := by
   have := countable_F F

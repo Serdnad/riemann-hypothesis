@@ -5,51 +5,8 @@ public import GroundTheory.AutomorphicForms.CuspidalDiscreteness.ExistsNormRconv
 import GroundTheory.AutomorphicForms.AutomorphicFormSpaces.GKStable
 import GroundTheory.AutomorphicForms.CuspidalDiscreteness.SiegelFinite
 import GroundTheory.GlobalFields.Adele.Topology
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Algebra.Order.Star.Real
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.CategoryTheory.Countable
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.HaveILetI
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Tactic.TypeStar
-import Mathlib.Topology.Sheaves.Init
 import Development.AutomorphicArithmetic.IntegralCasts.IsOpenStabOfMemNhds
-import GroundTheory.AutomorphicForms.CuspidalDiscreteness.CuspFormsSiegel
 
 @[expose] public section
 
@@ -109,7 +66,17 @@ theorem continuous_of_rightInvariant {φ : AdelicGLn.AdelicGL K n → ℂ} (hs :
 theorem conj_unipGL_eq_archExp {r : ℕ} (x : AdelicGLn.AdelicGL K n) (P : UPos n r → 𝔸[K])
     (hP : ∀ p, (P p).2 = 0) :
     x⁻¹ * unipGL P * x = archExp (conjArch K n x P) := by
-  apply _root_.GroundTheory.Automorphic.CuspidalSpectrum.conj_unipGL_eq_archExp <;> assumption
+  have h1 := infEmb_mul_finEmb (K := K) (n := n) (x⁻¹ * unipGL P * x)
+  rw [prodEquiv_conj_snd x P hP, map_one, mul_one] at h1
+  refine h1.symm.trans ?_
+  rw [archExp]
+  congr 1
+  refine Subtype.ext (Units.ext ?_)
+  rw [coe_expG_top, exp_eq_one_add_of_mul_self_eq_zero (conjArch_mul_conjArch x P P)]
+  change archMat K n ((x⁻¹ * unipGL P * x : AdelicGLn.AdelicGL K n) :
+    Matrix (Fin n) (Fin n) 𝔸[K]) = _
+  rw [coe_conj_unipGL, map_add (f := _), map_one]
+  rfl
 
 theorem norm_le_of_altSum_inf {φ : AdelicGLn.AdelicGL K n → ℂ} (hφc : Continuous φ)
     (hφ : IsLeftInvariant φ) {r : ℕ} {M : ℕ} (hM : 0 < M) (x : AdelicGLn.AdelicGL K n)

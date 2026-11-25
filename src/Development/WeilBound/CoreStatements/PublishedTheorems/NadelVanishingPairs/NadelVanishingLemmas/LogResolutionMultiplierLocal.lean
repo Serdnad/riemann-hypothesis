@@ -12,47 +12,6 @@ public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SumOrdSubOne
 public import Development.WeilBound.CoreStatements.PublishedTheorems.NadelVanishingPairs.NadelVanishingLemmas.ExistsSncChart
 public import Development.WeilBound.CoreStatements.PublishedTheorems.NadelVanishingPairs.NadelVanishingLemmas.KltOfSncCoefficients
 import Development.WeilBound.CoreStatements.PublishedTheorems.NadelVanishingPairs.NadelVanishingLemmas.SncChartDivisorEquation
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Algebra.Order.Star.Int
-import Mathlib.Algebra.Order.Star.Rat
-import Mathlib.AlgebraicGeometry.ValuativeCriterion
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
 import Development.AbelianVarietyTheory.Definitions.Divisors.IsEtCoord
 
 @[expose] public section
@@ -61,7 +20,6 @@ open CategoryTheory Limits AlgebraicGeometry TopologicalSpace Filter
 open ReciprocityTheory.ChartRestriction.G ReciprocityTheory.ChartRestriction.G.Semi ReciprocityTheory.ChartRestriction.G.Geo.Tor ReciprocityTheory.AnForm.R
 open ReciprocityTheory.ChartRestriction.G.Out (nonzeroLocus)
 open GlobalTheory GlobalTheory.Cartier GlobalTheory.TopForm GlobalTheory.CechPic GlobalTheory.QCoh GlobalTheory.Discrepancy GlobalTheory.LogPair
-set_option autoImplicit false
 
 noncomputable section
 
@@ -307,7 +265,96 @@ private theorem neg_one_lt_discrep_of_mult_lt_and_le {k : Type} [Field k] [CharZ
     {g : Y.functionFieldˣ} (hg : P.IsEqn w0 g) :
     ((∀ w, w ⤳ w0 → (P - m • K).mult w < m) → -1 < discrep E η m g) ∧
       ((∀ w, w ⤳ w0 → (P - m • K).mult w ≤ m) → -1 ≤ discrep E η m g) := by
-  apply _root_.GlobalTheory.Discrepancy.coeff_criterion_snc <;> assumption
+  obtain ⟨U, hy, z, J, w, u, hc⟩ := exists_isSncChart k Y q n B hB w0
+  have hgen : genericPoint Y ∈ U :=
+    ((genericPoint_spec Y).mem_open_set_iff U.isOpen).2 ⟨w0, trivial, hy⟩
+  obtain ⟨h, hh⟩ := exists_unit_eq_smul_formOf_of_isFrame hgen hc.frame η hη
+  have hKe : K.IsEqn w0 h := hK U _ hc.frame w0 hy h hh
+  have hD1 : (P - m • K).IsEqn w0 (g / h ^ m) := hg.sub (hKe.nsmul m)
+  have hD2 := IsSncChart.isEqn_monomial k Y q n B w0 U hy z J w u hc (P - m • K) hsupp
+  have hunit := (hD2.iff_unitAt).1 hD1
+  have hord0 : E.ord ((g / h ^ m) / ∏ j ∈ J, u j ^ (P - m • K).mult (w j)) = 0 :=
+    DivOver.ord_eq_zero_of_unitAt hE _ (by rwa [Units.val_div_eq_div_val])
+  have hordg : E.ord g = m * E.ord h + ∑ j ∈ J, (P - m • K).mult (w j) * E.ord (u j) := by
+    rw [div_eq_mul_inv, E.ord_mul, E.ord_inv, div_eq_mul_inv, E.ord_mul, E.ord_inv, E.ord_pow,
+      E.ord_prod_zpow] at hord0
+    linarith
+  have hf0 : formOf U hgen (dOn q z) ≠ 0 := by
+    intro h0
+    apply hη
+    rw [hh, h0, smul_zero]
+  have hF : E.formOrd η = E.ord h + E.formOrd (formOf U hgen (dOn q z)) := by
+    rw [hh]
+    exact E.formOrd_smul hdim hf0 h
+  have hFn : 0 ≤ E.formOrd (formOf U hgen (dOn q z)) :=
+    DivOver.formOrd_formOf_nonneg hdim hy hE _ hf0
+  have hFs : ∑ j ∈ J, E.ord (u j) - 1 ≤ E.formOrd (formOf U hgen (dOn q z)) := by
+    have := DivOver.sum_ord_sub_one_le_formOrd_dOn hdim E hy hE z hf0 (J := J) (fun j => j.1)
+      Subtype.val_injective (fun j => u j.1) (fun j => hc.val j.1 j.2)
+    rwa [Finset.sum_coe_sort J (fun j => E.ord (u j))] at this
+  have ho : ∀ j ∈ J, 0 ≤ E.ord (u j) := by
+    intro j hj
+    rw [DivOver.ord_nonneg_iff, hc.val j hj]
+    exact hE _ (regAt_fnOf hy _ _)
+  set F := E.formOrd (formOf U hgen (dOn q z))
+  set d := fun j => (P - m • K).mult (w j)
+  have hm' : (0 : ℚ) < m := by exact_mod_cast hm
+  have hdisc : discrep E η m g = (((m : ℤ) * F - ∑ j ∈ J, d j * E.ord (u j) : ℤ) : ℚ) / m := by
+    unfold discrep
+    rw [hF, hordg]
+    push_cast
+    field_simp
+    ring
+  have hC : ∑ j ∈ J, ((m : ℤ) - d j) * E.ord (u j) =
+      (m : ℤ) * ∑ j ∈ J, E.ord (u j) - ∑ j ∈ J, d j * E.ord (u j) := by
+    rw [Finset.mul_sum, ← Finset.sum_sub_distrib]
+    refine Finset.sum_congr rfl fun j _ => ?_
+    ring
+  have hmF : (m : ℤ) * (∑ j ∈ J, E.ord (u j) - 1) ≤ (m : ℤ) * F :=
+    mul_le_mul_of_nonneg_left hFs (by positivity)
+  constructor
+  · intro H
+    have hd : ∀ j ∈ J, d j + 1 ≤ m := fun j hj => H (w j) (hc.spec j hj)
+    have key : -(m : ℤ) < (m : ℤ) * F - ∑ j ∈ J, d j * E.ord (u j) := by
+      by_cases hz : ∀ j ∈ J, E.ord (u j) = 0
+      · have h0 : ∑ j ∈ J, d j * E.ord (u j) = 0 :=
+          Finset.sum_eq_zero fun j hj => by rw [hz j hj, mul_zero]
+        rw [h0]
+        have : (0 : ℤ) ≤ (m : ℤ) * F := mul_nonneg (by positivity) hFn
+        have : (0 : ℤ) < m := by exact_mod_cast hm
+        linarith
+      · push Not at hz
+        obtain ⟨j0, hj0, hne⟩ := hz
+        have hpos : ∀ j ∈ J, 0 ≤ ((m : ℤ) - d j) * E.ord (u j) := fun j hj =>
+          mul_nonneg (by linarith [hd j hj]) (ho j hj)
+        have h1 : 1 ≤ ((m : ℤ) - d j0) * E.ord (u j0) := by
+          have : 1 ≤ E.ord (u j0) := by
+            have := ho j0 hj0
+            omega
+          have : 1 ≤ (m : ℤ) - d j0 := by linarith [hd j0 hj0]
+          nlinarith
+        have hS : 1 ≤ ∑ j ∈ J, ((m : ℤ) - d j) * E.ord (u j) :=
+          h1.trans (Finset.single_le_sum hpos hj0)
+        rw [hC] at hS
+        linarith
+    rw [hdisc, lt_div_iff₀ hm']
+    have : ((-(m : ℤ) : ℤ) : ℚ) < (((m : ℤ) * F - ∑ j ∈ J, d j * E.ord (u j) : ℤ) : ℚ) := by
+      exact_mod_cast key
+    push_cast at this ⊢
+    linarith
+  · intro H
+    have hd : ∀ j ∈ J, d j ≤ m := fun j hj => H (w j) (hc.spec j hj)
+    have key : -(m : ℤ) ≤ (m : ℤ) * F - ∑ j ∈ J, d j * E.ord (u j) := by
+      have hpos : ∀ j ∈ J, 0 ≤ ((m : ℤ) - d j) * E.ord (u j) := fun j hj =>
+        mul_nonneg (by linarith [hd j hj]) (ho j hj)
+      have hS : 0 ≤ ∑ j ∈ J, ((m : ℤ) - d j) * E.ord (u j) := Finset.sum_nonneg hpos
+      rw [hC] at hS
+      linarith
+    rw [hdisc, le_div_iff₀ hm']
+    have : ((-(m : ℤ) : ℤ) : ℚ) ≤ (((m : ℤ) * F - ∑ j ∈ J, d j * E.ord (u j) : ℤ) : ℚ) := by
+      exact_mod_cast key
+    push_cast at this ⊢
+    linarith
 
 theorem kltAt_lcAt_iff_of_isLogRes : ∀ (k : Type) [Field k] [CharZero k] (X : Scheme.{0}) [IsIntegral X] [IsLocallyNoetherian X] [GlobalTheory.IsNormalScheme X] (p : X ⟶ Sp k) (n : ℕ), IsProjOver p → topologicalKrullDim X = n → ∀ (Δ : X → ℚ) (η : RatForms p n) (m : ℕ) (G : CartierDiv X) (Y : Scheme.{0}) [IsIntegral Y] [IsLocallyNoetherian Y] (s : Y ⟶ X) [IsDominant s] (K : CartierDiv Y) (B : Closeds Y), IsLogMult p n Δ η m G → IsLogRes p n η m G s K B → ∀ x : X, (KltAt p n Δ x ↔ ∀ w : Y, s w ⤳ x → (pullCart s G - m • K).mult w < m) ∧ (LcAt p n Δ x ↔ ∀ w : Y, s w ⤳ x → (pullCart s G - m • K).mult w ≤ m) := by
   intro k _ _ X _ _ _ p n hproj hn Δ η m G Y _ _ s _ K B hlm hres x
@@ -367,8 +414,7 @@ theorem kltAt_lcAt_iff_of_isLogRes : ∀ (k : Type) [Field k] [CharZero k] (X : 
   · rw [IsLogEqn.kltAt_iff hn hlm.ne_zero hlm.pos hL]
     constructor
     · intro H w hw
-      by_contra hlt
-      push_neg at hlt
+      by_contra! hlt
       have hne : (pullCart s G - m • K).mult w ≠ 0 := by
         have : (0 : ℤ) < m := by exact_mod_cast hlm.pos
         omega
@@ -386,8 +432,7 @@ theorem kltAt_lcAt_iff_of_isLogRes : ∀ (k : Type) [Field k] [CharZero k] (X : 
   · rw [IsLogEqn.lcAt_iff hn hlm.ne_zero hlm.pos hL]
     constructor
     · intro H w hw
-      by_contra hlt
-      push_neg at hlt
+      by_contra! hlt
       have hne : (pullCart s G - m • K).mult w ≠ 0 := by
         have : (0 : ℤ) < m := by exact_mod_cast hlm.pos
         omega

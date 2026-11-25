@@ -1,6 +1,5 @@
 module
 
-import Development.AutomorphicArithmetic.CyclotomicBounds.CyclotomicOrders.ExistsCycZPowNeOne
 public import Formalism.LocalToGlobal.HeckeThetaElements.IsHeckeElt
 import Mathlib.Algebra.Order.Star.Rat
 
@@ -20,8 +19,6 @@ def kapQ {R : Ranks} (h : HCParam R) (p q : ℕ) : Fin p ⊕ Fin q → ℚ :=
     (fun c => lamAt h (p + c) - (p : ℚ) / 2 - ((q : ℚ) - 1) / 2 + (c : ℚ))
 
 def kapW {R : Ranks} (h : HCParam R) (p q : ℕ) : Fin p ⊕ Fin q → ℤ := fun a => ⌊kapQ h p q a⌋
-
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 
 variable {D : D7}
 
@@ -151,7 +148,12 @@ theorem holEnt_kapW {R : Ranks} (h : HCParam R) (p q : ℕ) (hpq : Odd (p + q)) 
     ring
 
 theorem odd_r (R : Ranks) : Odd R.r := by
-  apply _root_.UpperTheory.KStar.r_odd <;> assumption
+  obtain ⟨a, ha⟩ := R.k_even
+  obtain ⟨c, hc⟩ := R.m_even
+  have hk5 := R.m_add_three_le_k
+  refine ⟨a + c - 1, ?_⟩
+  show R.k + R.m - 1 = 2 * (a + c - 1) + 1
+  omega
 
 theorem holOK_kapW {R : Ranks} (h : HCParam R) (p q : ℕ) (hpq : p + q = R.r) : HolOK p q (kapW h p q) := by
   have hodd : Odd (p + q) := by

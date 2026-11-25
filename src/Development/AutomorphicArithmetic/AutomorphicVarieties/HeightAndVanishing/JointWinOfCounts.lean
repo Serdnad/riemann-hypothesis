@@ -1,6 +1,5 @@
 module
 
-import all Development.AutomorphicArithmetic.AutomorphicVarieties.LayeredIsomorphisms.Layerex
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.StmtFields
 public import Mathlib.Analysis.SpecialFunctions.Pow.Real
 public import Development.AutomorphicArithmetic.CharacterBoxes.ExistsPageN
@@ -37,56 +36,10 @@ public import Development.AutomorphicArithmetic.AutomorphicVarieties.GeneratorCo
 public import Formalism.GaloisCohomology.LocalTateDualityK
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.HeightAndVanishing.CountVs
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.HeightAndVanishing.FinalLe
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.HaveILetI
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Topology.Sheaves.Init
-import Mathlib.Algebra.Order.Star.Real
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
 import Formalism.SharpRestriction.RamificationFrobenius.TotientGaloisClasses.ZsmulGeneratorEqZeroOfProjection
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Tactic.Polynomial.Basic
 import Development.AutomorphicArithmetic.AutomorphicVarieties.HeightAndVanishing.HostIndex
-import Mathlib.Algebra.Order.Star.Int
 import Mathlib.GroupTheory.Nilpotent
 import Std.Tactic.BVDecide.Normalize.Prop
 
@@ -879,7 +832,62 @@ open Polynomial
 
 private theorem layerex_up {K : Type} [Field K] {l m : ℕ} (hl : l.Prime) {b : K}
     (h : IsPrimitiveRoot (b ^ l) (l ^ (m + 1))) : IsPrimitiveRoot b (l ^ (m + 2)) := by
-  apply _root_.winlx_up <;> assumption
+  haveI : Fact l.Prime := ⟨hl⟩
+  have h1 : ¬ b ^ (l ^ (m + 1)) = 1 := by
+    intro e
+    have : (b ^ l) ^ (l ^ m) = 1 := by rw [← pow_mul, ← pow_succ']; exact e
+    exact h.pow_ne_one_of_pos_of_lt (pow_ne_zero _ hl.ne_zero)
+      (Nat.pow_lt_pow_right hl.one_lt (Nat.lt_succ_self m)) this
+  have h2 : b ^ (l ^ (m + 1 + 1)) = 1 := by
+    rw [pow_succ' l (m + 1), pow_mul]; exact h.pow_eq_one
+  have h3 := orderOf_eq_prime_pow h1 h2
+  have := IsPrimitiveRoot.orderOf b
+  rwa [h3] at this
+
+private theorem layerex_max (K : Type) [Field K] [NumberField K] {l k : ℕ} (hl : l.Prime)
+    (h : ∃ z : K, IsPrimitiveRoot z (l ^ (k + 1))) :
+    ∃ m, k ≤ m ∧ (∃ z : K, IsPrimitiveRoot z (l ^ (m + 1))) ∧
+      ¬ ∃ z : K, IsPrimitiveRoot z (l ^ (m + 2)) := by
+  by_contra hc
+  push Not at hc
+  have key : ∀ n, ∃ z : K, IsPrimitiveRoot z (l ^ (k + n + 1)) := by
+    intro n
+    induction n with
+    | zero => exact h
+    | succ n ih => exact hc (k + n) (by omega) ih
+  obtain ⟨z, hz⟩ := key (Module.finrank ℚ K)
+  have hpos : 0 < Nat.lcm (l ^ (k + Module.finrank ℚ K + 1)) (l ^ (k + Module.finrank ℚ K + 1)) := by
+    rw [Nat.lcm_self]; exact pow_pos hl.pos _
+  have h1 := IsPrimitiveRoot.lcm_totient_le_finrank (K := ℚ) hz hz (Polynomial.cyclotomic.irreducible_rat hpos)
+  rw [Nat.lcm_self, Nat.totient_prime_pow_succ hl] at h1
+  have h2 : k + Module.finrank ℚ K < l ^ (k + Module.finrank ℚ K) := Nat.lt_pow_self hl.one_lt
+  have h3 : 1 ≤ l - 1 := by have := hl.two_le; omega
+  have h4 := Nat.mul_le_mul_left (l ^ (k + Module.finrank ℚ K)) h3
+  omega
+
+private theorem layerex_step (K : Type) [Field K] [NumberField K] {l m : ℕ} (hl : l.Prime)
+    {z : K} (hz : IsPrimitiveRoot z (l ^ (m + 1))) (hn : ¬ ∃ z : K, IsPrimitiveRoot z (l ^ (m + 2))) :
+    ∃ (K' : Type) (_ : Field K') (_ : NumberField K') (_ : Algebra K K'),
+      IsCyclotomicExtension {l ^ (m + 2)} K K' ∧ Module.finrank K K' = l := by
+  have hirr : Irreducible (X ^ l - C z : K[X]) :=
+    X_pow_sub_C_irreducible_of_prime hl (fun b hb => hn ⟨b, layerex_up hl (hb ▸ hz)⟩)
+  haveI : Fact (Irreducible (X ^ l - C z : K[X])) := ⟨hirr⟩
+  let pb := AdjoinRoot.powerBasis hirr.ne_zero
+  haveI : Module.Finite K (AdjoinRoot (X ^ l - C z : K[X])) := pb.finite
+  haveI : NeZero (l ^ (m + 2)) := ⟨pow_ne_zero _ hl.ne_zero⟩
+  have hr : IsPrimitiveRoot (AdjoinRoot.root (X ^ l - C z : K[X])) (l ^ (m + 2)) := by
+    apply layerex_up hl
+    rw [root_X_pow_sub_C_pow]
+    exact hz.map_of_injective (AdjoinRoot.of (X ^ l - C z : K[X])).injective
+  refine ⟨AdjoinRoot (X ^ l - C z : K[X]), inferInstance, NumberField.of_module_finite K _, inferInstance, ?_, ?_⟩
+  · rw [IsCyclotomicExtension.iff_singleton]
+    refine ⟨⟨_, hr⟩, fun x => ?_⟩
+    have : x ∈ Algebra.adjoin K {AdjoinRoot.root (X ^ l - C z : K[X])} := by
+      rw [AdjoinRoot.adjoinRoot_eq_top]; trivial
+    refine Algebra.adjoin_mono ?_ this
+    rintro _ rfl
+    exact hr.pow_eq_one
+  · rw [pb.finrank, AdjoinRoot.powerBasis_dim, natDegree_X_pow_sub_C _]
 
 theorem UpperTheory.V.exists_cyclotomic_layer_of_primitiveRoot :
     ∀ (l j : ℕ), l.Prime → l ≠ 2 → ∀ (L : Type) [Field L] [NumberField L], (∃ z : L, IsPrimitiveRoot z l) →
@@ -895,9 +903,9 @@ theorem UpperTheory.V.exists_cyclotomic_layer_of_primitiveRoot :
       exact ⟨by simpa using hz, fun x => Subalgebra.algebraMap_mem _ x⟩
     | succ j ih =>
       obtain ⟨K, _, _, _, ⟨k, hk⟩, hd⟩ := ih
-      obtain ⟨m, hkm, ⟨z, hz⟩, hn⟩ := _root_.winlx_max K (k := k) hl
+      obtain ⟨m, hkm, ⟨z, hz⟩, hn⟩ := layerex_max K (k := k) hl
         (hk.exists_isPrimitiveRoot (Set.mem_singleton _) (pow_ne_zero _ hl.ne_zero))
-      obtain ⟨K', _, _, _, hc, hd'⟩ := _root_.winlx_step K hl hz hn
+      obtain ⟨K', _, _, _, hc, hd'⟩ := layerex_step K hl hz hn
       letI : Algebra L K' := ((algebraMap K K').comp (algebraMap L K)).toAlgebra
       haveI : IsScalarTower L K K' := IsScalarTower.of_algebraMap_eq (fun _ => rfl)
       refine ⟨K', inferInstance, inferInstance, inferInstance, ⟨m + 1, ?_⟩, ?_⟩
@@ -1177,7 +1185,7 @@ theorem UpperTheory.V.HV.point :
   obtain ⟨Cl, hCl⟩ : ∃ Cl : ℕ → ℕ, ∀ (l : Nat.Primes) (hl : (l:ℕ) ∈ Bchi χ),
       Cl l = Classical.choose (hin χ l (j l) hl) :=
     ⟨fun n => if hn : n.Prime ∧ n ∈ Bchi χ then Classical.choose (hin χ ⟨n, hn.1⟩ (j n) hn.2) else 0,
-      fun l hl => dif_pos (show (l:ℕ).Prime ∧ (l:ℕ) ∈ Bchi χ from ⟨l.2, hl⟩)⟩
+      fun l hl => dite_eq_left (show (l:ℕ).Prime ∧ (l:ℕ) ∈ Bchi χ from ⟨l.2, hl⟩)⟩
   obtain ⟨D, hD⟩ : ∃ D : ℕ, ∀ l ∈ Bchi χ, Cl l ≤ D :=
     ⟨∑ l ∈ Bchi χ, Cl l, fun l hl => Finset.single_le_sum (fun _ _ => Nat.zero_le _) hl⟩
   refine ⟨C0 + D + (Bchi χ).card + (Bchi χ).card * D, r₁, r₂, hr₁, hr₂, ?_⟩
@@ -1440,14 +1448,14 @@ theorem UpperTheory.V.HV.sumOut :
         · exact Finset.empty_subset _)
       (by
         intro e he1 he2
-        simp only [he2, if_true, Nat.cast_zero, zero_mul, add_zero]
+        simp only [he2, ite_true, Nat.cast_zero, zero_mul, add_zero]
         exact ⟨hfin l hl e he1 he2, hred e he1.ne'⟩)
     refine ⟨r.1, ?_⟩
     have r2 := r.2
     simp only [Nat.cast_zero, Finset.sum_const_zero, mul_zero, add_zero] at r2
     refine r2.trans (le_of_eq (Finset.sum_congr rfl fun e he => ?_))
     simp only [Finset.mem_Ico] at he
-    simp only [if_pos he.2]
+    simp only [ite_eq_left he.2]
     rfl
   have hstep : ∀ e, 0 < e → e < t →
       ∑ l ∈ S, Real.log ((l:ℕ):ℝ) * ∑ ψ ∈ h.X (c l) e, Vn Ω0 (c l) e ψ ≤
@@ -1586,8 +1594,7 @@ private theorem subgroup_eq_of_chr_hasLevel (E : Type) [Field E] [NumberField E]
 private theorem exists_coprime_modEq_one_chi_ne_one_of_primitive {Q p : ℕ} [NeZero Q] (χ : DirichletCharacter ℂ Q)
     (hχ : χ.IsPrimitive) (hp : p.Prime) (hpQ : p ∣ Q) :
     ∃ w : ℕ, w.Coprime Q ∧ w ≡ 1 [MOD Q / p] ∧ χ (w : ZMod Q) ≠ 1 := by
-  by_contra hcon
-  push_neg at hcon
+  by_contra! hcon
   have hd : Q / p ∣ Q := Nat.div_dvd_of_dvd hpQ
   have hft : χ.FactorsThrough (Q / p) := by
     rw [DirichletCharacter.factorsThrough_iff_ker_unitsMap hd]
@@ -1789,8 +1796,7 @@ theorem UpperTheory.V.HV.hostCond :
     by_contra hnd
     rw [← Nat.factorization_le_iff_dvd hN0 hM.ne'] at hnd
     obtain ⟨p, hp⟩ : ∃ p, M.factorization p < h.N.factorization p := by
-      by_contra hcon
-      push_neg at hcon
+      by_contra! hcon
       exact hnd (Finsupp.le_def.2 hcon)
     have hpp : p.Prime := by
       by_contra hnp

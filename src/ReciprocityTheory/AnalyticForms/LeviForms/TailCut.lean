@@ -54,16 +54,9 @@ private lemma continuousAt_of_continuousOn_chart_comp {e : ℕ} {X β : Type} [T
   filter_upwards [(A.chart j).open_source.mem_nhds hj] with z hz
   simp only [Function.comp_apply, (A.chart j).left_inv hz]
 
-private lemma isClosed_bdry_of_isSection' {e : ℕ} {X : Type} [TopologicalSpace X] (A : FinHolAtlas e X)
-    (L : LocPot X) (s : X → X → ℂ) (hL : IsPotential A L) (hs : IsSection A L s) :
-    IsClosed (bdry s) := by
-  first
-    | exact _root_.ReciprocityTheory.AnForm.P.LeviFormBoundaryTopology.isClosed_bdry
-    | apply _root_.ReciprocityTheory.AnForm.P.LeviFormBoundaryTopology.isClosed_bdry <;> first | assumption | rfl | infer_instance
-
 theorem bdry_null : BdryNullStatement := by
-  intro e X _ _ _ _ _ A L s n m W hL hs hsnc Φ hΦ
-  have hB : IsClosed (bdry s) := isClosed_bdry_of_isSection' A L s hL hs
+  intro e X _ _ _ _ _ A L s n m W _ hs hsnc Φ hΦ
+  have hB : IsClosed (bdry s) := isClosed_bdry hs
   unfold maMeasure
   split_ifs with h
   swap

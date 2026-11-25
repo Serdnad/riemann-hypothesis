@@ -7,7 +7,6 @@ public import Development.AutomorphicArithmetic.AutomorphicVarieties.Commutative
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.CommutativeAlgebra.OrbitVanishingLocal
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.CommutativeAlgebra.GradedModulesLength.SignHolds
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.CommutativeAlgebra.GradedModulesLength.ExistsSecNotMem
-import all Development.AutomorphicArithmetic.AutomorphicVarieties.CommutativeAlgebra.GradedModulesLength.ExistsSecNotMem
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.CommutativeAlgebra.GradedModulesLength.PrimeMaximalOrKernel
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -644,10 +643,6 @@ private theorem zm_abs (hp : p.IsPrime) (h0 : ∀ (n : ℕ) j a, a ∈ 𝒜 j �
 
 end Abs
 
-private theorem zm_lat {B A : Type} [CommRing B] [CommRing A] [Algebra B A] {k : ℕ} (N : Fin k → Submodule B A)
-    (i : Fin k) (n : ℕ) : lat N (Finsupp.single i n) = N i ^ n := by
-  simp [lat, Finsupp.single_apply]
-
 private theorem zm_iota {O A : Type} [CommRing O] [CommRing A] [Algebra O A] (𝒜 : ℤ → Submodule O A) [GradedAlgebra 𝒜]
     (F : A) (hpow : ∀ n : ℕ, oz 𝒜 (-(2 * n)) = oz 𝒜 (-2) ^ n) :
     ∃ ι : ℕ → A →+ rees (mN 𝒜 F), (∀ (n : ℕ) j a, a ∈ 𝒜 j → j ≠ -(2 * n) → ι n a = 0) ∧
@@ -655,7 +650,7 @@ private theorem zm_iota {O A : Type} [CommRing O] [CommRing A] [Algebra O A] (�
   classical
   have hmem : ∀ (n : ℕ) (b : A), b ∈ 𝒜 (-(2 * (n : ℤ))) → b ∈ lat (mN 𝒜 F) (Finsupp.single 0 n) := by
     intro n b hb
-    rw [zm_lat, show mN 𝒜 F 0 = oz 𝒜 (-2) from rfl, ← hpow, mem_oz]
+    rw [UpperTheory.V.Alg.M.GradedPrimePointLifting.lat_single_pow, show mN 𝒜 F 0 = oz 𝒜 (-2) from rfl, ← hpow, mem_oz]
     exact hb
   let ι : ℕ → A →+ rees (mN 𝒜 F) := fun n =>
     { toFun := fun a => mono (mN 𝒜 F) (Finsupp.single 0 n) (DirectSum.decompose 𝒜 a (-(2 * (n : ℤ))) : A)
@@ -680,7 +675,37 @@ private theorem zm_iota {O A : Type} [CommRing O] [CommRing A] [Algebra O A] (�
 
 private theorem zm_f {B A : Type} [CommRing B] [CommRing A] [Algebra B A] {k : ℕ} (N : Fin k → Submodule B A)
     (p : Ideal (rees N)) (hp : ¬ Irr (reesGr N) ≤ p) (i : Fin k) : ∃ f, ∃ hf : f ∈ N i, sec N i f hf ∉ p := by
-  apply _root_.exists_sec_notMem <;> assumption
+  classical
+  have hdeg : toDeg (Finsupp.single i 1) = e i := by
+    unfold toDeg e
+    funext j
+    by_cases h : j = i
+    · subst h; simp
+    · simp [h]
+  have hle : Irr (reesGr N) ≤ Ideal.span (reesGr N (e i) : Set (rees N)) := by
+    unfold Irr
+    exact Ideal.prod_le_inf.trans (Finset.inf_le (Finset.mem_univ i))
+  by_contra! hcon
+  apply hp
+  refine hle.trans (Ideal.span_le.mpr ?_)
+  intro s hs
+  have hs' : ∀ m : Fin k →₀ ℕ, toDeg m ≠ e i → AddMonoidAlgebra.coeff s.1 m = 0 := hs
+  have hc : AddMonoidAlgebra.coeff s.1 (Finsupp.single i 1) ∈ N i := by
+    rw [← lat_single N i]
+    exact s.2 _
+  have hval : s = sec N i _ hc := by
+    apply Subtype.ext
+    show s.1 = MvPolynomial.monomial (Finsupp.single i 1) _
+    ext m
+    rw [MvPolynomial.coeff_monomial]
+    by_cases hm : Finsupp.single i 1 = m
+    · rw [ite_eq_left hm, hm]
+    · rw [ite_eq_right hm]
+      apply hs'
+      intro h
+      exact hm (toDeg_injective (hdeg.trans h.symm))
+  rw [hval]
+  exact hcon _ hc
 
 end UpperTheory.V.Alg.M
 

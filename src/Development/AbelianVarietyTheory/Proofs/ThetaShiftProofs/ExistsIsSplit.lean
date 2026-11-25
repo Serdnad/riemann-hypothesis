@@ -1,7 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.ExistsGenTranslEqPairing
-import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.CubWeilOneLeft
 public import Development.AbelianVarietyTheory.Definitions.ArchimedeanThetaValues.ModelsAt
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -62,11 +60,31 @@ include h
 
 theorem coc_four (a b c d x : A) :
     θ (a * b) (c * d) x * θ a b x * θ c d x = θ (a * c) (b * d) x * θ a c x * θ b d x := by
-  first | exact _root_.GlobalTheory.DescentPairing.interchange | exact @_root_.GlobalTheory.DescentPairing.interchange | apply _root_.GlobalTheory.DescentPairing.interchange <;> assumption
+  have e₁ := h.coc a b (c * d) x
+  have e₂ := h.coc b c d x
+  have e₃ := h.coc a c (b * d) x
+  have e₄ := h.coc c b d x
+  rw [mul_left_comm c b d] at e₃
+  rw [mul_comm c b, h.s01 c b] at e₄
+  apply Additive.ofMul.injective
+  have E := fun {p q : U} (e : p = q) => congrArg Additive.ofMul e
+  have a₁ := E e₁; have a₂ := E e₂; have a₃ := E e₃; have a₄ := E e₄
+  simp only [ofMul_mul] at *
+  linear_combination (norm := abel) a₁ - a₂ - a₃ + a₄
 
 theorem cubN_mul_left (k : ℕ) (m m' x : A) :
     cubN θ k 1 (m * m') x * θ m m' x ^ k = θ (m ^ k) (m' ^ k) x * cubN θ k 1 m x * cubN θ k 1 m' x := by
-  first | exact _root_.GlobalTheory.UU.cubN_mul_left | exact @_root_.GlobalTheory.UU.cubN_mul_left | apply _root_.GlobalTheory.UU.cubN_mul_left <;> assumption
+  induction k with
+  | zero => simp [cubN, h.face]
+  | succ k ih =>
+    have c := coc_four h (m ^ k) (m' ^ k) m m' x
+    simp only [cubN, Finset.prod_range_succ, _root_.one_mul] at ih ⊢
+    rw [pow_succ m, pow_succ m', pow_succ (θ m m' x), mul_pow]
+    apply Additive.ofMul.injective
+    have ih' := congrArg Additive.ofMul ih
+    have c' := congrArg Additive.ofMul c
+    simp only [ofMul_mul] at ih' c' ⊢
+    linear_combination (norm := abel) ih' + c'
 
 theorem quo_one (k : ℕ) (b : A) : quo θ k 1 b = 1 := by
   rw [quo, h.N_one, inv_one, _root_.mul_one]
@@ -128,7 +146,7 @@ theorem exists_coord (T : Over (Sp R)) (b : T ⟶ D.P.A) (χ : D.X) :
   obtain ⟨t', ht', hv'⟩ := exists_gen D.P.isLB (φ' := DegPre.gtφT D T (b ^ n) χ) (ε' := DegPre.gtε) (fun U _ h => by
       rw [prod_gtT, cPoint_pow_eq_one hc, mul_comm (cP D T χ) (b ^ n), mul_comm b (cP D T χ)]
       apply Additive.ofMul.injective
-      simp [Fintype.prod_sum_type, Fin.prod_univ_succ, ofMul_mul, ofMul_inv, ofMul_zpow, ofMul_pow]
+      simp [Fintype.prod_sum_type, Fin.prod_univ_succ, ofMul_mul, ofMul_inv, ofMul_pow]
       module) (LB.mulGen D.P.L _ _ _ _ t (LB.invGen D.P.L _ _ u))
     (mulGen_isGen _ _ _ _ _ _ _ ht (invGen_isGen _ _ _ _ hu))
   refine ⟨t', ht', fun T' ρ z J hJ => (hv' _ _ z J hJ).trans ((val_mul hJ _ _ _).trans

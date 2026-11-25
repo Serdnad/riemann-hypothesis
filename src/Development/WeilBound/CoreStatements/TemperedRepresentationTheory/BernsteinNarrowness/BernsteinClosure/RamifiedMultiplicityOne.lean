@@ -28,59 +28,9 @@ public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.FinSplit
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.KCoinvOfNarrow
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.LocalMultiplicityOneIrreducibleGL
 public import Development.WeilBound.CoreStatements.TemperedRepresentationTheory.GeometricSplitting.Imports
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.RingTheory.SimpleRing.Principal
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Topology.Sheaves.Init
-import Mathlib.RingTheory.Coalgebra.IsFrobenius
-import Mathlib.RingTheory.HopfAlgebra.Basic
-import Mathlib.RingTheory.RegularLocalRing.Defs
-import Mathlib.RingTheory.TotallySplit
 import Mathlib.Tactic.Linter.HaveILetI
 import Std.Tactic.BVDecide.Normalize.Prop
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Topology.Algebra.Group.Units
 import Development.WeilBound.CoreStatements.LocallyConstantCoinvariants.PfActs
 import Formalism.DoubleCosetMeasures.Statement
 import GroundTheory.LocalFields.PadicLogSeries
@@ -376,8 +326,7 @@ theorem dichotomy {V X T : Type} [AddCommGroup V] [Module ℂ V] [AddCommGroup X
   haveI : Module.Finite ℂ V := Module.Finite.of_injective ι hι
   have hV : Module.finrank ℂ V ≤ 1 := (LinearMap.finrank_le_finrank_of_injective hι).trans hX
   obtain ⟨v, hv⟩ : ∃ v, φ v ≠ 0 := by
-    by_contra hne
-    push_neg at hne
+    by_contra! hne
     exact hφ (LinearMap.ext hne)
   have hv0 : v ≠ 0 := by
     rintro rfl
@@ -750,8 +699,7 @@ theorem prod₂_detRep_isIrreducible :
   obtain ⟨W', hc⟩ := _root_.GlobalTheory.CompanionTheory.UnitSemisimple.exists_isCompl _ (GlobalTheory.CompanionTheory.SmGL.exists_compact_open_subgroup_subset k (a + b))
     (GlobalTheory.CompanionTheory.DegenSeries.isAdmissible_degenerate k a b χ₁ χ₂ s₁ s₂)
     (GlobalTheory.CompanionTheory.DegenerateSeries.isUnitarisable_degenerateSeries k a b χ₁ χ₂ s₁ s₂ u₁ u₂) W
-  by_contra h
-  push_neg at h
+  by_contra! h
   have hW' : W' ≠ ⊥ := by
     rintro rfl
     exact h.2 (eq_top_of_isCompl_bot hc)
@@ -868,7 +816,6 @@ end Local
 
 section Ram
 
-attribute [-instance] Formalism.DoubleCosetMeasures.instMeasGL
 attribute [local instance 10000] GlobalTheory.SplitWeil.matrixMeasurableSpace
 
 theorem ramMaps_of (hI : IndIrredNarrow) : RamMaps := by
@@ -888,7 +835,6 @@ section Fin
 open NumberField IsDedekindDomain GlobalTheory.WeilM GlobalTheory.AdelicU GlobalTheory.LFun GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes
 open PositivityTheory.KCo PositivityTheory.ThK
 
-attribute [local instance] GlobalTheory.LocalData.complRel GlobalTheory.LocalData.isLocalField
 attribute [local instance] PositivityTheory.ThK.SplitAsm.measFv PositivityTheory.ThK.SplitAsm.borelFv
 
 theorem finRam_of (hR : RamMaps) (hRN : RamNonzero) (hI : IndIrredNarrow) (hD : Dict) (hAU : ActsUniq) (hC : ChrFacts) :
@@ -987,7 +933,63 @@ theorem irr_gen (NB : NarrowBernstein) (n t : ℕ) {μ : kˣ →* ℂˣ} (hμ : 
     (hR : twRel ((indSnd (stdSum rfl) τ).comp (MonoidHom.inl _ _)) 1 ≤ N)
     (hN : ∀ h, ∀ f ∈ N, indSnd (stdSum rfl) τ (1, h) f ∈ N) :
     N = ⊤ ∨ N ≤ twRel ((indSnd (stdSum rfl) τ).comp (MonoidHom.inl _ _)) 1 := by
-  apply _root_.GlobalTheory.CompanionTheory.BernNarrow.irr_gen <;> assumption
+  let e := stdSum (rfl : n + t = n + t)
+  obtain ⟨-, -, -, -, -, hcont, hP, -, hPK⟩ := GlobalTheory.SmGL.LeviInt.levi_integral_facts k _ (Fin (n + t)) _ (two e)
+  obtain ⟨_, _⟩ := GlobalTheory.SplitWeil.Model.secondCountable_and_t2_local_field (k := k)
+  let ρ : Representation ℂ (Levi k (Two (Fin n) (Fin t))) _ :=
+    MonoidHom.comp (τ.comp (MonoidHom.inr Γ _)) (leviTwo k (Fin n) (Fin t)).symm.toMonoidHom
+  let π₁ := detRep (Fin n) (1 : kˣ →* ℂˣ)
+  let π₂ := detRep (Fin t) μ
+  let ρD : Representation ℂ (Levi k (Two (Fin n) (Fin t))) (ℂ ⊗[ℂ] ℂ) :=
+    (extTensor π₁ π₂).comp (leviTwo k (Fin n) (Fin t)).symm.toMonoidHom
+  let q : ρ.IntertwiningMap ρD :=
+    { toLinearMap := (TensorProduct.lid ℂ ℂ).symm.toLinearMap ∘ₗ l
+      isIntertwining' := fun m => LinearMap.ext fun φ => by
+        change (TensorProduct.lid ℂ ℂ).symm (l (τ (1, m false, m true) φ)) =
+          extTensor π₁ π₂ (m false, m true) ((TensorProduct.lid ℂ ℂ).symm (l φ))
+        rw [hτl]
+        simp [π₁, π₂, detRep] }
+  have hq : Function.Surjective q := (TensorProduct.lid ℂ ℂ).symm.surjective.comp hs
+  have hρ : IsSmooth ρ := isSmooth_comp hτ _ ((continuous_apply false).prodMk (continuous_apply true))
+  have hI : (parInd (two e) ρD).IsIrreducible :=
+    NB k n t 1 μ (by unfold IsSmoothChar; simp) hμ (fun _ => by simp) hu (Or.inr hμ1.symm)
+  let σ := (twist ρ (deltaHalf k (Two (Fin n) (Fin t)))).comp (leviProj k (two e))
+  have hσ : IsSmooth σ := isSmooth_comp (isSmooth_twist hρ (isSmoothChar_deltaHalf k)) _ hcont
+  let α : Representation.IntertwiningMap σ ((twist ρD (deltaHalf k (Two (Fin n) (Fin t)))).comp (leviProj k (two e))) :=
+    compMap (twistMap q _) _
+  let T : Γ → Representation.IntertwiningMap σ σ := fun γ =>
+    compMap (twistMap (actFst τ γ) (deltaHalf k (Two (Fin n) (Fin t)))) (leviProj k (two e))
+  have hker0 : ∀ x, α x = 0 → x ∈ Submodule.span ℂ {y | ∃ γ z, y = T γ z - z} := by
+    intro x hx
+    have h0 : l x = 0 := (TensorProduct.lid ℂ ℂ).symm.map_eq_zero_iff.1 hx
+    refine (Submodule.span_le (p := Submodule.span ℂ {y | ∃ γ z, y = T γ z - z})).2 ?_ (hk x h0)
+    rintro _ ⟨γ, v, rfl⟩
+    refine Submodule.subset_span ⟨γ, v, ?_⟩
+    rw [MonoidHom.one_apply, Units.val_one, one_smul]
+    rfl
+  obtain ⟨-, hker⟩ := GlobalTheory.SmGL.IndCoinv.smInd_coinvariants (GL (Fin (n + t)) k) (parab k (two e)) (KO k _) hP
+    GlobalTheory.SplitFlip.isCompact_KO hPK (GlobalTheory.SmGL.exists_open_normalised_subgroup_subset k _) _ _ σ _ hσ α _ T (fun y => hq y) hker0
+  let Φ : (parInd (two e) ρ).IntertwiningMap (parInd (two e) ρD) := parIndMap (two e) q
+  have hK : ∀ f, Φ f = 0 → f ∈ twRel ((indSnd e τ).comp (MonoidHom.inl _ _)) 1 := fun f hf => by
+    refine (Submodule.span_le (p := twRel ((indSnd e τ).comp (MonoidHom.inl _ _)) 1)).2 ?_ (hker f hf)
+    rintro _ ⟨γ, z, rfl⟩
+    refine Submodule.subset_span ⟨γ, z, ?_⟩
+    rw [MonoidHom.one_apply, Units.val_one, one_smul]
+    congr 1
+    refine Subtype.ext (Subtype.ext (funext fun x => ?_))
+    show τ (γ, 1) (z.1.1 x) = τ (γ, 1) (z.1.1 (x * 1))
+    rw [mul_one]
+  let S : Subrepresentation (parInd (two e) ρD) := ⟨N.map Φ.toLinearMap, by
+    rintro h _ ⟨f, hf, rfl⟩
+    refine ⟨_, hN h f hf, ?_⟩
+    rw [indSnd_inr]
+    exact Φ.isIntertwining _ _ h f⟩
+  rcases hI.eq_bot_or_eq_top S with h | h
+  · refine Or.inr fun f hf => hK f ?_
+    have : Φ.toLinearMap f ∈ S.toSubmodule := ⟨f, hf, rfl⟩
+    rw [h] at this
+    exact this
+  · exact Or.inl (top_of_map Φ.toLinearMap hK hR (congrArg Subrepresentation.toSubmodule h))
 
 theorem irr_ind (NB : NarrowBernstein) (n t : ℕ) {μ : kˣ →* ℂˣ} (hμ : IsSmoothChar μ) (hμ1 : μ ≠ 1)
     (hu : ∀ x, ‖(μ x : ℂ)‖ = 1) (N : Submodule ℂ (IndSp (two (stdSum (rfl : n + t = n + t)))
@@ -995,7 +997,44 @@ theorem irr_ind (NB : NarrowBernstein) (n t : ℕ) {μ : kˣ →* ℂˣ} (hμ : 
     (hR : twRel ((indSnd (stdSum rfl) (fibRep (Fin n) (Fin n) (Fin t) μ n)).comp (MonoidHom.inl _ _)) 1 ≤ N)
     (hN : ∀ h, ∀ f ∈ N, indSnd (stdSum rfl) (fibRep (Fin n) (Fin n) (Fin t) μ n) (1, h) f ∈ N) :
     N = ⊤ ∨ N ≤ twRel ((indSnd (stdSum rfl) (fibRep (Fin n) (Fin n) (Fin t) μ n)).comp (MonoidHom.inl _ _)) 1 := by
-  apply _root_.GlobalTheory.CompanionTheory.BernNarrow.irr_ind <;> assumption
+  let τ := fibRep (Fin n) (Fin n) (Fin t) μ n
+  let ξ : GL (Fin n) k →* ℂˣ := detChar (Fin n) (μ⁻¹ * absPow k (((Fintype.card (Fin n) : ℂ) + Fintype.card (Fin t)) / 2))
+  have hξ : IsSmoothChar ξ := (hμ.inv.mul (isSmoothChar_of_isUnram (isUnram_absPow k _))).detChar
+  obtain ⟨l, hs, hl, hk⟩ := exists_fun (k := k) (κ := n) (Fintype.card_fin n).symm hξ
+  have hτ : IsSmooth (τ.comp (MonoidHom.inr _ _)) := _root_.GlobalTheory.CompanionTheory.ThetaGLLen.isSmooth_fibRep_inr k _ _ _ μ hμ n
+  have hτl : ∀ g p₁ p₂ φ, l (τ (g, p₁, p₂) φ) = (μ (GeneralLinearGroup.det p₂) : ℂ) * l φ := by
+    intro g p₁ p₂ φ
+    change l ((fibChar (Fin n) (Fin n) (Fin t) μ (g, p₁, p₂) : ℂ) • fibBase (Fin n) (Fin n) n (g, p₁) φ) = _
+    rw [map_smul, hl, smul_eq_mul, ← mul_assoc]
+    congr 1
+    have a1 : ∀ (x : kˣ) (s s' s'' : ℂ), s + s' + s'' = 0 → absPow k s x * absPow k s' x * absPow k s'' x = 1 := fun x s s' s'' h => by
+      rw [← MonoidHom.mul_apply, ← absPow_add, ← MonoidHom.mul_apply, ← absPow_add, h]
+      exact Units.ext (by simp [val_absPow])
+    have b1 := congrArg Units.val (a1 (GeneralLinearGroup.det p₁) (-(n : ℂ) / 2) (-(t : ℂ) / 2) (((n : ℂ) + t) / 2) (by ring))
+    have b2 := congrArg Units.val (a1 (GeneralLinearGroup.det p₂) (-(n : ℂ) / 2) ((n : ℂ) / 2) 0 (by ring))
+    simp only [fibChar, ξ, MonoidHom.mul_apply, MonoidHom.comp_apply, MonoidHom.coe_fst, MonoidHom.coe_snd, detChar_apply,
+      Units.val_mul, MonoidHom.inv_apply, Fintype.card_fin, Units.val_inv_eq_inv_val, Units.val_one, val_absPow, Complex.cpow_zero,
+      mul_one] at b1 b2 ⊢
+    have n1 := (μ (GeneralLinearGroup.det g)).ne_zero
+    have n2 := (μ (GeneralLinearGroup.det p₁)).ne_zero
+    have n3 := (absPow k (((n : ℂ) + t) / 2) (GeneralLinearGroup.det g)).ne_zero
+    rw [val_absPow] at n3
+    simp only [neg_div] at b1 b2
+    field_simp
+    linear_combination (exp := 1) ((nabs k (GeneralLinearGroup.det p₂) : ℂ) ^ (-((n : ℂ) / 2)) *
+      (nabs k (GeneralLinearGroup.det p₂) : ℂ) ^ ((n : ℂ) / 2)) * b1 + b2
+  refine irr_gen NB n t hμ hμ1 hu τ hτ l hs hτl (fun x h0 => ?_) N hR hN
+  refine (Submodule.span_le (p := twRel (τ.comp (MonoidHom.inl _ _)) 1)).2 ?_ (hk x h0)
+  rintro _ ⟨γ, v, rfl⟩
+  have e1 : τ (γ, 1) v = (ξ γ : ℂ) • rightRep (Fin n) (Fin n) n γ v := by
+    change (fibChar (Fin n) (Fin n) (Fin t) μ (γ, 1) : ℂ) • fibBase (Fin n) (Fin n) n (γ, 1) v = _
+    congr 1
+    simp [fibChar, ξ]
+  have h : rightRep (Fin n) (Fin n) n γ v - ((ξ⁻¹ γ : ℂˣ) : ℂ) • v =
+      ((ξ⁻¹ γ : ℂˣ) : ℂ) • (τ (γ, 1) v - (((1 : GL (Fin n) k →* ℂˣ) γ : ℂˣ) : ℂ) • v) := by
+    rw [e1, MonoidHom.one_apply, Units.val_one, one_smul, smul_sub, smul_smul, MonoidHom.inv_apply, Units.inv_mul, one_smul]
+  rw [h]
+  exact Submodule.smul_mem _ _ (Submodule.subset_span ⟨γ, v, rfl⟩)
 
 end Induced
 
@@ -1044,8 +1083,6 @@ theorem irrF (NB : NarrowBernstein) {ν α : kˣ →* ℂˣ} (hnd : n ≤ d) (h�
 end Local
 
 open NumberField IsDedekindDomain GlobalTheory.WeilM GlobalTheory.AdelicU GlobalTheory.LFun GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes GlobalTheory.SplitFlip
-
-attribute [local instance] GlobalTheory.LocalData.complRel GlobalTheory.LocalData.isLocalField
 
 theorem soCoinv_of (NB : NarrowBernstein) (hD : DictSt) (hK : GlobalTheory.ThK.KFin) :
     PositivityTheory.ThKF.SoCoinv := by

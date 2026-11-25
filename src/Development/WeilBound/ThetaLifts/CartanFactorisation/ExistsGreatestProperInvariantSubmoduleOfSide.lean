@@ -9,52 +9,7 @@ public import Development.WeilBound.CoreStatements.GaussianSeminormBounds.RealSe
 public import Development.WeilBound.CoreStatements.GaussianSeminormBounds.RealSeminormFiltration.CorePair
 public import Development.WeilBound.CoreStatements.GaussianSeminormBounds.RealSeminormFiltration.CoreSide
 public import Development.WeilBound.CoreStatements.GaussianSeminormBounds.RealSeminormFiltration.TensorIrr
-import Mathlib.Algebra.Module.StablyFree.Basic
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Algebra.Order.Star.Rat
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Topology.Sheaves.Init
 
 @[expose] public section
 
@@ -71,7 +26,7 @@ section Gen
 
 variable {r s : ℕ} {M : Type} [AddCommGroup M] [Module ℂ M]
 
-theorem casimir_eigenvalue_and_injective_shift_on_finite_submodule (act : Mat r s →ₗ[ℂ] Module.End ℂ M) (hL : IsLie act) (La : Ix r s → ℚ)
+theorem casimir_eigenvalue_and_sub_smul_onto_proper_submodule (act : Mat r s →ₗ[ℂ] Module.End ℂ M) (hL : IsLie act) (La : Ix r s → ℚ)
     {A : Type} [NormedAddCommGroup A] [InnerProductSpace ℂ A] [FiniteDimensional ℂ A]
     (ρ : Ix r s → Ix r s → Module.End ℂ A) (ι : A →ₗ[ℂ] M) (f : A)
     (hadj : AdjK ρ) (hgl : GlK ρ) (hw : HwK ρ La f)
@@ -79,17 +34,14 @@ theorem casimir_eigenvalue_and_injective_shift_on_finite_submodule (act : Mat r 
     (hs : StarK act (LinearMap.range ι) ((casW La : ℚ) : ℝ)) :
     casK (units act) (ι f) = ((casW La : ℚ) : ℂ) • ι f ∧ ∀ N : Submodule ℂ M, N ≤ genG act (Submodule.span ℂ {ι f}) →
       (∀ W, ∀ x ∈ N, act W x ∈ N) → N ≠ genG act (Submodule.span ℂ {ι f}) →
-      ∀ x ∈ N,
-        let C : Module.End ℂ M := casK (units act) - ((casW La : ℚ) : ℂ) • 1
-        ∃ (U : Submodule ℂ M) (_ : FiniteDimensional ℂ U)
-          (hU : ∀ y ∈ U, C y ∈ U), x ∈ U ∧ Function.Injective (C.restrict hU) := by
+      ∀ x ∈ N, ∃ y, x = casK (units act) y - ((casW La : ℚ) : ℂ) • y := by
   classical
   let V : Submodule ℂ A := cycK ρ f
   let ρV : Ix r s → Ix r s → Module.End ℂ V := fun a b =>
     if h : sameBlock a b then (ρ a b).restrict (kSt_cycK ρ f a b h) else 0
   have hρV : ∀ a b, sameBlock a b → ∀ v : V, ((ρV a b v : V) : A) = ρ a b v := by
     intro a b h v
-    simp only [ρV, dif_pos h]
+    simp only [ρV, dite_eq_left h]
     rfl
   let ιV : V →ₗ[ℂ] M := ι ∘ₗ V.subtype
   have hιV : ∀ a b, sameBlock a b → ∀ v, ιV (ρV a b v) = act (Eab a b) (ιV v) := by
@@ -170,26 +122,8 @@ theorem casimir_eigenvalue_and_injective_shift_on_finite_submodule (act : Mat r 
       have h1 : C (y : M) = 0 := congrArg Subtype.val (LinearMap.mem_ker.1 hy)
       have h2 := hinj y (hNG y.2.1) (by rw [← hC, h1]; exact Submodule.zero_mem _)
       exact Subtype.ext (hdis y y.2.1 h2)
-    dsimp only
-    rw [← hcc]
-    exact ⟨N ⊓ F, inferInstance, hCN, ⟨hx, hxF⟩, hi⟩
-
-theorem casimir_eigenvalue_and_sub_smul_onto_proper_submodule (act : Mat r s →ₗ[ℂ] Module.End ℂ M) (hL : IsLie act) (La : Ix r s → ℚ)
-    {A : Type} [NormedAddCommGroup A] [InnerProductSpace ℂ A] [FiniteDimensional ℂ A]
-    (ρ : Ix r s → Ix r s → Module.End ℂ A) (ι : A →ₗ[ℂ] M) (f : A)
-    (hadj : AdjK ρ) (hgl : GlK ρ) (hw : HwK ρ La f)
-    (hι : ∀ a b, sameBlock a b → ∀ u, ι (ρ a b u) = act (Eab a b) (ι u))
-    (hs : StarK act (LinearMap.range ι) ((casW La : ℚ) : ℝ)) :
-    casK (units act) (ι f) = ((casW La : ℚ) : ℂ) • ι f ∧ ∀ N : Submodule ℂ M, N ≤ genG act (Submodule.span ℂ {ι f}) →
-      (∀ W, ∀ x ∈ N, act W x ∈ N) → N ≠ genG act (Submodule.span ℂ {ι f}) →
-      ∀ x ∈ N, ∃ y, x = casK (units act) y - ((casW La : ℚ) : ℂ) • y := by
-  obtain ⟨hv, hC⟩ := casimir_eigenvalue_and_injective_shift_on_finite_submodule
-    act hL La ρ ι f hadj hgl hw hι hs
-  refine ⟨hv, fun N hNG hNs hne x hx => ?_⟩
-  obtain ⟨U, hfd, hU, hxU, hi⟩ := hC N hNG hNs hne x hx
-  letI := hfd
-  obtain ⟨y, hy⟩ := LinearMap.injective_iff_surjective.1 hi ⟨x, hxU⟩
-  exact ⟨y, (congrArg Subtype.val hy).symm⟩
+    obtain ⟨y, hy⟩ := LinearMap.injective_iff_surjective.1 hi ⟨x, hx, hxF⟩
+    exact ⟨y, by rw [← hcc]; exact (congrArg Subtype.val hy).symm⟩
 
 theorem exists_greatest_proper_invariant_submodule_of_side {La : Ix r s → ℚ} {act : Mat r s →ₗ[ℂ] Module.End ℂ M} (h : Side La M act) :
     ∃ K : Submodule ℂ M, K ≠ ⊤ ∧ (∀ W, ∀ x ∈ K, act W x ∈ K) ∧ (∀ N, (∀ W, ∀ x ∈ N, act W x ∈ N) → N ≠ ⊤ → N ≤ K) ∧
@@ -210,7 +144,7 @@ theorem exists_greatest_proper_invariant_submodule_of_side {La : Ix r s → ℚ}
     simp only [casK, LinearMap.sum_apply, map_sum]
     refine Finset.sum_congr rfl fun a _ => Finset.sum_congr rfl fun b _ => ?_
     split_ifs with hab
-    · simp only [Module.End.mul_apply, units, hβ, epsB, if_pos hab, if_pos (sameBlock_symm' hab), one_mul]
+    · simp only [Module.End.mul_apply, units, hβ, epsB, ite_eq_left hab, ite_eq_left (sameBlock_symm' hab), one_mul]
     · simp
   let O : Submodule ℂ M := ⨅ x : K, LinearMap.ker (β x)
   have mO : ∀ z, z ∈ O ↔ ∀ x ∈ K, β x z = 0 := fun z => by simp [O, Submodule.mem_iInf]

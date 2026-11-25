@@ -1,55 +1,11 @@
 module
 
-import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.ArchimedeanOrbitMeasures.PushSupp
-import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.ArchimedeanOrbitMeasures.FibInv
 public import Formalism.SharpRestriction.GlobalSchurBounds.GeneralLinearActions.GenusMassVolumes
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.AdelicLocalCompactness.T2SpaceTensorProductFiniteExtension
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
 import Mathlib.RingTheory.Henselian
 import Mathlib.RingTheory.PiTensorProduct
-import Mathlib.RingTheory.Radical.NatInt
 import Mathlib.RingTheory.RegularLocalRing.Defs
 import Mathlib.RingTheory.SimpleRing.Principal
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.Linter.HaveILetI
-import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Topology.Sheaves.Init
 import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.AdelicLocalCompactness.AdeleLC
 
 @[expose] public section
@@ -126,8 +82,26 @@ def hLin (σ : E →ₐ[F] E) {M : ℕ} (J : Matrix (Fin M) (Fin M) E) (x : Fin 
 theorem linIndep_of_isUnit_det (σ : E →ₐ[F] E) {M n : ℕ} (J : Matrix (Fin M) (Fin M) E)
     (X : Fin n → Fin M → R ⊗[F] E) (h : IsUnit (gramR R σ J X).det) :
     LinearIndependent (R ⊗[F] E) X := by
-  intros
-  apply _root_.PI.AprimeInfW.linIndep_of_isUnit_det <;> assumption
+  rw [Fintype.linearIndependent_iff]
+  intro g hg
+  have key : ∀ b, ∑ a, g a * gramR R σ J X b a = 0 := by
+    intro b
+    have e := congrArg (hLin R σ J (X b)) hg
+
+    rw [map_sum, map_zero] at e
+    simp only [map_smul, smul_eq_mul] at e
+    exact e
+  have hv : Matrix.mulVec (gramR R σ J X) g = 0 := by
+    funext b
+    simp only [Matrix.mulVec, dotProduct, Pi.zero_apply]
+    rw [← key b]
+    exact Finset.sum_congr rfl fun a _ => mul_comm _ _
+  have hg0 : g = 0 := by
+    calc g = Matrix.mulVec ((gramR R σ J X)⁻¹ * gramR R σ J X) g := by
+          rw [Matrix.nonsing_inv_mul _ h, Matrix.one_mulVec]
+      _ = 0 := by rw [← Matrix.mulVec_mulVec, hv, Matrix.mulVec_zero]
+  intro i
+  simp [hg0]
 
 variable [LocallyCompactSpace R] [T2Space R]
 
@@ -199,7 +173,16 @@ theorem sigR_invol (σ : E →ₐ[F] E) (hσ : ∀ x, σ (σ x) = x) (x : R ⊗[
 theorem gramR_mem (σ : E →ₐ[F] E) (hσ : ∀ x, σ (σ x) = x) {M n : ℕ}
     (J : Matrix (Fin M) (Fin M) E) (hJ : ∀ i j, σ (J j i) = J i j)
     (X : Fin n → Fin M → R ⊗[F] E) : gramR R σ J X ∈ HermR R σ n := by
-  apply _root_.PI.AprimeInfW.gramR_memP <;> assumption
+  have hJR : ∀ p q, sigR R σ (JR R J q p) = JR R J p q := fun p q => by
+    simp [JR, inclR, sigR, hJ]
+  show ∀ a b, sigR R σ (gramR R σ J X b a) = gramR R σ J X a b
+  intro a b
+
+  simp only [gramR, hR, Formalism.UG.hform, map_sum, map_mul]
+  rw [Finset.sum_comm]
+  refine Finset.sum_congr rfl fun p _ => Finset.sum_congr rfl fun q _ => ?_
+  rw [sigR_invol R σ hσ, hJR]
+  ring
 
 end CM
 

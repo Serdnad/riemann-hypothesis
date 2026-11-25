@@ -1,45 +1,9 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.AdeleLinearEquivRestrictsRealLinearEquivArchimed
 import Development.AbelianVarietyTheory.Proofs.DivisorProofs.MixedSpaceVecPairAsAdeles
 public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.WeilTensorModels
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.HaveILetI
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Topology.Sheaves.Init
 
 @[expose] public section
 
@@ -102,15 +66,6 @@ def schrInf (ψ : AddChar (AdeleRing (𝓞 F) F) ℂ) {κ : Type} [Fintype κ]
 
 variable {F}
 
-theorem dot_infE {κ : Type} [Fintype κ] (x : κ → AdeleRing (𝓞 F) F) (z : κ → mixedEmbedding.mixedSpace F) :
-    x ⬝ᵥ infE F z = infE F (fun i => InfiniteAdeleRing.ringEquiv_mixedSpace F (x i).1) ⬝ᵥ infE F z := by
-  refine Finset.sum_congr rfl fun i _ => ?_
-  refine Prod.ext ?_ ?_
-  · show (x i).1 * (InfiniteAdeleRing.ringEquiv_mixedSpace F).symm (z i) = (InfiniteAdeleRing.ringEquiv_mixedSpace F).symm (InfiniteAdeleRing.ringEquiv_mixedSpace F (x i).1) * (InfiniteAdeleRing.ringEquiv_mixedSpace F).symm (z i)
-    rw [RingEquiv.symm_apply_apply]
-  · show (x i).2 * 0 = 0 * 0
-    rw [mul_zero, mul_zero]
-
 theorem pureA_schrInf (ψ : AddChar (AdeleRing (𝓞 F) F) ℂ) {κ : Type} [Fintype κ]
     (v : (κ → mixedEmbedding.mixedSpace F) × (κ → mixedEmbedding.mixedSpace F))
     (f : (κ → mixedEmbedding.mixedSpace F) → ℂ) (g : (κ → FiniteAdeleRing (𝓞 F) F) → ℂ) :
@@ -129,8 +84,23 @@ theorem pureA_smul {κ : Type} (a : ℂ) (f : (κ → mixedEmbedding.mixedSpace 
 
 theorem exists_schwartz_slice {κ : Type} [Fintype κ] (Φ : (κ → AdeleRing (𝓞 F) F) → ℂ)
     (hΦ : Φ ∈ GlobalTheory.WeilM.schA F κ) (y : κ → FiniteAdeleRing (𝓞 F) F) :
-    ∃ s : SchwartzMap (κ → mixedEmbedding.mixedSpace F) ℂ, ∀ z, s z = slice F Φ y z :=
-  _root_.GlobalTheory.WeilAdm.exists_schwartz_slice Φ hΦ y
+    ∃ s : SchwartzMap (κ → mixedEmbedding.mixedSpace F) ℂ, ∀ z, s z = slice F Φ y z := by
+  induction hΦ using Submodule.span_induction with
+  | mem Ψ hΨ =>
+    obtain ⟨f, g, -, rfl⟩ := hΨ
+    refine ⟨g y • f, fun z => ?_⟩
+    have hz : (fun i => InfiniteAdeleRing.ringEquiv_mixedSpace F ((InfiniteAdeleRing.ringEquiv_mixedSpace F).symm (z i))) = z := funext fun i => RingEquiv.apply_symm_apply _ _
+    rw [SchwartzMap.smul_apply, smul_eq_mul]
+    show g y * f z = f (fun i => InfiniteAdeleRing.ringEquiv_mixedSpace F ((InfiniteAdeleRing.ringEquiv_mixedSpace F).symm (z i))) * g (fun i => y i)
+    rw [hz, mul_comm]
+  | zero => exact ⟨0, fun z => rfl⟩
+  | add Ψ Ψ' _ _ hΨ hΨ' =>
+    obtain ⟨s, hs⟩ := hΨ
+    obtain ⟨s', hs'⟩ := hΨ'
+    exact ⟨s + s', fun z => by rw [SchwartzMap.add_apply, hs z, hs' z]; rfl⟩
+  | smul c Ψ _ hΨ =>
+    obtain ⟨s, hs⟩ := hΨ
+    exact ⟨c • s, fun z => by rw [SchwartzMap.smul_apply, hs z]; rfl⟩
 
 end One
 
@@ -223,8 +193,28 @@ theorem exists_infLin (B : ((κ → AdeleRing (𝓞 F) F) × (κ → AdeleRing (
       ((κ → AdeleRing (𝓞 F) F) × (κ → AdeleRing (𝓞 F) F))) :
     ∃ L : ((κ → mixedEmbedding.mixedSpace F) × (κ → mixedEmbedding.mixedSpace F)) ≃ₗ[ℝ]
         ((κ → mixedEmbedding.mixedSpace F) × (κ → mixedEmbedding.mixedSpace F)),
-      ∀ v, B (mixedSpaceVecPairAsAdeles F v) = mixedSpaceVecPairAsAdeles F (L v) :=
-  _root_.GlobalTheory.WeilAdm.exists_infLin B
+      ∀ v, B (mixedSpaceVecPairAsAdeles F v) = mixedSpaceVecPairAsAdeles F (L v) := by
+  have key : ∀ (C : ((κ → AdeleRing (𝓞 F) F) × (κ → AdeleRing (𝓞 F) F)) ≃ₗ[AdeleRing (𝓞 F) F]
+      ((κ → AdeleRing (𝓞 F) F) × (κ → AdeleRing (𝓞 F) F)))
+      (v : (κ → mixedEmbedding.mixedSpace F) × (κ → mixedEmbedding.mixedSpace F)),
+      mixedSpaceVecPairAsAdeles F (infPart2 (C (mixedSpaceVecPairAsAdeles F v))) = C (mixedSpaceVecPairAsAdeles F v) := by
+    intro C v
+    have h := mixedSpaceVecPair_archimedeanPart_idempotent_smul (C (mixedSpaceVecPairAsAdeles F v))
+    rw [← map_smul C eInf (mixedSpaceVecPairAsAdeles F v), archimedeanUnitIdempotent_smul_mixedSpaceVecPairAsAdeles] at h
+    exact h
+  refine ⟨{ toFun := fun v => infPart2 (B (mixedSpaceVecPairAsAdeles F v))
+            invFun := fun v => infPart2 (B.symm (mixedSpaceVecPairAsAdeles F v))
+            map_add' := fun v v' => by
+              rw [mixedSpaceVecPairAsAdeles_add, map_add (f := _), infPart2_add]
+            map_smul' := fun t v => by
+              rw [mixedSpaceVecPairAsAdeles_real_smul, map_smul, infPart2_smul, RingHom.id_apply]
+            left_inv := fun v => by
+              show infPart2 (B.symm (mixedSpaceVecPairAsAdeles F (infPart2 (B (mixedSpaceVecPairAsAdeles F v))))) = v
+              rw [key B v, LinearEquiv.symm_apply_apply, archimedeanPartAdeleTuplePair_mixedSpaceVecPairAsAdeles]
+            right_inv := fun v => by
+              show infPart2 (B (mixedSpaceVecPairAsAdeles F (infPart2 (B.symm (mixedSpaceVecPairAsAdeles F v))))) = v
+              rw [key B.symm v, LinearEquiv.apply_symm_apply, archimedeanPartAdeleTuplePair_mixedSpaceVecPairAsAdeles] }, fun v => ?_⟩
+  exact (key B v).symm
 
 end Two
 

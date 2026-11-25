@@ -4,45 +4,6 @@ public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.StCocycl
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.GradedFormAdd
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.GradedFormCocycle
 import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.SheafFiltrationProperty
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.AlgebraicGeometry.Modules.Sheaf
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.PiTensorProduct
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.GradedFormLocalOfFrame
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.SubMemOfMk
 
@@ -251,7 +212,12 @@ theorem lift_cocycle_mem {W : Y.Opens} {d : ℕ} {t : Fin d → Γ(Y, W)} {u : F
     (hu : IsLift 𝔭 W t u) {Q : ObjectProperty (Thick L)} (hQ : ∀ T, Q T → InY 𝔭 W T) (i : Fin d)
     {T T' : Q.FullSubcategory} (φ : T ⟶ T') :
     (show (sP Q).A.obj T' from u i T'.obj) - ((sP Q).A.map φ).hom (show (sP Q).A.obj T from u i T.obj) ∈ (sP Q).J.S T' := by
-  apply _root_.GlobalTheory.CompanionTheory.FibGr.lift_cocycle <;> assumption
+  have h := hQ _ T.property
+  have h' := hQ _ T'.property
+  change u i T'.obj - φ.hom.φ (u i T.obj) ∈ T'.obj.J
+  refine Ideal.Quotient.eq.1 ?_
+  rw [hu i T'.obj h', ev_nat 𝔭 φ.hom h h' (t i), ← hu i T.obj h]
+  rfl
 
 theorem lft_res_sub_mem {W W' : Y.Opens} (hW : W' ≤ W) (T : Thick L) (h : InY 𝔭 W T) (h' : InY 𝔭 W' T) (f : Γ(Y, W)) :
     lft 𝔭 W T f - lft 𝔭 W' T (rs hW f) ∈ T.J := by

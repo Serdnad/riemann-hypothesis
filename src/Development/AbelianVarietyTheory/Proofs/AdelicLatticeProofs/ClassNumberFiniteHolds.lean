@@ -625,7 +625,17 @@ theorem repr_algebraMap_of_basis_eq {F β : Type} [Field F] [Algebra ℚ F] [Fin
     (ω : Module.Basis β ℚ F) {R A : Type} [CommRing R] [CommRing A] [Algebra ℚ R] [Algebra R A]
     [Algebra F A] (b : Module.Basis β R A) (hb : ∀ i, b i = algebraMap F A (ω i)) (a : F) (k : β) :
     b.repr (algebraMap F A a) k = algebraMap ℚ R (ω.repr a k) := by
-  first | exact _root_.GlobalTheory.ClassFin.repr_algebraMap_of_basis_image | exact @_root_.GlobalTheory.ClassFin.repr_algebraMap_of_basis_image | apply _root_.GlobalTheory.ClassFin.repr_algebraMap_of_basis_image <;> assumption
+  have hq : ∀ q : ℚ, algebraMap F A (algebraMap ℚ F q) = algebraMap R A (algebraMap ℚ R q) :=
+    fun q => DFunLike.congr_fun (RingHom.ext_rat ((algebraMap F A).comp (algebraMap ℚ F))
+      ((algebraMap R A).comp (algebraMap ℚ R))) q
+  have hsum : algebraMap F A a = ∑ i, algebraMap ℚ R (ω.repr a i) • b i := by
+    conv_lhs => rw [← ω.sum_repr a]
+
+    rw [map_sum]
+    refine Finset.sum_congr rfl fun i _ => ?_
+    rw [Algebra.smul_def (ω.repr a i) (ω i), map_mul, hq, hb,
+      Algebra.smul_def (algebraMap ℚ R (ω.repr a i))]
+  rw [hsum, b.repr_sum_self]
 
 private theorem basis_repr_mul_of_basis_eq_algebraMap {F β : Type} [Field F] [Algebra ℚ F] [Fintype β]
     (ω : Module.Basis β ℚ F) {R A : Type} [CommRing R] [CommRing A] [Algebra ℚ R] [Algebra R A]
@@ -1470,8 +1480,14 @@ theorem res_mul' {R A β κ : Type} [CommRing R] [CommRing A] [Algebra R A] [Fin
 theorem res_one' {R A β κ : Type} [CommRing R] [CommRing A] [Algebra R A] [Fintype β] [DecidableEq β]
     [Fintype κ] [DecidableEq κ] (b : Module.Basis β R A) :
     res b (1 : Matrix κ κ A) = 1 := by
-  intros
-  refine (@_root_.GlobalTheory.ClassFin.res_one_mul_injective_isUnit ?_ ?_ ?_ ?_ ?_ ?_ ?_ ?_ ?_ ?_ ?_ ?_).1 <;> first | assumption | infer_instance
+  ext p q
+  simp only [res, Matrix.of_apply, Matrix.one_apply]
+  by_cases h : p.1 = q.1
+  · rw [ite_eq_left h, map_one, Matrix.one_apply]
+    by_cases h' : p.2 = q.2
+    · rw [ite_eq_left h', ite_eq_left (Prod.ext h h')]
+    · rw [ite_eq_right h', ite_eq_right (fun e => h' (congrArg Prod.snd e))]
+  · rw [ite_eq_right h, map_zero, Matrix.zero_apply, ite_eq_right (fun e => h (congrArg Prod.fst e))]
 
 theorem repr_mem {R A β : Type} [CommRing R] [CommRing A] [Algebra R A] [Fintype β] [DecidableEq β]
     (b : Module.Basis β R A) (R₀ : Subring R) (h1 : ∀ i, b.repr 1 i ∈ R₀) (x : A)
@@ -1510,8 +1526,17 @@ theorem repr_map {F β : Type} [Field F] [Algebra ℚ F] [Fintype β] [Decidable
     {R A : Type} [CommRing R] [CommRing A] [Algebra ℚ R] [Algebra R A] [Algebra F A]
     (b : Module.Basis β R A) (hb : ∀ i, b i = algebraMap F A (ω i)) (x : F) (k : β) :
     b.repr (algebraMap F A x) k = algebraMap ℚ R (ω.repr x k) := by
-  intros
-  apply _root_.GlobalTheory.ClassFin.repr_algebraMap_of_basis_image <;> assumption
+
+  have hq : ∀ c : ℚ, algebraMap R A (algebraMap ℚ R c) = algebraMap F A (algebraMap ℚ F c) := fun c =>
+    DFunLike.congr_fun (RingHom.ext_rat ((algebraMap R A).comp (algebraMap ℚ R))
+      ((algebraMap F A).comp (algebraMap ℚ F))) c
+  have hx : algebraMap F A x = ∑ i, algebraMap ℚ R (ω.repr x i) • b i := by
+    conv_lhs => rw [← ω.sum_repr x]
+
+    rw [map_sum]
+    refine Finset.sum_congr rfl fun i _ => ?_
+    rw [Algebra.smul_def, Algebra.smul_def, map_mul, hq, hb]
+  rw [hx, Module.Basis.repr_sum_self]
 
 theorem res_map {F β : Type} [Field F] [Algebra ℚ F] [Fintype β] [DecidableEq β] (ω : Module.Basis β ℚ F)
     {κ R A : Type} [CommRing R] [CommRing A] [Algebra ℚ R] [Algebra R A] [Algebra F A]
@@ -1586,7 +1611,7 @@ theorem classFinite_integralLevel : ∀ (F : Type) [Field F] [NumberField F] (n 
       s = GlobalTheory.ClassFin.emb b (lift s) := by
     intro s hs
     have h := hA.1 s hs
-    simp only [lift, dif_pos h]
+    simp only [lift, dite_eq_left h]
     exact h.choose_spec
   obtain ⟨hemb1, hembmul, -, hembinj⟩ := _root_.GlobalTheory.ClassFin.EmbHom.emb_hom R (FiniteAdeleRing (𝓞 F) F) _ (Fin n) b
   refine ⟨T₀.image lift, ?_, ?_⟩

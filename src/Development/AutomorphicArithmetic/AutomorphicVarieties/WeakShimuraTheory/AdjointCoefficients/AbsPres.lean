@@ -1,7 +1,5 @@
 module
 
-import all Development.AutomorphicArithmetic.AutomorphicVarieties.FrobeniusSmoothVectors.ResDual
-import all Development.AutomorphicArithmetic.AutomorphicVarieties.WeakShimuraTheory.AdjointCoefficients.ContConjAlt
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.WeakShimuraTheory.AdjointMemSp4
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.CommutativeAlgebra.ResMapBijective
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.MapRepApply
@@ -17,62 +15,12 @@ public import Development.AutomorphicArithmetic.AutomorphicVarieties.WeakShimura
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.WeakShimuraTheory.AdjointCoefficients.ObWeak
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.WeakShimuraTheory.AdjointCoefficients.SpDims
 public import Mathlib.FieldTheory.Finiteness
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
 import Mathlib.RingTheory.AdicCompletion.Noetherian
-import Mathlib.RingTheory.Coalgebra.IsFrobenius
-import Mathlib.RingTheory.Henselian
-import Mathlib.RingTheory.HopfAlgebra.Basic
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.RingTheory.SimpleRing.Principal
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.HaveILetI
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
 import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
-import Mathlib.RingTheory.PiTensorProduct
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
 import Mathlib.Tactic.Linter.Style
 import Mathlib.RingTheory.DualNumber
-import Mathlib.LinearAlgebra.Matrix.FiniteDimensional
-import Mathlib.RingTheory.RegularLocalRing.Defs
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AutomorphicArithmetic.AutomorphicVarieties.WeakShimuraTheory.AdjointCoefficients.ConeTan, Development.AutomorphicArithmetic.AutomorphicVarieties.WeakShimuraTheory.AdjointCoefficients.DiagLift, Development.AutomorphicArithmetic.AutomorphicVarieties.WeakShimuraTheory.AdjointCoefficients.LowLift, Development.AutomorphicArithmetic.AutomorphicVarieties.WeakShimuraTheory.AdjointCoefficients.ContConj, Development.AutomorphicArithmetic.AutomorphicVarieties.WeakShimuraTheory.AdjointCoefficients.TanInj, Development.AutomorphicArithmetic.AutomorphicVarieties.WeakShimuraTheory.AdjointCoefficients.AbsPres
@@ -489,7 +437,23 @@ private theorem isUp_mul {A : Type} [CommRing A] {X Y : M4 A} (hX : IsUp X) (hY 
 
 private theorem cont_conj {Γ A : Type} [TopologicalSpace Γ] [CommRing A] (I : Ideal A) (f : Γ → M4 A) (x y : M4 A)
     (h : ∀ i j, AdicCont I fun g => f g i j) (i j : Fin 4) : AdicCont I fun g => (x * f g * y) i j := by
-  apply _root_.cont_conj <;> assumption
+  intro N
+  have hpi : IsLocallyConstant fun g => fun k m => Ideal.Quotient.mk (I ^ N) (f g k m) := by
+    rw [IsLocallyConstant.iff_eventually_eq]
+    intro g0
+    have hev : ∀ᶠ g in nhds g0, ∀ k m,
+        Ideal.Quotient.mk (I ^ N) (f g k m) = Ideal.Quotient.mk (I ^ N) (f g0 k m) := by
+      simp only [Filter.eventually_all]
+      intro k m
+      exact (h k m N).eventually_eq g0
+    filter_upwards [hev] with g hg
+    funext k m
+    exact hg k m
+  convert hpi.comp (fun M : Fin 4 → Fin 4 → A ⧸ I ^ N =>
+    ∑ m, ∑ k, Ideal.Quotient.mk (I ^ N) (x i k) * M k m * Ideal.Quotient.mk (I ^ N) (y m j)) using 1
+  funext g
+
+  simp [Matrix.mul_apply, map_sum, map_mul, Finset.sum_mul]
 
 theorem UpperTheory.V.Ws.X1.sect :
     ∀ {O Γ : Type} [CommRing O] [Group Γ] [TopologicalSpace Γ] [IsTopologicalGroup Γ] [CompactSpace Γ] [TotallyDisconnectedSpace Γ] (Φ : Fr O Γ) (l : ℕ) [Fact l.Prime] {Λ : Type} [CommRing Λ] [IsDomain Λ] [IsDiscreteValuationRing Λ] [IsAdicComplete (maximalIdeal Λ) Λ] [Finite (ResidueField Λ)] (a : O →+* Λ), Φ.Std l a → (∀ v, Φ.Mu v = ∅) → ∀ {Γb : Type} [Group Γb] [TopologicalSpace Γb] [IsTopologicalGroup Γb] [T2Space Γb] (π : Γ →* Γb), Φ.Quo π → ∀ c : PD Φ.ι Γ (ResidueField Λ), Φ.IsRes ((residue Λ).comp a) c → ∀ (R : Type) [CommRing R] [Algebra Λ R] [IsCO Λ R] (P : PD Φ.ι Γ R), Φ.IsDef a c P → ∀ (ν : Γb →* Λˣ) (r : Γb →* M4 R), (∀ g, (ν (π g) : Λ) = a (Φ.ν g)) → r.comp π = P.r → ∀ (A : Type) [CommRing A] [Algebra Λ A] [IsCO Λ A] (p : A →ₐ[Λ] R), Function.Surjective p → maximalIdeal A * RingHom.ker p = ⊥ → WLift (Φ.loc π) ν r P.n p → ∃ s : R →ₐ[Λ] A, p.comp s = AlgHom.id Λ R := by
@@ -689,13 +653,6 @@ private theorem dm_gsp {ν : k} {ν' : DualNumber k} (h1 : ν'.fst = ν) (h2 : �
   rw [h0]
   ext i j <;> by_cases hij : i = j <;> simp [dm, Matrix.one_apply, hij, h1, h2]
 
-private theorem up_mul {A B : M4 k} (hA : IsUp A) (hB : IsUp B) : IsUp (A * B) := fun i j h => by
-  rw [Matrix.mul_apply]
-  refine Finset.sum_eq_zero fun m _ => ?_
-  rcases lt_or_ge m i with hm | hm
-  · rw [hA i m hm, zero_mul]
-  · rw [hB m j (lt_of_lt_of_le h hm), mul_zero]
-
 private theorem mul_adj {n : M4 k} (h : IsGSp 1 n) : n * adj n = 1 := by
   have h' : adj n * n = 1 := by simpa [IsGSp] using h
   exact mul_eq_one_comm.mp h'
@@ -744,7 +701,7 @@ private theorem dm_flag {n r r' X Y : M4 k} (hn : IsGSp 1 n) (hY : Y ∈ sp4 k) 
   apply dm_zero
   · exact h1 i j hij
   · rw [e]
-    exact up_mul h2 h1 i j hij
+    exact isUp_mul h2 h1 i j hij
 
 private def dRep {Γ : Type} [Group Γ] (r : Γ →* M4 k) (X : Γ → M4 k)
     (h : ∀ s t, X (s * t) = X s + r s * X t * r s⁻¹) : Γ →* M4 (DualNumber k) where
@@ -761,11 +718,30 @@ end Dual
 
 private theorem res_dual (Λ : Type) [CommRing Λ] [IsLocalRing Λ] [IsCO Λ (DualNumber (ResidueField Λ))]
     (x : DualNumber (ResidueField Λ)) : res Λ (DualNumber (ResidueField Λ)) x = x.fst := by
-  apply _root_.res_dual <;> assumption
+  obtain ⟨a, ha⟩ := IsLocalRing.residue_surjective x.fst
+  have hal : algebraMap Λ (DualNumber (ResidueField Λ)) a = TrivSqZeroExt.inl (IsLocalRing.residue Λ a) := rfl
+  have hx : x = algebraMap Λ (DualNumber (ResidueField Λ)) a + TrivSqZeroExt.inr x.snd := by
+    rw [hal]
+    ext
+    · simp [ha]
+    · simp
+  have hn : res Λ (DualNumber (ResidueField Λ)) (TrivSqZeroExt.inr x.snd) = 0 := by
+    rw [res_eq_zero_iff, IsLocalRing.mem_maximalIdeal, mem_nonunits_iff, TrivSqZeroExt.isUnit_iff_isUnit_fst]
+    simp
+  rw [hx, map_add (f := _), hn, add_zero, AlgHom.commutes, hal]
+  simp [ha]
 
 private theorem lc_mat {Γ k : Type} [TopologicalSpace Γ] {f : Γ → M4 k} (h : ∀ i j, IsLocallyConstant fun g => f g i j) :
     IsLocallyConstant f := by
-  apply _root_.lc_mat <;> assumption
+  rw [IsLocallyConstant.iff_eventually_eq]
+  intro x
+  have hev : ∀ᶠ y in nhds x, ∀ i j, f y i j = f x i j := by
+    simp only [Filter.eventually_all]
+    intro i j
+    exact (IsLocallyConstant.iff_eventually_eq _).mp (h i j) x
+  filter_upwards [hev] with y hy
+  ext i j
+  exact hy i j
 
 theorem UpperTheory.V.Ws.X1.tanInj :
     ∀ {O Γ : Type} [CommRing O] [Group Γ] [TopologicalSpace Γ] [IsTopologicalGroup Γ] [CompactSpace Γ] [TotallyDisconnectedSpace Γ] (Φ : Fr O Γ) (l : ℕ) [Fact l.Prime] {Λ : Type} [CommRing Λ] [IsDomain Λ] [IsDiscreteValuationRing Λ] [IsAdicComplete (maximalIdeal Λ) Λ] [Finite (ResidueField Λ)] (a : O →+* Λ), Φ.Std l a → (∀ v, Φ.Mu v = ∅) → ∀ {Γb : Type} [Group Γb] [TopologicalSpace Γb] [IsTopologicalGroup Γb] [T2Space Γb] (π : Γ →* Γb), Φ.Quo π → ∀ c : PD Φ.ι Γ (ResidueField Λ), Φ.IsRes ((residue Λ).comp a) c → ∀ (R : Type) [CommRing R] [Algebra Λ R] [IsCO Λ R] (P : PD Φ.ι Γ R), Φ.IsDef a c P → ∀ (rb : Γb →* M4 (ResidueField Λ)) (hb : ∀ g, ∃ x, IsGSp x (rb g)), rb.comp π = c.r → ∃ f : TanC (Φ.loc π) (adSp rb hb) (fun v => bor (c.n v)) (fun v => nil (c.n v)) (π Φ.g0) (tor (ResidueField Λ)) → (R →ₐ[Λ] DualNumber (ResidueField Λ)), Function.Injective f := by

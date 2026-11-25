@@ -1,6 +1,5 @@
 module
 
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.VtPull
 public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.IsPartPartSec
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.ValCalc
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.SecBaseChangeAnySt
@@ -209,8 +208,17 @@ theorem exists_pull {Y' : Scheme.{0}} (L : LB X) {K : Type} [Fintype K] (φ : K 
     (h : Y' ⟶ Y) (e : ∀ k, ψ k = h ≫ φ k) (s : LB.Sec (LB.LinComb L φ ε)) : ∃ s' : LB.Sec (LB.LinComb L ψ ε),
       ∀ (Z : Scheme.{0}) (r : Z ⟶ Y') (z : Z) (j : K → L.ι), r z ∈ LB.wchart L ψ j →
         gs r z (LB.wchart L ψ j) (s'.f j) = gs (r ≫ h) z (LB.wchart L φ j) (s.f j) := by
-  intros
-  apply _root_.ReciprocityTheory.ChartRestriction.G.Geo.Tor.exists_sec_pull <;> assumption
+  obtain rfl : ψ = fun k => h ≫ φ k := funext e
+  have le := Out.wchart_comp_le L φ h
+  let a : ∀ j, Γ(Y', (LB.LinComb L (fun k => h ≫ φ k) ε).U j) := fun j => resG _ (le j) ((h.app _).hom (s.f j))
+  have ha : ∀ (Z : Scheme.{0}) (r : Z ⟶ Y') (z : Z) (j : K → L.ι), r z ∈ LB.wchart L (fun k => h ≫ φ k) j →
+      gs r z (LB.wchart L (fun k => h ≫ φ k) j) (a j) = gs (r ≫ h) z (LB.wchart L φ j) (s.f j) :=
+    fun Z r z j hz => (gs_res r z (le j) hz _).trans (gs_pull r h z _ (le j hz) _)
+  refine ⟨Fam.sec (a := a) fun y i j hi hj => ?_, ha⟩
+  refine (ha _ (𝟙 Y') y i hi).trans ((sec_trans s (𝟙 Y' ≫ h) y (le i hi) (le j hj)).trans
+    (congrArg₂ (· * ·) (congrArg Units.val ?_) (ha _ (𝟙 Y') y j hj).symm))
+  refine Eq.trans ?_ (gm_linComb L _ ε (𝟙 Y') y i j hi hj).symm
+  simp only [trF, Category.assoc]
 
 end Cochain
 
@@ -230,8 +238,8 @@ theorem cb_zero (r : Z ⟶ E.B.left) (z : Z) (j j' : E.ChartIdx) : cb E 0 r z j 
 theorem cb_basis (k) (r : Z ⟶ E.B.left) (z : Z) (j j' : E.ChartIdx) :
     cb E (E.basis k) r z j j' = tr (E.O (E.basis k)).L r z (j k) (j' k) := by
   classical
-  rw [cb, Finset.prod_eq_single k (fun k' _ h => by rw [E.basis.repr_self_apply, if_neg h.symm, zpow_zero])
-    (fun h => absurd (Finset.mem_univ k) h), E.basis.repr_self_apply, if_pos rfl, zpow_one]
+  rw [cb, Finset.prod_eq_single k (fun k' _ h => by rw [E.basis.repr_self_apply, ite_eq_right h.symm, zpow_zero])
+    (fun h => absurd (Finset.mem_univ k) h), E.basis.repr_self_apply, ite_eq_left rfl, zpow_one]
 
 theorem cb_self (χ : E.X) (r : Z ⟶ E.B.left) (z : Z) (j : E.ChartIdx) (h : r z ∈ E.chart j) :
     cb E χ r z j j = 1 :=
@@ -397,7 +405,7 @@ theorem exists_term {w : ∀ l, Γ(Φ.E.B.left, Φ.N₀.U l)} (h : Fam Φ.N₀.U
   · rintro β ⟨l, hl⟩
     by_contra hn
     exact hl ((WtPart.cf_mono (Φ.D.coord (Φ.ch l) (Φ.N₀.U l) (Φ.aff l) (Φ.le l)) β α _).trans
-      (if_neg fun e => hn e.symm))
+      (ite_eq_right fun e => hn e.symm))
 
 theorem mem_locus_term {φ : (Φ.H d).Sec} {w : ∀ l, Γ(Φ.E.B.left, Φ.N₀.U l)} (h : ∀ l : Φ.N₀.ι, φ.f l = term Φ d α l (w l))
     (z : Φ.G.left) (l : Φ.N₀.ι) (hl : Φ.D.q.left z ∈ Φ.N₀.U l) :
@@ -554,9 +562,6 @@ section -- clump:auto
 open CategoryTheory Limits MonoidalCategory CartesianMonoidalCategory MonObj AlgebraicGeometry
 open scoped CategoryTheory.Obj
 open ReciprocityTheory.ChartRestriction.G ReciprocityTheory.ChartRestriction.G.Semi ReciprocityTheory.ChartRestriction.G.Geo.Tor GlobalTheory.ZH
-attribute [local instance] SplitExt.free SplitExt.finite MvPolynomial.gradedAlgebra
-theorem _root_.GlobalTheory.T.pureWeightSection_to_twistedPolarisationPower : (∀ (k : Type) [Field k] [IsAlgClosed k] (Φ : FibPre k) (N d : ℕ) (π : Φ.Pol N) (α : Φ.E.X), 1 ≤ N → 1 ≤ d → (∀ φ : (Φ.H d).Sec, Φ.Pure α φ → ∃ s : LB.Sec (Out.twistLB π.PB.A π.PB.L (N * d) (π.c α)), ((∀ j, s.f j = 0) → ∀ l, φ.f l = 0) ∧ ∀ x : Φ.Pt, (⊤ ≤ x.left ⁻¹ᵁ Out.nonzeroLocus φ ↔ ⊤ ≤ (Out.ptSecT π.PB.A (x ≫ Φ.D.q ≫ π.β.hom)).left ⁻¹ᵁ Out.nonzeroLocus s)) ∧ ∀ s : LB.Sec (Out.twistLB π.PB.A π.PB.L (N * d) (π.c α)), ∃ φ : (Φ.H d).Sec, Φ.Pure α φ ∧ ∀ x : Φ.Pt, (⊤ ≤ x.left ⁻¹ᵁ Out.nonzeroLocus φ ↔ ⊤ ≤ (Out.ptSecT π.PB.A (x ≫ Φ.D.q ≫ π.β.hom)).left ⁻¹ᵁ Out.nonzeroLocus s)) := by
-  first | exact @GlobalTheory.ZH.TwSec.pure_sec_twist
 end -- clump:auto
 end -- clump:auto
 -- ===== end clump member: Development.AbelianVarietyTheory.Proofs.DegenerationProofs.PureWeightSectionToTwistedPolarisationPowerStatement =====

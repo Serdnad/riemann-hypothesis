@@ -1,6 +1,5 @@
 module
 
-import GroundTheory.HeightsAndTheta.Heights.MultihomogeneousPolynomials
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.SupBoundCountIntegrals
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsLattice
 public import Mathlib.Analysis.InnerProductSpace.GramMatrix
@@ -55,8 +54,7 @@ theorem coeff_eq_zero {y : (Σ k, ι k) → Ω} {r : ℕ} {f : Fin r → MRing �
 
   have hblk : ∀ k, ∃ i, y ⟨k, i⟩ ≠ 0 := by
     intro k
-    by_contra hk
-    push_neg at hk
+    by_contra! hk
     obtain ⟨i, hi⟩ := hz₀.1 k
     apply hi
     have hmem : (X ⟨k, i⟩ : MRing ι) ∈ mCoordIdeal y := by
@@ -85,7 +83,7 @@ theorem coeff_eq_zero {y : (Σ k, ι k) → Ω} {r : ℕ} {f : Fin r → MRing �
   simp only [hsec, ← mul_assoc, ← Finset.sum_mul]
   by_cases hz' : ∀ k, ∃ i, z ⟨k, i⟩ ≠ 0
   · rw [h z ⟨hz', fun g hg => hz g (mCoordIdeal_le_coordIdeal y hg)⟩, zero_mul]
-  · push_neg at hz'
+  · push Not at hz'
     obtain ⟨k, hk⟩ := hz'
     refine mul_eq_zero_of_right _ ?_
     simp only [u, map_prod, map_X, eval_X]
@@ -187,8 +185,7 @@ theorem gram_posDef (d : HSMBlockDatum D K ι Ω) (n : ℕ) {r : ℕ} (f : Fin r
     rw [star_trivial, blockGram_eq d n f hf, blockGram_eq d n f hf]
     simp only [pairRe_comm d.A n (f l) (f k)]
   · rw [star_trivial]
-    by_contra hle
-    push_neg at hle
+    by_contra! hle
     apply ha
     have hz : ∀ z ∈ mcPts (mCoordIdeal d.y),
         ∑ k, ((a k : ℝ) : ℂ) * eval z (map (Int.castRingHom ℂ) (f k)) = 0 := by
@@ -414,7 +411,11 @@ theorem isMultiHomog_zero' (e : K → ℕ) : IsMultiHomog (0 : MRing ι) e := by
 
 theorem isMultiHomog_add' {f g : MRing ι} {e : K → ℕ} (hf : IsMultiHomog f e) (hg : IsMultiHomog g e) :
     IsMultiHomog (f + g) e := by
-  apply _root_.GroundTheory.Heights₂.Heights.MultiHomogeneous.add <;> assumption
+  classical
+  intro m hm k
+  rcases Finset.mem_union.mp (MvPolynomial.support_add hm) with h | h
+  · exact hf m h k
+  · exact hg m h k
 
 theorem exists_form_of_mem (y : (Σ k, ι k) → Ω) (e : K → ℕ) {s : Ω}
     (hs : s ∈ Submodule.span ℤ {s | ∃ g : MRing ι, IsMultiHomog g e ∧ aeval y g = s}) :

@@ -1,7 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.WeilDatumCharactersUnramifiedOffLevels
-import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.ConjWeilDatumViaAdjointExchangedPair
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.ParamsEx
 public import Formalism.LocalToGlobal.IndefiniteReal.LinksStage
 public import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.RealLowestKTypeCoeffSquareIntegrable
@@ -20,45 +18,7 @@ public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.ThetaLift
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.ThetaVacuaMatchingConjugatePrime
 import Development.AbelianVarietyTheory.Proofs.SatakeParameters.ThetaVacuumHeckeIdentitySplitPlace
 import Development.AbelianVarietyTheory.Proofs.TwistedOperators.WeilDatumAtPlaceEqLatticeIntertwinerMulDetChar
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
 import Std.Tactic.BVDecide.Normalize.Prop
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsSmoothVecLowKSub
 
@@ -70,7 +30,6 @@ open Formalism.BasicNotions Formalism.BasicNotions.TH Formalism.MainNotions.Glob
 open Formalism.L2.Theta Formalism.L2.DIV Formalism.L2.Indef
 open Formalism.IndefR.Lev Formalism.IndefR.Mult Formalism.IndefR.Datum Formalism.IndefR.Cx Formalism.IndefR.Links
 open scoped TensorProduct InnerProductSpace
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 open GlobalTheory.DownLift
 
 namespace GlobalTheory.SplitCorr
@@ -185,12 +144,41 @@ variable {D : D7}
 
 theorem chi_conj {χ : (AE D)ˣ →* Circle} {n : ℕ} (hR : Formalism.L2.Theta.ResEta D χ n) (y : (AE D)ˣ) :
     χ (Units.map (cA D).toMonoidHom y) = (χ y)⁻¹ := by
-  apply _root_.GlobalTheory.ConjAdjWeil.chi_conj <;> assumption
+  obtain ⟨⟨η, hη⟩, hall⟩ := hR
+  have hprod : y * Units.map (cA D).toMonoidHom y =
+      idF D (Units.map (Algebra.norm (AF D.host.F) : AE D →* AF D.host.F) y) := by
+    apply Units.ext
+    rw [GlobalTheory.Mem.EtaTilde.idF_norm]
+    rfl
+  have h1 : χ y * χ (Units.map (cA D).toMonoidHom y) = 1 := by
+    rw [← map_mul, hprod, hall η hη, hη.2.2.1, one_pow]
+  exact eq_inv_of_mul_eq_one_right h1
 
 theorem unrAt_of_unrPl {w : HeightOneSpectrum (𝓞 D.host.E)} {e : AE D} (he : Formalism.L2.NTheta.IsIdemAt e w)
     {χ : (AE D)ˣ →* Circle} (h : UnrPl w χ) : UnrAt χ w := by
-  intros
-  apply _root_.GlobalTheory.GoodModUnr.unrAt_of_unrPl <;> assumption
+  intro y hy
+  have hP : IsPrimeIdem w e (e + cA D e) := Or.inl ⟨he, rfl⟩
+  have hf := finPart_of_isPrimeIdem hP
+  have hc : ∀ (y : (w.adicCompletion D.host.E)ˣ) u, compAt D.host.F u (finPart D (locIdele D.host.F w y : AE D)) =
+      Neutral.B1.finiteSingle D.host.E w y u := fun y u =>
+    congrArg (fun z : FiniteAdeleRing (𝓞 D.host.E) D.host.E => z u) (finTens_locIdele (F := D.host.F) w y)
+  have hint : ∀ y : (w.adicCompletion D.host.E)ˣ, Valued.v (y : w.adicCompletion D.host.E) = 1 →
+      finPart D (e * (locIdele D.host.F w y : AE D)) ∈ intAE D := fun y hy => by
+    rw [RingHom.map_mul, hf, singleAt_mul, one_mul, hc, finSingle_self]
+    exact singleAt_mem_intAE hy.le
+  have h1 : χ (locIdele D.host.F w y) = 1 := by
+    refine GlobalTheory.Hk3.SplitMatch.unr he h _ ?_ (hint y hy) ?_
+    · refine GlobalTheory.PlaceIdem.parts_inj D _ _ ?_ (compAt_ext fun u => ?_)
+      · rw [RingHom.map_mul, show infPart D (locIdele D.host.F w y : AE D) = 1 from infTens_locIdele w y, mul_one]
+      · rw [RingHom.map_mul, RingHom.map_mul, hc, RingHom.map_sub, RingHom.map_one, RingHom.map_sub, RingHom.map_one, hf]
+        by_cases hu : u = w
+        · subst hu
+          rw [compAt_singleAt, sub_self, zero_mul]
+        · rw [finSingle_ne hu, mul_one]
+    · rw [← map_inv]
+      refine hint _ ?_
+      rw [Units.val_inv_eq_inv_val, map_inv₀, show Valued.v (y : w.adicCompletion D.host.E) = 1 from hy, inv_one]
+  exact (congrArg Circle.toUnits h1).trans (map_one _)
 
 theorem absNorm_conjPl (P : Pl D.host.E) : Ideal.absNorm (Formalism.DivisionValues.conjPl P).asIdeal = Ideal.absNorm P.asIdeal := by
   rw [Ideal.absNorm_apply, Ideal.absNorm_apply, Submodule.cardQuot_apply, Submodule.cardQuot_apply]

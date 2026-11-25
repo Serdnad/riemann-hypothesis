@@ -1,8 +1,5 @@
 module
 
-import Development.AutomorphicArithmetic.ThetaCorrespondence.ThetaPairLifts.ThirdPlaceSeries.LocalFixedPointAtPlace
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsIsResOfTameAt
-import Formalism.LocalToGlobal.IndefiniteReal.FWCentral
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsAlgebraicOfRoot
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.DefiniteSideRealisationsCoefMapDifferRootOfUnityStatement
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsCoefficientPolynomialGLFunctionNeZeroStatement
@@ -112,7 +109,6 @@ import Formalism.LocalRingCardinality.NFLeTwoMulTSq
 section -- clump:auto
 @[expose] public section
 
-set_option autoImplicit false
 noncomputable section
 open NumberField IsDedekindDomain
 open Formalism.BasicNotions Formalism.MainNotions Formalism.MainNotions.DIV.Cons Formalism.L2.Pj Formalism.L2.DIV Formalism.L2.Indef Formalism.L2.Indef.Tree Formalism.IndefR Formalism.IndefR.Links Formalism.IndefR.Cx
@@ -121,28 +117,9 @@ open GlobalTheory.BigOn GlobalTheory.BigOn.Exp Formalism.L2.Theta GlobalTheory.E
 open scoped TensorProduct
 
 
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
-
 namespace GlobalTheory.BigOn.Exp.TwConj
 
 open GlobalTheory.ConjTwist
-
-theorem scale_pow_eq {D : D7} {Γ : Type} [Group Γ] [Fintype Γ] {Pl0 I0 T : Type} {A3 : FamIn3 D.what₂.LL Γ Pl0 I0 (List ℕ) T D.R.m}
-    {Ks : Type} [Field Ks] [NumberField Ks] [Algebra Ks D.what₂.LL] (Rl : RealDat3 D A3 Ks)
-    (v₀ : ∀ (j : Fin D.R.m) (σ : D.what₂.LL →+* ℂ), (Rl.MW j σ).Vec) {j : Fin D.R.m} (B : Base (Vc D j) (Wc D j)) {c c' : ℂ}
-    (h : IsScale Rl v₀ B c) (h' : IsScale Rl v₀ B c') : ∃ k : ℕ, k ≠ 0 ∧ c' ^ k = c ^ k := by
-  obtain ⟨gR, cR0, cL0, hT, u, hu, hF⟩ := h
-  obtain ⟨gR', cR0', cL0', hT', u', hu', hF'⟩ := h'
-  obtain rfl : u' = u := funext fun τ => Subtype.ext ((hu' τ).trans (hu τ).symm)
-  obtain ⟨a, ⟨k, hk, hak⟩, ha⟩ := GlobalTheory.T.definiteSideRealisations_coefMap_differ_rootOfUnity _ _ _ _ _ _ _ _ _ _ _ _ _ hT hT' j
-  obtain ⟨F, x, hx⟩ := GlobalTheory.T.exists_coefficientPolynomial_GLFunction_ne_zero (FWT.lamV D j)
-  have e1 := hF' F
-  rw [ha] at e1
-  erw [LinearMap.map_smul, LinearMap.map_smul, hF F] at e1
-  have e2 := congrFun e1 x
-  simp only [Pi.smul_apply, smul_eq_mul] at e2
-  have hc : c' = D.what₂.embLL a * c := (mul_right_cancel₀ hx ((mul_assoc _ _ _).trans e2)).symm
-  exact ⟨k, hk, by rw [hc, mul_pow, ← map_pow, hak, map_one, one_mul]⟩
 
 theorem root_mul {a b : ℂ} (ha : IsRoot1 a) (hb : IsRoot1 b) : IsRoot1 (a * b) := by
   obtain ⟨n, hn, ha⟩ := ha
@@ -233,7 +210,6 @@ end -- clump:auto
 section -- clump:auto
 @[expose] public section
 
-set_option autoImplicit false
 noncomputable section
 open NumberField IsDedekindDomain
 open Formalism.BasicNotions Formalism.MainNotions Formalism.MainNotions.DIV.Cons Formalism.L2.Pj Formalism.L2.DIV Formalism.L2.Indef Formalism.L2.Indef.Tree Formalism.IndefR Formalism.IndefR.Links Formalism.IndefR.Cx
@@ -241,8 +217,6 @@ open Formalism.IndefR.FWT GlobalTheory.BigTop GlobalTheory.OntoChain GlobalTheor
 open GlobalTheory.BigOn GlobalTheory.BigOn.Exp Formalism.L2.Theta GlobalTheory.ExportSeries
 open scoped TensorProduct
 
-
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 
 namespace GlobalTheory.BigOn.Exp.TwConj
 
@@ -319,7 +293,6 @@ section -- clump:auto
 
 
 section
-set_option autoImplicit false
 noncomputable section
 open NumberField IsDedekindDomain
 open Formalism.BasicNotions Formalism.MainNotions Formalism.MainNotions.DIV.Cons Formalism.L2.Pj Formalism.L2.DIV Formalism.L2.Indef Formalism.L2.Indef.Tree Formalism.IndefR Formalism.IndefR.Links Formalism.IndefR.Cx
@@ -328,7 +301,6 @@ open GlobalTheory.BigOn GlobalTheory.BigOn.Exp Formalism.L2.Theta GlobalTheory.E
 open scoped TensorProduct
 
 
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 namespace GlobalTheory.BigOn.Exp.TwConj
 open GlobalTheory.ConjTwist
 
@@ -396,7 +368,6 @@ end -- clump:auto
 section -- clump:auto
 @[expose] public section
 
-set_option autoImplicit false
 noncomputable section
 open NumberField IsDedekindDomain
 open Formalism.BasicNotions Formalism.MainNotions Formalism.MainNotions.DIV.Cons Formalism.L2.Pj Formalism.L2.DIV Formalism.L2.Indef Formalism.L2.Indef.Tree Formalism.IndefR Formalism.IndefR.Links Formalism.IndefR.Cx
@@ -405,14 +376,27 @@ open GlobalTheory.BigOn GlobalTheory.BigOn.Exp Formalism.L2.Theta GlobalTheory.E
 open scoped TensorProduct
 
 
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
-
 namespace GlobalTheory.ConjExpandRational
 
 theorem evaluates_of_unif' {D : D7} {G : Type} [Group G] [Fintype G] {Pl0 T0 : Type} {A : FamIn D.what₂.LL G Pl0 T0 D.R.m}
     {T : CoreJ D} [Algebra T.Q.c.F D.what₂.LL] {R : RealDat D A T.Q.c.F} {κ : ∀ i : Fin D.R.m, WeightFamilies.Wt D ((i : ℕ) + 1)}
     {v₀ : ∀ (i : Fin D.R.m) (σ : D.what₂.LL →+* ℂ), (R.MW i σ).Vec} (fw : FWTie T R κ v₀) (hu : R.LUnif) : fw.Evaluates := by
-  apply _root_.Formalism.IndefR.FWT.FWTie.evaluates_of_lUnif <;> assumption
+  intro i σ hσ hV
+  refine fw.ev i σ hσ hV ?_
+  by_contra hne
+  have h0 := fw.ev0 i σ hσ hV hne
+  have hx : ∀ x : Fin (R.nW i) → D.what₂.LL, x = 0 := fun x => by
+    by_contra hx
+    have h1 : LinearIndependent D.what₂.LL (fun _ : Fin 1 => x) := linearIndependent_unique_iff.2 hx
+    have h2 := ((hu i σ).1 1 _ h1).ne_zero 0
+    rw [h0] at h2
+    exact h2 rfl
+  refine hne ⟨0, fun f => ?_⟩
+  have hf : f = 0 := (fw.e i).injective (Subtype.ext ((hx _).trans (hx _).symm))
+  subst hf
+  refine Eq.trans ?_ (GlobalTheory.phiC_zero_rule T hV (wtA (κ i))).symm
+  rw [LinearMap.zero_apply, map_zero]
+  rfl
 
 end GlobalTheory.ConjExpandRational
 end -- clump:auto
@@ -428,7 +412,6 @@ section -- clump:auto
 
 
 section
-set_option autoImplicit false
 noncomputable section
 open NumberField IsDedekindDomain
 open Formalism.BasicNotions Formalism.MainNotions Formalism.MainNotions.DIV.Cons Formalism.L2.Pj Formalism.L2.DIV Formalism.L2.Indef Formalism.L2.Indef.Tree Formalism.IndefR Formalism.IndefR.Links Formalism.IndefR.Cx
@@ -437,7 +420,6 @@ open GlobalTheory.BigOn GlobalTheory.BigOn.Exp Formalism.L2.Theta GlobalTheory.E
 open scoped TensorProduct
 
 
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 namespace GlobalTheory.ConjExpandRational
 end GlobalTheory.ConjExpandRational
 theorem GlobalTheory.ConjExpandRational.exists_evW_expansion_of_conjFun : GlobalTheory.Published.CuspRapidDecay → GlobalTheory.Published.GlobalArtinReciprocity → GlobalTheory.Published.RayClassFieldSt → GlobalTheory.IndefiniteRowSideFullHecke.RationalRayLevels.SeriesRat → _root_.GlobalTheory.BigOn.Exp.TwistConditions fun Fm x hx i p w j => ∀ τ : ℂ ≃+* ℂ,
@@ -498,15 +480,12 @@ end -- clump:auto
 section -- clump:auto
 @[expose] public section
 
-set_option autoImplicit false
 noncomputable section
 open NumberField IsDedekindDomain
 open Formalism.BasicNotions Formalism.MainNotions Formalism.MainNotions.DIV.Cons Formalism.L2.Pj Formalism.L2.DIV Formalism.L2.Indef Formalism.L2.Indef.Tree Formalism.IndefR Formalism.IndefR.Links Formalism.IndefR.Cx
 open Formalism.IndefR.FWT GlobalTheory.BigTop GlobalTheory.OntoChain GlobalTheory.RealIndexBound GlobalTheory.OnTies GlobalTheory.SeriesTie
 open GlobalTheory.BigOn GlobalTheory.BigOn.Exp Formalism.L2.Theta GlobalTheory.ExportSeries
 
-
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 
 namespace GlobalTheory.BigOn.Exp.TwConj
 
@@ -515,7 +494,19 @@ open GlobalTheory.ConjTwist
 theorem de_chi_eq {D : D7} {ρ : Setup D.ntw} (hρ : ρ.Good) (i : D.ntw.Tw) (j : Fin D.R.m) (b : Bool) (x : (AE D)ˣ) :
     ∃ σ, (((ρ.B i j b).de.chi x : Circle) : ℂ) = ρ.eO i b (algebraMap (D.ntw.O0 i) (D.ntw.O i)
         ((Formalism.MainNotions.BlochKatoReduction.Gen.psiAt b (D.ntw.delta i) σ : (D.ntw.O0 i)ˣ) : D.ntw.O0 i)) := by
-  apply _root_.GlobalTheory.PlaceFix.de_chi_eq <;> assumption
+  set ψ := Formalism.MainNotions.BlochKatoReduction.Gen.psiAt b (D.ntw.delta i) with hψ
+  have hopen : IsOpen (ψ.ker : Set (Formalism.ConjugateSelfDual.G D.host.E D.nd.Om)) := by
+    have : ψ.ker = (D.ntw.delta i).ker := by
+      ext σ
+      cases b <;> simp [hψ, Formalism.MainNotions.BlochKatoReduction.Gen.psiAt, MonoidHom.mem_ker]
+    rw [this]; exact D.ntw.delta_open i
+  haveI : ψ.ker.FiniteIndex := @Subgroup.finiteIndex_of_finite_quotient _ _ _ (Subgroup.quotient_finite_of_isOpen _ hopen)
+  have hpow : ∀ σ, ψ σ ^ ψ.ker.index = 1 := fun σ => by
+    rw [← map_pow]; exact ψ.ker.pow_index_mem σ
+  obtain ⟨σ, hσ⟩ := ρ.rc.exists_sym x
+  refine ⟨σ, ?_⟩
+  rw [hρ.delta i j b]
+  exact charOf_eq _ _ hopen hσ Subgroup.FiniteIndex.index_ne_zero (hpow σ)
 
 end GlobalTheory.BigOn.Exp.TwConj
 end -- clump:auto
@@ -531,7 +522,6 @@ section -- clump:auto
 
 
 section
-set_option autoImplicit false
 noncomputable section
 open NumberField IsDedekindDomain
 open Formalism.BasicNotions Formalism.MainNotions Formalism.MainNotions.DIV.Cons Formalism.L2.Pj Formalism.L2.DIV Formalism.L2.Indef Formalism.L2.Indef.Tree Formalism.IndefR Formalism.IndefR.Links Formalism.IndefR.Cx
@@ -539,7 +529,6 @@ open Formalism.IndefR.FWT GlobalTheory.BigTop GlobalTheory.OntoChain GlobalTheor
 open GlobalTheory.BigOn GlobalTheory.BigOn.Exp Formalism.L2.Theta GlobalTheory.ExportSeries
 
 
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 namespace GlobalTheory.BigOn.Exp.TwConj
 open GlobalTheory.ConjTwist
 theorem fixAt_holds_alt : GlobalTheory.Published.RayClassFieldSt → _root_.GlobalTheory.BigOn.Exp.TwAdmAlt → _root_.GlobalTheory.BigOn.Exp.TwConj.FixedPointCondition := by
@@ -551,7 +540,7 @@ theorem fixAt_holds_alt : GlobalTheory.Published.RayClassFieldSt → _root_.Glob
     rintro _ ⟨y, rfl⟩
     exact hτ y
   have hFB : FixBase p.T p.R.toRealDat j τ :=
-    GlobalTheory.T.fixes_untwistedTupleData_of_fixes_smallField _ _ _ _ _ _ hRF p.T p.R p.cG p.Sx p.nexp (F2 p) p.κ p.v₀ hR.laws hR.core hR.fw hR.tieIn hR.galois
+    _root_.GlobalTheory.FixBaseSmall.fixBase_of_fixes _ _ _ _ _ _ hRF p.T p.R p.cG p.Sx p.nexp (F2 p) p.κ p.v₀ hR.laws hR.core hR.fw hR.tieIn hR.galois
       hR.small.val hR.small.ray hR.small.roots j τ hτ'
   refine ⟨hFB, ?_, ?_, ?_⟩
   · intro y
@@ -597,7 +586,6 @@ section -- clump:auto
 
 
 section
-set_option autoImplicit false
 noncomputable section
 open NumberField IsDedekindDomain
 open Formalism.BasicNotions Formalism.MainNotions Formalism.MainNotions.DIV.Cons Formalism.L2.Pj Formalism.L2.DIV Formalism.L2.Indef Formalism.L2.Indef.Tree Formalism.IndefR Formalism.IndefR.Links Formalism.IndefR.Cx
@@ -606,7 +594,6 @@ open GlobalTheory.BigOn GlobalTheory.BigOn.Exp Formalism.L2.Theta GlobalTheory.E
 open scoped TensorProduct
 
 
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 namespace GlobalTheory.BigOn.Exp.TwConj
 section Lev
 variable {D : D7} {G : Type} [Group G] [Fintype G] {Pl0 T0 : Type} {A : FamIn D.what₂.LL G Pl0 T0 D.R.m}
@@ -696,7 +683,6 @@ end -- clump:auto
 section -- clump:auto
 @[expose] public section
 
-set_option autoImplicit false
 noncomputable section
 open NumberField IsDedekindDomain
 open Formalism.BasicNotions Formalism.MainNotions Formalism.MainNotions.DIV.Cons Formalism.L2.Pj Formalism.L2.DIV Formalism.L2.Indef Formalism.L2.Indef.Tree Formalism.IndefR Formalism.IndefR.Links Formalism.IndefR.Cx
@@ -705,8 +691,6 @@ open GlobalTheory.BigOn GlobalTheory.BigOn.Exp Formalism.L2.Theta GlobalTheory.E
 open GlobalTheory.BigOn.Exp.TwConj GlobalTheory.IdemSupport
 open Formalism.L2.Host (HChar IsDelta IsPsi)
 
-
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 
 namespace GlobalTheory.BigOn.Exp.TwConj.LevAt
 
@@ -726,9 +710,6 @@ theorem conjIdeal_eq_cP (P : Pl D.host.E) : Formalism.HermitianLatticesTheory.co
     change cO D r ∈ P.asIdeal
     rwa [this, cO_cO]
   rw [Formalism.HermitianLatticesTheory.conjIdeal, this, Ideal.span_eq]
-
-theorem nat_mem_cP (P : Pl D.host.E) (n : ℕ) : (n : 𝓞 D.host.E) ∈ (cP P).asIdeal ↔ (n : 𝓞 D.host.E) ∈ P.asIdeal := by
-  rw [mem_cP, map_natCast]
 
 theorem asIdeal_cP (P : Pl D.host.E) : (cP P).asIdeal = P.asIdeal.map (cO D).symm :=
   (Ideal.map_symm (cO D)).symm
@@ -752,7 +733,24 @@ theorem splitOff_iff {P : Pl D.host.E} {S : Set (Pl D.host.E)} : Bridge.SplitOff
   exact ⟨fun h hm => h _ hm rfl, fun h Q hQ e => h ((HeightOneSpectrum.ext e : Q = cP P) ▸ hQ)⟩
 
 theorem exists_isRes {χ : HChar D.host.E} {P : Pl D.host.E} (ht : χ.TameAt P) : ∃ c, IsRes χ P c := by
-  apply _root_.GlobalTheory.exists_isRes_of_tameAt <;> assumption
+  choose r hr using fun a : (kP P)ˣ => Ideal.Quotient.mk_surjective (a : kP P)
+  haveI : P.asIdeal.IsPrime := P.isPrime
+  have hn : ∀ {b : 𝓞 D.host.E} {a : (kP P)ˣ}, Ideal.Quotient.mk P.asIdeal b = a → b ∉ P.asIdeal := fun {b a} e hb =>
+    a.ne_zero (e ▸ Ideal.Quotient.eq_zero_iff_mem.2 hb)
+  have h0 : ∀ {b : 𝓞 D.host.E}, b ∉ P.asIdeal → (b : D.host.E) ≠ 0 := fun {b} hb e =>
+    hb ((RingOfIntegers.coe_eq_zero_iff.1 e) ▸ zero_mem _)
+  have h1 : ∀ {b : 𝓞 D.host.E}, b ∉ P.asIdeal → P.valuation D.host.E (b : D.host.E) = 1 := fun {b} hb =>
+    le_antisymm (HeightOneSpectrum.valuation_le_one _ _)
+      (not_lt.1 fun h => hb ((HeightOneSpectrum.valuation_lt_one_iff_mem _ _).1 h))
+  let f : (kP P)ˣ → ℂˣ := fun a => χ.locK P (Units.mk0 _ (h0 (hn (hr a))))
+  have hf : ∀ (a : (kP P)ˣ) (b : 𝓞 D.host.E) (x : D.host.Eˣ), (x : D.host.E) = b → Ideal.Quotient.mk P.asIdeal b = a →
+      f a = χ.locK P x := fun a b x hx hb => by
+    rw [GlobalTheory.NormOneUnit.locK_tame ht (y := Units.mk0 _ (h0 (hn (hr a)))) (h1 (hn (hr a)))]
+    rw [hx]
+    exact (HeightOneSpectrum.valuation_lt_one_iff_mem P (b - r a)).2 (Ideal.Quotient.eq.1 (hb.trans (hr a).symm))
+  refine ⟨MonoidHom.mk' f fun a a' => ?_, fun b k u hk hu => hf u b k hk hu.symm⟩
+  rw [hf _ (r a * r a') (Units.mk0 _ (h0 (hn (hr a))) * Units.mk0 _ (h0 (hn (hr a')))) rfl
+    (by rw [map_mul, hr, hr, Units.val_mul]), map_mul]
 
 end Places
 
@@ -779,7 +777,7 @@ theorem twLev_of_conj {R : RealDat D A Ks} (hL : R.toLevCh.Is A.μ0) (hF : R.IsF
     have hne : cP P' ≠ P' := fun e => (hL.Q_pl t P' h).2 P' h ((isConjPl_iff _ _).2 e.symm)
     rcases e with rfl | rfl
     · exact ⟨P, h, fun _ => Iff.rfl, fun _ => Iff.rfl, rfl, hne⟩
-    · exact ⟨P', h, nat_mem_cP P', nat_mem_sq_cP P', card_cP P', by rw [cP_cP]; exact hne.symm⟩
+    · exact ⟨P', h, GlobalTheory.StdFrames.natCast_mem_cP P', nat_mem_sq_cP P', card_cP P', by rw [cP_cP]; exact hne.symm⟩
   refine ⟨xiR, h1, h2, h3, h4, fun P hP => ⟨?_, fun P' hP' hc' => ?_⟩, fun P hP => ?_, fun p hp => ?_, fun P => ?_,
     fun P _ => hxiR P, fun P hP => ?_, fun i P hP => ?_, fun P hP P' hP' => hch.one P (hQ P hP) P' (hQ P' hP'), fun P hP => ?_⟩
   · obtain ⟨P', h, -, e2, e3, -⟩ := kn P hP
@@ -994,11 +992,6 @@ theorem twLev_pow (hm : RecTies p) (hF : p.R.toRealDat.IsFam) (hG : QGuard p.R.t
 end Point
 
 end GlobalTheory.BigOn.Exp.TwConj.LevAt
-
-namespace GlobalTheory.BigOn.Exp.TwConj
-
-
-end GlobalTheory.BigOn.Exp.TwConj
 end -- clump:auto
 end -- clump:auto
 end -- clump:auto
@@ -1012,7 +1005,6 @@ section -- clump:auto
 
 
 section
-set_option autoImplicit false
 noncomputable section
 open NumberField IsDedekindDomain
 open Formalism.BasicNotions Formalism.MainNotions Formalism.MainNotions.DIV.Cons Formalism.L2.Pj Formalism.L2.DIV Formalism.L2.Indef Formalism.L2.Indef.Tree Formalism.IndefR Formalism.IndefR.Links Formalism.IndefR.Cx
@@ -1022,24 +1014,6 @@ open GlobalTheory.BigOn.Exp.TwConj GlobalTheory.IdemSupport
 open Formalism.L2.Host (HChar IsDelta IsPsi)
 
 
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
-namespace GlobalTheory.BigOn.Exp.TwConj.LevAt
-section Places
-variable {D : D7}
-end Places
-section Transfer
-variable {D : D7} {G : Type} [Group G] [Fintype G] {Pl0 T0 : Type} {A : FamIn D.what₂.LL G Pl0 T0 D.R.m}
-  {Ks : Type} [Field Ks] [NumberField Ks] [Algebra Ks D.what₂.LL]
-end Transfer
-section Chars
-variable {D : D7}
-variable {q l : ℕ} {δ ψ : HChar D.host.E} {Q : Finset (Pl D.host.E)}
-end Chars
-section Point
-variable {D : D7} {L : SizeData₂ D} {hT : GatTies D} {Gi : Formalism.MainNotions.G.Inst D L} {Gl : Formalism.MainNotions.G.LatInst D} {Kc : Formalism.MainNotions.G.Consts}
-  {Y : DivX D} {cX : ExtraC} {ex : Extra D L hT Gi Gl Kc Y cX} {Csz : ℝ} {p : PtAt ex Csz} {w : D.what₂.places.Pl}
-end Point
-end GlobalTheory.BigOn.Exp.TwConj.LevAt
 namespace GlobalTheory.BigOn.Exp.TwConj
 open LevAt in
 theorem twLevAt_holds_alt : GlobalTheory.Published.CuspRapidDecay → GlobalTheory.Published.GlobalArtinReciprocity → GlobalTheory.Published.RayClassFieldSt → _root_.GlobalTheory.BigOn.Exp.TwAdmAlt → _root_.GlobalTheory.BigOn.Exp.TwistCharacter →
@@ -1093,7 +1067,6 @@ section -- clump:auto
 
 
 section
-set_option autoImplicit false
 noncomputable section
 open NumberField IsDedekindDomain
 open Formalism.BasicNotions Formalism.MainNotions Formalism.MainNotions.DIV.Cons Formalism.L2.Pj Formalism.L2.DIV Formalism.L2.Indef Formalism.L2.Indef.Tree Formalism.IndefR Formalism.IndefR.Links Formalism.IndefR.Cx
@@ -1102,7 +1075,6 @@ open GlobalTheory.BigOn GlobalTheory.BigOn.Exp Formalism.L2.Theta GlobalTheory.E
 open scoped TensorProduct
 
 
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 namespace GlobalTheory.BigOn.Exp.TwConj
 open Classical in
 theorem tupAt_alt (h1 : GlobalTheory.Published.CuspRapidDecay) (h2 : GlobalTheory.Published.GlobalArtinReciprocity) (h3 : GlobalTheory.Published.RayClassFieldSt)
@@ -1128,7 +1100,7 @@ theorem tupAt_alt (h1 : GlobalTheory.Published.CuspRapidDecay) (h2 : GlobalTheor
     obtain ⟨𝔭, h𝔭, h𝔭'⟩ := hT0.Q_de q hq
     exact ⟨𝔭, h𝔭, fun n => (hQn n).symm ▸ h𝔭'⟩
   rcases hd with hd | hd
-  · obtain ⟨T', A', R', F', v', O', hL', hE', htup⟩ := GlobalTheory.T.realisation_extends_by_newTuples_keeping_laws h1 h2 h3 h4 h5 p.T R0 F0 p.κ v0 O0 (phs p) j _ p.host hL0 Bool
+  · obtain ⟨T', A', R', F', v', O', hL', hE', htup⟩ := _root_.GlobalTheory.TupExt.extend_tuples h1 h2 h3 h4 h5 p.T R0 F0 p.κ v0 O0 (phs p) j _ p.host hL0 Bool
       (fun b => if b then χ' else χ)
       (fun b => if b then (baseW (Fm.ex x hx i) w j ρ).de.chi * (twW (Fm.ex x hx i) w ρ').chi
         else (baseW (Fm.ex x hx i) w j ρ).de.chi * (twW (Fm.ex x hx i) w ρ).chi)
@@ -1147,7 +1119,7 @@ theorem tupAt_alt (h1 : GlobalTheory.Published.CuspRapidDecay) (h2 : GlobalTheor
     obtain ⟨t, ht1, ht2⟩ := htup false
     obtain ⟨t', ht1', ht2'⟩ := htup true
     exact hasTuples_of_laws hL' (hE0.trans hE') (t := t) (t' := t') ⟨ht1, ht2⟩ ⟨ht1', ht2'⟩
-  · obtain ⟨T', A', R', F', v', O', hL', hE', htup⟩ := GlobalTheory.T.realisation_extends_by_newTuples_keeping_laws h1 h2 h3 h4 h5 p.T R0 F0 p.κ v0 O0 (phs p) j _ p.host hL0 Unit
+  · obtain ⟨T', A', R', F', v', O', hL', hE', htup⟩ := _root_.GlobalTheory.TupExt.extend_tuples h1 h2 h3 h4 h5 p.T R0 F0 p.κ v0 O0 (phs p) j _ p.host hL0 Unit
       (fun _ => χ) (fun _ => (baseW (Fm.ex x hx i) w j ρ).de.chi * (twW (Fm.ex x hx i) w ρ).chi)
       (fun _ => (baseW (Fm.ex x hx i) w j ρ).de.Q ∪ (twW (Fm.ex x hx i) w ρ).Q) (fun _ => xiR)
       (fun _ => hT0) (fun _ _ _ => rfl) (fun _ t => by rw [hxi0]; exact hne) (hQde Unit _ fun _ => rfl)
@@ -1179,7 +1151,6 @@ section -- clump:auto
 
 
 section
-set_option autoImplicit false
 noncomputable section
 open NumberField IsDedekindDomain
 open Formalism.BasicNotions Formalism.MainNotions Formalism.MainNotions.DIV.Cons Formalism.L2.Pj Formalism.L2.DIV Formalism.L2.Indef Formalism.L2.Indef.Tree Formalism.IndefR Formalism.IndefR.Links Formalism.IndefR.Cx
@@ -1188,7 +1159,6 @@ open GlobalTheory.BigOn GlobalTheory.BigOn.Exp Formalism.L2.Theta GlobalTheory.E
 open scoped TensorProduct
 
 
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 namespace GlobalTheory.BigOn.Exp.TwConj
 open GlobalTheory.ConjTwist
 theorem normAt_alt : _root_.GlobalTheory.BigOn.Exp.TwConj.NormCondition := _root_.GlobalTheory.BigOn.Exp.TwistConditions.of_forall fun _ _ _ _ p _ _ _ _ _ B ν ν' ⟨_, c, hc, n, hn, hνn⟩ ⟨_, c', hc', m, hm, hνm⟩ => by

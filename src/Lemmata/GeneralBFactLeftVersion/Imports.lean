@@ -1,7 +1,7 @@
 module
 
-public import Formalism.SharpRestriction.GrowthBounds.ObjPol
 import Lemmata.GeneralBFactAltForm.Imports
+public import Formalism.SharpRestriction.GrowthBounds.ObjPol
 
 @[expose] public section
 
@@ -14,8 +14,10 @@ theorem goal1
     [inst_5 : IsScalarTower O (KK O) V] (M : Submodule O V) :
     MQ (K := KK O) M = ⊤ → ∀ x : V, ∃ a : O, a ≠ 0 ∧ a • x ∈ M := by
   intro hM x
-  exact Bl.general_b_fact_alt_form.goal1 (F := KK O) M (by
+  have hx : x ∈ Submodule.span (KK O) (M : Set V) := by
     change x ∈ MQ (K := KK O) M
-    simp [hM])
+    rw [hM]
+    exact Submodule.mem_top
+  exact Bl.general_b_fact_alt_form.goal1 M hx
 
 end Bl.general_b_fact_left_version

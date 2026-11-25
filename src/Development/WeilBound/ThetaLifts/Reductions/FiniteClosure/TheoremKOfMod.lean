@@ -26,54 +26,9 @@ public import Development.WeilBound.ThetaLifts.SphericalLattices.HoweDuality
 public import Development.WeilBound.ThetaLifts.SphericalLattices.ModSt2
 public import Development.WeilBound.ThetaLifts.SphericalLattices.SphericalClosure.CloseSph
 public import Development.WeilBound.ThetaLifts.SphericalSplitting.SphSplitGeo
-import Mathlib.Algebra.Order.Archimedean.Real.Hom
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Matrix.Normed
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.LinearAlgebra.Matrix.FiniteDimensional
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.HaveILetI
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Topology.Sheaves.Init
 import Development.WeilBound.ThetaLifts.CartanFactorisation.ExistsCharNe
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
 import Development.WeilBound.ThetaLifts.Reductions.SiegelOfCore
 
 -- This file was produced by scripts/clump.py from the modules listed below.
@@ -113,10 +68,10 @@ theorem exists_sp (s : ℝ → (l ⊕ l → ℝ) →ₗ[ℝ] (l ⊕ l → ℝ))
     rw [hsJ, hsJ, neg_inj, ← LinearMap.toMatrix'_mulVec (s t), ← LinearMap.toMatrix'_mulVec (s t)] at h
     rw [hent ((LinearMap.toMatrix' (s t))ᵀ * Matrix.J l ℝ * LinearMap.toMatrix' (s t)) i j, hent (Matrix.J l ℝ) i j, ← h, ← Matrix.mulVec_mulVec, ← Matrix.mulVec_mulVec, Matrix.dotProduct_mulVec,
       Matrix.vecMul_transpose]
-  letI : NormedAddCommGroup (Matrix (l ⊕ l) (l ⊕ l) ℝ) := Matrix.linftyOpNormedAddCommGroup
-  letI : NormedSpace ℝ (Matrix (l ⊕ l) (l ⊕ l) ℝ) := Matrix.linftyOpNormedSpace
-  letI : NormedRing (Matrix (l ⊕ l) (l ⊕ l) ℝ) := Matrix.linftyOpNormedRing
-  letI : NormedAlgebra ℝ (Matrix (l ⊕ l) (l ⊕ l) ℝ) := Matrix.linftyOpNormedAlgebra
+  let : NormedAddCommGroup (Matrix (l ⊕ l) (l ⊕ l) ℝ) := Matrix.linftyOpNormedAddCommGroup
+  let : NormedSpace ℝ (Matrix (l ⊕ l) (l ⊕ l) ℝ) := Matrix.linftyOpNormedSpace
+  let : NormedRing (Matrix (l ⊕ l) (l ⊕ l) ℝ) := Matrix.linftyOpNormedRing
+  let : NormedAlgebra ℝ (Matrix (l ⊕ l) (l ⊕ l) ℝ) := Matrix.linftyOpNormedAlgebra
   let Φ : ℝ → Matrix (l ⊕ l) (l ⊕ l) ℝ := fun t => LinearMap.toMatrix' (s t)
   have hΦw : ∀ t w, s t w = Φ t *ᵥ w := fun t w => (LinearMap.toMatrix'_mulVec (s t) w).symm
   have hΦc : Continuous Φ := by
@@ -133,7 +88,7 @@ theorem exists_sp (s : ℝ → (l ⊕ l → ℝ) →ₗ[ℝ] (l ⊕ l → ℝ))
     intro t u
     have : s (t + u) = (s t).comp (s u) := LinearMap.ext fun w => sm t u w
     simp only [Φ, this, LinearMap.toMatrix'_comp]
-  haveI : CompleteSpace (Matrix (l ⊕ l) (l ⊕ l) ℝ) := FiniteDimensional.complete ℝ _
+  have : CompleteSpace (Matrix (l ⊕ l) (l ⊕ l) ℝ) := FiniteDimensional.complete ℝ _
   let G : ℝ → Matrix (l ⊕ l) (l ⊕ l) ℝ := fun x => ∫ u in (0 : ℝ)..x, Φ u
   have hG : ∀ x, HasDerivAt G (Φ x) x := fun x => (hΦc.integral_hasStrictDerivAt 0 x).hasDerivAt
   have hslope : Filter.Tendsto (fun h : ℝ => h⁻¹ • G h) (nhdsWithin 0 {0}ᶜ) (nhds 1) := by
@@ -189,7 +144,7 @@ theorem exists_sp (s : ℝ → (l ⊕ l → ℝ) →ₗ[ℝ] (l ⊕ l → ℝ))
       exact h1.congr_deriv (by rw [mul_neg, mul_assoc, add_neg_cancel])
     have hc := is_const_of_deriv_eq_zero (fun x => (hd x).differentiableAt) (fun x => (hd x).deriv) t 0
     rw [hc, hΦ0, neg_zero, zero_smul, NormedSpace.exp_zero, one_mul]
-  letI : NormedAlgebra ℚ (Matrix (l ⊕ l) (l ⊕ l) ℝ) :=
+  let : NormedAlgebra ℚ (Matrix (l ⊕ l) (l ⊕ l) ℝ) :=
     { (inferInstance : Algebra ℚ (Matrix (l ⊕ l) (l ⊕ l) ℝ)) with
       norm_smul_le := fun q M => by
         rw [← Rat.cast_smul_eq_qsmul ℝ q M, norm_smul, Rat.norm_cast_real] }
@@ -377,8 +332,8 @@ theorem archLie' (hL : LocalLift) : PositivityTheory.ThKF.ArchLie := by
     refine C.P.symm.toLinearMap.continuous_of_finiteDimensional.comp (continuous_infPart2.comp ?_)
     obtain ⟨u, hu⟩ := M.co.e.surjective (mixedSpaceVecPairAsAdeles F (C.P w))
     simp only [← hu, phB_e]
-    haveI : IsTopologicalRing (AE F E) := IsModuleTopology.isTopologicalRing (AF F) (AE F E)
-    haveI : IsModuleTopology (AF F) (Matrix (Fin n) (Fin d) (AE F E)) :=
+    have : IsTopologicalRing (AE F E) := IsModuleTopology.isTopologicalRing (AF F) (AE F E)
+    have : IsModuleTopology (AF F) (Matrix (Fin n) (Fin d) (AE F E)) :=
       inferInstanceAs (IsModuleTopology (AF F) (Fin n → Fin d → AE F E))
     refine (IsModuleTopology.continuous_of_linearMap M.co.e.toLinearMap).comp ?_
     exact ((Units.continuous_val.comp (continuous_subtype_val.comp (continuous_fst.comp xc))).matrix_mul
@@ -562,8 +517,8 @@ theorem finAt_sph {ω ρ ω' ρ'} (L : IsLocRep G.M B.ψ om v ω ρ) (L' : IsLoc
     { Pi := fun _ => S
       p := fun u => if h : v = u then h ▸ (π ∘ₗ c) else 0
       p' := fun u => if h : v = u then h ▸ (π ∘ₗ c') else 0 }
-  have e : R.p v = π ∘ₗ c := dif_pos rfl
-  have e' : R.p' v = π ∘ₗ c' := dif_pos rfl
+  have e : R.p v = π ∘ₗ c := dite_eq_left rfl
+  have e' : R.p' v = π ∘ₗ c' := dite_eq_left rfl
   have hx : ∀ x : S, π x.1 = x := fun x => hπ' x.1 x.2
   have on : ∀ x : S, ∃ φ ∈ SB _, c φ = x := fun x => (mS.symm ▸ x.2 : x.1 ∈ (SB _).map c)
   have on' : ∀ x : S, ∃ φ ∈ SB _, c' φ = x := fun x => (mS'.symm ▸ x.2 : x.1 ∈ (SB _).map c')
@@ -572,10 +527,11 @@ theorem finAt_sph {ω ρ ω' ρ'} (L : IsLocRep G.M B.ψ om v ω ρ) (L' : IsLoc
   have Ω0 : c (G.M.vac v) ≠ 0 := fun h => by
     have := congrFun h 1; rw [Ω1] at this; exact one_ne_zero this
   have hne : π (c (G.M.vac v)) ≠ 0 := fun h => Ω0 (inj _ ΩS 0 S.zero_mem (h.trans (map_zero π).symm))
-  have hsurj : (SB _).map (π ∘ₗ c) = ⊤ := eq_top_iff.mpr fun x _ => by
+  refine ⟨R, ?_, ?_, ?_, ?_, ?_, ⟨_, _, hne⟩, ?_, fun _ => ?_, fun _ h => absurd h hv⟩
+  · rw [e, eq_top_iff]
+    intro x _
     obtain ⟨φ, hφ, h⟩ := on x
     exact ⟨φ, hφ, by rw [LinearMap.comp_apply, h, hx]⟩
-  refine ⟨R, e.symm ▸ hsurj, ?_, ?_, ?_, ?_, ⟨_, _, hne⟩, ?_, fun _ => ?_, fun _ h => absurd h hv⟩
   · rw [e', eq_top_iff]
     intro x _
     obtain ⟨φ, hφ, h⟩ := on' x
@@ -615,16 +571,21 @@ theorem finAt_sph {ω ρ ω' ρ'} (L : IsLocRep G.M B.ψ om v ω ρ) (L' : IsLoc
     rw [h4, map_smul] at h3
     have hv0 : π (c (G.M.vac v)) ∈ N := by
       have := N.smul_mem cc⁻¹ h3; rwa [smul_smul, inv_mul_cancel₀ hcc, one_smul] at this
-    apply eq_top_iff.mpr
-    rw [← hsurj, Submodule.map_le_iff_le_comap]
-    refine le_trans V1.gen ?_
-    refine sup_le ?_ (Submodule.span_le.mpr ?_)
-    · intro χ hχ
-      change π (c χ) ∈ N
-      rw [hc, (LinearMap.mem_ker.mp (coef_aug L hl.aug hχ)), map_zero]
-      exact N.zero_mem
-    · rintro _ ⟨g, hg, rfl⟩
-      exact step g hg _ hs hv0
+    have hall : ∀ g ∈ UAt σ G.W (evFin F v), π (c (ω (1, g) (G.M.vac v))) ∈ N := fun g hg => step g hg _ hs hv0
+    rw [eq_top_iff]
+    intro x _
+    have hle : S ≤ N.map S.subtype := by
+      change transl (c (G.M.vac v)) v ≤ _
+      refine Submodule.span_le.2 ?_
+      rintro _ ⟨g, hg, rfl⟩
+      have hmem : c (ω (1, g) (G.M.vac v)) ∈ S := mc _ (L.pres 1 o1 g hg _ hs)
+      refine ⟨_, hall g hg, ?_⟩
+      rw [hπ' _ hmem]
+      change c (ω (1, g) (G.M.vac v)) = _
+      rw [hc, coef_transl L hg hs]
+    obtain ⟨z, hz, hzx⟩ := hle x.2
+    have : z = x := Subtype.ext hzx
+    exact this ▸ hz
   · rw [e, e']
     refine ⟨by rw [LinearMap.comp_apply, LinearMap.comp_apply, eΩ], hne⟩
 

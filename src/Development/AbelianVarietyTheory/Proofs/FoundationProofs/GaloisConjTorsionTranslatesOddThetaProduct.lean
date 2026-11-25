@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.FoundationProofs.IntertwinerSelfDualVacuumIsVacuum
 public import Formalism.SharpRestriction.GlobalSchurBounds.StandardLatticesGL3
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsIntegerMapEqHalfOneAddSqrt
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.GalStarComplexMultiplicationPoints
@@ -318,7 +317,7 @@ theorem OddLaw.ee_eq_one {Λ : AddSubgroup ℂ} {g : ℂ → ℂ} (h : OddLaw Λ
   have hne : (if a / 2 ∈ Λ then (1 : ℂ) else -1) ≠ 0 := by split_ifs <;> simp
   rw [funext (h.2 a ha), thetaTranslation_const_mul, h.2 _ (Λ.add_mem h2 ha)] at e1
   simp only at e1
-  rw [h.2 _ h2, show 2 * b / 2 = b by ring, if_pos hb, show (2 * b + a) / 2 = b + a / 2 by ring] at e1
+  rw [h.2 _ h2, show 2 * b / 2 = b by ring, ite_eq_left hb, show (2 * b + a) / 2 = b + a / 2 by ring] at e1
   simp only [Λ.add_mem_cancel_left hb, one_mul] at e1
   exact (mul_right_cancel₀ (mul_ne_zero hne hz) (by rw [one_mul]; exact e1)).symm
 
@@ -330,7 +329,7 @@ theorem OddLaw.doubleTranslate_shift_lattice_mod_two_mul {Λ : AddSubgroup ℂ} 
     rw [mul_assoc, two_mul]; exact Λ.add_mem hmμ hmμ
   have hω : U1 Λ (2 * m * μ) g = g := by
     funext z
-    rw [h.2 _ h2, show (2 * m * μ : ℂ) / 2 = m * μ by ring, if_pos hmμ, one_mul]
+    rw [h.2 _ h2, show (2 * m * μ : ℂ) / 2 = m * μ by ring, ite_eq_left hmμ, one_mul]
   have e1 := thetaTranslation_comp_eq_cocycle_mul Λ (x + t) (2 * m * μ) g
   have f1 : gl3FieldFirst Λ (2 * m * μ) ((x + t) / 2) = gl3FieldFirst Λ μ (m * x + m * t) := by
     have a1 := riemannFormImag_real_smul_left Λ (2 * m) μ ((x + t) / 2)
@@ -353,7 +352,7 @@ noncomputable def topHom (s : ℂ →+* ℂ) : (⊤ : IntermediateField ℚ ℂ)
   s.toRatAlgHom.comp (IntermediateField.val ⊤)
 
 theorem cj_topHom (s : ℂ →+* ℂ) (x : ℂ) : cj ⊤ (topHom s) x = s x := by
-  simp only [cj, TaylorLogMetric.liftM, IntermediateField.mem_top, dif_pos]
+  simp only [cj, TaylorLogMetric.liftM, IntermediateField.mem_top, dite_eq_left]
   rfl
 
 section GenusOne
@@ -465,8 +464,19 @@ theorem coordL_coordV (j : Fin r) (k : D.what₂.Tau × Fin N' × Fin N) :
 theorem Hf_sum (z : VC D N N') (c : Fin r → ℂ) :
     Hf D T z (∑ j, c j • embV D T (b j)) =
       ∑ j, coordB D T b j z * (starRingEnd ℂ) (c j) / (area T.abelian₂ : ℂ) := by
-  intros
-  apply _root_.GlobalTheory.VacuumMove.Hf_sum <;> assumption
+  rw [Hf, ← Finset.sum_div]
+  congr 1
+
+  simp only [coordB, Finset.sum_apply, Pi.smul_apply, smul_eq_mul, map_sum, map_mul, embV,
+  Finset.mul_sum, Finset.sum_mul]
+  symm
+  rw [Finset.sum_comm]
+  refine Finset.sum_congr rfl fun τ _ => ?_
+  rw [Finset.sum_comm]
+  refine Finset.sum_congr rfl fun i _ => ?_
+  rw [Finset.sum_comm]
+  refine Finset.sum_congr rfl fun k _ => Finset.sum_congr rfl fun j _ => ?_
+  ring
 
 variable {T b} (hT : ∀ i j, coordB D T b j (embV D T (b i)) = if i = j then 1 else 0)
 include hT
@@ -505,8 +515,22 @@ theorem wdPh_sum (c : Fin r → ℂ) :
 omit hT in
 theorem exists_of_mem_LaB {x : VC D N N'} (hx : x ∈ LaB D T b) :
     ∃ w : Fin r → ℂ, (∀ j, w j ∈ T.abelian₂) ∧ x = ∑ j, w j • embV D T (b j) := by
-  intros
-  apply _root_.GlobalTheory.VacuumMove.exists_coords <;> assumption
+  induction hx using AddSubgroup.closure_induction with
+  | mem z hz =>
+    obtain ⟨w, hw, j, rfl⟩ := hz
+    refine ⟨Pi.single j w, fun i => ?_, ?_⟩
+    · rw [Pi.single_apply]
+      split_ifs
+      exacts [hw, T.abelian₂.zero_mem]
+    · simp [Pi.single_apply, ite_smul]
+  | zero => exact ⟨0, fun _ => T.abelian₂.zero_mem, by simp⟩
+  | add x y _ _ hx hy =>
+    obtain ⟨w, hw, rfl⟩ := hx
+    obtain ⟨v, hv, rfl⟩ := hy
+    exact ⟨w + v, fun j => T.abelian₂.add_mem (hw j) (hv j), by simp [add_smul, Finset.sum_add_distrib]⟩
+  | neg x _ hx =>
+    obtain ⟨w, hw, rfl⟩ := hx
+    exact ⟨-w, fun j => T.abelian₂.neg_mem (hw j), by simp⟩
 
 omit hT in
 theorem exists_of_nsmul_mem_LaB {x : VC D N N'} {m : ℕ} (hm : 0 < m) (hx : m • x ∈ LaB D T b) :

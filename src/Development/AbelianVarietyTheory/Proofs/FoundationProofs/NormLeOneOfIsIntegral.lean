@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.FoundationProofs.IsQuotientMapToGSProd
 public import Development.AbelianVarietyTheory.Definitions.Foundations.FinalTheorems
 import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.LengthCyclotomicBlockCocyclesLeSha
 import Mathlib.Algebra.GroupWithZero.Submonoid.CancelMulZero
@@ -65,7 +64,15 @@ theorem norm_le_one (c : Coef l) (x : c.O) : ‖(x : PadicAlgCl l)‖ ≤ 1 :=
     ((isIntegral_algHom_iff c.O.val Subtype.val_injective).2 (Algebra.IsIntegral.isIntegral x))
 
 theorem norm_unit (c : Coef l) (u : c.Oˣ) : ‖((u : c.O) : PadicAlgCl l)‖ = 1 := by
-  apply _root_.GlobalTheory.Ord2.Rec.norm_unit_eq_one <;> assumption
+  have h1 := norm_le_one c u
+  have h2 := norm_le_one c (↑u⁻¹ : c.O)
+  have h3 : ((u : c.O) : PadicAlgCl l) * ((↑u⁻¹ : c.O) : PadicAlgCl l) = 1 := by
+    rw [← Subalgebra.coe_mul, Units.mul_inv]; rfl
+  have h4 := congrArg norm h3
+  rw [norm_mul, norm_one] at h4
+  have h5 : ‖((u : c.O) : PadicAlgCl l)‖ * ‖((↑u⁻¹ : c.O) : PadicAlgCl l)‖ ≤ ‖((u : c.O) : PadicAlgCl l)‖ :=
+    mul_le_of_le_one_right (norm_nonneg _) h2
+  linarith
 
 theorem norm_algebraMap_padicInt (a : ℤ_[l]) : ‖algebraMap ℤ_[l] (PadicAlgCl l) a‖ = ‖a‖ := by
   show ‖algebraMap ℚ_[l] (PadicAlgCl l) (a : ℚ_[l])‖ = ‖a‖
@@ -144,7 +151,7 @@ theorem coord_mod_pow : ∀ (l : ℕ) [Fact l.Prime] (c : Coef l) (m : ℕ), ∃
   let crd : Qbar l → Module.Free.ChooseBasisIndex ℤ_[l] c.O → ZMod (l ^ m) := fun x i =>
     if hx : x ∈ c.O then PadicInt.toZModPow m (b.repr ⟨x, hx⟩ i) else 0
   have hcrd : ∀ (x : Qbar l) (hx : x ∈ c.O) i, crd x i = PadicInt.toZModPow m (b.repr ⟨x, hx⟩ i) :=
-    fun x hx i => dif_pos hx
+    fun x hx i => dite_eq_left hx
   have hkill : ∀ x ∈ c.O, Cg m x 0 → crd x = 0 := by
     intro x hx h
     unfold Cg at h

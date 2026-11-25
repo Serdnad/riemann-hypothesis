@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.FlagMeasures.SplitTermWeightLeNearReferenceLattice
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.IdxEqRelIndex
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.CharacterTrivialAtInertPrimes
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.AbsNormCmPrimeInertPrimeSign
@@ -337,7 +336,7 @@ theorem sum_char {G : Type} [AddCommGroup G] [Fintype G] (f : G → ℂ) (h0 : f
     ∑ a, f a = if ∀ a, f a = 1 then (Nat.card G : ℂ) else 0 := by
   split_ifs with hf
   · simp [hf]
-  · push_neg at hf
+  · push Not at hf
     obtain ⟨a, ha⟩ := hf
     have e : ∑ b, f b = f a * ∑ b, f b := by
       rw [Finset.mul_sum, ← Equiv.sum_comp (Equiv.addLeft a)]
@@ -399,7 +398,7 @@ theorem card_mul_card_orth [Finite M] (hc : ∀ x y, β x y = β y x) (hz : ∀ 
     rw [Finset.sum_eq_single (0 : X)]
     · simp [hc _ 0, hz]
     · intro x _ hx
-      rw [sum_char (fun y => β y x) (hz _) (fun a b => h2 _ _ _), if_neg]
+      rw [sum_char (fun y => β y x) (hz _) (fun a b => h2 _ _ _), ite_eq_right]
       intro h
       exact hx (Subtype.ext (h4 _ fun y => by rw [hc]; exact h y))
     · simp
@@ -622,7 +621,7 @@ theorem gauss_sign {R : Type} [CommRing R] (σ : R →+* R) (hσ : ∀ a, σ (σ
     rw [e, e', c, ← Nat.card_prod, smul, Nat.card_prod, smul, ← mul_assoc (s _), ssq]
     push_cast
     ring
-  · push_neg at hφ
+  · push Not at hφ
     obtain ⟨x, hxX, hx1⟩ := hφ
     have hx0 : x ≠ 0 := by rintro rfl; exact hx1 (phi_zero h0 h1 h2)
     let f := LinearMap.toSpanSingleton R M x
@@ -1235,7 +1234,18 @@ namespace GlobalTheory.ThetaLatIndex
 theorem relIndex_pi_const {ι G : Type} [Fintype ι] [AddCommGroup G] (L L' : AddSubgroup G) :
     (AddSubgroup.pi Set.univ fun _ : ι => L').relIndex (AddSubgroup.pi Set.univ fun _ : ι => L) =
       L'.relIndex L ^ Fintype.card ι := by
-  first | exact _root_.GlobalTheory.DegCnt.MidLayer.relIndex_pi_const | exact @_root_.GlobalTheory.DegCnt.MidLayer.relIndex_pi_const | apply _root_.GlobalTheory.DegCnt.MidLayer.relIndex_pi_const <;> assumption
+  let f : (AddSubgroup.pi Set.univ fun _ : ι => L) →+ (ι → L) :=
+    { toFun := fun x i => ⟨x.1 i, x.2 i (Set.mem_univ i)⟩
+      map_zero' := rfl
+      map_add' := fun _ _ => rfl }
+  have hf : Function.Surjective f := fun y => ⟨⟨fun i => y i, fun i _ => (y i).2⟩, rfl⟩
+  have hc : (AddSubgroup.pi Set.univ fun _ : ι => L').addSubgroupOf
+      (AddSubgroup.pi Set.univ fun _ : ι => L) =
+      (AddSubgroup.pi Set.univ fun _ : ι => L'.addSubgroupOf L).comap f := by
+    ext x
+    simp [AddSubgroup.mem_addSubgroupOf, AddSubgroup.mem_pi, f]
+  rw [AddSubgroup.relIndex, hc, AddSubgroup.index_comap_of_surjective _ hf, AddSubgroup.index_pi]
+  simp [AddSubgroup.relIndex]
 
 section General
 

@@ -57,8 +57,6 @@ open scoped TensorProduct
 
 namespace GlobalTheory.WittLow
 
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
-
 section Lin
 
 variable {K V : Type} [Field K] [StarRing K] [AddCommGroup V] [Module K V] [FiniteDimensional K V]

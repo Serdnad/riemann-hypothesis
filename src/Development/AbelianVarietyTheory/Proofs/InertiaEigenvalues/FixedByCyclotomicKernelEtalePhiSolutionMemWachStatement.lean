@@ -214,7 +214,7 @@ private theorem coeff_tail_lemma {O : Type} [CommRing O] (f : ℕ → PowerSerie
     omega
   · intro k _ hk
     simp only [Finset.mem_range, not_lt] at hk
-    rw [PowerSeries.coeff_X_pow_mul', if_neg (by omega)]
+    rw [PowerSeries.coeff_X_pow_mul', ite_eq_right (by omega)]
 
 variable {O : Type} [CommRing O] {n : ℕ}
 
@@ -653,7 +653,7 @@ theorem mem_fixSub_iff (x : RW LL) :
 theorem vec (hG : Good K s LL) (I : IoS AI R) (hW : IoW I) (d : ℕ) (Pm : Matrix (Fin d) (Fin d) R.EE)
     (z : Fin d → RW LL) (hz : ∀ i, FixH AI K (z i))
     (h : ∀ i, ∃ e, ∑ k, I.ioE (Pm i k) * φRW LL (z k) - z i = I.ioE e) : ∀ i, ∃ e, z i = I.ioE e := by
-  obtain ⟨hinj, -, hs, -⟩ := GlobalTheory.IoInj.ioE_injective_saturated_inter l P AI K s LL hG Γ R I hW
+  obtain ⟨hinj, -, hs, -⟩ := GlobalTheory.IoInj.ioE_injective_saturated_inter l P AI K s LL Γ R I
   obtain ⟨f1, f2, f3⟩ := FixL.fixSub_ladic l P AI LL {g | g ∈ GK K ∧ P.χQ g = 1}
   obtain ⟨p1, p2, -, -⟩ := GlobalTheory.DecomplFrob.frobenius_and_constants l P AI LL s
   obtain ⟨l1, l2, -⟩ := LAdic.ladic_RW l LL
@@ -707,7 +707,16 @@ theorem _root_.GlobalTheory.T.fixedByCyclotomicKernel_etalePhi_solution_mem_wach
         (A.map I.ioE) (U.map (φRW LL)) =
         HMul.hMul (α := Matrix (Fin p) (Fin q) (RW LL)) (β := Matrix (Fin q) (Fin q) (RW LL))
           U (A'.map I.ioE) + Y.map I.ioE → ∀ i j, U i j ∈ Set.range I.ioE := by
-  first | exact _root_.GlobalTheory.HWL.Rational.main | exact @_root_.GlobalTheory.HWL.Rational.main | apply _root_.GlobalTheory.HWL.Rational.main <;> assumption
+  intro l _ P AI K s LL hG Γ R I hW p q A A' Y U _ hA' hU h i j
+  obtain ⟨C, hC⟩ := hA'.exists_right_inv
+  let σ := (finProdFinEquiv : Fin p × Fin q ≃ Fin (p * q)).symm
+  obtain ⟨e, he⟩ := GlobalTheory.HWL.Rational.vec hG I hW (p * q)
+    (fun a b => A (σ a).1 (σ b).1 * C (σ b).2 (σ a).2)
+    (fun a => U (σ a).1 (σ a).2) (fun a => hU _ _) (fun a => ⟨_,
+      GlobalTheory.HWL.Rational.matrix_eq (I.ioE : R.EE →+* RW LL) (φRW LL : RW LL →+* RW LL)
+        A A' C Y U hC h σ a⟩) (σ.symm (i, j))
+  rw [σ.apply_symm_apply] at he
+  exact ⟨e, he.symm⟩
 end -- clump:auto
 end -- clump:auto
 -- ===== end clump member: Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.FixedByCyclotomicKernelEtalePhiSolutionMemWachStatement =====

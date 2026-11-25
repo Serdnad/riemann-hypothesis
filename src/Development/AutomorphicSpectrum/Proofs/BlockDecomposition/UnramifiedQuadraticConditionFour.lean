@@ -1,49 +1,9 @@
 module
 
 public import Development.WeilBound.CoreStatements.AutomorphicKernels.SiegelWeilFormula.UnramifiedWhittaker.QuadAtOf
-import Mathlib.Algebra.Module.StablyFree.Basic
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.HaveILetI
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Tactic.TypeStar
-import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
-import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.DisjointSpanPerpLat
 
 @[expose] public section
 
@@ -79,7 +39,22 @@ theorem conj_conj (h : IsCMExt F E σ) (e : E) : σ (σ e) = e := by
 
 theorem exists_of_conj_eq (h : IsCMExt F E σ) (e : E) (he : σ e = e) :
     ∃ f, algebraMap F E f = e := by
-  apply _root_.GlobalTheory.SelfDualLatticeCompare.exists_of_conj_eq <;> assumption
+  haveI := Subalgebra.isSimpleOrder_of_finrank h.2.2.1
+  rcases eq_bot_or_eq_top (AlgHom.equalizer σ (AlgHom.id F E)) with h0 | h0
+  · have : e ∈ AlgHom.equalizer σ (AlgHom.id F E) := he
+    rw [h0, Algebra.mem_bot] at this
+    exact this
+  · exfalso
+    obtain ⟨τ⟩ : Nonempty (E →+* ℂ) := inferInstance
+    haveI := h.2.1
+    refine IsTotallyComplex.complexEmbedding_not_isReal τ ?_
+    rw [ComplexEmbedding.isReal_iff]
+    ext x
+    have hx : x ∈ AlgHom.equalizer σ (AlgHom.id F E) := h0 ▸ Algebra.mem_top
+    have hx' : σ x = x := hx
+    have := h.2.2.2 τ x
+    rw [hx'] at this
+    exact this.symm
 
 theorem trace_field (h : IsCMExt F E σ) (e : E) :
     algebraMap F E (Algebra.trace F E e) = e + σ e := by
@@ -93,7 +68,20 @@ theorem trace_field (h : IsCMExt F E σ) (e : E) :
 
 theorem trace_tensor (R : Type) [CommRing R] [Algebra F R] (h : IsCMExt F E σ) (z : R ⊗[F] E) :
     algebraMap R (R ⊗[F] E) (Algebra.trace R (R ⊗[F] E) z) = z + sigR R σ z := by
-  apply _root_.GlobalTheory.SelfDualLatticeCompare.trace_tensor <;> assumption
+  induction z using TensorProduct.induction_on with
+  | zero => simp
+  | add a b ha hb => simp only [map_add (f := _), ha, hb]; ring
+  | tmul a e =>
+    have h1 : a ⊗ₜ[F] e = a • ((1 : R) ⊗ₜ[F] e) := by
+      rw [TensorProduct.smul_tmul', smul_eq_mul, mul_one]
+    have h3 : Algebra.trace R (R ⊗[F] E) (a ⊗ₜ[F] e) =
+        a * algebraMap F R (Algebra.trace F E e) := by
+      rw [h1, map_smul, Algebra.trace_apply, Algebra.trace_apply, ← Algebra.baseChange_lmul,
+        LinearMap.trace_baseChange, smul_eq_mul]
+    have h4 : sigR R σ (a ⊗ₜ[F] e) = a ⊗ₜ[F] σ e := rfl
+    rw [h3, h4, ← TensorProduct.tmul_add, ← trace_field h, Algebra.TensorProduct.algebraMap_apply,
+      Algebra.algebraMap_self, RingHom.id_apply, mul_comm, ← Algebra.smul_def,
+      TensorProduct.smul_tmul, Algebra.algebraMap_eq_smul_one]
 
 theorem sigR_sigR (R : Type) [CommRing R] [Algebra F R] (h : IsCMExt F E σ) (z : R ⊗[F] E) :
     sigR R σ (sigR R σ z) = z := by

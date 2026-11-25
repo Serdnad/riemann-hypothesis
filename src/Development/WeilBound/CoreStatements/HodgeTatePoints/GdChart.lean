@@ -8,60 +8,8 @@ public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.EigSubEqDiffe
 public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.ExistsDiffGenerator
 public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.TwoMulFinrank
 public import Development.AutomorphicSpectrum.Definitions.CommutativeAlgebra.IsCompactUnitaryPointsAtPlaceFstMemCompact
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Algebra.Order.Star.Real
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.LinearAlgebra.Matrix.FiniteDimensional
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Coalgebra.IsFrobenius
-import Mathlib.RingTheory.Henselian
-import Mathlib.RingTheory.HopfAlgebra.Basic
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.RingTheory.RegularLocalRing.Defs
-import Mathlib.RingTheory.SimpleRing.Principal
-import Mathlib.RingTheory.Valuation.Integral
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.HaveILetI
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Topology.Sheaves.Init
-import Mathlib.RingTheory.PiTensorProduct
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.WeilBound.CoreStatements.HodgeTatePoints.GdDual, Development.WeilBound.CoreStatements.HodgeTatePoints.TorusExtensionPairCorrectionEqValueQuotient, Development.WeilBound.CoreStatements.HodgeTatePoints.GdChart
@@ -182,7 +130,7 @@ private theorem htPoint_exists_smul_mem_T (hv : v.Integers O) (P : HTPoint C O c
         simp at ha
       have hle : v a⁻¹ ≤ 1 := by
         rw [map_inv₀]
-        push_neg at ha
+        push Not at ha
         exact inv_le_one_of_one_le₀ ha.le
       obtain ⟨s, hs⟩ := hv.exists_of_le_one hle
       exact ⟨s, by rw [hs]; exact inv_ne_zero ha0, 1, by rw [hs, map_one, inv_mul_cancel₀ ha0]⟩
@@ -213,8 +161,43 @@ private theorem htPoint_exists_smul_mem_T (hv : v.Integers O) (P : HTPoint C O c
 omit [IsAlgClosed C] [CharZero C] in
 private theorem htPoint_rho_mem_T (P : HTPoint C O c κ N V Ω) (a : 𝓞 E) {z : V} (hz : z ∈ P.T) :
     P.ρ a z ∈ P.T := by
-  intros
-  apply _root_.GlobalTheory.CompanionTheory.Ar.HT.PtBasic.T_stable <;> assumption
+  obtain ⟨B, -, hT⟩ := htPoint_exists_basis_rho_t_span P
+  rw [hT] at hz ⊢
+  set S := Submodule.span O (Set.range fun q : Fin N × Module.Free.ChooseBasisIndex ℤ (𝓞 E) =>
+    P.ρ (RingOfIntegers.basis E q.2) (P.t q.1)) with hS
+  have key : ∀ (m : 𝓞 E) (i : Fin N), P.ρ m (P.t i) ∈ S := by
+    intro m i
+    have hm : m ∈ Submodule.span ℤ (Set.range (RingOfIntegers.basis E)) := by
+      rw [(RingOfIntegers.basis E).span_eq]
+      exact Submodule.mem_top
+    induction hm using Submodule.span_induction with
+    | mem x hx =>
+      obtain ⟨j, rfl⟩ := hx
+      exact Submodule.subset_span ⟨(i, j), rfl⟩
+    | zero =>
+      rw [map_zero, LinearMap.zero_apply]
+      exact S.zero_mem
+    | add x z _ _ hx hz =>
+      rw [map_add (f := _), LinearMap.add_apply]
+      exact S.add_mem hx hz
+    | smul n x _ hx =>
+      simp only [map_zsmul, LinearMap.smul_apply]
+      exact zsmul_mem hx n
+  induction hz using Submodule.span_induction with
+  | mem x hx =>
+    obtain ⟨q, rfl⟩ := hx
+    show P.ρ a (P.ρ (RingOfIntegers.basis E q.2) (P.t q.1)) ∈ S
+    rw [← Module.End.mul_apply, ← map_mul]
+    exact key _ _
+  | zero =>
+    rw [map_zero]
+    exact S.zero_mem
+  | add x y _ _ hx hy =>
+    rw [map_add (f := _)]
+    exact S.add_mem hx hy
+  | smul o x _ hx =>
+    rw [LinearMap.map_smul_of_tower]
+    exact S.smul_mem o hx
 
 theorem exists_alt_bis (hv : v.Integers O) (hc : ∀ x, c (c x) = x) (P : HTPoint C O c κ N V Ω) (σ : E →+* C)
     (f : P.omHT (σ.comp c.toRingHom) →ₗ[O] O) :

@@ -102,8 +102,8 @@ theorem mem_gamma_of_dvd {M N : ℕ} (h : M ∣ N) {δ : SL(2, ℤ)} (hδ : δ �
 theorem exp_val_add (l n : ℕ) [Fact l.Prime] (x y : ZMod (l ^ n)) :
     Complex.exp (2 * Real.pi * Complex.I * (((x + y).val : ℕ) : ℂ) / ((l : ℂ) ^ n)) =
       Complex.exp (2 * Real.pi * Complex.I * ((x.val : ℕ) : ℂ) / ((l : ℂ) ^ n)) *
-        Complex.exp (2 * Real.pi * Complex.I * ((y.val : ℕ) : ℂ) / ((l : ℂ) ^ n)) := by
-  first | exact _root_.GlobalTheory.KZ.H3.KumAdd.exp_val_add_pow | exact @_root_.GlobalTheory.KZ.H3.KumAdd.exp_val_add_pow | apply _root_.GlobalTheory.KZ.H3.KumAdd.exp_val_add_pow <;> assumption
+        Complex.exp (2 * Real.pi * Complex.I * ((y.val : ℕ) : ℂ) / ((l : ℂ) ^ n)) :=
+  _root_.GlobalTheory.KZ.H3.KumAdd.exp_val_add_pow l n x y
 
 theorem eventually_ne_zero {b : ℂ → ℂ} (hb : DifferentiableOn ℂ b Hs) (h : (b : Mero) ≠ 0) :
     ∀ᶠ z in Filter.codiscreteWithin Hs, b z ≠ 0 := by
@@ -116,12 +116,8 @@ theorem eventually_ne_zero {b : ℂ → ℂ} (hb : DifferentiableOn ℂ b Hs) (h
   · exact h0
 
 theorem germ_mul_ne_zero {b b' : ℂ → ℂ} (hb : DifferentiableOn ℂ b Hs) (hb' : DifferentiableOn ℂ b' Hs)
-    (h : (b : Mero) ≠ 0) (h' : (b' : Mero) ≠ 0) : ((b * b' : ℂ → ℂ) : Mero) ≠ 0 := by
-  haveI := hs_codiscrete_neBot
-  intro H
-  rw [← Filter.Germ.coe_zero, Filter.Germ.coe_eq] at H
-  obtain ⟨z, h1, h2, h3⟩ := ((eventually_ne_zero hb h).and ((eventually_ne_zero hb' h').and H)).exists
-  exact mul_ne_zero h1 h2 h3
+    (h : (b : Mero) ≠ 0) (h' : (b' : Mero) ≠ 0) : ((b * b' : ℂ → ℂ) : Mero) ≠ 0 :=
+  _root_.GlobalTheory.KZ.H3.KumAdd.germ_mul_ne_zero hb hb' h h'
 
 variable {Ω : Type} [Field Ω] [Algebra ℚ Ω] {ε : Ω →+* ℂ}
 
@@ -252,7 +248,13 @@ namespace GlobalTheory.KZ.BettiB
 
 theorem gamma_le_gamma_of_dvd {K M : ℕ} (h : K ∣ M) {δ : SL(2, ℤ)} (hδ : δ ∈ CongruenceSubgroup.Gamma M) :
     δ ∈ CongruenceSubgroup.Gamma K := by
-  apply _root_.GlobalTheory.KZ.BettiB.Add.mem_gamma_of_dvd <;> assumption
+  rw [CongruenceSubgroup.Gamma_mem] at hδ ⊢
+  obtain ⟨h1, h2, h3, h4⟩ := hδ
+  refine ⟨?_, ?_, ?_, ?_⟩
+  · simpa only [map_intCast, map_one] using congrArg (ZMod.castHom h (ZMod K)) h1
+  · simpa using congrArg (ZMod.castHom h (ZMod K)) h2
+  · simpa using congrArg (ZMod.castHom h (ZMod K)) h3
+  · simpa only [map_intCast, map_one] using congrArg (ZMod.castHom h (ZMod K)) h4
 
 theorem mem_gam_of_mem_gamma {N l : ℕ} {δ : SL(2, ℤ)} (hN : δ ∈ CongruenceSubgroup.Gamma N)
     (hl : δ ∈ CongruenceSubgroup.Gamma l) : δ ∈ Gam N l := by

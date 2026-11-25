@@ -1,7 +1,5 @@
 module
 
-import all Development.AutomorphicArithmetic.AutomorphicVarieties.BuildingsResidueChars.ResidualCharactersPsiNe
-import all Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.ThresholdArguments.DenseThresholdCases.PmTwo
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.AutomorphyLifting.PrimeIndexConstruction.MixSeedPAlt
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.CuspidalTwists.FiniteOrderCongruences.ExistsSplittingAuxiliaryCharacterForTower
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.FrobeniusSmoothVectors.ScNorm
@@ -195,7 +193,7 @@ theorem rhoExP (h1 : ExistsSplittingAuxiliaryCharacterForTower) (h2 : PhiFacts) 
   have e : ∀ g, (cycBar ℚ Ω l ^ (k - 1) * toB (phi D T₀.pr)) g =
       Units.map (algebraMap c.O (PadicAlgCl l)).toMonoidHom (Phi D T₀.pr k g) := by
     intro g
-    simp only [MonoidHom.mul_apply, MonoidHom.pow_apply, Phi, map_mul, map_pow]
+    simp only [MonoidHom.mul_apply, MonoidHom.pow_apply, UpperTheory.V.Cu.Phi, map_mul, map_pow]
     rw [← toB_chi c g]
     rfl
   have hI : IrrOpen ρ := by
@@ -465,12 +463,12 @@ private theorem inc_mem {c c' : Coef l} (h : c.O ≤ c'.O) {x : c.O}
     (hx : x ∈ maximalIdeal c.O) : inc h x ∈ maximalIdeal c'.O := by
   have hint : (inc h).IsIntegral := by
     intro y
-    haveI : Algebra.IsIntegral ℤ_[l] c'.O := Algebra.IsIntegral.of_finite ℤ_[l] c'.O
+    have : Algebra.IsIntegral ℤ_[l] c'.O := Algebra.IsIntegral.of_finite ℤ_[l] c'.O
     obtain ⟨p, hp, e⟩ : IsIntegral ℤ_[l] y := Algebra.IsIntegral.isIntegral y
     refine ⟨p.map (algebraMap ℤ_[l] c.O), hp.map _, ?_⟩
     rw [Polynomial.eval₂_map]
     exact e
-  haveI : IsLocalHom (inc h) := hint.isLocalHom (Subalgebra.inclusion_injective h)
+  have : IsLocalHom (inc h) := hint.isLocalHom (Subalgebra.inclusion_injective h)
   exact map_nonunit (inc h) x hx
 
 theorem eq_of_res {c c' : Coef l} (h : c.O ≤ c'.O) {R : Type} [CommRing R]
@@ -626,7 +624,7 @@ private theorem low_ne {Γ R : Type} [Group Γ] [Field R] (y a : Γ → R) (hy :
 
 private theorem conj_res {Ω : Type} [Field Ω] [CharZero Ω] [IsAlgClosure ℚ Ω] (F : IntermediateField ℚ Ω) [hF : IsGalois ℚ F]
     (g : G ℚ Ω) (s : G F Ω) : ∃ t : G F Ω, resQ F t = g * resQ F s * g⁻¹ := by
-  haveI : IsGalois ℚ Ω := {}
+  have : IsGalois ℚ Ω := {}
   have hN : F.fixingSubgroup.Normal := (InfiniteGalois.normal_iff_isGalois F).2 (by convert hF)
   have hs : resQ F s ∈ F.fixingSubgroup := by
     rw [IntermediateField.mem_fixingSubgroup_iff]
@@ -761,7 +759,7 @@ open GlobalTheory.CuspRep GlobalTheory.GalOfCusp UpperTheory.V.Af UpperTheory.V.
 
 private theorem sqrt_ex {O : Type} [CommRing O] [IsLocalRing O] [IsAdicComplete (maximalIdeal O) O] (h2 : IsUnit (2 : O))
     (a : O) (ha : residue O a = 1) : ∃ x : O, x ^ 2 = a ∧ residue O x = 1 := by
-  haveI : HenselianRing O (maximalIdeal O) := IsAdicComplete.henselianRing O (maximalIdeal O)
+  have : HenselianRing O (maximalIdeal O) := IsAdicComplete.henselianRing O (maximalIdeal O)
   have hev : eval 1 (X ^ 2 - C a) ∈ maximalIdeal O := by
     simp only [eval_sub, eval_pow, eval_X, eval_C, one_pow]
     rw [← residue_eq_zero_iff, map_sub, map_one, ha, sub_self]
@@ -1283,22 +1281,12 @@ theorem fin_cg {α : Type} [CommGroup α] (E D : α) (j : ℤ) (n m : ℕ) (hD :
 
 end Alg
 
-private theorem psi_map {ι Γ R R' : Type} [Group Γ] [CommRing R] [CommRing R'] (P : PD ι Γ R) (f : R →+* R') (v : ι) (i : Fin 4) (s : Γ) :
-    (P.map f).ψ v i s = f (P.ψ v i s) := by
-  have a : adj ((P.n v).map f) = (adj (P.n v)).map f := by
-    ext i j
-    simp [adj_apply]
-  have b : (P.map f).r s = (P.r s).map f := rfl
-  have c : (P.map f).n v = (P.n v).map f := rfl
-  rw [PD.ψ, b, c, a, ← Matrix.map_mul, ← Matrix.map_mul]
-  rfl
-
 variable {Ω : Type} [Field Ω] [CharZero Ω] [IsAlgClosure ℚ Ω] {l : ℕ} [Fact l.Prime]
 
 private theorem cont_emb (E : Type) [Field E] [NumberField E] [Algebra E Ω] : Continuous (galEmb ℚ E Ω) := by
-  haveI : FaithfulSMul E Ω := (faithfulSMul_iff_algebraMap_injective E Ω).2 (algebraMap E Ω).injective
-  haveI : Module.IsTorsionFree E Ω := DivisionSemiring.to_moduleIsTorsionFree
-  haveI : IsAlgClosure E Ω := ⟨IsAlgClosure.isAlgClosed ℚ, Algebra.IsAlgebraic.tower_top (K := ℚ) E⟩
+  have : FaithfulSMul E Ω := (faithfulSMul_iff_algebraMap_injective E Ω).2 (algebraMap E Ω).injective
+  have : Module.IsTorsionFree E Ω := DivisionSemiring.to_moduleIsTorsionFree
+  have : IsAlgClosure E Ω := ⟨IsAlgClosure.isAlgClosed ℚ, Algebra.IsAlgebraic.tower_top (K := ℚ) E⟩
   exact (galEmbTop ℚ E Ω).1.continuous
 
 private theorem cont_res (F : IntermediateField ℚ Ω) [NumberField F] : Continuous (resQ F) := cont_emb F
@@ -1349,7 +1337,7 @@ theorem UpperTheory.V.Cu.wtsOf4 : WtsOf4 := by
     have := d.big
     omega
   dsimp only
-  rw [RankFourHodgeWeights.psi_map, RankFourHodgeWeights.psi_eq d T v s hI i, hk]
+  rw [UpperTheory.V.Ws.PD.map_ψ, RankFourHodgeWeights.psi_eq d T v s hI i, hk]
   have key := RankFourHodgeWeights.fin_cg (cycBar T.F Ω l s) (toB d.δ (resQ T.F s)) j (d.k - 1) d.m e3 i
   have hδ : (Units.map (algebraMap d.c₁.O (PadicAlgCl l)).toMonoidHom) (toC d.h d.δ (resQ T.F s)) = toB d.δ (resQ T.F s) :=
     Units.ext rfl
@@ -1380,7 +1368,7 @@ open UpperTheory.V.Ws UpperTheory.V.Sd UpperTheory.V.Cu
 
 private theorem closed_fix {Ω : Type} [Field Ω] [CharZero Ω] [IsAlgClosure ℚ Ω] (F E : IntermediateField ℚ Ω) :
     IsClosed ((E.fixingSubgroup.comap (resQ F) : Subgroup (G F Ω)) : Set (G F Ω)) := by
-  haveI : Algebra.IsAlgebraic F Ω := Algebra.IsAlgebraic.tower_top (K := ℚ) F
+  have : Algebra.IsAlgebraic F Ω := Algebra.IsAlgebraic.tower_top (K := ℚ) F
   have e : ((E.fixingSubgroup.comap (resQ F) : Subgroup (G F Ω)) : Set (G F Ω)) =
       ⋂ x ∈ E, (MulAction.stabilizer (Ω ≃ₐ[F] Ω) x : Set (Ω ≃ₐ[F] Ω)) := by
     ext g
@@ -1393,7 +1381,23 @@ private theorem closed_fix {Ω : Type} [Field Ω] [CharZero Ω] [IsAlgClosure �
 private theorem lim_pt {Γ : Type} [Group Γ] [TopologicalSpace Γ] [CompactSpace Γ] (l : ℕ) [Fact l.Prime]
     (ε : Γ →* ℤ_[l]ˣ) (hε : Continuous ε) (S : Set Γ) (hS : IsClosed S) (g : Γ)
     (hg : (l : ℤ_[l]) ∣ (ε g : ℤ_[l]) - 1) (hm : ∀ n : ℕ, g ^ l ^ n ∈ S) : ∃ h ∈ S, ε h = 1 := by
-  apply _root_.lim_pt <;> assumption
+  have ht : Filter.Tendsto (fun n : ℕ => ((ε (g ^ l ^ n) : ℤ_[l]ˣ) : ℤ_[l])) Filter.atTop (nhds 1) := by
+    rw [tendsto_iff_norm_sub_tendsto_zero]
+    have hl : (1 : ℝ) < l := by exact_mod_cast (Fact.out : l.Prime).one_lt
+    have h0 : Filter.Tendsto (fun n : ℕ => ((l : ℝ)⁻¹) ^ n) Filter.atTop (nhds 0) :=
+      tendsto_pow_atTop_nhds_zero_of_lt_one (by positivity) (inv_lt_one_of_one_lt₀ hl)
+    refine squeeze_zero (fun _ => norm_nonneg _) (fun n => ?_) h0
+    have h2 := dvd_sub_pow_of_dvd_sub hg n
+    rw [one_pow] at h2
+    have h3 := (pow_dvd_pow _ n.le_succ).trans h2
+    rw [map_pow, Units.val_pow_eq_pow_val, inv_pow, ← zpow_natCast, ← zpow_neg,
+      PadicInt.norm_le_pow_iff_mem_span_pow, Ideal.mem_span_singleton]
+    exact h3
+  obtain ⟨h, hh, hc⟩ := hS.isCompact.exists_mapClusterPt (f := Filter.atTop) (u := fun n : ℕ => g ^ l ^ n)
+    (Filter.tendsto_principal.2 (Filter.Eventually.of_forall hm))
+  refine ⟨h, hh, Units.ext ?_⟩
+  have hc' := hc.continuousAt_comp (Units.continuous_val.comp hε).continuousAt
+  exact eq_of_nhds_neBot (hc'.clusterPt.mono ht)
 
 private theorem dvd_of_om {Ω : Type} [Field Ω] [CharZero Ω] [IsAlgClosure ℚ Ω] {l : ℕ} [Fact l.Prime] {c : Coef l}
     (D : Raw Ω c) (hD : D.Good) (g : G ℚ Ω) (hg : D.om g = 1) : (l : ℤ_[l]) ∣ (cycZ ℚ Ω l g : ℤ_[l]) - 1 := by
@@ -1449,10 +1453,10 @@ private theorem eta_om (hD : D.Good) (K' : IntermediateField ℚ Ω)
     (hk' : ∀ g, eta T g = 1 ↔ resQ T.F g ∈ K'.fixingSubgroup) (hsq : ∀ g, eta T g ^ 2 = 1)
     (hne : ∀ g ∈ T.G', resQ T.F g ∈ K'.fixingSubgroup) (g : G T.F Ω) (hg' : g ∈ T.GalL)
     (hg : D.om (resQ T.F g) = 1) : eta T g = 1 := by
-  haveI : Algebra.IsAlgebraic T.F Ω := Algebra.IsAlgebraic.tower_top (K := ℚ) T.F
-  haveI : IsAlgClosure T.F Ω := ⟨IsAlgClosure.isAlgClosed ℚ, inferInstance⟩
-  haveI : IsGalois T.F Ω := {}
-  haveI : CompactSpace (G T.F Ω) := inferInstanceAs (CompactSpace (Ω ≃ₐ[T.F] Ω))
+  have : Algebra.IsAlgebraic T.F Ω := Algebra.IsAlgebraic.tower_top (K := ℚ) T.F
+  have : IsAlgClosure T.F Ω := ⟨IsAlgClosure.isAlgClosed ℚ, inferInstance⟩
+  have : IsGalois T.F Ω := {}
+  have : CompactSpace (G T.F Ω) := inferInstanceAs (CompactSpace (Ω ≃ₐ[T.F] Ω))
   have hk'' : ∀ g, eta T g = 1 ↔ g ∈ K'.fixingSubgroup.comap (resQ T.F) := fun g => by
     rw [Subgroup.mem_comap, hk']
   have hc : Continuous fun h : G T.F Ω => g⁻¹ * h := continuous_const_mul _
@@ -1617,7 +1621,7 @@ open scoped Matrix
 private theorem algPos_of_expo (ω : HChar ℚ) (h : ∀ v, ∃ n : ℤ, TR.expo ω v = n) : ∃ a, IsAlgPos ω a := by
   obtain ⟨n, hn⟩ := h default
   refine ⟨fun _ => n, fun k hk => ?_⟩
-  letI : Unique (ℚ →+* ℂ) := ⟨⟨Rat.castHom ℂ⟩, fun _ => Subsingleton.elim _ _⟩
+  let : Unique (ℚ →+* ℂ) := ⟨⟨Rat.castHom ℂ⟩, fun _ => Subsingleton.elim _ _⟩
   have hk0 : (0 : ℝ) < ((k : ℚ) : ℝ) := hk (Rat.castHom ℝ)
   let diagR : ℚ →+* TR.Rinf ℚ := (TR.pInf ℚ).comp (algebraMap ℚ (Ad ℚ))
   have hv : ∀ v, diagR (k : ℚ) v = ((k : ℚ) : ℝ) := fun v =>
@@ -1702,7 +1706,18 @@ private theorem det_alg (P : _root_.UpperTheory.V.Af.HypothesesH') {Ω : Type} [
   rw [e]
   exact h2
 private theorem conj_ex (Ω : Type) [Field Ω] [CharZero Ω] [IsAlgClosure ℚ Ω] : ∃ c : G ℚ Ω, IsConjEl c := by
-  apply _root_.across_cc <;> assumption
+  have : Algebra.IsAlgebraic ℚ Ω := IsAlgClosure.isAlgebraic
+  have : IsAlgClosed Ω := IsAlgClosure.isAlgClosed ℚ
+  let j : Ω →ₐ[ℚ] ℂ := (by
+    refine @_root_.IsAlgClosed.lift _ _ _ _ _ _ _ _ _ _ _ ?_ ?_ ?_
+    solve_by_elim* (maxDepth := 2) only [*,
+      @_root_.DivisionSemiring.to_moduleIsTorsionFree,
+      @_root_.Algebra.IsIntegral.isAlgebraic, @_root_.inferInstance])
+  let : Algebra Ω ℂ := j.toRingHom.toAlgebra
+  have : IsScalarTower ℚ Ω ℂ := IsScalarTower.of_algebraMap_eq fun x => (j.commutes x).symm
+  have : Normal ℚ Ω := IsAlgClosure.normal ℚ Ω
+  let τ : ℂ ≃ₐ[ℚ] ℂ := AlgEquiv.ofRingEquiv (f := starRingAut) fun x => by simp
+  exact ⟨τ.restrictNormal Ω, algebraMap Ω ℂ, fun x => AlgEquiv.restrictNormal_commutes τ Ω x⟩
 private theorem conj_off {Ω : Type} [Field Ω] [CharZero Ω] (K' : IntermediateField ℚ Ω) (hK : IsTotallyComplex K') {c : G ℚ Ω}
     (hc : IsConjEl c) : c ∉ K'.fixingSubgroup := by
   intro h

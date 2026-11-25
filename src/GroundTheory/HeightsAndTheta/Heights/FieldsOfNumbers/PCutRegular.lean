@@ -1,7 +1,5 @@
 module
 
-import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.WithBotEqOfLeOfAddOneLe
-import GroundTheory.HeightsAndTheta.Heights.FieldsOfNumbers.PHilbDegreeBound
 public import GroundTheory.HeightsAndTheta.Heights.FieldsOfNumbers.Statements
 public import GroundTheory.ArithmeticGeometry.AbelianVarieties.JacobianSmoothness.RingKrullDimLeRingKrullDimQuotientAddOne
 public import GroundTheory.HeightsAndTheta.Heights.FieldsOfNumbers.PHilbExactDivide
@@ -130,22 +128,11 @@ theorem isMultiHomogIdeal_sup_span {P : Ideal (MRing ι F)} (hP : IsMultiHomogId
     {c : K → ℕ} {s : MRing ι F} (hs : IsMultiHomog s c) :
     IsMultiHomogIdeal (P ⊔ Ideal.span {s}) := by
   classical
-  intro f hf b
-  obtain ⟨a, ha, t', ht', rfl⟩ := Submodule.mem_sup.mp hf
-  obtain ⟨t, rfl⟩ := Ideal.mem_span_singleton'.mp ht'
-  have hcomponent : weightedHomogeneousComponent (blockWeight ι) b (t * s) =
-      if c ≤ b then weightedHomogeneousComponent (blockWeight ι) (b - c) t * s else 0 := by
-    letI := MvPolynomial.weightedGradedAlgebra F (blockWeight ι)
-    have hs' : s ∈ weightedHomogeneousSubmodule F (blockWeight ι) c :=
-      (mem_weightedHomogeneousSubmodule _ _ _ _).mpr hs
-    rw [← weightedDecomposition.decompose'_apply, ← weightedDecomposition.decompose'_apply]
-    exact DirectSum.coe_decompose_mul_of_right_mem
-      (𝒜 := weightedHomogeneousSubmodule F (blockWeight ι)) b (a := t) hs'
-  rw [map_add (f := _), hcomponent]
-  refine Ideal.add_mem _ (Ideal.mem_sup_left (hP a ha b)) ?_
-  split_ifs
-  · exact Ideal.mem_sup_right (Ideal.mul_mem_left _ _ (Ideal.mem_span_singleton_self s))
-  · exact Ideal.zero_mem _
+  let _ := MvPolynomial.weightedGradedAlgebra F (blockWeight ι)
+  have hP' : P.IsHomogeneous (weightedHomogeneousSubmodule F (blockWeight ι)) := fun b r hr => by
+    have := hP r hr b; rwa [← weightedDecomposition.decompose'_apply] at this
+  exact fun f hf b => weightedHomogeneousComponent_mem_of_mem F (blockWeight ι)
+    (hP'.sup (Ideal.homogeneous_span _ _ (by rintro _ rfl; exact ⟨c, hs⟩))) hf b
 
 
 omit [DecidableEq K] in
@@ -193,8 +180,22 @@ theorem relDim_eq_natCast_iff [Fintype K] (I : Ideal (MRing ι F)) (d : ℕ) :
 theorem eq_of_add_one_le_of_le {x : WithBot ℕ∞} {e : ℕ}
     (h1 : x + 1 ≤ ((e + 1 : ℕ) : WithBot ℕ∞)) (h2 : ((e : ℕ) : WithBot ℕ∞) ≤ x) :
     x = ((e : ℕ) : WithBot ℕ∞) := by
-  intros
-  apply _root_.UpperTheory.Reformulated.B.Ydd3.withBot_eq_of_le_of_add_one_le <;> assumption
+  cases x using WithBot.recBotCoe with
+  | bot => simp at h2
+  | coe y =>
+    cases y using ENat.recTopCoe with
+    | top =>
+      exfalso
+      have h1' : (((⊤ : ℕ∞) + 1 : ℕ∞) : WithBot ℕ∞) ≤ (((e + 1 : ℕ) : ℕ∞) : WithBot ℕ∞) := h1
+      have h2' := WithBot.coe_le_coe.mp h1'
+      rw [top_add, top_le_iff] at h2'
+      exact ENat.natCast_ne_top _ h2'
+    | coe y =>
+      have a1 : y + 1 ≤ e + 1 := by exact_mod_cast h1
+      have a2 : e ≤ y := by exact_mod_cast h2
+      have : y = e := by omega
+      subst this
+      rfl
 
 theorem le_of_height_add {h : ℕ∞} {x : WithBot ℕ∞} {e : ℕ} (hh : h ≤ 1)
     (hsum : (h : WithBot ℕ∞) + x = ((e + 1 : ℕ) : WithBot ℕ∞)) : ((e : ℕ) : WithBot ℕ∞) ≤ x := by
@@ -220,7 +221,15 @@ omit [DecidableEq K] in
 theorem ringKrullDim_sup_span_add_one_le {P : Ideal (MRing ι F)} [P.IsPrime] {s : MRing ι F}
     (hs : s ∉ P) :
     ringKrullDim (MRing ι F ⧸ (P ⊔ Ideal.span {s})) + 1 ≤ ringKrullDim (MRing ι F ⧸ P) := by
-  apply _root_.GroundTheory.Heights₂.Heights.FieldNumbers.ringKrullDim_sup_span_add_one_le <;> assumption
+  have hne : (P ⊔ Ideal.span {s}).map (Ideal.Quotient.mk P) ≠ ⊥ := by
+    intro h
+    apply hs
+    rw [← Ideal.Quotient.eq_zero_iff_mem]
+    have : Ideal.Quotient.mk P s ∈ (P ⊔ Ideal.span {s}).map (Ideal.Quotient.mk P) :=
+      Ideal.mem_map_of_mem _ (Ideal.mem_sup_right (Ideal.mem_span_singleton_self s))
+    rwa [h, Ideal.mem_bot] at this
+  have := GroundTheory.Arith.Abelian.Jacobian.ringKrullDim_quotient_add_one_le _ hne
+  rwa [ringKrullDim_eq_of_ringEquiv (DoubleQuot.quotQuotEquivQuotOfLE le_sup_left)] at this
 
 theorem ringKrullDim_minimalPrime [Fintype K] [∀ k, Fintype (ι k)] {P W : Ideal (MRing ι F)}
     [P.IsPrime] {s : MRing ι F} (hs : s ∉ P) (hW : W ∈ (P ⊔ Ideal.span {s}).minimalPrimes)

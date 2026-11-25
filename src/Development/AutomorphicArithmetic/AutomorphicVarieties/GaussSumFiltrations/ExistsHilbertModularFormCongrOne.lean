@@ -23,54 +23,10 @@ public import Development.AutomorphicArithmetic.AutomorphicVarieties.PublishedTh
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.GaussSumFiltrations.ExistsIsHolAdelicLiftOfEvenWeightSystem
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.GaussSumFiltrations.ExistsSeedThetaLatticeFixedPointFree
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.LiteratureResults.OneUseOf
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.PiTensorProduct
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
-import Std.Tactic.BVDecide.Normalize.Prop
 import Development.AutomorphicArithmetic.AutomorphicVarieties.IdeleGenerators.ConstSmall
-import Mathlib.Algebra.AffineMonoid.Basic
-import Mathlib.Algebra.Order.Star.Int
 import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.ExistsUniqueIdeleOfLinearEquivQuotientLocal
 import Formalism.SharpRestriction.GrowthBounds.MonomialOrderSegments.BrData
 import Formalism.GaloisIrreducibility.GaloisIrreducibilityProofs.OneNonUnit
-import Mathlib.GroupTheory.Nilpotent
-import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.Lemma
 import Development.AutomorphicArithmetic.AutomorphicVarieties.GaussSumFiltrations.QExpansionLinearCombination
 
 -- This file was produced by scripts/clump.py from the modules listed below.
@@ -235,7 +191,6 @@ private theorem ez_at_imaginary_unit_shift_eq {F : Type} [Field F] [NumberField 
   congr 1
   simp only [mul_add, Finset.sum_add_distrib]
 
-
 open GlobalTheory.HilbertThetaSeries.QUniq in
 theorem GlobalTheory.HilbertThetaSeries.hasQ_unique : ∀ (F : Type) [Field F] [NumberField F] [IsTotallyReal F] (f : Hn F → ℂ) (a b : F → ℂ),
     HasQ f a → HasQ f b → a = b := by
@@ -372,7 +327,7 @@ theorem genD_eq {y : Af F} {𝔪 𝔫 : Ideal (𝓞 F)} (h : GenD y 𝔪) (h' : 
 
 theorem coefAt_of_genD {y : Af F} {𝔪 : Ideal (𝓞 F)} (h : GenD y 𝔪) (a : Ideal (𝓞 F) → ℂ) : coefAt a y = a 𝔪 := by
   have h' : ∃ 𝔪, GenD y 𝔪 := ⟨𝔪, h⟩
-  rw [coefAt, dif_pos h', genD_eq h'.choose_spec h]
+  rw [coefAt, dite_eq_left h', genD_eq h'.choose_spec h]
 
 theorem ordI_eventually {I : Ideal (𝓞 F)} (hI : I ≠ ⊥) :
     ∀ᶠ w : HeightOneSpectrum (𝓞 F) in Filter.cofinite, ordI w I = 0 := by
@@ -558,14 +513,13 @@ theorem coefAt_eq_coef (hΨ : Sys k Ψ) (ha : ∀ y, HasQ ((((absF y ^ ((k : ℝ
 
 end GlobalTheory.HilbertThetaSeries.LiftExp
 
-
 open GlobalTheory.HilbertThetaSeries.LiftExp in
 theorem GlobalTheory.HilbertThetaSeries.lift_hasExp : ∀ (F : Type) [Field F] [NumberField F] [IsTotallyReal F] (k : ℕ) (Ψ : GL (Fin 2) (Af F) → Hn F → ℂ) (φ : GA F 2 → ℂ) (a : (Af F)ˣ → F → ℂ), Sys k Ψ → IsLift k Ψ φ → (∀ y, HasQ ((((absF y ^ ((k : ℝ) / 2) : ℝ) : ℂ))⁻¹ • Ψ (aff y 0)) (a y)) → ∃ c : Ideal (𝓞 F) → ℂ, HasExp φ k (fun y => a y 0) c ∧ ∀ 𝔪, 𝔪 ≠ ⊥ → ∃ y, c 𝔪 = a y 1 := by
   classical
   intro F _ _ _ k Ψ φ a hΨ hφ ha
   let c : Ideal (𝓞 F) → ℂ := fun 𝔪 => if h : 𝔪 ≠ ⊥ then a (exists_unit_genD h).choose 1 else 0
   have hc : ∀ 𝔪, 𝔪 ≠ ⊥ → ∃ Y : (Af F)ˣ, GenD (Y : Af F) 𝔪 ∧ c 𝔪 = a Y 1 := fun 𝔪 h =>
-    ⟨_, (exists_unit_genD h).choose_spec, dif_pos h⟩
+    ⟨_, (exists_unit_genD h).choose_spec, dite_eq_left h⟩
   refine ⟨c, fun x y hy yf => ?_, fun 𝔪 h => (hc 𝔪 h).imp fun _ h => h.2⟩
   have hP : 0 < ∏ v, y.val v := Finset.prod_pos fun v _ => hy v
   have hP' : (((∏ v, y.val v) ^ ((k : ℝ) / 2) : ℝ) : ℂ) ≠ 0 := Complex.ofReal_ne_zero.2 (Real.rpow_pos_of_pos hP _).ne'
@@ -582,9 +536,6 @@ theorem GlobalTheory.HilbertThetaSeries.lift_hasExp : ∀ (F : Type) [Field F] [
   refine QUniq.hasSum_congr' h2 fun ξ => ?_
   rw [Function.comp_apply, Function.update_of_ne (ne_zero_of_tp ξ.2), coefAt_eq_coef hΨ ha c hc yf ξ.1 ξ.2]
   rfl
-
-open NumberField IsDedekindDomain Neutral.B1 Formalism.L2.Host Formalism.ConjugateSelfDual GlobalTheory.CuspRep UpperTheory.V UpperTheory.V.Af UpperTheory.V.Sd GlobalTheory.HilbertThetaSeries
-open scoped Matrix
 
 end -- clump:auto
 end -- clump:auto
@@ -767,9 +718,6 @@ theorem main : ∀ (F : Type) [Field F] [NumberField F] [IsTotallyReal F] (p : �
 
 end GlobalTheory.QPow
 
-open NumberField IsDedekindDomain Neutral.B1 Formalism.L2.Host Formalism.ConjugateSelfDual GlobalTheory.CuspRep UpperTheory.V UpperTheory.V.Af UpperTheory.V.Sd GlobalTheory.HilbertThetaSeries
-open scoped Matrix
-
 end -- clump:auto
 end -- clump:auto
 -- ===== end clump member: Development.AutomorphicArithmetic.AutomorphicVarieties.GaussSumFiltrations.HilbertQExpPadicCongruencePowPrimePow =====
@@ -931,9 +879,6 @@ theorem finite_index : ∀ (F : Type) [Field F] [NumberField F] [IsTotallyReal F
 
 end GlobalTheory.HilbertThetaSeries.StabFin
 
-open NumberField IsDedekindDomain Neutral.B1 Formalism.L2.Host Formalism.ConjugateSelfDual GlobalTheory.CuspRep UpperTheory.V UpperTheory.V.Af UpperTheory.V.Sd GlobalTheory.HilbertThetaSeries
-open scoped Matrix
-
 end -- clump:auto
 end -- clump:auto
 -- ===== end clump member: Development.AutomorphicArithmetic.AutomorphicVarieties.GaussSumFiltrations.StabilizerEqScalarMulCongruenceMulFinset =====
@@ -947,11 +892,6 @@ open NumberField IsDedekindDomain Neutral.B1 Formalism.L2.Host Formalism.Conjuga
 open scoped Matrix
 
 namespace GlobalTheory.HilbertThetaSeries.GaussSumOrbitFiniteness
-
-theorem reAt_eq {F : Type} [Field F] [NumberField F] [IsTotallyReal F] (v : InfinitePlace F) (x : F) : reAt v x = rhom x v := by
-  simp only [reAt, rhom]
-  rw [← InfinitePlace.embedding_of_isReal_apply (IsTotallyReal.isReal v) x, Complex.ofReal_re]
-  rfl
 
 theorem scal_comm {R : Type} [CommRing R] (z : Rˣ) (A : GL (Fin 2) R) :
     Matrix.GeneralLinearGroup.scalar (Fin 2) z * A = A * Matrix.GeneralLinearGroup.scalar (Fin 2) z := by
@@ -1005,7 +945,7 @@ theorem stab_inv (g : GL (Fin 2) (Af F)) (γ : GL (Fin 2) F) (h : Stab g γ) : S
     have hv := congrArg (fun x => rhom x v) h1
     simp only [map_mul, map_one, Pi.mul_apply, Pi.one_apply] at hv
     have hp := ht v
-    rw [reAt_eq] at hp ⊢
+    rw [GlobalTheory.HilbertThetaSeries.reAt_eq_rhom] at hp ⊢
     exact (pos_iff_pos_of_mul_pos (by rw [hv]; exact one_pos)).mp hp
   · rw [map_inv, inv_mul_eq_iff_eq_mul, ← mul_assoc, ← mul_assoc, ← scal_comm, mul_assoc (Matrix.GeneralLinearGroup.scalar (Fin 2) z⁻¹), he]
     simp only [map_inv]
@@ -1025,7 +965,6 @@ theorem absF_ne_zero (y : (Af F)ˣ) : absF y ≠ 0 := by
 end GlobalTheory.HilbertThetaSeries.GaussSumOrbitFiniteness
 
 namespace GlobalTheory.HilbertThetaSeries
-
 
 open GlobalTheory.HilbertThetaSeries.GaussSumOrbitFiniteness in
 theorem orbit_seed_finite_congr : ∀ (F : Type) [Field F] [NumberField F] [IsTotallyReal F] (p : ℕ) [Fact p.Prime] (ι : Qbar p ≃+* ℂ), p ≠ 2 → ∀ δ : F, IsDel p δ → ∀ θ : Hn F → ℂ, Seed ι δ θ → ∀ y : (Af F)ˣ, AtP p δ y → {f | ∃ γ, Stab (aff y 0) γ ∧ f = sl (p - 1) (toInf γ) θ}.Finite ∧ (∀ γ, Stab (aff y 0) γ → ∀ γ', InG p δ γ' → Small ι (p : ℝ)⁻¹ (sl0 (p - 1) (toInf γ') (sl (p - 1) (toInf γ) θ) - 1)) ∧ Stab (aff y 0) (1 : GL (Fin 2) F) ∧ ∀ γ γ' : GL (Fin 2) F, Stab (aff y 0) γ → Stab (aff y 0) γ' → Stab (aff y 0) (γ * γ') ∧ Stab (aff y 0) γ⁻¹ := by
@@ -1099,9 +1038,6 @@ theorem orbit_seed_finite_congr : ∀ (F : Type) [Field F] [NumberField F] [IsTo
     exact max_le le_rfl hc1
 
 end GlobalTheory.HilbertThetaSeries
-
-open NumberField IsDedekindDomain Neutral.B1 Formalism.L2.Host Formalism.ConjugateSelfDual GlobalTheory.CuspRep UpperTheory.V UpperTheory.V.Af UpperTheory.V.Sd GlobalTheory.HilbertThetaSeries
-open scoped Matrix
 
 end -- clump:auto
 end -- clump:auto
@@ -1281,9 +1217,6 @@ theorem avg_pow : ∀ (F : Type) [Field F] [NumberField F] [IsTotallyReal F] (p 
 
 end GlobalTheory.HilbertThetaSeries.OrbitAvg
 
-open NumberField IsDedekindDomain Neutral.B1 Formalism.L2.Host Formalism.ConjugateSelfDual GlobalTheory.CuspRep UpperTheory.V UpperTheory.V.Af UpperTheory.V.Sd GlobalTheory.HilbertThetaSeries
-open scoped Matrix
-
 end -- clump:auto
 end -- clump:auto
 end -- clump:auto
@@ -1310,11 +1243,6 @@ lemma pos_iff (γ : GL (Fin 2) F) : Pos (toInf γ) ↔ TP γ.val.det := by
   unfold Pos TP
   rw [h]
   rfl
-
-lemma scal_comm {R : Type} [CommRing R] (z : Rˣ) (g : GL (Fin 2) R) :
-    g * Matrix.GeneralLinearGroup.scalar (Fin 2) z = Matrix.GeneralLinearGroup.scalar (Fin 2) z * g := by
-  ext1
-  exact ((Matrix.scalar_commute (z : R) (fun _ => Commute.all _ _) g.val).eq).symm
 
 def Rel (g g' : GL (Fin 2) (Af F)) (γ : GL (Fin 2) F) : Prop :=
   TP γ.val.det ∧ ∃ (z : (Af F)ˣ) (u : GL (Fin 2) (Af F)), u ∈ KLev F 2 1 ∧
@@ -1352,7 +1280,7 @@ lemma Rel.symm {g g' : GL (Fin 2) (Af F)} {γ : GL (Fin 2) F} (h : Rel g g' γ) 
   have e' : g' = (Matrix.GeneralLinearGroup.scalar (Fin 2) z)⁻¹ * (toFin γ * g) * u⁻¹ := by
     rw [e]; group
   rw [e', map_inv, map_inv, ← map_inv (Matrix.GeneralLinearGroup.scalar (Fin 2)), ← mul_assoc, ← mul_assoc,
-    scal_comm]
+    GlobalTheory.HilbertThetaSeries.AdelicLift.scalar_comm]
   group
 
 lemma Rel.trans {g g' g'' : GL (Fin 2) (Af F)} {γ γ' : GL (Fin 2) F} (h : Rel g g' γ) (h' : Rel g' g'' γ') :
@@ -1360,7 +1288,7 @@ lemma Rel.trans {g g' g'' : GL (Fin 2) (Af F)} {γ γ' : GL (Fin 2) F} (h : Rel 
   obtain ⟨hγ, z, u, hu, e⟩ := h
   obtain ⟨hγ', z', u', hu', e'⟩ := h'
   refine ⟨tp_mul hγ' hγ, z * z', u' * u, mul_mem hu' hu, ?_⟩
-  rw [map_mul, mul_assoc, e, ← mul_assoc, ← mul_assoc, scal_comm, mul_assoc _ (toFin γ'), e', map_mul]
+  rw [map_mul, mul_assoc, e, ← mul_assoc, ← mul_assoc, GlobalTheory.HilbertThetaSeries.AdelicLift.scalar_comm, mul_assoc _ (toFin γ'), e', map_mul]
   group
 
 theorem main : ∀ (F : Type) [Field F] [NumberField F] [IsTotallyReal F] (k : ℕ) (Y : Finset (Af F)ˣ) (f : (Af F)ˣ → Hn F → ℂ), (∀ g : GL (Fin 2) (Af F), ∃ γ : GL (Fin 2) F, TP γ.val.det ∧ ∃ y ∈ Y, ∃ u ∈ KLev F 2 1, toFin γ * g = aff y 0 * u) → (∀ y ∈ Y, Hol (f y) ∧ Gr (f y) ∧ ∀ γ, Stab (aff y 0) γ → sl k (toInf γ) (f y) = f y) → ∃ Ψ : GL (Fin 2) (Af F) → Hn F → ℂ, Sys k Ψ ∧ ∀ g, ∃ (γ : GL (Fin 2) F) (z : (Af F)ˣ), TP γ.val.det ∧ ∃ y ∈ Y, ∃ u ∈ KLev F 2 1, toFin γ * g = Matrix.GeneralLinearGroup.scalar (Fin 2) z * aff y 0 * u ∧ Ψ g = sl k (toInf γ) (f y) := by
@@ -1404,9 +1332,6 @@ theorem main : ∀ (F : Type) [Field F] [NumberField F] [IsTotallyReal F] (k : �
     exact ⟨c g, z, hγ, y g, (hy g).1, u, hu, e, rfl⟩
 
 end GlobalTheory.HilbertThetaSeries.SysOfStab
-
-open NumberField IsDedekindDomain Neutral.B1 Formalism.L2.Host Formalism.ConjugateSelfDual GlobalTheory.CuspRep UpperTheory.V UpperTheory.V.Af UpperTheory.V.Sd GlobalTheory.HilbertThetaSeries
-open scoped Matrix
 
 end -- clump:auto
 end -- clump:auto
@@ -1456,10 +1381,6 @@ theorem exists_sl_aff (K : Subgroup (GL (Fin 2) (Af F)))
 
 variable [IsTotallyReal F]
 
-theorem TP_mul {x y : F} (hx : TP x) (hy : TP y) : TP (x * y) := fun v => by
-  have := mul_pos (hx v) (hy v)
-  rw [_root_.GlobalTheory.HilbertThetaSeries.NarrowCls.reAt_eq, _root_.GlobalTheory.HilbertThetaSeries.NarrowCls.reAt_eq] at this; rw [_root_.GlobalTheory.HilbertThetaSeries.NarrowCls.reAt_eq, map_mul]; exact this
-
 theorem TP_inv {x : F} (hx : TP x) : TP x⁻¹ := fun v => by
   have := inv_pos.2 (hx v)
   rw [_root_.GlobalTheory.HilbertThetaSeries.NarrowCls.reAt_eq] at this; rw [_root_.GlobalTheory.HilbertThetaSeries.NarrowCls.reAt_eq, map_inv₀]; exact this
@@ -1485,16 +1406,13 @@ theorem GlobalTheory.HilbertThetaSeries.finite_reps : ∀ (F : Type) [Field F] [
     · have hd : (aff (ξ⁻¹ * ξf y0) 0 * σ⁻¹ : GL (Fin 2) F).val.det = ((ξ⁻¹ * ξf y0 : Fˣ) : F) := by
         rw [← Matrix.GeneralLinearGroup.val_det_apply, map_mul, map_inv, hσ, det_aff', inv_one, mul_one]
       rw [hd, Units.val_mul]
-      exact TP_mul (by simpa using TP_inv hξ) (hξf y0).1
+      exact GlobalTheory.HilbertThetaSeries.CmpP.tp_mul (by simpa using TP_inv hξ) (hξf y0).1
     · rw [e, map_mul, map_inv, ← mul_assoc, ← mul_assoc, inv_mul_cancel_right, toFin_aff, ← mul_assoc, aff_mul_aff, aff_mul_aff, hy]
       congr 2
       simp only [map_mul, map_inv, hι]
       generalize (Units.map (algebraMap F (Af F)).toMonoidHom) ξ = a
       generalize (Units.map (algebraMap F (Af F)).toMonoidHom) (ξf y0) = b
       rw [mul_comm a⁻¹ b, mul_assoc b, ← mul_assoc a⁻¹, ← mul_assoc a⁻¹, inv_mul_cancel, one_mul, ← mul_assoc]
-
-open NumberField IsDedekindDomain Neutral.B1 Formalism.L2.Host Formalism.ConjugateSelfDual GlobalTheory.CuspRep UpperTheory.V UpperTheory.V.Af UpperTheory.V.Sd GlobalTheory.HilbertThetaSeries
-open scoped Matrix
 
 end -- clump:auto
 end -- clump:auto
@@ -1660,9 +1578,6 @@ theorem cusp_inf_one : ∀ (F : Type) [Field F] [NumberField F] [IsTotallyReal F
   exact (Q _ _ _ _ 0 hsum S1).2.2.2.1 (by rw [hc, one_mul]; exact max_le le_rfl hc1)
 
 end GlobalTheory.HilbertThetaSeries.CuspOne
-
-open NumberField IsDedekindDomain Neutral.B1 Formalism.L2.Host Formalism.ConjugateSelfDual GlobalTheory.CuspRep UpperTheory.V UpperTheory.V.Af UpperTheory.V.Sd GlobalTheory.HilbertThetaSeries
-open scoped Matrix
 
 end -- clump:auto
 end -- clump:auto

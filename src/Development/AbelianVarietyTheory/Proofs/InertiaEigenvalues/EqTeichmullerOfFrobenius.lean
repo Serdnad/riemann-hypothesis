@@ -6,51 +6,6 @@ public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.MemE
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.CyclotomicPowerSeriesAlgHomActionLaws
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.TiltWittEqZeroOfPrimeMulEqZero
 public import Mathlib.NumberTheory.Basic
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.PiTensorProduct
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.RingTheory.WittVector.DiscreteValuationRing
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Topology.Sheaves.Init
-import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.EqOfPowEqOneOfNormSubLt
 
 @[expose] public section
 
@@ -228,9 +183,9 @@ theorem let_exists {n : ℕ} [NeZero n] (y : S) [IsAdicComplete (Ideal.span {y})
   · rw [Finset.sum_mul_sum]
     refine Finset.sum_congr rfl fun i _ => ?_
     rw [Finset.sum_eq_single i]
-    · rw [mul_mul_mul_comm, h2, if_pos rfl, Pi.mul_apply, map_mul]
+    · rw [mul_mul_mul_comm, h2, ite_eq_left rfl, Pi.mul_apply, map_mul]
     · intro j _ hj
-      rw [mul_mul_mul_comm, h2, if_neg hj.symm, zero_mul]
+      rw [mul_mul_mul_comm, h2, ite_eq_right hj.symm, zero_mul]
     · simp
   · change ∑ i, u (Pi.single i 1) * ev (algebraMap O O⟦X⟧ r) = _
     rw [ev.commutes, ← Finset.sum_mul, h1, one_mul]
@@ -308,22 +263,8 @@ section Concrete
 
 variable {l : ℕ} [Fact l.Prime] {P : LocPrime l} (AI : LocAinf l P)
 
-theorem εroot_pow (s : ℕ) : AI.εroot s ^ l ^ s = AI.ε := by
-  induction s with
-  | zero => simp [LocAinf.εroot]
-  | succ s ih =>
-    rw [pow_succ', pow_mul, LocAinf.εroot, Function.iterate_succ_apply', frobeniusEquiv_symm_pow_p]
-    exact ih
-
 theorem εroot_ne_one (s : ℕ) : AI.εroot s ≠ 1 := fun h =>
   AI.ε_ne_one (by rw [← _root_.GlobalTheory.Cyc.εroot_pow AI s, h, one_pow])
-
-theorem εroot_sub_not_unit (s : ℕ) : ¬ IsUnit (AI.εroot s - 1) := by
-  intro h
-  have h1 := (h.pow (l ^ s)).map (PreTilt.coeff 0)
-  rw [sub_pow_char_pow, εroot_pow, one_pow, map_sub, AI.ε_coeff, AI.ζ_zero, map_one, map_one,
-    sub_self] at h1
-  exact not_isUnit_zero h1
 
 theorem coeff_εroot (s n : ℕ) : PreTilt.coeff n (AI.εroot s) =
     Ideal.Quotient.mk (Ideal.span {((l : ℕ) : OC l)}) (AI.ζ (n + s)) := by
@@ -332,7 +273,7 @@ theorem coeff_εroot (s n : ℕ) : PreTilt.coeff n (AI.εroot s) =
 theorem io_binomial (s : ℕ) (g : GQ l) (c : ℤ_[l]) (hc : (c : ℚ_[l]) = (P.χQ g : ℚ_[l]))
     (io : ℤ_[l]⟦X⟧ →ₐ[ℤ_[l]] Ainf l) (hio : GlobalTheory.Cyc.IsIo (AI.εroot s) io) :
     io (binomialSeries ℤ_[l] c) = WittVector.teichmuller l (AI.actT g (AI.εroot s)) := by
-  have hφ := ((GlobalTheory.Cyc.IoMap.main l _ (εroot_sub_not_unit AI s)).2 io hio).1
+  have hφ := ((GlobalTheory.Cyc.IoMap.main l _ (GlobalTheory.Cyc.εroot_sub_one_not_unit AI s)).2 io hio).1
   obtain ⟨hX, hmul, -⟩ := _root_.GlobalTheory.Cyc.act_laws l ℤ_[l]
   have hcyc : ∀ c, GlobalTheory.Cyc.cyc l ℤ_[l] c = binomialSeries ℤ_[l] c - 1 := fun c => by
     simp [GlobalTheory.Cyc.cyc]
@@ -408,7 +349,41 @@ theorem tilt_pow {c : Om l} {m : ℕ} {xb : OCb l} (h : IsTiltOf c m xb) (j : �
 
 theorem eq_of_norm_sub_lt {a b : Om l} {m : ℕ} (hm : 0 < m) (hl : ¬ l ∣ m) (ha : a ^ m = 1)
     (hb : b ^ m = 1) (h : ‖a - b‖ < 1) : a = b := by
-  apply _root_.GlobalTheory.Pst.eq_of_pow_eq_one_of_norm_sub_lt <;> assumption
+  have hn : ∀ x : Om l, x ^ m = 1 → ‖x‖ = 1 := fun x hx => by
+    have := congrArg norm hx
+    rw [norm_pow, norm_one] at this
+    exact (pow_eq_one_iff_of_nonneg (norm_nonneg _) hm.ne').1 this
+  have hb0 : b ≠ 0 := fun h0 => by simpa [h0] using hn b hb
+  by_contra hne
+  set z := a / b with hz
+  have hz1 : z ^ m = 1 := by rw [hz, div_pow, ha, hb, div_one]
+  have hz2 : ‖z - 1‖ < 1 := by
+    rw [hz, div_sub_one hb0, norm_div, hn b hb, div_one]; exact h
+  have hz3 : z - 1 ≠ 0 := fun h0 => hne ((div_eq_one_iff_eq hb0).1 (sub_eq_zero.1 h0))
+  have hs : ∑ i ∈ Finset.range m, z ^ i = 0 := by
+    have := geom_sum_mul z m
+    rw [hz1, sub_self] at this
+    exact (mul_eq_zero.1 this).resolve_right hz3
+  have hp : ∀ i : ℕ, ‖z ^ i - 1‖ < 1 := by
+    intro i
+    induction i with
+    | zero => simp
+    | succ i ih =>
+      rw [show z ^ (i + 1) - 1 = z * (z ^ i - 1) + (z - 1) by ring]
+      refine lt_of_le_of_lt (IsUltrametricDist.norm_add_le_max _ _) (max_lt ?_ hz2)
+      rw [norm_mul, hn z hz1, one_mul]; exact ih
+  have hq : ∀ k : ℕ, ‖∑ i ∈ Finset.range k, z ^ i - k‖ < 1 := by
+    intro k
+    induction k with
+    | zero => simp
+    | succ k ih =>
+      rw [Finset.sum_range_succ, show ∑ i ∈ Finset.range k, z ^ i + z ^ k - ((k + 1 : ℕ) : Om l) =
+        (∑ i ∈ Finset.range k, z ^ i - k) + (z ^ k - 1) by push_cast; ring]
+      exact lt_of_le_of_lt (IsUltrametricDist.norm_add_le_max _ _) (max_lt ih (hp k))
+  have h1 := hq m
+  rw [hs, zero_sub, norm_neg, ← map_natCast (algebraMap ℚ_[l] (Om l)), norm_algebraMap',
+    Padic.norm_natCast_lt_one_iff] at h1
+  exact hl h1
 
 theorem sigma_root (K : FinExt l) (c : ↥(K0 K)) (m : ℕ) (hm : 0 < m) (hl : ¬ l ∣ m)
     (hc : (c : Om l) ^ m = 1) : (P.PD K).σ c = c ^ l := by

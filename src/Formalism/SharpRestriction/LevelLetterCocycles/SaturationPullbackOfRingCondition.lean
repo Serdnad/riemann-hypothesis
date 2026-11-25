@@ -3,47 +3,9 @@ module
 public import Formalism.SharpRestriction.LevelLetterCocycles.SaturationUnramifiedOfRingCondition
 public import Formalism.SharpRestriction.LevelLetterCocycles.CoordHomMapTrace
 public import Formalism.SharpRestriction.LevelLetterCocycles.JumpsLetOfWin
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
 import Mathlib.RingTheory.Coalgebra.IsFrobenius
 import Mathlib.RingTheory.HopfAlgebra.Basic
-import Mathlib.RingTheory.Radical.NatInt
 public import Mathlib.RingTheory.TensorProduct.IsBaseChangeFree
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Topology.Sheaves.Init
 
 @[expose] public section
 
@@ -116,12 +78,11 @@ theorem linInd_of_span {R M : Type} [CommRing R] [AddCommGroup M] [Module R M] {
   apply hgi
   simp only [LinearMap.coe_comp, Function.comp_apply, hab]
 
-theorem span_and_linInd_φ_pow (T : LocLat G Qp LL O) (hT : IsCrys PD T.ρ) (hs : W.s = 1) {r : ℕ}
+theorem linInd_φ_pow (T : LocLat G Qp LL O) (hT : IsCrys PD T.ρ) (hs : W.s = 1) {r : ℕ}
     (b : Fin r → W.DD T) (hb : ∀ j, b j ∈ W.NΔ T)
     (huniq : ∀ x ∈ W.N T, ∃! a : Fin r → LetA O n, x = ∑ j, a j • b j)
     (hq : IsUnit (algebraMap (LetA O n) W.EE W.q)) (e : ℕ) :
-    Submodule.span W.EE (Set.range fun j => ((W.φD T) ^ e) (b j)) = ⊤ ∧
-      LinearIndependent W.EE (fun j => ((W.φD T) ^ e) (b j)) := by
+    LinearIndependent W.EE (fun j => ((W.φD T) ^ e) (b j)) := by
 
   have hli : LinearIndependent (LetA O n) (fun j => (⟨b j, (hb j).1⟩ : W.N T)) := by
     refine Fintype.linearIndependent_iff.2 fun g hg => ?_
@@ -175,15 +136,7 @@ theorem span_and_linInd_φ_pow (T : LocLat G Qp LL O) (hT : IsCrys PD T.ρ) (hs 
       rw [← algebraMap_smul W.EE (W.q ^ k), smul_smul, map_pow, ← hu, Units.inv_mul, one_smul]
     rw [h2]
     exact Submodule.smul_mem _ _ h1
-  have hspanPow := span_φ_pow W T b hspan hφ e
-  exact ⟨hspanPow, linInd_of_span bD _ hspanPow⟩
-
-theorem linInd_φ_pow (T : LocLat G Qp LL O) (hT : IsCrys PD T.ρ) (hs : W.s = 1) {r : ℕ}
-    (b : Fin r → W.DD T) (hb : ∀ j, b j ∈ W.NΔ T)
-    (huniq : ∀ x ∈ W.N T, ∃! a : Fin r → LetA O n, x = ∑ j, a j • b j)
-    (hq : IsUnit (algebraMap (LetA O n) W.EE W.q)) (e : ℕ) :
-    LinearIndependent W.EE (fun j => ((W.φD T) ^ e) (b j)) := by
-  exact (span_and_linInd_φ_pow W T hT hs b hb huniq hq e).2
+  exact linInd_of_span bD _ (span_φ_pow W T b hspan hφ e)
 
 theorem φA_pow_letE (c : ZMod n) (e : ℕ) :
     (W.φA ^ e) (letE c : LetA O n) = letE (c + (e : ZMod n)) := by

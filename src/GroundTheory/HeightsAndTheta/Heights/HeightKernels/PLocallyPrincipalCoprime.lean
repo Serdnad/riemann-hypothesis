@@ -117,20 +117,17 @@ end LocallyPrincipalCoprimeAlt
 
 
 open LocallyPrincipalCoprimeAlt in
-/-- Produce a coprime ideal representative over a characteristic-zero field. -/
-theorem LocallyPrincipalCoprime.exists_coprime_rep :
-  ∀ (L : Type) [Field L] [CharZero L] (B : Subring L) (M : AddSubgroup L) (ι : Type) [Fintype ι]
-    (a : ι → L),
-    Module.Finite ℤ B →
-    (∀ b ∈ B, ∀ z ∈ M, b * z ∈ M) →
-    (∀ i, a i ∈ M) →
-    (∀ i, ∃ c ∈ B, c ≠ 0 ∧ c * a i ∈ B) →
-    (∀ m : Ideal B, m.IsMaximal → ∃ i, ∀ z ∈ M, ∃ b c : B, b ∉ m ∧ (b : L) * z = c * a i) →
-    M ≠ ⊥ → ∀ s : B, s ≠ 0 →
-      ∃ (β δ : B) (I : Ideal B), β ≠ 0 ∧ δ ≠ 0 ∧ I ⊔ Ideal.span {s} = ⊤ ∧
-        ∀ x : L, x ∈ M ↔ ∃ y ∈ I, (β : L) * x = δ * y := by
+theorem LocallyPrincipalCoprime.proof_of_charZero
+    {L : Type} [Field L] [CharZero L] (B : Subring L) (M : AddSubgroup L) (ι : Type) [Fintype ι]
+    (a : ι → L) (hfin : Module.Finite ℤ B)
+    (hBM : ∀ b ∈ B, ∀ z ∈ M, b * z ∈ M)
+    (haM : ∀ i, a i ∈ M)
+    (hden : ∀ i, ∃ c ∈ B, c ≠ 0 ∧ c * a i ∈ B)
+    (hloc : ∀ m : Ideal B, m.IsMaximal → ∃ i, ∀ z ∈ M, ∃ b c : B, b ∉ m ∧ (b : L) * z = c * a i)
+    (hM : M ≠ ⊥) (s : B) (hs : s ≠ 0) :
+    ∃ (β δ : B) (I : Ideal B), β ≠ 0 ∧ δ ≠ 0 ∧ I ⊔ Ideal.span {s} = ⊤ ∧
+      ∀ x : L, x ∈ M ↔ ∃ y ∈ I, (β : L) * x = δ * y := by
   classical
-  intro L _ _ B M ι _ a hfin hBM haM hden hloc hM s hs
   obtain ⟨m₀, hm₀⟩ := Ideal.exists_maximal B
   have : Nonempty ι := ⟨(hloc m₀ hm₀).choose⟩
   choose! g idx hgM y hy hym using exists_local_mult haM hloc hM
@@ -246,7 +243,9 @@ theorem LocallyPrincipalCoprime.exists_coprime_rep :
       have hx : x = (w : L) * γ⁻¹ := by rw [← h2]; field_simp
       rw [hx]
       exact (memI w).mp hwI
+
 theorem LocallyPrincipalCoprime.proof : LocallyPrincipalCoprime.Statement :=
-  fun L _ _ => LocallyPrincipalCoprime.exists_coprime_rep L
+  fun _ _ _ B M ι _ a hfin hBM haM hden hloc hM s hs =>
+    LocallyPrincipalCoprime.proof_of_charZero B M ι a hfin hBM haM hden hloc hM s hs
 
 end GroundTheory.Heights₂.Heights

@@ -1,57 +1,10 @@
 module
 
-import Formalism.RealPlaceAnalysis.RealPlaceTaylor.CasKHW
-import Formalism.RealPlaceAnalysis.RealPlaceTaylor.FirstSlotSliceSlotMixedCasimirZero
 public import Formalism.RealPlaceAnalysis.StatementKT
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
 public import Mathlib.LinearAlgebra.Eigenspace.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
 import Mathlib.RingTheory.PiTensorProduct
-import Mathlib.RingTheory.Radical.NatInt
 import Mathlib.RingTheory.SimpleRing.Principal
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
 import Mathlib.Tactic.TypeStar
-import Mathlib.Topology.Sheaves.Init
-import Std.Tactic.BVDecide.Normalize.Prop
 public import Mathlib.Analysis.InnerProductSpace.Orthogonal
 
 @[expose] public section
@@ -324,7 +277,7 @@ theorem compact_lie_commute_casimir {A : Type*} [Ring A] {n : ℕ} {ε : Fin n �
       - (if c = a then (if ε c = ε d then F c d * F d b else 0) else 0) := by
     intro c d
     by_cases hcd : ε c = ε d
-    · simp only [if_pos hcd]
+    · simp only [ite_eq_left hcd]
       have e1 := h a b c d hab hcd
       have e2 := h a b d c hab hcd.symm
       calc F a b * (F c d * F d c) - F c d * F d c * F a b
@@ -341,7 +294,7 @@ theorem compact_lie_commute_casimir {A : Type*} [Ring A] {n : ℕ} {ε : Fin n �
   simp only [Finset.sum_add_distrib, Finset.sum_sub_distrib]
   rw [Finset.sum_comm (f := fun c d => if b = c then (if ε c = ε d then F a d * F d c else 0) else 0),
     Finset.sum_comm (f := fun c d => if c = a then (if ε c = ε d then F c d * F d b else 0) else 0)]
-  simp only [Finset.sum_ite_eq, Finset.sum_ite_eq', Finset.mem_univ, if_true, hab]
+  simp only [Finset.sum_ite_eq, Finset.sum_ite_eq', Finset.mem_univ, ite_true, hab]
   abel
 
 section cas
@@ -350,27 +303,63 @@ variable {V : Type*} [AddCommGroup V] [Module ℂ V] {n : ℕ} {ε : Fin n → B
 
 theorem compact_casimir_apply (y : V) :
     CasK ε F y = ∑ a, ∑ b, if ε a = ε b then F a b (F b a y) else 0 := by
-  apply _root_.Formalism.REAL.compactCasimir_apply <;> assumption
+  unfold CasK
+  rw [LinearMap.sum_apply]
+  refine Finset.sum_congr rfl (fun a _ => ?_)
+  rw [LinearMap.sum_apply]
+  refine Finset.sum_congr rfl (fun b _ => ?_)
+  split_ifs <;> rfl
 
 theorem compact_casimir_term_highest (h : KRel ε F) {μ : Fin n → ℝ} {x : V} (hx : KHighest ε F μ x) {a b : Fin n}
     (hab : ε a = ε b) :
     F a b (F b a x) = ((if a = b then μ a ^ 2 else if a < b then μ a - μ b else 0 : ℝ) : ℂ) • x := by
   rcases lt_trichotomy a b with hlt | rfl | hgt
   · have := compact_lie_commutator h hab hab.symm x
-    rw [hx.2 a b hlt hab, map_zero, sub_zero, if_pos rfl, if_pos rfl, hx.1 a, hx.1 b] at this
-    rw [this, if_neg hlt.ne, if_pos hlt]
+    rw [hx.2 a b hlt hab, map_zero, sub_zero, ite_eq_left rfl, ite_eq_left rfl, hx.1 a, hx.1 b] at this
+    rw [this, ite_eq_right hlt.ne, ite_eq_left hlt]
     push_cast
     rw [sub_smul]
-  · rw [hx.1 a, map_smul, hx.1 a, smul_smul, if_pos rfl]
+  · rw [hx.1 a, map_smul, hx.1 a, smul_smul, ite_eq_left rfl]
     push_cast
     rw [sq]
-  · rw [hx.2 b a hgt hab.symm, map_zero, if_neg hgt.ne', if_neg (not_lt.mpr hgt.le)]
+  · rw [hx.2 b a hgt hab.symm, map_zero, ite_eq_right hgt.ne', ite_eq_right (not_lt.mpr hgt.le)]
     simp
 
 theorem compact_casimir_value_eq (μ : Fin n → ℝ) :
     (∑ a, ∑ b, (if ε a = ε b then (if a = b then μ a ^ 2 else if a < b then μ a - μ b else 0)
       else 0 : ℝ)) = ckv ε μ := by
-  apply _root_.Formalism.REAL.casKHW_arith <;> assumption
+  have hr : ∀ a, rhoC ε a = (∑ b, ((if a < b ∧ ε b = ε a then (1 : ℝ) else 0) -
+      (if b < a ∧ ε b = ε a then (1 : ℝ) else 0))) / 2 := by
+    intro a
+    simp only [rhoC, Finset.card_filter, Nat.cast_sum, Nat.cast_ite, Nat.cast_one, Nat.cast_zero,
+      Finset.sum_sub_distrib]
+  have hR : ckv ε μ = ∑ a, μ a ^ 2 + ∑ a, ∑ b, (if a < b ∧ ε b = ε a then μ a else 0)
+      - ∑ a, ∑ b, (if b < a ∧ ε b = ε a then μ a else 0) := by
+    unfold ckv nsq dot
+    rw [← Finset.sum_sub_distrib, ← Finset.sum_add_distrib, ← Finset.sum_sub_distrib]
+    refine Finset.sum_congr rfl (fun a _ => ?_)
+    rw [Pi.add_apply, hr a]
+    have : (∑ b, (if a < b ∧ ε b = ε a then μ a else 0)) - ∑ b, (if b < a ∧ ε b = ε a then μ a else 0)
+        = μ a * ∑ b, ((if a < b ∧ ε b = ε a then (1 : ℝ) else 0) -
+          (if b < a ∧ ε b = ε a then (1 : ℝ) else 0)) := by
+      rw [← Finset.sum_sub_distrib, Finset.mul_sum]
+      refine Finset.sum_congr rfl (fun b _ => ?_)
+      split_ifs <;> ring
+    rw [add_sub_assoc, this]; ring
+  rw [hR, Finset.sum_comm (f := fun a b => if b < a ∧ ε b = ε a then μ a else 0)]
+  have hL : ∀ a b, (if ε a = ε b then (if a = b then μ a ^ 2 else if a < b then μ a - μ b else 0)
+      else 0 : ℝ) = (if a = b then μ a ^ 2 else 0) + (if a < b ∧ ε b = ε a then μ a else 0)
+        - (if a < b ∧ ε a = ε b then μ b else 0) := by
+    intro a b
+    rcases lt_trichotomy a b with h2 | rfl | h2
+    · by_cases h1 : ε a = ε b
+      · simp [h1, h2, h2.ne]
+      · have h1' : ¬ ε b = ε a := fun h => h1 h.symm
+        simp [h1, h1', h2.ne]
+    · simp
+    · simp [h2.ne', not_lt.mpr h2.le]
+  simp only [hL, Finset.sum_add_distrib, Finset.sum_sub_distrib, Finset.sum_ite_eq,
+    Finset.mem_univ, ite_true]
 
 theorem compact_casimir_highest_weight (h : KRel ε F) {μ : Fin n → ℝ} {x : V} (hx : KHighest ε F μ x) :
     CasK ε F x = ((ckv ε μ : ℝ) : ℂ) • x := by
@@ -380,7 +369,7 @@ theorem compact_casimir_highest_weight (h : KRel ε F) {μ : Fin n → ℝ} {x :
         : ℂ) • x := by
     intro a b
     by_cases hab : ε a = ε b
-    · rw [if_pos hab, if_pos hab, compact_casimir_term_highest h hx hab]
+    · rw [ite_eq_left hab, ite_eq_left hab, compact_casimir_term_highest h hx hab]
     · simp [hab]
   simp_rw [this, ← Finset.sum_smul]
   push_cast

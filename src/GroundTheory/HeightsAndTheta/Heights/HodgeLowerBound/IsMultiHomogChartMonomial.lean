@@ -1,11 +1,11 @@
 module
 
-import GroundTheory.HeightsAndTheta.Heights.MultihomogeneousPolynomials
 public import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.IsVerticalCartier
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ArithmeticHilbertSamuelLowerBound
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.ArithModel
 public import GroundTheory.HeightsAndTheta.Heights.WeightedHomogeneous.PConeTrdeg
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.InterBridgeB
+import GroundTheory.HeightsAndTheta.Heights.HeightComparison.IsMultiHomogIdealIff
 
 @[expose] public section
 
@@ -21,22 +21,22 @@ section Homog
 
 variable {κ : Type} [Fintype κ] {ι : κ → Type} [∀ k, Fintype (ι k)]
 
-theorem isMultiHomog_C (c : ℤ) : IsMultiHomog (C c : MRing ι) 0 := by
-  apply _root_.GroundTheory.Heights₂.Heights.MultiHomogeneous.constant <;> assumption
+theorem isMultiHomog_C (c : ℤ) : IsMultiHomog (C c : MRing ι) 0 :=
+  GroundTheory.Heights₂.Heights.Bridge.isMultiHomog_C c
 
 theorem isMultiHomog_prod {σ : Type} (s : Finset σ) (f : σ → MRing ι) (d : σ → κ → ℕ)
     (h : ∀ a ∈ s, IsMultiHomog (f a) (d a)) : IsMultiHomog (∏ a ∈ s, f a) (∑ a ∈ s, d a) := by
-  apply _root_.GroundTheory.Heights₂.Heights.MultiHomogeneous.prod <;> assumption
+  classical
+  induction s using Finset.induction_on with
+  | empty => simpa using ProjLine.isMultiHomog_one
+  | insert a s ha ih =>
+    rw [Finset.prod_insert ha, Finset.sum_insert ha]
+    exact ProjLine.mhMul (h a (Finset.mem_insert_self a s))
+      (ih fun b hb => h b (Finset.mem_insert_of_mem hb))
 
 theorem isMultiHomog_chartMonomial (c : ∀ k, ι k) :
     IsMultiHomog (∏ k, (X ⟨k, c k⟩ : MRing ι)) (fun _ => 1) := by
-  classical
-  have h := isMultiHomog_prod (Finset.univ : Finset κ) (fun k => (X ⟨k, c k⟩ : MRing ι))
-    (fun k => fun k1 => if k1 = k then 1 else 0) (fun k _ => ProjLine.isMultiHomog_X ⟨k, c k⟩)
-  have hs : (∑ k : κ, (fun k1 : κ => if k1 = k then 1 else 0 : κ → ℕ)) = fun _ => 1 := by
-    funext k1
-    simp [Finset.sum_apply]
-  rwa [hs] at h
+  simpa using GroundTheory.Heights₂.Heights.Bridge.isMultiHomog_chartMono (R := ℤ) c (fun _ => 1)
 
 end Homog
 

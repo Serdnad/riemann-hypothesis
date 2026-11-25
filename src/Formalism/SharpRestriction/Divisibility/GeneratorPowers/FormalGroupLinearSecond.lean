@@ -1,58 +1,13 @@
 module
 
-import all Formalism.SharpRestriction.Divisibility.GeneratorPowers.FBIdJet
 public import Formalism.LocalToGlobal.ProjectiveLattices.ThGerm
 public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.PairEvaluation
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.TaylorDiscriminants.ChartChg
 public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.AevalDiagMonomial
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
 import Std.Tactic.BVDecide.Normalize.Prop
 import Formalism.SharpRestriction.Divisibility.GeneratorPowers.GermDJet
-import Development.AbelianVarietyTheory.Proofs.FormalGroupCharts.MvPowerSeriesJetEqCalculus
 
 @[expose] public section
-
-set_option autoImplicit false
 
 noncomputable section
 
@@ -77,7 +32,22 @@ private theorem coeff_mul_eq_zero_lemma_4 {τ : Type} (A B : MvPowerSeries τ S)
     (hA : ∀ x : τ →₀ ℕ, x.degree < a → MvPowerSeries.coeff x A = 0)
     (hB : ∀ x : τ →₀ ℕ, x.degree < b → MvPowerSeries.coeff x B = 0) :
     ∀ x : τ →₀ ℕ, x.degree < a + b → MvPowerSeries.coeff x (A * B) = 0 := by
-  apply _root_.Formalism.MainNotions.ModuliIntegralCharts.H1.FBIdJet.low_mul_lemma <;> assumption
+  classical
+  intro x hx
+  rw [MvPowerSeries.coeff_mul]
+  refine Finset.sum_eq_zero fun p hp => ?_
+  replace hp : p.1 + p.2 = x := by
+    first
+      | exact Finset.HasAntidiagonal.mem_antidiagonal.1 hp
+  have hdeg : p.1.degree + p.2.degree = x.degree := by
+    rw [← hp]
+    have e : ∀ y : τ →₀ ℕ, y.degree = y.sum (fun _ k => k) := fun y => by
+      first
+        | rfl
+    rw [e, e, e, Finsupp.sum_add_index' (fun _ => rfl) (fun _ _ _ => rfl)]
+  by_cases h1 : p.1.degree < a
+  · rw [hA _ h1, zero_mul]
+  · rw [hB _ (by omega), mul_zero]
 
 private theorem order_prod_lemma_5 {τ τ' : Type} (σ' : τ' → MvPowerSeries τ S)
     (hσ : ∀ s, MvPowerSeries.constantCoeff (σ' s) = 0) (e : τ' →₀ ℕ) (x : τ →₀ ℕ)
@@ -132,7 +102,7 @@ private theorem eq_single_lemma_6 {κ : Type} (e : κ →₀ ℕ) (he : e.degree
   · subst hi
     rw [Finsupp.single_eq_same]
     omega
-  · rw [Finsupp.single_apply, if_neg (Ne.symm hi)]
+  · rw [Finsupp.single_apply, ite_eq_right (Ne.symm hi)]
     by_contra hne
     exact hne (h3 i (Finset.mem_erase.2 ⟨hi, Finsupp.mem_support_iff.2 hne⟩))
 
@@ -227,9 +197,33 @@ theorem formal_group_linear_first (G : FGLaw S d) (i j : Fin d) :
   rw [← hc]
   exact formal_group_linear_second G i j
 
+private theorem mem_degLE_lemma {κ : Type} [Fintype κ] [DecidableEq κ] {n : ℕ} {x : κ →₀ ℕ}
+    (hx : x.degree ≤ n) : x ∈ degLE n := by
+  have hle : ∀ i, x i ≤ n := by
+    intro i
+    by_cases hi : x i = 0
+    · rw [hi]
+      exact Nat.zero_le n
+    · exact le_trans (Finset.single_le_sum (f := fun j => x j) (fun j _ => Nat.zero_le (x j))
+        (Finsupp.mem_support_iff.2 hi)) hx
+  unfold degLE
+  rw [Finset.mem_filter, Finset.mem_image]
+  refine ⟨⟨fun i => ⟨x i, Nat.lt_succ_of_le (hle i)⟩, Finset.mem_univ _, ?_⟩, hx⟩
+  ext i
+  simp
+
 private theorem coeff_psTrunc_lemma_2 {κ : Type} [Fintype κ] [DecidableEq κ] (f : MvPowerSeries κ S) (n : ℕ)
     (x : κ →₀ ℕ) : AddMonoidAlgebra.coeff (psTrunc n f) x = if x.degree ≤ n then MvPowerSeries.coeff x f else 0 := by
-  apply _root_.GlobalTheory.ChartCmp.JCalc.coeff_psTrunc_ite <;> assumption
+  unfold psTrunc
+  rw [coeff_sum]
+  simp only [coeff_monomial, Finset.sum_ite_eq']
+  by_cases h : x.degree ≤ n
+  · rw [ite_eq_left (mem_degLE_lemma h), ite_eq_left h]
+  · have h' : x ∉ degLE n := by
+      intro h'
+      unfold degLE at h'
+      exact h (Finset.mem_filter.1 h').2
+    rw [ite_eq_right h', ite_eq_right h]
 
 private theorem mem_pow_Io_lemma_3 {κ : Type} (k : ℕ) (p : MvPolynomial κ S)
     (hp : ∀ x ∈ p.support, k ≤ x.degree) : p ∈ Io S κ ^ k := by
@@ -254,7 +248,7 @@ theorem psTrunc_law_sub_mem (G : FGLaw S d) {m : ℕ} (hm : 1 ≤ m) (j : Fin d)
   rw [mem_support_iff, MvPolynomial.coeff_sub, coeff_psTrunc_lemma_2] at hx
   by_contra hlt
   have h1 : x.degree ≤ 1 := by omega
-  rw [if_pos (h1.trans hm)] at hx
+  rw [ite_eq_left (h1.trans hm)] at hx
   apply hx
   rcases Nat.le_one_iff_eq_zero_or_eq_one.1 h1 with h0 | h0
   · have hx0 : x = 0 := by
@@ -300,7 +294,7 @@ theorem coeff_bil (M : Fin d → Fin d → S) (i0 l0 : Fin d) : AddMonoidAlgebra
   simp only [bil, coeff_sum, coeff_C_mul, coeff_XX, sil_inj]
   rw [Finset.sum_eq_single i0]
   · rw [Finset.sum_eq_single l0]
-    · rw [if_pos ⟨rfl, rfl⟩, mul_one]
+    · rw [ite_eq_left ⟨rfl, rfl⟩, mul_one]
     · intro l _ hl
       simp [hl]
     · intro h
@@ -346,7 +340,7 @@ theorem psTrunc_sub_mem {κ : Type} [Fintype κ] [DecidableEq κ] (f : MvPowerSe
   rw [mem_support_iff, MvPolynomial.coeff_sub, coeff_psTrunc_lemma_2, coeff_psTrunc_lemma_2] at hx
   by_contra hlt
   have h1 : x.degree ≤ k := by omega
-  rw [if_pos (h1.trans hkm), if_pos h1, sub_self] at hx
+  rw [ite_eq_left (h1.trans hkm), ite_eq_left h1, sub_self] at hx
   exact hx rfl
 
 section Poly
@@ -397,12 +391,12 @@ theorem coeff_linL (A B : Fin d → Fin d → S) (i0 l0 : Fin d) :
       C (B i l * A i j) * (X ((0 : Fin 2), j) * X ((1 : Fin 2), l)) by rw [map_mul]; ring]
     rw [coeff_C_mul, coeff_XX]
     by_cases h : j = i0 ∧ l = l0
-    · rw [if_pos (sil_inj.2 h), if_pos h, mul_one]
-    · rw [if_neg (fun h' => h (sil_inj.1 h')), if_neg h, mul_zero]
+    · rw [ite_eq_left (sil_inj.2 h), ite_eq_left h, mul_one]
+    · rw [ite_eq_right (fun h' => h (sil_inj.1 h')), ite_eq_right h, mul_zero]
   simp only [PairEvaluation.lin, xs, Finset.sum_mul, Finset.mul_sum, coeff_sum, key]
   refine Finset.sum_congr rfl fun i _ => ?_
   rw [Finset.sum_eq_single l0 (fun l _ hl => Finset.sum_eq_zero fun j _ => by simp [hl]) (by simp)]
-  rw [Finset.sum_eq_single i0 (fun j _ hj => by simp [hj]) (by simp), if_pos ⟨rfl, rfl⟩, mul_comm]
+  rw [Finset.sum_eq_single i0 (fun j _ hj => by simp [hj]) (by simp), ite_eq_left ⟨rfl, rfl⟩, mul_comm]
 
 theorem coeff_linR (Ab B : Fin d → Fin d → S) (i0 l0 : Fin d) :
     AddMonoidAlgebra.coeff (∑ i, ∑ l, C (B i l) * (xs S d (0 : Fin 2) i * PairEvaluation.lin Ab (1 : Fin 2) l)) (sil i0 l0) =
@@ -414,12 +408,12 @@ theorem coeff_linR (Ab B : Fin d → Fin d → S) (i0 l0 : Fin d) :
       C (B i l * Ab l j) * (X ((0 : Fin 2), i) * X ((1 : Fin 2), j)) by rw [map_mul]; ring]
     rw [coeff_C_mul, coeff_XX]
     by_cases h : i = i0 ∧ j = l0
-    · rw [if_pos (sil_inj.2 h), if_pos h, mul_one]
-    · rw [if_neg (fun h' => h (sil_inj.1 h')), if_neg h, mul_zero]
+    · rw [ite_eq_left (sil_inj.2 h), ite_eq_left h, mul_one]
+    · rw [ite_eq_right (fun h' => h (sil_inj.1 h')), ite_eq_right h, mul_zero]
   simp only [PairEvaluation.lin, xs, Finset.mul_sum, coeff_sum, key]
   rw [Finset.sum_eq_single i0 (fun i _ hi => Finset.sum_eq_zero fun l _ => Finset.sum_eq_zero fun j _ => by simp [hi]) (by simp)]
   refine Finset.sum_congr rfl fun l _ => ?_
-  rw [Finset.sum_eq_single l0 (fun j _ hj => by simp [hj]) (by simp), if_pos ⟨rfl, rfl⟩]
+  rw [Finset.sum_eq_single l0 (fun j _ hj => by simp [hj]) (by simp), ite_eq_left ⟨rfl, rfl⟩]
 
 end Poly
 
@@ -435,7 +429,7 @@ theorem psTrunc_act_sub_mem (φ : Fin d → PS S 1 d) (hφ : ∀ i, MvPowerSerie
   rw [mem_support_iff, MvPolynomial.coeff_sub, coeff_psTrunc_lemma_2] at hx
   by_contra hlt
   have h1 : x.degree ≤ 1 := by omega
-  rw [if_pos (h1.trans hm)] at hx
+  rw [ite_eq_left (h1.trans hm)] at hx
   apply hx
   rw [coeff_sum]
   rcases Nat.le_one_iff_eq_zero_or_eq_one.1 h1 with h0 | h0

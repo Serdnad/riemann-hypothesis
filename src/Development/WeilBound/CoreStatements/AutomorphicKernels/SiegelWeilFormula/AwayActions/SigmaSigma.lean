@@ -1,7 +1,7 @@
 module
 
-import CompanionTheory.SpectralGeometry.LocalGlobalProofs.AdelicAnalysis.WittExtensionDiagonalGramTuples
 public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.WeilTensorModels
+import CompanionTheory.SpectralGeometry.LocalGlobalProofs.AdelicAnalysis.WittExtensionDiagonalGramTuples
 
 @[expose] public section
 

@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.FoundationProofs.CmThetaComplexConjugationCompatible
 public import Development.AbelianVarietyTheory.BlockTheory.GlobalSignature.SignedLogMeans
 public import Development.AbelianVarietyTheory.BlockTheory.GlobalSignature.EquidistributedConjugates
 public import Development.AbelianVarietyTheory.BlockTheory.GlobalSignature.PeriodLatticeAgreement
@@ -70,7 +69,20 @@ theorem map_cj_map_cj (Λ : AddSubgroup ℂ) : (Λ.map cj).map cj = Λ := by
 
 theorem eisG_map_cj (Λ : AddSubgroup ℂ) (k : ℕ) :
     eisG (Λ.map cj) k = starRingEnd ℂ (eisG Λ k) := by
-  apply _root_.GlobalTheory.ThetaConj.eisG_lamBar <;> assumption
+  unfold eisG
+  let e : {w : ℂ // w ∈ Λ ∧ w ≠ 0} ≃ {w : ℂ // w ∈ Λ.map cj ∧ w ≠ 0} :=
+    { toFun := fun w => ⟨starRingEnd ℂ w.1, ⟨w.1, w.2.1, rfl⟩, by simpa using w.2.2⟩
+      invFun := fun w => ⟨starRingEnd ℂ w.1, by
+          obtain ⟨v, hv, hv'⟩ := AddSubgroup.mem_map.1 w.2.1
+          have : starRingEnd ℂ w.1 = v := by rw [← hv']; simp
+          rw [this]; exact hv, by simpa using w.2.2⟩
+      left_inv := fun w => by ext; simp
+      right_inv := fun w => by ext; simp }
+  rw [← e.tsum_eq, Complex.conj_tsum]
+  congr 1
+  ext w
+  show (1 : ℂ) / (starRingEnd ℂ (w : ℂ)) ^ (2 * k) = starRingEnd ℂ (1 / (w : ℂ) ^ (2 * k))
+  simp [map_pow]
 
 theorem eisenstein_g_two_map_conj (Λ : AddSubgroup ℂ) : g2 (Λ.map cj) = starRingEnd ℂ (g2 Λ) := by
   unfold g2; rw [eisG_map_cj, map_mul, map_ofNat]
@@ -86,8 +98,8 @@ theorem lamConj_spec (hU : Formalism.L2.GlobalTheoryTheory.IntegralLatticeDensit
     (ρ : M →ₐ[ℚ] ℂ) (Λ : AddSubgroup ℂ) (h2 : g2 Λ ∈ M) (h3 : g3 Λ ∈ M) (h1 : Formalism.MainNotions.TaylorLogMetric.discr Λ = 1) :
     g2 (lamConj M ρ Λ) = ρ ⟨g2 Λ, h2⟩ ∧ g3 (lamConj M ρ Λ) = ρ ⟨g3 Λ, h3⟩ ∧
       Formalism.MainNotions.TaylorLogMetric.discr (lamConj M ρ Λ) = 1 := by
-  have hl2 : liftM M (g2 Λ) = ⟨g2 Λ, h2⟩ := dif_pos h2
-  have hl3 : liftM M (g3 Λ) = ⟨g3 Λ, h3⟩ := dif_pos h3
+  have hl2 : liftM M (g2 Λ) = ⟨g2 Λ, h2⟩ := dite_eq_left h2
+  have hl3 : liftM M (g3 Λ) = ⟨g3 Λ, h3⟩ := dite_eq_left h3
   have hdM : (⟨g2 Λ, h2⟩ : M) ^ 3 - 27 * (⟨g3 Λ, h3⟩ : M) ^ 2 = 1 := by
     apply M.val.injective
     rw [map_sub, map_mul, map_pow, map_pow, map_ofNat, map_one]

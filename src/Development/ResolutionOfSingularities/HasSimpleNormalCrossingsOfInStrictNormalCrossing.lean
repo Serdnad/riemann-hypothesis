@@ -74,7 +74,6 @@ import Development.ResolutionOfSingularities.Foundations.Blowup.BlowupCoproduct
 import Development.ResolutionOfSingularities.Foundations.Schemes.SchemeCoproduct
 import Development.ResolutionOfSingularities.Foundations.Blowup.BlowupProper
 import Development.ResolutionOfSingularities.EmbeddedResolution.IdealPrincipalization.MarkedBlowupSequence.IdealBlowupSequenceBoundary
-import Development.WeilBound.CoreStatements.ResolutionCharZero.ExistsFinsetComapProdIdealEqSpanProdCoord
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.ResolutionOfSingularities.EmbeddedResolution.EtaleCoordinates.StrictNormalCrossingsClopen, Development.ResolutionOfSingularities.EmbeddedResolution.StrongResolution.AffineBoundaryStrictNormalCrossings, Development.ResolutionOfSingularities.EmbeddedResolution.StrongResolution.ClosedEmbeddingsIntoAffineSpace, Development.ResolutionOfSingularities.EmbeddedResolution.StrongResolution.CentersLieOverSingularLocus, Development.ResolutionOfSingularities.EmbeddedResolution.StrongResolution.SingularPreimageBoundary, Development.ResolutionOfSingularities.EmbeddedResolution.HironakaTheorem, Development.ResolutionOfSingularities.HasSimpleNormalCrossingsOfInStrictNormalCrossing
@@ -122,7 +121,23 @@ private theorem ι_appLE_top_bijective {Y : Scheme.{u}} (V : Y.Opens) :
 private theorem ideal_eq_top_of_isAffineOpen_of_restrictIdeal_eq_top {Y : Scheme.{u}} (D : Y.IdealSheafData)
     {V : Y.Opens} (hV : IsAffineOpen V) (htop : restrictIdeal D V = ⊤) :
     D.ideal ⟨V, hV⟩ = ⊤ := by
-  apply _root_.PositivityTheory.ResPlug.BlowupCentre.ideal_eq_top_of_isAffineOpen_of_restrictIdeal_eq_top <;> assumption
+  have : IsAffine V.toScheme := hV
+  have key := Scheme.IdealSheafData.comap_ideal_eq_map_appLE D V.ι ⟨V, hV⟩
+      ⟨⊤, isAffineOpen_top V.toScheme⟩ (top_le_ι_preimage_self V)
+  rw [← restrictIdeal_eq_comap_ι, htop] at key
+  have h0 : ((⊤ : V.toScheme.IdealSheafData).ideal ⟨⊤, isAffineOpen_top V.toScheme⟩) = ⊤ := by
+    simp
+  rw [h0] at key
+  have key2 : Ideal.map (CommRingCat.Hom.hom (V.ι.appLE V ⊤ (top_le_ι_preimage_self V)))
+      (D.ideal ⟨V, hV⟩) = ⊤ := key.symm
+  have hbij := ι_appLE_top_bijective V
+  have hcomap : Ideal.comap (CommRingCat.Hom.hom (V.ι.appLE V ⊤ (top_le_ι_preimage_self V)))
+      (Ideal.map (CommRingCat.Hom.hom (V.ι.appLE V ⊤ (top_le_ι_preimage_self V)))
+        (D.ideal ⟨V, hV⟩)) = D.ideal ⟨V, hV⟩ := by
+    apply Ideal.comap_map_of_bijective
+    exact hbij
+  rw [key2, Ideal.comap_top] at hcomap
+  exact hcomap.symm
 
 private theorem etaleChartCoord_eq_coord {X : Scheme.{u}} {k : Type u} [Field k]
     {p : X ⟶ Spec (CommRingCat.of k)} {V : X.Opens} {m : ℕ} (c : EtaleChart p V m) (j : Fin m) :
@@ -158,15 +173,70 @@ private theorem exists_finset_comap_prod_ideal_eq_span_prod_coord {Y W : Scheme.
       ∃ J : Finset (Fin n),
         (∀ j ∈ J, ∃ i, ∃ _ : i < F.length, γ i = some j) ∧
         (F.prod.comap g).ideal ⟨V, hV⟩ = Ideal.span {∏ j ∈ J, c.coord j} := by
-  apply _root_.PositivityTheory.ResPlug.BlowupCentre.exists_finset_comap_prod_ideal_eq_span_prod_coord <;> assumption
+  intro F
+  induction F with
+  | nil =>
+      intro γ _ _ _
+      refine ⟨∅, by simp, ?_⟩
+      have h1 : (([] : List W.IdealSheafData).prod).comap g = (⊤ : Y.IdealSheafData) := by
+        rw [Blowup.idealSheafData_prod_nil]
+        simp
+      rw [h1, Finset.prod_empty, Ideal.span_singleton_one]
+      exact ideal_top _
+  | cons D F ih =>
+      intro γ hnone hsome hinj
+      have hlen : ∀ i, i < F.length → i + 1 < (D :: F).length := by
+        intro i hi
+        simp only [List.length_cons]
+        omega
+      have hD0 : (0 : ℕ) < (D :: F).length := by
+        simp only [List.length_cons]
+        omega
+      obtain ⟨J', hJ'mem, hJ'⟩ := ih (fun i => γ (i + 1))
+        (fun i h hg => hnone (i + 1) (hlen i h) hg)
+        (fun i h j hg => hsome (i + 1) (hlen i h) j hg)
+        (fun i i' hi hi' j h1 h2 => by
+          have h3 := hinj (i + 1) (i' + 1) (hlen i hi) (hlen i' hi') j h1 h2
+          omega)
+      have hprod : ((D :: F).prod.comap g).ideal ⟨V, hV⟩
+          = (D.comap g).ideal ⟨V, hV⟩ * ((F.prod).comap g).ideal ⟨V, hV⟩ := by
+        rw [Blowup.idealSheafData_prod_cons]
+        exact ideal_comap_mul g U ⟨V, hV⟩ e D F.prod
+      cases hγ0 : γ 0 with
+      | none =>
+          have hD : (D.comap g).ideal ⟨V, hV⟩ = ⊤ :=
+            ideal_eq_top_of_isAffineOpen_of_restrictIdeal_eq_top _ hV (hnone 0 hD0 hγ0)
+          refine ⟨J', ?_, ?_⟩
+          · intro j hj
+            obtain ⟨i, hi, hγi⟩ := hJ'mem j hj
+            exact ⟨i + 1, hlen i hi, hγi⟩
+          · rw [hprod, hD, hJ', Ideal.top_mul]
+      | some j0 =>
+          have hD : (D.comap g).ideal ⟨V, hV⟩ = Ideal.span {c.coord j0} := by
+            have h2 := EtaleChart.ideal_eq_span_coord c hV (D.comap g) {j0}
+              (hsome 0 hD0 j0 hγ0)
+            rw [Finset.coe_singleton, Set.image_singleton] at h2
+            exact h2
+          have hj0 : j0 ∉ J' := by
+            intro hj0mem
+            obtain ⟨i, hi, hγi⟩ := hJ'mem j0 hj0mem
+            have h3 := hinj 0 (i + 1) hD0 (hlen i hi) j0 hγ0 hγi
+            omega
+          refine ⟨insert j0 J', ?_, ?_⟩
+          · intro j hj
+            rcases Finset.mem_insert.mp hj with rfl | hj'
+            · exact ⟨0, hD0, hγ0⟩
+            · obtain ⟨i, hi, hγi⟩ := hJ'mem j hj'
+              exact ⟨i + 1, hlen i hi, hγi⟩
+          · rw [hprod, hD, hJ', Ideal.span_singleton_mul_span_singleton,
+              Finset.prod_insert hj0]
 
 theorem strictNormalCrossingsRestrictToClopen : StrictNormalCrossingsRestrictToClopen.{u} := by
   intro k _ W p _ E Z hE hZ T hTclosed hcomp y
   have hsmZ : AlgebraicGeometry.Smooth (Z.subschemeι ≫ p) :=
     smooth_subschemeι_comp_of_hasStrictNormalCrossingsWith Z E hZ
-  have hsmT : AlgebraicGeometry.Smooth (T.ι ≫ (Z.subschemeι ≫ p)) := inferInstance
   obtain ⟨V, hV, hyV, n, c, γ, hγ, hinjγ, hmem⟩ :=
-    exists_etaleChart_coord_mem_primeIdealOf_on_clopen p E hE Z hZ T hTclosed hcomp y
+    exists_etaleChart_coord_mem_primeIdealOf_on_clopen p E Z hZ T hcomp y
   obtain ⟨U, hyU, hU⟩ : ∃ U : W.Opens, (T.ι ≫ Z.subschemeι).base y ∈ U ∧ IsAffineOpen U := by
     obtain ⟨U, hUmem, hxU, -⟩ :=
       TopologicalSpace.Opens.isBasis_iff_nbhd.mp (Scheme.isBasis_affineOpens W)
@@ -313,7 +383,6 @@ private theorem boundaryInStrictNormalCrossingPosition {k : Type u} [Field k] [C
       have hlt : n < S.ambientLength := hn
       have : AlgebraicGeometry.IsNoetherian (S.ambientLevel (n + 1)) :=
         isNoetherian_ambientLevel S (n + 1) hn
-      have : TopologicalSpace.NoetherianSpace ↥(S.ambientLevel (n + 1)) := inferInstance
       have hE : InStrictNormalCrossingPosition (S.ambientBlowups.projectionToBase n ≫ S.ambientToSpec)
           (S.principalizationSequence.boundary n) := ih (Nat.le_of_lt hlt)
       have hZE : HasStrictNormalCrossingsWith (S.ambientBlowups.projectionToBase n ≫ S.ambientToSpec) (S.ambientBlowups.center n)
@@ -701,10 +770,6 @@ theorem inl_comp_totalSpaceToBase (j : ℕ) :
 theorem centersLieOverSingularLocus_of_inducedCentersLieOverSingularLocus (h : S.TransitionsAreBlowups)
     (hc : S.InducedCentersLieOverSingularLocus h) : S.CentersLieOverSingularLocus := by
   intro i hi p hp
-  have : AlgebraicGeometry.QuasiCompact (S.centerOffDetached i).subschemeι := inferInstance
-  have : AlgebraicGeometry.QuasiCompact
-      ((S.centerOffDetached i).subschemeι ≫ (coprod.inl : S.strictTransform i ⟶ S.totalSpace i)) :=
-    inferInstance
   have hcomap : (S.centerOnTotalSpace i).comap (coprod.inl : S.strictTransform i ⟶ S.totalSpace i)
       = S.centerOffDetached i := by
     have hk := Blowup.ker_comp_coprod_inl_comap_inl (Y := S.discardedUnion i) (S.centerOffDetached i).subschemeι
@@ -751,9 +816,6 @@ noncomputable section
 
 namespace FunctorialResolution.EmbeddedResolution
 
-private theorem base_comp_apply {A B C : Scheme.{u}} (f : A ⟶ B) (g : B ⟶ C) (x : ↥A) :
-    (f ≫ g).base x = g.base (f.base x) := by simp
-
 private theorem isIso_stalkMap_of_isOpenImmersion {A B : Scheme.{u}} (f : A ⟶ B)
     [AlgebraicGeometry.IsOpenImmersion f] (x : ↥A) :
     CategoryTheory.IsIso (AlgebraicGeometry.Scheme.Hom.stalkMap f x) := by
@@ -778,7 +840,7 @@ private theorem base_apply_mem_support_ker {W Z : Scheme.{u}} (g : W ⟶ Z) (q :
   rw [← AlgebraicGeometry.Scheme.IdealSheafData.range_subschemeι]
   exact ⟨(AlgebraicGeometry.IsClosedImmersion.lift
       (AlgebraicGeometry.Scheme.Hom.ker g).subschemeι g hle).base q, by
-    rw [← base_comp_apply, hfac]⟩
+    rw [← Scheme.Hom.comp_apply, hfac]⟩
 
 theorem mem_support_centerOffDetached_of_mem_support_ambientCenter (i : ℕ) (p : ↥(S.strictTransform i))
     (hp : p ∈ ((S.discardedLocusClosureCompl i : (S.strictTransform i).Opens) : Set ↥(S.strictTransform i)))
@@ -798,7 +860,7 @@ theorem mem_support_centerOffDetached_of_mem_support_ambientCenter (i : ℕ) (p 
   obtain ⟨q, hq⟩ := hq0
   have hmain := base_apply_mem_support_ker
     (((S.comapAmbientCenter i).comap (S.discardedLocusClosureCompl i).ι).subschemeι ≫ (S.discardedLocusClosureCompl i).ι) q
-  rw [base_comp_apply, hq] at hmain
+  rw [Scheme.Hom.comp_apply, hq] at hmain
   rw [S.centerOffDetached_eq i]
   exact hmain
 
@@ -973,8 +1035,6 @@ private theorem isOpenImmersion_preimage_ι_comp_of_ker_comap_eq {X X₁ A₀ A�
     (hker : (AlgebraicGeometry.Scheme.Hom.ker ι₁).comap (Scheme.Opens.ι (π ⁻¹ᵁ V))
       = ((AlgebraicGeometry.Scheme.Hom.ker ι₀).comap (Scheme.Opens.ι V)).comap (π ∣_ V)) :
     AlgebraicGeometry.IsOpenImmersion (Scheme.Opens.ι (ι₁ ⁻¹ᵁ (π ⁻¹ᵁ V)) ≫ m) := by
-  have hciα : AlgebraicGeometry.IsClosedImmersion ((ι₁ ∣_ (π ⁻¹ᵁ V)) ≫ (π ∣_ V)) :=
-    inferInstance
   have hk1 := FunctorialResolution.EmbeddedResolution.ker_comap_ι_eq_ker_morphismRestrict ι₁ (π ⁻¹ᵁ V)
   have hk0 := FunctorialResolution.EmbeddedResolution.ker_comap_ι_eq_ker_morphismRestrict ι₀ V
   have hcomp := FunctorialResolution.Blowup.comap_ker_comp_of_isOpenImmersion (ι₁ ∣_ (π ⁻¹ᵁ V)) (π ∣_ V)
@@ -1057,7 +1117,6 @@ private theorem isIso_stalkMap_strictTransformToZero_of_avoidsCenters
       intro hj a ha
       have hjlt : j < S.ambientLength := Nat.lt_of_succ_le hj
       have hNoe : AlgebraicGeometry.IsNoetherian (S.ambientLevel (j + 1)) := hN (j + 1) hj
-      have hNs : TopologicalSpace.NoetherianSpace ↥(S.ambientLevel (j + 1)) := inferInstance
       obtain ⟨hnc, hcl⟩ := (S.toEmbeddedBlowupSequence.avoidsCenters_succ_iff j ((S.strictTransformι (j + 1)).base a)).mp ha
       have haO : a ∈ (S.strictTransformι (j + 1) ⁻¹ᵁ
           (S.ambientBlowupMorphism j ⁻¹ᵁ (S.ambientCenter j).support.compl)) := hnc
@@ -1262,7 +1321,7 @@ theorem boundary_preimage_subset_smoothLocusComplement_preimage (A : Principaliz
         (AffineSpacePrincipalizationData.ofAffine A hemb hsnc hsm k Y pY).strictTransformι i).base q
       = ((AffineSpacePrincipalizationData.ofAffine A hemb hsnc hsm k Y pY).strictTransformι i).base
           (((AffineSpacePrincipalizationData.ofAffine A hemb hsnc hsm k Y pY).discardedι i).base q) :=
-    base_comp_apply _ _ q
+    Scheme.Hom.comp_apply _ _ q
   rw [hbase] at hmem
   have hnc := not_avoidsCenters_of_mem_support_boundary A hemb hsnc hsm k Y pY i (le_of_lt hi) E hE
     (((AffineSpacePrincipalizationData.ofAffine A hemb hsnc hsm k Y pY).strictTransformι i).base
@@ -1272,7 +1331,7 @@ theorem boundary_preimage_subset_smoothLocusComplement_preimage (A : Principaliz
     (((AffineSpacePrincipalizationData.ofAffine A hemb hsnc hsm k Y pY).discardedι i).base q) hnc
   show ((AffineSpacePrincipalizationData.ofAffine A hemb hsnc hsm k Y pY).detachedToBase i).base q ∈
     ((smoothLocusComplement pY : TopologicalSpace.Closeds ↥Y) : Set ↥Y)
-  rw [AffineSpacePrincipalizationData.detachedToBase_def, base_comp_apply]
+  rw [AffineSpacePrincipalizationData.detachedToBase_def, Scheme.Hom.comp_apply]
   exact hsing
 
 theorem detachedSingularPreimageEqBoundary_ofAffine (A : PrincipalizationAlgorithm.{u})
@@ -1299,7 +1358,7 @@ theorem detachedSingularPreimageEqBoundary_ofAffine (A : PrincipalizationAlgorit
           Set ↥((AffineSpacePrincipalizationData.ofAffine A hemb hsnc hsm k Y pY).ambientLevel i)) := by
     intro E hE hmem
     refine hcon ?_
-    have hb := base_comp_apply
+    have hb := Scheme.Hom.comp_apply
       ((AffineSpacePrincipalizationData.ofAffine A hemb hsnc hsm k Y pY).discardedι i)
       ((AffineSpacePrincipalizationData.ofAffine A hemb hsnc hsm k Y pY).strictTransformι i) q
     simp only [Set.mem_preimage, hb]

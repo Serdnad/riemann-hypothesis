@@ -1,12 +1,12 @@
 module
 
-import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PBlockImageArith
 public import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.CoordinateIdeals
 public import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.CoordinateIdeals.MemMCoordIdealOfAevalEqZero
 public import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.FrameDefinitions.Metric
 import Mathlib.RingTheory.Henselian
 import Mathlib.RingTheory.RegularLocalRing.Defs
 import Mathlib.RingTheory.SimpleRing.Principal
+import GroundTheory.HeightsAndTheta.Heights.HeightComparison.IsMultiHomogIdealIff
 
 @[expose] public section
 
@@ -60,9 +60,8 @@ theorem isValueAt_pow {y : (Σ k, ι k) → Ω} {s : Ω} {z : (Σ k, ι k) → �
   | succ n ih => rw [pow_succ, pow_succ]; exact isValueAt_mul ih hv
 
 theorem isMultiHomog_X_single [DecidableEq K] (p : Σ k, ι k) :
-    IsMultiHomog (X p : MRing ι) (fun k => if k = p.1 then 1 else 0) := by
-  intros
-  apply _root_.GroundTheory.Heights₂.Heights.HilbertSamuel.BlockImageArithmetic.isMultiHomog_X_single <;> assumption
+    IsMultiHomog (X p : MRing ι) (fun k => if k = p.1 then 1 else 0) :=
+  GroundTheory.Heights₂.Heights.Bridge.isMultiHomog_X_ite p
 
 end Values
 

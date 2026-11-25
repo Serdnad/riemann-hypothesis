@@ -1,6 +1,5 @@
 module
 
-import Formalism.LocalToGlobal.TorsionIntegrality.SecondCoefficientNorms.BinomialSeriesCoefficients.USideB
 import Formalism.LocalToGlobal.TorsionIntegrality.SecondCoefficientNorms.BinomialSeriesCoefficients.IntPSDerivativeOfLG
 public import Formalism.LocalToGlobal.TorsionIntegrality.SecondCoefficientNorms.VeluIntegral
 import Mathlib.RingTheory.Henselian
@@ -29,9 +28,8 @@ theorem intPS_sub {f g : PowerSeries K} (hf : IntPS R f) (hg : IntPS R g) : IntP
   rw [map_sub]
   exact R.sub_mem (hf n) (hg n)
 
-theorem intPS_mul {f g : PowerSeries K} (hf : IntPS R f) (hg : IntPS R g) : IntPS R (f * g) := fun n => by
-  rw [PowerSeries.coeff_mul]
-  exact R.sum_mem (fun p _ => R.mul_mem (hf _) (hg _))
+theorem intPS_mul {f g : PowerSeries K} (hf : IntPS R f) (hg : IntPS R g) : IntPS R (f * g) :=
+  Formalism.L2.Th1.C.JetSubstitutionLemmas.intPS_mul hf hg
 
 theorem intPS_C {c : K} (hc : c ∈ R) : IntPS R (PowerSeries.C c) := fun n => by
   rw [PowerSeries.coeff_C]
@@ -69,7 +67,7 @@ theorem hs_of {a : PowerSeries K} (h : PowerSeries.constantCoeff a = 0) : PowerS
 
 theorem cc_mulBy {l linv : PowerSeries K} (h : IsLogPair l linv) (al : K) :
     PowerSeries.constantCoeff (mulBy l linv al) = 0 := by
-  apply _root_.Formalism.L2.Th1.C.USideB.cc_mulBy <;> assumption
+  exact Formalism.L2.Th1.C.JetSubstitutionLemmas.cc_mulBy h al
 
 theorem subst_mulBy_l {l linv : PowerSeries K} (h : IsLogPair l linv) (al : K) :
     PowerSeries.subst (mulBy l linv al) l = PowerSeries.C al * l := by
@@ -81,7 +79,14 @@ theorem subst_mulBy_l {l linv : PowerSeries K} (h : IsLogPair l linv) (al : K) :
 theorem subst_rescale {l linv : PowerSeries K} (h : IsLogPair l linv) (al : K) (g : PowerSeries K) :
     PowerSeries.subst l (PowerSeries.rescale al g) =
       PowerSeries.subst (mulBy l linv al) (PowerSeries.subst l g) := by
-  apply _root_.Formalism.L2.Th1.C.USideB.subst_rescale <;> assumption
+  have hl : PowerSeries.HasSubst l := hs_of h.1
+  have hm : PowerSeries.HasSubst (mulBy l linv al) := hs_of (cc_mulBy h al)
+  have hX : PowerSeries.HasSubst (PowerSeries.C al * PowerSeries.X : PowerSeries K) := hs_of (by simp)
+  have hC : PowerSeries.subst l (PowerSeries.C al) = PowerSeries.C al := PowerSeries.subst_C al
+  rw [PowerSeries.subst_comp_subst_apply hl hm, subst_mulBy_l h, PowerSeries.rescale_eq_subst,
+    PowerSeries.smul_eq_C_mul, PowerSeries.subst_comp_subst_apply hX hl,
+    ← PowerSeries.coe_substAlgHom hl, map_mul, PowerSeries.coe_substAlgHom, hC,
+    PowerSeries.subst_X hl]
 
 theorem l_ne_zero {l linv : PowerSeries K} (h : IsLogPair l linv) : l ≠ 0 := by
   intro h0

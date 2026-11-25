@@ -1,52 +1,12 @@
 module
 
-import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.IrreducibleConnected.BasicOpenSteps
 public import Mathlib.Algebra.MvPolynomial.Eval
 public import Mathlib.Analysis.CStarAlgebra.Classes
 public import Mathlib.Algebra.MvPolynomial.Funext
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
 import Mathlib.Data.Finsupp.Encodable
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
 import Mathlib.RingTheory.SimpleRing.Principal
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
 public import Mathlib.Topology.Algebra.MvPolynomial
 import Mathlib.Topology.Baire.LocallyCompactRegular
-import Mathlib.Topology.Sheaves.Init
 import Mathlib.Topology.UniformSpace.Uniformizable
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.HeightTheory.TheoremA
 
@@ -59,7 +19,18 @@ namespace GlobalTheory
 
 theorem dense_mvPolynomial_eval_ne_zero {D : ℕ} (q : MvPolynomial (Fin D) ℂ) (hq : q ≠ 0) :
     Dense {z : Fin D → ℂ | MvPolynomial.eval z q ≠ 0} := by
-  first | exact _root_.GroundTheory.Heights₂.Heights.HilbertSamuel.IrreducibleBasicOpenConnected.dense_ne_zero | exact @_root_.GroundTheory.Heights₂.Heights.HilbertSamuel.IrreducibleBasicOpenConnected.dense_ne_zero | apply _root_.GroundTheory.Heights₂.Heights.HilbertSamuel.IrreducibleBasicOpenConnected.dense_ne_zero <;> assumption
+  rw [Metric.dense_iff]
+  intro z₀ r hr
+  by_contra hne
+  apply hq
+  refine MvPolynomial.funext_set (fun i => Metric.ball (z₀ i) r)
+    (fun i => infinite_of_mem_nhds (z₀ i) (Metric.ball_mem_nhds _ hr)) (fun x hx => ?_)
+  rw [map_zero]
+  by_contra hx0
+  apply hne
+  refine ⟨x, ?_, hx0⟩
+  rw [Metric.mem_ball, dist_pi_lt_iff hr]
+  exact fun i => hx i (Set.mem_univ i)
 
 theorem exists_algIndep_tuple_near :
     ∀ (K : Type) [Field K] [Countable K] (sg : K →+* ℂ) (D : ℕ) (z₀ : Fin D → ℂ) (ε : ℝ), 0 < ε → ∃ z : Fin D → ℂ, (∀ i, ‖z i - z₀ i‖ < ε) ∧ ∀ p : MvPolynomial (Fin D) K, p ≠ 0 → MvPolynomial.eval₂ sg z p ≠ 0 := by

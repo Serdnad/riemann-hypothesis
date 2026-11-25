@@ -1,52 +1,11 @@
 module
 
-import all Development.AutomorphicArithmetic.Foundations.Convolution.SphericalHeckeOperators.DeepHecke
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.RegularSemisimpleFibres.FrobeniusLocalPairs.MatchSmulAlt
 public import Development.AutomorphicArithmetic.Foundations.Convolution.TwistedLocalOrbits.BallSub
 public import Development.AutomorphicArithmetic.Foundations.Convolution.TwistedLocalOrbits.StrictNormal
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.RegularSemisimpleFibres.FrobeniusLocalPairs.StrictNear
 import Development.AbelianVarietyTheory.Definitions.Foundations.MeasurePreservingRmulQuotMeas
 import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.WeilStabilizerVolume.UnfoldAbs
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Topology.Compactness.Paracompact
-import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
 import Development.AbelianVarietyTheory.Definitions.Divisors.T2SpaceGeneralLinearGroup
 import Mathlib.Tactic.Linter.Style
@@ -81,9 +40,9 @@ private theorem exists_reps {G ι : Type} [Group G] (H U : Subgroup G) (R : Fins
   have hf : ∀ g, S.r g (f (Quotient.mk S g)) := by
     intro g
     by_cases hq : ∃ i ∈ R, Quotient.mk S (x i) = Quotient.mk S g
-    · simp only [f, dif_pos hq]
+    · simp only [f, dite_eq_left hq]
       exact Quotient.exact (hq.choose_spec.2.symm)
-    · simp only [f, dif_neg hq]
+    · simp only [f, dite_eq_right hq]
       exact Quotient.exact (Quotient.out_eq (Quotient.mk S g)).symm
   refine ⟨fun g => f (Quotient.mk S g), hf, ?_, ?_⟩
   · intro g h hh u hu
@@ -91,7 +50,7 @@ private theorem exists_reps {G ι : Type} [Group G] (H U : Subgroup G) (R : Fins
     simp only [this]
   · intro i hi
     have hq : ∃ j ∈ R, Quotient.mk S (x j) = Quotient.mk S (x i) := ⟨i, hi, rfl⟩
-    simp only [f, dif_pos hq]
+    simp only [f, dite_eq_left hq]
     rw [hd _ hq.choose_spec.1 i hi (Quotient.exact hq.choose_spec.2)]
 
 theorem UpperTheory.Gal.InertialTypesAlt.L.cosetSum :
@@ -243,7 +202,7 @@ theorem UpperTheory.Gal.InertialTypesAlt.L.cosetSum :
     intro g
     by_cases hg : g ∈ S <;> simp [F, hg]
   unfold quotIntegral
-  rw [dif_pos hex]
+  rw [dite_eq_left hex]
   simp_rw [hpt2]
   have hm2 : Measurable fun g => F g * hex.choose g := hFm.mul hex.choose_spec.1
   rw [integral_complex_ofReal, integral_toReal hm2.aemeasurable (ae_lt_top hm2 (hI ▸ hfin)), hI]
@@ -270,7 +229,17 @@ section
 variable {E : Type} [Field E] [ValuativeRel E] [TopologicalSpace E] [IsNonarchimedeanLocalField E] {n : ℕ}
 
 private theorem sg_cont {σ : E ≃+* E} (hσ : Isom σ) : Continuous (sg σ : GL (Fin n) E → GL (Fin n) E) := by
-  apply _root_.sg_cont <;> assumption
+  have hc : Continuous (σ : E → E) := by
+    rw [continuous_iff_continuousAt]
+    intro x
+    rw [ContinuousAt, (IsValuativeTopology.hasBasis_nhds x).tendsto_iff
+      (IsValuativeTopology.hasBasis_nhds (σ x))]
+    intro γ _
+    refine ⟨γ, trivial, fun z hz => ?_⟩
+    simp only [Set.mem_setOf_eq] at hz ⊢
+    rw [← map_sub, hσ]
+    exact hz
+  exact Continuous.units_map _ (continuous_id.matrix_map hc)
 
 omit [ValuativeRel E] [TopologicalSpace E] [IsNonarchimedeanLocalField E] in
 private theorem map_diag {F : Type} [Field F] (f : E →+* F) (u : Fin n → Eˣ) :
@@ -298,7 +267,15 @@ private theorem sg_diag (σ : E ≃+* E) (p : Fin n → Eˣ) :
 
 private theorem cent_diag {σ : E ≃+* E} {q : ℕ} (hσ : Cyc σ q) {d : Fin n → Eˣ} (hd : Strict d) {δ y c : GL (Fin n) E}
     (hy : y⁻¹ * δ * sg σ y = diagT E (Fin n) d) (hc : c⁻¹ * δ * sg σ c = δ) : ∃ u, y⁻¹ * c * y = diagT E (Fin n) u := by
-  apply _root_.cent_diag <;> assumption
+  have hc2 : δ * sg σ c = c * δ := by
+    calc δ * sg σ c = c * (c⁻¹ * δ * sg σ c) := by group
+      _ = c * δ := by rw [hc]
+  have key : (y⁻¹ * c * y)⁻¹ * diagT E (Fin n) d * sg σ (y⁻¹ * c * y) = diagT E (Fin n) d := by
+    rw [← hy]
+    simp only [map_mul, map_inv, _root_.mul_inv_rev, inv_inv, mul_assoc, mul_inv_cancel_left]
+    rw [← mul_assoc δ, hc2]
+    simp only [mul_assoc, inv_mul_cancel_left]
+  exact strictNormal E n σ q hσ d d hd hd _ key
 
 private theorem diag_ball {r : ValueGroupWithZero E} {s : Fin n → Eˣ} (h : Near r s) : diagT E (Fin n) s ∈ ball n r := by
   intro i j

@@ -1,10 +1,9 @@
 module
 
-
-import all Development.AbelianVarietyTheory.Proofs.JetHarmonics.CayleyExistsAndAny
 public import CompanionTheory.AutomorphicTheory.PieriRules.ThetaBesselIsometries.IsDSOfIsDG
 public import Development.AbelianVarietyTheory.Counterexamples.JetSurvey.ExistsIsCayleyUIff
 import Mathlib.Tactic.Lemma
+
 @[expose] public section
 
 namespace GlobalTheory
@@ -32,7 +31,12 @@ lemma Kset_sub {g : Matrix (Fin n) (Fin n) ℂ} (hg : g ∈ Kset ε) : g ∈ UJs
   rw [Matrix.mul_assoc, ← hg.2, ← Matrix.mul_assoc, hg1, Matrix.one_mul]
 
 lemma UJ_mul {g h : Matrix (Fin n) (Fin n) ℂ} (hg : g ∈ UJset ε) (hh : h ∈ UJset ε) : g * h ∈ UJset ε := by
-  apply _root_.GlobalTheory.CayleyChoice.mul_mem_UJset_jet_harmonics <;> assumption
+  have hg' : gᴴ * Jm ε * g = Jm ε := hg
+  have hh' : hᴴ * Jm ε * h = Jm ε := hh
+  show (g * h)ᴴ * Jm ε * (g * h) = Jm ε
+  calc (g * h)ᴴ * Jm ε * (g * h) = hᴴ * (gᴴ * Jm ε * g) * h := by
+        simp only [conjTranspose_mul, Matrix.mul_assoc]
+    _ = Jm ε := by rw [hg', hh']
 
 lemma symm_inter (T : H ≃ₗᵢ[ℂ] H) (h : ∀ g ∈ UJset ε, ∀ v, T (σ' g v) = σ g (T v)) :
     ∀ g ∈ UJset ε, ∀ v, T.symm (σ g v) = σ' g (T.symm v) := by
@@ -128,15 +132,27 @@ theorem isDS_transfer (T : H ≃ₗᵢ[ℂ] H) (h : ∀ g ∈ UJset ε, ∀ v, T
 
 theorem isDS_conj {lam : Fin n → ℝ} (hσ : IsDS ε lam σ) {u u' : Matrix (Fin n) (Fin n) ℂ}
     (hu : u ∈ UJset ε) (hu' : u' ∈ UJset ε) (h1 : u * u' = 1) :
-    IsDS ε lam (fun g => σ (u' * g * u)) :=
-  _root_.GlobalTheory.CayleyChoice.isDS_conj hσ hu hu' h1
+    IsDS ε lam (fun g => σ (u' * g * u)) := by
+  obtain ⟨⟨r1, r2⟩, r3, -⟩ := hσ.2.2.1
+  have hs : ∀ v, σ u (σ u' v) = v := by
+    intro v
+    have := r2 u hu u' hu'
+    rw [h1, r1] at this
+    simpa using (congrArg (fun A : H →L[ℂ] H => A v) this).symm
+  let T : H ≃ₗᵢ[ℂ] H := LinearIsometryEquiv.ofSurjective
+    { toLinearMap := (σ u : H →ₗ[ℂ] H), norm_map' := r3 u hu } (fun v => ⟨σ u' v, hs v⟩)
+  refine isDS_transfer T ?_ hσ
+  intro g hg v
+  show σ u (σ (u' * g * u) v) = σ g (σ u v)
+  rw [r2 _ (UJ_mul hu' hg) u hu, r2 u' hu' g hg]
+  simp [hs]
 
 lemma card_even (r : ℕ) : ((range (2 * r + 2)).filter fun m => m % 2 = 0).card = r + 1 := by
   induction r with
   | zero => decide
   | succ r ih =>
     rw [show 2 * (r + 1) + 2 = 2 * r + 2 + 1 + 1 by ring, range_add_one, range_add_one, filter_insert,
-      filter_insert, if_neg (by omega), if_pos (by omega), card_insert_of_notMem (by simp), ih]
+      filter_insert, ite_eq_right (by omega), ite_eq_left (by omega), card_insert_of_notMem (by simp), ih]
 
 lemma card_signs (k r : ℕ) (hk : 1 ≤ k) :
     (univ.filter fun i => PI.BesselPeriodGGP.eps48 k r i = true).card = k + r := by
@@ -150,7 +166,7 @@ lemma card_signs (k r : ℕ) (hk : 1 ≤ k) :
   rw [Fin.sum_univ_eq_sum_range (fun m : ℕ => if m < j ∨ (m - j) % 2 = 0 then 1 else 0),
     show 2 * r + (j + 1) + 1 = j + (2 * r + 2) by ring, sum_range_add]
   have a : ∑ m ∈ range j, (if m < j ∨ (m - j) % 2 = 0 then 1 else 0) = j := by
-    rw [sum_congr rfl (g := fun _ => 1) (fun m hm => if_pos (Or.inl (mem_range.1 hm)))]; simp
+    rw [sum_congr rfl (g := fun _ => 1) (fun m hm => ite_eq_left (Or.inl (mem_range.1 hm)))]; simp
   have b : ∑ m ∈ range (2 * r + 2), (if j + m < j ∨ (j + m - j) % 2 = 0 then 1 else 0) = r + 1 := by
     rw [← card_even r, card_filter]
     refine sum_congr rfl fun m _ => ?_

@@ -11,54 +11,10 @@ public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.LocallyC
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.MirabolicCellStructureData
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.MirabolicDoubleCosetDecomposition
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.MirabolicFourierExpansion
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.RingTheory.SimpleRing.Principal
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.HaveILetI
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Topology.Sheaves.Init
 import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ThetaOpenMirabolic
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
 import Std.Tactic.BVDecide.Normalize.Prop
-import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.InvariantPairingMirabolicVanishing
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AutomorphicSpectrum.Proofs.BlockDecomposition.EqZeroOfEigOfMemTwKer, Development.AutomorphicSpectrum.Proofs.BlockDecomposition.AverageVanishesOpenCell
@@ -366,7 +322,20 @@ theorem cEl_mem (i t : ℕ) (c : Fin (i + 1) → k) : cEl k i t c ∈ HPG k (i +
 
 theorem det_unip (n : ℕ) (v : Multiplicative (Fin n → k)) :
     ((unip k n v : GL (Fin (n + 1)) k) : Matrix (Fin (n + 1)) (Fin (n + 1)) k).det = 1 := by
-  apply _root_.GlobalTheory.CompanionTheory.MirPsiPair.det_unip <;> assumption
+  have h : BlockTriangular ((unip k n v : GL (Fin (n + 1)) k) : Matrix (Fin (n + 1)) (Fin (n + 1)) k) id := by
+    intro a b hab
+    have hab' : b < a := hab
+    have hb : b ≠ Fin.last n := fun e => by
+      rw [e] at hab'
+      exact absurd hab' (not_lt.2 (Fin.le_last _))
+    show (1 + colMat k n v.toAdd) a b = 0
+    simp [colMat, hb, hab'.ne']
+  rw [det_of_upperTriangular h]
+  refine Finset.prod_eq_one fun a _ => ?_
+  show (1 + colMat k n v.toAdd) a a = 1
+  induction a using Fin.lastCases with
+  | last => simp [colMat]
+  | cast a => simp [colMat, Fin.castSucc_ne_last]
 
 theorem dpowM_unipIn (n : ℕ) (s : ℝ) (v : Multiplicative (Fin n → k)) : dpowM n s (unipIn k n v) = 1 := by
   have h : Matrix.GeneralLinearGroup.det (unip k n v) = 1 := Units.ext (det_unip n v)

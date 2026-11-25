@@ -1,6 +1,5 @@
 module
 
-import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.LatAnn
 public import Formalism.SharpRestriction.GlobalSchurBounds.StandardLattice
 public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.AddCharTrivialIntegralFiniteAdeleMul
 public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.FinTensMemLatO
@@ -14,55 +13,14 @@ public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.Exists
 public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.RationalHermitianRankOneLatticeSelfDualStatement
 public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.ScaledMatrixMemRationalLatticeStatement
 public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.StdCharFinitePartRationalEqExpTraceStatement
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Topology.Sheaves.Init
 import Formalism.LocalToGlobal.BesselHermitianTheta.NoncompactGapAtLeastRange
 import Formalism.LocalToGlobal.IndefiniteReal.LocalNewformFunction
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Data.Nat.Choose.Multinomial
 import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.FiniteAdeleStrongApproximationModNat
 import Formalism.LocalToGlobal.ProjectiveLattices.HalfOneAddSqrtNegIsIntegral
 import Mathlib.Algebra.Module.StablyFree.Basic
 import Mathlib.RingTheory.PiTensorProduct
 import Mathlib.RingTheory.PicardGroup
 import Mathlib.Tactic.Linter.HaveILetI
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
 import Formalism.LocalToGlobal.IndefiniteReal.SelfDualFullLattice
 
 -- This file was produced by scripts/clump.py from the modules listed below.
@@ -240,13 +198,31 @@ theorem char_sympl_eq_one {ψ : AddChar (AF D.host.F) ℂ} (hψ : IsStdChar D ψ
     (hu : u ∈ latO S T (ΛS : Set (Fin S.rank → D.host.E)) (ΛT : Set (Fin T.rank → D.host.E)) fun _ => True)
     (hu' : u' ∈ latO S T (ΛS : Set (Fin S.rank → D.host.E)) (ΛT : Set (Fin T.rank → D.host.E)) fun _ => True) :
     ψ (symplO S T u u') = 1 := by
-  intros
-  apply _root_.Formalism.IndefR.Fin.lat_ann <;> assumption
-
-private theorem selfDual_isFullLattice {D : D7} : ∀ (V : HSp D) (Λ : Submodule (𝓞 D.host.E) (Fin V.rank → D.host.E)),
-    IsSelfDualC V Λ → Submodule.IsFullLattice D.host.E Λ := by
-  intro V Λ hΛ
-  exact Formalism.IndefR.Datum.IsSelfDualC.isFullLattice V Λ hΛ
+  change symplHom S T u u' ∈ kerChar ψ
+  refine latO_induction (p := fun u => symplHom S T u u' ∈ kerChar ψ) ?_ ?_ ?_ ?_ hu
+  · intro α hα M hM
+    refine latO_induction (p := fun u' => symplHom S T (finTens α M) u' ∈ kerChar ψ) ?_ ?_ ?_ ?_ hu'
+    · intro β hβ N hN
+      change ψ (symplO S T _ _) = 1
+      rw [symplO_finTens]
+      refine GlobalTheory.T.addChar_trivial_integralFiniteAdele_mul D.host.F ψ hψ.1.1 _ (fun a => ?_) _ (mul_mem_intAf hα hβ)
+      have h1 := (GlobalTheory.T.rationalHermitianRankOneLattice_selfDual D S T ΛS ΛT hS hT (GlobalTheory.T.exists_dual_family_selfDual_hermitianSpace D S ΛS hS) _).1
+        (smul_mem_latRat (algebraMap (𝓞 D.host.F) (𝓞 D.host.E) a) hM) N hN
+      rw [hRat_smul, ← char_rat hψ] at h1
+      rw [← h1, ← smul_eq_mul, ← map_smul, Algebra.smul_def, mul_left_comm]
+      rfl
+    · rw [map_zero]; exact zero_mem _
+    · intro x y hx hy
+      change symplO S T (finTens α M) (x + y) ∈ kerChar ψ
+      rw [symplO_add_right]
+      exact add_mem hx hy
+    · intro x hx; rw [map_neg]; exact neg_mem hx
+  · rw [map_zero]; exact zero_mem _
+  · intro x y hx hy
+    change symplO S T (x + y) u' ∈ kerChar ψ
+    rw [symplO_add_left]
+    exact add_mem hx hy
+  · intro x hx; rw [map_neg]; exact neg_mem hx
 
 
 theorem approx (hS : IsSelfDualC S ΛS) (hT : IsSelfDualC T ΛT) (γ : WO S T) :
@@ -275,7 +251,7 @@ theorem approx (hS : IsSelfDualC S ΛS) (hT : IsSelfDualC T ΛT) (γ : WO S T) :
     | zero => exact ⟨0, 0, zero_mem _, fun i j => by simp⟩
     | add x y hx hy => rw [Matrix.single_add]; exact hadd _ _ hx hy
     | tmul a x =>
-      obtain ⟨N, hN, hM⟩ := _root_.GlobalTheory.LatVacFull.latRat_full D S T ΛS ΛT (selfDual_isFullLattice S ΛS hS) (selfDual_isFullLattice T ΛT hT) (Matrix.single i j x)
+      obtain ⟨N, hN, hM⟩ := _root_.GlobalTheory.LatVacFull.latRat_full D S T ΛS ΛT (Formalism.IndefR.Datum.IsSelfDualC.isFullLattice S ΛS hS) (Formalism.IndefR.Datum.IsSelfDualC.isFullLattice T ΛT hT) (Matrix.single i j x)
       obtain ⟨a0, β, hβ, hab⟩ := (GlobalTheory.AdLat.strong_approximation_mod_nat D.host.F N hN).1 (sndA D.host.F a)
       refine ⟨Matrix.single i j (a0 • x), _, finTens_mem_latO (α := β) hβ hM, fun i' j' => ?_⟩
       have e : finPart D (finTens β (N • Matrix.single i j x) i' j') =

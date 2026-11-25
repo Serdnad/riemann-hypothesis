@@ -1,51 +1,12 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.TypeSpaceProjectionToPointEigenspaces
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.RowsExhaust
 public import Formalism.LocalToGlobal.ProjectiveLattices.HalfOneAddSqrtNegIsIntegral
 public import Formalism.LocalToGlobal.GaloisLevelStructure.DefsAut
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.SplitPlaceHeckeOperatorScalarOnSpherical
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.FiniteCosetsHeckeSetAtSplitPlaceOutsideLevel
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.SplitExEveryDatum
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
 import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.IsWildInertiaCyclotomicElement
 
 @[expose] public section
@@ -96,12 +57,12 @@ theorem finsum_cosets_eq {G W : Type} [Group G] [AddCommGroup W] (J U : Subgroup
   refine finsum_mem_eq_of_bijOn e ⟨?_, ?_, ?_⟩ ?_
   · rintro c ⟨x, hx, rfl⟩
     have hc : ∃ y ∈ Dset, (y : G ⧸ J) = (x : G ⧸ J) := ⟨x, hx, rfl⟩
-    simp only [e, dif_pos hc]
+    simp only [e, dite_eq_left hc]
     exact ⟨_, hc.choose_spec.1, rfl⟩
   · rintro c ⟨x, hx, rfl⟩ c' ⟨x', hx', rfl⟩ h
     have hc : ∃ y ∈ Dset, (y : G ⧸ J) = (x : G ⧸ J) := ⟨x, hx, rfl⟩
     have hc' : ∃ y ∈ Dset, (y : G ⧸ J) = (x' : G ⧸ J) := ⟨x', hx', rfl⟩
-    simp only [e, dif_pos hc, dif_pos hc'] at h
+    simp only [e, dite_eq_left hc, dite_eq_left hc'] at h
     rw [QuotientGroup.eq] at h
     show (x : G ⧸ J) = (x' : G ⧸ J)
     rw [← hc.choose_spec.2, ← hc'.choose_spec.2, QuotientGroup.eq]
@@ -109,16 +70,16 @@ theorem finsum_cosets_eq {G W : Type} [Group G] [AddCommGroup W] (J U : Subgroup
   · rintro d ⟨x, hx, rfl⟩
     have hc : ∃ y ∈ Dset, (y : G ⧸ J) = (x : G ⧸ J) := ⟨x, hx, rfl⟩
     refine ⟨(x : G ⧸ J), ⟨x, hx, rfl⟩, ?_⟩
-    simp only [e, dif_pos hc]
+    simp only [e, dite_eq_left hc]
     rw [QuotientGroup.eq]
     have h1 := hc.choose_spec.2
     rw [QuotientGroup.eq] at h1
     exact (hJU _ hc.choose_spec.1 _ hx).1 h1
   · rintro c ⟨x, hx, rfl⟩
     have hc : ∃ y ∈ Dset, (y : G ⧸ J) = (x : G ⧸ J) := ⟨x, hx, rfl⟩
-    have he : e x = (hc.choose : G ⧸ U) := by simp only [e, dif_pos hc]
+    have he : e x = (hc.choose : G ⧸ U) := by simp only [e, dite_eq_left hc]
     have hd : ∃ y ∈ Dset, (y : G ⧸ U) = e x := ⟨_, hc.choose_spec.1, he.symm⟩
-    simp only [φ, ψ, dif_pos hc, dif_pos hd]
+    simp only [φ, ψ, dite_eq_left hc, dite_eq_left hd]
     apply hF _ hc.choose_spec.1 _ hd.choose_spec.1
     rw [← QuotientGroup.eq, hd.choose_spec.2, he]
 
@@ -329,7 +290,37 @@ theorem isConjPl_symm' {D : D7} {w w' : PlE D.host} (h : IsConjPl D.host w w') :
 
 theorem not_bad {D : D7} {M : MtFam D} (HT : HeckeTied D M) (i : D.nd.Loc) {w : PlE D.host}
     (hw : SplitOut D.nd i w) (s : SplitPlace D.host.E) (hc : IsConjPl D.host w s.w) : s.v ∉ badPl D i := by
-  first | exact _root_.GlobalTheory.EtaJoin.TypeTieProof.not_bad_of_splitOut | exact @_root_.GlobalTheory.EtaJoin.TypeTieProof.not_bad_of_splitOut | apply _root_.GlobalTheory.EtaJoin.TypeTieProof.not_bad_of_splitOut <;> assumption
+  rintro ⟨w', hover, hw'⟩
+  have hp : ∀ p : ℕ, w' ∈ placesOver D.host.E p → w ∈ placesOver D.host.E p := by
+    intro p hp
+    have h1 : algebraMap (𝓞 (maximalRealSubfield D.host.E)) (𝓞 D.host.E) (p : 𝓞 (maximalRealSubfield D.host.E)) ∈
+        w'.asIdeal := by rw [map_natCast]; exact hp
+    have h2 : (p : 𝓞 (maximalRealSubfield D.host.E)) ∈ s.v.asIdeal := by
+      rw [← hover]; exact h1
+    have h3 : algebraMap (𝓞 (maximalRealSubfield D.host.E)) (𝓞 D.host.E) (p : 𝓞 (maximalRealSubfield D.host.E)) ∈
+        s.w.asIdeal := by
+      rw [← Ideal.mem_comap, s.w_under]; exact h2
+    rw [map_natCast] at h3
+    exact (hc (p : 𝓞 D.host.E) (p : 𝓞 D.host.E) (by rw [host_conj_eq']; simp)).2 h3
+  obtain ⟨hsp, hl, hS, hQ⟩ := hw
+  rcases hw' with hQ' | ⟨kk, hg⟩ | hpd
+  · rcases GlobalTheory.SplitConjPlace.eq_or_eq_conjPlE s.w w' (hover.trans s.w_under.symm) with e | e
+    · subst e
+      exact hQ (HT.Q_conj i s.w w (isConjPl_symm' hc) hQ')
+    · have ew : GlobalTheory.SplitConjPlace.conjPlE s.w = w := by
+        ext1; ext x
+        rw [GlobalTheory.SplitConjPlace.mem_conjPlE]
+        refine (hc x _ ?_).symm
+        rw [IsCMField.coe_ringOfIntegersComplexConj, host_conj_eq']
+      rw [e, ew] at hQ'
+      exact hQ hQ'
+  · apply hS
+    refine (D.nd.S_def i w).2 ⟨?_, hl⟩
+    have hv := hp _ hg
+    fin_cases kk
+    · exact Or.inl hv
+    · exact Or.inr (Or.inl hv)
+  · exact hS ((D.nd.S_def i w).2 ⟨Or.inr (Or.inr (hp _ hpd)), hl⟩)
 
 theorem heckeScalar_all : ∀ (D : D7) (M : MtFam D), HeckeTied D M → AVTied D M → ∀ i : D.nd.Loc, HeckeScalar M i := by
   intro D M HT A i P w k s ϖ hw hcw hu _ _

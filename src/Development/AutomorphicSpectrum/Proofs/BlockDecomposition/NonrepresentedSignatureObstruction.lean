@@ -64,7 +64,6 @@ import Mathlib.Tactic.ReduceModChar
 import Std.Tactic.BVDecide.Normalize.Prop
 import Mathlib.RingTheory.PicardGroup
 import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.ExistsForallAbvSubLt
-import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.HermitianSpaceOppositeFormSignatureConditionStatement
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.Proofs.DivisorProofs.DenseRangeRealEmbeddings, Development.AutomorphicSpectrum.Proofs.BlockDecomposition.NonrepresentedSignatureObstruction
@@ -98,7 +97,6 @@ open scoped Matrix NNReal ENNReal ComplexConjugate TensorProduct
 open Formalism.BasicNotions Formalism.BasicNotions.TH Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes Formalism.L2.Theta Formalism.L2.Pj Formalism.IndefR.Datum MeasureTheory
 open GlobalTheory.AutomorphicL2Unitary GlobalTheory.AdelicU GlobalTheory.Doubling GlobalTheory.Cont GlobalTheory.MixModel GlobalTheory.StdUnn PositivityTheory.GramSchwartzFunctions PositivityTheory.GramSchwartzFunctions.BC
 open GlobalTheory.IndefiniteRowSideFullHecke.ModerateGrowthSchwartz (schwartzA)
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 
 noncomputable section
 namespace GlobalTheory.CompanionTheory.WeilSiegel.NoFrame.Hasse
@@ -396,7 +394,14 @@ theorem finrank_le_of_posOn {m p q : ℕ} (G : Matrix (Fin m) (Fin m) ℂ) (hs :
 
 theorem hasSig_neg {n : Type} [Fintype n] [DecidableEq n] {J : Matrix n n ℂ} {p q : ℕ}
     (h : Formalism.UG.HasSignature J p q) : Formalism.UG.HasSignature (-J) q p := by
-  apply _root_.GlobalTheory.NegSpace.hasSignature_neg_swap <;> assumption
+  obtain ⟨c, Q, hQ⟩ := Formalism.UG.P.sig_data _ _ _ h
+  let s := Equiv.sumComm (Fin q) (Fin p)
+  refine GlobalTheory.FrameComplement.hasSignature_of_frame (by omega) (Q.submatrix id s) ?_
+  have e1 : (Q.submatrix id s)ᴴ * (-J) * Q.submatrix id s = -((Qᴴ * J * Q).submatrix s s) := by
+    ext a b
+    simp [Matrix.mul_apply, Matrix.conjTranspose_apply]
+  rw [e1, hQ]
+  ext (a | a) (b | b) <;> simp [Formalism.UG.Jpq, s, Matrix.one_apply]
 
 theorem sig_bound {m r t : ℕ} (ht : t < r) (Z : Matrix (Fin r) (Fin r) ℂ)
     (hZ : ∀ i j : Fin r, (t ≤ i.1 ∨ t ≤ j.1) → Z i j = 0) (G : Matrix (Fin m) (Fin m) ℂ) {p₁ q₁ p q : ℕ}
@@ -567,7 +572,7 @@ theorem exists_frame_of_sig {F E : Type} [Field F] [NumberField F] [Field E] [Nu
     rw [det_submatrix_equiv_self] at h5 ⊢
     have h6 : ∏ i, algebraMap F E (a' i) = (∏ i, algebraMap F E (a i)) * algebraMap F E c := by
       simp only [a', map_mul, Finset.prod_mul_distrib, apply_ite (algebraMap F E), map_one,
-        Finset.prod_ite_eq', Finset.mem_univ, if_true]
+        Finset.prod_ite_eq', Finset.mem_univ, ite_true]
     rw [hc, det_submatrix_equiv_self] at *
     rw [blockM_det, h6, ← mul_assoc, ← blockM_det, mul_div_cancel₀ _ h5]
   obtain ⟨R, hR, hRe⟩ := GlobalTheory.HermAdelicNorm.congr_of_signature_of_adelic_norm F E cm m G
@@ -584,8 +589,7 @@ end GlobalTheory.CompanionTheory.WeilSiegel.NoFrame.Hasse
 open GlobalTheory.CompanionTheory.WeilSiegel.NoFrame GlobalTheory.CompanionTheory.WeilSiegel.NoFrame.Hasse in
 theorem GlobalTheory.CompanionTheory.WeilSiegel.NoFrame.exists_obstruction : ∀ (D : D7) (r : ℕ) (V : HSp D), 2 * r < V.rank → ∀ (t : ℕ) (β : HermE D r), GlobalTheory.CompanionTheory.WeilSiegel.Deg.IsBlockNF t β → (¬ ∃ x : Matrix (Fin V.rank) (Fin r) D.host.E, x.rank = r ∧ gramQ V x = β.1) → ∃ (ρ : D.what₂.Tau) (ε : ℝ) (S : Submodule ℂ (Fin r → ℂ)), (ε = 1 ∨ ε = -1) ∧ GlobalTheory.CompanionTheory.WeilSiegel.NoFrame.NonnegOn ε (β.1.map (tauE D ρ)) S ∧ ∀ T : Submodule ℂ (Fin V.rank → ℂ), GlobalTheory.CompanionTheory.WeilSiegel.NoFrame.PosOn ε (gramAt D V ρ) T → Module.finrank ℂ T < Module.finrank ℂ S := by
   intro D r V h2r t β hNF hno
-  by_contra hcon
-  push_neg at hcon
+  by_contra! hcon
   obtain ⟨ht, hz, hdet⟩ := hNF
   apply hno
   have hstar : ∀ x : D.host.E, D.sp.cm.sig x = star x := fun _ => rfl

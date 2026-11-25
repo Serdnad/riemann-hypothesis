@@ -3,50 +3,9 @@ module
 public import Development.AbelianVarietyTheory.Statements.CuspFrameWeights.EigenfunctionFiniteCoefficients
 public import Development.AbelianVarietyTheory.Statements.CuspFrameWeights.DiscreteSpectrumKFiniteDecomposition
 public import Formalism.RealPlaceAnalysis.ThirdArithmeticHolds
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
 import Mathlib.Algebra.Order.Star.Real
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
-import Development.AbelianVarietyTheory.Proofs.FlagMeasures.SqIntIrrPerm
 
 @[expose] public section
 
@@ -196,7 +155,19 @@ theorem ktype_perm (s : Equiv.Perm (Fin n)) (hε : ∀ a, ε' a = ε (s a))
 
 theorem rhoC_perm (s : Equiv.Perm (Fin n)) (hs : ∀ a b, a < b → ε (s a) = ε (s b) → s a < s b) :
     rhoC (ε ∘ s) = rhoC ε ∘ s := by
-  apply _root_.GlobalTheory.DSId.PermK.rhoC_perm <;> assumption
+  funext a
+  have h1 : (univ.filter fun b => a < b ∧ (ε ∘ s) b = (ε ∘ s) a).card =
+      (univ.filter fun b => s a < b ∧ ε b = ε (s a)).card := by
+    refine Finset.card_equiv s fun b => ?_
+    simp only [Finset.mem_filter, Finset.mem_univ, true_and, Function.comp_apply]
+    exact ⟨fun h => ⟨hs _ _ h.1 h.2.symm, h.2⟩, fun h => ⟨lt_of_perm_lt hs h.1 h.2.symm, h.2⟩⟩
+  have h2 : (univ.filter fun b => b < a ∧ (ε ∘ s) b = (ε ∘ s) a).card =
+      (univ.filter fun b => b < s a ∧ ε b = ε (s a)).card := by
+    refine Finset.card_equiv s fun b => ?_
+    simp only [Finset.mem_filter, Finset.mem_univ, true_and, Function.comp_apply]
+    exact ⟨fun h => ⟨hs _ _ h.1 h.2, h.2⟩, fun h => ⟨lt_of_perm_lt hs h.1 h.2, h.2⟩⟩
+  simp only [rhoC, Function.comp_apply] at h1 h2 ⊢
+  rw [h1, h2]
 
 theorem lowK_add (ε : Fin n → Bool) (lam : Fin n → ℝ) : lowK ε lam + (2 : ℝ) • rhoC ε = lam + Formalism.QuantumDeterminants.rhoStd n := by
   funext a

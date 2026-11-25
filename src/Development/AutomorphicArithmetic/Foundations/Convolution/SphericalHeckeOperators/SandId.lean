@@ -1,6 +1,5 @@
 module
 
-import all Development.AutomorphicArithmetic.Foundations.Convolution.SphericalHeckeOperators.SatAvg
 public import Development.AutomorphicArithmetic.Foundations.Convolution.SphericalHeckeOperators.SymSum
 public import GroundTheory.AutomorphicForms.IwahoriFactorization
 public import GroundTheory.AutomorphicForms.MacdonaldSpherical
@@ -10,57 +9,9 @@ public import GroundTheory.AutomorphicForms.MacdonaldNormalization
 public import Development.AutomorphicArithmetic.Foundations.Convolution.SphericalHeckeOperators.GapDom
 public import Development.AutomorphicArithmetic.Foundations.Convolution.SphericalHeckeOperators.IntegralConv
 public import Development.AutomorphicArithmetic.Foundations.Convolution.SphericalHeckeOperators.SandPS
-import Mathlib.Algebra.AffineMonoid.UniqueSums
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
 import Aesop.Main
-import Mathlib.Algebra.Order.Star.Int
-import Mathlib.Order.CompletePartialOrder
-import Mathlib.Tactic.ENatToNat
 import Mathlib.Tactic.Linter.HaveILetI
-import Mathlib.Tactic.TypeStar
 import Development.AutomorphicArithmetic.Foundations.Convolution.SphericalHeckeOperators.ThPMul
 import GroundTheory.LocalFields.LocalFourierHaar
 
@@ -462,7 +413,7 @@ private theorem vanish_of_cover {G : Type*} [Group G] [TopologicalSpace G] [IsTo
       obtain ⟨v, hv, x, hx, hvx⟩ := hC s hs s' hs' ⟨u, hu, y * z⁻¹, I.mul_mem hy (I.inv_mem hz), by
         rw [← mul_assoc, ← mul_inv_eq_iff_eq_mul.2 hsz]⟩
       exact hn ⟨v, hv, x * z, I.mul_mem hx hz, by rw [hsz, hvx]; group⟩
-  · push_neg at h
+  · push Not at h
     exact setIntegral_eq_zero_of_forall_eq_zero h
 
 private theorem exists_cover {G : Type*} [Group G] [TopologicalSpace G] [IsTopologicalGroup G]
@@ -677,6 +628,14 @@ private theorem cv_sum_right {ι : Type*} (S : Finset ι) {a : G → ℂ} {b : �
   exact integral_finsetSum _ fun i hi => integrable_mul_of_mem ha
     ((hb i hi).1.continuous.comp (continuous_inv.mul continuous_const))
 
+private theorem cv_sum_left {ι : Type*} (S : Finset ι) {a : G → ℂ} {b : ι → G → ℂ}
+    (ha : a ∈ locallyConstantCompactSupport G ℂ ℂ)
+    (hb : ∀ i ∈ S, b i ∈ locallyConstantCompactSupport G ℂ ℂ) :
+    groupConv μ (∑ i ∈ S, b i) a = ∑ i ∈ S, groupConv μ (b i) a := by
+  funext x
+  simp only [groupConv, Finset.sum_apply, Finset.sum_mul]
+  exact integral_finsetSum _ fun i hi => integrable_mul_of_mem (hb i hi)
+    (ha.1.continuous.comp (continuous_inv.mul continuous_const))
 
 private theorem cv_mul_left {a b : G → ℂ} {k : G} (hk : ∀ g, a (k * g) = a g) (x : G) :
     groupConv μ a b (k * x) = groupConv μ a b x := by
@@ -708,10 +667,28 @@ private theorem dom_monomial {a : Fin n → ℤ} (ha : Antitone a) : Dom (monomi
 end Aux2
 
 private theorem dPol_ne_zero (n : ℕ) (t : ℂ) : dPol n t ≠ 0 := by
-  apply _root_.dPol_ne_zero <;> assumption
+  refine Finset.prod_ne_zero_iff.2 fun p hp h => ?_
+  have hp' : p.1 < p.2 := (Finset.mem_filter.1 hp).2
+  have hne : (Pi.single p.2 1 : Fin n → ℤ) ≠ Pi.single p.1 1 := fun e => by
+    have := congrFun e p.1
+    simp [hp'.ne] at this
+  have := congrArg (fun y : LaurentRing n => y.coeff (Pi.single p.1 1)) h
+  simp [hne] at this
 
 private theorem inj_of_dPol {n : ℕ} {z : Fin n → ℂˣ} (h : evalAt z (dPol n 1) ≠ 0) : Function.Injective z := by
-  apply _root_.inj_of_dPol <;> assumption
+  have key : ∀ i j, i < j → z i ≠ z j := fun i j hij e => by
+    refine h ?_
+    unfold dPol
+    rw [map_prod]
+    refine Finset.prod_eq_zero (i := (i, j)) (Finset.mem_filter.2 ⟨Finset.mem_univ _, hij⟩) ?_
+    have hv : ∀ a, evalAt z (varL a) = z a := fun a => by
+      rw [evalAt_single, one_mul, monomialChar_apply, Finset.prod_eq_single a] <;> simp +contextual
+    simp [hv, e]
+  intro i j e
+  rcases lt_trichotomy i j with h | h | h
+  · exact absurd e (key _ _ h)
+  · exact h
+  · exact absurd e.symm (key _ _ h)
 
 theorem UpperTheory.ConvolutionTheory.H.sandId :
     ∀ (F : Type) [Field F] [ValuativeRel F] [TopologicalSpace F] [IsNonarchimedeanLocalField F] (n : ℕ)

@@ -1,6 +1,5 @@
 module
 
-import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.StabilizerVolume.MeasureEqOfCos
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.StabilizerVolume.HenselCount
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.StabilizerVolume.CosDens
 public import Mathlib.Analysis.InnerProductSpace.Basic
@@ -13,59 +12,11 @@ public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.HaarFibreUniquen
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.StabilizerOrbitVolume.FibDis
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.StabilizerOrbitVolume.HenselCountHolds
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.StabilizerOrbitVolume.TensAll
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.HaveILetI
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Topology.Sheaves.Init
 import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.AdelicLocalCompactness.T2SpaceTensorProductFiniteExtension
 import Formalism.PeriodIntegrals.VolFromSW
-import Mathlib.Order.CompletePartialOrder
 import Std.Tactic.BVDecide.Normalize.Prop
 import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.StabilizerOrbitVolume.DensFibV
-import Mathlib.RingTheory.Henselian
-import Mathlib.RingTheory.RegularLocalRing.Defs
-import Mathlib.RingTheory.SimpleRing.Principal
-import Mathlib.Topology.Connected.Separation
-import Mathlib.Topology.MetricSpace.Ultra.TotallySeparated
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Formalism.PeriodIntegrals.UnitaryGroupMassFormula.StabilizerOrbitVolume.DensVGlue, Formalism.PeriodIntegrals.UnitaryGroupMassFormula.StabilizerOrbitVolume.FibTop, Formalism.PeriodIntegrals.UnitaryGroupMassFormula.StabilizerOrbitVolume.MeasureEqOfCos, Formalism.PeriodIntegrals.UnitaryGroupMassFormula.HaarFibreUniqueness.GramMapFibreExistence
@@ -227,61 +178,30 @@ def thick (S : Set X) (Λ : AddSubgroup X) : Set X := {x | ∃ s ∈ S, x - s �
 
 omit [MeasurableSpace X] [OpensMeasurableSpace X] in
 theorem isOpen_thick (S : Set X) (Λ : AddSubgroup X) (hΛ : IsOpen (Λ : Set X)) :
-    IsOpen (thick S Λ) := by
-  have : thick S Λ = ⋃ s ∈ S, (fun x => x - s) ⁻¹' (Λ : Set X) := by
-    ext x; simp [thick]
-  rw [this]
-  exact isOpen_biUnion fun s _ => hΛ.preimage (continuous_id.sub continuous_const)
+    IsOpen (thick S Λ) :=
+  PI.VolStabS.isOpen_thick S Λ hΛ
 
 theorem measure_thick_eq (m1 m2 : Measure X) (Λ : AddSubgroup X) (hΛ : IsOpen (Λ : Set X))
     (h : ∀ y, m1 {z | z - y ∈ Λ} = m2 {z | z - y ∈ Λ}) (S : Set X) (hS : IsCompact S) :
-    m1 (thick S Λ) = m2 (thick S Λ) := by
-  apply _root_.PI.VolStabS.measure_thick_eq <;> assumption
-
+    m1 (thick S Λ) = m2 (thick S Λ) :=
+  PI.VolStabS.measure_thick_eq m1 m2 Λ hΛ h S hS
 
 omit [MeasurableSpace X] [OpensMeasurableSpace X] in
 theorem iInter_thick (S : Set X) (hSc : IsClosed S) (Λ : ℕ → AddSubgroup X)
-    (hb : ∀ N ∈ 𝓝 (0 : X), ∃ n, (Λ n : Set X) ⊆ N) : ⋂ n, thick S (Λ n) = S := by
-  apply _root_.PI.VolStabS.iInter_thick <;> assumption
+    (hb : ∀ N ∈ 𝓝 (0 : X), ∃ n, (Λ n : Set X) ⊆ N) : ⋂ n, thick S (Λ n) = S :=
+  PI.VolStabS.iInter_thick S hSc Λ hb
 
 theorem measure_eq_of_cos (m1 m2 : Measure X) [IsFiniteMeasure m1]
     (Λ : ℕ → AddSubgroup X) (hΛo : ∀ n, IsOpen (Λ n : Set X)) (hanti : Antitone Λ)
     (hb : ∀ N ∈ 𝓝 (0 : X), ∃ n, (Λ n : Set X) ⊆ N)
     (h : ∀ n y, m1 {z | z - y ∈ Λ n} = m2 {z | z - y ∈ Λ n})
-    (S : Set X) (hS : IsCompact S) (hSc : IsClosed S) : m1 S = m2 S := by
-  apply _root_.PI.VolStabS.measure_eq_of_cos <;> assumption
+    (S : Set X) (hS : IsCompact S) (hSc : IsClosed S) : m1 S = m2 S :=
+  PI.VolStabS.measure_eq_of_cos m1 m2 Λ hΛo hanti hb h S hS hSc
 
 end CosMeas
 
-theorem cosDens_holds : CosDens := by
-  intro X _ _ _ _ _ _ ν m _ hν H hHo hHc hanti hb c0 κ hm0 hcos S hS
-  have hC : ∀ (n : ℕ) (y : X), IsOpen {z : X | z - y ∈ H n} := fun n y =>
-    (hHo n).preimage (continuous_id.sub continuous_const)
-  have hC0 : MeasurableSet {z : X | z - c0 ∈ H 0} := (hC 0 c0).measurableSet
-  have hback : ∀ n y z, y - c0 ∉ H 0 → z - y ∈ H n → z - c0 ∉ H 0 := by
-    intro n y z hy hz hz0
-    apply hy
-    have hz' : z - y ∈ H 0 := hanti (Nat.zero_le n) hz
-    simpa [sub_sub_sub_cancel_left] using (H 0).sub_mem hz0 hz'
-  have key := measure_eq_of_cos m (κ • ν.restrict {z : X | z - c0 ∈ H 0}) H hHo hanti hb ?_
-    S hS hS.isClosed
-  · rw [key, Measure.smul_apply, Measure.restrict_apply' hC0, smul_eq_mul]
-  · intro n y
-    rw [Measure.smul_apply, Measure.restrict_apply' hC0, smul_eq_mul]
-    by_cases hy : y - c0 ∈ H 0
-    · have hsub : {z : X | z - y ∈ H n} ⊆ {z : X | z - c0 ∈ H 0} := by
-        intro z hz
-        have hz0 : z - y ∈ H 0 := hanti (Nat.zero_le n) hz
-        simpa [sub_add_sub_cancel] using (H 0).add_mem hz0 hy
-      rw [Set.inter_eq_left.2 hsub]
-      exact hcos n y hy
-    · have hdisj : {z : X | z - y ∈ H n} ∩ {z : X | z - c0 ∈ H 0} = ∅ := by
-        ext z
-        simp only [Set.mem_inter_iff, Set.mem_setOf_eq, Set.mem_empty_iff_false, iff_false,
-          not_and]
-        exact hback n y z hy
-      rw [hdisj, measure_empty, mul_zero]
-      exact measure_mono_null (fun z hz => hback n y z hy hz) hm0
+theorem cosDens_holds : CosDens :=
+  PI.VolStabS.cosDens_holds
 
 end PI.VolStabSW
 end -- clump:auto

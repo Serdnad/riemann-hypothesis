@@ -1,6 +1,5 @@
 module
 
-import GroundTheory.HeightsAndTheta.Heights.MultihomogeneousPolynomials
 public import GroundTheory.HeightsAndTheta.Heights.Intersections.ImportsTerRest
 public import GroundTheory.HeightsAndTheta.Heights.Intersections.ArithVarZero
 public import GroundTheory.HeightsAndTheta.Heights.Intersections.AvoidRing
@@ -11,6 +10,7 @@ import Mathlib.Tactic.TypeStar
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArithmeticIntersection.MultihomogeneousIdeals.CurvePt
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.InterDivSupp
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.InterPCProof
+import GroundTheory.HeightsAndTheta.Heights.BlockScaling
 
 @[expose] public section
 
@@ -30,7 +30,11 @@ variable {K : Type*} [Fintype K] {ι : K → Type*} [∀ k, Fintype (ι k)]
 
 theorem isMultiHomog_add' {R : Type*} [CommRing R] {f g : MRingOver R ι} {a : K → ℕ}
     (hf : IsMultiHomog f a) (hg : IsMultiHomog g a) : IsMultiHomog (f + g) a := by
-  apply _root_.GroundTheory.Heights₂.Heights.MultiHomogeneous.add <;> assumption
+  classical
+  intro m hm k
+  rcases Finset.mem_union.mp (MvPolynomial.support_add hm) with h | h
+  · exact hf m h k
+  · exact hg m h k
 
 theorem isMultiHomog_neg' {R : Type*} [CommRing R] {f : MRingOver R ι} {a : K → ℕ}
     (hf : IsMultiHomog f a) : IsMultiHomog (-f) a := by
@@ -48,19 +52,8 @@ theorem isMultiHomog_map {R S : Type*} [CommRing R] [CommRing S] (φ : R →+* S
 
 theorem aeval_blockScale_int {A : Type*} [CommRing A] [Algebra ℤ A] {g : MRing ι} {a : K → ℕ}
     (hg : IsMultiHomog g a) (c : K → A) (z : (Σ k, ι k) → A) :
-    aeval (fun p => c p.1 * z p) g = (∏ k, c k ^ a k) * aeval z g := by
-  simp only [aeval_def, eval₂_eq', Finset.mul_sum]
-  refine Finset.sum_congr rfl fun d hd => ?_
-  have h1 : ∏ p, (c p.1 * z p) ^ d p = (∏ p, c p.1 ^ d p) * ∏ p, z p ^ d p := by
-    rw [← Finset.prod_mul_distrib]
-    simp_rw [mul_pow]
-  have h2 : ∏ p : (Σ k, ι k), c p.1 ^ d p = ∏ k, c k ^ a k := by
-    rw [Fintype.prod_sigma]
-    refine Finset.prod_congr rfl fun k _ => ?_
-    show ∏ y, c k ^ d ⟨k, y⟩ = _
-    rw [Finset.prod_pow_eq_pow_sum, hg d hd k]
-  rw [h1, h2]
-  ring
+    aeval (fun p => c p.1 * z p) g = (∏ k, c k ^ a k) * aeval z g :=
+  BlockScaling.eval₂_mul_block_left (algebraMap ℤ A) c z hg
 
 def quotEquivMap {R S : Type*} [CommRing R] [CommRing S] (f : R →+* S) (hf : Function.Surjective f)
     (I : Ideal R) (hI : RingHom.ker f ≤ I) : R ⧸ I ≃+* S ⧸ I.map f :=

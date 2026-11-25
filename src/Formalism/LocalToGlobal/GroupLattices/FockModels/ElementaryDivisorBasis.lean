@@ -186,8 +186,8 @@ theorem ten_basis (O Kf : Type) [CommRing O] [IsDomain O] [Field Kf] [Algebra O 
     unfold Vsp
     congr 1
     funext s
-    rw [if_pos (hanti s)]
-  have hKK : IsFractionRing Kf Kf := jr_KK Kf
+    rw [ite_eq_left (hanti s)]
+  have hKK : IsFractionRing Kf Kf := instIsFractionRing (R := Kf)
   obtain ⟨kL, kS⟩ := tensorBasis Kf Kf (Fin n') (m + 1) (m + 1) _ _ X b1 b2
   have hfin : ∀ s : Fin n', Finite ↥(ssIdx (m + 1) (m + 1) (nuOf (lamAt lam0 s))) :=
     fun s => (sSIdxFinite (m + 1) (m + 1) (nuOf (lamAt lam0 s))).to_subtype

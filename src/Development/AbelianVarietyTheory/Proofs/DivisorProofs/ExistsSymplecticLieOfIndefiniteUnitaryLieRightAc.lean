@@ -119,7 +119,7 @@ theorem mem_sp_of_sympl {l : Type} [Fintype l] [DecidableEq l] (Z : Matrix (l �
   simp [mulVec, dotProduct, Pi.single_apply, Matrix.mul_apply] at h1 ⊢
   linarith
 
-theorem exists_sp_rightActD : ∀ (ι l : Type) [Fintype ι] [DecidableEq ι] [Fintype l] [DecidableEq l] (P Q R S : ι → ℕ)
+theorem exists_sp_rightAct_dep : ∀ (ι l : Type) [Fintype ι] [DecidableEq ι] [Fintype l] [DecidableEq l] (P Q R S : ι → ℕ)
     (φ : (∀ w : ι, Matrix (Ix (P w) (Q w)) (Ix (R w) (S w)) ℂ) ≃ₗ[ℝ] (l ⊕ l → ℝ)),
     (∀ c c', sympl (φ c) (φ c') = 2 * (∑ w, ∑ a, ∑ b, lineSign a b * c w a b * star (c' w a b)).im) →
     ∀ Y : ∀ w : ι, Mat (R w) (S w), (∀ w, Y w ∈ upq (R w) (S w)) →
@@ -185,8 +185,7 @@ theorem exists_sp_rightAct : ∀ (ι l : Type) [Fintype ι] [DecidableEq ι] [Fi
     (∀ c c', sympl (φ c) (φ c') = 2 * (∑ w, ∑ a, ∑ b, lineSign a b * c w a b * star (c' w a b)).im) →
     ∀ Y : ι → Mat R S, (∀ w, Y w ∈ upq R S) →
     ∃ Z ∈ LieAlgebra.Symplectic.sp l ℝ, (∀ c, Z *ᵥ φ c = φ fun w => c w * (Y w)ᵀ) ∧
-      ∀ (t : ℝ) c, NormedSpace.exp (t • Z) *ᵥ φ c = φ fun w => c w * (NormedSpace.exp (t • Y w))ᵀ := by
-  intro ι l _ _ _ _ P Q R S φ
-  exact exists_sp_rightActD ι l (fun _ => P) (fun _ => Q) (fun _ => R) (fun _ => S) φ
+      ∀ (t : ℝ) c, NormedSpace.exp (t • Z) *ᵥ φ c = φ fun w => c w * (NormedSpace.exp (t • Y w))ᵀ :=
+  fun ι l _ _ _ _ P Q R S => exists_sp_rightAct_dep ι l (fun _ => P) (fun _ => Q) (fun _ => R) (fun _ => S)
 
 end GlobalTheory.RealLift.SpLie

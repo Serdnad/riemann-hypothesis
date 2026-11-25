@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.LocCharEqZpowMul
 public import Development.AbelianVarietyTheory.BlockTheory.GlobalSignature.SandwichNormalForm
 public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.UnipotentCharacterArgumentMulStabilizer
 public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.NormalFormAtPrime
@@ -126,7 +125,7 @@ theorem decomp {n c : ℕ} (x : Fin (n + c) → E) :
   · have h1 : ∀ i : Fin c, Loc.eN E (n + c) (n + i.1) (Fin.castAdd c a) = 0 := by
       intro i
       simp only [Loc.eN, Fin.val_castAdd]
-      rw [if_neg]
+      rw [ite_eq_right]
       omega
     simp [inX_castAdd, Finset.sum_apply, h1]
   · have h2 : ∀ i : Fin c, Loc.eN E (n + c) (n + i.1) (Fin.natAdd n b) = if i = b then 1 else 0 := by
@@ -134,8 +133,8 @@ theorem decomp {n c : ℕ} (x : Fin (n + c) → E) :
       by_cases hib : i = b
       · subst hib
         simp [Loc.eN]
-      · simp only [Loc.eN, Fin.val_natAdd, if_neg hib]
-        rw [if_neg]
+      · simp only [Loc.eN, Fin.val_natAdd, ite_eq_right hib]
+        rw [ite_eq_right]
         intro h
         apply hib
         ext
@@ -238,7 +237,15 @@ variable {E : Type} [Field E] [NumberField E]
 
 theorem isUnit_reduction_of_valuation_eq_one (P : HeightOneSpectrum (𝓞 E)) {b : E} (hb : P.valuation E b = 1) :
     IsUnit (redP P b) := by
-  apply _root_.GlobalTheory.LocCharVal.isUnit_redP <;> assumption
+  have hb0 : b ≠ 0 := by
+    rintro rfl
+    simp at hb
+  have h1 : IntAt P b := (IntegralPowerExpansion.intAt_iff_val P b).2 hb.le
+  have h2 : IntAt P b⁻¹ := (IntegralPowerExpansion.intAt_iff_val P _).2 (by rw [map_inv₀, hb, inv_one])
+  have h3 := reduction_mul h1 h2
+  have h4 : redP P (1 : E) = 1 := by simpa using reduction_coe P 1
+  rw [mul_inv_cancel₀ hb0, h4] at h3
+  exact IsUnit.of_mul_eq_one _ h3.symm
 
 theorem exists_isUnit_reduction_div_pow {P : HeightOneSpectrum (𝓞 E)} (hP : GlobalTheory.IndefiniteRowSideFullHecke.SourceLatticeInvariance.DegOneUnram P) {a : E} (ha : a ≠ 0) :
     ∃ z : ℤ, IsUnit (redP P (a / (qOf P : E) ^ z)) := by
@@ -445,7 +452,7 @@ theorem phiAt_prop {sharp : Bool} {i : ℕ} {P : HeightOneSpectrum (𝓞 X.E)} (
     (∀ x, PhiAt Ch mu sharp i P x ≠ 0 → IntHom P x) ∧
       ∀ x y, IntHom P y → PhiAt Ch mu sharp i P (x + (qOf P : X.E) • y) = PhiAt Ch mu sharp i P x := by
   unfold PhiAt
-  rw [if_neg hP]
+  rw [ite_eq_right hP]
   exact _root_.GlobalTheory.Proof.twistPrimeDatum_integral_support_and_invariant.phiQ_bdd X.E X.K P _ _ _ _ _ _ _ (rank_le R i).1 (rank_le R (i + 1)).1 (rank_le R i).2 (rank_le R (i + 1)).2
 
 theorem omPhi_bdd {i : ℕ} {P : rowSG Pr sel mu} (hP : P.1 ∉ Pr.vGs) {hal : AutY X R i} {h : AutY X R (i + 1)}

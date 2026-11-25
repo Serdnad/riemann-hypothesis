@@ -53,13 +53,11 @@ import Std.Tactic.BVDecide.Normalize.Prop
 
 open NumberField IsDedekindDomain MeasureTheory Matrix Formalism.BasicNotions Formalism.MainNotions Formalism.BasicNotions.TH Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes Formalism.MainNotions.StandardLattice Formalism.MainNotions.S Formalism.L2.Theta Formalism.L2.DIV Formalism.IndefR.Links Formalism.IndefR.Mult Formalism.IndefR.Lev Formalism.IndefR.Datum Formalism.L2.Pj Formalism.IndefR.FWT Formalism.IndefR GlobalTheory.HolDict
 open scoped TensorProduct InnerProductSpace ContDiff
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 
 namespace GlobalTheory.HolDict.HolTo
 
 variable {n : ℕ} {ι : Type} [Fintype ι] [DecidableEq ι]
 
-set_option backward.isDefEq.respectTransparency false in
 theorem contDiff_exp_entry (X : Mt n) (a b : Fin n) :
     ContDiff ℝ ∞ fun t : ℝ => NormedSpace.exp (t • X) a b := by
   letI : NormedRing (Mt n) := Matrix.linftyOpNormedRing
@@ -75,7 +73,6 @@ theorem contDiff_exp_entry (X : Mt n) (a b : Fin n) :
   exact (AnalyticAt.comp (f := fun s : ℝ => NormedSpace.exp (s • X))
     ((LinearMap.toContinuousLinearMap L).analyticAt _) he).contDiffAt
 
-set_option backward.isDefEq.respectTransparency false in
 theorem hasDerivAt_exp_entry (X : Mt n) (a b : Fin n) :
     HasDerivAt (fun t : ℝ => NormedSpace.exp (t • X) a b) (X a b) 0 := by
   letI : NormedRing (Mt n) := Matrix.linftyOpNormedRing
@@ -454,7 +451,7 @@ theorem killed_of_holFn {Hm : ι → Mt n} {q : ι → ℕ} {x₀ : ι → Mt n}
     split_ifs with hh
     · subst hh
       rw [Finset.prod_eq_single a (fun a' _ ha' => by
-        simp [hE, Matrix.single_apply, Ne.symm ha']) (by simp)]
+        simp [hE, Ne.symm ha']) (by simp)]
       simp [hE]
     · refine Finset.prod_eq_one fun a' _ => ?_
       have hn : ¬ (a = a' ∧ c = a') := fun hh2 => hh (hh2.1.trans hh2.2.symm)

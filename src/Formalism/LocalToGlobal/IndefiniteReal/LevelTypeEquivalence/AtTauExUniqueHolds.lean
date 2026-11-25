@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Counterexamples.HeightSurvey.ConjAtFixedIff
 public import Formalism.LocalToGlobal.IndefiniteReal.LevelTypeEquivalence.InfFam
 
 @[expose] public section
@@ -11,8 +10,6 @@ open Formalism.BasicNotions Formalism.BasicNotions.TH Formalism.MainNotions.Glob
 open scoped TensorProduct
 
 namespace Formalism.IndefR.Eqv
-
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 
 
 
@@ -197,7 +194,28 @@ theorem atM_unitary (τ : D.what₂.Tau) (g : Matrix (Fin V.rank) (Fin V.rank) �
     simp [Formalism.UG.cT]
 
 theorem gram_det_ne' : V.gram.det ≠ 0 := by
-  apply +allowSynthFailures _root_.GlobalTheory.SmoothAutCheck.gram_det_ne <;> assumption
+  intro h
+  obtain ⟨c, hc0, hc⟩ := Matrix.exists_mulVec_eq_zero_iff.2 h
+  apply hc0
+  have hi : ∀ i, V.hT (V.frame i) (∑ j, c j • V.frame j) = 0 := by
+    intro i
+    have h1 := congrFun hc i
+    simp only [Matrix.mulVec, dotProduct, Formalism.BasicNotions.HSpace.gram, Pi.zero_apply] at h1
+
+    rw [map_sum]
+    simp only [map_smul, smul_eq_mul]
+    rw [← h1]
+    exact Finset.sum_congr rfl fun j _ => mul_comm _ _
+  have hker : ∀ x, V.hT x (∑ j, c j • V.frame j) = 0 := by
+    intro x
+    have hx : x = ∑ i, V.frame.repr x i • V.frame i := (V.frame.sum_repr x).symm
+
+    rw [hx, map_sum V.hT, LinearMap.sum_apply]
+    refine Finset.sum_eq_zero fun i _ => ?_
+    rw [LinearMap.map_smulₛₗ, LinearMap.smul_apply, hi i, smul_zero]
+  have hy0 : ∑ j, c j • V.frame j = 0 := V.nondeg.2 _ hker
+  funext j
+  exact Fintype.linearIndependent_iff.1 V.frame.linearIndependent c hy0 j
 
 theorem gramAt_isUnit (τ : D.what₂.Tau) : IsUnit (gramAt D V τ).det := by
   have hd : (gramAt D V τ).det = tauE D τ V.gram.det := (RingHom.map_det (tauE D τ) V.gram).symm
@@ -259,9 +277,9 @@ theorem isAtTau_atH (τ : D.what₂.Tau) (g : Matrix (Fin V.rank) (Fin V.rank) �
     IsAtTau (thetaC D) V τ g (atH D V τ g hg) := by
   refine ⟨?_, ?_, ?_⟩
   · rw [mem_GinfC, matA_atH, fin_atM]
-  · rw [infMat_thetaC, matA_atH, psi_atM, if_pos rfl]
+  · rw [infMat_thetaC, matA_atH, psi_atM, ite_eq_left rfl]
   · intro τ' hτ'
-    rw [infMat_thetaC, matA_atH, psi_atM, if_neg hτ']
+    rw [infMat_thetaC, matA_atH, psi_atM, ite_eq_right hτ']
 
 theorem matA_of_isAtTau {τ : D.what₂.Tau} {g : Matrix (Fin V.rank) (Fin V.rank) ℂ} {h : GA D V}
     (hh : IsAtTau (thetaC D) V τ g h) : matA D V h = atM D V τ g := by
@@ -288,7 +306,7 @@ theorem atTauUnitary_holds : AtTauUnitary D := by
   obtain rfl := eq_thetaC D hθ
   have hm := matA_of_isAtTau D V hh
   have hu := congrArg (fun M => M.map (psiT D τ)) (matA_unitary D V h)
-  rw [Matrix.map_mul, Matrix.map_mul, cT_map_psiT, JR_map_psiT, hm, psi_atM, if_pos rfl] at hu
+  rw [Matrix.map_mul, Matrix.map_mul, cT_map_psiT, JR_map_psiT, hm, psi_atM, ite_eq_left rfl] at hu
   exact hu
 
 end Formalism.IndefR.Eqv

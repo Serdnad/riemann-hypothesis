@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.TwistedOperators.SameBlockOfPosC
 public import Development.WeilBound.ThetaLifts.LocalTheory.ToralCohomology.SumPlSingle
 public import Development.WeilBound.CoreStatements.GaussianSeminormBounds.RealSeminormFiltration.CoreComb
 public import Development.WeilBound.CoreStatements.GaussianSeminormBounds.RealSeminormFiltration.CoreLie
@@ -8,46 +7,6 @@ import Development.WeilBound.CoreStatements.GaussianSeminormBounds.RealSeminormF
 public import Development.WeilBound.CoreStatements.GaussianSeminormBounds.RealSeminormFiltration.CoreNonv
 public import Development.WeilBound.CoreStatements.GaussianSeminormBounds.RealSeminormFiltration.CorePair
 public import Development.WeilBound.CoreStatements.GaussianSeminormBounds.RealSeminormFiltration.CoreSide
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Algebra.Order.Star.Rat
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Topology.Sheaves.Init
 
 @[expose] public section
 
@@ -84,7 +43,21 @@ theorem Jm_star (r s : ℕ) : (Jm r s)ᴴ = Jm r s := by
   congr 1; funext a; cases a <;> simp
 
 theorem upq_split {r s : ℕ} (Y : Mat r s) : ∃ Y₁ ∈ upq r s, ∃ Y₂ ∈ upq r s, Y = Y₁ + Complex.I • Y₂ := by
-  apply _root_.GlobalTheory.FockTensor.exists_upq_add <;> assumption
+  have e1 : ∀ Z : Mat r s, Z * Jm r s * Jm r s = Z := fun Z => by rw [Matrix.mul_assoc, Jm_sq, Matrix.mul_one]
+  have e2 : ∀ Z : Mat r s, Jm r s * (Jm r s * Z) = Z := fun Z => by rw [← Matrix.mul_assoc, Jm_sq, Matrix.one_mul]
+  refine ⟨(1 / 2 : ℂ) • (Y - Jm r s * Yᴴ * Jm r s), ?_, (-Complex.I / 2) • (Y + Jm r s * Yᴴ * Jm r s), ?_, ?_⟩
+  · simp only [upq, Set.mem_ofPred_eq, Matrix.conjTranspose_smul, Matrix.conjTranspose_sub, Matrix.conjTranspose_mul, Jm_star,
+      Matrix.conjTranspose_conjTranspose, Matrix.smul_mul, Matrix.mul_smul, Matrix.sub_mul, Matrix.mul_sub,
+      Matrix.mul_assoc, Jm_sq, Matrix.mul_one, e2]
+    rw [show star (1 / 2 : ℂ) = 1 / 2 by simp]
+    module
+  · simp only [upq, Set.mem_ofPred_eq, Matrix.conjTranspose_smul, Matrix.conjTranspose_add, Matrix.conjTranspose_mul, Jm_star,
+      Matrix.conjTranspose_conjTranspose, Matrix.smul_mul, Matrix.mul_smul, Matrix.add_mul, Matrix.mul_add,
+      Matrix.mul_assoc, Jm_sq, Matrix.mul_one, e2]
+    rw [show star (-Complex.I / 2 : ℂ) = Complex.I / 2 by simp]
+    module
+  · rw [smul_smul, show Complex.I * (-Complex.I / 2) = 1 / 2 by linear_combination (-1 / 2 : ℂ) * Complex.I_mul_I]
+    module
 
 theorem zero_upq (r s : ℕ) : (0 : Mat r s) ∈ upq r s := by simp [upq]
 

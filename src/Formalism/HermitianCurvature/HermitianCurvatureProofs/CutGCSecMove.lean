@@ -7,44 +7,7 @@ public import Formalism.HermitianCurvature.HermitianCurvatureProofs.CutGaugeGQLF
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.NFRadRedA
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.NFRadRedF
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.UnipotentLevelZeroEqOne
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Topology.Sheaves.Init
 
 @[expose] public section
 
@@ -53,7 +16,7 @@ open scoped ContDiff
 
 namespace Formalism.FourierDecayAlt.P.CutMP.Gauge.GC
 
-attribute [local instance] Matrix.normedAddCommGroup Matrix.normedSpace
+open scoped Matrix.Norms.Elementwise
 
 section
 
@@ -75,20 +38,11 @@ theorem sm_slev {k r : ℕ} {z : Fin (2 * r + k + 1) → ℂ} {h : B.Mat k r} (h
 
 end
 
-theorem transport_radial_frame (Wp Wq : Type) [NormedAddCommGroup Wp] [InnerProductSpace ℂ Wp]
-    [NormedAddCommGroup Wq] [InnerProductSpace ℂ Wq]
-    [FiniteDimensional ℂ Wp] [FiniteDimensional ℂ Wq]
-    (P : M.Par) (Bs : B.RealPlaceData P.k P.r Wp Wq)
-    (hpl : Q.IsPlace P Bs.z Bs.z' Bs.π Bs.π')
-    (μ0 : ℂ → Matrix (Fin (P.k + 1)) (Fin (P.k + 1)) ℂ)
-    (h0 : IsSection P.k P.r Bs.z Bs.z' μ0)
-    (e0 : M.Ty P → ℂ → (Wq →L[ℂ] Wp))
-    (he0 : IsFrameB P { Bs with μsec := μ0, sec := h0 } e0) :
-    ∃ e : M.Ty P → ℂ → (Wq →L[ℂ] Wp), IsFrameB P Bs e ∧
-      ∀ ζ : ℂ, P.TT < Complex.normSq ζ →
-      ∃ h ∈ UWset P.k P.r Bs.z, ∃ h' ∈ UWset P.k P.r Bs.z',
-        NF.muZ P.k P.r Bs.μsec ζ = h * NF.muZ P.k P.r μ0 ζ * h' ∧
-        ∀ ρ, e ρ ζ = (Bs.π h).comp ((e0 ρ ζ).comp (Bs.π' h')) := by
+theorem section_move_holds : SecMove := by
+  intro hSE hGS Wp Wq _ _ _ _ _ _ P Bs hpl hk
+  obtain ⟨μ0, hC⟩ := hSE Wp Wq P Bs hpl hk
+  let Bs0 : B.RealPlaceData P.k P.r Wp Wq := { Bs with μsec := μ0, sec := hC.1 }
+  obtain ⟨e0, he0, hid0⟩ := hGS Wp Wq P Bs0 hpl hk hC
   have hz := Bs.z_mem
   have hz' := Bs.z'_mem
   have hT : Tz P.k P.r Bs.z = P.T := hpl.2.2.2.1
@@ -101,7 +55,7 @@ theorem transport_radial_frame (Wp Wq : Type) [NormedAddCommGroup Wp] [InnerProd
   have hc1 : c1 ∈ OmX P.r := fun _ => one_ne_zero
 
   have hRB : NF.RadBase P.k P.r Bs.z Bs.z' μ0 Bs.π Bs.π' :=
-    ⟨Bs.k_pos, hz, hz', Bs.T_pos, Bs.T'_pos, h0, Bs.π_rep, Bs.π'_rep, Bs.π_cont, Bs.π'_cont⟩
+    ⟨Bs.k_pos, hz, hz', Bs.T_pos, Bs.T'_pos, hC.1, Bs.π_rep, Bs.π'_rep, Bs.π_cont, Bs.π'_cont⟩
 
   have hφ : ∀ ρ : M.Ty P, (NF.QR P.k P.r Bs.z Bs.z').indicator (fun q => e0 ρ q.2) ∈
       NF.RadSec P.k P.r Bs.z Bs.z' μ0 Bs.π Bs.π' := by
@@ -131,11 +85,11 @@ theorem transport_radial_frame (Wp Wq : Type) [NormedAddCommGroup Wp] [InnerProd
       (c1, NF.muZ P.k P.r Bs.μsec ζ) ∈ Q.DomR P.k P.r Bs.z Bs.z' :=
     fun ζ hζ => Formalism.FourierDecayAlt.P.NFRadRedA.mem_domR hz hz' Bs.sec (q := (c1, ζ)) ⟨hc1, hTT ζ hζ⟩
   have hdom0 : ∀ ζ : ℂ, P.TT < Complex.normSq ζ → (c1, NF.muZ P.k P.r μ0 ζ) ∈ Q.DomR P.k P.r Bs.z Bs.z' :=
-    fun ζ hζ => Formalism.FourierDecayAlt.P.NFRadRedA.mem_domR hz hz' h0 (q := (c1, ζ)) ⟨hc1, hTT ζ hζ⟩
+    fun ζ hζ => Formalism.FourierDecayAlt.P.NFRadRedA.mem_domR hz hz' hC.1 (q := (c1, ζ)) ⟨hc1, hTT ζ hζ⟩
   have hdec : ∀ ζ : ℂ, P.TT < Complex.normSq ζ → ∃ h ∈ UWset P.k P.r Bs.z, ∃ h' ∈ UWset P.k P.r Bs.z',
       NF.muZ P.k P.r Bs.μsec ζ = h * NF.muZ P.k P.r μ0 ζ * h' := by
     intro ζ hζ
-    obtain ⟨h, hh, h', hh', he⟩ := Formalism.FourierDecayAlt.P.NFRadRedA.decomp Bs.k_pos hz hz' Bs.T_pos Bs.T'_pos h0
+    obtain ⟨h, hh, h', hh', he⟩ := Formalism.FourierDecayAlt.P.NFRadRedA.decomp Bs.k_pos hz hz' Bs.T_pos Bs.T'_pos hC.1
       (hdom ζ hζ).2.1 (hdom ζ hζ).2.2
     rw [Formalism.FourierDecayAlt.P.NFRadRedA.zeta_muZ hz hz' Bs.sec (hTT ζ hζ)] at he
     exact ⟨h, hh, h', hh', he⟩
@@ -263,39 +217,13 @@ theorem transport_radial_frame (Wp Wq : Type) [NormedAddCommGroup Wp] [InnerProd
       simp only [ContinuousLinearMap.comp_apply, FunLike.coe_sum, Finset.sum_apply,
       FunLike.coe_smul, Pi.smul_apply, map_sum, map_smul]
 
-  refine ⟨e, hframe, fun ζ hζ => ?_⟩
-  obtain ⟨h, hh, h', hh', hd⟩ := hdec ζ hζ
-  exact ⟨h, hh, h', hh', hd, fun ρ => htr ρ ζ hζ h hh h' hh' hd⟩
-
-theorem section_move_holds : SecMove := by
-  intro hSE hGS Wp Wq _ _ _ _ _ _ P Bs hpl hk
-  obtain ⟨μ0, hC⟩ := hSE Wp Wq P Bs hpl hk
-  let Bs0 : B.RealPlaceData P.k P.r Wp Wq := { Bs with μsec := μ0, sec := hC.1 }
-  obtain ⟨e0, he0, hid0⟩ := hGS Wp Wq P Bs0 hpl hk hC
-  obtain ⟨e, hframe, htransport⟩ := transport_radial_frame Wp Wq P Bs hpl μ0 hC.1 e0 he0
-  have hz := Bs.z_mem
-  have hz' := Bs.z'_mem
-  have hT : Tz P.k P.r Bs.z = P.T := hpl.2.2.2.1
-  have hT' : Tz P.k P.r Bs.z' = P.T' := hpl.2.2.2.2.1
-  have hTT : ∀ ζ : ℂ, P.TT < Complex.normSq ζ → Tz P.k P.r Bs.z * Tz P.k P.r Bs.z' < Complex.normSq ζ := by
-    intro ζ hζ
-    rw [hT, hT']
-    exact hζ
-  set c1 : Fin P.r → ℂ := fun _ => 1 with hc1def
-  have hc1 : c1 ∈ OmX P.r := fun _ => one_ne_zero
-
-  have hdom : ∀ ζ : ℂ, P.TT < Complex.normSq ζ →
-      (c1, NF.muZ P.k P.r Bs.μsec ζ) ∈ Q.DomR P.k P.r Bs.z Bs.z' :=
-    fun ζ hζ => Formalism.FourierDecayAlt.P.NFRadRedA.mem_domR hz hz' Bs.sec (q := (c1, ζ)) ⟨hc1, hTT ζ hζ⟩
-  have hdom0 : ∀ ζ : ℂ, P.TT < Complex.normSq ζ → (c1, NF.muZ P.k P.r μ0 ζ) ∈ Q.DomR P.k P.r Bs.z Bs.z' :=
-    fun ζ hζ => Formalism.FourierDecayAlt.P.NFRadRedA.mem_domR hz hz' hC.1 (q := (c1, ζ)) ⟨hc1, hTT ζ hζ⟩
   have hfam0 : ∀ (Dc : (Fin P.r → ℂ) → Set (Q.Mx P.k P.r)) (Φ : Q.Fn P.k P.r (Wq →L[ℂ] Wp)),
       FamR P Bs Dc Φ → FamR P Bs0 Dc Φ := by
     intro Dc Φ hF
     obtain ⟨hO, hD, hM, hFF⟩ := hF
     refine ⟨hO, hD, fun q => ?_, hFF⟩
     have hζ : P.TT < Complex.normSq q.1.2 := q.2.2
-    obtain ⟨h, hh, h', hh', hd, htr⟩ := htransport q.1.2 hζ
+    obtain ⟨h, hh, h', hh', hd⟩ := hdec q.1.2 hζ
     have hg : NF.muZ P.k P.r Bs.μsec q.1.2 ∈ Q.Glev P.k P.r (Fin.last P.r) ∩ Dc q.1.1 :=
       ⟨(hdom q.1.2 hζ).2.1, hM q⟩
     have h1 := (hD q.1.1 q.2.1).2 _ hg h⁻¹ (sm_slev (Formalism.FourierDecayAlt.P.BigCellInversePair.uw_inv hh)) h'⁻¹
@@ -313,10 +241,10 @@ theorem section_move_holds : SecMove := by
     have hF0 := hfam0 Dc Φ hF
     funext q
     have hζ : P.TT < Complex.normSq q.1.2 := q.2.2
-    obtain ⟨h, hh, h', hh', hd, htr⟩ := htransport q.1.2 hζ
+    obtain ⟨h, hh, h', hh', hd⟩ := hdec q.1.2 hζ
     unfold rawR
     congr 1
-    rw [htr ρ, hd]
+    rw [htr ρ q.1.2 hζ h hh h' hh' hd, hd]
     have hg : NF.muZ P.k P.r μ0 q.1.2 ∈ Q.Glev P.k P.r (Fin.last P.r) ∩ Dc q.1.1 :=
       ⟨(hdom0 q.1.2 hζ).2.1, hF0.2.2.1 q⟩
     rw [(hF.2.2.2.2 q.1.1 q.2.1).2.2.2 _ hg h hh h' hh']

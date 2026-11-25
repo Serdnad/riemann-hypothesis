@@ -52,13 +52,11 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Development.AbelianVarietyTheory.Definitions.ArchimedeanThetaValues.IsFramedPointChangedByLetters
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.TaylorDiscriminants.ValAtLem
 
 @[expose] public section
 
 open AlgebraicGeometry CategoryTheory Limits MonoidalCategory CartesianMonoidalCategory MonObj NumberField
 open ReciprocityTheory.ChartRestriction.G ReciprocityTheory.ChartRestriction.G.Semi ReciprocityTheory.ChartRestriction.G.Geo.Tor ReciprocityTheory.ChartRestriction.G.FD Formalism.L2.Pj Formalism.L2.PjFree GlobalTheory.EtaForm GlobalTheory.EtaAn GlobalTheory.ArcQ
-attribute [local instance] Over.cartesianMonoidalCategory
 
 noncomputable section
 
@@ -217,7 +215,14 @@ theorem hol_slice {X : Scheme.{0}} {g : ℕ} (e : (Fin g → ℂ) → (Sp ℂ �
     (h : IsHolTo ((Set.univ : Set (Fin 0 → ℂ)) ×ˢ (Set.univ : Set (Fin g → ℂ))) (fun bz => e bz.2))
     (U : X.Opens) (f : Γ(X, U)) :
     IsOpen {z | ⊤ ≤ e z ⁻¹ᵁ U} ∧ DifferentiableOn ℂ (fun z => valAt' (e z) U f) {z | ⊤ ≤ e z ⁻¹ᵁ U} := by
-  apply _root_.ReciprocityTheory.ChartRestriction.G.TB.ValAt.hol_of_isHolTo <;> assumption
+  obtain ⟨h1, h2⟩ := h U f
+  have hm : Differentiable ℂ (fun z : Fin g → ℂ => ((0 : Fin 0 → ℂ), z)) := by fun_prop
+  refine ⟨?_, ?_⟩
+  · convert h1.preimage hm.continuous using 1
+    ext z
+    exact ⟨fun hz => ⟨⟨trivial, trivial⟩, hz⟩, fun hz => hz.2⟩
+  · have := h2.comp (s := {z | ⊤ ≤ e z ⁻¹ᵁ U}) hm.differentiableOn fun z hz => ⟨⟨trivial, trivial⟩, hz⟩
+    exact this
 
 end GlobalTheory.FrameSign
 

@@ -1,6 +1,5 @@
 module
 
-import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.PRepresentative
 public import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.SpanTwoIsPrimeRelevant
 public import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.BundleObjects
 import Mathlib.Tactic.TypeStar
@@ -264,7 +263,24 @@ section Helpers
 
 theorem divCycle_congr_of_sub_mem {K : Type*} {ι : K → Type*} {R : Type*} [CommRing R]
     {P : Ideal (MRing ι R)} {s s' : MRing ι R} (h : s - s' ∈ P) : divCycle P s = divCycle P s' := by
-  apply _root_.GroundTheory.Heights₂.Heights.NumbersDVR.divCycle_eq_of_sub_mem <;> assumption
+  have h1 : s ∈ P ⊔ Ideal.span {s'} := by
+    have e : s = (s - s') + s' := by ring
+    rw [e]
+    exact Ideal.add_mem _ (Ideal.mem_sup_left h) (Ideal.mem_sup_right (Ideal.mem_span_singleton_self _))
+  have h2 : s' ∈ P ⊔ Ideal.span {s} := by
+    have e : s' = s - (s - s') := by ring
+    rw [e]
+    exact Ideal.sub_mem _ (Ideal.mem_sup_right (Ideal.mem_span_singleton_self _)) (Ideal.mem_sup_left h)
+  have e : P ⊔ Ideal.span {s} = P ⊔ Ideal.span {s'} := le_antisymm
+    (sup_le le_sup_left ((Ideal.span_singleton_le_iff_mem _).mpr h1))
+    (sup_le le_sup_left ((Ideal.span_singleton_le_iff_mem _).mpr h2))
+  funext W
+  unfold divCycle
+  by_cases hc : W ∈ (P ⊔ Ideal.span {s}).minimalPrimes ∧ IsRelevant W
+  · have hc' : W ∈ (P ⊔ Ideal.span {s'}).minimalPrimes ∧ IsRelevant W := e ▸ hc
+    rw [dite_eq_left hc, dite_eq_left hc', e]
+  · have hc' : ¬ (W ∈ (P ⊔ Ideal.span {s'}).minimalPrimes ∧ IsRelevant W) := e ▸ hc
+    rw [dite_eq_right hc, dite_eq_right hc']
 
 theorem cutIdentityRightSide_congr_of_sub_mem {K : Type*} [DecidableEq K] {ι : K → Type*} {O : Type*} [CommRing O]
     [IsDomain O] [IsDiscreteValuationRing O] (ϖ : O) (P : Ideal (MRing ι O)) (b : K → ℤ)

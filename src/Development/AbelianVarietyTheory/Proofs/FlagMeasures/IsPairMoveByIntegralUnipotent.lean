@@ -1,6 +1,5 @@
 module
 
-import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.ScalRelRepFree
 public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.RowMinor
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.EncardBiUnionLe
 import Mathlib.Algebra.Order.Floor.Extended
@@ -130,8 +129,15 @@ theorem ngx_iff {n : S.V ≃ₗ[E] S.V} (hn : IsAutLam S Λ n) {F G : LFlag S r 
 
 theorem nlam_map {n : S.V ≃ₗ[E] S.V} {F : LFlag S r T} (hn : n ∈ NLam Λ F) :
     (Xsp F).map (n : S.V →ₗ[E] S.V) = Xsp F := by
-  intros
-  apply _root_.PI.UnitaryGroupMassFormula.ScalRelRepFree.nl_map_X <;> assumption
+  have key : ∀ m ∈ NLam Λ F, ∀ x ∈ Xsp F, m x ∈ Xsp F := by
+    intro m hm x hx
+    rw [← sub_add_cancel (m x) x]
+    exact add_mem (hm.2.2 x (X_le_orth hx)) hx
+  apply le_antisymm
+  · rintro _ ⟨x, hx, rfl⟩
+    exact key n hn x hx
+  · intro x hx
+    exact ⟨n.symm x, key _ (symm_mem_NLam hn) x hx, by simp⟩
 
 theorem xflag_top (F : LFlag S r T) : Xflag F r = Xsp F := by
   show Submodule.span E (F.fl.e '' {i | i.1 < r}) = Submodule.span E (Set.range F.fl.e)
@@ -243,8 +249,6 @@ theorem move {g : ℕ} {F : LFlag S r T} {F' F'' A B : LFlag S r T'} {β n' n'' 
     exact h1.trans ((hι _ hy _ hm).trans (h3.trans h4))
 
 end Gen
-
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 
 theorem pair_move : ∀ (D : D7) (T T' : D.host.E) (Λ : LatV D) (g : ℕ) (F : Fg D T) (F' F'' A B : Fg D T') (β n' n'' : (hS D).V ≃ₗ[D.host.E] (hS D).V), IsPair Λ F F' F'' β g → n' ∈ NLam Λ F → n'' ∈ NLam Λ F → FrameEqv D n' F' A → FrameEqv D n'' F'' B → IsAutLam (hS D) Λ (n'' * β * n'⁻¹) ∧ (Xsp A).map ((n'' * β * n'⁻¹ : (hS D).V ≃ₗ[D.host.E] (hS D).V) : (hS D).V →ₗ[D.host.E] (hS D).V) = Xsp B ∧ (n'' * β * n'⁻¹) A.fl.z - B.fl.z ∈ Xsp B ∧ IotaCompat Λ F A B (n'' * β * n'⁻¹) g := by
   intro D T T' Λ g F F' F'' A B β n' n'' hp hn' hn'' hA hB

@@ -1,53 +1,8 @@
 module
 
-import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.ValIrreducible
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.UnitLemmaGroup
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsUnitBasePointAdjoinTwistedSigma
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.PiTensorProduct
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.RingTheory.SimpleRing.Principal
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Topology.Sheaves.Init
 
 @[expose] public section
 
@@ -75,7 +30,48 @@ variable {K : UQ}
 
 theorem trace_σ (B : InvAlg K) (a : B.A) :
     Algebra.trace K.E B.A (B.σ a) = K.c (Algebra.trace K.E B.A a) := by
-  first | exact _root_.GlobalTheory.UnitLemma.Basic.trace_sigma | exact @_root_.GlobalTheory.UnitLemma.Basic.trace_sigma | apply _root_.GlobalTheory.UnitLemma.Basic.trace_sigma <;> assumption
+  classical
+  let b := Module.Free.chooseBasis K.E B.A
+  have hsm : ∀ (e : K.E) (y : B.A), B.σ (e • y) = K.c e • B.σ y := by
+    intro e y
+    rw [Algebra.smul_def, map_mul, B.σ_alg, ← Algebra.smul_def]
+  have hli : LinearIndependent K.E ((B.σ : B.A →+ B.A) ∘ b) := by
+    refine b.linearIndependent.map_of_injective_injective (fun r => K.c.symm r) (B.σ : B.A →+ B.A) ?_ ?_ ?_
+    · intro r hr
+      simpa using hr
+    · intro m hm
+      have : B.σ m = 0 := hm
+      simpa using this
+    · intro r m
+      show B.σ (K.c.symm r • m) = r • B.σ m
+      rw [hsm, RingEquiv.apply_symm_apply]
+  have hsp : ⊤ ≤ Submodule.span K.E (Set.range ((B.σ : B.A →+ B.A) ∘ b)) := by
+    intro y _
+    have h1 : y = ∑ j, K.c (b.repr (B.σ.symm y) j) • B.σ (b j) := by
+      conv_lhs => rw [← B.σ.apply_symm_apply y, ← b.sum_repr (B.σ.symm y)]
+
+      rw [map_sum]
+      exact Finset.sum_congr rfl fun j _ => hsm _ _
+    rw [h1]
+    exact Submodule.sum_mem _ fun j _ => Submodule.smul_mem _ _ (Submodule.subset_span ⟨j, rfl⟩)
+  let b' : Module.Basis (Module.Free.ChooseBasisIndex K.E B.A) K.E B.A := Module.Basis.mk hli hsp
+  have hb' : ∀ i, b' i = B.σ (b i) := fun i => by
+    simp only [b', Module.Basis.mk_apply]
+    rfl
+  have hrepr : ∀ y i, b'.repr (B.σ y) i = K.c (b.repr y i) := by
+    intro y i
+    have h1 : B.σ y = ∑ j, K.c (b.repr y j) • b' j := by
+      conv_lhs => rw [← b.sum_repr y]
+
+      rw [map_sum]
+      exact Finset.sum_congr rfl fun j _ => by rw [hsm, hb']
+    rw [h1, b'.repr_sum_self]
+
+  rw [Algebra.trace_eq_matrix_trace b', Algebra.trace_eq_matrix_trace b, Matrix.trace, Matrix.trace,
+  map_sum]
+  refine Finset.sum_congr rfl fun i _ => ?_
+  simp only [Matrix.diag_apply, Algebra.leftMulMatrix_eq_repr_mul]
+  rw [hb', ← map_mul, hrepr]
 
 theorem mem_range_c (e : K.E) : K.c e ∈ (algebraMap K.O K.E).range ↔ e ∈ (algebraMap K.O K.E).range := by
   constructor

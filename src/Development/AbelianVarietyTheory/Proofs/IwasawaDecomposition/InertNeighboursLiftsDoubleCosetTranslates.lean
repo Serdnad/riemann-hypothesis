@@ -1,6 +1,5 @@
 module
 
-import all Development.AbelianVarietyTheory.Proofs.SatakeParameters.SelfDualAntitoneListIffInertPrimeHeckeExponents
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.OneSubMemIdS
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.DivisorsAtInvDualLabelAndStabilizerMul
 public import Formalism.LocalToGlobal.Columns.AdelicLemmas
@@ -670,15 +669,15 @@ theorem decoRaw_mul_idem [StarRing E] {n : ℕ} [NeZero n] (ST SG : Finset (Pl E
   · have hP : P.1 ≠ Q := fun e => hQT (e ▸ P.2)
     simp only [decoRaw]
     by_cases hv : v ∈ Formalism.HermitianLatticesTheory.localization₂ P.1.asIdeal (Formalism.UG.CS.globLat y (stdLat E n))
-    · rw [if_pos ((hiff P.1 hP v).2 hv), if_pos hv, hred P.1 hP v hv]
-    · rw [if_neg (fun h' => hv ((hiff P.1 hP v).1 h')), if_neg hv]
+    · rw [ite_eq_left ((hiff P.1 hP v).2 hv), ite_eq_left hv, hred P.1 hP v hv]
+    · rw [ite_eq_right (fun h' => hv ((hiff P.1 hP v).1 h')), ite_eq_right hv]
   · have hP : w.1 ≠ Q := fun e => hQG (e ▸ w.2)
     simp only [decoRaw]
     by_cases hv : v ∈ Formalism.HermitianLatticesTheory.localization₂ w.1.asIdeal (Formalism.UG.CS.globLat y (stdLat E n))
-    · rw [if_pos ((hiff w.1 hP v).2 hv), if_pos hv]
+    · rw [ite_eq_left ((hiff w.1 hP v).2 hv), ite_eq_left hv]
       funext i
       exact hred w.1 hP v hv i
-    · rw [if_neg (fun h' => hv ((hiff w.1 hP v).1 h')), if_neg hv]
+    · rw [ite_eq_right (fun h' => hv ((hiff w.1 hP v).1 h')), ite_eq_right hv]
 
 end GlobalTheory.InertNbr
 end -- clump:auto
@@ -779,7 +778,6 @@ section -- clump:auto
 
 open Formalism.BasicNotions Formalism.MainNotions Formalism.BasicNotions.TH Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes Formalism.MainNotions.StandardLattice Formalism.MainNotions.S MeasureTheory IsDedekindDomain NumberField Matrix Formalism.L2.Theta Formalism.L2.DIV Formalism.L2.Indef Formalism.IndefR Formalism.IndefR.Links Formalism.IndefR.Mult Formalism.IndefR.Datum Formalism.IndefR.Cx
 open scoped TensorProduct InnerProductSpace
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 open Formalism.IndefR.RecTie Formalism.IndefR.Lev Formalism.L2.Rows GlobalTheory.Mem GlobalTheory.Mem.R3 GlobalTheory.Mem.Col2
 
 
@@ -791,7 +789,14 @@ section Labels
 
 theorem labIn_eq (n : ℕ) (s : List ℕ) : labIn n s = s.map (fun a : ℕ => (a : ℤ)) ++ List.replicate (n - 2 * s.length) 0 ++
     s.reverse.map (fun a : ℕ => -(a : ℤ)) := by
-  apply _root_.GlobalTheory.Hk3.label_list_eq_signed <;> assumption
+  have e : ∀ l : List ℕ, (l.flatMap fun a : ℕ => [(a : ℤ)]) = l.map fun a : ℕ => (a : ℤ) := fun l => by
+    induction l with
+    | nil => rfl
+    | cons a l ih => rw [List.flatMap_cons, ih]; rfl
+  show (s.flatMap fun a : ℕ => [(a : ℤ)]).map (fun a => a) ++ _ ++
+    (s.reverse.flatMap fun a : ℕ => [(a : ℤ)]).map (fun a => -a) = _
+  rw [e, e, List.map_map, List.map_map]
+  rfl
 
 theorem labIn_length {n : ℕ} {s : List ℕ} (h : 2 * s.length ≤ n) : (labIn n s).length = n := by
   simp only [labIn_eq, List.length_append, List.length_map, List.length_replicate, List.length_reverse]

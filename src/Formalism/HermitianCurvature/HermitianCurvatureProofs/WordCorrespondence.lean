@@ -10,46 +10,6 @@ public import Formalism.HermitianCurvature.HermitianCurvatureProofs.PBFVnice
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.PBFVpic
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.QNFAsm
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.SliceCompactSupportCoefficient
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Topology.Sheaves.Init
 
 @[expose] public section
 
@@ -80,7 +40,7 @@ theorem phi_top_cont (hTC : TopContOn) {Wp Wq : Type} [NormedAddCommGroup Wp] [I
       ((Complex.continuous_normSq.sub continuous_const).pow _).continuousAt
     refine ((Complex.continuous_ofReal.continuousAt.comp hz).mul hR).congr ?_
     filter_upwards [hU.mem_nhds hc0] with c hc
-    simp only [Pi.mul_apply, Function.comp_apply, B2.zWeight, if_pos (le_of_lt hc)]
+    simp only [Pi.mul_apply, Function.comp_apply, B2.zWeight, ite_eq_left (le_of_lt hc)]
   · push Not at hc0
     have hU : IsOpen {c : ℂ | Complex.normSq c - P.T * P.T' < δ} :=
       isOpen_lt (Complex.continuous_normSq.sub continuous_const) continuous_const
@@ -118,37 +78,7 @@ theorem continuous_fsv (s : ℂ) : Continuous (fun t : ℂ => fsv s t) := by
   exact Complex.continuous_exp.comp ((continuous_const.mul continuous_id).sub
     (continuous_const.mul Complex.continuous_conj))
 
-def FormOneForWave : Prop :=
-  ∀ (Wp Wq : Type) [NormedAddCommGroup Wp] [InnerProductSpace ℂ Wp] [NormedAddCommGroup Wq]
-    [InnerProductSpace ℂ Wq] [FiniteDimensional ℂ Wp] [FiniteDimensional ℂ Wq] (P0 : M.Par)
-    (T : D.LevTower P0.k P0.r Wp Wq) (j : Fin (P0.r + 1))
-    (X : Q.ActualOps (JC.parLev P0 j).k (JC.parLev P0 j).r (T.bs j).z (T.bs j).z' (T.bs j).π (T.bs j).π')
-    (μ : Measure (Formalism.QuantumDeterminants.Mt (JC.parLev P0 j).k (JC.parLev P0 j).r))
-    (L : R.LevelData (Q.Pr (Q.RadSp (JC.parLev P0 j).k (JC.parLev P0 j).r (T.bs j).z (T.bs j).z' (T.bs j).π
-      (T.bs j).π')) (JC.parLev P0 j).r)
-    (st : Fr.Start (Q.Pr (Q.RadSp (JC.parLev P0 j).k (JC.parLev P0 j).r (T.bs j).z (T.bs j).z' (T.bs j).π
-      (T.bs j).π'))) (l0 : ℕ),
-    P5.IsData (JC.parLev P0 j) (T.bs j).z (T.bs j).z' (T.bs j).π (T.bs j).π' X μ L st l0 →
-    KB.ZetaNorm (T.bs j) μ → 1 ≤ l0 → l0 ≤ P0.k →
-    ∀ (w : List C.Letter) (s : ℂ) (F F' : Wd.Ix (Fin w.length) → B.Mat P0.k (P0.r - j) → (Wq →L[ℂ] Wp))
-      (Φ Φ' : Wd.Ix (Fin w.length) →
-        Q.RadSp (JC.parLev P0 j).k (JC.parLev P0 j).r (T.bs j).z (T.bs j).z' (T.bs j).π (T.bs j).π') (ε : ℝ),
-      0 < ε → (∀ a, KB.CptCoef (T.bs j) (F a)) → (∀ a, KB.CptCoef (T.bs j) (F' a)) →
-       (∀ a, JC.NiceCoef (T.bs j) ε (F a)) → (∀ a, JC.NiceCoef (T.bs j) ε (F' a)) →
-      (∀ a, ∀ y ∈ Q.DomR (JC.parLev P0 j).k (JC.parLev P0 j).r (T.bs j).z (T.bs j).z',
-        (Φ a : Q.Fn (JC.parLev P0 j).k (JC.parLev P0 j).r (Wq →L[ℂ] Wp)) y.1 y.2 =
-          Q.resG (JC.parLev P0 j).k (JC.parLev P0 j).r (Fin.last _) (B.JF (T.bs j) ((KB.waveG (T.bs j) s w F) a)) y.1 y.2) →
-      (∀ a, ∀ y ∈ Q.DomR (JC.parLev P0 j).k (JC.parLev P0 j).r (T.bs j).z (T.bs j).z',
-        (Φ' a : Q.Fn (JC.parLev P0 j).k (JC.parLev P0 j).r (Wq →L[ℂ] Wp)) y.1 y.2 =
-          Q.resG (JC.parLev P0 j).k (JC.parLev P0 j).r (Fin.last _) (B.JF (T.bs j) (F' a)) y.1 y.2) →
-      D.formLev T (M.sgn P0 l0) j w (KB.waveG (T.bs j) s w F) F' = P5.form μ 0 (P5.act (P5.RRi L st 0 (D.positionted w)) Φ) Φ' 0
-
-theorem FormOne.forWave (hOne : FormOne) : FormOneForWave := by
-  intro Wp Wq _ _ _ _ _ _ P T j X μ L st l0 hD hZ _ _ w s F F' Φ Φ' ε hε _ _ hF hF' hΦ hΦ'
-  exact hOne Wp Wq P T j X μ L st l0 hD hZ w _ _ Φ Φ' ε hε
-    (PBFV.waveG_nice (T.bs j) ε s w F hF) hF' hΦ hΦ'
-
-theorem pStd_top_forWave (hP : P5.ThmPActualCpt) (hHT : KB.HeadTop) (hOne : FormOneForWave) (hZN : ZetaNormExists)
+theorem pStd_top (hP : P5.ThmPActualCpt) (hHT : KB.HeadTop) (hOne : FormOne) (hZN : ZetaNormExists)
     (hTC : TopContOn) {Wp Wq : Type} [NormedAddCommGroup Wp] [InnerProductSpace ℂ Wp] [NormedAddCommGroup Wq]
     [InnerProductSpace ℂ Wq] [FiniteDimensional ℂ Wp] [FiniteDimensional ℂ Wq] (P : M.Par) (p : KB.Pl P Wp Wq)
     (F : B.Mat P.k P.r → (Wq →L[ℂ] Wp)) (w : List C.Letter) (h h' : C.LPt) (hh : D.IsLocPt h P.r)
@@ -263,7 +193,8 @@ theorem pStd_top_forWave (hP : P5.ThmPActualCpt) (hHT : KB.HeadTop) (hOne : Form
       simp only []
       rw [Formalism.FourierDecayAlt.P.PBFV.first_minor_top_eq_zeta hr0]
     have hΨ := Formalism.FourierDecayAlt.P.PBFV.radPic_wave (p.T.bs jF) ε s w x hxn Φ hΦ _ (by omega) hm Wv Wv' hW
-    have hform := hOne Wp Wq P p.T jF X μ L st p.l0 hD hμ hl1 hlk w s x x' _ _ ε hε hcx hcx' hxn hxn' hΨ hΦ'
+    have hnx := Formalism.FourierDecayAlt.P.PBFV.waveG_nice (p.T.bs P.r) ε s w x hxn
+    have hform := hOne Wp Wq P p.T jF X μ L st p.l0 hD hμ w _ _ _ _ ε hε hnx hxn' hΨ hΦ'
     have hmeas : Measurable fun ζ => fsv s ζ * ψ ζ := (continuous_fsv s).measurable.mul hψm
     have hlaw := zetaNorm_integral hμ (fun ζ => fsv s ζ * ψ ζ) hmeas
     rw [hTz, hTz'] at hlaw
@@ -283,20 +214,7 @@ theorem pStd_top_forWave (hP : P5.ThmPActualCpt) (hHT : KB.HeadTop) (hOne : Form
           Formalism.FourierDecayAlt.P.JCx2.form_zero_indep μ _ _ _ 0
       _ = _ := hform.symm
 
-theorem pStd_top (hP : P5.ThmPActualCpt) (hHT : KB.HeadTop) (hOne : FormOne) (hZN : ZetaNormExists)
-    (hTC : TopContOn) {Wp Wq : Type} [NormedAddCommGroup Wp] [InnerProductSpace ℂ Wp] [NormedAddCommGroup Wq]
-    [InnerProductSpace ℂ Wq] [FiniteDimensional ℂ Wp] [FiniteDimensional ℂ Wq] (P : M.Par) (p : KB.Pl P Wp Wq)
-    (F : B.Mat P.k P.r → (Wq →L[ℂ] Wp)) (w : List C.Letter) (h h' : C.LPt) (hh : D.IsLocPt h P.r)
-    (hh' : D.IsLocPt h' P.r) (Cb : ℝ) (hθ : KB.InDDplus2 P p.l0 p.T.base Cb p.Θ) (hF : KB.CptCoef p.T.base F)
-    (hw : KB.CutWord P p.l0 w) :
-    ∃ φ : ℂ → ℂ, Continuous φ ∧ Integrable φ ∧
-      (∀ c : ℂ, c ≠ 0 → φ c = (KB.levW P (P.r + 1) c : ℂ) * p.RR F (P.r + 1) w (h ++ [(1, c)]) (h' ++ [(1, c)])) ∧
-      ∀ s : ℂ, ∫ c, P5.fsv s c * φ c =
-        p.form P.r le_rfl w (KB.waveG (p.T.bs P.r) s w (KB.slv p.T F P.r le_rfl w h hh.2))
-          (KB.slv p.T F P.r le_rfl w h' hh'.2) :=
-  pStd_top_forWave hP hHT (FormOne.forWave hOne) hZN hTC P p F w h h' hh hh' Cb hθ hF hw
-
-theorem pStd_below_forWave (hP : P5.ThmPActualCpt) (hRH : KB.RadHead) (hOne : FormOneForWave) (hZN : ZetaNormExists)
+theorem pStd_belowC (hP : P5.ThmPActualCpt) (hRH : KB.RadHead) (hOne : FormOne) (hZN : ZetaNormExists)
     {Wp Wq : Type} [NormedAddCommGroup Wp] [InnerProductSpace ℂ Wp] [NormedAddCommGroup Wq]
     [InnerProductSpace ℂ Wq] [FiniteDimensional ℂ Wp] [FiniteDimensional ℂ Wq] (P : M.Par) (p : KB.Pl P Wp Wq)
     (F : B.Mat P.k P.r → (Wq →L[ℂ] Wp)) (j : ℕ) (hj : j ≤ P.r) (hjr : j < P.r) (w : List C.Letter)
@@ -355,23 +273,12 @@ theorem pStd_below_forWave (hP : P5.ThmPActualCpt) (hRH : KB.RadHead) (hOne : Fo
       simp only []
       rw [Formalism.FourierDecayAlt.P.PBFV.first_minor_cell_eq_coord (p.T.bs jF).z_mem (p.T.bs jF).z'_mem hr y.1 hy.2.1]
     have hΨ := Formalism.FourierDecayAlt.P.PBFV.radPic_wave (p.T.bs jF) ε s w x hxn Φ hΦ _ (by omega) hm Wv Wv' hW
+    have hnx := Formalism.FourierDecayAlt.P.PBFV.waveG_nice (p.T.bs j) ε s w x hxn
     rw [hφs s Wv Wv' hW hW']
     show _ = D.formLev p.T (M.sgn P p.l0) jF w (KB.waveG (p.T.bs j) s w x) x'
-    rw [hOne Wp Wq P p.T jF X μ L st p.l0 hD hμ hl1 hlk w s x x' _ _ ε hε hcx hcx' hxn hxn' hΨ hΦ']
+    rw [hOne Wp Wq P p.T jF X μ L st p.l0 hD hμ w _ _ _ _ ε hε hnx hxn' hΨ hΦ']
     unfold RRform
     exact Formalism.FourierDecayAlt.P.JCx2.form_zero_indep μ _ _ _ 0
-
-theorem pStd_belowC (hP : P5.ThmPActualCpt) (hRH : KB.RadHead) (hOne : FormOne) (hZN : ZetaNormExists)
-    {Wp Wq : Type} [NormedAddCommGroup Wp] [InnerProductSpace ℂ Wp] [NormedAddCommGroup Wq]
-    [InnerProductSpace ℂ Wq] [FiniteDimensional ℂ Wp] [FiniteDimensional ℂ Wq] (P : M.Par) (p : KB.Pl P Wp Wq)
-    (F : B.Mat P.k P.r → (Wq →L[ℂ] Wp)) (j : ℕ) (hj : j ≤ P.r) (hjr : j < P.r) (w : List C.Letter)
-    (h h' : C.LPt) (hh : D.IsLocPt h j) (hh' : D.IsLocPt h' j) (hF : KB.CptCoef p.T.base F)
-    (hw : KB.CutWord P p.l0 w) :
-    ∃ φ : ℂ → ℂ, Continuous φ ∧ Integrable φ ∧
-      (∀ c : ℂ, c ≠ 0 → φ c = (KB.levW P (j + 1) c : ℂ) * p.RR F (j + 1) w (h ++ [(1, c)]) (h' ++ [(1, c)])) ∧
-      ∀ s : ℂ, ∫ c, P5.fsv s c * φ c =
-        p.form j hj w (KB.waveG (p.T.bs j) s w (KB.slv p.T F j hj w h hh.2)) (KB.slv p.T F j hj w h' hh'.2) :=
-  pStd_below_forWave hP hRH (FormOne.forWave hOne) hZN P p F j hj hjr w h h' hh hh' hF hw
 
 theorem pStd_of_cpt (hP : P5.ThmPActualCpt) (hRH : KB.RadHead) (hHT : KB.HeadTop) (hOne : FormOne)
     (hZN : ZetaNormExists) (hTC : TopContOn) :
@@ -390,13 +297,5 @@ theorem pStd_of_cpt (hP : P5.ThmPActualCpt) (hRH : KB.RadHead) (hHT : KB.HeadTop
   · have e : j = P.r := by omega
     subst e
     exact pStd_top hP hHT hOne hZN hTC P p F w h h' hh hh' Cb hθ hF hw
-
-theorem pStd_of (hRH : KB.RadHead) (hHT : KB.HeadTop) (hOne : FormOne) (hZN : ZetaNormExists)
-    (hTC : TopContOn) : KB.PStd := by
-  intro hP
-  refine pStd_of_cpt ?_ hRH hHT hOne hZN hTC
-  intro Wp Wq _ _ _ _ _ _ S _ _ P z z' π π' X μ L st l0 D A mm hD hl1 hl2 hz hz' hπ hπ' hA hmm
-  obtain ⟨K, h1, h2, h3, h4⟩ := hP Wp Wq S P z z' π π' X μ L st l0 D A mm hD hl1 hl2 hz hz' hπ hπ' hA hmm
-  exact ⟨K, h1, h2, h3, fun F ε hε hF _ hG => h4 F ε hε hF hG⟩
 
 end Formalism.FourierDecayAlt.P.PBO

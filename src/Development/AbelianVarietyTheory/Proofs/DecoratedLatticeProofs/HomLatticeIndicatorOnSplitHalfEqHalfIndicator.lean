@@ -40,7 +40,6 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
-import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.SelfDualSplitComponentIsLatticeStabilizerEq
 
 @[expose] public section
 
@@ -48,7 +47,6 @@ open Formalism.BasicNotions Formalism.BasicNotions.TH Formalism.MainNotions.Glob
 open GlobalTheory.MixModel GlobalTheory.MixPer GlobalTheory.Grow GlobalTheory.Unf GlobalTheory.LatPair GlobalTheory.SplitWeil ValuativeRel IsLocalRing
 open GlobalTheory.FinPl
 open scoped TensorProduct Pointwise
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 
 noncomputable section
 
@@ -68,7 +66,19 @@ theorem sec_mul (p : SplitPt D k) (a b : k) : p.sec (a * b) = p.sec a * p.sec b 
     _ = p.sec a * p.sec b := by rw [← mul_assoc, e_mul_sec]
 
 theorem e_mem_idAt (p : SplitPt D k) : p.e ∈ idAt D (· = p.v) := by
-  apply _root_.GlobalTheory.FinPl.FrameLat.e_mem_idAt <;> assumption
+  obtain ⟨ε, hε, heε⟩ := GlobalTheory.FinPl.HalfInd.exists_idem p
+  obtain ⟨α, rfl, -, h0⟩ := hε
+  have hmem : algebraMap (AF D.host.F) (AE D) (pairA D.host.F 0 α) ∈ idAt D (· = p.v) := by
+    rw [show algebraMap (AF D.host.F) (AE D) (pairA D.host.F 0 α) = pairA D.host.F 0 α ⊗ₜ[D.host.F] (1 : D.host.E) from rfl]
+    unfold idAt
+    rw [Submodule.mem_inf, RingHom.mem_ker, Submodule.mem_iInf]
+    refine ⟨?_, fun w => RingHom.mem_ker.2 ?_⟩
+    · change fstA D.host.F (pairA D.host.F 0 α) ⊗ₜ[D.host.F] (1 : D.host.E) = 0
+      exact TensorProduct.zero_tmul _ _
+    · change evalV D.host.F w.1 α ⊗ₜ[D.host.F] (1 : D.host.E) = 0
+      rw [h0 w.1 w.2, TensorProduct.zero_tmul]
+  rw [← heε]
+  exact Ideal.mul_mem_right _ _ hmem
 
 theorem mul_mem_latV {S : HSp D} {L : Lat S} {P : Pl D → Prop} {w : AE D} (hw : finPart D w ∈ intAE D)
     {y : Fin S.rank → AE D} (hy : y ∈ latV S L P) : (fun i => w * y i) ∈ latV S L P := by
@@ -151,12 +161,12 @@ theorem GlobalTheory.FinPl.LatIndHalf.extFun_latInd_eq_halfInd : ∀ (D : D7) (k
   funext t
   unfold extFun halfInd
   by_cases ht : IsHalf p.e t
-  · rw [if_pos ht]
+  · rw [ite_eq_left ht]
     unfold latInd
     have key := GlobalTheory.FinPl.LatIndHalf.mem_latO_iff_rd α β hS hT hU hα hβ ht
     by_cases h : t ∈ latO S T (LS : Set _) (LT : Set _) (· = p.v)
-    · rw [if_pos (key.1 h), if_pos ⟨h, ht⟩]
-    · rw [if_neg fun h' => h (key.2 h'), if_neg fun h' => h h'.1]
-  · rw [if_neg ht, if_neg fun h => ht h.2]
+    · rw [ite_eq_left (key.1 h), ite_eq_left ⟨h, ht⟩]
+    · rw [ite_eq_right fun h' => h (key.2 h'), ite_eq_right fun h' => h h'.1]
+  · rw [ite_eq_right ht, ite_eq_right fun h => ht h.2]
 
 end

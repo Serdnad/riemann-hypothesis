@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.FlagMeasures.GaugeVolumeEqOfSemilinearIsometryGenus
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.ContinuousGaussSp
 public import Development.AbelianVarietyTheory.Proofs.CovolumeBounds.IntegrableMonomialMulConjComplexGaussian
 public import Mathlib.Analysis.LocallyConvex.AbsConvexOpen
@@ -193,8 +192,8 @@ theorem herm_comp {n P Q : ℕ} {ε : Fin n → Bool} {f : Fin P ⊕ Fin Q ≃ F
     (x y : Fin n → ℂ) : herm (x ∘ f) (y ∘ f) = star y ⬝ᵥ (Formalism.REAL.Jm ε *ᵥ x) := by
   obtain ⟨h1, h2⟩ := hf
   rw [dotProduct, ← Equiv.sum_comp f, Fintype.sum_sum_type, herm]
-  simp only [Function.comp_apply, Pi.star_apply, Formalism.REAL.Jm, mulVec_diagonal, h1, h2, if_true,
-    Bool.false_eq_true, if_false, one_mul, neg_one_mul, mul_neg, Finset.sum_neg_distrib, ← sub_eq_add_neg]
+  simp only [Function.comp_apply, Pi.star_apply, Formalism.REAL.Jm, mulVec_diagonal, h1, h2, ite_true,
+    Bool.false_eq_true, ite_false, one_mul, neg_one_mul, mul_neg, Finset.sum_neg_distrib, ← sub_eq_add_neg]
   congr 1 <;> exact Finset.sum_congr rfl fun i _ => mul_comm _ _
 
 theorem form_self {n : ℕ} (ε : Fin n → Bool) (x : Fin n → ℂ) :
@@ -975,6 +974,22 @@ theorem hsDist_equiv_symm {n P Q : ℕ} {ε : Fin n → Bool} {f : Fin P ⊕ Fin
   rw [← f.sum_comp]
   simp
 
+private theorem pos_of_isGauge' {n : ℕ} {ε : Fin n → Bool} {c : ℝ} (hc : GlobalTheory.Count.IsGauge ε c) :
+    0 < c := by
+  have hV : 0 < (volume (Metric.ball (0 : EuclideanSpace ℝ (Fin (n ^ 2))) 1)).toReal :=
+    ENNReal.toReal_pos (Metric.measure_ball_pos _ _ one_pos).ne' measure_ball_lt_top.ne
+  by_contra hneg'
+  have hneg : c ≤ 0 := not_lt.1 hneg'
+  have hle : ∀ᶠ r in 𝓝[>] (0 : ℝ),
+      c * (Formalism.REAL.muG ε {g | Real.sqrt (Formalism.REAL.hs (Formalism.MainNotions.S.uMat g - 1)) ≤ r}).toReal / r ^ (n ^ 2)
+        ≤ 0 := by
+    filter_upwards [self_mem_nhdsWithin] with r hr
+    have hr' : (0 : ℝ) < r := hr
+    exact div_nonpos_iff.2 (Or.inr ⟨mul_nonpos_iff.2 (Or.inr ⟨hneg, ENNReal.toReal_nonneg⟩),
+      (pow_pos hr' _).le⟩)
+  have := le_of_tendsto hc hle
+  linarith
+
 private theorem tendsto_gauge_ratio_volume_ball {n : ℕ} {ε : Fin n → Bool} {c : ℝ} (hc : GlobalTheory.Count.IsGauge ε c)
     (hc0 : 0 < c) :
     Tendsto (fun r : ℝ =>
@@ -1039,7 +1054,7 @@ private theorem tendsto_gauge_ratio_volume_ball {n : ℕ} {ε : Fin n → Bool} 
 
 theorem gauge_transport : ∀ (n : ℕ) (ε : Fin n → Bool) (c : ℝ) (P Q : ℕ) (f : Fin P ⊕ Fin Q ≃ Fin n) (hf : Sorts ε f), GlobalTheory.Count.IsGauge ε c → 0 < c ∧ HasEuclDensity ((ENNReal.ofReal c • Formalism.REAL.muG ε).map hf.equiv.symm) := by
   intro n ε c P Q f hf hc
-  have hc0 : 0 < c := _root_.GlobalTheory.GaugeTransport.pos_of_isGauge hc
+  have hc0 : 0 < c := pos_of_isGauge' hc
   refine ⟨hc0, ?_⟩
   have : BorelSpace (UpqT P Q) := ⟨rfl⟩
   have hPQ : P + Q = n := Sorts.add_eq f
@@ -1102,7 +1117,7 @@ open scoped ENNReal NNReal Pointwise
 
 variable {P Q P' Q' : ℕ}
 
-theorem tanBall_mul (t r : ℝ) (ht : 0 < t) (_hr : 0 < r) :
+theorem tanBall_mul (t r : ℝ) (ht : 0 < t) :
     (volume : Measure (ℝ × Sp P Q)) {x | tanSq x < (t * r) ^ 2} =
       ENNReal.ofReal (t ^ Module.finrank ℝ (ℝ × Sp P Q)) *
         volume {x : ℝ × Sp P Q | tanSq x < r ^ 2} := by
@@ -1168,7 +1183,7 @@ theorem tendsto_fibSq (e : Option (Fin P' ⊕ Fin Q') ≃ (Fin P ⊕ Fin Q)) (he
     refine GlobalTheory.CompactDualQuot.tendsto_div_of_squeeze
       (F := fun r : ℝ => (volume : Measure (ℝ × Sp P' Q')) {x | tanSq x < r ^ 2})
       (V := fun r : ℝ => (volume : Measure (ℝ × Sp P' Q')) {x | tanSq x < r ^ 2})
-      ENNReal.one_ne_top (fun t r ht hr => tanBall_mul t r ht hr) hVV ?_
+      ENNReal.one_ne_top (fun t r ht _ => tanBall_mul t r ht) hVV ?_
     intro t ht
     have hti : t⁻¹ < 1 := inv_lt_one_of_one_lt₀ ht
     have htp : 0 < t⁻¹ := inv_pos.2 (by linarith)
@@ -1480,7 +1495,7 @@ theorem qf_comp {n : ℕ} {ε : Fin n → Bool} {f : Fin P ⊕ Fin Q ≃ Fin n} 
     (y : Fin n → ℂ) : qf (fun i => y (f i)) = qEps ε y := by
   unfold qf qEps
   rw [← f.sum_comp, Fintype.sum_sum_type]
-  simp only [hf.1, hf.2, if_true, Bool.false_eq_true, if_false, one_mul, neg_one_mul,
+  simp only [hf.1, hf.2, ite_true, Bool.false_eq_true, ite_false, one_mul, neg_one_mul,
     Finset.sum_neg_distrib, Complex.normSq_eq_norm_sq]
   ring
 

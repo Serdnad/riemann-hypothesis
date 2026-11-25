@@ -1,62 +1,11 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsContinuousPadic
-import Formalism.ThetaLogCoordinates.UniformThetaSubstitution.FrobeniusLiftNorms.CoeffSubstLgFOfDegreeOne
 import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.LcscAdelicUnitaryGroup
 public import Mathlib.NumberTheory.LocalField.Basic
 public import Mathlib.NumberTheory.NumberField.Completion.FinitePlace
 public import Mathlib.NumberTheory.Padics.PadicNumbers
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Algebra.Order.Star.Rat
-import Mathlib.Algebra.Order.Star.Real
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
 public import Mathlib.LinearAlgebra.FreeModule.IdealQuotient
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.Padics.LocalField
 public import Mathlib.NumberTheory.Padics.RingHoms
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Henselian
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.RingTheory.RegularLocalRing.Defs
-import Mathlib.RingTheory.SimpleRing.Principal
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Topology.Connected.Separation
-import Mathlib.Topology.MetricSpace.Ultra.TotallySeparated
-import Mathlib.Topology.Sheaves.Init
 public import Mathlib.NumberTheory.Padics.PadicIntegers
 
 @[expose] public section
@@ -97,7 +46,13 @@ section Ql
 variable (l : ℕ) [hl : Fact l.Prime] (hv : (l : 𝓞 F) ∈ v.asIdeal)
 
 theorem not_dvd_den (q : ℚ) (h : ‖(q : ℚ_[l])‖ ≤ 1) : ¬ l ∣ q.den := by
-  apply _root_.Formalism.InvariantFactorPaths.G7.FormalGroupLaws.not_dvd_den <;> assumption
+  intro hd
+  have hu := PadicInt.isUnit_den q h
+  rw [PadicInt.isUnit_iff] at hu
+  have : ‖((q.den : ℤ) : ℤ_[l])‖ < 1 :=
+    (PadicInt.norm_int_lt_one_iff_dvd _).mpr (Int.natCast_dvd_natCast.mpr hd)
+  rw [Int.cast_natCast] at this
+  exact absurd hu this.ne
 
 theorem norm_nat (n : ℕ) : ‖(n : v.adicCompletion F)‖ =
     ‖FinitePlace.embedding v (algebraMap (𝓞 F) F (n : 𝓞 F))‖ := by
@@ -192,7 +147,33 @@ theorem emb_finite : letI := (emb v l hv).toAlgebra
     exact hd.closure_range)
 
 theorem exists_frac (x : ℚ_[l]) : ∃ a : ℚ, (∃ n : ℕ, a.den = l ^ n) ∧ ‖x - (a : ℚ_[l])‖ ≤ 1 := by
-  apply _root_.GlobalTheory.LocalData.exists_isPrincipalPart <;> assumption
+  have hl1 : ‖(l : ℚ_[l])‖ < 1 := Padic.norm_p_lt_one
+  have hl0 : (l : ℚ_[l]) ≠ 0 := Nat.cast_ne_zero.mpr hl.out.ne_zero
+  obtain ⟨n, hn⟩ := exists_pow_lt_of_lt_one (show 0 < (‖x‖ + 1)⁻¹ by positivity) hl1
+  have hz : ‖(l : ℚ_[l]) ^ n * x‖ ≤ 1 := by
+    rw [norm_mul, norm_pow]
+    have h1 : ‖(l : ℚ_[l])‖ ^ n * (‖x‖ + 1) ≤ 1 := by
+      rw [← le_div_iff₀ (by positivity), one_div]; exact hn.le
+    nlinarith [pow_nonneg (norm_nonneg (l : ℚ_[l])) n]
+  let z : ℤ_[l] := ⟨_, hz⟩
+  obtain ⟨e, he⟩ := Ideal.mem_span_singleton.mp (PadicInt.appr_spec n z)
+  refine ⟨(z.appr n : ℚ) / (l : ℚ) ^ n, ?_, ?_⟩
+  · have : ((z.appr n : ℚ) / (l : ℚ) ^ n).den ∣ l ^ n := by
+      have h := Rat.den_dvd (z.appr n : ℤ) ((l ^ n : ℕ) : ℤ)
+      rw [Rat.divInt_eq_div] at h
+      push_cast at h
+      exact_mod_cast h
+    obtain ⟨k, -, hk⟩ := (Nat.dvd_prime_pow hl.out).mp this
+    exact ⟨k, hk⟩
+  · have h := congrArg (fun t : ℤ_[l] => (t : ℚ_[l])) he
+    have hzc : (z : ℚ_[l]) = (l : ℚ_[l]) ^ n * x := rfl
+    simp only [PadicInt.coe_sub, PadicInt.coe_mul, PadicInt.coe_pow, PadicInt.coe_natCast, hzc] at h
+    push_cast
+    have : x - (z.appr n : ℚ_[l]) / (l : ℚ_[l]) ^ n = (e : ℚ_[l]) := by
+      field_simp
+      linear_combination h
+    rw [this]
+    exact e.2
 
 theorem int_of_frac (b : ℚ) (n : ℕ) (hd : b.den ∣ l ^ n) (h : ‖(b : ℚ_[l])‖ ≤ 1) : ∃ z : ℤ, b = z := by
   obtain ⟨k, -, hk⟩ := (Nat.dvd_prime_pow hl.out).mp hd

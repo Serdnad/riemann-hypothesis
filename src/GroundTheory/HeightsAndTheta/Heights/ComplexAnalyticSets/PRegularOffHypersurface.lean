@@ -9,7 +9,6 @@ public import Mathlib.RingTheory.KrullDimension.Field
 public import Mathlib.RingTheory.KrullDimension.Polynomial
 import Mathlib.RingTheory.RegularLocalRing.Defs
 import Mathlib.RingTheory.SimpleRing.Principal
-import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.IrreducibleConnected.BasicOpenSteps
 
 @[expose] public section
 
@@ -21,19 +20,24 @@ open MvPolynomial
 
 theorem exists_ringKrullDim_quotient_eq_nat {n : ℕ} (J : Ideal (MvPolynomial (Fin n) ℂ)) (hJ : J.IsPrime) :
     ∃ d : ℕ, ringKrullDim (MvPolynomial (Fin n) ℂ ⧸ J) = d := by
-  apply _root_.GroundTheory.Heights₂.Heights.HilbertSamuel.IrreducibleBasicOpenConnected.exists_dim <;> assumption
+  have : J.IsPrime := hJ
+  have hge : (0 : WithBot ℕ∞) ≤ ringKrullDim (MvPolynomial (Fin n) ℂ ⧸ J) :=
+    ringKrullDim_nonneg_of_nontrivial
+  have hle : ringKrullDim (MvPolynomial (Fin n) ℂ ⧸ J) ≤ (n : WithBot ℕ∞) := by
+    refine (ringKrullDim_quotient_le J).trans ?_
+    rw [MvPolynomial.ringKrullDim_of_isNoetherianRing_of_finite, ringKrullDim_eq_zero_of_field, Nat.card_eq_fintype_card,
+      Fintype.card_fin, zero_add]
+  obtain ⟨m, hm⟩ := WithBot.ne_bot_iff_exists.mp
+    (ne_bot_of_gt (lt_of_lt_of_le (WithBot.bot_lt_coe 0) hge))
+  have hmn : m ≤ (n : ℕ∞) := by exact_mod_cast (hm ▸ hle)
+  obtain ⟨d, rfl⟩ := ENat.ne_top_iff_exists.mp (lt_of_le_of_lt hmn (ENat.natCast_lt_top n)).ne
+  exact ⟨d, by exact_mod_cast hm.symm⟩
 
 theorem analyticOnNhd_of_differentiableOn_fin {d : ℕ} {σ : Type} [Fintype σ] {U : Set (Fin d → ℂ)}
-    {G : (Fin d → ℂ) → σ → ℂ} (hU : IsOpen U) (hG : DifferentiableOn ℂ G U) : AnalyticOnNhd ℂ G U := by
-  intro y hy
-  refine AnalyticAt.pi fun s => ?_
-  have hs : DifferentiableOn ℂ (fun x => G x s) U :=
-    (ContinuousLinearMap.proj (R := ℂ) (φ := fun _ : σ => ℂ) s).differentiable.comp_differentiableOn hG
-  refine analyticOnNhd_of_continuousOn_of_separately hU hs.continuousOn (fun z hz i => ?_) y hy
-  have h1 : DifferentiableAt ℂ (fun x => G x s) (Function.update z i (z i)) := by
-    rw [Function.update_eq_self]
-    exact hs.differentiableAt (hU.mem_nhds hz)
-  exact h1.comp (z i) (hasFDerivAt_update (𝕜 := ℂ) z (z i)).differentiableAt
+    {G : (Fin d → ℂ) → σ → ℂ} (hU : IsOpen U) (hG : DifferentiableOn ℂ G U) : AnalyticOnNhd ℂ G U :=
+  fun _ hy => AnalyticAt.pi fun s => ReciprocityTheory.AnForm.Osgood.osgood d U (fun x => G x s)
+    hU ((ContinuousLinearMap.proj (R := ℂ) (φ := fun _ : σ => ℂ)
+      s).differentiable.comp_differentiableOn hG) _ hy
 
 theorem RegularOffHypersurface.proof (hG : FrameGraphGeneric.Statement) : RegularOffHypersurface.Statement := by
   intro σ _ I hI

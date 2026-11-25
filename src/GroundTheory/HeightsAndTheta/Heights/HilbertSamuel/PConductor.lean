@@ -1,6 +1,5 @@
 module
 
-import GroundTheory.HeightsAndTheta.Heights.MultihomogeneousPolynomials
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsSecEq
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PNmSectionsRational
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PSectionBounded
@@ -99,7 +98,13 @@ theorem exists_chart_conductor (y : (Σ k, ι k) → Ω) (hbir : Birational y) (
 
 theorem homog_prod {β : Type} (s : Finset β) (F : β → MRing ι) (δ : β → K → ℕ)
     (h : ∀ b ∈ s, IsMultiHomog (F b) (δ b)) : IsMultiHomog (∏ b ∈ s, F b) (∑ b ∈ s, δ b) := by
-  apply _root_.GroundTheory.Heights₂.Heights.MultiHomogeneous.prod <;> assumption
+  classical
+  induction s using Finset.induction_on with
+  | empty => simpa using (SectionBounded.homog_one (ι := ι))
+  | insert b s hb ih =>
+    rw [Finset.prod_insert hb, Finset.sum_insert hb]
+    exact SectionBounded.homog_mul (h b (Finset.mem_insert_self b s))
+      (ih fun b' hb' => h b' (Finset.mem_insert_of_mem hb'))
 
 end Conductor
 

@@ -12,7 +12,6 @@ import Mathlib.Topology.UniformSpace.Uniformizable
 import ReciprocityTheory.ReductiveGroups.DiscreteSeries.AnalyticVectors.Closure
 import Formalism.SharpRestriction.CuspSpanNormBounds.BridgeCSchur
 import ReciprocityTheory.ReductiveGroups.DiscreteSeries.DiscreteSeriesExistence.FormulaFA
-import ReciprocityTheory.ReductiveGroups.DiscreteSeries.DiscreteSeriesExistence.NormSubOneLeOfHsdA
 
 @[expose] public section
 
@@ -23,7 +22,7 @@ open scoped ContDiff
 
 namespace ReciprocityTheory.ChartRestriction.DS
 
-attribute [local instance] Matrix.normedAddCommGroup Matrix.normedSpace
+open scoped Matrix.Norms.Elementwise
 
 variable {n : ℕ}
 
@@ -41,8 +40,8 @@ theorem sum_sq_norm_eq_trace (A : Matrix (Fin n) (Fin n) ℂ) :
   ring
 
 theorem hsOne_conj {k : Matrix (Fin n) (Fin n) ℂ} (hk : k ∈ Matrix.unitaryGroup (Fin n) ℂ)
-    (g : Matrix (Fin n) (Fin n) ℂ) : _root_.ReciprocityTheory.ChartRestriction.DS.hsdA (k * g * star k) = _root_.ReciprocityTheory.ChartRestriction.DS.hsdA g := by
-  apply _root_.ReciprocityTheory.ChartRestriction.DS.hsdA_conj <;> assumption
+    (g : Matrix (Fin n) (Fin n) ℂ) : _root_.ReciprocityTheory.ChartRestriction.DS.hsdA (k * g * star k) = _root_.ReciprocityTheory.ChartRestriction.DS.hsdA g :=
+  by apply _root_.ReciprocityTheory.ChartRestriction.DS.hsdA_conj; assumption
 
 theorem contDiff_hsOne : ContDiff ℝ ∞ (_root_.ReciprocityTheory.ChartRestriction.DS.hsdA (n := n)) := by
   unfold _root_.ReciprocityTheory.ChartRestriction.DS.hsdA

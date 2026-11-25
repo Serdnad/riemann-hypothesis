@@ -42,7 +42,6 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
-import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.AdelicCompletionFractionalIdealDivisibleEqZero
 
 @[expose] public section
 
@@ -52,7 +51,6 @@ namespace GlobalTheory.Member.PrincLevel
 
 open NumberField IsDedekindDomain ReciprocityTheory.ChartRestriction.G.Geo.Tor ReciprocityTheory.ChartRestriction.G.FD Formalism.BasicNotions Formalism.MainNotions Formalism.BasicNotions.TH Formalism.L2.Theta Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes Formalism.L2.Pj
 open scoped TensorProduct Matrix Topology
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 open GlobalTheory.Member
 
 section General
@@ -62,7 +60,16 @@ variable {F E : Type} [Field F] [NumberField F] [Field E] [Algebra F E] {n : ℕ
 theorem smul_mem_hat (L : Set (Fin n → E)) (a : FiniteAdeleRing (𝓞 F) F)
     (ha : ∀ v, a v ∈ v.adicCompletionIntegers F) {z : Fin n → GlobalTheory.AdLat.RA F E}
     (hz : z ∈ GlobalTheory.AdLat.hat F L) : a • z ∈ GlobalTheory.AdLat.hat F L := by
-  apply _root_.GlobalTheory.AdLat.lim_adele_smul_mem <;> assumption
+  induction hz using AddSubgroup.closure_induction with
+  | mem z hz =>
+    obtain ⟨b, hb, x, hx, rfl⟩ := hz
+    refine AddSubgroup.subset_closure ⟨a * b, fun v => ?_, x, hx, ?_⟩
+    · exact mul_mem (ha v) (hb v)
+    · funext i
+      simp only [Pi.smul_apply, TensorProduct.smul_tmul', smul_eq_mul]
+  | zero => rw [smul_zero]; exact zero_mem _
+  | add x y _ _ hx hy => rw [smul_add]; exact add_mem hx hy
+  | neg x _ hx => rw [smul_neg]; exact neg_mem hx
 
 def congSub {R : Type} [CommRing R] (M : Matrix (Fin n) (Fin n) R) (H : AddSubgroup (Fin n → R)) (N : ℕ) :
     AddSubgroup (Fin n → R) where

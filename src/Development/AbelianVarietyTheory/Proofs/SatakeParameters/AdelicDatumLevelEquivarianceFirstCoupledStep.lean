@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.SatakeParameters.CouplingCosetsRightTranslateInFramesTypePrime
 public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.ExistsMidLevIff
 public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.UnderTie
 public import Development.AbelianVarietyTheory.Definitions.GlobalTwisting.RedPEqZeroOfDiv
@@ -13,48 +12,9 @@ public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.FirstC
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.ChartPointRightTranslateByLevelCoupledStep
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.CoupledStepChartLevelAtBadPrimes
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.DetInvMulFrameReadingCongruentOneModNorm
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Topology.Sheaves.Init
 import Formalism.LocalRingCardinality.SpanPowerMembership.ExampleLayerExistsGenerators
 import Formalism.LocalToGlobal.ProjectiveLattices.HalfOneAddSqrtNegIsIntegral
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
 import Development.AbelianVarietyTheory.Proofs.SatakeParameters.LatAdXMulLev
 import Development.AbelianVarietyTheory.Proofs.SatakeParameters.AbsNormEqOfSplitFactor
 
@@ -73,8 +33,6 @@ namespace GlobalTheory.TwU
 open NumberField IsDedekindDomain Matrix Formalism.BasicNotions Formalism.UG Formalism.L2.Col Formalism.L2.PairingIndexBounds.F Formalism.MainNotions.G.KAat
 open Formalism.L2.Forms Formalism.L2.Ker Formalism.MainNotions Formalism.L2.DIV Formalism.MainNotions.G
 open scoped TensorProduct
-
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 
 section MidDatum
 
@@ -114,7 +72,49 @@ theorem sameCoset_local {E : Type} [Field E] [NumberField E] [StarRing E] (P : H
     (hk : k ∈ GlobalTheory.TopStep.prinCong n P D) (hck : c⁻¹ = g * k.1) (hD : e + e₀ ≤ D) (y₀ : Sp E n)
     (hy₀ : ∀ l, IntAt P ((qOf P : E) ^ e * y₀ l)) (hgy : ∀ l, IntAt P (((qOf P : E) ^ e₀)⁻¹ * (g y₀ - y₀) l)) (y : Sp E n) :
     (∀ l, IntAt P (((qOf P : E) ^ e₀)⁻¹ * (c y - y₀) l)) ↔ (∀ l, IntAt P (((qOf P : E) ^ e₀)⁻¹ * (y - y₀) l)) := by
-  apply _root_.GlobalTheory.CplCosetPt.sameCoset_loc <;> assumption
+  have hq : ((qOf P : ℕ) : E) ≠ 0 := by
+    have : qOf P ≠ 0 := fun h0 => P.ne_bot (Ideal.absNorm_eq_zero_iff.1 h0)
+    exact_mod_cast this
+  set q : E := ((qOf P : ℕ) : E) with hqdef
+  have hsm : ∀ (a : E) (v : Sp E n), (∀ l, IntAt P (a * v l)) ↔ a • v ∈ stdAt E n P := by
+    intro a v
+    rw [GlobalTheory.TopStep.mem_stdAt]
+    rfl
+  have hpow : ∀ (m : ℕ) (v : Sp E n), v ∈ stdAt E n P → q ^ m • v ∈ stdAt E n P := by
+    intro m v hv
+    have : q ^ m • v = ((qOf P : 𝓞 E) ^ m) • v := by
+      rw [← algebraMap_smul E ((qOf P : 𝓞 E) ^ m) v]
+      congr 1
+    rw [this]
+    exact Submodule.smul_mem _ _ hv
+  have hw : q ^ e • y₀ ∈ stdAt E n P := (hsm _ _).1 hy₀
+  have hkw := hk _ hw
+  have hky : (q ^ e₀)⁻¹ • (k.1 y₀ - y₀) ∈ stdAt E n P := by
+    obtain ⟨d, hd⟩ : ∃ d, D = d + e + e₀ := ⟨D - e - e₀, by omega⟩
+    have e1 : (q ^ e₀)⁻¹ • (k.1 y₀ - y₀) = q ^ d • ((q ^ D)⁻¹ • (k.1 (q ^ e • y₀) - q ^ e • y₀)) := by
+      rw [map_smul, ← smul_sub, smul_smul, smul_smul]
+      congr 1
+      rw [hd, pow_add, pow_add]
+      field_simp
+    rw [e1]
+    exact hpow _ _ hkw
+  have hcy : (q ^ e₀)⁻¹ • (c⁻¹ y₀ - y₀) ∈ stdAt E n P := by
+    have e2 : c⁻¹ y₀ - y₀ = g (k.1 y₀ - y₀) + (g y₀ - y₀) := by
+      rw [hck, LinearEquiv.mul_apply, map_sub]
+      abel
+    rw [e2, smul_add, ← map_smul]
+    exact add_mem ((hg _).2 hky) ((hsm _ _).1 hgy)
+  have hcc : ∀ x, c (c⁻¹ x) = x := fun x => by
+    rw [← LinearEquiv.mul_apply, mul_inv_cancel]
+    rfl
+  rw [hsm, hsm]
+  have e3 : (q ^ e₀)⁻¹ • (c y - y₀) = c ((q ^ e₀)⁻¹ • (y - y₀) - (q ^ e₀)⁻¹ • (c⁻¹ y₀ - y₀)) := by
+    rw [← smul_sub, map_smul]
+    simp only [map_sub, hcc]
+    congr 1
+    abel
+  rw [e3, hc]
+  exact Submodule.sub_mem_iff_left _ hcy
 
 end GlobalTheory.CplCoset
 
@@ -158,10 +158,10 @@ theorem sameCoset_kappa : UnderTie (fun {D L hT Gi Gl Kc Y cX ex t u μ St} A dt
     rw [mul_inv_cancel_left]
     rfl
   · by_cases h : P.1 ∈ t.Pr.vGs
-    · simp only [h, if_true]
+    · simp only [h, ite_true]
       have := hok.depthG P h
       omega
-    · simp only [h, if_false]
+    · simp only [h, ite_false]
       have := hok.depthQ P h
       omega
 
@@ -181,69 +181,6 @@ open NumberField IsDedekindDomain Formalism.BasicNotions Formalism.MainNotions F
 
 noncomputable section
 
-namespace GlobalTheory.CplMuDet
-
-open Matrix
-open scoped TensorProduct
-
-section Cong
-
-variable {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] {N : ℕ}
-  {P : HeightOneSpectrum (𝓞 E)}
-
-theorem det_congAt {d : ℕ} (hd : 1 ≤ d) {k : GL (Fin N) (E ⊗[F] FiniteAdeleRing (𝓞 F) F)} (h : CongAt P d k) :
-    IntAtA (F := F) P (iA F E ((qOf P : ℕ) : E)⁻¹ *
-      (((Matrix.GeneralLinearGroup.det k : (E ⊗[F] FiniteAdeleRing (𝓞 F) F)ˣ) : E ⊗[F] FiniteAdeleRing (𝓞 F) F) - 1)) :=
-  GlobalTheory.FramesDet.det_congAt hd h
-
-end Cong
-
-end GlobalTheory.CplMuDet
-
-namespace GlobalTheory.CplMuDet
-
-open Matrix
-open scoped TensorProduct
-
-section Rat
-
-variable {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] {n : ℕ}
-
-theorem det_ratA (g : GL (Fin n) E) :
-    ((Matrix.GeneralLinearGroup.det (ratA F g) : (E ⊗[F] FiniteAdeleRing (𝓞 F) F)ˣ) : E ⊗[F] FiniteAdeleRing (𝓞 F) F) =
-      iA F E ((Matrix.GeneralLinearGroup.det g : Eˣ) : E) := by
-  rw [Matrix.GeneralLinearGroup.val_det_apply, Matrix.GeneralLinearGroup.val_det_apply, RingHom.map_det]
-  rfl
-
-end Rat
-
-section Frame
-
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
-
-variable {D : D7} {X : Fields} (s : Seam D X)
-
-theorem det_seamGL {n : ℕ} (g : Sp X.E n ≃ₗ[X.E] Sp X.E n) :
-    ((Matrix.GeneralLinearGroup.det (seamGL s g) : D.host.Eˣ) : D.host.E) = s.iE ((LinearEquiv.det g : X.Eˣ) : X.E) := by
-  have h : ((seamGL s g : GL (Fin n) D.host.E) : Matrix (Fin n) (Fin n) D.host.E) =
-      (LinearMap.toMatrix' g.toLinearMap).map (s.iE : X.E →+* D.host.E) := rfl
-  rw [Matrix.GeneralLinearGroup.val_det_apply, h, ← RingHom.mapMatrix_apply, ← RingHom.map_det, LinearMap.det_toMatrix',
-    LinearEquiv.coe_det]
-  rfl
-
-variable {i : ℕ} {SB : Finset (HeightOneSpectrum (𝓞 X.E))} (fb : SB → GL (Fin (D.R.N i)) D.host.E) (dep : SB → ℕ)
-
-theorem det_inFrame {P : SB} {κ : GL (Fin (D.R.N i)) (D.host.E ⊗[D.host.F] FiniteAdeleRing (𝓞 D.host.F) D.host.F)}
-    {g : Sp X.E (D.R.N i) ≃ₗ[X.E] Sp X.E (D.R.N i)} (hd : 1 ≤ dep P) (h : InFrame s fb dep P κ g) :
-    IntAtA (F := D.host.F) (seamP s P.1) (iA D.host.F D.host.E ((qOf (seamP s P.1) : D.host.E))⁻¹ *
-      ((((Matrix.GeneralLinearGroup.det κ)⁻¹ : (AfE D.host.F D.host.E)ˣ) : AfE D.host.F D.host.E) *
-        iA D.host.F D.host.E (s.iE ((LinearEquiv.det g : X.Eˣ) : X.E)) - 1)) := by
-  apply _root_.GlobalTheory.FramesDet.det_inFrame <;> assumption
-
-end Frame
-
-end GlobalTheory.CplMuDet
-
 theorem GlobalTheory.CplMuDet.muOf_det_cpl : UnderTie (fun {D L hT Gi Gl Kc Y cX ex t u μ St} A dtU a => MuLaw t u μ dtU → ∀ (β' : (St (t.m2 + 1) (cpl_lt t μ).le).Ch)
     (κ' : ((St (t.m2 + 1) (cpl_lt t μ).le).K β').lev.U) (κ'' : GLQ t.X.E (D.R.N (t.m2 + 1)) (SB t μ)),
     (∀ P, InFrame t.seam (A.fb (t.m2 + 1) (cpl_lt t μ).le β') (t.cst μ).D P κ'.1 ((κ'' P)⁻¹).1) →
@@ -253,7 +190,7 @@ theorem GlobalTheory.CplMuDet.muOf_det_cpl : UnderTie (fun {D L hT Gi Gl Kc Y cX
   have hlt : t.m2 < D.R.m := by have := cpl_lt t μ; omega
   obtain ⟨-, h⟩ := GlobalTheory.LevMuDet.muOf_det_lev A dtU a hPin hTie hMu t.m2 hlt (t.m2 + 1) (cpl_lt t μ).le β' κ'
     (fun P => ((LinearEquiv.det ((κ'' P)⁻¹).1 : t.X.Eˣ) : t.X.E))
-    (fun P => GlobalTheory.CplMuDet.det_inFrame t.seam _ _ ((t.idx_ok μ).cst_ok.D_pos P) (hF P))
+    (fun P => GlobalTheory.FramesDet.det_inFrame t.seam _ _ ((t.idx_ok μ).cst_ok.D_pos P) (hF P))
   rw [h]
   congr 1
   exact Finset.prod_congr rfl fun P _ => GlobalTheory.TopLaw.rhoT_inv _ P (κ'' P)
@@ -328,11 +265,11 @@ theorem levAt_target : UnderTie (fun {D L hT Gi Gl Kc Y cX ex t u μ St} A dtU a
   have ex1 : xiPt A t.m2 hi β β' p q' w = XiCpl1 t.Ch t.sel (t.tup μ) (t.cst μ) (t.idx μ) t.m2 (A.ib t.m2 hi β) p q'
       (cosetOf A (t.m2 + 1) hi β' q') w := by
     unfold xiPt
-    rw [dite_eq_right (lt_irrefl _), if_pos rfl]
+    rw [dite_eq_right (lt_irrefl _), ite_eq_left rfl]
   have ex2 : xiPt A t.m2 hi β β' p p' w = XiCpl1 t.Ch t.sel (t.tup μ) (t.cst μ) (t.idx μ) t.m2 (A.ib t.m2 hi β) p p'
       (cosetOf A (t.m2 + 1) hi β' p') w := by
     unfold xiPt
-    rw [dite_eq_right (lt_irrefl _), if_pos rfl]
+    rw [dite_eq_right (lt_irrefl _), ite_eq_left rfl]
   rw [ex1, ex2, hcos, hmu, ← hχ, ← map_mul, ← map_mul, mul_comm (∏ P : SB t μ, _), law]
 
 end GlobalTheory.CplTarget
@@ -351,8 +288,6 @@ open NumberField IsDedekindDomain Formalism.BasicNotions Formalism.MainNotions F
 noncomputable section
 
 namespace GlobalTheory.PtMove
-
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 
 theorem isPtAd_mul_lev : UnderTie (fun {D L hT Gi Gl Kc Y cX ex t u μ St} A dtU a =>
   ∀ (i : ℕ) (hi : i ≤ D.R.m) (β : (St i hi).Ch) (κ : ((St i hi).K β).lev.U) (x x₁ : UA D i hi)
@@ -509,8 +444,6 @@ noncomputable section
 
 namespace GlobalTheory.TwV
 
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
-
 theorem levSrc_localData : UnderTie (fun {D L hT Gi Gl Kc Y cX ex t u μ St} A dtU a =>
   ∀ (hi : t.m2 < D.R.m) (β : (St t.m2 hi.le).Ch) (κ : ((St t.m2 hi.le).K β).lev.U),
     ∃ (g : SB t μ → (Sp t.X.E (D.R.N t.m2) ≃ₗ[t.X.E] Sp t.X.E (D.R.N t.m2))) (z : SB t μ → t.X.K),
@@ -575,7 +508,6 @@ end Local
 end GlobalTheory.LevSrcCpl
 
 namespace GlobalTheory.LevSrcCpl
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 
 theorem levSrc_cpl : UnderTie (fun {D L hT Gi Gl Kc Y cX ex t u μ St} A dtU a => PtEx A a → MuLaw t u μ dtU → ∀ i hi, i = t.m2 → PtAway A a i hi →
   ∀ β β' (x x₁ : UA D i (Nat.le_of_succ_le hi)) (x' : UA D (i + 1) hi) (κ : ((St i (Nat.le_of_succ_le hi)).K β).lev.U) p p' p₁,
@@ -596,7 +528,7 @@ theorem levSrc_cpl : UnderTie (fun {D L hT Gi Gl Kc Y cX ex t u μ St} A dtU a =
     congrFun (hAway β β' x₁ x' x₁ x' q p' p₁ p' hq hp' hp₁ hp' (fun _ _ => ⟨rfl, rfl⟩)) w
   rw [eA]
   unfold xiPt
-  rw [dite_eq_right (lt_irrefl _), if_pos rfl, dite_eq_right (lt_irrefl _), if_pos rfl]
+  rw [dite_eq_right (lt_irrefl _), ite_eq_left rfl, dite_eq_right (lt_irrefl _), ite_eq_left rfl]
   have hsrc := firstCoupledDatum_source_level_law (G := t.glob) (cst := t.cst μ) (Ch := t.Ch) hPins.fields.ok t.pr_ok (t.idx_ok μ) (al := A.ib t.m2 hlt β) p'
     (cosetOf A (t.m2 + 1) hi β' p') hfr hlev hN hf w
   have hprod : ((∏ P, c P : t.X.Kˣ) : t.X.K) * ∏ P, z P = 1 := by
@@ -634,7 +566,6 @@ open NumberField IsDedekindDomain Formalism.BasicNotions Formalism.MainNotions F
 namespace GlobalTheory.AdLevCpl
 
 open Matrix Formalism.UG Formalism.L2.PairingIndexBounds.F Formalism.MainNotions.G.KAat Formalism.L2.Forms Formalism.MainNotions.G in
-attribute [local instance] Formalism.BasicNotions.Host.cmStar in
 
 theorem levAt_coupled : UnderTie (fun {D L hT Gi Gl Kc Y cX ex t u μ St} A dtU a => PtEx A a → MuLaw t u μ dtU → ∀ i hi, i = t.m2 → PtAway A a i hi → LevAt A dtU a i hi) := by
   intro D L hT Gi Gl Kc Y cX ex t u μ St A dtU a hP hTie hEx hMu i hi hi2 hAw

@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.ExpandsAtTranslateTorsion
 import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.ExistsUnitLevels
 public import Development.AbelianVarietyTheory.Proofs.HomogeneousIdeals.ExistsUniqueFactorCompletedStalkOfMap
 public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.ExistsIsoOfSectionRing
@@ -59,14 +58,11 @@ import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.SemiabelianSchemes.P
 
 @[expose] public section
 
-set_option autoImplicit false
-
 noncomputable section
 
 open CategoryTheory CategoryTheory.Limits MonoidalCategory CartesianMonoidalCategory MonObj AlgebraicGeometry NumberField
 open ReciprocityTheory.ChartRestriction.G ReciprocityTheory.ChartRestriction.G.Semi ReciprocityTheory.ChartRestriction.G.Out ReciprocityTheory.ChartRestriction.G.Geo.Tor
 open scoped CategoryTheory.Obj
-attribute [local instance] Over.cartesianMonoidalCategory
 
 namespace GlobalTheory.FormalGeneric
 
@@ -87,14 +83,7 @@ theorem inv_bijective (S : Type) [CommRing S] :
 
 theorem fn_ext_levels [IsHausdorff J B] {a b : Γ(Spec (CommRingCat.of B), ⊤)}
     (h : ∀ e, (adicLevelι J (e + 1)).appTop.hom a = (adicLevelι J (e + 1)).appTop.hom b) : a = b := by
-  obtain ⟨a, rfl⟩ := (inv_bijective B).2 a
-  obtain ⟨b, rfl⟩ := (inv_bijective B).2 b
-  congr 1
-  refine congrFun (IsHausdorff.StrictMono.funext' J (a := fun n => n + 1) (strictMono_id.add_const 1)
-    (f := fun _ : Unit => a) (g := fun _ => b) fun n _ => ?_) ()
-  have := h n
-  rw [appTop_spec, appTop_spec] at this
-  exact (inv_bijective _).1 this
+  exact GlobalTheory.RedTotal.fn_ext_levels J h
 
 theorem fn_ext_germs [IsHausdorff J B] {a b : Γ(Spec (CommRingCat.of B), ⊤)}
     (h : ∀ e z, gs (adicLevelι J (e + 1)) z ⊤ a = gs (adicLevelι J (e + 1)) z ⊤ b) : a = b :=
@@ -192,7 +181,18 @@ theorem gw_thickMap (e : ℕ) {Z : Scheme.{0}} (r : Z ⟶ (thickObj R I e G).lef
     (jL : U.LG.L.ι) (hM : (U.gt e).pG.left (r z) ∈ D.toPre.P.L.U jM) (hL : (fstG I e G).left (r z) ∈ U.LG.L.U jL) :
     Geo.Tor.gw (U.w (e + 1)) (r ≫ thickMap R I e G) z jM (fun _ => jL) =
       Geo.Tor.gw (U.w e) r z jM (fun _ => jL) := by
-  first | exact _root_.GlobalTheory.TorsionTranslate.gw_trans | exact @_root_.GlobalTheory.TorsionTranslate.gw_trans | apply _root_.GlobalTheory.TorsionTranslate.gw_trans <;> assumption
+  have hM' : (U.gt (e + 1)).pG.left (thickMap R I e G (r z)) ∈ D.toPre.P.L.U jM :=
+    (congrArg (fun g => g (r z) ∈ D.toPre.P.L.U jM) (U.gt_q e)).mpr hM
+  have hL' : (fstG I (e + 1) G).left (thickMap R I e G (r z)) ∈ U.LG.L.U jL :=
+    (congrArg (fun g => g (r z) ∈ U.LG.L.U jL) (Algebraise.thickMap_fstG I e G)).mpr hL
+  have hm : r z ∈ thickMap R I e G ⁻¹ᵁ ((D.toPre.P.L.pull (U.gt (e + 1)).pG.left).U (fun _ => jM) ⊓
+        (U.LG.L.pull (fstG I (e + 1) G).left).U (fun _ => jL)) ⊓
+      ((D.toPre.P.L.pull (U.gt e).pG.left).U (fun _ => jM) ⊓
+        (U.LG.L.pull (fstG I e G).left).U (fun _ => jL)) :=
+    ⟨⟨mem_pull.2 hM', mem_pull.2 hL'⟩, mem_pull.2 hM, mem_pull.2 hL⟩
+  have H := congrArg (gm r z _) (U.w_compat e (fun _ => jM, fun _ => jL) _ inf_le_left inf_le_right)
+  have h₁ := gm_pull r (thickMap R I e G) z _ hm.1 ((U.w (e + 1)).s (fun _ => jM, fun _ => jL))
+  exact h₁.symm.trans ((gm_res r z inf_le_left hm _).symm.trans (H.trans (gm_res r z inf_le_right hm _)))
 
 variable {Φ : D'.toPre.P.A.left ⟶ D.toPre.P.A.left} (w : LB.Iso D'.toPre.P.L (D.toPre.P.L.pull Φ))
   (h : ∀ e, (thickObj R I e G').left ⟶ (thickObj R I e G).left)

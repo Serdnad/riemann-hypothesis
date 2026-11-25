@@ -1,6 +1,5 @@
 module
 
-import Development.WeilBound.CoreStatements.TorusUniformisation.ChowMahlerFamilies.IsIntegrallyClosedOfDenomBis
 public import Development.WeilBound.CoreStatements.HodgeTatePoints.WeilfunCore
 public import Development.WeilBound.CoreStatements.TorusUniformisation.ChowMahlerFamilies.IsDerAt0
 public import Mathlib.Tactic.ENatToNat
@@ -17,57 +16,10 @@ public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LemmaBTHolds
 public import Development.WeilBound.CoreStatements.HodgeTatePoints.HtatBcTors
 public import Development.WeilBound.CoreStatements.HodgeTatePoints.Weilreg
 public import Development.WeilBound.CoreStatements.TorusUniformisation.ChowMahlerFamilies.FunctionFamilyIdempotent
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.AlgebraicGeometry.Modules.Sheaf
 import Mathlib.Tactic.Linter.HaveILetI
 import Mathlib.Tactic.Linter.Style
 import Development.WeilBound.CoreStatements.HodgeTatePoints.HtatDesc
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
 import Development.WeilBound.CoreStatements.HomogeneousNonvanishing.BtExistsBc
-import Mathlib.AlgebraicGeometry.Morphisms.SchemeTheoreticallyDominant
-import Mathlib.AlgebraicGeometry.Morphisms.WeaklyEtale
-import Mathlib.AlgebraicGeometry.Sites.Fpqc
-import Mathlib.CategoryTheory.ExtremalEpi
-import Mathlib.RingTheory.RegularLocalRing.Defs
 import Development.AutomorphicSpectrum.Definitions.DivisibilityTowers.CompactGapsGE
 
 -- This file was produced by scripts/clump.py from the modules listed below.
@@ -171,8 +123,6 @@ theorem wq_level (h : IsCub θ) (N M : ℕ) {x : A} (hx : x ^ N = 1) (y : A) :
 
 end Alg
 
-attribute [local instance] Over.cartesianMonoidalCategory
-
 variable {S : Scheme.{0}} {G : Over S} [GrpObj G] [IsCommMonObj G] {L : RigLB G}
 
 theorem weilUnit_level (c : CubicalStr G L) (N M n : ℕ) (hn : n = N * M) {T : Over S} {x y x' y' : T ⟶ G}
@@ -188,7 +138,7 @@ theorem weilUnit_level (c : CubicalStr G L) (N M n : ℕ) (hn : n = N * M) {T : 
   rw [wq_level (isCub_cubV c hJ) N M hx] at h2
   have h3 := congrArg Units.val (h1.trans h2.symm)
   simp only [gm_val (𝟙 T.left) z ⊤ trivial] at h3
-  simp only [gs, dif_pos (show (𝟙 T.left : T.left ⟶ T.left) z ∈ (⊤ : T.left.Opens) from trivial)]
+  simp only [gs, dite_eq_left (show (𝟙 T.left : T.left ⟶ T.left) z ∈ (⊤ : T.left.Opens) from trivial)]
   exact h3
 
 end PositivityTheory.Xgn.TestGroupPoint
@@ -374,14 +324,11 @@ theorem cotMap_apply (A : Subalgebra R (T → R)) (a : A) (f : augIdeal A) (h : 
 
 theorem cotMap_mul (A : Subalgebra R (T → R)) (a b : A) :
     cotMap A (a * b) = a.1 1 • cotMap A b + b.1 1 • cotMap A a := by
-  set_option synthInstance.maxHeartbeats 400000 in
   have mem : ∀ c : A, c - algebraMap R A (c.1 1) ∈ augIdeal A := fun c => by
     change (c - algebraMap R A (c.1 1)).1 1 = 0
     simp
-  set_option synthInstance.maxHeartbeats 400000 in
   rw [cotMap_apply A (a * b) ⟨_, mem (a * b)⟩ rfl, cotMap_apply A a ⟨_, mem a⟩ rfl,
     cotMap_apply A b ⟨_, mem b⟩ rfl]
-  set_option synthInstance.maxHeartbeats 400000 in
   have key : (⟨_, mem (a * b)⟩ : augIdeal A) =
       ((a - algebraMap R A (a.1 1)) • (⟨_, mem b⟩ : augIdeal A) : augIdeal A) +
         (algebraMap R A (a.1 1) • (⟨_, mem b⟩ : augIdeal A) : augIdeal A) +
@@ -389,7 +336,6 @@ theorem cotMap_mul (A : Subalgebra R (T → R)) (a b : A) :
     apply Subtype.ext
     simp only [Submodule.coe_add, Submodule.coe_smul, smul_eq_mul, Subalgebra.coe_mul, Pi.mul_apply, map_mul]
     ring
-  set_option synthInstance.maxHeartbeats 400000 in
   have z : (augIdeal A).toCotangent
       ((a - algebraMap R A (a.1 1)) • (⟨_, mem b⟩ : augIdeal A) : augIdeal A) = 0 := by
     rw [Ideal.toCotangent_eq_zero, Submodule.coe_smul, smul_eq_mul, pow_two]
@@ -402,8 +348,15 @@ end Cot
 theorem valAt_spec_map' {B C : Type} [CommRing B] [CommRing C] {X : Scheme.{0}} (ψ : B →+* C)
     (y : Spec (CommRingCat.of B) ⟶ X) (s : Γ(X, ⊤)) :
     valAt (Spec.map (CommRingCat.ofHom ψ) ≫ y) ⊤ le_top s = ψ (valAt y ⊤ le_top s) := by
-  intros
-  apply _root_.PositivityTheory.HtPt.Twpair.valHom_top_comp <;> assumption
+  unfold valAt
+  rw [← Scheme.Hom.appLE_comp_appLE (Spec.map (CommRingCat.ofHom ψ)) y ⊤ ⊤ ⊤ le_top le_top]
+  have e1 : (Spec.map (CommRingCat.ofHom ψ)).appLE ⊤ ⊤ le_top = (Spec.map (CommRingCat.ofHom ψ)).appTop := by
+    rw [Scheme.Hom.appTop, Scheme.Hom.app_eq_appLE]
+    congr 1
+  rw [e1]
+  have e2 := congrArg (fun φ => φ.hom ((y.appLE ⊤ ⊤ le_top).hom s))
+    (Scheme.ΓSpecIso_naturality (CommRingCat.ofHom ψ))
+  exact e2
 
 private theorem valAt_top_lemma {B : Type} [CommRing B] {X : Scheme} (f : Spec (CommRingCat.of B) ⟶ X)
     (h : ⊤ ≤ f ⁻¹ᵁ ⊤) (s : Γ(X, ⊤)) :
@@ -562,7 +515,19 @@ theorem qhom_surj {E : Type} [Field E] [NumberField E] (N n : ℕ) : Function.Su
 
 theorem qhom_eq_one {E : Type} [Field E] [NumberField E] (N n : ℕ) (y : Fin N → 𝓞 E) :
     qhom N n (Multiplicative.ofAdd y) = 1 ↔ ∃ y', y = n • y' := by
-  apply _root_.PositivityTheory.Xgn.TestGroupPoint.Par.qhom_eq_one <;> assumption
+  constructor
+  · intro h
+    have hi : ∀ i, y i ∈ Ideal.span {(n : 𝓞 E)} := fun i => by
+      rw [← Ideal.Quotient.eq_zero_iff_mem]
+      exact congrFun (congrArg Multiplicative.toAdd h) i
+    choose c hc using fun i => Ideal.mem_span_singleton'.1 (hi i)
+    exact ⟨c, funext fun i => by rw [← hc i, Pi.smul_apply, nsmul_eq_mul, mul_comm]⟩
+  · rintro ⟨y', rfl⟩
+    apply Multiplicative.toAdd.injective
+    funext i
+    show Ideal.Quotient.mk _ ((n • y') i) = 0
+    rw [Ideal.Quotient.eq_zero_iff_mem, Pi.smul_apply, nsmul_eq_mul]
+    exact Ideal.mul_mem_right _ _ (Ideal.mem_span_singleton_self _)
 
 theorem exists_alpha {E : Type} [Field E] [NumberField E] (N p m : ℕ) (hm : 1 ≤ m) :
     ∃ α : TorsT E N p →* TorsT E N (p ^ m), ∀ x, α (qmk p x) = qmk (p ^ m) (p ^ (m - 1) • x) := by
@@ -930,7 +895,6 @@ theorem kernel_mem [Fact p.Prime] (hpS : p ∈ S) [CharZero Ω] [IsLocallyNoethe
 
 
 set_option synthInstance.maxHeartbeats 200000 in
-set_option maxHeartbeats 800000 in
 theorem exists_der [Fact p.Prime] (hpS : p ∈ S) [CharZero Ω]
     [IsNoetherianRing (CR O y c')] [IsIntegrallyClosed (CR O y c')] [IsFractionRing (CR O y c') Ω]
     (P : ChartPack G O c') (hR : ∀ a ∈ CR O y c', algebraMap Ω C a ∈ RC) {g : ℕ}

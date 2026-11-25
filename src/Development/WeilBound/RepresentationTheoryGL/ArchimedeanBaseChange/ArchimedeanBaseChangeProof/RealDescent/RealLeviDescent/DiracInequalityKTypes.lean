@@ -13,51 +13,8 @@ public import Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ParthasarathyRaoVaradarajan
 public import Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange.ArchimedeanBaseChangeProof.RealDescent.RealLeviDescent.HighestVectorsRegularLine
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.DiagonalMemUnitary
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Algebra.Order.Star.Real
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.PiTensorProduct
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
-import Mathlib.Tactic.ENatToNat
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Analysis.Normed.Algebra.MatrixExponential
 import Formalism.RealPlaceAnalysis.RealPlaceTaylor.CasKHW
 
 -- This file was produced by scripts/clump.py from the modules listed below.
@@ -194,13 +151,6 @@ theorem sg_val (B : Finset (Fin n × Fin n)) (hB : ∀ p ∈ B, p.1 < p.2) {a b 
 
 end GlobalTheory.CompanionTheory.RealMult.Short
 
-namespace GlobalTheory.CompanionTheory.RealMult
-
-open PositivityTheory.RgBcC PositivityTheory.RgBcC.Real PositivityTheory.RgBcC.RealD
-open Formalism.REAL (dot nsq)
-open Short
-
-end GlobalTheory.CompanionTheory.RealMult
 end -- clump:auto
 end -- clump:auto
 end -- clump:auto
@@ -304,7 +254,7 @@ theorem dot_swap (x g : Fin n → ℝ) {i j : Fin n} (hij : i ≠ j) :
         ring
       · simp [h1, h2, Equiv.swap_apply_of_ne_of_ne]
   have h3 : dot (x ∘ Equiv.swap i j) g - dot x g = (x j - x i) * g i + (x i - x j) * g j := by
-    simp only [dot, Function.comp, ← sum_sub_distrib, h, sum_add_distrib, sum_ite_eq', mem_univ, if_true]
+    simp only [dot, Function.comp, ← sum_sub_distrib, h, sum_add_distrib, sum_ite_eq', mem_univ, ite_true]
   linarith
 
 theorem domC_anti (x : Fin n → ℝ) : Antitone (domC x) := by
@@ -818,8 +768,16 @@ theorem score_sq_le {t : Fin n → Fin n → ℝ} (h : IsT t) :
   linarith
 
 theorem sum_standard_tournament (c : Fin n) : ∑ b, t0 c b = 2 * rhoV n c := by
-  intros
-  apply _root_.GlobalTheory.CompanionTheory.RealMult.Short.sum_sign_eq_two_rho <;> assumption
+  have e : ∀ b : Fin n, t0 c b = (if b ∈ Finset.Ioi c then 1 else 0) - (if b ∈ Finset.Iio c then 1 else 0) := by
+    intro b
+    simp only [t0, Finset.mem_Ioi, Finset.mem_Iio]
+    split_ifs <;> first | (exfalso; simp only [Fin.lt_def] at *; omega) | norm_num
+  simp only [e, Finset.sum_sub_distrib, Finset.sum_ite_mem, Finset.univ_inter, Finset.sum_const, nsmul_eq_mul, mul_one,
+    Fin.card_Ioi, Fin.card_Iio, rhoV]
+  have := c.2
+  rw [Nat.cast_sub (by omega), Nat.cast_sub (by omega)]
+  push_cast
+  ring
 
 theorem card_fst (B : Finset (Fin n × Fin n)) (c : Fin n) :
     (B.filter fun p => p.1 = c).card = (univ.filter fun b => (c, b) ∈ B).card := by
@@ -1095,41 +1053,6 @@ namespace GlobalTheory.CompanionTheory.RealMult.DiracProof
 variable {n : ℕ} {V : Type} [NormedAddCommGroup V] [InnerProductSpace ℂ V]
   {σ : Matrix.unitaryGroup (Fin n) ℂ →* (V →ₗ[ℂ] V)} {Kf : Fin n → Fin n → Module.End ℂ V}
 
-theorem expU_add' (X : Matrix (Fin n) (Fin n) ℂ) (hX : Xᴴ = -X) (s t : ℝ) :
-    expU X hX (s + t) = expU X hX s * expU X hX t := by
-  apply Subtype.ext
-  show NormedSpace.exp (((s + t : ℝ) : ℂ) • X) = NormedSpace.exp ((s : ℂ) • X) * NormedSpace.exp ((t : ℂ) • X)
-  rw [Complex.ofReal_add, add_smul, Matrix.exp_add_of_commute]
-  exact ((Commute.refl X).smul_left _).smul_right _
-
-theorem expU_two_pi (a : Fin n) (hX : (Matrix.single a a Complex.I)ᴴ = -(Matrix.single a a Complex.I)) :
-    expU (Matrix.single a a Complex.I) hX (2 * Real.pi) = 1 := by
-  apply Subtype.ext
-  show NormedSpace.exp (((2 * Real.pi : ℝ) : ℂ) • (Matrix.single a a Complex.I : Matrix (Fin n) (Fin n) ℂ)) = 1
-  have e : (((2 * Real.pi : ℝ) : ℂ)) • (Matrix.single a a Complex.I : Matrix (Fin n) (Fin n) ℂ) =
-      diagonal (fun c => if c = a then ((2 * Real.pi : ℝ) : ℂ) * Complex.I else 0) := by
-    ext i j
-    by_cases hij : i = j
-    · subst hij
-      by_cases hc : i = a
-      · subst hc
-        simp
-      · simp [hc, Ne.symm hc]
-    · rw [Matrix.diagonal_apply_ne _ hij, Matrix.smul_apply, Matrix.single_apply,
-        if_neg (fun hh => hij (hh.1.symm.trans hh.2)), smul_zero]
-  rw [e, Matrix.exp_diagonal, ← Matrix.diagonal_one]
-  congr 1
-  funext c
-  have hh : NormedSpace.exp (fun c => if c = a then ((2 * Real.pi : ℝ) : ℂ) * Complex.I else 0) c =
-      if c = a then Complex.exp (((2 * Real.pi : ℝ) : ℂ) * Complex.I) else 1 := by
-    split_ifs with hc <;> simp [hc, Complex.exp_eq_exp_ℂ]
-  rw [hh]
-  have h2 : Complex.exp (((2 * Real.pi : ℝ) : ℂ) * Complex.I) = 1 := by
-    push_cast
-    exact Complex.exp_two_pi_mul_I
-  rw [h2]
-  simp
-
 theorem weight_int (h : IsDerivK σ Kf) (a : Fin n) (r : ℝ) {v : V} (hv : v ≠ 0)
     (hr : Kf a a v = (r : ℂ) • v) : ∃ m : ℤ, r = m := by
   have hX : (Matrix.single a a Complex.I)ᴴ = -(Matrix.single a a Complex.I) := by
@@ -1155,7 +1078,7 @@ theorem weight_int (h : IsDerivK σ Kf) (a : Fin n) (r : ℝ) {v : V} (hv : v �
     have e : (fun t => L (φ (t - s))) = φ := by
       funext t
       have : expU X hX t = expU X hX s * expU X hX (t - s) := by
-        rw [← expU_add']
+        rw [← GlobalTheory.CompanionTheory.RealCountG.WtInt.expU_add]
         congr 1
         ring
       simp only [hL, hφ, this, map_mul, Module.End.mul_apply]
@@ -1186,7 +1109,7 @@ theorem weight_int (h : IsDerivK σ Kf) (a : Fin n) (r : ℝ) {v : V} (hv : v �
     simp [hφ, this]
   have h2π : φ (2 * Real.pi) = v := by
     show σ (expU X hX (2 * Real.pi)) v = v
-    rw [show expU X hX (2 * Real.pi) = 1 from expU_two_pi a hX, map_one, Module.End.one_apply]
+    rw [show expU X hX (2 * Real.pi) = 1 from GlobalTheory.CompanionTheory.RealCountG.WtInt.expU_two_pi a hX, map_one, Module.End.one_apply]
   have hE : Complex.exp (((2 * Real.pi : ℝ) : ℂ) * (-(Complex.I * r))) • v = v := by
     have b : ψ 0 = v := by simp [hψ, h0]
     have a' : ψ (2 * Real.pi) = Complex.exp (((2 * Real.pi : ℝ) : ℂ) * (-(Complex.I * r))) • v := by
@@ -1214,9 +1137,6 @@ theorem weight_int (h : IsDerivK σ Kf) (a : Fin n) (r : ℝ) {v : V} (hv : v �
 
 end GlobalTheory.CompanionTheory.RealMult.DiracProof
 
-namespace GlobalTheory.CompanionTheory.RealMult
-
-end GlobalTheory.CompanionTheory.RealMult
 end -- clump:auto
 end -- clump:auto
 end -- clump:auto
@@ -1274,8 +1194,8 @@ theorem dirac_ineq0 : ∀ {n : ℕ} (lam : Fin n → ℤ) (V : Type) [NormedAddC
     IsCoreMod0 (infOf lam) E1 E2 σ → ∀ (ι : Type) [Fintype ι] [DecidableEq ι] (c : Fin n → Fin n → Matrix ι ι ℂ),
       IsCliff c → ∀ (τ : Fin n → ℝ) (x : ι → V), x ≠ 0 → Formalism.REAL.KHighest (fun _ => true) (yF (kF E1 E2) c) τ x →
         ∑ a, (m0 lam a) ^ 2 ≤ ∑ a, (τ a + rhoV n a) ^ 2 := by
-  intro n lam V _ _ E1 E2 σ h
-  exact dirac_ineq_of_pair lam V E1 E2 h.pair h.ch1 h.ch2
+  intro n lam V _ _ E1 E2 σ h ι _ _ c hc τ x hx hK
+  exact GlobalTheory.CompanionTheory.DiracK.dirac_ineq_of_pair lam V E1 E2 h.pair (h.ch1 2) (h.ch2 2) ι c hc τ x hx hK
 
 theorem dirac_inequality_k_types : DiracInequalityWithoutSplitComponent := by
   intro n lam _ V _ _ E1 E2 σ hc ν hν

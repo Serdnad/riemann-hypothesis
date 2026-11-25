@@ -2,47 +2,7 @@ module
 
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.JetOpIntegral
 public import Development.AbelianVarietyTheory.Definitions.GlobalTwisting.RedPEqZeroOfDiv
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.HaveILetI
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Topology.Sheaves.Init
-import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.VectorsLinearMapsBoundedDenominatorsAtPrime
 
 @[expose] public section
 
@@ -140,7 +100,7 @@ theorem volq_zero {r : (Fin (n + c) → k) ≃ₗ[k] (Fin (n + c) → k)} (hr : 
     funext l
     by_cases h : l.1 < n
     · simp [Loc.inX, h]
-    · simp only [Loc.inX, LinearMap.pi_apply, h, dif_neg, not_false_eq_true, LinearMap.zero_apply]
+    · simp only [Loc.inX, LinearMap.pi_apply, h, dite_eq_right, not_false_eq_true, LinearMap.zero_apply]
       exact hv l (by simpa using h)
   rw [sub_eq_zero, e]
   exact hr.2 _
@@ -165,7 +125,21 @@ section Loc
 variable {E : Type} [Field E] [NumberField E] {P : HeightOneSpectrum (𝓞 E)}
 
 theorem volq_exists_pow (a : E) : ∃ b : ℕ, IntAt P ((qOf P : E) ^ b * a) := by
-  apply _root_.GlobalTheory.Proof.vectors_linearMaps_bounded_denominators_atPrime.exists_intAt_pow_mul <;> assumption
+  have hq : P.valuation E (qOf P : E) < 1 := by
+    have := (P.valuation_lt_one_iff_mem (K := E) _).2 (qOf_mem (P := P))
+    change P.valuation E (algebraMap (𝓞 E) E _) < 1 at this
+    rwa [map_natCast] at this
+  have : ∃ b : ℕ, P.valuation E ((qOf P : E) ^ b * a) ≤ 1 := by
+    rcases eq_or_ne a 0 with rfl | ha
+    · exact ⟨0, by simp⟩
+    have h0 : P.valuation E a ≠ 0 := (map_ne_zero _).2 ha
+    obtain ⟨b, hb⟩ := exists_pow_lt₀ hq (Units.mk0 _ h0)⁻¹
+    refine ⟨b, ?_⟩
+    rw [map_mul, map_pow, ← le_mul_inv_iff₀ (zero_lt_iff.2 h0), one_mul]
+    simpa using hb.le
+  obtain ⟨b, hb⟩ := this
+  obtain ⟨n, d, h⟩ := P.exists_primeCompl_mul_eq_of_integer _ hb
+  exact ⟨b, n, d, d.2, by rw [mul_comm]; exact h⟩
 
 variable [StarRing E]
 
@@ -230,7 +204,7 @@ end Loc
 theorem volumeAtQ : VolumeAtQ := by
   intro X Pr R sharp j P h w hP hd hw
   unfold Loc.volN Jat lamYat
-  simp only [if_neg hP]
+  simp only [ite_eq_right hP]
   rw [volq_lamY, inv_div, map_div₀]
   have hn : ∀ m : ℕ, w.valuation X.K (m : X.K) ≤ 1 := fun m => by
     have := w.valuation_le_one (K := X.K) (m : 𝓞 X.K)

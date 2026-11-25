@@ -1,53 +1,7 @@
 module
 
 public import Formalism.ThetaLogCoordinates.ResidueClassEstimates.StatementT
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Algebra.Order.Star.Int
-import Mathlib.Algebra.Order.Star.Real
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.Lemma
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Bool
 import Std.Tactic.BVDecide.Normalize.Prop
 
@@ -61,10 +15,6 @@ open Finset
 namespace Formalism.InvariantFactorPaths.BranchingDimensions
 
 open Letters
-
-namespace TTyp
-
-end TTyp
 
 private theorem le_div_of_mul_le_of_pos' {x y z : ℝ} (hz : 0 < z) (h : x * z ≤ y) : x ≤ y / z := by
   exact (le_div_iff₀ hz).2 h
@@ -109,18 +59,10 @@ namespace TTyp
 
 def lat (q : ℕ → Bool) (B : ℕ → ℕ) (i : ℕ) : List ℕ := (((List.range' 1 i).filter q).reverse).map B
 
-private theorem list_range'_succ_eq_append_singleton (s n : ℕ) : List.range' s (n + 1) = List.range' s n ++ [s + n] := by
-  induction n generalizing s with
-  | zero => rfl
-  | succ n ih =>
-    show s :: List.range' (s + 1) (n + 1) = (s :: List.range' (s + 1) n) ++ [s + (n + 1)]
-    rw [ih (s + 1), show s + 1 + n = s + (n + 1) by omega]
-    rfl
-
 lemma lat_succ (q : ℕ → Bool) (B : ℕ → ℕ) (i : ℕ) :
     lat q B (i + 1) = if q (i + 1) = true then B (i + 1) :: lat q B i else lat q B i := by
   unfold lat
-  rw [list_range'_succ_eq_append_singleton, show (1 : ℕ) + i = i + 1 from Nat.add_comm 1 i, List.filter_append]
+  rw [List.range'_1_concat, show (1 : ℕ) + i = i + 1 from Nat.add_comm 1 i, List.filter_append]
   by_cases hq : q (i + 1) = true
   · simp [hq]
   · simp [hq]
@@ -159,9 +101,9 @@ lemma sum_lat (g : ℕ → ℝ) (q : ℕ → Bool) (B : ℕ → ℕ) : ∀ n,
       rw [lat_succ, Finset.sum_filter, Finset.sum_Icc_succ_top (by omega), ← Finset.sum_filter,
         ← sum_lat g q B n]
       by_cases h : q (n + 1) = true
-      · simp only [if_pos h, List.length_cons, Finset.sum_range_succ', List.getD_cons_succ,
+      · simp only [ite_eq_left h, List.length_cons, Finset.sum_range_succ', List.getD_cons_succ,
           List.getD_cons_zero]
-      · simp only [if_neg h, add_zero]
+      · simp only [ite_eq_right h, add_zero]
 
 lemma lat_split (q : ℕ → Bool) (B : ℕ → ℕ) (i : ℕ) : ∀ d, ∃ pre : List ℕ,
     lat q B (i + d) = pre ++ lat q B i ∧
@@ -244,7 +186,7 @@ lemma bracket (h31 : LogBinomialProperties) (h34 : LogBinomialDeficit) (k' K : �
     · exact le_refl 0
   have halK : ∀ l, K ≤ l → al l = 0 := by
     intro l hl
-    rw [hal, if_neg (by omega)]
+    rw [hal, ite_eq_right (by omega)]
   have halL : ∀ l, lst.length ≤ l → al l = 0 := by
     intro l hl
     rw [hal]
@@ -261,7 +203,7 @@ lemma bracket (h31 : LogBinomialProperties) (h34 : LogBinomialDeficit) (k' K : �
       apply Finset.sum_congr rfl
       intro m hm
       rw [Finset.mem_filter, Finset.mem_range] at hm
-      rw [hal, if_pos hm.1]
+      rw [hal, ite_eq_left hm.1]
     have e2 : ∑ m ∈ (range K).filter (fun m => u ≤ m), al m = ∑ m ∈ Ico u (K + lst.length), al m := by
       apply Finset.sum_subset
       · intro m hm
@@ -292,7 +234,7 @@ lemma bracket (h31 : LogBinomialProperties) (h34 : LogBinomialDeficit) (k' K : �
       apply Finset.sum_congr rfl
       intro m hm
       rw [Finset.mem_range] at hm
-      rw [hal, if_pos hm]
+      rw [hal, ite_eq_left hm]
     have c2 : ∑ m ∈ range K, fT k' (al m) = ∑ m ∈ range (K + lst.length), fT k' (al m) := by
       apply Finset.sum_subset
       · intro m hm
@@ -343,7 +285,7 @@ def revW (n : ℕ) (la : ℕ → ℤ) : ℕ → ℤ := fun m => -(la (n - 1 - m)
 lemma lat_pred (q : ℕ → Bool) (B : ℕ → ℕ) {i : ℕ} (hi : 1 ≤ i) (h : q i = false) :
     lat q B (i - 1) = lat q B i := by
   obtain ⟨j, rfl⟩ : ∃ j, i = j + 1 := ⟨i - 1, by omega⟩
-  rw [lat_succ, if_neg (by simp [h]), Nat.add_sub_cancel]
+  rw [lat_succ, ite_eq_right (by simp [h]), Nat.add_sub_cancel]
 
 lemma tailPos_split (n : ℕ) (la : ℕ → ℤ) {u : ℕ} (hu : u < n) :
     tailPos n la u = max (la u) 0 + tailPos n la (u + 1) := by
@@ -569,46 +511,23 @@ theorem pathWeightBound_of :
   have hk'R : (0 : ℝ) ≤ D.k' := Nat.cast_nonneg _
   have hm1 := min_le_left (La * D.k' / (16 * D.k)) ((D.k' : ℝ) / 12)
   have hm2 := min_le_right (La * D.k' / (16 * D.k)) ((D.k' : ℝ) / 12)
-  have hXT (i : ℕ) (hir : D.r < i) (hiN : i ≤ D.Ns) : 0 < D.XT p La b i :=
-    div_pos (mul_pos hLa (hTDb i hir hiN).1) (mul_pos hpR hkR)
-  have hdeficit (q : ℕ → Bool) (la : ℕ → ℤ)
-      (h4 : ∀ l, l + 1 < (TTyp.lat q D.B D.n0).length →
-        4 * (TTyp.lat q D.B D.n0).getD (l + 1) 0 ≤ (TTyp.lat q D.B D.n0).getD l 0)
-      (ht : ∀ u, tailPos D.K la u ≤ ((TTyp.lat q D.B D.n0).drop u).sum)
-      (i : ℕ) (hir : D.r < i) (hiN : i ≤ D.Ns) (hqi : q i = false)
-      (hd : ((tailPos D.K la (((Icc (i + 1) D.n0).filter fun l => q l = true).card) : ℤ) : ℝ) ≤
-        ((((TTyp.lat q D.B D.n0).drop (((Icc (i + 1) D.n0).filter fun l => q l = true).card)).sum : ℕ) : ℝ) -
-          D.XT p La b i) :
-      (∑ m ∈ range D.K, fT D.k' ((max (la m) 0 : ℤ) : ℝ)) -
-        (∑ l ∈ range (TTyp.lat q D.B D.n0).length, fT D.k' (((TTyp.lat q D.B D.n0).getD l 0 : ℕ) : ℝ)) ≤
-          -(La * D.k' / (16 * D.k)) := by
-    have td := TTyp.key h31 h34 D.k' D.K la q D.B D.n0 hk'1 (hLk q) h4 ht i 0 _ (hXT i hir hiN)
-      (by simpa only [Nat.zero_add] using hd)
-    obtain ⟨l, hl1, hl2, hql, hgx⟩ := TTyp.mem_lat (TTyp.getD_mem td.1)
-    have hli : l ≠ i := fun h => by subst l; simp [hqi] at hql
-    have hgle : (D.B l : ℝ) ≤ 4 * b i / p := (hTDb i hir hiN).2 l hl1 (by omega) (by omega)
-    have hg0 : (0 : ℝ) < D.B l := by
-      have := (hBi l hl1 (by omega)).1
-      exact_mod_cast (by omega : 0 < D.B l)
-    have hthr := TTyp.a_fin hLa hpR hkR hk'R hg0 hgle
-    have hkey := td.2
-    have hX : D.XT p La b i = La * b i / (p * D.k) := rfl
-    rw [hgx, hX] at hkey
-    linarith
   rcases not_and_or.mp hnt with hc1 | hc23
-  · push_neg at hc1
+  · push Not at hc1
     obtain ⟨i, hi1, hiN, hvi, hgt⟩ := hc1
     have hir : D.r < i := by
-      by_contra h
-      push_neg at h
+      by_contra! h
       have := hvr i hi1 h
       simp [this] at hvi
     have hin0 : i ≤ D.n0 := by
-      by_contra h
-      push_neg at h
+      by_contra! h
       have := hvn i h hiN
       simp [this] at hvi
-    have hXpos := hXT i hir hiN
+    have hX : D.XT p La b i = La * b i / (p * D.k) := rfl
+    have hbpos := (hTDb i hir hiN).1
+    have hB4 := (hTDb i hir hiN).2
+    have hXpos : 0 < D.XT p La b i := by
+      rw [hX]
+      exact div_pos (mul_pos hLa hbpos) (mul_pos hpR hkR)
     have t1 := ((h35 D mu hW hP).1 (i - 1) 0 (by omega)).1
     have heqv : D.SPos 0 (i - 1) = D.SPos 0 i := by
       unfold Formalism.InvariantFactorPaths.BranchingDimensions.Letters.SPos
@@ -624,13 +543,32 @@ theorem pathWeightBound_of :
     rw [hSL, hstage] at t2
     unfold Formalism.InvariantFactorPaths.BranchingDimensions.Letters.SPos at t2
     rw [hRV, min_self] at t2
-    have hd := hdeficit (fun l => D.vec l) _ hL4v hTv i hir hiN hvi
-      (by rw [Nat.zero_add] at t2; exact t2)
-    linarith [hBc.1]
+    have td := Formalism.InvariantFactorPaths.BranchingDimensions.TTyp.key h31 h34 D.k' D.K (Formalism.InvariantFactorPaths.BranchingDimensions.Letters.kaRows mu D.Ns) (fun l => D.vec l) D.B D.n0 hk'1
+      (hLk _) hL4v hTv i 0 _ hXpos t2
+    obtain ⟨l, hl1, hl2, hql, hgx⟩ := Formalism.InvariantFactorPaths.BranchingDimensions.TTyp.mem_lat (Formalism.InvariantFactorPaths.BranchingDimensions.TTyp.getD_mem td.1)
+    have hli : l ≠ i := by
+      rintro rfl
+      simp [hql] at hvi
+    have hlmin := min_le_left i D.n0
+    have hlmin' := min_le_right i D.n0
+    have hgle : (D.B l : ℝ) ≤ 4 * b i / p := hB4 l hl1 (by omega) (by omega)
+    have hg0 : (0 : ℝ) < D.B l := by
+      have := (hBi l hl1 (by omega)).1
+      have : 0 < D.B l := by omega
+      exact_mod_cast this
+    have hthr := Formalism.InvariantFactorPaths.BranchingDimensions.TTyp.a_fin hLa hpR hkR hk'R hg0 hgle
+    have td2 := td.2
+    rw [hgx, hX] at td2
+    linarith [hBv.1, hBc.1]
   rcases not_and_or.mp hc23 with hc2 | hc3
-  · push_neg at hc2
+  · push Not at hc2
     obtain ⟨i, hir, hiN, hvi, hgt⟩ := hc2
-    have hXpos := hXT i hir hiN
+    have hX : D.XT p La b i = La * b i / (p * D.k) := rfl
+    have hbpos := (hTDb i hir hiN).1
+    have hB4 := (hTDb i hir hiN).2
+    have hXpos : 0 < D.XT p La b i := by
+      rw [hX]
+      exact div_pos (mul_pos hLa hbpos) (mul_pos hpR hkR)
     have t1 := ((h35 D mu hW hP).1 (i - 1) 0 (by omega)).2
     have heqc : D.SNeg 0 (i - 1) = D.SNeg 0 i := by
       unfold Formalism.InvariantFactorPaths.BranchingDimensions.Letters.SNeg
@@ -653,10 +591,24 @@ theorem pathWeightBound_of :
         ((Icc (i + 1) D.n0).filter (fun l => (!D.vec l) = true)) :=
       Finset.filter_congr (fun x _ => by simp)
     rw [hfc] at t2
-    have hd := hdeficit (fun l => !D.vec l) _ hL4c hTc i hir hiN (by simp [hvi])
-      (by rw [Nat.zero_add] at t2; exact t2)
-    linarith [hBv.1]
-  · push_neg at hc3
+    have td := Formalism.InvariantFactorPaths.BranchingDimensions.TTyp.key h31 h34 D.k' D.K (Formalism.InvariantFactorPaths.BranchingDimensions.TTyp.revW D.K (Formalism.InvariantFactorPaths.BranchingDimensions.Letters.kaRows mu D.Ns))
+      (fun l => !D.vec l) D.B D.n0 hk'1 (hLk _) hL4c hTc i 0 _ hXpos t2
+    obtain ⟨l, hl1, hl2, hql, hgx⟩ := Formalism.InvariantFactorPaths.BranchingDimensions.TTyp.mem_lat (Formalism.InvariantFactorPaths.BranchingDimensions.TTyp.getD_mem td.1)
+    have hli : l ≠ i := by
+      rintro rfl
+      simp [hvi] at hql
+    have hlmin := min_le_left i D.n0
+    have hlmin' := min_le_right i D.n0
+    have hgle : (D.B l : ℝ) ≤ 4 * b i / p := hB4 l hl1 (by omega) (by omega)
+    have hg0 : (0 : ℝ) < D.B l := by
+      have := (hBi l hl1 (by omega)).1
+      have : 0 < D.B l := by omega
+      exact_mod_cast this
+    have hthr := Formalism.InvariantFactorPaths.BranchingDimensions.TTyp.a_fin hLa hpR hkR hk'R hg0 hgle
+    have td2 := td.2
+    rw [hgx, hX] at td2
+    linarith [hBv.1, hBc.1]
+  · push Not at hc3
     obtain ⟨i, hir, hiN, hgt⟩ := hc3
     have hh : D.Bo i =
         (Formalism.InvariantFactorPaths.BranchingDimensions.TTyp.lat (fun l => D.vec l) D.B (min (i - 1) D.n0)).getD (D.r - 1 - (i - 1 - D.n0)) 0 := rfl

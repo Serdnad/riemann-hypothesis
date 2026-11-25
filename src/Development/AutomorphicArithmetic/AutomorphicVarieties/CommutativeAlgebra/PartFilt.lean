@@ -1,6 +1,5 @@
 module
 
-import Development.AutomorphicArithmetic.AutomorphicVarieties.CommutativeAlgebra.PresNew
 public import Mathlib.RingTheory.LocalRing.MaximalIdeal.Defs
 public import Mathlib.RingTheory.MvPowerSeries.Inverse
 public import Mathlib.RingTheory.Ideal.BigOperators
@@ -65,7 +64,39 @@ theorem UpperTheory.Reformulated.B.PartialFiltrationCoeff.part_filt_coeff :
     ∀ f ∈ IsLocalRing.maximalIdeal (MvPowerSeries σ O) ^ M,
       ∀ (n : σ →₀ ℕ),
         (MvPowerSeries.coeff n : MvPowerSeries σ O → O) f ∈
-          IsLocalRing.maximalIdeal O ^ (M - (Finsupp.degree : (σ →₀ ℕ) → ℕ) n) := @_root_.UpperTheory.Reformulated.B.PreservedCoefficient.pres_new_coeff
+          IsLocalRing.maximalIdeal O ^ (M - (Finsupp.degree : (σ →₀ ℕ) → ℕ) n) := by
+  intro O σ _ _ M
+  classical
+  induction M with
+  | zero =>
+    intro f _ n
+    simp
+  | succ M ih =>
+    intro f hf
+    rw [pow_succ] at hf
+    refine Submodule.mul_induction_on hf ?_ ?_
+    · intro a ha b hb n
+      rw [MvPowerSeries.coeff_mul]
+      refine Ideal.sum_mem _ ?_
+      rintro ⟨p, q⟩ hpq
+      have hsum : p + q = n := by simpa using hpq
+      have hdeg : Finsupp.degree p + Finsupp.degree q = Finsupp.degree n := by
+        rw [← hsum, map_add (f := _)]
+      have hp := ih a ha p
+      by_cases hq : q = 0
+      · subst hq
+        have hb0 : MvPowerSeries.coeff (0 : σ →₀ ℕ) b ∈ IsLocalRing.maximalIdeal O := by
+          rw [IsLocalRing.mem_maximalIdeal, mem_nonunits_iff] at hb ⊢
+          intro hu
+          exact hb (MvPowerSeries.isUnit_iff_constantCoeff.mpr (by simpa using hu))
+        have hmul := Ideal.mul_mem_mul hp hb0
+        rw [← pow_succ] at hmul
+        exact Ideal.pow_le_pow_right (by omega) hmul
+      · have hq' : Finsupp.degree q ≠ 0 := fun h => hq ((Finsupp.degree_eq_zero_iff q).mp h)
+        exact Ideal.mul_mem_right _ _ (Ideal.pow_le_pow_right (by omega) hp)
+    · intro x y hx hy n
+      rw [map_add (f := _)]
+      exact Ideal.add_mem _ (hx n) (hy n)
 end -- clump:auto
 end -- clump:auto
 -- ===== end clump member: Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.PartialFiltrationCoeff =====
@@ -114,7 +145,7 @@ private theorem UpperTheory.V.Alg.part_filt_monomial {O σ X : Type} [CommRing O
     {j : X} {n : σ →₀ ℕ} (hn : Finsupp.weight wt n = j) (c : O) : monomial n c ∈ wtPart O wt j := by
   classical
   intro m hm
-  rw [coeff_monomial, if_neg]
+  rw [coeff_monomial, ite_eq_right]
   rintro rfl
   exact hm hn
 
@@ -147,7 +178,7 @@ theorem UpperTheory.V.Alg.part_filt :
         intro hu
         have h3 : IsUnit (monomial g (1 : O)) := hloc.map_nonunit _ hu
         rw [MvPowerSeries.isUnit_iff_constantCoeff, ← coeff_zero_eq_constantCoeff_apply, coeff_monomial,
-          if_neg hg0.symm] at h3
+          ite_eq_right hg0.symm] at h3
         exact not_isUnit_zero h3
       have h4 : (monomial (g + n') (1 : O) : MvPowerSeries W.σ O) = monomial g 1 * monomial n' 1 := by
         rw [monomial_mul_monomial, one_mul]
@@ -226,8 +257,7 @@ theorem UpperTheory.V.Alg.part_filt :
   have hsum : x = W.π low + W.π (h - low) := by rw [← map_add (f := _), add_sub_cancel, hhx]
   rw [hsum]
   refine add_mem ?_ ?_
-  · set_option synthInstance.maxHeartbeats 100000 in
-      rw [hlow, map_sum]
+  · rw [hlow, map_sum]
     refine Submodule.sum_mem _ fun n hn => ?_
     by_cases hw : Finsupp.weight W.wt n = j
     · have h1 : W.π (monomial n (coeff n h)) = algebraMap O R (coeff n h) * 1 * W.π (monomial n 1) := by
@@ -238,8 +268,7 @@ theorem UpperTheory.V.Alg.part_filt :
         ⟨_, UpperTheory.V.Alg.part_filt_monomial W.wt hw 1, rfl⟩
     · rw [hhj n hw, map_zero, map_zero]
       exact zero_mem _
-  · set_option synthInstance.maxHeartbeats 100000 in
-      rw [hhigh, map_sum]
+  · rw [hhigh, map_sum]
     refine Submodule.sum_mem _ fun m hm => ?_
     rw [map_mul, mul_comm (Q ^ k), mul_assoc]
     exact Submodule.mul_mem_mul ⟨_, hb m, rfl⟩ (hN m (hμ hm).1 (hμ hm).2)

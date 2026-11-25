@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.ExistsSumsAtHalfCurveFraction
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.HasArcDataIff
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.PhiGenPf
 public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.ExistsUnitCharts
@@ -77,7 +76,6 @@ namespace GlobalTheory.GtDescent
 open AlgebraicGeometry CategoryTheory Limits MonoidalCategory CartesianMonoidalCategory MonObj
 open ReciprocityTheory.ChartRestriction.G.Semi ReciprocityTheory.ChartRestriction.G.Out ReciprocityTheory.ChartRestriction.G.DVR ReciprocityTheory.ChartRestriction.G.Geo.Tor
 open scoped CategoryTheory.Obj
-attribute [local instance] Over.cartesianMonoidalCategory
 
 section Gen
 
@@ -152,8 +150,16 @@ theorem valR_transfer {A : Type} [CommRing A] [IsLocalRing A] (hL : L.IsLB) {φ 
 
 theorem valR_spMap_fn {A O : Type} [CommRing A] [CommRing O] (β : O →+* A) (a : O) :
     valR (spMap β) ⊤ ((Scheme.ΓSpecIso (CommRingCat.of O)).inv.hom a) = β a := by
-  intros
-  apply _root_.GlobalTheory.Conv.valR_spMap_top <;> assumption
+  have := (GlobalTheory.ZH.CrdCalc.valR_spMap β (𝟙 (Sp O)) ⊤ le_rfl).2 ((Scheme.ΓSpecIso (CommRingCat.of O)).inv.hom a)
+  rw [Category.comp_id] at this
+  rw [this, GlobalTheory.ZH.CrdCalc.valR_eq (𝟙 (Sp O)) ⊤ le_top]
+  congr 1
+  have h : (𝟙 (Sp O) : Sp O ⟶ Sp O).appLE ⊤ ⊤ le_top = 𝟙 _ := by
+    simp [Scheme.Hom.appLE]
+  change (Scheme.ΓSpecIso (CommRingCat.of O)).hom.hom
+    (((𝟙 (Sp O) : Sp O ⟶ Sp O).appLE ⊤ ⊤ le_top).hom _) = a
+  rw [h]
+  exact (Scheme.ΓSpecIso (CommRingCat.of O)).inv_hom_id_apply a
 
 theorem exists_gen_extend {W F : Type} [CommRing W] [IsLocalRing W] [Field F] (hL : L.IsLB) (κ : W →+* F)
     {φ' : K → (Sp W ⟶ X)} {φ : K → (Sp F ⟶ X)} {ε : K → ℤ} (hφ : ∀ k, spMap κ ≫ φ' k = φ k)
@@ -341,9 +347,7 @@ section -- clump:auto
 open CategoryTheory Limits MonoidalCategory CartesianMonoidalCategory MonObj AlgebraicGeometry
 open scoped CategoryTheory.Obj
 open ReciprocityTheory.ChartRestriction.G ReciprocityTheory.ChartRestriction.G.Semi ReciprocityTheory.ChartRestriction.G.Geo.Tor
-attribute [local instance] Over.cartesianMonoidalCategory
 open ReciprocityTheory.ChartRestriction.G.Out GlobalTheory.ZH Classical
-attribute [local instance] SplitExt.free SplitExt.finite MvPolynomial.gradedAlgebra
 
 noncomputable section
 namespace GlobalTheory.GtDescent

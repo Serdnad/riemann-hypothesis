@@ -3,7 +3,6 @@ module
 public import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.StatementsCN
 import Mathlib.Order.CompletePartialOrder
 import Mathlib.Tactic.TypeStar
-import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.PSpecialDimBound
 
 @[expose] public section
 
@@ -26,22 +25,9 @@ variable {K : Type} [Fintype K] [DecidableEq K] {ι : K → Type} {F : Type u} [
 attribute [local instance] MvPolynomial.weightedGradedAlgebra
 
 theorem isHomogeneous_of_isMultiHomogIdeal {I : Ideal (MRing ι F)} (hI : IsMultiHomogIdeal I) :
-    I.IsHomogeneous (weightedHomogeneousSubmodule F (blockWeight ι)) := by
-  classical
-  have e : I = Ideal.span
-      {g | ∃ f ∈ I, ∃ b, g = weightedHomogeneousComponent (blockWeight ι) b f} := by
-    apply le_antisymm
-    · intro f hf
-      rw [← sum_weightedHomogeneousComponent (blockWeight ι) f,
-        finsum_eq_sum _ (weightedHomogeneousComponent_finsupp f)]
-      exact Ideal.sum_mem _ fun b _ => Ideal.subset_span ⟨f, hf, b, rfl⟩
-    · rw [Ideal.span_le]
-      rintro g ⟨f, hf, b, rfl⟩
-      exact hI f hf b
-  rw [e]
-  refine Ideal.homogeneous_span _ _ fun x hx => ?_
-  obtain ⟨f, -, b, rfl⟩ := hx
-  exact ⟨b, weightedHomogeneousComponent_isWeightedHomogeneous b f⟩
+    I.IsHomogeneous (weightedHomogeneousSubmodule F (blockWeight ι)) := fun b r hr => by
+  have := hI r hr b
+  rwa [← weightedDecomposition.decompose'_apply] at this
 
 theorem isMultiHomogIdeal_sup_span {I : Ideal (MRing ι F)} (hI : IsMultiHomogIdeal I)
     {s : MRing ι F} {c : K → ℕ} (hs : IsMultiHomog s c) :
@@ -54,7 +40,19 @@ theorem isMultiHomogIdeal_sup_span {I : Ideal (MRing ι F)} (hI : IsMultiHomogId
     (h := (isHomogeneous_of_isMultiHomogIdeal hI).sup h2) (hp := hf) (m := b)
 
 theorem lt_of_add_one_le_natCast {x : WithBot ℕ∞} {N : ℕ} (h : x + 1 ≤ N) : x < N := by
-  apply _root_.GroundTheory.Heights₂.Heights.NumbersDVR.withBotENat_lt_of_add_one_le <;> assumption
+  induction x using WithBot.recBotCoe with
+  | bot => exact WithBot.bot_lt_coe _
+  | coe a =>
+    induction a using ENat.recTopCoe with
+    | top =>
+      exfalso
+      have e : ((⊤ : ℕ∞) : WithBot ℕ∞) + 1 = ((⊤ : ℕ∞) : WithBot ℕ∞) := by
+        rw [← WithBot.coe_one, ← WithBot.coe_add, top_add]
+      rw [e, ← WithBot.coe_natCast, WithBot.coe_le_coe] at h
+      exact absurd h (not_le.mpr (ENat.natCast_lt_top N))
+    | coe a =>
+      have : a + 1 ≤ N := by exact_mod_cast h
+      exact_mod_cast (show a < N by omega)
 
 theorem le_natCast_of_lt_natCast_succ {x : WithBot ℕ∞} {N : ℕ}
     (h : x < ((N + 1 : ℕ) : WithBot ℕ∞)) : x ≤ N := by

@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.ModuliProofs.PrincipalOfFieldExtension
 public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ClsLinCombSingle
 public import Development.AbelianVarietyTheory.Definitions.ModuliSpaces.ExistsArBaseAway
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.SecBaseChangeAnySt
@@ -135,7 +134,18 @@ theorem lift_square {S S' : Scheme.{0}} {C : Over S} {C' : Over S'} {ψ : C'.lef
     {ψ₂ : (C' ⊗ C').left ⟶ (C ⊗ C).left} (hsq : IsSquare ψ ψ₂) {T : Over S} {T' : Over S'} (φ : T'.left ⟶ T.left)
     {x y : T ⟶ C} {x' y' : T' ⟶ C'} (hx : x'.left ≫ ψ = φ ≫ x.left) (hy : y'.left ≫ ψ = φ ≫ y.left) :
     (lift x' y').left ≫ ψ₂ = φ ≫ (lift x y).left := by
-  first | exact _root_.GlobalTheory.SiegelDescent.lift_comp_square | exact @_root_.GlobalTheory.SiegelDescent.lift_comp_square | apply _root_.GlobalTheory.SiegelDescent.lift_comp_square <;> assumption
+  obtain ⟨h1, h2⟩ := hsq
+  have e1 : (lift x' y').left ≫ ψ₂ ≫ (fst C C).left = x'.left ≫ ψ := by
+    rw [h1, ← Category.assoc, ← Over.comp_left, lift_fst]
+  have e2 : (lift x' y').left ≫ ψ₂ ≫ (snd C C).left = y'.left ≫ ψ := by
+    rw [h2, ← Category.assoc, ← Over.comp_left, lift_snd]
+  have e3 : φ ≫ (lift x y).left ≫ (fst C C).left = φ ≫ x.left := by
+    rw [← Over.comp_left, lift_fst]
+  have e4 : φ ≫ (lift x y).left ≫ (snd C C).left = φ ≫ y.left := by
+    rw [← Over.comp_left, lift_snd]
+  apply Over.tensorObj_ext
+  · rw [Category.assoc, Category.assoc]; exact e1.trans (hx.trans e3.symm)
+  · rw [Category.assoc, Category.assoc]; exact e2.trans (hy.trans e4.symm)
 
 private theorem exists_monoidHom_points_of_isGrpPullback {S S' : Scheme.{0}} {G' : Over S'} {G : Over S} [GrpObj G'] [GrpObj G] {f : S' ⟶ S}
     {φ : G'.left ⟶ G.left} (hφ : IsGrpPullback G' G f φ) (T : Over S') :
@@ -234,7 +244,7 @@ theorem exists_factor {S S' : Scheme.{0}} {A C : Over S} {A' C' : Over S'} [GrpO
     (hc : ∀ u, (p' u).left ≫ φ = φ ≫ (p u).left) :
     ∃ ψ : C'.left ⟶ C.left, IsGrpPullback C' C f ψ ∧ ∀ u, (pr' u).left ≫ ψ = φ ≫ (pr u).left := by
   obtain ⟨iz, hι, -⟩ := hU' C' (fun w => if w = z then 𝟙 C' else 1)
-  have hιz : iz ≫ pr' z = 𝟙 C' := by rw [hι, if_pos rfl]
+  have hιz : iz ≫ pr' z = 𝟙 C' := by rw [hι, ite_eq_left rfl]
   have hp'ι : ∀ u, pr' u ≫ iz = p' u := fun u => by
     obtain ⟨_, -, huniq⟩ := hU' A' (fun w => if w = z then pr' u else 1)
     rw [huniq (pr' u ≫ iz) (fun w => ?_), huniq (p' u) (hp' u)]
@@ -255,7 +265,7 @@ theorem exists_factor {S S' : Scheme.{0}} {A C : Over S} {A' C' : Over S'} [GrpO
   · obtain ⟨aA, haA, -⟩ := hU (Over.mk (b ≫ f))
       (fun w => if w = z then (Over.homMk a hab : Over.mk (b ≫ f) ⟶ C) else 1)
     refine ⟨hφ.1.lift aA.left b (by rw [Over.w]; rfl) ≫ (pr' z).left, ?_, ?_⟩
-    · rw [Category.assoc, hψ z, ← Category.assoc, IsPullback.lift_fst, ← Over.comp_left, haA, if_pos rfl]
+    · rw [Category.assoc, hψ z, ← Category.assoc, IsPullback.lift_fst, ← Over.comp_left, haA, ite_eq_left rfl]
       rfl
     · rw [Category.assoc, Over.w (pr' z), IsPullback.lift_snd]
   · have hone : l ≫ (1 : C' ⟶ C').left = l' ≫ (1 : C' ⟶ C').left := by
@@ -327,9 +337,9 @@ theorem prod_single {G : Type*} [CommGroup G] (x : Fin 8 → G) (u v w : Fin 8) 
   rw [List.prod_ofFn]
   by_cases hw : w = u
   · subst hw
-    rw [if_pos rfl, Finset.prod_eq_single v (fun i _ hi => by simp [Ne.symm hi]) (by simp)]
+    rw [ite_eq_left rfl, Finset.prod_eq_single v (fun i _ hi => by simp [Ne.symm hi]) (by simp)]
     simp
-  · rw [if_neg hw]
+  · rw [ite_eq_right hw]
     exact Finset.prod_eq_one fun i _ => by simp [Ne.symm hw]
 
 
@@ -349,7 +359,7 @@ theorem backward (hG : Out.GlobalFnsSt) {h g : ℕ} {W : Matrix (Fin 8) (Fin 8) 
   have : ∀ u, IsMonHom (pr' u) := hpr'
   choose j hj using he
   have hp : ∀ u, t.act (j 0 u) ≫ pr 0 = pr u := fun u => by
-    rw [hact, hj, prod_single, if_pos rfl]
+    rw [hact, hj, prod_single, ite_eq_left rfl]
   have hp' : ∀ u w, t'.act (j 0 u) ≫ pr' w = if w = 0 then pr' u else 1 := fun u w => by
     rw [hact', hj, prod_single]
   obtain ⟨ψ, hψ, hψpr⟩ := exists_factor (0 : Fin 8) hU hU' hΦ (fun u => t.act (j 0 u))

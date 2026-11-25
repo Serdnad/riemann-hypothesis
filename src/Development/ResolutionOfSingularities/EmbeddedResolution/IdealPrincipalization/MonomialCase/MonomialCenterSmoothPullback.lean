@@ -5,46 +5,6 @@ public import Development.ResolutionOfSingularities.EmbeddedResolution.IdealPrin
 public import Development.ResolutionOfSingularities.EmbeddedResolution.IdealPrincipalization.MonomialCase.LexOrderEncoding
 public import Development.ResolutionOfSingularities.EmbeddedResolution.IdealPrincipalization.MonomialCase.MonomialCenter
 import Development.ResolutionOfSingularities.Foundations.Blowup.BlowupCoproduct
-import Mathlib.Data.List.Lex
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.SetTheory.ZFC.PSet
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
 
 @[expose] public section
 
@@ -396,7 +356,28 @@ theorem minIndexCard_pullbackOverField_eq_zero_or_centerInvariant_le (hGeom : Mo
       sortedIndices B := by
     rw [← hBim]
     exact sortedIndices_image_pullbackIndex T Y k' q g B
-  rcases trichotomous_of (List.Lex (· < ·) : List ℕ → List ℕ → Prop)
+  have htrich : ∀ (a b : List ℕ), List.Lex (· < ·) a b ∨ a = b ∨ List.Lex (· < ·) b a := by
+    intro a
+    induction a with
+    | nil =>
+      intro b
+      cases b with
+      | nil => exact Or.inr (Or.inl rfl)
+      | cons _ _ => exact Or.inl List.Lex.nil
+    | cons x xs ih =>
+      intro b
+      cases b with
+      | nil => exact Or.inr (Or.inr List.Lex.nil)
+      | cons y ys =>
+        rcases lt_trichotomy x y with h | h | h
+        · exact Or.inl (List.Lex.rel h)
+        · subst y
+          rcases ih ys with h | h | h
+          · exact Or.inl (List.Lex.cons h)
+          · exact Or.inr (Or.inl (congrArg (List.cons x) h))
+          · exact Or.inr (Or.inr (List.Lex.cons h))
+        · exact Or.inr (Or.inr (List.Lex.rel h))
+  rcases htrich
       (sortedIndices (lexMaxIndices T.ideal T.mult T.boundary))
       (sortedIndices (lexMaxIndices (T.pullbackOverField Y k' q g).ideal
         (T.pullbackOverField Y k' q g).mult (T.pullbackOverField Y k' q g).boundary)) with

@@ -1,50 +1,9 @@
 module
 
-import all Development.AutomorphicArithmetic.Foundations.Convolution.BlockEvaluation.EvalPowE
 public import Development.AutomorphicArithmetic.Foundations.Convolution.BlockEvaluation.TruncSpec
 public import Development.AutomorphicArithmetic.Foundations.Convolution.PolynomialCoefficientBounds.AevalSingleZero
 public import Development.AutomorphicArithmetic.Foundations.Convolution.PolynomialCoefficientBounds.LiftSingleAlt
 import Development.AutomorphicArithmetic.Foundations.Convolution.PolynomialCoefficientBounds.PieceAdd
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
 
 @[expose] public section
@@ -116,7 +75,7 @@ private theorem homog_add {ι : Type} (d : ℕ) (p q : MvPolynomial ι ℂ) : ho
 private theorem homog_monomial {ι : Type} (d : ℕ) (α : ι →₀ ℕ) (c : ℂ) :
     homog d (monomial α c) = X none ^ (d - α.degree) * rename some (monomial α c) := by
   classical
-  rw [homog_eq d _ _ support_monomial_subset, Finset.sum_singleton, coeff_monomial, if_pos rfl]
+  rw [homog_eq d _ _ support_monomial_subset, Finset.sum_singleton, coeff_monomial, ite_eq_left rfl]
 
 private theorem homog_mul {ι : Type} (d : ℕ) (p : MvPolynomial ι ℂ) (c : ℂ) : homog d (p * C c) = homog d p * C c := by
   induction p using MvPolynomial.induction_on' with
@@ -177,7 +136,31 @@ private theorem ev_ren {ι ι' : Type} [Fintype ι] [Fintype ι'] [DecidableEq �
 
 private theorem eval_powE {n : ℕ} (f : ℕ) (i : Fin n) (s : Multiset ℂ) (hs : s.card = n) :
     eval (fun j : Fin n => s.esymm (j + 1)) (powE f i) = (s.map (· ^ f)).esymm (i + 1) := by
-  apply _root_.eval_powE <;> assumption
+  obtain ⟨a, rfl⟩ : ∃ a : Fin n → ℂ, s = Finset.univ.val.map a := by
+    induction s using Quotient.inductionOn with
+    | h l =>
+      have hl : l.length = n := by simpa using hs
+      subst hl
+      refine ⟨l.get, ?_⟩
+      rw [Fin.univ_val_map, List.ofFn_get]
+      rfl
+  have h1 : aeval (fun j : Fin n => esymm (Fin n) ℂ (j + 1)) (powE f i)
+      = expand f (esymm (Fin n) ℂ (i + 1)) := by
+    rw [← esymmAlgHom_apply]
+    have := congrArg Subtype.val
+      ((esymmAlgEquiv (Fin n) ℂ (Fintype.card_fin n)).apply_symm_apply
+        ⟨expand f (esymm (Fin n) ℂ (i + 1)), fun w => by rw [rename_expand, esymm_isSymmetric]⟩)
+    exact this
+  have h2 := congrArg (aeval a) h1
+  rw [← AlgHom.comp_apply, comp_aeval, ← AlgHom.comp_apply] at h2
+  have h3 : (aeval a : MvPolynomial (Fin n) ℂ →ₐ[ℂ] ℂ).comp (expand f) = aeval fun r => a r ^ f := by
+    apply MvPolynomial.algHom_ext
+    intro r
+    simp
+  rw [h3] at h2
+  simp only [aeval_esymm_eq_multiset_esymm] at h2
+  rw [Multiset.map_map, ← coe_aeval_eq_eval]
+  exact h2
 
 private theorem map_eq_cm {κ R R' : Type} [CommRing R] [CommRing R'] (φ : R →+* R') (P : MvPolynomial κ R) :
     map φ P = cm φ P := by

@@ -1,6 +1,5 @@
 module
 
-import all Formalism.LocalToGlobal.TorsionIntegrality.WeierstrassTwoTorsion.WeierstrassSubstitution.TwoTorsionIntegral
 public import Formalism.LocalToGlobal.TorsionIntegrality.WeierstrassTwoTorsion.StatementM
 public import Formalism.LocalToGlobal.TorsionIntegrality.WeierstrassTwoTorsion.WeierstrassSubstitution.WpShape
 public import Formalism.LocalToGlobal.TorsionIntegrality.WeierstrassTwoTorsion.FglInvariant
@@ -47,14 +46,6 @@ open More
 
 namespace More
 
-end More
-
-namespace More
-
-end More
-
-namespace More
-
 theorem iterate_derivative_subst {K : Type u} [Field K] [CharZero K] (W : WeierstrassCurve K)
     (n : ℕ) (f : K⟦X⟧) :
     (derivative (R := K))^[n] (f.subst (expSer W)) = ((D W)^[n] f).subst (expSer W) := by
@@ -67,30 +58,12 @@ theorem iterate_derivative_subst {K : Type u} [Field K] [CharZero K] (W : Weiers
 
 end More
 
-private theorem constantCoeff_powerSeries_subst_eq_zero {R : Type u} [CommRing R] {a : R⟦X⟧} (ha : HasSubst a)
-    (ha0 : constantCoeff a = 0) (g : R⟦X⟧) :
-    constantCoeff (g.subst a) = constantCoeff g := by
-  apply _root_.Formalism.L2.Th1.A.Two.cc_subst_lemma <;> assumption
-
-private theorem factorial_mul_coeff_eq_coeff_zero_iterate_derivative {R : Type u} [CommRing R] (n : ℕ) (g : R⟦X⟧) :
-    (n.factorial : R) * coeff n g = coeff 0 ((derivative (R := R))^[n] g) := by
-  induction n generalizing g with
-  | zero => simp
-  | succ n ih =>
-    rw [Function.iterate_succ_apply, ← ih, PowerSeries.coeff_derivative, Nat.factorial_succ]
-    push_cast
-    ring
-
 theorem jet_integral : JetZ.{u} := by
   intro K _ _ W f n
-  have hE0 : constantCoeff (expSer W) = 0 := by
-    first
-    | exact (expSpec_of integration_spec composition_inverse_spec invariant_differential_units K W).1
-  have hs : HasSubst (expSer W) := by
-    first
-    | exact HasSubst.of_constantCoeff_zero' hE0
-  rw [factorial_mul_coeff_eq_coeff_zero_iterate_derivative, More.iterate_derivative_subst, PowerSeries.coeff_zero_eq_constantCoeff_apply,
-    constantCoeff_powerSeries_subst_eq_zero hs hE0]
+  have hE0 : constantCoeff (expSer W) = 0 :=
+    (expSpec_of integration_spec composition_inverse_spec invariant_differential_units K W).1
+  rw [← constantCoeff_iterate_derivative, More.iterate_derivative_subst]
+  simpa [constantCoeff_eq] using constantCoeff_subst_of_constantCoeff_zero hE0 ((D W)^[n] f)
 
 namespace More
 

@@ -6,46 +6,8 @@ public import Development.AutomorphicArithmetic.CyclotomicBounds.RamifiedDiscrim
 public import Development.AutomorphicArithmetic.CyclotomicBounds.RamifiedDiscriminants.TwoFmLeRdE
 import Formalism.FrobeniusOrbits.FrobeniusOrbitsProofs.EqZeroOfNegEq
 public import Formalism.LocalRingCardinality.CoeNeZeroOfNotMem
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Real.Pi.Bounds
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.HaveILetI
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Topology.Sheaves.Init
 
 @[expose] public section
 
@@ -60,6 +22,7 @@ theorem mono3 {f r l : ℝ} (hf : 1 ≤ f) (hr : 1 ≤ r) (hl : 1 ≤ l) (a b c 
   have h1 : f ^ a ≤ f ^ n := pow_le_pow_right₀ hf ha
   have h2 : r ^ b ≤ r ^ n := pow_le_pow_right₀ hr hb
   have h3 : l ^ c ≤ l ^ n := pow_le_pow_right₀ hl hc
+  have hf0 : 0 ≤ f ^ a := pow_nonneg (by linarith) a
   have hr0 : 0 ≤ r ^ b := pow_nonneg (by linarith) b
   have hl0 : 0 ≤ l ^ c := pow_nonneg (by linarith) c
   have hfn : 0 ≤ f ^ n := pow_nonneg (by linarith) n
@@ -93,6 +56,7 @@ theorem six_le_r (D : D7) : (6 : ℝ) ≤ D.R.r := by
   exact_mod_cast h
 
 theorem m_le_r (D : D7) : (D.R.m : ℝ) ≤ D.R.r := by
+  have h1 := D.R.two_le_m
   have h2 := D.R.m_add_three_le_k
   have h : D.R.m ≤ D.R.r := by simp only [Ranks.r]; omega
   exact_mod_cast h
@@ -199,6 +163,7 @@ theorem x_le_fr (S : SizesAt L) : L.sc.x ≤ (D.R.f : ℝ) * D.R.r := by
       _ ≤ _ := Real.rpow_le_rpow_of_exponent_le hx1 (by unfold szTh; linarith)
   have h2 : L.sc.x ≤ (D.R.n : ℝ) := h1.trans S.1.1
   have h3 := six_le_r D
+  have h4 := one_le_n D
   rw [f_eq]
   have h5 : (D.R.n : ℝ) ≤ (2 * (D.R.n : ℝ)) * D.R.r :=
     le_trans (by linarith) (le_mul_of_one_le_right (by linarith) (by linarith))
@@ -242,6 +207,7 @@ theorem fr_le_pow (S : SizesAt L) (hx : (10 : ℝ) ^ 60 ≤ L.sc.x) : (D.R.f : �
   have hk : (D.R.k : ℝ) ≤ L.sc.x ^ (5 : ℕ) := by
     rw [← e5]
     exact S.2.2.1.2.trans (Real.rpow_le_rpow_of_exponent_le hx1 (by unfold szTh; linarith))
+  have hx0 : 0 ≤ L.sc.x := by linarith
   rw [e20, f_eq]
   calc 2 * (D.R.n : ℝ) * D.R.r ≤ 2 * (D.R.n : ℝ) * (2 * D.R.k) :=
         mul_le_mul_of_nonneg_left (r_le_two_k D) (by positivity)
@@ -297,6 +263,7 @@ theorem parA_of (P : ParameterChoice' D L) (S : SizesAt L) (hg : ∀ i, Real.log
     rw [e]
     have hmul : 2 * ((D.R.f : ℝ) * L.sc.L) ≤ 20 * (D.R.r : ℝ) * ((D.R.f : ℝ) * L.sc.L) :=
       mul_le_mul_of_nonneg_right (by linarith) hf
+    have heq : 2 * (D.R.f : ℝ) * L.sc.L = 2 * ((D.R.f : ℝ) * L.sc.L) := by ring
     linarith
   · exact (logOm_le P).trans (by linarith)
 
@@ -345,6 +312,8 @@ theorem lamStar_le (P : ParameterChoice' D L) (hg : ∀ i, Real.log (D.host.g i)
   have hn := one_le_n D
   have hq := one_le_q D
   have hd := one_le_d D
+  have hqd := one_le_qd D
+  have hc0 : (0 : ℝ) < (condE D : ℝ) := by linarith [one_le_condE D]
   have e1 : 4 * ((D.R.f : ℝ) / 2) ^ 2 * D.host.q * D.host.d = 4 * (D.R.n : ℝ) ^ 2 * D.host.q * D.host.d := by
     rw [f_eq]; ring
   have hpos : 0 < 4 * (D.R.n : ℝ) ^ 2 * D.host.q * D.host.d := by positivity
@@ -363,8 +332,10 @@ theorem lamStar_le (P : ParameterChoice' D L) (hg : ∀ i, Real.log (D.host.g i)
 theorem log_qdg_le (P : ParameterChoice' D L) (hg : ∀ i, Real.log (D.host.g i) ≤ 9 * L.sc.L + 1) :
     Real.log (D.host.QS * (D.host.q : ℝ) * D.host.d * D.host.g 0 * D.host.g 1) ≤ 21 * L.sc.L := by
   have hL := one_le_L L
+  have hn := one_le_n D
   have hq := one_le_q D
   have hd := one_le_d D
+  have hqd := one_le_qd D
   have g0 : (0 : ℝ) < (D.host.g 0 : ℝ) := by exact_mod_cast (D.host.g_prime 0).pos
   have g1 : (0 : ℝ) < (D.host.g 1 : ℝ) := by exact_mod_cast (D.host.g_prime 1).pos
   have hQ := UpperTheory.Ram.Rd.one_le_QS_real D.host
@@ -473,6 +444,7 @@ theorem polyConstant_le_zBase_pow_four (P : ParameterChoice' D L) (T : ParamsT D
   · have : (D.R.m : ℝ) ^ 3 ≤ (D.R.r : ℝ) ^ 3 := pow_le_pow_left₀ hm0 (m_le_r D) 3
     have h2 : 360 * (D.R.f : ℝ) * (D.R.m : ℝ) ^ 3 ≤ 360 * (D.R.f : ℝ) * (D.R.r : ℝ) ^ 3 :=
       mul_le_mul_of_nonneg_left this (by positivity)
+    have e : 360 * (D.R.f : ℝ) * (D.R.r : ℝ) ^ 3 = 360 * ((D.R.f : ℝ) * (D.R.r : ℝ) ^ 3) := by ring
     linarith
   · have h1 : Real.log (D.R.r : ℝ) ≤ L.sc.L := (log_r_le P).trans (by linarith)
     have h2 : (D.R.r : ℝ) * Real.log (D.R.r : ℝ) ≤ (D.R.r : ℝ) * L.sc.L :=
@@ -517,6 +489,7 @@ theorem liftConstant_le_zBase_pow_ten (L : SizeData₂ D) : DivisibilityWeightCo
 theorem domAt_of (P : ParameterChoice' D L) (T : ParamsT D L P) (S : SizesAt L) (hCnW : P.CnW = 10)
     (hg : ∀ i, Real.log (D.host.g i) ≤ 9 * L.sc.L + 1) (hx : (10 : ℝ) ^ 60 ≤ L.sc.x) :
     DomAt D L D.R.m T.nWn 1000 := by
+  have hL := one_le_L L
   have hLZ := L_le_Z L
   have hZ := Z_ge S hx
   have hZ1 := one_le_Z L
@@ -601,9 +574,6 @@ namespace Formalism.MainNotions.Gaps.EtaleWeightGaps.Num
 
 alias parA_of := Pm.parA_of
 alias domAt_of := Pm.domAt_of
-alias growthZero_le_thirty_zBase := Pm.growthZero_le_thirty_zBase
-alias growthZero_nonneg := Pm.growthZero_nonneg
-alias PO_le := Pm.PO_le
 
 end Formalism.MainNotions.Gaps.EtaleWeightGaps.Num
 

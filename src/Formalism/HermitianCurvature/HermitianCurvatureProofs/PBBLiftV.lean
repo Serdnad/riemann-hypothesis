@@ -5,47 +5,6 @@ public import Formalism.HermitianCurvature.HermitianCurvatureProofs.PBBStmt
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.AdmissibleWordMemBoundedLetterLists
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.JointInstanceTheoremA
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.TheoremPIntegralOfPlaces
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Algebra.Order.Star.Real
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Topology.Sheaves.Init
 
 @[expose] public section
 
@@ -215,9 +174,9 @@ theorem liftV_core (S : C.HidaSetting E Wp Wq) (Λ : ℕ → ℕ → Fin S.f →
     intro sg A v
     by_cases hv : v ∈ A
     · cases sg
-      · simp only [U, th, hv, if_true, Bool.false_eq_true, if_false]; exact hUm' v
-      · simp only [U, th, hv, if_true]; exact hUp' v
-    · simp only [U, th, hv, if_false]; exact locProb_single S w v _ (by omega)
+      · simp only [U, th, hv, ite_true, Bool.false_eq_true, ite_false]; exact hUm' v
+      · simp only [U, th, hv, ite_true]; exact hUp' v
+    · simp only [U, th, hv, ite_false]; exact locProb_single S w v _ (by omega)
   have hP : ∀ sg A, TB.IsProb (S.base.Wb (S.base.cnt w + C.Kst)) (fun w' : S.W => ∏ v, th sg A v (w'.1 v)) :=
     fun sg A => isProb_prod S _ hcnt (U sg A) (th sg A) (hU sg A)
   refine ⟨fun A x => (∏ v, th true A v (x.1.1 v)) * ∏ v, th false A v (x.2.1 v), fun A => ?_, ?_⟩
@@ -259,11 +218,11 @@ theorem liftV_core (S : C.HidaSetting E Wp Wq) (Λ : ℕ → ℕ → Fin S.f →
       have hB' := blockPSD_pull Y (C.loc (S.σ v)) _ _ _ hB
       refine ⟨u * ((t v)⁻¹ - (t' v)⁻¹) ^ C.Kst, by simp [hv, hu, norm_pow], ?_⟩
       rw [haK true v, haK false v]
-      simp only [hv, if_true, Bool.false_eq_true, if_false]
+      simp only [hv, ite_true, Bool.false_eq_true, ite_false]
       exact hB'
     · refine ⟨1, by simp [hv], ?_⟩
       rw [haK true v, haK false v]
-      simp only [hv, if_false, one_mul]
+      simp only [hv, ite_false, one_mul]
       exact lift_block0 S hpos v ε hε i (by omega) w Y (Pt v) (Pt' v)
   choose c hcn hcB using hc
   have hS := block_schur2 Y κa κw κb hκ (fun v p q => aK true v (Pt v p) (Pt v q))
@@ -312,7 +271,6 @@ end Formalism.FourierDecayAlt.P.PBB
 
 namespace Formalism.FourierDecayAlt.P
 
-open Formalism.FourierDecayAlt
 
 theorem lift_bound_below_top_all_places : Formalism.FourierDecayAlt.KB.LiftV :=
   fun _ _ _ _ _ _ _ _ _ _ S Λ hpos hL ε hε i s hs1 hsi hir w _ hcnt =>

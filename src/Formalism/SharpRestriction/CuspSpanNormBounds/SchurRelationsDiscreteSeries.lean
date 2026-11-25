@@ -1,6 +1,5 @@
 module
 
-import GroundTheory.AutomorphicForms.ArchimedeanWhittaker.MultOne
 public import Formalism.SharpRestriction.CuspSpanNormBounds.NormalizedLocalScale
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.CompactGroupHaarExists
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.OppositeWeylSubgroupClosed
@@ -8,50 +7,11 @@ import Formalism.RealPlaceAnalysis.RealPlaceTaylor.KoszulLowersPower
 public import Formalism.RealPlaceAnalysis.RealPlaceTaylor.ModularCharacterEqOneOnExpHermitian
 public import Formalism.SharpRestriction.CuspSpanNormBounds.BridgeLemma3
 public import Formalism.SharpRestriction.CuspSpanNormBounds.StandingHypothesesHoldFamily
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
 import Mathlib.Algebra.Order.Star.Int
 public import Mathlib.Analysis.CStarAlgebra.ContinuousFunctionalCalculus.Commute
 import Mathlib.Analysis.CStarAlgebra.ContinuousLinearMap
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
 import Mathlib.Tactic.TypeStar
-import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
 import Formalism.SharpRestriction.CuspSpanNormBounds.BruhatCellsKronecker.FamilyProjectorSectionLocal
 import Formalism.SharpRestriction.CuspSpanNormBounds.LocalBesselAndTopKernel
@@ -109,7 +69,54 @@ theorem schur_selfAdjoint [Nontrivial H] (𝒮 : Set (H →L[ℂ] H))
     (hirr : ∀ S : Submodule ℂ H, IsClosed (S : Set H) → (∀ U ∈ 𝒮, ∀ v ∈ S, U v ∈ S) → S = ⊥ ∨ S = ⊤)
     (A : H →L[ℂ] H) (hA : IsSelfAdjoint A) (hc : ∀ U ∈ 𝒮, Commute A U) :
     ∃ a : ℝ, A = algebraMap ℝ (H →L[ℂ] H) a := by
-  apply +allowSynthFailures _root_.GroundTheory.Automorphic.ArchWhittaker.eq_algebraMap_of_commute <;> assumption
+  obtain ⟨a, ha⟩ := ContinuousFunctionalCalculus.spectrum_nonempty (R := ℝ) A hA
+  have hsub : ∀ y ∈ spectrum ℝ A, y = a := by
+    intro y hy
+    by_contra hne
+    set δ := |y - a| / 2 with hδ
+    set F := cfc (tent y δ) A with hF
+    set G := cfc (tent a δ) A with hG
+    have hFG : F * G = 0 := by
+      rw [hF, hG, ← cfc_mul (tent y δ) (tent a δ) A (tent_cont _ _).continuousOn (tent_cont _ _).continuousOn]
+      have : (fun t => tent y δ t * tent a δ t) = fun _ => (0 : ℝ) := by
+        funext t; exact tent_mul hne t
+      rw [this, cfc_const_zero]
+    have hne0 : ∀ x ∈ spectrum ℝ A, cfc (tent x δ) A ≠ 0 := by
+      intro x hx h0
+      have h1 : tent x δ x ∈ spectrum ℝ (cfc (tent x δ) A) := by
+        rw [cfc_map_spectrum (tent x δ) A hA (tent_cont _ _).continuousOn]
+        exact ⟨x, hx, rfl⟩
+      rw [h0, spectrum.zero_eq, tent_self] at h1
+      exact one_ne_zero h1
+    have hGc : ∀ U ∈ 𝒮, Commute G U := fun U hU => (hc U hU).cfc_real _
+    set S : Submodule ℂ H := (LinearMap.range (G : H →ₗ[ℂ] H)).topologicalClosure with hS
+    have hSinv : ∀ U ∈ 𝒮, ∀ v ∈ S, U v ∈ S := by
+      intro U hU v hv
+      have hv' : v ∈ closure ((LinearMap.range (G : H →ₗ[ℂ] H)) : Set H) := hv
+      refine map_mem_closure U.continuous hv' ?_
+      rintro _ ⟨w, rfl⟩
+      refine ⟨U w, ?_⟩
+      have := congrArg (fun T : H →L[ℂ] H => T w) (hGc U hU).eq
+      exact this
+    have hSk : S ≤ LinearMap.ker (F : H →ₗ[ℂ] H) := by
+      refine Submodule.topologicalClosure_minimal _ ?_ F.isClosed_ker
+      rintro _ ⟨w, rfl⟩
+      have := congrArg (fun T : H →L[ℂ] H => T w) hFG
+      exact this
+    rcases hirr S (Submodule.isClosed_topologicalClosure _) hSinv with h | h
+    · apply hne0 a ha
+      ext w
+      have : G w ∈ S := Submodule.le_topologicalClosure _ ⟨w, rfl⟩
+      rw [h] at this
+      simpa using this
+    · apply hne0 y hy
+      ext w
+      have : w ∈ S := by rw [h]; trivial
+      exact hSk this
+  refine ⟨a, ?_⟩
+  calc A = cfc (id : ℝ → ℝ) A := (cfc_id ℝ A hA).symm
+    _ = cfc (fun _ : ℝ => a) A := cfc_congr fun y hy => hsub y hy
+    _ = algebraMap ℝ (H →L[ℂ] H) a := cfc_const a A hA
 
 theorem schur_general [Nontrivial H] (𝒮 : Set (H →L[ℂ] H))
     (hirr : ∀ S : Submodule ℂ H, IsClosed (S : Set H) → (∀ U ∈ 𝒮, ∀ v ∈ S, U v ∈ S) → S = ⊥ ∨ S = ⊤)
@@ -397,28 +404,6 @@ end
 
 end PartG3
 
-section PartA1
-
-noncomputable section
-
-namespace Formalism.MainNotions.SchurRelationsDiscreteSeries
-
-open MeasureTheory Matrix Finset
-open scoped InnerProductSpace ENNReal
-open Formalism.BasicNotions Formalism.MainNotions Formalism.MainNotions.S Formalism.QuantumDeterminants
-
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
-
-section MultOne
-
-end MultOne
-
-end Formalism.MainNotions.SchurRelationsDiscreteSeries
-
-end
-
-end PartA1
-
 section PartA2
 
 noncomputable section
@@ -610,91 +595,6 @@ end
 
 end PartG4
 
-section PartR1
-
-noncomputable section
-
-namespace Formalism.MainNotions.SchurRelationsDiscreteSeries
-
-open Formalism.MainNotions.S.Loc Formalism.MainNotions.BridgeLemma ValuativeRel IsDedekindDomain NumberField Topology
-
-section Resid
-
-variable {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E]
-  {sig : E →ₐ[F] E} {p : HeightOneSpectrum (𝓞 F)} (A : LocAt F E sig p)
-
-end Resid
-
-end Formalism.MainNotions.SchurRelationsDiscreteSeries
-
-end
-
-end PartR1
-
-section PartR2
-
-noncomputable section
-
-namespace Formalism.MainNotions.SchurRelationsDiscreteSeries
-
-open Formalism.BasicNotions Formalism.MainNotions Formalism.MainNotions.S Formalism.MainNotions.S.LocalSplitGroups Formalism.MainNotions.BridgeLemma ValuativeRel IsDedekindDomain NumberField Ideal
-
-section PrimeSum
-
-end PrimeSum
-
-end Formalism.MainNotions.SchurRelationsDiscreteSeries
-
-end
-
-end PartR2
-
-section PartS1
-
-noncomputable section
-
-namespace Formalism.MainNotions.SchurRelationsDiscreteSeries
-
-open Formalism.BasicNotions Formalism.MainNotions Formalism.MainNotions.S Formalism.MainNotions.S.LocalSplitGroups Formalism.MainNotions.LocalBesselAndTopKernel Formalism.MainNotions.BridgeLemma
-
-section S27
-
-end S27
-
-end Formalism.MainNotions.SchurRelationsDiscreteSeries
-
-end
-
-end PartS1
-
-section PartM1
-
-noncomputable section
-
-namespace Formalism.MainNotions.SchurRelationsDiscreteSeries
-
-open MeasureTheory Matrix Finset
-open scoped InnerProductSpace ENNReal
-open Formalism.BasicNotions Formalism.MainNotions Formalism.MainNotions.S Formalism.QuantumDeterminants
-
-section Homog
-
-variable {k r : ℕ}
-
-end Homog
-
-section Scale
-
-variable (D : D7)
-
-end Scale
-
-end Formalism.MainNotions.SchurRelationsDiscreteSeries
-
-end
-
-end PartM1
-
 section PartM2
 
 noncomputable section
@@ -704,8 +604,6 @@ namespace Formalism.MainNotions.SchurRelationsDiscreteSeries
 open MeasureTheory Matrix Finset
 open scoped InnerProductSpace ENNReal
 open Formalism.BasicNotions Formalism.MainNotions Formalism.MainNotions.S Formalism.QuantumDeterminants Formalism.MainNotions.UniformConstantsAndStatements ValuativeRel IsDedekindDomain NumberField
-
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 
 section Main
 
@@ -745,29 +643,3 @@ end Formalism.MainNotions.SchurRelationsDiscreteSeries
 end
 
 end PartM2
-
-section PartM3
-
-noncomputable section
-
-namespace Formalism.MainNotions.SchurRelationsDiscreteSeries
-
-open MeasureTheory Matrix Finset
-open scoped InnerProductSpace ENNReal
-open Formalism.BasicNotions Formalism.MainNotions Formalism.MainNotions.S Formalism.QuantumDeterminants Formalism.MainNotions.UniformConstantsAndStatements ValuativeRel IsDedekindDomain NumberField
-
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
-
-section Main2
-
-variable {D : D7}
-
-variable {eps : ℝ} (Fm : FamP eps)
-
-end Main2
-
-end Formalism.MainNotions.SchurRelationsDiscreteSeries
-
-end
-
-end PartM3

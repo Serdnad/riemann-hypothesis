@@ -32,7 +32,6 @@ public import Development.AutomorphicArithmetic.ThetaCorrespondence.GeneralLinea
 public import Development.AutomorphicArithmetic.ThetaCorrespondence.GeneralLinearGroups.MCellone
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.IsCuspidalIffCompositions
 public import Development.AutomorphicArithmetic.ThetaCorrespondence.ThetaPairLifts.LocalTypeDictionary.ThetaLiftGeneralLinearStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.GeometricLemmaFiltrationUnconditional
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.GeometricLemmaOfFiltration
 public import Development.AutomorphicArithmetic.ThetaCorrespondence.FockModels.MingZel
 public import Development.AutomorphicArithmetic.ThetaCorrespondence.FockModels.GlnMixed
@@ -241,8 +240,7 @@ theorem UpperTheory.Lit.Mix.comb :
       have h2 : 0 ≤ (E.card : ℤ) * ((E.card : ℤ) - 1) := mul_nonneg (by linarith) (by linarith)
       nlinarith
   have key : ∃ t, J t ∧ ∀ b ∈ L, g b ≠ t + 1 := by
-    by_contra hne
-    push_neg at hne
+    by_contra! hne
     have hall : ∀ n : ℕ, J (g a0 + n) := by
       intro n
       induction n with
@@ -606,7 +604,7 @@ private theorem UpperTheory.Lit.Mix.front_support_decomposition (hG : GlobalTheo
     rfl
   have c₁ : ∑ a : Fin Sᶜ.card, (u (Sᶜ.orderEmbOfFin rfl a)).1 = m := (deg _ _ mC).trans hm₀
   have c₂ : ∑ a : Fin S.card, (u (S.orderEmbOfFin rfl a)).1 = n := (deg _ _ mS).trans hn₁
-  have hΦ := GlobalTheory.T.parabolicProduct_equiv_product_of_partition k s (fun a => (u a).1) σ S m n e₃
+  have hΦ := _root_.GlobalTheory.ProdReorder.reorder_split k s (fun a => (u a).1) σ S m n e₃
     (stdBlocks (fun a => (u (Sᶜ.orderEmbOfFin rfl a)).1) c₁) (stdBlocks (fun a => (u (S.orderEmbOfFin rfl a)).1) c₂)
     (fun a b ha hb n _ _ f f' => GlobalTheory.CompanionTheory.Hypotheses₂.TDZ.commute_pair hG hBZ hZ (fun i => u (![a, b] i)) (hc a) (hc b)
       (hU _ (mem0 a ha) _ (mem1 b hb)) f f')
@@ -706,7 +704,7 @@ theorem UpperTheory.Lit.Mix.nolow :
   have hg : ∀ a ∈ L, x a = B (c0 + g a) := by
     intro a ha
     have ha' : P a := (Finset.mem_filter.mp ha).2
-    simp only [g, dif_pos ha']
+    simp only [g, dite_eq_left ha']
     exact ha'.choose_spec
   rw [← hxA] at hmem'
   obtain ⟨a₀, -, ha₀⟩ := Multiset.mem_map.mp hmem'
@@ -782,7 +780,7 @@ theorem UpperTheory.Lit.Mix.nolow :
   have hE : ∀ e, E (B e) = e := by
     intro e
     have hy : ∃ e' : ℝ, B e = B e' := ⟨e, rfl⟩
-    simp only [E, dif_pos hy]
+    simp only [E, dite_eq_left hy]
     exact (hB_inj hy.choose_spec).symm
   have hu_form : ∀ a, u a = B (E (u a)) := by
     intro a
@@ -831,8 +829,7 @@ theorem UpperTheory.Lit.Mix.nolow :
     · exact abs_of_pos (Real.rpow_pos_of_pos hzpos _)
   rw [hnorm] at hb
   have hexp : 0 ≤ ∑ a, E (u a) + (S.card * n : ℝ) / 2 := by
-    by_contra hneg
-    push_neg at hneg
+    by_contra! hneg
     have h3 := Real.one_lt_rpow_of_pos_of_lt_one_of_neg hzpos hz1 hneg
     linarith
   rw [hEsum, Finset.sum_add_distrib, Finset.sum_const, nsmul_eq_mul] at hexp
@@ -856,14 +853,48 @@ open Filter Topology GlobalTheory.PRep GlobalTheory.SplitWeil GlobalTheory.SmGL 
 
 theorem UpperTheory.Lit.Mix.top :
     GlobalTheory.Published.GeometricLemma → GlobalTheory.Published.BernsteinZelevinskyFiniteness → GlobalTheory.Published.ZelevinskyPolynomialRing → ∀ (k : Type) [Field k] [ValuativeRel k] [TopologicalSpace k] [IsNonarchimedeanLocalField k] (r t : ℕ) (V : Type) [AddCommGroup V] [Module ℂ V] (σ : Representation ℂ (GL (Fin r) k) V) (χ : kˣ →* ℂˣ), r < t → IsSmooth σ → σ.IsIrreducible → IsUnitarisable σ → IsSmoothChar χ → IsUnitaryChar χ → (prod₂ σ (detRep (Fin t) χ)).IsIrreducible := by
-  intros
-  apply _root_.UpperTheory.Lit.Full.top <;> assumption
+  intro hG hB hZ k _ _ _ _ r t V _ _ σ χ hrt hs hi hu hχs hχu
+  have hds : IsSmooth (detRep (Fin t) χ) :=
+    (isSmooth_ofChar_iff _).2 (IsSmoothChar.detChar hχs)
+  have hdi : (detRep (Fin t) χ).IsIrreducible := isIrreducible_ofChar _
+  have hdu : IsUnitarisable (detRep (Fin t) χ) :=
+    (isUnitarisable_ofChar_iff _).2 (fun g => hχu _)
+  set x := IrrGL.of σ hs hi with hx
+  set y := IrrGL.of (detRep (Fin t) χ) hds hdi with hy
+  have hd : ∑ a, (![x, y] a).fst = r + t := by simp [hx, hy, IrrGL.of]
+  obtain ⟨e⟩ := nonempty_prod₂_equiv_prodIrr σ hs hi (detRep (Fin t) χ) hds hdi hd
+  refine GlobalTheory.Parabolic.isIrreducible_of_equiv e.symm ?_
+  have hxu : IsUnitarisable x.rep := GlobalTheory.GenericUnitary.isUnitarisable_of_equiv (IrrGL.equivOf σ hs hi) hu
+  have hyu : IsUnitarisable y.rep :=
+    GlobalTheory.GenericUnitary.isUnitarisable_of_equiv (IrrGL.equivOf (detRep (Fin t) χ) hds hdi) hdu
+  refine UpperTheory.Lit.Mix.ss hB k x y (r + t) hd hxu hyu ?_
+  refine UpperTheory.Lit.Mix.cellone hG hB k x y (r + t) hd ?_
+  intro q hq hq0 hjm p hc
+  have hqt : ∑ a, (q a).fst = t := hq
+  have hjm' : jm q hqt (detRep (Fin t) χ) ≠ 0 := by
+    have h1 := (jhMult_ne_zero_iff).1 hjm
+    have hsub : IsSubquotient y.rep (detRep (Fin t) χ) := by
+      have f := (IrrGL.equivOf (detRep (Fin t) χ) hds hdi)
+      exact IsSubquotient.of_surjective f.toIntertwiningMap
+        (fun w => ⟨f.invFun w, f.right_inv w⟩)
+    exact (jhMult_ne_zero_iff).2
+      (IsSubquotient.trans h1 (GlobalTheory.JacquetExact.isSubquotient_jac _ hds hsub))
+  obtain ⟨A, hA, hnu⟩ := UpperTheory.Lit.Mix.detjac k t χ hχs q hqt hq0 hjm'
+  by_contra hne
+  have hsq := (jhMult_ne_zero_iff).1 hne
+  obtain ⟨s, hsp⟩ := GlobalTheory.CompanionTheory.Hypotheses₂.TD.exists_hasSupport hB hG p
+  have hsup := GlobalTheory.CompanionTheory.Hypotheses₂.TD.hasSupport_of_isSubquotient_prodIrr
+    (t := ![s, A]) (fun a => by fin_cases a <;> simpa) x.snd.rep.irr hsq
+  have hmem : (IrrGL.ofChar χ hχs).nu (-(↑t - 1) / 2) ∈ ∑ a, (![s, A] : Fin 2 → _) a := by
+    rw [Fin.sum_univ_two]
+    exact Multiset.mem_add.2 (Or.inr hnu)
+  exact UpperTheory.Lit.Mix.nolow hG hB hZ k r t _ x.rep _ χ hχs hrt hsup hxu hχu hmem
 end -- clump:auto
 end -- clump:auto
 -- ===== end clump member: Development.AutomorphicArithmetic.ThetaCorrespondence.GeneralLinearGroups.ImportsAlt =====
 
 -- ===== clump member: Development.AutomorphicArithmetic.ThetaCorrespondence.ThetaPairLifts.LocalTypeDictionary.ThetaLiftGlOfZelevinskyClassification =====
--- clump-header: {"m": "Development.AutomorphicArithmetic.ThetaCorrespondence.ThetaPairLifts.LocalTypeDictionary.ThetaLiftGlOfZelevinskyClassification", "h": "module\n\npublic import Development.AutomorphicArithmetic.ThetaCorrespondence.ThetaPairLifts.LocalTypeDictionary.ThetaLiftGeneralLinearStatement\npublic import Development.AbelianVarietyTheory.PublishedTheorems.TwistedTraceFormula.ExistsCellOfIsSubquotient\npublic import Development.AbelianVarietyTheory.Proofs.DivisorProofs.GeometricLemmaFiltrationUnconditional\npublic import Development.AbelianVarietyTheory.Proofs.TwistedOperators.GeometricLemmaOfFiltration\npublic import Development.AutomorphicArithmetic.ThetaCorrespondence.FockModels.MingZel\npublic import Development.AutomorphicArithmetic.ThetaCorrespondence.GeneralLinearGroups.ImportsAlt\nimport Mathlib.Algebra.Order.Floor.Extended\nimport Mathlib.Algebra.Order.Floor.Semifield\nimport Mathlib.Algebra.Order.Interval.Basic\nimport Mathlib.Analysis.Complex.UpperHalfPlane.Basic\nimport Mathlib.Analysis.Normed.Algebra.GelfandRadius\nimport Mathlib.Analysis.SpecialFunctions.Bernstein\nimport Mathlib.Analysis.SpecialFunctions.Gamma.Basic\nimport Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp\nimport Mathlib.Combinatorics.Enumerative.DyckWord\nimport Mathlib.Combinatorics.SimpleGraph.Triangle.Removal\nimport Mathlib.Data.NNRat.Floor\nimport Mathlib.Data.Nat.Choose.Multinomial\nimport Mathlib.Geometry.Euclidean.Volume.Basic\nimport Mathlib.NumberTheory.Chebyshev\nimport Mathlib.NumberTheory.Height.NumberField\nimport Mathlib.NumberTheory.Height.Projectivization\nimport Mathlib.NumberTheory.LucasLehmer\nimport Mathlib.NumberTheory.SelbergSieve\nimport Mathlib.RingTheory.Radical.NatInt\nimport Mathlib.Tactic.Echelon.Zsqrtd\nimport Mathlib.Tactic.Inclusion.Extension.Core.Core\nimport Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit\nimport Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp\nimport Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses\nimport Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic\nimport Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses\nimport Mathlib.Tactic.NormNum.Irrational\nimport Mathlib.Tactic.NormNum.IsCoprime\nimport Mathlib.Tactic.NormNum.IsSquare\nimport Mathlib.Tactic.NormNum.LegendreSymbol\nimport Mathlib.Tactic.NormNum.ModEq\nimport Mathlib.Tactic.NormNum.NatFib\nimport Mathlib.Tactic.NormNum.NatLog\nimport Mathlib.Tactic.NormNum.NatSqrt\nimport Mathlib.Tactic.NormNum.Ordinal\nimport Mathlib.Tactic.NormNum.Parity\nimport Mathlib.Tactic.NormNum.Prime\nimport Mathlib.Tactic.NormNum.RealSqrt\nimport Mathlib.Topology.Sheaves.Init\n\n"}
+-- clump-header: {"m": "Development.AutomorphicArithmetic.ThetaCorrespondence.ThetaPairLifts.LocalTypeDictionary.ThetaLiftGlOfZelevinskyClassification", "h": "module\n\npublic import Development.AutomorphicArithmetic.ThetaCorrespondence.ThetaPairLifts.LocalTypeDictionary.ThetaLiftGeneralLinearStatement\npublic import Development.AbelianVarietyTheory.PublishedTheorems.TwistedTraceFormula.ExistsCellOfIsSubquotient\npublic import Development.AbelianVarietyTheory.PublishedTheorems.TwistedTraceFormula.GeometricLemmaFiltration\npublic import CompanionTheory.AutomorphicTheory.TemperedLocalSpectra.LocalGeometry.Imports\npublic import Development.AbelianVarietyTheory.Proofs.TwistedOperators.GeometricLemmaOfFiltration\npublic import Development.AutomorphicArithmetic.ThetaCorrespondence.FockModels.MingZel\npublic import Development.AutomorphicArithmetic.ThetaCorrespondence.GeneralLinearGroups.ImportsAlt\nimport Mathlib.Algebra.Order.Floor.Extended\nimport Mathlib.Algebra.Order.Floor.Semifield\nimport Mathlib.Algebra.Order.Interval.Basic\nimport Mathlib.Analysis.Complex.UpperHalfPlane.Basic\nimport Mathlib.Analysis.Normed.Algebra.GelfandRadius\nimport Mathlib.Analysis.SpecialFunctions.Bernstein\nimport Mathlib.Analysis.SpecialFunctions.Gamma.Basic\nimport Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp\nimport Mathlib.Combinatorics.Enumerative.DyckWord\nimport Mathlib.Combinatorics.SimpleGraph.Triangle.Removal\nimport Mathlib.Data.NNRat.Floor\nimport Mathlib.Data.Nat.Choose.Multinomial\nimport Mathlib.Geometry.Euclidean.Volume.Basic\nimport Mathlib.NumberTheory.Chebyshev\nimport Mathlib.NumberTheory.Height.NumberField\nimport Mathlib.NumberTheory.Height.Projectivization\nimport Mathlib.NumberTheory.LucasLehmer\nimport Mathlib.NumberTheory.SelbergSieve\nimport Mathlib.RingTheory.Radical.NatInt\nimport Mathlib.Tactic.Echelon.Zsqrtd\nimport Mathlib.Tactic.Inclusion.Extension.Core.Core\nimport Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit\nimport Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp\nimport Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses\nimport Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic\nimport Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses\nimport Mathlib.Tactic.NormNum.Irrational\nimport Mathlib.Tactic.NormNum.IsCoprime\nimport Mathlib.Tactic.NormNum.IsSquare\nimport Mathlib.Tactic.NormNum.LegendreSymbol\nimport Mathlib.Tactic.NormNum.ModEq\nimport Mathlib.Tactic.NormNum.NatFib\nimport Mathlib.Tactic.NormNum.NatLog\nimport Mathlib.Tactic.NormNum.NatSqrt\nimport Mathlib.Tactic.NormNum.Ordinal\nimport Mathlib.Tactic.NormNum.Parity\nimport Mathlib.Tactic.NormNum.Prime\nimport Mathlib.Tactic.NormNum.RealSqrt\nimport Mathlib.Topology.Sheaves.Init\n\n"}
 section -- clump:auto
 @[expose] public section
 

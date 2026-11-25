@@ -1,50 +1,9 @@
 module
 
-import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.LocMIterateDiag
 public import Development.AbelianVarietyTheory.Definitions.Divisors.IsUnifAt
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.FinsumOutOfLe
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.LevelFamInf
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Etale.Weakly
-import Mathlib.RingTheory.Finiteness.ModuleFinitePresentation
-import Mathlib.RingTheory.PiTensorProduct
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.RingTheory.TotallySplit
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
 
 @[expose] public section
 
@@ -60,8 +19,20 @@ variable {Γ Γ' : Type} [Group Γ] [Group Γ']
 
 theorem hint_const_mul (K : Subgroup Γ) (u : Γ → ℂ) (c : ℂ) :
     hint K (fun x => c * u x) = c * hint K u := by
-  intros
-  apply _root_.GlobalTheory.CompanionTheory.TailLocPow.hint_smul <;> assumption
+  by_cases hc : c = 0
+  · subst hc
+    simp [GlobalTheory.CompanionTheory.FamClP.hint_zero]
+  · have hs : rStab (fun x => c * u x) = rStab u := by
+      ext r
+      simp only [GlobalTheory.CompanionTheory.FamClP.mem_rStab']
+      constructor
+      · intro h x
+        exact mul_left_cancel₀ hc (h x)
+      · intro h x
+        rw [h x]
+    unfold hint
+    rw [hs, mul_left_comm, ← smul_eq_mul c (∑ᶠ _ : Γ ⧸ (rStab u ⊓ K), _), smul_finsum]
+    rfl
 
 variable [TopologicalSpace Γ] [IsTopologicalGroup Γ] [TopologicalSpace Γ'] [IsTopologicalGroup Γ']
 

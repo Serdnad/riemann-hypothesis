@@ -53,10 +53,13 @@ omit [StarRing A]
 variable (L : LevelData A r)
 
 theorem comm_cl {z : A} (hz : ∀ f ∈ L.fns, Commute z f) {y : A} (hy : y ∈ Subring.closure L.fns) : Commute z y := by
-  have hcentral : Subring.closure L.fns ≤ Subring.centralizer {z} :=
-    Subring.closure_le.mpr fun f hf =>
-      Subring.mem_centralizer_iff.mpr fun _ h => Set.mem_singleton_iff.mp h ▸ hz f hf
-  exact Subring.mem_centralizer_iff.mp (hcentral hy) z (Set.mem_singleton z)
+  induction hy using Subring.closure_induction with
+  | mem x hx => exact hz x hx
+  | zero => exact Commute.zero_right _
+  | one => exact Commute.one_right _
+  | add x y _ _ hx hy => exact hx.add_right hy
+  | neg x _ hx => exact hx.neg_right
+  | mul x y _ _ hx hy => exact hx.mul_right hy
 
 theorem cl_comm {x y : A} (hx : x ∈ Subring.closure L.fns) (hy : y ∈ Subring.closure L.fns) : Commute x y :=
   comm_cl L (fun _ hf => (comm_cl L (fun _ hg => fc L hf hg) hx).symm) hy
@@ -352,7 +355,7 @@ theorem frame_mem (w : List (Letter ℂ S)) :
     have hDD : ∀ Y Ya, RB.r ((ofWord L st w).DD Y Ya) ((ofWord L st w).DD Y Ya) := fun Y Ya =>
       RB.smul _ (SRel.sub (toB (hee Y)) (toB (hee Ya)))
     by_cases hp : l.plus = true
-    · simp only [ofWord, hp, if_true, FrameData.plus]
+    · simp only [ofWord, hp, ite_true, FrameData.plus]
       exact ⟨fun Y => ofK (RK.mul (toK (hx Y)) (SRel.ins _ (SRel.m2 (RK.smul _ o) z z o))),
         fun Y => ofK (RK.mul (toK (hxi Y)) (SRel.ins _ (SRel.m2 (RK.smul _ o) z z o))),
         ofK (RK.mul (toK hc) (SRel.ins _ (SRel.m2 (RK.smul _ (toK (hxi _))) z z (toK (hx _))))),
@@ -402,7 +405,7 @@ theorem star_io' (x : A) : star (io x : SlopeTestRemainingChoices S A) = io (sta
   simp only [io, Matrix.scalar_apply, Matrix.star_apply, Matrix.diagonal_apply]
   by_cases h : i = j
   · subst h; simp
-  · rw [if_neg h, if_neg (Ne.symm h), star_zero]
+  · rw [ite_eq_right h, ite_eq_right (Ne.symm h), star_zero]
 
 omit [StarRing A] in
 theorem io_entry_mem (T : Submodule ℂ A) {x : A} (hx : x ∈ T) (i j : Ix S) : (io x : SlopeTestRemainingChoices S A) i j ∈ T := by
@@ -508,7 +511,7 @@ theorem letter_mem (H : NFHypA L st B K) (hS : IsStarLevel L) (l : Letter ℂ S)
     rwa [one_mul, LevelData.R0v, ← mul_assoc, ← mul_assoc, Di_Dr] at this
   unfold TL.letterCol
   by_cases hp : l.plus = true
-  · rw [if_pos hp]
+  · rw [ite_eq_left hp]
     fin_cases i
     · exact io_entry_mem _ a1 e e'
     · have hee := (frame_mem H (S := S) w).2.2.2.2 l.pt
@@ -520,7 +523,7 @@ theorem letter_mem (H : NFHypA L st B K) (hS : IsStarLevel L) (l : Letter ℂ S)
       show (io (L.ζbi * L.GG) * ((ofWord L st w).l L l.pt * io (L.Ar l.pt) + io (L.Br l.pt)) : SlopeTestRemainingChoices S A) e e' ∈ _
       rw [e1, Matrix.add_apply, mul_io_apply]
       exact Submodule.add_mem _ (io_entry_mem _ a3 e e') (nfs_left (hee e e') a1)
-  · rw [if_neg hp]
+  · rw [ite_eq_right hp]
     fin_cases i
     · exact io_entry_mem _ a2 e e'
     · obtain ⟨c, E, hE, hm⟩ := m_form H hS w hf hY

@@ -1,6 +1,5 @@
 module
 
-import all Development.AbelianVarietyTheory.Proofs.JetHarmonics.ForcedContentBoundsProgrammeValueGoodPrime
 public import Formalism.LocalToGlobal.CharacterGerms.ValuationChoiceHypothesis
 public import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.DropLevelsBasic
 public import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.LevelsUsedBalancedValueOrbitSums
@@ -121,10 +120,10 @@ theorem blockBd_le {l n m i y I S : ℕ} {x : ℝ} (hl : 5 ≤ l) (hn : 1 ≤ n)
   · have : (y : ℝ) = 0 := by nlinarith
     have hy : y = 0 := by exact_mod_cast this
     simp [blockBd, hy, hx]
-  rw [if_pos hx]
+  rw [ite_eq_left hx]
   by_cases hy : y = 0
   · subst hy
-    simp only [blockBd, if_true, Nat.cast_zero, mul_zero, sub_zero] at h2 ⊢
+    simp only [blockBd, ite_true, Nat.cast_zero, mul_zero, sub_zero] at h2 ⊢
     linarith
   have hiI : (i : ℝ) + 1 ≤ I := by exact_mod_cast hi hx
   have hp : (1 : ℝ) ≤ (l : ℝ) ^ i := one_le_pow₀ (by linarith)
@@ -136,7 +135,7 @@ theorem blockBd_le {l n m i y I S : ℕ} {x : ℝ} (hl : 5 ≤ l) (hn : 1 ≤ n)
       mul_le_mul hiI (by linarith) (by positivity) (by positivity)
     have hmy : (0 : ℝ) ≤ m * y := by positivity
     nlinarith [mul_le_mul_of_nonneg_right this hmy]
-  simp only [blockBd, bdP, hy, if_false]
+  simp only [blockBd, bdP, hy, ite_false]
   linarith
 
 theorem exists_plan : ∀ (l d : ℕ) [NeZero d], 5 ≤ l → ∀ (n m k S : ℕ), 1 ≤ n → 1 ≤ k → ∀ (W : ZMod d → ℕ) (Ws : ZMod d → ℝ) (Good : ZMod d → ℕ → Set ℕ),
@@ -271,7 +270,25 @@ variable {l d : ℕ} [NeZero d]
 
 lemma succ_mul_flowVal_le (hl : 1 ≤ l) {D : ZMod d → ℝ} {x : ZMod d → ℕ → ℝ}
     (hx : IsFlow l d D x) : ((l : ℝ) + 1) * flowVal d x ≤ ∑ a, D a := by
-  apply _root_.UpperTheory.AlternatingNumberFlow.flowVal_mul_le <;> assumption
+  have hl1 : (1 : ℝ) ≤ l := by exact_mod_cast hl
+  have h1 : (l : ℝ) * flowVal d x ≤ ∑ a, ∑ i ∈ oddLevels d, (l : ℝ) ^ i * x a i := by
+    unfold flowVal
+    rw [Finset.mul_sum]
+    refine Finset.sum_le_sum fun a _ => ?_
+    rw [Finset.mul_sum]
+    refine Finset.sum_le_sum fun i hi => ?_
+    have hi0 : i ≠ 0 := by
+      rintro rfl
+      exact absurd (Finset.mem_filter.1 hi).2 (by decide)
+    exact mul_le_mul_of_nonneg_right (le_self_pow₀ hl1 hi0) (hx.1 a i)
+  have h2 : ∑ a : ZMod d, ∑ i ∈ oddLevels d, x (a - (i : ZMod d)) i = flowVal d x := by
+    unfold flowVal
+    rw [Finset.sum_comm, Finset.sum_comm (s := Finset.univ)]
+    refine Finset.sum_congr rfl fun i _ => ?_
+    exact Equiv.sum_comp (Equiv.subRight (i : ZMod d)) (fun a => x a i)
+  have h3 := Finset.sum_le_sum fun a (_ : a ∈ Finset.univ) => hx.2 a
+  rw [Finset.sum_add_distrib, h2] at h3
+  linarith
 
 lemma rho_mul_le_Fnum (hl : 2 ≤ l) {D : ZMod d → ℝ} (hD : ∀ a, 0 ≤ D a) :
     Formalism.IncomingBounds.rho l * ∑ a, D a ≤ Fnum l d D := by
@@ -335,8 +352,8 @@ theorem bg_add {d : ℕ} [NeZero d] (hd : Even d) (a : ZMod d) (i : ℕ) (hi : O
     omega
   unfold RF.bg
   by_cases ha : Even a.val
-  · rw [if_pos ha, if_neg (by rw [h]; simpa using ha)]; rfl
-  · rw [if_neg ha, if_pos (h.2 ha)]; rfl
+  · rw [ite_eq_left ha, ite_eq_right (by rw [h]; simpa using ha)]; rfl
+  · rw [ite_eq_right ha, ite_eq_left (h.2 ha)]; rfl
 
 variable {C : Type} [Field C] {V : VF C} {d : ℕ} [NeZero d] {I J : Fin 2 → Type}
   [∀ g, Fintype (I g)] [∀ g, Fintype (J g)]
@@ -454,7 +471,7 @@ theorem blocks_wt {W : ZMod d → ℕ} (X : RowData C V d I J) (hX : X.Alt) (p :
       by_cases h0 : ga g a k = 0
       · simp [rst, h0]
       · have := hs g a k h0
-        rw [if_pos ⟨rfl, by omega, by omega⟩, if_pos rfl]
+        rw [ite_eq_left ⟨rfl, by omega, by omega⟩, ite_eq_left rfl]
     · simp [hg]
   have hmon2 : (if g = 0 then rst X.n ga g a k else 0) + (if g = 1 then rst X.n ga g a k else 0) =
       rst X.n ga g a k := by fin_cases g <;> simp
@@ -467,7 +484,7 @@ theorem blocks_wt {W : ZMod d → ℕ} (X : RowData C V d I J) (hX : X.Alt) (p :
     rw [Finset.sum_eq_single (a - (i : ZMod d))]
     · rw [← bg_add hX.1 _ i hi']; simp
     · intro b _ hb
-      rw [if_neg]
+      rw [ite_eq_right]
       rintro ⟨-, h, -⟩
       exact hb (by rw [h]; simp)
     · simp
@@ -489,7 +506,7 @@ theorem blocks_wt {W : ZMod d → ℕ} (X : RowData C V d I J) (hX : X.Alt) (p :
   rw [h1, h2, h3]
   by_cases hc : g = RF.bg a ∧ k = X.n
   · obtain ⟨rfl, rfl⟩ := hc
-    simp only [rst, and_self, if_true]
+    simp only [rst, and_self, ite_true]
     rw [hm a, p.bal a]
     ring
   · simp [rst, hc]

@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsAutRepOfVecFun
 public import Development.AbelianVarietyTheory.PublishedTheorems.GaloisCohomology₂.BaseChangeDefiniteUnitary
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.NontrivialOfNeBot
 public import Development.AutomorphicArithmetic.DivisorFrames.ExistsIrreducibleSubrepHeckeEigenOfInvariantForm
@@ -20,58 +19,11 @@ public import Mathlib.LinearAlgebra.PiTensorProduct.Basis
 public import Formalism.LocalToGlobal.Divisibility.CoefMod
 public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.SpanRangeEqTopOfIsIrreducible
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ArchimedeanUnitaryPointsEquivUnitaryGroup
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Topology.Sheaves.Init
 import Formalism.GradedWeylDivisibility.DualWeylDominanceOf
-import Mathlib.Algebra.AffineMonoid.UniqueSums
-import Mathlib.LinearAlgebra.Matrix.FiniteDimensional
-import Mathlib.RingTheory.Coalgebra.IsFrobenius
-import Mathlib.RingTheory.HopfAlgebra.Basic
-import Mathlib.RingTheory.PiTensorProduct
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
 import Development.AbelianVarietyTheory.Definitions.Foundations.SmoothPartStable
 import Development.AutomorphicArithmetic.IntegralCasts.IsOpenStabOfMemNhds
 import Formalism.GradedWeylDivisibility.FinalD
-import Mathlib.RingTheory.Etale.Weakly
-import Mathlib.RingTheory.Finiteness.ModuleFinitePresentation
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.ENatToNat
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AutomorphicArithmetic.DivisorFrames.ExistsAdmissibleEquivariantFormsRep, Development.AutomorphicArithmetic.DivisorFrames.ExistsInvariantPerfectPairingNablaSqDualWeyl, Development.AutomorphicArithmetic.DivisorFrames.ExistsInvariantNondegeneratePairingWeightRepNabl, Development.AutomorphicArithmetic.DivisorFrames.FiniteDimensionalNablaTAndContinuousWtOp, Development.AutomorphicArithmetic.DivisorFrames.HasWeightAtOfNeZeroIntertwining, Development.AutomorphicArithmetic.DivisorFrames.IsAutFormUOfVectorValuedInvariant, Development.AutomorphicArithmetic.DivisorFrames.SpanHighestWeightRepUnitaryGroupRealPointsImageE, Development.AutomorphicArithmetic.DivisorFrames.ExistsUnitaryAutomorphicFormOfWeightVectorValued
@@ -230,7 +182,7 @@ theorem UpperTheory.exists_admissible_equivariantFormsRep :
       rw [Submodule.coe_sum, LinearMap.sum_apply]
       refine Finset.sum_congr rfl fun i hi => ?_
       rw [eqRep_apply]
-      simp only [y', dif_pos (hy i hi)]
+      simp only [y', dite_eq_left (hy i hi)]
     have h2 := hsum κ s y' c (Subtype.ext (LinearMap.ext fun v => (hy' _ v).trans (h v)))
     exact (hy' f' v).symm.trans (LinearMap.congr_fun (congrArg Subtype.val h2) v)
 end -- clump:auto
@@ -744,7 +696,20 @@ open NumberField IsDedekindDomain GlobalTheory.CuspRep GlobalTheory.PRep GlobalT
 
 private theorem cont_cEmb {E : Type} [Field E] [NumberField E] [IsCMField E] {n : ℕ} (τ : E →+* ℂ) :
     Continuous (cEmb (E := E) (n := n) τ) := by
-  apply _root_.GlobalTheory.AutRec.continuous_cEmb_emb <;> assumption
+  have c0 : Continuous (coord τ) := by
+    unfold coord
+    split_ifs
+    · exact continuous_apply _
+    · exact Complex.continuous_conj.comp (continuous_apply _)
+  have c2 : Continuous (infEq E).symm := by
+    refine continuous_pi fun w => ?_
+    exact (InfinitePlace.Completion.isometryEquivComplexOfIsComplex (IsTotallyComplex.isComplex w)).continuous.comp
+      (continuous_apply w)
+  have c3 : Continuous (pInf E) := c2.comp continuous_fst
+  have c4 : Continuous fun a => coord τ (pInf E a) := c0.comp c3
+  refine Units.continuous_iff.2 ⟨?_, ?_⟩
+  · exact (Units.continuous_val.comp continuous_subtype_val).matrix_map c4
+  · exact (Units.continuous_coe_inv.comp continuous_subtype_val).matrix_map c4
 
 theorem UpperTheory.exists_unitaryAutomorphicForm_of_weightVectorValued :
     ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (n : ℕ) (ι : Type) [Fintype ι] [DecidableEq ι] (emb : ι → (E →+* ℂ)), Function.Injective (fun τ => InfinitePlace.mk (emb τ)) →

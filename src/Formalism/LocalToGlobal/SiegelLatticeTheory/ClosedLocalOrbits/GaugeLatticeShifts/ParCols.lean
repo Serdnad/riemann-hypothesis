@@ -1,6 +1,5 @@
 module
 
-import Formalism.LocalToGlobal.SiegelLatticeTheory.FlagStabilizerTensors.RootLatticeThresholds.AllRowsRedKerA
 public import Formalism.LocalToGlobal.SiegelLatticeTheory.ClosedLocalOrbits.TermOp
 public import Formalism.LocalToGlobal.SiegelLatticeTheory.HaarTransversals.UnitaryHaarProducts.LevelSubgroupCharacterUnitary
 public import Formalism.LocalToGlobal.SiegelLatticeTheory.ClosedLocalOrbits.GaugeLatticeShifts.ChiNCut
@@ -19,14 +18,22 @@ namespace Formalism.L2.SG.NormCut
 
 section Par
 
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
-
 variable {D : D7} (X : Formalism.L2.SG.HidaSetting.HidaSetting D)
 
 theorem hform_mulVec' {A : Type} [CommRing A] {n : Type} [Fintype n] [DecidableEq n] (σ : A →+* A)
     (J M : Matrix n n A) (hM : Formalism.UG.cT σ M * J * M = J) (x y : n → A) :
     Formalism.UG.hform σ J (M *ᵥ x) (M *ᵥ y) = Formalism.UG.hform σ J x y := by
-  apply _root_.Formalism.L2.SG.Pf.AllRowsRedKerA.hform_unit <;> assumption
+  have key : ∀ a b : n → A, Formalism.UG.hform σ J a b = ((fun i => σ (a i)) ᵥ* J) ⬝ᵥ b := by
+    intro a b
+    simp only [Formalism.UG.hform, dotProduct, Matrix.vecMul, Finset.sum_mul]
+    rw [Finset.sum_comm]
+  have hσ : (fun i => σ ((M *ᵥ x) i)) = (fun i => σ (x i)) ᵥ* (Formalism.UG.cT σ M) := by
+    funext i
+
+    simp only [Matrix.mulVec, Matrix.vecMul, dotProduct, Formalism.UG.cT, Matrix.transpose_apply, Matrix.map_apply,
+    map_sum, map_mul]
+    exact Finset.sum_congr rfl (fun k _ => mul_comm _ _)
+  rw [key, key, Matrix.dotProduct_mulVec, hσ, Matrix.vecMul_vecMul, Matrix.vecMul_vecMul, ← Matrix.mul_assoc, hM]
 
 theorem hA_unit (g : X.B.I.Gf) (x y : VA X.B.I) :
     hA X.B.I (X.B.I.fmat g *ᵥ x) (X.B.I.fmat g *ᵥ y) = hA X.B.I x y := by
@@ -153,14 +160,14 @@ theorem leviM_one (v : TR.Pl) : leviM TR 1 v = 1 := by
   rw [e, map_add (f := _), res_eq_zero_of_Z TR v _ hZ, zero_add]
   by_cases h : i = j
   · subst h
-    simp only [if_true, Matrix.one_apply_eq]
+    simp only [ite_true, Matrix.one_apply_eq]
     have e2 : (⟨X.ew, X.ew_int⟩ : IntAf X.B.I.F X.B.I.E) = ⟨X.ew * (1 : X.B.I.E ⊗[X.B.I.F] Af X.B.I.F),
         (IntAf X.B.I.F X.B.I.E).mul_mem X.ew_int (one_mem _)⟩ := by apply Subtype.ext; simp
     have := TR.res_ew v 1
     simp only [OneMemClass.coe_one] at this
     convert this using 2
     exact (map_one (TR.res v)).symm
-  · simp only [h, if_false, Matrix.one_apply_ne h]
+  · simp only [h, ite_false, Matrix.one_apply_ne h]
     exact map_zero (TR.res v) |>.symm ▸ (by congr 1)
 
 end Par

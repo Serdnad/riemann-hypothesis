@@ -1,56 +1,11 @@
 module
 
-import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.ExistsPotential
 public import Mathlib.NumberTheory.NumberField.Basic
 public import Mathlib.FieldTheory.IsAlgClosed.Spectrum
 public import Mathlib.LinearAlgebra.Matrix.Charpoly.Eigs
 public import Mathlib.Algebra.Algebra.Spectrum.Basic
 public import Formalism.LocalRingCardinality.DataHost
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Henselian
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.RingTheory.RegularLocalRing.Defs
-import Mathlib.RingTheory.SimpleRing.Principal
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.HaveILetI
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Topology.Sheaves.Init
-import Mathlib.Analysis.CStarAlgebra.Classes
 import Formalism.LocalToGlobal.Divisibility.Tuples
 
 -- This file was produced by scripts/clump.py from the modules listed below.
@@ -90,7 +45,44 @@ theorem UpperTheory.Reformulated.B.Ybf4.isIntegral_det :
     ∀ {E : Type} [inst : Field E] [NumberField E] {N : ℕ} (L : Submodule (NumberField.RingOfIntegers E) (Fin N → E)),
       L.FG →
         Submodule.span E (↑L : Set (Fin N → E)) = ⊤ →
-          ∀ (γ : Matrix (Fin N) (Fin N) E), (∀ v ∈ L, γ.mulVec v ∈ L) → IsIntegral ℤ γ.det := @_root_.GlobalTheory.IsIntegralDetLattice.isIntegral_det_of_preserves_lattice
+          ∀ (γ : Matrix (Fin N) (Fin N) E), (∀ v ∈ L, γ.mulVec v ∈ L) → IsIntegral ℤ γ.det := by
+  intro E _ _ N L hfg hspan γ hγ
+  refine isIntegral_trans (A := NumberField.RingOfIntegers E) _
+    (UpperTheory.Reformulated.B.Ybf4.isIntegral_det_of_isIntegral γ ?_)
+  haveI : Module.Finite (NumberField.RingOfIntegers E) L := Module.Finite.iff_fg.2 hfg
+  let g : (Fin N → E) →ₗ[NumberField.RingOfIntegers E] (Fin N → E) :=
+    (Matrix.mulVecLin γ).restrictScalars _
+  let f : Module.End (NumberField.RingOfIntegers E) L := g.restrict (p := L) (q := L) hγ
+  obtain ⟨p, hp, hp0⟩ := LinearMap.exists_monic_and_aeval_eq_zero (NumberField.RingOfIntegers E) f
+  refine ⟨p, hp, ?_⟩
+  have hpow : ∀ (n : ℕ) (v : L), ((f ^ n) v : Fin N → E) = (γ ^ n).mulVec v := by
+    intro n
+    induction n with
+    | zero => intro v; simp
+    | succ n ih =>
+      intro v
+      rw [pow_succ, pow_succ, Module.End.mul_apply, ih, ← Matrix.mulVec_mulVec]
+      rfl
+  have key : ∀ (q : (NumberField.RingOfIntegers E)[X]) (v : L),
+      ((aeval f q) v : Fin N → E) = (aeval γ q).mulVec v := by
+    intro q v
+    induction q using Polynomial.induction_on' with
+    | add a b ha hb => simp [ha, hb, Matrix.add_mulVec]
+    | monomial n a =>
+      rw [aeval_monomial, aeval_monomial, ← Algebra.smul_def, ← Algebra.smul_def,
+        LinearMap.smul_apply, Submodule.coe_smul, hpow]
+      ext i
+      change a • (∑ j, (γ ^ n) i j * (v : Fin N → E) j) = ∑ j, (a • (γ ^ n) i j) * (v : Fin N → E) j
+      simp only [Algebra.smul_def, mul_assoc, Finset.mul_sum]
+  have hz : Matrix.mulVecLin (aeval γ p) = 0 := by
+    refine LinearMap.ext_on hspan fun v hv => ?_
+    have := key p ⟨v, hv⟩
+    rw [hp0] at this
+    simpa using this.symm
+  rw [← aeval_def]
+  apply Matrix.toLin'.injective
+  rw [map_zero]
+  exact hz
 end -- clump:auto
 end -- clump:auto
 -- ===== end clump member: Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.IsIntegralDetOfIsIntegral =====

@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ResidualSelmerDeterminantOrderBound
 public import Mathlib.Algebra.MvPolynomial.Eval
 public import Mathlib.Data.Finsupp.Weight
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.IsDualDualRep
@@ -44,48 +43,6 @@ public import Mathlib.Algebra.Algebra.Hom
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsSmallSubgroupCocycleFormNeZeroStatement
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ReciprocityRelaxedSelmerDualSelmerNewPlace
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.SelmerOrderFormulaDualSelmer
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Topology.Sheaves.Init
 import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.H1MapSubgroup
 import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.IsTameInertiaElementAtTwistPrime
 import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IsPlaceOverMoveValCc
@@ -95,13 +52,8 @@ import Formalism.SharpRestriction.LevelLetterCocycles.DataNLoc
 import ReciprocityTheory.GaloisValuations.GlobalA
 import Mathlib.Tactic.Linter.HaveILetI
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.TypeStar
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
 import Std.Tactic.BVDecide.Normalize.Prop
 import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.TameInertiaElementActsByScalar
-import Mathlib.RingTheory.Coalgebra.IsFrobenius
-import Mathlib.RingTheory.HopfAlgebra.Basic
 import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.GaloisTwistedSelmerAuxprimesOfMatrixAndBounds
 
 -- This file was produced by scripts/clump.py from the modules listed below.
@@ -369,7 +321,15 @@ namespace GlobalTheory.NewPrime
 variable {D : Formalism.BasicNotions.D7} {N : NData D.R D.host D.what₂} {X : NTw D.R D.host D.what₂ D.LL0 N}
 
 theorem exists_isDual (i : X.Tw) (s : X.Sig i) : ∃ ρ, IsDual i s ρ := by
-  apply _root_.GlobalTheory.ResOrder.exists_isDual <;> assumption
+  have hu : ∀ g, IsUnit (Tmat i s g).det := fun g => by
+    rw [← Tgl_coe]; exact Matrix.isUnits_det_units _
+  let τ : GE N →* Matrix (Fin D.R.r) (Fin D.R.r) (X.O0 i) :=
+    { toFun := Tdual i s
+      map_one' := by
+        rw [Tdual, ← Tgl_coe, map_one, map_one]; simp
+      map_mul' := fun g h => by
+        simp only [Tdual, ← Tgl_coe, map_mul, Units.val_mul, Matrix.mul_inv_rev, Matrix.transpose_mul, smul_mul_smul_comm] }
+  exact ⟨τ.toHomUnits, fun g => rfl⟩
 
 
 end GlobalTheory.NewPrime
@@ -508,7 +468,7 @@ theorem exists_newPlace : Cheb → ∀ (D : Formalism.BasicNotions.D7) (N : NDat
     rw [map_mul]
     rcases lt_or_ge b.val n with hb | hb
     · have h1 : d (P (.inl b)) γ₀ = 1 := Subgroup.mem_iInf.1 hγ₀.2 ⟨b, hb⟩
-      rw [h1, hh1 b hb, if_neg (by omega), mul_one]
+      rw [h1, hh1 b hb, ite_eq_right (by omega), mul_one]
       rfl
     · rw [hγd ⟨b, hb⟩, inv_mul_cancel_right]
   let V : Subgroup (GE N) := U ⊓ ⨅ b, (d (P (.inl b))).ker
@@ -770,7 +730,7 @@ theorem exists_ring (O A : Type) [CommRing O] [CommRing A] [Algebra O A] (m : �
       rw [map_mul, map_pow, AdjoinRoot.mk_X]
     rw [← hp, e, AdjoinRoot.mk_eq_zero, Polynomial.X_pow_dvd_iff] at h1
     have h2 := h1 (m - 1) (Nat.sub_lt hm Nat.one_pos)
-    rw [Polynomial.coeff_X_pow_mul', if_pos le_rfl, Nat.sub_self] at h2
+    rw [Polynomial.coeff_X_pow_mul', ite_eq_left le_rfl, Nat.sub_self] at h2
     rw [← hp, hg]
     exact h2
 
@@ -1891,7 +1851,7 @@ theorem step : Cheb → PoitouTateTotallyComplex → CohDimTwo → TameLocal →
         · exact Or.inr (by rw [hP']; exact ((hmem σ).1 hσL).2 q hq)
     have e2 : d (P' (em q₁)) σ = Multiplicative.ofAdd 1 := by
       have := (hSt'.2.2 (Fin.last n)).2 ⟨n, hn⟩ σ hNew.2.2.2.2.2.1
-      rwa [if_pos (by simp)] at this
+      rwa [ite_eq_left (by simp)] at this
     have : Fact (1 < X.l i ^ M) := ⟨Nat.one_lt_pow (by omega) hp.one_lt⟩
     rwa [hξ1, e2, toAdd_ofAdd, ZMod.val_one, pow_one] at e1
   · have e1 := (φ' : _ →+* B).map_det Φ'

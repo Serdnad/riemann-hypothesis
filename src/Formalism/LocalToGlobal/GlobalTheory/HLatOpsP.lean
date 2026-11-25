@@ -5,59 +5,10 @@ public import Formalism.HarderNarasimhan.HarderNarasimhanProofs.DualPl
 public import Formalism.HarderNarasimhan.ShiftInvariance
 public import Formalism.SizeWindowBrackets.ChainSlopeWindows.ExistsNsmulMem
 public import Formalism.SizeWindowBrackets.ChainSlopeWindows.TruncatedLatticeHolds
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Algebra.Ring.IsFormallyReal
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
 public import Mathlib.Analysis.Matrix.Order
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Coalgebra.CoassocSimps
-import Mathlib.RingTheory.Henselian
-import Mathlib.RingTheory.PiTensorProduct
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.RingTheory.RegularLocalRing.Defs
-import Mathlib.RingTheory.SimpleRing.Principal
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.HaveILetI
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Topology.Sheaves.Init
 import Formalism.LocalRingCardinality.DataDIV
-import Formalism.LocalToGlobal.IndefiniteReal.OpNormAtLeOfPoints
 
 @[expose] public section
 
@@ -105,7 +56,14 @@ theorem normAt_eq_zero (b : Basis ι K V) (X : InfinitePlace K → Matrix ι ι 
 
 theorem majAt_self (b : Basis ι K V) (X : InfinitePlace K → Matrix ι ι ℂ) (v : InfinitePlace K)
     (x : V) : majAt b X v x x = ((normAt b X v x ^ 2 : ℝ) : ℂ) := by
-  apply _root_.Formalism.IndefR.LatticeTransfer.BlockMetrics.maj_self <;> assumption
+  show (∑ i, star (fcoord b X v x i) * fcoord b X v x i) =
+    (((cnorm (fcoord b X v x)) ^ 2 : ℝ) : ℂ)
+  rw [cnorm_sq]
+  push_cast
+  refine Finset.sum_congr rfl fun i _ => ?_
+  rw [mul_comm, Complex.star_def, Complex.mul_conj, Complex.normSq_eq_norm_sq]
+  push_cast
+  ring
 
 theorem normAt_eq_sqrt (b : Basis ι K V) (X : InfinitePlace K → Matrix ι ι ℂ) (v : InfinitePlace K)
     (x : V) : normAt b X v x = Real.sqrt (majAt b X v x x).re := by
@@ -225,8 +183,7 @@ theorem exists_im_ne_zero [_root_.NumberField.IsTotallyComplex K] (v : InfiniteP
     ∃ a : K, (v.embedding a).im ≠ 0 := by
   have hc : v.IsComplex := IsTotallyComplex.isComplex v
   rw [InfinitePlace.isComplex_iff] at hc
-  by_contra hcon
-  push_neg at hcon
+  by_contra! hcon
   apply hc
   rw [ComplexEmbedding.isReal_iff]
   ext a
@@ -765,12 +722,6 @@ theorem dual_numbers : DualNumbers := by
 
 end DualSec
 
-section HtMap
-
-variable {K : Type} [Field K] [NumberField K] [StarRing K]
-
-end HtMap
-
 section Emb
 
 variable {K : Type} [Field K] [NumberField K] [StarRing K]
@@ -820,26 +771,5 @@ theorem comap_fg {V W : Type} [AddCommGroup V] [Module K V] [Module (𝓞 K) V]
   exact isNoetherian_submodule.mp hN _ inf_le_left
 
 end Emb
-
-section Ext
-
-open TensorProduct
-
-variable {K K' : Type} [Field K] [NumberField K] [StarRing K] [Field K'] [NumberField K']
-  [StarRing K'] [Algebra K K']
-
-end Ext
-
-section Record
-
-open Formalism.BasicNotions.DV
-
-end Record
-
-section Checks
-
-variable {K : Type} [Field K] [NumberField K] [StarRing K]
-
-end Checks
 
 end Formalism.L2.GlobalTheoryTheory.HLatOps

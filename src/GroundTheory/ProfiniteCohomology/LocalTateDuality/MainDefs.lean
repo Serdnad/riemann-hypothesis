@@ -34,8 +34,6 @@ namespace GroundTheory.ProfCoh
 
 open CategoryTheory MonoidalCategory IntermediateField
 
-attribute [local instance 2000] Rep.hV2
-
 attribute [local irreducible] localClassFormationOfIsSepClosure
 
 section Pairings
@@ -483,8 +481,6 @@ namespace GroundTheory.ProfCoh
 
 open CategoryTheory IntermediateField
 
-attribute [local instance 2000] Rep.hV2
-
 attribute [local irreducible] localClassFormationOfIsSepClosure
 
 variable {K Ksep : Type} [Field K] [ValuativeRel K] [TopologicalSpace K] [IsNonarchimedeanLocalField K]
@@ -507,8 +503,8 @@ theorem natCast_fixedField_ne_zero (hn : (n : K) ≠ 0) (W : Subgroup Gal(Ksep/K
   exact (map_ne_zero_iff _ (algebraMap K (fixedField W)).injective).2 hn
 
 theorem finite_cohomology_one_res_galRootsOfUnity (hn : (n : K) ≠ 0) (U : OpenSubgroup Gal(Ksep/K)) :
-    Finite (cohomology (Rep.res (U : Subgroup Gal(Ksep/K)).subtype (galRootsOfUnity.{0} K Ksep n)) 1) := by
-  apply _root_.GroundTheory.ProfCoh.finite_cohomology_one_rootsOfUnity_open <;> assumption
+    Finite (cohomology (Rep.res (U : Subgroup Gal(Ksep/K)).subtype (galRootsOfUnity.{0} K Ksep n)) 1) :=
+  by apply _root_.GroundTheory.ProfCoh.finite_cohomology_one_rootsOfUnity_open; assumption
 
 theorem eq_zero_of_forall_cupPairing_zmodMul_eq_zero_left (hn : (n : K) ≠ 0)
     (U : OpenSubgroup Gal(Ksep/K)) (x : cohomology (zmodRep.{0} (U : Subgroup Gal(Ksep/K)) n) 1)
@@ -613,8 +609,6 @@ namespace GroundTheory.ProfCoh
 open CategoryTheory MonoidalCategory IntermediateField GroundTheory.LocalField
 
 universe u
-
-attribute [local instance 2000] Rep.hV2
 
 section Top
 

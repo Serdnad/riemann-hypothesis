@@ -1,6 +1,5 @@
 module
 
-import all Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.LeviSmoothLocalization.PrincipalSeriesMatching.PolFacts
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.LeviSmoothLocalization.WinUpDown
 import Development.AbelianVarietyTheory.Definitions.Divisors.EqOfHasValueAtInfinite
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.UnramifiedPrincipalSeriesNoInvariant
@@ -63,7 +62,23 @@ section Loc
 variable {k : Type} [Field k] [ValuativeRel k] [TopologicalSpace k] [IsNonarchimedeanLocalField k]
 
 private theorem unif_valuation : valuation k (unif k : k) = uniformizer k := by
-  apply _root_.val_unif <;> assumption
+  obtain ⟨ϖ, hϖ⟩ := GlobalTheory.PrinTwo.NoFix.exists_unif k
+  have hex : ∃ p : kˣ, valuation k (p : k) < 1 ∧
+      ∀ x : k, valuation k x < 1 → valuation k x ≤ valuation k (p : k) := by
+    refine ⟨ϖ, ?_, ?_⟩
+    · rw [hϖ]
+      exact uniformizer_lt_one (R := k)
+    · intro x hx
+      rw [hϖ]
+      exact le_uniformizer_iff.mpr hx
+  have hs := Classical.epsilon_spec hex
+  unfold unif
+  apply le_antisymm
+  · exact le_uniformizer_iff.mpr hs.1
+  · rw [← hϖ]
+    refine hs.2 _ ?_
+    rw [hϖ]
+    exact uniformizer_lt_one (R := k)
 
 private theorem absPow_neg_one_unif :
     (((absPow k (-1)) (unif k) : ℂˣ) : ℂ) = (GroundTheory.LocalField.residueCard k : ℂ) := by
@@ -122,36 +137,12 @@ private theorem prinSeries_irreducible {n : ℕ} (ω : Fin n → kˣ →* ℂˣ)
   have hM : (multiProd (Equiv.sigmaUnique (Fin n) fun _ => Fin 1)
       fun a => detRep (Fin 1) (ω a)).IsIrreducible :=
     GlobalTheory.Parabolic.isIrreducible_of_equiv (E1.trans E2) hirr
-  have hn {G V W : Type} [Group G] [AddCommGroup V] [Module ℂ V] [AddCommGroup W]
-      [Module ℂ W] {σ : Representation ℂ G W} {ρ : Representation ℂ G V}
-      (h : IsSubquotient σ ρ) (hW : Nontrivial W) : Nontrivial V := by
-    letI := hW
-    obtain ⟨S, f, hf⟩ := h
-    have := hf.nontrivial
-    exact Subtype.val_injective.nontrivial (α := S.toSubmodule)
-  haveI := hn
-    (GlobalTheory.PermPrin.isSubquotient_multiProd_prinSeries (Equiv.sigmaUnique (Fin n) fun _ => Fin 1) ω)
-    (nontrivial_of_irreducible hM)
-  have he {G V W : Type} [Group G] [AddCommGroup V] [Module ℂ V] [AddCommGroup W]
-      [Module ℂ W] {σ : Representation ℂ G W} {ρ : Representation ℂ G V}
-      (h : IsSubquotient σ ρ) [Nontrivial W] (hρ : ρ.IsIrreducible) :
-      Nonempty (ρ.Equiv σ) := by
-    obtain ⟨S, f, hf⟩ := h
-    obtain ⟨y, hy⟩ := exists_ne (0 : W)
-    obtain ⟨v, rfl⟩ := hf y
-    haveI : IsSimpleOrder (Subrepresentation ρ) := hρ
-    rcases eq_bot_or_eq_top S with rfl | rfl
-    · exact absurd (by rw [show v = 0 from Subtype.ext v.2, map_zero]) hy
-    let F : ρ.IntertwiningMap σ := f.comp (topEquiv ρ).symm.toIntertwiningMap
-    have hs : Function.Surjective F := hf.comp (topEquiv ρ).symm.toLinearEquiv.surjective
-    refine ⟨equivOfBijective F ⟨(injective_iff_map_eq_zero _).2 fun x hx => ?_, hs⟩⟩
-    rcases eq_bot_or_eq_top F.ker with h | h
-    · have : x ∈ F.ker := hx
-      rw [h] at this
-      exact this
-    · have : v.1 ∈ F.ker := by rw [h]; trivial
-      exact absurd this hy
-  obtain ⟨E3⟩ := he (GlobalTheory.PrinProd.isSubquotient_prinSeries_multiProd k n ω) hM
+  haveI := nontrivial_of_irreducible hM
+  haveI := nontrivial_of_isSubquotient
+    (GlobalTheory.PermPrin.isSubquotient_multiProd_prinSeries
+      (Equiv.sigmaUnique (Fin n) fun _ => Fin 1) ω)
+  obtain ⟨E3⟩ := equiv_of_isSubquotient
+    (GlobalTheory.PrinProd.isSubquotient_prinSeries_multiProd k n ω) hM
   exact GlobalTheory.Parabolic.isIrreducible_of_equiv E3 hM
 
 end Loc

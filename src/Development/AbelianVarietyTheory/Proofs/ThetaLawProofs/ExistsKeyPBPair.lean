@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.LieBaseChange
 public import Development.AbelianVarietyTheory.Definitions.KeyFormula.KaRuleK
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.GlobalSectionsRankAlgClosed
 public import Development.AbelianVarietyTheory.Proofs.GenericRegularity.LieCombBaseChange
@@ -8,56 +7,11 @@ public import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.DualNumberR
 public import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.ExistsKeyPBRing
 public import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.KeyPBId
 public import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.StalkOfAppLEEq
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.AlgebraicGeometry.Modules.Sheaf
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Henselian
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.RingTheory.RegularLocalRing.Defs
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.Lemma
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.ReduceModChar
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.BCTools
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.IsLieBasisBaseChange
 
 @[expose] public section
-
-set_option autoImplicit false
 
 noncomputable section
 
@@ -65,7 +19,6 @@ namespace GlobalTheory.KeyGalDesc
 
 open AlgebraicGeometry CategoryTheory Limits MonoidalCategory CartesianMonoidalCategory MonObj MeasureTheory
 open ReciprocityTheory.ChartRestriction.G ReciprocityTheory.ChartRestriction.G.Semi ReciprocityTheory.ChartRestriction.G.Geo.Tor
-attribute [local instance] Over.cartesianMonoidalCategory
 open GlobalTheory.KeyPow GlobalTheory.KeyKa
 
 theorem g_eq {R S : Type} [CommRing R] [CommRing S] {y : KeyIn S} {x : KeyIn R} {f : R →+* S} (h : KeyPB y x f) :
@@ -84,8 +37,21 @@ private lemma presheaf_map_constFn {A : Type} [CommRing A] {X : Scheme.{0}} (p :
 private lemma appLE_constFn_theta_law {A B : Type} [CommRing A] [CommRing B] (f : A →+* B) {X Y : Scheme.{0}}
     (p : X ⟶ Sp A) (q : Y ⟶ Sp B) (φ : Y ⟶ X) (hsq : φ ≫ p = q ≫ spMap f) (U : X.Opens) (V : Y.Opens)
     (h : V ≤ φ ⁻¹ᵁ U) (c : A) : (φ.appLE U V h).hom (constFn p U c) = constFn q V (f c) := by
-  intros
-  apply _root_.GlobalTheory.KeyPBScale.appLE_constFn <;> assumption
+  have key : ∀ (e : U ≤ p ⁻¹ᵁ ⊤) (e' : V ≤ q ⁻¹ᵁ ⊤) (z : Γ(Sp A, ⊤)),
+      (φ.appLE U V h).hom ((p.appLE ⊤ U e).hom z) = (q.appLE ⊤ V e').hom ((spMap f).appTop.hom z) := by
+    intro e e' z
+    rw [← RingHom.comp_apply, ← CommRingCat.hom_comp, Scheme.Hom.appLE_comp_appLE]
+    generalize_proofs e₃
+    revert e₃
+    rw [hsq]
+    intro e₃
+    rw [Scheme.Hom.comp_appLE, CommRingCat.hom_comp, RingHom.comp_apply]
+    rfl
+  have hn := congrArg (fun g => g.hom c) (Scheme.ΓSpecIso_inv_naturality (CommRingCat.ofHom f))
+  simp only [CommRingCat.hom_comp, RingHom.comp_apply, CommRingCat.hom_ofHom] at hn
+  unfold constFn
+  rw [hn]
+  exact key _ _ _
 
 private lemma isUnit_of_sec_eq_const_mul_nonvanishing {A : Type} [CommRing A] (P : Out.PolAV (Sp A)) (th th' : P.L.Sec) (a : A)
     (ha : ∀ i, LB.Sec.f th' i = constFn P.A.hom _ a * LB.Sec.f th i)

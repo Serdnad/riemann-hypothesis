@@ -4,6 +4,7 @@ public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.AdjointInverseTr
 public import Development.AbelianVarietyTheory.Definitions.Jets.SumIoPrAlt
 public import Mathlib.Analysis.LocallyConvex.AbsConvexOpen
 public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.DerivedActionDiscreteSeriesPropertiesStatement
+import Development.AbelianVarietyTheory.Proofs.FlagMeasures.DiffQuotientBesselMapTendsto
 import Formalism.FormalDegreeBessel.FormalDegreeRatio.GBasic
 import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.CapelliEigenvalues.HeckeMultiplication
 import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.CapelliEigenvalues.Smooth
@@ -54,7 +55,6 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
-import CompanionTheory.AutomorphicTheory.PieriRules.ThetaBesselIsometries.FrechetContinuousContinuousOnOrbitHasDerivAt
 
 @[expose] public section
 
@@ -70,34 +70,28 @@ open scoped ContDiff
 
 section Smooth
 
-attribute [local instance] Matrix.normedAddCommGroup Matrix.normedSpace
+open scoped Matrix.Norms.Elementwise
 
 variable {n : ℕ} {E : Type} [NormedAddCommGroup E] [NormedSpace ℂ E]
 
 theorem smoothOnH_continuousOn {H : Matrix (Fin n) (Fin n) ℂ} {f : Matrix (Fin n) (Fin n) ℂ → E}
-    (hf : SmoothOnH H f) : ContinuousOn f (Formalism.QuantumDeterminants.UH H) := by
-  intro g hg
-  obtain ⟨U, F, hU, hgU, hF, hfF⟩ := hf g hg
-  have h1 : ContinuousWithinAt F (Formalism.QuantumDeterminants.UH H) g :=
-    (hF.continuousOn.continuousAt (hU.mem_nhds hgU)).continuousWithinAt
-  refine h1.congr_of_eventuallyEq ?_ (hfF g hgU hg)
-  filter_upwards [mem_nhdsWithin_of_mem_nhds (hU.mem_nhds hgU), self_mem_nhdsWithin] with x hx hx'
-  exact hfF x hx hx'
+    (hf : SmoothOnH H f) : ContinuousOn f (Formalism.QuantumDeterminants.UH H) :=
+  GlobalTheory.DiffQuot.smoothOnH_continuousOn hf
 
 theorem left_hasDerivAt {H : Matrix (Fin n) (Fin n) ℂ} (hH : AAInvW.HInvol H)
     {f F : Matrix (Fin n) (Fin n) ℂ → E} {U : Set (Matrix (Fin n) (Fin n) ℂ)} {g X : Matrix (Fin n) (Fin n) ℂ}
     (hU : IsOpen U) (hg : g ∈ U) (hgH : inUH H g) (hF : ContDiffOn ℝ ∞ F U)
     (hfF : ∀ x ∈ U, inUH H x → f x = F x) (hX : AAInvW.inLH H X) :
-    HasDerivAt (fun t : ℝ => f (NormedSpace.exp ((t : ℂ) • X) * g)) (fderiv ℝ F g (X * g)) 0 := by
-  apply _root_.Gp91.GlobalTheory.CWDeriv.left_hasDerivAt <;> assumption
+    HasDerivAt (fun t : ℝ => f (NormedSpace.exp ((t : ℂ) • X) * g)) (fderiv ℝ F g (X * g)) 0 :=
+  GlobalTheory.DiffQuot.left_hasDerivAt hH hU hg hgH hF hfF hX
 
 theorem left_smooth {H : Matrix (Fin n) (Fin n) ℂ} (hH : AAInvW.HInvol H)
     {f f' : Matrix (Fin n) (Fin n) ℂ → E} {X : Matrix (Fin n) (Fin n) ℂ}
     (hf : SmoothOnH H f) (hX : AAInvW.inLH H X)
     (hf' : ∀ g, inUH H g → ∀ D, HasDerivAt (fun t : ℝ => f (NormedSpace.exp ((t : ℂ) • X) * g)) D 0 → D = f' g) :
     SmoothOnH H f' ∧
-      ∀ g, inUH H g → HasDerivAt (fun t : ℝ => f (NormedSpace.exp ((t : ℂ) • X) * g)) (f' g) 0 := by
-  apply _root_.Gp91.GlobalTheory.CWDeriv.left_smooth <;> assumption
+      ∀ g, inUH H g → HasDerivAt (fun t : ℝ => f (NormedSpace.exp ((t : ℂ) • X) * g)) (f' g) 0 :=
+  GlobalTheory.DiffQuot.left_smooth hH hf hX hf'
 
 end Smooth
 
@@ -145,9 +139,8 @@ theorem dsigW_adjoint {R : Rep k r} (hD : DerFacts R) (W : List (Mx k r)) (hW : 
     rfl
 
 theorem eq_zero_of_closure {R : Rep k r} {x : R.H} (hx : x ∈ closure R.sm) (h : ∀ w ∈ R.sm, ⟪w, x⟫_ℂ = 0) :
-    x = 0 := by
-  have hc : IsClosed {w : R.H | ⟪w, x⟫_ℂ = 0} := isClosed_eq (by fun_prop) continuous_const
-  exact inner_self_eq_zero.mp (closure_minimal (t := {w : R.H | ⟪w, x⟫_ℂ = 0}) h hc hx)
+    x = 0 :=
+  GlobalTheory.DiffQuot.eq_zero_of_closure hx h
 
 theorem sm_comb {R : Rep k r} (a : ℂ) {x y z : R.H} (hx : x ∈ R.sm) (hy : y ∈ R.sm) (hz : z ∈ R.sm) :
     a • (x - y) - z ∈ R.sm :=
@@ -197,13 +190,29 @@ theorem dsigW_orbit {ε : Fin (2 * r + k + 1) → Bool} {mu : Fin (2 * r + k + 1
       ∀ g, inUH (Hpk k r) g → HasDerivAt
         (fun t : ℝ => dsigW (k := k) (r := r) R.σ W (R.σ (NormedSpace.exp ((t : ℂ) • Y) * g) v))
         (dsigW (k := k) (r := r) R.σ W (dsig (k := k) (r := r) R.σ Y (R.σ g v))) 0 := by
-  exact _root_.Gp91.GlobalTheory.CWDeriv.dsigW_orbit_of_isDS hR hD hv W hW hs Y hY
+  refine left_smooth (hInvol k r) hs hY ?_
+  intro g hg D hDer
+  have hexp : ∀ t : ℝ, NormedSpace.exp ((t : ℂ) • Y) ∈ UH (Hpk k r) :=
+    fun t => AAInvW.ana_expt (hInvol k r) hY t
+  have hsm := PI.UnitaryGroupMassFormula.CapelliEig.smooth_right_action k r ε mu R.H R.σ hR.2
+  have hgv := hsm v hv g hg
+  have e : ∀ t : ℝ, R.σ (NormedSpace.exp ((t : ℂ) • Y) * g) v = R.σ (NormedSpace.exp ((t : ℂ) • Y)) (R.σ g v) := by
+    intro t
+    rw [PI.UnitaryGroupMassFormula.CapelliEig.Hecke_multiplication k r ε mu R.H R.σ hR.2 _ (hexp t) g hg]
+    rfl
+  simp only [e] at hDer
+  exact dsigW_deriv_eq hD W hW (fun t => hsm _ hgv _ (hexp t)) ((hD Y hY).1 _ hgv).1 ((hD Y hY).1 _ hgv).2 hDer
 
 theorem dsigW_orbit_smooth {ε : Fin (2 * r + k + 1) → Bool} {mu : Fin (2 * r + k + 1) → ℝ} {R : Rep k r}
     (hR : R.IsDS ε mu) (hD : DerFacts R) {v : R.H} (hv : v ∈ R.sm) (W : List (Mx k r))
     (hW : ∀ X ∈ W, InLieHpk k r X) :
     SmoothOnH (Hpk k r) (fun g => dsigW (k := k) (r := r) R.σ W (R.σ g v)) := by
-  exact _root_.Gp91.GlobalTheory.CWDeriv.dsigW_orbit_smooth_of_isDS hR hD hv W hW
+  induction W using List.reverseRecOn with
+  | nil => exact hv
+  | append_singleton W Y ih =>
+    have hW' : ∀ X ∈ W, InLieHpk k r X := fun X hX => hW X (by simp [hX])
+    simp only [dsigW_append]
+    exact (dsigW_orbit hR hD hv W hW' (ih hW') Y (hW Y (by simp))).1
 
 theorem cw_tendsto {R : Rep k r} {V : Type} [NormedAddCommGroup V] {Bm : R.H → V}
     (hB : PI.BesselMapUniq.IsCWCont (k := k) (r := r) R.σ Bm) {α : Type} {l : Filter α} {u : α → R.H}
@@ -211,7 +220,15 @@ theorem cw_tendsto {R : Rep k r} {V : Type} [NormedAddCommGroup V] {Bm : R.H →
     (h : ∀ W : List (Mx k r), (∀ X ∈ W, InLieHpk k r X) →
       Tendsto (fun a => dsigW (k := k) (r := r) R.σ W (u a)) l (𝓝 0)) :
     Tendsto (fun a => Bm (u a)) l (𝓝 0) := by
-  apply _root_.Gp91.GlobalTheory.CWDeriv.cw_tendsto <;> assumption
+  obtain ⟨C, Ws, hWs, hb⟩ := hB
+  have h1 : Tendsto (fun a => (Ws.map fun w => ‖dsigW (k := k) (r := r) R.σ w (u a)‖).sum) l
+      (𝓝 (Ws.map fun _ => (0 : ℝ)).sum) :=
+    tendsto_list_sum Ws (fun w hw => by simpa using (h w (hWs w hw)).norm)
+  have h2 := h1.const_mul C
+  simp only [List.map_const', List.sum_replicate, smul_zero, mul_zero] at h2
+  refine squeeze_zero_norm' ?_ h2
+  filter_upwards [hu] with a ha
+  exact hb _ ha
 
 theorem lin_comb {R : Rep k r} {V : Type} [NormedAddCommGroup V] [NormedSpace ℂ V] {Bm : R.H → V}
     (ha : ∀ v ∈ R.sm, ∀ w ∈ R.sm, Bm (v + w) = Bm v + Bm w) (hs : ∀ (a : ℂ), ∀ v ∈ R.sm, Bm (a • v) = a • Bm v)
@@ -233,7 +250,55 @@ namespace GlobalTheory
 open Filter Topology CWDeriv
 
 theorem cwCont_continuousOn_hasDerivAt : PI.KFinSmooth → ∀ (k r : ℕ) (ε : Fin (2 * r + k + 1) → Bool) (mu : Fin (2 * r + k + 1) → ℝ) (R : Rep k r), R.IsDS ε mu → ∀ (V : Type) [NormedAddCommGroup V] [NormedSpace ℂ V] (Bm : R.H → V), (∀ v ∈ R.sm, ∀ w ∈ R.sm, Bm (v + w) = Bm v + Bm w) → (∀ (a : ℂ), ∀ v ∈ R.sm, Bm (a • v) = a • Bm v) → PI.BesselMapUniq.IsCWCont (k := k) (r := r) R.σ Bm → ∀ v ∈ R.sm, ContinuousOn (fun g => Bm (R.σ g v)) (GG k r) ∧ ∀ X, PI.UpqRep.InLieHpk k r X → HasDerivAt (fun t : ℝ => Bm (R.σ (NormedSpace.exp ((t : ℂ) • X)) v)) (Bm (PI.UpqRep.dsig (k := k) (r := r) R.σ X v)) 0 := by
-  exact _root_.Gp91.GlobalTheory.cwCont_continuousOn_hasDerivAt_of_isDS
+  intro hK k r ε mu R hR V _ _ Bm ha hs hB v hv
+  have hD : DerFacts R := fun X hX =>
+    ⟨(_root_.GlobalTheory.DerivedAction.derived_action hK k r ε mu R hR X hX).1, (_root_.GlobalTheory.DerivedAction.derived_action hK k r ε mu R hR X hX).2.2.2.2⟩
+  have hsm := PI.UnitaryGroupMassFormula.CapelliEig.smooth_right_action k r ε mu R.H R.σ hR.2 v hv
+  have h0 : (0 : R.H) ∈ R.sm := R.smSub.zero_mem
+  have hB0 : Bm 0 = 0 := by simpa using hs 0 0 h0
+  constructor
+  · intro g hg
+    have h1 := cw_tendsto hB (l := 𝓝[GG k r] g) (u := fun x => (1 : ℂ) • (R.σ x v - R.σ g v) - 0)
+      (by
+        filter_upwards [self_mem_nhdsWithin] with x hx
+        exact sm_comb 1 (hsm x hx) (hsm g hg) h0)
+      (by
+        intro W hW
+        have h2 := (smoothOnH_continuousOn (dsigW_orbit_smooth hR hD hv W hW) g hg).tendsto
+        have hW0 : PI.UpqRep.dsigW (k := k) (r := r) R.σ W 0 = 0 := by
+          have h := dsigW_comb hD W hW 0 h0 h0 h0
+          simp only [zero_smul, zero_sub, neg_zero] at h
+          rw [eq_neg_iff_add_eq_zero, ← two_smul ℂ] at h
+          simpa using h
+        rw [← tendsto_sub_nhds_zero_iff] at h2
+        refine h2.congr' ?_
+        filter_upwards [self_mem_nhdsWithin] with x hx
+        rw [dsigW_comb hD W hW 1 (hsm x hx) (hsm g hg) h0, hW0, one_smul, sub_zero])
+    refine tendsto_sub_nhds_zero_iff.mp (h1.congr' ?_)
+    filter_upwards [self_mem_nhdsWithin] with x hx
+    rw [lin_comb ha hs 1 (hsm x hx) (hsm g hg) h0, hB0, one_smul, sub_zero]
+  · intro X hX
+    have hexp : ∀ t : ℝ, R.σ (NormedSpace.exp ((t : ℂ) • X)) v ∈ R.sm :=
+      fun t => hsm _ (AAInvW.ana_expt (hInvol k r) hX t)
+    have hd := ((hD X hX).1 v hv).1
+    have h1 := cw_tendsto hB (l := 𝓝[≠] (0 : ℝ))
+      (u := fun t : ℝ => (((t - 0)⁻¹ : ℝ) : ℂ) • (R.σ (NormedSpace.exp ((t : ℂ) • X)) v -
+        R.σ (NormedSpace.exp (((0 : ℝ) : ℂ) • X)) v) - PI.UpqRep.dsig (k := k) (r := r) R.σ X v)
+      (Eventually.of_forall fun t => sm_comb _ (hexp t) (hexp 0) hd)
+      (by
+        intro W hW
+        have h2 := (dsigW_orbit hR hD hv W hW (dsigW_orbit_smooth hR hD hv W hW) X hX).2 1
+          (by simp [PI.UpqRep.inUH])
+        simp only [Matrix.mul_one] at h2
+        have h3 := dsigW_deriv_eq hD W hW hexp hd ((hD X hX).1 v hv).2 h2
+        rw [h3, hasDerivAt_iff_tendsto_slope, ← tendsto_sub_nhds_zero_iff] at h2
+        refine h2.congr fun t => ?_
+        rw [dsigW_comb hD W hW _ (hexp t) (hexp 0) hd, Complex.coe_smul]
+        rfl)
+    rw [hasDerivAt_iff_tendsto_slope, ← tendsto_sub_nhds_zero_iff]
+    refine h1.congr fun t => ?_
+    rw [lin_comb ha hs _ (hexp t) (hexp 0) hd, Complex.coe_smul]
+    rfl
 
 end GlobalTheory
 

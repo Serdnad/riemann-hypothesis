@@ -1,15 +1,11 @@
 module
 
-import all Development.AutomorphicArithmetic.AutomorphicVarieties.UnitaryThreeGroups.DefCoc
-import all Development.AutomorphicArithmetic.AutomorphicVarieties.UnitaryThreeDeformations.CondConj
-import all Development.AutomorphicArithmetic.AutomorphicVarieties.UnitaryThreeGroups.ConjTor
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.CommutativeAlgebra.ResMapBijective
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.UnitaryThreeDeformations.AdjointDiagonalRepPreservesWeightPiece
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.UnitaryThreeDeformations.CanonEx
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.UnitaryThreeDeformations.CanonGr
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.UnitaryThreeDeformations.CanonMap
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.UnitaryThreeDeformations.TriCanon
-import all Development.AutomorphicArithmetic.AutomorphicVarieties.UnitaryThreeDeformations.TriCanon
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.UnitaryThreeGroups.AdRepBaseLiftApply
 public import Mathlib.Algebra.Module.Torsion.Basic
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.UnitaryThreeGroups.UnitaryThreeReflectionRight
@@ -21,57 +17,8 @@ public import Mathlib.Topology.LocallyConstant.Basic
 public import Mathlib.Data.ZMod.Basic
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.UnitaryThreeDeformations.IsCharZeroPt
 public import Mathlib.RingTheory.LocalRing.ResidueField.Basic
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.HaveILetI
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Topology.Sheaves.Init
-import Mathlib.Algebra.Module.StablyFree.Basic
 import Mathlib.RingTheory.AdicCompletion.Noetherian
-import Mathlib.RingTheory.Coalgebra.IsFrobenius
-import Mathlib.RingTheory.Henselian
-import Mathlib.RingTheory.HopfAlgebra.Basic
-import Mathlib.RingTheory.SimpleRing.Principal
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
 import Mathlib.Tactic.Linter.Style
 import ReciprocityTheory.GaloisValuations.SeparatedDvrSecondCohomologyMem
 
@@ -87,7 +34,27 @@ open Matrix IsLocalRing ReciprocityTheory.Gal UpperTheory.V.U3 UpperTheory.V.Alg
 
 private theorem lb_unit {O : Type} [CommRing O] (t : Oˣ) (ht : IsUnit ((t : O) ^ 2 - 1)) (a b : Fin 3)
     (hab : a ≠ b) : IsUnit (((t ^ wt1 a : Oˣ) : O) - ((t ^ wt1 b : Oˣ) : O)) := by
-  apply _root_.UpperTheory.V.UnitaryThreeInertia.tc_unit <;> assumption
+  have h1 : IsUnit ((t : O) - 1) := by
+    have : (t : O) ^ 2 - 1 = ((t : O) - 1) * ((t : O) + 1) := by ring
+    rw [this] at ht
+    exact isUnit_of_mul_isUnit_left ht
+  have hi : ((t⁻¹ : Oˣ) : O) * (t : O) = 1 := by simp
+  have h2 : IsUnit ((t : O) - ((t⁻¹ : Oˣ) : O)) := by
+    have : (t : O) - ((t⁻¹ : Oˣ) : O) = ((t⁻¹ : Oˣ) : O) * ((t : O) ^ 2 - 1) := by
+      linear_combination (-(t : O)) * hi
+    rw [this]
+    exact (Units.isUnit _).mul ht
+  have h3 : IsUnit (1 - ((t⁻¹ : Oˣ) : O)) := by
+    have : 1 - ((t⁻¹ : Oˣ) : O) = ((t⁻¹ : Oˣ) : O) * ((t : O) - 1) := by
+      linear_combination (-1 : O) * hi
+    rw [this]
+    exact (Units.isUnit _).mul h1
+  fin_cases a <;> fin_cases b <;> simp [wt1] at hab ⊢
+  all_goals first
+    | exact h1 | exact h2 | exact h3
+    | exact (by simpa [neg_sub] using h1.neg)
+    | exact (by simpa [neg_sub] using h2.neg)
+    | exact (by simpa [neg_sub] using h3.neg)
 
 theorem UpperTheory.V.UnitaryThreeInertia.lt_basis :
     ∀ {O R R' D : Type} [CommRing O] [IsLocalRing O] [CommRing R] [Algebra O R] [IsCO O R] [Finite R] [CommRing R'] [Algebra O R'] [IsCO O R'] [Group D]
@@ -383,7 +350,17 @@ private theorem sgnAct_one_add (hI : I * I = ⊥) (q : GL (Fin m) C)
     (s : ℤˣ) :
     ((sgnAct m C s q : GL (Fin m) C) : Matrix (Fin m) (Fin m) C) =
       1 + (if s = 1 then X else thetaLie X) := by
-  apply _root_.sgnAct_one_add <;> assumption
+  have h : ((-1 : ℤˣ) = 1) = False := by decide
+  rcases Int.units_eq_one_or s with rfl | rfl
+  · simp [hq]
+  · have hinv : ((q⁻¹ : GL (Fin m) C) : Matrix (Fin m) (Fin m) C) = 1 - X := by
+      apply Units.inv_eq_of_mul_eq_one_right
+      rw [hq, Matrix.add_mul, Matrix.mul_sub, Matrix.mul_sub, entIn_mul_zero hI hX hX]
+      simp
+    rw [sgnAct_neg_one, theta_val, hinv]
+    simp only [h, ite_false, thetaLie, Matrix.transpose_sub, Matrix.transpose_one, Matrix.mul_sub,
+      Matrix.sub_mul, Matrix.mul_one, Jmat_mul_Jmat]
+    rw [sub_eq_add_neg]
 
 private structure Near (I : Ideal C) (y : GG (m := m) (R := C)) (X : Matrix (Fin m) (Fin m) C) : Prop where
   right : y.right = 1
@@ -737,7 +714,15 @@ open Matrix IsLocalRing ReciprocityTheory.Gal UpperTheory.V.U3 UpperTheory.V.Alg
 
 private theorem entIn_sub_iff {C : Type} [CommRing C] (I : Ideal C) (X Y : Matrix (Fin 3) (Fin 3) C) :
     EntIn I (X - Y) ↔ X.map (Ideal.Quotient.mk I) = Y.map (Ideal.Quotient.mk I) := by
-  apply _root_.entIn_sub_iff <;> assumption
+  constructor
+  · intro h
+    ext a b
+    simp only [Matrix.map_apply]
+    exact Ideal.Quotient.eq.mpr (by simpa [Matrix.sub_apply] using h a b)
+  · intro h a b
+    have hab := congrFun (congrFun h a) b
+    simp only [Matrix.map_apply] at hab
+    simpa [Matrix.sub_apply] using Ideal.Quotient.eq.mp hab
 
 private theorem congOne_iff {C : Type} [CommRing C] (I : Ideal C) (h : GL (Fin 3) C) :
     CongOne I h ↔ GeneralLinearGroup.map (Ideal.Quotient.mk I) h = 1 := by
@@ -859,7 +844,16 @@ namespace UpperTheory.V.UnitaryThreeInertia.LtTorus
 variable {R : Type} [CommRing R] {D : Type} [Group D]
 
 private theorem sgn_tor (s : ℤˣ) (t : Rˣ) : sgnAct 3 R s (tor R t) = tor R t := by
-  apply _root_.sgnAct_tor <;> assumption
+  rcases Int.units_eq_one_or s with rfl | rfl
+  · simp
+  · rw [sgnAct_neg_one]
+    apply Units.ext
+    have hval (u : Rˣ) : (tor R u : Matrix (Fin 3) (Fin 3) R) =
+        diagonal (fun i => ((u ^ wt1 i : Rˣ) : R)) := rfl
+    rw [theta_val, ← map_inv, hval, hval]
+    ext i j
+    fin_cases i <;> fin_cases j <;>
+      simp [Matrix.mul_apply, Fin.sum_univ_three, Jmat, wt1, Matrix.diagonal, Fin.rev]
 
 private theorem comm_tor (t : Rˣ) (x : GG (m := 3) (R := R)) (hx : x.mat.IsDiag) :
     GG.ofGL (tor R t) * x = x * GG.ofGL (tor R t) := by
@@ -1158,10 +1152,6 @@ private theorem lu_up {R : Type} [CommRing R] (U k T : Matrix (Fin 3) (Fin 3) R)
   intro a b hab
   fin_cases a <;> fin_cases b <;> first | assumption | exact absurd hab (by decide)
 
-private theorem lu_J {R : Type} [CommRing R] (X : Matrix (Fin 3) (Fin 3) R) (a b : Fin 3) :
-    (Jmat R 3 * Xᵀ * Jmat R 3) a b = X b.rev a.rev := by
-  fin_cases a <;> fin_cases b <;> simp [Matrix.mul_apply, Fin.sum_univ_three, Jmat, Fin.rev]
-
 end UpperTheory.V.UnitaryThreeInertia
 
 theorem UpperTheory.V.UnitaryThreeInertia.lt_upper :
@@ -1192,14 +1182,14 @@ theorem UpperTheory.V.UnitaryThreeInertia.lt_upper :
     have := congrArg Units.val e1
     rwa [Units.val_mul, Units.val_mul, theta_val, inv_inv] at this
   refine lu_up _ _ _ e2 (hU x hx) (fun a b hab => ?_) (fun a b hab => ?_)
-  · rw [lu_J]
+  · rw [UpperTheory.V.UnitaryThreeInertia.Jc]
     refine hU y hηy _ _ ?_
     have : wt b.rev a.rev = wt a b := by fin_cases a <;> fin_cases b <;> rfl
     rwa [this]
   · have w : wt1 b.rev = -wt1 b := by fin_cases b <;> rfl
-    rw [lu_J, ← residue_ne_zero_iff_isUnit, map_sub, hX, hX, ← map_sub,
+    rw [UpperTheory.V.UnitaryThreeInertia.Jc, ← residue_ne_zero_iff_isUnit, map_sub, hX, hX, ← map_sub,
       ← map_sub, residue_ne_zero_iff_isUnit, hΨy, w, _root_.inv_zpow', neg_neg]
-    exact (_root_.lb_unit (Ψ x) hΨ a b hab).map _
+    exact (lb_unit (Ψ x) hΨ a b hab).map _
 end -- clump:auto
 end -- clump:auto
 -- ===== end clump member: Development.AutomorphicArithmetic.AutomorphicVarieties.UnitaryThreeDeformations.LtUpper =====
@@ -1415,7 +1405,7 @@ private theorem tri_lift {O R R' D : Type} [CommRing O] [IsLocalRing O] [CommRin
         have h1 := congrFun (congrFun (hupm g) a) a
         rw [hu'mat, Matrix.diagonal_apply_eq] at h1
         exact h1
-    simp only [s, L, dif_pos h]
+    simp only [s, L, dite_eq_left h]
     exact h.choose_spec
   have hr'lc : IsLocallyConstant r' := lc_hom η r' hη hr.mult hlc
   have hulc' : IsLocallyConstant u := lc_hom η u hη hur hulc

@@ -1,6 +1,5 @@
 module
 
-import Formalism.LocalToGlobal.TorsionIntegrality.UniformGaussModels.OrthogonalGaussModels.OneLetterGaussTranslateOfCmCase
 public import Formalism.LocalToGlobal.TorsionIntegrality.GaussianEigenFrames.StatementB
 import Mathlib.RingTheory.SimpleRing.Principal
 
@@ -33,7 +32,16 @@ theorem sqrt_sq (d : ℕ) :
   linear_combination Complex.I * Complex.I * h + (d : ℂ) * Complex.I_mul_I
 
 theorem odd_b {a : ℕ} {b c : ℤ} {d : ℕ} (hOK : CmOK a b c d) : Odd b := by
-  apply _root_.Formalism.L2.Th1.Top.HAux.odd_b <;> assumption
+  have h1 := hOK.1
+  have h8 := hOK.2.2.1
+  rcases Int.even_or_odd b with ⟨k, hk⟩ | h
+  · exfalso
+    have h2 : (d : ℤ) = 4 * ((a : ℤ) * c - k * k) := by
+      rw [hk] at h1
+      linear_combination (-1 : ℤ) * h1
+    generalize (a : ℤ) * c - k * k = X at h2
+    omega
+  · exact h
 
 theorem gcd_one {a : ℕ} {b c : ℤ} {d : ℕ} (hOK : CmOK a b c d) :
     Int.gcd (a : ℤ) (Int.gcd b c : ℤ) = 1 := by

@@ -1,51 +1,11 @@
 module
 
-import ReciprocityTheory.ReductiveGroups.DiscreteSeries.FormalDegree.HaarVolumes.HaarExpB
 public import Mathlib.Analysis.Normed.Module.Basic
 public import Mathlib.LinearAlgebra.FiniteDimensional.Defs
 public import Mathlib.MeasureTheory.Group.Measure
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
 import Mathlib.MeasureTheory.Measure.RegularityCompacts
-import Mathlib.NumberTheory.Chebyshev
 import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.TypeStar
-import Mathlib.Topology.Sheaves.Init
 import Mathlib.Topology.UniformSpace.Uniformizable
 public import Mathlib.MeasureTheory.Covering.Besicovitch
 public import Mathlib.MeasureTheory.Measure.Lebesgue.EqHaar
@@ -69,7 +29,13 @@ def QInv (nu : Measure V) (ε δ : ℝ) : Prop :=
 
 theorem tendsto_mul_pos {t : ℝ} (ht : 0 < t) :
     Tendsto (fun r : ℝ => t * r) (𝓝[>] 0) (𝓝[>] 0) := by
-  apply _root_.ReciprocityTheory.ChartRestriction.DS.HExp.tendsto_mul_pos <;> assumption
+  have hc : Tendsto (fun r : ℝ => t * r) (𝓝[>] 0) (𝓝 0) := by
+    have : Tendsto (fun r : ℝ => t * r) (𝓝 0) (𝓝 (t * 0)) := tendsto_const_nhds.mul tendsto_id
+    rw [mul_zero] at this
+    exact this.mono_left nhdsWithin_le_nhds
+  refine tendsto_nhdsWithin_iff.mpr ⟨hc, ?_⟩
+  filter_upwards [self_mem_nhdsWithin] with r hr
+  exact mul_pos ht hr
 
 variable (lam nu : Measure V) [lam.IsAddHaarMeasure] [IsFiniteMeasure nu]
 
@@ -138,7 +104,12 @@ theorem le_of_eventually_down {ε δ : ℝ} (hε0 : 0 < ε) (hq : QInv nu ε δ)
 
 theorem tendsto_ofReal_pow (n : ℕ) (σ : ℝ) :
     Tendsto (fun ε : ℝ => ENNReal.ofReal ((1 + σ * ε) ^ n)) (𝓝[>] 0) (𝓝 1) := by
-  apply _root_.ReciprocityTheory.ChartRestriction.DS.HExp.tendsto_ofReal_pow <;> assumption
+  have h : Tendsto (fun ε : ℝ => (1 + σ * ε) ^ n) (𝓝 0) (𝓝 ((1 + σ * 0) ^ n)) :=
+    ((tendsto_const_nhds.add (tendsto_const_nhds.mul tendsto_id)).pow n)
+  rw [mul_zero, add_zero, one_pow] at h
+  have h2 := (ENNReal.continuous_ofReal.tendsto 1).comp h
+  rw [ENNReal.ofReal_one] at h2
+  exact h2.mono_left nhdsWithin_le_nhds
 
 theorem limsup_liminf_bounds {ε δ : ℝ} (hε0 : 0 < ε) (hε1 : ε < 1) (hδ : 0 < δ) (hq : QInv nu ε δ) :
     ∃ L : ℝ≥0∞, L ≠ ⊤ ∧

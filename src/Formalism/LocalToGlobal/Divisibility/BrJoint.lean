@@ -1,7 +1,5 @@
 module
 
-import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.UnitaryDense
-import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.UnitaryKTypeFinite
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.SchurOrthogonality.InstMeasurableSpaceMat
 public import Formalism.PeriodIntegrals.SchurFock
 public import Mathlib.Tactic.Monotonicity.Lemmas
@@ -30,61 +28,12 @@ public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.GTBranch
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.GelfandTsetlinLowering.GTLowerOf
 public import Formalism.SharpRestriction.Divisibility.PrimeDegreeVariant
 public import Formalism.LocalRingCardinality.FactDelDualNabla
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Algebra.Order.Star.Real
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Topology.Sheaves.Init
 import Formalism.LocalRingCardinality.Params
 import Formalism.GradedWeylDivisibility.FockSpaceTableaux.LHwinLemmas
-import Mathlib.Algebra.Order.Star.Int
-import Mathlib.RingTheory.SimpleRing.Principal
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.TypeStar
 import Std.Tactic.BVDecide.Normalize.Prop
 import Development.AbelianVarietyTheory.Proofs.CovolumeBounds.IntegralConjInnerMulInnerOfIsEmptyEquiv
 import Mathlib.Tactic.Linter.HaveILetI
-import Mathlib.Topology.Algebra.Star.Unitary
 import Formalism.GradedWeylDivisibility.FockSpaceTableaux.LFocksLemmas
-import Mathlib.Tactic.Lemma
 import Mathlib.Tactic.Linter.Style
 
 -- This file was produced by scripts/clump.py from the modules listed below.
@@ -296,7 +245,7 @@ theorem evaluation_at_one : EvalOne := by
     rw [Finset.sum_subset hsub (fun d _ hd => by rw [mem_support_iff, not_not] at hd; simp [hd])]
     refine Finset.sum_congr rfl fun d hd => ?_
     by_cases hw : Finsupp.weight (Formalism.GradedWeylDivisibility.rowW N N) d = ν
-    · rw [hP, coeff_weightedHomogeneousComponent, if_pos hw]
+    · rw [hP, coeff_weightedHomogeneousComponent, ite_eq_left hw]
     · have hcol : Finsupp.weight (Formalism.GradedWeylDivisibility.colW N N) d = ν := hscol (mem_support_iff.mp hd)
       have hz : (∏ v ∈ d.support, ((1 : Matrix (Fin N) (Fin N) ℂ) v.1 v.2) ^ d v) = 0 := by
         by_contra hne
@@ -307,7 +256,7 @@ theorem evaluation_at_one : EvalOne := by
     rw [evA_fock_right s, evA_fock_right P]
     refine Finset.sum_congr rfl fun m hm => ?_
     have hw : Finsupp.weight (Formalism.GradedWeylDivisibility.rowW N N) m = ν := heRow (mem_support_iff.mp hm)
-    rw [hP, coeff_weightedHomogeneousComponent, if_pos hw]
+    rw [hP, coeff_weightedHomogeneousComponent, ite_eq_left hw]
   have hfce : ∀ e : MvPolynomial (Fin N × Fin N) ℂ,
       Formalism.REAL.fockF (c • e) e = c * Formalism.REAL.fockF e e := by
     intro e
@@ -344,7 +293,19 @@ open Formalism.BasicNotions MvPolynomial MeasureTheory Measure TopologicalSpace 
 
 theorem isCompact_unitaryGroup (N : ℕ) :
     IsCompact ((Matrix.unitaryGroup (Fin N) ℂ : Set (Matrix (Fin N) (Fin N) ℂ))) := by
-  apply _root_.GlobalTheory.CompanionTheory.LinRedFactor.isCompact_unitary_fin <;> assumption
+  have hK : IsCompact (Set.univ.pi fun _ : Fin N => Set.univ.pi fun _ : Fin N => Metric.closedBall (0 : ℂ) 1) :=
+    isCompact_univ_pi fun _ => isCompact_univ_pi fun _ => isCompact_closedBall 0 1
+  refine hK.of_isClosed_subset ?_ ?_
+  · have e : (Matrix.unitaryGroup (Fin N) ℂ : Set (Matrix (Fin N) (Fin N) ℂ)) =
+        {A : Matrix (Fin N) (Fin N) ℂ | A * star A = 1} := by
+      ext A
+      exact Matrix.mem_unitaryGroup_iff
+    rw [e]
+    exact isClosed_eq (continuous_id.matrix_mul continuous_star) continuous_const
+  · intro A hA
+    simp only [Set.mem_pi, Set.mem_univ, true_implies, Metric.mem_closedBall, dist_zero_right]
+    intro i j
+    exact entry_norm_bound_of_unitary hA i j
 
 instance compactSpace_unitaryGroup (N : ℕ) : CompactSpace (Matrix.unitaryGroup (Fin N) ℂ) :=
   isCompact_iff_compactSpace.mp (isCompact_unitaryGroup N)
@@ -418,7 +379,19 @@ private theorem entry_le_lemma {N : ℕ} {x : Matrix (Fin N) (Fin N) ℂ} (hx : 
   nlinarith [norm_nonneg (x i j)]
 
 theorem ci_compact (N : ℕ) : IsCompact (unitaryGroup (Fin N) ℂ : Set (Matrix (Fin N) (Fin N) ℂ)) := by
-  apply _root_.GlobalTheory.CompanionTheory.LinRedFactor.isCompact_unitary_fin <;> assumption
+  have hset : (unitaryGroup (Fin N) ℂ : Set (Matrix (Fin N) (Fin N) ℂ)) = {x | x * star x = 1} := by
+    ext x
+    exact Matrix.mem_unitaryGroup_iff
+  have hclosed : IsClosed (unitaryGroup (Fin N) ℂ : Set (Matrix (Fin N) (Fin N) ℂ)) := by
+    rw [hset]
+    exact isClosed_eq (continuous_id.matrix_mul continuous_star) continuous_const
+  have hbound : (unitaryGroup (Fin N) ℂ : Set (Matrix (Fin N) (Fin N) ℂ)) ⊆
+      Set.pi Set.univ fun _ => Set.pi Set.univ fun _ => Metric.closedBall (0 : ℂ) 1 := by
+    intro x hx
+    exact Set.mem_univ_pi.mpr fun i => Set.mem_univ_pi.mpr fun j =>
+      mem_closedBall_zero_iff.mpr (entry_le_lemma hx i j)
+  exact (isCompact_univ_pi fun _ => isCompact_univ_pi fun _ => isCompact_closedBall 0 1).of_isClosed_subset
+    hclosed hbound
 
 theorem ci_cont {N : ℕ} (p : MvPolynomial (Fin N × Fin N) ℂ) :
     Continuous fun x : Matrix (Fin N) (Fin N) ℂ => evalM x p := by
@@ -702,9 +675,20 @@ namespace PI.WSF
 open MvPolynomial Matrix
 open scoped ComplexOrder
 
+private theorem setOf_norm_eq_one_infinite : ({z : ℂ | ‖z‖ = 1} : Set ℂ).Infinite := by
+  have hI : (Set.Ioc (-Real.pi) Real.pi).Infinite := Set.Ioc_infinite (by linarith [Real.pi_pos])
+  refine Set.infinite_of_injOn_mapsTo
+    (f := fun θ : ℝ => Complex.cos θ + Complex.sin θ * Complex.I) ?_ ?_ hI
+  · intro a ha b hb hab
+    have h1 := congrArg Complex.arg hab
+    simp only at h1
+    rwa [Complex.arg_cos_add_sin_mul_I ha, Complex.arg_cos_add_sin_mul_I hb] at h1
+  · intro θ _
+    exact Complex.norm_cos_add_sin_mul_I θ
+
 theorem cz_torus_zero {ι : Type*} [Fintype ι] (Q : MvPolynomial ι ℂ)
     (h : ∀ z : ι → ℂ, (∀ i, ‖z i‖ = 1) → eval z Q = 0) : Q = 0 := by
-  rw [MvPolynomial.funext_set_iff (fun _ => {z : ℂ | ‖z‖ = 1}) (fun _ => _root_.PI.UD.circle_infinite)]
+  rw [MvPolynomial.funext_set_iff (fun _ => {z : ℂ | ‖z‖ = 1}) (fun _ => setOf_norm_eq_one_infinite)]
   intro x hx
   rw [map_zero]
   exact h x (fun i => hx i (Set.mem_univ i))

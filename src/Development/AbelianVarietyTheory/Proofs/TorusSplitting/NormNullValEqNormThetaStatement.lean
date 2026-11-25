@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.ExistsFramesOnUniformisedModelFibre
 public import Development.AbelianVarietyTheory.Definitions.TorusSections.IsTorusOf
 public import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.AppellHumbertTrivialOfNowhereVanishing
 public import Development.AbelianVarietyTheory.Proofs.ToricGeometry.CubeTrivialisationOnUniformisingSpace
@@ -65,11 +64,8 @@ import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRin
 section -- clump:auto
 @[expose] public section
 
-set_option autoImplicit false
-
 open AlgebraicGeometry CategoryTheory Limits MonoidalCategory CartesianMonoidalCategory MonObj NumberField
 open ReciprocityTheory.ChartRestriction.G ReciprocityTheory.ChartRestriction.G.Semi ReciprocityTheory.ChartRestriction.G.Geo.Tor ReciprocityTheory.ChartRestriction.G.FD Formalism.L2.Pj Formalism.L2.PjFree GlobalTheory.EtaForm GlobalTheory.EtaAn GlobalTheory.ArcQ
-attribute [local instance] Over.cartesianMonoidalCategory
 
 namespace GlobalTheory.ConstNorm
 
@@ -256,7 +252,6 @@ section -- clump:auto
 
 open AlgebraicGeometry CategoryTheory Limits MonoidalCategory CartesianMonoidalCategory MonObj NumberField
 open ReciprocityTheory.ChartRestriction.G ReciprocityTheory.ChartRestriction.G.Semi ReciprocityTheory.ChartRestriction.G.Geo.Tor ReciprocityTheory.ChartRestriction.G.FD Formalism.L2.Pj Formalism.L2.PjFree GlobalTheory.EtaForm GlobalTheory.EtaAn GlobalTheory.ArcQ
-attribute [local instance] Over.cartesianMonoidalCategory
 
 noncomputable section
 namespace GlobalTheory.NullNorm
@@ -296,8 +291,16 @@ theorem value_val {S : Scheme.{0}} {A : Over S} [GrpObj A] {L : LB A.left} {a : 
     (h : Out.IsValueAt A L a s y τ v) {Z : Scheme.{0}} (r : Z ⟶ T.left) (z : Z) {J} (hJ : Good L z J) :
     sval (L := L) (φ := fun _ : Fin 1 => (snd T A).left) (ε := fun _ => a) s (r ≫ (Out.ptSecT A y).left) z J =
       gs r z ⊤ v * (val τ r z J).val := by
-  intros
-  apply _root_.GlobalTheory.FrameMove.sval_valueAt <;> assumption
+  let j : Fin 1 → L.ι := fun _ => J (r ≫ y.left)
+  have hz : r z ∈ LB.wchart L (fun _ : Fin 1 => y.left) j := hJ.mem _ r
+  have e := congrArg (gs r z (LB.wchart L (fun _ : Fin 1 => y.left) j)) (h j)
+  have a₂ := (gs_res r z (Out.val_le A L y j) hz (((Out.ptSecT A y).left.app _).hom (s.f j))).trans
+    (gs_pull r (Out.ptSecT A y).left z (LB.wchart L (fun _ : Fin 1 => (snd T A).left) j) (Out.val_le A L y j hz) _)
+  have a₃ := sval_of (L := L) (φ := fun _ : Fin 1 => (snd T A).left) (ε := fun _ => a) s
+    (r ≫ (Out.ptSecT A y).left) z J j
+    (fun _ => congrArg J (by rw [Category.assoc, ← Over.comp_left, Out.ptSecT, lift_snd]))
+  exact a₃.trans (a₂.symm.trans (e.trans ((gs_mul r z _ hz _ _).trans
+    (congrArg₂ (· * ·) (gs_res r z le_top hz _) (gs_unit r z _ hz _)))))
 
 theorem val_rigT {S : Scheme.{0}} {A : Over S} [GrpObj A] {L : LB A.left} (rig : LB.Gen (L.pull (eSec A)))
     (T : Over S) (k : ℤ) {Z : Scheme.{0}} (r : Z ⟶ T.left) (z : Z) {J} (hJ : Good L z J) :
@@ -491,10 +494,7 @@ section -- clump:auto
 
 open AlgebraicGeometry CategoryTheory Limits MonoidalCategory CartesianMonoidalCategory MonObj NumberField
 open ReciprocityTheory.ChartRestriction.G ReciprocityTheory.ChartRestriction.G.Semi ReciprocityTheory.ChartRestriction.G.Geo.Tor ReciprocityTheory.ChartRestriction.G.FD Formalism.L2.Pj Formalism.L2.PjFree GlobalTheory.EtaForm GlobalTheory.EtaAn GlobalTheory.ArcQ
-attribute [local instance] Over.cartesianMonoidalCategory
 
-theorem _root_.GlobalTheory.T.norm_nullVal_eq_norm_theta_alt : ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (H : Host E) (Dw : Datum H) (l : Level H) (Xo : Moduli Dw l) (c : Coeff l) (σ : c.F →+* ℂ) (g : ℕ) (ty : Fin g → (E →+* ℂ)) (Fu : FamilyUnif Xo (σ.comp (IntermediateField.inclusion c.le).toRingHom) ty) (i : Fin Fu.n) (Pm : (Fu.Di i).La →+ (Fin g → ℂ)) (Hm : Matrix (Fin g) (Fin g) ℂ) (χl : (Fin g → ℂ) → ℂ) (fr : Xo.univ.t.PP.L.ι → (Fin g → ℂ) → ℂ) (θ : (Fin g → ℂ) → ℂ) (y : FrPt Xo c (CAt σ)), IsPeriod (Fu.Di i) ty Pm → AHFrame Fu i Pm Hm χl fr → y.x = Fu.u i Pm → IsFnOf Fu i Pm fr y.x y.s θ → ∀ (N : ℕ), Odd N → ∀ (p : ptO Xo y.x ⟶ Xo.univ.t.G) (z : Fin g → ℂ) (w : CAt σ), p ^ (N ^ 2) = 1 → p.left = (Fu.ex i Pm z).left → IsNullVal Xo c N y p w → ‖toC w‖ = ‖θ ((N : ℂ) • z)‖ * Real.exp (-(Real.pi / 2) * (hermForm Hm ((N : ℂ) • z) ((N : ℂ) • z)).re) := by
-  first | exact @GlobalTheory.norm_nullVal_eq_norm_theta
 end -- clump:auto
 end -- clump:auto
 -- ===== end clump member: Development.AbelianVarietyTheory.Proofs.TorusSplitting.NormNullValEqNormThetaStatement =====

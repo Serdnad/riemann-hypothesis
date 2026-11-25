@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Counterexamples.HeightSurvey.StarPurelyImaginaryEqNeg
 public import Formalism.LocalToGlobal.IndefiniteReal.LocalNewformFunction
 public import Formalism.LocalToGlobal.BesselHermitianTheta.LemmasWeil
 import Mathlib.Tactic.TypeStar
@@ -89,8 +88,6 @@ theorem large_act (I g g' : Matrix (Fin n) (Fin n) R) (k : Matrix (Fin m) (Fin m
 
 end Gen
 
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
-
 variable {D : D7}
 
 abbrev GG (S : HSp D) : Matrix (Fin S.rank) (Fin S.rank) (AE D) := S.gram.map (incA D)
@@ -131,31 +128,50 @@ theorem bridgeSmall : BridgeSmall D := by
   intro S T hr
   refine ⟨fun x y => ?_, fun g h x => ?_⟩
   · have : hHom S T (toTWsmall S T y) (toTWsmall S T x) = hO S T x y := by
-      unfold hHom; rw [if_pos hr]
+      unfold hHom; rw [ite_eq_left hr]
       exact small_gen (cA D) (GG S) (GI S) (GG T) (GI_GG S) (GI_herm S) x y
     unfold symplO sympl; rw [this]
-  · unfold actHom; rw [if_pos hr]
+  · unfold actHom; rw [ite_eq_left hr]
     exact small_act (cA D) (GI S) _ _ _ (inv_GI S g) x
 
 theorem trace_cA (a : AE D) :
     Algebra.trace (AF D.host.F) (AE D) (cA D a) = Algebra.trace (AF D.host.F) (AE D) a := by
-  apply _root_.GlobalTheory.DualPairCheck.trace_cA <;> assumption
+  let f : AE D →ₐ[AF D.host.F] AE D := Algebra.TensorProduct.map (AlgHom.id _ _) D.sp.cm.sig
+  have hf : ∀ a, f a = cA D a := by
+    intro a
+    induction a using TensorProduct.induction_on with
+    | zero => simp
+    | tmul r e => simp [f, cA, sigR]
+    | add a b ha hb => rw [map_add (f := _), map_add (f := _), ha, hb]
+  have hff : f.comp f = AlgHom.id _ _ := AlgHom.ext fun a => by
+    rw [AlgHom.comp_apply, hf, hf, cA_cA]; rfl
+  let g : AE D ≃ₐ[AF D.host.F] AE D := AlgEquiv.ofAlgHom f f hff hff
+  rw [← hf]
+  exact Algebra.trace_eq_of_algEquiv g a
 
 theorem bridgeLarge (hxi : star D.host.xi0 = -D.host.xi0) : BridgeLarge D := by
   intro S T hr
   refine ⟨fun x y => ?_, fun g h x => ?_⟩
   · have : hHom T S (toTWlarge S T y) (toTWlarge S T x) = cA D (hO S T x y) := by
-      unfold hHom; rw [if_pos hr.le]
+      unfold hHom; rw [ite_eq_left hr.le]
       exact large_gen (cA D) cA_cA (GG S) (GI S) (GG T) (GG_GI S) (GI_herm S) (GG_herm T) x y
     unfold symplO sympl
     rw [this, ← trace_cA (incA D D.host.xi0 * hO S T x y), map_mul, cA_inc, hxi, map_neg, neg_mul, map_neg]
-  · unfold actHom; rw [if_pos hr.le]
+  · unfold actHom; rw [ite_eq_left hr.le]
     have k := inv_GI S g⁻¹
     rw [inv_inv] at k
     exact large_act (cA D) (GI S) _ _ _ k x
 
 theorem star_purely_imaginary_eq_neg : star D.host.xi0 = -D.host.xi0 := by
-  apply _root_.GlobalTheory.DualPairCheck.star_purely_imaginary_eq_neg <;> assumption
+  have hs : ∀ x : D.host.E, D.host.φ₀ (star x) = starRingEnd ℂ (D.host.φ₀ x) := fun x => by
+    haveI := D.host.isCMField_hostE
+    exact NumberField.IsCMField.complexEmbedding_complexConj D.host.E D.host.φ₀ x
+  have hd : D.host.φ₀ D.host.sqrtMinusD = Complex.I * (Real.sqrt D.host.d : ℂ) := D.host.φ₀_mem
+  apply D.host.φ₀.injective
+  rw [hs, map_neg]
+  unfold Host.xi0
+  rw [map_div₀, map_neg, map_one, map_mul, map_natCast, hd]
+  simp [div_neg]
 
 theorem bridgeLarge' : BridgeLarge D := bridgeLarge star_purely_imaginary_eq_neg
 

@@ -6,6 +6,7 @@ public import GroundTheory.AutomorphicForms.DixmierMalliavinHaarCoord
 public import Mathlib.Analysis.Normed.Lp.MeasurableSpace
 public import Mathlib.MeasureTheory.Measure.Haar.OfBasis
 public import GroundTheory.AutomorphicForms.DixmierMalliavinHaar
+public import GroundTheory.AutomorphicForms.DixmierMalliavinHaarDensity
 public import Mathlib.Analysis.Calculus.ContDiff.WithLp
 public import Mathlib.Analysis.Calculus.Deriv.Abs
 public import Mathlib.MeasureTheory.Measure.Haar.InnerProductSpace
@@ -14,7 +15,6 @@ public import Mathlib.Analysis.Calculus.FDeriv.Symmetric
 public import GroundTheory.AutomorphicForms.GKModules.Casimir
 public import GroundTheory.AutomorphicForms.HarishChandraRegularity.CartanBasis
 public import GroundTheory.AutomorphicForms.PartialDifferential.AnalyticHypoelliptic
-import GroundTheory.AutomorphicForms.DixmierMalliavinHaarDensity
 import Mathlib.Tactic.TypeStar
 import Mathlib.Order.CompletePartialOrder
 import Mathlib.Topology.Algebra.Group.Units
@@ -277,13 +277,6 @@ theorem prodExp_eq_expG_prodExpCoord {d : ℕ} (b : Module.Basis (Fin d) ℝ �
 
 variable [MeasurableSpace G] [BorelSpace G] (μ : Measure G) [μ.IsHaarMeasure]
 
-theorem exists_smooth_density_prodExp_tsupport {d : ℕ} (b : Module.Basis (Fin d) ℝ 𝔤) :
-    ∃ ε > 0, ∀ K : (Fin d → ℝ) → ℂ, ContDiff ℝ ∞ K → tsupport K ⊆ closedBall 0 ε →
-      ∃ κ : G → ℂ, (letI := h.chartedSpace; ContMDiff 𝓘(ℝ, 𝔤) 𝓘(ℝ, ℂ) ∞ κ) ∧
-        HasCompactSupport κ ∧ tsupport κ ⊆ h.prodExp (⇑b) '' tsupport K ∧
-        ∀ φ : G → ℂ, Continuous φ → ∫ y, κ y * φ y ∂μ = ∫ t, K t * φ (h.prodExp (⇑b) t) :=
-  h.exists_smooth_density_prodExp_with_tsupport μ b
-
 theorem exists_smooth_density_expCoord {d : ℕ} (b : Module.Basis (Fin d) ℝ 𝔤) :
     ∃ ε > 0, ∀ β : EuclideanSpace ℝ (Fin d) → ℂ, ContDiff ℝ ∞ β →
       tsupport β ⊆ closedBall 0 ε →
@@ -452,7 +445,7 @@ theorem exists_smooth_density_expCoord {d : ℕ} (b : Module.Basis (Fin d) ℝ �
           simp [K, htS, this]
         · simp [K, htS]]
     refine setIntegral_congr_fun hs.measurableSet fun t ht => ?_
-    simp only [K, if_pos ht.1, F, Complex.real_smul, hPΦ t ht.1]
+    simp only [K, ite_eq_left ht.1, F, Complex.real_smul, hPΦ t ht.1]
     ring
 
 end IsExpLieAlgebra
@@ -953,7 +946,7 @@ theorem exists_ball_sqSymbol_ne_zero {ι : Type*} [Fintype ι]
     exact Finset.sum_eq_zero fun i hi => by
       rw [pow_eq_zero_iff two_ne_zero |>.1 (hall i hi), zero_smul]
   have hinj : Function.Injective (Q 0) := by
-    set_option backward.isDefEq.respectTransparency.instanceSearchTypes false in rw [injective_iff_map_eq_zero]
+    rw [injective_iff_map_eq_zero]
     intro ξ hξ
     apply hspan
     have h0 : ∑ i, (inner ℝ (c i 0) ξ) ^ 2 = 0 := by rw [← hquad, hξ, inner_zero_left]
@@ -1176,17 +1169,6 @@ theorem analyticAt_of_aeval_laplacian_eq_zero {ι : Type*} [Fintype ι]
   exact (coordEquiv b).symm.toContinuousLinearMap.analyticAt _
 
 end IsExpLieAlgebra
-
-section Groups
-
-open Matrix
-open scoped Matrix.Norms.L2Operator
-
-namespace IsExpLieAlgebra
-
-end IsExpLieAlgebra
-
-end Groups
 
 end GroundTheory.Automorphic
 end -- clump:auto

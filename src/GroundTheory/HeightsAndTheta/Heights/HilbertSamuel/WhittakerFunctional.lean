@@ -1,6 +1,5 @@
 module
 
-import GroundTheory.HeightsAndTheta.Heights.Intersections.ConservationDegreeFormOfExistence
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArithmeticIntersection.RationalSections.IsRatSectionOn
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ArithmeticHilbertSamuelLowerBound
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.InterDerived
@@ -48,7 +47,17 @@ theorem G5.ptsIntegral_eq_of_add_const {e : ℕ} (P : Ideal (MRing ι)) (φ ψ :
 
 theorem G5.ptsIntegral_const {e : ℕ} (P : Ideal (MRing ι)) (φ : Fin e → ((Σ k, ι k) → ℂ) → ℝ) (c : ℝ) :
     ptsIntegral P φ (fun _ => c) = c * ptsIntegral P φ (fun _ => 1) := by
-  apply _root_.GroundTheory.Heights₂.Heights.Inter.Conservation.ptsIntegral_const <;> assumption
+  unfold ptsIntegral
+  split_ifs with hΨ
+  · unfold ptsIntegralAt
+    rw [← MeasureTheory.integral_const_mul]
+    congr 1
+    funext y
+    rw [mul_finsum_mem]
+    refine finsum_mem_congr rfl fun w _ => ?_
+    unfold sheetDensity
+    split_ifs <;> ring
+  · simp
 
 theorem G5.isSmoothHerm_constLine (c : ℝ) : IsSmoothHerm (constLine (ι := ι) c) := by
   show ContDiffOn ℝ _ (fun _ => Real.exp (-c)) _
@@ -69,8 +78,8 @@ theorem G5.top_tensor_constLine (I : Ideal (MRing ι) → (n : ℕ) → (Fin n �
   let L : ℕ → Fin (D + 1) → ReciprocityTheory.ChartRestriction.G.Geo.HermLine ι := fun k j => if (j : ℕ) < k then A' else A
   have hL2 : ∀ k j, L k j = A ∨ L k j = A' := fun k j => by
     by_cases h : (j : ℕ) < k
-    · exact Or.inr (if_pos h)
-    · exact Or.inl (if_neg h)
+    · exact Or.inr (ite_eq_left h)
+    · exact Or.inl (ite_eq_right h)
   have hLs : ∀ k j, IsSmoothHerm (L k j) := fun k j => (hL2 k j).elim (fun h => h ▸ hA) (fun h => h ▸ hA')
 
   have hint : ∀ M : Fin D → ReciprocityTheory.ChartRestriction.G.Geo.HermLine ι, (∀ j, M j = A ∨ M j = A') →
@@ -104,20 +113,20 @@ theorem G5.top_tensor_constLine (I : Ideal (MRing ι) → (n : ℕ) → (Fin n �
         have h1 : ((σ (Fin.castSucc j) : Fin (D + 1)) : ℕ) ≠ k := fun h => hne j (Fin.ext h)
         simp only [M, L]
         by_cases h2 : ((σ (Fin.castSucc j) : Fin (D + 1)) : ℕ) < k
-        · rw [if_pos h2, if_pos (by omega)]
-        · rw [if_neg h2, if_neg (by omega)]
+        · rw [ite_eq_left h2, ite_eq_left (by omega)]
+        · rw [ite_eq_right h2, ite_eq_right (by omega)]
       have hσi : σ (Fin.last D) = i := Equiv.swap_apply_right _ _
       have e1 : L (k + 1) ∘ σ = Fin.snoc M A' := by
         funext x
         refine Fin.lastCases ?_ (fun j => ?_) x
         · simp only [Function.comp_apply, Fin.snoc_last, hσi, L, i]
-          exact if_pos (Nat.lt_succ_self k)
+          exact ite_eq_left (Nat.lt_succ_self k)
         · simp only [Function.comp_apply, Fin.snoc_castSucc, M]
       have e0 : L k ∘ σ = Fin.snoc M A := by
         funext x
         refine Fin.lastCases ?_ (fun j => ?_) x
         · simp only [Function.comp_apply, Fin.snoc_last, hσi, L, i]
-          exact if_neg (lt_irrefl k)
+          exact ite_eq_right (lt_irrefl k)
         · simp only [Function.comp_apply, Fin.snoc_castSucc]
           exact hMk j
       have hM : ∀ j, M j = A ∨ M j = A' := fun j => hL2 _ _
@@ -134,7 +143,7 @@ theorem G5.top_tensor_constLine (I : Ideal (MRing ι) → (n : ℕ) → (Fin n �
       ring
   have hall : L (D + 1) = fun _ => A' := by
     funext j
-    exact if_pos j.isLt
+    exact ite_eq_left j.isLt
   have := step (D + 1) le_rfl
   rw [hall] at this
   rw [this]

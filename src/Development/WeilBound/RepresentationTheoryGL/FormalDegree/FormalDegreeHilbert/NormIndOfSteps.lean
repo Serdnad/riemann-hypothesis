@@ -1,6 +1,5 @@
 module
 
-import CompanionTheory.RealGroups.DiscreteSeries.DiscreteSeriesClassification.KTypesAbove
 public import Development.WeilBound.RepresentationTheoryGL.FormalDegree.FormalDegreeHilbert.HlamStable
 public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.CasimirCoefficients.ExistsMu
 public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.HighestWeights.Exists
@@ -157,7 +156,7 @@ theorem fdAll_of (hM : ModelDS) (hF : FdModel) : FdAll := by
   have hDS := (hM n ε lam T μ hl hμ).2
   have hd := hF n ε lam T μ hl hμ
   obtain ⟨U, hU⟩ := GlobalTheory.CompanionTheory.DSUniq.ds_unique
-    CompanionTheory.D.LK.hMultAlg CompanionTheory.D.LK.hKModExists CompanionTheory.D.LK.hOrthCyc
+    CompanionTheory.D.LK.hMultAlg CompanionTheory.D.LK.hKModExists _root_.GlobalTheory.CompanionTheory.LowKType.orthCyc
     n ε lam H _ σ (sigLam ε (PsiM T μ) T.w) hl hσ hDS
   have hc : ∀ (v w : H) (g : Formalism.REAL.UJ ε), Formalism.MainNotions.S.coefOn σ v w g =
       Formalism.MainNotions.S.coefOn (sigLam ε (PsiM T μ) T.w) (U v) (U w) g := by
@@ -255,14 +254,6 @@ noncomputable section
 open Finset MeasureTheory Matrix
 open scoped InnerProductSpace
 
-namespace PositivityTheory.RgFd
-
-open ReciprocityTheory.ChartRestriction.DS ReciprocityTheory.ChartRestriction.DS.S7
-
-theorem gapNorm_of (hD : DegPsi) : GapNorm := by
-  apply _root_.CompanionTheory.RgFd.gapNorm_of <;> assumption
-
-end PositivityTheory.RgFd
 end -- clump:auto
 end -- clump:auto
 end -- clump:auto
@@ -284,38 +275,7 @@ open ReciprocityTheory.ChartRestriction.DS ReciprocityTheory.ChartRestriction.DS
 
 variable {n : ℕ}
 
-theorem cK_continuous {ε : Fin n → Bool} {Λ : Fin n → ℝ} (T : KType ε Λ) : Continuous (cK T) :=
-  (continuous_const.inner ((CompactHaarProbability.cont_op T).clm_apply continuous_const)).norm
-
-theorem op_norm {ε : Fin n → Bool} {Λ : Fin n → ℝ} (T : KType ε Λ) (k : KG ε) (v : T.V) : ‖T.op k v‖ = ‖v‖ := by
-  have h : T.op k⁻¹ * T.op k = 1 := CompactHaarProbability.op_inv_mul T k
-  have hs : star (T.op k) * T.op k = 1 := Unitary.star_mul_self_of_mem (T.τ k).prop
-  have h2 : ‖T.op k v‖ ^ 2 = ‖v‖ ^ 2 := by
-    rw [← @inner_self_eq_norm_sq ℂ, ← @inner_self_eq_norm_sq ℂ]
-    congr 1
-    rw [← ContinuousLinearMap.adjoint_inner_right, ← ContinuousLinearMap.star_eq_adjoint,
-      ← ContinuousLinearMap.mul_apply, hs, ContinuousLinearMap.one_apply]
-  have := h
-  nlinarith [norm_nonneg (T.op k v), norm_nonneg v, sq_nonneg (‖T.op k v‖ - ‖v‖), sq_nonneg (‖T.op k v‖ + ‖v‖)]
-
-theorem cK_le_one {ε : Fin n → Bool} {Λ : Fin n → ℝ} (T : KType ε Λ) (k : KG ε) : cK T k ≤ 1 := by
-  unfold cK
-  calc ‖⟪T.w, T.op k T.w⟫_ℂ‖ ≤ ‖T.w‖ * ‖T.op k T.w‖ := norm_inner_le_norm _ _
-    _ = 1 := by rw [op_norm, T.w_norm, one_mul]
-
 abbrev CPair (ε : Fin n → Bool) : Type := {p : Fin n × Fin n // p.1 < p.2 ∧ ε p.1 = ε p.2}
-
-theorem prod_cpair (ε : Fin n → Bool) (f : Fin n → Fin n → ℝ) :
-    ∏ a : Fin n, ∏ b ∈ univ.filter (fun b : Fin n => a < b ∧ ε a = ε b), f a b = ∏ p : CPair ε, f p.1.1 p.1.2 := by
-  have e1 : ∏ a : Fin n, ∏ b ∈ univ.filter (fun b : Fin n => a < b ∧ ε a = ε b), f a b =
-      ∏ x ∈ univ.filter (fun x : Fin n × Fin n => x.1 < x.2 ∧ ε x.1 = ε x.2), f x.1 x.2 := by
-    rw [Finset.prod_filter, Fintype.prod_prod_type]
-    simp_rw [Finset.prod_filter]
-  rw [e1, ← Finset.prod_subtype (univ.filter (fun x : Fin n × Fin n => x.1 < x.2 ∧ ε x.1 = ε x.2))
-    (fun x => by simp) (fun x : Fin n × Fin n => f x.1 x.2)]
-
-theorem kNull_of (hW : MomW) (hP : CoefPow) : KNull := by
-  apply _root_.CompanionTheory.RgFd.kNull_of <;> assumption
 
 end PositivityTheory.RgFd
 end -- clump:auto
@@ -469,15 +429,6 @@ namespace PositivityTheory.RgFd
 
 open ReciprocityTheory.ChartRestriction.DS ReciprocityTheory.ChartRestriction.DS.S7
 
-theorem sigLam_coe' (hS : HlamStable) {n : ℕ} {ε : Fin n → Bool} {lam : Fin n → ℝ} {T : KType ε (lowK ε lam)}
-    {Ψ : Matrix (Fin n) (Fin n) ℂ → (T.V →L[ℂ] T.V)} (hP : IsPsiFor ε lam T Ψ) {g : Matrix (Fin n) (Fin n) ℂ}
-    (hg : g ∈ UJset ε) (x : Hlam ε Ψ T.w) :
-    ((sigLam ε Ψ T.w g x : Hlam ε Ψ T.w) : L2 ε) = rreg ε g x := by
-  have hx : rreg ε g x ∈ Hlam ε Ψ T.w := hS n ε lam T Ψ hP g hg x x.2
-  show (((Hlam ε Ψ T.w).orthogonalProjectionOnto (rreg ε g (x : L2 ε)) : Hlam ε Ψ T.w) : L2 ε) = _
-  exact congrArg Subtype.val
-    (Submodule.orthogonalProjectionOnto_mem_subspace_eq_self (⟨_, hx⟩ : Hlam ε Ψ T.w))
-
 theorem isKTypeOf_range {n : ℕ} {ε : Fin n → Bool} {lam : Fin n → ℝ} {T : KType ε (lowK ε lam)}
     {Ψ : Matrix (Fin n) (Fin n) ℂ → (T.V →L[ℂ] T.V)} (φ : T.V →ₗ[ℂ] Hlam ε Ψ T.w) (hφ : Function.Injective φ)
     (hint : ∀ (k : KG ε) (v : T.V), φ (T.op k v) = sigLam ε Ψ T.w (toMK k) (φ v)) :
@@ -513,12 +464,12 @@ theorem kmapZero_of (hS : HlamStable) : KmapZero := by
   have hjint : ∀ (k : KG ε) (v : T.V), j' (T.op k v) = sigLam ε Ψ T.w (toMK k) (j' v) := by
     intro k v
     refine Subtype.ext ?_
-    rw [sigLam_coe' hS hP (show toMK k ∈ UJset ε from k.1.2)]
+    rw [PositivityTheory.RgFd.sigLam_coe_of hS hP (show toMK k ∈ UJset ε from k.1.2)]
     exact (rightRegular_datumEmbedding hP T.w v k).symm
   have hBint : ∀ (k : KG ε) (v : T.V), B' (T.op k v) = sigLam ε Ψ T.w (toMK k) (B' v) := by
     intro k v
     refine Subtype.ext ?_
-    rw [sigLam_coe' hS hP (show toMK k ∈ UJset ε from k.1.2)]
+    rw [PositivityTheory.RgFd.sigLam_coe_of hS hP (show toMK k ∈ UJset ε from k.1.2)]
     exact hB k v
   have hEq := CompanionTheory.D.LK.low_K_type_multiplicity_one n ε lam (Hlam ε Ψ T.w) (sigLam ε Ψ T.w)
     ((mir_isHCParam_iff lam).2 hl) hDS _ _ (isKTypeOf_range B' hB'inj hBint) (isKTypeOf_range j' hj'inj hjint)
@@ -546,53 +497,6 @@ section -- clump:auto
 
 open MeasureTheory Set
 
-namespace PositivityTheory.RgFd
-
-theorem mom_step {Ω Ω' : Type} [MeasurableSpace Ω] [MeasurableSpace Ω'] {ν : Measure Ω} {ν' : Measure Ω'} {V : Ω → ℝ}
-    {V' : Ω' → ℝ} (hV : Measurable V) (hV' : Measurable V') (h0 : ∀ x, 0 ≤ V x ∧ V x ≤ 1) (h0' : ∀ y, 0 ≤ V' y ∧ V' y ≤ 1)
-    (he : ∀ j : ℕ, 1 ≤ j → ∫⁻ x, ENNReal.ofReal (V x ^ j) ∂ν = ∫⁻ y, ENNReal.ofReal (V' y ^ j) ∂ν')
-    (hf : ∀ j : ℕ, 1 ≤ j → ∫⁻ x, ENNReal.ofReal (V x ^ j) ∂ν ≠ ⊤) (M : ℕ) : ∀ j : ℕ, 1 ≤ j →
-    ∫⁻ x, ENNReal.ofReal (V x ^ j * (1 - V x) ^ M) ∂ν = ∫⁻ y, ENNReal.ofReal (V' y ^ j * (1 - V' y) ^ M) ∂ν' := by
-  apply CompanionTheory.RgFd.mom_step <;> assumption
-
-theorem mom_sum {A : Type} [MeasurableSpace A] (m : Measure A) {W : A → ℝ} (hW : Measurable W) (h : ∀ x, 0 ≤ W x ∧ W x ≤ 1) :
-    m {x | 0 < W x} = ∑' M : ℕ, ∫⁻ x, ENNReal.ofReal (W x ^ 1 * (1 - W x) ^ M) ∂m :=
-  _root_.CompanionTheory.RgFd.mom_sum m hW h
-
-theorem momA : MomA := by
-  intro Ω Ω' _ _ ν ν' U U' t0 hU hU' h h' ht he hf
-  have p : ∀ {A : Type} (W : A → ℝ), (∀ x, 0 ≤ W x ∧ W x ≤ 1) → {x | 0 < W x} = {x | 0 < W x ^ t0} := fun W h => by
-    ext x
-    show 0 < W x ↔ 0 < W x ^ t0
-    exact ⟨fun a => pow_pos a _, fun a => (h x).1.lt_of_ne fun b => by
-      rw [← b, zero_pow (by omega)] at a; exact lt_irrefl _ a⟩
-  have q : ∀ {A : Type} (W : A → ℝ), (∀ x, 0 ≤ W x ∧ W x ≤ 1) → ∀ x, 0 ≤ W x ^ t0 ∧ W x ^ t0 ≤ 1 := fun W h x =>
-    ⟨pow_nonneg (h x).1 _, pow_le_one₀ (h x).1 (h x).2⟩
-  rw [p U h, p U' h', mom_sum ν (hU.pow_const t0) (q U h), mom_sum ν' (hU'.pow_const t0) (q U' h')]
-  refine tsum_congr fun M => mom_step (hU.pow_const t0) (hU'.pow_const t0) (q U h) (q U' h') (fun j hj => ?_)
-    (fun j hj => ?_) M 1 le_rfl
-  · simpa only [← pow_mul, mul_comm t0] using he j hj
-  · simpa only [← pow_mul, mul_comm t0] using hf j hj
-
-theorem momB : MomB := by
-  apply CompanionTheory.RgFd.momB
-
-theorem momW_of : MomA → MomB → MomW := by
-  intro hA hB Ω _ P h U I _ α β c t0 hh hU h01 hα hβ hc hm
-  obtain ⟨ν', U', m', p', e'⟩ := hB I α β c hα hβ hc
-  have e : ∀ j : ℕ, 1 ≤ j → ∫⁻ x, ENNReal.ofReal (U x ^ (j * (t0 + 1))) ∂(P.withDensity h) =
-      ENNReal.ofReal (c / ∏ i, (α i + (j * (t0 + 1) : ℕ) * β i)) := fun j hj => by
-    rw [lintegral_withDensity_eq_lintegral_mul _ hh (by fun_prop)]
-    exact hm _ (by nlinarith)
-  have r := hA Ω _ (P.withDensity h) ν' U U' (t0 + 1) hU m' h01 (fun y => ⟨(p' y).1.le, (p' y).2⟩) (by omega)
-    (fun j hj => (e j hj).trans (e' _).symm) fun j hj => by rw [e j hj]; exact ENNReal.ofReal_ne_top
-  rw [withDensity_apply _ (measurableSet_lt measurable_const hU)] at r
-  rw [r, show {y | 0 < U' y} = univ from eq_univ_of_forall fun y => (p' y).1]
-  simpa using e' 0
-
-theorem momW : MomW := momW_of momA momB
-
-end PositivityTheory.RgFd
 end -- clump:auto
 end -- clump:auto
 -- ===== end clump member: Development.WeilBound.RepresentationTheoryGL.FormalDegree.FormalDegreeHilbert.MomentRecursion.MomStep =====
@@ -658,133 +562,6 @@ noncomputable section
 open Finset MeasureTheory Matrix
 open scoped InnerProductSpace
 
-namespace PositivityTheory.RgFd
-
-open ReciprocityTheory.ChartRestriction.DS ReciprocityTheory.ChartRestriction.DS.S7
-
-variable {n : ℕ}
-
-theorem nd_const_sign {ε : Fin n → Bool} (hq : q0 ε = 0) : ∃ s : Bool, ∀ a, ε a = s := by
-  unfold q0 at hq
-  rcases Nat.min_eq_zero_iff.1 hq with h | h
-  · refine ⟨false, fun a => ?_⟩
-    unfold pOf at h
-    have := Finset.filter_eq_empty_iff.1 (Finset.card_eq_zero.1 h) (Finset.mem_univ a)
-    simpa using this
-  · refine ⟨true, fun a => ?_⟩
-    unfold qOf at h
-    have := Finset.filter_eq_empty_iff.1 (Finset.card_eq_zero.1 h) (Finset.mem_univ a)
-    simpa using this
-
-theorem nd_Jm {ε : Fin n → Bool} {s : Bool} (hs : ∀ a, ε a = s) :
-    Jm ε = (if s then (1 : ℂ) else -1) • (1 : Matrix (Fin n) (Fin n) ℂ) := by
-  ext i j
-  by_cases h : i = j
-  · subst h; simp [Jm, hs]
-  · simp [Jm, h]
-
-theorem nd_mem_Kset {ε : Fin n → Bool} (hq : q0 ε = 0) {g : Matrix (Fin n) (Fin n) ℂ} (hg : inUJ ε g) :
-    g ∈ Kset ε := by
-  obtain ⟨s, hs⟩ := nd_const_sign hq
-  set c : ℂ := if s then 1 else -1 with hc
-  have hc0 : c ≠ 0 := by simp only [hc]; split_ifs <;> norm_num
-  have hJ := nd_Jm hs
-  rw [← hc] at hJ
-  have hg' : gᴴ * Jm ε * g = Jm ε := hg
-  rw [hJ, Matrix.mul_smul, Matrix.mul_one, Matrix.smul_mul] at hg'
-  have hu : gᴴ * g = 1 := smul_right_injective _ hc0 hg'
-  refine ⟨Matrix.mem_unitaryGroup_iff'.2 (by rw [star_eq_conjTranspose]; exact hu), ?_⟩
-  rw [hJ, Matrix.mul_smul, Matrix.smul_mul, Matrix.mul_one, Matrix.one_mul]
-
-theorem nd_hsOp_op {ε : Fin n → Bool} {Λ : Fin n → ℝ} (T : KType ε Λ) (k : KG ε) :
-    hsOp (T.op k) = (Module.finrank ℂ T.V : ℝ) := by
-  have hn : ∀ v : T.V, ‖T.op k v‖ = ‖v‖ := by
-    intro v
-    have hU := (T.τ k).2
-    have h1 : star (T.op k) * T.op k = 1 := hU.1
-    have h2 : ⟪T.op k v, T.op k v⟫_ℂ = ⟪v, v⟫_ℂ := by
-      rw [← ContinuousLinearMap.adjoint_inner_right, ← mul_apply_eq_comp,
-        ← ContinuousLinearMap.star_eq_adjoint, h1, one_apply_eq_self]
-    rw [inner_self_eq_norm_sq_to_K, inner_self_eq_norm_sq_to_K] at h2
-    have h3 : ‖T.op k v‖ ^ 2 = ‖v‖ ^ 2 := by exact_mod_cast h2
-    exact (pow_left_inj₀ (norm_nonneg _) (norm_nonneg _) two_ne_zero).1 h3
-  unfold hsOp
-  simp only [hn, (stdOrthonormalBasis ℂ T.V).orthonormal.1, one_pow, Finset.sum_const, Finset.card_univ,
-    Fintype.card_fin, nsmul_eq_mul, mul_one]
-
-theorem nd_psiM_K {ε : Fin n → Bool} {Λ : Fin n → ℝ} (T : KType ε Λ) (μ : Fin n → ℤ) (k : KG ε) :
-    PsiM T μ (toMK k) = T.op k := by
-  have h1 : inUJ ε (1 : Matrix (Fin n) (Fin n) ℂ) := by simp [inUJ]
-  have e := psiM_equiv T μ k 1 h1
-  rw [show toMK (1 : KG ε) = 1 from rfl, Matrix.mul_one, Matrix.mul_one, psiM_one] at e
-  rw [e]
-  simp [KType.op, map_one]
-
-theorem nd_pev_zero {ε : Fin n → Bool} {s : Bool} (hs : ∀ a, ε a = s) (z : PCoord ε → ℂ) : pev z = 0 := by
-  have h0 : pmat z = 0 := by
-    ext a b
-    simp [pmat, hs]
-  exact (pmat_isHermitian z).eigenvalues_eq_zero_iff.2 h0
-
-theorem nd_jac_one {ε : Fin n → Bool} {s : Bool} (hs : ∀ a, ε a = s) (z : PCoord ε → ℂ) : Jac z = 1 := by
-  unfold Jac
-  refine Finset.prod_eq_one fun a _ => Finset.prod_eq_one fun b _ => ?_
-  rw [nd_pev_zero hs z]
-  simp [shc]
-
-theorem nd_isEmpty {ε : Fin n → Bool} {s : Bool} (hs : ∀ a, ε a = s) : IsEmpty (PCoord ε) :=
-  ⟨fun ab => ab.2.2 (by rw [hs, hs])⟩
-
-theorem nd_counts {ε : Fin n → Bool} (hq : q0 ε = 0) :
-    (pOf ε = n ∧ qOf ε = 0) ∨ (pOf ε = 0 ∧ qOf ε = n) := by
-  obtain ⟨s, hs⟩ := nd_const_sign hq
-  cases s
-  · right
-    refine ⟨?_, ?_⟩
-    · unfold pOf; simp [hs]
-    · unfold qOf; simp [hs]
-  · left
-    refine ⟨?_, ?_⟩
-    · unfold pOf; simp [hs]
-    · unfold qOf; simp [hs]
-
-theorem nd_cPQ {ε : Fin n → Bool} (hq : q0 ε = 0) : cPQ ε = 1 := by
-  unfold cPQ
-  have hpos : 0 < ∏ i ∈ range n, (i.factorial : ℝ) :=
-    Finset.prod_pos fun i _ => by exact_mod_cast Nat.factorial_pos i
-  rcases nd_counts hq with ⟨hp, hq'⟩ | ⟨hp, hq'⟩ <;> rw [hp, hq'] <;> simp [hpos.ne']
-
-theorem nd_muCD_univ {ε : Fin n → Bool} (hq : q0 ε = 0) : muCD ε Set.univ = 1 := by
-  obtain ⟨s, hs⟩ := nd_const_sign hq
-  have : IsEmpty (PCoord ε) := nd_isEmpty hs
-  have hvol : (volume : Measure (PCoord ε → ℂ)) Set.univ = 1 := by
-    rw [MeasureTheory.volume_pi, Measure.pi_empty_univ]
-  simpa only [nd_cPQ hq, nd_jac_one hs, ENNReal.ofReal_one, lintegral_const, hvol,
-    measure_univ, one_mul, mul_one] using lintegral_muCD ε (fun _ => 1) measurable_const
-
-theorem nd_finrank {ε : Fin n → Bool} (hq : q0 ε = 0) {lam : Fin n → ℝ} (hl : StrictAnti lam)
-    (T : KType ε (lowK ε lam)) : (Module.finrank ℂ T.V : ℝ) = dimVlam lam :=
-  _root_.CompanionTheory.RgFd.nd_finrank hq hl T
-
-theorem normDef : NormDef := by
-  intro n ε hq lam hl T μ hμ
-  have hK : ∀ g : Formalism.REAL.UJ ε, hsOp (PsiM T μ (Formalism.MainNotions.S.umat g)) = (Module.finrank ℂ T.V : ℝ) := by
-    intro g
-    have hg : inUJ ε (Formalism.MainNotions.S.umat g) := by
-      have h := g.2
-      unfold inUJ Jm
-      exact h
-    obtain ⟨u, hu⟩ := exists_toMK (nd_mem_Kset hq hg)
-    rw [← hu, nd_psiM_K, nd_hsOp_op]
-  simp only [hK, lintegral_const, nd_muCD_univ hq, mul_one]
-  rw [← nd_finrank hq hl.1 T]
-  congr 1
-  have hpos : (0 : ℝ) < Module.finrank ℂ T.V := by
-    have : Nontrivial T.V := ⟨⟨T.w, 0, fun h => by simpa [h] using T.w_norm⟩⟩
-    exact_mod_cast Module.finrank_pos
-  field_simp
-
-end PositivityTheory.RgFd
 end -- clump:auto
 end -- clump:auto
 end -- clump:auto
@@ -799,28 +576,6 @@ noncomputable section
 
 open Finset Matrix
 
-namespace PositivityTheory.RgFd
-
-open ReciprocityTheory.ChartRestriction.DS ReciprocityTheory.ChartRestriction.DS.S7
-
-variable {n : ℕ}
-
-theorem polar_pP {ε : Fin n → Bool} {g : Matrix (Fin n) (Fin n) ℂ} (hg : inUJ ε g) :
-    ∃ k : KG ε, g = toMK k * pP g := by
-  obtain ⟨u, hu⟩ := exists_toMK (PolarDecomposition.polar_k_mem hg)
-  refine ⟨u, ?_⟩
-  rw [hu, pP, Matrix.mul_assoc, PolarDecomposition.polar_exp_neg_mul, Matrix.mul_one]
-
-theorem hsOp_op_mul {ε : Fin n → Bool} {Λ : Fin n → ℝ} (T : KType ε Λ) (k : KG ε) (A : T.V →L[ℂ] T.V) :
-    hsOp (T.op k * A) = hsOp A := by
-  unfold hsOp
-  refine Finset.sum_congr rfl fun i _ => ?_
-  rw [ContinuousLinearMap.mul_apply, KType_norm_op_apply]
-
-theorem hsPol : HsPol := by
-  apply _root_.CompanionTheory.RgFd.hsPol
-
-end PositivityTheory.RgFd
 end -- clump:auto
 end -- clump:auto
 end -- clump:auto
@@ -836,24 +591,6 @@ noncomputable section
 open Finset Matrix
 open scoped ComplexOrder
 
-namespace PositivityTheory.RgFd
-
-open ReciprocityTheory.ChartRestriction.DS ReciprocityTheory.ChartRestriction.DS.S7
-
-variable {n : ℕ}
-
-theorem continuous_pP (ε : Fin n → Bool) : Continuous fun g : UJ ε => pP (toM g) := by
-  have h : Continuous fun g : UJ ε => PolarDecomposition.polar_L (toM g) :=
-    (lcA_polarL_continuousOn ε).comp_continuous (continuous_toM ε) (fun g => g.2)
-  exact continuous_matrix_exp_alt.comp h
-
-theorem pP_posDef {ε : Fin n → Bool} (g : UJ ε) : (pP (toM g)).PosDef :=
-  exp_noncompactPart_posDef (PolarDecomposition.polar_L_inP (ε := ε) g.2)
-
-theorem phiCont : PhiCont := by
-  apply _root_.CompanionTheory.RgFd.phiCont
-
-end PositivityTheory.RgFd
 end -- clump:auto
 end -- clump:auto
 end -- clump:auto
@@ -869,15 +606,6 @@ noncomputable section
 namespace PositivityTheory.RgFd
 
 open ReciprocityTheory.ChartRestriction.DS PositivityTheory.RgDs
-
-theorem hsInt : HsInt := GlobalTheory.CompanionTheory.RgFd.hsInt GlobalTheory.CompanionTheory.HsPsProof.hsPs hsPol phiMul phiCont
-
-theorem psiNorm_of (hI : NormInd) : PsiNorm := by
-  intro n ε lam hl
-  by_cases h : S7.q0 ε = 0
-  · exact normDef n ε h lam hl
-  · have h1 : 1 ≤ min (pOf ε) (qOf ε) := Nat.one_le_iff_ne_zero.2 h
-    exact hI n ε (h1.trans (min_le_left _ _)) (h1.trans (min_le_right _ _)) lam hl
 
 theorem modelDS_of (hL : ExplicitFunctionSquareIntegrable) (hK : Key) (hH : Hilb) : ModelDS := by
   intro n ε lam T μ hl hμ
@@ -895,10 +623,6 @@ theorem realMetaplectic_of_forall (h : FdAll) : GlobalTheory.Published.FormalDeg
 theorem fdAll_of_norm (hN : PsiNorm) (hK : Key) (hH : Hilb) : FdAll :=
   have hM := modelDS_of (square_integrable_of_norm hN) hK hH
   fdAll_of hM (fdModel_of degPsi hlamStable (formF_of hlamStable (kmapZero_of hlamStable)) hN hM)
-
-theorem normInd_of_steps (hP : CoefPow)
-    (h : MomW → CoefPow → KNull → HsPol → PhiMul → PhiLe → PhiCont → HsInt → GapNorm → NormInd) : NormInd :=
-  h momW hP (kNull_of momW hP) hsPol phiMul phiLe phiCont hsInt (gapNorm_of degPsi)
 
 end PositivityTheory.RgFd
 end -- clump:auto

@@ -1,6 +1,5 @@
 module
 
-import Development.ResolutionOfSingularities.EmbeddedResolution.IdealPrincipalization.OrderReduction.MaxContactGeometry
 public import Development.ResolutionOfSingularities.EmbeddedResolution.IdealPrincipalization.MarkedOrderReduction.MarkedPullbackSquare
 public import Development.ResolutionOfSingularities.EmbeddedResolution.IdealPrincipalization.MarkedOrderReduction.NonMonomialOrderReduction
 public import Development.ResolutionOfSingularities.EmbeddedResolution.IdealPrincipalization.MarkedOrderReduction.SequenceOfBlowupsPullback
@@ -12,45 +11,7 @@ public import Development.ResolutionOfSingularities.EmbeddedResolution.IdealPrin
 import Development.ResolutionOfSingularities.EmbeddedResolution.DerivativeIdeal.OrderAtMultiplicativity
 import Development.ResolutionOfSingularities.EmbeddedResolution.IdealPrincipalization.MarkedOrderReduction.OrderAlongBlowupSequence
 import Development.ResolutionOfSingularities.Foundations.Schemes.IdealSheafData
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.ResolutionOfSingularities.EmbeddedResolution.IdealPrincipalization.MarkedOrderReduction.RecursivePrincipalizationPullback, Development.ResolutionOfSingularities.EmbeddedResolution.IdealPrincipalization.MarkedOrderReduction.OrderReductionBaseChange
@@ -1090,7 +1051,7 @@ private theorem markedDataOfSeq_ne_none_of_isMarked {k : Type u} [Field k] {X : 
   have he : markedDataOfSeq s J μ σ = some ((MarkedBlowupSequenceData.ofMarkedSequence σ).toMarkedBlowupSequenceData
       (s.proj s.length ≫ p) (s.ideal s.length) m (s.boundary s.length) hm) := by
     unfold markedDataOfSeq
-    exact dif_pos hm
+    exact dite_eq_left hm
   rw [he]
   exact Option.some_ne_none _
 
@@ -1423,8 +1384,20 @@ private theorem projectionToBase_mem_orderAtLeastLocus (hG : PrincipalizationGeo
     (j : ℕ) (hj : j ≤ σ.toSequenceOfBlowups.length) (z : ↥(σ.toSequenceOfBlowups.schemeAt j))
     (hz : z ∈ orderAtLeastLocus (σ.ideal j) T.mult) :
     (σ.toSequenceOfBlowups.projectionToBase j).base z ∈ orderAtLeastLocus T.ideal T.mult := by
-  intros
-  apply _root_.FunctorialResolution.EmbeddedResolution.OrderReductionCorrectness.projectionToBase_mem_orderAtLeastLocus_of_mem_ideal <;> assumption
+  have hval : ∀ l ≤ σ.toSequenceOfBlowups.length, (T.transformAt σ l).IsAdmissible := by
+    intro l hl
+    exact hG.monomialInputs.level_valid T hT σ l hl
+  have hsub := MarkedSequenceOfBlowups.orderAtLeastLocus_subset_preimage_transitionMap
+    (orderAtComapOffExceptionalLocus_of_monomialGeometryHypotheses hG.monomialInputs)
+    T σ hval T.mult le_rfl 0 j (Nat.zero_le j) hj
+  have h0 : (σ.toSequenceOfBlowups.transitionMap (Nat.zero_le j)).base z ∈ orderAtLeastLocus (σ.ideal 0) T.mult := hsub hz
+  rw [σ.ideal_zero, hinv.coSupport_comap σ.toSequenceOfBlowups.isoZero T.ideal T.mult] at h0
+  have hcomp : (σ.toSequenceOfBlowups.projectionToBase j).base z
+      = (σ.toSequenceOfBlowups.isoZero.hom).base ((σ.toSequenceOfBlowups.transitionMap (Nat.zero_le j)).base z) := by
+    rw [SequenceOfBlowups.projectionToBase_def]
+    simp
+  rw [hcomp]
+  exact h0
 
 private theorem nonempty_sequenceOfBlowupsPullback_of_center_not_mem_range {X Y : Scheme.{u}} (g : Y ⟶ X)
     (hflat : AlgebraicGeometry.Flat g) (sD : SequenceOfBlowups X) (sU : SequenceOfBlowups Y)

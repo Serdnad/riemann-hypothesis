@@ -1,9 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.TwistedOrbitalIntegralParabolicUnfoldLeviStatement
-import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.LevelFamInf
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.TwistedOrbitalIntegralUnitGLEqHermitianLatticeCoStatement
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.MemKGLIffVal
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.TraceFormula.GlobalTraceComparison.TraceAsymptotics.FinprodSplitAlt
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.TraceFormula.GlobalTraceComparison.TraceAsymptotics.BlkOneMem
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SumSatEqOfIsCT
@@ -87,7 +83,27 @@ variable {E : Type} [Field E] [NumberField E] [IsCMField E]
 
 private lemma mem_K {n : ℕ} {w : Pl E} (g : GLw n w) :
     g ∈ KGL w (n := n) ↔ (∀ i j, Valued.v (g.val i j) ≤ 1) ∧ (∀ i j, Valued.v ((g⁻¹).val i j) ≤ 1) := by
-  apply _root_.GlobalTheory.EulerTwKU.mem_KGL_iff_val <;> assumption
+  constructor
+  · rintro ⟨a, rfl⟩
+    refine ⟨fun i j => (a.val i j).2, fun i j => ?_⟩
+    rw [← map_inv]
+    exact ((a⁻¹).val i j).2
+  · rintro ⟨h1, h2⟩
+    let A : Matrix (Fin n) (Fin n) (Ov E w) := fun i j => ⟨g.val i j, h1 i j⟩
+    let B : Matrix (Fin n) (Fin n) (Ov E w) := fun i j => ⟨(g⁻¹).val i j, h2 i j⟩
+    have hA : A.map (Ov E w).subtype = g.val := by ext i j; rfl
+    have hB : B.map (Ov E w).subtype = (g⁻¹).val := by ext i j; rfl
+    have inj : Function.Injective (fun M : Matrix (Fin n) (Fin n) (Ov E w) => M.map (Ov E w).subtype) :=
+      Matrix.map_injective Subtype.val_injective
+    have hAB : A * B = 1 := inj (by
+      change (A * B).map (Ov E w).subtype = (1 : Matrix (Fin n) (Fin n) (Ov E w)).map (Ov E w).subtype
+      rw [Matrix.map_mul, hA, hB, Matrix.map_one _ (map_zero _) (map_one _)]
+      exact congrArg Units.val (mul_inv_cancel g))
+    have hBA : B * A = 1 := inj (by
+      change (B * A).map (Ov E w).subtype = (1 : Matrix (Fin n) (Fin n) (Ov E w)).map (Ov E w).subtype
+      rw [Matrix.map_mul, hA, hB, Matrix.map_one _ (map_zero _) (map_one _)]
+      exact congrArg Units.val (inv_mul_cancel g))
+    exact ⟨⟨A, B, hAB, hBA⟩, Units.ext hA⟩
 
 private lemma int_mul {w : Pl E} {α β γ : Type} [Fintype β] (A : Matrix α β (w.adicCompletion E))
     (B : Matrix β γ (w.adicCompletion E)) (hA : ∀ i j, Valued.v (A i j) ≤ 1) (hB : ∀ i j, Valued.v (B i j) ≤ 1) (i : α) (j : γ) :
@@ -99,16 +115,43 @@ private lemma int_mul {w : Pl E} {α β γ : Type} [Fintype β] (A : Matrix α �
 
 private lemma mem_intMat {a b : ℕ} {w : Pl E} (X : Multiplicative (Matrix (Fin a) (Fin b) (w.adicCompletion E))) :
     X ∈ intMat a b w ↔ ∀ i j, Valued.v (Multiplicative.toAdd X i j) ≤ 1 := by
-  apply _root_.GlobalTheory.LeviDesc.LeviHoms.mem_intMat_iff <;> assumption
-
-private lemma avg_const {H : Type} [Group H] (c : ℂ) : avg (fun _ : H => c) = c := by
-  apply _root_.GlobalTheory.TwOrbLat.avg_const <;> assumption
+  constructor
+  · intro h
+    induction h using Subgroup.closure_induction with
+    | mem x hx => exact hx
+    | one => intro i j; simp
+    | mul x y _ _ hx hy =>
+      intro i j
+      simpa using Valuation.map_add_le _ (hx i j) (hy i j)
+    | inv x _ hx =>
+      intro i j
+      simpa using hx i j
+  · exact fun h => Subgroup.subset_closure h
 
 private lemma hint_zero {H : Type} [Group H] (K : Subgroup H) : hint K (fun _ : H => (0 : ℂ)) = 0 := by
   simp [hint]
 
 private lemma hint_ind {H : Type} [Group H] (K : Subgroup H) : hint K ((K : Set H).indicator 1) = 1 := by
-  apply _root_.GlobalTheory.CompanionTheory.FamClP.hint_ind <;> assumption
+  have hs : rStab ((K : Set H).indicator (1 : H → ℂ)) ⊓ K = K := by
+    refine inf_eq_right.2 fun k hk x => ?_
+    by_cases hx : x ∈ K
+    · rw [Set.indicator_of_mem (show x * k ∈ (K : Set H) from K.mul_mem hx hk),
+        Set.indicator_of_mem (show x ∈ (K : Set H) from hx)]
+      rfl
+    · rw [Set.indicator_of_notMem (show x * k ∉ (K : Set H) from fun h => hx (by simpa using K.mul_mem h (K.inv_mem hk))),
+        Set.indicator_of_notMem (show x ∉ (K : Set H) from hx)]
+  unfold hint
+  rw [hs, Subgroup.relIndex_self]
+  rw [finsum_eq_single _ (QuotientGroup.mk 1 : H ⧸ K)]
+  · have : Quotient.out (QuotientGroup.mk 1 : H ⧸ K) ∈ K := by
+      have h := QuotientGroup.eq.1 (QuotientGroup.out_eq' (QuotientGroup.mk 1 : H ⧸ K))
+      simpa using h
+    rw [Set.indicator_of_mem (show _ ∈ (K : Set H) from this)]
+    simp
+  · intro q hq
+    refine Set.indicator_of_notMem (fun h => hq ?_) _
+    rw [← QuotientGroup.out_eq' q]
+    exact QuotientGroup.eq.2 (by simpa using h)
 
 private lemma blk_eq {a b n : ℕ} (h : a + b = n) (w : Pl E) (m : GLw a w × GLw b w)
     (X : Matrix (Fin a) (Fin b) (w.adicCompletion E)) :
@@ -265,7 +308,7 @@ theorem UpperTheory.V.Z.Tf.GlobalTraceComparison.Asm.ctUnit :
         rfl
       · rw [Set.indicator_of_notMem (show _ ∉ (KGL w (n := n) : Set (GLw n w)) from fun h' => hy (hiff.1 h')),
           Set.indicator_of_notMem (show _ ∉ (KGL w (n := n) : Set (GLw n w)) from hy)]
-    rw [hf, avg_const]
+    rw [hf, GlobalTheory.IwRed.avg_const]
   simp only [hconj]
   by_cases hm : m ∈ K2 a b w
   · have hu : (fun X : Multiplicative (Matrix (Fin a) (Fin b) (w.adicCompletion E)) =>
@@ -320,8 +363,8 @@ private theorem prod_lt {R : Type} [CommMonoid R] (p : R) (j : ℕ) :
   | succ n ih =>
     rw [Finset.prod_range_succ, ih]
     by_cases h : n < j
-    · rw [if_pos h, min_eq_left h.le, min_eq_left (Nat.succ_le_of_lt h), pow_succ]
-    · rw [if_neg h, mul_one, min_eq_right (not_lt.1 h), min_eq_right (by omega)]
+    · rw [ite_eq_left h, min_eq_left h.le, min_eq_left (Nat.succ_le_of_lt h), pow_succ]
+    · rw [ite_eq_right h, mul_one, min_eq_right (not_lt.1 h), min_eq_right (by omega)]
 
 private theorem det_diagJ {L : Type} [Field L] (n : ℕ) (p : L) {i : ℕ} (hi : i ≤ n) : (diagJ n p i).det = p ^ i := by
   rw [diagJ, det_diagonal, Fin.prod_univ_eq_prod_range (fun k => if k < i then p else 1) n, prod_lt, min_eq_right hi]
@@ -608,10 +651,6 @@ section -- clump:auto
 
 noncomputable section
 
-namespace UpperTheory.V.Z.Tf.GlobalTraceComparison.Asm
-
-end UpperTheory.V.Z.Tf.GlobalTraceComparison.Asm
-
 theorem UpperTheory.V.Z.Tf.GlobalTraceComparison.Asm.satSum :
     UpperTheory.V.Z.Tf.GlobalTraceComparison.Asm.SatSum := by
   intro q a b hq B₁ B₂ c₁ c₂ h₁ h₂ j
@@ -625,7 +664,7 @@ theorem UpperTheory.V.Z.Tf.GlobalTraceComparison.Asm.satSum :
     intro i hi
     have hs : i.1 + i.2 = j := (Finset.mem_filter.1 hi).2
     have hsc : (j : ℂ) = (i.1 : ℂ) + i.2 := by exact_mod_cast hs.symm
-    rw [if_pos hs, _root_.GlobalTheory.SphGal.satEig_map_mul, _root_.GlobalTheory.SphGal.satEig_map_mul]
+    rw [ite_eq_left hs, _root_.GlobalTheory.SphGal.satEig_map_mul, _root_.GlobalTheory.SphGal.satEig_map_mul]
     have e : ((j : ℂ) * (((a + b : ℕ) : ℂ) - j) - i.1 * (a - i.1) - i.2 * (b - i.2)) / 2 =
         (((i.1 : ℂ)) * ((b : ℂ) - i.2) + ((i.2 : ℂ)) * ((a : ℂ) - i.1)) / 2 := by
       rw [hsc]; push_cast; ring

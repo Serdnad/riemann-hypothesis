@@ -1,6 +1,5 @@
 module
 
-import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.ChartRingOverOneBlockBase
 public import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.StatementsTwistedDualGensExist
 import Mathlib.Tactic.TypeStar
 public import Mathlib.LinearAlgebra.Dual.Basis
@@ -42,7 +41,20 @@ def TwistedDualGensExist.dualSub {x : τ → Ω} (B : ChartBundle O x r E) (c : 
 theorem TwistedDualGensExist.exists_pow_combination (A : Subalgebra O Ω) {k : ℕ} (f cc : Fin k → Ω)
     (hf : ∀ l, f l ∈ A) (hcc : ∀ l, cc l ∈ A) (hsum : ∑ l, cc l * f l = 1) (N : ℕ) :
     ∃ g : Fin k → Ω, (∀ l, g l ∈ A) ∧ ∑ l, g l * f l ^ N = 1 := by
-  apply _root_.GroundTheory.Heights₂.Heights.Kleiman.TranslateEq.exists_sum_mul_pow_eq_one <;> assumption
+  set f' : Fin k → A := fun l => ⟨f l, hf l⟩ with hf'
+  have h1 : Ideal.span (Set.range f') = ⊤ := by
+    rw [Ideal.eq_top_iff_one]
+    have : (1 : A) = ∑ l, (⟨cc l, hcc l⟩ : A) * f' l := Subtype.ext (by simp [f', hsum])
+    rw [this]
+    exact Ideal.sum_mem _ fun l _ => Ideal.mul_mem_left _ _ (Ideal.subset_span ⟨l, rfl⟩)
+  have h2 := Ideal.span_pow_eq_top _ h1 N
+  rw [← Set.range_comp] at h2
+  have h3 : (1 : A) ∈ Ideal.span (Set.range ((fun z : A => z ^ N) ∘ f')) := by
+    rw [h2]; trivial
+  obtain ⟨g, hg⟩ := (Submodule.mem_span_range_iff_exists_fun _).1 h3
+  refine ⟨fun l => g l, fun l => (g l).2, ?_⟩
+  have := congrArg Subtype.val hg
+  simpa [f'] using this
 
 theorem TwistedDualGensExist.latSub_fg {x : τ → Ω} (B : ChartBundle O x r E) {c : τ} (hc : x c ≠ 0) :
     (TwistedDualGensExist.latSub B c).FG := by
@@ -311,24 +323,24 @@ theorem TwistedDualGensExist.proof : TwistedDualGensExist.Statement := by
       intro c ψ d
       rw [hU, hΦ]
       by_cases h : c = c'' ∧ d = c'
-      · rw [if_pos h, if_pos h]
+      · rw [ite_eq_left h, ite_eq_left h]
         obtain ⟨h1, h2⟩ := h
         rw [h1, h2]
         split_ifs with hψ
         · rw [smul_smul, mul_assoc, hYX, mul_one]
         · rw [smul_zero]
-      · rw [if_neg h, if_neg h, zero_mul, zero_smul]
+      · rw [ite_eq_right h, ite_eq_right h, zero_mul, zero_smul]
     have hre := Equiv.sum_comp e.symm (fun i => (U i * ∏ k, y ⟨k, c' k⟩ ^ (-a k)) • Φ i)
     refine Eq.trans ?_ hre.symm
     rw [Fintype.sum_prod_type, Fintype.sum_eq_single c'']
     · rw [Fintype.sum_prod_type]
-      simp only [hterm, true_and, Finset.sum_ite_eq', Finset.mem_univ, if_true]
+      simp only [hterm, true_and, Finset.sum_ite_eq', Finset.mem_univ, ite_true]
       rw [Finset.sum_coe_sort T (fun ψ => if ψ ∈ G c'' then u ψ • ψ else 0), Finset.sum_ite_mem,
         Finset.inter_eq_right.2 (Finset.subset_biUnion_of_mem G (Finset.mem_univ c'')), hsum]
     · intro c hc
       refine Finset.sum_eq_zero fun p _ => ?_
       obtain ⟨ψ, d⟩ := p
-      rw [hterm, if_neg fun h => hc h.1]
+      rw [hterm, ite_eq_right fun h => hc h.1]
 
 end Segre
 

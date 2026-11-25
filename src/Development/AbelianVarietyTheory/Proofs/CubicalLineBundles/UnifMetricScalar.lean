@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.LogCardCompUnfLe
 public import Development.AbelianVarietyTheory.Definitions.CMLattices.IntegralOf
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.FundamentalDomains.IsotropicCoefficientSplitting
 public import Formalism.LocalToGlobal.ProjectiveLattices.PetersonNormSubspace
@@ -14,41 +13,6 @@ import Development.AbelianVarietyTheory.Proofs.ToricGeometry.TopLePreimageOfValA
 public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.ThetaUniformisationComplexAbelianVariety
 public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.FibreSectionNowhereZeroOfGenerates
 public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.IsHolToFibPtAndCompFibre
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.BCTools
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.PullbackSections.HolomorphicFamilies.SupAtUnit
 import Std.Tactic.BVDecide.Normalize.Prop
@@ -196,8 +160,18 @@ theorem isDerivAt0_comp {A : Over (Sp ℂ)} [GrpObj A] {L : LB A.left} {g : ℕ}
 
 theorem isHolTo_exp {σ : KA l →+* ℂ} {g : ℕ} {ty : Fin g → (E →+* ℂ)} (F : FamilyUnif Xo σ ty) (i : Fin F.n)
     {P : (F.Di i).La →+ (Fin g → ℂ)} (hP : IsPeriod (F.Di i) ty P) :
-    IsHolTo Set.univ fun z => (F.ex i P z).left := by
-  first | exact _root_.GlobalTheory.UnifMatch.isHolTo_ex | exact @_root_.GlobalTheory.UnifMatch.isHolTo_ex | apply _root_.GlobalTheory.UnifMatch.isHolTo_ex <;> assumption
+    IsHolTo Set.univ fun z => (F.ex i P z).left := fun U f => by
+  have h := (F.hol i 0 Set.univ (fun _ => P) isOpen_univ
+    ⟨fun _ _ => hP, fun _ => differentiableOn_const _⟩).2 U f
+  have hd : Differentiable ℂ (fun z : Fin g → ℂ => ((0 : Fin 0 → ℂ), z)) := by fun_prop
+  refine ⟨?_, h.2.comp (f := fun z : Fin g → ℂ => ((0 : Fin 0 → ℂ), z)) hd.differentiableOn
+    fun z hz => ⟨⟨trivial, trivial⟩, hz.2⟩⟩
+  have e : {b ∈ Set.univ | ⊤ ≤ (F.ex i P b).left ⁻¹ᵁ U} =
+      (fun z : Fin g → ℂ => ((0, z) : (Fin 0 → ℂ) × (Fin g → ℂ))) ⁻¹'
+        {b ∈ Set.univ ×ˢ Set.univ | ⊤ ≤ (F.ex i P b.2).left ⁻¹ᵁ U} := by
+    ext z
+    exact ⟨fun hz => ⟨⟨trivial, trivial⟩, hz.2⟩, fun hz => ⟨trivial, hz.2⟩⟩
+  exact e ▸ h.1.preimage hd.continuous
 
 theorem eq_of_isDerivAt0 {σ : KA l →+* ℂ} {g : ℕ} {ty : Fin g → (E →+* ℂ)} (F : FamilyUnif Xo σ ty) (i : Fin F.n)
     {P : (F.Di i).La →+ (Fin g → ℂ)} (hP : IsPeriod (F.Di i) ty P) {w : Fin g → ℂ}

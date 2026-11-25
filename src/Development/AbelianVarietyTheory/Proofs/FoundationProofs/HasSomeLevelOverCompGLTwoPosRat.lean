@@ -1,7 +1,5 @@
 module
 
-
-import Development.AbelianVarietyTheory.Proofs.FoundationProofs.SemisimpleTensorOfSemisimplePotentials
 public import Development.AbelianVarietyTheory.Definitions.Foundations.ExpUpper
 public import Mathlib.LinearAlgebra.Matrix.Integer
 public import Development.AbelianVarietyTheory.Definitions.Divisors.HasQIff
@@ -67,6 +65,7 @@ import Mathlib.NumberTheory.ModularForms.SlashActions
 import Mathlib.Algebra.Order.Star.Int
 import Mathlib.Tactic.Lemma
 import Development.AbelianVarietyTheory.Proofs.FoundationProofs.GlTwoPosRatMobiusUpperHalfPlaneProperties
+
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.Proofs.FoundationProofs.GlTwoPosRatConjPrincipalCongruence, Development.AbelianVarietyTheory.Proofs.FoundationProofs.GlTwoPosRatHermiteNormalFormMobius, Development.AbelianVarietyTheory.Proofs.FoundationProofs.QExpansionAllCoeffsCompUpperTriangular, Development.AbelianVarietyTheory.Proofs.FoundationProofs.QExpansionAllCoeffsDeltaPowAffineSubst, Development.AbelianVarietyTheory.Proofs.FoundationProofs.HasSomeLevelOverCompGLTwoPosRat
 
@@ -242,9 +241,9 @@ theorem hermite (g : GQ) : ∃ n : ℕ, 0 < n ∧ ∀ γ₀ : SL(2, ℤ), ∃ (�
   have hps : p * s - q * r = nI := by
     rw [hp_def, hr_def, hq_def, hs_def, hnI]; linear_combination (m 0 0 * m 1 1 - m 0 1 * m 1 0) * hdet0
   have hpr : p ≠ 0 ∨ r ≠ 0 := by
-    by_contra h; push_neg at h; rw [h.1, h.2] at hps; omega
+    by_contra h; push Not at h; rw [h.1, h.2] at hps; omega
   have hrs : r ≠ 0 ∨ s ≠ 0 := by
-    by_contra h; push_neg at h; rw [h.1, h.2] at hps; omega
+    by_contra h; push Not at h; rw [h.1, h.2] at hps; omega
   set a : ℕ := Int.gcd p r with ha_def
   have ha : 0 < a := Int.gcd_pos_iff.mpr hpr
   set p' : ℤ := p / a
@@ -280,7 +279,7 @@ theorem hermite (g : GQ) : ∃ n : ℕ, 0 < n ∧ ∀ γ₀ : SL(2, ℤ), ∃ (�
       rw [this]; push_cast; rfl
     have hD0 : ((γ₀ 1 0 : ℤ) : ℂ) * τ + ((γ₀ 1 1 : ℤ) : ℂ) ≠ 0 := by
       apply lin_ne_zero _ _ _ hz
-      by_contra h; push_neg at h; rw [h.1, h.2] at hdet0; simp at hdet0
+      by_contra h; push Not at h; rw [h.1, h.2] at hdet0; simp at hdet0
     have hRS : (r : ℂ) * τ + s ≠ 0 := lin_ne_zero r s _ hz hrs
     have hpC : (p : ℂ) = a * p' := by exact_mod_cast hp
     have hrC : (r : ℂ) = a * r' := by exact_mod_cast hr
@@ -345,7 +344,7 @@ theorem qAll_affine : ∀ (E : Subring ℂ) (N a d : ℕ) (b : ℤ) (f : ℍ →
     · show HasSum (fun k => _) (f _)
       convert hτ using 1
       funext k
-      simp only [Function.comp_apply, dvd_mul_right, if_true, Nat.mul_div_cancel_left _ ha, e]
+      simp only [Function.comp_apply, dvd_mul_right, ite_true, Nat.mul_div_cancel_left _ ha, e]
       rw [mul_assoc, ← Complex.exp_add]
       congr 2
       push_cast
@@ -358,9 +357,9 @@ theorem qAll_affine : ∀ (E : Subring ℂ) (N a d : ℕ) (b : ℤ) (f : ℍ →
       simp [this]
   · intro m
     by_cases h : a ∣ m
-    · simp only [h, if_true]
+    · simp only [h, ite_true]
       exact E.mul_mem (hcE _) (hE _)
-    · simp only [h, if_false]; exact E.zero_mem
+    · simp only [h, ite_false]; exact E.zero_mem
 
 end GlobalTheory.FNQ
 end -- clump:auto
@@ -468,7 +467,16 @@ open ModularForm (E₄ E₆)
 namespace GlobalTheory.FN
 
 theorem gamma_mul_le (m k : ℕ) : CongruenceSubgroup.Gamma (m * k) ≤ CongruenceSubgroup.Gamma m := by
-  first | exact _root_.GlobalTheory.KZ.H3.KZero.gamma_mul_le | exact @_root_.GlobalTheory.KZ.H3.KZero.gamma_mul_le | apply _root_.GlobalTheory.KZ.H3.KZero.gamma_mul_le <;> assumption
+  intro γ hγ
+  rw [CongruenceSubgroup.Gamma_mem] at hγ ⊢
+  obtain ⟨h1, h2, h3, h4⟩ := hγ
+  have c := fun (x : ℤ) (y : ZMod (m * k)) (e : (x : ZMod (m * k)) = y) =>
+    congrArg (ZMod.castHom (dvd_mul_right m k) (ZMod m)) e
+  refine ⟨?_, ?_, ?_, ?_⟩
+  · simpa using c _ _ h1
+  · simpa using c _ _ h2
+  · simpa using c _ _ h3
+  · simpa using c _ _ h4
 
 theorem inR_cmp : ∀ (E : Subring ℂ) (g : GQ) (f : ℍ → ℂ), (∀ x : ℚ, Complex.exp (2 * Real.pi * Complex.I * (x : ℂ)) ∈ E) →
     InR E f → InR E (GlobalTheory.FN.cmp g f) := by

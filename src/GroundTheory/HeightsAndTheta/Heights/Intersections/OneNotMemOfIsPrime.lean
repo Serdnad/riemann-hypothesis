@@ -1,9 +1,9 @@
 module
 
-import GroundTheory.HeightsAndTheta.Heights.MultihomogeneousPolynomials
 public import GroundTheory.HeightsAndTheta.Heights.Intersections.LocRing
 import Mathlib.Tactic.TypeStar
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.InterDivSupp
+import GroundTheory.HeightsAndTheta.Heights.HeightComparison.IsMultiHomogIdealIff
 
 @[expose] public section
 
@@ -21,47 +21,30 @@ variable {K : Type*} [Fintype K] {ι : K → Type*} [∀ k, Fintype (ι k)]
 
 section Forms
 
-theorem homog_zero (a : K → ℕ) : IsMultiHomog (0 : MRing ι) a := by
-  intro m hm
-  simp at hm
+theorem homog_zero (a : K → ℕ) : IsMultiHomog (0 : MRing ι) a :=
+  GroundTheory.Heights₂.Heights.Bridge.isMultiHomog_zero a
 
-theorem homog_one : IsMultiHomog (1 : MRing ι) 0 := by
-  apply _root_.GroundTheory.Heights₂.Heights.MultiHomogeneous.one <;> assumption
+theorem homog_one : IsMultiHomog (1 : MRing ι) 0 :=
+  GroundTheory.Heights₂.Heights.Bridge.isMultiHomog_one
 
 theorem homog_mul {f g : MRing ι} {a b : K → ℕ} (hf : IsMultiHomog f a) (hg : IsMultiHomog g b) :
-    IsMultiHomog (f * g) (a + b) := by
-  apply _root_.GroundTheory.Heights₂.Heights.MultiHomogeneous.mul <;> assumption
+    IsMultiHomog (f * g) (a + b) :=
+  GroundTheory.Heights₂.Heights.Bridge.isMultiHomog_mul hf hg
 
 theorem homog_add {f g : MRing ι} {a : K → ℕ} (hf : IsMultiHomog f a) (hg : IsMultiHomog g a) :
-    IsMultiHomog (f + g) a := by
-  apply _root_.GroundTheory.Heights₂.Heights.MultiHomogeneous.add <;> assumption
+    IsMultiHomog (f + g) a :=
+  GroundTheory.Heights₂.Heights.Bridge.isMultiHomog_add hf hg
 
-theorem homog_neg {f : MRing ι} {a : K → ℕ} (hf : IsMultiHomog f a) : IsMultiHomog (-f) a := by
-  intro m hm k
-  rw [support_neg] at hm
-  exact hf m hm k
+theorem homog_neg {f : MRing ι} {a : K → ℕ} (hf : IsMultiHomog f a) : IsMultiHomog (-f) a :=
+  GroundTheory.Heights₂.Heights.Bridge.isMultiHomog_neg hf
 
 theorem homog_X [DecidableEq K] (k : K) (i : ι k) :
-    IsMultiHomog (X ⟨k, i⟩ : MRing ι) (Pi.single k 1) := by
-  classical
-  intro m hm k'
-  rw [support_X, Finset.mem_singleton] at hm
-  subst hm
-  by_cases h : k' = k
-  · subst h
-    rw [Finset.sum_eq_single i]
-    · simp
-    · intro j _ hj
-      rw [Finsupp.single_apply, if_neg]
-      intro e
-      exact hj (sigma_mk_injective e).symm
-    · simp
-  · have : ∀ j : ι k', (⟨k, i⟩ : Σ k, ι k) ≠ ⟨k', j⟩ := fun j e => h (congrArg Sigma.fst e).symm
-    simp [h]
+    IsMultiHomog (X ⟨k, i⟩ : MRing ι) (Pi.single k 1) :=
+  GroundTheory.Heights₂.Heights.Bridge.isMultiHomog_X ⟨k, i⟩
 
 theorem homog_pow {f : MRing ι} {a : K → ℕ} (hf : IsMultiHomog f a) (n : ℕ) :
-    IsMultiHomog (f ^ n) (n • a) := by
-  apply _root_.GroundTheory.Heights₂.Heights.MultiHomogeneous.pow <;> assumption
+    IsMultiHomog (f ^ n) (n • a) :=
+  GroundTheory.Heights₂.Heights.Bridge.isMultiHomog_pow hf n
 
 theorem mem_of_sum_mem {I : Ideal (MRing ι)} (hI : IsMultiHomogIdeal I) {β : Type*} (s : Finset β)
     (h : β → MRing ι) (d : β → K → ℕ) (hd : Set.InjOn d s) (hh : ∀ b ∈ s, IsMultiHomog (h b) (d b))
@@ -83,7 +66,7 @@ theorem mem_of_sum_mem {I : Ideal (MRing ι)} (hI : IsMultiHomogIdeal I) {β : T
       exact hne (hbb ▸ hm)
     · rfl
   · have hdeg := hh b hb m (mem_support_iff.mpr hm)
-    rw [if_pos (fun k _ => hdeg k), Finset.sum_eq_single b]
+    rw [ite_eq_left (fun k _ => hdeg k), Finset.sum_eq_single b]
     · intro b' hb' hne
       by_contra h'
       exact hne (hd hb' hb (funext fun k => (hh b' hb' m (mem_support_iff.mpr h') k).symm.trans (hdeg k)))

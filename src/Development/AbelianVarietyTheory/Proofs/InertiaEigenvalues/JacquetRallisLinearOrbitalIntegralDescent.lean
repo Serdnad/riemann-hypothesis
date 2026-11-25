@@ -1,7 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.JacquetRallisOrbitInvariantMapProper
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsMulStarEqOfNormOneUnramifiedQuadratic
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.IsTestRep
 public import Mathlib.FieldTheory.Separable
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.LeftMulTau
@@ -569,12 +567,12 @@ theorem eta_inv_eq {F : Type} [NormedField F] (x : F) : eta x⁻¹ = eta x := by
       exact ⟨y⁻¹, by rw [norm_inv, norm_inv, inv_pow, hy]⟩
   unfold eta
   by_cases h : ∃ y : F, ‖x‖ = ‖y‖ ^ 2
-  · rw [if_pos (key.mpr h), if_pos h]
-  · rw [if_neg (fun h' => h (key.mp h')), if_neg h]
+  · rw [ite_eq_left (key.mpr h), ite_eq_left h]
+  · rw [ite_eq_right (fun h' => h (key.mp h')), ite_eq_right h]
 
 theorem eta_neg_one_pow {F : Type} [NormedField F] (r : ℕ) : eta ((-1 : F) ^ r) = 1 := by
   unfold eta
-  rw [if_pos]
+  rw [ite_eq_left]
   exact ⟨1, by simp⟩
 
 variable {F E : Type} [NontriviallyNormedField F] [NontriviallyNormedField E] [NormedAlgebra F E] [StarRing E]
@@ -653,7 +651,16 @@ namespace GlobalTheory.JR.LinDesc.Swap
 
 theorem norm_eq_of_sub_lt {K : Type} [NormedField K] [IsUltrametricDist K] {x y : K}
     (h : ‖x - y‖ < ‖y‖) : ‖x‖ = ‖y‖ := by
-  first | exact _root_.GlobalTheory.NormUnits.norm_eq_of_norm_sub_lt | exact @_root_.GlobalTheory.NormUnits.norm_eq_of_norm_sub_lt | apply _root_.GlobalTheory.NormUnits.norm_eq_of_norm_sub_lt <;> assumption
+  have h1 : ‖x‖ ≤ max ‖x - y‖ ‖y‖ := by
+    simpa using IsUltrametricDist.norm_add_le_max (x - y) y
+  have h2 : ‖y‖ ≤ max ‖y - x‖ ‖x‖ := by
+    simpa using IsUltrametricDist.norm_add_le_max (y - x) x
+  rw [norm_sub_rev] at h2
+  apply le_antisymm
+  · exact h1.trans (max_le h.le le_rfl)
+  · rcases le_max_iff.mp h2 with h3 | h3
+    · exact absurd h3 (not_le.mpr h)
+    · exact h3
 
 theorem eta_eventually {F : Type} [NormedField F] [IsUltrametricDist F] {x : F} (hx : x ≠ 0) :
     ∀ᶠ y in 𝓝 x, eta x = eta y := by
@@ -686,8 +693,15 @@ theorem continuous_psi {F : Type} [NormedField F] (ψ : AddChar F ℂ) (hψ : Is
 
 theorem continuous_act {F : Type} [NontriviallyNormedField F] (r : ℕ) :
     Continuous (fun z : GL (Fin r) F × Gl r F => act z.1 z.2) := by
-  intros
-  apply _root_.GlobalTheory.JR.OrbitProper.cont_act <;> assumption
+  unfold act
+  have h1 : Continuous (fun z : GL (Fin r) F × Gl r F => ((z.1 : Matrix (Fin r) (Fin r) F))) :=
+    Units.continuous_val.comp continuous_fst
+  have h2 : Continuous (fun z : GL (Fin r) F × Gl r F =>
+      (((z.1⁻¹ : GL (Fin r) F) : Matrix (Fin r) (Fin r) F))) :=
+    Units.continuous_coe_inv.comp continuous_fst
+  exact ((h1.matrix_mul continuous_snd.fst).matrix_mul h2).prodMk
+    ((h1.matrix_mulVec continuous_snd.snd.fst).prodMk
+      ((continuous_snd.snd.snd.fst.matrix_vecMul h2).prodMk continuous_snd.snd.snd.snd))
 
 variable {F E : Type} [NontriviallyNormedField F] [NontriviallyNormedField E] [NormedAlgebra F E]
   [StarRing E] (A : Et F E)
@@ -944,7 +958,7 @@ theorem valuationParitySign_mul_self {F : Type} [NormedField F] (x : F) : eta x 
   unfold eta; split_ifs <;> norm_num
 
 theorem valuationParitySign_one {F : Type} [NormedField F] : eta (1 : F) = 1 := by
-  unfold eta; rw [if_pos ⟨1, by simp⟩]
+  unfold eta; rw [ite_eq_left ⟨1, by simp⟩]
 
 theorem desc_unit_eq {F E : Type} [NontriviallyNormedField F] [NontriviallyNormedField E] [NormedAlgebra F E]
     [StarRing E] [Unram F E] (A : Et F E) {r : ℕ} {τ : A.K} {p : Fin r → F} (hG : A.IsGen τ p) (lam : F)
@@ -1167,8 +1181,7 @@ theorem pi_selfDual (F E : Type) [NontriviallyNormedField F] [NontriviallyNormed
     · intro h
       rw [hmem]
       intro i
-      by_contra hi
-      push_neg at hi
+      by_contra! hi
       obtain ⟨x0, hx0, hx0'⟩ := hψ.2
       have hyi : y i ≠ 0 := by intro h0; rw [h0, norm_zero] at hi; linarith
       have hsmall : ‖(y i)⁻¹‖ < 1 := by rw [norm_inv]; exact inv_lt_one_of_one_lt₀ hi
@@ -1181,7 +1194,7 @@ theorem pi_selfDual (F E : Type) [NontriviallyNormedField F] [NontriviallyNormed
         · simp [Pi.single_eq_of_ne hj]
       have h2 := h _ hx
       have e : Pi.single i (x0 * (y i)⁻¹) ⬝ᵥ y = x0 := by
-        simp only [dotProduct, Pi.single_apply, ite_mul, zero_mul, Finset.sum_ite_eq', Finset.mem_univ, if_true]
+        simp only [dotProduct, Pi.single_apply, ite_mul, zero_mul, Finset.sum_ite_eq', Finset.mem_univ, ite_true]
         rw [mul_assoc, inv_mul_cancel₀ hyi, mul_one]
       rw [e] at h2
       exact hx0 h2
@@ -1292,8 +1305,7 @@ theorem descent : ∀ (F E : Type) [NontriviallyNormedField F] [NontriviallyNorm
   have hsupp : ∀ g : GL (Fin r) F, (∃ v w : Fin r → F, fourG M ψ f' ((g : Matrix (Fin r) (Fin r) F) * companion p * ((g⁻¹ : GL (Fin r) F) : Matrix (Fin r) (Fin r) F), v, w, lam) ≠ 0) →
       ∃ v w : Fin r → F, f' ((g : Matrix (Fin r) (Fin r) F) * companion p * ((g⁻¹ : GL (Fin r) F) : Matrix (Fin r) (Fin r) F), v, w, lam) ≠ 0 := by
     intro g ⟨v, w, h⟩
-    by_contra hc
-    push_neg at hc
+    by_contra! hc
     apply h
     simp only [fourG, hc, zero_mul, MeasureTheory.integral_zero]
   have hsw : LinDesc.desc A M hG lam α (fourG M ψ f') = A.fourK m.μK ψ (LinDesc.desc A M hG lam α f') :=

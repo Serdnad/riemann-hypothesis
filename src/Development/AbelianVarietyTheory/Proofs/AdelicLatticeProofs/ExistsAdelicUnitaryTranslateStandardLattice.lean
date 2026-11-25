@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.ExistsMulMemOfMemSpan
 public import Development.AbelianVarietyTheory.Definitions.AdelicHermitianForms.IsHermForm
 public import Formalism.LocalToGlobal.ProjectiveLattices.ThShort
 public import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.ExistsUnitaryOfSelfDual
@@ -49,8 +48,6 @@ import Mathlib.Tactic.ReduceModChar
 public import Development.AbelianVarietyTheory.BlockTheory.ExistenceTori.AdmissibleHarmonicLattice
 
 @[expose] public section
-
-set_option autoImplicit false
 
 noncomputable section
 
@@ -193,7 +190,7 @@ theorem idem_int (k : ℕ) (v : HeightOneSpectrum (𝓞 F)) : idem F k v ∈ v.a
 theorem exists_div_idem {k d : ℕ} (h : d.Coprime k) :
     ∃ a : FiniteAdeleRing (𝓞 F) F, (∀ v, a v ∈ v.adicCompletionIntegers F) ∧ d • a = idem F k := by
   refine exists_div d _ (idem_int k) fun v hv => ?_
-  rw [idem_apply, if_neg]
+  rw [idem_apply, ite_eq_right]
   intro hk
   obtain ⟨a, b, hab⟩ : IsCoprime (d : 𝓞 F) (k : 𝓞 F) := Nat.Coprime.cast h
   exact v.isPrime.ne_top ((Ideal.eq_top_iff_one _).2
@@ -205,7 +202,7 @@ theorem exists_div_one_sub_idem (k : ℕ) :
   · change 1 - idem F k v ∈ _
     exact sub_mem (one_mem _) (idem_int k v)
   · change 1 - idem F k v = 0
-    rw [idem_apply, if_pos hv, sub_self]
+    rw [idem_apply, ite_eq_left hv, sub_self]
 
 theorem glue_mem_hat {L₁ L₂ : Set (Fin n → E)} {k k' : ℕ} (hk : k'.Coprime k) {γ : Matrix (Fin n) (Fin n) E}
     (h₁ : ∀ x ∈ L₁, k' • γ *ᵥ x ∈ L₂) (h₂ : ∀ x ∈ L₁, k • x ∈ L₂) :
@@ -315,7 +312,15 @@ theorem span_eq_top (Λ : GenLat E n) (hU : Λ.Unimod) : Submodule.span E (Λ.La
 omit [IsCMField E] in
 theorem span_smul_le_iff (k : ℕ) (L₁ L₂ : Submodule (𝓞 E) (Fin n → E)) :
     Ideal.span {(k : 𝓞 E)} • L₁ ≤ L₂ ↔ ∀ x ∈ L₁, k • x ∈ L₂ := by
-  apply _root_.GlobalTheory.GenusLatCompare.span_smul_le_iff <;> assumption
+  constructor
+  · intro h x hx
+    have := h (Submodule.smul_mem_smul (Ideal.mem_span_singleton_self _) hx)
+    rwa [Nat.cast_smul_eq_nsmul] at this
+  · intro h
+    refine Submodule.smul_le.2 fun r hr x hx => ?_
+    obtain ⟨a, rfl⟩ := Ideal.mem_span_singleton'.1 hr
+    rw [mul_smul, Nat.cast_smul_eq_nsmul]
+    exact L₂.smul_mem a (h x hx)
 
 theorem exists_pos (Λ : GenLat E n) (hU : Λ.Unimod) {M : ℕ} (hT : Λ.TrivAt M) :
     ∃ k : ℕ, 0 < k ∧ k.Coprime M ∧ (∀ x ∈ Λ.La, k • x ∈ stdLat E n) ∧ ∀ x ∈ stdLat E n, k • x ∈ Λ.La := by

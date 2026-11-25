@@ -100,49 +100,9 @@ public import Development.AutomorphicSpectrum.Statements.GeometryStatements.CmpS
 public import Development.AutomorphicSpectrum.Statements.TowerExistence.GoodTowerExistsX
 public import Development.WeilBound.CoreStatements.JacobiBlockDeterminants.StSing
 import Development.WeilBound.CoreStatements.HomogeneousNonvanishing.LatticeIntegrallyClosedTorsion
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.HaveILetI
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.PullCub
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
 import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.FrameDefinitions.PermFinTwoUniv
 import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.FlagIndices.InstFintypeFlIdx
@@ -155,10 +115,7 @@ import Development.AutomorphicSpectrum.Proofs.GeometryProofs.SncModelBoundaryCoo
 import Development.AutomorphicSpectrum.Proofs.GeometryProofs.SncPointsTransferDominating
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.AbProj
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.OneArc
-import Mathlib.NumberTheory.Height.NumberField
 import GroundTheory.HeightsAndTheta.Heights.WeightedHomogeneous.PConeTrdeg
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
 import ReciprocityTheory.AnalyticForms.PotentialTheory.DegreeIntA
 import ReciprocityTheory.AnalyticForms.PotentialTheory.IntegrableOnTargetOfTsupport
 import ReciprocityTheory.AnalyticForms.PotentialTheory.Partition
@@ -191,7 +148,6 @@ theorem ht_cancel {E : Type} [Field E] [NumberField E] [IsCMField E] {H : Host E
     (n : SABMap t'' t k) (e : k = g ≫ f) : ∃ m' : SABMap t'' t' g, n.φ = m'.φ ≫ m.φ := by
   subst e
   exact sabCancel pullCubCancel E H _ _ _ _ _ _ _ _ m n
-
 
 theorem stHt : SquareStatements.StHt := by
   intro E _ _ _ H D l Xo c Y S Ω Ω' _ _ K K' _ _ J J' _ _ y y' A A' h i j ⟨hdom, hf, hcst, hext, hjo⟩ hR _ hvb
@@ -390,7 +346,7 @@ theorem antisymmetry_transposition_factor : AntisymmetryFibreSquares := by
   have hjN : T.j ≤ N := T.j_lt.le
   have hdim : Top.dimFl Ψ N = antisymDegree Ψ N := by
     simp [Top.dimFl, antisymDegree, Nat.choose_two_right]
-  have harith : IsArithVar (PFl Ψ N) (Top.dimFl Ψ N + 1) := hdim ▸ (_root_.GlobalTheory.CompanionTheory.Ar.PB.flag_isArithVar_and_image Ψ N hN).1
+  have harith : IsArithVar (PFl Ψ N) (Top.dimFl Ψ N + 1) := hdim ▸ (_root_.PositivityTheory.Xgp.t_fl_arith Ψ N hN).1
   obtain ⟨m, d, S', K, _, ι, _, P, Re', hm, ⟨F⟩, hPB, hdeg⟩ := hSq B c
   obtain ⟨⟨c₀, hc₀, hfl⟩, hprop⟩ := _root_.GlobalTheory.CompanionTheory.Ar.PB.proportional hIn Ψ N T.j hN hjN
   obtain ⟨-, hv⟩ := hprop (d + 1) S' F.dim F.unif
@@ -488,20 +444,6 @@ def overCpt {E : Type} [Field E] [NumberField E] [IsCMField E] {H : Host E} {D :
   tors := A.tors
   vb := A.vb
 
-
-open Limits GeoModel in
-theorem exists_base' (hRes : ResK.ResKStatement) (E : Type) [Field E] [NumberField E] [IsCMField E] (H : Host E) (D : Datum H)
-    (l : Tor.Level H) (Xo : Moduli D l) (c : Coeff l) (Y : Model Xo c (algebraMap (𝓞 c.F) c.F)) (Ω₀ : Type) [Field Ω₀]
-    (ξ₀ : Spec (CommRingCat.of Ω₀) ⟶ Y.X) (hg : IsCptGen ξ₀) (S : Finset ℕ) (hS : ∀ p ∈ S, p.Prime) :
-    ∃ (Ω : Type) (_ : Field Ω) (_ : CharZero Ω) (K : Type) (_ : Fintype K) (J : K → Type) (_ : ∀ k, Fintype (J k))
-      (y : (Σ k, J k) → Ω) (M₁ : PModel ℤ (fun c' : (k : K) → J k => ∏ k, y ⟨k, c' k⟩)) (f₁ : M₁.X ⟶ Y.X)
-      (y₀ : Sp Ω ⟶ Xo.XF c) (i : Ω₀ →+* Ω), Nonempty K ∧ (letI := i.toAlgebra; FiniteDimensional Ω₀ Ω) ∧
-      Flat.NormalCpt M₁.ξ ∧ M₁.ξ ≫ f₁ = y₀ ≫ Y.j ∧ M₁.ξ ≫ f₁ = spMap i ≫ ξ₀ ∧
-      (∀ p ∈ S, FullTorsion Y.t.G (M₁.ξ ≫ f₁) (p ^ 4)) ∧ (∀ p ∈ S, ∃ ζ : Ω, IsPrimitiveRoot ζ (p ^ 4)) ∧
-      SncPts M₁.ξ D.dim {p | Char0 M₁.ξ p ∧ p.1 ∉ f₁ ⁻¹' abLocus Y.t.G} ∧
-      Algebra.trdeg ℤ Ω = ((D.dim : ℕ) : Cardinal) := by
-  apply _root_.GlobalTheory.CompanionTheory.Ar.GeoModel.exists_base <;> assumption
-
 theorem stBase : StBase := by
   intro hRes hW E _ _ _ H D l Xo c Y S Ω₀ _ ξ₀ hξ₀ hS hSd
   obtain ⟨Ω, _, _, K₁, _, J₁, _, y₁, M₁, f₁, z₀, i, ⟨k₁⟩, hfin, hN, hz₀, hdomi, htors, hroot, hsnc₁, htr⟩ :=
@@ -577,7 +519,6 @@ theorem baseInc_injective : Function.Injective (baseInc (ι := ι) blk) := by
   obtain ⟨rfl, h2⟩ := h
   cases h2
   rfl
-
 
 open Classical in
 def extDeg (b : NonPluckerBlocks blk → ℕ) : K → ℕ := fun k => if h : ∀ p, blk p ≠ some k then b ⟨k, h⟩ else 0
@@ -834,7 +775,6 @@ theorem isPt_of_birational {z : (Σ k, ι k) → L} (hb : Birational z) {d : ℕ
     exact Module.finrank_pos
   exact (numMap L L (RingHom.id L) K ι z d hb hz h0).1
 
-
 open Classical in
 theorem intNum_cmp (hP : NumPull) {K₂ : Type} [Fintype K₂] {ι₂ : K₂ → Type} [∀ k, Fintype (ι₂ k)] (y : (Σ k, ι k) → Ω)
     {κ₁ : K₁ → K} {v₁ : (Σ k, ι₁ k) → Σ k, ι k} {κ₂ : K₂ → K} {v₂ : (Σ k, ι₂ k) → Σ k, ι k} (h₁ : IsBlockMap κ₁ v₁)
@@ -855,7 +795,6 @@ theorem intNum_cmp (hP : NumPull) {K₂ : Type} [Fintype K₂] {ι₂ : K₂ →
   refine numEq ptDim hP (unitZero ptDim) ℚ L K ι K ι z z d _ _ hz hz fun j => ?_
   obtain ⟨f, g, hfg⟩ := h j
   exact valEq_of_lineIso hz.1 hfg
-
 
 open Classical MeasureTheory ReciprocityTheory.AnForm ReciprocityTheory.AnForm.M in
 theorem degNum_eq (hI : PB.Inputs) {d : ℕ} {σ : Type} {S : PB.AnSys d σ} {P : Ideal (MRing ι)} (Re : PB.Realis S P)
@@ -1002,16 +941,16 @@ theorem stCmp : StCmp := by
     _root_.GlobalTheory.CompanionTheory.Relay.twisted_hodge_tie_compare PositivityTheory.UnitarySelfGeneration.cmpHodgeTiedAlt _root_.GlobalTheory.thetaUnifAV_closed E H D l Xo c O β Y (HostAut.refl H) (Iso.refl Xo.X) hsab (Equiv.refl _) S n M M' T T'
       hβ (by simp) (fun τ => by ext; rfl)
       (Indep.imageCpt_refl_of_genPt E H D l Xo c O β Y S _ _ _ _ _ _ _ _ T.A T'.A hβ hgen) hR
-  have hJ := _root_.GlobalTheory.CompanionTheory.Ar.Cmp.hermLine_pull_blockMap M.K M.ι K ι κ v hbv
-  have hJ' := _root_.GlobalTheory.CompanionTheory.Ar.Cmp.hermLine_pull_blockMap M'.K M'.ι K ι κ' v' hbv'
+  have hJ := _root_.PositivityTheory.UnitarySelfGeneration.j_pull M.K M.ι K ι κ v hbv
+  have hJ' := _root_.PositivityTheory.UnitarySelfGeneration.j_pull M'.K M'.ι K ι κ' v' hbv'
   have hmpp : IsMultiProjPrime (mCoordIdeal y) := harith.2.1
-  obtain ⟨hc1, -, -, hc4⟩ := _root_.GlobalTheory.CompanionTheory.Ar.Cmp.IsoLines.isoLineOn_comb_trans_symm_pull K ι (mCoordIdeal y)
+  obtain ⟨hc1, -, -, hc4⟩ := _root_.PositivityTheory.UnitarySelfGeneration.i_comb K ι (mCoordIdeal y)
     {z | z ∈ mcPts (mCoordIdeal y) ∧ evC z b ≠ 0} hmpp (fun z hz => hz.1)
   choose Lr hLr using fun r => (hJ.1 (T.sing r)).exists
   choose Lr' hLr' using fun r => (hJ'.1 (T'.sing r)).exists
   refine poly_smul_of_sameSing SheetDecomposition.numPull hIn hC II hII T.Re T'.Re hP hP' hbv hbv' harith hmh hb T.alg T'.alg (fun a => ?_) hne hm
     (by rw [hd, hd', mul_one, hdeg])
-  exact _root_.GlobalTheory.CompanionTheory.Ar.Cmp.sameSing_of_isoLine K ι M.K M.ι M'.K M'.ι κ v κ' v' (mCoordIdeal y) M.P M'.P _ _ _ T.Sy T'.Sy T.Re T'.Re b a a _ _ _ _ hbv hbv'
+  exact _root_.PositivityTheory.UnitarySelfGeneration.h_samesing K ι M.K M.ι M'.K M'.ι κ v κ' v' (mCoordIdeal y) M.P M'.P _ _ _ T.Sy T'.Sy T.Re T'.Re b a a _ _ _ _ hbv hbv'
     (hc4 _ _ κ v _ _ _ _ hbv hLr) (hc4 _ _ κ' v' _ _ _ _ hbv' hLr') (T.ref_deg a) (T'.ref_deg a) (T.sing_eq a)
     (T'.sing_eq a) hmpp (hc1 _ Lr Lr' _ fun r => hiso r _ _ (hLr r) (hLr' r))
 
@@ -1047,8 +986,8 @@ theorem stXB : StX := by
   let cl : ℝ → ℝ := fun t => if 0 < t ∧ t ≤ S.t₀ then t else S.t₀
   have hcl : ∀ t, 0 < cl t ∧ cl t ≤ S.t₀ := fun t => by
     by_cases h : 0 < t ∧ t ≤ S.t₀
-    · simp only [cl, if_pos h]; exact h
-    · simp only [cl, if_neg h]; exact ⟨h0, le_rfl⟩
+    · simp only [cl, ite_eq_left h]; exact h
+    · simp only [cl, ite_eq_right h]; exact ⟨h0, le_rfl⟩
   refine ⟨fun t r => Top.combLine (fun a => Re.line a (cl t)) (Cmp.rootOnFund r), fun t r => ?_,
     fun t r => smooth_comb _ _ fun a => Re.line_smooth a _ (hcl t).1 (hcl t).2, fun t r z => ?_, ?_⟩
   · funext k
@@ -1066,7 +1005,7 @@ theorem stXB : StX := by
   · show ∏ a, _ = ∏ a, _
     exact Finset.prod_congr rfl fun a _ => by rw [hc a (cl t) z]
   · filter_upwards [Ioo_mem_nhdsGT h0] with t ht r z _
-    have : cl t = t := if_pos ⟨ht.1, ht.2.le⟩
+    have : cl t = t := ite_eq_left ⟨ht.1, ht.2.le⟩
     rw [this]
 
 end SquareStatements
@@ -1149,13 +1088,6 @@ section -- clump:auto
 
 open AlgebraicGeometry CategoryTheory NumberField ReciprocityTheory.ChartRestriction.G ReciprocityTheory.ChartRestriction.G.Geo ReciprocityTheory.ChartRestriction.G.Geo.Tor GlobalTheory.CompanionTheory.Ar GlobalTheory.CompanionTheory.Ar.Top
 open GroundTheory.Heights₂.Heights.LowerBoundFree (ComponentData ComponentSetting degMu ArLimExists slX)
-
-namespace GlobalTheory.CompanionTheory.Ar.Top
-
-theorem full_intersection_tower_I8_relation : GlobalTheory.CompanionTheory.Ar.Cmp.CmpSt → Given → Out.WeilSt → ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (H : Host E) (D : Datum H) (Xo : ∀ l : Level H, Moduli D l) (l : Level H) (c : Coeff l) (Y : Model (Xo l) c (algebraMap (𝓞 c.F) c.F)) [DecidableEq (CMType H)] (T : RootTower (CMType H) (D.p + D.q)) (o : GoodOrigin Y T) (II : IntersectionSystem), o.Extra → IsFullIntersectionSystem II → 1 ≤ D.p → 1 ≤ D.q → T.I8 II (hhFl (CMType H) (D.p + D.q) II) :=
-  @SquareStatements.good_tower_antisymmetry
-
-end GlobalTheory.CompanionTheory.Ar.Top
 end -- clump:auto
 end -- clump:auto
 -- ===== end clump member: Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.FullIntersectionTowerI8Identity =====

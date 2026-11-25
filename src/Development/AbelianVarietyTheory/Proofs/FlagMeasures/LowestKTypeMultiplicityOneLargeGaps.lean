@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.FlagMeasures.DerivedModuleCoefficientsAndStableFlows
 public import Formalism.SharpRestriction.CuspSpanNormBounds.RelevantZeroGramTerms
 public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.ActSingleNeZero
 public import Mathlib.Analysis.LocallyConvex.AbsConvexOpen
@@ -93,19 +92,6 @@ open Matrix Finset Formalism.MainNotions.S
 open scoped InnerProductSpace
 
 namespace GlobalTheory.LowHW
-
-theorem height_root {n : ℕ} (a b : Fin n) :
-    ∑ i : Fin n, ((i : ℕ) : ℝ) * Formalism.REAL.root a b i = ((a : ℕ) : ℝ) - ((b : ℕ) : ℝ) := by
-  simp [Formalism.REAL.root, mul_sub, Finset.sum_sub_distrib, Pi.single_apply]
-
-theorem height_sum {n : ℕ} (c : Fin n → Fin n → ℕ) :
-    ∑ i : Fin n, ((i : ℕ) : ℝ) * (∑ a, ∑ b, (c a b : ℝ) • Formalism.REAL.root a b) i
-      = ∑ a, ∑ b, (c a b : ℝ) * (((a : ℕ) : ℝ) - ((b : ℕ) : ℝ)) := by
-  simp only [← height_root, Finset.sum_apply, Pi.smul_apply, smul_eq_mul, Finset.mul_sum]
-  rw [Finset.sum_comm]
-  refine Finset.sum_congr rfl fun a _ => ?_
-  rw [Finset.sum_comm]
-  refine Finset.sum_congr rfl fun b _ => Finset.sum_congr rfl fun i _ => by ring
 
 theorem cdom_antisymm {n : ℕ} {ε : Fin n → Bool} {μ Λ : Fin n → ℝ} (h1 : CDom ε μ Λ) (h2 : CDom ε Λ μ) :
     μ = Λ := by
@@ -202,7 +188,22 @@ theorem hasDerivAt_orbit (hσ : IsURepOn (UJset ε) σ) (hD : IsDer ε σ V E)
     {X : Matrix (Fin n) (Fin n) ℂ} (hX : inG ε X) (v : V) (s : ℝ) :
     HasDerivAt (fun t : ℝ => σ (NormedSpace.exp ((t : ℂ) • X)) (v : H))
       (σ (NormedSpace.exp ((s : ℂ) • X)) (act E X v : V)) s := by
-  first | exact _root_.GlobalTheory.Jet.Coef.der_flow | exact @_root_.GlobalTheory.Jet.Coef.der_flow | apply _root_.GlobalTheory.Jet.Coef.der_flow <;> assumption
+  have h0 := hD.2.2.1 X hX v
+  rw [← act_apply] at h0
+  have h2 : HasDerivAt (fun t : ℝ => σ (NormedSpace.exp ((s : ℂ) • X))
+      (σ (NormedSpace.exp ((t : ℂ) • X)) (v : H))) (σ (NormedSpace.exp ((s : ℂ) • X)) (act E X v : H)) (s - s) := by
+    rw [sub_self]
+    exact ((σ (NormedSpace.exp ((s : ℂ) • X))).restrictScalars ℝ).hasFDerivAt.comp_hasDerivAt 0 h0
+  have h1 := h2.comp_sub_const s s
+  have key : (fun t : ℝ => σ (NormedSpace.exp ((t : ℂ) • X)) (v : H)) =
+      fun t : ℝ => σ (NormedSpace.exp ((s : ℂ) • X)) (σ (NormedSpace.exp (((t - s : ℝ) : ℂ) • X)) (v : H)) := by
+    funext t
+    have h := sigma_add hσ hX s (t - s)
+    have e : s + (t - s) = t := by ring
+    rw [e] at h
+    rw [h, ContinuousLinearMap.mul_apply]
+  rw [key]
+  exact h1
 
 private theorem two_mul_sq_add_abs_mul_sq_le_sq (n c T w : ℝ) (hn : 0 ≤ n) (hT : 0 ≤ T) :
     (2 * n * T ^ 2 + |c|) * w ^ 2 ≤ ((2 * n + |c| + 1) * (T + 1) * w) ^ 2 := by
@@ -644,7 +645,7 @@ theorem form_eq_zero_of_casK (V : Type) [NormedAddCommGroup V] [InnerProductSpac
           split_ifs with h
           · rw [h]
           · exact inner_zero_right _
-        simpa only [hterm, Finset.sum_ite_eq', Finset.mem_univ, if_true] using hT0
+        simpa only [hterm, Finset.sum_ite_eq', Finset.mem_univ, ite_true] using hT0
       rw [← hsup] at hP
       obtain ⟨p, hp, m, hm, hpmE⟩ := Submodule.mem_sup.mp hP
       have hmm : ⟪m, m⟫_ℂ = 0 := by

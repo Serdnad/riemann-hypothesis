@@ -1,6 +1,5 @@
 module
 
-import Formalism.LocalToGlobal.InertKernelTheory.InertCoprimeLemmas.FrLocB
 public import Formalism.LocalToGlobal.InertKernelTheory.DefsMMOnb
 public import Formalism.LocalToGlobal.InertKernelTheory.DefsMM
 public import Formalism.LocalRingCardinality.RankBoundMonotoneInDimension
@@ -81,9 +80,9 @@ theorem isLocONB_of_orthonormal (p : ℕ) [Fact p.Prime] (lam : Qbar →+* ℂ_[
   refine ⟨b, 1, hb, ?_, ?_, ?_, ?_⟩
   · intro i j
     by_cases h : i = j
-    · rw [Matrix.one_apply, if_pos h]
+    · rw [Matrix.one_apply, ite_eq_left h]
       refine ⟨by simp [IsIntP], subset_closure ⟨1, lamC_phi_K_one lam⟩⟩
-    · rw [Matrix.one_apply, if_neg h]
+    · rw [Matrix.one_apply, ite_eq_right h]
       refine ⟨by simp [IsIntP], subset_closure ⟨0, lamC_phi_K_zero lam⟩⟩
   · rw [Matrix.det_one, norm_one]
   · intro i j
@@ -99,8 +98,8 @@ theorem isLocONB_of_orthonormal (p : ℕ) [Fact p.Prime] (lam : Qbar →+* ℂ_[
     rw [Finset.sum_eq_single_of_mem i (Finset.mem_univ i)]
     · rw [Matrix.one_apply_eq, one_mul, ho i j]
       by_cases h : i = j
-      · rw [if_pos h, if_pos h, lamC_phi_K_one]
-      · rw [if_neg h, if_neg h, lamC_phi_K_zero]
+      · rw [ite_eq_left h, ite_eq_left h, lamC_phi_K_one]
+      · rw [ite_eq_right h, ite_eq_right h, lamC_phi_K_zero]
     · intro m _ hm
       rw [Matrix.one_apply_ne (Ne.symm hm), zero_mul]
   · intro i k
@@ -271,12 +270,12 @@ theorem orth_bq {m : ℕ} (e : Fin m → Matrix (Fin 1) (Fin 1) D.host.E) (n dn 
     · subst hkl
       have hq : ((((n i * dn i : ℕ) : ℤ) : ℚ) * 1 / ((n i : ℚ) * (n i : ℚ)) * ((n i : ℚ) / (dn i : ℚ))) = 1 := by
         push_cast; field_simp
-      rw [if_pos rfl, if_pos rfl, hq, Rat.cast_one]
+      rw [ite_eq_left rfl, ite_eq_left rfl, hq, Rat.cast_one]
     · have hne : (i, k) ≠ (i, l) := fun h => hkl (congrArg Prod.snd h)
-      rw [if_neg hkl, if_neg hne]
+      rw [ite_eq_right hkl, ite_eq_right hne]
       simp
   · have hne : (i, k) ≠ (i', l) := fun h => hi (congrArg Prod.fst h)
-    rw [horth i i' hi, mul_zero, if_neg hne]
+    rw [horth i i' hi, mul_zero, ite_eq_right hne]
 
 theorem smul_bq {m : ℕ} (e : Fin m → Matrix (Fin 1) (Fin 1) D.host.E) (n : Fin m → ℕ)
     (Q : Fin m → Matrix (Fin 4) (Fin 4) ℤ) (hn0 : ∀ i, n i ≠ 0) (ik : Fin m × Fin 4) (s : ℕ) :
@@ -288,7 +287,7 @@ theorem smul_bq {m : ℕ} (e : Fin m → Matrix (Fin 1) (Fin 1) D.host.E) (n : F
     rw [Nat.cast_mul]
     field_simp
   · intro j _ hj
-    simp only [plc, LinearMap.coe_mk, AddHom.coe_mk, Matrix.of_apply, Matrix.smul_apply, if_neg (Ne.symm hj), smul_zero]
+    simp only [plc, LinearMap.coe_mk, AddHom.coe_mk, Matrix.of_apply, Matrix.smul_apply, ite_eq_right (Ne.symm hj), smul_zero]
   · intro h; exact absurd (Finset.mem_univ _) h
 
 theorem mem_bq {m : ℕ} (p : ℕ) (e : Fin m → Matrix (Fin 1) (Fin 1) D.host.E) (n : Fin m → ℕ)
@@ -316,7 +315,7 @@ theorem col_sum {F : Type*} [Field F] (Q : Matrix (Fin 4) (Fin 4) ℤ) (N : ℤ)
   rw [Finset.sum_congr rfl (fun pc _ => h pc)]
   simp_rw [hQ]
   push_cast
-  simp only [EmbeddingLike.apply_eq_iff_eq, mul_ite, mul_one, mul_zero, Finset.sum_ite_eq', Finset.mem_univ, if_true]
+  simp only [EmbeddingLike.apply_eq_iff_eq, mul_ite, mul_one, mul_zero, Finset.sum_ite_eq', Finset.mem_univ, ite_true]
   ring
 
 theorem span_bq {m : ℕ} (p : ℕ) (e : Fin m → Matrix (Fin 1) (Fin 1) D.host.E) (n dn : Fin m → ℕ)
@@ -447,7 +446,30 @@ abbrev AAs (D : D7) : Submodule (𝓞 D.host.E) D.host.E := (D.host.AA0 : Submod
 
 theorem mem_one_by_one_lattice_iff (x : Matrix (Fin 1) (Fin 1) D.host.E) :
     x ∈ YYl D (Formalism.MainNotions.StandardLatticesGL3.stdL D 1) (Formalism.MainNotions.StandardLatticesGL3.stdL D 1) ↔ x 0 0 ∈ AAs D := by
-  apply _root_.Formalism.L2.KerInert.FrLocB.mem_one_by_one_lattice_iff <;> assumption
+  constructor
+  · intro hx
+    let ev : Matrix (Fin 1) (Fin 1) D.host.E →ₗ[𝓞 D.host.E] D.host.E :=
+      { toFun := fun M => M 0 0, map_add' := fun _ _ => rfl, map_smul' := fun _ _ => rfl }
+    have key : YYl D (Formalism.MainNotions.StandardLatticesGL3.stdL D 1) (Formalism.MainNotions.StandardLatticesGL3.stdL D 1) ≤ (AAs D).comap ev := by
+      unfold YYl
+      rw [Submodule.span_le]
+      rintro B ⟨a, ha, A, hA, rfl⟩
+      simp only [SetLike.mem_coe, Submodule.mem_comap]
+      have hAi := homL_le_intS (D := D) 1 1 hA 0 0
+      obtain ⟨r, hr⟩ := Submodule.mem_one.1 hAi
+      show (a • A) 0 0 ∈ AAs D
+      rw [Matrix.smul_apply, smul_eq_mul, ← hr, mul_comm, ← Algebra.smul_def]
+      exact Submodule.smul_mem _ r ha
+    exact key hx
+  · intro hx
+    have h1 : (1 : Matrix (Fin 1) (Fin 1) D.host.E) ∈ homL D (Formalism.MainNotions.StandardLatticesGL3.stdL D 1) (Formalism.MainNotions.StandardLatticesGL3.stdL D 1) :=
+      Submodule.subset_span (fun v hv => by simpa using hv)
+    have e : x = x 0 0 • (1 : Matrix (Fin 1) (Fin 1) D.host.E) := by
+      refine Matrix.ext fun i j => ?_
+      fin_cases i; fin_cases j; simp
+    rw [e]
+    unfold YYl
+    exact Submodule.subset_span ⟨x 0 0, hx, 1, h1, rfl⟩
 
 theorem trace_natCast_mul (s : ℕ) (z : D.host.E) :
     Algebra.trace D.host.K D.host.E ((s : D.host.E) * z) = (s : D.host.K) * Algebra.trace D.host.K D.host.E z := by

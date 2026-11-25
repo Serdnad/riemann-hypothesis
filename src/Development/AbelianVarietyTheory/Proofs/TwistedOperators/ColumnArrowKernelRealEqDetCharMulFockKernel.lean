@@ -7,46 +7,9 @@ import Development.AbelianVarietyTheory.Proofs.DivisorProofs.HighestWeightBelow
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsFockFrameChangeLastColumnDefinitePair
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.HasInfExpOfOrder
 import Development.AbelianVarietyTheory.Proofs.TwistedOperators.TendstoInfMulProd
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
 import Mathlib.Algebra.Order.Star.Rat
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
 public import Development.AbelianVarietyTheory.BlockTheory.TwistedDiscreteSeries.ClassFunctionSumIntegral
-import Mathlib.Tactic.Basify
 
 @[expose] public section
 
@@ -54,13 +17,11 @@ open Formalism.BasicNotions Formalism.BasicNotions.TH Formalism.MainNotions.Glob
 open IsDedekindDomain NumberField MeasureTheory GlobalTheory.ChiGrid GlobalTheory.FunObj GlobalTheory.RowTest GlobalTheory.StdFrames GlobalTheory.RowClaim GlobalTheory.DefStep
 open GlobalTheory.IndefiniteRowSideFullHecke.ClassFunctionSumIntegral (IsOpenCompactLevel)
 open scoped ComplexOrder Matrix
-attribute [local instance] Formalism.BasicNotions.Host.cmStar GlobalTheory.LocalData.complRel GlobalTheory.LocalData.isLocalField borelKw borelSpaceKw
 open GlobalTheory.FockFrameChange GlobalTheory.FockReal
 
 noncomputable section
 
 namespace GlobalTheory.ColKer
-
 
 open GlobalTheory.Chain.StepVac in
 theorem mu_exp {D : D7} {T : Type} {L : LevCh D T} {μ₀ : T} (hL : L.Is μ₀) (t : T) (j : ℕ) (hj : j < D.R.m)
@@ -160,56 +121,7 @@ theorem realSubst_top {μ₀ : T} (hL : L.Is μ₀) (W : G.Weil) {U : Set T} (N 
   · rw [hid, Matrix.map_id, coe_realIn]
     exact (transp_frame (Matrix.nonsingInvUnit _ (hO _ hn.1 τ)) (frGL N.fr _ τ) (GlobalTheory.CoefModel.realGL W.θ (G.V (.top j)) k τ)).symm
 
-
 open GlobalTheory.SignedHC
-
-section GridBounds
-
-open Finset
-
-variable (D : D7) (C : ℝ) (τ : D.what₂.Tau)
-
-private theorem num_e {l : ℕ} (h1 : 1 ≤ l) (h2 : l ≤ D.R.m) : (((num D C τ).e l : ℤ) : ℚ) = (D.hc τ).e ⟨l - 1, by omega⟩ := by
-  obtain ⟨l, rfl⟩ : ∃ l', l = l' + 1 := ⟨l - 1, by omega⟩
-  exact GridData.extend_cast 1 (D.hc τ).e_int ⟨l, by omega⟩
-
-private theorem num_b {l : ℕ} (h1 : 1 ≤ l) (h2 : l ≤ D.R.m) : (((num D C τ).b l : ℤ) : ℚ) = (D.hc τ).b ⟨l - 1, by omega⟩ := by
-  obtain ⟨l, rfl⟩ : ∃ l', l = l' + 1 := ⟨l - 1, by omega⟩
-  exact GridData.extend_cast 1 (D.hc τ).b_int ⟨l, by omega⟩
-
-private theorem num_v {i : ℕ} (h1 : 2 ≤ i) (h2 : i ≤ D.R.k) : (((num D C τ).v i : ℤ) : ℚ) = (D.hc τ).v ⟨i - 2, by omega⟩ := by
-  obtain ⟨i, rfl⟩ : ∃ i', i = i' + 2 := ⟨i - 2, by omega⟩
-  exact GridData.extend_cast 2 (D.hc τ).v_int ⟨i, by omega⟩
-
-private theorem num_be {l : ℕ} (h1 : 1 ≤ l) (h2 : l ≤ D.R.m) : ((D.R.t : ℚ) + 3) / 2 ≤ ((num D C τ).e l : ℚ) - (num D C τ).b l := by
-  rw [num_e D C τ h1 h2, num_b D C τ h1 h2]
-  exact (D.hc τ).gap_be _
-
-private theorem num_eb {l : ℕ} (h1 : 1 ≤ l) (h2 : l + 1 ≤ D.R.m) : ((D.R.t : ℚ) + 3) / 2 ≤ ((num D C τ).b (l + 1) : ℚ) - (num D C τ).e l := by
-  rw [num_e D C τ h1 (by omega), num_b D C τ (by omega) h2]
-  obtain ⟨l, rfl⟩ : ∃ l', l = l' + 1 := ⟨l - 1, by omega⟩
-  exact (D.hc τ).gap_eb ⟨l, by omega⟩ (by simpa using (by omega : l + 1 < D.R.m))
-
-private theorem num_e_lt {l l' : ℕ} (h1 : 1 ≤ l) (h : l < l') (h2 : l' ≤ D.R.m) : (D.R.t : ℚ) + 3 + (num D C τ).e l ≤ (num D C τ).e l' := by
-  apply _root_.GlobalTheory.FunObj.num_e_lt <;> assumption
-
-private theorem num_cloud {i : ℕ} (h1 : 2 ≤ i) (h2 : i ≤ D.R.k) : -((num D C τ).b 1 : ℚ) + 1 ≤ (num D C τ).v i := by
-  apply _root_.GlobalTheory.FunObj.num_cloud <;> assumption
-
-private theorem blockMPlus_bd {l : ℕ} {x : ℚ} (h : x ∈ (num D C τ).blockMPlus l) :
-    -((num D C τ).e l : ℚ) - (D.R.t : ℚ) / 2 ≤ x ∧ x ≤ -((num D C τ).e l : ℚ) + (D.R.t : ℚ) / 2 := by
-  have := abs_le.1 (abs_sub_le_of_mem_block h)
-  have e : (((num D C τ).t + 1 : ℕ) : ℚ) = D.R.t + 1 := by push_cast; rfl
-  rw [e] at this
-  constructor <;> linarith [this.1, this.2]
-
-private theorem a_le {i j : ℕ} (h : i ≤ j) : (num D C τ).a j ≤ (num D C τ).a i := by
-  rcases h.eq_or_lt with rfl | h
-  · exact le_rfl
-  · have : (0 : ℚ) ≤ (num D C τ).ga := by positivity
-    linarith [a_add_le (G := num D C τ) h]
-
-end GridBounds
 
 theorem detShift_top (G : GridData L sc) (t : T) (j : ℕ) (hj : j < D.R.m) (τ : D.what₂.Tau) :
     (((wt G (.top (j + 1)) τ).detShift : ℤ) : ℚ) = -((D.hc τ).e ⟨j, hj⟩ : ℚ) + ((G.V (.top j)).rank : ℚ) / 2 ∧
@@ -230,7 +142,7 @@ theorem detShift_top (G : GridData L sc) (t : T) (j : ℕ) (hj : j < D.R.m) (τ 
     rw [r0, r1]; simp only [rankX]; ring
   obtain ⟨v1, v2⟩ := highestWeight_below hb (-((num D sc.cGap τ).e (j + 1) : ℚ)) hE
     (by rw [e0, e1, GridData.weightX_succ]; rfl)
-    (fun x hx y hy => by rw [e0] at hx; exact _root_.GlobalTheory.FunObj.weightX_above D sc.cGap τ hj' hx hy) hF
+    (fun x hx y hy => by rw [e0] at hx; exact weightX_above D sc.cGap τ hj' hx hy) hF
   have ha : 0 < (G.V (.top j)).rank := r0 ▸ rankX_pos D j
   have hce : (((num D sc.cGap τ).e (j + 1) : ℤ) : ℚ) = (D.hc τ).e ⟨j, hj⟩ := num_e D sc.cGap τ (l := j + 1) (by omega) hj'
   have hS1 : (wt G (.top (j + 1)) τ).detShift = (wt G (.top (j + 1)) τ).w ⟨(G.V (.top (j + 1))).rank - 1, by omega⟩ := by

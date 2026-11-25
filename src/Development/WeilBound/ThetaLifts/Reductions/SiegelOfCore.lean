@@ -5,47 +5,9 @@ import Aesop.Main
 import Development.WeilBound.ThetaLifts.FrameEstimates.LeHeightOfIsTorusElt
 public import Development.WeilBound.ThetaLifts.FrameEstimates.LintegralLeOfCover
 import Development.WeilBound.ThetaLifts.Reductions.SiegelHaar
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
 public import Mathlib.MeasureTheory.Integral.Pi
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.PiTensorProduct
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Topology.Separation.CompletelyRegular
-import Mathlib.Topology.Sheaves.Init
 import Development.AbelianVarietyTheory.Definitions.Divisors.MatchingOfParts
-import Development.AbelianVarietyTheory.Proofs.TwistedOperators.LintegralSiegelConeInvModulusLtTopWeil
 
 @[expose] public section
 
@@ -124,7 +86,16 @@ theorem isClosed_siegelSet (h : IsCMExt F E σ) (hJ : IsHermND σ J) (hW : IsWit
   exact (h2.mul_left_of_isCompact hΩ).mul_right_of_isCompact hK
 
 theorem measurableSet_cone (r : ℕ) (c : ℝ) : MeasurableSet (cone r c) := by
-  apply _root_.GlobalTheory.SiegelSet.ConeConv.measurableSet_cone <;> assumption
+  have : cone r c = (⋂ i, {t : Fin r → ℝ | 0 < t i}) ∩ ((⋂ i, ⋂ j, ⋂ (_ : (j : Fin r).val = (i : Fin r).val + 1),
+      {t : Fin r → ℝ | c * t j ≤ t i}) ∩ ⋂ i, ⋂ (_ : (i : Fin r).val + 1 = r), {t : Fin r → ℝ | c ≤ t i}) := by
+    ext t
+    simp only [Set.mem_inter_iff, Set.mem_iInter, Set.mem_ofPred_eq]
+    exact Iff.rfl
+  rw [this]
+  exact (MeasurableSet.iInter fun i => measurableSet_lt measurable_const (measurable_pi_apply i)).inter
+    ((MeasurableSet.iInter fun i => MeasurableSet.iInter fun j => MeasurableSet.iInter fun _ =>
+      measurableSet_le (measurable_const.mul (measurable_pi_apply j)) (measurable_pi_apply i)).inter
+    (MeasurableSet.iInter fun i => MeasurableSet.iInter fun _ => measurableSet_le measurable_const (measurable_pi_apply i)))
 
 theorem cone_lower {r : ℕ} {c : ℝ} (h3 : 0 ≤ c) {u : Fin r → ℝ} (hu : u ∈ cone r c) :
     ∀ k : ℕ, ∀ i : Fin r, i.val + k + 1 = r → c ^ (k + 1) ≤ u i := by

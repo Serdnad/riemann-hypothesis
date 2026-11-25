@@ -1,7 +1,5 @@
 module
 
-
-import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.LanglandsSocleOfOrderFree
 public import Mathlib.Analysis.Complex.Norm
 public import Mathlib.LinearAlgebra.Matrix.NonsingularInverse
 public import Mathlib.Analysis.CStarAlgebra.Classes
@@ -26,59 +24,17 @@ public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.Comple
 public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.SpanRangeEqTopOfIsIrreducible
 public import Mathlib.LinearAlgebra.TensorProduct.Matrix
 public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.IsSemisimpleRepresentationOfISupRangeEquivariant
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
 import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Topology.Sheaves.Init
 import Mathlib.Tactic.Linter.HaveILetI
 import Mathlib.Tactic.Linter.Style
 import Mathlib.Tactic.Lemma
-import Mathlib.Tactic.Basify
 import Mathlib.Algebra.Order.Star.Real
-import Mathlib.Tactic.ENatToNat
 import Std.Tactic.BVDecide.Normalize.Prop
 import Mathlib.RingTheory.Coalgebra.IsFrobenius
 import Mathlib.RingTheory.HopfAlgebra.Basic
 import Mathlib.LinearAlgebra.Matrix.FiniteDimensional
 import Mathlib.RingTheory.SimpleRing.Principal
+
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.EntriesBoundedOfConjSpanningBounded, Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.IsClosedIsHermitianLogOfPosDef, Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.MatrixEntriesBoundedOfHermitianLogTraceSqLe, Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.ExistsEnergyMin, Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.LogSqLeTangentAddSq, Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.HermitianLogTraceSqFirstVariationBound, Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.ExistsConjHarmOfSpan, Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.TraceLogLeLogDet, Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.ExistsIsometryMatrixRange, Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.IsLogKronecker, Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.SsTransfer, Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.IsCompletelyReducibleKroneckerOfSpanEqTop, Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.IsSemisimpleRepresentationTprodOfIsIrreducibleAl, Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.IsSemisimpleRepresentationTprodChevalley
 
@@ -1723,7 +1679,47 @@ open scoped Kronecker ComplexOrder TensorProduct in
 variable {G : Type} [Group G] {V : Type} [AddCommGroup V] [Module ℂ V] {ρ : Representation ℂ G V} in
 theorem _root_.GlobalTheory.ClassFin.isIrreducible_toRepresentation_of_isAtom (σ : Subrepresentation ρ) (h : IsAtom σ) :
     σ.toRepresentation.IsIrreducible := by
-  first | exact _root_.GlobalTheory.MaschkeForms.isIrreducible_of_isAtom | exact @_root_.GlobalTheory.MaschkeForms.isIrreducible_of_isAtom | apply _root_.GlobalTheory.MaschkeForms.isIrreducible_of_isAtom <;> assumption
+  let F : Subrepresentation σ.toRepresentation → Subrepresentation ρ := fun τ =>
+    ⟨τ.toSubmodule.map σ.toSubmodule.subtype, by
+      rintro g _ ⟨w, hw, rfl⟩
+      exact ⟨σ.toRepresentation g w, τ.apply_mem_toSubmodule g hw, rfl⟩⟩
+  have hinj : Function.Injective (Submodule.map σ.toSubmodule.subtype) :=
+    Submodule.map_injective_of_injective σ.toSubmodule.injective_subtype
+  have hle : ∀ τ, F τ ≤ σ := by
+    intro τ
+    show τ.toSubmodule.map σ.toSubmodule.subtype ≤ σ.toSubmodule
+    rw [Submodule.map_le_iff_le_comap]
+    intro w _
+    exact w.2
+  have hF : ∀ τ, F τ = ⊥ ∨ F τ = σ := fun τ => h.le_iff.mp (hle τ)
+  have hbot : ∀ τ, F τ = ⊥ → τ = ⊥ := by
+    intro τ hτ
+    apply Subrepresentation.ext
+    apply hinj
+    have := congrArg Subrepresentation.toSubmodule hτ
+    change _ = Submodule.map _ ⊥
+    rw [Submodule.map_bot]
+    exact this
+  have htop : ∀ τ, F τ = σ → τ = ⊤ := by
+    intro τ hτ
+    apply Subrepresentation.ext
+    apply hinj
+    have := congrArg Subrepresentation.toSubmodule hτ
+    simp only [F] at this
+    rw [this]
+    exact (Submodule.map_subtype_top σ.toSubmodule).symm
+  have hne : (⊥ : Subrepresentation σ.toRepresentation) ≠ ⊤ := by
+    intro he
+    apply h.1
+    have h1 : F ⊤ = σ := by
+      apply Subrepresentation.ext
+      exact Submodule.map_subtype_top σ.toSubmodule
+    have h2 : F ⊥ = ⊥ := by
+      apply Subrepresentation.ext
+      exact Submodule.map_bot _
+    rw [← h1, ← he, h2]
+  haveI : Nontrivial (Subrepresentation σ.toRepresentation) := ⟨⟨⊥, ⊤, hne⟩⟩
+  exact ⟨fun τ => (hF τ).imp (hbot τ) (htop τ)⟩
 
 end
 

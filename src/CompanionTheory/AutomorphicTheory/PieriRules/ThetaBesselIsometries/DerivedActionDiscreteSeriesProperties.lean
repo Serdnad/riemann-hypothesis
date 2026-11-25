@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.JetHarmonics.DerivedActionDiscreteSeriesProperties
 public import CompanionTheory.AutomorphicTheory.PieriRules.ThetaBesselIsometries.IsDSOfIsDG
 public import Mathlib.Analysis.LocallyConvex.AbsConvexOpen
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.ContinuousMulMt
@@ -8,50 +7,7 @@ public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.CapelliEigenvalu
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.CapelliEigenvalues.Smooth
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.ChainRuleSmooth.ExpIntertwine
 import Formalism.RealPlaceAnalysis.RealPlaceTaylor.CartanInvolutionConjTransposeMul
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
 public import Mathlib.Analysis.InnerProductSpace.Calculus
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.Normed.Algebra.MatrixExponential
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.Linter.HaveILetI
-import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Topology.Sheaves.Init
 
 @[expose] public section
 
@@ -71,7 +27,7 @@ namespace GlobalTheory.DerivedAction
 
 open PI.UpqRep PI.UnitaryGroupMassFormula.CapelliEig
 
-attribute [local instance] Matrix.normedAddCommGroup Matrix.normedSpace
+open scoped Matrix.Norms.Elementwise
 
 variable {k r : ℕ} {H : Type} [NormedAddCommGroup H] [InnerProductSpace ℂ H]
   {ε : Fin (2 * r + k + 1) → Bool} {mu : Fin (2 * r + k + 1) → ℝ} {σ : Mx k r → (H →L[ℂ] H)}
@@ -214,7 +170,41 @@ theorem dsig_conj (hσ : IsDSHpk k r ε mu σ) {X g : Mx k r} (hX : InLieHpk k r
 theorem dsig_kfin [CompleteSpace H] (hK : PI.KFinSmooth) (hmu : IsHCParam mu) (hσ : IsDSHpk k r ε mu σ)
     {X : Mx k r} (hX : InLieHpk k r X) {v : H} (hv : IsKFinHpk (k := k) (r := r) σ v) :
     IsKFinHpk (k := k) (r := r) σ (dsig (k := k) (r := r) σ X v) := by
-  apply _root_.GlobalTheory.DerivedAction.dsig_kfin <;> assumption
+  obtain ⟨S, hfd, hvS, hS⟩ := hv
+  have hsm : ∀ x ∈ S, x ∈ smoothVecs (k := k) (r := r) σ := fun x hx =>
+    hK k r ε mu H σ hmu hσ x ⟨S, hfd, hx, hS⟩
+  refine ⟨Submodule.span ℂ {y | ∃ Y, InLieHpk k r Y ∧ ∃ s ∈ S, y = dsig (k := k) (r := r) σ Y s}, ?_,
+    Submodule.subset_span ⟨X, hX, v, hvS, rfl⟩, ?_⟩
+  · obtain ⟨fs, hfs⟩ := (Submodule.fg_iff_finiteDimensional S).2 hfd
+    have hfsS : ∀ x : fs, (x : H) ∈ S := fun x => hfs ▸ Submodule.subset_span x.2
+    choose L hL using fun x : fs => exists_lin (hsm x (hfsS x))
+    let b := Module.finBasis ℝ (Mx k r)
+    let T : Submodule ℂ H := Submodule.span ℂ (Set.range fun p : fs × Fin (Module.finrank ℝ (Mx k r)) =>
+      L p.1 (b p.2))
+    have : FiniteDimensional ℂ T := FiniteDimensional.span_of_finite ℂ (Set.finite_range _)
+    refine Submodule.finiteDimensional_of_le (S₂ := T) (Submodule.span_le.2 ?_)
+    rintro _ ⟨Y, hY, s, hs, rfl⟩
+    rw [← hfs] at hs hsm
+    show dsig (k := k) (r := r) σ Y s ∈ T
+    induction hs using Submodule.span_induction with
+    | mem y hy =>
+
+      rw [(hL ⟨y, hy⟩ Y hY).1, ← b.sum_repr Y, map_sum]
+      refine T.sum_mem fun j _ => ?_
+      rw [map_smul]
+      exact T.smul_of_tower_mem _ (Submodule.subset_span ⟨(⟨y, hy⟩, j), rfl⟩)
+    | zero => rw [dsig_zero]; exact T.zero_mem
+    | add x y hx hy ihx ihy => rw [dsig_add hY (hsm x hx) (hsm y hy)]; exact T.add_mem ihx ihy
+    | smul a x hx ih => rw [dsig_smul hY a (hsm x hx)]; exact T.smul_mem a ih
+  · intro g hg x hx
+    induction hx using Submodule.span_induction with
+    | mem y hy =>
+      obtain ⟨Y, hY, s, hs, rfl⟩ := hy
+      rw [dsig_conj hσ hY (hsm s hs) hg.1]
+      exact Submodule.subset_span ⟨_, lie_conj' hY hg.1, _, hS g hg s hs, rfl⟩
+    | zero => rw [map_zero]; exact Submodule.zero_mem _
+    | add x y _ _ ihx ihy => rw [map_add (f := _)]; exact Submodule.add_mem _ ihx ihy
+    | smul a x _ ih => rw [map_smul]; exact Submodule.smul_mem _ a ih
 
 theorem dsig_skew (hσ : IsDSHpk k r ε mu σ) {X : Mx k r} (hX : InLieHpk k r X) {v w : H}
     (hv : v ∈ smoothVecs (k := k) (r := r) σ) (hw : w ∈ smoothVecs (k := k) (r := r) σ) :
@@ -233,7 +223,26 @@ theorem dsig_skew (hσ : IsDSHpk k r ε mu σ) {X : Mx k r} (hX : InLieHpk k r X
 
 theorem dsig_TK (hK : PI.KFinSmooth) (R : Rep k r) (hR : R.IsDG ε mu) {X : Mx k r} (hX : InLieHpk k r X) :
     ∀ v ∈ R.TK, v ∈ R.sm ∧ dsig (k := k) (r := r) R.σ X v ∈ R.TK := by
-  exact _root_.GlobalTheory.DerivedAction.dsig_TK hK R (_root_.GlobalTheory.isDS_of_isDG hR) hX
+  intro v hv
+  induction hv using Submodule.span_induction with
+  | mem y hy =>
+    obtain ⟨g, hg, v₀, hv₀, rfl⟩ := hy
+    have hs := hK k r ε mu R.H R.σ hR.1 hR.2 v₀ hv₀
+    refine ⟨smooth_right_action k r ε mu R.H R.σ hR.2 v₀ hs g hg, ?_⟩
+    have hu := (Matrix.isUnit_iff_isUnit_det _).1 (unitary_Hecke_group k r g hg).1
+    have hi1 : g * g⁻¹ = 1 := Matrix.mul_nonsing_inv _ hu
+    have h := dsig_conj hR.2 (lie_conj hX hg) hs hg
+    have e : g * (g⁻¹ * X * g) * g⁻¹ = X := by
+      calc g * (g⁻¹ * X * g) * g⁻¹ = (g * g⁻¹) * X * (g * g⁻¹) := by simp only [Matrix.mul_assoc]
+        _ = X := by rw [hi1, Matrix.one_mul, Matrix.mul_one]
+    rw [e] at h
+    rw [← h]
+    exact Submodule.subset_span ⟨g, hg, _, dsig_kfin hK hR.1 hR.2 (lie_conj hX hg) hv₀, rfl⟩
+  | zero => exact ⟨R.smSub.zero_mem, by rw [dsig_zero]; exact Submodule.zero_mem _⟩
+  | add x y _ _ ihx ihy =>
+    exact ⟨R.smSub.add_mem ihx.1 ihy.1, by rw [dsig_add hX ihx.1 ihy.1]; exact Submodule.add_mem _ ihx.2 ihy.2⟩
+  | smul a x _ ih =>
+    exact ⟨R.smSub.smul_mem a ih.1, by rw [dsig_smul hX a ih.1]; exact Submodule.smul_mem _ a ih.2⟩
 
 theorem derived_action : PI.KFinSmooth → ∀ (k r : ℕ) (ε : Fin (2 * r + k + 1) → Bool) (mu : Fin (2 * r + k + 1) → ℝ) (R : Rep k r), R.IsDG ε mu → ∀ X, PI.UpqRep.InLieHpk k r X → (∀ v ∈ R.sm, PI.UpqRep.dsig (k := k) (r := r) R.σ X v ∈ R.sm ∧ HasDerivAt (fun t : ℝ => R.σ (NormedSpace.exp ((t : ℂ) • X)) v) (PI.UpqRep.dsig (k := k) (r := r) R.σ X v) 0) ∧ (∀ v ∈ R.sm, ∀ g ∈ GG k r, R.σ g (PI.UpqRep.dsig (k := k) (r := r) R.σ X v) = PI.UpqRep.dsig (k := k) (r := r) R.σ (g * X * g⁻¹) (R.σ g v)) ∧ (∀ v, R.KFin v → R.KFin (PI.UpqRep.dsig (k := k) (r := r) R.σ X v)) ∧ (∀ v ∈ R.TK, PI.UpqRep.dsig (k := k) (r := r) R.σ X v ∈ R.TK) ∧ (∀ v ∈ R.sm, ∀ w ∈ R.sm, ⟪PI.UpqRep.dsig (k := k) (r := r) R.σ X v, w⟫_ℂ = -⟪v, PI.UpqRep.dsig (k := k) (r := r) R.σ X w⟫_ℂ) :=
   fun hK _ _ _ _ R hR _ hX =>

@@ -41,7 +41,6 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Development.WeilBound.CoreStatements.PadicHodgeComparison.EtaleCohomologyComparison.PerfectoidPullbacks.DpZeroRight
-import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ExistsCrystallineLift
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AutomorphicSpectrum.Proofs.BlockDecomposition.DividedPowerLogMultiplicative, Development.AutomorphicSpectrum.Proofs.BlockDecomposition.CrystallineCocycleClosed
@@ -51,7 +50,6 @@ import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ExistsCrystalli
 section -- clump:auto
 @[expose] public section
 
-set_option backward.isDefEq.respectTransparency false
 open CategoryTheory AlgebraicGeometry TensorProduct GlobalTheory.LogCris DividedPowers CrystallineSemistableComparison CrystallineSemistableComparison.Pb GroundTheory.PAdicHodge
 namespace GlobalTheory.CompanionTheory.TruncLog
 
@@ -239,7 +237,6 @@ end -- clump:auto
 section -- clump:auto
 @[expose] public section
 
-set_option backward.isDefEq.respectTransparency false
 open CategoryTheory AlgebraicGeometry TensorProduct GlobalTheory.LogCris DividedPowers CrystallineSemistableComparison CrystallineSemistableComparison.Pb GroundTheory.PAdicHodge
 
 noncomputable section
@@ -300,7 +297,19 @@ end Ring
 section Nil
 
 theorem thick_nil {b : Base} {L : b.Fun} (T : Thick L) : ∀ x ∈ T.J, IsNilpotent x := by
-  apply _root_.GlobalTheory.CompanionTheory.CLiftEx.thick_isNilpotent <;> assumption
+  intro x hx
+  by_cases hp : b.p = 0
+  · obtain ⟨n, hn⟩ := T.adm.2 hp
+    refine ⟨n, ?_⟩
+    have h : x ^ n ∈ T.J ^ n := Ideal.pow_mem_pow hx n
+    rw [hn] at h
+    exact h
+  · obtain ⟨n, hn⟩ : IsNilpotent ((b.p : ℕ) : T.B) := T.adm.1 hp
+    refine ⟨b.p * n, ?_⟩
+    have h1 : x ^ b.p = (b.p.factorial : T.B) * T.δ.dpow b.p x := (T.δ.factorial_mul_dpow_eq_pow hx).symm
+    have h2 : (b.p.factorial : T.B) = (b.p : T.B) * ((b.p - 1).factorial : T.B) := by
+      rw [← Nat.cast_mul, Nat.mul_factorial_pred hp]
+    rw [pow_mul, h1, h2, mul_assoc, mul_pow, hn, zero_mul]
 
 end Nil
 
@@ -374,9 +383,6 @@ theorem red_w (Λ : CLift G D) {T T' : C} (φ : T ⟶ T') :
 
 def Rf (Λ : CLift G D) {T₀ T₁ T₂ : C} (f : T₀ ⟶ T₁) (g : T₁ ⟶ T₂) (k : T₀ ⟶ T₂) : ((G.obj T₂).B)ˣ :=
   um g G (Λ.w f) * Λ.w g * (Λ.w k)⁻¹
-
-theorem r_eq (Λ : CLift G D) (s : ComposableArrows C 2) :
-    Λ.r s = Rf Λ (s.map' 0 1) (s.map' 1 2) (s.map' 0 2) := rfl
 
 theorem red_Rf (Λ : CLift G D) {T₀ T₁ T₂ : C} (f : T₀ ⟶ T₁) (g : T₁ ⟶ T₂) :
     red T₂ G (Rf Λ f g (f ≫ g)) = 1 := by

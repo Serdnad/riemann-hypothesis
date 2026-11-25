@@ -1,7 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.FormalGroupCharts.EqCOfPderivZero
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.TaylorDiscriminants.ChartChgPfTP
 public import Formalism.IncomingBounds.StatementThmP
 public import Formalism.LocalToGlobal.CharacterGerms.GeNatCast
 public import Mathlib.RingTheory.MvPowerSeries.Derivative
@@ -77,7 +75,17 @@ theorem ordGE_zero_left {σ : Type} (g : MvPowerSeries σ k) : OrdGE 0 g := fun 
 
 theorem ordGE_mul {σ : Type} {a b : ℕ} {f g : MvPowerSeries σ k} (hf : OrdGE a f) (hg : OrdGE b g) :
     OrdGE (a + b) (f * g) := by
-  first | exact _root_.ReciprocityTheory.ChartRestriction.G.TB.ChartChgPfTP.ordGE_mul | exact @_root_.ReciprocityTheory.ChartRestriction.G.TB.ChartChgPfTP.ordGE_mul | apply _root_.ReciprocityTheory.ChartRestriction.G.TB.ChartChgPfTP.ordGE_mul <;> assumption
+  classical
+  intro e he
+  rw [coeff_mul]
+  apply Finset.sum_eq_zero
+  intro p hp
+  rw [Finset.HasAntidiagonal.mem_antidiagonal] at hp
+  have hdeg : p.1.degree + p.2.degree = e.degree := by rw [← map_add (f := _), hp]
+  by_cases h1 : p.1.degree < a
+  · rw [hf _ h1, zero_mul]
+  · have h2 : p.2.degree < b := by omega
+    rw [hg _ h2, mul_zero]
 
 theorem ordGE_pderiv {σ : Type} {r : ℕ} (i : σ) {g : MvPowerSeries σ k} (h : OrdGE (r + 1) g) :
     OrdGE r (pderiv i g) := by
@@ -133,13 +141,33 @@ theorem pderiv_aeval {σ τ : Type} [Fintype σ] (a : σ → MvPowerSeries τ k)
       map_mul, MvPolynomial.aeval_X, Pi.single_apply]
     simp only [Finset.mul_sum]
     simp only [apply_ite (MvPolynomial.aeval a), map_one, map_zero, mul_ite, ite_mul, mul_one, mul_zero, zero_mul,
-      Finset.sum_ite_eq, Finset.mem_univ, if_true]
+      Finset.sum_ite_eq, Finset.mem_univ, ite_true]
     ring_nf
 
 theorem pderiv_subst {σ τ : Type} [Fintype σ] {a : σ → MvPowerSeries τ k} (ha : ∀ s, constantCoeff (a s) = 0)
     (f : MvPowerSeries σ k) (t : τ) :
     pderiv t (subst a f) = ∑ s, subst a (pderiv s f) * pderiv t (a s) := by
-  first | exact _root_.GlobalTheory.FormalLog.pderiv_subst | exact @_root_.GlobalTheory.FormalLog.pderiv_subst | apply _root_.GlobalTheory.FormalLog.pderiv_subst <;> assumption
+  classical
+  have hs : HasSubst a := hasSubst_of_constantCoeff_zero ha
+  ext e
+  have key : ∀ g : MvPowerSeries σ k, OrdGE (e.degree + 1 + 1) g →
+      coeff e (pderiv t (subst a g)) = 0 ∧ coeff e (∑ s, subst a (pderiv s g) * pderiv t (a s)) = 0 := by
+    intro g hg
+    refine ⟨ordGE_pderiv t (ordGE_subst a ha hg) e (by omega), ?_⟩
+
+    rw [map_sum]
+    refine Finset.sum_eq_zero fun s _ => ?_
+    exact ordGE_mul (ordGE_subst a ha (ordGE_pderiv s hg)) (ordGE_zero_left (pderiv t (a s))) e (by omega)
+  set p := truncTotal (e.degree + 1 + 1) f
+  have hr : OrdGE (e.degree + 1 + 1) (f - (p : MvPowerSeries σ k)) := by
+    intro d hd
+    rw [map_sub, MvPolynomial.coeff_coe, coeff_truncTotal _ hd, sub_self]
+  obtain ⟨h1, h2⟩ := key _ hr
+  have hf : f = (p : MvPowerSeries σ k) + (f - p) := by ring
+  rw [hf, subst_add hs, map_add (f := _), map_add (f := _), h1, add_zero]
+  simp only [map_add (f := _), subst_add hs, add_mul, Finset.sum_add_distrib]
+  rw [h2, add_zero, subst_coe, pderiv_aeval]
+  simp only [pderiv_coe, subst_coe]
 
 theorem constantCoeff_subst_same {σ τ : Type} [Finite σ] {a : σ → MvPowerSeries τ k}
     (ha : ∀ s, constantCoeff (a s) = 0) (f : MvPowerSeries σ k) :
@@ -164,7 +192,7 @@ theorem killCompl_eq_subst {σ τ : Type} [Finite τ] (e : σ ↪ τ) (f : MvPow
   · intro d hd
     have : d.prod (fun s n => (killCompl e (X s) : MvPowerSeries σ k) ^ n) = killCompl e (monomial d 1) := by
       rw [monomial_one_eq, map_finsuppProd]; simp only [map_pow]
-    rw [this, coeff_killCompl, coeff_monomial, if_neg (Ne.symm hd), smul_zero]
+    rw [this, coeff_killCompl, coeff_monomial, ite_eq_right (Ne.symm hd), smul_zero]
 
 theorem killCompl_subst {σ τ υ : Type} [Finite τ] [Finite υ] (e : σ ↪ τ) {a : υ → MvPowerSeries τ k}
     (ha : ∀ s, constantCoeff (a s) = 0) (f : MvPowerSeries υ k) :
@@ -205,7 +233,7 @@ theorem jetAt0_monomial {σ : Type} (m : σ →₀ ℕ) (c : K) (G : MvPowerSeri
     jetAt0 (MvPolynomial.monomial m c) G = c * (mfact m : K) * coeff m G := by
   classical
   rw [jetAt0_eq_sum _ G {m} MvPolynomial.support_monomial_subset, Finset.sum_singleton,
-    MvPolynomial.coeff_monomial, if_pos rfl]
+    MvPolynomial.coeff_monomial, ite_eq_left rfl]
 
 theorem jetAt0_zero_left {σ : Type} (G : MvPowerSeries σ K) : jetAt0 0 G = 0 := by
   simp [jetAt0]

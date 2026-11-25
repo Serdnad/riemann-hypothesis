@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.LocalComponentPlacesCharacterized
 public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.CombAtSingleZero
 public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.RealIdemMulOfReal
 public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.SelfDualLatticePairingDual
@@ -107,7 +106,6 @@ noncomputable section
 open Formalism.BasicNotions Formalism.BasicNotions.TH Formalism.MainNotions Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes Formalism.MainNotions.StandardLattice Formalism.L2.Theta Formalism.L2.DIV Formalism.IndefR Formalism.IndefR.Links Formalism.IndefR.Lev Formalism.IndefR.Mult Formalism.IndefR.Datum MeasureTheory IsDedekindDomain NumberField Matrix
 open GlobalTheory.MixModel GlobalTheory.MixPer GlobalTheory.Unf GlobalTheory.SeeSaw GlobalTheory.SplitWeil GlobalTheory.RootEx GlobalTheory.StepData GlobalTheory.LocMod GlobalTheory.MiS ValuativeRel
 open scoped TensorProduct Classical
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 open GlobalTheory.Fam
 
 namespace GlobalTheory.VacScalar
@@ -156,9 +154,6 @@ theorem iso_mem {V ι J : Type} [AddCommGroup V] [Module ℂ V] (A : ι → V �
 
 variable {D : D7}
 
-theorem heisO_zero_fun (ψ : AddChar (AF D.host.F) ℂ) (S T : HSp D) (u : WO S T) : heisO ψ S T u 0 = 0 := by
-  funext w; simp [heisO]
-
 def hL (ψ : AddChar (AF D.host.F) ℂ) (S T : HSp D) (u : WO S T) : (WO S T → ℂ) →ₗ[ℂ] (WO S T → ℂ) where
   toFun := heisO ψ S T u
   map_add' f g := by funext w; simp [heisO, mul_add]
@@ -171,7 +166,7 @@ theorem heisO_inv (ψ : AddChar (AF D.host.F) ℂ) (S T : HSp D) (m : WO S T) (f
 theorem eig_ne (ψ : AddChar (AF D.host.F) ℂ) (S T : HSp D) {m : WO S T} {f : WO S T → ℂ} {c : ℂ}
     (h : heisO ψ S T m f = c • f) (hf : f ≠ 0) : c ≠ 0 := fun hc => hf (by
   have h1 := heisO_inv ψ S T m f
-  rw [h, hc, zero_smul, heisO_zero_fun] at h1
+  rw [h, hc, zero_smul, GlobalTheory.HalfAverage.heisO_zero'] at h1
   exact (smul_eq_zero.1 h1.symm).resolve_left (_root_.Formalism.FourierDecayAlt.P.A6x4.addChar_ne_zero _ _))
 
 theorem symplOH_eq (S T : HSp D) (m y : WO S T) :
@@ -220,10 +215,10 @@ theorem vac_eigen (ψ : AddChar (AF D.host.F) ℂ) (hψ : IsStdChar D ψ (-1)) (
         · refine ⟨0, fun f hf => ?_⟩
           have hf0 : f = 0 := by
             have h := heisO_inv ψ S T a f
-            rw [ha f hf, hc, zero_smul, heisO_zero_fun] at h
+            rw [ha f hf, hc, zero_smul, GlobalTheory.HalfAverage.heisO_zero'] at h
             exact (smul_eq_zero.1 h.symm).resolve_left (_root_.Formalism.FourierDecayAlt.P.A6x4.addChar_ne_zero _ _)
           subst hf0
-          rw [heisO_zero_fun, smul_zero]
+          rw [GlobalTheory.HalfAverage.heisO_zero', smul_zero]
         · refine ⟨ca⁻¹ * ψ (symplOH S T (-a) a), fun f hf => ?_⟩
           have h := heisO_inv ψ S T a f
           rw [ha f hf, GlobalTheory.LatVac.heisO_smul] at h
@@ -265,7 +260,7 @@ theorem vac_eigen (ψ : AddChar (AF D.host.F) ℂ) (hψ : IsStdChar D ψ (-1)) (
     rwa [h2] at h1
   refine ⟨fun m => if h : m ∈ H then (hHmem' m h).choose else 0, fun m hm f hf => ?_⟩
   have h := hH m hm
-  simp only [dif_pos h]
+  simp only [dite_eq_left h]
   exact (hHmem' m h).choose_spec f hf
 
 end GlobalTheory.VacScalar
@@ -403,7 +398,7 @@ theorem main : ∀ (D : D7) (ψ : AddChar (AF D.host.F) ℂ) (S T : HSp D) (M N 
   have hcomb : ∀ (c : WO S T →₀ ℂ) f, comb ψ S T c f = ∑ u ∈ c.support, c u • heisO ψ S T u f := fun _ _ => rfl
   have hg0 : g₀ ≠ 0 := by
     rintro rfl; apply hne; rw [hcomb]
-    exact Finset.sum_eq_zero fun u _ => by rw [heisO_zero_fun, smul_zero]
+    exact Finset.sum_eq_zero fun u _ => by rw [GlobalTheory.HalfAverage.heisO_zero', smul_zero]
   set F' := comb ψ S T o' g₀ with hF'def
   have hqM0 : ∀ m ∈ latO S T (M : Set _) (M' : Set _) (· ∈ Q), qM m ≠ 0 := fun m hm =>
     eig_ne ψ S T (hqM m hm g₀ hg) hg0
@@ -434,8 +429,7 @@ theorem main : ∀ (D : D7) (ψ : AddChar (AF D.host.F) ℂ) (S T : HSp D) (M N 
   obtain ⟨i, hi, hne'⟩ : ∃ i ∈ o'.support, (∑ j ∈ o'.support with
       (QuotientAddGroup.mk (id j) : WO S T ⧸ latO S T (M : Set _) (M' : Set _) (· ∈ Q)) = QuotientAddGroup.mk (id i),
       o' j • heisO ψ S T (id j) g₀) ≠ 0 := by
-    by_contra hcon
-    push_neg at hcon
+    by_contra! hcon
     apply hne
     show ∑ u ∈ o'.support, o' u • heisO ψ S T u g₀ = 0
     rw [← Finset.sum_fiberwise_of_maps_to
@@ -482,8 +476,7 @@ theorem main : ∀ (D : D7) (ψ : AddChar (AF D.host.F) ℂ) (S T : HSp D) (M N 
   obtain ⟨i, -, hne2⟩ : ∃ i ∈ (Finset.univ : Finset (Fin n)), (∑ j ∈ Finset.univ with
       (QuotientAddGroup.mk (y j) : WO S T ⧸ latO S T (N : Set _) (N' : Set _) (· ∈ Q)) = QuotientAddGroup.mk (y i),
       cf j • heisO ψ S T (y j) F') ≠ 0 := by
-    by_contra hcon
-    push_neg at hcon
+    by_contra! hcon
     apply hF0
     rw [← hFsum, ← Finset.sum_fiberwise_of_maps_to
       (g := fun j => (QuotientAddGroup.mk (y j) : WO S T ⧸ latO S T (N : Set _) (N' : Set _) (· ∈ Q)))
@@ -528,8 +521,6 @@ open scoped TensorProduct Classical
 attribute [local instance] Formalism.BasicNotions.Host.cmStar
 open GlobalTheory.Fam
 
-theorem _root_.GlobalTheory.T.latticeVacuumCombinations_differ_by_scalar : ∀ (D : D7) (ψ : AddChar (AF D.host.F) ℂ) (S T : HSp D) (M N : GlobalTheory.FinPl.Lat S) (M' N' : GlobalTheory.FinPl.Lat T) (Q : Finset (GlobalTheory.FinPl.Pl D)) (o o' : WO S T →₀ ℂ) (g₀ : WO S T → ℂ), IsStdChar D ψ (-1) → IsSelfDualC S M → IsSelfDualC T M' → IsSelfDualC S N → IsSelfDualC T N' → GlobalTheory.FinPl.CombAt (· ∈ Q) o → GlobalTheory.FinPl.CombAt (· ∈ Q) o' → GlobalTheory.FinPl.Vac ψ S T M M' (· ∈ Q) g₀ → GlobalTheory.FinPl.Vac ψ S T N N' (· ∈ Q) (comb ψ S T o g₀) → GlobalTheory.FinPl.Vac ψ S T N N' (· ∈ Q) (comb ψ S T o' g₀) → comb ψ S T o' g₀ ≠ 0 → ∃ c : ℂ, comb ψ S T o g₀ = c • comb ψ S T o' g₀ := by
-  first | exact @GlobalTheory.VacScalar.main
 end -- clump:auto
 end -- clump:auto
 -- ===== end clump member: Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.LatticeVacuumCombinationsDifferByScalarStatement =====
@@ -542,7 +533,6 @@ section -- clump:auto
 open Formalism.BasicNotions Formalism.BasicNotions.TH Formalism.MainNotions Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes Formalism.MainNotions.StandardLattice Formalism.L2.Theta Formalism.L2.DIV Formalism.IndefR Formalism.IndefR.Links Formalism.IndefR.Lev Formalism.IndefR.Mult Formalism.IndefR.Datum MeasureTheory IsDedekindDomain NumberField Matrix
 open GlobalTheory.MixModel GlobalTheory.MixPer GlobalTheory.Unf GlobalTheory.SeeSaw GlobalTheory.SplitWeil GlobalTheory.RootEx GlobalTheory.StepData GlobalTheory.LocMod GlobalTheory.MiS ValuativeRel
 open scoped TensorProduct Classical
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 open GlobalTheory.Fam
 
 noncomputable section
@@ -610,28 +600,10 @@ theorem pureTensorO_zero (sS sT BS BT) (P) : pureTensorO ψ θ S T sS sT BS BT (
   have := GlobalTheory.FiniteFock.pureTensorO_smul ψ θ S T sS sT BS BT 0 0 P
   rwa [zero_smul, zero_smul] at this
 
-theorem vac_mono {LS : GlobalTheory.FinPl.Lat S} {LT : GlobalTheory.FinPl.Lat T} (P : GlobalTheory.FinPl.Pl D → Prop) {f : WO S T → ℂ}
-    (h : GlobalTheory.FinPl.Vac ψ S T LS LT (fun _ => True) f) : GlobalTheory.FinPl.Vac ψ S T LS LT P f := by
-  have hle : latO S T (LS : Set _) (LT : Set _) P ≤ latO S T (LS : Set _) (LT : Set _) fun _ => True :=
-    AddSubgroup.closure_mono fun w ⟨α, hα, _, hw⟩ => ⟨α, hα, fun _ h => absurd trivial h, hw⟩
-  exact ⟨h.1, fun u hu => h.2.1 u (hle hu), fun e he u hu hh => h.2.2 e he u (hle hu) hh⟩
-
 end Gen
 
 end GlobalTheory.GVecAt
 
-namespace GlobalTheory.GVecAt
-
-theorem scalar : ∀ (D : D7) (ψ : AddChar (AF D.host.F) ℂ) (S T : HSp D) (M N : GlobalTheory.FinPl.Lat S) (M' N' : GlobalTheory.FinPl.Lat T) (Q : Finset (GlobalTheory.FinPl.Pl D)) (o o' : WO S T →₀ ℂ) (g₀ : WO S T → ℂ), IsStdChar D ψ (-1) → IsSelfDualC S M → IsSelfDualC T M' → IsSelfDualC S N → IsSelfDualC T N' → GlobalTheory.FinPl.CombAt (· ∈ Q) o → GlobalTheory.FinPl.CombAt (· ∈ Q) o' → GlobalTheory.FinPl.Vac ψ S T M M' (· ∈ Q) g₀ → GlobalTheory.FinPl.Vac ψ S T N N' (· ∈ Q) (comb ψ S T o g₀) → GlobalTheory.FinPl.Vac ψ S T N N' (· ∈ Q) (comb ψ S T o' g₀) → comb ψ S T o' g₀ ≠ 0 → ∃ c : ℂ, comb ψ S T o g₀ = c • comb ψ S T o' g₀ := GlobalTheory.T.latticeVacuumCombinations_differ_by_scalar
-
-section Fam
-
-variable {D : D7} {L : SizeData₂ D} {hT : GatTies D} {Gi : Formalism.MainNotions.G.Inst D L} {Gl : Formalism.MainNotions.G.LatInst D} {Kc : Formalism.MainNotions.G.Consts}
-  {Yd : DivX D} {cX : ExtraC} {ex : Extra D L hT Gi Gl Kc Yd cX} (W : RealPack ex)
-
-end Fam
-
-end GlobalTheory.GVecAt
 end -- clump:auto
 end -- clump:auto
 end -- clump:auto
@@ -645,7 +617,6 @@ section -- clump:auto
 open Formalism.BasicNotions Formalism.BasicNotions.TH Formalism.MainNotions Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes Formalism.MainNotions.StandardLattice Formalism.L2.Theta Formalism.L2.DIV Formalism.IndefR Formalism.IndefR.Links Formalism.IndefR.Lev Formalism.IndefR.Mult Formalism.IndefR.Datum MeasureTheory IsDedekindDomain NumberField Matrix
 open GlobalTheory.MixModel GlobalTheory.MixPer GlobalTheory.Unf GlobalTheory.SeeSaw GlobalTheory.SplitWeil GlobalTheory.RootEx GlobalTheory.StepData GlobalTheory.LocMod GlobalTheory.MiS ValuativeRel
 open scoped TensorProduct Classical
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 open GlobalTheory.Fam
 
 noncomputable section
@@ -722,16 +693,23 @@ theorem latV_eq_of_moves {V : HSp D} {g : GA D V} {Λ M N : GlobalTheory.FinPl.L
     (hM : Submodule.IsLattice D.host.E M) (hN : Submodule.IsLattice D.host.E N)
     (h1 : GlobalTheory.FinPl.Moves V g Λ M P) (h2 : GlobalTheory.FinPl.Moves V g Λ N P) :
     GlobalTheory.FinPl.latV V M P = GlobalTheory.FinPl.latV V N P := by
-  intros
-  apply _root_.GlobalTheory.CommonVac.latV_eq_of_moves <;> assumption
+  have key : ∀ (A B : GlobalTheory.FinPl.Lat V), Submodule.IsLattice D.host.E A → GlobalTheory.FinPl.Moves V g Λ A P →
+      GlobalTheory.FinPl.Moves V g Λ B P → ∀ y, y ∈ GlobalTheory.FinPl.latV V A P → y ∈ GlobalTheory.FinPl.latV V B P := by
+    intro A B hA hgA hgB y hy
+    have hent : ∀ i, y i ∈ GlobalTheory.FinPl.idAt D P := ((((_root_.GlobalTheory.FinPl.localComponents D P).2 V).2.2.2 A y hA).1 hy).1
+    have hz := GlobalTheory.VacMove.mem_ideal_mulVec _ (Formalism.L2.Theta.mt V g⁻¹) y hent
+    have e : Formalism.L2.Theta.mt V g *ᵥ (Formalism.L2.Theta.mt V g⁻¹ *ᵥ y) = y := by
+      rw [Matrix.mulVec_mulVec, _root_.GlobalTheory.MixModel.mt_mul_inv, Matrix.one_mulVec]
+    have h3 := (hgA _ hz).2 (e.symm ▸ hy)
+    have h4 := (hgB _ hz).1 h3
+    rwa [e] at h4
+  ext y
+  exact ⟨key M N hM h1 h2 y, key N M hN h2 h1 y⟩
 
 end Gen
 
 end GlobalTheory.DatumTopAt
 
-namespace GlobalTheory.DatumTopAt
-
-end GlobalTheory.DatumTopAt
 end -- clump:auto
 end -- clump:auto
 end -- clump:auto
@@ -745,7 +723,6 @@ section -- clump:auto
 open Formalism.BasicNotions Formalism.BasicNotions.TH Formalism.MainNotions Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes Formalism.MainNotions.StandardLattice Formalism.L2.Theta Formalism.L2.DIV Formalism.IndefR Formalism.IndefR.Links Formalism.IndefR.Lev Formalism.IndefR.Mult Formalism.IndefR.Datum MeasureTheory IsDedekindDomain NumberField Matrix
 open GlobalTheory.MixModel GlobalTheory.MixPer GlobalTheory.Unf GlobalTheory.SeeSaw GlobalTheory.SplitWeil GlobalTheory.RootEx GlobalTheory.StepData GlobalTheory.LocMod GlobalTheory.MiS ValuativeRel
 open scoped TensorProduct Classical
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 open GlobalTheory.Fam
 
 noncomputable section
@@ -756,8 +733,75 @@ variable {D : D7} {ψ : AddChar (AF D.host.F) ℂ} {S T : HSp D} {M : GlobalTheo
 
 theorem comb_o_ne_zero (hψ : IsStdChar D ψ (-1)) (hM : IsSelfDualC S M) (hM' : IsSelfDualC T M') (L : LocPl ψ S T M M')
     {h : WO S T → ℂ} (hv : GlobalTheory.FinPl.Vac ψ S T M M' (· = L.q.v) h) (h0 : h ≠ 0) : comb ψ S T L.o h ≠ 0 := by
-  intros
-  apply _root_.GlobalTheory.VacComb.comb_o_ne_zero <;> assumption
+  classical
+  set p : Place D L.k := ofSplit L.q with hp
+  obtain ⟨ε, hε, hs⟩ := L.q.above
+  obtain ⟨s1, s2, -⟩ := L.q.split
+  have hsc := GlobalTheory.PlaceModelSum.isSplitIdem_cA L.q.split
+  have c1 : cA D L.q.e * cA D L.q.e = cA D L.q.e := by rw [← map_mul, s1]
+  have he1 : algebraMap (AF D.host.F) (AE D) ε * L.q.e = L.q.e := by
+    rw [← hs]; linear_combination s1 + s2
+  have he2 : algebraMap (AF D.host.F) (AE D) ε * cA D L.q.e = cA D L.q.e := by
+    rw [← hs]; linear_combination c1 + s2
+
+  have fix : ∀ a : AE D, IsSplitIdem D a → algebraMap (AF D.host.F) (AE D) ε * a = a →
+      ∀ u ∈ (latO S T (M : Set _) (M' : Set _) fun _ => True) ⊓ GlobalTheory.PlaceModel.half S T a, heisO ψ S T u h = h := by
+    intro a ha hea u hu
+    have hm := GlobalTheory.PlaceModel.idem_smul_mem hε ha.1 hea (AddSubgroup.mem_inf.1 hu).1
+    have hua : a • u = u := (GlobalTheory.PlaceModel.mem_half S T).1 (AddSubgroup.mem_inf.1 hu).2
+    rw [hua] at hm
+    exact hv.2.2 a ha u (AddSubgroup.mem_inf.1 hm).1 ((GlobalTheory.PlaceModel.isHalf_iff S T).2 (AddSubgroup.mem_inf.1 hm).2)
+  have hO : GlobalTheory.PlaceModelSum.IsOrthSum L.q.e :=
+    ⟨Unit, {()}, fun _ => L.q.e, fun _ _ => L.q.split, fun _ _ _ _ hne => absurd rfl hne, by simp⟩
+  obtain ⟨T', hT'⟩ := GlobalTheory.FlatVecExist.exists_model_of_fix hψ hM hM' hO s2 (fix _ L.q.split he1) (fix _ hsc he2)
+  let Tm := T'.comp (GlobalTheory.LocMod.Witness.ext p L.FS L.FT)
+  have hTm : p.IsModel ψ L.FS L.FT Tm := by
+    refine ⟨fun Φ => ?_, fun x Φ Φ' e => ?_, fun y hy Φ Φ' e => ?_⟩
+    · exact GlobalTheory.SchrTheta.isTheta_placeModel D ψ hψ S T M M' hM hM' L.q.e s1 (GlobalTheory.PlaceModelSum.infPart_split L.q.split)
+        h hv.1 T' hT' _ (GlobalTheory.LocMod.Witness.ext_sb p L.FS L.FT hM hM' Φ)
+    · refine Eq.trans (congrArg T' ?_) (hT'.trans _ (GlobalTheory.LocMod.Witness.ext_sb p L.FS L.FT hM hM' Φ) _
+        (GlobalTheory.LocMod.Witness.up_half p L.FS L.FT x))
+      funext t
+      rw [GlobalTheory.LocMod.Witness.ext_apply, GlobalTheory.LocMod.Witness.ext_apply, GlobalTheory.LocMod.Witness.down_add,
+        GlobalTheory.LocMod.Witness.down_up, e]
+      exact if_congr (GlobalTheory.LocMod.Witness.half_add (GlobalTheory.LocMod.Witness.up_half p L.FS L.FT x)).symm rfl rfl
+    · refine Eq.trans (congrArg T' ?_) (hT'.modul _ (GlobalTheory.LocMod.Witness.ext_sb p L.FS L.FT hM hM' Φ) _ hy)
+      funext t
+      rw [GlobalTheory.LocMod.Witness.ext_apply, GlobalTheory.LocMod.Witness.ext_apply, e]
+      split_ifs with ht
+      · rw [GlobalTheory.LocMod.Witness.up_down p L.FS L.FT ht]
+      · rw [mul_zero]
+  let Φ₀ : SB (Matrix L.Y L.Y' L.k) := ⟨_, GlobalTheory.LatIndSB.indicator_latO_mem_SB D ψ S T M M' hM hM' L⟩
+  have hΦ₀ : Tm Φ₀ = h := by
+    have e1 : GlobalTheory.LocMod.Witness.ext p L.FS L.FT Φ₀ = (1 : ℂ) • halfInd L.q.e (latO S T (M : Set _) (M' : Set _) fun _ => True) := by
+      funext t
+      rw [one_smul, GlobalTheory.LocMod.Witness.ext_apply, halfInd]
+      by_cases ht : IsHalf p.e t
+      · rw [ite_eq_left ht]
+        show Set.indicator {x | p.up L.FS L.FT x ∈ latO S T (M : Set _) (M' : Set _) (· = L.q.v)} (fun _ => (1 : ℂ)) (p.down L.FS L.FT t) = _
+        rw [Set.indicator_apply]
+        refine if_congr ?_ rfl rfl
+        change p.up L.FS L.FT (p.down L.FS L.FT t) ∈ latO S T (M : Set _) (M' : Set _) (· = L.q.v) ↔ _
+        rw [GlobalTheory.LocMod.Witness.up_down p L.FS L.FT ht, and_iff_left (show IsHalf L.q.e t from ht)]
+        refine ⟨fun hm => GlobalTheory.PlaceModel.latO_le_top _ hm, fun hm => ?_⟩
+        have h2 := (GlobalTheory.PlaceModel.idem_smul_mem hε s1 he1 hm).1
+        have h3 : L.q.e • t = t := (GlobalTheory.PlaceModel.mem_half S T).1 ((GlobalTheory.PlaceModel.isHalf_iff S T).1 ht)
+        rw [h3] at h2
+        exact h2
+      · rw [ite_eq_right ht, ite_eq_right fun hh => ht hh.2]
+    change T' (GlobalTheory.LocMod.Witness.ext p L.FS L.FT Φ₀) = h
+    rw [e1]
+    exact hT'.vac
+  obtain ⟨O, hO, hO1⟩ := GlobalTheory.LocMod.PinModel.exists_isOne (k := L.k) (Y := L.Y) (Y' := L.Y')
+  have hOne : Tm O = comb ψ S T L.o (Tm Φ₀) := L.o_is Tm hTm Φ₀ O hO rfl
+  intro hc
+  rw [hΦ₀, hc] at hOne
+  have hO0 : O ≠ 0 := by rintro rfl; simp at hO1
+  have hz := (GlobalTheory.LocModU.localModel_uniq_transport_exist D L.k p L.Y L.Y' S T L.FS L.FT ψ hψ).1 Tm ((0 : ℂ) • Tm) hTm
+    (GlobalTheory.LocMod.Witness.isModel_smul p hTm 0) O hO0 (by rw [hOne]; simp)
+  apply h0
+  rw [← hΦ₀, hz]
+  simp
 
 theorem vac_mono (hψ : IsStdChar D ψ (-1)) (hM : IsSelfDualC S M) (hM' : IsSelfDualC T M')
     {P Q : GlobalTheory.FinPl.Pl D → Prop} (hQP : ∀ v, Q v → P v) {f : WO S T → ℂ}
@@ -823,7 +867,6 @@ section -- clump:auto
 open Formalism.BasicNotions Formalism.BasicNotions.TH Formalism.MainNotions Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes Formalism.MainNotions.StandardLattice Formalism.L2.Theta Formalism.L2.DIV Formalism.IndefR Formalism.IndefR.Links Formalism.IndefR.Lev Formalism.IndefR.Mult Formalism.IndefR.Datum MeasureTheory IsDedekindDomain NumberField Matrix
 open GlobalTheory.MixModel GlobalTheory.MixPer GlobalTheory.Unf GlobalTheory.SeeSaw GlobalTheory.SplitWeil GlobalTheory.RootEx GlobalTheory.StepData GlobalTheory.LocMod GlobalTheory.MiS ValuativeRel
 open scoped TensorProduct Classical
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 open GlobalTheory.Fam
 
 theorem _root_.GlobalTheory.T.seesawCombinations_composite_ne_zero_of_vacuum : ∀ (D : D7) (ψ : AddChar (AF D.host.F) ℂ), IsStdChar D ψ (-1) → ∀ (S T : HSp D) (M : GlobalTheory.FinPl.Lat S) (M' : GlobalTheory.FinPl.Lat T), IsSelfDualC S M → IsSelfDualC T M' → ∀ (n : ℕ) (Lp : Fin n → LocPl ψ S T M M'), (Function.Injective fun i => (Lp i).q.v) → ∀ g, GlobalTheory.FinPl.Vac ψ S T M M' (fun _ => True) g → g ≠ 0 → (List.finRange n).foldr (fun i g' => comb ψ S T (Lp i).o g') g ≠ 0 := by
@@ -840,7 +883,6 @@ section -- clump:auto
 open Formalism.BasicNotions Formalism.BasicNotions.TH Formalism.MainNotions Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes Formalism.MainNotions.StandardLattice Formalism.L2.Theta Formalism.L2.DIV Formalism.IndefR Formalism.IndefR.Links Formalism.IndefR.Lev Formalism.IndefR.Mult Formalism.IndefR.Datum MeasureTheory IsDedekindDomain NumberField Matrix
 open GlobalTheory.MixModel GlobalTheory.MixPer GlobalTheory.Unf GlobalTheory.SeeSaw GlobalTheory.SplitWeil GlobalTheory.RootEx GlobalTheory.StepData GlobalTheory.LocMod GlobalTheory.MiS ValuativeRel
 open scoped TensorProduct Classical
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 open GlobalTheory.Fam
 
 noncomputable section
@@ -925,7 +967,6 @@ section
 open Formalism.BasicNotions Formalism.BasicNotions.TH Formalism.MainNotions Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes Formalism.MainNotions.StandardLattice Formalism.L2.Theta Formalism.L2.DIV Formalism.IndefR Formalism.IndefR.Links Formalism.IndefR.Lev Formalism.IndefR.Mult Formalism.IndefR.Datum MeasureTheory IsDedekindDomain NumberField Matrix
 open GlobalTheory.MixModel GlobalTheory.MixPer GlobalTheory.Unf GlobalTheory.SeeSaw GlobalTheory.SplitWeil GlobalTheory.RootEx GlobalTheory.StepData GlobalTheory.LocMod GlobalTheory.MiS ValuativeRel
 open scoped TensorProduct Classical
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 open GlobalTheory.Fam
 noncomputable section
 namespace GlobalTheory.TopDatumTheta
@@ -1046,17 +1087,17 @@ theorem datum_eq_alt (hPk : _root_.GlobalTheory.Fam.PackageHypotheses W) {n : �
   have hpl := fun i => _root_.GlobalTheory.TopDatumTheta.place_alt hPk hGR i h x rfl
   by_cases hx : IsHalf (∑ i, (G' (pl i)).q.e) x
   swap
-  · rw [if_neg hx, if_neg fun H => hx ((_root_.GlobalTheory.SchrMove.isHalf_actO_iff _ _ _).1 H.1)]
+  · rw [ite_eq_right hx, ite_eq_right fun H => hx ((_root_.GlobalTheory.SchrMove.isHalf_actO_iff _ _ _).1 H.1)]
   have hy := (_root_.GlobalTheory.SchrMove.isHalf_actO_iff (f.g.b (j + 1))⁻¹ f.g.bT⁻¹ x).2 hx
-  rw [if_pos hx]
+  rw [ite_eq_left hx]
   by_cases hI : IsIntM (frMapO (Yc D (j + 1)) D.sp.X' ((_root_.GlobalTheory.Fam.pk_z W).βY (j + 1)) (_root_.GlobalTheory.Fam.pk_z W).βX (actO _ _ (f.g.b (j + 1))⁻¹ f.g.bT⁻¹ x))
-  · rw [if_pos ⟨hy, hI⟩, GlobalTheory.FunObj.Comparison₂.omegaQ_eq_prod, Finset.prod_empty, mul_one,
+  · rw [ite_eq_left ⟨hy, hI⟩, GlobalTheory.FunObj.Comparison₂.omegaQ_eq_prod, Finset.prod_empty, mul_one,
       omegaG_eq_prod (r_le_Y (j + 1)) _ _ _ _ _ (fun w => _root_.GlobalTheory.TopDatumTheta.ReducesModIdeal (G' w) w.1) (fun w y => (G' w).S.P.lam y)
         (fun g => (hGR.lev g).1.trans (pl.forall_congr_right (q := fun w => ∃ y, _root_.GlobalTheory.TopDatumTheta.ReducesModIdeal (G' w) w.1 y (g w))))
         (fun g y hy => ((hGR.lev g.1).2 g.2 (fun i => y (pl i)) fun i => hy (pl i)).trans
           (Equiv.prod_comp pl fun w => (G' w).S.P.lam (y w))), ← Equiv.prod_comp pl]
     exact Finset.prod_congr rfl fun i _ => (hpl i).2 hI
-  · rw [if_neg fun H => hI H.2]
+  · rw [ite_eq_right fun H => hI H.2]
     refine (Finset.prod_eq_zero_iff.2 (by_contra fun hne => hI fun a b => ?_)).symm
     have h1 : (∑ i, (G' (pl i)).q.e) • actO _ _ (f.g.b (j + 1))⁻¹ f.g.bT⁻¹ x = actO _ _ (f.g.b (j + 1))⁻¹ f.g.bT⁻¹ x :=
       Matrix.ext fun r s => hy r s
@@ -1120,7 +1161,6 @@ section
 open Formalism.BasicNotions Formalism.BasicNotions.TH Formalism.MainNotions Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes Formalism.MainNotions.StandardLattice Formalism.L2.Theta Formalism.L2.DIV Formalism.IndefR Formalism.IndefR.Links Formalism.IndefR.Lev Formalism.IndefR.Mult Formalism.IndefR.Datum MeasureTheory IsDedekindDomain NumberField Matrix
 open GlobalTheory.MixModel GlobalTheory.MixPer GlobalTheory.Unf GlobalTheory.SeeSaw GlobalTheory.SplitWeil GlobalTheory.RootEx GlobalTheory.StepData GlobalTheory.LocMod GlobalTheory.MiS ValuativeRel
 open scoped TensorProduct Classical
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 open GlobalTheory.Fam
 noncomputable section
 namespace GlobalTheory.TopLocData
@@ -1163,7 +1203,6 @@ section
 open Formalism.BasicNotions Formalism.BasicNotions.TH Formalism.MainNotions Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes Formalism.MainNotions.StandardLattice Formalism.L2.Theta Formalism.L2.DIV Formalism.IndefR Formalism.IndefR.Links Formalism.IndefR.Lev Formalism.IndefR.Mult Formalism.IndefR.Datum MeasureTheory IsDedekindDomain NumberField Matrix
 open GlobalTheory.MixModel GlobalTheory.MixPer GlobalTheory.Unf GlobalTheory.SeeSaw GlobalTheory.SplitWeil GlobalTheory.RootEx GlobalTheory.StepData GlobalTheory.LocMod GlobalTheory.MiS ValuativeRel
 open scoped TensorProduct Classical
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 open GlobalTheory.Fam
 noncomputable section
 namespace GlobalTheory.TopVac
@@ -1223,14 +1262,8 @@ section
 open Formalism.BasicNotions Formalism.BasicNotions.TH Formalism.MainNotions Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes Formalism.MainNotions.StandardLattice Formalism.L2.Theta Formalism.L2.DIV Formalism.IndefR Formalism.IndefR.Links Formalism.IndefR.Lev Formalism.IndefR.Mult Formalism.IndefR.Datum MeasureTheory IsDedekindDomain NumberField Matrix
 open GlobalTheory.MixModel GlobalTheory.MixPer GlobalTheory.Unf GlobalTheory.SeeSaw GlobalTheory.SplitWeil GlobalTheory.RootEx GlobalTheory.StepData GlobalTheory.LocMod GlobalTheory.MiS ValuativeRel
 open scoped TensorProduct Classical
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 open GlobalTheory.Fam
 noncomputable section
-namespace GlobalTheory.DatumTopAt
-section Gen
-variable {D : D7} {ψ : AddChar (AF D.host.F) ℂ} {S T : HSp D}
-end Gen
-end GlobalTheory.DatumTopAt
 namespace GlobalTheory.DatumTopAt
 theorem datum_top_alt : ∀ (D : D7) (L : SizeData₂ D) (hT : GatTies D) (Gi : Formalism.MainNotions.G.Inst D L) (Gl : Formalism.MainNotions.G.LatInst D) (Kc : Formalism.MainNotions.G.Consts) (Yd : DivX D) (cX : ExtraC) (ex : Extra D L hT Gi Gl Kc Yd cX) (W : _root_.GlobalTheory.MiS.RealPackAlt ex) (u : D.what₂.Word) (f : _root_.GlobalTheory.Fam.FamilyCharacter W u), _root_.GlobalTheory.Fam.PackageHypotheses W → f.RowOK → ∀ v : VCom f.c, v.Is → _root_.GlobalTheory.Fam.CommutingVectorTie f v → ∀ (n : ℕ) (G : Fin n → GLoc v) (pl : Fin n ≃ (_root_.GlobalTheory.Fam.pk_z W).Pg), GPin G → _root_.GlobalTheory.Fam.LocalGroupReading f G pl → ∀ j (h : j + 2 * 0 + 2 = D.R.m), ∀ d₀, _root_.GlobalTheory.Fam.IsDivisorGlobal W (j + 1) (_root_.GlobalTheory.Fam.pk_z W).MX (_root_.GlobalTheory.Fam.pk_z W).ΛX (_root_.GlobalTheory.Fam.pk_z W).βX (vacT (_root_.GlobalTheory.Fam.pk_z W) j h) d₀ → ∃ (M : GlobalTheory.FinPl.Lat (Yc D (j + 1))) (M' : GlobalTheory.FinPl.Lat D.sp.X') (o' : WO (Yc D (j + 1)) D.sp.X' →₀ ℂ), IsSelfDualC (Yc D (j + 1)) M ∧ IsSelfDualC D.sp.X' M' ∧ GlobalTheory.FinPl.CombAt (· ∈ v.gP) o' ∧ GlobalTheory.FinPl.Vac f.c.ψ _ _ M M' (· ∈ v.gP) (omT (_root_.GlobalTheory.Fam.pk_z W) W.P.A3.A.μ0 j h (f.g.b (j + 1), f.g.bT) (vacT (_root_.GlobalTheory.Fam.pk_z W) j h)) ∧ GlobalTheory.FinPl.Vac f.c.ψ _ _ (v.N (j + 1)) v.NT (· ∈ v.gP) (comb f.c.ψ _ _ o' (omT (_root_.GlobalTheory.Fam.pk_z W) W.P.A3.A.μ0 j h (f.g.b (j + 1), f.g.bT) (vacT (_root_.GlobalTheory.Fam.pk_z W) j h))) ∧ ((omT (_root_.GlobalTheory.Fam.pk_z W) W.P.A3.A.μ0 j h (f.g.b (j + 1), f.g.bT) (vacT (_root_.GlobalTheory.Fam.pk_z W) j h)) ≠ 0 → comb f.c.ψ _ _ o' (omT (_root_.GlobalTheory.Fam.pk_z W) W.P.A3.A.μ0 j h (f.g.b (j + 1), f.g.bT) (vacT (_root_.GlobalTheory.Fam.pk_z W) j h)) ≠ 0) ∧ ∃ κ : ℂ, κ ≠ 0 ∧ ∀ d, _root_.GlobalTheory.Fam.IsDivisorGlobal W (j + 1) (_root_.GlobalTheory.Fam.pk_z W).MX (_root_.GlobalTheory.Fam.pk_z W).ΛX (_root_.GlobalTheory.Fam.pk_z W).βX (vacT (_root_.GlobalTheory.Fam.pk_z W) j h) d → omT (_root_.GlobalTheory.Fam.pk_z W) W.P.A3.A.μ0 j h (f.g.b (j + 1), f.g.bT) (comb f.c.ψ _ _ d (vacT (_root_.GlobalTheory.Fam.pk_z W) j h)) = κ • comb f.c.ψ _ _ (v.eGT j h) (comb f.c.ψ _ _ o' (omT (_root_.GlobalTheory.Fam.pk_z W) W.P.A3.A.μ0 j h (f.g.b (j + 1), f.g.bT) (vacT (_root_.GlobalTheory.Fam.pk_z W) j h))) := by
   intro D L hT Gi Gl Kc Yd cX ex W u f hPk hRow v hv hVT n G pl hGP hGR j h d₀ hd₀
@@ -1306,11 +1339,8 @@ section
 open Formalism.BasicNotions Formalism.BasicNotions.TH Formalism.MainNotions Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes Formalism.MainNotions.StandardLattice Formalism.L2.Theta Formalism.L2.DIV Formalism.IndefR Formalism.IndefR.Links Formalism.IndefR.Lev Formalism.IndefR.Mult Formalism.IndefR.Datum MeasureTheory IsDedekindDomain NumberField Matrix
 open GlobalTheory.MixModel GlobalTheory.MixPer GlobalTheory.Unf GlobalTheory.SeeSaw GlobalTheory.SplitWeil GlobalTheory.RootEx GlobalTheory.StepData GlobalTheory.LocMod GlobalTheory.MiS ValuativeRel
 open scoped TensorProduct Classical
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 open GlobalTheory.Fam
 noncomputable section
-namespace GlobalTheory.GVecAt
-end GlobalTheory.GVecAt
 namespace GlobalTheory.GVecAt
 theorem main_alt_alt : ∀ (D : D7) (L : SizeData₂ D) (hT : GatTies D) (Gi : Formalism.MainNotions.G.Inst D L) (Gl : Formalism.MainNotions.G.LatInst D) (Kc : Formalism.MainNotions.G.Consts) (Yd : DivX D) (cX : ExtraC) (ex : Extra D L hT Gi Gl Kc Yd cX) (W : _root_.GlobalTheory.MiS.RealPackAlt ex) (u : D.what₂.Word) (f : _root_.GlobalTheory.Fam.FamilyCharacter W u), _root_.GlobalTheory.Fam.PackageHypotheses W → f.RowOK → ∀ v : VCom f.c, v.Is → _root_.GlobalTheory.Fam.CommutingVectorTie f v → ∀ (n : ℕ) (G : Fin n → GLoc v) (pl : Fin n ≃ (_root_.GlobalTheory.Fam.pk_z W).Pg), GPin G → _root_.GlobalTheory.Fam.LocalGroupReading f G pl → ∃ s : ℕ → ℂ, (∀ j, s j ≠ 0) ∧ _root_.GlobalTheory.Fam.GVectorCondition f v s := by
   intro D L hT Gi Gl Kc Yd cX ex W u f hPk hRow v hv hVT n G pl hGP hGR
@@ -1337,7 +1367,7 @@ theorem main_alt_alt : ∀ (D : D7) (L : SizeData₂ D) (hT : GatTies D) (Gi : F
     have hb' : f.g.b (j + 1) ∈ GfC _ := hVT.b (j + 1) ▸ hv.b (j + 1)
     have hΨ1 : v.Ψ j 1 1 1 = comb f.c.ψ _ _ o ((_root_.GlobalTheory.Fam.pk_z W).ωY W.P.A3.A.μ0 j (f.g.b j, f.g.b (j + 1)) ((_root_.GlobalTheory.Fam.pk_z W).vac j)) := by
       rw [hΨ, GlobalTheory.FiniteFock.pureTensorO_one, one_mul, one_mul]
-    have hov := vac_mono (· ∈ v.gP) (hΨ1 ▸ hv.Ψ j hj 1 1 (one_mem _) 1 (one_mem _))
+    have hov := GlobalTheory.MidDatum.vac_true_mono (· ∈ v.gP) (hΨ1 ▸ hv.Ψ j hj 1 1 (one_mem _) 1 (one_mem _))
     have honz : comb f.c.ψ _ _ o ((_root_.GlobalTheory.Fam.pk_z W).ωY W.P.A3.A.μ0 j (f.g.b j, f.g.b (j + 1)) ((_root_.GlobalTheory.Fam.pk_z W).vac j)) ≠ 0 := by
       intro h0
       obtain ⟨P, hP⟩ := hVT.nz.1 j hj
@@ -1380,7 +1410,7 @@ theorem main_alt_alt : ∀ (D : D7) (L : SizeData₂ D) (hT : GatTies D) (Gi : F
     have hb' : f.g.bT ∈ GfC _ := hVT.bT.1 ▸ hv.bT
     have hΨ1 : v.ΨT j h 1 = comb f.c.ψ _ _ o (omT (_root_.GlobalTheory.Fam.pk_z W) W.P.A3.A.μ0 j h (f.g.b (j + 1), f.g.bT) (vacT (_root_.GlobalTheory.Fam.pk_z W) j h)) := by
       rw [hΨ, GlobalTheory.FiniteFock.pureTensorO_one]
-    have hov := vac_mono (· ∈ v.gP) (hΨ1 ▸ hv.ΨT j h 1)
+    have hov := GlobalTheory.MidDatum.vac_true_mono (· ∈ v.gP) (hΨ1 ▸ hv.ΨT j h 1)
     have honz : comb f.c.ψ _ _ o (omT (_root_.GlobalTheory.Fam.pk_z W) W.P.A3.A.μ0 j h (f.g.b (j + 1), f.g.bT) (vacT (_root_.GlobalTheory.Fam.pk_z W) j h)) ≠ 0 := by
       intro h0
       obtain ⟨P, hP⟩ := hVT.nz.2 j h
@@ -1423,12 +1453,12 @@ theorem main_alt_alt : ∀ (D : D7) (L : SizeData₂ D) (hT : GatTies D) (Gi : F
       · split_ifs with hk
         · exact (hct _ hk).1
         · exact one_ne_zero
-  · have hs : s j = cm j hj := dif_pos hj
+  · have hs : s j = cm j hj := dite_eq_left hj
     rw [hs]
     exact (hcm j hj).2 d hd P a ha a' ha'
   · have hs : s (j + 1) = ct j h := by
       show (if hi : j + 1 + 1 < D.R.m then cm (j + 1) hi else if hk : j + 2 * 0 + 2 = D.R.m then ct j hk else 1) = ct j h
-      rw [dite_eq_right (by omega), dif_pos h]
+      rw [dite_eq_right (by omega), dite_eq_left h]
     rw [hs]
     exact (hct j h).2 d hd P
 end GlobalTheory.GVecAt

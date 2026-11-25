@@ -1,7 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.WachImageDeRhamPlusComponentLevel
-import Formalism.SharpRestriction.LevelLetterCocycles.LevelKernelDetection.PfLvFil
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.PeriodDiscExtensionTateElement
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.SeriesTransport
 public import Mathlib.RingTheory.PowerSeries.Substitution
@@ -19,57 +17,7 @@ public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Sand
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsWachModulePeriodMapToBcris
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.MaxUnramifiedActsOnLetterIdempotentImage
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.WachLatticeAinfSandwichInvertPi
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Henselian
-import Mathlib.RingTheory.PiTensorProduct
-import Mathlib.RingTheory.PowerSeries.NoZeroDivisors
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.RingTheory.RegularLocalRing.Defs
-import Mathlib.RingTheory.SimpleRing.Principal
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
-import Mathlib.Algebra.Order.Star.Int
-import Mathlib.Order.Interval.Finset.Box
-import Mathlib.RingTheory.WittVector.IsPoly
 import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.WachLatticeFreeOfCrystalline
 import Mathlib.Tactic.Linter.HaveILetI
 
@@ -331,7 +279,7 @@ theorem lev_transport (F : Frame Dc Mo T) (F' : Frame Dc Mo T') (σ : LetA LL n 
 
     simp only [map_smul, map_sum, Module.Basis.repr_self, Finsupp.smul_apply, Finsupp.finsetSum_apply,
     Finsupp.single_apply, smul_eq_mul, mul_ite, mul_one, mul_zero, Finset.sum_ite_eq', Finset.mem_univ,
-    if_true, map_mul, hσA] at h1
+    ite_true, map_mul, hσA] at h1
     simp only [Pi.smul_apply, smul_eq_mul, Matrix.mulVec, dotProduct, Matrix.map_apply, Function.comp_apply, h1]
     simp only [mul_comm]
   have h2 := coord_transport σ F.U F.V F'.U F'.V _ _ _ _ hq F.UV F'.UV hU _ _ hc
@@ -557,7 +505,7 @@ theorem lev_map (hinv : ∀ a : LetA LL n, γL R Γ.gam a = a → ∃ c, a = cst
 
     simp only [map_smul, map_sum, Module.Basis.repr_self, Finsupp.smul_apply, Finsupp.finsetSum_apply,
     Finsupp.single_apply, smul_eq_mul, mul_ite, mul_one, mul_zero, Finset.sum_ite_eq', Finset.mem_univ,
-    if_true] at h3
+    ite_true] at h3
     simp only [Matrix.mul_apply, Matrix.map_apply]
     simpa only [mul_comm] using h3
   have hVU : F'.V * F'.U = 1 := mul_eq_one_comm.mp F'.UV
@@ -688,7 +636,7 @@ theorem dR_lev (F : Frame Dc Mo T) (i : ZMod n) (ζ : LL) (ι : LL →ₐ[Qp] Bd
         PD.Fil ((m + 1 : ℕ) : ℤ) := by
       intro m
       have := Dc.taylor i ζ ι h1 h2 (Dc.jA (letE i)) (m + 1)
-      rw [Dc.J_jA, Dc.ex_jA, Dc.lev_letE, if_pos rfl, Finset.sum_eq_single 0] at this
+      rw [Dc.J_jA, Dc.ex_jA, Dc.lev_letE, ite_eq_left rfl, Finset.sum_eq_single 0] at this
       · simpa using this
       · intro j _ hj
         simp [PowerSeries.coeff_one, hj]
@@ -726,19 +674,6 @@ noncomputable section
 namespace GlobalTheory.HWL.Cmp
 
 open Formalism.BasicNotions Formalism.BasicNotions.Loc Formalism.WeaklyAdmissibleFiltrations TensorProduct GlobalTheory.HWL
-
-section Filt
-
-variable {G : Type} [Group G] {Qp K₀ K : Type} [Field Qp] [Field K₀] [Field K]
-    [Algebra Qp K₀] [Algebra Qp K] [Algebra K₀ K] [IsScalarTower Qp K₀ K]
-    {B BdR : Type} [CommRing B] [CommRing BdR] [Algebra Qp B] [Algebra K₀ B] [IsScalarTower Qp K₀ B]
-    [Algebra Qp BdR] [Algebra K₀ BdR] [Algebra K BdR] [IsScalarTower Qp K BdR]
-    [IsScalarTower K₀ K BdR] [IsScalarTower Qp K₀ BdR]
-    (PD : PeriodData G Qp K₀ K B BdR)
-    {LL : Type} [Field LL] [Algebra Qp LL]
-    {V : Type} [AddCommGroup V] [Module LL V] [Module Qp V] [IsScalarTower Qp LL V]
-
-end Filt
 
 open TensorProduct in
 variable {G : Type} [Group G] {Qp K₀ K : Type} [Field Qp] [Field K₀] [Field K]
@@ -797,7 +732,16 @@ variable {G : Type} [Group G] {Qp K₀ K : Type} [Field Qp] [Field K₀] [Field 
 variable {LL : Type} [Field LL] [Algebra Qp LL]
     {V : Type} [AddCommGroup V] [Module LL V] [Module Qp V] [IsScalarTower Qp LL V] in
 private theorem exists_mem_filV' (x : V ⊗[Qp] BdR) : ∃ n, x ∈ _root_.Formalism.WeaklyAdmissibleFiltrations.FilV PD (LL := LL) (V := V) n := by
-  apply _root_.Formalism.MainNotions.N.Ln03.Pf.lvFil_FilV_exh <;> assumption
+  induction x using TensorProduct.induction_on with
+  | zero => exact ⟨0, zero_mem _⟩
+  | tmul v y =>
+    obtain ⟨n, hn⟩ := PD.Fil_exh y
+    exact ⟨n, tmul_mem_filV_of_mem_fil PD n v hn⟩
+  | add x y hx hy =>
+    obtain ⟨n₁, h₁⟩ := hx
+    obtain ⟨n₂, h₂⟩ := hy
+    exact ⟨min n₁ n₂, add_mem (filV_antitone' PD (min_le_left _ _) h₁)
+      (filV_antitone' PD (min_le_right _ _) h₂)⟩
 
 open TensorProduct in
 variable {G : Type} [Group G] [TopologicalSpace G] {Qp : Type} [Field Qp] {BdR : Type}
@@ -824,7 +768,18 @@ variable {G : Type} [Group G] [TopologicalSpace G] {Qp : Type} [Field Qp] {BdR :
     [Algebra O LL] [TopologicalSpace LL] (T : _root_.Formalism.BasicNotions.LocLat G Qp LL O) in
 private theorem mulVR_mem_compKer (ι : LL →ₐ[Qp] BdR) (β : BdR) {x : T.V ⊗[Qp] BdR}
     (hx : x ∈ _root_.Formalism.BasicNotions.compKer T ι) : _root_.Formalism.BasicNotions.mulVR T β x ∈ _root_.Formalism.BasicNotions.compKer T ι := by
-  apply _root_.GlobalTheory.NL.PerS.mulVR_compKer <;> assumption
+  unfold _root_.Formalism.BasicNotions.compKer at hx ⊢
+  induction hx using Submodule.span_induction with
+  | mem y hy =>
+    obtain ⟨c, y, rfl⟩ := hy
+    apply Submodule.subset_span
+    refine ⟨c, _root_.Formalism.BasicNotions.mulVR T β y, ?_⟩
+    rw [map_sub, LinearMap.map_smul, mulVR_mulVR', mulVR_mulVR', mul_comm]
+  | zero => simp
+  | add x y _ _ hx hy =>
+    rw [LinearMap.map_add]
+    exact add_mem hx hy
+  | smul c x _ hx => rw [LinearMap.map_smul]; exact Submodule.smul_mem _ c hx
 
 open TensorProduct in
 private theorem mulRight_mem_filV_lemma_4 {G : Type} [Group G] [TopologicalSpace G] {Qp K₀ K : Type}
@@ -836,7 +791,17 @@ private theorem mulRight_mem_filV_lemma_4 {G : Type} [Group G] [TopologicalSpace
     [Algebra O LL] [TopologicalSpace LL] (T : _root_.Formalism.BasicNotions.LocLat G Qp LL O) {p n : ℤ} {β : BdR}
     (hβ : β ∈ PD.Fil p) {x : T.V ⊗[Qp] BdR} (hx : x ∈ _root_.Formalism.WeaklyAdmissibleFiltrations.FilV PD (LL := LL) (V := T.V) n) :
     _root_.Formalism.BasicNotions.mulVR T β x ∈ _root_.Formalism.WeaklyAdmissibleFiltrations.FilV PD (LL := LL) (V := T.V) (p + n) := by
-  apply _root_.GlobalTheory.NL.PerS.mulVR_FilV <;> assumption
+  unfold _root_.Formalism.WeaklyAdmissibleFiltrations.FilV at hx
+  obtain ⟨t, rfl⟩ := hx
+  induction t using TensorProduct.induction_on with
+  | zero => simp
+  | tmul v y =>
+    simp only [AlgebraTensorModule.map_tmul, LinearMap.id_apply, Submodule.coe_subtype,
+      mulVR_tmul']
+    exact tmul_mem_filV_of_mem_fil PD _ v (PD.Fil_mul _ _ _ _ hβ y.2)
+  | add x y hx hy =>
+    simp only [LinearMap.map_add]
+    exact add_mem hx hy
 
 open TensorProduct in
 variable {G : Type} [Group G] [TopologicalSpace G] {Qp : Type} [Field Qp] {BdR : Type}
@@ -1158,14 +1123,14 @@ theorem powerSeries_eq_C_of_subst_eq_self (L : Type) [Field L] (y : PowerSeries 
     intro n
     rw [coeff_subst' hs, finsum_eq_sum_of_support_subset (s := Finset.range (n + 1))]
     · refine Finset.sum_congr rfl fun d hd => ?_
-      rw [mul_pow, coeff_X_pow_mul', if_pos (Nat.lt_succ_iff.mp (Finset.mem_range.mp hd)),
+      rw [mul_pow, coeff_X_pow_mul', ite_eq_left (Nat.lt_succ_iff.mp (Finset.mem_range.mp hd)),
         smul_eq_mul]
     · intro d hd
       rw [Function.mem_support] at hd
       rw [Finset.coe_range, Set.mem_Iio]
       by_contra h
       apply hd
-      rw [mul_pow, coeff_X_pow_mul', if_neg (by omega), smul_zero]
+      rw [mul_pow, coeff_X_pow_mul', ite_eq_right (by omega), smul_zero]
 
   have main : ∀ k, 0 < k → coeff k a = 0 := by
     intro k
@@ -1187,7 +1152,7 @@ theorem powerSeries_eq_C_of_subst_eq_self (L : Type) [Field L] (y : PowerSeries 
   ext n
   rcases n with _ | n
   · simp
-  · rw [coeff_C, if_neg (Nat.succ_ne_zero n)]
+  · rw [coeff_C, ite_eq_right (Nat.succ_ne_zero n)]
     exact main (n + 1) (Nat.succ_pos n)
 
 end GlobalTheory
@@ -1237,8 +1202,8 @@ theorem nonempty_wCmp [NeZero n] (Dc : Disc R b₀ tS zS) (Mo : WN E zl) {ιdR :
     (Fr : ∀ T : LocLat G Qp LL O, IsCrys PD T.ρ → Frame Dc Mo T)
     (hinv : ∀ a : LetA LL n, γL R Γ.gam a = a → ∃ c, a = cst c) : Nonempty (WCmp Mo ιdR p1 tS zS) := by
   have pos : ∀ (T : LocLat G Qp LL O) (h : IsCrys PD T.ρ) (i : ZMod n) (ζ : LL), levOf bT Fr T i ζ = Frame.lev bT (Fr T h) i ζ :=
-    fun T h i ζ => dif_pos h
-  have neg : ∀ (T : LocLat G Qp LL O) (_ : ¬ IsCrys PD T.ρ) (i : ZMod n) (ζ : LL), levOf bT Fr T i ζ = 0 := fun T h i ζ => dif_neg h
+    fun T h i ζ => dite_eq_left h
+  have neg : ∀ (T : LocLat G Qp LL O) (_ : ¬ IsCrys PD T.ρ) (i : ZMod n) (ζ : LL), levOf bT Fr T i ζ = 0 := fun T h i ζ => dite_eq_right h
   have hmem : ∀ (T : LocLat G Qp LL O) (i : ZMod n) (ζ : LL) (x : ↥(Mo.N T)) (k : ℤ), levOf bT Fr T i ζ x k ∈ DcrisL PD T.ρ (Γ.emb i) := by
     intro T i ζ x k
     by_cases h : IsCrys PD T.ρ

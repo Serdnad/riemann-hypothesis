@@ -8,57 +8,9 @@ public import Mathlib.RingTheory.Ideal.BigOperators
 public import Mathlib.RingTheory.LocalRing.ResidueField.Basic
 public import Development.WeilBound.CoreStatements.TemperedRepresentationTheory.SquareIntegrableTempered.CentredSegments.IrreducibleUnif
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.DominantCoweightAntitonePairingSum
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.PiTensorProduct
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.HaveILetI
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Tactic.TypeStar
-import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
-import Mathlib.RingTheory.RegularLocalRing.Defs
-import Mathlib.RingTheory.SimpleRing.Principal
-import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.HeckeOperatorsCommuteOnFixed
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AutomorphicSpectrum.Proofs.BlockDecomposition.SolveUnitriangular, Development.AutomorphicSpectrum.Proofs.BlockDecomposition.DoubleCosetVolumeFormula
@@ -171,27 +123,27 @@ theorem solve_unitriangular (J : Ideal R) (T V : Fin n → Fin n → Set R)
       have hr'l : ∀ i j, j < i → r' i j = 0 := by
         intro i j h
         have h' : j.val < i.val := h
-        rw [hr', if_neg (by omega), hrl i j h]
+        rw [hr', ite_eq_right (by omega), hrl i j h]
       have hw'l : ∀ i j, j < i → w' i j = 0 := by
         intro i j h
         have h' : j.val < i.val := h
-        rw [hw', if_neg (by omega), hwl i j h]
+        rw [hw', ite_eq_right (by omega), hwl i j h]
       have hr'd : ∀ i, r' i i = 1 := by
         intro i
-        rw [hr', if_neg (by omega), hrd i]
+        rw [hr', ite_eq_right (by omega), hrd i]
       have hw'd : ∀ i, w' i i = 1 := by
         intro i
-        rw [hw', if_neg (by omega), hwd i]
+        rw [hw', ite_eq_right (by omega), hwd i]
       refine ⟨r', w', hr'l, hr'd, hw'l, hw'd, ?_, ?_, ?_, ?_, ?_⟩
       · intro i j h h2
         rw [hr', hw']
         by_cases e : j.val = i.val + d + 1
-        · rw [if_pos e, if_pos e]
+        · rw [ite_eq_left e, ite_eq_left e]
           exact ⟨(htv i j h).1, (htv i j h).2.1⟩
-        · rw [if_neg e, if_neg e]
+        · rw [ite_eq_right e, ite_eq_right e]
           exact hin i j h (by omega)
       · intro i j h
-        rw [hr', hw', if_neg (by omega), if_neg (by omega)]
+        rw [hr', hw', ite_eq_right (by omega), ite_eq_right (by omega)]
         exact hout i j (by omega)
       · intro i j
         rw [hr']
@@ -199,9 +151,9 @@ theorem solve_unitriangular (J : Ideal R) (T V : Fin n → Fin n → Set R)
         · have hij : i < j := by
             rw [Fin.lt_def]
             omega
-          rw [if_pos e, Matrix.one_apply_ne (ne_of_lt hij), sub_zero]
+          rw [ite_eq_left e, Matrix.one_apply_ne (ne_of_lt hij), sub_zero]
           exact (htv i j hij).2.2.1
-        · rw [if_neg e]
+        · rw [ite_eq_right e]
           exact hrJ i j
       · intro i j
         rw [hw']
@@ -209,9 +161,9 @@ theorem solve_unitriangular (J : Ideal R) (T V : Fin n → Fin n → Set R)
         · have hij : i < j := by
             rw [Fin.lt_def]
             omega
-          rw [if_pos e, Matrix.one_apply_ne (ne_of_lt hij), sub_zero]
+          rw [ite_eq_left e, Matrix.one_apply_ne (ne_of_lt hij), sub_zero]
           exact (htv i j hij).2.2.2.1
-        · rw [if_neg e]
+        · rw [ite_eq_right e]
           exact hwJ i j
       · intro i j h
         by_cases e : j.val = i.val + d + 1
@@ -226,20 +178,20 @@ theorem solve_unitriangular (J : Ideal R) (T V : Fin n → Fin n → Set R)
               intro k
               by_cases kj : k = j
               · subst kj
-                rw [if_pos rfl, if_neg (Ne.symm hneq), hw'd, hwd, hold.1, hr', if_pos e]
+                rw [ite_eq_left rfl, ite_eq_right (Ne.symm hneq), hw'd, hwd, hold.1, hr', ite_eq_left e]
                 ring
               · by_cases ki : k = i
                 · subst ki
-                  rw [if_neg kj, if_pos rfl, hr'd, hrd, hold.2, hw', if_pos e]
+                  rw [ite_eq_right kj, ite_eq_left rfl, hr'd, hrd, hold.2, hw', ite_eq_left e]
                   ring
-                · rw [if_neg kj, if_neg ki]
+                · rw [ite_eq_right kj, ite_eq_right ki]
                   rcases lt_or_gt_of_ne ki with h1 | h1
                   · rw [hr'l i k h1, hrl i k h1]
                     ring
                   · rcases lt_or_gt_of_ne kj with h2 | h2
                     · have a1 : i.val < k.val := h1
                       have a2 : k.val < j.val := h2
-                      rw [hr', hw', if_neg (by omega), if_neg (by omega)]
+                      rw [hr', hw', ite_eq_right (by omega), ite_eq_right (by omega)]
                       ring
                     · rw [hw'l k j h2, hwl k j h2]
                       ring
@@ -264,7 +216,7 @@ theorem solve_unitriangular (J : Ideal R) (T V : Fin n → Fin n → Set R)
                 omega
               rw [hr'l i k this, hrl i k this]
               ring
-            · rw [hr', hw', if_neg h1, if_neg h2]
+            · rw [hr', hw', ite_eq_right h1, ite_eq_right h2]
   obtain ⟨r, w, hrl, hrd, hwl, hwd, hin, -, -, -, hp⟩ := key n
   refine ⟨r, w, hrl, hrd, ?_, hwl, hwd, ?_, ?_⟩
   · intro i j h
@@ -369,9 +321,9 @@ theorem double_coset_cover : ∀ (R K : Type) [CommRing R] [IsDomain R] [IsDiscr
       (if i < j then (lam i - lam j).toNat else 0) := by
     intro i j
     by_cases h : i < j
-    · simp only [Tf, if_pos h]
+    · simp only [Tf, ite_eq_left h]
       exact Finset.card_image_le.trans (hcard _)
-    · simp [Tf, if_neg h]
+    · simp [Tf, ite_eq_right h]
   refine ⟨S.image f, ?_, ?_⟩
   · calc (S.image f).card ≤ S.card := Finset.card_image_le
       _ = ∏ i, ∏ j, (Tf i j).card := by simp [S, Fintype.card_piFinset]
@@ -464,10 +416,10 @@ theorem double_coset_cover : ∀ (R K : Type) [CommRing R] [IsDomain R] [IsDiscr
     refine ⟨f r, Finset.mem_image_of_mem f ?_, Matrix.of w' * d * Matrix.of l' * A2, ?_, ?_⟩
     · refine Fintype.mem_piFinset.mpr fun i => Fintype.mem_piFinset.mpr fun j => ?_
       by_cases h : i < j
-      · simp only [Tf, if_pos h]
+      · simp only [Tf, ite_eq_left h]
         obtain ⟨t, ht, e⟩ := hrT i j h
         exact Finset.mem_image.mpr ⟨t, ht, e⟩
-      · simp only [Tf, if_neg h, Finset.mem_singleton]
+      · simp only [Tf, ite_eq_right h, Finset.mem_singleton]
         rcases lt_or_eq_of_le (not_lt.mp h) with h' | h'
         · rw [hrl i j h', Matrix.one_apply_ne (ne_of_gt h')]
         · subst h'
@@ -526,7 +478,46 @@ theorem entries_of_mem_ker {N m : ℕ} {A : GL (Fin N) 𝒪[k]}
 theorem exists_mem_Km {N m : ℕ} (hm : 1 ≤ m) (B : Matrix (Fin N) (Fin N) 𝒪[k])
     (hB : ∀ i j, B i j - (1 : Matrix (Fin N) (Fin N) 𝒪[k]) i j ∈ Ideal.span {Zls.unif k ^ m}) :
     ∃ b ∈ Zls.Km k N m, (b : Matrix (Fin N) (Fin N) k) = B.map (algebraMap 𝒪[k] k) := by
-  apply _root_.GlobalTheory.CompanionTheory.HeckeOpMul.exists_mem_Km <;> assumption
+  set J : Ideal 𝒪[k] := Ideal.span {Zls.unif k ^ m} with hJ
+  have hmap : B.map (Ideal.Quotient.mk J) = 1 := by
+    ext i j
+    have := Ideal.Quotient.eq.2 (hB i j)
+    simp only [Matrix.map_apply]
+    rw [this]
+    by_cases e : i = j
+    · subst e
+      simp
+    · simp [Matrix.one_apply_ne e]
+  have hdet : Ideal.Quotient.mk J B.det = 1 := by
+    have := RingHom.map_det (Ideal.Quotient.mk J) B
+    rw [this]
+    show (B.map (Ideal.Quotient.mk J)).det = 1
+    rw [hmap, Matrix.det_one]
+  have hmem : B.det - 1 ∈ J := by
+    rw [← Ideal.Quotient.eq, hdet, map_one]
+  have hJm : J ≤ IsLocalRing.maximalIdeal 𝒪[k] := by
+    rw [hJ, Ideal.span_singleton_le_iff_mem]
+    have : Zls.unif k ∈ IsLocalRing.maximalIdeal 𝒪[k] := by
+      rw [Zls.irreducible_unif.maximalIdeal_eq]
+      exact Ideal.mem_span_singleton_self _
+    exact Ideal.pow_mem_of_mem _ this m (by omega)
+  have hunit : IsUnit B.det := by
+    by_contra hn
+    have h1 : B.det ∈ IsLocalRing.maximalIdeal 𝒪[k] := (IsLocalRing.mem_maximalIdeal _).2 hn
+    have h2 := hJm hmem
+    have h3 : (1 : 𝒪[k]) ∈ IsLocalRing.maximalIdeal 𝒪[k] := by
+      have := Ideal.sub_mem _ h1 h2
+      rwa [sub_sub_cancel] at this
+    exact (Ideal.ne_top_iff_one _).1 (IsLocalRing.maximalIdeal.isMaximal _).ne_top h3
+  let G : GL (Fin N) 𝒪[k] := Matrix.GeneralLinearGroup.mk'' B hunit
+  refine ⟨Matrix.GeneralLinearGroup.map (n := Fin N) (algebraMap 𝒪[k] k) G, ?_, ?_⟩
+  · refine ⟨G, ?_, rfl⟩
+    rw [SetLike.mem_coe, MonoidHom.mem_ker]
+    apply Units.ext
+    ext i j
+    have h := congrFun (congrFun hmap i) j
+    simpa [G, Matrix.GeneralLinearGroup.map_apply] using h
+  · rfl
 
 theorem conj_mem_Km {N m : ℕ} {p b : GL (Fin N) k} (hp : p ∈ KO k (Fin N)) (hb : b ∈ Zls.Km k N m) :
     p * b * p⁻¹ ∈ Zls.Km k N m := by
@@ -567,7 +558,7 @@ theorem exists_cover (N m : ℕ) (hm : 1 ≤ m) (lam : Fin N → ℤ) (hlam : An
   refine ⟨f M, Finset.mem_image_of_mem f hM, b, hb, ?_⟩
   apply Units.ext
   have hf : (f M).val = M := by
-    simp only [f, dif_pos hex]
+    simp only [f, dite_eq_left hex]
     exact hex.choose_spec
   rw [Units.val_mul (f M) b, hf]
   exact hXv

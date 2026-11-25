@@ -3,51 +3,7 @@ module
 import Development.AutomorphicSpectrum.Proofs.GeometryProofs.HodgeInnerProductConjugate
 public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.DifferentiableOnStarStar
 public import Development.AbelianVarietyTheory.Proofs.CovolumeBounds.DifferentiableOnOfTendstoLocallyUniformlyOn
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.AlgebraicGeometry.Modules.Sheaf
-import Mathlib.Analysis.Calculus.FDeriv.Star
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Coalgebra.IsFrobenius
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
 import Std.Tactic.BVDecide.Normalize.Prop
 
 @[expose] public section
@@ -241,13 +197,7 @@ theorem exOf_diff {b : Fin n → ℂ} (hb : b ∈ Metric.ball (0 : Fin n → ℂ
     IsDerivAt0 (fun z => (exOf e' b z).left) (Pi.single a 1)
       (spMap (dualMap (ψ b)) ≫ (M.pt (Pi.single a 1)).left) := by
   have h := e'.diff (star b) (star_mem_ball.2 hb) a
-  have hw : star (Pi.single a 1 : Fin g → ℂ) = Pi.single a 1 := by
-    ext k
-    by_cases hk : k = a
-    · subst hk
-      simp
-    · simp [Pi.single_eq_of_ne hk]
-  refine isDerivAt0_conj (fun z => (e'.ex (star b) z).left) _ hw _ _ ?_ h
+  refine isDerivAt0_conj (fun z => (e'.ex (star b) z).left) _ (by simp [Pi.star_single]) _ _ ?_ h
   have h1 : conjPts ψ (star b) = (starRingEnd ℂ).comp (ψ b) := by
     rw [conjPts, star_star]
   rw [h1, spMap_dualMap_comp, ← Category.assoc, ← Category.assoc, conj_conj_dual, Category.id_comp]

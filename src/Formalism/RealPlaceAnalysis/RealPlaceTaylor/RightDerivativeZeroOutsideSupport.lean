@@ -1,6 +1,5 @@
 module
 
-import Development.WeilBound.CoreStatements.PublishedTheorems.CasselmanWallach.SecondDerivativeHolds
 import Formalism.RealPlaceAnalysis.RealPlaceTaylor.IntegrableComplexContinuousBoundedSupport
 public import Formalism.RealPlaceAnalysis.SmoothVectorGrowthBound
 public import Mathlib.Analysis.LocallyConvex.AbsConvexOpen
@@ -9,59 +8,10 @@ public import Formalism.RealPlaceAnalysis.RealPlaceTaylor.CartanInvolutionConjTr
 public import Formalism.RealPlaceAnalysis.RealPlaceTaylor.ComplexifiedDerivativeCommutator
 import Formalism.RealPlaceAnalysis.RealPlaceTaylor.MemUnitaryGroupIffMulConjTranspose
 public import Formalism.RealPlaceAnalysis.RealPlaceTaylor.ModularCharacterEqOneOnExpHermitian
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Algebra.Order.Star.Real
-import Mathlib.Algebra.Ring.IsFormallyReal
 public import Mathlib.Analysis.Calculus.Deriv.Prod
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
 public import Mathlib.Analysis.InnerProductSpace.Calculus
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.Normed.Algebra.MatrixExponential
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.RingTheory.SimpleRing.Principal
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.Lemma
 import Mathlib.Tactic.Linter.HaveILetI
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Topology.Algebra.Group.Units
-import Mathlib.Topology.Sheaves.Init
 public import Mathlib.Analysis.Calculus.Deriv.Shift
 public import Mathlib.Analysis.Calculus.ParametricIntegral
 public import Mathlib.Analysis.Complex.RealDeriv
@@ -99,7 +49,24 @@ lemma frobenius_cauchy_schwarz {n : ℕ} (A B : Matrix (Fin n) (Fin n) ℂ) :
   simpa only [Fintype.sum_prod_type] using h
 
 lemma frobenius_mul_le {n : ℕ} (A B : Matrix (Fin n) (Fin n) ℂ) : hs (A * B) ≤ hs A * hs B := by
-  apply _root_.PositivityTheory.CW.HilbertSchmidtNorm.hilbert_schmidt_mul_le <;> assumption
+  unfold hs
+  have key : ∀ i j, ‖(A * B) i j‖ ^ 2 ≤ (∑ k, ‖A i k‖ ^ 2) * (∑ k, ‖B k j‖ ^ 2) := by
+    intro i j
+    rw [Matrix.mul_apply]
+    calc ‖∑ k, A i k * B k j‖ ^ 2 ≤ (∑ k, ‖A i k‖ * ‖B k j‖) ^ 2 := by
+          gcongr
+          calc ‖∑ k, A i k * B k j‖ ≤ ∑ k, ‖A i k * B k j‖ := norm_sum_le _ _
+            _ = ∑ k, ‖A i k‖ * ‖B k j‖ := by simp only [norm_mul]
+      _ ≤ (∑ k, ‖A i k‖ ^ 2) * (∑ k, ‖B k j‖ ^ 2) := Finset.sum_mul_sq_le_sq_mul_sq _ _ _
+  calc ∑ i, ∑ j, ‖(A * B) i j‖ ^ 2
+        ≤ ∑ i, ∑ j, (∑ k, ‖A i k‖ ^ 2) * (∑ k, ‖B k j‖ ^ 2) := by
+          gcongr with i _ j _
+          exact key i j
+    _ = (∑ i, ∑ k, ‖A i k‖ ^ 2) * (∑ j, ∑ k, ‖B k j‖ ^ 2) := by
+          rw [Finset.sum_mul_sum]
+    _ = (∑ i, ∑ j, ‖A i j‖ ^ 2) * ∑ i, ∑ j, ‖B i j‖ ^ 2 := by
+          congr 1
+          exact Finset.sum_comm
 
 lemma contDiff_frobenius {n : ℕ} : ContDiff ℝ ∞ (hs : Matrix (Fin n) (Fin n) ℂ → ℝ) := by
   unfold hs
@@ -108,8 +75,7 @@ lemma contDiff_frobenius {n : ℕ} : ContDiff ℝ ∞ (hs : Matrix (Fin n) (Fin 
 
 lemma frobenius_pos_of_indefinite_unitary {n : ℕ} {ε : Fin n → Bool} {g : Matrix (Fin n) (Fin n) ℂ} (hg : inUJ ε g)
     [Nonempty (Fin n)] : 0 < hs g := by
-  by_contra hle
-  push_neg at hle
+  by_contra! hle
   have h0 : hs g = 0 := le_antisymm hle (frobenius_nonneg g)
   have hg0 : g = 0 := by
     unfold hs at h0
@@ -327,8 +293,7 @@ lemma right_derivative_zero_outside_support {n : ℕ} {ε : Fin n → Bool} {φ 
   simp
 
 lemma continuous_smooth_on_group {n : ℕ} {ε : Fin n → Bool} {f : Matrix (Fin n) (Fin n) ℂ → ℂ} (hf : SmoothOnG ε f) :
-    Continuous (fun g : UJ ε => f (toM g)) := by
-  apply _root_.Formalism.REAL.continuous_smooth_on_group_eval <;> assumption
+    Continuous (fun g : UJ ε => f (toM g)) := Formalism.REAL.continuous_smooth_on_group_eval hf
 
 lemma isCompact_frobenius_sublevel {n : ℕ} (ε : Fin n → Bool) (r : ℝ) : IsCompact {g : UJ ε | hsG g ≤ r} := by
   apply Formalism.REAL.isCompact_frobenius_ball_group

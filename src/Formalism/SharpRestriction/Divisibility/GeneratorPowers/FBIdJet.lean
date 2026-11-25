@@ -1,54 +1,12 @@
 module
 
-import Formalism.SharpRestriction.Divisibility.GeneratorPowers.GaugeUniqB
 public import Formalism.LocalToGlobal.ProjectiveLattices.SubConstMemOrig
 public import Mathlib.RingTheory.MvPowerSeries.Substitution
 public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.GermDJet
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.Lemma
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
 import Std.Tactic.BVDecide.Normalize.Prop
 public import Mathlib.Data.Finset.MulAntidiagonal
 
 @[expose] public section
-
-set_option autoImplicit false
 
 noncomputable section
 
@@ -86,9 +44,9 @@ theorem psTrunc_eq {ι : Type} [Fintype ι] [DecidableEq ι] (m : ℕ) (f : MvPo
     | exact Finset.sum_ite_eq' (degLE m) e (fun x => MvPowerSeries.coeff x f)
   rw [hL]
   by_cases h : e.degree < m + 1
-  · rw [if_pos (hmem.2 h), MvPowerSeries.coeff_truncTotal]
+  · rw [ite_eq_left (hmem.2 h), MvPowerSeries.coeff_truncTotal]
     exact h
-  · rw [if_neg (fun h' => h (hmem.1 h'))]
+  · rw [ite_eq_right (fun h' => h (hmem.1 h'))]
     first
     | exact (MvPowerSeries.coeff_truncTotal_eq_zero _ (by omega)).symm
 
@@ -156,7 +114,23 @@ private lemma low_trunc_lemma_5 {ι : Type} [Fintype ι] [DecidableEq ι] (m : �
 
 theorem psJet_mul {ι : Type} [Fintype ι] [DecidableEq ι] (m : ℕ) (f g : MvPowerSeries ι R) :
     psJet m (f * g) = psJet m f * psJet m g := by
-  apply _root_.Formalism.MainNotions.ModuliIntegralCharts.H1.GaugeR.psJet_mul <;> assumption
+  unfold psJet
+  rw [← map_mul, Ideal.Quotient.eq]
+  apply mem_orig_pow_lemma_6
+  intro e he
+  have h1 := low_mul_lemma (G := g) (q := 0) (low_trunc_lemma_5 m f)
+    (fun d hd => absurd hd (Nat.not_lt_zero _)) e (by omega)
+  have h2 := low_mul_lemma (F := (psTrunc m f : MvPowerSeries ι R)) (p := 0)
+    (fun d hd => absurd hd (Nat.not_lt_zero _)) (low_trunc_lemma_5 m g) e (by omega)
+  have h3 := low_trunc_lemma_5 m (f * g) e he
+  have hcoe : AddMonoidAlgebra.coeff (psTrunc m (f * g) - psTrunc m f * psTrunc m g) e =
+      MvPowerSeries.coeff e ((f - (psTrunc m f : MvPowerSeries ι R)) * g +
+        (psTrunc m f : MvPowerSeries ι R) * (g - (psTrunc m g : MvPowerSeries ι R)) -
+        (f * g - (psTrunc m (f * g) : MvPowerSeries ι R))) := by
+    rw [← MvPolynomial.coeff_coe, coe_sub_lemma_7, MvPolynomial.coe_mul]
+    first
+    | (congr 1; ring)
+  rw [hcoe, map_sub, map_add (f := _), h1, h2, h3, add_zero, sub_zero]
 
 theorem psJet_one {ι : Type} [Fintype ι] [DecidableEq ι] (m : ℕ) :
     psJet m (1 : MvPowerSeries ι R) = 1 := by
@@ -173,8 +147,7 @@ theorem psTrunc_mem_orig {τ : Type} [Fintype τ] [DecidableEq τ] (m : ℕ) (g 
     first
     | simp [hg]
   · obtain ⟨i, hi⟩ : ∃ i, e i ≠ 0 := by
-      by_contra h
-      push_neg at h
+      by_contra! h
       exact he (Finsupp.ext fun j => by simp [h j])
     have key : MvPolynomial.monomial e (MvPowerSeries.coeff e g) =
         MvPolynomial.monomial (e - Finsupp.single i 1) (MvPowerSeries.coeff e g) *

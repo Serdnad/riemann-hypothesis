@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.JetHarmonics.ExistsIdempotentFrobeniusOrbitUnramified
 public import Formalism.LocalToGlobal.CharacterGerms.HostTraceIdentity
 public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.IntegralChartDirectionsAreEigenvectors
 public import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.EigenvectorMemSpanBlockOfBasis
@@ -56,7 +55,26 @@ open ReciprocityTheory.ChartRestriction.G ReciprocityTheory.ChartRestriction.G.G
 namespace GlobalTheory.LabelledDirections
 
 theorem ge_zero_of_isIntegral {C : Type} [Field C] (V : VF C) {x : C} (hx : IsIntegral ℤ x) : V.Ge 0 x := by
-  first | exact _root_.GlobalTheory.UnrIdem.ge_int | exact @_root_.GlobalTheory.UnrIdem.ge_int | apply _root_.GlobalTheory.UnrIdem.ge_int <;> assumption
+  let A : ValuationSubring C :=
+    { VF.RR V with
+      mem_or_inv_mem' := by
+        intro z
+        by_cases hz : z = 0
+        · left; rw [hz]; exact VF.Ge.zero 0
+        · by_contra hc
+          push Not at hc
+          obtain ⟨h1, h2⟩ := hc
+          have h1' : V.v z < 0 := lt_of_not_ge h1
+          have h2' : V.v z⁻¹ < 0 := lt_of_not_ge h2
+          have h3 : V.v (z * z⁻¹) = 0 := by rw [mul_inv_cancel₀ hz]; simp
+          rw [V.v.map_mul] at h3
+          have h4 : V.v z + V.v z⁻¹ ≤ V.v z + 0 := add_le_add le_rfl h2'.le
+          rw [h3, add_zero] at h4
+          exact absurd h1' (not_lt.2 h4) }
+  have h : IsIntegral A x := hx.tower_top
+  obtain ⟨y, hy⟩ := IsIntegrallyClosed.algebraMap_eq_of_integral (K := C) h
+  rw [← hy]
+  exact y.2
 
 theorem exists_dual {R : Type} [CommRing R] {d m : ℕ} (w : Fin d → Fin d → R) (emb : Fin m ↪ Fin d)
     (hw : ∀ v : Fin d → R, ∃! a : Fin d → R, ∀ j, ∑ k, a k * w k j = v j) :
@@ -146,7 +164,7 @@ theorem labGeoSt : ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (H : H
       exact hb ((ι.comp io).injective (congrFun h b))
     obtain ⟨b, hb⟩ := GlobalTheory.eigenvector_mem_span_block_of_basis T.Fr C ι (𝓞 E) (E →+* ℂ) Dw.mult (chD C3.ch) M
       (fun τ x => emA3 io ι τ x) (chartUnitVectors C3) hinj heig C3.ch.chart.basis (lab.tau o g a) v hv
-    refine ⟨fun q => if h : q.1 = a then b (Fin.cast (by rw [h]) q.2) else 0, fun q hq => dif_neg hq, ?_⟩
+    refine ⟨fun q => if h : q.1 = a then b (Fin.cast (by rw [h]) q.2) else 0, fun q hq => dite_eq_right hq, ?_⟩
     rw [hb, Fintype.sum_sigma, Finset.sum_eq_single a]
     · refine Finset.sum_congr rfl fun i _ => ?_
       dsimp only
@@ -155,7 +173,7 @@ theorem labGeoSt : ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (H : H
     · intro a' _ ha'
       refine Finset.sum_eq_zero fun i _ => ?_
       dsimp only
-      rw [dif_neg ha', zero_smul]
+      rw [dite_eq_right ha', zero_smul]
     · intro h
       exact absurd (Finset.mem_univ a) h
 

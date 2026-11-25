@@ -89,48 +89,7 @@ public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.DiscreteSerie
 public import Development.AutomorphicArithmetic.ThetaCorrespondence.ThetaPairLifts.ThirdPlaceSeries.RanksAndFrameOfTiedClass
 import Formalism.SharpRestriction.CuspSpanNormBounds.BruhatCellsKronecker.OwnEvIntro
 import Formalism.SharpRestriction.CuspSpanNormBounds.CayleyDegreeNondegeneracy.RowsNDn
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Topology.Sheaves.Init
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
 import Formalism.SharpRestriction.CuspSpanNormBounds.UnimodularSchurMeasures.RightRegularIsometricMultiplicative
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Topology.Algebra.Group.Units
 import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.UpperOff
 import Formalism.LocalToGlobal.SiegelLatticeTheory.CasimirReductionTheory.GgExistsAddCharNeOne
 import Formalism.LocalToGlobal.SiegelLatticeTheory.CasimirReductionTheory.OneParameterDerivatives.AdmissibleCasimirScalars.KFinSmooth
@@ -138,7 +97,6 @@ import Formalism.HermitianCurvature.HermitianCurvatureProofs.BesselDecayBounds.B
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.BesselDecayBounds.BesselIntegrability.IntegrableGNRpowOfLintegralLtTop
 import Development.AbelianVarietyTheory.Proofs.FlagMeasures.ProdSubEqProdFactorial
 import Development.AbelianVarietyTheory.Proofs.FlagMeasures.StdLatIsOrthoLatticeAndMassProperties
-import Mathlib.Algebra.Order.Star.Int
 import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.RowHCParameterIsHCParamAndFormalDegreePos
 import Mathlib.Tactic.Linter.Style
 import Formalism.SharpRestriction.CuspSpanNormBounds.BruhatCellsKronecker.CriticalLevelLowOfRefined
@@ -168,8 +126,6 @@ open Formalism.BasicNotions Formalism.MainNotions Formalism.MainNotions.S Formal
 set_option linter.unusedVariables false
 
 namespace GlobalTheory.RowsFive
-
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 
 section Fam
 
@@ -1236,8 +1192,6 @@ open Formalism.BasicNotions Formalism.MainNotions Formalism.MainNotions.S Finset
 
 namespace GlobalTheory.CritLevel
 
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
-
 theorem sq_le_two_pow (k : ℕ) (hk : 4 ≤ k) : k ^ 2 ≤ 2 ^ k := by
   induction k, hk using Nat.le_induction with
   | base => norm_num
@@ -1533,8 +1487,6 @@ open Formalism.BasicNotions Formalism.MainNotions Formalism.MainNotions.S Finset
 
 namespace GlobalTheory.CritLevelGap
 
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
-
 open GlobalTheory.CritLevel
 
 theorem sq_le_two_pow (k : ℕ) (hk : 4 ≤ k) : k ^ 2 ≤ 2 ^ k := by
@@ -1543,15 +1495,59 @@ theorem sq_le_two_pow (k : ℕ) (hk : 4 ≤ k) : k ^ 2 ≤ 2 ^ k := by
   | succ k hk ih => rw [pow_succ 2 k]; nlinarith
 
 theorem sizes_low {D : D7} (L : SizeData₂ D) (h : SizesAt L) : L.sc.x ≤ D.R.k ∧ Real.sqrt L.sc.b ≤ L.sc.b' := by
-  first | exact _root_.GlobalTheory.CritLevel.sizes_low | exact @_root_.GlobalTheory.CritLevel.sizes_low | apply _root_.GlobalTheory.CritLevel.sizes_low <;> assumption
+  obtain ⟨-, -, hK, -, -, -, -, -, -, -, -, -, -, -, -, -, -, hW, -⟩ := h
+  have hx := L.sc.one_lt_alt
+  have he := L.sc.eps_pos
+  refine ⟨le_trans ?_ hK.1, le_trans hW ?_⟩
+  · refine Real.self_le_rpow_of_one_le hx.le ?_
+    unfold szTh
+    linarith
+  · have hn : (1 : ℝ) ≤ D.R.n := by
+      have : 1 ≤ D.R.n := Formalism.HC.Frame.ord_pos _
+      exact_mod_cast this
+    refine div_le_self ?_ (one_le_mul_of_one_le_of_one_le hx.le hn)
+    unfold Scale.b' Scale.a Scale.b Scale.X'
+    positivity
 
 theorem err_le (D : D7) {δ : ℝ} (hδ : 0 < δ) (h : 8 / Real.log (1 + δ) ≤ D.R.k) :
     Real.exp ((D.R.f : ℝ) * (2 : ℝ) ^ ((3 : ℝ) - D.R.k)) - 1 ≤ δ := by
-  first | exact _root_.GlobalTheory.CritLevel.err_le | exact @_root_.GlobalTheory.CritLevel.err_le | apply _root_.GlobalTheory.CritLevel.err_le <;> assumption
+  have hk := D.R.m_add_three_le_k
+  have hm := D.R.two_le_m
+  have hkR : (5 : ℝ) ≤ D.R.k := by exact_mod_cast (by omega : 5 ≤ D.R.k)
+  have hl : 0 < Real.log (1 + δ) := Real.log_pos (by linarith)
+  have hf : (D.R.f : ℝ) ≤ D.R.k := by exact_mod_cast (show D.R.f ≤ D.R.k from D.R.f_le_k)
+  have h2 : (D.R.k : ℝ) ^ 2 ≤ 2 ^ D.R.k := by exact_mod_cast sq_le_two_pow D.R.k (by omega)
+  have e2 : (2 : ℝ) ^ ((3 : ℝ) - D.R.k) = 8 / 2 ^ D.R.k := by
+    rw [Real.rpow_sub two_pos, Real.rpow_natCast]; norm_num
+  rw [sub_le_iff_le_add', ← Real.le_log_iff_exp_le (by linarith), e2]
+  rw [div_le_iff₀ hl] at h
+  calc (D.R.f : ℝ) * (8 / 2 ^ D.R.k) ≤ D.R.k * (8 / (D.R.k : ℝ) ^ 2) := by gcongr
+    _ = 8 / D.R.k := by field_simp
+    _ ≤ _ := by rw [div_le_iff₀ (by linarith)]; linarith
 
 theorem form_of_ranks (D : D7) (hR : LocalBesselAndTopKernel.FamilyMidVolume D) (u : D.what₂.Word) (h3 : UnitaryVolumeMass.stLem3L0 D u) {C0 : ℝ}
     (hD : StandingNumericalData D C0) : UnitaryVolumeMass.FormAt D u := by
-  first | exact _root_.GlobalTheory.CritLevel.form_of_ranks | exact @_root_.GlobalTheory.CritLevel.form_of_ranks | apply _root_.GlobalTheory.CritLevel.form_of_ranks <;> assumption
+  intro F0 he hz what₂ hrows
+  obtain ⟨-, -, -, -, -, -, -, -, hT, -⟩ := hD
+  have hp := (D.mem u).A.T_prime
+  have h3T : 3 ≤ (D.mem u).A.T := by
+    have h1 := (hT u).2
+    have h2 : 2 * 2 ≤ D.host.g 0 * D.host.g 1 :=
+      Nat.mul_le_mul (D.host.g_prime 0).two_le (D.host.g_prime 1).two_le
+    have h4 : D.host.g 0 * D.host.g 1 ≤ (D.host.g 0 * D.host.g 1) ^ 2 := Nat.le_self_pow (by norm_num) _
+    have h5 := hp.two_le
+    by_contra h
+    rw [Nat.mod_eq_of_lt (by omega), Nat.mod_eq_of_lt (by omega)] at h1
+    omega
+  have hst := GlobalTheory.Mass.StdMass.main D.host.E D.sp.cm.cmUnram D.R.k
+  have h1 := (hR _ _ _ hst.1).1 hst.2.1 u
+  have h2 := (h3 hp h3T (hT u).1 F0 he hz what₂ hrows).1
+  have h4 : dimPi (hc := D.hcW) u = ∏ τ, vand (uS D u τ) / ∏ i ∈ range D.R.k, (i.factorial : ℝ) :=
+    prod_congr rfl fun τ _ => (GlobalTheory.WeylDimU.weyl_dimension _ _ (isHCParam_uS D u τ)).2
+  rw [h1, h2, h4]
+  change _ * (Cnt.massU D.host.E D.R.k * (Tr D u ^ D.R.k - 1) ^ D.R.f) * _ =
+    Cnt.massU D.host.E D.R.k * _ * _ * _
+  ring
 
 theorem tcrit_low_of_dsig (hDs : Formalism.L2.SG.Pf.SzHypFD.DsigHC) (D : D7) (large₂ : SizeData₂ D)
     (C' Cl Cg cb Cu cT CT C0 : ℝ) (hCl : 40 ≤ Cl) (hT : Ties D) (hb' : Real.sqrt large₂.sc.b ≤ large₂.sc.b')
@@ -1618,8 +1614,6 @@ open Formalism.BasicNotions Formalism.MainNotions Formalism.MainNotions.S Formal
 noncomputable section
 
 namespace GlobalTheory.LoopRowBoundsGap
-
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 
 theorem rows_along_family : Formalism.HermitianLatticesTheory.SiegelMassRatio → GlobalTheory.GapIn.Hyp → BpJoin.ThmBpDS → ∀ Cg cb Cu cT CT C0 A C1 cV CGam : ℝ, ∃ C₀ thr : ℝ, ∀ (eps : ℝ) (Fm : FamP eps), Fm.CGam = CGam → thr ≤ sC' Fm → thr ≤ sCl Fm → PX.RanksF Fm C0 Cg cb Cu cT CT → (OwnEv Fm fun C' Cl x i => Cnt.Hyp0 (Fm.D x i) (Fm.L x i) C' Cl Cg cb Cu cT CT C0 → ∀ u, UnitaryVolumeMass.FormAt (Fm.D x i) u) ∧ ∀ (X : ∀ x, Fm.x1 < x → ∀ i : Fm.Ix x, TermTie (Fm.D x i)) (Y : ∀ x (hx : Fm.x1 < x) (i : Fm.Ix x) (u u' : (Fm.D x i).what₂.Word), LoopTie (Fm.D x i) (Fm.L x i) (X x hx i) u u' C1), rows_TiesF Fm C1 X Y → (∀ x (hx : Fm.x1 < x) (i : Fm.Ix x) (u u' : (Fm.D x i).what₂.Word), wordPairTermInjective (X x hx i) (Y x hx i u u')) → (∀ x (i : Fm.Ix x) (u u' : (Fm.D x i).what₂.Word), wordPairBetaLattice (Fm.D x i) u u') → (OwnEv Fm fun C' Cl x i => ∀ (hx : Fm.x1 < x) u u', VanishingOnXAndXPlus.TermVolumeSmallCellBound (Fm.D x i) (Fm.L x i) (X x hx i) u u' C1 (Y x hx i u u') C' Cl Cg cb Cu cT CT C0 A cV) → ∀ C ≥ C₀, OwnEv Fm fun C' Cl x i => ∀ (hx : Fm.x1 < x) u u', Cnt.Hyp (Fm.D x i) (Fm.L x i) u u' C' Cl Cg cb Cu cT CT C0 A → RowsND (X x hx i) (Y x hx i u u') C ∧ RowsDeg (X x hx i) (Y x hx i u u') C ∧ RowsOne (X x hx i) (Y x hx i u u') C := by
   intro hSMR hH hBp Cg cb Cu cT CT C0 A C1 cV CGam
@@ -1696,8 +1690,6 @@ open MeasureTheory NumberField Formalism.BasicNotions Formalism.MainNotions Form
   Formalism.L2.SG.RowsConc Formalism.L2.SG.PackageTie2 Formalism.L2.SG.TermTieOf Formalism.L2.SG.LoopTieOf Formalism.L2.SG.LoopsFinal Formalism.FourierDecayAlt
   Formalism.L2.SG.ThmSOwn Formalism.L2.SG.LoopsTies Formalism.L2.SG
 
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
-
 variable {𝒞 : FamClass} (sel : SSel 𝒞)
 
 
@@ -1764,7 +1756,7 @@ theorem loop_rows_closed_gap : GlobalTheory.GapIn.Hyp → Formalism.L2.SG.LocWSO
   have hJF : JFactNAll := GlobalTheory.T.localBesselJFactor_all_words_of_gap
   have hCF : Formalism.L2.SG.Pf.LoopBCovN.CovNFormula := GlobalTheory.CovNFormulaPf.main
   choose C₀F thrF hR using _root_.GlobalTheory.LoopRowBoundsGap.rows_along_family Formalism.HermitianLattices.Ext.L3.siegelMassRatio hH hBp
-  choose cVF hcV using GlobalTheory.T.stabiliserCovolume_relevantTerm_le_heightPow
+  choose cVF hcV using _root_.GlobalTheory.LoopVol.volRC_le
   have hForm : Closed 𝒞 fun Fm _ => OwnEv Fm fun C' Cl x i =>
       Cnt.Hyp0 (Fm.D x i) (Fm.L x i) C' Cl (Fm.CYL + 1) (1 / 4) 3 (1 / 2) Fm.CTu 3 →
         ∀ u, UnitaryVolumeMass.FormAt (Fm.D x i) u := by
@@ -1857,7 +1849,7 @@ theorem loopRows_of_rowsFinDim_alt :
       ∀ sel : SSel 𝒞, (∀ {eps : ℝ} (Fm : FamP eps), 𝒞 Fm → TuSize Fm) → LoopRowS 3 𝒞 sel := by
   intro hFin hUT 𝒞 hT sel hTu
   exact _root_.GlobalTheory.LoopRowsCloseGap.loop_rows_closed_gap (GlobalTheory.GapIn.hyp_of_uniqGap _root_.GlobalTheory.uniqGap_and_besselOfW.1) _root_.GlobalTheory.uniqGap_and_besselOfW.2 _root_.GlobalTheory.discreteSeriesCoef_pointwiseBound
-    GlobalTheory.wuDecayOfGap hFin 𝒞 sel hTu (_root_.GlobalTheory.ranks_and_frame_of_tied_class_alt hUT 𝒞 hT).1
+    CompanionTheory.Lime.BM.wuDecayOfGap_holds' hFin 𝒞 sel hTu (_root_.GlobalTheory.ranks_and_frame_of_tied_class_alt hUT 𝒞 hT).1
 end GlobalTheory.LoopRowsByName
 end
 end -- clump:auto

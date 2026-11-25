@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SemiabelianGenericFibrePolarizationIso
 public import Mathlib.Data.Nat.Prime.Defs
 public import Mathlib.RingTheory.AdicCompletion.Basic
 public import Mathlib.RingTheory.LocalRing.ResidueField.Defs
@@ -262,7 +261,7 @@ theorem exists_sub_mul_mem (hp : p.Prime) (h0 : (p : S) ∈ maximalIdeal S)
     if h : b ∈ residue S '' L then π ⟨h.choose, mem_level_of_mem h.choose_spec.1⟩ else 0
   have hg : ∀ x (hx : x ∈ L), g (residue S x) = π ⟨x, mem_level_of_mem hx⟩ := fun x hx => by
     have h : residue S x ∈ residue S '' L := ⟨x, hx, rfl⟩
-    simp only [g, dif_pos h, hL h.choose_spec.1 hx h.choose_spec.2]
+    simp only [g, dite_eq_left h, hL h.choose_spec.1 hx h.choose_spec.2]
   obtain ⟨σ, h1, h2⟩ := exists_ringHom_pow hB n _ f g (by
     rintro _ ⟨x, hx, rfl⟩
     rw [hg x hx, ← hf]
@@ -296,7 +295,17 @@ theorem exists_sub_mul_mem (hp : p.Prime) (h0 : (p : S) ∈ maximalIdeal S)
 omit [IsLocalRing S] in
 theorem exists_mem_pow_of_mul_mem [IsDomain S] [IsNoetherianRing S] (I : Ideal S) {r : S}
     (hr : r ≠ 0) : ∃ c : ℕ, ∀ (n : ℕ) (x : S), r * x ∈ I ^ (n + c) → x ∈ I ^ n := by
-  first | exact _root_.GlobalTheory.ClosingLemmaSecond.main | exact @_root_.GlobalTheory.ClosingLemmaSecond.main | apply _root_.GlobalTheory.ClosingLemmaSecond.main <;> assumption
+  obtain ⟨c, hc⟩ := Ideal.exists_pow_inf_eq_pow_smul I (M := S) (Ideal.span {r})
+  refine ⟨c, fun n x hx => ?_⟩
+  have h := hc (n + c) (Nat.le_add_left _ _)
+  have hm : r * x ∈ I ^ (n + c) • (⊤ : Submodule S S) ⊓ Ideal.span {r} :=
+    ⟨by rw [Ideal.smul_eq_mul, Ideal.mul_top]; exact hx,
+      Ideal.mul_mem_right _ _ (Ideal.mem_span_singleton_self r)⟩
+  rw [h, Nat.add_sub_cancel] at hm
+  have hm' : r * x ∈ I ^ n * Ideal.span {r} := Submodule.smul_mono le_rfl inf_le_right hm
+  obtain ⟨z, hz, hzx⟩ := Ideal.mem_mul_span_singleton.1 hm'
+  rw [mul_comm] at hzx
+  rwa [← mul_left_cancel₀ hr hzx]
 
 theorem dvd_of_forall_sub_mul_mem [IsNoetherianRing S] {r a : S}
     (h : ∀ n, ∃ t, a - r * t ∈ maximalIdeal S ^ n) : r ∣ a := by
@@ -606,8 +615,7 @@ private theorem exists_pow_dvd_of_mem_maximalIdeal_pow {S : Type} [CommRing S] [
       push_cast
       exact pow_ne_zero _ hπ0
     obtain ⟨M, hM⟩ : ∃ M, ((π ^ k : Λ) : S) ∉ maximalIdeal S ^ M := by
-      by_contra h
-      push_neg at h
+      by_contra! h
       exact hne (eq_zero_of_forall_mem_pow_of_isAdicComplete _ hc _ h)
     refine ⟨max N M, fun a ha => ?_⟩
     obtain ⟨u, rfl⟩ := hN a (Ideal.pow_le_pow_right (le_max_left _ _) ha)
@@ -637,8 +645,7 @@ theorem isDVR_of_closed_subring_principal :
     exact_mod_cast this
   have hirr : Irreducible π := by
     refine ⟨fun h => (hunit π).1 h hπm, fun ⦃a b⦄ hab => ?_⟩
-    by_contra hne
-    push_neg at hne
+    by_contra! hne
     obtain ⟨ha, hb⟩ := hne
     rw [hunit, not_not] at ha hb
     obtain ⟨x, rfl⟩ := hdiv a ha
@@ -650,8 +657,7 @@ theorem isDVR_of_closed_subring_principal :
   have hfac : ∀ {x : Λ}, x ≠ 0 → ∃ n : ℕ, Associated (π ^ n) x := by
     intro x hx
     have hex : ∃ n, ¬ π ^ n ∣ x := by
-      by_contra h
-      push_neg at h
+      by_contra! h
       exact hx (hsep x h)
     classical
     obtain ⟨k, hk, hk1⟩ : ∃ k, π ^ k ∣ x ∧ ¬ π ^ (k + 1) ∣ x := by

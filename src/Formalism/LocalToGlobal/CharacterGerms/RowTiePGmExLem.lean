@@ -1,13 +1,10 @@
 module
 
-import Formalism.LocalToGlobal.CharacterGerms.IndependenceBoundRaw
 public import Formalism.LocalToGlobal.CharacterGerms.Interface
 import Mathlib.NumberTheory.Height.NumberField
 import Mathlib.Tactic.TypeStar
 
 @[expose] public section
-
-set_option autoImplicit false
 
 noncomputable section
 
@@ -45,7 +42,7 @@ theorem mm_l : V.MM (V.l : C) := by
   unfold VF.MM; rw [V.v_l]; exact zero_lt_one
 
 theorem mm_sum {ι : Type*} {s : Finset ι} {f : ι → C} (h : ∀ i ∈ s, V.MM (f i)) : V.MM (∑ i ∈ s, f i) := by
-  apply _root_.Formalism.L2.FormalSeriesBounds.ValuationNonnegativity.mm_sum <;> assumption
+  exact Finset.sum_induction f V.MM (fun _ _ => mm_add) mm_zero h
 
 theorem ge_natCast' (n : ℕ) : V.Ge 0 (n : C) := by
   induction n with

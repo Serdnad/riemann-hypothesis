@@ -8,43 +8,6 @@ public import Formalism.SharpRestriction.LevelLetterCocycles.DvrLatticeRank.Grad
 import Formalism.SharpRestriction.LevelLetterCocycles.DvrLatticeRank.InvLiftPfA
 import Formalism.SharpRestriction.LevelLetterCocycles.FrobeniusPowUniformizerFactorisation
 import Formalism.SharpRestriction.LevelLetterCocycles.MapCompZero
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Topology.Sheaves.Init
 
 @[expose] public section
 
@@ -77,8 +40,7 @@ theorem framepf_Δ_cancel {a b u : LetA O n} (ha : a ∈ W.AΔ) (hb : b ∈ W.A�
   rw [← map_mul, ← map_mul, ← h1, ← h]
 
 theorem framepf_γA_Δ (g : W.Gam) {a : LetA O n} (ha : a ∈ W.AΔ) : W.γA g a ∈ W.AΔ := by
-  intro δ hδ
-  rw [_root_.Formalism.MainNotions.LiftingTheory.gammaA_comm, ha δ hδ]
+  exact Formalism.MainNotions.LiftingTheory.tr_γA_mem W g ha
 
 theorem framepf_γA_inv (g : W.Gam) (a : LetA O n) : W.γA g (W.γA g⁻¹ a) = a := by
   funext i
@@ -203,15 +165,7 @@ theorem framepf_γLA_smulLA (a : LetA O n) (x : LA W T π' c) :
 
 theorem framepf_γLA_toLA {x : LA W T π' c} (hx : x ∈ LinearMap.range (toLA W T π' c ⊤)) :
     γLA W T π' c x ∈ LinearMap.range (toLA W T π' c ⊤) := by
-  obtain ⟨t, rfl⟩ := hx
-  induction t using TensorProduct.inductionOn with
-  | tmul b s =>
-    refine ⟨(⟨W.γA W.gamK b, framepf_γA_Δ _ b.2⟩ : ↥W.AΔ) ⊗ₜ s, ?_⟩
-    show algebraMap (LetA O n) W.EE ((letE c : LetA O n) * W.γA W.gamK b) ⊗ₜ[O] (s : LcQ W T π' c) =
-      W.γE W.gamK (algebraMap (LetA O n) W.EE ((letE c : LetA O n) * b)) ⊗ₜ[O] (s : LcQ W T π' c)
-    rw [W.γE_ext, ← _root_.Formalism.MainNotions.LiftingTheory.gammaA_letter_idempotent W W.gamK c, ← map_mul, _root_.Formalism.MainNotions.LiftingTheory.gammaA_letter_idempotent]
-    rfl
-  | add x y hx hy => simp only [map_add (f := _)] at ⊢; exact Submodule.add_mem _ hx hy
+  exact Formalism.MainNotions.N.Ln34.ModelFPf.range_γ W T π' c hx
 
 theorem framepf_γD_PcS (g : W.Gam) {p : W.DD T} (hp : p ∈ PcS W T c) : W.γD T g p ∈ PcS W T c := by
   obtain ⟨⟨h1, h2⟩, h3⟩ := hp

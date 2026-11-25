@@ -46,68 +46,12 @@ public import Development.WeilBound.RepresentationTheoryGL.ResidualSpectrum.Expo
 public import Development.WeilBound.RepresentationTheoryGL.ResidualSpectrum.SliceTensors.ContinuousAT
 public import Development.WeilBound.RepresentationTheoryGL.ResidualSpectrum.SliceTensors.ExistsHasInfCharGL
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.CapelliLeviFactorizationSum
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.LinearAlgebra.Matrix.FiniteDimensional
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Coalgebra.IsFrobenius
-import Mathlib.RingTheory.Etale.Weakly
-import Mathlib.RingTheory.Finiteness.ModuleFinitePresentation
-import Mathlib.RingTheory.HopfAlgebra.Basic
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.RingTheory.SimpleRing.Principal
-import Mathlib.RingTheory.TotallySplit
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.HaveILetI
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Tactic.TypeStar
-import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
-import Mathlib.Algebra.AffineMonoid.Basic
-import Mathlib.RingTheory.Henselian
-import Mathlib.RingTheory.RegularLocalRing.Defs
 import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.UfamConst
 import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.CapCommuteRtInfGL
 import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.CommuteCapOfCommuteEop
 import Development.WeilBound.RepresentationTheoryGL.ResidualSpectrum.SliceTensors.PExpFin
-import Development.AutomorphicArithmetic.AutomorphicVarieties.IntegralityNearIdentity.ExistsContDiffEventuallyEq
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ExistsRecurrencePolynomial, Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ExponentialPolynomialSolutionSpace, Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ProductSubsetSumVanishes, Development.AutomorphicSpectrum.Proofs.BlockDecomposition.TensorSumAnnihilator, Development.AutomorphicSpectrum.Proofs.BlockDecomposition.TorusElementLeviEmbedding, Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ExistsExponentPolynomialDiscrete
@@ -166,7 +110,74 @@ theorem exists_common_eigvector {V : Type*} [AddCommGroup V] [Module ℂ V] [Fin
 
 theorem char_eq_cexp (χ : ℝ → ℂ) (hc : Continuous χ) (h0 : χ 0 = 1)
     (hm : ∀ s t, χ (s + t) = χ s * χ t) : ∃ c : ℂ, ∀ t : ℝ, χ t = Complex.exp (c * t) := by
-  apply _root_.UpperTheory.Reformulated.B.weightedSumBis.exists_eq_exp <;> assumption
+  let I : ℝ → ℂ := fun x => ∫ s in (0 : ℝ)..x, χ s
+  have hI : ∀ x, HasDerivAt I (χ x) x := fun x =>
+    (hc.integral_hasStrictDerivAt 0 x).hasDerivAt
+  obtain ⟨δ, hδ⟩ : ∃ δ, I δ ≠ 0 := by
+    by_contra! hcon
+    have hz : I = fun _ => 0 := funext hcon
+    have h1 := hI 0
+    rw [hz] at h1
+    have h2 := h1.unique (hasDerivAt_const (0 : ℝ) (0 : ℂ))
+    rw [h0] at h2
+    exact one_ne_zero h2
+  have hint : ∀ a b : ℝ, IntervalIntegrable χ MeasureTheory.volume a b :=
+    fun a b => hc.intervalIntegrable a b
+  have hid : ∀ t, χ t * I δ = I (t + δ) - I t := by
+    intro t
+    have h1 : ∫ s in (0 : ℝ)..δ, χ (t + s) = χ t * I δ := by
+      simp only [hm, I]
+      exact intervalIntegral.integral_const_mul _ _
+    have h2 : ∫ s in (0 : ℝ)..δ, χ (t + s) = ∫ s in (t + 0)..(t + δ), χ s :=
+      intervalIntegral.integral_comp_add_left (a := 0) (b := δ) χ t
+    have h3 : I t + ∫ s in t..(t + δ), χ s = I (t + δ) :=
+      intervalIntegral.integral_add_adjacent_intervals (hint _ _) (hint _ _)
+    rw [← h1, h2, add_zero, ← h3]
+    ring
+  let c : ℂ := (χ δ - 1) / I δ
+  have hd : ∀ t, HasDerivAt χ (c * χ t) t := by
+    intro t
+    have h1 : HasDerivAt (fun u => I (u + δ)) (χ (t + δ)) t := by
+      simpa using (hI (t + δ)).comp_add_const t δ
+    have h2 : HasDerivAt (fun u => (I (u + δ) - I u) / I δ) ((χ (t + δ) - χ t) / I δ) t :=
+      (h1.sub (hI t)).div_const _
+    have h3 : (fun u => (I (u + δ) - I u) / I δ) = χ := by
+      funext u
+      rw [← hid u]
+      field_simp
+    rw [h3] at h2
+    have h4 : (χ (t + δ) - χ t) / I δ = c * χ t := by
+      simp only [c, hm]
+      field_simp
+    rwa [h4] at h2
+  refine ⟨c, fun t => ?_⟩
+  let y : ℝ → ℂ := fun u => χ u * Complex.exp (-(c * u))
+  have hy : ∀ u, HasDerivAt y 0 u := by
+    intro u
+    have h1 : HasDerivAt (fun u : ℝ => -(c * (u : ℂ))) (-c) u := by
+      have h0' : HasDerivAt (fun y : ℝ => (y : ℂ)) 1 u := Complex.ofRealCLM.hasDerivAt
+      have h := h0'.const_mul (-c)
+      rw [mul_one] at h
+      have he : (fun y : ℝ => -(c * (y : ℂ))) = fun y : ℝ => -c * (y : ℂ) := by
+        funext y
+        ring
+      rw [he]
+      exact h
+    have h2 := (hd u).mul h1.cexp
+    have h3 : c * χ u * Complex.exp (-(c * u)) + χ u * (Complex.exp (-(c * u)) * -c) = 0 := by
+      ring
+    rw [h3] at h2
+    exact h2
+  have hy0 : y t = y 0 :=
+    is_const_of_deriv_eq_zero (fun u => (hy u).differentiableAt) (fun u => (hy u).deriv) t 0
+  have hy1 : y 0 = 1 := by simp [y, h0]
+  have h5 : χ t * Complex.exp (-(c * t)) = 1 := by
+    have : y t = 1 := hy0.trans hy1
+    exact this
+  rw [Complex.exp_neg] at h5
+  have hne := Complex.exp_ne_zero (c * t)
+  field_simp at h5
+  exact h5
 
 theorem killPoly_natDegree_le (G : Type) [Group G] (a : ℝ → G) (F₀ : G → ℂ)
     (S : Submodule ℂ (ℝ → ℂ)) (ha : ∀ s t, a (s + t) = a s * a t)
@@ -266,8 +277,7 @@ theorem killPoly_natDegree_le (G : Type) [Group G] (a : ℝ → G) (F₀ : G →
       rw [hc1, hwe, map_smul])
     have hv1 : R 1 v = z • v := Module.End.mem_eigenspace_iff.1 hvW
     obtain ⟨g₀, hg₀⟩ : ∃ g₀, (v : G → ℂ) g₀ ≠ 0 := by
-      by_contra hcon
-      push_neg at hcon
+      by_contra! hcon
       exact hv0 (Subtype.ext (funext hcon))
     let χ : ℝ → ℂ := fun t => (v : G → ℂ) (a t * g₀) / (v : G → ℂ) g₀
     have hχ : ∀ t g, (v : G → ℂ) (a t * g) = χ t * (v : G → ℂ) g := by
@@ -420,7 +430,7 @@ theorem eq_zero_of_op_eq_zero (c : ℂ) {y : ℝ → ℂ} (hy : Differentiable �
 
 theorem stepMap_injective (c : ℂ) (S : Submodule ℂ (ℝ → ℂ)) :
     Function.Injective (stepMap c S) := by
-  set_option backward.isDefEq.respectTransparency.instanceSearchTypes false in rw [injective_iff_map_eq_zero]
+  rw [injective_iff_map_eq_zero]
   intro y hy
   have h1 : op c y.1 = 0 := congrArg (fun p : S × ℂ => (p.1 : ℝ → ℂ)) hy
   have h2 : y.1 0 = 0 := congrArg Prod.snd hy

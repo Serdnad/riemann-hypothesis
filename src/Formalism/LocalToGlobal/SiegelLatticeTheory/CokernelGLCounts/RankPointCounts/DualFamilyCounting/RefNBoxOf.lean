@@ -30,8 +30,11 @@ namespace Formalism.L2.SG.Pf.NcReal.JX
 open Formalism.QuantumDeterminants Formalism.MainNotions.S Formalism.L2.SG.HidaSetting Formalism.L2.SG.RealObj Formalism.L2.SG.Pf.WFL Formalism.L2.SG.Pf
   Formalism.L2.SG.RealObj.InfCut.JacobianCoordinates Formalism.L2.SG.RealObj.InfCut
 
-theorem det_LyM {r k : ℕ} {T : ℝ} (hT : 0 < T) : LinearMap.det (LyM (k := k) (r := r) T) = T ^ r :=
-  det_LyM_eq_pow hT
+theorem det_LyM {r k : ℕ} {T : ℝ} (hT : 0 < T) : LinearMap.det (LyM (k := k) (r := r) T) = T ^ r := by
+  rw [LyM, LinearMap.det_toLin', Matrix.det_diagonal]
+  simp only [Fintype.prod_sum_type, dY, Finset.prod_const_one, one_mul, mul_one, Finset.prod_const, Finset.card_univ,
+    Fintype.card_prod, Fintype.card_fin, Fintype.card_bool]
+  rw [show r * 2 = 2 * r by ring, pow_mul, Real.sq_sqrt hT.le]
 
 theorem refN_map_kapL {n r k : ℕ} (hn : n = 2 * r + k + 1) (ε : Fin n → Bool) (e f : Fin r → Fin n → ℂ)
     (w : Fin k → Fin n → ℂ) (z : Fin n → ℂ) {T : ℝ} (hT : 0 < T)
@@ -45,25 +48,27 @@ theorem refN_map_kapL {n r k : ℕ} (hn : n = 2 * r + k + 1) (ε : Fin n → Boo
       (refNg hn ε e f w (z0v T z)).map (kapL ε e f w z) =
         ENNReal.ofReal ((2 : ℝ) ^ (r ^ 2 + r * k) * (T ^ r)⁻¹) • volume := by
   subst hn
-  have emb := embQ (isFrameJ_of hT hee hff hef hww hew hfw hez hfz hzz hzw)
-  obtain ⟨-, hmeas, hmap⟩ := nilpotentChartHaar_map_kapL ε e f w z hT hee hff hef hww hew hfw hez hfz hzz hzw
-  let Ψ := cM (ε := ε) (Qi ε e f w (z0v T z)) (Qm e f w (z0v T z))
-  let ν : Measure (Mt k r) := (volume : Measure ((WlocSk.NB.CI k r → ℂ) × (Fin r → ℝ))).map (fun t => WlocSk.NB.phi0 t.1 t.2)
-  let μ := Measure.comap Ψ ν
-  change AEMeasurable (kapL ε e f w z) μ at hmeas
-  change μ.map (kapL ε e f w z) = _ at hmap
-  have hH : Formalism.MainNotions.S.haarLie (Nset k r) 1 = ENNReal.ofReal ((2 : ℝ) ^ (r ^ 2 + r * k)) • ν :=
+  have hFJ := isFrameJ_of hT hee hff hef hww hew hfw hez hfz hzz hzw
+  have emb := embQ hFJ
+  obtain ⟨-, hmeasK, hlamK⟩ := lebLoc_core ε e f w z hT hee hff hef hww hew hfw hez hfz hzz hzw
+  let Φ : (WlocSk.NB.CI k r → ℂ) × (Fin r → ℝ) → Mt k r := fun t => WlocSk.NB.phi0 t.1 t.2
+  have hH : Formalism.MainNotions.S.haarLie (Nset k r) 1 = ENNReal.ofReal ((2 : ℝ) ^ (r ^ 2 + r * k)) •
+      (volume : Measure ((WlocSk.NB.CI k r → ℂ) × (Fin r → ℝ))).map Φ :=
     exponential_chart_haar k r
-  have hrefN : refNg rfl ε e f w (z0v T z) = ENNReal.ofReal ((2 : ℝ) ^ (r ^ 2 + r * k)) • μ := by
+  have hrefN : refNg rfl ε e f w (z0v T z) = ENNReal.ofReal ((2 : ℝ) ^ (r ^ 2 + r * k)) •
+      Measure.comap (cM (ε := ε) (Qi ε e f w (z0v T z)) (Qm e f w (z0v T z)))
+        ((volume : Measure ((WlocSk.NB.CI k r → ℂ) × (Fin r → ℝ))).map Φ) := by
     rw [refNg_rfl]
     ext s _
-    show (Measure.comap Ψ (Formalism.MainNotions.S.haarLie (Nset k r) 1)) s = _
-    rw [emb.comap_apply, hH, Measure.smul_apply, Measure.smul_apply, show μ = Measure.comap Ψ ν from rfl, emb.comap_apply]
+    show (Measure.comap _ (Formalism.MainNotions.S.haarLie (Nset k r) 1)) s = _
+    rw [emb.comap_apply, hH, Measure.smul_apply, Measure.smul_apply, emb.comap_apply]
   refine ⟨?_, ?_⟩
   · rw [hrefN]
-    exact hmeas.smul_measure _
-  · rw [hrefN, Measure.map_smul, hmap, smul_smul, ← ENNReal.ofReal_mul (by positivity)]
-    exact hmeas
+    exact hmeasK.smul_measure _
+  · rw [hrefN, Measure.map_smul, hlamK, smul_smul, det_LyM hT, ← ENNReal.ofReal_mul (by positivity)]
+    congr 2
+    rw [abs_of_pos (by positivity)]
+    exact hmeasK
 
 end Formalism.L2.SG.Pf.NcReal.JX
 end -- clump:auto
@@ -84,8 +89,6 @@ open scoped ENNReal
 namespace Formalism.L2.SG.Pf.NcReal.JX
 
 open Formalism.L2.SG.HidaSetting Formalism.L2.SG.RealObj Formalism.L2.SG.RealObj.InfCut Formalism.MainNotions.S
-
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 
 theorem refNBox_of (hF : FrameRow) : RefNBox := by
   intro D X u w

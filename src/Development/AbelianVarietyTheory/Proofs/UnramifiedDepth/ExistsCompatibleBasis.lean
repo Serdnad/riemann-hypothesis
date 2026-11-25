@@ -96,7 +96,6 @@ import Mathlib.RingTheory.SimpleRing.Principal
 import Mathlib.Tactic.ENatToNat
 import ReciprocityTheory.DualLattices.SqZeroOfSpan
 import Mathlib.RingTheory.PiTensorProduct
-import all Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.PeriodDatumSignCharactersMemEvalImage
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.DualTowerMapExists, Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.ExistsEndDifferentialRingHom, Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.ExistsFormalChart, Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.FinOfLocalAlgebraMap, Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.FiniteAlgebraSplitLocal, Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.PadicEndApply, Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.TateBasisGram, Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.TeichmullerQuot, Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.ExistsCompatibleBasis
@@ -146,16 +145,36 @@ private lemma dualTowerRing_π {R₀ : Type} [CommRing R₀] {Λ S : LAlg R₀} 
     rw [DualNum.ev_mk, pow_succ Polynomial.X n, ← mul_assoc, map_mul, map_mul, h, map_mul, Dq.π_η]
     simp
 
+private lemma dualTower_map_exists {R₀ : Type} [CommRing R₀] {Λ S : LAlg R₀} (Dq : DualPair S)
+    (ψ : LHom Λ S) :
+    ∃ f : LHom (DualNum.dualPair Λ).D Dq.D,
+      (∀ x, Dq.π.1 (f.1 x) = ψ.1 ((DualNum.dualPair Λ).π.1 x)) ∧
+      (∀ x, f.1 ((DualNum.dualPair Λ).σ.1 x) = Dq.σ.1 (ψ.1 x)) ∧
+      f.1 (DualNum.dualPair Λ).η = Dq.η := by
+  let fA : DualNum.DN Λ →ₐ[R₀] (Dq.D : Type) :=
+    { dualTowerRing Dq ψ with
+      commutes' := fun r => by
+        show dualTowerRing Dq ψ (algebraMap R₀ (DualNum.DN Λ) r) = _
+        rw [← Ideal.Quotient.mk_algebraMap, Polynomial.algebraMap_apply, dualTowerRing_C,
+          AlgHom.commutes, AlgHom.commutes] }
+  refine ⟨mkLHom (R := (DualNum.dualPair Λ).D) fA fun a ha => ?_, fun x => dualTowerRing_π Dq ψ x,
+    fun x => ?_, dualTowerRing_X Dq ψ⟩
+  · refine (DualNum.dualPair Λ).isUnit_of_π ?_
+    have h1 : IsUnit (Dq.π.1 (dualTowerRing Dq ψ a)) := ha.map Dq.π.1
+    exact ψ.2.map_nonunit _ ((dualTowerRing_π Dq ψ a) ▸ h1)
+  · show dualTowerRing Dq ψ (algebraMap (Λ : Type) (DualNum.DN Λ) x) = _
+    rw [← Ideal.Quotient.mk_algebraMap, Polynomial.algebraMap_apply, dualTowerRing_C]
+    rfl
+
 private lemma dualTower_nonempty {R₀ : Type} [CommRing R₀] {p : ℕ} (Tw : ATowerL R₀ p) :
     Nonempty (DualTower Tw) := by
-  choose d h₁ h₂ h₃ using fun n => _root_.GlobalTheory.htDual_exists (DualNum.dualPair (Tw.R n)) (Tw.r n)
+  choose d h₁ h₂ h₃ using fun n => dualTower_map_exists (DualNum.dualPair (Tw.R n)) (Tw.r n)
   exact ⟨⟨fun n => DualNum.dualPair (Tw.R n), d, h₁, h₂, h₃⟩⟩
 
 end Helpers
 
 open TensorProduct IsLocalRing Matrix CategoryTheory AlgebraicGeometry MonoidalCategory CartesianMonoidalCategory MonObj ReciprocityTheory.PGsh ReciprocityTheory.PGsh.Up ReciprocityTheory.PGsh.L2 ReciprocityTheory.PGsh.Be2 ReciprocityTheory.ChartRestriction.G.Chart
 open scoped CategoryTheory.Obj CategoryTheory.MonObj
-attribute [local instance] Over.cartesianMonoidalCategory
 
 alias exists_dualTower := _root_.GlobalTheory.dualTower_nonempty
 
@@ -229,7 +248,7 @@ private lemma endDiff_ηmap_surj {O : LAlg R₀} (Dp : DualPair O) :
 
 private lemma endDiff_ηmap_inj {O : LAlg R₀} (Dp : DualPair O) :
     Function.Injective Dp.ηmap := by
-  set_option backward.isDefEq.respectTransparency.instanceSearchTypes false in rw [injective_iff_map_eq_zero]
+  rw [injective_iff_map_eq_zero]
   intro r hr
   exact Dp.free r (congrArg Subtype.val hr)
 
@@ -364,7 +383,6 @@ section -- clump:auto
 
 open TensorProduct IsLocalRing Matrix CategoryTheory AlgebraicGeometry MonoidalCategory CartesianMonoidalCategory MonObj ReciprocityTheory.PGsh ReciprocityTheory.PGsh.Up ReciprocityTheory.PGsh.L2 ReciprocityTheory.PGsh.Be2 ReciprocityTheory.ChartRestriction.G.Chart
 open scoped CategoryTheory.Obj CategoryTheory.MonObj
-attribute [local instance] Over.cartesianMonoidalCategory
 
 noncomputable section
 
@@ -471,7 +489,6 @@ variable {G : Over (Spec (CommRingCat.of R₀))} [GrpObj G] {g : ℕ}
     (∀ a ∈ RingHom.ker ρ, IsNilpotent a) → ∀ z : sp (R₀ := R₀) S ⟶ G, spMap ρ ≫ z = 1 →
     ∃ a : Fin g → S, (∀ i, a i ∈ RingHom.ker ρ) ∧ z = x S a)
 
-
 include h0 hnat hinj hsurj in
 theorem first_order_add (a b : Fin g → R₀) :
     x (DualNumber R₀) (fun k => TrivSqZeroExt.inr (a k)) *
@@ -535,7 +552,6 @@ theorem e_zero (R : LAlg R₀) : e R 0 = 1 := by
   have h := hadd R 0 0
   rw [add_zero] at h
   exact mul_eq_left.1 h.symm
-
 
 include h0 hnat hinj hsurj he hadd hen in
 theorem exists_basis : ∃ gb : Module.Basis (Fin g) R₀ B.gg, ∀ w : B.gg,
@@ -781,7 +797,6 @@ noncomputable section
 
 open TensorProduct IsLocalRing Matrix CategoryTheory AlgebraicGeometry MonoidalCategory CartesianMonoidalCategory MonObj ReciprocityTheory.PGsh ReciprocityTheory.PGsh.Up ReciprocityTheory.PGsh.L2 ReciprocityTheory.PGsh.Be2 ReciprocityTheory.ChartRestriction.G.Chart
 open scoped CategoryTheory.Obj CategoryTheory.MonObj
-attribute [local instance] Over.cartesianMonoidalCategory
 
 namespace GlobalTheory.FinOf
 
@@ -836,7 +851,7 @@ lemma finOf_tangent (B : BX R₀) (p : ℕ) (hp : p ≠ 0) (C : Type) [Field C] 
     (by rw [map_nsmul, hv, smul_sub, hz, hz', sub_self, map_zero])
   have hinj : Function.Injective
       (p • LinearMap.id : (finOf_fst (R₀ := R₀) C).ker →ₗ[R₀] (finOf_fst (R₀ := R₀) C).ker) := by
-    set_option backward.isDefEq.respectTransparency.instanceSearchTypes false in rw [injective_iff_map_eq_zero]
+    rw [injective_iff_map_eq_zero]
     intro a ha
     have ha' : p • (a.1 : DualNumber C) = 0 := congrArg Subtype.val ha
     apply Subtype.ext
@@ -1076,7 +1091,6 @@ section -- clump:auto
 
 open TensorProduct IsLocalRing Matrix CategoryTheory AlgebraicGeometry MonoidalCategory CartesianMonoidalCategory MonObj ReciprocityTheory.PGsh ReciprocityTheory.PGsh.Up ReciprocityTheory.PGsh.L2 ReciprocityTheory.PGsh.Be2 ReciprocityTheory.ChartRestriction.G.Chart
 open scoped CategoryTheory.Obj CategoryTheory.MonObj
-attribute [local instance] Over.cartesianMonoidalCategory
 
 namespace GlobalTheory
 
@@ -1203,7 +1217,7 @@ theorem finite_algebra_split_local :
     rw [Finset.sum_eq_single ⟨(maximalIdeal O).comap φ, φ, rfl⟩]
     · simp
     · intro b _ hb
-      rw [if_neg]
+      rw [ite_eq_right]
       intro h
       exact hb (Subtype.ext h.symm)
     · intro h
@@ -1260,7 +1274,6 @@ section -- clump:auto
 
 open TensorProduct IsLocalRing Matrix CategoryTheory AlgebraicGeometry MonoidalCategory CartesianMonoidalCategory MonObj ReciprocityTheory.PGsh ReciprocityTheory.PGsh.Up ReciprocityTheory.PGsh.L2 ReciprocityTheory.PGsh.Be2 ReciprocityTheory.ChartRestriction.G.Chart
 open scoped CategoryTheory.Obj CategoryTheory.MonObj
-attribute [local instance] Over.cartesianMonoidalCategory
 
 noncomputable section
 
@@ -1480,7 +1493,6 @@ section -- clump:auto
 
 open TensorProduct IsLocalRing Matrix CategoryTheory AlgebraicGeometry MonoidalCategory CartesianMonoidalCategory MonObj ReciprocityTheory.PGsh ReciprocityTheory.PGsh.Up ReciprocityTheory.PGsh.L2 ReciprocityTheory.PGsh.Be2 ReciprocityTheory.ChartRestriction.G.Chart
 open scoped CategoryTheory.Obj CategoryTheory.MonObj
-attribute [local instance] Over.cartesianMonoidalCategory
 
 namespace GlobalTheory
 
@@ -1488,28 +1500,17 @@ section SlopeTestRemainingChoices
 
 variable {R₀ : Type} [CommRing R₀] (B : BX R₀) {R : LAlg R₀}
 
-private lemma gram_zero (N : ℕ) (y : B.G R) (hy : N • y = 0) : B.IsPairing N 0 y 1 := by
-  obtain ⟨z, hz⟩ := B.pairing_exists N 0 y (smul_zero N) hy
-  have h := B.isPairingValue_add_left N 0 0 y z z hz hz
-  rw [add_zero] at h
-  have e : z * z = z := B.pairing_unique N 0 y _ _ h hz
-  have e1 : z = 1 := by simpa using e
-  rwa [e1] at hz
-
-private lemma gram_nsmul (N : ℕ) (x y : B.G R) (z : (R : Type)ˣ) (h : B.IsPairing N x y z)
-    (m : ℕ) : B.IsPairing N (m • x) y (z ^ m) := by
-  induction m with
-  | zero =>
-    rw [zero_smul, pow_zero]
-    exact gram_zero B N y h.2.1
-  | succ m ih =>
-    rw [succ_nsmul, pow_succ]
-    exact B.isPairingValue_add_left N _ _ y _ _ ih h
-
 private lemma gram_sum {κ : Type} (s : Finset κ) (N : ℕ) (x : κ → B.G R) (y : B.G R)
     (z : κ → (R : Type)ˣ) (hy : N • y = 0) (h : ∀ i, B.IsPairing N (x i) y (z i)) :
     B.IsPairing N (∑ i ∈ s, x i) y (∏ i ∈ s, z i) := by
-  apply _root_.GlobalTheory.SignChar.pairing_sum_left <;> assumption
+  classical
+  induction s using Finset.induction_on with
+  | empty =>
+    rw [Finset.sum_empty, Finset.prod_empty]
+    exact TateMatrices.pairing_zero_left B N y hy
+  | insert a s ha ih =>
+    rw [Finset.sum_insert ha, Finset.prod_insert ha]
+    exact B.isPairingValue_add_left N _ _ y _ _ (h a) ih
 
 end SlopeTestRemainingChoices
 
@@ -1564,7 +1565,7 @@ theorem tateBasis_gram :
   choose k hklt hk using hex
   have hcompat : ∀ i j n, k i j n ≡ k i j (n + 1) [MOD p ^ (n + 1)] := by
     intro i j n
-    have h1 := gram_nsmul B _ _ _ _ (hk i j (n + 1)) p
+    have h1 := GlobalTheory.TateMatrices.pairing_nsmul_left B _ _ _ _ (hk i j (n + 1)) p
     rw [← hcomp, pow_succ p (n + 1)] at h1
     have h2 := B.pairing_mul _ p _ _ _ (htors i n)
       (by rw [← pow_succ]; exact htors j (n + 1)) h1
@@ -1599,7 +1600,7 @@ theorem tateBasis_gram :
       intro j
       have h1 := gram_sum B Finset.univ (p ^ (0 + 1)) (fun i => (s i).val • τ i 0) (τ j 0)
         (fun i => (Tw.ζ 0 ^ k i j 0) ^ (s i).val) (htors j 0)
-        (fun i => gram_nsmul B _ _ _ _ (hk i j 0) _)
+        (fun i => GlobalTheory.TateMatrices.pairing_nsmul_left B _ _ _ _ (hk i j 0) _)
       have h2 : ∏ i, (Tw.ζ 0 ^ k i j 0) ^ (s i).val = 1 := by
         simp only [← pow_mul]
         rw [Finset.prod_pow_eq_pow_sum, (hζ 0).pow_eq_one_iff_dvd, zero_add, pow_one,
@@ -1614,7 +1615,7 @@ theorem tateBasis_gram :
       obtain ⟨t, rfl, -⟩ := hbasis y hy
       have h1 := gram_sum B Finset.univ p (fun j => (t j).val • τ j 0) (ptOf B τ s)
         (fun j => (1⁻¹) ^ (t j).val) (hpt s)
-        (fun j => gram_nsmul B _ _ _ _ (B.pairing_sw _ _ _ _ (hrow j)) _)
+        (fun j => GlobalTheory.TateMatrices.pairing_nsmul_left B _ _ _ _ (B.pairing_sw _ _ _ _ (hrow j)) _)
       have h2 := B.pairing_sw _ _ _ _ h1
       simp only [inv_one, one_pow, Finset.prod_const_one] at h2
       exact h2
@@ -1635,7 +1636,6 @@ section -- clump:auto
 
 open TensorProduct IsLocalRing Matrix CategoryTheory AlgebraicGeometry MonoidalCategory CartesianMonoidalCategory MonObj ReciprocityTheory.PGsh ReciprocityTheory.PGsh.Up ReciprocityTheory.PGsh.L2 ReciprocityTheory.PGsh.Be2 ReciprocityTheory.ChartRestriction.G.Chart
 open scoped CategoryTheory.Obj CategoryTheory.MonObj
-attribute [local instance] Over.cartesianMonoidalCategory
 
 namespace GlobalTheory.WittQuot
 
@@ -1720,7 +1720,6 @@ section -- clump:auto
 
 open TensorProduct IsLocalRing Matrix CategoryTheory AlgebraicGeometry MonoidalCategory CartesianMonoidalCategory MonObj ReciprocityTheory.PGsh ReciprocityTheory.PGsh.Up ReciprocityTheory.PGsh.L2 ReciprocityTheory.PGsh.Be2 ReciprocityTheory.ChartRestriction.G.Chart
 open scoped CategoryTheory.Obj CategoryTheory.MonObj
-attribute [local instance] Over.cartesianMonoidalCategory
 
 noncomputable section
 

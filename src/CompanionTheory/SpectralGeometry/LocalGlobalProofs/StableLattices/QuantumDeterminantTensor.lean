@@ -1,6 +1,5 @@
 module
 
-import Development.WeilBound.RepresentationTheoryGL.CasimirAlgebra.TensorRelationsGL.PTransAllA
 public import CompanionTheory.RealGroups.DiscreteSeries.DiscreteSeriesClassification.DiscreteSeriesExhaustion.HeckeAlgebraActions.BackStable
 public import CompanionTheory.SpectralGeometry.LocalGlobalProofs.StableLattices.HeckeRankOne
 public import CompanionTheory.SpectralGeometry.LocalGlobalProofs.StableLattices.OmegaMinor
@@ -22,8 +21,17 @@ open _root_.CompanionTheory.RgExh.Hk
 
 theorem commute_qdet_of {A : Type*} [Ring A] [Algebra ℂ A] {n : ℕ} (E : Fin n → Fin n → A) (T : A)
     (h : ∀ a b, Commute (E a b) T) (u : ℂ) : Commute (qdet E u) T := by
-  intros
-  apply _root_.PositivityTheory.Rg.Cz.TA.qdet_commute <;> assumption
+  unfold Formalism.REAL.qdet Formalism.REAL.qminor
+  refine Commute.sum_left _ _ _ fun σ _ => ?_
+  refine Commute.mul_left (Int.cast_commute _ _) ?_
+  refine Commute.list_prod_left _ _ fun x hx => ?_
+  rw [List.mem_ofFn] at hx
+  obtain ⟨k, rfl⟩ := hx
+  unfold Formalism.REAL.Tm
+  refine Commute.add_left ?_ (h _ _)
+  split_ifs
+  · exact Algebra.commute_algebraMap_left _ _
+  · exact Commute.zero_left _
 
 theorem commute_compLeft_om {n : ℕ} (X : GMod n) (u : ℂ) :
     Commute ((qdet X.E u).compLeft (Fin n)) (om X) := by
@@ -56,10 +64,10 @@ theorem qdetTens : QdetTens := by
       by_cases hca : c = a
       · subst hca
         simp [Finset.sum_add_distrib, LinearMap.sub_apply, apply_ite, Finset.sum_sub_distrib]
-        simp only [ite_apply, LinearMap.zero_apply, Finset.sum_ite_eq, Finset.mem_univ, if_true]
+        simp only [ite_apply, LinearMap.zero_apply, Finset.sum_ite_eq, Finset.mem_univ, ite_true]
         abel
       · simp [Finset.sum_add_distrib, apply_ite, hca]
-        simp only [ite_apply, LinearMap.zero_apply, Finset.sum_ite_eq, Finset.mem_univ, if_true]
+        simp only [ite_apply, LinearMap.zero_apply, Finset.sum_ite_eq, Finset.mem_univ, ite_true]
         abel
     have hC : Commute (qdet (tensE X) u) (u • (1 : Module.End ℂ (Fin (m + 1) → X.V)) + om X) :=
       Commute.add_right ((Commute.one_right _).smul_right u) (commute_qdet_of _ _ hT u)

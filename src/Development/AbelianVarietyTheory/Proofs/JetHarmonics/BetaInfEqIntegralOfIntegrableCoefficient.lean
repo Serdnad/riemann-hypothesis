@@ -72,8 +72,6 @@ namespace GlobalTheory.RegularisedIntegral
 
 open Formalism Formalism.FourierDecayAlt Formalism.FourierDecayAlt.P Formalism.REAL Formalism.QuantumDeterminants Formalism.FourierDecayAlt.B Formalism.FourierDecayAlt.P.B6
 
-attribute [local instance] Matrix.normedAddCommGroup Matrix.normedSpace
-
 variable {k r : ℕ} {Wp Wq : Type} [NormedAddCommGroup Wp] [InnerProductSpace ℂ Wp] [FiniteDimensional ℂ Wp]
   [NormedAddCommGroup Wq] [InnerProductSpace ℂ Wq] [FiniteDimensional ℂ Wq]
 
@@ -169,12 +167,6 @@ theorem coef_continuousOn (H : SqIntegrable D α) {A B : Mat k r → (Wq →L[�
     have h2 : ContinuousWithinAt (fun p : SS k r => Sd D p (A (sgs p (Matrix.of g)))) {p | D.inSS p} p₀ :=
       (Sd_continuousOn D p₀ hp₀).clm_apply h1
     exact hsInner_continuous.continuousAt.comp_continuousWithinAt (h2.prodMk continuousWithinAt_const)
-
-theorem coef_dilate (_H : SqIntegrable D α) (A B : Mat k r → (Wq →L[ℂ] Wp)) {p : SS k r} (hp : D.inSS p) {x y : ℝ}
-    (hx : 0 < x) (hy : 0 < y) :
-    Ph D A B (dilation₂ (x, y) p) =
-      Ph D (fun g => A (aDil k r x * g * (aDil k r y)⁻¹)) (fun g => B (aDil k r x * g * (aDil k r y)⁻¹)) p :=
-  ph_dil_of_changeOfVariables P.dilation_unipotent_weyl_measure A B hp hx hy
 
 theorem coef_hasDerivAt (H : SqIntegrable D α) {A B A1 B1 : Mat k r → (Wq →L[ℂ] Wp)} {cA cB : ℝ}
     (hA : admitted α cA A) (hA1 : admitted α cA A1) (hB : admitted α cB B) (hB1 : admitted α cB B1)

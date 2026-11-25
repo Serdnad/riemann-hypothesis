@@ -1,50 +1,9 @@
 module
 
-import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.LevelSplitting.FiniteAdelesSecondCountable
-import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.WeilStabilizerVolume.TopoAF
+public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.StabilizerOrbitVolume.TopoAF
 public import Formalism.SharpRestriction.GlobalSchurBounds.GeneralLinearActions.GenusMassVolumes
 import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.StabilizerVolume.TensTop
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
 import Mathlib.RingTheory.RegularLocalRing.Defs
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Topology.Sheaves.Init
 
 @[expose] public section
 
@@ -62,8 +21,7 @@ instance countable_field : Countable F := Finsupp.Countable.of_moduleFinite (R :
 
 instance countable_ringOfIntegers : Countable (𝓞 F) := Finsupp.Countable.of_moduleFinite (R := ℤ)
 
-theorem countable_ideal : Countable (Ideal (𝓞 F)) := by
-  apply _root_.PI.VolStabW.TopoAF.countable_ideal <;> assumption
+export PI.VolStabSW.TopoAF (countable_ideal)
 
 instance countable_spectrum : Countable (HeightOneSpectrum (𝓞 F)) := by
   have := countable_ideal F
@@ -84,12 +42,31 @@ instance secondCountable_adicCompletion (v : HeightOneSpectrum (𝓞 F)) :
     SecondCountableTopology (v.adicCompletion F) :=
   UniformSpace.secondCountable_of_separable _
 
-theorem isOpen_integers (v : HeightOneSpectrum (𝓞 F)) :
-    IsOpen (v.adicCompletionIntegers F : Set (v.adicCompletion F)) :=
-  Valued.isOpen_valuationSubring _
+export PI.VolStabSW.TopoAF (isOpen_integers)
 
 instance secondCountable_finiteAdeleRing : SecondCountableTopology (FiniteAdeleRing (𝓞 F) F) := by
-  apply _root_.PI.LevelKSplit.W.SC.finite_adeles_secondCountable <;> assumption
+  let R := fun v : HeightOneSpectrum (𝓞 F) => v.adicCompletion F
+  let A := fun v : HeightOneSpectrum (𝓞 F) => (v.adicCompletionIntegers F : Set (v.adicCompletion F))
+  have hS : ∀ S : Finset (HeightOneSpectrum (𝓞 F)), cofinite ≤ 𝓟 ((S : Set (HeightOneSpectrum (𝓞 F)))ᶜ) := fun S => by
+    rw [le_principal_iff]; exact S.finite_toSet.compl_mem_cofinite
+  let U : Finset (HeightOneSpectrum (𝓞 F)) → Set (Πʳ v, [R v, A v]) := fun S =>
+    Set.range (RestrictedProduct.inclusion R A (hS S))
+  have hemb : ∀ S, IsOpenEmbedding (RestrictedProduct.inclusion R A (hS S)) := fun S =>
+    RestrictedProduct.isOpenEmbedding_inclusion_principal (isOpen_integers F) (hS S)
+  have hsc : ∀ S, SecondCountableTopology (U S) := fun S => by
+    have h1 : SecondCountableTopology (Πʳ v, [R v, A v]_[𝓟 ((S : Set (HeightOneSpectrum (𝓞 F)))ᶜ)]) :=
+      RestrictedProduct.isEmbedding_coe_of_principal.secondCountableTopology
+    exact (hemb S).toIsEmbedding.toHomeomorph.symm.isEmbedding.secondCountableTopology
+  have hcov : ⋃ S, U S = Set.univ := by
+    refine Set.eq_univ_of_forall fun x => ?_
+    have hx : {v | x v ∉ A v}.Finite := x.eventually
+    refine Set.mem_iUnion.2 ⟨hx.toFinset, ?_⟩
+    show x ∈ Set.range (RestrictedProduct.inclusion R A (hS hx.toFinset))
+    rw [RestrictedProduct.range_inclusion]
+    simp only [Set.mem_ofPred_eq, eventually_principal, Set.mem_compl_iff, Finset.mem_coe,
+      Set.Finite.mem_toFinset, not_not]
+    exact fun v hv => hv
+  exact @secondCountableTopology_of_countable_cover _ _ _ _ U hsc (fun S => (hemb S).isOpen_range) hcov
 
 instance secondCountable_adeleRing : SecondCountableTopology (AdeleRing (𝓞 F) F) :=
   inferInstanceAs (SecondCountableTopology (InfiniteAdeleRing F × FiniteAdeleRing (𝓞 F) F))
@@ -102,10 +79,7 @@ variable {F} {E : Type} [Field E] [Algebra F E] [FiniteDimensional F E]
 
 instance secondCountable_tensAF : SecondCountableTopology (AF F ⊗[F] E) := inferInstance
 
-theorem secondCountable_HA_of (R : Type) [CommRing R] [Algebra F R] [TopologicalSpace R]
-    [IsTopologicalRing R] [SecondCountableTopology R] (σ : E →ₐ[F] E) {M : ℕ}
-    (J : Matrix (Fin M) (Fin M) E) : SecondCountableTopology (HA R σ J) := by
-  apply _root_.PI.VolStabW.TopoAF.secondCountable_HA_of <;> assumption
+export PI.VolStabSW.TopoAF (secondCountable_HA_of)
 
 instance secondCountable_HA (σ : E →ₐ[F] E) {M : ℕ} (J : Matrix (Fin M) (Fin M) E) :
     SecondCountableTopology (HA (AF F) σ J) :=

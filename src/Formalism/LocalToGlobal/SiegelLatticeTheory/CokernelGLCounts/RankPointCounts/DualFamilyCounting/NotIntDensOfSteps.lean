@@ -19,8 +19,6 @@ noncomputable section
 
 namespace Formalism.L2.SG.Pf.Cnt
 
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
-
 section Local
 
 variable {F : Type} [Field F] [ValuativeRel F] [TopologicalSpace F]
@@ -74,8 +72,7 @@ def GaPlusIntMM : Prop :=
 
 theorem notIntDens_of (h1 : LocSelfDual) (hG : GaPlusIntMM) : NotIntDens := by
   intro D δ M hA L u u' hT F0 what₂ hR ϖ hϖ Z F' hz hZ hP hI
-  by_contra hall
-  push_neg at hall
+  by_contra! hall
   apply hI
   refine hG D δ M hA L u u' hT F0 what₂ hR Z F' hz hZ hP fun p a b => ?_
   by_contra hab
@@ -99,8 +96,6 @@ noncomputable section
 
 namespace Formalism.L2.SG.Pf.Cnt.DualityBasisChange
 
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
-
 section Herm
 
 variable {F : Type} [Field F] [ValuativeRel F] [TopologicalSpace F]
@@ -109,20 +104,16 @@ variable {M : Loc.Model F E} {V : Type} [AddCommGroup V] [Module E V] (H : Loc.H
 
 alias h_zero_left := _root_.Formalism.MainNotions.S.Loc.HermSp.h_zero_left
 
-theorem h_smul_right (c : E) (x y : V) : H.h x (c • y) = M.L.cj c * H.h x y := by
-  rw [H.h_herm (c • y) x, H.h_smul_left, map_mul, ← H.h_herm y x]
+theorem h_smul_right (c : E) (x y : V) : H.h x (c • y) = M.L.cj c * H.h x y :=
+  CntLocal.h_smul_right' H c x y
 
 theorem h_sum_left {ι : Type} (s : Finset ι) (x : ι → V) (y : V) :
-    H.h (∑ i ∈ s, x i) y = ∑ i ∈ s, H.h (x i) y := by
-  induction s using Finset.induction_on with
-  | empty => simp [h_zero_left]
-  | insert a s ha ih => rw [Finset.sum_insert ha, Finset.sum_insert ha, H.h_add_left, ih]
+    H.h (∑ i ∈ s, x i) y = ∑ i ∈ s, H.h (x i) y :=
+  CntLocal.h_sum_left H s x y
 
 theorem h_sum_right {ι : Type} (s : Finset ι) (x : ι → V) (y : V) :
-    H.h y (∑ i ∈ s, x i) = ∑ i ∈ s, H.h y (x i) := by
-
-  rw [H.h_herm (∑ i ∈ s, x i) y, h_sum_left, map_sum]
-  exact Finset.sum_congr rfl fun i _ => (H.h_herm (x i) y).symm
+    H.h y (∑ i ∈ s, x i) = ∑ i ∈ s, H.h y (x i) :=
+  CntLocal.h_sum_right H s y x
 
 theorem gram_comb {ι : Type} [Fintype ι] (v : ι → V) (A : Matrix ι ι E) :
     (Matrix.of fun a b => H.h (∑ d, A d b • v d) (∑ c, A c a • v c)) =

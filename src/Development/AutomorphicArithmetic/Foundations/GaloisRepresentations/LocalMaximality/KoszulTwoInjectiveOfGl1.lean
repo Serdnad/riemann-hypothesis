@@ -1,52 +1,7 @@
 module
 
-import all Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.LocalMaximality.KoszulTwoExactOfGl2
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.LocalMaximality.LiftFactorization
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.Lemma
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
 
 @[expose] public section
@@ -58,7 +13,23 @@ private lemma exists_of_mem_sm_range {S E : Type} [CommRing S] [Algebra ℂ S] [
     (act : S →ₐ[ℂ] Module.End ℂ E) (M : Submodule ℂ E) {d : ℕ} (f : Fin d → S) (x : E)
     (hx : x ∈ sm act M (Set.range f)) :
     ∃ m : Fin d → E, (∀ j, m j ∈ M) ∧ x = ∑ j, act (f j) (m j) := by
-  apply _root_.UpperTheory.Gal.productCup_of_system.sm_dec <;> assumption
+  classical
+  let L : (Fin d → M) →ₗ[ℂ] E :=
+    ∑ j, ((act (f j) : E →ₗ[ℂ] E) ∘ₗ M.subtype ∘ₗ (LinearMap.proj j : (Fin d → M) →ₗ[ℂ] M))
+  have hL : ∀ v, L v = ∑ j, act (f j) (v j : E) := by
+    intro v
+    simp [L, LinearMap.sum_apply]
+  have hle : sm act M (Set.range f) ≤ LinearMap.range L := by
+    refine iSup₂_le ?_
+    rintro _ ⟨j, rfl⟩ _ ⟨m, hm, rfl⟩
+    refine ⟨Pi.single j ⟨m, hm⟩, ?_⟩
+    rw [hL, Finset.sum_eq_single j]
+    · simp
+    · intro b _ hb
+      simp [Pi.single_eq_of_ne hb]
+    · simp
+  obtain ⟨v, rfl⟩ := hle hx
+  exact ⟨fun j => (v j : E), fun j => (v j).2, hL v⟩
 
 theorem UpperTheory.Gal.productCup_of_system.koszulTwoInjective_of_gl1 :
     FiltrationBoundaryCriterion → SubQEx → KoszulBoundaryOfComponentMemIdeal := by
@@ -96,11 +67,11 @@ theorem UpperTheory.Gal.productCup_of_system.koszulTwoInjective_of_gl1 :
     rw [Finset.sum_eq_single j]
     · simp
     · intro b _ hb
-      rw [if_neg fun h => hb (hinj _ _ h).symm]
+      rw [ite_eq_right fun h => hb (hinj _ _ h).symm]
     · simp
   have hy0 : ∀ s, (∀ j, s ≠ (img e).erase (e j)) → y s = 0 := by
     intro s hs
-    exact Finset.sum_eq_zero fun j _ => if_neg (hs j)
+    exact Finset.sum_eq_zero fun j _ => ite_eq_right (hs j)
   have hycard : ∀ s : Finset κ, (s.card : ℤ) ≠ (d : ℤ) - 1 → y s = 0 := by
     intro s hs
     refine hy0 s fun j h => hs ?_
@@ -146,7 +117,7 @@ theorem UpperTheory.Gal.productCup_of_system.koszulTwoInjective_of_gl1 :
           Finset.sum_map _ _ _
         rw [hsum]
         refine Finset.sum_congr rfl fun j _ => ?_
-        have hw : wOn (img e) (fun l => act (r l)) (e j) = act (r (e j)) := if_pos (hmem j)
+        have hw : wOn (img e) (fun l => act (r l)) (e j) = act (r (e j)) := ite_eq_left (hmem j)
         have hsq : GlobalTheory.cubeSign (img e) (e j) * GlobalTheory.cubeSign (img e) (e j) = 1 := by
           rw [GlobalTheory.cubeSign, ← mul_pow]
           simp

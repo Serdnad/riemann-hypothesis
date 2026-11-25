@@ -176,9 +176,9 @@ theorem mem_localization_ker (emb : ι → E →+* K) (σ : K →+* ℂ) (lam : 
     rw [he]
     by_cases hQ : Q = P
     · subst hQ
-      rw [if_pos rfl]
+      rw [ite_eq_left rfl]
       exact (localization_LshKer_eq_localization_sup hd ha Q).trans (isBasisAt_of_isLocBasis hT Q.1 (hST Q) hB')
-    · rw [if_neg fun h => hQ (e.injective h)]
+    · rw [ite_eq_right fun h => hQ (e.injective h)]
       exact (hd.locP_LshKer_ne ha hQ).trans (isBasisAt_of_isLocBasis hT Q.1 (hST Q) hB)
 
 theorem dualL_std (s : E →+* E) (hs : ∀ x, s x = star x) (L : Submodule (𝓞 E) (Sp E n)) :
@@ -222,7 +222,6 @@ end GlobalTheory.Mem.Col2.BwLat
 namespace GlobalTheory.Mem.Col2.TC
 
 open NumberField IsDedekindDomain Formalism.BasicNotions Formalism.MainNotions Formalism.L2.Col Formalism.L2.DIV Formalism.L2.Ker Formalism.UG Formalism.L2.Forms GlobalTheory.Mem GlobalTheory.Mem.Chr GlobalTheory.Mem.Col2 GlobalTheory.Mem.Col2.TC Matrix
-attribute [local instance] GlobalTheory.Mem.Col2.starE Formalism.BasicNotions.Host.cmStar
 
 open GlobalTheory.Mem.Col2.BwLat GlobalTheory.LvT.Built.ValLat Formalism.HermitianLatticesTheory
 

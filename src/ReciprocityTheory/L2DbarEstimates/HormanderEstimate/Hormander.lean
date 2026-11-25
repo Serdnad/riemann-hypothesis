@@ -1,6 +1,5 @@
 module
 
-import ReciprocityTheory.L2DbarEstimates.HormanderEstimate.ExistsLintegralCompactLe
 public import ReciprocityTheory.L2DbarEstimates.Localization.UnweightBackStatement
 public import Mathlib.MeasureTheory.Function.L2Space
 public import ReciprocityTheory.L2DbarEstimates.ChartDerivatives.MeasurableSetImageOfIsLocalHomeomorph
@@ -14,53 +13,6 @@ public import ReciprocityTheory.L2DbarEstimates.ChartDerivatives.ChartSymmEventu
 public import ReciprocityTheory.L2DbarEstimates.ChartDerivatives.IntegralFderivApplyEqZero
 public import ReciprocityTheory.L2DbarEstimates.MinimalSolutions.MinimalSolution
 public import Mathlib.MeasureTheory.Integral.Bochner.ContinuousLinearMap
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.PiTensorProduct
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.Lemma
-import Mathlib.Tactic.Linter.HaveILetI
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Tactic.TypeStar
-import Mathlib.Topology.Sheaves.Init
-import Mathlib.Algebra.Order.Star.Real
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: ReciprocityTheory.L2DbarEstimates.HormanderEstimate.GmSingleIsTestForm, ReciprocityTheory.L2DbarEstimates.HormanderEstimate.Hormander
@@ -83,8 +35,17 @@ variable {M : Type*} [TopologicalSpace M]
 
 theorem gm_cont_of_smoothR (n : ℕ) (z : M → V n) (hz : IsLocalHomeomorph z) (ph : M → ℝ)
     (hph : SmoothR n z ph) : Continuous ph := by
-  intros
-  apply _root_.ReciprocityTheory.L2DbarEstimates.F.continuous_of_smoothR <;> assumption
+  rw [continuous_iff_continuousAt]
+  intro x
+  obtain ⟨e, hx, he⟩ := hz x
+  have hc : IsChart n z e := fun y _ => congrFun he y
+  have h := (hph e hc).continuousOn.continuousAt (e.open_target.mem_nhds (e.map_source hx))
+  have h2 := h.comp (e.continuousAt hx)
+  have h3 : ContinuousAt (fun y => (ph y : ℂ)) x := by
+    refine h2.congr ?_
+    filter_upwards [e.open_source.mem_nhds hx] with y hy
+    simp [e.left_inv hy]
+  simpa [Function.comp_def] using Complex.continuous_re.continuousAt.comp h3
 
 private lemma natCast_le_coe_infty (k : ℕ) : (k : ℕ∞ω) ≤ ((⊤ : ℕ∞) : ℕ∞ω) := by
   first
@@ -396,9 +357,15 @@ theorem gm_memLp_tstar (n : ℕ) (z : M → V n) (hz : IsLocalHomeomorph z) (ph 
 
 private lemma continuous_of_ck {n : ℕ} {z : M → V n} (hz : IsLocalHomeomorph z) {k : ℕ} {g : M → ℂ}
     (hg : Ck n z k g) : Continuous g := by
-  first
-    | exact _root_.ReciprocityTheory.L2DbarEstimates.Ck.continuous
-    | apply _root_.ReciprocityTheory.L2DbarEstimates.Ck.continuous <;> first | assumption | rfl | infer_instance
+  rw [continuous_iff_continuousAt]
+  intro x
+  obtain ⟨e, hx, he⟩ := hz x
+  have hc : IsChart n z e := fun y _ => congrFun he y
+  have h := (hg e hc).continuousOn.continuousAt (e.open_target.mem_nhds (e.map_source hx))
+  have h2 := h.comp (e.continuousAt hx)
+  refine h2.congr ?_
+  filter_upwards [e.open_source.mem_nhds hx] with y hy
+  simp [e.left_inv hy]
 
 theorem gm_ipV_integrable (n : ℕ) (z : M → V n) (hz : IsLocalHomeomorph z) (ph : M → ℝ)
     (hph : SmoothR n z ph) (v : M → V n) (hv : Continuous v) (f : M → V n)
@@ -473,9 +440,18 @@ theorem gm_single_isTestForm (n : ℕ) (z : M → V n) (ph : M → ℝ) (hph : S
 
 private lemma d_conj_eq_conj_db {n : ℕ} {z : M → V n} (φ : M → ℂ) (j : Fin n) (x : M) :
     d n z j (fun y => conj (φ y)) x = conj (db n z j φ x) := by
-  first
-    | exact _root_.ReciprocityTheory.L2DbarEstimates.d_conj
-    | apply _root_.ReciprocityTheory.L2DbarEstimates.d_conj <;> first | assumption | rfl | infer_instance
+  unfold d db
+  split_ifs with h
+  · set e := Classical.choose h with he_def
+    have hc : (fun y => conj (φ y)) ∘ e.symm = Complex.conjCLE ∘ (φ ∘ e.symm) := by
+      funext w
+      simp
+    simp only [wd, wdb]
+    rw [hc, Complex.conjCLE.comp_fderiv]
+    simp only [ContinuousLinearMap.comp_apply, ContinuousLinearEquiv.coe_coe, Complex.conjCLE_apply,
+      map_div₀, map_add, map_mul, Complex.conj_I, map_ofNat]
+    ring
+  · simp
 
 theorem gm_tstar_single (n : ℕ) (z : M → V n) (ph : M → ℝ) (φ : M → ℂ) (j : Fin n) (x : M) :
     tstar n z ph ph (gmSingle ph φ j) x = -((Real.exp (ph x) : ℂ) * conj (db n z j φ x)) := by
@@ -487,7 +463,7 @@ theorem gm_tstar_single (n : ℕ) (z : M → V n) (ph : M → ℝ) (φ : M → �
     · subst hk
       have hE : (Real.exp (-ph y) : ℂ) * (Real.exp (ph y) : ℂ) = 1 := by
         rw [← Complex.ofReal_mul, ← Real.exp_add, neg_add_cancel, Real.exp_zero, Complex.ofReal_one]
-      simp only [gmSingle, PiLp.single_apply, if_true, ← mul_assoc, hE,
+      simp only [gmSingle, PiLp.single_apply, ite_true, ← mul_assoc, hE,
         one_mul]
     · simp [gmSingle, hk]
   have hd : ∀ k, d n z k (fun y => (Real.exp (-ph y) : ℂ) * gmSingle ph φ j y k) x =
@@ -496,13 +472,13 @@ theorem gm_tstar_single (n : ℕ) (z : M → V n) (ph : M → ℝ) (φ : M → �
     rw [hfun k]
     by_cases hk : k = j
     · subst hk
-      simp only [if_true]
+      simp only [ite_true]
       exact d_conj_eq_conj_db φ k x
-    · simp only [hk, if_false]
+    · simp only [hk, ite_false]
       apply d_eq_zero_of_not_mem_tsupport
       first
         | simp
-  simp only [tstar, hd, Finset.sum_ite_eq', Finset.mem_univ, if_true]
+  simp only [tstar, hd, Finset.sum_ite_eq', Finset.mem_univ, ite_true]
 
 theorem gm_ipV_single (n : ℕ) (z : M → V n) (ph : M → ℝ) (F0 φ : M → ℂ) (j : Fin n) :
     ipV n z (dbarF n z F0) (gmSingle ph φ j) ph = conj (∫ x, db n z j F0 x * φ x ∂vol n z) := by

@@ -1,7 +1,5 @@
 module
 
-
-import Formalism.LocalToGlobal.SiegelLatticeTheory.CokernelGLCounts.RankPointCounts.AlTieLG
 public import Formalism.HermitianLattices.StatementLat
 public import Mathlib.RingTheory.DedekindDomain.AdicValuation.Valuation
 public import Mathlib.RingTheory.DedekindDomain.Factorization
@@ -13,61 +11,11 @@ public import Formalism.HermitianLattices.HermitianLatticesProofs.LocBasic
 public import Formalism.MirabolicMackeyTheory.MirabolicMackeyProofs.ThreeForms
 public import Formalism.LocalToGlobal.IndefiniteForms.IndefSide
 public import Formalism.LocalToGlobal.IndefiniteForms.IndefiniteTree.ExampleSatisfiesConditionsAtFive
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Algebra.Order.Star.Int
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Henselian
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.RingTheory.RegularLocalRing.Defs
-import Mathlib.RingTheory.SimpleRing.Principal
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Tactic.TypeStar
-import Mathlib.Topology.Sheaves.Init
 import Formalism.MirabolicMackeyTheory.MirabolicMackeyProofs.IdxRules
-import Mathlib.RingTheory.Coalgebra.IsFrobenius
-import Mathlib.RingTheory.HopfAlgebra.Basic
 import Mathlib.Tactic.Linter.HaveILetI
 import Mathlib.Tactic.Linter.Style
 import Std.Tactic.BVDecide.Normalize.Prop
+
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Formalism.PeriodIntegrals.UnitaryGroupMassFormula.LatticeIndexDeterminant.NegLogValuation, Formalism.SharpRestriction.GenusPolyhedralBounds.RelativeIndexClassSets.WeightParameterMemUnitInterval
 
@@ -299,7 +247,6 @@ end
 
 section
 
-open Module NumberField IsDedekindDomain
 
 noncomputable section
 
@@ -384,7 +331,6 @@ end
 
 section
 
-open Module NumberField IsDedekindDomain
 
 noncomputable section
 
@@ -447,7 +393,36 @@ theorem val_alg (k : K) : Valued.v (algebraMap K (v.adicCompletion K) k) = v.val
   v.valuedAdicCompletion_eq_valuation' k
 
 theorem mem_OOv_of_val {a : K} (h : v.valuation K a ≤ 1) : a ∈ OOv (K := K) v := by
-  apply _root_.Formalism.L2.SG.Pf.AlTieLG.mem_OOv_of_val <;> assumption
+  have := isDVR_OOv (K := K) v
+  rcases ValuationRing.isInteger_or_isInteger (OOv (K := K) v) a with ⟨c, hc⟩ | ⟨c, hc⟩
+  · rw [← hc]
+    exact c.2
+  · by_cases ha : a = 0
+    · rw [ha]; exact Subalgebra.zero_mem _
+    obtain ⟨r, s, hs, hrs⟩ := (mem_OOv v _).mp c.2
+    have hc' : a⁻¹ = algebraMap R K r * (algebraMap R K s)⁻¹ := by
+      rw [← hrs, ← hc]
+      rfl
+    have hs0 := alg_ne_zero (K := K) v hs
+    by_cases hr : r ∈ v.asIdeal
+    · exfalso
+      have h1 : v.valuation K (algebraMap R K r) < 1 := by
+        rw [HeightOneSpectrum.valuation_of_algebraMap]; exact (v.intValuation_lt_one_iff_mem r).2 hr
+      have h2 : v.valuation K (algebraMap R K s) = 1 := by
+        rw [HeightOneSpectrum.valuation_of_algebraMap]; exact (v.intValuation_eq_one_iff_mem_primeCompl s).2 hs
+      have h3 : v.valuation K a⁻¹ < 1 := by
+        rw [hc', map_mul, map_inv₀, h2, inv_one, mul_one]; exact h1
+      have h4 : v.valuation K (a * a⁻¹) < 1 := by
+        rw [map_mul]
+        calc v.valuation K a * v.valuation K a⁻¹ ≤ 1 * v.valuation K a⁻¹ := mul_le_mul' h le_rfl
+          _ = v.valuation K a⁻¹ := one_mul _
+          _ < 1 := h3
+      rw [mul_inv_cancel₀ ha, map_one] at h4
+      exact lt_irrefl _ h4
+    · have hr0 := alg_ne_zero (K := K) v hr
+      refine (mem_OOv v _).mpr ⟨s, r, hr, ?_⟩
+      rw [← inv_inv a, hc']
+      field_simp
 
 end CompP
 
@@ -589,7 +564,56 @@ theorem exists_inv_mod (n : ℕ) {s : R} (hs : s ∉ v.asIdeal) : ∃ t : R, 1 -
 theorem approx (c : v.adicCompletionIntegers K) (n : ℕ) :
     ∃ r : R, Valued.v ((c : v.adicCompletion K) - algebraMap K (v.adicCompletion K) (algebraMap R K r)) ≤
       WithZero.exp (-(n : ℤ)) := by
-  apply _root_.Formalism.L2.SG.Pf.AlTieLG.approx <;> assumption
+  obtain ⟨π, hπ⟩ := v.intValuation_exists_uniformizer
+  set p : v.adicCompletion K := algebraMap K (v.adicCompletion K) (algebraMap R K π) with hp
+  have hpv : Valued.v p = WithZero.exp (-1 : ℤ) := by
+    rw [hp, val_alg, HeightOneSpectrum.valuation_of_algebraMap, hπ]
+  have hpn : Valued.v (p ^ n) = WithZero.exp (-(n : ℤ)) := by
+    rw [map_pow, hpv, ← WithZero.exp_nsmul]; congr 1; simp
+  have hopen : IsOpen {x : v.adicCompletion K |
+      (x - (c : v.adicCompletion K)) * (p ^ n)⁻¹ ∈ (Valued.v.valuationSubring : ValuationSubring (v.adicCompletion K))} :=
+    (Valued.isOpen_valuationSubring (v.adicCompletion K)).preimage
+      ((continuous_sub_right _).mul continuous_const)
+  obtain ⟨k, hk⟩ := (v.denseRange_algebraMap K).exists_mem_open hopen ⟨c, by simp⟩
+  have hk' : Valued.v (algebraMap K (v.adicCompletion K) k - (c : v.adicCompletion K)) ≤ WithZero.exp (-(n : ℤ)) := by
+    have h1 : Valued.v ((algebraMap K (v.adicCompletion K) k - (c : v.adicCompletion K)) * (p ^ n)⁻¹) ≤ 1 :=
+      (Valuation.mem_valuationSubring_iff _ _).1 hk
+    rw [map_mul, map_inv₀, hpn] at h1
+    have h2 := mul_le_mul' h1 (le_refl (WithZero.exp (-(n : ℤ))))
+    rwa [mul_assoc, inv_mul_cancel₀ WithZero.exp_ne_zero, mul_one, one_mul] at h2
+  have hle1 : WithZero.exp (-(n : ℤ)) ≤ (1 : WithZero (Multiplicative ℤ)) := by
+    rw [← WithZero.exp_zero, WithZero.exp_le_exp]; omega
+  have hk1 : v.valuation K k ≤ 1 := by
+    rw [← val_alg]
+    have e : algebraMap K (v.adicCompletion K) k = (algebraMap K (v.adicCompletion K) k - c) + c := by ring
+    rw [e]
+    exact Valuation.map_add_le _ (hk'.trans hle1) ((HeightOneSpectrum.mem_adicCompletionIntegers R K v).1 c.2)
+  obtain ⟨a, s, hs, rfl⟩ := (mem_OOv v k).mp (mem_OOv_of_val v hk1)
+  obtain ⟨t, ht⟩ := exists_inv_mod v n hs
+  refine ⟨a * t, ?_⟩
+  have hs0 := alg_ne_zero (K := K) v hs
+  have e1 : algebraMap R K a * (algebraMap R K s)⁻¹ - algebraMap R K (a * t) =
+      algebraMap R K a * algebraMap R K (1 - s * t) * (algebraMap R K s)⁻¹ := by
+    simp only [map_mul, map_sub, map_one]
+    field_simp
+  have h2 : v.valuation K (algebraMap R K s) = 1 := by
+    rw [HeightOneSpectrum.valuation_of_algebraMap]; exact (v.intValuation_eq_one_iff_mem_primeCompl s).2 hs
+  have h3 : v.valuation K (algebraMap R K a * (algebraMap R K s)⁻¹ - algebraMap R K (a * t)) ≤ WithZero.exp (-(n : ℤ)) := by
+    rw [e1, map_mul, map_mul, map_inv₀, h2, inv_one, mul_one]
+    calc v.valuation K (algebraMap R K a) * v.valuation K (algebraMap R K (1 - s * t))
+        ≤ 1 * WithZero.exp (-(n : ℤ)) := by
+          refine mul_le_mul' (v.valuation_le_one a) ?_
+          rw [HeightOneSpectrum.valuation_of_algebraMap]
+          exact (v.intValuation_le_pow_iff_mem _ n).2 ht
+      _ = _ := one_mul _
+  have e2 : (c : v.adicCompletion K) - algebraMap K (v.adicCompletion K) (algebraMap R K (a * t)) =
+      -(algebraMap K (v.adicCompletion K) (algebraMap R K a * (algebraMap R K s)⁻¹) - c) +
+        algebraMap K (v.adicCompletion K) (algebraMap R K a * (algebraMap R K s)⁻¹ - algebraMap R K (a * t)) := by
+    rw [map_sub]; ring
+  rw [e2]
+  refine Valuation.map_add_le _ ?_ ?_
+  · rw [Valuation.map_neg]; exact hk'
+  · rw [val_alg]; exact h3
 
 theorem bc_smulR (r : R) (x : F) :
     bcC (K := K) v (r • x) = algebraMap R (v.adicCompletionIntegers K) r • bcC (K := K) v x := by
@@ -749,7 +773,6 @@ end
 
 section
 
-open Module NumberField IsDedekindDomain
 
 noncomputable section
 
@@ -824,7 +847,6 @@ end
 
 section
 
-open Module NumberField IsDedekindDomain
 
 noncomputable section
 
@@ -995,7 +1017,6 @@ end
 
 section
 
-open Module NumberField IsDedekindDomain
 
 noncomputable section
 
@@ -1105,7 +1126,6 @@ end
 
 section
 
-open Module NumberField IsDedekindDomain
 
 noncomputable section
 
@@ -1135,7 +1155,7 @@ theorem span_of_fin {R K V : Type} [CommRing R] [IsDedekindDomain R] [Field K] [
     by_contra hc
     push Not at hc
     apply hni
-    set_option backward.isDefEq.respectTransparency.instanceSearchTypes false in rw [injective_iff_map_eq_zero]
+    rw [injective_iff_map_eq_zero]
     intro d hd
     by_contra h0
     exact hc d h0 hd
@@ -1245,7 +1265,6 @@ end
 
 section
 
-open Module NumberField IsDedekindDomain
 
 noncomputable section
 
@@ -1389,76 +1408,6 @@ end
 
 end
 
-section
-
-open Module NumberField IsDedekindDomain
-
-noncomputable section
-
-namespace Formalism.MainNotions.Gaps.LocalGlobalPassage
-
-open Formalism.BasicNotions Formalism.MainNotions Formalism.L2.Indef Formalism.L2.Indef.Tree
-open Formalism.DivisionValues (vw conjPl)
-open Formalism.EigenvalueLevelCeiling (lix cut sc IsLatIn plc)
-
-variable {K : Type} [Field K] [NumberField K] [StarRing K]
-variable {Bs : DefBase K} {Df : DefSide Bs} {S : IndefData Df} {P' : Type} [Group P'] [Finite P'] {c : OnConst}
-
-end Formalism.MainNotions.Gaps.LocalGlobalPassage
-
-end
-
-end
-
-section
-
-open Module NumberField IsDedekindDomain
-
-noncomputable section
-
-namespace Formalism.MainNotions.Gaps.LocalGlobalPassage
-
-open Formalism.BasicNotions Formalism.MainNotions Formalism.L2.Indef Formalism.L2.Indef.Tree
-open Formalism.DivisionValues (vw conjPl)
-open Formalism.EigenvalueLevelCeiling (lix cut sc IsLatIn plc)
-
-section Rem
-
-variable {K : Type} [Field K] [NumberField K] [StarRing K] {n : ℕ}
-
-end Rem
-
-section Exp
-
-variable {K0 K : Type} [Field K0] [NumberField K0] [Field K] [NumberField K] [Algebra K0 K]
-
-end Exp
-
-end Formalism.MainNotions.Gaps.LocalGlobalPassage
-
-end
-
-end
-
-section
-
-open Module NumberField IsDedekindDomain
-
-noncomputable section
-
-namespace Formalism.MainNotions.Gaps.LocalGlobalPassage
-
-open Formalism.BasicNotions Formalism.MainNotions Formalism.L2.Indef Formalism.L2.Indef.Tree
-
-variable {K : Type} [Field K] [NumberField K] [StarRing K]
-variable {Bs : DefBase K} {Df : DefSide Bs} {S : IndefData Df} {P' : Type} [Group P'] [Finite P'] {c : OnConst}
-  {O : OnObj S P' c} {D : D7} {B : WeightFamilies.Prov D} {P : ModuliIntegralCharts.Prov D} [Algebra B.KO K]
-
-end Formalism.MainNotions.Gaps.LocalGlobalPassage
-
-end
-
-end
 end -- clump:auto
 end -- clump:auto
 -- ===== end clump member: Formalism.SharpRestriction.GenusPolyhedralBounds.RelativeIndexClassSets.WeightParameterMemUnitInterval =====

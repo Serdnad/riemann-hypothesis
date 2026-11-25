@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ThetaFockVacuumProperties
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.AdjFormula
 public import Formalism.LocalToGlobal.IndefiniteReal.LinksStage
 public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.ExistsNormaliseMeanSquareOfCocompact
@@ -11,43 +10,7 @@ public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ThetaVectorN
 import Development.AbelianVarietyTheory.Proofs.HeightProofs.CocompactTensor
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.IsFockVacAtOfIsThetaAt
 import Development.AbelianVarietyTheory.Proofs.TwistedOperators.IsSelfDualCoordLatticeOfSelfDualFrame
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.HaveILetI
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
 
 @[expose] public section
 
@@ -57,7 +20,6 @@ open Formalism.BasicNotions Formalism.BasicNotions.TH Formalism.MainNotions.Glob
 open Formalism.L2.Theta Formalism.L2.DIV Formalism.L2.Indef
 open Formalism.IndefR.Lev Formalism.IndefR.Mult Formalism.IndefR.Datum Formalism.IndefR.Cx Formalism.IndefR.Links
 open scoped TensorProduct InnerProductSpace
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 open GlobalTheory.RawLift
 
 namespace GlobalTheory.RawLift.VecNonzero
@@ -94,7 +56,27 @@ open GlobalTheory.RawLift.VecNonzero
 
 open scoped ComplexOrder in
 theorem isCartanInv_one_of_onb {k : ℕ} {Gm B : Matrix (Fin k) (Fin k) ℂ} (h : IsONBasis Gm 1 B k) : IsCartanInv Gm 1 := by
-  first | exact _root_.GlobalTheory.OneMapRef.VecP.isCartanInv_one_of_onb | exact @_root_.GlobalTheory.OneMapRef.VecP.isCartanInv_one_of_onb | apply _root_.GlobalTheory.OneMapRef.VecP.isCartanInv_one_of_onb <;> assumption
+  obtain ⟨ε, hε, hG, -⟩ := h
+  have e1 : ∀ a, (ε a : ℂ) = 1 := fun a => by
+    rcases hε a with h | h
+    · simp [h.1]
+    · exact absurd a.2 (not_lt.2 h.2)
+  have hB : Bᴴ * Gm * B = 1 := by
+    rw [hG]
+    simp only [e1, Matrix.diagonal_one]
+  have hu : IsUnit B.det := Matrix.isUnit_det_of_left_inverse hB
+  have h1 := Matrix.mul_nonsing_inv B hu
+  have h2 : Gm = (B⁻¹)ᴴ * B⁻¹ := by
+    have h3 : (B⁻¹)ᴴ * (Bᴴ * Gm * B) * B⁻¹ = (B⁻¹)ᴴ * B⁻¹ := by rw [hB, Matrix.mul_one]
+    have h4 : (B⁻¹)ᴴ * Bᴴ = 1 := by rw [← Matrix.conjTranspose_mul, h1, Matrix.conjTranspose_one]
+    rw [← h3]
+    simp only [Matrix.mul_assoc, h1, Matrix.mul_one]
+    rw [← Matrix.mul_assoc, h4, Matrix.one_mul]
+  refine ⟨Matrix.mul_one _, by simp, ?_⟩
+  rw [Matrix.mul_one, h2]
+  exact Matrix.PosDef.conjTranspose_mul_self _
+    (Matrix.mulVec_injective_iff_isUnit.2 ((Matrix.isUnit_iff_isUnit_det _).2 (by
+      rw [Matrix.det_nonsing_inv]; exact hu.ringInverse)))
 
 theorem vecNe : ∀ (D : D7) (G : Type) [Group G] [Fintype G] (Pl0 T : Type) (A : FamIn D.what₂.LL G Pl0 T D.R.m) (Ks : Type) [Field Ks] [NumberField Ks] [Algebra Ks D.what₂.LL] (R : RealDat D A Ks) (F : Face D A), Laws R F → R.FullP → ∀ i t, VecNe R i t := by
   intro D G _ _ Pl0 T A Ks _ _ _ R F hL hF i t μ 𝓕 hμ

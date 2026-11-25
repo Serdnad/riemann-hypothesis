@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.ExistsEvLePreimage
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.SecBaseChangeAnySt
 public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.RepTransport
 public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.ExistsBasisFSum
@@ -107,8 +106,15 @@ theorem le_preimage_of_field {F F' : Type} [Field F] [Field F'] (ρ : F →+* F'
 
 theorem le_preimage_of_ev (Γ : Germs) (w : ℂ) {x : Sp (Γ.R w) ⟶ Z} {U : Z.Opens}
     (h : ⊤ ≤ (spMap (Γ.ev w).toRingHom ≫ x) ⁻¹ᵁ U) : ⊤ ≤ x ⁻¹ᵁ U := by
-  intros
-  apply _root_.GlobalTheory.SpecCoord.germ_le_preimage <;> assumption
+  have : IsLocalRing (Γ.R w) := IsLocalRing.of_isUnit_or_isUnit_one_sub_self fun a => by
+    by_cases ha : Γ.ev w a = 0
+    · exact Or.inr (Γ.unit w _ (by simp [ha]))
+    · exact Or.inl (Γ.unit w _ ha)
+  have hl : IsLocalHom (CommRingCat.ofHom (Γ.ev w).toRingHom).hom := ⟨fun a ha => Γ.unit w a ha.ne_zero⟩
+  refine (Scheme.preimage_eq_top_of_closedPoint_mem (R := CommRingCat.of (Γ.R w)) x ?_).ge
+  have := h (x := IsLocalRing.closedPoint ℂ) trivial
+  rw [← Spec_closedPoint (f := CommRingCat.ofHom (Γ.ev w).toRingHom)]
+  exact this
 
 theorem mem_of_inverse {k F : Type} [Field k] [Field F] [Algebra k F] (M : IntermediateField k F) {n N : ℕ}
     {g : Fin N → Fin n → F} {c : Fin n → Fin N → F} (hg : ∀ i a, g i a ∈ M)
@@ -202,7 +208,7 @@ theorem exists_coeff (hA : AnFin A) {N : ℕ} {β : Fin N → SecP t.PP.L (pullb
     refine Fintype.linearIndependent_iffₛ.1 hli _ _ (funext fun v => ?_)
     have := hasVal_unique Φ ((ha (α k) (th k)).hasVal (fib_snd _) fun i => hgv i v) (hv k v)
     simp only [Finset.sum_apply, Pi.smul_apply, smul_eq_mul, Pi.single_apply, ite_mul, _root_.one_mul, zero_mul,
-      Finset.sum_ite_eq', Finset.mem_univ, if_true]
+      Finset.sum_ite_eq', Finset.mem_univ, ite_true]
     rw [← this]
     simp only [Finset.sum_mul, Finset.mul_sum, _root_.mul_assoc]
     exact Finset.sum_comm
@@ -218,9 +224,9 @@ theorem exists_coeff (hA : AnFin A) {N : ℕ} {β : Fin N → SecP t.PP.L (pullb
     exact sum_mem fun k _ => mul_mem (hr k _)
       (Conv.halfRing_mono ((hT₂ ⟨(l, k), rfl⟩).trans (le_max_right _ _)) (hTc k l))
   refine ⟨max T₁ T₂, fun α' th' l => if h : th' ∈ A.Theta j α' then ⟨_, haT α' th' h l⟩ else 0,
-    fun α' th' h => by simpa only [dif_pos h] using ha α' th', n, α, th, fun i k => ⟨_, hgT i k⟩, hth, fun i l => ?_⟩
+    fun α' th' h => by simpa only [dite_eq_left h] using ha α' th', n, α, th, fun i k => ⟨_, hgT i k⟩, hth, fun i l => ?_⟩
   apply Subtype.ext
-  simp only [dif_pos (hth _)]
+  simp only [dite_eq_left (hth _)]
   rw [AddSubmonoidClass.coe_finsetSum]
   refine (h₂ i l).trans ?_
   by_cases h : l = i

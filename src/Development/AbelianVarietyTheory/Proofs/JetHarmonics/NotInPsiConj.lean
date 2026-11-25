@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.InPsiOrInPsiConjugate
 import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.ExistsLastEntryPosNotLastPos
 public import Development.AbelianVarietyTheory.Definitions.Jets.IsSelfOf
 public import Development.AbelianVarietyTheory.Definitions.Jets.DepthNumbersThresholdEq
@@ -48,8 +47,6 @@ import Std.Tactic.BVDecide.Normalize.Prop
 
 @[expose] public section
 
-set_option autoImplicit false
-
 noncomputable section
 
 open scoped BigOperators TensorProduct
@@ -69,7 +66,18 @@ theorem rt_conj (H : ReciprocityTheory.ChartRestriction.G.Geo.Tor.Host E) : (sta
 
 theorem inPsi_or_conj (H : ReciprocityTheory.ChartRestriction.G.Geo.Tor.Host E) (τ : E →+* ℂ) :
     InPsi H τ ∨ InPsi H (ComplexEmbedding.conjugate τ) := by
-  first | exact _root_.GlobalTheory.CMTypeOrConjugate.inPsi_or_inPsi_conjugate | exact @_root_.GlobalTheory.CMTypeOrConjugate.inPsi_or_inPsi_conjugate | apply _root_.GlobalTheory.CMTypeOrConjugate.inPsi_or_inPsi_conjugate <;> assumption
+  have hE : (H.rt : E) ^ 2 = -(H.d : E) := by
+    have := congrArg (fun a : 𝓞 E => (a : E)) H.rt_sq
+    simpa using this
+  have h : (τ (H.rt : E)) ^ 2 = H.rt0 ^ 2 := by
+    rw [H.sqrt_neg_disc_sq, ← map_pow, hE]
+    simp
+  unfold InPsi
+  rw [ComplexEmbedding.conjugate_coe_eq]
+  rcases sq_eq_sq_iff_eq_or_eq_neg.1 h with h | h
+  · exact Or.inl h
+  · right
+    rw [h, map_neg, (rt_conj H).1, neg_neg]
 
 theorem not_inPsi_conj (H : ReciprocityTheory.ChartRestriction.G.Geo.Tor.Host E) {τ : E →+* ℂ} (h1 : InPsi H τ) :
     ¬ InPsi H (ComplexEmbedding.conjugate τ) := by
@@ -92,8 +100,8 @@ theorem arithS_tauC : ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (H 
   have hpsi : ∀ z, InPsi H (pl z) := fun z => (hP.psi _).2 ⟨z, rfl⟩
   have h10 : ¬ (1 : ZMod 2) = 0 := by decide
   have h11 : (1 : ZMod 2) + 1 = 0 := by decide
-  have t0 : ∀ z, tauC N pl z 0 = pl z := fun z => if_pos rfl
-  have t1 : ∀ z, tauC N pl z 1 = ComplexEmbedding.conjugate (pl z) := fun z => if_neg h10
+  have t0 : ∀ z, tauC N pl z 0 = pl z := fun z => ite_eq_left rfl
+  have t1 : ∀ z, tauC N pl z 1 = ComplexEmbedding.conjugate (pl z) := fun z => ite_eq_right h10
   have hpos : ∀ z, N.pos (resCharOf la) z 1 = z := by
     intro z
     unfold NumDatum.pos
@@ -139,11 +147,11 @@ theorem arithS_tauC : ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (H 
   · have h := hC.1
     unfold NumDatum.cls primeClass at h
     refine hP.unr _ V.l_prime (fun h2 => ?_) (fun hq => ?_) (fun hd => ?_)
-    · rw [if_pos h2] at h
+    · rw [ite_eq_left h2] at h
       cases h
-    · rw [if_pos hq] at h
+    · rw [ite_eq_left hq] at h
       split_ifs at h
-    · rw [if_pos hd] at h
+    · rw [ite_eq_left hd] at h
       split_ifs at h
   · intro τ
     rcases inPsi_or_conj H τ with h | h

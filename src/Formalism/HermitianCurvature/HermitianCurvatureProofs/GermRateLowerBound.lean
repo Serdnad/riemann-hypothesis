@@ -23,60 +23,12 @@ public import Formalism.HermitianCurvature.HermitianCurvatureProofs.PbGermRateLo
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.PhiBoundPartsOfRadicalParametrisation
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.SeminormCompletion
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.SymmetricScalarBlockMatrixMul
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Algebra.Order.Star.Real
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.Order.CompletePartialOrder
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.HaveILetI
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.OrbitTailEstimates
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.OrbitalIntegralConvergesAbs
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.WirtingerIntegrationByParts
-import Mathlib.CategoryTheory.Countable
-import Mathlib.Topology.Separation.CompletelyRegular
-import Mathlib.Algebra.Order.Star.Int
-import Mathlib.RingTheory.SimpleRing.Principal
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.SliceAppend
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.PosCoreQ
 
@@ -720,11 +672,11 @@ theorem partner_two (h : C.LPt) (n : ℕ) (t c : ℂ) (a : ℕ) (ha : a < D.ptSi
   rw [show h ++ [(n + 1, t), (1, c)] = (h ++ [(n + 1, t)]) ++ [(1, c)] by simp]
   rw [Dx2.SL.partner_append 1 c (h ++ [(n + 1, t)]) a (by rw [Dx2.SL.ptSize_append]; omega), Dx2.SL.ptSize_append]
   by_cases h1 : a < D.ptSize h + (n + 1)
-  · rw [if_pos h1, Dx2.SL.partner_append (n + 1) t h a h1]
+  · rw [ite_eq_left h1, Dx2.SL.partner_append (n + 1) t h a h1]
     by_cases h2 : a < D.ptSize h
-    · rw [if_pos h2, if_pos h2]
-    · rw [if_neg h2, if_neg h2, if_pos h1]; omega
-  · rw [if_neg h1, if_neg (by omega), if_neg h1]; omega
+    · rw [ite_eq_left h2, ite_eq_left h2]
+    · rw [ite_eq_right h2, ite_eq_right h2, ite_eq_left h1]; omega
+  · rw [ite_eq_right h1, ite_eq_right (by omega), ite_eq_right h1]; omega
 
 theorem scal_two (h : C.LPt) (n : ℕ) (t c : ℂ) (a : ℕ) (ha : a < D.ptSize h + (n + 1 + 1)) :
     D.ptScal (h ++ [(n + 1, t), (1, c)]) a =
@@ -732,11 +684,11 @@ theorem scal_two (h : C.LPt) (n : ℕ) (t c : ℂ) (a : ℕ) (ha : a < D.ptSize 
   rw [show h ++ [(n + 1, t), (1, c)] = (h ++ [(n + 1, t)]) ++ [(1, c)] by simp]
   rw [Dx2.SL.scal_append 1 c (h ++ [(n + 1, t)]) a (by rw [Dx2.SL.ptSize_append]; omega), Dx2.SL.ptSize_append]
   by_cases h1 : a < D.ptSize h + (n + 1)
-  · rw [if_pos h1, Dx2.SL.scal_append (n + 1) t h a h1]
+  · rw [ite_eq_left h1, Dx2.SL.scal_append (n + 1) t h a h1]
     by_cases h2 : a < D.ptSize h
-    · rw [if_pos h2, if_pos h2]
-    · rw [if_neg h2, if_neg h2, if_pos h1]
-  · rw [if_neg h1, if_neg (by omega), if_neg h1]
+    · rw [ite_eq_left h2, ite_eq_left h2]
+    · rw [ite_eq_right h2, ite_eq_right h2, ite_eq_left h1]
+  · rw [ite_eq_right h1, ite_eq_right (by omega), ite_eq_right h1]
 
 theorem kapB_mul (n : ℕ) :
     kapB n * ((Real.toNNReal (‖U.betaU‖ / (2 * Real.pi)) ^ (Fintype.card (Fin (n + 1)) +
@@ -771,20 +723,20 @@ theorem sliceOmBlock : SliceOmBlock := by
     have ha : a.val < ph + (n + 1 + 1) := by have := a.isLt; omega
     rw [hspec a, partner_two h n t c a.val ha]
     by_cases h1 : a.val < ph
-    · rw [if_pos h1]
+    · rw [ite_eq_left h1]
       have e : Fin.cast hP a = Fin.castAdd (n + 1 + 1) ⟨a.val, h1⟩ := Fin.ext rfl
       rw [e, Fub.sigQ_castAdd]
       exact hspec' ⟨a.val, h1⟩
-    · rw [if_neg h1]
+    · rw [ite_eq_right h1]
       have e : Fin.cast hP a = Fin.natAdd ph ⟨a.val - ph, by omega⟩ := Fin.ext (by simp; omega)
       rw [e, Fub.sigQ_natAdd, Fin.val_natAdd]
       by_cases h2 : a.val < ph + (n + 1)
-      · rw [if_pos h2]
+      · rw [ite_eq_left h2]
         have e2 : (⟨a.val - ph, by omega⟩ : Fin (n + 1 + 1)) = Fin.castAdd 1 ⟨a.val - ph, by omega⟩ := Fin.ext rfl
         rw [e2, Om.σB, Fub.sigQ_castAdd, Fin.val_castAdd]
         simp only [Fin.revPerm_apply, Fin.val_rev]
         omega
-      · rw [if_neg h2]
+      · rw [ite_eq_right h2]
         have e2 : (⟨a.val - ph, by omega⟩ : Fin (n + 1 + 1)) = Fin.natAdd (n + 1) (0 : Fin 1) :=
           Fin.ext (by simp; omega)
         rw [e2, Om.σB, Fub.sigQ_natAdd, Fin.val_natAdd]
@@ -798,17 +750,17 @@ theorem sliceOmBlock : SliceOmBlock := by
     simp only [D.ptDiag]
     rw [scal_two h n t c a.val ha]
     by_cases h1 : a.val < ph
-    · rw [if_pos h1]
+    · rw [ite_eq_left h1]
       have e : Fin.cast hP a = Fin.castAdd (n + 1 + 1) ⟨a.val, h1⟩ := Fin.ext rfl
       rw [e, Fub.dQ, Fin.addCases_left]; rfl
-    · rw [if_neg h1]
+    · rw [ite_eq_right h1]
       have e : Fin.cast hP a = Fin.natAdd ph ⟨a.val - ph, by omega⟩ := Fin.ext (by simp; omega)
       rw [e, Fub.dQ, Fin.addCases_right]
       by_cases h2 : a.val < ph + (n + 1)
-      · rw [if_pos h2]
+      · rw [ite_eq_left h2]
         have e2 : (⟨a.val - ph, by omega⟩ : Fin (n + 1 + 1)) = Fin.castAdd 1 ⟨a.val - ph, by omega⟩ := Fin.ext rfl
         rw [e2, Fub.dQ, Fin.addCases_left]
-      · rw [if_neg h2]
+      · rw [ite_eq_right h2]
         have e2 : (⟨a.val - ph, by omega⟩ : Fin (n + 1 + 1)) = Fin.natAdd (n + 1) (0 : Fin 1) :=
           Fin.ext (by simp; omega)
         rw [e2, Fub.dQ, Fin.addCases_right]
@@ -971,8 +923,6 @@ namespace Formalism.FourierDecayAlt.P.FormNormSumIdentities
 
 open Formalism.FourierDecayAlt Formalism.REAL Formalism.QuantumDeterminants Formalism.FourierDecayAlt.P.PBE
 
-attribute [local instance] Matrix.normedAddCommGroup Matrix.normedSpace
-
 theorem levQInt : ∃ Cp : ℝ, 0 ≤ Cp ∧ ∀ Cc : ℝ, 16 * Cp ≤ Cc →
     ∀ (k r : ℕ) (Wp Wq : Type) [NormedAddCommGroup Wp] [InnerProductSpace ℂ Wp]
     [NormedAddCommGroup Wq] [InnerProductSpace ℂ Wq] [FiniteDimensional ℂ Wp] [FiniteDimensional ℂ Wq]
@@ -989,12 +939,10 @@ theorem levQInt : ∃ Cp : ℝ, 0 ≤ Cp ∧ ∀ Cc : ℝ, 16 * Cp ≤ Cc →
             D.castF (by omega) (D.uwG k r T.base.z T.base.z' (D.cutF T.base χ hh ε) i hi w a)
               (U.gaXi k (r - D.ptSize p) (D.ptPerm p) (D.ptDiag p) ξ (fun a => a.elim0) γ))
           (U.muXi k (D.ptSize p) 0 (r - D.ptSize p) (D.ptPerm p)) := by
-  obtain ⟨Cp, hCp0, hCp⟩ := Formalism.FourierDecayAlt.P.PBE.levQ_with_integrability
-  refine ⟨Cp, hCp0, ?_⟩
-  intro Cc hCc k r Wp Wq _ _ _ _ _ _ T χ A₀ N P0 hPk hPr hk2 hχ hA₀ ε hε i hi hi1 w hw p hc hp hle a
-  obtain ⟨ε', K, hε', hK0, hcoef, hsub, hInt⟩ :=
-    hCp Cc hCc k r Wp Wq T χ A₀ N P0 hPk hPr hk2 hχ hA₀ ε hε i hi hi1 w hw p hc hp a
-  exact hInt hle
+  obtain ⟨Cp, hCp0, hCore⟩ := levQ_core
+  refine ⟨Cp, hCp0, fun Cc hCc k r Wp Wq _ _ _ _ _ _ T χ A₀ N P0 hPk hPr hk2 hχ hA₀ ε hε i hi hi1 w hw p hc hp hle a hh c hsm hcl γ hγ => ?_⟩
+  obtain ⟨-, -, -, -, -, -, hInt⟩ := hCore Cc hCc k r Wp Wq T χ A₀ N P0 hPk hPr hk2 hχ hA₀ ε hε i hi hi1 w hw p hc hp a
+  exact hInt hle hh c hsm hcl γ hγ
 
 end Formalism.FourierDecayAlt.P.FormNormSumIdentities
 

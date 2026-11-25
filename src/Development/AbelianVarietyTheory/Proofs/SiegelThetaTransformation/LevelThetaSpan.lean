@@ -26,58 +26,15 @@ public import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.
 public import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.RealPlaceKernelHolomorphicWeightRowHighest
 public import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.KernelIdentity
 public import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.HermitianThetaLevelDataFormsSystem
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
 import Mathlib.Analysis.CStarAlgebra.Module.Constructions
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
 import Mathlib.RingTheory.Etale.Weakly
 import Mathlib.RingTheory.Finiteness.ModuleFinitePresentation
-import Mathlib.RingTheory.Radical.NatInt
 import Mathlib.RingTheory.RegularLocalRing.Defs
 import Mathlib.RingTheory.TotallySplit
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.HaveILetI
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.TypeStar
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Topology.Sheaves.Init
 import Mathlib.RingTheory.Henselian
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
 import Mathlib.Algebra.Order.Star.Real
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
 import Mathlib.Topology.Separation.CompletelyRegular
 import Development.AbelianVarietyTheory.Definitions.SpanningFamilies.IMemSiegel
 import Development.AbelianVarietyTheory.Definitions.ThetaMetrics.IsWeightedHomogeneousOfMemOrbitSpan
@@ -89,12 +46,10 @@ import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.LowestW
 import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.MeasurePreservingMulLeft
 import Mathlib.Algebra.Ring.IsFormallyReal
 import Mathlib.Analysis.Complex.Circle
-import Mathlib.Tactic.Polynomial.Basic
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.FundamentalDomains.DetSubUpper
 import Mathlib.RingTheory.PiTensorProduct
 import Mathlib.Tactic.Linter.Style
 import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.DetOfTriangular
-import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.DoubledHermitianTestFunctionZeroAndNorm
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.ExistsFamilyInvariantOfFockInner, Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.Imports, Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.ExistsFundamentalDomain, Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.IntegrableTsumOfSummableIntegralNorm, Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.IsOpenFrames, Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.LatticeOperatorCoefficients, Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.SetIntegralCompOfStable, Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.SummableSetIntegralOfSummableNorm, Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.HermitianThetaSeriesSpanBoundedForms, Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.LevelThetaSpan
@@ -610,7 +565,16 @@ theorem cont_dmin (τ : X.Ψ) (i : Fin (r + 1)) :
   exact (h.matrix_submatrix _ _).matrix_det
 
 theorem isOpen_frames : IsOpen X.dom := by
-  apply _root_.ReciprocityTheory.ChartRestriction.G.FD.FourierCoefficientDomain.isOpen_dom <;> assumption
+  have h : X.dom = ⋂ τ : X.Ψ, ({x : Frame X.Ψ r | (mat x τ).det ≠ 0} ∩
+      ⋂ i : Fin (r + 1), {x | 0 < psgn X.p0 i * (dmin X.Gm x τ i).re}) := by
+    ext x; simp [Data.dom, GG]
+  rw [h]
+  refine isOpen_iInter_of_finite fun τ => IsOpen.inter ?_ (isOpen_iInter_of_finite fun i => ?_)
+  · exact isOpen_ne_fun
+      (show Continuous fun x : Frame X.Ψ r => mat x τ from continuous_apply τ).matrix_det
+      continuous_const
+  · exact isOpen_lt continuous_const (continuous_const.mul (Complex.continuous_re.comp
+      (cont_dmin X τ i)))
 
 theorem dmin_ne {x : Frame X.Ψ r} (hx : x ∈ X.dom) (τ : X.Ψ) (i : Fin (r + 1)) :
     dmin X.Gm x τ i ≠ 0 := by
@@ -830,7 +794,19 @@ variable {E : Type} [Field E] [NumberField E] [IsCMField E] {n : ℕ}
 theorem ip_smul_smul {K κ ι : Type} [Field K] [NumberField K] [Fintype κ] [Fintype ι]
     {φ ψ : Matrix κ ι K → ℂ} (hφ : IsSB φ) (hψ : IsSB ψ) (a b : ℂ) :
     ip (a • φ) (b • ψ) = a * conj b * ip φ ψ := by
-  apply _root_.GlobalTheory.SW.DblZero.ip_smul <;> assumption
+  have hc : IsSB fun x => conj (ψ x) :=
+    (isSB_algebra_haar_linear K κ ι ψ ψ hψ hψ).2.2.2.1
+  have hp : IsSB (φ * fun x => conj (ψ x)) :=
+    (isSB_algebra_haar_linear K κ ι φ _ hφ hc).2.2.1
+  have hs := (isSB_algebra_haar_linear K κ ι _ _ hp hp).2.2.2.2.2.1 (a * conj b)
+  have key : (fun x => (a • φ) x * conj ((b • ψ) x)) =
+      (a * conj b) • (φ * fun x => conj (ψ x)) := by
+    funext x
+    simp only [Pi.smul_apply, smul_eq_mul, Pi.mul_apply, map_mul]
+    ring
+  unfold ip
+  rw [key, hs]
+  rfl
 
 theorem classSum_eq_sum {M : ℕ} [Fintype (Cls E n M)] (f : Lt E n → ℂ) :
     classSum M f = ∑ c : Cls E n M, (wt M (Quot.out c).1 : ℂ) * f (Quot.out c).1 := by

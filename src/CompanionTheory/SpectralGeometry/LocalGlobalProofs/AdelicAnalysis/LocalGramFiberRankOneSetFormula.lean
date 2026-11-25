@@ -11,7 +11,6 @@ import Mathlib.Order.CompletePartialOrder
 import Mathlib.RingTheory.Henselian
 import Mathlib.RingTheory.RegularLocalRing.Defs
 import Mathlib.RingTheory.SimpleRing.Principal
-import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.HermitianFormFiniteZerosOnLineCmExt
 
 @[expose] public section
 
@@ -28,7 +27,16 @@ variable {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algeb
   {σ : E →ₐ[F] E}
 
 theorem exists_conj_ne (h : IsCMExt F E σ) : ∃ e : E, σ e ≠ e := by
-  apply _root_.GlobalTheory.HermLineZeros.exists_conj_ne <;> assumption
+  by_contra hσ
+  push Not at hσ
+  obtain ⟨τ⟩ : Nonempty (E →+* ℂ) := inferInstance
+  have := h.2.1
+  apply IsTotallyComplex.complexEmbedding_not_isReal τ
+  rw [ComplexEmbedding.isReal_iff]
+  ext x
+  have := h.2.2.2 τ x
+  rw [hσ] at this
+  simpa [ComplexEmbedding.conjugate_coe_eq] using this.symm
 
 theorem exists_imag (h : IsCMExt F E σ) :
     ∃ w : E, σ w = -w ∧ ∀ e : E, ∃ a c : F, a • (1 : E) + c • w = e := by
@@ -223,14 +231,8 @@ theorem coordHerm_qS (h : IsCMExt F E σ) [IsTopologicalRing R] [SecondCountable
     funext i
     obtain rfl : i = 0 := Subsingleton.elim _ _
     exact qS_hermScal R h (x.1 0)
-  have himg : ∀ s : Set (HermR R σ 1), f '' s = g ⁻¹' s := by
-    intro s
-    ext x
-    constructor
-    · rintro ⟨S, hS, rfl⟩
-      simpa [hgf S] using hS
-    · intro hx
-      exact ⟨g x, hx, hfg x⟩
+  have himg : ∀ s : Set (HermR R σ 1), f '' s = g ⁻¹' s := fun s =>
+    congrFun (Set.image_eq_preimage_of_inverse hgf hfg) s
   have hinj : Function.Injective f := Function.LeftInverse.injective hgf
   have hP : MeasurableSet {S | qS R σ S ∈ V} := (continuous_qS R htr).measurable hV
   have hset : f '' {S | qS R σ S ∈ V} = (Set.pi Set.univ fun _ : Fin 1 => V) ×ˢ Set.univ := by

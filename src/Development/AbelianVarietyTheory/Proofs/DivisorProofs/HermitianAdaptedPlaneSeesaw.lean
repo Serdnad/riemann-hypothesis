@@ -1,48 +1,11 @@
 module
 
-import Development.WeilBound.ThetaLifts.LeviDeterminants.CharacterAdmissibility.AdelicCoordinatesEvalZeroFormMemAdmissible
-import Development.WeilBound.ThetaLifts.LeviDeterminants.MixedModels.AdaptC
 public import Development.AbelianVarietyTheory.Definitions.Divisors.CTSmallCone
 public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.WeilTensorModels
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.AdelicStoneVonNeumannLagrangianUniqueness
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.EigenIntertwinerGoodModels
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.EigenIntertwinerTransitive
 import Development.AbelianVarietyTheory.Proofs.DivisorProofs.WeilRepresentationPreservesSchwartz
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Coalgebra.IsFrobenius
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.RingTheory.TotallySplit
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
 import Development.AbelianVarietyTheory.Definitions.Divisors.MatchingOfParts
 
 @[expose] public section
@@ -64,7 +27,18 @@ variable {R S : Type} [CommRing R] [CommRing S] [Algebra R S] (c : S →ₐ[R] S
 
 theorem hTens_eq_trace (J : Matrix α α S) (J' : Matrix β β S) (x y : Matrix α β S) :
     hTens c J J' x y = Matrix.trace (xᵀ * J * y.map c * J'ᵀ) := by
-  apply _root_.PositivityTheory.Mix.Adapt.hTens_eq_trace <;> assumption
+  simp only [hTens, Matrix.trace, Matrix.diag_apply, Matrix.mul_apply, Matrix.transpose_apply, Matrix.map_apply,
+    Finset.sum_mul]
+  rw [Finset.sum_comm]
+  refine Finset.sum_congr rfl fun j _ => ?_
+  have h1 : ∀ i, ∑ k, ∑ l, x i j * J i k * J' j l * c (y k l) = ∑ l, ∑ k, x i j * J i k * J' j l * c (y k l) :=
+    fun i => Finset.sum_comm
+  simp only [h1]
+  rw [Finset.sum_comm]
+  refine Finset.sum_congr rfl fun l _ => ?_
+  rw [Finset.sum_comm]
+  refine Finset.sum_congr rfl fun k _ => Finset.sum_congr rfl fun i _ => ?_
+  ring
 
 theorem hTens_mul (J : Matrix α α S) (J' : Matrix β β S) (A : Matrix α γ S) (B : Matrix α δ S) (x : Matrix γ β S)
     (y : Matrix δ β S) :
@@ -307,42 +281,6 @@ theorem exists_lagr (B : Base F E) (hB : B.IsGood σ) (M : Model σ X W) (M₁ :
     have h := (M.co.form _ _).symm.trans (sp_ix (W := W) (fun u => (hH.orth u).1) (t • incM F (φ₁.symm (0, p.2)))
       (t • incV F p.1))
     exact (sub_eq_zero.1 h).symm
-
-abbrev ev0 (F : Type) [Field F] [NumberField F] (κ : Type) [Fintype κ] : ((κ → AF F) → ℂ) →ₗ[ℂ] ℂ :=
-  LinearMap.proj (R := ℂ) (φ := fun _ : (κ → AF F) => ℂ) 0
-
-theorem adelicCoordinatesEvalZeroForm_mem_admissible (κ : Type) [Fintype κ] : ev0 F κ ∈ (adeleClass F).adm κ := by
-  apply _root_.PositivityTheory.ThKF0.Chr.adelicCoordinatesEvalZeroForm_mem_admissible <;> assumption
-
-theorem mul_transpose_incM_one (A : Matrix (Fin n) (Fin d) (AE F E)) : A * (incM F (1 : Matrix (Fin d) (Fin d) E))ᵀ = A := by
-  rw [incM, Matrix.map_one _ (map_zero _) (map_one _), Matrix.transpose_one, Matrix.mul_one]
-
-theorem apply_eq_evaluation_zero (M : Model σ X W) (M₁ : Model σ X₁ W) (ψ : AddChar (AF F) ℂ) (ι : Matrix (Fin n) (Fin n₁) E)
-    (S : Fn F n d →ₗ[ℂ] Fn F n₁ d)
-    (hS : ∀ z, ∀ Φ ∈ schA F (Fin n × Fin d), S (M.co.rho ψ (incM F ι * z * (incM F (1 : Matrix (Fin d) (Fin d) E))ᵀ) Φ) =
-      M₁.co.rho ψ z (S Φ)) (Φ : Fn F n d) (hΦ : Φ ∈ schA F (Fin n × Fin d)) (y : Fin n₁ × Fin d → AF F) :
-    S Φ y = ev0 F (Fin n₁ × Fin d)
-      (S (M.co.rho ψ (incM F ι * M₁.co.e.symm (y, 0) * (incM F (1 : Matrix (Fin d) (Fin d) E))ᵀ) Φ)) := by
-  rw [hS _ Φ hΦ]
-  simp [ev0, Darboux.rho, schr]
-
-theorem evAt_zero_comp_eq_of_exp_phase_mul (M : Model σ X W) (M₁ : Model σ X₁ W) (ψ : AddChar (AF F) ℂ) (hψ : IsStd ψ) (H : Plane E n n₁)
-    (S : Fn F n d →ₗ[ℂ] Fn F n₁ d)
-    (hS : ∀ z, ∀ Φ ∈ schA F (Fin n × Fin d), S (M.co.rho ψ (incM F H.ι * z * (incM F (1 : Matrix (Fin d) (Fin d) E))ᵀ) Φ) =
-      M₁.co.rho ψ z (S Φ))
-    (hI : ∀ u ∈ {u | ∃ z, u = Matrix.vecMulVec (incV F H.x) z}, ∀ Φ ∈ schA F (Fin n × Fin d), S (M.co.rho ψ u Φ) = S Φ)
-    (w : (Fin n × Fin d → AF F) × (Fin n × Fin d → AF F))
-    (hw : ∃ (u : Fin d → AE F E) (m : Matrix (Fin n₁) (Fin d) (AE F E)), (M₁.co.e m).1 = 0 ∧ ∀ φ : Fn F n d,
-          schr ψ w φ = M.co.rho ψ (Matrix.vecMulVec (incV F H.x) u) (M.co.rho ψ (incM F H.ι * m) φ))
-    (Φ : Fn F n d) (hΦ : Φ ∈ schA F (Fin n × Fin d)) :
-    (ev0 F (Fin n₁ × Fin d) ∘ₗ S) (schr ψ w Φ) = (ev0 F (Fin n₁ × Fin d) ∘ₗ S) Φ := by
-  obtain ⟨u, z, hz, he⟩ := hw
-  have h1 := GlobalTheory.HeisSchA.rho_mem_schA M ψ hψ (incM F H.ι * z) Φ hΦ
-  have h2 := hS z Φ hΦ
-  rw [mul_transpose_incM_one] at h2
-  simp only [LinearMap.comp_apply, ev0, LinearMap.proj_apply]
-  rw [he, hI _ ⟨u, rfl⟩ _ h1, h2]
-  simp [Darboux.rho, schr, hz]
 
 end GlobalTheory.MixXEvUniq
 

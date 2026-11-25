@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.ExpandsAtTransport
 public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.ExistsFamFieldPull
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.ProdExpPf
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.SecBaseChangeAnySt
@@ -56,14 +55,11 @@ import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRin
 
 @[expose] public section
 
-set_option autoImplicit false
-
 noncomputable section
 
 open CategoryTheory CategoryTheory.Limits MonoidalCategory CartesianMonoidalCategory MonObj AlgebraicGeometry NumberField
 open ReciprocityTheory.ChartRestriction.G ReciprocityTheory.ChartRestriction.G.Semi ReciprocityTheory.ChartRestriction.G.Out ReciprocityTheory.ChartRestriction.G.Geo.Tor
 open scoped CategoryTheory.Obj
-attribute [local instance] Over.cartesianMonoidalCategory
 
 namespace GlobalTheory.RigidSections
 
@@ -269,8 +265,15 @@ variable {R : Type} [CommRing R] [IsDomain R] {I : Ideal R} {D D' : DegData R I}
 theorem prod_fam_coord (e k : ℕ) (x : D.toPre.X) {V : Type} [CommGroup V]
     (h : ((thickObj R I e G).left ⟶ D.toPre.P.A.left) → V) :
     (∏ a, h (pGl U e ≫ D.toPre.famφB x a) ^ DegPre.famε k a) * ∏ a, h (Oφl U e x a) ^ Oinvε a = h (pGl U e) ^ k := by
-  intros
-  apply _root_.GlobalTheory.ExpTrans.prod_fam <;> assumption
+  have p := FamPull.prod_famB D.toPre (U.gt e).pG x k h
+  have q : ∏ a, h (Oφl U e x a) ^ Oinvε a = h ((U.gt e).pG * cP D.toPre _ x).left ^ (-1 : ℤ) *
+      h (cP D.toPre ((Over.map (thick R I e)).obj (thickObj R I e G)) x).left ^ (1 : ℤ) * h (pGl U e) ^ (1 : ℤ) *
+      h (1 : (Over.map (thick R I e)).obj (thickObj R I e G) ⟶ D.toPre.P.A).left ^ (-1 : ℤ) := Fin.prod_univ_four _
+  refine (congrArg₂ (· * ·) p q).trans ?_
+  rw [mul_comm (U.gt e).pG]
+  apply Additive.ofMul.injective
+  simp only [ofMul_mul, ofMul_inv, ofMul_zpow, ofMul_pow]
+  module
 
 def Agree (e k : ℕ) (j : (thickObj R I e G').left ⟶ (thickObj R I e G).left) (σ : H0 U.LG.L k) (σ' : H0 U'.LG.L k) :
     Prop :=

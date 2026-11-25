@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Counterexamples.ModuliSurvey.ExistsGoodLevel
 public import Development.AbelianVarietyTheory.Definitions.ArchimedeanThetaValues.ModelsAt
 public import Development.AbelianVarietyTheory.Definitions.RegularCharts.BaseNorm
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.FundamentalDomains.IsotropicCoefficientSplitting
@@ -60,7 +59,21 @@ open scoped LaurentSeries
 namespace GlobalTheory.ArcDetect
 
 theorem exists_place (p : ℕ) (hp : p.Prime) : ∃ W : ValuationSubring ℂ, (p : ℂ) ∈ W.nonunits := by
-  first | exact _root_.GlobalTheory.GlobalModelGuards.exists_place | exact @_root_.GlobalTheory.GlobalModelGuards.exists_place | apply _root_.GlobalTheory.GlobalModelGuards.exists_place <;> assumption
+  have hne : (Ideal.span {(p : (⊥ : Subring ℂ))}) ≠ ⊤ := by
+    rw [Ne, Ideal.span_singleton_eq_top]
+    intro hu
+    obtain ⟨v, hv⟩ := hu.exists_right_inv
+    obtain ⟨n, hn⟩ := Subring.mem_bot.1 v.2
+    have h1 : ((p : ℤ) * n : ℤ) = 1 := by
+      have := congrArg Subtype.val hv
+      simp only [Subring.coe_mul, Subring.coe_natCast, Subring.coe_one] at this
+      rw [← hn] at this
+      exact_mod_cast this
+    have := Int.isUnit_iff_natAbs_eq.1 (IsUnit.of_mul_eq_one _ h1)
+    simp at this
+    exact hp.one_lt.ne' this
+  obtain ⟨W, -, hW⟩ := Ideal.image_subset_nonunits_valuationSubring _ hne
+  exact ⟨W, hW ⟨p, Ideal.mem_span_singleton_self _, by simp⟩⟩
 
 theorem iSup_sub_iInf_le {r : ℕ} (hr : 0 < r) (x : Fin r → ℝ) (A B : ℝ) (h1 : ∀ i, x i ≤ A) (h2 : ∀ i, -B ≤ x i) :
     (⨆ i, x i) - ⨅ i, x i ≤ A + B := by
@@ -99,18 +112,18 @@ theorem laU_dominant {σ : c.F →+* ℂ} {r : ℕ} (U : Unf Xo c σ r) {a : (E 
     have := h.1 (Function.invFun (relab c σ) (conjEmb τ.1))
       (show (U.X k).p0 - 1 - (j : ℕ) ≤ (U.X k).p0 - 1 - (i : ℕ) by omega)
     unfold laU
-    rw [if_neg (by omega), if_neg (by omega)]
+    rw [ite_eq_right (by omega), ite_eq_right (by omega)]
     dsimp only at this
     omega
   · have hij' : (i : ℕ) ≤ j := hij
     have := h.1 (Function.invFun (relab c σ) τ.1)
       (show (i : ℕ) - (U.X k).p0 ≤ (j : ℕ) - (U.X k).p0 by omega)
     unfold laU
-    rw [if_pos (by omega), if_pos (by omega)]
+    rw [ite_eq_left (by omega), ite_eq_left (by omega)]
     dsimp only at this
     omega
   · unfold laU
-    rw [if_neg (by omega), if_pos (by omega)]
+    rw [ite_eq_right (by omega), ite_eq_left (by omega)]
     omega
 
 theorem invFun_relab (τ : E →+* ℂ) : Function.invFun (relab c c.F.val.toRingHom) τ = τ := by
@@ -130,9 +143,9 @@ theorem sum_spread_le {r : ℕ} (hr : 0 < r) (U : Unf Xo c c.F.val.toRingHom r) 
       (Finset.mem_univ ⟨i, hi⟩)
   have h1 : ∀ τ : (U.X k).Ψ, (U.X k).spread (laU U a n k) τ ≤ ((B τ.1 + B (conjEmb τ.1) : ℕ) : ℝ) + n := by
     intro τ
-    have m1 : Dw.mult τ.1 = Dw.p := if_pos ((hΨ _).1 τ.2)
+    have m1 : Dw.mult τ.1 = Dw.p := ite_eq_left ((hΨ _).1 τ.2)
     have m2 : Dw.mult (conjEmb τ.1) = Dw.q :=
-      if_neg fun h => ((U.X k).cmType τ.1).1 τ.2 ((hΨ _).2 h)
+      ite_eq_right fun h => ((U.X k).cmType τ.1).1 τ.2 ((hΨ _).2 h)
     have hn : ((n / 2 : ℕ) : ℝ) + ((n / 2 : ℕ) : ℝ) ≤ n := by
       have : n / 2 + n / 2 ≤ n := by omega
       exact_mod_cast this

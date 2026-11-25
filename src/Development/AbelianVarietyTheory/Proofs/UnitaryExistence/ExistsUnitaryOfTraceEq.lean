@@ -1,8 +1,5 @@
 module
 
-
-import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsLevelBlockOfEq
-import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.DetOneAddSubOne
 public import Mathlib.NumberTheory.NumberField.Basic
 public import Development.AbelianVarietyTheory.Definitions.ExistenceOfLattices.CoeSelfDualLatticeInFrameCoordinatesEq
 public import Development.AbelianVarietyTheory.Definitions.ExistenceOfLattices.Hat1
@@ -63,6 +60,7 @@ import Mathlib.Tactic.Linter.HaveILetI
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Development.AbelianVarietyTheory.Definitions.ExistenceOfLattices.PermutesRefl
+
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.Proofs.UnitaryExistence.ExistsSmulMemOfSpanEqTop, Development.AbelianVarietyTheory.Proofs.UnitaryExistence.ExistsUnitaryOfTraceEq
 
@@ -70,18 +68,6 @@ import Development.AbelianVarietyTheory.Definitions.ExistenceOfLattices.Permutes
 -- clump-header: {"m": "Development.AbelianVarietyTheory.Proofs.UnitaryExistence.ExistsSmulMemOfSpanEqTop", "h": "module\n\nimport ReciprocityTheory.SemistableReduction.SemiContractC\npublic import Mathlib.NumberTheory.NumberField.Basic\nimport Mathlib.Algebra.Order.Floor.Extended\nimport Mathlib.Algebra.Order.Floor.Semifield\nimport Mathlib.Algebra.Order.Interval.Basic\nimport Mathlib.Analysis.Complex.UpperHalfPlane.Basic\nimport Mathlib.Analysis.Normed.Algebra.GelfandRadius\nimport Mathlib.Analysis.SpecialFunctions.Bernstein\nimport Mathlib.Analysis.SpecialFunctions.Gamma.Basic\nimport Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp\nimport Mathlib.Combinatorics.Enumerative.DyckWord\nimport Mathlib.Combinatorics.SimpleGraph.Triangle.Removal\nimport Mathlib.Data.NNRat.Floor\nimport Mathlib.Data.Nat.Choose.Multinomial\nimport Mathlib.Geometry.Euclidean.Volume.Basic\nimport Mathlib.NumberTheory.Chebyshev\nimport Mathlib.NumberTheory.Height.NumberField\nimport Mathlib.NumberTheory.Height.Projectivization\nimport Mathlib.NumberTheory.LucasLehmer\nimport Mathlib.NumberTheory.SelbergSieve\nimport Mathlib.RingTheory.Radical.NatInt\nimport Mathlib.Tactic.Echelon.Zsqrtd\nimport Mathlib.Tactic.Inclusion.Extension.Core.Core\nimport Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit\nimport Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp\nimport Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses\nimport Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic\nimport Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses\nimport Mathlib.Tactic.NormNum.Irrational\nimport Mathlib.Tactic.NormNum.IsCoprime\nimport Mathlib.Tactic.NormNum.IsSquare\nimport Mathlib.Tactic.NormNum.LegendreSymbol\nimport Mathlib.Tactic.NormNum.ModEq\nimport Mathlib.Tactic.NormNum.NatFib\nimport Mathlib.Tactic.NormNum.NatLog\nimport Mathlib.Tactic.NormNum.NatSqrt\nimport Mathlib.Tactic.NormNum.Ordinal\nimport Mathlib.Tactic.NormNum.Parity\nimport Mathlib.Tactic.NormNum.Prime\nimport Mathlib.Tactic.NormNum.RealSqrt\nimport Mathlib.Topology.Sheaves.Init\n\n"}
 section -- clump:auto
 @[expose] public section
-
-namespace GlobalTheory.SmulMemSpanTop
-
-open NumberField
-
-theorem exists_smul_mem_of_span_eq_top {E : Type} [Field E] [NumberField E] {n : ℕ}
-    (Λ : Submodule (𝓞 E) (Fin n → E))
-    (h : Submodule.span E (↑Λ : Set (Fin n → E)) = ⊤) (v : Fin n → E) :
-    ∃ d : 𝓞 E, d ≠ 0 ∧ d • v ∈ Λ := by
-  apply ReciprocityTheory.MultiplicativeHeights.sc_scale <;> assumption
-
-end GlobalTheory.SmulMemSpanTop
 end -- clump:auto
 end -- clump:auto
 -- ===== end clump member: Development.AbelianVarietyTheory.Proofs.UnitaryExistence.ExistsSmulMemOfSpanEqTop =====
@@ -125,21 +111,104 @@ theorem det_one_add_nsmul {n : ℕ} (N : ℕ) (cI : Fin n → FractionalIdeal (�
     (Y : Matrix (Fin n) (Fin n) (RA F E))
     (h : ∀ i j, Y i j ∈ hat1 F ((cI i * (cI j)⁻¹ : FractionalIdeal (𝓞 E)⁰ E) : Set E)) :
     ∃ w ∈ hat1 F ((1 : FractionalIdeal (𝓞 E)⁰ E) : Set E), (1 + N • Y).det - 1 = N • w := by
-  first | exact _root_.GlobalTheory.MarkDet.det_one_add_sub_one | exact @_root_.GlobalTheory.MarkDet.det_one_add_sub_one | apply _root_.GlobalTheory.MarkDet.det_one_add_sub_one <;> assumption
+  have h1 : ∀ i j, (1 : Matrix (Fin n) (Fin n) (RA F E)) i j ∈
+      hat1 F ((cI i * (cI j)⁻¹ : FractionalIdeal (𝓞 E)⁰ E) : Set E) := by
+    intro i j
+    by_cases hij : i = j
+    · subst hij
+      rw [Matrix.one_apply_eq, mul_inv_cancel₀ (hc i), Algebra.TensorProduct.one_def]
+      exact one_tmul_mem_adelicCompletionOfElementSet F (FractionalIdeal.one_mem_one _)
+    · rw [Matrix.one_apply_ne hij]
+      exact zero_mem _
+  have h2 : ∀ s : Equiv.Perm (Fin n), ∃ w ∈ hat1 F ((1 : FractionalIdeal (𝓞 E)⁰ E) : Set E),
+      ∏ j, (1 + N • Y) (s j) j = ∏ j, (1 : Matrix (Fin n) (Fin n) (RA F E)) (s j) j + N • w := by
+    intro s
+    obtain ⟨w, hw, e⟩ := prod_add_nsmul F N Finset.univ (fun j => cI (s j) * (cI j)⁻¹)
+      (fun j => (1 : Matrix (Fin n) (Fin n) (RA F E)) (s j) j) (fun j => Y (s j) j) (fun j => h1 _ _) (fun j => h _ _)
+    rw [Finset.prod_mul_distrib, Equiv.prod_comp s cI, ← Finset.prod_mul_distrib,
+      Finset.prod_eq_one fun i _ => mul_inv_cancel₀ (hc i)] at hw
+    exact ⟨w, hw, e⟩
+  choose w hw e using h2
+  refine ⟨∑ s : Equiv.Perm (Fin n), Equiv.Perm.sign s • w s, sum_mem fun s _ => ?_, ?_⟩
+  · rw [Units.smul_def]
+    exact zsmul_mem (hw s) _
+  · rw [sub_eq_iff_eq_add']
+    conv_rhs => rw [← Matrix.det_one (n := Fin n) (R := RA F E)]
+    rw [Matrix.det_apply, Matrix.det_apply, Finset.smul_sum, ← Finset.sum_add_distrib]
+    refine Finset.sum_congr rfl fun s _ => ?_
+    rw [e s, smul_add, smul_comm N]
 
 theorem det_cong_one {n : ℕ} (L : Submodule (𝓞 E) (Fin n → E)) (hfg : L.FG)
     (hsp : Submodule.span E (L : Set (Fin n → E)) = ⊤) (N : ℕ) (hN : N ≠ 0) (G : Matrix (Fin n) (Fin n) (RA F E))
     (hG : ∀ z ∈ hat F (L : Set (Fin n → E)), ∃ y ∈ hat F (L : Set (Fin n → E)), G *ᵥ z - z = N • y) :
     ∃ w ∈ hat1 F (Set.range (algebraMap (𝓞 E) E)), G.det - 1 = N • w := by
-  first | exact _root_.GlobalTheory.MarkDet.det_sub_one_of_cong | exact @_root_.GlobalTheory.MarkDet.det_sub_one_of_cong | apply _root_.GlobalTheory.MarkDet.det_sub_one_of_cong <;> assumption
+  obtain ⟨-, e, cI, hc, hL, -⟩ := GlobalTheory.exists_pseudoBasis_adapted E n L ⊤ hfg hsp
+  have key := mem_hat_pseudoBasis_iff F E n L e cI hL
+  let P : Matrix (Fin n) (Fin n) (RA F E) := Matrix.of fun i a => fv F (e a) i
+  let Q : Matrix (Fin n) (Fin n) (RA F E) := Matrix.of fun b i =>
+    (1 : FiniteAdeleRing (𝓞 F) F) ⊗ₜ e.repr (Pi.single i 1) b
+  have hP : ∀ w : Fin n → RA F E, P *ᵥ w = ∑ a, w a • fv F (e a) := by
+    intro w
+    funext i
+    simp [P, Matrix.mulVec, dotProduct, Finset.sum_apply, mul_comm]
+  have hQ : ∀ w b, (Q *ᵥ w) b = adCoord F e b w := by
+    intro w b
+    change ∑ i : Fin n, _ = ∑ i : Fin n, _
+    exact Finset.sum_congr rfl fun i _ => mul_comm _ _
+  have hQP : Q * P = 1 := by
+    refine Matrix.ext_of_mulVec_single fun i => ?_
+    funext b
+    rw [← Matrix.mulVec_mulVec, hQ, hP, adCoord_sum, Matrix.one_mulVec]
+  have hPQ : P * Q = 1 := mul_eq_one_comm.1 hQP
+  have key' : ∀ w, P *ᵥ w ∈ hat F (L : Set (Fin n → E)) ↔ ∀ a, w a ∈ hat1 F (cI a : Set E) := by
+    intro w; rw [hP]; exact key w
+  have hNF : (N : F) ≠ 0 := Nat.cast_ne_zero.2 hN
+  obtain ⟨X, hX⟩ : ∃ X : Matrix (Fin n) (Fin n) (RA F E), X = (N : F)⁻¹ • (G - 1) := ⟨_, rfl⟩
+  have hGX : G = 1 + N • X := by
+    rw [hX, ← Nat.cast_smul_eq_nsmul F, smul_smul, mul_inv_cancel₀ hNF, one_smul]; abel
+  have hXL : ∀ z ∈ hat F (L : Set (Fin n → E)), X *ᵥ z ∈ hat F (L : Set (Fin n → E)) := by
+    intro z hz
+    obtain ⟨y, hy, ey⟩ := hG z hz
+    rw [hX, Matrix.smul_mulVec, Matrix.sub_mulVec, Matrix.one_mulVec, ey, ← Nat.cast_smul_eq_nsmul F, smul_smul,
+      inv_mul_cancel₀ hNF, one_smul]
+    exact hy
+  have hPk : P * (Q * X * P) = X * P := by
+    simp only [← Matrix.mul_assoc, hPQ, Matrix.one_mul]
+  have hkdet : (1 + N • (Q * X * P)).det = G.det := by
+    have h1 : 1 + N • (Q * X * P) = Q * G * P := by
+      rw [hGX, Matrix.mul_add, Matrix.add_mul, Matrix.mul_one, hQP, Matrix.mul_smul, Matrix.smul_mul]
+    have : Q.det * P.det = 1 := by rw [← Matrix.det_mul, hQP, Matrix.det_one]
+    simp only [h1, Matrix.det_mul]
+    linear_combination G.det * this
+  have hk : ∀ i j, (Q * X * P) i j ∈ hat1 F ((cI i * (cI j)⁻¹ : FractionalIdeal (𝓞 E)⁰ E) : Set E) := by
+    intro i j
+    refine mem_adelicCompletion_mul_inv_fractionalIdeal F _ _ _ (hc j) fun x hx => ?_
+    have h1 : P *ᵥ (Pi.single j ((1 : FiniteAdeleRing (𝓞 F) F) ⊗ₜ[F] x)) ∈
+        hat F (L : Set (Fin n → E)) := by
+      rw [key']
+      intro a
+      by_cases ha : a = j
+      · subst ha
+        rw [Pi.single_eq_same]
+        exact one_tmul_mem_adelicCompletionOfElementSet F hx
+      · rw [Pi.single_eq_of_ne ha]
+        exact zero_mem _
+    have h2 := hXL _ h1
+    rw [Matrix.mulVec_mulVec, ← hPk, ← Matrix.mulVec_mulVec, key'] at h2
+    have h3 := h2 i
+    rwa [Matrix.mulVec_single, Pi.smul_apply, MulOpposite.smul_eq_mul_unop,
+      MulOpposite.unop_op] at h3
+  obtain ⟨w, hw, ew⟩ := det_one_add_nsmul F N cI hc _ hk
+  have hr : ((1 : FractionalIdeal (𝓞 E)⁰ E) : Set E) = Set.range (algebraMap (𝓞 E) E) := by
+    ext x
+    exact FractionalIdeal.mem_one_iff _
+  exact ⟨w, hr ▸ hw, hkdet ▸ ew⟩
 
 end Det
 
 section Ext
 
 variable {E : Type} [Field E] [NumberField E] {n : ℕ}
-
-alias exists_smul_mem := _root_.GlobalTheory.SmulMemSpanTop.exists_smul_mem_of_span_eq_top
 
 theorem exists_matrix_of_lattice (Λ : Submodule (𝓞 E) (Fin n → E))
     (hΛ : Submodule.span E (Λ : Set (Fin n → E)) = ⊤) (ψ : Λ →ₗ[𝓞 E] (Fin n → E)) :
@@ -149,7 +218,7 @@ theorem exists_matrix_of_lattice (Λ : Submodule (𝓞 E) (Fin n → E))
   haveI : IsLocalizedModule (nonZeroDivisors (𝓞 E)) Λ.subtype :=
     { map_units := hun
       surj := fun v => by
-        obtain ⟨d, hd, h⟩ := exists_smul_mem Λ hΛ v
+        obtain ⟨d, hd, h⟩ := Bl.general_b_fact_second.goal1 Λ hΛ v
         exact ⟨(⟨_, h⟩, ⟨d, mem_nonZeroDivisors_of_ne_zero hd⟩), rfl⟩
       exists_of_eq := fun h => ⟨1, by rw [Subtype.ext h]⟩ }
   let T := IsLocalizedModule.lift (nonZeroDivisors (𝓞 E)) Λ.subtype ψ hun
@@ -158,7 +227,16 @@ theorem exists_matrix_of_lattice (Λ : Submodule (𝓞 E) (Fin n → E))
   exact IsLocalizedModule.lift_apply (nonZeroDivisors (𝓞 E)) Λ.subtype ψ hun x
 
 theorem eq_zero_of_trace (z : E) (h : ∀ a : 𝓞 E, Algebra.trace ℚ E (a * z) = 0) : z = 0 := by
-  first | exact _root_.GlobalTheory.FrameFibre.eq_zero_of_trace | exact @_root_.GlobalTheory.FrameFibre.eq_zero_of_trace | apply _root_.GlobalTheory.FrameFibre.eq_zero_of_trace <;> assumption
+  refine (traceForm_nondegenerate ℚ E).1 z fun y => ?_
+  obtain ⟨⟨p, q⟩, hpq⟩ := IsLocalization.surj (Algebra.algebraMapSubmonoid (𝓞 E) (nonZeroDivisors ℤ)) y
+  obtain ⟨q, m, hm, rfl⟩ := q
+  have hm0 : (m : ℚ) ≠ 0 := Int.cast_ne_zero.2 (nonZeroDivisors.ne_zero hm)
+  have h1 := h p
+  have h2 : (p : E) * z = (m : ℚ) • (z * y) := by
+    have : (p : E) = y * m := by simpa using hpq.symm
+    rw [this, Algebra.smul_def]; simp; ring
+  rw [h2, map_smul, smul_eq_zero] at h1
+  exact h1.resolve_left hm0
 
 variable [IsCMField E]
 
@@ -206,8 +284,8 @@ theorem exists_unitary_of_trace_eq {La : Type} [AddCommGroup La] [Module (𝓞 E
     rw [LinearEquiv.apply_symm_apply] at this
     rw [← hinj this]
     exact (φ _).2
-  · obtain ⟨d, hd, hu'⟩ := exists_smul_mem Λ hΛ u
-    obtain ⟨d', hd', hv'⟩ := exists_smul_mem Λ hΛ v
+  · obtain ⟨d, hd, hu'⟩ := Bl.general_b_fact_second.goal1 Λ hΛ u
+    obtain ⟨d', hd', hv'⟩ := Bl.general_b_fact_second.goal1 Λ hΛ v
     have e := h1 (φ.symm ⟨_, hu'⟩) (φ.symm ⟨_, hv'⟩)
     rw [← hM', ← hM', LinearEquiv.apply_symm_apply, LinearEquiv.apply_symm_apply] at e
     change herm G (M *ᵥ ((d : E) • u)) (M *ᵥ ((d' : E) • v)) = herm G ((d : E) • u) ((d' : E) • v) at e

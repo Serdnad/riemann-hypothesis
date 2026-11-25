@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Definitions.ThetaMetrics.ExistsLinearIndependentNormLeSuccMin
 import Development.AbelianVarietyTheory.Proofs.FlagMeasures.NormDetInnerLeOfDetEqOne
 public import Formalism.PeriodIntegrals.Transference
 public import Formalism.SharpRestriction.Divisibility.WeightAlgebra
@@ -10,54 +9,9 @@ public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.
 public import Formalism.FilteredPoleLength.LocalDescentLevels.InvFromBlocksApplyZero
 public import Formalism.LogFactorialIndices.SignedSubspaceIndex.IdxBase
 public import Formalism.LogFactorialIndices.SignedSubspaceIndex.IdxDet
-import Mathlib.Algebra.Order.Archimedean.Real.Hom
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Algebra.Order.Star.Int
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
 public import Mathlib.LinearAlgebra.FreeModule.IdealQuotient
-import Mathlib.LinearAlgebra.Matrix.FiniteDimensional
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
 public import Mathlib.NumberTheory.NumberField.Discriminant.Different
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Coalgebra.CoassocSimps
-import Mathlib.RingTheory.Coalgebra.IsFrobenius
-import Mathlib.RingTheory.HopfAlgebra.Basic
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
 
 @[expose] public section
@@ -839,14 +793,22 @@ theorem tr_dual_nonempty {N : ℕ} (M : Submodule ℤ (EuclideanSpace ℝ (Fin N
   have : Module.Finite ℤ M := ZLattice.module_finite ℝ M
   let b : Basis (Fin N) ℤ M := Module.finBasisOfFinrankEq ℤ M hr
   let bR : Basis (Fin N) ℝ (EuclideanSpace ℝ (Fin N)) := b.ofZLatticeBasis ℝ M
-  let w := GlobalTheory.innerDualBasis bR
-  refine ⟨w, fun j x hx => ?_, w.linearIndependent⟩
-  have hdual : w j ∈ GlobalTheory.dualLattice M := by
-    rw [GlobalTheory.dualLattice_eq_span M b]
-    exact Submodule.subset_span (Set.mem_range_self j)
-  obtain ⟨z, hz⟩ := GlobalTheory.mem_dualLattice.mp hdual x hx
-  exact ⟨z, (real_inner_comm x (w j)).trans hz.symm⟩
-
+  let w : Fin N → EuclideanSpace ℝ (Fin N) := fun i =>
+    (InnerProductSpace.toDual ℝ (EuclideanSpace ℝ (Fin N))).symm (LinearMap.toContinuousLinearMap (bR.coord i))
+  have hw : ∀ i x, inner ℝ (w i) x = bR.coord i x := by
+    intro i x
+    simp only [w, InnerProductSpace.toDual_symm_apply]
+    rfl
+  refine ⟨w, ?_, ?_⟩
+  · intro j y hy
+    refine ⟨b.repr ⟨y, hy⟩ j, ?_⟩
+    rw [hw]
+    exact b.ofZLatticeBasis_repr_apply ℝ M ⟨y, hy⟩ j
+  · rw [Fintype.linearIndependent_iff]
+    intro g hg j
+    have h1 := congrArg (fun z => inner ℝ z (bR j)) hg
+    simp only [sum_inner, inner_smul_left, hw, inner_zero_left] at h1
+    simpa [Basis.coord_apply, Finsupp.single_apply] using h1
 
 theorem tr_dualVec_std (hT : PI.TransferenceMinima) {N : ℕ} (hN : 1 ≤ N)
     (M : Submodule ℤ (EuclideanSpace ℝ (Fin N)))
@@ -866,43 +828,44 @@ theorem tr_dualVec_std (hT : PI.TransferenceMinima) {N : ℕ} (hN : 1 ≤ N)
   have hmain := hT N M hd hs 1 le_rfl hN
   rw [Nat.add_sub_cancel] at hmain
 
-  have hminEq (P : Submodule ℤ (EuclideanSpace ℝ (Fin N))) (i : ℕ) :
-      PI.succMin P i = GlobalTheory.succMin P i := by
-    unfold PI.succMin GlobalTheory.succMin GlobalTheory.succMinOf
-    congr 1
-    ext t
-    rw [GlobalTheory.mem_succMinRadii_iff]
-    exact and_congr_right (fun _ => ⟨
-      fun ⟨v, hP, hli, hn⟩ => ⟨v, hli, fun j => ⟨hP j, hn j⟩⟩,
-      fun ⟨v, hli, h⟩ => ⟨v, fun j => (h j).1, hli, fun j => (h j).2⟩⟩)
-  letI : Nonempty (Fin N) := ⟨⟨0, hN⟩⟩
-  have hMne : M ≠ ⊥ := by
-    intro h
-    have hb : (⊥ : Submodule ℝ (EuclideanSpace ℝ (Fin N))) = ⊤ := by simpa [h] using hs
-    exact bot_ne_top hb
+  have hex : ∃ x ∈ M, x ≠ 0 := by
+    by_contra hcon
+    push Not at hcon
+    have h0 : (M : Set (EuclideanSpace ℝ (Fin N))) ⊆ {0} := fun x hx => hcon x hx
+    have h1 : Submodule.span ℝ (M : Set (EuclideanSpace ℝ (Fin N))) ≤ ⊥ := by
+      rw [Submodule.span_le]; intro x hx; simpa using h0 hx
+    rw [hs] at h1
+    have h2 : finrank ℝ (EuclideanSpace ℝ (Fin N)) = 0 := by
+      have : (⊤ : Submodule ℝ (EuclideanSpace ℝ (Fin N))) = ⊥ := le_bot_iff.mp h1
+      rw [← finrank_top, this, finrank_bot]
+    simp at h2
+    omega
   have hlow : Λ ≤ PI.succMin M 1 := by
-    rw [hminEq]
-    exact GlobalTheory.le_minNorm hMne hL
+    unfold PI.succMin
+    apply le_csInf
+    · obtain ⟨x, hx, hx0⟩ := hex
+      exact ⟨‖x‖, norm_nonneg _, fun _ => x, fun _ => hx, by
+        rw [linearIndependent_unique_iff]; exact hx0, fun _ => le_rfl⟩
+    · rintro t ⟨_, v, hv, hli, hvt⟩
+      exact (hL _ (hv 0) (hli.ne_zero 0)).trans (hvt 0)
   have hnn : 0 ≤ PI.succMin (PI.dualZ M) N := by
-    rw [hminEq]
-    exact GlobalTheory.succMin_nonneg _ _
+    unfold PI.succMin
+    exact Real.sInf_nonneg (fun t ht => ht.1)
   have hle : PI.succMin (PI.dualZ M) N ≤ (N : ℝ) / Λ := by
-    rw [le_div_iff₀ hΛ, mul_comm]
-    exact (mul_le_mul_of_nonneg_right hlow hnn).trans hmain
-  have hdualEq : PI.dualZ M = GlobalTheory.dualLattice M := by
-    ext y
-    rw [GlobalTheory.mem_dualLattice]
-    exact ⟨fun h x hx => (h x hx).imp (fun _ hz => ((real_inner_comm y x).trans hz).symm),
-      fun h x hx => (h x hx).imp (fun _ hz => (real_inner_comm x y).trans hz.symm)⟩
-  letI : IsZLattice ℝ M := ⟨hs⟩
-  letI : DiscreteTopology (GlobalTheory.dualLattice M) := inferInstance
-  have hdD : N ≤ finrank ℝ (Submodule.span ℝ (GlobalTheory.dualLattice M : Set (EuclideanSpace ℝ (Fin N)))) := by
-    rw [GlobalTheory.dualLattice_eq_span M (Module.Free.chooseBasis ℤ M),
-      Submodule.span_span_of_tower, (GlobalTheory.innerDualBasis _).span_eq, finrank_top]
-    simp
-  obtain ⟨v, hvli, hv⟩ := GlobalTheory.exists_linearIndependent_norm_le_succMin hdD
-  rw [hminEq, hdualEq] at hle
-  exact ⟨v, fun j => hdualEq.symm ▸ (hv j).1, hvli, fun j => (hv j).2.trans (hle.trans hB.le)⟩
+    rw [le_div_iff₀ hΛ]
+    calc PI.succMin (PI.dualZ M) N * Λ ≤ PI.succMin (PI.dualZ M) N * PI.succMin M 1 :=
+          mul_le_mul_of_nonneg_left hlow hnn
+      _ = PI.succMin M 1 * PI.succMin (PI.dualZ M) N := mul_comm _ _
+      _ ≤ N := hmain
+  have hlt : PI.succMin (PI.dualZ M) N < B := lt_of_le_of_lt hle hB
+  obtain ⟨v0, hv0, hli0⟩ := tr_dual_nonempty M hd hs
+  unfold PI.succMin at hlt
+  have hne : {t : ℝ | 0 ≤ t ∧ ∃ v : Fin N → EuclideanSpace ℝ (Fin N),
+      (∀ j, v j ∈ PI.dualZ M) ∧ LinearIndependent ℝ v ∧ ∀ j, ‖v j‖ ≤ t}.Nonempty :=
+    ⟨∑ j, ‖v0 j‖, Finset.sum_nonneg (fun _ _ => norm_nonneg _), v0, hv0, hli0, fun j =>
+      Finset.single_le_sum (f := fun j => ‖v0 j‖) (fun _ _ => norm_nonneg _) (Finset.mem_univ j)⟩
+  obtain ⟨t, ⟨_, v, hv, hli, hvt⟩, htB⟩ := exists_lt_of_csInf_lt hne hlt
+  exact ⟨v, hv, hli, fun j => (hvt j).trans htB.le⟩
 
 theorem tr_dualVec (hT : PI.TransferenceMinima) : TrDualVec := by
   intro E _ _ _ L hspan Λ hΛ hL B hB
@@ -1659,7 +1622,6 @@ theorem zPoly_cf (X : PJ D B P j) {wL w0 : WeightFamilies.Wt D j} {N : ℕ} (w :
 
 end GPPacket
 
-open Module
 
 theorem len_sat_le {R F : Type} [CommRing R] [IsDomain R] [IsDiscreteValuationRing R] [Field F] [Algebra R F]
     [IsFractionRing R F] {V1 : Type} [AddCommGroup V1] [Module F V1] [Module R V1] [IsScalarTower R F V1]

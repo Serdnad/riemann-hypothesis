@@ -1,6 +1,5 @@
 module
 
-import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.HermitianMeasureEulerProduct
 public import Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange.ArchimedeanBaseChangeProof.SatakeExponents.UniformizerValuations.SetupEig
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsBallSubset
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsSatakeParameterDefiniteUnitaryInertPlace
@@ -10,46 +9,8 @@ public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IsUnram
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsAdmissibleLocalComponentDefiniteUnitary
 import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsContinuousRetractionOntoUnitaryLocalPoints
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.FixedPlaceUnitaryLocalPointsEquivLocalUnitaryGro
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Algebra.Order.Star.Int
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
 import Std.Tactic.BVDecide.Normalize.Prop
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.RelIndexNeZeroOfSubsetCpt
 
 @[expose] public section
 
@@ -58,8 +19,6 @@ noncomputable section
 open NumberField IsDedekindDomain Matrix Filter Topology
 open GlobalTheory.CuspRep GlobalTheory.PRep Formalism.UG Formalism.BasicNotions GlobalTheory.UnitaryBC GlobalTheory.BCT PositivityTheory.Rg.BcB.F.Eig
 open scoped Classical
-
-attribute [local instance] GlobalTheory.LocalData.complRel GlobalTheory.LocalData.isLocalField
 
 namespace GlobalTheory.CompanionTheory.LevelU
 
@@ -114,64 +73,27 @@ theorem exists_equiv (n : ℕ) (w : Pl E) :
     exact ⟨e, fun x => by rw [he, he0]⟩
 
 theorem isClosed_UL (n : ℕ) (w : Pl E) : IsClosed (UL n w : Set (GLw n w)) := by
-  apply _root_.GlobalTheory.LocFinU.isClosed_UL <;> assumption
-
-private theorem isCompact_adicCompletionIntegers' (w : Pl E) :
-    IsCompact (w.adicCompletionIntegers E : Set (w.adicCompletion E)) := by
-  apply _root_.GlobalTheory.CompanionTheory.Hypotheses₂.OneV.Coef.TestC.isCompact_integers <;> assumption
-
-private theorem isCompact_KGL' (w : Pl E) : IsCompact (GlobalTheory.LFun.KGL w (n := n) : Set (GLw n w)) := by
-  have hO := isCompact_adicCompletionIntegers' w
-  let A : Set (Matrix (Fin n) (Fin n) (w.adicCompletion E)) :=
-    {M | ∀ i j, M i j ∈ (w.adicCompletionIntegers E : Set (w.adicCompletion E))}
-  have hA : IsCompact A := by
-    have h : A = Set.univ.pi (fun _ : Fin n => Set.univ.pi
-        (fun _ : Fin n => (w.adicCompletionIntegers E : Set (w.adicCompletion E)))) := by
-      ext M
-      constructor
-      · intro h i _ j _
-        exact h i j
-      · intro h i j
-        exact h i (Set.mem_univ _) j (Set.mem_univ _)
-    rw [h]
-    exact isCompact_univ_pi (fun _ => isCompact_univ_pi (fun _ => hO))
-  let f := Units.embedProduct (Matrix (Fin n) (Fin n) (w.adicCompletion E))
-  have hind : Topology.IsInducing f := Units.isEmbedding_embedProduct.isInducing
-  let P : Set (Matrix (Fin n) (Fin n) (w.adicCompletion E) × (Matrix (Fin n) (Fin n) (w.adicCompletion E))ᵐᵒᵖ) :=
-    (A ×ˢ (MulOpposite.unop ⁻¹' A)) ∩ {q | q.1 * q.2.unop = 1 ∧ q.2.unop * q.1 = 1}
-  have hP : IsCompact P := by
-    apply IsCompact.inter_right
-    · exact hA.prod ((MulOpposite.opHomeomorph.symm.isCompact_preimage).2 hA)
-    · exact (isClosed_eq (continuous_fst.mul (MulOpposite.continuous_unop.comp continuous_snd))
-        continuous_const).inter
-        (isClosed_eq ((MulOpposite.continuous_unop.comp continuous_snd).mul continuous_fst) continuous_const)
-  have hclosed : IsClosed (GlobalTheory.LFun.KGL w (n := n) : Set (GLw n w)) :=
-    Subgroup.isClosed_of_isOpen _
-      (Subgroup.isOpen_mono (fun g hg => ((GlobalTheory.PrincCong.mem_congSub_iff w n 0 g).1 hg).1)
-        (GlobalTheory.PrincCong.isOpen_congSub w n 0))
-  have hfP : IsCompact (f ⁻¹' P) := by
-    rw [hind.isCompact_iff]
-    have h : f '' (f ⁻¹' P) = P := by
-      apply Set.image_preimage_eq_of_subset
-      rintro ⟨a, b⟩ ⟨-, h1, h2⟩
-      exact ⟨⟨a, b.unop, h1, h2⟩, rfl⟩
-    rw [h]
-    exact hP
-  refine hfP.of_isClosed_subset hclosed ?_
-  intro g hg
-  refine ⟨⟨?_, ?_⟩, ?_, ?_⟩
-  · intro i j
-    exact GlobalTheory.UnramDict.entry_mem hg i j
-  · intro i j
-    exact GlobalTheory.UnramDict.entry_mem (inv_mem hg) i j
-  · exact g.mul_inv
-  · exact g.inv_mul
+  by_cases hw : IsSplitAt w
+  · have : (UL n w : Set (GLw n w)) = Set.univ := by ext g; simp [GlobalTheory.BCT.UL, hw]
+    rw [this]; exact isClosed_univ
+  · have hc : Continuous (cj w) := (GlobalTheory.ConjAtPlace.cj_spec w (exists_conj_ext w hw)).1
+    have : (UL n w : Set (GLw n w)) = {g : GL (Fin n) (w.adicCompletion E) |
+        Formalism.UG.cT (cj w) (g : Matrix (Fin n) (Fin n) (w.adicCompletion E)) * 1 *
+          (g : Matrix (Fin n) (Fin n) (w.adicCompletion E)) = 1} := by
+      ext g; simp [GlobalTheory.BCT.UL, hw, Formalism.UG.UJ]
+    rw [this]
+    have hv : Continuous (fun g : GL (Fin n) (w.adicCompletion E) => (g : Matrix (Fin n) (Fin n) (w.adicCompletion E))) :=
+      Units.continuous_val
+    apply isClosed_eq _ continuous_const
+    unfold Formalism.UG.cT
+    exact ((hv.matrix_map hc).matrix_transpose.matrix_mul continuous_const).matrix_mul hv
 
 theorem isCompact_locK (w : Pl E) :
     IsCompact (((GlobalTheory.LFun.KGL w (n := n)).comap ((cLoc w).comp (locU n w).subtype) : Subgroup (locU n w)) : Set (locU n w)) := by
   obtain ⟨e, he⟩ := exists_equiv n w
   have hK : IsCompact ((Subtype.val : UL n w → GLw n w) ⁻¹' (GlobalTheory.LFun.KGL w (n := n) : Set (GLw n w))) :=
-    (isClosed_UL n w).isClosedEmbedding_subtypeVal.isCompact_preimage (isCompact_KGL' w)
+    (isClosed_UL n w).isClosedEmbedding_subtypeVal.isCompact_preimage
+      (GlobalTheory.LFun.SatCompare.isOpen_isCompact_KGL w n).2
   have heq : (((GlobalTheory.LFun.KGL w (n := n)).comap ((cLoc w).comp (locU n w).subtype) : Subgroup (locU n w)) :
       Set (locU n w)) = e ⁻¹' ((Subtype.val : UL n w → GLw n w) ⁻¹' (GlobalTheory.LFun.KGL w (n := n) : Set (GLw n w))) := by
     ext x
@@ -233,10 +155,8 @@ theorem isLevel_cong (w : Pl E) (m : ℕ) : IsLevel (MonoidHom.id (UL n w)) (KL 
 theorem isLevel_KL (w : Pl E) : IsLevel (MonoidHom.id (UL n w)) (KL n w) (KL n w) := by
   unfold GlobalTheory.BCT.IsLevel
   refine ⟨?_, le_rfl, fun k hk => hk⟩
-  have hK : IsOpen (GlobalTheory.LFun.KGL w (n := n) : Set (GLw n w)) :=
-    Subgroup.isOpen_mono (congSub_le_KGL w 0) (GlobalTheory.PrincCong.isOpen_congSub w n 0)
   rw [GlobalTheory.BCT.KL, Subgroup.coe_subgroupOf]
-  exact hK.preimage continuous_subtype_val
+  exact (GlobalTheory.LFun.SatCompare.isOpen_isCompact_KGL w n).1.preimage continuous_subtype_val
 
 def fixG (φ : UA E n → ℂ) : Subgroup (UA E n) where
   carrier := {x | RU E n x φ = φ}
@@ -399,9 +319,9 @@ theorem levelEx : LevelEx := by
   have hlev : ∀ w : Pl E, IsLevel (MonoidHom.id (UL n w)) (KL n w) (K₀ w) := by
     intro w
     by_cases h : IsUnramU π w ∧ w ∉ R
-    · simp only [K₀, if_pos h]
+    · simp only [K₀, ite_eq_left h]
       exact isLevel_KL w
-    · simp only [K₀, if_neg h]
+    · simp only [K₀, ite_eq_right h]
       exact isLevel_cong w m
   have hcof : ∀ᶠ w in Filter.cofinite, K₀ w = KL n w := by
     rw [Filter.eventually_cofinite]
@@ -410,13 +330,13 @@ theorem levelEx : LevelEx := by
     by_contra hwT
     apply hw
     have h : IsUnramU π w ∧ w ∉ R := ⟨hunr w hwT, fun hR => hwT (by simp [Tb, hR])⟩
-    simp only [K₀, if_pos h]
+    simp only [K₀, ite_eq_left h]
   have hfam : IsLevelFam (fun w => MonoidHom.id (UL n w)) (KL n) K₀ := by
     unfold GlobalTheory.BCT.IsLevelFam
     exact ⟨hlev, hcof⟩
   have hK1 : ∀ w : Pl E, IsUnramU π w → w ∉ R → K₀ w = KL n w := by
     intro w h1 h2
-    simp only [K₀, if_pos (And.intro h1 h2)]
+    simp only [K₀, ite_eq_left (And.intro h1 h2)]
   have hK2 : ∀ w : Pl E, ¬ IsUnramU π w ∨ w ∈ R → IsCong m (K₀ w) := by
     intro w h
     have h' : ¬ (IsUnramU π w ∧ w ∉ R) := by
@@ -424,7 +344,7 @@ theorem levelEx : LevelEx := by
       rcases h with h | h
       · exact h h1
       · exact h2 h
-    simp only [K₀, if_neg h']
+    simp only [K₀, ite_eq_right h']
     exact isCong_cong w m
   let F : Finset (Pl E) := Tb.filter (fun w => w ∈ S ∧ IsUnramU π w ∧ w ∉ R)
   have hbase : ∀ w ∈ S, w ∉ F → ∀ x ∈ locU n w,
@@ -432,7 +352,7 @@ theorem levelEx : LevelEx := by
     rintro w hwS hwF x hx ⟨κ, hκ, hκx⟩
     by_cases hT' : w ∈ Tb
     · have h' : ¬ (IsUnramU π w ∧ w ∉ R) := fun h => hwF (Finset.mem_filter.2 ⟨hT', hwS, h⟩)
-      simp only [K₀, if_neg h'] at hκ
+      simp only [K₀, ite_eq_right h'] at hκ
       rw [cong, Subgroup.mem_subgroupOf] at hκ
       have hc : cLoc w x ∈ GlobalTheory.PrincCong.congSub w n m := by
         rw [← hκx]
@@ -440,11 +360,11 @@ theorem levelEx : LevelEx := by
       exact hk w m (le_trans (Finset.le_sup hT') (le_max_right _ _)) x hx hc
     · have hKL : cLoc w x ∈ GlobalTheory.LFun.KGL w (n := n) := by
         by_cases h : IsUnramU π w ∧ w ∉ R
-        · simp only [K₀, if_pos h] at hκ
+        · simp only [K₀, ite_eq_left h] at hκ
           rw [GlobalTheory.BCT.KL, Subgroup.mem_subgroupOf] at hκ
           rw [← hκx]
           exact hκ
-        · simp only [K₀, if_neg h] at hκ
+        · simp only [K₀, ite_eq_right h] at hκ
           rw [cong, Subgroup.mem_subgroupOf] at hκ
           rw [← hκx]
           exact congSub_le_KGL w m hκ
@@ -480,7 +400,7 @@ theorem levelEx : LevelEx := by
       by_cases hwa : w = a
       · subst hwa
         rintro x hx ⟨κ, hκ, hκx⟩
-        simp only [K₀, if_pos (And.intro haU haR)] at hκ
+        simp only [K₀, ite_eq_left (And.intro haU haR)] at hκ
         rw [GlobalTheory.BCT.KL, Subgroup.mem_subgroupOf] at hκ
         apply hψa x hx
         rw [← hκx]

@@ -47,16 +47,11 @@ import Mathlib.Topology.Sheaves.Init
 
 open NumberField IsDedekindDomain Matrix Polynomial Filter GlobalTheory.CuspRep GlobalTheory.PRep Formalism.UG Formalism.BasicNotions GlobalTheory.UnitaryBC Formalism.L2.Host GlobalTheory.BCT
 open scoped Classical TensorProduct
-attribute [local instance] GlobalTheory.LocalData.complRel GlobalTheory.LocalData.isLocalField
 
 noncomputable section
 namespace GlobalTheory.ExInertUnit
 
 variable {E : Type} [Field E] [NumberField E] [IsCMField E] {n : ℕ}
-
-theorem eventually_mem_integers (a : E) :
-    ∀ᶠ w : Pl E in cofinite, algebraMap E (w.adicCompletion E) a ∈ w.adicCompletionIntegers E :=
-  (algebraMap E (FiniteAdeleRing (𝓞 E) E) a).2
 
 theorem mem_KGL_of_entries (w : Pl E) (g : GLw n w)
     (h1 : ∀ a b, g.val a b ∈ w.adicCompletionIntegers E)
@@ -129,7 +124,7 @@ theorem local_step (hE : Unr E) (w : Pl E) (hw : ¬ IsSplitAt w) (M G : Matrix (
           simp only [← Matrix.mul_assoc]
           rw [hkinv, Matrix.one_mul, Units.mul_inv]
   have hγUL : γ0 ∈ UL n w := by
-    rw [UL, if_neg hw]
+    rw [UL, ite_eq_right hw]
     exact hγU
   refine ⟨⟨γ0, hγUL⟩, ?_, ?_⟩
   · rw [KL, Subgroup.mem_subgroupOf]

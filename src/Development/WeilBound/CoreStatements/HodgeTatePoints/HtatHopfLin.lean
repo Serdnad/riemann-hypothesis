@@ -72,28 +72,6 @@ namespace PositivityTheory.HtPt.Htat.SeparatedTensorPullback
 
 variable {R : Type} [CommRing R] [IsDomain R]
 
-theorem tensor_sep {K B₁ B₂ I J : Type} [Field K] [Algebra R K] [IsFractionRing R K]
-    [CommRing B₁] [CommRing B₂] [Algebra R B₁] [Algebra R B₂] [Module.Flat R B₁]
-    [Finite I] [Finite J] (e : I → B₁ →ₐ[R] K) (f : J → B₂ →ₐ[R] K)
-    (he : ∀ b, (∀ i, e i b = 0) → b = 0) (hf : ∀ b, (∀ j, f j b = 0) → b = 0)
-    (x : B₁ ⊗[R] B₂) (h : ∀ i j, Algebra.TensorProduct.productMap (e i) (f j) x = 0) : x = 0 := by
-  exact GlobalTheory.CompanionTheory.Ar.BT.CharMul.tensor_sep e f he hf x h
-
-theorem pullback_sep {K B₁ B₂ I J : Type} [Field K] [Algebra R K] [IsFractionRing R K]
-    [CommRing B₁] [CommRing B₂] [Algebra R B₁] [Algebra R B₂] [Module.Flat R B₁]
-    [Finite I] [Finite J] (e : I → B₁ →ₐ[R] K) (f : J → B₂ →ₐ[R] K)
-    (he : ∀ b, (∀ i, e i b = 0) → b = 0) (hf : ∀ b, (∀ j, f j b = 0) → b = 0)
-    (a₁ : Spec (CommRingCat.of B₁) ⟶ Spec (CommRingCat.of R))
-    (a₂ : Spec (CommRingCat.of B₂) ⟶ Spec (CommRingCat.of R))
-    (h₁ : a₁ = Spec.map (CommRingCat.ofHom (algebraMap R B₁)))
-    (h₂ : a₂ = Spec.map (CommRingCat.ofHom (algebraMap R B₂)))
-    (u : Γ(pullback a₁ a₂, ⊤))
-    (hz : ∀ i j (w : Spec (CommRingCat.of K) ⟶ pullback a₁ a₂),
-      w ≫ pullback.fst a₁ a₂ = Spec.map (CommRingCat.ofHom (e i).toRingHom) →
-      w ≫ pullback.snd a₁ a₂ = Spec.map (CommRingCat.ofHom (f j).toRingHom) → w.appTop u = 0) :
-    u = 0 := by
-  exact GlobalTheory.CompanionTheory.Ar.BT.CharMul.pullback_sep e f he hf a₁ a₂ h₁ h₂ u hz
-
 variable {T : Type} [CommGroup T]
 
 theorem chart_sep [Finite T] (Γ : QFGroup R T) (B : Type) [CommRing B] [Algebra R B]
@@ -102,15 +80,42 @@ theorem chart_sep [Finite T] (Γ : QFGroup R T) (B : Type) [CommRing B] [Algebra
     ∃ (I : Type) (_ : Finite I) (τ : I → T) (e : I → B →ₐ[R] FractionRing R),
       (∀ i, Spec.map (CommRingCat.ofHom (e i).toRingHom) ≫ c = (Γ.pt (τ i)).left) ∧
       ∀ b, (∀ i, e i b = 0) → b = 0 := by
-  apply _root_.GlobalTheory.CompanionTheory.Ar.BT.CharMul.chart_sep <;> assumption
-
-theorem chart_pair [Finite T] (Γ : QFGroup R T) (A₁ A₂ : Type) [CommRing A₁] [CommRing A₂]
-    (c₁ : Spec (CommRingCat.of A₁) ⟶ Γ.G.left) (c₂ : Spec (CommRingCat.of A₂) ⟶ Γ.G.left)
-    (o₁ : IsOpenImmersion c₁) (o₂ : IsOpenImmersion c₂) (u : Γ(pullback (c₁ ≫ Γ.G.hom) (c₂ ≫ Γ.G.hom), ⊤))
-    (hu : ∀ (a b : T) (w : Spec (CommRingCat.of (FractionRing R)) ⟶ pullback (c₁ ≫ Γ.G.hom) (c₂ ≫ Γ.G.hom)),
-      w ≫ pullback.fst _ _ ≫ c₁ = (Γ.pt a).left → w ≫ pullback.snd _ _ ≫ c₂ = (Γ.pt b).left → w.appTop u = 0) :
-    u = 0 :=
-  _root_.GlobalTheory.CompanionTheory.Ar.BT.CharMul.chart_pair Γ A₁ A₂ c₁ c₂ o₁ o₂ u hu
+  classical
+  let I := {t : T // Set.range (Γ.pt t).left ⊆ Set.range c}
+  have lift : ∀ i : I, ∃ e : B →ₐ[R] FractionRing R,
+      Spec.map (CommRingCat.ofHom e.toRingHom) ≫ c = (Γ.pt i.1).left := by
+    intro i
+    let g := IsOpenImmersion.lift c (Γ.pt i.1).left i.2
+    have hg : g ≫ c = (Γ.pt i.1).left := IsOpenImmersion.lift_fac _ _ _
+    let φ : B →+* FractionRing R := (Spec.preimage g).hom
+    have hφ : Spec.map (CommRingCat.ofHom φ) = g := Spec.map_preimage g
+    have hcomp : φ.comp (algebraMap R B) = algebraMap R (FractionRing R) := by
+      have h1 : Spec.map (CommRingCat.ofHom (φ.comp (algebraMap R B))) =
+          Spec.map (CommRingCat.ofHom (algebraMap R (FractionRing R))) := by
+        rw [CommRingCat.ofHom_comp, Spec.map_comp, hφ, ← hc, ← Category.assoc, hg]
+        exact Over.w (Γ.pt i.1)
+      exact congrArg CommRingCat.Hom.hom (Spec.map_injective h1)
+    refine ⟨{ φ with commutes' := fun r => congr($hcomp r) }, ?_⟩
+    exact (congrArg (· ≫ c) hφ).trans hg
+  choose e he using lift
+  refine ⟨I, inferInstance, Subtype.val, e, he, fun b hb => ?_⟩
+  have hs := PositivityTheory.HtPt.Twhopf.sec_inj R T Γ (c ''ᵁ ⊤)
+    ((c.appIso ⊤).inv ((Scheme.ΓSpecIso (CommRingCat.of B)).inv b)) (fun t h => by
+      have hr : Set.range (Γ.pt t).left ⊆ Set.range c := by
+        rintro _ ⟨x, rfl⟩
+        have := h (show x ∈ (⊤ : (Spec (CommRingCat.of (FractionRing R))).Opens) from trivial)
+        obtain ⟨y, -, hy⟩ := this
+        exact ⟨y, hy⟩
+      have key : ∀ (p : Spec (CommRingCat.of (FractionRing R)) ⟶ Γ.G.left)
+          (hp : Spec.map (CommRingCat.ofHom (e ⟨t, hr⟩).toRingHom) ≫ c = p) (h' : ⊤ ≤ p ⁻¹ᵁ (c ''ᵁ ⊤)),
+          valAt p (c ''ᵁ ⊤) h' ((c.appIso ⊤).inv ((Scheme.ΓSpecIso (CommRingCat.of B)).inv b)) = 0 := by
+        rintro p rfl h'
+        rw [GlobalTheory.CompanionTheory.Ar.BT.CharMul.valAt_chart]
+        exact hb ⟨t, hr⟩
+      exact key _ (he ⟨t, hr⟩) h)
+  have h1 := congr((c.appIso ⊤).hom $hs)
+  have h2 := congr((Scheme.ΓSpecIso (CommRingCat.of B)).hom $h1)
+  simpa using h2
 
 theorem sec_prod_zero [Finite T] (Γ : QFGroup R T) (u : Γ((Γ.G ⊗ Γ.G).left, ⊤))
     (hu : ∀ a b, (lift (Γ.pt a) (Γ.pt b)).left.appTop u = 0) : u = 0 := by

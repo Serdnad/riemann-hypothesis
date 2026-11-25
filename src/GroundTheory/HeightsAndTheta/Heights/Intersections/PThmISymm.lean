@@ -1,7 +1,5 @@
 module
 
-import GroundTheory.HeightsAndTheta.Heights.Intersections.AvoidRing
-import GroundTheory.HeightsAndTheta.Heights.MultihomogeneousPolynomials
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.IsIntersectionFamily
 public import GroundTheory.HeightsAndTheta.Heights.Intersections.StatementsWellDefined
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArithmeticIntersection.MultihomogeneousIdeals.ExistsUniqueStatement
@@ -11,6 +9,7 @@ import Mathlib.Algebra.Order.Sub.Prod
 import Mathlib.Tactic.TypeStar
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.InterDivSupp
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.InterPCProof
+import GroundTheory.HeightsAndTheta.Heights.Intersections.AvoidRing
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: GroundTheory.HeightsAndTheta.Heights.Intersections.PChoice, GroundTheory.HeightsAndTheta.Heights.Intersections.PThmISymm
@@ -33,31 +32,20 @@ namespace Choice
 variable {K : Type*} [Fintype K] {ι : K → Type*} [∀ k, Fintype (ι k)] {R : Type*} [CommRing R]
 
 theorem homog_mul {f g : MRingOver R ι} {a b : K → ℕ} (hf : IsMultiHomog f a)
-    (hg : IsMultiHomog g b) : IsMultiHomog (f * g) (a + b) := by
-  apply _root_.GroundTheory.Heights₂.Heights.MultiHomogeneous.mul <;> assumption
+    (hg : IsMultiHomog g b) : IsMultiHomog (f * g) (a + b) :=
+  AvoidRing.isMultiHomog_mul hf hg
 
-theorem homog_one : IsMultiHomog (1 : MRingOver R ι) 0 := by
-  apply _root_.GroundTheory.Heights₂.Heights.MultiHomogeneous.one <;> assumption
-
+theorem homog_one : IsMultiHomog (1 : MRingOver R ι) 0 :=
+  AvoidRing.isMultiHomog_one
 
 open Classical in
 theorem homog_X (k : K) (i : ι k) :
-    IsMultiHomog (X ⟨k, i⟩ : MRingOver R ι) (Pi.single k 1) := by
-  classical
-  intro m hm k'
-  have hm' : m = Finsupp.single ⟨k, i⟩ 1 := by
-    by_contra h
-    exact (MvPolynomial.mem_support_iff.mp hm) (by rw [MvPolynomial.coeff_X]; simp [Ne.symm h])
-  subst hm'
-  by_cases h : k' = k
-  · subst h
-    simp [Finsupp.single_apply]
-  · have : ∀ j : ι k', (⟨k, i⟩ : Σ k, ι k) ≠ ⟨k', j⟩ := fun j e => h (congrArg Sigma.fst e).symm
-    simp [h]
+    IsMultiHomog (X ⟨k, i⟩ : MRingOver R ι) (Pi.single k 1) :=
+  AvoidRing.isMultiHomog_X k i
 
 theorem homog_pow {f : MRingOver R ι} {a : K → ℕ} (hf : IsMultiHomog f a) (n : ℕ) :
-    IsMultiHomog (f ^ n) (n • a) := by
-  apply _root_.GroundTheory.Heights₂.Heights.MultiHomogeneous.pow <;> assumption
+    IsMultiHomog (f ^ n) (n • a) :=
+  AvoidRing.isMultiHomog_pow hf n
 
 theorem homog_zero (a : K → ℕ) : IsMultiHomog (0 : MRingOver R ι) a := by
   intro m hm
@@ -65,32 +53,34 @@ theorem homog_zero (a : K → ℕ) : IsMultiHomog (0 : MRingOver R ι) a := by
 
 theorem homog_add {f g : MRingOver R ι} {a : K → ℕ} (hf : IsMultiHomog f a)
     (hg : IsMultiHomog g a) : IsMultiHomog (f + g) a := by
-  apply _root_.GroundTheory.Heights₂.Heights.MultiHomogeneous.add <;> assumption
+  classical
+  intro m hm k
+  rcases Finset.mem_union.mp (MvPolynomial.support_add hm) with h | h
+  · exact hf m h k
+  · exact hg m h k
 
 theorem homog_sum {β : Type*} (s : Finset β) (f : β → MRingOver R ι) {a : K → ℕ}
-    (h : ∀ b ∈ s, IsMultiHomog (f b) a) : IsMultiHomog (∑ b ∈ s, f b) a := by
-  apply _root_.GroundTheory.Heights₂.Heights.MultiHomogeneous.sum <;> assumption
+    (h : ∀ b ∈ s, IsMultiHomog (f b) a) : IsMultiHomog (∑ b ∈ s, f b) a :=
+  AvoidRing.isMultiHomog_sum s f h
 
 theorem homog_prod {β : Type*} (s : Finset β) (f : β → MRingOver R ι) (a : β → K → ℕ)
-    (h : ∀ b ∈ s, IsMultiHomog (f b) (a b)) : IsMultiHomog (∏ b ∈ s, f b) (∑ b ∈ s, a b) := by
-  apply _root_.GroundTheory.Heights₂.Heights.MultiHomogeneous.prod <;> assumption
+    (h : ∀ b ∈ s, IsMultiHomog (f b) (a b)) : IsMultiHomog (∏ b ∈ s, f b) (∑ b ∈ s, a b) :=
+  AvoidRing.isMultiHomog_prod s f a h
 
 theorem homog_coordProd (c : ∀ k, ι k) (d : K → ℕ) :
-    IsMultiHomog (∏ k, (X ⟨k, c k⟩ : MRingOver R ι) ^ d k) d := by
-  apply _root_.GroundTheory.Heights₂.Heights.MultiHomogeneous.coordinateProduct <;> assumption
+    IsMultiHomog (∏ k, (X ⟨k, c k⟩ : MRingOver R ι) ^ d k) d :=
+  AvoidRing.isMultiHomog_coordProd c d
 
 theorem coordProd_not_mem {V : Ideal (MRingOver R ι)} (hV : V.IsPrime) (c : ∀ k, ι k)
     (hc : ∀ k, (X ⟨k, c k⟩ : MRingOver R ι) ∉ V) (d : K → ℕ) :
-    (∏ k, (X ⟨k, c k⟩ : MRingOver R ι) ^ d k) ∉ V := by
-  intro h
-  obtain ⟨k, -, hk⟩ := (hV.prod_mem_iff).mp h
-  exact hc k (hV.mem_of_pow_mem _ hk)
+    (∏ k, (X ⟨k, c k⟩ : MRingOver R ι) ^ d k) ∉ V :=
+  AvoidRing.coordProd_not_mem hV c hc d
 
 theorem exists_form_avoid (S : Set (Ideal (MRingOver R ι))) (hS : S.Finite)
     (hS' : ∀ W ∈ S, IsMultiProjPrime W) :
     ∃ d₀ : K → ℕ, ∀ d : K → ℕ, d₀ ≤ d →
-      ∃ f : MRingOver R ι, IsMultiHomog f d ∧ ∀ W ∈ S, f ∉ W := by
-  apply _root_.GroundTheory.Heights₂.Heights.Inter.AvoidRing.exists_form_avoid <;> assumption
+      ∃ f : MRingOver R ι, IsMultiHomog f d ∧ ∀ W ∈ S, f ∉ W :=
+  AvoidRing.exists_form_avoid S hS hS'
 
 end Choice
 

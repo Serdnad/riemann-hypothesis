@@ -1,58 +1,11 @@
 module
 
-import Formalism.SharpRestriction.Divisibility.GeneratorPowers.GermDJet
-import all Formalism.SharpRestriction.Divisibility.GeneratorPowers.ExpTiePf
-import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.HarmonicValuesInvariantUniversalEndomorphism
 public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.ScaleGenIsGen
 public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.FBIdLB
 public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.GermBSer
 import Formalism.SharpRestriction.Divisibility.GeneratorPowers.GermDPf
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
-import Std.Tactic.BVDecide.Normalize.Prop
 
 @[expose] public section
-
-set_option autoImplicit false
 
 noncomputable section
 
@@ -61,8 +14,6 @@ namespace Formalism.MainNotions.ModuliIntegralCharts.H1.ExpGB
 open AlgebraicGeometry CategoryTheory Limits MonoidalCategory CartesianMonoidalCategory MonObj NumberField
 open ReciprocityTheory.ChartRestriction.G ReciprocityTheory.ChartRestriction.G.Semi ReciprocityTheory.ChartRestriction.G.Out ReciprocityTheory.ChartRestriction.G.Geo.Tor Formalism.L2.Pj
 open Formalism.MainNotions.ModuliIntegralCharts.H1.GermD
-
-attribute [local instance] Over.cartesianMonoidalCategory
 
 section Jet
 
@@ -91,39 +42,9 @@ theorem aug_comp_eq (f : Jet S κ 0 →ₐ[S] Jet S κ' 0) :
   rw [AlgHom.comp_apply, hx]
   simp only [AlgHom.commutes]
 
-private theorem mem_degLE_lemma (n : ℕ) (e : κ →₀ ℕ) :
-    e ∈ degLE n ↔ (e.sum fun _ k => k) ≤ n := by
-  apply _root_.Formalism.MainNotions.ModuliIntegralCharts.H1.ExpTiePf.mem_degLE_lemma <;> assumption
-
-private theorem monomial_mem_orig_pow_lemma (n : ℕ) (e : κ →₀ ℕ) (c : S)
-    (h : n ≤ e.sum fun _ k => k) : MvPolynomial.monomial e c ∈ orig S κ ^ n := by
-  have hX : ∀ i, (MvPolynomial.X i : MvPolynomial κ S) ∈ orig S κ :=
-    fun i => Ideal.subset_span ⟨i, rfl⟩
-  have h1 : (e.prod fun i k => (MvPolynomial.X i : MvPolynomial κ S) ^ k) ∈
-      orig S κ ^ (e.sum fun _ k => k) := by
-    have h2 : (e.sum fun _ k => k) = ∑ j ∈ e.support, e j := rfl
-    rw [h2, ← Finset.prod_pow_eq_pow_sum]
-    exact Ideal.prod_mem_prod fun i _ => Ideal.pow_mem_pow (hX i) _
-  rw [MvPolynomial.monomial_eq]
-  exact Ideal.mul_mem_left _ _ (Ideal.pow_le_pow_right h h1)
-
-private theorem psTrunc_succ_sub_lemma (n : ℕ) (f : MvPowerSeries κ S) :
-    psTrunc (n + 1) f - psTrunc n f ∈ orig S κ ^ (n + 1) := by
-  intros
-  apply _root_.Formalism.MainNotions.ModuliIntegralCharts.H1.GermD.psTrunc_succ_sub <;> assumption
-
-private theorem cc_psTrunc_lemma (n : ℕ) (f : MvPowerSeries κ S) :
-    MvPolynomial.constantCoeff (psTrunc n f) = MvPowerSeries.constantCoeff f := by
-  unfold psTrunc
-
-  rw [map_sum]
-  simp only [MvPolynomial.constantCoeff_monomial]
-  rw [Finset.sum_ite_eq', if_pos ((mem_degLE_lemma n 0).2 (by simp))]
-  rfl
-
-private theorem jetTrunc_mk_lemma (n : ℕ) (P : MvPolynomial κ S) :
-    (jetTrunc : Jet S κ (n + 1) →ₐ[S] Jet S κ n) (Ideal.Quotient.mk (orig S κ ^ (n + 1 + 1)) P) =
-      Ideal.Quotient.mk (orig S κ ^ (n + 1)) P := rfl
+theorem cc_psTrunc' (m : ℕ) (f : MvPowerSeries κ S) :
+    MvPolynomial.constantCoeff (psTrunc m f) = MvPowerSeries.constantCoeff f := by
+  rw [FBIdJet.psTrunc_eq, MvPowerSeries.constantCoeff_truncTotal_eq_ite, ite_eq_left (Nat.succ_pos m)]
 
 private theorem jetSubstPS_mk_lemma (n : ℕ) (g : κ → MvPowerSeries κ' S) (P : MvPolynomial κ S) :
     (jetSubstPS (m := n) g) (Ideal.Quotient.mk (orig S κ ^ (n + 1)) P) =
@@ -138,28 +59,29 @@ theorem jetSubstPS_trunc (m : ℕ) (g : κ → MvPowerSeries κ' S) :
   apply MvPolynomial.algHom_ext
   intro i
   simp only [AlgHom.comp_apply, Ideal.Quotient.mkₐ_eq_mk]
-  simp only [jetTrunc_mk_lemma, jetSubstPS_mk_lemma, MvPolynomial.aeval_X]
-  rw [Ideal.Quotient.eq, cc_psTrunc_lemma, cc_psTrunc_lemma, sub_sub_sub_cancel_right]
-  exact psTrunc_succ_sub_lemma m (g i)
+  simp only [jetTrunc_mk, jetSubstPS_mk_lemma, MvPolynomial.aeval_X]
+  rw [Ideal.Quotient.eq, cc_psTrunc', cc_psTrunc', sub_sub_sub_cancel_right]
+  exact psTrunc_succ_sub (g i)
 
 theorem jetTrunc_psJet (m : ℕ) (f : MvPowerSeries κ S) :
     (jetTrunc : Jet S κ (m + 1) →ₐ[S] Jet S κ m) (psJet (m + 1) f) = psJet m f := by
   show (jetTrunc : Jet S κ (m + 1) →ₐ[S] Jet S κ m)
       (Ideal.Quotient.mk (orig S κ ^ (m + 1 + 1)) (psTrunc (m + 1) f)) =
     Ideal.Quotient.mk (orig S κ ^ (m + 1)) (psTrunc m f)
-  rw [jetTrunc_mk_lemma, Ideal.Quotient.eq]
-  exact psTrunc_succ_sub_lemma m f
+  rw [jetTrunc_mk, Ideal.Quotient.eq]
+  exact psTrunc_succ_sub f
 
 theorem mem_orig_of_cc' (P : MvPolynomial κ S) (h : MvPolynomial.constantCoeff P = 0) : P ∈ orig S κ := by
   have h1 := sub_const_mem_orig P
   simpa [h] using h1
 
-theorem cc_psTrunc' (m : ℕ) (f : MvPowerSeries κ S) :
-    MvPolynomial.constantCoeff (psTrunc m f) = MvPowerSeries.constantCoeff f := by
-  exact cc_psTrunc_lemma m f
-
 theorem psJet_zero_of (f : MvPowerSeries κ S) (hf : MvPowerSeries.constantCoeff f = 1) : psJet 0 f = 1 := by
-  apply _root_.GlobalTheory.ChartPush.psJet_zero_of <;> assumption
+  show Ideal.Quotient.mk (orig S κ ^ (0 + 1)) (psTrunc 0 f) = 1
+  rw [← map_one (Ideal.Quotient.mk (orig S κ ^ (0 + 1))), Ideal.Quotient.eq]
+  have h : psTrunc 0 f - 1 ∈ orig S κ := by
+    apply mem_orig_of_cc'
+    rw [map_sub, map_one, cc_psTrunc', hf, sub_self]
+  simpa using h
 
 end Jet
 
@@ -178,8 +100,7 @@ theorem const_compL {d' : ℕ} (φ : Fin d' → MvPowerSeries (Fin 1 × Fin (dL 
   · simp
   · intro d hd
     obtain ⟨i, hi⟩ : ∃ i, d i ≠ 0 := by
-      by_contra hcon
-      push_neg at hcon
+      by_contra! hcon
       exact hd (Finsupp.ext hcon)
     have h0 : MvPowerSeries.constantCoeff (d.prod fun s e => (φ s.2) ^ e) = 0 := by
       rw [Finsupp.prod, map_prod]

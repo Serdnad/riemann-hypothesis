@@ -2,45 +2,8 @@ module
 
 public import Development.AbelianVarietyTheory.Definitions.SpanningFamilies.DatEqZero
 public import Formalism.LocalToGlobal.ProjectiveLattices.ThClass
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
 import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.ExistsQuotEquiv
-import Development.AbelianVarietyTheory.Counterexamples.LevelGroupExamples.BaseClassMove
-import Development.AbelianVarietyTheory.Counterexamples.LevelGroupExamples.ZeroNotAdmissibleOfRankPos
-import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsTateIsoOfPeriods
 
 @[expose] public section
 
@@ -60,42 +23,6 @@ private theorem levelM_mem_Mb_and_Mfr {E : Type} [Field E] [NumberField E] [IsCM
   have h2 : (l.M : 𝓞 E) ∈ l.Mb.map (H.bar : 𝓞 E →+* 𝓞 E) := Ideal.mul_le_right h
   exact ⟨Ideal.mul_le_left h, h2⟩
 
-private theorem cSep_mem_Mfr {E : Type} [Field E] [NumberField E] [IsCMField E] {H : Host E}
-    (l : Geo.Tor.Level H) : cSep l ∈ Mfr l := by
-  unfold cSep
-  split_ifs with h
-  · exact h.choose_spec.1
-  · exact zero_mem _
-
-private theorem exists_mul_eq_M_mul_of_mem_Mb_Mfr {E : Type} [Field E] [NumberField E] [IsCMField E] {H : Host E}
-    (l : Geo.Tor.Level H) {α β : 𝓞 E} (hα : α ∈ l.Mb) (hβ : β ∈ Mfr l) :
-    ∃ γ : 𝓞 E, α * β = (l.M : 𝓞 E) * γ := by
-  have h : α * β ∈ l.Mb * l.Mb.map (H.bar : 𝓞 E →+* 𝓞 E) := Ideal.mul_mem_mul hα hβ
-  rw [l.prod, Ideal.mem_span_singleton'] at h
-  obtain ⟨γ, hγ⟩ := h
-  exact ⟨γ, by rw [← hγ, mul_comm]⟩
-
-private theorem dvd_EF_M_mul_smul_right {E : Type} [Field E] [NumberField E] [IsCMField E] {H : Host E}
-    (Dw : Datum H) (M : ℕ) (γ : 𝓞 E) (u y : Dw.La) : (M : ℤ) ∣ Dw.EF u (((M : 𝓞 E) * γ) • y) := by
-  rw [mul_smul, ← Int.cast_natCast (R := 𝓞 E), Int.cast_smul_eq_zsmul, map_zsmul, smul_eq_mul]
-  exact dvd_mul_right _ _
-
-private theorem dvd_EF_cSep_of_mem_Mfr_left {E : Type} [Field E] [NumberField E] [IsCMField E] {H : Host E}
-    {Dw : Datum H} (l : Geo.Tor.Level H) {x : Dw.La} (hx : x ∈ Mfr l • (⊤ : Submodule (𝓞 E) Dw.La))
-    (v : Dw.La) : (l.M : ℤ) ∣ Dw.EF x (cSep l • v) := by
-  refine Submodule.smul_induction_on (p := fun x => (l.M : ℤ) ∣ Dw.EF x (cSep l • v)) hx ?_ ?_
-  · intro μ hμ y _
-    show (l.M : ℤ) ∣ Dw.EF (μ • y) (cSep l • v)
-    obtain ⟨α, hα, rfl⟩ := (Ideal.mem_map_iff_of_surjective (H.bar : 𝓞 E →+* 𝓞 E) H.bar.surjective).1 hμ
-    obtain ⟨γ, hγ⟩ := exists_mul_eq_M_mul_of_mem_Mb_Mfr l hα (cSep_mem_Mfr l)
-    have hb : H.bar ((H.bar : 𝓞 E →+* 𝓞 E) α) = α := _root_.GlobalTheory.DatumInverseCharacter.bar_bar H α
-    rw [Dw.adj, hb, smul_smul, hγ]
-    exact dvd_EF_M_mul_smul_right Dw l.M γ y v
-  · intro a b ha hb
-    show (l.M : ℤ) ∣ Dw.EF (a + b) (cSep l • v)
-    rw [map_add (f := _), LinearMap.add_apply]
-    exact dvd_add ha hb
-
 private theorem sim_f_sub_mem_Mb_of_inGam_dvd {E : Type} [Field E] [NumberField E] [IsCMField E] {H : Host E}
     {Dw : Datum H} (l l₂ : Geo.Tor.Level H) (s : Sim Dw) (hs : s.InGam l l₂) (hd : l.Dvd l₂) (a : Dw.La) :
     s.f l₂.M a - a ∈ l.Mb • (⊤ : Submodule (𝓞 E) Dw.La) := by
@@ -114,6 +41,28 @@ private theorem sim_f_sub_mem_Mb_of_inGam_dvd {E : Type} [Field E] [NumberField 
   rw [← Nat.cast_smul_eq_nsmul (𝓞 E)]
   exact Submodule.smul_mem_smul (levelM_mem_Mb_and_Mfr l).1 Submodule.mem_top
 
+private theorem exists_EF_eq_one' {E : Type} [Field E] [NumberField E] [IsCMField E] {H : Host E}
+    (Dw : Datum H) [Nontrivial Dw.La] : ∃ a b : Dw.La, Dw.EF a b = 1 := by
+  have := Dw.fin
+  have : Module.Finite ℤ Dw.La := Module.Finite.trans (𝓞 E) Dw.La
+  have : Module.IsTorsionFree ℤ Dw.La := by
+    refine Module.IsTorsionFree.of_smul_eq_zero fun r m h => ?_
+    by_cases hr : r = 0
+    · exact Or.inl hr
+    right
+    apply Dw.unimod.1
+    ext y
+    have h' : Dw.EF (r • m) y = 0 := by rw [h]; simp
+    rw [map_zsmul, LinearMap.smul_apply, smul_eq_mul] at h'
+    rw [map_zero, LinearMap.zero_apply]
+    rcases mul_eq_zero.1 h' with h'' | h''
+    · exact absurd h'' hr
+    · exact h''
+  let b := Module.Free.chooseBasis ℤ Dw.La
+  obtain ⟨i⟩ := b.index_nonempty
+  obtain ⟨a, ha⟩ := Dw.unimod.2 (b.coord i)
+  exact ⟨a, b i, by rw [ha]; simp⟩
+
 private theorem dvd_EF_add_nsmul_sub {E : Type} [Field E] [NumberField E] [IsCMField E] {H : Host E}
     (Dw : Datum H) (M : ℕ) (x y c c' : Dw.La) :
     (M : ℤ) ∣ Dw.EF (x + M • c) (y + M • c') - Dw.EF x y := by
@@ -130,7 +79,7 @@ private theorem dvd_EF_add_nsmul_sub {E : Type} [Field E] [NumberField E] [IsCMF
 private theorem exists_inv_sim_nu_mod {E : Type} [Field E] [NumberField E] [IsCMField E] {H : Host E}
     (Dw : Datum H) [Nontrivial Dw.La] (s : Sim Dw) (M : ℕ) (hM : 0 < M) :
     ∃ ν' : ℤ, (M : ℤ) ∣ ν' * s.ν M - 1 := by
-  obtain ⟨a, b, hab⟩ := _root_.GlobalTheory.PeriodTate.exists_pairing_one Dw
+  obtain ⟨a, b, hab⟩ := exists_EF_eq_one' Dw
   obtain ⟨g, hg⟩ := s.inv M hM
   obtain ⟨c, hc⟩ := (hg a).2
   obtain ⟨c', hc'⟩ := (hg b).2
@@ -144,16 +93,6 @@ private theorem exists_inv_sim_nu_mod {E : Type} [Field E] [NumberField E] [IsCM
   have h3 := dvd_sub hs hm
   rw [sub_sub_sub_cancel_left, mul_comm] at h3
   exact h3
-
-private theorem zpow_eq_zpow_of_dvd_sub_of_pow_eq_one {K : Type} [Field K] (z : K) (M : ℕ) (hM : 0 < M) (hz : z ^ M = 1)
-    {a b : ℤ} (h : (M : ℤ) ∣ a - b) : z ^ a = z ^ b := by
-  obtain ⟨j, hj⟩ := h
-  have hz0 : z ≠ 0 := by
-    rintro rfl
-    rw [zero_pow hM.ne'] at hz
-    exact zero_ne_one hz
-  have e : a = b + M * j := by omega
-  rw [e, zpow_add₀ hz0, _root_.zpow_mul, zpow_natCast, hz, _root_.one_zpow, mul_one]
 
 open GlobalTheory.DatumInverseCharacter in
 theorem datEq_of_phiHat : ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (H : Host E) (Dw : Datum H) (l : Geo.Tor.Level H) (Xo : Moduli Dw l) (c : Coeff l) (n : ℕ) (d : DeltaDat Xo c n), d.IsLev → ∀ (ψ : (LaI Xo c d ≃ₗ[𝓞 E] LaI Xo c d) →* c.Fˣ) (φ : (Fin n → LevQc Dw d.l₂) → c.F) (w : (Fin n → LevQ Dw d.l₂) → c.F), (∀ q, d.eF (w q) = phiHat d.c₂ (fun x => d.eF (φ x)) q) → (∀ (kI : LaI Xo c d ≃ₗ[𝓞 E] LaI Xo c d) (σq : LevQ Dw d.l₂ ≃ₗ[𝓞 E] LevQ Dw d.l₂) (σc : LevQc Dw d.l₂ ≃ₗ[𝓞 E] LevQc Dw d.l₂), (∀ a b : Dw.La, σq (Submodule.Quotient.mk a) = Submodule.Quotient.mk b → a - b ∈ l.Mb • (⊤ : Submodule (𝓞 E) Dw.La) ∧ kI (Submodule.Quotient.mk a) = Submodule.Quotient.mk b) → (∀ (x : LevQc Dw d.l₂) (q : LevQ Dw d.l₂), (d.l₂.M : ℤ) ∣ Dw.EF (qRep (σc x)) (cSep d.l₂ • levRep (σq q)) - Dw.EF (qRep x) (cSep d.l₂ • levRep q)) → ∀ x, φ (fun b => σc.symm (x b)) = (((ψ kI)⁻¹ : c.Fˣ) : c.F) * φ x) → DatEq d ψ w := by
@@ -260,8 +199,8 @@ theorem datEq_of_phiHat : ∀ (E : Type) [Field E] [NumberField E] [IsCMField E]
       have hv : levRep (σL y) - s.f d.l₂.M (levRep y) ∈ d.l₂.Mb • (⊤ : Submodule (𝓞 E) Dw.La) := by
         rw [← Submodule.Quotient.eq, _root_.GlobalTheory.DatumInverseCharacter.levRep_spec, ← hσq, _root_.GlobalTheory.DatumInverseCharacter.levRep_spec]
         rfl
-      have A1 := dvd_EF_cSep_of_mem_Mfr_left d.l₂ hu (levRep (σL y))
-      have A2 := _root_.GlobalTheory.LevelPairing.dvd_right (l := d.l₂) (t (qRep x)) hv
+      have A1 := dvd_left Dw d.l₂.prod (cSep_mem d.l₂) (levRep (σL y)) hu
+      have A2 := dvd_right Dw d.l₂.prod (cSep_mem d.l₂) (t (qRep x)) hv
       have A3 := s.mult d.l₂.M hM2pos (qRep x) (cSep d.l₂ • levRep y)
       have e1 : Dw.EF (t (qRep x)) (cSep d.l₂ • s.f d.l₂.M (levRep y)) =
           ν' * Dw.EF (s.f d.l₂.M (qRep x)) (s.f d.l₂.M (cSep d.l₂ • levRep y)) := by
@@ -289,7 +228,7 @@ theorem datEq_of_phiHat : ∀ (E : Type) [Field E] [NumberField E] [IsCMField E]
     have h := H2 (σc.symm (y b)) (σL.symm (q b))
     rw [LinearEquiv.apply_symm_apply, LinearEquiv.apply_symm_apply] at h
     exact h
-  have hζ := _root_.GlobalTheory.Survey.BaseClassMove.zetaM_pow d.c₂
+  have hζ : zetaM d.c₂ ^ d.l₂.M = 1 := by unfold zetaM; exact root_pow d.c₂ dvd_rfl
   apply d.eF.injective
   rw [map_mul, hw, hw]
   simp only [phiHat]
@@ -300,6 +239,6 @@ theorem datEq_of_phiHat : ∀ (E : Type) [Field E] [NumberField E] [IsCMField E]
   refine finsum_congr fun y => ?_
   show d.eF (φ (fun b => σc.symm (y b))) *
       zetaM d.c₂ ^ pairL (l := d.l₂) (fun b => qRep (σc.symm (y b))) (fun b => levRep (σq.symm (q b))) = _
-  rw [hφ' y, map_mul, zpow_eq_zpow_of_dvd_sub_of_pow_eq_one _ _ hM2pos hζ (dvd_sub_comm.mp (hpair y)), mul_assoc]
+  rw [hφ' y, map_mul, zpow_congr hM2pos hζ (dvd_sub_comm.mp (hpair y)), mul_assoc]
 
 end GlobalTheory.ClsVal

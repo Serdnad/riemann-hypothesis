@@ -1,7 +1,7 @@
 module
 
-import Development.AutomorphicArithmetic.ThetaCorrespondence.ThetaPairLifts.ThirdPlaceSeries.OpenOrbitOfUnramifiedExponents
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IsLiftAt
+import Development.AutomorphicArithmetic.ThetaCorrespondence.ThetaPairLifts.ThirdPlaceSeries.OpenOrbitOfUnramifiedExponents
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.CenLocOfCenReal
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.CenUsedOfCenReal
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.RootsOfUnityRingLeWittIntegers
@@ -68,26 +68,13 @@ section -- clump:auto
 noncomputable section
 
 open NumberField IsDedekindDomain ReciprocityTheory.Aut Formalism.AUTREP Formalism.BasicNotions Formalism.MainNotions Formalism.BasicNotions.TH Formalism.L2 Formalism.L2.Theta Formalism.L2.DIV Formalism.L2.Indef Formalism.L2.Rows Formalism.IndefR Formalism.IndefR.Links Formalism.IndefR.Lev GlobalTheory.TypeRec GlobalTheory.TypeVec
-attribute [local instance] GlobalTheory.TypeRec.factG Formalism.BasicNotions.Host.cmStar GlobalTheory.LocalData.complRel GlobalTheory.LocalData.isLocalField
+attribute [local instance] GlobalTheory.TypeRec.factG
 
 namespace GlobalTheory.TypeVec
 
 theorem pi_ind {ι : Type} [Fintype ι] [DecidableEq ι] {M : ι → Type} [∀ i, Group (M i)] (P : (∀ i, M i) → Prop) (h1 : P 1)
-    (hm : ∀ g i (m : M i), P g → P (Pi.mulSingle i m * g)) : ∀ g, P g := by
-  intro g
-  have key : ∀ t : Finset ι, P (fun i => if i ∈ t then g i else 1) := by
-    intro t
-    induction t using Finset.induction_on with
-    | empty => convert h1 using 1; funext i; simp
-    | insert a t ha ih =>
-      have e : (fun i => if i ∈ insert a t then g i else 1) =
-          Pi.mulSingle a (g a) * (fun i => if i ∈ t then g i else 1) := by
-        funext i
-        by_cases hi : i = a
-        · subst hi; simp [ha]
-        · simp [Finset.mem_insert, hi]
-      rw [e]; exact hm _ _ _ ih
-  simpa using key Finset.univ
+    (hm : ∀ g i (m : M i), P g → P (Pi.mulSingle i m * g)) : ∀ g, P g :=
+  GlobalTheory.TypeVecConj.pi_ind P h1 hm
 
 def conjL {X : Type} : (X → ℂ) →ₛₗ[starRingEnd ℂ] (X → ℂ) where
   toFun f := fun g => star (f g)
@@ -101,60 +88,32 @@ theorem loc_piece {L : Type} [Field L] [NumberField L] [IsCMField L] {n g : ℕ}
     ∃ j : ℚ_[g] ≃+* s.v.adicCompletion (maximalRealSubfield L), Continuous j ∧
       ∀ f ∈ π.S, f ≠ 0 → ∃ p : (GAf L n → ℂ) →ₗ[ℂ] τ.V, p f ≠ 0 ∧
         ∀ (y : GL (Fin n) ℤ_[g]) (x : GAf L n), IsLiftAt s j y x → ∀ f' ∈ π.S,
-          p (NG.rt L n x f') = τ.ρ (Matrix.GeneralLinearGroup.map ii.toRingHom (GlobalTheory.GLp.inc g n y)) (p f') := by
-  subst h
-  obtain ⟨i, Tm, hic, hi1, hinj, hmem, heq⟩ := hτ
-  refine ⟨ii.trans i.symm, (GlobalTheory.splitCompletion_symm_continuous L s i hic hi1).comp hii, fun f hf hf0 => ?_⟩
-  obtain ⟨p, hp0, hpe⟩ := GlobalTheory.T.finiteType_vector_detected_localComponent_equivariant L n π s τ i Tm hic hi1 hinj hmem heq f hf hf0
-  refine ⟨p, hp0, fun y x hx f' hf' => ?_⟩
-  have e : ∀ Z : GL (Fin n) ℚ_[g], Matrix.GeneralLinearGroup.map i.toRingHom
-      (Matrix.GeneralLinearGroup.map (ii.trans i.symm).toRingHom Z) = Matrix.GeneralLinearGroup.map ii.toRingHom Z := by
-    intro Z; ext a b; simp
-  rw [hpe x hx.1 f' hf', hx.2, e]
+          p (NG.rt L n x f') = τ.ρ (Matrix.GeneralLinearGroup.map ii.toRingHom (GlobalTheory.GLp.inc g n y)) (p f') :=
+  GlobalTheory.TypeVecConj.loc_piece π s h τ hτ ii hii
 
 theorem isotIn_stable {D : D7} {n : ℕ} {A : Type} [AddCommGroup A] [Module ℂ A] (ρ : GAf D.host.E n →* Module.End ℂ A)
     (C : Submodule ℂ A) (π : NG.FinTyp D.host.E n) (h : GAf D.host.E n) :
-    ∀ z ∈ principalLevelFrame.isotIn ρ C π, ρ h z ∈ principalLevelFrame.isotIn ρ C π := by
-  intro z hz
-  have key : principalLevelFrame.isotIn ρ C π ≤ (principalLevelFrame.isotIn ρ C π).comap (ρ h) := by
-    refine iSup₂_le fun Φ hΦ => ?_
-    rintro _ ⟨f, rfl⟩
-    rw [Submodule.mem_comap, ← hΦ.1 h f]
-    exact (le_iSup₂ (f := fun (Φ : π.S →ₗ[ℂ] A) (_ : principalLevelFrame.IsEqvA ρ π Φ ∧ LinearMap.range Φ ≤ C) => LinearMap.range Φ) Φ hΦ)
-      ⟨_, rfl⟩
-  exact key hz
+    ∀ z ∈ principalLevelFrame.isotIn ρ C π, ρ h z ∈ principalLevelFrame.isotIn ρ C π :=
+  GlobalTheory.TypeVecConj.isotIn_stable ρ C π h
 
 theorem detect_conj {D : D7} {n : ℕ} {A : Type} [AddCommGroup A] [Module ℂ A] (ρ : GAf D.host.E n →* Module.End ℂ A)
     (C : Submodule ℂ A) (π : NG.FinTyp D.host.E n) (c : GAf D.host.E n) (y : A) (hy : y ∈ principalLevelFrame.isotIn ρ C π) (hy0 : y ≠ 0) :
     ∃ q : A →ₗ[ℂ] (GAf D.host.E n → ℂ), q y ≠ 0 ∧ ∀ z ∈ principalLevelFrame.isotIn ρ C π, q z ∈ π.S ∧
       ∀ h, q ((ρ.comp (MulAut.conj c).toMonoidHom) h z) = NG.rt D.host.E n h (q z) := by
   obtain ⟨q, hq0, hq⟩ := GlobalTheory.isotIn_detect_by_eqv_map D A ρ C π y hy hy0
-  refine ⟨(NG.rt D.host.E n c⁻¹).comp q, fun h0 => hq0 ?_, fun z hz => ⟨π.stable _ _ (hq z hz).1, fun h => ?_⟩⟩
-  · funext g
-    have e := congrFun h0 (g * c)
-    simpa [NG.rt, mul_assoc] using e
-  · have e : (ρ.comp (MulAut.conj c).toMonoidHom) h = ρ (c * h * c⁻¹) := rfl
-    rw [e, LinearMap.comp_apply, LinearMap.comp_apply, (hq z hz).2]
-    funext g
-    simp [NG.rt, mul_assoc]
+  exact GlobalTheory.TypeVecConj.conj_detect ρ C π c y hy q hq0 hq
 
 theorem mem_KFix {D : D7} {s : ∀ k : Fin 2, D.nd.PlG k → SplitPlace D.host.E}
     {j : ∀ k v, ℚ_[D.host.g k] ≃+* (s k v).v.adicCompletion (maximalRealSubfield D.host.E)}
     {A : Type} [AddCommGroup A] [Module ℂ A] {ρA : GAf D.host.E D.R.r →* Module.End ℂ A} {z : A} :
     z ∈ KFix D s j ρA ↔ ∀ (k : Fin 2) (v : D.nd.PlG k) (y : (GlobalTheory.GLp.red (D.host.g k) D.R.r).ker) (x : GAf D.host.E D.R.r),
-      IsLiftAt (s k v) (j k v) (y : GL (Fin D.R.r) ℤ_[D.host.g k]) x → ρA x z = z := by
-  simp only [KFix, Submodule.mem_iInf, LinearMap.mem_ker, LinearMap.sub_apply, LinearMap.id_apply, sub_eq_zero]
+      IsLiftAt (s k v) (j k v) (y : GL (Fin D.R.r) ℤ_[D.host.g k]) x → ρA x z = z :=
+  GlobalTheory.TypeVecConj.mem_KFix
 
 theorem typePrime_finiteGroup_induction_factor (D : D7) (P : G0g D.nd → Prop) (h1 : P 1)
     (hm : ∀ (g : G0g D.nd) (k : Fin 2) (v : D.nd.PlG k) (m : GL (Fin D.R.r) (ZMod (D.host.g k))), P g →
-      P (GlobalTheory.GoodTypes.facHom D k v m * g)) : ∀ g, P g := by
-  classical
-  refine pi_ind (M := fun kv : (Σ k : Fin 2, D.nd.PlG k) => GL (Fin D.R.r) (ZMod (D.host.g kv.1))) P h1 ?_
-  rintro g ⟨k, v⟩ m hg
-  have e : Pi.mulSingle (⟨k, v⟩ : Σ k : Fin 2, D.nd.PlG k) m = GlobalTheory.GoodTypes.facHom D k v m := by
-    simp only [GlobalTheory.GoodTypes.facHom, MonoidHom.mulSingle_apply]
-  rw [e]
-  exact hm g k v m hg
+      P (GlobalTheory.GoodTypes.facHom D k v m * g)) : ∀ g, P g :=
+  GlobalTheory.TypeVecConj.typePrime_finiteGroup_induction_factor D P h1 hm
 
 theorem intertwine {D : D7} {A B : Type} [AddCommGroup A] [Module ℂ A] [AddCommGroup B] [Module ℂ B]
     {SA : Submodule ℂ A} {SB : Submodule ℂ B} (ρA : Representation ℂ (G0g D.nd) SA) (ρB : Representation ℂ (G0g D.nd) SB)
@@ -163,10 +122,8 @@ theorem intertwine {D : D7} {A B : Type} [AddCommGroup A] [Module ℂ A] [AddCom
       ((ρA (GlobalTheory.GoodTypes.facHom D k v m) z : SA) : A) ∈ N ∧ ∀ z' : SB, (z' : B) = q z →
         ((ρB (GlobalTheory.GoodTypes.facHom D k v m) z' : SB) : B) = q (ρA (GlobalTheory.GoodTypes.facHom D k v m) z)) :
     ∀ (a : MonoidAlgebra ℂ (G0g D.nd)) (z : SA) (z' : SB), (z : A) ∈ N → (z' : B) = q z →
-      ((ρA.asAlgebraHom a z : SA) : A) ∈ N ∧ ((ρB.asAlgebraHom a z' : SB) : B) = q (ρA.asAlgebraHom a z) := by
-  first | exact _root_.GlobalTheory.TypeVecConj.intertwine | exact @_root_.GlobalTheory.TypeVecConj.intertwine | apply _root_.GlobalTheory.TypeVecConj.intertwine <;> assumption
-
-
+      ((ρA.asAlgebraHom a z : SA) : A) ∈ N ∧ ((ρB.asAlgebraHom a z' : SB) : B) = q (ρA.asAlgebraHom a z) :=
+  GlobalTheory.TypeVecConj.intertwine ρA ρB N q hstep
 
 theorem typeVec_rows {D : D7} {G : Type} [Group G] [Fintype G] {Pl0 I0 T : Type}
     {A3 : FamIn3 D.what₂.LL G Pl0 I0 (List ℕ) T D.R.m} {Ks : Type} [Field Ks] [NumberField Ks] [Algebra Ks D.what₂.LL]
@@ -175,22 +132,13 @@ theorem typeVec_rows {D : D7} {G : Type} [Group G] [Fintype G] {Pl0 I0 T : Type}
     (cp : GlobalTheory.GoodTypes.Comp D) (hcp : IsComp I (fun σ => principalLevelFrame.rowRepR R.θ (Y.eFT σ)) cp) (σ : D.what₂.FT) :
     ∃ (V : Type) (_ : AddCommGroup V) (_ : Module ℂ V) (ρ : Representation ℂ (G0g D.nd) V) (W : Submodule ℂ V) (x : V),
       (∀ k v, GlobalTheory.GoodTypes.ConjIn ρ W (GlobalTheory.GoodTypes.facHom D k v) (cp σ k v).ρ) ∧ x ≠ 0 ∧
-        (∀ a, ρ.asAlgebraHom a x ∈ W) ∧ ρ.asAlgebraHom D.ntypes.e0 x = x := by
-  exact _root_.GlobalTheory.TypeVecConj.typeVec_rows R F cG Y hP I cp hcp σ
+        (∀ a, ρ.asAlgebraHom a x ∈ W) ∧ ρ.asAlgebraHom D.ntypes.e0 x = x :=
+  GlobalTheory.TypeVecConj.typeVec_rows R F cG Y hP I cp hcp σ
 
 section Target
 
 open Formalism.BasicNotions Formalism.MainNotions Formalism.MainNotions.N Formalism.L2 Formalism.L2.Host Formalism.L2.NT Formalism.IndefR.NX NumberField IsDedekindDomain GlobalTheory.Mem GlobalTheory.Mem.Col2 GlobalTheory.Mem.Top
   GlobalTheory.Mem.Top.GroupRetwisting GlobalTheory.Mem.Top.Bl GlobalTheory.Mem.R3 GlobalTheory.Mem.R3.Rw GlobalTheory.HeightCounting GlobalTheory.HeightCounting.Up
-
-theorem typeVec : PrN → OverRows fun _ _ _ _ w Z _ _ z _ Y => ∀ (I : GlobalTheory.TypeRec.Ident (w.st Z).toD7) cp, GlobalTheory.TypeRec.IsComp I (repOf Y) cp → ∀ σ, ∃ (V : Type) (_ : AddCommGroup V) (_ : Module ℂ V) (ρ : Representation ℂ (G0g (w.st Z).toD7.nd) V) (W : Submodule ℂ V) (x : V), (∀ k v, GlobalTheory.GoodTypes.ConjIn ρ W (GlobalTheory.GoodTypes.facHom (w.st Z).toD7 k v) (cp σ k v).ρ) ∧ x ≠ 0 ∧ (∀ a, ρ.asAlgebraHom a x ∈ W) ∧ ρ.asAlgebraHom (w.st Z).toD7.ntypes.e0 x = x := by
-  intro _
-  refine ⟨1, one_pos, ?_⟩
-  intro eps C8 C5 c6 Cb _ _ _ _
-  refine ⟨⟨0, fun _ => 0, fun _ => 0, fun _ => 0⟩, fun C _ _ _ => ⟨0, fun cD _ => ⟨0, fun ch _ => ⟨0, fun K _ _ _ _ _ _ => ?_⟩⟩⟩⟩
-  refine ⟨fun _ _ _ => ∅, fun _ _ _ _ => ∅, fun _ _ _ _ _ => ∅, fun _ _ _ _ _ => ∅, by simp, by simp, ?_⟩
-  intro B f T _ _ _ _ _ w _ Z Wt hX z p0 Y _ _ _ _ _ I cp hcp σ
-  exact typeVec_rows z.R z.F z.cG Y z.pins I cp hcp σ
 
 end Target
 
@@ -212,19 +160,13 @@ section
 section
 noncomputable section
 open NumberField IsDedekindDomain ReciprocityTheory.Aut Formalism.AUTREP Formalism.BasicNotions Formalism.MainNotions Formalism.BasicNotions.TH Formalism.L2 Formalism.L2.Theta Formalism.L2.DIV Formalism.L2.Indef Formalism.L2.Rows Formalism.IndefR Formalism.IndefR.Links Formalism.IndefR.Lev GlobalTheory.TypeRec GlobalTheory.TypeVec
-attribute [local instance] GlobalTheory.TypeRec.factG Formalism.BasicNotions.Host.cmStar GlobalTheory.LocalData.complRel GlobalTheory.LocalData.isLocalField
+attribute [local instance] GlobalTheory.TypeRec.factG
 namespace GlobalTheory.TypeVec
 section Target
 open Formalism.BasicNotions Formalism.MainNotions Formalism.MainNotions.N Formalism.L2 Formalism.L2.Host Formalism.L2.NT Formalism.IndefR.NX NumberField IsDedekindDomain GlobalTheory.Mem GlobalTheory.Mem.Col2 GlobalTheory.Mem.Top
   GlobalTheory.Mem.Top.GroupRetwisting GlobalTheory.Mem.Top.Bl GlobalTheory.Mem.R3 GlobalTheory.Mem.R3.Rw GlobalTheory.HeightCounting GlobalTheory.HeightCounting.Up
-theorem exists_typeVec_nonGalois_ne_zero : _root_.GlobalTheory.HeightCounting.Up.PublishedInputsThirdLayerAlt → OverRows fun _ _ _ _ w Z _ _ z _ Y => ∀ (I : GlobalTheory.TypeRec.Ident (w.st Z).toD7) cp, GlobalTheory.TypeRec.IsComp I (repOf Y) cp → ∀ σ, ∃ (V : Type) (_ : AddCommGroup V) (_ : Module ℂ V) (ρ : Representation ℂ (G0g (w.st Z).toD7.nd) V) (W : Submodule ℂ V) (x : V), (∀ k v, GlobalTheory.GoodTypes.ConjIn ρ W (GlobalTheory.GoodTypes.facHom (w.st Z).toD7 k v) (cp σ k v).ρ) ∧ x ≠ 0 ∧ (∀ a, ρ.asAlgebraHom a x ∈ W) ∧ ρ.asAlgebraHom (w.st Z).toD7.ntypes.e0 x = x := by
-  intro _
-  refine ⟨1, one_pos, ?_⟩
-  intro eps C8 C5 c6 Cb _ _ _ _
-  refine ⟨⟨0, fun _ => 0, fun _ => 0, fun _ => 0⟩, fun C _ _ _ => ⟨0, fun cD _ => ⟨0, fun ch _ => ⟨0, fun K _ _ _ _ _ _ => ?_⟩⟩⟩⟩
-  refine ⟨fun _ _ _ => ∅, fun _ _ _ _ => ∅, fun _ _ _ _ _ => ∅, fun _ _ _ _ _ => ∅, by simp, by simp, ?_⟩
-  intro B f T _ _ _ _ _ w _ Z Wt hX z p0 Y _ _ _ _ _ I cp hcp σ
-  exact typeVec_rows z.R z.F z.cG Y z.pins I cp hcp σ
+theorem exists_typeVec_nonGalois_ne_zero : _root_.GlobalTheory.HeightCounting.Up.PublishedInputsThirdLayerAlt → OverRows fun _ _ _ _ w Z _ _ z _ Y => ∀ (I : GlobalTheory.TypeRec.Ident (w.st Z).toD7) cp, GlobalTheory.TypeRec.IsComp I (repOf Y) cp → ∀ σ, ∃ (V : Type) (_ : AddCommGroup V) (_ : Module ℂ V) (ρ : Representation ℂ (G0g (w.st Z).toD7.nd) V) (W : Submodule ℂ V) (x : V), (∀ k v, GlobalTheory.GoodTypes.ConjIn ρ W (GlobalTheory.GoodTypes.facHom (w.st Z).toD7 k v) (cp σ k v).ρ) ∧ x ≠ 0 ∧ (∀ a, ρ.asAlgebraHom a x ∈ W) ∧ ρ.asAlgebraHom (w.st Z).toD7.ntypes.e0 x = x :=
+  fun _ => GlobalTheory.TypeVecConj.typeVec
 end Target
 end GlobalTheory.TypeVec
 end

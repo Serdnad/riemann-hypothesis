@@ -25,49 +25,9 @@ public import Formalism.LocalToGlobal.SiegelLatticeTheory.CokernelGLCounts.RankP
 public import Formalism.LocalToGlobal.SiegelLatticeTheory.CokernelGLCounts.RankPointCounts.DualFamilyCounting.MeasurablePinv
 public import Formalism.LocalToGlobal.SiegelLatticeTheory.CokernelGLCounts.RankPointCounts.DualFamilyCounting.NcRealXCC
 import Formalism.LocalToGlobal.SiegelLatticeTheory.CokernelGLCounts.RankPointCounts.DualFamilyCounting.InWLeft
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Topology.Sheaves.Init
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
 import Formalism.LocalToGlobal.SiegelLatticeTheory.HaarTransversals.UnitaryHaarProducts.SplitPrimeCounts.LsSetresInt
 import Mathlib.Tactic.Linter.HaveILetI
-import Mathlib.Tactic.TypeStar
-import Mathlib.Tactic.Basify
 import Formalism.LocalToGlobal.SiegelLatticeTheory.ClosedLocalOrbits.GaugeLatticeShifts.Vanish
 import Formalism.LocalToGlobal.SiegelLatticeTheory.HaarTransversals.UnitaryHaarProducts.HermitianETransportInvariant
 import Formalism.LocalToGlobal.SiegelLatticeTheory.CokernelGLCounts.RankPointCounts.DualFamilyCounting.OneMemZpowZero
@@ -89,8 +49,6 @@ open scoped BigOperators
 namespace Formalism.L2.SG.Pf.NcReal.JX.NOf.Ex
 
 open Formalism.L2.SG.HidaSetting Formalism.MainNotions.S Formalism.L2.SG.Pf.NcReal.JX.NOf
-
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 
 variable {D : D7} (X : HidaSetting D) (X0 : Matrix (Fin D.R.rS) (Fin D.R.rS) D.host.E) (xs : Fin D.R.rS → (VS D).V)
   (M : Matrix (Fin D.R.rS) (Fin D.R.rS) D.host.E)
@@ -150,8 +108,6 @@ namespace Formalism.L2.SG.Pf.NcReal.JX.NOf.Ex
 
 open Formalism.L2.SG.HidaSetting Formalism.MainNotions.S Formalism.L2.SG.Pf.NcReal.JX.NOf
 
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
-
 variable {D : D7} (X : HidaSetting D)
 
 theorem inv_mul_of_unitri {X0 : Matrix (Fin D.R.rS) (Fin D.R.rS) D.host.E}
@@ -203,10 +159,10 @@ theorem dictEx_holds : DictEx := by
           have : (i : ℕ) < j + 1 := hi
           exact Fin.le_def.2 (by omega)
         rcases hbi.lt_or_eq with hlt | heq
-        · rw [h0 b i hlt, if_neg (ne_of_gt hlt), sub_zero, zero_smul]
+        · rw [h0 b i hlt, ite_eq_right (ne_of_gt hlt), sub_zero, zero_smul]
           exact Submodule.zero_mem _
         · subst heq
-          rw [h1, if_pos rfl, sub_self, zero_smul]
+          rw [h1, ite_eq_left rfl, sub_self, zero_smul]
           exact Submodule.zero_mem _
     · simp
     · intro a b _ _ ha hb
@@ -304,8 +260,6 @@ open scoped Classical
 open NumberField Formalism.BasicNotions Formalism.MainNotions.S Formalism.MainNotions.S.Lat Formalism.L2.SG.HidaSetting Matrix
 
 namespace Formalism.L2.SG.Pf.NcReal.JX.NOf
-
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 
 namespace LatB
 
@@ -522,8 +476,6 @@ open NumberField Formalism.BasicNotions Formalism.MainNotions.S Formalism.MainNo
 
 namespace Formalism.L2.SG.Pf.NcReal.JX.NOf
 
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
-
 namespace LatF
 
 open Alg
@@ -663,8 +615,6 @@ open NumberField Formalism.BasicNotions Formalism.MainNotions.S Formalism.L2.SG.
 
 namespace Formalism.L2.SG.Pf.NcReal.JX.NOf
 
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
-
 namespace Onto
 
 theorem mem_closure_image {A B : Type*} [AddCommGroup A] [AddCommGroup B] (f : A →+ B) (H : AddSubgroup A)
@@ -711,8 +661,6 @@ open NumberField Formalism.BasicNotions Matrix
 namespace Formalism.L2.SG.Pf.NcReal.JX.NOf
 
 open Formalism.L2.SG.HidaSetting Formalism.L2.SG.RealObj Formalism.MainNotions.S Formalism.L2.SG.Pf.NcReal.JX
-
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 
 namespace Onto
 
@@ -900,8 +848,6 @@ namespace Formalism.L2.SG.Pf.NcReal.JX.NOf
 
 open Formalism.L2.SG.HidaSetting Formalism.L2.SG.RealObj Formalism.MainNotions.S Formalism.MainNotions.S.Lat Formalism.L2.SG.Pf.NcReal.JX Formalism.L2.SG.TermOp
 
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
-
 section Pl
 
 variable {D : D7} (X : HidaSetting D)
@@ -1060,8 +1006,6 @@ namespace Formalism.L2.SG.Pf.NcReal.JX.NOf
 
 open Formalism.L2.SG.HidaSetting Formalism.L2.SG.RealObj Formalism.MainNotions.S Formalism.L2.SG.Pf.NcReal.JX
 
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
-
 variable {D : D7} (X : HidaSetting D) (u : D.what₂.Word)
 
 theorem mem_cl_row (b : Fin D.R.rS) (x : InfinitePlace X.B.I.F → Fin (D.R.k + 1) → ℂ) :
@@ -1137,8 +1081,6 @@ open MeasureTheory NumberField Formalism.BasicNotions Matrix
 namespace Formalism.L2.SG.Pf.NcReal.JX.NOf
 
 open Formalism.L2.SG.HidaSetting Formalism.L2.SG.RealObj Formalism.MainNotions.S Formalism.L2.SG.Pf.NcReal.JX
-
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 
 variable {D : D7} (X : HidaSetting D) (u : D.what₂.Word)
 
@@ -1233,8 +1175,6 @@ open MeasureTheory NumberField Formalism.BasicNotions Matrix
 namespace Formalism.L2.SG.Pf.NcReal.JX.NOf
 
 open Formalism.L2.SG.HidaSetting Formalism.L2.SG.RealObj Formalism.MainNotions.S Formalism.L2.SG.Pf.NcReal.JX
-
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 
 variable {D : D7}
 

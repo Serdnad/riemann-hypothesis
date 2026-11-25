@@ -18,10 +18,6 @@ open scoped CategoryTheory.Obj
 variable {E : Type} [Field E] [NumberField E] [IsCMField E] {H : Host E} {Dw : Datum H} {l : Level H}
   {Xo : Moduli Dw l} {c : Coeff l} {σ : c.F →+* ℂ} {r : ℕ}
 
-theorem hermForm_zero_left {g : ℕ} (Hm : Matrix (Fin g) (Fin g) ℂ) (w : Fin g → ℂ) : hermForm Hm 0 w = 0 := by
-  unfold hermForm
-  simp
-
 theorem hermForm_add_left {g : ℕ} (Hm : Matrix (Fin g) (Fin g) ℂ) (z z' w : Fin g → ℂ) :
     hermForm Hm (z + z') w = hermForm Hm z w + hermForm Hm z' w := by
   unfold hermForm
@@ -50,11 +46,5 @@ theorem hermForm_real_smul_right {g : ℕ} (Hm : Matrix (Fin g) (Fin g) ℂ) (t 
     ext i
     simp [Complex.conj_ofReal]
   rw [h1, Matrix.mulVec_smul, dotProduct_smul, smul_eq_mul]
-
-section Prim
-
-variable {U : Unf Xo c σ r} {k : U.Comp} {x : (U.X k).dom} (W : UnfAt U k x)
-
-end Prim
 
 end ReciprocityTheory.ChartRestriction.G.PullbackSections

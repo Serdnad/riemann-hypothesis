@@ -70,14 +70,6 @@ open NumberField
 
 namespace GlobalTheory.IntMulIntegral
 
-theorem exists_int_mul_integral {K : Type} [Field K] [NumberField K] (z : K) :
-    ∃ M : ℤ, M ≠ 0 ∧ IsIntegral ℤ ((M : K) * z) := by
-  have hz : IsAlgebraic ℤ z :=
-    (IsFractionRing.isAlgebraic_iff ℤ ℚ K).mpr (Algebra.IsAlgebraic.isAlgebraic z)
-  obtain ⟨y, hy, hint⟩ := hz.exists_integral_multiple
-  refine ⟨y, hy, ?_⟩
-  simpa [zsmul_eq_mul] using hint
-
 theorem main : ∀ {K V : Type} [inst : Field K] [NumberField K] [inst_2 : AddCommGroup V] [inst_3 : Module K V]
     [inst_4 : Module (NumberField.RingOfIntegers K) V] [IsScalarTower (NumberField.RingOfIntegers K) K V]
     {A : Submodule (NumberField.RingOfIntegers K) V}, Submodule.span K (↑A : Set V) = ⊤ →
@@ -103,9 +95,7 @@ variable {K V : Type} [Field K] [NumberField K] [AddCommGroup V] [Module K V]
   [Module (𝓞 K) V] [IsScalarTower (𝓞 K) K V]
 
 theorem exists_mul_mem {A : Submodule (𝓞 K) V} (hA : Submodule.span K (A : Set V) = ⊤) (x : V) :
-    ∃ N : ℤ, N ≠ 0 ∧ N • x ∈ A := by
-  first
-  | (apply _root_.GlobalTheory.IntMulIntegral.main <;> assumption)
+    ∃ N : ℤ, N ≠ 0 ∧ N • x ∈ A := GlobalTheory.IntMulIntegral.main hA x
 
 theorem finite_between {Λ : Submodule (𝓞 K) V} (hΛ : Λ.FG) {a b : ℤ} (ha : a ≠ 0) (hb : b ≠ 0) :
     {M : Submodule (𝓞 K) V | (∀ x ∈ Λ, a • x ∈ M) ∧ ∀ x ∈ M, b • x ∈ Λ}.Finite := by

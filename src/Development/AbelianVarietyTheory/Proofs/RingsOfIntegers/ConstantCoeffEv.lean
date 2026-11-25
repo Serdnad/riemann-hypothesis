@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.ConstantCoeffSubstSame
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.TaylorDiscriminants.ConnectionKillsSeries
 public import Development.AbelianVarietyTheory.Proofs.CovolumeBounds.FormalExpMulFormalExpNeg
 import Mathlib.Algebra.Order.Floor.Extended
@@ -214,13 +213,36 @@ private theorem pderiv_subst_coe_mvPolynomial_eq_sum {σ τ : Type} [Fintype σ]
       · rw [pderiv_X_of_ne (Ne.symm hr), map_zero]
     simp only [Derivation.leibniz, smul_eq_mul, map_add (f := _), map_mul, substAlgHom_X, hX, hf, mul_ite,
       mul_one, mul_zero, add_mul, Finset.sum_add_distrib, ite_mul, zero_mul, Finset.sum_ite_eq',
-      Finset.mem_univ, if_true, Finset.mul_sum, mul_assoc]
+      Finset.mem_univ, ite_true, Finset.mul_sum, mul_assoc]
 
 private theorem pderiv_subst_eq_sum_of_constantCoeff_eq_zero {σ τ : Type} [Fintype σ] [DecidableEq σ] [Finite τ]
     {A : σ → MvPowerSeries τ k} (hA : ∀ r, constantCoeff (A r) = 0) (f : MvPowerSeries σ k) (s : τ) :
     pderiv s (subst A f) = ∑ r, subst A (pderiv r f) * pderiv s (A r) := by
-  intros
-  apply _root_.GlobalTheory.MinorShiftJet.pderiv_subst <;> assumption
+  classical
+  have hS : HasSubst A := hasSubst_of_constantCoeff_zero hA
+  ext x
+  have h1 : coeff (x + Finsupp.single s 1) (subst A f) =
+      coeff (x + Finsupp.single s 1)
+        (subst A ((truncTotal (x.degree + 2) f : MvPolynomial σ k) : MvPowerSeries σ k)) := by
+    apply coeff_subst_congr_lemma hA
+    intro z hz
+    rw [MvPolynomial.coeff_coe, coeff_truncTotal]
+    rw [map_add (f := _), Finsupp.degree_single] at hz
+    omega
+  rw [coeff_pderiv, h1, ← coeff_pderiv, pderiv_subst_coe_mvPolynomial_eq_sum hS]
+
+  simp only [map_sum, MvPowerSeries.coeff_mul]
+  refine Finset.sum_congr rfl fun r _ => Finset.sum_congr rfl fun y hy => ?_
+  congr 1
+  apply coeff_subst_congr_lemma hA
+  intro z hz
+  have hxy := Finset.HasAntidiagonal.mem_antidiagonal.mp hy
+  have h2 : y.1.degree ≤ x.degree := by
+    rw [← hxy, map_add (f := _)]
+    omega
+  rw [coeff_pderiv, coeff_pderiv, MvPolynomial.coeff_coe, coeff_truncTotal]
+  rw [map_add (f := _), Finsupp.degree_single]
+  omega
 
 theorem pderiv_ev {a : Fin m → Pt k n d} (ha : ∀ j i, constantCoeff (a j i) = 0)
     (f : PS k m d) (s : Fin n × Fin d) :
@@ -338,7 +360,7 @@ theorem pderiv_pt (j j' : Fin n) (i i' : Fin d) :
   by_cases hc : j' = j ∧ i' = i
   · obtain ⟨rfl, rfl⟩ := hc
     simp
-  · rw [if_neg hc, pderiv_X_of_ne]
+  · rw [ite_eq_right hc, pderiv_X_of_ne]
     intro he
     exact hc ⟨congrArg Prod.fst he, congrArg Prod.snd he⟩
 

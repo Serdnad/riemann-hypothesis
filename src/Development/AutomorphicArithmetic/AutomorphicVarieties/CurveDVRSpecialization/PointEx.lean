@@ -1,7 +1,6 @@
 module
 
-import all Development.AutomorphicArithmetic.AutomorphicVarieties.PatchingModules.PatchingBaseChange.PairBc
-import Mathlib
+import Mathlib.RingTheory.RegularLocalRing.Defs
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.CurveDVRSpecialization.SecondThirdPrimeConditionTransferAlt
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.CommutativeAlgebra.CoQuot
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.CommutativeAlgebraHeight.DGext
@@ -10,54 +9,12 @@ public import Development.AutomorphicArithmetic.AutomorphicVarieties.CurveDVRSpe
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.CurveDVRSpecialization.SelfTwistEigenvalues.UnipTorsion
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.FrobeniusSmoothVectors.LocRho
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.FrobeniusSmoothVectors.ZpowWNe
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
 import Mathlib.Algebra.Order.Star.Int
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
 import Mathlib.RingTheory.AdicCompletion.Noetherian
 import Mathlib.RingTheory.Coalgebra.IsFrobenius
 import Mathlib.RingTheory.HopfAlgebra.Basic
 import Mathlib.RingTheory.PowerSeries.Inverse
-import Mathlib.RingTheory.Radical.NatInt
 import Mathlib.RingTheory.SimpleRing.Principal
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.Linter.HaveILetI
-import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Topology.Sheaves.Init
 public import Mathlib.FieldTheory.Finite.Basic
 
 @[expose] public section
@@ -183,6 +140,24 @@ private theorem pe_chi {n : ℕ} {A G : Type} [CommRing A] [Group G] (ρ : G →
   show Matrix.det _ = _
   congr 1
   simp [W.GDet.repAlg, MonoidAlgebra.lift_single, Matrix.charmatrix, Matrix.smul_one_eq_diagonal]
+
+private theorem pe_cont {Γ R R' : Type} [TopologicalSpace Γ] [CommRing R] [IsLocalRing R] [CommRing R'] [IsLocalRing R']
+    (f : R →+* R') [IsLocalHom f] {a : Γ → R} (h : AdicCont (maximalIdeal R) a) :
+    AdicCont (maximalIdeal R') fun g => f (a g) := by
+  intro N
+  have h0 : maximalIdeal R ≤ Ideal.comap f (maximalIdeal R') := fun x hx => by
+    rw [Ideal.mem_comap, IsLocalRing.mem_maximalIdeal, mem_nonunits_iff]
+    exact fun hu => (IsLocalRing.mem_maximalIdeal x).mp hx (isUnit_of_map_unit f x hu)
+  have hle : maximalIdeal R ^ N ≤ Ideal.comap f (maximalIdeal R' ^ N) := by
+    rw [← Ideal.map_le_iff_le_comap, Ideal.map_pow]
+    exact pow_le_pow_left' (Ideal.map_le_iff_le_comap.mpr h0) N
+  have e : (fun g => Ideal.Quotient.mk (maximalIdeal R' ^ N) (f (a g))) =
+      (Ideal.quotientMap _ f hle) ∘ (fun g => Ideal.Quotient.mk (maximalIdeal R ^ N) (a g)) := by
+    funext g
+    simp [Ideal.quotientMap_mk]
+  show IsLocallyConstant (fun g => Ideal.Quotient.mk (maximalIdeal R' ^ N) (f (a g)))
+  rw [e]
+  exact (h N).comp _
 
 section Tw
 
@@ -422,7 +397,7 @@ theorem UpperTheory.V.Pr.pointEx_of_le {l : ℕ} [Fact l.Prime] {O : Type} [Comm
   haveI : IsLocalHom (j : L.R →+* PowerSeries K) := ⟨fun a ha => hjl.map_nonunit a ha⟩
   have hcont : ∀ i k, AdicCont (maximalIdeal (PowerSeries K))
       fun g => (L.ρ.map (j : L.R →+* PowerSeries K)).r g i k := fun i k =>
-    _root_.adicCont_maximalIdeal_comp_of_isLocalHom (j : L.R →+* PowerSeries K) ((loc_rho T.ok T.n23 T.S x L).1.1 i k)
+    pe_cont (j : L.R →+* PowerSeries K) ((loc_rho T.ok T.n23 T.S x L).1.1 i k)
   refine ⟨⟨K, (T.K.tw (L.ρ.map (j : L.R →+* PowerSeries K))).toHomUnits, ?_, Jgl (R := PowerSeries K) n, ?_,
     pe_form T.K _, ?_, ?_, T.K.twψ (L.ρ.map (j : L.R →+* PowerSeries K)), ?_, ?_⟩, j, hjk, hjl,
     hmat, rfl, ?_⟩

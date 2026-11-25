@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.ExistsExOfPow
 public import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.EchEqOneIff
 public import Development.AbelianVarietyTheory.Proofs.HomogeneousIdeals.ExistsEqTransposeMulDiagonalMul
 public import Development.AbelianVarietyTheory.Definitions.ThetaMetrics.ExistsEventuallyNormRiemannThetaTermLe
@@ -416,7 +415,7 @@ theorem sum_ech_rep : ∀ (κ ι : Type) [Fintype κ] [Fintype ι] [DecidableEq 
   · obtain ⟨k, hk⟩ := Function.ne_iff.1 hab
     obtain ⟨i, hi⟩ := Function.ne_iff.1 hk
     exact Finset.prod_eq_zero (Finset.mem_univ k)
-      (Finset.prod_eq_zero (Finset.mem_univ i) (if_neg hi))
+      (Finset.prod_eq_zero (Finset.mem_univ i) (ite_eq_right hi))
 
 variable {κ ι : Type} [Fintype κ] [Fintype ι]
 
@@ -455,7 +454,16 @@ theorem level_mul {R : ℕ} {φ : Matrix κ ι ℚ → ℂ} (h : HasLevel R φ) 
   · rw [Nat.cast_mul, ← smul_smul]; exact h.2 x _ (intM_nsmul hy S)
 
 theorem exists_den (y : Matrix κ ι ℚ) : ∃ S : ℕ, 0 < S ∧ IntM ((S : ℚ) • y) := by
-  apply _root_.GlobalTheory.SW.Vac.exists_den <;> assumption
+  classical
+  refine ⟨∏ p : κ × ι, (y p.1 p.2).den, Finset.prod_pos fun p _ => (y p.1 p.2).den_pos, ?_⟩
+  intro k i
+  obtain ⟨d, hd⟩ : (y k i).den ∣ ∏ p : κ × ι, (y p.1 p.2).den :=
+    Finset.dvd_prod_of_mem (fun p : κ × ι => (y p.1 p.2).den) (Finset.mem_univ (k, i))
+  have : (((∏ p : κ × ι, (y p.1 p.2).den : ℕ) : ℚ) • y) k i = ((d * (y k i).num : ℤ) : ℚ) := by
+    rw [hd, Matrix.smul_apply, smul_eq_mul]; push_cast
+    rw [← Rat.den_mul_eq_num]; ring
+  rw [this]
+  exact isIntegral_algebraMap (R := ℤ) (x := d * (y k i).num)
 
 theorem level_ch {R : ℕ} {φ : Matrix κ ι ℚ → ℂ} (h : HasLevel R φ) {y : Matrix κ ι ℚ}
     (hy : IntM ((R : ℚ) • y)) : HasLevel R fun x => φ x * ech (pr x y) := by
@@ -561,7 +569,7 @@ theorem plancherel {R : ℕ} (hR : 0 < R) {φ ψ : Matrix κ ι ℚ → ℂ} (h 
   refine Finset.sum_congr rfl fun a _ => ?_
   rw [Finset.sum_comm]
   simp only [← Finset.mul_sum, sum_ech_rep κ ι R hR, ← hV, mul_ite, mul_zero, Finset.sum_ite_eq,
-    Finset.mem_univ, if_true]
+    Finset.mem_univ, ite_true]
   field_simp
 
 theorem thS_eq [DecidableEq ι] (φ : Matrix κ ι ℚ → ℂ) (τ : Matrix ι ι ℂ) (ζ : κ → ι → ℂ) :

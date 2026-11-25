@@ -1,7 +1,6 @@
 module
 
 public import CompanionTheory.RealGroups.DiscreteSeries.DiscreteSeriesClassification.DiscreteSeriesExhaustion.FarRegularity.LKTExists
-import CompanionTheory.SpectralGeometry.LocalGlobalProofs.StableLattices.InjUOfInjR
 
 @[expose] public section
 
@@ -22,12 +21,12 @@ theorem cre_ann_ne (i k : Pos n) (x : Cn n V) (A : Finset (Pos n))
     sg i (A.erase k) • x (insert i (A.erase k))) else 0) ≠ 0 at h
   by_cases hk : k ∈ A
   · by_cases hi : i ∈ A.erase k
-    · rw [if_pos hk, if_pos hi, smul_zero] at h
+    · rw [ite_eq_left hk, ite_eq_left hi, smul_zero] at h
       exact absurd rfl h
     · refine ⟨hk, hi, fun hx => ?_⟩
-      rw [if_pos hk, if_neg hi, hx, smul_zero, smul_zero] at h
+      rw [ite_eq_left hk, ite_eq_right hi, hx, smul_zero, smul_zero] at h
       exact h rfl
-  · rw [if_neg hk] at h
+  · rw [ite_eq_right hk] at h
     exact absurd rfl h
 
 theorem lF_ne (E : Fin n → Fin n → Module.End ℂ V) (p q : Fin n) (x : Cn n V) (A : Finset (Pos n))
@@ -51,7 +50,20 @@ theorem lF_ne (E : Fin n → Fin n → Module.End ℂ V) (p q : Fin n) (x : Cn n
 
 theorem inU_of_adC {lev : Fin n → ℕ} {p q : Fin n} (hpq : lev p = lev q) {i k : Pos n}
     (h : adC p q i k ≠ 0) (hi : inU lev i) : inU lev k := by
-  apply _root_.GlobalTheory.CompanionTheory.RgExhStableChains.inU_of_adC <;> assumption
+  unfold adC at h
+  unfold inU at hi ⊢
+  by_cases h1 : q = (i : Fin n × Fin n).1 ∧ (k : Fin n × Fin n) = (p, (i : Fin n × Fin n).2)
+  · rw [h1.2]
+    show lev p < lev (i : Fin n × Fin n).2
+    rw [hpq, h1.1]
+    exact hi
+  · by_cases h2 : (i : Fin n × Fin n).2 = p ∧ (k : Fin n × Fin n) = ((i : Fin n × Fin n).1, q)
+    · rw [h2.2]
+      show lev (i : Fin n × Fin n).1 < lev q
+      rw [← hpq, ← h2.1]
+      exact hi
+    · rw [ite_eq_right h1, ite_eq_right h2, sub_zero] at h
+      exact absurd rfl h
 
 theorem lF_suppIn_deg (n : ℕ) (lev : Fin n → ℕ) (V : Type) [AddCommGroup V] [Module ℂ V]
     (E : Fin n → Fin n → Module.End ℂ V) (_hlev : Monotone lev) (x : Cn n V)

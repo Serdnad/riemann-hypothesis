@@ -1,53 +1,7 @@
 module
 
-import Development.WeilBound.CoreStatements.HodgeTatePoints.CbBase
 public import Development.WeilBound.CoreStatements.HodgeTatePoints.GermCompOneAssocOfConstantCoeffZero
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Algebra.Order.Star.Int
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.Order.CompletePartialOrder
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Topology.Sheaves.Init
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.HasSubstEv
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.TaylorDiscriminants.ChartChgPfTP
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.TaylorDiscriminants.WickVanishing.GaugeBilinearTermEqNegDoubleSum
@@ -229,8 +183,33 @@ theorem bil_calc : ∀ (R : Type) [CommRing R] (d : ℕ) (f g : PS R 2 d) (φ ψ
     fun m n hm hn => bil_ptPow f hm hn⟩
 
 theorem lin_add (G : FGLaw R d) {a b : Pt R 1 d} (ha : Z a) (hb : Z b) :
-    lin (G.add a b) 1 = lin a 1 + lin b 1 :=
-  _root_.PositivityTheory.HtPt.Cb.lin_add G ha hb
+    lin (G.add a b) 1 = lin a 1 + lin b 1 := by
+  have hcoeff {σ : Type} (s : σ) (g : MvPowerSeries σ R) :
+      coeff (Finsupp.single s 1) g = constantCoeff (pderiv s g) := by
+    simp [← coeff_zero_eq_constantCoeff_apply, coeff_pderiv]
+  have hF1 : ∀ i l, constantCoeff (pderiv ((1 : Fin 2), l) (G.F i)) = if i = l then 1 else 0 := by
+    intro i l
+    have h := coeff_ev_zero_left (G.F i) (Finsupp.single ((0 : Fin 1), l) 1)
+    rw [G.unit i, Finsupp.embDomain_single, coeff_X] at h
+    rw [← hcoeff]
+    refine h.symm.trans ?_
+    by_cases h' : i = l
+    · subst h'
+      simp
+    · simp [Finsupp.single_eq_single_iff, Ne.symm h', h']
+  have hF0 : ∀ i l, constantCoeff (pderiv ((0 : Fin 2), l) (G.F i)) = if i = l then 1 else 0 := by
+    intro i l
+    have h2 := coeff_ev_swap' (G.F i) (Finsupp.single ((0 : Fin 2), l) 1)
+    rw [G.comm i, Finsupp.embDomain_single] at h2
+    rw [← hcoeff, h2, ← hF1 i l, hcoeff]
+    rfl
+  ext i j
+  simp only [Matrix.add_apply, lin, FGLaw.add, addOf]
+  rw [hcoeff, hcoeff, hcoeff,
+    ReciprocityTheory.ChartRestriction.G.TB.ChartChgPfTP.pderiv_ev _ (cechDeRhamTotalCocyclesTwo ha hb),
+    map_sum, Fintype.sum_prod_type, Fin.sum_univ_two]
+  simp only [map_mul, cc_ev (cechDeRhamTotalCocyclesTwo ha hb)]
+  simp [hF0, hF1]
 
 variable {O : Type} [CommRing O] [StarRing O]
 
@@ -252,26 +231,6 @@ theorem act_zero_eq (B : FB R d O) : B.A.act 0 = 0 := by
     have h0 : rho B 0 = 0 := by simpa using h
     intro i j
     exact congrFun (congrFun h0 i) j
-  have hdeg1 : ∀ e : Fin 1 × Fin d →₀ ℕ, Finsupp.degree e = 1 → ∃ t, e = Finsupp.single t 1 := by
-    intro e he
-    obtain ⟨t, ht⟩ : ∃ t, e t ≠ 0 := by
-      by_contra hne
-      push_neg at hne
-      have : e = 0 := Finsupp.ext hne
-      simp [this] at he
-    refine ⟨t, ?_⟩
-    have hle : Finsupp.single t 1 ≤ e := by
-      intro s
-      rw [Finsupp.single_apply]
-      split_ifs with hs
-      · subst hs
-        omega
-      · exact Nat.zero_le _
-    have hsum := congrArg Finsupp.degree (tsub_add_cancel_of_le hle)
-    rw [map_add (f := _), Finsupp.degree_single, he] at hsum
-    have hz : Finsupp.degree (e - Finsupp.single t 1) = 0 := by omega
-    rw [Finsupp.degree_eq_zero_iff, tsub_eq_zero_iff_le] at hz
-    exact le_antisymm hz hle
   have hord : ∀ i, (2 : ℕ∞) ≤ (B.A.act 0 i).order := by
     intro i
     apply MvPowerSeries.le_order
@@ -281,7 +240,7 @@ theorem act_zero_eq (B : FB R d O) : B.A.act 0 = 0 := by
     · rw [Nat.lt_one_iff, Finsupp.degree_eq_zero_iff] at h0
       subst h0
       simpa using hc i
-    · obtain ⟨⟨q, j⟩, rfl⟩ := hdeg1 e h1
+    · obtain ⟨⟨q, j⟩, rfl⟩ := (Finsupp.sum_eq_one_iff e).mp h1
       have hq : q = 0 := Subsingleton.elim _ _
       subst hq
       exact hlin i j
@@ -408,36 +367,10 @@ theorem act_zero : ∀ (R : Type) [CommRing R] (d : ℕ) (O : Type) [CommRing O]
   · rw [Nat.cast_succ, B.A.add_act, B.A.one_act]
   · rw [← B.A.mul_act, ← B.A.mul_act, mul_comm]
   · unfold GlobalTheory.CompanionTheory.Ar.Conj.pow1
-    apply axOne_prod
-    intro k
-    have hφ : Z (B.A.act (k : O)) := B.A.const _
-    have ha : ZZ (![comp1 (B.A.act (k : O)) (pt R d 0), pt R d 0, pt R d 1] : Fin 3 → Pt R 2 d) :=
-      zero_constant_triple (Z_comp1 hφ (Z_pt 0)) (Z_pt 0) (Z_pt 1)
-    constructor
-    · rw [ev_ev ha ZZa]
-      convert eval3_axiom_zero B.cocycleLeft_zero_fst (Z_zero (n := 1)) (Z_pt (R := R) (d := d) (n := 1) 0) using 2
-      funext j
-      fin_cases j <;> simp [evalPoints_comp ZZa, evalPoints_coordinatePoint ZZa, germComp1_zero_of_noConstantCoeff hφ, Z_pt]
-    · rw [ev_ev ha ZZb]
-      convert eval3_axiom_two B.cocycleLeft_zero_thd (Z_comp1 hφ (Z_pt (R := R) (d := d) (n := 1) 0))
-        (Z_pt (R := R) (d := d) (n := 1) 0) using 2
-      funext j
-      fin_cases j <;> simp [evalPoints_comp ZZb, evalPoints_coordinatePoint ZZb, Z_pt]
+    refine axOne_prod _ _ fun k => ?_
+    simpa only [comp1_identity_left] using axOne_xxz (ax3_ph1 B) (B.A.const (k : O)) (Z_pt 0)
   · unfold GlobalTheory.CompanionTheory.Ar.Conj.pow2
-    apply axOne_prod
-    intro k
-    have hφ : Z (B.A.act (k : O)) := B.A.const _
-    have ha : ZZ (![pt R d 0, comp1 (B.A.act (k : O)) (pt R d 1), pt R d 1] : Fin 3 → Pt R 2 d) :=
-      zero_constant_triple (Z_pt 0) (Z_comp1 hφ (Z_pt 1)) (Z_pt 1)
-    constructor
-    · rw [ev_ev ha ZZa]
-      convert eval3_axiom_zero B.cocycleRight_zero_fst (Z_comp1 hφ (Z_pt (R := R) (d := d) (n := 1) 0))
-        (Z_pt (R := R) (d := d) (n := 1) 0) using 2
-      funext j
-      fin_cases j <;> simp [evalPoints_comp ZZa, evalPoints_coordinatePoint ZZa, Z_pt]
-    · rw [ev_ev ha ZZb]
-      convert eval3_axiom_one B.cocycleRight_zero_snd (Z_pt (R := R) (d := d) (n := 1) 0) (Z_zero (n := 1)) using 2
-      funext j
-      fin_cases j <;> simp [evalPoints_comp ZZb, evalPoints_coordinatePoint ZZb, germComp1_zero_of_noConstantCoeff hφ, Z_pt]
+    refine axOne_prod _ _ fun k => ?_
+    simpa only [comp1_identity_left] using axOne_xzz (ax3_ph2 B) (B.A.const (k : O)) (Z_pt 0)
 
 end PositivityTheory.HtPt.Ca

@@ -1,6 +1,5 @@
 module
 
-import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ValuesOfFrame
 public import Development.WeilBound.CoreStatements.FlagImmersions.Transport
 public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.IsExcisionNbhdAway
 public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ChartPshPhMu
@@ -21,45 +20,8 @@ import Development.AutomorphicSpectrum.Proofs.GeometryProofs.HodgeHermitianFormE
 import Development.AutomorphicSpectrum.Proofs.GeometryProofs.InteriorPointPolarised
 import Development.AutomorphicSpectrum.Proofs.GeometryProofs.PairSumFrameAtPoint
 import Development.WeilBound.CoreStatements.HodgeTatePoints.HtatLie
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Etale.Weakly
-import Mathlib.RingTheory.Finiteness.ModuleFinitePresentation
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.HaveILetI
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
 
 @[expose] public section
 
@@ -97,8 +59,59 @@ theorem stalk_model [IsCommMonObj G] [Smooth G.hom] {Li : Type} [AddCommGroup Li
       (∀ e ∈ M.lat ⟨centre z, h⟩, ∃ t, i t = e) ∧
       (∀ ψ : T →+ L, (∀ (a : X.presheaf.stalk (centre z)) t, ψ (a • t) = (Scheme.stalkClosedPointTo z).hom a * ψ t) →
         ∃ F : V →ₗ[L] L, ∀ t, F (β t) = ψ t) ∧
-      ∀ P : Submodule L V, (∀ t, β t ∈ P) → P = ⊤ :=
-  _root_.GlobalTheory.CompanionTheory.Ar.Cusp.PtHt.FrameVal.stalk_model M hξ z h Mz
+      ∀ P : Submodule L V, (∀ t, β t ∈ P) → P = ⊤ := by
+  obtain ⟨T, iT, mT, ⟨M0⟩⟩ := lieModel_exists X G (X.presheaf.stalk (centre z)) (X.fromSpecStalk (centre z))
+  let q : Cpt ξ := ⟨centre z, h⟩
+  have exi : ∀ t, ∃ e, M.pt e = LieTangent.epsBase (genMap ξ q) (LieTangent.spec_genMap ξ q) ≫ M0.pt t := fun t =>
+    M.onto _ (LieTangent.isTanAt_base _ _ (M0.tan t))
+  choose fi hfi using exi
+  have exb : ∀ t, ∃ x, Mz.pt x = LieTangent.epsBase _ (LieTangent.spec_centre z) ≫ M0.pt t := fun t =>
+    Mz.onto _ (LieTangent.isTanAt_base _ _ (M0.tan t))
+  choose fb hfb using exb
+  let i : T →+ Li := AddMonoidHom.mk' fi fun a b => M.inj (by rw [M.add, hfi, hfi, hfi, M0.add, comp_mul])
+  let β : T →+ V := AddMonoidHom.mk' fb fun a b => Mz.inj (by rw [Mz.add, hfb, hfb, hfb, M0.add, comp_mul])
+  have hi : ∀ t, M.pt (i t) = LieTangent.epsBase (genMap ξ q) (LieTangent.spec_genMap ξ q) ≫ M0.pt t := hfi
+  have hβ : ∀ t, Mz.pt (β t) = LieTangent.epsBase _ (LieTangent.spec_centre z) ≫ M0.pt t := hfb
+  have hext : ∀ t, M.Extends q (i t) (M0.pt t) := fun t => (M.extends_iff _ _ _).2 ⟨M0.tan t, hi t⟩
+  have hsi : ∀ (a : X.presheaf.stalk (centre z)) t, i (a • t) = genMap ξ q a • i t := fun a t => M.inj (by
+    rw [hi, LieModel.pt_smul, LieModel.pt_smul, hi, ← Category.assoc, LieTangent.base_scale, Category.assoc])
+  have hsβ : ∀ (a : X.presheaf.stalk (centre z)) t, β (a • t) = (Scheme.stalkClosedPointTo z).hom a • β t :=
+    fun a t => Mz.inj (by
+      rw [hβ, LieModel.pt_smul, LieModel.pt_smul, hβ, ← Category.assoc, LieTangent.base_scale, Category.assoc]
+      rfl)
+  have honto : ∀ e ∈ M.lat q, ∃ t, i t = e := by
+    intro e he
+    obtain ⟨w, hw⟩ := (M.mem_lat_iff q e).1 he
+    obtain ⟨t, rfl⟩ := M0.onto w hw.1
+    refine ⟨t, M.inj ?_⟩
+    rw [hi, ((M.extends_iff _ _ _).1 hw).2]
+  letI alg : Algebra (X.presheaf.stalk (centre z)) L := (Scheme.stalkClosedPointTo z).hom.toAlgebra
+  letI mV : Module (X.presheaf.stalk (centre z)) V := Module.compHom V (Scheme.stalkClosedPointTo z).hom
+  have hmV : ∀ (a : X.presheaf.stalk (centre z)) (x : V), a • x = (Scheme.stalkClosedPointTo z).hom a • x :=
+    fun _ _ => rfl
+  haveI tower : IsScalarTower (X.presheaf.stalk (centre z)) L V :=
+    ⟨fun a b x => by rw [Algebra.smul_def, hmV, mul_smul]; rfl⟩
+  obtain ⟨M', hM'⟩ := exists_model_of_eq
+    (show z = Spec.map (CommRingCat.ofHom (algebraMap (X.presheaf.stalk (centre z)) L)) ≫ X.fromSpecStalk (centre z)
+      from (LieTangent.spec_centre z).symm) Mz
+  let j : T →ₗ[X.presheaf.stalk (centre z)] V :=
+    { toFun := β
+      map_add' := map_add β
+      map_smul' := fun a t => hsβ a t }
+  have hbc : IsBaseChange L j := (PositivityTheory.HtPt.Htat.lie_proj X G (X.presheaf.stalk (centre z)) (X.fromSpecStalk (centre z)) T M0).2.2
+    L V M' j fun t => by
+      rw [hM']
+      exact congrArg (fun w => w.left) (hβ t)
+  refine ⟨T, iT, mT, M0, i, β, hext, hβ, hsi, hsβ, honto, fun ψ hψ => ?_, fun P hP => ?_⟩
+  · let ψl : T →ₗ[X.presheaf.stalk (centre z)] L :=
+      { toFun := ψ
+        map_add' := map_add ψ
+        map_smul' := fun a t => by
+          rw [hψ, RingHom.id_apply, Algebra.smul_def]
+          rfl }
+    exact ⟨hbc.lift ψl, fun t => hbc.lift_eq ψl t⟩
+  · refine eq_top_iff.2 fun x _ => ?_
+    exact hbc.inductionOn x hP (fun c n hn => P.smul_mem c hn) (fun _ _ => P.add_mem)
 
 theorem exists_functional [IsCommMonObj G] [Smooth G.hom] {Li : Type} [AddCommGroup Li] [Module Ω Li] (M : LieModel G ξ Li)
     (hξ : IsCptGen ξ) {L : Type} [Field L] (z : Sp L ⟶ X) (h : genPt ξ ⤳ centre z) {V : Type} [AddCommGroup V]

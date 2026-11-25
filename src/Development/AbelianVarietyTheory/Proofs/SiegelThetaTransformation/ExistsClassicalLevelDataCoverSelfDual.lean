@@ -1,60 +1,17 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.AdmissibleColumnsLeAndHarmonicMapCover
 public import Development.AbelianVarietyTheory.Definitions.SpanningFamilies.IsBaseClassLevelAdapted
 public import Development.AbelianVarietyTheory.Counterexamples.LevelGroupExamples.ZeroNotAdmissibleOfRankPos
 public import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.LevelStructureProperties
 public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.GeneralLinearGroupCharEqOneOfDetEqOne
 public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.HalvesFreeAndAdjoint
 import Mathlib.Algebra.AffineMonoid.Basic
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
 import Mathlib.LinearAlgebra.FreeModule.IdealQuotient
 public import Mathlib.LinearAlgebra.Span.TensorProduct
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
 import Mathlib.RingTheory.Coalgebra.IsFrobenius
 import Mathlib.RingTheory.Henselian
-import Mathlib.RingTheory.Radical.NatInt
 import Mathlib.RingTheory.RegularLocalRing.Defs
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.HaveILetI
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.PullbackSections.HolomorphicFamilies.CmHostUnitAddConjEqOne
 
 @[expose] public section
@@ -65,7 +22,6 @@ open ReciprocityTheory.ChartRestriction.G.Geo.Tor hiding Level
 open GlobalTheory.SW hiding Level
 open Formalism.L2.Pj Formalism.L2.PjFree
 open scoped ComplexConjugate Classical
-attribute [local instance] Over.cartesianMonoidalCategory
 open GlobalTheory.Dict
 
 namespace GlobalTheory.LevelTied
@@ -398,7 +354,15 @@ theorem natCast_mem_Mfr {H : Host E} (l : Geo.Tor.Level H) : (l.M : 𝓞 E) ∈ 
   (l.prod ▸ Ideal.mul_le_right : Ideal.span {(l.M : 𝓞 E)} ≤ Mfr l) (Ideal.mem_span_singleton_self _)
 
 theorem Mfr_ne_top {H : Host E} (l : Geo.Tor.Level H) : Mfr l ≠ ⊤ := by
-  apply _root_.GlobalTheory.Mfr_ne_top <;> assumption
+  intro h
+  have h1 : l.Mb = ⊤ := by
+    rw [← conjI_Mfr, h, eq_top_iff]; exact fun a _ => mem_conjI.2 trivial
+  have h2 := l.prod
+  rw [h1, Ideal.map_top, Ideal.mul_top, eq_comm, Ideal.span_singleton_eq_top] at h2
+  have h3 : IsUnit (algebraMap ℤ (𝓞 E) (l.M : ℤ)) := by simpa using h2
+  have h4 := Int.isUnit_iff.1 (isUnit_of_map_unit _ _ h3)
+  have := l.three_le
+  omega
 
 theorem cop_of_nat {R : Type} [CommRing R] {I J : Ideal R} {a b : ℕ} (h : Nat.Coprime a b) (ha : (a : R) ∈ I)
     (hb : (b : R) ∈ J) : IsCoprime I J := by
@@ -442,7 +406,7 @@ theorem exists_levTie : ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (
     (MonoidHom.mk' (fun g => (ψ (adj g))⁻¹) fun g g' => by rw [hadj, map_mul, mul_inv, mul_comm])
   let ext : (Fin (Dw.p + Dw.q) → LaJ Xo c d) → Fin n → LaJ Xo c d := fun x b =>
     if h : b.val < Dw.p + Dw.q then x ⟨b, h⟩ else 0
-  have hext : ∀ x i, ext x (Fin.castLE hn i) = x i := fun x i => dif_pos i.2
+  have hext : ∀ x i, ext x (Fin.castLE hn i) = x i := fun x i => dite_eq_left i.2
   let f : (Fin (Dw.p + Dw.q) → LaJ Xo c d) → ℂ := fun x => σ (ph (ext x))
   have hf : ∀ x, σ (ph x) = f fun i => x (Fin.castLE hn i) := fun x =>
     congrArg σ (pa _ _ fun b hb => (hext (fun i => x (Fin.castLE hn i)) ⟨b, hb⟩).symm)

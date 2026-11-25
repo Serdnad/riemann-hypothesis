@@ -1,9 +1,7 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.FoundationProofs.CmThetaComplexConjugationCompatible
-import Formalism.LocalToGlobal.KernelLattices.ColumnData.LinkThU
-import Development.AbelianVarietyTheory.Proofs.FoundationProofs.CmFiniteAdeleStrongApproxModAdelicIdeal
 public import Formalism.LocalToGlobal.GlobalTheory.GL3.Statement
+public import Formalism.LocalToGlobal.KernelLattices.ColumnData.LinkThU
 public import Formalism.SharpRestriction.RamificationFrobenius.TotientGaloisClasses.FrameFacts
 public import Formalism.SharpRestriction.RamificationFrobenius.TotientGaloisClasses.HostFacts
 import Mathlib.RingTheory.PiTensorProduct
@@ -53,8 +51,15 @@ def dens (D : D7) (T : Tor D) {N N' : ℕ} (G : VC D N N' → ℂ) (z : VC D N N
 
 theorem dens_U (T : Tor D) (G : VC D N N' → ℂ) (x z : VC D N N') :
     dens D T (U D T x G) z = dens D T G (z + x) := by
-  intros
-  apply _root_.GlobalTheory.ThetaConj.dens_U <;> assumption
+  have h := re_Hf_add T z x
+  simp only [dens, U, norm_mul, Complex.norm_exp, mul_pow]
+  rw [h, mul_assoc, ← Real.exp_nat_mul, ← Real.exp_add]
+  congr 1
+  congr 1
+  simp only [Complex.sub_re, Complex.neg_re, Complex.mul_re, Complex.ofReal_re, Complex.ofReal_im,
+    Complex.div_ofNat_re, zero_mul, sub_zero, Complex.neg_im, neg_zero]
+  push_cast
+  ring
 
 theorem norm_al (T : Tor D) (x : VC D N N') : ‖al D T x‖ = 1 := by
   simp [al, norm_zpow]
@@ -118,32 +123,13 @@ theorem galE_sigmaOf (g : D.R.GG) :
     D.host.galE (D.host.sigmaOf g) = g := by
   exact D.host.gal.apply_symm_apply g
 
-theorem sigmaOf_galE (σ : D.host.E ≃ₐ[ℚ] D.host.E) :
-    D.host.sigmaOf (D.host.galE σ) = σ := by
-  exact D.host.gal.symm_apply_apply σ
-
 theorem embT_K (τ : D.what₂.Tau) (x : D.host.E) (hx : x ∈ D.host.K) :
-    embT D τ x = D.host.φ₀ x := by
-  set σ := D.host.sigmaOf ((D.eTau τ : D.R.Psi) : D.R.GG)
-  have hb : σ (D.host.sqd) = D.host.sqd := by
-    rw [← D.host.galE_mem_Psi_iff]
-    rw [galE_sigmaOf]
-    exact (D.eTau τ).2
-  have hfix : σ x = x := by
-    have hx' : x ∈ IntermediateField.adjoin ℚ {D.host.sqd} := hx
-    clear hx
-    induction hx' using IntermediateField.adjoin_induction with
-    | mem y hy => rw [Set.mem_singleton_iff.mp hy]; exact hb
-    | algebraMap r => rw [eq_ratCast (algebraMap ℚ D.host.E) r]; exact map_ratCast σ r
-    | add y z _ _ h1 h2 => rw [map_add (f := _), h1, h2]
-    | inv y _ h1 => rw [map_inv₀, h1]
-    | mul y z _ _ h1 h2 => rw [map_mul, h1, h2]
-  show D.host.φ₀ (σ x) = _
-  rw [hfix]
+    embT D τ x = D.host.φ₀ x :=
+  Formalism.L2.Ker.Cd.IntegralLatticeDensity.FL.embT_K (Formalism.L2.Ker.Car.ofRec D) τ x hx
 
 theorem emb_cases (φ : D.host.E →+* ℂ) :
-    ∃ τ : D.what₂.Tau, φ = embT D τ ∨ φ = (starRingEnd ℂ).comp (embT D τ) := by
-  exact _root_.Formalism.L2.Ker.Cd.IntegralLatticeDensity.FL.emb_cases (_root_.Formalism.L2.Ker.Car.ofRec D) φ
+    ∃ τ : D.what₂.Tau, φ = embT D τ ∨ φ = (starRingEnd ℂ).comp (embT D τ) :=
+  Formalism.L2.Ker.Cd.IntegralLatticeDensity.FL.emb_cases (Formalism.L2.Ker.Car.ofRec D) φ
 
 end Formalism.L2.GlobalTheoryTheory.IntegralLatticeDensity.FL
 
@@ -155,39 +141,12 @@ variable (D : D7)
 
 def embP (x : D.host.E) : D.what₂.Tau → ℂ := fun τ => embT D τ x
 
-theorem sum_emb_zero {ι : Type*} [Fintype ι] (b : ι → D.host.E) (g : ι → ℝ)
-    (h : ∀ τ, ∑ i, (g i : ℂ) * embT D τ (b i) = 0) (φ : D.host.E →+* ℂ) :
-    ∑ i, (g i : ℂ) * φ (b i) = 0 := by
-  obtain ⟨τ, rfl | rfl⟩ := emb_cases D φ
-  · exact h τ
-  · have h1 := congrArg (starRingEnd ℂ) (h τ)
-
-    simpa [map_sum, map_mul, Complex.conj_ofReal] using h1
-
 theorem card_tau : Fintype.card D.what₂.Tau = 2 * D.R.ord := by
   rw [← Nat.card_eq_fintype_card, Nat.card_congr D.eTau, Formalism.HC.Frame.natCard_Psi]
 
-theorem linInd_embP :
-    LinearIndependent ℝ (fun i => embP D (integralBasis D.host.E i)) := by
-  exact _root_.Formalism.L2.Ker.Cd.IntegralLatticeDensity.FL.linInd_embP (_root_.Formalism.L2.Ker.Car.ofRec D)
-
 theorem span_embP :
-    Submodule.span ℝ (Set.range (fun b : 𝓞 D.host.E => embP D (b : D.host.E))) = ⊤ := by
-  have hne : Nonempty (Module.Free.ChooseBasisIndex ℤ (𝓞 D.host.E)) := by
-    rw [← Fintype.card_pos_iff, ← Module.finrank_eq_card_basis (integralBasis D.host.E)]
-    exact Module.finrank_pos
-  have hc : Fintype.card (Module.Free.ChooseBasisIndex ℤ (𝓞 D.host.E)) =
-      Module.finrank ℝ (D.what₂.Tau → ℂ) := by
-    rw [← Module.finrank_eq_card_basis (integralBasis D.host.E),
-      D.host.finrank_cmField, Module.finrank_pi_fintype]
-    simp only [Complex.finrank_real_complex, Finset.sum_const, Finset.card_univ, card_tau,
-      smul_eq_mul]
-    ring
-  have htop := (linInd_embP D).span_eq_top_of_card_eq_finrank hc
-  rw [eq_top_iff, ← htop]
-  apply Submodule.span_mono
-  rintro _ ⟨i, rfl⟩
-  exact ⟨RingOfIntegers.basis D.host.E i, by simp [integralBasis_apply]⟩
+    Submodule.span ℝ (Set.range (fun b : 𝓞 D.host.E => embP D (b : D.host.E))) = ⊤ :=
+  Formalism.L2.Ker.Cd.IntegralLatticeDensity.FL.span_embP (Formalism.L2.Ker.Car.ofRec D)
 
 theorem finite_ball (r : ℝ) : {x : 𝓞 D.host.E | ∀ τ, ‖embT D τ (x : D.host.E)‖ ≤ r}.Finite := by
   have hfin := NumberField.Embeddings.finite_of_norm_le D.host.E ℂ r
@@ -219,80 +178,20 @@ open NumberField Formalism.BasicNotions Formalism.MainNotions.TaylorLogMetric Fo
 
 variable (D : D7)
 
-theorem isIntegral_iff_mem (x : D.host.E) :
-    x ∈ (algebraMap (𝓞 D.host.E) D.host.E).range ↔ IsIntegral ℤ x := by
-  rw [RingHom.mem_range]
-  exact (IsIntegralClosure.isIntegral_iff (A := 𝓞 D.host.E)).symm
-
 theorem natMul_of (b : 𝓞 D.host.E) (hb : b ≠ 0) :
-    ∃ n : ℕ, n ≠ 0 ∧ ∃ t : 𝓞 D.host.E, (n : 𝓞 D.host.E) = t * b := by
-  have hI : (Ideal.span {b}).comap (algebraMap ℤ (𝓞 D.host.E)) ≠ ⊥ :=
-    Ideal.comap_ne_bot_of_integral_mem hb (Ideal.mem_span_singleton_self b)
-      (Algebra.IsIntegral.isIntegral b)
-  obtain ⟨m, hm, hm0⟩ := Submodule.exists_mem_ne_zero_of_ne_bot hI
-  rw [Ideal.mem_comap, Ideal.mem_span_singleton'] at hm
-  obtain ⟨a, ha⟩ := hm
-  obtain ⟨n, rfl | rfl⟩ := Int.eq_nat_or_neg m
-  · refine ⟨n, by exact_mod_cast hm0, a, ?_⟩
-    rw [ha]
-    simp
-  · refine ⟨n, by simpa using hm0, -a, ?_⟩
-    rw [neg_mul, ha]
-    simp
+    ∃ n : ℕ, n ≠ 0 ∧ ∃ t : 𝓞 D.host.E, (n : 𝓞 D.host.E) = t * b :=
+  Formalism.L2.Ker.Cd.IntegralLatticeDensity.FL.natMul_of (Formalism.L2.Ker.Car.ofRec D) b hb
 
 theorem exists_int_mul (T : Finset D.host.E) :
-    ∃ m : ℤ, m ≠ 0 ∧ ∀ x ∈ T, IsIntegral ℤ ((m : D.host.E) * x) := by
-  classical
-  have h1 : ∀ x : D.host.E, ∃ m : ℤ, m ≠ 0 ∧ IsIntegral ℤ ((m : D.host.E) * x) := by
-    intro x
-    obtain ⟨a, b, hb, rfl⟩ := IsFractionRing.div_surjective (A := 𝓞 D.host.E) x
-    obtain ⟨n, hn, t, ht⟩ := natMul_of D b (nonZeroDivisors.ne_zero hb)
-    refine ⟨n, by exact_mod_cast hn, ?_⟩
-    have hb' : algebraMap (𝓞 D.host.E) D.host.E b ≠ 0 :=
-      IsFractionRing.to_map_ne_zero_of_mem_nonZeroDivisors hb
-    have h2 : ((n : ℤ) : D.host.E) * (algebraMap (𝓞 D.host.E) D.host.E a /
-        algebraMap (𝓞 D.host.E) D.host.E b) = algebraMap (𝓞 D.host.E) D.host.E (t * a) := by
-      rw [map_mul, Int.cast_natCast, ← map_natCast (algebraMap (𝓞 D.host.E) D.host.E), ht, map_mul]
-      field_simp
-    rw [h2]
-    exact NumberField.RingOfIntegers.isIntegral_coe _
-  have hcast : ∀ m : ℤ, IsIntegral ℤ (m : D.host.E) := fun m => by
-    simpa using (isIntegral_algebraMap : IsIntegral ℤ (algebraMap ℤ D.host.E m))
-  refine Finset.induction_on T ⟨1, one_ne_zero, by simp⟩ ?_
-  intro a s _ ih
-  obtain ⟨m, hm, hs⟩ := ih
-  obtain ⟨k, hk, ha'⟩ := h1 a
-  refine ⟨m * k, mul_ne_zero hm hk, fun x hx => ?_⟩
-  rcases Finset.mem_insert.1 hx with rfl | hx
-  · have h3 : ((m * k : ℤ) : D.host.E) * x = (m : D.host.E) * ((k : D.host.E) * x) := by
-      push_cast; ring
-    rw [h3]
-    exact (hcast m).mul ha'
-  · have h3 : ((m * k : ℤ) : D.host.E) * x = (k : D.host.E) * ((m : D.host.E) * x) := by
-      push_cast; ring
-    rw [h3]
-    exact (hcast k).mul (hs x hx)
+    ∃ m : ℤ, m ≠ 0 ∧ ∀ x ∈ T, IsIntegral ℤ ((m : D.host.E) * x) :=
+  Formalism.L2.Ker.Cd.IntegralLatticeDensity.FL.exists_int_mul (Formalism.L2.Ker.Car.ofRec D) T
 
-theorem sd_bounds {N : ℕ} (L : Submodule (𝓞 D.host.E) (Fin N → D.host.E))
-    (hL : letI := D.host.cmStar; IsSDLat D.host.E N L) :
-    ∃ m : ℤ, m ≠ 0 ∧ (∀ x ∈ L, ∀ i, IsIntegral ℤ ((m : D.host.E) * x i)) ∧
-      (∀ z : Fin N → D.host.E, (∀ i, IsIntegral ℤ (z i)) → (fun i => (m : D.host.E) * z i) ∈ L) := by
-  apply (_root_.Formalism.L2.Ker.Cd.IntegralLatticeDensity.FL.sd_bounds (D := _root_.Formalism.L2.Ker.Car.ofRec D)) <;> assumption
-
-theorem one_mem_inverse_halfDifferent : (1 : D.host.E) ∈ (D.host.AA0 : Submodule (𝓞 D.host.E) D.host.E) := by
-  apply _root_.GlobalTheory.AdelicApprox.one_mem_inverse_halfDifferent <;> assumption
+theorem one_mem_inverse_halfDifferent : (1 : D.host.E) ∈ (D.host.AA0 : Submodule (𝓞 D.host.E) D.host.E) :=
+  Formalism.L2.Ker.Cd.IntegralLatticeDensity.FL.one_mem_inverse_halfDifferent (Formalism.L2.Ker.Car.ofRec D)
 
 theorem exists_int_clearing_order_denominators : ∃ k : ℤ, k ≠ 0 ∧ ∀ a ∈ (D.host.AA0 : Submodule (𝓞 D.host.E) D.host.E),
-    IsIntegral ℤ ((k : D.host.E) * a) := by
-  obtain ⟨a, ha, hint⟩ := (D.host.AA0).isFractional
-  obtain ⟨n, hn, t, ht⟩ := natMul_of D a (nonZeroDivisors.ne_zero ha)
-  refine ⟨n, by exact_mod_cast hn, fun b hb => ?_⟩
-  obtain ⟨y, hy⟩ := hint b hb
-  have h1 : ((n : ℤ) : D.host.E) * b = algebraMap (𝓞 D.host.E) D.host.E (t * y) := by
-    rw [map_mul, hy, Algebra.smul_def, ← mul_assoc, ← map_mul, ← ht]
-    simp
-  rw [h1]
-  exact NumberField.RingOfIntegers.isIntegral_coe _
+    IsIntegral ℤ ((k : D.host.E) * a) :=
+  Formalism.L2.Ker.Cd.IntegralLatticeDensity.FL.exists_int_clearing_order_denominators (Formalism.L2.Ker.Car.ofRec D)
 
 end Formalism.L2.GlobalTheoryTheory.IntegralLatticeDensity.FL
 
@@ -302,64 +201,20 @@ open NumberField Formalism.BasicNotions Formalism.MainNotions.TaylorLogMetric Fo
 
 variable (D : D7)
 
-theorem hom_upper {N N' : ℕ} (L : Submodule (𝓞 D.host.E) (Fin N → D.host.E))
-    (L' : Submodule (𝓞 D.host.E) (Fin N' → D.host.E))
-    (hL : letI := D.host.cmStar; IsSDLat D.host.E N L)
-    (hL' : letI := D.host.cmStar; IsSDLat D.host.E N' L') :
-    ∃ M : ℤ, M ≠ 0 ∧ ∀ A ∈ homL D L L', ∀ i j, IsIntegral ℤ ((M : D.host.E) * A i j) := by
-  apply (_root_.Formalism.L2.Ker.Cd.IntegralLatticeDensity.FL.hom_upper (D := _root_.Formalism.L2.Ker.Car.ofRec D)) <;> assumption
-
-theorem hom_lower {N N' : ℕ} (L : Submodule (𝓞 D.host.E) (Fin N → D.host.E))
-    (L' : Submodule (𝓞 D.host.E) (Fin N' → D.host.E))
-    (hL : letI := D.host.cmStar; IsSDLat D.host.E N L)
-    (hL' : letI := D.host.cmStar; IsSDLat D.host.E N' L') :
-    ∃ M : ℤ, M ≠ 0 ∧ ∀ A : Matrix (Fin N') (Fin N) D.host.E, (∀ i j, IsIntegral ℤ (A i j)) →
-      ((M : D.host.E) • A) ∈ homL D L L' := by
-  obtain ⟨m, hm, hLi, hLo⟩ := sd_bounds D L hL
-  obtain ⟨m', hm', hL'i, hL'o⟩ := sd_bounds D L' hL'
-  refine ⟨m * m', mul_ne_zero hm hm', fun A hA => Submodule.subset_span ?_⟩
-  intro x hx
-  have hz : ∀ i, IsIntegral ℤ ((A.mulVec (fun k => (m : D.host.E) * x k)) i) := by
-    intro i
-    simp only [Matrix.mulVec, dotProduct]
-    exact IsIntegral.sum _ fun k _ => (hA i k).mul (hLi x hx k)
-  change (((m * m' : ℤ) : D.host.E) • A).mulVec x ∈ L'
-  rw [mul_comm m m', Int.cast_mul, Matrix.smul_mulVec, mul_smul, ← Matrix.mulVec_smul]
-  exact hL'o _ hz
-
-theorem YY_upper {N N' : ℕ} (L : Submodule (𝓞 D.host.E) (Fin N → D.host.E))
-    (L' : Submodule (𝓞 D.host.E) (Fin N' → D.host.E))
-    (hL : letI := D.host.cmStar; IsSDLat D.host.E N L)
-    (hL' : letI := D.host.cmStar; IsSDLat D.host.E N' L') :
-    ∃ M : ℤ, M ≠ 0 ∧ ∀ B ∈ YYl D L L', ∀ i j, IsIntegral ℤ ((M : D.host.E) * B i j) := by
-  apply (_root_.Formalism.L2.Ker.Cd.IntegralLatticeDensity.FL.YY_upper (D := _root_.Formalism.L2.Ker.Car.ofRec D)) <;> assumption
-
 theorem YY_lower {N N' : ℕ} (L : Submodule (𝓞 D.host.E) (Fin N → D.host.E))
     (L' : Submodule (𝓞 D.host.E) (Fin N' → D.host.E))
     (hL : letI := D.host.cmStar; IsSDLat D.host.E N L)
     (hL' : letI := D.host.cmStar; IsSDLat D.host.E N' L') :
     ∃ M : ℤ, M ≠ 0 ∧ ∀ A : Matrix (Fin N') (Fin N) D.host.E, (∀ i j, IsIntegral ℤ (A i j)) →
-      ((M : D.host.E) • A) ∈ YYl D L L' := by
-  obtain ⟨M, hM, hhom⟩ := hom_lower D L L' hL hL'
-  exact ⟨M, hM, fun A hA => Submodule.subset_span
-    ⟨1, one_mem_inverse_halfDifferent D, (M : D.host.E) • A, hhom A hA, (one_smul _ _).symm⟩⟩
+      ((M : D.host.E) • A) ∈ YYl D L L' :=
+  Formalism.L2.Ker.Cd.IntegralLatticeDensity.FL.YY_lower (Formalism.L2.Ker.Car.ofRec D) L L' hL hL'
 
 theorem intK (c : 𝓞 D.host.K) : IsIntegral ℤ (((c : D.host.K) : D.host.E)) := by
   exact IsIntegral.algebraMap (B := D.host.E) (NumberField.RingOfIntegers.isIntegral_coe c)
 
 theorem lam_mem (cc : Ideal (𝓞 D.host.K)) (δ w : ℂ) (hw : w ∈ lamOf D cc δ) :
-    ∃ c ∈ cc, w = δ * D.host.φ₀ (((c : D.host.K) : D.host.E)) := by
-  let f : 𝓞 D.host.K →+ ℂ := (AddMonoidHom.mulLeft δ).comp
-    ((D.host.φ₀ : D.host.E →+* ℂ).toAddMonoidHom.comp
-      ((algebraMap D.host.K D.host.E).toAddMonoidHom.comp
-        (algebraMap (𝓞 D.host.K) D.host.K).toAddMonoidHom))
-  have hle : lamOf D cc δ ≤ (Submodule.toAddSubgroup cc).map f := by
-    show AddSubgroup.closure _ ≤ _
-    rw [AddSubgroup.closure_le]
-    rintro _ ⟨c, hc, rfl⟩
-    exact ⟨c, hc, rfl⟩
-  obtain ⟨c, hc, hcw⟩ := hle hw
-  exact ⟨c, hc, hcw.symm⟩
+    ∃ c ∈ cc, w = δ * D.host.φ₀ (((c : D.host.K) : D.host.E)) :=
+  Formalism.L2.Ker.Cd.IntegralLatticeDensity.FL.lam_mem (Formalism.L2.Ker.Car.ofRec D) cc δ w hw
 
 def Phi {N N' : ℕ} (u : ℂ) : (Fin N' → Fin N → 𝓞 D.host.E) →+ VC D N N' where
   toFun A := fun τ i j => u * embT D τ (A i j : D.host.E)
@@ -369,27 +224,8 @@ def Phi {N N' : ℕ} (u : ℂ) : (Fin N' → Fin N → 𝓞 D.host.E) →+ VC D 
 theorem La_upper {N N' : ℕ} (L : Submodule (𝓞 D.host.E) (Fin N → D.host.E))
     (L' : Submodule (𝓞 D.host.E) (Fin N' → D.host.E)) (hA : admitted D N N' L L')
     (cc : Ideal (𝓞 D.host.K)) (δ : ℂ) :
-    ∃ M : ℤ, M ≠ 0 ∧ La D (tor0 D cc δ) L L' ≤ (Phi D (N := N) (N' := N') (δ / M)).range := by
-  obtain ⟨M, hM, hY⟩ := YY_upper D L L' hA.2.2.1 hA.2.2.2
-  have hM' : (M : ℂ) ≠ 0 := by exact_mod_cast hM
-  refine ⟨M, hM, ?_⟩
-  show AddSubgroup.closure _ ≤ _
-  rw [AddSubgroup.closure_le]
-  rintro _ ⟨w, hw, A, hA', rfl⟩
-  obtain ⟨c, -, rfl⟩ := lam_mem D cc δ w hw
-  have hint : ∀ i j, IsIntegral ℤ ((M : D.host.E) * (((c : D.host.K) : D.host.E) * A i j)) := by
-    intro i j
-    have h1 := (intK D c).mul (hY A hA' i j)
-    rwa [mul_left_comm] at h1
-  choose B hB using fun i j => RingHom.mem_range.1 ((isIntegral_iff_mem D _).2 (hint i j))
-  refine ⟨B, ?_⟩
-  funext τ i j
-  have hB' : ((B i j : 𝓞 D.host.E) : D.host.E) =
-      (M : D.host.E) * (((c : D.host.K) : D.host.E) * A i j) := hB i j
-  show δ / M * embT D τ ((B i j : 𝓞 D.host.E) : D.host.E) =
-    δ * D.host.φ₀ ((c : D.host.K) : D.host.E) * embT D τ (A i j)
-  rw [hB', map_mul, map_mul, map_intCast, embT_K D τ _ (SetLike.coe_mem (c : D.host.K))]
-  field_simp
+    ∃ M : ℤ, M ≠ 0 ∧ La D (tor0 D cc δ) L L' ≤ (Phi D (N := N) (N' := N') (δ / M)).range :=
+  Formalism.L2.Ker.Cd.IntegralLatticeDensity.FL.La_upper (Formalism.L2.Ker.Car.ofRec D) L L' hA cc δ
 
 theorem disc_of_finite {V : Type*} [NormedAddCommGroup V] (S : AddSubgroup V)
     (h : ∀ r : ℝ, {x | x ∈ S ∧ ‖x‖ ≤ r}.Finite) : DiscreteTopology S := by
@@ -432,8 +268,8 @@ theorem La_lower {N N' : ℕ} (L : Submodule (𝓞 D.host.E) (Fin N → D.host.E
     (L' : Submodule (𝓞 D.host.E) (Fin N' → D.host.E)) (hA : admitted D N N' L L')
     (cc : Ideal (𝓞 D.host.K)) (hcc : IsCurveIdeal D cc) (δ : ℂ) :
     ∃ n : ℕ, n ≠ 0 ∧ ∀ (i0 : Fin N') (j0 : Fin N) (b : 𝓞 D.host.E),
-      ins D i0 j0 (fun τ => δ * n * embT D τ (b : D.host.E)) ∈ La D (tor0 D cc δ) L L' := by
-  apply (_root_.Formalism.L2.Ker.Cd.IntegralLatticeDensity.FL.La_lower (D := _root_.Formalism.L2.Ker.Car.ofRec D)) <;> assumption
+      ins D i0 j0 (fun τ => δ * n * embT D τ (b : D.host.E)) ∈ La D (tor0 D cc δ) L L' :=
+  Formalism.L2.Ker.Cd.IntegralLatticeDensity.FL.La_lower (Formalism.L2.Ker.Car.ofRec D) L L' hA cc hcc δ
 
 theorem span_La {N N' : ℕ} (L : Submodule (𝓞 D.host.E) (Fin N → D.host.E))
     (L' : Submodule (𝓞 D.host.E) (Fin N' → D.host.E)) (hA : admitted D N N' L L')

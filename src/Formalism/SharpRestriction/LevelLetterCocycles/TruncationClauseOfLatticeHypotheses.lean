@@ -8,47 +8,7 @@ public import Formalism.SharpRestriction.LevelLetterCocycles.HermFlagUnipotentAn
 public import Formalism.SharpRestriction.LevelLetterCocycles.CompleteOfPow
 import Formalism.SharpRestriction.LevelLetterCocycles.JumpsLetOfWin
 import Formalism.SharpRestriction.LevelLetterCocycles.SaturationPullbackOfRingCondition
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Topology.Sheaves.Init
 import Formalism.SharpRestriction.LevelLetterCocycles.LevelClauseOfOpenTool
-import Mathlib.Tactic.Linter.HaveILetI
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Formalism.SharpRestriction.LevelLetterCocycles.EqUniformizerSmulOfLevelOne, Formalism.SharpRestriction.LevelLetterCocycles.TruncationClauseOfLatticeHypotheses
@@ -124,8 +84,9 @@ theorem serZ_exists [NeZero n] (hinj : Function.Injective (algebraMap O LL))
     (hO2 : ∀ x : LL, 0 ≤ v x → ∃ o : O, algebraMap O LL o = x) (h9 : Formalism.MainNotions.DeltaInvariantLattices.P9W W)
     (hH : Formalism.MainNotions.LiftingTheory.coreH W) (hA : Formalism.MainNotions.LiftingTheory.CaseA W) (T : LocLat G Qp LL O) (hT : IsCrys PD T.ρ)
     (i : ZMod n) (ζ : W.DD T) (hD : Formalism.MainNotions.CrystallineLiftingInputs.DL W T i ζ) (h1 : Formalism.MainNotions.CrystallineLiftingInputs.InPN W T 1 ζ) :
-    ∃ c, Formalism.MainNotions.RamifiedCoefficientChains.S9.ExtensionLemmaAlt.IsSerZ W T i ζ c := by
-  exact ser_exists_of_uniformizer_dvd W hinj hO2 h9 hH hA T hT i ζ (eq_uniformizer_smul_of_level_one W T i hD h1)
+    ∃ c, Formalism.MainNotions.RamifiedCoefficientChains.S9.ExtensionLemmaAlt.IsSerZ W T i ζ c :=
+  ser_exists_of W hinj hO2 h9 hH hA T hT i ζ (eq_uniformizer_smul_of_level_one W T i hD h1)
+
 theorem serZ_unique [NeZero n] (hinj : Function.Injective (algebraMap O LL))
     (hO2 : ∀ x : LL, 0 ≤ v x → ∃ o : O, algebraMap O LL o = x) (h9 : Formalism.MainNotions.DeltaInvariantLattices.P9W W)
     (hH : Formalism.MainNotions.LiftingTheory.coreH W) (hA : Formalism.MainNotions.LiftingTheory.CaseA W) (T : LocLat G Qp LL O) (hT : IsCrys PD T.ρ)
@@ -133,52 +94,13 @@ theorem serZ_unique [NeZero n] (hinj : Function.Injective (algebraMap O LL))
     (hc' : Formalism.MainNotions.RamifiedCoefficientChains.S9.ExtensionLemmaAlt.IsSerZ W T i ζ c') (K : ℕ) : ∃ j : ℕ,
       Formalism.MainNotions.CrystallineLiftingInputs.InPN W T K (((PD.p : ℕ) : O) ^ j • ∑ y ∈ Finset.range K,
         ((PD.p : ℕ) : O) ^ (Formalism.MainNotions.CrystallineLiftingInputs.eY PD.p K - Formalism.MainNotions.CrystallineLiftingInputs.eY PD.p y) •
-          (W.π₀ ^ y • (c y - c' y))) := by
-  exact ser_unique_of_truncations W hinj hO2 h9 hH hA T hT i ζ c c' K
-    hc.1 hc'.1 hc.2.1 hc'.2.1 (hc.2.2 K) (hc'.2.2 K)
+          (W.π₀ ^ y • (c y - c' y))) :=
+  ser_unique_of W hinj hO2 h9 hH hA T hT i ζ c c' hc hc' K
 
 theorem serZ_lin (T : LocLat G Qp LL O) (i : ZMod n) (a a' : O) {ζ ζ' : W.DD T} {c c' : ℕ → W.DD T}
     (hc : Formalism.MainNotions.RamifiedCoefficientChains.S9.ExtensionLemmaAlt.IsSerZ W T i ζ c) (hc' : Formalism.MainNotions.RamifiedCoefficientChains.S9.ExtensionLemmaAlt.IsSerZ W T i ζ' c') :
-    Formalism.MainNotions.RamifiedCoefficientChains.S9.ExtensionLemmaAlt.IsSerZ W T i (a • ζ + a' • ζ') (fun y => a • c y + a' • c' y) := by
-  refine ⟨by simp [hc.1, hc'.1], fun y => ?_, fun K => ?_⟩
-  · exact DL_of W T i (InNΔi_add W T i
-      (InNΔi_osmul W T i a (InNΔi_of_DL W T i (hc.2.1 y).1 (hc.2.1 y).2))
-      (InNΔi_osmul W T i a' (InNΔi_of_DL W T i (hc'.2.1 y).1 (hc'.2.1 y).2)))
-  · obtain ⟨j1, x1, hx1, hx1Δ, e1⟩ := hc.2.2 K
-    obtain ⟨j2, x2, hx2, hx2Δ, e2⟩ := hc'.2.2 K
-    refine ⟨j1 + j2, a • ((PD.p : ℕ) : O) ^ j2 • x1 + a' • ((PD.p : ℕ) : O) ^ j1 • x2,
-      (W.N T).add_mem ((W.N T).smul_of_tower_mem _ ((W.N T).smul_of_tower_mem _ hx1))
-        ((W.N T).smul_of_tower_mem _ ((W.N T).smul_of_tower_mem _ hx2)),
-      fun δ hδ => by simp only [map_add (f := _), map_smul, hx1Δ δ hδ, hx2Δ δ hδ], ?_⟩
-    have hs : ∑ y ∈ Finset.range K, ((PD.p : ℕ) : O) ^ (Formalism.MainNotions.CrystallineLiftingInputs.eY PD.p K - Formalism.MainNotions.CrystallineLiftingInputs.eY PD.p y) •
-        (W.γ T (W.π₀ ^ y • (a • c y + a' • c' y)) - W.π₀ ^ y • (a • c y + a' • c' y)) =
-        a • ∑ y ∈ Finset.range K, ((PD.p : ℕ) : O) ^ (Formalism.MainNotions.CrystallineLiftingInputs.eY PD.p K - Formalism.MainNotions.CrystallineLiftingInputs.eY PD.p y) •
-          (W.γ T (W.π₀ ^ y • c y) - W.π₀ ^ y • c y) +
-        a' • ∑ y ∈ Finset.range K, ((PD.p : ℕ) : O) ^ (Formalism.MainNotions.CrystallineLiftingInputs.eY PD.p K - Formalism.MainNotions.CrystallineLiftingInputs.eY PD.p y) •
-          (W.γ T (W.π₀ ^ y • c' y) - W.π₀ ^ y • c' y) := by
-      rw [Finset.smul_sum, Finset.smul_sum, ← Finset.sum_add_distrib]
-      refine Finset.sum_congr rfl fun y _ => ?_
-      rw [term_lin, smul_add, smul_comm _ a, smul_comm _ a']
-    rw [hs]
-    have e3 : ((PD.p : ℕ) : O) ^ (j1 + j2) •
-        (((PD.p : ℕ) : O) ^ Formalism.MainNotions.CrystallineLiftingInputs.eY PD.p K • (a • ζ + a' • ζ') -
-          (a • ∑ y ∈ Finset.range K, ((PD.p : ℕ) : O) ^ (Formalism.MainNotions.CrystallineLiftingInputs.eY PD.p K - Formalism.MainNotions.CrystallineLiftingInputs.eY PD.p y) •
-            (W.γ T (W.π₀ ^ y • c y) - W.π₀ ^ y • c y) +
-          a' • ∑ y ∈ Finset.range K, ((PD.p : ℕ) : O) ^ (Formalism.MainNotions.CrystallineLiftingInputs.eY PD.p K - Formalism.MainNotions.CrystallineLiftingInputs.eY PD.p y) •
-            (W.γ T (W.π₀ ^ y • c' y) - W.π₀ ^ y • c' y))) =
-        a • ((PD.p : ℕ) : O) ^ j2 • (((PD.p : ℕ) : O) ^ j1 • (((PD.p : ℕ) : O) ^ Formalism.MainNotions.CrystallineLiftingInputs.eY PD.p K •
-          ζ - ∑ y ∈ Finset.range K,
-            ((PD.p : ℕ) : O) ^ (Formalism.MainNotions.CrystallineLiftingInputs.eY PD.p K - Formalism.MainNotions.CrystallineLiftingInputs.eY PD.p y) •
-              (W.γ T (W.π₀ ^ y • c y) - W.π₀ ^ y • c y))) +
-        a' • ((PD.p : ℕ) : O) ^ j1 • (((PD.p : ℕ) : O) ^ j2 • (((PD.p : ℕ) : O) ^ Formalism.MainNotions.CrystallineLiftingInputs.eY PD.p K •
-          ζ' - ∑ y ∈ Finset.range K,
-            ((PD.p : ℕ) : O) ^ (Formalism.MainNotions.CrystallineLiftingInputs.eY PD.p K - Formalism.MainNotions.CrystallineLiftingInputs.eY PD.p y) •
-              (W.γ T (W.π₀ ^ y • c' y) - W.π₀ ^ y • c' y))) := by
-      simp only [smul_sub, smul_add, smul_smul]
-      ring_nf
-      abel_nf
-    rw [e3, e1, e2, smul_add, smul_comm (W.π₀ ^ K) a, smul_comm (W.π₀ ^ K) a',
-      smul_comm (W.π₀ ^ K) (((PD.p : ℕ) : O) ^ j2), smul_comm (W.π₀ ^ K) (((PD.p : ℕ) : O) ^ j1)]
+    Formalism.MainNotions.RamifiedCoefficientChains.S9.ExtensionLemmaAlt.IsSerZ W T i (a • ζ + a' • ζ') (fun y => a • c y + a' • c' y) :=
+  ser_lin_of W T i a a' hc hc'
 
 theorem redT (hR : Formalism.MainNotions.LiftingTheory.lifta_Ring W) (T : LocLat G Qp LL O) (i : ZMod n) {j M X σ : ℕ}
     {c : ℕ → W.DD T} {r s : ℕ → LetA O n} (hc : ∀ y, Formalism.MainNotions.LiftingTheory.InNΔi W T i (c y))
@@ -189,27 +111,9 @@ theorem redT (hR : Formalism.MainNotions.LiftingTheory.lifta_Ring W) (T : LocLat
         ∑ y ∈ Finset.range (max M X + 1), s y • ((W.φD T) ^ j) (c y) =
       ((PD.p : ℕ) : O) ^ σ • ((W.φD T) ^ j) (((PD.p : ℕ) : O) ^ t • P0 W T (max M X + 1) c) -
         Formalism.MainNotions.CrystallineLiftingInputs.fMX W M X • Gv := by
-  set K0 := max M X + 1
-  set N := Formalism.MainNotions.CrystallineLiftingInputs.eY PD.p K0 + t
-  have hg := fun y => g_mem W hR (hrs y).1
-  choose g hgA hg using hg
-  set L : LetA O n := Formalism.MainNotions.ArcLiftingSetup.lA W
-  refine ⟨∑ y ∈ Finset.range K0, (L ^ (N - Formalism.MainNotions.CrystallineLiftingInputs.eY PD.p y) * L ^ σ * g y) •
-      ((W.φD T) ^ j) (c y), ?_, ?_⟩
-  · exact (Formalism.MainNotions.ArcLiftingSetup.Pp W T i j).sum_mem fun y _ => Pp_gen W T i j
-      (W.AΔ.mul_mem (W.AΔ.mul_mem (W.AΔ.pow_mem (lA_mem W) _) (W.AΔ.pow_mem (lA_mem W) _)) (hgA y)) (hc y)
-  have e1 : ∀ y ∈ Finset.range K0, ((PD.p : ℕ) : O) ^ N • (s y • ((W.φD T) ^ j) (c y)) =
-      ((PD.p : ℕ) : O) ^ σ • ((W.φD T) ^ j) (((PD.p : ℕ) : O) ^ (N - Formalism.MainNotions.CrystallineLiftingInputs.eY PD.p y) •
-        (W.π₀ ^ y • c y)) -
-      Formalism.MainNotions.CrystallineLiftingInputs.fMX W M X • ((L ^ (N - Formalism.MainNotions.CrystallineLiftingInputs.eY PD.p y) * L ^ σ * g y) • ((W.φD T) ^ j) (c y)) := by
-    intro y hy
-    have hle : Formalism.MainNotions.CrystallineLiftingInputs.eY PD.p y ≤ N :=
-      le_trans (eY_mono (PD := PD) (le_of_lt (Finset.mem_range.1 hy))) (Nat.le_add_right _ _)
-    rw [LinearMap.map_smul_of_tower, φpow_smul, map_pow, lsmul_eq, lsmul_eq, lsmul_eq]
-    exact term_id L _ _ _ _ _ hle (hrs y).2 (hg y) _
-
-  rw [Finset.smul_sum, Finset.sum_congr rfl e1, Finset.sum_sub_distrib, ← partialSum_pow_shift, map_sum,
-  Finset.smul_sum, Finset.smul_sum]
+  obtain ⟨Gv, hGv, hsum⟩ := red_sum W hR T i hc hrs t
+  rw [partialSum_pow_shift] at hsum
+  exact ⟨Gv, hGv, hsum⟩
 
 theorem Pp_tt [IsDomain O] (hR : Formalism.MainNotions.LiftingTheory.lifta_Ring W) (T : LocLat G Qp LL O) (i : ZMod n)
     {j M X σ : ℕ} {c : ℕ → W.DD T} {r s : ℕ → LetA O n} (hc : ∀ y, Formalism.MainNotions.LiftingTheory.InNΔi W T i (c y))
@@ -457,7 +361,6 @@ theorem zd [NeZero n] [IsDomain O] (hinj : Function.Injective (algebraMap O LL))
 
 end Formalism.MainNotions.CrystallineLiftingInputs.truncatedSeriesData
 
-open Classical
 
 noncomputable section
 
@@ -496,11 +399,6 @@ theorem tTool2Z_of [NeZero n] [IsDomain O] [IsLocalRing O] [IsAdicComplete (IsLo
 
 end Formalism.MainNotions.CrystallineLiftingInputs.truncatedSeriesData
 
-namespace Formalism.MainNotions.CrystallineLiftingInputs.truncatedSeriesData
-
-open Formalism.WeaklyAdmissibleFiltrations Formalism.BasicNotions Formalism.BasicNotions.Loc
-
-end Formalism.MainNotions.CrystallineLiftingInputs.truncatedSeriesData
 end -- clump:auto
 end -- clump:auto
 end -- clump:auto

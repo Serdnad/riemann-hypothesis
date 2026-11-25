@@ -1,48 +1,6 @@
 module
 
 public import Development.WeilBound.RepresentationTheoryGL.EisensteinSeries.SiegelEisensteinContinuation.IsEpCont
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Tactic.TypeStar
-import Mathlib.Topology.Sheaves.Init
-import GroundTheory.AutomorphicForms.ReductionLocalVolume
 
 @[expose] public section
 
@@ -61,7 +19,20 @@ variable {𝕜 : Type*} [RCLike 𝕜] {n : ℕ}
 
 theorem mem_unitary_of_euclid (U : Matrix (Fin n) (Fin n) 𝕜)
     (h : ∀ z : Fin n → 𝕜, euclidNorm (z ᵥ* U) = euclidNorm z) : U ∈ unitaryGroup (Fin n) 𝕜 := by
-  apply _root_.GroundTheory.Automorphic.Reduction.mem_unitaryGroup_of_euclidNorm <;> assumption
+  classical
+  let f : EuclideanSpace 𝕜 (Fin n) →ₗ[𝕜] EuclideanSpace 𝕜 (Fin n) := Matrix.toEuclideanLin Uᵀ
+  have hf : ∀ x : EuclideanSpace 𝕜 (Fin n), (f x).ofLp = x.ofLp ᵥ* U := fun x => by
+    simp [f, Matrix.toLpLin_apply, Matrix.mulVec_transpose]
+  have hn : ∀ x, ‖f x‖ = ‖x‖ := fun x => by
+    have := h x.ofLp
+    rw [EuclideanSpace.norm_eq, EuclideanSpace.norm_eq, hf]
+    simpa [euclidNorm] using this
+  have hi := (LinearMap.norm_map_iff_inner_map_map f).1 hn
+  rw [mem_unitaryGroup_iff]
+  ext j i
+  have := hi (EuclideanSpace.single i 1) (EuclideanSpace.single j 1)
+  rw [EuclideanSpace.inner_eq_star_dotProduct, EuclideanSpace.inner_eq_star_dotProduct, hf, hf] at this
+  simpa [Matrix.mul_apply, dotProduct, Matrix.one_apply, Pi.single_apply, eq_comm] using this
 
 end Unitary
 

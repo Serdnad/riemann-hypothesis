@@ -1,7 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.SatakeParameters.ChartFramesCongruentOneOfSameBadPlaceComponents
-import Development.AbelianVarietyTheory.Proofs.SatakeParameters.XiAtCongInvariant
 public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.UnderTie
 public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.TwistEmptyOfChartsEx
 public import Formalism.LocalToGlobal.Columns.Adelic
@@ -9,48 +7,7 @@ public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.IntegralA
 public import Formalism.LocalToGlobal.Columns.RecLevel
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.IntegralAtOfComponentZeroUnderPrime
 public import Formalism.LocalToGlobal.Columns.QthExistsBound
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Algebra.Order.Star.Int
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.PiTensorProduct
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Topology.Sheaves.Init
 
 @[expose] public section
 
@@ -187,10 +144,31 @@ open _root_.Formalism.L2.Ker _root_.Formalism.MainNotions
 variable {D : D7} {X : Fields} (s : Seam D X)
 
 theorem qOf_seamP (P : HeightOneSpectrum (𝓞 X.E)) : qOf (seamP s P) = qOf P := by
-  first | exact _root_.GlobalTheory.FrameAgree.qOf_seamP | exact @_root_.GlobalTheory.FrameAgree.qOf_seamP | apply _root_.GlobalTheory.FrameAgree.qOf_seamP <;> assumption
+  have hI : (seamP s P).asIdeal = P.asIdeal.map (RingOfIntegers.mapRingEquiv s.iE) := by
+    ext y
+    rw [Ideal.mem_map_of_equiv]
+    constructor
+    · intro hy
+      refine ⟨(RingOfIntegers.mapRingEquiv s.iE).symm y, (mem_seamP s P _).1 (by simpa using hy), by simp⟩
+    · rintro ⟨x, hx, rfl⟩
+      exact (mem_seamP s P x).2 hx
+  unfold qOf
+  rw [Ideal.absNorm_apply, Ideal.absNorm_apply, Submodule.cardQuot_apply, Submodule.cardQuot_apply]
+  exact Nat.card_congr (Ideal.quotientEquiv _ _ (RingOfIntegers.mapRingEquiv s.iE) hI).symm.toEquiv
 
 theorem intAt_of_seamP (P : HeightOneSpectrum (𝓞 X.E)) (z : X.E) (h : IntAt (seamP s P) (s.iE z)) : IntAt P z := by
-  first | exact _root_.GlobalTheory.TwU.MidIndep.intAt_of_seam | exact @_root_.GlobalTheory.TwU.MidIndep.intAt_of_seam | apply _root_.GlobalTheory.TwU.MidIndep.intAt_of_seam <;> assumption
+  obtain ⟨r, c, hc, e⟩ := h
+  set f := RingOfIntegers.mapRingEquiv s.iE
+  refine ⟨f.symm r, f.symm c, fun hm => hc ?_, ?_⟩
+  · have := (mem_seamP s P (f.symm c)).2 hm
+    rwa [show (RingOfIntegers.mapRingEquiv s.iE) (f.symm c) = c from f.apply_symm_apply c] at this
+  · apply s.iE.injective
+    rw [map_mul]
+    have h1 : ∀ w : 𝓞 D.host.E, s.iE (algebraMap (𝓞 X.E) X.E (f.symm w)) = algebraMap (𝓞 D.host.E) D.host.E w := by
+      intro w
+      have h2 : ∀ x : 𝓞 X.E, s.iE (algebraMap (𝓞 X.E) X.E x) = algebraMap (𝓞 D.host.E) D.host.E (f x) := fun x => rfl
+      rw [h2, f.apply_symm_apply]
+    rw [h1, h1, e]
 
 end Seam
 

@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.IsSelfDualLatticeAtPlaceComapUnitarySupported
 public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.WittCoreEmbeddingPreservesSupportedUnitarySubgro
 public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.IsSelfDualLatticeAtPlaceLatticeCompletion
 import Formalism.LocalRingCardinality.SpanPowerMembership.ExampleLayerExistsGenerators
@@ -47,7 +46,6 @@ noncomputable section
 open Formalism.BasicNotions Formalism.BasicNotions.TH Formalism.MainNotions.StandardLattice Formalism.L2.Theta Formalism.IndefR.Datum Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes GlobalTheory.FinPl GlobalTheory.MixPer GlobalTheory.MixModel GlobalTheory.IwaPlace Matrix
 open NumberField
 open scoped TensorProduct
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 
 
 
@@ -57,7 +55,15 @@ namespace GlobalTheory.IwaPlace.SDBound
 variable {D : D7}
 
 theorem exists_nat_mul_isIntegral (z : D.host.E) : ∃ n : ℕ, 0 < n ∧ IsIntegral ℤ ((n : D.host.E) * z) := by
-  apply _root_.GlobalTheory.IwaPlace.SdComap.exists_nat_mul_isIntegral' <;> assumption
+  have hz : IsAlgebraic ℤ z := (IsFractionRing.isAlgebraic_iff ℤ ℚ D.host.E).2 (Algebra.IsAlgebraic.isAlgebraic z)
+  obtain ⟨y, hy, h⟩ := hz.exists_integral_multiple
+  refine ⟨y.natAbs, Int.natAbs_pos.2 hy, ?_⟩
+  rw [zsmul_eq_mul] at h
+  rw [← Int.cast_natCast]
+  rcases Int.natAbs_eq y with e | e
+  · rw [← e]; exact h
+  · have e' : ((y.natAbs : ℕ) : ℤ) = -y := by omega
+    rw [e', Int.cast_neg, neg_mul]; exact h.neg
 
 theorem exists_nat_mul_isIntegral_fin {n : ℕ} (z : Fin n → Fin n → D.host.E) :
     ∃ d : ℕ, 0 < d ∧ ∀ l k, IsIntegral ℤ ((d : D.host.E) * z l k) := by

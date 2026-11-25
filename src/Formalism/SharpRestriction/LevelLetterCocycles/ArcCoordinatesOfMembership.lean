@@ -9,49 +9,7 @@ import Formalism.SharpRestriction.LevelLetterCocycles.AnnihilatorGeneralOfRingCo
 import Formalism.SharpRestriction.LevelLetterCocycles.BaseChangePreservesUnitaryOf
 import Formalism.SharpRestriction.LevelLetterCocycles.SaturationPullbackOfRingCondition
 import Formalism.SharpRestriction.LevelLetterCocycles.WachFrobeniusLatticeUnramifiedFunctor
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Algebra.Order.Star.Rat
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.PowerSeries.Inverse
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
 
 @[expose] public section
@@ -291,9 +249,9 @@ theorem dcrisL_le_span [NeZero n] (T : LocLat G Qp LL O) (h3 : Formalism.MainNot
       split_ifs with h
       · subst h; exact hd
       · exact (DcrisL PD T.ρ (W.emb j)).zero_mem)
-    (by rw [Finset.sum_sub_distrib, hfd, Finset.sum_ite_eq' Finset.univ i, if_pos (Finset.mem_univ _),
+    (by rw [Finset.sum_sub_distrib, hfd, Finset.sum_ite_eq' Finset.univ i, ite_eq_left (Finset.mem_univ _),
       sub_self]) i (Finset.mem_univ _)
-  rw [if_pos rfl, sub_eq_zero] at h0
+  rw [ite_eq_left rfl, sub_eq_zero] at h0
   rw [← h0]; exact hf i
 
 def ev (i : ZMod n) : LetA O n →+* O :=
@@ -377,7 +335,7 @@ theorem cmp_indepO (T : LocLat G Qp LL O) (h3 : Formalism.MainNotions.DeltaInvar
     · split_ifs
       · exact letE_mul_self c'
       · exact mul_zero _
-    · simp only [ite_smul, zero_smul, Finset.sum_ite_eq', Finset.mem_univ, if_true]
+    · simp only [ite_smul, zero_smul, Finset.sum_ite_eq', Finset.mem_univ, ite_true]
       exact (hbl k).symm
   have hevδ : ∀ k m, ∑ j, ev c' (α' k j) * ev c' (α j m) = if m = k then 1 else 0 := by
     intro k m
@@ -830,7 +788,7 @@ theorem frame_inv_poly (hinj : Function.Injective (algebraMap O LL)) {d : ℕ}
       rw [Polynomial.coeff_mul, map_sum, Finset.mul_sum]
       refine Finset.sum_congr rfl fun x hx => ?_
       have hx' := Finset.HasAntidiagonal.mem_antidiagonal.1 hx
-      rw [hHPc, hGPc, if_pos (by omega), if_pos (by omega), map_mul, hyy k x.1 (by omega),
+      rw [hHPc, hGPc, ite_eq_left (by omega), ite_eq_left (by omega), map_mul, hyy k x.1 (by omega),
         hzz x.2 (by omega)]
       ring
     rw [Finset.sum_congr rfl fun k _ => hk k, ← Finset.mul_sum, hcoef t, hcst]
@@ -997,7 +955,7 @@ theorem secOfP [IsDomain O] (hinj : Function.Injective (algebraMap O LL))
         split_ifs <;> ring
       rw [Finset.sum_congr rfl fun m' _ => h1 m', Finset.sum_add_distrib, ← Finset.mul_sum,
         ← Finset.mul_sum]
-      simp only [ite_mul, one_mul, zero_mul, Finset.sum_ite_eq, Finset.mem_univ, if_true]
+      simp only [ite_mul, one_mul, zero_mul, Finset.sum_ite_eq, Finset.mem_univ, ite_true]
     simp only [w]
     linear_combination -A1 - A2 -
       (((PD.p : ℕ) : LetA O n) ^ A.σ PD.p * ∑ m', Polynomial.aeval Y (ρ m m') * β m') * hYM

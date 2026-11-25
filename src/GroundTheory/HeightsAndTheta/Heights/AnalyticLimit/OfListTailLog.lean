@@ -1,6 +1,5 @@
 module
 
-import ReciprocityTheory.AnalyticForms.LeviForms.TailCutA
 public import ReciprocityTheory.AnalyticForms.PotentialTheory.Partition
 public import GroundTheory.HeightsAndTheta.Heights.Regularisation.IsOpenKappaOpenNeighbourhood
 public import ReciprocityTheory.AnalyticForms.PotentialTheory.IntegrableOnTargetOfTsupport
@@ -39,56 +38,9 @@ public import GroundTheory.HeightsAndTheta.Heights.AnalyticLimit.StListMono
 public import GroundTheory.HeightsAndTheta.Heights.AnalyticLimit.StRegSection
 public import GroundTheory.HeightsAndTheta.Heights.AnalyticLimit.StTailShift
 public import GroundTheory.HeightsAndTheta.Heights.AnalyticLimit.Assembly
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Topology.Sheaves.Init
 import ReciprocityTheory.AnalyticForms.PotentialTheory.LocDens
-import Mathlib.RingTheory.WittVector.IsPoly
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
 import ReciprocityTheory.AnalyticForms.PotentialTheory.PotentialContDiffAt
-import Mathlib.Order.CompletePartialOrder
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Algebra.Order.Star.Real
-import Mathlib.Algebra.Ring.IsFormallyReal
 import Std.Tactic.BVDecide.Normalize.Prop
 import ReciprocityTheory.AnalyticForms.PotentialTheory.PshShiftB
 
@@ -119,15 +71,6 @@ section Signed
 
 variable {D : ℕ} {X : Type} [TopologicalSpace X] [CompactSpace X] [T2Space X] [MeasurableSpace X]
   [BorelSpace X]
-
-omit [CompactSpace X] [T2Space X] [MeasurableSpace X] [BorelSpace X] in
-theorem chart_weight_continuousOn (A : FinHolAtlas D X) (P : ChartPartition A)
-    (Φ : Fin D → LocPot X) (hΦ : ∀ i, IsPotential A (Φ i)) (s : ℝ) (j : Fin A.n) :
-    ContinuousOn (fun y => s * (P.χ j ((A.chart j).symm y) * locDens A Φ j y))
-      (A.chart j).target := by
-  have h := (P.smooth j j).continuousOn
-  rw [Set.preimage_univ, Set.inter_univ] at h
-  exact continuousOn_const.mul (h.mul (locDensCont A Φ hΦ j))
 
 
 end Signed
@@ -867,8 +810,28 @@ theorem zeroSet_analytic {A : FinHolAtlas e X} {L : LocPot X} {s : X → X → �
 theorem interior_zeroSet {A : FinHolAtlas e X} {L : LocPot X} {s : X → X → ℂ}
     (hS : IsSection A L s) {r : ℕ} {m : Fin r → ℕ} {W : Fin r → Set X}
     (hsnc : IsSNC A L s m W) : interior (zeroSet s) = ∅ := by
-  intros
-  apply _root_.ReciprocityTheory.AnForm.P.LeviFormBoundaryTopology.interior_bdry_eq_empty <;> assumption
+  rw [Set.eq_empty_iff_forall_notMem]
+  intro x hx
+  obtain ⟨ψ, -, hxψ, hψL, σ, -, -, u, -, hu0, hprod⟩ := hsnc x
+  have hOimg : IsOpen (ψ '' (ψ.source ∩ interior (zeroSet s))) :=
+    ψ.isOpen_image_source_inter isOpen_interior
+  have hne : (ψ '' (ψ.source ∩ interior (zeroSet s))).Nonempty := ⟨ψ x, x, ⟨hxψ, hx⟩, rfl⟩
+  have hsub : ψ '' (ψ.source ∩ interior (zeroSet s)) ⊆ ⋃ i, {z : Fin e → ℂ | z i = 0} := by
+    rintro _ ⟨y, ⟨hyψ, hyZ⟩, rfl⟩
+    have hz : y ∈ zeroSet s := interior_subset hyZ
+    have h0 : s x y = 0 := (zero_iff_local hS (hψL hyψ)).1 hz
+    rw [hprod y hyψ] at h0
+    rcases mul_eq_zero.1 h0 with h | h
+    · exact absurd h (hu0 y hyψ)
+    · obtain ⟨k, -, hk⟩ := Finset.prod_eq_zero_iff.1 h
+      revert hk
+      cases hσ : σ k with
+      | none => intro hk; exact absurd hk one_ne_zero
+      | some i => intro hk; exact Set.mem_iUnion.2 ⟨i, eq_zero_of_pow_eq_zero hk⟩
+  have hpos := hOimg.measure_pos volume hne
+  have hnull : volume (⋃ i, {z : Fin e → ℂ | z i = 0}) = 0 :=
+    measure_iUnion_null fun i => ReciprocityTheory.AnForm.M.PLAux.volume_coord_eq_zero i
+  exact hpos.ne' (measure_mono_null hsub hnull)
 
 theorem greenEp_eq_off (L : LocPot X) (s : X → X → ℂ) {ε : ℝ} (hε : 0 < ε) {y : X}
     (hy : y ∉ zeroSet s) :
@@ -961,17 +924,17 @@ theorem mixedForms_eq_cons {W : Type} [TopologicalSpace W] {D : ℕ} (Om : LocPo
     have hD : (i : ℕ) < D := by omega
     have hc : Fin.cycleRange (⟨a, ha⟩ : Fin (D + 1)) i = Fin.succ ⟨i, hD⟩ :=
       Fin.ext (by simp [Fin.coe_cycleRange_of_lt h])
-    rw [hc, Fin.cons_succ, if_pos hi]
-    simp only [restForms, if_pos hi]
+    rw [hc, Fin.cons_succ, ite_eq_left hi]
+    simp only [restForms, ite_eq_left hi]
     rfl
-  · rw [h, Fin.cycleRange_self, Fin.cons_zero, if_neg (lt_irrefl a)]
+  · rw [h, Fin.cycleRange_self, Fin.cons_zero, ite_eq_right (lt_irrefl a)]
   · have hi : a < (i : ℕ) := h
     have hne : i ≠ 0 := fun h0 => by rw [h0] at hi; exact Nat.not_lt_zero _ hi
-    rw [Fin.cycleRange_of_gt h, if_neg (by omega)]
+    rw [Fin.cycleRange_of_gt h, ite_eq_right (by omega)]
     obtain ⟨j, rfl⟩ := Fin.exists_succ_eq.2 hne
     rw [Fin.cons_succ]
     simp only [restForms]
-    rw [if_neg]
+    rw [ite_eq_right]
     simp only [Fin.val_succ] at hi
     omega
 
@@ -1276,9 +1239,9 @@ theorem interior_secZero {r : ℕ} {m : Fin r → ℕ} {Δ : Fin r → Set W} (h
   have hw0 : ∀ i, w i ≠ 0 := by
     intro i
     by_cases h : ψ x i = 0
-    · simp only [w, if_pos h, ne_eq, Complex.ofReal_eq_zero]
+    · simp only [w, ite_eq_left h, ne_eq, Complex.ofReal_eq_zero]
       linarith
-    · simp only [w, if_neg h]
+    · simp only [w, ite_eq_right h]
       exact h
   have hwb : w ∈ Metric.ball (ψ x) δ := by
     rw [Metric.mem_ball, dist_eq_norm, pi_norm_lt_iff hδ]
@@ -1286,9 +1249,9 @@ theorem interior_secZero {r : ℕ} {m : Fin r → ℕ} {Δ : Fin r → Set W} (h
     by_cases h : ψ x i = 0
     · rw [Pi.sub_apply]
       simp only [w]
-      rw [if_pos h, h, sub_zero, Complex.norm_real, Real.norm_eq_abs, abs_of_pos (by linarith)]
+      rw [ite_eq_left h, h, sub_zero, Complex.norm_real, Real.norm_eq_abs, abs_of_pos (by linarith)]
       linarith
-    · simp only [w, Pi.sub_apply, if_neg h, sub_self, norm_zero]
+    · simp only [w, Pi.sub_apply, ite_eq_right h, sub_self, norm_zero]
       exact hδ
   obtain ⟨hwt, hwU⟩ := hball hwb
   obtain ⟨i, hi⟩ := hcoord _ (ψ.map_target hwt) hwU
@@ -1464,11 +1427,11 @@ theorem mixedForms_cycle {D : ℕ} (Om : LocPot W) (T : Fin (D + 1) → LocPot W
   · simp only [Function.comp_apply, Fin.cons_succ, Fin.cycleRange_symm_succ]
     by_cases hj : (j : ℕ) < a
     · rw [Fin.succAbove_of_castSucc_lt _ _ (by rw [Fin.lt_def]; simpa using hj)]
-      simp only [mixedForms, restForms, Fin.val_castSucc, hj, if_true]
-      rw [if_pos (by omega)]
+      simp only [mixedForms, restForms, Fin.val_castSucc, hj, ite_true]
+      rw [ite_eq_left (by omega)]
     · rw [Fin.succAbove_of_le_castSucc _ _ (by rw [Fin.le_def]; simp; omega)]
-      simp only [mixedForms, restForms, Fin.val_succ, hj, if_false]
-      rw [if_neg (by omega)]
+      simp only [mixedForms, restForms, Fin.val_succ, hj, ite_false]
+      rw [ite_eq_right (by omega)]
 
 end
 

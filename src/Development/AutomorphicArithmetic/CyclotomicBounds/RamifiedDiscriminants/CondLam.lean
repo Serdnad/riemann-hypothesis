@@ -3,55 +3,11 @@ module
 public import Formalism.SharpRestriction.RamificationFrobenius.TotientGaloisClasses.ConjEMemHostFIff
 public import Development.AutomorphicArithmetic.FrobeniusLocalisation.InertD
 public import Development.AutomorphicArithmetic.FrobeniusLocalisation.inertQ
-import all Development.AutomorphicArithmetic.FrobeniusLocalisation.inertQ
 public import Formalism.SharpRestriction.RamificationFrobenius.TotientGaloisClasses.InertiaGaloisSymmetry.CycBasic
 public import Development.AutomorphicArithmetic.FrobeniusLocalisation.DiffDefs
 public import Formalism.LocalRingCardinality.DataHost
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Algebra.Order.Star.Int
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.HaveILetI
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Topology.Sheaves.Init
 import Formalism.SharpRestriction.RamificationFrobenius.TotientGaloisClasses.InertiaGaloisSymmetry.CycGrp
-import Mathlib.Algebra.Order.Star.Real
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AutomorphicArithmetic.CyclotomicBounds.RamifiedDiscriminants.OrdLeQS, Development.AutomorphicArithmetic.CyclotomicBounds.RamifiedDiscriminants.OrdLeTotientQS, Development.AutomorphicArithmetic.CyclotomicBounds.RamifiedDiscriminants.CondLam
@@ -69,7 +25,13 @@ private theorem ordCompl_eq_self_of_not_dvd {n p : ℕ} (h : ¬p ∣ n) : ordCom
   simp [Nat.factorization_eq_zero_of_not_dvd h]
 
 private theorem ordCompl_q' {φ : Frame} (H : HostRaw φ) : ordCompl[H.q] H.condN = H.QS * H.d := by
-  apply _root_.ordCompl_q <;> assumption
+  have hq := H.q_prime
+  have h1 : ¬H.q ∣ H.QS := (Nat.Prime.coprime_iff_not_dvd hq).1 H.coprime_QS_q.symm
+  have h2 : ¬H.q ∣ H.d := (Nat.Prime.coprime_iff_not_dvd hq).1
+    (Nat.Coprime.coprime_dvd_left (dvd_mul_left H.d H.QS) H.coprime_QSd_q).symm
+  have h3 : ordCompl[H.q] H.q = 1 := by
+    simpa using Nat.ordCompl_self_pow (k := 1) hq
+  simp only [HostRaw.condN, Nat.ordCompl_mul, h3, ordCompl_eq_self_of_not_dvd h1, ordCompl_eq_self_of_not_dvd h2, mul_one]
 
 private theorem crt_unit {φ : Frame} (H : HostRaw φ) {a b : ℕ} (hab : a.Coprime b) (hN : H.condN = a * b)
     (u : (ZMod H.condN)ˣ) : ∃ v : (ZMod H.condN)ˣ, (v : ZMod H.condN).val ≡ 1 [MOD a] ∧

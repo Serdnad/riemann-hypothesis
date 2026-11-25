@@ -1,49 +1,8 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.SatakeParameters.InertHeckeOperatorCompSphericalConvolution
 public import Formalism.AlgebraicWeights.InertDatumExists
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsContinuousPadic
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.MemMaxCompactOfTrivOutsideLocalIntegral
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Topology.Sheaves.Init
 import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.NStageTrivialCharacterCoeffEqAlt
 import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.FinIso
 import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IsSplitAtOfIsSplitPl
@@ -58,7 +17,6 @@ import ReciprocityTheory.GaloisValuations.GlobalA
 @[expose] public section
 
 open Formalism.BasicNotions Formalism.MainNotions Formalism.MainNotions.N Formalism.ConjugateSelfDual ReciprocityTheory.Gal ReciprocityTheory.Aut Formalism.AUTREP Formalism.L2 Formalism.L2.Host GlobalTheory.HeightCounting NumberField IsDedekindDomain GlobalTheory.CuspRep GlobalTheory.UnitaryBC GlobalTheory.FormDict GlobalTheory.DefiniteBC
-attribute [local instance] GlobalTheory.LocalData.complRel GlobalTheory.LocalData.isLocalField
 
 noncomputable section
 
@@ -71,8 +29,21 @@ theorem compAt_mem_tensInt (L : Type) [Field L] [NumberField L] [IsCMField L]
     compAt L v z ∈ Formalism.UG.tensInt (F := maximalRealSubfield L)
       (v.adicCompletion (maximalRealSubfield L)) (Formalism.UG.intOE L)
       (Formalism.UG.Ov (maximalRealSubfield L) v) := by
-  intros
-  apply _root_.GlobalTheory.InertUmaxInt.compAt_mem_tensInt <;> assumption
+  have key : ALint L ≤ (Formalism.UG.tensInt (F := maximalRealSubfield L)
+      (v.adicCompletion (maximalRealSubfield L)) (Formalism.UG.intOE L)
+      (Formalism.UG.Ov (maximalRealSubfield L) v)).comap (compAt L v) := by
+    rw [ALint, Subring.closure_le]
+    rintro _ (⟨y, rfl⟩ | ⟨a, ha, rfl⟩)
+    · apply Subring.subset_closure
+      left
+      refine ⟨⟨(y : L), y, rfl⟩, ?_⟩
+      rw [GlobalTheory.InertUmax.compAt_tmul]
+      rfl
+    · apply Subring.subset_closure
+      right
+      refine ⟨⟨a v, ha v⟩, ?_⟩
+      rw [GlobalTheory.InertUmax.compAt_tmul]
+  exact key hz
 
 theorem mem_range_bc_of_entries {K : Type} [Field K] (S : Subring K) {n : ℕ} (g : GL (Fin n) K)
     (hg : ∀ i j, (g : Matrix (Fin n) (Fin n) K) i j ∈ S)
@@ -104,7 +75,17 @@ theorem loc_entries_mem (L : Type) [Field L] [NumberField L] [IsCMField L] (n : 
     (Dv : InertDatum L n v w) (y : GAf L n) (hy : y ∈ Umax L n) (i j : Fin n) :
     ((Dv.loc y : GL (Fin n) (w.adicCompletion L)) : Matrix (Fin n) (Fin n) (w.adicCompletion L)) i j
       ∈ Formalism.UG.intL (w.adicCompletion L) := by
-  apply _root_.GlobalTheory.InertUmaxInt.loc_integral_of_mem_Umax <;> assumption
+  have hP := GlobalTheory.InertUmax.entries_mem_of_range _ _ Dv.Pint
+  have hP' := GlobalTheory.InertUmax.entries_mem_of_range _ _ (inv_mem Dv.Pint)
+  have hE : ∀ l k, ((Formalism.UG.bc (n := Fin n)
+      (Dv.e : L ⊗[maximalRealSubfield L] v.adicCompletion (maximalRealSubfield L) →+* w.adicCompletion L)
+      (Matrix.GeneralLinearGroup.map (compAt L v) (y : GL (Fin n) (AL L))) : GL (Fin n) _) :
+        Matrix (Fin n) (Fin n) (w.adicCompletion L)) l k ∈ Formalism.UG.intL (w.adicCompletion L) :=
+    fun l k => (Dv.integ _).1 (compAt_mem_tensInt L v (hy l k))
+  unfold InertDatum.loc
+  simp only [Units.val_mul, Matrix.mul_apply]
+  exact Subring.sum_mem _ fun k _ => Subring.mul_mem _
+    (Subring.sum_mem _ fun l _ => Subring.mul_mem _ (hP' i l) (hE l k)) (hP k j)
 
 theorem loc_mem_KU : ∀ (L : Type) [Field L] [NumberField L] [IsCMField L] (n : ℕ) (v : HeightOneSpectrum (𝓞 (maximalRealSubfield L))) (w : HeightOneSpectrum (𝓞 L)) (Dv : InertDatum L n v w) (x : GAf L n), x ∈ Umax L n → ∀ hg : Dv.loc x ∈ Formalism.UG.GU Dv.σw n, (⟨Dv.loc x, hg⟩ : Formalism.UG.GU Dv.σw n) ∈ Formalism.UG.KU Dv.σw n := by
   intro L _ _ _ n v w Dv x hx hg

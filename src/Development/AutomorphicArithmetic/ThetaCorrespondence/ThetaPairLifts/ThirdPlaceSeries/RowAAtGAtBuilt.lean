@@ -1,6 +1,5 @@
 module
 
-import Development.AutomorphicArithmetic.ThetaCorrespondence.ThetaPairLifts.ThirdPlaceSeries.PointEvaluationSideStatement
 public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.JetSplitAmb
 public import Formalism.LocalToGlobal.KernelLattices.KernelLocalFactors.SelfDualLatticeNorms
 public import Formalism.LocalToGlobal.Divisibility.Tuples
@@ -193,24 +192,6 @@ def IsTwist (S : Set ℕ) (x : Chr F E L) : Prop :=
 
 end Mem
 
-section Transport
-
-variable {X : Fields} {Pr : Primes X} {R : Ranks} (Ch : Chars X Pr R.m)
-  (sel : HeightOneSpectrum (𝓞 X.F) → HeightOneSpectrum (𝓞 X.E)) {S S' : Set ℕ}
-  {χ : Chr X.F X.E X.K} (h : IsTwist X.F X.E X.K S χ) (h' : IsTwist X.F X.E X.K S' χ)
-  (cst : LocCst X (uSG Pr.vGs (QE sel χ))) (L : ChIdx X Pr R (QE sel χ))
-
-end Transport
-
-section Chain
-
-variable (D : D7) (EX : ErrX D) (Ch : Chars (ColumnAvoidanceConditions.fieldsOf D) (ColumnAvoidanceConditions.primesOf D EX) D.R.m)
-  (m0 : Fin D.R.m → Formalism.L2.Host.HChar D.host.E)
-  (sel : HeightOneSpectrum (𝓞 (ColumnAvoidanceConditions.fieldsOf D).F) → HeightOneSpectrum (𝓞 (ColumnAvoidanceConditions.fieldsOf D).E)) {S S' : Set ℕ}
-  (A : Amb (ColumnAvoidanceConditions.fieldsOf D)) (u : D.what₂.Word) (μ : D.what₂.Tup)
-
-end Chain
-
 end GlobalTheory.ColPeriodCompare
 end -- clump:auto
 end -- clump:auto
@@ -223,7 +204,6 @@ section -- clump:auto
 @[expose] public section
 
 open NumberField IsDedekindDomain Formalism.BasicNotions Formalism.MainNotions Formalism.L2.Col Formalism.L2.DIV GlobalTheory.Mem GlobalTheory.Mem.Col2 GlobalTheory.Mem.Col2.TC GlobalTheory.Core.Rk
-attribute [local instance] GlobalTheory.Mem.Col2.starE Formalism.BasicNotions.Host.cmStar
 
 noncomputable section
 
@@ -818,18 +798,6 @@ noncomputable section
 
 namespace GlobalTheory.DatumJets
 
-section Int
-
-variable {p : ℕ} [Fact p.Prime] {lam : TaylorLogMetric.Qbar →+* ℂ_[p]}
-
-end Int
-
-section Idx
-
-variable {X : Fields} {a b : ℕ}
-
-end Idx
-
 theorem map_jetSum {X : Fields} (A : Amb X) {a b : ℕ} (S : Finset (HeightOneSpectrum (𝓞 X.E))) {cA c : ℕ}
     {N : Submodule (𝓞 X.E) (Sp X.E a)} {N' : Submodule (𝓞 X.E) (Sp X.E b)} (hN : IsSdLat N) (hN' : IsSdLat N')
     (hcA0 : 0 < cA) (hc0 : 0 < c) (Ξ : HomE X.E a b → X.K) {e : DVar X.Tau a b →₀ ℕ} (he : e ∈ RatIdx A S cA c N N' Ξ) :
@@ -1272,7 +1240,6 @@ section -- clump:auto
 
 open NumberField IsDedekindDomain Formalism.BasicNotions Formalism.MainNotions Formalism.L2.Col Formalism.L2.DIV Formalism.L2.Ker GlobalTheory.Mem GlobalTheory.Mem.Chr GlobalTheory.Mem.Col2 GlobalTheory.Core GlobalTheory.Core.Ht2 GlobalTheory.CoreHt
 open GlobalTheory.ColumnNormCompare
-attribute [local instance] GlobalTheory.Mem.Col2.starE
 
 namespace GlobalTheory.CoreHt.RowsRange
 
@@ -1307,7 +1274,60 @@ theorem exists_top {τ : D.what₂.Tau} (h : (D.eTau τ : D.R.GG) ∈ D.host.top
 theorem nuRow_zero_le_three_mul (large₂ : SizeData₂ D) (P : ParameterChoice' D large₂) (hb : ∀ t, (large₂.bT t : ℝ) ≤ 2 * large₂.sc.b')
     (hT : ThickUp large₂) (u : D.what₂.Word) (i : ℕ) (hi : i < D.R.m) (τ : D.what₂.Tau) :
     DV.nuRow D u (i + 1) τ 0 ≤ 3 * large₂.sc.a := by
-  first | exact _root_.GlobalTheory.CoreHt.RowsRangeS.nuRow_zero_le_three_mul | exact @_root_.GlobalTheory.CoreHt.RowsRangeS.nuRow_zero_le_three_mul | apply _root_.GlobalTheory.CoreHt.RowsRangeS.nuRow_zero_le_three_mul <;> assumption
+  have hm := D.R.two_le_m
+  have hk : 5 ≤ D.R.k := by have := D.R.m_add_three_le_k; omega
+  have hk0 : 0 < D.R.k := by omega
+  have hk' : (5 : ℝ) ≤ D.R.k := by exact_mod_cast hk
+  have hm' : (2 : ℝ) ≤ D.R.m := by exact_mod_cast hm
+  have ht : (0 : ℝ) ≤ D.R.t := Nat.cast_nonneg _
+  have hkN : (D.R.k : ℝ) ≤ D.R.N i := by
+    have : D.R.k ≤ D.R.N i := by unfold Ranks.N; omega
+    exact_mod_cast this
+  have hx := large₂.sc.one_lt_alt
+  have hb1 := one_le_b large₂
+  have hb' := b'_pos large₂
+  have hba : large₂.sc.b ≤ large₂.sc.a := le_mul_of_one_le_left (by linarith) hx.le
+  have hX : 2 ≤ large₂.sc.X' := by
+    have h1 : 1 ≤ large₂.sc.x ^ (large₂.sc.eps / 3) := Real.one_le_rpow hx.le (by linarith [large₂.sc.eps_pos])
+    have h2 := Real.add_one_le_exp (large₂.sc.x ^ (large₂.sc.eps / 3))
+    unfold Scale.X'
+    linarith
+  have hb'a : large₂.sc.b' ≤ large₂.sc.a / 2 := div_le_div_of_nonneg_left (by linarith) (by norm_num) hX
+  have hw : large₂.sc.w'' D.R.n ≤ large₂.sc.b' :=
+    div_le_self hb'.le (one_le_mul_of_one_le_of_one_le hx.le (one_le_n D))
+  have he := large₂.etaSz_pos
+  have hS := large₂.Sc_pos
+  have heta : 2 * large₂.etaSz ≤ large₂.sc.b' := by
+    have h1 : (2 : ℝ) ≤ D.R.m * ((D.R.t : ℝ) + 1) := by nlinarith
+    linarith [P.mteta, mul_le_mul_of_nonneg_right h1 he.le]
+  have hSc : 5 * large₂.Sc ≤ large₂.sc.b' := by
+    linarith [P.kS_le, mul_le_mul_of_nonneg_right hk' hS.le]
+  have hwj : wj D (i + 1) τ = (((D.hc τ).e ⟨i, hi⟩ : ℚ) : ℝ) := by
+    unfold wj
+    rw [dite_eq_left (by simpa using hi)]
+    rfl
+  rw [RowWeightLemmas.nuRow_head D u i hi τ 0 hk0, D.hcW_first u τ hk0, D.hcW_e]
+  push_cast
+  rw [← hwj]
+  by_cases ha : (D.eTau τ : D.R.GG) ∈ D.host.topPlaces
+  · obtain ⟨t, htt⟩ := exists_top ha
+    rw [(large₂.top_u τ t hk0 htt).1]
+    have a1 := (large₂.win_top (i + 1) (by omega) hi τ t htt).2
+    have a2 := (large₂.aT_win t).2
+    have a3 : (5 : ℝ) ≤ (D.R.k : ℝ) * large₂.sc.x ^ (Scale.A / 2) :=
+      hk'.trans (le_mul_of_one_le_right (by linarith) (Real.one_le_rpow hx.le (by unfold Scale.A; norm_num)))
+    have a4 : large₂.sc.a / ((D.R.k : ℝ) * large₂.sc.x ^ (Scale.A / 2)) ≤ large₂.sc.a / 5 :=
+      div_le_div_of_nonneg_left (by linarith) (by norm_num) a3
+    have a5 : large₂.sc.b' / large₂.sc.x ≤ large₂.sc.b' := div_le_self hb'.le hx.le
+    linarith [hb t]
+  · have h1 := P.cloud_place_bound τ (by omega) ha
+    have h2 := (large₂.cloud_v τ ⟨0, by omega⟩).2
+    push_cast at h1
+    by_cases hc : (D.eTau τ : D.R.GG) ∈ D.host.thickPlaces
+    · have a1 := hT (i + 1) (by omega) hi τ hc
+      linarith
+    · have a1 := (large₂.win_thin (i + 1) (by omega) hi τ ⟨(D.eTau τ).2, ha, hc⟩).2
+      linarith
 
 end GlobalTheory.CoreHt.RowsRange
 end -- clump:auto
@@ -1339,7 +1359,7 @@ theorem key_ineq (A N Y : ℝ) (hA : 10 ≤ A) (hN : 2 ≤ N) (h1 : A ^ 8 ≤ Y)
     have e2 : A ^ 8 = A * A ^ 7 := by ring
     have e3 : 10 * A ^ 7 ≤ A * A ^ 7 := mul_le_mul_of_nonneg_right hA (by positivity)
     linarith
-  · push_neg at h
+  · push Not at h
     have hA25 : A ^ 2 ≤ A ^ 5 := pow_le_pow_right₀ hA1 (by norm_num)
     have hAN : A ^ 2 < N := lt_of_le_of_lt hA25 h
     have e1 : 6 * A ^ 2 * N < 6 * N * N := by nlinarith

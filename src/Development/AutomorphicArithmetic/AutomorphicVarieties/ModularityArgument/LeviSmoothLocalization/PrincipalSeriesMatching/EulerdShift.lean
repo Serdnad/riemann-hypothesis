@@ -1,6 +1,5 @@
 module
 
-import all Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.GammaLaurentFactors.CrossG
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.LeviSmoothLocalization.WinUpDown
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsHasInfCharGL
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.ArchimedeanSchwartz.ArchimedeanDerivatives.ArchOf
@@ -91,7 +90,6 @@ open NumberField IsDedekindDomain MeasureTheory Polynomial Formalism.L2.Host Glo
 open GroundTheory.Automorphic GroundTheory.Automorphic.AutomorphicForm GroundTheory.Automorphic.GJStandardL GroundTheory.Automorphic.GodementJacquet
 open GroundTheory.Automorphic.GLnLocal GroundTheory.Automorphic.GJStandardLCuspidal UpperTheory.V UpperTheory.V.Z.Inf UpperTheory.V.Z.Gam UpperTheory.V.Z.ImaginaryQuadraticEtaCharacter
 
-attribute [-instance] Formalism.DoubleCosetMeasures.instMeasGL
 
 private theorem eval_quot (N D : ℂ[X]) (x : ℂ) (hD : D.eval x ≠ 0) :
     (algebraMap ℂ[X] (RatFunc ℂ) N / algebraMap ℂ[X] (RatFunc ℂ) D).eval (RingHom.id ℂ) x = N.eval x / D.eval x := by
@@ -112,7 +110,36 @@ private theorem loc_dual {F : Type*} [Field F] [ValuativeRel F] [TopologicalSpac
     (h : RatFE F (RatFunc.C c * RatFunc.X ^ j * algebraMap ℂ[X] (RatFunc ℂ) P /
       algebraMap ℂ[X] (RatFunc ℂ) (P.comp (C Q * X))) A B) (hA : ∀ s, A s = b) :
     ∃ r : ℝ, ∀ s : ℂ, s.re < -r → B s = c * b * qs F s ^ j * P.eval (qs F s) / P.eval (Q * qs F s) := by
-  apply _root_.loc_dual <;> assumption
+  obtain ⟨R, s₁, h1, h2⟩ := h
+  have hR : R = RatFunc.C b := eq_of_eval_qs_eq_right (F := F) (s₁ := s₁) fun s hs => by
+    rw [← h1 s hs, hA, RatFunc.eval_C]
+    rfl
+  have hD0 : P.comp (C Q * X) ≠ 0 := fun e => by
+    have := congrArg (eval 0) e
+    simp [eval_comp, hP] at this
+  obtain ⟨Bd, hB, h4⟩ := exists_norm_gt_eval_ne_zero hD0
+  have hq : (1 : ℝ) < GroundTheory.LocalField.residueCard F := by exact_mod_cast GroundTheory.LocalField.one_lt_residueCard
+  refine ⟨max s₁ (Real.logb (GroundTheory.LocalField.residueCard F) Bd), fun s hs => ?_⟩
+  have hs1 := le_max_left s₁ (Real.logb (GroundTheory.LocalField.residueCard F) Bd)
+  have hs2 := le_max_right s₁ (Real.logb (GroundTheory.LocalField.residueCard F) Bd)
+  have h5 : (P.comp (C Q * X)).eval (qs F s) ≠ 0 := h4 _ (by
+    rw [norm_qs]
+    calc Bd = (GroundTheory.LocalField.residueCard F : ℝ) ^ (Real.logb (GroundTheory.LocalField.residueCard F) Bd) :=
+          (Real.rpow_logb (by linarith) hq.ne' hB).symm
+      _ < _ := Real.rpow_lt_rpow_of_exponent_lt hq (by linarith))
+  have hx : qs F s ≠ 0 := qs_ne_zero s
+  have hj : j = (j.toNat : ℤ) - ((-j).toNat : ℤ) := (Int.toNat_sub_toNat_neg j).symm
+  have e : RatFunc.C c * RatFunc.X ^ j * algebraMap ℂ[X] (RatFunc ℂ) P /
+      algebraMap ℂ[X] (RatFunc ℂ) (P.comp (C Q * X)) * RatFunc.C b =
+      algebraMap ℂ[X] (RatFunc ℂ) (C c * C b * X ^ j.toNat * P) /
+        algebraMap ℂ[X] (RatFunc ℂ) (X ^ (-j).toNat * P.comp (C Q * X)) := by
+    simp only [map_mul, map_pow, RatFunc.algebraMap_C, RatFunc.algebraMap_X]
+    rw [hj, zpow_sub₀ RatFunc.X_ne_zero, zpow_natCast, zpow_natCast, ← hj]
+    ring
+  rw [h2 s (by linarith), hR, e, eval_quot _ _ _ (by rw [eval_mul, eval_pow, eval_X]; exact mul_ne_zero (pow_ne_zero _ hx) h5)]
+  simp only [eval_mul, eval_pow, eval_X, eval_C, eval_comp]
+  rw [hj, zpow_sub₀ hx, zpow_natCast, zpow_natCast, ← hj]
+  ring
 
 private theorem comb {I : Type} (S : Finset I) (N : I → ℕ) (P : I → ℂ[X]) (c : I → ℂ) (j : I → ℤ) (q : ℕ) (f d : I → ℕ)
     (hq : 1 < q) (h : ∀ v ∈ S, 1 < N v ∧ (P v).eval 0 = 1 ∧ (P v).natDegree = d v ∧ (d v ≠ 0 → N v = q ^ f v)) :
@@ -211,13 +238,13 @@ theorem UpperTheory.V.Z.ImaginaryQuadraticEtaCharacter.sideXCen :
   choose Φb hΦb b hb0 hb using hb
   let Φ : ∀ v : HeightOneSpectrum (𝓞 K), Matrix (Fin n) (Fin n) (v.adicCompletion K) → ℂ :=
     fun v => if v ∈ S then Φb v else integralIndicator (v.adicCompletion K) n
-  have hΦS : ∀ v ∈ S, Φ v = Φb v := fun v hv => if_pos hv
+  have hΦS : ∀ v ∈ S, Φ v = Φb v := fun v hv => ite_eq_left hv
   obtain ⟨c, c', hc, hc', hSB1, hG⟩ := by
     set_option synthInstance.maxHeartbeats 200000 in
       exact genFE hn μ φ₀.2 φ₀.2 (h hmem) S hRS
         D.finite.π x ℓ hsm hℓs (fun v hv => ⟨hfix v hv, hℓ1 v⟩) (fun v hv => hℓK v (hfix v hv)) D.finite.isIrreducible
         D.finite.isAdmissible z (fun v hv => (hz v hv).1) fi hf' ⟨1, hF1'⟩ Φ (fun v hv => hΦS v hv ▸ hΦb v)
-        (fun v hv => if_neg hv)
+        (fun v hv => ite_eq_right hv)
   obtain ⟨σ₁, Λ, hΛ, h1⟩ := hG φ
   obtain ⟨σ₂, Λ', hΛ', h2⟩ := hG φ'
   have hloc : ∀ s, ∏ v ∈ S, zetaIntegral (localHaar n v) (Φ v)
@@ -313,9 +340,6 @@ section -- clump:auto
 open NumberField IsDedekindDomain MeasureTheory Polynomial Formalism.L2.Host Formalism.ConjugateSelfDual GlobalTheory.CuspRep GlobalTheory.HenQ UpperTheory.V.Z.Bc UpperTheory.V.Published
 open GlobalTheory.PRep GlobalTheory.SmGL GlobalTheory.SplitWeil GlobalTheory.LocGL UpperTheory.Zero.LLC UpperTheory.V.Z.Inf UpperTheory.V UpperTheory.V.Z.Gam
 open scoped Classical
-
-attribute [local instance] GlobalTheory.LocalData.complRel GlobalTheory.LocalData.isLocalField
-attribute [-instance] Formalism.DoubleCosetMeasures.instMeasGL
 
 namespace UpperTheory.V.Z.ImaginaryQuadraticEtaCharacter
 

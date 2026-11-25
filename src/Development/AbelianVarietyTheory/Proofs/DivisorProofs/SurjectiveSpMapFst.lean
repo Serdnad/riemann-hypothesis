@@ -1,8 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Definitions.ThetaMetrics.MemRangeCompIffOfIsClosedImmersion
-import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsHomOfDerivation
-import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ConstThickeningComplexFunctionsStructure
 public import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.DenseInterior
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -54,8 +51,6 @@ noncomputable section
 
 namespace GlobalTheory.InvFieldRing
 
-attribute [local instance] Over.cartesianMonoidalCategory
-
 section Val
 
 variable {A : Type} [CommRing A] {Y : Scheme.{0}}
@@ -81,8 +76,15 @@ theorem valR_appLE {Z : Scheme.{0}} (x : Sp A ⟶ Z) (g : Z ⟶ Y) (V : Y.Opens)
 
 theorem valR_constFn {B : Type} [CommRing B] (x : Sp A ⟶ Y) (p : Y ⟶ Sp B) (ψ : B →+* A) (hx : x ≫ p = spMap ψ)
     (V : Y.Opens) (h : ⊤ ≤ x ⁻¹ᵁ V) (a : B) : valR x V (constFn p V a) = ψ a := by
-  intros
-  apply _root_.GlobalTheory.Points.valR_constFn_of_over <;> assumption
+  unfold constFn
+  refine (valR_appLE x p ⊤ V (fun _ _ => trivial) h _).trans ?_
+  rw [hx, valR_of _ _ le_rfl]
+  have n := congrArg (fun q => q.hom a) (Scheme.ΓSpecIso_inv_naturality (CommRingCat.ofHom ψ))
+  have e' : ((spMap ψ).appLE ⊤ ⊤ le_rfl) = (spMap ψ).appTop := (Scheme.Hom.app_eq_appLE _).symm
+  change (Scheme.ΓSpecIso (CommRingCat.of A)).inv.hom (ψ a) =
+    (spMap ψ).appTop.hom ((Scheme.ΓSpecIso (CommRingCat.of B)).inv.hom a) at n
+  rw [e', ← n]
+  exact (Scheme.ΓSpecIso (CommRingCat.of A)).inv_hom_id_apply _
 
 theorem valR_spMap_comp {A' : Type} [CommRing A'] (ψ : A →+* A') (x : Sp A ⟶ Y) (V : Y.Opens) (h : ⊤ ≤ x ⁻¹ᵁ V)
     (f : Γ(Y, V)) : valR (spMap ψ ≫ x) V f = ψ (valR x V f) := by
@@ -100,7 +102,16 @@ end Val
 section Geo
 
 theorem surjective_spMap_fst (R : Type) [CommRing R] : Surjective (spMap (TrivSqZeroExt.fstHom R R R).toRingHom) := by
-  apply _root_.GlobalTheory.EpsThick.surjective_spMap_fst <;> assumption
+  have hs : Function.Surjective (TrivSqZeroExt.fstHom R R R).toRingHom := fun x => ⟨TrivSqZeroExt.inl x, rfl⟩
+  refine ⟨fun P => ?_⟩
+  have : P ∈ Set.range (PrimeSpectrum.comap (TrivSqZeroExt.fstHom R R R).toRingHom) := by
+    rw [range_comap_of_surjective _ _ hs]
+    intro x hx
+    refine (P : PrimeSpectrum (DualNumber R)).2.mem_of_pow_mem 2 ?_
+    have hx' : x.fst = 0 := hx
+    have : x ^ 2 = 0 := by ext <;> simp [sq, hx']
+    rw [this]; exact zero_mem _
+  exact this
 
 theorem spMap_fst_comp (R : Type) [CommRing R] :
     spMap (TrivSqZeroExt.fstHom R R R).toRingHom ≫ spMap (algebraMap R (DualNumber R)) = 𝟙 _ := by
@@ -131,7 +142,15 @@ theorem appLE_constFn {R : Type} [CommRing R] {Z Q : Scheme.{0}} (p : Z ⟶ Sp R
 
 theorem constFn_spMap {R S : Type} [CommRing R] [CommRing S] {Y : Scheme.{0}} (q : Y ⟶ Sp S) (φ : R →+* S)
     (O : Y.Opens) (a : R) : constFn (q ≫ spMap φ) O a = constFn q O (φ a) := by
-  apply _root_.GlobalTheory.KS.DerMorK.constFn_spMap <;> assumption
+  have h : (spMap φ).appLE ⊤ ⊤ (fun _ _ => trivial) = (spMap φ).appTop := by
+    rw [Scheme.Hom.appTop, ← Scheme.Hom.appLE_eq_app]; rfl
+  have h2 := congrArg (fun ψ => ψ.hom a) (Scheme.ΓSpecIso_inv_naturality (CommRingCat.ofHom φ))
+  have h3 := congrArg (fun ψ => ψ.hom ((Scheme.ΓSpecIso (CommRingCat.of R)).inv.hom a))
+    (Scheme.Hom.appLE_comp_appLE q (spMap φ) ⊤ ⊤ O (fun _ _ => trivial) (fun _ _ => trivial))
+  rw [h] at h3
+  simp only [CommRingCat.hom_comp, RingHom.comp_apply, CommRingCat.hom_ofHom] at h2 h3
+  unfold constFn
+  rw [← h3, h2]
 
 theorem constFn_eps_sq {R : Type} [CommRing R] {Y : Scheme.{0}} (p : Y ⟶ Sp (DualNumber R)) (O : Y.Opens) :
     constFn p O DualNumber.eps * constFn p O DualNumber.eps = 0 := by
@@ -161,12 +180,5 @@ def transl (hu : IsTanAtG t (chart U) u) : tEpsG (chart U) ⊗ t.G ⟶ t.G :=
   snd _ t.G * (fst _ t.G ≫ tanPt t U u hu)
 
 end Group
-
-section Group2
-
-variable {E : Type} [Field E] [NumberField E] [IsCMField E] {H : Host E} {X : Scheme.{0}} (t : SAB H X)
-  (U : X.affineOpens) (u : Sp (DualNumber Γ(X, U.1)) ⟶ t.G.left)
-
-end Group2
 
 end GlobalTheory.InvFieldRing

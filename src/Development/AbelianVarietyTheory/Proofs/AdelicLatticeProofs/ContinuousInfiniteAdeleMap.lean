@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.ExistsIsPrimeIdemOfComp
 public import Formalism.UnipotentAdelicQuotients.ThmBInHecke
 public import Development.AbelianVarietyTheory.BlockTheory.AdelicCMFields.UnitaryHeckeCharacterIdele
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsHeckeCharacterOfUnitaryTensorIdeles
@@ -10,44 +9,9 @@ public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Exist
 import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.ExistsAdeleRingTensorEquivInfiniteProdFinite
 import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.LcscAdelicUnitaryGroup
 import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Levelaf
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.HaveILetI
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Algebra.Group.OpenMapping
 import Mathlib.Topology.Baire.LocallyCompactRegular
-import Mathlib.Topology.Sheaves.Init
 
 @[expose] public section
 
@@ -307,7 +271,17 @@ theorem cA_cA (h : IsCMExt F E σ) (z : AE F E) : cA σ (cA σ z) = z := by
   | tmul a x => exact congrArg (a ⊗ₜ[F] ·) (sig_sig h x)
 
 theorem finPart_cA_mem {z : AE F E} (hz : finPart F E z ∈ intAE F E) : finPart F E (cA σ z) ∈ intAE F E := by
-  first | exact _root_.GlobalTheory.CMPrimeIdele.finPart_cA_mem | exact @_root_.GlobalTheory.CMPrimeIdele.finPart_cA_mem | apply _root_.GlobalTheory.CMPrimeIdele.finPart_cA_mem <;> assumption
+  have e : ∀ z : AE F E, finPart F E (cA σ z) = sigR (Af F) σ (finPart F E z) := fun z => by
+    induction z using TensorProduct.induction_on with
+    | zero => simp only [RingHom.map_zero]
+    | add x y hx hy => simp only [RingHom.map_add (f := _), hx, hy]
+    | tmul a x => rfl
+  rw [e]
+  have : intAE F E ≤ (intAE F E).comap (sigR (Af F) σ).toAddMonoidHom := by
+    refine (AddSubgroup.closure_le _).2 ?_
+    rintro _ ⟨a, ha, x, rfl⟩
+    exact AddSubgroup.subset_closure ⟨a, ha, cO σ x, rfl⟩
+  exact this hz
 
 theorem fst_cA (h : IsCMExt F E σ) {z : AE F E} (hz : (toAdele F E z).1 = 0) : (toAdele F E (cA σ z)).1 = 0 := by
   obtain ⟨_, rfl⟩ := (isCMExt_iff σ).1 h
@@ -594,7 +568,16 @@ theorem isUnifIdele_iff (P : HeightOneSpectrum (𝓞 E)) (x : (AE F E)ˣ) : IsUn
     exact (mix_eq_localIdele (of_isPrimeIdem h hp).1 _ _ hr).symm
 
 theorem exists_isUnifIdele (P : HeightOneSpectrum (𝓞 E)) : ∃ x, IsUnifIdele σ P x := by
-  first | exact _root_.GlobalTheory.CMPrimeIdele.exists_isUnifIdele | exact @_root_.GlobalTheory.CMPrimeIdele.exists_isUnifIdele | apply _root_.GlobalTheory.CMPrimeIdele.exists_isUnifIdele <;> assumption
+  obtain ⟨r, hr⟩ := P.intValuation_exists_uniformizer
+  have hv : Valued.v (algebraMap E (P.adicCompletion E) r) = WithZero.exp (-1 : ℤ) := by
+    rw [Formalism.UG.P.levelaf_valued_algebraMap, ← hr]
+    exact P.valuation_of_algebraMap r
+  have h0 : algebraMap E (P.adicCompletion E) r ≠ 0 := fun h0 => by
+    rw [h0, map_zero] at hv
+    exact WithZero.exp_ne_zero hv.symm
+  obtain ⟨x, hx⟩ := (ideleEquiv h).surjective (localIdele P (Units.mk0 _ h0))
+  rw [ideleEquiv_apply] at hx
+  exact ⟨x, (isUnifIdele_iff h P x).2 ⟨Units.mk0 _ h0, hv, ⟨r, rfl⟩, hx⟩⟩
 
 theorem isUnramAt_iff (χ : UnitaryHeckeChar E) (P : HeightOneSpectrum (𝓞 E)) :
     IsUnramAt σ (pull F χ) P ↔ χ.IsUnramifiedAt P := by

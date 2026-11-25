@@ -4,46 +4,7 @@ public import Formalism.SharpRestriction.GrowthBounds.ColumnSpanDensity.RhoLower
 public import Formalism.SharpRestriction.GrowthBounds.ColumnSpanDensity.LatticeCountPrimeMonoLevel
 public import Formalism.SharpRestriction.GrowthBounds.ColumnSpanDensity.RhoLowerBoundOfEdgeCount
 public import Formalism.SharpRestriction.GrowthBounds.LatticeSystems
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
 import Mathlib.Tactic.TypeStar
-import Mathlib.Topology.Sheaves.Init
 
 @[expose] public section
 
@@ -67,7 +28,7 @@ theorem dvd_w_pow_of_vLEO {O : Type*} [CommRing O] [IsDomain O] [IsDiscreteValua
   unfold vO vK ordW at hq
   have hx0 : algebraMap O (KK O) z ≠ 0 :=
     (map_ne_zero_iff _ (IsFractionRing.injective O (KK O))).mpr hz
-  rw [if_neg hx0] at hq
+  rw [ite_eq_right hx0] at hq
   dsimp only at hq
   have hspec := Classical.choose_spec (IsLocalization.surj (nonZeroDivisors O) (algebraMap O (KK O) z))
   generalize Classical.choose (IsLocalization.surj (nonZeroDivisors O) (algebraMap O (KK O) z)) = ab
@@ -145,13 +106,9 @@ theorem be_scale_Re (e : Edge R.W R.Qq (m + 1)) (c : ℕ) {F : Vsp R.Kf lam0}
 
 end Clean
 
-open Formalism.MainNotions.G.LatticeSystems in
-theorem nLeD_of_edge_count (hcnt : RestEdgeCountSrc) {p n' : ℕ} (R : RS p n') {m : ℕ} (lam0 : Fin n' → Fin (m + 1) → ℤ) (hDom : IsDominant lam0)
-    (t c n : ℕ) (D : ℝ) (hD0 : 0 ≤ D) (hDc : 2 * D < c)
-    (hfac : ∀ e, IsEdge p n' 1 e →
-      FactorsLE p (be (Kf := R.Kf) p 1 lam0) (CCL R lam0 t c e) (Re' p R.ι R.σ R.w 1 lam0 e) n D) :
-    (n : ℝ) ≤ dL R lam0 := by
+theorem rho_upper_bound_of_edge_count (hcnt : RestEdgeCountSrc) : RhoUpperBoundSmallDepth := by
   classical
+  intro p n' R m lam0 hDom t c n D hD0 hDc hfac
   have hdnn := dL_nonneg R lam0
   by_cases hn0 : n = 0
   · subst hn0; simpa using hdnn
@@ -162,7 +119,7 @@ theorem nLeD_of_edge_count (hcnt : RestEdgeCountSrc) {p n' : ℕ} (R : RS p n') 
     exact_mod_cast this
   have hdata : ∀ i : Fin Ne, ∃ (x : Fin n → Vsp R.Kf lam0)
       (y : Fin n → Module.Dual R.Kf (Vsp R.Kf lam0)) (z z' : R.O), z ≠ 0 ∧
-      (∀ a, x a ∈ CCL R lam0 t c (es i)) ∧ (∀ a, y a ∈ Re' p R.ι R.σ R.w 1 lam0 (es i)) ∧
+      (∀ a, x a ∈ CCL R lam0 t c (es i)) ∧ (∀ a, y a ∈ CCL' R lam0 t c (es i)) ∧
       z' * z = R.w ^ (c - 1) ∧
       ∀ a b, be p 1 lam0 (x a) (y b) = if a = b then algebraMap R.O R.Kf z else 0 := by
     intro i
@@ -186,10 +143,10 @@ theorem nLeD_of_edge_count (hcnt : RestEdgeCountSrc) {p n' : ℕ} (R : RS p n') 
       by_cases hab : a = b
       · subst hab; simp
       · have : ((i, a) : Fin Ne × Fin n) ≠ (i, b) := fun h => hab (Prod.mk.inj h).2
-        rw [if_neg hab, if_neg this]; simp
+        rw [ite_eq_right hab, ite_eq_right this]; simp
     · have hne : es l ≠ es i := fun h => hil (hinj h).symm
       have hXs := CCL_other R lam0 t c (es i) (es l) (hes _).1 ((hes _).2.trans (hes _).2.symm) hne (hx i a)
-      obtain ⟨b', hb⟩ := be_scale_Re R lam0 (es l) c hXs (hy l b)
+      obtain ⟨b', hb⟩ := be_scale_Re R lam0 (es l) c hXs (hy l b).1.2
       have h2 : ((i, a) : Fin Ne × Fin n) ≠ (l, b) := fun h => hil (Prod.mk.inj h).1
       refine ⟨R.w * b' * z' l, Ideal.mul_mem_right _ _ (Ideal.mul_mem_right _ _ R.w_mem), ?_⟩
       simp only
@@ -249,14 +206,6 @@ theorem nLeD_of_edge_count (hcnt : RestEdgeCountSrc) {p n' : ℕ} (R : RS p n') 
   have h7 : (n : ℝ) * gaussianNumber (p ^ n') (m + 1) ≤ (n : ℝ) * Ne := mul_le_mul_of_nonneg_left hNe (Nat.cast_nonneg _)
   push_cast at h6
   linarith
-
-theorem rho_upper_bound_of_edge_count (hcnt : RestEdgeCountSrc) : RhoUpperBoundSmallDepth := by
-  intro p n' R m lam0 hDom t c n D hD0 hDc hfac
-  refine nLeD_of_edge_count hcnt R lam0 hDom t c n D hD0 hDc ?_
-  intro e he
-  rcases hfac e he with h0 | ⟨x, y, hx, hy, z, M, hz, hv, hM⟩
-  · exact Or.inl h0
-  · exact Or.inr ⟨x, y, hx, fun a => (hy a).1.2, z, M, hz, hv, hM⟩
 
 end Formalism.MainNotions.flipOneThree.Pf
 

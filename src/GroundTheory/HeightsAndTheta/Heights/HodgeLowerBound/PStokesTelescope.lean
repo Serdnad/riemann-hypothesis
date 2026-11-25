@@ -1,7 +1,5 @@
 module
 
-import GroundTheory.HeightsAndTheta.Heights.HeightKernels.PChartEnergyInvariant
-import GroundTheory.HeightsAndTheta.Heights.Intersections.PConsequences
 public import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.StatementsStokesStep
 public import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.StatementsStokesGeo
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovGeometry.ATeleSt
@@ -26,7 +24,17 @@ variable {K : Type} [Fintype K] {ι : K → Type} [∀ k, Fintype (ι k)]
 theorem ptsIntegral_congr_g (P : Ideal (MRing ι)) {e : ℕ} (φ : Fin e → ((Σ k, ι k) → ℂ) → ℝ)
     {g g' : ((Σ k, ι k) → ℂ) → ℝ} (hg : ∀ z ∈ mcPts P, g z = g' z) :
     ptsIntegral P φ g = ptsIntegral P φ g' := by
-  apply _root_.GroundTheory.Heights₂.Heights.Inter.ptsIntegral_congr_pts <;> assumption
+  classical
+  unfold ptsIntegral ptsIntegralAt
+  split_ifs with hΨ
+  · congr 1
+    funext y
+    refine finsum_congr fun w => finsum_congr fun _ => ?_
+    unfold sheetDensity
+    split_ifs with hγ
+    · rw [hg _ hγ.choose_spec.2.self_of_nhds.2.1]
+    · rfl
+  · rfl
 
 theorem ptsIntegral_zero_g (P : Ideal (MRing ι)) {e : ℕ} (φ : Fin e → ((Σ k, ι k) → ℂ) → ℝ) :
     ptsIntegral P φ (fun _ => (0 : ℝ)) = 0 := by
@@ -92,7 +100,7 @@ theorem blockInd_smooth : IsSmoothHerm (blockInd (ι := ι)) := by
   refine (contDiffOn_const (c := (1 : ℝ))).congr fun z hz => ?_
   simp only [Set.mem_setOf_eq] at hz
   show (if ∀ k, ∃ i, z ⟨k, i⟩ ≠ 0 then (1 : ℝ) else 0) = 1
-  rw [if_pos hz]
+  rw [ite_eq_left hz]
 
 def ratio (A A' : HermLine ι) (ha : A'.a = A.a) : HermLine ι where
   a := 0
@@ -162,16 +170,16 @@ theorem fam_succAbove (A A' : HermLine ι) (D i : ℕ) (hi : i < D + 1) (k : ℕ
   · have h' : Fin.castSucc j < (⟨i, hi⟩ : Fin (D + 1)) := by
       rw [Fin.lt_def]
       exact h
-    rw [Fin.succAbove_of_castSucc_lt _ _ h', if_pos (show (Fin.castSucc j).val < k by
+    rw [Fin.succAbove_of_castSucc_lt _ _ h', ite_eq_left (show (Fin.castSucc j).val < k by
       show j.val < k
-      omega), if_pos h]
+      omega), ite_eq_left h]
   · have h' : (⟨i, hi⟩ : Fin (D + 1)) ≤ Fin.castSucc j := by
       rw [Fin.le_def]
       show i ≤ j.val
       omega
-    rw [Fin.succAbove_of_le_castSucc _ _ h', if_neg (show ¬ (Fin.succ j).val < k by
+    rw [Fin.succAbove_of_le_castSucc _ _ h', ite_eq_right (show ¬ (Fin.succ j).val < k by
       show ¬ j.val + 1 < k
-      omega), if_neg h]
+      omega), ite_eq_right h]
 
 theorem fam_smooth {A A' : HermLine ι} (hA : IsSmoothHerm A) (hA' : IsSmoothHerm A') (N i : ℕ) (j : Fin N) :
     IsSmoothHerm (fam A A' N i j) := by

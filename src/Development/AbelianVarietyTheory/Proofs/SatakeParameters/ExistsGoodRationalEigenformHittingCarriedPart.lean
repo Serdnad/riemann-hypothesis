@@ -1,6 +1,5 @@
 module
 
-import Formalism.LocalToGlobal.IndefiniteReal.PrimitiveStatementsWithPassage
 public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.NormalFam
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.WeightCocharacterEqOfGoodPlaces
 public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.GoodGeneric
@@ -24,53 +23,10 @@ public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.GoodForms
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.GoodProjectorUnitaryFormsModelLaws
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.SpanImageMaxGenEigenspace
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.RationalZeroIffRationalSubspace
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Topology.Sheaves.Init
 import Development.AbelianVarietyTheory.Proofs.SatakeParameters.IsSphericalDoubleCosetLabelIffDecreasingStatement
-import Mathlib.Algebra.AffineMonoid.UniqueSums
-import Mathlib.Algebra.Order.Star.Int
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
 import Development.AbelianVarietyTheory.Proofs.SatakeParameters.SphericalOperatorsFormsOnRankSpaceNormalStatement
 import Formalism.LocalToGlobal.Divisibility.InertPartitionLePartF
-import Mathlib.LinearAlgebra.Eigenspace.Triangularizable
-import Mathlib.Tactic.ENatToNat
 import Mathlib.Tactic.Linter.HaveILetI
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.InertValuesIffInertLabelsCarriedEigensystems
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.Proofs.SatakeParameters.WeightCocharacterEqOfGoodPlacesStatement, Development.AbelianVarietyTheory.Proofs.SatakeParameters.PartsEqOfSameEigensystemThetaAdjoint, Development.AbelianVarietyTheory.Proofs.SatakeParameters.PartsEqOfSameEigensystemThetaAdjointStatement, Development.AbelianVarietyTheory.Proofs.SatakeParameters.ExistsGoodRationalEigenformHittingCarriedPart
@@ -85,10 +41,7 @@ open Formalism.L2.Theta Formalism.L2.DIV Formalism.L2.Indef Formalism.DivisionVa
 open Formalism.IndefR Formalism.IndefR.Links Formalism.IndefR.Lev Formalism.IndefR.Mult Formalism.IndefR.Datum Formalism.IndefR.Cx
 open scoped TensorProduct InnerProductSpace
 open GlobalTheory.Hk3
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 
-theorem _root_.GlobalTheory.T.weight_cocharacter_eq_of_good_places : ∀ {D : D7} {G : Type} [Group G] [Fintype G] {Pl0 T : Type} {A : FamIn D.what₂.LL G Pl0 T D.R.m} {Ks : Type} [Field Ks] [NumberField Ks] [Algebra Ks D.what₂.LL] (R : RealDat D A Ks) (F : Face D A), Core R F → ∀ SF, IsSF R SF → ∀ i (c c' : Pl D.host.E → List ℤ → ℂ), Wcc R SF i c ≠ ⊥ → Wcc R SF i c' ≠ ⊥ → (∀ P, Good R A.μ0 P → conjPl P ≠ P → ∀ k, k ≤ (Wc D i).rank → c P (splitLab (Wc D i).rank k) = c' P (splitLab (Wc D i).rank k)) → (∀ P d, Good R A.μ0 P → conjPl P = P → IsLab (Wc D i) P d → c P d = c' P d) → Wcc R SF i c = Wcc R SF i c' := by
-  first | exact @GlobalTheory.Hk3.LabDet.part_eq_of_labels
 end -- clump:auto
 end -- clump:auto
 -- ===== end clump member: Development.AbelianVarietyTheory.Proofs.SatakeParameters.WeightCocharacterEqOfGoodPlacesStatement =====
@@ -103,7 +56,6 @@ open Formalism.L2.Theta Formalism.L2.DIV Formalism.L2.Indef Formalism.DivisionVa
 open Formalism.IndefR Formalism.IndefR.Links Formalism.IndefR.Lev Formalism.IndefR.Mult Formalism.IndefR.Datum Formalism.IndefR.Cx
 open scoped TensorProduct InnerProductSpace
 open GlobalTheory.Hk3
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 
 noncomputable section
 
@@ -111,8 +63,6 @@ namespace GlobalTheory.Hk3.SepLift
 
 variable {D : D7} {G : Type} [Group G] [Fintype G] {Pl0 T : Type} {A : FamIn D.what₂.LL G Pl0 T D.R.m}
   {Ks : Type} [Field Ks] [NumberField Ks] [Algebra Ks D.what₂.LL]
-
-
 
 theorem endV_ext (R : RealDat D A Ks) (hM : R.IsModels) (i : Fin D.R.m) (t : T) (f g : Module.End ℂ (R.HV i t).H)
     (h : ∀ x, f (R.jV i t x) = g (R.jV i t x)) : f = g := by
@@ -124,14 +74,19 @@ theorem endV_ext (R : RealDat D A Ks) (hM : R.IsModels) (i : Fin D.R.m) (t : T) 
 
 theorem hkF_eq_sum (V : HSp D) {W : Type} [AddCommGroup W] [Module ℂ W] (P : Pl D.host.E) (c : List ℤ →₀ ℂ)
     (F : Bridge.Gf V → W) : hkF V P c F = c.sum fun d z => z • hkF V P (Finsupp.single d 1) F := by
-  apply _root_.GlobalTheory.InertValLab.hkF_eq_sum <;> assumption
+  have e : ∀ d, hkF V P (Finsupp.single d 1) F = fun h => ∑ γ ∈ rep V P d, F (h * (finHom V).rangeRestrict γ) := by
+    intro d
+    funext h
+    simp [hkF]
+  simp only [e]
+  funext g
+  simp only [Finsupp.sum, Finset.sum_apply, Pi.smul_apply]
+  rfl
 
 theorem hkF_nonlab (V : HSp D) {W : Type} [AddCommGroup W] [Module ℂ W] (P : Pl D.host.E) (d : List ℤ)
     (hd : ¬ IsLab V P d) (F : Bridge.Gf V → W) : hkF V P (Finsupp.single d 1) F = 0 := by
   funext g
   simp [hkF, rep, hd]
-
-
 
 theorem opsV_sum (R : RealDat D A Ks) (hM : R.IsModels) (i : Fin D.R.m) (t : T)
     (h : Pl D.host.E → (List ℤ →₀ ℂ) → Module.End ℂ (R.HV i t).H) (hh : IsOpsV R i t h) (P : Pl D.host.E) (hP : Good R t P)
@@ -142,8 +97,6 @@ theorem opsV_sum (R : RealDat D A Ks) (hM : R.IsModels) (i : Fin D.R.m) (t : T)
   refine Eq.trans ?_ (map_finsuppSum (R.HV i t).e c _).symm
   refine Finsupp.sum_congr fun d _ => ?_
   exact (congrArg (c d • ·) (hh P hP _ x)).symm.trans (map_smul _ _ _).symm
-
-
 
 theorem opsV_nonlab (R : RealDat D A Ks) (hM : R.IsModels) (i : Fin D.R.m) (t : T)
     (h : Pl D.host.E → (List ℤ →₀ ℂ) → Module.End ℂ (R.HV i t).H) (hh : IsOpsV R i t h) (P : Pl D.host.E) (hP : Good R t P)
@@ -190,7 +143,7 @@ theorem evC_splitC (V : HSp D) (P : Pl D.host.E) (hP : conjPl P ≠ P) (a : List
   unfold evC splitC
   rw [← Finsupp.sum_finsetSum_index (fun _ => by simp) (fun _ _ _ => by split_ifs <;> ring)]
   refine Finset.sum_congr rfl fun j hj => ?_
-  rw [Finsupp.sum_single_index (by simp), if_pos (isLab_splitLab V P hP j (Nat.lt_succ_iff.1 (Finset.mem_range.1 hj)))]
+  rw [Finsupp.sum_single_index (by simp), ite_eq_left (isLab_splitLab V P hP j (Nat.lt_succ_iff.1 (Finset.mem_range.1 hj)))]
 
 theorem heckePoly_cancel (nV nW q : ℕ) (κ : ℂ) (B : ℂ[X]) (z : ℕ → ℕ → ℂ) (a a' : ℕ → ℂ) (hq : q ≠ 0) (hκ : κ ≠ 0)
     (hB : B ≠ 0)
@@ -220,8 +173,6 @@ theorem heckePoly_cancel (nV nW q : ℕ) (κ : ℂ) (B : ℂ[X]) (z : ℕ → �
   have hne : (-1 : ℂ) ^ j * (q : ℂ) ^ (j * (j - 1) / 2) ≠ 0 :=
     mul_ne_zero (pow_ne_zero _ (by norm_num)) (pow_ne_zero _ (Nat.cast_ne_zero.2 hq))
   exact mul_left_cancel₀ hne h3
-
-
 
 theorem parts_eq_of_labW : HoweUnram → ∀ {D : D7} {G : Type} [Group G] [Fintype G] {Pl0 I0 T : Type} {A3 : FamIn3 D.what₂.LL G Pl0 I0 (List ℕ) T D.R.m} {Ks : Type} [Field Ks] [NumberField Ks] [Algebra Ks D.what₂.LL] (R : RealDat3 D A3 Ks) (F : Face3 D A3), GlobalTheory.Chain.LiftInteg D → R.WeakCharacterisation F → R.toRealDat.ExAt → SchurAll R.toRealDat → InertJunk A3 → (∀ χ ∈ A3.A.X, IsAbsIrrChar χ) → ∀ j pl cV cW, LiftDict R j A3.A.μ0 pl cV cW → ∀ c c', ∀ w ∈ R.Wc' j c, ∀ w' ∈ R.Wc' j c', LinearMap.adjoint (R.thG j A3.A.μ0) w ≠ 0 → LinearMap.adjoint (R.thG j A3.A.μ0) w' ≠ 0 → labW j pl cW c = labW j pl cW c' → R.Wc' j c = R.Wc' j c' := by
   intro hHowe D G _ _ Pl0 I0 T A3 Ks _ _ _ R F hInt hCW hEx hSch _ hAbs j pl cV cW hLD c c' w hw w' hw' hy hy' hlab
@@ -259,7 +210,7 @@ theorem parts_eq_of_labW : HoweUnram → ∀ {D : D7} {G : Type} [Group G] [Fint
     intro u cc hu hu0 hbot
     rw [hbot, Submodule.mem_bot] at hu
     exact hu0 (by rw [hu, map_zero])
-  refine GlobalTheory.T.weight_cocharacter_eq_of_good_places R.toRealDat F.lv2 hCore R.SF hSF j c c' (hne hw2 (hydef ▸ hy)) (hne hw2' (hy'def ▸ hy')) ?_ ?_
+  refine GlobalTheory.Hk3.LabDet.part_eq_of_labels R.toRealDat F.lv2 hCore R.SF hSF j c c' (hne hw2 (hydef ▸ hy)) (hne hw2' (hy'def ▸ hy')) ?_ ?_
   ·
     intro P hP hconj k hk
     obtain ⟨P0, hP0, rfl⟩ := (hOnto P hP).2 hconj
@@ -353,7 +304,6 @@ open Formalism.L2.Theta Formalism.L2.DIV Formalism.L2.Indef Formalism.DivisionVa
 open Formalism.IndefR Formalism.IndefR.Links Formalism.IndefR.Lev Formalism.IndefR.Mult Formalism.IndefR.Datum Formalism.IndefR.Cx
 open scoped TensorProduct InnerProductSpace
 open GlobalTheory.Hk3
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 
 theorem _root_.GlobalTheory.T.parts_eq_of_same_eigensystem_thetaAdjoint : HoweUnram → ∀ {D : D7} {G : Type} [Group G] [Fintype G] {Pl0 I0 T : Type} {A3 : FamIn3 D.what₂.LL G Pl0 I0 (List ℕ) T D.R.m} {Ks : Type} [Field Ks] [NumberField Ks] [Algebra Ks D.what₂.LL] (R : RealDat3 D A3 Ks) (F : Face3 D A3), GlobalTheory.Chain.LiftInteg D → R.WeakCharacterisation F → R.toRealDat.ExAt → SchurAll R.toRealDat → InertJunk A3 → (∀ χ ∈ A3.A.X, IsAbsIrrChar χ) → ∀ j pl cV cW, LiftDict R j A3.A.μ0 pl cV cW → ∀ c c', ∀ w ∈ R.Wc' j c, ∀ w' ∈ R.Wc' j c', LinearMap.adjoint (R.thG j A3.A.μ0) w ≠ 0 → LinearMap.adjoint (R.thG j A3.A.μ0) w' ≠ 0 → labW j pl cW c = labW j pl cW c' → R.Wc' j c = R.Wc' j c' := by
   first | exact @GlobalTheory.Hk3.SepLift.parts_eq_of_labW
@@ -373,8 +323,6 @@ open Formalism.L2.Theta Formalism.L2.DIV Formalism.L2.Indef Formalism.DivisionVa
 open Formalism.IndefR Formalism.IndefR.Links Formalism.IndefR.Lev Formalism.IndefR.Mult Formalism.IndefR.Datum Formalism.IndefR.Cx
 open scoped TensorProduct InnerProductSpace
 open GlobalTheory.Hk3
-
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 
 namespace GlobalTheory.CarriedPart
 
@@ -532,8 +480,19 @@ variable {K V W : Type} [Field K] [AddCommGroup V] [Module K V] [AddCommGroup W]
 
 theorem map_maxGen (j : V →ₛₗ[σ] W) (f : Module.End K V) (g : Module.End ℂ W) (h : ∀ x, j (f x) = g (j x)) (μ : K) {x : V}
     (hx : x ∈ f.maxGenEigenspace μ) : j x ∈ g.maxGenEigenspace (σ μ) := by
-  intros
-  apply _root_.Formalism.IndefR.Cx.map_maxGen <;> assumption
+  obtain ⟨k, hk⟩ := (Module.End.mem_maxGenEigenspace _ _ _).1 hx
+  refine (Module.End.mem_maxGenEigenspace _ _ _).2 ⟨k, ?_⟩
+  have hS : ∀ z, j ((f - μ • 1) z) = (g - σ μ • 1) (j z) := by
+    intro z
+    simp [h, map_sub, map_smulₛₗ]
+  have hp : ∀ (n : ℕ) (z : V), j (((f - μ • 1) ^ n) z) = ((g - σ μ • 1) ^ n) (j z) := by
+    intro n
+    induction n with
+    | zero => intro z; simp
+    | succ n ih =>
+      intro z
+      rw [pow_succ, pow_succ, Module.End.mul_apply, Module.End.mul_apply, ih, hS]
+  rw [← hp, hk, map_zero]
 
 theorem out_mem_span {s : Bool} {E : Type} [NormedAddCommGroup E] [InnerProductSpace ℂ E] {S : Set (Tw s E)} {x : Tw s E}
     (hx : x ∈ Submodule.span ℂ S) : Tw.out x ∈ Submodule.span ℂ (Tw.out '' S) := by
@@ -550,7 +509,7 @@ variable {D : D7}
 theorem evC_single_one (V : HSp D) (P : Pl D.host.E) (a : List ℤ → ℂ) {d : List ℤ} (h : IsLab V P d) :
     evC V P a (Finsupp.single d 1) = a d := by
   unfold evC
-  rw [Finsupp.sum_single_index (by simp), if_pos h, one_mul]
+  rw [Finsupp.sum_single_index (by simp), ite_eq_left h, one_mul]
 
 theorem opAll_mem_goodR {G : Type} [Group G] [Fintype G] {Pl0 I0 Ty : Type} {K : Type} [Field K] [NumberField K] [StarRing K]
     {B : BlockDat K G Pl0} (Dt : InertDat3 B I0 Ty) {s : ℕ} (h : B.Ok s) (hD : Dt.Ok3) (ℓ : Lvl K G) (i : Dt.OpIx)
@@ -590,8 +549,7 @@ theorem core_witness (j : V →ₛₗ[σ] Hv) (θ : Hv →ₗ[ℂ] Hw)
   have hy0 : LinearMap.adjoint θ w ≠ 0 := fun h0 => hy (by rw [h0, map_zero])
   obtain ⟨sy, hsy, hyE⟩ := exists_rational_eig j hli op T hint hc hs Gd hG (lab c) hyS hy0 fun i => hTy c i w hw
   obtain ⟨x, hxS, hxθ⟩ : ∃ x ∈ (Gd ⊓ eigAt op sy : Submodule K V), θ (j x) ≠ 0 := by
-    by_contra hno
-    push_neg at hno
+    by_contra! hno
     have h1 : Submodule.span ℂ (j '' ((Gd ⊓ eigAt op sy : Submodule K V) : Set V)) ≤ LinearMap.ker θ :=
       Submodule.span_le.2 (by rintro _ ⟨x, hx, rfl⟩; exact hno x hx)
     exact hy (h1 hyE)
@@ -645,7 +603,7 @@ theorem parts_orth (R : RealDat D A Ks) (SF : Finset (HeightOneSpectrum (𝓞 D.
     · intro z hz
       refine hLast c1 z (heH c2 z hz) fun P d hP hd => ?_
       rw [hEv c2 P hP _ z hz, evC_single_one _ _ _ hd, hall P d hP hd]
-  · push_neg at hall
+  · push Not at hall
     obtain ⟨P, d, hP, hd, hcd⟩ := hall
     have hν : LinearMap.adjoint (h P (Finsupp.single d 1)) x2 =
         evC (Wc D i) P (c2 P) (dualC (Finsupp.mapRange star (star_zero ℂ) (Finsupp.single d 1))) • x2 := by
@@ -672,8 +630,6 @@ section Real2
 
 variable {G : Type} [Group G] [Fintype G] {Pl0 T : Type} {A : FamIn D.what₂.LL G Pl0 T D.R.m}
   {Ks : Type} [Field Ks] [NumberField Ks] [Algebra Ks D.what₂.LL]
-
-
 
 open Formalism.L2.Col in
 theorem witness_real {I : Type} (R : RealDat D A Ks) (F : Face D A) (hCore : Core R F) (hSch : SchurAll R)
@@ -744,8 +700,6 @@ section Three
 variable {G : Type} [Group G] [Fintype G] {Pl0 I0 T : Type} {A3 : FamIn3 D.what₂.LL G Pl0 I0 (List ℕ) T D.R.m}
   {Ks : Type} [Field Ks] [NumberField Ks] [Algebra Ks D.what₂.LL]
 
-
-
 theorem adjoint_mem_span (R : RealDat3 D A3 Ks) (F : Face3 D A3) {s : ℕ} (hOk : A3.fam3.Ok3 s) (hC : R.WeakCharacterisation F)
     (hLU : R.toRealDat.LUnif) (hGU : R.PGUnit F) (hGE : R.PGEquiv F) (hLW : R.PLevW F) (j : Fin D.R.m)
     (w : (R.HW j (sg0 D A3.A)).H)
@@ -780,8 +734,6 @@ theorem adjoint_mem_span (R : RealDat3 D A3 Ks) (F : Face3 D A3) {s : ℕ} (hOk 
 end Three
 
 section Main
-
-
 
 theorem exists_good_eigenform : HoweUnram → ∀ {D : D7} {G : Type} [Group G] [Fintype G] {Pl0 I0 T : Type} {A3 : FamIn3 D.what₂.LL G Pl0 I0 (List ℕ) T D.R.m} {Ks : Type} [Field Ks] [NumberField Ks] [Algebra Ks D.what₂.LL] (R : RealDat3 D A3 Ks) (F : Face3 D A3), GlobalTheory.Chain.LiftInteg D → R.WeakCharacterisation F → R.toRealDat.ExAt → SchurAll R.toRealDat → InertJunk A3 → ∀ s, A3.fam3.Ok3 s → GoodGeneric A3.A.X F.P0 F.ψ0⁻¹ → R.toRealDat.LUnif → R.PGUnit F → R.PGEquiv F → R.PLevW F → R.PThmA → (0 < R.kap ∧ ∀ i t p, 0 < R.lam3 i t p A3.A.v0) → ∀ j pl cV cW, LiftDict R j A3.A.μ0 pl cV cW → ∀ p c, R.Carries p c → R.Wc' j c ≠ ⊥ → ∃ (sy : (A3.liftI j A3.A.μ0).OpIx → D.what₂.LL) (x : (A3.A.fam.L j A3.A.μ0).S.Forms), x ∈ BlockGood.goodR (A3.A.fam.L j A3.A.μ0) (A3.A.fam.lvlA F.P0 F.ψ0) ∧ (∀ i, (A3.liftI j A3.A.μ0).opAll i x = sy i • x) ∧ R.thG j A3.A.μ0 (R.jV j A3.A.μ0 x) ∈ R.Wc' j c ∧ R.thG j A3.A.μ0 (R.jV j A3.A.μ0 x) ≠ 0 ∧ labW j pl cW c = fun i => D.what₂.embLL (sy i) := by
   intro hHowe D G _ _ Pl0 I0 T A3 Ks _ _ _ R F hLI hC hEx hSch hJunk s hOk hGG hLU hGU hGE hLW hThA hPos j pl cV cW hDict p c hCar hne

@@ -80,7 +80,7 @@ theorem isStarOf_of_clauses : ∀ (O : Type) [CommRing O] [IsDedekindDomain O] [
       _root_.GlobalTheory.StarCover.star_cover X m δ β₀ B (fun i => (hδ.mem i).1) hδ.nonneg hne hin ⟨c, hc, hBδ⟩
     exact Or.inr ⟨m, δ, β₀, m', s, h, hδ, hβ₀, hβ₀p, hw1, hin, hfc, hpos,
       key _ _ (h2 X hX m δ hδ β₀ hβ₀ hβ₀p hw1 hin m' s h hfc hpos) hBc⟩
-  · push_neg at hc0
+  · push Not at hc0
     have h0 : ∀ β ∈ balForms bar X, (∀ y, 0 ≤ β y y) → InRCone δ β → w.evalZ β = 0 := fun β hβ hp hi =>
       ((hw X hX).1 β hβ hp).resolve_right (hc0 β hβ hp hi)
     exact Or.inl ⟨m, δ, hδ, h0, key _ _ (h1 X hX m δ hδ h0) ⟨c, hc, hBδ⟩⟩
@@ -95,8 +95,6 @@ end -- clump:auto
 -- clump-header: {"m": "CompanionTheory.SpectralGeometry.LocalGlobalProofs.ConvexCones.StarDepthTwistedGalois", "h": "module\n\npublic import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.StarDepthToFunNonneg\npublic import CompanionTheory.SpectralGeometry.CountingDefinitions.VoronoiMeans.VorFunEvalEqFineMean\npublic import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.StarSubdivisionDepthHostFixingAutInvariant\nimport Mathlib.Algebra.Order.Floor.Extended\nimport Mathlib.Algebra.Order.Floor.Semifield\nimport Mathlib.Algebra.Order.Interval.Basic\nimport Mathlib.Analysis.Complex.UpperHalfPlane.Basic\nimport Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp\nimport Mathlib.Combinatorics.Enumerative.DyckWord\nimport Mathlib.Combinatorics.SimpleGraph.Triangle.Removal\nimport Mathlib.Data.NNRat.Floor\nimport Mathlib.Geometry.Euclidean.Volume.Basic\nimport Mathlib.NumberTheory.Chebyshev\nimport Mathlib.NumberTheory.Height.NumberField\nimport Mathlib.NumberTheory.Height.Projectivization\nimport Mathlib.NumberTheory.LucasLehmer\nimport Mathlib.NumberTheory.SelbergSieve\nimport Mathlib.RingTheory.Radical.NatInt\nimport Mathlib.Tactic.Echelon.Zsqrtd\nimport Mathlib.Tactic.Inclusion.Extension.Core.Core\nimport Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit\nimport Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp\nimport Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses\nimport Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic\nimport Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses\nimport Mathlib.Tactic.Linter.Style\nimport Mathlib.Tactic.NormNum.Irrational\nimport Mathlib.Tactic.NormNum.IsCoprime\nimport Mathlib.Tactic.NormNum.IsSquare\nimport Mathlib.Tactic.NormNum.LegendreSymbol\nimport Mathlib.Tactic.NormNum.ModEq\nimport Mathlib.Tactic.NormNum.NatFib\nimport Mathlib.Tactic.NormNum.NatLog\nimport Mathlib.Tactic.NormNum.NatSqrt\nimport Mathlib.Tactic.NormNum.Ordinal\nimport Mathlib.Tactic.NormNum.Parity\nimport Mathlib.Tactic.NormNum.Prime\nimport Mathlib.Tactic.NormNum.RealSqrt\nimport Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.HomExtNormalSt\n\n"}
 section -- clump:auto
 @[expose] public section
-
-set_option autoImplicit false
 
 noncomputable section
 
@@ -464,8 +462,54 @@ open GlobalTheory.PolFan.StarGap
 namespace GlobalTheory.CompanionTheory.Ar.Fan.StarDepthGap
 
 theorem starDepth_le_gap : ∀ (O : Type) [CommRing O] [IsDedekindDomain O] [CharZero O] [Module.Finite ℤ O] (bar : O → O), CMOrd O bar → ∀ (q : ℕ) (ψ w : InvFun O), IsPolyFan bar q ψ → IsCentreSet bar q ψ w → ∀ (X : Type) [AddCommGroup X] [Module O X] [Module.Finite O X] [Module.Projective O X], Module.finrank O X ≤ q → ∀ (m : ℕ) (γ : Fin m → LinearMap.BilinForm ℤ X) (N : ℕ) (ℓ : LinearMap.BilinForm ℤ X →ₗ[ℤ] ℤ), IsCell bar ψ γ → (∀ β ∈ balForms bar X, (∀ y, 0 ≤ β y y) → InRCone γ β → w.evalZ β = 0) → 0 < N → StrictWith bar ψ N ℓ γ → ∀ β ∈ balForms bar X, (∀ y, 0 ≤ β y y) → (starDepth bar ψ w).evalZ β ≤ ℓ β - N * ψ.evalZ β := by
-  intro O _ _ _ _ bar _
-  exact _root_.GlobalTheory.PolFan.StarGap.starDepth_le_gap_over_order O bar
+  intro O _ _ _ _ bar _ q ψ w hψ _ X _ _ _ _ hX m γ N ℓ _ hno _ hsw β hβ hp
+  have hfan := hψ X hX
+  obtain ⟨-, hge, heq⟩ := hsw
+
+  have hmem : toReal β ∈ psdCone (bar := bar) (X := X) := by
+    have := ConeSub.sum_smul_toReal_mem_psdCone O bar X 1 ![β] ![1] (fun i => by fin_cases i; exact hβ)
+      (fun i y => by fin_cases i; exact hp y) (fun i => by fin_cases i; norm_num)
+    simpa using this
+  obtain ⟨S, -, hS⟩ := hfan.finite
+  obtain ⟨e, m', δ₀, c, hδ₀, -, hc, he⟩ := hS _ hmem
+  set δ : Fin m' → LinearMap.BilinForm ℤ X := fun i => pull e.symm.toLinearMap (δ₀ i) with hδdef
+  have hδ : IsCell bar ψ δ := CarDim.isCell_pull_equiv hδ₀ e.symm
+  have hβc : toReal β = ∑ i, c i • toReal (δ i) := LinearMap.ext₂ fun a b => by
+    have := LinearMap.congr_fun₂ he (e.symm a) (e.symm b)
+    simpa [hδdef, LinearMap.sum_apply] using this
+  rw [← evalR_toReal]
+  refine evalR_starDepth_le _ bar ψ w X m' δ (toReal β) _ hδ ⟨c, hc, hβc⟩ (sub_nonneg.2 (hge β hβ hp)) ?_
+  rintro v hv hvp hwv ⟨b, hb, hvb⟩ t ht ⟨d, hd, hdt⟩
+
+  have hv1 : (1 : ℝ) ≤ (ℓ v : ℝ) - N * ψ.evalZ v := by
+    obtain ⟨n, hn⟩ := hfan.integral v hv hvp
+    have h0 := hge v hv hvp
+    have hne : (N : ℝ) * ψ.evalZ v ≠ ℓ v := fun h => by
+      obtain ⟨k, a, hk, hka⟩ := heq v hv hvp h
+      obtain ⟨g, hg, hgs⟩ := StarUpper.sum_mem_rcone (δ := ![v]) (γ := γ) ![1] (fun i => by fin_cases i; norm_num)
+        (fun i _ => by fin_cases i; exact ⟨k, a, hk, hka⟩)
+      have := hno v hv hvp ⟨g, hg, by simpa using hgs⟩
+      rw [hwv] at this
+      exact one_ne_zero this
+    have hlt := lt_of_le_of_ne h0 hne
+    rw [hn] at hlt ⊢
+    have h1 : (N : ℤ) * n < ℓ v := by exact_mod_cast hlt
+    have h2 : (1 : ℤ) ≤ ℓ v - N * n := by omega
+    exact_mod_cast h2
+  have hβ' : toReal β = ∑ i, (t * b i + d i) • toReal (δ i) := by
+    have : toReal β = t • toReal v + (toReal β - t • toReal v) := by abel
+    rw [this, hdt, hvb, Finset.smul_sum, ← Finset.sum_add_distrib]
+    exact Finset.sum_congr rfl fun i _ => by rw [add_smul, smul_smul]
+  have e1 := gap_eq_sum N ℓ hδ.linear (fun i => add_nonneg (mul_nonneg ht.le (hb i)) (hd i)) hβ'
+  have e2 := gap_eq_sum N ℓ hδ.linear hb hvb
+  have e3 : 0 ≤ ∑ i, d i * ((ℓ (δ i) : ℝ) - N * ψ.evalZ (δ i)) :=
+    Finset.sum_nonneg fun i _ => mul_nonneg (hd i) (sub_nonneg.2 (hge _ (hδ.mem i) (hδ.nonneg i)))
+  have e4 : (ℓ β : ℝ) - N * ψ.evalZ β = t * ((ℓ v : ℝ) - N * ψ.evalZ v) +
+      ∑ i, d i * ((ℓ (δ i) : ℝ) - N * ψ.evalZ (δ i)) := by
+    rw [e1, e2, Finset.mul_sum, ← Finset.sum_add_distrib]
+    exact Finset.sum_congr rfl fun i _ => by ring
+  rw [e4]
+  nlinarith [mul_le_mul_of_nonneg_left hv1 ht.le]
 
 end GlobalTheory.CompanionTheory.Ar.Fan.StarDepthGap
 end -- clump:auto
@@ -612,9 +656,46 @@ theorem exists_starFun_strict : ∀ (O : Type) [CommRing O] [IsDedekindDomain O]
   · intro X _ _ _ _ hX m γ hγ hnoc
     obtain ⟨N, ℓ, hN, hNN, hsw, -⟩ := hdata X hX m γ hγ
     have hgap := _root_.GlobalTheory.CompanionTheory.Ar.Fan.StarDepthGap.starDepth_le_gap O bar hb q ψ w hψ hcs X hX m γ N ℓ hγ hnoc hN hsw
-    have hKN : (N : ℝ) + 1 ≤ ((N₀ + N₀ * C₀ + N₀ ^ 2 * C₀ * b + 1 : ℕ) : ℝ) := by
-      exact_mod_cast (show N + 1 ≤ N₀ + N₀ * C₀ + N₀ ^ 2 * C₀ * b + 1 by omega)
-    exact _root_.GlobalTheory.PolFan.StarKey.strict_starFun_of_gap hγ hN hD₀r hKN hsw hgap
+    have hnn : ∀ β : LinearMap.BilinForm ℤ X, 0 ≤ (starDepth bar ψ w).evalZ β := fun β =>
+      starDepth_eval_nonneg (fun a b => (β a b : ℝ))
+    set K := N₀ + N₀ * C₀ + N₀ ^ 2 * C₀ * b + 1 with hKdef
+    have hKN : (N : ℝ) + 1 ≤ K := by
+      have : N + 1 ≤ K := by rw [hKdef]; omega
+      exact_mod_cast this
+    have hN0 : (0 : ℝ) ≤ N := Nat.cast_nonneg N
+    refine ⟨N, ((D₀ * K : ℕ) : ℤ) • ℓ, hN, fun i => ?_, fun β hβ hp => ?_, fun β hβ hp he => ?_⟩
+    · have h0 := hsw.1 i
+      have hps : (starDepth bar ψ w).evalZ (γ i) = 0 :=
+        le_antisymm (by have := hgap (γ i) (hγ.mem i) (hγ.nonneg i); linarith) (hnn _)
+      rw [starFun_evalZ, hps]
+      simp only [LinearMap.smul_apply, smul_eq_mul]
+      push_cast
+      rw [h0]; ring
+    · have hg := hgap β hβ hp
+      have hf := hsw.2.1 β hβ hp
+      have hps := hnn β
+      rw [starFun_evalZ]
+      simp only [LinearMap.smul_apply, smul_eq_mul]
+      push_cast
+      set P := (starDepth bar ψ w).evalZ β
+      set Ψ := ψ.evalZ β
+      set L : ℝ := (ℓ β : ℝ)
+      have k1 : (N : ℝ) * P ≤ K * (L - N * Ψ) := by nlinarith [mul_le_mul_of_nonneg_left hg hN0]
+      nlinarith [mul_le_mul_of_nonneg_left k1 hD₀r.le]
+    · have hg := hgap β hβ hp
+      have hf := hsw.2.1 β hβ hp
+      have hps := hnn β
+      rw [starFun_evalZ] at he
+      simp only [LinearMap.smul_apply, smul_eq_mul] at he
+      push_cast at he
+      set P := (starDepth bar ψ w).evalZ β
+      set Ψ := ψ.evalZ β
+      set L : ℝ := (ℓ β : ℝ)
+      have e1 : (N : ℝ) * P = K * (L - N * Ψ) := by
+        have := mul_left_cancel₀ hD₀r.ne' (show (D₀ : ℝ) * (N * P) = D₀ * (K * (L - N * Ψ)) by linear_combination he)
+        exact this
+      have e2 : L - N * Ψ = 0 := by nlinarith [mul_le_mul_of_nonneg_left hg hN0]
+      exact hsw.2.2 β hβ hp (by linarith)
   · intro X _ _ _ _ hX m γ hγ β₀ hβ₀ hp₀ hw₀ hin₀ m' s h hcut hpos
     obtain ⟨N, ℓ, hN, hNN, hsw, hcuts⟩ := hdata X hX m γ hγ
     obtain ⟨h', hcut', hpos', hdom'⟩ := hcuts m' s h hcut

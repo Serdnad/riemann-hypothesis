@@ -248,14 +248,14 @@ theorem charpoly_companion {k : Type} [Field k] {r : ℕ} (p : Fin r → k) :
     rw [Algebra.leftMulMatrix_eq_repr_mul, hb, ← pow_succ']
     simp only [companion, Matrix.of_apply]
     by_cases hj : (j : ℕ) + 1 = r
-    · rw [if_pos hj, hj, hroot, ← b.equivFun_symm_apply, ← b.equivFun_apply, LinearEquiv.apply_symm_apply]
-    · rw [if_neg hj]
+    · rw [ite_eq_left hj, hj, hroot, ← b.equivFun_symm_apply, ← b.equivFun_apply, LinearEquiv.apply_symm_apply]
+    · rw [ite_eq_right hj]
       have hlt' : (j : ℕ) + 1 < r := lt_of_le_of_ne j.2 hj
       have : AdjoinRoot.root P ^ ((j : ℕ) + 1) = b ⟨(j : ℕ) + 1, hlt'⟩ := by rw [hb]
       rw [this, b.repr_self, Finsupp.single_apply]
       by_cases hi : (i : ℕ) = (j : ℕ) + 1
-      · rw [if_pos hi, if_pos (Fin.ext hi.symm)]
-      · rw [if_neg hi, if_neg (fun h => hi (congrArg Fin.val h).symm)]
+      · rw [ite_eq_left hi, ite_eq_left (Fin.ext hi.symm)]
+      · rw [ite_eq_right hi, ite_eq_right (fun h => hi (congrArg Fin.val h).symm)]
   have hP0 : P ≠ 0 := hm.ne_zero
   haveI : Module.Finite k (AdjoinRoot P) := pb.finite
   rw [hmat, Algebra.leftMulMatrix_apply, LinearMap.charpoly_toMatrix, ← LinearMap.charpoly_toMatrix _ pb.basis,
@@ -576,15 +576,10 @@ namespace GlobalTheory.JR.MeasTransport
 
 variable {F E : Type} [NontriviallyNormedField F] [NontriviallyNormedField E] [NormedAlgebra F E] [StarRing E]
 
-theorem star_smul_vec [hU : Unram F E] {r : ℕ} (a : F) (c : Fin r → E) : star (a • c) = a • star c := by
-  funext i
-  show star (a • c i) = a • star (c i)
-  rw [Algebra.smul_def, Algebra.smul_def, star_mul', hU.star_fix, mul_comm]
-
 def trForm [Unram F E] (r : ℕ) : LinearMap.BilinForm F (Fin r → E) :=
   LinearMap.mk₂ F (fun c b => Algebra.trace F E (star c ⬝ᵥ b))
     (fun c c' b => by simp only [star_add, add_dotProduct, map_add (f := _)])
-    (fun a c b => by simp only [star_smul_vec, smul_dotProduct, map_smul])
+    (fun a c b => by simp only [GlobalTheory.JR.PiSelfDual.star_smul_F, smul_dotProduct, map_smul])
     (fun c b b' => by simp only [dotProduct_add, map_add (f := _)])
     (fun a c b => by simp only [dotProduct_smul, map_smul])
 
@@ -604,7 +599,7 @@ theorem trForm_sepLeft [hU : Unram F E] (r : ℕ) (c : Fin r → E) (h : ∀ b, 
   by_contra hc
   obtain ⟨i, hi⟩ : ∃ i, c i ≠ 0 := by
     by_contra h'
-    push_neg at h'
+    push Not at h'
     exact hc (funext h')
   have h1 := h (Pi.single i (star (c i))⁻¹)
   rw [trForm_apply, dotProduct_single, Pi.star_apply, mul_inv_cancel₀ (star_ne_zero.mpr hi),
@@ -618,8 +613,17 @@ theorem trForm_nondeg [Unram F E] (r : ℕ) : (trForm (F := F) (E := E) r).Nonde
 theorem kerL_eq [hU : Unram F E] (A : Et F E) (ψ : AddChar F ℂ) {r : ℕ} {x : A.K} {j : A.L ≃ₗ[E] (Fin r → E)}
     (hx : A.IsIsom x j) (y' y : A.L) :
     A.kerL ψ x y' y = ψ (Algebra.trace F E (star (j y') ⬝ᵥ j y)) := by
-  intros
-  apply _root_.GlobalTheory.JR.Et.kerL_eq_of_isIsom <;> assumption
+  obtain ⟨b⟩ := (GlobalTheory.JR.Et.quadratic_structure F E A).1
+  haveI : Module.Free A.K A.L := Module.Free.of_basis b
+  haveI : Module.Finite A.K A.L := Module.Finite.of_basis b
+  haveI : FiniteDimensional F E := Module.finite_of_finrank_pos (by rw [hU.finrank_eq]; norm_num)
+  haveI : Module.Finite F A.L := Module.Finite.trans A.K A.L
+  haveI : Module.Finite E A.L := Module.Finite.of_restrictScalars_finite F E A.L
+  unfold Et.kerL Et.psiK
+  rw [hx, Algebra.trace_trace (R := F) (S := E) (T := A.L), ← Algebra.trace_trace (R := F) (S := A.K) (T := A.L)]
+  congr 2
+  rw [show algebraMap A.K A.L x * star y' * y = x • (star y' * y) by rw [Algebra.smul_def, mul_assoc], map_smul,
+    smul_eq_mul]
 
 end GlobalTheory.JR.MeasTransport
 
@@ -979,8 +983,7 @@ theorem GlobalTheory.JR.descFn_isTest : ∀ (F E : Type) [NontriviallyNormedFiel
     by_contra hne
     rw [hdesc] at hne
     have : ∃ g, Φ (y, g) ≠ 0 := by
-      by_contra hall
-      push_neg at hall
+      by_contra! hall
       apply hne
       have : (fun g => Φ (y, g)) = fun _ => 0 := funext hall
       rw [this]
@@ -1333,7 +1336,7 @@ namespace GlobalTheory.JR.SizeOne
 
 theorem eta_one' {F : Type} [NormedField F] : eta (1 : F) = 1 := by
   unfold eta
-  rw [if_pos ⟨1, by simp⟩]
+  rw [ite_eq_left ⟨1, by simp⟩]
 
 theorem unitMatch_zero : UnitMatch 0 := by
   intro F E _ _ _ _ _ M a _

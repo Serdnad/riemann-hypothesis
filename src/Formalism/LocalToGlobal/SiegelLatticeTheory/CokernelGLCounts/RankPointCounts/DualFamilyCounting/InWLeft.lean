@@ -14,8 +14,6 @@ namespace Formalism.L2.SG.Pf.NcReal.JX.NOf.Ex
 
 open Formalism.L2.SG.HidaSetting Formalism.MainNotions.S Formalism.L2.SG.Pf.NcReal.JX.NOf
 
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
-
 variable {D : D7} (X : HidaSetting D)
 
 theorem h_symm (x y : (VS D).V) : (VS D).hT y x = star ((VS D).hT x y) := ((VS D).herm.eq x y).symm
@@ -24,7 +22,7 @@ theorem h_fe (a b : Fin D.R.rS) : (VS D).hT (X.fY a) (X.eX b) = if a = b then 1 
   rw [h_symm, X.ef b a]
   by_cases h : b = a
   · subst h; simp
-  · rw [if_neg h, if_neg (Ne.symm h), star_zero]
+  · rw [ite_eq_right h, ite_eq_right (Ne.symm h), star_zero]
 
 theorem inW_pW (y : (VS D).V) : InW X (pW X y) := by
   apply _root_.Formalism.L2.SG.Pf.NcReal.JX.NOf.Alg.pW_inW <;> assumption

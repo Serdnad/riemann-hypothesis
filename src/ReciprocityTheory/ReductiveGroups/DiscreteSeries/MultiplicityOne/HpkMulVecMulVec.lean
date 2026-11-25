@@ -1,7 +1,7 @@
 module
 
-import ReciprocityTheory.ReductiveGroups.DiscreteSeries.TailIntegrals.UHMulInv
 public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.MultiplicityOne.StDefs
+import ReciprocityTheory.ReductiveGroups.DiscreteSeries.TailIntegrals.UHMulInv
 import Mathlib.Algebra.Order.Star.Real
 import Mathlib.Analysis.CStarAlgebra.ContinuousLinearMap
 
@@ -19,55 +19,41 @@ open Formalism.QuantumDeterminants Formalism.FourierDecayAlt.B Formalism.Fourier
 variable {k r : ℕ}
 
 theorem hpk_out {i : Fin (2 * r + k + 1)} (h : i.val < r ∨ r + k < i.val) (j : Fin (2 * r + k + 1)) :
-    Hpk k r i j = if j.val = 2 * r + k - i.val then 1 else 0 := by
-  have hi := i.isLt
-  have hj := j.isLt
-  simp only [Hpk, Fin.ext_iff]
-  split_ifs <;> first | omega | rfl
+    Hpk k r i j = if j.val = 2 * r + k - i.val then 1 else 0 :=
+  ReciprocityTheory.ChartRestriction.DS.Xi.StepA.Hpk_out k r h j
 
 theorem hpk_mid {i : Fin (2 * r + k + 1)} (h : ¬(i.val < r ∨ r + k < i.val)) (j : Fin (2 * r + k + 1)) :
-    Hpk k r i j = if j.val = i.val then (if i.val = r + k then -1 else 1) else 0 := by
-  have hi := i.isLt
-  have hj := j.isLt
-  simp only [Hpk, Fin.ext_iff]
-  split_ifs <;> first | omega | rfl
+    Hpk k r i j = if j.val = i.val then (if i.val = r + k then -1 else 1) else 0 :=
+  ReciprocityTheory.ChartRestriction.DS.Xi.StepA.Hpk_mid k r h j
 
 theorem hpk_mulVec (v : Fin (2 * r + k + 1) → ℂ) (i : Fin (2 * r + k + 1)) :
     (Hpk k r *ᵥ v) i = if i.val < r ∨ r + k < i.val then v ⟨2 * r + k - i.val, by omega⟩
-      else if i.val = r + k then -v i else v i := by
-  apply ReciprocityTheory.ChartRestriction.DS.Xi.StepA.Hpk_mulVec <;> assumption
+      else if i.val = r + k then -v i else v i :=
+  ReciprocityTheory.ChartRestriction.DS.Xi.StepA.Hpk_mulVec k r v i
 
-theorem hpk_mulVec_mulVec (v : Fin (2 * r + k + 1) → ℂ) : Hpk k r *ᵥ (Hpk k r *ᵥ v) = v := by
-  apply ReciprocityTheory.ChartRestriction.DS.Xi.StepA.Hpk_mulVec_mulVec <;> assumption
+theorem hpk_mulVec_mulVec (v : Fin (2 * r + k + 1) → ℂ) : Hpk k r *ᵥ (Hpk k r *ᵥ v) = v :=
+  ReciprocityTheory.ChartRestriction.DS.Xi.StepA.Hpk_mulVec_mulVec k r v
 
-theorem mat_eq_of_mulVec {A B : Mat k r} (h : ∀ v, A *ᵥ v = B *ᵥ v) : A = B := by
-  ext i j
-  have := congrFun (h (Pi.single j 1)) i
-  simpa [Matrix.mulVec_single] using this
+theorem mat_eq_of_mulVec {A B : Mat k r} (h : ∀ v, A *ᵥ v = B *ᵥ v) : A = B :=
+  ReciprocityTheory.ChartRestriction.DS.Xi.StepA.mat_eq_of_mulVec h
 
-theorem hpk_sq : Hpk k r * Hpk k r = 1 := mat_eq_of_mulVec (fun v => by
-  rw [← Matrix.mulVec_mulVec, hpk_mulVec_mulVec, Matrix.one_mulVec])
+theorem hpk_sq : Hpk k r * Hpk k r = 1 :=
+  ReciprocityTheory.ChartRestriction.DS.Xi.StepA.Hpk_sq k r
 
-theorem hpk_conjT : (Hpk k r)ᴴ = Hpk k r := by
-  ext i j
-  have hi := i.isLt
-  have hj := j.isLt
-  simp only [Matrix.conjTranspose_apply, Hpk, Fin.ext_iff]
-  split_ifs <;> first | omega | simp
+theorem hpk_conjT : (Hpk k r)ᴴ = Hpk k r :=
+  ReciprocityTheory.ChartRestriction.DS.Xi.StepA.Hpk_conjT k r
 
-theorem gv_left_inv {g : Mat k r} (hg : g ∈ GV k r) : Hpk k r * gᴴ * Hpk k r * g = 1 := by
-  have hg' : gᴴ * Hpk k r * g = Hpk k r := hg
-  calc Hpk k r * gᴴ * Hpk k r * g = Hpk k r * (gᴴ * Hpk k r * g) := by
-        simp only [Matrix.mul_assoc]
-    _ = 1 := by rw [hg', hpk_sq]
+theorem gv_left_inv {g : Mat k r} (hg : g ∈ GV k r) : Hpk k r * gᴴ * Hpk k r * g = 1 :=
+  ReciprocityTheory.ChartRestriction.DS.Xi.StepA.UH_left_inv k r hg
 
-theorem gv_inv_eq {g : Mat k r} (hg : g ∈ GV k r) : g⁻¹ = Hpk k r * gᴴ * Hpk k r := Matrix.inv_eq_left_inv (gv_left_inv hg)
+theorem gv_inv_eq {g : Mat k r} (hg : g ∈ GV k r) : g⁻¹ = Hpk k r * gᴴ * Hpk k r :=
+  ReciprocityTheory.ChartRestriction.DS.Xi.StepA.UH_inv k r hg
 
-theorem gv_inv_mul {g : Mat k r} (hg : g ∈ GV k r) : g⁻¹ * g = 1 := by
-  rw [gv_inv_eq hg]
-  exact gv_left_inv hg
+theorem gv_inv_mul {g : Mat k r} (hg : g ∈ GV k r) : g⁻¹ * g = 1 :=
+  ReciprocityTheory.ChartRestriction.DS.Xi.StepA.UH_inv_mul k r hg
 
-theorem gv_mul_inv {g : Mat k r} (hg : g ∈ GV k r) : g * g⁻¹ = 1 := Matrix.mul_nonsing_inv g (Matrix.isUnit_det_of_left_inverse (gv_inv_mul hg))
+theorem gv_mul_inv {g : Mat k r} (hg : g ∈ GV k r) : g * g⁻¹ = 1 :=
+  ReciprocityTheory.ChartRestriction.DS.Xi.StepA.UH_mul_inv k r hg
 
 theorem gv_one : (1 : Mat k r) ∈ GV k r := by
   show (1 : Mat k r)ᴴ * Hpk k r * 1 = Hpk k r
@@ -162,8 +148,7 @@ theorem gN_le_inv {g : Mat k r} (hg : g ∈ GV k r) : gN g ≤ KH k r * gN g⁻�
 theorem rpow_neg_le {x y c b : ℝ} (hy : 0 < y) (hc : 0 < c) (hb : 0 ≤ b) (h : y ≤ c * x) :
     x ^ (-b) ≤ c ^ b * y ^ (-b) := by
   have hx : 0 < x := by
-    by_contra hx
-    push_neg at hx
+    by_contra! hx
     nlinarith
   have hA : 0 < x ^ b := Real.rpow_pos_of_pos hx b
   have hB : 0 < y ^ b := Real.rpow_pos_of_pos hy b
@@ -195,8 +180,6 @@ end ReciprocityTheory.ChartRestriction.DS.Mult1.TopH
 
 noncomputable section
 
-open MeasureTheory Matrix
-open scoped InnerProductSpace ENNReal ComplexConjugate
 
 namespace ReciprocityTheory.ChartRestriction.DS.Mult1.TopH
 
@@ -226,8 +209,7 @@ theorem C_nonneg {E : Type} [NormedAddCommGroup E] {f : Mat k r → E} {C e : �
     (h : ∀ x ∈ GV k r, ‖f x‖ ≤ C * gN x ^ e) : 0 ≤ C := by
   have h1 := h 1 gv_one
   have hp : 0 < gN (1 : Mat k r) ^ e := Real.rpow_pos_of_pos gN_one_pos e
-  by_contra hC
-  push_neg at hC
+  by_contra! hC
   have h2 : C * gN (1 : Mat k r) ^ e < 0 := mul_neg_of_neg_of_pos hC hp
   linarith [norm_nonneg (f 1)]
 

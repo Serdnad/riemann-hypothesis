@@ -1,47 +1,8 @@
 module
 
-import Development.WeilBound.CoreStatements.PublishedTheorems.SmoothVectorEstimates.InverseDerivativeContinuity
 public import Development.WeilBound.CoreStatements.PublishedTheorems.JacquetShalikaRigidity.ColumnConjugationMeasure
 import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ContinuousOfIsOpenStab
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Topology.Sheaves.Init
 
 @[expose] public section
 
@@ -51,8 +12,6 @@ open NumberField IsDedekindDomain MeasureTheory Matrix Topology Filter
 open GlobalTheory.CuspGeneric GlobalTheory.CuspRep GlobalTheory.UnitaryBC GlobalTheory.DiscSpec PositivityTheory.jumpWindows PositivityTheory.RgJS
 open GroundTheory.Automorphic GroundTheory.Automorphic.FourierWhittaker GroundTheory.Automorphic.Reduction GroundTheory.Automorphic.Spherical
 open scoped ENNReal ComplexConjugate
-
-attribute [local instance] GlobalTheory.LocalData.complRel GlobalTheory.LocalData.isLocalField
 
 namespace PositivityTheory.AdelicQuotientData
 
@@ -73,7 +32,18 @@ variable {E : Type} [Field E] [NumberField E] {a : ℕ}
 
 theorem norm_mulL (A B : Lie E a) :
     ‖(toL (Matrix.of A * Matrix.of B) : Lie E a)‖ ≤ a * ‖A‖ * ‖B‖ := by
-  apply _root_.PositivityTheory.jumpWindows.InverseDerivativeContinuity.norm_mulL <;> assumption
+  have hA : 0 ≤ ‖A‖ := norm_nonneg _
+  have hB : 0 ≤ ‖B‖ := norm_nonneg _
+  have h0 : (0 : ℝ) ≤ a * ‖A‖ * ‖B‖ := mul_nonneg (mul_nonneg (Nat.cast_nonneg _) hA) hB
+  refine (pi_norm_le_iff_of_nonneg h0).2 fun i => (pi_norm_le_iff_of_nonneg h0).2 fun j => ?_
+  have e : (toL (Matrix.of A * Matrix.of B) : Lie E a) i j = ∑ k, A i k * B k j := by
+    simp only [toL, Matrix.of_symm_apply, Matrix.mul_apply, Matrix.of_apply]
+  rw [e]
+  calc ‖∑ k, A i k * B k j‖ ≤ ∑ k, ‖A i k * B k j‖ := norm_sum_le _ _
+    _ ≤ ∑ _k : Fin a, ‖A‖ * ‖B‖ := Finset.sum_le_sum fun k _ => (norm_mul_le _ _).trans
+        (mul_le_mul ((norm_le_pi_norm (A i) k).trans (norm_le_pi_norm A i))
+          ((norm_le_pi_norm (B k) j).trans (norm_le_pi_norm B k)) (norm_nonneg _) hA)
+    _ = a * ‖A‖ * ‖B‖ := by simp [Finset.sum_const, Finset.card_univ, mul_assoc]
 
 def invL (z : Lie E a) : Lie E a := toL (Matrix.of z)⁻¹
 

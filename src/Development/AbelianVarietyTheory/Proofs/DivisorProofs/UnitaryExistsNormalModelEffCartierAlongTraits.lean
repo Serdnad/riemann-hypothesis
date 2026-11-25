@@ -97,8 +97,6 @@ open Classical
 
 noncomputable section
 
-attribute [local instance] Over.cartesianMonoidalCategory
-
 namespace GlobalTheory.UPoinc.GoodRedU
 
 theorem subsingleton_lattice_of_range_subset : ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (H : Host E) (Dw : Datum H) (l : Geo.Tor.Level H) (Xo : Moduli Dw l) (c : Coeff l) (C : UCompact Xo c) (X₁ : USetup C) (Y : RatModel X₁.o₁ X₁.Ω₁) (U₀ : Y.Z.Opens) (EE : Y.Lat X₁.S.J) (out : ZHOut X₁.ρ Y U₀ EE), X₁.S.admitted Y U₀ → ∀ (T : UTrait Xo c) (ξ : Sp T.V ⟶ Y.Z), Set.range ξ ⊆ (U₀ : Set Y.Z) → (∃ ξ₀ : Sp (FractionRing T.V) ⟶ U₀.toScheme, ξ₀ ≫ U₀.ι = jK T.V ≫ ξ ∧ X₁.Lies (ξ₀ ≫ out.u₀) T.y) → Subsingleton T.P.D.toPre.X := by
@@ -462,7 +460,7 @@ theorem exists_nat_comb_of_infinite {O : Type} [CommRing O] {bar : O → O} {φ 
     set_option synthInstance.maxHeartbeats 100000 in
       simp only [map_nsmul, map_add (f := _), map_sum, Module.Basis.repr_self, Finsupp.smul_apply, Finsupp.add_apply,
       Finset.sum_apply', Finsupp.smul_apply, Finsupp.single_apply, nsmul_eq_mul] at this
-    rw [Finset.sum_eq_zero fun j _ => by rw [if_neg (ho j).symm]; simp] at this
+    rw [Finset.sum_eq_zero fun j _ => by rw [ite_eq_right (ho j).symm]; simp] at this
     have hk' : (k : ℤ) ≠ 0 := by exact_mod_cast hk0.ne'
     exact (mul_eq_zero.1 this).resolve_left hk'
   have hp : ∀ n ∈ s, ∀ j, 0 ≤ (n : ℤ) * bb.repr B' (Sum.inl j) + bb.repr B₀ (Sum.inl j) := by
@@ -473,7 +471,7 @@ theorem exists_nat_comb_of_infinite {O : Type} [CommRing O] {bar : O → O} {φ 
     set_option synthInstance.maxHeartbeats 100000 in
       simp only [map_nsmul, map_add (f := _), map_sum, Module.Basis.repr_self, Finsupp.smul_apply, Finsupp.add_apply,
       Finset.sum_apply', Finsupp.smul_apply, Finsupp.single_apply, nsmul_eq_mul, Sum.inl.injEq] at this
-    simp only [mul_ite, mul_one, mul_zero, Finset.sum_ite_eq', Finset.mem_univ, if_true] at this
+    simp only [mul_ite, mul_one, mul_zero, Finset.sum_ite_eq', Finset.mem_univ, ite_true] at this
     have hk' : (0 : ℤ) < k := by exact_mod_cast hk0
     have h2 : (0 : ℤ) ≤ k * ((n : ℤ) * bb.repr B' (Sum.inl j) + bb.repr B₀ (Sum.inl j)) := by
       push_cast at this ⊢; rw [this]; positivity
@@ -491,8 +489,7 @@ theorem exists_nat_comb_of_infinite {O : Type} [CommRing O] {bar : O → O} {φ 
   have hL : ∀ j, 0 ≤ bb.repr B' (Sum.inl j) := fun j => by
     have e1 := hp n₁ hn₁ j
     have e2 := hM (Sum.inl j)
-    by_contra hneg
-    push_neg at hneg
+    by_contra! hneg
     have : (bb.repr B₀ (Sum.inl j)) ≤ M := by omega
     have : (n₁ : ℤ) * bb.repr B' (Sum.inl j) ≤ - n₁ := by nlinarith
     omega
@@ -600,8 +597,7 @@ theorem exists_finite_cones : ∀ (O : Type) [CommRing O] (bar : O → O) (φ : 
       linarith
     obtain ⟨m, γ, k, cf, hγ, hk, hcf, hkβ⟩ := GlobalTheory.Poinc.Cover.exists_cone O bar φ Y hF _ hβs hβp
     have hγd : ∀ y, y ≠ 0 → 0 < ∑ j, γ j y y := fun y hy => by
-      by_contra hcon
-      push_neg at hcon
+      by_contra! hcon
       have h0 : ∀ j, γ j y y = 0 := fun j => le_antisymm ((Finset.single_le_sum (fun j _ => hγ.nonneg j y)
         (Finset.mem_univ j)).trans hcon) (hγ.nonneg j y)
       have h1 := LinearMap.congr_fun₂ hkβ y y
@@ -759,7 +755,7 @@ theorem finite_minimiser_systems_upTo_aut : ∀ (O : Type) [CommRing O] (bar : O
     · omega
     · omega
   have hmem : μ ∈ T i := by
-    simp only [T, dif_pos hPi]
+    simp only [T, dite_eq_left hPi]
     refine Classical.choose_spec (_root_.GlobalTheory.Poinc.MinSysLat.finite_minimiser_systems_lat Y n N eb i.1.val _ (fun j x y => (hPi.1.mem j).1 x y)
       (fun j y => hPi.1.nonneg j y) hPi.2) (pull e.toLinearMap b) k cf hk hcf ?_ μ h1 h2
     ext a c
@@ -1227,9 +1223,9 @@ theorem GlobalTheory.UPoinc.exists_uLocTuples_theta : ∀ (E : Type) [Field E] [
     exact left_ne_zero_of_mul_eq_one h1.symm
   have hpow : ∀ cl, M.val y (e cl ^ m₁) = M.val y (e cl) ^ m₁ := by
     intro cl
-    have := GlobalTheory.T.integralModel_value_prod_zpow_localUnits M y z₀ hsp (Finset.univ : Finset Unit) (fun _ => e cl) (fun _ => (m₁ : ℤ)) fun _ => hunit cl
+    have := _root_.GlobalTheory.Poinc.RatModel.val_prod_zpow M y z₀ hsp (Finset.univ : Finset Unit) (fun _ => e cl) (fun _ => (m₁ : ℤ)) fun _ => hunit cl
     simpa using this
-  choose v w hvw using fun cl => GlobalTheory.T.fractionRing_eq_uniformiser_zpow_mul_unit T.irr (M.val y (e cl)) (hvne cl)
+  choose v w hvw using fun cl => _root_.GlobalTheory.DVR.fractionRing_eq_zpow_mul_unit T.irr (M.val y (e cl)) (hvne cl)
   have hϖ0 : algebraMap T.V (FractionRing T.V) T.ϖ ≠ 0 :=
     (map_ne_zero_iff _ (IsFractionRing.injective T.V (FractionRing T.V))).2 T.irr.ne_zero
   have hunitK : ∀ (a : T.Vˣ) (k : ℤ), algebraMap T.V (FractionRing T.V) ((a ^ k : T.Vˣ) : T.V) =
@@ -1270,7 +1266,7 @@ theorem GlobalTheory.UPoinc.exists_uLocTuples_theta : ∀ (E : Type) [Field E] [
   have hval : ∀ ν, M.val y (∏ cl, e cl ^ ((m₁ : ℤ) * ν cl)) = algebraMap T.V (FractionRing T.V) T.ϖ ^ Ev ν *
       algebraMap T.V (FractionRing T.V) ((∏ cl, w cl ^ ((m₁ : ℤ) * ν cl) : T.Vˣ) : T.V) := by
     intro ν
-    rw [GlobalTheory.T.integralModel_value_prod_zpow_localUnits M y z₀ hsp _ _ _ fun cl => hunit cl]
+    rw [_root_.GlobalTheory.Poinc.RatModel.val_prod_zpow M y z₀ hsp _ _ _ fun cl => hunit cl]
     simp only [hvw, mul_zpow, Finset.prod_mul_distrib, ← zpow_mul, ← hunitK]
     rw [hzs, Units.coe_prod, map_prod]
   have hprodO : ∀ ν : (Fin n → ZMod X₁.S.N) → ℤ, (∏ cl, e cl ^ ((m₁ : ℤ) * ν cl)) ∈ M.O z₀ := by
@@ -1319,7 +1315,6 @@ open scoped CategoryTheory.Obj
 open GlobalTheory.UPoinc
 open GlobalTheory
 open Classical
-attribute [local instance] Over.cartesianMonoidalCategory
 
 noncomputable section
 

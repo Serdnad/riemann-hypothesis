@@ -4,47 +4,6 @@ import Development.AutomorphicSpectrum.Proofs.MetricProofs.BallDomainOpenConvexZ
 public import Development.AutomorphicSpectrum.Proofs.MetricProofs.IntEmbInjective
 public import Development.AutomorphicSpectrum.Proofs.MetricProofs.BallAutomorphismInverseExists
 public import GroundTheory.HeightsAndTheta.Heights.Regularisation.PosSemidefOfIntQuadNonneg
-import Mathlib.Algebra.Order.Archimedean.Real.Hom
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.PiTensorProduct
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.IsCompletedStrictHens
 
 @[expose] public section
@@ -185,33 +144,6 @@ theorem star_dot_self (y : a → ℂ) : star y ⬝ᵥ y = ((‖WithLp.toLp 2 y�
   refine Finset.sum_congr rfl fun i _ => ?_
   rw [show star (y i) = (starRingEnd ℂ) (y i) from rfl, Complex.conj_mul']
 
-theorem form_one_sub (Z : Matrix a b ℂ) (x : b → ℂ) :
-    star x ⬝ᵥ (1 - Zᴴ * Z) *ᵥ x = ((‖WithLp.toLp 2 x‖ ^ 2 - ‖WithLp.toLp 2 (Z *ᵥ x)‖ ^ 2 : ℝ) : ℂ) := by
-  rw [Matrix.sub_mulVec, Matrix.one_mulVec, dotProduct_sub, ← Matrix.mulVec_mulVec, Matrix.dotProduct_mulVec,
-    Matrix.vecMul_conjTranspose, star_star, star_dot_self, star_dot_self]
-  push_cast; rfl
-
-theorem posDef_iff_norm (Z : Matrix a b ℂ) :
-    (1 - Zᴴ * Z).PosDef ↔ ∀ x : b → ℂ, x ≠ 0 → ‖WithLp.toLp 2 (Z *ᵥ x)‖ < ‖WithLp.toLp 2 x‖ := by
-  intros
-  apply _root_.GlobalTheory.CompanionTheory.Ar.Cusp.BallConvex.posDef_iff <;> assumption
-
-theorem convex_ball_mat : Convex ℝ {Z : Matrix a b ℂ | (1 - Zᴴ * Z).PosDef} := by
-  rw [convex_iff_forall_pos]
-  intro Z₁ h₁ Z₂ h₂ s r hs hr hsr
-  simp only [Set.mem_setOf_eq, posDef_iff_norm] at h₁ h₂ ⊢
-  intro x hx
-  have e : WithLp.toLp 2 ((s • Z₁ + r • Z₂) *ᵥ x) =
-      s • WithLp.toLp 2 (Z₁ *ᵥ x) + r • WithLp.toLp 2 (Z₂ *ᵥ x) := by
-    ext i
-    simp [Matrix.add_mulVec, Matrix.smul_mulVec]
-  rw [e]
-  calc _ ≤ ‖s • WithLp.toLp 2 (Z₁ *ᵥ x)‖ + ‖r • WithLp.toLp 2 (Z₂ *ᵥ x)‖ := norm_add_le _ _
-    _ = s * ‖WithLp.toLp 2 (Z₁ *ᵥ x)‖ + r * ‖WithLp.toLp 2 (Z₂ *ᵥ x)‖ := by
-        rw [norm_smul, norm_smul, Real.norm_of_nonneg hs.le, Real.norm_of_nonneg hr.le]
-    _ < s * ‖WithLp.toLp 2 x‖ + r * ‖WithLp.toLp 2 x‖ :=
-        add_lt_add (mul_lt_mul_of_pos_left (h₁ x hx) hs) (mul_lt_mul_of_pos_left (h₂ x hx) hr)
-    _ = _ := by rw [← add_mul, hsr, one_mul]
 end Conv
 
 section Dom

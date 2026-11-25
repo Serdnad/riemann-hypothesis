@@ -1,58 +1,12 @@
 module
 
-import all Development.ResolutionOfSingularities.EmbeddedResolution.StrictTransformCharts.StrictTransformFlatBaseChange
 public import Development.ResolutionOfSingularities.EmbeddedResolution.EtaleCoordinates.CoordinatePolynomialRing
 public import Development.ResolutionOfSingularities.EmbeddedResolution.EtaleCoordinates.CoordinateDivisorRadical
 public import Development.ResolutionOfSingularities.EmbeddedResolution.EtaleCoordinates.ChartRing
 public import Development.ResolutionOfSingularities.EmbeddedResolution.DerivativeIdeal.IdealSheafOrder
 public import Development.ResolutionOfSingularities.EmbeddedResolution.EtaleCoordinates.CoordinateDivisorSmoothness
 import Development.ResolutionOfSingularities.EmbeddedResolution.AlgebraicPreliminaries.RegularLocalRing
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Topology.Sheaves.Init
 import Development.ResolutionOfSingularities.Foundations.Schemes.AffineOpens
-import Mathlib.AlgebraicGeometry.Modules.Sheaf
-import Mathlib.RingTheory.PiTensorProduct
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Tactic.TypeStar
-import Development.ResolutionOfSingularities.Foundations.Schemes.IdealSheafData
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.ResolutionOfSingularities.EmbeddedResolution.EtaleCoordinates.CoordinateDivisibility, Development.ResolutionOfSingularities.EmbeddedResolution.DerivativeIdeal.OrderAtGenericPoint
@@ -110,7 +64,13 @@ private theorem span_eq_top_of_forall_mem_basicOpen {X : Scheme.{u}} {U : X.Open
     (hU : IsAffineOpen U) (s : Set Γ(X, U))
     (hcov : ∀ x : X, x ∈ U → ∃ t ∈ s, x ∈ X.basicOpen t) :
     Ideal.span s = ⊤ := by
-  apply _root_.FunctorialResolution.EmbeddedResolution.span_eq_top_of_basicOpen_cover <;> assumption
+  have hUeq : (⨆ f : s, X.basicOpen (f : Γ(X, U))) = U := by
+    refine le_antisymm (iSup_le fun f => Scheme.basicOpen_le (X := X) (f : Γ(X, U)))
+      (SetLike.le_def.mpr ?_)
+    intro x hx
+    obtain ⟨t, hts, hxt⟩ := hcov x hx
+    exact TopologicalSpace.Opens.mem_iSup.mpr ⟨⟨t, hts⟩, hxt⟩
+  exact (IsAffineOpen.iSup_basicOpen_eq_self_iff hU).mp hUeq
 
 private theorem exists_mul_mem_of_map_mem_map {R S : Type*} [CommRing R] [CommRing S]
     (g : R →+* S) (M : Submonoid R) (hlocal : @IsLocalization R _ M S _ g.toAlgebra)
@@ -187,7 +147,20 @@ theorem le_iff_forall_stalkIdeal_le {X : Scheme.{u}} (I J : X.IdealSheafData) :
 
 theorem notMem_support_of_mem_opens_of_restrictIdeal_eq_top {X : Scheme.{u}} (Z : X.IdealSheafData)
     (U : X.Opens) (h : restrictIdeal Z U = ⊤) (x : X) (hx : x ∈ U) : x ∉ Z.support := by
-  apply _root_.AlgebraicGeometry.Scheme.IdealSheafData.notMem_support_of_comap_ι_eq_top <;> assumption
+  intro hxZ
+  obtain ⟨y, hy⟩ : x ∈ Set.range (⇑U.ι) := by
+    rw [Scheme.Opens.range_ι]
+    exact hx
+  have h' : Z.comap U.ι = ⊤ := h
+  have h2 := Scheme.IdealSheafData.support_comap Z U.ι
+  have h3 : (⇑U.ι) y ∈ Z.support := by
+    rw [hy]
+    exact hxZ
+  have h4 : y ∈ (Z.comap U.ι).support := by
+    rw [h2]
+    exact h3
+  rw [h', Scheme.IdealSheafData.support_top] at h4
+  exact h4
 
 theorem isClosed_of_maximal_irreducible_subset_support {X : Scheme.{u}} (D : X.IdealSheafData)
     {C : Set X} (hC : IsIrreducible C) (hCsub : C ⊆ (D.support : Set X))

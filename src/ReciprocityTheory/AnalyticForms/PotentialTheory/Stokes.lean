@@ -229,9 +229,32 @@ end Piece
 private theorem mInt_cons_const_eq_zero (A : FinHolAtlas (e + 1) X) (Φ : Fin e → LocPot X)
     (hΦ : ∀ i, IsPotential A (Φ i)) (c : ℝ) (g : X → ℝ) :
     mInt A (Fin.cons (LocPot.ofFun fun _ => c) Φ) g = 0 := by
-  first
-    | exact _root_.ReciprocityTheory.AnForm.M.st_mIntConstPot
-    | apply _root_.ReciprocityTheory.AnForm.M.st_mIntConstPot <;> first | assumption | rfl | infer_instance
+  have hL : ∀ j y, locDens A (Fin.cons (LocPot.ofFun fun _ => c) Φ) j y =
+      locDens A (Fin.cons ((LocPot.ofFun fun _ => c).rsmul 0) Φ) j y := by
+    intro j y
+    have hf : ∀ c' : ℝ, fderiv ℝ (fderiv ℝ (fun _ : Fin (e + 1) → ℂ => c')) y = 0 := by
+      intro c'
+      have h0 : fderiv ℝ (fun _ : Fin (e + 1) → ℂ => c') = fun _ => 0 :=
+        funext fun x => fderiv_const_apply c'
+      rw [h0]
+      exact fderiv_const_apply _
+    have hz : ∀ c' : ℝ, hessC (fun _ : Fin (e + 1) → ℂ => c') y = 0 := by
+      intro c'
+      funext a b
+      simp only [hessC, hf c']
+      simp
+    simp only [locDens, maDens]
+    congr 3
+    funext k
+    refine Fin.cases ?_ (fun i => ?_) k
+    · simp only [Fin.cons_zero, LocPot.ofFun, LocPot.rsmul, zero_mul]
+      rw [hz c, hz 0]
+    · simp
+  have h := mIntRsmul A 0 (LocPot.ofFun fun _ => c) Φ
+    (isPotential_ofFun A _ fun j => contDiffOn_const) hΦ g
+  rw [zero_mul] at h
+  rw [← h]
+  simp only [mInt, integralWith, hL]
 
 theorem st_stokes_of (hP : PartsStatement) : StokesStatement := by
   intro e X _ _ _ A w hw Φ hΦ
@@ -380,7 +403,7 @@ theorem st_massIndep_of (hP : PartsStatement) : MassIndepStatement := by
           · simp [hi, Finset.mem_insert]
         have hstep := st_mass_step hP A (fun i => if i ∈ s then Φ i + LocPot.ofFun (u i) else Φ i)
           hpot a (u a) (hu a)
-        simp only [ha, if_false] at hstep
+        simp only [ha, ite_false] at hstep
         rw [hupd, hstep, ih]
     simpa using key Finset.univ
 

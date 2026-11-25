@@ -59,7 +59,6 @@ import Mathlib.RingTheory.SimpleRing.Principal
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.VectorVanishesBigCell
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.CutGaugeCut
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.OpApplyContinuousOn
-import Formalism.HermitianCurvature.HermitianCurvatureProofs.CutSERDIdentSpec
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: CompanionTheory.AutomorphicTheory.JacobiDiagonalBounds.ModelLoc, CompanionTheory.AutomorphicTheory.JacobiDiagonalBounds.EvQTrJBFF, CompanionTheory.AutomorphicTheory.NumberFieldModels.ModelPt, CompanionTheory.AutomorphicTheory.JacobiDiagonalBounds.NFFinal, CompanionTheory.AutomorphicTheory.JacobiDiagonalBounds.Vander, CompanionTheory.AutomorphicTheory.NumberFieldModels.StepCpt, CompanionTheory.AutomorphicTheory.JacobiDiagonalBounds.NfTieHatSOf, CompanionTheory.AutomorphicTheory.JacobiDiagonalBounds.NormalFormHatCompact, CompanionTheory.AutomorphicTheory.CompactTopologicalForms.NormalFormTopDomination, CompanionTheory.AutomorphicTheory.BesselWaveGrids.EndpointDifferentTypesThreshold
@@ -168,7 +167,17 @@ theorem loc_fns (hM : MA.IsModelLevel P (MA.DQ P) L) {f : MA.A P (MA.DQ P)} (hf 
 
 theorem mat_prod_mem {A : Type} [Ring A] [Algebra ℂ A] (B : Subalgebra ℂ A) (l : List (Matrix (Fin 2) (Fin 2) A))
     (h : ∀ X ∈ l, ∀ i j, X i j ∈ B) : ∀ i j, l.prod i j ∈ B := by
-  apply _root_.Formalism.FourierDecayAlt.P.CutSE.rds_mat_prod_mem <;> assumption
+  induction l with
+  | nil =>
+    intro i j
+    rw [List.prod_nil, Matrix.one_apply]
+    split_ifs
+    exacts [B.one_mem, B.zero_mem]
+  | cons X l ih =>
+    intro i j
+    rw [List.prod_cons, Matrix.mul_apply]
+    exact B.sum_mem fun k _ => B.mul_mem (h X List.mem_cons_self i k)
+      (ih (fun Y hY => h Y (List.mem_cons_of_mem _ hY)) k j)
 
 theorem loc_hat (hM : MA.IsModelLevel P (MA.DQ P) L) {X : MA.A P (MA.DQ P)} (hX : X ∈ hats L) : X ∈ locAlg P := by
   have hp : ∀ l, L.p l ∈ locAlg P := fun l => by rw [hM.1]; exact loc_ev _ _
@@ -361,7 +370,7 @@ theorem pd_mono {E : Type} [AddCommGroup E] [Module ℂ E] {o n : ℕ} (hn : n �
     PD o fun s => (s : ℂ) ^ n • x := by
   refine ⟨fun m => if m = n then x else 0, fun s => ?_⟩
   simp only [smul_ite, smul_zero]
-  rw [Finset.sum_ite_eq' (Finset.range (o + 1)) n, if_pos (Finset.mem_range.2 (by omega))]
+  rw [Finset.sum_ite_eq' (Finset.range (o + 1)) n, ite_eq_left (Finset.mem_range.2 (by omega))]
 
 theorem scoef_zero (p : KB.Pl P Wp Wq) {w : List C.Letter} {a : Wd.Ix (Fin w.length)} {Q o : ℕ}
     {L : Fin (Q + 1) → B.DiffOp P.k P.r Wp Wq} (hS : IsSCoef p w a Q L) {Dop : B.DiffOp P.k P.r Wp Wq}
@@ -405,10 +414,10 @@ theorem scoef_zero (p : KB.Pl P Wp Wq) {w : List C.Letter} {a : Wd.Ix (Fin w.len
       simp only [smul_sub, Finset.sum_sub_distrib]
       rw [nf_sum_pad (by omega) _ fun q => B.opApply (L q) F g, hc s, sub_eq_zero,
         ← Finset.sum_subset (Finset.range_subset_range.2 (show o + 1 ≤ Q + 1 + (o + 1) by omega))]
-      · exact Finset.sum_congr rfl fun i hi => by rw [if_pos (Finset.mem_range.1 hi)]
+      · exact Finset.sum_congr rfl fun i hi => by rw [ite_eq_left (Finset.mem_range.1 hi)]
       · intro i _ hi
-        rw [if_neg (by simpa using hi), smul_zero]) qq (by omega)
-  simpa only [dif_pos qq.2, if_neg (show ¬ (qq : ℕ) < o + 1 by omega), sub_zero] using key
+        rw [ite_eq_right (by simpa using hi), smul_zero]) qq (by omega)
+  simpa only [dite_eq_left qq.2, ite_eq_right (show ¬ (qq : ℕ) < o + 1 by omega), sub_zero] using key
 
 end
 

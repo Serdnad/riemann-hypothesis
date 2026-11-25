@@ -22,53 +22,8 @@ import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.PMuRegSmooth
 import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.PTopNPoly
 import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.PVertFactorPos
 import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.PVertFactorSmooth
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Algebra.Order.Star.Real
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Complex.Analytic
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.Order.CompletePartialOrder
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.HaveILetI
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Topology.Sheaves.Init
 import ReciprocityTheory.AnalyticForms.PlurisubharmonicFunctions.MdiscSt
 import ReciprocityTheory.AnalyticForms.PotentialTheory.MaMeasureA
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.InterBridgeB
@@ -95,24 +50,6 @@ theorem holo_cont {A : FinHolAtlas e X} {V : Set X} (hV : IsOpen V) {g : X → �
 
 theorem holo_mono {A : FinHolAtlas e X} {V W : Set X} {g : X → ℂ} (h : A.HoloOn V g) (hW : W ⊆ V) :
     A.HoloOn W g := fun j y hy => h j y ⟨hy.1, hW hy.2⟩
-
-theorem holo_eval {σ : Type} {A : FinHolAtlas e X} {V : Set X} {s : X → σ → ℂ}
-    (hs : ∀ q, A.HoloOn V fun y => s y q) (f : MvPolynomial σ ℂ) :
-    A.HoloOn V fun y => eval (s y) f := by
-  induction f using MvPolynomial.induction_on with
-  | C a =>
-    intro j y _
-    simpa [Function.comp_def] using (analyticAt_const : AnalyticAt ℂ (fun _ : Fin e → ℂ => a) y)
-  | add p q hp hq =>
-    intro j y hy
-    show AnalyticAt ℂ (fun x => eval (s ((A.chart j).symm x)) (p + q)) y
-    simp only [map_add (f := _)]
-    exact (hp j y hy).add (hq j y hy)
-  | mul_X p i hp =>
-    intro j y hy
-    show AnalyticAt ℂ (fun x => eval (s ((A.chart j).symm x)) (p * MvPolynomial.X i)) y
-    simp only [map_mul, eval_X]
-    exact (hp j y hy).mul (hs i j y hy)
 
 theorem rsmul_one (Θ : LocPot X) : Θ.rsmul 1 = Θ := by
   cases Θ

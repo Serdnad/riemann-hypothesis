@@ -1,7 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.OscActMonomialOfUnique
-import Formalism.ThetaLogCoordinates.UniformThetaSubstitution.FrobeniusLiftNorms.FinsuppStepInduction
 public import Development.AbelianVarietyTheory.BlockTheory.TwistedDiscreteSeries.VacuumFockVectors
 public import Development.AbelianVarietyTheory.BlockTheory.TwistedDiscreteSeries.HermitianSymplecticScalars
 public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.ComplexEmbeddingHermitianQuadrupleSum
@@ -61,15 +59,43 @@ open scoped Classical ComplexConjugate
 
 namespace GlobalTheory.VacuumFockLaws
 
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
-
 theorem multiFact_add_single {ι : Type} (k : ι →₀ ℕ) (v : ι) :
     multiFact (k + Finsupp.single v 1) = (k v + 1) * multiFact k := by
-  apply _root_.GlobalTheory.Oscillator.mfact_add_single <;> assumption
+  classical
+  have hsub : (k + Finsupp.single v 1).support ⊆ insert v k.support := by
+    intro i hi
+    rw [Finsupp.mem_support_iff] at hi
+    by_cases h : i = v
+    · exact h ▸ Finset.mem_insert_self _ _
+    · refine Finset.mem_insert_of_mem (Finsupp.mem_support_iff.mpr ?_)
+      simpa [Finsupp.single_apply, Ne.symm h] using hi
+  have h1 : multiFact k = ∏ i ∈ insert v k.support, (k i).factorial :=
+    Finsupp.prod_of_support_subset _ (Finset.subset_insert _ _) _ (fun _ _ => Nat.factorial_zero)
+  have h2 : multiFact (k + Finsupp.single v 1) =
+      ∏ i ∈ insert v k.support, ((k + Finsupp.single v 1 : ι →₀ ℕ) i).factorial :=
+    Finsupp.prod_of_support_subset _ hsub _ (fun _ _ => Nat.factorial_zero)
+  rw [h1, h2, ← Finset.mul_prod_erase _ (fun i => ((k + Finsupp.single v 1 : ι →₀ ℕ) i).factorial)
+      (Finset.mem_insert_self v k.support),
+    ← Finset.mul_prod_erase _ (fun i => (k i).factorial) (Finset.mem_insert_self v k.support), ← mul_assoc]
+  congr 1
+  · simp [Nat.factorial_succ]
+  · refine Finset.prod_congr rfl fun i hi => ?_
+    have hne : i ≠ v := Finset.ne_of_mem_erase hi
+    simp [Ne.symm hne]
 
 theorem multiIndex_induction {ι : Type} {p : (ι →₀ ℕ) → Prop} (h0 : p 0)
     (h1 : ∀ k v, p k → p (k + Finsupp.single v 1)) (k : ι →₀ ℕ) : p k := by
-  first | exact _root_.Formalism.InvariantFactorPaths.G7.finsupp_step_induction | exact @_root_.Formalism.InvariantFactorPaths.G7.finsupp_step_induction | apply _root_.Formalism.InvariantFactorPaths.G7.finsupp_step_induction <;> assumption
+  refine Finsupp.induction k h0 fun a b g _ _ ih => ?_
+  have key : ∀ n : ℕ, p (Finsupp.single a n + g) := by
+    intro n
+    induction n with
+    | zero => simpa using ih
+    | succ n ihn =>
+      have e : Finsupp.single a (n + 1) + g = (Finsupp.single a n + g) + Finsupp.single a 1 := by
+        rw [add_right_comm, ← Finsupp.single_add]
+      rw [e]
+      exact h1 _ _ ihn
+  exact key b
 
 private theorem foldr_eq_of_perm_of_comm {ι Y : Type} (F : ι → Y → Y) (hF : ∀ i j y, F i (F j y) = F j (F i y))
     {l₁ l₂ : List ι} (p : l₁.Perm l₂) (y : Y) : l₁.foldr F y = l₂.foldr F y := by
@@ -138,23 +164,23 @@ theorem fock_of_ccr {ι X : Type} (M : Submodule ℂ (X → ℂ)) (A : ι → (X
         subst h
         simp at hv
       have hkv : k v = 0 := by simpa [Finsupp.single_apply, Ne.symm hvw] using hv
-      rw [hPs, hba, ih v hkv, map_zero, if_neg hvw, zero_smul, add_zero]
+      rw [hPs, hba, ih v hkv, map_zero, ite_eq_right hvw, zero_smul, add_zero]
   have hb1 : ∀ k v, b v (P (k + Finsupp.single v 1)) = ((k v + 1 : ℕ) : ℂ) • P k := by
     intro k
     refine multiIndex_induction
       (p := fun k => ∀ v, b v (P (k + Finsupp.single v 1)) = ((k v + 1 : ℕ) : ℂ) • P k) ?_ ?_ k
     · intro v
-      rw [hPs 0 v, hba, hP0, hf, map_zero, zero_add, if_pos rfl, one_smul]
+      rw [hPs 0 v, hba, hP0, hf, map_zero, zero_add, ite_eq_left rfl, one_smul]
       simp
     · intro k w ih v
       rw [add_right_comm, hPs (k + Finsupp.single v 1) w, hba, ih v, map_smul, ← hPs k w]
       by_cases hvw : v = w
       · subst hvw
-        rw [if_pos rfl, ← add_smul, Finsupp.add_apply, Finsupp.single_eq_same]
+        rw [ite_eq_left rfl, ← add_smul, Finsupp.add_apply, Finsupp.single_eq_same]
         congr 1
         push_cast
         ring
-      · rw [if_neg hvw, zero_smul, add_zero]
+      · rw [ite_eq_right hvw, zero_smul, add_zero]
         have e : (k + Finsupp.single w 1 : ι →₀ ℕ) v = k v := by simp [Ne.symm hvw]
         rw [e]
   have hmono : ∀ u c, pureTensorL A (f : X → ℂ) (MvPolynomial.monomial u c) = c • (P u : X → ℂ) := by
@@ -189,7 +215,7 @@ theorem fock_of_ccr {ι X : Type} (M : Submodule ℂ (X → ℂ)) (A : ι → (X
           intro h
           have := congrArg (fun g : ι →₀ ℕ => g v) h
           simp at this
-        rw [if_neg hne]
+        rw [ite_eq_right hne]
         simpa using hzero _
     · intro β v ih α
       rw [hPs, hadj2]
@@ -199,7 +225,7 @@ theorem fock_of_ccr {ι X : Type} (M : Submodule ℂ (X → ℂ)) (A : ι → (X
           intro h
           rw [h] at hα
           simp at hα
-        rw [if_neg hne]
+        rw [ite_eq_right hne]
         simpa using hip0 _
       · obtain ⟨α', rfl⟩ : ∃ α', α = α' + Finsupp.single v 1 := by
           refine ⟨α - Finsupp.single v 1, ?_⟩
@@ -212,11 +238,11 @@ theorem fock_of_ccr {ι X : Type} (M : Submodule ℂ (X → ℂ)) (A : ι → (X
         rw [hb1, Submodule.coe_smul, hsmul, ih α', multiFact_add_single]
         by_cases he : α' = β
         · subst he
-          rw [if_pos rfl, if_pos rfl]
+          rw [ite_eq_left rfl, ite_eq_left rfl]
           push_cast
           ring
         · have hne : α' + Finsupp.single v 1 ≠ β + Finsupp.single v 1 := fun h => he (add_right_cancel h)
-          rw [if_neg he, if_neg hne, mul_zero]
+          rw [ite_eq_right he, ite_eq_right hne, mul_zero]
   rw [hmono β 1, one_smul]
   induction Q using MvPolynomial.induction_on'
   · rename_i u c
@@ -301,11 +327,11 @@ theorem commScalar_uMap (M : DSModel V S) (M' : DSModel W S') (c c' : ℂ) (k l 
       rcases hg a with h | h <;> simp [h]
     have ht := GlobalTheory.FockVecInj.trace_unitMap (hε _ _ (sgnAt_cases M τ)) (onb_gram M τ) (onb_gram M' τ) i j i' j'
     unfold symplAt hermAt uMap uSgn
-    simp only [if_true, Matrix.conjTranspose_smul, Matrix.mul_smul, Matrix.smul_mul, Matrix.trace_smul, smul_eq_mul]
+    simp only [ite_true, Matrix.conjTranspose_smul, Matrix.mul_smul, Matrix.smul_mul, Matrix.trace_smul, smul_eq_mul]
     rw [ht]
     by_cases hij : i = i' ∧ j = j'
     · obtain ⟨rfl, rfl⟩ := hij
-      simp only [and_self, if_true]
+      simp only [and_self, ite_true]
       push_cast
       simp only [Complex.star_def]
       ring_nf
@@ -412,7 +438,7 @@ theorem fockLaws {ψ : AddChar (AF D.host.F) ℂ} {θ : InfFam D} (hψ : IsStdCh
       obtain ⟨y, hy⟩ : ∃ y : ℝ, tauE D i.1 D.host.xi0 = (y : ℂ) * I := by
         refine ⟨(tauE D i.1 D.host.xi0).im, ?_⟩
         apply Complex.ext <;> simp [GlobalTheory.OrientedRealForm.realPlace_imaginaryGenerator_re_eq_zero i.1]
-      simp only [if_true, hy]
+      simp only [ite_true, hy]
       rcases uSgn_cases M M' i with hs | hs <;> rw [hs] <;> simp
     · simp [hij]
   have S2 : ∀ i j : FVar D W.rank V.rank, -(fockScale D i.1 : ℂ)⁻¹ * ((fockScale D j.1 : ℂ)⁻¹ *
@@ -431,7 +457,7 @@ theorem fockLaws {ψ : AddChar (AF D.host.F) ℂ} {θ : InfFam D} (hψ : IsStdCh
       have hF := fockScale_sq (D := D) i.1
       have hF0 := fockScale_ne (D := D) i.1
       rw [hy] at hF
-      simp only [if_true, hy]
+      simp only [ite_true, hy]
       rcases uSgn_cases M M' i with hs | hs <;> rw [hs] <;> clear * - hF hF0 <;> simp at hF ⊢ <;> field_simp <;>
         linear_combination (-1 : ℂ) * hF + (-8 * (Real.pi : ℂ) * (y : ℂ)) * Complex.I_sq
     · simp [hij]

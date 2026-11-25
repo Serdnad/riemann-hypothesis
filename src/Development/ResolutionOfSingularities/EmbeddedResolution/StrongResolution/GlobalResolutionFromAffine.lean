@@ -8,7 +8,6 @@ public import Development.ResolutionOfSingularities.EmbeddedResolution.Resolutio
 public import Development.ResolutionOfSingularities.EmbeddedResolution.ResolutionDescent.BlowupSequenceDescentDatum
 public import Development.ResolutionOfSingularities.EmbeddedResolution.ResolutionDescent.BlowupSequenceFlatDescent
 public import Development.ResolutionOfSingularities.EmbeddedResolution.StrongResolution.SequenceIsomorphism
-import all Development.ResolutionOfSingularities.EmbeddedResolution.StrongResolution.SequenceIsomorphism
 public import Development.ResolutionOfSingularities.EmbeddedResolution.ResolutionDescent.BlowupSequenceFlatBaseChange
 public import Development.ResolutionOfSingularities.EmbeddedResolution.ResolutionDescent.IsoBlowupRemoval
 public import Development.ResolutionOfSingularities.EmbeddedResolution.ResolutionDescent.IsoBlowupRemovalBaseChange
@@ -65,7 +64,6 @@ import Mathlib.Order.CompletePartialOrder
 import Development.ResolutionOfSingularities.Foundations.Schemes.SchemeMorphismProperties
 import Mathlib.RingTheory.WittVector.IsPoly
 import Mathlib.Tactic.ReduceModChar
-import Development.ResolutionOfSingularities.EmbeddedResolution.EtaleCoordinates.StrictNormalCrossingsOpenImmersion
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.ResolutionOfSingularities.EmbeddedResolution.ResolutionDescent.SubordinateAffineCover, Development.ResolutionOfSingularities.EmbeddedResolution.AlgebraicPreliminaries.StandardSmoothCharts, Development.ResolutionOfSingularities.EmbeddedResolution.AlgebraicPreliminaries.DisjointUnionOfOpensPullback, Development.ResolutionOfSingularities.EmbeddedResolution.ResolutionDescent.GluedBlowupSequenceExistence, Development.ResolutionOfSingularities.EmbeddedResolution.ResolutionDescent.AffineResolutionCenterNeTop, Development.ResolutionOfSingularities.EmbeddedResolution.StrongResolution.LocalResolutionCenters, Development.ResolutionOfSingularities.EmbeddedResolution.StrongResolution.LocalResolutionDense, Development.ResolutionOfSingularities.EmbeddedResolution.StrongResolution.LocalResolutionProper, Development.ResolutionOfSingularities.EmbeddedResolution.StrongResolution.LocalResolutionSmooth, Development.ResolutionOfSingularities.EmbeddedResolution.StrongResolution.LocalResolutionStrictNormalCrossings, Development.ResolutionOfSingularities.EmbeddedResolution.StrongResolution.SmoothLocusIsomorphism, Development.ResolutionOfSingularities.EmbeddedResolution.StrongResolution.GlobalResolutionFromAffine
@@ -147,18 +145,6 @@ theorem opensCoprodMapOfRefinement_comp_sigmaOpensDesc {X' X : Scheme.{u}} (φ :
   rw [← Category.assoc, sigmaι_opensCoprodMapOfRefinement, Category.assoc, sigma_ι_sigmaOpensDesc,
     sigma_ι_sigmaOpensDesc_assoc]
   simp
-
-private theorem resLE_eq_homOfLE_comp_restrict {X' X : Scheme.{u}} (φ : X' ⟶ X)
-    (U : X.Opens) (V : X'.Opens) (e : V ≤ φ ⁻¹ᵁ U) :
-    φ.resLE U V e = X'.homOfLE e ≫ φ ∣_ U := by
-  rw [← cancel_mono U.ι]
-  simp
-
-private theorem smooth_resLE {X' X : Scheme.{u}} (φ : X' ⟶ X) [Smooth φ]
-    (U : X.Opens) (V : X'.Opens) (e : V ≤ φ ⁻¹ᵁ U) :
-    Smooth (φ.resLE U V e) := by
-  rw [resLE_eq_homOfLE_comp_restrict]
-  infer_instance
 
 end FunctorialResolution.EmbeddedResolution
 end -- clump:auto
@@ -364,7 +350,6 @@ private theorem exists_sigma_ι_base_eq {J : Type u} (f : J → Scheme.{u}) (x :
 
 private theorem quasiCompact_of_compactSpace_to_spec_field {k : Type u} [Field k] {V : Scheme.{u}}
     [CompactSpace ↥V] (f : V ⟶ Spec (CommRingCat.of k)) : QuasiCompact f := by
-  have : Subsingleton ↥(Spec (CommRingCat.of k)) := inferInstance
   refine ⟨fun W hW hW' => ?_⟩
   rcases Set.eq_empty_or_nonempty W with rfl | ⟨z, hz⟩
   · simp
@@ -430,8 +415,6 @@ theorem compactSpace_pullback_sigmaOpensDesc (Y : Scheme.{u}) {ι : Type u} [Fin
     (W' : Scheme.{u}) (g' : W' ⟶ Y) [QuasiCompact g'] :
     CompactSpace ↥(pullback g' (sigmaOpensDesc Y U)) := by
   have : IsAffine (sigmaOpens Y U) := isAffine_sigmaOpens Y U hU
-  have : CompactSpace ↥(sigmaOpens Y U) := inferInstance
-  have : QuasiCompact (pullback.snd g' (sigmaOpensDesc Y U)) := inferInstance
   constructor
   have hcp := QuasiCompact.isCompact_preimage (f := pullback.snd g' (sigmaOpensDesc Y U))
     Set.univ isOpen_univ isCompact_univ
@@ -453,8 +436,6 @@ theorem exists_affine_etale_cover_pullback_sigmaOpensDesc {k : Type u} [Field k]
     isReduced_pullback_sigmaOpensDesc Y U W' g'
   have : CompactSpace ↥(pullback g' (sigmaOpensDesc Y U)) :=
     compactSpace_pullback_sigmaOpensDesc Y U hU W' g'
-  have : LocallyOfFiniteType (pullback.fst g' (sigmaOpensDesc Y U)) := inferInstance
-  have : LocallyOfFiniteType (pullback.fst g' (sigmaOpensDesc Y U) ≫ q) := inferInstance
   have : QuasiCompact (pullback.fst g' (sigmaOpensDesc Y U) ≫ q) :=
     quasiCompact_of_compactSpace_to_spec_field _
   obtain ⟨V, s, r, h1, h2, h3, h4, h5, h6, h7⟩ :=
@@ -466,14 +447,12 @@ theorem etale_comp_fst_pullback_sigmaOpensDesc (Y : Scheme.{u}) {ι : Type u} (U
     (W' : Scheme.{u}) (g' : W' ⟶ Y) (V : Scheme.{u})
     (r : V ⟶ pullback g' (sigmaOpensDesc Y U)) [Etale r] :
     Etale (r ≫ pullback.fst g' (sigmaOpensDesc Y U)) := by
-  have : Etale (pullback.fst g' (sigmaOpensDesc Y U)) := inferInstance
   infer_instance
 
 theorem etale_comp_snd_pullback_sigmaOpensDesc (Y : Scheme.{u}) {ι : Type u} (U : ι → Y.Opens)
     (W' : Scheme.{u}) (g' : W' ⟶ Y) [Etale g'] (V : Scheme.{u})
     (r : V ⟶ pullback g' (sigmaOpensDesc Y U)) [Etale r] :
     Etale (r ≫ pullback.snd g' (sigmaOpensDesc Y U)) := by
-  have : Etale (pullback.snd g' (sigmaOpensDesc Y U)) := inferInstance
   infer_instance
 
 theorem surjective_comp_fst_pullback_sigmaOpensDesc (Y : Scheme.{u}) {ι : Type u}
@@ -482,7 +461,6 @@ theorem surjective_comp_fst_pullback_sigmaOpensDesc (Y : Scheme.{u}) {ι : Type 
     (r : V ⟶ pullback g' (sigmaOpensDesc Y U)) [Surjective r] :
     Surjective (r ≫ pullback.fst g' (sigmaOpensDesc Y U)) := by
   have := surjective_sigmaOpensDesc Y U hU
-  have : Surjective (pullback.fst g' (sigmaOpensDesc Y U)) := inferInstance
   infer_instance
 
 theorem surjective_comp_snd_pullback_sigmaOpensDesc (Y : Scheme.{u}) {ι : Type u}
@@ -490,7 +468,6 @@ theorem surjective_comp_snd_pullback_sigmaOpensDesc (Y : Scheme.{u}) {ι : Type 
     (W' : Scheme.{u}) (g' : W' ⟶ Y) [Surjective g'] (V : Scheme.{u})
     (r : V ⟶ pullback g' (sigmaOpensDesc Y U)) [Surjective r] :
     Surjective (r ≫ pullback.snd g' (sigmaOpensDesc Y U)) := by
-  have : Surjective (pullback.snd g' (sigmaOpensDesc Y U)) := inferInstance
   infer_instance
 
 theorem comp_fst_comp_eq_comp_snd_comp_sigmaOpensDesc (Y : Scheme.{u}) {ι : Type u}
@@ -561,11 +538,9 @@ theorem existsGluedBlowupSequence_of_center_ne_top (R : AffineResolutionRule.{u}
     ExistsGluedBlowupSequence R := by
   intro hcover k hk hk0 Y p hpft hpqc hpred
   have : AlgebraicGeometry.IsLocallyNoetherian Y := LocallyOfFiniteType.isLocallyNoetherian p
-  have : CompactSpace ↥(Spec (CommRingCat.of k)) := inferInstance
   have : CompactSpace ↥Y := QuasiCompact.compactSpace_of_compactSpace p
   obtain ⟨ι, hι, U, hUaff, hUtop⟩ := exists_finite_affine_cover Y
   have : AlgebraicGeometry.IsAffine (sigmaOpens Y U) := isAffine_sigmaOpens Y U hUaff
-  have : CompactSpace ↥(sigmaOpens Y U) := inferInstance
   have : AlgebraicGeometry.Surjective (sigmaOpensDesc Y U) :=
     surjective_sigmaOpensDesc Y U hUtop
   obtain ⟨V, sV, r, hVaff, hVred, hsft, hsqc, hret, hrsurj, hrq⟩ :=
@@ -740,15 +715,6 @@ namespace LocalResolutionData
 variable {k : Type u} [Field k] {X : Scheme.{u}} {f : X ⟶ Spec (CommRingCat.of k)}
   [LocallyOfFiniteType f] {s : SequenceOfBlowups X}
 
-private theorem comp_base_apply {A B C : Scheme.{u}} (a : A ⟶ B) (b : B ⟶ C) (z : ↥A) :
-    (a ≫ b).base z = b.base (a.base z) := by
-  simp
-
-private theorem hom_base_inv_base_apply {A B : Scheme.{u}} (e : A ≅ B) (z : ↥B) :
-    e.hom.base (e.inv.base z) = z := by
-  rw [← comp_base_apply, e.inv_hom_id]
-  simp
-
 private theorem mem_support_comap_of_mem_support {Z W : Scheme.{u}} (g : Z ⟶ W) (I : W.IdealSheafData)
     (z : ↥Z) (hz : g.base z ∈ I.support) : z ∈ (I.comap g).support := by
   rw [Scheme.IdealSheafData.support_comap]
@@ -773,11 +739,11 @@ theorem centersLieOver_smoothLocusComplement (d : LocalResolutionData k f s) :
   have ht : ((d.schemeAtIsoPullback i₀ l hl.le).inv.base w) ∈ ((d.seq i₀).center l).support := by
     rw [d.localSequence_center_eq_comap i₀ l hl]
     refine mem_support_comap_of_mem_support _ _ _ ?_
-    rw [comp_base_apply, hom_base_inv_base_apply, hw2']
+    rw [Scheme.Hom.comp_apply, AlgebraicGeometry.Scheme.inv_hom_apply, hw2']
     exact hx
   have key : ((d.seq i₀).projectionToBase l).base ((d.schemeAtIsoPullback i₀ l hl.le).inv.base w)
       = (pullback.fst (d.cover.f i₀) (s.projectionToBase (d.reindex i₀ l))).base w := by
-    rw [← d.schemeAtIsoPullback_hom_fst i₀ l hl.le, comp_base_apply, hom_base_inv_base_apply]
+    rw [← d.schemeAtIsoPullback_hom_fst i₀ l hl.le, Scheme.Hom.comp_apply, AlgebraicGeometry.Scheme.inv_hom_apply]
   have hres := d.isResolution i₀
   unfold FunctorialResolution.EmbeddedResolution.IsStrongResolution at hres
   obtain ⟨-, -, -, -, hC, -⟩ := hres
@@ -1002,7 +968,46 @@ private theorem comap_vanishingIdeal_of_isOpenImmersion {Y T : Scheme.{u}} (g : 
     (hW : (W : Set ↥T) = g.base ⁻¹' (Z : Set ↥Y)) :
     (Scheme.IdealSheafData.vanishingIdeal Z).comap g
       = Scheme.IdealSheafData.vanishingIdeal W := by
-  apply _root_.FunctorialResolution.EmbeddedResolution.comap_vanishingIdeal_of_isOpenImmersion_of_coe_eq <;> assumption
+  have hrad : ((Scheme.IdealSheafData.vanishingIdeal Z).comap g).radical
+      = (Scheme.IdealSheafData.vanishingIdeal Z).comap g := by
+    refine Scheme.IdealSheafData.ext (funext fun U => ?_)
+    rw [Scheme.IdealSheafData.radical_ideal,
+      Scheme.IdealSheafData.ideal_comap_of_isOpenImmersion,
+      Scheme.IdealSheafData.vanishingIdeal_ideal]
+    exact ((PrimeSpectrum.isRadical_vanishingIdeal _).comap _).radical
+  have hsupp : ((Scheme.IdealSheafData.vanishingIdeal Z).comap g).support = W := by
+    rw [Scheme.IdealSheafData.support_comap, support_vanishingIdeal_eq]
+    exact TopologicalSpace.Closeds.ext hW.symm
+  rw [← hsupp, Scheme.IdealSheafData.vanishingIdeal_support, hrad]
+
+private theorem isRegularParameterSystem_map_ringEquiv {R S : Type u} [CommRing R] [CommRing S]
+    [IsLocalRing R] [IsLocalRing S] (e : R ≃+* S) (n : ℕ) (x : Fin n → R)
+    (h : IsRegularParameterSystem R n x) :
+    IsRegularParameterSystem S n (fun i => e (x i)) := by
+  unfold IsRegularParameterSystem at h ⊢
+  obtain ⟨h1, h2⟩ := h
+  constructor
+  · have hmax : Ideal.comap (e : R →+* S) (IsLocalRing.maximalIdeal S)
+        = IsLocalRing.maximalIdeal R :=
+      IsLocalRing.eq_maximalIdeal
+        (Ideal.comap_isMaximal_of_surjective (e : R →+* S) e.surjective)
+    have hm : Ideal.map (e : R →+* S) (IsLocalRing.maximalIdeal R)
+        = IsLocalRing.maximalIdeal S := by
+      rw [← hmax]
+      exact Ideal.map_comap_of_surjective (e : R →+* S) e.surjective _
+    have himg : Ideal.span (Set.range fun i => e (x i))
+        = Ideal.map (e : R →+* S) (Ideal.span (Set.range x)) := by
+      rw [Ideal.map_span]
+      congr 1
+      ext b
+      constructor
+      · rintro ⟨i, rfl⟩
+        exact ⟨x i, ⟨i, rfl⟩, rfl⟩
+      · rintro ⟨a, ⟨i, rfl⟩, rfl⟩
+        exact ⟨i, rfl⟩
+    rw [himg, h1, hm]
+  · rw [h2]
+    exact ringKrullDim_eq_of_ringEquiv e
 
 private theorem isRegularParameterSystem_of_ringEquiv_apply_eq {R S : Type u} [CommRing R] [CommRing S]
     [IsLocalRing R] [IsLocalRing S] (e : R ≃+* S) (n : ℕ) (x : Fin n → R) (y : Fin n → S)
@@ -1010,7 +1015,7 @@ private theorem isRegularParameterSystem_of_ringEquiv_apply_eq {R S : Type u} [C
     IsRegularParameterSystem S n y := by
   have hy : y = fun i => e (x i) := (funext fun i => hxy i).symm
   subst hy
-  exact _root_.FunctorialResolution.EmbeddedResolution.isRegularParameterSystem_ringEquiv e n x h
+  exact isRegularParameterSystem_map_ringEquiv e n x h
 
 private theorem surjective_iso_inv {A B : CommRingCat.{u}} (e : A ≅ B) :
     Function.Surjective (CommRingCat.Hom.hom e.inv) := by
@@ -1293,8 +1298,6 @@ private theorem respectsIso_smoothOfRelativeDimension (r : ℕ) :
     constructor
     intro X Y Z i hi f hf
     have : CategoryTheory.IsIso i := hi
-    have : AlgebraicGeometry.IsOpenImmersion i := inferInstance
-    have : AlgebraicGeometry.SmoothOfRelativeDimension 0 i := inferInstance
     have := hf
     exact smoothOfRelativeDimension_zero_comp i f r
   have hR : MorphismProperty.RespectsRight
@@ -1303,8 +1306,6 @@ private theorem respectsIso_smoothOfRelativeDimension (r : ℕ) :
     constructor
     intro X Y Z i hi f hf
     have : CategoryTheory.IsIso i := hi
-    have : AlgebraicGeometry.IsOpenImmersion i := inferInstance
-    have : AlgebraicGeometry.SmoothOfRelativeDimension 0 i := inferInstance
     have := hf
     exact smoothOfRelativeDimension_comp_zero f i r
   exact ⟨⟩
@@ -1344,7 +1345,6 @@ private theorem isZariskiLocalAtSource_smoothOfRelativeDimension (r : ℕ) :
   refine AlgebraicGeometry.IsZariskiLocalAtSource.mk' ?_ ?_
   · intro X Y f U hf
     have := hf
-    have : AlgebraicGeometry.SmoothOfRelativeDimension 0 U.ι := inferInstance
     exact smoothOfRelativeDimension_zero_comp U.ι f r
   · intro X Y f ι U hU H
     exact smoothOfRelativeDimension_of_iSup_eq_top r f U hU H
@@ -1358,8 +1358,6 @@ theorem smoothOfRelativeDimension_opensCoprodMapOfRefinement {X' X : Scheme.{u}}
   have h : ∀ a : κ, AlgebraicGeometry.SmoothOfRelativeDimension r
       (φ.resLE (U (β a)) (V a) (hβ a) ≫ Sigma.ι (fun i => (U i).toScheme) (β a)) := by
     intro a
-    have : AlgebraicGeometry.SmoothOfRelativeDimension 0
-        (Sigma.ι (fun i => (U i).toScheme) (β a)) := inferInstance
     exact smoothOfRelativeDimension_comp_zero _ _ r
   exact AlgebraicGeometry.IsZariskiLocalAtSource.sigmaDesc h
 
@@ -1389,8 +1387,6 @@ theorem exists_affine_etale_cover_of_smoothOfRelativeDimension {k : Type u} [Fie
   have : Finite κ := hκ
   have hWaff : AlgebraicGeometry.IsAffine (sigmaOpens X U) := isAffine_sigmaOpens X U hUaff
   have hW'aff : AlgebraicGeometry.IsAffine (sigmaOpens X' V) := isAffine_sigmaOpens X' V hVaff
-  have hcW : CompactSpace ↥(sigmaOpens X U) := inferInstance
-  have hcW' : CompactSpace ↥(sigmaOpens X' V) := inferInstance
   exact ⟨sigmaOpens X U, sigmaOpensDesc X U ≫ f, sigmaOpensDesc X U,
     sigmaOpens X' V, sigmaOpensDesc X' V ≫ f', sigmaOpensDesc X' V,
     opensCoprodMapOfRefinement φ U V β hβ,
@@ -1432,9 +1428,6 @@ theorem isCompatibleWithSmoothMorphisms_of_isInducedByAffineRule (B : AffineReso
     AlgebraicGeometry.SmoothOfRelativeDimension.smooth r φ
   have hsmψ : AlgebraicGeometry.Smooth ψ :=
     AlgebraicGeometry.SmoothOfRelativeDimension.smooth r ψ
-  have hflatφ : AlgebraicGeometry.Flat φ := inferInstance
-  have hflatψ : AlgebraicGeometry.Flat ψ := inferInstance
-  have hflatc' : AlgebraicGeometry.Flat c' := inferInstance
   have hcs : ∀ y : ↥X, ∃ w, c w = y := fun y => hcsurj.surj y
   have hc's : ∀ y : ↥X', ∃ w, c' w = y := fun y => hc'surj.surj y
   have hA : IsStrictPullbackBlowupSeq c (B k W q) (R k X f) := hR k X f W q c hcq hcs
@@ -1483,7 +1476,6 @@ private theorem isStrongResolution_of_isInducedByAffineRule_of_isAffine (B : Aff
   have := hqqc
   have := hget
   have := hgsurj
-  have : AlgebraicGeometry.Flat g := inferInstance
   have hsurj : ∀ y : ↥Y, ∃ w, g w = y := fun y => hgsurj.surj y
   have h1 : IsStrictPullbackBlowupSeq g (B k W q) s := hc W q g hgq hsurj
   have h2 : IsStrictPullbackBlowupSeq g (B k W q) (B k Y p) := hetale k Y W p q g hgq hsurj
@@ -1523,7 +1515,6 @@ private theorem isStrongResolution_of_isInducedByAffineRule (B : AffineResolutio
       AlgebraicGeometry.QuasiCompact (X.affineCover.f i ≫ f) := by
     intro i
     have := hA i
-    have : CompactSpace ↥(X.affineCover.X i) := inferInstance
     exact quasiCompact_of_compactSpace_of_subsingleton (X.affineCover.f i ≫ f)
   have hCharts : ∀ i : X.affineCover.I₀,
       AlgebraicGeometry.SmoothOfRelativeDimension 0 (X.affineCover.f i) := by

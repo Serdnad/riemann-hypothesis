@@ -1,7 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.ThetaAtEqSumHeisOfFourierSum
-import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.SplitPlaceDatumBoxTensorLineOverVacuum
 public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.LatIndLastKerRow
 public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.HasDerivAtZeroAndIsTheta
 public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.ExistsSBExtFunEqHalfInd
@@ -60,7 +58,6 @@ noncomputable section
 open Formalism.BasicNotions Formalism.BasicNotions.TH Formalism.MainNotions.StandardLattice Formalism.L2.Theta Formalism.IndefR.Datum Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes GlobalTheory.FinPl GlobalTheory.MixPer GlobalTheory.MixModel GlobalTheory.Unf GlobalTheory.LatPair GlobalTheory.SplitWeil GlobalTheory.SeeSaw ValuativeRel IsLocalRing Matrix
 open GlobalTheory.IndefiniteRowSideFullHecke.AppendedVectorData (lastKer lastPair cosetInd withRow)
 open GlobalTheory.FinPl.ExtZero (colFun rowFun)
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 
 namespace GlobalTheory.LastTgtSlice
 
@@ -125,7 +122,19 @@ theorem line_sum {L : HSp D} {ζ : Fin L.rank → D.host.E} (hζ : IsLineVec L �
 
 theorem isLattice_span {L : HSp D} {ζ : Fin L.rank → D.host.E} (hζ : IsLineVec L ζ) :
     Submodule.IsFullLattice D.host.E (Submodule.span (NumberField.RingOfIntegers D.host.E) {ζ} : Lat L) := by
-  first | exact _root_.GlobalTheory.FinPl.BoxDatum.isLattice_span | exact @_root_.GlobalTheory.FinPl.BoxDatum.isLattice_span | apply _root_.GlobalTheory.FinPl.BoxDatum.isLattice_span <;> assumption
+  haveI : Submodule.IsLattice D.host.E (Submodule.span (NumberField.RingOfIntegers D.host.E) {ζ} : Lat L) :=
+    Submodule.IsLattice.of_fg D.host.E (Submodule.fg_span_singleton ζ)
+  refine ⟨?_⟩
+  rw [Submodule.span_span_of_tower]
+  apply eq_top_iff.mpr
+  intro v _
+  let j : Fin L.rank := ⟨0, by have := hζ.1; omega⟩
+  have hs : Subsingleton (Fin L.rank) := by rw [hζ.1]; infer_instance
+  apply Submodule.mem_span_singleton.mpr
+  refine ⟨v j / ζ j, ?_⟩
+  funext i
+  rw [Subsingleton.elim i j]
+  simp [Pi.smul_apply, smul_eq_mul, div_mul_cancel₀ _ (line_ne hζ j)]
 theorem exists_colFun (p : SplitPt D k) {n : Type} [Fintype n] [DecidableEq n] {L S : HSp D}
     {ζ : Fin L.rank → D.host.E} (hζ : IsLineVec L ζ) (β : Frame p S n) {LL : Lat L} {LS : Lat S}
     (hL : Submodule.IsFullLattice D.host.E LL) (hS : Submodule.IsFullLattice D.host.E LS) {Φ : WO L S → ℂ}
@@ -144,14 +153,14 @@ theorem exists_colFun (p : SplitPt D k) {n : Type} [Fintype n] [DecidableEq n] {
     funext t
     unfold colFun
     by_cases ht : IsHalf p.e t
-    · rw [if_pos ht]
+    · rw [ite_eq_left ht]
       beta_reduce
       congr 1
       ext i j
       rw [Matrix.map_apply, Matrix.of_apply, ExtZero.zcol, Matrix.mulVec_mulVec, β.bb', Matrix.one_mulVec]
       simp only [Matrix.mulVec, dotProduct]
       rw [line_sum hζ _ j, map_mul p.pr, mul_assoc, mul_inv_cancel₀ (hz0 j), mul_one, p.sec_pr, ht i j]
-    · rw [if_neg ht]
+    · rw [ite_eq_right ht]
       by_contra h
       exact ht (hΦ.1 t (Ne.symm h))
   · refine continuous_matrix fun i j => ?_

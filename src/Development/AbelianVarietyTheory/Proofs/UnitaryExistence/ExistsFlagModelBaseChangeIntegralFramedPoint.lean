@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.TorsionIsoOfGroupPullbackGeneric
 public import Formalism.LocalToGlobal.ProjectiveLattices.LiesOverBaseChange
 public import Formalism.LocalToGlobal.ProjectiveLattices.NonnegIffOfLiesTotal
 public import Development.AbelianVarietyTheory.Proofs.TorusSplitting.DegenerationDataAtModelPointOfUniformisation
@@ -54,7 +53,6 @@ import Mathlib.CategoryTheory.Monoidal.Opposite.Mon
 
 open AlgebraicGeometry CategoryTheory Limits NumberField IsDedekindDomain IsLocalRing ReciprocityTheory.ChartRestriction.G.Geo.Tor ReciprocityTheory.ChartRestriction.G.FD Formalism.BasicNotions Formalism.MainNotions Formalism.BasicNotions.TH Formalism.L2.Theta Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes Formalism.L2.Pj Formalism.MainNotions.DIV.Cons
 open scoped TensorProduct
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 
 noncomputable section
 
@@ -69,8 +67,17 @@ variable {S S' : Scheme.{0}} {G : Over S} {G' : Over S'} [GrpObj G] [GrpObj G'] 
 
 theorem exists_pointEquiv (h : IsGrpPullback G' G f φ) {T : Scheme.{0}} (t : T ⟶ S') (x : T ⟶ S) (hx : t ≫ f = x) :
     ∃ B : (Over.mk t ⟶ G') ≃* (Over.mk x ⟶ G), ∀ v, (B v).left = v.left ≫ φ := by
-  intros
-  apply _root_.GlobalTheory.GroupBplus.Aff.exists_mulEquiv_points_of_isGrpPullback <;> assumption
+  subst hx
+  have hl : ∀ v, (pushHom h (Over.mk t) v).left = v.left ≫ φ := fun v => rfl
+  refine ⟨MulEquiv.ofBijective (pushHom h (Over.mk t)) ⟨fun v w e => ?_, fun w => ?_⟩, hl⟩
+  · apply Over.OverMorphism.ext
+    apply h.1.hom_ext
+    · rw [← hl, ← hl, e]
+    · rw [Over.w v, Over.w w]
+  · refine ⟨Over.homMk (h.1.lift w.left t (Over.w w)) (h.1.lift_snd _ _ _), ?_⟩
+    apply Over.OverMorphism.ext
+    rw [hl]
+    exact h.1.lift_fst _ _ _
 
 variable {R : Type} [CommRing R]
 

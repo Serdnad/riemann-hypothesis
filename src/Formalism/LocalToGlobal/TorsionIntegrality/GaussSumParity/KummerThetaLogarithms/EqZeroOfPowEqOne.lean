@@ -1,6 +1,5 @@
 module
 
-import Formalism.LocalToGlobal.TorsionIntegrality.FrobeniusFibreCurves.LogarithmicSubstitution.ConstantCoeffSeriesAtVariable
 public import Formalism.LocalToGlobal.TorsionIntegrality.GaussSumParity.LetterShift
 public import Formalism.ThetaLogCoordinates.UniformThetaSubstitution.FrobeniusLiftNorms.TopsChoicePartA
 import Mathlib.Algebra.Order.Star.Int
@@ -41,9 +40,9 @@ lemma coeff_gLog_single (hl : 2 ≤ l) (φ : ZMod d → τ) (s : ZMod d) (e : �
       ((l : K) ^ e)⁻¹ := by
   have hk : (l ^ 2) ^ e ≠ 0 := pow_ne_zero _ (pow_ne_zero _ (by omega))
   rw [coeff_gLog, Finset.sum_eq_single e]
-  · rw [if_pos rfl]
+  · rw [ite_eq_left rfl]
   · intro b _ hb
-    rw [if_neg]
+    rw [ite_eq_right]
     intro h
     apply hb
     rw [Finsupp.single_eq_single_iff] at h
@@ -68,7 +67,7 @@ lemma coeff_gLog_zero (φ : ZMod d → τ) (s : ZMod d) (n : τ →₀ ℕ)
     (h : ∀ e : ℕ, n ≠ Finsupp.single (φ (s - 2 * (e : ZMod d))) ((l ^ 2) ^ e)) :
     coeff n (gLog K l φ s) = 0 := by
   rw [coeff_gLog]
-  exact Finset.sum_eq_zero fun e _ => if_neg (h e)
+  exact Finset.sum_eq_zero fun e _ => ite_eq_right (h e)
 
 lemma map_gLog (ρ : K →+* K) (φ : ZMod d → τ) (s : ZMod d) :
     map ρ (gLog K l φ s) = gLog K l φ s := by
@@ -119,7 +118,7 @@ lemma gLog_shift [CharZero K] (hl : l.Prime) (ρ : K →+* K) (φ : ZMod d → �
         · have : (l ^ 2) ^ 0 = (l ^ 2) ^ (e + 1) := by rw [pow_zero]; exact h2.symm
           exact absurd (pow_inj hl2 this) (by omega)
         · exact pow_ne_zero _ hq h2
-      rw [if_neg hne]
+      rw [ite_eq_right hne]
       have hsm : Finsupp.single (φ (s - 2 * ((e + 1 : ℕ) : ZMod d))) ((l ^ 2) ^ (e + 1)) =
           (l ^ 2) • Finsupp.single (φ (s - 2 - 2 * (e : ZMod d))) ((l ^ 2) ^ e) := by
         rw [hstep, Finsupp.smul_single, smul_eq_mul, ← pow_succ']
@@ -132,7 +131,7 @@ lemma gLog_shift [CharZero K] (hl : l.Prime) (ρ : K →+* K) (φ : ZMod d → �
       apply hn 0
       rw [h]
       simp
-    rw [if_neg hX]
+    rw [ite_eq_right hX]
     have hfz : coeff n (frobVar (l ^ 2) (gLog K l φ (s - 2))) = 0 := by
       by_contra hne
       obtain ⟨m, hm, hm0⟩ := Formalism.InvariantFactorPaths.G7.coeff_frobVar_ne_zero hq hne
@@ -152,7 +151,11 @@ section Normed
 variable {K : Type} [NormedField K] {τ : Type}
 
 lemma integral_X' (x : τ) : Integral (X x : MvPowerSeries τ K) := by
-  apply _root_.Formalism.L2.Th1.B.law_integral_X <;> assumption
+  classical
+  unfold Integral
+  intro n
+  rw [coeff_X]
+  split_ifs <;> simp
 
 lemma shiftType_gLog [DecidableEq τ] [CharZero K] {l d : ℕ} (hl : l.Prime) (σ : K →+* K) (φ : ZMod d → τ) :
     ShiftType l σ (fun s : ZMod d => gLog K l φ s) := by
@@ -224,8 +227,7 @@ lemma combo [IsUltrametricDist K] {l d : ℕ} [NeZero d] (hl : l ≠ 0) (σ : K 
     · simp
   rw [hsum]
   refine ⟨?_, ?_⟩
-  · set_option synthInstance.maxHeartbeats 100000 in
-      rw [map_sum]
+  · rw [map_sum]
     refine Finset.sum_eq_zero fun s _ => ?_
     rw [map_mul, (hL s).1, mul_zero]
   · have key : (∑ s, C (a s) * L s) - C ((l : K)⁻¹) *

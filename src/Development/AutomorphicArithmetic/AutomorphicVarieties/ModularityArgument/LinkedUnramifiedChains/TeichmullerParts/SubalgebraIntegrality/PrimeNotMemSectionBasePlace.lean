@@ -1,6 +1,5 @@
 module
 
-import all Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.LinkedUnramifiedChains.TeichmullerParts.SubalgebraIntegrality.PrimeNotMemSectionBasePlaceBis
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.LinkedUnramifiedChains.TeichmullerParts.UnramifiedTrivialInertialType
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsUniqueAdmissibleLocalComponentDefiniteUnit
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FinrankIntegralFixedVectorsEqOneAlmostAll
@@ -62,7 +61,6 @@ open UpperTheory.V.HV (Coef)
 open UpperTheory.V.Z.Mult (Cp)
 open UpperTheory.V.Z.J.D
 open scoped TensorProduct
-attribute [local instance] GlobalTheory.LocalData.complRel GlobalTheory.LocalData.isLocalField
 
 
 section Alg
@@ -177,7 +175,7 @@ private theorem loc_adm (hU : GlobalTheory.BCT.Unr E) (hn : 1 ≤ n) {σ : Submo
 
 private theorem loc_one (hU : GlobalTheory.BCT.Unr E) (hn : 1 ≤ n) {σ : Submodule ℂ (UA E n → ℂ)} (hσ : IsAutRepU σ) (w : Plc E)
     (τ : SmIrr (UL n w)) (hτ : IsCompU σ w τ) (h : IsUnramU σ w) : Module.finrank ℂ (fixed τ.ρ (KL n w)) = 1 := by
-  obtain ⟨x, hx, hx0⟩ := Submodule.exists_mem_ne_zero_of_ne_bot (GlobalTheory.T.unramifiedVector_gives_localComponent_sphericalVector E hU n σ hσ w τ hτ h)
+  obtain ⟨x, hx, hx0⟩ := Submodule.exists_mem_ne_zero_of_ne_bot (_root_.GlobalTheory.BCT.LocUnr.fixed_KL_ne_bot E hU n σ hσ w τ hτ h)
   obtain ⟨θ, h1, h2, h3⟩ := GlobalTheory.BCT.SphLine.exists_gelfand_anti E hU n w
   obtain ⟨hKo, hKc⟩ := GlobalTheory.BCT.LocCompU.isOpen_isCompact_KL hU n w
   rw [_root_.GlobalTheory.GroupAverageProjection.main (UL n w) (KL n w) hKo hKc θ h1 h2 h3 τ.V τ.ρ τ.irred
@@ -211,7 +209,7 @@ private theorem loc_move (hU : GlobalTheory.BCT.Unr E) (hn : 1 ≤ n) {σ : Subm
     (K : Subgroup (UL n w)) :
     Module.finrank ℂ (fixd τ'.ρ (K.map (UL n w).subtype)) = Module.finrank ℂ (fixed τ.ρ K) := by
   have hm : ∀ g : GLw n w, g ∈ UL n w := fun g => by
-    rw [UL, if_pos hw]
+    rw [UL, ite_eq_left hw]
     trivial
   let τ₁ : SmIrr (UL n w) :=
     { V := τ'.V
@@ -315,7 +313,21 @@ private theorem under_w (v : Plc (Lp L)) : (s.w v).under (𝓞 (Lp L)) = v := by
   exact (s.hw v (algebraMap (𝓞 (Lp L)) (𝓞 L) x)).symm.trans (s.hA v x)
 
 private theorem SectionSplitPlaces : ((l : ℕ) : 𝓞 (Lp L)) ∉ s.v0.asIdeal := by
-  apply _root_.UpperTheory.V.Z.J.D.AuxBlock5.SectionSplitPlaces <;> assumption
+  intro h
+  have hcard : Nat.card (𝓞 (Lp L) ⧸ s.v0.asIdeal) = s.p := s.norm_v0_eq_one
+  have hl0 : ((l : ℕ) : 𝓞 (Lp L) ⧸ s.v0.asIdeal) = 0 := by
+    simpa using (Ideal.Quotient.eq_zero_iff_mem.2 h)
+  have hp0 : ((s.p : ℕ) : 𝓞 (Lp L) ⧸ s.v0.asIdeal) = 0 := by
+    have := card_nsmul_eq_zero' (G := 𝓞 (Lp L) ⧸ s.v0.asIdeal) (x := 1)
+    rw [hcard] at this
+    simpa using this
+  obtain ⟨a, b, e⟩ := ((Nat.coprime_primes (Fact.out : l.Prime) s.p_prime).2 (Ne.symm s.p_ne)).isCoprime
+  have e' := congrArg (Int.cast : ℤ → 𝓞 (Lp L) ⧸ s.v0.asIdeal) e
+  push_cast at e'
+  rw [hl0, hp0, mul_zero, mul_zero, add_zero] at e'
+  haveI := subsingleton_of_zero_eq_one e'
+  rw [Nat.card_of_subsingleton (0 : 𝓞 (Lp L) ⧸ s.v0.asIdeal)] at hcard
+  exact s.p_prime.one_lt.ne hcard
 
 private theorem cmp_S {v : Plc (Lp L)} (h : v ∈ s.St ∨ v = s.v0) (x : UA L n) :
     cmp n (s.w v) ((away l L n).rangeRestrict x) = cLoc (s.w v) x := by

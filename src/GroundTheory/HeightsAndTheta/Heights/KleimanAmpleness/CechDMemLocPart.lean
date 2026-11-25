@@ -1,6 +1,5 @@
 module
 
-import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.DegreeOneCellEqChartUpdate
 public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.ExistsHomogOfMemQuotPartAlt
 public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.ImportsTerTer
 
@@ -47,8 +46,16 @@ theorem cechD_apply' {M : Type} [AddCommGroup M] [Module (MRingOver S ι) M] (n 
 theorem cechD_mem_locPart (γ : K → ℤ) (n : ℕ) {f : CechC S ι (MRingOver S ι ⧸ mIdealOver S y) n}
     (hf : f ∈ cechCc ι (quotPart S (mIdealOver S y)) γ n) (I : Cell K ι (n + 1)) :
     cechD S ι _ n f I ∈ locPart ι (quotPart S (mIdealOver S y)) (cellMon S I.1) γ := by
-  intros
-  apply _root_.GroundTheory.Heights₂.Heights.Kleiman.SectionsOverLocalization.HZeroRowPlaceData.cechD_mem_locPart <;> assumption
+  rw [cechD_apply']
+  refine Submodule.sum_mem _ fun k _ => Submodule.sum_mem _ fun i _ => ?_
+  split_ifs with hc
+  · have hJ : f ⟨Function.update I.1 k ((I.1 k).erase i), hc⟩ ∈ locPart ι (quotPart S (mIdealOver S y))
+        (cellMon S (Function.update I.1 k ((I.1 k).erase i))) γ :=
+      Submodule.mem_pi.mp hf ⟨Function.update I.1 k ((I.1 k).erase i), hc⟩ (Set.mem_univ _)
+    have hm := cellRes_mem_locPart (J := Function.update I.1 k ((I.1 k).erase i)) (I := I.1)
+      (cellMon_mono (face_subset I.1 k i)) γ hJ
+    exact zsmul_mem hm _
+  · exact Submodule.zero_mem _
 
 theorem cechD_mem_cechCc (γ : K → ℤ) (n : ℕ) {f : CechC S ι (MRingOver S ι ⧸ mIdealOver S y) n}
     (hf : f ∈ cechCc ι (quotPart S (mIdealOver S y)) γ n) :
@@ -69,7 +76,7 @@ theorem evC_cechD (n : ℕ) (w : CechC S ι (MRingOver S ι ⧸ mIdealOver S y) 
   by_cases hI : CellMeets y I.1
   · set_option synthInstance.maxHeartbeats 100000 in
       rw [cechD_apply', map_sum]
-    simp only [cellD, LinearMap.pi_apply, hI, if_true, LinearMap.sum_apply]
+    simp only [cellD, LinearMap.pi_apply, hI, ite_true, LinearMap.sum_apply]
     refine Finset.sum_congr rfl fun k _ => ?_
 
     rw [map_sum]
@@ -79,7 +86,7 @@ theorem evC_cechD (n : ℕ) (w : CechC S ι (MRingOver S ι ⧸ mIdealOver S y) 
       exact congrArg _ (evMap_cellRes (face_subset I.1 k i) hI _)
     · simp
   · rw [evMap_of_not y hI]
-    simp only [cellD, LinearMap.pi_apply, hI, if_false, LinearMap.zero_apply]
+    simp only [cellD, LinearMap.pi_apply, hI, ite_false, LinearMap.zero_apply]
 
 variable (γ : K → ℤ)
 
@@ -103,7 +110,7 @@ theorem evC_lift (n : ℕ) {w' : Cell K ι n → Ω} (hw' : w' ∈ cellC S y γ 
     · rw [← map_evMap_locPart y hI γ] at hI'
       exact Submodule.mem_map.mp hI'
     · unfold cellSec at hI'
-      rw [if_neg hI, Submodule.mem_bot] at hI'
+      rw [ite_eq_right hI, Submodule.mem_bot] at hI'
       exact ⟨0, Submodule.zero_mem _, by rw [map_zero, hI']⟩
   choose w hw hφw using h
   exact ⟨w, Submodule.mem_pi.mpr fun I _ => hw I, funext hφw⟩

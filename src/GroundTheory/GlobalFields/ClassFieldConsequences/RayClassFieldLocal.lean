@@ -117,8 +117,8 @@ theorem mem_unitFiltrationUnits_zero_iff_valued {x : (v.adicCompletion K)ˣ} :
   exact (isEquiv_valuation_valued v).eq_one_iff_eq_one
 
 theorem valued_irreducible_valuationInteger {ϖ : 𝒪[v.adicCompletion K]} (hϖ : Irreducible ϖ) :
-    Valued.v (ϖ : v.adicCompletion K) = exp (-1 : ℤ) := by
-  apply _root_.GroundTheory.Global.valued_of_irreducible_integer <;> assumption
+    Valued.v (ϖ : v.adicCompletion K) = exp (-1 : ℤ) :=
+  by apply _root_.GroundTheory.Global.valued_of_irreducible_integer; assumption
 
 theorem exists_ord_eq_one_valued :
     ∃ π : (v.adicCompletion K)ˣ, ord (π : v.adicCompletion K) = 1 ∧

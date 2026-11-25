@@ -1,6 +1,5 @@
 module
 
-import all Development.AutomorphicArithmetic.Foundations.Convolution.RealGroupAnalysis.ThetaBounds.ActInf
 public import Development.AutomorphicArithmetic.Foundations.Convolution.RealGroupAnalysis.ThetaLiftTrivialOrbitTermsVanish
 public import Development.AutomorphicArithmetic.Foundations.Convolution.RealGroupAnalysis.FockOperators.XApply
 public import Development.AutomorphicArithmetic.Foundations.Convolution.RealGroupAnalysis.ThetaReindexing.ActMat
@@ -18,44 +17,6 @@ public import Development.AutomorphicArithmetic.Foundations.Convolution.RealGrou
 public import Development.AutomorphicArithmetic.Foundations.Convolution.RealGroupAnalysis.Smooth
 public import Development.AutomorphicArithmetic.Foundations.Convolution.RealGroupAnalysis.FockOperators.FkLe
 public import Development.AutomorphicArithmetic.Foundations.Convolution.RealGroupAnalysis.FockOperators.FockEx
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.RingTheory.PicardGroup
-import Mathlib.Tactic.Polynomial.Basic
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AutomorphicArithmetic.Foundations.Convolution.RealGroupAnalysis.FockOperators.PerpCpt, Development.AutomorphicArithmetic.Foundations.Convolution.RealGroupAnalysis.FockOperators.CoeffB, Development.AutomorphicArithmetic.Foundations.Convolution.RealGroupAnalysis.FockOperators.CwSum, Development.AutomorphicArithmetic.Foundations.Convolution.RealGroupAnalysis.FockOperators.AnnVac, Development.AutomorphicArithmetic.Foundations.Convolution.RealGroupAnalysis.FockOperators.Entries, Development.AutomorphicArithmetic.Foundations.Convolution.RealGroupAnalysis.FockOperators.GaussAct, Development.AutomorphicArithmetic.Foundations.Convolution.RealGroupAnalysis.FockOperators.FinPartMulVec, Development.AutomorphicArithmetic.Foundations.Convolution.RealGroupAnalysis.FockOperators.FkStab, Development.AutomorphicArithmetic.Foundations.Convolution.RealGroupAnalysis.FockOperators.OmFinite, Development.AutomorphicArithmetic.Foundations.Convolution.RealGroupAnalysis.FockOperators.OmX, Development.AutomorphicArithmetic.Foundations.Convolution.RealGroupAnalysis.FockOperators.FixGen, Development.AutomorphicArithmetic.Foundations.Convolution.RealGroupAnalysis.FockOperators.ProdEntries, Development.AutomorphicArithmetic.Foundations.Convolution.RealGroupAnalysis.FockOperators.ActFin, Development.AutomorphicArithmetic.Foundations.Convolution.RealGroupAnalysis.FockOperators.QuaternaryFormEqOfFinitePart, Development.AutomorphicArithmetic.Foundations.Convolution.RealGroupAnalysis.WeilRepresentation.FockSt
@@ -200,7 +161,6 @@ open scoped Classical
 
 private theorem cw_sum {F : Type} [Field F] [NumberField F] [IsTotallyReal F] (w : InfinitePlace F)
     (a b : Fin 4 → A F) : cw w (∑ j, a j * b j) = ∑ j, cw w (a j) * cw w (b j) := by
-  set_option synthInstance.maxHeartbeats 100000 in
     simp only [cw, map_sum, map_mul, Finset.sum_apply, Pi.mul_apply, Complex.ofReal_sum, Complex.ofReal_mul]
 
 theorem UpperTheory.ConvolutionTheory.R2.Fo.lX :
@@ -792,9 +752,6 @@ open Neutral.B1 Formalism.L2.Host Formalism.ConjugateSelfDual GlobalTheory.CuspR
 open UpperTheory.ConvolutionTheory.R2 UpperTheory.ConvolutionTheory.R2.Fo
 open scoped Classical
 
-private theorem psi_add {F : Type} [Field F] [NumberField F] (x y : A F) : ψ (x + y) = ψ x * ψ y := by
-  simp only [ψ, AddChar.map_add_eq_mul, Circle.coe_mul]
-
 private theorem quaternaryForm_add_left {F : Type} [Field F] [NumberField F] (δ : F) (y a v : V4 F) :
     B4 δ (y + a) v = B4 δ y v + B4 δ a v := by
   simp only [B4, Pi.add_apply]
@@ -828,7 +785,7 @@ theorem UpperTheory.ConvolutionTheory.R2.Fo.fixGen :
       change φ.1 y * ψ (B4 D.δ y (v + a)) = φ.1 y * ψ (B4 D.δ y v)
       have e : B4 D.δ y (v + a) = B4 D.δ y v + B4 D.δ a y := by
         rw [bilinearFour_comm D.δ y (v + a), quaternaryForm_add_left, bilinearFour_comm D.δ v y]
-      rw [e, psi_add]
+      rw [e, ψ_add]
       calc φ.1 y * (ψ (B4 D.δ y v) * ψ (B4 D.δ a y))
           = ψ (B4 D.δ y v) * (ψ (B4 D.δ a y) * φ.1 y) := by ring
         _ = φ.1 y * ψ (B4 D.δ y v) := by rw [h]; ring
@@ -837,7 +794,7 @@ theorem UpperTheory.ConvolutionTheory.R2.Fo.fixGen :
       rw [← integral_const_mul]
       have key : ∀ y, ψ (B4 D.δ a v) * (φ.1 y * ψ (B4 D.δ y v)) =
           φ.1 (y + a) * ψ (B4 D.δ (y + a) v) := fun y => by
-        rw [quaternaryForm_add_left, psi_add, (hφ a ha y).1]
+        rw [quaternaryForm_add_left, ψ_add, (hφ a ha y).1]
         ring
       simp_rw [key]
       exact integral_add_right_eq_self (μ := adeleMeasurePi F) (fun y => φ.1 y * ψ (B4 D.δ y v)) a
@@ -1012,6 +969,19 @@ private theorem mkE_sub (D : Dat F E) (u t u' t' : A F) :
 
 private theorem snd_sub (a b : A E) : (a - b).2 = a.2 - b.2 := rfl
 
+private theorem bar_snd (D : Dat F E) (z z' : A E) (h : z.2 = z'.2) : (D.bar z).2 = (D.bar z').2 := by
+  obtain ⟨-, h2, h3, h4⟩ := hermAct F E D
+  have hw : (z - z').2 = 0 := by rw [snd_sub, h, sub_self]
+  have h5 := h4 (D.co (z - z') 0) (D.co (z - z') 1) (by rw [h3]; exact hw)
+  have h6 : D.bar (z - z') = D.mkE (D.co (z - z') 0) (-D.co (z - z') 1) := by rw [← h2, h3]
+  have h7 : (D.bar (z - z')).2 = 0 := by
+    rw [h6]
+    refine mkE_snd D _ _ h5.1 ?_
+    change -(D.co (z - z') 1).2 = 0
+    rw [h5.2, neg_zero]
+  rw [map_sub, snd_sub] at h7
+  exact sub_eq_zero.1 h7
+
 private theorem mkE_inj (D : Dat F E) (a b a' b' : A F) (h : (D.mkE a b).2 = (D.mkE a' b').2) :
     a.2 = a'.2 ∧ b.2 = b'.2 := by
   obtain ⟨-, -, -, h4⟩ := hermAct F E D
@@ -1022,7 +992,46 @@ end
 
 theorem UpperTheory.ConvolutionTheory.R2.Fo.actFin :
     ∀ (F E : Type) [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] [IsTotallyReal F] [_root_.NumberField.IsTotallyComplex E] (D : Dat F E) (y : GL (Fin 2) (Cinf E)) v, finPartPi (D.act (infGL E 2 y) v) = finPartPi v := by
-  apply _root_.fin_part <;> assumption
+  intro F E _ _ _ _ _ _ _ D y v
+  have h1 := (hermAct F E D).1 (infGL E 2 y) v
+  have hg : ∀ i j, pFin E ((infGL E 2 y).val i j) = (1 : Matrix (Fin 2) (Fin 2) (Af E)) i j := fun i j =>
+    congrArg (fun g : GL (Fin 2) (Af E) => g.val i j) (pFin_infGL y)
+  have hone : ∀ i j, (1 : Matrix (Fin 2) (Fin 2) (Af E)) i j = pFin E ((1 : Matrix (Fin 2) (Fin 2) (A E)) i j) := by
+    intro i j
+    by_cases e : i = j
+    · subst e; simp
+    · simp [Matrix.one_apply_ne e]
+  have hb : ∀ i j, pFin E (D.bar ((infGL E 2 y).val i j)) = (1 : Matrix (Fin 2) (Fin 2) (Af E)) i j := by
+    intro i j
+    have e : pFin E (D.bar ((infGL E 2 y).val i j)) = pFin E (D.bar ((1 : Matrix (Fin 2) (Fin 2) (A E)) i j)) :=
+      bar_snd D _ _ ((hg i j).trans (hone i j))
+    rw [e, hone]
+    congr 1
+    by_cases e' : i = j
+    · subst e'; simp
+    · simp [Matrix.one_apply_ne e']
+  have hm1 : (infGL E 2 y).val.map (pFin E) = 1 := by
+    exact Matrix.ext fun i j => hg i j
+  have hm2 : (((infGL E 2 y).val.map D.bar)ᵀ).map (pFin E) = 1 := by
+    refine Matrix.ext fun i j => ?_
+    have := hb j i
+    simp only [Matrix.map_apply, Matrix.transpose_apply]
+    rw [this, Matrix.one_apply, Matrix.one_apply]
+    simp [eq_comm]
+  have hH : (D.herm (D.act (infGL E 2 y) v)).map (pFin E) = (D.herm v).map (pFin E) := by
+    rw [h1, Matrix.map_mul, Matrix.map_mul, hm1, hm2, one_mul, mul_one]
+  have e00 := congrFun (congrFun hH 0) 0
+  have e01 := congrFun (congrFun hH 0) 1
+  have e11 := congrFun (congrFun hH 1) 1
+  have a1 := mkE_inj D _ _ _ _ (show (D.mkE _ 0).2 = (D.mkE _ 0).2 from e00)
+  have a2 := mkE_inj D _ _ _ _ (show (D.mkE _ _).2 = (D.mkE _ _).2 from e01)
+  have a3 := mkE_inj D _ _ _ _ (show (D.mkE _ 0).2 = (D.mkE _ 0).2 from e11)
+  funext i
+  fin_cases i
+  · exact a3.1
+  · exact a1.1
+  · exact a2.1
+  · exact a2.2
 end -- clump:auto
 end -- clump:auto
 -- ===== end clump member: Development.AutomorphicArithmetic.Foundations.Convolution.RealGroupAnalysis.FockOperators.ActFin =====

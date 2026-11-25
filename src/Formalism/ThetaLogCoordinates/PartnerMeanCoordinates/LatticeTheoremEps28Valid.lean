@@ -27,66 +27,12 @@ public import Formalism.ThetaLogCoordinates.FockResolutionOnto.FockMonomialProof
 import Formalism.ThetaLogCoordinates.FockResolutionOnto.FockMonomialProofs.FiltrationBotHolds
 import Formalism.ThetaLogCoordinates.FockResolutionOnto.FockMonomialProofs.MulEarlyLettersHolds
 import Formalism.ThetaLogCoordinates.FockResolutionOnto.FockMonomialProofs.PartnerDeterminantHolds
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Topology.Sheaves.Init
-import Mathlib.Algebra.Order.Star.Int
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Polynomial.Basic
 import Std.Tactic.BVDecide.Normalize.Prop
 import Formalism.MahlerMeasure.MahlerMeasureProofs.FreezeInto
-import Mathlib.Algebra.Order.Star.Real
-import Mathlib.RingTheory.Etale.Weakly
-import Mathlib.RingTheory.RegularLocalRing.Defs
-import Mathlib.RingTheory.SimpleRing.Principal
-import Mathlib.RingTheory.TotallySplit
 import Mathlib.Tactic.Linter.HaveILetI
-import Mathlib.Order.Interval.Finset.Box
-import Mathlib.RingTheory.Henselian
-import Mathlib.Tactic.Lemma
 import Formalism.ThetaLogCoordinates.TraceIsometryWeights.DischargeHeightBound
 import Formalism.ThetaLogCoordinates.TraceIsometryWeights.FinalP
-import Formalism.PieriBlockIdeals.PieriColumnMinors.ParameterBounds
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Formalism.ThetaLogCoordinates.FockResolutionOnto.FockMonomialProofs.GramBoundPosOfProjSat, Formalism.ThetaLogCoordinates.PartnerMeanCoordinates.PartnerMeanProofs.GamIntC, Formalism.ThetaLogCoordinates.PartnerMeanCoordinates.PartnerMeanProofs.GammaZeroIntegral, Formalism.ThetaLogCoordinates.PartnerMeanCoordinates.PartnerMeanProofs.NatLogLeOfLe, Formalism.ThetaLogCoordinates.PartnerMeanCoordinates.PartnerMeanProofs.PartnerConditionHolds, Formalism.ThetaLogCoordinates.PartnerMeanCoordinates.PartnerMeanProofs.TheoremMXBOfPoint, Formalism.ThetaLogCoordinates.PartnerMeanCoordinates.PartnerMeanProofs.GramHypothesisOfLogBound, Formalism.ThetaLogCoordinates.PartnerMeanCoordinates.LatticeTheoremEps28Valid
@@ -140,7 +86,7 @@ theorem projAt2_of (hX : HighestVectorProjectionPos) (p : ℕ) [Fact p.Prime] (K
       rw [hn]
       exact coeff_pow_mul_ne _ _ y (xH_le_free _ J _ ρ _ y hy) m hme
     · right
-      rw [coeff_monomial, if_neg (Ne.symm hn)]
+      rw [coeff_monomial, ite_eq_right (Ne.symm hn)]
 
 theorem graded_bound_pos_of_proj (hX : HighestVectorProjectionPos) : GradedBoundOfSaturationPos := by
   intro p _ K r _ LLw q J M ρ e1 c0 κ hK hr hρ hv hPE hS hκ w e k g hli hspan
@@ -175,7 +121,22 @@ theorem self_lift {K r : ℕ} [NeZero r] (LL : Letters (K + 1)) {q : ℕ} (J : F
 
 theorem pol_le_ycond_total {r N : ℕ} [NeZero r] (LL : Letters N) (j : ℕ) (c : ℤ) (hc : (LL.total : ℤ) ≤ c) :
     Pol p r LL ≤ YCond p LL j ((c : ℤ) : WithTop ℤ) := by
-  apply _root_.Formalism.InvariantFactorPaths.L4.pol_le_ycond <;> assumption
+  refine le_ycond LL j _ _ ?_ (fun a b x hx => Formalism.CountingSumsFrames.glAct_pol LL j a b x hx)
+  intro x hx
+  rw [Pol, mem_restrictSupport_iff] at hx
+  rw [mem_restrictSupport_iff]
+  intro m hm
+  have h1 : MultiDeg LL m := hx hm
+  have h2 := abs_wt_le LL j (0 : Fin r) m
+  have h3 : (∑ v, m v) = LL.total := by
+    rw [Fintype.sum_prod_type]
+    unfold Letters.total
+    exact Finset.sum_congr rfl fun i _ => h1 i
+  show ((wt LL j 0 m : ℤ) : WithTop ℤ) ≤ ((c : ℤ) : WithTop ℤ)
+  rw [WithTop.coe_le_coe]
+  have h4 := le_abs_self (wt LL j (0 : Fin r) m)
+  rw [h3] at h2
+  omega
 
 end Zero
 
@@ -400,7 +361,7 @@ theorem termF_IVPE (LL : Letters (N + 1)) (ρ : Fin r) (hr : 1 ≤ r) (B : ℕ)
     rw [X_pow_mul_monomial (yE ρ) m γ, Dop_pow_monomial_lt _ _ hxy a' _ h'
       (by simp [Finsupp.single_apply, hxy]; exact h2), fock_zero_right']
     simp
-  push_neg at h1 h2
+  push Not at h1 h2
   have hle : ∀ (δ : Fin (N + 1 + 1) × Fin r →₀ ℕ) (t : ℕ), t ≤ δ (xW ρ) → δ (xW ρ) ≤ δ (yE ρ) → t • s ≤ δ := by
     intro δ t ht1 ht2 v
     simp only [hs, Finsupp.smul_apply, Finsupp.add_apply, Finsupp.single_apply, smul_eq_mul]
@@ -416,7 +377,7 @@ theorem termF_IVPE (LL : Letters (N + 1)) (ρ : Fin r) (hr : 1 ≤ r) (B : ℕ)
   · apply (IVP.zero (p := p) _).congr
     intro m
     unfold termF
-    rw [fock_Dop_term _ _ hxy, if_neg hb]
+    rw [fock_Dop_term _ _ hxy, ite_eq_right hb]
     simp
   subst hb
   set o := LL.deg (Fin.last N) with ho
@@ -470,16 +431,16 @@ theorem termF_IVPE (LL : Letters (N + 1)) (ρ : Fin r) (hr : 1 ≤ r) (B : ℕ)
     rw [hNum, hDen]
     refine term_valE LL hr B hB j a a' hj ha ha' δh ?_ ?_ ?_ d1 d2 ?_ nd1 ?_ nd2
     · intro k
-      rw [hδv, Pi.add_apply, Pi.single_apply, if_neg (hne _).symm, add_zero, hk k]
-    · rw [hδv, Pi.add_apply, Pi.single_apply, if_neg (Fin.castSucc_ne_last _), add_zero]; omega
-    · rw [hδv, Pi.add_apply, Pi.single_apply, if_pos rfl]; omega
+      rw [hδv, Pi.add_apply, Pi.single_apply, ite_eq_right (hne _).symm, add_zero, hk k]
+    · rw [hδv, Pi.add_apply, Pi.single_apply, ite_eq_right (Fin.castSucc_ne_last _), add_zero]; omega
+    · rw [hδv, Pi.add_apply, Pi.single_apply, ite_eq_left rfl]; omega
     · rw [hd1]; exact vdesc_ge _ _ (by omega)
     · rw [hd2]; exact vdesc_ge _ _ (by omega)
   have I1 := ((IVP.choose_add (p := p) c1 (o - j)).mul (IVP.choose_add e e)).mul (IVP.choose_add e' a')
   refine ((I1.smul K hKn).mono (by omega)).congr ?_
   intro m
   unfold termF
-  rw [fock_Dop_term _ _ hxy, if_pos rfl, Nat.add_sub_cancel]
+  rw [fock_Dop_term _ _ hxy, ite_eq_left rfl, Nat.add_sub_cancel]
   have hjM : j ≤ o + (m + S) + r + z - 1 := by omega
   have hMj : o + (m + S) + r + z - 1 - j = m + c1 := by omega
   have hMo : (((o + (m + S) + r + z - 1).choose o : ℕ) : ℚ_[p]) =
@@ -751,7 +712,7 @@ theorem tieOpsX_main : TieOpsX := by
         _ = ((N + 2) * r ^ 2 : ℝ) * lgv := by ring
         _ ≤ κ := hκ
     exact_mod_cast h3.trans (Nat.le_ceil κ)
-  have hspZ : ∀ μ v, v ∈ TO.Cset p (LL.setTies T n) (T.pos i + 1 + 1) T.J T.thr →
+  have hspZ : ∀ μ v, v ∈ Cset p (LL.setTies T n) (T.pos i + 1 + 1) T.J T.thr →
       (GA p (LL.setTies T n) (T.pos i + 1 + 1)).IsHW μ v → v ∈ IntPol p (Fin N × Fin r) →
       v ∈ Submodule.span ℤ_[p] (Set.range fun x : (Σ w : Ω, Fin (nb i w.1)) =>
           T.Ffull p (LL.setTies T n) i ρ (n i) (f' x.1.1 x.2)) := by
@@ -788,7 +749,7 @@ theorem tieOpsX_main : TieOpsX := by
     rw [this]
     by_cases hbb : b = b'
     · subst hbb; simp
-    · rw [if_neg hbb, if_neg]
+    · rw [ite_eq_right hbb, ite_eq_right]
       intro h
       apply hbb
       simpa using h
@@ -1676,7 +1637,16 @@ theorem natLog_floor_lgSeg (p : ℕ) [Fact p.Prime] (a : ℝ) (r : ℕ) (ha : 0 
   linarith
 
 theorem choose_two_le (r : ℕ) : ((r.choose 2 : ℕ) : ℝ) ≤ (r : ℝ) ^ 2 / 2 := by
-  apply _root_.Formalism.CohomologicalDescent.LogSmallConstantBounds.choose_two_le_sq_div_two <;> assumption
+  have h : 2 * r.choose 2 ≤ r ^ 2 := by
+    rw [Nat.choose_two_right]
+    have h1 := Nat.div_mul_le_self (r * (r - 1)) 2
+    have h2 : r * (r - 1) ≤ r ^ 2 := by
+      rw [sq]; exact Nat.mul_le_mul_left r (Nat.sub_le r 1)
+    calc 2 * (r * (r - 1) / 2) = r * (r - 1) / 2 * 2 := mul_comm _ _
+      _ ≤ r * (r - 1) := h1
+      _ ≤ r ^ 2 := h2
+  have h' : (2 : ℝ) * (r.choose 2 : ℝ) ≤ (r : ℝ) ^ 2 := by exact_mod_cast h
+  linarith
 
 theorem gram_hypothesis_of_log_bound (p : ℕ) [Fact p.Prime] (K r : ℕ) [NeZero r] (LLw : Letters (K + 1)) {q : ℕ} (J : Fin q → ℕ)
     (M : Fin q → WithTop ℤ) (ρ : Fin r) (lgv κ4 : ℝ) (hr : 2 ≤ r) (hρ : (ρ : ℕ) = r - 1)

@@ -83,7 +83,7 @@ variable {D : D7} {cc : Ideal (𝓞 D.host.K)} {δ : ℂ} {N N' : ℕ}
 
 theorem lam_mul_mem (a : 𝓞 D.host.K) {w : ℂ} (hw : w ∈ lamOf D cc δ) :
     D.host.φ₀ (((a : D.host.K) : D.host.E)) * w ∈ lamOf D cc δ := by
-  first | exact _root_.GlobalTheory.ConjNorm.Line.lam_mul | exact @_root_.GlobalTheory.ConjNorm.Line.lam_mul | apply _root_.GlobalTheory.ConjNorm.Line.lam_mul <;> assumption
+  exact GlobalTheory.ConjNorm.Line.lam_mul cc δ a hw
 
 theorem klat_gen {A : AddSubgroup (VC D N N')} (hA : KLat D (tor0 D cc δ) A) :
     ∃ S : Set (Matrix (Fin N') (Fin N) D.host.E), Submodule.span D.host.K S = ⊤ ∧

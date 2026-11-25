@@ -67,46 +67,7 @@ public import Development.WeilBound.CoreStatements.PublishedTheorems.JacquetShal
 public import Development.WeilBound.CoreStatements.PublishedTheorems.JacquetShalikaRigidity.WeightCoefficients
 public import Development.WeilBound.CoreStatements.PublishedTheorems.JacquetShalikaRigidity.WeightInverseContinuity
 import GroundTheory.GlobalFields.TateThesis.IdeleMeasure
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Topology.Sheaves.Init
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.Polynomial.Basic
 import Formalism.SatakeDualWeyl.KpqSubgroupCompact
 import Development.AbelianVarietyTheory.Proofs.FoundationProofs.PadicIsNonarchimedeanLocalField
 import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ContinuousOfIsOpenStab
@@ -126,8 +87,6 @@ open NumberField IsDedekindDomain MeasureTheory Matrix Topology Filter
 open GlobalTheory.CuspGeneric GlobalTheory.CuspRep GlobalTheory.UnitaryBC GlobalTheory.DiscSpec PositivityTheory.jumpWindows PositivityTheory.RgJS
 open GroundTheory.Automorphic GroundTheory.Automorphic.FourierWhittaker GroundTheory.Automorphic.Reduction GroundTheory.Automorphic.Spherical
 open scoped ENNReal ComplexConjugate
-
-attribute [local instance] GlobalTheory.LocalData.complRel GlobalTheory.LocalData.isLocalField
 
 namespace PositivityTheory.AdelicQuotientData
 
@@ -243,8 +202,6 @@ open GlobalTheory.CuspGeneric GlobalTheory.CuspRep GlobalTheory.UnitaryBC Global
 open GroundTheory.Automorphic GroundTheory.Automorphic.FourierWhittaker GroundTheory.Automorphic.Reduction GroundTheory.Automorphic.Spherical
 open scoped ENNReal ComplexConjugate
 
-attribute [local instance] GlobalTheory.LocalData.complRel GlobalTheory.LocalData.isLocalField
-
 namespace PositivityTheory.AdelicQuotientData
 
 namespace CosetIntegralMeasure
@@ -333,8 +290,6 @@ open NumberField IsDedekindDomain MeasureTheory Matrix Topology Filter
 open GlobalTheory.CuspGeneric GlobalTheory.CuspRep GlobalTheory.UnitaryBC GlobalTheory.DiscSpec PositivityTheory.jumpWindows PositivityTheory.RgJS
 open GroundTheory.Automorphic GroundTheory.Automorphic.FourierWhittaker GroundTheory.Automorphic.Reduction GroundTheory.Automorphic.Spherical
 open scoped ENNReal ComplexConjugate
-
-attribute [local instance] GlobalTheory.LocalData.complRel GlobalTheory.LocalData.isLocalField
 
 namespace PositivityTheory.AdelicQuotientData
 
@@ -434,8 +389,6 @@ open GlobalTheory.CuspGeneric GlobalTheory.CuspRep GlobalTheory.UnitaryBC Global
 open GroundTheory.Automorphic GroundTheory.Automorphic.FourierWhittaker GroundTheory.Automorphic.Reduction GroundTheory.Automorphic.Spherical
 open scoped ENNReal ComplexConjugate
 
-attribute [local instance] GlobalTheory.LocalData.complRel GlobalTheory.LocalData.isLocalField
-
 namespace PositivityTheory.AdelicQuotientData
 
 theorem ksec_of : jumpWindows.G2c → jumpWindows.G5 → CuspDecayShortRowColumn → K9 → KSec := by
@@ -482,8 +435,6 @@ open GlobalTheory.CuspGeneric GlobalTheory.CuspRep GlobalTheory.UnitaryBC Global
 open GroundTheory.Automorphic GroundTheory.Automorphic.FourierWhittaker GroundTheory.Automorphic.Reduction GroundTheory.Automorphic.Spherical
 open scoped ENNReal ComplexConjugate
 
-attribute [local instance] GlobalTheory.LocalData.complRel GlobalTheory.LocalData.isLocalField
-
 namespace PositivityTheory.AdelicQuotientData
 
 theorem ku_of : jumpWindows.G5 → D0 → KU := by
@@ -526,8 +477,6 @@ open NumberField IsDedekindDomain MeasureTheory Matrix Topology Filter
 open GlobalTheory.CuspGeneric GlobalTheory.CuspRep GlobalTheory.UnitaryBC GlobalTheory.DiscSpec PositivityTheory.jumpWindows PositivityTheory.RgJS
 open GroundTheory.Automorphic GroundTheory.Automorphic.FourierWhittaker GroundTheory.Automorphic.Reduction GroundTheory.Automorphic.Spherical
 open scoped ENNReal ComplexConjugate
-
-attribute [local instance] GlobalTheory.LocalData.complRel GlobalTheory.LocalData.isLocalField
 
 namespace PositivityTheory.AdelicQuotientData
 
@@ -650,8 +599,6 @@ open GlobalTheory.CuspGeneric GlobalTheory.CuspRep GlobalTheory.UnitaryBC Global
 open GroundTheory.Automorphic GroundTheory.Automorphic.FourierWhittaker GroundTheory.Automorphic.Reduction GroundTheory.Automorphic.Spherical
 open scoped ENNReal ComplexConjugate
 
-attribute [local instance] GlobalTheory.LocalData.complRel GlobalTheory.LocalData.isLocalField
-
 namespace PositivityTheory.AdelicQuotientData
 
 namespace LevelScalarAction
@@ -720,8 +667,6 @@ open NumberField IsDedekindDomain MeasureTheory Matrix Topology Filter
 open GlobalTheory.CuspGeneric GlobalTheory.CuspRep GlobalTheory.UnitaryBC GlobalTheory.DiscSpec PositivityTheory.jumpWindows PositivityTheory.RgJS
 open GroundTheory.Automorphic GroundTheory.Automorphic.FourierWhittaker GroundTheory.Automorphic.Reduction GroundTheory.Automorphic.Spherical
 open scoped ENNReal ComplexConjugate
-
-attribute [local instance] GlobalTheory.LocalData.complRel GlobalTheory.LocalData.isLocalField
 
 namespace PositivityTheory.AdelicQuotientData
 
@@ -818,8 +763,6 @@ open GlobalTheory.CuspGeneric GlobalTheory.CuspRep GlobalTheory.UnitaryBC Global
 open GroundTheory.Automorphic GroundTheory.Automorphic.FourierWhittaker GroundTheory.Automorphic.Reduction GroundTheory.Automorphic.Spherical
 open scoped ENNReal ComplexConjugate
 
-attribute [local instance] GlobalTheory.LocalData.complRel GlobalTheory.LocalData.isLocalField
-
 namespace PositivityTheory.AdelicQuotientData
 
 namespace PRSPole
@@ -880,10 +823,10 @@ theorem rspole_of : GlobalTheory.Published.JacquetShalikaBound → jumpWindows.G
       have hx' : ∀ g, x g = φ₁.1 g := congrFun hx
       refine (hYm x).2 ⟨fun t g => by rw [hx', hx']; exact hπ φ₁ hφ₁ t g, fun h => ?_⟩
       by_cases he : π = π'
-      · have e0 : φ'' = 0 := if_pos he
+      · have e0 : φ'' = 0 := ite_eq_left he
         rw [e0]
         simp
-      · have e1 : φ'' = φ' := if_neg he
+      · have e1 : φ'' = φ' := ite_eq_right he
         have hO := hORT E k μ hk b hb π π' hπ hπ' he φ₁ hφ₁ φ₀' hφ₀' h h'
         rw [e1]
         simp only [hx', hφ'e]
@@ -898,7 +841,7 @@ theorem rspole_of : GlobalTheory.Published.JacquetShalikaBound → jumpWindows.G
     refine ⟨Z, ZS, max 1 σ₀, hZd, hZSd.differentiableOn, fun σ _ => hZS0 σ, fun s hs => ?_, fun hne => hZ1 ?_⟩
     · rw [hZe s (lt_of_le_of_lt (le_max_left _ _) hs), hZSe s (lt_of_le_of_lt (le_max_right _ _) hs), mul_assoc]
     · have hne' : π ≠ π' := fun e => hne (by rw [e])
-      have e1 : φ'' = φ' := if_neg hne'
+      have e1 : φ'' = φ' := ite_eq_right hne'
       have hz := hYz φ hφY ψ S U η s hcut
       rw [e1] at hz
       exact hz
@@ -921,8 +864,6 @@ open NumberField IsDedekindDomain MeasureTheory Matrix Topology Filter
 open GlobalTheory.CuspGeneric GlobalTheory.CuspRep GlobalTheory.UnitaryBC GlobalTheory.DiscSpec PositivityTheory.jumpWindows PositivityTheory.RgJS
 open GroundTheory.Automorphic GroundTheory.Automorphic.FourierWhittaker GroundTheory.Automorphic.Reduction GroundTheory.Automorphic.Spherical
 open scoped ENNReal ComplexConjugate
-
-attribute [local instance] GlobalTheory.LocalData.complRel GlobalTheory.LocalData.isLocalField
 
 namespace PositivityTheory.AdelicQuotientData
 
@@ -1052,8 +993,6 @@ open GlobalTheory.CuspGeneric GlobalTheory.CuspRep GlobalTheory.UnitaryBC Global
 open GroundTheory.Automorphic GroundTheory.Automorphic.FourierWhittaker GroundTheory.Automorphic.Reduction GroundTheory.Automorphic.Spherical
 open scoped ENNReal ComplexConjugate
 
-attribute [local instance] GlobalTheory.LocalData.complRel GlobalTheory.LocalData.isLocalField
-
 namespace PositivityTheory.AdelicQuotientData
 
 namespace QuadraticTransferFirst
@@ -1081,8 +1020,65 @@ theorem main (μ : Measure G) [μ.IsHaarMeasure] (ν ρ : Measure G) [SFinite ν
     (β β₁ : G → ℝ≥0∞) (hinv : Measure.map (fun h => h⁻¹) ν = ν) (hH : ∀ᵐ h ∂ν, h ∈ H) (hβ : IsWt ν β)
     (hβ₁ : Measurable β₁) (h1 : ∀ g, ∫⁻ r, ∫⁻ h, β₁ (r⁻¹ * h * g) ∂ν ∂ρ = 1) (Φ : G → ℝ≥0∞)
     (hΦ : Measurable Φ) (hΦH : ∀ h ∈ H, ∀ g, Φ (h * g) = Φ g) :
-    ∫⁻ g, Φ g ∂μ.withDensity β = ∫⁻ g, ∫⁻ r, Φ (r * g) ∂ρ ∂μ.withDensity β₁ :=
-  _root_.PositivityTheory.AdelicQuotientData.QuadraticTransferReal.q1' μ ν ρ H β β₁ hinv hH hβ hβ₁ h1 Φ hΦ hΦH
+    ∫⁻ g, Φ g ∂μ.withDensity β = ∫⁻ g, ∫⁻ r, Φ (r * g) ∂ρ ∂μ.withDensity β₁ := by
+  have hβm : Measurable β := hβ.1
+  have hH' : ∀ᵐ h ∂ν, h⁻¹ ∈ H := by
+    have hH2 := hH
+    rw [← hinv] at hH2
+    exact ae_of_ae_map measurable_inv.aemeasurable hH2
+  have hinvβ : ∀ g, ∫⁻ h, β (h⁻¹ * g) ∂ν = 1 := by
+    intro g
+    have hm : Measurable fun h : G => β (h * g) := by fun_prop
+    rw [show (∫⁻ h, β (h⁻¹ * g) ∂ν) = ∫⁻ h, β (h * g) ∂(Measure.map (fun h => h⁻¹) ν) from
+      (lintegral_map hm measurable_inv).symm, hinv]
+    exact hβ.2 g
+  calc ∫⁻ g, Φ g ∂μ.withDensity β
+      = ∫⁻ g, β g * Φ g ∂μ := lintegral_withDensity_eq_lintegral_mul _ hβm hΦ
+    _ = ∫⁻ g, ∫⁻ r, ∫⁻ h, β g * Φ g * β₁ (r⁻¹ * h * g) ∂ν ∂ρ ∂μ := by
+        refine lintegral_congr fun g => ?_
+        have hm1 : ∀ r, Measurable fun h => β₁ (r⁻¹ * h * g) := fun r => by fun_prop
+        have hm2 : Measurable fun r => ∫⁻ h, β₁ (r⁻¹ * h * g) ∂ν := by
+          have : Measurable fun p : G × G => β₁ (p.1⁻¹ * p.2 * g) := by fun_prop
+          exact this.lintegral_prod_right'
+        calc β g * Φ g = β g * Φ g * ∫⁻ r, ∫⁻ h, β₁ (r⁻¹ * h * g) ∂ν ∂ρ := by rw [h1 g, mul_one]
+          _ = _ := by
+            rw [← lintegral_const_mul _ hm2]
+            refine lintegral_congr fun r => ?_
+            rw [lintegral_const_mul _ (hm1 r)]
+    _ = ∫⁻ r, ∫⁻ h, ∫⁻ g, β g * Φ g * β₁ (r⁻¹ * h * g) ∂μ ∂ν ∂ρ :=
+        swap3 (fun r h g => β g * Φ g * β₁ (r⁻¹ * h * g))
+          (show Measurable fun p : G × G × G => β p.2.2 * Φ p.2.2 * β₁ (p.1⁻¹ * p.2.1 * p.2.2) by fun_prop)
+    _ = ∫⁻ r, ∫⁻ h, ∫⁻ g, β (h⁻¹ * g) * Φ g * β₁ (r⁻¹ * g) ∂μ ∂ν ∂ρ := by
+        refine lintegral_congr fun r => lintegral_congr_ae (hH'.mono fun h hh => ?_)
+        refine (lintegral_mul_left_eq_self (μ := μ) (fun x => β x * Φ x * β₁ (r⁻¹ * h * x)) h⁻¹).symm.trans
+          (lintegral_congr fun g => ?_)
+        show β (h⁻¹ * g) * Φ (h⁻¹ * g) * β₁ (r⁻¹ * h * (h⁻¹ * g)) = _
+        rw [hΦH _ hh, mul_assoc r⁻¹ h, mul_inv_cancel_left]
+    _ = ∫⁻ r, ∫⁻ g, ∫⁻ h, β (h⁻¹ * g) * Φ g * β₁ (r⁻¹ * g) ∂ν ∂μ ∂ρ := by
+        refine lintegral_congr fun r => ?_
+        exact lintegral_lintegral_swap
+          (show Measurable fun p : G × G => β (p.1⁻¹ * p.2) * Φ p.2 * β₁ (r⁻¹ * p.2) by fun_prop).aemeasurable
+    _ = ∫⁻ r, ∫⁻ g, Φ g * β₁ (r⁻¹ * g) ∂μ ∂ρ := by
+        refine lintegral_congr fun r => lintegral_congr fun g => ?_
+        simp_rw [mul_assoc]
+        rw [lintegral_mul_const _ (show Measurable fun h : G => β (h⁻¹ * g) by fun_prop), hinvβ g, one_mul]
+    _ = ∫⁻ r, ∫⁻ g, Φ (r * g) * β₁ g ∂μ ∂ρ := by
+        refine lintegral_congr fun r => ?_
+        refine (lintegral_mul_left_eq_self (μ := μ) (fun x => Φ x * β₁ (r⁻¹ * x)) r).symm.trans
+          (lintegral_congr fun g => ?_)
+        show Φ (r * g) * β₁ (r⁻¹ * (r * g)) = _
+        rw [inv_mul_cancel_left]
+    _ = ∫⁻ g, ∫⁻ r, Φ (r * g) * β₁ g ∂ρ ∂μ :=
+        lintegral_lintegral_swap
+          (show Measurable fun p : G × G => Φ (p.1 * p.2) * β₁ p.2 by fun_prop).aemeasurable
+    _ = ∫⁻ g, ∫⁻ r, Φ (r * g) ∂ρ ∂μ.withDensity β₁ := by
+        have hm : Measurable fun g => ∫⁻ r, Φ (r * g) ∂ρ := by
+          have : Measurable fun p : G × G => Φ (p.2 * p.1) := by fun_prop
+          exact this.lintegral_prod_right'
+        rw [lintegral_withDensity_eq_lintegral_mul _ hβ₁ hm]
+        refine lintegral_congr fun g => ?_
+        rw [lintegral_mul_const _ (show Measurable fun r : G => Φ (r * g) by fun_prop)]
+        exact mul_comm _ _
 
 end QuadraticTransferFirst
 
@@ -1108,8 +1104,6 @@ open NumberField IsDedekindDomain MeasureTheory Matrix Topology Filter
 open GlobalTheory.CuspGeneric GlobalTheory.CuspRep GlobalTheory.UnitaryBC GlobalTheory.DiscSpec PositivityTheory.jumpWindows PositivityTheory.RgJS
 open GroundTheory.Automorphic GroundTheory.Automorphic.FourierWhittaker GroundTheory.Automorphic.Reduction GroundTheory.Automorphic.Spherical
 open scoped ENNReal ComplexConjugate
-
-attribute [local instance] GlobalTheory.LocalData.complRel GlobalTheory.LocalData.isLocalField
 
 namespace PositivityTheory.AdelicQuotientData
 
@@ -1206,8 +1200,6 @@ open NumberField IsDedekindDomain MeasureTheory Matrix Topology Filter
 open GlobalTheory.CuspGeneric GlobalTheory.CuspRep GlobalTheory.UnitaryBC GlobalTheory.DiscSpec PositivityTheory.jumpWindows PositivityTheory.RgJS
 open GroundTheory.Automorphic GroundTheory.Automorphic.FourierWhittaker GroundTheory.Automorphic.Reduction GroundTheory.Automorphic.Spherical
 open scoped ENNReal ComplexConjugate
-
-attribute [local instance] GlobalTheory.LocalData.complRel GlobalTheory.LocalData.isLocalField
 
 namespace PositivityTheory.AdelicQuotientData
 
@@ -1343,8 +1335,6 @@ open GlobalTheory.CuspGeneric GlobalTheory.CuspRep GlobalTheory.UnitaryBC Global
 open GroundTheory.Automorphic GroundTheory.Automorphic.FourierWhittaker GroundTheory.Automorphic.Reduction GroundTheory.Automorphic.Spherical
 open scoped ENNReal ComplexConjugate
 
-attribute [local instance] GlobalTheory.LocalData.complRel GlobalTheory.LocalData.isLocalField
-
 namespace PositivityTheory.AdelicQuotientData
 
 namespace SphericalFunctionIntegral
@@ -1470,7 +1460,7 @@ theorem spherical_function_of : jumpWindows.G0 → jumpWindows.G5 → C0 → K7 
     have h2 := right_ne_zero_of_mul hg
     by_contra hA
     apply h2
-    rw [sphericalWhittaker, if_neg hA]
+    rw [sphericalWhittaker, ite_eq_right hA]
 
 end PositivityTheory.AdelicQuotientData
 
@@ -1491,34 +1481,18 @@ open GlobalTheory.CuspGeneric GlobalTheory.CuspRep GlobalTheory.UnitaryBC Global
 open GroundTheory.Automorphic GroundTheory.Automorphic.FourierWhittaker GroundTheory.Automorphic.Reduction GroundTheory.Automorphic.Spherical
 open scoped ENNReal ComplexConjugate
 
-attribute [local instance] GlobalTheory.LocalData.complRel GlobalTheory.LocalData.isLocalField
-
 namespace PositivityTheory.AdelicQuotientData
 
 namespace tableDegreeOneUnipotent
 
-theorem mul_le_sq_add (a b : ℝ≥0∞) : a * b ≤ a ^ 2 + b ^ 2 := by
-  rcases le_total a b with h | h
-  · calc a * b ≤ b * b := by gcongr
-      _ = b ^ 2 := (sq b).symm
-      _ ≤ _ := le_add_self
-  · calc a * b ≤ a * a := by gcongr
-      _ = a ^ 2 := (sq a).symm
-      _ ≤ _ := le_self_add
+theorem mul_le_sq_add (a b : ℝ≥0∞) : a * b ≤ a ^ 2 + b ^ 2 :=
+  _root_.GroundTheory.Automorphic.ennreal_mul_le_sq_add_sq a b
 
 theorem integ {X : Type} [MeasurableSpace X] {ν : Measure X} {f φ : X → ℂ}
     (hf : AEStronglyMeasurable f ν) (hφ : AEStronglyMeasurable φ ν)
     (h1 : ∫⁻ g, ‖f g‖ₑ ^ 2 ∂ν < ∞) (h2 : ∫⁻ g, ‖φ g‖ₑ ^ 2 ∂ν < ∞) :
-    Integrable (fun g => f g * conj (φ g)) ν := by
-  refine ⟨hf.mul (Complex.continuous_conj.comp_aestronglyMeasurable hφ), ?_⟩
-  show ∫⁻ g, ‖f g * conj (φ g)‖ₑ ∂ν < ∞
-  calc ∫⁻ g, ‖f g * conj (φ g)‖ₑ ∂ν ≤ ∫⁻ g, (‖f g‖ₑ ^ 2 + ‖φ g‖ₑ ^ 2) ∂ν := by
-        refine lintegral_mono fun g => ?_
-        have hc : ‖conj (φ g)‖ₑ = ‖φ g‖ₑ := by simp [enorm_eq_nnnorm]
-        rw [enorm_mul, hc]
-        exact mul_le_sq_add _ _
-    _ = ∫⁻ g, ‖f g‖ₑ ^ 2 ∂ν + ∫⁻ g, ‖φ g‖ₑ ^ 2 ∂ν := lintegral_add_left' (hf.enorm.pow_const 2) _
-    _ < ∞ := ENNReal.add_lt_top.2 ⟨h1, h2⟩
+    Integrable (fun g => f g * conj (φ g)) ν :=
+  by apply _root_.PositivityTheory.AdelicQuotientData.SquareIntegralBound.intMul <;> assumption
 
 theorem pre_of_good {E : Type} [Field E] [NumberField E] {k : ℕ} {ψ : AddChar (Ad E) ℂ} {m : ℕ}
     {f : GA E k → ℂ} (h : Good ψ m f) : Pre ψ m f :=
@@ -1545,14 +1519,14 @@ theorem main (hU1 : U1) (hP1 : P1) (E : Type) [Field E] [NumberField E] [_root_.
     have hf' : Pre ψ m (colT ψ (m + 1) f) := (hP1 E k ψ hψ (m + 1) (by omega) hm f hf).1
     have hφ' : Good ψ m (colT ψ (m + 1) φ) := by
       refine { cont := ?_, left := ?_, law := ?_, van := ?_ }
-      · exact _root_.GlobalTheory.T.continuous_unipotentColumnWhittakerTransform E k ψ hψ m φ hφ
+      · exact _root_.GlobalTheory.CuspGeneric.continuous_colT_good E k ψ hψ m φ hφ
       · exact _root_.GlobalTheory.T.unipotentColumnWhittakerTransform_mirabolic_invariant E k ψ hψ m φ hm hφ
       · intro j hj y g
         rcases Nat.lt_or_ge (m + 1) j with h | h
         · exact _root_.GlobalTheory.T.columnWhittakerTransform_keeps_later_law E k ψ m φ hφ j h y g
         · obtain rfl : j = m + 1 := by omega
-          exact _root_.GlobalTheory.T.unipotentColumnWhittakerTransform_column_law E k ψ hψ m φ hφ y g
-      · exact _root_.GlobalTheory.T.quotientAverage_unipotentBlock_columnTransform_eq_zero E k ψ hψ m φ hm hφ
+          exact _root_.GlobalTheory.CuspGeneric.colT_blkU_mul E k ψ hψ m φ hφ y g
+      · exact _root_.GlobalTheory.CuspGeneric.avg_colT_blk_eq_zero E k ψ hψ m φ hm hφ
     obtain ⟨hi, he⟩ := h _ _ hf' hφ' ((hL2 f hf).trans_lt h1) ((hL2 φ (pre_of_good hφ)).trans_lt h2)
     exact ⟨hi, (hip f φ hf hφ h1 h2).trans he⟩
 
@@ -1580,8 +1554,6 @@ open NumberField IsDedekindDomain MeasureTheory Matrix Topology Filter
 open GlobalTheory.CuspGeneric GlobalTheory.CuspRep GlobalTheory.UnitaryBC GlobalTheory.DiscSpec PositivityTheory.jumpWindows PositivityTheory.RgJS
 open GroundTheory.Automorphic GroundTheory.Automorphic.FourierWhittaker GroundTheory.Automorphic.Reduction GroundTheory.Automorphic.Spherical
 open scoped ENNReal ComplexConjugate
-
-attribute [local instance] GlobalTheory.LocalData.complRel GlobalTheory.LocalData.isLocalField
 
 namespace PositivityTheory.AdelicQuotientData
 
@@ -1722,8 +1694,6 @@ open GlobalTheory.CuspGeneric GlobalTheory.CuspRep GlobalTheory.UnitaryBC Global
 open GroundTheory.Automorphic GroundTheory.Automorphic.FourierWhittaker GroundTheory.Automorphic.Reduction GroundTheory.Automorphic.Spherical
 open scoped ENNReal ComplexConjugate
 
-attribute [local instance] GlobalTheory.LocalData.complRel GlobalTheory.LocalData.isLocalField
-
 namespace PositivityTheory.AdelicQuotientData
 
 namespace VectorMeasureTranspose
@@ -1785,8 +1755,6 @@ open NumberField IsDedekindDomain MeasureTheory Matrix Topology Filter
 open GlobalTheory.CuspGeneric GlobalTheory.CuspRep GlobalTheory.UnitaryBC GlobalTheory.DiscSpec PositivityTheory.jumpWindows PositivityTheory.RgJS
 open GroundTheory.Automorphic GroundTheory.Automorphic.FourierWhittaker GroundTheory.Automorphic.Reduction GroundTheory.Automorphic.Spherical
 open scoped ENNReal ComplexConjugate
-
-attribute [local instance] GlobalTheory.LocalData.complRel GlobalTheory.LocalData.isLocalField
 
 namespace PositivityTheory.AdelicQuotientData
 

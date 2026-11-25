@@ -41,46 +41,8 @@ public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ExistsTorusS
 public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.GlobalSncChartSystem
 public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.PairLatticeSumComap
 public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.SmoothGenericFibreOfSnc
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.HaveILetI
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
 import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.FrameDefinitions.PermFinTwoUniv
 import Development.AutomorphicSpectrum.Proofs.GeometryProofs.GramMatrixConjugation
 import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LocalRingPointsExistsUnique
@@ -166,8 +128,8 @@ open ReciprocityTheory.ChartRestriction.G ReciprocityTheory.ChartRestriction.G.G
 
 open scoped Matrix ComplexOrder
 
-theorem exists_hermMetric_hodge : Top.Given → ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (H : Host E) (D : Datum H) (Xo : ∀ l : Tor.Level H, Moduli D l) (l : Tor.Level H) (c : Coeff l) (Y : Model (Xo l) c (algebraMap (𝓞 c.F) c.F)), Top.IsGlobal Xo l c Y → ∀ (S : Finset ℕ) (Ω : Type) [Field Ω] [CharZero Ω] (K : Type) [Fintype K] (J : K → Type) [∀ k, Fintype (J k)] (y : (Σ k, J k) → Ω) (𝔐 : HodgeCpt Y S y) (a b : CMType H ⊕ CMType H) (N : ℕ) (Wb : ChartBundle ℤ (segreCoord y) N ↥(𝔐.Vgen a ⊔ 𝔐.Vgen b)) (n nc : ℕ) (Bd : Set ((Σ k, J k) → ℂ)) (χ : Fin nc → SncChart (mCoordIdeal y) n Bd), (Lat.comap (fun p => 𝔐.V a p ⊔ 𝔐.V b p) (𝔐.Vgen a ⊔ 𝔐.Vgen b).subtype).IsVB N ⊤ → (Lat.comap (fun p => 𝔐.V a p ⊔ 𝔐.V b p) (𝔐.Vgen a ⊔ 𝔐.Vgen b).subtype).IsChartOf (segreCoord y) Wb.lat → (∀ (z : Spec (CommRingCat.of ℂ) ⟶ 𝔐.X) w, CoordsAt 𝔐.ξ y z w → (w ∈ Bd ↔ ¬ 𝔐.Interior z)) → ∃ hm : HermMetric y Wb (mcPts (mCoordIdeal y) \ Bd) χ, ∀ e (z : Spec (CommRingCat.of ℂ) ⟶ 𝔐.X) w, CoordsAt 𝔐.ξ y z w → 𝔐.Interior z → InFrameDomain y (hm.chart e) (hm.fr e) w → 𝔐.M.GramAt 𝔐.t.PP.L z (fun k => ((hm.b e k : ↥(𝔐.Vgen a ⊔ 𝔐.Vgen b)) : 𝔐.Li)) (hm.gram e w) := by
-  intro hG E _ _ _ H D Xo l c Y hGl S Ω _ _ K _ J _ y 𝔐 a b N Wb n nc Bd χ hVB hCh hBd
+theorem exists_hermMetric_hodge : ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (H : Host E) (D : Datum H) (Xo : ∀ l : Tor.Level H, Moduli D l) (l : Tor.Level H) (c : Coeff l) (Y : Model (Xo l) c (algebraMap (𝓞 c.F) c.F)), ∀ (S : Finset ℕ) (Ω : Type) [Field Ω] [CharZero Ω] (K : Type) [Fintype K] (J : K → Type) [∀ k, Fintype (J k)] (y : (Σ k, J k) → Ω) (𝔐 : HodgeCpt Y S y) (a b : CMType H ⊕ CMType H) (N : ℕ) (Wb : ChartBundle ℤ (segreCoord y) N ↥(𝔐.Vgen a ⊔ 𝔐.Vgen b)) (n nc : ℕ) (Bd : Set ((Σ k, J k) → ℂ)) (χ : Fin nc → SncChart (mCoordIdeal y) n Bd), (Lat.comap (fun p => 𝔐.V a p ⊔ 𝔐.V b p) (𝔐.Vgen a ⊔ 𝔐.Vgen b).subtype).IsVB N ⊤ → (Lat.comap (fun p => 𝔐.V a p ⊔ 𝔐.V b p) (𝔐.Vgen a ⊔ 𝔐.Vgen b).subtype).IsChartOf (segreCoord y) Wb.lat → (∀ (z : Spec (CommRingCat.of ℂ) ⟶ 𝔐.X) w, CoordsAt 𝔐.ξ y z w → (w ∈ Bd ↔ ¬ 𝔐.Interior z)) → ∃ hm : HermMetric y Wb (mcPts (mCoordIdeal y) \ Bd) χ, ∀ e (z : Spec (CommRingCat.of ℂ) ⟶ 𝔐.X) w, CoordsAt 𝔐.ξ y z w → 𝔐.Interior z → InFrameDomain y (hm.chart e) (hm.fr e) w → 𝔐.M.GramAt 𝔐.t.PP.L z (fun k => ((hm.b e k : ↥(𝔐.Vgen a ⊔ 𝔐.Vgen b)) : 𝔐.Li)) (hm.gram e w) := by
+  intro E _ _ _ H D Xo l c Y S Ω _ _ K _ J _ y 𝔐 a b N Wb n nc Bd χ hVB hCh hBd
   classical
   obtain ⟨m, ch, fr, bb, hfr, hcov⟩ := _root_.GlobalTheory.CompanionTheory.Ar.exists_frames_cover_mcPts 𝔐.X Ω 𝔐.ξ K J y _ N Wb _ 𝔐.tie hVB hCh
   have tp := _root_.GlobalTheory.CompanionTheory.Ar.tie_points 𝔐.X Ω 𝔐.ξ K J y 𝔐.tie ℂ
@@ -210,7 +172,7 @@ theorem exists_hermMetric_hodge : Top.Given → ∀ (E : Type) [Field E] [Number
       InFrameDomain y (ch i) (fr i) ((χ e).γ t₀) → ∃ (a₀ g : ℕ) (Λ : Type) (_ : AddCommGroup Λ)
         (L : Flat.LogPeriods n a₀ g Λ) (π : Equiv.Perm (Fin n)) (ρ : ℝ) (U : Fin N → (Fin n → ℂ) → Fin g → ℂ),
         HodgeMetric.IsFramePeriods 𝔐 (fun k => ((bb i k : ↥(𝔐.Vgen a ⊔ 𝔐.Vgen b)) : 𝔐.Li)) (χ e) t₀ (ch i) (fr i) L π ρ U :=
-    fun e i t₀ ht hd => _root_.GlobalTheory.CompanionTheory.Ar.FramePeriods.exists_isFramePeriods hG E H D Xo l c Y S Ω K J y 𝔐 hGl a b N (bb i) n Bd (χ e) t₀ (ch i) (fr i) hBd ht
+    fun e i t₀ ht hd => _root_.GlobalTheory.CompanionTheory.Ar.FramePeriods.exists_isFramePeriods E H D Xo l c Y S Ω K J y 𝔐 a b N (bb i) n Bd (χ e) t₀ (ch i) (fr i) hBd ht
       (frameAt i) hd
   have pg : ∀ (e : Fin nc) (i : Fin m) (t₀ : Fin n → ℂ) {a₀ g : ℕ} {Λ : Type} [AddCommGroup Λ]
       (L : Flat.LogPeriods n a₀ g Λ) (π : Equiv.Perm (Fin n)) (ρ : ℝ) (U : Fin N → (Fin n → ℂ) → Fin g → ℂ),
@@ -383,7 +345,7 @@ theorem exists_componentData_origin : Top.Given → Out.WeilSt → ∀ (E : Type
       (w ∈ mcPts (mCoordIdeal y) ∩ mcPts bd ↔ ¬ 𝔐.Interior z) := fun z w h =>
     ⟨fun hw => (hbd z w h).1 hw.2,
       fun hz => ⟨(_root_.GlobalTheory.CompanionTheory.Ar.mem_mcPts_iff_exists_coordsAt 𝔐.X Ω 𝔐.ξ K J y htie w).2 ⟨z, 𝔐.all _, h⟩, (hbd z w h).2 hz⟩⟩
-  have hm := fun τ => _root_.GlobalTheory.CompanionTheory.Ar.exists_hermMetric_hodge hG E H D Xo l c Y hgl S₀ Ω K J y 𝔐 (bg τ) (sm τ) (D.p + D.q) (Wb τ) _ nc _ χ
+  have hm := fun τ => _root_.GlobalTheory.CompanionTheory.Ar.exists_hermMetric_hodge E H D Xo l c Y S₀ Ω K J y 𝔐 (bg τ) (sm τ) (D.p + D.q) (Wb τ) _ nc _ χ
     (hLvb τ) (hWb τ) hbd'
   choose hm hgram using hm
   let Dc : ComponentData II (CMType H) K J Ω (fun τ => ↥(𝔐.Vgen (bg τ) ⊔ 𝔐.Vgen (sm τ))) :=

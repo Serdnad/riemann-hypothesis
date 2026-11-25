@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.ModuliProofs.LevelMapFibreSimplyTransitive
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.IsGrpPullback
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -50,8 +49,6 @@ import Mathlib.Algebra.WithConv
 
 @[expose] public section
 
-set_option autoImplicit false
-
 noncomputable section
 
 open CategoryTheory Limits AlgebraicGeometry MonoidalCategory CartesianMonoidalCategory MonObj WithConv
@@ -59,7 +56,6 @@ open scoped TensorProduct
 open ReciprocityTheory.ChartRestriction.G ReciprocityTheory.ChartRestriction.G.Semi ReciprocityTheory.ChartRestriction.G.Geo.Tor
 open GlobalTheory GlobalTheory.PDiv GlobalTheory.PDivGroup
 open GlobalTheory.DeRham (spOver spOver_comp)
-attribute [local instance] Over.cartesianMonoidalCategory
 
 namespace GlobalTheory.GroupBplus.Aff
 
@@ -67,7 +63,20 @@ theorem exists_mulEquiv_points_of_isGrpPullback {S S' : Scheme.{0}} {G' : Over S
     {f : S' ⟶ S} {F : G'.left ⟶ G.left} (hF : IsGrpPullback G' G f F) {X : Scheme.{0}} (t : X ⟶ S') (g : X ⟶ S)
     (hg : t ≫ f = g) :
     ∃ e : (Over.mk t ⟶ G') ≃* (Over.mk g ⟶ G), ∀ z, (e z).left = z.left ≫ F := by
-  intros
-  apply _root_.GlobalTheory.LevelFibre.exists_ptEquiv <;> assumption
+  subst hg
+  let m : (Over.mk t ⟶ G') → (Over.mk (t ≫ f) ⟶ G) := fun z => Over.homMk (z.left ≫ F) (by
+    have h : z.left ≫ G'.hom = t := Over.w z
+    show (z.left ≫ F) ≫ G.hom = t ≫ f
+    rw [Category.assoc, hF.1.w, ← Category.assoc, h])
+  have hm : ∀ z, (m z).left = z.left ≫ F := fun _ => rfl
+  have hmul : ∀ x y, m (x * y) = m x * m y := fun x y =>
+    Over.OverMorphism.ext ((hm _).trans (hF.2 (Over.mk t) x y (m x) (m y) (hm x) (hm y)).symm)
+  have hinj : Function.Injective m := fun x y h => by
+    refine Over.OverMorphism.ext (hF.1.hom_ext ?_ ((Over.w x).trans (Over.w y).symm))
+    rw [← hm, ← hm, h]
+  have hsurj : Function.Surjective m := fun z =>
+    ⟨Over.homMk (hF.1.lift z.left t (Over.w z)) (hF.1.lift_snd _ _ _),
+      Over.OverMorphism.ext ((hm _).trans (hF.1.lift_fst _ _ _))⟩
+  exact ⟨MulEquiv.ofBijective (MonoidHom.mk' m hmul) ⟨hinj, hsurj⟩, hm⟩
 
 end GlobalTheory.GroupBplus.Aff

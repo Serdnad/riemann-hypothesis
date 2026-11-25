@@ -1,7 +1,5 @@
 module
 
-import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.RootSubgroupJacobian.SUpPowEqZero
-import Formalism.SharpRestriction.CuspSpanNormBounds.LowestKTypeMultiplicity
 public import Mathlib.Basic.Complex.Basic
 public import Mathlib.Data.Matrix.Mul
 public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.UpperOff
@@ -85,7 +83,20 @@ namespace GlobalTheory.StrictUpperNilpotentFlagMeasures
 theorem pow_apply_eq_zero_of_strictUpper {m : ℕ} {X : Matrix (Fin m) (Fin m) ℂ}
     (hX : ∀ i j : Fin m, (j : ℕ) ≤ (i : ℕ) → X i j = 0) (n : ℕ) :
     ∀ i j : Fin m, (j : ℕ) < (i : ℕ) + n → (X ^ n) i j = 0 := by
-  apply _root_.PI.AmpRootJacW.sUp_pow <;> assumption
+  induction n with
+  | zero =>
+    intro i j h
+    rw [pow_zero]
+    apply Matrix.one_apply_ne
+    rintro rfl
+    omega
+  | succ n ih =>
+    intro i j h
+    rw [pow_succ, Matrix.mul_apply]
+    refine Finset.sum_eq_zero fun k _ => ?_
+    by_cases hk : (k : ℕ) < (i : ℕ) + n
+    · rw [ih i k hk, zero_mul]
+    · rw [hX k j (by omega), mul_zero]
 
 end GlobalTheory.StrictUpperNilpotentFlagMeasures
 end -- clump:auto
@@ -589,7 +600,15 @@ theorem vol_LL {A : Set (EE k r)} :
   rw [h5, one_mul]
 
 theorem closed_N : IsClosed (Nset k r) := by
-  apply _root_.Formalism.MainNotions.LowestKTypeMultiplicity.isClosed_N <;> assumption
+  have he : ∀ i j c, IsClosed {g : Mat k r | g i j = c} := fun i j c =>
+    isClosed_eq (continuous_id.matrix_elem i j) continuous_const
+  refine IsClosed.and (isClosed_eq ((continuous_id.matrix_conjTranspose.matrix_mul continuous_const).matrix_mul
+    continuous_id) continuous_const) (IsClosed.and ?_ ?_)
+  · simp only [Set.setOf_forall]
+    exact isClosed_iInter fun _ => isClosed_iInter fun _ => isClosed_iInter fun _ => he _ _ _
+  · simp only [Set.setOf_forall]
+    exact isClosed_iInter fun _ => isClosed_iInter fun _ => isClosed_iInter fun _ => isClosed_iInter fun _ =>
+      isClosed_iInter fun _ => he _ _ _
 
 theorem matGroup_N : PI.IsMatGroup (Nset k r) :=
   ⟨closed_N, (nSubgroup k r).1, (nSubgroup k r).2.1, fun a ha => ⟨(nSubgroup k r).2.2 a ha,

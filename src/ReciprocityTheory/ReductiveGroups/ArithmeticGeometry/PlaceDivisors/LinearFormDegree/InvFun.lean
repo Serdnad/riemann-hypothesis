@@ -8,7 +8,6 @@ import Mathlib.Topology.Sheaves.Presheaf
 
 @[expose] public section
 
-set_option autoImplicit false
 noncomputable section
 open MvPowerSeries
 
@@ -178,7 +177,7 @@ theorem two_le_order_nl (φ : σ → MvPowerSeries σ R) (L : Matrix σ σ R)
     rw [Finset.sum_eq_single j]
     · simp
     · intro b _ hb
-      rw [if_neg, mul_zero]
+      rw [ite_eq_right, mul_zero]
       intro hh
       exact hb ((Finsupp.single_left_inj one_ne_zero).mp hh).symm
     · simp
@@ -299,7 +298,7 @@ theorem coeff_lim_single (φ : σ → MvPowerSeries σ R) (L M : Matrix σ σ R)
   rw [Finset.sum_eq_single j]
   · simp
   · intro b _ hb
-    rw [if_neg, mul_zero]
+    rw [ite_eq_right, mul_zero]
     intro hh
     exact hb ((Finsupp.single_left_inj one_ne_zero).mp hh).symm
   · simp

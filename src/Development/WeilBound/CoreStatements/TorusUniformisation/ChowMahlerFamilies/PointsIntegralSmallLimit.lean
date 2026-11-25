@@ -1,52 +1,10 @@
 module
 
-import Development.AutomorphicSpectrum.Proofs.MetricProofs.IntersectionNumberMetricChange
-import Development.WeilBound.CoreStatements.HomogeneousNonvanishing.IsOpenHoloPreimage
 public import Development.AutomorphicSpectrum.Definitions.MetricPeriods.MetricsProjectionFormulaNef
 public import Development.AutomorphicSpectrum.Proofs.MetricProofs.AnalyticSystemRegularityProperties
 public import Development.AutomorphicSpectrum.Proofs.MetricProofs.MongeAmpereIntegralCongrPotentials
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.HaveILetI
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Topology.Sheaves.Init
 import ReciprocityTheory.AnalyticForms.LeviForms.TailCut
 import ReciprocityTheory.AnalyticForms.LeviForms.TailCutA
 import ReciprocityTheory.AnalyticForms.PotentialTheory.AnalyticSubsetChartLocal
@@ -72,8 +30,17 @@ open MeasureTheory ReciprocityTheory.AnForm ReciprocityTheory.AnForm.M Reciproci
 theorem pts_congr {K : Type} [Fintype K] {ι : K → Type} [∀ k, Fintype (ι k)] (P : Ideal (MRing ι)) {e : ℕ}
     (φ : Fin e → ((Σ k, ι k) → ℂ) → ℝ) {g g' : ((Σ k, ι k) → ℂ) → ℝ} (h : ∀ z ∈ mcPts P, g z = g' z) :
     ptsIntegral P φ g = ptsIntegral P φ g' := by
-  intros
-  apply _root_.GlobalTheory.CompanionTheory.Ar.Tele.ptsIntegral_congr_on <;> assumption
+  have key : ∀ Ψ y w, sheetDensity P Ψ φ g y w = sheetDensity P Ψ φ g' y w := by
+    intro Ψ y w
+    unfold sheetDensity
+    split_ifs with hγ
+    · rw [h _ hγ.choose_spec.2.self_of_nhds.2.1]
+    · rfl
+  unfold ptsIntegral
+  split_ifs with hΨ
+  · unfold ptsIntegralAt
+    simp only [key]
+  · rfl
 
 theorem isC2At_of_isPotential {e : ℕ} {X : Type} [TopologicalSpace X] (A : FinHolAtlas e X) {Q : LocPot X}
     (h : IsPotential A Q) (x : X) : IsTwiceDifferentiableAt A Q x := by
@@ -173,15 +140,15 @@ theorem tendsto_base (hC : ConvergenceSignedStatement) (a : σ) (w : Fin e → �
     (fun _ => 0) (fun t y => if 0 < t ∧ t ≤ S.t₀ then S.ph a y - S.phT a t y else 0) (|S.C| + |S.C₅|)
     (fun t => by
       by_cases h : 0 < t ∧ t ≤ S.t₀
-      · simp only [if_pos h]
+      · simp only [ite_eq_left h]
         exact defect_cont S a h.1 h.2
-      · simp only [if_neg h]
+      · simp only [ite_eq_right h]
         exact continuousOn_const)
     (fun t y hy => by
       by_cases h : 0 < t ∧ t ≤ S.t₀
-      · simp only [if_pos h]
+      · simp only [ite_eq_left h]
         exact defect_bound S a h.1 h.2 hy
-      · simp only [if_neg h, abs_zero]
+      · simp only [ite_eq_right h, abs_zero]
         exact mul_nonneg (by positivity) (zero_le_one.trans (one_le_log S y)))
     (by
       refine Metric.tendstoLocallyUniformlyOn_iff.2 fun ε hε x hx => ?_
@@ -201,7 +168,7 @@ theorem tendsto_base (hC : ConvergenceSignedStatement) (a : σ) (w : Fin e → �
       filter_upwards [hu, Ioc_mem_nhdsGT ht0] with t ht ht' y hy
       have h1 := ht _ hy.2
       simp only [Function.comp_apply, (S.A.chart j).left_inv hy.1] at h1
-      rw [if_pos ⟨ht'.1, ht'.2⟩, Real.dist_eq, zero_sub, abs_neg]
+      rw [ite_eq_left ⟨ht'.1, ht'.2⟩, Real.dist_eq, zero_sub, abs_neg]
       rwa [Real.dist_eq] at h1)
   have h0 : mInt S.A (fun i => S.th (w i) + LocPot.ofFun (S.ph (w i))) (fun _ => (0 : ℝ)) = 0 := by
     unfold mInt
@@ -212,7 +179,7 @@ theorem tendsto_base (hC : ConvergenceSignedStatement) (a : σ) (w : Fin e → �
   rw [h0] at h2
   refine h2.congr' ?_
   filter_upwards [Ioc_mem_nhdsGT ht0] with t ht
-  simp only [if_pos (show 0 < t ∧ t ≤ S.t₀ from ⟨ht.1, ht.2⟩)]
+  simp only [ite_eq_left (show 0 < t ∧ t ≤ S.t₀ from ⟨ht.1, ht.2⟩)]
   rfl
 
 end Sys
@@ -249,8 +216,22 @@ theorem line_samePot (a : σ) {t : ℝ} (h0 : 0 < t) (h1 : t ≤ S.t₀) :
 
 theorem holoOn_comp {e e' : ℕ} {X Y : Type} [TopologicalSpace X] [TopologicalSpace Y] {A : FinHolAtlas e X}
     {B : FinHolAtlas e' Y} {h : Y → X} (hh : HoloMap B A h) {U : Set X} {g : X → ℂ} (hg : A.HoloOn U g) :
-    B.HoloOn (h ⁻¹' U) (fun y => g (h y)) :=
-  _root_.PositivityTheory.UnitarySelfGeneration.HolomorphicMinorCharts.holo_comp_map hh hg
+    B.HoloOn (h ⁻¹' U) (fun y => g (h y)) := by
+  intro j y hy
+  obtain ⟨k, hk⟩ := A.cover (h ((B.chart j).symm y))
+  have a1 := hh.2 j k y ⟨hy.1, hk⟩
+  have a2 := hg k (A.chart k (h ((B.chart j).symm y))) ⟨(A.chart k).map_source hk, by
+    show (A.chart k).symm (A.chart k (h ((B.chart j).symm y))) ∈ U
+    rw [(A.chart k).left_inv hk]
+    exact hy.2⟩
+  have a3 : AnalyticAt ℂ ((g ∘ (A.chart k).symm) ∘ (A.chart k ∘ h ∘ (B.chart j).symm)) y :=
+    AnalyticAt.comp a2 a1
+  refine a3.congr ?_
+  have hc : ContinuousAt (h ∘ (B.chart j).symm) y :=
+    hh.1.continuousAt.comp ((B.chart j).continuousAt_symm hy.1)
+  filter_upwards [hc.preimage_mem_nhds ((A.chart k).open_source.mem_nhds hk)] with z hz
+  simp only [Function.comp_apply]
+  rw [(A.chart k).left_inv (show h ((B.chart j).symm z) ∈ (A.chart k).source from hz)]
 
 theorem preimage_null : IsNull Re.R.A (Re.π ⁻¹' S.open')ᶜ := by
   have hAn : Re.R.A.IsAnalyticSubset (Re.π ⁻¹' bdry S.s) := by

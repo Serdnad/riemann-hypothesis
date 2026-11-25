@@ -1,6 +1,5 @@
 module
 
-import all Development.AutomorphicArithmetic.Foundations.Convolution.ConvolutionKernels.GalEquiv
 public import Development.AutomorphicArithmetic.Foundations.Convolution.TraceSplitting.NormCharSplit
 public import Formalism.LocalToGlobal.UnitaryNorms.CharTransport
 public import CompanionTheory.AutomorphicTheory.UnitriangularMeasure.AdeleCoordinateMeasure.EllipticTorusNorm
@@ -9,43 +8,7 @@ public import Development.AutomorphicArithmetic.Foundations.Convolution.Convolut
 public import Development.WeilBound.RepresentationTheoryGL.JacquetShalikaBounds.AbsoluteRigidity.SatakeTwists.SatakeTwistHolds
 import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.LatticeIndices.CharZeroAdicCompletion
 public import GroundTheory.GlobalFields.NormResidueSymbol.FunctorialFinite
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.ReduceModChar
 import Development.AutomorphicArithmetic.AutomorphicVarieties.PublishedTheorems.GelfandKazhdanReal
 import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.DenseRangeUnits
 
@@ -162,7 +125,7 @@ private theorem module_infId (u : (Cinf K)ˣ) :
       (map_zero (InfinitePlace.Completion.ringEquivComplexOfIsComplex (IsTotallyComplex.isComplex w)).symm) _
   have h4 : ((infId K u : Neutral.B1.Ideles K) : NumberField.AdeleRing (𝓞 K) K).1 w = infEq K u w :=
     congrFun h2 w
-  rw [h4, h3, InfinitePlace.mult, if_neg (InfinitePlace.not_isReal_iff_isComplex.2 (IsTotallyComplex.isComplex w))]
+  rw [h4, h3, InfinitePlace.mult, ite_eq_right (InfinitePlace.not_isReal_iff_isComplex.2 (IsTotallyComplex.isComplex w))]
 
 private theorem pow_expo {χ : HChar K} {s : ℂ} (h : UpperTheory.ConvolutionTheory.T.IsPow χ s) (τ : K →+* ℂ) : expo χ τ = s := by
   refine expo_eq_of_exp χ τ s s fun z => ?_
@@ -235,7 +198,6 @@ end Lift
 section Local
 
 open scoped GroundTheory.Global.AdeleBaseChange GroundTheory.Global.SemiLocal
-open GroundTheory.Global
 
 variable {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E]
 
@@ -304,7 +266,6 @@ end Local
 section Conj
 
 open scoped NumberField.AdeleRing
-open Formalism.L2.Host
 
 private theorem norm_infEquiv (j : K ≃+* K) (u : InfinitePlace K)
     (y : (u.comap j.toRingHom).Completion) : ‖CT.infEquiv j u y‖ = ‖y‖ := by
@@ -315,10 +276,51 @@ private theorem norm_infEquiv (j : K ≃+* K) (u : InfinitePlace K)
   rw [CT.infEquiv_algebraMap, _root_.GlobalTheory.FrobDense.norm_inf, _root_.GlobalTheory.FrobDense.norm_inf]
   rfl
 
+private theorem mult_comap_equiv (j : K ≃+* K) (u : InfinitePlace K) :
+    (u.comap j.toRingHom).mult = u.mult := by
+  have h : (u.comap j.toRingHom).IsReal ↔ u.IsReal := InfinitePlace.isReal_comap_iff (f := j)
+  unfold InfinitePlace.mult
+  by_cases hu : u.IsReal
+  · rw [ite_eq_left (h.2 hu), ite_eq_left hu]
+  · rw [ite_eq_right (mt h.1 hu), ite_eq_right hu]
+
+private def infPerm (j : K ≃+* K) : InfinitePlace K ≃ InfinitePlace K where
+  toFun u := u.comap j.toRingHom
+  invFun u := u.comap j.symm.toRingHom
+  left_inv u := by
+    ext x
+    show u (j (j.symm x)) = u x
+    rw [RingEquiv.apply_symm_apply]
+  right_inv u := by
+    ext x
+    show u (j.symm (j x)) = u x
+    rw [RingEquiv.symm_apply_apply]
+
+private def finPerm (j : K ≃+* K) :
+    HeightOneSpectrum (𝓞 K) ≃ HeightOneSpectrum (𝓞 K) where
+  toFun v := CT.plMap j.symm v
+  invFun v := CT.plMap j v
+  left_inv v := CT.plMap_plMap_symm j v
+  right_inv v := CT.plMap_symm_plMap j v
+
 private theorem module_map (σ : K ≃+* K) (x : (𝔸[K])ˣ) :
     (GroundTheory.Global.IdeleGroup.ideleModule K (Units.map (CT.adMap σ).toMonoidHom x) : ℝ) =
       GroundTheory.Global.IdeleGroup.ideleModule K x := by
-  apply _root_.module_map <;> assumption
+  rw [GroundTheory.Global.IdeleGroup.ideleModule_eq, GroundTheory.Global.IdeleGroup.ideleModule_eq]
+  congr 1
+  · refine Fintype.prod_equiv (infPerm σ) _ _ fun u => ?_
+    show ‖CT.infEquiv σ u ((x : 𝔸[K]).1 (u.comap σ.toRingHom))‖ ^ u.mult =
+      ‖(x : 𝔸[K]).1 (u.comap σ.toRingHom)‖ ^ (u.comap σ.toRingHom).mult
+    rw [norm_infEquiv, mult_comap_equiv]
+  · have h : ∀ v : HeightOneSpectrum (𝓞 K),
+        ‖((Units.map (CT.adMap σ).toMonoidHom x : (𝔸[K])ˣ) : 𝔸[K]).2 v‖ =
+          ‖(x : 𝔸[K]).2 (finPerm σ v)‖ := fun v => by
+      show ‖(CT.compEquiv σ.symm v).symm ((x : 𝔸[K]).2 (CT.plMap σ.symm v))‖ = _
+      have e := CT.norm_compEquiv σ.symm v ((CT.compEquiv σ.symm v).symm ((x : 𝔸[K]).2 (CT.plMap σ.symm v)))
+      rw [RingEquiv.apply_symm_apply] at e
+      exact e.symm
+    exact (finprod_congr h).trans
+      (finprod_comp_equiv (finPerm σ) (f := fun w => ‖(x : 𝔸[K]).2 w‖))
 
 variable [_root_.NumberField.IsTotallyComplex K] {n : ℕ}
 

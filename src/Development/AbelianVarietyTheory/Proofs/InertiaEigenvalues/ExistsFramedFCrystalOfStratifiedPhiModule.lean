@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.RelGaloisComparisonMatrix
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.AdIPowLe
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.IsStratHom
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.BreuilKisinHomEisensteinSpanAndNonZeroDivisor
@@ -21,55 +20,8 @@ public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.StableA
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.RealisesUnitPow
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.SemilinearProjectiveModuleCompose
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.FiniteProjectiveModuleElementDescentEqualizer
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Topology.Sheaves.Init
 import Mathlib.Tactic.Linter.HaveILetI
-import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.RingTheory.Coalgebra.IsFrobenius
-import Mathlib.RingTheory.HopfAlgebra.Basic
-import Mathlib.RingTheory.PiTensorProduct
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.ReduceModChar
 import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.IsAdicCompleteOfPowLe
 import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.MemBallOfGaugeLt
 import Formalism.SharpRestriction.CuspSpanNormBounds.Point
@@ -315,9 +267,9 @@ theorem lift_solution_succ_of_descent {l : ℕ} {R : Type} [CommRing R] {d : ℕ
       exact (RingHom.map_mulVec (Ideal.Quotient.mk (adI D ^ k)) ε (fun j => q.f (w j)) i).symm
     rw [e1, e2]
     exact Ideal.Quotient.eq
-  letI alg0 : Algebra (B.A ⧸ adI B ^ m) (C.A ⧸ adI C ^ m) := (qmap h m).toAlgebra
-  letI alg1 : Algebra (B.A ⧸ adI B ^ (m + 1)) (C.A ⧸ adI C ^ (m + 1)) := (qmap h (m + 1)).toAlgebra
-  haveI : Module.FaithfullyFlat (B.A ⧸ adI B ^ m) (C.A ⧸ adI C ^ m) := hff
+  let alg0 : Algebra (B.A ⧸ adI B ^ m) (C.A ⧸ adI C ^ m) := (qmap h m).toAlgebra
+  let alg1 : Algebra (B.A ⧸ adI B ^ (m + 1)) (C.A ⧸ adI C ^ (m + 1)) := (qmap h (m + 1)).toAlgebra
+  have : Module.FaithfullyFlat (B.A ⧸ adI B ^ m) (C.A ⧸ adI C ^ m) := hff
   obtain ⟨N, hN, hbN⟩ := H m
   obtain ⟨N', hN', hbN'⟩ := H (m + 1)
   have hpq : ∀ b : B.A, p.f (h.f b) = q.f (h.f b) := fun b => congrArg (fun g : Hom B D => g.f b) hcomm
@@ -793,12 +745,12 @@ theorem exists_descent : ∀ (l : ℕ) [Fact l.Prime] (K : FinExt l) (bk : BK K)
   intro l _ K bk d S B C h f hc
   obtain ⟨D, p₀, q₀, hpo⟩ := hc.stable.po C h
   have hcomm : ∀ b, p₀.f (h.f b) = q₀.f (h.f b) := fun b => congrArg (fun k : Hom B D => k.f b) hpo.comm
-  letI : Algebra (B.A ⧸ adI B ^ 1) (C.A ⧸ adI C ^ 1) := (qmap h 1).toAlgebra
+  let : Algebra (B.A ⧸ adI B ^ 1) (C.A ⧸ adI C ^ 1) := (qmap h 1).toAlgebra
   obtain ⟨N₁, hN₁, hfin, hproj, hbc⟩ := _root_.GlobalTheory.BSP.LevH.descent_at_level l K bk d S B C D h f p₀ q₀ hc hpo 1
-  haveI hcB : IsAdicComplete (adI B ^ 1) B.A := by rw [pow_one]; exact B.complete
+  have hcB : IsAdicComplete (adI B ^ 1) B.A := by rw [pow_one]; exact B.complete
   obtain ⟨P, _, _, _, _, u₁, hu₁⟩ := _root_.GlobalTheory.BSP.LiftProj.exists_lift B.A (adI B ^ 1) ↥N₁
-  letI : Algebra B.A C.A := h.f.toAlgebra
-  haveI : IsScalarTower B.A (B.A ⧸ adI B ^ 1) (C.A ⧸ adI C ^ 1) := IsScalarTower.of_algebraMap_eq (fun b => rfl)
+  let : Algebra B.A C.A := h.f.toAlgebra
+  have : IsScalarTower B.A (B.A ⧸ adI B ^ 1) (C.A ⧸ adI C ^ 1) := IsScalarTower.of_algebraMap_eq (fun b => rfl)
   have hs : ∀ (b : B.A) (y : ↥N₁), (Ideal.Quotient.mk (adI B ^ 1) b) • y = b • y := fun b y => Subtype.ext rfl
   let u₁' : P →ₗ[B.A] ↥N₁ := { toFun := fun x => u₁ x, map_add' := fun x y => u₁.map_add x y, map_smul' := fun b x => (u₁.map_smulₛₗ b x).trans (hs b (u₁ x)) }
   have hb1 : IsBaseChange (B.A ⧸ adI B ^ 1) u₁' := (_root_.GlobalTheory.BSP.semiBC_iff_isBaseChange B.A (B.A ⧸ adI B ^ 1) P ↥N₁ u₁ u₁' (fun x => rfl)).1 hu₁
@@ -828,7 +780,7 @@ theorem exists_descent : ∀ (l : ℕ) [Fact l.Prime] (K : FinExt l) (bk : BK K)
     { toFun := fun x => u' x, map_add' := fun x y => u'.map_add x y, map_smul' := fun b x => u'.map_smul b x }
   have huM : ∀ x, u x ∈ M := fun x => (g x).2
   refine ⟨P, inferInstance, inferInstance, inferInstance, inferInstance, u, ?_, ?_⟩
-  · haveI := C.complete
+  · have := C.complete
     have hV : IsBaseChange C.A u' := by
       have hgq := (IsBaseChange.linearMap C.A (C.A ⧸ adI C ^ 1)).finitePow (Fin d)
       refine _root_.GlobalTheory.BSP.isBaseChange_of_isBaseChange_quotient B.A C.A (adI C ^ 1) ?_ P (Fin d → C.A) _ u' _ hgq ?_
@@ -1012,7 +964,7 @@ theorem semiBC_comp {A B C M N P : Type} [CommRing A] [CommRing B] [CommRing C] 
     (u : M →ₛₗ[f] N) (t : N →ₛₗ[g] P) (w : M →ₛₗ[k] P) (hk : ∀ a, k a = g (f a)) (hw : ∀ x, w x = t (u x))
     (hu : SemiBC u) (ht : SemiBC t) : SemiBC w := by
   intro Q _ _ v
-  letI : Module B Q := Module.compHom Q g
+  let : Module B Q := Module.compHom Q g
   let v' : M →ₛₗ[f] Q :=
     { toFun := v
       map_add' := v.map_add
@@ -1165,7 +1117,7 @@ theorem eval_transition : ∀ (l : ℕ) [Fact l.Prime] (K : FinExt l) (bk : BK K
           ((congrArg (h'.f (k.f c) • ·) (ht0 x)).symm.trans (LinearMap.map_smulₛₗ (V'.v h' f') (k.f c) (t0 x)).symm)) }
   have hT : ∀ x, V'.v h' f' (t x) = V.v (h'.comp k) f' x := ht0
   refine ⟨t, ?_, ?_⟩
-  · haveI := V.fin; haveI := V.proj; haveI := V'.fin; haveI := V'.proj
+  · have := V.fin; have := V.proj; have := V'.fin; have := V'.proj
     exact _root_.GlobalTheory.BSP.semiBC_of_cover l (↥(OL K)) B' C' h' hc B.A k.f N N' (Fin d → C'.A) t (V'.v h' f')
       (V.v (h'.comp k) f') (fun x => (hT x).symm) (V'.bc h' f') (V.bc (h'.comp k) f')
   · intro Q a g x
@@ -1275,10 +1227,10 @@ theorem semiBC_localized (A : Type) [CommRing A] (φ : A →+* A) (t : A) (N : T
     (Φ : N →ₛₗ[(algebraMap A (Localization.Away t)).comp φ] LocalizedModule (Submonoid.powers t) N)
     (hΦ : ∀ x, IsFrac t (Φ x) (L (u x)) a) : SemiBC Φ := by
   intro Q _ _ v
-  letI : Module A Q := Module.compHom Q (algebraMap A (Localization.Away t))
-  haveI : IsScalarTower A (Localization.Away t) Q := IsScalarTower.of_algebraMap_smul fun _ _ => rfl
+  let : Module A Q := Module.compHom Q (algebraMap A (Localization.Away t))
+  have : IsScalarTower A (Localization.Away t) Q := IsScalarTower.of_algebraMap_smul fun _ _ => rfl
   let s : ↥(Submonoid.powers t) := ⟨t ^ a, a, rfl⟩
-  haveI := isLocalizedModule_fracMap t L n hk hc s
+  have := isLocalizedModule_fracMap t L n hk hc s
   have hb := IsLocalizedModule.isBaseChange (Submonoid.powers t) (Localization.Away t)
     (fracMap (Submonoid.powers t) L s)
   have hΦ' : ∀ x, Φ x = fracMap (Submonoid.powers t) L s (u x) := hΦ
@@ -1323,7 +1275,7 @@ variable {A B M N : Type} [CommRing A] [CommRing B] [AddCommGroup M] [Module A M
 theorem exists_ext {C P : Type} [CommRing C] [AddCommGroup P] [Module C P] (h : SemiBC u) (τ : B →+* C)
     (w : M →+ P) (hw : ∀ (a : A) x, w (a • x) = τ (f a) • w x) :
     ∃ κ : N →ₛₗ[τ] P, ∀ x, κ (u x) = w x := by
-  letI : Module B P := Module.compHom P τ
+  let : Module B P := Module.compHom P τ
   obtain ⟨W, hW, -⟩ := h P { toFun := w, map_add' := w.map_add, map_smul' := fun a x => hw a x }
   exact ⟨{ toFun := W, map_add' := W.map_add, map_smul' := fun b y => W.map_smul b y }, hW⟩
 
@@ -1449,8 +1401,22 @@ theorem piMapMul_apply {R R' n : Type} [CommRing R] [CommRing R'] [Fintype n] (g
 
 theorem mul_eq_smul_comm {R n : Type} [CommRing R] [Fintype n] [DecidableEq n] {X Y : Matrix n n R} {s : R}
     (hs : s ∈ nonZeroDivisors R) (h : X * Y = s • 1) : Y * X = s • 1 := by
-  intros
-  apply _root_.GlobalTheory.BSP.GalD.mul_eq_smul_comm <;> assumption
+  have hd : X.det * Y.det = s ^ Fintype.card n := by
+    rw [← Matrix.det_mul, h, Matrix.det_smul, Matrix.det_one, mul_one]
+  have h1 : X * (Y * X - s • 1) = 0 := by
+    rw [Matrix.mul_sub, ← Matrix.mul_assoc, h, Matrix.mul_smul, Matrix.mul_one, Matrix.smul_mul, Matrix.one_mul,
+      sub_self]
+  have h2 : X.det • (Y * X - s • 1) = 0 := by
+    have h5 : X.adjugate * (X * (Y * X - s • 1)) = X.det • (Y * X - s • 1) := by
+      rw [← Matrix.mul_assoc, Matrix.adjugate_mul, Matrix.smul_mul, Matrix.one_mul]
+    rw [← h5, h1, Matrix.mul_zero]
+  rw [← sub_eq_zero]
+  ext i j
+  have h3 := congrFun (congrFun h2 i) j
+  simp only [Matrix.smul_apply, smul_eq_mul, Matrix.zero_apply] at h3 ⊢
+  have h4 : s ^ Fintype.card n * (Y * X - s • 1) i j = s ^ Fintype.card n * 0 := by
+    rw [← hd]; linear_combination Y.det * h3
+  exact (mul_cancel_left_mem_nonZeroDivisors (pow_mem hs _)).1 h4
 
 theorem descent_identity {R n : Type} [CommRing R] [Fintype n] [DecidableEq n] (Ap A'p Aq A'q ε φε : Matrix n n R)
     (Ep Eq cp cq : R) (a b : ℕ) (w : n → R) (h1 : A'p * Ap = Ep ^ b • 1) (h2 : Aq * A'q = Eq ^ b • 1)
@@ -1578,8 +1544,8 @@ theorem linFrob_inv_pow : ∀ (l : ℕ) [Fact l.Prime] (K : FinExt l) (bk : BK K
     SemiBC u → ∀ L : P →ₗ[B.A] N, (∀ x, L (u x) = Ψ x) →
     ∃ n : ℕ, (∀ y, L y = 0 → t ^ n • y = 0) ∧ ∀ x, ∃ y, L y = t ^ n • x := by
   intro l _ K bk d S B N _ _ V t ht Ψ hΨ P _ _ u hu L hL
-  haveI := V.fin
-  haveI := V.proj
+  have := V.fin
+  have := V.proj
   obtain ⟨hPf, hPp⟩ := hu.finite_projective
   obtain ⟨C, h, ⟨f⟩, hC⟩ := _root_.GlobalTheory.BSP.exists_cover_receiving_bk l K bk B
   obtain ⟨D, p, q, hpo⟩ := hC.stable.po C h
@@ -1630,8 +1596,8 @@ theorem linFrob_inv_pow : ∀ (l : ℕ) [Fact l.Prime] (K : FinExt l) (bk : BK K
     · have hb : (p.comp h).f b = q.f (h.f b) := RingHom.congr_fun (congrArg Hom.f hpo.comm) b
       exact (κD.map_smulₛₗ b y).trans ((congrArg ((p.comp h).f b • ·) hy).trans
         ((congrArg (· • u₂ (κ y)) hb).trans ((congrArg u₂ (κ.map_smulₛₗ b y)).trans (u₂.map_smulₛₗ _ _)).symm))
-  haveI := hPf
-  haveI := hPp
+  have := hPf
+  have := hPp
   obtain ⟨hκinj, hdesc⟩ := _root_.GlobalTheory.BSP.ProjDescent.descent B.A C.A D.A h.f p.f q.f (congrArg Hom.f hpo.comm) hinj
     (fun b hb => heq D p q hpo b hb) P (Fin d → C.A) (Fin d → D.A) κ u₁ u₂ κD hκbc hκDbc hw1 hw2
   refine ⟨2 * (S.a + S.b), fun y hy => ?_, fun x => ?_⟩
@@ -1706,7 +1672,7 @@ namespace GlobalTheory.BSP.StratCrys
 
 theorem exists_semiBC {A B : Type} [CommRing A] [CommRing B] (f : A →+* B) (M : Type) [AddCommGroup M]
     [Module A M] : ∃ (P : Type) (_ : AddCommGroup P) (_ : Module B P) (u : M →ₛₗ[f] P), SemiBC u := by
-  letI := f.toAlgebra
+  let := f.toAlgebra
   let u : M →ₛₗ[algebraMap A B] (B ⊗[A] M) :=
     { toFun := fun x => 1 ⊗ₜ x
       map_add' := fun x y => TensorProduct.tmul_add _ _ _

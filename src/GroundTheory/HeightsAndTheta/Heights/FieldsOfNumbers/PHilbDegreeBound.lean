@@ -32,13 +32,8 @@ theorem isHomogeneous_of_isMultiHomogIdeal {I : Ideal (MRing ι F)} (hI : IsMult
 
 theorem isMultiHomogIdeal_sup_span {I : Ideal (MRing ι F)} (hI : IsMultiHomogIdeal I)
     {s : MRing ι F} {c : K → ℕ} (hs : IsMultiHomog s c) :
-    IsMultiHomogIdeal (I ⊔ Ideal.span {s}) := by
-  classical
-  have h2 : (Ideal.span {s}).IsHomogeneous (weightedHomogeneousSubmodule F (blockWeight ι)) :=
-    Ideal.homogeneous_span _ _ fun x hx => ⟨c, (Set.mem_singleton_iff.mp hx) ▸ hs⟩
-  intro f hf b
-  exact weightedHomogeneousComponent_mem_of_mem
-    (h := (isHomogeneous_of_isMultiHomogIdeal hI).sup h2) (hp := hf) (m := b)
+    IsMultiHomogIdeal (I ⊔ Ideal.span {s}) :=
+  HilbDegBound.isMultiHomogIdeal_sup_span hI hs
 
 
 omit [Fintype K] [DecidableEq K] in
@@ -59,8 +54,8 @@ theorem ringKrullDim_sup_span_add_one_le {P : Ideal (MRing ι F)} [P.IsPrime] {s
   · rw [Ideal.Quotient.factor_mk, Ideal.Quotient.eq_zero_iff_mem]
     exact Ideal.mem_sup_right (Ideal.subset_span rfl)
 
-theorem lt_of_add_one_le_natCast {x : WithBot ℕ∞} {n : ℕ} (h : x + 1 ≤ n) : x < n := by
-  apply _root_.GroundTheory.Heights₂.Heights.NumbersDVR.HilbDegBound.lt_of_add_one_le_natCast <;> assumption
+theorem lt_of_add_one_le_natCast {x : WithBot ℕ∞} {n : ℕ} (h : x + 1 ≤ n) : x < n :=
+  HilbDegBound.lt_of_add_one_le_natCast h
 
 end Lemmas
 

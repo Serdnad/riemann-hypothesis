@@ -5,45 +5,6 @@ public import Development.AutomorphicSpectrum.Proofs.MetricProofs.ExistsBlkCover
 public import Development.AutomorphicSpectrum.Definitions.MetricPeriods.GenericBlockMatrixIsBlockDiag
 public import Development.AutomorphicSpectrum.Proofs.MetricProofs.BlockDiagonalMinorVanishing
 public import Development.AutomorphicSpectrum.Proofs.MetricProofs.MinorIJMap
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
 
 @[expose] public section
@@ -91,10 +52,10 @@ theorem img_form : ∀ (K : Type) [Fintype K] (ι : K → Type) [∀ k, Fintype 
     rw [e1]
     congr 1
     rw [Finset.sum_eq_single I']
-    · rw [hdelta I' I' hI hI, if_pos rfl, one_mul]
+    · rw [hdelta I' I' hI hI, ite_eq_left rfl, one_mul]
     · intro J _ hne
       by_cases hJ : IsStepRows N j p.2 J
-      · rw [hdelta I' J hI hJ, if_neg hne.symm, zero_mul]
+      · rw [hdelta I' J hI hJ, ite_eq_right hne.symm, zero_mul]
       · rw [hoff J hJ, mul_zero]
     · simp
   refine ⟨a, ha, fun m => ?_⟩
@@ -107,7 +68,7 @@ theorem img_form : ∀ (K : Type) [Fintype K] (ι : K → Type) [∀ k, Fintype 
   rw [Finset.mul_sum]
   refine Finset.sum_congr rfl fun I' _ => ?_
   by_cases hI : IsStepRows N j p.2 I'
-  · rw [if_pos hI, hread I' hI]; ring
-  · rw [if_neg hI, hoff I' hI, mul_zero, mul_zero]
+  · rw [ite_eq_left hI, hread I' hI]; ring
+  · rw [ite_eq_right hI, hoff I' hI, mul_zero, mul_zero]
 
 end GlobalTheory.CompanionTheory.Ar.PB.CovMap.LocImg

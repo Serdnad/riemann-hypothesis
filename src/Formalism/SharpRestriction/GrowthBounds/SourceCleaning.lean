@@ -1,42 +1,7 @@
 module
 
 public import Formalism.SharpRestriction.GrowthBounds.ValuationLowestDegreeRename
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.TypeStar
-import Mathlib.Topology.Sheaves.Init
 
 @[expose] public section
 
@@ -319,7 +284,7 @@ def Realisable (w : O) (n' r : ℕ) {k : ℕ} (g : Matrix (Fin k) (Fin k) (WF p 
 
 end Real
 
-def Conclusion6With (degreeBound : ℝ → ℝ → Prop) (_D : Formalism.BasicNotions.D7) (CLa CD Csz : ℝ) : Prop :=
+def Conclusion6 (_D : Formalism.BasicNotions.D7) (CLa CD Csz : ℝ) : Prop :=
   ∀ (p n' r K : ℕ) [Fact p.Prime] [NeZero n'] [NeZero r] [NeZero K] (O : Type) [CommRing O] [IsDomain O]
     [IsDiscreteValuationRing O] [Algebra (WF p n') O] (S : UniformizedDVR p O), OHyp p n' O S →
     CommonHypotheses p n' r (r + K) →
@@ -334,13 +299,10 @@ def Conclusion6With (degreeBound : ℝ → ℝ → Prop) (_D : Formalism.BasicNo
         (fun x => Bo p Fr deg j x / 2 - sl p Fr deg Y (r + K) j x) (obd j) ∧
       xi i j ∈ restrictSupport O {mm | ∀ x ∈ Fr.letters j, ∑ c : Fin (r + K), mm (x, c) = dd j x}) →
     (∀ j : ℕ, j < Fr.J → ∀ x ∈ Fr.letters j, (Fr.IsW j x ∨ x ∈ Fr.LLset j) →
-        degreeBound (dd j x : ℝ) (levDeg p Fr deg j x)) →
+        |(dd j x : ℝ) - levDeg p Fr deg j x| ≤ levDeg p Fr deg j x / 100) →
   ∀ (mon : Fin n' × Fin (r + K) →₀ ℕ), IsLabel p Fr mon → (∀ v ∈ mon.support, v.1 ∈ Fr.TT) →
   ∀ o : ℕ, (∀ m ∈ (monPh O K p Fr mon xi).support, normDeg r m = o) →
     Realisable p n' S.w n' r g c' o (MvPolynomial.map (algebraMap O (KK O)) (monPh O K p Fr mon xi))
-
-def Conclusion6 (_D : Formalism.BasicNotions.D7) (CLa CD Csz : ℝ) : Prop :=
-  Conclusion6With (fun d l => |d - l| ≤ l / 100) _D CLa CD Csz
 
 def GoodOrbitPositions (_D : Formalism.BasicNotions.D7) : Prop :=
   ∀ (r : ℕ) (h : ℝ), 2 ≤ r → 0 ≤ h → ∃ Ce : ℝ, 0 < Ce ∧

@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsIrreducible
 public import Formalism.LocalToGlobal.HeckeThetaElements.IsHeckeElt
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.IntegralTensorAdelesEqAdelicCompletionOne
 import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.CompletedLatticeEqAdelicCompletionAndGram
@@ -45,18 +44,26 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 public import Development.AbelianVarietyTheory.Definitions.ExistenceOfLattices.CoeSelfDualLatticeInFrameCoordinatesEq
 import Formalism.LocalToGlobal.IndefiniteReal.ScalarOnPartsFull
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IntAEMulMem
 
 @[expose] public section
 
 open Formalism.BasicNotions Formalism.BasicNotions.TH Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes Formalism.MainNotions.StandardLattice Formalism.MainNotions.S MeasureTheory IsDedekindDomain NumberField Formalism.L2.Theta Formalism.L2.NTheta Formalism.IndefR.Mult
 open scoped TensorProduct
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 
 namespace GlobalTheory.LatIntFacts
 
 theorem intValuation_uniformiser {R : Type} [CommRing R] [IsDedekindDomain R] (P : HeightOneSpectrum R) {ϖ : R}
     (h1 : ϖ ∈ P.asIdeal) (h2 : ϖ ∉ P.asIdeal ^ 2) : P.intValuation ϖ = WithZero.exp (-1 : ℤ) := by
-  apply _root_.GlobalTheory.LocSplit.val_eq_of <;> assumption
+  have a1 : P.intValuation ϖ ≤ WithZero.exp (-((1 : ℕ) : ℤ)) :=
+    (P.intValuation_le_pow_iff_mem ϖ 1).2 (by rw [pow_one]; exact h1)
+  have a2 : ¬ P.intValuation ϖ ≤ WithZero.exp (-((2 : ℕ) : ℤ)) :=
+    fun h => h2 ((P.intValuation_le_pow_iff_mem ϖ 2).1 h)
+  have a0 : P.intValuation ϖ ≠ 0 := fun h => a2 (h ▸ zero_le')
+  rw [← WithZero.exp_log a0] at a1 a2 ⊢
+  rw [WithZero.exp_le_exp] at a1 a2
+  congr 1
+  omega
 
 theorem exists_left_inverse {R : Type} [CommRing R] {n : ℕ} (ε : R) (B C : Matrix (Fin n) (Fin n) R)
     (hε : ε * ε = ε) (h : ε • (B * C) = ε • (1 : Matrix (Fin n) (Fin n) R)) :
@@ -100,20 +107,7 @@ theorem int_facts : ∀ {D : D7} (V : HSp D), (∀ a ∈ intAE D, ∀ y ∈ LamH
       exact hab
     have ha : finPart D (incA D (a : D.host.E)) ∈ intAE D :=
       AddSubgroup.subset_closure ⟨1, fun v => one_mem _, a, rfl⟩
-    have hm : ∀ {x y : Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes.Af D.host.F ⊗[D.host.F] D.host.E}, x ∈ intAE D → y ∈ intAE D → x * y ∈ intAE D := by
-      intro x y hx hy
-      refine AddSubgroup.closure_induction₂ (p := fun x y _ _ => x * y ∈ intAE D) ?_ ?_ ?_ ?_ ?_ ?_ ?_ hx hy
-      · rintro _ _ ⟨a, ha, u, rfl⟩ ⟨b, hb, v, rfl⟩
-        refine AddSubgroup.subset_closure ⟨a * b, fun w => ?_, u * v, ?_⟩
-        · rw [map_mul]; exact mul_mem (ha w) (hb w)
-        · rw [Algebra.TensorProduct.tmul_mul_tmul]; rfl
-      · intro x _; rw [zero_mul]; exact zero_mem _
-      · intro x _; rw [mul_zero]; exact zero_mem _
-      · intro x y z _ _ _ h1 h2; rw [add_mul]; exact add_mem h1 h2
-      · intro x y z _ _ _ h1 h2; rw [mul_add]; exact add_mem h1 h2
-      · intro x y _ _ h; rw [neg_mul]; exact neg_mem h
-      · intro x y _ _ h; rw [mul_neg]; exact neg_mem h
-    have := hm ha hi
+    have := GlobalTheory.IntegralAdeleProducts.intAE_mul_mem (F := D.host.F) (E := D.host.E) ha hi
     rw [RingHom.map_mul, mul_left_comm] at this
     rw [hq, RingHom.map_mul, RingHom.map_mul]
     exact this

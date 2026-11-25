@@ -42,7 +42,6 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ValuationLifting.RApprox
-import Development.AbelianVarietyTheory.Proofs.GenericRegularity.LocStructStRecord
 
 @[expose] public section
 
@@ -193,7 +192,14 @@ theorem exists_gen_ne_zero {D : D7} {B : WeightFamilies.Prov D} {P : ModuliInteg
     {hM : IntAtExt X E} {ka wL wF : WeightFamilies.Wt D j} {G : GlobalFamilyData (xplus X E hM) ka wL wF}
     {la : HeightOneSpectrum (𝓞 B.KO)} {ζ : PtsG G la} {y : E.Pt' la} (hs : SecPt ζ y) :
     ∃ i, hs.ev (emb (xplus X E hM) la G.N (X.inc wL (G.w i))) ≠ 0 := by
-  apply _root_.GlobalTheory.Reg.UnitBall.exists_ev_ne <;> assumption
+  by_contra hc
+  push Not at hc
+  apply hs.s0.ne_zero
+
+  rw [Formalism.MainNotions.Gaps.EtaleWeightGaps.sec, map_sum]
+  refine Finset.sum_eq_zero fun k _ => ?_
+  rw [Algebra.smul_def, map_mul]
+  exact mul_eq_zero_of_right _ (hc k)
 
 
 
@@ -289,7 +295,7 @@ end GlobalTheory.ValZeroSection
 
 
 
-theorem GlobalTheory.eSec_of_curveHyp : ∀ (D : D7) (T : Top D) (h : LawsP T) (j : ℕ) (hj : InR D j) (hG : GenFrEx (T.Q.Xo j) T.Q.c) (hT : GenFromTest (T.Q.Xo j) T.Q.c hG) (ka wL wF : WeightFamilies.Wt D j) (G : GlobalFamilyData (recPlus h j hj) ka wL wF) (S : Scal (recB h.toLawsCore)) (g0 : (recB h.toLawsCore).Cusp j wF) (la : HeightOneSpectrum (𝓞 (recB h.toLawsCore).KO)), CurveHyp h j hj hG ka wL wF G S g0 → GenValInjSt h j hG → CompSplitSt h j hG → BIRSt h j hj hG G → ESecSt (E := extAll h j hj) (hM := intAtExt_extAll h j hj) G la :=
+theorem GlobalTheory.eSec_of_curveHyp : ∀ (D : D7) (T : Top D) (h : LawsP T) (j : ℕ) (hj : InR D j) (hG : GenFrEx (T.Q.Xo j) T.Q.c) (_ : GenFromTest (T.Q.Xo j) T.Q.c hG) (ka wL wF : WeightFamilies.Wt D j) (G : GlobalFamilyData (recPlus h j hj) ka wL wF) (S : Scal (recB h.toLawsCore)) (g0 : (recB h.toLawsCore).Cusp j wF) (la : HeightOneSpectrum (𝓞 (recB h.toLawsCore).KO)), CurveHyp h j hj hG ka wL wF G S g0 → GenValInjSt h j hG → CompSplitSt h j hG → BIRSt h j hj hG G → ESecSt (E := extAll h j hj) (hM := intAtExt_extAll h j hj) G la :=
   fun D T h j hj hG hT ka wL wF G S g0 la hH hV hC hB =>
     GlobalTheory.ValZeroSection.eSec_of_valSep h hj hG hT G la hC hB
       (GlobalTheory.GenSep.valSep_of_curveHyp D T h j hj hG hT ka wL wF G S g0 la hH hV hC hB)

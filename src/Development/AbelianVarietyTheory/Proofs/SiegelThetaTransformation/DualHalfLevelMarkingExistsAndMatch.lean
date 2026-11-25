@@ -1,54 +1,12 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.ModuliProofs.TorsionIsometryPrimitiveRootBijectiveModN
 public import Development.AbelianVarietyTheory.Definitions.SpanningFamilies.IsBaseClassLevelAdapted
 public import Development.AbelianVarietyTheory.Counterexamples.LevelGroupExamples.ZeroNotAdmissibleOfRankPos
 public import Development.AbelianVarietyTheory.Definitions.HermitianLattices.TraceFormBilinSeparatingLeftIff
 public import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.TensorLatticeSelfDualSemicharacterIndex
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
 import Mathlib.LinearAlgebra.FreeModule.IdealQuotient
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
 import Mathlib.RingTheory.RegularLocalRing.Defs
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.HaveILetI
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.ExistsClassicalLevelDataCoverSelfDual
 
 @[expose] public section
 
@@ -58,7 +16,6 @@ open ReciprocityTheory.ChartRestriction.G.Geo.Tor hiding Level
 open GlobalTheory.SW hiding Level
 open Formalism.L2.Pj Formalism.L2.PjFree
 open scoped ComplexConjugate Classical
-attribute [local instance] Over.cartesianMonoidalCategory
 open GlobalTheory.Dict
 
 namespace GlobalTheory.Dict.DualMark
@@ -69,7 +26,17 @@ variable {R P A : Type} [CommRing R] [AddCommGroup P] [Module R P] [AddCommGroup
 
 theorem exists_nsmul {B : LinearMap.BilinForm ℤ P} (hB : Function.Bijective B) {m : ℕ} (hm : m ≠ 0) {x : P}
     (h : ∀ y, (m : ℤ) ∣ B x y) : ∃ z, x = m • z := by
-  apply _root_.GlobalTheory.TorsIsometry.exists_eq_nsmul_of_dvd <;> assumption
+  let f : P →ₗ[ℤ] ℤ :=
+    { toFun := fun y => B x y / m
+      map_add' := fun a b => by rw [map_add (f := _), Int.add_ediv_of_dvd_left (h a)]
+      map_smul' := fun k a => by
+        rw [map_zsmul]; simp only [smul_eq_mul, RingHom.id_apply]; exact Int.mul_ediv_assoc _ (h a) }
+  obtain ⟨z, hz⟩ := hB.2 f
+  refine ⟨z, hB.1 ?_⟩
+  ext y
+  rw [map_nsmul, hz]
+  simp only [LinearMap.smul_apply, nsmul_eq_mul, f, LinearMap.coe_mk, AddHom.coe_mk]
+  exact (Int.mul_ediv_cancel' (h y)).symm
 
 theorem smul_eq_nsmul {I J : Ideal R} {m : ℕ} (h : J * I ≤ Ideal.span {(m : R)}) {a : R} (ha : a ∈ J) {x : P}
     (hx : x ∈ I • (⊤ : Submodule R P)) : ∃ z, a • x = m • z := by
@@ -283,7 +250,14 @@ theorem isDual_iff {B : LinearMap.BilinForm ℤ L} (hB : ∀ x y : L, EF X x y =
     fun h => ⟨fun a => (δ a).2, fun x a ha => (key x a ha).2 (h x a ha)⟩⟩
 
 theorem conj_half (l : Geo.Tor.Level H) : conjI (Mfr l) = l.Mb := by
-  apply _root_.GlobalTheory.LevelTied.conjI_Mfr <;> assumption
+  refine le_antisymm (Ideal.span_le.2 ?_) fun a ha => Ideal.subset_span
+    ⟨H.bar a, Ideal.mem_map_of_mem (H.bar : 𝓞 E →+* 𝓞 E) ha, ?_⟩
+  · rintro a ⟨b, hb, h⟩
+    have : a = H.bar b := Subtype.ext (h.trans (H.bar_eq b).symm)
+    rw [this]
+    exact LevelPairing.bar_mem_Mb hb
+  · conv_lhs => rw [← LevelPairing.bar_bar H a]
+    exact H.bar_eq _
 
 theorem exists_roots (l : Geo.Tor.Level H) (mk : Dw.La →ₗ[𝓞 E] L) (n N : ℕ) (hN : 0 < N) :
     ∃ Y : (Fin n → LevQ Dw l) → Matrix (Fin n) (Fin r) E, IsRoots l L (L.subtype ∘ₗ mk) N Y := by

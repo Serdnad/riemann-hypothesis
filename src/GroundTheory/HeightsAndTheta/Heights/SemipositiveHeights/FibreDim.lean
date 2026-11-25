@@ -1,6 +1,5 @@
 module
 
-import GroundTheory.HeightsAndTheta.Heights.SemipositiveHeights.FibreDimB
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArithmeticIntersection.MixedFieldContraction.ContractMixedFieldStatement
 public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.PCoordConeArithVar
 public import GroundTheory.HeightsAndTheta.Heights.Intersections.PEvalKerKrullDim
@@ -30,7 +29,7 @@ theorem isAlgebraic_of_forall_div {M : Type} [Field M] (B : Subalgebra ℤ M)
   obtain ⟨a, b, ha, hb, hb0, rfl⟩ := h m
   refine ⟨Polynomial.C (⟨b, hb⟩ : B) * Polynomial.X - Polynomial.C (⟨a, ha⟩ : B), fun h0 => hb0 ?_, ?_⟩
   · have h1 := congrArg (fun p : Polynomial B => p.coeff 1) h0
-    simp only [Polynomial.coeff_sub, Polynomial.coeff_C_mul_X, Polynomial.coeff_C, if_neg one_ne_zero,
+    simp only [Polynomial.coeff_sub, Polynomial.coeff_C_mul_X, Polynomial.coeff_C, ite_eq_right one_ne_zero,
       sub_zero, Polynomial.coeff_zero] at h1
     exact congrArg Subtype.val h1
   · simp only [map_sub, map_mul, Polynomial.aeval_C, Polynomial.aeval_X]
@@ -62,7 +61,19 @@ theorem trdeg_quot_ker {σ : Type} {M : Type} [CommRing M] [IsDomain M] (y : σ 
 theorem trdeg_of_isArithVar {K : Type} [Fintype K] {ι : K → Type} [∀ k, Fintype (ι k)] {J : Ideal (MRing ι)}
     {n : ℕ} (h : IsArithVar J n) :
     ∃ t : ℕ, Algebra.trdeg ℤ (MRing ι ⧸ J) = t ∧ t + 1 = n + Fintype.card K := by
-  apply _root_.GroundTheory.Heights₂.Heights.ForSecondHalf.FibreDimB.trdeg_of_isArithVar <;> assumption
+  obtain ⟨-, ⟨hprime, -, -⟩, hhor, hdim⟩ := h
+  have := hprime
+  have hA := IntDomainDim.proof (MRing ι ⧸ J) (CoordinateConeArithVar.algebraMap_injective J hhor)
+  rw [hdim] at hA
+  have hA' : ((n + Fintype.card K : ℕ) : ℕ∞) = Cardinal.toENat (Algebra.trdeg ℤ (MRing ι ⧸ J)) + 1 := by
+    exact_mod_cast hA
+  obtain ⟨t, ht⟩ : ∃ t : ℕ, Cardinal.toENat (Algebra.trdeg ℤ (MRing ι ⧸ J)) = t := by
+    refine ENat.ne_top_iff_exists.mp (fun htop => ?_) |>.imp fun _ h => h.symm
+    rw [htop] at hA'
+    simp at hA'
+  rw [ht] at hA'
+  refine ⟨t, Cardinal.toENat_eq_natCast.mp ht, ?_⟩
+  exact_mod_cast hA'.symm
 
 theorem aeval_mem_closure {σ : Type} {L : Type} [Field L] (y : σ → L) (f : MvPolynomial σ ℤ) :
     aeval y f ∈ Subfield.closure (Set.range y) := by
@@ -90,7 +101,7 @@ theorem FibreDim.proof : FibreDimStatement := by
     (Set.range fun q : (Σ k : FibreBlock κ, ι' k.1) => G.x' ⟨q.1.1, q.2⟩) with hEdef
 
   have hZ : Function.Injective (algebraMap ℤ G.Φ) := by
-    set_option backward.isDefEq.respectTransparency.instanceSearchTypes false in rw [injective_iff_map_eq_zero]
+    rw [injective_iff_map_eq_zero]
     intro a ha
     have hmem : (C a : MRing ι) ∈ imageZ v P' := by
       rw [← G.ker_x, RingHom.mem_ker, aeval_C]

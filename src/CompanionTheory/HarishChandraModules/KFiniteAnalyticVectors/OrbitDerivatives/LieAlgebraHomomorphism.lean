@@ -10,7 +10,6 @@ public import CompanionTheory.AutomorphicTheory.ZuckermanCommutation.CapelliEige
 public import CompanionTheory.HarishChandraModules.BesselParameterIntegrals.SmoothCyclicVectors.SmoothCyc
 public import CompanionTheory.HarishChandraModules.KFiniteAnalyticVectors.HaarBumpFunctions.PoulsenSmoothVectorsDense
 public import CompanionTheory.HarishChandraModules.KFiniteAnalyticVectors.OrbitDerivatives.EtaleClosedPointLiftsSimpleRootsMonic
-import CompanionTheory.SpectralGeometry.LocalGlobalProofs.StableLattices.CasimirSplitting
 import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.HighestWeightUniqueness.HpkMulMulHpkApply
 import Mathlib.Algebra.Order.Star.Real
 
@@ -26,17 +25,16 @@ namespace CompanionTheory.D.gk.FinalFormK
 open PI CompanionTheory.D.Upq.ModEx CompanionTheory.D.Upq.Sm CompanionTheory.D.gk.Poul CompanionTheory.Zuck BranchingSupport Formalism.FourierDecayAlt Formalism.FourierDecayAlt.ThreeDimData
 open PI.UpqRep (InLieHpk)
 
-attribute [local instance] Matrix.normedAddCommGroup Matrix.normedSpace
+open scoped Matrix.Norms.Elementwise
 
 variable {k r : ℕ}
-
 
 open Classical in
 def ent {X Y : Obj k r} (f : M X →ₗ[ℂ] M Y) (e : Y.1.ι) (c : X.1.ι) (v : X.2.R.H) : Y.2.R.H :=
   if hv : IsSm (GG k r) X.2.R.σ v then (f (Pi.single c ⟨v, hv⟩) e : Y.2.R.H) else 0
 
 theorem ent_coe {X Y : Obj k r} (f : M X →ₗ[ℂ] M Y) (e : Y.1.ι) (c : X.1.ι) (v : X.2.R.smSub) :
-    ent f e c v = (f (Pi.single c v) e : Y.2.R.H) := dif_pos v.2
+    ent f e c v = (f (Pi.single c v) e : Y.2.R.H) := dite_eq_left v.2
 
 theorem ent_lin {X Y : Obj k r} (f : M X →ₗ[ℂ] M Y) (e : Y.1.ι) (c : X.1.ι) : Lin (GG k r) X.2.R.σ (ent f e c) :=
   ⟨fun v w hv hw => by
@@ -116,7 +114,7 @@ theorem hasDerivAt_lin {X : Obj k r} (hX : X.1.OK) {H' : Type} [NormedAddCommGro
 
   rw [this, map_add (f := _), map_sum]
   simp only [ex_zero, hX.one, Matrix.one_apply, ite_smul, one_smul, zero_smul, Finset.sum_add_distrib,
-    Finset.sum_ite_eq, Finset.mem_univ, if_true, X.2.repOn.map_one, map_smul]
+    Finset.sum_ite_eq, Finset.mem_univ, ite_true, X.2.repOn.map_one, map_smul]
   congr 1
   show T _ = T _
   rw [URep.dsig_coe _ hZ]
@@ -135,11 +133,34 @@ theorem comm_LR {X Y : Obj k r} {f : M X →ₗ[ℂ] M Y} (hX : X.1.OK) (hY : Y.
   rw [e1] at h1
   exact h1.unique h2
 
-theorem inLie_reH (Y : Mx k r) : InLieHpk k r (reH k r Y) :=
-  GlobalTheory.CompanionTheory.ZuckCasSplit.reH_lie Y
+theorem inLie_reH (Y : Mx k r) : InLieHpk k r (reH k r Y) := by
+  have h1 : Formalism.QuantumDeterminants.Hpk k r * Formalism.QuantumDeterminants.Hpk k r = 1 := PI.HwUniqW.Hpk_mul_self
+  have h2 : (Formalism.QuantumDeterminants.Hpk k r)ᴴ = Formalism.QuantumDeterminants.Hpk k r := PI.HwUniqW.Hpk_conjTranspose
+  show (reH k r Y)ᴴ * Formalism.QuantumDeterminants.Hpk k r + Formalism.QuantumDeterminants.Hpk k r * reH k r Y = 0
+  set Hm := Formalism.QuantumDeterminants.Hpk k r
+  have e1 : Hm * Y * Hm * Hm = Hm * Y := by rw [Matrix.mul_assoc, h1, Matrix.mul_one]
+  have e2 : Hm * (Hm * Yᴴ * Hm) = Yᴴ * Hm := by rw [← Matrix.mul_assoc, ← Matrix.mul_assoc, h1, Matrix.one_mul]
+  have e3 : (Hm * Yᴴ * Hm)ᴴ = Hm * Y * Hm := by
+    rw [conjTranspose_mul, conjTranspose_mul, conjTranspose_conjTranspose, h2, Matrix.mul_assoc]
+  have e4 : star (1 / 2 : ℂ) = 1 / 2 := by simp
+  unfold reH
+  rw [conjTranspose_smul, conjTranspose_add, conjTranspose_neg, e3, e4, Matrix.smul_mul, Matrix.mul_smul,
+    Matrix.add_mul, Matrix.mul_add, Matrix.neg_mul, Matrix.mul_neg, e1, e2, ← smul_add]
+  simp
 
-theorem inLie_imH (Y : Mx k r) : InLieHpk k r (imH k r Y) :=
-  GlobalTheory.CompanionTheory.ZuckCasSplit.imH_lie Y
+theorem inLie_imH (Y : Mx k r) : InLieHpk k r (imH k r Y) := by
+  have h1 : Formalism.QuantumDeterminants.Hpk k r * Formalism.QuantumDeterminants.Hpk k r = 1 := PI.HwUniqW.Hpk_mul_self
+  have h2 : (Formalism.QuantumDeterminants.Hpk k r)ᴴ = Formalism.QuantumDeterminants.Hpk k r := PI.HwUniqW.Hpk_conjTranspose
+  show (imH k r Y)ᴴ * Formalism.QuantumDeterminants.Hpk k r + Formalism.QuantumDeterminants.Hpk k r * imH k r Y = 0
+  set Hm := Formalism.QuantumDeterminants.Hpk k r
+  have e1 : Hm * Y * Hm * Hm = Hm * Y := by rw [Matrix.mul_assoc, h1, Matrix.mul_one]
+  have e2 : Hm * (Hm * Yᴴ * Hm) = Yᴴ * Hm := by rw [← Matrix.mul_assoc, ← Matrix.mul_assoc, h1, Matrix.one_mul]
+  have e3 : (Hm * Yᴴ * Hm)ᴴ = Hm * Y * Hm := by
+    rw [conjTranspose_mul, conjTranspose_mul, conjTranspose_conjTranspose, h2, Matrix.mul_assoc]
+  have e4 : star (1 / (2 * Complex.I) : ℂ) = -(1 / (2 * Complex.I)) := by simp
+  unfold imH
+  rw [sub_neg_eq_add, conjTranspose_smul, conjTranspose_add, e3, e4, Matrix.smul_mul, Matrix.mul_smul,
+    Matrix.add_mul, Matrix.mul_add, e1, e2, neg_smul, add_comm (Hm * Y), neg_add_cancel]
 
 theorem L_eq (X : Obj k r) (Z : Mx k r) : L X Z = LR X (reH k r Z) + Complex.I • LR X (imH k r Z) := by
   refine LinearMap.ext fun x => funext fun c => ?_

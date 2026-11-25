@@ -2,51 +2,7 @@ module
 
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.EulerZetaGammaInvIdentity
 public import Formalism.HermitianCurvature.StatementM
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
 import Mathlib.Algebra.Order.Star.Real
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Topology.Sheaves.Init
 public import Mathlib.Algebra.Polynomial.RingDivision
 public import Mathlib.Basic.Complex.BigOperators
 public import Mathlib.RingTheory.Coprime.Lemmas
@@ -58,37 +14,34 @@ open Formalism.FourierDecayAlt.M Formalism.FourierDecayAlt Finset
 namespace Formalism.FourierDecayAlt.P.Mx3
 
 theorem rho_eq (P : Par) (π : Ty P) (i : ℕ) (h : 1 ≤ i ∧ i ≤ P.k - 1) :
-    rho P π i = P.lo i + (((π ⟨i - 1, by omega⟩ : Fin _) : ℕ) : ℝ) := by
-  simp only [rho, dif_pos h]
+    rho P π i = P.lo i + (((π ⟨i - 1, by omega⟩ : Fin _) : ℕ) : ℝ) :=
+  _root_.Formalism.FourierDecayAlt.P.Mx4.rho_eq P π i h
 
-theorem tyInterlaces : TyInterlaces := by
-  apply _root_.Formalism.FourierDecayAlt.P.Mx4.tyInterlaces <;> assumption
+theorem tyInterlaces : TyInterlaces :=
+  _root_.Formalism.FourierDecayAlt.P.Mx4.tyInterlaces
 
-theorem rhoUp : RhoUp := by
-  apply _root_.Formalism.FourierDecayAlt.P.Mx4.rhoUp <;> assumption
+theorem rhoUp : RhoUp :=
+  _root_.Formalism.FourierDecayAlt.P.Mx4.rhoUp
 
 theorem mono (k : ℕ) (u u' ρ : ℕ → ℝ) (h : I.Interlaces k u u' ρ) :
-    ∀ d i, 1 ≤ i → i + d ≤ k → u (i + d) ≤ u i ∧ u' (i + d) ≤ u' i := by
-  apply _root_.Formalism.FourierDecayAlt.P.Mx4.mono <;> assumption
+    ∀ d i, 1 ≤ i → i + d ≤ k → u (i + d) ≤ u i ∧ u' (i + d) ≤ u' i :=
+  _root_.Formalism.FourierDecayAlt.P.Mx4.mono k u u' ρ h
 
 theorem val_congr (P : Par) (π : Ty P) (a b : Fin (P.k - 1)) (h : a = b) :
-    ((π a : Fin _) : ℕ) = ((π b : Fin _) : ℕ) := by subst h; rfl
+    ((π a : Fin _) : ℕ) = ((π b : Fin _) : ℕ) :=
+  _root_.Formalism.FourierDecayAlt.P.Mx4.val_congr P π a b h
 
-theorem lo_int (P : Par) (hP : P.OK) (i : ℕ) (hi : i ∈ Icc 1 (P.k - 1)) : ∃ n : ℤ, P.lo i - P.u 1 - 1 / 2 = n := by
-  apply _root_.Formalism.FourierDecayAlt.P.Mx4.lo_int <;> assumption
+theorem lo_int (P : Par) (hP : P.OK) (i : ℕ) (hi : i ∈ Icc 1 (P.k - 1)) : ∃ n : ℤ, P.lo i - P.u 1 - 1 / 2 = n :=
+  _root_.Formalism.FourierDecayAlt.P.Mx4.lo_int P hP i hi
 
-theorem hi_int (P : Par) (hP : P.OK) (i : ℕ) (hi : i ∈ Icc 1 (P.k - 1)) : ∃ n : ℤ, P.hi i - P.u 1 + 1 / 2 = n := by
-  apply _root_.Formalism.FourierDecayAlt.P.Mx4.hi_int <;> assumption
+theorem hi_int (P : Par) (hP : P.OK) (i : ℕ) (hi : i ∈ Icc 1 (P.k - 1)) : ∃ n : ℤ, P.hi i - P.u 1 + 1 / 2 = n :=
+  _root_.Formalism.FourierDecayAlt.P.Mx4.hi_int P hP i hi
 
-theorem floor_of_int (x : ℝ) (h0 : 0 ≤ x) (z : ℤ) (hz : x = z) : ((⌊x⌋₊ : ℕ) : ℝ) = x := by
-  have hz0 : 0 ≤ z := by have : (0 : ℝ) ≤ (z : ℝ) := hz ▸ h0; exact_mod_cast this
-  obtain ⟨n, rfl⟩ := Int.eq_ofNat_of_zero_le hz0
-  rw [hz]; simp
+theorem floor_of_int (x : ℝ) (h0 : 0 ≤ x) (z : ℤ) (hz : x = z) : ((⌊x⌋₊ : ℕ) : ℝ) = x :=
+  _root_.Formalism.FourierDecayAlt.P.Mx4.floor_of_int x h0 z hz
 
-theorem wid_eq (P : Par) (hP : P.OK) (i : ℕ) (hi : i ∈ Icc 1 (P.k - 1)) : (P.wid i : ℝ) = P.hi i - P.lo i := by
-  obtain ⟨a, ha⟩ := lo_int P hP i hi
-  obtain ⟨b, hb⟩ := hi_int P hP i hi
-  exact floor_of_int _ (by linarith [hP.gap i hi]) (b - a - 1) (by push_cast; linarith)
+theorem wid_eq (P : Par) (hP : P.OK) (i : ℕ) (hi : i ∈ Icc 1 (P.k - 1)) : (P.wid i : ℝ) = P.hi i - P.lo i :=
+  _root_.Formalism.FourierDecayAlt.P.Mx4.wid_eq P hP i hi
 
 theorem tyComplete : TyComplete := by
   intro P hP
@@ -138,38 +91,23 @@ theorem ord (k : ℕ) (u u' ρ : ℕ → ℝ) (hI : I.Interlaces k u u' ρ) (l :
   apply Formalism.FourierDecayAlt.P.Mx4.ord <;> assumption
 
 theorem nrm_pos (P : Par) (hP : P.OK) (l : ℕ) (hl : l ∈ Icc 1 (P.k - 1)) (π π' : Ty P) (hU : Up P l π π') :
-    0 < Nrm P l π := by
-  apply _root_.Formalism.FourierDecayAlt.P.Mx4.nrm_pos <;> assumption
+    0 < Nrm P l π :=
+  by apply _root_.Formalism.FourierDecayAlt.P.Mx4.nrm_pos <;> assumption
 
 theorem nrm_down (P : Par) (l : ℕ) (hl : l ∈ Icc 1 (P.k - 1)) (π π' : Ty P) (hU : Up P l π π') :
-    NrmDown P l π' = Nrm P l π := by
-  apply _root_.Formalism.FourierDecayAlt.P.Mx4.nrm_down <;> assumption
+    NrmDown P l π' = Nrm P l π :=
+  _root_.Formalism.FourierDecayAlt.P.Mx4.nrm_down P l hl π π' hU
 
 theorem top (P : Par) (hP : P.OK) (l : ℕ) (hl : l ∈ Icc 1 (P.k - 1)) (π : Ty P) (h : ¬ ∃ π', Up P l π π') :
-    rho P π l = P.hi l := by
-  have hl' := Finset.mem_Icc.1 hl
-  have e : l - 1 + 1 = l := by omega
-  by_contra hne
-  apply h
-  have hlt : ((π ⟨l - 1, by omega⟩ : Fin _) : ℕ) < P.wid l := by
-    by_contra hge
-    apply hne
-    have h2 := (π ⟨l - 1, by omega⟩).2
-    simp only [e] at h2
-    have h3 : ((π ⟨l - 1, by omega⟩ : Fin _) : ℕ) = P.wid l := by omega
-    rw [rho_eq P π l hl', h3, wid_eq P hP l hl]; ring
-  refine ⟨fun i => if hi : (i : ℕ) + 1 = l then ⟨(π i : ℕ) + 1, ?_⟩ else π i, ?_⟩
-  · have : i = ⟨l - 1, by omega⟩ := Fin.ext (by simp; omega)
-    rw [val_congr P π _ _ this, hi]; omega
-  · intro i
-    by_cases hi : (i : ℕ) + 1 = l <;> simp [hi]
+    rho P π l = P.hi l :=
+  _root_.Formalism.FourierDecayAlt.P.Mx4.top P hP l hl π h
 
 theorem bot (P : Par) (l : ℕ) (hl : l ∈ Icc 1 (P.k - 1)) (π : Ty P) (h : ¬ ∃ π', Up P l π' π) :
-    rho P π l = P.lo l := by
-  apply _root_.Formalism.FourierDecayAlt.P.Mx4.bot <;> assumption
+    rho P π l = P.lo l :=
+  _root_.Formalism.FourierDecayAlt.P.Mx4.bot P l hl π h
 
-theorem nrmFacts : NrmFacts := by
-  apply _root_.Formalism.FourierDecayAlt.P.Mx4.nrmFacts <;> assumption
+theorem nrmFacts : NrmFacts :=
+  _root_.Formalism.FourierDecayAlt.P.Mx4.nrmFacts
 
 theorem num_zero (P : Par) (hP : P.OK) (l : ℕ) (hl : l ∈ Icc 1 (P.k - 1)) (π : Ty P) (h : ¬ ∃ π', Up P l π π') :
     I.qpoly P.k P.T P.T' P.u P.u' (-rho P π l - 1) = 0 := by

@@ -11,43 +11,6 @@ public import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.NdBNonne
 public import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.PriceBoundLargePrimes
 public import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.PriceLinearCombinationLe
 public import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.NcSize
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Algebra.Order.Star.Real
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Topology.Sheaves.Init
 import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.NcTsumOdd
 import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.NdLszLe
 import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.NumericalClosedOfNeed
@@ -165,12 +128,12 @@ theorem nc_pos (p : ℕ) (hp : 2 ≤ p) (y yu : ℝ) (z zu : ℕ → ℝ) (ex ex
   have h3 : y / ((p : ℝ)) ^ (2 * e + 1) ≤ yu / ((p : ℝ)) ^ (2 * e + 1) := div_le_div_of_nonneg_right hy (hq e).le
   have h4 := hz e
   by_cases he : ex e
-  · rw [if_pos he]
+  · rw [ite_eq_left he]
     split_ifs
     · exact le_rfl
     · exact le_max_right _ _
   · have heu : ¬ exu e := fun h => he (hex e h)
-    rw [if_neg he, if_neg heu]
+    rw [ite_eq_right he, ite_eq_right heu]
     exact max_le (le_max_right _ _) (le_trans (by linarith) (le_max_left _ _))
 
 variable {n' k1 : ℕ}
@@ -253,7 +216,6 @@ theorem lw_de_le (p t : ℕ) (TT : Finset (Fin n')) (lam0 : Fin n' → Fin (k1 +
   set ℓ := Real.logb p A with hℓ
   have hN1' : (1 : ℝ) ≤ NN k1 t j := by unfold NN; push_cast; nlinarith
   have hNM : 1 ≤ NM := le_trans hN1' hN1
-  have hN0' : (0 : ℝ) ≤ NN k1 t (j - 1) := by positivity
   have hα : ∀ s, (lgp p (al TT lam0 s) : ℝ) ≤ 2 * ℓ := fun s => by
     have := nc_lgp_le p hp _ A 1 (by rw [pow_one]; exact hal s) hl; push_cast at this; linarith
   have hlz : ∀ s, (lgp p (lsz t TT lam0 w j s) : ℝ) ≤ 3 * ℓ := fun s => by
@@ -324,7 +286,7 @@ theorem lw_de (X : Formalism.MainNotions.G.Inst D L) (Y : Formalism.MainNotions.
     rw [nc_topsOn X Y hT hL u w hg t0 ht0, Finset.card_image_of_injective _ hinj]
   have hnP : (Formalism.MainNotions.G.nP D (D.what₂.places.resChar w) : ℝ) = ((D.gat u w hg).P.n' (Y.vOf u w hg t0) : ℕ) := by
     unfold Formalism.MainNotions.G.nP
-    rw [if_neg (nc_notSg hg), nc_n_eq X Y hT hL u w hg t0 ht0]
+    rw [ite_eq_right (nc_notSg hg), nc_n_eq X Y hT hL u w hg t0 ht0]
   unfold nc_De Formalism.MainNotions.G.dl Formalism.MainNotions.G.Nm
   rw [hNv, hnP]
   have hl0 : 0 ≤ Real.logb (D.what₂.places.resChar w) (2 * L.sc.a) := by linarith
@@ -348,7 +310,6 @@ theorem lw_eta_le (hS : Formalism.MainNotions.SizesAt L) : 2 * L.etaSz ≤ L.sc.
   obtain ⟨_, _, _, _, _, _, _, _, _, _, _, _, _, hEta, _⟩ := hS
   have h5 := hEta.2.2.2.2.1
   have hm := nd_m_ge (D := D)
-  have ht : (0 : ℝ) ≤ (D.R.t : ℝ) := Nat.cast_nonneg _
   have h1 : (2 : ℝ) ≤ (D.R.m : ℝ) * ((D.R.t : ℝ) + 1) := by nlinarith
   have h2 : 2 * L.etaSz ≤ (D.R.m : ℝ) * ((D.R.t : ℝ) + 1) * L.etaSz :=
     mul_le_mul_of_nonneg_right h1 L.etaSz_pos.le
@@ -389,7 +350,7 @@ theorem lw_size (X : Formalism.MainNotions.G.Inst D L) (Y : Formalism.MainNotion
         exact lw_aT_le _
       linarith
     · unfold al
-      rw [if_neg hsT]
+      rw [ite_eq_right hsT]
       push_cast
       positivity
   · have h1 := nd_lsz_le (Y.Fl u w hg) (Y.vOf u w hg t0) s hm j hj1
@@ -418,13 +379,11 @@ theorem lw_size (X : Formalism.MainNotions.G.Inst D L) (Y : Formalism.MainNotion
     have hw0 : (0 : ℝ) ≤ ((Y.Fl u w hg).c : ℝ) + ((Y.Fl u w hg).w (Y.vOf u w hg t0) j s : ℝ) := by
       have h5 := nd_c_le_w (Y.Fl u w hg) (Y.vOf u w hg t0) s j hj1
       have h6 : (((Y.Fl u w hg).c : ℤ) : ℝ) ≤ ((Y.Fl u w hg).w (Y.vOf u w hg t0) j s : ℝ) := by exact_mod_cast h5
-      have h7 : (0 : ℝ) ≤ ((Y.Fl u w hg).c : ℝ) := Nat.cast_nonneg _
       push_cast at h6
       linarith
     have h8 : (NN (D.gat u w hg).P.m (Y.Fl u w hg).t j : ℝ) *
         (((Y.Fl u w hg).c : ℝ) + ((Y.Fl u w hg).w (Y.vOf u w hg t0) j s : ℝ)) ≤ L.sc.a * (4 * L.sc.a) :=
       mul_le_mul hN (by linarith) hw0 (by linarith)
-    have h9 : L.sc.a * (4 * L.sc.a) = (2 * L.sc.a) ^ 2 := by ring
     linarith
 
 

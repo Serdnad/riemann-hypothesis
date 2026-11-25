@@ -759,7 +759,7 @@ private theorem withDensity_preimage_inv_mul_eq_setLIntegral {G : Type} [Group G
   · have hx' : a * x ∉ (fun y => a⁻¹ * y) ⁻¹' fund := by
       show a⁻¹ * (a * x) ∉ fund
       rwa [inv_mul_cancel_left]
-    rw [Set.indicator_apply, Set.indicator_apply, if_neg hx', if_neg hx]
+    rw [Set.indicator_apply, Set.indicator_apply, ite_eq_right hx', ite_eq_right hx]
 
 private theorem withDensity_preimage_mul_eq_of_invariant {G : Type} [Group G] [MeasurableSpace G] [MeasurableMul G]
     (μ : Measure G) (Φ : G → ENNReal) (hΦ : Measurable Φ) (s : G) (hμs : μ.map (fun y => s * y) = μ)
@@ -777,7 +777,7 @@ private theorem withDensity_preimage_mul_eq_of_invariant {G : Type} [Group G] [M
   · have hy' : y ∈ (fun y => s * y) ⁻¹' Q := hy
     rw [Set.indicator_of_mem hy', Set.indicator_of_mem hy, hΦs]
   · have hy' : y ∉ (fun y => s * y) ⁻¹' Q := hy
-    rw [Set.indicator_apply, Set.indicator_apply, if_neg hy', if_neg hy]
+    rw [Set.indicator_apply, Set.indicator_apply, ite_eq_right hy', ite_eq_right hy]
 
 theorem lintegral_tsum_cosets_eq_covol : ∀ (G : Type) [Group G] [MeasurableSpace G] [MeasurableMul G] (Γ S : Subgroup G) (μ : Measure G) (fund : Set G) (Φ : G → ENNReal) (ι : Type) [Countable ι] (r : ι → G), (Γ : Set G).Countable → S ≤ Γ → (∀ γ ∈ Γ, μ.map (fun y => γ * y) = μ) → MeasurableSet fund → (∀ y, ∃ γ ∈ Γ, γ * y ∈ fund) → (∀ γ ∈ Γ, γ ≠ 1 → μ ((fun y => γ * y) '' fund ∩ fund) = 0) → Measurable Φ → (∀ γ ∈ S, ∀ g, Φ (γ * g) = Φ g) → (∀ i, r i ∈ Γ) → (∀ γ ∈ Γ, ∃! i, γ * (r i)⁻¹ ∈ S) → ∫⁻ g in fund, ∑' i, Φ (r i * g) ∂μ = covol (S : Set G) (μ.withDensity Φ) Set.univ := by
   intro G _ _ _ Γ S μ fund Φ ι _ r hΓ hSΓ hμ hf hcov hd hΦ hΦS hr hrep
@@ -1159,7 +1159,7 @@ theorem exists_sib (hm : m + 1 = I.n) (hx : star x ⬝ᵥ (I.J *ᵥ x) = sgn I.E
     have ht : ∃ a : 𝓞 I.E, algebraMap (𝓞 I.E) I.E a = t := by
       cases s
       · refine ⟨-o, ?_⟩
-        simp only [sgn, Bool.false_eq_true, if_false, mul_neg, mul_one] at ho
+        simp only [sgn, Bool.false_eq_true, ite_false, mul_neg, mul_one] at ho
         rw [map_neg, ho, neg_neg]
       · refine ⟨o, ?_⟩
         simpa [sgn] using ho
@@ -1397,10 +1397,6 @@ theorem exists_rat (I : AutInst) : ∃ Γ : Subgroup I.GA, (Γ : Set I.GA) = I.G
   have hn : ((fun γ : Γ => (γ : I.GA)) ⁻¹' C) ∈ nhds (1 : Γ) :=
     continuous_subtype_val.continuousAt.preimage_mem_nhds hC1
   exact discreteTopology_of_isOpen_singleton_one (isOpen_singleton_of_finite_mem_nhds _ hn hfin)
-
-theorem gauge_pos {n : ℕ} {ε : Fin n → Bool} {c : ℝ} (h : IsGauge ε c) : 0 < c := by
-  obtain ⟨c₀, h0, -, hu⟩ := _root_.GlobalTheory.GaugeConst.gauge_exists_pos_unique n ε
-  exact hu c h ▸ h0
 
 theorem haar_muA (I : AutInst) (μf : Measure I.Gf) [SigmaFinite μf] [μf.IsHaarMeasure] :
     (I.muA μf).IsHaarMeasure ∧ (I.muA μf).IsMulRightInvariant := by

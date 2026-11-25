@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SzJetConj
 public import Development.AbelianVarietyTheory.Definitions.Foundations.NormSumPairRankZeroOfCurveCoordNorm
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.DefiniteThetaPairTestVectorExpansionStatement
 import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsLatticeOfAdelicPoint
@@ -170,7 +169,24 @@ theorem bd_of_pow_mul_eq_one {p : ℕ} [Fact p.Prime] (lam : Qbar →+* ℂ_[p])
   exact ((pow_eq_one_iff_of_nonneg (norm_nonneg _) hn).1 h2).le
 
 theorem norm_le_one_of_isIntegral {p : ℕ} [Fact p.Prime] {x : ℂ_[p]} (h : IsIntegral ℤ x) : ‖x‖ ≤ 1 := by
-  apply _root_.GlobalTheory.DiffSize.norm_le_one_of_isIntegral <;> assumption
+  obtain ⟨f, hf, hx⟩ := h
+  by_contra hlt
+  push Not at hlt
+  rw [Polynomial.eval₂_eq_sum_range, Finset.sum_range_succ, hf.coeff_natDegree, map_one, one_mul] at hx
+  have h1 : ‖∑ i ∈ Finset.range f.natDegree, algebraMap ℤ ℂ_[p] (f.coeff i) * x ^ i‖ < ‖x‖ ^ f.natDegree := by
+    have hpos : 0 < ‖x‖ ^ f.natDegree := pow_pos (by linarith) _
+    by_cases hne : (Finset.range f.natDegree).Nonempty
+    · obtain ⟨i, hi, hle⟩ := IsUltrametricDist.exists_norm_finsetSum_le_of_nonempty hne
+        (fun i => algebraMap ℤ ℂ_[p] (f.coeff i) * x ^ i)
+      refine hle.trans_lt ?_
+      rw [norm_mul, norm_pow]
+      have : ‖algebraMap ℤ ℂ_[p] (f.coeff i)‖ ≤ 1 := by
+        simpa using IsUltrametricDist.norm_intCast_le_one ℂ_[p] (f.coeff i)
+      calc _ ≤ 1 * ‖x‖ ^ i := by gcongr
+        _ < _ := by rw [one_mul]; exact pow_lt_pow_right₀ hlt (Finset.mem_range.1 hi)
+    · rw [Finset.not_nonempty_iff_eq_empty.1 hne]; simpa using hpos
+  rw [eq_neg_of_add_eq_zero_left hx, norm_neg, norm_pow] at h1
+  exact lt_irrefl _ h1
 
 theorem Hf_nsmul (D : D7) (T : Tor D) {N N' : ℕ} (n : ℕ) (x y : VC D N N') :
     Hf D T (n • x) (n • y) = (n : ℂ) ^ 2 * Hf D T x y := by
@@ -180,9 +196,7 @@ theorem Hf_nsmul (D : D7) (T : Tor D) {N N' : ℕ} (n : ℕ) (x y : VC D N N') :
   ring
 
 theorem Hf_conj (D : D7) (T : Tor D) {N N' : ℕ} (x y : VC D N N') :
-    Hf D T y x = (starRingEnd ℂ) (Hf D T x y) := by
-  set_option synthInstance.maxHeartbeats 100000 in
-    simp only [Hf, map_div₀, map_sum, map_mul, Complex.conj_conj, Complex.conj_ofReal, mul_comm]
+    Hf D T y x = (starRingEnd ℂ) (Hf D T x y) := GlobalTheory.NormSum.Expand.Hf_conj x y
 
 theorem U_U (D : D7) (T : Tor D) {N N' : ℕ} (x y : VC D N N') (G : VC D N N' → ℂ) (z : VC D N N') :
     U D T x (U D T y G) z =
@@ -296,7 +310,6 @@ end
 end GlobalTheory.NormSum.KernelAt
 
 
-set_option maxHeartbeats 1000000 in
 open GlobalTheory.NormSum.KernelAt in
 theorem GlobalTheory.NormSum.kernel_eq_sum_translates : ∀ (D : D7), Inp D → ∀ (δ t0 : ℂ) (Q : ℕ), Crv D ⊤ δ → GL3Theta.IsTwoTorsionPointUnkilled D (lamOf D ⊤ δ) t0 → 0 < Q → ∀ (P : Pair D ⊤ δ t0 Q) (p : ℕ) [Fact p.Prime] (lam : Qbar →+* ℂ_[p]) (g : GA D P.a) (g' k' : GA D P.d), k' ∈ intG D P.d → TrivAt D p (g : GL (Fin P.a) (AE D)) → TrivAt D p ((g' * k' : GA D P.d) : GL (Fin P.d) (AE D)) → ∃ (b : Fin (fF D * P.a * P.d) → Matrix (Fin P.d) (Fin P.a) D.host.E) (k M : ℕ) (r : Fin k → Qbar) (s : Fin k → VC D P.a P.d), OnB D b ∧ LocBasis D p (YYl D (stdL D P.a) (stdL D P.d)) b ∧ 0 < M ∧ Nat.Coprime M p ∧ (∀ i, (M * Q) • s i ∈ LaB D (tor0 D ⊤ δ) b) ∧ (∀ i, ‖lam (r i)‖ ≤ (‖(Q : ℂ_[p])‖⁻¹) ^ (P.a * P.d)) ∧ P.W.Om g g' P.F = fun z => ∑ i, (r i : ℂ) * U D (tor0 D ⊤ δ) (s i) (pullB D (tor0 D ⊤ δ) b (GL3Theta.th0 (lamOf D ⊤ δ) t0)) z := by
   intro D hI δ t0 Q hC hT hQ P p _ lam g g' k' hk' hg hg'

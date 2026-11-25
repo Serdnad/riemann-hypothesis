@@ -6,7 +6,6 @@ public import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.Stat
 public import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.StatementsComponentDim
 public import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.StatementsGenericDimGe
 import Mathlib.Order.CompletePartialOrder
-import Lemmata.GeneralBFactBis.Imports
 
 @[expose] public section
 
@@ -17,10 +16,6 @@ namespace GroundTheory.Heights₂.Heights.NumbersDVR
 open MvPolynomial
 
 universe u
-
-private theorem withBot_eq_of_add_one_eq (a : WithBot ℕ∞) (m : ℕ)
-    (h : a + 1 = ((m + 1 : ℕ) : WithBot ℕ∞)) : a = (m : WithBot ℕ∞) := by
-  apply _root_.Bl.general_b_fact_bis.goal1 <;> assumption
 
 theorem FibreVarieties.proof
     (hGen : GenericFibProps.Statement.{u}) (hBound : GenericDimBound.Statement.{u})
@@ -42,8 +37,8 @@ theorem FibreVarieties.proof
   ·
     have h1 := hBound O K ι P hP.multiProj hP.noTorsion
     have h2 := hGe O K ι P hP.multiProj.isPrime hP.noTorsion
-    rw [hP.dim, hcast] at h1 h2
-    exact withBot_eq_of_add_one_eq _ _ (le_antisymm h1 h2)
+    rw [hP.dim, hcast, Nat.cast_add, Nat.cast_one] at h1 h2
+    exact ENat.WithBot.add_one_cancel.mp (le_antisymm h1 h2)
   ·
     intro W hW
     have hW0 := hW

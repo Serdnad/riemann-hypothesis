@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.JetHarmonics.IsAdicCompleteOfFiniteBasis
 public import Formalism.LocalToGlobal.CMDeterminantIdeals.StatementG
 public import Mathlib.Combinatorics.Nullstellensatz
 public import Mathlib.Algebra.Polynomial.Eval.Irreducible
@@ -290,8 +289,7 @@ theorem exists_monic_irreducible_card_gt (k : Type) [Field k] [Finite k] (N : �
     intro f hf
     rw [Nat.card_congr (AdjoinRoot.powerBasis hf.ne_zero).basis.equivFun.toEquiv, Nat.card_fun]
     simp [AdjoinRoot.powerBasis_dim]
-  by_contra hcon
-  push_neg at hcon
+  by_contra! hcon
   have hq : 2 ≤ Nat.card k := Finite.one_lt_card
 
   have hdeg : ∀ α : AlgebraicClosure k, (minpoly k α).natDegree ≤ N := by
@@ -321,7 +319,16 @@ theorem exists_monic_irreducible_card_gt (k : Type) [Field k] [Finite k] (N : �
 theorem mem_smul_top_iff_repr {R M ι : Type} [CommRing R] [AddCommGroup M] [Module R M] [Fintype ι]
     (b : Module.Basis ι R M) (J : Ideal R) (x : M) :
     x ∈ J • (⊤ : Submodule R M) ↔ ∀ i, b.repr x i ∈ J := by
-  apply _root_.GlobalTheory.FlatComplete.mem_smul_top_iff_repr <;> assumption
+  constructor
+  · intro hx i
+    refine Submodule.smul_induction_on (p := fun x => b.repr x i ∈ J) hx (fun r hr m _ => ?_) (fun x y hx hy => ?_)
+    · simp only [map_smul, Finsupp.smul_apply, smul_eq_mul]
+      exact J.mul_mem_right _ hr
+    · simp only [map_add (f := _), Finsupp.add_apply]
+      exact J.add_mem hx hy
+  · intro h
+    rw [← b.sum_repr x]
+    exact Submodule.sum_mem _ fun i _ => Submodule.smul_mem_smul (h i) Submodule.mem_top
 
 theorem mem_smul_top_self_iff {R : Type} [CommRing R] (J : Ideal R) (y : R) :
     y ∈ J • (⊤ : Submodule R R) ↔ y ∈ J := by

@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.ExistsFaithfullyFlatCoverShortThetaValueData
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IsInertTop
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.AdmissibleEmptyOfGood
 import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.ComplexEmbeddingHermitianQuadrupleSum
@@ -17,45 +16,7 @@ public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LatticeIsome
 import Development.AbelianVarietyTheory.Proofs.DivisorProofs.OneSubIdempotentSmulMemLattice
 import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.IdempotentMulEqZeroOfOrthogonal
 import Development.AbelianVarietyTheory.Proofs.TwistedOperators.InfPartOneSubEInfSmul
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.LinearAlgebra.FreeModule.IdealQuotient
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.HaveILetI
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.ReduceModChar
 import Development.AbelianVarietyTheory.Definitions.SpanningFamilies.DatEqZero
 
 @[expose] public section
@@ -67,7 +28,6 @@ open GlobalTheory.SW hiding Level IsSB
 open Formalism.BasicNotions Formalism.MainNotions Formalism.BasicNotions.TH Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes Formalism.MainNotions.StandardLattice Formalism.L2.Theta Formalism.IndefR Formalism.IndefR.Links Formalism.IndefR.Datum Formalism.IndefR.FWT Formalism.L2.Pj
 open GlobalTheory.ExportSeries (Base Twist Weight PairRep GLR detChar detFam fockGL harm harmLat IsCoefRing finPt series idem)
 open scoped TensorProduct Classical
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 open GlobalTheory.SingleDatum
 
 
@@ -86,7 +46,16 @@ variable {D : D7}
 
 theorem finite_levQ {E : Type} [Field E] [NumberField E] [IsCMField E] {H : Geo.Tor.Host E} (Dw : Datum H)
     (l : Geo.Tor.Level H) : Finite (LevQ Dw l) := by
-  first | exact _root_.GlobalTheory.finite_levQ | exact @_root_.GlobalTheory.finite_levQ | apply _root_.GlobalTheory.finite_levQ <;> assumption
+  have hM : l.Mb ≠ ⊥ := by
+    intro h
+    have h₁ := l.prod
+    rw [h, Ideal.bot_mul, eq_comm, Ideal.span_singleton_eq_bot] at h₁
+    have h₂ : l.M = 0 := by exact_mod_cast h₁
+    have := l.three_le
+    omega
+  have := l.Mb.finiteQuotientOfFreeOfNeBot hM
+  have := Dw.fin
+  exact Submodule.finite_quotient_smul l.Mb (N := (⊤ : Submodule (𝓞 E) Dw.La)) Module.Finite.fg_top
 
 theorem exists_pow_mem_Mb {H : Geo.Tor.Host D.host.E} (l : Geo.Tor.Level H) (s : 𝓞 D.host.E)
     (hs : ∀ PP : Formalism.L2.DIV.Pl D.host.E, l.Mb ≤ PP.asIdeal → s ∈ PP.asIdeal) : ∃ j : ℕ, s ^ j ∈ l.Mb := by
@@ -122,8 +91,33 @@ theorem one_sub_smul_mem_latO_pow (V W : HSp D) (LV : Set (Fin V.rank → D.host
     (e : AE D) (P : Finset (Formalism.L2.DIV.Pl D.host.E)) (he : IsIdemSum e P) (x : WO V W)
     (hx : ∀ s : 𝓞 D.host.E, (∀ PP ∈ P, s ∈ PP.asIdeal) →
       ∃ j : ℕ, incA D ((s ^ j : 𝓞 D.host.E) : D.host.E) • x ∈ (latO V W LV LW fun _ => True)) :
-    (1 - e) • x ∈ (latO V W LV LW fun _ => True) :=
-  _root_.GlobalTheory.AdTh.MovedDatum.Internal.one_sub_smul_mem_latO_pow V W LV LW e P he x hx
+    (1 - e) • x ∈ (latO V W LV LW fun _ => True) := by
+  obtain ⟨y, hy0, hy, hw⟩ := GlobalTheory.OffIdem.exists_den he
+  obtain ⟨j, hj⟩ := hx y hy
+  rw [show ((y ^ j : 𝓞 D.host.E) : D.host.E) = (y : D.host.E) ^ j from map_pow (algebraMap (𝓞 D.host.E) D.host.E) y j] at hj
+  have h1 : e * e = e := GlobalTheory.PlaceDatum.idemSum_mul_self he
+  have h2 : (1 - e) * (1 - e) = 1 - e := GlobalTheory.OffIdem.one_sub_mul_self (R := AE D) h1
+  have hi : finPart D (1 - e) ∈ intAE D := GlobalTheory.AdIdem.idempotent_mem_intAE D _ (by rw [← RingHom.map_mul, h2])
+  set f : AE D := (1 - e) * incA D ((y : D.host.E)⁻¹) with hf
+  have hpow : ∀ n : ℕ, ∀ z ∈ (latO V W LV LW fun _ => True), f ^ n • z ∈ (latO V W LV LW fun _ => True) := by
+    intro n
+    induction n with
+    | zero => intro z hz; rwa [pow_zero, one_smul]
+    | succ n ih =>
+      intro z hz
+      rw [pow_succ', mul_smul]
+      exact GlobalTheory.LatticeStable.smul_mem_latO D V W LV LW _ _ hw _ (ih z hz)
+  have hp : ∀ n : ℕ, (1 - e) * (1 - e) ^ n = 1 - e := by
+    intro n
+    induction n with
+    | zero => rw [pow_zero, mul_one]
+    | succ n ih => rw [pow_succ, ← mul_assoc, ih, h2]
+  have hyy : incA D ((y : D.host.E)⁻¹) * incA D (y : D.host.E) = 1 := by
+    rw [← RingHom.map_mul, inv_mul_cancel₀ hy0, RingHom.map_one]
+  have key : (1 - e) * (f ^ j * incA D ((y : D.host.E) ^ j)) = 1 - e := by
+    rw [map_pow, ← mul_pow, hf, mul_assoc, hyy, mul_one, hp]
+  have := GlobalTheory.LatticeStable.smul_mem_latO D V W LV LW _ _ hi _ (hpow j _ hj)
+  rwa [smul_smul, smul_smul, mul_assoc, key] at this
 
 theorem step_pow (ψ : AddChar (AF D.host.F) ℂ) (hψ : IsStdChar D ψ (-1)) (V W : HSp D) (hV : V.gram = 1) {r : ℕ}
     (hr : W.rank = r) (ΛV : Submodule (𝓞 D.host.E) (Fin V.rank → D.host.E))
@@ -147,7 +141,9 @@ theorem step_pow (ψ : AddChar (AF D.host.F) ℂ) (hψ : IsStdChar D ψ (-1)) (V
       ψ (symplOH V W (actO V W h k
         (Matrix.of fun a b => e * incA D ((δ : D.host.E) * ι (cSep l • levRep (q b)) a / (l.M : D.host.E))))
         (2 • actO V W h k c₀)) = 1 := by
-  exact _root_.GlobalTheory.AdTh.MovedDatum.step_of_pow ψ hψ V W hV hr ΛV ΛW a1 a2 a3 a4 a5 l ι hι δ P e he hP bad N h k Λ mk hbad hh hΛ hT hL hmk Y hY q hq γ u hγ hu
+  exact _root_.GlobalTheory.AdTh.MovedDatum.step_of_mem
+    ψ hψ V W hV hr ΛV ΛW a1 a2 a3 a4 a5 l ι hι δ P e he hP bad N h k Λ mk hbad hh hΛ hT hL hmk Y hY q
+    (fun LV LW x hX => one_sub_smul_mem_latO_pow V W LV LW e P he x fun s hs => (hq s hs).imp fun j hj => hX (s ^ j) hj) γ u hγ hu
 
 end Lemmas
 

@@ -1,55 +1,7 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.ExistsEqTransposeMulMapOfIdempotent
 public import Formalism.HermitianLattices.StatementJac
-public import Mathlib.LinearAlgebra.Matrix.Transvection
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.RingTheory.RegularLocalRing.Defs
 import Mathlib.RingTheory.SimpleRing.Principal
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Tactic.TypeStar
-import Mathlib.Topology.Sheaves.Init
 public import Mathlib.FieldTheory.Finite.Basic
 
 @[expose] public section
@@ -90,8 +42,22 @@ theorem unimodUnramUnique_split (T N d r : S) (hr : r ^ 2 + T * r + N = 0)
 
 theorem unimodUnramUnique_ff {k : Type*} [Field k] [Finite k] (T N d : k)
     (hD : T ^ 2 - 4 * N ≠ 0) : ∃ a b : k, a ^ 2 + T * a * b + N * b ^ 2 = d := by
-  intros
-  apply _root_.GlobalTheory.BinaryFormUniversal.binary_form_universal <;> assumption
+  classical
+  have := Fintype.ofFinite k
+  rcases Nat.mod_two_eq_zero_or_one (Fintype.card k) with h | h
+  · obtain ⟨c, hc⟩ := FiniteField.isSquare_of_char_two (FiniteField.even_card_iff_char_two.2 h) d
+    exact ⟨c, 0, by rw [hc]; ring⟩
+  · have h2 : (2 : k) ≠ 0 := Ring.two_ne_zero (fun hc => by
+      rw [FiniteField.even_card_iff_char_two.1 hc] at h; exact absurd h (by decide))
+    have hf : (X ^ 2 : k[X]).degree = 2 := by compute_degree!
+    have hg : (C (-(T ^ 2 - 4 * N)) * X ^ 2 + C (-(4 * d)) : k[X]).degree = 2 := by
+      compute_degree!
+      intro h; exact hD (by linear_combination -h)
+    obtain ⟨x, y, hxy⟩ := FiniteField.exists_root_sum_quadratic hf hg h
+    simp at hxy
+    refine ⟨(x - T * y) / 2, y, ?_⟩
+    field_simp
+    linear_combination hxy
 
 theorem unimodUnramUnique_quad [Finite (ResidueField S)] (T N d : S)
     (hD : IsUnit (T ^ 2 - 4 * N)) (hd : IsUnit d) :

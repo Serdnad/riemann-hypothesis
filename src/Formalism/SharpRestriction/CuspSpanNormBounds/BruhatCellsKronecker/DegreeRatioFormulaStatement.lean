@@ -10,47 +10,8 @@ public import Formalism.HermitianCurvature.HermitianCurvatureProofs.CorollaryAOf
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.MassRatioFormula
 public import Formalism.LocalRingCardinality.RankBoundMonotoneInDimension
 public import Formalism.SharpRestriction.CuspSpanNormBounds.BruhatCellsKronecker.NcardPrimesOverOfSplitsCompl
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
 import Mathlib.Algebra.Order.Star.Int
 import Mathlib.Algebra.Ring.IsFormallyReal
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Topology.Sheaves.Init
 
 @[expose] public section
 
@@ -59,8 +20,6 @@ noncomputable section
 namespace Formalism.MainNotions.BridgeLemma
 
 open Formalism.BasicNotions Formalism.MainNotions Formalism.MainNotions.S NumberField IsDedekindDomain Finset
-
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 
 theorem sza_finrank_host (D : D7) : Module.finrank ℚ D.host.E = 2 * D.R.f := by
   have h2 : Nat.card (D.host.E →+* ℂ) = Module.finrank ℚ D.host.E := by
@@ -91,11 +50,7 @@ theorem sza_card_Tau (D : D7) : Fintype.card D.what₂.Tau = D.R.f := by
   rw [← Nat.card_eq_fintype_card, Nat.card_congr D.eTau]
   exact (factCardPsi D.R D.host).1
 
-theorem sza_m_eq (D : D7) : 2 * D.R.rS + 2 = D.R.m := by
-  obtain ⟨j, hj⟩ := D.R.m_even
-  have h2 := D.R.two_le_m
-  unfold Formalism.BasicNotions.Ranks.rS
-  omega
+theorem sza_m_eq (D : D7) : 2 * D.R.rS + 2 = D.R.m := Formalism.MainNotions.two_rS_add_two D
 
 def szaMass (D : D7) (M : ℕ) : ℝ :=
   Formalism.HermitianLatticesTheory.mass (Formalism.HermitianLatticesTheory.massTelescope_form D.host.E M) (Formalism.HermitianLatticesTheory.massTelescope_lat D.host.E M)

@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.TorusSplitting.ExistsTorusOfPeriodHermitian
 public import Mathlib.Analysis.InnerProductSpace.Orthogonal
 public import Development.AbelianVarietyTheory.Definitions.ThetaMetrics.ExistsLinearIndependentNormLeSuccMin
 public import Development.AbelianVarietyTheory.Definitions.ThetaMetrics.SumFinsuppAntidiagProdPowDivMultiFactorial
@@ -12,57 +11,13 @@ public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.FundamentalDo
 public import Formalism.LocalToGlobal.ProjectiveLattices.ThProps
 public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.ExistsShortIndependentIntegers
 public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.HarmAMemSpanShort
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
 import Mathlib.Algebra.Order.Star.Real
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
 import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Sheaves.Presheaf
 import Mathlib.RingTheory.Henselian
 import Mathlib.RingTheory.RegularLocalRing.Defs
 import Mathlib.RingTheory.SimpleRing.Principal
 import Mathlib.Tactic.Linter.HaveILetI
-import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
 import Formalism.SharpRestriction.Divisibility.GeneratorPowers.CIndSt
 
@@ -276,7 +231,7 @@ theorem exists_short_basis_of_ratSpan {V E ι : Type*} [AddCommGroup V] [Module 
   classical
   let ψ : H →ₗ[ℤ] E := φ.toIntLinearMap ∘ₗ H.subtype
   have hψ : Function.Injective ψ := by
-    set_option backward.isDefEq.respectTransparency.instanceSearchTypes false in rw [injective_iff_map_eq_zero]
+    rw [injective_iff_map_eq_zero]
     intro x hx
     by_contra h
     have := hφ x x.2 (fun h' => h (Subtype.ext h'))
@@ -557,7 +512,33 @@ variable {E : Type} [Field E] [NumberField E] [IsCMField E] {H : Host E}
 
 theorem mult_add_mult_conjugate (Dw : Datum H) (τ : E →+* ℂ) :
     Dw.mult τ + Dw.mult (ComplexEmbedding.conjugate τ) = Dw.p + Dw.q := by
-  apply _root_.GlobalTheory.PeriodTorus.mult_add_mult_conj <;> assumption
+  have h2 := H.sqrt_neg_disc_sq
+  have hd : (0 : ℝ) < H.d := by exact_mod_cast H.d_prime.pos
+  have hne : H.rt0 ≠ -H.rt0 := fun h => by
+    have h0 : H.rt0 = 0 := by linear_combination h / 2
+    rw [h0] at h2
+    have : (H.d : ℂ) = 0 := by simpa using h2.symm
+    exact H.d_prime.ne_zero (by exact_mod_cast this)
+  have hc : starRingEnd ℂ H.rt0 = -H.rt0 := by
+    have him := congrArg Complex.im h2
+    have hre := congrArg Complex.re h2
+    simp [pow_two] at him hre
+    have h0 : H.rt0.re = 0 := by
+      by_contra hne
+      have : H.rt0.im = 0 := by
+        have : H.rt0.re * H.rt0.im = 0 := by linarith
+        exact (mul_eq_zero.1 this).resolve_left hne
+      rw [this] at hre
+      nlinarith [mul_self_nonneg H.rt0.re]
+    apply Complex.ext <;> simp [h0]
+  have hs : τ (H.rt : E) ^ 2 = H.rt0 ^ 2 := by
+    have h := congrArg (fun a : 𝓞 E => τ (a : E)) H.rt_sq
+    rw [H.sqrt_neg_disc_sq]
+    simpa using h
+  simp only [Datum.mult, ComplexEmbedding.conjugate_coe_eq]
+  rcases sq_eq_sq_iff_eq_or_eq_neg.1 hs with h | h
+  · rw [ite_eq_left h, ite_eq_right (by rw [h, hc]; exact hne.symm)]
+  · rw [ite_eq_right (by rw [h]; exact hne.symm), ite_eq_left (by rw [h, map_neg, hc, neg_neg]), add_comm]
 
 theorem card_LtN (Dw : Datum H) (n : ℕ) :
     Fintype.card (LtN Dw n) = FD.fdeg E * (Dw.p + Dw.q) * n := by

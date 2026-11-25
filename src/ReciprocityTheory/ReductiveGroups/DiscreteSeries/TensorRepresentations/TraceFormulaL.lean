@@ -119,33 +119,6 @@ section Datum
 
 variable [CompleteSpace H]
 
-theorem tf_phi_of_memLp (dual : Bool) (hσ : IsURepOn (UJset ε) σ) (hD : IsDerivedOn ε σ D E)
-    (hsm : ∀ v : D, IsSmoothVecU ε σ v) {V : Submodule ℂ D} (hW : ∀ v ∈ genSub E V, ∀ w ∈ genSub E V, MemLp (fun g : Formalism.REAL.UJ ε =>
-      ((Real.sqrt (S7.hs (Formalism.MainNotions.S.umat g)) : ℝ) : ℂ) * inner ℂ ((w : D) : H) (σ (Formalism.MainNotions.S.umat g) ((v : D) : H)))
-      2 (Formalism.REAL.muG ε)) {y : D} (hy : y ∈ genSub E V) :
-    ∃ Φ : tensSub (n := n) (genSub E V) →ₗ[ℂ] smD ε (tfRdiag ε),
-      (∀ f, ((Φ f : smD ε (tfRdiag ε)) : tfL2n ε) = tfPh dual ε σ (y : H) (fun c => ((f.1 c : D) : H))) ∧
-      ∀ a b (f : tensSub (n := n) (genSub E V)), smE ε (tfRdiag ε) a b (Φ f) =
-        Φ ⟨tensF dual E a b f.1, tensSub_stable dual a b f.1 f.2⟩ := by
-  have hce := fun c f hf => coef_embed_of_memLp dual hσ hD hsm hW _
-    (tf_single_smul_mem c (tfSgn ε c) hy) f hf
-  simp only [tf_coe_single] at hce
-  let Φ : tensSub (n := n) (genSub E V) →ₗ[ℂ] smD ε (tfRdiag ε) :=
-    { toFun := fun f => ⟨tfPh dual ε σ (y : H) (fun c => ((f.1 c : D) : H)),
-        tfRdiag_smooth fun c => toL2_mem_smD_of_isSmoothL2 (hce c f.1 f.2).1⟩
-      map_add' := fun f f' => Subtype.ext (vectorL2_ext fun c => by
-        refine Eq.trans ?_ (toL2_add_smooth ε ((hce c f.1 f.2).1.2 []) ((hce c f'.1 f'.2).1.2 []))
-        refine toL2_congr_of_eq_on_UJset fun g _ => ?_
-        simp [coefMap, tensGrp, sum_add_distrib])
-      map_smul' := fun a f => Subtype.ext (vectorL2_ext fun c => by
-        refine Eq.trans ?_ (toL2_smul_smooth ε a _)
-        refine toL2_congr_of_eq_on_UJset fun g _ => ?_
-        cases dual <;> simp [coefMap, tensGrp, ← smul_comm a, ← Finset.smul_sum, mul_sum]) }
-  refine ⟨Φ, fun f => rfl, fun a b f => Subtype.ext (vectorL2_ext fun c => ?_)⟩
-  refine (tfRdiag_smE (fun c => toL2_mem_smD_of_isSmoothL2 (hce c f.1 f.2).1) a b c).trans ?_
-  refine (rightDerivative_toL2 (hce c f.1 f.2).1 a b).trans (toL2_congr_of_eq_on_UJset fun g hg => ?_)
-  exact (hce c f.1 f.2).2.1 a b g hg
-
 theorem tf_phi (dual : Bool) {lam : Fin n → ℝ} (hσ : IsURepOn (UJset ε) σ) (hD : IsDerivedOn ε σ D E)
     (hsm : ∀ v : D, IsSmoothVecU ε σ v) {V : Submodule ℂ D} (hgap : StdGap ε lam)
     (hV : IsKIrrHW ε E (lowK ε lam) V) (hc : ∀ v ∈ V, casimir E v = (casVal lam : ℂ) • v)
@@ -156,8 +129,25 @@ theorem tf_phi (dual : Bool) {lam : Fin n → ℝ} (hσ : IsURepOn (UJset ε) σ
     ∃ Φ : tensSub (n := n) (genSub E V) →ₗ[ℂ] smD ε (tfRdiag ε),
       (∀ f, ((Φ f : smD ε (tfRdiag ε)) : tfL2n ε) = tfPh dual ε σ (y : H) (fun c => ((f.1 c : D) : H))) ∧
       ∀ a b (f : tensSub (n := n) (genSub E V)), smE ε (tfRdiag ε) a b (Φ f) =
-        Φ ⟨tensF dual E a b f.1, tensSub_stable dual a b f.1 f.2⟩ :=
-  tf_phi_of_memLp dual hσ hD hsm hW hy
+        Φ ⟨tensF dual E a b f.1, tensSub_stable dual a b f.1 f.2⟩ := by
+  have hce := fun c f hf => coef_embed dual hσ hD hsm hgap hV hc hVK hW _
+    (tf_single_smul_mem c (tfSgn ε c) hy) f hf
+  simp only [tf_coe_single] at hce
+  let Φ : tensSub (n := n) (genSub E V) →ₗ[ℂ] smD ε (tfRdiag ε) :=
+    { toFun := fun f => ⟨tfPh dual ε σ (y : H) (fun c => ((f.1 c : D) : H)),
+        tfRdiag_smooth fun c => toL2_mem_smD_of_isSmoothL2 (hce c f.1 f.2).1⟩
+      map_add' := fun f f' => Subtype.ext (vectorL2_ext fun c => by
+        refine Eq.trans ?_ (toL2_add_smooth ε ((hce c f.1 f.2).1.2 []) ((hce c f'.1 f'.2).1.2 []))
+        refine toL2_congr_of_eq_on_UJset fun g _ => ?_
+        simp [ReciprocityTheory.ChartRestriction.DS.occCoef, tensGrp, sum_add_distrib])
+      map_smul' := fun a f => Subtype.ext (vectorL2_ext fun c => by
+        refine Eq.trans ?_ (toL2_smul_smooth ε a _)
+        refine toL2_congr_of_eq_on_UJset fun g _ => ?_
+        cases dual <;> simp [ReciprocityTheory.ChartRestriction.DS.occCoef, tensGrp, ← smul_comm a, ← Finset.smul_sum, mul_sum]) }
+  refine ⟨Φ, fun f => rfl, fun a b f => Subtype.ext (vectorL2_ext fun c => ?_)⟩
+  refine (tfRdiag_smE (fun c => toL2_mem_smD_of_isSmoothL2 (hce c f.1 f.2).1) a b c).trans ?_
+  refine (rightDerivative_toL2 (hce c f.1 f.2).1 a b).trans (toL2_congr_of_eq_on_UJset fun g hg => ?_)
+  exact (hce c f.1 f.2).2.1 a b g hg
 
 end Datum
 

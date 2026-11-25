@@ -1,54 +1,11 @@
 module
 
 public import Development.WeilBound.CoreStatements.PadicHodgeComparison.EtaleCohomologyComparison.PerfectoidPullbacks.InclStd
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.AlgebraicGeometry.Modules.Sheaf
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Etale.Weakly
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.HaveILetI
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
 import Std.Tactic.BVDecide.Normalize.Prop
-import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.SheafFiltrationProperty
 
 @[expose] public section
 
-set_option backward.isDefEq.respectTransparency false
 open CategoryTheory AlgebraicGeometry TensorProduct GlobalTheory.LogCris DividedPowers CrystallineSemistableComparison CrystallineSemistableComparison.Pb
 
 noncomputable section
@@ -191,7 +148,17 @@ theorem dividedPowerFiltration_anti {a b : ℕ} (h : a ≤ b) : pdP δ b ≤ pdP
   Ideal.span_mono fun _ ⟨l, hl, hr, e⟩ => ⟨l, hl, h.trans hr, e⟩
 
 theorem dividedPowerFiltration_mul (a b : ℕ) : pdP δ a * pdP δ b ≤ pdP δ (a + b) := by
-  apply _root_.GlobalTheory.CompanionTheory.DPFil.dividedPowerFiltration_mul_le <;> assumption
+  rw [pdP, pdP, Ideal.span_mul_span']
+  refine Ideal.span_le.2 ?_
+  rintro _ ⟨_, ⟨l, hl, hr, rfl⟩, _, ⟨l', hl', hr', rfl⟩, rfl⟩
+  refine Ideal.subset_span ⟨l ++ l', ?_, ?_, ?_⟩
+  · intro q hq
+    rcases List.mem_append.1 hq with h | h
+    · exact hl q h
+    · exact hl' q h
+  · rw [List.map_append, List.sum_append]
+    omega
+  · rw [List.map_append, List.prod_append]
 
 theorem one_mem_pdP_zero : (1 : B) ∈ pdP δ 0 :=
   Ideal.subset_span ⟨[], by simp, by simp, by simp⟩
@@ -285,7 +252,7 @@ theorem tf_tensor [Module.Flat O G] (P : Ideal R) (l : ℕ) (hl : ∀ x, (l : R)
   rw [RingHom.mem_ker] at hx ⊢
   have inj : Function.Injective (((l : O) • LinearMap.id : (R ⧸ P) →ₗ[O] (R ⧸ P)).rTensor G) := by
     refine Module.Flat.rTensor_preserves_injective_linearMap _ ?_
-    set_option backward.isDefEq.respectTransparency.instanceSearchTypes false in rw [injective_iff_map_eq_zero]
+    rw [injective_iff_map_eq_zero]
     intro z hz
     obtain ⟨z, rfl⟩ := Ideal.Quotient.mk_surjective z
     have hz' : Ideal.Quotient.mk P ((l : R) * z) = 0 := by

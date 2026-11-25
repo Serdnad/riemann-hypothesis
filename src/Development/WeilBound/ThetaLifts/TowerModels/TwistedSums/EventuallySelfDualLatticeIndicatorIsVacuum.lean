@@ -1,52 +1,11 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.EventuallyIntegralPointsIndicatorIsVacuum
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LocalAddCharComponentTrivialIntegersEventually
 import Lemmata.MiscLemmasM.Imports
 public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.WeilTensorModels
 import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.LcscAdelicUnitaryGroup
 public import Development.WeilBound.ThetaLifts.TowerModels.TwistedSums.ExistsIntAddConjEqOneOfBaseGood
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.PiTensorProduct
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.HaveILetI
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Topology.Sheaves.Init
-import Mathlib.Topology.UniformSpace.Uniformizable
 
 @[expose] public section
 
@@ -55,8 +14,6 @@ open IsDedekindDomain NumberField MeasureTheory Matrix
 open Classical
 open scoped TensorProduct ComplexConjugate GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels
 open GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels (Base Spc Model HasExp SplitsFully Chars)
-
-attribute [local instance] GlobalTheory.LocalData.complRel GlobalTheory.LocalData.isLocalField
 
 open GlobalTheory.AdelicU GlobalTheory.WeilM GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels Filter Topology
 
@@ -97,13 +54,6 @@ theorem psi_of_at (ψ : AddChar (AF F) ℂ) {v : HeightOneSpectrum (𝓞 F)} {a 
     ψ a = psiLoc ψ v (evFin F v a) := by
   conv_lhs => rw [eq_of_at ha]
   rfl
-
-end Tw.VacIndic
-
-namespace Tw.VacIndic
-open _root_.GlobalTheory
-
-variable {F : Type} [Field F] [NumberField F]
 
 theorem eq_one_of_pow (z : ℂ) (h : ∀ n : ℕ, ‖z ^ n - 1‖ < 1 / 2) : z = 1 := by
   apply Bl.SecondBlockLemmaN.goal1 <;> assumption
@@ -160,16 +110,23 @@ theorem eventually_psiLoc_eq_one (ψ : AddChar (AF F) ℂ) (hψ : Continuous ψ)
   rw [← psiLoc_nsmul]
   exact small _ (nsmul_mem hc n)
 
-end Tw.VacIndic
-
-namespace Tw.VacIndic
-open _root_.GlobalTheory
-
-variable {F : Type} [Field F] [NumberField F]
-
 theorem indicator_int_mem_SB {κ : Type} [Fintype κ] (v : HeightOneSpectrum (𝓞 F)) :
     Set.indicator {x : κ → Fv F v | ∀ k, x k ∈ v.adicCompletionIntegers F} 1 ∈ GlobalTheory.WeilM.SB (κ → Fv F v) := by
-  apply _root_.GlobalTheory.StdVacuum.indicator_mem_SB <;> assumption
+  set S : Set (κ → Fv F v) := {x | ∀ k, x k ∈ v.adicCompletionIntegers F} with hS
+  have hS' : S = Set.univ.pi fun _ => (v.adicCompletionIntegers F : Set (Fv F v)) := by
+    ext x; simp [hS]
+  have hcl : IsClopen S := by
+    rw [hS']
+    exact ⟨isClosed_set_pi fun _ _ => Valued.isClosed_valuationSubring (v.adicCompletion F),
+      isOpen_set_pi Set.finite_univ fun _ _ => Valued.isOpen_valuationSubring (v.adicCompletion F)⟩
+  have hcp : IsCompact S := by
+    rw [hS']
+    haveI := GlobalTheory.AdelicUnitaryTop.compactSpace_adicCompletionIntegers F v
+    exact isCompact_univ_pi fun _ => isCompact_iff_compactSpace.2 this
+  refine ⟨(IsLocallyConstant.iff_exists_open _).2 fun x => ?_, HasCompactSupport.intro hcp fun x hx => Set.indicator_of_notMem hx _⟩
+  by_cases hx : x ∈ S
+  · exact ⟨S, hcl.isOpen, hx, fun y hy => by rw [Set.indicator_of_mem hy, Set.indicator_of_mem hx]; rfl⟩
+  · exact ⟨Sᶜ, hcl.compl.isOpen, hx, fun y hy => by rw [Set.indicator_of_notMem hy, Set.indicator_of_notMem hx]⟩
 
 theorem indicator_int_ne_zero {κ : Type} (v : HeightOneSpectrum (𝓞 F)) :
     Set.indicator {x : κ → Fv F v | ∀ k, x k ∈ v.adicCompletionIntegers F} (1 : (κ → Fv F v) → ℂ) ≠ 0 := by
@@ -178,13 +135,6 @@ theorem indicator_int_ne_zero {κ : Type} (v : HeightOneSpectrum (𝓞 F)) :
   rw [Set.indicator_of_mem (show (0 : κ → Fv F v) ∈ {x : κ → Fv F v | ∀ k, x k ∈ v.adicCompletionIntegers F} from
     fun k => zero_mem _)] at this
   exact one_ne_zero this
-
-end Tw.VacIndic
-
-namespace Tw.VacIndic
-open _root_.GlobalTheory
-
-variable {F : Type} [Field F] [NumberField F]
 
 section AtLemmas
 
@@ -249,12 +199,7 @@ theorem acts_indicator {κ : Type} [Fintype κ] {W : Type} [AddCommGroup W] [Mod
       Set.indicator_of_notMem (show (fun i => evFin F v (x i)) ∉ {y : κ → Fv F v | ∀ k, y k ∈ O} from hx)]
     simp
 
-end Tw.VacIndic
-
-namespace Tw.VacIndic
-open _root_.GlobalTheory
-
-variable {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E]
+variable {E : Type} [Field E] [NumberField E] [Algebra F E]
 
 theorem cA_smul (σ : E →ₐ[F] E) (c : AF F) (z : AE F E) : cA σ (c • z) = c • cA σ z := map_smul (cA σ) c z
 
@@ -289,11 +234,6 @@ theorem symp_smul_incM (σ : E →ₐ[F] E) (θ : E) (A : Matrix (Fin n) (Fin n)
   rw [symp, hTens_smul_incM, mul_smul_comm, map_smul, ← map_mul, trace_inclR, smul_eq_mul]
   rfl
 
-end Tw.VacIndic
-
-namespace Tw.VacIndic
-open _root_.GlobalTheory
-
 section SympAdd
 
 variable {R E' : Type} [CommRing R] [CommRing E'] [Algebra R E'] (c : E' →ₐ[R] E') (ξ : E')
@@ -321,8 +261,6 @@ theorem symp_zero_right (x : Matrix α β E') : symp c ξ JA JB x 0 = 0 := by
 
 end SympAdd
 
-variable {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E]
-
 theorem exists_gen {n d : ℕ} (LX : Submodule (𝓞 E) (Fin n → E)) (LY : Submodule (𝓞 E) (Fin d → E))
     (hX : LX.IsLattice E) (hY : LY.IsLattice E) :
     ∃ G : Finset (Matrix (Fin n) (Fin d) E), ∀ x ∈ LX, ∀ y ∈ LY, vecMulVec x y ∈ AddSubgroup.closure (G : Set _) := by
@@ -346,13 +284,6 @@ theorem exists_gen {n d : ℕ} (LX : Submodule (𝓞 E) (Fin n → E)) (LY : Sub
   | zero => rw [show vecMulVec (0 : Fin n → E) y = 0 by ext; simp [vecMulVec_apply]]; exact zero_mem _
   | add x x' _ _ h h' => rw [show vecMulVec (x + x') y = vecMulVec x y + vecMulVec x' y by ext; simp [vecMulVec_apply, add_mul]]; exact add_mem h h'
   | smul m x _ h => rw [show vecMulVec (m • x) y = m • vecMulVec x y by ext; simp [vecMulVec_apply, mul_assoc]]; exact zsmul_mem h m
-
-end Tw.VacIndic
-
-namespace Tw.VacIndic
-open _root_.GlobalTheory
-
-variable {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E]
 
 theorem at_zero {v : HeightOneSpectrum (𝓞 F)} : At (evFin F v) (0 : AF F) := fun u _ => smul_zero u
 
@@ -389,14 +320,7 @@ theorem latAtV_le (X : Spc F E n) (Y : Spc F E d) (G : Finset (Matrix (Fin n) (F
   | add g g' _ _ h h' => rw [incM_add, smul_add]; exact add_mem h h'
   | neg g _ h => rw [incM_neg, smul_neg]; exact neg_mem h
 
-end Tw.VacIndic
-
-namespace Tw.VacIndic
-open _root_.GlobalTheory
-
-variable {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E]
-
-theorem isVac_indicator_of_standard_character {σ : E →ₐ[F] E} (B : Base F E) (hStd : IsStd B.ψ) {n d : ℕ} (X : Spc F E n)
+theorem isVac_indicator_of_theta {σ : E →ₐ[F] E} (B : Base F E) (hB : B.IsGood σ) {n d : ℕ} (X : Spc F E n)
     (Y : Spc F E d) (r s r' s' : ℕ) (hX : X.IsHerm σ B r s) (hY : Y.IsSkew σ B r' s')
     (co : GlobalTheory.WeilM.Darboux (GlobalTheory.WeilM.symp (R := AF F) (GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.cA σ) (-1) (GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.incM F X.J)
       (GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.incM F Y.J)) (Fin n × Fin d))
@@ -409,7 +333,7 @@ theorem isVac_indicator_of_standard_character {σ : E →ₐ[F] E} (B : Base F E
   obtain ⟨θ, hθ⟩ := hθ
   obtain ⟨G, hG⟩ := exists_gen X.L Y.L hX.lat.toIsLattice hY.lat.toIsLattice
   choose yc zc hc using hrat
-  have e1 := eventually_psiLoc_eq_one B.ψ hStd.1
+  have e1 := eventually_psiLoc_eq_one B.ψ hB.std.1
   have e2 := eventually_int (F := F) (1 / 2)
   have e3 : ∀ᶠ v in cofinite, ∀ g ∈ G, ∀ k, algebraMap F (Fv F v) (yc g k) ∈ v.adicCompletionIntegers F ∧
       algebraMap F (Fv F v) (zc g k) ∈ v.adicCompletionIntegers F := by
@@ -479,22 +403,6 @@ theorem isVac_indicator_of_standard_character {σ : E →ₐ[F] E} (B : Base F E
   rw [← hS, hval, one_smul]
   exact acts_indicator co B.ψ v γ h1 h2 (fun k => (hA γ hγ' k).1) (fun k => (hA γ hγ' k).2.1)
     (fun k => (hA γ hγ' k).2.2.1) (fun k => (hA γ hγ' k).2.2.2)
-
-theorem isVac_indicator_of_theta {σ : E →ₐ[F] E} (B : Base F E) (hB : B.IsGood σ) {n d : ℕ} (X : Spc F E n)
-    (Y : Spc F E d) (r s r' s' : ℕ) (hX : X.IsHerm σ B r s) (hY : Y.IsSkew σ B r' s')
-    (co : GlobalTheory.WeilM.Darboux (GlobalTheory.WeilM.symp (R := AF F) (GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.cA σ) (-1) (GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.incM F X.J)
-      (GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.incM F Y.J)) (Fin n × Fin d))
-    (hrat : ∀ x : Matrix (Fin n) (Fin d) E, ∃ y z : Fin n × Fin d → F,
-      co.e (GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.incM F x) = (fun k => algebraMap F (AF F) (y k), fun k => algebraMap F (AF F) (z k)))
-    (hθ : ∃ θ : 𝓞 E, (θ : E) + σ θ = 1) :
-    ∀ᶠ v in Filter.cofinite, Model.IsVac (Model.mk (σ := σ) (X := X) (W := Y) co (fun _ => 0) 0 ∅) B.ψ v
-      (Set.indicator {x | ∀ k, x k ∈ v.adicCompletionIntegers F} 1) := by
-  exact _root_.Tw.VacIndic.isVac_indicator_of_standard_character B hB.std X Y r s r' s' hX hY co hrat hθ
-
-end Tw.VacIndic
-
-namespace Tw.VacIndic
-open _root_.GlobalTheory
 
 theorem eventually_isVac_indicator : ∀ {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] {σ : E →ₐ[F] E}
     (B : Base F E), B.IsGood σ → ∀ {n d : ℕ} (X : Spc F E n) (Y : Spc F E d) (r s r' s' : ℕ),

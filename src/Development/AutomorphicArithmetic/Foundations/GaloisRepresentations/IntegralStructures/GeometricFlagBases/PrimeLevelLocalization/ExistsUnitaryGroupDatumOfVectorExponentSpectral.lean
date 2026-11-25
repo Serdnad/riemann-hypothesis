@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.TwistedOrbitalIntegralParabolicUnfoldLeviStatement
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.IntegralStructures.GeometricFlagBases.PrimeLevelLocalization.PrimeProj
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.IntegralStructures.GeometricFlagBases.PrimeLevelLocalization.StGood
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.IntegralStructures.GeometricFlagBases.PrimeLevelLocalization.InIdBasic
@@ -12,7 +11,6 @@ public import Mathlib.RingTheory.DedekindDomain.Ideal.Lemmas
 public import Mathlib.LinearAlgebra.FreeModule.IdealQuotient
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.IntegralStructures.GeometricFlagBases.PrimeLevelLocalization.PSiteTriv
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.IntegralStructures.GeometricFlagBases.PrimeLevelLocalization.CenExHolds
-import all Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.IntegralStructures.GeometricFlagBases.PrimeLevelLocalization.CenExHolds
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.IntegralStructures.GeometricFlagBases.PrimeLevelLocalization.NsmulIntegIff
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.IntegralStructures.GeometricFlagBases.PrimeLevelLocalization.PDatEx
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.IntegralStructures.GeometricFlagBases.PrimeLevelLocalization.PFrameEx
@@ -106,8 +104,6 @@ end -- clump:auto
 -- clump-header: {"m": "Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.IntegralStructures.GeometricFlagBases.PrimeLevelLocalization.PGoodOf", "h": "module\n\npublic import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.IntegralStructures.GeometricFlagBases.PrimeLevelLocalization.StGood\nimport Mathlib.Algebra.Order.Floor.Extended\nimport Mathlib.Algebra.Order.Floor.Semifield\nimport Mathlib.Algebra.Order.Interval.Basic\nimport Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp\nimport Mathlib.Combinatorics.Enumerative.DyckWord\nimport Mathlib.Combinatorics.SimpleGraph.Triangle.Removal\nimport Mathlib.Data.NNRat.Floor\nimport Mathlib.Geometry.Euclidean.Volume.Basic\nimport Mathlib.NumberTheory.Chebyshev\nimport Mathlib.NumberTheory.Height.NumberField\nimport Mathlib.NumberTheory.Height.Projectivization\nimport Mathlib.NumberTheory.LucasLehmer\nimport Mathlib.NumberTheory.SelbergSieve\nimport Mathlib.RingTheory.Radical.NatInt\nimport Mathlib.Tactic.Echelon.Zsqrtd\nimport Mathlib.Tactic.Inclusion.Extension.Core.Core\nimport Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit\nimport Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp\nimport Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses\nimport Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic\nimport Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses\nimport Mathlib.Tactic.NormNum.Irrational\nimport Mathlib.Tactic.NormNum.IsCoprime\nimport Mathlib.Tactic.NormNum.IsSquare\nimport Mathlib.Tactic.NormNum.LegendreSymbol\nimport Mathlib.Tactic.NormNum.ModEq\nimport Mathlib.Tactic.NormNum.NatFib\nimport Mathlib.Tactic.NormNum.NatLog\nimport Mathlib.Tactic.NormNum.NatSqrt\nimport Mathlib.Tactic.NormNum.Ordinal\nimport Mathlib.Tactic.NormNum.Parity\nimport Mathlib.Tactic.NormNum.Prime\nimport Mathlib.Tactic.NormNum.RealSqrt\n\n"}
 section -- clump:auto
 @[expose] public section
-
-set_option autoImplicit false
 
 open NumberField IsDedekindDomain GlobalTheory.UPel.HT GlobalTheory.LKTrip GlobalTheory.LKGeo
 open UpperTheory.Gal.CertificateRingHomMap (GUf Plc)
@@ -340,8 +336,7 @@ private lemma tendsto_mat_of_v_le {E : Type} [Field E] [NumberField E] {n : ℕ}
 theorem UpperTheory.Gal.Int.Geo.Pl.nearNbhd_holds :
     UpperTheory.Gal.Int.Geo.Pl.NearNbhd := by
   intro E _ _ n w O hO h1
-  by_contra hcon
-  push_neg at hcon
+  by_contra! hcon
   choose e' he g hgK hN hgO using hcon
   have hv : ∀ (e : ℕ) i k, Valued.v (((g e).val - 1) i k) ≤ WithZero.exp (-(e : ℤ)) := by
     intro e i k
@@ -374,7 +369,6 @@ open GlobalTheory.LFun (KGL satEig)
 open UpperTheory.Gal.CertificateRingHomMap (GUf Gam0 Plc GLw AfQ sim mat comp rat loc lev SameK IsCen Shape IsForm IsKap mOf)
 open UpperTheory.Gal.W2.Seed (Arith Setup)
 open scoped TensorProduct Classical
-attribute [local instance] GlobalTheory.LocalData.complRel GlobalTheory.LocalData.isLocalField
 
 namespace UpperTheory.Gal.Int.Geo.Pl
 
@@ -417,7 +411,13 @@ theorem sim_cut {A B : Type} [CommRing A] [CommRing B] (σ : A →+* A) (i : B �
 
 theorem nat_mem_cj {E : Type} [Field E] [NumberField E] [IsCMField E] (q : ℕ) (u : Plc E) :
     (q : 𝓞 E) ∈ (cj u).asIdeal ↔ (q : 𝓞 E) ∈ u.asIdeal := by
-  apply _root_.mem_cj_iff <;> assumption
+  have h := (CertificateRingHomMap.ZetaNonvanishing₂.conjLoc E 0 u).2.2.1 q
+  have key : ∀ w : Plc E, (q : 𝓞 E) ∈ w.asIdeal ↔ Valued.v ((q : ℕ) : w.adicCompletion E) < 1 := fun w => by
+    rw [← HeightOneSpectrum.valuation_lt_one_iff_mem (K := E), ← HeightOneSpectrum.valuedAdicCompletion_eq_valuation']
+    have : (((q : ℕ) : E) : w.adicCompletion E) = (q : w.adicCompletion E) := map_natCast (algebraMap E (w.adicCompletion E)) q
+    have h2 : ((q : 𝓞 E) : E) = q := map_natCast (algebraMap (𝓞 E) E) q
+    rw [← this, ← h2]
+  rw [key, key, h]
 
 theorem primeProj_holds : PrimeProj := by
   intro E _ _ _ n q _
@@ -585,8 +585,15 @@ private theorem iT_mem {E : Type} [Field E] [NumberField E] {n : ℕ} {w : Plc E
   exact ⟨fun i j => h.2 j i, fun i j => h.1 j i⟩
 
 private theorem kgl_open {E : Type} [Field E] [NumberField E] {n : ℕ} (w : Plc E) : IsOpen (KGL w (n := n) : Set (GLw n w)) := by
-  intros
-  apply _root_.GlobalTheory.LeviDesc.OrbFin.isOpen_KGL <;> assumption
+  have h : IsOpen ((w.adicCompletionIntegers E : ValuationSubring _) : Set (w.adicCompletion E)) := Valued.isOpen_valuationSubring _
+  have : (KGL w (n := n) : Set (GLw n w)) = (⋂ i, ⋂ j, (fun g : GLw n w => g.val i j) ⁻¹' ((w.adicCompletionIntegers E : ValuationSubring _) : Set (w.adicCompletion E))) ∩
+      ⋂ i, ⋂ j, (fun g : GLw n w => (g⁻¹).val i j) ⁻¹' ((w.adicCompletionIntegers E : ValuationSubring _) : Set (w.adicCompletion E)) := by
+    ext g
+    simp only [SetLike.mem_coe, GlobalTheory.HenQ.Basic.mem_KGL_iff, Set.mem_inter_iff, Set.mem_iInter, Set.mem_preimage]
+    rfl
+  rw [this]
+  exact (isOpen_iInter_of_finite fun i => isOpen_iInter_of_finite fun j => h.preimage (Units.continuous_val.matrix_elem i j)).inter
+    (isOpen_iInter_of_finite fun i => isOpen_iInter_of_finite fun j => h.preimage (Units.continuous_coe_inv.matrix_elem i j))
 
 private theorem comp_th {E : Type} [Field E] [NumberField E] [IsCMField E] {A : Arith E} {n p : ℕ} [Fact p.Prime] {S : Setup A n p}
     (F : Frame S) (w : Plc E) (k : GUf E n) : comp w (F.th k) = iT (comp w k) := by
@@ -695,9 +702,7 @@ open GlobalTheory.Cong (Apart)
 open UpperTheory.Gal.CertificateRingHomMap (GUf Gam0 Plc GLw AfQ sim mat comp rat loc lev SameK IsCen Shape IsForm IsKap mOf)
 open UpperTheory.Gal.W2.Seed (Arith Setup)
 open scoped TensorProduct Classical
-attribute [local instance] GlobalTheory.LocalData.complRel GlobalTheory.LocalData.isLocalField
 open GlobalTheory.CongL GlobalTheory.RoadWGeo Formalism.MainNotions.N Formalism.BasicNotions Formalism.ConjugateSelfDual UpperTheory.Gal.Int.Geo UpperTheory.Gal.Int.Geo.Pl
-attribute [local instance] Ideal.Quotient.field
 open Neutral.B1 ReciprocityTheory.Gal
 
 namespace UpperTheory.Gal.Int.Geo.Pl
@@ -765,7 +770,6 @@ theorem pr_of_sameK {x : E} {w w' : Plc E} (h : SameK x w w') : pr w = pr w' :=
   (pr_eq (pr_prime w) ((h _ (by simp)).1 (pr_mem w))).symm
 
 end
-
 
 theorem master (h : All) {E : Type} [Field E] [NumberField E] [IsCMField E] {l : ℕ} [Fact l.Prime] (ι : Qbar l ≃+* ℂ) {a : ℕ}
     (ha : Odd a) {d : ℕ} (hd : FieldOK E l d) {x : E} (hx : x ^ 2 = -(d : E)) {w₀ : Plc E} (h0 : ((l : ℕ) : 𝓞 E) ∈ w₀.asIdeal)
@@ -953,13 +957,6 @@ open scoped TensorProduct Classical
 
 namespace UpperTheory.Gal.Int.Geo.Pl
 
-private theorem prime_under {E : Type} [Field E] [NumberField E] (u : Plc E) : ∃ l : ℕ, l.Prime ∧ (l : 𝓞 E) ∈ u.asIdeal := by
-  haveI := u.isPrime
-  haveI : Finite (𝓞 E ⧸ u.asIdeal) := Ideal.finiteQuotientOfFreeOfNeBot _ u.ne_bot
-  refine ⟨ringChar (𝓞 E ⧸ u.asIdeal), CharP.char_is_prime (𝓞 E ⧸ u.asIdeal) _, Ideal.Quotient.eq_zero_iff_mem.1 ?_⟩
-  rw [map_natCast]
-  exact (ringChar.spec _ _).2 dvd_rfl
-
 private theorem span_le_pow {R : Type} [CommRing R] {I : Ideal R} {l m e : ℕ} (hl : (l : R) ∈ I) (h : l ^ e ∣ m) :
     Ideal.span {(m : R)} ≤ I ^ e := by
   obtain ⟨c, rfl⟩ := h
@@ -984,7 +981,7 @@ theorem siteEx_of (hS : Sides) (hD : Dict) (hL : LevBasic) (hSt : StabOf) : Site
     refine hst k' h1 fun u hu i j => ?_
     obtain ⟨z, hz, hz'⟩ := ((hD E A n p S F k').2.2.1 𝔟 h0).1 h2 u (hT u hu).1 i j
     exact ⟨z, Ideal.map_mono (hle u hu) hz, hz'⟩
-  choose l hl hlu using fun u : Plc E => prime_under u
+  choose l hl hlu using fun u : Plc E => UpperTheory.Gal.Int.Geo.Pl.exists_prime_mem u
   obtain ⟨t, ht, htp⟩ := Nat.exists_infinite_primes (Q.sup q + p + 3)
   have hr : ∀ q₀ : ℕ, ∃ r : ℤ, ∀ w ∈ Q, q w = q₀ → (q₀ : ℤ) ∣ r ^ 2 - A.tr * r + A.nm ∧ A.ω - (r : 𝓞 E) ∈ w.asIdeal := fun q₀ => by
     by_cases h : ∃ w ∈ Q, q w = q₀

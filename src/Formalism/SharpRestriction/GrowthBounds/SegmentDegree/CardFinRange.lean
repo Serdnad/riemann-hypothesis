@@ -2,45 +2,7 @@ module
 
 import Formalism.SharpRestriction.GrowthBounds.WittFrameLocaliserOrders
 public import Formalism.SharpRestriction.GrowthBounds.ValuationLowestDegreeRename
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
 import Mathlib.Algebra.Order.Star.Int
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Topology.Sheaves.Init
-import Std.Tactic.BVDecide.Normalize.Prop
 import Formalism.SharpRestriction.GrowthBounds.ValuationLowestDegreeMapFractionField
 
 @[expose] public section
@@ -257,7 +219,6 @@ theorem dict_tau (hV : F.Valid L₁ N₁) (i : Fin (segN F j)) (i' : Fin r) :
 theorem dict_early (hV : F.Valid L₁ N₁) (i : Fin (segN F j)) :
     segE F j i < F.fr j 0 ↔ i.val < segN F j - r := by
   have hr0 : 0 < r := Nat.pos_of_ne_zero (NeZero.ne r)
-  have hr := r_le_segN hV j
   obtain ⟨k, hk⟩ := segE_surj_lemma_9 j (frj_mem hV j 0 hr0)
   have hkv := (dict_tau hV k ⟨0, hr0⟩).mp hk
   rw [← hk, segE_lt_lemma_7, Fin.lt_iff_val_lt_val, hkv]
@@ -285,7 +246,6 @@ theorem mem_LLset_iff (hV : F.Valid L₁ N₁) (x : ℤ) :
   have hr0 : 0 < r := Nat.pos_of_ne_zero (NeZero.ne r)
   have h1 := fr_le hV (j - 1) 0 (r - 1) (Nat.zero_le _) (by omega)
   have h2 := fr_le hV j 0 (r - 1) (Nat.zero_le _) (by omega)
-  have h3 := fr_prev_lt hV j
   unfold Frames.LLset Frames.letters Frames.IsW
   simp only [Finset.mem_filter, Finset.mem_Ioo, Finset.mem_Icc, not_le]
   constructor
@@ -342,7 +302,6 @@ theorem two_r_le (hV : F.Valid L₁ N₁) (j : ℤ) : 2 * r ≤ segN F j - r := 
 
 theorem card_LLset_le (hV : F.Valid L₁ N₁) (i : Fin (segN F j)) (hi : r ≤ i.val) (hi2 : i.val < segN F j - r) :
     ((F.LLset j).filter (· ≤ segE F j i)).card = i.val + 1 - r := by
-  have hiv := i.isLt
   rw [LLset_eq_image hV j]
   have hfe : ((Finset.univ.filter fun k : Fin (segN F j) => r ≤ k.val ∧ k.val < segN F j - r).image
       (segE F j)).filter (· ≤ segE F j i) =
@@ -363,7 +322,6 @@ theorem dict_lateV (hV : F.Valid L₁ N₁) (i : Fin (segN F j)) (h : segN F j -
   obtain ⟨_, _, _, _, hTT, _, hLL, _⟩ := id hV
   have hr := r_le_segN hV j
   have h2r := two_r_le hV j
-  have hiv := i.isLt
   by_cases hi : segN F j - r ≤ i.val
   · have hi' : i.val - (segN F j - r) < r := by omega
     have he := (dict_tau hV i ⟨i.val - (segN F j - r), hi'⟩).mpr

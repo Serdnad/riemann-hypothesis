@@ -1,50 +1,7 @@
 module
 
-import Formalism.SharpRestriction.GlobalSchurBounds.GlobalRankLatticeProofs.LogFactorialProductDifference
 public import Formalism.LogVandermondeBounds.VandPlace
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Lemma
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Topology.Sheaves.Init
 
 @[expose] public section
 
@@ -54,14 +11,35 @@ open Finset
 
 lemma anti_of_step (f : ℕ → ℝ) (N : ℕ) (h : ∀ i, i + 1 < N → f (i + 1) < f i) :
     ∀ i j, i < j → j < N → f j < f i := by
-  apply _root_.Formalism.LogVandermondeBounds.StandardLattice.up_anti_of_step <;> assumption
+  intro i j hij hjN
+  induction j with
+  | zero => omega
+  | succ j ih =>
+    rcases Nat.lt_succ_iff_lt_or_eq.1 hij with h' | h'
+    · exact lt_trans (h j (by omega)) (ih h' (by omega))
+    · subst h'; exact h i hjN
 
 lemma gap_of_step (f : ℕ → ℝ) (N : ℕ) (h : ∀ i, i + 1 < N → 1 ≤ f (i + 1) - f i) :
     ∀ i j, i < j → j < N → 1 ≤ f j - f i := by
-  apply _root_.Formalism.LogVandermondeBounds.StandardLattice.up_gap_of_step <;> assumption
+  intro i j hij hjN
+  induction j with
+  | zero => omega
+  | succ j ih =>
+    rcases Nat.lt_succ_iff_lt_or_eq.1 hij with h' | h'
+    · have h1 := h j (by omega)
+      have h2 := ih h' (by omega)
+      linarith
+    · subst h'; exact h i hjN
 
 lemma vandN_pos (x : ℕ → ℝ) (N : ℕ) (h : ∀ i j, i < j → j < N → x j < x i) : 0 < vandN x N := by
-  apply _root_.Formalism.LogVandermondeBounds.StandardLattice.up_vandN_pos <;> assumption
+  unfold vandN
+  apply prod_pos
+  intro i hi
+  apply prod_pos
+  intro j hj
+  rw [mem_range] at hi
+  rw [mem_Ico] at hj
+  exact sub_pos.2 (h i j (by omega) (by omega))
 
 lemma vandN_congr (x y : ℕ → ℝ) (N : ℕ) (h : ∀ i, i < N → x i = y i) : vandN x N = vandN y N := by
   unfold vandN

@@ -1,55 +1,9 @@
 module
 
-import Formalism.ThetaLogCoordinates.UniformThetaSubstitution.FrobeniusLiftNorms.ScalingSwapLemmas
 public import Formalism.ThetaLogCoordinates.UniformThetaSubstitution.FirstDeriv
 public import Formalism.ThetaLogCoordinates.UniformThetaSubstitution.FrobeniusLiftNorms.TopsChoicePartA
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
 import Mathlib.Algebra.Order.Star.Int
 import Mathlib.Algebra.Order.Star.Real
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Topology.Sheaves.Init
-import Std.Tactic.BVDecide.Normalize.Prop
 
 @[expose] public section
 
@@ -74,7 +28,19 @@ theorem has_subst_first_pair : HasSubst ![(X 0 : MvPowerSeries (Fin 3) K), X 1] 
 
 theorem constantCoeff_first_two_of_three {F : MvPowerSeries (Fin 2) K} (hF : constantCoeff F = 0) :
     constantCoeff (in3 F) = 0 := by
-  apply _root_.Formalism.InvariantFactorPaths.G7.TwoVariableSwapLemmas.constantCoeff_first_two_of_three <;> assumption
+  unfold in3
+  rw [MvPowerSeries.constantCoeff_subst has_subst_first_pair]
+  refine finsum_eq_zero_of_forall_eq_zero fun d => ?_
+  by_cases hd : d = 0
+  · subst hd
+    simp [MvPowerSeries.coeff_zero_eq_constantCoeff_apply, hF]
+  · obtain ⟨s, hs⟩ : ∃ s, d s ≠ 0 := by
+      by_contra! h
+      exact hd (Finsupp.ext h)
+    rw [Finsupp.prod, map_prod, Finset.prod_eq_zero (Finsupp.mem_support_iff.2 hs), smul_zero]
+    have h0 : constantCoeff ((![(X 0 : MvPowerSeries (Fin 3) K), X 1] : Fin 2 → MvPowerSeries (Fin 3) K) s) = 0 := by
+      fin_cases s <;> simp
+    rw [map_pow, h0, zero_pow hs]
 
 theorem has_subst_coboundary_first {F : MvPowerSeries (Fin 2) K} (hF : constantCoeff F = 0) :
     HasSubst ![in3 F, (X 2 : MvPowerSeries (Fin 3) K)] := MvPowerSeries.hasSubst_of_constantCoeff_zero (by intro s; fin_cases s <;> simp [constantCoeff_first_two_of_three hF])
@@ -89,7 +55,13 @@ theorem partial_coboundary_sub {F : MvPowerSeries (Fin 2) K} (hF : constantCoeff
 
 theorem partial_coboundary_C_mul {F : MvPowerSeries (Fin 2) K} (hF : constantCoeff F = 0) (a : K)
     (H : MvPowerSeries (Fin 2) K) : d1 F (C a * H) = C a * d1 F H := by
-  apply _root_.Formalism.InvariantFactorPaths.G7.TwoVariableSwapLemmas.partial_coboundary_C_mul <;> assumption
+  have key : ∀ (b : Fin 2 → MvPowerSeries (Fin 3) K), HasSubst b →
+      subst b (C a * H) = C a * subst b H := by
+    intro b hb
+    rw [← MvPowerSeries.smul_eq_C_mul, ← MvPowerSeries.smul_eq_C_mul, MvPowerSeries.subst_smul hb]
+  unfold d1
+  rw [key _ (has_subst_coboundary_first hF), key _ (has_subst_last_pair 0), key _ (has_subst_last_pair 1)]
+  ring
 
 theorem subst_subst {ι κ : Type} {b : ι → MvPowerSeries κ K} (hb : HasSubst b)
     {a : MvPowerSeries ι K} (ha : PowerSeries.HasSubst a) (f : PowerSeries K) :
@@ -288,7 +260,7 @@ end CoboundarySeries
 
 open CoboundarySeries
 
-theorem StepH_of (h2 : LemmaTwo) (hSw : SwapRules) (_hL : LawSymm) : StepH := by
+theorem StepH_of (h2 : LemmaTwo) (hSw : SwapRules) : StepH := by
   intro K _ _ _ _ p σ hU F hF G γ γ' hG hI1 hI2
   have hp : 2 ≤ p := hU.2.1.le
   obtain ⟨-, -, -, -, -, hHsw⟩ := hSw K p σ G γ γ' hp
@@ -344,7 +316,7 @@ private theorem coeff_g0F_at_lemma_2 {K : Type} [Field K] {p : ℕ} (hp : 2 ≤ 
 private theorem coeff_g0F_one_lemma_3 {K : Type} [Field K] {p : ℕ} (hp : 2 ≤ p) :
     PowerSeries.coeff 1 (g0F K p) = 0 := by
   rw [g0F, PowerSeries.coeff_mk]
-  refine Finset.sum_eq_zero fun j _ => if_neg ?_
+  refine Finset.sum_eq_zero fun j _ => ite_eq_right ?_
   intro h
   have h1 : 1 ≤ (p ^ 2) ^ j := Nat.one_le_pow _ _ (pow_pos (by omega : 0 < p) 2)
   nlinarith

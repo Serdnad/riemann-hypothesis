@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.FamilyUniformisationFibreTheta
 public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsLinearEquivLift
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.GlobalSectionsRankAlgClosed
 public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.WeilIsGrpPullbackOfCommute
@@ -120,9 +119,9 @@ theorem exists_hol_rep {O : Type} [CommRing O] {B : Set (Fin m → ℂ)} (hB : I
         rw [h1 _ b hb, LinearMap.add_apply, (he b hb).1.1, h1 _ b hb, h1 _ b hb, act.add, MonObj.comp_mul], map_add (f := _)]
   choose F hF using key
   refine ⟨fun b => if hb : b ∈ B then F b hb else F b₀ hb₀, fun b hb a z => ?_, fun a i j => ?_⟩
-  · simp only [dif_pos hb, hF, LinearMap.toMatrix'_mulVec, h1 a b hb]
+  · simp only [dite_eq_left hb, hF, LinearMap.toMatrix'_mulVec, h1 a b hb]
   · refine (differentiableOn_pi.1 (h2 a (Pi.single j 1)) i).congr fun b hb => ?_
-    simp only [dif_pos hb, hF, LinearMap.toMatrix'_apply]
+    simp only [dite_eq_left hb, hF, LinearMap.toMatrix'_apply]
 
 def HasForm {La : Type} [AddCommGroup La] (EF : LinearMap.BilinForm ℤ La) (P : La → (Fin g → ℂ)) : Prop :=
   ∃ Hm : Matrix (Fin g) (Fin g) ℂ, Hm.IsHermitian ∧ (∀ z : Fin g → ℂ, z ≠ 0 → 0 < (hermForm Hm z z).re) ∧
@@ -145,7 +144,19 @@ theorem HasForm.of_comp {La : Type} [AddCommGroup La] {EF : LinearMap.BilinForm 
 
 theorem int_eq_of_exp {a b : ℤ} (h : ∀ k : ℕ, 0 < k → Complex.exp (-(2 * Real.pi * Complex.I) * (a : ℂ) / k) =
     Complex.exp (-(2 * Real.pi * Complex.I) * (b : ℂ) / k)) : a = b := by
-  first | exact _root_.GlobalTheory.FibreUnif.int_eq_of_exp_eq | exact @_root_.GlobalTheory.FibreUnif.int_eq_of_exp_eq | apply _root_.GlobalTheory.FibreUnif.int_eq_of_exp_eq <;> assumption
+  have hd : ∀ k : ℕ, 0 < k → (k : ℤ) ∣ b - a := fun k hk => by
+    obtain ⟨n, hn⟩ := Complex.exp_eq_exp_iff_exists_int.1 (h k hk)
+    have hk' : (k : ℂ) ≠ 0 := Nat.cast_ne_zero.2 hk.ne'
+    have hp := Complex.two_pi_I_ne_zero
+    refine ⟨n, ?_⟩
+    have : ((b : ℂ) - a) = k * n := by
+      refine mul_left_cancel₀ hp ?_
+      field_simp at hn
+      linear_combination (2 * Real.pi * Complex.I) * hn
+    exact_mod_cast this
+  have := Int.eq_zero_of_dvd_of_natAbs_lt_natAbs (hd ((b - a).natAbs + 1) (Nat.succ_pos _)) (by
+    rw [Int.natAbs_natCast]; exact Nat.lt_succ_self _)
+  omega
 
 theorem hasForm_of_weil (hT : ThetaUnifAV) (hB : Out.PolBaseChangeSt)
     (A : Out.PolAV X) (y₀ y : Sp ℂ ⟶ X) (hy : y = (𝟙_ (Over (Sp ℂ))).hom ≫ y₀)

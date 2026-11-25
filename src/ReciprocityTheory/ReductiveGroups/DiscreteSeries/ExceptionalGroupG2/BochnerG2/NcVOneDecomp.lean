@@ -1,6 +1,5 @@
 module
 
-import ReciprocityTheory.ReductiveGroups.DiscreteSeries.BochnerInequality.NcVOneDecomp
 public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.BochnerInequality.Permute
 public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.BochnerInequality.BigCas
 public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.BochnerInequality.InnerCrossOpEigEqZero
@@ -9,6 +8,7 @@ public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.ExceptionalGroupG
 public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.BochnerInequality.CasValK
 public import Mathlib.Analysis.InnerProductSpace.PiL2
 public import Mathlib.Analysis.InnerProductSpace.Spectrum
+import ReciprocityTheory.ReductiveGroups.DiscreteSeries.BochnerInequality.NcVOneDecomp
 import Mathlib.RingTheory.SimpleRing.Principal
 import Mathlib.Tactic.TypeStar
 import ReciprocityTheory.ReductiveGroups.DiscreteSeries.BochnerInequality.BigRep
@@ -40,7 +40,9 @@ theorem crossOp_eig_gap (hE : IsGlRep E) (hU : IsInfUnitary ε E) (hV : IsKIrrHW
     (hbig : 2 * (n : ℝ) < h) {θ : ℝ} {y : Big n 1 M}
     (hy : y ∈ Module.End.eigenspace (crossOp ε E 1 0) (θ : ℂ) ⊓ ncV ε V 1) (hy0 : y ≠ 0) :
     (0 < h - n + 1 ∧ h - n + 1 ≤ θ) ∨ (θ ≤ -h - 1 ∧ -h - 1 < 0) :=
-  ReciprocityTheory.ChartRestriction.DS.crossOp_eig_gap_of_lt hE hU hV hmono hh (fun _ => (gap_gt (n := n) hbig).2) hy hy0
+  DS.crossOp_eig_gap_of hE hU hV hmono hh
+    (fun _ => by linarith [(Nat.cast_nonneg n : (0 : ℝ) ≤ n)])
+    hy hy0
 
 end OneBAux
 
@@ -71,20 +73,23 @@ theorem ncV_one_decomp (hE : IsGlRep E) (hU : IsInfUnitary ε E) (hV : IsKIrrHW 
     (hmono : StrictAnti lam) {h : ℝ} (hh : GapAtLeast ε lam h)
     (hbig : 2 * (n : ℝ) < h) {x : Big n 1 M} (hx : x ∈ ncV ε V 1) :
     ∃ xm ∈ Wm ε E V, ∃ xp ∈ Wp ε E V, x = xm + xp :=
-  ReciprocityTheory.ChartRestriction.DS.ncV_one_decomp_of_lt hE hU hV hmono hh (fun _ => (gap_gt (n := n) hbig).2) hx
+  DS.ncV_one_decomp_of hE hU hV hmono hh
+    (fun _ => by linarith [(Nat.cast_nonneg n : (0 : ℝ) ≤ n)]) hx
 
 theorem Wm_khw (hE : IsGlRep E) (hU : IsInfUnitary ε E) (hV : IsKIrrHW ε E (lowK ε lam) V)
     (hmono : StrictAnti lam) {h : ℝ} (hh : GapAtLeast ε lam h)
     (hbig : 2 * (n : ℝ) < h) {x : Big n 1 M} (hx : x ∈ Wm ε E V) (hx0 : x ≠ 0) {ν : Fin n → ℝ}
     (hν : IsKHWVec ε (bAct E 1) ν x) :
     ∃ a b : Fin n, a < b ∧ ε a ≠ ε b ∧ ν = lowK ε lam - root a b :=
-  ReciprocityTheory.ChartRestriction.DS.Wm_khw_of_lt hE hU hV hmono hh (fun _ => (gap_gt (n := n) hbig).2) hx hx0 hν
+  DS.Wm_khw_of hE hU hV hmono hh
+    (fun _ => by linarith [(Nat.cast_nonneg n : (0 : ℝ) ≤ n)]) hx hx0 hν
 
 theorem Wp_bound (hE : IsGlRep E) (hU : IsInfUnitary ε E) (hV : IsKIrrHW ε E (lowK ε lam) V)
     (hmono : StrictAnti lam) {h : ℝ} (hh : GapAtLeast ε lam h)
     (hbig : 2 * (n : ℝ) < h) {x : Big n 1 M} (hx : x ∈ Wp ε E V) :
     2 * (h - n + 1) * ‖x‖ ^ 2 ≤ 2 * RCLike.re (inner ℂ (crossOp ε E 1 0 x) x) :=
-  ReciprocityTheory.ChartRestriction.DS.Wp_bound_of_lt hE hU hV hmono hh (fun _ => (gap_gt (n := n) hbig).2) hx
+  DS.Wp_bound_of hE hU hV hmono hh
+    (fun _ => by linarith [(Nat.cast_nonneg n : (0 : ℝ) ≤ n)]) hx
 
 end OneB
 

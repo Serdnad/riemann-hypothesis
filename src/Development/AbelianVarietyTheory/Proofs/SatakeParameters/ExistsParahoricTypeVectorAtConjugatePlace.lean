@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.SatakeParameters.DiagUniformiserConjTransposeInvMemUpperParahoric
 public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.IsParahoricVec
 public import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.IsUnitarisableOfCharIff
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsContinuousPadic
@@ -67,7 +66,6 @@ import ReciprocityTheory.GaloisValuations.GlobalA
 @[expose] public section
 
 open Formalism.BasicNotions Formalism.MainNotions Formalism.MainNotions.N Formalism.ConjugateSelfDual ReciprocityTheory.Gal ReciprocityTheory.Aut Formalism.AUTREP Formalism.L2 Formalism.L2.Host Formalism.L2.NT NumberField IsDedekindDomain Polynomial GlobalTheory.HeightCounting GlobalTheory.RowTie GlobalTheory.SplitRead GlobalTheory.NPin
-attribute [local instance] GlobalTheory.LocalData.complRel GlobalTheory.LocalData.isLocalField
 
 namespace GlobalTheory.ConjParahoric
 
@@ -142,24 +140,24 @@ theorem exists_conj (r t : ℕ) : ∃ m : GL (Fin (r + t)) k, ∀ h : GL (Fin (r
   have hlt : ∀ a b : Fin (r + t), a.val < r → ¬ b.val < r → valuation k ((m * h * m⁻¹).val a b) < 1 := by
     intro a b ha hb
     rw [key]
-    simp only [e, ha, hb, if_true, if_false, inv_one, mul_one, map_mul]
+    simp only [e, ha, hb, ite_true, ite_false, inv_one, mul_one, map_mul]
     exact lt_of_le_of_lt (mul_le_of_le_one_right' (h1 a b)) hγ1
   refine ⟨fun a b => ?_, fun a b ha => ?_, fun i j => ?_⟩
   · by_cases ha : a.val < r <;> by_cases hb : b.val < r
     · rw [key]
-      simp only [e, ha, hb, if_true]
+      simp only [e, ha, hb, ite_true]
       rw [mul_right_comm, mul_inv_cancel₀ h0', one_mul]
       exact h1 a b
     · exact (hlt a b ha hb).le
     · rw [key]
-      simp only [e, ha, hb, if_true, if_false, one_mul, map_mul, map_inv₀]
+      simp only [e, ha, hb, ite_true, ite_false, one_mul, map_mul, map_inv₀]
       rw [mul_inv_le_iff₀ (zero_lt_iff.2 h0), one_mul]
       have := h2 ⟨a.val - r, by omega⟩ ⟨b.val, hb⟩
       have ea : Fin.natAdd r (⟨a.val - r, by omega⟩ : Fin t) = a := by ext; simp; omega
       rw [ea] at this
       exact hγ _ this
     · rw [key]
-      simp only [e, ha, hb, if_false, one_mul, inv_one, mul_one]
+      simp only [e, ha, hb, ite_false, one_mul, inv_one, mul_one]
       exact h1 a b
   · by_cases hb : b.val < r
     · exact Or.inr hb
@@ -221,7 +219,15 @@ end val
 
 theorem mem_GLint_of_entries {K : Type} [Field K] {n : ℕ} (O : Subring K) (g : GL (Fin n) K)
     (h1 : ∀ a b, g.val a b ∈ O) (h2 : ∀ a b, (g⁻¹).val a b ∈ O) : g ∈ Formalism.UG.GLint (Fin n) O := by
-  apply _root_.GlobalTheory.BlockConj.mem_GLint_of <;> assumption
+  have inj : Function.Injective (O.subtype.mapMatrix (m := Fin n)) :=
+    fun A B h => by ext i j; exact congrFun (congrFun h i) j
+  let A : Matrix (Fin n) (Fin n) O := fun i j => ⟨g.val i j, h1 i j⟩
+  let B : Matrix (Fin n) (Fin n) O := fun i j => ⟨(g⁻¹).val i j, h2 i j⟩
+  have hA : O.subtype.mapMatrix A = g.val := rfl
+  have hB : O.subtype.mapMatrix B = (g⁻¹).val := rfl
+  refine ⟨⟨A, B, inj ?_, inj ?_⟩, Units.ext rfl⟩
+  · rw [map_mul, hA, hB, map_one, Units.mul_inv]
+  · rw [map_mul, hA, hB, map_one, Units.inv_mul]
 
 def lowerEquiv (r t : ℕ) : Fin t ≃ {x : Fin (r + t) // r ≤ x.val} where
   toFun i := ⟨Fin.natAdd r i, by simp⟩

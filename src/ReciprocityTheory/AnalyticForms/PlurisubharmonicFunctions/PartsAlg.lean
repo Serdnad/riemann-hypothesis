@@ -1,6 +1,5 @@
 module
 
-import ReciprocityTheory.AnalyticForms.PotentialTheory.HessCIsHermitian
 public import ReciprocityTheory.AnalyticForms.PlurisubharmonicFunctions.PartsSt
 public import ReciprocityTheory.AnalyticForms.AnalyticCharts.MaDensCompEqZeroOfRankLt
 public import Mathlib.Analysis.Calculus.FDeriv.Symmetric
@@ -68,30 +67,31 @@ variable {e : ℕ}
 
 theorem leviC_add_snd (H : (Fin e → ℂ) →L[ℝ] (Fin e → ℂ) →L[ℝ] ℝ) (a b b' : Fin e → ℂ) :
     leviC H a (b + b') = leviC H a b + leviC H a b' := by
-  simp only [leviC, smul_add, map_add (f := _)]
-  push_cast
-  ring
+  simpa only [map_add, conj_leviC_flip] using
+    congrArg (starRingEnd ℂ) (leviC_add H.flip b b' a)
 
 theorem leviC_smul_snd (H : (Fin e → ℂ) →L[ℝ] (Fin e → ℂ) →L[ℝ] ℝ) (c : ℂ) (a b : Fin e → ℂ) :
     leviC H a (c • b) = star c * leviC H a b := by
-  have h1 : c • b = c.re • b + c.im • (Complex.I • b) := by
-    ext k
-    simp only [Pi.add_apply, Pi.smul_apply, smul_eq_mul, Complex.real_smul]
-    conv_lhs => rw [← Complex.re_add_im c]
-    ring
-  have h2 : Complex.I • (c • b) = c.re • (Complex.I • b) - c.im • b := by
-    ext k
-    simp only [Pi.sub_apply, Pi.smul_apply, smul_eq_mul, Complex.real_smul]
-    conv_lhs => rw [← Complex.re_add_im c]
-    linear_combination ((c.im : ℂ) * b k) * Complex.I_sq
-  unfold leviC
-  rw [h2, h1]
-  simp only [map_add (f := _), map_sub, map_smul, smul_eq_mul]
-  apply Complex.ext <;> simp <;> ring
+  simpa only [map_mul, conj_leviC_flip, ← starRingEnd_apply] using
+    congrArg (starRingEnd ℂ) (leviC_smul H.flip c b a)
 
 theorem sum_leviC_mul (H : (Fin e → ℂ) →L[ℝ] (Fin e → ℂ) →L[ℝ] ℝ) (a x : Fin e → ℂ) :
     ∑ j, leviC H a (Pi.single j 1) * x j = leviC H a (star x) := by
-  apply ReciprocityTheory.AnForm.M.sum_leviC_right <;> assumption
+  have hx : star x = ∑ j, star (x j) • (Pi.single j 1 : Fin e → ℂ) := by
+    conv_lhs => rw [← Finset.univ_sum_single (star x)]
+    refine Finset.sum_congr rfl fun j _ => ?_
+    ext k
+    by_cases h : k = j
+    · subst h; simp
+    · simp [h]
+  let ℓ : (Fin e → ℂ) →+ ℂ := AddMonoidHom.mk' (fun b => leviC H a b) (leviC_add_snd H a)
+  rw [hx]
+  show _ = ℓ _
+
+  rw [map_sum]
+  refine Finset.sum_congr rfl fun j _ => ?_
+  simp only [ℓ, AddMonoidHom.mk'_apply, leviC_smul_snd, star_star]
+  ring
 
 theorem hessC_isHermitian_of_symm (φ : (Fin e → ℂ) → ℝ) (z : Fin e → ℂ)
     (h : IsSymmSndFDerivAt ℝ φ z) : (hessC φ z).IsHermitian := by
@@ -103,7 +103,19 @@ theorem hessC_isHermitian_of_symm (φ : (Fin e → ℂ) → ℝ) (z : Fin e → 
 
 theorem hessC_posSemidef_of_levi (φ : (Fin e → ℂ) → ℝ) (z : Fin e → ℂ) (h2 : ContDiffAt ℝ 2 φ z)
     (hl : ∀ ξ, 0 ≤ levi φ z ξ) : (hessC φ z).PosSemidef := by
-  apply ReciprocityTheory.AnForm.M.hessC_posSemidef <;> assumption
+  have hs : IsSymmSndFDerivAt ℝ φ z := h2.isSymmSndFDerivAt (by simp)
+  refine PosSemidef.of_dotProduct_mulVec_nonneg (hessC_isHermitian_of_symm φ z hs) fun x => ?_
+  have key : star x ⬝ᵥ (hessC φ z *ᵥ x) =
+      leviC (fderiv ℝ (fderiv ℝ φ) z) (star x) (star x) := by
+    simp only [dotProduct, mulVec, hessC_eq_leviC, sum_leviC_mul]
+    exact sum_mul_leviC _ (star x) (star x)
+  rw [key, Complex.nonneg_iff]
+  constructor
+  · have := hl (star x)
+    simpa [leviC, levi] using this
+  · simp only [leviC]
+    rw [hs (star x) (Complex.I • star x)]
+    simp
 
 end Levi
 

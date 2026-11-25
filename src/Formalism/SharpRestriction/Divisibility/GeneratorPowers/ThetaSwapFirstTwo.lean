@@ -1,54 +1,14 @@
 module
 
-import all Formalism.SharpRestriction.Divisibility.GeneratorPowers.ExpChartJet
 public import Formalism.LocalToGlobal.ProjectiveLattices.IsChartIff
 public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.FBIdJet
 public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.FBIdSy
 import Formalism.SharpRestriction.Divisibility.GeneratorPowers.GermDJet
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
 public import Mathlib.RingTheory.MvPolynomial.Ideal
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
 import Std.Tactic.BVDecide.Normalize.Prop
 
 @[expose] public section
-
-set_option autoImplicit false
 
 noncomputable section
 
@@ -57,8 +17,6 @@ namespace Formalism.MainNotions.ModuliIntegralCharts.H1.FBIdPh
 open AlgebraicGeometry CategoryTheory Limits MonoidalCategory CartesianMonoidalCategory MonObj MvPolynomial
 open ReciprocityTheory.ChartRestriction.G ReciprocityTheory.ChartRestriction.G.Semi ReciprocityTheory.ChartRestriction.G.Out ReciprocityTheory.ChartRestriction.G.Geo.Tor Formalism.L2.Pj NumberField
 open Formalism.MainNotions.ModuliIntegralCharts.H1.GermD Formalism.MainNotions.ModuliIntegralCharts.H1.GermFun
-
-attribute [local instance] Over.cartesianMonoidalCategory
 
 section Jet
 
@@ -80,8 +38,7 @@ theorem mem_orig_of_cc {κ : Type} (P : MvPolynomial κ S) (h : constantCoeff P 
     rintro rfl
     exact hm h
   obtain ⟨i, hi⟩ : ∃ i, m i ≠ 0 := by
-    by_contra hcon
-    push_neg at hcon
+    by_contra! hcon
     exact hm0 (Finsupp.ext fun a => by simp [hcon a])
   exact ⟨i, Set.mem_univ _, hi⟩
 
@@ -139,10 +96,6 @@ theorem relabel_jpt {n n' : ℕ} (m : ℕ) (σ : Fin n → Fin n') (i : Fin n) :
 
 end Pts
 
-section Gen
-
-end Gen
-
 section Ser
 
 variable {S : Type} [CommRing S] (d : ℕ)
@@ -174,7 +127,16 @@ theorem mk_rename {κ κ' : Type} (m : ℕ) (ρ : κ → κ') (P : MvPolynomial 
 
 theorem cc_psTrunc {κ : Type} [Fintype κ] [DecidableEq κ] (m : ℕ) (f : MvPowerSeries κ S) :
     constantCoeff (psTrunc m f) = MvPowerSeries.constantCoeff f := by
-  apply _root_.Formalism.MainNotions.ModuliIntegralCharts.H1.ExpChartJet.cc_psTrunc_lemma <;> assumption
+  unfold psTrunc
+
+  rw [map_sum]
+  simp only [MvPolynomial.constantCoeff_monomial]
+  rw [Finset.sum_ite_eq']
+  rw [ite_eq_left]
+  · first
+      | exact MvPowerSeries.coeff_zero_eq_constantCoeff_apply f
+  · simp [degLE]
+    exact ⟨fun _ => 0, by ext; simp⟩
 
 theorem cc_psIn {n n' : ℕ} (m : ℕ) (r : Fin n → Fin n') (f : PS S n d) :
     constantCoeff (psIn d m r f) = MvPowerSeries.constantCoeff f := by
@@ -183,15 +145,6 @@ theorem cc_psIn {n n' : ℕ} (m : ℕ) (r : Fin n → Fin n') (f : PS S n d) :
     | (rw [MvPolynomial.constantCoeff_rename]; exact cc_psTrunc m f)
 
 end Ser
-
-section Comm
-
-variable {E : Type} [Field E] [NumberField E] [IsCMField E] {H : Host E} {X0 : Scheme.{0}} (t : SAB H X0)
-variable {S : Type} [CommRing S] (x0 : Sp S ⟶ X0) (d : ℕ) (x : ∀ m, jOG x0 d m 1 ⟶ t.G)
-
-open ReciprocityTheory.ChartRestriction.G.Geo.Tor.Germ (PS Pt ev pt)
-
-end Comm
 
 section AxTools
 

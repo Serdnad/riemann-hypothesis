@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.EqZeroOrEqOfPlaceIdem
 public import Development.AbelianVarietyTheory.Definitions.Divisors.IsUnitaryOnTheta
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsWeilDatumPowersUnramifiedEtaTildeStatement
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsWeilDatumTwistHeckeCharactersStatement
@@ -54,7 +53,6 @@ import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FinPartConjMem
 
 open Formalism.BasicNotions Formalism.BasicNotions.TH Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes Formalism.MainNotions.StandardLattice Formalism.L2.Theta Formalism.IndefR.Datum GlobalTheory.WeilParts MeasureTheory IsDedekindDomain NumberField Matrix
 open scoped TensorProduct ComplexOrder
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 
 namespace GlobalTheory.VacInert
 
@@ -66,8 +64,8 @@ theorem exists_pole_idem {E : Type} [Field E] [NumberField E] (z w : FiniteAdele
   let e : FiniteAdeleRing (𝓞 E) E := ⟨fun P => if 1 < Valued.v (z P) then 1 else 0,
     Filter.Eventually.of_forall fun P => by
       by_cases h : 1 < Valued.v (z P)
-      · simp only [if_pos h]; exact one_mem _
-      · simp only [if_neg h]; exact zero_mem _⟩
+      · simp only [ite_eq_left h]; exact one_mem _
+      · simp only [ite_eq_right h]; exact zero_mem _⟩
   have he : ∀ P, e P = if 1 < Valued.v (z P) then 1 else 0 := fun _ => rfl
   have hmul : ∀ (a b : FiniteAdeleRing (𝓞 E) E) P, (a * b) P = a P * b P := fun _ _ _ => rfl
   refine ⟨e, ?_, fun P => ?_, fun h P => ?_, fun f hf hfz => ?_⟩
@@ -85,7 +83,7 @@ theorem exists_pole_idem {E : Type} [Field E] [NumberField E] (z w : FiniteAdele
     · simp
   · have h0 : e P = 0 := by rw [h]; rfl
     by_contra h3
-    rw [he, if_pos (not_le.1 h3)] at h0
+    rw [he, ite_eq_left (not_le.1 h3)] at h0
     exact one_ne_zero h0
   · refine Subtype.ext (funext fun P => ?_)
     change e P * f P = 0
@@ -101,9 +99,6 @@ theorem exists_pole_idem {E : Type} [Field E] [NumberField E] (z w : FiniteAdele
     · simp
 
 variable {D : D7}
-
-theorem conj_int (x : 𝓞 D.host.E) : ∃ y : 𝓞 D.host.E, (y : D.host.E) = D.sp.cm.sig (x : D.host.E) :=
-  ⟨⟨_, (RingOfIntegers.isIntegral_coe x).map (D.sp.cm.sig : D.host.E →+* D.host.E).toIntAlgHom⟩, rfl⟩
 
 theorem finPart_cA (z : AE D) :
     finPart D (cA D z) = sigR (Af D.host.F) D.sp.cm.sig (finPart D z) := by
@@ -152,8 +147,28 @@ theorem alg_inj : Function.Injective (algebraMap (AF D.host.F) (AE D)) :=
 
 theorem idem_below {v : HeightOneSpectrum (𝓞 D.host.F)} {ε : AF D.host.F} (hε : IsPlaceIdem D v ε)
     {a : AF D.host.F} (ha : a * a = a) (hεa : ε * a = a) : a = 0 ∨ a = ε := by
-  intros
-  apply _root_.GlobalTheory.PlaceModelSum.eq_zero_or_eq_of_placeIdem <;> assumption
+  obtain ⟨α, rfl, h1, h0⟩ := hε
+  obtain ⟨a1, a2⟩ := a
+  have e1 : a1 = 0 := (congrArg Prod.fst hεa).symm.trans (zero_mul a1)
+  have e2 : α * a2 = a2 := congrArg Prod.snd hεa
+  have e3 : a2 * a2 = a2 := congrArg Prod.snd ha
+  have e4 : ∀ w, w ≠ v → evalV D.host.F w a2 = 0 := fun w hw => by
+    rw [← e2, map_mul, h0 w hw, zero_mul]
+  have e5 := congrArg (evalV D.host.F v) e3
+  rw [map_mul] at e5
+  have ext : ∀ a b : Af D.host.F, (∀ w, evalV D.host.F w a = evalV D.host.F w b) → a = b :=
+    fun a b h => Subtype.ext (funext h)
+  by_cases h : evalV D.host.F v a2 = 0
+  · left
+    refine Prod.ext e1 (ext _ _ fun w => ?_)
+    by_cases hw : w = v
+    · rw [hw]; exact h.trans (map_zero _).symm
+    · exact (e4 w hw).trans (map_zero _).symm
+  · right
+    refine Prod.ext e1 (ext _ _ fun w => ?_)
+    by_cases hw : w = v
+    · rw [hw]; exact (mul_left_cancel₀ h (e5.trans (mul_one _).symm)).trans h1.symm
+    · exact (e4 w hw).trans (h0 w hw).symm
 
 theorem placeIdem_facts {v : HeightOneSpectrum (𝓞 D.host.F)} {ε : AF D.host.F} (hε : IsPlaceIdem D v ε) :
     ε * ε = ε ∧ infPart D (algebraMap (AF D.host.F) (AE D) ε) = 0 ∧

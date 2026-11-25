@@ -311,7 +311,6 @@ private theorem fix_of_dec {Ω : Type} [Field Ω] [Algebra ℚ Ω] (A : Valuatio
     have h1 : (1 : _) ≤ A.valuation (l : Ω) := by
       have h3 := (A.valuation_le_one_iff _).2 hli
       rw [map_inv₀] at h3
-      haveI : Nontrivial A.ValueGroup := GroupWithZero.toNontrivial
       have hne : A.valuation (l : Ω) ≠ 0 := fun h0 =>
         (Nat.cast_ne_zero (R := Ω)).2 hl0 ((Valuation.zero_iff A.valuation).1 h0)
       exact (inv_le_one₀ (pos_iff_ne_zero.2 hne)).1 h3
@@ -502,10 +501,6 @@ section
 noncomputable section
 open NumberField IsDedekindDomain Formalism.ConjugateSelfDual ReciprocityTheory.Gal GlobalTheory.GalOfCusp UpperTheory.V UpperTheory.V.Af UpperTheory.V.HV UpperTheory.V.GradeZeroInterpolatingElement
 namespace UpperTheory.V.Z.Win.A4
-section
-variable {F Ω : Type} [Field F] [NumberField F] [Field Ω] [Algebra F Ω] {n : ℕ}
-variable [IsAlgClosure F Ω] {l : ℕ} [Fact l.Prime] {M : ℕ} {m : Fin n → ℤ} {r : G F Ω →* GL (Fin n) (Qbar l)}
-end
 theorem safeUP'_alt (_P : _root_.UpperTheory.V.Af.Hypotheses') {Ω : Type} [Field Ω] [Algebra ℚ Ω] [IsAlgClosure ℚ Ω] {l : ℕ} [Fact l.Prime] {n M : ℕ}
     {m : Fin n → ℤ} {ι : Qbar l ≃+* ℂ} {r : G ℚ Ω →* GL (Fin n) (Qbar l)} (hi : IsIrr r) (hl : Level l M m r) (ha : IsAutQA ι r)
     (h : SafeRA l M m r) : SafePA l M m r :=

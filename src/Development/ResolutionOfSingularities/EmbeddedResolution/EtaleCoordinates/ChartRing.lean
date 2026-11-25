@@ -5,46 +5,6 @@ public import Development.ResolutionOfSingularities.EmbeddedResolution.EtaleCoor
 public import Development.ResolutionOfSingularities.EmbeddedResolution.DerivativeIdeal.DerivativeIdealSheaf
 public import Development.ResolutionOfSingularities.Foundations.Schemes.IdealSheafData
 public import Development.ResolutionOfSingularities.Foundations.Schemes.SchemeMorphismProperties
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.AlgebraicGeometry.Modules.Sheaf
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
 
 @[expose] public section
 
@@ -170,7 +130,6 @@ theorem EtaleChart.coordRingHom_etale (c : EtaleChart p U m) (hU : IsAffineOpen 
     c.coordRingHom.Etale := by
   have hUaff : IsAffine U.toScheme := hU
   have hEt : AlgebraicGeometry.Etale c.map := c.isEtale
-  have hAaff : IsAffine (affineSpaceFin k m) := inferInstance
   have hbeta : IsIso (Scheme.Hom.appTop
       (AffineSpace.SpecIso (ULift.{u} (Fin m)) (CommRingCat.of k)).hom) :=
     inferInstanceAs (IsIso
@@ -264,38 +223,5 @@ theorem EtaleChart.etaleCoordinates_coord (c : EtaleChart p U m) (j : Fin m) :
   have h : c.coordRingHom (MvPolynomial.X (ULift.up j : ULift.{u} (Fin m))) = c.coord j :=
     EtaleChart.coordRingHom_X c j
   exact h
-
-private theorem algebraMap_mem_nonZeroDivisors_of_flat {R A : Type u} [CommRing R]
-    [CommRing A] [Algebra R A] [Module.Flat R A] {r : R} (hr : r ∈ nonZeroDivisors R) :
-    algebraMap R A r ∈ nonZeroDivisors A := by
-  have hreg : IsSMulRegular A r := Module.Flat.isSMulRegular_of_nonZeroDivisors hr
-  have key : ∀ x : A, algebraMap R A r * x = 0 → x = 0 := by
-    intro x hx
-    have hsm : r • x = r • (0 : A) := by
-      rw [smul_zero, Algebra.smul_def]
-      exact hx
-    exact hreg hsm
-  rw [mem_nonZeroDivisors_iff]
-  exact ⟨key, fun x hx => key x (by rw [mul_comm]; exact hx)⟩
-
-theorem coord_mem_nonZeroDivisors {U : X.Opens} (hU : IsAffineOpen U) (c : EtaleChart p U m)
-    (j : Fin m) : c.coord j ∈ nonZeroDivisors ↑(X.presheaf.obj (op U)) := by
-  let _ : Algebra (MvPolynomial (ULift.{u} (Fin m)) k) ↑(X.presheaf.obj (op U)) := c.algebra
-  have : Algebra.Etale (MvPolynomial (ULift.{u} (Fin m)) k) ↑(X.presheaf.obj (op U)) :=
-    c.algebra_etale hU
-  have : Module.Flat (MvPolynomial (ULift.{u} (Fin m)) k) ↑(X.presheaf.obj (op U)) :=
-    inferInstance
-  have halg : (algebraMap (MvPolynomial (ULift.{u} (Fin m)) k) ↑(X.presheaf.obj (op U)))
-      = c.coordRingHom := c.algebraMap_eq_coordRingHom
-  have hXne : (MvPolynomial.X (ULift.up.{u} j) : MvPolynomial (ULift.{u} (Fin m)) k) ≠ 0 :=
-    MvPolynomial.X_ne_zero _
-  have hXnzd : (MvPolynomial.X (ULift.up.{u} j) : MvPolynomial (ULift.{u} (Fin m)) k)
-      ∈ nonZeroDivisors (MvPolynomial (ULift.{u} (Fin m)) k) :=
-    mem_nonZeroDivisors_of_ne_zero hXne
-  have key : (algebraMap (MvPolynomial (ULift.{u} (Fin m)) k) ↑(X.presheaf.obj (op U)))
-      (MvPolynomial.X (ULift.up.{u} j)) ∈ nonZeroDivisors ↑(X.presheaf.obj (op U)) :=
-    algebraMap_mem_nonZeroDivisors_of_flat hXnzd
-  rw [halg] at key
-  rwa [c.coordRingHom_X j] at key
 
 end FunctorialResolution.EmbeddedResolution

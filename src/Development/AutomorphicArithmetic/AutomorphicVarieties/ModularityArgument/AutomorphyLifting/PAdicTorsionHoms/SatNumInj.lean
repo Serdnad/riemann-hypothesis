@@ -1,6 +1,5 @@
 module
 
-import all Development.AutomorphicArithmetic.AutomorphicVarieties.BuildingsResidueChars.SatakeBaseChangeAttached
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.AutomorphyLifting.PlainAtR
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.BuildingsResidueChars.FrobeniusPowerCompatibility
 import Development.AutomorphicArithmetic.AutomorphicVarieties.CommutativeAlgebra.ResMapBijective
@@ -56,7 +55,12 @@ private theorem satNum_eq (n q : ℕ) (B : Multiset ℂˣ) :
 
 private theorem satNum_pow (n q f : ℕ) (B : Multiset ℂˣ) :
     algSat n (q ^ f) (B.map (· ^ f)) = (algSat n q B).map (· ^ f) := by
-  apply _root_.algSat_pow_map_pow <;> assumption
+  have hq : ((q : ℝ) ^ f) ^ (((n : ℝ) - 1) / 2) = ((q : ℝ) ^ (((n : ℝ) - 1) / 2)) ^ f := by
+    rw [← Real.rpow_natCast (q : ℝ) f, ← Real.rpow_mul (Nat.cast_nonneg q), mul_comm,
+      Real.rpow_mul_natCast (Nat.cast_nonneg q)]
+  rw [satNum_eq, satNum_eq, Multiset.map_map, Multiset.map_map]
+  refine Multiset.map_congr rfl fun b _ => ?_
+  simp only [Function.comp_apply, Units.val_pow_eq_pow_val, mul_pow, Nat.cast_pow, hq, Complex.ofReal_pow]
 
 private theorem satNum_inj (n q : ℕ) (hq : q ≠ 0) {B B' : Multiset ℂˣ} (h : algSat n q B = algSat n q B') : B = B' := by
   have hc : (((q : ℝ) ^ (((n : ℝ) - 1) / 2) : ℝ) : ℂ) ≠ 0 :=

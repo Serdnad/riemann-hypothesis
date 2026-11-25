@@ -10,48 +10,8 @@ public import Formalism.LocalToGlobal.TorsionIntegrality.QuadraticSemicharacters
 import Formalism.LocalToGlobal.TorsionIntegrality.QuadraticSemicharacters.CayleyGaussianIntegrals.MatrixFormFourfoldBlock
 import Formalism.LocalToGlobal.TorsionIntegrality.QuadraticSemicharacters.CayleyGaussianIntegrals.MatrixFormFourfoldBlockFirstBlockEmb
 import Formalism.LocalToGlobal.TorsionIntegrality.QuadraticSemicharacters.CayleyGaussianIntegrals.Th0CharMulOpUTh0HalfPeriodEq
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Tactic.TypeStar
-import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
-import Formalism.LocalToGlobal.KernelLattices.ColumnData.IsAdmissibleFlagPairOfUnitriangularLeftAutomorph
 
 @[expose] public section
 
@@ -141,7 +101,7 @@ theorem matH_hOne (L : PeriodPair) (z w : n → ℂ) :
     matH (hOne L n) z w = (∑ τ, z τ * conj (w τ)) / ((Formalism.L2.Th1.F.area L : ℝ) : ℂ) := by
   show (∑ i, ∑ j, z i * hOne L n i j * conj (w j)) = _
   simp only [hOne, Matrix.smul_apply, Matrix.one_apply, smul_eq_mul, mul_ite, mul_one, mul_zero, ite_mul, zero_mul,
-    Finset.sum_ite_eq, Finset.mem_univ, if_true, Finset.sum_div]
+    Finset.sum_ite_eq, Finset.mem_univ, ite_true, Finset.sum_div]
   refine Finset.sum_congr rfl fun i _ => ?_
   rw [div_eq_mul_inv]; ring
 
@@ -257,7 +217,38 @@ def putE (D : D7) (N N' : ℕ) (i : Fin N') (j : Fin N) : (D.what₂.Tau → ℂ
 
 theorem Lat0 (cc : Ideal (𝓞 D.host.K)) (δ : ℂ) :
     TaylorLogMetric.La D (TaylorLogMetric.tor0 D cc δ) (StandardLatticesGL3.stdL D N) (StandardLatticesGL3.stdL D N') = powLat (lamMM D (TaylorLogMetric.lamOf D cc δ)) N N' := by
-  exact _root_.Formalism.L2.Ker.Cd.Lat0 (Formalism.L2.Ker.Car.ofRec D) (N := N) (N' := N') cc δ
+  apply le_antisymm
+  · unfold TaylorLogMetric.La
+    rw [AddSubgroup.closure_le]
+    rintro z ⟨w, hw, A, hA, rfl⟩ i j
+    exact AddSubgroup.subset_closure ⟨w, hw, A i j, YYl_std_entry D hA i j, rfl⟩
+  · intro z hz
+    have key : ∀ (i : Fin N') (j : Fin N), lamMM D (TaylorLogMetric.lamOf D cc δ) ≤
+        (TaylorLogMetric.La D (TaylorLogMetric.tor0 D cc δ) (StandardLatticesGL3.stdL D N) (StandardLatticesGL3.stdL D N')).comap (putE D N N' i j) := by
+      intro i j
+      unfold lamMM
+      rw [AddSubgroup.closure_le]
+      rintro v ⟨w, hw, a, ha, rfl⟩
+      refine AddSubgroup.subset_closure ⟨w, hw, a • Matrix.single i j (1 : D.host.E),
+        Submodule.subset_span ⟨a, ha, _, single_mem_homL D i j, rfl⟩, ?_⟩
+      funext τ i' j'
+      show (if i' = i ∧ j' = j then w * TaylorLogMetric.embT D τ a else 0)
+        = w * TaylorLogMetric.embT D τ ((a • Matrix.single i j (1 : D.host.E)) i' j')
+      by_cases h : i' = i ∧ j' = j
+      · obtain ⟨rfl, rfl⟩ := h; simp
+      · have h' : ¬ (i = i' ∧ j = j') := fun e => h ⟨e.1.symm, e.2.symm⟩
+        simp [h, h']
+    have hsum : z = ∑ i, ∑ j, putE D N N' i j (fun τ => z τ i j) := by
+      funext τ i' j'
+      simp only [Finset.sum_apply, putE, AddMonoidHom.coe_mk, ZeroHom.coe_mk]
+      rw [Finset.sum_eq_single i', Finset.sum_eq_single j']
+      · simp
+      · intro b _ hb; simp [Ne.symm hb]
+      · simp
+      · intro b _ hb; simp [Ne.symm hb]
+      · simp
+    rw [hsum]
+    exact AddSubgroup.sum_mem _ fun i _ => AddSubgroup.sum_mem _ fun j _ => key i j (hz i j)
 
 end Lat0
 
@@ -267,7 +258,45 @@ variable {D : D7}
 def emb4 (D : D7) (x : Fin 4 → D.host.E) : Fin 4 × D.what₂.Tau → ℂ := fun w => TaylorLogMetric.embT D w.2 (x w.1)
 
 theorem span_range_emb4_eq_top (D : D7) : Submodule.span ℂ (Set.range (emb4 D)) = ⊤ := by
-  exact _root_.Formalism.L2.Ker.Cd.span_range_emb4_eq_top (Formalism.L2.Ker.Car.ofRec D)
+  rw [eq_top_iff]
+  intro v _
+  have hv : v = ∑ a : Fin 4, (fun w : Fin 4 × D.what₂.Tau => if w.1 = a then v (a, w.2) else 0) := by
+    funext w
+    rw [Finset.sum_apply, Finset.sum_eq_single w.1]
+    · simp
+    · intro b _ hb; simp [Ne.symm hb]
+    · simp
+  rw [hv]
+  refine Submodule.sum_mem _ fun a _ => ?_
+  have key : ∀ u : D.what₂.Tau → ℂ, (fun w : Fin 4 × D.what₂.Tau => if w.1 = a then u w.2 else 0)
+      ∈ Submodule.span ℂ (Set.range (emb4 D)) := by
+    intro u
+    have hu : u ∈ Submodule.span ℝ (Set.range fun b : 𝓞 D.host.E => FL.embP D (b : D.host.E)) := by
+      rw [FL.span_embP]; trivial
+    induction hu using Submodule.span_induction with
+    | mem u h =>
+      obtain ⟨b, rfl⟩ := h
+      refine Submodule.subset_span ⟨Pi.single a (b : D.host.E), ?_⟩
+      funext w
+      by_cases h : w.1 = a
+      · simp [emb4, h, FL.embP]
+      · simp [emb4, h]
+    | zero =>
+      have : (fun w : Fin 4 × D.what₂.Tau => if w.1 = a then (0 : D.what₂.Tau → ℂ) w.2 else 0) = 0 := by
+        funext w; simp
+      rw [this]; exact Submodule.zero_mem (Submodule.span ℂ (Set.range (emb4 D)))
+    | add x y _ _ hx hy =>
+      have : (fun w : Fin 4 × D.what₂.Tau => if w.1 = a then (x + y) w.2 else 0)
+          = (fun w : Fin 4 × D.what₂.Tau => if w.1 = a then x w.2 else 0)
+            + (fun w : Fin 4 × D.what₂.Tau => if w.1 = a then y w.2 else 0) := by
+        funext w; by_cases h : w.1 = a <;> simp [h]
+      rw [this]; exact Submodule.add_mem _ hx hy
+    | smul r x _ hx =>
+      have : (fun w : Fin 4 × D.what₂.Tau => if w.1 = a then (r • x) w.2 else 0)
+          = (r : ℂ) • (fun w : Fin 4 × D.what₂.Tau => if w.1 = a then x w.2 else 0) := by
+        funext w; by_cases h : w.1 = a <;> simp [h]
+      rw [this]; exact Submodule.smul_mem _ _ hx
+  exact key fun τ => v (a, τ)
 
 theorem isoK_hermitian_sum_eq_emb4_hermitian_sum (γ : IsoK D) (x y : Fin 4 → D.host.E) :
     ∑ w, D.host.φ₀ ((γ.g x w : D.host.K) : D.host.E) * conj (D.host.φ₀ ((γ.g y w : D.host.K) : D.host.E))

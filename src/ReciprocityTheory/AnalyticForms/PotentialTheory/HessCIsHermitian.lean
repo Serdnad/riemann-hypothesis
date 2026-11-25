@@ -1,6 +1,5 @@
 module
 
-import ReciprocityTheory.AnalyticForms.PlurisubharmonicFunctions.ComplexHessianIsHermitianOfContDiffAt
 public import ReciprocityTheory.AnalyticForms.AnalyticCharts.MaDensCompEqZeroOfRankLt
 public import Mathlib.Analysis.Calculus.FDeriv.Symmetric
 import Mathlib.Order.CompletePartialOrder
@@ -35,7 +34,20 @@ theorem hessC_const_mul' (c : ℝ) (φ : (Fin D → ℂ) → ℝ) (z : Fin D →
 theorem hessC_add' (φ ψ : (Fin D → ℂ) → ℝ) (z : Fin D → ℂ) (hφ : ContDiffAt ℝ 2 φ z)
     (hψ : ContDiffAt ℝ 2 ψ z) :
     hessC (fun w => φ w + ψ w) z = hessC φ z + hessC ψ z := by
-  apply ReciprocityTheory.AnForm.A.TraceConjugationCover.complexHessian_add_of_contDiffAt <;> assumption
+  have e1 : fderiv ℝ (fun w => φ w + ψ w) =ᶠ[𝓝 z] fun w => fderiv ℝ φ w + fderiv ℝ ψ w := by
+    filter_upwards [hφ.eventually (by simp), hψ.eventually (by simp)] with w h1 h2
+    exact fderiv_add (h1.differentiableAt (by norm_num)) (h2.differentiableAt (by norm_num))
+  have d1 : DifferentiableAt ℝ (fderiv ℝ φ) z :=
+    (hφ.fderiv_right (m := 1) (by norm_num)).differentiableAt one_ne_zero
+  have d2 : DifferentiableAt ℝ (fderiv ℝ ψ) z :=
+    (hψ.fderiv_right (m := 1) (by norm_num)).differentiableAt one_ne_zero
+  have e2 : fderiv ℝ (fderiv ℝ (fun w => φ w + ψ w)) z =
+      fderiv ℝ (fderiv ℝ φ) z + fderiv ℝ (fderiv ℝ ψ) z := by
+    rw [e1.fderiv_eq]; exact fderiv_add d1 d2
+  ext i j
+  simp only [hessC, e2, ContinuousLinearMap.add_apply, Matrix.add_apply]
+  push_cast
+  ring
 
 theorem mdisc_cons_add {e : ℕ} (B C : Matrix (Fin (e + 1)) (Fin (e + 1)) ℂ)
     (F : Fin e → Matrix (Fin (e + 1)) (Fin (e + 1)) ℂ) :
@@ -65,26 +77,13 @@ theorem hessC_isHermitian' (φ : (Fin D → ℂ) → ℝ) (z : Fin D → ℂ) (h
 
 theorem leviC_add_right (H : (Fin D → ℂ) →L[ℝ] (Fin D → ℂ) →L[ℝ] ℝ) (a b b' : Fin D → ℂ) :
     leviC H a (b + b') = leviC H a b + leviC H a b' := by
-  simp only [leviC, smul_add, map_add (f := _)]
-  push_cast
-  ring
+  simpa only [map_add, conj_leviC_flip] using
+    congrArg (starRingEnd ℂ) (leviC_add H.flip b b' a)
 
 theorem leviC_smul_right (H : (Fin D → ℂ) →L[ℝ] (Fin D → ℂ) →L[ℝ] ℝ) (c : ℂ) (a b : Fin D → ℂ) :
     leviC H a (c • b) = starRingEnd ℂ c * leviC H a b := by
-  have h1 : c • b = c.re • b + c.im • (Complex.I • b) := by
-    ext k
-    simp only [Pi.add_apply, Pi.smul_apply, smul_eq_mul, Complex.real_smul]
-    conv_lhs => rw [← Complex.re_add_im c]
-    ring
-  have h2 : Complex.I • (c • b) = c.re • (Complex.I • b) - c.im • b := by
-    ext k
-    simp only [Pi.sub_apply, Pi.smul_apply, smul_eq_mul, Complex.real_smul]
-    conv_lhs => rw [← Complex.re_add_im c]
-    linear_combination ((c.im : ℂ) * b k) * Complex.I_sq
-  unfold leviC
-  rw [h2, h1]
-  simp only [map_add (f := _), map_sub, map_smul, smul_eq_mul]
-  apply Complex.ext <;> simp <;> ring
+  simpa only [map_mul, conj_leviC_flip] using
+    congrArg (starRingEnd ℂ) (leviC_smul H.flip c b a)
 
 theorem sum_leviC_right (H : (Fin D → ℂ) →L[ℝ] (Fin D → ℂ) →L[ℝ] ℝ) (a x : Fin D → ℂ) :
     ∑ j, leviC H a (Pi.single j 1) * x j = leviC H a (star x) := by

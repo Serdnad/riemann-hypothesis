@@ -33,66 +33,12 @@ public import Mathlib.RingTheory.MvPolynomial.IrreducibleQuadratic
 public import Formalism.SharpRestriction.GrowthBounds.MonomialFactorials.OrthBasisLatOf
 public import Formalism.SharpRestriction.GrowthBounds.MonomialFactorials.IntegralityFromMetricOfOrthBasisLat
 public import Formalism.SharpRestriction.GrowthBounds.MonomialFactorials.GoodLeSmallMat
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Topology.Sheaves.Init
 import Formalism.SharpRestriction.GrowthBounds.CountingStatementReduction
 import Mathlib.Tactic.Linter.HaveILetI
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.RingTheory.WittVector.IsPoly
-import Mathlib.RingTheory.Henselian
-import Mathlib.RingTheory.RegularLocalRing.Defs
 import Formalism.MahlerMeasure.MahlerMeasureProofs.RemoveS
-import Mathlib.Algebra.Ring.IsFormallyReal
-import Mathlib.Tactic.Polynomial.Basic
 import Formalism.MahlerMeasure.MahlerMeasureProofs.GamInt
 import Std.Tactic.BVDecide.Normalize.Prop
-import Mathlib.GroupTheory.Nilpotent
-import Mathlib.RingTheory.SimpleRing.Principal
-import Mathlib.Tactic.Lemma
-import Mathlib.Tactic.TypeStar
-import Mathlib.RingTheory.Coalgebra.IsFrobenius
-import Mathlib.RingTheory.HopfAlgebra.Basic
-import Mathlib.RingTheory.TotallySplit
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Formalism.SharpRestriction.GrowthBounds.MonomialFactorials.FockKSmulRight, Formalism.SharpRestriction.GrowthBounds.FockGramWindow.RestWinOfLvl, Formalism.SharpRestriction.GrowthBounds.FockGramWindow.InitialPointNumericBound, Formalism.SharpRestriction.GrowthBounds.FockGramWindow.GramWindow2Proved, Formalism.SharpRestriction.GrowthBounds.FockGramWindow.LettersAtUPos, Formalism.PolynomialDimension.MultinomialDepth.SegmentBoundThreeHolds, Formalism.PolynomialDimension.ChangeLatticeGoodRank, Formalism.SharpRestriction.GrowthBounds.FockGramWindow.BinMatNatDegreeLe, Formalism.SharpRestriction.GrowthBounds.FockGramWindow.NeglogPowMul, Formalism.SharpRestriction.GrowthBounds.FockGramWindow.NormFockLe, Formalism.SharpRestriction.GrowthBounds.FockGramWindow.WinLvl, Formalism.PeriodIntegrals.UnitaryGroupMassFormula.DiagonalRank.DetOneSubPNe, Formalism.PeriodIntegrals.LatMin, Formalism.PeriodIntegrals.UnitaryGroupMassFormula.MinimalLatticeNorm.NormTwoEqOne, Formalism.PeriodIntegrals.OrbitalBoundsConclusion.LatMin, Formalism.SharpRestriction.GrowthBounds.MonomialFactorials.OrthSplitOfMin, Formalism.SharpRestriction.GrowthBounds.MonomialFactorials.ClosedOfOrthogonalSplitting, Formalism.SharpRestriction.GrowthBounds.MonomialFactorials.ClosedOfSplittingMatrix, Formalism.SharpRestriction.GrowthBounds.MonomialFactorials.ClosedOfMinimalVector, Formalism.SharpRestriction.GrowthBounds.FockGramWindow
@@ -103,14 +49,6 @@ section -- clump:auto
 @[expose] public section
 
 noncomputable section
-
-namespace Formalism.MainNotions.G.SymmetricFormBlocks
-
-open MvPolynomial Finset Formalism.MainNotions.G Formalism.MainNotions.flipOneThree Formalism.MainNotions.G.CountingStatementReduction
-
-variable (C0 CE1 CE2 : ℝ) (X : flipOneThree.Inst)
-
-end Formalism.MainNotions.G.SymmetricFormBlocks
 
 namespace Formalism.MainNotions.G.SymmetricFormBlocks
 
@@ -425,7 +363,7 @@ theorem restWinNum_proved (hS : SegFacts C0 CE1 CE2 X) (hpk : X.L.k ^ 2 * X.L.Y 
     (Nat.clog X.p (X.L.a + 1) : ℝ)
     ((x0N X.p (aBig X) X.r (2 * X.s + 1) (X.S C0 CE1 CE2).t : ℝ) + (lgN X.p (aBig X) X.r : ℝ))
     ((⌊D1r C0 CE1 CE2 X CM⌋ : ℤ) : ℝ) (((⌊X.L.Y * D1r C0 CE1 CE2 X CM⌋ : ℤ) : ℝ) + 1)
-    hY1 hk0 hkD hq0 hqY hh0 hhk hx hfl hE
+    hY1 hk0 hkD hqY hh0 hhk hx hfl hE
   calc _ = (J : ℝ) / (X.winA.card : ℝ)
         + ((x0N X.p (aBig X) X.r (2 * X.s + 1) (X.S C0 CE1 CE2).t : ℝ) + (lgN X.p (aBig X) X.r : ℝ)
           + ((⌊D1r C0 CE1 CE2 X CM⌋ : ℤ) : ℝ) + (J : ℝ) / (X.winA.card : ℝ) * (Nat.clog X.p (X.L.a + 1) : ℝ))
@@ -565,11 +503,11 @@ theorem bad_le_smith (n : ℕ) (k : ℤ) (Ψ : MvPolynomial σ ℚ_[p] → MvPol
     rw [hΨ]
     by_cases htt : t = t'
     · subst htt
-      rw [if_pos rfl, if_pos rfl]
+      rw [ite_eq_left rfl, ite_eq_left rfl]
       show (p : ℚ_[p]) ^ k * s / (d (ι t) : ℚ_[p]) * ((d (ι t) : ℚ_[p]) / s) = _
       have := hd0 t
       field_simp
-    · rw [if_neg htt, if_neg (fun h => htt (hιinj h)), zero_div, mul_zero]
+    · rw [ite_eq_right htt, ite_eq_right (fun h => htt (hιinj h)), zero_div, mul_zero]
   have hrank : Module.finrank ℤ_[p] L = n := by
     rw [hL, finrank_span_eq_card hli, Fintype.card_fin]
   have hcard : (Finset.univ.filter (fun i => ‖(d i : ℚ_[p])‖ ≤ (p : ℝ) ^ (-((k : ℝ) + 1)))).card + m = n := by
@@ -750,7 +688,7 @@ theorem dJ_le (A : ℕ) (hdeg : ∀ x, G.LL.deg x ≤ 2 * A) (hBa : G.B ≤ 2 * 
   · subst ha
     simp [Fin.castSucc_ne_last]
     omega
-  · rw [if_neg ha]
+  · rw [ite_eq_right ha]
     obtain ⟨a0, rfl⟩ : ∃ a0, Fin.castSucc a0 = a := Fin.exists_castSucc_eq.2 (Ne.symm ha)
     have h1 := lettersAt_le G j jp a0
     have h2 := hdeg a0
@@ -779,7 +717,7 @@ theorem lettersAt_uPos (hB : G.BlockOK) (j : Fin G.T.t → ℕ) (jp : ℕ) :
     (G.lettersAt j jp).deg G.uPos = G.LL.deg G.uPos - jp := by
   obtain ⟨-, hpos, -, -⟩ := hB
   have hz : (∑ i : Fin G.T.t, if (G.uPos : ℕ) = G.T.pos i ∨ (G.uPos : ℕ) = G.T.pos i + 1 then j i else 0) = 0 :=
-    Finset.sum_eq_zero fun i _ => if_neg (by have := hpos i; omega)
+    Finset.sum_eq_zero fun i _ => ite_eq_right (by have := hpos i; omega)
   change (List.map (fun i : Fin G.T.t => if (G.uPos : ℕ) = G.T.pos i ∨ (G.uPos : ℕ) = G.T.pos i + 1 then j i else 0) (List.finRange G.T.t)).sum = 0 at hz
   unfold M.BlockData.lettersAt
   simp only [hz, ite_true, Nat.sub_zero]
@@ -837,7 +775,7 @@ theorem det_leading_diagonal : DetLeadDiag := by
     · intro σ _ hσ
       rw [← Polynomial.C_eq_intCast, Polynomial.coeff_C_mul, hprod]
       obtain ⟨i, hi⟩ := not_forall.mp (mt Equiv.ext hσ)
-      rw [Finset.prod_eq_zero (Finset.mem_univ i) (by rw [hcoeff, if_neg (by simpa using hi)]), mul_zero]
+      rw [Finset.prod_eq_zero (Finset.mem_univ i) (by rw [hcoeff, ite_eq_right (by simpa using hi)]), mul_zero]
     · intro h
       exact absurd (Finset.mem_univ _) h
 
@@ -1536,9 +1474,6 @@ theorem main (hp2 : p ≠ 2) (B : V → V → ℚ_[p]) (L : Submodule ℤ_[p] V)
 
 end PI.LatMinWork
 
-namespace PI
-
-end PI
 end -- clump:auto
 end -- clump:auto
 -- ===== end clump member: Formalism.PeriodIntegrals.UnitaryGroupMassFormula.MinimalLatticeNorm.NormTwoEqOne =====
@@ -1702,7 +1637,7 @@ namespace Formalism.MainNotions.G.SymmetricFormBlocks
 
 theorem closed_of_orthogonal_splitting (D : Formalism.BasicNotions.D7) (hS : OrthSplit) (hG : GoodLeSmall) (h : RestWinE D) :
     Formalism.MainNotions.flipOneThree.IntegralityFromMetricForLargeConstants D :=
-  integralityFromMetric_of_orthBasisLat D (orthBasisLat_of freeLat_proved hS) hG h
+  integralityFromMetric_of_orthBasisLat D (orthBasisLat_of hS) hG h
 
 end Formalism.MainNotions.G.SymmetricFormBlocks
 

@@ -1,12 +1,12 @@
 module
 
-import GroundTheory.HeightsAndTheta.Heights.MultihomogeneousPolynomials
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovGeometry.IsSmoothPts
 public import Mathlib.Analysis.CStarAlgebra.Module.Constructions
 public import Mathlib.Analysis.InnerProductSpace.Calculus
 import Mathlib.Analysis.LocallyConvex.AbsConvexOpen
 import Mathlib.Tactic.TypeStar
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovGeometry.ProjDefs
+import GroundTheory.HeightsAndTheta.Heights.HeightComparison.IsMultiHomogIdealIff
 
 @[expose] public section
 
@@ -26,37 +26,23 @@ section Homog
 
 variable {K : Type*} [Fintype K] {ι : K → Type*} [∀ k, Fintype (ι k)]
 
-theorem isMultiHomog_one : IsMultiHomog (1 : MRing ι) 0 := by
-  apply _root_.GroundTheory.Heights₂.Heights.MultiHomogeneous.one <;> assumption
+theorem isMultiHomog_one : IsMultiHomog (1 : MRing ι) 0 :=
+  GroundTheory.Heights₂.Heights.Bridge.isMultiHomog_one
 
-theorem mhNeg {f : MRing ι} {a : K → ℕ} (hf : IsMultiHomog f a) : IsMultiHomog (-f) a := by
-  intro m hm
-  rw [support_neg] at hm
-  exact hf m hm
+theorem mhNeg {f : MRing ι} {a : K → ℕ} (hf : IsMultiHomog f a) : IsMultiHomog (-f) a :=
+  GroundTheory.Heights₂.Heights.Bridge.isMultiHomog_neg hf
 
 theorem mhAdd {f g : MRing ι} {a : K → ℕ} (hf : IsMultiHomog f a) (hg : IsMultiHomog g a) :
-    IsMultiHomog (f + g) a := by
-  apply _root_.GroundTheory.Heights₂.Heights.MultiHomogeneous.add <;> assumption
+    IsMultiHomog (f + g) a :=
+  GroundTheory.Heights₂.Heights.Bridge.isMultiHomog_add hf hg
 
 theorem mhMul {f g : MRing ι} {a b : K → ℕ} (hf : IsMultiHomog f a) (hg : IsMultiHomog g b) :
-    IsMultiHomog (f * g) (a + b) := by
-  apply _root_.GroundTheory.Heights₂.Heights.MultiHomogeneous.mul <;> assumption
+    IsMultiHomog (f * g) (a + b) :=
+  GroundTheory.Heights₂.Heights.Bridge.isMultiHomog_mul hf hg
 
 theorem isMultiHomog_X (p : Σ k, ι k) [DecidableEq K] :
-    IsMultiHomog (X p : MRing ι) (fun k => if k = p.1 then 1 else 0) := by
-  intro m hm k
-  classical
-  rw [support_X, Finset.mem_singleton] at hm
-  subst hm
-  obtain ⟨k₀, i₀⟩ := p
-  by_cases hk : k = k₀
-  · subst hk
-    simp [Finsupp.single_apply]
-  · simp only [hk, if_false]
-    refine Finset.sum_eq_zero fun i _ => ?_
-    rw [Finsupp.single_apply, if_neg]
-    intro h
-    exact hk (congrArg Sigma.fst h).symm
+    IsMultiHomog (X p : MRing ι) (fun k => if k = p.1 then 1 else 0) :=
+  GroundTheory.Heights₂.Heights.Bridge.isMultiHomog_X_ite p
 
 end Homog
 

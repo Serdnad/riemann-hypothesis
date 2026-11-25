@@ -125,7 +125,6 @@ section -- clump:auto
 
 open NumberField IsDedekindDomain Matrix Polynomial GlobalTheory.BCT GlobalTheory.UnitaryBC Formalism.UG
 open scoped Classical
-attribute [local instance] GlobalTheory.LocalData.complRel GlobalTheory.LocalData.isLocalField
 
 namespace GlobalTheory.CompanionTheory.UnitNormLocal
 
@@ -249,71 +248,6 @@ theorem exists_unit_norm_eq : ∀ (E : Type) [Field E] [NumberField E] [IsCMFiel
   obtain ⟨-, hinv, hval, hns, -⟩ := _root_.GlobalTheory.ConjAtPlace.main E hU w
   obtain ⟨-, ⟨ϖ, q, hI, -⟩, -, -⟩ := hns hw
   obtain ⟨-, -, -, -, ⟨x₀, hx₀, hx⟩, hq, hcard⟩ := hI
-  haveI : HenselianLocalRing (w.adicCompletionIntegers E) := by
-    open HeightOneSpectrum WithZero Filter Topology in
-    let Ov := w.adicCompletionIntegers E
-    let Kv := w.adicCompletion E
-    have adicInt_dvd_iff (x y : Ov) :
-        x ∣ y ↔ Valued.v (y : Kv) ≤ Valued.v (x : Kv) := by
-      first
-      | exact (IsDedekindDomain.HeightOneSpectrum.adicCompletionIntegers.integers (K := E) w ).dvd_iff_le
-
-    have adicInt_max_eq_span (π : Ov) (hπ : Valued.v (π : Kv) = exp (-1 : ℤ)) :
-        maximalIdeal Ov = Ideal.span {π} := by
-      ext x
-      rw [Formalism.BasicNotions.Examples₂.adicInt_mem_max_iff w x, Ideal.mem_span_singleton, adicInt_dvd_iff π x, hπ, Formalism.BasicNotions.Examples₂.wz_lt_one_iff]
-
-    have adicInt_mem_pow_iff (n : ℕ) (x : Ov) :
-        x ∈ (maximalIdeal Ov) ^ n ↔ Valued.v (x : Kv) ≤ exp (-(n : ℤ)) := by
-      obtain ⟨π, hπ⟩ := Formalism.BasicNotions.Examples₂.adicInt_exists_unif (K := E) w 
-      have h1 : ((π ^ n : Ov) : Kv) = (π : Kv) ^ n := by
-        first
-        | rfl
-        | push_cast; rfl
-      have hpow : Valued.v ((π ^ n : Ov) : Kv) = exp (-(n : ℤ)) := by
-        rw [h1, map_pow, hπ]
-        first
-        | (rw [← WithZero.exp_nsmul]; congr 1; simp)
-      rw [adicInt_max_eq_span π hπ, Ideal.span_singleton_pow, Ideal.mem_span_singleton,
-        adicInt_dvd_iff, hpow]
-
-    have wz_exists_nat_lt (γ : ℤᵐ⁰) (h : γ ≠ 0) : ∃ N : ℕ, exp (-(N : ℤ)) < γ := by
-      obtain ⟨m, rfl⟩ : ∃ m : ℤ, exp m = γ := ⟨_, WithZero.exp_log h⟩
-      exact ⟨m.natAbs + 1, by rw [WithZero.exp_lt_exp]; omega⟩
-
-    have adicInt_eq_zero_of_forall (x : Kv) (h : ∀ n : ℕ, Valued.v x ≤ exp (-(n : ℤ))) : x = 0 := by
-      by_contra hx
-      have h0 : Valued.v x ≠ 0 := by
-        first
-        | exact (Valuation.ne_zero_iff _).mpr hx
-      obtain ⟨N, hN⟩ := wz_exists_nat_lt (Valued.v x) h0
-      exact absurd (h N) (not_le.mpr hN)
-
-    have adicCompl_isClosed_le (r : ℤᵐ⁰) : IsClosed {x : Kv | Valued.v x ≤ r} := by
-      rw [← isOpen_compl_iff, isOpen_iff_mem_nhds]
-      intro x hx
-      have hx' : r < Valued.v x := not_le.mp hx
-      have hx0 : Valued.v x ≠ 0 := (lt_of_le_of_lt zero_le' hx').ne'
-      have hmem : {y : Kv | Valued.v y = Valued.v x} ∈ 𝓝 x := by
-        first
-        | exact Valued.locally_const hx0
-      filter_upwards [hmem] with y hy
-      show ¬ Valued.v y ≤ r
-      rw [show Valued.v y = Valued.v x from hy]
-      exact not_le.mpr hx'
-
-    have adicInt_isAdicComplete : IsAdicComplete (maximalIdeal Ov) Ov := by
-      first
-      | exact _root_.Formalism.BasicNotions.Examples₂.adicInt_isAdicComplete
-      | apply _root_.Formalism.BasicNotions.Examples₂.adicInt_isAdicComplete <;> assumption
-
-    haveI : HenselianLocalRing Ov := by
-      have := adicInt_isAdicComplete 
-      have : HenselianRing Ov (maximalIdeal Ov) := inferInstance
-      refine ⟨fun f hf a₀ h₁ h₂ => ?_⟩
-      refine HenselianRing.is_henselian f hf a₀ h₁ ?_
-      exact h₂.map _
-    exact inferInstance
   have hfin : Finite (IsLocalRing.ResidueField (w.adicCompletionIntegers E)) := by
     refine Nat.finite_of_card_ne_zero ?_
     have h := hcard

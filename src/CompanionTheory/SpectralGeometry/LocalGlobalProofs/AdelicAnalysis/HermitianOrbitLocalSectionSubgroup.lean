@@ -12,7 +12,6 @@ import Mathlib.RingTheory.RegularLocalRing.Defs
 import Mathlib.RingTheory.SimpleRing.Principal
 import Mathlib.Topology.Algebra.Group.Units
 import Mathlib.CategoryTheory.Countable
-import CompanionTheory.SpectralGeometry.LocalGlobalProofs.AdelicAnalysis.CoordinateHaarMeasure
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: CompanionTheory.SpectralGeometry.LocalGlobalProofs.AdelicAnalysis.HermitianOpenChartDiagonalUnipotent, CompanionTheory.SpectralGeometry.LocalGlobalProofs.AdelicAnalysis.LocalHermitianDiagonalizationUnits, CompanionTheory.SpectralGeometry.LocalGlobalProofs.AdelicAnalysis.HermitianOrbitLocalSectionSubgroup
@@ -188,9 +187,9 @@ def eD (n : ℕ) : ((Fin (n + 1) → Rˣ) × (Up (n + 1) → K)) ≃ₜ
         simpa [Function.comp_def] using
           (continuous_apply i).comp (continuous_fst.comp (continuous_snd.comp continuous_snd))
     · by_cases h : p.1.1 = 0
-      · simp only [joinU, h, dif_pos]
+      · simp only [joinU, h, dite_eq_left]
         exact (continuous_apply _).comp (continuous_fst.comp continuous_snd)
-      · simp only [joinU, h, dif_neg, not_false_eq_true]
+      · simp only [joinU, h, dite_eq_right, not_false_eq_true]
         exact (continuous_apply _).comp (continuous_snd.comp (continuous_snd.comp continuous_snd))
 
 variable {ι : R →+* K} {τ : K →+* K}
@@ -562,7 +561,7 @@ theorem aGL_coords (ι : R →+* K) {U : Subgroup Rˣ} (x : triSub ι U n) :
   show aMat ι (uOf ι x) (mOf ι x) i j = _
   rw [aMat_apply]
   rcases lt_trichotomy i j with h | h | h
-  · simp only [nMat, Matrix.of_apply, h.ne, if_false, h, dif_pos, mOf]
+  · simp only [nMat, Matrix.of_apply, h.ne, ite_false, h, dite_eq_left, mOf]
     exact unit_cancel' ι _ _
   · subst h
     simp [nMat, uOf_spec]
@@ -589,7 +588,7 @@ theorem coords_aGL (ι : R →+* K) (hι : Function.Injective ι) {U : Subgroup 
   simp only [mOf, h1]
   show _ * aMat ι u m i j = _
   rw [aMat_apply]
-  simp only [nMat, Matrix.of_apply, h'.ne, if_false, h', dif_pos]
+  simp only [nMat, Matrix.of_apply, h'.ne, ite_false, h', dite_eq_left]
   exact unit_cancel ι _ _
 
 theorem aMat_gram (ι : R →+* K) (sig : K →+* K) (hs : ∀ r, sig (ι r) = ι r) {U : Subgroup Rˣ}
@@ -735,7 +734,18 @@ open GlobalTheory.CompanionTheory.SW.Tri
 theorem half_trace_tmul {F E : Type} [Field F] [NumberField F] [Field E] [Algebra F E]
     (h2 : Module.finrank F E = 2) (R : Type) [CommRing R] [Algebra F R] (r : R) :
     algebraMap F R (1 / 2) * Algebra.trace R (R ⊗[F] E) (r ⊗ₜ[F] (1 : E)) = r := by
-  apply _root_.GlobalTheory.CompanionTheory.SW.HaarCoord.half_trace_tmul <;> assumption
+  haveI : Module.Finite F E := Module.finite_of_finrank_pos (by omega)
+  have hb := Algebra.TensorProduct.basis R (Module.finBasis F E)
+  have h1 : (r ⊗ₜ[F] (1 : E) : R ⊗[F] E) = algebraMap R (R ⊗[F] E) r := by
+    simp [Algebra.TensorProduct.algebraMap_apply]
+  rw [h1, Algebra.trace_algebraMap_of_basis hb]
+  simp only [Fintype.card_fin, h2]
+  rw [nsmul_eq_mul, ← mul_assoc]
+  have : algebraMap F R (1 / 2) * ((2 : ℕ) : R) = 1 := by
+    have : ((2 : ℕ) : R) = algebraMap F R 2 := by rw [map_ofNat, Nat.cast_ofNat]
+    rw [this, ← map_mul]
+    simp
+  rw [this, one_mul]
 
 theorem tri_slice : ∀ (F E : Type) [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] (σ : E →ₐ[F] E), IsCMExt F E σ → ∀ (R : Type) [CommRing R] [Algebra F R] [TopologicalSpace R] [MeasurableSpace R] [BorelSpace R], IsLocR R → ∀ (n : ℕ) (S : HermR R σ n), IsUnit (S : Matrix (Fin n) (Fin n) (R ⊗[F] E)).det → ∃ (Q : Subgroup (GL (Fin n) (R ⊗[F] E))) (o : Q → HermR R σ n), LocallyCompactSpace Q ∧ SecondCountableTopology Q ∧ IsOpenEmbedding o ∧ ∀ x : Q, (o x : Matrix (Fin n) (Fin n) (R ⊗[F] E)) = cT (sigR R σ) ((x : GL (Fin n) (R ⊗[F] E)) : Matrix (Fin n) (Fin n) (R ⊗[F] E)) * (S : Matrix (Fin n) (Fin n) (R ⊗[F] E)) * ((x : GL (Fin n) (R ⊗[F] E)) : Matrix (Fin n) (Fin n) (R ⊗[F] E)) := by
   intro F E _ _ _ _ _ σ hCM R _ _ _ _ _ hR n S hS

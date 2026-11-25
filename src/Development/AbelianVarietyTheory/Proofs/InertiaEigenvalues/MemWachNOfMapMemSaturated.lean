@@ -64,7 +64,6 @@ import Mathlib.Topology.Sheaves.Init
 import Mathlib.Data.Nat.Choose.Multinomial
 import Formalism.WeaklyAdmissibleFiltrations.Statement
 import Mathlib.Tactic.ReduceModChar
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.WachNCokernelKilledByPower
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.FlatOverProductPowerSeriesRing, Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IsBaseChangeComapOfExactFlat, Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.WachKernelIntersectionFreeOfBaseChange, Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.WachFrobeniusFlatCrystalline, Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.WachLetterRingFrobeniusDecomposition, Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.WachKernelMemFrobeniusSpanAfterQPow, Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.MemWachNOfMapMemSaturated
@@ -168,7 +167,44 @@ theorem flat_letA (O : Type) [CommRing O] [IsNoetherianRing O] (n : ℕ) [NeZero
     (hsat : ∀ (a : LetA O n) (k : ℕ), algebraMap (LetA O n) E a ∈ Ideal.span {(p : E) ^ k} →
       ∃ b : LetA O n, a = (p : LetA O n) ^ k * b) :
     Module.Flat (LetA O n) E := by
-  apply _root_.GlobalTheory.flat_letA_of_dense_sat <;> assumption
+  let B := Localization.Away (letπ : LetA O n)
+  let g : B →+* E := IsLocalization.Away.lift (S := B) (letπ : LetA O n) hπ
+  letI : Algebra B E := g.toAlgebra
+  have hg : ∀ a : LetA O n, algebraMap B E (algebraMap (LetA O n) B a) = algebraMap (LetA O n) E a :=
+    fun a => IsLocalization.Away.lift_eq (S := B) (letπ : LetA O n) hπ a
+  haveI : IsScalarTower (LetA O n) B E := IsScalarTower.of_algebraMap_eq fun a => (hg a).symm
+  have hp : algebraMap B E (p : B) = (p : E) := map_natCast _ _
+  haveI : Module.Flat B E := by
+    refine flat_of_levels (p : B) (by rwa [hp]) ?_ ?_
+    · intro b k hb
+      rw [hp] at hb
+      obtain ⟨⟨a, s⟩, rfl⟩ := IsLocalization.mk'_surjective (Submonoid.powers (letπ : LetA O n)) b
+      have h1 : IsLocalization.mk' B a s * algebraMap (LetA O n) B s = algebraMap (LetA O n) B a :=
+        IsLocalization.mk'_spec B a s
+      have h2 : algebraMap (LetA O n) E a ∈ Ideal.span {(p : E) ^ k} := by
+        rw [← hg, ← h1, map_mul]
+        exact Ideal.mul_mem_right _ _ hb
+      obtain ⟨c, rfl⟩ := hsat a k h2
+      refine Ideal.mem_span_singleton.2 ⟨IsLocalization.mk' B c s, ?_⟩
+      show IsLocalization.mk' B ((p : LetA O n) ^ k * c) s = (p : B) ^ k * IsLocalization.mk' B c s
+      rw [← IsLocalization.mul_mk'_eq_mk'_of_mul, map_pow, map_natCast]
+    · intro y k
+      obtain ⟨a, m, h⟩ := hden y k
+      let s : Submonoid.powers (letπ : LetA O n) := ⟨letπ ^ m, m, rfl⟩
+      refine ⟨IsLocalization.mk' B a s, ?_⟩
+      rw [hp]
+      have h1 : IsLocalization.mk' B a s * algebraMap (LetA O n) B (letπ ^ m) = algebraMap (LetA O n) B a :=
+        IsLocalization.mk'_spec B a s
+      have h2 : algebraMap B E (IsLocalization.mk' B a s) * algebraMap (LetA O n) E (letπ ^ m) =
+          algebraMap (LetA O n) E a := by rw [← hg, ← hg, ← map_mul, h1]
+      obtain ⟨v, hv⟩ := hπ.pow m
+      rw [← map_pow] at hv
+      have h3 : algebraMap B E (IsLocalization.mk' B a s) - y =
+          -((y * algebraMap (LetA O n) E (letπ ^ m) - algebraMap (LetA O n) E a) * ↑v⁻¹) := by
+        rw [← h2, ← hv, neg_mul_eq_neg_mul, neg_sub, ← sub_mul, mul_assoc, Units.mul_inv, mul_one]
+      rw [h3]
+      exact (Ideal.neg_mem_iff _).2 (Ideal.mul_mem_right _ _ h)
+  exact Module.Flat.trans (LetA O n) B E
 
 end GlobalTheory.FlatLocCompl
 end -- clump:auto
@@ -189,7 +225,7 @@ theorem isBaseChange_comap_of_exact (A E : Type) [CommRing A] [CommRing E] [Alge
     [Module E D₀] [Module E D₁] [Module E D₂] [Module A D₀] [Module A D₁] [Module A D₂]
     [IsScalarTower A E D₀] [IsScalarTower A E D₁] [IsScalarTower A E D₂]
     (j : D₀ →ₗ[E] D₁) (q : D₁ →ₗ[E] D₂) (N₁ : Submodule A D₁) (N₂ : Submodule A D₂)
-    (hj : Function.Injective j) (hex : Function.Exact j q) (_hq : Function.Surjective q)
+    (hj : Function.Injective j) (hex : Function.Exact j q)
     (h₁ : IsBaseChange E N₁.subtype) (h₂ : IsBaseChange E N₂.subtype)
     (hN : ∀ x ∈ N₁, q x ∈ N₂) :
     IsBaseChange E (N₁.comap (j.restrictScalars A)).subtype := by
@@ -491,9 +527,9 @@ namespace GlobalTheory.NL.PhiFlat
 
 theorem main : ∀ (D : Formalism.BasicNotions.D7) (HW : HWOf D.loc) (F : FonOf D.loc D.locA HW) (l : ℕ) [Fact l.Prime] (K : FinExt l) (s : ℕ) (LL : FinExt l) (h : Good K s LL), let W := (HW l).W K s LL h; ∀ T : Lt K LL, IsCrys ((D.loc l).PD K) T.ρ → ∀ z : Fin l → W.DD T, (∀ j, z j ∈ W.N T) → ∑ j : Fin l, (fun _ => ((1 : PowerSeries ↥(OL LL)) + PowerSeries.X) ^ (j : ℕ) : AA K LL) • W.φD T (z j) = 0 → ∀ j, z j = 0 := by
   intro D HW F l _ K s LL h W T hT z hz hsum
-  obtain ⟨bN⟩ := GlobalTheory.NL.N_basis D HW F l K s LL h T hT
+  obtain ⟨bN⟩ := GlobalTheory.NL.N_basis D.loc D.locA HW F l K s LL h T hT
   have hQ : IsUnit (algebraMap (AA K LL) W.EE W.Q) := by
-    have := ((GlobalTheory.NL.IoXQ.main D HW F l K s LL h).2.2.2.2.2.2 0).2
+    have := ((GlobalTheory.NL.IoXQ.main D.loc D.locA HW F l K s LL h).2.2.2.2.2.2 0).2
     rw [pow_zero, AlgHom.one_apply] at this
     exact this
   obtain ⟨χ, -, hφ, -⟩ := GlobalTheory.NL.CycRing.rings_cyclotomic D HW l K s LL h
@@ -696,7 +732,7 @@ theorem mem_N_of_map_mem : ∀ (D : Formalism.BasicNotions.D7) (HW : HWOf D.loc)
     · rw [(D.loc l).PD_p K]
       exact GlobalTheory.EtaleExact.sep_RW LL
   have key := _root_.GlobalTheory.NL.FrobeniusMatrixUniqueness.main D HW F l K s LL h T₀ h0
-  obtain ⟨hinj, hexact, hsurj⟩ : Function.Injective (W.map ι) ∧ Function.Exact (W.map ι) (W.map π) ∧
+  obtain ⟨hinj, hexact, -⟩ : Function.Injective (W.map ι) ∧ Function.Exact (W.map ι) (W.map π) ∧
       Function.Surjective (W.map π) := hex
   haveI := GlobalTheory.EtaleExact.finite_OL LL
   haveI : IsNoetherianRing ↥(OL LL) := IsNoetherianRing.of_finite ℤ_[l] ↥(OL LL)
@@ -705,7 +741,7 @@ theorem mem_N_of_map_mem : ∀ (D : Formalism.BasicNotions.D7) (HW : HWOf D.loc)
   haveI : Module.Flat (AA K LL) W.EE :=
     _root_.GlobalTheory.FlatLocCompl.flat_letA _ _ W.EE ((D.loc l).PD K).p W.EE_π W.EE_complete W.EE_dense W.EE_sat
   have hbc : IsBaseChange W.EE ((W.N T₁).comap ((W.map ι).restrictScalars (AA K LL))).subtype :=
-    _root_.GlobalTheory.isBaseChange_comap_of_exact (AA K LL) W.EE _ _ _ (W.map ι) (W.map π) (W.N T₁) (W.N T₂) hinj hexact hsurj
+    _root_.GlobalTheory.isBaseChange_comap_of_exact (AA K LL) W.EE _ _ _ (W.map ι) (W.map π) (W.N T₁) (W.N T₂) hinj hexact
       (W.N_base T₁ h1) (W.N_base T₂ h2) (fun y hy => W.map_N π h1 h2 y hy)
   have hcomp : ∀ z, W.map π (W.map ι z) = 0 := fun z => (hexact _).2 ⟨z, rfl⟩
   have hA : ∀ (a : AA K LL) (z : W.DD T₀), W.map ι (a • z) = a • W.map ι z := fun a z =>
