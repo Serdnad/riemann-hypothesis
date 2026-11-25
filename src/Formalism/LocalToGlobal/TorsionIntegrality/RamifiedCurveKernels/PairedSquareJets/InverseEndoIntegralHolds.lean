@@ -1,6 +1,5 @@
 module
 
-import ReciprocityTheory.ReductiveGroups.UnramifiedIntegrals.CoeffOneSubstOfConstantCoeffEqZero
 public import Formalism.LocalToGlobal.TorsionIntegrality.RamifiedCurveKernels.StatementR
 public import Formalism.LocalToGlobal.TorsionIntegrality.RamifiedCurveKernels.PairedSquareJets.HurwitzB
 import Formalism.LocalToGlobal.TorsionIntegrality.SecondCoefficientNorms.BinomialSeriesCoefficients.IntPSDerivativeOfLG
@@ -27,7 +26,12 @@ theorem coeff_one_subst1 (g : PowerSeries K) {a : PowerSeries K}
     (ha : PowerSeries.constantCoeff a = 0) :
     PowerSeries.coeff 1 (PowerSeries.subst a g : PowerSeries K) =
       PowerSeries.coeff 1 g * PowerSeries.coeff 1 a := by
-  apply _root_.ReciprocityTheory.ChartRestriction.L1.coeff_one_subst_of_constantCoeff_eq_zero <;> assumption
+  have key : ∀ f : PowerSeries K, PowerSeries.coeff 1 f =
+      PowerSeries.constantCoeff (PowerSeries.derivative (R := K) f) := by
+    intro f
+    rw [← PowerSeries.coeff_zero_eq_constantCoeff_apply, PowerSeries.coeff_derivative]
+    simp
+  rw [key, PowerSeries.derivative_subst (JetSubstitutionLemmas.hs1 ha), map_mul, JetSubstitutionLemmas.cc_subst1 ha, ← key, ← key]
 
 theorem coeff_one_mulBy {l linv : PowerSeries K} (h : IsLogPair l linv) (a : K) :
     PowerSeries.coeff 1 (mulBy l linv a) = a := by

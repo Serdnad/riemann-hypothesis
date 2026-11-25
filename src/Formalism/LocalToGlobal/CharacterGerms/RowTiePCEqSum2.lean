@@ -1,7 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.GaugeDerivEqPairingOfIntegralGaugedLaw
-import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.HasGaugeAdjointLieProjectorsSelfConjugatePlace
 public import Formalism.LocalToGlobal.CharacterGerms.RowTieDefs
 public import Formalism.FormalGroupLog.FormalGroupLogProofs.ChainRule
 public import Formalism.LocalToGlobal.CharacterGerms.ConstMemTypeSetOfNonneg
@@ -25,7 +23,18 @@ namespace RowTiePCEqSum
 
 theorem subst_zero_const {σ τ : Type} [Finite σ] (f : MvPowerSeries σ C) (hf : MvPowerSeries.constantCoeff f = 0) :
     MvPowerSeries.subst (fun _ : σ => (0 : MvPowerSeries τ C)) f = 0 := by
-  apply _root_.GlobalTheory.RowLaw.EndBlock.subst_zero' <;> assumption
+  ext e
+  rw [MvPowerSeries.coeff_subst MvPowerSeries.HasSubst.zero, map_zero]
+  apply finsum_eq_zero_of_forall_eq_zero
+  intro n
+  by_cases hn : n = 0
+  · subst hn
+    rw [MvPowerSeries.coeff_zero_eq_constantCoeff_apply, hf, zero_smul]
+  · obtain ⟨s, hs⟩ := Finsupp.ne_iff.mp hn
+    have hs' : n s ≠ 0 := by simpa using hs
+    have : (n.prod fun s e => (0 : MvPowerSeries τ C) ^ e) = 0 :=
+      Finset.prod_eq_zero (i := s) (Finsupp.mem_support_iff.2 hs') (zero_pow hs')
+    rw [this, map_zero, smul_zero]
 
 theorem hasSubst_unit {τ : Type} {T : MvPowerSeries τ C} (hT : MvPowerSeries.constantCoeff T = 0) :
     MvPowerSeries.HasSubst (fun _ : Unit => T) := MvPowerSeries.hasSubst_of_constantCoeff_zero (fun _ => hT)

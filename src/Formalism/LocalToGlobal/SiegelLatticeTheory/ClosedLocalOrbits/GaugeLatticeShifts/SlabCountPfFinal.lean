@@ -788,7 +788,13 @@ theorem wsp_le_orth : Wsp X u' ≤ orth (VS D) (Xsp (lf D (X.Fu u'))) :=
   Formalism.L2.SG.Pf.orth_anti (xsp_le_usp X u')
 
 theorem piWL_of_mem {w : (VS D).V} (hw : w ∈ Wsp X u') : piWL X u' w = w := by
-  apply _root_.Formalism.L2.SG.Pf.SlabCount.LeviAlg.levi_projection_of_mem <;> assumption
+  have h0 : ∀ x ∈ Usp X u', (VS D).hT x w = 0 := Formalism.L2.SG.Pf.mem_orth_iff_bl.1 hw
+  have he : ∀ a, (VS D).hT (X.eX a) w = 0 := fun a =>
+    h0 _ (Submodule.subset_span (Or.inl (Or.inl ⟨a, rfl⟩)))
+  have hf : ∀ a, (VS D).hT (X.fY a) w = 0 := fun a =>
+    h0 _ (Submodule.subset_span (Or.inl (Or.inr ⟨a, rfl⟩)))
+  have hz : (VS D).hT (X.zu u') w = 0 := h0 _ (Submodule.subset_span (Or.inr rfl))
+  simp [piWL, LinearMap.sub_apply, LinearMap.sum_apply, LinearMap.smulRight_apply, he, hf, hz]
 
 theorem hW_symm : (hW X u').IsSymm :=
   ⟨fun x y => (VS D).herm.eq (x : (VS D).V) (y : (VS D).V)⟩

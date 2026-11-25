@@ -1,6 +1,5 @@
 module
 
-import Formalism.PieriBlockIdeals.PieriColumnMinors.LrfcApplyWordAppendSingle
 public import Formalism.GradedWeylDivisibility.StatementE
 public import Formalism.GradedWeylDivisibility.FockSpaceTableaux.ColSums
 public import Formalism.LocalToGlobal.GroupLattices.FockModels.TransposeWords.FockPairingHighestWeight
@@ -410,7 +409,26 @@ theorem cw_prod_pt (m : Fin r × Fin n →₀ ℕ) :
 
 theorem cw_ext (m e : Fin r × Fin n →₀ ℕ) (hm : LowerTri m) (he : LowerTri e) (hs : cwStrict m = cwStrict e)
     (hc : ∀ s : Fin n, ∑ a : Fin r, m (a, s) = ∑ a : Fin r, e (a, s)) : m = e := by
-  apply _root_.Formalism.CohomologicalDescent.LR.lrf_unique <;> assumption
+  classical
+  have off : ∀ (a : Fin r) (s : Fin n), a.val ≠ s.val → m (a, s) = e (a, s) := by
+    intro a s hne
+    rcases lt_or_gt_of_ne hne with c | c
+    · rw [hm a s c, he a s c]
+    · have h0 := DFunLike.congr_fun hs (a, s)
+      simpa [cwStrict, Finsupp.filter_apply, c] using h0
+  ext ⟨a, s⟩
+  by_cases h : a.val = s.val
+  · have h0 := hc s
+    rw [← Finset.add_sum_erase _ (fun x => m (x, s)) (Finset.mem_univ a),
+      ← Finset.add_sum_erase _ (fun x => e (x, s)) (Finset.mem_univ a)] at h0
+    have h2 : ∑ x ∈ Finset.univ.erase a, m (x, s) = ∑ x ∈ Finset.univ.erase a, e (x, s) := by
+      apply Finset.sum_congr rfl
+      intro x hx
+      apply off
+      intro hxs
+      exact (Finset.mem_erase.mp hx).1 (Fin.ext (by omega))
+    omega
+  · exact off a s h
 
 end
 

@@ -1,6 +1,5 @@
 module
 
-import Formalism.LocalToGlobal.TorsionIntegrality.FrobeniusFibreCurves.LogarithmicSubstitution.ConstantCoeffSeriesAtVariable
 public import Formalism.LocalToGlobal.TorsionIntegrality.GaussSumParity.LetterShift
 public import Formalism.ThetaLogCoordinates.UniformThetaSubstitution.FrobeniusLiftNorms.TopsChoicePartA
 import Mathlib.Algebra.Order.Star.Int
@@ -152,7 +151,11 @@ section Normed
 variable {K : Type} [NormedField K] {τ : Type}
 
 lemma integral_X' (x : τ) : Integral (X x : MvPowerSeries τ K) := by
-  apply _root_.Formalism.L2.Th1.B.law_integral_X <;> assumption
+  classical
+  unfold Integral
+  intro n
+  rw [coeff_X]
+  split_ifs <;> simp
 
 lemma shiftType_gLog [DecidableEq τ] [CharZero K] {l d : ℕ} (hl : l.Prime) (σ : K →+* K) (φ : ZMod d → τ) :
     ShiftType l σ (fun s : ZMod d => gLog K l φ s) := by
@@ -224,8 +227,7 @@ lemma combo [IsUltrametricDist K] {l d : ℕ} [NeZero d] (hl : l ≠ 0) (σ : K 
     · simp
   rw [hsum]
   refine ⟨?_, ?_⟩
-  · set_option synthInstance.maxHeartbeats 100000 in
-      rw [map_sum]
+  · rw [map_sum]
     refine Finset.sum_eq_zero fun s _ => ?_
     rw [map_mul, (hL s).1, mul_zero]
   · have key : (∑ s, C (a s) * L s) - C ((l : K)⁻¹) *

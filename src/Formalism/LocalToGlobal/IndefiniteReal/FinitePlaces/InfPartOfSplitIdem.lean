@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.RealIdemMulOfReal
 public import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.PlaceS
 public import Formalism.LocalToGlobal.IndefiniteReal.SubgroupCharExtensionOneApply
 public import Formalism.LocalToGlobal.BesselHermitianTheta.LemmasWeil
@@ -670,7 +669,14 @@ theorem frMapO_neg {βS : GL (Fin S.rank) (EAf D)} {βT : GL (Fin T.rank) (EAf D
   simp [frMapO, Matrix.map_neg, Matrix.mul_neg, Matrix.neg_mul]
 
 theorem infPart_of_splitIdem {e : AE D} (he : IsSplitIdem D e) : infPart D e = 0 := by
-  apply _root_.GlobalTheory.SplitScalar.infPart_splitIdem <;> assumption
+  obtain ⟨h1, h2, v, ε, ⟨α, rfl, _, _⟩, hε⟩ := he
+  have : e = e * algebraMap (AF D.host.F) (AE D) (pairA D.host.F 0 α) := by rw [← hε, mul_add, h1, h2, add_zero]
+  rw [this, map_mul]
+  have h0 : infPart D (algebraMap (AF D.host.F) (AE D) (pairA D.host.F 0 α)) = 0 := by
+    rw [Algebra.TensorProduct.algebraMap_apply, Algebra.algebraMap_self, RingHom.id_apply]
+    show (fstA D.host.F (pairA D.host.F 0 α)) ⊗ₜ[D.host.F] (1 : D.host.E) = 0
+    exact TensorProduct.zero_tmul _ _
+  rw [h0, mul_zero]
 
 theorem infPart_of_idemSum {e : AE D} {P : Finset (Formalism.L2.DIV.Pl D.host.E)} (he : IsIdemSum e P) : infPart D e = 0 := by
   obtain ⟨⟨es, hes, rfl⟩, _⟩ := he
@@ -821,7 +827,7 @@ theorem heisO_fix_of_latVac (ψ : AddChar (AF D.host.F) ℂ) {f₀ : WO S T → 
       · simp only [Matrix.smul_apply, smul_eq_mul]
         rw [← mul_assoc, hsc.1]
 
-theorem gram_herm_E (V : HSp D) : V.gramᴴ = V.gram := Matrix.ext fun i j => V.herm.eq _ _
+theorem gram_herm_E (V : HSp D) : V.gramᴴ = V.gram := Matrix.ext fun _ _ => V.herm.eq _ _
 
 theorem sR_sR (z : EAf D) : sR D (sR D z) = z := by
   induction z using TensorProduct.inductionOn with

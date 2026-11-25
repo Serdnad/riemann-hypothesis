@@ -16,7 +16,6 @@ import Mathlib.Algebra.Order.Star.Int
 import Mathlib.RingTheory.Etale.Weakly
 import Mathlib.RingTheory.Finiteness.ModuleFinitePresentation
 import Mathlib.RingTheory.TotallySplit
-import Formalism.LocalToGlobal.GlobalTheory.GL6.DiagonalSlopes.AdelicFunctionRightTranslateDiamond
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Formalism.LocalToGlobal.GlobalTheory.GL6.DiagonalSlopes.EqOneOfCoprimeTorsionTwoPrimes, Formalism.LocalToGlobal.GlobalTheory.GL6.DiagonalSlopes.GroupActionMulSingleEqDilation
@@ -204,11 +203,6 @@ theorem torsion_reduction_trivial (S : StepLevel F E σ J T f bad) (G : GLoc F E
   have h1 := Formalism.L2.G.Triv.iwU_coprime v (gp i) hp h M hiw N hc hMN
   have : bc (G.phi i v h) x = fr * M * fr⁻¹ := by rw [hM]; group
   rw [this, h1, mul_one, mul_inv_cancel]
-
-theorem diamond_conj_mem_level' (S : StepLevel F E σ J T f bad) (v : HeightOneSpectrum (𝓞 F))
-    (hv : (T : 𝓞 F) ∈ v.asIdeal) {k : ℤ} {δ : UPts σ J (FiniteAdeleRing (𝓞 F) F)}
-    (h : IsDia S v hv k δ) (κ : S.U) : δ.1⁻¹ * κ.1 * δ.1 ∈ S.U := by
-  apply Formalism.L2.GlobalTheoryTheory.LocalLatticeBases.diamond_conj_mem_level <;> assumption
 
 theorem pow_mul_mem_of_normalises {G : Type} [Group G] (U : Subgroup G) (d : G) (hd : ∀ κ ∈ U, d⁻¹ * κ * d ∈ U) (N : ℕ)
     (hN : d ^ N ∈ U) (κ : G) (hκ : κ ∈ U) : (d * κ) ^ N ∈ U := by
@@ -402,12 +396,6 @@ end Loc
 
 variable {D : D7} {u : D.what₂.Word}
 
-theorem level_prime_ne_type_prime' (A : AtTTied u) (j : Fin 2) : (D.mem u).A.T ≠ D.host.g j := by
-  apply Formalism.L2.GlobalTheoryTheory.LocalLatticeBases.level_prime_ne_type_prime <;> assumption
-
-theorem level_places_prime_to_type (A : AtTTied u) (v : (D.mem u).A.vT) : (A.eV v).1 ∉ badG D := by
-  apply _root_.Formalism.L2.GlobalTheoryTheory.LocalLatticeBases.S0.level_places_not_bad <;> assumption
-
 theorem rank_zero_le_type_level : D.R.N 0 ≤ aOf D.R 0 := by
   have := D.R.two_le_m
   unfold aOf Ranks.N
@@ -492,7 +480,7 @@ theorem diamond_free_on_classes (Tf : Forms0 D u) (hS : Formalism.MainNotions.pr
     ∀ v, (k v : (D.mem u).A.Fv v) = 1 := by
   have hT := (D.mem u).A.T_prime
   have hbad : ∀ w ∈ badG D, bc (prV (E := D.host.E) w) δ.1 = 1 := fun w hw =>
-    hδ.1 w (fun v e => level_places_prime_to_type Tf.atT v (by subst e; exact hw))
+    hδ.1 w (fun v e => Formalism.L2.GlobalTheoryTheory.LocalLatticeBases.level_places_not_bad Tf.atT v (by subst e; exact hw))
   haveI : Fact (D.mem u).A.T.Prime := ⟨hT⟩
   have hkT : ∀ v, ((D.mem u).A.T : ℤ) ∣ (k ^ ((D.mem u).A.T - 1)) v - 1 := by
     intro v
@@ -520,8 +508,8 @@ theorem dilation_commute_distinct (Tf : Forms0 D u) (v v' : (D.mem u).A.vT) (hvv
     (D.fm u).dil 0 v a ((D.fm u).dil 0 v' b c) = (D.fm u).dil 0 v' b ((D.fm u).dil 0 v a c) := by
   have W := Tf.val 0 (Nat.zero_le _) rfl
   have hne : (Tf.atT.eV v).1 ≠ (Tf.atT.eV v').1 := fun e => hvv (Tf.atT.eV.injective (Subtype.ext e))
-  have h1 := class_mul_right_of_normalises _ _ _ _ δa (fun κ hκ => diamond_conj_mem_level' _ _ _ ha ⟨κ, hκ⟩) (W.dil v' b kb hkb c δb hb)
-  have h2 := class_mul_right_of_normalises _ _ _ _ δb (fun κ hκ => diamond_conj_mem_level' _ _ _ hb ⟨κ, hκ⟩) (W.dil v a ka hka c δa ha)
+  have h1 := class_mul_right_of_normalises _ _ _ _ δa (fun κ hκ => Formalism.L2.GlobalTheoryTheory.LocalLatticeBases.diamond_conj_mem_level _ _ _ ha ⟨κ, hκ⟩) (W.dil v' b kb hkb c δb hb)
+  have h2 := class_mul_right_of_normalises _ _ _ _ δb (fun κ hκ => Formalism.L2.GlobalTheoryTheory.LocalLatticeBases.diamond_conj_mem_level _ _ _ hb ⟨κ, hκ⟩) (W.dil v a ka hka c δa ha)
 
   have hU : ((δb * δa)⁻¹ * (δa * δb)).1 ∈ (Tf.cls 0 (Nat.zero_le _) rfl).lev.U := by
     rw [(Tf.cls 0 (Nat.zero_le _) rfl).lev.U_eq]
@@ -727,8 +715,6 @@ theorem zero_of_group_action_zero [Fact (D.mem u).A.T.Prime] (Tf : Forms0 D u) (
     rw [group_rep_mulSingle_eq_rho, (D.fm u).rhoT_dil] at hv
     rw [group_action_mulSingle_eq_dilation]
     exact (LinearEquiv.map_eq_zero_iff _).1 hv
-
-
 
 theorem multi_diamond_of_group_elem [Fact (D.mem u).A.T.Prime] (Tf : Forms0 D u) (hE : DiamondElementsExist Tf)
     (g : (D.mem u).A.vT → (ZMod (D.mem u).A.T)ˣ) : ∃ (k : (D.mem u).A.vT → ℤ)

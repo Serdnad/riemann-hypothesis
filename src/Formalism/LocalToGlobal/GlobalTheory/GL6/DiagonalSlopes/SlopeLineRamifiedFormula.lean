@@ -1,6 +1,5 @@
 module
 
-import Formalism.LocalToGlobal.GlobalTheory.GL6.PBwLocInd
 public import Formalism.LocalToGlobal.GlobalTheory.GL6.DiagonalSlopes.CharacterFiniteLevelZeroOfForms
 public import Formalism.LocalToGlobal.GlobalTheory.GL6.DiagonalSlopes.ComplexSpanBlockActionStable
 public import Formalism.LocalToGlobal.GlobalTheory.GL6.DiagonalSlopes.SlopeRamifiedInducedPrimeField
@@ -55,7 +54,17 @@ theorem norm_form_smul_smul (lam : ι → DomWeight n) (c : ℂ) (p : MvPolynomi
 
 theorem substitution_comp (o N : ι → Matrix (Fin n) (Fin n) ℂ) (Q : MvPolynomial (ι × Fin n × Fin n) ℂ) :
     subP o (subP N Q) = subP (fun τ => N τ * o τ) Q := by
-  apply _root_.Formalism.L2.GlobalTheoryTheory.LocalLatticeBases.substitution_substitution <;> assumption
+  have h : (subP o).comp (subP N) = subP (fun τ => N τ * o τ) := by
+    apply MvPolynomial.algHom_ext
+    intro x
+
+    simp only [AlgHom.comp_apply, subP, MvPolynomial.aeval_X, map_sum, map_mul, MvPolynomial.aeval_C,
+    Matrix.mul_apply, Finset.mul_sum, MvPolynomial.algebraMap_eq, Finset.sum_mul]
+    rw [Finset.sum_comm]
+    refine Finset.sum_congr rfl fun a _ => Finset.sum_congr rfl fun b _ => ?_
+    ring
+  show ((subP o).comp (subP N)) Q = _
+  rw [h]
 
 variable {K : Type} [Field K]
 

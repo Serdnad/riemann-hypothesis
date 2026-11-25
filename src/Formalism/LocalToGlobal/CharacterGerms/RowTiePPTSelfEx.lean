@@ -1,6 +1,5 @@
 module
 
-import Formalism.LocalToGlobal.CharacterGerms.RowTiePKeyEigA
 public import Formalism.LocalToGlobal.CharacterGerms.RowTiePAllSet
 public import Formalism.LocalToGlobal.CharacterGerms.NegMem
 public import Formalism.LocalToGlobal.CharacterGerms.RowTiePPTAvg
@@ -286,7 +285,13 @@ namespace TypAr
 variable {C : Type} [Field C] {V : VF C}
 
 theorem ge_lpow (k : ℕ) : V.Ge (k : ℝ) ((V.l : C) ^ k) := by
-  apply _root_.Formalism.L2.FormalSeriesBounds.RowTiePKeyEig.ge_lpow <;> assumption
+  induction k with
+  | zero => simpa using VF.Ge.one (V := V)
+  | succ k ih =>
+    rw [pow_succ]
+    have := ih.mul VF.ge_l
+    convert this using 1
+    push_cast; ring
 
 theorem ge_of_lpow_dvd {k m : ℕ} (h : V.l ^ k ∣ m) : V.Ge (k : ℝ) (m : C) := by
   obtain ⟨t, rfl⟩ := h

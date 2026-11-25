@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsGeneratorCmDifferentIdealScaled
 public import Formalism.LocalToGlobal.GlobalTheory.GL3.CubicFields.PeriodRelations.Bridge
 public import Formalism.FrobeniusOrbits.FrobeniusOrbitsProofs.SplitK
 import Mathlib.RingTheory.PicardGroup
@@ -82,7 +81,11 @@ theorem br_card_tau (D : D7) : Fintype.card D.what₂.Tau = Module.finrank D.hos
   omega
 
 theorem leading_constant_ne_zero (D : D7) : D.host.AA0 ≠ 0 := by
-  apply _root_.GlobalTheory.IdealGenerator.inverseHalfDifferent_ne_zero <;> assumption
+  intro h
+  simp only [Formalism.BasicNotions.Host.AA0, inv_eq_zero, FractionalIdeal.coeIdeal_eq_zero] at h
+  have h2 := D.host.𝔟_spec.1
+  rw [h, Submodule.bot_mul] at h2
+  exact differentIdeal_ne_bot h2
 
 theorem br_b_spec (D : D7) :
     differentIdeal (𝓞 D.host.K) (𝓞 D.host.E) = D.host.𝔟 * (D.host.conj • D.host.𝔟) := D.host.𝔟_spec.1

@@ -28,15 +28,13 @@ theorem det_G_unit {G s : Matrix (Fin n) (Fin n) ℂ} (hs : IsCartanInv G s) : I
 
 theorem det_UH_unit {G g : Matrix (Fin n) (Fin n) ℂ} (hG : IsUnit G.det) (hg : g ∈ Formalism.QuantumDeterminants.UH G) :
     IsUnit g.det := by
-  apply _root_.Formalism.IndefR.Tow.SobPf.Avg.isUnit_det_of_UH <;> assumption
-
-theorem inv_mem_UH {G g : Matrix (Fin n) (Fin n) ℂ} (hG : IsUnit G.det) (hg : g ∈ Formalism.QuantumDeterminants.UH G) :
-    g⁻¹ ∈ Formalism.QuantumDeterminants.UH G := by
-  apply _root_.Formalism.IndefR.Tow.SobPf.Avg.inv_mem_UH <;> assumption
-
-theorem conj_mem_lieG {G g X : Matrix (Fin n) (Fin n) ℂ} (hG : IsUnit G.det) (hg : g ∈ Formalism.QuantumDeterminants.UH G)
-    (hX : X ∈ lieG G) : g⁻¹ * X * g ∈ lieG G := by
-  apply Formalism.IndefR.Tow.SobPf.Avg.conj_mem_lieG <;> assumption
+  have h : gᴴ * G * g = G := hg
+  have h' := congrArg Matrix.det h
+  rw [Matrix.det_mul, Matrix.det_mul] at h'
+  rw [isUnit_iff_ne_zero]
+  intro h0
+  rw [h0, mul_zero] at h'
+  exact hG.ne_zero h'.symm
 
 variable {H : Type} [NormedAddCommGroup H] [InnerProductSpace ℂ H]
 
@@ -57,7 +55,7 @@ theorem dRep_rep {G : Matrix (Fin n) (Fin n) ℂ} {π : Matrix (Fin n) (Fin n) �
     {X : Matrix (Fin n) (Fin n) ℂ} (hX : X ∈ lieG G) (u : H) :
     dRep π X (π g u) = π g (dRep π (g⁻¹ * X * g) u) := by
   have hd := det_UH_unit hG hg
-  have hY := conj_mem_lieG hG hg hX
+  have hY := Formalism.IndefR.Tow.SobPf.Avg.conj_mem_lieG hG hg hX
   have hfun : (fun t : ℝ => π (NormedSpace.exp (t • X)) (π g u)) =
       fun t : ℝ => π g (π (NormedSpace.exp (t • (g⁻¹ * X * g))) u) := by
     funext t
@@ -72,7 +70,7 @@ theorem dRep_rep {G : Matrix (Fin n) (Fin n) ℂ} {π : Matrix (Fin n) (Fin n) �
           rw [hπ.2.1 _ hg _ (expS_mem_UH hY t)]; rfl
   have hBA : ∀ v, π g⁻¹ (π g v) = v := by
     intro v
-    rw [← ContinuousLinearMap.comp_apply, ← hπ.2.1 _ (inv_mem_UH hG hg) _ hg, Matrix.nonsing_inv_mul _ hd, hπ.1]
+    rw [← ContinuousLinearMap.comp_apply, ← hπ.2.1 _ (Formalism.IndefR.Tow.SobPf.Avg.inv_mem_UH hG hg) _ hg, Matrix.nonsing_inv_mul _ hd, hπ.1]
     rfl
   show deriv (fun t : ℝ => π (NormedSpace.exp (t • X)) (π g u)) 0 =
     π g (deriv (fun t : ℝ => π (NormedSpace.exp (t • (g⁻¹ * X * g))) u) 0)
@@ -104,7 +102,7 @@ theorem foldBddK_of (h4 : SobChart) : FoldBddK := by
     have hl' : ∀ X ∈ l.map (fun X => (Matrix.of k0)⁻¹ * X * Matrix.of k0), X ∈ lieG G := by
       intro X hX
       obtain ⟨Y, hY, rfl⟩ := List.mem_map.1 hX
-      exact conj_mem_lieG hG hk0U (hl Y hY)
+      exact Formalism.IndefR.Tow.SobPf.Avg.conj_mem_lieG hG hk0U (hl Y hY)
     refine Metric.continuousWithinAt_iff.2 fun ε hε => ?_
     obtain ⟨δ, hδ, hδ'⟩ := hc1 G s π hs hπ w hw _ hl' ε hε
     have hO : IsOpen {k : Fin n → Fin n → ℂ |
@@ -124,7 +122,7 @@ theorem foldBddK_of (h4 : SobChart) : FoldBddK := by
     refine ⟨ρ, hρ, fun {k} hk hdk => ?_⟩
     have hkK : Matrix.of k ∈ KAt G s := hk
     have hkU : Matrix.of k ∈ Formalism.QuantumDeterminants.UH G := hkK.1
-    have hg : (Matrix.of k0)⁻¹ * Matrix.of k ∈ Formalism.QuantumDeterminants.UH G := mul_mem_UH₂ G _ (inv_mem_UH hG hk0U) _ hkU
+    have hg : (Matrix.of k0)⁻¹ * Matrix.of k ∈ Formalism.QuantumDeterminants.UH G := mul_mem_UH₂ G _ (Formalism.IndefR.Tow.SobPf.Avg.inv_mem_UH hG hk0U) _ hkU
     have hnear := hρO (Metric.mem_ball.2 hdk)
     have hkk : π (Matrix.of k) w = π (Matrix.of k0) (π ((Matrix.of k0)⁻¹ * Matrix.of k) w) := by
       rw [← ContinuousLinearMap.comp_apply, ← hπ.2.1 _ hk0U _ hg, Matrix.mul_nonsing_inv_cancel_left _ _ hd]

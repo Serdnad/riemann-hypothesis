@@ -9,7 +9,6 @@ public import Mathlib.Analysis.Matrix.Order
 import Mathlib.Tactic.Linter.HaveILetI
 import Mathlib.Tactic.Linter.Style
 import Formalism.LocalRingCardinality.DataDIV
-import Formalism.LocalToGlobal.IndefiniteReal.OpNormAtLeOfPoints
 
 @[expose] public section
 
@@ -57,7 +56,14 @@ theorem normAt_eq_zero (b : Basis ι K V) (X : InfinitePlace K → Matrix ι ι 
 
 theorem majAt_self (b : Basis ι K V) (X : InfinitePlace K → Matrix ι ι ℂ) (v : InfinitePlace K)
     (x : V) : majAt b X v x x = ((normAt b X v x ^ 2 : ℝ) : ℂ) := by
-  apply _root_.Formalism.IndefR.LatticeTransfer.BlockMetrics.maj_self <;> assumption
+  show (∑ i, star (fcoord b X v x i) * fcoord b X v x i) =
+    (((cnorm (fcoord b X v x)) ^ 2 : ℝ) : ℂ)
+  rw [cnorm_sq]
+  push_cast
+  refine Finset.sum_congr rfl fun i _ => ?_
+  rw [mul_comm, Complex.star_def, Complex.mul_conj, Complex.normSq_eq_norm_sq]
+  push_cast
+  ring
 
 theorem normAt_eq_sqrt (b : Basis ι K V) (X : InfinitePlace K → Matrix ι ι ℂ) (v : InfinitePlace K)
     (x : V) : normAt b X v x = Real.sqrt (majAt b X v x x).re := by

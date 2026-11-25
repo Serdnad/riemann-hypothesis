@@ -9,7 +9,6 @@ public import Formalism.ThetaLogCoordinates.UniformThetaSubstitution.FinalS
 import Formalism.ThetaLogCoordinates.UniformThetaSubstitution.FrobeniusLiftNorms.LogarithmEquivalence
 import Formalism.ThetaLogCoordinates.UniformThetaSubstitution.FrobeniusLiftNorms.TopsChoicePartB
 import Formalism.ThetaLogCoordinates.UniformThetaSubstitution.FrobeniusLiftNorms.ScalingSwapLemmas
-import Formalism.ThetaLogCoordinates.UniformThetaSubstitution.FrobeniusLiftNorms.CoeffSubstLgFOfDegreeOne
 
 @[expose] public section
 
@@ -27,7 +26,15 @@ namespace BiextensionSums
 
 theorem map_lgF' {K0 K : Type} [Field K0] [Field K] (l : ℕ) (j : K0 →+* K) :
     PowerSeries.map j (lgF K0 l) = lgF K l := by
-  apply _root_.Formalism.InvariantFactorPaths.G7.FormalGroupLaws.map_lgF <;> assumption
+  ext n
+  rw [PowerSeries.coeff_map]
+  unfold lgF
+
+  rw [PowerSeries.coeff_mk, PowerSeries.coeff_mk, map_sum]
+  refine Finset.sum_congr rfl fun i _ => ?_
+  split_ifs
+  · rw [map_inv₀, map_pow, map_natCast]
+  · rw [map_zero]
 
 theorem linSub_idM {K : Type} [Field K] {d N0 N1 : ℕ} [NeZero d] :
     linSub (idM : ZV d N0 N1 → ZV d N0 N1 → K) = X := by

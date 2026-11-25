@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.FlagMeasures.RowLatticesMeanEqGenusMean
 public import Formalism.PeriodIntegrals.UJClassMassAlt
 public import Formalism.LocalToGlobal.GlobalTheory.GL5.DiscreteSeriesOfFormalDegree
 public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.UJClassFin
@@ -144,7 +143,13 @@ theorem gmap_locS (u : V ≃ₗ[E] V) (S : Submonoid (𝓞 E)) (X : Submodule (�
     exact hz
 
 theorem gmap_comp (u w : V ≃ₗ[E] V) (X : Submodule (𝓞 E) V) : gmap (u * w) X = gmap u (gmap w X) := by
-  apply _root_.GlobalTheory.RowMassCompare.gmap_mul' <;> assumption
+  ext x
+  simp only [Formalism.HermitianLatticesTheory.gmap, Submodule.mem_map, LinearMap.coe_restrictScalars, LinearEquiv.coe_coe]
+  constructor
+  · rintro ⟨y, hy, rfl⟩
+    exact ⟨w y, ⟨y, hy, rfl⟩, rfl⟩
+  · rintro ⟨_, ⟨z, hz, rfl⟩, rfl⟩
+    exact ⟨z, hz, rfl⟩
 
 theorem gmap_le_locS (b : Module.Basis (Fin M) E V) (L0 : Submodule (𝓞 E) V) (S : Submonoid (𝓞 E))
     (K : GL (Fin M) E)
@@ -850,10 +855,6 @@ theorem volume_mass_of_genus_rank (D : D7) (n : ℕ) (hT : VolTie D) (hG : Genus
   volume_mass_of_class_data D n hT hG (class_number_finite_rank D n) (classMassAt_of D (classMass_of_D7 D) n)
 
 end Formalism.L2.GlobalTheoryTheory.GenusMassVolumes
-
-namespace Formalism.L2.GlobalTheoryTheory.GenusMassVolumes.ClosedKudlaFamilyStandardLattice
-
-end Formalism.L2.GlobalTheoryTheory.GenusMassVolumes.ClosedKudlaFamilyStandardLattice
 
 end
 end -- clump:auto

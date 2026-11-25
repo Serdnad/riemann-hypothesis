@@ -1,6 +1,5 @@
 module
 
-import Formalism.LocalToGlobal.GlobalTheory.GL3.CubicFields.PeriodRelations.LeadingConstantNeZero
 public import Formalism.LocalToGlobal.GlobalTheory.GL3.PHfGen
 
 @[expose] public section
@@ -14,7 +13,14 @@ open NumberField Formalism.BasicNotions Formalism.MainNotions.TaylorLogMetric Fo
 variable (D : D7)
 
 theorem embT_inj : Function.Injective (embT D) := by
-  apply _root_.Formalism.L2.GlobalTheoryTheory.IntegralLatticeDensity.B5.br_embT_injective <;> assumption
+  intro τ τ' h
+  have h2 : D.host.sigmaOf ((D.eTau τ : D.R.Psi) : D.R.GG) =
+      D.host.sigmaOf ((D.eTau τ' : D.R.Psi) : D.R.GG) := by
+    refine AlgEquiv.ext fun x => ?_
+    exact D.host.φ₀.injective (congrArg (fun f : D.host.E →+* ℂ => f x) h)
+  have h3 := congrArg (D.host.galE) h2
+  rw [galE_sigmaOf, galE_sigmaOf] at h3
+  exact D.eTau.injective (Subtype.ext h3)
 
 abbrev algKC : Algebra D.host.K ℂ := (D.host.φ₀.comp (algebraMap D.host.K D.host.E)).toAlgebra
 
@@ -101,11 +107,6 @@ def HfArithRec : Prop :=
         Good D (δ * D.host.φ₀ (((c : D.host.K) : D.host.E)) *
           starRingEnd ℂ (δ * D.host.φ₀ (((c' : D.host.K) : D.host.E))) *
           (D.host.φ₀ ((hYY D A B : D.host.K) : D.host.E) / (area (lamOf D cc δ) : ℂ)))
-
-theorem HfGenRec_of_arith (h : HfArithRec) : HfGenRec := by
-  intro D cc hcc δ hδ h0 N N' L L' hA c hc c' hc' A hA' B hB'
-  rw [FL.Hf_embV D (tor0 D cc δ) (fun _ _ => rfl) A B]
-  exact h D cc hcc δ hδ h0 N N' L L' hA c hc c' hc' A hA' B hB'
 
 end Formalism.L2.GlobalTheoryTheory.IntegralLatticeDensity
 

@@ -1,7 +1,5 @@
 module
 
-import Formalism.GL3MeanSquares.GenusMeanAsymptotics.UnimodularClassRepresentatives.UnitaryDensityFieldBis
-import all Formalism.LocalToGlobal.SiegelLatticeTheory.CokernelGLCounts.RankPointCounts.DualFamilyCounting.SmulMemLocFOfSP
 public import Formalism.LocalToGlobal.SiegelLatticeTheory.CokernelGLCounts.RankPointCounts.DualFamilyCounting.IsomFixOfExp
 public import Formalism.LocalToGlobal.SiegelLatticeTheory.CokernelGLCounts.RankPointCounts.DualFamilyCounting.JordanExists
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.StandardBaseFlagComplementIntegralLattice
@@ -473,7 +471,34 @@ end Line
 
 theorem exists_norm_congr_pow {𝔭 : Ideal (𝓞 F)} (h𝔭 : 𝔭.IsMaximal) {c : 𝓞 F} (hc : c ∉ 𝔭) {k : ℕ}
     (hk : 1 ≤ k) : ∃ α : 𝓞 K, conjO K α * α - ι c ∈ extP K 𝔭 ^ k := by
-  apply _root_.Formalism.HermitianLattices.Ext.L3.unitaryAbsoluteValueBounds.exists_norm <;> assumption
+  obtain ⟨P, hP, rfl⟩ := exists_maximal_over hK hF h𝔭
+  have hcP : ι c ∉ P := fun h => hc (Ideal.mem_comap.2 h)
+  have hN := IdealNormInequalities.one_lt_absNorm hP
+  obtain ⟨h1, h2⟩ := localDensity K hK P hP 1 k le_rfl hk (ι c) (idealPowerSpanBounds.conjO_map hF c) hcP
+  by_cases hc' : Formalism.HermitianLatticesTheory.conjIdeal (K := K) P = P
+  · have h3 := h1 hc'
+    have hs : 0 < Real.sqrt (Ideal.absNorm P : ℝ) := Real.sqrt_pos.2 (by linarith)
+    have hpos : (0 : ℝ) < (normRepCount K (P ^ k) 1 (ι c) : ℝ) := by
+      rw [h3]
+      refine mul_pos (pow_pos hs _) ?_
+      have : (0 : ℝ) < Real.sqrt (Ideal.absNorm P : ℝ) ^ (-((1 : ℕ) : ℤ)) := zpow_pos hs _
+      linarith
+    obtain ⟨α, hα⟩ := Cell.exists_of_normRepCount_ne_zero (by exact_mod_cast hpos.ne')
+    refine ⟨α, ?_⟩
+    rw [ThirdPropositionSlot.map_comap_eq_of_inert hK hF hP hc']
+    exact hα
+  · have h3 := h2 hc'
+    have hpos : (0 : ℝ) < (normRepCount K ((P * Formalism.HermitianLatticesTheory.conjIdeal (K := K) P) ^ k) 1 (ι c) : ℝ) := by
+      rw [h3]
+      refine mul_pos (pow_pos (by linarith) _) ?_
+      have : (Ideal.absNorm P : ℝ) ^ (-((1 : ℕ) : ℤ)) < 1 := by
+        rw [Nat.cast_one, zpow_neg_one]
+        exact inv_lt_one_of_one_lt₀ hN
+      linarith
+    obtain ⟨α, hα⟩ := Cell.exists_of_normRepCount_ne_zero (by exact_mod_cast hpos.ne')
+    refine ⟨α, ?_⟩
+    rw [ThirdPropositionSlot.extP_split hK hF hP hc']
+    exact hα
 
 end Formalism.L2.SG.Pf.TemperedBoundGL3
 end -- clump:auto
@@ -583,9 +608,6 @@ section Exact
 
 variable {V : Type} [AddCommGroup V] [Module K V] [Module (𝓞 K) V] [IsScalarTower (𝓞 K) K V]
 
-theorem notMem_zero {𝔭 : Ideal (𝓞 F)} {d : 𝓞 F} (hd : d ∉ 𝔭) : d ≠ 0 :=
-  fun h0 => hd (h0 ▸ Ideal.zero_mem _)
-
 theorem exactAt_locRing (hK : Formalism.HermitianLatticesTheory.IsCMUnram K) (hF : IsFixF K F) {h : V →ₗ⋆[K] V →ₗ[K] K}
     (hs : h.IsSymm) {P : Ideal (𝓞 K)} (hP : P.IsMaximal) {π : K} (hπ : IsUnif (locRing P) π) :
     G3.ExactAt (locRing P) π h := by
@@ -631,9 +653,9 @@ theorem exactAt_locRing (hK : Formalism.HermitianLatticesTheory.IsCMUnram K) (hF
     have h1 := (WA.isUnitIn_div_iff hPp (ι c) (U0.mem_hcompl_of_notMem hF hPp hs₀)).1 hu'
     exact ((WA.mem_hcompl_iff hPp _).1 h1).1 hc
   have hcs𝔭 : c * s ∉ 𝔭 := fun hm => (hp.mem_or_mem hm).elim hc₀ hs₀
-  have hD0 : κ (ι d₀) ≠ 0 := _root_.Formalism.HermitianLattices.Ext.L3.HU.jι_ne_zero (notMem_zero hd₀)
-  have hS0 : κ (ι s) ≠ 0 := _root_.Formalism.HermitianLattices.Ext.L3.HU.jι_ne_zero (notMem_zero hs₀)
-  have hE0 : κ (ι (d i₀)) ≠ 0 := _root_.Formalism.HermitianLattices.Ext.L3.HU.jι_ne_zero (notMem_zero (hd i₀))
+  have hD0 : κ (ι d₀) ≠ 0 := _root_.Formalism.HermitianLattices.Ext.L3.HU.jι_ne_zero (Formalism.HermitianLattices.Ext.L3.HU.ne_zero_of_notMem hd₀)
+  have hS0 : κ (ι s) ≠ 0 := _root_.Formalism.HermitianLattices.Ext.L3.HU.jι_ne_zero (Formalism.HermitianLattices.Ext.L3.HU.ne_zero_of_notMem hs₀)
+  have hE0 : κ (ι (d i₀)) ≠ 0 := _root_.Formalism.HermitianLattices.Ext.L3.HU.jι_ne_zero (Formalism.HermitianLattices.Ext.L3.HU.ne_zero_of_notMem (hd i₀))
 
   let bb : J → V := fun i => κ (ι (d i)) • b i
   let A : Submodule (𝓞 K) V := Submodule.span (𝓞 K) (Set.range bb)
@@ -643,7 +665,7 @@ theorem exactAt_locRing (hK : Formalism.HermitianLatticesTheory.IsCMUnram K) (hF
     · subst hij
       refine Submodule.mem_one.2 ⟨ι (d i * f i), ?_⟩
       show κ (ι (d i * f i)) = h (κ (ι (d i)) • b i) (κ (ι (d i)) • b i)
-      have hdi : κ (ι (d i)) ≠ 0 := _root_.Formalism.HermitianLattices.Ext.L3.HU.jι_ne_zero (notMem_zero (hd i))
+      have hdi : κ (ι (d i)) ≠ 0 := _root_.Formalism.HermitianLattices.Ext.L3.HU.jι_ne_zero (Formalism.HermitianLattices.Ext.L3.HU.ne_zero_of_notMem (hd i))
       rw [h_smul_smul, hfd i, localizedQuotients.star_ι hF]
       simp only [map_mul]
       field_simp
@@ -654,7 +676,7 @@ theorem exactAt_locRing (hK : Formalism.HermitianLatticesTheory.IsCMUnram K) (hF
     rintro y ⟨t, ht, hty⟩
     rw [pow_zero, Ideal.one_eq_top, Submodule.top_smul] at hty
     obtain ⟨g, hg⟩ := (Submodule.mem_span_range_iff_exists_fun (𝓞 K)).1 hty
-    have ht0 : κ (ι t) ≠ 0 := _root_.Formalism.HermitianLattices.Ext.L3.HU.jι_ne_zero (notMem_zero ht)
+    have ht0 : κ (ι t) ≠ 0 := _root_.Formalism.HermitianLattices.Ext.L3.HU.jι_ne_zero (Formalism.HermitianLattices.Ext.L3.HU.ne_zero_of_notMem ht)
     refine ⟨fun i => κ (g i * ι (d i)) / κ (ι t),
       fun i => U0.div_mem_locRing hPp _ (U0.mem_hcompl_of_notMem hF hPp ht), ?_⟩
     have e1 : y = (κ (ι t))⁻¹ • (ι t • y) := by
@@ -687,7 +709,7 @@ theorem exactAt_locRing (hK : Formalism.HermitianLatticesTheory.IsCMUnram K) (hF
       simp only [bb, smul_smul]
       congr 1
       rw [← Finset.mul_prod_erase Finset.univ sj (Finset.mem_univ j)]
-      have hdj : κ (ι (d j)) ≠ 0 := _root_.Formalism.HermitianLattices.Ext.L3.HU.jι_ne_zero (notMem_zero (hd j))
+      have hdj : κ (ι (d j)) ≠ 0 := _root_.Formalism.HermitianLattices.Ext.L3.HU.jι_ne_zero (Formalism.HermitianLattices.Ext.L3.HU.ne_zero_of_notMem (hd j))
       have h1 := hrj j
       simp only [map_mul] at h1 ⊢
       rw [← h1]
@@ -695,7 +717,7 @@ theorem exactAt_locRing (hK : Formalism.HermitianLatticesTheory.IsCMUnram K) (hF
     rw [e]
     exact Submodule.sum_mem _ fun j _ => Submodule.smul_mem _ _ (Submodule.subset_span ⟨j, rfl⟩)
   obtain ⟨v, hv⟩ := exists_near_of_smul h𝔭 hF hs hA
-    (mul_ne_zero (notMem_zero hd₀) hn₁) hβn hs'0 hs'β
+    (mul_ne_zero (Formalism.HermitianLattices.Ext.L3.HU.ne_zero_of_notMem hd₀) hn₁) hβn hs'0 hs'β
 
   obtain ⟨α, hα⟩ := exists_norm_congr_pow hK hF h𝔭 hcs𝔭 (show 1 ≤ v + 1 by omega)
   obtain ⟨x, hx⟩ : ∃ x : V, x = (κ (ι d₀) * κ α / κ (ι s)) • b i₀ := ⟨_, rfl⟩
@@ -1364,7 +1386,21 @@ local notation "κ" => algebraMap (𝓞 K) K
 
 private theorem vF_spec_of_ne_zero {𝔭 : Ideal (𝓞 F)} (h𝔭 : 𝔭.IsMaximal) {a : 𝓞 F} (ha : a ≠ 0) :
     a ∈ 𝔭 ^ vF 𝔭 a ∧ a ∉ 𝔭 ^ (vF 𝔭 a + 1) := by
-  apply _root_.Formalism.L2.SG.Pf.UnitPairSolutions.mem_pow_vF_of_ne_zero <;> assumption
+  have hbot : ∃ N, a ∉ 𝔭 ^ N := by
+    by_contra hcon
+    push Not at hcon
+    have hinf : a ∈ ⨅ i, 𝔭 ^ i := Submodule.mem_iInf _ |>.mpr hcon
+    rw [Ideal.iInf_pow_eq_bot_of_isDomain 𝔭 h𝔭.ne_top, Ideal.mem_bot] at hinf
+    exact ha hinf
+  obtain ⟨N, hN⟩ := hbot
+  have hbdd : BddAbove {e : ℕ | a ∈ 𝔭 ^ e} := ⟨N, fun e he => by
+    by_contra hlt
+    push Not at hlt
+    exact hN (Ideal.pow_le_pow_right hlt.le he)⟩
+  have hmem : a ∈ 𝔭 ^ vF 𝔭 a := Nat.sSup_mem ⟨0, by simp⟩ hbdd
+  refine ⟨hmem, fun h => ?_⟩
+  have hle : vF 𝔭 a + 1 ≤ vF 𝔭 a := le_csSup hbdd h
+  omega
 
 theorem exists_mul_eq_of_mem_pow {𝔭 : Ideal (𝓞 F)} (h𝔭 : 𝔭.IsMaximal) {a a' : 𝓞 F}
     (ha : a ≠ 0) (ha' : a' ∈ 𝔭 ^ vF 𝔭 a) :
@@ -1408,7 +1444,6 @@ theorem div_mem_locRing_of_mem_pow {P : Ideal (𝓞 K)} (hP : P.IsMaximal) {a a'
   refine ⟨ι t, hmem, ?_⟩
   rw [e]
   exact Submodule.mem_one.mpr ⟨_, rfl⟩
-
 
 omit hK in
 theorem mul_inv_pow_mem {P : Ideal (𝓞 K)} {π : K}

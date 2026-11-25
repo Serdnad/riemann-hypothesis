@@ -1,6 +1,5 @@
 module
 
-import Formalism.LocalToGlobal.TorsionIntegrality.SecondCoefficientNorms.BinomialSeriesCoefficients.USideB
 public import Formalism.LocalToGlobal.TorsionIntegrality.SecondCoefficientNorms.IsotropicVanish
 public import Formalism.LocalToGlobal.TorsionIntegrality.SecondCoefficientNorms.BinomialSeriesCoefficients.DegreeLeOfMemAntidiagonal
 import Mathlib.NumberTheory.Height.NumberField
@@ -209,7 +208,12 @@ section Integral
 variable {K : Type} [Field K] {σ : Type} {R : Subring K} {l linv : PowerSeries K}
 
 theorem intMv_of_intPS {f : PowerSeries K} (hf : IntPS R f) : IntMv R (f : MvPowerSeries Unit K) := by
-  apply _root_.Formalism.L2.Th1.C.USideB.intMv_of_intPS <;> assumption
+  intro n
+  have : n = Finsupp.single () (n ()) := by
+    ext
+    simp
+  rw [this]
+  exact hf (n ())
 
 theorem intPS_of_intMv {f : PowerSeries K} (hf : IntMv R (f : MvPowerSeries Unit K)) : IntPS R f :=
   fun n => hf (Finsupp.single () n)

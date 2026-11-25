@@ -1,7 +1,5 @@
 module
 
-
-import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.IsIntegralGaugedFormalGroupLawSelfConjugateSquar
 public import Formalism.LocalToGlobal.CharacterGerms.RowTieDefs
 public import Formalism.LocalToGlobal.CharacterGerms.ConstMemTypeSetOfNonneg
 public import Formalism.LocalToGlobal.CharacterGerms.NegMem
@@ -13,6 +11,7 @@ public import Formalism.LocalToGlobal.CharacterGerms.ValNonnegLeadingCoeffOfMemT
 public import Mathlib.RingTheory.RootsOfUnity.EnoughRootsOfUnity
 import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.GaugedFormalGroupCurveLogarithmsAddSubgroupResca
 import Mathlib.RingTheory.RootsOfUnity.AlgebraicallyClosed
+
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Formalism.LocalToGlobal.CharacterGerms.RowTiePCartSelfSt
 
@@ -96,7 +95,7 @@ theorem FBChart.self_chart_exp_constantCoeff (x : Fin 2 × Fin dd) : constantCoe
 theorem FBChart.rawSelf_axis0 (e : Fin 2 × (Fin 2 × Fin dd) →₀ ℕ) (he : ∀ s ∈ e.support, s.1 ≠ 0) :
     coeff e (Y.rawSelf p).h = 0 := by
   show coeff e (∑ col, hCol col Y.h) = 0
-  exact van_sum Finset.univ _ (fun col _ => van_hCol col 0 Y.h (gauge_axes Y 0)) e he
+  exact van_sum Finset.univ _ (fun col _ => van_hCol col 0 Y.h (Formalism.L2.FormalSeriesBounds.FBChart.axisAll Y 0)) e he
 
 theorem FBChart.rawSelf_exlg (x : Fin 2 × Fin dd) :
     subst (Y.rawSelf p).lg ((Y.rawSelf p).ex x) = (X x : MvPowerSeries (Fin 2 × Fin dd) C) := by
@@ -133,7 +132,12 @@ theorem FBChart.rawSelf_lin (x : Fin 2 × Fin dd) (μ : Fin 2 × Fin dd →₀ �
   rfl
 
 theorem SelfData.gm_int (a : ZMod d) (r s : Fin 2) : V.Ge 0 (p.gm a r s) := by
-  apply _root_.GlobalTheory.RowLawSquare.gm_int <;> assumption
+  obtain ⟨M, hM⟩ := p.gm_lim 0
+  have h := hM a r s
+  rw [Nat.cast_zero] at h
+  have e : p.gm a r s = (p.gm a r s - p.em a (M r s)) + p.em a (M r s) := by ring
+  rw [e]
+  exact h.add (p.em_int a _)
 
 theorem FBChart.rawSelf_u_integral (g : Fin 2) (c : I0) (x : Fin 2 × Fin dd) : V.Ge 0 ((Y.rawSelf p).u g c x) :=
   VF.Ge.mul_int (SelfData.gm_int Y p _ _ _) (p.e_int c x.2)
