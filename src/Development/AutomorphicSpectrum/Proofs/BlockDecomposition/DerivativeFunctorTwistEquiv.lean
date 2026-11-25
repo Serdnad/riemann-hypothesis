@@ -1,5 +1,6 @@
 module
 
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.InvariantPairingMirabolicVanishing
 public import Development.WeilBound.RepresentationTheoryGL.GenericUnitaryGL.LeibnizOrders.ProdGPn
 import Mathlib.Tactic.Linter.Style
 import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ExistsCIndValue
@@ -36,18 +37,7 @@ theorem det_glEmbMat (n : ℕ) (A : Matrix (Fin n) (Fin n) k) : (glEmbMat k n A)
 
 theorem det_unip (n : ℕ) (v : Multiplicative (Fin n → k)) :
     ((unip k n v : GL (Fin (n + 1)) k) : Matrix (Fin (n + 1)) (Fin (n + 1)) k).det = 1 := by
-  have e : ((unip k n v : GL (Fin (n + 1)) k) : Matrix (Fin (n + 1)) (Fin (n + 1)) k) =
-      1 + colMat k n v.toAdd := rfl
-  rw [e, Matrix.det_of_upperTriangular]
-  · refine Finset.prod_eq_one fun i _ => ?_
-    induction i using Fin.lastCases with
-    | last => simp [colMat]
-    | cast i => simp [colMat, Fin.castSucc_ne_last]
-  · intro i j hij
-    have hij' : j < i := hij
-    have hne : i ≠ j := (ne_of_lt hij').symm
-    have hj : j ≠ Fin.last n := (lt_of_lt_of_le hij' (Fin.le_last i)).ne
-    simp [colMat, hj, hne]
+  apply _root_.GlobalTheory.CompanionTheory.MirPsiPair.det_unip <;> assumption
 
 section Local
 

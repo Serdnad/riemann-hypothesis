@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.NormCloseToOneOfCloseAbovePlace
 public import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.LeviEmbMemNormalizerLower
 public import Formalism.SatakeDualWeyl.StatementF
 public import Development.AbelianVarietyTheory.Definitions.Divisors.LineOppositeParabolicUnitaryLeviSectionEq
@@ -185,15 +186,7 @@ theorem relIndex_eq_of_mul {c : L} (hc : c ≠ 0) {A B A' B' : AddSubgroup L}
   exact ⟨c⁻¹ * y, mul_inv_cancel_left₀ hc y⟩
 
 theorem le_exp_neg_one_of_lt_one {y : WithZero (Multiplicative ℤ)} (h : y < 1) : y ≤ WithZero.exp (-1 : ℤ) := by
-  induction y using WithZero.recZeroCoe with
-  | zero => exact zero_le'
-  | coe a =>
-    rw [← WithZero.coe_one, WithZero.coe_lt_coe] at h
-    show (a : WithZero (Multiplicative ℤ)) ≤ ((Multiplicative.ofAdd (-1 : ℤ) : Multiplicative ℤ) : WithZero (Multiplicative ℤ))
-    rw [WithZero.coe_le_coe]
-    have h' : Multiplicative.toAdd a < 0 := h
-    show Multiplicative.toAdd a ≤ -1
-    omega
+  apply _root_.GlobalTheory.NormCompat.NormCont.le_exp_neg_one_of_lt_one <;> assumption
 
 theorem relIndex_ball {ϖ : L} {σ : L →+* L} {q : ℕ} (hU : IsUnramInv ϖ σ q) :
     (ball L (-1)).relIndex (ball L 0) = q ^ 2 := by

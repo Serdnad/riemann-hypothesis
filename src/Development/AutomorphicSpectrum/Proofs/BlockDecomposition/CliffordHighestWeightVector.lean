@@ -1,5 +1,6 @@
 module
 
+import CompanionTheory.SpectralGeometry.LocalGlobalProofs.StableLattices.WordMonomial
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.IsCliff
 public import Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange.ArchimedeanBaseChangeProof.RealDescent.RealLeviDescent.IsCoreMod
 public import Formalism.RealPlaceAnalysis.RealPlaceTaylor.CasKHW
@@ -637,17 +638,8 @@ theorem cas_add (k s : Fin n → Fin n → R) (h : ∀ a b c d, k a b * s c d = 
 
 theorem glRel_add (k s : Fin n → Fin n → R) (hk : Formalism.REAL.GlRel k) (hs : Formalism.REAL.GlRel s)
     (h : ∀ a b c d, k a b * s c d = s c d * k a b) : Formalism.REAL.GlRel (fun a b => k a b + s a b) := by
-  intro a b c d
-  have e : (k a b + s a b) * (k c d + s c d) - (k c d + s c d) * (k a b + s a b) =
-      (k a b * k c d - k c d * k a b) + (s a b * s c d - s c d * s a b) := by
-    have h1 := h a b c d
-    have h2 := h c d a b
-    simp only [add_mul, mul_add]
-    rw [h1, h2]
-    abel
-  simp only []
-  rw [e, hk a b c d, hs a b c d]
-  by_cases h1 : b = c <;> by_cases h2 : d = a <;> simp [h1, h2] <;> abel
+  intros
+  apply _root_.GlobalTheory.CompanionTheory.DSCover.glRel_add <;> assumption
 
 theorem bracket_p (E1 E2 : Fin n → Fin n → R) (h1 : Formalism.REAL.GlRel E1) (h2 : Formalism.REAL.GlRel E2)
     (h : ∀ a b c d, E1 a b * E2 c d = E2 c d * E1 a b) (a b c d : Fin n) :

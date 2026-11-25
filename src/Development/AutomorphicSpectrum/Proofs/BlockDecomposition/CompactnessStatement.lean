@@ -1159,15 +1159,7 @@ namespace GlobalTheory.CompanionTheory.Jp.RedUnique
 theorem exists_pM_of_low_zero {k : Type} [Field k] {n : ℕ} (g : GL (Ix n) k)
     (hg : g.1.toBlocks₂₁ = 0) :
     ∃ (a d : GL (Fin n) k) (b : Matrix (Fin n) (Fin n) k), g = pM a d b := by
-  have hgb : g.1 = fromBlocks g.1.toBlocks₁₁ g.1.toBlocks₁₂ 0 g.1.toBlocks₂₂ := by
-    rw [← hg, fromBlocks_toBlocks]
-  have hdet : g.1.det ≠ 0 :=
-    ((Matrix.isUnit_iff_isUnit_det _).1 g.isUnit).ne_zero
-  rw [hgb, det_fromBlocks_zero₂₁] at hdet
-  refine ⟨GeneralLinearGroup.mkOfDetNeZero _ (left_ne_zero_of_mul hdet),
-    GeneralLinearGroup.mkOfDetNeZero _ (right_ne_zero_of_mul hdet), g.1.toBlocks₁₂, ?_⟩
-  apply Units.ext
-  exact hgb
+  apply _root_.GlobalTheory.CompanionTheory.Jp.Dbl.exists_pM <;> assumption
 
 theorem low_inv_mul_pM {R : Type} [CommRing R] {n : ℕ} (a₁ d₁ a₂ d₂ : GL (Fin n) R)
     (b₁ b₂ : Matrix (Fin n) (Fin n) R) :

@@ -1,5 +1,6 @@
 module
 
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.InvariantPairingMirabolicVanishing
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.AvgVanish
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ProjectionToTwistedEigenfunctionSupport
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.SmoothIntegralLinear
@@ -322,20 +323,7 @@ theorem cEl_mem (i t : ℕ) (c : Fin (i + 1) → k) : cEl k i t c ∈ HPG k (i +
 
 theorem det_unip (n : ℕ) (v : Multiplicative (Fin n → k)) :
     ((unip k n v : GL (Fin (n + 1)) k) : Matrix (Fin (n + 1)) (Fin (n + 1)) k).det = 1 := by
-  have h : BlockTriangular ((unip k n v : GL (Fin (n + 1)) k) : Matrix (Fin (n + 1)) (Fin (n + 1)) k) id := by
-    intro a b hab
-    have hab' : b < a := hab
-    have hb : b ≠ Fin.last n := fun e => by
-      rw [e] at hab'
-      exact absurd hab' (not_lt.2 (Fin.le_last _))
-    show (1 + colMat k n v.toAdd) a b = 0
-    simp [colMat, hb, hab'.ne']
-  rw [det_of_upperTriangular h]
-  refine Finset.prod_eq_one fun a _ => ?_
-  show (1 + colMat k n v.toAdd) a a = 1
-  induction a using Fin.lastCases with
-  | last => simp [colMat]
-  | cast a => simp [colMat, Fin.castSucc_ne_last]
+  apply _root_.GlobalTheory.CompanionTheory.MirPsiPair.det_unip <;> assumption
 
 theorem dpowM_unipIn (n : ℕ) (s : ℝ) (v : Multiplicative (Fin n → k)) : dpowM n s (unipIn k n v) = 1 := by
   have h : Matrix.GeneralLinearGroup.det (unip k n v) = 1 := Units.ext (det_unip n v)

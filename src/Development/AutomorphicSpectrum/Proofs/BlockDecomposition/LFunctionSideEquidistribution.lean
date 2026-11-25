@@ -1598,10 +1598,7 @@ theorem nm_mul {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] 
 
 theorem nm_ofF {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] {σ : E →ₐ[F] E}
     (a : (AF F)ˣ) : IsNm σ (ofF a) (a * a) := by
-  unfold IsNm
-  have e : ((ofF a : (AF F ⊗[F] E)ˣ) : AF F ⊗[F] E) = (a : AF F) ⊗ₜ[F] (1 : E) := rfl
-  rw [e]
-  simp [sigR]
+  apply _root_.GlobalTheory.CompanionTheory.SW.RankOneSiegelWeil.isNm_ofF <;> assumption
 
 theorem ray_sq {F : Type} [Field F] [NumberField F] {θ : ℝ →+* Ainf F} {r : ℝ → (AF F)ˣ} (hr : IsRay θ r) {ε : ℝ}
     (hε : 0 < ε) : r (ε ^ 2) = r ε * r ε := by

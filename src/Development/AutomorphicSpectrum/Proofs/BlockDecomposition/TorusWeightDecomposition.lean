@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.FlagMeasures.DerivedModuleCoefficientsAndStableFlows
 public import Development.WeilBound.RepresentationTheoryGL.DiscreteSeries.DiscreteSeriesCovers.EquivariantSections.EquivSection
 import ReciprocityTheory.ReductiveGroups.DiscreteSeries.HighestWeights.OneParam
 
@@ -17,18 +18,7 @@ variable {n : ℕ}
 
 theorem diagI_inK (ε : Fin n → Bool) (θ : Fin n → ℝ) :
     inK ε (Matrix.diagonal fun a => (θ a : ℂ) * Complex.I) := by
-  unfold inK inG Jm
-  refine ⟨?_, ?_⟩
-  · rw [Matrix.diagonal_conjTranspose, Matrix.diagonal_mul_diagonal, Matrix.diagonal_mul_diagonal,
-      Matrix.diagonal_add, ← Matrix.diagonal_zero]
-    congr 1
-    funext a
-    simp [star_mul]
-    split_ifs <;> ring
-  · rw [Matrix.diagonal_mul_diagonal, Matrix.diagonal_mul_diagonal]
-    congr 1
-    funext a
-    ring
+  apply _root_.GlobalTheory.Jet.Coef.diag_inK <;> assumption
 
 theorem tor_eq_exp (θ : Fin n → ℝ) :
     tor θ = NormedSpace.exp (((1 : ℝ) : ℂ) • Matrix.diagonal fun a => (θ a : ℂ) * Complex.I) := by
