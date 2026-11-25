@@ -1,7 +1,5 @@
 module
 
-
-import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.DisjointSpanPerpLat
 public import Formalism.UnipotentAdelicQuotients.ThmBInHecke
 public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.IsOpenNsmulAdelicCompletionOfVectorSet
 public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.WeilTensorModels
@@ -551,7 +549,34 @@ namespace GlobalTheory.CMHeckeEta
 
 theorem mem_range_of_fixed : ∀ (F E : Type) [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E]
     (σ : E →ₐ[F] E), IsCMExt F E σ → ∀ k : E, σ k = k → ∃ k₀ : F, algebraMap F E k₀ = k := by
-  apply _root_.GlobalTheory.SelfDualLatticeCompare.exists_of_conj_eq <;> assumption
+  intro F E _ _ _ _ _ σ hcm k hk
+  obtain ⟨-, htc, h2, hconj⟩ := hcm
+  haveI : Module.Finite F E := Module.Finite.of_restrictScalars_finite ℚ _ _
+  obtain ⟨x, hx⟩ : ∃ x : E, σ x ≠ x := by
+    by_contra hc
+    push_neg at hc
+    obtain ⟨w⟩ : Nonempty (InfinitePlace E) := inferInstance
+    refine (InfinitePlace.not_isReal_iff_isComplex.2 (htc.isComplex w)) ?_
+    rw [InfinitePlace.isReal_iff, ComplexEmbedding.isReal_iff]
+    ext y
+    change star (w.embedding y) = w.embedding y
+    rw [← hconj, hc]
+  let f : E →ₗ[F] E := σ.toLinearMap - LinearMap.id
+  have hV : LinearMap.ker f ≠ ⊤ := fun h => hx (by
+    have : x ∈ LinearMap.ker f := h ▸ Submodule.mem_top
+    rw [LinearMap.mem_ker] at this
+    simpa [f, sub_eq_zero] using this)
+  have hlt : Module.finrank F (LinearMap.ker f) < 2 := h2 ▸ Submodule.finrank_lt hV
+  have hle : (F ∙ (1 : E)) ≤ LinearMap.ker f := by
+    rw [Submodule.span_singleton_le_iff_mem, LinearMap.mem_ker]
+    simp [f]
+  have h1 : Module.finrank F (F ∙ (1 : E)) = 1 := finrank_span_singleton one_ne_zero
+  have heq : (F ∙ (1 : E)) = LinearMap.ker f := Submodule.eq_of_le_of_finrank_le hle (by omega)
+  have hk' : k ∈ F ∙ (1 : E) := by
+    rw [heq, LinearMap.mem_ker]
+    simp [f, hk]
+  obtain ⟨a, ha⟩ := Submodule.mem_span_singleton.1 hk'
+  exact ⟨a, by rw [← ha, Algebra.smul_def, mul_one]⟩
 
 theorem isIntegral_of_finPart_mem : ∀ (F E : Type) [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E]
     (x : E), HeckeCharacterZeroLocus.ThmBIn.finPart F E (HeckeCharacterZeroLocus.ThmBIn.incA F E x) ∈ HeckeCharacterZeroLocus.ThmBIn.intAE F E → IsIntegral ℤ x := by
