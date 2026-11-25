@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.BorelWeilFlagModelDetInverseIsAmpleLocal
 public import Formalism.LocalToGlobal.Divisibility.Frames
 
 @[expose] public section
@@ -17,16 +18,7 @@ section SlopeTestRemainingChoices
 
 theorem exists_left_inv {F : Type} [Field F] {n d : ℕ} (E : Matrix (Fin n) (Fin d) F)
     (h : Function.Injective E.mulVec) : ∃ L : Matrix (Fin d) (Fin n) F, L * E = 1 := by
-  have hk : LinearMap.ker (Matrix.toLin' E) = ⊥ := by
-    apply LinearMap.ker_eq_bot.mpr
-    intro x y hxy
-    apply h
-    simpa [Matrix.toLin'_apply] using hxy
-  obtain ⟨g, hg⟩ := LinearMap.exists_leftInverse_of_injective (Matrix.toLin' E) hk
-  refine ⟨LinearMap.toMatrix' g, ?_⟩
-  have h1 : LinearMap.toMatrix' (g ∘ₗ Matrix.toLin' E) = 1 := by
-    rw [hg]; exact LinearMap.toMatrix'_id
-  rwa [LinearMap.toMatrix'_comp, LinearMap.toMatrix'_toLin'] at h1
+  apply _root_.GlobalTheory.matrix_exists_left_inverse_of_field <;> assumption
 
 theorem inj_of_left_inv {F : Type} [Field F] {n d : ℕ} {C : Matrix (Fin n) (Fin d) F}
     {L : Matrix (Fin d) (Fin n) F} (h : L * C = 1) : Function.Injective C.mulVec := by

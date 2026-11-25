@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Definitions.Foundations.IsUnitaryOfOrder
 public import ReciprocityTheory.NeutralLocalFields.LocalFieldComparison.HCFFromRecipB
 public import Mathlib.Analysis.CStarAlgebra.Classes
 public import Mathlib.Topology.Algebra.Group.Units
@@ -151,15 +152,7 @@ variable (F : Type) [Field F] [NumberField F] [Algebra F L]
 
 theorem finite_aboveF (v : HeightOneSpectrum (𝓞 F)) :
     {P : HeightOneSpectrum (𝓞 L) | P.under (𝓞 F) = v}.Finite := by
-  have hne : Ideal.map (algebraMap (𝓞 F) (𝓞 L)) v.asIdeal ≠ 0 := by
-    rw [Ideal.zero_eq_bot, Ne,
-      Ideal.map_eq_bot_iff_of_injective (FaithfulSMul.algebraMap_injective (𝓞 F) (𝓞 L))]
-    exact v.ne_bot
-  refine (Ideal.finite_factors hne).subset ?_
-  intro P hP
-  simp only [Set.mem_setOf_eq] at hP ⊢
-  rw [Ideal.dvd_iff_le, Ideal.map_le_iff_le_comap, ← hP,
-    IsDedekindDomain.HeightOneSpectrum.under_asIdeal]
+  apply _root_.GlobalTheory.Mem.Chr.finite_aboveF <;> assumption
 
 def aboveF (v : HeightOneSpectrum (𝓞 F)) : Finset (HeightOneSpectrum (𝓞 L)) := (finite_aboveF F v).toFinset
 

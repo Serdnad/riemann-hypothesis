@@ -450,11 +450,7 @@ lemma hasDerivAt_P (L : PeriodPair) {z : ℂ} (hz : z ∉ L.lattice) :
 lemma isOpen_compl (L : PeriodPair) : IsOpen ((L.lattice : Set ℂ)ᶜ) := L.isClosed_lattice.isOpen_compl
 
 lemma isPreconnected_compl (L : PeriodPair) : IsPreconnected ((L.lattice : Set ℂ)ᶜ) := by
-  have hc : (L.lattice : Set ℂ).Countable := by
-    have : Countable L.lattice := L.latticeEquivProd.toEquiv.injective.countable
-    exact Set.to_countable _
-  exact (hc.isPathConnected_compl_of_one_lt_rank
-    (by rw [Complex.rank_real_complex]; norm_num)).isConnected.isPreconnected
+  apply _root_.Formalism.L2.Th1.F.WeierstrassZetaQuasiPeriod.isPreconnected_compl <;> assumption
 
 lemma derivWeierstrassP_not_eventually_zero (L : PeriodPair) {z : ℂ} (hz : z ∉ L.lattice) :
     ¬ ∀ᶠ w in 𝓝 z, L.derivWeierstrassP w = 0 := by

@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.SatakeParameters.PlaceExtendsToIso
 public import Formalism.LocalToGlobal.InertKernelTheory.StatementIota
 public import Mathlib.RingTheory.Algebraic.Cardinality
 public import ReciprocityTheory.ReductiveGroups.LatticeEmbeddings.IotaPlaceB
@@ -13,15 +14,7 @@ namespace Formalism.L2.KerInert
 open NumberField Formalism.BasicNotions
 
 theorem lattice_extension : LamExt := by
-  intro p _ lam
-  have : Algebra.IsAlgebraic ℚ Formalism.MainNotions.TaylorLogMetric.Qbar := algebraicClosure.isAlgebraic ℚ ℂ
-  have hR : Cardinal.mk Formalism.MainNotions.TaylorLogMetric.Qbar ≤ Cardinal.aleph0 :=
-    (Algebra.IsAlgebraic.cardinalMk_le_max ℚ Formalism.MainNotions.TaylorLogMetric.Qbar).trans
-      (max_le Cardinal.mk_le_aleph0 le_rfl)
-  obtain ⟨σ, hσ⟩ := ReciprocityTheory.ChartRestriction.B3.iop_extEmb (algebraMap Formalism.MainNotions.TaylorLogMetric.Qbar ℂ) lam hR
-    (by simp [Cardinal.mk_complex, Cardinal.aleph0_lt_continuum])
-    (Cardinal.mk_complex.trans (ReciprocityTheory.ChartRestriction.T1.lat_mk_Cp p).symm)
-  exact ⟨σ, fun x => hσ x⟩
+  apply _root_.GlobalTheory.ThLoc.place_extends_to_iso <;> assumption
 
 theorem lattice_embedding : LamCIota := by
   intro p _ lam ι h

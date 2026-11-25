@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.AddCurveStableOfIntegralGaugedFormalGroupLaw
 import Formalism.LocalToGlobal.CharacterGerms.RowTiePGerm
 public import Formalism.LocalToGlobal.CharacterGerms.IntSubst
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.CocycleRightZeroThd
@@ -25,11 +26,7 @@ section IntSec
 variable {V : VF C} {τ : Type}
 
 theorem IntS.mul {f g : MvPowerSeries τ C} (hf : IntS V f) (hg : IntS V g) : IntS V (f * g) := by
-  intro μ
-  rw [MvPowerSeries.coeff_mul]
-  refine VF.Ge.sum fun p _ => ?_
-  have hp := (hf p.1).mul (hg p.2)
-  simpa using hp
+  apply _root_.GlobalTheory.RowLaw.AddCurve.intS_mul <;> assumption
 
 theorem IntS.one : IntS V (1 : MvPowerSeries τ C) := by
   intro μ

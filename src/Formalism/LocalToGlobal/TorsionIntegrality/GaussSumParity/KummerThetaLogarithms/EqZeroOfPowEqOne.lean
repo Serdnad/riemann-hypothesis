@@ -1,5 +1,6 @@
 module
 
+import Formalism.LocalToGlobal.TorsionIntegrality.FrobeniusFibreCurves.LogarithmicSubstitution.ConstantCoeffSeriesAtVariable
 public import Formalism.LocalToGlobal.TorsionIntegrality.GaussSumParity.LetterShift
 public import Formalism.ThetaLogCoordinates.UniformThetaSubstitution.FrobeniusLiftNorms.TopsChoicePartA
 import Mathlib.Algebra.Order.Star.Int
@@ -151,11 +152,7 @@ section Normed
 variable {K : Type} [NormedField K] {τ : Type}
 
 lemma integral_X' (x : τ) : Integral (X x : MvPowerSeries τ K) := by
-  classical
-  unfold Integral
-  intro n
-  rw [coeff_X]
-  split_ifs <;> simp
+  apply _root_.Formalism.L2.Th1.B.law_integral_X <;> assumption
 
 lemma shiftType_gLog [DecidableEq τ] [CharZero K] {l d : ℕ} (hl : l.Prime) (σ : K →+* K) (φ : ZMod d → τ) :
     ShiftType l σ (fun s : ZMod d => gLog K l φ s) := by

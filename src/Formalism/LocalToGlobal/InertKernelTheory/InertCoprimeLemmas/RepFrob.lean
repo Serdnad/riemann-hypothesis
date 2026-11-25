@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.SatakeParameters.OrbitBoundStandardSeriesInertPlaces
 public import Formalism.LocalToGlobal.InertKernelTheory.FrameInt
 public import Formalism.LocalToGlobal.GroupLattices.PendingLemmas.ExistsCoprimePowEqOne
 public import Formalism.LocalToGlobal.GroupLattices.PendingLemmas.FrobeniusSqIterateTeichmuller
@@ -29,18 +30,7 @@ theorem pinv_le_one : (p : ℝ)⁻¹ ≤ 1 := inv_le_one_of_one_le₀ (by exact_
 
 theorem unr_norm_le {σ : MaximalUnramifiedExtension p →+* MaximalUnramifiedExtension p} (hσ : Formalism.InvariantFactorPaths.G7.UnrOK (MaximalUnramifiedExtension p) p σ) {a : MaximalUnramifiedExtension p} (ha : ‖a‖ ≤ 1) :
     ‖σ a‖ ≤ 1 := by
-  obtain ⟨-, -, -, -, h⟩ := hσ
-  have h1 : ‖((σ a : MaximalUnramifiedExtension p) : ℂ_[p]) - ((a : MaximalUnramifiedExtension p) : ℂ_[p]) ^ p‖ ≤ 1 := by
-    have h0 := h a ha
-    rw [_root_.Formalism.L2.Th1.D.GaussNormEstimates.normK] at h0
-    push_cast at h0
-    exact h0.trans pinv_le_one
-  have h2 : ‖((a : MaximalUnramifiedExtension p) : ℂ_[p]) ^ p‖ ≤ 1 := by
-    rw [norm_pow]
-    exact pow_le_one₀ (norm_nonneg _) (by rwa [_root_.Formalism.L2.Th1.D.GaussNormEstimates.normK] at ha)
-  rw [_root_.Formalism.L2.Th1.D.GaussNormEstimates.normK]
-  have h3 := nadd1 h1 h2
-  rwa [sub_add_cancel] at h3
+  apply +allowSynthFailures _root_.GlobalTheory.KerZero.norm_frob_le <;> assumption
 
 theorem norm_nat_coprime {N : ℕ} (hc : Nat.Coprime N p) : ‖(N : ℂ_[p])‖ = 1 := by
   have h : (N : ℂ_[p]) = ((algebraMap ℚ_[p] (PadicAlgCl p) (N : ℚ_[p]) : PadicAlgCl p) : ℂ_[p]) := by

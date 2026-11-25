@@ -1,5 +1,6 @@
 module
 
+import Formalism.LocalToGlobal.InertKernelTheory.InertCoprimeLemmas.IntPull
 public import Formalism.LocalToGlobal.InertKernelTheory.DefsInt
 public import Formalism.LocalRingCardinality.SpanPowerMembership.ExampleLayerExistsGenerators
 import Mathlib.RingTheory.PiTensorProduct
@@ -184,16 +185,7 @@ theorem ie_tPull_embV (γ : Matrix (Fin N) (Fin N) D.host.E) (γ' : Matrix (Fin 
     (A : Matrix (Fin N') (Fin N) D.host.E) :
     tPull D (tor0 D cc δ) γ γ' (embV D (tor0 D cc δ) A) =
       embV D (tor0 D cc δ) (letI := D.host.cmStar; star γ' * A * γ) := by
-  letI := D.host.cmStar
-  funext τ
-  have e1 : (star γ').map (embT D τ) = Matrix.conjTranspose (γ'.map (embT D τ)) := by
-    ext i j
-    simp only [Matrix.map_apply, Matrix.star_apply, Matrix.conjTranspose_apply]
-    exact ie_emb_star (embT D τ) (γ' j i)
-  have e2 : (star γ' * A * γ).map (embT D τ) =
-      Matrix.conjTranspose (γ'.map (embT D τ)) * A.map (embT D τ) * γ.map (embT D τ) := by
-    rw [Matrix.map_mul, Matrix.map_mul, e1]
-  exact e2.symm
+  apply _root_.Formalism.L2.KerInert.PullbackComparison.tPull_embV <;> assumption
 
 theorem ie_La_pull (γ : Matrix (Fin N) (Fin N) D.host.E) (γ' : Matrix (Fin N') (Fin N') D.host.E)
     (h1' : (letI := D.host.cmStar; star γ' * γ') = 1) (M : Submodule (𝓞 D.host.E) (Fin N → D.host.E))

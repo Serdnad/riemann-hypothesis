@@ -1,5 +1,7 @@
 module
 
+import Formalism.GL3MeanSquares.GenusMeanAsymptotics.UnimodularClassRepresentatives.UnitaryDensityFieldBis
+import all Formalism.LocalToGlobal.SiegelLatticeTheory.CokernelGLCounts.RankPointCounts.DualFamilyCounting.SmulMemLocFOfSP
 public import Formalism.LocalToGlobal.SiegelLatticeTheory.CokernelGLCounts.RankPointCounts.DualFamilyCounting.IsomFixOfExp
 public import Formalism.LocalToGlobal.SiegelLatticeTheory.CokernelGLCounts.RankPointCounts.DualFamilyCounting.JordanExists
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.StandardBaseFlagComplementIntegralLattice
@@ -471,34 +473,7 @@ end Line
 
 theorem exists_norm_congr_pow {𝔭 : Ideal (𝓞 F)} (h𝔭 : 𝔭.IsMaximal) {c : 𝓞 F} (hc : c ∉ 𝔭) {k : ℕ}
     (hk : 1 ≤ k) : ∃ α : 𝓞 K, conjO K α * α - ι c ∈ extP K 𝔭 ^ k := by
-  obtain ⟨P, hP, rfl⟩ := exists_maximal_over hK hF h𝔭
-  have hcP : ι c ∉ P := fun h => hc (Ideal.mem_comap.2 h)
-  have hN := IdealNormInequalities.one_lt_absNorm hP
-  obtain ⟨h1, h2⟩ := localDensity K hK P hP 1 k le_rfl hk (ι c) (idealPowerSpanBounds.conjO_map hF c) hcP
-  by_cases hc' : Formalism.HermitianLatticesTheory.conjIdeal (K := K) P = P
-  · have h3 := h1 hc'
-    have hs : 0 < Real.sqrt (Ideal.absNorm P : ℝ) := Real.sqrt_pos.2 (by linarith)
-    have hpos : (0 : ℝ) < (normRepCount K (P ^ k) 1 (ι c) : ℝ) := by
-      rw [h3]
-      refine mul_pos (pow_pos hs _) ?_
-      have : (0 : ℝ) < Real.sqrt (Ideal.absNorm P : ℝ) ^ (-((1 : ℕ) : ℤ)) := zpow_pos hs _
-      linarith
-    obtain ⟨α, hα⟩ := Cell.exists_of_normRepCount_ne_zero (by exact_mod_cast hpos.ne')
-    refine ⟨α, ?_⟩
-    rw [ThirdPropositionSlot.map_comap_eq_of_inert hK hF hP hc']
-    exact hα
-  · have h3 := h2 hc'
-    have hpos : (0 : ℝ) < (normRepCount K ((P * Formalism.HermitianLatticesTheory.conjIdeal (K := K) P) ^ k) 1 (ι c) : ℝ) := by
-      rw [h3]
-      refine mul_pos (pow_pos (by linarith) _) ?_
-      have : (Ideal.absNorm P : ℝ) ^ (-((1 : ℕ) : ℤ)) < 1 := by
-        rw [Nat.cast_one, zpow_neg_one]
-        exact inv_lt_one_of_one_lt₀ hN
-      linarith
-    obtain ⟨α, hα⟩ := Cell.exists_of_normRepCount_ne_zero (by exact_mod_cast hpos.ne')
-    refine ⟨α, ?_⟩
-    rw [ThirdPropositionSlot.extP_split hK hF hP hc']
-    exact hα
+  apply _root_.Formalism.HermitianLattices.Ext.L3.unitaryAbsoluteValueBounds.exists_norm <;> assumption
 
 end Formalism.L2.SG.Pf.TemperedBoundGL3
 end -- clump:auto
@@ -1389,21 +1364,7 @@ local notation "κ" => algebraMap (𝓞 K) K
 
 private theorem vF_spec_of_ne_zero {𝔭 : Ideal (𝓞 F)} (h𝔭 : 𝔭.IsMaximal) {a : 𝓞 F} (ha : a ≠ 0) :
     a ∈ 𝔭 ^ vF 𝔭 a ∧ a ∉ 𝔭 ^ (vF 𝔭 a + 1) := by
-  have hbot : ∃ N, a ∉ 𝔭 ^ N := by
-    by_contra hcon
-    push Not at hcon
-    have hinf : a ∈ ⨅ i, 𝔭 ^ i := Submodule.mem_iInf _ |>.mpr hcon
-    rw [Ideal.iInf_pow_eq_bot_of_isDomain 𝔭 h𝔭.ne_top, Ideal.mem_bot] at hinf
-    exact ha hinf
-  obtain ⟨N, hN⟩ := hbot
-  have hbdd : BddAbove {e : ℕ | a ∈ 𝔭 ^ e} := ⟨N, fun e he => by
-    by_contra hlt
-    push Not at hlt
-    exact hN (Ideal.pow_le_pow_right hlt.le he)⟩
-  have hmem : a ∈ 𝔭 ^ vF 𝔭 a := Nat.sSup_mem ⟨0, by simp⟩ hbdd
-  refine ⟨hmem, fun h => ?_⟩
-  have hle : vF 𝔭 a + 1 ≤ vF 𝔭 a := le_csSup hbdd h
-  omega
+  apply _root_.Formalism.L2.SG.Pf.UnitPairSolutions.mem_pow_vF_of_ne_zero <;> assumption
 
 theorem exists_mul_eq_of_mem_pow {𝔭 : Ideal (𝓞 F)} (h𝔭 : 𝔭.IsMaximal) {a a' : 𝓞 F}
     (ha : a ≠ 0) (ha' : a' ∈ 𝔭 ^ vF 𝔭 a) :

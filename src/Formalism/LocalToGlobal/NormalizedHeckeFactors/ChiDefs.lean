@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.LocalFieldNormValuation
 public import Formalism.ConjugateSelfDual.Statement
 public import Mathlib.Analysis.CStarAlgebra.Classes
 public import Mathlib.NumberTheory.NumberField.AdeleRing
@@ -71,14 +72,7 @@ theorem HC.At.inv {χ : HC E} {P : HeightOneSpectrum (𝓞 E)} {a : ℂ} (h : χ
 
 theorem exists_unif (P : HeightOneSpectrum (𝓞 E)) :
     ∃ ϖ : (P.adicCompletion E)ˣ, Valued.v (ϖ : P.adicCompletion E) = WithZero.exp (-1 : ℤ) := by
-  obtain ⟨π, hπ⟩ := P.valuation_exists_uniformizer E
-  have hv : Valued.v (π : P.adicCompletion E) = WithZero.exp (-1 : ℤ) := by
-    rw [P.valuedAdicCompletion_eq_valuation' π, hπ]
-  have h0 : (π : P.adicCompletion E) ≠ 0 := by
-    intro h
-    rw [h, map_zero] at hv
-    exact WithZero.exp_ne_zero hv.symm
-  exact ⟨Units.mk0 _ h0, hv⟩
+  apply _root_.GlobalTheory.CompletionNorm.exists_unit_valued_eq <;> assumption
 
 theorem HC.At.unique {χ : HC E} {P : HeightOneSpectrum (𝓞 E)} {a b : ℂ} (ha : χ.At P a) (hb : χ.At P b) : a = b := by
   obtain ⟨ϖ, hϖ⟩ := exists_unif P

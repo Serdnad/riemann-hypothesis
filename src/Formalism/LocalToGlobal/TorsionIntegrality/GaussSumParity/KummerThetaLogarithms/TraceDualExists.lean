@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsOrthogonalFamilyResidueZeros
 public import Formalism.LocalToGlobal.TorsionIntegrality.GaussSumParity.StatementK
 public import Formalism.GaussJetBounds.GaussJetProofs.NormNatCastEqPowPadicValNat
 public import Formalism.LocalToGlobal.TorsionIntegrality.GaussSumParity.BiextensionHypothesesOfLevelOne
@@ -41,13 +42,7 @@ lemma sum_range_even {M : Type} [AddCommMonoid M] (m : ℕ) (g : ℕ → M) :
 
 lemma norm_det_le {K : Type} [NormedField K] [IsUltrametricDist K] {n : Type} [Fintype n]
     [DecidableEq n] (M : Matrix n n K) (h : ∀ i j, ‖M i j‖ ≤ 1) : ‖M.det‖ ≤ 1 := by
-  rw [Matrix.det_apply]
-  refine IsUltrametricDist.norm_sum_le_of_forall_le_of_nonneg zero_le_one ?_
-  intro p _
-  rw [Units.smul_def, zsmul_eq_mul, norm_mul, norm_prod]
-  exact mul_le_one₀ (IsUltrametricDist.norm_intCast_le_one K _)
-    (Finset.prod_nonneg fun _ _ => norm_nonneg _)
-    (Finset.prod_le_one₀ (fun _ _ => norm_nonneg _) fun i _ => h _ _)
+  apply _root_.GlobalTheory.PMonE.norm_det_le_one_of_entries <;> assumption
 
 lemma inv_shift {K : Type} [Field K] {m : ℕ} [NeZero m] (τ : K →+* K)
     (V P : Matrix (Fin m) (Fin m) K) (hVP : V * P = 1)

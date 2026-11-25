@@ -1,12 +1,13 @@
 module
 
+
+import Formalism.FrobeniusOrbits.FrobeniusOrbitsProofs.Decomp
 public import Formalism.LocalToGlobal.TorsionIntegrality.ComplexLatticeClosure.ExistsTwoTorsionOffKernels
 public import Formalism.LocalToGlobal.GlobalTheory.GL3.CubicFields.EpsteinZeta.DedekindFactorK
 public import Formalism.LocalToGlobal.GlobalTheory.GL3.CubicFields.ComplexMultiplication.UniqInvOfLat
 public import Formalism.LocalToGlobal.GlobalTheory.GL3.CubicFields.EpsteinZeta.AreaLatIOfDiscr
 public import Formalism.LocalToGlobal.GlobalTheory.GL3.CubicFields.EpsteinZeta.Homothety
 public import Formalism.LocalToGlobal.TorsionIntegrality.EisensteinTranslationProducts.QuasiPeriodConstUnique
-
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Formalism.LocalToGlobal.TorsionIntegrality.ComplexLatticeClosure.IsLatClosure, Formalism.LocalToGlobal.TorsionIntegrality.ComplexLatticeClosure.LatticeAreaPositivity.Bridge
 
@@ -109,13 +110,7 @@ theorem sqrt_choice (s : ℂ) (d : ℕ) (hs : s ^ 2 = -(d : ℂ)) :
 
 theorem half_integral (K : Type) [Field K] [NumberField K] (d : ℕ) (hd4 : d % 4 = 3) (y : K) (hy : y ^ 2 = -(d : K)) :
     IsIntegral ℤ ((1 + y) / 2) := by
-  obtain ⟨k, hk⟩ : ∃ k : ℕ, d = 4 * k + 3 := ⟨d / 4, by omega⟩
-  have hkK : (d : K) = 4 * (k : K) + 3 := by rw [hk]; push_cast; ring
-  refine ⟨X ^ 2 - X + C ((k : ℤ) + 1), ?_, ?_⟩
-  · monicity!
-  · rw [eval₂_add, eval₂_sub, eval₂_X_pow, eval₂_X, eval₂_C, algebraMap_int_eq, eq_intCast]
-    push_cast
-    linear_combination (1 / 4 : K) * hy - (1 / 4 : K) * hkK
+  apply _root_.Formalism.FrobeniusOrbits.Decomp.omega_integral <;> assumption
 
 theorem latI_hasCM (K : Type) [Field K] [NumberField K] (d : ℕ) (hd4 : d % 4 = 3) (x : K) (hx : x ^ 2 = -(d : K))
     (φ : K →+* ℂ) (𝔞 : Ideal (𝓞 K)) (δ : ℂ) : HasCM d (latI φ 𝔞 δ) := by

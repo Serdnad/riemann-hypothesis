@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.HarmAMemSpanShort
 public import Formalism.LocalToGlobal.InertKernelTheory.DefsInt
 public import Formalism.PeriodIntegrals.UnimodGenus
 public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.UnimodGenus
@@ -33,27 +34,7 @@ theorem wa_mem_std {n : ℕ} (x : PI.UG.Sp E n) :
   simp only [PI.UG.stdLat, Submodule.mem_pi, Set.mem_univ, true_imp_iff, Submodule.mem_one]
 
 theorem wa_std_fg (n : ℕ) : (PI.UG.stdLat E n).FG := by
-  have h : PI.UG.stdLat E n =
-      Submodule.span (𝓞 E) (Set.range fun i : Fin n => (Pi.single i (1 : E) : PI.UG.Sp E n)) := by
-    apply le_antisymm
-    · intro x hx
-      rw [wa_mem_std] at hx
-      choose r hr using hx
-      have : x = ∑ i, r i • (Pi.single i (1 : E) : PI.UG.Sp E n) := by
-        funext j
-        simp [Finset.sum_apply, Pi.single_apply, Algebra.smul_def, hr]
-      rw [this]
-      exact Submodule.sum_mem _ fun i _ => Submodule.smul_mem _ _ (Submodule.subset_span ⟨i, rfl⟩)
-    · rw [Submodule.span_le]
-      rintro _ ⟨i, rfl⟩
-      rw [SetLike.mem_coe, wa_mem_std]
-      intro j
-      by_cases hj : j = i
-      · subst hj
-        exact ⟨1, by simp⟩
-      · exact ⟨0, by simp [hj]⟩
-  rw [h]
-  exact Submodule.fg_span (Set.finite_range _)
+  apply _root_.GlobalTheory.StdHarm.std_fg <;> assumption
 
 theorem wa_le_loc (P : Ideal (𝓞 E)) {n : ℕ} (N : Submodule (𝓞 E) (PI.UG.Sp E n)) : N ≤ PI.UG.loc (K := E) P N :=
   fun x hx => ⟨1, Submonoid.one_mem _, by rwa [one_smul]⟩

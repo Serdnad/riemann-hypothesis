@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.ExistsNotMemForallMem
 import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.FormalGroupActionLimitsIntegralEndomorphisms
 public import Formalism.LocalToGlobal.CharacterGerms.IntSubst
 public import Mathlib.RingTheory.MvPowerSeries.Substitution
@@ -57,11 +58,7 @@ private theorem ge_tele_lemma_7 {s : ℕ → C} {w : ℝ} {a : ℕ} (h : ∀ m �
     exact ge_add_lemma_2 (h b hab) ih
 
 theorem exists_ge (x : C) : ∃ K : ℝ, V.Ge K x := by
-  show ∃ K : ℝ, ((K : WithTop ℝ) ≤ V.v x)
-  generalize V.v x = t
-  induction t using WithTop.recTopCoe with
-  | top => exact ⟨0, le_top⟩
-  | coe r => exact ⟨r, le_rfl⟩
+  apply _root_.GlobalTheory.PlaceProj.exists_ge <;> assumption
 
 theorem eq_zero_of_ge_all {x : C} (h : ∀ w : ℝ, V.Ge w x) : x = 0 := by
   apply GlobalTheory.ActLimit.eq_zero_of_ge <;> assumption

@@ -1,5 +1,6 @@
 module
 
+import ReciprocityTheory.ReductiveGroups.UnramifiedIntegrals.CoeffOneSubstOfConstantCoeffEqZero
 public import Formalism.LocalToGlobal.TorsionIntegrality.EisensteinTranslationProducts.EisensteinS2LimitFormula
 public import Formalism.LocalToGlobal.TorsionIntegrality.FrobeniusFibreCurves.LogarithmicSubstitution.BaseChangeCompatible
 public import Formalism.LocalToGlobal.TorsionIntegrality.FrobeniusFibreCurves.LogarithmicSubstitution.ConstantCoeffSig1S
@@ -58,20 +59,7 @@ theorem cW_scale {K : Type} [Field K] (g2 g3 lam : K) (k : ℕ) :
 
 theorem cW_map {K K' : Type} [Field K] [Field K'] (φ : K →+* K') (g2 g3 : K) (k : ℕ) :
     φ (cW g2 g3 k) = cW (φ g2) (φ g3) k := by
-  induction k using Nat.strong_induction_on with
-  | _ k ih =>
-    rw [cW_eq, cW_eq (φ g2) (φ g3) k]
-    split_ifs with h2 h3 h4
-    · rw [map_div₀, map_ofNat]
-    · rw [map_div₀, map_ofNat]
-    · set_option synthInstance.maxHeartbeats 100000 in
-        rw [map_mul, map_div₀, map_mul, map_add (f := _), map_sub, map_mul, map_natCast, map_one, map_sum]
-      simp only [map_ofNat]
-      congr 1
-      refine Finset.sum_congr rfl fun m _ => ?_
-      have hm := m.isLt
-      rw [map_mul, ih (m.val + 2) (by omega), ih (k - (m.val + 2)) (by omega)]
-    · exact map_zero φ
+  apply _root_.ReciprocityTheory.ChartRestriction.L1.cW_map <;> assumption
 
 theorem wpNum_scale {K : Type} [Field K] (g2 g3 lam : K) :
     wpNum (lam ^ 4 * g2) (lam ^ 6 * g3) = rescale lam (wpNum g2 g3) := by

@@ -1,5 +1,6 @@
 module
 
+import ReciprocityTheory.ReductiveGroups.UnramifiedIntegrals.ModGEis
 public import Formalism.LocalToGlobal.GlobalTheory.GL3.CubicFields.EpsteinZeta.DedekindFactorK
 public import Mathlib.NumberTheory.ModularForms.LevelOne.GradedRing
 import Mathlib.RingTheory.SimpleRing.Principal
@@ -15,20 +16,7 @@ open NumberField Classical
 open scoped Pointwise
 
 theorem jac_riemannZeta_six : riemannZeta 6 = (Real.pi : ℂ) ^ 6 / 945 := by
-  have h := riemannZeta_two_mul_nat (show (3 : ℕ) ≠ 0 by norm_num)
-  have h5 : bernoulli' 5 = 0 := by
-    rw [bernoulli'_def]
-    simp only [Finset.sum_range_succ, Finset.sum_range_zero, bernoulli'_zero, bernoulli'_one, bernoulli'_two,
-      bernoulli'_three, bernoulli'_four]
-    norm_num [Nat.choose]
-  have hb : bernoulli 6 = 1 / 42 := by
-    rw [bernoulli_eq_bernoulli'_of_ne_one (by norm_num), bernoulli'_def]
-    simp only [Finset.sum_range_succ, Finset.sum_range_zero, bernoulli'_zero, bernoulli'_one, bernoulli'_two,
-      bernoulli'_three, bernoulli'_four, h5]
-    norm_num [Nat.choose]
-  rw [show (6 : ℂ) = 2 * ((3 : ℕ) : ℂ) by norm_num, h, hb]
-  norm_num [Nat.factorial]
-  ring
+  apply _root_.ReciprocityTheory.ChartRestriction.L1.sixVal <;> assumption
 
 theorem jac_mem_closure (a z w : ℂ) :
     w ∈ AddSubgroup.closure ({a, a * z} : Set ℂ) ↔ ∃ v : Fin 2 → ℤ, w = a * ((v 0 : ℂ) * z + v 1) := by

@@ -1,5 +1,6 @@
 module
 
+import Formalism.LocalToGlobal.KernelLattices.KernelLocalFactors.InterlaceDifferenceShiftInvariant
 public import Formalism.FrobeniusBaseCase.Statement
 public import Formalism.LocalToGlobal.CharacterGerms.Interface
 public import Formalism.LocalToGlobal.CharacterGerms.LemmaMLin
@@ -39,26 +40,7 @@ theorem jet_C (a : C) (G : MvPowerSeries σ C) :
 
 theorem mfact_add_single (m : σ →₀ ℕ) (x : σ) :
     mfact (m + Finsupp.single x 1) = (m x + 1) * mfact m := by
-  unfold mfact
-  set s := insert x m.support with hs
-  have hsub : (m + Finsupp.single x 1).support ⊆ s := by
-    intro y hy
-    rcases Finset.mem_union.1 (Finsupp.support_add hy) with h | h
-    · exact Finset.mem_insert_of_mem h
-    · rw [Finsupp.support_single_ne_zero _ one_ne_zero, Finset.mem_singleton] at h
-      rw [h]
-      exact Finset.mem_insert_self _ _
-  rw [Finsupp.prod_of_support_subset (m + Finsupp.single x 1) hsub _ (fun _ _ => Nat.factorial_zero),
-    Finsupp.prod_of_support_subset m (Finset.subset_insert _ _) _ (fun _ _ => Nat.factorial_zero)]
-  have hx : x ∈ s := Finset.mem_insert_self _ _
-  rw [← Finset.mul_prod_erase s _ hx, ← Finset.mul_prod_erase s (fun y => (m y).factorial) hx]
-  have hrest : ∏ y ∈ s.erase x, ((m + Finsupp.single x 1 : σ →₀ ℕ) y).factorial = ∏ y ∈ s.erase x, (m y).factorial :=
-    Finset.prod_congr rfl fun y hy => by
-      rw [Finset.mem_erase] at hy
-      simp [Ne.symm hy.1]
-  rw [hrest]
-  simp [Nat.factorial_succ]
-  ring
+  apply _root_.Formalism.L2.Ker.hwD_mfact_add_single <;> assumption
 
 theorem jet_mul_X (p : MvPolynomial σ C) (x : σ) (G : MvPowerSeries σ C) :
     jetAt0 (p * MvPolynomial.X x) G = jetAt0 p (dVar x G) := by

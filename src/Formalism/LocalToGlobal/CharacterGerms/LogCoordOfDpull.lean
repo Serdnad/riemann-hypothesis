@@ -1,5 +1,6 @@
 module
 
+import Formalism.LocalToGlobal.CharacterGerms.RowTiePProjLie
 public import Formalism.IncomingBounds.StatementThmP
 public import Mathlib.RingTheory.MvPowerSeries.Derivative
 public import Mathlib.RingTheory.MvPowerSeries.Substitution
@@ -28,18 +29,7 @@ namespace VP
 theorem cc_subst_eq {σ τ : Type} [Finite σ] {a : σ → MvPowerSeries τ C}
     (ha : ∀ s, MvPowerSeries.constantCoeff (a s) = 0) (f : MvPowerSeries σ C) :
     MvPowerSeries.constantCoeff (MvPowerSeries.subst a f) = MvPowerSeries.constantCoeff f := by
-  have hs : MvPowerSeries.HasSubst a := MvPowerSeries.hasSubst_of_constantCoeff_zero ha
-  set c := MvPowerSeries.constantCoeff f with hc
-  have hg : MvPowerSeries.constantCoeff (f - algebraMap C (MvPowerSeries σ C) c) = 0 := by
-    simp [hc, MvPowerSeries.algebraMap_apply]
-  have hf : f = algebraMap C (MvPowerSeries σ C) c + (f - algebraMap C (MvPowerSeries σ C) c) := by
-    ring
-  have h1 : MvPowerSeries.subst a (algebraMap C (MvPowerSeries σ C) c) =
-      algebraMap C (MvPowerSeries τ C) c := by
-    rw [← MvPowerSeries.coe_substAlgHom hs]
-    exact (MvPowerSeries.substAlgHom hs).commutes c
-  rw [hf, MvPowerSeries.subst_add hs, map_add (f := _), h1, constantCoeff_subst_zero ha hg]
-  simp [MvPowerSeries.algebraMap_apply]
+  apply _root_.Formalism.L2.FormalSeriesBounds.RowTiePLie.cc_subst <;> assumption
 
 private theorem jetAt0_zero_left' {σ : Type} (G : MvPowerSeries σ C) :
     jetAt0 (0 : MvPolynomial σ C) G = 0 := by

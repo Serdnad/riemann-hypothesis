@@ -16,6 +16,7 @@ import Mathlib.RingTheory.Coalgebra.IsFrobenius
 import Mathlib.RingTheory.HopfAlgebra.Basic
 import Mathlib.RingTheory.SimpleRing.Principal
 import Mathlib.Tactic.TypeStar
+import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.UnimodularLocalStandard.ExistsGoodForm
 
 @[expose] public section
 
@@ -88,14 +89,7 @@ theorem relIdx_trans {V : Type*} [AddCommGroup V] {Λ₁ Λ₂ Λ₃ : AddSubgro
 
 theorem imgLat_trans {V : Type*} [AddCommGroup V] [Module ℂ V] (g g' : V ≃ₗ[ℂ] V) (Λ : AddSubgroup V) :
     imgLat ((g.trans g' : V ≃ₗ[ℂ] V) : V →ₗ[ℂ] V) Λ = imgLat (g' : V →ₗ[ℂ] V) (imgLat (g : V →ₗ[ℂ] V) Λ) := by
-  ext x
-  simp only [imgLat, AddSubgroup.mem_map, LinearMap.toAddMonoidHom_coe, LinearEquiv.coe_coe,
-    LinearEquiv.trans_apply]
-  constructor
-  · rintro ⟨y, hy, rfl⟩
-    exact ⟨g y, ⟨y, hy, rfl⟩, rfl⟩
-  · rintro ⟨_, ⟨y, hy, rfl⟩, rfl⟩
-    exact ⟨y, hy, rfl⟩
+  apply _root_.PI.UnitaryGroupMassFormula.UnimodLocStd.imgLat_trans <;> assumption
 
 theorem norm_mul_eq_one {l : ℕ} [Fact l.Prime] (ι : ℂ ≃+* ℂ_[l]) (κ c D : ℂ) (hc8 : c ^ 8 = D ^ 4)
     (hκ : ‖ι κ‖ ^ 2 * ‖ι D‖ = 1) : ‖ι (κ * c)‖ = 1 := by

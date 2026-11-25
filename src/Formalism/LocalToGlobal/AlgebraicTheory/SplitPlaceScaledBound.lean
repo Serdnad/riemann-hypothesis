@@ -93,7 +93,7 @@ import Mathlib.Algebra.Order.Star.Real
 import Formalism.ThetaLogCoordinates.UniformThetaSubstitution.FinalS
 import Formalism.LocalToGlobal.AlgebraicTheory.AlgebraicTheoryProofs.ScalarConst
 import Formalism.LocalToGlobal.AlgebraicTheory.AlgebraicTheoryProofs.TensZEt
-import Formalism.LocalToGlobal.AlgebraicTheory.AlgebraicTheoryProofs.TensorFourthPowerScaling
+import all Formalism.LocalToGlobal.AlgebraicTheory.AlgebraicTheoryProofs.TensorFourthPowerScaling
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Formalism.LocalToGlobal.AlgebraicTheory.AlgebraicTheoryProofs.EigenFrameDualOf, Formalism.LocalToGlobal.AlgebraicTheory.AlgebraicTheoryProofs.EtJets, Formalism.LocalToGlobal.AlgebraicTheory.AlgebraicTheoryProofs.EtPower, Formalism.LocalToGlobal.AlgebraicTheory.AlgebraicTheoryProofs.JetsInOfOneVariable, Formalism.LocalToGlobal.AlgebraicTheory.AlgebraicTheoryProofs.LogDerivativeJetsIntegral, Formalism.LocalToGlobal.AlgebraicTheory.AlgebraicTheoryProofs.UnitKer, Formalism.LocalToGlobal.AlgebraicTheory.ColBoundOfPaths, Formalism.LocalToGlobal.AlgebraicTheory.SplitPlaceScaledBound
@@ -799,12 +799,7 @@ private theorem sum_C_scl_mul_X {K : Type} [Field K] {p : Type} [Fintype p] [Dec
 theorem linSub_scl {K : Type} [Field K] {n : Type} [Fintype n] [DecidableEq n] (c : K)
     (f : MvPowerSeries n K) :
     linSub (scl n c) f = MvPowerSeries.rescale (fun _ => c) f := by
-  unfold linSub
-  rw [MvPowerSeries.rescale_eq_subst]
-  congr 1
-  funext i
-  rw [sum_C_scl_mul_X]
-  simp [MvPowerSeries.smul_eq_C_mul]
+  apply _root_.Formalism.L2.AlgTh.LocalJetRescaling.linSub_scl_eq_rescale <;> assumption
 
 end LinearSubstitutionJets
 

@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.NormPowSubPowLe
 public import Formalism.LocalToGlobal.TorsionIntegrality.GaussSumParity.LetterShift
 public import Formalism.LocalToGlobal.TorsionIntegrality.GaussSumParity.StatementA
 public import Formalism.GaussJetBounds.GaussJetProofs.NormNatCastEqPowPadicValNat
@@ -61,20 +62,7 @@ theorem norm_eq_one_of_pow {a : K} {n : ℕ} (hn : n ≠ 0) (h : a ^ n = 1) : �
 
 theorem norm_pow_sub_pow_le {a b : K} (ha : ‖a‖ ≤ 1) (hb : ‖b‖ ≤ 1) (i : ℕ) :
     ‖a ^ i - b ^ i‖ ≤ ‖a - b‖ := by
-  induction i with
-  | zero => simp
-  | succ i ih =>
-    have e : a ^ (i + 1) - b ^ (i + 1) = a * (a ^ i - b ^ i) + (a - b) * b ^ i := by ring
-    rw [e]
-    refine (IsUltrametricDist.norm_add_le_max _ _).trans (max_le ?_ ?_)
-    · rw [norm_mul]
-      calc ‖a‖ * ‖a ^ i - b ^ i‖ ≤ 1 * ‖a - b‖ :=
-            mul_le_mul ha ih (norm_nonneg _) zero_le_one
-        _ = ‖a - b‖ := one_mul _
-    · rw [norm_mul, norm_pow]
-      calc ‖a - b‖ * ‖b‖ ^ i ≤ ‖a - b‖ * 1 :=
-            mul_le_mul_of_nonneg_left (pow_le_one₀ (norm_nonneg _) hb) (norm_nonneg _)
-        _ = ‖a - b‖ := mul_one _
+  apply _root_.GlobalTheory.NormEvalSubBound.norm_pow_sub_pow_le <;> assumption
 
 theorem root_eq_of_norm_lt {a b : K} {N : ℕ} (hN : ‖(N : K)‖ = 1) (ha : a ^ N = 1)
     (hb : b ^ N = 1) (hab : ‖a - b‖ < 1) : a = b := by

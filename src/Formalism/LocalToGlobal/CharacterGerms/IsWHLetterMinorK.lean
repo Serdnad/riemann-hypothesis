@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.JetHarmonics.ColumnMapShift
 public import Formalism.LocalToGlobal.CharacterGerms.ContentZeroAt
 public import Mathlib.RingTheory.MvPolynomial.WeightedHomogeneous
 public import Formalism.LocalToGlobal.CharacterGerms.NormOneRowDegrees
@@ -28,17 +29,8 @@ variable {R : Type} [CommRing R]
 theorem isWH_aeval {σ τ : Type} {w : τ → ℕ} {w' : σ → ℕ} (f : σ → MvPolynomial τ R)
     (hf : ∀ x, IsWeightedHomogeneous w (f x) (w' x)) {p : MvPolynomial σ R} {D : ℕ}
     (hp : IsWeightedHomogeneous w' p D) : IsWeightedHomogeneous w (aeval f p) D := by
-  rw [aeval_def, eval₂_eq]
-  apply IsWeightedHomogeneous.sum
-  intro m hm
-  have h1 : IsWeightedHomogeneous w (∏ i ∈ m.support, f i ^ m i) (∑ i ∈ m.support, m i • w' i) :=
-    IsWeightedHomogeneous.prod _ _ _ fun i _ => (hf i).pow (m i)
-  have h2 : (∑ i ∈ m.support, m i • w' i) = D := by
-    rw [← hp (mem_support_iff.1 hm), Finsupp.weight_apply]
-    rfl
-  have h3 := (isWeightedHomogeneous_C w (AddMonoidAlgebra.coeff p m)).mul h1
-  rw [zero_add, h2] at h3
-  exact h3
+  intros
+  apply _root_.GlobalTheory.Proof.ColumnMapShift.aeval_weightedHomogeneous <;> assumption
 
 theorem isWH_add {σ : Type} {w1 w2 : σ → ℕ} {p : MvPolynomial σ R} {D1 D2 : ℕ}
     (h1 : IsWeightedHomogeneous w1 p D1) (h2 : IsWeightedHomogeneous w2 p D2) :

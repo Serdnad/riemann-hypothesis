@@ -60,12 +60,10 @@ lemma thetaZero_periodLattice_eq (L : PeriodPair) (t z : ℂ) :
 
 lemma exp_pi_int (k : ℤ) :
     Complex.exp (-((Real.pi : ℂ) * Complex.I * (k : ℂ))) = Complex.exp ((Real.pi : ℂ) * Complex.I * (k : ℂ)) := by
-  have h : Complex.exp ((Real.pi : ℂ) * Complex.I * (k : ℂ)) * Complex.exp ((Real.pi : ℂ) * Complex.I * (k : ℂ)) = 1 := by
-    rw [← Complex.exp_add]
-    convert Complex.exp_int_mul_two_pi_mul_I k using 2
-    ring
   rw [Complex.exp_neg]
-  exact inv_eq_of_mul_eq_one_right h
+  apply inv_eq_of_mul_eq_one_right
+  rw [← Complex.exp_add]
+  convert Complex.exp_int_mul_two_pi_mul_I k using 2 <;> ring
 
 end ThetaZeroHermitianLemmas
 

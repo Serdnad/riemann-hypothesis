@@ -28,22 +28,11 @@ theorem det_G_unit {G s : Matrix (Fin n) (Fin n) ℂ} (hs : IsCartanInv G s) : I
 
 theorem det_UH_unit {G g : Matrix (Fin n) (Fin n) ℂ} (hG : IsUnit G.det) (hg : g ∈ Formalism.QuantumDeterminants.UH G) :
     IsUnit g.det := by
-  have h : gᴴ * G * g = G := hg
-  have h' := congrArg Matrix.det h
-  rw [Matrix.det_mul, Matrix.det_mul] at h'
-  rw [isUnit_iff_ne_zero]
-  intro h0
-  rw [h0, mul_zero] at h'
-  exact hG.ne_zero h'.symm
+  apply _root_.Formalism.IndefR.Tow.SobPf.Avg.isUnit_det_of_UH <;> assumption
 
 theorem inv_mem_UH {G g : Matrix (Fin n) (Fin n) ℂ} (hG : IsUnit G.det) (hg : g ∈ Formalism.QuantumDeterminants.UH G) :
     g⁻¹ ∈ Formalism.QuantumDeterminants.UH G := by
-  have hd := det_UH_unit hG hg
-  have h : gᴴ * G * g = G := hg
-  show (g⁻¹)ᴴ * G * g⁻¹ = G
-  calc (g⁻¹)ᴴ * G * g⁻¹ = (g⁻¹)ᴴ * (gᴴ * G * g) * g⁻¹ := by rw [h]
-    _ = (g * g⁻¹)ᴴ * G * (g * g⁻¹) := by rw [Matrix.conjTranspose_mul]; simp only [mul_assoc]
-    _ = G := by rw [Matrix.mul_nonsing_inv _ hd, Matrix.conjTranspose_one, one_mul, mul_one]
+  apply _root_.Formalism.IndefR.Tow.SobPf.Avg.inv_mem_UH <;> assumption
 
 theorem conj_mem_lieG {G g X : Matrix (Fin n) (Fin n) ℂ} (hG : IsUnit G.det) (hg : g ∈ Formalism.QuantumDeterminants.UH G)
     (hX : X ∈ lieG G) : g⁻¹ * X * g ∈ lieG G := by

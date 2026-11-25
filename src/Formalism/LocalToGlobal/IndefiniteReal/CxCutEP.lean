@@ -285,15 +285,8 @@ theorem cx_eig_orth (hA : A.PosDef) (adj : ∀ i, ∃ i', A * N i = (N i')ᴴ * 
     (hc : Col.PairComm (linF N)) (hs : Col.SplitOver (linF N)) {C C' : (I → ℂ) → Prop} (hCC : ∀ y, C' y → ¬ C y)
     {f g : Fin n → ℂ} (hf : f ∈ Col.eigSum (linF N) C) (hg : g ∈ Col.eigSum (linF N) C') :
     star f ⬝ᵥ A *ᵥ g = 0 := by
-  have hadj := cx_proj_adj N A hA adj hc hs C
-  have hf2 : LinearMap.toMatrix' (Col.eigProj hc hs C) *ᵥ f = f := by
-    rw [LinearMap.toMatrix'_mulVec]; exact Col.eigProj_apply_of_mem hc hs hf
-  have hg2 : LinearMap.toMatrix' (Col.eigProj hc hs C) *ᵥ g = 0 := by
-    rw [LinearMap.toMatrix'_mulVec]
-    exact Col.eigProj_apply_of_mem_not hc hs (Col.eigSum_mono (fun y hy => hCC y hy) hg)
-  rw [← hf2, Matrix.star_mulVec, ← Matrix.dotProduct_mulVec, Matrix.mulVec_mulVec, hadj,
-    ← Matrix.mulVec_mulVec, hg2]
-  simp
+  intros
+  apply _root_.Formalism.IndefR.Cx.EigenprojectionMatrices.dotProduct_mulVec_eigSum_eq_zero_of_disjoint <;> assumption
 
 end Cx
 

@@ -1,5 +1,8 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.CmFiniteAdeleStrongApproxModAdelicIdeal
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.CmThetaComplexConjugationCompatible
+import Formalism.LocalToGlobal.KernelLattices.ColumnData.LinkThU
 public import Formalism.LocalToGlobal.GlobalTheory.GL3.Statement
 public import Formalism.LocalToGlobal.KernelLattices.ColumnData.LinkThU
 public import Formalism.SharpRestriction.RamificationFrobenius.TotientGaloisClasses.FrameFacts
@@ -51,15 +54,8 @@ def dens (D : D7) (T : Tor D) {N N' : ℕ} (G : VC D N N' → ℂ) (z : VC D N N
 
 theorem dens_U (T : Tor D) (G : VC D N N' → ℂ) (x z : VC D N N') :
     dens D T (U D T x G) z = dens D T G (z + x) := by
-  have h := re_Hf_add T z x
-  simp only [dens, U, norm_mul, Complex.norm_exp, mul_pow]
-  rw [h, mul_assoc, ← Real.exp_nat_mul, ← Real.exp_add]
-  congr 1
-  congr 1
-  simp only [Complex.sub_re, Complex.neg_re, Complex.mul_re, Complex.ofReal_re, Complex.ofReal_im,
-    Complex.div_ofNat_re, zero_mul, sub_zero, Complex.neg_im, neg_zero]
-  push_cast
-  ring
+  intros
+  apply _root_.GlobalTheory.ThetaConj.dens_U <;> assumption
 
 theorem norm_al (T : Tor D) (x : VC D N N') : ‖al D T x‖ = 1 := by
   simp [al, norm_zpow]

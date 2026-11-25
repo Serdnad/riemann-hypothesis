@@ -18,6 +18,7 @@ import Mathlib.RingTheory.HopfAlgebra.Basic
 import Formalism.LocalToGlobal.TorsionIntegrality.GaussianEigenFrames.GramFrameComposition.Inertia
 import Formalism.LocalToGlobal.TorsionIntegrality.GaussianEigenFrames.GramFrameComposition.MatrixFormDiagBlocksBlockEmbed
 import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.UnimodularLocalStandard.RepArith
+import Formalism.LocalToGlobal.AlgebraicTheory.AlgebraicTheoryProofs.DvdOfNormIntCastLt
 
 @[expose] public section
 
@@ -207,17 +208,7 @@ theorem norm_sign (ι : ℂ ≃+* ℂ_[p]) (x : ℂ) (hx : x = 1 ∨ x = -1) : �
   rcases hx with rfl | rfl <;> simp
 
 theorem dvd_of_norm_lt (T : ℤ) (h : ‖(T : ℂ_[p])‖ < 1) : (p : ℤ) ∣ T := by
-  by_contra hT
-  obtain ⟨a, b, hab⟩ :=
-    (Irreducible.coprime_iff_not_dvd (Nat.prime_iff_prime_int.mp (Fact.out : p.Prime)).irreducible).2 hT
-  have h1 : ((a : ℂ_[p]) * (p : ℂ_[p]) + (b : ℂ_[p]) * (T : ℂ_[p])) = 1 := by exact_mod_cast hab
-  have h2 := IsUltrametricDist.norm_add_le_max ((a : ℂ_[p]) * (p : ℂ_[p])) ((b : ℂ_[p]) * (T : ℂ_[p]))
-  rw [h1, norm_one, norm_mul, norm_mul] at h2
-  have h3 : ‖(a : ℂ_[p])‖ * ‖(p : ℂ_[p])‖ < 1 :=
-    lt_of_le_of_lt (mul_le_of_le_one_left (norm_nonneg _) (IsUltrametricDist.norm_intCast_le_one _ a)) _root_.Formalism.L2.Th1.GD.norm_p_lt_one
-  have h4 : ‖(b : ℂ_[p])‖ * ‖(T : ℂ_[p])‖ < 1 :=
-    lt_of_le_of_lt (mul_le_of_le_one_left (norm_nonneg _) (IsUltrametricDist.norm_intCast_le_one _ b)) h
-  exact absurd h2 (not_le.2 (max_lt h3 h4))
+  apply _root_.Formalism.L2.AlgTh.XiTorsion.dvd_of_norm_intCast_lt <;> assumption
 
 end Norms
 

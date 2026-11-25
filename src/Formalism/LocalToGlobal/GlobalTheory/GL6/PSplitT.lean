@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.NumberFieldFinitePlaceCompletionEmbedding
 public import Formalism.LocalToGlobal.GlobalTheory.GL6.AdmissibleOfSplitAndRoundTrips
 public import Formalism.LocalRingCardinality.IntCastDvdOfDvdIntegers
 public import Formalism.LocalRingCardinality.RankBoundMonotoneInDimension
@@ -37,63 +38,8 @@ theorem valuation_le_of_pow_dvd {ϖ x : v.adicCompletionIntegers K} {n : ℕ} (h
 
 theorem completion_integers_precomplete {ϖ : v.adicCompletionIntegers K} (hϖ : Irreducible ϖ) :
     IsPrecomplete (maximalIdeal (v.adicCompletionIntegers K)) (v.adicCompletionIntegers K) := by
-  have hI : ∀ (n : ℕ) (x : v.adicCompletionIntegers K),
-      x ∈ ((maximalIdeal (v.adicCompletionIntegers K)) ^ n • ⊤ :
-        Submodule (v.adicCompletionIntegers K) (v.adicCompletionIntegers K)) ↔ ϖ ^ n ∣ x := by
-    intro n x
-    rw [Ideal.smul_eq_mul, Ideal.mul_top, hϖ.maximalIdeal_eq, Ideal.span_singleton_pow, Ideal.mem_span_singleton]
-  have hϖ0 : (ϖ : v.adicCompletion K) ≠ 0 := fun h => hϖ.ne_zero (Subtype.ext h)
-  have hlt : Valued.v (ϖ : v.adicCompletion K) < 1 := by
-    refine lt_of_le_of_ne ϖ.2 fun h => hϖ.not_isUnit ?_
-    exact adicCompletionIntegers.isUnit_iff_valued_eq_one.2 h
-  refine ⟨fun f hf => ?_⟩
-  have hd : ∀ N a b, N ≤ a → N ≤ b → ϖ ^ N ∣ f a - f b := by
-    intro N a b ha hb
-    rcases le_total a b with h | h
-    · have := hf h
-      rw [SModEq.sub_mem, hI] at this
-      exact (pow_dvd_pow ϖ ha).trans this
-    · have := hf h
-      rw [SModEq.sub_mem, hI] at this
-      exact (pow_dvd_pow ϖ hb).trans (dvd_sub_comm.1 this)
-  set g : ℕ → v.adicCompletion K := fun n => (f n : v.adicCompletion K) with hg
-  have hC : CauchySeq g := by
-    rw [(Valued.hasBasis_uniformity (v.adicCompletion K) (WithZero (Multiplicative ℤ))).cauchySeq_iff]
-    intro y _
-    obtain ⟨N, hN⟩ := exists_pow_lt₀ hlt
-      (Units.map (MonoidWithZeroHom.ValueGroup₀.embedding
-        (f := (.ofClass (Valued.v : Valuation (v.adicCompletion K) (WithZero (Multiplicative ℤ)))))).toMonoidHom y)
-    refine ⟨N, fun m hm n hn => ?_⟩
-    show Valued.v.restrict (g n - g m) < y.1
-    rw [Valuation.restrict_lt_iff_lt_embedding]
-    refine lt_of_le_of_lt ?_ hN
-    have := valuation_le_of_pow_dvd v (hd N n m hn hm)
-    exact this
-  obtain ⟨L, hL⟩ := cauchySeq_tendsto_of_complete hC
-  have hO : IsClosed ((v.adicCompletionIntegers K : Set (v.adicCompletion K))) :=
-    Valued.isClosed_valuationSubring (v.adicCompletion K)
-  have hLm : L ∈ v.adicCompletionIntegers K :=
-    hO.mem_of_tendsto hL (Eventually.of_forall fun n => (f n).2)
-  refine ⟨⟨L, hLm⟩, fun n => ?_⟩
-  rw [SModEq.sub_mem, hI]
-  have hpn : (ϖ : v.adicCompletion K) ^ n ≠ 0 := pow_ne_zero _ hϖ0
-  have hS : IsClosed ((fun x => (x - g n) * ((ϖ : v.adicCompletion K) ^ n)⁻¹) ⁻¹'
-      (v.adicCompletionIntegers K : Set (v.adicCompletion K))) :=
-    hO.preimage ((continuous_id.sub continuous_const).mul continuous_const)
-  have hLS := hS.mem_of_tendsto hL (by
-    rw [eventually_atTop]
-    refine ⟨n, fun m hm => ?_⟩
-    obtain ⟨c, hc⟩ := hd n m n hm le_rfl
-    show (g m - g n) * ((ϖ : v.adicCompletion K) ^ n)⁻¹ ∈ v.adicCompletionIntegers K
-    have : g m - g n = (ϖ : v.adicCompletion K) ^ n * (c : v.adicCompletion K) := by
-      simp only [hg]
-      exact congrArg Subtype.val hc
-    rw [this, mul_comm, ← mul_assoc, inv_mul_cancel₀ hpn, one_mul]
-    exact c.2)
-  refine ⟨-⟨_, hLS⟩, Subtype.ext ?_⟩
-  show g n - L = (ϖ : v.adicCompletion K) ^ n * -((L - g n) * ((ϖ : v.adicCompletion K) ^ n)⁻¹)
-  field_simp
-  ring
+  intros
+  apply _root_.GlobalTheory.AdicCompl.isPrecomplete <;> assumption
 
 theorem hensel_sqrt_completion_integers (a b : v.adicCompletionIntegers K) (hab : b * b - a ∈ maximalIdeal (v.adicCompletionIntegers K))
     (hu : IsUnit (2 * b)) :

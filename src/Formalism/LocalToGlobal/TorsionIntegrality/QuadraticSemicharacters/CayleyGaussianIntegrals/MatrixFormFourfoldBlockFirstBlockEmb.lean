@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.PeriodLatticeSesquilinearFormIsHerm
 public import Formalism.LocalToGlobal.TorsionIntegrality.QuadraticSemicharacters.LineTransport
 public import Formalism.LocalToGlobal.TorsionIntegrality.QuadraticSemicharacters.ProductThetaMem
 public import Mathlib.CategoryTheory.Category.Basic
@@ -102,16 +103,7 @@ theorem restrict_mem (h : Matrix n n ℂ) (Λ : AddSubgroup (n → ℂ)) (α : (
 end Blocks
 
 theorem fourfoldTensorMem : Tens4Mem := by
-  intro n _ h Λ α θ hθ
-  refine ⟨?_, ?_⟩
-  · intro z _
-    refine Finset.analyticAt_fun_prod _ fun a _ => ?_
-    exact ((hθ a).1 (slice a z) (Set.mem_univ _)).comp_of_eq (slice_analyticAt a z) rfl
-  · intro x hx z
-    rw [(heisenbergFourfold n h).2 x θ z]
-    show (∏ a, α (slice a x)) * _ = ∏ a, θ a (slice a z)
-    rw [← Finset.prod_mul_distrib]
-    exact Finset.prod_congr rfl fun a _ => (hθ a).2 (slice a x) (hx a) (slice a z)
+  apply _root_.GlobalTheory.Mem.Col2.ThetaVec.tens4Mem <;> assumption
 
 theorem FourthRoot_of (h4 : Tens4Mem) : FourthRoot := by
   intro n _ h Λ α hα0 P hP hP0 hline

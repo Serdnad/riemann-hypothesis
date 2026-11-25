@@ -1,5 +1,6 @@
 module
 
+import Formalism.LocalToGlobal.CharacterGerms.GermEvalOneStandardPointSelf
 public import Formalism.LocalToGlobal.CharacterGerms.RowTiePLogExSt
 public import Formalism.FormalGroupLog.FormalGroupLogProofs.ChainRule
 public import Formalism.LocalToGlobal.CharacterGerms.RowTiePLogSt
@@ -22,13 +23,7 @@ open PartialDerivEval LogEx
 variable {C : Type} [Field C] [CharZero C] {d : ℕ}
 
 theorem ev_zero_pt {n : ℕ} (g : PS C 1 d) : ev (n := n) ![(0 : Pt C n d)] g = MvPowerSeries.C (constantCoeff g) := by
-  have hz : (fun p : Fin 1 × Fin d => (![0] : Fin 1 → Pt C n d) p.1 p.2) = 0 := by
-    funext p
-    obtain ⟨k, b⟩ := p
-    fin_cases k
-    rfl
-  rw [ev, hz, subst_zero_eq_C_constantCoeff, map_C]
-  simp
+  apply _root_.Formalism.L2.FormalSeriesBounds.MulLFrob.ev_zero_pt <;> assumption
 
 theorem cc_pderiv {σ : Type} (i : σ) (f : MvPowerSeries σ C) :
     constantCoeff (pderiv (R := C) i f) = coeff (Finsupp.single i 1) f := by

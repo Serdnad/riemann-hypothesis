@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.IntSOfMulEqOne
 public import Formalism.LocalToGlobal.CharacterGerms.RowTieFB
 public import Formalism.FormalGroupLog.FormalGroupLogProofs.ChainRule
 public import Formalism.LocalToGlobal.CharacterGerms.EndomorphismLimitIntegral
@@ -38,16 +39,7 @@ theorem coeff_single_cc {σ : Type} (s : σ) (f : MvPowerSeries σ C) :
 
 theorem cc_subst {σ τ : Type} [Finite σ] {a : σ → MvPowerSeries τ C} (ha : ∀ s, constantCoeff (a s) = 0)
     (g : MvPowerSeries σ C) : constantCoeff (MvPowerSeries.subst a g) = constantCoeff g := by
-  rw [MvPowerSeries.constantCoeff_subst (MvPowerSeries.hasSubst_of_constantCoeff_zero ha), finsum_eq_single _ 0]
-  · simp
-  · intro d hd
-    have h0 : MvPowerSeries.constantCoeff (d.prod fun s e => a s ^ e) = 0 := by
-      rw [map_finsuppProd]
-      obtain ⟨s, hs⟩ := Finsupp.ne_iff.mp hd
-      apply Finset.prod_eq_zero (Finsupp.mem_support_iff.mpr hs)
-      show MvPowerSeries.constantCoeff (a s ^ d s) = 0
-      rw [map_pow, ha s, zero_pow hs]
-    rw [h0, smul_zero]
+  apply _root_.GlobalTheory.RowVal.cc_subst <;> assumption
 
 theorem lin_comp1 {φ ψ : Pt C 1 dd} (hψ : ∀ k, constantCoeff (ψ k) = 0) :
     linM (comp1 φ ψ) = linM φ * linM ψ := by

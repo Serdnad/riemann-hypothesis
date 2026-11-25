@@ -1,5 +1,6 @@
 module
 
+import Formalism.LocalToGlobal.GlobalTheory.BlockActions.NormBoundOfClassesFrames
 public import Formalism.LocalToGlobal.GlobalTheory.GL6.DiagonalSlopes.SlopeRamifiedInducedPrimeField
 import Formalism.LocalToGlobal.GlobalTheory.HLatOpsP
 import Formalism.LocalToGlobal.HermitianForms.FramesLemmas
@@ -17,18 +18,7 @@ variable {D : D7} {u : D.what₂.Word}
 theorem rational_span_map_surjective {n : ℕ} (lam : D.what₂.Tau → DomWeight n) (P : MvPolynomial (D.what₂.Tau × Fin n × Fin n) ℂ)
     (hP : P ∈ RatSpan D lam) :
     ∃ Q : MvPolynomial (D.what₂.Tau × Fin n × Fin n) D.what₂.LL, MvPolynomial.map D.what₂.embLL Q = P := by
-  have hle : RatSpan D lam ≤
-      (MvPolynomial.map D.what₂.embLL : MvPolynomial (D.what₂.Tau × Fin n × Fin n) D.what₂.LL →+*
-        MvPolynomial (D.what₂.Tau × Fin n × Fin n) ℂ).range.toAddSubgroup := by
-    refine (AddSubgroup.closure_le _).2 ?_
-    rintro _ ⟨r, f, -, rfl⟩
-    refine ⟨r • ten (fun τ => MvPolynomial.map (Int.castRingHom D.what₂.LL) (f τ)), ?_⟩
-    rw [MvPolynomial.smul_eq_C_mul, MvPolynomial.smul_eq_C_mul, map_mul, MvPolynomial.map_C]
-    congr 1
-    simp only [ten, map_prod, MvPolynomial.map_rename, MvPolynomial.map_map,
-      RingHom.ext_int (D.what₂.embLL.comp (Int.castRingHom D.what₂.LL)) (Int.castRingHom ℂ)]
-  obtain ⟨Q, hQ⟩ := hle hP
-  exact ⟨Q, hQ⟩
+  apply +allowSynthFailures _root_.Formalism.L2.GlobalTheoryTheory.Br.exists_map_of_ratSpan <;> assumption
 
 theorem polynomial_rep_of_rational_form (Tf : Forms0 D u) (x : ((D.fm u).lat 0).V) :
     ∃ Pc : (D.mem u).C.cls 0 → MvPolynomial (D.what₂.Tau × Fin (D.R.N 0) × Fin (D.R.N 0)) D.what₂.LL,

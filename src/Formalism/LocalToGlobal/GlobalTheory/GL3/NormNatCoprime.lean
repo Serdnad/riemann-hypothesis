@@ -5,6 +5,8 @@ import Formalism.LocalRingCardinality.SpanPowerMembership.ExampleLayerExistsGene
 public import Formalism.LocalToGlobal.GlobalTheory.GL3.DeterminantNormOneOfUnitDisc
 public import Formalism.SharpRestriction.GlobalSchurBounds.StandardIntegralLatticeExists
 public import Formalism.SharedLemmas.NormLeOneOfIntegral
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.UnitaryHeckeCharacterValues
+import Development.AbelianVarietyTheory.Proofs.SatakeParameters.ExistsPlaceOverPrimeOfPadicAlgClEmbedding
 
 @[expose] public section
 
@@ -21,22 +23,7 @@ theorem norm_le_one_of_int {k : Type} [NormedField k] [IsUltrametricDist k] {y :
   apply _root_.Formalism.SharedLemmas.norm_le_one_of_isIntegral <;> assumption
 
 theorem norm_nat_coprime (p : ℕ) [Fact p.Prime] {s : ℕ} (h : Nat.Coprime s p) : ‖(s : ℂ_[p])‖ = 1 := by
-  have hs : ¬ p ∣ s := (Nat.Prime.coprime_iff_not_dvd (Fact.out : p.Prime)).mp h.symm
-  have hQ : ‖(s : ℚ_[p])‖ = 1 := by
-    have h1 : ‖((s : ℤ) : ℚ_[p])‖ ≤ 1 := by
-      first
-        | exact Padic.norm_int_le_one _
-    have h2 : ¬ ‖((s : ℤ) : ℚ_[p])‖ < 1 := by
-      first
-        | rw [Padic.norm_int_lt_one_iff_dvd]; exact_mod_cast hs
-        | rw [Padic.norm_intCast_lt_one_iff_dvd]; exact_mod_cast hs
-        | rw [Padic.norm_intCast_lt_one_iff]; exact_mod_cast hs
-        | rw [padicNormE.norm_intCast_lt_one_iff_dvd]; exact_mod_cast hs
-    have e : ((s : ℤ) : ℚ_[p]) = (s : ℚ_[p]) := by simp
-    rw [← e]
-    exact le_antisymm h1 (not_lt.mp h2)
-  have e : (s : ℂ_[p]) = (((s : ℚ_[p]) : PadicAlgCl p) : ℂ_[p]) := by simp
-  rw [e, PadicComplex.norm_extends, PadicAlgCl.norm_extends, hQ]
+  apply _root_.GlobalTheory.HeckeVal.norm_natCast_eq_one <;> assumption
 
 theorem emb_mem (τ : D.what₂.Tau) (x : D.host.E) : embT D τ x ∈ Qbar := by
   unfold Qbar embT

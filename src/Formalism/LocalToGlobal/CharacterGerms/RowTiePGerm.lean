@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.IntSOfMulEqOne
 public import Formalism.LocalToGlobal.CharacterGerms.RowTieFB
 public import Formalism.FormalGroupLog.FormalGroupLogProofs.ChainRule
 import Mathlib.RingTheory.PiTensorProduct
@@ -111,12 +112,7 @@ theorem intS_mul {f g : MvPowerSeries τ C} (hf : IntS V f) (hg : IntS V g) : In
   exact VF.Ge.sum fun p _ => (hf p.1).mul_int (hg p.2)
 
 theorem intS_one : IntS V (1 : MvPowerSeries τ C) := by
-  classical
-  intro μ
-  rw [coeff_one]
-  split_ifs
-  · exact VF.Ge.one
-  · exact VF.Ge.zero 0
+  apply _root_.GlobalTheory.RowVal.intS_one <;> assumption
 
 theorem intS_pow {f : MvPowerSeries τ C} (hf : IntS V f) (n : ℕ) : IntS V (f ^ n) := by
   induction n with
@@ -126,12 +122,7 @@ theorem intS_pow {f : MvPowerSeries τ C} (hf : IntS V f) (n : ℕ) : IntS V (f 
 theorem intS_zero : IntS V (0 : MvPowerSeries τ C) := fun μ => by rw [map_zero]; exact VF.Ge.zero 0
 
 theorem intS_X (s : τ) : IntS V (X s : MvPowerSeries τ C) := by
-  classical
-  intro μ
-  rw [coeff_X]
-  split_ifs
-  · exact VF.Ge.one
-  · exact VF.Ge.zero 0
+  apply _root_.GlobalTheory.RowVal.intS_X <;> assumption
 
 theorem ge_natCast (k : ℕ) : V.Ge 0 (k : C) := by
   induction k with

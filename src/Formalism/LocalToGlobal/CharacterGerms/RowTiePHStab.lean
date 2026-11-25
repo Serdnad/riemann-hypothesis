@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.IsIntegralGaugedFormalGroupLawSelfConjugateSquar
 public import Formalism.LocalToGlobal.CharacterGerms.RowTieAxes
 public import Formalism.LocalToGlobal.CharacterGerms.ConstMemTypeSetOfNonneg
 public import Formalism.LocalToGlobal.CharacterGerms.RowTieCartFB
@@ -451,15 +452,7 @@ theorem fin_two_eq_zero_or_eq_one : ∀ x : Fin 2, x = 0 ∨ x = 1 := by decide
 
 theorem FBChart.axisAll (Y : FBChart C V O dd) (g : Fin 2) (e : Fin 2 × Fin dd →₀ ℕ)
     (he : ∀ s ∈ e.support, s.1 ≠ g) : coeff e Y.h = 0 := by
-  rcases fin_two_eq_zero_or_eq_one g with rfl | rfl
-  · refine coeff_of_ev_zero Y.h 0 ![0, pt C dd 0] rfl ?_ Y.gauge.ax0 e he
-    intro g' hg'
-    rw [fin_two_eq_one_sub_of_ne' 0 g' hg']
-    rfl
-  · refine coeff_of_ev_zero Y.h 1 ![pt C dd 0, 0] rfl ?_ Y.gauge.ax1 e he
-    intro g' hg'
-    rw [fin_two_eq_one_sub_of_ne' 1 g' hg']
-    rfl
+  apply _root_.GlobalTheory.RowLawSquare.h_axes <;> assumption
 
 theorem van_ev_left {h : PS C 2 dd}
     (hh : ∀ (g : Fin 2) (e : Fin 2 × Fin dd →₀ ℕ), (∀ s ∈ e.support, s.1 ≠ g) → coeff e h = 0)
