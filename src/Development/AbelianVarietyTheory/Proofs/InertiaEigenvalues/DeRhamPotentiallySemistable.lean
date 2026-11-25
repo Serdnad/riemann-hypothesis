@@ -573,7 +573,14 @@ namespace GlobalTheory.PMon.FrameEquiv
 variable {l : ℕ} [Fact l.Prime]
 
 theorem algebraMap_algebraicClosure_mem_deRhamFil_zero (P : LocPrime l) (x : Om l) : algebraMap (Om l) P.R.BdR x ∈ Fil P 0 := by
-  apply _root_.GlobalTheory.PMon.om_mem_Fil <;> assumption
+  obtain ⟨K, hK⟩ : ∃ K : FinExt l, x ∈ K.1 := ⟨⟨IntermediateField.adjoin ℚ_[l] {x},
+    IntermediateField.adjoin.finiteDimensional (Algebra.IsIntegral.isIntegral _)⟩,
+    IntermediateField.mem_adjoin_simple_self _ _⟩
+  have h2 := ((P.PD K).Fil 0).smul_mem (⟨x, hK⟩ : ↥K.1) (P.PD K).one_mem
+  rw [Algebra.smul_def, mul_one] at h2
+  show algebraMap (Om l) P.R.BdR x ∈ ((P.PD (botExt l)).Fil 0 : Set P.R.BdR)
+  rw [P.PD_Fil (botExt l) K 0]
+  exact h2
 
 theorem fr_zero (c : ↥(MaximalUnramifiedExtension l)) : fr l 0 c = c := by
   show (frobUr l ^ 0) c = c
@@ -676,15 +683,6 @@ section -- clump:auto
 noncomputable section
 
 open Formalism.BasicNotions Formalism.BasicNotions.Loc GlobalTheory.Pst
-
-namespace GlobalTheory.LTChar
-
-variable {l : ℕ} [Fact l.Prime]
-
-theorem orbit_cont (y : ℂ_[l]) : Continuous fun g : GQ l => Formalism.Per.σC g y := by
-  apply GlobalTheory.PMon.FrameChange.cont_σC
-
-end GlobalTheory.LTChar
 end -- clump:auto
 end -- clump:auto
 end -- clump:auto
@@ -741,7 +739,7 @@ theorem char_cont : ∀ (l : ℕ) [Fact l.Prime] (P : LocPrime l) (AI : LocAinf 
   refine Continuous.div_const (Continuous.mul ?_ ?_) _
   · exact (continuous_algebraMap ℚ_[l] ℂ_[l]).comp
       ((GlobalTheory.Cyc.IsCyc.continuous P.χQ_cyc).comp continuous_subtype_val)
-  · exact (orbit_cont (θ u)).comp continuous_subtype_val
+  · exact (GlobalTheory.PMon.FrameChange.cont_σC (θ u)).comp continuous_subtype_val
 
 end GlobalTheory.LTChar
 end -- clump:auto

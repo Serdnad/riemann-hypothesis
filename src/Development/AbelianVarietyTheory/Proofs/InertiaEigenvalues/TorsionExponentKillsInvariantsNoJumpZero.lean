@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.DeRhamRepresentationTensorComparison
 public import Formalism.SharpRestriction.LevelLetterCocycles.DataNLoc
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.ExpStar
 public import Mathlib.Analysis.Normed.Field.Basic
@@ -645,7 +644,15 @@ theorem tmul_mem_FilV (a : ℤ) (v : V) {z : BdR} (hz : z ∈ PD.Fil a) :
 
 theorem mul_mem_FilV (a : ℤ) (c : K) {x : V ⊗[Qp] BdR} (hx : x ∈ FilV PD (LL := LL) (V := V) a) :
     mulVdR (K := K) (LL := LL) c x ∈ FilV PD (LL := LL) (V := V) a := by
-  apply _root_.GlobalTheory.Per.ExactMult.mul_mem_filV <;> assumption
+  obtain ⟨w, rfl⟩ := hx
+  induction w using TensorProduct.induction_on with
+  | zero => simp
+  | add x y hx hy => simp only [map_add (f := _)]; exact Submodule.add_mem _ hx hy
+  | tmul v z =>
+    simp only [TensorProduct.AlgebraTensorModule.map_tmul, LinearMap.id_apply,
+      Submodule.subtype_apply]
+    rw [mulVdR_tmul, ← Algebra.smul_def]
+    exact tmul_mem_FilV PD a v ((PD.Fil a).smul_mem c z.2)
 
 theorem mul_mul (c c' : K) (x : V ⊗[Qp] BdR) :
     mulVdR (K := K) (LL := LL) c (mulVdR (K := K) (LL := LL) c' x) =
@@ -654,14 +661,6 @@ theorem mul_mul (c c' : K) (x : V ⊗[Qp] BdR) :
   | zero => simp
   | add x y hx hy => simp only [map_add (f := _), hx, hy]
   | tmul v z => simp only [mulVdR_tmul, map_mul, mul_assoc]
-
-theorem mul_add' (c c' : K) (x : V ⊗[Qp] BdR) :
-    mulVdR (K := K) (LL := LL) (c + c') x =
-      mulVdR (K := K) (LL := LL) c x + mulVdR (K := K) (LL := LL) c' x := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
-  | add x y hx hy => simp only [map_add (f := _), hx, hy]; abel
-  | tmul v z => simp only [mulVdR_tmul, map_add (f := _), add_mul, TensorProduct.tmul_add]
 
 theorem mul_smul' (r : Qp) (c : K) (x : V ⊗[Qp] BdR) :
     mulVdR (K := K) (LL := LL) (r • c) x = r • mulVdR (K := K) (LL := LL) c x := by
@@ -676,7 +675,7 @@ def projMap (τ : K →ₐ[Qp] LL) (x : V ⊗[Qp] BdR) : K ⊗[Qp] K →ₗ[Qp] 
   TensorProduct.lift (LinearMap.mk₂ Qp (fun a c => τ a • mulVdR (K := K) (LL := LL) c x)
     (fun a a' c => by rw [map_add (f := _), add_smul])
     (fun r a c => by rw [map_smul, smul_assoc])
-    (fun a c c' => by rw [mul_add', smul_add])
+    (fun a c c' => by rw [GlobalTheory.HubLoc.mu_add, smul_add])
     (fun r a c => by rw [mul_smul', smul_comm]))
 
 theorem proj_mem (τ : K →ₐ[Qp] LL) {n : ℕ} (α β : Fin n → K)
@@ -1099,8 +1098,18 @@ private theorem twistedAction_mul_lemma_2 (hact : _root_.GlobalTheory.Cyc.IsActC
     (v : Fin r → ℂ_[l]) :
     _root_.GlobalTheory.Cyc.twAct act χ i U (σ * τ) v =
       _root_.GlobalTheory.Cyc.twAct act χ i U σ (_root_.GlobalTheory.Cyc.twAct act χ i U τ v) := by
-  intros
-  apply _root_.GlobalTheory.Cyc.FrameTorsion.tw_mul <;> assumption
+  have hfix : ∀ a b, act σ (U τ a b) = U τ a b := fun a b =>
+    _root_.GlobalTheory.Cyc.TateS.act_fix hact K hσ (hF.2.2.1 τ hτ a b).1
+  have hc : act σ (_root_.GlobalTheory.Cyc.chiC χ i τ) = _root_.GlobalTheory.Cyc.chiC χ i τ := by
+    unfold _root_.GlobalTheory.Cyc.chiC
+    exact _root_.GlobalTheory.Cyc.FrameTorsion.act_algebraMap hact σ _
+  unfold _root_.GlobalTheory.Cyc.twAct
+  rw [hF.2.2.2.1 σ hσ τ hτ, _root_.GlobalTheory.Cyc.FrameTorsion.chiC_mul, ← Matrix.mulVec_mulVec, mul_smul,
+    ← Matrix.mulVec_smul]
+  congr 2
+  funext a
+
+  simp [Matrix.mulVec, dotProduct, map_sum, map_mul, hfix, hc, Finset.mul_sum]
 
 open scoped Matrix in
 variable {l : ℕ} [Fact l.Prime] in
@@ -1279,11 +1288,6 @@ namespace GlobalTheory.Cyc.InvKilled
 
 variable {l : ℕ} [Fact l.Prime]
 
-theorem exists_pow_smul_mem (K LL : FinExt l) (T : LocLat ↥(GK K) ℚ_[l] ↥LL.1 ↥(OL LL)) (v : T.V) :
-    ∃ n : ℕ, (l : ↥LL.1) ^ n • v ∈ T.L.T := by
-  first
-  | (apply _root_.GlobalTheory.IntegerRingPowers.main <;> assumption)
-
 theorem killed_of_coordinates {G : Type} [Group G] [TopologicalSpace G] {Qp LL O : Type} [Field Qp]
     [Field LL] [CharZero LL] [Algebra Qp LL] [CommRing O] [Algebra O LL] [TopologicalSpace LL]
     (T : LocLat G Qp LL O) [Module ℤ_[l] ↥T.L.T]
@@ -1371,7 +1375,7 @@ theorem killed_of_coord (K LL : FinExt l) (T : LocLat ↥(GK K) ℚ_[l] ↥LL.1 
       ∀ a, ‖(l : ℚ_[l]) ^ c * y a‖ ≤ 1)
     (v : T.V) (hw : ∀ g : ↥(GK K), T.ρ g v - v ∈ T.L.T) : (l : ↥LL.1) ^ c • v ∈ T.L.T := by
   obtain ⟨b, hb, -⟩ := hM
-  obtain ⟨n, hn⟩ := exists_pow_smul_mem K LL T v
+  obtain ⟨n, hn⟩ := GlobalTheory.IntegerRingPowers.main K LL T v
   refine @killed_of_coordinates l _ _ _ _ _ _ _ _ _ _ _ _ _ _ T (zlMod LL T) ?_
     (fun g => actTZ LL T g) (fun _ _ => rfl) d b (fun g => M g) hb c
     (fun y hy => H y fun σ hσ => hy ⟨σ, hσ⟩) v hw n hn

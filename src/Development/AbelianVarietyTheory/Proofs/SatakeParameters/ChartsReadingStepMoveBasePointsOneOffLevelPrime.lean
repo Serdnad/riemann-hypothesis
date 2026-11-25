@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsLevJCosetsOfFurther
 public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.ReadsMove
 import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.MemStabGLAdeleIff
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.AdmissibleBasePointUnitaryNormalisesLevelStatement
@@ -9,47 +8,7 @@ public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Chart
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.InclMulInvMul
 import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.TrueColumnSpacesStandardInFrameCoords
 import Formalism.LocalToGlobal.Columns.RecLevelStep
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Coalgebra.IsFrobenius
-import Mathlib.RingTheory.HopfAlgebra.Basic
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
 
 @[expose] public section
 
@@ -66,7 +25,19 @@ theorem exists_one_on (σ : E →ₐ[F] E) {n : ℕ} (J : Matrix (Fin n) (Fin n)
     (g : GL (Fin n) (E ⊗[F] FiniteAdeleRing (𝓞 F) F)) (hg : g ∈ UPts σ J (FiniteAdeleRing (𝓞 F) F)) :
     ∃ g' ∈ UPts σ J (FiniteAdeleRing (𝓞 F) F), (∀ v ∈ S, bc (prV (E := E) v) g' = 1) ∧
       ∀ v ∉ S, bc (prV (E := E) v) g' = bc (prV (E := E) v) g := by
-  first | exact _root_.GlobalTheory.Mem.Col2.TwistLevel.exists_off | exact @_root_.GlobalTheory.Mem.Col2.TwistLevel.exists_off | apply _root_.GlobalTheory.Mem.Col2.TwistLevel.exists_off <;> assumption
+  classical
+  induction S using Finset.induction_on with
+  | empty => exact ⟨g, hg, fun v hv => absurd hv (Finset.notMem_empty v), fun _ _ => rfl⟩
+  | insert w S hw ih =>
+    obtain ⟨g', hg', h1, h2⟩ := ih
+    have key : ∀ v, v ≠ w → bc (prV (E := E) v) (afsplitU w 1 g') = bc (prV (E := E) v) g' := fun v hne => by
+      apply Units.ext
+      rw [afsplit_coe_bc_prV, afsplit_coe_bc_prV, afsplitU_coe, afsplitC_prV_ne w v hne]
+    refine ⟨afsplitU w 1 g', afsplitU_mem w σ J 1 g' (one_mem _) hg', fun v hv => ?_, fun v hv => ?_⟩
+    · rcases Finset.mem_insert.1 hv with rfl | hv
+      · exact afsplit_right1 v 1 g'
+      · rw [key v (fun e => hw (e ▸ hv)), h1 v hv]
+    · rw [key v (fun e => hv (e ▸ Finset.mem_insert_self _ _)), h2 v (fun h => hv (Finset.mem_insert_of_mem h))]
 
 theorem finite_over {T : ℕ} (hT : T ≠ 0) : {v : HeightOneSpectrum (𝓞 F) | ((T : ℕ) : 𝓞 F) ∈ v.asIdeal}.Finite := by
   have h0 : Ideal.span {((T : ℕ) : 𝓞 F)} ≠ ⊥ := by

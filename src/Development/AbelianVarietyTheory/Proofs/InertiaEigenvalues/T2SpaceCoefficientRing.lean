@@ -138,11 +138,19 @@ theorem second_of_first (i : N.Loc) (π : N.X i) (r₀ : GE N →* GL (Fin R.nV)
     (ss_iff N i ρ).1 h.ss, h.cont⟩
 
 theorem exists_conj_ne (H : Host R) : ∃ x y : 𝓞 H.E, (y : H.E) = H.conj (x : H.E) ∧ y - x ≠ 0 := by
-  first | exact _root_.GlobalTheory.SplitFrobDense.exists_conj_ne | exact @_root_.GlobalTheory.SplitFrobDense.exists_conj_ne | apply _root_.GlobalTheory.SplitFrobDense.exists_conj_ne <;> assumption
-
-theorem exists_int_sub_mem {E : Type} [Field E] [NumberField E] (v : HeightOneSpectrum (𝓞 E))
-    (hv : v.asIdeal.inertiaDeg ℤ = 1) (x : 𝓞 E) : ∃ n : ℤ, x - n ∈ v.asIdeal := by
-  apply GlobalTheory.SplitFrobDense.exists_int_sub_mem <;> assumption
+  by_contra hc
+  push Not at hc
+  have h1 : ∀ x : 𝓞 H.E, H.conj (x : H.E) = x := fun x => by
+    have := hc x ⟨H.conj x, (RingOfIntegers.isIntegral_coe x).map (H.conj.toAlgHom.restrictScalars ℤ)⟩ rfl
+    exact congrArg (fun z : 𝓞 H.E => (z : H.E)) (sub_eq_zero.1 this)
+  have h2 : ∀ z : H.E, H.conj z = z := fun z => by
+    obtain ⟨a, b, -, rfl⟩ := IsFractionRing.div_surjective (A := 𝓞 H.E) z
+    rw [map_div₀]
+    exact congrArg₂ (· / ·) (h1 a) (h1 b)
+  have := H.isCMField_hostE
+  refine IsTotallyComplex.complexEmbedding_not_isReal H.φ₀ (ComplexEmbedding.isReal_iff.2 ?_)
+  ext z
+  exact (H.conjE_apply H.φ₀ z).symm.trans (congrArg H.φ₀ (h2 z))
 
 theorem eq_univ_of_frob (hC : GlobalTheory.TwSys.Cheb) (i : N.Loc) (s : Set (GE N)) (hs : IsClosed s)
     (h : ∀ w : PlE H, SplitOut N i w → ∀ (B : ValuationSubring N.Om) (σ : GE N),
@@ -164,7 +172,7 @@ theorem eq_univ_of_frob (hC : GlobalTheory.TwSys.Cheb) (i : N.Loc) (s : Set (GE 
   simp only [Finset.mem_union, Set.Finite.mem_toFinset, Set.mem_setOf_eq, Ideal.dvd_span_singleton,
     not_or] at hv
   obtain ⟨⟨⟨h1, h2⟩, h3⟩, h4⟩ := hv
-  obtain ⟨n, hx⟩ := exists_int_sub_mem v hf x
+  obtain ⟨n, hx⟩ := GlobalTheory.SplitFrobDense.exists_int_sub_mem v hf x
   have hsplit : IsSplitPl H v := by
     refine ⟨x - n, hx, fun z hz hzv => h1 ?_⟩
     have hz' : z = y - n := by

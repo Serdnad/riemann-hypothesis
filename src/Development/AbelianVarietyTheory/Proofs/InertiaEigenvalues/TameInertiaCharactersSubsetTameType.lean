@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.HatOfInvariantSeries
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.SndDualLiftAlgebraMap
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.CrisToODToOCr
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.IsUltrametricDistFinExt
@@ -159,7 +158,7 @@ open HatInj in
 theorem toHat_injective (O K : Type) [CommRing O] [NormedField K] [IsUltrametricDist K]
     [Algebra O K] [IsUnitBall O K] (l e : ℕ) [Fact l.Prime] [NormedAlgebra ℚ_[l] K] [NeZero e]
     [CompleteSpace K] : Function.Injective (toHat O K l e) := by
-  set_option backward.isDefEq.respectTransparency.instanceSearchTypes false in rw [injective_iff_map_eq_zero]
+  rw [injective_iff_map_eq_zero]
   intro x hx
   have hdiv : ∀ m : ℕ, ∃ y : Rpi O K l e, (x : K⟦X⟧) = E K l e ^ m * y := by
     intro m
@@ -221,8 +220,20 @@ theorem toOB_injective : Function.Injective (toOB l O) :=
 omit [NeZero a] in
 theorem iSD_eq_of_mem_invL_A (ϖ : PiSys l e) (f : invL l (S O K e)) (hf : (f : K⟦X⟧) ∈ invL l (A O K)) :
     ϖ.iSD O K f = ϖ.iHat O K (toHatS O K l e f) := by
-  intros
-  apply _root_.GlobalTheory.BKReal.TwoMaps.iSD_eq_of_mem_invL_A <;> assumption
+  obtain ⟨n, hn⟩ := hf
+  have hlu : IsUnit ((l : OD l O) ^ n) := isUnit_l_OD.pow n
+  have hg : ((l : A O K) : K⟦X⟧) ^ n * (f : K⟦X⟧) ∈ S O K e := A_le_S l e hn
+  have e1 : (l : invL l (S O K e)) ^ n * f = algebraMap (S O K e) (invL l (S O K e)) ⟨_, hg⟩ :=
+    Subtype.ext (by simp)
+  have e2 : toHatS O K l e (algebraMap (S O K e) (invL l (S O K e)) ⟨_, hg⟩) =
+      ofA O K l e ⟨_, hn⟩ := toHat_eq_ofAl l e rfl
+  refine hlu.mul_left_cancel ?_
+  have h3 := congrArg (ϖ.iSD O K) e1
+  have h4 := congrArg (fun y => ϖ.iHat O K (toHatS O K l e y)) e1
+  simp only [map_mul, map_pow, map_natCast] at h3 h4
+  rw [h3, h4, e2, ϖ.iHat_ofA O K]
+  refine (ϖ.iSD_of_mem O K hg _).trans ?_
+  rw [ϖ.iS_of_mem O K hn, crisToOD_toOCr]
 
 
 omit [NeZero a] in

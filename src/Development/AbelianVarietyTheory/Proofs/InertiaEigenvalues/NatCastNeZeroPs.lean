@@ -3,7 +3,6 @@ module
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.ExistsGenIsUnitSub
 import Std.Tactic.BVDecide.Normalize.Prop
 import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.IsPotential
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsCrystalCoordinatesOverBreuilKisin
 
 @[expose] public section
 
@@ -152,7 +151,14 @@ variable {a : ℕ} [NeZero a] {O K : Type} [CommRing O] [Algebra ℤ_[l] O]
 
 theorem frob_toAc (x : (Wq l a)⟦X⟧) (τ : ZMod a) :
     frob K l (toAc t K x (τ - 1) : K⟦X⟧) = (toAc t K (frobS l a x) τ : K⟦X⟧) := by
-  apply _root_.GlobalTheory.CrysExt.frob_toAc <;> assumption
+  ext n
+  have : coeff n (frobS l a x) = if l ∣ n then sigma l a (coeff (n / l) x) else 0 := by
+    simp only [frobS, RingHom.comp_apply, coeff_map, AlgHom.toRingHom_eq_coe, RingHom.coe_coe, coeff_expand]
+    split_ifs <;> simp
+  rw [coeff_frob, coeff_toAc, coeff_toAc, this]
+  split_ifs
+  · rw [emb_sigma]
+  · simp
 
 theorem constP_mem {F : ZMod a → K⟦X⟧} (hF : F ∈ SdSet t K e) : constP a K F ∈ PPSet t K e := by
   obtain ⟨w, hw, hF⟩ := hF

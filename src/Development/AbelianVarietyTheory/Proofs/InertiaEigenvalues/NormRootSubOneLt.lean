@@ -23,7 +23,6 @@ import Mathlib.Tactic.Linter.HaveILetI
 import Mathlib.Tactic.TypeStar
 import Formalism.SharpRestriction.LevelLetterCocycles.LocCoh
 import Formalism.SharpRestriction.LevelLetterCocycles.LocalSituation
-import GroundTheory.PAdicHodge.UnramifiedClosure
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ImportsLast, Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.SumTranslateEq, Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.NormRootSubOneLt
@@ -39,7 +38,16 @@ universe u_1
 
 theorem norm_pow_sub_pow_le {C : Type u_1} [NormedField C] [IsUltrametricDist C] {x y : C}
     (hx : ‖x‖ ≤ (1 : ℝ)) (hy : ‖y‖ ≤ (1 : ℝ)) (n : ℕ) : ‖x ^ n - y ^ n‖ ≤ ‖x - y‖ := by
-  apply _root_.GroundTheory.PAdicHodge.norm_pow_sub_pow_le <;> assumption
+  induction n with
+  | zero => simp
+  | succ n ih =>
+    have h : x ^ (n + 1) - y ^ (n + 1) = x * (x ^ n - y ^ n) + y ^ n * (x - y) := by ring
+    rw [h]
+    refine (IsUltrametricDist.norm_add_le_max _ _).trans (max_le ?_ ?_)
+    · rw [norm_mul]
+      exact (mul_le_of_le_one_left (norm_nonneg _) hx).trans ih
+    · rw [norm_mul, norm_pow]
+      exact mul_le_of_le_one_left (norm_nonneg _) (pow_le_one₀ (norm_nonneg _) hy)
 
 end GlobalTheory.PowerDifferenceNormInertiaEigenvalues
 end -- clump:auto
@@ -123,8 +131,6 @@ theorem exists_reps {G : Type*} [Group G] (H U : Subgroup G) [U.FiniteIndex] :
     obtain ⟨q, -, rfl⟩ := Finset.mem_image.1 hs
     rw [(key q).1 hs']
 
-alias sum_shift := _root_.GlobalTheory.TranslateSum.sum_translate_eq
-
 alias norm_pow_sub_pow_le := _root_.GlobalTheory.PowerDifferenceNormInertiaEigenvalues.norm_pow_sub_pow_le
 
 variable {l : ℕ} [Fact l.Prime]
@@ -196,7 +202,7 @@ theorem rel_trace (hn : ∀ (g : GQ l) (x : Om l), ‖g x‖ = ‖x‖) (K : Fin
     intro y hy n hnL
 
     rw [map_sum]
-    refine sum_shift L.fixingSubgroup E.fixingSubgroup T hT hT' (fun g => g y) ?_ n hnL
+    refine GlobalTheory.TranslateSum.sum_translate_eq L.fixingSubgroup E.fixingSubgroup T hT hT' (fun g => g y) ?_ n hnL
     intro g v hv hv'
     have : v ∈ (L ⊔ E).fixingSubgroup := by rw [hsup]; exact ⟨hv, hv'⟩
     change g (v y) = g y
@@ -465,7 +471,7 @@ theorem main : ∀ (l : ℕ) [Fact l.Prime] (P : LocPrime l) (AI : LocAinf l P) 
 
     rw [map_sum]
     simp only [hF]
-    exact sum_shift (Hinf K) L.fixingSubgroup S hS hS' F (fun g v _ hv => hFv g v hv) h hh
+    exact GlobalTheory.TranslateSum.sum_translate_eq (Hinf K) L.fixingSubgroup S hS hS' F (fun g v _ hv => hFv g v hv) h hh
   have hu : IsUnit (∑ s ∈ S, F s) := by
     apply WittVector.isUnit_of_coeff_zero_ne_zero
 

@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.CharpolyDvdPowOfAevalEqZero
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.UnitLemmaGroup
 public import ReciprocityTheory.L2DbarEstimates.PlurisubharmonicCharts.UniNilp
 
@@ -36,7 +35,17 @@ theorem minpoly_dvd_P {K : UQ} (B : InvAlg K) : minpoly K.E B.g ∣ B.P := by
 theorem eq_zero_of_trace_mul_eq_zero : ∀ (K : UQ) (B : InvAlg K), B.P.Separable →
     (∀ a : B.A, ∃ f : K.E[X], a = aeval B.g f) →
     ∀ w : B.A, (∀ y, Algebra.trace K.E B.A (w * y) = 0) → w = 0 := by
-  intros
-  apply _root_.GlobalTheory.UnitLemma.Centraliser.eq_zero_of_trace_mul <;> assumption
+  intro K B hP hgen w hw
+  obtain ⟨m, hm⟩ := isNilpotent_of_trace_mul w hw
+  obtain ⟨f, rfl⟩ := hgen w
+  have hd : minpoly K.E B.g ∣ f ^ m := minpoly.dvd K.E B.g (by rw [map_pow]; exact hm)
+  have hsq : Squarefree (minpoly K.E B.g) := (hP.of_dvd (minpoly_dvd_P B)).squarefree
+  rcases Nat.eq_zero_or_pos m with h0 | h0
+  · subst h0
+    rw [pow_zero] at hm
+    exact (subsingleton_of_zero_eq_one hm.symm).elim _ _
+  have hf : minpoly K.E B.g ∣ f := (hsq.dvd_pow_iff_dvd h0.ne').mp hd
+  obtain ⟨q, rfl⟩ := hf
+  rw [map_mul, minpoly.aeval, zero_mul]
 
 end GlobalTheory.UnitLemma.TraceNondeg

@@ -1,7 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.FontaineFormalismTensorEquiv
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.LocChiEpsUEqCycLL
 public import Formalism.WeaklyAdmissibleFiltrations.Statement
 public import Development.AbelianVarietyTheory.BlockTheory.NonGaloisCusps.CrystallineSubrepresentation
 public import Mathlib.RingTheory.Flat.Basic
@@ -60,7 +58,43 @@ theorem dcris_trivial [FiniteDimensional Qp LL] :
     Dcris PD (Representation.trivial LL G LL) =
       LinearMap.range (AlgebraTensorModule.map (LinearMap.id : LL →ₗ[LL] LL)
         (IsScalarTower.toAlgHom Qp K₀ B).toLinearMap) := by
-  apply _root_.GlobalTheory.FontCmp.unit_eq <;> assumption
+  ext x
+  rw [mem_Dcris]
+  constructor
+  · intro hx
+    let e := Module.finBasis Qp LL
+    let c : Fin (finrank Qp LL) → LL ⊗[Qp] B →ₗ[Qp] B := fun i =>
+      (TensorProduct.lid Qp B).toLinearMap ∘ₗ (LinearMap.rTensor B (e.coord i))
+    have hsum : ∀ y : LL ⊗[Qp] B, y = ∑ i, e i ⊗ₜ[Qp] c i y := by
+      intro y
+      induction y using TensorProduct.induction_on with
+      | zero => simp
+      | tmul v b =>
+        conv_lhs => rw [← e.sum_repr v, TensorProduct.sum_tmul]
+        refine Finset.sum_congr rfl fun i _ => ?_
+        simp [c, TensorProduct.smul_tmul]
+      | add a b ha hb =>
+        simp only [map_add (f := _), TensorProduct.tmul_add, Finset.sum_add_distrib, ← ha, ← hb]
+    have hc : ∀ i g y, c i (actVB PD (Representation.trivial LL G LL) g y) = PD.actB g (c i y) := by
+      intro i g y
+      induction y using TensorProduct.induction_on with
+      | zero => simp
+      | tmul v b =>
+        have := ((PD.actB g).toAlgHom.toLinearMap.restrictScalars Qp).map_smul (e.coord i v) b
+        have h2 : PD.actB g (e.coord i v • b) = e.coord i v • PD.actB g b := this
+        simp only [c, actVB, LinearMap.comp_apply, AlgebraTensorModule.map_tmul,
+          LinearMap.rTensor_tmul, LinearEquiv.coe_coe, TensorProduct.lid_tmul, h2]
+        simp
+      | add a b ha hb => simp only [map_add (f := _), ha, hb]
+    rw [hsum x]
+    refine Submodule.sum_mem _ fun i _ => ?_
+    obtain ⟨k, hk⟩ := PD.invB (c i x) fun g => by rw [← hc, hx]
+    exact ⟨e i ⊗ₜ k, by simp [hk]⟩
+  · rintro ⟨y, rfl⟩ g
+    induction y using TensorProduct.induction_on with
+    | zero => simp
+    | tmul v b => simp [actVB]
+    | add a b ha hb => simp only [map_add (f := _), ha, hb]
 
 theorem isCrys_trivial [FiniteDimensional Qp LL] : IsCrys PD (Representation.trivial LL G LL) := by
   haveI := nontrivial_B PD
@@ -416,7 +450,7 @@ theorem dualCrys_of_regular [CharZero Qp] (LL : Type) [Field LL] [Algebra Qp LL]
       map_add' := fun f g => by ext; simp
       map_smul' := fun c f => by ext; simp }
   have hT : Function.Injective T := by
-    set_option backward.isDefEq.respectTransparency.instanceSearchTypes false in rw [injective_iff_map_eq_zero]
+    rw [injective_iff_map_eq_zero]
     intro f hf
     ext v
     refine (traceForm_nondegenerate Qp LL).1 (f v) fun y => ?_
@@ -496,7 +530,15 @@ theorem locChi_zpow (χ : GE D.nd →* (D.nd.O i)ˣ) (n : ℤ) :
 
 theorem locChi_eps :
     Br.locChi D.nbr i w hw (epsU D.nd i) = cycLL (Br.PD D.loc D.nbr i w hw) (Br.LL D.nbr i w hw) := by
-  apply _root_.GlobalTheory.CycBridge.locChi_epsU_eq_cycLL <;> assumption
+  ext g
+  have h1 := cyc_bridge (D.nbr i w hw) (D.loc (D.nd.l i)) g
+  have h2 := (D.loc (D.nd.l i)).PD_χ (D.nbr i w hw).Kw g
+  have h3 : ∀ z : ℤ_[D.nd.l i], (D.nbr i w hw).toLL (algebraMap ℤ_[D.nd.l i] (D.nd.O i) z) =
+      algebraMap ℚ_[D.nd.l i] (Br.LL D.nbr i w hw) (z : ℚ_[D.nd.l i]) := fun z => by
+    change algebraMap (Br.OLL D.nbr i w hw) (Br.LL D.nbr i w hw) ((D.nbr i w hw).eO _) = _
+    rw [(D.nbr i w hw).eO_alg]
+    rfl
+  exact congrArg Subtype.val ((h3 _).trans (congrArg _ (h2.trans h1).symm))
 
 theorem charCrysAt_eps_zpow (n : ℤ) : BlockCharactersCrystallineNonGaloisCusps.CharCrysAt D i w hw (epsU D.nd i ^ n) := by
   unfold BlockCharactersCrystallineNonGaloisCusps.CharCrysAt

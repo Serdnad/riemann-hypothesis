@@ -17,7 +17,6 @@ import Mathlib.RingTheory.RootsOfUnity.AlgebraicallyClosed
 import Mathlib.Tactic.ENatToNat
 import Mathlib.Tactic.Linter.HaveILetI
 import Mathlib.Tactic.Polynomial.Basic
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.WachLevelExpansionAtRootOfUnity
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ProdPrimePowDvd, Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.WachWeierstrassTestAndDensity
@@ -285,7 +284,16 @@ variable {G : Type} [Group G] [TopologicalSpace G] {Qp K₀ K : Type} [Field Qp]
     (W : LocWach PD LL O v n)
 
 theorem phi_pow_one_add (j : ℕ) : (W.φA ^ j) (1 + letπ) = (1 + letπ) ^ PD.p ^ j := by
-  apply _root_.GlobalTheory.NL.LevPt.φA_pow_one_add <;> assumption
+  induction j with
+  | zero => simp
+  | succ j ih =>
+    have h : W.φA (1 + letπ) = (1 + letπ) ^ PD.p := by
+      rw [map_add (f := _), map_one, W.φA_π]
+      funext i
+      have := W.q₀_def
+      simp only [Pi.add_apply, Pi.mul_apply, Pi.pow_apply, Pi.one_apply, letπ, LocWach.q]
+      linear_combination this
+    rw [pow_succ', AlgHom.mul_apply, ih, map_pow, h, ← pow_mul, pow_succ']
 
 theorem X_eq (i : ZMod n) : W.X i = (1 + PowerSeries.X) ^ PD.p ^ (W.s - 1) - 1 := by
   have h := phi_pow_one_add W (W.s - 1)

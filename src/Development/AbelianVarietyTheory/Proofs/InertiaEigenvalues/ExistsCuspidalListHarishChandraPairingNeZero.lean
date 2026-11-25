@@ -8,7 +8,6 @@ public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.HarishC
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.HarishChandraInductionExteriorProductAssocComm
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.HarishChandraProductListIsCharacterAndPermInvari
 import Std.Tactic.BVDecide.Normalize.Prop
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.HarishChandraSeriesLabelMulOfConstituent
 
 @[expose] public section
 
@@ -34,7 +33,15 @@ theorem irr_char {χ : G → ℂ} (h : IsIrr χ) : IsChar χ := by
 theorem char_class {χ : G → ℂ} (h : IsChar χ) : IsClass χ := (_root_.GlobalTheory.charDec G χ).2.2.1 h
 
 theorem ip_irr_char_nat {α A : G → ℂ} (hα : IsIrr α) (hA : IsChar A) : ∃ c : ℕ, ip α A = c := by
-  apply _root_.GlobalTheory.GLq.LabelMul.ip_nat <;> assumption
+  obtain ⟨L, hL, rfl⟩ := (_root_.GlobalTheory.charDec G A).1 hA
+  clear hA
+  induction L with
+  | nil => exact ⟨0, by simp [ip]⟩
+  | cons ρ L ih =>
+    obtain ⟨c, hc⟩ := ih (fun r hr => hL r (List.mem_cons_of_mem _ hr))
+    have h1 := (_root_.GlobalTheory.GLq.ZOrth.zorth G α ρ hα (hL ρ (by simp))).2.2
+    refine ⟨(if α = ρ then 1 else 0) + c, ?_⟩
+    rw [List.sum_cons, ip_add_right, hc, h1]; split_ifs <;> simp
 
 end general
 

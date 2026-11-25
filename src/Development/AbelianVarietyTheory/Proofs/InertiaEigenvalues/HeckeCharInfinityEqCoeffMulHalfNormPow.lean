@@ -7,7 +7,6 @@ public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.HasIn
 import Formalism.LocalRingCardinality.RankBoundMonotoneInDimension
 import Formalism.LocalToGlobal.BesselHermitianTheta.LemmasSign
 import Development.AbelianVarietyTheory.Definitions.SpanningFamilies.DatEqZero
-import Formalism.LocalToGlobal.NumberFieldFamilies.ThetaCX
 
 @[expose] public section
 
@@ -57,7 +56,14 @@ namespace GlobalTheory.LevelSeries
 
 theorem conjugate_tauE_ne_tauE (D : D7) (τ τ' : D.what₂.Tau) :
     NumberField.ComplexEmbedding.conjugate (tauE D τ) ≠ tauE D τ' := by
-  apply _root_.Formalism.L2.Fam.ThC.conj_tauE_ne <;> assumption
+  intro h
+  have e := DFunLike.congr_fun h D.host.sqrtMinusD
+  rw [NumberField.ComplexEmbedding.conjugate_coe_eq, Formalism.L2.Theta.tauE_sqrtMinusD,
+    Formalism.L2.Theta.tauE_sqrtMinusD] at e
+  have e2 := congrArg Complex.im e
+  simp at e2
+  have : 0 < Real.sqrt D.host.d := Real.sqrt_pos.2 (by exact_mod_cast D.host.hyp.2.1.pos)
+  linarith
 
 theorem mk_tauE_complex (D : D7) (τ : D.what₂.Tau) : ¬ (InfinitePlace.mk (tauE D τ)).IsReal := by
   rw [InfinitePlace.isReal_mk_iff, NumberField.ComplexEmbedding.isReal_iff]

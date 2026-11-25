@@ -470,8 +470,7 @@ theorem isLogJ_add : ∀ (l : ℕ) [Fact l.Prime] (a b : Per.Ainf l) (y y' : Per
     simp only [map_add (f := _), map_mul]
     push_cast at hE ⊢
     linear_combination hsa + hsb - hE
-  · set_option synthInstance.maxHeartbeats 200000 in
-    simp only [map_add (f := algebraMap (Per.Acris0 l) (Per.Acris l)), map_mul, map_natCast]
+  · simp only [map_add (f := algebraMap (Per.Acris0 l) (Per.Acris l)), map_mul, map_natCast]
     push_cast
     linear_combination hza + hzb
 
@@ -1084,7 +1083,13 @@ theorem zeta_pow_compat {l : ℕ} [Fact l.Prime] (C : Core l) (c : ℤ_[l]) (m :
 
 theorem rootT_mul {l : ℕ} [Fact l.Prime] (a b : Per.Fl l) (m : ℕ) :
     rootT (a * b) m = rootT a m * rootT b m := by
-  apply _root_.GlobalTheory.LogU.rootT_mul <;> assumption
+  unfold rootT
+  rw [← map_mul]
+  congr 1
+  induction m with
+  | zero => rfl
+  | succ m ih => rw [Function.iterate_succ_apply', Function.iterate_succ_apply',
+      Function.iterate_succ_apply', ih, map_mul]
 
 theorem gal_factor_log : ∀ (l : ℕ) [Fact l.Prime] (C : Core l) (x : Per.Fl l) (g : GQ l) (c : ℤ_[l]),
     (∀ m : ℕ, rootT (Per.σF g x) m = rootT C.ε m ^ (PadicInt.toZModPow m c).val * rootT x m) →

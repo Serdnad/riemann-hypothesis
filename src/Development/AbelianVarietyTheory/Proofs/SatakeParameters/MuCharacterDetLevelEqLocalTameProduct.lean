@@ -1,8 +1,5 @@
 module
 
-
-import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.NarrowJetMoments
-import Development.AbelianVarietyTheory.Proofs.SatakeParameters.NormLambdaCharacterNormOneIdeleEqPPowStatement
 public import Mathlib.NumberTheory.NumberField.Basic
 public import Mathlib.RingTheory.DedekindDomain.Ideal.Lemmas
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.TrueColumnChoicesHeckeCharReferenceEqOne
@@ -13,45 +10,6 @@ public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.DetInt
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.MemDivsOfMem
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.FinAfMemIntUIff
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.ExistsOfStarEq
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.NumberField.ClassNumber
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Topology.Sheaves.Init
 import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.IsDiscriminantTwelfthRootOfIdealLatticeIffDelta1
 import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.MemMoveLevUloc
 import Formalism.LocalRingCardinality.SpanPowerMembership.HasStrictFDerivAtExpZero
@@ -65,12 +23,9 @@ import Formalism.LocalRingCardinality.SpanPowerMembership.ExampleLayerExistsGene
 import Formalism.LocalRingCardinality.SpanPowerMembership.LocAtA
 import Formalism.LocalToGlobal.Columns.ColumnsProofs.ChainCounts
 import Formalism.LocalToGlobal.GlobalTheory.GL6.PBwLocBases
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
 import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.StandardRankOneLatticeOfLocal
+
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.Proofs.SatakeParameters.ExistsPowEqSpan, Development.AbelianVarietyTheory.Proofs.SatakeParameters.MuCharacterDetLevelEqLocalTameProduct
 
@@ -101,25 +56,6 @@ theorem exists_pow_eq_span {F : Type} [Field F] [NumberField F] (v : HeightOneSp
 
 end GlobalTheory.TwU.MuUnr
 
-namespace GlobalTheory.TwU.MuUnr
-
-open GlobalTheory.Mem.Col2 (afIso afIso_tmul_one mem_rInt_iff)
-
-end GlobalTheory.TwU.MuUnr
-
-namespace GlobalTheory.TwU.MuUnr
-
-variable {D : D7} {L : SizeData₂ D} {hT : GatTies D} {Gi : Formalism.MainNotions.G.Inst D L} {Gl : Formalism.MainNotions.G.LatInst D} {Kc : Formalism.MainNotions.G.Consts} {Y : DivX D}
-  {cX : ExtraC} {ex : Extra D L hT Gi Gl Kc Y cX}
-
-end GlobalTheory.TwU.MuUnr
-
-namespace GlobalTheory.TwU
-
-open GlobalTheory.Mem.Col2 (afIso afIso_tmul_one mem_rInt_iff)
-open GlobalTheory.TwU.MuUnr
-
-end GlobalTheory.TwU
 end -- clump:auto
 end -- clump:auto
 end -- clump:auto
@@ -266,7 +202,15 @@ theorem loc_eq_locK {χ : HChar E} {P : HeightOneSpectrum (𝓞 E)} (h : χ.Tame
 
 theorem sigR_mem_rInt (σ : E →ₐ[F] E) {y : AfE F E} (hy : y ∈ RInt F E) :
     Formalism.UG.sigR σ (FiniteAdeleRing (𝓞 F) F) y ∈ RInt F E := by
-  first | exact _root_.GlobalTheory.TwV.Xc.ClsPow.sigR_mem_RInt | exact @_root_.GlobalTheory.TwV.Xc.ClsPow.sigR_mem_RInt | apply _root_.GlobalTheory.TwV.Xc.ClsPow.sigR_mem_RInt <;> assumption
+  have hle : RInt F E ≤ (RInt F E).comap (Formalism.UG.sigR σ (FiniteAdeleRing (𝓞 F) F)) := by
+    refine (Subring.closure_le).2 ?_
+    rintro g (⟨⟨e, ⟨b, rfl⟩⟩, rfl⟩ | ⟨c, rfl⟩)
+    · refine Subring.subset_closure (Or.inl ⟨⟨σ (algebraMap (𝓞 E) E b), ⟨RingOfIntegers.mapRingHom (σ : E →+* E) b, ?_⟩⟩, ?_⟩)
+      · rfl
+      · simp [Formalism.UG.sigR]
+    · refine Subring.subset_closure (Or.inr ⟨c, ?_⟩)
+      simp [Formalism.UG.sigR]
+  exact hle hy
 
 theorem h90_mem_U1_of_involutive (σ : E →ₐ[F] E) (hσ : ∀ a, σ (σ a) = a) (k : (AfE F E)ˣ) : h90 σ k ∈ U1 σ := by
   have h : conjId σ (conjId σ k) = k := by
@@ -339,8 +283,17 @@ theorem g_mem_of_vGs (hPr : Pr.Ok) {P : HeightOneSpectrum (𝓞 X.E)} (h : P ∈
   exact ⟨i, hPr.piG_norm i ▸ P.asIdeal.mul_mem_left _ hi⟩
 
 theorem conjP_notMem_rowSG (hX : X.Ok) (hPr : Pr.Ok) (hsel : IsSel X sel) (hS : ∀ i, Pr.g i ∈ S) {P : HeightOneSpectrum (𝓞 X.E)}
-    (h : P ∈ rowSG Pr sel mu) : conjPrime₂ P ∉ rowSG Pr sel mu := by
-  first | exact _root_.GlobalTheory.Proof.NarrowJetMoments.conjP_notMem_rowSG | exact @_root_.GlobalTheory.Proof.NarrowJetMoments.conjP_notMem_rowSG | apply _root_.GlobalTheory.Proof.NarrowJetMoments.conjP_notMem_rowSG <;> assumption
+    (h : P ∈ rowSG Pr sel mu) : conjPrime₂ P ∉ rowSG Pr sel mu := fun h' => by
+  classical
+  have hn : ∀ (Q : HeightOneSpectrum (𝓞 X.E)) (n : ℕ), (n : 𝓞 X.E) ∈ (conjPrime₂ Q).asIdeal ↔ (n : 𝓞 X.E) ∈ Q.asIdeal := fun Q n => by
+    rw [mem_conjP, map_natCast]
+  rcases Finset.mem_union.1 h with h | h <;> rcases Finset.mem_union.1 h' with h' | h'
+  · exact conjP_notMem_vGs hPr h h'
+  · obtain ⟨i, hi⟩ := g_mem_of_vGs hPr h
+    exact g_notMem_of_goodPl hPr hS (mem_QE mu hsel h').2 i ((hn _ _).2 hi)
+  · obtain ⟨i, hi⟩ := g_mem_of_vGs hPr h'
+    exact g_notMem_of_goodPl hPr hS (mem_QE mu hsel h).2 i ((hn _ _).1 hi)
+  · exact conjP_notMem_QE mu hX hsel h h'
 
 theorem rhoT_mul_rhoS (i : ℕ) (P : rowSG Pr sel mu) {a : X.E} (h : IsUnit (redP P.1 a)) :
     rhoT Ch sel mu i P a * rhoS Ch sel mu i P a = 1 := by

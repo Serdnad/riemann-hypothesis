@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.CoherentCohomologyProofs.LengthCommensurableSpanSpanOfDetNeZero
 public import Mathlib.LinearAlgebra.Determinant
 public import Mathlib.RingTheory.DiscreteValuationRing.Basic
 public import Mathlib.RingTheory.OrderOfVanishing.Noetherian
@@ -50,7 +49,7 @@ theorem length_coker_of_det_eq_zero (P : Matrix ι ι R) (h : P.det = 0) :
   let g : R →ₗ[R] (ι → R) ⧸ LinearMap.range P.mulVecLin :=
     (LinearMap.range P.mulVecLin).mkQ ∘ₗ LinearMap.single R (fun _ : ι => R) k
   have hg : Function.Injective g := by
-    set_option backward.isDefEq.respectTransparency.instanceSearchTypes false in rw [injective_iff_map_eq_zero]
+    rw [injective_iff_map_eq_zero]
     intro r hr
     have hr' : (Pi.single k r : ι → R) ∈ LinearMap.range P.mulVecLin :=
       (Submodule.Quotient.mk_eq_zero _).mp hr
@@ -97,7 +96,15 @@ theorem length_coker_of_injective {M : Type*} [AddCommGroup M] [Module R M]
 
 theorem length_coker (P : Matrix ι ι R) :
     Module.length R ((ι → R) ⧸ LinearMap.range P.mulVecLin) = addVal R P.det := by
-  apply _root_.GlobalTheory.length_quotient_range_mulVecLin_eq_addVal_det <;> assumption
+  by_cases h : P.det = 0
+  · rw [length_coker_of_det_eq_zero P h, h, addVal_zero]
+  · have hinj : Function.Injective P.mulVecLin := by
+      set_option backward.isDefEq.respectTransparency.instanceSearchTypes false in rw [injective_iff_map_eq_zero]
+      intro x hx
+      by_contra hx0
+      exact h (Matrix.exists_mulVec_eq_zero_iff.mp ⟨x, hx0, hx⟩)
+    rw [length_coker_of_injective (Pi.basisFun R ι) _ hinj, ← Matrix.toLin'_apply',
+      LinearMap.det_toLin']
 
 end GlobalTheory.RelativeLengthSpanDet
 end -- clump:auto
@@ -502,7 +509,7 @@ theorem bk_le : bk bkP i s k ψ v ≤ Submodule.span (X.Ok i k) (intSet bkP i s 
   congr 1
   obtain ⟨m, d, ⟨hd, h1⟩, h2⟩ := hy g j
   have h3 : d * f g j = (X.l i : X.O0 i) ^ n * m := by
-    apply GlobalTheory.BlochKatoIntegralScalars.toLL_injective Bw
+    apply Formalism.MainNotions.N.Br.toLL_inj Bw
     rw [map_mul, map_mul, hf, map_pow, map_natCast, ← h1]
     ring
   have h4 := congrArg ((algebraMap (X.Ok i k) (FractionRing (X.Ok i k))).comp (phiK X i k)) h3

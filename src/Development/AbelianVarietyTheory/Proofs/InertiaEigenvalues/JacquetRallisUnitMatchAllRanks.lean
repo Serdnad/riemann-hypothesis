@@ -576,15 +576,10 @@ namespace GlobalTheory.JR.MeasTransport
 
 variable {F E : Type} [NontriviallyNormedField F] [NontriviallyNormedField E] [NormedAlgebra F E] [StarRing E]
 
-theorem star_smul_vec [hU : Unram F E] {r : ℕ} (a : F) (c : Fin r → E) : star (a • c) = a • star c := by
-  funext i
-  show star (a • c i) = a • star (c i)
-  rw [Algebra.smul_def, Algebra.smul_def, star_mul', hU.star_fix, mul_comm]
-
 def trForm [Unram F E] (r : ℕ) : LinearMap.BilinForm F (Fin r → E) :=
   LinearMap.mk₂ F (fun c b => Algebra.trace F E (star c ⬝ᵥ b))
     (fun c c' b => by simp only [star_add, add_dotProduct, map_add (f := _)])
-    (fun a c b => by simp only [star_smul_vec, smul_dotProduct, map_smul])
+    (fun a c b => by simp only [GlobalTheory.JR.PiSelfDual.star_smul_F, smul_dotProduct, map_smul])
     (fun c b b' => by simp only [dotProduct_add, map_add (f := _)])
     (fun a c b => by simp only [dotProduct_smul, map_smul])
 
@@ -618,8 +613,17 @@ theorem trForm_nondeg [Unram F E] (r : ℕ) : (trForm (F := F) (E := E) r).Nonde
 theorem kerL_eq [hU : Unram F E] (A : Et F E) (ψ : AddChar F ℂ) {r : ℕ} {x : A.K} {j : A.L ≃ₗ[E] (Fin r → E)}
     (hx : A.IsIsom x j) (y' y : A.L) :
     A.kerL ψ x y' y = ψ (Algebra.trace F E (star (j y') ⬝ᵥ j y)) := by
-  intros
-  apply _root_.GlobalTheory.JR.Et.kerL_eq_of_isIsom <;> assumption
+  obtain ⟨b⟩ := (GlobalTheory.JR.Et.quadratic_structure F E A).1
+  haveI : Module.Free A.K A.L := Module.Free.of_basis b
+  haveI : Module.Finite A.K A.L := Module.Finite.of_basis b
+  haveI : FiniteDimensional F E := Module.finite_of_finrank_pos (by rw [hU.finrank_eq]; norm_num)
+  haveI : Module.Finite F A.L := Module.Finite.trans A.K A.L
+  haveI : Module.Finite E A.L := Module.Finite.of_restrictScalars_finite F E A.L
+  unfold Et.kerL Et.psiK
+  rw [hx, Algebra.trace_trace (R := F) (S := E) (T := A.L), ← Algebra.trace_trace (R := F) (S := A.K) (T := A.L)]
+  congr 2
+  rw [show algebraMap A.K A.L x * star y' * y = x • (star y' * y) by rw [Algebra.smul_def, mul_assoc], map_smul,
+    smul_eq_mul]
 
 end GlobalTheory.JR.MeasTransport
 

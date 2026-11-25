@@ -1,8 +1,5 @@
 module
 
-
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.FlatVecExistsUnique
-import Development.AutomorphicArithmetic.ThetaCorrespondence.ThetaPairLifts.LocalTypeDictionary.TwistedThetaFirstOccurrenceFiniteSwappedPair
 public import Formalism.LocalToGlobal.IndefiniteReal.DatumVec
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsIntegralLiftResiduesIdempotentSumStatement
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsNonvanishingFiniteDatumDefiniteLift
@@ -78,6 +75,7 @@ import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ToEAfOrientedHer
 import Mathlib.LinearAlgebra.FreeModule.IdealQuotient
 import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.GoodIdempotentBadPlaces
 import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.ThetaAtEqSumHeisOfFourierSum
+
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsHalfUniformiserFrameMatrixPrescribedReduct, Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsNatIntegralFrameOfUniformizerMul, Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsNatIntegralFrameOfUniformizerMulStatement, Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.FrameMatrixIntegralIffUniformiserMultipleOnHalf, Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.FrameMatrixIntegralIffUniformiserMultipleOnHalfStatement, Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.AdelicCharacterFactorPrimitiveOnIdempotentSum, Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IntegralIffSelfDualTraceCharacterSplitPlaces, Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.SymplecticPairingHalfLatticesEqProdPrimitive, Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.SymplecticPairingHalfLatticesEqProdPrimitiveStatement, Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.LiftVectorEqUnitMulDilatedFlatDatum
 
@@ -491,8 +489,6 @@ open Classical
 
 namespace GlobalTheory.ScalarSelfDual
 
-alias eq_of_parts := _root_.GlobalTheory.SplitDualElt.eq_of_toEAf
-
 theorem mul_hO_of_half {D : D7} {S T : HSp D} {e : AE D} {l : WO S T} (hl : IsHalf e l) (u : WO S T) :
     e * hO S T l u = hO S T l u := by
   unfold hO
@@ -573,7 +569,7 @@ theorem int_iff_dual : ∀ (D : D7) (ψ : AddChar (AF D.host.F) ℂ) (S T : HSp 
       symplO S T l u = Algebra.trace (AF D.host.F) (AE D) (incA D D.host.xi0 * (Z * Z')) := by
     intro l Z' hl hZ' h
     have : hO S T l u = Z * Z' := by
-      refine eq_of_parts (hsupp _ (mul_hO_of_half hl u)) (by rw [map_mul, hsupp Z hZ, zero_mul]) ?_
+      refine GlobalTheory.SplitDualElt.eq_of_toEAf (hsupp _ (mul_hO_of_half hl u)) (by rw [map_mul, hsupp Z hZ, zero_mul]) ?_
       rw [GlobalTheory.TraceFrames.toEAf_hO_eq_trace_frames S T βS βT u l, huZ, trace_single_mul', map_mul, h]
     unfold symplO
     rw [this]
@@ -782,7 +778,16 @@ theorem redM_neg (PP : Pl D.host.E) {b a : ℕ} {N : Matrix (Fin b) (Fin a) (EAf
 theorem omegaFlat_congr {a b : ℕ} (Q : Finset (Pl D.host.E)) (r : ℕ) (ξ : ∀ PP : Pl D.host.E, (kP PP)ˣ →* ℂˣ)
     {y y' : ∀ PP : Pl D.host.E, Matrix (Fin a) (Fin b) (kP PP)} (h : ∀ PP ∈ Q, y PP = y' PP) :
     omegaFlat Q r ξ y = omegaFlat Q r ξ y' := by
-  first | exact _root_.GlobalTheory.FlatVecExist.omegaFlat_congr | exact @_root_.GlobalTheory.FlatVecExist.omegaFlat_congr | apply _root_.GlobalTheory.FlatVecExist.omegaFlat_congr <;> assumption
+  have hiff : (∀ PP ∈ Q, IsUnit (topL r (y PP)).det) ↔ ∀ PP ∈ Q, IsUnit (topL r (y' PP)).det :=
+    forall_congr' fun PP => forall_congr' fun hPP => by rw [h PP hPP]
+  unfold omegaFlat
+  by_cases h1 : ∀ PP ∈ Q, IsUnit (topL r (y PP)).det
+  · rw [dite_eq_left h1, dite_eq_left (hiff.1 h1)]
+    refine Finset.prod_congr rfl fun PP _ => ?_
+    have e : (h1 PP.1 PP.2).unit = (hiff.1 h1 PP.1 PP.2).unit :=
+      Units.ext (by rw [IsUnit.unit_spec, IsUnit.unit_spec, h PP.1 PP.2])
+    rw [e]
+  · rw [dite_eq_right h1, dite_eq_right fun h2 => h1 (hiff.2 h2)]
 
 end GlobalTheory.LiftFlatModel
 
@@ -791,7 +796,15 @@ namespace GlobalTheory.LiftFlatModel
 variable {D : D7} {m n : ℕ}
 
 theorem isHalf_add_iff {e : AE D} {x u : Mx D m n} (hu : IsHalf e u) : IsHalf e (x + u) ↔ IsHalf e x := by
-  first | exact _root_.GlobalTheory.ExtDatTheta.half_add_iff | exact @_root_.GlobalTheory.ExtDatTheta.half_add_iff | apply _root_.GlobalTheory.ExtDatTheta.half_add_iff <;> assumption
+  constructor
+  · intro h i j
+    have h1 := h i j
+    have h2 := hu i j
+    simp only [Matrix.add_apply, mul_add] at h1
+    rw [h2] at h1
+    exact add_right_cancel h1
+  · intro h i j
+    simp only [Matrix.add_apply, mul_add, h i j, hu i j]
 
 theorem isHalf_neg {e : AE D} {u : Mx D m n} (hu : IsHalf e u) : IsHalf e (-u) := by
   intro i j

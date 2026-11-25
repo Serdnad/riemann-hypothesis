@@ -55,7 +55,6 @@ import Mathlib.Topology.Sheaves.Init
 public import Mathlib.Analysis.Normed.Group.Ultra
 public import Mathlib.Analysis.Normed.Module.FiniteDimension
 public import Mathlib.RingTheory.Trace.Basic
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.PsiKMulNLEqOneOnIntegralLattice
 
 @[expose] public section
 
@@ -100,7 +99,18 @@ theorem isGalois : IsGalois F E := by
     exact Set.ncard_le_card _
 
 theorem trace_eq (y : E) : algebraMap F E (Algebra.trace F E y) = y + star y := by
-  apply _root_.GlobalTheory.JR.NormInt.traceE <;> assumption
+  classical
+  haveI := findim (F := F) (E := E)
+  haveI := isGalois (F := F) (E := E)
+  rw [trace_eq_sum_automorphisms]
+  have hc : Fintype.card (E ≃ₐ[F] E) = 2 := by
+    rw [← Nat.card_eq_fintype_card, IsGalois.card_aut_eq_finrank, hU.finrank_eq]
+  have hu : (Finset.univ : Finset (E ≃ₐ[F] E)) = {1, conj F E} := by
+    symm
+    apply Finset.eq_of_subset_of_card_le (Finset.subset_univ _)
+    rw [Finset.card_univ, hc, Finset.card_pair (Ne.symm conj_ne_one)]
+  rw [hu, Finset.sum_pair (Ne.symm conj_ne_one)]
+  simp [conj_apply]
 
 section Sq
 variable {K : Type} [NormedField K] [IsUltrametricDist K]
@@ -277,7 +287,7 @@ theorem small_of_trace_small (y : E) (h : ∀ e : E, ‖e‖ ≤ 1 → ‖Algebr
   linarith
 
 theorem traceForm_perfect : ∀ (F E : Type) [NontriviallyNormedField F] [NontriviallyNormedField E] [NormedAlgebra F E] [StarRing E] [Unram F E], (∀ y : E, algebraMap F E (Algebra.trace F E y) = y + star y) ∧ (∃ e : E, ‖e‖ ≤ 1 ∧ e + star e = 1) ∧ ∀ y : E, (∀ e : E, ‖e‖ ≤ 1 → ‖Algebra.trace F E (e * y)‖ < 1) → ‖y‖ < 1 :=
-  fun F E _ _ _ _ _ => ⟨trace_eq, exists_half F, small_of_trace_small⟩
+  fun F _ _ _ _ _ _ => ⟨trace_eq, exists_half F, small_of_trace_small⟩
 
 end Main
 

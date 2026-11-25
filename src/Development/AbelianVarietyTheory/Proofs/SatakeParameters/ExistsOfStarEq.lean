@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.TameCharacterValuesEqHeckeCharLocalValues
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ContinuousOfCongSet
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.MemDivsOfMem
 public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.CharacterValueAtT
@@ -8,47 +7,7 @@ public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.FinAf
 import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.HeckeCharacterUnramifiedAeAndExistsLevel
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.LocalIdeleSndSelf
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.MemZmuOfPowPred
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
 import ReciprocityTheory.NeutralLocalFields.LocalFieldComparison.HCFFromRecipA
 
@@ -465,7 +424,25 @@ theorem evP_toRInt (P : HeightOneSpectrum (𝓞 E)) (b : 𝓞 E) :
 
 theorem valued_lt_of_mem {P : HeightOneSpectrum (𝓞 E)} {w : RInt F E} (h : w ∈ P.asIdeal.map (toRInt F E)) :
     Valued.v (evP F P (w : AfE F E)) < 1 := by
-  first | exact _root_.GlobalTheory.TwistVal.valued_lt_of_mem | exact @_root_.GlobalTheory.TwistVal.valued_lt_of_mem | apply _root_.GlobalTheory.TwistVal.valued_lt_of_mem <;> assumption
+  have key : ∀ z ∈ P.asIdeal.map (toRInt F E), Valued.v (evP F P (z : AfE F E)) < 1 := by
+    intro z hz
+    induction hz using Submodule.span_induction with
+    | mem x hx =>
+      obtain ⟨p, hp, rfl⟩ := hx
+      rw [evP_toRInt, IsDedekindDomain.HeightOneSpectrum.algebraMap_adicCompletion, Function.comp_apply,
+        IsDedekindDomain.HeightOneSpectrum.valuedAdicCompletion_eq_valuation']
+      exact (IsDedekindDomain.HeightOneSpectrum.valuation_lt_one_iff_mem P p).mpr hp
+    | zero => simp
+    | add x y _ _ hx hy =>
+      rw [Subring.coe_add, map_add (f := _)]
+      exact lt_of_le_of_lt (Valued.v.map_add _ _) (max_lt hx hy)
+    | smul r x _ hx =>
+      rw [smul_eq_mul, Subring.coe_mul, map_mul, map_mul]
+      have hr : Valued.v (evP F P (r : AfE F E)) ≤ 1 := (mem_rInt_iff F E _).mp r.2 P
+      calc Valued.v (evP F P (r : AfE F E)) * Valued.v (evP F P (x : AfE F E))
+          ≤ 1 * Valued.v (evP F P (x : AfE F E)) := by gcongr
+        _ < 1 := by rw [one_mul]; exact hx
+  exact key w h
 
 theorem val_eq_one {P : HeightOneSpectrum (𝓞 E)} {b : 𝓞 E} (hb : b ∉ P.asIdeal) : P.valuation E (b : E) = 1 := by
   exact (IsDedekindDomain.HeightOneSpectrum.valuation_eq_one_iff_notMem P).mpr hb

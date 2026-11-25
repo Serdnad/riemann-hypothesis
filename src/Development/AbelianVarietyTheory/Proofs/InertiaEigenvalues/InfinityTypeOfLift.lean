@@ -1,6 +1,5 @@
 module
 
-import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.HighestWeightConjugacy.ConjugationSwap
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.CmQuadraticFormEqAlternatingForm
 public import Formalism.LocalToGlobal.GaloisLevelStructure.DefsAut
 public import Mathlib.Data.Matrix.PEquiv
@@ -89,7 +88,35 @@ theorem inv_diag {B : GL (Fin n) ℂ} (hB : B.val.BlockTriangular id) (k : Fin n
 
 theorem hwAt_of_conj {a : AlgWt L n} {τ : L →+* ℂ} {lam' : Fin n → ℤ}
     (h : a.HWAt (ComplexEmbedding.conjugate τ) lam') : a.HWAt τ (fun i => -lam' (Fin.rev i)) := by
-  apply _root_.PI.UnitaryGroupMassFormula.HwConjInf.conjugation_swap <;> assumption
+  obtain ⟨ι, hι1, hι2, b, P, hP, v, hv0, hv⟩ := h
+  have hR := _root_.GlobalTheory.AlgWtHW.isPolyRep_evPt L n a ι b P hP (ComplexEmbedding.conjugate τ)
+  refine ⟨ι, hι1, hι2, b, P, hP, evM P (evPt (ComplexEmbedding.conjugate τ) (w0 n)) *ᵥ v, ?_, fun B hB => ?_⟩
+  · intro h0
+    apply hv0
+    have := congrArg (fun x => evM P (evPt (ComplexEmbedding.conjugate τ) (w0 n)) *ᵥ x) h0
+    simp only [mulVec_mulVec, mulVec_zero] at this
+    rwa [← hR.mul, longestWeylElementGL_mul_self, hR.one, one_mulVec] at this
+  · set C : GL (Fin n) ℂ := w0 n * tinv B * w0 n with hCdef
+    have hBC : tinv B = w0 n * C * w0 n := by
+      rw [hCdef, ← mul_assoc, ← mul_assoc, longestWeylElementGL_mul_self, one_mul, mul_assoc, longestWeylElementGL_mul_self, mul_one]
+    have hCa : ∀ i j, C.val i j = (B⁻¹).val (Fin.rev j) (Fin.rev i) := by
+      intro i j; rw [hCdef, longestWeylElementGL_conj_apply_rev]; rfl
+    have hC : C.val.BlockTriangular id := by
+      intro i j hij
+      rw [hCa]
+      exact inv_upper hB (show Fin.rev i < Fin.rev j from Fin.rev_lt_rev.2 hij)
+    have hCd : ∀ i, C.val i i = (B.val (Fin.rev i) (Fin.rev i))⁻¹ := fun i => by rw [hCa, inv_diag hB]
+    have e1 : (Matrix.of fun i j => MvPolynomial.eval (evPt τ B) (P i j)) =
+        evM P (evPt (ComplexEmbedding.conjugate τ) (tinv B)) := by
+      rw [evPt_eq_tinv τ B]; rfl
+    have hww : evM P (NG.evPt (ComplexEmbedding.conjugate τ) (w0 n)) *ᵥ
+        (evM P (NG.evPt (ComplexEmbedding.conjugate τ) (w0 n)) *ᵥ v) = v := by
+      rw [mulVec_mulVec, ← hR.mul, longestWeylElementGL_mul_self, hR.one, one_mulVec]
+    have hvC : evM P (NG.evPt (ComplexEmbedding.conjugate τ) C) *ᵥ v = (∏ i, (C.val i i) ^ (lam' i)) • v := hv C hC
+    rw [e1, hBC, hR.mul, hR.mul, ← mulVec_mulVec, ← mulVec_mulVec, hww, hvC, mulVec_smul]
+    congr 1
+    rw [Finset.prod_congr rfl fun i _ => by rw [hCd i, _root_.inv_zpow']]
+    exact Fintype.prod_equiv Fin.revPerm _ _ (fun i => by simp [Fin.rev_rev])
 
 end Conj
 
@@ -145,10 +172,6 @@ theorem lg_of_forall {K : Ctx} {p : ∀ B : Base, Fr B.toPre → TwDat B → Pro
 theorem evLgG_of_forall {p : Ctx → ∀ B : Base, Fr B.toPre → TwDat B → Prop} (h : ∀ K B f T, p K B f T) : EvLgG p :=
   evLgG_of_evLg ⟨1, one_pos, fun _ _ _ _ _ _ => ⟨⟨0, fun _ => 0, fun _ => 0, fun _ => 0⟩, fun _ _ _ _ => ⟨0, fun _ _ => ⟨0,
     fun _ _ => ⟨0, fun K _ _ _ _ _ => lg_of_forall (h K)⟩⟩⟩⟩⟩
-
-end GlobalTheory.LiftInfRef
-
-namespace GlobalTheory.LiftInfRef
 
 end GlobalTheory.LiftInfRef
 

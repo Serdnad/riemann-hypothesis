@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.CharacterValueAtT
 public import Mathlib.RingTheory.Localization.FractionRing
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.AdmissibleIndexBoundAllPowers
 public import Formalism.LocalRingCardinality.RhoDetPrimeEqMuTildeMulChiPow
@@ -359,7 +358,20 @@ theorem isUnit_sub_one {O : Type*} [CommRing O] [IsDomain O] {n : ℕ} {ζ : O} 
 
 theorem exists_place_mem (E : Type) [Field E] [NumberField E] {p : ℕ} (hp : p.Prime) :
     ∃ v : HeightOneSpectrum (𝓞 E), ((p : ℕ) : 𝓞 E) ∈ v.asIdeal := by
-  apply _root_.GlobalTheory.CharVal.exists_over <;> assumption
+  have hnu : ¬ IsUnit ((p : ℕ) : 𝓞 E) := by
+    intro h
+    have h2 : IsUnit (Algebra.norm ℤ ((p : ℕ) : 𝓞 E)) := h.map _
+    have e : Algebra.norm ℤ ((p : ℕ) : 𝓞 E) = (p : ℤ) ^ Module.finrank ℤ (𝓞 E) := by
+      rw [← Algebra.norm_algebraMap]
+      simp
+    rw [e, isUnit_pow_iff Module.finrank_pos.ne', Int.isUnit_iff_natAbs_eq, Int.natAbs_natCast] at h2
+    exact hp.one_lt.ne' h2
+  obtain ⟨M, hM, hle⟩ := Ideal.exists_le_maximal (Ideal.span {((p : ℕ) : 𝓞 E)}) (by
+    rwa [Ne, Ideal.span_singleton_eq_top])
+  have hmem : ((p : ℕ) : 𝓞 E) ∈ M := hle (Ideal.mem_span_singleton_self _)
+  refine ⟨⟨M, hM.isPrime, ?_⟩, hmem⟩
+  rintro rfl
+  exact hp.ne_zero (by exact_mod_cast (Ideal.mem_bot.1 hmem))
 
 end GlobalTheory.TwSys.InertiaElt
 
@@ -961,7 +973,7 @@ theorem index_unscale {R W : Type} [CommRing R] [IsDomain R] [IsDiscreteValuatio
     (hB : IsLatIn B V) (hT : IsLatIn T V) (hL : IsLatIn L V) {c : R} (hc : c ≠ 0) {e : ℝ}
     (h : sIdx l B (L.map (c • LinearMap.id)) ≤ sIdx l B (T.map (c • LinearMap.id)) + e) : sIdx l T L ≤ e := by
   have hi : Function.Injective (c • (LinearMap.id : W →ₗ[R] W)) := by
-    set_option backward.isDefEq.respectTransparency.instanceSearchTypes false in rw [injective_iff_map_eq_zero]
+    rw [injective_iff_map_eq_zero]
     intro w hw
     exact htf c w hc hw
   rw [(sIdx_add_and_mono R _ l _ _ _ _ hB (isLatIn_smul hT hc) (isLatIn_smul hL hc)).1, sIdx_map _ hi] at h

@@ -223,7 +223,22 @@ namespace GlobalTheory.PrismSplit
 theorem isUnit_sub_of_pow_eq_one {O : Type} [CommRing O] [IsDomain O] [IsLocalRing O] {m : ℕ}
     (hm0 : 0 < m) (hm : IsUnit (m : O)) {a b : O} (ha : a ^ m = 1) (hb : b ^ m = 1) (h : a ≠ b) :
     IsUnit (a - b) := by
-  apply _root_.GlobalTheory.UnramIdem.isUnit_sub <;> assumption
+  by_contra hn
+  have h1 := (Commute.all a b).geom_sum₂_mul m
+  rw [ha, hb, sub_self] at h1
+  have h2 := (mul_eq_zero.mp h1).resolve_right (sub_ne_zero.mpr h)
+  have h3 : IsLocalRing.residue O a = IsLocalRing.residue O b := by
+    rw [← sub_eq_zero, ← map_sub, IsLocalRing.residue_eq_zero_iff]
+    exact hn
+  have h4 := congrArg (IsLocalRing.residue O) h2
+
+  simp only [map_sum, map_mul, map_pow, h3, map_zero] at h4
+  rw [geom_sum₂_self] at h4
+  have hbu : IsUnit b := IsUnit.of_pow_eq_one hb hm0.ne'
+  have h5 : IsUnit ((m : IsLocalRing.ResidueField O) * IsLocalRing.residue O b ^ (m - 1)) := by
+    refine IsUnit.mul ?_ ((hbu.map _).pow _)
+    simpa using hm.map (IsLocalRing.residue O)
+  exact h5.ne_zero h4
 
 theorem existsUnique_of_separated {R W O ι : Type} [CommRing R] [Nontrivial R] [CommRing W]
     [CommRing O] [Algebra R W] [Algebra R O] [Fintype ι] [Module.Free R W] [Module.Finite R W]
@@ -727,7 +742,6 @@ theorem exists_str {R S C : Type} [CommRing R] [CommRing S] [CommRing C] (f : S 
   rw [RingEquiv.eq_symm_apply, Subtype.ext_iff]
   rfl
 
-set_option synthInstance.maxHeartbeats 200000 in
 theorem ker_theta_io (AI : LocAinf l P) (hs : 1 ≤ s) (hK : K.1 ≤ Ks K s) (io : (WK K)⟦X⟧ →+* Ainf l)
     (hX : io X = WittVector.teichmuller l (AI.εroot s) - 1)
     (hC : ∀ w : WK K, Formalism.Per.θ l (io (C w)) = intToOC (unr K) w) :
@@ -781,7 +795,6 @@ theorem coeff_not_isUnit (K : FinExt l) : ¬ IsUnit (l : WK K) := by
   obtain ⟨_, -, -, lu, -⟩ := GlobalTheory.Per.integers_completeDVR l (unr K)
   exact lu
 
-set_option synthInstance.maxHeartbeats 200000 in
 def prismS (P : LocPrime l) (hs : 1 ≤ s) (f : (WK K)⟦X⟧ →+* OC l) (hf : RingHom.ker f = Ideal.span {QQ l (WK K) s})
     (str : ↥(OL K) →+* (WK K)⟦X⟧ ⧸ Ideal.span {QQ l (WK K) s}) : Obj l ↥(OL K) where
   A := (WK K)⟦X⟧
