@@ -1,6 +1,5 @@
 module
 
-import Formalism.LocalToGlobal.IndefiniteReal.FinrankISupLeSum
 public import Development.AbelianVarietyTheory.Definitions.Divisors.MulSmulIdemMem
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.FlagComponentFramedPointFrame
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsLinearEquivMulTwistingSectionIntegral
@@ -63,8 +62,6 @@ open GlobalTheory.IndefiniteRowSideFullHecke.LevelStructureAutomorphisms (LevelA
 open GlobalTheory.BadCount
 open scoped TensorProduct
 open scoped GlobalTheory.CompHt
-
-set_option synthInstance.maxHeartbeats 400000
 
 noncomputable section
 
@@ -148,9 +145,6 @@ end Gen
 
 end GlobalTheory.TwistRank
 
-namespace GlobalTheory.TwistRank
-
-end GlobalTheory.TwistRank
 end -- clump:auto
 end -- clump:auto
 end -- clump:auto
@@ -168,12 +162,23 @@ namespace GlobalTheory.RankAdd
 open NumberField IsDedekindDomain MeasureTheory Module ReciprocityTheory.ChartRestriction.G.Geo.Tor ReciprocityTheory.ChartRestriction.G.FD Formalism.L2.Pj Formalism.BasicNotions
   Formalism.BasicNotions.TH Formalism.L2.Theta GlobalTheory.AllWt GlobalTheory.FlatLine GlobalTheory.FlatTw GlobalTheory.IndefiniteRowSideFullHecke.ComponentMassSum
 
-set_option synthInstance.maxHeartbeats 200000
-
 theorem finrank_iSup_of_indep {R V ι : Type} [Field R] [AddCommGroup V] [Module R V] [FiniteDimensional R V]
     [Fintype ι] (S : ι → Submodule R V) (hS : iSupIndep S) :
     finrank R (⨆ i, S i : Submodule R V) = ∑ i, finrank R (S i) := by
-  apply _root_.Formalism.IndefR.Cx.finrank_iSup_eq_sum <;> assumption
+  classical
+  have key : ∀ s : Finset ι, finrank R (⨆ i ∈ s, S i : Submodule R V) = ∑ i ∈ s, finrank R (S i) := by
+    intro s
+    induction s using Finset.induction_on with
+    | empty => simp
+    | insert a s ha ih =>
+      rw [Finset.iSup_insert, Finset.sum_insert ha, ← ih]
+      have hd : Disjoint (S a) (⨆ i ∈ s, S i) := hS.disjoint_biSup (y := (s : Set ι)) (by exact_mod_cast ha)
+      have h := Submodule.finrank_sup_add_finrank_inf_eq (S a) (⨆ i ∈ s, S i)
+      rw [hd.eq_bot, finrank_bot, add_zero] at h
+      exact h
+  have hu : (⨆ i ∈ (Finset.univ : Finset ι), S i) = ⨆ i, S i := iSup_congr fun i => iSup_pos (Finset.mem_univ i)
+  rw [← hu]
+  exact key Finset.univ
 
 variable {D : D7} {H : ReciprocityTheory.ChartRestriction.G.Geo.Tor.Host D.host.E} {Dw : Datum H} {l : Level H} {Xo : Moduli Dw l}
   {c : Coeff l} {r : ℕ}
@@ -194,8 +199,6 @@ namespace GlobalTheory.RankAdd
 open NumberField IsDedekindDomain MeasureTheory Module ReciprocityTheory.ChartRestriction.G.Geo.Tor ReciprocityTheory.ChartRestriction.G.FD Formalism.L2.Pj Formalism.BasicNotions
   Formalism.BasicNotions.TH Formalism.L2.Theta GlobalTheory.AllWt GlobalTheory.FlatLine GlobalTheory.FlatTw GlobalTheory.IndefiniteRowSideFullHecke.ComponentMassSum
 
-set_option synthInstance.maxHeartbeats 200000
-
 theorem cuspOn_comap_indep {D : D7} {H : ReciprocityTheory.ChartRestriction.G.Geo.Tor.Host D.host.E} {Dw : Datum H} {l : Level H}
     {Xo : Moduli Dw l} {c : Coeff l} {r : ℕ} (U : ∀ σ : c.F →+* ℂ, Unf Xo c σ r) (G : WTZ D.host.E) :
     iSupIndep (fun Z : Comp Xo c => (cuspOn U Z G).comap (cuspW Xo c U G).subtype) := fun Z => by
@@ -214,7 +217,6 @@ theorem cuspOn_comap_indep {D : D7} {H : ReciprocityTheory.ChartRestriction.G.Ge
     _ = 0 := h0
 
 
-set_option maxHeartbeats 1000000 in
 theorem rankW_eq_finsum_rankOn : ∀ (D : D7) (H : ReciprocityTheory.ChartRestriction.G.Geo.Tor.Host D.host.E) (Dw : Datum H) (l : Level H)
     (Xo : Moduli Dw l) (c : Coeff l) (r : ℕ) (U : ∀ σ : c.F →+* ℂ, Unf Xo c σ r) (x : ℝ)
     (V : (c.F →+* ℂ) → HSp D) (dict : ∀ σ, GA D (V σ) → Σ k, Frame ((U σ).X k).Ψ r) (G : WTZ D.host.E),
@@ -297,8 +299,6 @@ open GlobalTheory.BadCount
 open scoped TensorProduct
 
 noncomputable section
-namespace GlobalTheory.TwistRank
-end GlobalTheory.TwistRank
 namespace GlobalTheory.TwistRank
 theorem flat_twist_rank_eq : _root_.GlobalTheory.CovTop.PublishedHodgeBundleTheorems → ∀ (D : D7) (T : CoreJ D), LawsJ T → ∀ j : ℕ, 1 ≤ (T.Q.Dw j).p → 1 ≤ (T.Q.Dw j).q → 2 < Module.finrank ℚ D.host.E / 2 → InR D j → ∀ (Y : Deep T.toCore j) (e : ℕ) (o : ℝ), Y.Good e o → ∀ c₁ : ℝ, GlobalTheory.FlatLine.FlatExistsAt Y.U (xiR D) c₁ → (∀ (la : AllWt.Weight (T.Q.Dw j)) (w : Psi T.Q.H → ℤ) Z, Y.rkC (la + GlobalTheory.FlatLine.parWt (T.Q.Dw j) w) Z = Y.rkC la Z) ∧ ∀ (a : (D.host.E →+* ℂ) × ℕ → ℕ) (n kc : ℕ) (s : ℤ), Dom a n → Even n → Y.GoodAt (shiftG (T.Q.Dw j) a n s) → (Y.rk (shiftG (T.Q.Dw j) a n s) : ℝ) = ∑ᶠ Z, Y.rkC (uWt (T.Q.Dw j) a n kc + s • hodgeWt (T.Q.Dw j)) Z := by
   intro hP D T hL j hp hq hE hj Y e o hY c₁ hF

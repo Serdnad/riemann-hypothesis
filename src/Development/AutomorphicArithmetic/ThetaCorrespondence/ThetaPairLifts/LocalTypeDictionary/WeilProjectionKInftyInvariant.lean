@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.TwistedOperators.MatchedMapsArchimedeanIdentity
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ThetaEqB
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ContinuousOneP
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ConjUInvMemGfC
@@ -217,7 +216,21 @@ theorem exists_tensDeg {F : Type} [Field F] [NumberField F] {P Q R S : ℕ} (T :
 
 theorem exp_stable {V : Type} [AddCommGroup V] [Module ℂ V] {L U : Module.End ℂ V} (hU : GlobalTheory.RealLift.IsExp L U)
     (N : Submodule ℂ V) (hN : ∀ y ∈ N, L y ∈ N) : ∀ y ∈ N, U y ∈ N := by
-  first | exact _root_.GlobalTheory.KStableLie.mem_of_isExp | exact @_root_.GlobalTheory.KStableLie.mem_of_isExp | apply _root_.GlobalTheory.KStableLie.mem_of_isExp <;> assumption
+  intro y hy
+  by_contra hne
+  obtain ⟨l, hl1, hl2⟩ := Submodule.exists_dual_map_eq_bot_of_notMem hne inferInstance
+  have hpow : ∀ m : ℕ, (L ^ m) y ∈ N := by
+    intro m
+    induction m with
+    | zero => simpa using hy
+    | succ m ih => rw [pow_succ', Module.End.mul_apply]; exact hN _ ih
+  have hz : ∀ m : ℕ, ((m.factorial : ℂ))⁻¹ * l ((L ^ m) y) = 0 := fun m => by
+    have hm : l ((L ^ m) y) ∈ N.map l := Submodule.mem_map_of_mem (hpow m)
+    rw [hl2, Submodule.mem_bot] at hm
+    rw [hm, mul_zero]
+  have h1 := hU y l
+  simp only [hz] at h1
+  exact hl1 (h1.unique hasSum_zero)
 
 def pureL {κ : Type} [Fintype κ] {F : Type} [Field F] [NumberField F]
     (φ : ∀ v : GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.Pl (F := F), (κ → Fv F v) → ℂ) :
@@ -668,7 +681,6 @@ theorem isCartan_conj {n : ℕ} {M θ : Matrix (Fin n) (Fin n) ℂ} (h : GlobalT
     have e2 : (θ.map conj).map star = (θ.map star).map conj := by ext i j; simp
     rw [e1, e2]; exact this
   · have e : ((θ.map conj) *ᵥ x) ⬝ᵥ (M.map conj) *ᵥ star x = conj ((θ *ᵥ star x) ⬝ᵥ M *ᵥ star (star x)) := by
-      set_option synthInstance.maxHeartbeats 100000 in
         simp [dotProduct, Matrix.mulVec, map_sum, map_mul]
     rw [e, Complex.conj_re]
     exact h3 _ (by simpa using hx)
@@ -932,12 +944,6 @@ open scoped TensorProduct GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorMode
 open GlobalTheory.SquareComm GlobalTheory.SquareAgree
 open scoped ComplexConjugate
 noncomputable section
-namespace GlobalTheory.KInfLines
-end GlobalTheory.KInfLines
-namespace GlobalTheory.KInfLines
-end GlobalTheory.KInfLines
-namespace GlobalTheory.KInfLines
-end GlobalTheory.KInfLines
 namespace GlobalTheory.KInfLines
 variable {D : D7} {W : HSp D} {V : GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.Spc D.host.F D.host.E W.rank}
 theorem kInfinity_prod_lines : _root_.GlobalTheory.FunPr.ThetaLocalInputs → ∀ (D : D7) (θ : InfFam D) (W : HSp D) (Bs : GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.Base D.host.F D.host.E)

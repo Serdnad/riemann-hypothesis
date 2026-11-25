@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.SplitFrameGLFiniteMatrixOffPlaceEqOne
 public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.ExistsFiniteAdeleProjectionIntegralReduction
 public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.ExistsMidLevIff
 public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.XiEqXiOffMul
@@ -317,7 +316,16 @@ theorem locHom_std (q : GlobalTheory.FinPl.SplitPt D k) (S : HSp D) {Y : Type} [
 theorem prV_comm (v : GlobalTheory.FinPl.Pl D) (z : Af ↥D.host.F ⊗[↥D.host.F] D.host.E) :
     Formalism.UG.prV (E := D.host.E) v ((Algebra.TensorProduct.comm (↥D.host.F) (Af ↥D.host.F) D.host.E) z) =
       (Algebra.TensorProduct.comm _ _ _) (GlobalTheory.IndefiniteRowSideFullHecke.UnramifiedCharacter.compFin D v z) := by
-  apply _root_.GlobalTheory.StabOff.prV_comm <;> assumption
+  induction z using TensorProduct.induction_on with
+  | zero => rw [map_zero, map_zero, map_zero, map_zero]
+  | tmul a e =>
+    rw [Algebra.TensorProduct.comm_tmul]
+    simp only [Formalism.UG.prV, GlobalTheory.IndefiniteRowSideFullHecke.UnramifiedCharacter.compFin, AlgHom.toRingHom_eq_coe, RingHom.coe_coe,
+      Algebra.TensorProduct.map_tmul, AlgHom.id_apply, Algebra.TensorProduct.comm_tmul]
+    rfl
+  | add a b ha hb =>
+    simp only [map_add (f := _)]
+    exact congrArg₂ (· + ·) ha hb
 
 
 theorem prV_toEAf_eq_zero (v : GlobalTheory.FinPl.Pl D) (y : AE D) (h : GlobalTheory.FinPl.compAt D v y = 0) :
@@ -462,29 +470,6 @@ section -- clump:auto
 
 section
 noncomputable section
-section LocalPart
-open NumberField IsDedekindDomain MeasureTheory ValuativeRel Matrix Formalism.BasicNotions Formalism.HermitianLatticesTheory Formalism.L2.DIV Formalism.L2.Col GlobalTheory.SplitWeil GlobalTheory.RootEx GlobalTheory.StepData GlobalTheory.TwBridge
-open GlobalTheory.SymBridge (toLoc IsOrd yPos xPos IsCompl)
-open GlobalTheory.PenVol GlobalTheory.TwBridge.Lev GlobalTheory.TwBridge.LevOrb
-open scoped TensorProduct
-namespace GlobalTheory.PenLoc
-section Stab
-variable {k : Type} [Field k] [ValuativeRel k] [TopologicalSpace k] [IsNonarchimedeanLocalField k] {A : Type} [Fintype A] [DecidableEq A]
-  {J : Subgroup (GL (A ⊕ Fin 0) k)}
-end Stab
-section Read
-variable {k : Type} [Field k] {R : Type} [CommRing R] {Y : Type} [Fintype Y] [DecidableEq Y] {n : ℕ}
-end Read
-section Cong
-variable {F E k : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E]
-  [Field k] [ValuativeRel k] [TopologicalSpace k] [IsNonarchimedeanLocalField k] {n : ℕ}
-end Cong
-section Seam
-open Formalism.L2.Ker Formalism.MainNotions
-variable {D : D7} {X : Fields} (s : Seam D X) {n : ℕ}
-end Seam
-end GlobalTheory.PenLoc
-end LocalPart
 section GlobalPart
 open Formalism.BasicNotions Formalism.BasicNotions.TH Formalism.MainNotions Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes Formalism.MainNotions.StandardLattice Formalism.L2.Theta Formalism.L2.DIV Formalism.IndefR Formalism.IndefR.Links Formalism.IndefR.Datum Formalism.L2.Forms MeasureTheory IsDedekindDomain NumberField Matrix
 open GlobalTheory.MixModel GlobalTheory.MixPer GlobalTheory.Unf GlobalTheory.SeeSaw GlobalTheory.LocMod GlobalTheory.MiS GlobalTheory.QPl GlobalTheory.QTw GlobalTheory.AdForm GlobalTheory.Mem GlobalTheory.Mem.Col2 GlobalTheory.Fam

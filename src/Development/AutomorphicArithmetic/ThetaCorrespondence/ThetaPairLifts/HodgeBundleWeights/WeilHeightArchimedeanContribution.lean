@@ -1,6 +1,5 @@
 module
 
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovVolumes.UpperBounds.DivStartPf
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.FlagComponentFramedPointFrame
 public import Development.AbelianVarietyTheory.Definitions.Divisors.SecondCountableTopologyOfIsProjOver
 public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.OffZero
@@ -56,7 +55,6 @@ public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Tends
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.TrivialMonodromyOrbitConvergesSymmetricDomain
 public import Development.AbelianVarietyTheory.Definitions.Divisors.IsProperToroidalModelStructureMap
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SerreHolomorphicSectionsHolds
-public import Development.AutomorphicArithmetic.ThetaCorrespondence.ThetaPairLifts.HodgeBundleWeights.TamagawaNumberSpecialUnitary
 public import Development.AbelianVarietyTheory.Definitions.Divisors.SemiposAtOfPositive
 public import Development.AbelianVarietyTheory.Definitions.Divisors.ToKnownTheoremsOf
 public import Development.AbelianVarietyTheory.Definitions.Divisors.WedgeNrmLeOfWedgeNormLe
@@ -166,7 +164,21 @@ def Tw (V : Unf Xo c σ r) (e : Ix D → ℤ) (k : V.Comp) (la : ReciprocityTheo
 
 theorem isSec_mul {X : Data E r} {la la' : ReciprocityTheory.ChartRestriction.G.FD.Wt X.Ψ r} {P Q : Frame X.Ψ r → ℂ} (hP : X.IsSec la P)
     (hQ : X.IsSec la' Q) : X.IsSec (la + la') (fun x => P x * Q x) := by
-  apply _root_.ReciprocityTheory.ChartRestriction.G.AR.Up.DivSt.sec_mul' <;> assumption
+  refine ⟨hP.1.mul hQ.1, fun x hx b hb => ?_, fun γ hγ x hx => ?_⟩
+  · have hdiag : ∀ τ i, b τ i i ≠ 0 := fun τ i => by
+      have hdet := (hb τ).1
+      rw [Matrix.det_of_isUpperTriangular (M := mat b τ) (fun a c hac => (hb τ).2 a c hac)] at hdet
+      exact Finset.prod_ne_zero_iff.1 hdet i (Finset.mem_univ _)
+    have hadd : bchar (la + la') b = bchar la b * bchar la' b := by
+      simp only [bchar, ← Finset.prod_mul_distrib]
+      refine Finset.prod_congr rfl fun τ _ => Finset.prod_congr rfl fun i _ => ?_
+      rw [Pi.add_apply, Pi.add_apply, zpow_add₀ (hdiag τ i)]
+    show P _ * Q _ = _ * (P x * Q x)
+    rw [hP.2.1 x hx b hb, hQ.2.1 x hx b hb, hadd]
+    ring
+  · show P _ * Q _ = _ * (P x * Q x)
+    rw [hP.2.2 γ hγ x hx, hQ.2.2 γ hγ x hx, X.χ_add la la' γ hγ]
+    ring
 
 theorem sec_frBorZ {V : Unf Xo c σ r} (hU : IsUnf V) {e : Ix D → ℤ} {k : V.Comp}
     {la : ReciprocityTheory.ChartRestriction.G.FD.Wt (V.X k).Ψ r} (hT : Tw V e k la) {P : Frame (V.X k).Ψ r → ℂ} (hP : (V.X k).IsSec la P)
@@ -1423,7 +1435,7 @@ end -- clump:auto
 -- ===== end clump member: Development.WeilBound.CoreStatements.HomogeneousNonvanishing.VuOntoC =====
 
 -- ===== clump member: Development.AutomorphicArithmetic.ThetaCorrespondence.ThetaPairLifts.HodgeBundleWeights.LocalUnitMapSurjective =====
--- clump-header: {"m": "Development.AutomorphicArithmetic.ThetaCorrespondence.ThetaPairLifts.HodgeBundleWeights.LocalUnitMapSurjective", "h": "module\n\npublic import Development.AutomorphicArithmetic.ThetaCorrespondence.ThetaPairLifts.HodgeBundleWeights.TamagawaNumberSpecialUnitary\npublic import Development.AbelianVarietyTheory.Definitions.Divisors.SemiposAtOfPositive\npublic import Development.AbelianVarietyTheory.Definitions.Divisors.ToKnownTheoremsOf\npublic import Development.AbelianVarietyTheory.Definitions.Divisors.WedgeNrmLeOfWedgeNormLe\npublic import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.ExistsVanBdOfMemExtVanZ\npublic import Development.WeilBound.CoreStatements.HomogeneousNonvanishing.VuOntoC\npublic import Development.AbelianVarietyTheory.Proofs.DivisorProofs.VanBdLeSpace\npublic import Development.WeilBound.CoreStatements.NefModelVolumes.NV\npublic import Development.AutomorphicArithmetic.ThetaCorrespondence.ThetaPairLifts.HodgeBundleWeights.ToKnownTheoremsOf\npublic import Development.AbelianVarietyTheory.Definitions.Divisors.FirstChernLeviEqConstant\npublic import Development.AbelianVarietyTheory.Definitions.Divisors.GenRatios\npublic import Development.AbelianVarietyTheory.Definitions.Divisors.Multiplier\npublic import Development.AbelianVarietyTheory.Definitions.Divisors.NonemptyCuspFrame\n\n"}
+-- clump-header: {"m": "Development.AutomorphicArithmetic.ThetaCorrespondence.ThetaPairLifts.HodgeBundleWeights.LocalUnitMapSurjective", "h": "module\n\npublic import Development.AbelianVarietyTheory.Definitions.Divisors.SemiposAtOfPositive\npublic import Development.AbelianVarietyTheory.Definitions.Divisors.ToKnownTheoremsOf\npublic import Development.AbelianVarietyTheory.Definitions.Divisors.WedgeNrmLeOfWedgeNormLe\npublic import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.ExistsVanBdOfMemExtVanZ\npublic import Development.WeilBound.CoreStatements.HomogeneousNonvanishing.VuOntoC\npublic import Development.AbelianVarietyTheory.Proofs.DivisorProofs.VanBdLeSpace\npublic import Development.WeilBound.CoreStatements.NefModelVolumes.NV\npublic import Development.AutomorphicArithmetic.ThetaCorrespondence.ThetaPairLifts.HodgeBundleWeights.ToKnownTheoremsOf\npublic import Development.AbelianVarietyTheory.Definitions.Divisors.FirstChernLeviEqConstant\npublic import Development.AbelianVarietyTheory.Definitions.Divisors.GenRatios\npublic import Development.AbelianVarietyTheory.Definitions.Divisors.Multiplier\npublic import Development.AbelianVarietyTheory.Definitions.Divisors.NonemptyCuspFrame\n\n"}
 section -- clump:auto
 @[expose] public section
 

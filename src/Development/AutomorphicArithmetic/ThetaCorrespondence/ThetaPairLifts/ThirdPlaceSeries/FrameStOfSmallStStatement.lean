@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.SatakeParameters.ExistsPlaceOverPrimeOfPadicAlgClEmbedding
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ClassesAt
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsFiniteAdeleEmbeddingExtension
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsPadicAlgClRingEquivComplexCompEqOfCountabl
@@ -425,9 +424,6 @@ end GlobalTheory.LevelCharExp
 
 end
 
-namespace GlobalTheory.LevelCharExp
-
-end GlobalTheory.LevelCharExp
 end -- clump:auto
 end -- clump:auto
 -- ===== end clump member: Development.AbelianVarietyTheory.Proofs.DivisorProofs.CharacterAtSmallPlace =====
@@ -442,11 +438,6 @@ section -- clump:auto
 section
 open NumberField IsDedekindDomain Formalism.BasicNotions Formalism.MainNotions Formalism.L2.DIV Formalism.IndefR Formalism.IndefR.Links Formalism.L2.Pj GlobalTheory.BigTop GlobalTheory.BigOn GlobalTheory.ExpFrame GlobalTheory.ExpTie GlobalTheory.FrameOf
 open scoped TensorProduct
-noncomputable section
-namespace GlobalTheory.LevelCharExp
-open Formalism.BasicNotions.TH Formalism.IndefR.Lev
-end GlobalTheory.LevelCharExp
-end
 namespace GlobalTheory.LevelCharExp
 theorem chiAt_inRange_alt : _root_.GlobalTheory.ExpTie.InRangeAlt fun _ _ _ _ p j P _ w => SmallAt p j P w → ChiAt p j w := by
   unfold _root_.GlobalTheory.ExpTie.InRangeAlt _root_.GlobalTheory.BigOn.AtPtsAlt
@@ -874,9 +865,6 @@ open NumberField IsDedekindDomain Formalism.BasicNotions Formalism.MainNotions F
 open scoped TensorProduct
 noncomputable section
 namespace GlobalTheory.HalfLabels
-variable {E : Type} [Field E] [NumberField E] [IsCMField E] {l : ℕ} [Fact l.Prime]
-end GlobalTheory.HalfLabels
-namespace GlobalTheory.HalfLabels
 theorem halfAt_inRange_alt : _root_.GlobalTheory.ExpTie.InRangeAlt fun Fm x _ i p j P _ w => SmallAt p j P w → HalfAt (Fm.D x i) (Formalism.EigenvalueLevelCeiling.plc w) := by
   refine ⟨1, one_pos, fun _ _ _ => ⟨⟨0, fun _ => 0, fun _ => 0, fun _ => 0⟩, fun Fm _ _ _ => ?_⟩⟩
   exact _root_.GlobalTheory.BigTop.EventuallyAtPoints.of_forall fun x _ i _ _ _ _ _ _ _ _ w _ _ _ => halfAt_all (Fm.D x i) (Formalism.EigenvalueLevelCeiling.plc w)
@@ -901,7 +889,20 @@ namespace GlobalTheory.AdeleEv
 variable {l : ℕ} [Fact l.Prime]
 
 theorem norm_int_le {E : Type} [Field E] [NumberField E] (τ : E →+* PadicAlgCl l) (x : 𝓞 E) : ‖τ x‖ ≤ 1 := by
-  first | exact _root_.GlobalTheory.LocPlace.norm_int_le_one | exact @_root_.GlobalTheory.LocPlace.norm_int_le_one | apply _root_.GlobalTheory.LocPlace.norm_int_le_one <;> assumption
+  obtain ⟨v, hv⟩ := GlobalTheory.LadicPlace.exists_place_of_embedding E l τ
+  by_contra h
+  have h0 : (x : E) ≠ 0 := by
+    rintro h0
+    rw [h0, map_zero, norm_zero] at h
+    exact h zero_le_one
+  have h1 : ‖τ (x : E)⁻¹‖ < 1 := by
+    rw [map_inv₀, norm_inv]
+    exact inv_lt_one_of_one_lt₀ (not_le.1 h)
+  have h2 := (hv _).2 h1
+  rw [map_inv₀] at h2
+  have h3 : v.valuation E (x : E) ≤ 1 := v.valuation_le_one x
+  have h4 : v.valuation E (x : E) ≠ 0 := (map_ne_zero _).2 h0
+  exact absurd ((inv_lt_one₀ (zero_lt_iff.2 h4)).1 h2) (not_lt.2 h3)
 
 end GlobalTheory.AdeleEv
 
@@ -1442,8 +1443,6 @@ open scoped TensorProduct
 open Formalism.BasicNotions Formalism.MainNotions Formalism.L2.DIV Formalism.IndefR Formalism.IndefR.Links Formalism.L2.Pj GlobalTheory.BigTop GlobalTheory.BigOn GlobalTheory.ExpFrame GlobalTheory.ExpTie
 open Formalism.CohomologicalDescent.LogSmallConstantBounds (Par)
 open Formalism.CohomologicalDescent.ShortWeightBounds (Wts)
-namespace GlobalTheory.FrameOf
-end GlobalTheory.FrameOf
 namespace GlobalTheory.FrameOf
 theorem inRange_and_alt {Q1 Q2 : ∀ {eps : ℝ} (Fm : FamP eps) (x : ℝ) (hx : Fm.x1 < x) (i : Fm.Ix x) (_ : Pt Fm x hx i)
       (_ : Fin (Fm.D x i).R.m) (_ : Par) (_ : Wts (Fm.D x i).what₂.Tau), HeightOneSpectrum (𝓞 (Fm.D x i).what₂.LL) → Prop}

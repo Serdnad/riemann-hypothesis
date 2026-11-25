@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ShareStatementOfKnownTheorems
 public import Development.AbelianVarietyTheory.Definitions.Divisors.CuspIso
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.DivLeSubMulDiv
 public import Development.AbelianVarietyTheory.BlockTheory.TorsionBlocks.LevelCarrying
@@ -184,10 +183,6 @@ theorem antitone_of_gap_nonneg {N : ℕ} {v : Fin N → ℤ} (h : ∀ k, k + 1 <
 
 end GlobalTheory.FrameBerg
 
-namespace GlobalTheory.FrameBerg
-
-
-end GlobalTheory.FrameBerg
 end -- clump:auto
 end -- clump:auto
 end -- clump:auto
@@ -275,8 +270,6 @@ open GlobalTheory.IndefiniteRowSideFullHecke.LevelStructureAutomorphisms (LevelA
 open GlobalTheory.BadCount
 open scoped TensorProduct
 noncomputable section
-namespace GlobalTheory.FrameBerg
-end GlobalTheory.FrameBerg
 open scoped GlobalTheory.CompHt
 namespace GlobalTheory.FrameBerg
 
@@ -462,7 +455,20 @@ variable {E : Type} [Field E] [NumberField E] [IsCMField E] {H : ReciprocityTheo
 
 theorem antitone_of_gapGe (hp : 1 ≤ Dw.p) (hq : 1 ≤ Dw.q) {la : AllWt.Weight Dw} (h : GapGe 1 la) :
     (∀ τ, Antitone (la τ)) ∧ ∀ τ, 1 ≤ gap (la τ) (Dw.p - 1) := by
-  apply _root_.GlobalTheory.CovTop.ShareRowsNef.antitone_of_gapGe <;> assumption
+  refine ⟨fun τ => ?_, fun τ => h τ _ (by omega)⟩
+  have key : ∀ (n : ℕ) (a b : Fin (Dw.p + Dw.q)), (b : ℕ) = a + n → la τ b ≤ la τ a := by
+    intro n
+    induction n with
+    | zero => intro a b e; rw [show b = a from Fin.ext e]
+    | succ n ih =>
+      intro a b e
+      have hb := b.2
+      have h1 := ih a ⟨a + n, by omega⟩ rfl
+      have h2 := h τ (a + n) (by omega)
+      rw [gap_eq (la τ) (i := ⟨a + n, by omega⟩) (j := b) e] at h2
+      omega
+  intro a b hab
+  exact key (b - a) a b (by have : (a : ℕ) ≤ b := hab; omega)
 
 theorem gapGe_of_wtBig {P : WtPar Dw} (h : WtBig P) : GapGe 1 P.u₁ ∧ GapGe 1 P.u₂ ∧ ∀ j, GapGe 1 (P.wt j) := by
   have h3 : GapGe 3 P.u₁ := h.gaps.mono (by
@@ -824,10 +830,6 @@ open GlobalTheory.IndefiniteRowSideFullHecke.LevelStructureAutomorphisms (LevelA
 open GlobalTheory.BadCount
 open scoped TensorProduct
 noncomputable section
-namespace GlobalTheory.CovTop.DgLog
-end GlobalTheory.CovTop.DgLog
-namespace GlobalTheory.CovTop.DgLog
-end GlobalTheory.CovTop.DgLog
 namespace GlobalTheory.CovTop.DgLog
 theorem log_degree_le_of_covering_range_alt : GlobalTheory.CovTop.HypothesesX → _root_.GlobalTheory.CovTop.PublishedHodgeBundleTheorems → GlobalTheory.Published.GrothendieckDeformation → GlobalTheory.HSCore.Quoted → GlobalTheory.Published.ToroidalForFanKS → GlobalTheory.Published.SemiAbelianLieSeminegative → _root_.GlobalTheory.CovTop.DeepGoodness → _root_.GlobalTheory.CovTop.SizeCondition → _root_.GlobalTheory.CovTop.FlatDegreeCondition → _root_.GlobalTheory.CovTop.CoversCondition fun Fm x _ ι p i Y PP _ => ∀ Z, Real.log (Y.dg (⟨uW p i, cZero (Fm.D x ι) ((i : ℕ) + 1), (Fm.D x ι).R.k - 2, lenT p i PP⟩ : WtPar (dat p i)).u₁ Z) ≤ PP := by
   intro hX hP hG hQ hFan hSA hDG hSz hFD
@@ -1192,10 +1194,6 @@ theorem log_sum_le {S k fr L : ℝ} (hS0 : 0 ≤ S) (hSk : S ≤ (fr * L) ^ 2 * 
 
 end GlobalTheory.CovTop.ShortSpanUnitCover
 
-namespace GlobalTheory.CovTop.ShortSpanUnitCover
-
-
-end GlobalTheory.CovTop.ShortSpanUnitCover
 end -- clump:auto
 end -- clump:auto
 end -- clump:auto
@@ -1221,10 +1219,6 @@ open GlobalTheory.BadCount
 open scoped TensorProduct
 
 noncomputable section
-namespace GlobalTheory.CovTop.ShortSpanUnitCover
-end GlobalTheory.CovTop.ShortSpanUnitCover
-namespace GlobalTheory.CovTop.ShortSpanUnitCover
-end GlobalTheory.CovTop.ShortSpanUnitCover
 open scoped GlobalTheory.CompHt
 namespace GlobalTheory.CovTop.ShortSpanUnitCover
 

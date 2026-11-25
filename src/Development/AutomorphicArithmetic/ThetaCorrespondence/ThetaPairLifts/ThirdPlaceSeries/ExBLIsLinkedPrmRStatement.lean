@@ -565,8 +565,14 @@ theorem isSF_ssetF_base {D : D7} {G : Type} [Group G] [Fintype G] {Pl0 I0 T : Ty
     {A3 : FamIn3 D.what₂.LL G Pl0 I0 (List ℕ) T D.R.m} {Ks : Type} [Field Ks] [NumberField Ks] [Algebra Ks D.what₂.LL]
     (R : RealDat3 D A3 Ks) (F : Face3 D A3) (hW : R.WeakCharacterisation F) (hC : GlobalTheory.Hk3.Core R.toRealDat F.lv2) :
     GlobalTheory.Hk3.IsSF R.toRealDat (SsetF R.toRealDat A3.A.μ0) := by
-  intros
-  apply _root_.GlobalTheory.Mem.R3.EigEx.isSF_ssetF <;> assumption
+  intro v
+  have hQ := (GlobalTheory.T.theta_lift_levels_good_primes_properties R.toRealDat F.lv2 hC.lev).1
+  have hS : R.Sb = R.Pg := hW.allPl
+  unfold SsetF
+  rw [hQ, hS]
+  simp only [Finset.union_empty, Finset.mem_image]
+  refine exists_congr fun PP => and_congr_right fun _ => ?_
+  exact ⟨fun h => by rw [← h]; rfl, fun h => HeightOneSpectrum.ext h⟩
 
 
 
@@ -961,7 +967,7 @@ private theorem logLam_twArgs_pz : GlobalTheory.Published.WeilRepresentationUnit
   | mk G Pl0 I0 T' A3 core R F cG geo pins err' Y Z' C' sEE div JA amb0 JM mjH =>
   cases pack
   intro i π c e he hne hle
-  have hW : Y.mj.eW = t.r.Y.mj.eW := by set_option maxHeartbeats 100000 in exact eq_of_heq heW
+  have hW : Y.mj.eW = t.r.Y.mj.eW := by exact eq_of_heq heW
   let fits (eW : type_of% t.r.Y.mj.eW) : Prop :=
     (w.st Z).toD7.what₂.isot ((i : ℕ) + 1) π ≤ (t.r.z.R.Wp3 i c).comap (eW i)
   have hWp : ((t.r.z.R.updS t.r.z.R.kap lam).withErr err).Wp3 = t.r.z.R.Wp3 := rfl

@@ -1,7 +1,5 @@
 module
 
-import Development.AutomorphicArithmetic.ThetaCorrespondence.ThetaPairLifts.HodgeBundleWeights.LevelSubgroupIndexBounded
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.PairIntAt
 public import Development.AbelianVarietyTheory.Statements.PlaceShiftStatements.InfClassAt
 public import Development.AbelianVarietyTheory.Definitions.Divisors.FrameSignSimple
 public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.ExistsIsConjAtOfEmbedding
@@ -515,7 +513,6 @@ private theorem idemOf_mem (h : R.grp_record) (g : Γ) : (idemOf A.X).coeff g �
     simp only [MonoidAlgebra.coeff_mul_single_apply, MonoidAlgebra.coeff_single_mul_apply, inv_inv, mul_one, one_mul] at this
     rw [he, he, map_mul eR, map_mul eR, this]
 
-
 private theorem herm_eq (F : Face D A) (hc : GlobalTheory.Hk3.Core R F) (t : T) (σ : D.what₂.LL →+* ℂ)
     (x : Fin ((A.fam.R t).nV (A.fam.lvl F.P0 F.ψ0)) → D.what₂.LL) :
     (Nat.card (A.fam.lvl F.P0 F.ψ0).P : ℝ) *
@@ -540,7 +537,6 @@ private theorem herm_eq (F : Face D A) (hc : GlobalTheory.Hk3.Core R F) (t : T) 
     h1.trans (congrArg _ h2)
   have hN : (Nat.card (A.fam.lvl F.P0 F.ψ0).P : ℂ) ≠ 0 := Nat.cast_ne_zero.2 Nat.card_pos.ne'
   rw [h3, ← Complex.re_ofReal_mul, Complex.ofReal_natCast, mul_inv_cancel_left₀ hN]
-
 
 private theorem value_nonneg_and_norm_bound (ch : Choice R) (large₂ : SizeData₂ D) (F : Face D A) (hS : HidaSetting large₂ R F) (t : T) (σ : D.what₂.LL →+* ℂ)
     (f : (A.MtildeCSD t).Forms) :
@@ -594,7 +590,6 @@ end Main
 
 end GlobalTheory.FormNorm
 
-
 open GlobalTheory.FormNorm in
 theorem _root_.GlobalTheory.T.baseTupleGoodForm_values_bounded_by_classSum : BigC fun {D} {_} _ _ {_} {_} {A} {_} _ _ _ {R} F ch _ _ => ∀ (σ : D.what₂.LL →+* ℂ) (x : Fin ((A.fam.R A.μ0).nV (A.fam.lvl F.P0 F.ψ0)) → D.what₂.LL),
   0 ≤ (star (fun i => σ (x i)) ⬝ᵥ (((A.fam.R A.μ0).HV (A.fam.lvl F.P0 F.ψ0)).map σ).mulVec fun i => σ (x i)).re ∧ ∀ y,
@@ -627,7 +622,15 @@ namespace GlobalTheory.SumSize.GamSize
 
 private theorem prod_norm_le {E : Type} [Field E] [NumberField E] (S : Finset (HeightOneSpectrum (𝓞 E))) {n : ℕ} (hn : n ≠ 0)
     (h : ∀ P ∈ S, (n : 𝓞 E) ∈ P.asIdeal) : ∏ P ∈ S, Ideal.absNorm P.asIdeal ≤ n ^ Module.finrank ℚ E := by
-  apply _root_.GlobalTheory.CovTop.LevelIndex.prod_absNorm_le <;> assumption
+  have hd : ∏ P ∈ S, P.asIdeal ∣ Ideal.span {(n : 𝓞 E)} := by
+    refine Finset.prod_dvd_of_coprime (fun P _ Q _ hPQ => ?_) fun P hP => ?_
+    · exact (Ideal.isCoprime_iff_sup_eq).2
+        (P.isMaximal.coprime_of_ne Q.isMaximal fun e => hPQ (HeightOneSpectrum.ext e))
+    · rw [Ideal.dvd_iff_le, Ideal.span_singleton_le_iff_mem]
+      exact h P hP
+  have h2 := map_dvd Ideal.absNorm hd
+  rw [map_prod, Ideal.absNorm_span_natCast, RingOfIntegers.rank] at h2
+  exact Nat.le_of_dvd (pow_pos (Nat.pos_of_ne_zero hn) _) h2
 
 private theorem card_GL_le {E : Type} [Field E] [NumberField E] (P : HeightOneSpectrum (𝓞 E)) (r : ℕ) :
     Nat.card (GL (Fin r) (𝓞 E ⧸ P.asIdeal)) ≤ Ideal.absNorm P.asIdeal ^ (r * r) := by
@@ -816,7 +819,18 @@ open IsDedekindDomain NumberField Matrix GlobalTheory.ChiGrid GlobalTheory.FunOb
 namespace GlobalTheory.FormVal
 
 theorem bigC_and {Q Q' : ChQ} (h : BigC Q) (h' : BigC Q') : BigC fun F ch C b => Q F ch C b ∧ Q' F ch C b := by
-  apply _root_.GlobalTheory.SumSize.BigC.and <;> assumption
+  obtain ⟨A0, hA⟩ := h
+  obtain ⟨B0, hB⟩ := h'
+  refine ⟨max A0 B0, fun CF hCF => ?_⟩
+  obtain ⟨C1, hC1⟩ := hA CF (le_trans (le_max_left _ _) hCF)
+  obtain ⟨C2, hC2⟩ := hB CF (le_trans (le_max_right _ _) hCF)
+  refine ⟨max C1 C2, fun ε C hC => ?_⟩
+  obtain ⟨x1, hx1⟩ := hC1 ε C (le_trans (le_max_left _ _) hC)
+  obtain ⟨x2, hx2⟩ := hC2 ε C (le_trans (le_max_right _ _) hC)
+  refine ⟨max x1 x2, ?_⟩
+  intro D large₂ hε hx Γ _ _ Pl0 T A Ks _ _ _ R F hS ch hIs hAt hOK
+  exact ⟨hx1 D large₂ hε (le_trans (le_max_left _ _) hx) Γ Pl0 T A Ks R F hS ch hIs hAt hOK,
+    hx2 D large₂ hε (le_trans (le_max_right _ _) hx) Γ Pl0 T A Ks R F hS ch hIs hAt hOK⟩
 
 theorem bigC_mono {Q Q' : ChQ} (h : BigC Q) (hQ : ∀ {D : D7} {Γ : Type} [Group Γ] [Fintype Γ] {Pl0 T : Type}
     {A : FamIn D.what₂.LL Γ Pl0 T D.R.m} {Ks : Type} [Field Ks] [NumberField Ks] [Algebra Ks D.what₂.LL] {R : RealDat D A Ks}
@@ -827,7 +841,6 @@ theorem bigC_mono {Q Q' : ChQ} (h : BigC Q) (hQ : ∀ {D : D7} {Γ : Type} [Grou
   refine ⟨c, fun ε C hC => ?_⟩
   obtain ⟨x, h⟩ := h ε C hC
   exact ⟨x, fun D large₂ e hx Γ _ _ Pl0 T A Ks _ _ _ R F s ch i j k => hQ F ch C large₂.sc.b (h D large₂ e hx Γ Pl0 T A Ks R F s ch i j k)⟩
-
 
 theorem form_fin_inf_of (h1 : BigC fun {D} {_} _ _ {_} {_} {A} {_} _ _ _ {R} F ch _ _ => ∀ (t : _) (w : PlL D), ∀ x ∈ (A.fam.R t).Mt (A.fam.lvl F.P0 F.ψ0), ∀ y,
   InLat _ w 0 (latAt ch.S.toGridChoice (.grid 0 D.R.m) y) (rowVal ch.S.toGridChoice (ch.S.formC t (R.jX t (formOf F t x)) y))) (h2 : BigC fun {D} {_} _ _ {_} {_} {A} {_} _ _ _ {R} F ch _ _ => ∀ (σ : D.what₂.LL →+* ℂ) (x : Fin ((A.fam.R A.μ0).nV (A.fam.lvl F.P0 F.ψ0)) → D.what₂.LL),
@@ -905,10 +918,6 @@ private theorem funEquiv_nabK (lam : ι → DomWeight n) (M : ι → Submodule (
     exact congrArg (·⁻¹) (funext fun τ => invTr_invTr (B τ))
   rw [map_smul, funEquiv_rhoK, e] at h1
   exact h1
-
-private theorem funEquiv_mapVV {K : Type} [Field K] (φ : K →+* ℂ) (lam : ι → DomWeight n) (F : VV K lam) :
-    funEquiv lam (mapVV φ lam F) = mapVV φ _ (funEquiv lam F) :=
-  ((isFunForm_iff_eq lam _ _).1 (GlobalTheory.BrRat.isFunForm_map φ lam (isFunForm_funEquiv lam F))).symm
 
 end Lat
 
@@ -1044,7 +1053,7 @@ private theorem inLat_value {V : HSp D} {β : GL (Fin V.rank) (Lev.EAf D)} {Λ :
     rfl
   rw [hr, MvPolynomial.rename_id_apply] at hU
   obtain rfl : U = mapVV D.what₂.embLL lam' v := Subtype.ext hU
-  rw [(isFunForm_iff_eq _ _ _).1 ((SumModel.readOK lam').1 _), funEquiv_mapVV, TestFunctionNorms.GlobalTheory.CompanionTheory.TestVal.rhoVr_mapVV]
+  rw [(isFunForm_iff_eq _ _ _).1 ((SumModel.readOK lam').1 _), GlobalTheory.FormNorm.funEquiv_mapVV, TestFunctionNorms.GlobalTheory.CompanionTheory.TestVal.rhoVr_mapVV]
   refine TestFunctionNorms.GlobalTheory.CompanionTheory.TestVal.inLat_of_mem _ w ?_
   have e1 : Formalism.UG.CS.globLat (finG V y) Λ = Bridge.hLat V ((finHom V).rangeRestrict y.1) := globLat_eq hβ y.1
   have e2 := TestFunctionNorms.GlobalTheory.CompanionTheory.TestVal.comap_eq_map fr 1 (Bridge.hLat V ((finHom V).rangeRestrict y.1))
@@ -1057,7 +1066,6 @@ private theorem inLat_value {V : HSp D} {β : GL (Fin V.rank) (Lev.EAf D)} {Λ :
 end Ad
 
 end GlobalTheory.FormFinVal
-
 
 open GlobalTheory.FormFinVal in
 theorem _root_.GlobalTheory.T.integralGoodForm_values_mem_scaledDualWeylLattice : BigC fun {D} {_} _ _ {_} {_} {A} {_} _ _ _ {R} F ch _ _ => ∀ (t : _) (w : PlL D), ∀ x ∈ (A.fam.R t).Mt (A.fam.lvl F.P0 F.ψ0), ∀ y,

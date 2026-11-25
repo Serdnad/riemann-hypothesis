@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.StageTriangleFactorStepFirst
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.NegIdxOfIsStd
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.DefiniteBottomFramesChangeStageZero
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.MoveTriLat
@@ -121,8 +120,15 @@ section Units
 variable {K : Type} [Field K] [NumberField K] [StarRing K]
 
 theorem isAwayUnit_inv {m : ℕ} {x : K} (h : GlobalTheory.Square.IsAwayUnit m x) (hx : x ≠ 0) : GlobalTheory.Square.IsAwayUnit m x⁻¹ := by
-  intros
-  apply _root_.GlobalTheory.SqStepBig.awayUnit_inv <;> assumption
+  obtain ⟨a, k, k', ⟨b, hb⟩, e⟩ := h
+  refine ⟨(m : 𝓞 K) ^ k * b, k', k + k', ⟨a, by rw [pow_add, hb]; ring⟩, ?_⟩
+  have e2 : ((m : 𝓞 K) : K) ^ k' = (a : K) * (b : K) := by
+    rw [← map_pow, hb]; push_cast; ring
+  have e3 : ((m : 𝓞 K) : K) = (m : K) := by simp
+  rw [e3] at e2
+  rw [e2, ← e]
+  push_cast
+  field_simp
 
 theorem stepRatio_self {T' : Type} (σ₀ : K →+* ℂ) (Qn : ℕ) (S0 : Finset T') (cc qq : T' → ℕ) (x : ℂ) :
     GlobalTheory.Square.StepRatio σ₀ Qn S0 cc qq x x :=
@@ -233,9 +239,6 @@ end Descent
 
 end GlobalTheory.SqTower
 
-namespace GlobalTheory.SqTower
-
-end GlobalTheory.SqTower
 end -- clump:auto
 end -- clump:auto
 end -- clump:auto
@@ -254,9 +257,6 @@ open GlobalTheory.CMVal (IsHeckeL)
 open GlobalTheory.IndefiniteRowSideFullHecke.UnitCharTriangle (Tri)
 open GlobalTheory.SqTop
 open GlobalTheory.ConstRatio (NegIdx Factor)
-
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
-
 
 theorem _root_.GlobalTheory.T.definiteBottom_framesChange_stageZero : ∀ {D : D7} {T : Type} {Lc : LevCh D T} {sc : GlobalTheory.ChiGrid.Consts} {G : GridData Lc sc} (μ₀ : T), Lc.Is μ₀ → ∀ (W : G.Weil) (S : GridChoice W Set.univ), NumbersIn D.what₂.embLL S μ₀ →
   ∀ (i j : Fin D.R.m) {A A' WW : HSp D} (X Y : Tri T A A' WW), IsBottomTri W i j X → GlobalTheory.SqTower.IsStageC W i j 0 0 Y →
@@ -1092,9 +1092,6 @@ open GlobalTheory.IndefiniteRowSideFullHecke.UnitCharTriangle (Tri)
 open GlobalTheory.SqTop
 open GlobalTheory.ConstRatio (NegIdx Factor)
 
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
-
-
 theorem _root_.GlobalTheory.T.definiteBottom_lattice_change_constants_awayUnit : ∀ {D : D7} {T : Type} {Lc : LevCh D T} {sc : GlobalTheory.ChiGrid.Consts} {G : GridData Lc sc} (μ₀ : T), Lc.Is μ₀ → ∀ (W : G.Weil) (S : GridChoice W Set.univ), NumbersIn D.what₂.embLL S μ₀ →
   ∀ (i j : Fin D.R.m) {A A' WW : HSp D} (X Y : Tri T A A' WW), IsBottomTri W i j X → GlobalTheory.SqTower.IsStageC W i j 0 0 Y →
   ∃ (Z : Tri T A A' WW) (v : T → ℂ), GlobalTheory.SqTower.IsStageC W i j 0 0 Z ∧
@@ -1118,9 +1115,6 @@ open GlobalTheory.CMVal (IsHeckeL)
 open GlobalTheory.IndefiniteRowSideFullHecke.UnitCharTriangle (Tri)
 open GlobalTheory.SqTop
 open GlobalTheory.ConstRatio (NegIdx Factor)
-
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
-
 
 theorem _root_.GlobalTheory.T.definiteBottom_tower_constants_differ_by_factor : ∀ {D : D7} {T : Type} {Lc : LevCh D T} {sc : GlobalTheory.ChiGrid.Consts} {G : GridData Lc sc} (W : G.Weil) (i j : Fin D.R.m) {A A' WW : HSp D} (X Y : Tri T A A' WW),
   IsBottomTri W i j X → GlobalTheory.SqTower.IsStageC W i j 0 0 Y →
@@ -1197,8 +1191,20 @@ namespace GlobalTheory.SqStep
 
 theorem gbig_three {Q₁ Q₂ Q₃ Q : GP} (h₁ : GBig Q₁) (h₂ : GBig Q₂) (h₃ : GBig Q₃)
     (H : ∀ {D : D7} {T : Type} {Lc : LevCh D T} {sc : GlobalTheory.ChiGrid.Consts} (G : GridData Lc sc) (μ₀ : T) (C x b : ℝ),
-      Q₁ G μ₀ C x b → Q₂ G μ₀ C x b → Q₃ G μ₀ C x b → Q G μ₀ C x b) : GBig Q :=
-  _root_.GlobalTheory.SqCompare.gBig_three h₁ h₂ h₃ H
+      Q₁ G μ₀ C x b → Q₂ G μ₀ C x b → Q₃ G μ₀ C x b → Q G μ₀ C x b) : GBig Q := by
+  obtain ⟨F₁, h₁⟩ := h₁
+  obtain ⟨F₂, h₂⟩ := h₂
+  obtain ⟨F₃, h₃⟩ := h₃
+  refine ⟨max F₁ (max F₂ F₃), fun ε CF hCF => ?_⟩
+  obtain ⟨C₁, x₁, k₁⟩ := h₁ ε CF (le_trans (le_max_left _ _) hCF)
+  obtain ⟨C₂, x₂, k₂⟩ := h₂ ε CF (le_trans (le_trans (le_max_left _ _) (le_max_right _ _)) hCF)
+  obtain ⟨C₃, x₃, k₃⟩ := h₃ ε CF (le_trans (le_trans (le_max_right _ _) (le_max_right _ _)) hCF)
+  refine ⟨max C₁ (max C₂ C₃), max x₁ (max x₂ x₃), fun C hC D large₂ he hx hR T Lc μ₀ hL G => H G μ₀ C _ _ ?_ ?_ ?_⟩
+  · exact k₁ C (le_trans (le_max_left _ _) hC) D large₂ he (le_trans (le_max_left _ _) hx) hR T Lc μ₀ hL G
+  · exact k₂ C (le_trans (le_trans (le_max_left _ _) (le_max_right _ _)) hC) D large₂ he
+      (le_trans (le_trans (le_max_left _ _) (le_max_right _ _)) hx) hR T Lc μ₀ hL G
+  · exact k₃ C (le_trans (le_trans (le_max_right _ _) (le_max_right _ _)) hC) D large₂ he
+      (le_trans (le_trans (le_max_right _ _) (le_max_right _ _)) hx) hR T Lc μ₀ hL G
 
 end GlobalTheory.SqStep
 
@@ -1283,8 +1289,6 @@ open GlobalTheory.CMVal (IsHeckeL)
 open GlobalTheory.IndefiniteRowSideFullHecke.UnitCharTriangle (Tri)
 open GlobalTheory.SqTop
 open GlobalTheory.ConstRatio (NegIdx Factor)
-namespace GlobalTheory.SqTower
-end GlobalTheory.SqTower
 namespace GlobalTheory.SqTower
 open GlobalTheory.SqTower
 theorem tower_alt_bis : _root_.GlobalTheory.FunPr.ThetaLocalInputs → GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.ThetaIntegralsAgree → GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.LocalMatching → LNe → Tower := by

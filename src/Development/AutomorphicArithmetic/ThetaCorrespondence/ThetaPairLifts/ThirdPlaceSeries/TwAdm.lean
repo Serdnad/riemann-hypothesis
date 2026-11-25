@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LocalAddCharUnramifiedOfSplitsCompletelyAbovePla
 public import Formalism.SharpRestriction.LevelLetterCocycles.BlochKatoPhases
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsSubgroupIsUnit
 public import Development.AutomorphicArithmetic.CyclotomicBounds.RamifiedDiscriminants.CondSq
@@ -24,7 +23,22 @@ namespace GlobalTheory.BigOn.Exp.TwAdmProof
 
 theorem not_mem_sq_of_eWL {E : Type} [Field E] [NumberField E] {p : ℕ} (hp : p.Prime) (w : HeightOneSpectrum (𝓞 E))
     (hv : (p : 𝓞 E) ∈ w.asIdeal) (he : eWL E w = 1) : (p : 𝓞 E) ∉ w.asIdeal ^ 2 := by
-  apply _root_.GlobalTheory.SplitFullyUnr.not_mem_sq_of_ramificationIdx <;> assumption
+  obtain ⟨P, hP, hP0⟩ := w
+  have he' : P.ramificationIdx ℤ = 1 := he
+  have hmax : (Ideal.span {(p : ℤ)}).IsMaximal :=
+    PrincipalIdealRing.isMaximal_of_irreducible (Nat.prime_iff_prime_int.mp hp).irreducible
+  have hmap : Ideal.map (algebraMap ℤ (𝓞 E)) (Ideal.span {(p : ℤ)}) = Ideal.span {(p : 𝓞 E)} := by
+    rw [Ideal.map_span]; simp
+  have hle : Ideal.map (algebraMap ℤ (𝓞 E)) (Ideal.span {(p : ℤ)}) ≤ P := by
+    rw [hmap, Ideal.span_le]; simpa using hv
+  have : P.LiesOver (Ideal.span {(p : ℤ)}) :=
+    ⟨hmax.eq_of_le (Ideal.comap_ne_top _ hP.ne_top) (Ideal.map_le_iff_le_comap.mp hle)⟩
+  have hb : Ideal.span {(p : ℤ)} ≠ ⊥ := by simpa using hp.ne_zero
+  rw [← Ideal.ramificationIdx'_eq_ramificationIdx (Ideal.span {(p : ℤ)}) P hb] at he'
+  intro h2
+  refine (Ideal.ramificationIdx'_ne_one_iff hle).2 ?_ he'
+  rw [hmap, Ideal.span_le]
+  simpa using h2
 
 end GlobalTheory.BigOn.Exp.TwAdmProof
 
@@ -82,14 +96,6 @@ section -- clump:auto
 
 section
 open NumberField IsDedekindDomain Formalism.BasicNotions Formalism.MainNotions GlobalTheory.BigTop GlobalTheory.BigOn GlobalTheory.BigOn.Exp
-namespace GlobalTheory.BigOn.Exp.TwAdmProof
-end GlobalTheory.BigOn.Exp.TwAdmProof
-namespace GlobalTheory.BigOn.Exp.TwAdmProof
-variable {D : D7}
-end GlobalTheory.BigOn.Exp.TwAdmProof
-namespace GlobalTheory.BigOn.Exp.TwAdmProof
-variable {D : D7}
-end GlobalTheory.BigOn.Exp.TwAdmProof
 open GlobalTheory.BigOn.Exp.TwAdmProof in
 theorem GlobalTheory.BigOn.Exp.twAdm_alt : _root_.GlobalTheory.BigOn.Exp.TwAdmAlt := by
   unfold _root_.GlobalTheory.BigOn.Exp.TwAdmAlt _root_.GlobalTheory.BigOn.Exp.TwistConditions _root_.GlobalTheory.BigOn.AtPtsAlt

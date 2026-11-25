@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.SatakeParameters.ReprMemOfBasisRational
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.NabBaseChange
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.DualWeylLatticeBaseChangeSpanProof
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.LevelCharacterApplyEqLevelFunctionSwap
@@ -77,7 +76,26 @@ theorem isOfFinOrder_hom_of_finite {G : Type} [Group G] [Finite G] (f : G →* �
 
 theorem levFn_isOfFinOrder (β : GL (Fin n) (E ⊗[F] Formalism.L2.Herm.Af F)) (L : LevDat E ℂ n)
     (x : GL (Fin n) (E ⊗[F] Formalism.L2.Herm.Af F)) : IsOfFinOrder (levFn β L x) := by
-  apply _root_.GlobalTheory.HeckeRational.levFn_isOfFinOrder <;> assumption
+  classical
+  have hPP : ∀ PP : Pl E, Finite (kP PP) := fun PP =>
+    Ideal.finiteQuotientOfFreeOfNeBot PP.asIdeal PP.ne_bot
+  have hU : ∀ PP : Pl E, Finite (kP PP)ˣ := fun PP => Finite.of_injective _ Units.val_injective
+  have hG : ∀ (PP : Pl E) (r : ℕ), Finite (GL (Fin r) (kP PP)) := fun PP r => Finite.of_injective _ Units.val_injective
+  have hG0 : Finite (G0 L.Pg L.r) := Pi.finite
+  rw [← CommGroup.mem_torsion]
+  unfold levFn
+  refine Subgroup.mul_mem _ (Subgroup.mul_mem _ ?_ ?_) ?_
+  · rw [CommGroup.mem_torsion]
+    unfold ext1
+    split_ifs with h
+    · exact isOfFinOrder_hom_of_finite L.P.chi _
+    · exact IsOfFinOrder.one
+  · refine Subgroup.prod_mem _ fun PP _ => Subgroup.prod_mem _ fun c _ => ?_
+    rw [CommGroup.mem_torsion]
+    exact isOfFinOrder_hom_of_finite _ _
+  · refine Subgroup.prod_mem _ fun PP _ => ?_
+    rw [CommGroup.mem_torsion]
+    exact isOfFinOrder_hom_of_finite _ _
 end
 
 
@@ -431,29 +449,6 @@ open GlobalTheory.ConjTwist GlobalTheory.ExportSeries GlobalTheory.SeriesTie Glo
 open scoped TensorProduct
 
 
-namespace GlobalTheory.BaseCmp
-open GlobalTheory.FlatVecSum (princ princ_good)
-section Real
-variable {D : D7} {G : Type} [Group G] [Fintype G] {Pl0 T0 : Type} {A : FamIn D.what₂.LL G Pl0 T0 D.R.m}
-  {Ks : Type} [Field Ks] [NumberField Ks] [Algebra Ks D.what₂.LL] {R : RealDat D A Ks} {F : Face D A} {i : Fin D.R.m}
-  {B : Base (Vc D i) (Wc D i)} {ξ : Formalism.L2.Host.HChar D.host.E} {χ : (AE D)ˣ →* Circle}
-  {ξR : ∀ PP : Pl D.host.E, (kP PP)ˣ →* ℂˣ} {ω : WeilRep D i} {φ : WO (Vc D i) (Wc D i) → ℂ}
-end Real
-section Coef
-variable {D : D7} {G : Type} [Group G] [Fintype G] {Pl0 T0 : Type} {A : FamIn D.what₂.LL G Pl0 T0 D.R.m}
-  {Ks : Type} [Field Ks] [NumberField Ks] [Algebra Ks D.what₂.LL] {R : RealDat D A Ks} {F : Face D A} {i : Fin D.R.m}
-  {B : Base (Vc D i) (Wc D i)}
-end Coef
-section Move
-variable {D : D7} {ρ : Setup D.ntw} (hρ : ρ.Good) (i : D.ntw.Tw) (j : Fin D.R.m) (b : Bool)
-end Move
-section Read
-variable {O : Type} [CommRing O] [IsDomain O] {M : Type} [AddCommGroup M] [Module (FractionRing O) M] [Module O M]
-  [IsScalarTower O (FractionRing O) M] [FiniteDimensional (FractionRing O) M]
-  {L : Type} [Field L] [Algebra O L] {eK : FractionRing O →+* ℂ} {X : Type} (rd : M →ₛₗ[eK] (X → ℂ)) (eL : L →+* ℂ)
-  (hL : ∀ c : O, eL (algebraMap O L c) = eK (algebraMap O (FractionRing O) c))
-end Read
-end GlobalTheory.BaseCmp
 namespace GlobalTheory.BigOn.Exp
 open Formalism.MainNotions.DIV.Cons Formalism.L2.Indef Formalism.L2.Indef.Tree Formalism.IndefR.Cx GlobalTheory.BigTop GlobalTheory.OntoChain GlobalTheory.RealIndexBound GlobalTheory.BaseCmp
 variable {D : D7} {L : SizeData₂ D} {hT : GatTies D} {Gi : Formalism.MainNotions.G.Inst D L} {Gl : Formalism.MainNotions.G.LatInst D} {Kc : Formalism.MainNotions.G.Consts}

@@ -1,6 +1,5 @@
 module
 
-import Development.AutomorphicArithmetic.ThetaCorrespondence.ThetaPairLifts.LocalTypeDictionary.TestVectorAtDatumOfJoin
 public import Development.AbelianVarietyTheory.Statements.HeckeThetaIntegrals.FormulaAt
 public import Development.AutomorphicArithmetic.ThetaCorrespondence.ThetaPairLifts.LocalTypeDictionary.BernsteinUnitaryProductIrreducible
 public import Development.AutomorphicArithmetic.ThetaCorrespondence.ThetaPairLifts.LocalTypeDictionary.ThetaLiftRowPropertiesConj
@@ -1202,11 +1201,6 @@ section -- clump:auto
 section
 open Formalism.BasicNotions Formalism.MainNotions NumberField IsDedekindDomain Formalism.L2.Indef Formalism.L2.Indef.Tree GlobalTheory.BigTop GlobalTheory.BigTop.Fun
 noncomputable section
-namespace GlobalTheory.BigTop.Fun.RamSum
-section Norms
-variable {F : Type} [Field F] [NumberField F]
-end Norms
-end GlobalTheory.BigTop.Fun.RamSum
 namespace GlobalTheory.BigTop.Fun
 open RamSum
 theorem ramified_sums_seventh_bound_alt : _root_.GlobalTheory.BigTop.Fun.RamifiedSumBound' := by
@@ -1375,8 +1369,52 @@ theorem sqRatio_mem_of {D : D7} {T : Type} {Lc : LevCh D T} {sc : GlobalTheory.C
     (hBF : ∀ (i j : Fin D.R.m) (A A' WW : HSp D) (X : Tri T A A' WW), IsBottomTri W i j X →
       ∃ lam : T → ℂ, GlobalTheory.ConstRatio.Factor X W.ψ W.θ lam)
     (i j : Fin D.R.m) (t : T) : c i j t / c i j μ₀ ∈ Set.range D.what₂.embLL := by
-  intros
-  apply _root_.GlobalTheory.RowClaim.sqRatio_mem_grid <;> assumption
+  have hF : ∀ z : ℂ, z ∈ Set.range D.what₂.embLL ↔ z ∈ D.what₂.embLL.fieldRange := fun z => Iff.rfl
+
+  obtain ⟨A₀, A₀', WW₀, X₀, -, hX₀, -⟩ := hTX i j
+  obtain ⟨A, A', WW, X, hX, hS⟩ := hN.bottom i j ⟨A₀, A₀', WW₀, X₀, hX₀⟩
+  obtain ⟨lam, hlam⟩ := hBF i j A A' WW X hX
+  have hI := hX.is
+  have hi' : ∀ t P g, MeasureTheory.IntegrableOn (X.ker' W.ψ W.θ t P g) X.fd' X.m' := fun t P g =>
+    (GlobalTheory.T.thetaIntegral_definiteSource_converges_continuous_invariant D W.ψ false A' WW _ _ (X.ω' t) X.m' X.fd' _ (hI.weil' t) (GlobalTheory.ConstRatio.posDef_of_std hX.std')
+      hI.meas'.1 hI.meas'.2 (GlobalTheory.Chain.InnerSteps.theta_pureTensorO hI.isVac.1 hI.isVac.2.inf X.rA'.s X.rA'.B X.rW.s X.rW.B
+        (GlobalTheory.ConstRatio.theta_f hI t).2 P)).1 g
+  have hr := hS.rationalSums (fun t P g => hlam.2.choose_spec.choose_spec.choose_spec.choose_spec.2.2.1 t P g) hi'
+  have hrat := GlobalTheory.ConstRatio.ratIn_of_definite hI (GlobalTheory.ConstRatio.posDef_of_std hX.std) (GlobalTheory.ConstRatio.posDef_of_std hX.std')
+    (GlobalTheory.ConstRatio.posDef_of_std hX.stdW) hlam hr μ₀
+  haveI : Nonempty T := ⟨μ₀⟩
+  have hcst : X.IsConst W.ψ W.θ lam := hlam.isConst
+
+  obtain ⟨Λ, hΛ, hΛne⟩ := hLN i j t
+  obtain ⟨Λ₀, hΛ₀, hΛ₀ne⟩ := hLN i j μ₀
+  obtain ⟨u, hu, ζ, -, heq⟩ := hTW i j t (c i j t) (c i j μ₀) A A' WW X lam Λ Λ₀ (hC i j t).1 (hK i j t) (hC i j μ₀).1
+    (hK i j μ₀) hX hcst hΛ hΛ₀
+  rw [hF]
+  obtain ⟨hn1, -, -, hn4, -, -, -, hn8, hn9⟩ := Model.tower_numbers (D := D) i j
+  have hne : ∀ L : ℂ → ℂ, (∀ s : ℤ, 1 - (e0 D i j : ℤ) ≤ s → s ≤ halfRank D i j → L s ≠ 0) →
+      ∀ n : ℕ, 1 ≤ n → n ≤ halfRank D i j → L (n : ℂ) ≠ 0 := fun L h n h1 h2 => by
+    have := h n (by omega) (by exact_mod_cast h2)
+    simpa using this
+  have hs : ∀ n : ℕ, 1 ≤ n → n ≤ halfRank D i j →
+      Λ (n : ℂ) / Λ₀ (n : ℂ) ∈ D.what₂.embLL.fieldRange ∧ Λ (n : ℂ) / Λ₀ (n : ℂ) ≠ 0 := fun n h1 h2 =>
+    ⟨(hF _).1 (hN.ratios i j t Λ Λ₀ hΛ hΛ₀ n h1 (by omega) (hne Λ₀ hΛ₀ne n h1 h2)),
+      div_ne_zero (hne Λ hΛne n h1 h2) (hne Λ₀ hΛ₀ne n h1 h2)⟩
+  have hP1 : ∀ k ∈ range (qq D j), Λ ((eTop D i j + k + 1 : ℕ) : ℂ) / Λ₀ ((eTop D i j + k + 1 : ℕ) : ℂ) ∈
+      D.what₂.embLL.fieldRange ∧ Λ ((eTop D i j + k + 1 : ℕ) : ℂ) / Λ₀ ((eTop D i j + k + 1 : ℕ) : ℂ) ≠ 0 := fun k hk =>
+    hs _ (by omega) (by have := mem_range.1 hk; omega)
+  have hP2 : ∀ k ∈ range (pp D j), Λ ((eTop D i j + qq D j - k : ℕ) : ℂ) / Λ₀ ((eTop D i j + qq D j - k : ℕ) : ℂ) ∈
+      D.what₂.embLL.fieldRange := fun k hk =>
+    (hs _ (by have := mem_range.1 hk; omega) (by omega)).1
+  have hU : (∏ k, u k) ∈ D.what₂.embLL.fieldRange := prod_mem fun k _ => by
+    obtain ⟨b, g, g', -, -, h⟩ := hu k
+    rw [h, mul_one]
+    exact RingHom.mem_fieldRange.2 ⟨_, rfl⟩
+  have hl : lam t / lam μ₀ ∈ D.what₂.embLL.fieldRange := by
+    obtain ⟨-, y, hy⟩ := hrat t
+    exact RingHom.mem_fieldRange.2 ⟨_, hy⟩
+  rw [eq_div_of_mul_eq (prod_ne_zero_iff.2 fun k hk => (hP1 k hk).2) heq]
+  exact div_mem (mul_mem (mul_mem (mul_mem (RingHom.mem_fieldRange.2 ⟨ζ, rfl⟩) hU) hl) (prod_mem hP2))
+    (prod_mem fun k hk => (hP1 k hk).1)
 
 
 end GlobalTheory.BigTop.Fun
@@ -1486,8 +1524,6 @@ section -- clump:auto
 section
 noncomputable section
 open Formalism.BasicNotions Formalism.MainNotions GlobalTheory.BigTop GlobalTheory.BigTop.Fun GlobalTheory.SqTop NumberField
-namespace GlobalTheory.BigTop.Fun.ThbTie
-end GlobalTheory.BigTop.Fun.ThbTie
 open GlobalTheory.BigTop.Fun.ThbTie in
 theorem GlobalTheory.BigTop.Fun.thb_tie_alt (hS : _root_.GlobalTheory.BigTop.Fun.SettingAtPoint)
     (hd : Closed FamHyp fun Fm _ => _root_.GlobalTheory.BigTop.EventuallyAtPoints Fm fun x _ i _ => |(Fm.L x i).logDerivativeAtOne| ≤ (Fm.L x i).sc.x ^ (Fm.L x i).sc.eps)

@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.ConjugateIntertwinerValuesSmoothAutomorphic
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.DiscreteSeriesModelOfDualParameter
 public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.LinMulti
 public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.LevelPlusSubgroup
@@ -195,7 +194,16 @@ variable {n : ℕ}
 
 theorem conj_mem_lie {F J G X : Matrix (Fin n) (Fin n) ℂ} (hF : IsUnit F) (hG : Fᴴ * J * F = G)
     (hX : Xᴴ * G + G * X = 0) : (F * X * F⁻¹)ᴴ * J + J * (F * X * F⁻¹) = 0 := by
-  apply _root_.GlobalTheory.ConjRowAut.conj_lie <;> assumption
+  have hd : IsUnit F.det := (Matrix.isUnit_iff_isUnit_det F).1 hF
+  have h1 : F * F⁻¹ = 1 := Matrix.mul_nonsing_inv F hd
+  have h2 : (F⁻¹)ᴴ * Fᴴ = 1 := by rw [← Matrix.conjTranspose_mul, h1, Matrix.conjTranspose_one]
+  have e : (F * X * F⁻¹)ᴴ * J + J * (F * X * F⁻¹) = (F⁻¹)ᴴ * (Xᴴ * G + G * X) * F⁻¹ := by
+    rw [← hG]
+    simp only [Matrix.conjTranspose_mul, Matrix.mul_add, Matrix.add_mul, Matrix.mul_assoc]
+    congr 1
+    · rw [h1, Matrix.mul_one]
+    · rw [← Matrix.mul_assoc (F⁻¹)ᴴ Fᴴ, h2, Matrix.one_mul]
+  rw [e, hX, Matrix.mul_zero, Matrix.zero_mul]
 
 theorem ofFr_mem_UH {F J G g : Matrix (Fin n) (Fin n) ℂ} (hF : IsUnit F) (hG : Fᴴ * J * F = G)
     (hg : gᴴ * J * g = J) : F⁻¹ * g * F ∈ Formalism.QuantumDeterminants.UH G := by
@@ -276,15 +284,6 @@ theorem isEnum_cast' {S : SPar} {n k : ℕ} (h : k = n) {lam : Fin n → ℝ} {�
     IsEnum S (fun i : Fin k => lam (Fin.cast h i)) (fun i => ε (Fin.cast h i)) := by
   subst h
   simpa using hE
-
-theorem UH_mul' {n : ℕ} {H a b : Matrix (Fin n) (Fin n) ℂ} (ha : a ∈ Formalism.QuantumDeterminants.UH H) (hb : b ∈ Formalism.QuantumDeterminants.UH H) :
-    a * b ∈ Formalism.QuantumDeterminants.UH H := by
-  have ha' : aᴴ * H * a = H := ha
-  have hb' : bᴴ * H * b = H := hb
-  show (a * b)ᴴ * H * (a * b) = H
-  rw [Matrix.conjTranspose_mul]
-  calc bᴴ * aᴴ * H * (a * b) = bᴴ * (aᴴ * H * a) * b := by simp only [Matrix.mul_assoc]
-    _ = H := by rw [ha', hb']
 
 theorem conj_mul' {n : ℕ} {B : Matrix (Fin n) (Fin n) ℂ} (hB : IsUnit B) (x y : Matrix (Fin n) (Fin n) ℂ) :
     B * (x * y) * B⁻¹ = B * x * B⁻¹ * (B * y * B⁻¹) := by
@@ -1445,7 +1444,7 @@ theorem locOK_of_eigen : RealInputE → ∃ C : ℝ, 0 ≤ C ∧ Ev fun {D} _ _ 
       GlobalTheory.PackLoc.mco MP τ (B⁻¹ * g₀' * MP.fr τ) v₀ (g * GlobalTheory.PackLoc.embAt W.θ G.sp.dec0 τ (GlobalTheory.PackLoc.ptY M₀ τ u)) =
       ⟪v, MP.σ τ (B * g * B⁻¹ * GlobalTheory.PackLoc.embOpt e' (GlobalTheory.ConjDS.rv (Formalism.MainNotions.S.umat u))) v⟫_ℂ := by
     intro g hg u
-    rw [hmco _ (UH_mul' hg (hBmem _ (hpt u).1)), conj_mul' hBu, hBemb _ (hpt u).1, (hpt u).2.1, ← hv]
+    rw [hmco _ (GlobalTheory.PointAtPlaceHom.mul_mem_UH hg (hBmem _ (hpt u).1)), conj_mul' hBu, hBemb _ (hpt u).1, (hpt u).2.1, ← hv]
   have hm1 : ∀ X ∈ lieAt (Yc D 0) τ, ∀ (s : ℝ) u,
       GlobalTheory.PackLoc.mco MP τ (B⁻¹ * g₀' * MP.fr τ) v₀
         (GlobalTheory.PackLoc.embAt W.θ G.sp.dec0 τ (cmp W.θ τ (oneP W.θ (Yc D 0) τ X s) * GlobalTheory.PackLoc.ptY M₀ τ u)) =
@@ -1453,7 +1452,7 @@ theorem locOK_of_eigen : RealInputE → ∃ C : ℝ, 0 ≤ C ∧ Ev fun {D} _ _ 
         (NormedSpace.exp (s • ((GlobalTheory.ConjDS.conjModel M₀).fr τ * X * ((GlobalTheory.ConjDS.conjModel M₀).fr τ)⁻¹)) *
           GlobalTheory.ConjDS.rv (Formalism.MainNotions.S.umat u))) v⟫_ℂ := by
     intro X hX s u
-    have hmem := UH_mul' ((hlieX X hX).2 s).1 (hpt u).1
+    have hmem := GlobalTheory.PointAtPlaceHom.mul_mem_UH ((hlieX X hX).2 s).1 (hpt u).1
     rw [hmco _ (hBmem _ hmem), hBemb _ hmem, conj_mul' hAu, ((hlieX X hX).2 s).2, (hpt u).2.1, ← hv]
   have hK : lam * (c₁ * GlobalTheory.SepReal.big C D.R.r (large₂.sc.b ^ 2)) ≤
       Real.exp (6 * C * ((D.R.r : ℝ) + 1) ^ 4 * Real.log large₂.sc.b) * ‖((lam * c₁ : ℝ) : ℂ)‖ := by

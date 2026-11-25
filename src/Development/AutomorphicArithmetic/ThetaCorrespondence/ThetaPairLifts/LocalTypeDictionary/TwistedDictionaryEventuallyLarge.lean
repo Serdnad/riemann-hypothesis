@@ -210,7 +210,6 @@ open Formalism.BasicNotions Formalism.BasicNotions.TH Formalism.MainNotions Form
 open IsDedekindDomain NumberField GlobalTheory.ChiGrid GlobalTheory.FunObj GlobalTheory.RowTest GlobalTheory.RowClaim
 open Formalism.L2.Host (HChar)
 open GlobalTheory.IndefiniteRowSideFullHecke.UnitCharTriangle (Tri)
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 open GlobalTheory.RowEx
 
 
@@ -270,7 +269,6 @@ open Formalism.BasicNotions Formalism.BasicNotions.TH Formalism.MainNotions Form
 open IsDedekindDomain NumberField GlobalTheory.ChiGrid GlobalTheory.FunObj GlobalTheory.RowTest GlobalTheory.RowClaim
 open Formalism.L2.Host (HChar)
 open GlobalTheory.IndefiniteRowSideFullHecke.UnitCharTriangle (Tri)
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 open GlobalTheory.RowEx
 
 
@@ -441,7 +439,6 @@ open Formalism.BasicNotions Formalism.BasicNotions.TH Formalism.MainNotions Form
 open IsDedekindDomain NumberField GlobalTheory.ChiGrid GlobalTheory.FunObj GlobalTheory.RowTest GlobalTheory.RowClaim
 open Formalism.L2.Host (HChar)
 open GlobalTheory.IndefiniteRowSideFullHecke.UnitCharTriangle (Tri)
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 open GlobalTheory.RowEx
 
 
@@ -546,7 +543,10 @@ open GlobalTheory.RowEx
 
 
 theorem _root_.GlobalTheory.T.relIndex_nsmul_idempotentHalf_at_splitPlace : ∀ {D : D7} (S T : HSp D) (ΛS : Submodule (𝓞 D.host.E) (Fin S.rank → D.host.E)) (ΛT : Submodule (𝓞 D.host.E) (Fin T.rank → D.host.E)), Submodule.IsFullLattice D.host.E ΛS → Submodule.IsFullLattice D.host.E ΛT → ∀ (c : AE D) (v : HeightOneSpectrum (𝓞 D.host.F)) (π : AE D →+* Fv D.host.F v), IsSplitIdem D c → GlobalTheory.SplitHecke.Chart c v π → ∀ k : ℕ, 0 < k → (AddSubgroup.map (nsmulAddMonoidHom k) ((latO S T (ΛS : Set (Fin S.rank → D.host.E)) (ΛT : Set (Fin T.rank → D.host.E)) fun _ => True) ⊓ GlobalTheory.PlaceModel.half S T c)).relIndex ((latO S T (ΛS : Set (Fin S.rank → D.host.E)) (ΛT : Set (Fin T.rank → D.host.E)) fun _ => True) ⊓ GlobalTheory.PlaceModel.half S T c) = Nat.card (v.adicCompletionIntegers D.host.F ⧸ Ideal.span {(k : v.adicCompletionIntegers D.host.F)}) ^ (S.rank * T.rank) := by
-  apply _root_.GlobalTheory.HalfIndex.relIndex_nsmul_half <;> assumption
+  intro D S T ΛS ΛT hS hT
+  letI := hS
+  letI := hT
+  exact GlobalTheory.HalfIndex.relIndex_nsmul_half S T ΛS ΛT inferInstance inferInstance
 end -- clump:auto
 end -- clump:auto
 -- ===== end clump member: Development.AbelianVarietyTheory.Proofs.TwistedOperators.RelIndexNsmulIdempotentHalfAtSplitPlaceStatement =====
@@ -668,7 +668,6 @@ open Formalism.BasicNotions Formalism.BasicNotions.TH Formalism.MainNotions Form
 open IsDedekindDomain NumberField GlobalTheory.ChiGrid GlobalTheory.FunObj GlobalTheory.RowTest GlobalTheory.RowClaim
 open Formalism.L2.Host (HChar)
 open GlobalTheory.IndefiniteRowSideFullHecke.UnitCharTriangle (Tri)
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 open GlobalTheory.RowEx
 
 
@@ -790,7 +789,6 @@ open Formalism.BasicNotions Formalism.BasicNotions.TH Formalism.MainNotions Form
 open IsDedekindDomain NumberField GlobalTheory.ChiGrid GlobalTheory.FunObj GlobalTheory.RowTest GlobalTheory.RowClaim
 open Formalism.L2.Host (HChar)
 open GlobalTheory.IndefiniteRowSideFullHecke.UnitCharTriangle (Tri)
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 open GlobalTheory.RowEx
 
 
@@ -882,7 +880,6 @@ open Formalism.BasicNotions Formalism.BasicNotions.TH Formalism.MainNotions Form
 open IsDedekindDomain NumberField GlobalTheory.ChiGrid GlobalTheory.FunObj GlobalTheory.RowTest GlobalTheory.RowClaim
 open Formalism.L2.Host (HChar)
 open GlobalTheory.IndefiniteRowSideFullHecke.UnitCharTriangle (Tri)
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 open GlobalTheory.RowEx
 
 
@@ -1141,7 +1138,6 @@ open Formalism.BasicNotions Formalism.BasicNotions.TH Formalism.MainNotions Form
 open IsDedekindDomain NumberField GlobalTheory.ChiGrid GlobalTheory.FunObj GlobalTheory.RowTest GlobalTheory.RowClaim
 open Formalism.L2.Host (HChar)
 open GlobalTheory.IndefiniteRowSideFullHecke.UnitCharTriangle (Tri)
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 open GlobalTheory.RowEx
 
 
@@ -1469,8 +1465,6 @@ open Formalism.MainNotions.TaylorLogMetric Formalism.MainNotions.StandardLattice
 open scoped TensorProduct
 open GlobalTheory.MovedDict Formalism.L2.Ker GlobalTheory.SignedHC
 namespace GlobalTheory.MovedKappaArith
-end GlobalTheory.MovedKappaArith
-namespace GlobalTheory.MovedKappaArith
 theorem movedKappa_unique : _root_.GlobalTheory.FunPr.ThetaLocalInputs → (∀ D, GlobalTheory.NormSum.Inp D) → ∀ {D : D7} {Γ : Type} [Group Γ] [Fintype Γ] {Pl0 T : Type}
     {A : FamIn D.what₂.LL Γ Pl0 T D.R.m} {Ks : Type} [Field Ks] [NumberField Ks] [Algebra Ks D.what₂.LL] {R : RealDat D A Ks}
     (ch : Choice R), ch.Is → ∀ (p : Pair T), DefPair D.R.m p → ∀ (x : FinPt ch.G p.small) (y : FinPt ch.G p.big),
@@ -1702,10 +1696,6 @@ open IsDedekindDomain NumberField GlobalTheory.ChiGrid GlobalTheory.FunObj Globa
 open Formalism.L2.Host (HChar)
 open GlobalTheory.IndefiniteRowSideFullHecke.UnitCharTriangle (Tri)
 open GlobalTheory.RowEx
-namespace GlobalTheory.DictFree
-end GlobalTheory.DictFree
-namespace GlobalTheory.DictFree
-end GlobalTheory.DictFree
 namespace GlobalTheory.DictFree
 open Formalism.MainNotions.TaylorLogMetric Formalism.MainNotions.StandardLatticesGL3 MvPolynomial
 theorem twisted_dictionary_eventually_large : _root_.GlobalTheory.FunPr.ThetaLocalInputs → (∀ D, GlobalTheory.NormSum.Inp D) → Big fun ch => GlobalTheory.SumSize.DictAt ch := by

@@ -1,6 +1,5 @@
 module
 
-import Development.AutomorphicArithmetic.ThetaCorrespondence.ThetaPairLifts.LocalTypeDictionary.SmallStageBottomKernelEqTerm
 public import Development.AutomorphicArithmetic.LocalEmbeddings.StageGeoDefs
 public import Development.AbelianVarietyTheory.Statements.PlaceShiftStatements.NormSmall
 public import Development.AutomorphicArithmetic.CyclotomicBounds.RamifiedDiscriminants.FunKit
@@ -61,8 +60,36 @@ namespace GlobalTheory.StageGeo
 private theorem cond_notMem {D : D7} {large₂ : SizeData₂ D} (hR : Rec large₂) {T : Type} {Lc : LevCh D T} {μ₀ : T} (hL : Lc.Is μ₀)
     {sc : GlobalTheory.ChiGrid.Consts} (G : GridData Lc sc) (t : T) :
     ∀ w ∈ locPl G t, ((D.host.QS * D.host.q * D.host.d : ℕ) : 𝓞 D.host.E) ∉ w.asIdeal := by
-  intros
-  apply _root_.GlobalTheory.StdPairPlaces.natCast_two_q_d_notMem <;> assumption
+  classical
+  obtain ⟨⟨P, -, -⟩, -⟩ := hR.size
+  have lev : ∀ p ∈ D.host.levelPrimes, p.Prime → Nat.Coprime p (D.host.QS * D.host.q * D.host.d) := fun p hp hpp =>
+    UpperTheory.Ram.Fun.coprime_condN_of_splitK D.host hpp (P.level_split p hp)
+  intro w hw
+  rcases Finset.mem_union.1 hw with hw | hw
+  · obtain ⟨v, hv, rfl⟩ := Finset.mem_image.1 hw
+    obtain ⟨p, hpv, hcop⟩ : ∃ p : ℕ, ((p : ℕ) : 𝓞 D.host.F) ∈ v.asIdeal ∧ Nat.Coprime p (D.host.QS * D.host.q * D.host.d) := by
+      rcases G.pl.mem_S0_of_sum_eq.1 hv with rfl | hv1
+      · refine ⟨q0 D, G.pl.basePlace_over_qZero, ?_⟩
+        have hs := (leastSplitAuxiliaryPrimeThetaChain_spec D).2.1
+        have hM : Nat.Coprime (Formalism.MainNotions.rPrAv D * LevelStarExponents.condE D) (q0 D) := by
+          rw [Nat.Coprime, Nat.gcd_rec, hs, Nat.gcd_one_left]
+        have hdv : D.host.QS * D.host.q * D.host.d ∣ Formalism.MainNotions.rPrAv D * LevelStarExponents.condE D := by
+          unfold LevelStarExponents.condE
+          exact Dvd.dvd.mul_left dvd_rfl _
+        exact (hM.coprime_dvd_left hdv).symm
+      · rcases (S1_mem_OmF D).1 hv1 with h | h | h | h
+        · exact ⟨_, h, lev _ (D.host.g_level 0) (D.host.g_prime 0)⟩
+        · exact ⟨_, h, lev _ (D.host.g_level 1) (D.host.g_prime 1)⟩
+        · exact ⟨_, h, lev _ D.host.pde_level.1 D.host.pde_prime⟩
+        · exact ⟨_, h, lev _ D.host.pde_level.2 D.host.pde'_prime⟩
+    have hpw : ((p : ℕ) : 𝓞 D.host.E) ∈ (G.pl.w v).asIdeal := by
+      rw [← G.pl.under_w hv, HeightOneSpectrum.under_asIdeal, Ideal.under_def, Ideal.mem_comap, map_natCast] at hpv
+      exact hpv
+    exact UpperTheory.Ram.natCast_notMem_of_coprime (G.pl.w v).isPrime.ne_top hpw hcop.symm
+  · intro hmem
+    apply (hL.Q_off t w hw).1
+    rw [Nat.cast_mul]
+    exact Ideal.mul_mem_right _ _ hmem
 
 theorem aUnit_locPl : GBig fun {D} T _ _ G _ _ _ _ => ∀ (t : T) (v : HeightOneSpectrum (𝓞 D.host.F))
     (τ : D.host.E →ₐ[D.host.F] Fv D.host.F v), splitPrime τ ∈ GlobalTheory.FunObj.locPl G t → AUnit τ := by
@@ -112,7 +139,7 @@ open GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels (At evI realAd SIn
 open scoped GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels
 open GlobalTheory.RealDict GlobalTheory.RealDict.FockMap
 
-private theorem finPart_ne {F : Type} [Field F] [NumberField F] {n d : ℕ}
+theorem GlobalTheory.RealDict.finPart_ne {F : Type} [Field F] [NumberField F] {n d : ℕ}
     (φ : ∀ v : HeightOneSpectrum (𝓞 F), (Fin n × Fin d → Fv F v) → ℂ) (h0 : ∀ v, φ v ≠ 0)
     (hs : ∀ᶠ v in Filter.cofinite, φ v = Set.indicator {x | ∀ i, x i ∈ v.adicCompletionIntegers F} 1) :
     ∃ y, GlobalTheory.BigNZ.finPartFn φ y ≠ 0 := by
@@ -137,7 +164,7 @@ private theorem finPart_ne {F : Type} [Field F] [NumberField F] {n d : ℕ}
 
 
 
-private theorem fock_of {D : D7} {ψ : AddChar (AF D.host.F) ℂ} {ε : Bool} {M X : HSp D} {Xs : Spc D.host.F D.host.E M.rank}
+theorem GlobalTheory.RealDict.fock_of {D : D7} {ψ : AddChar (AF D.host.F) ℂ} {ε : Bool} {M X : HSp D} {Xs : Spc D.host.F D.host.E M.rank}
     {Ws : Spc D.host.F D.host.E X.rank} (Mo : Model D.sp.cm.sig Xs Ws)
     (hψ : IsStdChar D ψ (-1)) {θ : InfFam D} (hθ : IsInfFam θ) (A : Fr M) (B : Fr X)
     {τ : ∀ w : InfinitePlace D.host.F, EmbOver D.host.E w} (hCM : IsCMExt D.host.F D.host.E D.sp.cm.sig)
@@ -251,8 +278,8 @@ theorem UpperTheory.thetaLift_pure_tensor_of_isFinF :
   subst hψe
   have hψ : IsStdChar D Bs.ψ (-1) := GlobalTheory.StdCharFromIsStd.isStdChar_of_isStd D Bs.ψ hBs.std
   have hF : GlobalTheory.BigNZ.Fam M φ₀ := ⟨hφ, hφ'⟩
-  obtain ⟨Φ, h1, h2⟩ := fock_of M hψ hθ A B hBs.cm hBs.std hX hW hM (fun w => (hV.cartan w).1)
-    (fun w => (hWs.cartan w).1) hc g g0 (hF.sb hM) (finPart_ne φ₀ hφ0 (hF.std hM)) hv
+  obtain ⟨Φ, h1, h2⟩ := GlobalTheory.RealDict.fock_of M hψ hθ A B hBs.cm hBs.std hX hW hM (fun w => (hV.cartan w).1)
+    (fun w => (hWs.cartan w).1) hc g g0 (hF.sb hM) (GlobalTheory.RealDict.finPart_ne φ₀ hφ0 (hF.std hM)) hv
   refine ⟨Φ, h1, fun φ hs hs' P => ?_⟩
   have hF' : GlobalTheory.BigNZ.Fam M φ := ⟨hs, hs'⟩
   exact h2 _ (hF'.sb hM) P

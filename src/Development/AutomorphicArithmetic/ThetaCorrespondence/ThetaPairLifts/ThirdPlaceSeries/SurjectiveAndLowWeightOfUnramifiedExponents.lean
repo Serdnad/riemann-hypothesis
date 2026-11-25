@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.FoundationProofs.GlDetEqOneOfMemUnip
 public import Formalism.LocalToGlobal.IndefiniteReal.LinksChar
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.LiftWeightComplexPointEqTwist
 public import Development.AbelianVarietyTheory.Definitions.Divisors.NormNegCmConstantEqAtAllEmbeddings
@@ -125,7 +124,17 @@ variable {D : D7} {G : Type} [Group G] [Fintype G] {Pl0 T0 : Type} {A : FamIn D.
   {Ks : Type} [Field Ks] [NumberField Ks] [Algebra Ks D.what₂.LL] {R : RealDat D A Ks} {F : Face D A}
 
 theorem chi_eq_one (hG : R.IsGrp F) (i : Fin D.R.m) {g : G} (hg : g ∈ F.P0) : (R.FW i).chi g = 1 := by
-  first | exact _root_.GlobalTheory.TraceIncl.chi_eq_one_of_mem_base | exact @_root_.GlobalTheory.TraceIncl.chi_eq_one_of_mem_base | apply _root_.GlobalTheory.TraceIncl.chi_eq_one_of_mem_base <;> assumption
+  obtain ⟨u, hu, rfl⟩ := (OntoChain.mem_base_iff hG.levels g).1 hg
+  have h1 := (OntoChain.mem_pi_unip_iff R _).2 ⟨u, hu, rfl⟩
+  refine Units.ext (D.what₂.embLL.injective ?_)
+  rw [hG.chiW, Units.val_one, map_one, OntoChain.eG_mirIncl]
+  refine Finset.prod_eq_one fun v _ => ?_
+  have h2 := h1 v (Set.mem_univ v)
+  have h3 : Matrix.GeneralLinearGroup.det (mirToGL R u v) = 1 := by
+    refine Units.ext ?_
+    rw [Matrix.GeneralLinearGroup.val_det_apply, Matrix.det_of_isUpperTriangular h2.1]
+    exact Finset.prod_eq_one fun k _ => h2.2 k
+  rw [h3, map_one, Units.val_one]
 
 end Real
 
@@ -243,15 +252,11 @@ end -- clump:auto
 section -- clump:auto
 @[expose] public section
 
-set_option synthInstance.maxHeartbeats 200000
-
 section
 noncomputable section
 open NumberField IsDedekindDomain Module
 open Formalism.BasicNotions Formalism.MainNotions Formalism.L2.Pj Formalism.L2.DIV Formalism.L2.Indef Formalism.L2.Indef.Tree Formalism.IndefR Formalism.IndefR.Links Formalism.IndefR.Cx Formalism.IndefR.FWT
 open GlobalTheory.BigTop GlobalTheory.BigOn GlobalTheory.OntoChain GlobalTheory.RealIndexBound GlobalTheory.OnTies GlobalTheory.ShareOn Formalism.MainNotions.ArithmeticCylinders
-namespace GlobalTheory.BadOnRec
-end GlobalTheory.BadOnRec
 namespace GlobalTheory.BadOnRec
 attribute [local instance] runAlgBad
 section Point
@@ -425,9 +430,6 @@ end Point
 
 end GlobalTheory.ShareOn.Comparison₂
 
-namespace GlobalTheory.ShareOn
-
-end GlobalTheory.ShareOn
 end -- clump:auto
 end -- clump:auto
 end -- clump:auto
@@ -554,16 +556,6 @@ open GlobalTheory.IndefiniteRowSideFullHecke.FrameWeightGapBounds
 variable {D : D7} {L : SizeData₂ D} {hT : GatTies D} {Gi : Formalism.MainNotions.G.Inst D L} {Gl : Formalism.MainNotions.G.LatInst D} {Kc : Formalism.MainNotions.G.Consts}
   {Y : DivX D} {cX : ExtraC} {ex : Extra D L hT Gi Gl Kc Y cX} {Csz : ℝ}
 
-end GlobalTheory.ShareOn
-
-namespace GlobalTheory.ShareOn
-
-open NumberField IsDedekindDomain Formalism.BasicNotions Formalism.MainNotions Formalism.L2.DIV Formalism.IndefR Formalism.IndefR.Links GlobalTheory.BigTop GlobalTheory.BigOn GlobalTheory.CovTop
-open GlobalTheory.IndefiniteRowSideFullHecke.FrameWeightGapBounds
-
-variable {D : D7} {L : SizeData₂ D} {hT : GatTies D} {Gi : Formalism.MainNotions.G.Inst D L} {Gl : Formalism.MainNotions.G.LatInst D} {Kc : Formalism.MainNotions.G.Consts}
-  {Y : DivX D} {cX : ExtraC} {ex : Extra D L hT Gi Gl Kc Y cX} {Csz : ℝ}
-
 theorem halfUnip_bot (p : PtAt ex Csz) : HalfUnip p ⊥ := by
   refine ⟨0, fun g hg v => ?_⟩
   rw [Subgroup.mem_bot] at hg
@@ -615,13 +607,6 @@ theorem shareW_of_modelAt (p : PtAt ex Csz) (i : Fin D.R.m) (T : ℕ) (y : ℝ) 
 
 end GlobalTheory.ShareOn
 
-namespace GlobalTheory.ShareOn
-
-open NumberField IsDedekindDomain
-open Formalism.BasicNotions Formalism.MainNotions Formalism.L2.Pj Formalism.L2.DIV Formalism.L2.Indef Formalism.L2.Indef.Tree Formalism.IndefR Formalism.IndefR.Links Formalism.IndefR.Cx Formalism.IndefR.FWT
-open GlobalTheory.BigTop GlobalTheory.BigOn GlobalTheory.OntoChain GlobalTheory.RealIndexBound GlobalTheory.OnTies Formalism.MainNotions.ArithmeticCylinders
-
-end GlobalTheory.ShareOn
 end -- clump:auto
 end -- clump:auto
 end -- clump:auto
@@ -796,22 +781,6 @@ section -- clump:auto
 section
 noncomputable section
 open Module
-namespace GlobalTheory.ShareOn.Alg
-end GlobalTheory.ShareOn.Alg
-namespace GlobalTheory.ShareOn.Alg
-end GlobalTheory.ShareOn.Alg
-namespace GlobalTheory.ShareOn
-open NumberField IsDedekindDomain Formalism.BasicNotions Formalism.MainNotions Formalism.L2.DIV Formalism.IndefR Formalism.IndefR.Links GlobalTheory.BigTop GlobalTheory.BigOn GlobalTheory.CovTop
-open GlobalTheory.IndefiniteRowSideFullHecke.FrameWeightGapBounds
-variable {D : D7} {L : SizeData₂ D} {hT : GatTies D} {Gi : Formalism.MainNotions.G.Inst D L} {Gl : Formalism.MainNotions.G.LatInst D} {Kc : Formalism.MainNotions.G.Consts}
-  {Y : DivX D} {cX : ExtraC} {ex : Extra D L hT Gi Gl Kc Y cX} {Csz : ℝ}
-end GlobalTheory.ShareOn
-namespace GlobalTheory.ShareOn
-open NumberField IsDedekindDomain Formalism.BasicNotions Formalism.MainNotions Formalism.L2.DIV Formalism.IndefR Formalism.IndefR.Links GlobalTheory.BigTop GlobalTheory.BigOn GlobalTheory.CovTop
-open GlobalTheory.IndefiniteRowSideFullHecke.FrameWeightGapBounds
-variable {D : D7} {L : SizeData₂ D} {hT : GatTies D} {Gi : Formalism.MainNotions.G.Inst D L} {Gl : Formalism.MainNotions.G.LatInst D} {Kc : Formalism.MainNotions.G.Consts}
-  {Y : DivX D} {cX : ExtraC} {ex : Extra D L hT Gi Gl Kc Y cX} {Csz : ℝ}
-end GlobalTheory.ShareOn
 namespace GlobalTheory.ShareOn
 open NumberField IsDedekindDomain
 open Formalism.BasicNotions Formalism.MainNotions Formalism.L2.Pj Formalism.L2.DIV Formalism.L2.Indef Formalism.L2.Indef.Tree Formalism.IndefR Formalism.IndefR.Links Formalism.IndefR.Cx Formalism.IndefR.FWT

@@ -1,6 +1,5 @@
 module
 
-import Development.AutomorphicArithmetic.ThetaCorrespondence.ThetaPairLifts.ThirdPlaceSeries.TwOneOfStepsStatement
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.FockOfApply
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.CenUsedOfCenReal
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.GoodSetupCountEqZeroOffBadPlaces
@@ -1160,7 +1159,22 @@ open GlobalTheory.HeightCounting.Up (PrN)
 theorem GlobalTheory.PlaceRead.evaluates_of_lunif {D : D7} {G : Type} [Group G] [Fintype G] {Pl0 T0 : Type} {A : FamIn D.what₂.LL G Pl0 T0 D.R.m}
     {T : Formalism.L2.Pj.CoreJ D} [Algebra T.Q.c.F D.what₂.LL] {R : RealDat D A T.Q.c.F} {κ : ∀ i : Fin D.R.m, WeightFamilies.Wt D ((i : ℕ) + 1)}
     {v₀ : ∀ (i : Fin D.R.m) (σ : D.what₂.LL →+* ℂ), (R.MW i σ).Vec} (fw : FWTie T R κ v₀) (hu : R.LUnif) : fw.Evaluates := by
-  first | exact _root_.GlobalTheory.ConjExpandRational.evaluates_of_unif' | exact @_root_.GlobalTheory.ConjExpandRational.evaluates_of_unif' | apply _root_.GlobalTheory.ConjExpandRational.evaluates_of_unif' <;> assumption
+  intro i σ hσ hV
+  refine fw.ev i σ hσ hV ?_
+  by_contra hne
+  have h0 := fw.ev0 i σ hσ hV hne
+  have hx : ∀ x : Fin (R.nW i) → D.what₂.LL, x = 0 := fun x => by
+    by_contra hx
+    have h1 : LinearIndependent D.what₂.LL (fun _ : Fin 1 => x) := linearIndependent_unique_iff.2 hx
+    have h2 := ((hu i σ).1 1 _ h1).ne_zero 0
+    rw [h0] at h2
+    exact h2 rfl
+  refine hne ⟨0, fun f => ?_⟩
+  have hf : f = 0 := (fw.e i).injective (Subtype.ext ((hx _).trans (hx _).symm))
+  subst hf
+  refine Eq.trans ?_ (GlobalTheory.phiC_zero_rule T hV (wtA (κ i))).symm
+  rw [LinearMap.zero_apply, map_zero]
+  rfl
 end -- clump:auto
 end -- clump:auto
 -- ===== end clump member: Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ConjugateFunctionAtPlace =====
@@ -1557,7 +1571,6 @@ section
 noncomputable section
 open Formalism.BasicNotions Formalism.MainNotions Formalism.MainNotions.N Formalism.L2 Formalism.L2.Host Formalism.L2.NT Formalism.IndefR.NX NumberField IsDedekindDomain GlobalTheory.Mem GlobalTheory.Mem.Col2 GlobalTheory.Mem.Top
   GlobalTheory.Mem.Top.GroupRetwisting GlobalTheory.Mem.Top.Bl GlobalTheory.Mem.R3 GlobalTheory.Mem.R3.Rw GlobalTheory.HeightCounting GlobalTheory.HeightCounting.Up
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 
 theorem GlobalTheory.ChoiceRead.exists_stC_choice_alt : GlobalTheory.Published.DiscreteSeriesCover → GlobalTheory.Published.CasselmanWallach → GlobalTheory.Published.HarishChandraModules → _root_.GlobalTheory.HeightCounting.Up.PublishedInputsThirdLayerAlt → SerN → ∀ hL : _root_.UpperTheory.Zero.LLC.RecTExists, AllSt fun _ _ _ T w P x => ∀ (l : _root_.GlobalTheory.HeightCounting.Up.ThirdIntermediateLevel hL x) (ch : NChoice (Dof x)) (tp : TupTied (Dof x) (cfOf x) ch), tp.xi = w.I.xi → tp.psi = T.psi → ch.Q = QOf P → (∀ v, TwistedAt (Dof x) v → ch.k' v = T.k v) → ChoiceSide (Dof x) (cfOf x) l.mt.M l.b.Bs.exp ch tp → (∀ v, TwistedAt (Dof x) v → IntegralHeckeForms.TwOK (ch.twI v) (ch.k' v) (ch.Q v) ((ch.psi' v).comp ((Dof x).ntw.art (ch.twI v) (ch.Q v)))) → ∃ c : _root_.GlobalTheory.HeightCounting.HeightCountingCharacterData l.mt l.b T.k T.psi, c.ch.twI = ch.twI := by
   intro hCo hCW hHM hPr hSer hL

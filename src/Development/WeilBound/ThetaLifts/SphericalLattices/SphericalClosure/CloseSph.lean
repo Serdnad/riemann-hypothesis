@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ThetaFactorNonzero
 public import Development.WeilBound.ThetaLifts.Reductions.JoinDef
 public import Development.WeilBound.ThetaLifts.CartanFactorisation.CartanConj
 public import Development.WeilBound.ThetaLifts.CartanFactorisation.PolCountDef
@@ -946,8 +945,7 @@ theorem locB_of (H : Hyp) (J : Hyp2) (hC : ConeFacB) (hS : StdB) : LocB' := by
     · beta_reduce
       split_ifs
       exacts [(hΛ v _ ((a2 j).2.1 v)).2, vac_sb t₁.geo.hM' v]
-    · set_option synthInstance.maxHeartbeats 100000 in
-        rw [map_sum, Finset.smul_sum]
+    · rw [map_sum, Finset.smul_sum]
       exact Finset.sum_congr rfl fun i _ => by rw [h3 _ _ (a1 i).2.1 (ev_of_off (a1 i).2.2), pure_smul]
     · rw [cone_sum cadd _ fun j => admissible_pure_tensor_schwartz t.geo.hM' _ ⟨(a2 j).2.1, ev_of_off (a2 j).2.2⟩]
       refine Finset.sum_congr rfl fun j _ => ?_
@@ -1499,16 +1497,23 @@ open NumberField IsDedekindDomain GlobalTheory.WeilM GlobalTheory.AdelicU Global
 
 variable {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] {v : Pl F}
 
-theorem continuous_chrW' {χ : Chr F E} (hχ : Continuous χ) (τ : E →ₐ[F] Fv F v) :
-    Continuous fun x => (chrW χ τ x : ℂ) :=
-  (continuous_locChar hχ (splitPrime τ)).comp
-    (Continuous.units_map _ (SplitChart.continuous_complMap (splitPrime_under τ)))
-
 theorem exists_unit_chrW_ne {χ : Chr F E} (τ : E →ₐ[F] Fv F v) (h : ¬ UnrAt χ (splitPrime τ)) :
     ∃ x : (Fv F v)ˣ, (x : Fv F v) ∈ v.adicCompletionIntegers F ∧
       ((x⁻¹ : (Fv F v)ˣ) : Fv F v) ∈ v.adicCompletionIntegers F ∧ chrW χ τ x ≠ 1 := by
-  intros
-  apply _root_.GlobalTheory.StepFacNe.chrW_ram <;> assumption
+  obtain ⟨ψ, h1, -, h3, -⟩ := SplitChart.exists_equiv_complMap τ (splitPrime_under τ)
+  simp only [UnrAt, not_forall] at h
+  obtain ⟨y, hy, hne⟩ := h
+  have e : Units.map (complMap (splitPrime_under τ)).toMonoidHom (Units.map ψ.symm.toRingHom.toMonoidHom y) = y :=
+    Units.ext ((h1 _).symm.trans (ψ.apply_symm_apply _))
+  have hv : Valued.v ((Units.map ψ.symm.toRingHom.toMonoidHom y : (Fv F v)ˣ) : Fv F v) = 1 := by
+    rw [← h3]
+    exact (congrArg Valued.v (ψ.apply_symm_apply (y : _))).trans hy
+  refine ⟨Units.map ψ.symm.toRingHom.toMonoidHom y, ?_, ?_, fun h0 => hne ?_⟩
+  · rw [HeightOneSpectrum.mem_adicCompletionIntegers]
+    exact hv.le
+  · rw [HeightOneSpectrum.mem_adicCompletionIntegers, Units.val_inv_eq_inv_val, map_inv₀, hv, inv_one]
+  · rw [← e]
+    exact h0
 
 theorem eps_ne_zero {ψ : AddChar (AF F) ℂ} {ν : (Fv F v)ˣ →* ℂˣ} (h : gauss ψ ν ≠ 0) (z : ℤ) : eps ψ ν z ≠ 0 :=
   mul_ne_zero (mul_ne_zero (zpow_ne_zero _ (Nat.cast_ne_zero.2 (one_lt_absNorm v).ne_bot)) h)
@@ -1521,7 +1526,7 @@ theorem facNe : GlobalTheory.ThK.FacNe := by
   · have hv' : v.1 ∈ X.T := by simpa using hv
     have hc : Continuous X.ν := h.chars.heckeα.1.div' h.chars.heckeβ.1
     refine mul_ne_zero (Units.ne_zero _) (eps_ne_zero (GaussNe.gauss_ne_zero _ _ _ (h.base.psiP _ v.2)
-      (continuous_chrW' hc _) (exists_unit_chrW_ne _ (h.chars.ram _ ?_))) z)
+      (PositivityTheory.ThK.SplitAsm.continuous_chrW hc _) (exists_unit_chrW_ne _ (h.chars.ram _ ?_))) z)
     rwa [splitPrime_under]
   · refine (converges_charFam _ X.ν ?_).ne_zero
     rw [Complex.natCast_re]

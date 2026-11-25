@@ -1,7 +1,5 @@
 module
 
-import Development.AutomorphicArithmetic.ThetaCorrespondence.ThetaPairLifts.LocalTypeDictionary.StageUniqueOfArchimedeanTriple
-import Development.AutomorphicArithmetic.ThetaCorrespondence.ThetaPairLifts.LocalTypeDictionary.ThetaKernelMatchOnOppositeParabolic
 public import Development.AbelianVarietyTheory.Statements.PlaceShiftStatements.NormSmall
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.BlkGLMem
 public import Development.AutomorphicArithmetic.ThetaCorrespondence.ThetaPairLifts.LocalTypeDictionary.BernsteinUnitaryProductIrreducible
@@ -175,9 +173,6 @@ theorem gBig_mono {Q₁ Q₂ : GlobalTheory.SqTop.GP} (h₁ : GlobalTheory.SqTop
 
 end GlobalTheory.BotFinRef
 
-namespace GlobalTheory.BotFinRef
-
-end GlobalTheory.BotFinRef
 end -- clump:auto
 end -- clump:auto
 -- ===== end clump member: Development.AbelianVarietyTheory.Proofs.DivisorProofs.BottomTriangleFiniteFactorExists =====
@@ -243,8 +238,6 @@ open GlobalTheory.ChiGrid GlobalTheory.FunObj GlobalTheory.FunObj.SqNum GlobalTh
 open GlobalTheory.IndefiniteRowSideFullHecke.UnitCharTriangle (Tri)
 open scoped TensorProduct
 namespace GlobalTheory.BotFinRef
-end GlobalTheory.BotFinRef
-namespace GlobalTheory.BotFinRef
 theorem exists_matching_finiteData_bottomLevel : GlobalTheory.Published.HoweDualityReal → _root_.GlobalTheory.FunPr.ThetaLocalInputs → GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.ThetaIntegralsAgree → GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.LocalMatching → GBig fun {D} {T} {Lc} {sc} G _ _ _ _ => ∀ (W : G.Weil) (i j : Fin D.R.m) (A A' WW : HSp D) (X : Tri T A A' WW), IsBottomTri W i j X → ∀ (FA : GlobalTheory.ChainFr.Fr A) (FA' : GlobalTheory.ChainFr.Fr A') (FW : GlobalTheory.ChainFr.Fr WW) (t : T), IsFinF W.ψ W.θ true FA FW (X.f t) → IsFinF W.ψ W.θ false FA' FW (X.f' t) → ∃ (Pi : ModuleCat.{0} ℂ) (rf : GA D WW → Module.End ℂ Pi) (rl : D.what₂.Tau → Matrix (Fin WW.rank) (Fin WW.rank) ℂ → Module.End ℂ Pi) (p : (WO A WW → ℂ) →ₗ[ℂ] Pi) (p' : (WO A' WW → ℂ) →ₗ[ℂ] Pi), IsMatch W.ψ W.θ FA FA' FW (Lc.mu t (j + 1) * Lc.eta ^ (rankV D i j % 2)) (G.ch.chi (D.R.m - i) * Lc.eta ^ (rankV D i j % 2)) (X.ω t) (X.ω' t) Pi rf rl p p' ∧ ∀ (Pr Pf : ModuleCat.{0} ℂ) (q : PolF D WW.rank A.rank →ₗ[ℂ] Pr) (q' : PolF D WW.rank A'.rank →ₗ[ℂ] Pr) (r : (WO A WW → ℂ) →ₗ[ℂ] Pf) (r' : (WO A' WW → ℂ) →ₗ[ℂ] Pf) (e : Pr ⊗[ℂ] Pf ≃ₗ[ℂ] Pi), Function.Surjective q → Function.Surjective q' → (∀ f, IsFinF W.ψ W.θ true FA FW f → ∀ P, p (fockF W.ψ W.θ true FA FW f P) = e (q P ⊗ₜ r f)) → (∀ f, IsFinF W.ψ W.θ false FA' FW f → ∀ P, p' (fockF W.ψ W.θ false FA' FW f P) = e (q' P ⊗ₜ r' f)) → ∃ κ : ℂ, r (X.f t) = κ • r' (X.f' t) := by
   intro hH hP hK hL
   refine gBig_mono (_root_.GlobalTheory.T.fockF_image_eq_zero_or_exists_eq_smul hH hP hK hL) fun {D T Lc sc} G μ₀ C x b hA => ?_
@@ -285,8 +278,17 @@ theorem GlobalTheory.BotUniqT.bottomLevel_ker_left : GlobalTheory.Published.Howe
     GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.IsTriple Bs Γ Xc om om' →
     ∀ R Rf, GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.IsMatched Bs Γ Xc om om' R Rf →
     ∀ Pi rf rl p p', IsMatch ψ θ A A₁ B α β ωA ωB Pi rf rl p p' →
-    ∀ Φ ∈ algF ψ θ true A B, ∀ ΦD ∈ algD Γ.M Bs.ψ Bs.emb, IsDatum Γ.M ψ cA ΦD Φ → (p Φ = 0 ↔ GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.PolMatch Bs Γ Xc R Rf ΦD 0) :=
-  _root_.GlobalTheory.SquareAgree.theta_kernel_match_on_parabolic
+    ∀ Φ ∈ algF ψ θ true A B, ∀ ΦD ∈ algD Γ.M Bs.ψ Bs.emb, IsDatum Γ.M ψ cA ΦD Φ → (p Φ = 0 ↔ GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.PolMatch Bs Γ Xc R Rf ΦD 0) := by
+  intro hR hP D ψ θ W W₁ X A A₁ B α β ν 𝓕 ν₁ 𝓕₁ ωA ωB e Bs Γ Xc om om' cA cB hθ hT hO hT' R Rf hRf Pi rf rl p p' hm
+    Φ hΦ ΦD hΦD hD
+  obtain ⟨K₁, g₁, ne₁, max₁, h₁⟩ := _root_.GlobalTheory.SquareAgree.kernel_maximal_theta_subspace hP D ψ θ W W₁ X A A₁ B α β ν 𝓕 ν₁ 𝓕₁ ωA ωB e Bs Γ Xc om om' cA cB hθ hT hO hT'
+    Pi rf rl p p' hm
+  obtain ⟨K₂, g₂, ne₂, h₂⟩ := _root_.GlobalTheory.PolKer.polKernel_eq_thetaSubspace_of_match hP _ _ _ Bs _ _ Γ Xc om om' hT' R Rf hRf
+  have hle : K₁ ≤ K₂ := fun x hx =>
+    (h₂ x (g₁.1.1 hx)).2 (_root_.UpperTheory.Lit.HoweDuality.twisted_theta_kernel_condition hR hP _ _ _ Bs _ _ Γ Xc om om' hT' R Rf hRf K₁ g₁ ne₁ x hx)
+  rcases max₁ K₂ g₂ hle with h | h
+  · rw [← h₁ Φ hΦ ΦD hΦD hD, ← h, h₂ ΦD hΦD]
+  · exact absurd h ne₂
 end
 noncomputable section
 open Formalism.BasicNotions Formalism.BasicNotions.TH Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes Formalism.MainNotions.StandardLattice Formalism.MainNotions.S MeasureTheory IsDedekindDomain NumberField Matrix
@@ -307,8 +309,26 @@ theorem _root_.GlobalTheory.BotUniqT.bottomLevel_ker_right : GlobalTheory.Publis
     GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.IsTriple Bs Γ Xc om om' →
     ∀ R Rf, GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.IsMatched Bs Γ Xc om om' R Rf →
     ∀ Pi rf rl p p', IsMatch ψ θ A A₁ B α β ωA ωB Pi rf rl p p' →
-    ∀ Φ₀ ∈ algF ψ θ false A₁ B, ∀ Φ₀D ∈ algD Γ.M' Bs.ψ Bs.emb, IsDatum Γ.M' ψ cB Φ₀D Φ₀ → (p' Φ₀ = 0 ↔ GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.PolMatch Bs Γ Xc R Rf 0 Φ₀D) :=
-  _root_.GlobalTheory.SquareAgree.theta_kernel_match_on_opposite_parabolic
+    ∀ Φ₀ ∈ algF ψ θ false A₁ B, ∀ Φ₀D ∈ algD Γ.M' Bs.ψ Bs.emb, IsDatum Γ.M' ψ cB Φ₀D Φ₀ → (p' Φ₀ = 0 ↔ GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.PolMatch Bs Γ Xc R Rf 0 Φ₀D) := by
+  intro hR hP D ψ θ W W₁ X A A₁ B α β ν 𝓕 ν₁ 𝓕₁ ωA ωB e Bs Γ Xc om om' cA cB hθ hT hO hT' R Rf hM Pi rf rl p p' hm
+    Φ₀ hΦ₀ Φ₀D hΦ₀D hD
+  obtain ⟨K, hK, hKs, hKne⟩ := _root_.GlobalTheory.SquareAgree.exists_ker_projDerivation_thetaSubspace hP D ψ θ W W₁ X A A₁ B α β ν 𝓕 ν₁ 𝓕₁ ωA ωB e Bs Γ Xc om om' cA cB hθ hT hO hT'
+    Pi rf rl p p' hm
+  obtain ⟨KD, hKD, hKDs, hKDne⟩ := _root_.GlobalTheory.KerDSub.ker_derivation_isThetaSubgroup hP Bs Γ Xc om om' R Rf hM
+  have h1 : K ≤ KD := fun Φ hΦ => (hKD Φ).2 ⟨hKs.le hΦ, _root_.UpperTheory.Lit.HoweDuality.twisted_theta_jet_condition hR hP Bs Γ Xc om om' R Rf hM K hKs hKne Φ hΦ⟩
+  have h2 : KD = K := (_root_.GlobalTheory.SquareAgree.KerPMax.ker_projection_maximal_thetaSubspace hP D ψ θ W W₁ X A A₁ B α β ν 𝓕 ν₁ 𝓕₁ ωA ωB e Bs Γ Xc om om' cA cB hθ hT hO hT'
+    Pi rf rl p p' hm K KD hK hKDs h1).resolve_right hKDne
+  constructor
+  · intro h0
+    have hm : Φ₀D ∈ K := (hK Φ₀D).2 ⟨hΦ₀D, Φ₀, hΦ₀, hD, h0⟩
+    rw [← h2] at hm
+    exact ((hKD _).1 hm).2
+  · intro hpm
+    have hm : Φ₀D ∈ KD := (hKD _).2 ⟨hΦ₀D, hpm⟩
+    rw [h2] at hm
+    obtain ⟨_, Φ₁, _, hD₁, h0⟩ := (hK _).1 hm
+    rw [IsDatum.fun_eq Γ.M' ψ cB cB.surjective hD hD₁]
+    exact h0
 end GlobalTheory.SquareAgree
 end
 section
@@ -321,8 +341,30 @@ namespace GlobalTheory.BotUniqT
 private theorem exists_equiv_of_same_kernel {V P₀ P : Type} [AddCommGroup V] [Module ℂ V] [AddCommGroup P₀] [Module ℂ P₀]
     [AddCommGroup P] [Module ℂ P] (S : Submodule ℂ V) (p₀ : V →ₗ[ℂ] P₀) (p : V →ₗ[ℂ] P)
     (h₀ : S.map p₀ = ⊤) (h : S.map p = ⊤) (hk : ∀ x ∈ S, p₀ x = 0 ↔ p x = 0) :
-    ∃ E : P₀ ≃ₗ[ℂ] P, ∀ x ∈ S, p x = E (p₀ x) :=
-  _root_.GlobalTheory.BotUniq.exists_equiv_of_ker S p₀ p h₀ h hk
+    ∃ E : P₀ ≃ₗ[ℂ] P, ∀ x ∈ S, p x = E (p₀ x) := by
+  have s₀ : Function.Surjective (p₀.domRestrict S) := by
+    intro y
+    have hy : y ∈ S.map p₀ := h₀ ▸ Submodule.mem_top
+    obtain ⟨x, hx, rfl⟩ := hy
+    exact ⟨⟨x, hx⟩, rfl⟩
+  have s : Function.Surjective (p.domRestrict S) := by
+    intro y
+    have hy : y ∈ S.map p := h ▸ Submodule.mem_top
+    obtain ⟨x, hx, rfl⟩ := hy
+    exact ⟨⟨x, hx⟩, rfl⟩
+  have hker : LinearMap.ker (p₀.domRestrict S) = LinearMap.ker (p.domRestrict S) := by
+    ext x
+    simp only [LinearMap.mem_ker, LinearMap.domRestrict_apply]
+    exact hk x.1 x.2
+  let E : P₀ ≃ₗ[ℂ] P := ((p₀.domRestrict S).quotKerEquivOfSurjective s₀).symm.trans
+    ((Submodule.quotEquivOfEq _ _ hker).trans ((p.domRestrict S).quotKerEquivOfSurjective s))
+  refine ⟨E, fun x hx => ?_⟩
+  have e1 : ((p₀.domRestrict S).quotKerEquivOfSurjective s₀).symm (p₀ x) = Submodule.Quotient.mk ⟨x, hx⟩ := by
+    rw [LinearEquiv.symm_apply_eq]; rfl
+  show p x = ((p.domRestrict S).quotKerEquivOfSurjective s) ((Submodule.quotEquivOfEq _ _ hker)
+    (((p₀.domRestrict S).quotKerEquivOfSurjective s₀).symm (p₀ x)))
+  rw [e1]
+  rfl
 private theorem intertwine_of_compatible_maps {V P₀ P : Type} [AddCommGroup V] [Module ℂ V] [AddCommGroup P₀] [Module ℂ P₀]
     [AddCommGroup P] [Module ℂ P] (S : Submodule ℂ V) (p₀ : V →ₗ[ℂ] P₀) (p : V →ₗ[ℂ] P) (E : P₀ ≃ₗ[ℂ] P)
     (hE : ∀ x ∈ S, p x = E (p₀ x)) (h₀ : S.map p₀ = ⊤) (a : Module.End ℂ P₀) (b : Module.End ℂ P)

@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.FlagMeasures.CmFieldSplitPlaceEqOfPlaceEq
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.RingSpecNormalisedCharacterEq
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.GoodSetupCountEqZeroOffBadPlaces
 public import Formalism.SharpRestriction.CuspSpanNormBounds.BesselShellMomentBounds
@@ -418,7 +417,7 @@ theorem _root_.GlobalTheory.T.complex_typePlaceCharacter_eq_superdiag_addChar_mu
   obtain ⟨h1, h2, h3, y, hy, hry⟩ := GlobalTheory.XUniRead.loc_read s (n := D.R.nV) (Nat.le_add_right D.R.r D.R.t : D.R.r ≤ D.R.nV)
     (D.host.g_prime kv0.1) red x hx
   unfold NX.gVal
-  erw [dite_eq_left h2]
+  rw [dite_eq_left h2]
   rw [map_mul, hτ, he, hξ _ h2 uu (huu.trans h3.symm)]
   congr 1
   generalize hM : NX.redMat s.v red (NX.topR (Nat.le_add_right D.R.r D.R.t : D.R.r ≤ D.R.nV) x.val) = M
@@ -506,7 +505,29 @@ theorem addChar_extend_subring {K : Type} [Ring K] (S : Subring K) (ψ : AddChar
 theorem red_eq_zero_of_lt_one {K : Type} [Field K] [NumberField K] (v : HeightOneSpectrum (𝓞 K)) (p : ℕ) [Fact p.Prime]
     (red : v.adicCompletionIntegers K →+* ZMod p) (y : v.adicCompletionIntegers K)
     (hy : Valued.v (y : v.adicCompletion K) < 1) : red y = 0 := by
-  apply _root_.GlobalTheory.TypeCharRead.red_eq_zero_of_val_lt_one <;> assumption
+  by_contra h
+  set n : ℕ := (-(red y)⁻¹ : ZMod p).val with hn
+  have hnc : ((n : ℕ) : ZMod p) = -(red y)⁻¹ := ZMod.natCast_zmod_val _
+  set z : v.adicCompletionIntegers K := 1 + y * (n : v.adicCompletionIntegers K) with hz
+  have hred : red z = 0 := by
+    rw [hz, map_add (f := _), map_one, map_mul, map_natCast, hnc, mul_neg, mul_inv_cancel₀ h, add_neg_cancel]
+  have hlt : Valued.v ((y * (n : v.adicCompletionIntegers K) : v.adicCompletionIntegers K) : v.adicCompletion K) < 1 := by
+    have hn1 : Valued.v (((n : v.adicCompletionIntegers K)) : v.adicCompletion K) ≤ 1 :=
+      (HeightOneSpectrum.mem_adicCompletionIntegers _ _ _).1 (n : v.adicCompletionIntegers K).2
+    rw [Subring.coe_mul, map_mul]
+    calc Valued.v (y : v.adicCompletion K) * Valued.v (((n : v.adicCompletionIntegers K)) : v.adicCompletion K)
+        ≤ Valued.v (y : v.adicCompletion K) * 1 := by gcongr
+      _ = Valued.v (y : v.adicCompletion K) := mul_one _
+      _ < 1 := hy
+  have hz1 : Valued.v ((z : v.adicCompletionIntegers K) : v.adicCompletion K) = 1 := by
+    rw [hz, Subring.coe_add, Subring.coe_one]
+    rw [Valuation.map_add_eq_of_lt_left]
+    · exact map_one _
+    · rw [map_one]; exact hlt
+  have hu : IsUnit z := (HeightOneSpectrum.adicCompletionIntegers.isUnit_iff_valued_eq_one).2 hz1
+  have hu' : IsUnit (red z) := hu.map red
+  rw [hred] at hu'
+  exact not_isUnit_zero hu'
 
 theorem exists_addChar_completion_lift_residue : ∀ (K : Type) [Field K] [NumberField K] (v : HeightOneSpectrum (𝓞 K)) (p : ℕ) [Fact p.Prime]
     (red : v.adicCompletionIntegers K →+* ZMod p) (ψ' : AddChar (ZMod p) ℂ), ψ' ≠ 1 →
@@ -948,7 +969,30 @@ namespace GlobalTheory.SplitByCompl
 
 theorem eq_of_w_eq : ∀ (L : Type) [Field L] [NumberField L] [IsCMField L] (s s' : SplitPlace L),
     s.w = s'.w → s = s' := by
-  apply _root_.GlobalTheory.SplitUniq.splitPlace_eq_of_w_eq <;> assumption
+  intro L _ _ _ s s' h
+  have hv : s.v = s'.v := HeightOneSpectrum.ext (by rw [← s'.w_under, ← s.w_under, h])
+  obtain ⟨v, si⟩ := s
+  obtain ⟨v', si'⟩ := s'
+  dsimp only at hv
+  subst hv
+  obtain ⟨i, hi, -, hix⟩ := GlobalTheory.SplitCompl.exists_ringEquiv L ⟨v, si⟩
+  obtain ⟨i', hi', -, hix'⟩ := GlobalTheory.SplitCompl.exists_ringEquiv L ⟨v, si'⟩
+  dsimp only at hix hix'
+  generalize hw : SplitPlace.w ⟨v, si⟩ = w at i hix hi
+  generalize hw' : SplitPlace.w ⟨v, si'⟩ = w' at i' hix' hi'
+  have hww : w = w' := hw.symm.trans (h.trans hw')
+  subst hww
+  have e : (i' : v.adicCompletion (maximalRealSubfield L) →+* w.adicCompletion L) = i :=
+    DFunLike.coe_injective ((HeightOneSpectrum.denseRange_algebraMap (maximalRealSubfield L) v).equalizer
+      hi' hi (funext fun y => by
+        have h1 := hix (algebraMap _ L y)
+        have h2 := hix' (algebraMap _ L y)
+        rw [AlgHom.commutes] at h1 h2
+        exact h2.trans h1.symm))
+  have e' : ∀ x, i' x = i x := fun x =>
+    congrArg (fun f : v.adicCompletion (maximalRealSubfield L) →+* w.adicCompletion L => f x) e
+  have hs : si = si' := AlgHom.ext fun x => i.injective (by rw [hix, ← e', hix'])
+  rw [hs]
 
 end GlobalTheory.SplitByCompl
 end -- clump:auto
