@@ -1,5 +1,6 @@
 module
 
+import all Development.AutomorphicArithmetic.Foundations.Convolution.SplitEigenfunctions.ProdBd
 public import Development.AutomorphicArithmetic.Foundations.Convolution.SplitEigenfunctions.ConjInv
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.DenseRangeUnits
 public import Development.WeilBound.CoreStatements.PublishedTheorems.SmoothVectorEstimates.SameSatTwist
@@ -1077,19 +1078,7 @@ private theorem scal_eq {K : Type} [Field K] [NumberField K] (u : (A K)ˣ) :
 private theorem norm_central (s : {r : ℝ // 0 < r}) :
     ∃ z : (A E)ˣ, GroundTheory.Automorphic.Reduction.centralSection E 2 s = Matrix.GeneralLinearGroup.scalar (Fin 2) z ∧
       Matrix.GeneralLinearGroup.scalar (Fin 2) (ideleNorm ℚ E z) = GroundTheory.Automorphic.Reduction.centralSection ℚ 2 s := by
-  have hd : Module.finrank ℚ E ≠ 0 := Module.finrank_pos.ne'
-  obtain ⟨s₀, hs₀⟩ : ∃ s₀ : {r : ℝ // 0 < r}, s₀ ^ Module.finrank ℚ E = s := by
-    refine ⟨⟨s.1 ^ ((Module.finrank ℚ E : ℝ))⁻¹, Real.rpow_pos_of_pos s.2 _⟩, Subtype.ext ?_⟩
-    rw [Positive.val_pow]
-    exact Real.rpow_inv_natCast_pow s.2.le hd
-  obtain ⟨y, hy⟩ : ∃ y : (A ℚ)ˣ, GroundTheory.Automorphic.Reduction.centralSection ℚ 2 s₀ = Matrix.GeneralLinearGroup.scalar (Fin 2) y :=
-    ⟨_, (rfl : _ = GroundTheory.Automorphic.Reduction.scalarUnits ℚ 2 _).trans (scal_eq _)⟩
-  refine ⟨ideleEmbedding ℚ E y, ?_, ?_⟩
-  · rw [← hs₀, ← UpperTheory.centralSection_baseChange ℚ E 2 s₀, hy]
-    refine Units.ext ?_
-    ext i j
-    fin_cases i <;> fin_cases j <;> simp [Matrix.GeneralLinearGroup.scalar]
-  · rw [ideleNorm_ideleEmbedding, map_pow, ← hy, ← map_pow, hs₀]
+  apply _root_.norm_central <;> assumption
 
 end SlopeTestRemainingChoices
 

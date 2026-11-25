@@ -1,5 +1,6 @@
 module
 
+import all Development.AutomorphicArithmetic.Foundations.Convolution.SphericalHeckeOperators.VandSum
 public import GroundTheory.AutomorphicForms.SphericalLaurent
 public import Mathlib.Data.Fintype.Perm
 public import Mathlib.LinearAlgebra.FiniteDimensional.Defs
@@ -49,12 +50,7 @@ private lemma eig_mc_ne {n : ℕ} (a : Fin n → ℤ) (w : Fin n → ℂˣ) : mo
 
 private lemma eig_mc_single {n : ℕ} (i : Fin n) (w : Fin n → ℂˣ) :
     monomialChar (Pi.single i 1) w = w i := by
-  change ∏ j, (((w j) ^ ((Pi.single i (1 : ℤ) : Fin n → ℤ) j) : ℂˣ) : ℂ) = w i
-  rw [Finset.prod_eq_single i]
-  · simp
-  · intro j _ hj
-    simp [Pi.single_eq_of_ne hj]
-  · simp
+  apply _root_.vs_single <;> assumption
 
 private lemma eigChar_inj {n : ℕ} : Function.Injective (eigChar (n := n)) := by
   intro w w' h

@@ -1,5 +1,7 @@
 module
 
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.HodgeInnerProductMapIff
+import all Development.AutomorphicArithmetic.CommutativeAlgebra.TowerCoveringOfInvariantFiniteEtaleSeparated
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.IntegralStructures.GeometricFlagBases.FinModel
 public import Mathlib.NumberTheory.NumberField.Basic
 public import Mathlib.RingTheory.DedekindDomain.Ideal.Lemmas
@@ -811,15 +813,8 @@ variable {S S' : Scheme.{0}} {G' : Over S'} [GrpObj G'] {G : Over S} [GrpObj G] 
 
 private theorem one_left_cart (hp : IsGrpPullback G' G f φ) (T : Over S') :
     (1 : T ⟶ G').left ≫ φ = (1 : Over.mk (T.hom ≫ f) ⟶ G).left := by
-  let x₀ : Over.mk (T.hom ≫ f) ⟶ G := Over.homMk ((1 : T ⟶ G').left ≫ φ) (by
-    have e := Over.w (1 : T ⟶ G')
-    simp only [Over.mk_hom, Category.assoc, hp.1.w]
-    rw [← Category.assoc, e])
-  have h := hp.2 T 1 1 x₀ x₀ rfl rfl
-  rw [_root_.mul_one] at h
-  have h2 : x₀ * x₀ = x₀ := Over.OverMorphism.ext h
-  have h3 : x₀ = 1 := by simpa using h2
-  exact congrArg (fun g => g.left) h3
+  intros
+  apply _root_.GlobalTheory.CompanionTheory.Ar.TripleHodge.one_left_comp <;> assumption
 
 private theorem kill_iff (hp : IsGrpPullback G' G f φ) {T : Over S'} (x : T ⟶ G') :
     x = 1 ↔ x.left ≫ φ = (1 : Over.mk (T.hom ≫ f) ⟶ G).left := by
@@ -1582,29 +1577,7 @@ open UpperTheory.Gal.Int.Geo
 
 private theorem kn_conj {p : ℕ} [Fact p.Prime] {D : Datum p} {G : HTGroup p} (L : Link D G) {N : ℕ} {k u : G.GAf}
     (hk : k ∈ L.KN 1) (hu : u ∈ L.KN N) : k * u * k⁻¹ ∈ L.KN N := by
-  have key : ∀ g : G.GAf, L.CongOne 1 g → L.CongOne 1 g⁻¹ → ∀ x : G.GAf, L.CongOne N x →
-      L.CongOne N (g * x * g⁻¹) := by
-    intro g hg hg' x hx
-    unfold Link.CongOne at hg hg' hx ⊢
-    intro v hv
-    obtain ⟨w₁, hw₁, h₁⟩ := hg' v hv
-    have hv₁ : L.actG g⁻¹ v ∈ LaHat D := by
-      rw [h₁, one_smul]
-      exact add_mem hv hw₁
-    obtain ⟨w₂, hw₂, h₂⟩ := hx _ hv₁
-    obtain ⟨w₃, hw₃, h₃⟩ := hg w₂ hw₂
-    refine ⟨w₂ + w₃, add_mem hw₂ hw₃, ?_⟩
-    have hgg : L.actG g (L.actG g⁻¹ v) = v := by
-      rw [← Module.End.mul_apply, ← map_mul, mul_inv_cancel, map_one, Module.End.one_apply]
-    rw [map_mul, map_mul, Module.End.mul_apply, Module.End.mul_apply, h₂, map_add (f := _), hgg, map_nsmul, h₃,
-      one_smul]
-  have hk' : L.CongOne 1 k ∧ L.CongOne 1 k⁻¹ := hk
-  have hu' : L.CongOne N u ∧ L.CongOne N u⁻¹ := hu
-  show L.CongOne N (k * u * k⁻¹) ∧ L.CongOne N (k * u * k⁻¹)⁻¹
-  refine ⟨key k hk'.1 hk'.2 u hu'.1, ?_⟩
-  have hinv : (k * u * k⁻¹)⁻¹ = k * u⁻¹ * k⁻¹ := by group
-  rw [hinv]
-  exact key k hk'.1 hk'.2 u⁻¹ hu'.2
+  apply _root_.UpperTheory.TraceConjugationCover.conj_mem <;> assumption
 
 private theorem gen_mono {E : Type} [Field E] [NumberField E] (w : HeightOneSpectrum (𝓞 E)) :
     Mono (gen (Ow w) E) := by

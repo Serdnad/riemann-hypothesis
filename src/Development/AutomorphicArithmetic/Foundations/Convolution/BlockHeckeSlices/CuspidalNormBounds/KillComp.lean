@@ -1,5 +1,7 @@
 module
 
+import all Development.AutomorphicArithmetic.Foundations.Convolution.BlockHeckeSlices.CuspidalNormBounds.CompHecke
+import all Development.AutomorphicArithmetic.Foundations.Convolution.PolynomialCoefficientBounds.ExistsFinMap
 public import Development.AutomorphicArithmetic.Foundations.Convolution.BlockHeckeSlices.SliceShift
 public import Development.AutomorphicArithmetic.Foundations.Convolution.PolynomialCoefficientBounds.AbsGrow
 public import Development.WeilBound.RepresentationTheoryGL.TwistedFactors.AffineCharacterGenerators.Generators
@@ -523,25 +525,7 @@ open GlobalTheory.CuspRep PositivityTheory.Rg.Fx UpperTheory.V.Cm
 private theorem sum_pi {m j : ℕ} (F : (Fin (m + 1) → ℕ) → ℂ) :
     ∑ A ∈ Finset.piAntidiag Finset.univ j, F A =
       ∑ a ∈ Finset.range (j + 1), ∑ A ∈ Finset.piAntidiag Finset.univ (j - a), F (Fin.cons a A) := by
-  rw [Finset.sum_sigma']
-  refine Finset.sum_bij' (fun A _ => ⟨A 0, Fin.tail A⟩) (fun p _ => Fin.cons p.1 p.2) ?_ ?_ ?_ ?_ ?_
-  · intro A hA
-    simp only [Finset.mem_piAntidiag, Finset.mem_univ, implies_true, and_true, Fin.sum_univ_succ, Finset.mem_sigma,
-      Finset.mem_range] at hA ⊢
-    refine ⟨by omega, ?_⟩
-    change ∑ i : Fin m, A i.succ = _
-    omega
-  · intro p hp
-    simp only [Finset.mem_piAntidiag, Finset.mem_univ, implies_true, and_true, Fin.sum_univ_succ, Finset.mem_sigma,
-      Finset.mem_range, Fin.cons_zero, Fin.cons_succ] at hp ⊢
-    have h2 : ∑ i, p.2 i = j - p.1 := hp.2
-    omega
-  · intro A _
-    exact Fin.cons_self_tail A
-  · intro p _
-    simp
-  · intro A _
-    simp
+  apply _root_.UpperTheory.ConvolutionTheory.BW.sum_pi <;> assumption
 
 private theorem esymm_sum : ∀ (m : ℕ) (M : Fin m → Multiset ℂ) (j : ℕ),
     (∑ l, M l).esymm j = ∑ a ∈ Finset.piAntidiag Finset.univ j, ∏ l, (M l).esymm (a l)

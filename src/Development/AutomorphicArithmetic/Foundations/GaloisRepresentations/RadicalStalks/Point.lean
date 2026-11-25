@@ -1437,11 +1437,7 @@ private theorem cancel_sp {k T : Type} [Field k] [CommRing T] (j : DualNumber k 
 
 private theorem frobN_nat {X Y : Scheme.{0}} (hX : (p : Γ(X, ⊤)) = 0) (hY : (p : Γ(Y, ⊤)) = 0) (g : Y ⟶ X) (f : ℕ) :
     frobN p Y hY f ≫ g = g ≫ frobN p X hX f := by
-  induction f with
-  | zero => simp [frobN]
-  | succ n ih =>
-    simp only [frobN, Category.assoc, ih]
-    rw [← Category.assoc, GlobalTheory.VB.frob_naturality p hX g hY, Category.assoc]
+  apply _root_.UpperTheory.Gal.Ord.frobN_nat <;> assumption
 
 private theorem frobN_sp (T : Type) [CommRing T] (hT : (p : T) = 0) (h : (p : Γ(Sp T, ⊤)) = 0) (f : ℕ) :
     ∃ φ : T →+* T, (∀ x, φ x = x ^ p ^ f) ∧ frobN p (Sp T) h f = spMap φ := by

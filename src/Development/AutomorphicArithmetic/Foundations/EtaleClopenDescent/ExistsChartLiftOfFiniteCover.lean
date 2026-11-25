@@ -1,5 +1,7 @@
 module
 
+import all Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.LocalMaximality.PPLift
+import all Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.LocalMaximality.YbValTensor
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.LocalMaximality.DualForm
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.LocalMaximality.LiftFactorization
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.LocalMaximality.ResidueOfTraceIsFiberSum
@@ -953,12 +955,7 @@ private noncomputable def om1 (B : Subalgebra ℂ L) : Submodule ℂ Ω[L⁄ℂ]
 
 private lemma omB_stab (B : Subalgebra ℂ L) (q : ℕ) {r : L} (hr : r ∈ B) {m : DR ℂ L}
     (hm : m ∈ omB ℂ L B q) : r • m ∈ omB ℂ L B q := by
-  have h : omB ℂ L B q ≤ (omB ℂ L B q).comap (Algebra.lsmul ℂ ℂ (DR ℂ L) r) := by
-    refine Submodule.span_le.2 ?_
-    rintro _ ⟨b, hb, v, hv, rfl⟩
-    refine Submodule.subset_span ⟨r * b, B.mul_mem hr hb, v, hv, ?_⟩
-    simp [mul_smul]
-  exact h hm
+  apply _root_.smul_omB' <;> assumption
 
 private lemma omB_mono {B B' : Subalgebra ℂ L} (h : B ≤ B') (q : ℕ) : omB ℂ L B q ≤ omB ℂ L B' q := by
   refine Submodule.span_mono ?_
@@ -1429,12 +1426,7 @@ open scoped TensorProduct
 private lemma UpperTheory.Gal.productCup_of_system.valuation_mul_bis (hV : ValBasic) {L : Type} [Field L] [Algebra ℂ L]
     (B : Subalgebra ℂ L) (e : B →ₐ[ℂ] ℂ) {v w : L} {a b : ℂ}
     (h : Val B e v a) (h' : Val B e w b) : Val B e (v * w) (a * b) := by
-  obtain ⟨-, ⟨ev, hev⟩, -⟩ := hV L B e
-  obtain ⟨h1, ha⟩ := (hev v a).1 h
-  obtain ⟨h2, hb⟩ := (hev w b).1 h'
-  refine (hev (v * w) (a * b)).2 ⟨Subalgebra.mul_mem _ h1 h2, ?_⟩
-  rw [← ha, ← hb, ← map_mul]
-  rfl
+  apply _root_.UpperTheory.Gal.productCup_of_system.yb_val_mul <;> assumption
 
 private lemma UpperTheory.Gal.productCup_of_system.valuation_unique (hV : ValBasic) {L : Type} [Field L] [Algebra ℂ L]
     (B : Subalgebra ℂ L) (e : B →ₐ[ℂ] ℂ) {v : L} {a b : ℂ}

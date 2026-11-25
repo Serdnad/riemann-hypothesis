@@ -1,5 +1,7 @@
 module
 
+import all Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.SphericalCoordinates.PBaseC
+import all Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.SphericalCoordinates.FixedPointsIntBaseHolds
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.IsogenyEtaleTranslation.EtCancel
 public import Development.AbelianVarietyTheory.Definitions.Divisors.NontrivialOfArtinQE
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.SphericalCoordinates.PEigSame
@@ -98,13 +100,7 @@ private theorem list_prod_ofFn_eq_of_eq_one_of_ne' {M : Type*} [Monoid M] :
 private theorem matEnd_diagonal_pr {S : Scheme.{0}} {O : Type} [Ring O] {A : Over S} [GrpObj A] (act : OActN O A) {m : ℕ}
     (d : Fin m → O) (i : Fin m) :
     GlobalTheory.KS.matEnd act (Matrix.diagonal d) ≫ GlobalTheory.KS.pr A i = GlobalTheory.KS.pr A i ≫ act.act (d i) := by
-  change (Pi.lift (fun i => (List.ofFn fun j => GlobalTheory.KS.pr A j ≫
-    act.act (if i = j then d i else 0)).prod)) ≫ GlobalTheory.KS.pr A i = _
-  rw [Pi.lift_comp_π]
-  rw [list_prod_ofFn_eq_of_eq_one_of_ne' _ i]
-  · simp
-  · intro j hj
-    simp [Ne.symm hj, KS.Model.act_zero, comp_one]
+  apply _root_.matEnd_diagonal_pr <;> assumption
 
 end UpperTheory.Gal.FixZ
 
@@ -1158,16 +1154,7 @@ namespace UpperTheory.Gal.FixZ
 variable {p : ℕ} [Fact p.Prime]
 
 private lemma conj_ne (D : Datum p) : (starRingEnd ℂ) D.ρc ≠ D.ρc := by
-  intro h
-  have him : D.ρc.im = 0 := Complex.conj_eq_iff_im.mp h
-  have hre : D.ρc = (D.ρc.re : ℂ) := by
-    apply Complex.ext <;> simp [him]
-  have hroot := D.ρc_root
-  rw [hre] at hroot
-  have hr : D.ρc.re ^ 2 - (D.tr : ℝ) * D.ρc.re + (D.nm : ℝ) = 0 := by
-    exact_mod_cast hroot
-  have hd : ((D.tr : ℝ)) ^ 2 - 4 * (D.nm : ℝ) < 0 := by exact_mod_cast D.disc_neg
-  nlinarith [sq_nonneg (2 * D.ρc.re - (D.tr : ℝ))]
+  apply _root_.UpperTheory.Gal.W2.rho_ne_conj <;> assumption
 
 private lemma tr_eq_re (D : Datum p) : (D.tr : ℂ) = D.ρc + (starRingEnd ℂ) D.ρc := by
   have hne : D.ρc - (starRingEnd ℂ) D.ρc ≠ 0 := sub_ne_zero.mpr (Ne.symm (conj_ne D))

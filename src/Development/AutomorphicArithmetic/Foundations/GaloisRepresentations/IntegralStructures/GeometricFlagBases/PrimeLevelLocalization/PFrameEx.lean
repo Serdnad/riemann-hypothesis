@@ -1,5 +1,7 @@
 module
 
+import all Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.ProjectiveAutomorphicHecke.CyclotomicConjugation.QuadConj
+import Development.AbelianVarietyTheory.Proofs.SatakeParameters.MemHeckeSplitPlaceSetIffDoubleCoset
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.SphericalCoordinates.AlgebraEquivSetup.ApartOfNotMem
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsAdeleEquivOfLocal
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.MatrixExtPLoc
@@ -695,19 +697,7 @@ private theorem below_conjSrc {E : Type} [Field E] [NumberField E] [IsCMField E]
 
 private theorem conj_finiteAdeleMap {E : Type} [Field E] [NumberField E] [IsCMField E] (a : AfQ) :
     conjFin (conjE E) (finiteAdeleMap ℚ E a) = finiteAdeleMap ℚ E a := by
-  refine GlobalTheory.EulerTw.pLoc_ext E fun w => ?_
-  rw [pLoc_conjFin]
-  have hb := below_conjSrc w
-  have key : ∀ (u : Plc E) (_ : below ℚ u = below ℚ w) (f : u.adicCompletion E →+* w.adicCompletion E),
-      Continuous f → f (pLoc E u (finiteAdeleMap ℚ E a)) = pLoc E w (finiteAdeleMap ℚ E a) := by
-    intro u hu f hf
-    haveI : w.asIdeal.LiesOver (below ℚ u).asIdeal := (GroundTheory.Global.AdeleBaseChange.below_eq_iff w _).1 hu.symm
-    change f (completionMap (below ℚ u) u (a (below ℚ u))) = completionMap (below ℚ w) w (a (below ℚ w))
-    rw [← GroundTheory.Global.AdeleBaseChange.completionMap_congr hu w a]
-    exact ringHom_eq_of_continuous (below ℚ u) (f.comp (completionMap (below ℚ u) u)) (completionMap (below ℚ u) w)
-      (hf.comp (GroundTheory.Global.SemiLocal.continuous_completionMap _ _))
-      (GroundTheory.Global.SemiLocal.continuous_completionMap _ _) _
-  exact key _ hb _ (conjLoc_spec (conjE E) w).1
+  apply _root_.conjFin_rat <;> assumption
 
 end UpperTheory.Gal.W2.Seed
 
