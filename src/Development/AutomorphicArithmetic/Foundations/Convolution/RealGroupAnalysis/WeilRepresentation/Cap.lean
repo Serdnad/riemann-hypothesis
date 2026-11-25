@@ -1,7 +1,5 @@
 module
 
-import all Development.AutomorphicArithmetic.Foundations.Convolution.RealGroupAnalysis.UnramifiedSplitting.RightInv
-import all Development.AutomorphicArithmetic.Foundations.Convolution.RealGroupAnalysis.WeilRepresentation.LiftCentre
 public import Formalism.RealPlaceAnalysis.StatementE
 public import Development.AutomorphicArithmetic.Foundations.Convolution.RealGroupAnalysis.FockOperators.XApply
 public import Development.AutomorphicArithmetic.Foundations.Convolution.RealGroupAnalysis.ThetaLiftTrivialOrbitTermsVanish
@@ -259,7 +257,6 @@ theorem UpperTheory.ConvolutionTheory.R2.Fo.eopLift :
       simp only [Submodule.coe_add, Submodule.coe_sum, Submodule.coe_smul, Pi.add_apply, Finset.sum_apply, Pi.smul_apply,
         smul_eq_mul, hΛ _ (hE _) φ hφ, hΛ f hf _ h1]
     have h3 : Λ f (O.dL D Y φ) = ∑ σ : E →+* ℂ, ∑ k, ∑ l, coord σ (Y k l) • Λ f (O.dE D σ k l φ) := by
-      set_option synthInstance.maxHeartbeats 100000 in
         simp only [Ops.dL, LinearMap.sum_apply, LinearMap.smul_apply, map_sum, map_smul]
     rw [h2, h3, ← Finset.sum_add_distrib]
     refine Finset.sum_congr rfl fun σ _ => ?_
@@ -330,12 +327,38 @@ open UpperTheory.ConvolutionTheory.R2 UpperTheory.ConvolutionTheory.R2.Fo
 open scoped Classical
 
 private lemma countable_gam (K : Type) [Field K] [NumberField K] : Countable (Gam K) := by
-  apply _root_.countable_gam <;> assumption
+  haveI : Countable K := by
+    have : Module.Finite ℚ K := inferInstance
+    obtain ⟨n, f, hf⟩ := Module.Finite.exists_fin' ℚ K
+    exact hf.countable
+  haveI : Countable (Matrix (Fin 2) (Fin 2) K) := inferInstanceAs (Countable (Fin 2 → Fin 2 → K))
+  haveI : Countable (Matrix.SpecialLinearGroup (Fin 2) K) :=
+    Function.Injective.countable (f := fun g => (g.1 : Matrix (Fin 2) (Fin 2) K)) Subtype.val_injective
+  unfold Gam
+  exact (Set.countable_range (ratS K)).to_subtype
 
 private lemma setIntegral_mul_right (K : Type) [Field K] [NumberField K] (M : Meas K) (u : G1 K → ℂ)
     (hu : ∀ γ g, u (ratS K γ * g) = u g) (k : G1 K) :
     ∫ g in M.D, u (g * k) ∂M.μ = ∫ g in M.D, u g ∂M.μ := by
-  apply _root_.int_right <;> assumption
+  haveI := M.haar
+  haveI := M.right
+  haveI := countable_gam K
+  have hmp : MeasurePreserving (· * k) M.μ M.μ := measurePreserving_mul_right M.μ k
+  have hemb : MeasurableEmbedding (· * k : G1 K → G1 K) := (MeasurableEquiv.mulRight k).measurableEmbedding
+  have hfd : IsFundamentalDomain (Gam K) ((Equiv.mulRight k) '' M.D) M.μ := by
+    refine M.fund.image_of_equiv (Equiv.mulRight k) ?_ (Equiv.refl _) ?_
+    · exact (measurePreserving_mul_right M.μ k⁻¹).quasiMeasurePreserving
+    · intro g x
+      simp [Subgroup.smul_def, mul_assoc]
+  have hinv : ∀ (g : Gam K) x, u (g • x) = u x := by
+    rintro ⟨_, γ, rfl⟩ x
+    simpa [Subgroup.smul_def] using hu γ x
+  have hpre : (· * k : G1 K → G1 K) ⁻¹' ((Equiv.mulRight k) '' M.D) = M.D := by
+    ext x; simp
+  have h3 := hmp.setIntegral_preimage_emb hemb u ((Equiv.mulRight k) '' M.D)
+  rw [hpre] at h3
+  rw [h3]
+  exact hfd.setIntegral_eq M.fund hinv
 
 theorem UpperTheory.ConvolutionTheory.R2.Fo.moveG :
     ∀ (F E : Type) [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] [IsTotallyReal F] [_root_.NumberField.IsTotallyComplex E] (D : Dat F E) (W : Weil D) (M : Meas F) (f : GL (Fin 2) (A F) → ℂ), (∀ γ g, f (ratGL F 2 γ * g) = f g) → ∀ (φ : S4 F) (g₀ : G1 F),

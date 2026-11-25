@@ -1,6 +1,5 @@
 module
 
-import all Development.AutomorphicArithmetic.Foundations.Convolution.SphericalHeckeOperators.VandSum
 public import GroundTheory.AutomorphicForms.SphericalLaurent
 public import Mathlib.Data.Fintype.Perm
 public import Mathlib.LinearAlgebra.FiniteDimensional.Defs
@@ -50,7 +49,12 @@ private lemma eig_mc_ne {n : ℕ} (a : Fin n → ℤ) (w : Fin n → ℂˣ) : mo
 
 private lemma eig_mc_single {n : ℕ} (i : Fin n) (w : Fin n → ℂˣ) :
     monomialChar (Pi.single i 1) w = w i := by
-  apply _root_.vs_single <;> assumption
+  change ∏ j, (((w j) ^ ((Pi.single i (1 : ℤ) : Fin n → ℤ) j) : ℂˣ) : ℂ) = w i
+  rw [Finset.prod_eq_single i]
+  · simp
+  · intro j _ hj
+    simp [Pi.single_eq_of_ne hj]
+  · simp
 
 private lemma eigChar_inj {n : ℕ} : Function.Injective (eigChar (n := n)) := by
   intro w w' h
@@ -136,7 +140,7 @@ theorem UpperTheory.ConvolutionTheory.H.eigBasis :
   have hB : ∀ σ, B σ = v σ := fun σ => by
     simp [B, coe_basisOfLinearIndependentOfCardEqFinrank]
   have hΦinj : Function.Injective Φ := by
-    set_option backward.isDefEq.respectTransparency.instanceSearchTypes false in rw [injective_iff_map_eq_zero]
+    rw [injective_iff_map_eq_zero]
     intro x hx
     rw [← B.sum_repr x] at hx ⊢
 
@@ -220,7 +224,7 @@ theorem UpperTheory.ConvolutionTheory.H.psDim :
       map_add' := fun _ _ => rfl
       map_smul' := fun _ _ => rfl }
   have hL : Function.Injective L := by
-    set_option backward.isDefEq.respectTransparency.instanceSearchTypes false in rw [injective_iff_map_eq_zero]
+    rw [injective_iff_map_eq_zero]
     intro f hf
     refine Subtype.ext (funext fun g => ?_)
     obtain ⟨p, σ, y, hy, rfl⟩ := psDim_decomp g

@@ -1,6 +1,5 @@
 module
 
-import all Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.PAdicWittLattices.PSigmaFEt
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.FiniteEtaleModels.LSigFin
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsLevelEqKN
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FiniteEtaleSurjectiveProj
@@ -585,7 +584,14 @@ open UpperTheory.Gal.FiniteEtaleModels
 private theorem exists_sigma_point {W : Scheme.{0}} {I : Type} (K : Type) [Field K]
     (y : Spec (CommRingCat.of K) ⟶ ∐ fun _ : I => W) :
     ∃ (i : I) (y' : Spec (CommRingCat.of K) ⟶ W), y' ≫ Sigma.ι (fun _ : I => W) i = y := by
-  apply _root_.exists_sigma_point <;> assumption
+  obtain ⟨pt⟩ : Nonempty (Spec (CommRingCat.of K)) := inferInstance
+  obtain ⟨⟨i, w⟩, hw⟩ := (sigmaMk (fun _ : I => W)).surjective (y pt)
+  rw [sigmaMk_mk] at hw
+  refine ⟨i, IsOpenImmersion.lift (Sigma.ι (fun _ : I => W) i) y ?_,
+    IsOpenImmersion.lift_fac _ _ _⟩
+  rintro _ ⟨q, rfl⟩
+  rw [Subsingleton.elim q pt]
+  exact ⟨w, hw⟩
 
 private theorem card_sigma_fibre {Y Y' : Scheme.{0}} (s : Y' ⟶ Y) (I : Type) (K : Type) [Field K]
     (x : Spec (CommRingCat.of K) ⟶ Y) :

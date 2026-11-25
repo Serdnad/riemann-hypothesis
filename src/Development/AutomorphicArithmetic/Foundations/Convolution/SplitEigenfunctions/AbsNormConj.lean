@@ -1,6 +1,5 @@
 module
 
-import all Development.AutomorphicArithmetic.Foundations.Convolution.SplitEigenfunctions.ProdBd
 public import Development.AutomorphicArithmetic.Foundations.Convolution.SplitEigenfunctions.ConjInv
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.DenseRangeUnits
 public import Development.WeilBound.CoreStatements.PublishedTheorems.SmoothVectorEstimates.SameSatTwist
@@ -218,7 +217,7 @@ private theorem cD_mem {F : Type} [Field F] [NumberField F] (t : Fˣ) {x : G1 F}
 theorem UpperTheory.ConvolutionTheory.R2.M.dConj :
     ∀ (F : Type) [Field F] [NumberField F] (M₀ : Meas F) (u : G1 F → ℂ), (∀ γ g, u (ratS F γ * g) = u g) → ∀ t : Fˣ, (IntegrableOn (fun g => u (cD (IdeleGroup.diagonal F t) g)) M₀.D M₀.μ ↔ IntegrableOn u M₀.D M₀.μ) ∧ ∫ g in M₀.D, u (cD (IdeleGroup.diagonal F t) g) ∂M₀.μ = ∫ g in M₀.D, u g ∂M₀.μ := by
   intro F _ _ M₀ u hu t
-  haveI := M₀.haar
+  have := M₀.haar
   set T : (A F)ˣ := IdeleGroup.diagonal F t with hT
   have hTi : T⁻¹ = IdeleGroup.diagonal F t⁻¹ := by rw [hT, map_inv]
   let e : G1 F ≃ₜ G1 F :=
@@ -424,7 +423,7 @@ private theorem Bt_cont (M : Meas ℚ) {Φ : GL (Fin 2) (A E) → ℂ} (hc : Con
   refine continuous_of_dominated (bound := fun _ => C) (fun t => ?_) (fun t => ?_) ?_ ?_
   · exact (hcc.comp (continuous_const.prodMk continuous_id)).aestronglyMeasurable
   · exact ae_of_all _ fun g => hb _
-  · haveI : IsFiniteMeasure (M.μ.restrict M.D) := ⟨by simpa using hv⟩
+  · have : IsFiniteMeasure (M.μ.restrict M.D) := ⟨by simpa using hv⟩
     exact integrable_const _
   · exact ae_of_all _ fun g => hc.comp (continuous_em.comp (continuous_const.mul continuous_dM))
 
@@ -487,7 +486,7 @@ private theorem per_zero (D : Dat ℚ E) (M : Meas ℚ) (U : UMeas) {ω ε : HCh
     (hA : admitted D ω Φ) (hω : Unit1 ω) (hε : Unit1 ε) (hεN : ∀ z, ε.1 (ideleNorm ℚ E z) = 1)
     (hU : ∀ t, UPer D M (fun x => Φ (x * em E (dM t))) = 0) : Per M U (ω⁻¹ * ε) Φ = 0 := by
   obtain ⟨C, hC⟩ := hA.bdd
-  haveI := U.prob
+  have := U.prob
   have hBc := Bt_cont M hA.cont hC
   have hBb := Bt_bdd M hC
   have hdiag : ∀ (χ : HChar ℚ) (r : ℚˣ), χ.1 (IdeleGroup.diagonal ℚ r) = 1 := fun χ r => χ.2.2 r
@@ -503,7 +502,7 @@ private theorem per_zero (D : Dat ℚ E) (M : Meas ℚ) (U : UMeas) {ω ε : HCh
   have hec : Continuous e := Units.continuous_val.comp (ω.2.1.comp hN)
   let f : IdeleGroup ℚ → IdeleGroup.normOneSubgroup E → ℂ := fun t z => c t * (e z * Bt M Φ ((N z)⁻¹ * t))
   let ν := (normOneMeasure E).restrict (normOneFundamentalDomain E)
-  haveI : IsFiniteMeasure ν := ⟨by simpa [ν] using normOneMeasure_normOneFundamentalDomain_lt_top E⟩
+  have : IsFiniteMeasure ν := ⟨by simpa [ν] using normOneMeasure_normOneFundamentalDomain_lt_top E⟩
   have hfc : Continuous (Function.uncurry f) :=
     (hcc.comp continuous_fst).mul ((hec.comp continuous_snd).mul
       (hBc.comp ((hN.comp continuous_snd).inv.mul continuous_fst)))
@@ -691,8 +690,8 @@ private theorem char_integral_ne (μ : Measure G) [μ.IsHaarMeasure] (N : Subgro
     ∃ χ : G →ₜ* Circle, (∀ k ∈ N, χ k = 1) ∧ ∫ x in F, (χ x : ℂ) * b x ∂μ ≠ 0 := by
   classical
   by_contra! hcon
-  haveI hcl : IsClosed (N : Set G) := Subgroup.isClosed_of_discrete
-  haveI : CompactSpace (G ⧸ N) := ⟨by
+  have hcl : IsClosed (N : Set G) := Subgroup.isClosed_of_discrete
+  have : CompactSpace (G ⧸ N) := ⟨by
     have : (Set.univ : Set (G ⧸ N)) = QuotientGroup.mk '' closure F := by
       symm
       refine Set.eq_univ_of_forall fun q => ?_
@@ -810,7 +809,7 @@ private theorem char_sel (μ : Measure G) [μ.IsHaarMeasure] (N : Subgroup G) [C
     have := hB _ (subset_closure hx)
     rwa [hβi k hk] at this
   have hfin : μ F < ⊤ := (measure_mono subset_closure).trans_lt hc.measure_lt_top
-  haveI : IsFiniteMeasure (μ.restrict F) := ⟨by simpa using hfin⟩
+  have : IsFiniteMeasure (μ.restrict F) := ⟨by simpa using hfin⟩
   let b : G → ℂ := fun t => ∫ z in F, β (t * c z) ∂μ
   have hbc : Continuous b := by
     refine continuous_of_dominated (bound := fun _ => B) (fun t => ?_)
@@ -1078,7 +1077,19 @@ private theorem scal_eq {K : Type} [Field K] [NumberField K] (u : (A K)ˣ) :
 private theorem norm_central (s : {r : ℝ // 0 < r}) :
     ∃ z : (A E)ˣ, GroundTheory.Automorphic.Reduction.centralSection E 2 s = Matrix.GeneralLinearGroup.scalar (Fin 2) z ∧
       Matrix.GeneralLinearGroup.scalar (Fin 2) (ideleNorm ℚ E z) = GroundTheory.Automorphic.Reduction.centralSection ℚ 2 s := by
-  apply _root_.norm_central <;> assumption
+  have hd : Module.finrank ℚ E ≠ 0 := Module.finrank_pos.ne'
+  obtain ⟨s₀, hs₀⟩ : ∃ s₀ : {r : ℝ // 0 < r}, s₀ ^ Module.finrank ℚ E = s := by
+    refine ⟨⟨s.1 ^ ((Module.finrank ℚ E : ℝ))⁻¹, Real.rpow_pos_of_pos s.2 _⟩, Subtype.ext ?_⟩
+    rw [Positive.val_pow]
+    exact Real.rpow_inv_natCast_pow s.2.le hd
+  obtain ⟨y, hy⟩ : ∃ y : (A ℚ)ˣ, GroundTheory.Automorphic.Reduction.centralSection ℚ 2 s₀ = Matrix.GeneralLinearGroup.scalar (Fin 2) y :=
+    ⟨_, (rfl : _ = GroundTheory.Automorphic.Reduction.scalarUnits ℚ 2 _).trans (scal_eq _)⟩
+  refine ⟨ideleEmbedding ℚ E y, ?_, ?_⟩
+  · rw [← hs₀, ← UpperTheory.centralSection_baseChange ℚ E 2 s₀, hy]
+    refine Units.ext ?_
+    ext i j
+    fin_cases i <;> fin_cases j <;> simp [Matrix.GeneralLinearGroup.scalar]
+  · rw [ideleNorm_ideleEmbedding, map_pow, ← hy, ← map_pow, hs₀]
 
 end SlopeTestRemainingChoices
 
@@ -1215,8 +1226,8 @@ open scoped Pointwise in
 private theorem absNorm_conj {M : Type} [Field M] [NumberField M] (h2 : Module.finrank ℚ M = 2)
     {w w' : HeightOneSpectrum (𝓞 M)} (h : w'.under (𝓞 ℚ) = w.under (𝓞 ℚ)) :
     Ideal.absNorm w'.asIdeal = Ideal.absNorm w.asIdeal := by
-  haveI : Algebra.IsQuadraticExtension ℚ M := { finrank_eq_two' := h2 }
-  haveI : IsGalois ℚ M := inferInstance
+  have : Algebra.IsQuadraticExtension ℚ M := { finrank_eq_two' := h2 }
+  have : IsGalois ℚ M := inferInstance
   obtain ⟨g, hg⟩ := Algebra.IsInvariant.exists_smul_of_under_eq (𝓞 ℚ) (𝓞 M) (M ≃ₐ[ℚ] M) w.asIdeal w'.asIdeal
     (congrArg HeightOneSpectrum.asIdeal h.symm)
   rw [hg, Ideal.absNorm_apply, Ideal.absNorm_apply, Submodule.cardQuot_apply, Submodule.cardQuot_apply]
@@ -1225,7 +1236,7 @@ private theorem absNorm_conj {M : Type} [Field M] [NumberField M] (h2 : Module.f
 theorem UpperTheory.ConvolutionTheory.RankTwoDescent.descS :
     UpperTheory.V.Z.Bc.DescS := by
   intro M _ _ h2 hM sat' inf' hc _ _ hi
-  haveI := hM
+  have := hM
   rcases hc with ⟨_, P, rfl, rfl⟩ | ⟨hR, -⟩
   swap
   · exfalso

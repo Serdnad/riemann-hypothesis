@@ -1,8 +1,5 @@
 module
 
-import all Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.SphericalCoordinates.PBaseC
-import all Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.SphericalCoordinates.PFForm
-import all Development.AutomorphicArithmetic.PAdicLatticeApproximation.ExistsRealPeriodIsoOfPolarizedLattice
 public import Development.AbelianVarietyTheory.Definitions.Divisors.HasDivPlace
 public import Development.AbelianVarietyTheory.Definitions.Divisors.Uniformised
 public import Development.AutomorphicArithmetic.RealSpanData.RealData
@@ -109,13 +106,27 @@ private theorem adj_bc {Λ : Type} [AddCommGroup Λ] (B : LinearMap.BilinForm �
 
 private theorem anti_bc {Λ : Type} [AddCommGroup Λ] (B : LinearMap.BilinForm ℤ Λ) (h : ∀ x, B x x = 0)
     (u w : ℚ ⊗[ℤ] Λ) : B.baseChange ℚ u w = - B.baseChange ℚ w u := by
-  apply _root_.bc_skew <;> assumption
+  have anti : ∀ x y, B x y = - B y x := fun x y => by
+    have := h (x + y)
+    simp only [map_add (f := _), LinearMap.add_apply, h, zero_add, add_zero] at this
+    linarith
+  induction u using TensorProduct.induction_on with
+  | zero => simp
+  | add a b ha hb => simp only [map_add (f := _), LinearMap.add_apply, ha, hb]; ring
+  | tmul q x =>
+    induction w using TensorProduct.induction_on with
+    | zero => simp
+    | add a b ha hb => simp only [map_add (f := _), LinearMap.add_apply, ha, hb]; ring
+    | tmul r y =>
+      simp only [LinearMap.BilinForm.baseChange_tmul]
+      rw [anti x y]
+      rw [mul_comm q r, neg_smul]
 
 private theorem exists_rep {V : Type} [AddCommGroup V] [Module ℚ V] [FiniteDimensional ℚ V]
     (E F : LinearMap.BilinForm ℚ V) (hE : ∀ a, (∀ w, E a w = 0) → a = 0) :
     ∃ b : Module.End ℚ V, ∀ u w, F u w = 2 * E (b u) w := by
   have inj : Function.Injective (E : V →ₗ[ℚ] Module.Dual ℚ V) := by
-    set_option backward.isDefEq.respectTransparency.instanceSearchTypes false in rw [injective_iff_map_eq_zero]
+    rw [injective_iff_map_eq_zero]
     intro a ha
     exact hE a fun w => by rw [ha]; rfl
   let Φ : V ≃ₗ[ℚ] Module.Dual ℚ V :=
@@ -141,7 +152,7 @@ theorem UpperTheory.exists_unitary_unit_hermitian_form_of_cm_lattice :
   have hF : ∀ u w, F u w = Y.EF.baseChange ℚ (j.symm u) (j.symm w) := fun u w => rfl
   obtain ⟨b, hb⟩ := exists_rep E F sepE
   have hinj : Function.Injective b := by
-    set_option backward.isDefEq.respectTransparency.instanceSearchTypes false in rw [injective_iff_map_eq_zero]
+    rw [injective_iff_map_eq_zero]
     intro u hu
     have : j.symm u = 0 := sepY _ fun w => by
       have h := hb u (j w)
@@ -564,7 +575,7 @@ private theorem actOn_tmul {C V : Type} [Ring C] [Algebra ℚ C] [AddCommGroup V
 private theorem actOn_inj {C V : Type} [Ring C] [Algebra ℚ C] [AddCommGroup V] [Module ℚ V]
     (rep : C →ₐ[ℚ] Module.End ℚ V) (hrep : Function.Injective rep) :
     Function.Injective (actOn rep ℝ) := by
-  set_option backward.isDefEq.respectTransparency.instanceSearchTypes false in rw [injective_iff_map_eq_zero]
+  rw [injective_iff_map_eq_zero]
   intro x hx
   let B := Module.Free.chooseBasis ℚ ℝ
   obtain ⟨c, rfl⟩ := TensorProduct.eq_repr_basis_left B x
@@ -587,7 +598,16 @@ private theorem actOn_inj {C V : Type} [Ring C] [Algebra ℚ C] [AddCommGroup V]
 private theorem bc_anti {R A M : Type} [CommRing R] [CommRing A] [AddCommGroup M] [Algebra R A]
     [Module R M] (B : LinearMap.BilinForm R M) (h : ∀ x y, B x y = -B y x) (x y : A ⊗[R] M) :
     B.baseChange A x y = -B.baseChange A y x := by
-  apply _root_.bc_anti <;> assumption
+  induction x using TensorProduct.induction_on with
+  | zero => simp
+  | add a b ha hb => simp only [map_add (f := _), LinearMap.add_apply, ha, hb]; ring
+  | tmul a m =>
+    induction y using TensorProduct.induction_on with
+    | zero => simp
+    | add c d hc hd => simp only [map_add (f := _), LinearMap.add_apply, hc, hd]; ring
+    | tmul a' m' =>
+      rw [LinearMap.BilinForm.baseChange_tmul, LinearMap.BilinForm.baseChange_tmul, h m m', neg_smul,
+        mul_comm]
 
 private theorem E_anti {p : ℕ} [Fact p.Prime] (D : Datum p) (x y : ℝ ⊗[ℚ] VQ D) :
     (D.EF.baseChange ℚ).baseChange ℝ x y = -(D.EF.baseChange ℚ).baseChange ℝ y x := by
@@ -602,7 +622,25 @@ private theorem E_adj {p : ℕ} [Fact p.Prime] {D : Datum p} {G : HTGroup p} (L 
     (b : ℝ ⊗[ℚ] G.C) (x y : ℝ ⊗[ℚ] VQ D) :
     (D.EF.baseChange ℚ).baseChange ℝ (actOn L.rep ℝ b x) y =
       (D.EF.baseChange ℚ).baseChange ℝ x (actOn L.rep ℝ (starT G.star ℝ b).unop y) := by
-  apply _root_.E_adj <;> assumption
+  induction b using TensorProduct.induction_on with
+  | zero => simp
+  | add b b' h h' => simp only [map_add (f := _), LinearMap.add_apply, MulOpposite.unop_add, h, h']
+  | tmul r c =>
+    rw [starT_tmul]
+    induction x using TensorProduct.induction_on with
+    | zero => simp
+    | add x x' h h' => simp only [map_add (f := _), LinearMap.add_apply, h, h']
+    | tmul s v =>
+      induction y using TensorProduct.induction_on with
+      | zero => simp
+      | add y y' h h' => simp only [map_add (f := _), h, h']
+      | tmul t w =>
+        have h := L.adj c v w
+        rw [show sh G c = (G.star c).unop from rfl] at h
+        rw [actOn_tmul, actOn_tmul, LinearMap.BilinForm.baseChange_tmul,
+          LinearMap.BilinForm.baseChange_tmul, h]
+        congr 1
+        ring
 
 private theorem herm_conj {n : ℕ} (A : Matrix (Fin n) (Fin n) ℂ) (hA : A.IsHermitian)
     (x y : Fin n → ℂ) : star (star x ⬝ᵥ A *ᵥ y) = star y ⬝ᵥ A *ᵥ x := by
@@ -1148,7 +1186,16 @@ private theorem jt_indep {E F : Type} [Field E] [NumberField E] [Field F] [Numbe
   exact sub_eq_zero.mp h0
 
 private theorem jt_ne {p : ℕ} [Fact p.Prime] (D : Datum p) : (starRingEnd ℂ) D.ρc ≠ D.ρc := by
-  apply _root_.UpperTheory.Gal.W2.rho_ne_conj <;> assumption
+  intro h
+  have him : D.ρc.im = 0 := Complex.conj_eq_iff_im.mp h
+  have hre : D.ρc = (D.ρc.re : ℂ) := by
+    apply Complex.ext <;> simp [him]
+  have h0 := D.ρc_root
+  rw [hre] at h0
+  have h1 : D.ρc.re ^ 2 - (D.tr : ℝ) * D.ρc.re + (D.nm : ℝ) = 0 := by exact_mod_cast h0
+  have h2 : ((D.tr ^ 2 - 4 * D.nm : ℤ) : ℝ) < 0 := by exact_mod_cast D.disc_neg
+  push_cast at h2
+  nlinarith [sq_nonneg (2 * D.ρc.re - (D.tr : ℝ))]
 
 private theorem jt_root {p : ℕ} [Fact p.Prime] (D : Datum p) (τ : D.F →+* ℂ) :
     τ (D.ω : D.F) = D.ρc ∨ τ (D.ω : D.F) = (starRingEnd ℂ) D.ρc := by
@@ -1456,7 +1503,20 @@ private theorem typeAt_of {p : ℕ} [Fact p.Prime] (D : Datum p) (ha : D.a = 1) 
 
 private theorem tens_int (M : Type) [AddCommGroup M] (t : ℚ ⊗[ℤ] M) :
     ∃ (m : ℕ) (u : M), m ≠ 0 ∧ m • t = (1 : ℚ) ⊗ₜ[ℤ] u := by
-  apply _root_.exists_pure <;> assumption
+  induction t using TensorProduct.induction_on with
+  | zero => exact ⟨1, 0, one_ne_zero, by simp⟩
+  | tmul q u =>
+    refine ⟨q.den, q.num • u, q.den_nz, ?_⟩
+    rw [TensorProduct.smul_tmul', TensorProduct.tmul_smul, TensorProduct.smul_tmul']
+    congr 1
+    rw [nsmul_eq_mul, zsmul_eq_mul, _root_.mul_one, _root_.mul_comm]
+    exact Rat.mul_den_eq_num q
+  | add a b ha hb =>
+    obtain ⟨m, u, hm, hu⟩ := ha
+    obtain ⟨n, w, hn, hw⟩ := hb
+    refine ⟨m * n, n • u + m • w, Nat.mul_ne_zero hm hn, ?_⟩
+    rw [smul_add, TensorProduct.tmul_add, TensorProduct.tmul_smul, TensorProduct.tmul_smul, ← hu, ← hw,
+      mul_smul, smul_comm m n a, mul_smul]
 
 private theorem tmul_inj (M : Type) [AddCommGroup M] [Module.Free ℤ M] :
     Function.Injective (fun u : M => (1 : ℚ) ⊗ₜ[ℤ] u) := by

@@ -15,7 +15,6 @@ public import Mathlib.AlgebraicGeometry.Properties
 public import Mathlib.Algebra.CharP.Reduced
 public import Development.AbelianVarietyTheory.Proofs.HomogeneousIdeals.IsReducedAlgebraOfSmoothOfIsNoetherianRing
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.RadicalStalks.FrobEpi
-import all Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.RadicalStalks.FrobEpi
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.AbelianSchemeGerms
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.AbelianSchemeFirstDeRhamStructure
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.RadicalStalks.OneLeft
@@ -287,7 +286,7 @@ theorem UpperTheory.Gal.Ord.dz1 :
       intro a b
       apply TrivSqZeroExt.ext
       · simp [hfst]
-      · simp [hfst, hsnd, hd, Derivation.leibniz, mul_comm, add_comm])
+      · simp [hfst, hsnd, hd, Derivation.leibniz, mul_comm])
   apply hx
   have := hv v
   simpa [v, hsnd, hd] using this
@@ -306,7 +305,12 @@ open scoped TensorProduct
 
 private lemma rootGlue_uniq {R : Type*} [CommRing R] [IsReduced R] {p : ℕ} (hp : p.Prime)
     (h : (p : R) = 0) {a b : R} (hab : a ^ p = b ^ p) : a = b := by
-  apply _root_.pow_inj <;> assumption
+  rcases subsingleton_or_nontrivial R with hR | hR
+  · exact Subsingleton.elim a b
+  · haveI : CharP R p := (CharP.charP_iff_prime_eq_zero hp).mpr h
+    haveI : Fact p.Prime := ⟨hp⟩
+    apply frobenius_inj R p
+    simpa [frobenius_def] using hab
 
 theorem UpperTheory.Gal.Ord.rootGlue :
     ∀ (p : ℕ) [Fact p.Prime] (X : Scheme.{0}) [IsReduced X], (p : Γ(X, ⊤)) = 0 → ∀ (U : X.Opens) (s : Γ(X, U)),

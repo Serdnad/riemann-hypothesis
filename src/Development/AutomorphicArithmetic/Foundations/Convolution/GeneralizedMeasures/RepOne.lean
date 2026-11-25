@@ -767,7 +767,13 @@ private theorem iw_compact (w : Pl K) (ν : Fin n → ℤ)
 
 private theorem iw_zero (w : Pl K) :
     iwCoset w (0 : Fin n → ℤ) = (GLnLocal.iwahori (w.adicCompletion K) n : Set (GL (Fin n) (w.adicCompletion K))) := by
-  apply _root_.iwCoset_zero <;> assumption
+  ext g
+  constructor
+  · rintro ⟨a, ha, b, hb, rfl⟩
+    rw [GroundTheory.Automorphic.Parabolic.diagPow_zero, mul_one]
+    exact mul_mem ha hb
+  · intro hg
+    exact ⟨g, hg, 1, one_mem _, by rw [GroundTheory.Automorphic.Parabolic.diagPow_zero, mul_one, mul_one]⟩
 
 variable {μ : Measure (normOneGL (K := K) (n := n))} [μ.IsHaarMeasure]
 
@@ -775,7 +781,7 @@ private theorem comm_hop (B : LL μ →L[ℂ] LL μ) (hB : ∀ h, Commute B (rho
     (J : Subgroup (GL (Fin n) (w.adicCompletion K))) (x : GL (Fin n) (w.adicCompletion K))
     (ho : IsOpen (J : Set (GL (Fin n) (w.adicCompletion K)))) (hc : IsCompact (J : Set (GL (Fin n) (w.adicCompletion K)))) :
     Commute B (Hop μ w J x) :=
-  (UpperTheory.ConvolutionTheory.Tf.hopBasic K n μ w J x ho hc).2.2.2.2.1 B fun g => hB _
+  (UpperTheory.ConvolutionTheory.Tf.hopBasic K n μ w J x ho hc).2.2.2.2.1 B fun _ => hB _
 
 private theorem comm_ev (𝔞 : Amp μ) {ev : PR K n →+* (LL μ →L[ℂ] LL μ)} (hev : 𝔞.IsEv ev)
     (B : LL μ →L[ℂ] LL μ) (hB : ∀ h, Commute B (rhoF μ h)) {w : Pl K} (hw : w ∉ 𝔞.S)

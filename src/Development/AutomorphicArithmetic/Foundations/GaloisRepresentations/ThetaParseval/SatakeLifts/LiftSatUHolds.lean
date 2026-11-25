@@ -1,8 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.SphericalParameterTransferAllFinitePlacesStatement
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsIrreducibleFixed
-import Development.WeilBound.CoreStatements.AutomorphicKernels.IsobaricBaseChange.UnramB
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.ThetaParseval.SatakeLifts.CompUnit
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsInvariantPositivePeterssonForm
 public import Development.AbelianVarietyTheory.PublishedTheorems.GaloisCohomology₂.BaseChangeDefiniteUnitary
@@ -799,18 +796,6 @@ section -- clump:auto
 
 open NumberField IsDedekindDomain ValuativeRel GlobalTheory.PRep GlobalTheory.SmGL GlobalTheory.SplitWeil GlobalTheory.ThetaGL UpperTheory.Gal.TP.Loc
 
-private theorem tprod_ne_zero' {ι : Type} [Fintype ι] {X : ι → Type} [∀ i, AddCommGroup (X i)] [∀ i, Module ℂ (X i)]
-    (x : ∀ i, X i) (hx : ∀ i, x i ≠ 0) : PiTensorProduct.tprod ℂ x ≠ 0 := by
-  have hl : ∀ i, ∃ l : Module.Dual ℂ (X i), l (x i) ≠ 0 := fun i => by
-    by_contra! hc
-    exact hx i ((Module.forall_dual_apply_eq_zero_iff ℂ (x i)).1 hc)
-  choose l hl using hl
-  intro h
-  have h1 := congrArg (PiTensorProduct.lift ((MultilinearMap.mkPiAlgebra ℂ ι ℂ).compLinearMap l)) h
-  rw [PiTensorProduct.lift.tprod, map_zero] at h1
-  simp only [MultilinearMap.compLinearMap_apply, MultilinearMap.mkPiAlgebra_apply] at h1
-  exact (Finset.prod_ne_zero_iff.2 fun i _ => hl i) h1
-
 private theorem hasSat_pair {K : Type} [Field K] [NumberField K] (w : HeightOneSpectrum (𝓞 K)) {d : Fin 2 → ℕ}
     {X : Fin 2 → Type} [∀ a, AddCommGroup (X a)] [∀ a, Module ℂ (X a)]
     (π : ∀ a, Representation ℂ (GL (Fin (d a)) (w.adicCompletion K)) (X a))
@@ -835,7 +820,7 @@ private theorem hasSat_pair {K : Type} [Field K] [NumberField K] (w : HeightOneS
     refine (Submodule.ne_bot_iff _).2 ⟨f, ?_, ?_⟩
     · rw [hKO]; exact hf
     · rintro rfl
-      exact tprod_ne_zero' x (fun a => (hx a).1) h1.symm
+      exact GlobalTheory.EmptyFirstBlock.tprod_ne_zero x (fun a => (hx a).1) h1.symm
   · intro f hf h0
     obtain ⟨T, hT, hv⟩ := GlobalTheory.SatInd.exists_sat_multiProd (Fin.sum_univ_two d) hs hi hf h0
     have hTS : ∀ a, T a = S a := fun a => (hT a).unique (hS a)
@@ -969,7 +954,18 @@ private theorem npowU_neg {K : Type} [Field K] [NumberField K]
 
 theorem UpperTheory.Gal.TP.Loc.segInv :
     UpperTheory.Gal.TP.Loc.SegInv := by
-  apply _root_.GlobalTheory.ChainOnto.SplitTransfer.seg_map_inv <;> assumption
+  intro K _ _ w x t
+  unfold GlobalTheory.LFun.seg
+  rw [Multiset.map_map]
+  conv_rhs => rw [← range_val_map_rev t, Multiset.map_map]
+  apply Multiset.map_congr rfl
+  intro i hi
+  simp only [Finset.mem_val, Finset.mem_range] at hi
+  simp only [Function.comp_apply, mul_inv, ← npowU_neg]
+  congr 2
+  rw [Nat.sub_sub, Nat.cast_sub (by omega : 1 + i ≤ t)]
+  push_cast
+  ring
 end -- clump:auto
 end -- clump:auto
 -- ===== end clump member: Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.ThetaParseval.SatakeLifts.SegInv =====
@@ -1005,7 +1001,21 @@ variable {G H V W Y : Type} [Group G] [Group H] [AddCommGroup V] [Module ℂ V] 
 
 theorem isIrreducible_comp {ρ : Representation ℂ G V} (h : ρ.IsIrreducible) (φ : H →* G)
     (hφ : Function.Surjective φ) : Representation.IsIrreducible (ρ.comp φ) := by
-  apply _root_.GlobalTheory.CuspRep.ParLaws.isIrreducible_comp <;> assumption
+  haveI hV : Nontrivial V := by
+    by_contra hV
+    rw [not_nontrivial_iff_subsingleton] at hV
+    exact (bot_ne_top (α := Subrepresentation ρ))
+      (Subrepresentation.toSubmodule_injective (Subsingleton.elim _ _))
+  refine { toNontrivial := ⟨⟨⊥, ⊤, fun e => ?_⟩⟩, eq_bot_or_eq_top := fun S => ?_ }
+  · exact bot_ne_top (α := Submodule ℂ V) (congrArg Subrepresentation.toSubmodule e)
+  · let S' : Subrepresentation ρ := ⟨S.toSubmodule, fun g v hv => by
+      obtain ⟨x, rfl⟩ := hφ g
+      exact S.apply_mem_toSubmodule x hv⟩
+    rcases h.eq_bot_or_eq_top S' with e | e
+    · exact Or.inl (Subrepresentation.toSubmodule_injective
+        (congrArg (Subrepresentation.toSubmodule (ρ := ρ)) e :))
+    · exact Or.inr (Subrepresentation.toSubmodule_injective
+        (congrArg (Subrepresentation.toSubmodule (ρ := ρ)) e :))
 
 end General
 

@@ -1,6 +1,5 @@
 module
 
-import all Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.IntegralStructures.GeometricFlagBases.PrimeLevelLocalization.PFrameEx
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.IntegralStructures.GeometricFlagBases.PrimeLevelLocalization.CongruenceReduction.LevLocAlt
 import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.ExistsUniqueIdeleOfLinearEquivQuotientLocal
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ProductOfLocalLevelsUnitaryIsOpenIsCompactIsLeve
@@ -61,7 +60,14 @@ private theorem val_sm_of (z : GUf E n) (u : Plc E) (a : Fin n) {c : u.adicCompl
   rw [e', mul_assoc, ← map_mul, mul_comm _ c, h4, map_one, mul_one]
 
 private theorem below_cj (w : Plc E) : below ℚ (cj w) = below ℚ w := by
-  apply _root_.UpperTheory.Gal.W2.Seed.below_conjSrc <;> assumption
+  have h := conjPl_conjSrc (conjE E) w
+  refine HeightOneSpectrum.ext (Ideal.ext fun y => ?_)
+  change algebraMap (𝓞 ℚ) (𝓞 E) y ∈ (conjSrc (conjE E) w).asIdeal ↔ algebraMap (𝓞 ℚ) (𝓞 E) y ∈ w.asIdeal
+  rw [← HeightOneSpectrum.valuation_lt_one_iff_mem (K := E), ← HeightOneSpectrum.valuation_lt_one_iff_mem (K := E), ← h]
+  have : conjE E ((algebraMap (𝓞 ℚ) (𝓞 E) y : 𝓞 E) : E) = ((algebraMap (𝓞 ℚ) (𝓞 E) y : 𝓞 E) : E) := by
+    change conjE E (algebraMap ℚ E (y : ℚ)) = algebraMap ℚ E (y : ℚ)
+    simp [eq_ratCast]
+  rw [this]
 
 private theorem nat_mem_below (u : Plc E) (m : ℕ) : ((m : ℕ) : 𝓞 E) ∈ u.asIdeal ↔ ((m : ℕ) : 𝓞 ℚ) ∈ (below ℚ u).asIdeal := by
   change _ ↔ algebraMap (𝓞 ℚ) (𝓞 E) (m : 𝓞 ℚ) ∈ u.asIdeal

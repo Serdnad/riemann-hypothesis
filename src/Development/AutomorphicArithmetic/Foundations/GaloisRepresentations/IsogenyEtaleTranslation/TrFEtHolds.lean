@@ -1,7 +1,5 @@
 module
 
-import all Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.SphericalCoordinates.PBaseC
-import all Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.SphericalCoordinates.FixedPointsIntBaseHolds
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.IsogenyEtaleTranslation.EtCancel
 public import Development.AbelianVarietyTheory.Definitions.Divisors.NontrivialOfArtinQE
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.SphericalCoordinates.PEigSame
@@ -100,7 +98,13 @@ private theorem list_prod_ofFn_eq_of_eq_one_of_ne' {M : Type*} [Monoid M] :
 private theorem matEnd_diagonal_pr {S : Scheme.{0}} {O : Type} [Ring O] {A : Over S} [GrpObj A] (act : OActN O A) {m : ℕ}
     (d : Fin m → O) (i : Fin m) :
     GlobalTheory.KS.matEnd act (Matrix.diagonal d) ≫ GlobalTheory.KS.pr A i = GlobalTheory.KS.pr A i ≫ act.act (d i) := by
-  apply _root_.matEnd_diagonal_pr <;> assumption
+  change (Pi.lift (fun i => (List.ofFn fun j => GlobalTheory.KS.pr A j ≫
+    act.act (if i = j then d i else 0)).prod)) ≫ GlobalTheory.KS.pr A i = _
+  rw [Pi.lift_comp_π]
+  rw [list_prod_ofFn_eq_of_eq_one_of_ne' _ i]
+  · simp
+  · intro j hj
+    simp [Ne.symm hj, KS.Model.act_zero, comp_one]
 
 end UpperTheory.Gal.FixZ
 
@@ -116,8 +120,8 @@ theorem UpperTheory.Gal.FixZ.alFEt_of :
       exact ha
     · rw [← hb, mul_comm]
   set U := (T.M N).univ with hU
-  letI := U.grp
-  letI := U.comm
+  let := U.grp
+  let := U.comm
   have key : ∀ x y : 𝓞 D.toG.F, ∀ d : ℕ, x * y = d →
       U.act.act (algebraMap (𝓞 D.toG.F) D.toG.O y) ≫ U.act.act (algebraMap (𝓞 D.toG.F) D.toG.O x)
         = 𝟙 U.A ^ d := by
@@ -174,7 +178,7 @@ private theorem ind_eq {G : Type} [Group G] (K : Subgroup G) (g : G) :
 
 private theorem smooth_iso {A B C : Scheme.{0}} (e : A ≅ B) (s : B ⟶ C) (n : ℕ)
     (h : SmoothOfRelativeDimension n s) : SmoothOfRelativeDimension n (e.hom ≫ s) := by
-  haveI := h
+  have := h
   have := smoothOfRelativeDimension_comp (n := 0) (m := n) e.hom s
   rwa [Nat.zero_add] at this
 
@@ -209,7 +213,7 @@ theorem UpperTheory.Gal.FixZ.bridge_of :
   have htw : c₂.tw α = (T.e N').inv ≫ leg T N' N h b α ≫ (T.e N).hom := by
     rw [hc₂, Iso.inv_hom_id_assoc]
   have hEt : Etale (c₁.pw k) := by
-    haveI := T.X.etale (T.lev N') (T.lev N) a.1 a.2
+    have := T.X.etale (T.lev N') (T.lev N) a.1 a.2
     rw [hpw]
     infer_instance
   have h₁ : c₁.pw k ≫ W2.sZ (T.M N) k = W2.sZ (T.M N') k := by
@@ -231,13 +235,13 @@ theorem UpperTheory.Gal.FixZ.bridge_of :
   have hFT := hTr p D G L gb k T N' N h b.1 b.2
   have hFA := hAl p D G L gb k T N α (fun s => (hα s).1)
   have hlegF : IsFinite (leg T N' N h b α) := by
-    haveI := hFT.1
-    haveI := hFA.1
+    have := hFT.1
+    have := hFA.1
     unfold leg
     infer_instance
   have hlegE : Etale (leg T N' N h b α) := by
-    haveI := hFT.2
-    haveI := hFA.2
+    have := hFT.2
+    have := hFA.2
     unfold leg
     infer_instance
   refine ⟨hCx p G v (L.KN N.1) (L.KN N'.1) h hLe hAdm hfin hone, hlegF, hlegE, ?_⟩
@@ -766,9 +770,9 @@ private theorem exists_kaehler_map_D_of_algHom {A B : Type} [CommRing A] [CommRi
     (f : A →ₐ[ℂ] B) :
     ∃ Ψ : Ω[A⁄ℂ] →ₗ[ℂ] Ω[B⁄ℂ], (∀ a, Ψ (D ℂ A a) = D ℂ B (f a)) ∧
       ∀ (a : A) (ω : Ω[A⁄ℂ]), Ψ (a • ω) = f a • Ψ ω := by
-  letI : Algebra A B := f.toRingHom.toAlgebra
-  haveI : IsScalarTower ℂ A B := IsScalarTower.of_algebraMap_eq (fun r => (f.commutes r).symm)
-  haveI : SMulCommClass ℂ A B := ⟨fun r a b => by
+  let : Algebra A B := f.toRingHom.toAlgebra
+  have : IsScalarTower ℂ A B := IsScalarTower.of_algebraMap_eq (fun r => (f.commutes r).symm)
+  have : SMulCommClass ℂ A B := ⟨fun r a b => by
     change r • (f a * b) = f a * (r • b)
     rw [mul_smul_comm]⟩
   refine ⟨(KaehlerDifferential.map ℂ ℂ A B).restrictScalars ℂ, fun a => ?_, fun a ω => ?_⟩
@@ -1121,7 +1125,7 @@ theorem UpperTheory.Gal.FixZ.witScal_of :
   have hmon : IsMonHom ((𝟙 X.univ.A) ^ d) := _root_.GlobalTheory.SS.DivSemi.isMonHom_id_pow _ d
   have hcomm : ∀ c : D.O, X.univ.act.act c ≫ ((𝟙 X.univ.A) ^ d) = ((𝟙 X.univ.A) ^ d) ≫ X.univ.act.act c := by
     intro c
-    haveI := X.univ.act.hom c
+    have := X.univ.act.hom c
     rw [MonObj.comp_pow, pow_comp_hom, Category.comp_id, Category.id_comp]
   refine ⟨Category.id_comp _, X.univ, (𝟙 X.univ.A) ^ d, m, ?_, by rw [hm]; simp⟩
   refine ⟨hmon, hcomm, ⟨𝟙 _, d, inferInstance, fun c => ?_, Category.comp_id _, Category.id_comp _, hdp⟩,
@@ -1154,7 +1158,16 @@ namespace UpperTheory.Gal.FixZ
 variable {p : ℕ} [Fact p.Prime]
 
 private lemma conj_ne (D : Datum p) : (starRingEnd ℂ) D.ρc ≠ D.ρc := by
-  apply _root_.UpperTheory.Gal.W2.rho_ne_conj <;> assumption
+  intro h
+  have him : D.ρc.im = 0 := Complex.conj_eq_iff_im.mp h
+  have hre : D.ρc = (D.ρc.re : ℂ) := by
+    apply Complex.ext <;> simp [him]
+  have hroot := D.ρc_root
+  rw [hre] at hroot
+  have hr : D.ρc.re ^ 2 - (D.tr : ℝ) * D.ρc.re + (D.nm : ℝ) = 0 := by
+    exact_mod_cast hroot
+  have hd : ((D.tr : ℝ)) ^ 2 - 4 * (D.nm : ℝ) < 0 := by exact_mod_cast D.disc_neg
+  nlinarith [sq_nonneg (2 * D.ρc.re - (D.tr : ℝ))]
 
 private lemma tr_eq_re (D : Datum p) : (D.tr : ℂ) = D.ρc + (starRingEnd ℂ) D.ρc := by
   have hne : D.ρc - (starRingEnd ℂ) D.ρc ≠ 0 := sub_ne_zero.mpr (Ne.symm (conj_ne D))
@@ -1204,7 +1217,7 @@ private lemma kap_iff {D : Datum p} {G : HTGroup p} (L : Link D G) (ha : D.a = 1
   refine ⟨fun h => (h _).trans (D.tau_ω i₀), fun h => ?_⟩
   obtain ⟨i, hi⟩ := (L.sig v).mp hv
   have hii : i = i₀ := by
-    haveI : Subsingleton (Fin D.a) := by rw [ha]; infer_instance
+    have : Subsingleton (Fin D.a) := by rw [ha]; infer_instance
     exact Subsingleton.elim _ _
   subst hii
   have hs : ∀ x, (G.iotaC.comp (L.s i)) (L.e x) = D.tau i x := fun x => L.s_C i x

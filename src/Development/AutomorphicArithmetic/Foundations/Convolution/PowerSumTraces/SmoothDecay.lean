@@ -1,7 +1,5 @@
 module
 
-import all Development.AutomorphicArithmetic.Foundations.Convolution.ConvolutionKernels.KernelTransforms.RconvSlice
-import GroundTheory.AutomorphicForms.CuspidalDiscreteness.DecayUniform
 public import Development.WeilBound.RepresentationTheoryGL.TwistedFactors.CuspDecayHeights.CuspDecay
 public import GroundTheory.AutomorphicForms.CuspidalDiscreteness.SiegelCount
 public import GroundTheory.AutomorphicForms.CuspidalDiscreteness.SmoothingFinite
@@ -526,7 +524,34 @@ private theorem tensFun_shift (β : TI K n) (e : TF K n) (a : archGroup K n) (g 
 private theorem kbar_conv (hn : 0 < n) (ν : Measure (archGroup K n)) [ν.IsHaarMeasure] (β₁ β₂ : TI K n)
     (x : archGroup K n) :
     kbar (conv ν β₁ β₂) x = ∫ a, β₁ a * kbar β₂ (a⁻¹ * x) ∂ν := by
-  apply _root_.kbar_conv <;> assumption
+  have hc : Continuous (Function.uncurry fun (s : {r : ℝ // 0 < r}) (a : archGroup K n) =>
+      β₁ a * β₂ (a⁻¹ * (x * zInf K n s))) := by
+    refine (β₁.continuous.comp continuous_snd).mul (β₂.continuous.comp ?_)
+    exact (continuous_snd.inv).mul (continuous_const.mul (continuous_zInf.comp continuous_fst))
+  have hs : HasCompactSupport (Function.uncurry fun (s : {r : ℝ // 0 < r}) (a : archGroup K n) =>
+      β₁ a * β₂ (a⁻¹ * (x * zInf K n s))) := by
+    have hC : IsCompact ((fun p : {r : ℝ // 0 < r} × archGroup K n => (p.1 * detA K n (x⁻¹ * p.2), p.2)) ''
+        ((detA K n '' tsupport β₂) ×ˢ tsupport β₁)) :=
+      ((β₂.hasCompactSupport.isCompact.image continuous_detA).prod β₁.hasCompactSupport.isCompact).image
+        ((continuous_fst.mul (continuous_detA.comp (continuous_const.mul continuous_snd))).prodMk continuous_snd)
+    refine HasCompactSupport.intro hC fun p hp => ?_
+    by_contra hne
+    apply hp
+    obtain ⟨s, a⟩ := p
+    have h1 : β₁ a ≠ 0 := left_ne_zero_of_mul hne
+    have h2 : β₂ (a⁻¹ * (x * zInf K n s)) ≠ 0 := right_ne_zero_of_mul hne
+    have h3 := mem_of_kernel_ne_zero hn (κ := β₂) (a := a⁻¹ * x) (s := s) (by rwa [mul_assoc])
+    refine ⟨(s * detA K n (a⁻¹ * x), a), ⟨h3, subset_tsupport _ h1⟩, ?_⟩
+    have h4 : detA K n (a⁻¹ * x) * detA K n (x⁻¹ * a) = 1 := by
+      rw [← map_mul]
+      simp [mul_assoc]
+    simp only [mul_assoc, h4, mul_one]
+  have hsw := integral_integral_swap_of_hasCompactSupport hc hs (μ := GroundTheory.Global.posRealMeasure) (ν := ν)
+  simp only [kbar, conv_apply]
+  rw [hsw]
+  refine integral_congr_ae (Filter.Eventually.of_forall fun a => ?_)
+  simp only [mul_assoc]
+  exact integral_const_mul _ _
 
 private theorem tens_conv (hn : 0 < n) (ν : Measure (archGroup K n)) [ν.IsHaarMeasure] (β₁ β₂ : TI K n) (e : TF K n)
     (g : normOneGL (K := K) (n := n)) :

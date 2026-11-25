@@ -1,6 +1,5 @@
 module
 
-import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.CrystallineTowers.LocTowerHolds
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.IntegralStructures.GeometricFlagBases.FlagBasis
 public import Development.EtaleCohomology.EtaleTrace.LadicH0LocallyConstant
 public import Development.AbelianVarietyTheory.Definitions.ShimuraVarieties.IsOpenOfMemIrreducibleComponentsOfFinite
@@ -1025,7 +1024,6 @@ private theorem pj_tr {L L' : IntermediateField k Ω} (h : L ≤ L') :
       ← CommRingCat.ofHom_comp, pj_snd]
     rfl
 
-
 variable (k Ω) in
 private def Gd : (FI k Ω)ᵒᵖ ⥤ Scheme.{0} where
   obj L := geom L.unop.1 p
@@ -1045,7 +1043,6 @@ private def Gd : (FI k Ω)ᵒᵖ ⥤ Scheme.{0} where
       rw [Category.assoc, tr_snd, ← Category.assoc, tr_snd, Category.assoc, ← Spec.map_comp,
         ← CommRingCat.ofHom_comp]
       rfl
-
 
 variable (k Ω) in
 private def cn : Cone (Gd k Ω p) where
@@ -1546,18 +1543,12 @@ private theorem invariant_inf {Γ k : Type} [Group Γ] [Field k] {d : ℕ} {ρ :
   intro g v hv
   exact ⟨hU g v hv.1, hV g v hv.2⟩
 
-private theorem invariant_bot_alt {Γ k : Type} [Group Γ] [Field k] {d : ℕ} (ρ : Γ →* GL (Fin d) k) :
-    IsInv ρ (⊥ : Submodule k (Fin d → k)) := by
-  intro g v hv
-  rw [(Submodule.mem_bot k).1 hv, Matrix.mulVec_zero]
-  exact Submodule.zero_mem _
-
 theorem UpperTheory.Gal.Int.Geo.sSOfSum_of :
     SSOfSum := by
   intro Γ k _ _ d ρ B hB hS hT W hW
   obtain ⟨W', ⟨hinv, hdis⟩, hmax⟩ :=
     (wellFounded_gt (α := Submodule k (Fin d → k))).has_min
-      {X | IsInv ρ X ∧ Disjoint W X} ⟨⊥, invariant_bot_alt ρ, disjoint_bot_right⟩
+      {X | IsInv ρ X ∧ Disjoint W X} ⟨⊥, inv_bot ρ, disjoint_bot_right⟩
   have key : ∀ i, B i ≤ W ⊔ W' := by
     intro i
     rcases hS i (B i ⊓ (W ⊔ W')) (invariant_inf (hB i) (invariant_sup_alt hW hinv)) inf_le_left with h | h
@@ -1816,7 +1807,23 @@ private theorem exists_eq_pow_smul_of_lev_eq_zero (hA : A11) (l : ℕ) [Fact (Na
   exact (red_pow_apply_eq_of_le hA l E n i x m (b + m) (by omega)).symm
 
 theorem vFin_of (h : KunnethLefschetz.In) : GlobalTheory.GalV.VFin := by
-  apply _root_.UpperTheory.Gal.G3.vFin_holds <;> assumption
+  intro l _ k _ _ hl X p _ n i
+  have hInv : GlobalTheory.EtC.Inv l (sch.obj X) := by
+    intro U hU
+    obtain ⟨f⟩ := hU
+    have g : U ⟶ X := f
+    have := hl.map ((Scheme.ΓSpecIso (CommRingCat.of k)).inv ≫ (g ≫ p).appTop).hom
+    simpa using this
+  have hl0 : l ≠ 0 := (Fact.out : l.Prime).ne_zero
+  have hfin : ∀ m : ℕ, Finite (Ht (l ^ m) (sch.obj X) n i) := by
+    intro m
+    haveI : NeZero (l ^ m) := ⟨pow_ne_zero _ hl0⟩
+    exact h.e4 (l ^ m) k (by push_cast; exact hl.pow m) p n i
+  have hM : Module.Finite ℤ_[l] (Hl l (sch.obj X) n i) :=
+    LateralTheory.EWeil.AdicFinPf.AdicFin_of l (sch.obj X) n i hfin
+      (fun b x hx => exists_eq_pow_smul_of_lev_eq_zero h.a11 l (sch.obj X) n i hfin
+        (fun b' => LateralTheory.Fin.Bock.etale_bockstein_sequence_adic_finiteness h.a7 h.a8 h.a10 h.a11 l b' (sch.obj X) i hInv) b x hx)
+  exact ⟨hM, Module.Finite.base_change ℤ_[l] ℚ_[l] _⟩
 
 end UpperTheory.Gal.Int.Geo
 

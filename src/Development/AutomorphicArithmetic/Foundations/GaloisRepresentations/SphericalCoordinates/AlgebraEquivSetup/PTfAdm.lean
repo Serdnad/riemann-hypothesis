@@ -1,6 +1,5 @@
 module
 
-import all Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.SphericalCoordinates.AlgebraEquivSetup.PTfAct
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.SphericalCoordinates.AlgebraEquivSetup.HeckeTraceEq
 import Mathlib.Tactic.Linter.Style
 
@@ -13,7 +12,14 @@ namespace UpperTheory.Gal.W2.Seed
 
 private lemma tyFn_mul_right {M : Type} [Group M] (J : Subgroup M) (ψ : J →* ℂˣ) (a j : M) (hj : j ∈ J) :
     tyFn J ψ (a * j) = tyFn J ψ a * (((ψ ⟨j, hj⟩)⁻¹ : ℂˣ) : ℂ) := by
-  apply _root_.typeFunction_mul_mem <;> assumption
+  unfold tyFn
+  by_cases ha : a ∈ J
+  · have haj : a * j ∈ J := J.mul_mem ha hj
+    rw [dite_eq_left ha, dite_eq_left haj]
+    have e : (⟨a * j, haj⟩ : J) = ⟨a, ha⟩ * ⟨j, hj⟩ := rfl
+    rw [e, map_mul, mul_inv, Units.val_mul]
+  · have haj : a * j ∉ J := fun h => ha ((J.mul_mem_cancel_right hj).1 h)
+    rw [dite_eq_right ha, dite_eq_right haj, zero_mul]
 
 private lemma tyFn_mul_left {M : Type} [Group M] (J : Subgroup M) (ψ : J →* ℂˣ) (a j : M) (hj : j ∈ J) :
     tyFn J ψ (j * a) = (((ψ ⟨j, hj⟩)⁻¹ : ℂˣ) : ℂ) * tyFn J ψ a := by

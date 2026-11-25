@@ -1,7 +1,5 @@
 module
 
-import all Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.LocalMaximality.PLCupRel
-import all Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.LocalMaximality.PDtPull
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.LocalMaximality.ResidueOfTraceIsFiberSum
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsLaurentConstantTermFormFunctionFieldStatement
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsTopDegreeCoefficientFormAndEqOnTopFormsStatement
@@ -50,7 +48,20 @@ private lemma rgt_mono' {ι κ : Type} [LinearOrder ι] [LinearOrder κ] {s t : 
 
 private lemma card_split' {ι : Type} [LinearOrder ι] (u : Finset ι) {j : ι} (hj : j ∈ u) :
     (u.filter (· ≤ j)).card + (u.filter (j ≤ ·)).card = u.card + 1 := by
-  apply _root_.card_split <;> assumption
+  have h1 := Finset.card_filter_add_card_filter_not (s := u) (fun i => i ≤ j)
+  have h2 : u.filter (j ≤ ·) = insert j (u.filter (fun i => ¬ i ≤ j)) := by
+    ext i
+    simp only [Finset.mem_filter, Finset.mem_insert, not_le]
+    constructor
+    · rintro ⟨hi, hji⟩
+      rcases hji.eq_or_lt with h | h
+      · exact Or.inl h.symm
+      · exact Or.inr ⟨hi, h⟩
+    · rintro (rfl | ⟨hi, h⟩)
+      · exact ⟨hj, le_rfl⟩
+      · exact ⟨hi, h.le⟩
+  rw [h2, Finset.card_insert_of_notMem (by simp)]
+  omega
 
 private lemma cechC_iff' {ι E : Type} [LinearOrder ι] [AddCommGroup E] [Module ℂ E] {A : Finset ι → Submodule ℂ E}
     {n : ℤ} {c : Finset ι → E} :

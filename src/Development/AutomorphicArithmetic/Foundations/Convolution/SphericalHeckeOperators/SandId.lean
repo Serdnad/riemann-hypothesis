@@ -1,6 +1,5 @@
 module
 
-import all Development.AutomorphicArithmetic.Foundations.Convolution.SphericalHeckeOperators.SatAvg
 public import Development.AutomorphicArithmetic.Foundations.Convolution.SphericalHeckeOperators.SymSum
 public import GroundTheory.AutomorphicForms.IwahoriFactorization
 public import GroundTheory.AutomorphicForms.MacdonaldSpherical
@@ -668,10 +667,28 @@ private theorem dom_monomial {a : Fin n → ℤ} (ha : Antitone a) : Dom (monomi
 end Aux2
 
 private theorem dPol_ne_zero (n : ℕ) (t : ℂ) : dPol n t ≠ 0 := by
-  apply _root_.dPol_ne_zero <;> assumption
+  refine Finset.prod_ne_zero_iff.2 fun p hp h => ?_
+  have hp' : p.1 < p.2 := (Finset.mem_filter.1 hp).2
+  have hne : (Pi.single p.2 1 : Fin n → ℤ) ≠ Pi.single p.1 1 := fun e => by
+    have := congrFun e p.1
+    simp [hp'.ne] at this
+  have := congrArg (fun y : LaurentRing n => y.coeff (Pi.single p.1 1)) h
+  simp [hne] at this
 
 private theorem inj_of_dPol {n : ℕ} {z : Fin n → ℂˣ} (h : evalAt z (dPol n 1) ≠ 0) : Function.Injective z := by
-  apply _root_.inj_of_dPol <;> assumption
+  have key : ∀ i j, i < j → z i ≠ z j := fun i j hij e => by
+    refine h ?_
+    unfold dPol
+    rw [map_prod]
+    refine Finset.prod_eq_zero (i := (i, j)) (Finset.mem_filter.2 ⟨Finset.mem_univ _, hij⟩) ?_
+    have hv : ∀ a, evalAt z (varL a) = z a := fun a => by
+      rw [evalAt_single, one_mul, monomialChar_apply, Finset.prod_eq_single a] <;> simp +contextual
+    simp [hv, e]
+  intro i j e
+  rcases lt_trichotomy i j with h | h | h
+  · exact absurd e (key _ _ h)
+  · exact h
+  · exact absurd e.symm (key _ _ h)
 
 theorem UpperTheory.ConvolutionTheory.H.sandId :
     ∀ (F : Type) [Field F] [ValuativeRel F] [TopologicalSpace F] [IsNonarchimedeanLocalField F] (n : ℕ)

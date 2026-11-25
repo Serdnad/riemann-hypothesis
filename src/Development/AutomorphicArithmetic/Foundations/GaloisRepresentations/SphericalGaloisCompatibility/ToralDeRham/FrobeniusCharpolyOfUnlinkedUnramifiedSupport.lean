@@ -1,7 +1,5 @@
 module
 
-import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.SegmentRepJacquetWordMultiplicity
-import Development.AutomorphicSpectrum.Proofs.GlobalProofs.IsIrreducibleOfClsGLEqSingle
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsSmoothCharCompNormU
 public import Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms₂.HasExponentZeroIff
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.LocalArtinExistsHolds
@@ -197,8 +195,15 @@ variable (k) in
 abbrev uc (a : ℂˣ) : IrrGL (k := k) := IrrGL.ofChar (unrChar k a) (isSmoothChar_of_isUnram (isUnram_unrChar k a))
 
 theorem eq_first_of_isLSeg {Δ : Segment k} {y : IrrGL (k := k)} (h : IsLSeg Δ y.rep) (h1 : Δ.len = 1) : y = Δ.first := by
-  intros
-  apply _root_.GlobalTheory.CompanionTheory.FineL.eq_first_of_len_one <;> assumption
+  have h2 := h.hasSupport
+  obtain ⟨z, hz⟩ := Multiset.card_eq_one.1 ((Segment.card_ms Δ).trans h1)
+  have h3 : z = Δ.first := by
+    have hm : z ∈ Δ.ms := by rw [hz]; exact Multiset.mem_singleton_self z
+    obtain ⟨a, ha, rfl⟩ := Segment.mem_carrier.1 (Segment.mem_ms.1 hm)
+    obtain rfl : a = 0 := by omega
+    simp
+  rw [hz, h3] at h2
+  exact GlobalTheory.CompanionTheory.CuspPairSub.eq_of_hasSupport_singleton h2
 
 theorem isSpherical_prodIrr_uc {c N : ℕ} (β : Fin c → ℂˣ) (hd : ∑ i, (uc k (β i)).1 = N) :
     IsSpherical (prodIrr (fun i => uc k (β i)) hd) := by
@@ -241,11 +246,6 @@ theorem isSubquotient_prodIrr_uc {N : ℕ} (α : Fin N → ℂˣ) (hd : ∑ i, (
     (equivRep (IrrRep.det (Fin 1) (unrChar k (α a)) (isSmoothChar_of_isUnram (isUnram_unrChar k (α a))))).symm
   exact (IsSubquotient.of_injective φ.toIntertwiningMap φ.toLinearEquiv.injective).trans
     (GlobalTheory.PermPrin.isSubquotient_multiProd_prinSeries _ _)
-
-end GlobalTheory.GenSph
-
-namespace GlobalTheory.GenSph
-open GlobalTheory.PRep GlobalTheory.SmGL GlobalTheory.LocGL ValuativeRel
 
 end GlobalTheory.GenSph
 
@@ -349,7 +349,6 @@ theorem equiv_prodIrr_untwist {N h : ℕ} {V : Type} [AddCommGroup V] [Module �
   refine ⟨?_⟩
   rw [← e]
   exact (twistEquiv φ _).trans (prodIrrTwistEquiv x hd χ⁻¹ hχ.inv)
-
 
 open scoped Classical in
 noncomputable def valAt (ϖ : kˣ) (y : IrrGL (k := k)) : ℂˣ := by
@@ -501,7 +500,6 @@ namespace GlobalTheory.GalCut7.SizeAway
 variable {E Ω : Type} [Field E] [NumberField E] [Field Ω] [Algebra E Ω] [IsAlgClosure E Ω]
   {A : ValuationSubring Ω} {w : HeightOneSpectrum (𝓞 E)} {h : IsPlaceOver A w}
 
-
 open GlobalTheory.ResW in
 theorem isUnitarisable (E : Type) [Field E] [NumberField E] [IsCMField E] (a : ℕ) (ha : 1 ≤ a)
     (π : CuspSub E a) (wt : ℤ) (hw : IsWeight π wt) (w : HeightOneSpectrum (𝓞 E)) (σ) (hσ : π.IsLocComp w σ) :
@@ -646,7 +644,6 @@ theorem exponents_of_genericUnitary (hGU : GlobalTheory.Published.GenericUnitary
   exact h2
 
 end GlobalTheory.RoadU.Window
-
 
 open GlobalTheory.RoadU.Window in
 theorem GlobalTheory.RoadU.window : UpperTheory.Gal.ToralGalois.Inq → ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (l n : ℕ), 1 ≤ n → ∀ (π : CuspSub E n) (χ : HChar (maximalRealSubfield E)), InScope .all l π χ → ∀ wt : ℤ, IsWeight π wt → ∀ w : HeightOneSpectrum (𝓞 E), ∀ σ : SmIrr (GL (Fin n) (w.adicCompletion E)), π.IsLocComp w σ → ∀ (ξ : Fin n → ((w.adicCompletion E)ˣ →* ℂˣ)) (hξ : ∀ j, IsSmoothChar (ξ j)), HasSupport (algNorm σ).rep (chars ξ hξ) → Unlinked (chars ξ hξ) → (∀ j, ∃ e : ℝ, |e| < 1 / 2 ∧ ∀ x, ‖((ξ j x : ℂˣ) : ℂ)‖ = ‖((absPow (w.adicCompletion E) ((e - (wt : ℝ) / 2 : ℝ) : ℂ) x : ℂˣ) : ℂ)‖) := by
@@ -803,7 +800,7 @@ theorem exists_sph_lift_of_toral : UpperTheory.Gal.ToralGalois.Inq → ∀ (Ω :
   have hξ₀ : ∀ j, IsSmoothChar (ξ₀ j) := fun j => (hξ j).mul (isSmoothChar_absPow _)
   obtain ⟨M, _, _, _, _, _, _, _, P, χ', hP, hcl, hfix, hkill⟩ :=
     GlobalTheory.T.weaklyAttached_toral_of_cm_lift hI Ω E l ι n hn π χ hπ r hr w A h ξ₀ hξ₀ a ha g hg
-  obtain ⟨u, h', -⟩ := GlobalTheory.T.exists_isPlaceOver_finiteExtension_of_isPlaceOver E M Ω A w h
+  obtain ⟨u, h', -⟩ := GlobalTheory.AboveL.exists_isPlaceOver_of_tower E M Ω A w h
   haveI := liesOver_of_isPlaceOver (M := M) h h'
   have hunr := _root_.GlobalTheory.RoadU.unram_comp_normU_of_fix Ω E M A w u h h' n ξ₀ a ha hkill
   obtain ⟨B, hB, hch⟩ :=

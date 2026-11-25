@@ -1,6 +1,5 @@
 module
 
-import all Development.AutomorphicArithmetic.Foundations.Convolution.LocalGroupAnalysis.P2TraceFixed
 public import Development.AutomorphicArithmetic.Foundations.Convolution.LocalGroupAnalysis.SelmerRankBoundLaurent
 public import Development.WeilBound.RepresentationTheoryGL.TwistedFactors.SelmerRankBounds.EllipticityFromProductFormula
 public import Development.AutomorphicArithmetic.Foundations.Convolution.LocalGroupAnalysis.SplitEquiv
@@ -70,7 +69,19 @@ private theorem galAd_cont (σ : E ≃ₐ[F] E) : Continuous (galAd σ) := by
   exact continuous_adeleMap
 
 private theorem galInf_cont (σ : E ≃ₐ[F] E) : Continuous (galInf σ) := by
-  apply _root_.p2_cont_inf <;> assumption
+  haveI : FiniteDimensional F E := Module.Finite.of_restrictScalars_finite ℚ F E
+  refine galOf_cont (GroundTheory.Global.InfinitePlace.tensorInfiniteAdeleRingEquiv (K := F) (L := E)) σ
+    (Module.finBasis F E) (GroundTheory.Global.InfinitePlace.adeleCoord (Module.finBasis F E))
+    (GroundTheory.Global.InfinitePlace.continuous_adeleCoord _) (fun y => ?_) ?_
+  · rw [AlgEquiv.symm_apply_eq]
+    exact (GroundTheory.Global.InfinitePlace.tensorInfiniteAdeleRingEquiv_sum_adeleCoord _ y).symm
+  · have h : (fun a : InfiniteAdeleRing F =>
+        GroundTheory.Global.InfinitePlace.tensorInfiniteAdeleRingEquiv (K := F) (L := E) ((1 : E) ⊗ₜ a)) =
+        GroundTheory.Global.InfinitePlace.infiniteAdeleRingMap (K := F) (L := E) := by
+      funext a
+      rw [GroundTheory.Global.InfinitePlace.tensorInfiniteAdeleRingEquiv_tmul', map_one, one_mul]
+    rw [h]
+    exact GroundTheory.Global.InfinitePlace.continuous_infiniteAdeleRingMap
 
 private theorem galFin_mul (σ : E ≃ₐ[F] E) (v : HeightOneSpectrum (𝓞 F)) (a : v.adicCompletion F)
     (y : CompletionsOver E v) :
@@ -88,7 +99,13 @@ private theorem galFin_mul (σ : E ≃ₐ[F] E) (v : HeightOneSpectrum (𝓞 F))
 
 private theorem galFin_cont (σ : E ≃ₐ[F] E) (v : HeightOneSpectrum (𝓞 F)) :
     Continuous (galFin σ v) := by
-  apply _root_.p2_cont_fin <;> assumption
+  let L : CompletionsOver E v →ₗ[v.adicCompletion F] CompletionsOver E v :=
+    { toFun := galFin σ v
+      map_add' := map_add _
+      map_smul' := fun a y => by
+        simp only [Algebra.smul_def, RingHom.id_apply]
+        exact galFin_mul σ v a y }
+  exact IsModuleTopology.continuous_of_linearMap L
 
 private theorem mapGL_cont {R S : Type*} [CommRing R] [CommRing S] [TopologicalSpace R]
     [TopologicalSpace S] (n : ℕ) (f : R →+* S) (hf : Continuous f) :

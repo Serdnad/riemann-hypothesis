@@ -1,6 +1,5 @@
 module
 
-import all Development.AutomorphicArithmetic.Foundations.Convolution.ConvolutionKernels.GalEquiv
 public import Development.AutomorphicArithmetic.Foundations.Convolution.TraceSplitting.NormCharSplit
 public import Formalism.LocalToGlobal.UnitaryNorms.CharTransport
 public import CompanionTheory.AutomorphicTheory.UnitriangularMeasure.AdeleCoordinateMeasure.EllipticTorusNorm
@@ -307,7 +306,21 @@ private def finPerm (j : K ≃+* K) :
 private theorem module_map (σ : K ≃+* K) (x : (𝔸[K])ˣ) :
     (GroundTheory.Global.IdeleGroup.ideleModule K (Units.map (CT.adMap σ).toMonoidHom x) : ℝ) =
       GroundTheory.Global.IdeleGroup.ideleModule K x := by
-  apply _root_.module_map <;> assumption
+  rw [GroundTheory.Global.IdeleGroup.ideleModule_eq, GroundTheory.Global.IdeleGroup.ideleModule_eq]
+  congr 1
+  · refine Fintype.prod_equiv (infPerm σ) _ _ fun u => ?_
+    show ‖CT.infEquiv σ u ((x : 𝔸[K]).1 (u.comap σ.toRingHom))‖ ^ u.mult =
+      ‖(x : 𝔸[K]).1 (u.comap σ.toRingHom)‖ ^ (u.comap σ.toRingHom).mult
+    rw [norm_infEquiv, mult_comap_equiv]
+  · have h : ∀ v : HeightOneSpectrum (𝓞 K),
+        ‖((Units.map (CT.adMap σ).toMonoidHom x : (𝔸[K])ˣ) : 𝔸[K]).2 v‖ =
+          ‖(x : 𝔸[K]).2 (finPerm σ v)‖ := fun v => by
+      show ‖(CT.compEquiv σ.symm v).symm ((x : 𝔸[K]).2 (CT.plMap σ.symm v))‖ = _
+      have e := CT.norm_compEquiv σ.symm v ((CT.compEquiv σ.symm v).symm ((x : 𝔸[K]).2 (CT.plMap σ.symm v)))
+      rw [RingEquiv.apply_symm_apply] at e
+      exact e.symm
+    exact (finprod_congr h).trans
+      (finprod_comp_equiv (finPerm σ) (f := fun w => ‖(x : 𝔸[K]).2 w‖))
 
 variable [_root_.NumberField.IsTotallyComplex K] {n : ℕ}
 

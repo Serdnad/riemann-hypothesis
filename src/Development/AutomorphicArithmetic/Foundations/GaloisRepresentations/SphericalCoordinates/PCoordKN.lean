@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.InvMemLatMonoidOfMemAwaySupp
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.SphericalCoordinates.LevelChange
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsCommonPosDenominatorOfIsCompactFiniteAdele
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsLevelEqKN
@@ -21,7 +20,15 @@ variable {p : ℕ} [Fact p.Prime] {D : Datum p} {G : HTGroup p} (L : Link D G)
 
 private theorem smul_mem_laHat {c : AfP p} (hc : IsIntAf c) {v : AfP p ⊗[ℚ] VQ D} (hv : v ∈ LaHat D) :
     c • v ∈ LaHat D := by
-  apply _root_.GlobalTheory.W2.smul_mem_laHat <;> assumption
+  classical
+  haveI := D.freeLa
+  haveI := D.finLa
+  let b := Module.Free.chooseBasis ℤ D.La
+  apply KNLevel.mem_laHat_of_repr b
+  intro i
+  rw [map_smul, Finsupp.smul_apply, smul_eq_mul, KNLevel.isIntAf_iff]
+  exact mul_mem ((KNLevel.isIntAf_iff _).mp hc)
+    ((KNLevel.isIntAf_iff _).mp (KNLevel.repr_isIntAf b v hv i))
 
 private theorem inAf_mem_laHat (a : D.La) : inAf D a ∈ LaHat D := by
   unfold inAf LaHat

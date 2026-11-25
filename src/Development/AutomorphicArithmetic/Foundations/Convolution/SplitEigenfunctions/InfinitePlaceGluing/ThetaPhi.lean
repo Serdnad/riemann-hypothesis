@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.ModuliProofs.HolomorphicPeriodicCocycleCoboundary
 public import Development.AutomorphicArithmetic.Foundations.Convolution.SplitEigenfunctions.Entire
 public import Mathlib.Analysis.CStarAlgebra.Classes
 public import Mathlib.Analysis.Calculus.FDeriv.Defs
@@ -424,7 +423,6 @@ open UpperTheory.ConvolutionTheory.R2 UpperTheory.ConvolutionTheory.RankTwoDesce
 open scoped Classical
 open UpperTheory.ConvolutionTheory.R2.G (FS2 Rw nE row)
 
-
 open scoped nonZeroDivisors in
 private theorem den_of {Q : Set (FiniteAdeleRing (𝓞 ℚ) ℚ)} (hQ : IsCompact Q) :
     ∃ d : ℕ, 0 < d ∧ ∀ q : ℚ, algebraMap ℚ (FiniteAdeleRing (𝓞 ℚ) ℚ) q ∈ Q →
@@ -644,10 +642,6 @@ open UpperTheory.ConvolutionTheory.R2 UpperTheory.ConvolutionTheory.RankTwoDesce
 open scoped Classical
 open UpperTheory.ConvolutionTheory.R2.G (FS2 Rw nE row)
 
-private theorem abs_re' (x : A ℚ) : |UpperTheory.ConvolutionTheory.RankTwoDescent.re x| = ‖x.1 Rat.infinitePlace‖ :=
-  (InfinitePlace.Completion.isometry_extensionEmbeddingOfIsReal
-    (IsTotallyReal.isReal Rat.infinitePlace)).norm_map_of_map_zero (map_zero _) (x.1 Rat.infinitePlace)
-
 private theorem re_mul' (a b : A ℚ) :
     UpperTheory.ConvolutionTheory.RankTwoDescent.re (a * b) = UpperTheory.ConvolutionTheory.RankTwoDescent.re a * UpperTheory.ConvolutionTheory.RankTwoDescent.re b := by
   simp only [UpperTheory.ConvolutionTheory.RankTwoDescent.re, map_mul, Pi.mul_apply]
@@ -691,7 +685,7 @@ theorem UpperTheory.schwartzBruhat_translate_decay_bound :
   have hBk0 : 0 ≤ max B1 0 := le_max_right _ _
   have hBk : ∀ k ∈ C, ∀ i j, |UpperTheory.ConvolutionTheory.RankTwoDescent.re ((k⁻¹).val i j)| ≤ max B1 0 := by
     intro k hk i j
-    rw [abs_re']
+    rw [abs_re]
     have h1 := (le_abs_self _).trans ((Real.norm_eq_abs _).symm.le.trans (hB1 k hk))
     refine le_trans ?_ (h1.trans (le_max_left _ _))
     refine le_trans ?_ (Finset.single_le_sum (f := fun i => ∑ j, ‖((k⁻¹).val i j).1 Rat.infinitePlace‖)
@@ -724,7 +718,7 @@ theorem UpperTheory.schwartzBruhat_translate_decay_bound :
     intro j
     have e : Real.exp t * |UpperTheory.ConvolutionTheory.RankTwoDescent.re (z j)| = |UpperTheory.ConvolutionTheory.RankTwoDescent.re (x j)| := by
       rw [hxj, re_mul', re_iy' het, abs_mul, abs_of_pos (Real.exp_pos t)]
-    rw [e, abs_re']
+    rw [e, abs_re]
     exact (GroundTheory.Automorphic.GJGlobal.norm_apply_le_norm_homeomorphMixedSpace _ _).trans
       (norm_le_pi_norm (infPartPi x) j)
   have hyb : ∀ j, |UpperTheory.ConvolutionTheory.RankTwoDescent.re (y j)| ≤
@@ -806,7 +800,17 @@ private lemma gen {ι : Type*} (R : Set ι) (f : ι → ℝ) (hf : ∀ x, 0 ≤ 
         exact Summable.tsum_le_tsum_of_inj _ hinj' (fun c _ => hw0 c) (fun _ => le_rfl) hs hw
 
 private lemma wsum1 : Summable (fun l : ℤ => ((1 + |(l : ℝ)|) ^ 2)⁻¹) := by
-  apply _root_.GlobalTheory.RapidFourier.summable_inv_one_add_abs_sq <;> assumption
+  have h0 : Summable (fun m : ℕ => ((1 + (m : ℝ)) ^ 2)⁻¹) := by
+    have h := (Real.summable_one_div_nat_pow (p := 2)).mpr (by norm_num)
+    have h' := (summable_nat_add_iff 1).mpr h
+    refine h'.congr (fun m => ?_)
+    push_cast
+    rw [one_div, add_comm]
+  apply Summable.of_nat_of_neg
+  · refine h0.congr (fun m => ?_)
+    simp
+  · refine h0.congr (fun m => ?_)
+    simp
 
 private lemma wsum : Summable (fun p : ℤ × ℤ => ((1 + |(p.1 : ℝ)|) ^ 2)⁻¹ * ((1 + |(p.2 : ℝ)|) ^ 2)⁻¹) :=
   Summable.mul_of_nonneg wsum1 wsum1 (fun _ => by positivity) (fun _ => by positivity)
@@ -1148,16 +1152,12 @@ private theorem Yv_swap (q : ℚ) (hq : q ≠ 0) (b : A ℚ) (a a' : (A ℚ)ˣ) 
         = ((rt q * rt q * rt q⁻¹) * rt (ξ.1 0) * b + rt q⁻¹ * rt (ξ.1 1)) * ((a⁻¹ : (A ℚ)ˣ) : A ℚ) := by rw [← e]
       _ = _ := by ring
 
-private theorem re_mul (x y : A ℚ) : re (x * y) = re x * re y := by
-  simp [re, map_mul]
-private theorem re_add (x y : A ℚ) : re (x + y) = re x + re y := by
-  simp [re, map_add (f := _)]
 private theorem re_rat (q : ℚ) : re (rt q) = (q : ℝ) := by
   exact eq_ratCast (((Pi.evalRingHom (fun _ : InfinitePlace ℚ => ℝ) Rat.infinitePlace).comp
     (TR.pInf ℚ)).comp (algebraMap ℚ (A ℚ))) q
 private theorem re_inv (a : (A ℚ)ˣ) : re ((a⁻¹ : (A ℚ)ˣ) : A ℚ) = (re (a : A ℚ))⁻¹ := by
   have h : re (a : A ℚ) * re ((a⁻¹ : (A ℚ)ˣ) : A ℚ) = 1 := by
-    rw [← re_mul, Units.mul_inv]
+    rw [← re_mul', Units.mul_inv]
     simp [re]
   exact eq_inv_of_mul_eq_one_right h
 
@@ -1210,10 +1210,10 @@ theorem UpperTheory.norm_thetaSeries_siegelSet_le_exp :
     obtain ⟨h1, h2⟩ := hmaj t k hk (Yv b' a' ξ.1)
     have e0 : |re (Yv b' a' ξ.1 0)| = |((ξ.1 0 : ℚ) : ℝ)| * α := by
       change |re (rt (ξ.1 0) * (a' : A ℚ))| = _
-      rw [re_mul, re_rat, abs_mul]
+      rw [re_mul', re_rat, abs_mul]
     have e1 : |re (Yv b' a' ξ.1 1)| = |((ξ.1 0 : ℚ) : ℝ) * β + ((ξ.1 1 : ℚ) : ℝ)| / α := by
       change |re ((rt (ξ.1 0) * b' + rt (ξ.1 1)) * ((a'⁻¹ : (A ℚ)ˣ) : A ℚ))| = _
-      rw [re_mul, re_add, re_mul, re_rat, re_rat, re_inv, abs_mul, abs_inv, div_eq_mul_inv]
+      rw [re_mul', re_add', re_mul', re_rat, re_rat, re_inv, abs_mul, abs_inv, div_eq_mul_inv]
     by_cases hξ : ξ ∈ R
     · rw [Set.indicator_of_mem hξ]
       rw [e0, e1] at h1

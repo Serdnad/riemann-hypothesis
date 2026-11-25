@@ -1,6 +1,5 @@
 module
 
-import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.RangeStable
 public import Development.AutomorphicArithmetic.Foundations.BaseChangeIdentities.RealTraceClifford.ClifMod
 public import Development.AutomorphicArithmetic.Foundations.BaseChangeIdentities.RealTraceClifford.CfBasic
 public import Development.AutomorphicArithmetic.Foundations.BaseChangeIdentities.RealTraceClifford.TraceRestrictSupDisjoint
@@ -971,7 +970,6 @@ private theorem nsq_eq {n : ℕ} (u : Fin n → ℝ) : Formalism.REAL.nsq u = ns
 
 private theorem cas_map {A B : Type} [Ring A] [Ring B] [Algebra ℂ A] [Algebra ℂ B] {n : ℕ} (φ : A →ₐ[ℂ] B)
     (F : Fin n → Fin n → A) : φ (Cas F) = Cas fun a b => φ (F a b) := by
-  set_option synthInstance.maxHeartbeats 100000 in
     simp [Cas, map_sum, map_mul]
 
 private theorem spn_map {A B : Type} [Ring A] [Ring B] [Algebra ℂ A] [Algebra ℂ B] {n : ℕ} (φ : A →ₐ[ℂ] B)
@@ -1005,8 +1003,17 @@ private theorem cas_bar {V : Type} [NormedAddCommGroup V] [InnerProductSpace ℂ
 
 private theorem kF_gl {V : Type} [NormedAddCommGroup V] [InnerProductSpace ℂ V] {n : ℕ}
     {E1 E2 : Fin n → Fin n → Module.End ℂ V} (hP : IsPair E1 E2) : GlRel (kF E1 E2) := by
-  intros
-  apply _root_.GlobalTheory.CompanionTheory.RealCount.KHw.glRel_kF <;> assumption
+  intro a b c d
+  have e1 := hP.gl1 a b c d
+  have e2 := hP.gl2 a b c d
+  have h : (E1 a b + E2 a b) * (E1 c d + E2 c d) - (E1 c d + E2 c d) * (E1 a b + E2 a b) =
+      (E1 a b * E1 c d - E1 c d * E1 a b) + (E2 a b * E2 c d - E2 c d * E2 a b) := by
+    simp only [add_mul, mul_add]
+    rw [hP.comm a b c d, hP.comm c d a b]
+    abel
+  simp only [kF]
+  rw [h, e1, e2]
+  split_ifs <;> abel
 
 private theorem gel_val {n : ℕ} (lam : Fin n → ℤ) (s : Bool) :
     GlobalTheory.Dec.gelfVal (infOf lam s) 2 =

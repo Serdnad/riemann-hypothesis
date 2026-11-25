@@ -766,7 +766,10 @@ private theorem exists_unit {E : Type} [Field E] [NumberField E] (P : HeightOneS
 
 private theorem fin_lift {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E]
     (y : Af F ⊗[F] E) : finPartF F E (PositivityTheory.ThKW.LatB.liftF F E y) = y := by
-  apply _root_.finPart_lift <;> assumption
+  induction y using TensorProduct.induction_on with
+  | zero => rw [map_zero, map_zero]
+  | tmul a t => rfl
+  | add x y hx hy => rw [map_add (f := _), map_add (f := _), hx, hy]
 
 private theorem inf_lift {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E]
     (y : Af F ⊗[F] E) : infPartF F E (PositivityTheory.ThKW.LatB.liftF F E y) = 0 := by
@@ -841,7 +844,7 @@ private theorem relIndex_map_of_injOn {G G' : Type} [AddGroup G] [AddGroup G'] (
     (hH : H ≤ R) (hK : K ≤ R) (hf : ∀ x ∈ R, f x = 0 → x = 0) :
     (H.map f).relIndex (K.map f) = H.relIndex K := by
   have hinj : Function.Injective (f.comp R.subtype) := by
-    set_option backward.isDefEq.respectTransparency.instanceSearchTypes false in rw [injective_iff_map_eq_zero]
+    rw [injective_iff_map_eq_zero]
     intro x hx
     exact Subtype.ext (hf x x.2 hx)
   have h1 := AddSubgroup.relIndex_map_map_of_injective (H.addSubgroupOf R) (K.addSubgroupOf R) hinj

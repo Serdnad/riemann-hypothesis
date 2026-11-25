@@ -1,6 +1,5 @@
 module
 
-import all Development.AutomorphicArithmetic.Foundations.Convolution.BlockEvaluation.TotalDegreeAevalLe
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.SphericalCoordinates.DetOfCharpoly
 public import Mathlib.RingTheory.Complex
 public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ExistsFamilyExponentialLocally
@@ -805,7 +804,19 @@ open GlobalTheory.HodgeCoh GlobalTheory.CechDR Polynomial UpperTheory.Gal.W2
 
 private lemma exists_fin_map (n : ℕ) (s : Multiset ℂ) (h : Multiset.card s = n) :
     ∃ r : Fin n → ℂ, (Finset.univ : Finset (Fin n)).val.map r = s := by
-  apply _root_.exists_fin_map <;> assumption
+  induction n generalizing s with
+  | zero =>
+    refine ⟨Fin.elim0, ?_⟩
+    rw [Multiset.card_eq_zero] at h
+    simp [h]
+  | succ n ih =>
+    obtain ⟨a, ha⟩ := Multiset.card_pos_iff_exists_mem.1 (by omega : 0 < Multiset.card s)
+    obtain ⟨t, rfl⟩ := Multiset.exists_cons_of_mem ha
+    obtain ⟨r, hr⟩ := ih t (by simpa using h)
+    refine ⟨Fin.cons a r, ?_⟩
+    rw [Fin.univ_val_map, List.ofFn_succ, ← Multiset.cons_coe]
+    simp only [Fin.cons_zero, Fin.cons_succ]
+    rw [← Fin.univ_val_map, hr]
 
 private lemma newton_step (n k : ℕ) (r : Fin n → ℂ) :
     (k : ℂ) * ((Finset.univ : Finset (Fin n)).val.map r).esymm k =

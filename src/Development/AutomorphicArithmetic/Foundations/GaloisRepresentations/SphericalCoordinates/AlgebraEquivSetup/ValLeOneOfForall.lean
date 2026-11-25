@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.RootFlatPushforwardGeoFun
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.SphericalCoordinates.AlgebraEquivSetup.ApartOfNotMem
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.MemMaxCompactGLOfCommuteEtaleCharpolyBounded
 import Mathlib.Tactic.Linter.Style
@@ -21,7 +20,21 @@ open scoped TensorProduct
 namespace UpperTheory.Gal.W2.Seed
 
 private theorem den_of_norm {p : ℕ} [Fact p.Prime] {c : ℚ} (h : ‖(c : ℚ_[p])‖ ≤ 1) : ¬ p ∣ c.den := by
-  apply _root_.GlobalTheory.CoordP.not_dvd_den_of_norm_le_one' <;> assumption
+  intro hd
+  have h1 : ‖((c.den : ℕ) : ℚ_[p])‖ < 1 := Padic.norm_natCast_lt_one_iff.2 hd
+  have hn : ¬ p ∣ c.num.natAbs := fun hn =>
+    (Fact.out : p.Prime).one_lt.ne' (Nat.eq_one_of_dvd_coprimes c.reduced hn hd)
+  have hn1 : ‖((c.num.natAbs : ℕ) : ℚ_[p])‖ = 1 := by
+    have h0 : ‖((c.num.natAbs : ℕ) : ℤ_[p])‖ = 1 :=
+      PadicInt.norm_natCast_eq_one_iff.2 ((Nat.Prime.coprime_iff_not_dvd Fact.out).2 hn)
+    rw [← PadicInt.coe_natCast]
+    exact h0
+  have h2 : ‖(c.num : ℚ_[p])‖ = 1 := by
+    rcases Int.natAbs_eq c.num with e | e <;> rw [e] <;> simpa using hn1
+  have h3 : (c : ℚ_[p]) * (c.den : ℚ_[p]) = c.num := by exact_mod_cast Rat.mul_den_eq_num c
+  have h4 := congrArg norm h3
+  rw [norm_mul, h2] at h4
+  nlinarith [norm_nonneg (c : ℚ_[p]), norm_nonneg ((c.den : ℕ) : ℚ_[p])]
 
 private theorem val_rat_le {p : ℕ} [Fact p.Prime] {E : Type} [Field E] [NumberField E] (w : Plc E)
     (hw : (p : 𝓞 E) ∈ w.asIdeal) {c : ℚ} (h : ‖(c : ℚ_[p])‖ ≤ 1) : w.valuation E (algebraMap ℚ E c) ≤ 1 := by
@@ -187,10 +200,6 @@ private theorem norm_of_mem_intKQ {p : ℕ} [Fact p.Prime] (K : IntermediateFiel
       exact b.2
   exact (_root_.GlobalTheory.mem_padicAlgCl_valuationSubring_iff_norm_le_one _).1 (hle hz)
 
-private theorem norm_galois {p : ℕ} [Fact p.Prime] (σ : PadicAlgCl p ≃ₐ[ℚ_[p]] PadicAlgCl p) (z : PadicAlgCl p) :
-    ‖σ z‖ = ‖z‖ := by
-  rw [← PadicAlgCl.spectralNorm_eq, ← PadicAlgCl.spectralNorm_eq, spectralNorm, spectralNorm, minpoly.algEquiv_eq]
-
 private theorem norm_of_Kint {p : ℕ} [Fact p.Prime] (t : ℚ_[p]ˣ)
     (h : (GeneralLinearGroup.scalar (Fin 1)) (Units.map (algebraMap ℚ_[p] (Qr p 1)).toMonoidHom t) ∈
       GlobalTheory.LKLoc.Kint p (Q0 p) 1 1) : ‖(t : ℚ_[p])‖ ≤ 1 := by
@@ -253,7 +262,7 @@ private theorem over_norm (S : Setup A n p) (y : Gam0 E n)
     (hτ : LiesOver S.P.Kq S.P.u τ) (j l : Fin n) : ‖τ (y.1.1.val j l)‖ ≤ 1 := by
   obtain ⟨i, σ, rfl⟩ := S.P.emb_all τ hτ
   show ‖σ (S.P.emb i (y.1.1.val j l))‖ ≤ 1
-  rw [norm_galois]
+  rw [GaloisNormAlt.Bridge.RingBasics.norm_gal]
   exact entry_norm S y hy i j l
 
 private theorem rat_norm {E : Type} [Field E] {p : ℕ} [Fact p.Prime] (τ : E →+* PadicAlgCl p) [Algebra ℚ E] (c : ℚ) :

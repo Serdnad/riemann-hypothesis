@@ -1,6 +1,5 @@
 module
 
-import all Development.AutomorphicArithmetic.Foundations.Convolution.ConvolutionKernels.GalEquiv
 public import GroundTheory.AutomorphicForms.AutomorphicFormSpaces.Height
 public import Formalism.LocalToGlobal.UnitaryNorms.CharTransport
 public import Development.WeilBound.RepresentationTheoryGL.TwistedFactors.CuspDecayHeights.HeightLe
@@ -65,7 +64,12 @@ private theorem norm_algebraMap_inf {K : Type} [Field K] (u : InfinitePlace K) (
 
 private theorem norm_infEquiv {K : Type} [Field K] [NumberField K] (σ : K ≃+* K) (u : InfinitePlace K)
     (y : (u.comap σ.toRingHom).Completion) : ‖CT.infEquiv σ u y‖ = ‖y‖ := by
-  apply _root_.norm_infEquiv <;> assumption
+  have h := (infDense (u.comap σ.toRingHom)).equalizer (continuous_norm.comp (CT.continuous_infEquiv σ u))
+    continuous_norm (funext fun x => ?_)
+  · exact congrFun h y
+  simp only [Function.comp_apply]
+  rw [CT.infEquiv_algebraMap, norm_algebraMap_inf, norm_algebraMap_inf]
+  rfl
 
 private theorem mult_comap_equiv {K : Type} [Field K] [NumberField K] (σ : K ≃+* K) (u : InfinitePlace K) :
     (u.comap σ.toRingHom).mult = u.mult := by

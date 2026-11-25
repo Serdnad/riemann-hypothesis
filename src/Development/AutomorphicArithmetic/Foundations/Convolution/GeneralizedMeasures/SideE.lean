@@ -1,6 +1,5 @@
 module
 
-import all Development.AutomorphicArithmetic.Foundations.Convolution.GeneralizedMeasures.RepOne
 public import Development.AutomorphicArithmetic.Foundations.Convolution.TensFun
 public import Development.AutomorphicArithmetic.Foundations.Convolution.ConvolutionKernels.KernelTransforms.CommPrj
 public import Development.AutomorphicArithmetic.Foundations.Convolution.PowerSumTraces.HopOloc
@@ -309,7 +308,13 @@ private def iwSet (E : Type) [Field E] [NumberField E] [Algebra F E] (n : ℕ) (
 
 private theorem iwCoset_zero' (w : Pl E) :
     iwCoset w (0 : Fin n → ℤ) = (GLnLocal.iwahori (w.adicCompletion E) n : Set (GL (Fin n) (w.adicCompletion E))) := by
-  apply _root_.iw_zero <;> assumption
+  ext g
+  constructor
+  · rintro ⟨a, ha, b, hb, rfl⟩
+    rw [GroundTheory.Automorphic.Parabolic.diagPow_zero, mul_one]
+    exact mul_mem ha hb
+  · intro hg
+    exact ⟨g, hg, 1, one_mem _, by rw [GroundTheory.Automorphic.Parabolic.diagPow_zero, mul_one, mul_one]⟩
 
 private theorem iwFn_zero {q : Pl F} (w₀ : PlacesOver E q) :
     iwFn w₀ (0 : Fin n → ℤ) = (iwSet E n q).indicator 1 := by
@@ -332,7 +337,7 @@ private theorem continuous_cmp' {v : Pl F} (w : PlacesOver E v) : Continuous (cm
 private theorem isCompact_iwSet (q : Pl F) : IsCompact (iwSet E n q) :=
   isCompact_compSet (R := fun w : PlacesOver E q => w.1.adicCompletion E) n
     (fun w => (GLnLocal.iwahori (w.1.adicCompletion E) n : Set (GL (Fin n) (w.1.adicCompletion E))))
-    fun w => GLnLocal.isCompact_iwahori _ n
+    fun _ => GLnLocal.isCompact_iwahori _ n
 
 private theorem isOpen_iwSet (q : Pl F) : IsOpen (iwSet E n q) := by
   simp only [iwSet, Set.setOf_forall]
