@@ -1,47 +1,8 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.TorsionPointsIntegral
 public import Development.AbelianVarietyTheory.Definitions.Divisors.HasRigidChart
 public import Development.AbelianVarietyTheory.Definitions.Divisors.IsProperToroidalModelStructureMap
 import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.PsiCoordExistsUniqueUpToUnitLocal
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.AlgebraicGeometry.Modules.Sheaf
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.SabPull
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.IsLinearHomPull
 import Development.AbelianVarietyTheory.Definitions.Divisors.HasDefect
@@ -69,8 +30,20 @@ theorem exists_gen_of_top {X Y : Scheme.{0}} {M : LB X} (hM : M.IsLB) {K : Type}
     (ε : K → ℤ) (j₀ : K → M.ι) (all : ∀ w : Y, w ∈ LB.wchart M φ j₀) (v : Γ(Y, ⊤)ˣ) :
     ∃ t : LB.Gen (LB.LinComb M φ ε), t.IsGen ∧ ∀ (Z : Scheme.{0}) (r : Z ⟶ Y) (z : Z) (j : K → M.ι),
       r z ∈ LB.wchart M φ j → gm r z (LB.wchart M φ j) (t.s j) = trF φ ε r z j j₀ * gm r z ⊤ v := by
-  intros
-  apply _root_.GlobalTheory.TorsionIntegral.exists_gen_of_chart <;> assumption
+  have le : ∀ j, LB.wchart M φ j ≤ LB.wchart M φ j ⊓ LB.wchart M φ j₀ := fun j w hw => ⟨hw, all w⟩
+  let t : LB.Gen (LB.LinComb M φ ε) :=
+    ⟨fun j => res (le j) ((LB.LinComb M φ ε).g j j₀) * res (le_top : LB.wchart M φ j ≤ ⊤) v⟩
+  have key : ∀ (Z : Scheme.{0}) (r : Z ⟶ Y) (z : Z) (j : K → M.ι),
+      r z ∈ LB.wchart M φ j → gm r z (LB.wchart M φ j) (t.s j) = trF φ ε r z j j₀ * gm r z ⊤ v :=
+    fun Z r z j h => (map_mul _ _ _).trans (congrArg₂ (· * ·)
+      ((gm_res r z (le j) h _).trans (gm_linComb M φ ε r z j j₀ h (all _))) (gm_res r z le_top h _))
+  refine ⟨t, fun j j' => Geo.Tor.unit_ext fun w hw => ?_, key⟩
+  have hm : (𝟙 Y : Y ⟶ Y) w ∈ LB.wchart M φ j ⊓ LB.wchart M φ j' := hw
+  refine ((gm_res _ w _ hm _).trans (key _ _ w j hm.1)).trans (Eq.trans ?_ ((map_mul _ _ _).trans
+    (congrArg₂ (· * ·) (gm_linComb M φ ε (𝟙 Y) w j j' hm.1 hm.2)
+      ((gm_res _ w _ hm _).trans (key _ _ w j' hm.2)))).symm)
+  rw [← trF_trans hM φ ε (𝟙 Y) w hm.1 hm.2 (all _), _root_.mul_assoc]
+  rfl
 
 theorem jK_app_toOpen {R : Type} [CommRing R] [IsDomain R] (r : R) :
     ((jK R).app ⊤).hom (DegPre.toOpen (R := R) ⊤ r) =

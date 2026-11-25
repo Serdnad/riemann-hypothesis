@@ -1,6 +1,5 @@
 module
 
-import Development.EtaleCohomology.TateTwists.ColumnOf
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.CorrFamAddTwo
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.CoefficientReductionFirstChernClassTateTwistAltI
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.EtaleLocalPrimitiveRootAndRootsOfUnityStatement
@@ -198,7 +197,6 @@ open CategoryTheory Limits AlgebraicGeometry Opposite CochainComplex CochainComp
 noncomputable section
 namespace GlobalTheory.EtC.RedChern
 
-set_option backward.isDefEq.respectTransparency false
 
 theorem delta_two_eq : (SimplexCategory.δ (2 : Fin 3) : SimplexCategory.mk 1 ⟶ SimplexCategory.mk 2) =
     SimplexCategory.subinterval 0 1 (by omega) := by
@@ -437,8 +435,17 @@ namespace GlobalTheory.LocalizedFinsetForAll
 theorem loc_forall_finset {U : Scheme.{0}} {ι : Type u} (s : Finset ι)
     {P : ι → (V : Scheme.{0}) → (V ⟶ U) → Prop} (h : ∀ i ∈ s, GlobalTheory.EtC.Loc U (P i)) :
     GlobalTheory.EtC.Loc U fun (V : Scheme.{0}) (g : V ⟶ U) ↦ ∀ i ∈ s, P i V g := by
-  intros
-  apply _root_.LateralTheory.EtaleFoundations.columnPf.loc_finset <;> assumption
+  classical
+  induction s using Finset.induction_on with
+  | empty =>
+    exact ⟨⊤, GrothendieckTopology.top_mem _ _, fun _ _ _ i hi => absurd hi (Finset.notMem_empty i)⟩
+  | insert a s _ ih =>
+    obtain ⟨S, hS, hSP⟩ := h a (Finset.mem_insert_self a s)
+    obtain ⟨T, hT, hTP⟩ := ih fun i hi => h i (Finset.mem_insert_of_mem hi)
+    refine ⟨S ⊓ T, GrothendieckTopology.intersection_covering _ hS hT, fun V g hg i hi => ?_⟩
+    rcases Finset.mem_insert.1 hi with rfl | hi
+    · exact hSP V g hg.1
+    · exact hTP V g hg.2 i hi
 
 end GlobalTheory.LocalizedFinsetForAll
 end -- clump:auto

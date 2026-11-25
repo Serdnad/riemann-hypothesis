@@ -8,7 +8,6 @@ import Development.AbelianVarietyTheory.Proofs.TwistedOperators.SplitPrimeAdditi
 import Mathlib.RingTheory.Ideal.Int
 import Mathlib.Tactic.Linter.HaveILetI
 public import Development.AbelianVarietyTheory.Definitions.Divisors.ExistsGivenStageEqOne
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.NotMemSqOfRamificationIdx
 
 @[expose] public section
 
@@ -59,7 +58,22 @@ theorem under_eq_span_of_mem (w : HeightOneSpectrum (𝓞 E)) {p : ℕ} (hp : p.
 theorem not_mem_sq_of_ramificationIdx {p : ℕ} (hl : p.Prime) (w : HeightOneSpectrum (𝓞 E))
     (hv : ((p : ℕ) : 𝓞 E) ∈ w.asIdeal) (he : w.asIdeal.ramificationIdx ℤ = 1) :
     ((p : ℕ) : 𝓞 E) ∉ w.asIdeal ^ 2 := by
-  apply _root_.GlobalTheory.Mem.Top.TwChar.not_mem_sq_of_ramificationIdx <;> assumption
+  have hp : Prime (p : ℤ) := Nat.prime_iff_prime_int.mp hl
+  have hmax : (Ideal.span {(p : ℤ)}).IsMaximal :=
+    PrincipalIdealRing.isMaximal_of_irreducible hp.irreducible
+  have hmap : Ideal.map (algebraMap ℤ (𝓞 E)) (Ideal.span {(p : ℤ)}) = Ideal.span {((p : ℕ) : 𝓞 E)} := by
+    rw [Ideal.map_span]; simp
+  have hle : Ideal.map (algebraMap ℤ (𝓞 E)) (Ideal.span {(p : ℤ)}) ≤ w.asIdeal := by
+    rw [hmap, Ideal.span_le]; simpa using hv
+  have := w.isPrime
+  have : w.asIdeal.LiesOver (Ideal.span {(p : ℤ)}) :=
+    ⟨hmax.eq_of_le (Ideal.comap_ne_top _ w.isPrime.ne_top) (Ideal.map_le_iff_le_comap.mp hle)⟩
+  have hb : Ideal.span {(p : ℤ)} ≠ ⊥ := by simpa using hl.ne_zero
+  rw [← Ideal.ramificationIdx'_eq_ramificationIdx (Ideal.span {(p : ℤ)}) w.asIdeal hb] at he
+  intro hsq
+  have hne : Ideal.ramificationIdx' (Ideal.span {(p : ℤ)}) w.asIdeal ≠ 1 := by
+    rw [Ideal.ramificationIdx'_ne_one_iff hle, hmap, Ideal.span_le]; simpa using hsq
+  exact hne he
 
 theorem not_le_differentIdeal (v : HeightOneSpectrum (𝓞 F)) (h : GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.SplitsFully E v) :
     ¬ differentIdeal ℤ (𝓞 F) ≤ v.asIdeal := by

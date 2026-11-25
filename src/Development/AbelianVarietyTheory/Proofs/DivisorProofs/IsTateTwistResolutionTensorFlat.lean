@@ -1,6 +1,5 @@
 module
 
-import Development.EtaleCohomology.TateTwists.TensorVanishing
 public import Development.AbelianVarietyTheory.Definitions.Divisors.SecClass
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.TateTwistSectionsLocallyGeneratedStatement
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.BigEtaleModuleSheafMonoEpiIffSections
@@ -212,7 +211,6 @@ theorem tens_eq_zero {I J : Cx R} (hI : ∀ s : ℤ, s ≠ 0 → IsZero (I.X s))
     (U : Scheme.{0}) (w : ℤ) (hw : w ≠ 0) (x : Tens I J U w) : x = 0 := by
   refine DFinsupp.ext fun p => ?_
   show x p = 0
-  have hp := p.2
   by_cases h1 : p.1.1 = 0
   · have h2 : p.1.2 ≠ 0 := by omega
     induction x p using TensorProduct.induction_on with
@@ -848,7 +846,19 @@ theorem Pair.lift_tensD {I J K : Cx R} (μ : Pair I J K) (U : Scheme.{0}) (w : �
 
 theorem Pair.lift_tensRes {I J K : Cx R} (μ : Pair I J K) {V U : Scheme.{0}} (g : V ⟶ U) (w : ℤ) (x : Tens I J U w) :
     μ.lift V w (Tens.res g w x) = Sec.res g (μ.lift U w x) := by
-  apply _root_.LateralTheory.EtaleFoundations.stairPf.lift_res <;> assumption
+  induction x using DirectSum.induction_on with
+  | zero => simp
+  | of p y =>
+    induction y using TensorProduct.induction_on with
+    | zero => simp
+    | tmul a b =>
+      have e3 := μ.lift_of_tmul U w p a b
+      have e4 := μ.lift_of_tmul V w p (Sec.res g a) (Sec.res g b)
+      simp only [Tens.of, DirectSum.lof_eq_of] at e3 e4
+      rw [e3, μ.nat g, ← e4, ← DirectSum.lof_eq_of (ULift.{1} R), ← DirectSum.lof_eq_of (ULift.{1} R), Tens.res, DirectSum.lmap_lof]
+      rfl
+    | add y z hy hz => simp only [map_add (f := _), hy, hz]
+  | add x y hx hy => simp only [map_add (f := _), hx, hy]
 
 theorem Tens.res_of_tmul (I J : Cx R) {V U : Scheme.{0}} (g : V ⟶ U) (w : ℤ) (p : {p : ℤ × ℤ // p.1 + p.2 = w})
     (a : Sec (I.X p.1.1) U) (b : Sec (J.X p.1.2) U) :

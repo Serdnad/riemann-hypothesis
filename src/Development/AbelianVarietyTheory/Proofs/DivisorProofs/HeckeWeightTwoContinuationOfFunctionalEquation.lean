@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Definitions.ThetaMetrics.ExistsEventuallyNormRiemannThetaTermLe
 public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.OmegaFactorization
 public import Mathlib.NumberTheory.NumberField.Basic
 public import Mathlib.RingTheory.Ideal.Norm.AbsNorm
@@ -381,7 +380,17 @@ theorem trace_eq_sum_emb (F : Type) [Field F] [NumberField F] [IsTotallyReal F] 
 
 theorem summable_pi_prod {ι : Type} [Fintype ι] {f : ι → ℤ → ℝ} (h0 : ∀ i x, 0 ≤ f i x)
     (hf : ∀ i, Summable (f i)) : Summable fun n : ι → ℤ => ∏ i, f i (n i) := by
-  apply _root_.GlobalTheory.summable_pi_prod_of_nonneg <;> assumption
+  classical
+  refine summable_of_sum_le (c := ∏ i, ∑' x, f i x)
+    (fun n => Finset.prod_nonneg fun i _ => h0 i _) fun s => ?_
+  calc ∑ n ∈ s, ∏ i, f i (n i)
+      ≤ ∑ n ∈ Fintype.piFinset fun i => s.image (· i), ∏ i, f i (n i) :=
+        Finset.sum_le_sum_of_subset_of_nonneg
+          (fun n hn => Fintype.mem_piFinset.mpr fun i => Finset.mem_image_of_mem _ hn)
+          fun n _ _ => Finset.prod_nonneg fun i _ => h0 i _
+    _ = ∏ i, ∑ x ∈ s.image (· i), f i x := (Finset.prod_univ_sum _ _).symm
+    _ ≤ _ := Finset.prod_le_prod₀ (fun i _ => Finset.sum_nonneg fun x _ => h0 i x)
+        fun i _ => (hf i).sum_le_tsum _ fun x _ => h0 i x
 
 theorem summable_exp_neg_abs {ε : ℝ} (hε : 0 < ε) : Summable fun n : ℤ => Real.exp (-ε * |(n : ℝ)|) := by
   have hg : Summable fun n : ℕ => Real.exp (-ε) ^ n :=
@@ -810,7 +819,6 @@ theorem summable_qClass_two [IsTotallyReal F] (𝔞 𝔟 : Frac F) (z : Emb F �
   set K : ℝ := ((2 * f + n).factorial : ℝ) / (2 * Real.pi * m) ^ (2 * f + n) with hK
   set C : ℝ := K / (nrm 𝔞 * κ) with hC
   have hK0 : 0 < K := by positivity
-  have hC0 : 0 < C := by positivity
   have key : ∀ ν b : F, ν ∈ (𝔞 : FractionalIdeal (𝓞 F)⁰ F) → ν ≠ 0 → b ≠ 0 → (∀ τ : Emb F, 0 < τ (ν * b)) →
       ‖qTerm 𝔞 2 z (ν, b)‖ ≤
         C * ((|((Algebra.norm ℚ b : ℚ) : ℝ)| ^ 2)⁻¹ * ‖remb F (ν * b)‖⁻¹ ^ n) := by
@@ -913,7 +921,6 @@ theorem summable_qClass_two [IsTotallyReal F] (𝔞 𝔟 : Frac F) (z : Emb F �
       rw [tsum_mul_left, tsum_mul_left, Real.rpow_neg (abs_nonneg _), Real.rpow_two]
       have hH : ∑' ν, ‖ι c ν‖⁻¹ ^ n ≤ ∑' v : latOf N, ‖v‖⁻¹ ^ n :=
         tsum_comp_le_tsum_of_inj hL (fun _ => by positivity) (hι c)
-      have hB : 0 ≤ (Bf c ^ 2)⁻¹ := by positivity
       calc C * ((Bf c ^ 2)⁻¹ * ∑' ν, ‖ι c ν‖⁻¹ ^ n) ≤ C * ((Bf c ^ 2)⁻¹ * ∑' v : latOf N, ‖v‖⁻¹ ^ n) := by
             gcongr
         _ = _ := by simp only [hBf]; ring
@@ -1408,7 +1415,11 @@ theorem exists_equiv (M : FractionalIdeal (𝓞 F)⁰ F) (N : Frac F) (hM : M * 
     exact Subtype.ext (Subtype.ext (FractionalIdeal.coeIdeal_injective h3))
 
 theorem card_emb [IsTotallyReal F] : Fintype.card (Emb F) = Module.finrank ℚ F := by
-  apply _root_.GlobalTheory.HeckeTwo.BZeroGood.card_emb_totReal <;> assumption
+  have h := prod_emb (F := F) (algebraMap ℚ F 2)
+  rw [Algebra.norm_algebraMap] at h
+  simp only [map_ofNat, Finset.prod_const, Finset.card_univ] at h
+  have h' : (2 : ℕ) ^ Fintype.card (Emb F) = 2 ^ Module.finrank ℚ F := by exact_mod_cast h
+  exact Nat.pow_right_injective le_rfl h'
 
 theorem eisTerm_zero [IsTotallyReal F] (a : F) :
     eisTerm 2 0 0 (a, 0) = ((2 * (Real.pi : ℂ) * I)⁻¹ ^ 2) ^ Module.finrank ℚ F *

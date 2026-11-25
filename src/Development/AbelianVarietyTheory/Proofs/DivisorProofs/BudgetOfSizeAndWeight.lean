@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ClassSumDenominatorBoundOfCmThetaHypothesesStatement
 public import Mathlib.Analysis.SpecialFunctions.Log.Basic
 public import Development.AbelianVarietyTheory.Definitions.Divisors.DividedWeightUnique
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.DividedWeightEntriesSignsSizes
@@ -182,15 +181,12 @@ theorem anti (hW : W.Hyp) (hD : W.IsDiv) (τ : ι) (a b : Fin N) (hab : a ≤ b)
 
 theorem far (hW : W.Hyp) (hD : W.IsDiv) (τ : ι) (a b : Fin N) (ha : W.p ≤ (a : ℕ)) (hab : a ≠ b) :
     W.g ≤ |reWt W.u' τ a - reWt W.u' τ b| := by
-  have hk := hW.kc_lt
   rcases lt_or_gt_of_ne hab with h | h
   · have h' : (a : ℕ) < b := h
-    have hb := b.2
     have h1 := adj_ge W hW hD τ a ⟨a + 1, by omega⟩ rfl (by simp only; omega)
     have h2 := anti W hW hD τ ⟨a + 1, by omega⟩ b (show (a : ℕ) + 1 ≤ b from h')
     exact le_trans (by linarith) (le_abs_self _)
   · have h' : (b : ℕ) < a := h
-    have hb := a.2
     have h1 := adj_ge W hW hD τ ⟨a - 1, by omega⟩ a (by simp only; omega) ha
     have h2 := anti W hW hD τ b ⟨a - 1, by omega⟩ (show (b : ℕ) ≤ a - 1 by omega)
     exact le_trans (by linarith) (neg_le_abs _)
@@ -299,8 +295,20 @@ namespace GlobalTheory.MeanTop
 
 theorem sum_padicValNat_mul_log_le_log (n : ℕ) (S : Finset ℕ) (hS : ∀ p ∈ S, p.Prime) :
     ∑ p ∈ S, (padicValNat p n : ℝ) * Real.log p ≤ Real.log n := by
-  intros
-  apply _root_.GlobalTheory.NormSum.DenomBound.sum_val_log_le <;> assumption
+  classical
+  rw [Real.log_nat_eq_sum_factorization, Finsupp.sum]
+  have h1 : ∑ p ∈ S, (padicValNat p n : ℝ) * Real.log p
+      = ∑ p ∈ S, (n.factorization p : ℝ) * Real.log p :=
+    Finset.sum_congr rfl fun p hp => by rw [Nat.factorization_def n (hS p hp), Nat.padicValNat_def]
+  rw [h1]
+  have h2 : ∑ p ∈ S ∪ n.factorization.support, (n.factorization p : ℝ) * Real.log p
+      = ∑ p ∈ n.factorization.support, (n.factorization p : ℝ) * Real.log p := by
+    symm
+    refine Finset.sum_subset Finset.subset_union_right fun p _ hp => ?_
+    rw [Finsupp.notMem_support_iff.1 hp]; simp
+  rw [← h2]
+  exact Finset.sum_le_sum_of_subset_of_nonneg Finset.subset_union_left
+    fun p _ _ => mul_nonneg (Nat.cast_nonneg _) (Real.log_natCast_nonneg p)
 
 theorem sum_vDiff_mul_log_le :
     ∀ (D : D7) (S : Finset ℕ), (∀ p ∈ S, p.Prime) → (∀ p, 0 ≤ vDiff D p) ∧ ∑ p ∈ S, vDiff D p * Real.log p ≤ Real.log D.host.rdE := by
@@ -480,7 +488,6 @@ theorem l1_u_le {ι : Type} [Fintype ι] {N : ℕ} (W : GlobalTheory.MeanTop.Wts
   classical
   have hkN : W.kc < N := hW.kc_lt.trans hW.p_lt
   have hc : (0 : ℝ) ≤ W.c0 := by exact_mod_cast hW.weightConst_nonneg
-  have hN : (0 : ℝ) ≤ N := Nat.cast_nonneg _
   have key : ∀ τ, ∑ i, |(W.u τ i : ℝ)| ≤ N * W.S + ((N - W.kc : ℕ) : ℝ) * (2 * W.b) := fun τ => by
     calc ∑ i, |(W.u τ i : ℝ)| ≤ ∑ i : Fin N, (W.S + if i ∈ Finset.Ici (⟨W.kc, hkN⟩ : Fin N) then 2 * W.b else 0) := by
           refine Finset.sum_le_sum fun i _ => ?_

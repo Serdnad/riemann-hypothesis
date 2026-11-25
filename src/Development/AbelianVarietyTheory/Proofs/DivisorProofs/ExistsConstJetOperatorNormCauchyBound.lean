@@ -1,6 +1,5 @@
 module
 
-import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.OddDualWeylJacobian.DegreeBalance
 public import Development.AbelianVarietyTheory.Definitions.ThetaMetrics.SumFinsuppAntidiagProdPowDivMultiFactorial
 public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.ExistsMulOfApprox
 public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.SubDSharpInDeg
@@ -149,7 +148,24 @@ private theorem isHomogeneous_det_X_matrix {σ : Type} {k : ℕ} (g : Fin k → 
 
 private theorem sum_succ_mul_sub_nuNext_eq_sum_of_antitone {n : ℕ} (ν : Fin n → ℕ) (hν : Antitone ν) :
     ∑ s : Fin n, (s.val + 1) * (ν s - Formalism.GradedWeylDivisibility.nuNext ν s) = ∑ s, ν s := by
-  apply _root_.PI.OddDualWeyl.MiscB.degW_eq <;> assumption
+  have h := Formalism.GradedWeylDivisibility.hw_weight_eq ν hν
+  have h2 : ∀ t, ∑ s : Fin n, (ν s - Formalism.GradedWeylDivisibility.nuNext ν s) * Formalism.GradedWeylDivisibility.initW n (s.val + 1) t = ν t := by
+    intro t
+    have := congrFun h t
+    simpa [Finset.sum_apply, smul_eq_mul] using this
+  have h3 : ∀ s : Fin n, ∑ t : Fin n, Formalism.GradedWeylDivisibility.initW n (s.val + 1) t = s.val + 1 := by
+    intro s
+    rw [← Formalism.GradedWeylDivisibility.sum_single_castLE (show s.val + 1 ≤ n by omega)]
+    simp only [Finset.sum_apply]
+    rw [Finset.sum_comm]
+    simp [Pi.single_apply]
+  calc ∑ s : Fin n, (s.val + 1) * (ν s - Formalism.GradedWeylDivisibility.nuNext ν s)
+      = ∑ s : Fin n, ∑ t : Fin n, (ν s - Formalism.GradedWeylDivisibility.nuNext ν s) * Formalism.GradedWeylDivisibility.initW n (s.val + 1) t := by
+        refine Finset.sum_congr rfl fun s _ => ?_
+        rw [← Finset.mul_sum, h3 s, mul_comm]
+    _ = ∑ t, ν t := by
+        rw [Finset.sum_comm]
+        exact Finset.sum_congr rfl fun t _ => h2 t
 
 theorem eNorm_le {n : ℕ} (l : DomWeight n) :
     eNorm l ≤ (∑ i, l.natW i).factorial * ((n : ℝ) ^ (∑ i, l.natW i)) ^ 2 := by
@@ -401,10 +417,6 @@ theorem GlobalTheory.FockJetBound.jetOp_norm_le : ∃ K : ℝ, 0 ≤ K ∧ ∀ (
   have cd : (∑ τ, ∑ i, ((lam τ).natW i : ℝ)) = (dn : ℝ) := by simp only [hdn, Nat.cast_sum]
   have cd' : (∑ τ, ∑ i, ((lam' τ).natW i : ℝ)) = (dn' : ℝ) := by simp only [hdn', Nat.cast_sum]
   rw [cd, cd']
-  have h0 : (0 : ℝ) ≤ dn := Nat.cast_nonneg _
-  have h0' : (0 : ℝ) ≤ dn' := Nat.cast_nonneg _
-  have ha0 : (0 : ℝ) ≤ a := Nat.cast_nonneg _
-  have hb0 : (0 : ℝ) ≤ b := Nat.cast_nonneg _
   have hc0 : (0 : ℝ) ≤ Fintype.card D.what₂.Tau := Nat.cast_nonneg _
   obtain ⟨Y, hY⟩ : ∃ Y : ℝ, Y = 2 + (dn : ℝ) + dn' + a + b + Fintype.card D.what₂.Tau := ⟨_, rfl⟩
   rw [← hY]

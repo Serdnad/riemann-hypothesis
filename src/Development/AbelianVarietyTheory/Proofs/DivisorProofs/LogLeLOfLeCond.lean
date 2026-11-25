@@ -1,6 +1,5 @@
 module
 
-import Development.AutomorphicArithmetic.ResidueCharacters.NumParameters
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsClassFam
 public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.TopPlaceLogTheta
 public import Formalism.SharpRestriction.Divisibility.PlaceRankTwoOne
@@ -24,7 +23,16 @@ theorem one_le_b (s : Scale) : 1 ≤ s.b := by
   exact Real.one_le_exp (by positivity)
 
 theorem condE_le_b (P : ParameterChoice' D large₂) : (LevelStarExponents.condE D : ℝ) ≤ large₂.sc.b := by
-  apply _root_.UpperTheory.N.Num.condN_le <;> assumption
+  have h := P.condE_le
+  have hb := one_le_b large₂.sc
+  have h1 : large₂.sc.b ^ ((1 : ℝ) / 2) ≤ large₂.sc.b := by
+    simpa using Real.rpow_le_rpow_of_exponent_le hb (show (1 : ℝ) / 2 ≤ 1 by norm_num)
+  have ht : (1 : ℝ) ≤ (D.R.t : ℝ) ^ 150 := one_le_pow₀ large₂.t_win.1
+  have hc : (LevelStarExponents.condE D : ℝ) ≤ (LevelStarExponents.condE D : ℝ) ^ 36 := by
+    exact_mod_cast Nat.le_self_pow (by norm_num) _
+  have h2 : (LevelStarExponents.condE D : ℝ) ^ 36 ≤ (LevelStarExponents.condE D : ℝ) ^ 36 * (D.R.t : ℝ) ^ 150 :=
+    le_mul_of_one_le_right (by positivity) ht
+  linarith
 
 theorem log_le_L_of_le_cond (P : ParameterChoice' D large₂) {p : ℕ} (hp : 0 < p) (h : p ≤ LevelStarExponents.condE D) :
     Real.log p ≤ large₂.sc.L := by
@@ -47,7 +55,6 @@ theorem f_mul_N_le_b (P : ParameterChoice' D large₂) (h4 : 4 * placeRankTwoOne
   rw [le_div_iff₀ (by positivity)] at h
   have hN : (D.R.N D.R.m : ℝ) ≤ (D.R.N D.R.m : ℝ) ^ 3 := by
     exact_mod_cast Nat.le_self_pow (by norm_num) _
-  have hN0 : (0 : ℝ) ≤ (D.R.N D.R.m : ℝ) ^ 3 := by positivity
   unfold placeRankTwoOne.NN at h4
   have h5 : (D.R.N D.R.m : ℝ) ≤ large₂.etaSz := by linarith
   have h6 : (1 : ℝ) ≤ (D.R.t : ℝ) ^ 3 := one_le_pow₀ ht

@@ -1,7 +1,5 @@
 module
 
-import Development.WeilBound.RepresentationTheoryGL.RegularisedSiegelWeil.SingularNullSets.LNullSing
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.WeilOperatorLatticeStabiliserLeftPreservesVacuum
 public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.WeilTensorModels
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.HermitianLatticeSelfDualEverywhere
 public import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.IsPrincipalIdealRingLoc
@@ -151,7 +149,6 @@ theorem exists_basis (n : ℕ) (L : Submodule (𝓞 E) (Fin n → E)) (hL : Subm
 
 end GlobalTheory.HermLocDualBasis
 
-
 open GlobalTheory.HermLocDualBasis in
 theorem GlobalTheory.HermLocDualBasis.exists_locDualBasis : ∀ (F E : Type) [Field F] [NumberField F] [Field E] [NumberField E]
     [Algebra F E] (σ : E →ₐ[F] E)
@@ -265,14 +262,6 @@ end -- clump:auto
 section -- clump:auto
 @[expose] public section
 
-namespace GlobalTheory.IntSmulMemSubmodule
-
-theorem exists_int_smul_mem {E : Type} [inst : Field E] [NumberField E] {n : ℕ}
-    (L : Submodule (NumberField.RingOfIntegers E) (Fin n → E)) (hL : Submodule.IsFullLattice E L)
-    (w : Fin n → E) : ∃ (N : ℤ), N ≠ (0 : ℤ) ∧ N • w ∈ L := by
-  apply GlobalTheory.LatAlmostAll.exists_int_smul_mem <;> assumption
-
-end GlobalTheory.IntSmulMemSubmodule
 end -- clump:auto
 end -- clump:auto
 -- ===== end clump member: Development.AbelianVarietyTheory.Proofs.FlagMeasures.ImportsBisSide =====
@@ -329,8 +318,8 @@ theorem core {n d : ℕ} (X : Spc F E n) (Y : Spc F E d) (hX : X.L.IsFullLattice
     (i : Fin n) (j : Fin d) (t : Fv F v) (x : E) :
     ∃ X₀ : Matrix (Fin n) (Fin d) E,
       Matrix.single i j (GlobalTheory.EmbChart.atPlace v t ⊗ₜ[F] x) - GlobalTheory.EmbChart.atPlace v 1 • incM F X₀ ∈ latAtV X Y v := by
-  obtain ⟨N, hN, hNx⟩ := _root_.GlobalTheory.IntSmulMemSubmodule.exists_int_smul_mem X.L hX (Pi.single i x)
-  obtain ⟨N', hN', hNy⟩ := _root_.GlobalTheory.IntSmulMemSubmodule.exists_int_smul_mem Y.L hY (Pi.single j 1)
+  obtain ⟨N, hN, hNx⟩ := _root_.GlobalTheory.IntegerMultipleMembership.exists_int_smul_mem X.L hX (Pi.single i x)
+  obtain ⟨N', hN', hNy⟩ := _root_.GlobalTheory.IntegerMultipleMembership.exists_int_smul_mem Y.L hY (Pi.single j 1)
   have hK : ((N * N' : ℤ) : F) ≠ 0 := Int.cast_ne_zero.2 (mul_ne_zero hN hN')
   obtain ⟨s, hs⟩ := exists_sub_mem v t hK
   set r := (algebraMap F (Fv F v) ((N * N' : ℤ) : F))⁻¹ * (t - algebraMap F (Fv F v) s) with hr
@@ -595,14 +584,6 @@ theorem decomp_sum (σ : E →ₐ[F] E) {n d : ℕ} (J : Matrix (Fin n) (Fin n) 
   refine Finset.sum_congr rfl fun k _ => Finset.sum_congr rfl fun m _ => ?_
   ring
 
-theorem incM_smul {m k : Type} (c : F) (Z : Matrix m k E) : incM F (c • Z) = algebraMap F (AF F) c • incM F Z := by
-  ext i j
-  simp only [incM, Matrix.map_apply, Matrix.smul_apply]
-  rw [Algebra.smul_def c, Algebra.smul_def (algebraMap F (AF F) c), map_mul]
-  congr 1
-  rw [← IsScalarTower.algebraMap_apply]
-  exact (Algebra.TensorProduct.includeRight : E →ₐ[F] AF F ⊗[F] E).commutes c
-
 theorem inv_mem_O {v : Pl (F := F)} {t : 𝓞 F} (ht : t ∉ v.asIdeal) :
     algebraMap F (Fv F v) ((t : F))⁻¹ ∈ v.adicCompletionIntegers F := by
   rw [HeightOneSpectrum.mem_adicCompletionIntegers]
@@ -681,7 +662,7 @@ theorem lemD (σ : E →ₐ[F] E) (B : Base F E) {n d r s r' s' : ℕ} (X : Spc 
     hpX k, _, hwY k, ?_⟩
   · rw [GlobalTheory.EmbChart.evFin_atPlace]
     exact inv_mem_O hc0
-  · rw [hvm, incM_smul, smul_smul, GlobalTheory.EmbChart.atPlace_mul_right, one_mul, AlgHom.commutes]
+  · rw [hvm, GlobalTheory.MixXEvUniq.incM_smul, smul_smul, GlobalTheory.EmbChart.atPlace_mul_right, one_mul, AlgHom.commutes]
 
 theorem latAtV_selfDual : ∀ (F E : Type) [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] (σ : E →ₐ[F] E) (B : Base F E)
     (a a' : ℕ) (G : Geo σ a a') (X : Chars F E) (om : Rep σ G.V G.W) (om' : Rep σ G.V' G.W), IsTriple B G X om om' →
@@ -772,7 +753,15 @@ theorem exists_nhds_translate_eq {V : Type} [AddCommGroup V] [TopologicalSpace V
     rw [image_eq_zero_of_notMem_tsupport h1, image_eq_zero_of_notMem_tsupport h2]
 
 theorem nhdsNE_neBot {F : Type} [Field F] [NumberField F] (v : Pl (F := F)) : (nhdsWithin (0 : Fv F v) {0}ᶜ).NeBot := by
-  apply _root_.GlobalTheory.CompanionTheory.NullFr.FieldDec.neBot_fin <;> assumption
+  refine ⟨fun h => ?_⟩
+  have hopen : IsOpen ({0} : Set (Fv F v)) := (isOpen_singleton_iff_punctured_nhds _).2 h
+  haveI := discreteTopology_of_isOpen_singleton_zero hopen
+  haveI := GlobalTheory.AdelicUnitaryTop.compactSpace_adicCompletionIntegers F v
+  have hO : IsCompact ((v.adicCompletionIntegers F : Set (Fv F v))) := isCompact_iff_compactSpace.2 inferInstance
+  haveI : CharZero (Fv F v) := charZero_of_injective_algebraMap (algebraMap F (Fv F v)).injective
+  have hinf : ((v.adicCompletionIntegers F : Set (Fv F v))).Infinite :=
+    Set.infinite_of_injective_forall_mem (Nat.cast_injective (R := Fv F v)) fun n => natCast_mem _ n
+  exact hinf (hO.finite_of_discrete)
 
 end GlobalTheory.SchrSuppFin
 
@@ -1494,12 +1483,45 @@ variable {σ : E →ₐ[F] E}
 theorem vecMulVec_mem_latAtV_left {n d : ℕ} (X : Spc F E n) (W : Spc F E d) (v : Pl (F := F)) {y : Fin d → E} (hy : y ∈ W.L)
     {z : Fin n → AE F E} (hz : z ∈ latAt X v) :
     Matrix.vecMulVec z (fun i => inclR (F := F) (AF F) (y i)) ∈ latAtV X W v := by
-  apply _root_.GlobalTheory.VacTransportLeft.vecMulVec_mem_left <;> assumption
+  let f : (Fin n → AE F E) →+ Matrix (Fin n) (Fin d) (AE F E) :=
+    { toFun := fun z => Matrix.vecMulVec z (fun i => inclR (F := F) (AF F) (y i))
+      map_zero' := by ext i j; simp [Matrix.vecMulVec_apply]
+      map_add' := fun z z' => by ext i j; simp [Matrix.vecMulVec_apply, add_mul] }
+  have : latAt X v ≤ (latAtV X W v).comap f := by
+    refine (AddSubgroup.closure_le _).2 ?_
+    rintro z ⟨a, ha, hai, x, hx, rfl⟩
+    refine AddSubgroup.subset_closure ⟨a, ha, hai, x, hx, y, hy, ?_⟩
+    ext i j
+    simp only [f, AddMonoidHom.coe_mk, ZeroHom.coe_mk, Matrix.vecMulVec_apply, Matrix.smul_apply, incM,
+      Matrix.map_apply, map_mul, Algebra.smul_def, Pi.mul_apply, Pi.algebraMap_apply]
+    ring
+  exact this hz
 
 theorem mul_left_inv_mem_latAtV {n d : ℕ} (X : Spc F E n) (W : Spc F E d) (v : Pl (F := F)) {g : UA σ X.J}
     (hg : g ∈ KAt σ X v) {γ : Matrix (Fin n) (Fin d) (AE F E)} (hγ : γ ∈ latAtV X W v) :
     mat g⁻¹ * γ ∈ latAtV X W v := by
-  apply _root_.GlobalTheory.VacTransportLeft.inv_mul_mem <;> assumption
+  let f : Matrix (Fin n) (Fin d) (AE F E) →+ Matrix (Fin n) (Fin d) (AE F E) :=
+    { toFun := fun γ => mat g⁻¹ * γ
+      map_zero' := by simp
+      map_add' := fun γ γ' => by simp [Matrix.mul_add] }
+  have : latAtV X W v ≤ (latAtV X W v).comap f := by
+    refine (AddSubgroup.closure_le _).2 ?_
+    rintro z ⟨a, ha, hai, x, hx, y, hy, rfl⟩
+    show mat g⁻¹ * (a • incM F (Matrix.vecMulVec x y)) ∈ latAtV X W v
+    have hz : (a • fun i => inclR (F := F) (AF F) (x i)) ∈ latAt X v :=
+      AddSubgroup.subset_closure ⟨a, ha, hai, x, hx, rfl⟩
+    have e : mat g⁻¹ * (a • incM F (Matrix.vecMulVec x y)) =
+        Matrix.vecMulVec (mat g⁻¹ *ᵥ (a • fun i => inclR (F := F) (AF F) (x i)))
+          (fun j => inclR (F := F) (AF F) (y j)) := by
+      ext i j
+      simp only [Matrix.mul_apply, Matrix.vecMulVec_apply, Matrix.smul_apply, Matrix.mulVec,
+        dotProduct, incM, Matrix.map_apply, map_mul, Algebra.smul_def, Pi.mul_apply, Pi.algebraMap_apply,
+        Finset.sum_mul]
+      refine Finset.sum_congr rfl fun l _ => ?_
+      ring
+    rw [e]
+    exact vecMulVec_mem_latAtV_left X W v hy (hg.2 _ hz).2
+  exact this hγ
 
 theorem acts_vacCond_of_mem_KAt_left : ∀ (F E : Type) [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] (σ : E →ₐ[F] E) (B : Base F E)
     (a a' : ℕ) (G : Geo σ a a') (X : Chars F E) (om : Rep σ G.V G.W) (om' : Rep σ G.V' G.W), IsTriple B G X om om' →
@@ -1522,7 +1544,7 @@ theorem acts_vacCond_of_mem_KAt_left : ∀ (F E : Type) [Field F] [NumberField F
     rw [smul_zero, e0]
     funext x
     simp [Darboux.rho, schr]
-  have hrφ : Rest (evFin F v) φ r := GlobalTheory.T.complementaryAdelicSchwartz_of_nonzero_local v φ₁ φ r h0 hφ hr
+  have hrφ : Rest (evFin F v) φ r := GlobalTheory.RestCofactor.rest_of_rest v φ₁ φ r h0 hφ hr
   set γ' := actAB (cA σ) (k⁻¹, (1 : UA σ G.W.J)) γ
   have eγ' : γ' = mat k⁻¹ * γ := by
     simp [γ', actAB, mat]

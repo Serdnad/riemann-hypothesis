@@ -1,6 +1,5 @@
 module
 
-import Formalism.LocalToGlobal.IndefiniteReal.PrimitiveStatementsWithPassage
 public import Formalism.LocalToGlobal.IndefiniteReal.BaseLiftsPackageOfPrimitiveLinks
 public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.NormalFam
 public import Development.AbelianVarietyTheory.PublishedTheorems.GaloisGeometry₂.HoweUnram
@@ -19,45 +18,7 @@ public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.ThetaLift
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.CoreClausesOfWeakCharacterisation
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.RangeAdjointThLeSpanGood
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SpanImageInfOfLinearIndependent
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Topology.Sheaves.Init
 import Development.AbelianVarietyTheory.Proofs.SatakeParameters.ThetaLiftLevelsGoodPrimesProperties
-import Mathlib.RingTheory.PiTensorProduct
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ReduceModChar
 import Std.Tactic.BVDecide.Normalize.Prop
 import Formalism.LocalToGlobal.Divisibility.ProjLemmas
 import Mathlib.Tactic.Linter.Style
@@ -406,8 +367,22 @@ variable {K V W I : Type} [Field K] [AddCommGroup V] [Module K V] [AddCommGroup 
 theorem map_mem_eigAt (j : V →ₛₗ[σ] W) {op : I → Module.End K V} {opC : I → Module.End ℂ W}
     (hj : ∀ i x, j (op i x) = opC i (j x)) {s : I → K} {v : V} (hv : v ∈ eigAt op s) :
     j v ∈ eigAt opC fun i => σ (s i) := by
-  intros
-  apply _root_.Formalism.IndefR.Cx.map_eigAt <;> assumption
+  rw [eigAt, Submodule.mem_iInf]
+  intro i
+  obtain ⟨k, hk⟩ := (Module.End.mem_maxGenEigenspace _ _ _).1 (eigAt_le op s i hv)
+  rw [Module.End.mem_maxGenEigenspace]
+  refine ⟨k, ?_⟩
+  have key : ∀ (k : ℕ) (v : V), ((opC i - σ (s i) • (1 : Module.End ℂ W)) ^ k) (j v) =
+      j (((op i - s i • (1 : Module.End K V)) ^ k) v) := by
+    intro k
+    induction k with
+    | zero => intro v; simp
+    | succ k ih =>
+      intro v
+      rw [pow_succ, Module.End.mul_apply, pow_succ, Module.End.mul_apply, ← ih]
+      congr 1
+      simp only [LinearMap.sub_apply, LinearMap.smul_apply, Module.End.one_apply, map_sub, LinearMap.map_smulₛₗ, hj]
+  rw [key, hk, map_zero]
 
 theorem span_eigSum_le (j : V →ₛₗ[σ] W) {op : I → Module.End K V} {opC : I → Module.End ℂ W}
     (hj : ∀ i x, j (op i x) = opC i (j x)) (Q : (I → ℂ) → Prop) :

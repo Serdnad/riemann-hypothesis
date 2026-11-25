@@ -33,7 +33,6 @@ public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.IsHol
 public import Development.AbelianVarietyTheory.Definitions.Divisors.ExistsIsClosedImmersionGenericPoint
 public import ReciprocityTheory.AnalyticForms.RegularLocalRings.Monomial
 public import ReciprocityTheory.AnalyticForms.RegularLocalRings.WMultA
-import all ReciprocityTheory.AnalyticForms.RegularLocalRings.WMultA
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.ToroidalBoundaryMetricData
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IdealSheafEqSpanOnBasicOpensOfStalkPrincipal
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsSncCoordinatesComplexPointSmoothVariety
@@ -52,44 +51,7 @@ public import ReciprocityTheory.AnalyticForms.PotentialTheory.PLLocalStatement
 public import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.GeometricallyConnectedOfIsIsoRestrict
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsLogResolutionProjectiveOfPrincipalisation
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsPullbackSectionZerosNormMultiplicities
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Data.Nat.Choose.Multinomial
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
 import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsConjFsBasisOfUnitary
 import Mathlib.Analysis.Calculus.ContDiff.WithLp
 import Mathlib.Analysis.InnerProductSpace.Calculus
@@ -101,13 +63,8 @@ import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ResidueDegreeGeneri
 import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ResidueDegreeOfIsOpenImmersion
 import Development.AbelianVarietyTheory.Proofs.DivisorProofs.TopologicalKrullDimEqOfIsIsoRestrict
 import Mathlib.AlgebraicGeometry.QuasiAffine
-import Mathlib.Tactic.Basify
 import Std.Tactic.BVDecide.Normalize.Prop
 import Mathlib.AlgebraicGeometry.Morphisms.QuasiFinite
-import Mathlib.RingTheory.PiTensorProduct
-import Mathlib.Tactic.TypeStar
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Topology.Sheaves.Init
 import Development.AbelianVarietyTheory.Definitions.Divisors.FirstChernLeviEqConstant
 import Development.AbelianVarietyTheory.Definitions.Divisors.SlopeTestRemainingChoices
 import ReciprocityTheory.AnalyticForms.PotentialTheory.ContDiffAtOfIsPotential
@@ -116,7 +73,6 @@ import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.IsLatBasisZe
 import Mathlib.Algebra.Azumaya.Basic
 import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.ExistsIsoIsMonHomOfIsGtOfRangeEq
 import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsLinearEquivLift
-import Mathlib.RingTheory.TotallySplit
 import Development.AbelianVarietyTheory.Proofs.FoundationProofs.SpanFinrankMaximalIdealLeNcardOfLeSupSq
 import Mathlib.Tactic.Linter.HaveILetI
 import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.AmpleOnAbelianBase
@@ -128,8 +84,6 @@ import Formalism.LocalToGlobal.LatticeGeometry.CmTypeMeetsConjugatePair
 import Formalism.LocalToGlobal.ProjectiveLattices.ErealAddIInf
 import Formalism.SharpRestriction.CuspSpanNormBounds.Point
 import Formalism.SharpRestriction.LevelLetterCocycles.DataNLoc
-import Mathlib.AlgebraicGeometry.Modules.Sheaf
-import Mathlib.RingTheory.Ideal.KrullsHeightTheorem
 import Development.AbelianVarietyTheory.Definitions.Divisors.DetJacMatCoordsEqTransitionJacobianDet
 
 -- This file was produced by scripts/clump.py from the modules listed below.
@@ -584,7 +538,13 @@ namespace GlobalTheory.OrdPush
 
 theorem ord_ringEquiv {T T' : Type*} [CommRing T] [CommRing T'] (e : T ≃+* T') (x : T) :
     Ring.ord T' (e x) = Ring.ord T x := by
-  apply _root_.ReciprocityTheory.AnForm.R.WMult.ring_ord_ringEquiv_apply <;> assumption
+  let _ : Algebra T T' := e.toRingHom.toAlgebra
+  let e' : T ≃ₐ[T] T' := { e with commutes' := fun _ => rfl }
+  unfold Ring.ord
+  rw [← Module.length_eq_of_surjective (S := T) (R := T') e.surjective]
+  refine (Ideal.quotientEquivAlg (Ideal.span {x}) (Ideal.span {e x}) e' ?_).toLinearEquiv.length_eq.symm
+  rw [Ideal.map_span, Set.image_singleton]
+  rfl
 
 theorem ord_isLocalization {S : Type*} [CommRing S] (M : Submonoid S) (T T' : Type*) [CommRing T]
     [CommRing T'] [Algebra S T] [Algebra S T'] [IsLocalization M T] [IsLocalization M T'] (s : S) :

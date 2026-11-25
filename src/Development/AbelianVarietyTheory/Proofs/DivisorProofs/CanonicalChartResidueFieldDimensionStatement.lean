@@ -1,6 +1,5 @@
 module
 
-import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.PCMParameterQuotient
 public import Mathlib.NumberTheory.NumberField.Basic
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.SumMulEqZeroOfSumToReal
 public import Mathlib.RingTheory.Ideal.Norm.AbsNorm
@@ -537,7 +536,18 @@ theorem trdeg_lt_aleph0_of_essFiniteType (F W : Type) [Field F] [CommRing W] [Is
   exact trdeg_lt_aleph0_of_finiteType
 
 theorem exists_nat_of_add_eq {d : WithBot ℕ∞} {n m : ℕ} (h : d + n = m) : ∃ k : ℕ, d = k ∧ k + n = m := by
-  apply _root_.GroundTheory.Heights₂.Heights.exists_nat_of_add_natCast_eq <;> assumption
+  induction d using WithBot.recBotCoe with
+  | bot => simp at h
+  | coe e =>
+    induction e using ENat.recTopCoe with
+    | top =>
+      exfalso
+      have h' : ((⊤ + n : ℕ∞) : WithBot ℕ∞) = ((m : ℕ∞) : WithBot ℕ∞) := by exact_mod_cast h
+      rw [WithBot.coe_inj, top_add] at h'
+      exact ENat.top_ne_natCast m h'
+    | coe k =>
+      refine ⟨k, rfl, ?_⟩
+      exact_mod_cast h
 
 end GlobalTheory.CDimAlg
 

@@ -1,6 +1,5 @@
 module
 
-import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LocalHolomorphicExponentialChart
 public import Development.AbelianVarietyTheory.Definitions.Divisors.NonemptyCuspFrame
 public import Development.AbelianVarietyTheory.Definitions.Divisors.ExistsUniqueIsTanFrameOfIsEmpty
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsLieCombIffIsCombAt
@@ -16,52 +15,12 @@ public import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.Cry
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.HodgeDeRhamOnModificationOfFlagCover
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.Spread
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.KodairaSpencerCoordinateUniqueNeZero
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
 import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.ExistsUniqueFrameChangeByMatrices
 import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.LowerTriIsUnitDet
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.Polynomial.Basic
 import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.FrameChangeComposeInvertBaseChangeTriangular
 import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.FrameChangeExistsUniqueOfSamePoint
-import Mathlib.Tactic.ReduceModChar
 import Std.Tactic.BVDecide.Normalize.Prop
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Data.Nat.Choose.Multinomial
 import Development.AbelianVarietyTheory.Definitions.Divisors.CommGroupMulMulEqMulInvMulMulMul
 import Development.AbelianVarietyTheory.Definitions.Divisors.ExistsChartOfIsLocalRing
 import Development.AbelianVarietyTheory.Definitions.Divisors.IsLocalRingTrivSqZeroExt
@@ -859,7 +818,23 @@ namespace GlobalTheory.CompHS
 open TrivSqZeroExt in
 theorem exists_spMap_fst_eq {S : Type} [CommRing S] (s : Sp (DualNumber S)) :
     ∃ t : Sp S, spMap (fstHom S S S).toRingHom t = s := by
-  apply _root_.GlobalTheory.CompanionTheory.Ar.Flat.ExpChart.Coords.surj_fstC <;> assumption
+  refine ⟨PrimeSpectrum.comap (inlHom S S) s, ?_⟩
+  show PrimeSpectrum.comap _ (PrimeSpectrum.comap _ s) = s
+  ext x
+  have hr : inr x.snd ∈ s.asIdeal := s.2.mem_of_pow_mem 2 (by
+    rw [show (inr x.snd : DualNumber S) ^ 2 = 0 by ext <;> simp [pow_two]]
+    exact s.asIdeal.zero_mem)
+  simp only [PrimeSpectrum.comap_asIdeal, Ideal.mem_comap]
+  change inl x.fst ∈ s.asIdeal ↔ x ∈ s.asIdeal
+  have e1 : inl x.fst + inr x.snd = x := inl_fst_add_inr_snd_eq x
+  have e2 : inl x.fst = x - inr x.snd := eq_sub_of_add_eq e1
+  constructor
+  · intro h
+    rw [← e1]
+    exact s.asIdeal.add_mem h hr
+  · intro h
+    rw [e2]
+    exact s.asIdeal.sub_mem h hr
 
 theorem le_preimage_of_fst {S : Type} [CommRing S] {T : Scheme.{0}} (x : Sp (DualNumber S) ⟶ T) (V : T.Opens)
     (h : ⊤ ≤ (spMap (TrivSqZeroExt.fstHom S S S).toRingHom ≫ x) ⁻¹ᵁ V) : ⊤ ≤ x ⁻¹ᵁ V := by

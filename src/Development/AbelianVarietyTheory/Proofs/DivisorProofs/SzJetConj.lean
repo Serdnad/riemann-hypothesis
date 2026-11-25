@@ -1,6 +1,5 @@
 module
 
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.PullbackSections.HolomorphicFamilies.PadicValNatAbsNormEqZero
 public import Mathlib.Algebra.AffineMonoid.Basic
 public import Mathlib.NumberTheory.NumberField.Discriminant.Defs
 public import Mathlib.RingTheory.DedekindDomain.Different
@@ -125,7 +124,24 @@ theorem mem_differentIdeal_iff_one (x : 𝓞 E) :
 
 theorem galois_smul_mem_differentIdeal (σ : E ≃ₐ[ℚ] E) {x : 𝓞 E}
     (hx : x ∈ differentIdeal ℤ (𝓞 E)) : σ • x ∈ differentIdeal ℤ (𝓞 E) := by
-  apply _root_.ReciprocityTheory.ChartRestriction.G.PullbackSections.Pf.smul_mem_differentIdeal <;> assumption
+  have hone : ∀ (τ : E ≃ₐ[ℚ] E) (a : E), a ∈ (1 : Submodule (𝓞 E) E) →
+      τ a ∈ (1 : Submodule (𝓞 E) E) := by
+    intro τ a ha
+    rw [Submodule.mem_one] at ha ⊢
+    obtain ⟨b, rfl⟩ := ha
+    exact ⟨τ • b, rfl⟩
+  rw [mem_differentIdeal_iff_one] at hx ⊢
+  intro y hy
+  have hy' : σ.symm y ∈ Submodule.traceDual ℤ ℚ (1 : Submodule (𝓞 E) E) := by
+    rw [Submodule.mem_traceDual] at hy ⊢
+    intro a ha
+    have := hy (σ a) (hone σ a ha)
+    rw [Algebra.traceForm_apply] at this ⊢
+    rw [← Algebra.trace_eq_of_algEquiv σ, map_mul, AlgEquiv.apply_symm_apply]
+    exact this
+  have := hone σ _ (hx _ hy')
+  rw [map_mul, AlgEquiv.apply_symm_apply] at this
+  exact this
 
 theorem differentIdeal_pow_finrank_eq_span_discr :
     ∀ (F : Type) [Field F] [NumberField F] [IsGalois ℚ F],
@@ -249,7 +265,6 @@ theorem sz_invDiff : ∀ (l : ℕ) [Fact l.Prime] (lam : algebraicClosure ℚ �
     rw [one_div, ← zpow_neg, neg_neg, zpow_natCast] at this
     rwa [Real.rpow_natCast]
   have hn : 0 < n := Module.finrank_pos
-  have hnr : (0 : ℝ) < n := by exact_mod_cast hn
   calc ‖χ y‖ = (‖χ y‖ ^ n) ^ ((n : ℝ)⁻¹) := (Real.pow_rpow_inv_natCast (norm_nonneg _) hn.ne').symm
     _ ≤ ((l : ℝ) ^ (v : ℝ)) ^ ((n : ℝ)⁻¹) := Real.rpow_le_rpow (by positivity) hpow (by positivity)
     _ = (l : ℝ) ^ ((v : ℝ) / n) := by rw [← Real.rpow_mul hl0.le, div_eq_mul_inv]

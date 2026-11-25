@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.HeightProofs.CompactAverageContinuousOnUniformModerateGrowthStatement
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.DifferentiableAtChart
 public import Mathlib.Analysis.Calculus.InverseFunctionTheorem.ContDiff
 import Mathlib.Algebra.Order.Floor.Extended
@@ -67,7 +66,19 @@ variable {E : Type} [Field E] [NumberField E] {d : ℕ}
 
 theorem prod_ofFn_eq_of_ne {M : Type*} [Monoid M] {k : ℕ} (f : Fin k → M) (i : Fin k)
     (h : ∀ j, j ≠ i → f j = 1) : (List.ofFn f).prod = f i := by
-  apply _root_.GlobalTheory.ProductOfFnSingle.prod_ofFn_eq_single <;> assumption
+  induction k with
+  | zero => exact i.elim0
+  | succ k ih =>
+    rw [List.ofFn_succ, List.prod_cons]
+    cases i using Fin.cases with
+    | zero =>
+      rw [List.prod_eq_one, mul_one]
+      intro x hx
+      obtain ⟨j, rfl⟩ := List.mem_ofFn.1 hx
+      exact h _ (Fin.succ_ne_zero j)
+    | succ i =>
+      rw [h 0 (Fin.succ_ne_zero i).symm, one_mul]
+      exact ih _ i fun j hj => h _ fun e => hj (Fin.succ_injective _ e)
 
 theorem contDiff_prodExp (y : Lie E d) {k : ℕ} (X : Fin k → Matrix (Fin d) (Fin d) (Cinf E)) :
     ContDiff ℝ ∞ (fun t : Fin k → ℝ =>

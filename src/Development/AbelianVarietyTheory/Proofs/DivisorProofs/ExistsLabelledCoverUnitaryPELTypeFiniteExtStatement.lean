@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.AbelianVarietyPotentialSemiAbelianModel
 public import Development.AbelianVarietyTheory.Definitions.Divisors.ExistsToricRankOne
 public import Development.AbelianVarietyTheory.Definitions.Divisors.TateProductRigidificationTrivial
 public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.TraceFormTwistIsoOfPullback
@@ -542,8 +541,19 @@ namespace GlobalTheory
 
 theorem exists_odd_prime_isUnit_of_base :
     ∀ (R : Type) [CommRing R] [IsDomain R] [IsLocalRing R], Base R → ∃ n : ℕ, n.Prime ∧ Odd n ∧ IsUnit (n : R) := by
-  intros
-  apply _root_.GlobalTheory.SymSemistable.exists_odd_prime_isUnit <;> assumption
+  intro R _ _ _ _
+  by_cases h3 : IsUnit ((3 : ℕ) : R)
+  · exact ⟨3, Nat.prime_three, ⟨1, rfl⟩, h3⟩
+  by_cases h5 : IsUnit ((5 : ℕ) : R)
+  · exact ⟨5, by norm_num, ⟨2, rfl⟩, h5⟩
+  exfalso
+  have m3 : ((3 : ℕ) : R) ∈ maximalIdeal R := (mem_maximalIdeal _).2 h3
+  have m5 : ((5 : ℕ) : R) ∈ maximalIdeal R := (mem_maximalIdeal _).2 h5
+  have m2 : ((5 : ℕ) : R) - ((3 : ℕ) : R) ∈ maximalIdeal R := Ideal.sub_mem _ m5 m3
+  have m1 : ((3 : ℕ) : R) - (((5 : ℕ) : R) - ((3 : ℕ) : R)) ∈ maximalIdeal R := Ideal.sub_mem _ m3 m2
+  have e : ((3 : ℕ) : R) - (((5 : ℕ) : R) - ((3 : ℕ) : R)) = 1 := by push_cast; ring
+  rw [e] at m1
+  exact (mem_maximalIdeal _).1 m1 isUnit_one
 
 end GlobalTheory
 end -- clump:auto
@@ -628,7 +638,7 @@ theorem exists_base (R₁ : Type) [CommRing R₁] [IsDomain R₁] [CharZero R₁
     have := pb.lift_gen ζ hmin
     rwa [IsPrimitiveRoot.integralPowerBasis_gen] at this
   have hσ : Function.Injective σ := by
-    set_option backward.isDefEq.respectTransparency.instanceSearchTypes false in rw [injective_iff_map_eq_zero]
+    rw [injective_iff_map_eq_zero]
     intro x hx
     have hb : RingHom.ker σ = ⊥ := by
       refine Ideal.eq_bot_of_comap_eq_bot (R := ℤ) ?_

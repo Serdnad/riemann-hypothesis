@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Definitions.ArchimedeanThetaValues.ExistsChartComplexPoint
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsAHOfIsFactorAH
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ProductAbelianUniformization
 public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.DifferentiableOnProdOfForall
@@ -105,7 +104,16 @@ theorem ex_add_mem {M : LB A.left} (u : HolUnif A M g) (z : Fin g → ℂ) {w : 
 omit [IsCommMonObj A] in
 theorem exists_chart_pt' {X : Scheme.{0}} (L : LB X) (hL : L.IsLB) (y : Sp ℂ ⟶ X) :
     ∃ j, ⊤ ≤ y ⁻¹ᵁ L.U j := by
-  apply _root_.GlobalTheory.exists_chart_complexPoint <;> assumption
+  let p0 : Sp ℂ := (⟨⊥, Ideal.isPrime_bot⟩ : PrimeSpectrum ℂ)
+  have hmem : y p0 ∈ (⨆ i, L.U i : X.Opens) := by rw [hL.cover]; trivial
+  obtain ⟨j, hj⟩ := TopologicalSpace.Opens.mem_iSup.mp hmem
+  refine ⟨j, fun q _ => ?_⟩
+  have : q = p0 := by
+    haveI := q.isPrime
+    haveI := p0.isPrime
+    exact PrimeSpectrum.ext ((Ideal.eq_bot_of_prime q.asIdeal).trans (Ideal.eq_bot_of_prime p0.asIdeal).symm)
+  rw [this]
+  exact hj
 
 
 open Classical in
@@ -247,8 +255,6 @@ theorem lam_factor {M₀ M : LB A.left} (hM : M.IsLB) (u₀ : HolUnif A M₀ g) 
   rw [d0, d1, d2, d3]
   simp only [zpow_one, zpow_neg_one, sumL_empty, sumL_zero, sumL_one, sumL_both]
   rw [l1, l2, l3, k]
-  have e1 := Complex.exp_ne_zero (↑Real.pi * hf Hm (halfL g v) (halfL g w) + ↑Real.pi / 2 * hf Hm (halfL g w) (halfL g w))
-  have e2 := Complex.exp_ne_zero (↑Real.pi * hf Hm (halfR g v) (halfR g w) + ↑Real.pi / 2 * hf Hm (halfR g w) (halfR g w))
   field_simp
 
 end GlobalTheory.LamPullFrame
