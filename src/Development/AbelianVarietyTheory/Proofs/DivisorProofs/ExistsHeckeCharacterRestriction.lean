@@ -62,6 +62,7 @@ import Mathlib.Tactic.Linter.HaveILetI
 import Mathlib.Tactic.ENatToNat
 import Mathlib.Algebra.Module.StablyFree.Basic
 import Std.Tactic.BVDecide.Normalize.Prop
+
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.Proofs.DivisorProofs.IdeleCharacterTrivialOnCongruence, Development.AbelianVarietyTheory.Proofs.DivisorProofs.IntAEMulMem, Development.AbelianVarietyTheory.Proofs.DivisorProofs.OpenSigmaStableUnitNeighborhood, Development.AbelianVarietyTheory.Proofs.DivisorProofs.QuadraticCharacterExtendsToIdeleClass, Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsHeckeCharacterRestriction
 
