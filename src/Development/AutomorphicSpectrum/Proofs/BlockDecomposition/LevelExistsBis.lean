@@ -1,7 +1,5 @@
 module
 
-import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.HermitianMeasureEulerProduct
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.RelIndexNeZeroOfSubsetCpt
 public import Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange.ArchimedeanBaseChangeProof.SatakeExponents.UniformizerValuations.SetupEig
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsBallSubset
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsSatakeParameterDefiniteUnitaryInertPlace
@@ -75,7 +73,20 @@ theorem exists_equiv (n : ℕ) (w : Pl E) :
     exact ⟨e, fun x => by rw [he, he0]⟩
 
 theorem isClosed_UL (n : ℕ) (w : Pl E) : IsClosed (UL n w : Set (GLw n w)) := by
-  apply _root_.GlobalTheory.LocFinU.isClosed_UL <;> assumption
+  by_cases hw : IsSplitAt w
+  · have : (UL n w : Set (GLw n w)) = Set.univ := by ext g; simp [GlobalTheory.BCT.UL, hw]
+    rw [this]; exact isClosed_univ
+  · have hc : Continuous (cj w) := (GlobalTheory.ConjAtPlace.cj_spec w (exists_conj_ext w hw)).1
+    have : (UL n w : Set (GLw n w)) = {g : GL (Fin n) (w.adicCompletion E) |
+        Formalism.UG.cT (cj w) (g : Matrix (Fin n) (Fin n) (w.adicCompletion E)) * 1 *
+          (g : Matrix (Fin n) (Fin n) (w.adicCompletion E)) = 1} := by
+      ext g; simp [GlobalTheory.BCT.UL, hw, Formalism.UG.UJ]
+    rw [this]
+    have hv : Continuous (fun g : GL (Fin n) (w.adicCompletion E) => (g : Matrix (Fin n) (Fin n) (w.adicCompletion E))) :=
+      Units.continuous_val
+    apply isClosed_eq _ continuous_const
+    unfold Formalism.UG.cT
+    exact ((hv.matrix_map hc).matrix_transpose.matrix_mul continuous_const).matrix_mul hv
 
 theorem isCompact_locK (w : Pl E) :
     IsCompact (((GlobalTheory.LFun.KGL w (n := n)).comap ((cLoc w).comp (locU n w).subtype) : Subgroup (locU n w)) : Set (locU n w)) := by

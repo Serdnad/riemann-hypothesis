@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ContinuousOfIsOpenStab
 public import Development.WeilBound.CoreStatements.TemperedRepresentationTheory.AffineGLForms.GenSpace
 public import GroundTheory.AutomorphicForms.AutomorphicFormSpaces.ConstantTerm
 import GroundTheory.AutomorphicForms.ReductionMeasure
@@ -132,7 +131,32 @@ theorem continuous_mapFin :
   Continuous.units_map _ (continuous_id.matrix_map continuous_pFin)
 
 theorem continuous_of_level {φ : Sm E a} (h : IsOpen {k | finRep E a k φ = φ}) : Continuous φ.1 := by
-  apply _root_.GlobalTheory.CuspRep.ContAut.continuous_of_isOpen_stab <;> assumption
+  refine continuous_iff_continuousAt.2 fun g₀ => ?_
+  have hc : Continuous fun g : GA E a => g₀⁻¹ * g := continuous_const.mul continuous_id
+  let f : GA E a → ℂ := fun g =>
+    chart φ.1 g₀ (toL (GeneralLinearGroup.map (pInf E) (g₀⁻¹ * g)).val)
+  have e1 : ∀ᶠ g in 𝓝 g₀, f g = φ.1 g := by
+    have hS : {g : GA E a | GeneralLinearGroup.map (pFin E) (g₀⁻¹ * g) ∈ {k | finRep E a k φ = φ}} ∈ 𝓝 g₀ :=
+      ((continuous_mapFin.comp hc).continuousAt).preimage_mem_nhds
+        (h.mem_nhds (by simp))
+    filter_upwards [hS] with g hg
+    have hg' : finRep E a (GeneralLinearGroup.map (pFin E) (g₀⁻¹ * g)) φ = φ := hg
+    have e2 := congrFun (congrArg Subtype.val hg') (g₀ * infGL E a (GeneralLinearGroup.map (pInf E) (g₀⁻¹ * g)))
+    have e3 : g₀ * infGL E a (GeneralLinearGroup.map (pInf E) (g₀⁻¹ * g)) *
+        finGL E a (GeneralLinearGroup.map (pFin E) (g₀⁻¹ * g)) = g := by
+      rw [mul_assoc, infGL_mul_finGL, mul_inv_cancel_left]
+    change φ.1 (_ * finGL E a _) = _ at e2
+    rw [e3] at e2
+    simp only [f]
+    rw [chart_val, e2]
+  refine ContinuousAt.congr ?_ e1
+  have hx : toL (GeneralLinearGroup.map (pInf E) (g₀⁻¹ * g₀)).val ∈ invSet E a := val_mem_invSet _
+  have h1 : ContinuousAt (chart φ.1 g₀) (toL (GeneralLinearGroup.map (pInf E) (g₀⁻¹ * g₀)).val) :=
+    (contDiffAt_chart φ.2 g₀ hx).continuousAt
+  have h3 : Continuous fun g : GA E a => ((GeneralLinearGroup.map (pInf E) (g₀⁻¹ * g) : GL (Fin a) (Cinf E)) :
+      Matrix (Fin a) (Fin a) (Cinf E)) := Units.continuous_val.comp (continuous_mapInf.comp hc)
+  have h2 : Continuous fun g : GA E a => toL (GeneralLinearGroup.map (pInf E) (g₀⁻¹ * g)).val := h3
+  exact ContinuousAt.comp (f := fun g : GA E a => toL (GeneralLinearGroup.map (pInf E) (g₀⁻¹ * g)).val) h1 h2.continuousAt
 
 theorem unip_eq_unipGL {R : Type} [CommRing R] {r : ℕ} (x : BlockIx a r → R) :
     unip x = AutomorphicForm.unipGL x := Units.ext rfl
@@ -174,7 +198,7 @@ def ctMap (L : Subgroup (GL (Fin a) (Af E))) {W : Type} [AddCommGroup W] [Module
   map_add' ψ ψ' := funext fun g =>
     integral_add (integrableOn_unip (continuous_of_level ψ.2.1.level) r g)
       (integrableOn_unip (continuous_of_level ψ'.2.1.level) r g)
-  map_smul' c ψ := funext fun g => integral_smul c _
+  map_smul' c _ := funext fun _ => integral_smul c _
 
 theorem genFin_step (hC : CuspFin E a) (hT : ∀ r, 0 < r → r < a → CTFin E a r) : GenFin E a := by
   intro L hL W _ _ _ ρ hρ J hJ

@@ -512,7 +512,20 @@ open GlobalTheory.CompanionTheory.SW.ThetaStage
 theorem linearIndependent_gact {F E : Type} [Field F] [Field E] [Algebra F E] (σ : E →ₐ[F] E)
     {M n : ℕ} {J : Matrix (Fin M) (Fin M) E} (g : UJ (σ : E →+* E) J) {X : Fin n → Fin M → E}
     (hX : LinearIndependent E X) : LinearIndependent E (gact σ g X) := by
-  apply _root_.GlobalTheory.CompanionTheory.WeilSiegel.HypStep.Unf.linearIndependent_gact_unitary <;> assumption
+  have hker : LinearMap.ker
+      (Matrix.mulVecLin ((g : GL (Fin M) E) : Matrix (Fin M) (Fin M) E)) = ⊥ := by
+    refine LinearMap.ker_eq_bot.2 fun x y h => ?_
+    have h1 : gact σ g (fun _ : Fin 1 => x) = gact σ g (fun _ : Fin 1 => y) :=
+      funext fun _ => h
+    have h2 := congrArg (gact σ g⁻¹) h1
+    rw [gact_inv_gact, gact_inv_gact] at h2
+    exact congrFun h2 0
+  have h3 : gact σ g X =
+      (Matrix.mulVecLin ((g : GL (Fin M) E) : Matrix (Fin M) (Fin M) E)) ∘ X := by
+    funext a
+    rfl
+  rw [h3]
+  exact hX.map' (Matrix.mulVecLin ((g : GL (Fin M) E) : Matrix (Fin M) (Fin M) E)) hker
 
 theorem gact_mem_framesE {F E : Type} [Field F] [Field E] [Algebra F E] (σ : E →ₐ[F] E)
     {M n : ℕ} {J : Matrix (Fin M) (Fin M) E} (g : UJ (σ : E →+* E) J)

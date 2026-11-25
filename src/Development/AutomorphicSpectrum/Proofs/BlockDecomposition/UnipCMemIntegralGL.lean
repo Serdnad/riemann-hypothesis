@@ -1,6 +1,5 @@
 module
 
-import GroundTheory.IdeleRoots.TorusPowers.SatakeBoundReps
 public import Development.WeilBound.CoreStatements.PublishedTheorems.JacquetShalikaBound.FormQuasiInvariantMirabolic
 public import GroundTheory.AutomorphicForms.MacdonaldHecke
 import Mathlib.Tactic.Linter.HaveILetI
@@ -81,7 +80,16 @@ theorem finsum_cosets {W : Type} [AddCommGroup W] [Module ℂ W] (Φ : GL (Fin n
 
 theorem unipC_mem_integralGL (S : Finset (Fin n)) (c : Pairs S → 𝓀[F]) :
     unipC S c ∈ integralGL F n := by
-  apply _root_.GroundTheory.BlockD.SatakeBound.unipC_mem_integralGL <;> assumption
+  refine ((mem_unipotent_inf_integralGL_iff F n).2 ⟨unipC_mem_unipotent S c, ?_⟩).2
+  intro i j
+  rw [coe_unipC, Matrix.add_apply]
+  refine add_mem ?_ (cMat_mem c i j)
+  by_cases h : i = j
+  · subst h
+    rw [Matrix.one_apply_eq]
+    exact one_mem _
+  · rw [Matrix.one_apply_ne h]
+    exact zero_mem _
 
 def revCompl (S : Finset (Fin n)) : Finset (Fin n) :=
   Finset.univ.filter fun i => Fin.rev i ∉ S

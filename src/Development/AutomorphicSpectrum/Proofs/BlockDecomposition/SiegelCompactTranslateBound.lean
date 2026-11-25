@@ -1,6 +1,5 @@
 module
 
-import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.EisensteinSeriesConvergent
 public import Development.AbelianVarietyTheory.Definitions.Foundations.OfInfProjInfMulOfFinProjFin
 public import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.IsSmoothModerateOfIsAutFunSm
 public import Development.WeilBound.ThetaLifts.Reductions.SiegelCore
@@ -418,7 +417,19 @@ variable {r : ℕ}
 
 theorem exists_embOver (F E : Type) [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E]
     (σ : E →ₐ[F] E) (h : IsCMExt F E σ) (φ : E →+* ℂ) : ∃ (w : InfinitePlace F) (τ : EmbOver E w), τ.1 = φ := by
-  apply _root_.GlobalTheory.CompanionTheory.GodementH.exists_embOver <;> assumption
+  haveI := h.1
+  let ψ : F →+* ℂ := φ.comp (algebraMap F E)
+  let w : InfinitePlace F := InfinitePlace.mk ψ
+  have hr : ComplexEmbedding.IsReal w.embedding := InfinitePlace.isReal_iff.1 (IsTotallyReal.isReal w)
+  have e : ψ = w.embedding := by
+    rcases InfinitePlace.embedding_mk_eq ψ with e | e
+    · exact e.symm
+    · have h2 : ComplexEmbedding.conjugate w.embedding = w.embedding := ComplexEmbedding.isReal_iff.1 hr
+      rw [← h2]
+      change ψ = ComplexEmbedding.conjugate (InfinitePlace.mk ψ).embedding
+      rw [e]
+      exact RingHom.ext fun x => by simp
+  exact ⟨w, ⟨φ, e⟩, rfl⟩
 
 theorem archMat_ratEmb {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] {σ : E →ₐ[F] E}
     {n : ℕ} {J : Matrix (Fin n) (Fin n) E} {w : InfinitePlace F} (τ : EmbOver E w) (γ : GRat σ J) :

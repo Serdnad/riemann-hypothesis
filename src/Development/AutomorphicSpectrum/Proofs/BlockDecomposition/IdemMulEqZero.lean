@@ -1,14 +1,11 @@
 module
 
-import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.CoeffIterateVerschiebung
 public import Development.WeilBound.CoreStatements.PadicHodgeComparison.EtaleCohomologyComparison.KummerCupProducts.FirstChernCompatibleSystem
 public import Development.WeilBound.CoreStatements.PadicHodgeComparison.EtaleCohomologyComparison.KummerCupProducts.MapUgCToUg
 public import Development.WeilBound.CoreStatements.PadicHodgeComparison.EtaleCohomologyComparison.AcrisKummerUnits.ConstantCoeffSurjective
 import Mathlib.Tactic.Linter.Style
 
 @[expose] public section
-
-set_option backward.isDefEq.respectTransparency false
 
 open CategoryTheory Limits AlgebraicGeometry Opposite GroundTheory.PAdicHodge CrystallineSemistableComparison CrystallineSemistableComparison.CH CrystallineSemistableComparison.E GlobalTheory.EtC
 
@@ -43,7 +40,19 @@ theorem eq_of_idem (A : PAlg l) {a b : A.W} (ha : IsIdempotentElem a) (hb : IsId
 
 theorem teich_sum_one (A : PAlg l) {ι : Type} [Fintype ι] {e : ι → A.A}
     (he : CompleteOrthogonalIdempotents e) : ∑ a, WittVector.teichmuller l (e a) = (1 : A.W) := by
-  apply _root_.GlobalTheory.CompanionTheory.LcSp.sum_teich <;> assumption
+  have ho : OrthogonalIdempotents fun i => (WittVector.teichmuller l (e i) : A.W) :=
+    ⟨fun i => by
+      show _ * _ = _
+      rw [← map_mul, (he.idem i).eq],
+     fun i j hij => by
+      show _ * _ = _
+      rw [← map_mul, he.ortho hij, WittVector.teichmuller_zero]⟩
+  refine eq_of_idem A ho.isIdempotentElem_sum IsIdempotentElem.one ?_
+  show WittVector.constantCoeff (∑ a, (WittVector.teichmuller l (e a) : A.W)) = WittVector.constantCoeff (1 : A.W)
+
+  rw [map_sum, map_one]
+  simp only [WittVector.constantCoeff_apply, WittVector.teichmuller_coeff_zero]
+  exact he.complete
 
 theorem mul_pow_congr {R : Type*} [CommRing R] {s x y : R} (h : s * x = s * y) (k : ℕ) :
     s * x ^ k = s * y ^ k := by

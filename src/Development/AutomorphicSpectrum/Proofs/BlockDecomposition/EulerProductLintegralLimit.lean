@@ -1,6 +1,5 @@
 module
 
-import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.HyperbolicSumNondegenerateFrame
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.IsCovolOne
 public import CompanionTheory.SpectralGeometry.LocalGlobalProofs.AdelicAnalysis.AdelicTupleProjections
 public import CompanionTheory.SpectralGeometry.LocalGlobalProofs.AdelicAnalysis.AdelicUnitaryGroupLocallyCompact
@@ -27,7 +26,57 @@ variable {F E : Type} [Field F] [Field E] [Algebra F E]
 
 theorem isHermND_hypOne (σ : E →ₐ[F] E) {M : ℕ} (J : Matrix (Fin M) (Fin M) E) (hJ : IsHermND σ J) :
     IsHermND σ (hypOne J) := by
-  apply _root_.GlobalTheory.CompanionTheory.WeilSiegel.HypStep.isHermND_hypOne <;> assumption
+  refine ⟨fun i j => ?_, fun h => ?_⟩
+  · induction i using Fin.cases with
+    | zero =>
+      induction j using Fin.cases with
+      | zero => change σ 0 = 0; simp
+      | succ j =>
+        induction j using Fin.cases with
+        | zero => change σ 1 = 1; simp
+        | succ j => change σ 0 = 0; simp
+    | succ i =>
+      induction i using Fin.cases with
+      | zero =>
+        induction j using Fin.cases with
+        | zero => change σ 1 = 1; simp
+        | succ j =>
+          induction j using Fin.cases with
+          | zero => change σ 0 = 0; simp
+          | succ j => change σ 0 = 0; simp
+      | succ i =>
+        induction j using Fin.cases with
+        | zero => change σ 0 = 0; simp
+        | succ j =>
+          induction j using Fin.cases with
+          | zero => change σ 0 = 0; simp
+          | succ j => exact hJ.1 i j
+  · obtain ⟨v, hv, hv0⟩ := Matrix.exists_mulVec_eq_zero_iff.2 h
+    have hrow : ∀ i, ∑ j, hypOne J i j * v j = 0 := fun i => congrFun hv0 i
+    have h1 : v 1 = 0 := by
+      have := hrow 0
+      rw [Fin.sum_univ_succ, Fin.sum_univ_succ] at this
+      simpa [hypOne_zero_rest, hypOne_zero_zero, hypOne_zero_one] using this
+    have h0 : v 0 = 0 := by
+      have := hrow 1
+      rw [Fin.sum_univ_succ, Fin.sum_univ_succ] at this
+      simpa [hypOne_one_rest, hypOne_one_zero, hypOne_one_one] using this
+    have ht : J.mulVec (fun j : Fin M => v j.succ.succ) = 0 := by
+      funext i
+      have := hrow i.succ.succ
+      rw [Fin.sum_univ_succ, Fin.sum_univ_succ] at this
+      simpa [Matrix.mulVec, dotProduct, hypOne_rest_rest, hypOne_rest_zero, hypOne_rest_one] using this
+    have hz : (fun j : Fin M => v j.succ.succ) = 0 := by
+      by_contra hne
+      exact hJ.2 (Matrix.exists_mulVec_eq_zero_iff.1 ⟨_, hne, ht⟩)
+    apply hv
+    funext i
+    induction i using Fin.cases with
+    | zero => exact h0
+    | succ i =>
+      induction i using Fin.cases with
+      | zero => exact h1
+      | succ i => exact congrFun hz i
 
 end Alg
 

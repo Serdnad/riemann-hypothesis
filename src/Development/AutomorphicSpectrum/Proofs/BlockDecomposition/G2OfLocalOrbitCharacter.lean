@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ConjZpowersEntriesValuedBoundedOfCompactClosure
 public import Development.AbelianVarietyTheory.Definitions.Divisors.SimpleTwistedTraceFormulaStable
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsNeZeroOfTwOrbNeZero
 public import Mathlib.Algebra.BigOperators.Finprod
@@ -130,9 +129,6 @@ theorem exists_support_of_stTw2_ne_zero (a b : ℕ) (w : Pl E) (Q₁ Q₂ : (w.a
 
 end GlobalTheory.BCT.GeoFin
 
-namespace GlobalTheory.BCT.GeoFin
-
-end GlobalTheory.BCT.GeoFin
 end -- clump:auto
 end -- clump:auto
 end -- clump:auto
@@ -304,9 +300,6 @@ theorem resMap : ∀ (K L : Type) [Field K] [Field L] (f : K →+* L) (P Q : K[X
   exact Polynomial.resultant_map_map P Q _ _ f
 end GlobalTheory.ProdForm
 
-namespace GlobalTheory.ProdForm
-
-end GlobalTheory.ProdForm
 end -- clump:auto
 end -- clump:auto
 end -- clump:auto
@@ -338,7 +331,16 @@ theorem continuous_coeff {K : Type} [CommRing K] [TopologicalSpace K] [IsTopolog
 variable {E : Type} [Field E] [NumberField E]
 
 theorem isOpen_vle (w : Pl E) (m : ℤ) : IsOpen {y : w.adicCompletion E | Valued.v y ≤ WithZero.exp m} := by
-  apply _root_.GlobalTheory.PowBdd.isOpen_le_exp <;> assumption
+  obtain ⟨c, hc⟩ := HeightOneSpectrum.valuedAdicCompletion_surjective E w (WithZero.exp m)
+  have hc0 : c ≠ 0 := by
+    rintro rfl
+    rw [map_zero] at hc
+    exact WithZero.exp_ne_zero hc.symm
+  have : {y : w.adicCompletion E | Valued.v y ≤ WithZero.exp m} = {y | Valued.v.restrict y ≤ Valued.v.restrict c} := by
+    ext y
+    simp only [Set.mem_ofPred_eq, Valuation.restrict_le_iff, hc]
+  rw [this]
+  exact Valued.isOpen_closedBall _ (by simp [hc0])
 
 theorem exists_bound {X : Type} [TopologicalSpace X] (w : Pl E) {f : X → w.adicCompletion E} (hf : Continuous f)
     {C : Set X} (hC : IsCompact C) : ∃ B : WithZero (Multiplicative ℤ), ∀ x ∈ C, Valued.v (f x) ≤ B := by

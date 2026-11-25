@@ -1,6 +1,5 @@
 module
 
-import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.LocalJacobianType.ContinuousPsiVOf
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.KvFintype
 public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.WeilTensorModels
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LocalMatrixMomentSurjectiveConj
@@ -317,8 +316,6 @@ open IsDedekindDomain NumberField
 open PositivityTheory.Rg.Rsw PositivityTheory.Rg.Rsw.L
 open GlobalTheory.CompanionTheory.Jp
 
-theorem _root_.GlobalTheory.T.exists_global_hermitian_local_approximation : ∀ (D : D7) (n : ℕ) (v : Pl D) (τ : D.host.E →ₐ[D.host.F] Fv D.host.F v) (X : Matrix (Fin n) (Fin n) (Fv D.host.F v)), ∃ x : hermA D n, (∀ w i j, compInf D.host.F D.host.E w (x.1 i j) = 0) ∧ (∀ v' ≠ v, ∀ i j, cv D v' (x.1 i j) = 0) ∧ tauC τ x.1 = X ∧ ((∀ i j, X i j ∈ v.adicCompletionIntegers D.host.F) → ∀ i j, cv D v (x.1 i j) ∈ intLoc D.host.F D.host.E v) := by
-  first | exact @GlobalTheory.CompanionTheory.Jp.exists_herm_at
 end -- clump:auto
 end -- clump:auto
 -- ===== end clump member: Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ExistsGlobalHermitianLocalApproximationStatement =====
@@ -344,8 +341,17 @@ namespace GlobalTheory.CompanionTheory.Jp.ResChar
 theorem local_component_additive_character_add {F : Type} [Field F] [NumberField F] (ψ : AddChar (AF F) ℂ)
     (v : HeightOneSpectrum (𝓞 F)) (r s : Fv F v) :
     psiV F ψ v (r + s) = psiV F ψ v r * psiV F ψ v s := by
-  intros
-  apply _root_.PI.UnitaryGroupMassFormula.LocJacTyp.Sd.psiV_add' <;> assumption
+  have h1 : singleV F v (r + s) = singleV F v r + singleV F v s := by
+    classical
+    unfold singleV
+    first
+    | exact Subtype.ext (Pi.single_add v r s)
+  have h2 : pairA F 0 (singleV F v (r + s)) = pairA F 0 (singleV F v r) + pairA F 0 (singleV F v s) := by
+    rw [h1]
+    show ((0 : Ainf F), singleV F v r + singleV F v s) = ((0 : Ainf F) + 0, singleV F v r + singleV F v s)
+    rw [add_zero]
+  simp only [psiV]
+  rw [h2, AddChar.map_add_eq_mul]
 
 theorem dvd_of_nonunit {R : Type*} [CommRing R] [IsDomain R] [ValuationRing R] {p x : R}
     (hp : Irreducible p) (hx : ¬ IsUnit x) : p ∣ x := by
@@ -1014,12 +1020,10 @@ theorem psiV_lift (D : D7) (ψ : AddChar (AF D.host.F) ℂ) (v : Pl D) (w : (Lv 
       ψ₀ (Matrix.trace (Y * T₀.map (IsLocalRing.residue (Ov D v)))) := by
   have key : Matrix.trace ((((w⁻¹ : (Lv D v)ˣ) : Lv D v) • liftM (L := Lv D v) ℓ Y) * T₀.map (algebraMap (Ov D v) (Lv D v)))
       = ((w⁻¹ : (Lv D v)ˣ) : Lv D v) * algebraMap (Ov D v) (Lv D v) (Matrix.trace (Y.map ℓ * T₀)) := by
-    set_option synthInstance.maxHeartbeats 100000 in
       simp only [Matrix.trace, Matrix.diag, Matrix.smul_apply, smul_eq_mul, Matrix.mul_apply,
       GlobalTheory.CompanionTheory.Jp.liftM, Matrix.map_apply, map_sum, map_mul, Finset.mul_sum, mul_assoc]
   have key2 : Matrix.trace (Y * T₀.map (IsLocalRing.residue (Ov D v))) =
       IsLocalRing.residue (Ov D v) (Matrix.trace (Y.map ℓ * T₀)) := by
-    set_option synthInstance.maxHeartbeats 100000 in
       simp only [Matrix.trace, Matrix.diag, Matrix.mul_apply, Matrix.map_apply, map_sum, map_mul, hℓ]
   rw [key, h, key2]
 
@@ -1038,7 +1042,7 @@ theorem split_place_rank_cut_of_local_computation : JpCondition → SplitPlaceRa
   obtain ⟨ρ, hρ, hρs, hρm⟩ := _root_.GlobalTheory.CompanionTheory.Jp.RhoSplit.exists_rho D n v τ
   obtain ⟨c, hcd, hct, hcint⟩ := hA (Ov D v) (Lv D v) n r t hrt hr ψ₀ hψ₀ _ hβ
   choose f hinf hoff hfX _ using fun Y : Matrix (Fin n) (Fin n) (kv D v) =>
-    GlobalTheory.T.exists_global_hermitian_local_approximation D n v τ (((w⁻¹ : (Lv D v)ˣ) : Lv D v) • liftM (L := Lv D v) ℓ Y)
+    GlobalTheory.CompanionTheory.Jp.exists_herm_at D n v τ (((w⁻¹ : (Lv D v)ˣ) : Lv D v) • liftM (L := Lv D v) ℓ Y)
   have hfinj : Function.Injective f := by
     intro Y Y' hYY
     have h1 : ((w⁻¹ : (Lv D v)ˣ) : Lv D v) • liftM (L := Lv D v) ℓ Y =
@@ -1065,7 +1069,7 @@ theorem split_place_rank_cut_of_local_computation : JpCondition → SplitPlaceRa
     have hTint : ∀ i j, (β'.1.map τ) i j ∈ HeightOneSpectrum.adicCompletionIntegers D.host.F v := by
       apply _root_.GlobalTheory.CompanionTheory.Jp.DualInt.mem_of_dual_integral D ψ v hgood n
       intro X hX
-      obtain ⟨x, hinf', hoff', htx, hint'⟩ := GlobalTheory.T.exists_global_hermitian_local_approximation D n v τ X
+      obtain ⟨x, hinf', hoff', htx, hint'⟩ := GlobalTheory.CompanionTheory.Jp.exists_herm_at D n v τ X
       rw [← htx, ← _root_.GlobalTheory.CompanionTheory.Jp.SplitPair.pch_rat_split D n v τ ψ x hinf' hoff' β']
       apply hint
       unfold PositivityTheory.Rg.Rsw.L.IntAt

@@ -1,6 +1,5 @@
 module
 
-import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ExtendedDividedPowers
 public import Development.AbelianVarietyTheory.Definitions.Divisors.RatBasisLinearIndependentInt
 import Mathlib.Tactic.Linter.Style
 import Std.Tactic.BVDecide.Normalize.Prop
@@ -11,8 +10,6 @@ import Development.WeilBound.CoreStatements.PadicHodgeComparison.EtaleCohomology
 
 @[expose] public section
 
-set_option backward.isDefEq.respectTransparency false
-
 open CategoryTheory AlgebraicGeometry Polynomial DividedPowers GlobalTheory.LogCris GlobalTheory.PDA CrystallineSemistableComparison CrystallineSemistableComparison.CH CrystallineSemistableComparison.B
 
 namespace GlobalTheory.CompanionTheory.PDFil
@@ -21,7 +18,18 @@ variable {B : Type} [CommRing B] {J : Ideal B}
 
 theorem fil_mul_le (δ : DividedPowers J) (a c : ℕ) :
     GlobalTheory.PDA.fil δ a * GlobalTheory.PDA.fil δ c ≤ GlobalTheory.PDA.fil δ (a + c) := by
-  apply _root_.GlobalTheory.CompanionTheory.PDMap.fil_mul_le <;> assumption
+  unfold GlobalTheory.PDA.fil
+  rw [Ideal.span_mul_span']
+  refine Ideal.span_mono ?_
+  rintro _ ⟨_, ⟨l, hl, hn, rfl⟩, _, ⟨m, hm, hk, rfl⟩, rfl⟩
+  refine ⟨l ++ m, ?_, ?_, ?_⟩
+  · intro p hp
+    rcases List.mem_append.1 hp with h | h
+    · exact hl p h
+    · exact hm p h
+  · simp only [List.map_append, List.sum_append]
+    omega
+  · simp only [List.map_append, List.prod_append]
 
 theorem fil_anti (δ : DividedPowers J) {a c : ℕ} (h : a ≤ c) :
     GlobalTheory.PDA.fil δ c ≤ GlobalTheory.PDA.fil δ a := by

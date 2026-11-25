@@ -1,7 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.UnitaryLieElementsGenerateOneParamLines
-import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.HermitianFormFiniteZerosOnLineCmExt
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.MatC
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.OneVectorCcOfSiegelWeil
 import Mathlib.Tactic.Linter.HaveILetI
@@ -56,7 +54,22 @@ theorem im_ne_zero (h : IsCMExt F E σ) {θ : E} (hθ : σ θ ≠ θ) (τ : E �
 
 theorem linInd_one (h : IsCMExt F E σ) {θ : E} (hθ : σ θ ≠ θ) :
     LinearIndependent F ![(1 : E), θ] := by
-  apply _root_.GlobalTheory.RealLift.OneParam.linInd_one <;> assumption
+  rw [LinearIndependent.pair_iff]
+  intro s t hst
+  have h1 : s • (1 : E) + t • σ θ = 0 := by
+    have := congrArg σ hst
+    simp only [Algebra.smul_def, map_add (f := _), map_mul, AlgHom.commutes, map_one, map_zero] at this ⊢
+    exact this
+  have h2 : t • (σ θ - θ) = 0 := by
+    rw [smul_sub, sub_eq_zero]
+    exact add_left_cancel (h1.trans hst.symm)
+  have ht : t = 0 := by
+    rcases smul_eq_zero.1 h2 with h3 | h3
+    · exact h3
+    · exact absurd (sub_eq_zero.1 h3) hθ
+  subst ht
+  refine ⟨?_, rfl⟩
+  simpa using hst
 
 def basisOne (h : IsCMExt F E σ) {θ : E} (hθ : σ θ ≠ θ) : Module.Basis (Fin 2) F E :=
   haveI : Module.Finite F E := Module.finite_of_finrank_pos (by rw [h.2.2.1]; norm_num)

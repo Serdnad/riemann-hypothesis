@@ -1,7 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.EventuallyLocalDensityStandardLatticeBound
-import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.UnramifiedQuadraticConditionFive
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.IsCovolOne
 public import Mathlib.Order.CompletePartialOrder
 public import CompanionTheory.SpectralGeometry.LocalGlobalProofs.AdelicAnalysis.EulerProductMeasureZero
@@ -868,7 +866,19 @@ theorem fibre_zero_image_mul (F E : Type) [Field F] [NumberField F] [Field E] [N
 
 theorem val_eq_one_eventually {F : Type} [Field F] [NumberField F] (a : F) (ha : a ≠ 0) :
     ∀ᶠ v : HeightOneSpectrum (𝓞 F) in Filter.cofinite, Valued.v (algebraMap F (Fv F v) a) = 1 := by
-  apply _root_.GlobalTheory.GaugeDensity.eventually_valued_eq_one <;> assumption
+  have h1 := HeightOneSpectrum.Support.finite (𝓞 F) a
+  have h2 := HeightOneSpectrum.Support.finite (𝓞 F) a⁻¹
+  refine Filter.eventually_cofinite.2 ((h1.union h2).subset ?_)
+  intro v hv
+  by_contra hc
+  have hc1 : ¬ 1 < v.valuation F a := fun h => hc (Or.inl h)
+  have hc2 : ¬ 1 < v.valuation F a⁻¹ := fun h => hc (Or.inr h)
+  apply hv
+  rw [_root_.GlobalTheory.CompanionTheory.SW.GoodInt.valued_algebraMap]
+  have hne : v.valuation F a ≠ 0 := (Valuation.ne_zero_iff _).2 ha
+  rw [not_lt] at hc1 hc2
+  rw [map_inv₀] at hc2
+  exact le_antisymm hc1 ((inv_le_one₀ (zero_lt_iff.2 hne)).1 hc2)
 
 theorem norm_le_of_nonunit (F E : Type) [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E]
     (σ : E →ₐ[F] E) (hσ : IsCMExt F E σ) (d : ℕ) (b : Module.Basis (Fin d) F E) :

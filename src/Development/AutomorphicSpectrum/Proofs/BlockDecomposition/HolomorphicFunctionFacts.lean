@@ -1,6 +1,5 @@
 module
 
-import ReciprocityTheory.ReductiveGroups.DiscreteSeries.LaplaceOperators.KTypeLemma.TransferB
 public import Development.WeilBound.RepresentationTheoryGL.DiscreteSeries.DiscreteSeriesCovers.EquivariantSections.EquivSection
 public import Mathlib.Analysis.Calculus.LineDeriv.Basic
 import Mathlib.Tactic.Linter.Style
@@ -18,7 +17,20 @@ open scoped Matrix.Norms.Elementwise
 variable {n : ℕ}
 
 theorem contDiff_lead (j : ℕ) : ContDiff ℂ ⊤ (lead j : Matrix (Fin n) (Fin n) ℂ → ℂ) := by
-  apply _root_.ReciprocityTheory.ChartRestriction.DS.Lap.LemK.tb_contDiff_lead <;> assumption
+  by_cases h : j ≤ n
+  · have : (lead j : Matrix (Fin n) (Fin n) ℂ → ℂ) =
+        fun z => (z.submatrix (Fin.castLE h) (Fin.castLE h)).det := by
+      funext z; simp [lead, h]
+    rw [this]
+    simp only [Matrix.det_apply]
+    refine ContDiff.sum fun σ _ => ?_
+    refine ContDiff.const_smul _ ?_
+    refine contDiff_prod fun i _ => ?_
+    exact contDiff_apply_apply (𝕜 := ℂ) (E := ℂ) (ι := Fin n) (ι' := Fin n) _ _
+  · have : (lead j : Matrix (Fin n) (Fin n) ℂ → ℂ) = fun _ => 0 := by
+      funext z; simp [lead, h]
+    rw [this]
+    exact contDiff_const
 
 theorem isOpen_OmegaSet (n : ℕ) : IsOpen (OmegaSet n) := by
   have : OmegaSet n = ⋂ i : Fin n, {z | lead ((i : ℕ) + 1) z ≠ 0} := by

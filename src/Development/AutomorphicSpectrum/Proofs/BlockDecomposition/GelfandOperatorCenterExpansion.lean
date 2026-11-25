@@ -1,12 +1,11 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.HeightProofs.EqMatrixCoeffOfLocallyUniformLimitKFiniteStatement
-
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.IsMultOfFintype
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.GelfandValueNegation
 public import Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange.ArchimedeanBaseChangeProof.ArchimedeanGelfandKernels.WaveSt
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.EventuallyEqOfAgreeGLs
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.TrETransposeEqPhiSeq
+
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AutomorphicSpectrum.Proofs.BlockDecomposition.GelfandValueNegationStatement, Development.AutomorphicSpectrum.Proofs.BlockDecomposition.GelfandOperatorCenterExpansion
 
@@ -21,8 +20,6 @@ open PositivityTheory.RgTw (Mat G)
 open PositivityTheory.RgBcC
 open GlobalTheory.CompanionTheory.WaveMult
 
-theorem _root_.GlobalTheory.T.gelfand_value_negation : ∀ (n : ℕ) (cc : Fin n → ℂ) (m : ℕ), (-1 : ℂ) ^ m * GlobalTheory.Dec.gelfVal (fun a => - cc a) m = phiSeq (n : ℂ) (GlobalTheory.Dec.gelfVal cc) m := by
-  first | exact @GlobalTheory.CompanionTheory.WaveMult.ValPhi.gelfVal_neg_eq_phiSeq
 end -- clump:auto
 end -- clump:auto
 -- ===== end clump member: Development.AutomorphicSpectrum.Proofs.BlockDecomposition.GelfandValueNegationStatement =====
@@ -71,7 +68,25 @@ theorem map_phiSeq (φ : A →+* B) (N : A) (τ : ℕ → A) (m : ℕ) :
 
 theorem exists_words (P : FreeAlgebra ℂ ℕ) : ∃ (N : ℕ) (c : Fin N → ℂ) (w : Fin N → List ℕ),
     P = ∑ i, c i • ((w i).map (FreeAlgebra.ι ℂ)).prod := by
-  apply _root_.GlobalTheory.TypeSum.CoefClos.exists_words <;> assumption
+  have hspan : P ∈ Submodule.span ℂ
+      (Set.range fun w : List ℕ => (w.map (FreeAlgebra.ι ℂ)).prod) := by
+    have h1 : P ∈ Algebra.adjoin ℂ (Set.range (FreeAlgebra.ι ℂ)) := by
+      rw [FreeAlgebra.adjoin_range_ι]; trivial
+    rw [← Subalgebra.mem_toSubmodule, Algebra.adjoin_eq_span] at h1
+    refine Submodule.span_mono ?_ h1
+    intro x hx
+    induction hx using Submonoid.closure_induction with
+    | mem x hx => obtain ⟨k, rfl⟩ := hx; exact ⟨[k], by simp⟩
+    | one => exact ⟨[], by simp⟩
+    | mul x y _ _ hx hy =>
+      obtain ⟨a, rfl⟩ := hx
+      obtain ⟨b, rfl⟩ := hy
+      exact ⟨a ++ b, by simp⟩
+  obtain ⟨d, rfl⟩ := (Finsupp.mem_span_range_iff_exists_finsupp).1 hspan
+  let e := d.support.equivFin
+  refine ⟨d.support.card, fun i => d (e.symm i), fun i => (e.symm i).1, ?_⟩
+  rw [Finsupp.sum, ← Finset.sum_coe_sort]
+  exact (Equiv.sum_comp e.symm (fun i : d.support => d i • (i.1.map (FreeAlgebra.ι ℂ)).prod)).symm
 
 theorem phiSeq_words (n m : ℕ) : ∃ (N : ℕ) (c : Fin N → ℂ) (w : Fin N → List ℕ),
     ∀ {A : Type} [Ring A] [Algebra ℂ A] (τ : ℕ → A),
@@ -371,7 +386,7 @@ theorem transposed_invariants : ∀ (n m : ℕ), ∃ (N : ℕ) (c : Fin N → �
   intro n m
   obtain ⟨N, c, w, h⟩ := phiSeq_words n m
   refine ⟨N, c, w, fun cc => ?_, fun hR s V _ _ f hf x hx => ?_⟩
-  · rw [GlobalTheory.T.gelfand_value_negation, h (A := ℂ)]
+  · rw [GlobalTheory.CompanionTheory.WaveMult.ValPhi.gelfVal_neg_eq_phiSeq, h (A := ℂ)]
     simp
   · let F : Sm n V := ⟨(GLs n).indicator f, indicator_mem hf⟩
     have hF : ∀ g ∈ GLs n, f g = F.1 g := fun g hg => by simp [F, hg]

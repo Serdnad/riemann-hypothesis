@@ -1,6 +1,5 @@
 module
 
-import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.CechRefinementCohomologyBijective
 public import Development.WeilBound.CoreStatements.PadicHodgeComparison.EtaleCohomologyComparison.PerfectoidPullbacks.PolynomialSiteTraces.AdmissibleMap
 public import Development.WeilBound.CoreStatements.PadicHodgeComparison.EtaleCohomologyComparison.PerfectoidPullbacks.InclStd
 public import Development.WeilBound.CoreStatements.PadicHodgeComparison.EtaleCohomologyComparison.ZariskiEtaleLifting.XSmulSucc
@@ -19,12 +18,34 @@ variable {O R : Type} [CommRing O] [CommRing R] {I : Ideal R} {γ : DividedPower
   {q : X ⟶ Spec (CommRingCat.of O)} {κ : O →+* R ⧸ I}
 
 theorem nil_of_mem (T : Thick (nlFun γ p X q κ)) {x : T.B} (hx : x ∈ T.J) : IsNilpotent x := by
-  apply _root_.GlobalTheory.CompanionTheory.NlZar.isNilpotent_of_mem_J <;> assumption
+  by_cases hp : p = 0
+  · obtain ⟨n, hn⟩ := T.adm.2 hp
+    refine ⟨n, ?_⟩
+    have h : x ^ n ∈ T.J ^ n := Ideal.pow_mem_pow hx n
+    rw [hn] at h
+    exact h
+  · obtain ⟨n, hn⟩ : IsNilpotent ((p : ℕ) : T.B) := T.adm.1 hp
+    refine ⟨p * n, ?_⟩
+    have h1 : x ^ p = (p.factorial : T.B) * T.δ.dpow p x := (T.δ.factorial_mul_dpow_eq_pow hx).symm
+    have h2 : (p.factorial : T.B) = (p : T.B) * ((p - 1).factorial : T.B) := by
+      rw [← Nat.cast_mul, Nat.mul_factorial_pred hp]
+    rw [pow_mul, h1, h2, mul_assoc, mul_pow, hn, zero_mul]
 
 theorem span_lift (T : Thick (nlFun γ p X q κ)) {m : ℕ} (f : Fin m → T.B) (s : Fin m → T.B ⧸ T.J)
     (hf : ∀ k, Ideal.Quotient.mk T.J (f k) = s k) (hs : Ideal.span (Set.range s) = ⊤) :
     Ideal.span (Set.range f) = ⊤ := by
-  apply _root_.GlobalTheory.CompanionTheory.NlZar.span_lift <;> assumption
+  have h1 : Ideal.map (Ideal.Quotient.mk T.J) (Ideal.span (Set.range f)) = ⊤ := by
+    rw [Ideal.map_span, ← Set.range_comp, ← hs]
+    congr 2
+    exact funext hf
+  have h2 : (1 : T.B ⧸ T.J) ∈ Ideal.map (Ideal.Quotient.mk T.J) (Ideal.span (Set.range f)) := by
+    rw [h1]; trivial
+  obtain ⟨a, ha, ha1⟩ := (Ideal.mem_map_iff_of_surjective _ Ideal.Quotient.mk_surjective).1 h2
+  have hj : a - 1 ∈ T.J := Ideal.Quotient.eq.1 (by rw [ha1, map_one])
+  have hu : IsUnit a := by
+    have := (nil_of_mem T hj).isUnit_add_one
+    simpa using this
+  exact Ideal.eq_top_of_isUnit_mem _ ha hu
 
 theorem locT_univ (T : Thick (nlFun γ p X q κ)) (a : T.B) {T'' : Thick (nlFun γ p X q κ)} (ψ : T ⟶ T'')
     (hu : IsUnit (ψ.φ a)) : ∃! χ : locT T a ⟶ T'', locH T a ≫ χ = ψ := by
@@ -337,7 +358,7 @@ theorem eq_fil {Q₁ : ObjectProperty (Thick (nlFun γ p X q κ))} (h : Q₁ ≤
 
 theorem eq_o {Q₁ : ObjectProperty (Thick (nlFun γ p X q κ))} (h : Q₁ ≤ Q') :
     (incl h).o = CH.Mor.restrict (CH.modF (sP Q').A) (ObjectProperty.ιOfLE h) :=
-  mor_eq (ObjectProperty.ιOfLE h) _ _ rfl rfl fun T x => rfl
+  mor_eq (ObjectProperty.ιOfLE h) _ _ rfl rfl fun _ _ => rfl
 
 theorem bij_std (Q₀ : ObjectProperty (Thick (nlFun γ p X q κ))) (hQ : Used Q₀) (𝒱 : Set X.Opens) (h : St Q₀ 𝒱 ≤ Q')
     (h' : Q' ≤ St Q₀ {sSup 𝒱}) (hc : ∀ T T' : Thick (nlFun γ p X q κ), (T ⟶ T') → Q' T → Q₀ T' → Q' T')

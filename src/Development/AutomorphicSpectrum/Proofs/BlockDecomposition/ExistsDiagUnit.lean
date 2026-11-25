@@ -1,6 +1,5 @@
 module
 
-import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.FSatakeA
 public import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.LeviEmbMemNormalizerLower
 public import Formalism.SatakeDualWeyl.StatementF
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsContinuousPadic
@@ -28,12 +27,11 @@ theorem ordL_of_eq {x : L} {u : Multiplicative ℤ}
   rw [WithZero.coe_unzero, h]
 
 theorem ordL_mul_of_ne {a b : L} (ha : a ≠ 0) (hb : b ≠ 0) :
-    ordL (a * b) = ordL a + ordL b := by
-  apply _root_.Formalism.UG.P.fSatake_ord_mul <;> assumption
+    ordL (a * b) = ordL a + ordL b :=
+  Formalism.UG.P.fSatake_ord_mul ha hb
 
-theorem ordL_congr {a b : L} (h : Valued.v a = Valued.v b) : ordL a = ordL b := by
-  unfold ordL
-  simp only [h]
+theorem ordL_congr {a b : L} (h : Valued.v a = Valued.v b) : ordL a = ordL b :=
+  Formalism.UG.P.fSatake_ord_of_v h
 
 theorem val_mul_entry_le {ι : Type} [Fintype ι] {A B : Matrix ι ι L}
     (hA : ∀ i j, Valued.v (A i j) ≤ 1) (hB : ∀ i j, Valued.v (B i j) ≤ 1) (i j : ι) :

@@ -709,7 +709,12 @@ variable {k : Type} [Field k] [ValuativeRel k] [TopologicalSpace k] [IsNonarchim
 theorem hpg_wGL_conj_apply {i t : ℕ} (h : (i + 1) + t = i + t + 1) (G : GL (Fin (i + t + 1)) k) (a b : Fin (i + t + 1)) :
     ((wGL k h * G * (wGL k h)⁻¹ : GL (Fin (i + t + 1)) k) : Matrix (Fin (i + t + 1)) (Fin (i + t + 1)) k) a b =
       (G : Matrix (Fin (i + t + 1)) (Fin (i + t + 1)) k) (wPerm h a) (wPerm h b) := by
-  apply _root_.GlobalTheory.CompanionTheory.BZRes.wGL_conj_apply <;> assumption
+  have e : (((wGL k h)⁻¹ : GL (Fin (i + t + 1)) k) : Matrix (Fin (i + t + 1)) (Fin (i + t + 1)) k) =
+      (1 : Matrix (Fin (i + t + 1)) (Fin (i + t + 1)) k).submatrix id (wPerm h) := rfl
+  have e' : ((wGL k h : GL (Fin (i + t + 1)) k) : Matrix (Fin (i + t + 1)) (Fin (i + t + 1)) k) =
+      (1 : Matrix (Fin (i + t + 1)) (Fin (i + t + 1)) k).submatrix (wPerm h) id := rfl
+  rw [Units.val_mul, Units.val_mul, e, e']
+  simp [Matrix.mul_apply, Matrix.one_apply]
 
 theorem hpg_wPerm_two {i t : ℕ} (h : (i + 1) + t = i + t + 1) (y : Σ x, Two (Fin (i + 1)) (Fin t) x) :
     wPerm h (two (stdSum h) y) = ePG i t y := by
@@ -825,12 +830,21 @@ theorem stdSum_inr_ne_inl {r t N : ℕ} (h : r + t = N) (j : Fin t) (l : Fin r) 
 
 theorem wPerm_first {i t : ℕ} (h : (i + 1) + t = i + t + 1) :
     wPerm h (stdSum h (Sum.inl (Fin.last i))) = Fin.last (i + t) := by
-  apply _root_.GlobalTheory.CompanionTheory.BZRes.wPerm_last <;> assumption
+  have e : (two (stdSum h)).symm (stdSum h (Sum.inl (Fin.last i))) = ⟨false, Fin.last i⟩ := by
+    rw [Equiv.symm_apply_eq]
+    rfl
+  show ePG i t ((two (stdSum h)).symm (stdSum h (Sum.inl (Fin.last i)))) = _
+  rw [e]
+  exact ePG_false_last i t
 
 theorem lastRow_wInv {i t : ℕ} (h : (i + 1) + t = i + t + 1) :
     vecMul (eLast k (i + t)) (((wGL k h)⁻¹ : GL (Fin (i + t + 1)) k) : Matrix _ _ k) =
       Pi.single (stdSum h (Sum.inl (Fin.last i))) 1 := by
-  apply _root_.GlobalTheory.CompanionTheory.BZRes.vecMul_wGL_inv <;> assumption
+  rw [show eLast k (i + t) = Pi.single (Fin.last (i + t)) 1 from rfl, vecMul_single_one]
+  ext c
+  show (1 : Matrix _ _ k).submatrix id (wPerm h) (Fin.last (i + t)) c = _
+  rw [← wPerm_first h]
+  simp [Matrix.one_apply, Pi.single_apply, eq_comm]
 
 theorem lastRow_inv {i t : ℕ} (h : (i + 1) + t = i + t + 1) (q p : GL (Fin (i + t + 1)) k)
     (hp : p ∈ Mir k (i + t)) :
@@ -1310,7 +1324,7 @@ theorem two_orbits [NonarchimedeanGroup G] {Q P : Subgroup G} {w : G}
   let O : S.toSubmodule →ₗ[ℂ] cIndSpace H₂ τ₂ :=
     ((resInd σ H₂ hH₂ τ₂ E₂ hE₂).comp S.toSubmodule.subtype).codRestrict _ mem2
   have hOinj : Function.Injective O := by
-    set_option backward.isDefEq.respectTransparency.instanceSearchTypes false in rw [injective_iff_map_eq_zero]
+    rw [injective_iff_map_eq_zero]
     intro f hf
     refine Subtype.ext (Subtype.ext (Subtype.ext (funext fun g => ?_)))
     rcases hcov g with h | ⟨q, hq, p, hp, rfl⟩

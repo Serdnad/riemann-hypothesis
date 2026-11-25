@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.AbsHalfBlockDetIntegralGLInvariant
 public import Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange.ArchimedeanBaseChangeProof.SatakeExponents.UniformizerValuations.LeviOf
 public import Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange.ArchimedeanBaseChangeProof.SatakeExponents.UniformizerValuations.ReadSplit
 import Development.AbelianVarietyTheory.Definitions.Divisors.T2SpaceGeneralLinearGroup
@@ -57,7 +56,17 @@ theorem det_mem {w : Pl E} {n : ℕ} {M : Matrix (Fin n) (Fin n) (w.adicCompleti
     (Subring.prod_mem _ fun i _ => hM _ _)
 
 theorem v_det {w : Pl E} {n : ℕ} {g : GLw n w} (hg : g ∈ GlobalTheory.LFun.KGL w (n := n)) : Valued.v g.val.det = 1 := by
-  apply _root_.GlobalTheory.BCT.AbsHalfInv.v_det_KGL <;> assumption
+  obtain ⟨h1, h2⟩ := GlobalTheory.AdelicU.mem_GLint_iff.1 hg
+  have d1 : Valued.v g.val.det ≤ 1 := det_mem h1
+  have d2 : Valued.v (g⁻¹).val.det ≤ 1 := det_mem h2
+  have e : g.val.det * (g⁻¹).val.det = 1 := by
+    rw [← Matrix.det_mul, show g.val * (g⁻¹).val = 1 from g.mul_inv, Matrix.det_one]
+  have e' : Valued.v g.val.det * Valued.v (g⁻¹).val.det = 1 := by
+    rw [← map_mul, e, map_one]
+  refine le_antisymm d1 ?_
+  calc (1 : _) = Valued.v g.val.det * Valued.v (g⁻¹).val.det := e'.symm
+    _ ≤ Valued.v g.val.det * 1 := mul_le_mul_right d2 _
+    _ = _ := mul_one _
 
 def cMu {a b : ℕ} {w : Pl E} (μ : (w.adicCompletion E)ˣ →* ℂˣ) (m : GLw a w × GLw b w) : ℂ :=
   (μ ((-1) ^ (a * b) * GeneralLinearGroup.det m.1 ^ b * GeneralLinearGroup.det m.2 ^ a) : ℂ)

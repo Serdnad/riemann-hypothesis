@@ -1,6 +1,5 @@
 module
 
-import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.DerivativeTwistedIso
 public import Development.WeilBound.RepresentationTheoryGL.GenericUnitaryGL.LeibnizOrders.ProdGPn
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.SubsingletonOfGiso
 import Mathlib.Tactic.Linter.Style
@@ -21,7 +20,25 @@ theorem nonempty_twAct_equiv {ρ : Representation ℂ G V} {σ : Representation 
     (N : Subgroup G) (θ : N →* ℂˣ) (s : M →* G)
     (hs : ∀ (m : M) (n : N), ∃ h : s m * (n : G) * (s m)⁻¹ ∈ N, θ ⟨_, h⟩ = θ n) :
     Nonempty ((twAct ρ N θ s hs).Equiv (twAct σ N θ s hs)) := by
-  apply _root_.GlobalTheory.CompanionTheory.LeibOrd.DerivTw.twAct_equiv <;> assumption
+  have he : ∀ v, e.toLinearEquiv v = e v := fun v => rfl
+  have hl : ∀ v, e.toIntertwiningMap.toLinearMap v = e v := fun v => rfl
+  have hmap : (GlobalTheory.PRep.twKer ρ N θ).map (e.toLinearEquiv : V →ₗ[ℂ] W) = GlobalTheory.PRep.twKer σ N θ := by
+    unfold GlobalTheory.PRep.twKer
+    rw [Submodule.map_span]
+    congr 1
+    ext w
+    constructor
+    · rintro ⟨x, ⟨n, v, rfl⟩, rfl⟩
+      refine ⟨n, e v, ?_⟩
+      simp only [map_sub, map_smul, hl, eint]
+    · rintro ⟨n, w', rfl⟩
+      refine ⟨ρ n (e.toLinearEquiv.symm w') - ((θ n : ℂˣ) : ℂ) • e.toLinearEquiv.symm w', ⟨n, _, rfl⟩, ?_⟩
+      have hw : e (e.toLinearEquiv.symm w') = w' := e.toLinearEquiv.apply_symm_apply w'
+      simp only [map_sub, map_smul, hl, eint, hw]
+  refine ⟨Representation.Equiv.mk (Submodule.Quotient.equiv _ _ e.toLinearEquiv hmap) fun m => ?_⟩
+  apply Submodule.linearMap_qext
+  ext v
+  exact congrArg (Submodule.Quotient.mk (p := GlobalTheory.PRep.twKer σ N θ)) (eint e (s m) v)
 
 theorem nonempty_twist_equiv {ρ : Representation ℂ G V} {σ : Representation ℂ G W} (e : ρ.Equiv σ) (χ : G →* ℂˣ) :
     Nonempty ((twist ρ χ).Equiv (twist σ χ)) := by

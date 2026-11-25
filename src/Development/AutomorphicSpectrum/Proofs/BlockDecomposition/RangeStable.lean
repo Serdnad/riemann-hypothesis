@@ -1,6 +1,5 @@
 module
 
-import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.SumMemOfStable
 public import Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange.ArchimedeanBaseChangeProof.RealDescent.RealLeviDescent.IsCoreMod
 
 @[expose] public section
@@ -23,7 +22,18 @@ variable {V : Type} [NormedAddCommGroup V] [InnerProductSpace ℂ V]
   {σ : Matrix.unitaryGroup (Fin n) ℂ →* (V →ₗ[ℂ] V)} {Kf : Fin n → Fin n → Module.End ℂ V}
 
 theorem glRel_kF {E1 E2 : Fin n → Fin n → Module.End ℂ V} (h : IsPair E1 E2) : Formalism.REAL.GlRel (kF E1 E2) := by
-  apply _root_.GlobalTheory.CompanionTheory.RealCount.InjHw.gl_kF <;> assumption
+  intro a b c d
+  have h1 := h.gl1 a b c d
+  have h2 := h.gl2 a b c d
+  have c1 := h.comm a b c d
+  have c2 := h.comm c d a b
+  have key : kF E1 E2 a b * kF E1 E2 c d - kF E1 E2 c d * kF E1 E2 a b =
+      (E1 a b * E1 c d - E1 c d * E1 a b) + (E2 a b * E2 c d - E2 c d * E2 a b) := by
+    simp only [kF, add_mul, mul_add, c1, ← c2]
+    abel
+  rw [key, h1, h2]
+  simp only [kF]
+  split_ifs <;> abel
 
 end
 

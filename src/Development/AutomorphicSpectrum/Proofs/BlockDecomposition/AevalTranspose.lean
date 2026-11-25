@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FinrankJointEigenspaceAddConjEqMul
 public import Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange.ArchimedeanBaseChangeProof.QuotientVanishing.NonEllFlag
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.FiniteTwConjOfIsTest
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.MeasurableSdot
@@ -1047,7 +1046,31 @@ namespace GlobalTheory.CompanionTheory.TorusCh
 theorem dvd_of_aeval_eq_zero_of_dvd_charpoly {K : Type} [Field K] {n : ℕ}
     (γ : Matrix (Fin n) (Fin n) K) {p g : K[X]} (hp : Irreducible p) (hpc : p ∣ γ.charpoly)
     (hg : aeval γ g = 0) : p ∣ g := by
-  apply _root_.GlobalTheory.irreducible_dvd_of_dvd_charpoly_of_aeval_matrix <;> assumption
+  classical
+  by_contra hn
+  obtain ⟨a, b, hab⟩ := (hp.coprime_iff_not_dvd).2 hn
+  obtain ⟨α, hα⟩ := IsAlgClosed.exists_aeval_eq_zero (AlgebraicClosure K) p (ne_of_gt (degree_pos_of_irreducible hp))
+  have hroot : (γ.map (algebraMap K (AlgebraicClosure K))).charpoly.IsRoot α := by
+    obtain ⟨c, hc⟩ := hpc
+    rw [Matrix.charpoly_map, hc, IsRoot, eval_map_algebraMap, map_mul, hα, zero_mul]
+  have hs : α ∈ spectrum (AlgebraicClosure K) (γ.map (algebraMap K (AlgebraicClosure K))) :=
+    Matrix.mem_spectrum_iff_isRoot_charpoly.2 hroot
+  have h2 := spectrum.subset_polynomial_aeval (γ.map (algebraMap K (AlgebraicClosure K)))
+    (g.map (algebraMap K (AlgebraicClosure K))) ⟨α, hs, rfl⟩
+  have h3 : aeval (γ.map (algebraMap K (AlgebraicClosure K))) (g.map (algebraMap K (AlgebraicClosure K))) = 0 := by
+    have := aeval_algHom_apply ((Algebra.ofId K (AlgebraicClosure K)).mapMatrix (m := Fin n)) γ g
+    rw [hg, map_zero] at this
+    rw [aeval_map_algebraMap]
+    exact this
+  rw [h3] at h2
+  have h4 : aeval α g = 0 := by
+    by_contra hne
+    apply h2
+    simp only [eval_map_algebraMap]
+    rw [spectrum.mem_resolventSet_iff, sub_zero]
+    exact (Ne.isUnit hne).map (algebraMap (AlgebraicClosure K) (Matrix (Fin n) (Fin n) (AlgebraicClosure K)))
+  have h5 := congrArg (aeval α) hab
+  simp [hα, h4] at h5
 
 theorem exists_prim_of_irreducible {K : Type} [Field K] {n : ℕ}
     (γ : Matrix (Fin n) (Fin n) K) (hs : γ.charpoly.Separable) {p : K[X]} (hp : Irreducible p)

@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LeviDecompositionGradedIsotropicFlag
 public import Mathlib.Analysis.Complex.Order
 public import Mathlib.LinearAlgebra.Matrix.Block
 public import Mathlib.LinearAlgebra.Matrix.PosDef
@@ -363,7 +362,7 @@ theorem exists_lift (hcm : IsCMExt F E σ) (hdet : J.det ≠ 0) (τ : EmbOver E 
   rfl
 
 theorem archMat_injective (hcm : IsCMExt F E σ) (τ : EmbOver E w) : Function.Injective (archMat σ J τ) :=
-  fun a b e => (GlobalTheory.Orb.isEmbedding_archMat J hcm τ).injective (congrArg (fun m i j => m i j) e)
+  fun _ _ e => (GlobalTheory.Orb.isEmbedding_archMat J hcm τ).injective (congrArg (fun m i j => m i j) e)
 
 
 variable (σ) in
@@ -427,7 +426,17 @@ theorem tens_prod_ext {F E A B : Type} [Field F] [Field E] [Algebra F E] [CommRi
       Algebra.TensorProduct.map (AlgHom.fst F A B) (AlgHom.id F E) z')
     (b : Algebra.TensorProduct.map (AlgHom.snd F A B) (AlgHom.id F E) z =
       Algebra.TensorProduct.map (AlgHom.snd F A B) (AlgHom.id F E) z') : z = z' := by
-  apply _root_.GlobalTheory.UAut.TorusLevi.prodTens_ext <;> assumption
+  have hz : ∀ z : (A × B) ⊗[F] E, z = LinearMap.rTensor E (LinearMap.inl F A B)
+        (Algebra.TensorProduct.map (AlgHom.fst F A B) (AlgHom.id F E) z) +
+      LinearMap.rTensor E (LinearMap.inr F A B)
+        (Algebra.TensorProduct.map (AlgHom.snd F A B) (AlgHom.id F E) z) := by
+    intro z
+    induction z with
+    | tmul x y => simp [← TensorProduct.add_tmul]
+    | add x y hx hy =>
+      simp only [map_add (f := _)]
+      rw [add_add_add_comm, ← hx, ← hy]
+  rw [hz z, hz z', a, b]
 
 theorem tens_ext (hcm : IsCMExt F E σ) (τ : ∀ w : InfinitePlace F, EmbOver E w) {z z' : AF F ⊗[F] E}
     (h : ∀ w, evC (τ w) z = evC (τ w) z') (h' : finPart F E z = finPart F E z') : z = z' := by

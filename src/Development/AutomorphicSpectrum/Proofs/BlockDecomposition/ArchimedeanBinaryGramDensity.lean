@@ -1,6 +1,5 @@
 module
 
-import CompanionTheory.SpectralGeometry.LocalGlobalProofs.AdelicAnalysis.ContinuousHermScal
 public import CompanionTheory.SpectralGeometry.CountingDefinitions.AdelicEulerProducts.IsEulerProd
 public import CompanionTheory.SpectralGeometry.LocalGlobalProofs.AdelicAnalysis.CoordinateHaarMeasure
 public import CompanionTheory.SpectralGeometry.LocalGlobalProofs.AdelicAnalysis.HermitianMatricesLocallyCompactBorel
@@ -59,7 +58,16 @@ variable {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algeb
 variable (R : Type) [CommRing R] [Algebra F R] [TopologicalSpace R]
 
 theorem continuous_hermScal [IsTopologicalRing R] : Continuous (hermScal R σ) := by
-  apply _root_.GlobalTheory.CompanionTheory.SW.OneHerm.continuous_hermScal <;> assumption
+  haveI : IsModuleTopology R (R ⊗[F] E) := ⟨rfl⟩
+  haveI : ContinuousAdd (R ⊗[F] E) := IsModuleTopology.toContinuousAdd R (R ⊗[F] E)
+  have h1 : Continuous fun r : R => r ⊗ₜ[F] (1 : E) := by
+    have : (fun r : R => r ⊗ₜ[F] (1 : E)) = (Algebra.linearMap R (R ⊗[F] E) : R → R ⊗[F] E) := by
+      funext r
+      simp [Algebra.TensorProduct.algebraMap_apply]
+    rw [this]
+    exact IsModuleTopology.continuous_of_linearMap _
+  refine Continuous.subtype_mk ?_ _
+  exact continuous_matrix fun _ _ => h1
 
 theorem continuous_qR (htr : Continuous (Algebra.trace R (R ⊗[F] E))) [IsTopologicalRing R] :
     Continuous (qR R σ) := by

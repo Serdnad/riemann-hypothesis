@@ -1,7 +1,5 @@
 module
 
-import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.MirabolicFourierExpansion
-import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.SmoothPhiMinus
 public import Mathlib.LinearAlgebra.Matrix.GeneralLinearGroup.Defs
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ExistsUnipMir
 public import Development.WeilBound.CoreStatements.TemperedRepresentationTheory.MirabolicDerivatives.UnipApplyCastSuccLast
@@ -70,7 +68,16 @@ variable {k : Type} [Field k] [ValuativeRel k] [TopologicalSpace k] [IsNonarchim
 
 theorem continuous_colMat_toAdd (n : ℕ) :
     Continuous fun x : Multiplicative (Fin n → k) => colMat k n x.toAdd := by
-  apply _root_.GlobalTheory.CompanionTheory.MirFourier.continuous_colMat <;> assumption
+  refine continuous_pi fun i => continuous_pi fun j => ?_
+  by_cases hj : j = Fin.last n
+  · subst hj
+    induction i using Fin.lastCases with
+    | last => simpa [colMat] using continuous_const
+    | cast i =>
+      have h : Continuous fun a : Multiplicative (Fin n → k) => Multiplicative.toAdd a i :=
+        (continuous_apply i).comp continuous_toAdd
+      simpa [colMat] using h
+  · simpa [colMat, hj] using continuous_const
 
 theorem continuous_unipMir (n : ℕ) : Continuous (unipMir k n) := by
   refine Continuous.subtype_mk (Units.continuous_iff.2 ⟨?_, ?_⟩) _
@@ -563,8 +570,16 @@ theorem twAct_isSmooth {G M V : Type} [Group G] [TopologicalSpace G] [IsTopologi
     (hsc : Continuous s)
     (hs : ∀ (m : M) (n : N), ∃ h : s m * (n : G) * (s m)⁻¹ ∈ N, θ ⟨_, h⟩ = θ n) :
     IsSmooth (twAct ρ N θ s hs) := by
-  intros
-  apply _root_.GlobalTheory.CompanionTheory.BZMirSmooth.isSmooth_twAct <;> assumption
+  intro x
+  obtain ⟨v, rfl⟩ := Submodule.Quotient.mk_surjective _ x
+  have hle : ((stabSub ρ v).comap s) ≤ stabSub (twAct ρ N θ s hs) (Submodule.Quotient.mk v) := by
+    intro m hm
+    change ρ (s m) v = v at hm
+    change (twAct ρ N θ s hs) m (Submodule.Quotient.mk v) = Submodule.Quotient.mk v
+    exact congrArg (Submodule.Quotient.mk (p := twKer ρ N θ)) hm
+  have hop : IsOpen (((stabSub ρ v).comap s : Subgroup M) : Set M) :=
+    (hρ v).preimage hsc
+  exact Subgroup.isOpen_mono hle hop
 
 end GlobalTheory.CompanionTheory.BZMir
 end -- clump:auto
@@ -619,7 +634,14 @@ section Top
 variable {k : Type} [Field k] [ValuativeRel k] [TopologicalSpace k] [IsNonarchimedeanLocalField k]
 
 theorem continuous_glEmb (n : ℕ) : Continuous (glEmb k n) := by
-  apply _root_.GlobalTheory.CompanionTheory.BZMirSmooth.continuous_glEmb <;> assumption
+  apply Continuous.units_map
+  show Continuous (glEmbMat k n)
+  refine continuous_pi fun i => continuous_pi fun j => ?_
+  induction i using Fin.lastCases with
+  | last => induction j using Fin.lastCases <;> simp [glEmbMat] <;>
+      first | exact continuous_const
+  | cast i => induction j using Fin.lastCases <;> simp [glEmbMat] <;>
+      first | exact continuous_const | exact (continuous_apply _).comp (continuous_apply _)
 
 theorem continuous_levi_comp_subtype (m : ℕ) : Continuous ((levi k (m + 1)).comp (Mir k m).subtype) :=
   continuous_induced_rng.2 ((continuous_glEmb (m + 1)).comp continuous_subtype_val)

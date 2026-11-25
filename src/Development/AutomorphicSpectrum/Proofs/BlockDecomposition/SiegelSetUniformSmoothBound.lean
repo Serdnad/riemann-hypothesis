@@ -1,6 +1,5 @@
 module
 
-import ReciprocityTheory.ReductiveGroups.DiscreteSeries.LaplaceOperators.LaplaceFoundations.NormMatrixTripleProductLe
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.BlockMatrixMulVecBasis
 public import Development.AbelianVarietyTheory.BlockTheory.HeightDefect.WordDerivatives
 public import Development.AbelianVarietyTheory.Definitions.Divisors.IsSquareIntegrableIffMemL2
@@ -178,7 +177,16 @@ variable {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algeb
 
 theorem norm_le_of_entries {X : Matrix (Fin n) (Fin n) ℂ} {r : ℝ} (hr : 0 ≤ r) (h : ∀ i j, ‖X i j‖ ≤ r) :
     ‖X‖ ≤ n * r := by
-  apply _root_.ReciprocityTheory.ChartRestriction.DS.Lap.Base.ConjugationTaylorBound.op_le_of_entry <;> assumption
+  have key : ‖X‖₊ ≤ (n : ℝ≥0) * r.toNNReal := by
+    rw [Matrix.linfty_opNNNorm_def]
+    refine Finset.sup_le fun i _ => ?_
+    calc ∑ j, ‖X i j‖₊ ≤ ∑ _j : Fin n, r.toNNReal :=
+          Finset.sum_le_sum fun j _ => by
+            rw [← NNReal.coe_le_coe, coe_nnnorm, Real.coe_toNNReal _ hr]
+            exact h i j
+      _ = (n : ℝ≥0) * r.toNNReal := by simp
+  have key' := NNReal.coe_le_coe.mpr key
+  simpa [Real.coe_toNNReal _ hr] using key'
 
 theorem expMap_zero (h : IsCMExt F E σ) (τ : EmbOver E w) :
     expMap (jA (J.map τ.1)) (secA σ J τ) 0 = 1 := by
