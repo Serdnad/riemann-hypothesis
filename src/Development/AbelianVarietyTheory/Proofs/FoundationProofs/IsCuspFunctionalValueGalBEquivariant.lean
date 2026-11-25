@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Definitions.Foundations.HahnPowOrderLeadingCoeff
 public import Development.AbelianVarietyTheory.Definitions.Foundations.EeProd
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.SpecialLinearGroupIntMapZmodSurjective
 import Mathlib.Algebra.Order.Floor.Extended
@@ -66,7 +65,15 @@ theorem exp_gal (X : Tower Ω ε) (s : Ω ≃ₐ[ℚ] Ω) (f : X.K) :
 
 theorem gal_algebraMap (X : Tower Ω ε) (s : Ω ≃ₐ[ℚ] Ω) (c : Ω) :
     X.gal s (algebraMap Ω X.K c) = algebraMap Ω X.K (s c) := by
-  apply _root_.GlobalTheory.K4.gal_algebraMap <;> assumption
+  apply X.exp.toRingHom.injective
+  show X.exp _ = X.exp _
+  rw [exp_gal, AlgHom.commutes, AlgHom.commutes]
+  ext r
+  have hC : ∀ c : Ω, algebraMap Ω (HahnSeries ℚ Ω) c = HahnSeries.single 0 c := fun c => by
+    rw [HahnSeries.algebraMap_apply']
+    simp [HahnSeries.ofPowerSeries_C, HahnSeries.C_apply]
+  simp only [HahnSeries.map_coeff, hC, HahnSeries.coeff_single]
+  split_ifs <;> simp
 
 theorem map_mul_gal (s : Ω ≃ₐ[ℚ] Ω) (x y : HahnSeries ℚ Ω) :
     HahnSeries.map (x * y) (s : Ω →+* Ω) = HahnSeries.map x (s : Ω →+* Ω) * HahnSeries.map y (s : Ω →+* Ω) :=

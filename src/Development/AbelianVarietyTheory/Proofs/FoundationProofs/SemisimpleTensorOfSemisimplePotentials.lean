@@ -72,7 +72,6 @@ import Mathlib.Algebra.Order.Star.Real
 import Mathlib.RingTheory.Etale.Weakly
 import Mathlib.RingTheory.TotallySplit
 import Mathlib.Topology.Compactification.OnePoint.ProjectiveLine
-import Development.AbelianVarietyTheory.Proofs.FoundationProofs.TowerPadicCompletionMapEvalDependsOnLevel
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.Proofs.FoundationProofs.EichlerShimuraPotentialSubmoduleAndBaseChange, Development.AbelianVarietyTheory.Proofs.FoundationProofs.Gamma1CapGamma0LevelActsFreelyUpperHalfPlane, Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsEichlerShimuraPotentialOfHomogeneousPolyCo, Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsKummerPotentialRelationPadic, Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsEichlerShimuraPotentialOfMemKummer, Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsEichlerShimuraPotentialOfMemVB, Development.AbelianVarietyTheory.Proofs.FoundationProofs.KummerPotentialSpanHeckeLetterStable, Development.AbelianVarietyTheory.Proofs.FoundationProofs.KummerClassEvalEqZeroOfVanishingOnCongruence, Development.AbelianVarietyTheory.Proofs.FoundationProofs.KummerPotentialRelationTrivialEqZero, Development.AbelianVarietyTheory.Proofs.FoundationProofs.TrivialEigenvalueCongruenceVanishes, Development.AbelianVarietyTheory.Proofs.FoundationProofs.KummerRelatedPairFstEqZeroOfTrivial, Development.AbelianVarietyTheory.Proofs.FoundationProofs.SemisimpleHeckePolyTransportRingEquiv, Development.AbelianVarietyTheory.Proofs.FoundationProofs.SemisimpleTensorOfSemisimplePotentials
@@ -547,7 +546,12 @@ namespace GlobalTheory.KZ.H3.LamStab
 
 theorem polySlash_map {R S : Type} [CommRing R] [CommRing S] (φ : R →+* S) (m : Matrix (Fin 2) (Fin 2) ℤ)
     (p : MvPolynomial (Fin 2) R) : slP m (MvPolynomial.map φ p) = MvPolynomial.map φ (slP m p) := by
-  apply _root_.GlobalTheory.KZ.H3.polySlash_map <;> assumption
+  induction p using MvPolynomial.induction_on with
+  | C a => simp [slP]
+  | add p q hp hq => simp [hp, hq]
+  | mul_X p i hp =>
+    simp only [map_mul, hp, MvPolynomial.map_X, Betti.slP_X, map_add (f := _)]
+    simp [MvPolynomial.smul_eq_C_mul]
 
 theorem opP_map {R S : Type} [CommRing R] [CommRing S] (φ : R →+* S) (m : Matrix (Fin 2) (Fin 2) ℤ)
     (F : ℂ → MvPolynomial (Fin 2) R) :
@@ -727,7 +731,14 @@ namespace GlobalTheory.KZ.H3
 
 theorem relTriv_gamma_of_dvd {N M : ℕ} (h : N ∣ M) {δ : SL(2, ℤ)} (hδ : δ ∈ CongruenceSubgroup.Gamma M) :
     δ ∈ CongruenceSubgroup.Gamma N := by
-  apply _root_.GlobalTheory.KZ.H3.KumAdd.gamma_of_dvd <;> assumption
+  rw [CongruenceSubgroup.Gamma_mem] at hδ ⊢
+  obtain ⟨a, b, c, d⟩ := hδ
+  have e : ∀ x : ℤ, ((x : ZMod M).cast : ZMod N) = (x : ZMod N) := fun x => ZMod.cast_intCast h x
+  refine ⟨?_, ?_, ?_, ?_⟩
+  · rw [← e, a]; simp [ZMod.cast_one h]
+  · rw [← e, b]; simp
+  · rw [← e, c]; simp
+  · rw [← e, d]; simp [ZMod.cast_one h]
 
 theorem toZModPow_eval_mulVec {l : ℕ} [Fact l.Prime] (n : ℕ) {δ : SL(2, ℤ)}
     (hδ : δ ∈ CongruenceSubgroup.Gamma (l ^ n)) (u : Fin 2 → ℤ_[l]) (q : MvPolynomial (Fin 2) ℤ_[l]) :
@@ -981,7 +992,7 @@ namespace GlobalTheory.KZ.H3.LamInj
 
 theorem algebraMap_injective (l : ℕ) [Fact l.Prime] (E : Type) [Field E] [Algebra ℤ_[l] E] [CharZero E] :
     Function.Injective (algebraMap ℤ_[l] E) := by
-  set_option backward.isDefEq.respectTransparency.instanceSearchTypes false in rw [injective_iff_map_eq_zero]
+  rw [injective_iff_map_eq_zero]
   intro x hx
   by_contra h0
   have e := PadicInt.unitCoeff_spec h0
@@ -992,7 +1003,15 @@ theorem algebraMap_injective (l : ℕ) [Fact l.Prime] (E : Type) [Field E] [Alge
   · exact pow_ne_zero _ hl h
 
 theorem gamma_le_of_dvd {N M : ℕ} (h : N ∣ M) : CongruenceSubgroup.Gamma M ≤ CongruenceSubgroup.Gamma N := by
-  apply _root_.GlobalTheory.KZ.LevelRed.gamma_le_of_dvd <;> assumption
+  intro δ hδ
+  rw [CongruenceSubgroup.Gamma_mem] at hδ ⊢
+  obtain ⟨a, b, c, d⟩ := hδ
+  have e : ∀ x : ℤ, ((x : ZMod M).cast : ZMod N) = (x : ZMod N) := fun x => ZMod.cast_intCast h x
+  refine ⟨?_, ?_, ?_, ?_⟩
+  · rw [← e, a]; simp [ZMod.cast_one h]
+  · rw [← e, b]; simp
+  · rw [← e, c]; simp
+  · rw [← e, d]; simp [ZMod.cast_one h]
 
 theorem gamma_le_gam (N l : ℕ) : CongruenceSubgroup.Gamma (N * l) ≤ Gam N l := by
   intro δ hδ
@@ -1038,7 +1057,11 @@ theorem map_smul' (φ : R →+* S) (c : R) (p : MvPolynomial (Fin 2) R) :
 
 theorem map_slP (φ : R →+* S) (m : Matrix (Fin 2) (Fin 2) ℤ) (p : MvPolynomial (Fin 2) R) :
     MvPolynomial.map φ (slP m p) = slP m (MvPolynomial.map φ p) := by
-  apply _root_.GlobalTheory.KZ.H3.LamZero.map_slP <;> assumption
+  induction p using MvPolynomial.induction_on with
+  | C a => simp [slP]
+  | add p q hp hq => simp [hp, hq]
+  | mul_X p i hp =>
+    simp only [map_mul, hp, Betti.slP_X, MvPolynomial.map_X, map_add (f := _), map_smul', map_intCast]
 
 theorem mapF_add (φ : R →+* S) (F G : ℂ → MvPolynomial (Fin 2) R) : mapF φ (F + G) = mapF φ F + mapF φ G := by
   funext z; simp [mapF]

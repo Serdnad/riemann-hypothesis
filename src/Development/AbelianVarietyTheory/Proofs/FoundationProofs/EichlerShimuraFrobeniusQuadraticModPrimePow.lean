@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.FoundationProofs.MemModularUnitsOfRootMemKummerAdjoin
 public import Development.AbelianVarietyTheory.Definitions.Foundations.ExpUpper
 public import Mathlib.FieldTheory.Galois.Basic
 public import Mathlib.NumberTheory.ModularForms.EisensteinSeries.Basic
@@ -647,7 +646,30 @@ open Polynomial
 
 theorem exists_comap_eq {K L : Type} [Field K] [Field L] (f : K →+* L) (U : ValuationSubring K) :
     ∃ W : ValuationSubring L, W.comap f = U := by
-  apply _root_.GlobalTheory.KZ.UnRoot.exists_comap_eq <;> assumption
+  obtain ⟨W, hW, hloc⟩ := IsLocalRing.exists_factor_valuationRing (f.comp U.subtype)
+  have key : ∀ x ∈ U.nonunits, f x ∈ W.nonunits := by
+    intro x hx
+    obtain ⟨hxU, hm⟩ := ValuationSubring.mem_nonunits_iff_exists_mem_maximalIdeal.1 hx
+    refine ValuationSubring.mem_nonunits_iff_exists_mem_maximalIdeal.2 ⟨hW ⟨x, hxU⟩, ?_⟩
+    rw [IsLocalRing.mem_maximalIdeal, mem_nonunits_iff] at hm ⊢
+    exact fun hu => hm (hloc.map_nonunit ⟨x, hxU⟩ hu)
+  refine ⟨W, le_antisymm ?_ ?_⟩
+  · intro x hx
+    by_contra hxU
+    have h0 : x ≠ 0 := by rintro rfl; exact hxU U.zero_mem
+    have h1 : x⁻¹ ∈ U.nonunits := by
+      rw [ValuationSubring.mem_nonunits_iff, map_inv₀]
+      have : 1 < U.valuation x := by
+        rw [← not_le, ValuationSubring.valuation_le_one_iff]; exact hxU
+      exact inv_lt_one_of_one_lt₀ this
+    have h2 := key _ h1
+    rw [ValuationSubring.mem_nonunits_iff, map_inv₀, map_inv₀] at h2
+    have h3 : W.valuation (f x) ≤ 1 := (W.valuation_le_one_iff _).2 hx
+    have h4 : 0 < W.valuation (f x) := by
+      rw [zero_lt_iff, Valuation.ne_zero_iff]; exact (map_ne_zero f).2 h0
+    exact absurd ((inv_lt_one₀ h4).1 h2) (not_lt.2 h3)
+  · intro x hx
+    exact hW ⟨x, hx⟩
 
 theorem mem_nonunits_iff_of_mem_iff {K L : Type} [Field K] [Field L] (f : K →+* L)
     {A : ValuationSubring K} {B : ValuationSubring L} (hAB : ∀ a, f a ∈ B ↔ a ∈ A) (a : K) :
@@ -729,11 +751,7 @@ theorem finiteDimensional_adjoin_map {F K L : Type} [Field F] [Field K] [Field L
     rw [← h1]
     exact ⟨e, e.2, rfl⟩
   let g : E →+* E' :=
-    { toFun := fun e => ⟨algebraMap K L e, hmem e⟩
-      map_one' := by ext; simp
-      map_mul' := by intros; ext; simp
-      map_zero' := by ext; simp
-      map_add' := by intros; ext; simp }
+    (((IsScalarTower.toAlgHom F K L).comp E.val).codRestrict E'.toSubalgebra hmem).toRingHom
   letI : Algebra E E' := g.toAlgebra
   haveI : IsScalarTower E E' L := IsScalarTower.of_algebraMap_eq (fun _ => rfl)
   haveI : Module.Finite E L := Module.Finite.trans K L
@@ -924,14 +942,6 @@ section -- clump:auto
 
 open scoped MatrixGroups TensorProduct
 open Matrix GlobalTheory.KZ
-
-namespace GlobalTheory.KZ
-
-theorem Tower.jK_transcendental {Ω : Type} [Field Ω] [Algebra ℚ Ω] {ε : Ω →+* ℂ} (X : Tower Ω ε) :
-    Transcendental Ω X.jK := by
-  apply GlobalTheory.K4.jK_transcendental
-
-end GlobalTheory.KZ
 end -- clump:auto
 end -- clump:auto
 -- ===== end clump member: Development.AbelianVarietyTheory.Proofs.FoundationProofs.TowerJInvariantTranscendental =====
@@ -1218,10 +1228,6 @@ theorem lev_sl {Ω : Type} [Field Ω] [Algebra ℚ Ω] {ε : Ω →+* ℂ} (X : 
 end GlobalTheory.KZ.ESFun
 
 namespace GlobalTheory.KZ.ESFun
-theorem jTr : ∀ {Ω : Type} [Field Ω] [Algebra ℚ Ω] {ε : Ω →+* ℂ} (X : Tower Ω ε), Transcendental Ω X.jK := _root_.GlobalTheory.KZ.Tower.jK_transcendental
-end GlobalTheory.KZ.ESFun
-
-namespace GlobalTheory.KZ.ESFun
 
 theorem prod_mem_Un {Ω : Type} [Field Ω] [Algebra ℚ Ω] {ε : Ω →+* ℂ} (X : Tower Ω ε) (m : ℕ) {ι : Type}
     (t : Finset ι) (u : ι → X.Kˣ) (h : ∀ i ∈ t, u i ∈ X.Un m) : (∏ i ∈ t, u i) ∈ X.Un m := by
@@ -1245,7 +1251,7 @@ theorem eichler_shimura_kummer : ∀ {Ω : Type} [Field Ω] [Algebra ℚ Ω] [Is
   obtain ⟨L, hL, hjL, hfd⟩ := _root_.GlobalTheory.KZ.LevelField.exists_level_field ε X hε hj M hM
   have htr : Transcendental Ω (⟨X.jK, hjL⟩ : L) := by
     intro halg
-    exact jTr X (by simpa using halg.algHom L.val)
+    exact GlobalTheory.K4.jK_transcendental X (by simpa using halg.algHom L.val)
   obtain ⟨R, hR⟩ := _root_.GlobalTheory.KZ.FinLev.finite_mod_powers ε X hε hj M (l ^ n) hM (pow_pos hlpos n)
   have key : ∀ r : X.Kˣ, ∃ S : Finset ℕ, (∀ γ ∈ CongruenceSubgroup.Gamma M, X.sl (ofSL γ) (r : X.K) = r) →
       (¬ ∃ c : Ω, c ≠ 0 ∧ ∃ u : X.Kˣ, (∀ γ ∈ CongruenceSubgroup.Gamma M, X.sl (ofSL γ) (u : X.K) = u) ∧

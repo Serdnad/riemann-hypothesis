@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.FoundationProofs.MeanSquareEvenThetaConjugateLattice
 public import Formalism.SharpRestriction.GlobalSchurBounds.StandardLatticesGL3
 public import Mathlib.Analysis.SpecialFunctions.Elliptic.Weierstrass
 public import Development.AbelianVarietyTheory.Proofs.CovolumeBounds.ExistsIsFundamentalDomainAndQuotMeasureEq
@@ -11,45 +10,7 @@ import Development.AbelianVarietyTheory.Proofs.FoundationProofs.IdealPeriodLatti
 import Development.AbelianVarietyTheory.Proofs.FoundationProofs.InducedTypeThetaGenusOnePermutes
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.LatticeCovolumePosAndSelfDual
 import Development.AbelianVarietyTheory.Proofs.FoundationProofs.LatticeInvariantsPeriodPairDictionary
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
 public import Mathlib.Analysis.Calculus.FDeriv.Star
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.PiTensorProduct
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Topology.Sheaves.Init
 import Development.AbelianVarietyTheory.Definitions.Foundations.NormSumPairRankZeroOfCurveCoordNorm
 
 @[expose] public section
@@ -90,7 +51,18 @@ theorem g3_lamBar_eq_conj (Λ : AddSubgroup ℂ) : g3 (lamBar Λ) = (starRingEnd
   simp only [g3, eisG_lamBar, map_mul, map_ofNat]
 
 theorem area_lamBar (Λ : AddSubgroup ℂ) : area (lamBar Λ) = area Λ := by
-  apply _root_.GlobalTheory.MeanSquareConj.area_conj <;> assumption
+  unfold area
+  congr 1
+  have key : ∀ w₁ w₂ : ℂ, |((starRingEnd ℂ) ((starRingEnd ℂ) w₁) * (starRingEnd ℂ) w₂).im| =
+      |((starRingEnd ℂ) w₁ * w₂).im| := fun w₁ w₂ => by
+    rw [← map_mul, Complex.conj_im, abs_neg]
+  ext a
+  constructor
+  · rintro ⟨ha, w₁, h₁, w₂, h₂, rfl⟩
+    exact ⟨ha, _, mem_lamBar.1 h₁, _, mem_lamBar.1 h₂, (key _ _).symm⟩
+  · rintro ⟨ha, w₁, h₁, w₂, h₂, rfl⟩
+    exact ⟨ha, (starRingEnd ℂ) w₁, mem_lamBar.2 (by simpa using h₁), (starRingEnd ℂ) w₂,
+      mem_lamBar.2 (by simpa using h₂), (key _ _).symm⟩
 
 variable {D : D7} {N N' : ℕ}
 

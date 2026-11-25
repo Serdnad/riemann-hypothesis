@@ -170,7 +170,6 @@ section -- clump:auto
 open scoped UpperHalfPlane MatrixGroups Manifold
 open GlobalTheory.Sieg GlobalTheory.QFam
 
-alias _root_.GlobalTheory.T.modular_law_of_s_and_t := _root_.GlobalTheory.Sieg.modular_law_of_generators
 end -- clump:auto
 end -- clump:auto
 -- ===== end clump member: Development.AbelianVarietyTheory.Proofs.FoundationProofs.ModularLawOfSAndTStatement =====
@@ -460,7 +459,15 @@ theorem ee_neg (z : ℂ) : ee (-z) = (ee z)⁻¹ := by
   rw [← Complex.exp_neg]; congr 1; ring
 
 theorem norm_ee_lt_one (τ : ℍ) : ‖ee (τ : ℂ)‖ < 1 := by
-  apply _root_.GlobalTheory.ThZero.norm_ee_lt_one <;> assumption
+  unfold ee
+  rw [Complex.norm_exp, Real.exp_lt_one_iff]
+  have h1 := τ.im_pos
+  have h2 := Real.pi_pos
+  have : (2 * (Real.pi : ℂ) * Complex.I * (τ : ℂ)).re = -(2 * Real.pi * τ.im) := by
+    simp [Complex.mul_re, Complex.mul_im]
+  rw [this]
+  have : 0 < 2 * Real.pi * τ.im := by positivity
+  linarith
 
 theorem multipliable_one_sub {q : ℂ} (hq : ‖q‖ < 1) (t : ℂ) :
     Multipliable (fun n : ℕ => 1 - q ^ (n + 1) * t) := by
@@ -707,7 +714,7 @@ namespace GlobalTheory.Sieg
 
 theorem sg_smul (c : ℕ) (x : Fin 2 → ℚ) (γ : SL(2, ℤ)) (τ : ℍ) (hx : admitted c x) :
     sg c x (γ • τ) = sg c (act x γ) τ :=
-  GlobalTheory.T.modular_law_of_s_and_t (admitted c) (sg c) (fun x γ h => _root_.GlobalTheory.Sieg.admissible_act_SL2 c x γ h)
+  GlobalTheory.Sieg.modular_law_of_generators (admitted c) (sg c) (fun x γ h => _root_.GlobalTheory.Sieg.admissible_act_SL2 c x γ h)
     (fun x τ h => _root_.GlobalTheory.Sieg.sg_S c x τ h) (fun x τ _ => _root_.GlobalTheory.Sieg.sg_T_smul c x τ) γ x τ hx
 
 end GlobalTheory.Sieg

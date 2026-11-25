@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsThetaSchemeSectionsGoodFibres
 public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.DenseOfDenseP
 public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ProjectiveRepresentationPullbackCoordinates
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.SabPull
@@ -512,7 +511,20 @@ theorem spMap_id (R : Type) [CommRing R] : spMap (RingHom.id R) = 𝟙 (Sp R) :=
 
 theorem exists_retraction {K R' : Type} [Field K] [CommRing R'] (φ : K →+* R') (hφ : IsOpenImmersion (spMap φ))
     (p : Sp K) (hp : p ∈ Set.range (spMap φ)) : ∃ ψ : R' →+* K, ψ.comp φ = RingHom.id K := by
-  apply _root_.GlobalTheory.ZM.FamilyScheme.exists_retraction <;> assumption
+  have hsurj : Function.Surjective (spMap φ) := by
+    intro q
+    obtain ⟨r, hr⟩ := hp
+    exact ⟨r, Subsingleton.elim _ _⟩
+  haveI : Surjective (spMap φ) := ⟨hsurj⟩
+  haveI : IsIso (spMap φ) := (isIso_iff_isOpenImmersion_and_surjective _).2 ⟨hφ, inferInstance⟩
+  obtain ⟨ψ', hψ'⟩ := Spec.map_surjective (inv (spMap φ))
+  refine ⟨ψ'.hom, ?_⟩
+  have key : Spec.map (CommRingCat.ofHom φ ≫ ψ') = Spec.map (𝟙 _) := by
+    rw [Spec.map_comp, hψ', Spec.map_id]
+    exact IsIso.inv_hom_id (spMap φ)
+  have := Spec.map_injective key
+  ext a
+  exact congrArg (fun f => f.hom a) this
 
 theorem secCoord_of_local {X : Scheme.{0}} {M : LB X} (hM : M.IsLB) {I : Type} {th : I → M.Sec} {K R' : Type} [Field K]
     [CommRing R'] {y : Sp K ⟶ X} {v : I → K} (φ : K →+* R') (hφ : IsOpenImmersion (spMap φ)) (p : Sp K)
@@ -868,7 +880,7 @@ theorem exists_retraction_near_of_unique_point :
   obtain ⟨K, _, _, x, hker, y, hy, hu⟩ := hP q₀ hq₀
   obtain ⟨f, hfk, hfB⟩ := exists_smul_mem_range_of_unique_point R B K x y hy hu
   have hinj : Function.Injective (algebraMap R B) := by
-    set_option backward.isDefEq.respectTransparency.instanceSearchTypes false in rw [injective_iff_map_eq_zero]
+    rw [injective_iff_map_eq_zero]
     intro a ha
     refine hD a fun p hp _ => ?_
     obtain ⟨K', _, _, x', hker', y', hy', -⟩ := hP p hp

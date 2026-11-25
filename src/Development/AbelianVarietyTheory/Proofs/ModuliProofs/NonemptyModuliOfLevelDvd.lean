@@ -56,7 +56,6 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Development.AbelianVarietyTheory.Definitions.ModuliSpaces.GoodClass
-import Development.AbelianVarietyTheory.Statements.PrincipalLattices.FiniteDimensionalBase
 
 @[expose] public section
 
@@ -92,7 +91,14 @@ theorem eq_constPt_of_formallyUnramified {k : Type} [Field k] {X Y : Scheme.{0}}
 variable {E : Type} [Field E] [NumberField E] [IsCMField E] {H : Host E} {D : Datum H} {l l₂ : Level H}
 
 theorem finiteDimensional_KA (l : Level H) : FiniteDimensional ℚ (KA l) := by
-  apply _root_.GlobalTheory.PureType.finiteDimensional_base <;> assumption
+  refine IntermediateField.finiteDimensional_adjoin fun x hx => ?_
+  rcases hx with rfl | rfl
+  · refine IsIntegral.of_pow two_pos ?_
+    rw [H.sqrt_neg_disc_sq]
+    exact (isIntegral_algebraMap (x := (H.d : ℚ))).neg
+  · refine IsIntegral.of_pow l.A_pos ?_
+    rw [show zeta l.A ^ l.A = 1 from (Complex.isPrimitiveRoot_exp l.A l.A_pos.ne').pow_eq_one]
+    exact isIntegral_one
 
 theorem formallyUnramified_spMap (j : KA l →+* KA l₂) : FormallyUnramified (spMap j) := by
   rw [HasRingHomProperty.Spec_iff (P := @FormallyUnramified)]

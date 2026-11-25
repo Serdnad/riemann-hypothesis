@@ -1,6 +1,5 @@
 module
 
-import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.ImportsFurtherMore
 public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.MaxVSpanSingleton
 public import Development.AbelianVarietyTheory.BlockTheory.GlobalSignature.CharacterValuation
 public import Mathlib.NumberTheory.NumberField.Basic
@@ -17,55 +16,12 @@ public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.RingHo
 public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.SpanImageLeOf
 public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.StarDetMulDetMem
 public import Formalism.LocalRingCardinality.SpanPowerMembership.Places
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Topology.Sheaves.Init
-import Mathlib.Analysis.SpecialFunctions.Bernstein
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-import Mathlib.Data.Nat.Choose.Multinomial
 import Formalism.LocalToGlobal.Columns.BaseLemmas
 import Mathlib.Algebra.AffineMonoid.Basic
 import Mathlib.Algebra.Order.Star.Rat
 import Mathlib.LinearAlgebra.FreeModule.IdealQuotient
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
 import Mathlib.Tactic.Linter.HaveILetI
-import Mathlib.Tactic.ReduceModChar
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.ConjPConjP, Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.ExistsComapPrime, Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.CharacterValueAtT
@@ -363,7 +319,15 @@ theorem val_vp_unit {w : HeightOneSpectrum (𝓞 K)} {p : ℕ} {x : K} (h : w.va
 
 theorem exists_over (K : Type) [Field K] [NumberField K] {p : ℕ} (hp : p.Prime) :
     ∃ v : HeightOneSpectrum (𝓞 K), ((p : ℕ) : 𝓞 K) ∈ v.asIdeal := by
-  apply _root_.UpperTheory.Reformulated.B.Qk8.exists_place <;> assumption
+  have hnu : ¬ IsUnit ((p : ℕ) : 𝓞 K) := by
+    intro hu
+    have h2 := hu.map (Algebra.norm ℤ)
+    have e : ((p : ℕ) : 𝓞 K) = algebraMap ℤ (𝓞 K) (p : ℤ) := by simp
+    rw [e, Algebra.norm_algebraMap, isUnit_pow_iff Module.finrank_pos.ne', Int.isUnit_iff_natAbs_eq] at h2
+    exact hp.ne_one (by simpa using h2)
+  obtain ⟨M, hM, hle⟩ := Ideal.exists_le_maximal (Ideal.span {((p : ℕ) : 𝓞 K)}) (by rwa [Ne, Ideal.span_singleton_eq_top])
+  exact ⟨⟨M, hM.isPrime, Ring.ne_bot_of_isMaximal_of_not_isField hM (RingOfIntegers.not_isField K)⟩,
+    hle (Ideal.mem_span_singleton_self _)⟩
 
 end Val
 

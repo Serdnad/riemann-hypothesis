@@ -1,46 +1,10 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.DisjointSpanPerpLat
 public import Development.AbelianVarietyTheory.BlockTheory.GlobalSignature.AdelicUnitaryHaarMeasure
 public import Formalism.SharpRestriction.GlobalSchurBounds.GeneralLinearActions.FrameTransport
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.UnitaryStabilizerAnisotropicVectorEquivComplemen
 public import Formalism.LocalToGlobal.GlobalTheory.GL5.FamilyMassVolumeIdentityOfClassDecomp
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.Style
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Topology.Sheaves.Init
 import Development.AbelianVarietyTheory.BlockTheory.GlobalSignature.InfiniteCoordinateUnfold
 import Development.AbelianVarietyTheory.BlockTheory.GlobalSignature.StabilizerLattices
 import Development.AbelianVarietyTheory.Definitions.Foundations.CdScaleTieIff
@@ -62,7 +26,30 @@ open GlobalTheory.FrameStep
 theorem exists_of_conj_fixed {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E]
     [Algebra F E] (σ : E →ₐ[F] E) (hCM : IsCMExt F E σ) {y : E} (hy : σ y = y) :
     ∃ a : F, algebraMap F E a = y := by
-  first | exact _root_.GlobalTheory.SelfDualLatticeCompare.exists_of_conj_eq | exact @_root_.GlobalTheory.SelfDualLatticeCompare.exists_of_conj_eq | apply _root_.GlobalTheory.SelfDualLatticeCompare.exists_of_conj_eq <;> assumption
+  obtain ⟨-, hE, h2, hτ⟩ := hCM
+  have : FiniteDimensional F E := Module.Finite.of_restrictScalars_finite ℚ F E
+  let K : Submodule F E := LinearMap.ker (σ.toLinearMap - LinearMap.id)
+  have hK : ∀ z, z ∈ K ↔ σ z = z := fun z => by simp [K, sub_eq_zero]
+  have hne : K ≠ ⊤ := by
+    intro h
+    obtain ⟨τ⟩ : Nonempty (E →+* ℂ) := inferInstance
+    refine IsTotallyComplex.complexEmbedding_not_isReal τ ?_
+    rw [ComplexEmbedding.isReal_iff]
+    ext z
+    have hz : σ z = z := (hK z).1 (h ▸ Submodule.mem_top)
+    have := hτ τ z
+    rw [hz] at this
+    exact this.symm
+  have hlt := Submodule.finrank_lt hne
+  have hle : Submodule.span F {(1 : E)} ≤ K := by
+    rw [Submodule.span_singleton_le_iff_mem, hK, map_one]
+  have heq : Submodule.span F {(1 : E)} = K := by
+    refine Submodule.eq_of_le_of_finrank_le hle ?_
+    rw [finrank_span_singleton one_ne_zero]
+    omega
+  have hmem : y ∈ Submodule.span F {(1 : E)} := heq ▸ (hK y).2 hy
+  obtain ⟨a, ha⟩ := Submodule.mem_span_singleton.1 hmem
+  exact ⟨a, by rw [← ha, Algebra.algebraMap_eq_smul_one]⟩
 
 theorem mem_ratPts_iff {F E : Type} [Field F] [Field E] [Algebra F E] (R : Type) [CommRing R]
     [Algebra F R] [Nontrivial R] (σ : E →ₐ[F] E) {M : ℕ} (J : Matrix (Fin M) (Fin M) E)

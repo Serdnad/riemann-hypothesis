@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsIsSplitChartOne
 public import Development.AbelianVarietyTheory.Definitions.Foundations.NotIsSplitOfIsInertAt
 import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.ExistsUniqueIdeleOfLinearEquivQuotientLocal
 public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.FiniteResidueFieldAdicCompletionIntegers
@@ -12,49 +11,8 @@ import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Cartan
 import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Levelaf
 import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Tjcosets
 import Formalism.SatakeDualWeyl.KpqSubgroupCompact
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
 public import Mathlib.RingTheory.Ideal.Norm.RelNorm
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.HaveILetI
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Topology.Connected.Separation
-import Mathlib.Topology.MetricSpace.Ultra.TotallySeparated
-import Mathlib.Topology.Sheaves.Init
 
 @[expose] public section
 
@@ -158,7 +116,20 @@ theorem exists_conj_sub_unit (h : IsCMExt F E σ) (hw : IsInertAt F E v w) :
   exact conj_ne h fun x => congrArg (fun t : E ≃ₐ[F] E => t x) hs
 
 theorem continuous_complMap (h : w.under (𝓞 F) = v) : Continuous (complMap h) := by
-  first | exact _root_.GlobalTheory.LFun.SplitChart.continuous_complMap | exact @_root_.GlobalTheory.LFun.SplitChart.continuous_complMap | apply _root_.GlobalTheory.LFun.SplitChart.continuous_complMap <;> assumption
+  subst h
+  refine continuous_of_continuousAt_zero _ (Metric.tendsto_nhds.2 fun ε hε => ?_)
+  obtain ⟨ϖ, hϖ⟩ := exists_isUnifV w
+  have h1 : ‖ϖ‖ < 1 := Valued.toNormedField.norm_lt_one_iff.2 (by rw [hϖ]; decide)
+  obtain ⟨m, hm⟩ := exists_pow_lt_of_lt_one hε h1
+  filter_upwards [(GlobalTheory.Idele.isOpen_valued_le (K := F) (w.under (𝓞 F)) (-(m : ℤ))).mem_nhds (x := 0) (by simp)]
+    with a ha
+  rw [map_zero, dist_zero_right]
+  refine (Valued.toNormedField.norm_le_iff.2 ?_).trans_lt ((norm_pow ϖ m).trans_lt hm)
+  refine (GlobalTheory.AdeleBaseChange.locMap_valued w m a ha).trans_eq ?_
+  rw [map_pow, hϖ]
+  change _ = WithZero.exp (-1 : ℤ) ^ m
+  rw [← WithZero.exp_nsmul]
+  simp
 
 theorem toCompl_surjective (h : w.under (𝓞 F) = v) : Function.Surjective (toCompl h) := fun y => by
   obtain ⟨Y, hY⟩ := (finAdEquiv F E).surjective (singleFin w y)

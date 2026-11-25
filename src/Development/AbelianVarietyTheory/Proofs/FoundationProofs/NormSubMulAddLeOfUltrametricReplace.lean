@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Definitions.Foundations.ExistsEqSubOfMemCob
 public import Development.AbelianVarietyTheory.Definitions.Foundations.FinalTheorems
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.CommutativeAlgebra.ResMapBijective
 public import Mathlib.RingTheory.AdicCompletion.Noetherian
@@ -153,7 +152,17 @@ theorem UpperTheory.Reformulated.B.Rc8.norm_le_one_of_mem :
     x ∈ c.O →
       ‖x‖ ≤
         (1 :
-          ℝ) := @_root_.GlobalTheory.BoundedScalarNorm.norm_le_one
+          ℝ) := by
+  intro l _ c x hx
+  have hi : IsIntegral ℤ_[l] x :=
+    (Algebra.IsIntegral.isIntegral (R := ℤ_[l]) (⟨x, hx⟩ : c.O)).map c.O.val
+  have hm : minpoly ℚ_[l] x = (minpoly ℤ_[l] x).map (algebraMap ℤ_[l] ℚ_[l]) :=
+    minpoly.isIntegrallyClosed_eq_field_fractions' ℚ_[l] hi
+  rw [← PadicAlgCl.spectralNorm_eq, spectralNorm, hm,
+    spectralValue_le_one_iff ((minpoly.monic hi).map _)]
+  intro n
+  rw [Polynomial.coeff_map]
+  exact PadicInt.norm_le_one _
 end -- clump:auto
 end -- clump:auto
 -- ===== end clump member: Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.ImportsFurtherTail =====
@@ -170,8 +179,6 @@ namespace GlobalTheory.KZGlobAsm
 
 theorem norm_le_one_of_mem {l : ℕ} [Fact l.Prime] (c : Coef l) {x : Qbar l} (hx : x ∈ c.O) : ‖x‖ ≤ 1 :=
   _root_.UpperTheory.Reformulated.B.Rc8.norm_le_one_of_mem c hx
-
-alias inv_pow_val_mem := _root_.GlobalTheory.PadicInversePower.inv_pow_mem
 
 theorem eta_compat (l : ℕ) [Fact l.Prime] (c : Coef l) (e : ℕ) (χ : ∀ r : ℕ, (ZMod (l ^ r))ˣ → Qbar l)
     (hχ : ∀ r x, χ r x ∈ c.O)
@@ -547,7 +554,17 @@ namespace GlobalTheory.KA.TameLim
 variable {l : ℕ} [Fact l.Prime]
 
 theorem norm_le_one_of_mem (c : Coef l) {x : Qbar l} (hx : x ∈ c.O) : ‖x‖ ≤ 1 := by
-  first | exact _root_.GlobalTheory.LambdaValuationPowers.norm_le_one_of_mem | exact @_root_.GlobalTheory.LambdaValuationPowers.norm_le_one_of_mem | apply _root_.GlobalTheory.LambdaValuationPowers.norm_le_one_of_mem <;> assumption
+  haveI : Module.Finite ℤ_[l] c.O := c.fin
+  have hi : IsIntegral ℤ_[l] x := by
+    have h := (isIntegral_algHom_iff (c.O.val.restrictScalars ℤ_[l]) Subtype.val_injective).2
+      (Algebra.IsIntegral.isIntegral (⟨x, hx⟩ : c.O))
+    simpa using h
+  have hq : IsIntegral ℚ_[l] x := Algebra.IsIntegral.isIntegral x
+  change spectralValue (minpoly ℚ_[l] x) ≤ 1
+  rw [spectralValue_le_one_iff (minpoly.monic hq)]
+  intro k
+  rw [minpoly.isIntegrallyClosed_eq_field_fractions' ℚ_[l] hi, Polynomial.coeff_map]
+  exact PadicInt.norm_le_one _
 
 theorem inv_pow_mem (c : Coef l) (e k : ℕ) (h : k = 0 ∨ ¬ l ∣ k) : (((k : ℕ) : Qbar l) ^ e)⁻¹ ∈ c.O := by
   rcases h with rfl | h
@@ -1451,7 +1468,7 @@ theorem glob_of_shapiro_system_noLayer (l : ℕ) [Fact l.Prime] (Ω : Type) [Fie
       (∀ r s i, ‖y s i - spec (fun x : (ZMod (l ^ r))ˣ => ((((x : ZMod (l ^ r)).val : ℕ) : Qbar l) ^ e)⁻¹ * χ r x) (Y r) s i‖ ≤ ‖((l : ℕ) : Qbar l) ^ r‖) ∧
       SpLink A e χ (fun r s x => Y r s x 1) y := by
   set η : ∀ r : ℕ, (ZMod (l ^ r))ˣ → Qbar l := fun r x => ((((x : ZMod (l ^ r)).val : ℕ) : Qbar l) ^ e)⁻¹ * χ r x with hη
-  have hηO : ∀ r x, η r x ∈ c.O := fun r x => c.O.mul_mem (inv_pow_val_mem l c e r x) (hχO r x)
+  have hηO : ∀ r x, η r x ∈ c.O := fun r x => c.O.mul_mem (GlobalTheory.PadicInversePower.inv_pow_mem l c e r x) (hχO r x)
   have hηn : ∀ r x, ‖η r x‖ ≤ 1 := fun r x => norm_le_one_of_mem c (hηO r x)
   have hYn : ∀ r s x i, ‖Y r s x i‖ ≤ 1 := fun r s x i => norm_le_one_of_mem c (hYO r s x i)
   have hηc := eta_compat l c e χ hχO hχc

@@ -12,44 +12,7 @@ public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Valuation
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.ValuationLeOneOfMemZmu
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.ValuationLeOneOfPow
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.VolqExistsPow
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
 import Mathlib.RingTheory.Coalgebra.CoassocSimps
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
-import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.CharacterValueAtT
 
 @[expose] public section
 
@@ -77,7 +40,16 @@ theorem awayAt_of_fnModAt {N : Submodule (𝓞 E) (Sp E a)} {N' : Submodule (�
 
 theorem exists_place (K : Type) [Field K] [NumberField K] {T : ℕ} (hT : T.Prime) :
     ∃ w : HeightOneSpectrum (𝓞 K), (T : 𝓞 K) ∈ w.asIdeal := by
-  apply _root_.GlobalTheory.CharVal.exists_over <;> assumption
+  have h1 : Ideal.span {(T : 𝓞 K)} ≠ ⊤ := by
+    rw [Ne, Ideal.span_singleton_eq_top]
+    intro h
+    have h2 := Formalism.L2.Col.Primes.natCast_dvd_intCast (E := K) (c := T) (n := 1) (by simpa using h.dvd)
+    exact hT.one_lt.ne' (Nat.dvd_one.1 (by exact_mod_cast h2))
+  obtain ⟨M, hM, hle⟩ := Ideal.exists_le_maximal _ h1
+  have h3 : (T : 𝓞 K) ∈ M := hle (Ideal.mem_span_singleton_self _)
+  refine ⟨⟨M, hM.isPrime, fun h => ?_⟩, h3⟩
+  rw [h, Ideal.mem_bot] at h3
+  exact hT.ne_zero (by exact_mod_cast h3)
 
 end Generic
 

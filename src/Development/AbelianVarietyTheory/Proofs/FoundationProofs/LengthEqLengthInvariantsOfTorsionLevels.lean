@@ -157,7 +157,14 @@ theorem toZModPow_eq_zero_iff (r : ℕ) (x : ℤ_[l]) :
 
 theorem continuous_toZModPow (r : ℕ) :
     Continuous (PadicInt.toZModPow r : ℤ_[l] → ZMod (l ^ r)) := by
-  apply _root_.GlobalTheory.PadicH2Separated.continuous_reduction <;> assumption
+  refine continuous_of_continuousAt_zero (PadicInt.toZModPow r : ℤ_[l] →+* ZMod (l ^ r)) ?_
+  have hl : (0 : ℝ) < (l : ℝ) ^ (-(r : ℤ)) :=
+    zpow_pos (by exact_mod_cast (Fact.out : l.Prime).pos) _
+  refine ContinuousAt.congr (f := fun _ => (0 : ZMod (l ^ r))) continuousAt_const ?_
+  filter_upwards [Metric.closedBall_mem_nhds (0 : ℤ_[l]) hl] with x hx
+  rw [mem_closedBall_zero_iff, PadicInt.norm_le_pow_iff_mem_span_pow,
+    ← PadicInt.ker_toZModPow] at hx
+  exact hx.symm
 
 theorem exists_continuous_div {X : Type*} [TopologicalSpace X] (f : X → ℤ_[l]) (hf : Continuous f)
     (a : ℤ_[l]) (ha : a ≠ 0) (hd : ∀ x, a ∣ f x) :

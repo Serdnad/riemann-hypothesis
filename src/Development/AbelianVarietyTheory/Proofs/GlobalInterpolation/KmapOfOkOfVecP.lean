@@ -30,56 +30,15 @@ import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.OrdDetConjFin
 import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.SplitOfConjPNe
 import Formalism.HermitianLattices.HermitianLatticesProofs.DualBasic
 import Mathlib.Algebra.Module.StablyFree.Basic
-import Mathlib.Algebra.Order.Floor.Extended
-import Mathlib.Algebra.Order.Floor.Semifield
-import Mathlib.Algebra.Order.Interval.Basic
-import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
-import Mathlib.Analysis.Normed.Algebra.GelfandRadius
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
-import Mathlib.Combinatorics.Enumerative.DyckWord
-import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.NNRat.Floor
-import Mathlib.Geometry.Euclidean.Volume.Basic
-import Mathlib.NumberTheory.Chebyshev
-import Mathlib.NumberTheory.Height.NumberField
-import Mathlib.NumberTheory.Height.Projectivization
-import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.SelbergSieve
 import Mathlib.RingTheory.Coalgebra.IsFrobenius
 import Mathlib.RingTheory.HopfAlgebra.Basic
-import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
-import Mathlib.Tactic.Echelon.Zsqrtd
-import Mathlib.Tactic.Inclusion.Extension.Core.Core
-import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
-import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
-import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
 import Mathlib.Tactic.Linter.HaveILetI
-import Mathlib.Tactic.NormNum.Irrational
-import Mathlib.Tactic.NormNum.IsCoprime
-import Mathlib.Tactic.NormNum.IsSquare
-import Mathlib.Tactic.NormNum.LegendreSymbol
-import Mathlib.Tactic.NormNum.ModEq
-import Mathlib.Tactic.NormNum.NatFib
-import Mathlib.Tactic.NormNum.NatLog
-import Mathlib.Tactic.NormNum.NatSqrt
-import Mathlib.Tactic.NormNum.Ordinal
-import Mathlib.Tactic.NormNum.Parity
-import Mathlib.Tactic.NormNum.Prime
-import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Tactic.Polynomial.Basic
-import Mathlib.Tactic.ReduceModChar
-import Mathlib.Topology.Sheaves.Init
 import Mathlib.RingTheory.PicardGroup
 import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.FinAfMemIntUIff
 import Development.AbelianVarietyTheory.Proofs.SatakeParameters.AbsNormEqOfSplitFactor
 import Formalism.LocalToGlobal.KernelLattices.KernelLocalFactors.ThDistC
 import Formalism.LocalToGlobal.UnitaryNorms.CharUniq
 import Mathlib.Tactic.Linter.Style
-import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.StarDetMulDetMem
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.OrdSubEqOrdDet, Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.KmapOfOkOfVecP
@@ -137,10 +96,50 @@ theorem finprod_group {M : Type} [CommMonoid M] (hX : X.Ok) (hsel : IsSel X sel)
 theorem pow_toNat_mul {G : Type} [CommGroup G] (a : G) (k : ℤ) : a ^ k.toNat * a⁻¹ ^ (-k).toNat = a ^ k := by
   rw [inv_pow, ← zpow_natCast, ← zpow_natCast, ← zpow_sub, Int.toNat_sub_toNat_neg]
 
+private theorem span_eq_top_of_isSdLat {E : Type} [Field E] [NumberField E] [StarRing E] {n : ℕ} {N : Submodule (𝓞 E) (Sp E n)} (hN : IsSdLat N) :
+    Submodule.span E (N : Set (Sp E n)) = ⊤ := by
+  classical
+  apply Submodule.dualAnnihilator_eq_bot_iff.mp
+  apply le_antisymm ?_ bot_le
+  intro f hf
+  let v : Sp E n := fun i => star (f (Pi.single i 1))
+  have hpair : hStd E n v = f := by
+    apply (Pi.basisFun E (Fin n)).ext
+    intro i
+    rw [Pi.basisFun_apply, hStd_apply, Finset.sum_eq_single i]
+    · simp [v]
+    · intro j _ hj
+      simp [hj]
+    · simp
+  have hline (r : E) : r • v ∈ N := by
+    rw [← show dual (hStd E n) N = N from hN.2, dualBasic_mem_dual]
+    intro y hy
+    have hy0 : hStd E n v y = 0 := by
+      rw [hpair]
+      exact (Submodule.mem_dualAnnihilator f).mp hf y (Submodule.subset_span hy)
+    have hz : hStd E n y v = 0 := by
+      simpa [hy0] using ((hStd_isSymm (E := E) (n := n)).eq v y).symm
+    simp [hz]
+  have hv : v = 0 := by
+    funext i
+    change v i = 0
+    by_contra hi
+    let coord := (LinearMap.proj i : Sp E n →ₗ[E] E).restrictScalars (𝓞 E)
+    have htop : N.map coord = ⊤ := by
+      rw [eq_top_iff]
+      intro x _
+      exact ⟨(x / v i) • v, hline _, div_mul_cancel₀ _ hi⟩
+    have : Module.Finite (𝓞 E) E := Module.finite_def.mpr (htop ▸ hN.1.fg.map coord)
+    exact RingOfIntegers.not_isField E
+      (isField_of_isIntegral_of_isField (IsFractionRing.injective (𝓞 E) E) (Field.toIsField E))
+  rw [Submodule.mem_bot]
+  simpa [hv] using hpair.symm
+
+
 theorem ordSub_eq_ordDet {E : Type} [Field E] [NumberField E] [StarRing E] {n : ℕ} {N : Submodule (𝓞 E) (Sp E n)}
     (hN : IsSdLat N) (w : HeightOneSpectrum (𝓞 E)) : GlobalTheory.Mem.Chr.ordSub w (GlobalTheory.Mem.Chr.detSub N) = ordDet w N := by
   letI : Submodule.IsLattice E N := hN.1
-  have hfull : Submodule.IsFullLattice E N := ⟨_root_.GlobalTheory.DetSelfDual.span_eq_top_of_isSdLat hN⟩
+  have hfull : Submodule.IsFullLattice E N := ⟨span_eq_top_of_isSdLat hN⟩
   apply ordSub_detSub_eq hfull
   apply GlobalTheory.CharValCompare.isFr_frameAt
   first

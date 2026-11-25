@@ -28,7 +28,6 @@ public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.LocDerRegular
 public import Development.AbelianVarietyTheory.Definitions.ModuliSpaces.GoodClass
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.SecBaseChangeAnySt
 public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.DerivationEqZeroOfKodairaSpencerZeroStatement
-import all Development.AbelianVarietyTheory.Proofs.ModuliProofs.DerivationEqZeroOfKodairaSpencerZeroStatement
 public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsGoodUniformisationKodairaSpencer
 public import Development.AbelianVarietyTheory.Definitions.ModuliSpaces.ExistsArBaseAway
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.ThetaUnifAV
@@ -348,7 +347,7 @@ theorem finrank_symm_comm_le (E : Type) [Field E] [NumberField E] [IsCMField E] 
         apply Subtype.ext
         simp [Matrix.smul_mulVec] }
   have hinj : Function.Injective Ψ := by
-    set_option backward.isDefEq.respectTransparency.instanceSearchTypes false in rw [injective_iff_map_eq_zero]
+    rw [injective_iff_map_eq_zero]
     intro Θ hΘ
     obtain ⟨hs, hc⟩ := hS Θ.1 Θ.2
     have k1 : ∀ τ : E →+* ℂ, τ (H.rt : E) = ρ₀ → ∀ v ∈ Eig F τ, Θ.1.mulVec (star v) = 0 := by
@@ -849,7 +848,12 @@ theorem antiRow_I {g : ℕ} (M : Matrix (Fin g) (Fin g) ℂ) (m : Fin g) (z : Fi
 
 theorem clm_eq_sum {g : ℕ} (L : (Fin g → ℂ) →L[ℂ] ℂ) (v : Fin g → ℂ) :
     L v = ∑ m, v m * L (Pi.single m 1) := by
-  apply _root_.GlobalTheory.KS.ZeroClass.continuousLinearMap_apply_eq_sum_single <;> assumption
+  have hv : v = ∑ m, v m • (Pi.single m 1 : Fin g → ℂ) := by
+    ext j
+    simp [Finset.sum_apply, Pi.single_apply]
+  conv_lhs => rw [hv]
+
+  simp [map_sum, map_smul, smul_eq_mul]
 
 theorem logDeriv_translate {g : ℕ} {U : Set (Fin g → ℂ)} (hU : IsOpen U) {a : (Fin g → ℂ) → ℂ}
     (ha : DifferentiableOn ℂ a U) (ha0 : ∀ z ∈ U, a z ≠ 0) (l w : Fin g → ℂ) (e : ℂ)
@@ -1433,11 +1437,6 @@ alias res_res := _root_.GlobalTheory.KS.VertReg.resG_resG
 
 alias res_const := _root_.GlobalTheory.LocDerExt.res_const
 
-theorem const_zero {R : Type} [CommRing R] {X : Scheme.{0}} (p : X ⟶ Sp R) (U : X.Opens) :
-    constFn p U 0 = 0 := by
-  unfold constFn
-  rw [map_zero, map_zero]
-
 theorem ptDer_add {X : Scheme.{0}} {y : Sp ℂ ⟶ X} {δ δ' : ∀ W : X.Opens, Γ(X, W) → ℂ} (h : PtDer y δ) (h' : PtDer y δ') :
     PtDer y (fun W f => δ W f + δ' W f) := by
   refine ⟨?_, ?_, ?_⟩
@@ -1659,7 +1658,15 @@ theorem fderiv_fn_add_lattice (m : A₀.left ⟶ X) (W : X.Opens) (f : Γ(X, W))
 
 theorem ptDer_sub {y : Sp ℂ ⟶ X} {δ δ' : ∀ W : X.Opens, Γ(X, W) → ℂ} (h : PtDer y δ) (h' : PtDer y δ') :
     PtDer y (fun W f => δ W f - δ' W f) := by
-  apply _root_.GlobalTheory.KS.ZeroClass.ptDer_sub <;> assumption
+  refine ⟨?_, ?_, ?_⟩
+  · intro W hW f f'
+    rw [h.add W hW f f', h'.add W hW f f']
+    ring
+  · intro W hW f f'
+    rw [h.mul W hW f f', h'.mul W hW f f']
+    ring
+  · intro W W' hle hW' f
+    rw [h.res W W' hle hW' f, h'.res W W' hle hW' f]
 end
 
 theorem ks_unique : ∀ (P₀ : Out.PolAV (Sp ℂ)) (u : HolUnif P₀.A P₀.L P₀.g) (Hm : Matrix (Fin P₀.g) (Fin P₀.g) ℂ) (χ : u.Λ → ℂ), GoodU u Hm χ → ∀ (R : Type) [CommRing R] (x₀ : R →+* ℂ) (X : Scheme.{0}) (p : X ⟶ Sp R) (m : P₀.A.left ⟶ X), Smooth p → IsPullback m P₀.A.hom p (spMap x₀) → ∀ D Θ Θ' s s', KSRel u p m D Θ s → KSRel u p m D Θ' s' → Θ = Θ' := by
