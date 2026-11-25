@@ -16,7 +16,6 @@ public import Mathlib.RingTheory.RingHom.FaithfullyFlat
 public import Mathlib.Tactic.ENatToNat
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.ChartPullbacks.BaseChangeKernels.Affine
 public import Mathlib.AlgebraicGeometry.Morphisms.Finite
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.KernelActionIsPullbackProdMapTorsorStatement
 public import Development.AbelianVarietyTheory.Proofs.HomogeneousIdeals.ExistsTorusAndQuotientHom
 public import Mathlib.CategoryTheory.Monoidal.Cartesian.Grp
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsNontrivialCharacterFiniteCommGroup
@@ -1067,7 +1066,7 @@ namespace GlobalTheory.CharKer
 
 theorem exists_nhds_charUnit : ∀ (S : Scheme.{0}) (A A' N T : Over S) [GrpObj A] [GrpObj A'] [GrpObj N] (i : N ⟶ A) (q : A ⟶ A') (χ : Γ((N ⊗ T).left, ⊤)ˣ), IsMonHom i → IsMonHom q → IsFinite q.left → Flat q.left → Surjective q.left → IsPullback i (toUnit N) q η[A'] → IsCharacter χ → ∀ y : (A' ⊗ T).left, ∃ V : (A' ⊗ T).left.Opens, y ∈ V ∧ ∃ e : Γ((A ⊗ T).left, (pmap q T).left ⁻¹ᵁ V)ˣ, ∀ (W : (A ⊗ (N ⊗ T)).left.Opens) (h₁ : W ≤ (actMap i T).left ⁻¹ᵁ ((pmap q T).left ⁻¹ᵁ V)) (h₂ : W ≤ (prMap A N T).left ⁻¹ᵁ ((pmap q T).left ⁻¹ᵁ V)), res h₁ (pullU (actMap i T).left _ e) = res le_top (pullTop (snd A (N ⊗ T)).left χ) * res h₂ (pullU (prMap A N T).left _ e) := by
   intro S A A' N T _ _ _ i q χ hi hq hfin hflat hsurj hk hχ y
-  have hpb := GlobalTheory.T.kernelAction_isPullback_prodMap_torsor S A A' N T i q hi hq hk
+  have hpb := _root_.GlobalTheory.CharKer.pmap_isPullback_actMap S A A' N T i q hi hq hk
   have hpb' : IsPullback (prMap A N T).left (actMap i T).left (pmap q T).left (pmap q T).left :=
     hpb.map (Over.forget S)
   obtain ⟨W, m₁₂, m₂₃, m₁₃, h1, h2, h3, h4⟩ := _root_.GlobalTheory.CharKer.triOverlap S A N T i χ hi hχ
@@ -1126,7 +1125,7 @@ theorem exists_equivGen : ∀ (S : Scheme.{0}) (A A' N T : Over S) [GrpObj A] [G
   have : Surjective (pmap q T).left := by rw [pmap_eq_whiskerRight]; infer_instance
   have : QuasiCompact (pmap q T).left := by rw [pmap_eq_whiskerRight]; infer_instance
   have hpb : IsPullback (prMap A N T).left (actMap i T).left (pmap q T).left (pmap q T).left :=
-    isPullback_over_left (GlobalTheory.T.kernelAction_isPullback_prodMap_torsor S A A' N T i q hi hq hker)
+    isPullback_over_left (_root_.GlobalTheory.CharKer.pmap_isPullback_actMap S A A' N T i q hi hq hker)
   have hw : ∀ z, (pmap q T).left ((actMap i T).left z) = (pmap q T).left ((prMap A N T).left z) := fun z => by
     rw [← Scheme.Hom.comp_apply, ← Scheme.Hom.comp_apply, hpb.w]
   have inj : ∀ U : (A' ⊗ T).left.Opens, Function.Injective (pullU (pmap q T).left U) := fun U x y hxy =>

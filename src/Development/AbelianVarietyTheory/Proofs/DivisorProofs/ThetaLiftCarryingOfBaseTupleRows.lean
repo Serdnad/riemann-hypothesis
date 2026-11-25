@@ -9,7 +9,7 @@ public import Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForm
 public import Formalism.LocalToGlobal.IndefiniteReal.BaseLiftsPackageOfPrimitiveLinks
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.AdjointLiftRangeLeGoodBlockEigenspacesStatement
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsPartnerCombinationGoodInertLiftStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.RowEigensystemCarriedByFiniteTypeStatement
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.RowEigensystemCarriedByFiniteType
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -87,7 +87,7 @@ theorem carries_of_rows_top : GlobalTheory.Published.CuspRapidDecay → HoweUnra
   have hS : SchurAll R.toRealDat := schurAll_of_cuspRapidDecay hC R.toRealDat
   have hB := GlobalTheory.T.adjointLift_range_le_goodBlock_eigenspaces hC R F hL hOk hW hEx hPG
   have hIx := GlobalTheory.T.nonempty_finite_type_index_of_rows_pos A3 F.P0 F.ψ0 (R.toCx3 F).zs hOk hB (hPos false)
-  exact GlobalTheory.T.rowEigensystem_carried_by_finite_type R F hL hOk hW hEx hS (GlobalTheory.T.exists_partner_combination_good_inert_lift hH R F hL hW hEx hS) hHk hPG hIx
+  exact _root_.GlobalTheory.Div.carries_of_eEc_ne_bot R F hL hOk hW hEx hS (GlobalTheory.T.exists_partner_combination_good_inert_lift hH R F hL hW hEx hS) hHk hPG hIx
 
 end GlobalTheory.Hk3
 end -- clump:auto

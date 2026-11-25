@@ -8,15 +8,11 @@ public import Development.WeilBound.CoreStatements.AutomorphicKernels.SiegelWeil
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.TupleSpaceCovolumeFormula
 public import Development.WeilBound.CoreStatements.AutomorphicKernels.SiegelWeilFormula.ThetaSchwartzSums.SchwartzPolyGauss
 public import Development.WeilBound.CoreStatements.AutomorphicKernels.SiegelWeilFormula.ThetaSplitting.SplitP
-public import Development.WeilBound.CoreStatements.AutomorphicKernels.SiegelWeilFormula.UnipotentBorelTuples.TranslationInvariantFunctionalHaar
 public import Development.WeilBound.CoreStatements.AutomorphicKernels.SiegelWeilFormula.VacuumIwasawa.FrameLin
 public import Development.WeilBound.CoreStatements.AutomorphicKernels.SiegelWeilFormula.WeylIntegralCovariance.IntegralCovGen
-public import Development.WeilBound.CoreStatements.AutomorphicKernels.SiegelWeilFormula.WeylIntegralCovariance.RpSmulLeft
 public import Development.WeilBound.CoreStatements.AutomorphicKernels.SiegelWeilFormula.WhittakerCovolume.CovolUnique
-public import Development.WeilBound.CoreStatements.AutomorphicKernels.SiegelWeilFormula.WhittakerCovolume.DictAsm
 public import Development.WeilBound.CoreStatements.AutomorphicKernels.SiegelWeilFormula.WhittakerCovolume.Height
 public import Development.WeilBound.CoreStatements.AutomorphicKernels.SiegelWeilFormula.WhittakerCovolume.HolValueAtConstMulCpow
-public import Development.WeilBound.CoreStatements.AutomorphicKernels.SiegelWeilFormula.WhittakerCovolume.PureGenSubFock
 public import Development.WeilBound.CoreStatements.AutomorphicKernels.SiegelWeilFormula.WhittakerCovolume.RelAlg
 public import Development.WeilBound.CoreStatements.AutomorphicKernels.SiegelWeilFormula.WhittakerCovolume.SdEx
 public import GroundTheory.AutomorphicForms.FourierWhittaker.IsAddFundamentalDomainImageOfMapVecLattice
@@ -41,6 +37,125 @@ public import Formalism.LocalToGlobal.GlobalTheory.GL5.FamilyMassVolumeIdentityO
 
 /-! # SiegelWeilFinFinal: Standard Siegel-Weil formula (`Fin.siegelWeilStd_k`) across split and non-split places. -/
 @[expose] public section
+
+noncomputable section
+
+open scoped TensorProduct NNReal Matrix
+open NumberField IsDedekindDomain MeasureTheory Filter Topology Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes
+open GlobalTheory.WeilM GlobalTheory.AdelicU GlobalTheory.LFun GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels GlobalTheory.ThK.Dbl GlobalTheory.Cont PositivityTheory.Rg.Sw
+
+namespace PositivityTheory.SiegelWeilFormula.KWhit
+
+open PositivityTheory.SiegelWeilFormula
+
+variable {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] {σ : E →ₐ[F] E}
+
+def schrL {R : Type} [CommRing R] [Invertible (2 : R)] (ψ : AddChar R ℂ) {κ : Type} [Fintype κ]
+    (w : (κ → R) × (κ → R)) : ((κ → R) → ℂ) →ₗ[ℂ] ((κ → R) → ℂ) where
+  toFun := schr ψ w
+  map_add' f g := by funext x; simp only [schr, Pi.add_apply]; ring
+  map_smul' c f := by funext x; simp only [schr, Pi.smul_apply, smul_eq_mul, RingHom.id_apply]; ring
+
+end PositivityTheory.SiegelWeilFormula.KWhit
+
+end
+
+section
+
+open scoped TensorProduct NNReal Matrix
+open NumberField IsDedekindDomain MeasureTheory Filter Topology Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes
+open GlobalTheory.WeilM GlobalTheory.AdelicU GlobalTheory.LFun GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels GlobalTheory.ThK.Dbl GlobalTheory.Cont PositivityTheory.Rg.Sw
+open GlobalTheory.Doubling (absE)
+
+namespace PositivityTheory.SiegelWeilFormula.KWhit
+
+open PositivityTheory.SiegelWeilFormula
+
+variable {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] {σ : E →ₐ[F] E}
+
+theorem asm_incl (e : E) : Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes.inclR (F := F) (AF F) e = HeckeCharacterZeroLocus.SiegelWeilU.inclR (F := F) (AF F) e := rfl
+
+theorem asm_cA (σ : E →ₐ[F] E) (z : AE F E) : cA σ z = HeckeCharacterZeroLocus.SiegelWeilU.sigR (AF F) σ z := rfl
+
+theorem asm_half : ⅟(2 : AF F) = algebraMap F (AF F) (1 / 2) := by
+  refine invOf_eq_right_inv ?_
+  rw [show (2 : AF F) = algebraMap F (AF F) 2 from (map_ofNat _ 2).symm, ← map_mul]
+  norm_num
+
+theorem asm_scalar_mul {n : ℕ} (η : E) (M : Matrix (Fin n) (Fin n) (AE F E)) :
+    incM F (Matrix.scalar (Fin n) η) * M = (HeckeCharacterZeroLocus.SiegelWeilU.inclR (F := F) (AF F) η) • M := by
+  ext i j
+  simp only [incM, Matrix.mul_apply, Matrix.map_apply, Matrix.scalar_apply, Matrix.diagonal_apply, apply_ite,
+    map_zero, ite_mul, zero_mul, Finset.sum_ite_eq, Finset.mem_univ, ite_true, Matrix.smul_apply, smul_eq_mul]
+  rfl
+
+theorem asm_cpow_split {C ν : ℝ} (hC : 0 < C) (hν : 0 < ν) (w : ℂ) :
+    ((C * ν⁻¹ : ℝ) : ℂ) ^ w = (C : ℂ) ^ w * (ν : ℂ) ^ (-w) := by
+  rw [Complex.ofReal_mul, Complex.mul_cpow_ofReal_nonneg hC.le (inv_nonneg.2 hν.le), Complex.ofReal_inv,
+    Complex.inv_cpow _ _ (by rw [Complex.arg_ofReal_of_nonneg hν.le]; exact Real.pi_pos.ne), Complex.cpow_neg]
+
+theorem asm_meanC_smul {M n : ℕ} (J : Matrix (Fin M) (Fin M) E) (μH : Measure (HeckeCharacterZeroLocus.SiegelWeilU.HA (AF F) σ J))
+    (𝓕 : Set (HeckeCharacterZeroLocus.SiegelWeilU.HA (AF F) σ J)) (c : ℂ) (Φ : (Fin n → Fin M → AF F ⊗[F] E) → ℂ)
+    (S : Set (Fin n → Fin M → E)) :
+    HeckeCharacterZeroLocus.SiegelWeilU.meanC μH 𝓕 (HeckeCharacterZeroLocus.SiegelWeilU.thetaS F E σ M J (fun Y => c * Φ Y) S) =
+      c * HeckeCharacterZeroLocus.SiegelWeilU.meanC μH 𝓕 (HeckeCharacterZeroLocus.SiegelWeilU.thetaS F E σ M J Φ S) := by
+  simp only [HeckeCharacterZeroLocus.SiegelWeilU.meanC, HeckeCharacterZeroLocus.SiegelWeilU.thetaS, tsum_mul_left, integral_const_mul, Complex.real_smul]
+  ring
+
+end PositivityTheory.SiegelWeilFormula.KWhit
+
+end
+
+section
+
+open scoped Matrix
+open NumberField MeasureTheory Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes GlobalTheory.WeilM GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels GlobalTheory.TowU
+
+namespace PositivityTheory.SiegelWeilFormula.TW.Twu
+
+variable {F : Type} [Field F] [NumberField F]
+
+theorem schr_zero_left (ψ : AddChar (AF F) ℂ) {κ : Type} [Fintype κ] (y : κ → AF F) (φ : (κ → AF F) → ℂ) :
+    schr ψ (0, y) φ = fun x => ψ (x ⬝ᵥ y) * φ x := by
+  funext x
+  simp [schr]
+
+theorem schr_zero_right (ψ : AddChar (AF F) ℂ) {κ : Type} [Fintype κ] (a : κ → AF F) (φ : (κ → AF F) → ℂ) :
+    schr ψ (a, 0) φ = fun x => φ (x + a) := by
+  funext x
+  simp [schr]
+
+theorem translation_invariant_functional_haar (ψ : AddChar (AF F) ℂ) (hψ : IsStd ψ) (κ : Type) [Fintype κ] [DecidableEq κ]
+    (μ : @Measure (κ → AF F) (borel _)) (hμ : @Measure.IsAddHaarMeasure _ _ _ (borel _) μ)
+    (l : ((κ → AF F) → ℂ) →ₗ[ℂ] ℂ) (hl : l ∈ (adeleClass F).adm κ)
+    (hinv : ∀ a : κ → AF F, ∀ φ ∈ schA F κ, l (fun x => φ (x + a)) = l φ) :
+    ∃ c : ℂ, ∀ φ ∈ schA F κ, l φ = c * ∫ x, φ x ∂μ := by
+  obtain ⟨S, S', hS, hSf⟩ := _root_.GlobalTheory.TowU.FourWeyl.isOp_fourier F ψ hψ κ μ hμ (fun _ => 1)
+  have hl' : l ∘ₗ S' ∈ (adeleClass F).adm κ := hS.adm' l hl
+  have hchar : ∀ (y : κ → AF F), ∀ φ ∈ schA F κ,
+      (l ∘ₗ S') (fun x => ψ (x ⬝ᵥ y) * φ x) = (l ∘ₗ S') φ := by
+    intro y φ hφ
+    have hφ₁m : S' φ ∈ schA F κ := hS.pres' φ hφ
+    have hφeq : S (S' φ) = φ := hS.right φ hφ
+    have htr : schr ψ (-y, 0) (S' φ) ∈ schA F κ := by
+      rw [schr_zero_right]
+      exact GlobalTheory.SchwartzTranslate.schA_translate F (-y) hφ₁m
+    have key : S (schr ψ (-y, 0) (S' φ)) = fun x => ψ (x ⬝ᵥ y) * φ x := by
+      rw [hS.Heisenberg₂ _ _ hφ₁m, hφeq, ← schr_zero_left]
+      congr 1
+      ext i <;> simp
+    rw [← key, LinearMap.comp_apply, hS.left _ htr, LinearMap.comp_apply, schr_zero_right]
+    exact hinv (-y) (S' φ) hφ₁m
+  obtain ⟨c, hc⟩ := _root_.GlobalTheory.CharInvForm.main F ψ hψ κ (l ∘ₗ S') hl' hchar
+  refine ⟨c, fun φ hφ => ?_⟩
+  have h1 : l φ = (l ∘ₗ S') (S φ) := by
+    rw [LinearMap.comp_apply, hS.left φ hφ]
+  rw [h1, hc _ (hS.pres φ hφ), hSf φ hφ 0]
+  simp
+
+end PositivityTheory.SiegelWeilFormula.TW.Twu
+
+end
 noncomputable section
 open scoped TensorProduct NNReal Matrix Classical
 open NumberField IsDedekindDomain MeasureTheory Filter Topology
@@ -508,7 +623,7 @@ private theorem poisson_loc : TW.Poisson_k := by
       rw [show (incM F (Yᵀ * d.A.J * (eqm_loc d q).map σ)).trace =
           (1 : AF F) ⊗ₜ[F] (Yᵀ * d.A.J * (eqm_loc d q).map σ).trace by
         simp only [Matrix.trace, incM, Matrix.diag_apply, Matrix.map_apply, TensorProduct.tmul_sum]; rfl,
-        TW.Twp.trace_tmul', one_mul]
+        GlobalTheory.LatVac.trace_tmul, one_mul]
     rw [hgi]
     simp only [Lm_loc, LinearMap.coe_mk, AddHom.coe_mk, LinearEquiv.symm_apply_apply, map_mul, map_intCast]; ring
   have hfour (Y : d.ME) : ∫ Z, d.B.ψ (((ε : ℤ) : AF F) * d.tt (d.gram (incM F Y) Z)) * f Z ∂ν =

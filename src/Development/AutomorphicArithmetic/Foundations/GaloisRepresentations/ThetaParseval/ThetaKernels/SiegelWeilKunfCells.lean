@@ -7,7 +7,6 @@ public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentation
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.ThetaParseval.ThetaKernels.Unfold0K
 public import Development.WeilBound.CoreStatements.AutomorphicKernels.SiegelWeilFormula.FockVacuumBounds.MainEq
 public import Development.WeilBound.CoreStatements.AutomorphicKernels.SiegelWeilFormula.FockVacuumBounds.VacDataOf
-public import Development.WeilBound.CoreStatements.AutomorphicKernels.SiegelWeilFormula.FockVacuumBounds.VacLin
 public import Development.WeilBound.CoreStatements.AutomorphicKernels.SiegelWeilFormula.ThetaSchwartzSums.HolValueAtFinsum
 public import Development.WeilBound.RepresentationTheoryGL.SiegelWeilProof.HolomorphicContinuation.AbsoluteConvergence.FarRightC
 public import Development.WeilBound.ThetaLifts.LatticeBasics.SecLaw
@@ -659,7 +658,10 @@ private theorem ident_lincomb_k (hT : TAll_k) (d : SD_k σ) (hEA : d.EisAll) (c 
     rw [show (fun y => ((d.Ht y : ℝ) : ℂ) ^ (z - d.s₀) * ∑ i, a i * d.sec0 (Ψ i) y) =
         fun y => ∑ i, a i * (((d.Ht y : ℝ) : ℂ) ^ (z - d.s₀) * d.sec0 (Ψ i) y) from
       funext fun y => by rw [Finset.mul_sum]; exact Finset.sum_congr rfl fun _ _ => by ring, this]
-    exact Finset.sum_congr rfl fun i _ => (cosetSum_const_mul _ _ _ _ _).symm
+    exact Finset.sum_congr rfl fun i _ => by
+      symm
+      simp only [GlobalTheory.Eis.cosetSum, GlobalTheory.Eis.term]
+      exact tsum_mul_left
   rw [hv, Finset.mul_sum, show ∑ i, c * (a i * d.I (Ψ i) x) = ∑ i, a i * (c * d.I (Ψ i) x) from
     Finset.sum_congr rfl fun _ _ => by ring]
   exact (KMain.holValueAt_finsum Finset.univ fun i _ => (holValueAt_const (a i) _).mul (hI i x)).congr heq

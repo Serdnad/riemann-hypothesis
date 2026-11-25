@@ -3,7 +3,6 @@ module
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.ThetaParseval.ThetaKernels.SiegelWeilKfpDefs
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ContinuousUnitaryMultiplicativeEqArgPow
 public import Mathlib.Analysis.CStarAlgebra.Classes
-public import Development.WeilBound.CoreStatements.AutomorphicKernels.SiegelWeilFormula.EisensteinMeromorphy.MeromorphicOnOfWeak
 public import Development.WeilBound.CoreStatements.AutomorphicKernels.SiegelWeilFormula.FockSpaces.VolumeIsAddHaar
 public import Development.WeilBound.CoreStatements.AutomorphicKernels.SiegelWeilFormula.WhitGenLowOf
 public import Development.WeilBound.CoreStatements.AutomorphicKernels.SiegelWeilFormula.WhittakerCovolume.FrameSignEqHermitianSign
@@ -14,13 +13,70 @@ public import Formalism.UnipotentAdelicQuotients.SWXSDefs
 public import Development.WeilBound.CoreStatements.AutomorphicKernels.SiegelWeilFormula.WhittakerCovolume.HolValueAtConstMulCpow
 public import Development.WeilBound.CoreStatements.AutomorphicKernels.SiegelWeilFormula.WhittakerCovolume.MeasND
 public import Development.WeilBound.CoreStatements.AutomorphicKernels.SiegelWeilFormula.WhittakerCovolume.SectionLinearFinsetSum
-public import Development.WeilBound.CoreStatements.AutomorphicKernels.SiegelWeilFormula.WhittakerCovolume.ThGramIncM
 public import Development.WeilBound.CoreStatements.AutomorphicKernels.SiegelWeilFormula.WhittakerCovolume.ThInclRInjective
 public import Development.WeilBound.CoreStatements.AutomorphicKernels.SiegelWeilFormula.WhittakerCovolume.ThMSymmApply
 public import Development.AbelianVarietyTheory.Definitions.Foundations.NonemptyAlgHomOfNotIsField
 
 /-! # SiegelWeilKwhitIwa: Consolidated global theta-kernel definitions and proofs (SiegelWeilKwhitIwa). -/
 @[expose] public section
+
+section
+
+open scoped TensorProduct NNReal Matrix
+open NumberField IsDedekindDomain MeasureTheory Filter Topology Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes
+open GlobalTheory.WeilM GlobalTheory.AdelicU GlobalTheory.LFun GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels GlobalTheory.ThK.Dbl GlobalTheory.Cont PositivityTheory.Rg.Sw
+
+namespace PositivityTheory.SiegelWeilFormula.KWhit
+
+open PositivityTheory.SiegelWeilFormula
+
+variable {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] {σ : E →ₐ[F] E}
+
+private theorem th_cA_incl (x : E) : cA σ (inclR (F := F) (E := E) (AF F) x) = inclR (F := F) (E := E) (AF F) (σ x) := by
+  rw [← th_sigR_eq]; exact th_sigR_incl x
+
+end PositivityTheory.SiegelWeilFormula.KWhit
+
+end
+
+noncomputable section
+
+open scoped TensorProduct NNReal Matrix
+open NumberField IsDedekindDomain MeasureTheory Filter Topology Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes
+open GlobalTheory.WeilM GlobalTheory.AdelicU GlobalTheory.LFun GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels GlobalTheory.ThK.Dbl PositivityTheory.SiegelWeilFormula
+open GlobalTheory.Cont
+
+namespace PositivityTheory.SiegelWeilFormula.Khead
+
+variable {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] {σ : E →ₐ[F] E} {n : ℕ}
+  {Y : Spc F E n}
+
+def evAt (x : G2 σ Y) : modFun σ Y →ₗ[ℂ] ℂ := (LinearMap.proj x).comp (modFun σ Y).subtype
+
+theorem isGrowForm_evAt (x : G2 σ Y) : IsGrowForm (evAt x) := fun N => ⟨(ht2 x : ℝ) ^ N, fun _ hf => hf x⟩
+
+theorem meromorphicOn_of_weak {Ê : ℂ → G2 σ Y → ℂ}
+    (hw : ∀ s₀, ∃ (k : ℕ) (U : Set ℂ) (H : ℂ → modFun σ Y), U ∈ 𝓝 s₀ ∧
+      (∀ s ∈ U, s ≠ s₀ → ∀ x, (H s).1 x = (s - s₀) ^ k * Ê s x) ∧
+      ∀ μ, IsGrowForm μ → DifferentiableOn ℂ (fun s => μ (H s)) U) (x : G2 σ Y) :
+    MeromorphicOn (Ê · x) Set.univ := by
+  intro s₀ _
+  obtain ⟨k, U, H, hU, he, hd⟩ := hw s₀
+  have ha : AnalyticAt ℂ (fun s => (H s).1 x) s₀ := (hd _ (isGrowForm_evAt x)).analyticAt hU
+  have hm : MeromorphicAt (fun s => (s - s₀) ^ (-(k : ℤ)) * (H s).1 x) s₀ :=
+    (((analyticAt_id.sub analyticAt_const).meromorphicAt).zpow _).mul ha.meromorphicAt
+  refine hm.congr ?_
+  filter_upwards [eventually_nhdsWithin_of_eventually_nhds hU, self_mem_nhdsWithin] with s hs hne
+  have : s - s₀ ≠ 0 := sub_ne_zero.2 hne
+  rw [he s hs hne, zpow_neg, zpow_natCast, inv_mul_cancel_left₀ (pow_ne_zero _ this)]
+
+theorem hgt_nonneg {K : Subgroup (G2 σ Y)} {a : G2 σ Y → ℝ} (h : IsHgt K a) (x : G2 σ Y) : 0 ≤ a x := by
+  obtain ⟨p, t, hp, k, hk, rfl⟩ := h.iwa x
+  rw [h.val p t hp k hk]
+  exact NNReal.coe_nonneg _
+
+end PositivityTheory.SiegelWeilFormula.Khead
+end
 
 noncomputable section
 open PositivityTheory.SiegelWeilFormula HeckeCharacterZeroLocus

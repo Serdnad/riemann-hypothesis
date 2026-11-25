@@ -6,14 +6,53 @@ public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentation
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.ThetaParseval.ThetaKernels.SiegelWeilAldSmallSTop
 public import Development.WeilBound.CoreStatements.AutomorphicKernels.SiegelWeilFormula.AdelicDilations.DerivInv
 public import Development.WeilBound.CoreStatements.AutomorphicKernels.SiegelWeilFormula.AdelicDilations.IsExtAtOfDiff
-public import Development.WeilBound.CoreStatements.AutomorphicKernels.SiegelWeilFormula.AdelicDilations.SectionEqThetaZero
-public import Development.WeilBound.CoreStatements.AutomorphicKernels.SiegelWeilFormula.WeilRepresentationGenerators.FockOf
 public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.LcscAdelicUnitaryGroup
 public import Development.WeilBound.CoreStatements.AutomorphicKernels.EisensteinSeriesG2.UnitsBorelSpace.BorelSpaceDoubledGroup
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.StabilizerOrbitVolume.TopoAF
 
 /-! # SiegelWeilOswgenFockOf: Consolidated global theta-kernel definitions and proofs (SiegelWeilOswgenFockOf). -/
 @[expose] public section
+
+section
+
+open scoped TensorProduct NNReal Matrix Classical ComplexOrder
+open NumberField IsDedekindDomain MeasureTheory Filter Topology Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes
+open GlobalTheory.WeilM GlobalTheory.AdelicU GlobalTheory.LFun GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels GlobalTheory.ThK.Dbl GlobalTheory.Cont PositivityTheory.Rg.Sw
+
+namespace PositivityTheory.SiegelWeilFormula.AStep
+
+variable {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] {σ : E →ₐ[F] E}
+
+namespace COne
+
+theorem cosetSum_factor {G : Type} [Group G] (Pp Γ : Subgroup G) (Fn h : G → ℂ) (K : ℂ) (g₀ : G)
+    (hF : ∀ g, Fn g = K * h (g * g₀)) (g : G) :
+    GlobalTheory.Eis.cosetSum Pp Γ Fn g = K * GlobalTheory.Eis.cosetSum Pp Γ h (g * g₀) := by
+  simp only [GlobalTheory.Eis.cosetSum, GlobalTheory.Eis.term, hF, mul_assoc]
+  exact tsum_mul_left
+
+theorem ht_cpow (r a : ℝ) (hr : 0 < r) (w : ℂ) :
+    (((r * a).toNNReal : ℝ) : ℂ) ^ w = (r : ℂ) ^ w * (((a.toNNReal : ℝ) : ℂ)) ^ w := by
+  rw [Real.toNNReal_mul hr.le, NNReal.coe_mul, Real.coe_toNNReal _ hr.le, Complex.ofReal_mul,
+    Complex.mul_cpow_ofReal_nonneg hr.le (NNReal.coe_nonneg _)]
+
+theorem hv_shift (W : ℂ → ℂ) (s₀ a v c : ℂ) (r : ℝ) (hr : 0 < r) (hW : HolValueAt W (s₀ + a) v) :
+    HolValueAt (fun z => (c * (r : ℂ) ^ (z - s₀)) * W (z + a)) s₀ (c * v) := by
+  obtain ⟨H, hext, han, hval⟩ := hW
+  have h1 := hext.comp_add
+  have hK : AnalyticOnNhd ℂ (fun z => c * (r : ℂ) ^ (z - s₀)) Set.univ := fun z _ =>
+    analyticAt_const.mul (analyticAt_const.cpow (analyticAt_id.sub analyticAt_const) (Complex.ofReal_mem_slitPlane.2 hr))
+  have h2 : IsExtAt (fun z => c * (r : ℂ) ^ (z - s₀)) s₀ (fun z => c * (r : ℂ) ^ (z - s₀)) :=
+    (isMerExt_self isRightDomain_univ hK.meromorphicOn).isExtAt (Set.mem_univ _)
+  refine ⟨_, h2.mul h1, ?_, ?_⟩
+  · exact (hK s₀ (Set.mem_univ _)).mul (han.comp_of_eq (analyticAt_id.add analyticAt_const) rfl)
+  · simp [hval]
+
+end COne
+
+end PositivityTheory.SiegelWeilFormula.AStep
+
+end
 
 noncomputable section
 
@@ -233,6 +272,17 @@ theorem crd_inf_eq_k
   funext w
   rw [hL, KFock.cmb_crd_k]
   exact (KFP.arc_eq_iff_k R X (KFP.arc_k R X)).1 rfl w
+
+private theorem indicator_mem_SB {X : Type} [TopologicalSpace X] {N : Set X} (ho : IsOpen N) (hc : IsClosed N)
+    (hk : IsCompact N) : N.indicator (fun _ => (1 : ℂ)) ∈ SB X := by
+  refine ⟨(IsLocallyConstant.iff_eventually_eq _).2 fun x => ?_, HasCompactSupport.intro' hk hc fun x hx => ?_⟩
+  · by_cases hx : x ∈ N
+    · filter_upwards [ho.mem_nhds hx] with y hy
+      rw [Set.indicator_of_mem hy, Set.indicator_of_mem hx]
+    · filter_upwards [hc.isOpen_compl.mem_nhds hx] with y hy
+      rw [Set.indicator_of_notMem hy, Set.indicator_of_notMem hx]
+  · exact Set.indicator_of_notMem hx _
+
 theorem mem_fock_of_k {νf : Measure (KFP.Yf_k d)} (hνf : νf.IsAddHaarMeasure) {f : d.MxE → ℂ}
     (hf : f ∈ d.schM) (H : ∀ g ∈ SB (KFP.Yf_k d), ∃ P : MvPolynomial (KFP.Iw_k d) ℂ,
       ∀ u, KFP.hg_k R νf f g u = MvPolynomial.eval (fun i => ((u i : ℝ) : ℂ)) P * Real.exp (-(2 * Real.pi * ‖u‖ ^ 2))) :

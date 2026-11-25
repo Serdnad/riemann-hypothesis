@@ -11,11 +11,8 @@ public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Eisenste
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.HeightContinuousPos
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ParabolicIffFrameParabolic
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.SiegelEisensteinMultiplicativity
-public import Development.WeilBound.CoreStatements.AutomorphicKernels.SiegelWeilFormula.AdelicEisensteinSeries.IsGrowFormEvAt
 public import Development.WeilBound.CoreStatements.AutomorphicKernels.SiegelWeilFormula.EisensteinMeromorphy.DiffContOfReg
-public import Development.WeilBound.CoreStatements.AutomorphicKernels.SiegelWeilFormula.EisensteinMeromorphy.HgtMulRight
 public import Development.WeilBound.CoreStatements.AutomorphicKernels.SiegelWeilFormula.RationalHermitianMeasures.ExistsNeZeroOfMap
-public import Development.WeilBound.CoreStatements.AutomorphicKernels.SiegelWeilFormula.RationalHermitianMeasures.IncMScalarMul
 public import Development.WeilBound.CoreStatements.AutomorphicKernels.SiegelWeilFormula.WhittakerCovolume.MeasProps
 public import Development.WeilBound.CoreStatements.TemperedRepresentationTheory.EisensteinGrowthForms.GrowForms
 public import Development.WeilBound.RepresentationTheoryGL.EisensteinSeries.SiegelEisensteinHalfPlane.SchwartzBruhatMajorants.SiegelMultOf
@@ -40,9 +37,58 @@ public import Development.WeilBound.CoreStatements.AutomorphicKernels.Eisenstein
 public import Development.WeilBound.CoreStatements.AutomorphicKernels.SiegelWeilFormula.AdelicEisensteinSeries.GodementSumW
 public import Formalism.LocalToGlobal.IndefiniteReal.PHeisFC
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.StabilizerOrbitVolume.TopoAF
+import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.StabilizerVolume.TopoAF
 
 /-! # SiegelWeilMeasdictHOfMain: Consolidated global theta-kernel definitions and proofs (SiegelWeilMeasdictHOfMain). -/
 @[expose] public section
+
+noncomputable section
+
+open scoped TensorProduct NNReal Matrix
+open NumberField IsDedekindDomain MeasureTheory Filter Topology Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes
+open GlobalTheory.WeilM GlobalTheory.AdelicU GlobalTheory.LFun GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels GlobalTheory.ThK.Dbl
+
+namespace PositivityTheory.SiegelWeilFormula.Aeis
+
+def evAt {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] {σ : E →ₐ[F] E} {n : ℕ}
+    {Y : Spc F E n} (x : G2 σ Y) : modFun σ Y →ₗ[ℂ] ℂ :=
+  (LinearMap.proj x).comp (modFun σ Y).subtype
+
+end PositivityTheory.SiegelWeilFormula.Aeis
+
+end
+
+section
+
+open scoped TensorProduct NNReal Matrix
+open NumberField IsDedekindDomain MeasureTheory Filter Topology Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes
+open GlobalTheory.WeilM GlobalTheory.AdelicU GlobalTheory.LFun GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels GlobalTheory.ThK.Dbl GlobalTheory.Cont PositivityTheory.Rg.Sw SiegelEisensteinSeries.Grp
+
+namespace PositivityTheory.SiegelWeilFormula.MeasD
+
+open PositivityTheory.SiegelWeilFormula PositivityTheory.SiegelWeilFormula.KWhit PositivityTheory.SiegelWeilFormula.kfour
+
+variable {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] {σ : E →ₐ[F] E}
+
+theorem sigR_eq (z : AF F ⊗[F] E) : HeckeCharacterZeroLocus.SiegelWeilU.sigR (AF F) σ z = cA σ z := by
+  induction z using TensorProduct.induction_on with
+  | zero => simp
+  | tmul a b => rfl
+  | add x y hx hy => rw [map_add (f := _), map_add (f := _), hx, hy]
+
+theorem incM_scalar_mul {k p : ℕ} (η : E) (M : Matrix (Fin k) (Fin p) (AE F E)) :
+    incM F (Matrix.scalar (Fin k) η) * M = inclR (F := F) (AF F) η • M := by
+  rw [Matrix.smul_eq_diagonal_mul]
+  congr 1
+  ext i j
+  by_cases h : i = j <;> simp [incM, Matrix.scalar_apply, h]
+
+theorem inclR_inv_mul {η : E} (hne : η ≠ 0) : inclR (F := F) (AF F) η⁻¹ * inclR (F := F) (AF F) η = 1 := by
+  rw [← map_mul, inv_mul_cancel₀ hne, map_one]
+
+end PositivityTheory.SiegelWeilFormula.MeasD
+
+end
 
 open UpperTheory.TP.W (GoodK)
 
@@ -680,7 +726,10 @@ theorem majorant_w_k (d : SD_k σ) {s₁ : ℂ} {f : d.G → ℂ} (hf : IsSec d.
   obtain ⟨M', hM'⟩ := hKC.exists_bound_of_continuousOn (hac.inv₀ fun y => (hpos y).ne').continuousOn
   have hr : ∀ x, ∀ c ∈ C, d.a (x * c) ^ σ' ≤ (|M| ^ σ' + (|M'|⁻¹) ^ σ') * d.a x ^ σ' := by
     intro x c hc
-    obtain ⟨k, hk, e⟩ := hgt_mul_right d.ok.hgt x c
+    have hmul : ∃ k ∈ d.K, d.a (x * c) = d.a x * d.a (k * c) := by
+      obtain ⟨p, t, hp, k, hk, rfl⟩ := d.ok.hgt.iwa x
+      exact ⟨k, hk, by rw [mul_assoc, d.ok.hgt.mul hp, d.ok.hgt.val p t hp k hk]⟩
+    obtain ⟨k, hk, e⟩ := hmul
     have hkc := Set.mul_mem_mul hk hc
     have r0 := hpos (k * c)
     have rM : d.a (k * c) ≤ |M| := (Real.le_norm_self _).trans ((hM _ hkc).trans (le_abs_self M))

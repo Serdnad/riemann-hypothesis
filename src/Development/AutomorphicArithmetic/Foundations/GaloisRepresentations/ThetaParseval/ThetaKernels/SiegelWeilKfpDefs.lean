@@ -9,12 +9,8 @@ public import Development.WeilBound.CoreStatements.AutomorphicKernels.SiegelWeil
 public import Development.WeilBound.CoreStatements.AutomorphicKernels.SiegelWeilFormula.FockSpaces.LiftExOf
 public import Development.WeilBound.CoreStatements.AutomorphicKernels.SiegelWeilFormula.FockSpaces.PiProdSch
 public import Development.WeilBound.CoreStatements.AutomorphicKernels.SiegelWeilFormula.FockSpaces.ProdGenMem
-public import Development.WeilBound.CoreStatements.AutomorphicKernels.SiegelWeilFormula.LocalWeilOperators.ChiWPf
 public import Development.WeilBound.CoreStatements.AutomorphicKernels.SiegelWeilFormula.LocalWeilOperators.StepMA
 public import Development.WeilBound.CoreStatements.AutomorphicKernels.SiegelWeilFormula.RealAdelicFockSpace.FinOneMulEqZeroIff
-public import Development.WeilBound.CoreStatements.AutomorphicKernels.SiegelWeilFormula.RealAdelicFockSpace.FrameArchimedeanPairing
-public import Development.WeilBound.CoreStatements.AutomorphicKernels.SiegelWeilFormula.RealAdelicFockSpace.MemLpSchM
-public import Development.WeilBound.CoreStatements.AutomorphicKernels.SiegelWeilFormula.RealAdelicFockSpace.RotVac
 public import Development.WeilBound.CoreStatements.AutomorphicKernels.SiegelWeilFormula.ThetaParabolic.LRhoOm
 public import Development.WeilBound.CoreStatements.AutomorphicKernels.SiegelWeilFormula.ThetaSplitting.SplitW
 public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.LcscAdelicUnitaryGroup
@@ -58,10 +54,154 @@ public import Mathlib.Tactic.NormNum.Parity
 public import Mathlib.Tactic.NormNum.Prime
 public import Mathlib.Tactic.NormNum.RealSqrt
 public import Mathlib.Topology.Sheaves.Init
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.AdelicIntertwine
+public import Development.WeilBound.CoreStatements.AutomorphicKernels.SiegelWeilFormula.LocalWeilOperators.PsiZeroGram
 
 /-! # FockDecK: Preliminary helper declarations for global theta kernels. -/
 
 @[expose] public section
+
+section
+
+open scoped TensorProduct NNReal Matrix Classical
+open NumberField IsDedekindDomain MeasureTheory Filter Topology Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes
+open GlobalTheory.WeilM GlobalTheory.AdelicU GlobalTheory.LFun GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels GlobalTheory.ThK.Dbl GlobalTheory.Cont PositivityTheory.Rg.Sw
+
+namespace PositivityTheory.SiegelWeilFormula
+
+variable {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] {σ : E →ₐ[F] E}
+
+namespace KC
+
+theorem finOne_mul_self : finOne F * finOne F = finOne F := by
+  first
+  | (show ((0 : Ainf F), (1 : Af F)) * ((0 : Ainf F), (1 : Af F)) = ((0 : Ainf F), (1 : Af F)); simp)
+
+theorem e_mul_e : (finOne F • (1 : AE F E)) * (finOne F • (1 : AE F E)) = finOne F • (1 : AE F E) := by
+  rw [smul_mul_assoc, one_mul, smul_smul, finOne_mul_self]
+
+theorem update_mul (w : InfinitePlace F) (z z' : ℂ) :
+    Function.update (fun _ => (1 : ℂ)) w (z * z') =
+      Function.update (fun _ => (1 : ℂ)) w z * Function.update (fun _ => (1 : ℂ)) w z' := by
+  funext v
+  by_cases h : v = w
+  · subst h; simp
+  · simp [h]
+
+end KC
+
+end PositivityTheory.SiegelWeilFormula
+
+end
+
+section
+
+open scoped TensorProduct NNReal Matrix SchwartzMap Classical InnerProductSpace
+open NumberField IsDedekindDomain MeasureTheory Filter Topology Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes
+open GlobalTheory.WeilM GlobalTheory.AdelicU GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels GlobalTheory.ThK.Dbl PositivityTheory.Rg.Sw
+
+namespace PositivityTheory.SiegelWeilFormula.KFP
+
+variable {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] {σ : E →ₐ[F] E}
+
+namespace Psi
+
+variable {d : SD σ}
+
+theorem evI_half : evI F (⅟(2 : AF F)) = algebraMap ℝ (mixedEmbedding.mixedSpace F) (⅟2) := by
+  have ha : evI F (⅟(2 : AF F)) * 2 = 1 := by
+    have e1 : evI F (1 : AF F) = 1 := by
+      show InfiniteAdeleRing.ringEquiv_mixedSpace F 1 = 1
+      exact map_one _
+    have e2 : evI F (2 : AF F) = 2 := by
+      rw [show (2 : AF F) = 1 + 1 by norm_num, Dense.evI_add, e1]; norm_num
+    rw [← e2, ← Dense.evI_mul, invOf_mul_self, e1]
+  have hb : algebraMap ℝ (mixedEmbedding.mixedSpace F) (⅟2) * 2 = 1 := by
+    rw [← map_ofNat (algebraMap ℝ (mixedEmbedding.mixedSpace F)) 2, ← map_mul, invOf_mul_self, map_one]
+  calc evI F (⅟(2 : AF F)) = evI F (⅟(2 : AF F)) * (algebraMap ℝ (mixedEmbedding.mixedSpace F) (⅟2) * 2) := by
+        rw [hb, mul_one]
+    _ = (evI F (⅟(2 : AF F)) * 2) * algebraMap ℝ (mixedEmbedding.mixedSpace F) (⅟2) := by ring
+    _ = _ := by rw [ha, one_mul]
+
+theorem trace_line {p q r : Type} [Fintype p] [Fintype q] [Fintype r] [DecidableEq q]
+    (A : Matrix p q ℂ) (B1 B2 : Matrix r q ℂ) (Jw : Matrix p p ℂ) (Dw : Matrix r r ℂ) (a c : ℂ) :
+    ((a • A * B2ᵀ)ᵀ * Jw * (c • A * B1ᵀ).map star * Dwᵀ).trace =
+      a * star c * (Aᵀ * Jw * A.map star * (B2ᵀ * Dw * B1.map star)ᵀ).trace := by
+  have e1 : (c • A * B1ᵀ).map star = star c • (A.map star * (B1.map star)ᵀ) := by
+    ext i j
+    simp [Matrix.mul_apply, Finset.mul_sum]
+  rw [e1, Matrix.transpose_mul, Matrix.transpose_smul, Matrix.transpose_transpose]
+  simp only [Matrix.smul_mul, Matrix.mul_smul, Matrix.trace_smul, smul_eq_mul, smul_smul]
+  congr 1
+  · ring
+  · rw [Matrix.transpose_mul, Matrix.transpose_mul, Matrix.transpose_transpose]
+    simp only [Matrix.mul_assoc]
+    rw [Matrix.trace_mul_comm]
+    simp only [Matrix.mul_assoc]
+
+end Psi
+
+end PositivityTheory.SiegelWeilFormula.KFP
+
+end
+
+noncomputable section
+
+open scoped TensorProduct NNReal Matrix SchwartzMap Classical InnerProductSpace
+open NumberField IsDedekindDomain MeasureTheory Filter Topology Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes
+open GlobalTheory.WeilM GlobalTheory.AdelicU GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels GlobalTheory.ThK.Dbl PositivityTheory.Rg.Sw
+open Matrix
+
+namespace PositivityTheory.SiegelWeilFormula.KFP
+
+variable {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] {σ : E →ₐ[F] E}
+
+def sb (n : ℕ) (a b c e : ℂ) : M2 n := fromBlocks (a • 1) (b • 1) (c • 1) (e • 1)
+
+theorem cs1 (t : ℝ) : (Real.cos t : ℂ) * Real.cos t + (Real.sin t : ℂ) * Real.sin t = 1 := by
+  have := Real.cos_sq_add_sin_sq t
+  exact_mod_cast (by nlinarith [this] : Real.cos t * Real.cos t + Real.sin t * Real.sin t = 1)
+
+theorem det_yrotM_ne (n : ℕ) (s : ℤˣ) (t : ℝ) : (yrotM n s t).det ≠ 0 := by
+  have h := congrArg Matrix.det (_root_.PositivityTheory.SiegelWeilFormula.KFP.yrotM_mul n s t (-t))
+  rw [add_neg_cancel, _root_.PositivityTheory.SiegelWeilFormula.KFP.yrotM_zero, det_mul, det_one] at h
+  exact left_ne_zero_of_mul_eq_one h
+
+theorem rot_unit (s : ℤˣ) (t : ℝ) (a : ℂ) (ha : a = 1 ∨ a = -1) :
+    ((Real.cos t : ℂ) + a * Complex.I * (((s : ℤ) : ℂ) * Real.sin t)) ≠ 0 := by
+  intro h0
+  have h1 := cs1 t
+  have hs := Formalism.FrobeniusOrbits.Misc2.int_units_sq_C s
+  have ha2 : a * a = 1 := by rcases ha with rfl | rfl <;> ring
+  have hp : ((Real.cos t : ℂ) + a * Complex.I * (((s : ℤ) : ℂ) * Real.sin t)) *
+      ((Real.cos t : ℂ) - a * Complex.I * (((s : ℤ) : ℂ) * Real.sin t)) = 1 := by
+    linear_combination h1 + (Real.sin t : ℂ) * Real.sin t * hs -
+      ((s : ℤ) : ℂ) * ((s : ℤ) : ℂ) * (Real.sin t : ℂ) * Real.sin t * Complex.I_mul_I +
+      ((s : ℤ) : ℂ) * ((s : ℤ) : ℂ) * (Real.sin t : ℂ) * Real.sin t * Complex.I * Complex.I * ha2 * (-1)
+  rw [h0, zero_mul] at hp
+  exact zero_ne_one hp
+
+theorem weight_factor_rotation_ne_zero (p q : ℕ) (e : ℤ) (n : ℕ) (s : ℤˣ) (t : ℝ) : F0 p q e (yrot n s t) ≠ 0 := by
+  have hu1 : u1 (yrotM n s t) = ((Real.cos t : ℂ) + (-1) * Complex.I * (((s : ℤ) : ℂ) * Real.sin t)) • 1 := by
+    rw [u1, yrotM, toBlocks_fromBlocks₂₁, toBlocks_fromBlocks₂₂, smul_smul, ← add_smul]
+    congr 1
+    ring
+  have hu2 : u2 (yrotM n s t) = ((Real.cos t : ℂ) + 1 * Complex.I * (((s : ℤ) : ℂ) * Real.sin t)) • 1 := by
+    rw [u2, yrotM, toBlocks_fromBlocks₂₁, toBlocks_fromBlocks₂₂, smul_smul, ← neg_smul, ← add_smul]
+    congr 1
+    ring
+  simp only [F0, f0, mR_yrot]
+  refine mul_ne_zero (zpow_ne_zero _ (det_yrotM_ne n s t)) (mul_ne_zero (zpow_ne_zero _ ?_) (zpow_ne_zero _ ?_))
+  · rw [hu1, det_smul, det_one, mul_one]
+    exact pow_ne_zero _ (rot_unit s t _ (Or.inr rfl))
+  · rw [hu2, det_smul, det_one, mul_one]
+    exact pow_ne_zero _ (rot_unit s t _ (Or.inl rfl))
+
+variable {d : SD σ}
+
+end PositivityTheory.SiegelWeilFormula.KFP
+
+end
 
 theorem UpperTheory.Reformulated.B.Glb2.fock_dec_k :
     ∀ {F E : Type} [inst : Field F] [inst_1 : NumberField F] [inst_2 : Field E] [inst_3 : NumberField E]
@@ -582,6 +722,13 @@ theorem T_rho_sum'_k (hH : THeis_k) {Φ : d.Fn} (hΦ : Φ ∈ d.sch) (Z Z' X : M
     rw [smul_smul, ← AddChar.map_add_eq_mul, neg_add_cancel, AddChar.map_zero_eq_one, one_smul] at h3; exact h3.symm
   have hrb : d.dd.rho d.B.ψ b Φ ∈ d.sch := GlobalTheory.SchrKeepsSchA.schr_mem_schA F d.B.ψ d.ok.good.std d.κ _ Φ hΦ
   rw [h2, KFock.T_smul_k, Pi.smul_apply, smul_eq_mul, (hH F E σ d _ hrb Z X).1, (hH F E σ d Φ hΦ Z' (X + Z)).2]
+
+private theorem memLpSchA {κ : Type} [Fintype κ] (m : MeasurableSpace (κ → AF F)) (hm : m = borel _)
+    (μ : @Measure (κ → AF F) m) (hμ : @Measure.IsAddHaarMeasure _ _ _ m μ) {φ : (κ → AF F) → ℂ}
+    (hφ : φ ∈ schA F κ) : MemLp φ 2 μ := by
+  subst hm
+  exact GlobalTheory.WeilM.schA_memLp_two F κ μ hμ φ hφ
+
 theorem B_rel'_k (hT : TAll_k) (hU : TUnit_k) {ν : Measure (M1 d)} (hν : ν.IsAddHaarMeasure) {k : d.G} {χ : ℂ}
     (hχ : χ ≠ 0) {Ω : d.Fn} (hΩ : Ω ∈ d.sch) (hk : d.om k Ω = χ • Ω) {Φ : d.Fn} (hΦ : Φ ∈ d.sch) (q : Polynomial ℂ)
     (hq : ∑ i ∈ Finset.range (q.natDegree + 1), q.coeff i • d.om (k ^ i) Φ = 0) (v : d.M2) :

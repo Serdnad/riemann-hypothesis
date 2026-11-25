@@ -11,17 +11,13 @@ public import Mathlib.MeasureTheory.Measure.Haar.OfBasis
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.SchwartzLinearChange
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.SchwartzQuadraticPhaseMultiplication
 public import Development.WeilBound.CoreStatements.AutomorphicKernels.EisensteinSeriesG2.G2HaarMeasure.ContinuousInFrame
-public import Development.WeilBound.CoreStatements.AutomorphicKernels.SiegelWeilFormula.AwayActions.AwStep
 public import Development.WeilBound.CoreStatements.AutomorphicKernels.SiegelWeilFormula.AwayActions.DecAlg
 public import Development.WeilBound.CoreStatements.AutomorphicKernels.SiegelWeilFormula.AwayActions.FinBase
-public import Development.WeilBound.CoreStatements.AutomorphicKernels.SiegelWeilFormula.AwayActions.FinTop
 public import Development.WeilBound.CoreStatements.AutomorphicKernels.SiegelWeilFormula.AwayActions.Imports
 public import Development.WeilBound.CoreStatements.AutomorphicKernels.SiegelWeilFormula.AwayActions.InFrameInvOf
 public import Development.WeilBound.CoreStatements.AutomorphicKernels.SiegelWeilFormula.LocalOperatorBlocks.ContAdm
 public import Development.WeilBound.CoreStatements.AutomorphicKernels.SiegelWeilFormula.LocalOperatorBlocks.EqZeroOfEvalReal
-public import Development.WeilBound.CoreStatements.AutomorphicKernels.SiegelWeilFormula.LocalOperatorBlocks.GoodSigPq
 public import Development.WeilBound.CoreStatements.AutomorphicKernels.SiegelWeilFormula.LocalOperatorBlocks.LongWeylFunctional
-public import Development.WeilBound.CoreStatements.AutomorphicKernels.SiegelWeilFormula.LocalWeilOperators.Assemble
 public import Development.WeilBound.CoreStatements.AutomorphicKernels.SiegelWeilFormula.LocalWeilOperators.LocForm
 public import Development.WeilBound.CoreStatements.AutomorphicKernels.SiegelWeilFormula.LocalWeilOperators.LocNbar
 public import Development.WeilBound.CoreStatements.AutomorphicKernels.SiegelWeilFormula.LocalWeilOperators.LocalOperatorLongWeylIntegral
@@ -37,6 +33,101 @@ public import Development.WeilBound.ThetaLifts.LatticeBasics.ConstIdele
 
 /-! # SiegelWeilKawayTop: Consolidated global theta-kernel definitions and proofs (SiegelWeilKawayTop). -/
 @[expose] public section
+
+section
+
+open scoped TensorProduct NNReal Matrix SchwartzMap Classical
+open NumberField IsDedekindDomain MeasureTheory Filter Topology Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes
+open GlobalTheory.WeilM GlobalTheory.AdelicU GlobalTheory.LFun GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels GlobalTheory.ThK.Dbl GlobalTheory.Cont PositivityTheory.Rg.Sw
+
+namespace PositivityTheory.SiegelWeilFormula.KAway
+
+variable {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] {σ : E →ₐ[F] E}
+
+variable (F) in
+theorem exists_schwartz_ne {κ : Type} [Fintype κ] :
+    ∃ (φ : 𝓢(κ → mixedEmbedding.mixedSpace F, ℂ)) (v : κ → mixedEmbedding.mixedSpace F), φ v ≠ 0 := by
+  let b : ContDiffBump (0 : κ → mixedEmbedding.mixedSpace F) := ⟨1, 2, zero_lt_one, one_lt_two⟩
+  have h1 : HasCompactSupport (fun x => ((b x : ℝ) : ℂ)) := b.hasCompactSupport.comp_left Complex.ofReal_zero
+  have h2 : ContDiff ℝ ((⊤ : ℕ∞) : WithTop ℕ∞) (fun x => ((b x : ℝ) : ℂ)) := Complex.ofRealCLM.contDiff.comp b.contDiff
+  refine ⟨h1.toSchwartzMap h2, 0, ?_⟩
+  show ((b 0 : ℝ) : ℂ) ≠ 0
+  rw [b.one_of_mem_closedBall (Metric.mem_closedBall_self zero_le_one)]
+  simp
+
+theorem slice_mem {κ : Type} [Fintype κ] (Φ : (κ → AF F) → ℂ) (hΦ : Φ ∈ schA F κ) (a : κ → Ainf F) :
+    (fun y : κ → Af F => Φ (fun k => pairA F (a k) (y k))) ∈ SB (κ → Af F) := by
+  induction hΦ using Submodule.span_induction with
+  | mem Φ h =>
+    obtain ⟨f, g, hg, rfl⟩ := h
+    have e : (fun y : κ → Af F => pureA F (⇑f) g (fun k => pairA F (a k) (y k))) =
+        (f fun i => (InfiniteAdeleRing.ringEquiv_mixedSpace F) (a i)) • g := by
+      funext y
+      rfl
+    rw [e]
+    exact Submodule.smul_mem _ _ hg
+  | zero => exact (SB (κ → Af F)).zero_mem
+  | add x y _ _ hx hy => exact (SB (κ → Af F)).add_mem hx hy
+  | smul r x _ hx => exact (SB (κ → Af F)).smul_mem r hx
+
+end PositivityTheory.SiegelWeilFormula.KAway
+
+end
+
+noncomputable section
+
+open scoped TensorProduct NNReal Matrix Classical
+open NumberField IsDedekindDomain MeasureTheory Filter Topology Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes
+open GlobalTheory.WeilM GlobalTheory.AdelicU GlobalTheory.LFun GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels GlobalTheory.ThK.Dbl GlobalTheory.Cont PositivityTheory.Rg.Sw
+open GlobalTheory.Doubling (absE)
+
+namespace PositivityTheory.SiegelWeilFormula.KAway
+
+variable {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] {σ : E →ₐ[F] E}
+
+def eW (w : InfinitePlace F) : AF F := pairA F (Pi.single w 1) 0
+
+theorem eW_mul_self (w : InfinitePlace F) : eW w * eW w = eW w := by
+  apply Prod.ext
+  · funext v
+    show (eW w).1 v * (eW w).1 v = (eW w).1 v
+    by_cases h : v = w
+    · subst h
+      simp [eW, pairA]
+    · simp [eW, pairA, Pi.single_eq_of_ne h]
+  · show (eW w).2 * (eW w).2 = (eW w).2
+    have : (eW w).2 = 0 := rfl
+    rw [this, mul_zero]
+
+theorem finOne_mul_eW (w : InfinitePlace F) : finOne F * eW w = 0 := by
+  apply Prod.ext
+  · funext v
+    show (finOne F).1 v * (eW w).1 v = (0 : AF F).1 v
+    have : (finOne F).1 v = 0 := rfl
+    rw [this, zero_mul]
+    rfl
+  · show (finOne F).2 * (eW w).2 = (0 : AF F).2
+    have : (eW w).2 = 0 := rfl
+    rw [this, mul_zero]
+    rfl
+
+theorem piInf_eW {w w' : InfinitePlace F} (τ : EmbOver E w') (z : AE F E) :
+    piInf τ (eW w • z) = if w' = w then piInf τ z else 0 := by
+  rw [St.piInf_smul]
+  by_cases h : w' = w
+  · subst h
+    simp [eW, pairA]
+  · rw [ite_eq_right h]
+    simp [eW, pairA, Pi.single_eq_of_ne h]
+
+variable (d : SD σ)
+
+theorem finOne_eW_smul (w : InfinitePlace F) {p q : Type} (M : Matrix p q (AE F E)) : finOne F • (eW w • M) = 0 := by
+  rw [smul_smul, finOne_mul_eW, zero_smul]
+
+end PositivityTheory.SiegelWeilFormula.KAway
+
+end
 noncomputable section
 open scoped TensorProduct NNReal Classical SchwartzMap Matrix
 open GlobalTheory.Doubling (absE)
@@ -410,7 +501,11 @@ theorem locHyp_of_k (hT : TAll_k) (hA : SiegelWeilDatumProperties) {d : SD_k σ}
 theorem locInst_of_k (hT : TAll_k) (hA : SiegelWeilDatumProperties) (_hF : FockMem_k) (_hLi : LiftEx_k) : LocInst_k :=
   fun _ _ _ _ _ _ _ _ d R w _ hL =>
     let ⟨sL, ρ, e, hD, h1, h2⟩ := locData_of (locHyp_of_k hT hA R hL)
-    ⟨sL, ρ, pOf (R.sg w) d.m, qOf (R.sg w) d.m, e, fun hnm => goodSig_pq _ hnm, hD, h1, h2⟩
+    ⟨sL, ρ, pOf (R.sg w) d.m, qOf (R.sg w) d.m, e, (fun hnm => by
+      unfold pOf qOf GoodSig
+      split_ifs
+      · exact Or.inr (Or.inr (Or.inl ⟨rfl, hnm⟩))
+      · exact Or.inr (Or.inr (Or.inr ⟨rfl, hnm⟩))), hD, h1, h2⟩
 end KLI
 def SD_k.Indep (d : SD_k σ) (w : InfinitePlace F) (Ψ : d.MF) : Prop :=
   ∀ X Z, (∀ w', w' ≠ w → d.cw w' Z = 0) → finOne F • Z = 0 → Ψ (X + Z) = Ψ X
@@ -840,7 +935,8 @@ theorem locOpEx_of_tAll_k (hT : TAll_k) : LocOpEx_k := fun F E _ _ _ _ _ σ d R 
     rw [conjTranspose_smul, hc, show star (((ε : ℤ) : ℂ) * R.ζ⁻¹ * R.ζ⁻¹) = ((ε : ℤ) : ℂ) * R.ζ⁻¹ * R.ζ⁻¹ by
       rcases R.hζ with ⟨-, hz⟩ | ⟨-, hz⟩ <;> rw [hz] <;> simp [Complex.inv_I]]
   rw [hy]; exact R.ok_mul w d.om_sch (R.ok_mul w d.om_sch (R.ok_mul w d.om_sch
-    (R.ok_of_step w (R.stepN w hT y1 _ (herm_smul_one' t) ht))
+    (R.ok_of_step w (R.stepN w hT y1 _ (by
+      rw [Matrix.conjTranspose_smul, Matrix.conjTranspose_one, Complex.star_def, Complex.conj_ofReal]) ht))
     (ok_of_conj R w hT (R.step_comp w d.om_sch (R.step_comp w d.om_sch hW hW) hW) hW
       (R.stepN w hT y' _ hx hy') hrel (RD_k.w_four hw₀)))
     (let ⟨_, _, hc⟩ := R.stepM w hT y3 a ha ha2; R.ok_of_step w hc))

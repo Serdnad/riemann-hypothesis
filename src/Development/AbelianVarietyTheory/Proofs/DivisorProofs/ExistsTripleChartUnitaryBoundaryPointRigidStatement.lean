@@ -51,7 +51,7 @@ public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Degenerating
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.MumfordFamilyFromRegularBaseCoordinatesStatement
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.EffCartierComapOfIdlAlong
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IdealEqSpanMonomialOfOrdersAlongCompleteDVR
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.MonomialBoundaryFamilyPullUnitaryTraitFormStatement
+public import Development.AbelianVarietyTheory.Definitions.Divisors.ExistsMonoFamNontrivial
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.CanonicalFamilyIsPointRigidTautologicalChartStatement
 public import Development.AbelianVarietyTheory.Definitions.Degenerations.AdmissiblePadicIntMaximalIdeal
 public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.TraceFormTwistIsoOfPullback
@@ -106,7 +106,6 @@ import Mathlib.CategoryTheory.Monoidal.Opposite.Mon
 import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
 import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.IsNatDiagIffIsDiag
 import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.SumMulEqZeroOfSumToReal
-import Development.AbelianVarietyTheory.Definitions.Divisors.ExistsMonoFamNontrivial
 import ReciprocityTheory.AnalyticForms.RegularLocalRings.JacChartA
 import Mathlib.Data.Nat.Choose.Multinomial
 import Mathlib.Topology.Sheaves.Init
@@ -1375,7 +1374,7 @@ theorem taut_exists_map : ∀ {E : Type} [Field E] [NumberField E] [IsCMField E]
     choose w hw using fun i => IsDiscreteValuationRing.associated_pow_irreducible (hne i) hϖ
     obtain ⟨fK, hκ⟩ := exists_fractionRing_map ψ hψi
     obtain ⟨t, tK, P, h1, h2, be, hbe, hmono, hφ⟩ :=
-      GlobalTheory.T.monomialBoundaryFamily_pull_unitaryTrait_form Xo c φ _ hBase C W hW ψ hψi hψl ϖ hϖ w hw (spMap fK) hκ
+      _root_.GlobalTheory.UChart.pull_trait Xo c φ _ hBase C W hW ψ hψi hψl ϖ hϖ w hw (spMap fK) hκ
     obtain ⟨n, hn, hIn⟩ := hval W hW ϖ hϖ (spMap ψ ≫ ξZ) (spMap fK ≫ C.y)
       (by rw [Category.assoc, ← hξZ, ← Category.assoc, hκ, Category.assoc]) t tK h1 h2 P be hbe hmono
     rw [← GlobalTheory.TraitOrder.idlAlong_comp, hIn, hprod, map_prod]
@@ -1703,7 +1702,7 @@ theorem boundary_eq : ∀ {E : Type} [Field E] [NumberField E] [IsCMField E] {H 
     have hκ : spMap (GlobalTheory.ArcPull.fracMap hψ) ≫ jK _ = jK W ≫ spMap ψ :=
       (GlobalTheory.ArcPull.fracMap_sq hψ).symm.trans (Category.id_comp _)
     obtain ⟨t, tK, P, h₁, h₂, be, hbe, hmon, hev⟩ :=
-      GlobalTheory.T.monomialBoundaryFamily_pull_unitaryTrait_form Xo c φ _ ⟨hA, inferInstance⟩ C W hW ψ hψ hψl ϖ hϖ w hw _ hκ
+      _root_.GlobalTheory.UChart.pull_trait Xo c φ _ ⟨hA, inferInstance⟩ C W hW ψ hψ hψl ϖ hϖ w hw _ hκ
     obtain ⟨n, hn, hI⟩ := hval W hW ϖ hϖ (spMap ψ ≫ ξ) _ (by rw [Category.assoc, hy, reassoc_of% hκ]) t tK h₁ h₂ P be hbe hmon
     have hn' : n = ∑ i, w i * a i := by
       apply Nat.cast_injective (R := ℝ)
