@@ -3,7 +3,7 @@ module
 import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FockVectorNegHermitianSpaceConjMonomial
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.CartFrSgn
 import Development.AbelianVarietyTheory.Definitions.Foundations.OfInfProjInfMulOfFinProjFin
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.SignedUnitaryGroupCompatStatement
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.SignedUnitaryGroupCompat
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -286,7 +286,7 @@ theorem GlobalTheory.sgn_fun_cusp : ∀ (D : D7) (θ : InfFam D), IsInfFam θ �
   intro D θ hθ ε V φ
   cases ε
   · exact ⟨Iff.rfl, Iff.rfl⟩
-  · have hL := GlobalTheory.T.signedUnitaryGroup_compat D θ hθ true V
+  · have hL := GlobalTheory.SgnIdent.sgnLaw_holds D θ hθ true V
     exact ⟨isAutFunSm_sgn_true hL φ, isCuspFun_sgn_true hL φ⟩
 
 end

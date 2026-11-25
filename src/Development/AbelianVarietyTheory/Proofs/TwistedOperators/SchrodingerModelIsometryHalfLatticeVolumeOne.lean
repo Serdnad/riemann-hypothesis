@@ -4,8 +4,8 @@ public import Mathlib.RingTheory.PiTensorProduct
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.RestrictedTensorBasePointNormSq
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.IsIntOv
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ThetaInnerProductHermitianStatement
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.IsSchwartzBruhatHalfIffPullbackMatrixStatement
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.SchwartzBruhatHalfSpanModulatedTranslatesStatement
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.IsSchwartzBruhatHalfIffPullbackMatrix
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.SchwartzBruhatHalfSpanModulatedTranslates
 public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.RealIdemMulOfReal
 public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.SelfDualLatticePairingDual
 public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.HasDerivAtZeroAndIsTheta
@@ -231,8 +231,8 @@ theorem placeModel_isometry : ∀ (D : D7) (ψ : AddChar (AF D.host.F) ℂ) (θ 
     simp only [Function.comp, pull, ite_eq_left (h1 z), h2]
   refine ⟨(hκ.2.2.1.measure_pos _ ⟨κ 0, 0, ⟨zero_mem _, fun _ _ => mul_zero _⟩, rfl⟩).ne',
     hκ.2.2.2.measure_lt_top.ne, ?_⟩
-  obtain ⟨w1, w2⟩ := GlobalTheory.T.schwartzBruhatHalf_span_modulated_translates D ψ S T ΛS ΛT hψ hS hT a ha.1 ha.2.1 (infPart_splitIdem ha)
-  obtain ⟨c1, c2⟩ := GlobalTheory.T.isSchwartzBruhatHalf_iff_pullback_matrix D S T v m n a _ κ hκ
+  obtain ⟨w1, w2⟩ := GlobalTheory.PlaceTensor.halfWaves_span D ψ S T ΛS ΛT hψ hS hT a ha.1 ha.2.1 (infPart_splitIdem ha)
+  obtain ⟨c1, c2⟩ := GlobalTheory.HalfCoordSB.isSBHalf_iff_pull D S T v m n a _ κ hκ
   have I := GlobalTheory.T.theta_inner_product_hermitian D ψ S T μ 𝓕 hψ hμ
   set W := {Ψ : WO S T → ℂ | ∃ x y : WO S T, IsHalf a x ∧ IsHalf (cA D a) y ∧
     Ψ = fun t => ψ (symplO S T t y) * halfInd a (latO S T ΛS ΛT fun _ => True) (t + x)} with hW

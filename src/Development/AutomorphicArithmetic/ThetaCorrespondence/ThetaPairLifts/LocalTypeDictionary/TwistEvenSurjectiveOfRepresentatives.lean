@@ -2,7 +2,7 @@ module
 
 public import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.ChainParSucc
 public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.SphericalOperatorEigenvaluesDeterminedByParamsStatement
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsSatakeParametersBoundedEigenfunctionStatement
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.FockVectorsConjAdjointPullbackBijection
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.MultiplicityValuesContinuousBoundedHeckeConjStatement
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ConstMemBddAut
 public import Development.AbelianVarietyTheory.BlockTheory.TwistedDiscreteSeries.PartialLFunctionCharacter
@@ -44,7 +44,6 @@ public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.KFi
 public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.ThetaPairAnalyticHypothesesOfDiscreteSeriesStatement
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsConjWeilDatumExchangedPairStatement
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsRealIntertwinersUpwardThetaPairStatement
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.FockVectorsConjAdjointPullbackBijectionStatement
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.LowerTowerLiftsVanishOfVanishOnFockStatement
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.LowerTowerLiftsVanishOnFockStatement
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.PairThetaLiftFactorsThroughIntertwinerStatement
@@ -124,7 +123,7 @@ theorem GlobalTheory.EvenOnto.parBound_of_rapidDecay : GlobalTheory.Published.Cu
     intro k hk g
     simp only [hfdef, hlev k hk g, Pi.one_apply, one_mul]
   obtain ⟨a, ha⟩ := GlobalTheory.T.sphericalOperator_eigenvalues_determined_by_params D s.V (s.J : Set (GA D s.V)) 1 c.S hsph B
-  obtain ⟨B', hB', hbd⟩ := GlobalTheory.T.exists_satake_parameters_bounded_eigenfunction D s.V _ _ c.S hsph f hfmem hf0 hlev' a (fun P d R hR => ha f h3 P d R hR)
+  obtain ⟨B', hB', hbd⟩ := GlobalTheory.FinZeta.ParamBound.exists_param_bounded D s.V _ _ c.S hsph f hfmem hf0 hlev' a (fun P d R hR => ha f h3 P d R hR)
   intro w hw
   rw [GlobalTheory.LFun.IsParamVecOff.unique h3 hB' hw]
   exact hbd w hw
@@ -828,7 +827,7 @@ theorem liftUp_stage_span : GlobalTheory.Published.DiscreteSeriesCover → Globa
     have := hadj.add 0 0
     simpa using this
   obtain ⟨ω', hW', hω'⟩ := GlobalTheory.T.exists_conj_weilDatum_exchangedPair D c.ψ s.V s'.V (c.χ k) (c.χ k) ω hW
-  obtain ⟨j, -, hj⟩ := GlobalTheory.T.fockVectors_conjAdjointPullback_bijection D c.ψ c.θ hstd hc.inf s.V s'.V (Fr.ofModel s.M) (Fr.ofModel s'.M)
+  obtain ⟨j, -, hj⟩ := GlobalTheory.FockAdjoint.fock_dag D c.ψ c.θ hstd hc.inf s.V s'.V (Fr.ofModel s.M) (Fr.ofModel s'.M)
   obtain ⟨hvac', hpt⟩ := hj f (isVacF_of_isVacVec hp.vac)
   have hω'e : IsWeilExp c.ψ s'.V s.V (c.a k) (c.a k) ω' :=
     ⟨c.χ k, c.χ k, hW', fun τ => ⟨hc.exp k hk τ, hc.exp k hk τ⟩⟩

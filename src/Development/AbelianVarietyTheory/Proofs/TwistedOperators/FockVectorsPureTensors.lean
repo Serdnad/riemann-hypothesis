@@ -2,7 +2,7 @@ module
 
 public import Development.AbelianVarietyTheory.BlockTheory.TwistedDiscreteSeries.HalfLinearCocycle
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.APlusComm
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.PureTensorLinearInFactorAndHeisenbergDerivRealStatement
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.PureTensorLinearInFactorAndHeisenbergDerivReal
 import Development.AbelianVarietyTheory.Proofs.TwistedOperators.RestrictedTensorBasePointNormSq
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -229,7 +229,7 @@ theorem isPure_aPlus (hb : IsBase ψ θ S T sS sT ΛS ΛT f₀) (hμ : IsCovolOn
     IsPure ψ θ S T sS sT ΛS ΛT μ 𝓕 f₀
       (Function.update y (.inr τ) (Formalism.IndefR.Datum.aPlus (heisO ψ S T) θ τ J z a))
       (Formalism.IndefR.Datum.aPlus (heisO ψ S T) θ τ J z g) := by
-  have hlin := GlobalTheory.T.pureTensor_linear_in_factor_and_heisenbergDeriv_real D ψ θ S T sS sT ΛS ΛT f₀ μ 𝓕 hb hμ
+  have hlin := GlobalTheory.PureLinear.isPure_linear_and_dRho D ψ θ S T sS sT ΛS ΛT f₀ μ 𝓕 hb hμ
   have hML : IsMultiLin (IsPure ψ θ S T sS sT ΛS ΛT μ 𝓕 f₀) := hlin.1
   have hd : ∀ w : Matrix (Fin T.rank) (Fin S.rank) ℂ,
       IsPure ψ θ S T sS sT ΛS ΛT μ 𝓕 f₀
@@ -252,7 +252,7 @@ theorem fockPure : ∀ D : D7, FockPure D := by
   intro ψ θ S T sS sT ΛS ΛT f₀ μ 𝓕 BS BT pS pT hb hμ _ _ x f hx hx0 P hP
   have hth0 : IsThetaFunO ψ S T f₀ := base_theta hb
   have hthf : IsThetaFunO ψ S T f := hx.2.1
-  have hlin := GlobalTheory.T.pureTensor_linear_in_factor_and_heisenbergDeriv_real D ψ θ S T sS sT ΛS ΛT f₀ μ 𝓕 hb hμ
+  have hlin := GlobalTheory.PureLinear.isPure_linear_and_dRho D ψ θ S T sS sT ΛS ΛT f₀ μ 𝓕 hb hμ
   have hone : ∀ g : WO S T → ℂ, pureTensorO ψ θ S T sS sT BS BT g 1 = g := by
     intro g
     have e1 : (1 : MvPolynomial (FVar D T.rank S.rank) ℂ) = MvPolynomial.basisMonomials (FVar D T.rank S.rank) ℂ 0 := by

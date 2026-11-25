@@ -21,7 +21,6 @@ public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.StarRowsLeve
 import Development.AbelianVarietyTheory.Proofs.DivisorProofs.TypePlacesNotPairwiseConjugateStatement
 import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ContDiffDerivSnoc
 import Development.AbelianVarietyTheory.Proofs.SatakeParameters.ExistsLevelVectorGoodTypeStableSubspace
-import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ComplexConjugationMapsMultiplicitySpaceStatement
 import Formalism.LocalToGlobal.Divisibility.ProjLemmas
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -252,7 +251,7 @@ theorem exists_conj_map : ∀ {D : D7} {G : Type} [Group G] [Fintype G] {Pl0 T :
     rw [this, LinearMap.range_zero]
   obtain ⟨M₀, c, hc⟩ := GlobalTheory.PartDims.exists_conjModel (S' := parA (Ptw D) 0)
     (fun τ => by rw [Nat.zero_min]; exact (dualPar_dualPar _).symm) (R.MY 0)
-  obtain ⟨h, hM⟩ := GlobalTheory.T.complexConjugation_maps_multiplicitySpace R.θ (R.MY 0) M₀ c hc
+  obtain ⟨h, hM⟩ := GlobalTheory.ConjMult.conj_mult R.θ (R.MY 0) M₀ c hc
   let st : π.S → (principalLevelFrame.FinTyp.conjT π).S := fun x => ⟨fun g => star (x.1 g), by
     show (fun g => star (star (x.1 g))) ∈ π.S
     simp only [star_star]

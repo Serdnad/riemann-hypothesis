@@ -6,7 +6,6 @@ public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Exist
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.AdjointHalfDatumStabilizerPairMove
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ConjugatedThetaCharactersRestrictionRamification
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsCharFamIsVacVec
-import Development.AbelianVarietyTheory.Proofs.TwistedOperators.IdeleCharRestrictLocalUnitsResidueCharStatement
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.IsSelfDualCoordLatticeOfSelfDualFrame
 import Development.AbelianVarietyTheory.Proofs.TwistedOperators.IsUnramifiedAtPlaceIdempotentOfHeckeCharUnramifiStatement
 import Development.AbelianVarietyTheory.Proofs.TwistedOperators.LevelCharactersUnramifiedOffLevelPlacesStatement
@@ -253,9 +252,9 @@ theorem zeta_law : ∀ {D : D7} {G : Type} [Group G] [Fintype G] {Pl0 T : Type} 
         rcases hP with hP | hP
         · exact ((R.C.isMu0 i).tame PP).mul ((p1 PP hP).levelLe 1)
         · exact ((p2 PP hP i).levelLe 1).mul (hL.xi_tame t PP)
-      have rμ := (GlobalTheory.T.ideleChar_restrict_localUnits_residueChar D cμ μ' ecμ PP).1
+      have rμ := (GlobalTheory.ResLoc.resAt_of_chrEq D cμ μ' ecμ PP).1
         (m PP) tμ (hres PP hP)
-      have rη := ((GlobalTheory.T.ideleChar_restrict_localUnits_residueChar D cη η' ecη PP).2 (uη PP)).inv
+      have rη := ((GlobalTheory.ResLoc.resAt_of_chrEq D cη η' ecη PP).2 (uη PP)).inv
       exact ⟨rμ, by simpa only [inv_one, mul_one] using rμ.mul rη⟩
     · have uoμ : GlobalTheory.StepLaw.UnrOff cμ (R.Pg ∪ R.Q t) := by
         intro v ε hε hv

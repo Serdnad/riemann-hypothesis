@@ -2,9 +2,9 @@ module
 
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsDetInt
 public import Formalism.LocalToGlobal.IndefiniteReal.LinksDefs
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.HeckeCharTrivialOnIdempotentIntegralUnitsStatement
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.LevelCharactersRamificationLevelPlacesStatement
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.TameHeckeCharSplitSupportedEqProdResidueStatement
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.HeckeCharTrivialOnIdempotentIntegralUnits
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.LevelCharactersRamificationLevelPlaces
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.TameHeckeCharSplitSupportedEqProdResidue
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -86,7 +86,7 @@ variable {T0 : Type} {L : LevCh D T0} {μ0 : T0}
 theorem unrOff_mu (hL : L.Is μ0) (t : T0) (j : Fin D.R.m) {P : Finset (Pl D.host.E)} {e : AE D}
     (hP : ∀ PP, PP ∈ P ↔ PP ∈ L.Pg ∨ PP ∈ L.Q t) (he : IsIdemSum e P) :
     UnrOff (e + cA D e) (L.mu t ((j : ℕ) + 1)) ∧ UnrOff (e + cA D e) L.eta := by
-  obtain ⟨-, hQ, -, hoff⟩ := GlobalTheory.T.levelCharacters_ramification_levelPlaces D T0 L μ0 hL t j
+  obtain ⟨-, hQ, -, hoff⟩ := GlobalTheory.LevelRamif.ramif_at_levels D T0 L μ0 hL t j
   have hsub : ∀ PP', PP' ∉ P → (∀ PP ∈ P, ¬ Formalism.IndefR.Lev.IsConjPl PP PP') →
       PP' ∉ L.Pg ∧ PP' ∉ L.Q t ∧ (∀ PP ∈ L.Pg, ¬ Formalism.IndefR.Lev.IsConjPl PP PP') ∧
         ∀ PP ∈ L.Q t, ¬ Formalism.IndefR.Lev.IsConjPl PP PP' := by
@@ -94,15 +94,15 @@ theorem unrOff_mu (hL : L.Is μ0) (t : T0) (j : Fin D.R.m) {P : Finset (Pl D.hos
     exact ⟨fun hm => hn ((hP PP').mpr (Or.inl hm)), fun hm => hn ((hP PP').mpr (Or.inr hm)),
       fun PP hm => hc PP ((hP PP).mpr (Or.inl hm)), fun PP hm => hc PP ((hP PP).mpr (Or.inr hm))⟩
   have h0 : UnrOff (e + cA D e) (L.mu0 ((j : ℕ) + 1)) :=
-    GlobalTheory.T.heckeChar_trivial_on_idempotentIntegralUnits D _ (L.C.mu0 j) P e (hL.mu0 j) he
+    GlobalTheory.ChrOff.unrOff_of_unrAt D _ (L.C.mu0 j) P e (hL.mu0 j) he
       (fun PP' hn hc => hoff PP' (hsub PP' hn hc).1 (hsub PP' hn hc).2.2.1)
   have h1 : UnrOff (e + cA D e) (L.xi t) := by
-    refine GlobalTheory.T.heckeChar_trivial_on_idempotentIntegralUnits D _ (L.xiH t) P e (hL.xi t) he (fun PP' hn hc => ?_)
+    refine GlobalTheory.ChrOff.unrOff_of_unrAt D _ (L.xiH t) P e (hL.xi t) he (fun PP' hn hc => ?_)
     by_contra hr
     rcases (hL.Q_ram t PP').mp hr with hm | ⟨PP, hm, hcj⟩
     · exact (hsub PP' hn hc).2.1 hm
     · exact (hsub PP' hn hc).2.2.2 PP hm hcj
-  refine ⟨?_, GlobalTheory.T.heckeChar_trivial_on_idempotentIntegralUnits D _ L.C.eta P e hL.eta he
+  refine ⟨?_, GlobalTheory.ChrOff.unrOff_of_unrAt D _ L.C.eta P e hL.eta he
     (fun PP' _ _ => L.C.isEta.unr PP')⟩
   show UnrOff (e + cA D e) (L.mu0 ((j : ℕ) + 1) * L.xi t)
   exact h0.mul h1
@@ -115,11 +115,11 @@ theorem mu_val (hL : L.Is μ0) (t : T0) (j : Fin D.R.m) {P : Finset (Pl D.host.E
         (((∏ PP ∈ L.Pg, (L.chi ((j : ℕ) + 1) PP (u PP))⁻¹) * ∏ PP ∈ L.Q t, L.xiR t PP (u PP) : ℂˣ) : ℂ) ∧
       L.eta x = 1 := by
   classical
-  obtain ⟨hdisj, hQ, hPg, -⟩ := GlobalTheory.T.levelCharacters_ramification_levelPlaces D T0 L μ0 hL t j
+  obtain ⟨hdisj, hQ, hPg, -⟩ := GlobalTheory.LevelRamif.ramif_at_levels D T0 L μ0 hL t j
   have hPu : P = L.Pg ∪ L.Q t := by
     ext PP
     rw [hP PP, Finset.mem_union]
-  have hA := GlobalTheory.T.tameHeckeChar_splitSupported_eq_prod_residue D (L.mu0 ((j : ℕ) + 1)) (L.C.mu0 j) P e
+  have hA := GlobalTheory.TameSplitChar.char_eq_prod_res D (L.mu0 ((j : ℕ) + 1)) (L.C.mu0 j) P e
     (fun PP => if PP ∈ L.Pg then (L.chi ((j : ℕ) + 1) PP)⁻¹ else 1) (hL.mu0 j) he
     (fun PP hm => by
       by_cases hg : PP ∈ L.Pg
@@ -128,7 +128,7 @@ theorem mu_val (hL : L.Is μ0) (t : T0) (j : Fin D.R.m) {P : Finset (Pl D.host.E
       · simp only [ite_eq_right hg]
         have hq : PP ∈ L.Q t := ((hP PP).mp hm).resolve_left hg
         exact ⟨tameAt_of_unrAt (hQ PP hq), isRes_one (hQ PP hq)⟩) x a a' u hx ha hu
-  have hB := GlobalTheory.T.tameHeckeChar_splitSupported_eq_prod_residue D (L.xi t) (L.xiH t) P e
+  have hB := GlobalTheory.TameSplitChar.char_eq_prod_res D (L.xi t) (L.xiH t) P e
     (fun PP => if PP ∈ L.Q t then L.xiR t PP else 1) (hL.xi t) he
     (fun PP hm => by
       by_cases hq : PP ∈ L.Q t
@@ -137,7 +137,7 @@ theorem mu_val (hL : L.Is μ0) (t : T0) (j : Fin D.R.m) {P : Finset (Pl D.host.E
       · simp only [ite_eq_right hq]
         have hg : PP ∈ L.Pg := ((hP PP).mp hm).resolve_right hq
         exact ⟨tameAt_of_unrAt (hPg PP hg), isRes_one (hPg PP hg)⟩) x a a' u hx ha hu
-  have hC := GlobalTheory.T.tameHeckeChar_splitSupported_eq_prod_residue D L.eta L.C.eta P e (fun _ => 1) hL.eta he
+  have hC := GlobalTheory.TameSplitChar.char_eq_prod_res D L.eta L.C.eta P e (fun _ => 1) hL.eta he
     (fun PP _ => ⟨tameAt_of_unrAt (L.C.isEta.unr PP),
       isRes_one (L.C.isEta.unr PP)⟩) x a a' u hx ha hu
   rw [hPu, Finset.prod_union hdisj] at hA hB

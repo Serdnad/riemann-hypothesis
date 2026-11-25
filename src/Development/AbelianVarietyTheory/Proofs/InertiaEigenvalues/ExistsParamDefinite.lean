@@ -14,7 +14,7 @@ public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Spherical
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.ThetaLiftGoodProjectorIntertwinesMatchedHecke
 import Development.AbelianVarietyTheory.Proofs.SatakeParameters.ThetaLiftLevelsGoodPrimesProperties
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.DatumLevelHyperspecialOffFinitePlaces
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsSatakeParametersBoundedEigenfunctionStatement
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsSatakeParametersBoundedEigenfunction
 import Development.AbelianVarietyTheory.Proofs.TwistedOperators.LevelCharactersUnramifiedOffLevelPlaces
 
 @[expose] public section
@@ -113,7 +113,7 @@ theorem exists_param_definite {V : HSp D} (hs : V.SigOK) (hp : V.IsPosDef) (c : 
 
     rw [map_sum, Pi.smul_apply, map_smul] at h5
     exact h3.trans h5.symm
-  obtain ⟨B, hB', -⟩ := GlobalTheory.T.exists_satake_parameters_bounded_eigenfunction D V _ _ S hsph _ hbd hℓ hlev s heig
+  obtain ⟨B, hB', -⟩ := GlobalTheory.FinZeta.ParamBound.exists_param_bounded D V _ _ S hsph _ hbd hℓ hlev s heig
   exact ⟨B, (GlobalTheory.LFun.isParamFunV_iff_isSysParamD_of_level hsph hℓ hlev heig B).1 hB'⟩
 
 theorem exists_param_part (hP : GlobalTheory.Published.CuspRapidDecay) {V : HSp D} {Sp : D.what₂.Tau → SPar} {θ : InfFam D}
@@ -134,7 +134,7 @@ theorem exists_param_part (hP : GlobalTheory.Published.CuspRapidDecay) {V : HSp 
     exact hU0 (MultilinearMap.ext h)
   obtain ⟨h1, h2⟩ := (mem_partFull θ M _ _ S s U).1 hU
   have h3 := (GlobalTheory.MultMem.mem_mult_iff ..).1 h1
-  obtain ⟨B, hB', hb⟩ := GlobalTheory.T.exists_satake_parameters_bounded_eigenfunction D V _ _ S hsph (U v)
+  obtain ⟨B, hB', hb⟩ := GlobalTheory.FinZeta.ParamBound.exists_param_bounded D V _ _ S hsph (U v)
     ⟨(h3.aut v).cont, (h3.aut v).left, GlobalTheory.CuspDecay.bounded_of_cuspForm hP hθ (h3.aut v) (h3.cusp v)⟩ hv (h3.lev v) s
     fun P d R hR => h2 P d R hR v
   exact ⟨B, (GlobalTheory.LFun.isParamFunV_iff_of_mem_partFull hsph hU hv B).1 hB', fun w hw => (hb w hw).2⟩

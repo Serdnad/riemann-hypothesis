@@ -13,7 +13,7 @@ public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Idemp
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.MemClosedSubgroupOfLocalStabilizerPairs
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.MemClosedSubgroupOfLocalStabilizerPairsStatement
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.SplitPlaceWeilRepLatticeVacuumCharacterStatement
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.WeilOperatorLatticeStabiliserFixesVacuumNonsplitStatement
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.WeilOperatorLatticeStabiliserFixesVacuumNonsplit
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -294,7 +294,7 @@ theorem stab_vacuum : ∀ (D : D7) (ψ : AddChar (AF D.host.F) ℂ) (S T : HSp D
         simp only [splitFacO, unram_detAt hg' he''.1 hb huT, unram_detAt hh' he''.1 hb huS, inv_one, one_mul,
           Circle.coe_one, one_smul]
       ·
-        exact GlobalTheory.T.weilOperator_lattice_stabiliser_fixes_vacuum_nonsplit D ψ S T ΛS ΛT χS χT om hW hS hT hη v ε ⟨hε, hsp⟩ huS huT g' h' hsg hsh hlat f hf hvac
+        exact GlobalTheory.VecInvInert.om_fixes_vacuum D ψ S T ΛS ΛT χS χT om hW hS hT hη v ε ⟨hε, hsp⟩ huS huT g' h' hsg hsh hlat f hf hvac
   rw [← hcv (g, h)]
   exact key
 

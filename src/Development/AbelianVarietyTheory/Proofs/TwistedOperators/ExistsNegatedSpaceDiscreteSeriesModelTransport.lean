@@ -52,7 +52,6 @@ import Formalism.LocalToGlobal.BesselHermitianTheta.NoncompactGapAtLeastRange
 import Formalism.LocalToGlobal.IndefiniteReal.IndefiniteWeightData
 import Formalism.LocalToGlobal.IndefiniteReal.LinksDefs
 import Formalism.SharpRestriction.GlobalSchurBounds.GeneralLinearActions.GenusMassVolumes
-import Development.AbelianVarietyTheory.Proofs.TwistedOperators.SignedUnitaryGroupCompatStatement
 import Mathlib.Tactic.Linter.Style
 
 -- This file was produced by scripts/clump.py from the modules listed below.
@@ -180,7 +179,7 @@ end -- clump:auto
 -- ===== end clump member: Development.AbelianVarietyTheory.Proofs.TwistedOperators.IsDiscreteSeriesNegSignatureOfIsDiscreteSeriesStatement =====
 
 -- ===== clump member: Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsNegatedSpaceDiscreteSeriesModelTransport =====
--- clump-header: {"m": "Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsNegatedSpaceDiscreteSeriesModelTransport", "h": "module\n\npublic import Development.AbelianVarietyTheory.Proofs.TwistedOperators.CartFrSgn\npublic import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.HermitianOrthogonalExtensionData\npublic import Development.AbelianVarietyTheory.Proofs.TwistedOperators.AutomorphicCuspFormsHermitianSpaceSignTwist\npublic import Development.AbelianVarietyTheory.Proofs.TwistedOperators.IsDiscreteSeriesNegSignatureOfIsDiscreteSeriesStatement\nimport Development.AbelianVarietyTheory.Proofs.TwistedOperators.SignedUnitaryGroupCompatStatement\nimport Mathlib.Algebra.Order.Floor.Extended\nimport Mathlib.Algebra.Order.Floor.Semifield\nimport Mathlib.Algebra.Order.Interval.Basic\nimport Mathlib.Analysis.Complex.UpperHalfPlane.Basic\nimport Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp\nimport Mathlib.Combinatorics.Enumerative.DyckWord\nimport Mathlib.Combinatorics.SimpleGraph.Triangle.Removal\nimport Mathlib.Data.NNRat.Floor\nimport Mathlib.Geometry.Euclidean.Volume.Basic\nimport Mathlib.NumberTheory.Chebyshev\nimport Mathlib.NumberTheory.Height.NumberField\nimport Mathlib.NumberTheory.Height.Projectivization\nimport Mathlib.NumberTheory.LucasLehmer\nimport Mathlib.NumberTheory.SelbergSieve\nimport Mathlib.RingTheory.Radical.NatInt\nimport Mathlib.Tactic.Basify\nimport Mathlib.Tactic.ENatToNat\nimport Mathlib.Tactic.Echelon.Zsqrtd\nimport Mathlib.Tactic.Inclusion.Extension.Core.Core\nimport Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit\nimport Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp\nimport Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses\nimport Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic\nimport Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses\nimport Mathlib.Tactic.Linter.Style\nimport Mathlib.Tactic.NormNum.Irrational\nimport Mathlib.Tactic.NormNum.IsCoprime\nimport Mathlib.Tactic.NormNum.IsSquare\nimport Mathlib.Tactic.NormNum.LegendreSymbol\nimport Mathlib.Tactic.NormNum.ModEq\nimport Mathlib.Tactic.NormNum.NatFib\nimport Mathlib.Tactic.NormNum.NatLog\nimport Mathlib.Tactic.NormNum.NatSqrt\nimport Mathlib.Tactic.NormNum.Ordinal\nimport Mathlib.Tactic.NormNum.Parity\nimport Mathlib.Tactic.NormNum.Prime\nimport Mathlib.Tactic.NormNum.RealSqrt\nimport Std.Tactic.BVDecide.Normalize.Bool\n\n"}
+-- clump-header: {"m": "Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsNegatedSpaceDiscreteSeriesModelTransport", "h": "module\n\npublic import Development.AbelianVarietyTheory.Proofs.TwistedOperators.CartFrSgn\npublic import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.HermitianOrthogonalExtensionData\npublic import Development.AbelianVarietyTheory.Proofs.TwistedOperators.AutomorphicCuspFormsHermitianSpaceSignTwist\npublic import Development.AbelianVarietyTheory.Proofs.TwistedOperators.IsDiscreteSeriesNegSignatureOfIsDiscreteSeriesStatement\nimport Mathlib.Algebra.Order.Floor.Extended\nimport Mathlib.Algebra.Order.Floor.Semifield\nimport Mathlib.Algebra.Order.Interval.Basic\nimport Mathlib.Analysis.Complex.UpperHalfPlane.Basic\nimport Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp\nimport Mathlib.Combinatorics.Enumerative.DyckWord\nimport Mathlib.Combinatorics.SimpleGraph.Triangle.Removal\nimport Mathlib.Data.NNRat.Floor\nimport Mathlib.Geometry.Euclidean.Volume.Basic\nimport Mathlib.NumberTheory.Chebyshev\nimport Mathlib.NumberTheory.Height.NumberField\nimport Mathlib.NumberTheory.Height.Projectivization\nimport Mathlib.NumberTheory.LucasLehmer\nimport Mathlib.NumberTheory.SelbergSieve\nimport Mathlib.RingTheory.Radical.NatInt\nimport Mathlib.Tactic.Basify\nimport Mathlib.Tactic.ENatToNat\nimport Mathlib.Tactic.Echelon.Zsqrtd\nimport Mathlib.Tactic.Inclusion.Extension.Core.Core\nimport Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit\nimport Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp\nimport Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses\nimport Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic\nimport Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses\nimport Mathlib.Tactic.Linter.Style\nimport Mathlib.Tactic.NormNum.Irrational\nimport Mathlib.Tactic.NormNum.IsCoprime\nimport Mathlib.Tactic.NormNum.IsSquare\nimport Mathlib.Tactic.NormNum.LegendreSymbol\nimport Mathlib.Tactic.NormNum.ModEq\nimport Mathlib.Tactic.NormNum.NatFib\nimport Mathlib.Tactic.NormNum.NatLog\nimport Mathlib.Tactic.NormNum.NatSqrt\nimport Mathlib.Tactic.NormNum.Ordinal\nimport Mathlib.Tactic.NormNum.Parity\nimport Mathlib.Tactic.NormNum.Prime\nimport Mathlib.Tactic.NormNum.RealSqrt\nimport Std.Tactic.BVDecide.Normalize.Bool\n\n"}
 section -- clump:auto
 @[expose] public section
 
@@ -224,7 +223,7 @@ variable (θ : InfFam D)
 
 theorem negM_sm (hθ : IsInfFam θ) (τ : D.what₂.Tau) : (negM M).sm τ = M.sm τ := by
   unfold DSModel.sm
-  rw [(GlobalTheory.T.signedUnitaryGroup_compat D θ hθ true V).lie τ]
+  rw [(GlobalTheory.SgnIdent.sgnLaw_holds D θ hθ true V).lie τ]
   rfl
 
 end GlobalTheory.NegModel
@@ -313,7 +312,7 @@ theorem isMultMap_toNeg {T : MMap M} (hT : IsMultMap θ M ∅ 1 T) : IsMultMap �
     exact absurd hk (Set.notMem_empty _)
   · intro τ g hg v w hw
     classical
-    have hg' : g ∈ Formalism.QuantumDeterminants.UH (gramAt D V τ) := (GlobalTheory.T.signedUnitaryGroup_compat D θ hθ true V).grp τ ▸ hg
+    have hg' : g ∈ Formalism.QuantumDeterminants.UH (gramAt D V τ) := (GlobalTheory.SgnIdent.sgnLaw_holds D θ hθ true V).grp τ ▸ hg
     have hw' : ((smEquiv M θ hθ τ w : M.sm τ) : M.H τ) = M.rep τ g ((smEquiv M θ hθ τ (v τ) : M.sm τ) : M.H τ) := by
       rw [coe_smEquiv, coe_smEquiv]; exact hw
     have h := hT.equiv τ g hg' (fun ρ => smEquiv M θ hθ ρ (v ρ)) (smEquiv M θ hθ τ w) hw'
@@ -321,12 +320,12 @@ theorem isMultMap_toNeg {T : MMap M} (hT : IsMultMap θ M ∅ 1 T) : IsMultMap �
     rw [toNeg_apply, eq_update, h]
     show T (fun ρ => smEquiv M θ hθ ρ (v ρ)) (ofSgn true V x * atTau θ V τ g) =
       T (fun ρ => smEquiv M θ hθ ρ (v ρ)) (ofSgn true V (x * atTau θ (sgn true V) τ g))
-    rw [map_mul, (GlobalTheory.T.signedUnitaryGroup_compat D θ hθ true V).atTau τ g]
+    rw [map_mul, (GlobalTheory.SgnIdent.sgnLaw_holds D θ hθ true V).atTau τ g]
   · intro τ v x
     classical
     obtain ⟨ℓ, hℓ, hℓw⟩ := hT.cont τ (fun ρ => smEquiv M θ hθ ρ (v ρ)) (ofSgn true V x)
     refine ⟨ℓ, ?_, fun w => ?_⟩
-    · rw [(GlobalTheory.T.signedUnitaryGroup_compat D θ hθ true V).lie τ]; exact hℓ
+    · rw [(GlobalTheory.SgnIdent.sgnLaw_holds D θ hθ true V).lie τ]; exact hℓ
     · rw [toNeg_apply, eq_update, ← hℓw, coe_smEquiv]; rfl
 
 theorem isMultMap_ofNeg {T : MMap (negM M)} (hT : IsMultMap θ (negM M) ∅ 1 T) : IsMultMap θ M ∅ 1 (ofNeg M θ hθ T) := by
@@ -343,7 +342,7 @@ theorem isMultMap_ofNeg {T : MMap (negM M)} (hT : IsMultMap θ (negM M) ∅ 1 T)
     exact absurd hk (Set.notMem_empty _)
   · intro τ g hg v w hw
     classical
-    have hg' : g ∈ Formalism.QuantumDeterminants.UH (gramAt D (sgn true V) τ) := ((GlobalTheory.T.signedUnitaryGroup_compat D θ hθ true V).grp τ).symm ▸ hg
+    have hg' : g ∈ Formalism.QuantumDeterminants.UH (gramAt D (sgn true V) τ) := ((GlobalTheory.SgnIdent.sgnLaw_holds D θ hθ true V).grp τ).symm ▸ hg
     have hw' : (((smEquiv M θ hθ τ).symm w : (negM M).sm τ) : (negM M).H τ) =
         (negM M).rep τ g (((smEquiv M θ hθ τ).symm (v τ) : (negM M).sm τ) : (negM M).H τ) := by
       rw [coe_smEquiv_symm, coe_smEquiv_symm]; exact hw
@@ -352,12 +351,12 @@ theorem isMultMap_ofNeg {T : MMap (negM M)} (hT : IsMultMap θ (negM M) ∅ 1 T)
     rw [ofNeg_apply, eq_symm_update, h]
     show T (fun ρ => (smEquiv M θ hθ ρ).symm (v ρ)) ((ofSgn true V).symm x * atTau θ (sgn true V) τ g) =
       T (fun ρ => (smEquiv M θ hθ ρ).symm (v ρ)) ((ofSgn true V).symm (x * atTau θ V τ g))
-    rw [map_mul, ← (GlobalTheory.T.signedUnitaryGroup_compat D θ hθ true V).atTau τ g, MulEquiv.symm_apply_apply]
+    rw [map_mul, ← (GlobalTheory.SgnIdent.sgnLaw_holds D θ hθ true V).atTau τ g, MulEquiv.symm_apply_apply]
   · intro τ v x
     classical
     obtain ⟨ℓ, hℓ, hℓw⟩ := hT.cont τ (fun ρ => (smEquiv M θ hθ ρ).symm (v ρ)) ((ofSgn true V).symm x)
     refine ⟨ℓ, ?_, fun w => ?_⟩
-    · rw [← (GlobalTheory.T.signedUnitaryGroup_compat D θ hθ true V).lie τ]; exact hℓ
+    · rw [← (GlobalTheory.SgnIdent.sgnLaw_holds D θ hθ true V).lie τ]; exact hℓ
     · rw [ofNeg_apply, eq_symm_update, ← hℓw, coe_smEquiv_symm]; rfl
 
 theorem toNeg_mem {T : MMap M} (hT : T ∈ Mult θ M ∅ 1) : toNeg M θ hθ T ∈ Mult θ (negM M) ∅ 1 := by

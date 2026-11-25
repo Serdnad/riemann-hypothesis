@@ -8,7 +8,7 @@ public import Development.AutomorphicArithmetic.ThetaCorrespondence.ThetaPairLif
 public import Development.AutomorphicArithmetic.ThetaCorrespondence.ThetaPairLifts.LocalTypeDictionary.ArchimedeanThetaFamilyExistsSmooth
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsRealmapsIsomorphism
 public import Development.AutomorphicArithmetic.ThetaCorrespondence.ThetaPairLifts.LocalTypeDictionary.MemPolarizationStabilizerOfDualPair
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsLieDerivativePolynomialFockSeesawStatement
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsLieDerivativePolynomialFockSeesaw
 public import Development.AutomorphicArithmetic.ThetaCorrespondence.ThetaPairLifts.LocalTypeDictionary.ThetaSumDifferentiableAlongLine
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ConjUInvMemGfC
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.IsThetaSubGAlgDOne
@@ -491,7 +491,7 @@ theorem lineDerivation_isDerivation_of_datum : _root_.GlobalTheory.FunPr.ThetaLo
   fun hP D ψ θ W _ X _ _ _ _ _ _ _ _ _ ωA _ e Bs Γ Xc om om' cA _ hθ _ hO hT τ Y hY ΦD hΦD Ψ _ hD Φ Φ' hDat hDat' =>
     GlobalTheory.LineDerivCore.lineDerivation_isDerivation_of_datum_core hP D ψ θ W X e Bs Γ.W Γ.V Γ.M Xc.β (Xc.β / Xc.α) om ωA cA
       hO.JX 1 hO.JW hθ hO.psi hT.base.cm hT.base.std hT.geo.hM hT.weil
-      (fun γ hγ => GlobalTheory.T.exists_lieDerivative_polynomialFock_seesaw Bs Γ Xc om om' hT γ hγ)
+      (fun γ hγ => GlobalTheory.OscLie.exists_lie_deriv_pol Bs Γ Xc om om' hT γ hγ)
       hO.weilA τ Y hY ΦD hΦD Ψ hD Φ Φ' hDat hDat'
 
 end GlobalTheory.SquareAgree.LineDerFun

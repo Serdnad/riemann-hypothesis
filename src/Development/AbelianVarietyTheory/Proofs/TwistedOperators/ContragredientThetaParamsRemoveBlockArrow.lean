@@ -2,7 +2,7 @@ module
 
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.CartFrSgn
 public import Development.AbelianVarietyTheory.BlockTheory.TwistedDiscreteSeries.CuspAlongSmoothRows
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.IsRealThetaParameterPairThetaPartnerSignedParameStatement
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.IsRealThetaParameterPairThetaPartnerSignedParame
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -516,6 +516,6 @@ theorem removeBlock_pairPar : ∀ D : D7, GlobalTheory.IndefiniteRowSideFullHeck
     rw [htq]; push_cast; linarith
   refine ⟨D.R.t, P, partner D.R.t true (-(G.e (j + 1) : ℚ) + δ) (-(G.e (j + 1) : ℚ) + δ') P, rfl, ?_, Or.inl ⟨?_, hfar3⟩⟩
   · rw [parV, ← hpart]
-  · exact GlobalTheory.T.isRealThetaParameterPair_thetaPartnerSignedParameter D.R.t true _ _ P (bigN D) ht hne hreg hcos hfar1 hcard hN hgap hgap'
+  · exact GlobalTheory.PairLift.FromSigned.thetaPar_partner D.R.t true _ _ P (bigN D) ht hne hreg hcos hfar1 hcard hN hgap hgap'
 
 end GlobalTheory.RemoveBlock

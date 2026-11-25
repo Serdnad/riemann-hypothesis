@@ -6,7 +6,6 @@ public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.MemLat
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.IdempotentMulEqZeroOfOrthogonal
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.ExistsInvariantForm
 import Development.AbelianVarietyTheory.Proofs.SatakeParameters.SupportedSubgroupSplitCommutePrimeIdempotentsStatement
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.FrameMatrixMovedHomIntegralReductionsStatement
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.MemHomLatticeIffFrameStabilizerActMemStatement
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.SchrodingerIntertwinerSchwartzBruhatIsThetaStatement
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.StepVectorLiftPairFlagLevelRealizedChain
@@ -268,7 +267,7 @@ theorem stepVec_eq_sum : ∀ (D : D7) (ψ : AddChar (AF D.host.F) ℂ) (θ : Inf
   have i0 : ∀ p, IsHalf e' (actO S T (κ p)⁻¹ 1⁻¹ x) ↔ IsHalf e' x := fun p =>
     ⟨fun H => GlobalTheory.AdelicLatMove.actO_actO_inv S T (κ p) 1 x ▸ GlobalTheory.SplitHecke.isHalf_actO (κ p) 1 H,
       fun H => GlobalTheory.SplitHecke.isHalf_actO _ _ H⟩
-  have i12 := fun p => GlobalTheory.T.frameMatrix_movedHom_integral_reductions D S T βS βT (κ p) 1 (sg p) sh x
+  have i12 := fun p => GlobalTheory.FrameRed.frMapO_actO_int_red D S T βS βT (κ p) 1 (sg p) sh x
   by_cases hx : IsHalf e' x ∧ IsIntM (frMapO S T βS βT x)
   · rw [ite_eq_left hx, omegaG_sum (t := t) (j := k) ha Pg Q P χ ξ (χ (k + 1)) _ (fun p PP => redFn βS PP (finE S (κ p)))
       (fun p PP hP => parLev_g (hκ p).2.1 hP) (fun p PP => congrFun (hκ p).2.2 PP), Finset.sum_mul]
