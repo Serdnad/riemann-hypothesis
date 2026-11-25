@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsDescent
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.WdOfMono0L
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsContinuousPadic
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.CompactGroupRepDefinedOverFiniteExtension
@@ -62,24 +63,7 @@ theorem exists_model_of_mem {l : ℕ} [Fact l.Prime] {Γ : Type} [Group Γ] [Top
     (hL : ∀ g i j, (r g : Matrix (Fin a) (Fin a) (Om l)) i j ∈ L.1) :
     ∃ ρ : Γ →* GL (Fin a) ↥L.1, Continuous (fun g => (ρ g : Matrix (Fin a) (Fin a) ↥L.1)) ∧
       mapRep (algebraMap ↥L.1 (Om l)) ρ = r := by
-  let f : ↥L.1 →+* Om l := algebraMap ↥L.1 (Om l)
-  let M : Γ → Matrix (Fin a) (Fin a) ↥L.1 :=
-    fun g => Matrix.of fun i j => ⟨(r g : Matrix (Fin a) (Fin a) (Om l)) i j, hL g i j⟩
-  have hinj : Function.Injective (f.mapMatrix : Matrix (Fin a) (Fin a) ↥L.1 →+* Matrix (Fin a) (Fin a) (Om l)) :=
-    fun A B h => Matrix.ext fun i j => f.injective (by simpa using congrFun (congrFun h i) j)
-  have hM : ∀ g, f.mapMatrix (M g) = (r g : Matrix (Fin a) (Fin a) (Om l)) := fun g => Matrix.ext fun i j => rfl
-  let ρ : Γ →* GL (Fin a) ↥L.1 :=
-    { toFun := fun g => ⟨M g, M g⁻¹,
-        hinj (by rw [map_mul, hM, hM, map_one, ← Units.val_mul, ← map_mul, mul_inv_cancel, map_one, Units.val_one]),
-        hinj (by rw [map_mul, hM, hM, map_one, ← Units.val_mul, ← map_mul, inv_mul_cancel, map_one, Units.val_one])⟩
-      map_one' := Units.ext (hinj (by rw [hM, map_one, Units.val_one, Units.val_one, map_one]))
-      map_mul' := fun g h => Units.ext (hinj (by
-        show f.mapMatrix (M (g * h)) = f.mapMatrix (M g * M h)
-        rw [map_mul, hM, hM, hM, map_mul, Units.val_mul])) }
-  refine ⟨ρ, ?_, ?_⟩
-  · refine continuous_pi fun i => continuous_pi fun j => ?_
-    exact continuous_induced_rng.2 ((continuous_apply j).comp ((continuous_apply i).comp hr))
-  · exact MonoidHom.ext fun g => Units.ext (hM g)
+  first | exact _root_.GlobalTheory.CrysWD.exists_descent | exact @_root_.GlobalTheory.CrysWD.exists_descent | apply _root_.GlobalTheory.CrysWD.exists_descent <;> assumption
 
 theorem isdRW_iff_isdRAt : ∀ (D : D7) (T : WDTie D.nd D.naut) (W : WDSide D T) (l : ℕ) [Fact l.Prime] (ι : Qbar l ≃+* ℂ) (w : HeightOneSpectrum (𝓞 D.host.E)), w ∈ placesOver D.host.E l → ∀ (O : Type) [CommRing O] [Algebra ℤ_[l] O] [TopologicalSpace O] (Bw : LocBridge l D.host.E D.nd.Om (Dec (F := D.host.E) (D.nd.plOm.1 w)) O), GlobalTheory.Pst.Induces Bw → ∀ (a : ℕ) (r : G D.host.E D.nd.Om →* GL (Fin a) (Qbar l)), Continuous (fun g => ((r g : GL (Fin a) (Qbar l)) : Matrix (Fin a) (Fin a) (Qbar l))) → (W.IsdRW l ι r w ↔ GlobalTheory.Pst.IsdRAt (D.loc l) Bw (GlobalTheory.Pst.resDec D.nd.plOm.1 r w)) := by
   intro D T W l _ ι w hw O _ _ _ B hj a r hr

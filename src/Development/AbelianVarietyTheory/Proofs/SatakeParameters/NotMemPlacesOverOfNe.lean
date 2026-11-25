@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.SatakeParameters.LocalInvariantsMatchSemisimple
 public import Formalism.SharpRestriction.LevelLetterCocycles.SumRepresentations
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.RootsCharpolySmulMatrix
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.WeightRegularOfExt
@@ -212,17 +213,7 @@ theorem mapRep_twGL {k l : Type} [CommRing k] [CommRing l] {n : ℕ} (f : k →+
 
 theorem isSSRep_twGL {k : Type} [Field k] {n : ℕ} (ρ : Γ →* GL (Fin n) k) (χ : Γ →* kˣ) (h : IsSSRep ρ) :
     IsSSRep (Formalism.MainNotions.SumRepresentations.At.twGL ρ χ) := by
-  have key : ∀ W : Submodule k (Fin n → k), IsInv (Formalism.MainNotions.SumRepresentations.At.twGL ρ χ) W ↔ IsInv ρ W := by
-    intro W
-    refine ⟨fun hW g v hv => ?_, fun hW g v hv => ?_⟩
-    · have h1 := hW g v hv
-      rw [coe_twGL, Matrix.smul_mulVec] at h1
-      exact (W.smul_mem_iff (χ g).ne_zero).1 h1
-    · rw [coe_twGL, Matrix.smul_mulVec]
-      exact W.smul_mem _ (hW g v hv)
-  intro W hW
-  obtain ⟨W', h1, h2⟩ := h W ((key W).1 hW)
-  exact ⟨W', (key W').2 h1, h2⟩
+  first | exact _root_.GlobalTheory.TwistLG.isSSRep_twGL | exact @_root_.GlobalTheory.TwistLG.isSSRep_twGL | apply _root_.GlobalTheory.TwistLG.isSSRep_twGL <;> assumption
 
 end Twist
 

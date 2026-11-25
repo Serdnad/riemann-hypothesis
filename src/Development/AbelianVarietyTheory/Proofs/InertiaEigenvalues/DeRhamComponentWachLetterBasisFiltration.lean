@@ -53,6 +53,7 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.DeRhamJumpDescent
 
 @[expose] public section
 
@@ -522,14 +523,7 @@ variable {l : ℕ} [Fact l.Prime] (P : LocPrime l)
 
 theorem om_mul_mem_Fil (K : FinExt l) (a : ℤ) (c : Om l) (b : P.R.BdR) (hb : b ∈ (P.PD K).Fil a) :
     algebraMap (Om l) P.R.BdR c * b ∈ (P.PD K).Fil a := by
-  obtain ⟨K', hK'⟩ : ∃ K' : FinExt l, c ∈ K'.1 := ⟨⟨IntermediateField.adjoin ℚ_[l] {c},
-    IntermediateField.adjoin.finiteDimensional (Algebra.IsIntegral.isIntegral c)⟩,
-    IntermediateField.mem_adjoin_simple_self _ c⟩
-  have h1 : b ∈ (P.PD K').Fil a := by
-    rw [← SetLike.mem_coe, P.PD_Fil K' K]; exact hb
-  have h2 := ((P.PD K').Fil a).smul_mem ⟨c, hK'⟩ h1
-  rw [← SetLike.mem_coe, P.PD_Fil K' K, Algebra.smul_def] at h2
-  exact h2
+  apply _root_.GlobalTheory.JumpDescent.mul_mem_Fil <;> assumption
 
 theorem exists_conj (K LL : FinExt l) (τ : ↥K.1 →ₐ[ℚ_[l]] ↥LL.1) (σ₀ σ : ↥LL.1 →ₐ[ℚ_[l]] Om l)
     (h₀ : ∀ k, σ₀ (τ k) = (k : Om l)) (h : ∀ k, σ (τ k) = (k : Om l)) :

@@ -1,5 +1,6 @@
 module
 
+import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.FIwasawaA
 public import Formalism.SatakeDualWeyl.StatementF
 public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Cartan
 public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Heckecomm
@@ -514,16 +515,7 @@ theorem inv_mem_doubleCoset {ϖ : L} {q : ℕ} (hU : IsUnramInv ϖ σ q) {J : GL
   exact ⟨_, k2, _, inv_mem k1, by group⟩
 
 theorem antiJ_mul_self : antiJ L n * antiJ L n = 1 := by
-  ext i j
-  rw [Matrix.mul_apply, Finset.sum_eq_single (Fin.rev i)]
-  · have := i.2
-    have := j.2
-    simp only [antiJ, Fin.val_rev, Matrix.one_apply, Fin.ext_iff]
-    split_ifs <;> first | omega | simp
-  · intro b _ hb
-    have : ¬ (i.val + b.val + 1 = n) := fun h => hb (Fin.ext (by rw [Fin.val_rev]; omega))
-    simp [antiJ, this]
-  · simp
+  apply _root_.Formalism.UG.P.fIwasawa_antiJ_mul_antiJ <;> assumption
 
 theorem heckeCommU : HeckeCommU := by
   intro L _ _ _ ϖ σ q n k _ hU f₁ hf₁ f₂ hf₂

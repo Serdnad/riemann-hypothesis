@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.WachExpansionBasisDivisibility
 public import Formalism.LocalRingCardinality.RhoDetPrimeEqMuTildeMulChiPow
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.NotFullBot
 public import Mathlib.RingTheory.PowerSeries.Inverse
@@ -344,16 +345,7 @@ theorem wachExpansion_smul_compatible (W : LocWach PD LL O v n) (T : LocLat G Qp
     (e : ↥(W.N T) → ℤ → T.V ⊗[Qp] B) (hs : ∀ x, Bd (e x))
     (he : ∀ x k, W.levN T i ζ x k = ιV PD (LL := LL) (V := T.V) (e x k))
     (a : LetA O n) (x : ↥(W.N T)) : e (a • x) = conv (W.lev i ζ a) (e x) := by
-  have hinj : Function.Injective (ιV PD (LL := LL) (V := T.V)) :=
-    Module.Flat.lTensor_preserves_injective_linearMap (M := T.V)
-      (PD.ι.toLinearMap.restrictScalars Qp) PD.ι_inj
-  funext k
-  apply hinj
-  rw [← he, W.levN_smul]
-  unfold conv
-  rw [map_finsum _ (conv_finite (W.lev i ζ a) (hs x) k)]
-  refine finsum_congr fun j => ?_
-  rw [LinearMap.map_smul, he]
+  apply _root_.GlobalTheory.NL.LevInj.lift_smul <;> assumption
 
 theorem pow_mem (W : LocWach PD LL O v n) (T : LocLat G Qp LL O) {M : Type} [AddCommGroup M]
     [Module LL M] (e : ↥(W.N T) →+ (ℤ → M)) (lv : LetA O n → PowerSeries LL)

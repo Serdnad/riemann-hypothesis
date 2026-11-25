@@ -64,6 +64,7 @@ import Mathlib.Topology.Sheaves.Init
 import Mathlib.Data.Nat.Choose.Multinomial
 import Formalism.WeaklyAdmissibleFiltrations.Statement
 import Mathlib.Tactic.ReduceModChar
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.WachNCokernelKilledByPower
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.FlatOverProductPowerSeriesRing, Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IsBaseChangeComapOfExactFlat, Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.WachKernelIntersectionFreeOfBaseChange, Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.WachFrobeniusFlatCrystalline, Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.WachLetterRingFrobeniusDecomposition, Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.WachKernelMemFrobeniusSpanAfterQPow, Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.MemWachNOfMapMemSaturated
@@ -167,44 +168,7 @@ theorem flat_letA (O : Type) [CommRing O] [IsNoetherianRing O] (n : ℕ) [NeZero
     (hsat : ∀ (a : LetA O n) (k : ℕ), algebraMap (LetA O n) E a ∈ Ideal.span {(p : E) ^ k} →
       ∃ b : LetA O n, a = (p : LetA O n) ^ k * b) :
     Module.Flat (LetA O n) E := by
-  let B := Localization.Away (letπ : LetA O n)
-  let g : B →+* E := IsLocalization.Away.lift (S := B) (letπ : LetA O n) hπ
-  letI : Algebra B E := g.toAlgebra
-  have hg : ∀ a : LetA O n, algebraMap B E (algebraMap (LetA O n) B a) = algebraMap (LetA O n) E a :=
-    fun a => IsLocalization.Away.lift_eq (S := B) (letπ : LetA O n) hπ a
-  haveI : IsScalarTower (LetA O n) B E := IsScalarTower.of_algebraMap_eq fun a => (hg a).symm
-  have hp : algebraMap B E (p : B) = (p : E) := map_natCast _ _
-  haveI : Module.Flat B E := by
-    refine flat_of_levels (p : B) (by rwa [hp]) ?_ ?_
-    · intro b k hb
-      rw [hp] at hb
-      obtain ⟨⟨a, s⟩, rfl⟩ := IsLocalization.mk'_surjective (Submonoid.powers (letπ : LetA O n)) b
-      have h1 : IsLocalization.mk' B a s * algebraMap (LetA O n) B s = algebraMap (LetA O n) B a :=
-        IsLocalization.mk'_spec B a s
-      have h2 : algebraMap (LetA O n) E a ∈ Ideal.span {(p : E) ^ k} := by
-        rw [← hg, ← h1, map_mul]
-        exact Ideal.mul_mem_right _ _ hb
-      obtain ⟨c, rfl⟩ := hsat a k h2
-      refine Ideal.mem_span_singleton.2 ⟨IsLocalization.mk' B c s, ?_⟩
-      show IsLocalization.mk' B ((p : LetA O n) ^ k * c) s = (p : B) ^ k * IsLocalization.mk' B c s
-      rw [← IsLocalization.mul_mk'_eq_mk'_of_mul, map_pow, map_natCast]
-    · intro y k
-      obtain ⟨a, m, h⟩ := hden y k
-      let s : Submonoid.powers (letπ : LetA O n) := ⟨letπ ^ m, m, rfl⟩
-      refine ⟨IsLocalization.mk' B a s, ?_⟩
-      rw [hp]
-      have h1 : IsLocalization.mk' B a s * algebraMap (LetA O n) B (letπ ^ m) = algebraMap (LetA O n) B a :=
-        IsLocalization.mk'_spec B a s
-      have h2 : algebraMap B E (IsLocalization.mk' B a s) * algebraMap (LetA O n) E (letπ ^ m) =
-          algebraMap (LetA O n) E a := by rw [← hg, ← hg, ← map_mul, h1]
-      obtain ⟨v, hv⟩ := hπ.pow m
-      rw [← map_pow] at hv
-      have h3 : algebraMap B E (IsLocalization.mk' B a s) - y =
-          -((y * algebraMap (LetA O n) E (letπ ^ m) - algebraMap (LetA O n) E a) * ↑v⁻¹) := by
-        rw [← h2, ← hv, neg_mul_eq_neg_mul, neg_sub, ← sub_mul, mul_assoc, Units.mul_inv, mul_one]
-      rw [h3]
-      exact (Ideal.neg_mem_iff _).2 (Ideal.mul_mem_right _ _ h)
-  exact Module.Flat.trans (LetA O n) B E
+  apply _root_.GlobalTheory.flat_letA_of_dense_sat <;> assumption
 
 end GlobalTheory.FlatLocCompl
 end -- clump:auto

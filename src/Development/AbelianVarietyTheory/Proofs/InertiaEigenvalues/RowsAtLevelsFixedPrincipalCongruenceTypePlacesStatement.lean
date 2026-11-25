@@ -1,5 +1,6 @@
 module
 
+import Development.DiscreteGroups.GlobalIrreducibility.DzNormV
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.StableIffCarrierEq
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IsLiftAt
 public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.SerFixOne
@@ -80,18 +81,7 @@ namespace GlobalTheory.RowLevConj
 
 theorem val_lt_one_of_cont {K : Type} [Field K] [NumberField K] (v : HeightOneSpectrum (𝓞 K)) {g : ℕ} [Fact g.Prime]
     (j : ℚ_[g] ≃+* v.adicCompletion K) (hj : Continuous j) {z : ℚ_[g]} (hz : ‖z‖ < 1) : Valued.v (j z) < 1 := by
-  have h1 : Filter.Tendsto (fun n : ℕ => (j z) ^ n) Filter.atTop (nhds 0) := by
-    have := (hj.tendsto 0).comp (tendsto_pow_atTop_nhds_zero_of_norm_lt_one hz)
-    rw [map_zero] at this
-    simpa [Function.comp_def, map_pow] using this
-  have h2 : {x : v.adicCompletion K | Valued.v x < 1} ∈ nhds (0 : v.adicCompletion K) := by
-    have : IsOpen {x : v.adicCompletion K | Valued.v x < 1} := by
-      simpa using Valued.isOpen_ball (v.adicCompletion K) 1
-    exact this.mem_nhds (by simp)
-  obtain ⟨n, hn⟩ := (h1.eventually h2).exists
-  rw [map_pow] at hn
-  by_contra hc
-  exact absurd hn (not_lt.2 (one_le_pow₀ (not_lt.1 hc)))
+  first | exact _root_.DiscreteGroups.sglob.DzType.val_lt_one_of_norm_lt_one | exact @_root_.DiscreteGroups.sglob.DzType.val_lt_one_of_norm_lt_one | apply _root_.DiscreteGroups.sglob.DzType.val_lt_one_of_norm_lt_one <;> assumption
 
 theorem isLift_of_isLiftAt {L : Type} [Field L] [NumberField L] [IsCMField L] {g : ℕ} [Fact g.Prime] {n : ℕ} (s : SplitPlace L)
     (j : ℚ_[g] ≃+* s.v.adicCompletion (maximalRealSubfield L)) (hj : Continuous j) (y : GL (Fin n) ℤ_[g]) (x : GAf L n)

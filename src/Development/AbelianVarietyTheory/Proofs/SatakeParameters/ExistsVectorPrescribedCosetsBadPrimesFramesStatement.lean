@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.SatakeParameters.AdelicDatumInvarianceSupportKernelChain
 public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.ExistsMidLevIff
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.FiniteOrderValuation.WeakApprox
 import Formalism.LocalRingCardinality.SpanPowerMembership.LocAtA
@@ -112,15 +113,7 @@ theorem exists_sameCoset {X : Fields} {Pr : Primes X} (sel : HeightOneSpectrum (
     (mu : Tup X.F X.E X.K S) (cst : LocCst X (rowSG Pr sel mu)) {n : ℕ} (f : rowSG Pr sel mu → (Sp X.E n ≃ₗ[X.E] Sp X.E n))
     (y0 : rowSG Pr sel mu → Sp X.E n) :
     ∃ y : Sp X.E n, ∀ P, SameCoset sel mu cst P ((f P).symm y) (y0 P) := by
-  classical
-  obtain ⟨d, hd⟩ := exists_approx (rowSG Pr sel mu) (fun P => ((f P).symm : Sp X.E n →ₗ[X.E] Sp X.E n))
-    (fun P => (((qOf P.1 : ℕ) : X.E) ^ (if P.1 ∈ Pr.vGs then 0 else cst.M))⁻¹) (fun P => f P (y0 P))
-  refine ⟨d, fun P l => intAt_of_valuation_le _ _ ?_⟩
-  have h := hd P l
-  have e : (f P).symm d - y0 P = (f P).symm (d - f P (y0 P)) := by
-    rw [map_sub, LinearEquiv.symm_apply_apply]
-  rw [e]
-  exact h
+  apply _root_.GlobalTheory.FrameCongApprox.exists_sameCoset <;> assumption
 
 end GlobalTheory.CosetApprox
 

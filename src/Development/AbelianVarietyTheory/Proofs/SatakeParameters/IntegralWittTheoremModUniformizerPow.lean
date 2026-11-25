@@ -1316,53 +1316,15 @@ variable {L : Type} [Field L] [Valued L (WithZero (Multiplicative ℤ))]
 
 theorem isUnit_valuationSubring_iff (x : (Valued.v : Valuation L (WithZero (Multiplicative ℤ))).valuationSubring) :
     IsUnit x ↔ Valued.v (x : L) = 1 := by
-  constructor
-  · rintro ⟨u, rfl⟩
-    have h1 := congrArg (fun y : (Valued.v : Valuation L (WithZero (Multiplicative ℤ))).valuationSubring =>
-      Valued.v (y : L)) u.mul_inv
-    simp only [MulMemClass.coe_mul, map_mul, OneMemClass.coe_one, map_one] at h1
-    have hu : Valued.v ((u : _) : L) ≤ 1 := ((u : (Valued.v : Valuation L (WithZero (Multiplicative ℤ))).valuationSubring)).2
-    have hw : Valued.v ((u⁻¹ : _) : L) ≤ 1 := ((u⁻¹ : _) : (Valued.v : Valuation L (WithZero (Multiplicative ℤ))).valuationSubring).2
-    refine le_antisymm hu ?_
-    calc (1 : WithZero (Multiplicative ℤ)) = _ := h1.symm
-      _ ≤ Valued.v ((u : _) : L) * 1 := by gcongr
-      _ = _ := mul_one _
-  · intro h
-    have hx0 : (x : L) ≠ 0 := by
-      intro h0; rw [h0, map_zero] at h; exact zero_ne_one h
-    let y : (Valued.v : Valuation L (WithZero (Multiplicative ℤ))).valuationSubring :=
-      ⟨(x : L)⁻¹, by
-        show Valued.v (x : L)⁻¹ ≤ 1
-        rw [map_inv₀, h, inv_one]⟩
-    have hxy : x * y = 1 := Subtype.ext (mul_inv_cancel₀ hx0)
-    exact ⟨⟨x, y, hxy, by rw [mul_comm]; exact hxy⟩, rfl⟩
+  intros
+  apply _root_.GlobalTheory.Hk3.ResWitt.isUnit_iff <;> assumption
 
 theorem residue_eq_zero_iff_dvdPow {ϖ : L}
     (hϖ : Valued.v ϖ = ((Multiplicative.ofAdd (-1 : ℤ) : Multiplicative ℤ) : WithZero (Multiplicative ℤ)))
     (x : (Valued.v : Valuation L (WithZero (Multiplicative ℤ))).valuationSubring) :
     IsLocalRing.residue _ x = 0 ↔ DvdPow ϖ 1 (x : L) := by
-  rw [IsLocalRing.residue_eq_zero_iff, IsLocalRing.mem_maximalIdeal, mem_nonunits_iff,
-    isUnit_valuationSubring_iff]
-  have hx : Valued.v (x : L) ≤ 1 := x.2
-  have hϖ0 : ϖ ≠ 0 := by
-    intro h0; rw [h0, map_zero] at hϖ; exact WithZero.zero_ne_coe hϖ
-  constructor
-  · intro hne
-    have hlt : Valued.v (x : L) < 1 := lt_of_le_of_ne hx hne
-    have hle := le_exp_neg_one_of_lt_one' hlt
-    refine ⟨(x : L) / ϖ, ?_, by field_simp⟩
-    show Valued.v ((x : L) / ϖ) ≤ 1
-    rw [map_div₀, hϖ]
-    have hpos : (0 : WithZero (Multiplicative ℤ)) < ((Multiplicative.ofAdd (-1 : ℤ) : Multiplicative ℤ) : WithZero (Multiplicative ℤ)) :=
-      WithZero.zero_lt_coe _
-    exact (div_le_one₀ hpos).2 hle
-  · rintro ⟨b, hb, hxb⟩ h1
-    have hb' : Valued.v b ≤ 1 := hb
-    rw [hxb, pow_one, map_mul, hϖ] at h1
-    have : ((Multiplicative.ofAdd (-1 : ℤ) : Multiplicative ℤ) : WithZero (Multiplicative ℤ)) * Valued.v b ≤
-        ((Multiplicative.ofAdd (-1 : ℤ) : Multiplicative ℤ) : WithZero (Multiplicative ℤ)) * 1 := by gcongr
-    rw [h1, mul_one] at this
-    exact absurd this (by decide)
+  intros
+  apply _root_.GlobalTheory.Hk3.ResWitt.residue_eq_zero_iff <;> assumption
 
 theorem exists_dual_of_indepMod : ∀ (L : Type) [Field L] [Valued L (WithZero (Multiplicative ℤ))] (ϖ : L),
     Valued.v ϖ = ((Multiplicative.ofAdd (-1 : ℤ) : Multiplicative ℤ) : WithZero (Multiplicative ℤ)) →

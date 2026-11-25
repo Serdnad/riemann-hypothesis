@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.CrystallineSumsTwistsCharactersExpectedJumps
 public import Formalism.SharpRestriction.LevelLetterCocycles.DataNLoc
 public import Formalism.SharpRestriction.LevelLetterCocycles.LocCoh
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.CyclotomicCharacterPadicBasicProperties
@@ -67,17 +68,7 @@ namespace GlobalTheory.HTW.Rec
 
 theorem continuous_cycLL_period : ∀ {l : ℕ} [Fact l.Prime] (P : LocPrime l) (K LL : FinExt l),
     Continuous (fun s => ((cycLL (P.PD K) ↥LL.1 s : (↥LL.1)ˣ) : ↥LL.1)) := by
-  intro l _ P K LL
-  have h := (GlobalTheory.Cyc.cyc_basic l P.χQ P.χQ_cyc).2.1
-  have e : (fun g => ((cycLL (P.PD K) ↥LL.1 g : (↥LL.1)ˣ) : ↥LL.1)) =
-      fun g : ↥(GK K) => algebraMap ℚ_[l] ↥LL.1 (P.χQ (g : GQ l) : ℚ_[l]) := by
-    funext g
-    change algebraMap ℚ_[l] ↥LL.1 (((P.PD K).χ g : ℚ_[l]ˣ) : ℚ_[l]) = _
-    rw [P.PD_χ]
-  rw [e]
-  refine Continuous.subtype_mk (f := fun g : ↥(GK K) =>
-    algebraMap ℚ_[l] (Om l) (P.χQ (g : GQ l) : ℚ_[l])) ?_ _
-  exact (continuous_algebraMap ℚ_[l] (Om l)).comp (h.comp continuous_subtype_val)
+  first | exact _root_.GlobalTheory.Survey.SlowDecayFunctions.continuous_cyc | exact @_root_.GlobalTheory.Survey.SlowDecayFunctions.continuous_cyc | apply _root_.GlobalTheory.Survey.SlowDecayFunctions.continuous_cyc <;> assumption
 
 end GlobalTheory.HTW.Rec
 end -- clump:auto

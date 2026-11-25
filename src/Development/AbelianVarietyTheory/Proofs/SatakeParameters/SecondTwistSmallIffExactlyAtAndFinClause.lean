@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IotaTmulOneMem
 public import Formalism.WeaklyAdmissibleFiltrations.Statement
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -120,16 +121,7 @@ theorem filV_anti : Antitone fun a => FilV PD (LL := LL) (V := V) a := by
   | add x y hx hy => rw [map_add (f := _)]; exact Submodule.add_mem _ hx hy
 
 theorem filV_exh (x : TensorProduct Qp V BdR) : ∃ a, x ∈ FilV PD (LL := LL) (V := V) a := by
-  induction x using TensorProduct.induction_on with
-  | zero => exact ⟨0, Submodule.zero_mem _⟩
-  | tmul v b =>
-    obtain ⟨a, ha⟩ := PD.Fil_exh b
-    exact ⟨a, v ⊗ₜ ⟨b, ha⟩, rfl⟩
-  | add x y hx hy =>
-    obtain ⟨a, ha⟩ := hx
-    obtain ⟨b, hb⟩ := hy
-    exact ⟨min a b, Submodule.add_mem _ (filV_anti PD (min_le_left a b) ha)
-      (filV_anti PD (min_le_right a b) hb)⟩
+  apply _root_.GlobalTheory.HfZero.exists_mem_filV <;> assumption
 
 theorem finite_ddRE_of_multV (ρ : Representation LL G V) (τ : K →ₐ[Qp] LL) (J : Multiset ℤ) (hJ : J ≠ 0)
     (h : ∀ a, multV PD ρ τ a = (J.count a : ℤ)) : FiniteDimensional LL (DdRE PD ρ τ) :=

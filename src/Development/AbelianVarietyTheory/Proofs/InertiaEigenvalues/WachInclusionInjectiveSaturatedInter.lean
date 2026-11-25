@@ -6,6 +6,7 @@ public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.TiltWit
 public import Mathlib.RingTheory.PowerSeries.Inverse
 import Mathlib.Tactic.Linter.HaveILetI
 public import Mathlib.RingTheory.Flat.FaithfullyFlat.Basic
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.FrobeniusConstantsPiAdicFiltrationModEll
 
 @[expose] public section
 
@@ -304,18 +305,7 @@ open Formalism.BasicNotions Formalism.BasicNotions.Loc Formalism.WeaklyAdmissibl
 
 theorem not_isUnit_εroot_sub_one {l : ℕ} [Fact l.Prime] {P : LocPrime l} (AI : LocAinf l P) (s : ℕ) :
     ¬ IsUnit (AI.εroot s - 1) := by
-  induction s with
-  | zero =>
-    intro h
-    have h1 := h.map (PreTilt.coeff (O := OC l) (p := l) 0)
-    rw [map_sub, map_one, LocAinf.εroot, Function.iterate_zero_apply, AI.ε_coeff, AI.ζ_zero, map_one,
-      sub_self] at h1
-    exact not_isUnit_zero h1
-  | succ s ih =>
-    intro h
-    apply ih
-    have h1 := h.pow l
-    rwa [sub_pow_char, one_pow, LocAinf.εroot, Function.iterate_succ_apply', frobeniusEquiv_symm_pow_p] at h1
+  apply _root_.GlobalTheory.DecomplFrob.not_isUnit_root_sub_one <;> assumption
 
 theorem letφ_letE {O : Type} [CommRing O] {n : ℕ} (φ₀ : O⟦X⟧ →ₐ[O] O⟦X⟧) (i : ZMod n) :
     letφ φ₀ (Pi.single i 1 : LetA O n) = Pi.single (i + 1) 1 := by

@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.ChartLevelsKeepStandardLattice
 public import Formalism.LocalToGlobal.Divisibility.Tuples
 public import Mathlib.NumberTheory.NumberField.ClassNumber
 public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.ExistsMidLevIff
@@ -152,15 +153,7 @@ theorem conjId_ratId (σ : E →ₐ[F] E) (a : Eˣ) :
 
 theorem sigR_mem_RInt (σ : E →ₐ[F] E) {y : AfE F E} (hy : y ∈ RInt F E) :
     sigR σ (FiniteAdeleRing (𝓞 F) F) y ∈ RInt F E := by
-  have hle : RInt F E ≤ (RInt F E).comap (sigR σ (FiniteAdeleRing (𝓞 F) F)) := by
-    refine (Subring.closure_le).2 ?_
-    rintro g (⟨⟨e, ⟨b, rfl⟩⟩, rfl⟩ | ⟨c, rfl⟩)
-    · refine Subring.subset_closure (Or.inl ⟨⟨σ (algebraMap (𝓞 E) E b), ⟨RingOfIntegers.mapRingHom (σ : E →+* E) b, ?_⟩⟩, ?_⟩)
-      · rfl
-      · simp [sigR]
-    · refine Subring.subset_closure (Or.inr ⟨c, ?_⟩)
-      simp [sigR]
-  exact hle hy
+  apply _root_.GlobalTheory.KLat.sigR_mem_IA <;> assumption
 
 theorem conjId_mem_intU (σ : E →ₐ[F] E) {k : (AfE F E)ˣ} (hk : k ∈ intU F E) : conjId σ k ∈ intU F E := by
   rw [intU, Submonoid.mem_units_iff] at hk ⊢

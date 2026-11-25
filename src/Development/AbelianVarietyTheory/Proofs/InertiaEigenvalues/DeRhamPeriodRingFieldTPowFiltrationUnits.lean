@@ -48,6 +48,7 @@ import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.IsCrisP
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.AcrisTorsionFreeComplete
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.CyclotomicAdmissibleSemistable
 
 @[expose] public section
 
@@ -87,14 +88,7 @@ theorem fil_act (a : ℤ) (g : GQ l) (x : P.R.BdR) (hx : x ∈ Fil P a) : P.actQ
 
 theorem actQ_tpow (g : GQ l) (a : ℤ) : P.actQ g (((isUnit_tB P).unit ^ a : P.R.Bˣ) : P.R.B) =
     algebraMap ℚ_[l] P.R.B ((P.χQ g ^ a : ℚ_[l]ˣ) : ℚ_[l]) * (((isUnit_tB P).unit ^ a : P.R.Bˣ) : P.R.B) := by
-  have h : Units.map (P.actQ g : P.R.B →* P.R.B) (isUnit_tB P).unit =
-      Units.map (algebraMap ℚ_[l] P.R.B : ℚ_[l] →* P.R.B) (P.χQ g) * (isUnit_tB P).unit := by
-    apply Units.ext
-    simpa [Algebra.smul_def] using localPrime_galoisAction_periodT P g
-  have h2 := congrArg (fun u : P.R.Bˣ => ((u ^ a : P.R.Bˣ) : P.R.B)) h
-  simp only [mul_zpow, ← map_zpow, Units.val_mul, Units.coe_map] at h2
-  rw [← map_zpow P.χQ]
-  exact h2
+  apply _root_.GlobalTheory.PMon.Inhab.act_zpow <;> assumption
 
 theorem act_tz (g : GQ l) (a : ℤ) : P.actQdR g (tz P a) =
     algebraMap ℚ_[l] P.R.BdR ((P.χQ g ^ a : ℚ_[l]ˣ) : ℚ_[l]) * tz P a := by

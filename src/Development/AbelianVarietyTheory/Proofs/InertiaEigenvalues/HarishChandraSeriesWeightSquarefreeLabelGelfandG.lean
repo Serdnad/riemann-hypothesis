@@ -10,6 +10,7 @@ public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Whittak
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.WhittakerDimensionHarishChandraInductionMul
 import Mathlib.Tactic.Linter.Style
 import Std.Tactic.BVDecide.Normalize.Prop
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.WhittakerJacquetIdempotentsPropertiesPrimeField
 
 @[expose] public section
 
@@ -25,14 +26,7 @@ variable {g : ℕ} [Fact g.Prime]
 alias uni_one := _root_.GlobalTheory.GLm.DerClass.isUniUp_one
 
 theorem entN_one {N : ℕ} (i j : ℕ) (h : i < j) : entN (1 : Mt g N) i j = 0 := by
-  unfold entN
-  split_ifs with hij
-  · apply Matrix.one_apply_ne
-    intro he
-    have := congrArg Fin.val he
-    simp only at this
-    omega
-  · rfl
+  apply _root_.CompanionTheory.Member.UnipotentColumnData.entN_one <;> assumption
 
 theorem eU_coeff_one (N : ℕ) (ψ : AddChar (ZMod g) ℂ) :
     (eU g N ψ).coeff 1 = ((g : ℂ) ^ (N * (N - 1) / 2))⁻¹ := by

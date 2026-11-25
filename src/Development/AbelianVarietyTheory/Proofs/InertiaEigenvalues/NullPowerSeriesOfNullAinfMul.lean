@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.AinfEnvelopeModPrimeProperties
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.IsStratHom
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.AinfUnitBoundedTeichmullerFlatDenominators
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.BreuilKisinMemIdealPowOfXPowMulMem
@@ -53,17 +54,8 @@ namespace GlobalTheory.NullOverS
 
 theorem topBasis_c_mem_map {S A ι : Type} [CommRing S] [CommRing A] {s : S →+* A} {I : Ideal S}
     (TB : TopBasis s I ι) (i : ι) (n : ℕ) {x : A} (hx : x ∈ (I ^ n).map s) : TB.c i x ∈ I ^ n := by
-  have key : ∀ r : A, TB.c i (r * x) ∈ I ^ n := by
-    refine Submodule.span_induction (p := fun x _ => ∀ r : A, TB.c i (r * x) ∈ I ^ n) ?_ ?_ ?_ ?_ hx
-    · rintro _ ⟨j, hj, rfl⟩ r
-      rw [mul_comm, TB.c_mul]
-      exact Ideal.mul_mem_right _ _ hj
-    · intro r; simp
-    · intro y z _ _ hy hz r
-      rw [mul_add, map_add (f := _)]; exact Ideal.add_mem _ (hy r) (hz r)
-    · intro a y _ hy r
-      rw [smul_eq_mul, ← mul_assoc]; exact hy _
-  simpa using key 1
+  intros
+  apply _root_.GlobalTheory.BSP.TopBasis.c_mem_of_mem <;> assumption
 
 theorem topBasis_c_i₀ {S A ι : Type} [CommRing S] [CommRing A] {s : S →+* A} {I : Ideal S}
     (TB : TopBasis s I ι) (a : S) : TB.c TB.i₀ (s a) = a := by
