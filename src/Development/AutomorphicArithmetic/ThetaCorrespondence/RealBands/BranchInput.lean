@@ -1133,13 +1133,7 @@ theorem exists_umat {x : Mat m} (hx : x ∈ UJset ε) : ∃ u : Formalism.REAL.U
   ⟨⟨(isUnit_of_mem hx).unit, hx⟩, rfl⟩
 
 theorem mul_mem {x y : Mat m} (hx : x ∈ UJset ε) (hy : y ∈ UJset ε) : x * y ∈ UJset ε := by
-  have hx' : xᴴ * Formalism.REAL.Jm ε * x = Formalism.REAL.Jm ε := hx
-  have hy' : yᴴ * Formalism.REAL.Jm ε * y = Formalism.REAL.Jm ε := hy
-  show (x * y)ᴴ * Formalism.REAL.Jm ε * (x * y) = Formalism.REAL.Jm ε
-  rw [Matrix.conjTranspose_mul]
-  calc yᴴ * xᴴ * Formalism.REAL.Jm ε * (x * y) = yᴴ * (xᴴ * Formalism.REAL.Jm ε * x) * y := by
-        simp only [Matrix.mul_assoc]
-    _ = _ := by rw [hx', hy']
+  apply _root_.GlobalTheory.SepReal.DerInt.mem_mul <;> assumption
 
 theorem inv_facts {x : Mat m} (hx : x ∈ UJset ε) :
     x⁻¹ ∈ UJset ε ∧ x * x⁻¹ = 1 ∧ x⁻¹ * x = 1 ∧ x⁻¹⁻¹ = x := by

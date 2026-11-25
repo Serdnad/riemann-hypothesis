@@ -1,5 +1,9 @@
 module
 
+
+import Development.WeilBound.CoreStatements.ThetaDilations.IsOpenCoset
+import Development.WeilBound.ThetaLifts.LeviDeterminants.NormIteratedFDerivIdLeOneAdd
+import Development.WeilBound.ThetaLifts.LatticeBasics.RealInvL
 public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.WeilTensorModels
 public import CompanionTheory.SpectralGeometry.CountingDefinitions.AdelicEulerProducts.CountData
 public import CompanionTheory.SpectralGeometry.LocalGlobalProofs.AdelicAnalysis.FiniteAdeleTopology
@@ -71,7 +75,6 @@ import Mathlib.Algebra.Order.Archimedean.Real.Hom
 import Mathlib.Tactic.ENatToNat
 import Mathlib.Topology.LocallyConstant.Algebra
 import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.PureEqPureA
-
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AutomorphicSpectrum.Proofs.BlockDecomposition.SchwartzHeisLine, Development.AutomorphicSpectrum.Proofs.AdelicProofs.SchurTranslationsCharacters, Development.WeilBound.ThetaLifts.SchwartzMoments.PolynomialFunctionalEvalContinuous
 
@@ -130,25 +133,7 @@ theorem phase_line (ψ : AddChar (AF F) ℂ) (hψ : IsStd ψ) (a b x : κ → AF
     ψ (x ⬝ᵥ (realAd F t • b) + ⅟(2 : AF F) * ((realAd F t • a) ⬝ᵥ (realAd F t • b))) =
       Complex.exp (-(2 * Real.pi * Complex.I) * ((t * linForm (fun i => evI F (b i)) (fun i => evI F (x i)) +
         t ^ 2 * Algebra.trace ℝ (mixedEmbedding.mixedSpace F) (evI F ⅟(2 : AF F) * ∑ i, evI F (a i) * evI F (b i)) : ℝ) : ℂ)) := by
-  have hz : At (evI F) (x ⬝ᵥ (realAd F t • b) + ⅟(2 : AF F) * ((realAd F t • a) ⬝ᵥ (realAd F t • b))) := by
-    intro s hs
-    have hsb : ∀ i, s * b i = 0 := fun i => by simpa using congrFun (hb s hs) i
-    have e1 : ∀ i, s * (x i * (realAd F t * b i)) = x i * realAd F t * (s * b i) := fun i => by ring
-    have e2 : ∀ i, s * (⅟(2 : AF F) * (realAd F t * a i * (realAd F t * b i))) =
-        ⅟(2 : AF F) * (realAd F t * a i * realAd F t) * (s * b i) := fun i => by ring
-    simp only [dotProduct, Pi.smul_apply, smul_eq_mul, mul_add, Finset.mul_sum, e1, e2, hsb, mul_zero, Finset.sum_const_zero,
-      add_zero]
-  rw [hψ.2.2 _ hz]
-  congr 3
-  have ev : evI F (x ⬝ᵥ (realAd F t • b) + ⅟(2 : AF F) * ((realAd F t • a) ⬝ᵥ (realAd F t • b))) =
-      t • (∑ i, evI F (x i) * evI F (b i)) + (t ^ 2) • (evI F ⅟(2 : AF F) * ∑ i, evI F (a i) * evI F (b i)) := by
-    simp only [dotProduct, Pi.smul_apply, smul_eq_mul, evI_add, evI_mul, evI_sum, evI_realAd, Algebra.smul_def, map_pow,
-      Finset.mul_sum]
-    congr 1
-    · exact Finset.sum_congr rfl fun i _ => by ring
-    · exact Finset.sum_congr rfl fun i _ => by ring
-  rw [ev, map_add (f := _), map_smul, map_smul, linForm_apply]
-  simp [smul_eq_mul]
+  apply _root_.PositivityTheory.ThKF0.Lib.phase_line <;> assumption
 
 end GlobalTheory.CompanionTheory.AgreeO.Sys.HeisD
 
@@ -321,39 +306,7 @@ theorem schur_translations_characters (V : Type) [AddCommGroup V] [TopologicalSp
     (hchar : ∀ y φ, SB φ → T (fun u => χ u y * φ u) = fun u => χ u y * T φ u)
     (htr : ∀ x φ, SB φ → T (fun u => φ (u + x)) = fun u => T φ (u + x)) :
     ∃ c : ℂ, ∀ φ, SB φ → T φ = c • φ := by
-  have hloc := fun {φ : V → ℂ} (hφ : SB φ) {x : V} (hx : φ x = 0) =>
-    apply_eq_zero h hadd hsmul hchar hφ hx
-  obtain ⟨hTG, hT2, -, -, -, -, -, hcover, -⟩ := h
-  haveI := hTG
-  haveI := hT2
-  obtain ⟨L, hLc, hLo, -⟩ := hcover 0
-  classical
-  set φ₀ : V → ℂ := (L : Set V).indicator (fun _ => 1) with hφ₀
-  have hφ₀lc : IsLocallyConstant φ₀ := by
-    rw [IsLocallyConstant.iff_exists_open]
-    intro u
-    by_cases hu : u ∈ (L : Set V)
-    · exact ⟨L, hLo, hu, fun v hv => by
-        rw [hφ₀, Set.indicator_of_mem hv, Set.indicator_of_mem hu]⟩
-    · exact ⟨(L : Set V)ᶜ, hLc.isClosed.isOpen_compl, hu, fun v hv => by
-        rw [hφ₀, Set.indicator_of_notMem hv, Set.indicator_of_notMem hu]⟩
-  have hφ₀SB : SB φ₀ :=
-    ⟨hφ₀lc, HasCompactSupport.intro hLc fun u hu => Set.indicator_of_notMem hu _⟩
-  have hφ₀0 : φ₀ 0 = 1 := Set.indicator_of_mem L.zero_mem _
-  refine ⟨T φ₀ 0, fun φ hφ => ?_⟩
-  funext x
-  set φ₁ : V → ℂ := fun u => φ₀ (u + -x) with hφ₁
-  have hφ₁SB : SB φ₁ :=
-    ⟨hφ₀SB.1.comp_continuous (continuous_add_const _),
-      hφ₀SB.2.comp_homeomorph (Homeomorph.addRight (-x))⟩
-  have hψ := sb_add hφ (sb_smul (-φ x) hφ₁SB)
-  have hz : (φ + (-φ x) • φ₁) x = 0 := by
-    simp [hφ₁, hφ₀0]
-  have h1 := hloc hψ hz
-  rw [hadd _ _ hφ (sb_smul _ hφ₁SB), hsmul _ _ hφ₁SB, htr (-x) φ₀ hφ₀SB] at h1
-  simp only [Pi.add_apply, Pi.smul_apply, smul_eq_mul, add_neg_cancel] at h1
-  simp only [Pi.smul_apply, smul_eq_mul]
-  linear_combination h1
+  apply _root_.PositivityTheory.PlacePermOperatorBicommutantSpan.schur <;> assumption
 
 end GlobalTheory.CompanionTheory.SW.SchurChar
 end -- clump:auto
@@ -410,26 +363,8 @@ theorem dop_subsingleton [Subsingleton V] (a : V) (L : V →L[ℝ] ℝ) (f : �
   simp [dop_apply, ha, hx]
 
 theorem hasDerivAt_hl (a : V) (L : V →L[ℝ] ℝ) (f : 𝓢(V, ℂ)) (x : V) :
-    HasDerivAt (fun t : ℝ => hl a L t f x) (dop a L f x) 0 := by
-  have h1 : HasDerivAt (fun t : ℝ => t * L x + t ^ 2 * (L a / 2)) (L x) 0 := by
-    have a1 : HasDerivAt (fun t : ℝ => t * L x) (L x) 0 := by simpa using (hasDerivAt_id (0 : ℝ)).mul_const (L x)
-    have a2 : HasDerivAt (fun t : ℝ => t ^ 2 * (L a / 2)) 0 0 := by
-      simpa using ((hasDerivAt_id (0 : ℝ)).pow 2).mul_const (L a / 2)
-    simpa using a1.fun_add a2
-  have h2 : HasDerivAt (fun t : ℝ => Complex.exp (-(2 * Real.pi * Complex.I) * ((t * L x + t ^ 2 * (L a / 2) : ℝ) : ℂ)))
-      (-(2 * Real.pi * Complex.I) * (L x : ℂ)) 0 := by
-    have := ((h1.ofReal_comp).const_mul (-(2 * Real.pi * Complex.I))).cexp
-    simpa using this
-  have h3 : HasDerivAt (fun t : ℝ => x + t • a) a 0 := by
-    simpa using ((hasDerivAt_id (0 : ℝ)).smul_const a).const_add x
-  have h4 : HasDerivAt (fun t : ℝ => f (x + t • a)) (fderiv ℝ f x a) 0 := by
-    have hf : HasFDerivAt f (fderiv ℝ f x) (x + (0 : ℝ) • a) := by
-      simpa using f.hasFDerivAt x
-    exact hf.comp_hasDerivAt (0 : ℝ) h3
-  refine (h2.fun_mul h4).congr_deriv ?_
-  rw [dop_apply]
-  simp
-  ring
+    HasDerivAt (fun t : ℝ => hl a L t f x) (dop a L f x) 0 :=
+  _root_.GlobalTheory.ThK.Dbl.Dense.hasDerivAt_hl a L f x
 
 end Line
 
@@ -563,25 +498,8 @@ open scoped Classical in
 theorem heisLine_tens (M : Model σ X W) {ψ : AddChar (AF F) ℂ} (hψ : IsStd ψ)
     {u : Matrix (Fin n) (Fin d) (AE F E)} (hu : At (evI F) u) (f : SInf F (Fin n × Fin d))
     {r : (Fin n × Fin d → AF F) → ℂ} (hr : ∀ x z, At (evI F) z → r (x + z) = r x) (t : ℝ) :
-    M.heisLine ψ u t (tens (evI F) f r) = tens (evI F) (hl (aOf M u) (lOf M u) t f) r := by
-  have hab : ∀ s, evI F s = 0 → s • M.co.e u = 0 := fun s hs => by
-    rw [← map_smul, hu s hs, map_zero]
-  have ha : At (evI F) (M.co.e u).1 := fun s hs => congrArg Prod.fst (hab s hs)
-  have hb : At (evI F) (M.co.e u).2 := fun s hs => congrArg Prod.snd (hab s hs)
-  have hat : At (evI F) (realAd F t • (M.co.e u).1) := fun s hs => by
-    rw [smul_comm, ha s hs, smul_zero]
-  funext x
-  show schr ψ (M.co.e (realAd F t • u)) _ x = _
-  rw [map_smul]
-  show schr ψ (realAd F t • (M.co.e u).1, realAd F t • (M.co.e u).2) _ x = _
-  have e : (fun i => evI F ((x + realAd F t • (M.co.e u).1) i)) =
-      (fun i => evI F (x i)) + t • fun i => evI F ((M.co.e u).1 i) := by
-    funext i
-    simp [evI_add, evI_mul, evI_realAd, Algebra.smul_def]
-  simp only [schr, tens]
-  rw [phase_line ψ hψ _ _ x hb t, e, hr x _ hat, evI_half_trace]
-  simp only [hl, aOf, lOf, linForm_apply, mul_assoc]
-  rfl
+    M.heisLine ψ u t (tens (evI F) f r) = tens (evI F) (hl (aOf M u) (lOf M u) t f) r :=
+  _root_.GlobalTheory.ThK.Dbl.Dense.heisLine_tens M hψ hu f hr t
 
 end Coord2
 
@@ -706,60 +624,8 @@ theorem hl_schwartz (a : V) (L : V →L[ℝ] ℝ) (f : 𝓢(V, ℂ)) (t : ℝ) :
 
 theorem hl_line_deriv (a : V) (L : V →L[ℝ] ℝ) (f : 𝓢(V, ℂ)) :
     ∃ G : ℝ → 𝓢(V, ℂ), (∀ t x, G t x = hl a L t f x) ∧
-      (a ≠ 0 → ∀ T : 𝓢(V, ℂ) →L[ℂ] ℂ, HasDerivAt (fun t => T (G t)) (T (dop a L f)) 0) := by
-  choose G hG using hl_schwartz a L f
-  refine ⟨G, hG, fun ha T => ?_⟩
-  have hna : ‖a‖ ≠ 0 := norm_ne_zero_iff.2 ha
-  obtain ⟨g₀, -, hg₀⟩ := exists_dual_vector ℝ a hna
-  set lam : V →L[ℝ] ℝ := ‖a‖⁻¹ • g₀ with hlam
-  have hla : lam a = 1 := by
-    simp only [hlam, ContinuousLinearMap.smul_apply, hg₀, smul_eq_mul]
-    simpa using inv_mul_cancel₀ hna
-  set q : V → ℝ := fun x => lam x * L x + (-(L a / 2)) * (lam x * lam x) with hq
-  have hqt : q.HasTemperateGrowth :=
-    (lam.hasTemperateGrowth.mul L.hasTemperateGrowth).add
-      ((Function.HasTemperateGrowth.const _).mul (lam.hasTemperateGrowth.mul lam.hasTemperateGrowth))
-  have hdiff : ∀ (x : V) (t : ℝ), q (x + t • a) - q x = t * L x + t ^ 2 * (L a / 2) := fun x t => by
-    simp only [hq, map_add (f := _), map_smul, hla, smul_eq_mul]
-    ring
-  have t1 := chirp_tg 1 hqt
-  have t2 := chirp_tg (-1) hqt
-  set P := SchwartzMap.smulLeftCLM ℂ (chirp 1 q) with hP
-  set Pi := SchwartzMap.smulLeftCLM ℂ (chirp (-1) q) with hPi
-  set g : 𝓢(V, ℂ) := P f with hg
-  have hGe : ∀ t, G t = Pi (SchwartzMap.compSubConstCLM ℂ (-(t • a)) g) := fun t => by
-    ext x
-    rw [hG, hPi, SchwartzMap.smulLeftCLM_apply_apply t2, SchwartzMap.compSubConstCLM_apply, sub_neg_eq_add, hg, hP,
-      SchwartzMap.smulLeftCLM_apply_apply t1, hl, ← hdiff]
-    simp only [smul_eq_mul]
-    rw [← mul_assoc, mul_comm (chirp (-1) q x), chirp_mul]
-  have hf : Pi g = f := by
-    ext x
-    rw [hPi, SchwartzMap.smulLeftCLM_apply_apply t2, hg, hP, SchwartzMap.smulLeftCLM_apply_apply t1]
-    simp only [smul_eq_mul]
-    rw [← mul_assoc, chirp_one, one_mul]
-  have hG0 : G 0 = f := by
-    ext x
-    rw [hG]
-    simp [hl]
-  have hder : ∀ T₁ : 𝓢(V, ℂ) →L[ℂ] ℂ, HasDerivAt (fun t => T₁ (G t)) (T₁ (Pi (∂_{a} g))) 0 := fun T₁ => by
-    rw [hasDerivAt_iff_tendsto_slope_zero]
-    have h := PositivityTheory.ThKOwn.schwartz_dq_tendsto g a
-    have h2 := (((T₁.comp Pi).restrictScalars ℝ).continuous.tendsto _).comp h
-    refine h2.congr fun t => ?_
-    simp only [Function.comp, map_smul, map_sub, ContinuousLinearMap.coe_restrictScalars', ContinuousLinearMap.comp_apply,
-      zero_add, hG0, hGe, hf]
-  have hid : Pi (∂_{a} g) = dop a L f := by
-    ext x
-    have h1 := hder (BoundedContinuousFunction.evalCLM ℂ x ∘L SchwartzMap.toBoundedContinuousFunctionCLM ℂ V ℂ)
-    have e : (fun t => (BoundedContinuousFunction.evalCLM ℂ x ∘L SchwartzMap.toBoundedContinuousFunctionCLM ℂ V ℂ) (G t)) =
-        fun t => hl a L t f x := by
-      funext t
-      exact hG t x
-    rw [e] at h1
-    exact h1.unique (hasDerivAt_hl a L f x)
-  rw [← hid]
-  exact hder T
+      (a ≠ 0 → ∀ T : 𝓢(V, ℂ) →L[ℂ] ℂ, HasDerivAt (fun t => T (G t)) (T (dop a L f)) 0) :=
+  _root_.GlobalTheory.ThK.Dbl.Dense.hl_line_deriv a L f
 end LineProof
 
 section Inter

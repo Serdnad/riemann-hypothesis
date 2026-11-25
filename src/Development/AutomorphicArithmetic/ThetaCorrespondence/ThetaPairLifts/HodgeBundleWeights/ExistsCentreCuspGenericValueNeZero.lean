@@ -1,5 +1,7 @@
 module
 
+import Development.AutomorphicArithmetic.ThetaCorrespondence.ThetaPairLifts.HodgeBundleWeights.ExistsFlatUnitSection
+import Formalism.LocalToGlobal.ProjectiveLattices.TieGenDense
 public import Development.AbelianVarietyTheory.Definitions.Divisors.HtValOnSubset
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsCuspOnRestrict
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsNumberFieldPoint
@@ -912,17 +914,8 @@ open Filter Topology
 variable {E : Type} [Field E] [NumberField E] [IsCMField E] {r : ℕ}
 
 theorem analyticOnNhd_frames (X : Data E r) {F : Frame X.Ψ r → ℂ} (hF : DifferentiableOn ℂ F X.dom) :
-    AnalyticOnNhd ℂ F X.dom := by
-  let e : Frame X.Ψ r ≃L[ℂ] (Fin (Module.finrank ℂ (Frame X.Ψ r)) → ℂ) :=
-    (Module.finBasis ℂ (Frame X.Ψ r)).equivFun.toContinuousLinearEquiv
-  have hU : IsOpen (e.symm ⁻¹' X.dom) := (FourierCoefficientDomain.isOpen_dom X).preimage e.symm.continuous
-  have hd : DifferentiableOn ℂ (F ∘ e.symm) (e.symm ⁻¹' X.dom) :=
-    hF.comp e.symm.differentiableOn (fun _ h => h)
-  have ha := ReciprocityTheory.AnForm.Osgood.osgood _ _ _ hU hd
-  intro z hz
-  have hF' : F = (F ∘ e.symm) ∘ e := by ext y; simp
-  rw [hF']
-  exact (ha (e z) (by simpa using hz)).comp (e.toContinuousLinearMap.analyticAt z)
+    AnalyticOnNhd ℂ F X.dom :=
+  _root_.Formalism.L2.Pj.analyticOnNhd_dom X hF
 
 theorem interior_closure_zeros (X : Data E r) {F : Frame X.Ψ r → ℂ} (hF : DifferentiableOn ℂ F X.dom)
     (hne : ∃ x ∈ X.dom, F x ≠ 0) : interior (closure {x | x ∈ X.dom ∧ F x = 0}) = ∅ := by
@@ -951,35 +944,8 @@ open Filter Topology
 
 theorem exists_ringHom_ne_zero_of_not_isNilpotent' {K R : Type} [Field K] [CommRing R] [Algebra K R]
     [Algebra.FiniteType K R] (σ : K →+* ℂ) {b : R} (hb : ¬ IsNilpotent b) :
-    ∃ φ : R →+* ℂ, φ.comp (algebraMap K R) = σ ∧ φ b ≠ 0 := by
-  haveI hJ : IsJacobsonRing R := isJacobsonRing_of_finiteType (A := K)
-  have hrad : b ∉ (⊥ : Ideal R).jacobson := by
-    rw [← Ideal.radical_eq_jacobson]
-    intro h
-    obtain ⟨n, hn⟩ := Ideal.mem_radical_iff.1 h
-    exact hb ⟨n, by simpa using hn⟩
-  rw [Ideal.jacobson, Submodule.mem_sInf] at hrad
-  push_neg at hrad
-  obtain ⟨m, ⟨-, hm⟩, hbm⟩ := hrad
-  letI : Field (R ⧸ m) := Ideal.Quotient.field m
-  haveI : Algebra.FiniteType K (R ⧸ m) :=
-    Algebra.FiniteType.of_surjective (Ideal.Quotient.mkₐ K m) (Ideal.Quotient.mkₐ_surjective _ _)
-  haveI : Module.Finite K (R ⧸ m) := finite_of_finite_type_of_isJacobsonRing K (R ⧸ m)
-  haveI : Algebra.IsAlgebraic K (R ⧸ m) := Algebra.IsAlgebraic.of_finite K (R ⧸ m)
-  letI : Algebra K ℂ := σ.toAlgebra
-  let ψ : (R ⧸ m) →ₐ[K] ℂ := (by
-    refine @_root_.IsAlgClosed.lift _ _ _ _ _ _ _ _ _ _ _ ?_ ?_ ?_
-    solve_by_elim* (maxDepth := 2) only [*,
-      @_root_.DivisionSemiring.to_moduleIsTorsionFree,
-      @_root_.Algebra.IsIntegral.isAlgebraic, @_root_.inferInstance])
-  refine ⟨ψ.toRingHom.comp (Ideal.Quotient.mk m), ?_, ?_⟩
-  · ext a
-    show ψ (Ideal.Quotient.mkₐ K m (algebraMap K R a)) = σ a
-    rw [AlgHom.commutes, AlgHom.commutes]
-    rfl
-  · show ψ (Ideal.Quotient.mk m b) ≠ 0
-    rw [map_ne_zero_iff ψ ψ.toRingHom.injective]
-    exact fun h => hbm (Ideal.Quotient.eq_zero_iff_mem.1 h)
+    ∃ φ : R →+* ℂ, φ.comp (algebraMap K R) = σ ∧ φ b ≠ 0 :=
+  _root_.GlobalTheory.FlatCore.exists_ringHom_ne_zero_of_not_isNilpotent σ hb
 
 theorem differentiableOn_of_mem_holSub' {E : Type} [Field E] [NumberField E] [IsCMField E] {r : ℕ} {C : Type}
     {X : C → Data E r} {la : ∀ k, Wt (X k).Ψ r} {P : FDSec X} (hP : P ∈ holSub X la) (k : C) :

@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsCharOfTrace
 public import Development.AbelianVarietyTheory.Statements.PlaceShiftStatements.NormSmall
 public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.ZetaValueIdeals
 public import Development.AbelianVarietyTheory.Definitions.Divisors.FinitePrimesUnder
@@ -1061,16 +1062,7 @@ namespace GlobalTheory.HeightMeanValueBounds
 variable {K : Type} [Field K] [NumberField K]
 
 theorem exists_prime_mem (w : Formalism.PairingDivisionLocalBalance.Pl K) : ∃ l : ℕ, l.Prime ∧ (l : 𝓞 K) ∈ w.asIdeal := by
-  set n := Ideal.absNorm w.asIdeal with hn
-  have h0 : n ≠ 0 := fun h => w.ne_bot (Ideal.absNorm_eq_zero_iff.1 h)
-  have hmem : (n : 𝓞 K) ∈ w.asIdeal := Ideal.absNorm_mem _
-  have e : ((n : ℕ) : 𝓞 K) = ∏ p ∈ n.primeFactors, ((p : 𝓞 K)) ^ (n.factorization p) := by
-    conv_lhs => rw [← Nat.prod_factorization_pow_eq_self h0]
-    rw [Nat.prod_factorization_eq_prod_primeFactors]
-    push_cast; rfl
-  rw [e] at hmem
-  obtain ⟨p, hp, hpw⟩ := (Ideal.IsPrime.prod_mem_iff (hp := w.isPrime)).1 hmem
-  exact ⟨p, Nat.prime_of_mem_primeFactors hp, w.isPrime.mem_of_pow_mem _ hpw⟩
+  apply _root_.GlobalTheory.SqTop.OneSqProof.exists_prime_mem' <;> assumption
 
 theorem height_meanVal [StarRing K] [_root_.NumberField.IsTotallyComplex K] (σ : K →+* ℂ) (β : ℂ) (p : K[X]) (n : ℕ → ℕ) (A B : ℝ)
     (hp : IsMinPol σ β p) (hβ : β ≠ 0) (halg : IsAlgebraic ℚ β)
@@ -1334,98 +1326,13 @@ theorem exists_char (t : Ainf F →+ ℂ) (hc : Continuous t) (hre : ∀ x, (t x
     (ht : ∀ a : F, t (algebraMap F (Ainf F) a) = ((Algebra.trace ℚ F a : ℚ) : ℂ)) :
     ∃ ψ : AddChar (AF F) ℂ, IsCharAF F ψ ∧
       ∀ x, psiInf F ψ x = Complex.exp (2 * Real.pi * Complex.I * (((-1 : ℤ)) : ℂ) * t x) := by
-  have hap : ∀ y : Af F, ∃ a : F, y - algebraMap F (Af F) a ∈ intAf F := fun y => by
-    obtain ⟨a, β, hβ, h⟩ := (GlobalTheory.AdLat.strong_approximation_mod_nat F 1 one_pos).1 y
-    refine ⟨a, ?_⟩
-    rw [h, one_smul, add_sub_cancel_left]
-    exact hβ
-  choose ap hap using hap
-  let c : ℂ := 2 * Real.pi * Complex.I
-  let f : AF F → ℂ := fun x => Complex.exp (c * (((Algebra.trace ℚ F (ap x.2) : ℚ) : ℂ) - t x.1))
-  have key : ∀ (x : AF F) (a : F), x.2 - algebraMap F (Af F) a ∈ intAf F →
-      f x = Complex.exp (c * (((Algebra.trace ℚ F a : ℚ) : ℂ) - t x.1)) := by
-    intro x a h
-    have h1 : algebraMap F (Af F) (ap x.2 - a) ∈ intAf F := by
-      have := int_sub h (hap x.2)
-      rw [map_sub]
-      convert this using 1
-      ring
-    obtain ⟨n, hn⟩ := trace_int h1
-    rw [map_sub, sub_eq_iff_eq_add] at hn
-    show Complex.exp _ = _
-    rw [hn, Complex.exp_eq_exp_iff_exists_int]
-    refine ⟨n, ?_⟩
-    push_cast
-    ring
-  have f0 : ∀ x : AF F, x.2 ∈ intAf F → f x = Complex.exp (-(c * t x.1)) := fun x hx => by
-    rw [key x 0 (by rwa [map_zero, sub_zero])]
-    simp
-  have fadd : ∀ x y, f (x + y) = f x * f y := fun x y => by
-    rw [key (x + y) (ap x.2 + ap y.2) (by
-      have := int_add (hap x.2) (hap y.2)
-      rw [map_add (f := _)]
-      convert this using 1
-      show x.2 + y.2 - _ = _
-      ring), ← Complex.exp_add]
-    congr 1
-    rw [map_add (f := _), show (x + y).1 = x.1 + y.1 from rfl, map_add (f := _)]
-    push_cast
-    ring
-  let ψ : AddChar (AF F) ℂ :=
-    { toFun := f
-      map_zero_eq_one' := by
-        rw [f0 0 int_zero, show (0 : AF F).1 = 0 from rfl, map_zero]; simp
-      map_add_eq_mul' := fadd }
-  have hinf : ∀ x, psiInf F ψ x = Complex.exp (2 * Real.pi * Complex.I * (((-1 : ℤ)) : ℂ) * t x) := fun x => by
-    show f (x, 0) = _
-    rw [f0 (x, 0) int_zero]
-    congr 1
-    push_cast
-    ring
-  refine ⟨ψ, ⟨?_, fun x => ?_, fun a => ?_, ?_⟩, hinf⟩
-  · rw [continuous_iff_continuousAt]
-    intro x₀
-    have hU : {x : AF F | x.2 - x₀.2 ∈ intAf F} ∈ nhds x₀ :=
-      ((isOpen_int F).preimage (continuous_snd.sub continuous_const)).mem_nhds (by
-        show x₀.2 - x₀.2 ∈ intAf F
-        rw [sub_self]; exact int_zero)
-    have hg : Continuous fun x : AF F => f x₀ * Complex.exp (-(c * t (x.1 - x₀.1))) :=
-      continuous_const.mul (Complex.continuous_exp.comp
-        (continuous_const.mul (hc.comp (continuous_fst.sub continuous_const))).neg)
-    refine hg.continuousAt.congr (Filter.eventually_of_mem hU fun x hx => ?_)
-    show _ = f x
-    rw [← add_sub_cancel x₀ x, fadd, f0 (x - x₀) hx, add_sub_cancel]
-    rfl
-  · show ‖Complex.exp _‖ = 1
-    rw [Complex.norm_exp]
-    simp [c, hre]
-  · show f _ = 1
-    rw [key _ a (by
-      show algebraMap F (Af F) a - _ ∈ _
-      rw [sub_self]; exact int_zero)]
-    show Complex.exp (c * (_ - t (algebraMap F (Ainf F) a))) = 1
-    rw [ht, sub_self, mul_zero, Complex.exp_zero]
-  · have hn : (Module.finrank ℚ F : ℚ) ≠ 0 := Nat.cast_ne_zero.2 Module.finrank_pos.ne'
-    refine ⟨pairA F (algebraMap F (Ainf F) (algebraMap ℚ F (1 / (2 * Module.finrank ℚ F)))) 0, ?_⟩
-    show psiInf F ψ _ ≠ 1
-    rw [hinf, ht, Algebra.trace_algebraMap, nsmul_eq_mul,
-      show (Module.finrank ℚ F : ℚ) * (1 / (2 * Module.finrank ℚ F)) = 1 / 2 by field_simp,
-      show 2 * (Real.pi : ℂ) * Complex.I * (((-1 : ℤ)) : ℂ) * ((1 / 2 : ℚ) : ℂ) = -(Real.pi * Complex.I) by
-        push_cast; ring, Complex.exp_neg, Complex.exp_pi_mul_I]
-    norm_num
+  intros
+  apply _root_.GlobalTheory.StdAdelicChar.exists_char_of_trace <;> assumption
 
 end Char
 
 theorem exists_stdChar (D : D7) : ∃ ψ, IsStdChar D ψ (-1) := by
-  obtain ⟨θ, hθ⟩ := GlobalTheory.DualPairCompare.exists_infFam D
-  let t : Ainf D.host.F →+ ℂ := AddMonoidHom.mk' (fun x => ∑ ρ, θ ρ (x ⊗ₜ[D.host.F] (1 : D.host.E)))
-    fun x y => by simp only [TensorProduct.add_tmul, map_add (f := _), Finset.sum_add_distrib]
-  have hts : ∀ x, t x = (GlobalTheory.IndefiniteRowSideFullHecke.HeisenbergWeilMatrices.trInf D x : ℂ) := GlobalTheory.DualPairCompare.sum_infFam θ hθ
-  obtain ⟨ψ, h1, h2⟩ := exists_char t (continuous_finsetSum _ fun ρ _ => (hθ ρ).2)
-    (fun x => by rw [hts, Complex.ofReal_im]) (fun a => by
-      show ∑ ρ, θ ρ _ = _
-      rw [GlobalTheory.StdRat.tmul_one_eq, Finset.sum_congr rfl fun ρ _ => (hθ ρ).1 _, GlobalTheory.StdRat.sum_tauE_eq_trace])
-  exact ⟨ψ, h1, ⟨θ, hθ⟩, fun θ' hθ' x => by rw [h2, hts, GlobalTheory.DualPairCompare.sum_infFam θ' hθ']⟩
+  apply _root_.GlobalTheory.StdAdelicChar.exists_isStdChar <;> assumption
 
 section Lattice
 

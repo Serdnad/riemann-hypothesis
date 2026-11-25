@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.HeckeDEqSumOfAgree
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.RingSpecNormalisedCharacterEq
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.SideMultiplicityFamily
 public import Formalism.LocalToGlobal.NormalizedHeckeFactors.HeckeStdTwOfStd
@@ -520,31 +521,8 @@ theorem heckeD_eq_sum_of {v : HeightOneSpectrum (𝓞 (maximalRealSubfield L))} 
     {R : Finset (GAf L n)} (h1 : ∀ γ ∈ R, γ ∈ D) (h2 : ∀ x ∈ D, ∃! γ, γ ∈ R ∧ γ⁻¹ * x ∈ Umax L n)
     {f : GAf L n → W} (hf : ∀ κ ∈ Umax L n, TrivOutside {v} κ → NG.rt L n κ f = f) :
     NG.heckeD J D f = ∑ γ ∈ R, NG.rt L n γ f := by
-  classical
-  have tr : ∀ x ∈ D, ∀ y ∈ D, TrivOutside {v} (x⁻¹ * y) := fun x hx y hy =>
-    GlobalTheory.HeckeScalarSph.triv_mul (GlobalTheory.HeckeScalarSph.triv_inv (hD x hx)) (hD y hy)
-  funext g
-  rw [Finset.sum_apply, NG.heckeD, finsum_eq_sum_of_support_subset (s := R.image fun x : GAf L n => (x : GAf L n ⧸ J)),
-    Finset.sum_image]
-  · refine Finset.sum_congr rfl fun γ hγ => ?_
-    have hc : ∃ x ∈ D, (x : GAf L n ⧸ J) = γ := ⟨γ, h1 γ hγ, rfl⟩
-    rw [dite_eq_left hc]
-    have ht := tr γ (h1 γ hγ) _ hc.choose_spec.1
-    have hu : γ⁻¹ * hc.choose ∈ Umax L n := (hJ _ ht).1 (QuotientGroup.eq.1 hc.choose_spec.2.symm)
-    have := congrFun (hf _ hu ht) (g * γ)
-    refine Eq.trans ?_ this
-    show f _ = f _
-    congr 1
-    group
-  · intro γ hγ δ hδ e
-    exact (h2 δ (h1 δ hδ)).unique ⟨hγ, (hJ _ (tr γ (h1 γ hγ) δ (h1 δ hδ))).1 (QuotientGroup.eq.1 e)⟩
-      ⟨hδ, by rw [inv_mul_cancel]; exact one_mem _⟩
-  · intro c hc
-    by_cases h : ∃ x ∈ D, (x : GAf L n ⧸ J) = c
-    · obtain ⟨x, hx, rfl⟩ := h
-      obtain ⟨γ, ⟨hγ, e⟩, -⟩ := h2 x hx
-      exact Finset.mem_coe.2 (Finset.mem_image.2 ⟨γ, hγ, QuotientGroup.eq.2 ((hJ _ (tr γ (h1 γ hγ) x hx)).2 e)⟩)
-    · exact absurd (dite_eq_right h) hc
+  intros
+  apply _root_.GlobalTheory.HeckeEigConj.heckeD_eq_sum_of_agree <;> assumption
 
 theorem isoTyp_scalar (a : NG.AlgWt L n) (J : Subgroup (GAf L n)) (χ : J →* ℂˣ)
     (B : Set (HeightOneSpectrum (𝓞 (maximalRealSubfield L))))

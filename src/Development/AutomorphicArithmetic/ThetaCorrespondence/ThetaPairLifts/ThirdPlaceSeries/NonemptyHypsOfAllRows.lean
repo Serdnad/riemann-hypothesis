@@ -1,5 +1,7 @@
 module
 
+import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.ExistsStagesClauses
+import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.GoodIdempotentFixesMemGoodTypeSpace
 public import Development.AbelianVarietyTheory.Definitions.GlobalTwisting.CountsIrreducibilityConstants
 public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.DutySevenLibrary
 public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.WorkingClassesFrozen
@@ -995,34 +997,7 @@ theorem pos_iff_side_mem_max {D : D7} {c : NChoice D} (h : NChTie D c) (w : D.wh
 
 theorem resChar_eq_of_pos {D : D7} (w : D.what₂.places.Pl) {p : ℕ} (hp : p.Prime)
     (h : 0 < D.what₂.places.val w ((p : ℕ) : D.what₂.LL)) : D.what₂.places.resChar w = p := by
-  by_contra hne
-  have hq := D.what₂.places.resChar_prime w
-  have hq0 : 0 < D.what₂.places.val w ((D.what₂.places.resChar w : ℕ) : D.what₂.LL) := by
-    rw [D.what₂.places.val_resChar w]
-    exact_mod_cast D.what₂.places.ramIdx_pos w
-  have hc : IsCoprime ((D.what₂.places.resChar w : ℕ) : ℤ) (p : ℤ) :=
-    Nat.isCoprime_iff_coprime.2 ((Nat.coprime_primes hq hp).2 hne)
-  obtain ⟨a, b, hab⟩ := hc
-  have hnat : ∀ n : ℕ, 0 ≤ D.what₂.places.val w (n : D.what₂.LL) := by
-    intro n
-    induction n with
-    | zero => simp
-    | succ n ih =>
-      rw [Nat.cast_succ]
-      exact (D.what₂.places.val w).map_le_add ih (by simp)
-  have hint : ∀ n : ℤ, 0 ≤ D.what₂.places.val w (n : D.what₂.LL) := by
-    intro n
-    obtain ⟨m, rfl | rfl⟩ := Int.eq_nat_or_neg n
-    · simpa using hnat m
-    · rw [Int.cast_neg, AddValuation.map_neg]; simpa using hnat m
-  have h1 : (a : D.what₂.LL) * ((D.what₂.places.resChar w : ℕ) : D.what₂.LL) + (b : D.what₂.LL) * ((p : ℕ) : D.what₂.LL) = 1 := by
-    exact_mod_cast congrArg (Int.cast : ℤ → D.what₂.LL) hab
-  have h2 : 0 < D.what₂.places.val w 1 := by
-    rw [← h1]
-    refine (D.what₂.places.val w).map_lt_add ?_ ?_
-    · rw [AddValuation.map_mul]; exact hq0.trans_le (le_add_of_nonneg_left (hint a))
-    · rw [AddValuation.map_mul]; exact h.trans_le (le_add_of_nonneg_left (hint b))
-  simp at h2
+  first | exact _root_.GlobalTheory.EigTie.resChar_eq | exact @_root_.GlobalTheory.EigTie.resChar_eq | apply _root_.GlobalTheory.EigTie.resChar_eq <;> assumption
 
 theorem twCoverPair_of_tie (D : D7) (c : NChoice D) (h : NChTie D c) : TwCoverPair D := by
   rintro p hp w hw ⟨w', -, hw'⟩
@@ -1128,16 +1103,7 @@ theorem tupUsed (c : V4.Core K X f T) : DQ.TupUsedAt X.toD7 := by
       · exact .inr (.inl (c.mu.inj (h.symm.trans c.mu.star.symm)))
 
 theorem ev_imp {p q : Ctx → Prop} (hp : Ev p) (h : ∀ K, p K → q K) : Ev q := by
-  obtain ⟨ε0, h0, H⟩ := hp
-  refine ⟨ε0, h0, fun eps C8 a1 a2 a3 a4 => ?_⟩
-  obtain ⟨K0, H⟩ := H eps C8 a1 a2 a3 a4
-  refine ⟨K0, fun C b1 b2 b3 => ?_⟩
-  obtain ⟨c1, H⟩ := H C b1 b2 b3
-  refine ⟨c1, fun cD hcD => ?_⟩
-  obtain ⟨c2, H⟩ := H cD hcD
-  refine ⟨c2, fun ch hch => ?_⟩
-  obtain ⟨x0, H⟩ := H ch hch
-  exact ⟨x0, fun K d1 d2 d3 d4 d5 => h K (H K d1 d2 d3 d4 d5)⟩
+  first | exact _root_.GlobalTheory.Mem.Top.V4.Model.ev_imp | exact @_root_.GlobalTheory.Mem.Top.V4.Model.ev_imp | apply _root_.GlobalTheory.Mem.Top.V4.Model.ev_imp <;> assumption
 
 theorem lay_of_core : Ev fun K => ∀ (X : Stages) (f : Fr X.B.toPre) (T : TwDat X.B) (c : V4.Core K X f T),
     StandardLattice.VolumeEqMass₂ X.toD7 → ∃ Y : Lay X.toD7, layObj Y = c.O ∧ Over X.toD7 K.P K.Lv ∧ RecOK K.s K.C K.cD X.toD7 ∧

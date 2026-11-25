@@ -1,5 +1,6 @@
 module
 
+import Development.AutomorphicArithmetic.ThetaCorrespondence.ThetaPairLifts.ThirdPlaceSeries.MainAltAltAltAlt
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.CoeffRingsHaveRootsOfUnity
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.StepJumpDirect
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.TypeSpaceProjectionEigenOfLocalisedFormsSection
@@ -820,14 +821,8 @@ section Alg
 
 theorem charpoly_pow_of_prod {K ι : Type} [Field K] [IsAlgClosed K] {r : ℕ} (A : Matrix (Fin r) (Fin r) K)
     (s : Multiset ι) (f : ι → K) (h : A.charpoly = (s.map fun x => X - C (f x)).prod) (n : ℕ) :
-    (A ^ n).charpoly = (s.map fun x => X - C (f x ^ n)).prod := by
-  have h1 : A.charpoly.roots = s.map f := by
-    rw [h, ← roots_multiset_prod_X_sub_C (s.map f), Multiset.map_map]
-    rfl
-  have h2 := GlobalTheory.CharpolyPow.roots_charpoly_pow K r n A
-  rw [(IsAlgClosed.splits (A ^ n).charpoly).eq_prod_roots_of_monic (Matrix.charpoly_monic _), h2, h1,
-    Multiset.map_map, Multiset.map_map]
-  rfl
+    (A ^ n).charpoly = (s.map fun x => X - C (f x ^ n)).prod :=
+  _root_.GlobalTheory.TypeLeaf.ConjPlace.charpoly_pow_of_prod A s f h n
 
 end Alg
 

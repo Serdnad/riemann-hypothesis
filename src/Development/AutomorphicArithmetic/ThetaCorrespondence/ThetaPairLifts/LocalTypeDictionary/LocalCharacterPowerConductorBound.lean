@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsPowEqSpan
 public import Development.AutomorphicArithmetic.LocalEmbeddings.ArchSz
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.AlgebraicHeckeCharValuesInNumberField
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.UnitaryHeckeCharacterValues
@@ -103,20 +104,7 @@ open NumberField IsDedekindDomain Formalism.L2.Host GlobalTheory.ConjSize
 
 private theorem exists_pow_eq_span {L : Type} [Field L] [NumberField L] (v : HeightOneSpectrum (𝓞 L)) :
     ∃ (h : ℕ) (a : 𝓞 L), 0 < h ∧ a ≠ 0 ∧ v.asIdeal ^ h = Ideal.span {a} := by
-  classical
-  have hI : v.asIdeal ∈ nonZeroDivisors (Ideal (𝓞 L)) := mem_nonZeroDivisors_of_ne_zero v.ne_bot
-  have hpow : v.asIdeal ^ Fintype.card (ClassGroup (𝓞 L)) ∈ nonZeroDivisors (Ideal (𝓞 L)) :=
-    pow_mem hI _
-  have hone : ClassGroup.mk0 ⟨_, hpow⟩ = 1 := by
-    have h1 := pow_card_eq_one (x := ClassGroup.mk0 ⟨v.asIdeal, hI⟩)
-    rw [← map_pow] at h1
-    convert h1
-  obtain ⟨a, ha⟩ := ((ClassGroup.mk0_eq_one_iff hpow).1 hone).principal
-  refine ⟨_, a, Fintype.card_pos, ?_, ha⟩
-  rintro rfl
-  apply nonZeroDivisors.ne_zero hpow
-  rw [ha]
-  simp
+  apply _root_.GlobalTheory.ValUnit.exists_pow_eq_span <;> assumption
 
 private theorem exists_global {L : Type} [Field L] [NumberField L] (χ : HChar L) (w : HeightOneSpectrum (𝓞 L)) :
     ∃ (k : Lˣ) (N : ℕ), 0 < N ∧ Valued.v ((atFin w k : (w.adicCompletion L)ˣ) : w.adicCompletion L) ≠ 1 ∧
