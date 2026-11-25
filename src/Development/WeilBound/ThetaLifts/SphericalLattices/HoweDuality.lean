@@ -1,7 +1,6 @@
 module
 
 import Development.AbelianVarietyTheory.Proofs.DivisorProofs.WeilRepresentationLocalityUnitaryGroupVPairVW
-import Development.WeilBound.CoreStatements.AutomorphicKernels.IsobaricBaseChange.IntegralCoefficientBaseChange.UnitaryBaseChangeCharacters.UnitaryBaseChangeLinks.FiniteEllipticCharpolysSupportStatement
 public import Development.WeilBound.ThetaLifts.SphericalLattices.HoweDefs
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.RhoMemOfMkEq
 public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.WeilTensorModels
@@ -217,7 +216,7 @@ theorem exists_invariant {κ : Type} [Fintype κ] {φ : (κ → Fv F v) → ℂ}
       have := hNx x (y - x) hyx
       rwa [show x + (y - x) = y by abel] at this
     rw [h1, h2]
-  · push_neg at hy
+  · push Not at hy
     have hyK : y ∉ tsupport φ := fun hyK => by
       obtain ⟨x, hx, hyx⟩ := Set.mem_iUnion₂.1 (ht hyK)
       exact hy x hx hyx
@@ -270,8 +269,8 @@ theorem mem_span_boxes (F : Type) [Field F] [NumberField F] (v : Pl (F := F)) (�
         rfl
       rw [Pi.smul_apply, Set.indicator_apply]
       by_cases h : (x : (κ → Fv F v) ⧸ BG v κ N) = q
-      · rw [if_pos (hm.2 h), if_pos h, Pi.one_apply, smul_eq_mul, mul_one]
-      · rw [if_neg (fun h' => h (hm.1 h')), if_neg h, smul_zero]
+      · rw [ite_eq_left (hm.2 h), ite_eq_left h, Pi.one_apply, smul_eq_mul, mul_one]
+      · rw [ite_eq_right (fun h' => h (hm.1 h')), ite_eq_right h, smul_zero]
     rw [Finset.sum_apply]
     simp_rw [hterm]
     rw [Finset.sum_ite_eq]
@@ -362,7 +361,16 @@ theorem adjoin_mul_mem {X ι : Type} [AddCommGroup ι] (χ : ι → X → ℂ) (
 variable {F : Type} [Field F] [NumberField F] {v : Pl (F := F)}
 
 theorem isOpen_ball (n : ℤ) : IsOpen {y : Fv F v | Valued.v y ≤ WithZero.exp n} := by
-  apply _root_.GlobalTheory.CptBound.isOpen_le_exp <;> assumption
+  obtain ⟨c, hc⟩ := HeightOneSpectrum.valuedAdicCompletion_surjective F v (WithZero.exp n)
+  have hc0 : c ≠ 0 := by
+    rintro rfl
+    rw [map_zero] at hc
+    exact WithZero.exp_ne_zero hc.symm
+  have : {y : Fv F v | Valued.v y ≤ WithZero.exp n} = {y | Valued.v.restrict y ≤ Valued.v.restrict c} := by
+    ext y
+    simp only [Set.mem_ofPred_eq, Valuation.restrict_le_iff, hc]
+  rw [this]
+  exact Valued.isOpen_closedBall _ (by simp [hc0])
 
 theorem exists_ball_subset {U : Set (Fv F v)} {x : Fv F v} (hU : U ∈ 𝓝 x) :
     ∃ N₀ : ℕ, ∀ N ≥ N₀, ∀ y, Valued.v (y - x) ≤ WithZero.exp (-(N : ℤ)) → y ∈ U := by
@@ -799,11 +807,11 @@ theorem exists_integral_form_separating {R K : Type} [CommRing R] [IsDomain R]
   · obtain ⟨j, hj⟩ := h2
     refine ⟨(z / B.repr t (Sum.inr j)) • B.coord (Sum.inr j), fun i => ?_, ?_⟩
     · rw [LinearMap.smul_apply, ← hB, Module.Basis.coord_apply, Module.Basis.repr_self,
-        Finsupp.single_apply, if_neg Sum.inl_ne_inr, smul_zero]
+        Finsupp.single_apply, ite_eq_right Sum.inl_ne_inr, smul_zero]
       exact ⟨0, map_zero _⟩
     · rw [LinearMap.smul_apply, Module.Basis.coord_apply, smul_eq_mul, div_mul_cancel₀ _ hj]
       exact hz
-  push_neg at h1 h2
+  push Not at h1 h2
   choose c hc using h1
   exfalso
   apply ht
@@ -868,8 +876,7 @@ theorem mem_of_mem_doubleOrth : ∀ (F : Type) [Field F] [NumberField F] (v : Pl
   obtain ⟨y', hyA, hyt⟩ := exists_integral_form_separating M hMfg _ hz t htA
   simp only [hrange] at hyA hyt
   obtain ⟨b, hb, hbψ⟩ : ∃ b ∈ O, ψ₀ ((t ⬝ᵥ y') * b) ≠ 1 := by
-    by_contra h
-    push_neg at h
+    by_contra! h
     exact hyt ((hψ _).mp h)
   apply hbψ
   have := ht (b • y') (fun s hs => by

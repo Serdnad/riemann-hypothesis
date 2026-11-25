@@ -363,8 +363,29 @@ theorem exists_enlarge {α : Type} {Q : α → Type} [∀ v, AddCommGroup (Q v)]
     {T T' : Finset α} (h : T ⊆ T') : ∃ L : PiTensorProduct ℂ (fun v : T => Q v) →ₗ[ℂ] PiTensorProduct ℂ (fun v : T' => Q v),
       ∀ y : ∀ v, Q v, (∀ v ∉ T, y v = z v) →
         L (PiTensorProduct.tprod ℂ fun v : T => y v) = PiTensorProduct.tprod ℂ fun v : T' => y v := by
-  intros
-  apply _root_.GlobalTheory.ThK.Dbl.TC.exists_ext <;> assumption
+  let e : (∀ v : T, Q v) → ∀ v : T', Q v := fun ψ v => if hv : v.1 ∈ T then ψ ⟨v, hv⟩ else z v
+  have he : ∀ [DecidableEq T] (ψ : ∀ v : T, Q v) (i : T) (x : Q i),
+      e (Function.update ψ i x) = Function.update (e ψ) ⟨i.1, h i.2⟩ x := by
+    intro _ ψ i x
+    funext v
+    by_cases hv : v = ⟨i.1, h i.2⟩
+    · subst hv; simp only [e, dite_eq_left i.2, Function.update_self]
+    · rw [Function.update_of_ne hv]
+      simp only [e]
+      split_ifs with hT
+      · exact Function.update_of_ne (f := ψ) (a := ⟨v.1, hT⟩) (a' := i) (fun k => hv (Subtype.ext (congrArg Subtype.val k :))) _
+      · rfl
+  refine ⟨PiTensorProduct.lift
+    { toFun := fun ψ => PiTensorProduct.tprod ℂ (e ψ)
+      map_update_add' := fun ψ i x y => by rw [he, he, he, MultilinearMap.map_update_add]
+      map_update_smul' := fun ψ i c x => by rw [he, he, MultilinearMap.map_update_smul] }, fun y hy => ?_⟩
+  rw [PiTensorProduct.lift.tprod]
+  change PiTensorProduct.tprod ℂ (e fun v => y v) = _
+  congr 1
+  funext v
+  simp only [e]
+  split_ifs with hv
+  exacts [rfl, (hy v hv).symm]
 
 variable {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] {σ : E →ₐ[F] E}
   {n d : ℕ} {X : Spc F E n} {W : Spc F E d}
@@ -663,7 +684,7 @@ theorem locA_of (H : Hyp) (J : Hyp2) (hC : ConeFacA) (hS : StdA) : LocA' := by
     set K₀ := κ * c * stepFac B X e₁ e₂ s H₀.𝔟 H'.𝔟 (1 - (((b + 2 - a') / 2 : ℕ) : ℤ)) * charL X.ν (X.S₀ : Set (Pl F)) ((((b + 2 - a') / 2) : ℕ) : ℂ) with hK₀
     refine ⟨T, hT, n, n', fun j => ((∏ v ∈ T \ X.T, u v)⁻¹ * k₀) • L (f j),
       fun j v => if v ∈ T then Λ v (φ j v) else G₁.M.vac v, fun i => K₀ • ei' (f' i), fun i v => ev' v (φ' i v),
-      fun j => ⟨Submodule.smul_mem _ _ (Lpol _ (a1 j).1), fun v => ?_, fun v hv => if_neg hv⟩,
+      fun j => ⟨Submodule.smul_mem _ _ (Lpol _ (a1 j).1), fun v => ?_, fun v hv => ite_eq_right hv⟩,
       fun i => ⟨Submodule.smul_mem _ _ (ep.1 _ (a2 i).1), fun v => evS v _ ((a2 i).2.1 v), fun v hv => by beta_reduce; rw [(a2 i).2.2 v hv, (h2' v).1]⟩,
       ?_, ?_, ?_⟩
     · beta_reduce
@@ -685,7 +706,7 @@ theorem locA_of (H : Hyp) (J : Hyp2) (hC : ConeFacA) (hS : StdA) : LocA' := by
       · rw [map_smul, ← e1' _ (a1 i).1, hc, LinearMap.smul_apply]
         congr 2; funext v
         beta_reduce
-        rw [if_pos v.2, ← e3 v _ ((a1 i).2.1 v), hw v, LinearMap.smul_apply]
+        rw [ite_eq_left v.2, ← e3 v _ ((a1 i).2.1 v), hw v, LinearMap.smul_apply]
       · rw [map_smul, e1 _ (a2 j).1]
         congr 2; funext v; exact e2 v _ ((a2 j).2.1 v)
 
@@ -921,7 +942,7 @@ theorem locB_of (H : Hyp) (J : Hyp2) (hC : ConeFacB) (hS : StdB) : LocB' := by
     refine ⟨T, hT, n, n', fun i => K₀ • ei (f i), fun i v => ev v (φ i v), fun j => ((∏ v ∈ T \ X.T, u v)⁻¹ * k₀) • L (f' j),
       fun j v => if v ∈ T then Λ v (φ' j v) else G₁.M'.vac v,
       fun i => ⟨Submodule.smul_mem _ _ (ep.1 _ (a1 i).1), fun v => evS v _ ((a1 i).2.1 v), fun v hv => by beta_reduce; rw [(a1 i).2.2 v hv, (h2 v).1]⟩,
-      fun j => ⟨Submodule.smul_mem _ _ (Lpol _ (a2 j).1), fun v => ?_, fun v hv => if_neg hv⟩, ?_, ?_, ?_⟩
+      fun j => ⟨Submodule.smul_mem _ _ (Lpol _ (a2 j).1), fun v => ?_, fun v hv => ite_eq_right hv⟩, ?_, ?_, ?_⟩
     · beta_reduce
       split_ifs
       exacts [(hΛ v _ ((a2 j).2.1 v)).2, vac_sb t₁.geo.hM' v]
@@ -945,7 +966,7 @@ theorem locB_of (H : Hyp) (J : Hyp2) (hC : ConeFacB) (hS : StdB) : LocB' := by
       · rw [map_smul, ← e1' _ (a2 j).1, hc, LinearMap.smul_apply]
         congr 2; funext v
         beta_reduce
-        rw [if_pos v.2, ← e3 v _ ((a2 j).2.1 v), hw v, LinearMap.smul_apply]
+        rw [ite_eq_left v.2, ← e3 v _ ((a2 j).2.1 v), hw v, LinearMap.smul_apply]
 
 end PositivityTheory.ThKG.Loc
 

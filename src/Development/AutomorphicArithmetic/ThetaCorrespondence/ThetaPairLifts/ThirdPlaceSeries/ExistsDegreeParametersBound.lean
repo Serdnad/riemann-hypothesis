@@ -465,7 +465,26 @@ theorem antitone_of_gapGe (hp : 1 ≤ Dw.p) (hq : 1 ≤ Dw.q) {la : AllWt.Weight
   apply _root_.GlobalTheory.CovTop.ShareRowsNef.antitone_of_gapGe <;> assumption
 
 theorem gapGe_of_wtBig {P : WtPar Dw} (h : WtBig P) : GapGe 1 P.u₁ ∧ GapGe 1 P.u₂ ∧ ∀ j, GapGe 1 (P.wt j) := by
-  apply _root_.GlobalTheory.CovTop.ShareRowsNef.gapGe_of_wtBig <;> assumption
+  have h3 : GapGe 3 P.u₁ := h.gaps.mono (by
+    have : 3 * 1 ≤ (FlagTan.dimFlag Dw + 3) * ((FlagTan.dimFlag Dw + 1).choose 2 + 4 * (Dw.p + Dw.q) + FlagTan.dimFlag Dw + 3) :=
+      Nat.mul_le_mul (by omega) (by omega)
+    exact_mod_cast this)
+  have h2 : ∀ τ k, k + 1 < Dw.p + Dw.q → 3 ≤ gap (P.u₂ τ) k := fun τ k hk => by
+    have a := h3 τ k hk
+    have b := (P.gap_rem τ k).1
+    simp only [gap, dite_eq_left hk, WtPar.u₂, Pi.add_apply] at a b ⊢
+    omega
+  refine ⟨h3.mono (by norm_num), fun τ k hk => le_trans (by norm_num) (h2 τ k hk), fun j τ k hk => ?_⟩
+  have a := h3 τ k hk
+  have b := h2 τ k hk
+  have c : -2 ≤ gap (FlagTan.kap Dw τ) k := by
+    simp only [gap, dite_eq_left hk, FlagTan.kap]
+    split_ifs <;> push_cast <;> omega
+  simp only [gap, dite_eq_left hk, WtPar.wt, WtPar.uc, Pi.add_apply, Pi.smul_apply] at a b c ⊢
+  simp only [nsmul_eq_mul]
+  have e1 := mul_nonneg (Int.natCast_nonneg (FlagTan.dimFlag Dw)) (le_trans (by norm_num) a)
+  have e2 := mul_nonneg (Int.natCast_nonneg j) (le_trans (by norm_num) a)
+  nlinarith
 
 end Weights
 
@@ -1162,8 +1181,7 @@ theorem log_sum_le {S k fr L : ℝ} (hS0 : 0 ≤ S) (hSk : S ≤ (fr * L) ^ 2 * 
   · rw [← h, Real.log_zero]; linarith
   have hZ : 0 < fr * L := by positivity
   have hk0 : 0 < k := by
-    by_contra hk0
-    push_neg at hk0
+    by_contra! hk0
     have : (fr * L) ^ 2 * k ≤ 0 := mul_nonpos_of_nonneg_of_nonpos (by positivity) hk0
     linarith
   have hlogL : Real.log L ≤ L := (Real.log_le_sub_one_of_pos (by linarith)).trans (by linarith)

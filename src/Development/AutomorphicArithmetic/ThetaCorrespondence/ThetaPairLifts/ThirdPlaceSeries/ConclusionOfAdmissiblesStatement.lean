@@ -679,11 +679,11 @@ theorem main_alt_alt : ∀ (D : D7) (P : Pend D), GlobalTheory.TypeLeaf.SerLoc D
       rw [P.eSer_eq k, atPlace_sum, onMt_sum _ _ _ _ hc, LinearMap.sum_apply] at h1
       obtain ⟨τ, -, hτ⟩ := Finset.exists_ne_zero_of_sum_ne_zero h1
       by_cases hlab : (P.lz k).lab τ = s ⟨k, v⟩
-      · rw [if_pos hlab] at hτ
+      · rw [ite_eq_left hlab] at hτ
         exact ⟨τ, (P.kty_spec i PI k v τ).2 ⟨F, hF, hτ⟩, hlab⟩
       · exfalso
         apply hτ
-        rw [if_neg hlab, atPlace_zero]
+        rw [ite_eq_right hlab, atPlace_zero]
         unfold NTypes.onMt
         rw [dite_eq_left (Subalgebra.zero_mem _)]
         have e0 : (⟨0, Subalgebra.zero_mem _⟩ : ↥(Subalgebra.center ℂ (MonoidAlgebra ℂ (G0g D.nd)))) = 0 := rfl
@@ -1027,7 +1027,13 @@ theorem mem_Dpcris (ρ : Representation LL G V) (x : V ⊗[Qp] B) :
 
 theorem act_mem_Dpcris (ρ : Representation LL G V) (g : G) (x : V ⊗[Qp] B) (hx : x ∈ PC.Dpcris ρ) :
     actVB PC.PD ρ g x ∈ PC.Dpcris ρ := by
-  apply _root_.GlobalTheory.subIner_Dpcris_stable <;> assumption
+  rw [mem_Dpcris] at hx ⊢
+  intro h
+  have h1 := hx ⟨g⁻¹ * h * g, PC.normal.conj_mem' _ h.2 g⟩
+  conv_rhs => rw [← h1]
+  rw [← actVB_mul, ← actVB_mul]
+  congr 2
+  group
 
 variable [IsDomain B] [FiniteDimensional Qp LL]
 
@@ -1485,13 +1491,6 @@ section -- clump:auto
 @[expose] public section
 
 
-
-section
-open Formalism Formalism.MainNotions Formalism.BasicNotions Formalism.BasicNotions.Loc Formalism.MainNotions.N Formalism.WeaklyAdmissibleFiltrations NumberField IsDedekindDomain Formalism.ConjugateSelfDual ReciprocityTheory.Gal Module GlobalTheory.Pass Formalism.MainNotions.PairedCharacterCondition Formalism.MainNotions.PairedCharacterCondition.CongruenceModules
-
-theorem _root_.GlobalTheory.T.admT_of_artin_reciprocity_and_local_conditions : GlobalTheory.Published.GlobalArtinReciprocity → ∀ (D : D7) (P : Pend D) (HW : HWOf D.loc) (F : FonOf D.loc D.locA HW) (C : ℝ) (CT : ℕ), 8 * (CT : ℝ) ≤ C → SumRepresentations.adm5 D → EigSpan P → TieInePoly D → admT (D := D) CT → LocalPushoutProposition (D := D) → ResidualAbsIrreducible (D := D) → TypePrimeChoiceLemmas (D := D) → admDZ P → _root_.Formalism.MainNotions.PairedCharacterCondition.GaloisFamilyConditions' (D := D) → admG5 (D := D) → admG6 (D := D) → GlobalTheory.TypeLeaf.SerLoc D → admTB (D := D) HW F → admBK (D := D) → admBC (D := D) → _root_.Formalism.MainNotions.PairedCharacterCondition.LocalGlobalCompatibility' (D := D) → SumRepresentations.tie0 D → tieChi (D := D) → _root_.Formalism.MainNotions.PairedCharacterCondition.PairedCharacterConditionAlt (D := D) C CT := by
-  first | exact @_root_.GlobalTheory.admT_of_adm5_eigSpan_tieInePoly
-end
 end -- clump:auto
 end -- clump:auto
 -- ===== end clump member: Development.AutomorphicArithmetic.ThetaCorrespondence.ThetaPairLifts.ThirdPlaceSeries.ConclusionOfAdmissiblesStatement =====
