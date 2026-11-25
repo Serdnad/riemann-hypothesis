@@ -86,7 +86,6 @@ section -- clump:auto
 open Formalism.BasicNotions Formalism.BasicNotions.TH Formalism.MainNotions Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes Formalism.MainNotions.StandardLattice Formalism.IndefR Formalism.IndefR.Datum Formalism.IndefR.Links Formalism.L2.Theta IsDedekindDomain NumberField Finset MeasureTheory
 open GlobalTheory.ChiGrid GlobalTheory.FunObj GlobalTheory.FunObj.SqNum GlobalTheory.RowTest GlobalTheory.SqTop
 open GlobalTheory.IndefiniteRowSideFullHecke.UnitCharTriangle (Tri)
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 
 namespace GlobalTheory.NormPos
 
@@ -367,9 +366,9 @@ theorem exists_ratios : ∀ (K : Type) [Field K] [NumberField K] [StarRing K] (�
   refine ⟨fun s => if 1 ≤ s then zψ s / zT s else Ep s * (zψ (1 - s) / zT (1 - s)), ?_, ?_, ?_⟩
   · intro s h1 h2
     by_cases hs : 1 ≤ s
-    · simp only [hs, if_true]
+    · simp only [hs, ite_true]
       exact (key s hs h2).2
-    · simp only [hs, if_false]
+    · simp only [hs, ite_false]
       obtain ⟨hu, hrel⟩ := hneg s h1 (by omega)
       obtain ⟨-, hne, hk⟩ := key (1 - s) (by omega) (by omega)
       refine ⟨mul_ne_zero (away hQ hu).1 hne, ?_⟩
@@ -378,7 +377,7 @@ theorem exists_ratios : ∀ (K : Type) [Field K] [NumberField K] [StarRing K] (�
       rw [hrel, map_mul, ← hk]
       ring
   · intro s h1 h2
-    simp only [h1, if_true]
+    simp only [h1, ite_true]
     obtain ⟨hT, -, -, hb1, hb2⟩ := hpos s h1 h2
     have hψ := (key s h1 h2).1
     have hv : vw w (zψ s / zT s) = vw w (zψ s) - vw w (zT s) := by
@@ -394,7 +393,7 @@ theorem exists_ratios : ∀ (K : Type) [Field K] [NumberField K] [StarRing K] (�
   · intro s h1 h2
     have hs : ¬ 1 ≤ s := by omega
     have hs' : 1 ≤ 1 - s := by omega
-    simp only [hs, hs', if_true, if_false]
+    simp only [hs, hs', ite_true, ite_false]
     obtain ⟨hu, -⟩ := hneg s h1 h2
     obtain ⟨hE, hv⟩ := away hQ hu
     rw [vw_mul w _ _ hE (key (1 - s) hs' (by omega)).2.1, hv, zero_add]
@@ -526,7 +525,6 @@ noncomputable section
 open Formalism.BasicNotions Formalism.BasicNotions.TH Formalism.MainNotions Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes Formalism.MainNotions.StandardLattice Formalism.IndefR Formalism.IndefR.Datum Formalism.IndefR.Links Formalism.L2.Theta IsDedekindDomain NumberField Finset MeasureTheory
 open GlobalTheory.ChiGrid GlobalTheory.FunObj GlobalTheory.FunObj.SqNum GlobalTheory.RowTest GlobalTheory.SqTop
 open GlobalTheory.IndefiniteRowSideFullHecke.UnitCharTriangle (Tri)
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 open Formalism.DivisionValues (vw)
 open Formalism.PairingDivisionLocalBalance (wt HtLe)
 open Formalism.L2.Host (HChar)
@@ -768,7 +766,6 @@ section -- clump:auto
 open Formalism.BasicNotions Formalism.BasicNotions.TH Formalism.MainNotions Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes Formalism.MainNotions.StandardLattice Formalism.IndefR Formalism.IndefR.Datum Formalism.IndefR.Links Formalism.L2.Theta IsDedekindDomain NumberField Finset MeasureTheory
 open GlobalTheory.ChiGrid GlobalTheory.FunObj GlobalTheory.FunObj.SqNum GlobalTheory.RowTest GlobalTheory.SqTop
 open GlobalTheory.IndefiniteRowSideFullHecke.UnitCharTriangle (Tri)
-attribute [local instance] Formalism.BasicNotions.Host.cmStar
 
 end -- clump:auto
 end -- clump:auto

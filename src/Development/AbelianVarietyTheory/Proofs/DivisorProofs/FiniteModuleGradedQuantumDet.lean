@@ -85,8 +85,4 @@ def stab (N : Submodule ℂ M) : Subalgebra ℂ (Module.End ℂ M) where
 
 end Stab
 
-section Main
-
-end Main
-
 end GlobalTheory.LeviHC.MidBlock

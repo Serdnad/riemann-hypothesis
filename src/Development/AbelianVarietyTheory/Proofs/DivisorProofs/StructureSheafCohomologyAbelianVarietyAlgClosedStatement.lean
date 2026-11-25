@@ -1,6 +1,5 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.CoherentCohomologyProofs.CechComplexAcyclicAdditiveLineBundleNoSections
 public import Development.AbelianVarietyTheory.Definitions.Divisors.AxesVanishingStructureSheafDegOne
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.AbelianVarietyH1AxesPrimitiveRankStatement
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.AbelianVarietyWedgeNoPrimitiveH2Statement
@@ -57,13 +56,23 @@ section -- clump:auto
 open CategoryTheory CategoryTheory.Limits AlgebraicGeometry MonoidalCategory CartesianMonoidalCategory MonObj
 open scoped TensorProduct CategoryTheory.Obj
 open ReciprocityTheory.ChartRestriction.G ReciprocityTheory.ChartRestriction.G.Out ReciprocityTheory.ChartRestriction.G.Geo.Tor ReciprocityTheory.ChartRestriction.G.Semi GlobalTheory.AbLaw GlobalTheory.CatCoh GlobalTheory.CechDR GlobalTheory.AbCoh
-attribute [local instance] Over.cartesianMonoidalCategory
 
 namespace GlobalTheory.AbCoh
 
 theorem exists_fin_affineOpen_cover_of_compactSpace (X : Scheme.{0}) [CompactSpace X] :
     ∃ (n : ℕ) (D : Fin n → X.Opens), (∀ i, IsAffineOpen (D i)) ∧ ⨆ i, D i = ⊤ := by
-  apply _root_.GlobalTheory.PicZeroVan.exists_fin_affine_cover <;> assumption
+  obtain ⟨Us, hUs, hfin, hU⟩ :=
+    X.isBasis_affineOpens.exists_finite_of_isCompact (U := ⊤) isCompact_univ
+  let s := hfin.toFinset
+  refine ⟨s.card, fun i => (s.equivFin.symm i).1, fun i => ?_, ?_⟩
+  · have h := (s.equivFin.symm i).2
+    exact hUs (hfin.mem_toFinset.mp h)
+  · apply le_antisymm le_top
+    rw [hU]
+    refine sSup_le fun u hu => ?_
+    have hs : u ∈ s := hfin.mem_toFinset.mpr hu
+    refine le_iSup_of_le (s.equivFin ⟨u, hs⟩) ?_
+    simp
 
 theorem structureSheafCoh_abelianVariety_algClosed :
     ∀ (K : Type) [Field K] [IsAlgClosed K] (A : Over (Sp K)) [GrpObj A] (g : ℕ),
@@ -94,7 +103,6 @@ section -- clump:auto
 open CategoryTheory CategoryTheory.Limits AlgebraicGeometry MonoidalCategory CartesianMonoidalCategory MonObj
 open scoped TensorProduct CategoryTheory.Obj
 open ReciprocityTheory.ChartRestriction.G ReciprocityTheory.ChartRestriction.G.Out ReciprocityTheory.ChartRestriction.G.Geo.Tor ReciprocityTheory.ChartRestriction.G.Semi GlobalTheory.AbLaw GlobalTheory.CatCoh GlobalTheory.CechDR GlobalTheory.AbCoh
-attribute [local instance] Over.cartesianMonoidalCategory
 
 theorem _root_.GlobalTheory.T.structureSheafCohomology_abelianVariety_algClosed : ∀ (K : Type) [Field K] [IsAlgClosed K] (A : Over (Sp K)) [GrpObj A] (g : ℕ), IsAbelianScheme A → SmoothOfRelativeDimension g A.hom → Module.Finite K (HO1 A.hom) ∧ Module.finrank K (HO1 A.hom) = g ∧ GlobalTheory.AbCoh.WedgeO (OAff A.hom) ∧ GlobalTheory.AbCoh.NoPrimitiveStructureSheafH2 A ∧ GlobalTheory.AbCoh.AxesVanishingStructureSheafDegOne A := by
   first | exact @GlobalTheory.AbCoh.structureSheafCoh_abelianVariety_algClosed

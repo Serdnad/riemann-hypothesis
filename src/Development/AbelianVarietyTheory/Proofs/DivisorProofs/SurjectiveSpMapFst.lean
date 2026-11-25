@@ -54,8 +54,6 @@ noncomputable section
 
 namespace GlobalTheory.InvFieldRing
 
-attribute [local instance] Over.cartesianMonoidalCategory
-
 section Val
 
 variable {A : Type} [CommRing A] {Y : Scheme.{0}}
@@ -161,12 +159,5 @@ def transl (hu : IsTanAtG t (chart U) u) : tEpsG (chart U) ⊗ t.G ⟶ t.G :=
   snd _ t.G * (fst _ t.G ≫ tanPt t U u hu)
 
 end Group
-
-section Group2
-
-variable {E : Type} [Field E] [NumberField E] [IsCMField E] {H : Host E} {X : Scheme.{0}} (t : SAB H X)
-  (U : X.affineOpens) (u : Sp (DualNumber Γ(X, U.1)) ⟶ t.G.left)
-
-end Group2
 
 end GlobalTheory.InvFieldRing
