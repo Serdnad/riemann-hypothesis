@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.ModuliProofs.CmModelCoefficientSubringDedekindCompatibleEmbed
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.TwoWeightEqOneAddRoot
 public import Development.AbelianVarietyTheory.Definitions.ModuliSpaces.IsGaloisCover
 public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.PushEquivSymmLeft
@@ -1015,20 +1016,7 @@ namespace GlobalTheory.ZM.FullLevel
 
 theorem finiteDimensional_KA {E : Type} [Field E] [NumberField E] [IsCMField E] {H : Host E} (l : Level H) :
     FiniteDimensional ℚ (KA l) := by
-  have hA := l.A_pos
-  refine IntermediateField.finiteDimensional_adjoin ?_
-  intro x hx
-  rcases hx with rfl | hx
-  · have h2 : H.rt0 ^ 2 = algebraMap ℚ ℂ (-(H.d : ℚ)) := by
-      rw [H.sqrt_neg_disc_sq]; simp
-    have hi : IsIntegral ℚ (H.rt0 ^ 2) := by rw [h2]; exact isIntegral_algebraMap
-    exact IsIntegral.of_pow two_pos hi
-  · rw [Set.mem_singleton_iff] at hx
-    subst hx
-    have hz : IsPrimitiveRoot (zeta l.A) l.A := by
-      unfold zeta; exact Complex.isPrimitiveRoot_exp l.A hA.ne'
-    refine IsIntegral.of_pow hA ?_
-    rw [hz.pow_eq_one]; exact isIntegral_one
+  first | exact _root_.GlobalTheory.BaseRing.finiteDimensional_KA | exact @_root_.GlobalTheory.BaseRing.finiteDimensional_KA | apply _root_.GlobalTheory.BaseRing.finiteDimensional_KA <;> assumption
 
 private theorem constPt_comp' {k : Type} [Field k] {X Y : Scheme.{0}} (x : Sp (DualNumber k) ⟶ X)
     (f : X ⟶ Y) : constPt (x ≫ f) = constPt x ≫ f := by
@@ -1290,13 +1278,7 @@ variable {l : Level H} {B : Type} [CommRing B] {b : Base l B} {S : Scheme.{0}} {
 
 lemma pow_eq_of_add {L Γ : Type} [AddCommGroup L] [Group Γ] (f : L → Γ) (hf : ∀ a c, f (a + c) = f a * f c)
     (n : ℕ) (a : L) : f a ^ n = f (n • a) := by
-  induction n with
-  | zero =>
-    have := hf 0 0
-    rw [add_zero] at this
-    rw [pow_zero, zero_smul]
-    exact (mul_left_cancel (a := f 0) (by rw [← this, _root_.mul_one])).symm
-  | succ n ih => rw [pow_succ, ih, add_smul, one_smul, hf]
+  apply _root_.GlobalTheory.ObjTheta.ev_pow <;> assumption
 
 lemma natCast_mem_Mb (l : Level H) : (l.M : 𝓞 E) ∈ l.Mb := by
   have h := Ideal.mem_span_singleton_self (l.M : 𝓞 E)
@@ -1461,14 +1443,7 @@ theorem exists_inclusion {l l₂ : Level H} (h : l.A ∣ l₂.A) :
     exact zeta_eq_pow l₂.A_pos h
 
 theorem finiteDimensional_KA (l : Level H) : FiniteDimensional ℚ (KA l) := by
-  refine IntermediateField.finiteDimensional_adjoin ?_
-  rintro x (rfl | rfl)
-  · refine IsIntegral.of_pow (n := 2) two_pos ?_
-    rw [H.sqrt_neg_disc_sq]
-    exact (isIntegral_natCast H.d).neg
-  · refine IsIntegral.of_pow l.A_pos ?_
-    rw [show zeta l.A ^ l.A = 1 from (Complex.isPrimitiveRoot_exp l.A l.A_pos.ne').pow_eq_one]
-    exact isIntegral_one
+  apply _root_.GlobalTheory.ZM.FullLevel.finiteDimensional_KA <;> assumption
 
 theorem finite_of_numberField {K K' : Type} [Field K] [Field K'] [CharZero K] [CharZero K']
     [FiniteDimensional ℚ K'] (j : K →+* K') : j.Finite := by

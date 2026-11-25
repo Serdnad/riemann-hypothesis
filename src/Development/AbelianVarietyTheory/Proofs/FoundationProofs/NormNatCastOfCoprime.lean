@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.HeightCommutatorInvariance
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.HeightAndVanishing.DirichletPrimeToLPartMulLPowerPart
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -51,19 +52,7 @@ namespace GlobalTheory.PadicNormCastBounds
 variable {l : ℕ} [hl : Fact l.Prime]
 
 theorem norm_le_one_of_isIntegral {x : PadicAlgCl l} (hx : IsIntegral ℤ_[l] x) : ‖x‖ ≤ 1 := by
-  have hz : ∀ a : ℤ_[l], ‖algebraMap ℤ_[l] (PadicAlgCl l) a‖ ≤ 1 := by
-    intro a
-    rw [IsScalarTower.algebraMap_apply ℤ_[l] ℚ_[l] (PadicAlgCl l), norm_algebraMap']
-    exact a.2
-  let v := NormedField.valuation (K := PadicAlgCl l)
-  let φ : ℤ_[l] →+* v.integer :=
-    (algebraMap ℤ_[l] (PadicAlgCl l)).codRestrict v.integer fun a => by
-      rw [Valuation.mem_integer_iff]
-      exact_mod_cast hz a
-  have h1 : IsIntegral v.integer x := hx.map_of_comp_eq φ (RingHom.id _) (by ext a; rfl)
-  have h2 := (Valuation.integer.integers v).mem_of_integral h1
-  rw [Valuation.mem_integer_iff] at h2
-  exact_mod_cast h2
+  first | exact _root_.GlobalTheory.AlgebraMapNormLeOne.norm_le_one_of_isIntegral | exact @_root_.GlobalTheory.AlgebraMapNormLeOne.norm_le_one_of_isIntegral | apply _root_.GlobalTheory.AlgebraMapNormLeOne.norm_le_one_of_isIntegral <;> assumption
 
 theorem norm_natCast_of_coprime {a : ℕ} (ha : a.Coprime l) : ‖(a : PadicAlgCl l)‖ = 1 := by
   rw [← map_natCast (algebraMap ℚ_[l] (PadicAlgCl l)), norm_algebraMap', Padic.norm_natCast_eq_one_iff]

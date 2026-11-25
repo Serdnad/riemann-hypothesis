@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.FirstCoupledKernelEquivariantCosets
 public import Development.AbelianVarietyTheory.Definitions.GlobalTwisting.KerIsTerm
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.SmulCompSmul
 import Development.AbelianVarietyTheory.Proofs.SatakeParameters.DatumPeriodicMulLatticeFinal
@@ -63,28 +64,7 @@ theorem exists_lift (hX : X.Ok) (hPr : Pr.Ok) (hL : L.Ok Ch sel mu cst G m2) {j 
     ∃ r ∈ Loc.Cbe (Jat (Pr := Pr) cst.sharp j P.1) (L.h j b P),
       (∀ x, r (Loc.inX X.E _ (cOf R j) x) = Loc.inX X.E _ (cOf R j) (κ.1 x)) ∧
         (c : X.K) = chiInv Ch sel mu cst j P (L.h j b P) r := by
-  by_cases hP : P.1 ∈ Pr.vGs
-  · obtain ⟨h, rfl⟩ := hk.1 hP
-    obtain ⟨g, hg, hred⟩ := (hL.grpG j b ⟨P.1, hP⟩ _).1 h
-    have hgi : g ∈ GLint X.E (R.N j) P.1 := hL.int j b P hg
-    have e : redGL _ P.1 ⟨g, hgi⟩ = redGL _ P.1 κ := redGL_eq _ hred
-    have h1 : redGL _ P.1 ((⟨g, hgi⟩ : GLint X.E (R.N j) P.1)⁻¹ * κ) = 1 := by
-      rw [map_mul, map_inv, e, inv_mul_cancel]
-    have h2 := CongLevel.cong_mem_prCat X Pr R cst.sharp j P.1 hP
-      (fun a ha h0 => intAt_div_of_redP (qOf_notMem_sq hX hPr hP) ha h0) _ (hL.stabG j b P hP)
-      _ ((⟨g, hgi⟩ : GLint X.E (R.N j) P.1)⁻¹ * κ).2 fun x hx => by
-        rw [redV_redGL _ hx, h1, Units.val_one, Matrix.one_mulVec]
-    have h3 : κ.1 ∈ prCat (Pr := Pr) cst.sharp j P.1 (L.h j b P) := by
-      have := mul_mem hg h2
-      rwa [Subgroup.coe_mul, Subgroup.coe_inv, mul_inv_cancel_left] at this
-    obtain ⟨r, hr, hrx⟩ := h3
-    exact ⟨r, hr, hrx, hL.chrG j b ⟨P.1, hP⟩ ⟨_, h⟩ κ.1 r hr hrx fun x hx => redV_redGL κ hx⟩
-  · have hP' := (@Finset.mem_union _ (Classical.decEq _) _ _ _).1 P.2 |>.resolve_left hP
-    obtain ⟨h, rfl⟩ := hk.2 hP' hP
-    have h3 := h
-    rw [hL.grpQ, Subgroup.mem_subgroupOf] at h3
-    obtain ⟨r, hr, hrx⟩ := h3
-    exact ⟨r, hr, hrx, hL.chrQ j b ⟨P.1, hP'⟩ ⟨_, h⟩ r hr hrx⟩
+  first | exact _root_.GlobalTheory.CoupledLaw.exists_lift | exact @_root_.GlobalTheory.CoupledLaw.exists_lift | apply _root_.GlobalTheory.CoupledLaw.exists_lift <;> assumption
 
 theorem muAt_det (i : ℕ) (P : rowSG Pr sel mu) {n : ℕ} (k : GLint X.E n P.1) :
     muAt Ch sel mu cst i P ((LinearEquiv.det k.1 : X.Eˣ) : X.E) = rhoS Ch sel mu i P ((LinearEquiv.det k.1 : X.Eˣ) : X.E) := by

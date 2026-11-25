@@ -1,5 +1,7 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.SpanEqTopOfFunctionals
+import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.PolBaseChangeOfRelAmpleLocal
 public import Development.AbelianVarietyTheory.Definitions.ModuliSpaces.IsGaloisCover
 public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ClsLinCombSingle
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.SecBaseChangeAnySt
@@ -129,15 +131,8 @@ private theorem eq_inv_of_left_eq_inv_comp_of_isGrpPullback (h : IsGrpPullback G
 
 theorem inv_left_comp (h : IsGrpPullback G' G f φ) :
     (GrpObj.inv : G' ⟶ G').left ≫ φ = φ ≫ (GrpObj.inv : G ⟶ G).left := by
-  let ψ : Over.mk (G'.hom ≫ f) ⟶ G := Over.homMk φ h.1.w
-  let y₀ : Over.mk (G'.hom ≫ f) ⟶ G :=
-    Over.homMk ((GrpObj.inv : G' ⟶ G').left ≫ φ) (by
-      rw [Category.assoc, h.1.w, ← Category.assoc, Over.w]
-      rfl)
-  have e := eq_inv_of_left_eq_inv_comp_of_isGrpPullback h (𝟙 G') ψ (by simp [ψ]) y₀ (by simp [y₀, GrpObj.inv_eq_inv])
-  have e2 : ψ ≫ (GrpObj.inv : G ⟶ G) = ψ⁻¹ := by rw [GrpObj.inv_eq_inv, GrpObj.comp_inv, Category.comp_id]
-  change y₀.left = ψ.left ≫ (GrpObj.inv : G ⟶ G).left
-  rw [← Over.comp_left, e2, e]
+  intros
+  apply _root_.GlobalTheory.PolBaseChange.inv_comm <;> assumption
 
 private theorem pic_eq_zero_of_pull_ι_eq_zero_of_opens_eq_whole {X : Scheme.{0}} (V : X.Opens) (hV : V = ⊤)
     (c : CechPic.Pic X) (h : CechPic.pull V.ι c = 0) : c = 0 := by
@@ -188,15 +183,8 @@ theorem linComb_eq_prod {S : Scheme.{0}} {A T : Over S} [GrpObj A] [IsCommMonObj
 
 theorem comp_linComb {S : Scheme.{0}} {A T T' : Over S} [GrpObj A] {n : ℕ} (u : T' ⟶ T)
     (y : Fin n → (T ⟶ A)) (a : Fin n → ℕ) : u ≫ Out.linComb y a = Out.linComb (fun i => u ≫ y i) a := by
-  unfold Out.linComb
-  let ψ : (T ⟶ A) →* (T' ⟶ A) :=
-    { toFun := fun g => u ≫ g, map_one' := MonObj.comp_one u,
-      map_mul' := fun g₁ g₂ => MonObj.comp_mul u g₁ g₂ }
-  change ψ (List.ofFn fun i => y i ^ a i).prod = _
-  rw [map_list_prod, List.map_ofFn]
-  congr 2
-  funext i
-  exact MonObj.comp_pow (y i) (a i) u
+  intros
+  apply _root_.GlobalTheory.VVRank.comp_linComb <;> assumption
 
 theorem exists_torsionHom {S : Scheme.{0}} {A T : Over S} [GrpObj A] [IsCommMonObj A] {n m : ℕ} [NeZero m]
     (y : Fin n → (T ⟶ A)) (hy : ∀ i, y i ^ m = 1) :

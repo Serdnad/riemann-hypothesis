@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.ExistsRootNear
 public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.AfsplitB
 public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Levelaf
 public import Formalism.SharpRestriction.GlobalSchurBounds.StandardLatticesGL3
@@ -62,18 +63,7 @@ open scoped TensorProduct Matrix
 
 theorem unit_of_integral {A R : Type} [CommRing A] [CommRing R] (φ : A →+* R) (hφ : φ.IsIntegral)
     (a : A) (ha : ∀ c, IsUnit (1 + a * c)) (x : R) : IsUnit (1 + φ a * x) := by
-  by_contra h
-  obtain ⟨m, hm, hle⟩ := Ideal.exists_le_maximal (Ideal.span {1 + φ a * x})
-    (fun h' => h (Ideal.span_singleton_eq_top.1 h'))
-  have h1 : 1 + φ a * x ∈ m := hle (Ideal.mem_span_singleton_self _)
-  have hm' : (m.comap φ).IsMaximal := Ideal.isMaximal_comap_of_isIntegral_of_isMaximal' φ hφ m
-  have h2 : a ∈ m.comap φ := by
-    by_contra hn
-    obtain ⟨y, i, hi, e⟩ := hm'.exists_inv hn
-    have : i = 1 + a * (-y) := by linear_combination e
-    exact hm'.ne_top (Ideal.eq_top_of_isUnit_mem _ hi (this ▸ ha _))
-  have h3 : φ a * x ∈ m := m.mul_mem_right _ h2
-  exact hm.ne_top ((Ideal.eq_top_iff_one _).2 (by simpa using sub_mem h1 h3))
+  first | exact _root_.GlobalTheory.AdLat.RootNear.unit_of_integral | exact @_root_.GlobalTheory.AdLat.RootNear.unit_of_integral | apply _root_.GlobalTheory.AdLat.RootNear.unit_of_integral <;> assumption
 
 theorem exists_unit_det {K B : Type} [Field K] [CommRing B] [IsArtinianRing B] (ι : K →+* B) {n : ℕ}
     (h : Matrix (Fin n) (Fin n) B) (Z : Set K) (hZ : Z.Infinite) :

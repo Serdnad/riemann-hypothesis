@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ModularTowerUnitsFiniteModPowersAtLevel
 public import Development.AbelianVarietyTheory.Definitions.Foundations.ExpUpper
 public import Mathlib.Analysis.Analytic.Order
 public import Mathlib.Order.CompletePartialOrder
@@ -149,30 +150,8 @@ theorem eqOn_of_pow_eq {D : Set ℂ} (hD : IsOpen D) (hc : IsPreconnected D) {m 
     {f g : ℂ → ℂ} (hf : DifferentiableOn ℂ f D) (hg : DifferentiableOn ℂ g D)
     {z0 : ℂ} (hz0 : z0 ∈ D) (hfg0 : f z0 = g z0) (hne : f z0 ≠ 0)
     (hpow : ∀ z ∈ D, f z ^ m = g z ^ m) : Set.EqOn f g D := by
-  have hfc : ContinuousAt f z0 := (hf.differentiableAt (hD.mem_nhds hz0)).continuousAt
-  have hgc : ContinuousAt g z0 := (hg.differentiableAt (hD.mem_nhds hz0)).continuousAt
-  set S : ℂ → ℂ := fun z => ∑ i ∈ Finset.range m, f z ^ i * g z ^ (m - 1 - i) with hS
-  have hSc : ContinuousAt S z0 := by
-    simp only [hS]; fun_prop
-  have hS0 : S z0 ≠ 0 := by
-    have : S z0 = (m : ℂ) * f z0 ^ (m - 1) := by
-      simp only [hS, ← hfg0]
-      rw [Finset.sum_congr rfl (g := fun _ => f z0 ^ (m - 1))]
-      · simp
-      · intro i hi
-        rw [← pow_add]
-        congr 1
-        have := Finset.mem_range.1 hi
-        omega
-    rw [this]
-    exact mul_ne_zero (by exact_mod_cast hm.ne') (pow_ne_zero _ hne)
-  have hev : f =ᶠ[nhds z0] g := by
-    filter_upwards [hSc.eventually_ne hS0, hD.mem_nhds hz0] with z hz hzD
-    have key : S z * (f z - g z) = f z ^ m - g z ^ m := by
-      simp only [hS]; exact geom_sum₂_mul (f z) (g z) m
-    rw [hpow z hzD, sub_self] at key
-    exact sub_eq_zero.1 ((mul_eq_zero.1 key).resolve_left hz)
-  exact (hf.analyticOnNhd hD).eqOn_of_preconnected_of_eventuallyEq (hg.analyticOnNhd hD) hc hz0 hev
+  intros
+  apply _root_.GlobalTheory.RootHs.rootUnique <;> assumption
 
 end GlobalTheory.UHPRoot
 
@@ -674,14 +653,7 @@ namespace KumUniq
 
 theorem gamma_mem_of_dvd {M N : ℕ} (h : M ∣ N) {δ : SL(2, ℤ)} (hδ : δ ∈ CongruenceSubgroup.Gamma N) :
     δ ∈ CongruenceSubgroup.Gamma M := by
-  rw [CongruenceSubgroup.Gamma_mem] at hδ ⊢
-  obtain ⟨h1, h2, h3, h4⟩ := hδ
-  have e : ∀ x : ℤ, ZMod.castHom h (ZMod M) (x : ZMod N) = (x : ZMod M) := fun x => map_intCast _ x
-  refine ⟨?_, ?_, ?_, ?_⟩
-  · rw [← e, h1, map_one]
-  · rw [← e, h2, map_zero]
-  · rw [← e, h3, map_zero]
-  · rw [← e, h4, map_one]
+  apply _root_.GlobalTheory.KZ.H3.KumAdd.gamma_of_dvd <;> assumption
 
 end KumUniq
 

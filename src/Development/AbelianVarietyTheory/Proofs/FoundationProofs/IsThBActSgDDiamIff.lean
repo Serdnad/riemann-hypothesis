@@ -42,6 +42,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
 import Development.AbelianVarietyTheory.Definitions.Foundations.ExistsRootOfIsAlgClosed
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.DiamondCommutesHeckeU
 
 @[expose] public section
 
@@ -53,14 +54,7 @@ noncomputable section
 namespace GlobalTheory.KZ
 
 theorem isDiam_sgD_of_coprime {N l d : ℕ} (hl : l ≠ 0) (hd : Nat.Coprime d N) : IsDiam N l d (sgD N l d) := by
-  rcases Nat.eq_zero_or_pos N with rfl | hN
-  · have h1 : d = 1 := Nat.coprime_zero_right d |>.1 hd
-    subst h1
-    refine Classical.epsilon_spec (p := IsDiam 0 l 1) ⟨1, ⟨?_, ?_⟩, ?_⟩
-    · exact Subgroup.one_mem _
-    · exact Subgroup.one_mem _
-    · simp [en]
-  · exact Betti.isDiam_sgD hN.ne' hl hd
+  apply _root_.GlobalTheory.KZ.DiamU.isDiam_sgD_of_coprime' <;> assumption
 
 theorem isDiam_mul {N l a d : ℕ} {s t : SL(2, ℤ)} (hs : IsDiam N l a s) (ht : IsDiam N l d t) :
     IsDiam N l (d * a) (s * t) := by

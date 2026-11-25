@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.NormSqMulGaussianLatticeTranslateEqShifted
 public import Development.AbelianVarietyTheory.Definitions.Foundations.NormSumPairRankZeroOfCurveCoordNorm
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ThetaPairCoordinatesConjugateBound
 public import Formalism.PairingDivisors.StatementH
@@ -271,16 +272,7 @@ theorem sizes (f N a d s Q ch cT ca cd : ℕ) (B L r ν A : ℝ) (hf : 1 ≤ f) 
 
 theorem mul_mem_lamOf (D : D7) (cc : Ideal (𝓞 D.host.K)) (δ : ℂ) (a : 𝓞 D.host.K) {w : ℂ}
     (hw : w ∈ lamOf D cc δ) : w * D.host.φ₀ ((a : D.host.K) : D.host.E) ∈ lamOf D cc δ := by
-  unfold lamOf at hw
-  induction hw using AddSubgroup.closure_induction with
-  | mem x hx =>
-    obtain ⟨c, hc, rfl⟩ := hx
-    refine AddSubgroup.subset_closure ⟨c * a, cc.mul_mem_right a hc, ?_⟩
-    rw [mul_assoc, ← map_mul]
-    congr 2
-  | zero => rw [zero_mul]; exact zero_mem _
-  | add x y _ _ hx hy => rw [add_mul]; exact add_mem hx hy
-  | neg x _ hx => rw [neg_mul]; exact neg_mem hx
+  apply _root_.GlobalTheory.NormSum.LocIndex.mul_mem_lamOf <;> assumption
 
 theorem sum_prod_le {α β : Type} [Fintype α] [Fintype β] (g : α × β → ℝ) (X : ℝ) (h : ∀ p, g p ≤ X) :
     ∑ p, g p ≤ (Nat.card α : ℝ) * (Fintype.card β : ℝ) * X := by

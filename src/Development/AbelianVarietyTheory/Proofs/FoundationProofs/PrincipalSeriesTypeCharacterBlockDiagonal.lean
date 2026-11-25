@@ -1,5 +1,6 @@
 module
 
+import all Development.AbelianVarietyTheory.Proofs.FoundationProofs.PrincipalSeriesTypeConstantFamilyDetCharacter
 public import Development.AbelianVarietyTheory.Definitions.Foundations.OrderedConst
 public import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.LeviEmbMemNormalizerLower
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.LeadingPrincipalMinorMulModConductor
@@ -98,12 +99,7 @@ theorem ev_of_triv_one (χ : kˣ →* ℂˣ) (h : Triv χ 1) (x : k) : ev χ x =
 
 theorem val_det_of_mem_KO {n : Type} [Fintype n] [DecidableEq n] {g : GL n k} (hg : g ∈ KO k n) :
     valuation k g.val.det = 1 := by
-  obtain ⟨A, rfl⟩ := hg
-  have h1 : ((Matrix.GeneralLinearGroup.map (n := n) (algebraMap 𝒪[k] k)) A).val.det
-      = algebraMap 𝒪[k] k A.val.det := by
-    simp [RingHom.map_det]
-  rw [h1]
-  exact (Valuation.integer.integers (valuation k)).one_of_isUnit (Matrix.isUnits_det_units A)
+  apply _root_.GlobalTheory.PsType.valuation_det_of_mem_KO' <;> assumption
 
 def head {n : ℕ} (ψ : Fin n → kˣ →* ℂˣ) : kˣ →* ℂˣ := if h : 0 < n then ψ ⟨0, h⟩ else 1
 

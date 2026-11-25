@@ -48,6 +48,7 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ColengthDvdOfNeZero
 
 @[expose] public section
 
@@ -78,20 +79,7 @@ open scoped CategoryTheory.Obj TensorProduct in
 variable {E : Type} [Field E] [NumberField E] in
 private lemma ringOfIntegers_ringHom_injective' {K : Type} [Field K] [CharZero K]
     (τ : 𝓞 E →+* K) : Function.Injective τ := by
-  refine (injective_iff_map_eq_zero τ).mpr fun a ha => ?_
-  by_contra hne
-  have haE : (a : E) ≠ 0 := by
-    intro h; exact hne (RingOfIntegers.coe_injective (h.trans (map_zero (algebraMap (𝓞 E) E)).symm))
-  obtain ⟨z, hz, h⟩ := exists_integral_multiples ℤ ℚ ({(a : E)⁻¹} : Finset E)
-  let c : 𝓞 E := ⟨z • (a : E)⁻¹, h _ (Finset.mem_singleton_self _)⟩
-  have hzc : (z : 𝓞 E) = a * c := by
-    apply RingOfIntegers.coe_injective
-    show ((z : 𝓞 E) : E) = (a : E) * (z • (a : E)⁻¹)
-    rw [zsmul_eq_mul, mul_left_comm, mul_inv_cancel₀ haE, _root_.mul_one]
-    simp
-  have : τ (z : 𝓞 E) = 0 := by rw [hzc, map_mul, ha, zero_mul]
-  rw [map_intCast] at this
-  exact hz (Int.cast_eq_zero.mp this)
+  apply _root_.GlobalTheory.ColengthDifferent.injective_of_charZero <;> assumption
 
 
 open AlgebraicGeometry CategoryTheory Limits MonoidalCategory CartesianMonoidalCategory MonObj NumberField in

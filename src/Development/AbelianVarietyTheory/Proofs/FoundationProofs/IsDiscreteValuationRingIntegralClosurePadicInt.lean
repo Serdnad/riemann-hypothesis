@@ -1,5 +1,7 @@
 module
 
+
+import Development.AutomorphicArithmetic.AutomorphicVarieties.HeckeAlgebras.UpOperatorEigenvalues.EigChar
 public import Mathlib.RingTheory.LocalRing.MaximalIdeal.Defs
 public import Mathlib.RingTheory.Noetherian.Defs
 public import Mathlib.RingTheory.Ideal.KrullsHeightTheorem
@@ -68,7 +70,6 @@ import Mathlib.AlgebraicGeometry.Modules.Sheaf
 import Mathlib.RingTheory.Coalgebra.IsFrobenius
 import Mathlib.RingTheory.HopfAlgebra.Basic
 import Mathlib.RingTheory.WittVector.IsPoly
-
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.Proofs.FoundationProofs.PrimeEqBotOrMaximalIdealOfIsFieldAway, Development.AbelianVarietyTheory.Proofs.FoundationProofs.IsDiscreteValuationRingIntegralClosurePadicInt
 
@@ -292,19 +293,7 @@ theorem comap_maximalIdeal_mapIntegralClosure (σ : K →ₐ[ℚ_[p]] L) :
 
 theorem isIntegral_padicInt_iff_norm_le_one (x : PadicAlgCl p) :
     IsIntegral ℤ_[p] x ↔ ‖x‖ ≤ 1 := by
-  have hx : IsIntegral ℚ_[p] x := Algebra.IsIntegral.isIntegral x
-  rw [← PadicAlgCl.spectralNorm_eq, spectralNorm, spectralValue_le_one_iff (minpoly.monic hx)]
-  constructor
-  · intro h n
-    rw [minpoly.isIntegrallyClosed_eq_field_fractions' ℚ_[p] h, Polynomial.coeff_map]
-    exact ((minpoly ℤ_[p] x).coeff n).2
-  · intro h
-    have hl : minpoly ℚ_[p] x ∈ Polynomial.lifts (algebraMap ℤ_[p] ℚ_[p]) := by
-      rw [Polynomial.lifts_iff_coeff_lifts]
-      exact fun n => ⟨⟨_, h n⟩, rfl⟩
-    obtain ⟨q, hq, -, hqm⟩ := Polynomial.lifts_and_degree_eq_and_monic hl (minpoly.monic hx)
-    refine ⟨q, hqm, ?_⟩
-    rw [← Polynomial.aeval_def, ← Polynomial.aeval_map_algebraMap ℚ_[p], hq, minpoly.aeval]
+  first | exact _root_.UpperTheory.V.Hi.Up.intIff | exact @_root_.UpperTheory.V.Hi.Up.intIff | apply _root_.UpperTheory.V.Hi.Up.intIff <;> assumption
 
 theorem mem_integralClosure_padicInt_iff (K : IntermediateField ℚ_[p] (PadicAlgCl p)) (x : K) :
     x ∈ integralClosure ℤ_[p] K ↔ ‖(x : PadicAlgCl p)‖ ≤ 1 := by

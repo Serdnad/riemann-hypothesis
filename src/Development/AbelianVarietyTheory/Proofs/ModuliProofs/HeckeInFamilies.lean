@@ -1,5 +1,7 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.ModuliProofs.IsAbelianSchemeOfProper
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.AbelianSchemeDescendsToFinitelyGeneratedSubring
 public import Development.AbelianVarietyTheory.Definitions.ModuliSpaces.KerScheme
 public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.ExistsIsoIsMonHomOfIsGtOfRangeEq
 public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsGeomPtRangeEq
@@ -230,16 +232,8 @@ variable {S : Scheme.{0}}
 
 theorem exists_lift {A B : Over S} (ψ : A ⟶ B) [LocallyOfFiniteType ψ.left] [Surjective ψ.left] {k : Type} [Field k]
     [IsAlgClosed k] (t : Sp k ⟶ S) (y : Over.mk t ⟶ B) : ∃ x : Over.mk t ⟶ A, x ≫ ψ = y := by
-  let y' : Sp k ⟶ B.left := y.left
-  obtain ⟨z, -⟩ := (pullback.snd ψ.left y').surjective (IsLocalRing.closedPoint k)
-  have : JacobsonSpace ↥(pullback ψ.left y') := LocallyOfFiniteType.jacobsonSpace (pullback.snd ψ.left y')
-  obtain ⟨z', -, hz'⟩ := nonempty_inter_closedPoints (Z := (Set.univ : Set ↥(pullback ψ.left y')))
-    ⟨z, trivial⟩ isOpen_univ.isLocallyClosed
-  have hc : IsClosed {z'} := hz'
-  have e : (pointOfClosedPoint (pullback.snd ψ.left y') z' hc ≫ pullback.fst ψ.left y') ≫ ψ.left = y' := by
-    rw [Category.assoc, pullback.condition, pointOfClosedPoint_comp_assoc]
-  exact ⟨Over.homMk (pointOfClosedPoint (pullback.snd ψ.left y') z' hc ≫ pullback.fst ψ.left y')
-    (by rw [← Over.w ψ, ← Category.assoc, e]; exact Over.w y), Over.OverMorphism.ext e⟩
+  intros
+  apply _root_.GlobalTheory.HeckePoint.exists_lift_pt <;> assumption
 
 theorem kerSet_unit {G G' : Over S} [GrpObj G'] [IsSeparated G'.hom] (ψ : G ⟶ G') :
     KerSet ψ (ψ.left ⁻¹' Set.range (η[G'] : 𝟙_ (Over S) ⟶ G').left) := by
@@ -526,31 +520,7 @@ namespace GlobalTheory.HkFam.Swap
 theorem id_pow_left_comp {S S' : Scheme.{0}} {G : Over S} {G' : Over S'} [GrpObj G] [GrpObj G'] {f : S' ⟶ S}
     {φ : G'.left ⟶ G.left} (h : IsGrpPullback G' G f φ) (n : ℕ) :
     (𝟙 G' ^ n).left ≫ φ = φ ≫ (𝟙 G ^ n).left := by
-  have hw : φ ≫ G.hom = G'.hom ≫ f := h.1.w
-  let Φ : Over.mk (G'.hom ≫ f) ⟶ G := Over.homMk φ hw
-  have key : ∀ m : ℕ, (Φ ^ m).left = (𝟙 G' ^ m).left ≫ φ := by
-    intro m
-    induction m with
-    | zero =>
-      let Ψ : Over.mk (G'.hom ≫ f) ⟶ G := Over.homMk ((1 : G' ⟶ G').left ≫ φ) (by
-        rw [Category.assoc, hw, ← Category.assoc, Over.w]; rfl)
-      have hΨ : Ψ * Ψ = Ψ * 1 := by
-        rw [_root_.mul_one]
-        apply Over.OverMorphism.ext
-        have := h.2 G' 1 1 Ψ Ψ rfl rfl
-        rw [this, _root_.mul_one]
-        rfl
-      have h1 : Ψ = 1 := mul_left_cancel hΨ
-      simp only [pow_zero]
-      rw [← h1]
-      rfl
-    | succ m ih =>
-      rw [pow_succ, pow_succ]
-      exact h.2 G' (𝟙 G' ^ m) (𝟙 G') (Φ ^ m) Φ ih (by simp [Φ])
-  have hc : Φ ≫ 𝟙 G ^ n = Φ ^ n := by rw [MonObj.comp_pow, Category.comp_id]
-  calc (𝟙 G' ^ n).left ≫ φ = (Φ ^ n).left := (key n).symm
-    _ = (Φ ≫ 𝟙 G ^ n).left := by rw [hc]
-    _ = φ ≫ (𝟙 G ^ n).left := by simp [Φ]
+  apply _root_.GlobalTheory.AbelianLimit.pow_comm <;> assumption
 
 variable {E : Type} [Field E] [NumberField E] [IsCMField E] {H : Host E} {D : Datum H} {l : Level H}
   {Xo : Moduli D l} {P P' : Ideal (𝓞 E)} {p i : ℕ}

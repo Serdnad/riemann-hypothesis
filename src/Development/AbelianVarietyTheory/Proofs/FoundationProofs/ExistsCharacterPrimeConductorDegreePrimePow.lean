@@ -1,5 +1,6 @@
 module
 
+import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.KatoQuadraticCharacters.EulerFactorBounds.FrobeniusConjugateInertia.FrobConjIne
 public import Development.AbelianVarietyTheory.Definitions.Foundations.FinalTheorems
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.CommutativeAlgebra.ResMapBijective
 public import Mathlib.RingTheory.AdicCompletion.Noetherian
@@ -54,19 +55,7 @@ open scoped Matrix
 namespace GlobalTheory.Ord2.PrimeChar
 
 theorem normV_prime (v : Pl) : (normV v).Prime := by
-  haveI := v.isPrime
-  haveI := v.isMaximal
-  haveI : Finite (𝓞 ℚ ⧸ v.asIdeal) := Ideal.finiteQuotientOfFreeOfNeBot _ v.ne_bot
-  have hp : (ringChar (𝓞 ℚ ⧸ v.asIdeal)).Prime := CharP.char_is_prime (𝓞 ℚ ⧸ v.asIdeal) _
-  haveI : Fact (ringChar (𝓞 ℚ ⧸ v.asIdeal)).Prime := ⟨hp⟩
-  have hs : Function.Surjective (ZMod.castHom (dvd_refl (ringChar (𝓞 ℚ ⧸ v.asIdeal))) (𝓞 ℚ ⧸ v.asIdeal)) := by
-    intro y
-    obtain ⟨x, rfl⟩ := Ideal.Quotient.mk_surjective y
-    obtain ⟨n, rfl⟩ := Rat.ringOfIntegersEquiv.symm.surjective x
-    exact ⟨(n : ZMod _), by simp⟩
-  have hb := Nat.card_eq_of_bijective _ ⟨RingHom.injective _, hs⟩
-  rw [normV, ← hb, Nat.card_zmod]
-  exact hp
+  apply _root_.UpperTheory.V.Z.Kato.Nb.normV_prime <;> assumption
 
 theorem normV_mem (v : Pl) : ((normV v : ℕ) : 𝓞 ℚ) ∈ v.asIdeal := by
   have h : Nat.card (𝓞 ℚ ⧸ v.asIdeal) = Ideal.absNorm v.asIdeal := by

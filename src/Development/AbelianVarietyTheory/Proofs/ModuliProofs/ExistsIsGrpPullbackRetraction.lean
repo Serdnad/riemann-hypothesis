@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.TorsionFramePowEqIntegralGenerator
 public import Development.AbelianVarietyTheory.Definitions.ModuliSpaces.IsSymm
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.GlobalSectionsRankAlgClosed
 public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.IsAbelianSchemeOfIsGrpPullback
@@ -66,20 +67,7 @@ theorem comp_translInvIso_hom {S : Scheme.{0}} {B T : Over S} [GrpObj B] (c : �
 
 theorem unit_left_comp {S S' : Scheme.{0}} {G : Over S} {G' : Over S'} [GrpObj G] [GrpObj G'] {f : S' ⟶ S}
     {φ : G'.left ⟶ G.left} (h : IsGrpPullback G' G f φ) : η[G'].left ≫ φ = f ≫ η[G].left := by
-  have hw : (η[G'].left ≫ φ) ≫ G.hom = (Over.mk ((𝟙_ (Over S')).hom ≫ f)).hom := by
-    rw [Category.assoc, h.1.w, ← Category.assoc, Over.w]
-    rfl
-  let u : Over.mk ((𝟙_ (Over S')).hom ≫ f) ⟶ G := Over.homMk (η[G'].left ≫ φ) hw
-  have hη : (η[G'] : 𝟙_ (Over S') ⟶ G') * η[G'] = η[G'] := by
-    rw [MonObj.one_eq_one]
-    exact _root_.one_mul _
-  have huu : u * u = u := by
-    ext1
-    rw [h.2 _ η[G'] η[G'] u u rfl rfl, hη]
-    rfl
-  have hu1 : u = 1 := mul_eq_left.mp huu
-  have := congrArg (fun v => CommaMorphism.left v) hu1
-  simpa [u, Hom.one_def] using this
+  first | exact _root_.GlobalTheory.TorsFrameInt.one_comm | exact @_root_.GlobalTheory.TorsFrameInt.one_comm | apply _root_.GlobalTheory.TorsFrameInt.one_comm <;> assumption
 
 theorem exists_isGrpPullback_retraction (rig : Out.RigiditySt) {S S' : Scheme.{0}} (A₀ : Over S) [GrpObj A₀]
     (A' : Over S') [GrpObj A'] (f : S' ⟶ S) (i : S ⟶ S') (ρ₀ : A'.left ⟶ A₀.left) (j : A₀.left ⟶ A'.left)

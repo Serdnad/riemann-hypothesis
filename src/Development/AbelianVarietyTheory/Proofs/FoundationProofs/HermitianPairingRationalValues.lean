@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsSelfDualPairGaloisConjugateHomLattice
 public import Formalism.SharpRestriction.GlobalSchurBounds.StandardLatticesGL3
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.LatticeExtensionAlongFieldEmbeddingDuals
 public import Formalism.LocalRingCardinality.RankBoundMonotoneInDimension
@@ -106,18 +107,7 @@ theorem pair_integral {E : Type} [Field E] [NumberField E] [StarRing E] {N N' : 
 theorem mulVec_mem_of_homL (D : D7) {N N' : ℕ} {L : Submodule (𝓞 D.host.E) (Fin N → D.host.E)}
     {L' : Submodule (𝓞 D.host.E) (Fin N' → D.host.E)} {A : Matrix (Fin N') (Fin N) D.host.E}
     (hA : A ∈ homL D L L') : ∀ x ∈ L, A.mulVec x ∈ L' := by
-  unfold homL at hA
-  induction hA using Submodule.span_induction with
-  | mem B hB => exact hB
-  | zero => intro x _; simp
-  | add B C _ _ hB hC =>
-    intro x hx
-    rw [Matrix.add_mulVec]
-    exact L'.add_mem (hB x hx) (hC x hx)
-  | smul c B _ hB =>
-    intro x hx
-    rw [Matrix.smul_mulVec]
-    exact L'.smul_mem c (hB x hx)
+  first | exact _root_.GlobalTheory.GaloisTwist.mem_homL | exact @_root_.GlobalTheory.GaloisTwist.mem_homL | apply _root_.GlobalTheory.GaloisTwist.mem_homL <;> assumption
 
 theorem hYY_add_left (D : D7) {N N' : ℕ} (x x' y : Matrix (Fin N') (Fin N) D.host.E) :
     hYY D (x + x') y = hYY D x y + hYY D x' y := by

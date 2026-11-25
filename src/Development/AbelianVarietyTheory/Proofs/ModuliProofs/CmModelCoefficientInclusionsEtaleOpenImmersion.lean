@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.LevelOfSplitAndLevelCoeffExist
 public import Development.AbelianVarietyTheory.Definitions.ModuliSpaces.AuxiliaryInertOddPrime
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.IsEquivalenceFiniteEtaleBaseChangeResidueField
 public import Development.AbelianVarietyTheory.Proofs.HomogeneousIdeals.IsDomainAndIsIntegrallyClosedAtPrimeOfSmoothOfCo
@@ -290,15 +291,7 @@ theorem zeta_pow (n : ℕ) (hn : 0 < n) : zeta n ^ n = 1 :=
   (Complex.isPrimitiveRoot_exp n hn.ne').pow_eq_one
 
 theorem zeta_eq_pow {A A' : ℕ} (hA' : 0 < A') (h : A ∣ A') : ∃ k : ℕ, zeta A = zeta A' ^ k := by
-  obtain ⟨k, rfl⟩ := h
-  have hA : (A : ℂ) ≠ 0 := by exact_mod_cast (Nat.pos_of_mul_pos_right hA').ne'
-  have hk : (k : ℂ) ≠ 0 := by exact_mod_cast (Nat.pos_of_mul_pos_left hA').ne'
-  refine ⟨k, ?_⟩
-  unfold zeta
-  rw [← Complex.exp_nat_mul]
-  congr 1
-  push_cast
-  field_simp
+  apply _root_.GlobalTheory.LevelExist.zeta_eq_pow_of_dvd <;> assumption
 
 variable {E : Type} [Field E] [NumberField E] [IsCMField E] (H : Host E)
 

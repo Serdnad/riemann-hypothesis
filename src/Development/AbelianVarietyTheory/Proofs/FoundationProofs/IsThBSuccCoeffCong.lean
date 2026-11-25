@@ -43,6 +43,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
 import Development.AbelianVarietyTheory.Definitions.Foundations.ExistsRootOfIsAlgClosed
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.TowerPadicCompletionMapEvalDependsOnLevel
 
 @[expose] public section
 
@@ -55,16 +56,6 @@ private theorem cast_eq_of_dvd {N M : ℕ} (h : N ∣ M) (x y : ℤ) (hxy : (x :
     (x : ZMod N) = (y : ZMod N) := by
   have := congrArg (ZMod.castHom h (ZMod N)) hxy
   simpa only [map_intCast] using this
-
-private theorem gamma_le {N M : ℕ} (h : N ∣ M) : CongruenceSubgroup.Gamma M ≤ CongruenceSubgroup.Gamma N := by
-  intro γ hγ
-  rw [CongruenceSubgroup.Gamma_mem] at hγ ⊢
-  obtain ⟨h1, h2, h3, h4⟩ := hγ
-  refine ⟨?_, ?_, ?_, ?_⟩
-  · simpa using cast_eq_of_dvd h _ 1 (by simpa using h1)
-  · simpa using cast_eq_of_dvd h _ 0 (by simpa using h2)
-  · simpa using cast_eq_of_dvd h _ 0 (by simpa using h3)
-  · simpa using cast_eq_of_dvd h _ 1 (by simpa using h4)
 
 private theorem gamma1_le {N M : ℕ} (h : N ∣ M) : CongruenceSubgroup.Gamma1 M ≤ CongruenceSubgroup.Gamma1 N := by
   intro γ hγ
@@ -99,7 +90,7 @@ theorem isThB_succ_coeff_cong : ∀ (Ω : Type) [Field Ω] [Algebra ℚ Ω] [IsA
       rw [pow_succ, pow_mul, hL, map_pow, map_mul, map_inv₀, hfI γ hγ, hf'I γ (hle hγ)]) (by
       intro δ hδ hδ'
       obtain ⟨g, hgI, hg⟩ := hfδ δ hδ hδ'
-      obtain ⟨g', hg'I, hg'⟩ := hf'δ δ hδ (gamma_le (pow_dvd_pow l (Nat.le_succ n)) hδ')
+      obtain ⟨g', hg'I, hg'⟩ := hf'δ δ hδ (_root_.GlobalTheory.KZ.LevelRed.gamma_le_of_dvd (pow_dvd_pow l (Nat.le_succ n)) hδ')
       have hsf : X.sl (ofSL δ) (f : X.K) ≠ 0 := by
         intro h0; exact hf0 ((X.sl (ofSL δ)).injective (h0.trans (map_zero _).symm))
       have hg0 : g ≠ 0 := by

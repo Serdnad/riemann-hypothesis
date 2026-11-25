@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Definitions.Foundations.SiegelNeZeroIff
 public import Development.AbelianVarietyTheory.Definitions.Foundations.ExpUpper
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -71,18 +72,7 @@ theorem isOpen_Hs : IsOpen Hs := isOpen_lt continuous_const Complex.continuous_i
 theorem isPreconnected_Hs : IsPreconnected Hs := (convex_halfSpace_im_gt 0).isPreconnected
 
 theorem codiscreteWithin_Hs_neBot : (Filter.codiscreteWithin Hs).NeBot := by
-  rw [Filter.neBot_iff]
-  intro h
-  have h0 : (∅ : Set ℂ) ∈ Filter.codiscreteWithin Hs := h ▸ Filter.mem_bot
-  rw [mem_codiscreteWithin_iff_forall_mem_nhdsNE] at h0
-  have hI : Complex.I ∈ Hs := by show (0 : ℝ) < Complex.I.im; simp
-  have h1 := h0 Complex.I hI
-  rw [Set.empty_union] at h1
-  have h2 : Hs ∈ 𝓝[≠] Complex.I := mem_nhdsWithin_of_mem_nhds (isOpen_Hs.mem_nhds hI)
-  have h3 : (∅ : Set ℂ) ∈ 𝓝[≠] Complex.I := by
-    have := Filter.inter_mem h2 h1
-    simpa using this
-  exact (Filter.empty_mem_iff_bot.mp h3 ▸ (inferInstance : (𝓝[≠] Complex.I).NeBot)).ne rfl
+  first | exact _root_.GlobalTheory.KZ.SiegelModel.neBot_Hs | exact @_root_.GlobalTheory.KZ.SiegelModel.neBot_Hs | apply _root_.GlobalTheory.KZ.SiegelModel.neBot_Hs <;> assumption
 
 theorem eqOn_zero_of_germ_eq_zero {a : ℂ → ℂ} (ha : DifferentiableOn ℂ a Hs) (h0 : (a : Mero) = 0) :
     ∀ z ∈ Hs, a z = 0 := by

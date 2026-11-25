@@ -1,5 +1,7 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.OrthonormalTransitionDetMulConjEqOne
+import Development.AbelianVarietyTheory.Proofs.SatakeParameters.SpanRangeEmb4EqTop
 public import Formalism.SharpRestriction.GlobalSchurBounds.StandardLatticesGL3
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsIntegerMapEqHalfOneAddSqrt
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsTraceDualFamilyHomLattice
@@ -178,15 +180,7 @@ theorem expand (hG : admG1 D) {r : ℕ} (y y' : Fin r → Matrix (Fin N') (Fin N
 
 theorem lam_mul (a : 𝓞 D.host.K) {w : ℂ} (hw : w ∈ lamOf D cc δ) :
     D.host.φ₀ ((a : D.host.K) : D.host.E) * w ∈ lamOf D cc δ := by
-  induction hw using AddSubgroup.closure_induction with
-  | mem w hw =>
-    obtain ⟨c, hc, rfl⟩ := hw
-    refine AddSubgroup.subset_closure ⟨a * c, cc.mul_mem_left a hc, ?_⟩
-    push_cast [map_mul]
-    ring
-  | zero => simp
-  | add x y _ _ hx hy => rw [mul_add]; exact add_mem hx hy
-  | neg x _ hx => rw [mul_neg]; exact neg_mem hx
+  first | exact _root_.GlobalTheory.FourthRootStd.lam_mul | exact @_root_.GlobalTheory.FourthRootStd.lam_mul | apply _root_.GlobalTheory.FourthRootStd.lam_mul <;> assumption
 
 theorem of_dual_families (hG : admG1 D) (hC : Crv D cc δ)
     (S : Set (Matrix (Fin N') (Fin N) D.host.E))
@@ -306,18 +300,7 @@ theorem hYY_add (x x' y : Matrix (Fin N') (Fin N) D.host.E) :
 
 theorem onB_expand {r : ℕ} {b : Fin r → Matrix (Fin N') (Fin N) D.host.E} (hb : OnB D b)
     (x : Matrix (Fin N') (Fin N) D.host.E) : x = ∑ i, hYY D x (b i) • b i := by
-  have hx : x ∈ Submodule.span D.host.K (Set.range b) := hb.2 ▸ Submodule.mem_top
-  induction hx using Submodule.span_induction with
-  | mem x hx =>
-    obtain ⟨j, rfl⟩ := hx
-    simp [hb.1 j, ite_smul]
-  | zero => simp [hYY]
-  | add x x' _ _ hx hx' =>
-    simp only [hYY_add, add_smul, Finset.sum_add_distrib]
-    rw [← hx, ← hx']
-  | smul a x _ hx =>
-    simp only [hYY_smul, mul_smul, ← Finset.smul_sum]
-    rw [← hx]
+  first | exact _root_.GlobalTheory.NormSum.onB_expand | exact @_root_.GlobalTheory.NormSum.onB_expand | apply _root_.GlobalTheory.NormSum.onB_expand <;> assumption
 
 theorem theta_line : ∀ (D : D7), admG1 D → ∀ (cc : Ideal (𝓞 D.host.K)) (δ : ℂ), Crv D cc δ → ∀ (N N' : ℕ) (A : AddSubgroup (VC D N N')), KLat D (tor0 D cc δ) A → (∀ F ∈ ThSp D (tor0 D cc δ) A, ∀ G ∈ ThSp D (tor0 D cc δ) A, G ≠ 0 → ∃ c : ℂ, F = c • G) ∧ (∀ x ∈ A, ∀ F, Wd D (tor0 D cc δ) x F = fun z => al D (tor0 D cc δ) x * U D (tor0 D cc δ) x F z) ∧ (∀ x ∈ A, ∀ y ∈ A, ∃ m : ℤ, (Hf D (tor0 D cc δ) x y).im = m) ∧ (∀ x, (∀ y ∈ A, ∃ m : ℤ, (Hf D (tor0 D cc δ) x y).im = m) → x ∈ A) ∧ A.FG ∧ Submodule.span ℝ (A : Set (VC D N N')) = ⊤ ∧ ∀ x ∈ A, ∃ m : ℤ, qH D (tor0 D cc δ) x = m := by
   intro D hG cc δ hC N N' A hA

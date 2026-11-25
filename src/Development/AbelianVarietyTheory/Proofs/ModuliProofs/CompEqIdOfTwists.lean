@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.BlockTheory.CMModuli.RelativeGroupHatForm
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.HeckeKer
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -149,15 +150,7 @@ theorem comp_eq_id_of_twists {l : Level H} (Xo : Moduli D l) {g g' : Sim D} (hre
     rw [hn, Category.assoc, ← e₂', ← Category.assoc, ← Category.assoc, ← e₂, etaA_congr Xo.univ (hA a)]
 
 theorem zeta_pow_div {A A₂ : ℕ} (hA : 0 < A₂) (h : A ∣ A₂) : zeta A₂ ^ (A₂ / A) = zeta A := by
-  obtain ⟨d, rfl⟩ := h
-  have hA' : 0 < A := Nat.pos_of_mul_pos_right hA
-  have hd : 0 < d := Nat.pos_of_mul_pos_left hA
-  rw [Nat.mul_div_cancel_left _ hA', zeta, zeta, ← Complex.exp_nat_mul]
-  congr 1
-  have : (A : ℂ) ≠ 0 := Nat.cast_ne_zero.mpr hA'.ne'
-  have : (d : ℂ) ≠ 0 := Nat.cast_ne_zero.mpr hd.ne'
-  push_cast
-  field_simp
+  apply _root_.GlobalTheory.IndefiniteRowSideFullHecke.RelativeGroupHatForm.zeta_pow_div <;> assumption
 
 theorem modN_tower (g : Sim D) {n m : ℕ} (hm : 0 < m) (h : n ∣ m) (a : D.La) : D.ModN n (g.f m a - g.f n a) := by
   obtain ⟨d, rfl⟩ := h

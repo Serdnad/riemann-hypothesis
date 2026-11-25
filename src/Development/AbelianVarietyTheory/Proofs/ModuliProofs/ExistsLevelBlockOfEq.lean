@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.CmUnitPowFourIdempotentModEight
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.IsHolPeriods
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.FundamentalDomains.Signature
 public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.DetOfTriangular
@@ -103,16 +104,8 @@ theorem exists_gl {L : Type} [AddCommGroup L] [Module (𝓞 E) L] (φ : L →ₗ
     (hφ : Function.Injective φ) (hspan : Submodule.span E (Set.range φ) = ⊤)
     (gam : L ≃ₗ[𝓞 E] L) : ∃ γ : GL (Fin r) E,
       ∀ v, (γ : Matrix (Fin r) (Fin r) E) *ᵥ φ v = φ (gam v) := by
-  obtain ⟨A, hA⟩ := exists_matrix φ hφ hspan (φ ∘ₗ gam.toLinearMap)
-  obtain ⟨B, hB⟩ := exists_matrix φ hφ hspan (φ ∘ₗ gam.symm.toLinearMap)
-  have hA' : ∀ v, A *ᵥ φ v = φ (gam v) := hA
-  have hB' : ∀ v, B *ᵥ φ v = φ (gam.symm v) := hB
-  have hAB : A * B = 1 := by
-    apply Matrix.toLin'.injective
-    refine LinearMap.ext_on_range hspan fun v => ?_
-    rw [Matrix.toLin'_apply, Matrix.toLin'_apply, ← Matrix.mulVec_mulVec, hB', hA', Matrix.one_mulVec,
-      LinearEquiv.apply_symm_apply]
-  exact ⟨⟨A, B, hAB, mul_eq_one_comm.1 hAB⟩, hA'⟩
+  intros
+  apply _root_.GlobalTheory.AdaptedDet.exists_gl <;> assumption
 
 theorem eq_zero_of_trace (t : E) (ht : ∀ a : 𝓞 E, Algebra.trace ℚ E ((a : E) * t) = 0) : t = 0 := by
   refine (traceForm_nondegenerate ℚ E).1 t fun e => ?_

@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.LocCharEqZpowMul
 public import Development.AbelianVarietyTheory.BlockTheory.GlobalSignature.SandwichNormalForm
 public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.UnipotentCharacterArgumentMulStabilizer
 public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.NormalFormAtPrime
@@ -237,15 +238,7 @@ variable {E : Type} [Field E] [NumberField E]
 
 theorem isUnit_reduction_of_valuation_eq_one (P : HeightOneSpectrum (𝓞 E)) {b : E} (hb : P.valuation E b = 1) :
     IsUnit (redP P b) := by
-  have hb0 : b ≠ 0 := by
-    rintro rfl
-    simp at hb
-  have h1 : IntAt P b := (IntegralPowerExpansion.intAt_iff_val P b).2 hb.le
-  have h2 : IntAt P b⁻¹ := (IntegralPowerExpansion.intAt_iff_val P _).2 (by rw [map_inv₀, hb, inv_one])
-  have h3 := reduction_mul h1 h2
-  have h4 : redP P (1 : E) = 1 := by simpa using reduction_coe P 1
-  rw [mul_inv_cancel₀ hb0, h4] at h3
-  exact IsUnit.of_mul_eq_one _ h3.symm
+  apply _root_.GlobalTheory.LocCharVal.isUnit_redP <;> assumption
 
 theorem exists_isUnit_reduction_div_pow {P : HeightOneSpectrum (𝓞 E)} (hP : GlobalTheory.IndefiniteRowSideFullHecke.SourceLatticeInvariance.DegOneUnram P) {a : E} (ha : a ≠ 0) :
     ∃ z : ℤ, IsUnit (redP P (a / (qOf P : E) ^ z)) := by

@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.MeanSquareEvenThetaConjugateLattice
 public import Formalism.SharpRestriction.GlobalSchurBounds.StandardLatticesGL3
 public import Mathlib.Analysis.SpecialFunctions.Elliptic.Weierstrass
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.CmThetaComplexConjugationCompatible
@@ -198,23 +199,7 @@ theorem two_torsion_unique {Λ : AddSubgroup ℂ} (h : IsLat Λ) (w : ℂ) (k : 
   · have := Λ.neg_mem h; convert this using 1; ring
 
 theorem area_conj (Λ : AddSubgroup ℂ) : area (Λ.map (starRingEnd ℂ).toAddMonoidHom) = area Λ := by
-  unfold area
-  congr 1
-  ext a
-  simp only [Set.mem_setOf_eq]
-  refine and_congr_right fun _ => ⟨?_, ?_⟩
-  · rintro ⟨_, ⟨w₁, h₁, rfl⟩, _, ⟨w₂, h₂, rfl⟩, rfl⟩
-    refine ⟨w₁, h₁, w₂, h₂, ?_⟩
-    rw [← abs_neg]
-    congr 1
-    simp
-    ring
-  · rintro ⟨w₁, h₁, w₂, h₂, rfl⟩
-    refine ⟨_, ⟨w₁, h₁, rfl⟩, _, ⟨w₂, h₂, rfl⟩, ?_⟩
-    rw [← abs_neg]
-    congr 1
-    simp
-    ring
+  first | exact _root_.GlobalTheory.MeanSquareConj.area_conj | exact @_root_.GlobalTheory.MeanSquareConj.area_conj | apply _root_.GlobalTheory.MeanSquareConj.area_conj <;> assumption
 
 theorem mem_conj {Λ : AddSubgroup ℂ} {z : ℂ} :
     z ∈ Λ.map (starRingEnd ℂ).toAddMonoidHom ↔ (starRingEnd ℂ) z ∈ Λ := by

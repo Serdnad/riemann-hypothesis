@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsPlaceEmb
 public import Development.AbelianVarietyTheory.BlockTheory.GlobalSignature.CharacterValuation
 public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.MaxVSpanSingleton
 public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.ExistsPowPrincipal
@@ -64,26 +65,7 @@ open GlobalTheory.CharVal GlobalTheory.IndefiniteRowSideFullHecke.CharacterValua
 
 theorem norm_integer_le {E K : Type} [Field E] [NumberField E] [NormedField K] [IsUltrametricDist K] (ψ : E →+* K) (r : 𝓞 E) :
     ‖ψ r‖ ≤ 1 := by
-  have h : IsIntegral ℤ (ψ r) := (r.isIntegral_coe).map ψ.toIntAlgHom
-  by_contra H
-  push Not at H
-  obtain ⟨f, hf, e⟩ := h
-  rw [hf.as_sum, Polynomial.eval₂_add, Polynomial.eval₂_X_pow, Polynomial.eval₂_finsetSum] at e
-  have e2 := congrArg norm (eq_neg_of_add_eq_zero_left e)
-  rw [norm_neg, norm_pow] at e2
-  rcases Nat.eq_zero_or_pos f.natDegree with h0 | h0
-  · simp [h0] at e2
-  · have := IsUltrametricDist.norm_sum_le_of_forall_le_of_nonneg (s := Finset.range f.natDegree)
-      (f := fun i => Polynomial.eval₂ (algebraMap ℤ K) (ψ r) (Polynomial.C (f.coeff i) * Polynomial.X ^ i))
-      (C := ‖ψ r‖ ^ (f.natDegree - 1)) (by positivity) (fun i hi => by
-        rw [Polynomial.eval₂_mul, Polynomial.eval₂_C, Polynomial.eval₂_X_pow, norm_mul, norm_pow]
-        have h1 : ‖algebraMap ℤ K (f.coeff i)‖ ≤ 1 := IsUltrametricDist.norm_intCast_le_one _ _
-        have h2 : ‖ψ r‖ ^ i ≤ ‖ψ r‖ ^ (f.natDegree - 1) :=
-          pow_le_pow_right₀ H.le (by have := Finset.mem_range.1 hi; omega)
-        calc _ ≤ 1 * _ := mul_le_mul h1 h2 (by positivity) zero_le_one
-          _ = _ := one_mul _)
-    rw [← e2] at this
-    exact absurd this (not_le.2 (pow_lt_pow_right₀ H (by omega)))
+  first | exact _root_.GlobalTheory.EmbThroughCompletion.norm_int_le_one | exact @_root_.GlobalTheory.EmbThroughCompletion.norm_int_le_one | apply _root_.GlobalTheory.EmbThroughCompletion.norm_int_le_one <;> assumption
 
 theorem exists_prime_under {E : Type} [Field E] [NumberField E] {p : ℕ} [Fact p.Prime] (ψ : E →+* ℂ_[p]) :
     ∃ P : HeightOneSpectrum (𝓞 E), (p : 𝓞 E) ∈ P.asIdeal ∧ ∀ r : 𝓞 E, r ∉ P.asIdeal → ‖ψ r‖ = 1 := by

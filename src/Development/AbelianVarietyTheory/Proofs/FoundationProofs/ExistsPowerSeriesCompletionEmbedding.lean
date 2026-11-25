@@ -1,5 +1,6 @@
 module
 
+import all Development.AbelianVarietyTheory.Proofs.DivisorProofs.AlgebraMapQuotBijective
 public import Mathlib.FieldTheory.IsAlgClosed.Basic
 public import Mathlib.RingTheory.DedekindDomain.Basic
 public import Mathlib.RingTheory.PowerSeries.Basic
@@ -65,13 +66,7 @@ namespace GlobalTheory.CurveCompletion
 theorem residue_exists (k A : Type) [Field k] [IsAlgClosed k] [CommRing A] [Algebra k A]
     [Algebra.FiniteType k A] (Q : Ideal A) (hQ : Q.IsMaximal) (c : A) :
     ∃ a : k, c - algebraMap k A a ∈ Q := by
-  letI := Ideal.Quotient.field Q
-  haveI : Module.Finite k (A ⧸ Q) := finite_of_finite_type_of_isJacobsonRing k (A ⧸ Q)
-  obtain ⟨a, ha⟩ := (IsAlgClosed.algebraMap_bijective_of_isIntegral (k := k) (K := A ⧸ Q)).2
-    (Ideal.Quotient.mk Q c)
-  refine ⟨a, ?_⟩
-  rw [← Ideal.Quotient.eq_zero_iff_mem, map_sub, ← ha]
-  simp
+  apply _root_.GlobalTheory.DedekindCodimG.exists_sub_algebraMap_mem_of_isMaximal_of_isAlgClosed <;> assumption
 
 section Dedekind
 variable {A : Type} [CommRing A] [IsDedekindDomain A]

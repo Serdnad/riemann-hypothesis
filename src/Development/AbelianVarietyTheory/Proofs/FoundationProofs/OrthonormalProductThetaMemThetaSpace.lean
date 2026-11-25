@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.MeanSquareOrthoProductThetaEqProd
 public import Formalism.SharpRestriction.GlobalSchurBounds.StandardLatticesGL3
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -64,19 +65,8 @@ theorem coordB_add (T : Tor D) {N N' r : ℕ} (b : Fin r → Matrix (Fin N') (Fi
 theorem coordB_sum (T : Tor D) {N N' r : ℕ} (b : Fin r → Matrix (Fin N') (Fin N) D.host.E)
     (hb : ∀ i j, coordB D T b i (embV D T (b j)) = if i = j then 1 else 0) (i : Fin r) (c : Fin r → ℂ) :
     coordB D T b i (∑ k, c k • embV D T (b k)) = c i := by
-  let L : VC D N N' →ₗ[ℂ] ℂ :=
-    { toFun := coordB D T b i
-      map_add' := coordB_add T b i
-      map_smul' := fun c x => by simp [coordB, Finset.mul_sum, mul_assoc] }
-  have hL : ∀ z, coordB D T b i z = L z := fun _ => rfl
-
-  rw [hL, map_sum]
-  have h2 : ∀ k, L (c k • embV D T (b k)) = if i = k then c k else 0 := by
-    intro k
-    rw [map_smul, ← hL, hb]
-    split_ifs <;> simp
-  rw [Finset.sum_congr rfl fun k _ => h2 k]
-  simp
+  intros
+  apply _root_.GlobalTheory.PullNorm.coordB_sum <;> assumption
 
 theorem neg_one_zpow_sum {ι : Type} (s : Finset ι) (m : ι → ℤ) :
     (-1 : ℂ) ^ (∑ k ∈ s, m k) = ∏ k ∈ s, (-1 : ℂ) ^ m k := by

@@ -47,6 +47,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
+import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsLinearEquivLift
 
 @[expose] public section
 
@@ -62,14 +63,7 @@ variable {V W : Type} [NormedAddCommGroup V] [NormedSpace ℂ V] [NormedAddCommG
 
 theorem isHolTo_congr {B : Set V} {y y' : V → (Sp ℂ ⟶ X)} (h : IsHolTo B y) (hy : ∀ b ∈ B, y' b = y b) :
     IsHolTo B y' := by
-  intro U f
-  have hs : {b ∈ B | ⊤ ≤ y' b ⁻¹ᵁ U} = {b ∈ B | ⊤ ≤ y b ⁻¹ᵁ U} := by
-    ext b
-    constructor
-    · rintro ⟨h1, h2⟩; exact ⟨h1, hy b h1 ▸ h2⟩
-    · rintro ⟨h1, h2⟩; exact ⟨h1, (hy b h1).symm ▸ h2⟩
-  rw [hs]
-  exact ⟨(h U f).1, (h U f).2.congr fun b hb => by rw [hy b hb.1]⟩
+  apply _root_.GlobalTheory.LocLift.isHolTo_congr <;> assumption
 
 theorem isHolTo_comp {B : Set V} {C : Set W} {y : V → (Sp ℂ ⟶ X)} {φ : W → V} (h : IsHolTo B y)
     (hC : IsOpen C) (hφ : DifferentiableOn ℂ φ C) (hm : Set.MapsTo φ C B) :

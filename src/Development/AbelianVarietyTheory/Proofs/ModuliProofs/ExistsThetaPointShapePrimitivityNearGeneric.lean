@@ -1,5 +1,7 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.ModuliProofs.OActSpreadFromDenseFibresAbelianScheme
+import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.RelAmpleOfGenericIsogenousDedekind
 public import Development.AbelianVarietyTheory.Definitions.ModuliSpaces.GoodClass
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.SabComp
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.SecBaseChangeAnySt
@@ -104,15 +106,8 @@ theorem pushPt_comp (h : IsGrpPullback G' G f φ) {w' : G' ⟶ G'} {w : G ⟶ G}
 
 theorem mul_left_comp (h : IsGrpPullback G' G f φ) {w' v' : G' ⟶ G'} {w v : G ⟶ G} (hw : w'.left ≫ φ = φ ≫ w.left)
     (hv : v'.left ≫ φ = φ ≫ v.left) : (w' * v').left ≫ φ = φ ≫ (w * v).left := by
-  have b : pushPt h.1.w (w' * v') = pushPt h.1.w w' * pushPt h.1.w v' := map_mul (pushHom h G') _ _
-  have c := pushPt_comp h hw (𝟙 G')
-  have d := pushPt_comp h hv (𝟙 G')
-  rw [Category.id_comp] at c d
-  rw [c, d, ← MonObj.comp_mul] at b
-  have e := congrArg (fun z => z.left) b
-  refine e.trans ?_
-  show (𝟙 _ ≫ φ) ≫ _ = _
-  rw [Category.id_comp]
+  intros
+  apply _root_.GlobalTheory.ActSpread.compat_mul <;> assumption
 
 variable [IsCommMonObj G] [IsCommMonObj G'] {L : LB G.left} {L' : LB G'.left}
 
@@ -306,15 +301,7 @@ theorem spread_hasTh (hL : Out.Laws) (hL2 : Out.Laws2) {o : Type} [CommRing o] {
 
 theorem range_spMap_fractionRing (R K : Type) [CommRing R] [IsDomain R] [Field K] [Algebra R K] [IsFractionRing R K] :
     Set.range (spMap (algebraMap R K)) = {genericPoint (Sp R)} := by
-  have e : ∀ q : Sp K, spMap (algebraMap R K) q = genericPoint (Sp R) := fun q => by
-    rw [genericPoint_eq_bot_of_affine]
-    apply PrimeSpectrum.ext
-    show Ideal.comap (algebraMap R K) q.asIdeal = ⊥
-    rw [(Ideal.eq_bot_or_top q.asIdeal).resolve_right q.isPrime.ne_top]
-    exact Ideal.comap_bot_of_injective _ (IsFractionRing.injective R K)
-  refine Set.eq_singleton_iff_unique_mem.2 ⟨⟨(default : PrimeSpectrum K), e _⟩, ?_⟩
-  rintro _ ⟨q, rfl⟩
-  exact e q
+  apply _root_.GlobalTheory.AmpleDedekind.range_spMap_fractionRing <;> assumption
 
 theorem exists_ne_zero_hasTh_shape_prim : Out.Laws → Out.Laws2 → ∀ (o : Type) [CommRing o] (g N' : ℕ) (J : Type) (b : TBase o (N' ^ 2)) Mat κ (w w' : J) (R K : Type) [CommRing R] [IsDomain R] [IsNoetherianRing R] [Field K] [Algebra R K] [IsFractionRing R K] (s : Sp R ⟶ Sp o) (s' : Sp K ⟶ Sp o) (t' : TObj g (N' ^ 2) J b s) (t : TObj g (N' ^ 2) J b s') (v : Ix g (N' ^ 2) → R), TMap t t' (spMap (algebraMap R K)) → t.HasTh (𝟙 _) (fun a => algebraMap R K (v a)) → t.Shape Mat κ → t.Prim w w' → ∃ f : R, f ≠ 0 ∧ ∀ (R' : Type) [CommRing R'] (φ : R →+* R') (s'' : Sp R' ⟶ Sp o) (t'' : TObj g (N' ^ 2) J b s''), IsUnit (φ f) → TMap t'' t' (spMap φ) → t''.HasTh (𝟙 _) (fun a => φ (v a)) ∧ t''.Shape Mat κ ∧ t''.Prim w w' := by
   intro hL hL2 o _ g N' J b Mat κ w w' R K _ _ _ _ _ _ s s' t' t v hm hT hS hP

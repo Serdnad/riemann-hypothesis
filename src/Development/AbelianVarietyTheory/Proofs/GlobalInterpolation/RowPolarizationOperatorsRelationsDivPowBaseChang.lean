@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Definitions.Foundations.TracePowApply
 public import Development.AbelianVarietyTheory.Definitions.GlobalTwisting.GoodTopBot
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -83,28 +84,7 @@ theorem rowE_C (R : Type) [CommRing R] (r n : ℕ) (a b : Fin r) (x : R) :
   simp [rowE_apply]
 
 theorem glRel_rowE (R : Type) [CommRing R] (r n : ℕ) : GlRel (rowE R r n) := by
-  intro a b c d
-  refine LinearMap.ext fun P => ?_
-  induction P using MvPolynomial.induction_on with
-  | C x => split_ifs <;> simp [rowE_C]
-  | add p q hp hq => simp only [map_add (f := _), hp, hq]
-  | mul_X p v hp =>
-    obtain ⟨e, t⟩ := v
-    have hX : (rowE R r n a b * rowE R r n c d - rowE R r n c d * rowE R r n a b) (X (e, t)) =
-        ((if b = c then rowE R r n a d else 0) - (if d = a then rowE R r n c b else 0)) (X (e, t)) := by
-      simp only [LinearMap.sub_apply, Module.End.mul_apply, rowE_X]
-      split_ifs <;> simp_all [rowE_X]
-    have hL : ∀ P Q, (rowE R r n a b * rowE R r n c d - rowE R r n c d * rowE R r n a b) (P * Q) =
-        (rowE R r n a b * rowE R r n c d - rowE R r n c d * rowE R r n a b) P * Q +
-          P * (rowE R r n a b * rowE R r n c d - rowE R r n c d * rowE R r n a b) Q := by
-      intro P Q
-      simp only [LinearMap.sub_apply, Module.End.mul_apply, rowE_mul, map_add (f := _)]; ring
-    have hR : ∀ P Q, ((if b = c then rowE R r n a d else 0) - (if d = a then rowE R r n c b else 0)) (P * Q) =
-        ((if b = c then rowE R r n a d else 0) - (if d = a then rowE R r n c b else 0)) P * Q +
-          P * ((if b = c then rowE R r n a d else 0) - (if d = a then rowE R r n c b else 0)) Q := by
-      intro P Q
-      split_ifs <;> simp [rowE_mul] <;> ring
-    rw [hL, hR, hp, hX]
+  apply _root_.GlobalTheory.Mem.GelfCheck.glRel_rowE <;> assumption
 
 theorem rowE_eq_rowDiv (R : Type) [CommRing R] (r n : ℕ) (a b : Fin r) (P : MvPolynomial (Fin r × Fin n) R) :
     rowE R r n a b P = rowDiv R a b 1 P ∧ rowDiv R a b 0 P = P := by

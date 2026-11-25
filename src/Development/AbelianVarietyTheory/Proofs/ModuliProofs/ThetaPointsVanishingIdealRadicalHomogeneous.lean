@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.ModuliProofs.SpMapCompRingHomComp
 import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsObjectAtMinimalPrime
 public import Development.AbelianVarietyTheory.Definitions.ModuliSpaces.GoodClass
 import Mathlib.Algebra.Order.Floor.Extended
@@ -61,20 +62,7 @@ theorem coeff_scale {R R' σ : Type} [CommRing R] [CommRing R'] (β : R →+* R'
     (MvPolynomial.eval₂Hom ((Polynomial.C : R' →+* Polynomial R').comp β)
       (fun i => Polynomial.X * Polynomial.C (w i)) F).coeff e =
       MvPolynomial.eval₂Hom β w (MvPolynomial.homogeneousComponent e F) := by
-  induction F using MvPolynomial.induction_on' with
-  | monomial d c =>
-    have hm : MvPolynomial.monomial d c ∈ MvPolynomial.homogeneousSubmodule σ R d.degree :=
-      MvPolynomial.isHomogeneous_monomial c rfl
-    rw [MvPolynomial.homogeneousComponent_of_mem hm]
-    have : MvPolynomial.eval₂Hom ((Polynomial.C : R' →+* Polynomial R').comp β)
-      (fun i => Polynomial.X * Polynomial.C (w i)) (MvPolynomial.monomial d c) =
-        Polynomial.C (MvPolynomial.eval₂Hom β w (MvPolynomial.monomial d c)) * Polynomial.X ^ d.degree := by
-      simp only [MvPolynomial.eval₂Hom_monomial, Finsupp.prod, mul_pow, Finset.prod_mul_distrib,
-        Finset.prod_pow_eq_pow_sum, map_mul, map_prod, map_pow, RingHom.comp_apply, Finsupp.degree_apply]
-      ring
-    rw [this, Polynomial.coeff_C_mul_X_pow]
-    split_ifs <;> simp
-  | add p q hp hq => simp only [map_add (f := _), Polynomial.coeff_add, hp, hq]
+  first | exact _root_.GlobalTheory.ZM.coeff_eval₂_scale | exact @_root_.GlobalTheory.ZM.coeff_eval₂_scale | apply _root_.GlobalTheory.ZM.coeff_eval₂_scale <;> assumption
 
 theorem component_eq_zero {R σ : Type} [CommRing R] (β : R →+* ℂ) (w : σ → ℂ)
     (F : MvPolynomial σ R) (e : ℕ)

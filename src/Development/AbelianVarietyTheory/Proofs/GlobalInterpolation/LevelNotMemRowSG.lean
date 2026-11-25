@@ -43,6 +43,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
 import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.EmbHInjective
+import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.NarrowJetMoments
 
 @[expose] public section
 
@@ -73,34 +74,11 @@ theorem natCast_mem_under (Q : HeightOneSpectrum (𝓞 X.E)) (p : ℕ) :
 
 theorem good_of_mem_QE {P : HeightOneSpectrum (𝓞 X.E)} (h : P ∈ QE sel (mu : Chr X.F X.E X.K)) :
     ∃ v, GoodPl X.E S v ∧ sel v = P := by
-  classical
-  unfold QE at h
-  split_ifs at h with h2
-  · obtain ⟨v, hv, e⟩ := Finset.mem_image.1 h
-    have hv1 : v ∈ Qprime (mu : Chr X.F X.E X.K) := by simpa using hv
-    refine ⟨v, ?_, e⟩
-    by_contra hn
-    have h4 := (Subgroup.mem_inf.1 mu.2).2
-    exact hv1 (Subgroup.mem_iInf.1 (Subgroup.mem_iInf.1 h4 v) hn)
-  · simp at h
+  apply _root_.GlobalTheory.Proof.NarrowJetMoments.good_of_mem_QE <;> assumption
 
 theorem notMem_of_mem_QE (hsel : IsSel X sel) {P : HeightOneSpectrum (𝓞 X.E)} (h : P ∈ QE sel (mu : Chr X.F X.E X.K))
     {l : ℕ} (hl : l.Prime) (hS : l ∈ S) : (l : 𝓞 X.E) ∉ P.asIdeal := by
-  intro hm
-  obtain ⟨v, hgood, e⟩ := good_of_mem_QE h
-  have h5 : (l : 𝓞 X.F) ∈ v.asIdeal := by
-    rw [← hsel v, e, Ideal.under_def, Ideal.mem_comap, map_natCast]
-    exact hm
-  apply hgood.2.2
-  have h6 : ringChar (𝓞 X.F ⧸ v.asIdeal) ∣ l := by
-    rw [← ringChar.spec, ← map_natCast (Ideal.Quotient.mk v.asIdeal), Ideal.Quotient.eq_zero_iff_mem]
-    exact h5
-  haveI := v.isPrime
-  rcases (Nat.dvd_prime hl).1 h6 with h7 | h7
-  · exact absurd h7 CharP.ringChar_ne_one
-  · change ringChar (𝓞 X.F ⧸ v.asIdeal) ∈ S
-    rw [h7]
-    exact hS
+  apply _root_.GlobalTheory.Proof.NarrowJetMoments.notMem_of_mem_QE <;> assumption
 
 theorem level_notMem_rowSG (hPr : Pr.Ok) (hsel : IsSel X sel) {u : Pr.Word} (hS : Pr.T u ∈ S)
     {P : HeightOneSpectrum (𝓞 X.E)} (hP : P ∈ rowSG Pr sel mu) : (Pr.T u : 𝓞 X.E) ∉ P.asIdeal := by

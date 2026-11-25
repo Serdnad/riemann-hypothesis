@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.FiniteResidueFieldAdicCompletionIntegers
 public import Mathlib.RingTheory.DedekindDomain.AdicValuation.Completion
 public import Mathlib.RingTheory.Henselian
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsContinuousPadic
@@ -62,33 +63,7 @@ open IsDedekindDomain.HeightOneSpectrum IsLocalRing Polynomial
 
 theorem isAdicComplete_integers (F : Type) [Field F] [NumberField F] (u : HeightOneSpectrum (𝓞 F)) :
     IsAdicComplete (maximalIdeal (u.adicCompletionIntegers F)) (u.adicCompletionIntegers F) := by
-  letI := GlobalTheory.LocalData.complRel u
-  haveI := GlobalTheory.LocalData.isLocalField u
-  haveI := Valuation.Compatible.ofValuation
-    (Valued.v : Valuation (u.adicCompletion F) (WithZero (Multiplicative ℤ)))
-  have hE : (ValuativeRel.valuation (u.adicCompletion F)).IsEquiv
-      (Valued.v : Valuation (u.adicCompletion F) (WithZero (Multiplicative ℤ))) :=
-    ValuativeRel.isEquiv _ _
-  have hmem : ∀ x : u.adicCompletion F,
-      x ∈ (ValuativeRel.valuation (u.adicCompletion F)).integer ↔
-        x ∈ u.adicCompletionIntegers F := fun x => by
-    rw [mem_adicCompletionIntegers, Valuation.mem_integer_iff]
-    exact hE.le_one_iff_le_one
-  let e : (ValuativeRel.valuation (u.adicCompletion F)).integer ≃+* u.adicCompletionIntegers F :=
-    { toFun := fun x => ⟨x.1, (hmem x.1).1 x.2⟩
-      invFun := fun x => ⟨x.1, (hmem x.1).2 x.2⟩
-      left_inv := fun _ => rfl
-      right_inv := fun _ => rfl
-      map_mul' := fun _ _ => rfl
-      map_add' := fun _ _ => rfl }
-  have hm : (maximalIdeal (ValuativeRel.valuation (u.adicCompletion F)).integer).map e =
-      maximalIdeal (u.adicCompletionIntegers F) := by
-    ext y
-    rw [← Ideal.comap_symm, Ideal.mem_comap, mem_maximalIdeal, mem_maximalIdeal,
-      mem_nonunits_iff, mem_nonunits_iff]
-    exact not_congr (isUnit_map_iff e.symm y)
-  rw [← hm]
-  exact (IsAdicComplete.congr_ringEquiv _ e).2 inferInstance
+  first | exact _root_.GlobalTheory.SelfDualGenus.isAdicComplete_adicCompletionIntegers | exact @_root_.GlobalTheory.SelfDualGenus.isAdicComplete_adicCompletionIntegers | apply _root_.GlobalTheory.SelfDualGenus.isAdicComplete_adicCompletionIntegers <;> assumption
 
 theorem exists_sq_add_eq {O : Type} [CommRing O] [Nontrivial O] (I : Ideal O) [HenselianRing O I]
     (z : O) (hz : z ∈ I) : ∃ s : O, s ^ 2 + s = z := by

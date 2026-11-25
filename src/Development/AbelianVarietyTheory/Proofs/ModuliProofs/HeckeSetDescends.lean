@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Counterexamples.ModuliSurvey.HeckeKerZero
 public import Development.AbelianVarietyTheory.Definitions.ModuliSpaces.KerScheme
 public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.ExistsUniqueWeilIs
 public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.GlobalFnsHolds
@@ -145,15 +146,7 @@ variable {S : Scheme.{0}}
 
 theorem comp_act_natCast (t : SAB H S) {T : Over S} (x : T ⟶ t.G) (n : ℕ) :
     x ≫ t.act.act (n : 𝓞 E) = x ^ n := by
-  induction n with
-  | zero =>
-    have h0 : t.act.act 0 = 1 := by
-      have h : t.act.act 0 * t.act.act 0 = t.act.act 0 * 1 := by
-        rw [_root_.mul_one, ← t.act.add, add_zero]
-      exact mul_left_cancel h
-    rw [Nat.cast_zero, h0, comp_one, _root_.pow_zero]
-  | succ n ih =>
-    rw [Nat.cast_succ, t.act.add, comp_mul, ih, t.act.one, Category.comp_id, _root_.pow_succ]
+  apply _root_.GlobalTheory.HeckeKerModel.comp_act_natCast <;> assumption
 
 theorem card_preimage {Q Q' : Type} (r : Q → Q') (hr : Function.Injective r) (A : Set Q')
     (hA : ∀ y ∈ A, ∃ x, r x = y) : Nat.card (r ⁻¹' A) = Nat.card A := by

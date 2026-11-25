@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.NormSqMulGaussianLatticeTranslateEqShifted
 public import Formalism.LocalToGlobal.KernelLattices.LateralTheory
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsIntegerMapEqHalfOneAddSqrt
 import Mathlib.Algebra.Order.Floor.Extended
@@ -54,16 +55,7 @@ variable {D : D7} {cc : Ideal (𝓞 D.host.K)} {δ : ℂ} {N N' : ℕ}
 
 theorem int_mul_mem_lamOf (a : 𝓞 D.host.K) {w : ℂ} (hw : w ∈ TaylorLogMetric.lamOf D cc δ) :
     D.host.φ₀ (((a : D.host.K) : D.host.E)) * w ∈ TaylorLogMetric.lamOf D cc δ := by
-  induction hw using AddSubgroup.closure_induction with
-  | mem w hw =>
-    obtain ⟨c, hc, rfl⟩ := hw
-    refine AddSubgroup.subset_closure ⟨a * c, cc.mul_mem_left a hc, ?_⟩
-    push_cast
-    rw [map_mul]
-    ring
-  | zero => simp
-  | add a b _ _ ha hb => rw [mul_add]; exact AddSubgroup.add_mem _ ha hb
-  | neg a _ ha => rw [mul_neg]; exact AddSubgroup.neg_mem _ ha
+  first | exact _root_.GlobalTheory.Vacuum.Parity.lamOf_stable | exact @_root_.GlobalTheory.Vacuum.Parity.lamOf_stable | apply _root_.GlobalTheory.Vacuum.Parity.lamOf_stable <;> assumption
 
 theorem int_smul_mem_La (L : Submodule (𝓞 D.host.E) (Fin N → D.host.E)) (L' : Submodule (𝓞 D.host.E) (Fin N' → D.host.E))
     (a : 𝓞 D.host.K) {x : TaylorLogMetric.VC D N N'} (hx : x ∈ TaylorLogMetric.La D (TaylorLogMetric.tor0 D cc δ) L L') :

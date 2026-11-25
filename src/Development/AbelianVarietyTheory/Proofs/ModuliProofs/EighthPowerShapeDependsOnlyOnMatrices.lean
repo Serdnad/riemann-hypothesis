@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.AdjugateGramSymm
 public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ClsLinCombSingle
 public import Development.AbelianVarietyTheory.Definitions.ModuliSpaces.ExistsArBaseAway
 public import Development.AbelianVarietyTheory.Definitions.ThetaMetrics.IsAmpleLBOfRelAmpleOfIsAffine
@@ -75,16 +76,7 @@ open GlobalTheory.CechPic GlobalTheory.ClassMin
 
 theorem posDef_of_int {n : ℕ} (B : Matrix (Fin n) (Fin n) ℤ) (hs : B.transpose = B)
     (hp : ∀ u : Fin n → ℤ, u ≠ 0 → 0 < dotProduct u (B.mulVec u)) : (B.map (Int.cast : ℤ → ℝ)).PosDef := by
-  have hβ : ∀ x y, Matrix.toBilin' B x y = Matrix.toBilin' B y x := fun x y => by
-    rw [Matrix.toBilin'_apply', Matrix.toBilin'_apply', Matrix.dotProduct_mulVec, ← Matrix.mulVec_transpose, hs,
-      dotProduct_comm]
-  have h := realExtension_ofIntBilin_posDef hβ fun x hx => by
-    rw [Matrix.toBilin'_apply']; exact hp x hx
-  rw [realExtension_posDef_iff _ (Pi.basisFun ℤ (Fin n))] at h
-  convert h using 1
-  ext i j
-  rw [gram_apply, polar_ofIntBilin hβ]
-  simp
+  apply _root_.GlobalTheory.CasimirOrder.posDef_of_int <;> assumption
 
 theorem exists_affine_of_nonpos {X Y Z : Scheme.{0}} (hF : IsField Γ(Y, ⊤)) (y : Y) (f : Y ⟶ X) (e : Y ⟶ Z)
     {M : LB X} {D : LB Z} (hM : IsAmpleLB M) (hD : IsAmpleLB D) (m : ℕ)

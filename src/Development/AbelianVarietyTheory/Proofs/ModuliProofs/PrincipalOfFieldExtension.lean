@@ -1,5 +1,6 @@
 module
 
+import all Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsRigidifiedTwist
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.Clauses
 public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.RelAmpleOfFieldExtensionBaseChange
 import Mathlib.Algebra.Order.Floor.Extended
@@ -68,27 +69,7 @@ private theorem hom_ext_tensor_left_of_fst_snd {B Z : Scheme.{0}} {X : Over B} (
 
 private theorem pGen_of_isGen_iso_pull {X X' : Scheme.{0}} {L : LB X} {L' : LB X'} {F : X' ⟶ X} (w : L'.Iso (L.pull F))
     (hw : w.IsGen) : PGen w := by
-  intro Y f y j j' k k' hj hj' hk hk'
-  obtain ⟨J, hJ⟩ : ∃ J : (L.pull F).ι, J = fun _ => j := ⟨_, rfl⟩
-  obtain ⟨J', hJ'⟩ : ∃ J' : (L.pull F).ι, J' = fun _ => j' := ⟨_, rfl⟩
-  have m1 : f y ∈ (L.pull F).U J := by rw [hJ]; exact mem_pull.2 hj
-  have m2 : f y ∈ (L.pull F).U J' := by rw [hJ']; exact mem_pull.2 hj'
-  have hy : f y ∈ ((L.pull F).div L').U (J, k) ⊓ ((L.pull F).div L').U (J', k') := ⟨⟨m1, hk⟩, ⟨m2, hk'⟩⟩
-  have e := congrArg (gm f y _) (hw (J, k) (J', k'))
-  rw [gm_res f y _ hy, map_mul, gm_res f y _ hy] at e
-  have eg : gm f y (((L.pull F).div L').U (J, k) ⊓ ((L.pull F).div L').U (J', k'))
-      (((L.pull F).div L').g (J, k) (J', k')) =
-      gm (f ≫ F) y (L.U j ⊓ L.U j') (L.g j j') * (gm f y (L'.U k ⊓ L'.U k') (L'.g k k'))⁻¹ := by
-    have hy' : f y ∈ (L.pull F).U J ⊓ L'.U k ⊓ ((L.pull F).U J' ⊓ L'.U k') := ⟨⟨m1, hk⟩, ⟨m2, hk'⟩⟩
-    show gm f y ((L.pull F).U J ⊓ L'.U k ⊓ ((L.pull F).U J' ⊓ L'.U k'))
-      (res _ ((L.pull F).g J J') * (res _ (L'.g k k'))⁻¹) = _
-    rw [map_mul, map_inv, gm_res f y _ hy', gm_res f y _ hy', gm_pull_g L F f y J J' m1 m2]
-    subst hJ hJ'
-    rfl
-  rw [eg] at e
-  unfold gw
-  subst hJ hJ'
-  exact e
+  apply _root_.GlobalTheory.RigidifyTwist.pGen_of_isGen <;> assumption
 
 private theorem flat_spMap_of_field_hom' {K₀ K : Type} [Field K₀] [Field K] (i : K₀ →+* K) : Flat (spMap i) := by
   unfold spMap

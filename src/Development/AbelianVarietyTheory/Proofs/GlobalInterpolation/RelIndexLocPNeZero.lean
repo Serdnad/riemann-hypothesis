@@ -1,5 +1,6 @@
 module
 
+import Formalism.LocalToGlobal.KernelLattices.KernelLocalFactors.AlternatingFormStandardHermitian
 public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.EmbHInjective
 public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.PerOComponents
 import Mathlib.Algebra.Order.Floor.Extended
@@ -119,26 +120,6 @@ theorem perO_fg {AA : Submodule (𝓞 E) E} {N : Submodule (𝓞 E) (Sp E a)} {N
   exact Submodule.apply_mem_map₂ B hr hx
 
 theorem volC_pos : Formalism.L2.Ker.VolCPos := by
-  intro E _ _ _ a b AA S N N' hN hN' hs hs' hA hA0
-  have la : Submodule.IsLattice E (Formalism.L2.Col.stdLat E a) := Formalism.L2.Col.stdLat_lattice
-  have lb : Submodule.IsLattice E (Formalism.L2.Col.stdLat E b) := Formalism.L2.Col.stdLat_lattice
-  have hspan (n : ℕ) : Submodule.span E (Formalism.L2.Col.stdLat E n : Set (Sp E n)) = ⊤ := by
-    rw [Formalism.L2.Col.stdLat_eq_span, Submodule.span_span_of_tower]
-    have hbasis : (fun i : Fin n => (Pi.single i (1 : E) : Sp E n)) =
-        ⇑(Pi.basisFun E (Fin n)) :=
-      funext fun i => (Pi.basisFun_apply E (Fin n) i).symm
-    rw [hbasis, (Pi.basisFun E (Fin n)).span_eq]
-  have full₀ : Submodule.IsFullLattice E (Formalism.L2.Col.stdLat E b) :=
-    { toIsLattice := lb, span_eq_top := hspan b }
-  have full₁ : Submodule.IsFullLattice E N' :=
-    { toIsLattice := Submodule.IsLattice.of_fg E hN', span_eq_top := hs' }
-  have f₀ := PeriodComp.full AA (Formalism.L2.Col.stdLat E a)
-    (Formalism.L2.Col.stdLat E b) la.fg full₀ hA0
-  have f₁ := PeriodComp.full AA N N' hN full₁ hA0
-  have g₀ := perO_fg hA (homO_fg la.fg lb.fg (hspan a))
-  have g₁ := perO_fg hA (homO_fg hN hN' hs)
-  refine Finset.prod_pos fun P _ => div_pos ?_ ?_
-  · exact Nat.cast_pos.2 (Nat.pos_of_ne_zero (relIndex_localized_ne_zero P f₀ f₁ g₁))
-  · exact Nat.cast_pos.2 (Nat.pos_of_ne_zero (relIndex_localized_ne_zero P f₁ f₀ g₀))
+  first | exact _root_.Formalism.L2.Ker.covolume_positive | exact @_root_.Formalism.L2.Ker.covolume_positive | apply _root_.Formalism.L2.Ker.covolume_positive <;> assumption
 
 end GlobalTheory.ThetaMove.VolumePos

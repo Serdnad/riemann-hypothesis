@@ -51,6 +51,7 @@ import Formalism.ConjugateSelfDual.Statement
 import Formalism.SharpRestriction.LevelLetterCocycles.BlochKatoPhases
 public import Mathlib.Algebra.Algebra.Hom.Rat
 import ReciprocityTheory.GaloisValuations.GlobalA
+import Development.AutomorphicArithmetic.AutomorphicVarieties.IntegralityNearIdentity.IsIntegralOfNormLe
 
 @[expose] public section
 
@@ -114,14 +115,7 @@ section Padic
 variable {l : ℕ} [Fact l.Prime]
 
 theorem isIntegral_of_norm_le_one (x : PadicAlgCl l) (h : ‖x‖ ≤ 1) : IsIntegral ℤ_[l] x := by
-  have hx : IsIntegral ℚ_[l] x := Algebra.IsIntegral.isIntegral x
-  rw [← PadicAlgCl.spectralNorm_eq, spectralNorm, spectralValue_le_one_iff (minpoly.monic hx)] at h
-  have hl : minpoly ℚ_[l] x ∈ Polynomial.lifts (algebraMap ℤ_[l] ℚ_[l]) := by
-    rw [Polynomial.lifts_iff_coeff_lifts]
-    exact fun n => ⟨⟨_, h n⟩, rfl⟩
-  obtain ⟨q, hq, -, hqm⟩ := Polynomial.lifts_and_degree_eq_and_monic hl (minpoly.monic hx)
-  refine ⟨q, hqm, ?_⟩
-  rw [← Polynomial.aeval_def, ← Polynomial.aeval_map_algebraMap ℚ_[l], hq, minpoly.aeval]
+  apply _root_.UpperTheory.Reformulated.B.S4.isIntegral_of_norm_le <;> assumption
 
 theorem mem_OL_iff (K : Loc.FinExt l) (x : K.1) : x ∈ Loc.OL K ↔ ‖(x : PadicAlgCl l)‖ ≤ 1 := by
   refine (isIntegral_algHom_iff (K.1.val.restrictScalars ℤ_[l]) K.1.val.toRingHom.injective).symm.trans

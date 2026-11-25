@@ -1,5 +1,6 @@
 module
 
+import Formalism.LocalToGlobal.UnitaryNorms.CharShare
 public import Formalism.LocalToGlobal.IndefiniteReal.FWExist
 public import Development.AbelianVarietyTheory.Definitions.Foundations.AbsCharNotUnitary
 import Mathlib.Algebra.Order.Floor.Extended
@@ -54,22 +55,7 @@ theorem productRule (χ : HChar L) : χ.ProductRule :=
   GlobalTheory.Mem.Chr.CharModel.productRule (F := L) ⟨χ.1, χ.2⟩
 
 theorem inf_eq_one [_root_.NumberField.IsTotallyComplex L] (χ : HChar L) {n : ℕ} (hn : 0 < n) (h : χ.OrderDvd n) (k : Lˣ) : χ.inf k = 1 := by
-  have hpow : ∀ x, χ.1 x ^ n = 1 := fun x => by
-    have h1 : (χ ^ n).1 x = 1 := by rw [show χ ^ n = 1 from h]; rfl
-    simpa using h1
-  show χ.1 (infDiag k) = 1
-  rw [infDiag, MonoidHom.finsetProd_apply, map_prod]
-  refine Finset.prod_eq_one fun w _ => ?_
-  let e := InfinitePlace.Completion.ringEquivComplexOfIsComplex (IsTotallyComplex.isComplex w)
-  obtain ⟨z, hz⟩ := IsAlgClosed.exists_pow_nat_eq (e (atInf w k : w.Completion)) hn
-  have hz0 : e.symm z ≠ 0 := by
-    intro h0
-    have h1 : z = 0 := by simpa using congrArg e h0
-    rw [h1, zero_pow hn.ne'] at hz
-    exact (atInf w k).ne_zero (e.injective (by rw [← hz, map_zero]))
-  have hk : atInf w k = Units.mk0 _ hz0 ^ n := Units.ext (e.injective (by
-    rw [← hz, Units.val_pow_eq_pow_val, map_pow, Units.val_mk0, RingEquiv.apply_symm_apply]))
-  rw [MonoidHom.comp_apply, hk, map_pow, map_pow, hpow]
+  apply _root_.Formalism.L2.Host.HChar.inf_eq_one_of_order <;> assumption
 
 theorem val_atFin (v : HeightOneSpectrum (𝓞 L)) (k : Lˣ) (a : 𝓞 L) (hk : (k : L) = a) :
     Valued.v ((atFin v k : (v.adicCompletion L)ˣ) : v.adicCompletion L) = v.intValuation a := by

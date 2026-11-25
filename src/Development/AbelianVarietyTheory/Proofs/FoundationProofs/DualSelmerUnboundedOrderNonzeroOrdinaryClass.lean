@@ -344,14 +344,7 @@ namespace GlobalTheory.Ord2.Kill
 variable {l : ℕ} [Fact l.Prime]
 
 theorem mem_of_memE (c : Coef l) {x : Qbar l} (hE : MemE c x) (hx : ‖x‖ ≤ 1) : x ∈ c.O := by
-  obtain ⟨k, hk⟩ := hE
-  have hl0 : ((l : ℕ) : Qbar l) ≠ 0 := Nat.cast_ne_zero.2 (Fact.out : l.Prime).ne_zero
-  have hn : ‖(l : Qbar l) ^ k * x‖ ≤ ‖((l : ℕ) : Qbar l) ^ k‖ := by
-    rw [norm_mul]
-    exact mul_le_of_le_one_right (norm_nonneg _) hx
-  obtain ⟨w, hw, e⟩ := Rec.exists_eq_pow_mul_of_norm_le hk hn
-  have : x = w := mul_left_cancel₀ (pow_ne_zero k hl0) e
-  rw [this]; exact hw
+  apply _root_.GlobalTheory.Ord2.DivChain.mem_of_memE <;> assumption
 
 theorem adj_mem (c : Coef l) {M : Matrix (Fin 2) (Fin 2) (Qbar l)} (hM : ∀ i j, M i j ∈ c.O) (i j : Fin 2) :
     M.adjugate i j ∈ c.O := by

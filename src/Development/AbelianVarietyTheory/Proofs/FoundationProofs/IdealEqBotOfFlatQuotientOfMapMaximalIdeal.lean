@@ -52,6 +52,7 @@ import Std.Tactic.BVDecide.Normalize.Prop
 public import Mathlib.RingTheory.Filtration
 public import Mathlib.RingTheory.Flat.EquationalCriterion
 public import Mathlib.RingTheory.Flat.TorsionFree
+import GroundTheory.HeightsAndTheta.Heights.RemainderTerms.PowerSums
 
 @[expose] public section
 
@@ -318,20 +319,7 @@ variable {A : Type*} [CommRing A]
 
 theorem ringHom_injective_of_surjective [IsNoetherianRing A] (φ : A →+* A)
     (hφ : Function.Surjective φ) : Function.Injective φ := by
-  let c : ℕ →o Ideal A := ⟨fun n => RingHom.ker (φ ^ n), monotone_nat_of_le_succ fun n x hx => by
-    rw [RingHom.mem_ker] at hx ⊢
-    rw [pow_succ', RingHom.coe_mul, Function.comp_apply, hx, map_zero]⟩
-  obtain ⟨n, hn⟩ := monotone_stabilizes_iff_noetherian.mpr ‹IsNoetherianRing A› c
-  set_option backward.isDefEq.respectTransparency.instanceSearchTypes false in rw [injective_iff_map_eq_zero]
-  intro x hx
-  obtain ⟨y, rfl⟩ : ∃ y, (φ ^ n) y = x := by
-    rw [RingHom.coe_pow]
-    exact hφ.iterate n x
-  have : y ∈ c (n + 1) := by
-    change (φ ^ (n + 1)) y = 0
-    rw [pow_succ', RingHom.coe_mul, Function.comp_apply, hx]
-  rw [← hn (n + 1) n.le_succ] at this
-  exact this
+  apply _root_.GroundTheory.Heights₂.Heights.RestTerms.Flag.injective_of_surjective_endo <;> assumption
 
 variable {B : Type*} [CommRing B] {φ : A →+* B} {I : Ideal A} {J : Ideal B}
 

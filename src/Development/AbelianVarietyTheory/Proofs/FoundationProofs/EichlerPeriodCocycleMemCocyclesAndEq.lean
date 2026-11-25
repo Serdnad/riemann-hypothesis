@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.PolyDegreeSlashActionRightActionProperties
 public import Development.AbelianVarietyTheory.Definitions.Foundations.IsDCReps
 public import Mathlib.Algebra.Polynomial.Homogenize
 public import Mathlib.NumberTheory.ModularForms.Basic
@@ -111,16 +112,7 @@ theorem polySlash_polySlash (w : ℕ) (g h : Matrix (Fin 2) (Fin 2) ℤ) (p : �
 
 theorem polySlash_mem_degreeLT (w : ℕ) (g : Matrix (Fin 2) (Fin 2) ℤ) (p : ℂ[X]) :
     slP w g p ∈ degreeLT ℂ (w + 1) := by
-  rw [_root_.GlobalTheory.EichlerChange.polySlash_apply]
-  refine Submodule.sum_mem _ fun i hi => Submodule.smul_mem _ _ ?_
-  have hi' : i ≤ w := Nat.lt_succ_iff.mp (Finset.mem_range.mp hi)
-  rw [mem_degreeLT]
-  refine lt_of_le_of_lt degree_le_natDegree ?_
-  have h1 : ∀ a b : ℂ, (C a * X + C b).natDegree ≤ 1 := fun a b => natDegree_linear_le
-  have h2 := natDegree_mul_le_of_le (natDegree_pow_le_of_le i (h1 ((g 0 0 : ℤ) : ℂ) ((g 0 1 : ℤ) : ℂ)))
-    (natDegree_pow_le_of_le (w - i) (h1 ((g 1 0 : ℤ) : ℂ) ((g 1 1 : ℤ) : ℂ)))
-  rw [mul_one, mul_one, Nat.add_sub_of_le hi'] at h2
-  exact_mod_cast Nat.lt_succ_of_le h2
+  apply _root_.GlobalTheory.HeckeFamilyMatrices.SlPAct.polySlash_mem <;> assumption
 
 theorem eichler_I (w : ℕ) (f : ℍ → ℂ) : eichler w f UpperHalfPlane.I = 0 := by
   simp [eichler]

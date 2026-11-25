@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsSabMapOfBaseEq
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.PushInvertible
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -94,15 +95,7 @@ theorem sec_pow {S S' : Scheme.{0}} {t : SAB H S} {t' : SAB H S'} {f : S' ⟶ S}
   exact congrArg (fun z => z.left) e'
 
 theorem zeta_dvd {a b : ℕ} (hb : 0 < b) (h : a ∣ b) : zeta a = zeta b ^ (b / a) := by
-  obtain ⟨k, rfl⟩ := h
-  have ha : a ≠ 0 := by rintro rfl; simp at hb
-  have hk : k ≠ 0 := by rintro rfl; simp at hb
-  rw [Nat.mul_div_cancel_left _ (Nat.pos_of_ne_zero ha), zeta, zeta, ← Complex.exp_nat_mul]
-  congr 1
-  have ha' : (a : ℂ) ≠ 0 := Nat.cast_ne_zero.mpr ha
-  have hk' : (k : ℂ) ≠ 0 := Nat.cast_ne_zero.mpr hk
-  push_cast
-  field_simp
+  apply _root_.GlobalTheory.zeta_eq_pow_div_of_dvd <;> assumption
 
 noncomputable def baseOf (l : Level H) (F : IntermediateField ℚ ℂ) (h : KA l ≤ F) : Base l F where
   unit n hn := IsUnit.mk0 _ (Nat.cast_ne_zero.mpr hn.ne')

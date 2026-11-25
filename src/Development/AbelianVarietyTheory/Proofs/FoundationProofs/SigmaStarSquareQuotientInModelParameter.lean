@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.JetHarmonics.CpTransportedTaylorSeriesInChartRingHomLaws
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.DifferentiableSqTh
 public import Mathlib.Analysis.SpecialFunctions.Elliptic.Weierstrass
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.LatticeInvariantsPeriodPairDictionary
@@ -90,20 +91,7 @@ lemma tay_sub (hf : AnalyticAt ℂ f 0) (hg : AnalyticAt ℂ g 0) :
 
 lemma tay_mul (hf : AnalyticAt ℂ f 0) (hg : AnalyticAt ℂ g 0) :
     tay (fun z => f z * g z) = tay f * tay g := by
-  ext n
-  have h : iteratedDeriv n (fun z => f z * g z) 0 = _ :=
-    iteratedDeriv_mul (n := n) hf.contDiffAt hg.contDiffAt
-  simp only [PowerSeries.coeff_mul, PowerSeries.coeff_mk, coef1, h]
-  rw [Finset.Nat.sum_antidiagonal_eq_sum_range_succ_mk, Finset.sum_div]
-  refine Finset.sum_congr rfl fun i hi => ?_
-  have hi' : i ≤ n := Nat.lt_succ_iff.1 (Finset.mem_range.1 hi)
-  have e : ((n.choose i : ℂ) * (i.factorial : ℂ) * ((n - i).factorial : ℂ)) = n.factorial := by
-    exact_mod_cast Nat.choose_mul_factorial_mul_factorial hi'
-  have h1 : (i.factorial : ℂ) ≠ 0 := Nat.cast_ne_zero.2 i.factorial_ne_zero
-  have h2 : ((n - i).factorial : ℂ) ≠ 0 := Nat.cast_ne_zero.2 (n - i).factorial_ne_zero
-  have h3 : (n.choose i : ℂ) ≠ 0 := Nat.cast_ne_zero.2 (Nat.choose_pos hi').ne'
-  rw [← e]
-  field_simp
+  apply _root_.GlobalTheory.MomOne.TaylorRead.tay_mul <;> assumption
 
 lemma constantCoeff_tay (f : ℂ → ℂ) : PowerSeries.constantCoeff (tay f) = f 0 := by
   rw [← PowerSeries.coeff_zero_eq_constantCoeff_apply, PowerSeries.coeff_mk]

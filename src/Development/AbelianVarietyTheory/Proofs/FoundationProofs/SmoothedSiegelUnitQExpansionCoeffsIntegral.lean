@@ -343,10 +343,7 @@ open Filter in
 variable {R : Subring ℂ} in
 private theorem good_mul' {F G : ℂ → ℂ} (hF : _root_.GlobalTheory.SiegQ.Good R F)
     (hG : _root_.GlobalTheory.SiegQ.Good R G) : _root_.GlobalTheory.SiegQ.Good R (fun z => F z * G z) := by
-  refine ⟨hF.1.mul hG.1, fun n => ?_⟩
-  rw [_root_.GlobalTheory.SiegQ.tc_mul hF.1 hG.1]
-  unfold _root_.GlobalTheory.QFam.conv
-  exact R.sum_mem fun p _ => R.mul_mem (hF.2 _) (hG.2 _)
+  apply _root_.GlobalTheory.SiegQ.Good.mul <;> assumption
 
 open scoped UpperHalfPlane MatrixGroups Manifold Topology in
 open Filter in
@@ -556,34 +553,7 @@ variable {R : Subring ℂ} in
 private theorem good_inv_of_ne_zero {F : ℂ → ℂ} (hF : _root_.GlobalTheory.SiegQ.Good R F)
     (h0 : ∀ z : ℂ, ‖z‖ < 1 → F z ≠ 0) (hu : (F 0)⁻¹ ∈ R) :
     _root_.GlobalTheory.SiegQ.Good R (fun z => (F z)⁻¹) := by
-  have hd : DifferentiableOn ℂ (fun z => (F z)⁻¹) (Metric.ball 0 1) :=
-    hF.1.inv fun z hz => h0 z (by simpa using hz)
-  have hF0 : F 0 ≠ 0 := h0 0 (by simp)
-  have hprod : _root_.GlobalTheory.SiegQ.tc (fun z => F z * (F z)⁻¹) = fun n => if n = 0 then 1 else 0 := by
-    rw [_root_.GlobalTheory.SiegQ.tc_congr (G := fun _ => (1 : ℂ))
-      (fun z hz => mul_inv_cancel₀ (h0 z hz)), _root_.GlobalTheory.SiegQ.tc_const]
-  have hm := _root_.GlobalTheory.SiegQ.tc_mul hF.1 hd
-  rw [hm] at hprod
-  refine ⟨hd, fun n => ?_⟩
-  induction n using Nat.strong_induction_on with
-  | _ n ih =>
-    have hn := congr_fun hprod n
-    unfold _root_.GlobalTheory.QFam.conv at hn
-    rw [Finset.Nat.sum_antidiagonal_eq_sum_range_succ_mk, Finset.sum_range_succ'] at hn
-    simp only [Nat.sub_zero, _root_.GlobalTheory.SiegQ.tc_zero] at hn
-    have hrec : _root_.GlobalTheory.SiegQ.tc (fun z => (F z)⁻¹) n = (F 0)⁻¹ *
-        ((if n = 0 then 1 else 0) - ∑ i ∈ Finset.range n, _root_.GlobalTheory.SiegQ.tc F (i + 1) *
-          _root_.GlobalTheory.SiegQ.tc (fun z => (F z)⁻¹) (n - (i + 1))) := by
-      rw [← hn]
-      field_simp
-      ring
-    rw [hrec]
-    refine R.mul_mem hu (R.sub_mem ?_ (R.sum_mem fun i hi => R.mul_mem (hF.2 _) (ih _ ?_)))
-    · split_ifs
-      · exact R.one_mem
-      · exact R.zero_mem
-    · have := Finset.mem_range.mp hi
-      omega
+  apply _root_.GlobalTheory.SiegQ.Good.inv <;> assumption
 
 open scoped UpperHalfPlane MatrixGroups Manifold Topology in
 open Filter in

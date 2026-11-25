@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.ExistsMulEquivPointsOfIsGrpPullback
 public import Development.AbelianVarietyTheory.Definitions.ModuliSpaces.KerScheme
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.IsGrpPullback
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.ConstGen
@@ -65,19 +66,8 @@ theorem range_of_isPullback {P X Y Z : Scheme.{0}} {a : P ⟶ X} {b : P ⟶ Y} {
 theorem exists_equiv {S S' : Scheme.{0}} {G : Over S} {G' : Over S'} [GrpObj G] [GrpObj G'] {f : S' ⟶ S}
     {φ : G'.left ⟶ G.left} (h : IsGrpPullback G' G f φ) (T : Over S') :
     ∃ ρ : (T ⟶ G') ≃* (Over.mk (T.hom ≫ f) ⟶ G), ∀ x, (ρ x).left = x.left ≫ φ := by
-  refine ⟨{ toFun := fun x => Over.homMk (x.left ≫ φ) (by rw [Category.assoc, h.1.w, ← Category.assoc, Over.w x]; rfl)
-            invFun := fun y => Over.homMk (h.1.lift y.left T.hom (Over.w y)) (h.1.lift_snd _ _ _)
-            left_inv := fun x => by
-              apply Over.OverMorphism.ext
-              apply h.1.hom_ext
-              · exact h.1.lift_fst _ _ _
-              · exact (h.1.lift_snd _ _ _).trans (Over.w x).symm
-            right_inv := fun y => by
-              apply Over.OverMorphism.ext
-              exact h.1.lift_fst _ _ _
-            map_mul' := fun x y => by
-              apply Over.OverMorphism.ext
-              exact (h.2 T x y _ _ rfl rfl).symm }, fun x => rfl⟩
+  intros
+  apply _root_.GlobalTheory.LamF.exists_mulEquiv_points_of_isGrpPullback <;> assumption
 
 variable {E : Type} [Field E] [NumberField E] [IsCMField E] {H : Host E} {S S' : Scheme.{0}} {t : SAB H S}
   {t' : SAB H S'} {f : S' ⟶ S}

@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.MemSqLocalizationOfPderivMem
 public import Mathlib.AlgebraicGeometry.Morphisms.Smooth
 public import Mathlib.Basic.Complex.Basic
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.IsCompletedStrictHens
@@ -68,15 +69,7 @@ theorem kerCotangentToTensor_injective (k R F : Type*) [CommRing k] [CommRing R]
     [Algebra k R] [Algebra k F] [Algebra R F] [IsScalarTower k R F] [Algebra.FormallySmooth k F]
     (hs : Function.Surjective (algebraMap R F)) :
     Function.Injective (KaehlerDifferential.kerCotangentToTensor k R F) := by
-  have hsurj : Function.Surjective (IsScalarTower.toAlgHom k R F).kerSquareLift :=
-    fun x ↦ by
-      obtain ⟨y, rfl⟩ := hs x
-      exact ⟨Ideal.Quotient.mk _ y, rfl⟩
-  have hnil : RingHom.ker (IsScalarTower.toAlgHom k R F).kerSquareLift.toRingHom ^ 2 = ⊥ := by
-    rw [AlgHom.ker_kerSquareLift, Ideal.cotangentIdeal_square]
-  obtain ⟨g, hg⟩ := exists_section_of_ker_sq_eq_bot _ hsurj hnil
-  obtain ⟨l, hl⟩ := (retractionKerCotangentToTensorEquivSection (R := k) hs).symm ⟨g, hg⟩
-  exact Function.LeftInverse.injective (g := l) fun x ↦ congr($hl x)
+  apply _root_.GlobalTheory.kerCotangentToTensor_injective_of_formallySmooth <;> assumption
 
 noncomputable def derivationEquivDual (k R C : Type*) [CommRing k] [CommRing R] [CommRing C]
     [Algebra k R] [Algebra k C] [Algebra R C] [IsScalarTower k R C] :

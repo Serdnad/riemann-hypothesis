@@ -46,6 +46,7 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import Development.AbelianVarietyTheory.BlockTheory.TorsionBlocks.LatticeConditions
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.EqZeroOfTraceMulEqZeroSemisimpleRep
 
 @[expose] public section
 
@@ -135,131 +136,7 @@ open NumberField IsDedekindDomain in
 open Polynomial Matrix in
 theorem _root_.GlobalTheory.isSSRep_trace_nondegenerate :
     ∀ (Γ K : Type) [Group Γ] [Field K] [CharZero K] (a : ℕ) (ρ : Γ →* GL (Fin a) K), _root_.Formalism.MainNotions.N.IsSSRep ρ → (∀ x ∈ Submodule.span K (Set.range fun g => ((ρ g : GL (Fin a) K) : Matrix (Fin a) (Fin a) K)), (∀ g, (x * ((ρ g : GL (Fin a) K) : Matrix (Fin a) (Fin a) K)).trace = 0) → x = 0) := by
-  intro Γ K _ _ _ a ρ hss x hx htrx
-  classical
-  unfold _root_.Formalism.MainNotions.N.IsSSRep at hss
-  set P : Γ → Matrix (Fin a) (Fin a) K :=
-    fun g => ((ρ g : GL (Fin a) K) : Matrix (Fin a) (Fin a) K) with hP
-  have hPmul : ∀ g h, P (g * h) = P g * P h := fun g h => by simp [hP, map_mul]
-  have hP1 : P 1 = 1 := by simp [hP]
-  have hgen : ∀ g, P g ∈ Submodule.span K (Set.range P) := fun g => Submodule.subset_span ⟨g, rfl⟩
-  have hleft : ∀ g, ∀ y ∈ Submodule.span K (Set.range P),
-      P g * y ∈ Submodule.span K (Set.range P) := by
-    intro g y hy
-    induction hy using Submodule.span_induction with
-    | mem y hy => obtain ⟨h, rfl⟩ := hy; rw [← hPmul]; exact hgen _
-    | zero => rw [mul_zero]; exact Submodule.zero_mem _
-    | add y w _ _ hy hw => rw [mul_add]; exact Submodule.add_mem _ hy hw
-    | smul c y _ hy => rw [mul_smul_comm]; exact Submodule.smul_mem _ c hy
-  have hAmul : ∀ y ∈ Submodule.span K (Set.range P), ∀ w ∈ Submodule.span K (Set.range P),
-      y * w ∈ Submodule.span K (Set.range P) := by
-    intro y hy w hw
-    induction hy using Submodule.span_induction with
-    | mem y hy => obtain ⟨g, rfl⟩ := hy; exact hleft g w hw
-    | zero => rw [zero_mul]; exact Submodule.zero_mem _
-    | add y t _ _ hy ht => rw [add_mul]; exact Submodule.add_mem _ hy ht
-    | smul c y _ hy => rw [smul_mul_assoc]; exact Submodule.smul_mem _ c hy
-  let B : Subalgebra K (Matrix (Fin a) (Fin a) K) :=
-    { carrier := Submodule.span K (Set.range P)
-      mul_mem' := fun hy hw => hAmul _ hy _ hw
-      add_mem' := fun hy hw => Submodule.add_mem _ hy hw
-      algebraMap_mem' := fun c => by
-        rw [Algebra.algebraMap_eq_smul_one, ← hP1]
-        exact Submodule.smul_mem _ c (hgen 1) }
-  let J : Matrix (Fin a) (Fin a) K → Prop :=
-    fun z => z ∈ Submodule.span K (Set.range P) ∧ ∀ g, (z * P g).trace = 0
-  have hJtr : ∀ z, J z → ∀ y ∈ B, (z * y).trace = 0 := by
-    intro z hz y hy
-    have hy' : y ∈ Submodule.span K (Set.range P) := hy
-    clear hy
-    induction hy' using Submodule.span_induction with
-    | mem y hg => obtain ⟨g, rfl⟩ := hg; exact hz.2 g
-    | zero => simp
-    | add y w _ _ h1 h2 => rw [mul_add, Matrix.trace_add, h1, h2, add_zero]
-    | smul c y _ h => rw [mul_smul_comm, Matrix.trace_smul, h, smul_zero]
-  have hJleft : ∀ g z, J z → J (P g * z) := by
-    intro g z hz
-    refine ⟨hleft g z hz.1, fun h => ?_⟩
-    rw [mul_assoc, Matrix.trace_mul_comm, mul_assoc, ← hPmul]
-    exact hz.2 _
-  have hJright : ∀ g z, J z → J (z * P g) := by
-    intro g z hz
-    refine ⟨hAmul _ hz.1 _ (hgen g), fun h => ?_⟩
-    rw [mul_assoc, ← hPmul]
-    exact hz.2 _
-  have hJ0 : J 0 := ⟨Submodule.zero_mem _, fun g => by simp⟩
-  have hJadd : ∀ y z, J y → J z → J (y + z) := fun y z hy hz =>
-    ⟨Submodule.add_mem _ hy.1 hz.1, fun g => by rw [add_mul, Matrix.trace_add, hy.2, hz.2, add_zero]⟩
-  have hJsmul : ∀ (c : K) z, J z → J (c • z) := fun c z hz =>
-    ⟨Submodule.smul_mem _ c hz.1, fun g => by rw [smul_mul_assoc, Matrix.trace_smul, hz.2, smul_zero]⟩
-  have hfix : ∀ z, J z → ∀ v, z *ᵥ v = v → v = 0 := fun z hz v hv =>
-    eq_zero_of_mulVec_eq_self_of_trace_mul_eq_zero B hz.1 (hJtr z hz) hv
-  have hpres : ∀ S : Submodule K (Fin a → K), _root_.Formalism.MainNotions.N.IsInv ρ S →
-      ∀ y ∈ Submodule.span K (Set.range P), ∀ s ∈ S, y *ᵥ s ∈ S := by
-    intro S hS y hy s hs
-    unfold _root_.Formalism.MainNotions.N.IsInv at hS
-    induction hy using Submodule.span_induction with
-    | mem y hy => obtain ⟨g, rfl⟩ := hy; exact hS g s hs
-    | zero => rw [Matrix.zero_mulVec]; exact S.zero_mem
-    | add y w _ _ h1 h2 => rw [Matrix.add_mulVec]; exact S.add_mem h1 h2
-    | smul c y _ h => rw [Matrix.smul_mulVec]; exact S.smul_mem c h
-  let W : Submodule K (Fin a → K) :=
-    { carrier := {v | ∀ z, J z → z *ᵥ v = 0}
-      add_mem' := fun {v w} hv hw z hz => by rw [Matrix.mulVec_add, hv z hz, hw z hz, add_zero]
-      zero_mem' := fun z _ => Matrix.mulVec_zero z
-      smul_mem' := fun c v hv z hz => by rw [Matrix.mulVec_smul, hv z hz, smul_zero] }
-  have hWst : _root_.Formalism.MainNotions.N.IsInv ρ W := by
-    unfold _root_.Formalism.MainNotions.N.IsInv
-    intro g v hv
-    have hv' : ∀ z, J z → z *ᵥ v = 0 := hv
-    show ∀ z, J z → z *ᵥ (P g *ᵥ v) = 0
-    intro z hz
-    rw [Matrix.mulVec_mulVec]
-    exact hv' _ (hJright g z hz)
-  obtain ⟨W', hW'st, hcompl⟩ := hss W hWst
-  have hW'bot : W' = ⊥ := by
-    by_contra hne
-    obtain ⟨S, ⟨hSst, hSW', hSne⟩, hmin⟩ := WellFounded.has_min wellFounded_lt
-      {S : Submodule K (Fin a → K) | _root_.Formalism.MainNotions.N.IsInv ρ S ∧ S ≤ W' ∧ S ≠ ⊥} ⟨W', hW'st, le_rfl, hne⟩
-    obtain ⟨s, hsS, hs0⟩ := Submodule.exists_mem_ne_zero_of_ne_bot hSne
-    let T : Submodule K (Fin a → K) :=
-      { carrier := {w | ∃ z, J z ∧ z *ᵥ s = w}
-        add_mem' := by
-          rintro _ _ ⟨y, hy, rfl⟩ ⟨z, hz, rfl⟩
-          exact ⟨y + z, hJadd y z hy hz, Matrix.add_mulVec _ _ _⟩
-        zero_mem' := ⟨0, hJ0, Matrix.zero_mulVec _⟩
-        smul_mem' := by
-          rintro c _ ⟨z, hz, rfl⟩
-          exact ⟨c • z, hJsmul c z hz, Matrix.smul_mulVec _ _ _⟩ }
-    have hTS : T ≤ S := by
-      rintro _ ⟨z, hz, rfl⟩
-      exact hpres S hSst z hz.1 s hsS
-    have hTst : _root_.Formalism.MainNotions.N.IsInv ρ T := by
-      unfold _root_.Formalism.MainNotions.N.IsInv
-      rintro g _ ⟨z, hz, rfl⟩
-      exact ⟨P g * z, hJleft g z hz, (Matrix.mulVec_mulVec _ _ _).symm⟩
-    by_cases hT : T = ⊥
-    · apply hs0
-      have hsW : s ∈ W := by
-        show ∀ z, J z → z *ᵥ s = 0
-        intro z hz
-        have hzT : z *ᵥ s ∈ T := ⟨z, hz, rfl⟩
-        rw [hT] at hzT
-        exact (Submodule.mem_bot K).1 hzT
-      exact (Submodule.disjoint_def.1 hcompl.disjoint) s hsW (hSW' hsS)
-    · have hTeq : T = S := by
-        by_contra hTS'
-        exact hmin T ⟨hTst, hTS.trans hSW', hT⟩ (lt_of_le_of_ne hTS hTS')
-      have hsT : s ∈ T := hTeq ▸ hsS
-      obtain ⟨z, hz, hzs⟩ := hsT
-      exact hs0 (hfix z hz s hzs)
-  have hWtop : W = ⊤ := by
-    have h := hcompl.sup_eq_top
-    rwa [hW'bot, sup_bot_eq] at h
-  have hxJ : J x := ⟨hx, htrx⟩
-  refine Matrix.ext_iff_mulVec.2 fun v => ?_
-  rw [Matrix.zero_mulVec]
-  have hv : ∀ z, J z → z *ᵥ v = 0 := (hWtop ▸ Submodule.mem_top : v ∈ W)
-  exact hv x hxJ
+  intro Γ K _ _ _ a ρ hρ x hx htrace
+  exact _root_.GlobalTheory.TrFormNd.eq_zero_of_trace_mul_eq_zero K Γ a ρ hρ x hx htrace
 
 end GlobalTheory

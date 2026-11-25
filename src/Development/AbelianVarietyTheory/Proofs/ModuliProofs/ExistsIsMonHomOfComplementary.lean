@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.ToricGeometry.TorusAlgebraicHolds
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.ThetaUnifAV
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.GlobalSectionsRankAlgClosed
 public import Development.AbelianVarietyTheory.Definitions.ThetaMetrics.IsRegularFnIffOfIsAffineOpen
@@ -77,17 +78,7 @@ theorem fr_pow_ne_zero (u : HolUnif A L g) (n : ℕ) {z : Fin g → ℂ} {k : (l
 theorem le_preimage_nonzeroLocus_iff (u : HolUnif A L g) (hL : L.IsLB) {n : ℕ} {s : (lbPow L n).Sec}
     {θ : (Fin g → ℂ) → ℂ} (hs : u.IsFnPow n s θ) (z : Fin g → ℂ) :
     ⊤ ≤ (u.ex z).left ⁻¹ᵁ Out.nonzeroLocus s ↔ θ z ≠ 0 := by
-  constructor
-  · intro h
-    obtain ⟨k, hk⟩ := TopologicalSpace.Opens.mem_iSup.1 ((top_le_preimage_iff_mem _ _).1 h)
-    have h1 := (top_le_preimage_basicOpen_iff _ _ _).1 ((top_le_preimage_iff_mem _ _).2 hk)
-    rw [hs k z (top_le_preimage_of_valAt'_ne_zero _ h1)] at h1
-    exact left_ne_zero_of_mul h1
-  · intro h
-    obtain ⟨k, hk⟩ := exists_chart_lbPow u hL n z
-    refine top_le_preimage_mono _ (le_iSup (fun k => A.left.basicOpen (s.f k)) k) ?_
-    rw [top_le_preimage_basicOpen_iff, hs k z hk]
-    exact mul_ne_zero h (fr_pow_ne_zero u n hk)
+  first | exact _root_.GlobalTheory.ThetaVeryAmple.mem_nonzeroLocus_iff | exact @_root_.GlobalTheory.ThetaVeryAmple.mem_nonzeroLocus_iff | apply _root_.GlobalTheory.ThetaVeryAmple.mem_nonzeroLocus_iff <;> assumption
 
 theorem valAt'_eq_div_of_mul (u : HolUnif A L g) (hL : L.IsLB) {n : ℕ} {s s' : (lbPow L n).Sec}
     {θ θ' : (Fin g → ℂ) → ℂ} (hs : u.IsFnPow n s θ) (hs' : u.IsFnPow n s' θ') (r : Γ(A.left, Out.nonzeroLocus s))

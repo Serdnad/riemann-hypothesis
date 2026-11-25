@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsRigidifiedTwist
 public import Development.AbelianVarietyTheory.Definitions.ModuliSpaces.TopAmpExists
 public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsHeckeQuotientTriple
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.SecBaseChangeAnySt
@@ -77,17 +78,7 @@ section Bundle
 
 theorem pull_eq_zero_of_chart {X Y : Scheme.{0}} {D : LB X} (hD : D.IsLB) (f : Y ⟶ X) (i : D.ι)
     (hf : ∀ y, f y ∈ D.U i) : pull f (cls D hD) = 0 := by
-  rw [← cls_pull hD f (pull_isLB hD f), cls_eq_zero_iff]
-  have le : ∀ J : PUnit → D.ι, (D.pull f).U J ≤ f ⁻¹ᵁ (D.U (J PUnit.unit) ⊓ D.U i) :=
-    fun J y hy => ⟨mem_pull.1 hy, hf y⟩
-  refine ⟨⟨fun J => res (le J) (pullU f _ (D.g (J PUnit.unit) i))⟩, fun J J' => unit_ext fun y hy => ?_⟩
-  have val : ∀ J, y ∈ (D.pull f).U J → gm (𝟙 Y) y _ (res (le J) (pullU f _ (D.g (J PUnit.unit) i))) =
-      gm (𝟙 Y ≫ f) y _ (D.g (J PUnit.unit) i) := fun J hJ =>
-    (gm_res (𝟙 Y) y (le J) hJ _).trans (gm_pull (𝟙 Y) f y _ (le J hJ) _)
-  refine ((gm_res (𝟙 Y) y _ hy _).trans (val J hy.1)).trans (Eq.symm ?_)
-  refine ((map_mul _ _ _).trans (congrArg₂ (· * ·) (gm_pull_g D f (𝟙 Y) y J J' hy.1 hy.2)
-    ((gm_res (𝟙 Y) y _ hy _).trans (val J' hy.2)))).trans ?_
-  exact gm_cocycle hD (𝟙 Y ≫ f) y (mem_pull.1 hy.1) (mem_pull.1 hy.2) (hf y)
+  first | exact _root_.GlobalTheory.RigidifyTwist.pull_cls_eq_zero | exact @_root_.GlobalTheory.RigidifyTwist.pull_cls_eq_zero | apply _root_.GlobalTheory.RigidifyTwist.pull_cls_eq_zero <;> assumption
 
 variable {S : Scheme.{0}} {G : Over S} [GrpObj G] {L : LB G.left}
 

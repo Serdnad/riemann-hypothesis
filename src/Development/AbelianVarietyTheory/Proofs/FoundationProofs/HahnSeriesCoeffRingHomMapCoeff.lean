@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsEqExpOfRat
 public import Development.AbelianVarietyTheory.Definitions.Foundations.ExpUpper
 public import Mathlib.FieldTheory.IsAlgClosed.Basic
 public import Mathlib.RingTheory.Flat.FaithfullyFlat.Basic
@@ -145,22 +146,7 @@ variable {Ω : Type} [Field Ω] [Algebra ℚ Ω] [IsAlgClosure ℚ Ω] {ε : Ω 
 
 theorem eOm_spec (hε : Function.Injective ε) (y : ℚ) :
     ε (eOm ε y) = Complex.exp (2 * Real.pi * Complex.I * (y : ℂ)) := by
-  haveI : IsAlgClosed Ω := IsAlgClosure.isAlgClosed ℚ
-  haveI : CharZero Ω := (RingHom.charZero_iff hε).2 inferInstance
-  have hn : 0 < y.den := y.den_pos
-  haveI : NeZero y.den := ⟨hn.ne'⟩
-  obtain ⟨ω, hω⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot Ω y.den
-  have hεω := hω.map_of_injective hε
-  have hz : (Complex.exp (2 * Real.pi * Complex.I * (y : ℂ))) ^ y.den = 1 := by
-    rw [← Complex.exp_nat_mul, Complex.exp_eq_one_iff]
-    refine ⟨y.num, ?_⟩
-    have e : (y.den : ℂ) * (y : ℂ) = (y.num : ℂ) := by
-      have := Rat.mul_den_eq_num y
-      exact_mod_cast (by rw [mul_comm]; exact this)
-    linear_combination (2 * Real.pi * Complex.I) * e
-  obtain ⟨i, -, hi⟩ := hεω.eq_pow_of_pow_eq_one hz
-  have hr : ∃ w, ε w = Complex.exp (2 * Real.pi * Complex.I * (y : ℂ)) := ⟨ω ^ i, by rw [map_pow, hi]⟩
-  exact Function.invFun_eq hr
+  first | exact _root_.GlobalTheory.KZ.eOm_spec | exact @_root_.GlobalTheory.KZ.eOm_spec | apply _root_.GlobalTheory.KZ.eOm_spec <;> assumption
 
 theorem eOm_zero (hε : Function.Injective ε) : eOm ε 0 = 1 := by
   apply hε; rw [eOm_spec hε, map_one]; simp

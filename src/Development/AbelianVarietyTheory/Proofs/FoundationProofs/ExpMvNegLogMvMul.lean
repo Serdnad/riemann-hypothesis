@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.SatakeParameters.ConstantCoeffJetLogG
 public import Formalism.SharpRestriction.GlobalSchurBounds.GL3Theta
 public import Mathlib.RingTheory.PowerSeries.Log
 import Mathlib.Algebra.Order.Floor.Extended
@@ -64,18 +65,7 @@ theorem coeff_subst_range {K σ : Type*} [CommRing K] {G : MvPowerSeries σ K}
     MvPowerSeries.coeff α (f.subst G) =
       ∑ n ∈ Finset.range ((α.sum fun _ k => k) + 1),
         coeff n f * MvPowerSeries.coeff α (G ^ n) := by
-  rw [coeff_subst (HasSubst.of_constantCoeff_zero hG),
-    finsum_eq_sum_of_support_subset (s := Finset.range ((α.sum fun _ k => k) + 1))]
-  · rfl
-  · intro k hk
-    by_contra h
-    apply hk
-    have hlt : (α.sum fun _ k => k) < k := by simpa using h
-    have h0 : MvPowerSeries.coeff α (G ^ k) = 0 := by
-      apply MvPowerSeries.coeff_of_lt_order
-      refine lt_of_lt_of_le ?_ (MvPowerSeries.le_order_pow_of_constantCoeff_eq_zero k hG)
-      exact_mod_cast hlt
-    simp [h0]
+  apply _root_.GlobalTheory.BeProps.coeff_subst_range <;> assumption
 
 variable {p : ℕ} [Fact p.Prime] {σ : Type*}
 

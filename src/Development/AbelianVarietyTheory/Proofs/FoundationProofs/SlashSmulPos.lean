@@ -379,10 +379,7 @@ end GlobalTheory.OldSpace
 namespace GlobalTheory.OldSpace
 
 theorem lev_one (N : ℕ) : GlobalTheory.Hk.lev N 1 = CongruenceSubgroup.Gamma1 N := by
-  unfold GlobalTheory.Hk.lev
-  refine inf_eq_left.2 fun γ _ => ?_
-  rw [CongruenceSubgroup.Gamma0_mem]
-  exact Subsingleton.elim _ _
+  apply _root_.GlobalTheory.HeckeFamilyMatrices.SemisimpleLevelOne.lev_one <;> assumption
 
 theorem hecke_stab : ∀ (N l k : ℕ) (s : SL(2, ℤ)), 5 ≤ N → l.Prime → ¬ l ∣ N → 3 ≤ k → IsDiam N 1 (l : ZMod N) s →
   ∀ (χ : DirichletCharacter ℂ N) (f : CuspForm (CongruenceSubgroup.Gamma1 N) (k : ℤ)),

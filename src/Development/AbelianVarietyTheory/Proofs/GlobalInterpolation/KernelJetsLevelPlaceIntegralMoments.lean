@@ -115,21 +115,7 @@ theorem absNorm_of_split {F E : Type} [Field F] [NumberField F] [Field E] [Numbe
     (h2 : Module.finrank F E = 2) {v : HeightOneSpectrum (𝓞 F)} (hs : SplitAt E v) (hl : (Ideal.absNorm v.asIdeal).Prime)
     {P : HeightOneSpectrum (𝓞 E)} (hP : P.asIdeal.under (𝓞 F) = v.asIdeal) :
     Ideal.absNorm P.asIdeal = Ideal.absNorm v.asIdeal := by
-  obtain ⟨Q, Q', -, hm⟩ := hs
-  have hN : Ideal.absNorm Q.asIdeal * Ideal.absNorm Q'.asIdeal = Ideal.absNorm v.asIdeal ^ 2 := by
-    rw [← map_mul, ← hm, Ideal.absNorm_algebraMap]
-    congr 1
-    rw [← h2]
-    exact (Algebra.IsAlgebraic.finrank_of_isFractionRing (𝓞 F) F (𝓞 E) E).symm
-  have h1 : ∀ R : HeightOneSpectrum (𝓞 E), Ideal.absNorm R.asIdeal ≠ 1 := fun R h =>
-    R.isPrime.ne_top (Ideal.absNorm_eq_one_iff.1 h)
-  have hb := (hl.mul_eq_prime_sq_iff (h1 Q) (h1 Q')).1 hN
-  have hle : Q.asIdeal * Q'.asIdeal ≤ P.asIdeal := by
-    rw [← hm, ← hP, Ideal.under_def]
-    exact Ideal.map_comap_le
-  rcases P.isPrime.mul_le.1 hle with h | h
-  · rw [← Q.isMaximal.eq_of_le P.isPrime.ne_top h, hb.1]
-  · rw [← Q'.isMaximal.eq_of_le P.isPrime.ne_top h, hb.2]
+  first | exact _root_.GlobalTheory.ThetaMove.BadPrimes.absNorm_eq_of_split | exact @_root_.GlobalTheory.ThetaMove.BadPrimes.absNorm_eq_of_split | apply _root_.GlobalTheory.ThetaMove.BadPrimes.absNorm_eq_of_split <;> assumption
 
 theorem plc_eq_absNorm {F : Type} [Field F] [NumberField F] {v : HeightOneSpectrum (𝓞 F)}
     (hl : (Ideal.absNorm v.asIdeal).Prime) : ringChar (𝓞 F ⧸ v.asIdeal) = Ideal.absNorm v.asIdeal := by
@@ -198,24 +184,7 @@ theorem hStd_adj (x : HomE E a b) (v : Sp E a) (y : Sp E b) : hStd E a v (adj x 
 theorem apply_mem_locP {AA : Submodule (𝓞 E) E} {N : Submodule (𝓞 E) (Sp E a)} {N' : Submodule (𝓞 E) (Sp E b)}
     {Q : HeightOneSpectrum (𝓞 E)} (hA : localization₂ Q.asIdeal AA = localization₂ Q.asIdeal (1 : Submodule (𝓞 E) E))
     {x : HomE E a b} (hx : x ∈ perO AA N N') {v : Sp E a} (hv : v ∈ localization₂ Q.asIdeal N) : x v ∈ localization₂ Q.asIdeal N' := by
-  induction hx using Submodule.span_induction with
-  | mem z hz =>
-    obtain ⟨r, hr, x', hx', rfl⟩ := hz
-    obtain ⟨s, hs, hsv⟩ := (mem_locP _ _ _).1 hv
-    obtain ⟨t, ht, htr⟩ := (mem_locP _ _ _).1 (hA ▸ le_locP Q AA hr)
-    obtain ⟨c, hc⟩ := Submodule.mem_one.1 htr
-    refine (mem_locP _ _ _).2 ⟨t * s, fun hm => (Q.isPrime.mem_or_mem hm).elim ht hs, ?_⟩
-    have h1 := N'.smul_mem c (hx' _ hsv)
-    have e : (t * s) • (r • x') v = c • x' (s • v) := by
-      rw [← algebraMap_smul E c, hc, ← algebraMap_smul E s v, map_smul, LinearMap.smul_apply, ← algebraMap_smul E (t * s),
-        smul_smul, smul_smul, map_mul, Algebra.smul_def t r]
-      congr 1
-      ring
-    rw [e]
-    exact h1
-  | zero => exact zero_mem _
-  | add x x' _ _ h h' => exact add_mem h h'
-  | smul c x _ h => exact Submodule.smul_mem _ c h
+  first | exact _root_.GlobalTheory.MomT.IdxBound.per_apply_mem | exact @_root_.GlobalTheory.MomT.IdxBound.per_apply_mem | apply _root_.GlobalTheory.MomT.IdxBound.per_apply_mem <;> assumption
 
 theorem adj_mem_locP {AA : Submodule (𝓞 E) E} {N : Submodule (𝓞 E) (Sp E a)} {N' : Submodule (𝓞 E) (Sp E b)}
     {P : HeightOneSpectrum (𝓞 E)} (hN : IsSdLat N) (hN' : IsSdLat N')
@@ -822,15 +791,7 @@ theorem lamC_zpow {x : ℂ} (hx : x ∈ TaylorLogMetric.Qbar) (n : ℤ) : Taylor
 
 theorem lamC_sum {κ : Type} (T : Finset κ) (f : κ → ℂ) (h : ∀ i ∈ T, f i ∈ TaylorLogMetric.Qbar) :
     TaylorLogMetric.lamC lam (∑ i ∈ T, f i) = ∑ i ∈ T, TaylorLogMetric.lamC lam (f i) := by
-  classical
-  induction T using Finset.induction_on with
-  | empty => rw [Finset.sum_empty, Finset.sum_empty, lamC_of_mem lam (zero_mem _)]; exact map_zero lam
-  | insert i T hi ih =>
-    have h1 := h i (Finset.mem_insert_self _ _)
-    have h2 : ∀ j ∈ T, f j ∈ TaylorLogMetric.Qbar := fun j hj => h j (Finset.mem_insert_of_mem hj)
-    rw [Finset.sum_insert hi, Finset.sum_insert hi, ← ih h2, lamC_of_mem lam h1, lamC_of_mem lam (sum_mem h2),
-      lamC_of_mem lam (add_mem h1 (sum_mem h2)), ← map_add]
-    rfl
+  apply _root_.GlobalTheory.MomT.CosetBar.lamC_sum <;> assumption
 
 end abelian₂
 

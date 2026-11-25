@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.TowerPadicCompletionMapEvalDependsOnLevel
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Klm
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -55,16 +56,7 @@ open scoped MatrixGroups TensorProduct in
 open Matrix in
 theorem _root_.GlobalTheory.KZ.gamma_le_of_dvd {M M' : ℕ} (h : M ∣ M') :
     CongruenceSubgroup.Gamma M' ≤ CongruenceSubgroup.Gamma M := by
-  intro γ hγ
-  rw [CongruenceSubgroup.Gamma_mem] at hγ ⊢
-  obtain ⟨h1, h2, h3, h4⟩ := hγ
-  have e : ∀ z : ℤ, (z : ZMod M) = ZMod.castHom h (ZMod M) (z : ZMod M') := fun z =>
-    (map_intCast _ z).symm
-  refine ⟨?_, ?_, ?_, ?_⟩
-  · rw [e, h1, map_one]
-  · rw [e, h2, map_zero]
-  · rw [e, h3, map_zero]
-  · rw [e, h4, map_one]
+  first | exact _root_.GlobalTheory.KZ.LevelRed.gamma_le_of_dvd | exact @_root_.GlobalTheory.KZ.LevelRed.gamma_le_of_dvd | apply _root_.GlobalTheory.KZ.LevelRed.gamma_le_of_dvd <;> assumption
 
 variable {Ω : Type} [Field Ω] [Algebra ℚ Ω] {ε : Ω →+* ℂ}
 

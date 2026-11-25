@@ -67,6 +67,8 @@ import Formalism.SharpRestriction.GrowthBounds.UnramifiedQuadraticSetting
 import Mathlib.Tactic.Linter.Style
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
+import Development.AbelianVarietyTheory.Proofs.FlagMeasures.MaximalHermitianLatticeBadPrimesIffGramDet
+import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.LevelPrimeIncidenceFiniteFibresStable
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.ValOUnramifiedDegreeOne, Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsMulMemSpan, Development.AbelianVarietyTheory.Proofs.SatakeParameters.ExistsUnimodularLatticeLocalMatch, Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.InvSmulMemOfRedL
@@ -86,16 +88,7 @@ variable {K : Type} [Field K] [NumberField K]
 
 theorem valuation_eq_exp_neg_one (P : HeightOneSpectrum (𝓞 K)) (r : 𝓞 K) (h1 : r ∈ P.asIdeal)
     (h2 : r ∉ P.asIdeal ^ 2) : P.valuation K (algebraMap (𝓞 K) K r) = WithZero.exp (-1 : ℤ) := by
-  have e : P.valuation K (algebraMap (𝓞 K) K r) = P.intValuation r := P.valuation_of_algebraMap r
-  rw [e]
-  have hr : r ≠ 0 := by rintro rfl; exact h2 (Submodule.zero_mem _)
-  have a1 := (P.intValuation_le_pow_iff_mem r 1).2 (by simpa using h1)
-  have a2 := mt (P.intValuation_le_pow_iff_mem r 2).1 h2
-  rw [← WithZero.exp_log (P.intValuation_ne_zero r hr)] at a1 a2 ⊢
-  rw [WithZero.exp_le_exp] at a1 a2
-  congr 1
-  push_cast at a1 a2
-  omega
+  apply _root_.GlobalTheory.MaxLatDet.val_unif <;> assumption
 
 end GlobalTheory.LvT.LocUnr
 end -- clump:auto
@@ -668,16 +661,7 @@ theorem pp_ext {p p' : LocF.PP Lc n} (hL : ∀ x, x ∈ p.1.L ↔ x ∈ p'.1.L) 
 
 theorem le_of_ker {p p' : LocF.PP Lc n} (hk : p.ker = p'.ker) {e : Fin n → Lc.K} (h : p.1.f e = 1) (h' : p'.1.f e = 1)
     {x : Fin n → Lc.K} (hx : x ∈ p.1.L) : x ∈ p'.1.L ∧ p.1.f x = p'.1.f x := by
-  have he := mem_of_f_ne p (h ▸ one_ne_zero)
-  have he' := mem_of_f_ne p' (h' ▸ one_ne_zero)
-  obtain ⟨a, ha⟩ := Lc.res_surj (p.1.f x)
-  have h1 : x + (-a) • e ∈ p.ker := ⟨p.1.L.add_mem hx (p.1.L.smul_mem _ he), by
-    rw [p.2.add _ hx _ (p.1.L.smul_mem _ he), p.2.smul _ _ he, h, map_neg, ha]; ring⟩
-  rw [hk] at h1
-  have e1 : x = (x + (-a) • e) + a • e := by rw [neg_smul]; abel
-  refine ⟨e1 ▸ p'.1.L.add_mem h1.1 (p'.1.L.smul_mem _ he'), ?_⟩
-  conv_rhs => rw [e1, p'.2.add _ h1.1 _ (p'.1.L.smul_mem _ he'), h1.2, p'.2.smul _ _ he', h', ha]
-  ring
+  apply _root_.GlobalTheory.LvT.LocF.latticeFunctionalPair_mem_eq_of_ker_eq <;> assumption
 
 theorem eq_of_ker {p p' : LocF.PP Lc n} (hk : p.ker = p'.ker) {e : Fin n → Lc.K} (h : p.1.f e = 1) (h' : p'.1.f e = 1) :
     p = p' :=

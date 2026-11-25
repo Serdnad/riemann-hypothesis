@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.TateIsoExistsLiftOfTwoData
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.IsHolPeriods
 public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.TypeFnPeriodExistModuliNonempty
 public import Development.AbelianVarietyTheory.Proofs.HomogeneousIdeals.HomLieEquivScalarTmul
@@ -292,28 +293,8 @@ theorem ev_eq_iff (I : TateIso D k Q act e) {n : ℕ} (hn : 0 < n) (a b : D.La) 
 
 theorem exists_lift (I' : TateIso D' k Q act e) (I : TateIso D k Q act e) {n : ℕ} (hn : 0 < n) :
     ∃ f : D.La →ₗ[𝓞 E] D'.La, ∀ a, I.ev n a = I'.ev n (f a) := by
-  have hs : ∀ a, ∃ b, I'.ev n b = I.ev n a := fun a => (I'.onto n hn _).1 (tateIso_ev_pow I hn a)
-  choose s hs using hs
-  let N : Submodule (𝓞 E) D'.La := LinearMap.range (n • (LinearMap.id : D'.La →ₗ[𝓞 E] D'.La))
-  have hN : ∀ a b : D'.La, N.mkQ a = N.mkQ b ↔ I'.ev n a = I'.ev n b := by
-    intro a b
-    rw [tateIso_ev_eq_iff I' hn, Submodule.mkQ_apply, Submodule.mkQ_apply, Submodule.Quotient.eq]
-    constructor
-    · rintro ⟨c, hc⟩
-      exact ⟨c, hc.symm⟩
-    · rintro ⟨c, hc⟩
-      exact ⟨c, hc.symm⟩
-  let φ : D.La →ₗ[𝓞 E] D'.La ⧸ N :=
-    { toFun := fun a => N.mkQ (s a)
-      map_add' := fun a b => by
-        rw [← map_add (f := _), hN, I'.add, hs, hs, hs, I.add]
-      map_smul' := fun c a => by
-        rw [RingHom.id_apply, ← map_smul, hN, I'.lin, hs, hs, I.lin] }
-  have := D.proj
-  obtain ⟨f, hf⟩ := Module.projective_lifting_property N.mkQ φ N.mkQ_surjective
-  refine ⟨f, fun a => ?_⟩
-  have h : N.mkQ (f a) = N.mkQ (s a) := LinearMap.congr_fun hf a
-  rw [(hN _ _).1 h, hs]
+  intros
+  apply _root_.GlobalTheory.tateIso_exists_lift_of_two_data <;> assumption
 
 theorem genus_of_tateIso
     (he : ∀ n x y c c', 0 < n → x ^ n = 1 → y ^ n = 1 → e n x y c → e n x y c' → c = c')

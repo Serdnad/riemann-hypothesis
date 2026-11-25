@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.DisjointSpanPerpLat
 public import Development.AbelianVarietyTheory.BlockTheory.GlobalSignature.AdelicUnitaryHaarMeasure
 public import Formalism.SharpRestriction.GlobalSchurBounds.GeneralLinearActions.FrameTransport
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.UnitaryStabilizerAnisotropicVectorEquivComplemen
@@ -61,30 +62,7 @@ open GlobalTheory.FrameStep
 theorem exists_of_conj_fixed {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E]
     [Algebra F E] (σ : E →ₐ[F] E) (hCM : IsCMExt F E σ) {y : E} (hy : σ y = y) :
     ∃ a : F, algebraMap F E a = y := by
-  obtain ⟨-, hE, h2, hτ⟩ := hCM
-  have : FiniteDimensional F E := Module.Finite.of_restrictScalars_finite ℚ F E
-  let K : Submodule F E := LinearMap.ker (σ.toLinearMap - LinearMap.id)
-  have hK : ∀ z, z ∈ K ↔ σ z = z := fun z => by simp [K, sub_eq_zero]
-  have hne : K ≠ ⊤ := by
-    intro h
-    obtain ⟨τ⟩ : Nonempty (E →+* ℂ) := inferInstance
-    refine IsTotallyComplex.complexEmbedding_not_isReal τ ?_
-    rw [ComplexEmbedding.isReal_iff]
-    ext z
-    have hz : σ z = z := (hK z).1 (h ▸ Submodule.mem_top)
-    have := hτ τ z
-    rw [hz] at this
-    exact this.symm
-  have hlt := Submodule.finrank_lt hne
-  have hle : Submodule.span F {(1 : E)} ≤ K := by
-    rw [Submodule.span_singleton_le_iff_mem, hK, map_one]
-  have heq : Submodule.span F {(1 : E)} = K := by
-    refine Submodule.eq_of_le_of_finrank_le hle ?_
-    rw [finrank_span_singleton one_ne_zero]
-    omega
-  have hmem : y ∈ Submodule.span F {(1 : E)} := heq ▸ (hK y).2 hy
-  obtain ⟨a, ha⟩ := Submodule.mem_span_singleton.1 hmem
-  exact ⟨a, by rw [← ha, Algebra.algebraMap_eq_smul_one]⟩
+  first | exact _root_.GlobalTheory.SelfDualLatticeCompare.exists_of_conj_eq | exact @_root_.GlobalTheory.SelfDualLatticeCompare.exists_of_conj_eq | apply _root_.GlobalTheory.SelfDualLatticeCompare.exists_of_conj_eq <;> assumption
 
 theorem mem_ratPts_iff {F E : Type} [Field F] [Field E] [Algebra F E] (R : Type) [CommRing R]
     [Algebra F R] [Nontrivial R] (σ : E →ₐ[F] E) {M : ℕ} (J : Matrix (Fin M) (Fin M) E)

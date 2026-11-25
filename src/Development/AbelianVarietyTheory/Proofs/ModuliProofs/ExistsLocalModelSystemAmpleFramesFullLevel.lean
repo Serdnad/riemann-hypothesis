@@ -1012,18 +1012,7 @@ namespace GlobalTheory.LevQuot
 variable {E : Type} [Field E] [NumberField E] [IsCMField E] {H : Host E} {D : Datum H}
 
 theorem finiteDimensional_field (l : Level H) : FiniteDimensional ℚ (KA l) := by
-  have hr : IsIntegral ℚ H.rt0 := by
-    refine IsIntegral.of_pow two_pos ?_
-    rw [H.sqrt_neg_disc_sq]
-    have : IsIntegral ℚ (algebraMap ℚ ℂ (-(H.d : ℚ))) := isIntegral_algebraMap
-    simpa using this
-  have hz : IsIntegral ℚ (zeta l.A) :=
-    ((Complex.isPrimitiveRoot_exp l.A l.A_pos.ne').isIntegral l.A_pos).tower_top
-  show FiniteDimensional ℚ (IntermediateField.adjoin ℚ {H.rt0, zeta l.A})
-  refine IntermediateField.finiteDimensional_adjoin ?_
-  rintro x (rfl | rfl)
-  · exact hr
-  · exact hz
+  first | exact _root_.GlobalTheory.BaseRing.finiteDimensional_KA | exact @_root_.GlobalTheory.BaseRing.finiteDimensional_KA | apply _root_.GlobalTheory.BaseRing.finiteDimensional_KA <;> assumption
 
 theorem field_hom_ext (l : Level H) {k : Type} [Field k] (β β' : KA l →+* k)
     (h₁ : β (baseKA l).ρ = β' (baseKA l).ρ) (h₂ : β (baseKA l).ζ = β' (baseKA l).ζ) : β = β' := by

@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsSabMapOfLbIso
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.PullCub
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.ThetaUnifAV
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.GlobalSectionsRankAlgClosed
@@ -68,19 +69,7 @@ theorem exists_unit_ratio {X Y : Scheme.{0}} {L : LB X} (hL : L.IsLB) {K : Type}
     {ε : K → ℤ} (a b : LB.Gen (LB.LinComb L φ ε)) (ha : a.IsGen) (hb : b.IsGen) :
     ∃ u : Γ(Y, ⊤)ˣ, ∀ (Z : Scheme.{0}) (r : Z ⟶ Y) (z : Z) (q : K → L.ι), r z ∈ LB.wchart L φ q →
       gm r z (LB.wchart L φ q) (a.s q) = gm r z ⊤ u * gm r z (LB.wchart L φ q) (b.s q) := by
-  have v : ∀ (Z : Scheme.{0}) (r : Z ⟶ Y) (z : Z) (q : K → L.ι),
-      gm r z (LB.wchart L φ q) (a.s q * (b.s q)⁻¹) =
-        gm r z (LB.wchart L φ q) (a.s q) * (gm r z (LB.wchart L φ q) (b.s q))⁻¹ := fun Z r z q =>
-    (map_mul _ _ _).trans (congrArg _ (map_inv _ _))
-  obtain ⟨u, hu⟩ := glue_unit ⊤ (LB.wchart L φ) (fun _ => le_top) (fun y _ => by
-      choose q hq using fun k => exists_chart hL (φ k y)
-      exact Opens.mem_iSup.2 ⟨q, Set.mem_iInter.2 hq⟩) (fun q => a.s q * (b.s q)⁻¹) (fun q q' y hy => by
-      refine (v _ _ y q).trans (Eq.trans ?_ (v _ _ y q').symm)
-      rw [gen_trans ha (𝟙 Y) y hy.1 hy.2, gen_trans hb (𝟙 Y) y hy.1 hy.2, mul_inv, _root_.mul_mul_mul_comm,
-        mul_inv_cancel, _root_.one_mul])
-  refine ⟨u, fun Z r z q hq => ?_⟩
-  rw [← gm_res r z (le_top : LB.wchart L φ q ≤ ⊤) hq u, hu q]
-  exact ((congrArg (· * _) (v Z r z q)).trans (inv_mul_cancel_right _ _)).symm
+  first | exact _root_.GlobalTheory.TripleMap.exists_ratio | exact @_root_.GlobalTheory.TripleMap.exists_ratio | apply _root_.GlobalTheory.TripleMap.exists_ratio <;> assumption
 
 theorem isPullCubical_of_iso (hG : Out.GlobalFnsSt) {S : Scheme.{0}} {G' G : Over S} [GrpObj G'] [IsCommMonObj G']
     [GrpObj G] [IsCommMonObj G] (hA : IsAbelianScheme G') (α : G' ⟶ G) [IsMonHom α] {L' : RigLB G'} {L : RigLB G}

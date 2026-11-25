@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsLatticeBasisHermitianSpace
 public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.EmbHInjective
 public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.IsSdLatTwOExpS
 import Mathlib.Algebra.Order.Floor.Extended
@@ -100,20 +101,7 @@ section
 variable {E : Type} [Field E] [NumberField E] {W : Type} [AddCommGroup W] [Module (𝓞 E) W] [Module E W] [IsScalarTower (𝓞 E) E W]
 
 theorem exists_nat_mul_integral (a : E) : ∃ n : ℕ, 0 < n ∧ ∃ r : 𝓞 E, (n : E) * a = algebraMap (𝓞 E) E r := by
-  have ha : IsAlgebraic ℤ a := (IsFractionRing.isAlgebraic_iff ℤ ℚ E).2 (Algebra.IsAlgebraic.isAlgebraic a)
-  obtain ⟨y, hy, hint⟩ := ha.exists_integral_multiple
-  refine ⟨y.natAbs, Int.natAbs_pos.2 hy, ?_⟩
-  have h2 : IsIntegral ℤ ((y.natAbs : E) * a) := by
-    rw [zsmul_eq_mul] at hint
-    rcases Int.natAbs_eq y with h | h
-    · have := congrArg (Int.cast : ℤ → E) h
-      rw [Int.cast_natCast] at this
-      rwa [this] at hint
-    · have := congrArg (Int.cast : ℤ → E) h
-      rw [Int.cast_neg, Int.cast_natCast] at this
-      rw [this, neg_mul] at hint
-      simpa using hint.neg
-  exact ⟨⟨_, h2⟩, rfl⟩
+  first | exact _root_.GlobalTheory.CoordinateBasisBounds.nat_mul_integral | exact @_root_.GlobalTheory.CoordinateBasisBounds.nat_mul_integral | apply _root_.GlobalTheory.CoordinateBasisBounds.nat_mul_integral <;> assumption
 
 theorem full_of_span {M : Submodule (𝓞 E) W} (hM : Submodule.span E (M : Set W) = ⊤) : Full M := by
   intro x

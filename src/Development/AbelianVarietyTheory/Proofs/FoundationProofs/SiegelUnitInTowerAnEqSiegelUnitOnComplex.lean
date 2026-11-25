@@ -105,17 +105,8 @@ theorem act_one' (x : Fin 2 → ℚ) (γ : SL(2, ℤ)) : act x γ 1 = x 0 * (γ 
   simp [act, Fin.sum_univ_two]
 
 theorem admissible_act_SL2 {c : ℕ} {x : Fin 2 → ℚ} (hx : admitted c x) (γ : SL(2, ℤ)) : admitted c (act x γ) := by
-  refine ⟨hx.1, hx.2.1, fun ⟨⟨m0, hm0⟩, ⟨m1, hm1⟩⟩ => hx.2.2 ⟨⟨m0 * γ 1 1 - m1 * γ 1 0, ?_⟩, ⟨m1 * γ 0 0 - m0 * γ 0 1, ?_⟩⟩⟩
-  all_goals
-    have hdet : ((γ 0 0 : ℤ) : ℚ) * (γ 1 1 : ℤ) - (γ 0 1 : ℤ) * (γ 1 0 : ℤ) = 1 := by
-      have := Matrix.SpecialLinearGroup.det_coe γ
-      rw [Matrix.det_fin_two] at this
-      exact_mod_cast this
-    rw [act_zero] at hm0
-    rw [act_one'] at hm1
-    push_cast
-  · linear_combination (γ 1 1 : ℚ) * hm0 - (γ 1 0 : ℚ) * hm1 + ((c : ℚ) * x 0) * hdet
-  · linear_combination (γ 0 0 : ℚ) * hm1 - (γ 0 1 : ℚ) * hm0 + ((c : ℚ) * x 1) * hdet
+  intros
+  apply _root_.GlobalTheory.Sieg.admissible_act_SL2 <;> assumption
 
 end GlobalTheory.KZ.SiegelMem
 

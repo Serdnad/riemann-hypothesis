@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.TendstoCoeffZero
 public import Mathlib.Analysis.CStarAlgebra.Classes
 public import Mathlib.NumberTheory.ModularForms.EisensteinSeries.Basic
 public import Mathlib.NumberTheory.ModularForms.LevelOne.DimensionFormula
@@ -354,17 +355,7 @@ namespace GlobalTheory.LevelOneLocal
 
 theorem tendsto_E {k : ℕ} (hk : 3 ≤ k) (hk2 : Even k) :
     Tendsto (ModularForm.E hk : ℍ → ℂ) atImInfty (𝓝 1) := by
-  have h0 : valueAtInfty (ModularForm.E hk : ℍ → ℂ) = 1 := by
-    rw [← qExpansion_coeff_zero one_pos
-      (ModularFormClass.analyticAt_cuspFunction_zero (ModularForm.E hk) one_pos one_mem_strictPeriods_SL)
-      (SlashInvariantFormClass.periodic_comp_ofComplex (ModularForm.E hk) one_mem_strictPeriods_SL)]
-    exact EisensteinSeries.E_qExpansion_coeff_zero hk hk2
-  obtain ⟨c, hc, h⟩ := ModularFormClass.exp_decay_sub_atImInfty' (ModularForm.E hk)
-  rw [h0] at h
-  have h2 : Tendsto (fun τ : ℍ ↦ Real.exp (-c * τ.im)) atImInfty (𝓝 0) := by
-    refine Real.tendsto_exp_atBot.comp ?_
-    exact Tendsto.const_mul_atTop_of_neg (by linarith) tendsto_comap
-  simpa using (h.trans_tendsto h2).add_const 1
+  first | exact _root_.GlobalTheory.DiscUniformisation.tendsto_E | exact @_root_.GlobalTheory.DiscUniformisation.tendsto_E | apply _root_.GlobalTheory.DiscUniformisation.tendsto_E <;> assumption
 
 theorem tendsto_E₄ : Tendsto (E₄ : ℍ → ℂ) atImInfty (𝓝 1) := tendsto_E _ ⟨2, rfl⟩
 

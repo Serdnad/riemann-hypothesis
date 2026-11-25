@@ -51,6 +51,7 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 public import Mathlib.RingTheory.DedekindDomain.AdicValuation.Valuation
+import Formalism.LocalToGlobal.CMDeterminantIdeals.CMIdealValuations.OneLeAbsNormOfLeOne
 
 @[expose] public section
 
@@ -150,25 +151,7 @@ variable {K : Type} [Field K] [NumberField K] in
 private lemma valuation_eq_exp_neg_count_spanSingleton_foundation (v : HeightOneSpectrum (𝓞 K)) {y : K} (hy : y ≠ 0) :
     v.valuation K y =
       WithZero.exp (-FractionalIdeal.count K v (FractionalIdeal.spanSingleton (𝓞 K)⁰ y)) := by
-  obtain ⟨r, s, hs, rfl⟩ := IsFractionRing.div_surjective (A := 𝓞 K) y
-  have hs0 : s ≠ 0 := nonZeroDivisors.ne_zero hs
-  have hsK : algebraMap (𝓞 K) K s ≠ 0 := by simpa using hs0
-  have hr0 : r ≠ 0 := by
-    rintro rfl
-    simp at hy
-  have hmul : FractionalIdeal.spanSingleton (𝓞 K)⁰ (algebraMap (𝓞 K) K r / algebraMap (𝓞 K) K s) *
-      FractionalIdeal.spanSingleton (𝓞 K)⁰ (algebraMap (𝓞 K) K s) =
-      FractionalIdeal.spanSingleton (𝓞 K)⁰ (algebraMap (𝓞 K) K r) := by
-    rw [FractionalIdeal.spanSingleton_mul_spanSingleton, div_mul_cancel₀ _ hsK]
-  have hcount := congrArg (FractionalIdeal.count K v) hmul
-  rw [FractionalIdeal.count_mul K v (by rwa [Ne, FractionalIdeal.spanSingleton_eq_zero_iff])
-    (by rwa [Ne, FractionalIdeal.spanSingleton_eq_zero_iff])] at hcount
-  have hr' := valuation_coe_integer_eq_exp_neg_count v hr0
-  have hs' := valuation_coe_integer_eq_exp_neg_count v hs0
-  simp only [show ∀ t : 𝓞 K, (t : K) = algebraMap (𝓞 K) K t from fun _ => rfl] at hr' hs'
-  rw [map_div₀, hr', hs', div_eq_iff (by simp), ← WithZero.exp_add, ← hcount]
-  congr 1
-  ring
+  apply _root_.Formalism.L2.LamCM.valuation_eq_exp_count <;> assumption
 
 open NumberField IsDedekindDomain Finset in
 open scoped nonZeroDivisors in

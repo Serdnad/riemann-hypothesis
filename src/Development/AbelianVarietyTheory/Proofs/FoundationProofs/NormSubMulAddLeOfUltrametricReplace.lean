@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Definitions.Foundations.ExistsEqSubOfMemCob
 public import Development.AbelianVarietyTheory.Definitions.Foundations.FinalTheorems
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.CommutativeAlgebra.ResMapBijective
 public import Mathlib.RingTheory.AdicCompletion.Noetherian
@@ -152,17 +153,7 @@ theorem UpperTheory.Reformulated.B.Rc8.norm_le_one_of_mem :
     x ∈ c.O →
       ‖x‖ ≤
         (1 :
-          ℝ) := by
-  intro l _ c x hx
-  have hi : IsIntegral ℤ_[l] x :=
-    (Algebra.IsIntegral.isIntegral (R := ℤ_[l]) (⟨x, hx⟩ : c.O)).map c.O.val
-  have hm : minpoly ℚ_[l] x = (minpoly ℤ_[l] x).map (algebraMap ℤ_[l] ℚ_[l]) :=
-    minpoly.isIntegrallyClosed_eq_field_fractions' ℚ_[l] hi
-  rw [← PadicAlgCl.spectralNorm_eq, spectralNorm, hm,
-    spectralValue_le_one_iff ((minpoly.monic hi).map _)]
-  intro n
-  rw [Polynomial.coeff_map]
-  exact PadicInt.norm_le_one _
+          ℝ) := @_root_.GlobalTheory.BoundedScalarNorm.norm_le_one
 end -- clump:auto
 end -- clump:auto
 -- ===== end clump member: Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.ImportsFurtherTail =====
@@ -556,17 +547,7 @@ namespace GlobalTheory.KA.TameLim
 variable {l : ℕ} [Fact l.Prime]
 
 theorem norm_le_one_of_mem (c : Coef l) {x : Qbar l} (hx : x ∈ c.O) : ‖x‖ ≤ 1 := by
-  haveI : Module.Finite ℤ_[l] c.O := c.fin
-  have hi : IsIntegral ℤ_[l] x := by
-    have h := (isIntegral_algHom_iff (c.O.val.restrictScalars ℤ_[l]) Subtype.val_injective).2
-      (Algebra.IsIntegral.isIntegral (⟨x, hx⟩ : c.O))
-    simpa using h
-  have hq : IsIntegral ℚ_[l] x := Algebra.IsIntegral.isIntegral x
-  change spectralValue (minpoly ℚ_[l] x) ≤ 1
-  rw [spectralValue_le_one_iff (minpoly.monic hq)]
-  intro k
-  rw [minpoly.isIntegrallyClosed_eq_field_fractions' ℚ_[l] hi, Polynomial.coeff_map]
-  exact PadicInt.norm_le_one _
+  first | exact _root_.GlobalTheory.LambdaValuationPowers.norm_le_one_of_mem | exact @_root_.GlobalTheory.LambdaValuationPowers.norm_le_one_of_mem | apply _root_.GlobalTheory.LambdaValuationPowers.norm_le_one_of_mem <;> assumption
 
 theorem inv_pow_mem (c : Coef l) (e k : ℕ) (h : k = 0 ∨ ¬ l ∣ k) : (((k : ℕ) : Qbar l) ^ e)⁻¹ ∈ c.O := by
   rcases h with rfl | h

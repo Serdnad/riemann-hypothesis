@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.ModuliProofs.IsIsoOfDensePartOfIsIntegral
 public import Development.AbelianVarietyTheory.Definitions.ShimuraVarieties.IsOpenOfMemIrreducibleComponentsOfFinite
 public import Mathlib.AlgebraicGeometry.Geometrically.Integral
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.PullCub
@@ -72,17 +73,7 @@ theorem coheight_apply_le_one {X Y : Scheme.{0}} (p : Y ⟶ X) [Flat p] {y : Y}
 
 theorem exists_lift {X U T : Scheme.{0}} (j : U ⟶ X) [IsPreimmersion j] [Flat j] (g : T ⟶ X)
     (h : Set.range g ⊆ Set.range j) : ∃ κ : T ⟶ U, κ ≫ j = g := by
-  have hs : Surjective (pullback.fst g j) := ⟨by
-    rw [← Set.range_eq_univ, Scheme.Pullback.range_fst]
-    exact Set.eq_univ_of_forall fun t ↦ h ⟨t, rfl⟩⟩
-  have := isIso_stalkMap_of_flat_of_surjectiveOnStalks (pullback.fst g j)
-  have : IsOpenImmersion (pullback.fst g j) :=
-    IsOpenImmersion.of_isIso_stalkMap _ ⟨(pullback.fst g j).isEmbedding, by
-      rw [(pullback.fst g j).surjective.range_eq]; exact isOpen_univ⟩
-  have : IsIso (pullback.fst g j) :=
-    (isIso_iff_isOpenImmersion_and_surjective _).2 ⟨inferInstance, hs⟩
-  exact ⟨inv (pullback.fst g j) ≫ pullback.snd g j, by
-    rw [Category.assoc, ← pullback.condition, IsIso.inv_hom_id_assoc]⟩
+  first | exact _root_.GlobalTheory.HomExt.exists_lift_of_range_subset | exact @_root_.GlobalTheory.HomExt.exists_lift_of_range_subset | apply _root_.GlobalTheory.HomExt.exists_lift_of_range_subset <;> assumption
 
 theorem exists_specializes_mem_range {X U : Scheme.{0}} (j : U ⟶ X) [IsDominant j] [QuasiCompact j]
     (x : X) : ∃ ξ ∈ Set.range j, ξ ⤳ x := by

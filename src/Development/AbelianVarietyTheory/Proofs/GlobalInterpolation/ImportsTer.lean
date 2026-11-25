@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ImportsTerAlt
 public import Mathlib.Analysis.Complex.Norm
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -51,17 +52,7 @@ public import Mathlib.Analysis.Normed.Ring.Basic
 namespace GlobalTheory.IterationConvergence
 
 theorem step (w : ℂ) (h : ‖w - 1‖ < 1 / 2) : (3 / 2 : ℝ) * ‖w - 1‖ ≤ ‖w ^ 2 - 1‖ := by
-  have e : w ^ 2 - 1 = (w - 1) * (w + 1) := by ring
-  have e2 : w + 1 = 2 - (1 - w) := by ring
-  have h2 : (3 / 2 : ℝ) ≤ ‖w + 1‖ := by
-    have := norm_sub_norm_le (2 : ℂ) (1 - w)
-    rw [← e2] at this
-    have h1 : ‖(1 : ℂ) - w‖ = ‖w - 1‖ := norm_sub_rev _ _
-    have h3 : ‖(2 : ℂ)‖ = 2 := by simp
-    linarith
-  rw [e, norm_mul]
-  rw [mul_comm]
-  exact mul_le_mul_of_nonneg_left h2 (norm_nonneg _)
+  first | exact _root_.GlobalTheory.IterativeScalingBound.step | exact @_root_.GlobalTheory.IterativeScalingBound.step | apply _root_.GlobalTheory.IterativeScalingBound.step <;> assumption
 
 theorem iter {z : ℂ} (hz : ∀ n : ℕ, ‖z ^ n - (1 : ℂ)‖ < (1 / 2 : ℝ)) (k : ℕ) :
     (3 / 2 : ℝ) ^ k * ‖z - 1‖ ≤ ‖z ^ (2 ^ k) - 1‖ := by

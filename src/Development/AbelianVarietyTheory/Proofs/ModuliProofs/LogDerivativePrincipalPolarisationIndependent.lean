@@ -183,25 +183,7 @@ theorem isCoc_dlog {X Y : Scheme.{0}} (m : Y ⟶ X) (L : LB X) (hL : L.IsLB)
 theorem preimage_transl {K : Type} [Field K] {A : Over (Sp K)} [GrpObj A] (w : epsR K ⟶ A) (hw : IsTangent w)
     (W : A.left.Opens) :
     ((fst (epsR K) A ≫ w) * snd (epsR K) A).left ⁻¹ᵁ W = (snd (epsR K) A).left ⁻¹ᵁ W := by
-  let z : 𝟙_ (Over (Sp K)) ⟶ epsR K := Over.homMk (spMap (TrivSqZeroExt.fstHom K K K).toRingHom) (by
-    change Spec.map _ ≫ Spec.map _ = 𝟙 _
-    rw [← Spec.map_comp, ← Spec.map_id]
-    congr 1)
-  have hz : z ≫ w = η[A] := Over.OverMorphism.ext hw
-  let j : A ⟶ epsR K ⊗ A := lift (toUnit A ≫ z) (𝟙 A)
-  have j₁ : j ≫ snd (epsR K) A = 𝟙 A := lift_snd _ _
-  have j₂ : j ≫ ((fst (epsR K) A ≫ w) * snd (epsR K) A) = 𝟙 A := by
-    rw [MonObj.comp_mul, j₁, lift_fst_assoc, Category.assoc, hz, ← Hom.one_def, _root_.one_mul]
-  have j₃ : j.left ≫ (fst (epsR K) A).left = A.hom ≫ spMap (TrivSqZeroExt.fstHom K K K).toRingHom := by
-    have := congrArg (fun q => q.left) (lift_fst (toUnit A ≫ z) (𝟙 A))
-    refine this.trans ?_
-    change (toUnit A).left ≫ _ = _
-    congr 1
-  have h := (GlobalTheory.ConstThickening.structure_dualNumber K A.left (epsR K ⊗ A).left A.hom (fst (epsR K) A).left (snd (epsR K) A).left j.left
-    (IsPullback.of_hasPullback (epsR K).hom A.hom).flip (congrArg (fun q => q.left) j₁) j₃).1
-    (((fst (epsR K) A ≫ w) * snd (epsR K) A).left ⁻¹ᵁ W)
-  rw [← h, ← Scheme.Hom.comp_preimage j.left, ← Over.comp_left, j₂]
-  rfl
+  apply _root_.GlobalTheory.KS.InvHom.tr_preimage <;> assumption
 
 theorem dlog_independent : ∀ (K : Type) [Field K] (P₀ : Out.PolAV (Sp K)) (g : ℕ) (v : Fin g → (epsR K ⟶ P₀.A)) (dd : Fin g → ∀ O : P₀.A.left.Opens, Γ(P₀.A.left, O) → Γ(P₀.A.left, O)), IsLieBasis v → (∀ a, IsInvDer (v a) (dd a)) → ∀ (X : Scheme.{0}) (m : P₀.A.left ⟶ X) (L : LB X), L.IsLB → LBIso P₀.L (L.pull m) → (∃ φ, IsDlog m L dd φ) ∧ ∀ φ, IsDlog m L dd φ → (∀ a, IsCoc _ (φ a)) ∧ ∀ c, IsCob _ (lc P₀.A.hom c φ) → c = 0 := by
   intro K _ P g v dd hv hdd X m L hL ⟨u, hu⟩

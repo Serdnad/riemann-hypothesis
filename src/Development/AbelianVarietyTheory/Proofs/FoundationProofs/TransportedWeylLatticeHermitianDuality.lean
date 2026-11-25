@@ -164,23 +164,7 @@ def gramForm (G : Matrix (Fin n) (Fin n) K) : (Fin n → K) →ₗ⋆[K] (Fin n 
 omit [StarRing K] in
 theorem mem_colLat (B : GL (Fin n) K) (x : Fin n → K) :
     x ∈ colLat B ↔ ∀ j, (((B⁻¹ : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) *ᵥ x) j ∈ (1 : Submodule (𝓞 K) K) := by
-  unfold colLat
-  rw [Submodule.mem_span_range_iff_exists_fun]
-  have key : ∀ c : Fin n → 𝓞 K, (∑ j, c j • fun a : Fin n => (B : Matrix (Fin n) (Fin n) K) a j) =
-      (B : Matrix (Fin n) (Fin n) K) *ᵥ fun j => algebraMap (𝓞 K) K (c j) := by
-    intro c
-    funext a
-    simp only [Finset.sum_apply, Pi.smul_apply, Matrix.mulVec, dotProduct, Algebra.smul_def]
-    exact Finset.sum_congr rfl fun j _ => mul_comm _ _
-  constructor
-  · rintro ⟨c, rfl⟩ j
-    rw [key, Matrix.mulVec_mulVec, Units.inv_mul, Matrix.one_mulVec]
-    exact Submodule.mem_one.2 ⟨c j, rfl⟩
-  · intro H
-    choose c hc using fun j => Submodule.mem_one.1 (H j)
-    refine ⟨c, ?_⟩
-    rw [key, show (fun j => algebraMap (𝓞 K) K (c j)) = _ from funext hc, Matrix.mulVec_mulVec, Units.mul_inv,
-      Matrix.one_mulVec]
+  first | exact _root_.Formalism.L2.DIV.lc_mem_colLat | exact @_root_.Formalism.L2.DIV.lc_mem_colLat | apply _root_.Formalism.L2.DIV.lc_mem_colLat <;> assumption
 
 omit [StarRing K] in
 theorem colLat_fg (B : GL (Fin n) K) : (colLat B).FG := Submodule.fg_span (Set.finite_range _)

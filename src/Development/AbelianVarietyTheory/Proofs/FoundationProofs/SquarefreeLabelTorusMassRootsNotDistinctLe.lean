@@ -63,6 +63,7 @@ import Mathlib.GroupTheory.Nilpotent
 import Mathlib.RingTheory.Artinian.Instances
 import Mathlib.RingTheory.Coalgebra.IsFrobenius
 import Mathlib.RingTheory.HopfAlgebra.Basic
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.MassNotRootsAvoidLe
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.Proofs.FoundationProofs.CardIrreducibleSamePrimeToPartRootsLe, Development.AbelianVarietyTheory.Proofs.FoundationProofs.SquarefreeLabelTorusMassSamePartOneFactorLe, Development.AbelianVarietyTheory.Proofs.FoundationProofs.SquarefreeLabelTorusMassTwoFactorsLe, Development.AbelianVarietyTheory.Proofs.FoundationProofs.SquarefreeLabelTorusMassRootsNotDistinctLe
@@ -519,20 +520,7 @@ namespace GlobalTheory.BadShare
 open Polynomial Classical in
 private theorem pow_card_pow_natDegree_minpoly_sub_one_eq_one {g : ℕ} [Fact g.Prime] (x : AlgebraicClosure (ZMod g)) (hx : x ≠ 0) :
     x ^ (g ^ (minpoly (ZMod g) x).natDegree - 1) = 1 := by
-  have hint : IsIntegral (ZMod g) x := Algebra.IsIntegral.isIntegral x
-  let K := IntermediateField.adjoin (ZMod g) {x}
-  have hfin : Module.finrank (ZMod g) K = (minpoly (ZMod g) x).natDegree :=
-    IntermediateField.adjoin.finrank hint
-  haveI : FiniteDimensional (ZMod g) K := IntermediateField.adjoin.finiteDimensional hint
-  haveI : Finite K := Module.finite_of_finite (ZMod g)
-  letI : Fintype K := Fintype.ofFinite K
-  have hcard : Fintype.card K = g ^ (minpoly (ZMod g) x).natDegree := by
-    rw [← hfin, Module.card_eq_pow_finrank (K := ZMod g), ZMod.card]
-  let x' : K := ⟨x, IntermediateField.mem_adjoin_simple_self _ _⟩
-  have hx' : x' ≠ 0 := fun h => hx (congrArg Subtype.val h)
-  have := FiniteField.pow_card_sub_one_eq_one x' hx'
-  rw [hcard] at this
-  exact congrArg Subtype.val this
+  apply _root_.GlobalTheory.BadShare.avoid_pow_natDegree_minpoly <;> assumption
 
 open Polynomial Classical in
 private theorem mem_primeFactors_mul_of_same_of_ne {g : ℕ} [Fact g.Prime] (l : ℕ) (hl : l.Prime) (n m : ℕ)

@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.IntertwinerSelfDualVacuumIsVacuum
 public import Formalism.SharpRestriction.GlobalSchurBounds.StandardLatticesGL3
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsIntegerMapEqHalfOneAddSqrt
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.GalStarComplexMultiplicationPoints
@@ -464,19 +465,8 @@ theorem coordL_coordV (j : Fin r) (k : D.what₂.Tau × Fin N' × Fin N) :
 theorem Hf_sum (z : VC D N N') (c : Fin r → ℂ) :
     Hf D T z (∑ j, c j • embV D T (b j)) =
       ∑ j, coordB D T b j z * (starRingEnd ℂ) (c j) / (area T.abelian₂ : ℂ) := by
-  rw [Hf, ← Finset.sum_div]
-  congr 1
-
-  simp only [coordB, Finset.sum_apply, Pi.smul_apply, smul_eq_mul, map_sum, map_mul, embV,
-  Finset.mul_sum, Finset.sum_mul]
-  symm
-  rw [Finset.sum_comm]
-  refine Finset.sum_congr rfl fun τ _ => ?_
-  rw [Finset.sum_comm]
-  refine Finset.sum_congr rfl fun i _ => ?_
-  rw [Finset.sum_comm]
-  refine Finset.sum_congr rfl fun k _ => Finset.sum_congr rfl fun j _ => ?_
-  ring
+  intros
+  apply _root_.GlobalTheory.VacuumMove.Hf_sum <;> assumption
 
 variable {T b} (hT : ∀ i j, coordB D T b j (embV D T (b i)) = if i = j then 1 else 0)
 include hT
@@ -515,22 +505,8 @@ theorem wdPh_sum (c : Fin r → ℂ) :
 omit hT in
 theorem exists_of_mem_LaB {x : VC D N N'} (hx : x ∈ LaB D T b) :
     ∃ w : Fin r → ℂ, (∀ j, w j ∈ T.abelian₂) ∧ x = ∑ j, w j • embV D T (b j) := by
-  induction hx using AddSubgroup.closure_induction with
-  | mem z hz =>
-    obtain ⟨w, hw, j, rfl⟩ := hz
-    refine ⟨Pi.single j w, fun i => ?_, ?_⟩
-    · rw [Pi.single_apply]
-      split_ifs
-      exacts [hw, T.abelian₂.zero_mem]
-    · simp [Pi.single_apply, ite_smul]
-  | zero => exact ⟨0, fun _ => T.abelian₂.zero_mem, by simp⟩
-  | add x y _ _ hx hy =>
-    obtain ⟨w, hw, rfl⟩ := hx
-    obtain ⟨v, hv, rfl⟩ := hy
-    exact ⟨w + v, fun j => T.abelian₂.add_mem (hw j) (hv j), by simp [add_smul, Finset.sum_add_distrib]⟩
-  | neg x _ hx =>
-    obtain ⟨w, hw, rfl⟩ := hx
-    exact ⟨-w, fun j => T.abelian₂.neg_mem (hw j), by simp⟩
+  intros
+  apply _root_.GlobalTheory.VacuumMove.exists_coords <;> assumption
 
 omit hT in
 theorem exists_of_nsmul_mem_LaB {x : VC D N N'} {m : ℕ} (hm : 0 < m) (hx : m • x ∈ LaB D T b) :

@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.SemisimpleTensorOfSemisimplePotentials
 public import Development.AbelianVarietyTheory.Definitions.Foundations.IsDCReps
 public import Mathlib.NumberTheory.ModularForms.Basic
 public import Mathlib.Analysis.CStarAlgebra.Classes
@@ -481,18 +482,7 @@ theorem tendsto_slash_valueAtInfty (N l : ℕ) (k : ℤ) (hN : 0 < N) (hl : 0 < 
   simpa [ModularForm.SL_slash] using h2
 
 theorem gamma_le_lev (N l : ℕ) : Gamma (N * l) ≤ Lev N l := by
-  intro g hg
-  rw [Gamma_mem] at hg
-  obtain ⟨h1, h2, h3, h4⟩ := hg
-  have cN : ∀ (x : ℤ) (y : ℤ), (x : ZMod (N * l)) = y → (x : ZMod N) = y := fun x y h => by
-    simpa using congrArg (ZMod.castHom (dvd_mul_right N l) (ZMod N)) h
-  have cl : ∀ (x : ℤ) (y : ℤ), (x : ZMod (N * l)) = y → (x : ZMod l) = y := fun x y h => by
-    simpa using congrArg (ZMod.castHom (dvd_mul_left l N) (ZMod l)) h
-  refine Subgroup.mem_inf.2 ⟨?_, ?_⟩
-  · rw [Gamma1_mem]
-    exact ⟨by simpa using cN _ 1 (by simpa using h1), by simpa using cN _ 1 (by simpa using h4),
-      by simpa using cN _ 0 (by simpa using h3)⟩
-  · rw [Gamma0_mem]; simpa using cl _ 0 (by simpa using h3)
+  apply _root_.GlobalTheory.KZ.H3.LamInj.gamma_le_gam <;> assumption
 
 theorem slash_lev (N l : ℕ) (k : ℤ) (f : ModularForm (Lev N l) k) (u : SL(2, ℤ)) (hu : u ∈ Lev N l) :
     (⇑f) ∣[k] u = ⇑f := by

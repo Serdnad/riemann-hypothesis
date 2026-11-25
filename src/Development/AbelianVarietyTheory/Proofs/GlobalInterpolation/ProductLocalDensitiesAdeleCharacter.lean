@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.LocalComponentsNontrivialAdelicCharacter
 public import Development.AbelianVarietyTheory.BlockTheory.GlobalSignature.LocalDualIndex
 public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.IsAdicCompleteAndCardQuotientAdicCompletionInteg
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SummableAbsNormInvSq
@@ -158,21 +159,7 @@ theorem exists_generator_differentV (v : HeightOneSpectrum (𝓞 F)) :
 theorem psiV_of_eq {ψ₀ ψ : AddChar (AF F) ℂ} {a : F}
     (h : ∀ x, ψ x = ψ₀ (algebraMap F (AF F) a * x)) (v : HeightOneSpectrum (𝓞 F)) (t : Fv F v) :
     psiV F ψ v t = psiV F ψ₀ v (algebraMap F (Fv F v) a * t) := by
-  classical
-  rw [psiV, psiV, h]
-  congr 1
-  refine Prod.ext (mul_zero _) ?_
-  change algebraMap F (Af F) a * singleV F v t = singleV F v _
-  refine DFunLike.ext _ _ fun w => ?_
-  change algebraMap F (Fv F w) a * singleV F v t w = _
-  by_cases hw : w = v
-  · subst hw
-    have e : ∀ y : Fv F w, singleV F w y w = y := fun y =>
-      RestrictedProduct.single_eq_same _ w y
-    rw [e, e]
-  · have e : ∀ y : Fv F v, singleV F v y w = 0 := fun y =>
-      RestrictedProduct.single_eq_of_ne _ y hw
-    rw [e, e, mul_zero]
+  first | exact _root_.GlobalTheory.GaugeEx.CharLoc.psiV_twist | exact @_root_.GlobalTheory.GaugeEx.CharLoc.psiV_twist | apply _root_.GlobalTheory.GaugeEx.CharLoc.psiV_twist <;> assumption
 
 theorem dual_scaled {ψ₀ ψ : AddChar (AF F) ℂ} {a : F} (ha : a ≠ 0)
     (h : ∀ x, ψ x = ψ₀ (algebraMap F (AF F) a * x)) (v : HeightOneSpectrum (𝓞 F))

@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsSiegelObjectOfDescendedData
 public import Development.AbelianVarietyTheory.Definitions.ModuliSpaces.FiniteHomogeneousInf
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.Clauses
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.ThetaUnifAV
@@ -66,38 +67,8 @@ namespace GlobalTheory.ZM.BuildAdd
 theorem isPullback_square {S S' : Scheme.{0}} {A : Over S'} {Z : Over S} {φ : A.left ⟶ Z.left} {x : S' ⟶ S}
     (hA : IsPullback φ A.hom Z.hom x) (φ₂ : (A ⊗ A).left ⟶ (Z ⊗ Z).left)
     (h : ReciprocityTheory.ChartRestriction.G.Geo.Tor.IsSquare φ φ₂) : IsPullback φ₂ (A ⊗ A).hom (Z ⊗ Z).hom x := by
-  have w₁ : (fst Z Z).left ≫ Z.hom = (Z ⊗ Z).hom := Over.w _
-  have w₂ : (snd Z Z).left ≫ Z.hom = (Z ⊗ Z).hom := Over.w _
-  have v₁ : (fst A A).left ≫ A.hom = (A ⊗ A).hom := Over.w _
-  have v₂ : (snd A A).left ≫ A.hom = (A ⊗ A).hom := Over.w _
-  have h₁ := h.1
-  have h₂ := h.2
-  refine ⟨⟨by rw [← w₁, reassoc_of% h₁, hA.w, reassoc_of% v₁]⟩, ⟨PullbackCone.IsLimit.mk _
-    (fun s => pullback.lift
-      (hA.lift (s.fst ≫ (fst Z Z).left) s.snd (by rw [Category.assoc, w₁, s.condition]))
-      (hA.lift (s.fst ≫ (snd Z Z).left) s.snd (by rw [Category.assoc, w₂, s.condition]))
-      (by rw [IsPullback.lift_snd, IsPullback.lift_snd])) (fun s => ?_) (fun s => ?_)
-    (fun s m h1 h2 => ?_)⟩⟩
-  · apply pullback.hom_ext
-    · change _ ≫ (fst Z Z).left = _ ≫ (fst Z Z).left
-      rw [Category.assoc, h₁, ← Category.assoc]
-      exact (congrArg (· ≫ φ) (pullback.lift_fst _ _ _)).trans (IsPullback.lift_fst _ _ _ _)
-    · change _ ≫ (snd Z Z).left = _ ≫ (snd Z Z).left
-      rw [Category.assoc, h₂, ← Category.assoc]
-      exact (congrArg (· ≫ φ) (pullback.lift_snd _ _ _)).trans (IsPullback.lift_fst _ _ _ _)
-  · rw [← v₁, ← Category.assoc]
-    exact (congrArg (· ≫ A.hom) (pullback.lift_fst _ _ _)).trans (IsPullback.lift_snd _ _ _ _)
-  · apply pullback.hom_ext
-    · refine Eq.trans ?_ (pullback.lift_fst _ _ _).symm
-      change _ ≫ (fst A A).left = _
-      apply hA.hom_ext
-      · rw [IsPullback.lift_fst, ← h1, Category.assoc, Category.assoc, h₁]
-      · rw [IsPullback.lift_snd, Category.assoc, v₁, h2]
-    · refine Eq.trans ?_ (pullback.lift_snd _ _ _).symm
-      change _ ≫ (snd A A).left = _
-      apply hA.hom_ext
-      · rw [IsPullback.lift_fst, ← h1, Category.assoc, Category.assoc, h₂]
-      · rw [IsPullback.lift_snd, Category.assoc, v₂, h2]
+  intros
+  apply _root_.GlobalTheory.SiegelDescent.isPullback_square <;> assumption
 
 theorem exists_isSquare {S S' : Scheme.{0}} {A : Over S'} {Z : Over S} {φ : A.left ⟶ Z.left} {x : S' ⟶ S}
     (w : φ ≫ Z.hom = A.hom ≫ x) : ∃ φ₂ : (A ⊗ A).left ⟶ (Z ⊗ Z).left, ReciprocityTheory.ChartRestriction.G.Geo.Tor.IsSquare φ φ₂ := by

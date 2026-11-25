@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.ModuliProofs.EqOneOfUnimodular
 public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ClsLinCombSingle
 public import Development.AbelianVarietyTheory.Definitions.ModuliSpaces.ExistsArBaseAway
 public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.ExistsUniqueWeilIs
@@ -369,17 +370,7 @@ theorem prod_zpow_eq {I : Type*} [Fintype I] (x : Γ) (f : I → ℤ) : ∏ i, x
 
 theorem eq_one_of_det (E : Matrix (Fin n) (Fin n) ℤ) (hE : E.det = 1) (x : Fin n → Γ)
     (h : ∀ v, ∏ u, x u ^ E u v = 1) (w : Fin n) : x w = 1 := by
-  have e : ∏ v, (∏ u, x u ^ E u v) ^ E.adjugate v w = x w := by
-    simp only [← Finset.prod_zpow, ← zpow_mul]
-    rw [Finset.prod_comm]
-    have : ∀ u, ∏ v, x u ^ (E u v * E.adjugate v w) = x u ^ (1 : Matrix (Fin n) (Fin n) ℤ) u w := fun u => by
-      rw [← one_smul ℤ (1 : Matrix (Fin n) (Fin n) ℤ), ← hE, ← Matrix.mul_adjugate, Matrix.mul_apply]
-      exact prod_zpow_eq _ _
-    simp only [this]
-    rw [Finset.prod_eq_single w (fun u _ hu => by rw [Matrix.one_apply_ne hu, zpow_zero]) (by simp)]
-    simp
-  rw [← e]
-  simp [h]
+  first | exact _root_.GlobalTheory.MatrixBundle.eq_one_of_unimodular | exact @_root_.GlobalTheory.MatrixBundle.eq_one_of_unimodular | apply _root_.GlobalTheory.MatrixBundle.eq_one_of_unimodular <;> assumption
 
 theorem existsUnique_coord {Λ I : Type} [AddCommGroup Λ] {m k : ℕ} (hk : k ≠ 0) (l : Λ → Γ)
     (add : ∀ a b, l (a + b) = l a * l b) (ker : ∀ a, l a = 1 ↔ ∃ b, a = k • b)

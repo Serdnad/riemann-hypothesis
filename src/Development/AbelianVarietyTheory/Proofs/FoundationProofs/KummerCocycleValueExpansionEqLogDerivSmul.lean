@@ -571,24 +571,12 @@ section Klc
 variable {p : ℕ} [Fact p.Prime] {Ω : Type} [Field Ω] [Algebra (O0 p) Ω]
 
 theorem zS_eq_pow (T : Tower p Ω) (k j : ℕ) : zS T k = zS T (k + j) ^ (p ^ j) := by
-  induction j with
-  | zero => simp
-  | succ j ih =>
-    rw [ih, pow_succ' p j, pow_mul]
-    congr 1
-    apply Subtype.ext
-    rw [SubmonoidClass.coe_pow]
-    exact (T.ζpow (k + j)).symm
+  intros
+  refine (@_root_.GlobalTheory.AlmostEt.zS_pow ?_ ?_ ?_ ?_ ?_ ?_ ?_ ?_).symm <;> first | assumption | infer_instance
 
 theorem qS_eq_pow (T : Tower p Ω) (k j : ℕ) : qS T k = qS T (k + j) ^ (p ^ j) := by
-  induction j with
-  | zero => simp
-  | succ j ih =>
-    rw [ih, pow_succ' p j, pow_mul]
-    congr 1
-    apply Subtype.ext
-    rw [SubmonoidClass.coe_pow]
-    exact (T.qpow (k + j)).symm
+  intros
+  refine (@_root_.GlobalTheory.AlmostEt.qS_pow ?_ ?_ ?_ ?_ ?_ ?_ ?_ ?_).symm <;> first | assumption | infer_instance
 
 theorem D_zS_mem_span (T : Tower p Ω) {k m : ℕ} (h : k ≤ m) :
     KaehlerDifferential.D (O0 p) (integralClosure (O0 p) Ω) (zS T k) ∈

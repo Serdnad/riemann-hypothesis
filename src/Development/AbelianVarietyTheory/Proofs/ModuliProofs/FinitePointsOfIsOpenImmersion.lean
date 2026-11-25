@@ -52,6 +52,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.SABBaseChangeSt
 import Std.Tactic.BVDecide.Normalize.Prop
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.FinitePointsOfIsOpenImmersion
 
 @[expose] public section
 
@@ -111,40 +112,7 @@ theorem finite_of_isClosed_abelian
       ∀ n : ℕ, 2 ≤ n → (n : k) ≠ 0 → (∀ x : 𝟙_ (Over (Sp k)) ⟶ A, x ^ n = 1 → x = 1) →
       Finite (𝟙_ (Over (Sp k)) ⟶ A)) :
     ∀ (k : Type) [Field k] [IsAlgClosed k] (B : Over (Sp k)) [GrpObj B] (n : ℕ), IsAbelianScheme B → n.Prime → (n : k) ≠ 0 → ∀ (C : Subgroup (𝟙_ (Over (Sp k)) ⟶ B)) (Z : Set B.left), IsClosed Z → (∀ x, x ∈ C ↔ Set.range x.left ⊆ Z) → (∀ x ∈ C, x ^ n = 1 → x = 1) → Finite C := by
-  intro k _ _ B _ n hB hn hnk C Z hZ hC htor
-  have := hB.smooth
-  have := hB.proper
-  have := hB.comm
-  obtain ⟨N, _, ν, hν, hνc, hNs, hr⟩ :=
-    GlobalTheory.ReducedSubgroup.exists_smooth_closed_subgroup k B inferInstance C Z hZ hC
-  have hNp : IsProper N.hom := by rw [← ν.w]; infer_instance
-  obtain ⟨N₀, _, ν₀, g, hν₀, hν₀o, hν₀c, hgc, hg, -⟩ :=
-    GlobalTheory.exists_neutralComponent k N hNs inferInstance
-  have : IsClosedImmersion (ν₀ ≫ ν).left := by rw [Over.comp_left]; infer_instance
-  have : Mono (ν₀ ≫ ν) := Over.mono_of_mono_left _
-  have hA : IsAbelianScheme N₀ :=
-    { comm := AbelianSubgroupFinite.isCommMonObj_of_mono (ν₀ ≫ ν)
-      smooth := SmoothOfRelativeDimension.smooth g N₀.hom
-      proper := by rw [← ν₀.w]; infer_instance
-      geomConnected := hgc }
-  have hmem : ∀ x : 𝟙_ (Over (Sp k)) ⟶ N, x ≫ ν ∈ C := fun x => by
-    rw [hC, ← hr]
-    rintro _ ⟨t, rfl⟩
-    exact ⟨x.left t, rfl⟩
-  have h1 : Finite (𝟙_ (Over (Sp k)) ⟶ N₀) := by
-    refine hno k N₀ hA n hn.two_le hnk fun x hx => ?_
-    have h2 : x ≫ ν₀ ≫ ν = 1 := by
-      refine htor _ (by rw [← Category.assoc]; exact hmem _) ?_
-      rw [← MonObj.pow_comp, hx, MonObj.one_comp]
-    rw [← cancel_mono (ν₀ ≫ ν), h2, MonObj.one_comp]
-  have := finite_points_of_isOpenImmersion ν₀
-  refine Finite.of_surjective (fun x : 𝟙_ (Over (Sp k)) ⟶ N => (⟨x ≫ ν, hmem x⟩ : C)) ?_
-  rintro ⟨x, hx⟩
-  have : IsReduced (𝟙_ (Over (Sp k))).left := inferInstanceAs (IsReduced (Sp k))
-  obtain ⟨l, hl⟩ := AbelianSubgroupFinite.exists_lift_of_range_subset x.left ν.left
-    (hr ▸ (hC x).1 hx)
-  refine ⟨Over.homMk l ?_, Subtype.ext (Over.OverMorphism.ext hl)⟩
-  rw [← ν.w, ← Category.assoc, hl, x.w]
+  apply _root_.GlobalTheory.AbelianSubgroupFinite.finite_of_torsionFree <;> assumption
 
 theorem exists_pow_stable {k : Type} [Field k] [IsAlgClosed k] (G : Over (Sp k)) [GrpObj G]
     [IsCommMonObj G] [LocallyOfFiniteType G.hom] [QuasiCompact G.hom] (l : ℕ)
